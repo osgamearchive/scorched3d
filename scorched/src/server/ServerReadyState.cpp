@@ -53,30 +53,6 @@ void ServerReadyState::enterState(const unsigned state)
 	// Set all the tanks to not ready
 	ScorchedServer::instance()->getTankContainer().setAllNotReady();
 
-	// Make all computer players ready
-	ComsPlayerStatusMessage statusMessage;
-	std::map<unsigned int, Tank *> &tanks = 
-		ScorchedServer::instance()->getTankContainer().getPlayingTanks();
-	std::map<unsigned int, Tank *>::iterator itor;
-	for (itor = tanks.begin();
-		itor != tanks.end();
-		itor++)
-	{
-		Tank *tank = (*itor).second;
-
-		if (tank->getDestinationId() == 0)
-		{
-			tank->getState().setReady();
-		}
-		else
-		{
-			statusMessage.getWaitingPlayers().push_back(tank->getPlayerId());
-		}
-	}
-
-	// Tell clients who we are waiting on
-	ComsMessageSender::sendToAllPlayingClients(statusMessage);	
-
 	// Set the wait timer to the current time
 	time_ = 0.0f;
 
@@ -91,9 +67,31 @@ bool ServerReadyState::acceptStateChange(const unsigned state,
 		float frameTime)
 {
 	// Send status messages every 5 seconds
-	if (((int) time_) / 5 != ((int) (time_ + frameTime)) / 5)
+	if (time_ > 0.0f)
 	{
-		// Say who we are waiting on
+		if (((int) time_) / 5 != ((int) (time_ + frameTime)) / 5)
+		{
+			// Say who we are waiting on
+			ComsPlayerStatusMessage statusMessage;
+			std::map<unsigned int, Tank *> &tanks = 
+				ScorchedServer::instance()->getTankContainer().getPlayingTanks();
+			std::map<unsigned int, Tank *>::iterator itor;
+			for (itor = tanks.begin();
+				 itor != tanks.end();
+				 itor++)
+			{
+				Tank *tank = (*itor).second;
+				if (tank->getState().getReadyState() == TankState::SNotReady)
+				{
+					statusMessage.getWaitingPlayers().push_back(tank->getPlayerId());
+				}
+			}
+			ComsMessageSender::sendToAllPlayingClients(statusMessage);			
+		}
+	}	
+	else if (time_ + frameTime > 0.0f)
+	{
+		// Make all computer players ready
 		ComsPlayerStatusMessage statusMessage;
 		std::map<unsigned int, Tank *> &tanks = 
 			ScorchedServer::instance()->getTankContainer().getPlayingTanks();
@@ -103,12 +101,19 @@ bool ServerReadyState::acceptStateChange(const unsigned state,
 			 itor++)
 		{
 			Tank *tank = (*itor).second;
-			if (tank->getState().getReadyState() == TankState::SNotReady)
+			
+			if (tank->getDestinationId() == 0)
+			{
+				tank->getState().setReady();
+			}
+			else
 			{
 				statusMessage.getWaitingPlayers().push_back(tank->getPlayerId());
 			}
 		}
-		ComsMessageSender::sendToAllPlayingClients(statusMessage);			
+
+		// Tell clients who we are waiting on
+		ComsMessageSender::sendToAllPlayingClients(statusMessage);	
 	}
 
 	time_ += frameTime;

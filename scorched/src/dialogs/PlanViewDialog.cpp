@@ -136,17 +136,14 @@ void PlanViewDialog::drawCameraPointer()
 	Vector direction = (currentPos - lookAt).Normalize2D() * 0.2f;
 	lookAt /= mapWidth;
 
-	Vector directionPerp = direction.get2DPerp() / 10.0f;
-
+	Vector directionPerp = direction.get2DPerp();
 	glBegin(GL_LINES);
 		glVertex3fv(lookAt);
-		glVertex3fv(lookAt + direction);
-	glEnd();
-
-	glBegin(GL_TRIANGLES);
-		glVertex3fv(lookAt + (direction / 2.0f) + directionPerp);
-		glVertex3fv(lookAt + (direction / 2.0f) - directionPerp);
+		glVertex3fv(lookAt - (direction + directionPerp) / 2.0f);
 		glVertex3fv(lookAt);
+		glVertex3fv(lookAt - (direction - directionPerp) / 2.0f);
+		glVertex3fv(lookAt - (direction + directionPerp) / 4.0f);
+		glVertex3fv(lookAt - (direction - directionPerp) / 4.0f);
 	glEnd();
 }
 
