@@ -898,6 +898,7 @@ other weapons.  Leaves a marker at the
 final position.</description>
 		<icon>tracer.bmp</icon>
 		<cost>10</cost>
+		<nocreateflame/>
 		<bundlesize>20</bundlesize>
 		<armslevel>10</armslevel>
 		<firedsound>shoot/flare.wav</firedsound>
@@ -918,6 +919,7 @@ trace of the shot path.</description>
 		<cost>500</cost>
 		<bundlesize>10</bundlesize>
 		<armslevel>9</armslevel>
+		<nocreateflame/>
 		<firedsound>shoot/flare.wav</firedsound>
 		<showendpoint></showendpoint>
 		<showshotpath></showshotpath>

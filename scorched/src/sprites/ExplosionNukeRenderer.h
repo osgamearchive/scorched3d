@@ -44,6 +44,7 @@ protected:
 	{
 		float rotation_;
 		int position_;
+		float alphaDec_;
 
 		void simulate();
 		void draw(Vector startPosition, float size);

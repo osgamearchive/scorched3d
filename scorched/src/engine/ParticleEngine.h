@@ -38,12 +38,19 @@ public:
 
 	Particle *getNextAliveParticle();
 
+	void setFast(float speedMult) { speed_ = speedMult; }
+	float getFast() { return speed_; }
+
 	// Inherited from GameStateI
 	virtual void draw(const unsigned state);
 	virtual void simulate(const unsigned int state, float simTime);
 
 protected:
 	Particle *particles_;
+	Particle **freeParticles_;
+	Particle **usedParticles_;
+
+	float speed_;
 	unsigned int maxParticles_;
 	unsigned int particlesOnScreen_;
 

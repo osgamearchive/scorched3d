@@ -28,7 +28,8 @@ REGISTER_ACCESSORY_SOURCE(WeaponProjectile);
 
 WeaponProjectile::WeaponProjectile() : 
 	under_(false), collisionAction_(0), apexCollision_(false),
-	showShotPath_(false), showEndPoint_(false), createSmoke_(true)
+	showShotPath_(false), showEndPoint_(false), 
+	createSmoke_(true),	createFlame_(true)
 {
 
 }
@@ -61,6 +62,10 @@ bool WeaponProjectile::parseXML(XMLNode *accessoryNode)
 	// Get the no smoke node
 	XMLNode *noCreateSmokeNode = accessoryNode->getNamedChild("nocreatesmoke", false, true);
 	if (noCreateSmokeNode) createSmoke_ = false;
+
+	// Get the no smoke node
+	XMLNode *noCreateFlameNode = accessoryNode->getNamedChild("nocreateflame", false, true);
+	if (noCreateFlameNode) createFlame_ = false;
 
 	// Get the next weapon
 	XMLNode *subNode = accessoryNode->getNamedChild("collisionaction", false, true);
@@ -95,6 +100,7 @@ bool WeaponProjectile::writeAccessory(NetBuffer &buffer)
 	buffer.addToBuffer(apexCollision_);
 	buffer.addToBuffer(under_);
 	buffer.addToBuffer(createSmoke_);
+	buffer.addToBuffer(createFlame_);
 	return true;
 }
 
@@ -107,6 +113,7 @@ bool WeaponProjectile::readAccessory(NetBufferReader &reader)
 	if (!reader.getFromBuffer(apexCollision_)) return false;
 	if (!reader.getFromBuffer(under_)) return false;
 	if (!reader.getFromBuffer(createSmoke_)) return false;
+	if (!reader.getFromBuffer(createFlame_)) return false;
 	return true;
 }
 

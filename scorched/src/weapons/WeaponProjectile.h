@@ -46,6 +46,7 @@ public:
 	bool getShowEndPoint() { return showEndPoint_; }
 	bool getApexCollision() { return apexCollision_; }
 	bool getCreateSmoke() { return createSmoke_; }
+	bool getCreateFlame() { return createFlame_; }
 
 protected:
 	bool under_;
@@ -53,6 +54,7 @@ protected:
 	bool showEndPoint_;
 	bool apexCollision_;
 	bool createSmoke_;
+	bool createFlame_;
 	Weapon *collisionAction_;
 
 };

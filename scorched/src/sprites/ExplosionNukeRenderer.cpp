@@ -27,38 +27,15 @@
 #include <landscape/LandscapeMaps.h>
 #include <math.h>
 
+static const int AlphaSteps = int(ExplosionNukeRenderer_STEPS * 0.9f);
+
 void ExplosionNukeRenderer::Entry::simulate()
 {
 	position_ ++;
-
-	if (alpha>=0.1f){
-	alpha*=(0.8f+(RAND*0.2f));
-	//entry.rotation_+=((RAND*(0.5f*3.14f))-(3.14f*0.25f));
+	if (position_ > AlphaSteps)
+	{
+		alpha -= alphaDec_;
 	}
-
-	float r = 0;
-	float g = 0;
-	float b = 0;
-	r=1.0f;
-	if (alpha>=0.5f){
-		g=(1.0f - (alpha * 2.0f));
-		if (g<0) g*=-1.0f;
-		if (g>1.0f) g=1.0f;
-	}else{
-		g=(1.0f - (alpha * 2.0f));
-		if (g<0) g*=-1.0f;
-		if (g>1.0f) g=1.0f;
-	}
-	if (alpha>=0.5f){
-		b=0.0f;
-	}else{
-		b=(1.0f - (alpha * 2.0f));
-		if (b<0) b*=-1.0f;
-		if (b>1.0f) g=1.0f;
-	}
-	r_color = r;
-	g_color = g;
-	b_color = b;
 }
 
 void ExplosionNukeRenderer::Entry::draw(Vector startPosition, float size)
@@ -192,11 +169,21 @@ void ExplosionNukeRenderer::simulate(Action *action, float frameTime, bool &remo
 				Entry *entry = new Entry;
 				entry->width = 4.0f;
 				entry->height = 4.0f;
-				entry->alpha = 0.5f+(RAND *0.5f);
+				entry->alpha = 0.15f+(RAND *0.20f);
 				entry->position_ = 0;
 				entry->rotation_ = RAND * (3.14f * 2.0f);
 				entry->texture = &ExplosionTextures::instance()->smokeTexture;
 				entry->textureCoord = (int) (RAND * 3.0f);
+
+				float red = RAND * 0.2f + 0.8f;
+				float other = RAND * 0.2f + 0.8f;
+
+				entry->r_color = red;
+				entry->g_color = other;
+				entry->b_color = other;
+
+				entry->alphaDec_ = entry->alpha / 
+					(float) (ExplosionNukeRenderer_STEPS - AlphaSteps);
 
 				GLBilboardRenderer::instance()->addEntry(entry);
 				entries_.push_front(entry);

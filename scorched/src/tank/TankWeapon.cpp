@@ -158,12 +158,22 @@ void TankWeapon::prevWeapon()
 std::list<Accessory *> TankWeapon::getAllWeapons(bool sort)
 {
 	std::list<Accessory *> result;
-	std::map<Weapon *, int>::iterator itor;
-	for (itor = weapons_.begin();
-		itor != weapons_.end();
+	// Add all weapons ensuring they are in the
+	// same order as in the store
+	std::list<Accessory *> accessories = 
+		context_.accessoryStore->getAllWeapons();
+	std::list<Accessory *>::iterator itor;
+	for (itor = accessories.begin();
+		itor != accessories.end();
 		itor++)
 	{
-		result.push_back((*itor).first);
+		Weapon *weapon = (Weapon*)(*itor);
+		std::map<Weapon *, int>::iterator findItor =
+			weapons_.find(weapon);
+		if (findItor != weapons_.end())
+		{
+			result.push_back(weapon);
+		}
 	}
 	
 	if (sort) AccessoryStore::sortList(result);

@@ -85,9 +85,12 @@ void MissileActionRenderer::simulate(Action *action, float timepassed, bool &rem
 	rotation_ += shot->getCurrentVelocity().Magnitude();
 
 	// Add flame trail
-	flameemitter_.emitLinear(3, actualPos1, actualPos2, 
-		ScorchedClient::instance()->getParticleEngine(), 
-		ParticleRendererQuadsParticle::getInstance());
+	if (shot->getWeapon()->getCreateFlame())
+	{
+		flameemitter_.emitLinear(2, actualPos1, actualPos2, 
+			ScorchedClient::instance()->getParticleEngine(), 
+			ParticleRendererQuadsParticle::getInstance());
+	}
 
 	// Add the smoke trail
 	if (shot->getWeapon()->getCreateSmoke())
