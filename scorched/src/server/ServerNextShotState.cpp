@@ -70,7 +70,8 @@ void ServerNextShotState::enterState(const unsigned state)
 	{
 		// We have finished with this round
 		// check for all rounds completely finished
-		if (ScorchedServer::instance()->getOptionsTransient().getNoRoundsLeft() <= 0)
+		if (ScorchedServer::instance()->getOptionsTransient().getCurrentRoundNo() >=
+			ScorchedServer::instance()->getOptionsGame().getNoRounds())
 		{
 			// We have finished with all rounds show the score
 			ScorchedServer::instance()->getGameState().stimulate(ServerState::ServerStimulusScore);

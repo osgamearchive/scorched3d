@@ -44,17 +44,6 @@ bool LandscapeDefinitionsEntry::readXML(XMLNode *node)
 	return node->failChildren();
 }
 
-LandscapeDefinitions *LandscapeDefinitions::instance_ = 0;
-
-LandscapeDefinitions *LandscapeDefinitions::instance()
-{
-	if (!instance_)	
-	{
-		instance_ = new LandscapeDefinitions;
-	}
-	return instance_;
-}
-
 LandscapeDefinitions::LandscapeDefinitions()
 {
 }

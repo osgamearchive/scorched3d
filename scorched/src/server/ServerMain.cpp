@@ -116,12 +116,13 @@ bool startServer(bool local)
 
 	if (!ScorchedServer::instance()->getAccessoryStore().parseFile()) return false;
 	ScorchedServer::instance()->getOptionsTransient().reset();
-	if (!LandscapeDefinitions::instance()->readLandscapeDefinitions()) return false;
+	if (!ScorchedServer::instance()->getLandscapes().readLandscapeDefinitions()) return false;
 
 	// Add the server side bots
 	// Add any new AIs
-	if (!TankAIStore::instance()->loadAIs()) return false;
-	TankAIAdder::addTankAIs(ScorchedServer::instance()->getContext());
+	if (!ScorchedServer::instance()->getTankAIs().loadAIs(
+		ScorchedServer::instance()->getAccessoryStore())) return false;
+	TankAIAdder::addTankAIs(*ScorchedServer::instance());
 
 	// Start the state machine
 	ServerState::setupStates(ScorchedServer::instance()->getGameState());

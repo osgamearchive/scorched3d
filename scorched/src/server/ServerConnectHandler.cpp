@@ -274,12 +274,12 @@ void ServerConnectHandler::addNextTank(unsigned int destinationId,
 				if (!tank->getAccessories().readMessage(reader) ||
 					!tank->getScore().readMessage(reader))
 				{
-					Logger::log(0, "Failed to update residual player info");
+					Logger::log(0, "Failed to update residual player info (read)");
 				}
 			}
 			else 
 			{
-				Logger::log(0, "Failed to update residual player info");
+				Logger::log(0, "Failed to update residual player info (write)");
 			}
 			delete savedTank;
 		}

@@ -21,13 +21,13 @@
 #if !defined(__INCLUDE_TankAIAdderh_INCLUDE__)
 #define __INCLUDE_TankAIAdderh_INCLUDE__
 
-#include <engine/ScorchedContext.h>
+#include <server/ScorchedServer.h>
 
 namespace TankAIAdder
 {
-	void addTankAIs(ScorchedContext &context);
+	void addTankAIs(ScorchedServer &context);
 
-	void addTankAI(ScorchedContext &context,
+	void addTankAI(ScorchedServer &context,
 		const char *aiName,
 		const char *modelName,
 		const char *name = "",

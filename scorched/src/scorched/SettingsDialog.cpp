@@ -29,6 +29,7 @@
 #include <wx/image.h>
 #include <wx/utils.h>
 #include <wx/notebook.h>
+#include <wx/textctrl.h>
 
 namespace SettingsEco 
 { 
@@ -40,6 +41,7 @@ namespace SettingsEnv
 };
 namespace SettingsLand 
 {
+static LandscapeDefinitions landscapeDefinitions;
 #include "SettingsLand.cpp" 
 };
 namespace SettingsMain 
@@ -48,7 +50,13 @@ namespace SettingsMain
 };
 namespace SettingsPlayers 
 { 
+static AccessoryStore accessoryStore;
+static TankAIStore tankAIStore;
 #include "SettingsPlayers.cpp" 
+}
+namespace SettingsMOTD
+{ 
+#include "SettingsMOTD.cpp" 
 }
 
 extern char scorched3dAppName[128];
@@ -69,6 +77,7 @@ protected:
 	wxPanel *envPanel_;
 	wxPanel *landPanel_;
 	wxPanel *playersPanel_;
+	wxPanel *motdPanel_;
 
 	void setupPlayers();
 	void onMaxPlayerChange();
@@ -145,6 +154,14 @@ SettingsFrame::SettingsFrame(bool server, OptionsGame &context) :
 		playersPanel_->SetSizer(playersPanelSizer);
 	}
 	else playersPanel_ = 0;
+
+	motdPanel_ = new wxPanel(book_, -1);
+	wxSizer *motdPanelSizer = new wxBoxSizer(wxVERTICAL);
+	SettingsMOTD::createControls(motdPanel_, motdPanelSizer);
+	book_->AddPage(motdPanel_, "MOTD");
+	motdPanel_->SetAutoLayout(TRUE);
+	motdPanel_->SetSizer(motdPanelSizer);
+
 	topsizer->Add(nbs, 0, wxALL, 10);
 
 	// Ok and cancel boxes
@@ -166,7 +183,7 @@ SettingsFrame::SettingsFrame(bool server, OptionsGame &context) :
 void SettingsFrame::onSelectAll()
 {
 	std::list<LandscapeDefinitionsEntry> &defns =
-		LandscapeDefinitions::instance()->getAllLandscapes();
+		SettingsLand::landscapeDefinitions.getAllLandscapes();
 	std::list<LandscapeDefinitionsEntry>::iterator itor = 
 		defns.begin();
 	for (int i = 0; i<(int) defns.size(); i++, itor++)
@@ -178,7 +195,7 @@ void SettingsFrame::onSelectAll()
 void SettingsFrame::onDeselectAll()
 {
 	std::list<LandscapeDefinitionsEntry> &defns =
-		LandscapeDefinitions::instance()->getAllLandscapes();
+		SettingsLand::landscapeDefinitions.getAllLandscapes();
 	std::list<LandscapeDefinitionsEntry>::iterator itor =
 		defns.begin();  
 	for (int i = 0; i<(int) defns.size(); i++, itor++)
@@ -248,12 +265,13 @@ bool SettingsFrame::TransferDataToWindow()
 			wxString("The number of players to allow before remvoing bots."));
 
 		// Reload the AIs in case a new mod has been loaded
-		TankAIStore::instance()->clearAIs();
-		ScorchedServer::instance()->getAccessoryStore().clearAccessories();
-		ScorchedServer::instance()->getAccessoryStore().parseFile();
-		TankAIStore::instance()->loadAIs();
+		SettingsPlayers::tankAIStore.clearAIs();
+		SettingsPlayers::accessoryStore.clearAccessories();
+		SettingsPlayers::accessoryStore.parseFile();
+		SettingsPlayers::tankAIStore.loadAIs(SettingsPlayers::accessoryStore);
+
 		std::list<TankAI *> &ais = 
-			TankAIStore::instance()->getAis();
+			SettingsPlayers::tankAIStore.getAis();
 		for (int i=0; i<24; i++)
 		{
 			std::list<TankAI *>::iterator itor;
@@ -274,13 +292,13 @@ bool SettingsFrame::TransferDataToWindow()
 	// Land 
 	{
 		std::list<LandscapeDefinitionsEntry> &defns =
-			LandscapeDefinitions::instance()->getAllLandscapes();
+			SettingsLand::landscapeDefinitions.getAllLandscapes();
 		std::list<LandscapeDefinitionsEntry>::iterator itor = 
 			defns.begin();
 		for (int i = 0; i<(int) defns.size(); i++, itor++)
 		{
 			SettingsLand::landscapes[i]->SetValue(
-				LandscapeDefinitions::instance()->landscapeEnabled(
+				SettingsLand::landscapeDefinitions.landscapeEnabled(
 					context_,
 					(*itor).name.c_str()));
 		}
@@ -458,6 +476,18 @@ bool SettingsFrame::TransferDataToWindow()
 			context_.getGiveAllWeapons());
 		SettingsEnv::IDC_GIVEALLWEAPONS_CTRL->SetToolTip(
 			wxString("Gives everyone an infinite number of all the weapons."));
+		SettingsEnv::IDC_RESIGNENDROUND_CTRL->SetValue(
+			context_.getResignEndOfRound());
+		SettingsEnv::IDC_RESIGNENDROUND_CTRL->SetToolTip(
+			wxString("Players resign at the end of the round."));	
+	}
+
+	// MOTD
+	{
+		SettingsMOTD::IDC_MOTD_CTRL->SetValue(
+			context_.getMOTD());
+		SettingsMOTD::IDC_MOTD_CTRL->SetToolTip(
+			wxString("The Message Of The Day."));
 	}
 
 	// Main
@@ -591,7 +621,7 @@ bool SettingsFrame::TransferDataFromWindow()
 	{
 		std::string landscapes;
 		std::list<LandscapeDefinitionsEntry> &defns =
-			LandscapeDefinitions::instance()->getAllLandscapes();
+			SettingsLand::landscapeDefinitions.getAllLandscapes();
 		std::list<LandscapeDefinitionsEntry>::iterator itor = 
 			defns.begin();
 		for (int i = 0; i<(int) defns.size(); i++, itor++)
@@ -666,6 +696,14 @@ bool SettingsFrame::TransferDataFromWindow()
 
 		context_.setGiveAllWeapons(
 			SettingsEnv::IDC_GIVEALLWEAPONS_CTRL->GetValue());
+		context_.setResignEndOfRound(
+			SettingsEnv::IDC_RESIGNENDROUND_CTRL->GetValue());
+	}
+
+	// MOTD
+	{
+		context_.setMOTD(
+			SettingsMOTD::IDC_MOTD_CTRL->GetValue());
 	}
 
 	// Main
@@ -707,6 +745,7 @@ bool SettingsFrame::TransferDataFromWindow()
 bool showSettingsDialog(bool server, OptionsGame &context)
 {
 	// Set the current mod
+	std::string modValue = getDataFileMod();
 	setDataFileMod(context.getMod());
 
 	// Show the settings
@@ -714,7 +753,7 @@ bool showSettingsDialog(bool server, OptionsGame &context)
 	bool result = (frame.ShowModal() == wxID_OK);
 
 	// Reset the mod
-	setDataFileMod("");
+	setDataFileMod(modValue.c_str());
 
 	return result;
 }

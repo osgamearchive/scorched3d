@@ -87,7 +87,8 @@ bool ServerAddPlayerHandler::processMessage(unsigned int destinationId,
 
 		// Check tank ai is valid
 		TankAI *ai = 
-			TankAIStore::instance()->getAIByName(message.getPlayerType());
+			ScorchedServer::instance()->getTankAIs().
+			getAIByName(message.getPlayerType());
 		if (!ai) return true;
 
 		// Set the tank to have the ai

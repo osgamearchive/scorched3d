@@ -23,7 +23,9 @@
 
 #include <engine/ScorchedContext.h>
 
+class LandscapeDefinitions;
 class TankDeadContainer;
+class TankAIStore;
 class ScorchedServer
 {
 public:
@@ -41,11 +43,15 @@ public:
 	OptionsTransient &getOptionsTransient() { return *context_.optionsTransient; }
 	ComsMessageHandler &getComsMessageHandler() { return *context_.comsMessageHandler; }
 	ModFiles &getModFiles() { return *context_.modFiles; }
+	LandscapeDefinitions &getLandscapes() { return *landscapes_; }
+	TankAIStore &getTankAIs() { return *tankAIStore_; }
 
 protected:
 	static ScorchedServer *instance_;
 	ScorchedContext context_;
 	TankDeadContainer *deadContainer_;
+	LandscapeDefinitions *landscapes_;
+	TankAIStore *tankAIStore_;
 
 private:
 	ScorchedServer();

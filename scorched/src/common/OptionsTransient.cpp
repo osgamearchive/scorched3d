@@ -27,8 +27,8 @@
 
 OptionsTransient::OptionsTransient(OptionsGame &optionsGame) :
 	optionsGame_(optionsGame), newGame_(false),
-	noRoundsLeft_(options_, "NoRoundsLeft", 
-		"The current number of rounds left in this game", 0, 5),
+	currentRoundNo_(options_, "CurrentRoundNo", 
+		"The current number of rounds played in this game", 0, 0),
 	currentGameNo_(options_, "CurrentGameNo",
 		"The current game", 0, 0),
 	windAngle_(options_, "WindAngle",
@@ -120,19 +120,19 @@ bool OptionsTransient::readFromBuffer(NetBufferReader &reader)
 void OptionsTransient::reset()
 {
 	currentGameNo_.setValue(0);
-	noRoundsLeft_.setValue(optionsGame_.getNoRounds());
+	currentRoundNo_.setValue(0);
 }
 
 void OptionsTransient::startNewGame()
 {
-	noRoundsLeft_.setValue(0);
+	currentRoundNo_.setValue(optionsGame_.getNoRounds()+1);
 }
 
 void OptionsTransient::newGame()
 {
 	newGame_ = true;
-	int roundsPlayed = optionsGame_.getNoRounds() - getNoRoundsLeft();
-	if (optionsGame_.getBuyOnRound() - 1 <= roundsPlayed &&
+	currentRoundNo_.setValue(currentRoundNo_.getValue() + 1);
+	if (currentRoundNo_.getValue() >= optionsGame_.getBuyOnRound() &&
 		!optionsGame_.getGiveAllWeapons())
 	{
 		currentGameNo_.setValue(0);	
@@ -142,7 +142,6 @@ void OptionsTransient::newGame()
 		currentGameNo_.setValue(1);
 	}
 	
-	noRoundsLeft_.setValue(noRoundsLeft_.getValue() - 1);
 	newGameWind();
 	newGameWall();
 }
@@ -267,7 +266,7 @@ int OptionsTransient::getArmsLevel()
 	float start = (float) optionsGame_.getStartArmsLevel();
 	float end = (float) optionsGame_.getEndArmsLevel();
 
-	float roundsPlayed = float(optionsGame_.getNoRounds() - getNoRoundsLeft());
+	float roundsPlayed = float(getCurrentRoundNo());
 	float totalRounds = float(optionsGame_.getNoRounds());
 
 	float armsLevel = start + ((end - start) * (roundsPlayed / totalRounds));

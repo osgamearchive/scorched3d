@@ -54,8 +54,7 @@ void TurnController::newGame()
 
 	// On the very first round make the order random (if looser first chosen)
 	// as there is no looser yet!
-	if ((ScorchedServer::instance()->getOptionsTransient().getNoRoundsLeft() == 
-		ScorchedServer::instance()->getOptionsGame().getNoRounds() - 1) &&
+	if ((ScorchedServer::instance()->getOptionsTransient().getCurrentRoundNo() == 1) &&
 		turnType == OptionsGame::TurnSequentialLooserFirst)
 	{
 		turnType = OptionsGame::TurnSequentialRandom;

@@ -18,44 +18,11 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+static wxTextCtrl *IDC_MOTD_CTRL = 0;
 
-#if !defined(__INCLUDE_TankAIComputerBuyerh_INCLUDE__)
-#define __INCLUDE_TankAIComputerBuyerh_INCLUDE__
-
-#include <weapons/AccessoryStore.h>
-#include <list>
-
-class Tank;
-class TankAIComputerBuyer
+static void createControls(wxWindow *parent, wxSizer *topsizer)
 {
-public:
-	TankAIComputerBuyer();
-	virtual ~TankAIComputerBuyer();
-
-	bool parseConfig(AccessoryStore &store, XMLNode *node);
-	bool addAccessory(AccessoryStore &store, 
-		const char *accessoryName, int buyLevel);
-	void buyAccessories(int maxNoBought);
-	void clearAccessories();
-
-	void setTank(Tank *tank) { currentTank_ = tank; }
-
-protected:
-	struct Entry
-	{
-		Entry() {}
-		Entry(const Entry &other);
-		Entry &operator=(const Entry &other);
-		virtual ~Entry() { }
-
-		std::list<std::string> buyAccessories;
-		int level;
-	};
-	std::list<Entry> buyEntries_;
-
-	Tank *currentTank_;
-	void buyAccessory();
-};
-
-
-#endif
+	IDC_MOTD_CTRL = new wxTextCtrl(parent, -1, "", 
+		wxDefaultPosition, wxSize(200, 100), wxTE_MULTILINE);
+	topsizer->Add(IDC_MOTD_CTRL, 1, wxGROW | wxALL, 10);
+}

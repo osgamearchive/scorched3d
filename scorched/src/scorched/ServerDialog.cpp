@@ -154,6 +154,9 @@ wxString ServerPlayerListControl::OnGetItemText(long item, long column) const
 		case 7:
 			return tank->getHostDesc();
 			break;
+		case 8:
+			return tank->getScore().getStatsRank();
+			break;
 		}
 	}
 	return "";
@@ -296,7 +299,8 @@ ServerFrame::ServerFrame(const char *name) :
 			{ "Player Score", 100 },
 			{ "Player State", 140 },
 			{ "Player Team", 100 },
-			{ "Player OS", 140 }
+			{ "Player OS", 140 },
+			{ "Player Rank", 100 }
 		};
 	for (i=0; i<sizeof(playerListItems)/sizeof(ListItem); i++)
 	{
@@ -321,23 +325,37 @@ ServerFrame::ServerFrame(const char *name) :
 
 	// Add menu items
 	wxMenu *menuFile = new wxMenu;
-	menuFile->Append(IDC_MENU_SHOWOPTIONS, "&Display Options");
-	menuFile->Append(IDC_MENU_EDITOPTIONS, "&Edit Options");
-	menuFile->Append(IDC_MENU_LOADOPTIONS, "&Load Options");
-	menuFile->Append(IDC_MENU_SAVEOPTIONS, "&Save Options");
-	menuFile->AppendSeparator();
-	menuFile->Append(IDC_MENU_SHOWMODFILES, "Show &Mod Files");
-	menuFile->Append(IDC_MENU_SHOWBANNED, "Show &Banned Users");
-	menuFile->Append(IDC_MENU_RELOADBANNED, "&Reload Banned Users");
-	menuFile->AppendSeparator();
 	menuFile->Append(IDC_MENU_COMSMESSAGELOGGING, "Toggle Coms Messa&ge logging");
 	menuFile->Append(IDC_MENU_STATELOGGING, "Toggle S&tate Logging");
  	menuFile->AppendSeparator();
  	menuFile->Append(IDC_MENU_EXIT, "E&xit");
 
+	wxMenu *menuOptions = new wxMenu;
+	menuOptions->Append(IDC_MENU_SHOWOPTIONS, "&Display Options");
+	menuOptions->Append(IDC_MENU_EDITOPTIONS, "&Edit Options");
+	menuOptions->Append(IDC_MENU_LOADOPTIONS, "&Load Options");
+	menuOptions->Append(IDC_MENU_SAVEOPTIONS, "&Save Options");
+	menuOptions->AppendSeparator();
+	menuOptions->Append(IDC_MENU_SHOWMODFILES, "Show &Mod Files");
+
+	wxMenu *menuAdmin = new wxMenu;
+	menuAdmin->Append(IDC_MENU_PLAYERKICK, "Kick selected players");
+	menuAdmin->Append(IDC_MENU_PLAYERBAN, "Ban selected players");
+	menuAdmin->Append(IDC_MENU_PLAYERSLAP25, "Slap selected players (25 pts)");
+	menuAdmin->Append(IDC_MENU_PLAYERMUTE, "Mute selected players");
+	menuAdmin->Append(IDC_MENU_PLAYERUNMUTE, "Unmute selected players");
+	menuAdmin->AppendSeparator();
+	menuAdmin->Append(IDC_MENU_SHOWBANNED, "Show &Banned Users");
+	menuAdmin->Append(IDC_MENU_RELOADBANNED, "&Reload Banned Users");
+	
+	wxMenu *menuChat = new wxMenu;
+	menuChat->Append(IDC_MENU_TIMEDMSG, "Setup a timed message");
+	menuChat->Append(IDC_MENU_PLAYERTALK, "Talk to selected players");
+	menuChat->Append(IDC_MENU_PLAYERTALKALL, "Talk to all players");
+
 	wxMenu *menuAddPlayer = new wxMenu;
 	int aicount = 0;
-	std::list<TankAI *> &ais = TankAIStore::instance()->getAis();
+	std::list<TankAI *> &ais = ScorchedServer::instance()->getTankAIs().getAis();
 	std::list<TankAI *>::iterator aiitor;
 	for (aiitor = ais.begin();
 		aiitor != ais.end();
@@ -350,24 +368,16 @@ ServerFrame::ServerFrame(const char *name) :
 	}
 
 	wxMenu *menuPlayer = new wxMenu;
-	menuPlayer->Append(IDC_MENU_TIMEDMSG, "Setup a timed message");
-	menuPlayer->Append(IDC_MENU_PLAYERTALK, "Talk to selected players");
-	menuPlayer->Append(IDC_MENU_PLAYERTALKALL, "Talk to all players");
-	menuPlayer->Append(IDC_MENU_PLAYERKICK, "Kick selected players");
-	menuPlayer->Append(IDC_MENU_PLAYERBAN, "Ban selected players");
+	menuPlayer->Append(IDC_MENU_STARTNEWGAME, "Start a new game");
 	menuPlayer->Append(IDC_MENU_PLAYERKILLALL, "Kill all players");
-	menuPlayer->Append(IDC_MENU_PLAYERSLAP25, "Slap selected players (25 pts)");
-	menuPlayer->Append(IDC_MENU_PLAYERMUTE, "Mute selected players");
-	menuPlayer->Append(IDC_MENU_PLAYERUNMUTE, "Unmute selected players");
 	menuPlayer->Append(IDC_MENU_PLAYERADD, "Add a new player", menuAddPlayer);
-
-	wxMenu *menuGame = new wxMenu;
-	menuGame->Append(IDC_MENU_STARTNEWGAME, "Start a new game");
 
     wxMenuBar *menuBar = new wxMenuBar;
     menuBar->Append(menuFile, "&File");
+	menuBar->Append(menuOptions, "&Options");
+	menuBar->Append(menuAdmin, "&Admin");
+	menuBar->Append(menuChat, "&Chat");
 	menuBar->Append(menuPlayer, "&Players");
-	menuBar->Append(menuGame, "&Game");
     SetMenuBar( menuBar );
 
 #ifdef __WXMSW__
@@ -384,7 +394,7 @@ void ServerFrame::onPlayerAdd(int i)
 		ScorchedServer::instance()->getOptionsGame().getNoMaxPlayers())
 	{
 		int aicount = 1;
-		std::list<TankAI *> &ais = TankAIStore::instance()->getAis();
+		std::list<TankAI *> &ais = ScorchedServer::instance()->getTankAIs().getAis();
 		std::list<TankAI *>::iterator aiitor;
 		for (aiitor = ais.begin();
 			aiitor != ais.end();
@@ -393,7 +403,7 @@ void ServerFrame::onPlayerAdd(int i)
 			TankAI *ai = (*aiitor);
 			if (aicount == i)
 			{
-				TankAIAdder::addTankAI(ScorchedServer::instance()->getContext(),
+				TankAIAdder::addTankAI(*ScorchedServer::instance(),
 					ai->getName(), "Random", "", true);
 			}
 		}
@@ -486,8 +496,7 @@ void ServerFrame::onTimer()
 	frame->statusBar_->SetStatusText(
 		(ServerTooFewPlayersStimulus::instance()->acceptStateChange(0, 0, 0.0f)?"Not Playing":"Playing"), 1);
 	sprintf(buffer, "Round %i/%i, %i/%i Moves",
-		ScorchedServer::instance()->getOptionsGame().getNoRounds() - 
-		ScorchedServer::instance()->getOptionsTransient().getNoRoundsLeft(),
+		ScorchedServer::instance()->getOptionsTransient().getCurrentRoundNo(),
 		ScorchedServer::instance()->getOptionsGame().getNoRounds(),
 		ScorchedServer::instance()->getOptionsTransient().getCurrentGameNo(),
 		ScorchedServer::instance()->getOptionsGame().getNoMaxRoundTurns());

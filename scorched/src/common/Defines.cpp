@@ -111,6 +111,11 @@ void setDataFileMod(const char *mod)
 	strcpy(dataModFile, mod);
 }
 
+const char *getDataFileMod()
+{
+	return (dataModFile?dataModFile:"");
+}
+
 #ifndef S3D_DATADIR
 #define S3D_DATADIR "."
 #endif

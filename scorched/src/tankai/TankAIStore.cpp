@@ -25,17 +25,6 @@
 #include <tankai/TankAIComputer.h>
 #include <stdlib.h>
 
-TankAIStore *TankAIStore::instance_ = 0;
-
-TankAIStore *TankAIStore::instance()
-{
-	if (!instance_)
-	{
-		instance_ = new TankAIStore;
-	}
-	return instance_;
-}
-
 TankAIStore::TankAIStore()
 {
 
@@ -56,7 +45,7 @@ void TankAIStore::clearAIs()
 	}
 }
 
-bool TankAIStore::loadAIs()
+bool TankAIStore::loadAIs(AccessoryStore &store)
 {
 	// Load key definition file
 	XMLFile file;
@@ -95,7 +84,7 @@ bool TankAIStore::loadAIs()
 		}
 
 		TankAIComputer *computer = new TankAIComputer;
-		if (!computer->parseConfig(currentNode))
+		if (!computer->parseConfig(store, currentNode))
 		{
 			return false;
 		}

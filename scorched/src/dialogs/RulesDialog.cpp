@@ -152,14 +152,14 @@ void RulesDialog::draw()
 			yellow,
 			12,
 			x_ + 12.0f, top - 30.0f, 0.0f,
-			"Total number of rounds : %i", 
-			options.getNoRounds());
+			"Current round : %i", 
+			optionsT.getCurrentRoundNo());
 		GLWFont::instance()->getSmallPtFont()->draw(
 			yellow,
 			12,
 			x_ + 12.0f, top - 45.0f, 0.0f,
-			"Rounds left : %i", 
-			optionsT.getNoRoundsLeft());
+			"Total number of rounds : %i", 
+			options.getNoRounds());
 	}
 
 	GLWFont::instance()->getSmallPtFont()->draw(

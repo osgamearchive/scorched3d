@@ -38,19 +38,19 @@ unsigned int TankAIAdder::getNextTankId()
 	return ++tankId_;
 }
 
-void TankAIAdder::addTankAIs(ScorchedContext &context)
+void TankAIAdder::addTankAIs(ScorchedServer &context)
 {
 	// On the server
 	// Ensure that we cannot add more ais than the server is setup for
-	int maxComputerAIs = context.optionsGame->getNoMaxPlayers();
+	int maxComputerAIs = context.getOptionsGame().getNoMaxPlayers();
 	for (int i=0; i<maxComputerAIs; i++)
 	{
 		const char *playerType = 
-			context.optionsGame->getPlayerType(i);
+			context.getOptionsGame().getPlayerType(i);
 		if (0 != stricmp(playerType, "Human"))
 		{
 			std::string botName = 
-				context.optionsGame->getBotNamePrefix();
+				context.getOptionsGame().getBotNamePrefix();
 			botName += TankAIStrings::instance()->getAIPlayerName();
 
 			addTankAI(context, playerType, "Random", botName.c_str());
@@ -58,14 +58,13 @@ void TankAIAdder::addTankAIs(ScorchedContext &context)
 	}
 }
 
-void TankAIAdder::addTankAI(ScorchedContext &context,
+void TankAIAdder::addTankAI(ScorchedServer &context,
 							const char *aiName,
 							const char *modelName,
 							const char *name,
 							bool raiseEvent)
 {
-	TankAI *ai = 
-		TankAIStore::instance()->getAIByName(aiName);
+	TankAI *ai = context.getTankAIs().getAIByName(aiName);
 	if (ai)
 	{
 		// Create our uniqueid
@@ -74,7 +73,7 @@ void TankAIAdder::addTankAI(ScorchedContext &context,
 			std::set<int> usedIds;
 			sprintf(uniqueId, "%s - computer - %%i", aiName);
 			std::map<unsigned int, Tank *> &playingTanks = 
-				context.tankContainer->getPlayingTanks();
+				context.getTankContainer().getPlayingTanks();
 			std::map<unsigned int, Tank *>::iterator playingItor;
 			for (playingItor = playingTanks.begin();
 				playingItor != playingTanks.end();
@@ -101,14 +100,14 @@ void TankAIAdder::addTankAI(ScorchedContext &context,
 		if (newname.size() == 0)
 		{
 			newname = 
-				context.optionsGame->getBotNamePrefix();
+				context.getOptionsGame().getBotNamePrefix();
 			newname += TankAIStrings::instance()->getAIPlayerName();
 		}
 
 		Vector color = TankColorGenerator::instance()->getNextColor();
 		TankModelId modelId(modelName);	
 		Tank *tank = new Tank(
-			context,
+			context.getContext(),
 			getNextTankId(),
 			0,
 			newname.c_str(),
@@ -117,12 +116,12 @@ void TankAIAdder::addTankAI(ScorchedContext &context,
 
 		tank->setUnqiueId(uniqueId);
 		tank->setTankAI(ai->getCopy(tank));
-		context.tankContainer->addTank(tank);
+		context.getTankContainer().addTank(tank);
 
-		if (context.optionsGame->getTeams() > 1)
+		if (context.getOptionsGame().getTeams() > 1)
 		{
-			tank->setTeam(context.optionsTransient->getLeastUsedTeam(
-				*context.tankContainer));
+			tank->setTeam(context.getOptionsTransient().getLeastUsedTeam(
+				context.getTankContainer()));
 		}
 
 		if (OptionsParam::instance()->getDedicatedServer())

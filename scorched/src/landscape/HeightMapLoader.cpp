@@ -112,7 +112,7 @@ bool HeightMapLoader::generateTerrain(
 		if (!bitmap.loadFromFile(fileName, false))
 		{
 			dialogMessage("HeightMapLoader",
-				"Error: Unabled to find landscape map \"%s\"",
+				"Error: Unable to find landscape map \"%s\"",
 				fileName);
 			return false;
 		}

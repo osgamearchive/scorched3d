@@ -170,7 +170,8 @@ void ServerShotState::scoreWinners()
 	// Only show the score dialog if it is not the very last round
 	// if it is the very last round then the end of game score dialog will
 	// be shown instead
-	if (ScorchedServer::instance()->getOptionsTransient().getNoRoundsLeft() > 0)
+	if (ScorchedServer::instance()->getOptionsTransient().getCurrentRoundNo() <
+		ScorchedServer::instance()->getOptionsGame().getNoRounds())
 	{
 		// Add an action to make all clients show the current
 		// rankings

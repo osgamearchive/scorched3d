@@ -51,7 +51,7 @@ void TankAIComputer::setTank(Tank *tank)
 	TankAI::setTank(tank);
 }
 
-bool TankAIComputer::parseConfig(XMLNode *node)
+bool TankAIComputer::parseConfig(AccessoryStore &store, XMLNode *node)
 {
 	// Name
 	std::string name;
@@ -82,7 +82,7 @@ bool TankAIComputer::parseConfig(XMLNode *node)
 	if (!tankAim_.parseConfig(node)) return false;
 
 	// Weapons
-	if (!tankBuyer_.parseConfig(node)) return false;
+	if (!tankBuyer_.parseConfig(store, node)) return false;
 
 	// Targeting
 	if (!tankTarget_.parseConfig(node)) return false;

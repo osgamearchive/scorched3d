@@ -24,27 +24,24 @@
 
 #include <list>
 #include <tankai/TankAI.h>
+#include <weapons/AccessoryStore.h>
 
 class TankAIStore
 {
 public:
-	static TankAIStore *instance();
+	TankAIStore();
+	virtual ~TankAIStore();
 
-	bool loadAIs();
+	bool loadAIs(AccessoryStore &store);
 	void clearAIs();
 
 	std::list<TankAI*> &getAis() { return ais_; }
 	TankAI *getAIByName(const char *name);
 
 protected:
-	static TankAIStore *instance_;
 	std::list<TankAI *> ais_;
 
 	void addAI(TankAI *ai);
-
-private:
-	TankAIStore();
-	virtual ~TankAIStore();
 };
 
 #endif

@@ -261,6 +261,10 @@ public:
 	void setCycleMaps(bool value) { cycleMaps_.setValue(value); }
 	const char *getCycleMapsToolTip() { return cycleMaps_.getDescription(); }
 
+	bool getResignEndOfRound() { return resignEndOfRound_.getValue(); }
+	void setResignEndOfRound(bool value) { resignEndOfRound_.setValue(value); }
+	const char *getResignEndOfRoundToolTip() { return resignEndOfRound_.getDescription(); }
+
 	bool getRandomizeBotNames() { return randomizeBotNames_.getValue(); }
 	void setRandomizeBotNames(bool value) { randomizeBotNames_.setValue(value); }
 	const char *getRandomizeBotNamesToolTip() { return randomizeBotNames_.getDescription(); }
@@ -356,6 +360,7 @@ protected:
 	OptionEntryBool limitPowerByHealth_;
 	OptionEntryBool autoBallanceTeams_;
 	OptionEntryBool cycleMaps_;
+	OptionEntryBool resignEndOfRound_;
 	OptionEntryBoundedInt turnType_;
 	OptionEntryBoundedInt windForce_;
 	OptionEntryBoundedInt windType_;

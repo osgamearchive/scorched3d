@@ -77,5 +77,10 @@ static void createControls(wxWindow *parent, wxSizer *topsizer)
 			"Give all weapons",
 			wxDefaultPosition, wxDefaultSize),
 			0, wxALIGN_CENTER);
+	topsizer->Add(IDC_RESIGNENDROUND_CTRL = 
+		new wxCheckBox(parent, -1,
+			"Resign at the end of the round",
+			wxDefaultPosition, wxDefaultSize),
+			0, wxALIGN_CENTER | wxTOP, 5);
 }
 

@@ -23,19 +23,18 @@
 static void createControls(wxWindow *parent, wxSizer *topsizer)
 {
 	// Re-read just in case a new mod has been loaded
-	LandscapeDefinitions::instance()->clearLandscapeDefinitions();
-	DIALOG_ASSERT(LandscapeDefinitions::instance()->readLandscapeDefinitions());
+	landscapeDefinitions.clearLandscapeDefinitions();
+	DIALOG_ASSERT(landscapeDefinitions.readLandscapeDefinitions());
 
 	delete [] landscapes;
-	landscapes = new wxCheckBox*[
-		LandscapeDefinitions::instance()->getAllLandscapes().size()];
+	landscapes = new wxCheckBox*[landscapeDefinitions.getAllLandscapes().size()];
 
 	wxScrolledWindow *scrolledWindow = new wxScrolledWindow(parent, -1);
 
-	wxSizer *sizer = new wxFlexGridSizer(3, 3);
+	wxSizer *sizer = new wxFlexGridSizer(2, 2);
 	int i = 0;
 	std::list<LandscapeDefinitionsEntry> &defns =
-		LandscapeDefinitions::instance()->getAllLandscapes();
+		landscapeDefinitions.getAllLandscapes();
 	std::list<LandscapeDefinitionsEntry>::iterator itor;
 	for (itor = defns.begin();
 		 itor != defns.end();

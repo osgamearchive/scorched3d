@@ -93,10 +93,12 @@ void InventoryDialog::addPlayerName()
 
 	topPanel_->addWidget(new GLWFlag(tank->getColor(), 5, 15, 60));
 	topPanel_->addWidget(new GLWLabel(75, 10, (char *) tank->getName()));
-	topPanel_->addWidget(new GLWLabel(280, 20, (char *)
+	topPanel_->addWidget(new GLWLabel(260, 20, (char *)
 		formatString("$%i", tank->getScore().getMoney())));
-	topPanel_->addWidget(new GLWLabel(280, 0, (char *)
-		formatString("%i Rounds", ScorchedClient::instance()->getOptionsTransient().getNoRoundsLeft())));
+	topPanel_->addWidget(new GLWLabel(260, 0, (char *)
+		formatString("Round %i of %i", 
+		ScorchedClient::instance()->getOptionsTransient().getCurrentRoundNo(),
+		ScorchedClient::instance()->getOptionsGame().getNoRounds())));
 }
 
 void InventoryDialog::addPlayerWeapons()

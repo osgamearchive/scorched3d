@@ -45,6 +45,7 @@ extern const char *formatString(const char *format, ...);
 extern const char *formatStringList(const char *format, va_list ap); 
 
 extern void setDataFileMod(const char *mod);
+extern const char *getDataFileMod();
 extern bool checkDataFile(const char *file);
 extern bool fileExists(const char *file);
 

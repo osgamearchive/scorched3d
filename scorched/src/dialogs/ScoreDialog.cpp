@@ -121,45 +121,51 @@ void ScoreDialog::draw()
 	GLWWindow::draw();
 	GLState newState(GLState::TEXTURE_OFF | GLState::DEPTH_OFF);
 
-	Vector white(0.9f, 0.9f, 1.0f);
 	bool finished = (ScorchedClient::instance()->getGameState().getState() == 
 		ClientState::StateScore);
-	GLWFont::instance()->getLargePtFont()->draw(
-			white,
-			20,
-			x_ + 8.0f, y_ + h_ - 21.0f, 0.0f,
-			finished?" Final Rankings":"Current Rankings");
 
+	Vector white(0.9f, 0.9f, 1.0f);
 	bool server = (OptionsParam::instance()->getConnectedToServer());
 	if (server)
 	{
 		GLWFont::instance()->getLargePtFont()->drawWidth(
 			405,
 			white,
-			18,
-			x_ + 8.0f, y_ + h_ - 41.0f, 0.0f,
+			20,
+			x_ + 8.0f, y_ + h_ - 21.0f, 0.0f,
 			ScorchedClient::instance()->getOptionsGame().getServerName());
 	}
+	else
+	{
+		GLWFont::instance()->getLargePtFont()->draw(
+				white,
+				20,
+				x_ + 8.0f, y_ + h_ - 21.0f, 0.0f,
+				finished?" Final Rankings":"Current Rankings");
+	}
 
-	if (!finished)
+	if (!finished) 
 	{
 		char moves[256];
 		moves[0] = '\0';
 		if (ScorchedClient::instance()->getOptionsGame().getNoMaxRoundTurns() > 0)
 		{
-			int movesLeft = ScorchedClient::instance()->getOptionsGame().getNoMaxRoundTurns() -
-				ScorchedClient::instance()->getOptionsTransient().getCurrentGameNo();
-			if (movesLeft < 0) movesLeft = 0;
-			sprintf(moves, ", %i Moves", movesLeft);
+			sprintf(moves, ",Move %i of %i", 
+				ScorchedClient::instance()->getOptionsTransient().getCurrentGameNo(),
+				ScorchedClient::instance()->getOptionsGame().getNoMaxRoundTurns());
 		}
-
-		GLWFont::instance()->getSmallPtFont()->draw(
-				white,
-				10,
-				x_ + 275.0f, y_ + h_ - 21.0f, 0.0f,
-				"%i Rounds%s",
-				ScorchedClient::instance()->getOptionsTransient().getNoRoundsLeft(),
+		const char *rounds = formatString("Round %i of %i%s",
+				ScorchedClient::instance()->getOptionsTransient().getCurrentRoundNo(),
+				ScorchedClient::instance()->getOptionsGame().getNoRounds(),
 				moves);
+
+		int roundsWidth = GLWFont::instance()->getSmallPtFont()->getWidth(
+			10, rounds);
+		GLWFont::instance()->getSmallPtFont()->draw(
+			white,
+			10,
+			x_ + 430 - roundsWidth, y_ + h_ - 40.0f, 0.0f,
+			rounds);
 	}
 
 	float y = lineSpacer + 10.0f;

@@ -121,7 +121,7 @@ void ServerNewGameState::enterState(const unsigned state)
 	checkBots();
 
 	// Generate the new level
-	LandscapeDefinition *defn = LandscapeDefinitions::instance()->getRandomLandscapeDefn(
+	LandscapeDefinition *defn = ScorchedServer::instance()->getLandscapes().getRandomLandscapeDefn(
 		*ScorchedServer::instance()->getContext().optionsGame);
 	if (!defn)
 	{
@@ -593,7 +593,7 @@ void ServerNewGameState::checkBots()
 					if (noPlayers < requiredPlayers)
 					{
 						// This player does not exist add them
-						TankAIAdder::addTankAI(ScorchedServer::instance()->getContext(),
+						TankAIAdder::addTankAI(*ScorchedServer::instance(),
 							playerType, "Random", "", true);
 						noPlayers++;
 					}

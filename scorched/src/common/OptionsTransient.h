@@ -60,7 +60,7 @@ public:
 	Vector &getWallColor();
 
 	// Rounds left
-	int getNoRoundsLeft() { return noRoundsLeft_.getValue(); }
+	int getCurrentRoundNo() { return currentRoundNo_.getValue(); }
 	int getCurrentGameNo() { return currentGameNo_.getValue(); }
 
 	// Wind
@@ -79,7 +79,7 @@ public:
 protected:
 	std::list<OptionEntry *> options_;
 	OptionsGame &optionsGame_;
-	OptionEntryInt noRoundsLeft_;
+	OptionEntryInt currentRoundNo_;
 	OptionEntryInt currentGameNo_;
 	OptionEntryFloat windAngle_;
 	OptionEntryFloat windStartAngle_;

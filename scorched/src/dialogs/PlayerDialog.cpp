@@ -147,15 +147,20 @@ void PlayerDialog::windowDisplay()
 		}	
 	}
 
+	AccessoryStore accessoryStore;
+	accessoryStore.parseFile();
+	TankAIStore tankAIStore;
+	tankAIStore.loadAIs(accessoryStore);
+
 	// Add player types
 	typeDropDown_->clear();
 	typeDropDown_->addText(GLWSelectorEntry("Human", 
-		&TankAIStore::instance()->getAIByName("Human")->getDescription()));
+		&tankAIStore.getAIByName("Human")->getDescription()));
 	if (!OptionsParam::instance()->getConnectedToServer())
 	{
 		std::list<TankAI *>::iterator aiitor;
-		for (aiitor = TankAIStore::instance()->getAis().begin();
-			aiitor != TankAIStore::instance()->getAis().end();
+		for (aiitor = tankAIStore.getAis().begin();
+			aiitor != tankAIStore.getAis().end();
 			aiitor++)
 		{
 			typeDropDown_->addText(

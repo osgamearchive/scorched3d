@@ -210,8 +210,10 @@ bool TankWeapon::writeMessage(NetBuffer &buffer)
 		itor != weapons_.end();
 		itor++)
 	{
-		buffer.addToBuffer((*itor).first->getAccessoryId());
-		buffer.addToBuffer((*itor).second);
+		Weapon *weapon = (*itor).first;
+		int count = (*itor).second;
+		buffer.addToBuffer(weapon->getAccessoryId());
+		buffer.addToBuffer(count);
 	}
 
 	return true;

@@ -20,6 +20,8 @@
 
 #include <server/ScorchedServer.h>
 #include <tank/TankDeadContainer.h>
+#include <tankai/TankAIStore.h>
+#include <landscape/LandscapeDefinitions.h>
 
 ScorchedServer *ScorchedServer::instance_ = 0;
 
@@ -35,7 +37,9 @@ ScorchedServer *ScorchedServer::instance()
 ScorchedServer::ScorchedServer()  : context_("Server")
 {
 	deadContainer_ = new TankDeadContainer;
+	landscapes_ = new LandscapeDefinitions;
 	context_.serverMode = true;
+	tankAIStore_ = new TankAIStore;
 }
 
 ScorchedServer::~ScorchedServer()

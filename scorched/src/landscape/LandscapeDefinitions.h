@@ -44,7 +44,8 @@ class OptionsGame;
 class LandscapeDefinitions
 {
 public:
-	static LandscapeDefinitions *instance();
+	LandscapeDefinitions();
+	virtual ~LandscapeDefinitions();
 
 	bool readLandscapeDefinitions();
 	void clearLandscapeDefinitions();
@@ -56,7 +57,6 @@ public:
 		{ return entries_; }
 
 protected:
-	static LandscapeDefinitions *instance_;
 	std::list<LandscapeDefinitionsEntry> entries_;
 	std::list<LandscapeTex*> texs_;
 	std::list<LandscapeDefn*> defns_;
@@ -68,9 +68,6 @@ protected:
 	bool readTexs();
 	bool readDefns();
 
-private:
-	LandscapeDefinitions();
-	virtual ~LandscapeDefinitions();
 };
 
 #endif

@@ -52,7 +52,7 @@ TankAIComputerBuyer::~TankAIComputerBuyer()
 {
 }
 
-bool TankAIComputerBuyer::parseConfig(XMLNode *node)
+bool TankAIComputerBuyer::parseConfig(AccessoryStore &store, XMLNode *node)
 {
 	// Weapons
 	XMLNode *weaponNode = 0;
@@ -63,6 +63,7 @@ bool TankAIComputerBuyer::parseConfig(XMLNode *node)
 		if (!weaponNode->getNamedChild("level", wlevel)) return false;
 
 		if (!addAccessory(
+			store,
 			wname->getContent(), 
 			atoi(wlevel->getContent()))) return false;
 	}
@@ -75,12 +76,12 @@ void TankAIComputerBuyer::clearAccessories()
 	buyEntries_.clear();
 }
 
-bool TankAIComputerBuyer::addAccessory(const char *accessoryName,
-									int buyLevel)
+bool TankAIComputerBuyer::addAccessory(AccessoryStore &store, 
+	const char *accessoryName,
+	int buyLevel)
 {
-	Accessory *accessory = ScorchedServer::instance()->
-		getAccessoryStore().
-		findByPrimaryAccessoryName(accessoryName);
+	Accessory *accessory = 
+		store.findByPrimaryAccessoryName(accessoryName);
 	if (!accessory)
 	{
 		dialogMessage("TankAIComputerBuyer", 
