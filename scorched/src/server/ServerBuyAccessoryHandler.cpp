@@ -118,6 +118,13 @@ bool ServerBuyAccessoryHandler::processMessage(unsigned int destinationId,
 		return true;
 	}
 
+	if (!accessory->getPrimary())
+	{
+		Logger::log(playerId, "ERROR: Player buying non-primary weapon \"%s\"",
+			accessory->getName());
+		return true;
+	}
+
 	if (10 - accessory->getArmsLevel() > 
 		ScorchedServer::instance()->getOptionsGame().getMaxArmsLevel())
 	{
