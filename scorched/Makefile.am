@@ -626,6 +626,8 @@ scorcheddatawindows_DATA = data/windows/client.bmp \
 	data/windows/move.bmp \
 	data/windows/weapon.bmp \
 	data/windows/scorched.bmp \
+	data/windows/diff.bmp \
+	data/windows/diffa.bmp \
 	data/windows/server.bmp \
 	data/windows/tank-easy.bmp \
 	data/windows/tank-hard.bmp \
