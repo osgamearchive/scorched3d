@@ -806,8 +806,12 @@ scorched3d_SOURCES = \
 	ServerSDialog.h \
 	SettingsDialog.cpp \
 	SettingsDialog.h \
+	SingleChoiceDialog.cpp \
+	SingleChoiceDialog.h \
 	SingleDialog.cpp \
 	SingleDialog.h \
+	SingleGames.cpp \
+	SingleGames.h \
 	SingleSDialog.cpp \
 	SingleSDialog.h \
 	main.cpp \
