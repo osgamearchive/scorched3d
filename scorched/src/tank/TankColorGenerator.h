@@ -23,19 +23,20 @@
 #define __INCLUDE_TankColorGeneratorh_INCLUDE__
 
 #include <list>
+#include <map>
 #include <common/Vector.h>
 
+class Tank;
 class TankColorGenerator
 {
 public:
 	static TankColorGenerator *instance();
 
-	Vector &getNextColor();
-	void returnColor(Vector &color);
+	Vector &getNextColor(std::map<unsigned int, Tank *> &tanks);
 
 protected:
 	static TankColorGenerator *instance_;
-	std::list<Vector> availableColors_;
+	std::list<Vector *> availableColors_;
 
 private:
 	TankColorGenerator();

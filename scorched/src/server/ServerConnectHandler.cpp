@@ -261,7 +261,8 @@ void ServerConnectHandler::addNextTank(unsigned int destinationId,
 	else
 	{
 		playerName = TankAIStrings::instance()->getPlayerName();
-		color = TankColorGenerator::instance()->getNextColor();
+		color = TankColorGenerator::instance()->getNextColor(
+			ScorchedServer::instance()->getTankContainer().getPlayingTanks());
 		// Get the next available tankId
 		tankId = TankAIAdder::getNextTankId();
 		while (ScorchedServer::instance()->getTankContainer().getTankById(tankId))

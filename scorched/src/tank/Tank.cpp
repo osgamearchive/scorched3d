@@ -43,7 +43,6 @@ Tank::Tank(ScorchedContext &context,
 
 Tank::~Tank()
 {
-	TankColorGenerator::instance()->returnColor(color_);
 	delete tankAI_;
 }
 
