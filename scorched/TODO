@@ -7,8 +7,9 @@ Fixed: Action camera not working correctly
 Fixed: Avatars with more than 32 characters not being stored correctly
 Fixed: Player colors are allocated so no duplicates occur
 Fixed: Fonts changed to be totaly open source
-Fixed: Wind indicator missing one face (thanks The Funkinator)
+Fixed: Wind indicator missing one face (thanks Funkinator)
 Fixed: Window ordering in window menu does not change due to z order
+Fixed: Invisible window removed from connect dialog
 
 Added: Admin newgame command
 Added: Error message for single player team game with incorrect teams
@@ -47,6 +48,7 @@ Show buy/choose accessories in groups (rather than one long list)
 Allow same ip addresses to connect but don't collect stats
 Undo should not put duplicate entries in the undo log
 Bobirovs list of stuff (http://apochq.handwired.net/ideas.txt)
+Shields show through smoke
 
 -- Server Stuff
 Chat filter (swear words)
