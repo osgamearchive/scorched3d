@@ -44,8 +44,11 @@ Added: Better scroll bar controls
 Added: Widgets are all now rounded
 Added: Mushroom clouds for nukes
 Added: MOTD and rules displayed when player connects
-Added: Dirt cloud for explosions
+Added: Dirt or water cloud for explosions
 Added: Start of trees for landscape
+Added: All server<->client coms message are compressed
+Added: Player connects before choosing tank + name
+Added: Network players now wait for more players in the game (not the connection dialog)
 
 Fixed: Tank bounding boxes can still cause collisions when tank is dead
 Fixed: Random windows crashes, increased stack size to stop ODE from running out of stack

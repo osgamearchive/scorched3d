@@ -60,7 +60,8 @@ bool startServer(bool local)
 		// Only create a net server for the actual multiplayer case
 		// A loopback is created by the client for a single player game 
 		ScorchedServer::instance()->getContext().netInterface = 
-			new NetServer(new NetServerScorchedProtocol());
+			//new NetServer(new NetServerScorchedProtocol());
+			new NetServer(new NetServerCompressedProtocol());
 	}
 
 	ScorchedServer::instance()->getNetInterface().setMessageHandler(

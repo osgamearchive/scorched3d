@@ -53,6 +53,8 @@ void ServerMessageHandler::clientDisconnected(NetMessage &message)
 {
 	Logger::log(0, "Client disconnected \"%i\"", message.getDestinationId());
 
+	// Build up a list of players at this destination
+	std::list<unsigned int> removePlayers;
 	unsigned int destinationId = message.getDestinationId();
 	std::map<unsigned int, Tank *>::iterator itor;
 	std::map<unsigned int, Tank *> &tanks = 
@@ -64,24 +66,36 @@ void ServerMessageHandler::clientDisconnected(NetMessage &message)
 		Tank *tank = (*itor).second;
 		if (tank->getDestinationId() == destinationId)
 		{
-			destroyPlayer(tank->getPlayerId());
+			removePlayers.push_back(tank->getPlayerId());
 		}
+	}
+
+	// Remove all players for this destination
+	std::list<unsigned int>::iterator remItor;
+	for (remItor = removePlayers.begin();
+		 remItor != removePlayers.end();
+		 remItor++)
+	{
+		unsigned int playerId = *remItor;
+		destroyPlayer(playerId);
 	}
 }
 
 void ServerMessageHandler::destroyPlayer(unsigned int tankId)
 {
+	// Try to remove this player
 	Tank *tank = ScorchedServer::instance()->getTankContainer().removeTank(tankId);
 	if (tank)
 	{
 		Logger::log(tankId, "Player disconnected \"%i\" \"%s\"", 
 			tankId, tank->getName());
 
-		// Tell all the clients to remove the tank
+		// Tell all the clients to remove this player
 		ComsRmPlayerMessage rmPlayerMessage(
 			tankId);
 		ComsMessageSender::sendToAllConnectedClients(rmPlayerMessage);
 
+		// Tidy player
 		delete tank;
 	}
 	else

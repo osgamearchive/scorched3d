@@ -43,6 +43,16 @@ public:
 	virtual NetMessage *readBuffer(TCPsocket socket);
 };
 
+class NetServerCompressedProtocol : public NetServerScorchedProtocol
+{
+public:
+	NetServerCompressedProtocol();
+	virtual ~NetServerCompressedProtocol();
+
+	virtual bool sendBuffer(NetBuffer &buffer, TCPsocket socket);
+	virtual NetMessage *readBuffer(TCPsocket socket);
+};
+
 class NetServerHTTPProtocol : public NetServerProtocol
 {
 public:

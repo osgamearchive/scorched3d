@@ -66,7 +66,8 @@ void startClient()
 	if (useServer)
 	{
 		ScorchedClient::instance()->getContext().netInterface = 
-			new NetServer(new NetServerScorchedProtocol());
+			//new NetServer(new NetServerScorchedProtocol());
+			new NetServer(new NetServerCompressedProtocol());
 	}
 	else
 	{
