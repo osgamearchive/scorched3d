@@ -22,6 +22,7 @@
 #include <actions/CameraPositionAction.h>
 #include <actions/Explosion.h>
 #include <sprites/TankDeadRenderer.h>
+#include <sprites/ExplosionLaserBeamRenderer.h>
 #include <weapons/AccessoryStore.h>
 #include <engine/ScorchedContext.h>
 #include <common/OptionsGame.h>
@@ -131,8 +132,12 @@ void TankDead::simulate(float frameTime, bool &remove)
 			{
 				Vector position = killedTank->getPhysics().getTankPosition();
 				Vector velocity;
-				context_->actionController.addAction(
-					weapon->fireWeapon(firedPlayerId_, position, velocity));
+				Action *action = weapon->fireWeapon(firedPlayerId_, position, velocity)
+
+				//ExplosionLaserBeamRenderer *sprite = new ExplosionLaserBeamRenderer(position, 5.0f);
+				//Action *action = new SpriteAction(sprite);
+
+				context_->actionController.addAction(action);
 			}
 		}
 	}
