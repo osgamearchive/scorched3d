@@ -132,18 +132,14 @@ bool ServerBrowserServerList::fetchLANList()
 	servers_.clear();
 	SDL_UnlockMutex(vectorMutex_);
 	
-	IPaddress address;
-	address.host = INADDR_BROADCAST;
-	address.port = ScorchedPort + 1;
+	SDLNet_ResolveHost(&(sendPacket_->address), "255.255.255.255", ScorchedPort + 1);
 	
 	// Connect to the client
 	UDPsocket udpsock = SDLNet_UDP_Open(0);
 	if (!udpsock) return false;
-	int chan = SDLNet_UDP_Bind(udpsock, -1, &address);
-	if (chan == -1) return false;
 	
 	// Send the request for info
-	SDLNet_UDP_Send(udpsock, chan, sendPacket_);
+	SDLNet_UDP_Send(udpsock, -1, sendPacket_);
 
 	// Accept the results
 	time_t startTime = time(0);
@@ -152,16 +148,19 @@ bool ServerBrowserServerList::fetchLANList()
 		SDL_Delay(1000);
 		if (SDLNet_UDP_Recv(udpsock, recvPacket_))
 		{
+			unsigned int addr = SDLNet_Read32(&recvPacket_->address.host);
+			unsigned int port = SDLNet_Read16(&recvPacket_->address.port);
+
 			// Get the name attribute
 			ServerBrowserEntry newEntry;
 			char hostName[256];
 			sprintf(hostName,
 					"%i.%i.%i.%i:%i",
-					(recvPacket_->address.host&0xFF000000)>>24,
-					(recvPacket_->address.host&0xFF0000)>>16,
-					(recvPacket_->address.host&0xFF00)>>8,
-					(recvPacket_->address.host&0xFF),
-					(recvPacket_->address.port - 1));
+					(addr&0xFF000000)>>24,
+					(addr&0xFF0000)>>16,
+					(addr&0xFF00)>>8,
+					(addr&0xFF),
+					(port - 1));
 			newEntry.addAttribute("address", hostName);
 			
 			// Add the new and its attributes
