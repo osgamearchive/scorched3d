@@ -58,7 +58,7 @@ protected:
 	class GLVarBuffer
 	{
 	public:
-		GLVarBuffer(GLVarStruct *buffer, GLuint arraySize);
+		GLVarBuffer(GLuint arraySize);
 		virtual ~GLVarBuffer();
 
 		bool addTriangle(GLfloat x1, GLfloat y1, GLfloat z1,
@@ -80,12 +80,7 @@ protected:
 		// The total number of entries allowed and used
 		GLuint arraySize_;
 		GLuint arrayUsed_;
-
-		void waitForFinish();
 	};
-
-	// Array used to store all memory allocated on card
-	GLVarStruct *array_;
 
 	// Pointers to buffer objects and current buffer
 	GLVarBuffer *bufferOne_;

@@ -24,32 +24,25 @@
 
 GLVar::GLVar(int arraySize) : noTriangles_(0)
 {
-	// Allocate array memory
-	int size = (arraySize * sizeof(GLVarStruct) * 2);
-	array_ = (GLVarStruct *) new GLVarStruct[size];
-	DIALOG_ASSERT(array_); 
-
-	currentBuffer_ = bufferOne_ = new GLVarBuffer(array_, arraySize);
-	bufferTwo_ = new GLVarBuffer(array_ + arraySize, arraySize);
+	currentBuffer_ = bufferOne_ = new GLVarBuffer(arraySize);
+	bufferTwo_ = new GLVarBuffer(arraySize);
 }
 
 GLVar::~GLVar()
 {
-	delete [] array_;
 	delete bufferOne_;
 	delete bufferTwo_;
 }
 
-GLVar::GLVarBuffer::GLVarBuffer(GLVarStruct *buffer, GLuint arraySize) : 
-	arraySize_(arraySize), arrayUsed_(0), 
-	buffer_(buffer), bufferPos_(buffer)
+GLVar::GLVarBuffer::GLVarBuffer(GLuint arraySize) : 
+	arraySize_(arraySize), arrayUsed_(0)
 {
-
+	buffer_ = bufferPos_ = new GLVarStruct[arraySize];
 }
 
 GLVar::GLVarBuffer::~GLVarBuffer()
 {
-
+	delete [] buffer_;
 }
 
 void GLVar::addTriangle(GLfloat x1, GLfloat y1, GLfloat z1,
@@ -80,7 +73,7 @@ void GLVar::addTriangle(GLfloat x1, GLfloat y1, GLfloat z1,
 
 void GLVar::draw()
 {
-	currentBuffer_->draw();
+	//currentBuffer_->draw();
 	swapBuffers();
 }
 
@@ -100,8 +93,6 @@ bool GLVar::GLVarBuffer::addTriangle(GLfloat x1, GLfloat y1, GLfloat z1,
 						GLfloat txa3, GLfloat tya3,
 						GLfloat txb3, GLfloat tyb3)
 {
-	if (!arrayUsed_) waitForFinish();
-
 	GLVarStruct newStruct = 
 		{ 
 		x1, y1, z1,
@@ -114,12 +105,45 @@ bool GLVar::GLVarBuffer::addTriangle(GLfloat x1, GLfloat y1, GLfloat z1,
 		txa3, tya3,
 		txb3, tyb3
 		};
-	(*bufferPos_++) = newStruct;
+	//(*bufferPos_++) = newStruct;
+
+	glBegin(GL_TRIANGLES);
+		if (GLStateExtension::glClientActiveTextureARB())
+		{
+			GLStateExtension::glMultiTextCoord2fARB()
+				(GL_TEXTURE1_ARB, txa1, tya1);
+			if (GLStateExtension::getTextureUnits() > 2)
+				GLStateExtension::glMultiTextCoord2fARB()
+					(GL_TEXTURE2_ARB, txb1, tyb1);
+		}
+		glTexCoord2f(txa1, tya1);
+		glVertex3fv(&newStruct.x1);
+		if (GLStateExtension::glClientActiveTextureARB())
+		{
+			GLStateExtension::glMultiTextCoord2fARB()
+				(GL_TEXTURE1_ARB, txa2, tya2);
+			if (GLStateExtension::getTextureUnits() > 2)
+				GLStateExtension::glMultiTextCoord2fARB()
+					(GL_TEXTURE2_ARB, txb2, tyb2);
+		}
+		glTexCoord2f(txa2, tya2);
+		glVertex3fv(&newStruct.x2);
+		if (GLStateExtension::glClientActiveTextureARB())
+		{
+			GLStateExtension::glMultiTextCoord2fARB()
+				(GL_TEXTURE1_ARB, txa3, tya3);
+			if (GLStateExtension::getTextureUnits() > 2)
+				GLStateExtension::glMultiTextCoord2fARB()
+					(GL_TEXTURE2_ARB, txb3, tyb3);
+		}
+		glTexCoord2f(txa3, tya3);
+		glVertex3fv(&newStruct.x3);
+	glEnd();
 
 	if (arrayUsed_++ > arraySize_ - 1) 
 	{
-		draw();
-		return true;
+		//draw();
+		//return true;
 	}
 
 	return false;
@@ -187,7 +211,3 @@ void GLVar::GLVarBuffer::draw()
 	}
 }
 
-void GLVar::GLVarBuffer::waitForFinish()
-{
-
-}
