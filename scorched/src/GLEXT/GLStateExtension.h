@@ -45,6 +45,7 @@ public:
 
 	static bool hasCubeMap() { return hasCubeMap_; }
 	static bool hasHardwareMipmaps() { return hasHardwareMipmaps_; }
+	static int getTextureUnits() { return textureUnits_; }
 
 	static void setup();
 
@@ -60,6 +61,7 @@ protected:
 
 	static PFNGLLOCKARRAYSEXTPROC glLockArraysEXT_;
 
+	static int textureUnits_;
 	static bool hasCubeMap_;
 	static bool hasHardwareMipmaps_;
 

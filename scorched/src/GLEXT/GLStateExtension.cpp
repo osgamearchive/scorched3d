@@ -28,6 +28,7 @@ bool GLStateExtension::noExtensions_ = false;
 bool GLStateExtension::multiTexDisabled_ = false;
 bool GLStateExtension::hasCubeMap_ = false;
 bool GLStateExtension::hasHardwareMipmaps_ = false;
+int GLStateExtension::textureUnits_ = 0;
 PFNGLLOCKARRAYSEXTPROC GLStateExtension::glLockArraysEXT_ = 0;
 PFNGLACTIVETEXTUREARBPROC GLStateExtension::glActiveTextureARB_ =  0;
 PFNGLMULTITEXCOORD2FARBPROC GLStateExtension::glMultiTextCoord2fARB_ = 0;
@@ -50,20 +51,25 @@ bool GLStateExtension::hasExtension(char *name)
 			while(token != 0)
 			{
 				if (0 == strcmp(token, name)) result = true;
-				token = strtok(NULL, "\n");
+				token = strtok(NULL, " ");
 			}
 		}
 	}
 
+// HACK for skin creator
+#ifdef dDOUBLE
 	GLConsole::instance()->addLine(false, "GL extension \"%s\" = %s",
 								   name,
 								   (result?"on":"off"));
+#endif
 
 	return result;
 }
 
 void GLStateExtension::setup()
 {
+// HACK for skin creator
+#ifdef dDOUBLE
 	GLConsole::instance()->addLine(false, "GL_VENDOR:");
 	GLConsole::instance()->addLine(false, (const char *) glGetString(GL_VENDOR));
 	GLConsole::instance()->addLine(false, "GL_RENDERER:");
@@ -72,12 +78,15 @@ void GLStateExtension::setup()
 	GLConsole::instance()->addLine(false, (const char *) glGetString(GL_VERSION));
 	GLConsole::instance()->addLine(false, "GL_EXTENSIONS:");
 	GLConsole::instance()->addLine(false, (const char *) glGetString(GL_EXTENSIONS));
+#endif
 
 	if (hasExtension("GL_ARB_multitexture"))
 	{
-		GLint num_tus = 0;
-		glGetIntegerv(GL_MAX_TEXTURE_UNITS_ARB,&num_tus);
-		GLConsole::instance()->addLine(false, "%i texture units", num_tus);
+// HACK for skin creator
+#ifdef dDOUBLE
+		glGetIntegerv(GL_MAX_TEXTURE_UNITS_ARB, &textureUnits_);
+		GLConsole::instance()->addLine(false, "%i texture units", textureUnits_);
+#endif
 
 		glActiveTextureARB_ = 
 			(PFNGLACTIVETEXTUREARBPROC)	SDL_GL_GetProcAddress("glActiveTextureARB");
@@ -87,7 +96,7 @@ void GLStateExtension::setup()
 			(PFNGLCLIENTACTIVETEXTUREARBPROC) SDL_GL_GetProcAddress("glClientActiveTextureARB");
 	}
 
-	if (hasExtension("EXT_compiled_vertex_array"))
+	if (hasExtension("GL_EXT_compiled_vertex_array"))
 	{
 		glLockArraysEXT_ = (PFNGLLOCKARRAYSEXTPROC)
 			SDL_GL_GetProcAddress("glLockArraysEXT");
