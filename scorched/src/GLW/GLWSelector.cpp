@@ -26,11 +26,13 @@
 GLWSelectorEntry::GLWSelectorEntry(const char *text, 
 			GLWTip *tooltip, 
 			bool selected,
-			GLTexture *icon) : 
+			GLTexture *icon,
+			void *userData) : 
 	text_(text),
 	tip_(tooltip),
 	selected_(selected),
-	icon_(icon)
+	icon_(icon),
+	userData_(userData)
 {
 
 }
@@ -59,14 +61,18 @@ GLWSelector::~GLWSelector()
 void GLWSelector::draw()
 {
 	if (!visible_) return;
+	GLState currentStateBlend(GLState::TEXTURE_OFF | 
+		GLState::DEPTH_OFF | GLState::BLEND_ON);
 
 	GLFont2d &font = *GLWFont::instance()->getLargePtFont();
 	int mouseX = ScorchedClient::instance()->getGameState().getMouseX();
 	int mouseY = ScorchedClient::instance()->getGameState().getMouseY();
 
 	// Get the height and width of the selector
-	float selectedHeight = 0.0f;
+	float selectedHeight = 10.0f; // Padding
 	float selectedWidth = 0.0f;
+	float selectedX = drawX_;
+	float selectedY = drawY_;
 	float indent = 0.0f;
 	std::list<GLWSelectorEntry>::iterator itor;
 	for (itor =	entries_.begin();
@@ -85,39 +91,37 @@ void GLWSelector::draw()
 		if (currentwidth > selectedWidth) selectedWidth = currentwidth;
 	}
 	selectedWidth += indent;
-	drawW_ = selectedWidth;
-	drawH_ = selectedHeight;
+	selectedWidth_ = selectedWidth;
+	selectedHeight_ = selectedHeight;
 
 	// Draw the background
 	{
-		float drop = 12.0f;
-		GLState currentStateBlend(GLState::BLEND_ON);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	
 		glColor4f(0.5f, 0.5f, 1.0f, 0.5f);	
 		glBegin(GL_TRIANGLE_FAN);
-			glVertex2f(drawX_ + 20.0f, 
-				drawY_ - 25.0f - drop);
-			glVertex2f(drawX_ + 20.0f, 
-				drawY_ - drawH_ - drop);
+			glVertex2f(selectedX + 20.0f, 
+				selectedY - 25.0f + 5.0f);
+			glVertex2f(selectedX + 20.0f, 
+				selectedY - selectedHeight + 5.0f);
 			GLWVisibleWidget::drawRoundBox(
-				drawX_, drawY_ - drawH_ - drop, 
-				drawW_, drawH_ - drop, 20.0f);
-			glVertex2f(drawX_ + 20.0f, 
-				drawY_ - drawH_ - drop);
+				selectedX, selectedY - selectedHeight + 5.0f, 
+				selectedWidth, selectedHeight, 20.0f);
+			glVertex2f(selectedX + 20.0f, 
+				selectedY - selectedHeight + 5.0f);
 		glEnd();
 
 		glColor4f(0.9f, 0.9f, 1.0f, 0.5f);
 		glLineWidth(2.0f);
 		glBegin(GL_LINE_LOOP);
 			GLWVisibleWidget::drawRoundBox(
-				drawX_, drawY_ - drawH_  - drop, 
-				drawW_, drawH_ - drop, 20.0f);
+				selectedX, selectedY - selectedHeight + 5.0f, 
+				selectedWidth, selectedHeight, 20.0f);
 		glEnd();
 		glLineWidth(1.0f);
 	}
 
 	// Draw the menu items
-	float currentTop = drawY_;
+	float currentTop = selectedY;
 	for (itor =	entries_.begin();
 		itor != entries_.end();
 		itor++)
@@ -130,8 +134,8 @@ void GLWSelector::draw()
 			// Draw a seperator
 			glBegin(GL_LINES);
 				glColor3f(0.0f, 0.0f, 0.0f);
-				glVertex2f(drawX_ + 5.0f, currentTop - 5.0f);
-				glVertex2f(drawX_ + drawW_ - 5.0f, currentTop - 5.0f);
+				glVertex2f(selectedX + 5.0f, currentTop - 5.0f);
+				glVertex2f(selectedX + selectedWidth - 5.0f, currentTop - 5.0f);
 			glEnd();
 			currentTop -= 8.0f;
 		}
@@ -139,7 +143,7 @@ void GLWSelector::draw()
 		{
 			// Draw the actual line
 			bool selected = false;
-			if (drawX_ < mouseX && mouseX < drawX_ + drawW_ &&
+			if (selectedX < mouseX && mouseX < selectedX + selectedWidth &&
 				currentTop - 18.0f < mouseY && mouseY < currentTop)
 			{
 				selected = true;
@@ -148,17 +152,17 @@ void GLWSelector::draw()
 			if (item.getToolTip())
 			{
 				GLWToolTip::instance()->addToolTip(item.getToolTip(),
-					drawX_, currentTop - 18.0f, drawW_, 18.0f);
+					selectedX, currentTop - 18.0f, selectedWidth, 18.0f);
 			}
 
 			static Vector color(0.9f, 0.9f, 1.0f);
 			static Vector itemcolor(0.1f, 0.1f, 0.4f);
 			if (item.getSelected())
 			{
-				font.draw(selected?color:itemcolor, 12, drawX_ + 5.0f, 
+				font.draw(selected?color:itemcolor, 12, selectedX + 5.0f, 
 					currentTop - 16.0f, 0.0f, "x");
 			}
-			font.draw(selected?color:itemcolor, 12, drawX_ + indent + 10.0f, 
+			font.draw(selected?color:itemcolor, 12, selectedX + indent + 10.0f, 
 				currentTop - 16.0f, 0.0f, (char *) item.getText());
 			currentTop -= 18.0f;
 		}
@@ -169,10 +173,10 @@ void GLWSelector::showSelector(GLWSelectorI *user,
 							   float x, float y,
 							   std::list<GLWSelectorEntry> &entries)
 {
+	selectedHeight_ = 0;
+	selectedWidth_ = 0;
 	drawX_ = x;
 	drawY_ = y;
-	drawW_ = 0;
-	drawH_ = 0;
 	user_ = user;
 	entries_ = entries;
 	visible_ = true;
@@ -183,16 +187,54 @@ void GLWSelector::showSelector(GLWSelectorI *user,
 void GLWSelector::hideSelector()
 {
 	visible_ = false;
+	w_ = 0;
+	h_ = 0; 
 }
 
 
-void GLWSelector::mouseDown(float x, float y, bool &hitMenu)
+void GLWSelector::mouseDown(float mouseX, float mouseY, bool &hitMenu)
 {
 	// Override default window behaviour
 	if (visible_)
 	{
-		// If visible hide this window
-		visible_ = false;
+		bool thisMenu = (mouseX > drawX_ && mouseX < drawX_ + selectedWidth_ && 
+			mouseY > drawY_ && mouseY < drawY_ + selectedHeight_);
+		if (thisMenu)
+		{
+			float selectedX = drawX_;
+			float selectedY = drawY_;
+			
+			// Draw the menu items
+			int position = 0;
+			float currentTop = selectedY;
+			std::list<GLWSelectorEntry>::iterator itor;
+			for (itor =	entries_.begin();
+				 itor != entries_.end();
+				 itor++)
+			{
+				GLWSelectorEntry &item = (*itor);
+			
+				// Check if the item is a seperator
+				if (item.getText()[0] == '-')
+				{
+					currentTop -= 8.0f;
+				}
+				else
+				{
+					position++;
+					
+					// Draw the actual line
+					if (selectedX < mouseX && mouseX < selectedX + selectedWidth_ &&
+						currentTop - 18.0f < mouseY && mouseY < currentTop)
+					{
+						if (user_) user_->itemSelected(&item, position);
+					}
+				}
+			}
+		}
+
+
+		hideSelector();
 		hitMenu = true;
 	}
 }

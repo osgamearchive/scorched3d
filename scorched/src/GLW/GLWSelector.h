@@ -36,18 +36,21 @@ public:
 	GLWSelectorEntry(const char *text = "", 
 		GLWTip *tooltip = 0, 
 		bool selected = false,
-		GLTexture *icon = 0);
+		GLTexture *icon = 0,
+		void *userData = 0);
 	
 	const char *getText() { return text_.c_str(); }
 	GLWTip *getToolTip() { return tip_; }
 	GLTexture *getIcon() { return icon_; }
 	bool getSelected() { return selected_; }
+	void *getUserData() { return userData_; }
 	
 protected:
 	std::string text_;
 	GLTexture *icon_;
 	GLWTip *tip_;
 	bool selected_;
+	void *userData_;
 };
 
 /**
@@ -92,7 +95,7 @@ protected:
 	GLWSelectorI *user_;
 	std::list<GLWSelectorEntry> entries_;
 	float drawX_, drawY_;
-	float drawW_, drawH_;
+	float selectedHeight_, selectedWidth_;
 	bool visible_;
 
 private:
