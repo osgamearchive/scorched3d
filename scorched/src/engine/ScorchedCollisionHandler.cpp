@@ -133,7 +133,7 @@ void ScorchedCollisionHandler::bounceCollision(dGeomID o1, dGeomID o2,
 			// Unless there is no shield, we bounce off all shields
 			if (action != ParticleActionNone)
 			{
-				collisionBounce(o1, o2, contacts, noContacts, 10000.0);
+				collisionBounce(o1, o2, contacts, noContacts);
 			}
 		}
 		break;
