@@ -110,6 +110,24 @@ void GLWTankViewer::setTankModels(std::vector<TankModel *> &models)
 			}
 		}
 	}
+
+	// Move random model to the top
+	std::vector<TankModel *>::iterator itor;
+	for (itor = models_.begin();
+		itor != models_.end();
+		itor++)
+	{
+		TankModel *model = (*itor);
+		if (0==strcmp(model->getId().getModelName(),"Random"))
+		{
+			models_.erase(itor);
+			std::vector<TankModel *> tmpVector;
+			tmpVector.push_back(model);
+			tmpVector.insert(tmpVector.end(), models_.begin(), models_.end());
+			models_.swap(tmpVector);
+			break;
+		}
+	}
 }
 
 const char *GLWTankViewer::getModelName()
