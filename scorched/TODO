@@ -1,7 +1,19 @@
+-- Bugs Fixed and Ready For Relase 35B
+Added: Tooltips over tanks
+Added: Decimal point on tank evelevation/rotation angles
+Added: Depth buffer size can be set in config
+Added: Menu items change color when available (mouse over)
+Fixed: <SHFT>/<CNTRL> wrong way round in README
+Fixed: Auto defense dialog shown for other players
+Fixed: +/- keys do not work on key pad
+Fixed: Auto defense dialog+bug dialog can be shown multiple times for same player
+Fixed: Computer players say stuff when killed
+Fixed: Player/Quit menu option does not work in single player mode
+
 -- Bugs in current development release
 Dvorak keyboard support is broken
 The server can start multiple times on the same port!
-Solaris client cannot choose weapons (Ok button does not work)
+Solaris client cannot choose weapons (Ok button does not work) gcc version??
 
 -- Server Stuff
 Provide remote access to server (web server)
