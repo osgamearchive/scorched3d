@@ -305,6 +305,14 @@ void Landscape::generate(ProgressCounter *counter)
 		sky_->getSun().getPosition(), 
 		tex->skyambience, tex->skydiffuse, counter);
 
+	// Add objects to the landscape (if any)
+	// Do this now as it adds shadows to the mainmap
+	objects_.removeAllObjects();
+	RandomGenerator objectsGenerator;
+	objectsGenerator.seed(
+		ScorchedClient::instance()->getLandscapeMaps().getLandDfn().getSeed());
+	objects_.generate(objectsGenerator, *tex, counter);
+
 	// Create the main landscape texture
 	DIALOG_ASSERT(texture_.replace(mainMap_, GL_RGB, false));
 
@@ -338,13 +346,6 @@ void Landscape::generate(ProgressCounter *counter)
 	// Detail
 	GLBitmap bitmapDetail(getDataFile(tex->detail.c_str()));
 	DIALOG_ASSERT(detailTexture_.replace(bitmapDetail, GL_RGB, true));
-
-	// Add objects to the landscape (if any)
-	objects_.removeAllObjects();
-	RandomGenerator objectsGenerator;
-	objectsGenerator.seed(
-		ScorchedClient::instance()->getLandscapeMaps().getLandDfn().getSeed());
-	objects_.generate(objectsGenerator, *tex, counter);
 
 	// Create the plan textures (for the plan and wind dialogs)
 	updatePlanTexture();
