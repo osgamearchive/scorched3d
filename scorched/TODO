@@ -12,6 +12,7 @@ Fixed: DirectX is only checked when running the client.
 Fixed: Added scroll bars to landscape settings dialog
 Fixed: Smoke disapears after a while
 Fixed: Server more responsive, slow clients don't affect other players
+Fixed: Server won't wait for dead clients to respond
 Fixed: Tooltips don't show through other dialogs
 
 Added: Mysql compile options for windows (+ required libraries and headers)

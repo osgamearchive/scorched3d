@@ -38,7 +38,7 @@ public:
 
 protected:
 	bool *checkDeleted_;
-	bool disconnect_;
+	bool disconnect_, sentDisconnect_;
 	TCPsocket socket_;
 	SDLNet_SocketSet sockSet_;
 	NetServerProtocol *protocol_;
