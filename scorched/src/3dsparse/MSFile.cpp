@@ -134,7 +134,7 @@ bool MSFile::loadFile(FILE *in, const char *fileName)
 			texCoord[1]=1.0f-texCoord[1];
 
 			tcoords.push_back(texCoord);
-			model->insertVertex(vertexPos);
+			model->insertVertex(vertexPos, vertexBIndex);
 		}
 
 		// Read no normals
@@ -195,7 +195,7 @@ bool MSFile::loadFile(FILE *in, const char *fileName)
 		}
 	}
 
-	// Read number meshes
+	// Read number materials
 	int noMaterials = 0;
 	if (!getNextLine(buffer, in))
 		return setLineError(fileName, "No num materials");
@@ -296,6 +296,79 @@ bool MSFile::loadFile(FILE *in, const char *fileName)
 				}
 				model->setColor(dcolor);
 			}
+		}
+	}
+
+	// Read number bones
+	int noBones = 0;
+	if (!getNextLine(buffer, in))
+		return setLineError(fileName, "No num bones");
+	if (sscanf(buffer, "Bones: %i", &noBones) != 1)
+		return setLineError(fileName, "Incorrect num bones format");
+
+	for (int b=0; b<noBones; b++)
+	{
+		// bone: name
+		char boneName[256];
+		if (!getNextLine(buffer, in)) 
+			return setLineError(fileName, "No bone name");
+		if (sscanf(buffer, "%s", boneName) != 1)
+			return setLineError(fileName, "Incorrect bone name format");
+
+		// bone parent
+		char boneParentName[256];
+		if (!getNextLine(buffer, in)) 
+			return setLineError(fileName, "No bone parent name");
+		if (sscanf(buffer, "%s", boneParentName) != 1)
+			return setLineError(fileName, "Incorrect bone parent name format");	
+
+		// flags, position, rotation
+		int boneFlags;
+		Vector bonePos, boneRot;
+		if (!getNextLine(buffer, in)) 
+			return setLineError(fileName, "No bone pos/rot");
+		if (sscanf(buffer, "%i %f %f %f %f %f %f",
+			&boneFlags,
+			&bonePos[0], &bonePos[2], &bonePos[1], 
+			&boneRot[0], &boneRot[2], &boneRot[1]) != 7)
+			return setLineError(fileName, "Incorrect bone pos/rot format");
+
+		// position key
+		int noPositionKeys = 0;
+		if (!getNextLine(buffer, in))
+			return setLineError(fileName, "No bone position keys");
+		if (sscanf(buffer, "%i", &noPositionKeys) != 1)
+			return setLineError(fileName, "Incorrect bone position keys format");
+
+		for (int p=0; p<noPositionKeys; p++)
+		{
+			float time;
+			Vector position;
+			if (!getNextLine(buffer, in)) 
+				return setLineError(fileName, "No bone position key");
+			if (sscanf(buffer, "%f %f %f %f",
+				&time,
+				&position[0], &position[2], &position[1]) != 4)
+				return setLineError(fileName, "Incorrect bone position key");
+		}
+
+		// rotation key
+		int noRotationKeys = 0;
+		if (!getNextLine(buffer, in))
+			return setLineError(fileName, "No bone rotation keys");
+		if (sscanf(buffer, "%i", &noRotationKeys) != 1)
+			return setLineError(fileName, "Incorrect bone rotation keys format");
+
+		for (int r=0; r<noRotationKeys; r++)
+		{
+			float time;
+			Vector rotation;
+			if (!getNextLine(buffer, in)) 
+				return setLineError(fileName, "No bone position key");
+			if (sscanf(buffer, "%f %f %f %f",
+				&time,
+				&rotation[0], &rotation[2], &rotation[1]) != 4)
+				return setLineError(fileName, "Incorrect bone position key");
 		}
 	}
 

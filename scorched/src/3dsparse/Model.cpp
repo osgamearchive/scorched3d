@@ -45,7 +45,7 @@ void Model::setColor(Vector &color)
 	color_ = color;
 }
 
-void Model::insertVertex(Vector &newVertex)
+void Model::insertVertex(Vector &newVertex, int boneIndex)
 {
 	if (vertexes_.empty())
 	{
@@ -64,6 +64,7 @@ void Model::insertVertex(Vector &newVertex)
 	}
 
 	vertexes_.push_back(newVertex);
+	vertexBones_.push_back(boneIndex);
 }
 
 void Model::insertFace(Face &newFace)
@@ -91,6 +92,12 @@ Vector &Model::getVertex(int pos)
 {
 	DIALOG_ASSERT(pos < (int) vertexes_.size());
 	return vertexes_[pos];
+}
+
+int Model::getVertexBone(int pos)
+{
+	DIALOG_ASSERT(pos < (int) vertexBones_.size());
+	return vertexBones_[pos];
 }
 
 void Model::centre(Vector &centre)

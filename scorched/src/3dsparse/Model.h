@@ -41,6 +41,7 @@ public:
 		float detail = 1.0f);
 
 	Vector &getVertex(int pos);
+	int getVertexBone(int pos);
 
 	Vector &getMax() { return max_; }
 	Vector &getMin() { return min_; }
@@ -50,6 +51,7 @@ public:
 	const char *getATextureName() { return atexture_.c_str(); }
 
 	std::vector<Vector> &getVertices() { return vertexes_; }
+	std::vector<int> &getVertexBones() { return vertexBones_; }
 	std::vector<Face> &getFaces() { return faces_; }
 
 	virtual void centre(Vector &centre);
@@ -61,12 +63,13 @@ public:
 	virtual void setColor(Vector &color);
 	virtual void setFaceNormal(Vector &normal, int face, int index);
 	virtual void setFaceTCoord(Vector &tcoord, int face, int index);
-	virtual void insertVertex(Vector &newVertex);
+	virtual void insertVertex(Vector &newVertex, int boneIndex = -1);
 	virtual void insertFace(Face &newFace);
 	
 protected:
 	std::string name_;
 	std::vector<Vector> vertexes_;
+	std::vector<int> vertexBones_;
 	std::vector<Face> faces_;
 	Vector max_, min_;
 	Vector color_; // Color for meshes with no texture (material)
