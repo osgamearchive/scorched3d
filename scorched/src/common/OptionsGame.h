@@ -77,136 +77,179 @@ public:
 
 	int getTeams() { return teams_.getValue(); }
 	void setTeams(int value) { teams_.setValue(value); }
+	const char *getTeamsToolTip() { return teams_.getDescription(); }
 
 	int getMaxArmsLevel() { return maxArmsLevel_.getValue(); }
 	void setMaxArmsLevel(int value) { maxArmsLevel_.setValue(value); }
+	const char *getMaxArmsLevelToolTip() { return maxArmsLevel_.getDescription(); }
 
 	int getMaxNumberWeapons() { return maxNumberWeapons_.getValue(); }
 	void setMaxNumberWeapons(int value) { maxNumberWeapons_.setValue(value); }
+	const char *getMaxNumberWeaponsToolTip() { return maxNumberWeapons_.getDescription(); }
 
 	int getNoMaxPlayers() { return numberOfPlayers_.getValue(); }
 	void setNoMaxPlayers(int value) { numberOfPlayers_.setValue(value); }
+	const char *getNoMaxPlayersToolTip() { return numberOfPlayers_.getDescription(); }
 
 	int getNoMinPlayers() { return numberOfMinPlayers_.getValue(); }
 	void setNoMinPlayers(int value) { numberOfMinPlayers_.setValue(value); }
+	const char *getNoMinPlayersToolTip() { return numberOfMinPlayers_.getDescription(); }
 
 	int getNoRounds() { return numberOfRounds_.getValue(); }
 	void setNoRounds(int value) { numberOfRounds_.setValue(value); }
+	const char *getNoRoundsToolTip() { return numberOfRounds_.getDescription(); }
 
 	int getNoMaxRoundTurns() { return maxRoundTurns_.getValue(); }
 	void setNoMaxRoundTurns(int value) { maxRoundTurns_.setValue(value); }
+	const char *getNoMaxRoundTurnsToolTip() { return maxRoundTurns_.getDescription(); }
 
 	int getStartMoney() { return moneyStarting_.getValue(); }
 	void setStartMoney(int value) { moneyStarting_.setValue(value); }
+	const char *getStartMoneyToolTip() { return moneyStarting_.getDescription(); }
 
 	int getInterest() { return moneyInterest_.getValue(); }
 	void setInterest(int value) { moneyInterest_.setValue(value); }
+	const char *getInterestToolTip() { return moneyInterest_.getDescription(); }
 
 	int getFreeMarketAdjustment() { return freeMarketAdjustment_.getValue(); }
 	void setFreeMarketAdjustment(int value) { freeMarketAdjustment_.setValue(value); }
+	const char *getFreeMarketAdjustmentToolTip() { return freeMarketAdjustment_.getDescription(); }
 
 	int getMaxLandscapeSize() { return maxLandscapeSize_.getValue(); }
 	void setMaxLandscapeSize(int value) { maxLandscapeSize_.setValue(value); }
+	const char *getMaxLandscapeSizeToolTip() { return maxLandscapeSize_.getDescription(); }
 
 	int getShotTime() { return shotTime_.getValue(); }
 	void setShotTime(int value) { shotTime_.setValue(value); }
+	const char *getShotTimeToolTip() { return shotTime_.getDescription(); }
 
 	int getBuyingTime() { return buyingTime_.getValue(); }
 	void setBuyingTime(int value) { buyingTime_.setValue(value); }
+	const char *getBuyingTimeToolTip() { return buyingTime_.getDescription(); }
 
 	int getScoreTime() { return scoreTime_.getValue(); }
 	void setScoreTime(int value) { scoreTime_.setValue(value); }
+	const char *getScoreTimeToolTip() { return scoreTime_.getDescription(); }
 
 	int getAllowedMissedMoves() { return allowedMissedMoves_.getValue(); }
 	void setAllowedMissedMoves(int value) { allowedMissedMoves_.setValue(value); }
+	const char *getAllowedMissedMovesToolTip() { return allowedMissedMoves_.getDescription(); }
 
 	int getIdleKickTime() { return idleKickTime_.getValue(); }
 	void setIdleKickTime(int value) { idleKickTime_.setValue(value); }
+	const char *getIdleKickTimeToolTip() { return idleKickTime_.getDescription(); }
 
 	ScoreType getScoreType() { return (ScoreType) scoreType_.getValue(); }
 	void setScoreType(ScoreType value) { scoreType_.setValue((int) value); }
+	const char *getScoreTypeToolTip() { return scoreType_.getDescription(); }
 
 	WindForce getWindForce() { return (WindForce) windForce_.getValue(); }
 	void setWindForce(WindForce value) { windForce_.setValue((int) value); }
+	const char *getWindForceToolTip() { return windForce_.getDescription(); }
 
 	WindType getWindType() { return (WindType) windType_.getValue(); }
 	void setWindType(WindType value) { windType_.setValue((int) value); }
+	const char *getWindTypeToolTip() { return windType_.getDescription(); }
 
 	WallType getWallType() { return (WallType) wallType_.getValue(); }
 	void setWallType(WallType value) { wallType_.setValue((int) value); }
+	const char *getWallTypeToolTip() { return wallType_.getDescription(); }
 
 	WeapScale getWeapScale() { return (WeapScale) weapScale_.getValue(); }
 	void setWeapScale(WeapScale value) { weapScale_.setValue((int) value); }	
+	const char *getWeapScaleToolTip() { return weapScale_.getDescription(); }
 
 	TurnType getTurnType() { return (TurnType) turnType_.getValue(); }
 	void setTurnType(TurnType value) { turnType_.setValue((int) value); }	
+	const char *getTurnTypeToolTip() { return turnType_.getDescription(); }
 	 
 	int getBuyOnRound() { return moneyBuyOnRound_.getValue(); }
 	void setBuyOnRound(int value) { moneyBuyOnRound_.setValue(value); }
+	const char *getBuyOnRoundToolTip() { return moneyBuyOnRound_.getDescription(); }
 
 	int getMoneyWonForRound() { return moneyWonForRound_.getValue(); }
 	void setMoneyWonForRound(int value) { moneyWonForRound_.setValue(value); }
+	const char *getMoneyWonForRoundToolTip() { return moneyWonForRound_.getDescription(); }
 
 	int getMoneyWonPerHitPoint() { return moneyPerHitPoint_.getValue(); }
 	void setMoneyWonPerHitPoint(int value) { moneyPerHitPoint_.setValue(value); }
+	const char *getMoneyWonPerHitPointToolTip() { return moneyPerHitPoint_.getDescription(); }
 
 	int getMoneyWonPerKillPoint() { return moneyPerKillPoint_.getValue(); }
 	void setMoneyWonPerKillPoint(int value) { moneyPerKillPoint_.setValue(value); }
+	const char *getMoneyWonPerKillPointToolTip() { return moneyPerKillPoint_.getDescription(); }
 
 	bool getMoneyPerHealthPoint() { return moneyPerHealthPoint_.getValue(); }
 	void setMoneyPerHealthPoint(bool value) { moneyPerHealthPoint_.setValue(value); }
+	const char *getMoneyPerHealthPointToolTip() { return moneyPerHealthPoint_.getDescription(); }
 
 	bool getLimitPowerByHealth() { return limitPowerByHealth_.getValue(); }
 	void setLimitPowerByHealth(bool value) { limitPowerByHealth_.setValue(value); }
+	const char *getLimitPowerByHealthToolTip() { return limitPowerByHealth_.getDescription(); }
 
 	bool getAutoBallanceTeams() { return autoBallanceTeams_.getValue(); }
 	void setAutoBallanceTeams(bool value) { autoBallanceTeams_.setValue(value); }
+	const char *getAutoBallanceTeamsToolTip() { return autoBallanceTeams_.getDescription(); }
 
 	int getComputersDeathTalk() { return computersDeathTalk_.getValue(); }
 	void setComputersDeathTalk(int value) { computersDeathTalk_.setValue(value); }
+	const char *getComputersDeathTalkToolTip() { return computersDeathTalk_.getDescription(); }
 
 	int getComputersAttackTalk() { return computersAttackTalk_.getValue(); }
 	void setComputersAttackTalk(int value) { computersAttackTalk_.setValue(value); }
+	const char *getComputersAttackTalkToolTip() { return computersAttackTalk_.getDescription(); }
 
 	const char *getEconomy() { return economy_.getValue(); }
 	void setEconomy(const char *value) { economy_.setValue(value); }
+	const char *getEconomyToolTip() { return economy_.getDescription(); }
 
 	const char *getLandscapes() { return landscapes_.getValue(); }
 	void setLandscapes(const char *value) { landscapes_.setValue(value); }
+	const char *getLandscapesToolTip() { return landscapes_.getDescription(); }
 
 	const char *getMasterListServer() { return masterListServer_.getValue(); }
 	void setMasterListServer(const char *value) { masterListServer_.setValue(value); }
+	const char *getMasterListServerToolTip() { return masterListServer_.getDescription(); }
 
 	const char *getMasterListServerURI() { return masterListServerURI_.getValue(); }
 	void setMasterListServerURI(const char *value) { masterListServerURI_.setValue(value); }
+	const char *getMasterListServerURIToolTip() { return masterListServerURI_.getDescription(); }
 
 	const char *getStatsLogger() { return statsLogger_.getValue(); }
 	void setStatsLogger(const char *value) { statsLogger_.setValue(value); }
+	const char *getStatsLoggerToolTip() { return statsLogger_.getDescription(); }
 
 	const char *getServerFileLogger() { return serverFileLogger_.getValue(); }
 	void setServerFileLogger(const char *value) { serverFileLogger_.setValue(value); }
+	const char *getServerFileLoggerToolTip() { return serverFileLogger_.getDescription(); }
 
 	// Server only options
 	const char *getBotNamePrefix() { return botNamePrefix_.getValue(); }
 	void setBotNamePrefix(const char *value) { botNamePrefix_.setValue(value); }
+	const char *getBotNamePrefixToolTip() { return botNamePrefix_.getDescription(); }
 
 	int getPortNo() { return portNo_.getValue(); }
 	void setPortNo(int value) { portNo_.setValue(value); } 
+	const char *getPortNoToolTip() { return portNo_.getDescription(); }
 
 	const char *getServerName() { return serverName_.getValue(); }
 	void setServerName(const char *value) { serverName_.setValue(value); }
+	const char *getServerNameToolTip() { return serverName_.getDescription(); }
 
 	const char *getServerPassword() { return serverPassword_.getValue(); }
 	void setServerPassword(const char *value) { serverPassword_.setValue(value); }
+	const char *getServerPasswordToolTip() { return serverPassword_.getDescription(); }
 
 	const char *getPlayerType(int no) { DIALOG_ASSERT(no<24); return playerType_[no]->getValue(); }
 	void setPlayerType(int no, const char *value) { DIALOG_ASSERT(no<24); playerType_[no]->setValue(value); }
 
 	const char *getPublishAddress() { return publishAddress_.getValue(); }
 	void setPublishAddress(const char *value) { publishAddress_.setValue(value); }
+	const char *getPublishAddressToolTip() { return publishAddress_.getDescription(); }
 
 	bool getPublishServer() { return publishServer_.getValue(); }
 	void setPublishServer(bool value) { publishServer_.setValue(value); }	
+	const char *getPublishServerToolTip() { return publishServer_.getDescription(); }
 
 	// Fns used to save or restore the state of the options
 	std::list<OptionEntry *> &getOptions();

@@ -7,6 +7,7 @@ Fixed: Buoys now shaded
 
 Added: Action camera now shows view from behind tank during turn
 Added: Server file logging is off by default
+Added: Tooltips to display settings and server dialogs
 
 -- Bugs in current development release
 Dvorak keyboard support is broken

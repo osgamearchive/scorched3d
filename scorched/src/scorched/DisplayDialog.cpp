@@ -105,38 +105,72 @@ bool DisplayFrame::TransferDataToWindow()
 void DisplayFrame::refreshScreen()
 {
 	IDC_FULLCLEAR_CTRL->SetValue(OptionsDisplay::instance()->getFullClear());
+	IDC_FULLCLEAR_CTRL->SetToolTip(OptionsDisplay::instance()->getFullClearToolTip());
 	IDC_NOEXT_CTRL->SetValue(OptionsDisplay::instance()->getNoGLExt());
+	IDC_NOEXT_CTRL->SetToolTip(OptionsDisplay::instance()->getNoGLExtToolTip());
 	IDC_NOLANDSCAPESCORCH_CTRL->SetValue(OptionsDisplay::instance()->getNoGLTexSubImage());
+	IDC_NOLANDSCAPESCORCH_CTRL->SetToolTip(OptionsDisplay::instance()->getNoGLTexSubImageToolTip());
 	IDC_NOMULTITEX_CTRL->SetValue(OptionsDisplay::instance()->getNoGLMultiTex());
+	IDC_NOMULTITEX_CTRL->SetToolTip(OptionsDisplay::instance()->getNoGLMultiTexToolTip());
 	IDC_NOCOMPILEDARRAYS_CTRL->SetValue(OptionsDisplay::instance()->getNoGLCompiledArrays());
+	IDC_NOCOMPILEDARRAYS_CTRL->SetToolTip(OptionsDisplay::instance()->getNoGLCompiledArraysToolTip());
 	IDC_NOENVCOMBINE_CTRL->SetValue(OptionsDisplay::instance()->getNoGLEnvCombine());
+	IDC_NOENVCOMBINE_CTRL->SetToolTip(OptionsDisplay::instance()->getNoGLEnvCombineToolTip());
 	IDC_NOCUBEMAP_CTRL->SetValue(OptionsDisplay::instance()->getNoGLCubeMap());
+	IDC_NOCUBEMAP_CTRL->SetToolTip(OptionsDisplay::instance()->getNoGLCubeMapToolTip());
 	IDC_NOMIPMAPS_CTRL->SetValue(OptionsDisplay::instance()->getNoGLHardwareMipmaps());
+	IDC_NOMIPMAPS_CTRL->SetToolTip(OptionsDisplay::instance()->getNoGLHardwareMipmapsToolTip());
 	IDC_NOSOUND_CTRL->SetValue(OptionsDisplay::instance()->getNoSound());
+	IDC_NOSOUND_CTRL->SetToolTip(OptionsDisplay::instance()->getNoSoundToolTip());
 	IDC_NOSKINS_CTRL->SetValue(OptionsDisplay::instance()->getNoSkins());
+	IDC_NOSKINS_CTRL->SetToolTip(OptionsDisplay::instance()->getNoSkinsToolTip());
 	IDC_FULLSCREEN_CTRL->SetValue(OptionsDisplay::instance()->getFullScreen());
+	IDC_FULLSCREEN_CTRL->SetToolTip(OptionsDisplay::instance()->getFullScreenToolTip());
 	IDC_SINGLESKYLAYER_CTRL->SetValue(OptionsDisplay::instance()->getNoSkyLayers());
+	IDC_SINGLESKYLAYER_CTRL->SetToolTip(OptionsDisplay::instance()->getNoSkyLayersToolTip());
 	IDC_NOSKYANI_CTRL->SetValue(OptionsDisplay::instance()->getNoSkyMovement());
+	IDC_NOSKYANI_CTRL->SetToolTip(OptionsDisplay::instance()->getNoSkyMovementToolTip());
 	IDC_NOWATERANI_CTRL->SetValue(OptionsDisplay::instance()->getNoWaterMovement());
+	IDC_NOWATERANI_CTRL->SetToolTip(OptionsDisplay::instance()->getNoWaterMovementToolTip());
 	IDC_NOWATER_CTRL->SetValue(!OptionsDisplay::instance()->getDrawWater());
+	IDC_NOWATER_CTRL->SetToolTip(OptionsDisplay::instance()->getDrawWaterToolTip());
 	IDC_NOTREES_CTRL->SetValue(OptionsDisplay::instance()->getNoTrees());
+	IDC_NOTREES_CTRL->SetToolTip(OptionsDisplay::instance()->getNoTreesToolTip());
 	IDC_NOWAVES_CTRL->SetValue(OptionsDisplay::instance()->getNoWaves());
+	IDC_NOWAVES_CTRL->SetToolTip(OptionsDisplay::instance()->getNoWavesToolTip());
 	IDC_NODEPTHSORT_CTRL->SetValue(OptionsDisplay::instance()->getNoDepthSorting());
+	IDC_NODEPTHSORT_CTRL->SetToolTip(OptionsDisplay::instance()->getNoDepthSortingToolTip());
 	IDC_INVERT_CTRL->SetValue(OptionsDisplay::instance()->getInvertElevation());
+	IDC_INVERT_CTRL->SetToolTip(OptionsDisplay::instance()->getInvertElevationToolTip());
 	IDC_INVERTMOUSE_CTRL->SetValue(OptionsDisplay::instance()->getInvertMouse());
+	IDC_INVERTMOUSE_CTRL->SetToolTip(OptionsDisplay::instance()->getInvertMouseToolTip());
 	IDC_SMOUSE_CTRL->SetValue(OptionsDisplay::instance()->getSoftwareMouse());
+	IDC_SMOUSE_CTRL->SetToolTip(OptionsDisplay::instance()->getSoftwareMouseToolTip());
 	IDC_TOOLTIP_CTRL->SetValue(OptionsDisplay::instance()->getShowContextHelp());
+	IDC_TOOLTIP_CTRL->SetToolTip(OptionsDisplay::instance()->getShowContextHelpToolTip());
 	IDC_TIMER_CTRL->SetValue(OptionsDisplay::instance()->getFrameTimer());
+	IDC_TIMER_CTRL->SetToolTip(OptionsDisplay::instance()->getFrameTimerToolTip());
 	IDC_SIDESCROLL_CTRL->SetValue(OptionsDisplay::instance()->getSideScroll());
+	IDC_SIDESCROLL_CTRL->SetToolTip(OptionsDisplay::instance()->getSideScrollToolTip());
 	IDC_SLIDER1_CTRL->SetRange(3, 40);
 	IDC_SLIDER1_CTRL->SetValue(OptionsDisplay::instance()->getBrightness());
+	IDC_SLIDER1_CTRL->SetToolTip(OptionsDisplay::instance()->getBrightnessToolTip());
 	IDC_USERID_CTRL->SetValue(OptionsDisplay::instance()->getUniqueUserId());
+	IDC_USERID_CTRL->SetToolTip(OptionsDisplay::instance()->getUniqueUserIdToolTip());
 	IDC_HOSTDESC_CTRL->SetValue(OptionsDisplay::instance()->getHostDescription());
+	IDC_HOSTDESC_CTRL->SetToolTip(OptionsDisplay::instance()->getHostDescriptionToolTip());
 	IDC_NODETAILTEX_CTRL->SetValue(!OptionsDisplay::instance()->getDetailTexture());
+	IDC_NODETAILTEX_CTRL->SetToolTip(OptionsDisplay::instance()->getDetailTextureToolTip());
 	IDC_MORERES_CTRL->SetValue(OptionsDisplay::instance()->getMoreRes());
+	IDC_MORERES_CTRL->SetToolTip(OptionsDisplay::instance()->getMoreResToolTip());
 
 	refreshResolutions();
 
+	IDC_TINYDIALOGS_CTRL->SetToolTip(OptionsDisplay::instance()->getDialogSizeToolTip());
+	IDC_SMALLDIALOGS_CTRL->SetToolTip(OptionsDisplay::instance()->getDialogSizeToolTip());
+	IDC_MEDIUMDIALOGS_CTRL->SetToolTip(OptionsDisplay::instance()->getDialogSizeToolTip());
+	IDC_LARGEDIALOGS_CTRL->SetToolTip(OptionsDisplay::instance()->getDialogSizeToolTip());
+	IDC_HUGEDIALOGS_CTRL->SetToolTip(OptionsDisplay::instance()->getDialogSizeToolTip());
 	switch (OptionsDisplay::instance()->getDialogSize())
 	{
 	case 0:
@@ -156,6 +190,9 @@ void DisplayFrame::refreshScreen()
 		break;
 	}
 
+	IDC_SMALLTEX_CTRL->SetToolTip(OptionsDisplay::instance()->getTexSizeToolTip());
+	IDC_MEDIUMTEX_CTRL->SetToolTip(OptionsDisplay::instance()->getTexSizeToolTip());
+	IDC_LARGETEX_CTRL->SetToolTip(OptionsDisplay::instance()->getTexSizeToolTip());
 	switch (OptionsDisplay::instance()->getTexSize())
 	{
 	case 0:
@@ -169,6 +206,9 @@ void DisplayFrame::refreshScreen()
 		break;
 	};
 
+	IDC_LOWEFFECTS_CTRL->SetToolTip(OptionsDisplay::instance()->getEffectsDetailToolTip());
+	IDC_MEDIUMEFFECTS_CTRL->SetToolTip(OptionsDisplay::instance()->getEffectsDetailToolTip());
+	IDC_HIGHEFFECTS_CTRL->SetToolTip(OptionsDisplay::instance()->getEffectsDetailToolTip());
 	switch (OptionsDisplay::instance()->getEffectsDetail())
 	{
 	case 0:
@@ -182,6 +222,9 @@ void DisplayFrame::refreshScreen()
 		break;
 	};
 
+	IDC_LOWTANK_CTRL->SetToolTip(OptionsDisplay::instance()->getTankDetailToolTip());
+	IDC_MEDIUMTANK_CTRL->SetToolTip(OptionsDisplay::instance()->getTankDetailToolTip());
+	IDC_HIGHTANK_CTRL->SetToolTip(OptionsDisplay::instance()->getTankDetailToolTip());
 	switch (OptionsDisplay::instance()->getTankDetail())
 	{
 	case 0:
