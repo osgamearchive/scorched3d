@@ -71,9 +71,11 @@ bool ClientFileHandler::processMessage(unsigned int id,
 
 		// Read the size
 		unsigned int maxsize = 0;
+		unsigned int uncompressedsize = 0;
 		unsigned int crc = 0;
 		unsigned int size = 0;
 		reader.getFromBuffer(maxsize);
+		reader.getFromBuffer(uncompressedsize);
 		reader.getFromBuffer(crc);
 		reader.getFromBuffer(size);
 		
@@ -86,7 +88,8 @@ bool ClientFileHandler::processMessage(unsigned int id,
 			// Create a new file
 			ModFileEntry *fileEntry = new ModFileEntry;
 			fileEntry->setFileName(fileName.c_str());
-			fileEntry->setCrc(crc);
+			fileEntry->setCompressedCrc(crc);
+			fileEntry->setUncompressedSize(uncompressedsize);
 			files[fileName] = fileEntry;
 			entry = fileEntry;
 		}
@@ -97,18 +100,14 @@ bool ClientFileHandler::processMessage(unsigned int id,
 		}
 
 		// Add the bytes to the file
-		entry->getBuffer().addDataToBuffer(
+		entry->getCompressedBuffer().addDataToBuffer(
 			reader.getBuffer() + reader.getReadSize(), size);
 		reader.setReadSize(reader.getReadSize() + size);
 
 		// Check if we have finished this file
-		if (entry->getFileSize() == maxsize)
+		if (entry->getCompressedSize() == maxsize)
 		{
-			std::string wholeFileName = 
-				getModFile(ScorchedClient::instance()->getOptionsGame().getMod());
-			wholeFileName += "/";
-			wholeFileName += fileName;
-			entry->writeModFile(wholeFileName.c_str());
+			entry->writeModFile(fileName.c_str());
 		}
 	}
 

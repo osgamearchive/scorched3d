@@ -34,6 +34,7 @@ public:
 	virtual ~NetBuffer();
 
 	void reset();
+	void clear();
 	void resize(unsigned newBufferSize);
 	void allocate(unsigned size);
 	void setBufferUsed(unsigned size) { usedSize_ = size; }

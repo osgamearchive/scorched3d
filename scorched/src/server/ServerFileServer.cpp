@@ -172,15 +172,16 @@ unsigned int ServerFileServer::sendNextFile(ComsFileMessage &message,
 
     // Check how much still needs to be sent
 	unsigned int sizeSent = entry.length;
-	unsigned int sizeLeftToSend = modentry->getFileSize() - sizeSent;
+	unsigned int sizeLeftToSend = modentry->getCompressedSize() - sizeSent;
 	unsigned int sizeToSend = MIN(sizeLeftToSend, size);
 
 	// Add the bytes to the buffer
 	message.fileBuffer.addToBuffer(modentry->getFileName());
-	message.fileBuffer.addToBuffer(modentry->getFileSize());
-	message.fileBuffer.addToBuffer(modentry->getFileCrc());
+	message.fileBuffer.addToBuffer(modentry->getCompressedSize());
+	message.fileBuffer.addToBuffer(modentry->getUncompressedSize());
+	message.fileBuffer.addToBuffer(modentry->getCompressedCrc());
 	message.fileBuffer.addToBuffer(sizeToSend);
-	message.fileBuffer.addDataToBuffer(modentry->getFileBytes() + entry.length,
+	message.fileBuffer.addDataToBuffer(modentry->getCompressedBytes() + entry.length,
 		sizeToSend);
 
 	// Update how much we have sent

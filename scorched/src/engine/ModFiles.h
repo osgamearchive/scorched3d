@@ -48,23 +48,27 @@ public:
 	virtual ~ModFileEntry();
 
 	bool loadModFile(const char *file);
-	void writeModFile(const char *file);
+	bool writeModFile(const char *file);
 
 	void setFileName(const char *name) { fileName_ = name; }
 	const char *getFileName() { return fileName_.c_str(); }
 
-	unsigned int getFileCrc() { return crc_; }
-	void setCrc(unsigned int c) { crc_ = c; }
+	unsigned int getCompressedCrc() { return compressedcrc_; }
+	void setCompressedCrc(unsigned int c) { compressedcrc_ = c; }
 
-	unsigned int getFileSize() { return file_.getBufferUsed(); }
-	char *getFileBytes() { return file_.getBuffer(); }
+	unsigned int getCompressedSize() { return compressedfile_.getBufferUsed(); }
+	char *getCompressedBytes() { return compressedfile_.getBuffer(); }
 
-	NetBuffer &getBuffer() { return file_; }
+	unsigned int getUncompressedSize() { return uncompressedSize_; }
+	void setUncompressedSize(unsigned int s) { uncompressedSize_ = s; }
+
+	NetBuffer &getCompressedBuffer() { return compressedfile_; }
 
 protected:
 	std::string fileName_;
-	NetBuffer file_;
-	unsigned int crc_;
+	NetBuffer compressedfile_;
+	unsigned int compressedcrc_;
+	unsigned int uncompressedSize_;
 };
 
 class ModFiles
@@ -74,6 +78,7 @@ public:
 	virtual ~ModFiles();
 
 	bool loadModFiles(const char *mod);
+	void clearData();
 
 	std::map<std::string, ModFileEntry *> &getFiles() { return files_; }
 
@@ -83,3 +88,4 @@ protected:
 };
 
 #endif
+

@@ -74,6 +74,14 @@ void NetBuffer::reset()
 	usedSize_ = 0;
 }
 
+void NetBuffer::clear()
+{
+	delete [] buffer_;
+	usedSize_ = 0;
+	buffer_ = 0;
+	bufferSize_ = 0;
+}
+
 void NetBuffer::resize(unsigned newBufferSize)
 {
 	if (newBufferSize < startSize) newBufferSize = startSize;

@@ -98,8 +98,8 @@ bool ClientConnectionAcceptHandler::processMessage(unsigned int id,
 		comsFileMessage.getFiles().push_back(
 			ModIdentifierEntry(
 				name.c_str(),
-				file->getFileSize(),
-				file->getFileCrc()));
+				file->getCompressedSize(),
+				file->getCompressedCrc()));
 	}
 	if (!ComsMessageSender::sendToServer(comsFileMessage)) return false;
 

@@ -21,13 +21,15 @@
 #include <engine/ModFiles.h>
 #include <common/Defines.h>
 #include <common/Logger.h>
+#include <common/OptionsGame.h>
+#include <client/ScorchedClient.h>
 #include <zlib/zlib.h>
 #include <wx/dir.h>
 #include <wx/utils.h>
 #include <string.h>
 
 ModFileEntry::ModFileEntry() : 
-	crc_(0)
+	compressedcrc_(0)
 {
 }
 
@@ -35,9 +37,71 @@ ModFileEntry::~ModFileEntry()
 {
 }
 
-void ModFileEntry::writeModFile(const char *file)
+bool ModFileEntry::writeModFile(const char *fileName)
 {
+	// Check the downloaded CRC matches the actual crc of the file
+	unsigned int crc =  crc32(0L, Z_NULL, 0);
+	crc = crc32(crc, (unsigned char *) 
+		compressedfile_.getBuffer(), compressedfile_.getBufferUsed());
+	if (crc != compressedcrc_)
+	{
+		dialogMessage("WriteModFile",
+			"File crc missmatch error");
+		return false;
+	}
 
+	// Decompress the actual file contents	
+	NetBuffer fileContents;
+	unsigned long destLen = uncompressedSize_ + 10;
+	unsigned uncompressResult = 
+		uncompress((unsigned char *) fileContents.getBuffer(), &destLen, 
+		(unsigned char *) compressedfile_.getBuffer(), compressedfile_.getBufferUsed());
+	fileContents.setBufferUsed(destLen);
+
+	if (uncompressResult == Z_MEM_ERROR) dialogMessage(
+		"WriteModFile", "Memory error");
+	else if (uncompressResult == Z_DATA_ERROR) dialogMessage(
+		"WriteModFile", "Data error");
+	else if (uncompressResult == Z_BUF_ERROR) dialogMessage(
+		"WriteModFile", "Buffer error");
+
+	bool result = (Z_OK == uncompressResult);
+	if (!result) return false;
+
+	// Create any needed directories
+	char *dir = (char *) fileName;
+	while (dir = strchr(dir, '/'))
+	{
+		*dir = '\0';
+		const char *needdir = getModFile("%s/%s", 
+			ScorchedClient::instance()->getOptionsGame().getMod(),
+			dir);
+		if (!::wxDirExists(needdir)) ::wxMkdir(needdir);
+		*dir = '/';
+	}
+
+	// Write the file 
+	const char *needfile = getModFile("%s/%s", 
+		ScorchedClient::instance()->getOptionsGame().getMod(),
+		fileName);
+	FILE *file = fopen(needfile, "wb");
+	if (!file)
+	{
+		dialogMessage("WriteModFile",
+			"Create file error");
+		return false;
+	}
+	if (fwrite(fileContents.getBuffer(), sizeof(unsigned char), 
+		fileContents.getBufferUsed(), file) != fileContents.getBufferUsed())
+	{
+		dialogMessage("WriteModFile",
+			"Write file error");
+		fclose(file);
+		return false;
+	}
+	fclose(file);
+
+	return true;
 }
 
 bool ModFileEntry::loadModFile(const char *filename)
@@ -58,26 +122,28 @@ bool ModFileEntry::loadModFile(const char *filename)
 		fclose(file);
 	}
 
+	uncompressedSize_ = fileContents.getBufferUsed();
 	if (fileContents.getBufferUsed() > 0)
 	{
 		// Allocate the needed space for the compressed file
 		unsigned long destLen = fileContents.getBufferUsed() + 100;
-		file_.allocate(destLen);
-		file_.reset();
+		compressedfile_.allocate(destLen);
+		compressedfile_.reset();
 
 		// Compress the file into the new buffer
 		if (compress2(
-				(unsigned char *) file_.getBuffer(), &destLen, 
+				(unsigned char *) compressedfile_.getBuffer(), &destLen, 
 				(unsigned char *) fileContents.getBuffer(), fileContents.getBufferUsed(), 
 				6) != Z_OK)
 		{
 			return false;
 		}
-		file_.setBufferUsed(destLen);
+		compressedfile_.setBufferUsed(destLen);
 
 		// Get the crc for the new file
-		crc_ =  crc32(0L, Z_NULL, 0);
-		crc_ = crc32(crc_, (unsigned char *) file_.getBuffer(), file_.getBufferUsed());
+		compressedcrc_ =  crc32(0L, Z_NULL, 0);
+		compressedcrc_ = crc32(compressedcrc_, 
+			(unsigned char *) compressedfile_.getBuffer(), compressedfile_.getBufferUsed());
 	}
 
 	return true;
@@ -150,7 +216,7 @@ bool ModFiles::loadModFiles(const char *mod)
 		// Store for future
 		file->setFileName(fileName);
 		files_[fileName] = file;
-		totalSize += file->getFileSize();
+		totalSize += file->getCompressedSize();
 	}
 
 	Logger::log(0, "Loaded mod \"%s\", space required %u bytes", 
@@ -158,3 +224,16 @@ bool ModFiles::loadModFiles(const char *mod)
 
 	return true;
 }
+
+void ModFiles::clearData()
+{
+	 std::map<std::string, ModFileEntry *>::iterator itor;
+	 for (itor = files_.begin();
+	 	itor != files_.end();
+		itor++)
+	{
+		 ModFileEntry *entry = (*itor).second;
+		 entry->getCompressedBuffer().clear();
+	}
+}
+

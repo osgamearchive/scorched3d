@@ -26,6 +26,7 @@
 #include <common/OptionsParam.h>
 #include <common/Resources.h>
 #include <coms/ComsNewGameMessage.h>
+#include <engine/ModFiles.h>
 #include <dialogs/PlayerDialog.h>
 #include <dialogs/ProgressDialog.h>
 #include <landscape/LandscapeMaps.h>
@@ -61,6 +62,10 @@ bool ClientNewGameHandler::processMessage(unsigned int id,
 {
 	ComsNewGameMessage message;
 	if (!message.readMessage(reader)) return false;
+
+	// Clear any memory used by stored mod files as they will not be required now
+	ScorchedClient::instance()->getModFiles().clearData();
+	ScorchedServer::instance()->getModFiles().clearData();
 
 	// A small hack
 	// When playing a single player game and the player(s) have

@@ -74,11 +74,11 @@ bool ServerHaveModFilesHandler::processMessage(unsigned int destinationId,
 			ModIdentifierEntry *hasEntry = 
 				message.getFile(fileName.c_str());
 			if (!hasEntry ||
-				hasEntry->crc != fileEntry->getFileCrc() ||
-				hasEntry->length != fileEntry->getFileSize())
+				hasEntry->crc != fileEntry->getCompressedCrc() ||
+				hasEntry->length != fileEntry->getCompressedSize())
 			{
 				neededEntries_.push_back(fileEntry);
-				neededLength += fileEntry->getFileSize();
+				neededLength += fileEntry->getCompressedSize();
 			}
 		}
 	}
@@ -148,7 +148,7 @@ bool ServerHaveModFilesHandler::processMessage(unsigned int destinationId,
 
 					// Add the entry this tank needs to download
 					ModIdentifierEntry newEntry(entry->getFileName(),
-						0, entry->getFileCrc());
+						0, entry->getCompressedCrc());
 					tank->getMod().addFile(newEntry);
 				}
 			}

@@ -83,6 +83,8 @@ scorched3d_SOURCES = \
 	../GLW/GLWButton.h \
 	../GLW/GLWCheckBox.cpp \
 	../GLW/GLWCheckBox.h \
+	../GLW/GLWCheckBoxText.cpp \
+	../GLW/GLWCheckBoxText.h \
 	../GLW/GLWDropDown.cpp \
 	../GLW/GLWDropDown.h \
 	../GLW/GLWFileView.cpp \
@@ -167,6 +169,8 @@ scorched3d_SOURCES = \
 	../tank/TankFuel.h \
 	../tank/TankLib.cpp \
 	../tank/TankLib.h \
+	../tank/TankMod.cpp \
+	../tank/TankMod.h \
 	../tank/TankModelId.cpp \
 	../tank/TankModelId.h \
 	../tank/TankParachutes.cpp \
@@ -299,6 +303,8 @@ scorched3d_SOURCES = \
 	../dialogs/CameraDialog.h \
 	../dialogs/ConnectDialog.cpp \
 	../dialogs/ConnectDialog.h \
+	../dialogs/HUDDialog.cpp \
+	../dialogs/HUDDialog.h \
 	../dialogs/HelpButtonDialog.cpp \
 	../dialogs/HelpButtonDialog.h \
 	../dialogs/KibitzingDialog.cpp \
@@ -493,10 +499,16 @@ scorched3d_SOURCES = \
 	../coms/ComsConnectMessage.h \
 	../coms/ComsDefenseMessage.cpp \
 	../coms/ComsDefenseMessage.h \
+	../coms/ComsFileAkMessage.cpp \
+	../coms/ComsFileAkMessage.h \
+	../coms/ComsFileMessage.cpp \
+	../coms/ComsFileMessage.h \
 	../coms/ComsGameStateMessage.cpp \
 	../coms/ComsGameStateMessage.h \
 	../coms/ComsGameStoppedMessage.cpp \
 	../coms/ComsGameStoppedMessage.h \
+	../coms/ComsHaveModFilesMessage.cpp \
+	../coms/ComsHaveModFilesMessage.h \
 	../coms/ComsLevelMessage.cpp \
 	../coms/ComsLevelMessage.h \
 	../coms/ComsMessage.cpp \
@@ -737,6 +749,8 @@ scorched3d_SOURCES = \
 	../client/ClientDefenseHandler.h \
 	../client/ClientDialog.cpp \
 	../client/ClientDialog.h \
+	../client/ClientFileHandler.cpp \
+	../client/ClientFileHandler.h \
 	../client/ClientGameStateHandler.cpp \
 	../client/ClientGameStateHandler.h \
 	../client/ClientGameStoppedHandler.cpp \
@@ -821,6 +835,12 @@ scorched3d_SOURCES = \
 	../server/ServerConnectHandler.h \
 	../server/ServerDefenseHandler.cpp \
 	../server/ServerDefenseHandler.h \
+	../server/ServerFileAkHandler.cpp \
+	../server/ServerFileAkHandler.h \
+	../server/ServerFileServer.cpp \
+	../server/ServerFileServer.h \
+	../server/ServerHaveModFilesHandler.cpp \
+	../server/ServerHaveModFilesHandler.h \
 	../server/ServerMain.cpp \
 	../server/ServerMain.h \
 	../server/ServerMessageHandler.cpp \
