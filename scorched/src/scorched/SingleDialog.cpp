@@ -193,6 +193,7 @@ void SingleFrame::onCustomButton()
 	if (showSettingsDialog(false, tmpOptions))
 	{
 		EndModal(wxID_OK);
+		tmpOptions.setGiveAllWeapons(false); // To fix people that have 37.2 bug
 		if (tmpOptions.writeOptionsToFile((char *) customFilePathDest.c_str()))
 		{
 			runScorched3D("-startclient \"%s\"", customFilePathDest.c_str());

@@ -52,21 +52,30 @@ bool ModFileEntry::writeModFile(const char *fileName)
 
 	// Decompress the actual file contents	
 	NetBuffer fileContents;
-	unsigned long destLen = uncompressedSize_ + 10;
-	unsigned uncompressResult = 
-		uncompress((unsigned char *) fileContents.getBuffer(), &destLen, 
-		(unsigned char *) compressedfile_.getBuffer(), compressedfile_.getBufferUsed());
-	fileContents.setBufferUsed(destLen);
+	if (compressedfile_.getBufferUsed() > 0)
+	{
+		unsigned long destLen = uncompressedSize_ + 10;
+		fileContents.allocate(destLen);
+		unsigned uncompressResult = 
+			uncompress((unsigned char *) fileContents.getBuffer(), &destLen, 
+			(unsigned char *) compressedfile_.getBuffer(), compressedfile_.getBufferUsed());
+		fileContents.setBufferUsed(destLen);
 
-	if (uncompressResult == Z_MEM_ERROR) dialogMessage(
-		"WriteModFile", "Memory error");
-	else if (uncompressResult == Z_DATA_ERROR) dialogMessage(
-		"WriteModFile", "Data error");
-	else if (uncompressResult == Z_BUF_ERROR) dialogMessage(
-		"WriteModFile", "Buffer error");
+		if (uncompressResult == Z_MEM_ERROR) dialogMessage(
+			"WriteModFile", "Memory error");
+		else if (uncompressResult == Z_DATA_ERROR) dialogMessage(
+			"WriteModFile", "Data error");
+		else if (uncompressResult == Z_BUF_ERROR) dialogMessage(
+			"WriteModFile", "Buffer error");
 
-	bool result = (Z_OK == uncompressResult);
-	if (!result) return false;
+		bool result = (Z_OK == uncompressResult);
+		if (!result) return false;
+	}
+	else
+	{
+		fileContents.allocate(1);
+		fileContents.setBufferUsed(0);
+	}
 
 	// Create any needed directories
 	char *dir = (char *) fileName;
@@ -75,9 +84,10 @@ bool ModFileEntry::writeModFile(const char *fileName)
 		*dir = '\0';
 		const char *needdir = getModFile("%s/%s", 
 			ScorchedClient::instance()->getOptionsGame().getMod(),
-			dir);
+			fileName);
 		if (!::wxDirExists(needdir)) ::wxMkdir(needdir);
 		*dir = '/';
+		dir++;
 	}
 
 	// Write the file 
@@ -144,6 +154,11 @@ bool ModFileEntry::loadModFile(const char *filename)
 		compressedcrc_ =  crc32(0L, Z_NULL, 0);
 		compressedcrc_ = crc32(compressedcrc_, 
 			(unsigned char *) compressedfile_.getBuffer(), compressedfile_.getBufferUsed());
+	}
+	else
+	{
+		compressedfile_.allocate(1);
+		compressedfile_.setBufferUsed(0);
 	}
 
 	return true;

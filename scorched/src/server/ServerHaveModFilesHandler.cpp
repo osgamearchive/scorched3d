@@ -83,22 +83,20 @@ bool ServerHaveModFilesHandler::processMessage(unsigned int destinationId,
 		}
 	}
 
-	// No files need downloading
 	if (neededEntries_.empty())
 	{
+		// No files need downloading
 		ServerCommon::sendString(destinationId, 
 			"No mod files need downloading");
-		return true;
 	}
-
-	// Do a sanity check that single player games don't need to download
-	// any mod files.  As the server and client is the same process and
-	// should be using the same mod directory.
-	if (OptionsParam::instance()->getSinglePlayer())
+	else if (OptionsParam::instance()->getSinglePlayer())
 	{
+		// Do a sanity check that single player games don't need to download
+		// any mod files.  As the server and client is the same process and
+		// should be using the same mod directory.
 		dialogMessage("ModFiles",
 			"ERROR: Single player client required mod files");
-		exit(1);
+		//exit(1);
 	}
 	else if (ScorchedServer::instance()->getOptionsGame().getModDownloadSpeed() == 0)
 	{
@@ -125,33 +123,34 @@ bool ServerHaveModFilesHandler::processMessage(unsigned int destinationId,
 			neededLength,
 			ScorchedServer::instance()->getOptionsGame().getModDownloadSpeed(),
 			neededLength / ScorchedServer::instance()->getOptionsGame().getModDownloadSpeed());
+	}
 
-		// Set the files to download in this tanks profile
-		std::map<unsigned int, Tank *> &tanks = 
-			ScorchedServer::instance()->getTankContainer().getPlayingTanks();
-		std::map<unsigned int, Tank *>::iterator itor;
-		for (itor = tanks.begin();
-			itor != tanks.end();
-			itor++)
+	// Set the files to download in this tanks profile
+	std::map<unsigned int, Tank *> &tanks = 
+		ScorchedServer::instance()->getTankContainer().getPlayingTanks();
+	std::map<unsigned int, Tank *>::iterator itor;
+	for (itor = tanks.begin();
+		itor != tanks.end();
+		itor++)
+	{
+		// For each tank
+		Tank *tank = (*itor).second;
+		if (destinationId == tank->getDestinationId())
 		{
-			// For each tank
-			Tank *tank = (*itor).second;
-			if (destinationId == tank->getDestinationId())
+			// and for each needed entry
+			std::list<ModFileEntry *>::iterator neededItor;
+			for (neededItor = neededEntries_.begin();
+				neededItor != neededEntries_.end();
+				neededItor ++)
 			{
-				// and for each needed entry
-				std::list<ModFileEntry *>::iterator neededItor;
-				for (neededItor = neededEntries_.begin();
-					neededItor != neededEntries_.end();
-					neededItor ++)
-				{
-					ModFileEntry *entry = (*neededItor);
+				ModFileEntry *entry = (*neededItor);
 
-					// Add the entry this tank needs to download
-					ModIdentifierEntry newEntry(entry->getFileName(),
-						0, entry->getCompressedCrc());
-					tank->getMod().addFile(newEntry);
-				}
+				// Add the entry this tank needs to download
+				ModIdentifierEntry newEntry(entry->getFileName(),
+					0, entry->getCompressedCrc());
+				tank->getMod().addFile(newEntry);
 			}
+			tank->getMod().setInit(true);
 		}
 	}
 

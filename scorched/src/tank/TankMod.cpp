@@ -22,7 +22,7 @@
 #include <engine/ModFiles.h>
 
 TankMod::TankMod() : 
-	readyToReceive_(true), sent_(false)
+	readyToReceive_(true), sent_(false), init_(false)
 {
 	files_ = new std::list<ModIdentifierEntry>();
 }

@@ -67,7 +67,10 @@ void ServerFileServer::simulate(float timeDifference)
 			}
 			else
 			{
-				tank->getState().setLoading(false);
+				if (tank->getMod().getInit())
+				{
+					tank->getState().setLoading(false);
+				}
 			}
 		}
 	}
