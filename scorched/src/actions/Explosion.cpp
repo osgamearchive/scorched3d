@@ -193,8 +193,8 @@ void Explosion::init()
 					0.2f, 0.2f, 0.5f, 0.5f, // Start Size
 					2.2f, 2.2f, 4.0f, 4.0f, // EndSize
 					Vector(0.0f, 0.0f, 0.0f), // Gravity
-					true,
-					true);
+					weapon_->getLuminance(),
+					weapon_->getWindAffected());
 				exploemitter.emitExplosion(position_,
 					ScorchedClient::instance()->getParticleEngine(),
 					explosionSize,

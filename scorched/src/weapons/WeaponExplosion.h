@@ -43,6 +43,8 @@ public:
 	bool getCreateDebris() { return createDebris_; }
 	bool getCreateMushroom() { return createMushroom_; }
 	bool getCreateSplash() { return createSplash_; }
+	bool getWindAffected() { return windAffected_; }
+	bool getLuminance() { return luminance_; }
 
 	// Inherited from Weapon
 	virtual void fireWeapon(ScorchedContext &context,
@@ -53,6 +55,8 @@ public:
 protected:
 	float size_;
 	float minLife_, maxLife_;
+	bool luminance_;
+	bool windAffected_;
 	bool multiColored_;
 	bool createDebris_;
 	bool createMushroom_;
