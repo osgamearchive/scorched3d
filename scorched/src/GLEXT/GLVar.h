@@ -18,14 +18,8 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// GLVar.h: interface for the GLVar class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_GLVAR_H__8A531272_F0A5_4F29_B551_93777C031540__INCLUDED_)
 #define AFX_GLVAR_H__8A531272_F0A5_4F29_B551_93777C031540__INCLUDED_
-
 
 #include <GLEXT/GLState.h>
 
@@ -36,14 +30,14 @@ public:
 	virtual ~GLVar();
 
 	void addTriangle(GLfloat x1, GLfloat y1, GLfloat z1,
-						GLfloat tx1, GLfloat ty1,
-						GLfloat r1, GLfloat g1, GLfloat b1,
+						GLfloat txa1, GLfloat tya1,
+						GLfloat txb1, GLfloat tyb1,
 						GLfloat x2, GLfloat y2, GLfloat z2,
-						GLfloat tx2, GLfloat ty2,
-						GLfloat r2, GLfloat g2, GLfloat b2,
+						GLfloat txa2, GLfloat tya2,
+						GLfloat txb2, GLfloat tyb2,
 						GLfloat x3, GLfloat y3, GLfloat z3,
-						GLfloat tx3, GLfloat ty3,
-						GLfloat r3, GLfloat g3, GLfloat b3);
+						GLfloat txa3, GLfloat tya3,
+						GLfloat txb3, GLfloat tyb3);
 	void draw();
 	unsigned long getNoTriangles() { unsigned long t = noTriangles_; noTriangles_ = 0; return t; }
 
@@ -51,14 +45,14 @@ protected:
 	struct GLVarStruct
 	{
 		GLfloat	x1, y1, z1;
-		GLfloat tx1, ty1;
-		GLfloat r1, g1, b1;
+		GLfloat txa1, tya1;
+		GLfloat txb1, tyb1;
 		GLfloat	x2, y2, z2;
-		GLfloat tx2, ty2;
-		GLfloat r2, g2, b2;
+		GLfloat txa2, tya2;
+		GLfloat txb2, tyb2;
 		GLfloat	x3, y3, z3;
-		GLfloat tx3, ty3;
-		GLfloat r3, g3, b3;
+		GLfloat txa3, tya3;
+		GLfloat txb3, tyb3;
 	};
 	
 	class GLVarBuffer
@@ -68,14 +62,14 @@ protected:
 		virtual ~GLVarBuffer();
 
 		bool addTriangle(GLfloat x1, GLfloat y1, GLfloat z1,
-						GLfloat tx1, GLfloat ty1,
-						GLfloat r1, GLfloat g1, GLfloat b1,
+						GLfloat txa1, GLfloat tya1,
+						GLfloat txb1, GLfloat tyb1,
 						GLfloat x2, GLfloat y2, GLfloat z2,
-						GLfloat tx2, GLfloat ty2,
-						GLfloat r2, GLfloat g2, GLfloat b2,
+						GLfloat txa2, GLfloat tya2,
+						GLfloat txb2, GLfloat tyb2,
 						GLfloat x3, GLfloat y3, GLfloat z3,
-						GLfloat tx3, GLfloat ty3,
-						GLfloat r3, GLfloat g3, GLfloat b3);
+						GLfloat txa3, GLfloat tya3,
+						GLfloat txb3, GLfloat tyb3);
 		void draw();
 
 	protected:

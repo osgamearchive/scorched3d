@@ -18,18 +18,9 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// GLVar.cpp: implementation of the GLVar class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <GLEXT/GLVar.h>
 #include <GLEXT/GLStateExtension.h>
 #include <stdlib.h>
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 GLVar::GLVar(int arraySize) : noTriangles_(0)
 {
@@ -62,25 +53,25 @@ GLVar::GLVarBuffer::~GLVarBuffer()
 }
 
 void GLVar::addTriangle(GLfloat x1, GLfloat y1, GLfloat z1,
-						GLfloat tx1, GLfloat ty1,
-						GLfloat r1, GLfloat g1, GLfloat b1,
+						GLfloat txa1, GLfloat tya1,
+						GLfloat txb1, GLfloat tyb1,
 						GLfloat x2, GLfloat y2, GLfloat z2,
-						GLfloat tx2, GLfloat ty2,
-						GLfloat r2, GLfloat g2, GLfloat b2,
+						GLfloat txa2, GLfloat tya2,
+						GLfloat txb2, GLfloat tyb2,
 						GLfloat x3, GLfloat y3, GLfloat z3,
-						GLfloat tx3, GLfloat ty3,
-						GLfloat r3, GLfloat g3, GLfloat b3)
+						GLfloat txa3, GLfloat tya3,
+						GLfloat txb3, GLfloat tyb3)
 {
 	if (currentBuffer_->addTriangle(
 		x1, y1, z1,
-		tx1, ty1,
-		r1, g1, b1,
+		txa1, tya1,
+		txb1, tyb1,
 		x2, y2, z2,
-		tx2, ty2,
-		r2, g2, b2,
+		txa2, tya2,
+		txb2, tyb2,
 		x3, y3, z3,
-		tx3, ty3,
-		r3, g3, b3))
+		txa3, tya3,
+		txb3, tyb3))
 	{
 		swapBuffers();
 	}
@@ -100,27 +91,28 @@ void GLVar::swapBuffers()
 }
 
 bool GLVar::GLVarBuffer::addTriangle(GLfloat x1, GLfloat y1, GLfloat z1,
-						GLfloat tx1, GLfloat ty1,
-						GLfloat r1, GLfloat g1, GLfloat b1,
+						GLfloat txa1, GLfloat tya1,
+						GLfloat txb1, GLfloat tyb1,
 						GLfloat x2, GLfloat y2, GLfloat z2,
-						GLfloat tx2, GLfloat ty2,
-						GLfloat r2, GLfloat g2, GLfloat b2,
+						GLfloat txa2, GLfloat tya2,
+						GLfloat txb2, GLfloat tyb2,
 						GLfloat x3, GLfloat y3, GLfloat z3,
-						GLfloat tx3, GLfloat ty3,
-						GLfloat r3, GLfloat g3, GLfloat b3)
+						GLfloat txa3, GLfloat tya3,
+						GLfloat txb3, GLfloat tyb3)
 {
 	if (!arrayUsed_) waitForFinish();
 
 	GLVarStruct newStruct = 
-		{ x1, y1, z1,
-		  tx1, ty1,
-		  r1, g1, b1, 
-		  x2,y2,z2,
-		  tx2, ty2,
-		  r2, g2, b2, 
-		  x3,y3,z3,
-		  tx3, ty3,
-		  r3, g3, b3
+		{ 
+		x1, y1, z1,
+		txa1, tya1,
+		txb1, tyb1,
+		x2, y2, z2,
+		txa2, tya2,
+		txb2, tyb2,
+		x3, y3, z3,
+		txa3, tya3,
+		txb3, tyb3
 		};
 	(*bufferPos_++) = newStruct;
 
@@ -135,36 +127,51 @@ bool GLVar::GLVarBuffer::addTriangle(GLfloat x1, GLfloat y1, GLfloat z1,
 
 void GLVar::GLVarBuffer::draw()
 {	
+	const int Stride = sizeof(GLVarStruct) / 3;
+
 	if (arrayUsed_)
 	{
+		// Enable correct arrays
 		glEnableClientState(GL_VERTEX_ARRAY);
-		glEnableClientState(GL_COLOR_ARRAY);
+		glVertexPointer(3, GL_FLOAT, Stride, &buffer_[0].x1);
 
 		if (GLStateExtension::glClientActiveTextureARB())
 		{
 			GLStateExtension::glClientActiveTextureARB()(GL_TEXTURE0_ARB); 
-			glTexCoordPointer(2, GL_FLOAT, sizeof(GLVarStruct) / 3, &buffer_[0].tx1);
+			glTexCoordPointer(2, GL_FLOAT, Stride, &buffer_[0].txa1);
 			glEnableClientState(GL_TEXTURE_COORD_ARRAY); 
 
 			GLStateExtension::glClientActiveTextureARB()(GL_TEXTURE1_ARB); 
-			glTexCoordPointer(2, GL_FLOAT, sizeof(GLVarStruct) / 3, &buffer_[0].tx1);
+			glTexCoordPointer(2, GL_FLOAT, Stride, &buffer_[0].txa1);
 			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
+			if (GLStateExtension::getTextureUnits() > 2)
+			{
+				// Disabled until we can test
+				//GLStateExtension::glClientActiveTextureARB()(GL_TEXTURE2_ARB); 
+				//glTexCoordPointer(2, GL_FLOAT, Stride, &buffer_[0].txb1);
+				//glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+			}
 		}
 		else
 		{
 			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-			glTexCoordPointer(2, GL_FLOAT, sizeof(GLVarStruct) / 3, &buffer_[0].tx1);
+			glTexCoordPointer(2, GL_FLOAT, Stride, &buffer_[0].txa1);
 		}
 
-		glVertexPointer(3, GL_FLOAT, sizeof(GLVarStruct) / 3, &buffer_[0].x1);
-		glColorPointer(3, GL_FLOAT, sizeof(GLVarStruct) / 3, &buffer_[0].r1);
-		
+		// Draw the arrays
 		glDrawArrays(GL_TRIANGLES, 0, arrayUsed_ * 3 );
-		glDisableClientState(GL_VERTEX_ARRAY);
-		glDisableClientState(GL_COLOR_ARRAY);
 
+		// Disable the correct arrays
+		glDisableClientState(GL_VERTEX_ARRAY);
 		if (GLStateExtension::glClientActiveTextureARB())
 		{
+			if (GLStateExtension::getTextureUnits() > 2)
+			{
+				GLStateExtension::glClientActiveTextureARB()(GL_TEXTURE2_ARB); 
+				glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+			}
+
 			GLStateExtension::glClientActiveTextureARB()(GL_TEXTURE1_ARB); 
 			glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 

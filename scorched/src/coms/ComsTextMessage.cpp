@@ -23,11 +23,11 @@
 
 ComsTextMessage::ComsTextMessage(const char *text,
 								 unsigned int playerId,
-								 Vector color) :
+								 bool showAsMessage) :
 	ComsMessage("ComsTextMessage"),
 	playerId_(playerId),
 	text_(text),
-	color_(color)
+	showAsMessage_(showAsMessage)
 {
 }
 
@@ -37,11 +37,9 @@ ComsTextMessage::~ComsTextMessage()
 
 bool ComsTextMessage::writeMessage(NetBuffer &buffer)
 {
-	buffer.addToBuffer(text_.c_str());
+	buffer.addToBuffer(text_);
 	buffer.addToBuffer(playerId_);
-	buffer.addToBuffer(color_[0]);
-	buffer.addToBuffer(color_[1]);
-	buffer.addToBuffer(color_[2]);
+	buffer.addToBuffer(showAsMessage_);
 	return true;
 }
 
@@ -49,8 +47,6 @@ bool ComsTextMessage::readMessage(NetBufferReader &reader)
 {
 	if (!reader.getFromBuffer(text_)) return false;
 	if (!reader.getFromBuffer(playerId_)) return false;
-	if (!reader.getFromBuffer(color_[0])) return false;
-	if (!reader.getFromBuffer(color_[1])) return false;
-	if (!reader.getFromBuffer(color_[2])) return false;
+	if (!reader.getFromBuffer(showAsMessage_)) return false;
 	return true;
 }

@@ -126,10 +126,12 @@ void Landscape::draw(const unsigned state)
 	
 	if (OptionsDisplay::instance()->getNoROAM())
 	{
-		HeightMapRenderer::drawHeightMap(ScorchedClient::instance()->getLandscapeMaps().getHMap());
+		HeightMapRenderer::drawHeightMap(
+			ScorchedClient::instance()->getLandscapeMaps().getHMap());
 	}
 	else
 	{
+		glColor3f(1.0f, 1.0f, 1.0f);
 		patchGrid_.draw(PatchSide::typeTop);
 
 		if (OptionsDisplay::instance()->getDrawNormals())

@@ -2481,6 +2481,12 @@
 				RelativePath="..\client\ServerBrowserServerList.h">
 			</File>
 			<File
+				RelativePath="..\client\MessageDisplay.cpp">
+			</File>
+			<File
+				RelativePath="..\client\MessageDisplay.h">
+			</File>
+			<File
 				RelativePath="..\client\ShotTimer.cpp">
 			</File>
 			<File

@@ -190,13 +190,20 @@ void PatchSide::recursRender( TriNode *tri,
 							int apexX, int apexY, 
 							int node, DrawType side)
 {
-	static GLfloat texArray[257];
+	struct PatchTexCoord
+	{
+		GLfloat txa;
+		GLfloat txb;
+	};
+
+	static PatchTexCoord texArray[257];
 	static bool initArray = false;
 	if (!initArray)
 	{
 		for (int i=0; i<257; i++)
 		{
-			texArray[i] = GLfloat(i) / 256.0f;
+			texArray[i].txa = GLfloat(i) / 256.0f;
+			texArray[i].txb = (GLfloat(i) / 256.0f) / 16.0f;
 		}
 		initArray = true;
 	}
@@ -220,14 +227,14 @@ void PatchSide::recursRender( TriNode *tri,
 		case typeTop:
 			PatchVar::var->addTriangle(
 				(GLfloat) leftX, (GLfloat) leftY, (GLfloat) leftZ,
-				texArray[leftX], texArray[leftY],
-				1.0f, 1.0f, 1.0f,
+				texArray[leftX].txa, texArray[leftY].txa,
+				texArray[leftX].txb, texArray[leftY].txb,
 				(GLfloat) rightX,(GLfloat) rightY,(GLfloat) rightZ,
-				texArray[rightX], texArray[rightY],
-				1.0f, 1.0f, 1.0f,
+				texArray[rightX].txa, texArray[rightY].txa,
+				texArray[rightX].txb, texArray[rightY].txb,
 				(GLfloat) apexX, (GLfloat) apexY, (GLfloat) apexZ,
-				texArray[apexX], texArray[apexY],
-				1.0f, 1.0f, 1.0f);
+				texArray[apexX].txa, texArray[apexY].txa,
+				texArray[apexX].txb, texArray[apexY].txb);
 			break;
 		case typeNormals:
 		{

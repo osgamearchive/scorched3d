@@ -21,6 +21,7 @@
 #include <client/ClientTextHandler.h>
 #include <client/ClientState.h>
 #include <client/ScorchedClient.h>
+#include <client/MessageDisplay.h>
 #include <sprites/TalkRenderer.h>
 #include <coms/ComsTextMessage.h>
 #include <common/Logger.h>
@@ -61,17 +62,24 @@ bool ClientTextHandler::processMessage(unsigned int id,
 	}
 	else
 	{
-		Tank *tank = 
-			ScorchedClient::instance()->getTankContainer().getTankById(message.getPlayerId());
-		if (tank && tank->getState().getState() == TankState::sNormal)
+		if (message.getShowAsMessage())
 		{
-			// put a speach bubble over the talking tank
-			TalkRenderer *talk = new TalkRenderer(
-				tank->getPhysics().getTankTurretPosition());
-			ScorchedClient::instance()->getActionController().addAction(new SpriteAction(talk));
+			MessageDisplay::instance()->addMessage(message.getText());
 		}
+		else
+		{
+			Tank *tank = 
+				ScorchedClient::instance()->getTankContainer().getTankById(message.getPlayerId());
+			if (tank && tank->getState().getState() == TankState::sNormal)
+			{
+				// put a speach bubble over the talking tank
+				TalkRenderer *talk = new TalkRenderer(
+					tank->getPhysics().getTankTurretPosition());
+				ScorchedClient::instance()->getActionController().addAction(new SpriteAction(talk));
+			}
 
-		Logger::log(message.getPlayerId(), message.getText());
+			Logger::log(message.getPlayerId(), message.getText());
+		}
 	}
 
 	return true;

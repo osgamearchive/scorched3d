@@ -25,6 +25,7 @@
 #include <client/MainBanner.h>
 #include <client/ClientState.h>
 #include <client/ShotTimer.h>
+#include <client/MessageDisplay.h>
 #include <client/ClientNextRoundState.h>
 #include <client/ClientShotState.h>
 #include <client/ScorchedClient.h>
@@ -81,6 +82,8 @@ void ClientState::addStandardComponents(GameState &gameState, unsigned state, bo
 	addWindowManager(gameState, state);
 	gameState.addStateLoop(state, Main2DCamera::instance(), 
 		MainBanner::instance());
+	gameState.addStateLoop(state, Main2DCamera::instance(), 
+		MessageDisplay::instance());
 	gameState.addStateLoop(state, Main2DCamera::instance(), 
 		GLWToolTip::instance());
 	gameState.addStateLoop(state, Main2DCamera::instance(), 

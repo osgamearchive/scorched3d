@@ -30,12 +30,12 @@ class ComsTextMessage : public ComsMessage
 public:
 	ComsTextMessage(const char *text = "",
 		unsigned int playerId = 0,
-		Vector color = Vector(1.0f, 1.0f, 1.0f));
+		bool showAsMessage = false);
 	virtual ~ComsTextMessage();
 
 	const char *getText() { return text_.c_str(); }
 	unsigned int getPlayerId() { return playerId_; }
-	Vector &getColor() { return color_; }
+	bool getShowAsMessage() { return showAsMessage_; }
 
 	// Inherited from ComsMessage
     virtual bool writeMessage(NetBuffer &buffer);
@@ -43,8 +43,8 @@ public:
 
 protected:
 	std::string text_;
-	Vector color_;
 	unsigned int playerId_;
+	bool showAsMessage_;
 
 private:
 	ComsTextMessage(const ComsTextMessage &);
