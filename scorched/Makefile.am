@@ -1180,4 +1180,5 @@ scorcheddataavatars_DATA = data/avatars/animal.gif \
 	data/avatars/termin.gif \
 	data/avatars/vader.gif \
 	data/avatars/web.gif \
-	data/avatars/yoda.gif
+	data/avatars/yoda.gif \
+	data/avatars/agreement.txt

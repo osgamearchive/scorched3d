@@ -248,6 +248,8 @@ scorched3d_SOURCES = \
 	../common/OptionsDisplay.h \
 	../common/OptionsGame.cpp \
 	../common/OptionsGame.h \
+	../common/OptionsHomeDir.cpp \
+	../common/OptionsHomeDir.h \
 	../common/OptionsParam.cpp \
 	../common/OptionsParam.h \
 	../common/OptionsTransient.cpp \
@@ -483,6 +485,8 @@ scorched3d_SOURCES = \
 	../landscape/WaterWaves.h \
 	../weapons/Accessory.cpp \
 	../weapons/Accessory.h \
+	../weapons/AccessoryPart.cpp \
+	../weapons/AccessoryPart.h \
 	../weapons/AccessoryStore.cpp \
 	../weapons/AccessoryStore.h \
 	../weapons/AutoDefense.cpp \
@@ -519,6 +523,8 @@ scorched3d_SOURCES = \
 	../weapons/WeaponDelay.h \
 	../weapons/WeaponExplosion.cpp \
 	../weapons/WeaponExplosion.h \
+	../weapons/WeaponLaser.cpp \
+	../weapons/WeaponLaser.h \
 	../weapons/WeaponLeapFrog.cpp \
 	../weapons/WeaponLeapFrog.h \
 	../weapons/WeaponLightning.cpp \
@@ -739,6 +745,8 @@ scorched3d_SOURCES = \
 	../actions/CameraPositionAction.h \
 	../actions/Explosion.cpp \
 	../actions/Explosion.h \
+	../actions/Laser.cpp \
+	../actions/Laser.h \
 	../actions/Lightning.cpp \
 	../actions/Lightning.h \
 	../actions/Napalm.cpp \
@@ -765,12 +773,14 @@ scorched3d_SOURCES = \
 	../actions/TankDead.h \
 	../actions/TankFalling.cpp \
 	../actions/TankFalling.h \
+	../actions/TankFallingEnd.cpp \
+	../actions/TankFallingEnd.h \
 	../actions/TankFired.cpp \
 	../actions/TankFired.h \
-	../actions/TankMove.cpp \
-	../actions/TankMove.h \
 	../actions/TankMovement.cpp \
 	../actions/TankMovement.h \
+	../actions/TankMovementEnd.cpp \
+	../actions/TankMovementEnd.h \
 	../actions/TankResign.cpp \
 	../actions/TankResign.h \
 	../actions/TankSay.cpp \

@@ -51,7 +51,6 @@
 #include <GLW/GLWWindowSkinManager.h>
 #include <landscape/HeightMapCollision.h>
 #include <landscape/SkyRoofCollision.h>
-#include <landscape/LandscapeDefinitions.h>
 #include <engine/MainLoop.h>
 #include <engine/ScorchedCollisionHandler.h>
 #include <engine/ActionController.h>
@@ -177,8 +176,6 @@ bool startClient(ProgressCounter *progressCounter)
 		new SkyRoofCollision(&ScorchedClient::instance()->getContext());
 	ScorchedClient::instance()->getActionController().getPhysics().setCollisionHandler(
 		new ScorchedCollisionHandler(&ScorchedClient::instance()->getContext()));
-
-	if (!ScorchedClient::instance()->getLandscapes().readLandscapeDefinitions()) return false;
 
 	progressCounter->setNewPercentage(0.0f);
 	progressCounter->setNewOp("Initializing Windows");

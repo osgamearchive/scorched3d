@@ -31,6 +31,7 @@
 #include <dialogs/PlayerDialog.h>
 #include <dialogs/ProgressDialog.h>
 #include <landscape/LandscapeMaps.h>
+#include <landscape/LandscapeDefinitions.h>
 #include <landscape/Landscape.h>
 #include <tank/TankContainer.h>
 #include <tankgraph/TankModelStore.h>
@@ -143,6 +144,9 @@ bool ClientNewGameHandler::initialize()
 	// Load the accessory files
 	if (!ScorchedClient::instance()->getAccessoryStore().parseFile(
 		ScorchedClient::instance()->getOptionsGame())) return false;
+
+	// Load the landscape definitions
+	if (!ScorchedClient::instance()->getLandscapes().readLandscapeDefinitions()) return false;
 
 	// Load tank models here
 	// This is after mods are complete but before any tanks models are used

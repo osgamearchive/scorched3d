@@ -55,7 +55,12 @@ LandscapeTex &LandscapeMaps::getTex(ScorchedContext &context)
 	{
 		tex = context.landscapes->getTex(storedHdef_->getTex());
 	}
-	DIALOG_ASSERT(tex);
+	if (!tex)
+	{
+		dialogExit("LandscapeMaps", 
+			"ERROR: Failed to find a tex named \"%s\"",
+			storedHdef_->getTex());
+	}
 	storedHdef_->cachedTex_ = tex;
 	return *tex;
 }
@@ -67,7 +72,12 @@ LandscapeDefn &LandscapeMaps::getDefn(ScorchedContext &context)
 	{
 		defn = context.landscapes->getDefn(storedHdef_->getDefn());
 	}
-	DIALOG_ASSERT(defn);
+	if (!defn)
+	{
+		dialogExit("LandscapeMaps",
+			"ERROR: Failed to find a defn named \"%s\"",
+			storedHdef_->getDefn());
+	}
 	storedHdef_->cachedDefn_ = defn;
 	return *defn;
 }
