@@ -52,7 +52,7 @@ void TankResign::simulate(float frameTime, bool &remove)
 		firstTime_ = false;
 		Tank *tank = 
 			context_->tankContainer->getTankById(playerId_);
-		if (tank)
+		if (tank && tank->getState().getState() == TankState::sNormal)
 		{
 			tank->getState().setState(TankState::sDead);
 
@@ -80,3 +80,4 @@ bool TankResign::readAction(NetBufferReader &reader)
 	if (!reader.getFromBuffer(playerId_)) return false;
 	return true;
 }
+
