@@ -96,7 +96,8 @@ static inline float approx_distance(float  dx, float dy)
    return approx;
 }
 
-static inline bool lt_distance(std::pair<float, Tank *> &o1, std::pair<float, Tank *> &o2) 
+static inline bool lt_distance(const std::pair<float, Tank *> &o1, 
+	const std::pair<float, Tank *> &o2) 
 { 
 	return o1.first > o2.first;
 }

@@ -479,10 +479,10 @@ scorched3d_SOURCES = \
 	../weapons/Parachute.h \
 	../weapons/Shield.cpp \
 	../weapons/Shield.h \
+	../weapons/ShieldMag.cpp \
+	../weapons/ShieldMag.h \
 	../weapons/ShieldReflective.cpp \
 	../weapons/ShieldReflective.h \
-	../weapons/ShieldReflectiveMag.cpp \
-	../weapons/ShieldReflectiveMag.h \
 	../weapons/Weapon.cpp \
 	../weapons/Weapon.h \
 	../weapons/WeaponAimedOver.cpp \
