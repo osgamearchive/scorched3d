@@ -23,6 +23,7 @@
 
 #include <vector>
 #include <map>
+#include <set>
 #include <tankgraph/TankModel.h>
 #include <tankgraph/TankMesh.h>
 #include <GLEXT/GLTexture.h>
@@ -36,7 +37,9 @@ public:
 
 	TankModel *getModelByName(const char *name);
 	TankModel *getRandomModel();
+
 	std::vector<TankModel *> &getModels() { return models_; }
+	std::set<std::string> &getModelCatagories() { return modelCatagories_; }
 
 	GLTexture *loadTexture(const char *name);
 	TankMesh *loadMesh(const char *name, bool aseFile);
@@ -44,6 +47,7 @@ public:
 protected:
 	static TankModelStore* instance_;
 	std::vector<TankModel *> models_;
+	std::set<std::string, less<std::string> > modelCatagories_;
 	std::map<std::string, TankMesh *> meshes_;
 	std::map<std::string, GLTexture *> skins_;
 

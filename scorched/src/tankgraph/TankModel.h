@@ -24,6 +24,8 @@
 
 #include <tank/TankModelId.h>
 #include <common/Vector.h>
+#include <list>
+#include <string>
 
 class TankModel
 {
@@ -35,10 +37,14 @@ public:
 		float fireOffSet, float rotXY, float rotXZ) = 0;
 	virtual int getNoTris() = 0;
 
+	virtual bool lessThan(TankModel *other);
+
 	TankModelId &getId();
+	std::list<std::string> &getCatagories() { return catagories_; }
 
 protected:
 	TankModelId id_;
+	std::list<std::string> catagories_;
 
 };
 

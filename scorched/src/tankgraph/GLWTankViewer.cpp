@@ -50,6 +50,24 @@ void GLWTankViewer::setTankModels(std::vector<TankModel *> &models)
 	models_ = models;
 	scrollBar_.setMax((int) (models_.size() / numH_) + 1);
 	scrollBar_.setCurrent(0);//(int) (models_.size() / numH_) + 1);
+
+	// Sort the models 
+	bool sorted = false;
+	while (!sorted)
+	{
+		sorted = true;
+		for (int i=0; i<models_.size()-1; i++)
+		{
+			TankModel *tmp = models_[i];
+			TankModel *test = models_[i+1];
+			if (test->lessThan(tmp))
+			{
+				models_[i] = test;
+				models_[i+1] = tmp;
+				sorted = false;
+			}
+		}
+	}
 }
 
 const char *GLWTankViewer::getModelName()
@@ -100,18 +118,19 @@ void GLWTankViewer::draw()
 				vectorPos >= 0)
 			{
 				//vectorPos = ((int) models_.size()-1) - vectorPos;
-				float posX = x_ + widthdiv * posH + TankHalfSquareSize + 4.0f;
-				float posY = y_ + heightdiv * posV + TankHalfSquareSize + 4.0f;
+				float posX = x_ + widthdiv * posH + TankHalfSquareSize + 2.0f;
+				float posY = y_ + heightdiv * posV + TankHalfSquareSize + 2.0f;
 
 				bool currselected = (vectorPos == selected_);
 				if (currselected)
 				{
 					glColor3f(0.4f, 0.4f, 0.6f);
 					glBegin(GL_LINE_LOOP);
-						glVertex2f(posX - TankHalfSquareSize, posY - TankHalfSquareSize);
-						glVertex2f(posX + TankHalfSquareSize, posY - TankHalfSquareSize);
-						glVertex2f(posX + TankHalfSquareSize, posY + TankHalfSquareSize);
-						glVertex2f(posX - TankHalfSquareSize, posY + TankHalfSquareSize);
+						float SelectSize = TankHalfSquareSize - 2.0f;
+						glVertex2f(posX - SelectSize, posY - SelectSize);
+						glVertex2f(posX + SelectSize, posY - SelectSize);
+						glVertex2f(posX + SelectSize, posY + SelectSize);
+						glVertex2f(posX - SelectSize, posY + SelectSize);
 					glEnd();
 				}
 

@@ -43,7 +43,7 @@ TankModelStore *TankModelStore::instance()
 
 TankModelStore::TankModelStore()
 {
-
+	modelCatagories_.insert("All");
 }
 
 TankModelStore::~TankModelStore()
@@ -157,6 +157,7 @@ bool TankModelStore::loadTankMeshes()
 			return false;
 		}
 
+		// Get the name of tank
 		XMLNode *nameNode = currentNode->getNamedChild("name");
 		if (!nameNode)
 		{
@@ -165,7 +166,9 @@ bool TankModelStore::loadTankMeshes()
 			return false;
 		}
 		const char *modelName = nameNode->getContent();
+		TankModelId id(modelName);
 
+		// Get the model node
 		XMLNode *modelNode = currentNode->getNamedChild("model");
 		if (!modelNode)
 		{
@@ -182,6 +185,8 @@ bool TankModelStore::loadTankMeshes()
 			return false;
 		}
 
+		// Create the correct tank model depending on the model type
+		TankModel *model = 0;
 		if (strcmp(typeNode->getContent(), "ase") == 0)
 		{
 			// 3DS Studio ASCII Files
@@ -218,13 +223,11 @@ bool TankModelStore::loadTankMeshes()
 				return false;
 			}
 
-			// Create the new model and store in vector
-			TankModelId id(modelName);
-			TankModel *model = new TankModelASE(
+			// Create the new model
+			model = new TankModelASE(
 				id,
 				meshName,
 				OptionsDisplay::instance()->getNoSkins()?0:skinName);
-			models_.push_back(model);
 		}
 		else if (strcmp(typeNode->getContent(), "MilkShape") == 0)
 		{
@@ -240,12 +243,10 @@ bool TankModelStore::loadTankMeshes()
 				return false;
 			}
 
-			// Create the new model and store in vector
-			TankModelId id(modelName);
-			TankModel *model = new TankModelMS(
+			// Create the new model
+			model = new TankModelMS(
 				id,
 				meshName);
-			models_.push_back(model);
 		}
 		else
 		{
@@ -255,6 +256,23 @@ bool TankModelStore::loadTankMeshes()
 						modelName);
 			return false;
 		}
+
+		// Read all of the tank display catagories
+		std::list<XMLNode *>::iterator catItor;
+		for (catItor = currentNode->getChildren().begin();
+			catItor != currentNode->getChildren().end();
+			catItor++)
+		{
+			XMLNode *catNode = *catItor;
+			if (strcmp(catNode->getName(), "catagory") == 0)
+			{
+				model->getCatagories().push_back(catNode->getContent());
+				modelCatagories_.insert(catNode->getContent());
+			}
+		}
+
+		// Add this model to the store
+		models_.push_back(model);
 	}
 	return true;
 }

@@ -23,7 +23,7 @@
 TankModel::TankModel(TankModelId &id) :
 	id_(id)
 {
-
+	catagories_.push_back("All");
 }
 
 TankModel::~TankModel()
@@ -34,4 +34,9 @@ TankModel::~TankModel()
 TankModelId &TankModel::getId() 
 { 
 	return id_; 
+}
+
+bool TankModel::lessThan(TankModel *other)
+{
+	return (strcmp(id_.getModelName(), other->id_.getModelName()) < 0);
 }
