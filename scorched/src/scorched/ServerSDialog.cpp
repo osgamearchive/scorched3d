@@ -40,6 +40,7 @@ public:
 	virtual bool TransferDataFromWindow();
 
 	void onSettingsButton();
+	void onPublishAutoButton();
 
 private:
 	DECLARE_EVENT_TABLE()
@@ -49,6 +50,7 @@ private:
 
 BEGIN_EVENT_TABLE(ServerSFrame, wxDialog)
     EVT_BUTTON(IDC_BUTTON_SETTINGS,  ServerSFrame::onSettingsButton)
+	EVT_BUTTON(IDC_PUBLISHAUTO,  ServerSFrame::onPublishAutoButton)
 END_EVENT_TABLE()
 
 ServerSFrame::ServerSFrame(OptionsGame &options) :
@@ -74,6 +76,11 @@ ServerSFrame::ServerSFrame(OptionsGame &options) :
 	topsizer->SetSizeHints(this); // set size hints to honour minimum size
 
 	CentreOnScreen();
+}
+
+void ServerSFrame::onPublishAutoButton()
+{
+	IDC_PUBLISHIP_CTRL->SetValue("AutoDetect");
 }
 
 void ServerSFrame::onSettingsButton()

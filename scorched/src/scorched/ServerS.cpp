@@ -44,13 +44,21 @@ static void createControls(wxWindow *parent,
 	servernameSizer2->Add(IDC_SERVER_PORT_CTRL);		
 	servernameSizer->Add(servernameSizer2);
 	IDC_PUBLISHIP_CTRL_TEXT = new wxStaticText(parent, -1, "Published IP :");
+	servernameSizer2->Add(IDC_PUBLISHIP_CTRL_TEXT,
+						  0, wxALIGN_CENTER_VERTICAL);
+
+	wxSizer *hori = new wxBoxSizer(wxHORIZONTAL);
 	IDC_PUBLISHIP_CTRL = 
 		new wxTextCtrl(parent, IDC_PUBLISHIP,
 		"",
-		wxDefaultPosition, wxSize((int) 228, -1));
-	servernameSizer2->Add(IDC_PUBLISHIP_CTRL_TEXT,
-						  0, wxALIGN_CENTER_VERTICAL);
-	servernameSizer2->Add(IDC_PUBLISHIP_CTRL);		
+		wxDefaultPosition, wxSize((int) 150, -1));
+	hori->Add(IDC_PUBLISHIP_CTRL);
+	IDOK_PUBLISHAUTO_CTRL =
+		new wxButton(parent, IDC_PUBLISHAUTO,
+		"AutoDetect");
+	hori->Add(IDOK_PUBLISHAUTO_CTRL);
+	servernameSizer2->Add(hori);		
+
 	IDC_PUBLISH_CTRL = 
 		new wxCheckBox(parent, IDC_PUBLISH,
 		"Allow ALL other internet users to see and use this server");	
