@@ -384,5 +384,8 @@
 			<skin>wespe.bmp</skin>
 		</model>
 	</tank>
-
+	<tank>
+		<name>Test</name>
+		<model type="MilkShape">test.txt</model>
+	</tank>
 </tanks>

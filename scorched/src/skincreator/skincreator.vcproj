@@ -119,12 +119,6 @@
 		<Filter
 			Name="3dsparse">
 			<File
-				RelativePath="..\3dsparse\ASEArrayFact.cpp">
-			</File>
-			<File
-				RelativePath="..\3dsparse\ASEArrayFact.h">
-			</File>
-			<File
 				RelativePath="..\3dsparse\ASEFile.cpp">
 			</File>
 			<File
@@ -153,6 +147,24 @@
 			</File>
 			<File
 				RelativePath="..\3dsparse\MeshLODVector.h">
+			</File>
+			<File
+				RelativePath="..\3dsparse\Model.cpp">
+			</File>
+			<File
+				RelativePath="..\3dsparse\Model.h">
+			</File>
+			<File
+				RelativePath="..\3dsparse\ModelArrayFact.cpp">
+			</File>
+			<File
+				RelativePath="..\3dsparse\ModelArrayFact.h">
+			</File>
+			<File
+				RelativePath="..\3dsparse\ModelsFile.cpp">
+			</File>
+			<File
+				RelativePath="..\3dsparse\ModelsFile.h">
 			</File>
 			<File
 				RelativePath="..\3dsparse\aseFile.lex.cpp">

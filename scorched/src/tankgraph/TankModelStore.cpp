@@ -18,11 +18,13 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <tankgraph/TankModelStore.h>
+#include <tankgraph/TankModelASE.h>
+#include <tankgraph/TankModelMS.h>
 #include <common/Defines.h>
 #include <common/OptionsDisplay.h>
 #include <3dsparse/ASEFile.h>
+#include <3dsparse/MSFile.h>
 #include <XML/XMLFile.h>
 #include <GLEXT/GLBitmap.h>
 #include <wx/utils.h>
@@ -79,7 +81,7 @@ GLTexture *TankModelStore::loadTexture(const char *name)
 	return texture;
 }
 
-TankMesh *TankModelStore::loadMesh(const char *name)
+TankMesh *TankModelStore::loadMesh(const char *name, bool aseFile)
 {
 	// Try to find the mesh in the cache first
 	std::map<std::string, TankMesh *>::iterator itor =
@@ -90,16 +92,18 @@ TankMesh *TankModelStore::loadMesh(const char *name)
 	}
 
     // Load the ASEFile containing the tank definitions
-    ASEFile newFile((char *) name);
-    if (!newFile.getSuccess()) return 0;
+    ModelsFile *newFile = 0;
+	if (aseFile) newFile = new ASEFile(name);
+	else newFile = new MSFile(name);
+    if (!newFile->getSuccess()) return 0;
 
     // Make sure the tank is not too large
     const float maxSize = 3.0f;
-    float size = (newFile.getMax() - newFile.getMin()).Magnitude();
+    float size = (newFile->getMax() - newFile->getMin()).Magnitude();
     if (size > maxSize)
     {
         const float sfactor = 2.2f / size;
-        newFile.scale(sfactor);
+        newFile->scale(sfactor);
     }
 
 	// Get the model detail
@@ -108,10 +112,12 @@ TankMesh *TankModelStore::loadMesh(const char *name)
 
 	// Create tank mesh
 	TankMesh *tankMesh = new TankMesh(
-		newFile, 
+		*newFile, 
 		!OptionsDisplay::instance()->getNoSkins(),
 		detail);
 	meshes_[name] = tankMesh;
+
+	delete newFile;
 	return tankMesh;
 }
 
@@ -168,47 +174,87 @@ bool TankModelStore::loadTankMeshes()
 			return false;
 		}
 
-		XMLNode *meshNode = modelNode->getNamedChild("mesh");
-		XMLNode *skinNode = modelNode->getNamedChild("skin");
-		if (!meshNode || !skinNode)
+		XMLNode *typeNode = modelNode->getNamedParameter("type");
+		if (!typeNode)
 		{
 			dialogMessage("Scorched Models",
-						  "Failed to find mesh or skin node for tank \"%s\"",
-						  modelName);
+						  "Failed to find type node");
 			return false;
 		}
 
-		const char *skinNameContent = skinNode->getContent();
-		static char skinName[1024];
-		sprintf(skinName, PKGDIR "data/tanks/%s", skinNameContent);
+		if (strcmp(typeNode->getContent(), "ase") == 0)
+		{
+			// 3DS Studio ASCII Files
+			XMLNode *meshNode = modelNode->getNamedChild("mesh");
+			XMLNode *skinNode = modelNode->getNamedChild("skin");
+			if (!meshNode || !skinNode)
+			{
+				dialogMessage("Scorched Models",
+							"Failed to find mesh or skin node for tank \"%s\"",
+							modelName);
+				return false;
+			}
 
-		const char *meshNameContent = meshNode->getContent();
-		static char meshName[1024];
-		sprintf(meshName, PKGDIR "data/tanks/%s", meshNameContent);
+			const char *skinNameContent = skinNode->getContent();
+			static char skinName[1024];
+			sprintf(skinName, PKGDIR "data/tanks/%s", skinNameContent);
 
-		if (!::wxFileExists(skinName))
+			const char *meshNameContent = meshNode->getContent();
+			static char meshName[1024];
+			sprintf(meshName, PKGDIR "data/tanks/%s", meshNameContent);
+
+			if (!::wxFileExists(skinName))
+			{
+				dialogMessage("Scorched Models",
+							"Skin file \"%s\" does not exist for tank \"%s\"",
+							skinName, modelName);
+				return false;
+			}
+			if (!::wxFileExists(meshName))
+			{
+				dialogMessage("Scorched Models",
+							"Mesh file \"%s\"does not exist  for tank \"%s\"",
+							meshName, modelName);
+				return false;
+			}
+
+			// Create the new model and store in vector
+			TankModelId id(modelName);
+			TankModel *model = new TankModelASE(
+				id,
+				meshName,
+				OptionsDisplay::instance()->getNoSkins()?0:skinName);
+			models_.push_back(model);
+		}
+		else if (strcmp(typeNode->getContent(), "MilkShape") == 0)
+		{
+			const char *meshNameContent = modelNode->getContent();
+			static char meshName[1024];
+			sprintf(meshName, PKGDIR "data/tanks/%s", meshNameContent);
+
+			if (!::wxFileExists(meshName))
+			{
+				dialogMessage("Scorched Models",
+							"Mesh file \"%s\"does not exist  for tank \"%s\"",
+							meshName, modelName);
+				return false;
+			}
+
+			// Create the new model and store in vector
+			TankModelId id(modelName);
+			TankModel *model = new TankModelMS(
+				id,
+				meshName);
+			models_.push_back(model);
+		}
+		else
 		{
 			dialogMessage("Scorched Models",
-						"Skin file \"%s\" does not exist for tank \"%s\"",
-						skinName, modelName);
+						"Unknown mesh type \"%s\" for tank \"%s\"",
+						typeNode->getContent(),
+						modelName);
 			return false;
 		}
-		if (!::wxFileExists(meshName))
-		{
-			dialogMessage("Scorched Models",
-						  "Mesh file \"%s\"does not exist  for tank \"%s\"",
-						  meshName, modelName);
-			return false;
-		}
-
-
-		// Create the new model and store in vector
-		TankModelId id(modelName);
-		TankModel *model = new TankModel(
-			id,
-			meshName,
-			OptionsDisplay::instance()->getNoSkins()?0:skinName);
-		models_.push_back(model);
 	}
 	return true;
 }

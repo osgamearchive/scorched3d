@@ -64,23 +64,12 @@ void TankMenus::showTankDetails()
 		Tank *tank = (*itor).second;
 		TankAI *tankai = tank->getTankAI();
 		TankModelId &modelId = tank->getModel();
-		TankModelRenderer *renderer = (TankModelRenderer *) 
-			modelId.getModelIdRenderer();
-		char *mesh = "Unknown";
-		char *skin = "Unknown";
-		if (renderer)
-		{
-			if (renderer->getModel()->getMeshName()) 
-				mesh = (char *) renderer->getModel()->getMeshName();
-			if (renderer->getModel()->getSkinName())
-				skin = (char *) renderer->getModel()->getSkinName();
-		}
 
 		char buffer[1024];
-		sprintf(buffer, "%c %8s - \"%10s\" (%s:%s+%s)", 
+		sprintf(buffer, "%c %8s - \"%10s\" (%s)", 
 			currentTank == tank?'>':' ',
 			(tankai?(tankai->isHuman()?"Human":"Bot"):"Unknown"),
-			tank->getName(), modelId.getModelName(),mesh,skin);
+			tank->getName(), modelId.getModelName());
 		GLConsole::instance()->addLine(false, buffer);
 	}
 

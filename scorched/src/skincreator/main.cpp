@@ -3,7 +3,7 @@
 #include <GLEXT\GLBitmap.h>
 #include <gl\glaux.h>
 #include <3dsparse\ASEFile.h>
-#include <3dsparse\ASEArrayFact.h>
+#include <3dsparse\ModelArrayFact.h>
 
 int main(int argc, char **argv)
 {
@@ -39,8 +39,16 @@ int main(int argc, char **argv)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	GLVertexTexArray *texArray = 
-		ASEArrayFact::getTexArray(afile.getModels(), afile.getMax(), afile.getMin(), 1.0f);
-	ASEArrayFact::drawTexArray(texArray);
+		ModelArrayFact::getTexArray(afile.getModels(), afile.getMax(), afile.getMin(), 1.0f);
+
+	glBegin(GL_TRIANGLES);
+	for (int i=0; i<texArray->getNoTris() * 3; i++)
+	{
+		float x = texArray->getTexCoordInfo(i).a;
+		float y = texArray->getTexCoordInfo(i).b;
+		glVertex2f(x, y);
+	}
+	glEnd();
 
 	glFlush();
 	auxSwapBuffers();

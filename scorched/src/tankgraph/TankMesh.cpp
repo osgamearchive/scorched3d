@@ -18,15 +18,10 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// TankMesh.cpp: implementation of the TankMesh class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <math.h>
 #include <tankgraph/TankMesh.h>
-#include <3dsparse/ASEFile.h>
-#include <3dsparse/ASEArrayFact.h>
+#include <3dsparse/ModelsFile.h>
+#include <3dsparse/ModelArrayFact.h>
 #include <common/Defines.h> // For porting
 
 //////////////////////////////////////////////////////////////////////
@@ -35,10 +30,10 @@
 
 GLuint TankMesh::sightList_ = 0;
 
-TankMesh::TankMesh(ASEFile &aseTank, bool useTextures, float detail) 
+TankMesh::TankMesh(ModelsFile &tank, bool useTextures, float detail) 
 	: gunArray_(0), turretArray_(0), otherArray_(0), turretHeight_(0.0f)
 {
-	createArrays(aseTank, useTextures, detail);
+	createArrays(tank, useTextures, detail);
 }
 
 TankMesh::~TankMesh()
@@ -52,35 +47,35 @@ int TankMesh::getNoTris()
 		otherArray_->getNoTris();
 }
 
-void TankMesh::createArrays(ASEFile &aseTank, bool useTextures, float detail)
+void TankMesh::createArrays(ModelsFile &aseTank, bool useTextures, float detail)
 {
-	std::list<ASEModel*> otherModels;
-	std::list<ASEModel*> gunModels;
-	std::list<ASEModel*> turretModels;
+	std::list<Model*> otherModels;
+	std::list<Model*> gunModels;
+	std::list<Model*> turretModels;
 
 	// Find the gun and turret meshes from all of the mesh
 	// parts used to create the tank
 	// Keep them and use them to draw tank's gun
 	Vector turretCenter;
-	std::list<ASEModel>::iterator itor;
+	std::list<Model *>::iterator itor;
 	for (itor = aseTank.getModels().begin();
 		itor != aseTank.getModels().end();
 		itor++)
 	{
-		const char *name = itor->getName();
+		const char *name = (*itor)->getName();
 		if (stricmp(name, "\"Turret\"") == 0)
 		{
 			// Find the center that the tank should rotate around
-			turretCenter = ((*itor).getMax() + (*itor).getMin()) / 2.0f;
-			turretModels.push_back(&*itor);
+			turretCenter = ((*itor)->getMax() + (*itor)->getMin()) / 2.0f;
+			turretModels.push_back(*itor);
 		}
 		else if (stricmp(name, "\"Gun\"") == 0)
 		{
-			gunModels.push_back(&*itor);
+			gunModels.push_back(*itor);
 		}
 		else
 		{
-			otherModels.push_back(&*itor);
+			otherModels.push_back(*itor);
 		}
 	}	
 
@@ -102,14 +97,14 @@ void TankMesh::createArrays(ASEFile &aseTank, bool useTextures, float detail)
 		itor != aseTank.getModels().end();
 		itor++)
 	{
-		const char *name = itor->getName();
+		const char *name = (*itor)->getName();
 		if (stricmp(name, "\"Gun\"") == 0)
 		{
-			(*itor).centre(turretCenter);
+			(*itor)->centre(turretCenter);
 		}
 		else
 		{
-			(*itor).centre(newCenter);
+			(*itor)->centre(newCenter);
 		}
 	}
 
@@ -121,11 +116,11 @@ void TankMesh::createArrays(ASEFile &aseTank, bool useTextures, float detail)
 		aseTank.getMax() += oldCenter - newCenter;
 		aseTank.getMin() += oldCenter - newCenter;
 
-		turretArray_ = ASEArrayFact::getTexArray(turretModels, 
+		turretArray_ = ModelArrayFact::getTexArray(turretModels, 
 			aseTank.getMax(),
 			aseTank.getMin(),
 			detail);
-		otherArray_ = ASEArrayFact::getTexArray(otherModels, 
+		otherArray_ = ModelArrayFact::getTexArray(otherModels, 
 			aseTank.getMax(),
 			aseTank.getMin(),
 			detail);
@@ -138,16 +133,16 @@ void TankMesh::createArrays(ASEFile &aseTank, bool useTextures, float detail)
 		aseTank.getMax() += oldCenter - turretCenter;
 		aseTank.getMin() += oldCenter - turretCenter;
 
-		gunArray_ = ASEArrayFact::getTexArray(gunModels, 
+		gunArray_ = ModelArrayFact::getTexArray(gunModels, 
 			aseTank.getMax(),
 			aseTank.getMin(),
 			detail);
 	}
 	else
 	{
-		gunArray_ = ASEArrayFact::getArray(gunModels, detail);
-		turretArray_ = ASEArrayFact::getArray(turretModels, detail);
-		otherArray_ = ASEArrayFact::getArray(otherModels, detail);
+		gunArray_ = ModelArrayFact::getArray(gunModels, detail);
+		turretArray_ = ModelArrayFact::getArray(turretModels, detail);
+		otherArray_ = ModelArrayFact::getArray(otherModels, detail);
 	}
 }
 

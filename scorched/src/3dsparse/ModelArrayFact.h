@@ -18,43 +18,32 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#ifndef _tankModelStore_h
-#define _tankModelStore_h
 
-#include <vector>
-#include <map>
-#include <tankgraph/TankModel.h>
-#include <tankgraph/TankMesh.h>
-#include <GLEXT/GLTexture.h>
+#if !defined(__INCLUDE_ModelArrayFacth_INCLUDE__)
+#define __INCLUDE_ModelArrayFacth_INCLUDE__
 
-class TankModelStore
+#include <GLEXT/GLVertexTexArray.h>
+#include <3dsparse/Model.h>
+
+namespace ModelArrayFact
 {
-public:
-	static TankModelStore* instance();
+	enum MaxMag
+	{
+		MagX,
+		MagY,
+		MagZ
+	};
 
-	bool loadTankMeshes();
+	GLVertexArray *getArray(std::list<Model> &models, float detail);
+	GLVertexArray *getArray(std::list<Model*> &models, float detail);
 
-	TankModel *getModelByName(const char *name);
-	TankModel *getRandomModel();
-	std::vector<TankModel *> &getModels() { return models_; }
+	GLVertexTexArray *getTexArray(std::list<Model> &models,
+		Vector &max, Vector &min, float detail);
+	GLVertexTexArray *getTexArray(std::list<Model*> &models,
+		Vector &max, Vector &min, float detail);
 
-	GLTexture *loadTexture(const char *name);
-	TankMesh *loadMesh(const char *name, bool aseFile);
-
-protected:
-	static TankModelStore* instance_;
-	std::vector<TankModel *> models_;
-	std::map<std::string, TankMesh *> meshes_;
-	std::map<std::string, GLTexture *> skins_;
-
-private:
-	TankModelStore();
-	virtual ~TankModelStore();
-
-	TankModelStore(const TankModelStore &);
-	const TankModelStore & operator=(const TankModelStore &);
-
+	Vector getTexCoord(Vector &tri, MaxMag mag, Vector &max, Vector &min);
 };
 
-#endif // _tankModelStore_h
 
+#endif

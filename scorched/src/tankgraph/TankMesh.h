@@ -18,22 +18,17 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// TankMesh.h: interface for the TankMesh class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_TANKMESH_H__CB857C65_A22F_4FBC_9344_EFF22F8A4EEA__INCLUDED_)
 #define AFX_TANKMESH_H__CB857C65_A22F_4FBC_9344_EFF22F8A4EEA__INCLUDED_
 
 #include <common/Vector.h>
 #include <GLEXT/GLVertexArray.h>
 
-class ASEFile;
+class ModelsFile;
 class TankMesh  
 {
 public:
-	TankMesh(ASEFile &aseTank, bool useTextures, float detail);
+	TankMesh(ModelsFile &tank, bool useTextures, float detail);
 	virtual ~TankMesh();
 
 	void draw(bool drawS, float angle, Vector &position, 
@@ -51,7 +46,7 @@ protected:
 
 	void drawSight();
 	void drawGun(bool drawS, float fireOffset, float rotXY, float rotXZ);
-	void createArrays(ASEFile &aseTank, bool useTextures, float detail);
+	void createArrays(ModelsFile &aseTank, bool useTextures, float detail);
 
 };
 

@@ -22,36 +22,23 @@
 #if !defined(__INCLUDE_TankModelh_INCLUDE__)
 #define __INCLUDE_TankModelh_INCLUDE__
 
-#include <tankgraph/TankMesh.h>
 #include <tank/TankModelId.h>
-#include <GLEXT/GLTexture.h>
-#include <string>
+#include <common/Vector.h>
 
 class TankModel
 {
 public:
-	TankModel(TankModelId &id,
-		const char *meshName, 
-		const char *skinName = 0);
+	TankModel(TankModelId &id);
 	virtual ~TankModel();
 
-	void draw(bool drawS, float angle, Vector &position, 
-		float fireOffSet, float rotXY, float rotXZ);
+	virtual void draw(bool drawS, float angle, Vector &position, 
+		float fireOffSet, float rotXY, float rotXZ) = 0;
+	virtual int getNoTris() = 0;
 
-	const char *getMeshName() { return meshName_.c_str(); }
-	const char *getSkinName() { return skinName_.c_str(); }
-	float getTurretHeight();
 	TankModelId &getId();
-	int getNoTris();
 
 protected:
-	std::string meshName_;
-	std::string skinName_;
-
-	bool init_;
 	TankModelId id_;
-	TankMesh *tankMesh_;
-	GLTexture *tankSkin_;
 
 };
 

@@ -18,47 +18,27 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// ASEFile.h: interface for the ASEFile class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_ASEFILE_H__D1A8093E_9A49_46F5_A38F_FC3F733E568E__INCLUDED_)
 #define AFX_ASEFILE_H__D1A8093E_9A49_46F5_A38F_FC3F733E568E__INCLUDED_
 
-
-#include <list>
-#include <string>
 #include <3dsparse/ASEModel.h>
+#include <3dsparse/ModelsFile.h>
 
-class ASEFile  
+// File for pasing 3D Studio Max ASCII files
+class ASEFile : public ModelsFile
 {
 public:
 	ASEFile(const char *fileName);
 	virtual ~ASEFile();
 
-	bool getSuccess() { return success_; }
-
-	Vector &getMax() { return max_; }
-	Vector &getMin() { return min_; }
-	std::list<ASEModel> &getModels() { return models_; }
-
-	void centre();
-	void scale(float scalef);
-
 	// Used by parser
 	static ASEFile *getCurrent();
 	void addModel(char *modelName);
 	ASEModel *getCurrentModel();
-	const char *getName() { return name_.c_str(); }
 
 protected:
 	static ASEFile *current_;
-	bool success_;
-	std::list<ASEModel> models_;
-	std::string name_;
-	Vector max_, min_;
-	
+
 	bool loadFile(const char *fileName);
 
 };

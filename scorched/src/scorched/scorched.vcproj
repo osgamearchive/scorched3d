@@ -662,6 +662,18 @@
 				RelativePath="..\tankgraph\TankModel.h">
 			</File>
 			<File
+				RelativePath="..\tankgraph\TankModelASE.cpp">
+			</File>
+			<File
+				RelativePath="..\tankgraph\TankModelASE.h">
+			</File>
+			<File
+				RelativePath="..\tankgraph\TankModelMS.cpp">
+			</File>
+			<File
+				RelativePath="..\tankgraph\TankModelMS.h">
+			</File>
+			<File
 				RelativePath="..\tankgraph\TankModelRenderer.cpp">
 			</File>
 			<File
@@ -871,12 +883,6 @@
 			Name="3dsparse"
 			Filter="">
 			<File
-				RelativePath="..\3dsparse\ASEArrayFact.cpp">
-			</File>
-			<File
-				RelativePath="..\3dsparse\ASEArrayFact.h">
-			</File>
-			<File
 				RelativePath="..\3dsparse\ASEFile.cpp">
 			</File>
 			<File
@@ -895,6 +901,12 @@
 				RelativePath="..\3dsparse\ASEStore.h">
 			</File>
 			<File
+				RelativePath="..\3dsparse\MSFile.cpp">
+			</File>
+			<File
+				RelativePath="..\3dsparse\MSFile.h">
+			</File>
+			<File
 				RelativePath="..\3dsparse\MeshLOD.cpp">
 			</File>
 			<File
@@ -911,6 +923,24 @@
 			</File>
 			<File
 				RelativePath="..\3dsparse\MeshLODVector.h">
+			</File>
+			<File
+				RelativePath="..\3dsparse\Model.cpp">
+			</File>
+			<File
+				RelativePath="..\3dsparse\Model.h">
+			</File>
+			<File
+				RelativePath="..\3dsparse\ModelArrayFact.cpp">
+			</File>
+			<File
+				RelativePath="..\3dsparse\ModelArrayFact.h">
+			</File>
+			<File
+				RelativePath="..\3dsparse\ModelsFile.cpp">
+			</File>
+			<File
+				RelativePath="..\3dsparse\ModelsFile.h">
 			</File>
 			<File
 				RelativePath="..\3dsparse\aseFile.lex.cpp">

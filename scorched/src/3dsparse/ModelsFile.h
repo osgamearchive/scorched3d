@@ -18,43 +18,35 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#ifndef _tankModelStore_h
-#define _tankModelStore_h
+#if !defined(__INCLUDE_ModelsFileh_INCLUDE__)
+#define __INCLUDE_ModelsFileh_INCLUDE__
 
-#include <vector>
-#include <map>
-#include <tankgraph/TankModel.h>
-#include <tankgraph/TankMesh.h>
-#include <GLEXT/GLTexture.h>
+#include <list>
+#include <string>
+#include <3dsparse/Model.h>
 
-class TankModelStore
+class ModelsFile
 {
 public:
-	static TankModelStore* instance();
+	ModelsFile(const char *fileName);
+	virtual ~ModelsFile();
 
-	bool loadTankMeshes();
+	bool getSuccess() { return success_; }
+	const char *getName() { return name_.c_str(); }
 
-	TankModel *getModelByName(const char *name);
-	TankModel *getRandomModel();
-	std::vector<TankModel *> &getModels() { return models_; }
+	Vector &getMax() { return max_; }
+	Vector &getMin() { return min_; }
+	std::list<Model *> &getModels() { return models_; }
 
-	GLTexture *loadTexture(const char *name);
-	TankMesh *loadMesh(const char *name, bool aseFile);
+	void centre();
+	void scale(float scalef);
 
 protected:
-	static TankModelStore* instance_;
-	std::vector<TankModel *> models_;
-	std::map<std::string, TankMesh *> meshes_;
-	std::map<std::string, GLTexture *> skins_;
-
-private:
-	TankModelStore();
-	virtual ~TankModelStore();
-
-	TankModelStore(const TankModelStore &);
-	const TankModelStore & operator=(const TankModelStore &);
+	bool success_;
+	std::list<Model *> models_;
+	std::string name_;
+	Vector max_, min_;
 
 };
 
-#endif // _tankModelStore_h
-
+#endif

@@ -27,7 +27,7 @@
 #include <landscape/Landscape.h>
 #include <landscape/GlobalHMap.h>
 #include <3dsparse/ASEFile.h>
-#include <3dsparse/ASEArrayFact.h>
+#include <3dsparse/ModelArrayFact.h>
 #include <math.h>
 
 WindDialog *WindDialog::instance_ = 0;
@@ -47,7 +47,7 @@ WindDialog::WindDialog() :
 	listNo_(0)
 {
 	ASEFile windMesh(PKGDIR "data/meshes/wind.ase");
-	windModel_ = ASEArrayFact::getArray(windMesh.getModels(), 1.0f);
+	windModel_ = ModelArrayFact::getArray(windMesh.getModels(), 1.0f);
 }
 
 WindDialog::~WindDialog()

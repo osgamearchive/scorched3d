@@ -18,18 +18,9 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// ASEFile.cpp: implementation of the ASEFile class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <stdio.h>
 #include <3dsparse/ASEFile.h>
 #include <common/Defines.h>
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 extern FILE *asein;
 extern int aseparse(void);
@@ -37,7 +28,7 @@ extern int aselineno;
 
 ASEFile *ASEFile::current_ = 0;
 
-ASEFile::ASEFile(const char *fileName) : name_(fileName)
+ASEFile::ASEFile(const char *fileName) : ModelsFile(fileName)
 {
 	success_ = loadFile(fileName);
 	if (success_)
@@ -60,7 +51,7 @@ ASEModel *ASEFile::getCurrentModel()
 {
 	if (!models_.empty())
 	{
-		return &models_.back();
+		return (ASEModel *) models_.back();
 	}
 
 	return 0;
@@ -68,7 +59,7 @@ ASEModel *ASEFile::getCurrentModel()
 
 void ASEFile::addModel(char *modelName)
 {
-	models_.push_back(ASEModel(modelName));
+	models_.push_back(new ASEModel(modelName));
 }
 
 bool ASEFile::loadFile(const char *fileName)
@@ -85,50 +76,3 @@ bool ASEFile::loadFile(const char *fileName)
 	return (aseparse() == 0);
 }
 
-void ASEFile::scale(float sfactor)
-{
-	std::list<ASEModel>::iterator itor;
-	for (itor = models_.begin();
-		itor != models_.end();
-		itor++)
-	{
-		itor->scale(sfactor);
-	}
-	min_ *= sfactor;
-	max_ *= sfactor;
-}
-
-void ASEFile::centre()
-{
-	if (!models_.empty())
-	{
-		max_ = models_.front().getMax();
-		min_ = models_.front().getMin();
-
-		std::list<ASEModel>::iterator itor;
-		for (itor = models_.begin();
-			itor != models_.end();
-			itor++)
-		{
-			max_[0] = MAX(max_[0], itor->getMax()[0]);
-			max_[1] = MAX(max_[1], itor->getMax()[1]);
-			max_[2] = MAX(max_[2], itor->getMax()[2]);
-
-			min_[0] = MIN(min_[0], itor->getMin()[0]);
-			min_[1] = MIN(min_[1], itor->getMin()[1]);
-			min_[2] = MIN(min_[2], itor->getMin()[2]);
-		}
-
-
-		Vector centre = (max_ + min_) / 2.0f;
-		for (itor = models_.begin();
-			itor != models_.end();
-			itor++)
-		{
-			itor->centre(centre);
-		}
-
-		min_ -= centre;
-		max_ -= centre;
-	}
-}

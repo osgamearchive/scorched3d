@@ -21,7 +21,7 @@
 
 #include <3dsparse/ASEStore.h>
 #include <3dsparse/ASEFile.h>
-#include <3dsparse/ASEArrayFact.h>
+#include <3dsparse/ModelArrayFact.h>
 
 ASEStore *ASEStore::instance_ = 0;
 
@@ -54,7 +54,7 @@ GLVertexArray *ASEStore::loadOrGetArray(const char *fileName)
 		{
 			file.centre();
 			GLVertexArray *array = 
-				ASEArrayFact::getArray(file.getModels(), 1.0f);
+				ModelArrayFact::getArray(file.getModels(), 1.0f);
 			fileMap_[fileName] = array;
 			return array;
 		}

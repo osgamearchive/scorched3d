@@ -25,6 +25,7 @@
 #include <tank/Tank.h>
 #include <tankgraph/TankModel.h>
 #include <tankgraph/GLWTankTip.h>
+#include <GLEXT/GLState.h>
 
 class TankModelRendererHUD
 {

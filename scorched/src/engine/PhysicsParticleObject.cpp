@@ -36,7 +36,7 @@ PhysicsParticleObject::~PhysicsParticleObject()
 void PhysicsParticleObject::setPhysics(Vector &position, Vector &velocity)
 {
 	const dReal DENSITY = 5.0;
-	const dReal size = 1.0f;
+	const dReal size = 0.25f;
 
 	// Create the mass for the object
 	dMass m;

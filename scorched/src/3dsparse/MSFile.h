@@ -18,43 +18,23 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#ifndef _tankModelStore_h
-#define _tankModelStore_h
+#if !defined(__INCLUDE_MSFileh_INCLUDE__)
+#define __INCLUDE_MSFileh_INCLUDE__
 
-#include <vector>
-#include <map>
-#include <tankgraph/TankModel.h>
-#include <tankgraph/TankMesh.h>
-#include <GLEXT/GLTexture.h>
+#include <3dsparse/ModelsFile.h>
 
-class TankModelStore
+class MSFile : public ModelsFile
 {
 public:
-	static TankModelStore* instance();
-
-	bool loadTankMeshes();
-
-	TankModel *getModelByName(const char *name);
-	TankModel *getRandomModel();
-	std::vector<TankModel *> &getModels() { return models_; }
-
-	GLTexture *loadTexture(const char *name);
-	TankMesh *loadMesh(const char *name, bool aseFile);
+	MSFile(const char *fileName);
+	virtual ~MSFile();
 
 protected:
-	static TankModelStore* instance_;
-	std::vector<TankModel *> models_;
-	std::map<std::string, TankMesh *> meshes_;
-	std::map<std::string, GLTexture *> skins_;
-
-private:
-	TankModelStore();
-	virtual ~TankModelStore();
-
-	TankModelStore(const TankModelStore &);
-	const TankModelStore & operator=(const TankModelStore &);
+	bool loadFile(const char *fileName);
+	bool loadFile(FILE *in);
+	bool getNextLine(char *line, FILE *in);
+	unsigned int lineNo_;
 
 };
 
-#endif // _tankModelStore_h
-
+#endif
