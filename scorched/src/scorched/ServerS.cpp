@@ -59,7 +59,7 @@ static void createControls(wxWindow *parent)
 		"",
 		wxPoint((int) 111, (int) 126), wxSize((int) 228, (int) 21));
 	IDC_PUBLISHIP_CTRL_TEXT = new wxStaticText(parent, -1,
-		"Published Name :",
+		"Published IP :",
 		wxPoint((int) 21, (int) 126), wxSize((int) 84, (int) 12));
 	IDOK_CTRL = 
 		new wxButton(parent, wxID_OK,
