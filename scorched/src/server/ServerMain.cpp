@@ -97,9 +97,6 @@ bool startServer(bool local)
 
 bool serverMain()
 {
-	// Set the options so we are a server
-	OptionsParam::instance()->setServerFile("Hmm");
-
 	// Create the server states
 	startServer(false);
 

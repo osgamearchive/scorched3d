@@ -25,6 +25,8 @@
 #include <wx/wx.h>
 
 void showMainDialog();
+void setExeName(const char *name);
+void runScorched3D(const char *flags, ...);
 
 wxFrame *getMainDialog();
 void addTitleToWindow(

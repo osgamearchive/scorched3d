@@ -44,7 +44,7 @@ bool ScorchedApp::OnInit()
 	}
 
 	wxImage::AddHandler(new wxICOHandler);
-	if (OptionsParam::instance()->getAction() == OptionsParam::RunServer)
+	if (OptionsParam::instance()->getAction() == OptionsParam::ActionRunServer)
 	{
 		if (!::wxFileExists(OptionsParam::instance()->getServerFile()))
 		{

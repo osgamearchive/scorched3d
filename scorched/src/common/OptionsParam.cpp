@@ -35,12 +35,12 @@ OptionsParam *OptionsParam::instance()
 
 OptionsParam::OptionsParam() :
 	SDLInitVideo_(false),
-	onServer_(false),
-	singlePlayer_(false),
 	connect_(options_, "connect", 
 		"The name of the server to connect to, starts a NET/LAN client", 0, ""),
 	server_(options_, "startserver",
 		"Starts a scorched 3d server, requires the name of the server settings file e.g. data/server.xml", 0, ""),
+	client_(options_, "startclient",
+		"Starts a scorched 3d client, requires the name of the client settings file e.g. data/singlecustom.xml", 0, ""),
 	password_(options_, "password",
 		"The password of the NET/LAN server", 0, ""),
 	nooptions_(options_, "nooptions",
@@ -61,22 +61,28 @@ std::list<OptionEntry *> &OptionsParam::getOptions()
 
 OptionsParam::Action OptionsParam::getAction()
 {
-	if (getConnect()[0] || singlePlayer_)
+	if (getConnect()[0] || getClientFile()[0])
 	{
-		setServerFile("");
-		return RunClient;
+		server_.setValue("");
+		return ActionRunClient;
 	}
 	else if (getServerFile()[0])
 	{
-		return RunServer;
+		return ActionRunServer;
 	}
 
-	return NoAction;
+	if ((getConnect()[0] || getClientFile()[0]) &&
+		getServerFile()[0])
+	{
+		return ActionError;
+	}
+
+	return ActionNone;
 }
 
 void OptionsParam::clearAction()
 {
-	singlePlayer_ = false;
-	setConnect("");
-	setServerFile("");
+	connect_.setValue("");
+	client_.setValue("");
+	server_.setValue("");
 }

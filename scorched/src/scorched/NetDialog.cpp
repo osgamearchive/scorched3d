@@ -338,16 +338,25 @@ bool NetLanFrame::TransferDataToWindow()
 
 bool NetLanFrame::TransferDataFromWindow()
 {
-	OptionsParam::instance()->setConnect(
-		IDC_EDIT_SERVER_CTRL->GetValue().c_str());
-	OptionsParam::instance()->setPassword(
-		IDC_EDIT_PASSWORD_CTRL->GetValue().c_str());
-		
 	return true;
 }
 
 bool showNetLanDialog()
 {
 	NetLanFrame frame;
-	return (frame.ShowModal() == wxID_OK);
+	if (frame.ShowModal() == wxID_OK)
+	{
+		if (IDC_EDIT_PASSWORD_CTRL->GetValue().c_str()[0])
+		{
+			runScorched3D("-connect \"%s\" -password \"%s\"", 
+				IDC_EDIT_SERVER_CTRL->GetValue().c_str(),
+				IDC_EDIT_PASSWORD_CTRL->GetValue().c_str());
+		}
+		else
+		{
+			runScorched3D("-connect \"%s\"", 
+				IDC_EDIT_SERVER_CTRL->GetValue().c_str());
+		}
+	}
+	return false;
 }

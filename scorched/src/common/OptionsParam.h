@@ -18,7 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #if !defined(__INCLUDE_OptionsParamh_INCLUDE__)
 #define __INCLUDE_OptionsParamh_INCLUDE__
 
@@ -30,26 +29,23 @@ public:
 	static OptionsParam *instance();
 
 	const char *getConnect() { return connect_.getValue(); }
-	void setConnect(const char *value) { connect_.setValue(value); }
-
 	const char *getServerFile() { return server_.getValue(); }
-	void setServerFile(const char *value) { server_.setValue(value); }
-
+	const char *getClientFile() { return client_.getValue(); }
 	const char *getPassword() { return password_.getValue(); }
-	void setPassword(const char *value) { password_.setValue(value); }
 
 	enum Action
 	{
-		RunServer,
-		RunClient,
-		NoAction
+		ActionRunServer,
+		ActionRunClient,
+		ActionError,
+		ActionNone
 	};
 	Action getAction();
 	void clearAction();
 
 	bool getConnectedToServer() { return (getConnect()[0] != '\0'); }
 	bool getDedicatedServer() { return (getServerFile()[0] != '\0'); }
-	bool &getSinglePlayer() { return singlePlayer_; }
+	bool getSinglePlayer() { return (getClientFile()[0] != '\0'); }
 	bool &getSDLInitVideo() { return SDLInitVideo_; }
 
 	std::list<OptionEntry *> &getOptions();
@@ -60,11 +56,10 @@ protected:
 
 	OptionEntryString connect_;
 	OptionEntryString server_;
+	OptionEntryString client_;
 	OptionEntryString password_;
 	OptionEntryBool nooptions_;
 	bool SDLInitVideo_;
-	bool onServer_;
-	bool singlePlayer_;
 
 private:
 	OptionsParam();

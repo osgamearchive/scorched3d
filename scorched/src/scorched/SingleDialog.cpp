@@ -116,24 +116,27 @@ void SingleFrame::onEasyButton()
 {
 	ScorchedServer::instance()->getOptionsGame().readOptionsFromFile(easyFilePath);
 	ScorchedServer::instance()->getOptionsGame().writeOptionsToFile(easyFilePath);
-	OptionsParam::instance()->getSinglePlayer() = true;
 	EndModal(wxID_OK);
+
+	runScorched3D("-startclient %s", easyFilePath);
 }
 
 void SingleFrame::onNormalButton()
 {
 	ScorchedServer::instance()->getOptionsGame().readOptionsFromFile(normalFilePath);
 	ScorchedServer::instance()->getOptionsGame().writeOptionsToFile(normalFilePath);
-	OptionsParam::instance()->getSinglePlayer() = true;
 	EndModal(wxID_OK);
+
+	runScorched3D("-startclient %s", normalFilePath);
 }
 
 void SingleFrame::onHardButton()
 {
 	ScorchedServer::instance()->getOptionsGame().readOptionsFromFile(hardFilePath);
 	ScorchedServer::instance()->getOptionsGame().writeOptionsToFile(hardFilePath);
-	OptionsParam::instance()->getSinglePlayer() = true;
 	EndModal(wxID_OK);
+
+	runScorched3D("-startclient %s", hardFilePath);
 }
 
 void SingleFrame::onCustomButton()
@@ -143,8 +146,9 @@ void SingleFrame::onCustomButton()
 	if (showSettingsDialog(false, ScorchedServer::instance()->getContext().optionsGame))
 	{
 		ScorchedServer::instance()->getOptionsGame().writeOptionsToFile(customFilePath);
-		OptionsParam::instance()->getSinglePlayer() = true;
 		EndModal(wxID_OK);
+
+		runScorched3D("-startclient %s", customFilePath);
 	}
 }
 

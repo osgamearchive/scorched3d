@@ -107,16 +107,16 @@ bool ServerSFrame::TransferDataFromWindow()
 
 	// Save the server settings
 	ScorchedServer::instance()->getOptionsGame().writeOptionsToFile(serverFilePath);
-
-	// Start up the server
-	showServerDialog();
-	serverMain();
-
 	return true;
 }
 
 bool showServerSDialog()
 {
 	ServerSFrame frame;
-	return (frame.ShowModal() == wxID_OK);
+	if (frame.ShowModal() == wxID_OK)
+	{
+		runScorched3D("-startserver %s", serverFilePath);
+		return true;
+	}
+	return false;
 }

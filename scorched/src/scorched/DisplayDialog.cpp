@@ -28,6 +28,7 @@
 #include "Display.cpp"
 
 extern char scorched3dAppName[128];
+extern char *displayOptions;
 
 class DisplayFrame: public wxDialog
 {
@@ -61,6 +62,9 @@ DisplayFrame::DisplayFrame() :
 
 bool DisplayFrame::TransferDataToWindow()
 {
+	// Read display options from a file
+	OptionsDisplay::instance()->readOptionsFromFile(displayOptions);
+
 	IDC_FULLCLEAR_CTRL->SetValue(OptionsDisplay::instance()->getFullClear());
 	IDC_NOEXT_CTRL->SetValue(OptionsDisplay::instance()->getNoGLExt());
 	IDC_NOLANDSCAPESCORCH_CTRL->SetValue(OptionsDisplay::instance()->getNoGLTexSubImage());
@@ -198,6 +202,9 @@ bool DisplayFrame::TransferDataFromWindow()
 	if (IDC_LOWTANK_CTRL->GetValue()) tankDetail = 0;
 	if (IDC_HIGHTANK_CTRL->GetValue()) tankDetail = 2;
 	OptionsDisplay::instance()->setTankDetail(tankDetail);
+
+	// Save display options to file
+	OptionsDisplay::instance()->writeOptionsToFile(displayOptions);
 
 	return true;
 }

@@ -18,7 +18,9 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
+#include <wx/wx.h>
+#include <wx/image.h>
+#include <windows.h>
 #include <scorched/MainDialog.h>
 #include <scorched/NetDialog.h>
 #include <scorched/SingleDialog.h>
@@ -27,12 +29,10 @@
 #include <server/ServerMain.h>
 #include <common/OptionsParam.h>
 #include <common/Defines.h>
-#include <wx/wx.h>
-#include <wx/image.h>
-#include <windows.h>
 
 extern char scorched3dAppName[128];
 static wxFrame *mainDialog = 0;
+static char exeName[1024];
 bool wxWindowExit = false;
 
 enum
@@ -57,6 +57,33 @@ void addTitleToWindow(
 		wxBoxSizer *boxSizer = new wxBoxSizer(wxHORIZONTAL);
 		boxSizer->Add(button, 0, wxALL, 5);
 		sizer->Add(boxSizer, 0, wxALIGN_CENTER | wxALL, 10);
+	}
+}
+
+void setExeName(const char *name)
+{
+	strcpy(exeName, name);
+}
+
+void runScorched3D(const char *fmt, ...)
+{
+	char text[1024];
+	va_list ap;
+
+	va_start(ap, fmt);
+	vsprintf(text, fmt, ap);
+	va_end(ap);
+
+	char path[1024];
+	sprintf(path, "%s %s", exeName, text);
+
+	long result = ::wxExecute(path);
+	if (result == 0)
+	{
+		dialogMessage(scorched3dAppName,
+			"Error: Failed to execute scorched3d using commandline :-\n"
+			"%s",
+			path);
 	}
 }
 
@@ -205,26 +232,17 @@ void MainFrame::onDisplayButton()
 
 void MainFrame::onNetLanButton()
 {
-	if (showNetLanDialog())
-	{
-		Close();
-	}
+	showNetLanDialog();
 }
 
 void MainFrame::onSingleButton()
 {
-	if (showSingleDialog())
-	{
-		Close();
-	}
+	showSingleDialog();
 }
 
 void MainFrame::onServerButton()
 {
-	if (showServerSDialog())
-	{
-		Close();
-	}
+	showServerSDialog();
 }
 
 void MainFrame::onQuitButton()

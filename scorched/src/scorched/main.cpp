@@ -18,8 +18,8 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <wx/wx.h>
+#include <wx/utils.h>
 #include <SDL/SDL.h>
 #include <client/ClientMain.h>
 #include <common/OptionsDisplay.h>
@@ -30,6 +30,7 @@
 #include <common/Defines.h>
 #include <common/Resources.h>
 #include <common/OptionsTransient.h>
+#include <scorched/MainDialog.h>
 #include <locale.h>
 #include <math.h>
 #include <float.h>
@@ -43,6 +44,7 @@ static bool allowExceptions = false;
 
 bool parseCommandLine(int argc, char *argv[])
 {
+	// Read the resources 
 	if (!Resources::instance()->main.initFromFile(resourceFile)) return false;
 
 	// Read display options from a file
@@ -50,30 +52,34 @@ bool parseCommandLine(int argc, char *argv[])
 	{
 		return false;
 	}
+
+	// Create a unique userid (if one has not already been created)
 	if (!OptionsDisplay::instance()->getUniqueUserId()[0])
 	{
 		char buffer[128];
 		sprintf(buffer, "%i-%i-%i", rand(), rand(), rand());
 		OptionsDisplay::instance()->setUniqueUserId(buffer);
 	}
+
+	// Set the path the executable was run with
+	setExeName((const char *) argv[0]);
+	if (!::wxFileExists((const char *) argv[0]))
+	{
+		dialogMessage(
+			scorched3dAppName,
+			"Error: Cannot find the executable for scorched3d."
+			"We think it is this file but we cannot find it :- %s",
+			argv[0]);
+		return false;
+	}
+
 	// Read options from command line
 	ARGParser aParser;
 	if (!OptionEntryHelper::addToArgParser(
 		OptionsParam::instance()->getOptions(), aParser)) return false;
 	aParser.addEntry("-allowexceptions", &allowExceptions, 
 					 "Allows any program exceptions to be thrown (core dumps)");
-	if (!aParser.parse(argc, argv)) return FALSE;
-
-	// Check options
-	if (OptionsParam::instance()->getConnectedToServer() &&
-		OptionsParam::instance()->getDedicatedServer())
-	{
-		dialogMessage(
-			scorched3dAppName,
-			"ERROR: You cannot specify parameters to both"
-			" join a server and start a server.");
-		return false;
-	}
+	if (!aParser.parse(argc, argv)) return false;
 
 	return true;
 }
@@ -99,8 +105,9 @@ int main(int argc, char *argv[])
 			scorched3dAppName,
 			"Error: This game requires the Scorched3D data directory to run.\n"
 			"Your machine does not appear to have the Scorched3D data directory in\n"
-			"the same directory as the scorched.exe file.\n\n"
-			"If Scorched3D does not run please re-install Scorched3D.");
+			"the same directory as the scorched.exe file (set to \"%s\").\n\n"
+			"If Scorched3D does not run please re-install Scorched3D.",
+			PKGDIR[0]?PKGDIR:".");
 		exit(1);
 	}
 	else fclose(checkfile);
@@ -152,27 +159,26 @@ int main(int argc, char *argv[])
 		return false;
 	}
 
-	//for (;;)
+	// Init SDL
+	unsigned int initFlags = SDL_INIT_VIDEO;
+	if (allowExceptions) initFlags |= SDL_INIT_NOPARACHUTE;
+	if (SDL_Init(initFlags) < 0)
 	{
-		// Init SDL
-		unsigned int initFlags = SDL_INIT_VIDEO;
-		if (allowExceptions) initFlags |= SDL_INIT_NOPARACHUTE;
-		if (SDL_Init(initFlags) < 0)
-		{
-			dialogMessage(
-				scorched3dAppName,
-				"Warning: This game uses the SDL library to provide graphics.\n"
-				"The graphics section of this library failed to initialize.\n"
-				"You will only be able to run a server for this game.");
-		}
-		else
-		{
-			OptionsParam::instance()->getSDLInitVideo() = true;
-		}
+		dialogMessage(
+			scorched3dAppName,
+			"Warning: This game uses the SDL library to provide graphics.\n"
+			"The graphics section of this library failed to initialize.\n"
+			"You will only be able to run a server for this game.");
+	}
+	else
+	{
+		OptionsParam::instance()->getSDLInitVideo() = true;
+	}
 
-		if (OptionsParam::instance()->getAction() == OptionsParam::NoAction ||
-			OptionsParam::instance()->getAction() == OptionsParam::RunServer)
-		{
+	switch (OptionsParam::instance()->getAction())
+	{
+	case OptionsParam::ActionNone:
+	case OptionsParam::ActionRunServer:
 		// Run the wxWindows main loop
 		// Dialogs are created int CreateDialogs.cpp
 #ifdef _WIN32
@@ -181,12 +187,11 @@ int main(int argc, char *argv[])
 #else
 		wxEntry(argc, argv);
 #endif
-		}
-		wxWindowInit = false;
-
+		break;
+	case OptionsParam::ActionRunClient:
 		// Actually start the client game if that is desired
-		if (OptionsParam::instance()->getSDLInitVideo() &&
-			OptionsParam::instance()->getAction() == OptionsParam::RunClient)
+		wxWindowInit = false;
+		if (OptionsParam::instance()->getSDLInitVideo())
 		{
 			if (setlocale(LC_ALL, "C") == 0)
 			{
@@ -196,15 +201,24 @@ int main(int argc, char *argv[])
 			}
 
 			clientMain();
+
+			// Write display options back to the file
+			// in case they have been changed by this client (in game by the console)
+			OptionsDisplay::instance()->writeOptionsToFile(displayOptions);
 		}
-
-		OptionsParam::instance()->clearAction();
-
-		//if (wxWindowExit) break;
+		else
+		{
+			dialogMessage(
+				scorched3dAppName,
+				"Error: Cannot start scorched3d client, graphics mode was not initilaized");
+		}
+		break;
+	default:
+		dialogMessage(
+			scorched3dAppName,
+			"Error: You provided incorrect or incompatable parameters");
+		return false;
 	}
 
-	// Write display options back to the file
-	OptionsDisplay::instance()->writeOptionsToFile(displayOptions);
-
-	return TRUE;
+	return 0;
 }
