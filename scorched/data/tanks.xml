@@ -105,6 +105,13 @@
 		</model>
 	</tank>
 	<tank>
+		<name>A.T.S.T Walker</name>
+		<model type="ase">
+			<mesh>atst.ase</mesh>
+			<skin>atst.bmp</skin>
+		</model>
+	</tank>
+	<tank>
 		<name>AAT</name>
 		<model type="ase">
 			<mesh>aat.ase</mesh>
