@@ -30,7 +30,7 @@
 #include <coms/ComsMessageSender.h>
 
 TankAIComputer::TankAIComputer() : 
-	TankAI(0, 0), primaryShot_(true), name_("<NoName>")
+	primaryShot_(true), name_("<NoName>")
 {
 	
 }
@@ -40,14 +40,8 @@ TankAIComputer::~TankAIComputer()
 
 }
 
-void TankAIComputer::setContext(ScorchedContext *context)
-{
-	context_ = context;
-}
-
 void TankAIComputer::setTank(Tank *tank)
 {
-	currentTank_ = tank;
 	tankBuyer_.setTank(currentTank_);
 }
 

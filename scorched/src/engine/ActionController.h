@@ -34,11 +34,14 @@ public:
 	ActionController();
 	virtual ~ActionController();
 
-    // Add an action to be simulated
+	// Add an action to be simulated
 	void addAction(Action *action);
 	bool noReferencedActions();
 	void resetTime();
 	void clear();
+
+	// Turn on action tracing
+	bool &getActionLogging() { return actionTracing_; }
 
 	// Get the current physics engine
 	PhysicsEngine &getPhysics() { return physicsEngine_; }
@@ -64,7 +67,10 @@ protected:
 	int referenceCount_;
 	float speed_;
 	float time_;
+	float lastTraceTime_;
+	bool actionTracing_;
 
+	void logActions();
 	void stepActions(float frameTime);
 	void addNewActions();
 

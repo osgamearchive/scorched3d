@@ -113,3 +113,43 @@ bool Tank::readMessage(NetBufferReader &reader)
 	if (destinationId_ == 0) setTankAI(0);
 	return true;
 }
+
+bool Tank::writeXML(XMLNode *node)
+{
+	node->addChild(new XMLNode("name", name_.c_str()));
+	node->addChild(new XMLNode("destinationid", destinationId_));
+	node->addChild(new XMLNode("team", team_));
+	node->addChild(new XMLNode("color", color_));
+	if (tankAI_) node->addChild(new XMLNode("tankai", tankAI_->getName()));
+
+	/*if (!model_.writeXML(node)) return false;
+	if (!accessories_.writeXML(node)) return false;
+	if (!score_.writeXML(node)) return false;*/
+
+	return true;
+}
+
+bool Tank::readXML(XMLNode *node)
+{
+	XMLNode *namenode = node->getNamedChild("name", true);
+	if (!namenode) return false; name_ = namenode->getContent();
+	destinationId_ = node->getNamedUIntChild("destinationid", true);
+	if (destinationId_ == XMLNode::ErrorUInt) return false;
+	team_ = node->getNamedUIntChild("team", true);
+	if (team_ == XMLNode::ErrorUInt) return false;
+	color_ = node->getNamedVectorChild("color", true);
+	if (color_ == XMLNode::ErrorVector) return false;
+
+	XMLNode *aiNode = node->getNamedChild("tankai", false);
+	if (aiNode)
+	{
+		
+	}
+
+	/*if (!model_.readXML(node)) return false;
+	if (!accessories_.readXML(node)) return false;
+	if (!score_.writeXML(node)) return false;*/
+
+	return true;
+}
+

@@ -41,23 +41,23 @@ bool WeaponProjectile::parseXML(XMLNode *accessoryNode)
 	if (!Weapon::parseXML(accessoryNode)) return false;
 
 	// Get the accessory under
-	XMLNode *underNode = accessoryNode->removeNamedChild("under");
+	XMLNode *underNode = accessoryNode->getNamedChild("under", false, true);
 	if (underNode) under_ = true;
 
 	// Get the smoke trails
-	XMLNode *smokeNode = accessoryNode->removeNamedChild("smoke");
+	XMLNode *smokeNode = accessoryNode->getNamedChild("smoke", false, true);
 	if (smokeNode) showShotPath_ = true;
 
 	// Get the end point
-	XMLNode *endPointNode = accessoryNode->removeNamedChild("showendpoint");
+	XMLNode *endPointNode = accessoryNode->getNamedChild("showendpoint", false, true);
 	if (endPointNode) showEndPoint_ = true;
 	
 	// Get the apex point
-	XMLNode *apexNode = accessoryNode->removeNamedChild("apexcollision");
+	XMLNode *apexNode = accessoryNode->getNamedChild("apexcollision", false, true);
 	if (apexNode) apexCollision_ = true;
 
 	// Get the next weapon
-	XMLNode *subNode = accessoryNode->removeNamedChild("collisionaction");
+	XMLNode *subNode = accessoryNode->getNamedChild("collisionaction", false, true);
 	if (!subNode)
 	{
 		dialogMessage("Accessory",

@@ -25,9 +25,6 @@
 #include <tankai/TankAI.h>
 #include <tankai/TankAIComputerBuyer.h>
 
-#define TANKAI_DEFINE(y) \
-	virtual TankAIComputer *getCopy(Tank *tank, ScorchedContext *context) { TankAIComputer *comp = new y(*this); comp->setTank(tank); comp->setContext(context); return comp; }
-
 class XMLNode;
 class TankAIComputer : public TankAI
 {
@@ -35,19 +32,18 @@ public:
 	TankAIComputer();
 	virtual ~TankAIComputer();
 
-	virtual TankAIComputer *getCopy(Tank *tank, ScorchedContext *context) = 0;
-
 	// Inherited from TankAI
 	virtual void newGame();
 	virtual bool parseConfig(XMLNode *node);
-	virtual const char *getName() { return name_.c_str(); }
 	virtual void tankHurt(Weapon *weapon, unsigned int firer);
 	virtual void shotLanded(ParticleAction action,
 		ScorchedCollisionInfo *collision,
 		Weapon *weapon, unsigned int firer, 
 		Vector &position);
 
+	virtual const char *getName() { return name_.c_str(); }
 	virtual bool isHuman() { return false; }
+	virtual void setTank(Tank *tank);
 
 	// Indicates if this computer ai is available for choice by
 	// the random tank ai type
@@ -57,10 +53,6 @@ public:
 	virtual void buyAccessories();
 	virtual void autoDefense();
 	virtual void ourShotLanded(Weapon *weapon, Vector &position);
-
-	// Set the tank and context this ai is for
-	void setTank(Tank *tank);
-	void setContext(ScorchedContext *context);
 
 	// Tank move methods and tank defense methods
 	//

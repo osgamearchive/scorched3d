@@ -38,6 +38,7 @@ public:
 
 	virtual bool getReferenced() { return true; }
 	virtual bool getServerOnly() { return true; }
+	virtual const char *getActionType() { return getClassName(); }
 
 	// Needs to be implemented by inherited actions
 	virtual bool writeAction(NetBuffer &buffer) = 0;

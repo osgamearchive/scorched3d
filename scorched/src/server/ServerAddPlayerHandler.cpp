@@ -82,7 +82,7 @@ bool ServerAddPlayerHandler::processMessage(unsigned int destinationId,
 		if (OptionsParam::instance()->getDedicatedServer()) return true;
 
 		// Check tank ai is valid
-		TankAIComputer *ai = 
+		TankAI *ai = 
 			TankAIStore::instance()->getAIByName(message.getPlayerType());
 		if (!ai) return true;
 

@@ -206,16 +206,16 @@ bool SettingsFrame::TransferDataToWindow()
 		SettingsPlayers::IDC_SERVER_MAX_PLAYERS_CTRL->SetToolTip(
 			wxString("The maximum number of players that can be on the server."));
 
-		std::list<TankAIComputer *> &ais = 
+		std::list<TankAI *> &ais = 
 			TankAIStore::instance()->getAis();
 		for (int i=0; i<24; i++)
 		{
-			std::list<TankAIComputer *>::iterator itor;
+			std::list<TankAI *>::iterator itor;
 			for (itor = ais.begin();
 				itor != ais.end();
 				itor++)
 			{
-				TankAIComputer *ai = *itor;
+				TankAI *ai = *itor;
 				SettingsPlayers::IDC_COMBO_PTYPE_CTRL[i]->Append(ai->getName());
 			}
 			SettingsPlayers::IDC_COMBO_PTYPE_CTRL[i]->Append("Human");

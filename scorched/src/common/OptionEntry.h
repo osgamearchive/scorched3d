@@ -22,9 +22,9 @@
 #if !defined(__INCLUDE_OptionEntryh_INCLUDE__)
 #define __INCLUDE_OptionEntryh_INCLUDE__
 
-#include <common/FileLines.h>
 #include <coms/NetBuffer.h>
 #include <common/ARGParser.h>
+#include <XML/XMLParser.h>
 
 class OptionEntry
 {
@@ -68,6 +68,11 @@ public:
 							  NetBuffer &buffer);
 	static bool readFromBuffer(std::list<OptionEntry *> &options,
 							   NetBufferReader &reader);
+
+	static bool writeToXML(std::list<OptionEntry *> &options,
+								XMLNode *node);
+	static bool readFromXML(std::list<OptionEntry *> &options,
+								XMLNode *node);
 
 	static bool writeToFile(std::list<OptionEntry *> &options,
 							char *fileName);

@@ -52,6 +52,7 @@ public:
 	virtual ScorchedContext *getScorchedContext();
 	virtual bool getReferenced() { return false; }
 	virtual bool getServerOnly() { return false; }
+	virtual const char *getActionType() { return "Action"; }
 
 	void setActionStartTime(float time) { actionStartTime_ = time; }
 	float getActionStartTime() { return actionStartTime_; }
@@ -70,6 +71,8 @@ public:
 	virtual ~SpriteAction();
 
 	virtual void init();
+	virtual const char *getActionType() { return "SpriteAction"; }
+
 };
 
 class SpriteActionReferenced : public SpriteAction
@@ -80,6 +83,7 @@ public:
 
 	virtual bool getServerOnly() { return false; }
 	virtual bool getReferenced() { return true; }
+	virtual const char *getActionType() { return "SpriteActionReferenced"; }
 
 };
 

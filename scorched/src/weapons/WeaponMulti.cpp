@@ -42,7 +42,7 @@ bool WeaponMulti::parseXML(XMLNode *accessoryNode)
 		// Get the next weapon
 		char buffer[128];
 		sprintf(buffer, "subweapon%i", i);
-		XMLNode *subNode = accessoryNode->removeNamedChild(buffer);
+		XMLNode *subNode = accessoryNode->getNamedChild(buffer, false, true);
 		if (!subNode) break;
 		
 		// Check next weapon is correct type

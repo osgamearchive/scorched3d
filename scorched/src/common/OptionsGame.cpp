@@ -170,6 +170,18 @@ bool OptionsGame::readFromBuffer(NetBufferReader &reader)
 	return true;
 }
 
+bool OptionsGame::writeOptionsToXML(XMLNode *node)
+{
+	if (!OptionEntryHelper::writeToXML(options_, node)) return false;
+	return true;
+}
+
+bool OptionsGame::readOptionsFromXML(XMLNode *node)
+{
+	if (!OptionEntryHelper::readFromXML(options_, node)) return false;
+	return true;
+}
+
 bool OptionsGame::writeOptionsToFile(char *filePath)
 {
 	std::list<OptionEntry *> saveOptions = 

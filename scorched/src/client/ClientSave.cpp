@@ -21,53 +21,51 @@
 #include <client/ClientSave.h>
 #include <server/ScorchedServer.h>
 #include <tankai/TankAIComputer.h>
-#include <coms/NetBuffer.h>
+#include <common/Defines.h>
+#include <XML/XMLParser.h>
+#include <time.h>
 
 void saveClient()
 {
-	NetBufferDefault::defaultBuffer.reset();
-	NetBufferDefault::defaultBuffer.addToBuffer(ScorchedProtocolVersion);
+	// Root Node
+	XMLNode rootnode("scorchedsave");
+	time_t currentTime = time(0);
+	rootnode.addParameter(new XMLNode("version", ScorchedVersion, 
+		XMLNode::XMLParameterType));
+	rootnode.addChild(new XMLNode("date", ctime(&currentTime)));
 
 	// GameState
-	ScorchedServer::instance()->getOptionsGame().writeToBuffer(
-		NetBufferDefault::defaultBuffer);
+	XMLNode *gameStateNode = new XMLNode("gamestate");
+	ScorchedServer::instance()->getOptionsGame().writeOptionsToXML(
+		gameStateNode);
+	rootnode.addChild(gameStateNode);
 	
 	// Transient State
-	ScorchedServer::instance()->getOptionsTransient().writeToBuffer(
-		NetBufferDefault::defaultBuffer);
-		
-	// Level Detail
+	XMLNode *transientStateNode = new XMLNode("transientstate");
+	ScorchedServer::instance()->getOptionsTransient().writeToXML(
+		transientStateNode);
+	rootnode.addChild(transientStateNode);
 	
-	
+	// Players
+	XMLNode *playersNode = new XMLNode("players");
+	rootnode.addChild(playersNode);
+
 	std::map<unsigned int, Tank *> &tanks = 
 		ScorchedServer::instance()->getTankContainer().getPlayingTanks();
  	std::map<unsigned int, Tank *>::iterator itor;
-
-	// Players
-	NetBufferDefault::defaultBuffer.addToBuffer((int) tanks.size());
 	for (itor = tanks.begin();
 		itor != tanks.end();
 		itor++)
 	{
+		XMLNode *playerNode = new XMLNode("player");
+		playersNode->addChild(playerNode);
+
 		// Add each tank
 		Tank *tank = (*itor).second;
-		NetBufferDefault::defaultBuffer.
-			addToBuffer(tank->getPlayerId());
-		if (!tank->writeMessage(NetBufferDefault::defaultBuffer)) return;
-		if (tank->getTankAI() && tank->getDestinationId() == 0)
-		{
-			TankAIComputer *computerAI = (TankAIComputer *)
-				tank->getTankAI();
-			NetBufferDefault::defaultBuffer.
-				addToBuffer(computerAI->getName());
-		}
-		else
-		{
-			NetBufferDefault::defaultBuffer.
-				addToBuffer("Human");
-		}
+		if (!tank->writeXML(playerNode)) return;
 	}
-	
-	// Player Ordering
-	
+
+	// Write XML
+	//rootnode.writeToFile("/tmp/a.xml");	
 }
+

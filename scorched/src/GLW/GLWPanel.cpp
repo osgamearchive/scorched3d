@@ -161,7 +161,7 @@ void GLWPanel::keyDown(char *buffer, unsigned int keyState,
 bool GLWPanel::initFromXML(XMLNode *node)
 {
 	// Items
-	XMLNode *itemsNode = node->removeNamedChild("items", true);
+	XMLNode *itemsNode = node->getNamedChild("items", true, true);
 	if (!itemsNode) return false;
 
 	// Itterate all of the items in the file
@@ -175,7 +175,7 @@ bool GLWPanel::initFromXML(XMLNode *node)
 		XMLNode *currentNode = (*childrenItor);
 
 		// The Widget
-		XMLNode *widgetNode = currentNode->removeNamedChild("widget", true);
+		XMLNode *widgetNode = currentNode->getNamedChild("widget", true, true);
 		if (!widgetNode) return false;
 
 		// The type
@@ -202,7 +202,7 @@ bool GLWPanel::initFromXML(XMLNode *node)
 
 		// The condition (if any)
 		GLWCondition *condition = 0;
-		XMLNode *conditionNode = currentNode->removeNamedChild("condition");
+		XMLNode *conditionNode = currentNode->getNamedChild("condition", false, true);
 		if (conditionNode)
 		{
 			// Get the type of this condition

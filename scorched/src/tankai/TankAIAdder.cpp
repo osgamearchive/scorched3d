@@ -62,7 +62,7 @@ void TankAIAdder::addTankAI(ScorchedContext &context,
 							const char *name,
 							bool raiseEvent)
 {
-	TankAIComputer *ai = 
+	TankAI *ai = 
 		TankAIStore::instance()->getAIByName(aiName);
 	if (ai)
 	{

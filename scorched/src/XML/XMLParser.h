@@ -24,46 +24,74 @@
 #include <string>
 #include <list>
 #include <XML/expat.h>
+#include <common/FileLines.h>
+#include <common/Vector.h>
 
 class XMLNode
 {
 public:
+	static float ErrorFloat;
+	static int ErrorInt;
+	static unsigned int ErrorUInt;
+	static Vector ErrorVector;
 	enum NodeType
 	{
 		XMLNodeType,
-		XMLParameterType
+		XMLParameterType,
+		XMLCommentType
 	};
 
-	XMLNode(const char *name, XMLNode *parent, 
-		NodeType type, const char *source);
+	XMLNode(const char *name, const char *content = "", 
+		NodeType = XMLNode::XMLNodeType);
+	XMLNode(const char *name, float content, 
+		NodeType = XMLNode::XMLNodeType);
+	XMLNode(const char *name, int content, 
+		NodeType = XMLNode::XMLNodeType);
+	XMLNode(const char *name, Vector &content, 
+		NodeType = XMLNode::XMLNodeType);
+	XMLNode(const char *name, unsigned int content, 
+		NodeType = XMLNode::XMLNodeType);
 	virtual ~XMLNode();
 
+	bool writeToFile(const char *fileName);
+
+	NodeType getType() { return type_; }
 	const char *getName() { return name_.c_str(); }
 	const char *getContent() { return content_.c_str(); }
+	const char *getSource() { return source_.c_str(); }
 	const XMLNode *getParent() { return parent_; }
 	std::list<XMLNode *> &getChildren() { return children_; }
 	std::list<XMLNode *> &getParameters() { return parameters_; }
 
-	NodeType getType() { return type_; }
-	XMLNode *getNamedParameter(const char *name, bool failOnError = false);
-	XMLNode *getNamedChild(const char *name, bool failOnError = false);
-	XMLNode *removeNamedChild(const char *name, bool failOnError = false);
+	XMLNode *getNamedParameter(const char *name, 
+		bool failOnError = false, bool remove = false);
+	XMLNode *getNamedChild(const char *name, 
+		bool failOnError = false, bool remove = false);
+	float getNamedFloatChild(const char *name, 
+		bool failOnError = false, bool remove = false);
+	int getNamedIntChild(const char *name, 
+		bool failOnError = false, bool remove = false);
+	unsigned int getNamedUIntChild(const char *name, 
+		bool failOnError = false, bool remove = false);
+	Vector getNamedVectorChild(const char *name, 
+		bool failOnError = false, bool remove = false);
 
-	static float ErrorFloat;
-	float getNamedFloatChild(const char *name, bool failOnError = false);
-
-	void addChild(XMLNode *node) { children_.push_back(node); }
-	void addContent(const char *data, int len) { content_.append(data, len); }
+	void addSource(const char *source);
+	void addChild(XMLNode *node); 
+	void addParameter(XMLNode *node);
+	void addContent(const char *data, int len);
 
 protected:
 	NodeType type_;
 	XMLNode *parent_;
 	std::list<XMLNode *> children_;
-	std::list<XMLNode *> removedChildren_; // So they are tidied up as well
+	std::list<XMLNode *> removedNodes_; // So they are tidied up as well
 	std::list<XMLNode *> parameters_;
 	std::string name_;
 	std::string content_;
 	std::string source_;
+
+	void addNodeToFile(FileLines &lines, int spacing);
 
 };
 

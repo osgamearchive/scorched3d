@@ -28,6 +28,7 @@
 #include <tank/TankModelId.h>
 #include <tankai/TankAI.h>
 
+class XMLNode;
 class Tank  
 {
 public:
@@ -48,6 +49,8 @@ public:
 	// Serialize the tank
 	bool writeMessage(NetBuffer &buffer);
 	bool readMessage(NetBufferReader &reader);
+	bool writeXML(XMLNode *node);
+	bool readXML(XMLNode *node);
 
 	// The base attributes of the tank
 	unsigned int getPlayerId() { return playerId_; }

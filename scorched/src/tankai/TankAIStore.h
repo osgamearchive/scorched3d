@@ -23,27 +23,26 @@
 #define __INCLUDE_TankAIStoreh_INCLUDE__
 
 #include <list>
-#include <tankai/TankAIComputer.h>
+#include <tankai/TankAI.h>
 
 class TankAIStore
 {
 public:
 	static TankAIStore *instance();
 
-	std::list<TankAIComputer *> &getAis() { return ais_; }
-	TankAIComputer *getAIByName(const char *name);
+	std::list<TankAI*> &getAis() { return ais_; }
+	TankAI *getAIByName(const char *name);
 
 protected:
 	static TankAIStore *instance_;
-	std::list<TankAIComputer *> ais_;
+	std::list<TankAI *> ais_;
 
-	void addComputerAI(TankAIComputer *ai);
+	void addAI(TankAI *ai);
 	bool loadAIs();
 
 private:
 	TankAIStore();
 	virtual ~TankAIStore();
 };
-
 
 #endif

@@ -25,13 +25,55 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-float XMLNode::ErrorFloat = FLT_MAX;
-
-XMLNode::XMLNode(const char *name, XMLNode *parent, 
-				 NodeType type, const char *source) : 
-	name_(name), parent_(parent), type_(type),
-	source_(source)
+static const char *getSpacer(int space)
 {
+	static std::string spacestr;
+	spacestr.clear();
+	for (int i=0; i<space; i++) spacestr+="\t";
+	return spacestr.c_str();
+}
+
+float XMLNode::ErrorFloat = FLT_MAX;
+int XMLNode::ErrorInt = INT_MAX;
+unsigned int XMLNode::ErrorUInt = UINT_MAX;
+Vector XMLNode::ErrorVector = Vector(FLT_MAX, FLT_MAX, FLT_MAX);
+
+XMLNode::XMLNode(const char *name, const char *content, NodeType type) : 
+	name_(name), parent_(0), type_(type),
+	content_(content)
+{
+}
+
+XMLNode::XMLNode(const char *name, float content, NodeType type) :
+	name_(name), parent_(0), type_(type)
+{
+	char buffer[20];
+	sprintf(buffer, "%.2f", content);
+	content_ = buffer;
+}
+
+XMLNode::XMLNode(const char *name, int content, NodeType type) :
+	name_(name), parent_(0), type_(type)
+{
+	char buffer[20];
+	sprintf(buffer, "%i", content);
+	content_ = buffer;
+}
+
+XMLNode::XMLNode(const char *name, unsigned int content, NodeType type) :
+	name_(name), parent_(0), type_(type)
+{
+	char buffer[20];
+	sprintf(buffer, "%i", content);
+	content_ = buffer;
+}
+
+XMLNode::XMLNode(const char *name, Vector &content, NodeType type) :
+	name_(name), parent_(0), type_(type)
+{
+	addChild(new XMLNode("A", content[0]));
+	addChild(new XMLNode("B", content[1]));
+	addChild(new XMLNode("C", content[2]));
 }
 
 XMLNode::~XMLNode()
@@ -42,10 +84,10 @@ XMLNode::~XMLNode()
 		children_.pop_front();
 		delete node;
 	}
-	while (!removedChildren_.empty())
+	while (!removedNodes_.empty())
 	{
-		XMLNode *node = removedChildren_.front();
-		removedChildren_.pop_front();
+		XMLNode *node = removedNodes_.front();
+		removedNodes_.pop_front();
 		delete node;
 	}
 	while (!parameters_.empty())
@@ -56,7 +98,62 @@ XMLNode::~XMLNode()
 	}
 }
 
-XMLNode *XMLNode::getNamedChild(const char *name, bool failOnError)
+bool XMLNode::writeToFile(const char *filename)
+{
+	FileLines lines;
+	addNodeToFile(lines, 0);
+	return lines.writeFile((char *) filename);
+}
+
+void XMLNode::addNodeToFile(FileLines &lines, int spacing)
+{
+	if (type_ == XMLNodeType)
+	{
+		std::string params;
+		std::list<XMLNode *>::iterator pitor;
+		for (pitor = parameters_.begin();
+			pitor != parameters_.end();
+			pitor++)
+		{
+			XMLNode *node = (*pitor);
+			DIALOG_ASSERT(node->type_ == XMLParameterType);
+			params += " " + node->name_ + "='" + node->content_ + "'";
+		}
+
+		if (children_.empty())
+		{
+			lines.addLine("%s<%s%s>%s</%s>", 
+				getSpacer(spacing),
+				name_.c_str(), params.c_str(), 
+				content_.c_str(), name_.c_str());
+		}
+		else
+		{
+			lines.addLine("%s<%s%s>", 
+				getSpacer(spacing),
+				name_.c_str(), params.c_str());
+
+			std::list<XMLNode *>::iterator itor;
+			for (itor = children_.begin();
+				itor != children_.end();
+				itor++)
+			{
+				XMLNode *node = (*itor);
+				node->addNodeToFile(lines, spacing + 1);
+			}
+
+			lines.addLine("%s</%s>", 
+				getSpacer(spacing), name_.c_str());
+		}
+	}
+	else if (type_ == XMLCommentType)
+	{
+		lines.addLine("%s<!-- %s -->", 
+			getSpacer(spacing), content_.c_str());
+	}
+}
+
+XMLNode *XMLNode::getNamedChild(const char *name, bool failOnError, bool remove)
 {
 	std::list<XMLNode *>::iterator itor;
 	for (itor = children_.begin();
@@ -64,7 +161,15 @@ XMLNode *XMLNode::getNamedChild(const char *name, bool failOnError)
 		itor++)
 	{
 		XMLNode *node = (*itor);
-		if (strcmp(name, node->getName()) == 0) return node;
+		if (strcmp(name, node->getName()) == 0) 
+		{
+			if (remove)
+			{
+				removedNodes_.push_back(node);
+				children_.erase(itor);
+			}
+			return node;
+		}
 	}
 
 	if (failOnError)
@@ -77,33 +182,7 @@ XMLNode *XMLNode::getNamedChild(const char *name, bool failOnError)
 	return 0;
 }
 
-XMLNode *XMLNode::removeNamedChild(const char *name, bool failOnError)
-{
-	std::list<XMLNode *>::iterator itor;
-	for (itor = children_.begin();
-		itor != children_.end();
-		itor++)
-	{
-		XMLNode *node = (*itor);
-		if (strcmp(name, node->getName()) == 0)
-		{
-			removedChildren_.push_back(node);
-			children_.erase(itor);
-			return node;
-		}
-	}
-
-	if (failOnError)
-	{
-		dialogMessage("XMLNode",
-			"Error: Failed to find \"%s\" node in \"%s:%s\"\n",
-			name, source_.c_str(), 
-			(parent_->getName()?parent_->getName():"Root"));
-	}
-	return 0;
-}
-
-XMLNode *XMLNode::getNamedParameter(const char *name, bool failOnError)
+XMLNode *XMLNode::getNamedParameter(const char *name, bool failOnError, bool remove)
 {
 	std::list<XMLNode *>::iterator itor;
 	for (itor = parameters_.begin();
@@ -111,7 +190,15 @@ XMLNode *XMLNode::getNamedParameter(const char *name, bool failOnError)
 		itor++)
 	{
 		XMLNode *node = (*itor);
-		if (strcmp(name, node->getName()) == 0) return node;
+		if (strcmp(name, node->getName()) == 0)
+		{
+			if (remove)
+			{
+				removedNodes_.push_back(node);
+				parameters_.erase(itor);
+			}
+			return node;
+		}
 	}
 
 	if (failOnError)
@@ -124,11 +211,64 @@ XMLNode *XMLNode::getNamedParameter(const char *name, bool failOnError)
 	return 0;
 }
 
-float XMLNode::getNamedFloatChild(const char *name, bool failOnError)
+float XMLNode::getNamedFloatChild(const char *name, bool failOnError, bool remove)
 {
-	XMLNode *node = getNamedChild(name, failOnError);
-	if (!node) return XMLNode::ErrorFloat;
+	XMLNode *node = getNamedChild(name, failOnError, remove);
+	if (!node) return ErrorFloat;
 	return (float) atof(node->getContent());
+}
+
+int XMLNode::getNamedIntChild(const char *name, bool failOnError, bool remove)
+{
+	XMLNode *node = getNamedChild(name, failOnError, remove);
+	if (!node) return ErrorInt;
+	return (int) atoi(node->getContent());
+}
+
+unsigned int XMLNode::getNamedUIntChild(const char *name, bool failOnError, bool remove)
+{
+	XMLNode *node = getNamedChild(name, failOnError, remove);
+	if (!node) return ErrorUInt;
+	return (unsigned int) atoi(node->getContent());
+}
+
+Vector XMLNode::getNamedVectorChild(const char *name, bool failOnError, bool remove)
+{
+	XMLNode *node = getNamedChild(name, failOnError, remove);
+	if (!node) return ErrorVector;
+	XMLNode *nodeA = node->getNamedChild("A", failOnError, true);
+	XMLNode *nodeB = node->getNamedChild("B", failOnError, true);
+	XMLNode *nodeC = node->getNamedChild("C", failOnError, true);
+	if (!nodeA || !nodeB || !nodeC) return ErrorVector;
+	Vector result;
+	result[0] = (float) atof(nodeA->getContent());
+	result[1] = (float) atof(nodeB->getContent());
+	result[2] = (float) atof(nodeC->getContent());
+	return result;
+}
+
+void XMLNode::addSource(const char *source)
+{ 
+	source_ = source; 
+}
+
+void XMLNode::addChild(XMLNode *node) 
+{ 
+	children_.push_back(node); 
+	node->parent_ = this; 
+	node->source_ = source_; 
+}
+
+void XMLNode::addParameter(XMLNode *node) 
+{ 
+	parameters_.push_back(node); 
+	node->parent_ = this; 
+	node->source_ = source_; 
+}
+
+void XMLNode::addContent(const char *data, int len)
+{ 
+	content_.append(data, len); 
 }
 
 XMLParser::XMLParser() : root_(0), current_(0), 
@@ -175,16 +315,15 @@ void XMLParser::startElementHandler(const XML_Char *name,
 	if (!root_)
 	{
 		// Create the root node
-		root_ = current_ = new XMLNode(name, 0, 
-			XMLNode::XMLNodeType, source_.c_str());
+		root_ = current_ = new XMLNode(name);
+		root_->addSource(source_.c_str());
 	}
 	else
 	{
 		DIALOG_ASSERT(current_);
 
 		// Add a new child to this node
-		XMLNode *newNode = new XMLNode(name, current_, 
-			XMLNode::XMLNodeType, source_.c_str());
+		XMLNode *newNode = new XMLNode(name);
 		current_->addChild(newNode);
 		current_ = newNode;
 	}
@@ -198,10 +337,9 @@ void XMLParser::startElementHandler(const XML_Char *name,
 			const XML_Char *value = *atts;
 			atts++;
 
-			XMLNode *param = new XMLNode(name, current_, 
-				XMLNode::XMLParameterType, source_.c_str());
+			XMLNode *param = new XMLNode(name, "", XMLNode::XMLParameterType);
 			param->addContent(value, strlen(value));
-			current_->getParameters().push_back(param);
+			current_->addParameter(param);
 		}
 	}
 }

@@ -43,6 +43,11 @@ void ActionBuffer::clear()
 	actionList_.clear();
 }
 
+int ActionBuffer::size()
+{
+	return (int) actionList_.size();
+}
+
 bool ActionBuffer::empty()
 {
 	return actionList_.empty();

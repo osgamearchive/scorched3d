@@ -36,16 +36,16 @@ bool TankAIComputerRandom::parseConfig(XMLNode *node)
 	return true;
 }
 
-TankAIComputer *TankAIComputerRandom::getCopy(Tank *tank, ScorchedContext *context)
+TankAI *TankAIComputerRandom::getCopy(Tank *tank, ScorchedContext *context)
 {
 	DIALOG_ASSERT(TankAIStore::instance()->getAis().size());
 
 	int tankNo = int(RAND * float(TankAIStore::instance()->getAis().size()));
-	std::list<TankAIComputer *>::iterator itor = 
+	std::list<TankAI *>::iterator itor = 
 		TankAIStore::instance()->getAis().begin();
 	for (int i=0; i<tankNo; i++) itor++;
 
-	TankAIComputer *result = (*itor);
+	TankAI *result = (*itor);
 	if (!result->availableForRandom()) return getCopy(tank, context);
 	return result->getCopy(tank, context);
 }

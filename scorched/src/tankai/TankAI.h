@@ -30,13 +30,19 @@ class Tank;
 class ComsDefenseMessage;
 class ComsPlayedMoveMessage;
 
+#define TANKAI_DEFINE(y) \
+	virtual TankAI *getCopy(Tank *tank, ScorchedContext *context) { TankAI *comp = new y(*this); comp->setTank(tank); comp->setContext(context); return comp; }
+
 class TankAI
 {
 public:
-	TankAI(ScorchedContext *context, Tank *tank);
+	TankAI();
 	virtual ~TankAI();
 
 	virtual bool isHuman() = 0;
+	virtual const char *getName() = 0;
+	virtual TankAI *getCopy(Tank *tank, ScorchedContext *context) = 0;
+	virtual bool availableForRandom() { return false; }
 
 	// State information about when the ai should act
 	//
@@ -47,6 +53,10 @@ public:
 		float frameTime, char *buffer, unsigned int keyState) = 0;
 	virtual void endPlayMove();
 	virtual void newGame() = 0;
+	
+	// Set the tank and context this ai is for
+	virtual void setTank(Tank *tank);
+	virtual void setContext(ScorchedContext *context);
 
 	// Information about shots landing
 	//

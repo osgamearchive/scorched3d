@@ -129,7 +129,7 @@ void PlayerDialog::windowDisplay()
 	typeDropDown_->addText("Human");
 	if (!OptionsParam::instance()->getConnectedToServer())
 	{
-		std::list<TankAIComputer *>::iterator aiitor;
+		std::list<TankAI *>::iterator aiitor;
 		for (aiitor = TankAIStore::instance()->getAis().begin();
 			aiitor != TankAIStore::instance()->getAis().end();
 			aiitor++)

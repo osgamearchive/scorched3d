@@ -261,6 +261,8 @@ public:
 
 	// Fns used to save or restore the state of the options
 	std::list<OptionEntry *> &getOptions();
+	virtual bool writeOptionsToXML(XMLNode *xmlNode);
+	virtual bool readOptionsFromXML(XMLNode *xmlNode);
 	virtual bool writeOptionsToFile(char *filePath);
 	virtual bool readOptionsFromFile(char *filePath);
 	virtual bool writeToBuffer(NetBuffer &buffer);

@@ -41,7 +41,7 @@ bool WeaponRoller::parseXML(XMLNode *accessoryNode)
 	if (!Weapon::parseXML(accessoryNode)) return false;
 
 	// Get the accessory size
-	XMLNode *rollersNode = accessoryNode->removeNamedChild("numberrollers");
+	XMLNode *rollersNode = accessoryNode->getNamedChild("numberrollers", false, true);
 	if (!rollersNode)
 	{
 		dialogMessage("Accessory",
@@ -52,7 +52,7 @@ bool WeaponRoller::parseXML(XMLNode *accessoryNode)
 	numberRollers_ = atoi(rollersNode->getContent());	
 
 	// Get the next weapon
-	XMLNode *subNode = accessoryNode->removeNamedChild("collisionaction");
+	XMLNode *subNode = accessoryNode->getNamedChild("collisionaction", false, true);
 	if (!subNode)
 	{
 		dialogMessage("Accessory",

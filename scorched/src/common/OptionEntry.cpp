@@ -83,32 +83,112 @@ bool OptionEntryHelper::readFromBuffer(std::list<OptionEntry *> &options,
 	return true;
 }
 
-bool OptionEntryHelper::writeToFile(std::list<OptionEntry *> &options,
-									char *filePath)
+bool OptionEntryHelper::writeToXML(std::list<OptionEntry *> &options,
+	XMLNode *node)
 {
-	FileLines file;
-
-	file.addLine("<options source=\"Scorched3D\">");
 	std::list<OptionEntry *>::iterator itor;
 	for (itor = options.begin();
 		itor != options.end();
 		itor++)
 	{
 		OptionEntry *entry = (*itor);
-
-		file.addLine("  <!-- %s -->", entry->getDescription());
-		file.addLine("  <option>");
-		file.addLine("    <name>%s</name>", entry->getName());
-		file.addLine("    <value>%s</value>", entry->getValueAsString());
-		file.addLine("    <defaultvalue>%s</defaultvalue>", entry->getDefaultValueAsString());
-		file.addLine("  </option>");
+	
+		node->addChild(new XMLNode("", 
+			entry->getDescription(), XMLNode::XMLCommentType));
+		XMLNode *optionNode = new XMLNode("option");
+		node->addChild(optionNode);
+		optionNode->addChild(
+			new XMLNode("name", entry->getName()));
+		optionNode->addChild(
+			new XMLNode("value", entry->getValueAsString()));
+		optionNode->addChild(
+			new XMLNode("defaultvalue", entry->getDefaultValueAsString()));
 	}
-	file.addLine("</options>");
+	return true;
+}
 
-	if (!file.writeFile(filePath)) return false;
+bool OptionEntryHelper::writeToFile(std::list<OptionEntry *> &options,
+									char *filePath)
+{
+	XMLNode optionsNode("options");
+	optionsNode.addParameter(
+		new XMLNode("source", "Scorched3D", XMLNode::XMLParameterType));
+	writeToXML(options, &optionsNode);
+
+	if (!optionsNode.writeToFile(filePath)) return false;
 
 	return true;
 }
+
+bool OptionEntryHelper::readFromXML(std::list<OptionEntry *> &options,
+									 XMLNode *rootnode)
+{
+	// Create a map from string name to existing options
+	// So we can find the named option when parsing the file
+	std::map<std::string, OptionEntry *> entryMap;
+	std::list<OptionEntry *>::iterator itor;
+	for (itor = options.begin();
+		itor != options.end();
+		itor++)
+	{
+		OptionEntry *entry = (*itor);
+		std::string name = entry->getName();
+		_strlwr((char *) name.c_str());
+
+		entryMap[name] = entry;
+	}
+
+	// Itterate all of the options in the file
+	std::list<XMLNode *>::iterator childrenItor;
+	for (childrenItor = rootnode->getChildren().begin();
+		childrenItor != rootnode->getChildren().end();
+		childrenItor++)
+	{
+		XMLNode *currentNode = (*childrenItor);
+		XMLNode *nameNode = currentNode->getNamedChild("name");
+		XMLNode *valueNode = currentNode->getNamedChild("value");
+
+		if (!nameNode)
+		{
+			dialogMessage(
+				"Scorched3D Options", 
+				"ERROR: Failed to parse file \"%s\". No name node",
+				currentNode->getSource());
+			return false;			
+		}
+		if (!valueNode)
+		{
+			dialogMessage("Scorched3D Options", 
+				   "ERROR: Failed to parse file \"%s\". No value node",
+					currentNode->getSource());
+			return false;			
+		}
+
+		std::string name = nameNode->getContent();
+		std::string value = valueNode->getContent();
+		_strlwr((char *) name.c_str());
+
+		std::map<std::string, OptionEntry *>::iterator finditor =
+			entryMap.find(name);
+		if (finditor == entryMap.end())
+		{
+			dialogMessage("Scorched3D Options",
+				"ERROR: Failed to parse file \"%s\". Cannot find option \"%s\"",
+				currentNode->getSource(), name.c_str());
+			return false;					
+		}
+
+		if (!(*finditor).second->setValueFromString(value.c_str()))
+		{
+			dialogMessage("Scorched3D Options",
+				"ERROR: Failed to parse file \"%s\"\n"
+				"Failed to set option \"%s\" with \"%s\"",
+				currentNode->getSource(), name.c_str(), value.c_str());
+			return false;		
+		}	
+	}
+	return true;
+}								 
 
 bool OptionEntryHelper::readFromFile(std::list<OptionEntry *> &options,
 									 char *filePath)
@@ -128,70 +208,8 @@ bool OptionEntryHelper::readFromFile(std::list<OptionEntry *> &options,
 	// return true for an empty file
 	if (!file.getRootNode()) return true;
 
-	// Create a map from string name to existing options
-	// So we can find the named option when parsing the file
-	std::map<std::string, OptionEntry *> entryMap;
-	std::list<OptionEntry *>::iterator itor;
-	for (itor = options.begin();
-		itor != options.end();
-		itor++)
-	{
-		OptionEntry *entry = (*itor);
-		std::string name = entry->getName();
-		_strlwr((char *) name.c_str());
-
-		entryMap[name] = entry;
-	}
-
-	// Itterate all of the options in the file
-	std::list<XMLNode *>::iterator childrenItor;
-	for (childrenItor = file.getRootNode()->getChildren().begin();
-		childrenItor != file.getRootNode()->getChildren().end();
-		childrenItor++)
-	{
-		XMLNode *currentNode = (*childrenItor);
-		XMLNode *nameNode = currentNode->getNamedChild("name");
-		XMLNode *valueNode = currentNode->getNamedChild("value");
-
-		if (!nameNode)
-		{
-			dialogMessage(
-				"Scorched3D Options", 
-				"ERROR: Failed to parse file \"%s\". No name node",
-				filePath);
-			return false;			
-		}
-		if (!valueNode)
-		{
-			dialogMessage("Scorched3D Options", 
-				   "ERROR: Failed to parse file \"%s\". No value node",
-					filePath);
-			return false;			
-		}
-
-		std::string name = nameNode->getContent();
-		std::string value = valueNode->getContent();
-		_strlwr((char *) name.c_str());
-
-		std::map<std::string, OptionEntry *>::iterator finditor =
-			entryMap.find(name);
-		if (finditor == entryMap.end())
-		{
-			dialogMessage("Scorched3D Options",
-				"ERROR: Failed to parse file \"%s\". Cannot find option \"%s\"",
-				filePath, name.c_str());
-			return false;					
-		}
-
-		if (!(*finditor).second->setValueFromString(value.c_str()))
-		{
-			dialogMessage("Scorched3D Options",
-				"ERROR: Failed to parse file \"%s\"\n"
-				"Failed to set option \"%s\" with \"%s\"",
-				filePath, name.c_str(), value.c_str());
-			return false;		
-		}	
-	}
+	// Read the options from the XML node
+	if (!readFromXML(options, file.getRootNode())) return false;
 
 	return true;
 }

@@ -21,6 +21,7 @@
 #include <XML/XMLFile.h>
 #include <common/Defines.h>
 #include <tankai/TankAIStore.h>
+#include <tankai/TankAIHuman.h>
 #include <tankai/TankAIComputerMoron.h>
 #include <tankai/TankAIComputerTosser.h>
 #include <tankai/TankAIComputerRandom.h>
@@ -133,16 +134,21 @@ bool TankAIStore::loadAIs()
 			return false;
 		}
 
-		addComputerAI(computer);
+		addAI(computer);
 	}
-	addComputerAI(new TankAIComputerRandom);
+	addAI(new TankAIComputerRandom);
 
 	return true;
 }
 
-TankAIComputer *TankAIStore::getAIByName(const char *name)
+TankAI *TankAIStore::getAIByName(const char *name)
 {
-	std::list<TankAIComputer *>::iterator itor;
+	// Human
+	static TankAIHuman humanAI;
+	if (0 == strcmp(name, "Human")) return &humanAI;
+
+	// Computers
+	std::list<TankAI *>::iterator itor;
 	for (itor = ais_.begin();
 		itor != ais_.end();
 		itor++)
@@ -153,7 +159,7 @@ TankAIComputer *TankAIStore::getAIByName(const char *name)
 	return 0;
 }
 
-void TankAIStore::addComputerAI(TankAIComputer *ai)
+void TankAIStore::addAI(TankAI *ai)
 {
 	ais_.push_back(ai);
 }

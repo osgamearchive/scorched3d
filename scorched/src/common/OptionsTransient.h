@@ -18,7 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #if !defined(__INCLUDE_OptionsTransienth_INCLUDE__)
 #define __INCLUDE_OptionsTransienth_INCLUDE__
 
@@ -74,6 +73,10 @@ public:
 	bool writeToBuffer(NetBuffer &buffer);
 	bool readFromBuffer(NetBufferReader &reader);
 
+	// User to save games
+	bool writeToXML(XMLNode *node);
+	bool readFromXML(XMLNode *node);
+
 protected:
 	OptionsGame &optionsGame_;
 	struct Settings
@@ -94,6 +97,5 @@ protected:
 	void nextRoundWind();
 
 };
-
 
 #endif

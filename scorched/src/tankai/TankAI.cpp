@@ -20,8 +20,8 @@
 
 #include <tankai/TankAI.h>
 
-TankAI::TankAI(ScorchedContext *context, Tank *tank) : 
-	currentTank_(tank), context_(context)
+TankAI::TankAI() : 
+	currentTank_(0), context_(0)
 {
 }
 
@@ -31,4 +31,14 @@ TankAI::~TankAI()
 
 void TankAI::endPlayMove()
 {
+}
+
+void TankAI::setContext(ScorchedContext *context)
+{
+	context_ = context;
+}
+
+void TankAI::setTank(Tank *tank)
+{
+	currentTank_ = tank;
 }

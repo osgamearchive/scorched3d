@@ -109,7 +109,7 @@ wxString ServerPlayerListControl::OnGetItemText(long item, long column) const
 				const char *result = "Human";
 				if (tank->getTankAI())
 				{
-					result = ((TankAIComputer *) tank->getTankAI())->getName();
+					result = tank->getTankAI()->getName();
 				}
 
 				return result;
@@ -297,13 +297,13 @@ ServerFrame::ServerFrame(const char *name) :
 
 	wxMenu *menuAddPlayer = new wxMenu;
 	int aicount = 0;
-	std::list<TankAIComputer *> &ais = TankAIStore::instance()->getAis();
-	std::list<TankAIComputer *>::iterator aiitor;
+	std::list<TankAI *> &ais = TankAIStore::instance()->getAis();
+	std::list<TankAI *>::iterator aiitor;
 	for (aiitor = ais.begin();
 		aiitor != ais.end();
 		aiitor++, aicount++)
 	{
-		TankAIComputer *ai = (*aiitor);
+		TankAI *ai = (*aiitor);
 		char buffer[256];
 		sprintf(buffer, "Add %s", ai->getName());
 		menuAddPlayer->Append(IDC_MENU_PLAYERADD_1 + aicount, buffer);
@@ -339,13 +339,13 @@ void ServerFrame::onPlayerAdd(int i)
 		ScorchedServer::instance()->getOptionsGame().getNoMaxPlayers())
 	{
 		int aicount = 1;
-		std::list<TankAIComputer *> &ais = TankAIStore::instance()->getAis();
-		std::list<TankAIComputer *>::iterator aiitor;
+		std::list<TankAI *> &ais = TankAIStore::instance()->getAis();
+		std::list<TankAI *>::iterator aiitor;
 		for (aiitor = ais.begin();
 			aiitor != ais.end();
 			aiitor++, aicount++)
 		{
-			TankAIComputer *ai = (*aiitor);
+			TankAI *ai = (*aiitor);
 			if (aicount == i)
 			{
 				TankAIAdder::addTankAI(ScorchedServer::instance()->getContext(),

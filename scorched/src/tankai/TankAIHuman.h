@@ -26,10 +26,11 @@
 class TankAIHuman : public TankAI
 {
 public:
-	TankAIHuman(ScorchedContext *context, Tank *tank);
+	TankAIHuman();
 	virtual ~TankAIHuman();
 
 	virtual bool isHuman() { return true; }
+	virtual const char *getName() { return "Human"; }
 
 	// Inherited from TankAI
 	virtual void playMove(const unsigned state, 
@@ -55,6 +56,8 @@ public:
 	virtual void parachutesUpDown(bool on);
 	virtual void shieldsUpDown(unsigned int shieldId=0);
 	virtual void useBattery();
+
+TANKAI_DEFINE(TankAIHuman);
 
 protected:
 	void movePower(char *buffer, unsigned int keyState, float frameTime);

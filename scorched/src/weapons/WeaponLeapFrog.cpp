@@ -38,7 +38,7 @@ bool WeaponLeapFrog::parseXML(XMLNode *accessoryNode)
 	if (!Weapon::parseXML(accessoryNode)) return false;
 
 	// Get the next weapon
-	XMLNode *subNode = accessoryNode->removeNamedChild("collisionaction");
+	XMLNode *subNode = accessoryNode->getNamedChild("collisionaction", false, true);
 	if (!subNode)
 	{
 		dialogMessage("Accessory",

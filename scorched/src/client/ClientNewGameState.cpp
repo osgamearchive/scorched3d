@@ -25,6 +25,7 @@
 #include <client/MainBanner.h>
 #include <client/ScorchedClient.h>
 #include <client/ClientState.h>
+#include <client/ClientSave.h>
 #include <landscape/Landscape.h>
 #include <tankgraph/TankRenderer.h>
 #include <GLEXT/GLLenseFlare.h>
@@ -54,6 +55,9 @@ void ClientNewGameState::enterState(const unsigned state)
 {
 	// Calculate all the new landscape settings (graphics)
 	Landscape::instance()->generate(ProgressDialog::instance());
+
+	// Save the client state
+	saveClient();
 
 	// Calculate other graphics that need to be built, only once
 	static bool initOnce = false;
@@ -85,3 +89,4 @@ void ClientNewGameState::enterState(const unsigned state)
 	// Stimulate into the next round state
 	ScorchedClient::instance()->getGameState().stimulate(ClientState::StimWait);
 }
+

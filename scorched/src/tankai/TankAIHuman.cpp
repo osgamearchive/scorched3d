@@ -32,7 +32,7 @@
 #include <tank/Tank.h>
 #include <stdio.h>
 
-TankAIHuman::TankAIHuman(ScorchedContext *context, Tank *tank) : TankAI(context, tank)
+TankAIHuman::TankAIHuman()
 {
 }
 

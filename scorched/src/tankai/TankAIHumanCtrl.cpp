@@ -20,6 +20,7 @@
 
 #include <tankai/TankAIHumanCtrl.h>
 #include <tankai/TankAIHuman.h>
+#include <tankai/TankAIStore.h>
 #include <client/ScorchedClient.h>
 #include <client/ClientState.h>
 
@@ -101,7 +102,10 @@ void TankAIHumanCtrl::setTankAI()
 			!currentTank->getTankAI()) 
 		{
 			// If this is a player local to this destination then add the human ai
-			TankAI *ai = new TankAIHuman(&ScorchedClient::instance()->getContext(), currentTank);
+			TankAI *ai =
+				TankAIStore::instance()->getAIByName("Human")->getCopy(
+					currentTank,
+					&ScorchedClient::instance()->getContext());
 			currentTank->setTankAI(ai);
 		}
 	}

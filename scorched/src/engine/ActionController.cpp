@@ -24,7 +24,8 @@
 #include <list>
 
 ActionController::ActionController() : 
-	speed_(1.0f), referenceCount_(0), time_(0.0f), context_(0)
+	speed_(1.0f), referenceCount_(0), time_(0.0f), 
+	context_(0), lastTraceTime_(0.0f)
 {
 
 }
@@ -63,16 +64,45 @@ void ActionController::clear()
 	referenceCount_ = 0;
 }
 
+void ActionController::logActions()
+{
+	Logger::log(0, "ActionLog : Time %.2f, New %i, Ref %i, Buf %i",
+		time_,
+		(int) newActions_.size(), 
+		referenceCount_,
+		buffer_.size());
+	std::set<Action *>::iterator itor;
+	for (itor = actions_.begin();
+		itor != actions_.end();
+		itor++)
+	{
+		Action *act = *itor;
+		Logger::log(0, "Action : %s", act->getActionType());
+	}
+}
+
 bool ActionController::noReferencedActions()
 {
-	return newActions_.empty() && 
+	bool finished = (newActions_.empty() && 
 		(referenceCount_ == 0) &&
-		buffer_.empty();
+		buffer_.empty());
+
+	if (!finished && actionTracing_)
+	{
+		if (time_ - lastTraceTime_ > 5.0f)
+		{
+			lastTraceTime_ = time_;
+			logActions();
+		}
+	}
+
+	return finished;
 }
 
 void ActionController::resetTime()
 {
 	time_ = 0.0f;
+	lastTraceTime_ = 0.0f;
 }
 
 void ActionController::setScorchedContext(ScorchedContext *context)
@@ -202,7 +232,8 @@ void ActionController::stepActions(float frameTime)
 		if (act->getReferenced() &&
 			act->getActionStartTime() - time_ > 30.0f)
 		{
-			Logger::log(0, "Warning: removing timed out action");
+			Logger::log(0, "Warning: removing timed out action %s",
+				act->getActionType());
 			remove = true;
 		}
 

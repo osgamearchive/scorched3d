@@ -39,7 +39,7 @@ bool WeaponMirv::parseXML(XMLNode *accessoryNode)
 	if (!Weapon::parseXML(accessoryNode)) return false;
 
 	// Get the accessory spread
-	XMLNode *spreadNode = accessoryNode->removeNamedChild("spread");
+	XMLNode *spreadNode = accessoryNode->getNamedChild("spread", false, true);
 	if (!spreadNode)
 	{
 		dialogMessage("Accessory",
@@ -50,7 +50,7 @@ bool WeaponMirv::parseXML(XMLNode *accessoryNode)
 	spread_ = (strcmp(spreadNode->getContent(), "true") == 0);
 
 	// Get the next weapon
-	XMLNode *subNode = accessoryNode->removeNamedChild("aimedweapon");
+	XMLNode *subNode = accessoryNode->getNamedChild("aimedweapon", false, true);
 	if (!subNode)
 	{
 		dialogMessage("Accessory",
@@ -71,7 +71,7 @@ bool WeaponMirv::parseXML(XMLNode *accessoryNode)
 	aimedWeapon_ = (Weapon*) accessory;
 
 	// Get the accessory warheads
-	XMLNode *warheadsNode = accessoryNode->removeNamedChild("nowarheads");
+	XMLNode *warheadsNode = accessoryNode->getNamedChild("nowarheads", false, true);
 	if (!warheadsNode)
 	{
 		dialogMessage("Accessory",

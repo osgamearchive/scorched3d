@@ -27,7 +27,6 @@
 #include <client/ClientState.h>
 #include <client/ScorchedClient.h>
 #include <server/ScorchedServer.h>
-#include <tankai/TankAIComputer.h>
 #include <stdio.h>
 
 static const float rankLeft = 5.0f;
@@ -351,7 +350,7 @@ void ScoreDialog::addLine(Tank *current, float y, char *rank, bool finished)
 			ScorchedServer::instance()->getTankContainer().getTankById(
 			current->getPlayerId());
 		TankAI *tankAI = serverTank->getTankAI();
-		if (tankAI) strcat(name, ((TankAIComputer *) tankAI)->getName());
+		if (tankAI) strcat(name, tankAI->getName());
 		else strcat(name, "Human");
 		strcat(name, ")");
 	}

@@ -39,7 +39,7 @@ bool WeaponDeathAnimation::parseXML(XMLNode *accessoryNode)
 {
 	if (!Weapon::parseXML(accessoryNode)) return false;
 
-	XMLNode *rendererNode = accessoryNode->removeNamedChild("renderer");
+	XMLNode *rendererNode = accessoryNode->getNamedChild("renderer", false, true);
 	if (!rendererNode)
 	{
 		dialogMessage("Accessory",

@@ -34,6 +34,7 @@ public:
 
 	void clear();
 	bool empty();
+	int size();
 
 	void serverAdd(float time, ActionMeta *action);
 	ActionMeta *getActionForTime(float time);

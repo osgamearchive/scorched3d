@@ -21,7 +21,6 @@
 #include <weapons/Weapon.h>
 #include <engine/GameState.h>
 #include <client/ClientState.h>
-#include <client/ClientSave.h>
 #include <client/ScorchedClient.h>
 #include <server/ScorchedServer.h>
 #include <tankai/TankAIHuman.h>
@@ -59,6 +58,9 @@ TankMenus::TankMenus() : logger_("ClientLog")
 	new GLConsoleRuleFnIBooleanAdapter(
 		"StateLogging", 
 		ScorchedClient::instance()->getGameState().getStateLogging());
+	new GLConsoleRuleFnIBooleanAdapter(
+		"ActionLogging",
+		ScorchedClient::instance()->getActionController().getActionLogging());
 }
 
 TankMenus::~TankMenus()
@@ -150,10 +152,6 @@ TankMenus::PlayerMenu::PlayerMenu()
 			GLMenuItem("Mass Tank Kill",
 			new GLWTip("Mass Tank Kill",
 				"Kill all tanks.\nStarts the next round.")));
-		/*MainMenuDialog::instance()->addMenuItem("Player",
-			GLMenuItem("Save Game",
-			new GLWTip("Save Game",
-				"Save the current game and.\ncontinue playing.")));*/
 	}
 }
 
@@ -181,9 +179,6 @@ void TankMenus::PlayerMenu::menuSelection(const char* menuName,
 			case 3:
 				GLWWindowManager::instance()->showWindow(
 					KillDialog::instance()->getId());
-				break;
-			case 4:
-				saveClient();
 				break;
 			}
 		}
