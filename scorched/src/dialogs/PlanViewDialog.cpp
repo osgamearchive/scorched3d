@@ -44,7 +44,8 @@ PlanViewDialog *PlanViewDialog::instance()
 
 PlanViewDialog::PlanViewDialog() : 
 	animationTime_(0.0f),
-	GLWWindow("Plan", 10, 15, 100, 100, eTransparent | eResizeable | eSmallTitle)
+	GLWWindow("Plan", 10, 15, 100, 100, eTransparent | eResizeable | eSmallTitle),
+	flash_(true)
 {
 
 }
@@ -57,6 +58,13 @@ PlanViewDialog::~PlanViewDialog()
 void PlanViewDialog::simulate(float frameTime)
 {
 	GLWWindow::simulate(frameTime);
+
+	flashTime_ += frameTime;
+	if (flashTime_ > 0.3f)
+	{
+		flashTime_ = 0.0f;
+		flash_ = !flash_;
+	}
 
 	animationTime_ += frameTime;
 	if (animationTime_ > maxAnimationTime)
@@ -170,7 +178,12 @@ void PlanViewDialog::drawTanks()
 			glColor3fv(tank->getColor());
 			position = tank->getPhysics().getTankPosition();
 			position /= width;
-			glVertex3fv(position);
+
+			if ((flash_ && tank->getState().getReadyState() == TankState::SNotReady) ||
+				tank->getState().getReadyState() == TankState::sReady)
+			{
+				glVertex3fv(position);
+			}
 
 			TankModelRenderer *model = (TankModelRenderer *) 
 			tank->getModel().getModelIdRenderer();

@@ -18,6 +18,7 @@ Added: Moving waves around the island shores
 Added: Trees
 Added: Display options are stored in users home directory (if available)
 Added: Server can be run in console (non-gui) mode
+Added: Client shows which players the game is waiting on
 
 Fixed: Menu items could only be clicked in left hand side
 Fixed: Shot cam goes back to player even when not their turn

@@ -19,13 +19,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 
-// PlanViewDialog.h: interface for the PlanViewDialog class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_PLANVIEW_H__083C6C16_1CD9_469C_AE4B_B44D159FB53C__INCLUDED_)
 #define AFX_PLANVIEW_H__083C6C16_1CD9_469C_AE4B_B44D159FB53C__INCLUDED_
-
 
 #include <GLW/GLWWindow.h>
 
@@ -42,6 +37,8 @@ public:
 protected:
 	static PlanViewDialog *instance_;
 	float animationTime_;
+	float flashTime_;
+	bool flash_;
 
 	void drawMap();
 	void drawTexture();
