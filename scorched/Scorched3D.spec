@@ -21,8 +21,6 @@ Earth "The Mother Of All Games".
 
 %build
 # sh ./autogen.sh
-export CC=gcc3
-export CXX=g++3
 %configure --datadir=%{_datadir}/scorched3d \
 	--program-prefix=%{?_program_prefix:%{_program_prefix}}
 make %{?_smp_mflags}
