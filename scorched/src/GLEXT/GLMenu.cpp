@@ -32,33 +32,28 @@ GLMenu::GLMenu() : GLWWindow("", 0.0f, 10.0f, 10000.0f, 25.0f, 0, "")
 
 GLMenu::~GLMenu()
 {
-
 }
 
 GLMenuEntry *GLMenu::getMenu(char *menuItem)
 {
-	GLMenuEntry *foundEntry = 0;
-
 	std::string menu(menuItem);
 	std::map<std::string, GLMenuEntry *>::iterator itor = menuList_.find(menu);
 	if (itor != menuList_.end())
 	{
-		foundEntry = itor->second;
+		return itor->second;
 	}
 
-	return foundEntry;
+	return 0;
 }
 
-bool GLMenu::addMenu(char *menuName, float width, GLMenuI *selectFn, 
-					 GLMenuI *textFn, GLMenuI *subMenuFn,
-					 GLMenuI *enabledFn)
+bool GLMenu::addMenu(char *menuName, float width, unsigned int state,
+	GLMenuI *selectFn, GLMenuI *textFn, GLMenuI *subMenuFn, GLMenuI *enabledFn)
 {
 	if (getMenu(menuName)) return false;
 
-	GLMenuEntry *entry = new GLMenuEntry(menuName, width, selectFn, 
-		textFn, subMenuFn, enabledFn);
+	GLMenuEntry *entry = new GLMenuEntry(menuName, width, state, 
+		selectFn, textFn, subMenuFn, enabledFn);
 	menuList_[std::string(menuName)] = entry;
-
 	return true;
 }
 
@@ -68,47 +63,53 @@ bool GLMenu::addMenuItem(char *menuName, const GLMenuItem item)
 	if (!entry) return false;
 
 	entry->addMenuItem((GLMenuItem &) item);
-
 	return true;
 }
 
 void GLMenu::draw()
 {
-	GLState currentState(GLState::DEPTH_OFF | GLState::TEXTURE_OFF);
+	GLState currentDrawState(GLState::DEPTH_OFF | GLState::TEXTURE_OFF);
 
-	bool depressed = false;
+	float currentTop = (float) GLViewPort::getHeight();
+	setY(currentTop - h_);
+
+	unsigned int currentState =
+		ScorchedClient::instance()->getGameState().getState();
+
+	bool selected = false;
 	std::map<std::string, GLMenuEntry *>::iterator itor;
 	for (itor = menuList_.begin();
 		itor != menuList_.end();
 		itor++)
 	{
 		GLMenuEntry *entry = itor->second;
-		if (entry->getEnabled() && entry->getDepressed())
+		if (entry->getSelected())
 		{
-			depressed = true;
+			selected = true;
 		}
 	}	
-	if (depressed) setH(1000000.0f);
-	else setH(25.0f);
-
-	float currentTop = (float) GLViewPort::getHeight();
-	setY(currentTop - h_);
 
 	int x = ScorchedClient::instance()->getGameState().getMouseX();
 	int y = ScorchedClient::instance()->getGameState().getMouseY();
-	if (GLWWindowManager::instance()->getFocus(x, y) == getId())
+	if (selected || GLWWindowManager::instance()->getFocus(x, y) == getId())
 	{
 		GLfloat currentWidth = 0.0f;
+		std::map<std::string, GLMenuEntry *>::iterator itor;
 		for (itor = menuList_.begin();
 			itor != menuList_.end();
 			itor++)
 		{
 			GLMenuEntry *entry = itor->second;
-			if (entry->getEnabled())
+			if (entry->getState() == 0 ||
+				entry->getState() == currentState)
 			{
-				entry->draw(*GLWFont::instance()->getLargePtFont(), 
-					currentTop - 1.0f, currentWidth);
-				currentWidth += entry->getWidth() + 1.0f;
+				if (!entry->getEnabledFn() || 
+					entry->getEnabledFn()->getEnabled(entry->getName()))
+				{
+					entry->draw(*GLWFont::instance()->getLargePtFont(), 
+						currentTop - 1.0f, currentWidth);
+					currentWidth += entry->getWidth() + 1.0f;
+				}
 			}
 		}		
 	}
@@ -119,13 +120,17 @@ void GLMenu::mouseDown(float x, float y, bool &hitMenu)
 	hitMenu = false;
 	float currentTop = (float) GLViewPort::getHeight();
 
+	unsigned int currentState =
+		ScorchedClient::instance()->getGameState().getState();
+
 	std::map<std::string, GLMenuEntry *>::iterator itor;
 	for (itor = menuList_.begin();
 		itor != menuList_.end();
 		itor++)
 	{
 		GLMenuEntry *entry = itor->second;
-		if (entry->getEnabled())
+		if (entry->getState() == 0 ||
+			entry->getState() == currentState)
 		{
 			if (entry->click(currentTop, int(x), int(y)))
 			{

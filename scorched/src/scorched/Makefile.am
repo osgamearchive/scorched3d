@@ -113,6 +113,8 @@ scorched3d_SOURCES = \
 	../GLW/GLWScrollW.h \
 	../GLW/GLWSelector.cpp \
 	../GLW/GLWSelector.h \
+	../GLW/GLWSelectorPart.cpp \
+	../GLW/GLWSelectorPart.h \
 	../GLW/GLWSlider.cpp \
 	../GLW/GLWSlider.h \
 	../GLW/GLWSpinBox.cpp \

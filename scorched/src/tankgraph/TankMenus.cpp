@@ -167,7 +167,8 @@ void TankMenus::showTankDetails()
 
 TankMenus::PlayerMenu::PlayerMenu()
 {
-	MainMenuDialog::instance()->addMenu("Player", 90, this, 0, 0, this);
+	MainMenuDialog::instance()->addMenu("Player", 90, 
+		ClientState::StimPlaying, this, 0, 0, this);
 	MainMenuDialog::instance()->addMenuItem("Player", 
 		GLMenuItem("Skip Move",
 		new GLWTip("Skip Move", 
@@ -175,7 +176,8 @@ TankMenus::PlayerMenu::PlayerMenu()
 	MainMenuDialog::instance()->addMenuItem("Player", 
 		GLMenuItem("Resign Round",
 		new GLWTip("Resign Round", 
-			"Player resigns from this round.\nPlayer takes no part in the rest of the round.")));
+			"Player resigns from this round.\n"
+			"Player takes no part in the rest of the round.")));
 	MainMenuDialog::instance()->addMenuItem("Player", 
 		GLMenuItem("Exit Game",
 		new GLWTip("Exit Game", "Stop Playing Scorched.")));
@@ -192,7 +194,7 @@ TankMenus::PlayerMenu::PlayerMenu()
 }
 
 void TankMenus::PlayerMenu::menuSelection(const char* menuName, 
-										  const int position, const char *menuItem)
+	const int position, const char *menuItem)
 {
 	Tank *firstTank = ScorchedClient::instance()->getTankContainer().getCurrentTank();
 	if (firstTank)
@@ -242,7 +244,8 @@ bool TankMenus::PlayerMenu::getEnabled(const char* menuName)
 
 TankMenus::AccessoryMenu::AccessoryMenu()
 {
-	MainMenuDialog::instance()->addMenu("Weapons", 90, this, 0, this, this);
+	MainMenuDialog::instance()->addMenu("Weapons", 90, 
+		ClientState::StimPlaying, this, 0, this, this);
 }
 
 void TankMenus::AccessoryMenu::menuSelection(const char* menuName, 

@@ -69,6 +69,7 @@ allows them to select one item.
 This class is used by other classes that throw up a selection
 window to the user.
 */
+class GLWSelectorPart;
 class GLWSelector : public GLWWindow
 {
 public:
@@ -95,17 +96,10 @@ public:
 
 protected:
 	static GLWSelector *instance_;
-
+	std::list<GLWSelectorPart *> parts_;
 	unsigned int showState_;
 	GLWSelectorI *user_;
-	std::list<GLWSelectorEntry> entries_;
-	float drawX_, drawY_;
-	float selectedHeight_, selectedWidth_;
-	float selectedX_, selectedY_;
 	bool visible_;
-	bool transparent_;
-
-	void drawMain(float indent);
 
 private:
 	GLWSelector();

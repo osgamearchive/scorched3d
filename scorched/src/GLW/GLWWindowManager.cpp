@@ -39,7 +39,7 @@ GLWWindowManager::GLWWindowManager() : currentStateEntry_(0)
 {
 	setCurrentEntry(UINT_MAX);
 	MainMenuDialog::instance()->
-		addMenu("Windows", 90.0f, this, 0, this, 0);
+		addMenu("Windows", 90.0f, 0, this, 0, this);
 }
 
 GLWWindowManager::~GLWWindowManager()

@@ -47,7 +47,7 @@ MainCamera *MainCamera::instance()
 
 MainCamera::MainCamera() : scrollTime_(0.0f)
 {
-	MainMenuDialog::instance()->addMenu("Camera", 90, this, 0, this);
+	MainMenuDialog::instance()->addMenu("Camera", 90, 0, this, 0, this);
 }
 
 MainCamera::~MainCamera()

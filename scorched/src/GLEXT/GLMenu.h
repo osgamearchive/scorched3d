@@ -31,10 +31,11 @@ public:
 	GLMenu();
 	virtual ~GLMenu();
 
-	bool addMenu(char *menuName, float width, GLMenuI *selectFn,
-				GLMenuI *textFn = 0, 
-				GLMenuI *subMenuFn = 0,
-				GLMenuI *enabledFn = 0);
+	bool addMenu(char *menuName, float width, unsigned int state,
+		GLMenuI *selectFn,
+		GLMenuI *textFn = 0, 
+		GLMenuI *subMenuFn = 0,
+		GLMenuI *enabledFn = 0);
 	bool addMenuItem(char *menuName, const GLMenuItem item);
 
 	virtual void draw();

@@ -23,41 +23,43 @@
 
 #include <GLEXT/GLMenuI.h>
 #include <GLEXT/GLFont2d.h>
+#include <GLW/GLWSelector.h>
 
-class GLMenuEntry  
+class GLMenuEntry : public GLWSelectorI
 {
 public:
 	GLMenuEntry(char *name, float width, 
-				GLMenuI *selectFn, GLMenuI *textFn, 
-				GLMenuI *subMenuFn, GLMenuI *enableFn);
+		unsigned int state,
+		GLMenuI *selectFn, 
+		GLMenuI *textFn, 
+		GLMenuI *subMenuFn,
+		GLMenuI *enabledFn);
 	virtual ~GLMenuEntry();
 
 	bool click(float currentTop, int x, int y);
-	bool getDepressed() { return depressed_; }
-	bool getEnabled() { return (enabledFn_?
-		enabledFn_->getEnabled(menuName_.c_str()):true); }
+	unsigned int getState() { return state_; }
 	void draw(GLFont2d &font, float currentTop, float currentLeft);
 
 	void addMenuItem(GLMenuItem &item);
 	float getWidth() { return width_; }
+	bool getSelected() { return selected_; }
+	const char *getName() { return menuName_.c_str(); }
+	GLMenuI *getEnabledFn() { return enabledFn_; }
+
+	virtual void itemSelected(GLWSelectorEntry *entry, int position);
+	virtual void noItemSelected();
 
 protected:
-	bool depressed_;
 	float left_;
 	float width_, height_;
-	float selectedWidth_;
+	unsigned int state_;
+	bool selected_;
 	GLMenuI *selectFn_;
 	GLMenuI *textFn_;
 	GLMenuI *subMenuFn_;
 	GLMenuI *enabledFn_;
 	std::list<GLMenuItem> menuItems_;
 	std::string menuName_;
-
-	void collapse();
-	void drawNonDepressed(float currentTop, float currentLeft);
-	void drawDepressed(GLFont2d &font, float currentTop, float currentLeft);
-	bool clickTitle(float currentTop, int x);
-	bool clickMenu(float currentTop, int x, int y);
 
 };
 

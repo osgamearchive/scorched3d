@@ -375,6 +375,7 @@ void TankModelRenderer::simulate(float frameTime)
 
 void TankModelRenderer::drawLife()
 {
+	GLState currentState(GLState::TEXTURE_OFF | GLState::BLEND_OFF);
 	Vector &bilX = GLCameraFrustum::instance()->getBilboardVectorX();
 	bilX /= 2.0f;
 

@@ -38,6 +38,7 @@ Fixed: Apex collision weapons explode on contact with ground before apex
 Fixed: Loading after saving freezing bug
 Fixed: Players cannot have blank names
 Fixed: Better landscape culling when drawing pointy landscape
+Fixed: Displaying large menus
 
 Changed: Changed free market ecconmy so price decreases are slower
 Changed: Tank can move up and down bigger slopes (configurable)
@@ -122,7 +123,6 @@ Shot cam does not get LOD correctly
 
 -- Things I am currently looking at
 Fix crashing when people win (Graphics card drivers??)
-Fix large menus
 
 -- Things for next release
 Ambient sounds

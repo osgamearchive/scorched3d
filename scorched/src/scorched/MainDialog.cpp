@@ -18,6 +18,7 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+#include <stdlib.h>
 #include <wx/wx.h>
 #include <wx/image.h>
 #include <wx/process.h>
@@ -119,6 +120,7 @@ void showURL(const char *url)
 #ifdef _WIN32
 	WinExec(formatString("explorer %s", url) ,SW_SHOWDEFAULT);
 #else
+	system(formatString("mozilla %s", url));
 	dialogMessage("Web site location", "%s", url);
 #endif
 }

@@ -27,27 +27,22 @@ static Vector color(0.9f, 0.9f, 1.0f);
 static Vector itemcolor(0.1f, 0.1f, 0.4f);
 static const float menuItemHeight = 20.0f;
 
-GLMenuEntry::GLMenuEntry(char *name, float width, 
-						 GLMenuI *selectFn, GLMenuI *textFn, 
-						 GLMenuI *subMenuFn, GLMenuI *enabledFn) :
-	depressed_(false), left_(0.0f), width_(width), height_(0.0f),
+GLMenuEntry::GLMenuEntry(
+	char *name, float width, 
+	unsigned int state,
+	GLMenuI *selectFn, 
+	GLMenuI *textFn, 
+	GLMenuI *subMenuFn,
+	GLMenuI *enabledFn) :
+	left_(0.0f), width_(width), height_(0.0f),
 	selectFn_(selectFn), textFn_(textFn), 
 	subMenuFn_(subMenuFn), enabledFn_(enabledFn),
-	menuName_(name), selectedWidth_(0.0f)
+	menuName_(name), state_(state), selected_(false)
 {
-
 }
 
 GLMenuEntry::~GLMenuEntry()
 {
-
-}
-
-void GLMenuEntry::collapse()
-{
-	depressed_ = false;
-	left_ = 0.0f;
-	height_ = 0.0f;
 }
 
 void GLMenuEntry::draw(GLFont2d &font, float currentTop, float currentLeft)
@@ -56,31 +51,6 @@ void GLMenuEntry::draw(GLFont2d &font, float currentTop, float currentLeft)
 	height_ = 0.0f;
 
 	// Draw the menu backdrops
-	if (depressed_)
-	{
-		drawDepressed(font, currentTop, currentLeft);
-	}
-	drawNonDepressed(currentTop, currentLeft);
-
-	// Get and print the menu title text
-	char *menuTitle = 0;
-	if (textFn_)
-	{
-		// If there is a fn defined to draw the menu title use it
-		menuTitle = (char *) textFn_->getMenuText(menuName_.c_str());
-	}
-	if (!menuTitle)
-	{
-		// Else default to the name of the menu
-		menuTitle = (char *) menuName_.c_str();
-	}
-
-	font.draw(depressed_?color:itemcolor, 12, currentLeft + 5.0f, 
-		currentTop - 15.0f, 0.0f, menuTitle);
-}
-
-void GLMenuEntry::drawNonDepressed(float currentTop, float currentLeft)
-{
 	{
 		GLState currentStateBlend(GLState::BLEND_ON);
 		glColor4f(0.4f, 0.6f, 0.8f, 0.6f);
@@ -100,174 +70,77 @@ void GLMenuEntry::drawNonDepressed(float currentTop, float currentLeft)
 		glEnd();
 		glLineWidth(1.0f);
 	}
-}
 
-void GLMenuEntry::drawDepressed(GLFont2d &font, float currentTop, float currentLeft)
-{
-	// Get the contents of the menu
-	if (subMenuFn_)
+	// Get and print the menu title text
+	char *menuTitle = 0;
+	if (textFn_)
 	{
-		menuItems_.clear();
-		subMenuFn_->getMenuItems(menuName_.c_str(), menuItems_);
+		// If there is a fn defined to draw the menu title use it
+		menuTitle = (char *) textFn_->getMenuText(menuName_.c_str());
+	}
+	if (!menuTitle)
+	{
+		// Else default to the name of the menu
+		menuTitle = (char *) menuName_.c_str();
 	}
 
-	// Get the height of the menu
-	selectedWidth_ = 0.0f;
-	bool oneSelected = false;
-	GLfloat lowerHeight = 0.0f;
-	std::list<GLMenuItem>::iterator itor;
-	for (itor =	menuItems_.begin();
-		itor != menuItems_.end();
-		itor++)
-	{
-		GLMenuItem &item = (*itor);
-		if (item.getSelected()) oneSelected = true;
-		if (item.getText()[0] == '-') lowerHeight += 8.0f;
-		else lowerHeight += 18.0f;
-
-		float currentwidth = 
-			(float) font.getWidth(12, (char *) item.getText()) + 10.0f;
-		if (currentwidth > selectedWidth_) selectedWidth_ = currentwidth;
-	}
-	float side = (oneSelected?20.0f:10.0f);
-	selectedWidth_ += side + 5.0f;
-
-	lowerHeight = lowerHeight + menuItemHeight + 5.0f;
-	height_ = currentTop - lowerHeight;
-
-	{
-		float drop = 12.0f;
-		GLState currentStateBlend(GLState::BLEND_ON);
-		glColor4f(0.4f, 0.6f, 0.8f, 0.6f);	
-		glBegin(GL_TRIANGLE_FAN);
-			glVertex2f(currentLeft + 20.0f, currentTop - 25.0f - drop);
-			glVertex2f(currentLeft + 20.0f, currentTop - lowerHeight - drop);
-			GLWidget::drawRoundBox(currentLeft, currentTop - lowerHeight - drop, 
-				selectedWidth_, lowerHeight - drop, 10.0f);
-			glVertex2f(currentLeft + 20.0f, currentTop - lowerHeight - drop);
-		glEnd();
-
-		glColor4f(0.0f, 0.0f, 0.0f, 0.8f);
-		glLineWidth(2.0f);
-		glBegin(GL_LINE_LOOP);
-			GLWidget::drawRoundBox(currentLeft, currentTop - lowerHeight  - drop, 
-				selectedWidth_, lowerHeight - drop, 10.0f);
-		glEnd();
-		glLineWidth(1.0f);
-
-		GLWToolTip::instance()->clearToolTip(
-			currentLeft, currentTop - lowerHeight  - drop, 
-				selectedWidth_, lowerHeight - drop);
-	}
-
-	int mouseX = ScorchedClient::instance()->getGameState().getMouseX();
-	int mouseY = ScorchedClient::instance()->getGameState().getMouseY();
-
-	// Draw the menu items
-	currentTop -= menuItemHeight + 7.0f;
-	for (itor = menuItems_.begin();
-		itor != menuItems_.end();
-		itor++)
-	{
-		GLMenuItem &item = (*itor);
-		if (item.getText()[0] == '-')
-		{
-			glBegin(GL_LINES);
-				glColor3f(0.0f, 0.0f, 0.0f);
-				glVertex2f(currentLeft + 5.0f, currentTop - 5.0f);
-				glVertex2f(currentLeft + selectedWidth_ - 5.0f, currentTop - 5.0f);
-			glEnd();
-			currentTop -= 8.0f;
-		}
-		else
-		{
-			bool selected = false;
-			if (currentLeft < mouseX && mouseX < currentLeft + selectedWidth_ &&
-				currentTop - 18.0f < mouseY && mouseY < currentTop)
-			{
-				selected = true;
-			}
-
-			if (item.getToolTip())
-			{
-				GLWToolTip::instance()->addToolTip(item.getToolTip(),
-					currentLeft, currentTop - 18.0f, selectedWidth_, 18.0f);
-			}
-			if (item.getSelected())
-			{
-				font.draw(selected?color:itemcolor, 12, currentLeft + 5.0f, 
-					currentTop - 16.0f, 0.0f, "x");
-			}
-			font.draw(selected?color:itemcolor, 12, currentLeft + side, 
-				currentTop - 16.0f, 0.0f, (char *) item.getText());
-			currentTop -= 18.0f;
-		}
-	}
+	font.draw((selected_?color:itemcolor), 12, currentLeft + 5.0f, 
+		currentTop - 15.0f, 0.0f, menuTitle);
 }
 
 bool GLMenuEntry::click(float currentTop, int x, int y)
 {
-	if (y > currentTop - menuItemHeight) 
+	if (y > currentTop - menuItemHeight &&
+		x>left_ && x<left_ + width_) 
 	{
-		return clickTitle(currentTop, x);
-	}
-	else
-	{
-		return clickMenu(currentTop, x, y);
+		selected_ = true;
+		
+		// Get the contents of the menu
+		if (subMenuFn_)
+		{
+			menuItems_.clear();
+			subMenuFn_->getMenuItems(menuName_.c_str(), menuItems_);
+		}
+	
+		// Show the menu
+		std::list<GLWSelectorEntry> entries;
+		std::list<GLMenuItem>::iterator itor;
+		for (itor = menuItems_.begin();
+			itor != menuItems_.end();
+			itor++)
+		{
+			GLMenuItem &item = (*itor);
+			entries.push_back(
+				GLWSelectorEntry(
+					item.getText(),
+					item.getToolTip(),
+					item.getSelected()
+					)
+				);
+		}
+		GLWSelector::instance()->showSelector(
+			this, 
+			left_, currentTop - (menuItemHeight + 10.0f), 
+			entries,
+			state_);
 	}
 
 	return false;
-}
-
-bool GLMenuEntry::clickTitle(float currentTop, int x)
-{
-	bool thisMenu = (x>left_ && x<left_ + width_);
-	if (thisMenu && !depressed_)
-	{
-		depressed_ = true;
-	}
-	else
-	{
-		collapse();
-	}
-
-	return thisMenu;
-}
-
-bool GLMenuEntry::clickMenu(float currentTop, int x, int y)
-{
-	if (!depressed_) return false;
-
-	bool thisMenu = (x>left_ && x<left_ + selectedWidth_ && y>height_);
-	if (thisMenu)
-	{
-		GLfloat lowerHeight = currentTop - menuItemHeight - 7.0f;
-		std::list<GLMenuItem> items = menuItems_;
-		std::list<GLMenuItem>::iterator itor;
-		int i = 0;
-		for (itor =	items.begin();
-			itor != items.end();
-			itor++, i++)
-		{
-			GLMenuItem &item = (*itor);
-			if (item.getText()[0] == '-') lowerHeight -= 8.0f;
-			else
-			{
-				lowerHeight -= 18.0f;
-				if (y > lowerHeight) 
-				{
-					selectFn_->menuSelection(menuName_.c_str(), i, item.getText());
-					collapse();
-					return true;
-				}
-			}
-		}
-	}
-	collapse();
-	return true;
 }
 
 void GLMenuEntry::addMenuItem(GLMenuItem &item)
 {
 	menuItems_.push_back(item);
 }
+
+void GLMenuEntry::noItemSelected()
+{
+	selected_ = false;
+}
+
+void GLMenuEntry::itemSelected(GLWSelectorEntry *entry, int position)
+{
+	selected_ = false;
+	selectFn_->menuSelection(menuName_.c_str(), position, entry->getText());
+}
+

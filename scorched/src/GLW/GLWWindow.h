@@ -66,6 +66,7 @@ public:
 	GLWTip &getToolTip() { return toolTip_; }
 	unsigned int getWindowLevel() { return windowLevel_; }
 	void needsCentered() { needCentered_ = true; }
+	virtual void drawIconBox(float x, float y);
 
 	REGISTER_CLASS_HEADER(GLWWindow);
 
@@ -97,7 +98,6 @@ protected:
 	virtual void drawMaximizedWindow();
 	virtual void drawInfoBox(float x, float y, float w);
 	virtual void drawJoin(float x, float y);
-	virtual void drawIconBox(float x, float y);
 
 };
 
