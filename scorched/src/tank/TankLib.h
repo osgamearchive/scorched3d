@@ -40,6 +40,7 @@ namespace TankLib
 		Vector &position, Vector &shootAt, float distForSniper, 
 		float &angleXYDegs, float &angleYZDegs, float &power);
 	Vector &getVelocityVector(float xy, float yz);
+	Vector &getGunPosition(float xy, float yz);
 };
 
 

@@ -22,6 +22,8 @@
 #include <tankgraph/TankModelRenderer.h>
 #include <client/ClientState.h>
 #include <client/ScorchedClient.h>
+#include <client/MainCamera.h>
+#include <algorithm>
 
 TankRenderer *TankRenderer::instance_ = 0;
 
@@ -64,7 +66,7 @@ void TankRenderer::Renderer3D::simulate(const unsigned state, float simTime)
 	TankModelRendererHUD::simulate(simTime);
 	TankModelRendererAIM::simulate(simTime);
 
-	// Draw all of the tanks
+	// Simulate all of the tanks
 	std::map<unsigned int, Tank *> &tanks = 
 		ScorchedClient::instance()->getTankContainer().getPlayingTanks();
 	std::map<unsigned int, Tank *>::iterator itor;
@@ -88,12 +90,25 @@ void TankRenderer::newGame()
 	tracerStore_.newGame();
 }
 
+static inline float approx_distance(float  dx, float dy)
+{
+   float approx = (dx * dx) + (dy * dy);
+   return approx;
+}
+
+static inline bool lt_distance(std::pair<float, Tank *> &o1, std::pair<float, Tank *> &o2) 
+{ 
+	return o1.first > o2.first;
+}
+
 void TankRenderer::draw(DrawType dt, const unsigned state)
 {
 	Tank *currentTank =
 		ScorchedClient::instance()->getTankContainer().getCurrentTank();
-	
-	// Draw all of the tanks
+	Vector &campos = MainCamera::instance()->getCamera().getCurrentPos();
+
+	// Sort all of the tanks
+	std::vector<std::pair<float, Tank *> > sortedTanks;	
 	std::map<unsigned int, Tank *> &tanks = 
 		ScorchedClient::instance()->getTankContainer().getPlayingTanks();
 	std::map<unsigned int, Tank *>::iterator itor;
@@ -104,7 +119,25 @@ void TankRenderer::draw(DrawType dt, const unsigned state)
 		Tank *tank = (*itor).second;
 
 		// Only ever try to draw alive tanks
-		if (tank->getState().getState() != TankState::sNormal) continue;
+		if (tank->getState().getState() == TankState::sNormal)
+		{
+			float dist = approx_distance(
+				tank->getPhysics().getTankPosition()[0] - campos[0],
+				tank->getPhysics().getTankPosition()[1] - campos[1]);
+			sortedTanks.push_back(std::pair<float, Tank *>(dist, tank));
+		}
+	}
+
+	// Sort tanks
+	std::sort(sortedTanks.begin(), sortedTanks.end(), lt_distance); 
+
+	// Draw all of the tanks
+	std::vector<std::pair<float, Tank *> >::iterator sortedItor;
+	for (sortedItor = sortedTanks.begin();
+		sortedItor != sortedTanks.end();
+		sortedItor++)
+	{
+		Tank *tank = (*sortedItor).second;
 
 		// Check we have the tank model for each tank
 		// If not load the model from the store

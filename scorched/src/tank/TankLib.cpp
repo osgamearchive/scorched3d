@@ -151,3 +151,17 @@ Vector &TankLib::getVelocityVector(float xy, float yz)
 	diff /= 20.0f;
 	return diff;
 }
+
+Vector &TankLib::getGunPosition(float xy, float yz)
+{
+	static Vector pos;
+	const float gunLength = 1.0f;
+	const float degToRad = 180.0f * 3.14f;
+	pos[0] = gunLength * sinf(xy / degToRad) * 
+		sinf((90.0f - yz) / degToRad);
+	pos[1] = gunLength * cosf(xy / degToRad) * 
+		sinf((90.0f - yz) / degToRad);
+	pos[2] = gunLength * cosf((90.0f - yz) / degToRad);
+
+	return pos;
+}

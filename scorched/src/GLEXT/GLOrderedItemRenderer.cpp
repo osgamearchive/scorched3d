@@ -56,7 +56,7 @@ static inline float approx_distance(float  dx, float dy)
    return approx;
 }
 
-inline bool lt_distance(GLOrderedItemRenderer::OrderedEntry *o1, 
+static inline bool lt_distance(GLOrderedItemRenderer::OrderedEntry *o1, 
 						GLOrderedItemRenderer::OrderedEntry *o2) 
 { 
 	return o1->distance > o2->distance;

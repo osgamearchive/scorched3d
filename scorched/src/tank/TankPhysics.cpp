@@ -117,14 +117,9 @@ void TankPhysics::revertSettings(unsigned int index)
 
 Vector &TankPhysics::getTankGunPosition()
 {
-	const float gunLength = 1.0f;
-	const float degToRad = 180.0f * 3.14f;
 	static Vector tankGunPosition;
-	tankGunPosition[0] = gunLength * sinf(-turretRotXY_ / degToRad) * 
-		sinf((90.0f -turretRotYZ_) / degToRad);
-	tankGunPosition[1] = gunLength * cosf(-turretRotXY_ / degToRad) * 
-		sinf((90.0f -turretRotYZ_) / degToRad);
-	tankGunPosition[2] = gunLength * cosf((90.0f -turretRotYZ_) / degToRad);
+	tankGunPosition = TankLib::getGunPosition(
+			getRotationGunXY(), getRotationGunYZ());
 	tankGunPosition += getTankTurretPosition();
 
 	return tankGunPosition;
