@@ -49,7 +49,7 @@ StatsLoggerMySQL::~StatsLoggerMySQL()
 
 bool StatsLoggerMySQL::runQuery(const char *fmt, ...)
 {
-	if (!success_) return;
+	if (!success_) return false;
 
 	static char text[2048];
 	va_list ap;
@@ -264,7 +264,7 @@ void StatsLoggerMySQL::tankJoined(Tank *tank)
 					MYSQL_ROW row = mysql_fetch_row(result);
 					int rank = atoi(row[0]);
 
-					sendString(0, "Welcome back %s, you are ranked %i",
+					ServerCommon::sendString(0, "Welcome back %s, you are ranked %i",
 						name, rank + 1);
 				}
 				mysql_free_result(result);
