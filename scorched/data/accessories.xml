@@ -267,6 +267,8 @@ some small riot bombs.</description>
 		<armslevel>8</armslevel>
 		<nowarheads>3</nowarheads>
 		<firedsound>shoot/flare.wav</firedsound>
+		<projectilescale>0.5</projectilescale>
+		<projectilemodel type="MilkShape">digger/digger.txt</projectilemodel>
 		<subweapon type="WeaponRiotBomb">
 			<name>Baby Digger</name>
 			<description></description>
@@ -289,6 +291,7 @@ some riot bombs.</description>
 		<armslevel>7</armslevel>
 		<nowarheads>5</nowarheads>
 		<firedsound>shoot/flare.wav</firedsound>
+		<projectilemodel type="MilkShape">digger/digger.txt</projectilemodel>
 		<subweapon type="WeaponRiotBomb">
 			<name>Digger</name>
 			<description></description>
@@ -311,6 +314,8 @@ many small riot bombs.</description>
 		<armslevel>6</armslevel>
 		<nowarheads>10</nowarheads>
 		<firedsound>shoot/flare.wav</firedsound>
+		<projectilescale>2</projectilescale>
+		<projectilemodel type="MilkShape">digger/digger.txt</projectilemodel>
 		<subweapon type="WeaponRiotBomb">
 			<name>Heavy Digger</name>
 			<description></description>
@@ -334,6 +339,8 @@ target nearby tanks.</description>
 		<armslevel>8</armslevel>
 		<nowarheads>3</nowarheads>
 		<firedsound>shoot/flare.wav</firedsound>
+		<projectilescale>0.5</projectilescale>
+		<projectilemodel type="MilkShape">digger/digger.txt</projectilemodel>
 		<subweapon type="WeaponProjectile">
 			<name>Baby Sandhog</name>
 			<description></description>
@@ -356,6 +363,7 @@ burrowing missiles. These missiles target nearby tanks.</description>
 		<armslevel>5</armslevel>
 		<nowarheads>10</nowarheads>
 		<firedsound>shoot/flare.wav</firedsound>
+		<projectilemodel type="MilkShape">digger/digger.txt</projectilemodel>
 		<subweapon type="WeaponProjectile">
 			<name>Sandhog</name>
 			<description></description>
@@ -378,6 +386,8 @@ burrowing missiles. These missiles target nearby tanks.</description>
 		<armslevel>3</armslevel>
 		<nowarheads>20</nowarheads>
 		<firedsound>shoot/flare.wav</firedsound>
+		<projectilescale>2</projectilescale>
+		<projectilemodel type="MilkShape">digger/digger.txt</projectilemodel>
 		<subweapon type="WeaponProjectile">
 			<name>Heavy Sandhog</name>
 			<description></description>
