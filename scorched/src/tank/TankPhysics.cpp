@@ -77,6 +77,10 @@ void TankPhysics::clientNewGame()
 void TankPhysics::madeShot()
 {
 	oldShots_.push_back(ShotEntry(power_, turretRotXY_, turretRotYZ_));
+	if (oldShots_.size() > 15) 
+	{
+		oldShots_.erase(oldShots_.begin());
+	}
 }
 
 float TankPhysics::getOldPower()
