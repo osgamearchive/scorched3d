@@ -18,16 +18,10 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// GLMenu.h: interface for the GLMenu class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_GLMENU_H__ED2E8B2C_46B3_400F_A3E2_FC1B53732D15__INCLUDED_)
 #define AFX_GLMENU_H__ED2E8B2C_46B3_400F_A3E2_FC1B53732D15__INCLUDED_
 
 #pragma warning(disable: 4786)
-
 
 #include <map>
 #include <GLEXT/GLMenuEntry.h>
@@ -43,7 +37,7 @@ public:
 				GLMenuI *textFn = 0, 
 				GLMenuI *subMenuFn = 0,
 				GLMenuI *enabledFn = 0);
-	bool addMenuItem(char *menuName, GLMenuItem &item);
+	bool addMenuItem(char *menuName, const GLMenuItem item);
 
 	virtual void draw();
 	virtual void mouseDown(float x, float y, bool &skipRest);

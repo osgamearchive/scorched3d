@@ -18,11 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// GLMenu.cpp: implementation of the GLMenu class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <GLEXT/GLMenu.h>
 #include <GLEXT/GLState.h>
 #include <GLW/GLWFont.h>
@@ -68,12 +63,12 @@ bool GLMenu::addMenu(char *menuName, float width, GLMenuI *selectFn,
 	return true;
 }
 
-bool GLMenu::addMenuItem(char *menuName, GLMenuItem &item)
+bool GLMenu::addMenuItem(char *menuName, const GLMenuItem item)
 {
 	GLMenuEntry *entry = getMenu(menuName);
 	if (!entry) return false;
 
-	entry->addMenuItem(item);
+	entry->addMenuItem((GLMenuItem &) item);
 
 	return true;
 }
