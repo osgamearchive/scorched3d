@@ -509,6 +509,8 @@ scorched3d_SOURCES = \
 	../weapons/WeaponTranslate.h \
 	../weapons/WeaponVelocity.cpp \
 	../weapons/WeaponVelocity.h \
+	../weapons/WeaponReference.cpp \
+	../weapons/WeaponReference.h \
 	../coms/ComsActionsMessage.cpp \
 	../coms/ComsActionsMessage.h \
 	../coms/ComsAddPlayerMessage.cpp \

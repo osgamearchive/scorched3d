@@ -1165,6 +1165,15 @@ the air in a wedge shape.
 			</subweapon2>
 		</nextaction>
 	</accessory>
+	<!-- <accessory type="WeaponReference">
+		<name>Test Reference</name>
+		<description></description>
+		<icon>dcharge.bmp</icon>
+		<armslevel>1</armslevel>
+		<cost>10</cost>
+		<bundlesize>1</bundlesize>
+		<weapon>Nuke</weapon>
+	</accessory>-->
 	<!--<accessory type="WeaponDelay">
 		<name>Test Example 1</name>
 		<description>

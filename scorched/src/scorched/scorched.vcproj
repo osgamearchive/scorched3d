@@ -1773,6 +1773,12 @@
 			<File
 				RelativePath="..\weapons\WeaponVelocity.h">
 			</File>
+			<File
+				RelativePath="..\weapons\WeaponReference.cpp">
+			</File>
+			<File
+				RelativePath="..\weapons\WeaponReference.h">
+			</File>
 		</Filter>
 		<Filter
 			Name="coms"
