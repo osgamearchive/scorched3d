@@ -33,24 +33,26 @@ public:
 	LandscapeDefinition() {}
 
 	// Stuff sent over COMS
-	unsigned int landSeed;
-	float landHillsMin, landHillsMax;
-	float landWidthX, landWidthY;
-	float landHeightMin, landHeightMax;
-	float landPeakWidthXMin, landPeakWidthXMax;
-	float landPeakWidthYMin, landPeakWidthYMax;
-	float landPeakHeightMin, landPeakHeightMax;
-	float landSmoothing;
-	float tankStartCloseness;
-	float tankStartHeightMin, tankStartHeightMax;
-	std::string name;
-	std::string resourceFile;
-	std::string heightMapFile;
-	std::string textureMapFile;
+	unsigned int landSeed; // Seed to generate landscape
+	float landHillsMin, landHillsMax; // Number of hill in landscape
+	float landWidthX, landWidthY; // The size of the landscape
+	float landHeightMin, landHeightMax; // The max height of the landscape
+	float landPeakWidthXMin, landPeakWidthXMax; // Width of hill
+	float landPeakWidthYMin, landPeakWidthYMax; // Width of hill
+	float landPeakHeightMin, landPeakHeightMax; // Height of hill
+	float landSmoothing; // Amount of landscape smoothing
+	float tankStartCloseness; // Min distance between tanks 
+	float tankStartHeightMin, tankStartHeightMax; // Min/max height of tanks start
+	std::string name;  // Name of this landscape definition type
+	std::string resourceFile; // The resource to use for the landscape textures
+	std::string heightMapFile; // A possible height map bitmap if not auto gened
+	std::string heightMaskFile; // A possible height map mask if needed
 
 	// stuff NOT sent over coms
-	std::vector<std::string> resourceFiles;
-	float weight;
+	std::vector<std::string> resourceFiles; // This list of possible resources for this defn
+	float weight; // The posibility this defn will be choosen
+	std::string description;  // Description of this landscape definition type
+	std::string picture; // Visible view of this landscape definition type
 
 	// Fns
 	void generate();
@@ -71,15 +73,16 @@ class LandscapeDefinitions
 public:
 	static LandscapeDefinitions *instance();
 
-	bool readLandscapeDefinitions();
+	LandscapeDefinition &getRandomLandscapeDefn();
+	LandscapeDefinition &getRandomLandscapeDefn(std::list<std::string> &names);
 
-	LandscapeDefinition &getLandscapeDefn();
+	std::vector<LandscapeDefinition> &getAllLandscapes() { return definitions_; }
 
 protected:
 	static LandscapeDefinitions *instance_;
-
-	float totalWeight_;
 	std::vector<LandscapeDefinition> definitions_;
+
+	bool readLandscapeDefinitions();
 
 private:
 	LandscapeDefinitions();

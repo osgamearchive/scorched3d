@@ -45,7 +45,7 @@ bool LandscapeDefinition::writeMessage(NetBuffer &buffer)
 	buffer.addToBuffer(tankStartHeightMax);
 	buffer.addToBuffer(resourceFile);
 	buffer.addToBuffer(heightMapFile);
-	buffer.addToBuffer(textureMapFile);
+	buffer.addToBuffer(heightMaskFile);
 
 	return true;
 }
@@ -72,7 +72,7 @@ bool LandscapeDefinition::readMessage(NetBufferReader &reader)
 	if (!reader.getFromBuffer(tankStartHeightMax)) return false;
 	if (!reader.getFromBuffer(resourceFile)) return false;
 	if (!reader.getFromBuffer(heightMapFile)) return false;
-	if (!reader.getFromBuffer(textureMapFile)) return false;
+	if (!reader.getFromBuffer(heightMaskFile)) return false;
 
 	return true;
 }
@@ -88,6 +88,24 @@ bool LandscapeDefinition::readXML(XMLNode *node)
 		return false;
 	}
 	name = nameNode->getContent();
+
+	XMLNode *descNode = node->getNamedChild("description");
+        if (!descNode)
+        {
+                dialogMessage("Scorched Landscape",
+                                          "Failed to find description node in \"landscape/landscape.xml\"");
+                return false;
+        }
+        description = descNode->getContent();
+
+        XMLNode *pictNode = node->getNamedChild("picture");
+        if (!pictNode)
+        {
+                dialogMessage("Scorched Landscape",
+                                          "Failed to find picture node in \"landscape/landscape.xml\"");
+                return false;
+        }
+       	picture = pictNode->getContent();
 
 	if ((weight = node->getNamedFloatChild("weight", "landscape/landscape.xml")) == 0.0f) return false;
 
@@ -127,12 +145,12 @@ bool LandscapeDefinition::readXML(XMLNode *node)
 		return false;
 	}
 
-    std::list<XMLNode *>::iterator childrenItor;
-	std::list<XMLNode *> &children = resourcesNode->getChildren();
-    for (childrenItor = children.begin();
-        childrenItor != children.end();
-        childrenItor++)
-    {
+	std::list<XMLNode *>::iterator childrenItor;
+		std::list<XMLNode *> &children = resourcesNode->getChildren();
+	for (childrenItor = children.begin();
+		childrenItor != children.end();
+		childrenItor++)
+	{
 		XMLNode *child = *childrenItor;
 		resourceFile = child->getContent();
 		resourceFiles.push_back(child->getContent());
@@ -187,8 +205,12 @@ LandscapeDefinitions *LandscapeDefinitions::instance()
 	return instance_;
 }
 
-LandscapeDefinitions::LandscapeDefinitions() : totalWeight_(0.0f)
+LandscapeDefinitions::LandscapeDefinitions()
 {
+	if (!readLandscapeDefinitions())
+	{
+		exit(1);
+	}
 }
 
 LandscapeDefinitions::~LandscapeDefinitions()
@@ -199,7 +221,7 @@ bool LandscapeDefinitions::readLandscapeDefinitions()
 {
 	// Load landscape definition file
 	XMLFile file;
-    if (!file.readFile(PKGDIR "data/landscape.xml"))
+	if (!file.readFile(PKGDIR "data/landscape.xml"))
 	{
 		dialogMessage("Scorched Landscape", 
 					  "Failed to parse \"data/landscape.xml\"\n%s", 
@@ -216,37 +238,73 @@ bool LandscapeDefinitions::readLandscapeDefinitions()
 	}
 
 	// Itterate all of the landscapes in the file
-    std::list<XMLNode *>::iterator childrenItor;
-	std::list<XMLNode *> &children = file.getRootNode()->getChildren();
-    for (childrenItor = children.begin();
-        childrenItor != children.end();
-        childrenItor++)
-    {
+	std::list<XMLNode *>::iterator childrenItor;
+		std::list<XMLNode *> &children = file.getRootNode()->getChildren();
+	for (childrenItor = children.begin();
+		childrenItor != children.end();
+		childrenItor++)
+	{
 		LandscapeDefinition newDefn;
 		if (!newDefn.readXML(*childrenItor)) return false;
-		totalWeight_ += newDefn.weight;
 		definitions_.push_back(newDefn);
 	}
 	return true;
 }
 
-LandscapeDefinition &LandscapeDefinitions::getLandscapeDefn()
+LandscapeDefinition &LandscapeDefinitions::getRandomLandscapeDefn()
 {
-	float pos = RAND * totalWeight_;
-	float soFar = 0.0f;
-
+	std::list<std::string> list;
 	std::vector<LandscapeDefinition>::iterator itor;
 	for (itor = definitions_.begin();
 		itor != definitions_.end();
 		itor++)
 	{
 		LandscapeDefinition &result = *itor;
-		soFar += result.weight;
+		list.push_back(result.name);
+	}
+	getRandomLandscapeDefn(list);
+}
+
+LandscapeDefinition &LandscapeDefinitions::getRandomLandscapeDefn(std::list<std::string> &list)
+{
+	float totalWeight = 0.0f;
+	std::list<LandscapeDefinition *> passedLandscapes;
+	std::vector<LandscapeDefinition>::iterator itor;
+	for (itor = definitions_.begin();
+		itor != definitions_.end();
+		itor++)
+	{
+		LandscapeDefinition &result = *itor;
+		std::list<std::string>::iterator stritor;
+		for (stritor = list.begin();
+			stritor != list.end();
+			stritor++)
+		{
+			std::string listName = *stritor;
+			if (listName == result.name)
+			{
+				passedLandscapes.push_back(&result);
+				totalWeight += result.weight;
+			}
+		}
+	}
+	DIALOG_ASSERT(passedLandscapes.size() == list.size());
+
+	float pos = RAND * totalWeight;
+	float soFar = 0.0f;
+
+	std::list<LandscapeDefinition *>::iterator passedItor;
+	for (passedItor = passedLandscapes.begin();
+		passedItor != passedLandscapes.end();
+		passedItor++)
+	{
+		LandscapeDefinition *result = *passedItor;
+		soFar += result->weight;
 
 		if (pos <= soFar)
 		{
-			result.generate();
-			return result;
+			result->generate();
+			return *result;
 		}
 
 	}
@@ -254,3 +312,4 @@ LandscapeDefinition &LandscapeDefinitions::getLandscapeDefn()
 	static LandscapeDefinition null;
 	return null;
 }
+

@@ -84,8 +84,7 @@ bool startServer(bool local)
 		new ScorchedCollisionHandler(&ScorchedServer::instance()->getContext()));
 
 	ScorchedServer::instance()->getOptionsTransient().reset();
-
-	if (!LandscapeDefinitions::instance()->readLandscapeDefinitions()) return false;
+	LandscapeDefinitions::instance();
 
 	ServerState::setupStates(ScorchedServer::instance()->getGameState());
 
