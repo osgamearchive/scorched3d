@@ -79,7 +79,7 @@ wxBitmapButton *addButtonToWindow(
 			text);
 
 		sizer->Add(button, 0, wxALL, 5);
-		sizer->Add(staticText, 0, wxALL, 5);
+		sizer->Add(staticText, 0, wxALIGN_CENTER_VERTICAL | wxALL, 5);
 	}
 	return button;
 }

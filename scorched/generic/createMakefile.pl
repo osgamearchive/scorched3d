@@ -178,7 +178,7 @@ sub getDeps
 	return if (defined ${$deps}{$file});
 	return if (defined $nofiles{$file});
 
-	if (!open (IN, "../src/$file"))
+	if (!open (IN, "$file"))
 	{
 		$nofiles{$file} = 1;
 		return;	
@@ -190,9 +190,17 @@ sub getDeps
 	my $line;
 	foreach $line (@filelines)
 	{
-		if ($line =~ /\#include\s+\<([^\>]+)\>/)
+		if ($line =~ /\#include\s+[\<\"]([^\>]+)[\>\"]/)
 		{
-			getDeps("../src/".$1, $deps);
+			my $match = $1;
+			if ($line =~ /\"/)
+			{
+				getDeps("../src/scorched/".$match, $deps);
+			}
+			else
+			{
+				getDeps("../src/".$match, $deps);
+			}
 		}
 	}
 }

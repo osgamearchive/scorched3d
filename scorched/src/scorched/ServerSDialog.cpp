@@ -51,19 +51,27 @@ BEGIN_EVENT_TABLE(ServerSFrame, wxDialog)
 END_EVENT_TABLE()
 
 ServerSFrame::ServerSFrame() :
-	wxDialog(getMainDialog(), -1, scorched3dAppName, wxPoint(0,0), wxSize(365, 289))
+	wxDialog(getMainDialog(), -1, scorched3dAppName,
+			 wxDefaultPosition, wxDefaultSize)
 {
-	CentreOnScreen();
-
 #ifdef _WIN32
 	// Set the frame's icon
 	wxIcon icon(PKGDIR "data/windows/tank2.ico", wxBITMAP_TYPE_ICO);
 	SetIcon(icon);
 #endif
 
+	// Create the positioning sizer
+	wxBoxSizer *topsizer = new wxBoxSizer(wxVERTICAL);
+
 	// Create all the display controlls
-	createControls(this);
+	createControls(this, topsizer);
 	IDOK_CTRL->SetDefault();
+
+	// use the sizer for layout
+	SetSizer(topsizer); 
+	topsizer->SetSizeHints(this); // set size hints to honour minimum size
+
+	CentreOnScreen();
 }
 
 void ServerSFrame::onSettingsButton()

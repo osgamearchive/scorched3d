@@ -41,10 +41,10 @@ static void createControlsPre(wxWindow *parent, wxSizer *sizer)
 	IDC_CLEAR_PASSWORD_CTRL = 
 		new wxButton(parent, IDC_CLEAR_PASSWORD,
 		"Clear");
-	nameSizer->Add(nameText, 0, 0);
+	nameSizer->Add(nameText, 0, wxALIGN_CENTER_VERTICAL);
 	nameSizer->Add(IDC_EDIT_SERVER_CTRL, 0, 0);
 	nameSizer->Add(IDC_CLEAR_CTRL, 0, 0);
-	nameSizer->Add(passText, 0, 0);
+	nameSizer->Add(passText, 0, wxALIGN_CENTER_VERTICAL);
 	nameSizer->Add(IDC_EDIT_PASSWORD_CTRL, 0, 0);
 	nameSizer->Add(IDC_CLEAR_PASSWORD_CTRL, 0, 0);
 	sizer->Add(nameSizer, 0, wxALIGN_CENTER | wxALL, 5);

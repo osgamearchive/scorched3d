@@ -34,7 +34,7 @@ static void createControls(wxWindow *parent, wxSizer *sizer)
 		0, 0, wxCB_READONLY);
 	IDC_FULLSCREEN_CTRL = 
 		new wxCheckBox(parent, -1, "Full Screen");
-	displaySizer2->Add(resText, 0);
+	displaySizer2->Add(resText, 0, wxALIGN_CENTER_VERTICAL);
 	displaySizer2->Add(IDC_DISPLAY_CTRL, 0);
 	displaySizer2->Add(IDC_FULLSCREEN_CTRL, 0, wxALIGN_CENTRE_VERTICAL);
 	wxStaticText *brightText = new wxStaticText(parent, -1, "Brightness :");
@@ -43,7 +43,7 @@ static void createControls(wxWindow *parent, wxSizer *sizer)
 		0,0,0,
 		wxDefaultPosition, wxSize((int) 315, -1),
 		wxSL_HORIZONTAL | wxSL_AUTOTICKS);
-	displaySizer2->Add(brightText, 0);
+	displaySizer2->Add(brightText, 0, wxALIGN_CENTER_VERTICAL);
 	displaySizer2->Add(IDC_SLIDER1_CTRL, 0);
 	displaySizer->Add(displaySizer2, 0);
 	sizer->Add(displaySizer, 0, wxGROW | wxLEFT | wxRIGHT | wxTOP, 5);
@@ -53,7 +53,7 @@ static void createControls(wxWindow *parent, wxSizer *sizer)
 	wxStaticBoxSizer *textureSizer = new wxStaticBoxSizer(textureBox, wxHORIZONTAL);
 	wxGridSizer *textureSizer2 = new wxGridSizer(1, 4, 10, 10);
 	wxStaticText *texSizeText = new wxStaticText(parent, -1, "Texture Sizes :");
-	textureSizer2->Add(texSizeText);
+	textureSizer2->Add(texSizeText, 0, wxALIGN_CENTER_VERTICAL);
 	IDC_SMALLTEX_CTRL = new wxRadioButton(parent, -1, "Small (3dfx/faster)", wxDefaultPosition, wxDefaultSize, wxRB_GROUP);
 	textureSizer2->Add(IDC_SMALLTEX_CTRL, 0);
 	IDC_MEDIUMTEX_CTRL = new wxRadioButton(parent, -1, "Medium");
@@ -61,7 +61,7 @@ static void createControls(wxWindow *parent, wxSizer *sizer)
 	IDC_LARGETEX_CTRL = new wxRadioButton(parent, -1, "Large (slower)");
 	textureSizer2->Add(IDC_LARGETEX_CTRL, 0);
 	wxStaticText *tankSizeText = new wxStaticText(parent, -1, "Tank Detail :");
-	textureSizer2->Add(tankSizeText);
+	textureSizer2->Add(tankSizeText, 0, wxALIGN_CENTER_VERTICAL);
 	IDC_LOWTANK_CTRL = new wxRadioButton(parent, -1, "Low (faster)", wxDefaultPosition, wxDefaultSize, wxRB_GROUP);
 	textureSizer2->Add(IDC_LOWTANK_CTRL, 0);
 	IDC_MEDIUMTANK_CTRL = new wxRadioButton(parent, -1, "Medium");
