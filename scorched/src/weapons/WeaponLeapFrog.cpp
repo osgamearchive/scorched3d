@@ -20,6 +20,8 @@
 
 #include <weapons/WeaponLeapFrog.h>
 #include <weapons/AccessoryStore.h>
+#include <landscape/LandscapeMaps.h>
+#include <landscape/HeightMap.h>
 
 REGISTER_ACCESSORY_SOURCE(WeaponLeapFrog);
 
@@ -66,5 +68,14 @@ void WeaponLeapFrog::fireWeapon(ScorchedContext &context,
 {
 	Vector newVelocity = velocity * bounce_;
 	if (newVelocity[2] < 0.0f) newVelocity[2] *= -1.0f;
-	collisionAction_->fireWeapon(context, playerId, position, newVelocity, data);
+
+	Vector newPosition = position;
+	float minHeight = context.landscapeMaps->getHMap().getInterpHeight(
+		position[0], position[1]);
+	if (position[2] < minHeight + 0.7f)
+	{
+		newPosition[2] = minHeight + 0.7f;
+	}
+
+	collisionAction_->fireWeapon(context, playerId, newPosition, newVelocity, data);
 }
