@@ -36,6 +36,7 @@ public:
 	virtual void gameStart(std::list<Tank *> &tanks) = 0;
 	virtual void roundStart(std::list<Tank *> &tanks) = 0;
 
+	virtual std::list<std::string> getAliases(Tank *tank) = 0;
 	virtual char *tankRank(Tank *tank) = 0;
 	virtual void updateStats(Tank *tank) = 0;
 	virtual char *allocateId() = 0;
@@ -70,6 +71,8 @@ public:
 	virtual void gameStart(std::list<Tank *> &tanks) {}
 	virtual void roundStart(std::list<Tank *> &tanks) {}
 
+	virtual std::list<std::string> getAliases(Tank *tank) 
+		{ std::list<std::string> result; return result; }
 	virtual char *tankRank(Tank *tank) { return "-"; }
 	virtual void updateStats(Tank *tank) {}
 	virtual char *allocateId() { return ""; }

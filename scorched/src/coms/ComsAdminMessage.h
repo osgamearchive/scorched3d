@@ -33,6 +33,7 @@ public:
 		AdminLogout,
 		AdminShow,
 		AdminShowBanned,
+		AdminShowAliases,
 		AdminKillAll,
 		AdminKick,
 		AdminSlap,

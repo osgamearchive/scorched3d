@@ -83,6 +83,12 @@ char *StatsLoggerFile::allocateId()
 	return buffer;
 }
 
+std::list<std::string> StatsLoggerFile::getAliases(Tank *tank)
+{
+	std::list<std::string> result;
+	return result;
+}
+
 char *StatsLoggerFile::tankRank(Tank *firedTank)
 {
 	return "-";

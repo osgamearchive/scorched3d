@@ -215,6 +215,50 @@ void StatsLoggerMySQL::createLogger()
 
 }
 
+std::list<std::string> StatsLoggerMySQL::getAliases(Tank *tank)
+{
+	std::list result;
+	createLogger();
+	if (!success_) return result;
+	
+	int playerId = getPlayerId(tank->getUniqueId());
+	if (playerId == 0) return result;
+	
+	if (runQuery("SELECT name FROM scorched3d%s_players "
+			"WHERE playerid = %i;", prefix_.c_str(), playerId))
+	{
+		MYSQL_RES *result = mysql_store_result(mysql_);
+		if (result)
+		{
+			int rows = (int) mysql_num_rows(result);
+			for (int r=0; r<rows; r++)
+			{
+				MYSQL_ROW row = mysql_fetch_row(result);
+				result.push_back(row[0]);
+			}
+			mysql_free_result(result);
+		}
+	}	
+	
+	if (runQuery("SELECT name FROM scorched3d%s_names "
+			"WHERE playerid = %i;", prefix_.c_str(), playerId))
+	{
+		MYSQL_RES *result = mysql_store_result(mysql_);
+		if (result)
+		{
+			int rows = (int) mysql_num_rows(result);
+			for (int r=0; r<rows; r++)
+			{
+				MYSQL_ROW row = mysql_fetch_row(result);
+				result.push_back(row[0]);
+			}
+			mysql_free_result(result);
+		}
+	}	
+
+	return result;
+}
+
 void StatsLoggerMySQL::gameStart(std::list<Tank *> &tanks)
 {
 	createLogger();
@@ -347,6 +391,9 @@ char *StatsLoggerMySQL::tankRank(Tank *tank)
 
 int StatsLoggerMySQL::getPlayerId(const char *uniqueId)
 {
+	createLogger();
+	if (!success_) return;
+
 	// Try to determine this players sql playerid
 	int playerId = 0;
 	if (runQuery("SELECT playerid FROM scorched3d%s_players "

@@ -285,6 +285,15 @@ void ServerConnectHandler::addNextTank(unsigned int destinationId,
 	tank->getState().setSpectator(true);
 	tank->getState().setLoading(true);
 
+	// Use the stats name if stats are enabled and the player has one
+	std::list<std::string> aliases  = 
+		StatsLogger::instance()->getAliases(tank);
+	if (!aliases.empty())
+	{
+		std::string alias = aliases.front();
+		tank->setName(alias.c_str());
+	}
+
 	// Check if this is a bot
 	// if not update from any residual tank we have.
 	// Residual tanks are only available until the next

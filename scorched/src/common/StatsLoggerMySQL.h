@@ -41,6 +41,7 @@ public:
 	virtual void gameStart(std::list<Tank *> &tanks);
 	virtual void roundStart(std::list<Tank *> &tanks);
 
+	virtual std::list<std::string> getAliases(Tank *tank);
 	virtual char *tankRank(Tank *tank);
 	virtual void updateStats(Tank *tank);
 	virtual char *allocateId();

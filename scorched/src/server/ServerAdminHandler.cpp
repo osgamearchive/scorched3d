@@ -23,6 +23,7 @@
 #include <server/ServerCommon.h>
 #include <server/ServerBanned.h>
 #include <common/OptionsGame.h>
+#include <common/StatsLogger.h>
 #include <coms/ComsAdminMessage.h>
 #include <coms/NetInterface.h>
 #include <tank/TankContainer.h>
@@ -133,7 +134,7 @@ bool ServerAdminHandler::processMessage(unsigned int destinationId,
 						tank->getPlayerId(), 
 						tank->getName(),
 						NetInterface::getIpName(tank->getIpAddress()),
-						tank->getScore().getStatsRank(),
+						StatsLogger::instance()->tankRank(tank),
 						(tank->getState().getMuted()?"Muted":"Not Muted"));
 			}
 			result +=
@@ -189,6 +190,35 @@ bool ServerAdminHandler::processMessage(unsigned int destinationId,
 				"-----------------------------------------------------\n";
 
 			ServerCommon::sendString(destinationId, result.c_str());
+		}
+		break;
+	case ComsAdminMessage::AdminShowAliases:
+		{
+			Tank *targetTank = ScorchedServer::instance()->
+				getTankContainer().getTankById(atoi(message.getParam1()));
+			if (targetTank)
+			{
+				std::string result;
+				result += 
+					"--Admin Show Aliases---------------------------------\n";
+
+				std::list<std::string> aliases =
+					StatsLogger::instance()->getAliases(targetTank);
+				std::list<std::string>::iterator itor;
+				for (itor = aliases.begin();
+					itor != aliases.end();
+					itor++)
+				{
+					std::string alias = (*itor);
+
+					result += formatString("\"%s\"",
+						alias.c_str());
+				}
+				result +=
+					"-----------------------------------------------------\n";
+
+				ServerCommon::sendString(destinationId, result.c_str());
+			}
 		}
 		break;
 	case ComsAdminMessage::AdminBan:
