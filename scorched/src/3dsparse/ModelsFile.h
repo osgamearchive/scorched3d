@@ -31,8 +31,10 @@ public:
 	ModelsFile(const char *fileName);
 	virtual ~ModelsFile();
 
-	bool getSuccess() { return success_; }
+	bool getSuccess() { return (error_.c_str()[0] == '\0'); }
+	bool setError(const char *error) { error_ = error; return false; }
 	const char *getName() { return name_.c_str(); }
+	const char *getError() { return error_.c_str(); }
 
 	Vector &getMax() { return max_; }
 	Vector &getMin() { return min_; }
@@ -44,9 +46,9 @@ public:
 	void scale(float scalef);
 
 protected:
-	bool success_;
 	std::list<Model *> models_;
 	std::string name_;
+	std::string error_;
 	Vector max_, min_;
 
 };

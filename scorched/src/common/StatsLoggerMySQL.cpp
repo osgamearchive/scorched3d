@@ -623,11 +623,19 @@ void StatsLoggerMySQL::tankJoined(Tank *tank)
 	// Add the avatar
 	if (tank->getAvatar().getName()[0])
 	{
+		char buffer[32];
+		for (int i=0; i<30; i++)
+		{
+			buffer[i] = tank->getAvatar().getName()[i];
+			if (!buffer[i]) break;
+		}
+		buffer[30] = '\0';
+
 		int binaryid = 0;
 		unsigned int crc = tank->getAvatar().getCrc();
 		if (runQuery("SELECT binaryid FROM scorched3d_binary "
 			"WHERE name = \"%s\" AND crc = %u;", 
-			tank->getAvatar().getName(),
+			buffer,
 			crc))
 		{
 			MYSQL_RES *result = mysql_store_result(mysql_);
@@ -652,7 +660,7 @@ void StatsLoggerMySQL::tankJoined(Tank *tank)
 			runQuery("INSERT INTO scorched3d_binary "
 				"(name, crc, length, data) "
 				"VALUES(\"%s\", %u, %u, \"%s\");", 
-				tank->getAvatar().getName(),
+				buffer,
 				crc,
 				tank->getAvatar().getFile().getBufferUsed(),
 				to);

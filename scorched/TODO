@@ -1,4 +1,5 @@
 -- Bugs Fixed and Ready For Release 
+Added: Error reporting to MS file loading
 
 -- Bugs in current development release
 Dvorak keyboard support is broken

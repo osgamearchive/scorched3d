@@ -169,7 +169,8 @@ ModelsFile *ModelID::getModelsFile()
 			newFile = new ASEFile(meshName.c_str(), getDataFile(getSkinName()));
 			if (!newFile->getSuccess())
 			{
-				dialogMessage("ASE File", "Failed to load ASE file \"%s\"", getMeshName());
+				dialogExit("ASE File", "Failed to load ASE file \"%s\"\n%s", 
+					getMeshName(), newFile->getError());
 				return 0;
 			}
 		}
@@ -179,7 +180,8 @@ ModelsFile *ModelID::getModelsFile()
 			newFile = new MSFile(getDataFile(getMeshName()));
 			if (!newFile->getSuccess())
 			{
-				dialogMessage("MS File", "Failed to load MS file \"%s\"", getMeshName());
+				dialogExit("MS File", "Failed to load MS file \"%s\"\n%s", 
+					getMeshName(), newFile->getError());
 				return 0;
 			}			
 		}

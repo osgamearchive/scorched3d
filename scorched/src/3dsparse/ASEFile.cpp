@@ -33,11 +33,15 @@ ASEFile::ASEFile(const char *fileName,
 				 const char *texName) : 
 	ModelsFile(fileName), texName_(texName)
 {
-	success_ = loadFile(fileName);
-	if (success_)
+	if (loadFile(fileName))
 	{
 		centre();
 		calculateTexCoords();
+	}
+	else
+	{
+		setError(
+			formatString("Failed to load ASE file \"%s\"", fileName));
 	}
 }
 

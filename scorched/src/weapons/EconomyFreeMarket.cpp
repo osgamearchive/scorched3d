@@ -84,16 +84,18 @@ bool EconomyFreeMarket::loadPrices()
 					"Warning: Economy free market failed to find accessory named \"%s\"",
 					nameNode->getContent());
 			}
-	
-			// Check that this accessory is still valid
-			// (just in case the file has been changed)
-			if (accessory->getMaximumNumber() != 0 &&
-				accessory->getStartingNumber() != -1 && 
-				accessory->getType() == AccessoryPart::AccessoryWeapon)
-			{
-				// Set the actual accessory price (based on the last used market prices)
-				int price = atoi(buyNode->getContent());
-				setPrice(accessory, price);
+			else
+			{	
+				// Check that this accessory is still valid
+				// (just in case the file has been changed)
+				if (accessory->getMaximumNumber() != 0 &&
+					accessory->getStartingNumber() != -1 && 
+					accessory->getType() == AccessoryPart::AccessoryWeapon)
+				{
+					// Set the actual accessory price (based on the last used market prices)
+					int price = atoi(buyNode->getContent());
+					setPrice(accessory, price);
+				}
 			}
 		}
 	}

@@ -116,7 +116,7 @@ bool TankModelStore::loadTankMeshes(ProgressCounter *counter)
 		if (OptionsDisplay::instance()->getTankDetail() != 2)
 		{
 			ModelsFile *mFile = model->getTankModelID().getModelsFile();
-			if (!mFile || !mFile->getSuccess()) return false;		
+			if (!mFile || !mFile->getSuccess()) continue;		
 			if (strcmp(model->getId().getModelName(), "Random") != 0)
 			{
 				// Check if the model uses too many triangles

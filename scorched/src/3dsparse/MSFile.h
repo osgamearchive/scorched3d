@@ -31,6 +31,7 @@ public:
 	virtual ~MSFile();
 
 protected:
+	bool setLineError(const char *fileName, const char *error);
 	bool loadFile(const char *fileName);
 	bool loadFile(FILE *in, const char *fileName);
 	bool getNextLine(char *line, FILE *in);
