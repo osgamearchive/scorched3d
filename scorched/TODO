@@ -48,6 +48,7 @@ Napalm added to accessories.
 Leapfrog added to accessories.
 Sand Hogs added to accessories.
 Diggers added to accessories.
+Server can automatically kick idle players
 
 XML parser added
 Changed all paths to be in unix style
@@ -74,6 +75,8 @@ Fixed: Tank prints death message more than 1x
 Fixed: Explosions very dark
 Fixed: White outlined box around lens flares
 Fixed: Tank movement sound plays and does not stop until next human move
+Fixed: Wav files in unsupported formats
+Fixed: Cannot see tank when it is under water
 
 -- Bugs in current development release
 Dvorak keyboard support is broken
