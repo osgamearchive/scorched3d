@@ -21,6 +21,7 @@
 #include <weapons/EconomyStore.h>
 #include <server/ScorchedServer.h>
 #include <common/Defines.h>
+#include <common/Logger.h>
 #include <stdlib.h>
 
 EconomyStore *EconomyStore::instance_ = 0;
@@ -36,6 +37,21 @@ EconomyStore *EconomyStore::instance()
 
 EconomyStore::EconomyStore() : economy_(0)
 {
+	loadEconomy();
+}
+
+EconomyStore::~EconomyStore()
+{
+}
+
+void EconomyStore::loadEconomy()
+{
+	if (economy_)
+	{
+		economy_->savePrices();
+		delete economy_;
+	}
+
 	economy_ = (Economy *) MetaClassRegistration::getNewClass(
 		ScorchedServer::instance()->getOptionsGame().getEconomy());
 	if (!economy_)
@@ -47,7 +63,14 @@ EconomyStore::EconomyStore() : economy_(0)
 	economy_->loadPrices();
 }
 
-EconomyStore::~EconomyStore()
-{
-}
+Economy *EconomyStore::getEconomy()
+{ 
+	if (0 != strcmp(ScorchedServer::instance()->getOptionsGame().getEconomy(),
+		economy_->getClassName()))
+	{
+		Logger::log(0, "Loading new economy");
+		loadEconomy();
+	}
 
+	return economy_; 
+}

@@ -28,11 +28,13 @@ class EconomyStore
 public:
 	static EconomyStore *instance();
 
-	Economy *getEconomy() { return economy_; }
+	Economy *getEconomy();
 
 protected:
 	static EconomyStore *instance_;
 	Economy *economy_;
+
+	void loadEconomy();
 
 private:
 	EconomyStore();
