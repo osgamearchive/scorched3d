@@ -300,7 +300,8 @@ void WindowManager::mouseDrag(const unsigned state, GameState::MouseButton butto
 	}
 }
 
-void WindowManager::getMenuItems(const char* menuName, std::list<std::string> &items)
+void WindowManager::getMenuItems(const char* menuName, 
+								 std::list<GLMenuItem> &items)
 {
 	if (currentStateEntry_) 
 	{

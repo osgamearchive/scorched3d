@@ -52,7 +52,7 @@ protected:
 		virtual void menuSelection(const char* menuName, 
 			const int position, const char *menuItem);
 		virtual void getMenuItems(const char* menuName, 
-			std::list<std::string> &result);
+			std::list<GLMenuItem> &result);
 		virtual bool getEnabled(const char* menuName);
 
 		std::vector<Accessory *> menuItems_;

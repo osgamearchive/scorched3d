@@ -125,12 +125,13 @@ void GLMenuEntry::drawDepressed(GLFont2d &font, float currentTop, float currentL
 
 	// Get the height of the menu
 	GLfloat lowerHeight = 0.0f;
-	std::list<std::string>::iterator itor;
+	std::list<GLMenuItem>::iterator itor;
 	for (itor =	menuItems_.begin();
 		itor != menuItems_.end();
 		itor++)
 	{
-		if ((*itor).c_str()[0] == '-') lowerHeight += 8.0f;
+		GLMenuItem &item = (*itor);
+		if (item.getText()[0] == '-') lowerHeight += 8.0f;
 		else lowerHeight += 18.0f;
 	}
 
@@ -169,7 +170,8 @@ void GLMenuEntry::drawDepressed(GLFont2d &font, float currentTop, float currentL
 		itor != menuItems_.end();
 		itor++)
 	{
-		if (itor->c_str()[0] == '-')
+		GLMenuItem &item = (*itor);
+		if (item.getText()[0] == '-')
 		{
 			glBegin(GL_LINES);
 				glColor3f(0.0f, 0.0f, 0.0f);
@@ -181,14 +183,22 @@ void GLMenuEntry::drawDepressed(GLFont2d &font, float currentTop, float currentL
 		else
 		{
 			bool selected = false;
-			if (currentLeft < mouseX && mouseX < currentLeft + width_ &&
+			if (currentLeft < mouseX && mouseX < currentLeft + 165.0f &&
 				currentTop - 18.0f < mouseY && mouseY < currentTop)
 			{
 				selected = true;
 			}
 
+			if (item.getToolTip())
+			{
+				item.getToolTip()->x = currentLeft;
+				item.getToolTip()->y = currentTop - 18.0f;
+				item.getToolTip()->w = 165.0f;
+				item.getToolTip()->h = 18.0f;
+				GLWToolTip::instance()->addToolTip(item.getToolTip());
+			}
 			font.draw(selected?selectedColor:color, 12, currentLeft + 5.0f, 
-				currentTop - 16.0f, 0.0f, (char *) itor->c_str());
+				currentTop - 16.0f, 0.0f, (char *) item.getText());
 			currentTop -= 18.0f;
 		}
 	}
@@ -231,21 +241,21 @@ bool GLMenuEntry::clickMenu(float currentTop, int x, int y)
 	if (thisMenu)
 	{
 		GLfloat lowerHeight = currentTop - menuItemHeight - 7.0f;
-		std::list<std::string> items = menuItems_;
-
-		std::list<std::string>::iterator itor;
+		std::list<GLMenuItem> items = menuItems_;
+		std::list<GLMenuItem>::iterator itor;
 		int i = 0;
 		for (itor =	items.begin();
 			itor != items.end();
 			itor++, i++)
 		{
-			if ((*itor).c_str()[0] == '-') lowerHeight -= 8.0f;
+			GLMenuItem &item = (*itor);
+			if (item.getText()[0] == '-') lowerHeight -= 8.0f;
 			else
 			{
 				lowerHeight -= 18.0f;
 				if (y > lowerHeight) 
 				{
-					selectFn_->menuSelection(menuName_.c_str(), i, itor->c_str());
+					selectFn_->menuSelection(menuName_.c_str(), i, item.getText());
 					collapse();
 					return true;
 				}
@@ -256,7 +266,7 @@ bool GLMenuEntry::clickMenu(float currentTop, int x, int y)
 	return true;
 }
 
-void GLMenuEntry::addMenuItem(const char *item)
+void GLMenuEntry::addMenuItem(GLMenuItem &item)
 {
 	menuItems_.push_back(item);
 }

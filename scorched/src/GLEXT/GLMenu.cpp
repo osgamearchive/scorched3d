@@ -68,12 +68,12 @@ bool GLMenu::addMenu(char *menuName, float width, GLMenuI *selectFn,
 	return true;
 }
 
-bool GLMenu::addMenuItem(char *menuName, LPSTR menuItem)
+bool GLMenu::addMenuItem(char *menuName, GLMenuItem &item)
 {
 	GLMenuEntry *entry = getMenu(menuName);
 	if (!entry) return false;
 
-	entry->addMenuItem(menuItem);
+	entry->addMenuItem(item);
 
 	return true;
 }

@@ -45,7 +45,7 @@ public:
 		enabledFn_->getEnabled(menuName_.c_str()):true); }
 	void draw(GLFont2d &font, float currentTop, float currentLeft);
 
-	void addMenuItem(const char *item);
+	void addMenuItem(GLMenuItem &item);
 	float getWidth() { return width_; }
 
 protected:
@@ -56,7 +56,7 @@ protected:
 	GLMenuI *textFn_;
 	GLMenuI *subMenuFn_;
 	GLMenuI *enabledFn_;
-	std::list<std::string> menuItems_;
+	std::list<GLMenuItem> menuItems_;
 	std::string menuName_;
 
 	void collapse();

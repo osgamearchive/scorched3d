@@ -73,7 +73,8 @@ public:
 	// Inherited from GLMenuI
 	virtual void menuSelection(const char* menuName, 
 		const int position, const char *menuItem);
-	virtual void getMenuItems(const char* menuName, std::list<std::string> &result);
+	virtual void getMenuItems(const char* menuName, 
+		std::list<GLMenuItem> &result);
 
 	static float heightFunc(int x, int y);
 

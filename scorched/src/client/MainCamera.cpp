@@ -110,7 +110,8 @@ float MainCamera::heightFunc(int x, int y)
 	return (h>heightMin + addition?h:heightMin + addition);
 }
 
-void MainCamera::getMenuItems(const char* menuName, std::list<std::string> &result)
+void MainCamera::getMenuItems(const char* menuName, 
+							  std::list<GLMenuItem> &result)
 {
 	for (int i=0; i<noMenuItems; i++)
 	{

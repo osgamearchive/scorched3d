@@ -96,7 +96,9 @@ OptionsDisplay::OptionsDisplay() :
 	screenHeight_(options_, "ScreenHeight",
 		"The window height to use (in pixels)", RAccess, 480),
 	depthBufferBits_(options_, "DepthBufferBits",
-		"The number of bits requested for the depth buffer", RAccess, 24)
+		"The number of bits requested for the depth buffer", RAccess, 24),
+	showContextHelp_(options_, "ShowContextHelp",
+		"Show help bubbles for items that have it", RWAccess, true)
 {
 
 }

@@ -33,6 +33,7 @@
 #include <tankai/TankAIHumanCtrl.h>
 #include <common/WindowManager.h>
 #include <landscape/Landscape.h>
+#include <GLW/GLWToolTip.h>
 #include <GLEXT/GLCameraFrustum.h>
 #include <GLEXT/GLBilboardRenderer.h>
 #include <GLEXT/GLConsole.h>
@@ -87,6 +88,8 @@ void ClientState::addStandardComponents(unsigned state, bool network)
 	addWindowManager(state);
 	GameState::instance()->addStateLoop(state, Main2DCamera::instance(), 
 		MainBanner::instance());
+	GameState::instance()->addStateLoop(state, Main2DCamera::instance(), 
+		GLWToolTip::instance());
 	GameState::instance()->addStateLoop(state, Main2DCamera::instance(), 
 		GLConsole::instance());
 	GameState::instance()->addStateMouseDownEntry(state,

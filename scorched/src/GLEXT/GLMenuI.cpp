@@ -18,16 +18,12 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// GLMenuI.cpp: implementation of the GLMenuI class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <GLEXT/GLMenuI.h>
 
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
+GLMenuItem::GLMenuItem(const char *text, GLWTip *tooltip) : 
+	menuText_(text), tip_(tooltip)
+{
+}
 
 GLMenuI::~GLMenuI()
 {
@@ -39,7 +35,7 @@ const char *GLMenuI::getMenuText(const char* menuName)
 	return "NO TEXT";
 }
 
-void GLMenuI::getMenuItems(const char* menuName, std::list<std::string> &result)
+void GLMenuI::getMenuItems(const char* menuName, std::list<GLMenuItem> &result)
 {
 }
 

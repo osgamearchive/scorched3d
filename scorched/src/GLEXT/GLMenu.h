@@ -43,7 +43,7 @@ public:
 				GLMenuI *textFn = 0, 
 				GLMenuI *subMenuFn = 0,
 				GLMenuI *enabledFn = 0);
-	bool addMenuItem(char *menuName, char *menuItem);
+	bool addMenuItem(char *menuName, GLMenuItem &item);
 
 	virtual void draw();
 	virtual void mouseDown(float x, float y, bool &skipRest);

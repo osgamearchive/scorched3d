@@ -93,9 +93,17 @@ void TankMenus::showTankDetails()
 TankMenus::PlayerMenu::PlayerMenu()
 {
 	MainMenuDialog::instance()->addMenu("Player", 80, this, 0, 0, this);
-	MainMenuDialog::instance()->addMenuItem("Player", "Skip Move");
-	MainMenuDialog::instance()->addMenuItem("Player", "Resign Current Round");
-	MainMenuDialog::instance()->addMenuItem("Player", "Exit Game");
+	MainMenuDialog::instance()->addMenuItem("Player", 
+		GLMenuItem("Skip Move",
+		new GLWTip("Skip Move", 
+			"Player forfits this move.")));
+	MainMenuDialog::instance()->addMenuItem("Player", 
+		GLMenuItem("Resign Current Round",
+		new GLWTip("Resign Current Round", 
+			"Player resigns from this round.\nPlayer takes no part in the rest of the round.")));
+	MainMenuDialog::instance()->addMenuItem("Player", 
+		GLMenuItem("Exit Game",
+		new GLWTip("Exit Game", "Stop Playing Scorched.")));
 }
 
 void TankMenus::PlayerMenu::menuSelection(const char* menuName, 
@@ -203,7 +211,7 @@ void TankMenus::AccessoryMenu::menuSelection(const char* menuName,
 }
 
 void TankMenus::AccessoryMenu::getMenuItems(const char* menuName, 
-											std::list<std::string> &result)
+											std::list<GLMenuItem> &result)
 {
 	menuItems_.clear();
 	Tank *firstTank = TankContainer::instance()->getCurrentTank();
@@ -248,7 +256,7 @@ void TankMenus::AccessoryMenu::getMenuItems(const char* menuName,
 		if (lastType != accessory->getType())
 		{
 			lastType = accessory->getType();
-			result.push_back(std::string("----------"));
+			result.push_back("----------");
 			menuItems_.push_back(0);
 		}
 
@@ -266,7 +274,7 @@ void TankMenus::AccessoryMenu::getMenuItems(const char* menuName,
 				accessory->getName());
 		}
 		menuItems_.push_back(accessory);
-		result.push_back(std::string(buffer));
+		result.push_back(buffer);
 	}
 }
 

@@ -28,9 +28,22 @@
 
 #pragma warning(disable: 4786)
 
-
 #include <list>
 #include <string>
+#include <GLW/GLWToolTip.h>
+
+class GLMenuItem
+{
+public:
+	GLMenuItem(const char *text, GLWTip *tooltip = 0);
+
+	const char *getText() { return menuText_.c_str(); }
+	GLWTip *getToolTip() { return tip_; }
+
+protected:
+	std::string menuText_;
+	GLWTip *tip_;
+};
 
 class GLMenuI  
 {
@@ -40,7 +53,7 @@ public:
 	virtual void menuSelection(const char* menuName, const int position, const char *menuItem);
 	virtual const char *getMenuText(const char* menuName);
 	virtual bool getEnabled(const char* menuName);
-	virtual void getMenuItems(const char* menuName, std::list<std::string> &result);
+	virtual void getMenuItems(const char* menuName, std::list<GLMenuItem> &result);
 };
 
 #endif // !defined(AFX_GLMENUI_H__7171A46C_8265_4A9F_A984_889EF2547CB1__INCLUDED_)

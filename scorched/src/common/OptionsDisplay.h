@@ -114,6 +114,9 @@ public:
 	bool getNoSkyLayers() { return noSkyLayers_.getValue(); }
 	void setNoSkyLayers(bool value) { noSkyLayers_.setValue(value); }
 
+	bool getShowContextHelp() { return showContextHelp_.getValue(); }
+	void setShowContextHelp(bool value) { showContextHelp_.setValue(value); }
+
 	int getTexSize() { return texSize_.getValue(); }
 	void setTexSize(int value) { texSize_.setValue(value); }
 
@@ -164,6 +167,7 @@ protected:
 	OptionEntryBool noSkyMovement_;
 	OptionEntryBool frameTimer_;
 	OptionEntryBool noWaterMovement_;
+	OptionEntryBool showContextHelp_;
 	OptionEntryBoundedInt texSize_;
 	OptionEntryInt screenWidth_;
 	OptionEntryInt screenHeight_;
