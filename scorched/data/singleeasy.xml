@@ -323,18 +323,6 @@
     <value>1</value>
     <defaultvalue>1</defaultvalue>
   </option>
-  <!-- The master list server for scorched3d -->
-  <option>
-    <name>MasterListServer</name>
-    <value>www.employees.org</value>
-    <defaultvalue>www.employees.org</defaultvalue>
-  </option>
-  <!-- The URI on the master list server for scorched3d -->
-  <option>
-    <name>MasterListServerURI</name>
-    <value>/~gcamp/scorched</value>
-    <defaultvalue>/~gcamp/scorched</defaultvalue>
-  </option>
   <!-- The type of player stats to be logged (none, mysql, file) -->
   <option>
     <name>StatsLogger</name>

@@ -182,14 +182,14 @@
   <!-- The master list server for scorched3d -->
   <option>
     <name>MasterListServer</name>
-    <value>www.employees.org</value>
-    <defaultvalue>www.employees.org</defaultvalue>
+    <value>scorched3d.sourceforge.net</value>
+    <defaultvalue>scorched3d.sourceforge.net</defaultvalue>
   </option>
   <!-- The URI on the master list server for scorched3d -->
   <option>
     <name>MasterListServerURI</name>
-    <value>/~gcamp/scorched</value>
-    <defaultvalue>/~gcamp/scorched</defaultvalue>
+    <value>/scorched</value>
+    <defaultvalue>/scorched</defaultvalue>
   </option>
   <!-- Prepend and bot name with the specified text -->
   <option>

@@ -41,11 +41,14 @@ ServerRegistration::ServerRegistration() :
 	sprintf(buffer, 
 		"GET %s/servers.php?register=%s&port=%i HTTP/1.0\r\n"
 		"User-Agent: Scorched3D\r\n"
+		"Host: %s\r\n"
+		"Connection: Keep-Alive\r\n"
 		"\r\n"
 		"\r\n",
 		ScorchedServer::instance()->getOptionsGame().getMasterListServerURI(),
 		ScorchedServer::instance()->getOptionsGame().getPublishAddress(),
-		ScorchedServer::instance()->getOptionsGame().getPortNo());
+		ScorchedServer::instance()->getOptionsGame().getPortNo(),
+		ScorchedServer::instance()->getOptionsGame().getMasterListServer());
 	sendNetBuffer_.addDataToBuffer(buffer, strlen(buffer)); // Note no null
 
 	netServer_.setMessageHandler(this);

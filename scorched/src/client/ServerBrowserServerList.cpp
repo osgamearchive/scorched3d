@@ -56,9 +56,12 @@ ServerBrowserServerList::ServerBrowserServerList() :
 	sprintf(buffer, 
 		"GET %s/servers.php HTTP/1.0\r\n"
 		"User-Agent: Scorched3D\r\n"
+		"Host: %s\r\n"
+		"Connection: Keep-Alive\r\n"
 		"\r\n"
 		"\r\n",
-		ScorchedClient::instance()->getOptionsGame().getMasterListServerURI());
+		ScorchedClient::instance()->getOptionsGame().getMasterListServerURI(),
+		ScorchedClient::instance()->getOptionsGame().getMasterListServer());
 	sendNetBuffer_.addDataToBuffer(buffer, strlen(buffer)); // Note no null
 
 	// All messages will come to this class

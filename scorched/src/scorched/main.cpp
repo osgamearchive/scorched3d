@@ -23,6 +23,7 @@
 #include <SDL/SDL.h>
 #include <client/ClientMain.h>
 #include <client/ClientSave.h>
+#include <client/ScorchedClient.h>
 #include <server/ScorchedServer.h>
 #include <server/ServerMain.h>
 #include <common/OptionsDisplay.h>
@@ -84,6 +85,13 @@ bool parseCommandLine(int argc, char *argv[])
 
 	// Write the new options back the the file
 	OptionsDisplay::instance()->writeOptionsToFile();
+
+	// Read the game options
+	const char *optionsGamePath = getSettingsFile("game.xml");
+	ScorchedClient::instance()->getOptionsGame().readOptionsFromFile(
+		(char *) optionsGamePath);
+	ScorchedClient::instance()->getOptionsGame().writeOptionsToFile(
+		(char *) optionsGamePath);
 
 	// Read options from command line
 	ARGParser aParser;
