@@ -18,8 +18,11 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+#include <wx/wx.h>
+#include <wx/utils.h>
 #include <common/OptionsDisplay.h>
 #include <GLEXT/GLConsoleRuleFnIAdapter.h>
+#include <stdio.h>
 
 OptionsDisplay *OptionsDisplay::instance_ = 0;
 
@@ -147,15 +150,52 @@ OptionsDisplay::~OptionsDisplay()
 	
 }
 
-bool OptionsDisplay::writeOptionsToFile(char *filePath)
+bool OptionsDisplay::writeOptionsToFile()
 {
-	if (!OptionEntryHelper::writeToFile(options_, filePath)) return false;
+	wxString homeDir = ::wxGetHomeDir();
+	const char *homeDirStr = homeDir.c_str();
+	if (!::wxDirExists(homeDir)) homeDirStr = PKGDIR "";
+
+	char path[256];
+	sprintf(path, "%s/%s", homeDirStr, ".scorched3d.display.xml");
+
+	// Check the options files are writeable
+	FILE *checkfile = fopen(path, "a");
+	if (!checkfile)
+	{
+		dialogMessage(
+			"Scorched3D",
+			"Warning: Your display settings file (%s) cannot be\n"
+			"written to.  Your settings will not be saved from one game to the next.\n\n"
+			"To fix this problem correct the permissions for all the files in the\n"
+			PKGDIR"data directory.",
+			path);
+	}
+	else fclose(checkfile);
+
+	if (!OptionEntryHelper::writeToFile(options_, path)) return false;
 	return true;
 }
 
-bool OptionsDisplay::readOptionsFromFile(char *filePath)
+bool OptionsDisplay::readOptionsFromFile()
 {
-	if (!OptionEntryHelper::readFromFile(options_, filePath)) return false;
+	wxString homeDir = ::wxGetHomeDir();
+	const char *homeDirStr = homeDir.c_str();
+	if (!::wxDirExists(homeDir)) homeDirStr = PKGDIR "";
+
+	char path[256];
+	sprintf(path, "%s/%s", homeDirStr, ".scorched3d.display.xml");
+	if (!OptionEntryHelper::readFromFile(options_, path))
+	{
+		dialogMessage(
+			"Scorched3D",
+			"Warning: Your display settings file (%s) cannot be\n"
+			"read.  This may be because it is an out of date version.\n"
+			"If this is the case it can be safe deleted.",
+			path);
+		return false;
+	}
+
 	return true;
 }
 

@@ -63,7 +63,7 @@ DisplayFrame::DisplayFrame() :
 bool DisplayFrame::TransferDataToWindow()
 {
 	// Read display options from a file
-	OptionsDisplay::instance()->readOptionsFromFile(displayOptions);
+	OptionsDisplay::instance()->readOptionsFromFile();
 
 	IDC_FULLCLEAR_CTRL->SetValue(OptionsDisplay::instance()->getFullClear());
 	IDC_NOEXT_CTRL->SetValue(OptionsDisplay::instance()->getNoGLExt());
@@ -212,7 +212,7 @@ bool DisplayFrame::TransferDataFromWindow()
 	OptionsDisplay::instance()->setTankDetail(tankDetail);
 
 	// Save display options to file
-	OptionsDisplay::instance()->writeOptionsToFile(displayOptions);
+	OptionsDisplay::instance()->writeOptionsToFile();
 
 	return true;
 }

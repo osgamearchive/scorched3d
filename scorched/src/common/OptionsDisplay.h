@@ -191,8 +191,8 @@ public:
 	const char *getHostDescription() { return hostDescription_.getValue(); }
 	void setHostDescription(const char *value) { hostDescription_.setValue(value); }
 
-	bool writeOptionsToFile(char *filePath);
-	bool readOptionsFromFile(char *filePath);
+	bool writeOptionsToFile();
+	bool readOptionsFromFile();
 	void addToConsole();
 
 protected:

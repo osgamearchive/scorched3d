@@ -68,6 +68,8 @@ void ClientState::addStandardComponents(GameState &gameState, unsigned state, bo
 		MainCamera::instance(), &TankRenderer::instance()->render3D);
 	gameState.addStateLoop(state, 
 		MainCamera::instance(), Landscape::instance());
+	gameState.addStateLoop(state, MainCamera::instance(), 
+		GLOrderedItemRenderer::instance());
 	gameState.addStateLoop(state, 
 		MainCamera::instance(), &TankRenderer::instance()->render3DSecond);
 	gameState.addStateLoop(state, 
@@ -79,8 +81,6 @@ void ClientState::addStandardComponents(GameState &gameState, unsigned state, bo
 	}
 	gameState.addStateLoop(state, MainCamera::instance(), 
 		&ScorchedClient::instance()->getActionController());
-	gameState.addStateLoop(state, MainCamera::instance(), 
-		GLOrderedItemRenderer::instance());
 	addWindowManager(gameState, state);
 	gameState.addStateLoop(state, Main2DCamera::instance(), 
 		MainBanner::instance());

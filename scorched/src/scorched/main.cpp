@@ -38,7 +38,6 @@
 
 extern bool wxWindowInit;
 extern bool wxWindowExit;
-char *displayOptions = PKGDIR "data/display.xml";
 char *resourceFile = PKGDIR "data/resource.xml";
 char scorched3dAppName[128];
 static bool allowExceptions = false;
@@ -49,7 +48,7 @@ bool parseCommandLine(int argc, char *argv[])
 	if (!Resources::instance()->main.initFromFile(resourceFile)) return false;
 
 	// Read display options from a file
-	if (!OptionsDisplay::instance()->readOptionsFromFile(displayOptions))
+	if (!OptionsDisplay::instance()->readOptionsFromFile())
 	{
 		return false;
 	}
@@ -62,15 +61,21 @@ bool parseCommandLine(int argc, char *argv[])
 		OptionsDisplay::instance()->setUniqueUserId(buffer);
 	}
 
-	// Get this hosts description
+	// Get this host's description and username
 	if (!OptionsDisplay::instance()->getHostDescription()[0])
 	{
 		wxString osDesc = ::wxGetOsDescription();
 		OptionsDisplay::instance()->setHostDescription(osDesc.c_str());
+
+		wxString userName = ::wxGetUserName();
+		if (userName.c_str()[0])
+		{
+			OptionsDisplay::instance()->setOnlineUserName(userName.c_str());
+		}
 	}
 
 	// Write the new options back the the file
-	OptionsDisplay::instance()->writeOptionsToFile(displayOptions);
+	OptionsDisplay::instance()->writeOptionsToFile();
 
 	// Read options from command line
 	ARGParser aParser;
@@ -121,19 +126,6 @@ int main(int argc, char *argv[])
 			"If Scorched3D does not run please re-install Scorched3D.",
 			PKGDIR[0]?PKGDIR:".");
 		exit(1);
-	}
-	else fclose(checkfile);
-
-	// Check the options files are writeable
-	checkfile = fopen(PKGDIR "data/display.xml", "a");
-	if (!checkfile)
-	{
-		dialogMessage(
-			scorched3dAppName,
-			"Warning: Your display settings file (" PKGDIR "data/display.xml) cannot be\n"
-			"written to.  Your settings will not be saved from one game to the next.\n\n"
-			"To fix this problem correct the permissions for all the files in the\n"
-			PKGDIR"data directory.");
 	}
 	else fclose(checkfile);
 
@@ -245,7 +237,7 @@ int main(int argc, char *argv[])
 
 			// Write display options back to the file
 			// in case they have been changed by this client (in game by the console)
-			OptionsDisplay::instance()->writeOptionsToFile(displayOptions);
+			OptionsDisplay::instance()->writeOptionsToFile();
 		}
 		else
 		{
