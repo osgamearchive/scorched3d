@@ -104,9 +104,13 @@ void ServerBrowserInfo::processStatusMessage(char *buffer)
 	sprintf(players, "%i", ScorchedServer::instance()->getTankContainer().getNoOfTanks());
 	char maxplayers[25];
 	sprintf(maxplayers, "%i", ScorchedServer::instance()->getOptionsGame().getNoMaxPlayers());
+	char type[100];
+	sprintf(type, "%s (%s)", 
+		ScorchedServer::instance()->getOptionsTransient().getGameType(),
+		((ScorchedServer::instance()->getOptionsGame().getTeams() > 1)?"Teams":"No Teams"));
 
 	strcpy(buffer, "<status ");
-	addTag(buffer, "gametype", ScorchedServer::instance()->getOptionsTransient().getGameType());
+	addTag(buffer, "gametype", type);
 	addTag(buffer, "state", (started?"Started":"Waiting"));
 	addTag(buffer, "servername", serverName);
 	addTag(buffer, "fullversion", version);

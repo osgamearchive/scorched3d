@@ -50,9 +50,9 @@ PlayerDialog::PlayerDialog() :
 	viewer_ = new GLWTankViewer(10.0f, 25.0f, 4, 3);
 
 	// Add buttons
-	addWidget(viewer_);
 	okId_ = addWidget(new GLWTextButton(" Ok", 375, 10, 55, this, true))->getId();
 	cancelId_ = addWidget(new GLWTextButton("Cancel", 280, 10, 85, this, false, true))->getId();
+	addWidget(viewer_);
 
 	// Create player name choice
 	playerName_ = (GLWTextBox *) addWidget(new GLWTextBox(70, 265, 340, "Player"));

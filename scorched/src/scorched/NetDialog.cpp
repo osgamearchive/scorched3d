@@ -292,7 +292,7 @@ bool NetLanFrame::TransferDataToWindow()
 		{ "Plyrs", 50 },
 		{ "Server IP Address", 140 },
 		{ "Version", 60 },
-		{ "Game Type", 80 }
+		{ "Game Type", 160 }
 	};
 	for (int i=0; i<sizeof(mainListItems)/sizeof(ListItem); i++)
 	{
