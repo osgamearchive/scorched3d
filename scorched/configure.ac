@@ -26,10 +26,14 @@ LIBS="$LIBS $SDL_LIBS"
 
 dnl Check for SDL_mixer lib
 have_SDLmixer=no
-have_opengl=no  
 AC_TRY_COMPILE([
    	#include <SDL/SDL.h>
 	#include <SDL/SDL_mixer.h>
+
+int main(int argc, char *argv[])
+{ return 0; }
+#undef  main
+#define main K_and_R_C_main
 ],[
 ],[
 have_SDLmixer=yes
@@ -42,10 +46,14 @@ LIBS="$LIBS -lSDL_mixer"
 
 dnl Check for SDL_net lib
 have_SDLnet=no
-have_opengl=no  
 AC_TRY_COMPILE([
    	#include <SDL/SDL.h>
 	#include <SDL/SDL_net.h>
+
+int main(int argc, char *argv[])
+{ return 0; }
+#undef  main
+#define main K_and_R_C_main
 ],[
 ],[
 have_SDLnet=yes
