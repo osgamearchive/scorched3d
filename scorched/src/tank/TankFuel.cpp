@@ -50,7 +50,8 @@ void TankFuel::reset()
 		Accessory *accessory = (*itor);
 		if (accessory->getType() == Accessory::AccessoryFuel)
 		{
-			if ((accessory->getPrice() == 0 && 
+			if (accessory->getPurchasable() &&
+				(accessory->getPrice() == 0 && 
 				accessory->getBundle() == 0) ||
 				ScorchedServer::instance()->getOptionsGame().getGiveAllWeapons())
 			{

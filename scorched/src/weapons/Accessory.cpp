@@ -29,7 +29,7 @@ unsigned int Accessory::nextAccessoryId_ = 0;
 Accessory::Accessory() :
 	name_("NONAME"), description_("NODESC"), toolTip_("", ""),
 	price_(0), bundle_(0), armsLevel_(0), accessoryId_(++nextAccessoryId_),
-	primary_(false), texture_(0)
+	primary_(false), purchasable_(true), texture_(0)
 {
 
 }
@@ -65,6 +65,11 @@ bool Accessory::parseXML(XMLNode *accessoryNode)
 	price_ = -1;
 	accessoryNode->getNamedChild("cost", price_, false);
 
+	// Get the purchasable
+	XMLNode *nonpurchasable = 0;
+	accessoryNode->getNamedChild("nonpurchasable", nonpurchasable, false);
+	if (nonpurchasable) purchasable_ = false;
+
 	sellPrice_ = 0;
 	if (price_ > 0 && bundle_ > 0) sellPrice_ = int((price_ / bundle_) * 0.8f);
 	originalPrice_ = price_;
@@ -87,6 +92,7 @@ bool Accessory::writeAccessory(NetBuffer &buffer)
 	buffer.addToBuffer(originalSellPrice_);
 	buffer.addToBuffer(accessoryId_);
 	buffer.addToBuffer(primary_);
+	buffer.addToBuffer(purchasable_);
 	return true;
 }
 
@@ -104,6 +110,7 @@ bool Accessory::readAccessory(NetBufferReader &reader)
 	if (!reader.getFromBuffer(originalSellPrice_)) return false;
 	if (!reader.getFromBuffer(accessoryId_)) return false;
 	if (!reader.getFromBuffer(primary_)) return false;
+	if (!reader.getFromBuffer(purchasable_)) return false;
 	toolTip_.setText(getName(), getDescription());
 	return true;
 }

@@ -74,6 +74,7 @@ public:
 	virtual void setSellPrice(int p) { if (p>0) sellPrice_ = p; }
 	virtual bool getPrimary() { return primary_; }
 	virtual void setPrimary(bool p) { primary_ = p; }
+	virtual bool getPurchasable() { return purchasable_; }
 	virtual bool singular();
 
 	virtual AccessoryType getType() = 0;
@@ -95,6 +96,7 @@ protected:
 	int sellPrice_;
 	int originalSellPrice_;
 	bool primary_;
+	bool purchasable_;
 	unsigned int accessoryId_;
 };
 

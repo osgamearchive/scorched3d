@@ -52,6 +52,7 @@ enum
 	IDC_MENU_EXIT,
 	IDC_MENU_SHOWMODFILES,
 	IDC_MENU_SHOWBANNED,
+	IDC_MENU_RELOADBANNED,
 	IDC_MENU_SHOWOPTIONS,
 	IDC_MENU_EDITOPTIONS,
 	IDC_MENU_SAVEOPTIONS,
@@ -169,6 +170,7 @@ public:
 	void onShowOptions();
 	void onShowModFiles();
 	void onShowBanned();
+	void onReloadBanned();
 	void onEditOptions();
 	void onLoadOptions();
 	void onSaveOptions();
@@ -215,6 +217,7 @@ BEGIN_EVENT_TABLE(ServerFrame, wxFrame)
 	EVT_MENU(IDC_MENU_EXIT, ServerFrame::onMenuExit)
 	EVT_MENU(IDC_MENU_SHOWMODFILES, ServerFrame::onShowModFiles)
 	EVT_MENU(IDC_MENU_SHOWBANNED, ServerFrame::onShowBanned)
+	EVT_MENU(IDC_MENU_RELOADBANNED, ServerFrame::onReloadBanned)
 	EVT_MENU(IDC_MENU_SHOWOPTIONS, ServerFrame::onShowOptions)
 	EVT_MENU(IDC_MENU_EDITOPTIONS, ServerFrame::onEditOptions)
 	EVT_MENU(IDC_MENU_LOADOPTIONS, ServerFrame::onLoadOptions)
@@ -319,6 +322,7 @@ ServerFrame::ServerFrame(const char *name) :
 	menuFile->AppendSeparator();
 	menuFile->Append(IDC_MENU_SHOWMODFILES, "Show &Mod Files");
 	menuFile->Append(IDC_MENU_SHOWBANNED, "Show &Banned Users");
+	menuFile->Append(IDC_MENU_RELOADBANNED, "&Reload Banned Users");
 	menuFile->AppendSeparator();
 	menuFile->Append(IDC_MENU_COMSMESSAGELOGGING, "Toggle Coms Messa&ge logging");
 	menuFile->Append(IDC_MENU_STATELOGGING, "Toggle S&tate Logging");
@@ -660,6 +664,11 @@ void ServerFrame::onShowModFiles()
 		else allOptionsStr += "       ";
 	}
 	dialogMessage("Scorched 3D Server Mod Files", allOptionsStr.c_str());
+}
+
+void ServerFrame::onReloadBanned()
+{
+	ServerBanned::instance()->load();
 }
 
 void ServerFrame::onShowBanned()

@@ -47,7 +47,8 @@ void TankAutoDefense::reset()
 		Accessory *accessory = (*itor);
 		if (accessory->getType() == Accessory::AccessoryAutoDefense)
 		{
-			if ((accessory->getPrice() == 0 && 
+			if (accessory->getPurchasable() &&
+				(accessory->getPrice() == 0 && 
 				accessory->getBundle() == 0) ||
 				ScorchedServer::instance()->getOptionsGame().getGiveAllWeapons())
 			{

@@ -132,7 +132,8 @@ void BuyAccessoryDialog::addPlayerWeaponsBuy(GLWTab *tab, bool showWeapons)
 		itor++)
 	{	
 		Accessory *current = (*itor);
-		if (10-current->getArmsLevel() <= 
+		if (current->getPurchasable() &&
+			10-current->getArmsLevel() <= 
 			ScorchedClient::instance()->getOptionsTransient().getArmsLevel())
 		{
 			accessories.push_back(current);
