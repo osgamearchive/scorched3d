@@ -271,9 +271,10 @@ void ServerConnectHandler::addNextTank(unsigned int destinationId,
 	ComsMessageSender::sendToAllConnectedClients(addPlayerMessage);
 
 	// Add to dialog
-	Logger::log(tankId, "Player connected \"%i\" \"%s\"",
-		tankId,
-		playerName);
+	Logger::log(tankId, "Player connected \"%i\" \"%s\" [%s]",
+		tank->getPlayerId(),
+		tank->getName(),
+		tank->getUniqueId());
 
 	// Tell this computer that a new tank has connected
 	ServerCommon::sendString(0, "Player connected \"%s\"",
