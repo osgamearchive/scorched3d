@@ -18,11 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// ScoreDialog.cpp: implementation of the ScoreDialog class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <dialogs/ScoreDialog.h>
 #include <tank/TankContainer.h>
 #include <tank/TankSort.h>
@@ -62,7 +57,8 @@ ScoreDialog *ScoreDialog::instance2()
 }
 
 ScoreDialog::ScoreDialog() :
-	GLWWindow("Score", 10.0f, 10.0f, 417.0f, 310.0f, eTransparent | eNoTitle)
+	GLWWindow("Score", 10.0f, 10.0f, 417.0f, 310.0f, eTransparent | eNoTitle),
+	lastScoreValue_(0), lastWinsValue_(0)
 {
 
 }
@@ -74,6 +70,12 @@ ScoreDialog::~ScoreDialog()
 
 void ScoreDialog::windowDisplay()
 {
+	calculateScores();
+}
+
+void ScoreDialog::calculateScores()
+{
+	lastScoreValue_ = lastWinsValue_ = 0;
 	std::list<Tank *> sortedTanks;
 	std::map<unsigned int, Tank *> &tanks = 
 		TankContainer::instance()->getPlayingTanks();
@@ -82,7 +84,10 @@ void ScoreDialog::windowDisplay()
 		itor != tanks.end();
 		itor++)
 	{
-		sortedTanks.push_back((*itor).second);
+		Tank *tank = (*itor).second;
+		lastScoreValue_ += tank->getScore().getMoney();
+		lastWinsValue_ += tank->getScore().getWins();
+		sortedTanks.push_back(tank);
 	}
 
 	TankSort::getSortedTanks(sortedTanks);
@@ -158,6 +163,8 @@ void ScoreDialog::draw()
 	y+= lineSpacer + lineSpacer;
 
 	int pos = 1;
+	int tmpLastScoreValue = 0;
+	int tmpLastWinsValue = 0;
 	std::list<unsigned int>::iterator itor;
 	for (itor = sortedTanks_.begin();
 		itor != sortedTanks_.end();
@@ -213,8 +220,16 @@ void ScoreDialog::draw()
 				current->getScore().getKills(),
 				current->getScore().getMoney(),
 				current->getScore().getWins());
+			tmpLastScoreValue += current->getScore().getMoney();
+			tmpLastWinsValue += current->getScore().getWins();
 		}
 		y+= lineSpacer;
 	}
 	y+= lineSpacer;
+
+	if (tmpLastScoreValue != lastScoreValue_ ||
+		tmpLastWinsValue != lastWinsValue_)
+	{
+		calculateScores();
+	}
 }

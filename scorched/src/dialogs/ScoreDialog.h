@@ -18,14 +18,8 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// ScoreDialog.h: interface for the ScoreDialog class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_ScoreDialog_H__1E583C82_CF52_4F2A_9AF5_7E2AC893EFE9__INCLUDED_)
 #define AFX_ScoreDialog_H__1E583C82_CF52_4F2A_9AF5_7E2AC893EFE9__INCLUDED_
-
 
 #include <GLW/GLWWindow.h>
 
@@ -44,6 +38,10 @@ protected:
 	static ScoreDialog *instance_;
 	static ScoreDialog *instance2_;
 	std::list<unsigned int> sortedTanks_;
+	int lastScoreValue_;
+	int lastWinsValue_;
+
+	void calculateScores();
 
 private:
 	ScoreDialog();
