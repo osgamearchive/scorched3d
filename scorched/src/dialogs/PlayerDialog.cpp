@@ -103,7 +103,7 @@ void PlayerDialog::keyDown(char *buffer, unsigned int keyState,
 		bool &skipRest)
 {
 	GLWWindow::keyDown(buffer, keyState, history, hisCount, skipRest);
-	skipRest = true;
+	if (OptionsParam::instance()->getConnectedToServer()) skipRest = true;
 }
 
 void PlayerDialog::windowDisplay()
