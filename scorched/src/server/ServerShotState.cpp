@@ -138,6 +138,7 @@ void ServerShotState::scoreWinners()
 		itor++)
 	{
 		Tank *tank = (*itor).second;
+		if (tank->getState().getSpectator()) continue;
 
 		// Calculate how much money each tank should get
 		int addMoney = int(float(tank->getScore().getMoney()) * interest);

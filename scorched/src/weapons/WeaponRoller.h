@@ -34,6 +34,7 @@ public:
 	virtual bool readAccessory(NetBufferReader &reader);
 
 	Weapon *getCollisionAction() { return collisionAction_; }
+	ModelID &getRollerModelID() { return rollerModelId_; }
 
 	// Inherited from Weapon
 	virtual void fireWeapon(ScorchedContext &context,
@@ -44,6 +45,7 @@ public:
 protected:
 	int numberRollers_;
 	Weapon *collisionAction_;
+	ModelID rollerModelId_;
 
 	void addRoller(ScorchedContext &context, unsigned int playerId,
 		Vector &position);

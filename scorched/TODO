@@ -29,6 +29,7 @@ Fixed: Server coms should be more responsive
 Fixed: Client failed to read 3/4 message
 Fixed: Clients timing out after players disconnect
 Fixed: All bots of same type (e.g. shark) share the same stats
+Fixed: Spectator does not earn interest
 
 Changed: Changed free market ecconmy so price decreases are slower
 Changed: Tank can move up and down bigger slopes (configurable)

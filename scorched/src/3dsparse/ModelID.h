@@ -44,7 +44,7 @@ public:
 		const char *skinName);
 
 	// Not very generic but it will do for now!!
-	const char *getStringHash() { return meshName_.c_str(); }
+	const char *getStringHash();
 	const char *getSkinName() { return skinName_.c_str(); }
 	const char *getMeshName() { return meshName_.c_str(); }
 	const char *getType() { return type_.c_str(); }
@@ -61,6 +61,7 @@ protected:
 	std::string type_;
 	std::string meshName_;
 	std::string skinName_;
+	std::string hash_;
 	ModelsFile *cachedFile_;
 
 };

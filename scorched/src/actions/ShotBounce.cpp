@@ -37,7 +37,7 @@ ShotBounce::ShotBounce() :
 }
 
 ShotBounce::ShotBounce(Vector &startPosition, Vector &velocity,
-							   Weapon *weapon, unsigned int playerId) : 
+	WeaponRoller *weapon, unsigned int playerId) : 
 	collisionInfo_(CollisionIdBounce), startPosition_(startPosition),
 	velocity_(velocity), weapon_(weapon), playerId_(playerId),
 	totalTime_(0.0f), actionId_(0), actionVector_(0),
@@ -138,10 +138,9 @@ void ShotBounce::draw()
 	{
 		if (!model_)
 		{
-			ModelID id;
-			id.initFromString("ase", "data/accessories/roller.ase",
-				"none");
-			model_ = ModelStore::instance()->loadOrGetArray(id);
+			ModelID &id = ((WeaponRoller *) weapon_)->getRollerModelID();
+			bool useTexture = (strcmp(id.getSkinName(), "none") != 0);
+			model_ = ModelStore::instance()->loadOrGetArray(id, useTexture);
 		}
 
 		GLState state(GLState::TEXTURE_OFF);
@@ -170,6 +169,7 @@ bool ShotBounce::writeAction(NetBuffer &buffer)
 {
 	buffer.addToBuffer(playerId_);
 	buffer.addToBuffer(actionId_);
+	Weapon::write(buffer, weapon_);
 	return true;
 }
 
@@ -177,5 +177,6 @@ bool ShotBounce::readAction(NetBufferReader &reader)
 {
 	if (!reader.getFromBuffer(playerId_)) return false;
 	if (!reader.getFromBuffer(actionId_)) return false;
+	weapon_ = (WeaponRoller *) Weapon::read(reader); if (!weapon_) return false;
 	return true;
 }

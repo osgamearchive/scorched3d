@@ -113,20 +113,25 @@ bool TankModelStore::loadTankMeshes(ProgressCounter *counter)
 		TankModel *model = new TankModel(id, modelId);
 
 		// Get the model file to determine if the file is too large
-		ModelsFile *mFile = model->getTankModelID().getModelsFile();
-		if (!mFile || !mFile->getSuccess()) return false;		
-		if (strcmp(model->getId().getModelName(), "Random") != 0)
+		if (OptionsDisplay::instance()->getTankDetail() != 2)
 		{
-			// Check if the model uses too many triangles
-			int triangles = mFile->getNumberFaces();
-			if (OptionsDisplay::instance()->getTankDetail() == 0)
+			ModelsFile *mFile = model->getTankModelID().getModelsFile();
+			if (!mFile || !mFile->getSuccess()) return false;		
+			if (strcmp(model->getId().getModelName(), "Random") != 0)
 			{
-				if (triangles > 250) continue;
+				// Check if the model uses too many triangles
+				int triangles = mFile->getNumberFaces();
+				if (OptionsDisplay::instance()->getTankDetail() == 0)
+				{
+					if (triangles > 250) continue;
+				}
+				else if (OptionsDisplay::instance()->getTankDetail() == 1)
+				{
+					if (triangles > 500) continue;
+				}
 			}
-			else if (OptionsDisplay::instance()->getTankDetail() == 1)
-			{
-				if (triangles > 500) continue;
-			}
+			// Free the model to save memory
+			model->getTankModelID().clearCachedFile();
 		}
 
 		// Get the projectile model node (if any)

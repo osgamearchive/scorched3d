@@ -40,7 +40,7 @@ ShotProjectile::ShotProjectile() :
 }
 
 ShotProjectile::ShotProjectile(Vector &startPosition, Vector &velocity,
-							   Weapon *weapon, unsigned int playerId,
+							   WeaponProjectile *weapon, unsigned int playerId,
 							   unsigned int flareType) :
 	collisionInfo_(CollisionIdShot), 
 	startPosition_(startPosition), velocity_(velocity), 
@@ -126,7 +126,7 @@ bool ShotProjectile::readAction(NetBufferReader &reader)
 {
 	if (!reader.getFromBuffer(startPosition_)) return false;
 	if (!reader.getFromBuffer(velocity_)) return false;
-	weapon_ = Weapon::read(reader); if (!weapon_) return false;
+	weapon_ = (WeaponProjectile *) Weapon::read(reader); if (!weapon_) return false;
 	if (!reader.getFromBuffer(playerId_)) return false;
 	if (!reader.getFromBuffer(flareType_)) return false;
 	return true;

@@ -25,7 +25,7 @@
 #include <engine/ScorchedCollisionIds.h>
 #include <engine/ViewPoints.h>
 #include <actions/ActionVector.h>
-#include <weapons/Weapon.h>
+#include <weapons/WeaponRoller.h>
 
 class GLVertexSet;
 class ShotBounce : 
@@ -35,7 +35,7 @@ public:
 	ShotBounce();
 	ShotBounce(
 		Vector &startPosition, Vector &velocity,
-		Weapon *weapon, unsigned int playerId);
+		WeaponRoller *weapon, unsigned int playerId);
 	virtual ~ShotBounce();
 
 	virtual void simulate(float frameTime, bool &remove);
@@ -46,7 +46,7 @@ public:
 	virtual void collision(Vector &position);
 
 	unsigned int getPlayerId() { return playerId_; }
-	Weapon *getWeapon() { return weapon_; }
+	WeaponRoller *getWeapon() { return weapon_; }
 
 	REGISTER_ACTION_HEADER(ShotBounce);
 
@@ -54,7 +54,7 @@ protected:
 	ScorchedCollisionInfo collisionInfo_;
 	ViewPoints::ViewPoint *vPoint_;
 	Vector startPosition_, velocity_;
-	Weapon *weapon_;
+	WeaponRoller *weapon_;
 	unsigned int playerId_;
 	unsigned int actionId_;
 	float totalTime_;

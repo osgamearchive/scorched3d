@@ -81,29 +81,34 @@ bool ModelID::initFromNode(const char *directory, XMLNode *modelNode)
 		// 3DS Studio ASCII Files
 		XMLNode *meshNode, *skinNode;
 		if (!modelNode->getNamedChild("mesh", meshNode)) return false;
-		if (!modelNode->getNamedChild("skin", skinNode)) return false;
-
-		const char *skinNameContent = skinNode->getContent();
-		static char skinName[1024];
-		sprintf(skinName, "%s/%s", directory, skinNameContent);
-
 		const char *meshNameContent = meshNode->getContent();
 		static char meshName[1024];
 		sprintf(meshName, "%s/%s", directory, meshNameContent);
-
-		if (!::wxFileExists(getDataFile(skinName)))
-		{
-			dialogMessage("Scorched Models",
-						"Skin file \"%s\" does not exist",
-						skinName);
-			return false;
-		}
 		if (!::wxFileExists(getDataFile(meshName)))
 		{
 			dialogMessage("Scorched Models",
 						"Mesh file \"%s\"does not exist",
 						meshName);
 			return false;
+		}
+
+		if (!modelNode->getNamedChild("skin", skinNode)) return false;
+		const char *skinNameContent = skinNode->getContent();
+		static char skinName[1024];
+		if (strcmp(skinNameContent, "none") != 0)
+		{
+			sprintf(skinName, "%s/%s", directory, skinNameContent);
+			if (!::wxFileExists(getDataFile(skinName)))
+			{
+				dialogMessage("Scorched Models",
+							"Skin file \"%s\" does not exist",
+							skinName);
+				return false;
+			}
+		}
+		else
+		{
+			sprintf(skinName, "%s", skinNameContent);
 		}
 
 		meshName_ = meshName;
@@ -188,4 +193,10 @@ void ModelID::clearCachedFile()
 {
 	delete cachedFile_;
 	cachedFile_ = 0;
+}
+
+const char *ModelID::getStringHash()
+{ 
+	hash_ = meshName_ + "-" + skinName_;
+	return hash_.c_str(); 
 }

@@ -26,6 +26,7 @@
 #include <common/Vector.h>
 #include <tank/Tank.h>
 
+class PhysicsParticleMeta;
 class ScorchedCollisionHandler : public PhysicsEngineCollision
 {
 public:
@@ -56,6 +57,5 @@ protected:
 		PhysicsParticleMeta *shot);
 
 };
-
 
 #endif

@@ -571,7 +571,7 @@
 			<skin>wespe.bmp</skin>
 		</model>
 	</tank>
-	<!--<tank>
+	<tank>
 		<name>CF-104</name>
 		<catagory>High Def</catagory>
 		<model type="MilkShape">CF-104/104.txt</model>
@@ -581,7 +581,7 @@
 		<catagory>Humour</catagory>
 		<model type="MilkShape">tux/tux.txt</model>
 	</tank>
-	<tank>
+	<!--<tank>
 		<name>R2D2</name>
 		<catagory>Starwars</catagory>
 		<model type="MilkShape">r2d2/r2d2.txt</model>
@@ -590,8 +590,8 @@
 		<name>atat</name>
 		<catagory>Starwars</catagory>
 		<model type="MilkShape">atat/atatwalker.txt</model>
-	</tank>-->
-	<!--<tank>
+	</tank>
+	<tank>
 		<name>Gun Tower Test</name>
 		<catagory>TestCat</catagory>
 		<model type="MilkShape">guntower/guntower.txt</model>

@@ -34,7 +34,7 @@ public:
 	ShotProjectile();
 	ShotProjectile(
 		Vector &startPosition, Vector &velocity,
-		Weapon *weapon, unsigned int playerId,
+		WeaponProjectile *weapon, unsigned int playerId,
 		unsigned int flareType);
 	virtual ~ShotProjectile();
 
@@ -49,7 +49,7 @@ public:
 	void incLandedCounter() { landedCounter_++; }
 	unsigned int getLandedCounter() { return landedCounter_; }
 	unsigned int getPlayerId() { return playerId_; }
-	WeaponProjectile *getWeapon() { return (WeaponProjectile *) weapon_; }
+	WeaponProjectile *getWeapon() { return weapon_; }
 	std::list<Vector> &getPositions() { return positions_; }
 
 protected:
@@ -57,7 +57,7 @@ protected:
 	static unsigned int lookatCount_;
 	ScorchedCollisionInfo collisionInfo_;
 	Vector startPosition_, velocity_;
-	Weapon *weapon_;
+	WeaponProjectile *weapon_;
 	ViewPoints::ViewPoint *vPoint_;
 	unsigned int playerId_;
 	unsigned int flareType_;
