@@ -541,6 +541,8 @@ scorched3d_SOURCES = \
 	../coms/ComsGameStoppedMessage.h \
 	../coms/ComsHaveModFilesMessage.cpp \
 	../coms/ComsHaveModFilesMessage.h \
+	../coms/ComsLastChanceMessage.cpp \
+	../coms/ComsLastChanceMessage.h \
 	../coms/ComsLevelMessage.cpp \
 	../coms/ComsLevelMessage.h \
 	../coms/ComsMessage.cpp \
@@ -799,6 +801,8 @@ scorched3d_SOURCES = \
 	../client/ClientGameStateHandler.h \
 	../client/ClientGameStoppedHandler.cpp \
 	../client/ClientGameStoppedHandler.h \
+	../client/ClientLastChanceHandler.cpp \
+	../client/ClientLastChanceHandler.h \
 	../client/ClientLoadPlayersState.cpp \
 	../client/ClientLoadPlayersState.h \
 	../client/ClientMain.cpp \
