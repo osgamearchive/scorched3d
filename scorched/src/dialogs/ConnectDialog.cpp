@@ -163,6 +163,7 @@ bool ConnectDialog::tryConnection()
 	if (!NetClient::instance()->connect((char *) hostPart.c_str(), port))
 	{
 		Logger::log(0, "  Connection Failed.");
+		MainLoop::instance()->draw();
 		SDL_Delay(3 * 1000);
 		return false;
 	}
