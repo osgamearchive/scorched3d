@@ -34,6 +34,7 @@ FileLines::~FileLines()
 
 const char *FileLines::getRandomLine()
 {
+	if (fileLines_.empty()) return "";
 	const char *result = 0;
 
 	int count = (int) fileLines_.size() - 1;;

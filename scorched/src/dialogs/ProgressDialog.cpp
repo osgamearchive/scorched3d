@@ -48,16 +48,6 @@ ProgressDialog::ProgressDialog() :
 	setUser(this);
 	progress_ = (GLWProgress *) new GLWProgress(10, 10, 260);
 	progressLabel_ = (GLWLabel *) new GLWLabel(10, 30);
-
-	std::string file1 = getDataFile("data/windows/wait.bmp");
-	std::string file2 = getDataFile("data/windows/waita.bmp");
-	GLBitmap map(file1.c_str(), file2.c_str());
-	DIALOG_ASSERT(wait_.create(map, GL_RGBA, false));
-
-	tips_.readFile((char *) getDataFile("data/tips.txt"));
-
-	changeTip();
-	needsCentered();
 }
 
 ProgressDialog::~ProgressDialog()
@@ -66,6 +56,15 @@ ProgressDialog::~ProgressDialog()
 
 void ProgressDialog::changeTip()
 {
+	std::string file1 = getDataFile("data/windows/wait.bmp");
+	std::string file2 = getDataFile("data/windows/waita.bmp");
+	GLBitmap map(file1.c_str(), file2.c_str());
+	DIALOG_ASSERT(wait_.create(map, GL_RGBA, false));
+
+	tips_.getLines().clear();
+	tips_.readFile((char *) getDataFile("data/tips.txt"));
+	needsCentered();
+
 	const char *tip = tips_.getRandomLine();
 	char *nl = strchr(tip, ':');
 	if (nl)
