@@ -126,6 +126,8 @@ bool ServerBrowserServerList::fetchLANList()
 {
 	complete_ = false;
 
+	if(SDLNet_Init()==-1) false;
+
 	SDL_LockMutex(vectorMutex_);
 	servers_.clear();
 	SDL_UnlockMutex(vectorMutex_);
