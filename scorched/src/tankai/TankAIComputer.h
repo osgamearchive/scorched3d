@@ -83,6 +83,7 @@ protected:
 	bool availableForRandom_;
 	bool useParachutes_;
 	bool useShields_;
+	bool useBatteries_;
 
 	void selectFirstShield();
 	void raiseDefenses();

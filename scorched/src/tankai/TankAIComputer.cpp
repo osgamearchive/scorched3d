@@ -34,7 +34,8 @@ TankAIComputer::TankAIComputer() :
 	primaryShot_(true), 
 	availableForRandom_(true),
 	useShields_(true),
-	useParachutes_(true)
+	useParachutes_(true),
+	useBatteries_(true)
 {
 }
 
@@ -70,6 +71,7 @@ bool TankAIComputer::parseConfig(XMLNode *node)
 	{
 		useShields_ = false;
 		useParachutes_ = false;
+		useBatteries_ = false;
 	}
 
 	// Available when random is chosen
@@ -202,8 +204,9 @@ void TankAIComputer::playMove(const unsigned state, float frameTime,
 	raiseDefenses();
 
 	// Use batteries if we need to and have them
-	while (currentTank_->getState().getLife() < 100.0f &&
-		   currentTank_->getAccessories().getBatteries().getNoBatteries() > 0)
+	while (useBatteries_ &&
+		currentTank_->getState().getLife() < 100.0f &&
+		currentTank_->getAccessories().getBatteries().getNoBatteries() > 0)
 	{
 		useBattery();
 	}

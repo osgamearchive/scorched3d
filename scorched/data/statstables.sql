@@ -36,6 +36,7 @@ create table if not exists scorched3d_weapons (
 	kills INTEGER NOT NULL DEFAULT 0,
         name varchar(64),
 	armslevel INTEGER NOT NULL DEFAULT 0,
+	shots INTEGER NOT NULL DEFAULT 0,
         description varchar(255) NOT NULL DEFAULT 'No Desc',
         PRIMARY KEY (weaponid)
         );

@@ -231,6 +231,9 @@ void StatsLoggerMySQL::tankFired(Tank *firedTank, Weapon *weapon)
 	createLogger();
 	if (!success_) return;
 
+	runQuery("UPDATE scorched3d%s_weapons SET shots=shots+1 "
+		"WHERE weaponid = \"%i\";", prefix_.c_str(), weaponId_[weapon->getName()]);
+
 	runQuery("UPDATE scorched3d%s_players SET shots=shots+1 "
 		"WHERE playerid = %i;", prefix_.c_str(), playerId_[firedTank->getUniqueId()]);
 }
