@@ -66,7 +66,7 @@ void TankAIHumanCtrl::enterState(const unsigned state)
 }
 
 void TankAIHumanCtrl::keyboardCheck(const unsigned state, float frameTime, 
-							char *buffer, int bufCount,
+							char *buffer, unsigned int keyState,
 							KeyboardHistory::HistoryElement *history, int hisCount, 
 							bool &skipRest)
 {
@@ -79,7 +79,7 @@ void TankAIHumanCtrl::keyboardCheck(const unsigned state, float frameTime,
 			TankAI *ai = currentTank->getTankAI();
 			if (ai)
 			{
-				ai->playMove(state, frameTime, buffer);
+				ai->playMove(state, frameTime, buffer, keyState);
 			}
 		}
 		else

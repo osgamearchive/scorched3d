@@ -343,7 +343,7 @@ void MainCamera::mouseDown(const unsigned state, GameState::MouseButton button, 
 }
 
 void MainCamera::keyboardCheck(const unsigned state, float frameTime, 
-							   char *buffer, int bufCount,
+							   char *buffer, unsigned int keyState,
 							   KeyboardHistory::HistoryElement *history, 
 							   int hisCount, 
 							   bool &skipRest)
@@ -358,25 +358,25 @@ void MainCamera::keyboardCheck(const unsigned state, float frameTime,
 	KEYBOARDKEY("CAMERA_RIGHTFAR_VIEW", rightFarViewKey);
 	KEYBOARDKEY("CAMERA_SPECTATOR_VIEW", spectatorViewKey);
 
-	if (topViewKey->keyDown(buffer)) cameraPos_ = CamTop;
-	else if (behindViewKey->keyDown(buffer)) cameraPos_ = CamBehind;
-	else if (tankViewKey->keyDown(buffer)) cameraPos_ = CamTank;
-	else if (gunViewKey->keyDown(buffer)) cameraPos_ = CamGun;
-	else if (leftViewKey->keyDown(buffer)) cameraPos_ = CamLeft;
-	else if (rightViewKey->keyDown(buffer)) cameraPos_ = CamRight;
-	else if (leftFarViewKey->keyDown(buffer)) cameraPos_ = CamLeftFar;
-	else if (rightFarViewKey->keyDown(buffer)) cameraPos_ = CamRightFar;
-	else if (spectatorViewKey->keyDown(buffer)) cameraPos_ = CamSpectator;
+	if (topViewKey->keyDown(buffer, keyState)) cameraPos_ = CamTop;
+	else if (behindViewKey->keyDown(buffer, keyState)) cameraPos_ = CamBehind;
+	else if (tankViewKey->keyDown(buffer, keyState)) cameraPos_ = CamTank;
+	else if (gunViewKey->keyDown(buffer, keyState)) cameraPos_ = CamGun;
+	else if (leftViewKey->keyDown(buffer, keyState)) cameraPos_ = CamLeft;
+	else if (rightViewKey->keyDown(buffer, keyState)) cameraPos_ = CamRight;
+	else if (leftFarViewKey->keyDown(buffer, keyState)) cameraPos_ = CamLeftFar;
+	else if (rightFarViewKey->keyDown(buffer, keyState)) cameraPos_ = CamRightFar;
+	else if (spectatorViewKey->keyDown(buffer, keyState)) cameraPos_ = CamSpectator;
 
 	const float QPI = 3.14f / 4.0f;
 	KEYBOARDKEY("CAMERA_ROTATE_LEFT", leftKey);
 	KEYBOARDKEY("CAMERA_ROTATE_RIGHT", rightKey);
-	if (leftKey->keyDown(buffer))
+	if (leftKey->keyDown(buffer, keyState))
 	{
 		cameraPos_ = CamFree;
 		mainCam_.movePositionDelta(QPI * frameTime, 0.0f, 0.0f);
 	}
-	else if (rightKey->keyDown(buffer))
+	else if (rightKey->keyDown(buffer, keyState))
 	{
 		cameraPos_ = CamFree;
 		mainCam_.movePositionDelta(-QPI * frameTime, 0.0f, 0.0f);
@@ -384,12 +384,12 @@ void MainCamera::keyboardCheck(const unsigned state, float frameTime,
 
 	KEYBOARDKEY("CAMERA_ROTATE_DOWN", downKey);
 	KEYBOARDKEY("CAMERA_ROTATE_UP", upKey);
-	if (upKey->keyDown(buffer))
+	if (upKey->keyDown(buffer, keyState))
 	{
 		cameraPos_ = CamFree;
 		mainCam_.movePositionDelta(0.0f, -QPI * frameTime, 0.0f);
 	}
-	else if (downKey->keyDown(buffer))
+	else if (downKey->keyDown(buffer, keyState))
 	{
 		cameraPos_ = CamFree;
 		mainCam_.movePositionDelta(0.0f, QPI * frameTime, 0.0f);
@@ -397,26 +397,26 @@ void MainCamera::keyboardCheck(const unsigned state, float frameTime,
 
 	KEYBOARDKEY("CAMERA_ZOOM_IN", inKey);
 	KEYBOARDKEY("CAMERA_ZOOM_OUT", outKey);
-	if (inKey->keyDown(buffer))
+	if (inKey->keyDown(buffer, keyState))
 	{
 		cameraPos_ = CamFree;
 		mainCam_.movePositionDelta(0.0f, 0.0f, -100.0f * frameTime);
 	}
-	else if (outKey->keyDown(buffer))
+	else if (outKey->keyDown(buffer, keyState))
 	{
 		cameraPos_ = CamFree;
 		mainCam_.movePositionDelta(0.0f, 0.0f, 100.0f * frameTime);
 	}
 
 	KEYBOARDKEY("CAMERA_NOLIMIT", limitKey);
-	if (limitKey->keyDown(buffer, false))
+	if (limitKey->keyDown(buffer, keyState, false))
 	{	
 		mainCam_.setUseHeightFunc(false);
 	}
 	else  mainCam_.setUseHeightFunc(true);
 
 	KEYBOARDKEY("SAVE_SCREEN", saveScreenKey);
-	if (saveScreenKey->keyDown(buffer, false))
+	if (saveScreenKey->keyDown(buffer, keyState, false))
 	{
 		saveScreen_.saveScreen_ = true;
 	}

@@ -102,7 +102,7 @@ void GLWButton::mouseUp(float x, float y, bool &skipRest)
 	}
 }
 
-void GLWButton::keyDown(char *buffer, int bufferCount, 
+void GLWButton::keyDown(char *buffer, unsigned int keyState, 
 		KeyboardHistory::HistoryElement *history, int hisCount, 
 		bool &skipRest)
 {

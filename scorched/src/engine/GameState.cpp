@@ -262,7 +262,10 @@ void GameState::simulate(float simTime)
 
 			KeyboardHistory::HistoryElement *history = 
 				Keyboard::instance()->getkeyboardhistory(historySize);
-			char *buffer  = Keyboard::instance()->getkeyboardbuffer(bufferSize);      
+			char *buffer  = 
+				Keyboard::instance()->getkeyboardbuffer(bufferSize);
+			unsigned int keyState = 
+				Keyboard::instance()->getKeyboardState();
 
 			bool skipRest = false;
 			StateIList::iterator subItor;
@@ -270,7 +273,7 @@ void GameState::simulate(float simTime)
 				subItor != thisEntry->subKeyList.end();
 				subItor++)
 			{
-				(*subItor)->keyboardCheck(thisState, simTime, buffer, bufferSize, 
+				(*subItor)->keyboardCheck(thisState, simTime, buffer, keyState, 
 					history, historySize, skipRest);
 				if (checkStimulate()) return;
 				if (skipRest) break;

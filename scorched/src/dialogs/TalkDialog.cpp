@@ -55,11 +55,11 @@ TalkDialog::~TalkDialog()
 {
 }
 
-void TalkDialog::keyDown(char *buffer, int bufferCount, 
+void TalkDialog::keyDown(char *buffer, unsigned int keyState, 
 		KeyboardHistory::HistoryElement *history, int hisCount, 
 		bool &skipRest)
 {
-	GLWWindow::keyDown(buffer, bufferCount, history, hisCount, skipRest);
+	GLWWindow::keyDown(buffer, keyState, history, hisCount, skipRest);
 	skipRest = true;
 }
 

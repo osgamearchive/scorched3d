@@ -45,7 +45,7 @@ void GameStateI::draw(const unsigned state)
 }
 
 void GameStateI::keyboardCheck(const unsigned state, float frameTime, 
-							   char *buffer, int bcount,
+							   char *buffer, unsigned int keyState,
 							   KeyboardHistory::HistoryElement *, int hcount, 
 							   bool &skipRest)
 {

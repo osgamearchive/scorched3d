@@ -65,7 +65,7 @@ void GLWTextBox::draw()
 		x_ + 5.0f, y_ + 5.0f, 0.0f, "%s%s", text_.c_str(), cursor_?"":"_");
 }
 
-void GLWTextBox::keyDown(char *buffer, int bufferCount, 
+void GLWTextBox::keyDown(char *buffer, unsigned int keyState, 
 		KeyboardHistory::HistoryElement *history, int hisCount, 
 		bool &skipRest)
 {

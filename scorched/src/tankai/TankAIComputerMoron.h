@@ -30,7 +30,8 @@ public:
 	TankAIComputerMoron(Tank *tank);
 	virtual ~TankAIComputerMoron();
 
-	virtual void playMove(const unsigned state, float frameTime, char *buffer);
+	virtual void playMove(const unsigned state, float frameTime, 
+		char *buffer, unsigned int keyState);
 
 TANKAI_DEFINE(Moron, TankAIComputerMoron);
 

@@ -31,7 +31,7 @@ public:
 	virtual ~TankAIComputerShooter();
 
 	virtual void playMove(const unsigned state, 
-		float frameTime, char *buffer);
+		float frameTime, char *buffer, unsigned int keyState);
 	virtual void autoDefense();
 
 TANKAI_DEFINE(Shooter, TankAIComputerShooter);

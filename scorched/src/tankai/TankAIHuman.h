@@ -18,11 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// TankAIHuman.h: interface for the TankAIHuman class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_TANKAIHUMAN_H__F71C91A5_B74D_4109_8F7B_ACD471025C28__INCLUDED_)
 #define AFX_TANKAIHUMAN_H__F71C91A5_B74D_4109_8F7B_ACD471025C28__INCLUDED_
 
@@ -38,7 +33,7 @@ public:
 
 	// Inherited from TankAI
 	virtual void playMove(const unsigned state, 
-		float frameTime, char *buffer);
+		float frameTime, char *buffer, unsigned int keyState);
 	virtual void endPlayMove();
 	virtual void newGame();
 	virtual void nextRound();
@@ -47,9 +42,9 @@ public:
 		Vector &position);
 
 protected:
-	void movePower(char *buffer, float mult);
-	void moveUpDown(char *buffer, float mult);
-	void moveLeftRight(char *buffer, float mult);
+	void movePower(char *buffer, unsigned int keyState, float frameTime);
+	void moveUpDown(char *buffer, unsigned int keyState, float frameTime);
+	void moveLeftRight(char *buffer, unsigned int keyState, float frameTime);
 
 };
 

@@ -215,7 +215,8 @@ bool TankAIComputerTosser::refineLastShot(Tank *tank, float &angleXYDegs, float 
 	return false;
 }
 
-void TankAIComputerTosser::playMove(const unsigned state, float frameTime, char *buffer)
+void TankAIComputerTosser::playMove(const unsigned state, float frameTime, 
+									char *buffer, unsigned int keyState)
 {
 	// Play move is called when the computer opponent must make there move
 

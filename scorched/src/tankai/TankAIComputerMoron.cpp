@@ -34,7 +34,9 @@ TankAIComputerMoron::~TankAIComputerMoron()
 
 }
 
-void TankAIComputerMoron::playMove(const unsigned state, float frameTime, char *buffer)
+void TankAIComputerMoron::playMove(const unsigned state, 
+								   float frameTime, char *buffer,
+								   unsigned int keyState)
 {
 	// Choose weapons
 	selectWeapons();

@@ -54,6 +54,15 @@ bool Keyboard::init()
 	return true;
 }
 
+unsigned int Keyboard::getKeyboardState()
+{
+	// Ingore capslock, numlock and scroll lock
+	const unsigned int keymask = KMOD_LSHIFT | KMOD_RSHIFT | KMOD_LCTRL | KMOD_RCTRL |
+		KMOD_LALT | KMOD_RALT | KMOD_LMETA | KMOD_RMETA;
+
+	return SDL_GetModState() & keymask;
+}
+
 char *Keyboard::getkeyboardbuffer(unsigned int &bufCnt)
 {
  	bufCnt = SDLK_LAST;
@@ -159,7 +168,7 @@ bool Keyboard::parseKeyFile(const char *fileName)
 		KeyboardKey *newKey = new KeyboardKey(keyName, keyDesc);
 
 		// Add all the key names
-		std::list<std::string> keyNames;
+		std::list<std::string> keyNames, keyStateNames;
 		std::list<XMLNode *>::iterator keyItor;
 		std::list<XMLNode *> &keys = currentNode->getChildren();
 		for (keyItor = keys.begin();
@@ -169,26 +178,35 @@ bool Keyboard::parseKeyFile(const char *fileName)
 			XMLNode *currentKey = (*keyItor);
 			if (strcmp(currentKey->getName(), "key")==0)
 			{
-				// Add a key
+				const char *state = "NONE";
+				XMLNode *stateNode = currentKey->getNamedParameter("state");
+				if (stateNode) state = stateNode->getContent();
+
+				// Add a key and state
 				keyNames.push_back(currentKey->getContent());
+				keyStateNames.push_back(state);
 
 				// Check the key is not already in use
+				std::string wholeKey;
+				wholeKey += state;
+				wholeKey += ":";
+				wholeKey += currentKey->getContent();
 				std::map<std::string, KeyboardKey *, std::less<std::string> >::iterator useditor =
-					usedKeyMap_.find(currentKey->getContent());
+					usedKeyMap_.find(wholeKey);
 				if (useditor != usedKeyMap_.end())
 				{
 					KeyboardKey *usedKey = (*useditor).second;
 					dialogMessage("Keyboard",
-								  "Key \"%s\" defined for \"%s\" was already defined for \"%s\"",
-								  currentKey->getContent(), keyName, usedKey->getName());
+								  "Key \"%s\" and state \"%s\" defined for \"%s\" was already defined for \"%s\"",
+								  currentKey->getContent(), state, keyName, usedKey->getName());
 					return false;					
 				}
-				usedKeyMap_[currentKey->getContent()] = newKey;
+				usedKeyMap_[wholeKey] = newKey;
 			}
 		}
 
 		// Actually add the key
-		if (!newKey->addKeys(keyNames)) return false;
+		if (!newKey->addKeys(keyNames, keyStateNames)) return false;
 		keyMap_[keyName] = newKey;
 	}
 

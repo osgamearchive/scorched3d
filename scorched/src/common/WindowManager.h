@@ -25,6 +25,7 @@
 #include <map>
 #include <deque>
 #include <engine/GameStateI.h>
+#include <common/KeyboardKey.h>
 #include <GLW/GLWWindow.h>
 #include <GLEXT/GLMenuI.h>
 
@@ -36,7 +37,7 @@ public:
 	static WindowManager *instance();
 
 	void addWindow(const unsigned state, GLWWindow *window, 
-		unsigned key = 0, bool visible = false);
+		KeyboardKey *key = 0, bool visible = false);
 	bool showWindow(unsigned id);
 	bool hideWindow(unsigned id);
 	bool windowVisible(unsigned id);
@@ -47,7 +48,7 @@ public:
 	virtual void draw(const unsigned state);
 	virtual void simulate(const unsigned state, float simTime);
 	virtual void keyboardCheck(const unsigned state, float frameTime, 
-							   char *buffer, int bufCount,
+							   char *buffer, unsigned int keyState,
 							   KeyboardHistory::HistoryElement *history, int hisCount, 
 							   bool &skipRest);
 	virtual void mouseDown(const unsigned state, GameState::MouseButton button, 
@@ -74,7 +75,7 @@ protected:
 	struct StateEntry
 	{
 		unsigned state_;
-		std::map<unsigned, GLWWindow *> windowKeys_;
+		std::list<std::pair<KeyboardKey *, GLWWindow *> > windowKeys_;
 		std::deque<GLWWindow *> windows_;
 	};
 	// The collection of states

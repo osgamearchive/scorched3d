@@ -129,7 +129,7 @@ void GLMenu::mouseDrag(float mx, float my, float x, float y, bool &skipRest)
 
 }
 
-void GLMenu::keyDown(char *buffer, int bufferCount, 
+void GLMenu::keyDown(char *buffer, unsigned int keyState, 
 		KeyboardHistory::HistoryElement *history, int hisCount, 
 		bool &skipRest)
 {

@@ -18,11 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// GameStateI.h: interface for the GameStateI class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_GAMESTATEI_H__B6753299_ED54_45EB_A635_733A34F0C920__INCLUDED_)
 #define AFX_GAMESTATEI_H__B6753299_ED54_45EB_A635_733A34F0C920__INCLUDED_
 
@@ -48,7 +43,7 @@ public:
 	virtual void mouseWheel(const unsigned state, short z, bool &skipRest);
 	virtual void enterState(const unsigned state);
 	virtual void keyboardCheck(const unsigned state, float frameTime, 
-							   char *buffer, int bufCount,
+							   char *buffer, unsigned int keyState,
 							   KeyboardHistory::HistoryElement *history, int hisCount, 
 							   bool &skipRest);
 };

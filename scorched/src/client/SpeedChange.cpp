@@ -65,7 +65,7 @@ void SpeedChange::draw(const unsigned state)
 }
 
 void SpeedChange::keyboardCheck(const unsigned state, float frameTime, 
-							   char *buffer, int bufCount,
+							   char *buffer, unsigned int keyState,
 							   KeyboardHistory::HistoryElement *history, int hisCount, 
 							   bool &skipRest)
 {
@@ -74,19 +74,19 @@ void SpeedChange::keyboardCheck(const unsigned state, float frameTime,
 	KEYBOARDKEY("SIMULATION_SPEED_X3", x3Key);
 	KEYBOARDKEY("SIMULATION_SPEED_X4", x4Key);
 
-	if (x1Key->keyDown(buffer))
+	if (x1Key->keyDown(buffer, keyState))
 	{
 		resetSpeed();
 	}
-	else if (x2Key->keyDown(buffer))
+	else if (x2Key->keyDown(buffer, keyState))
 	{
 		ActionController::instance()->setFast(2.0f);
 	}
-	else if (x3Key->keyDown(buffer))
+	else if (x3Key->keyDown(buffer, keyState))
 	{
 		ActionController::instance()->setFast(3.0f);
 	}
-	else if (x4Key->keyDown(buffer))
+	else if (x4Key->keyDown(buffer, keyState))
 	{
 		ActionController::instance()->setFast(4.0f);
 	}

@@ -70,7 +70,7 @@ void TankAIComputerCtrl::enterState(const unsigned int state)
 				{
 					if(!ServerShotHolder::instance()->haveShot(tank->getPlayerId()))
 					{
-						ai->playMove(state, 0.0f, 0);
+						ai->playMove(state, 0.0f, 0, 0);
 					}
 				}
 			}

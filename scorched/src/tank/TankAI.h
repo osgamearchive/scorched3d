@@ -43,7 +43,7 @@ public:
 	// when to play its move, or give information about the
 	// game state
 	virtual void playMove(const unsigned state, 
-		float frameTime, char *buffer) = 0;
+		float frameTime, char *buffer, unsigned int keyState) = 0;
 	virtual void endPlayMove();
 	virtual void newGame() = 0;
 	virtual void nextRound() = 0;

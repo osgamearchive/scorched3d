@@ -69,7 +69,8 @@ Tank *TankAIComputerShooter::findTankToShootAt()
 }
 
 void TankAIComputerShooter::playMove(const unsigned state, 
-											 float frameTime, char *buffer)
+	float frameTime, char *buffer,
+	unsigned int keyState)
 {
 	// Choose weapons
 	autoDefense();

@@ -37,7 +37,7 @@ public:
 	virtual void buttonDown(unsigned int id);
 
 	// Inherited from GLWWindow
-	virtual void keyDown(char *buffer, int bufferCount, 
+	virtual void keyDown(char *buffer, unsigned int keyState, 
 		KeyboardHistory::HistoryElement *history, int hisCount, 
 		bool &skipRest);
 

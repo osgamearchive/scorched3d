@@ -195,28 +195,17 @@ void TankDialog::drawTankDetails(Tank *current)
 		current->getState().getPower() - 
 		current->getState().getOldPower());
 
+	GLWToolTip::instance()->addToolTip(
+		&current->getAccessories().getWeapons().getCurrent()->getToolTip(),
+		x_ + 65.0f, y_ + h_ - 62.0f, 150.0f, 10.0f);
 	int count = current->getAccessories().getWeapons().getWeaponCount(
 		current->getAccessories().getWeapons().getCurrent());
-	if (count>0)
-	{
-		GLWFont::instance()->getFont()->draw(
-			yellow,
-			12.0f,
-			x_ + 65.0f,
-			y_ + h_ - 62.0f,
-			0.0f,
-			"%s (%i)", 
-			current->getAccessories().getWeapons().getCurrent()->getName(), count);
-	}
-	else
-	{
-		GLWFont::instance()->getFont()->draw(
-			yellow,
-			12.0f,
-			x_ + 65.0f,
-			y_ + h_ - 62.0f,
-			0.0f,
-			"%s (In)", 
-			current->getAccessories().getWeapons().getCurrent()->getName());
-	}
+	GLWFont::instance()->getFont()->draw(
+		yellow,
+		12.0f,
+		x_ + 65.0f,
+		y_ + h_ - 62.0f,
+		0.0f,
+		((count>0)?"%s (%i)":"%s (In)"),
+		current->getAccessories().getWeapons().getCurrent()->getName(), count);
 }

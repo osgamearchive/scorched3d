@@ -86,11 +86,11 @@ void GLWVisiblePanel::mouseUp(float x, float y, bool &skipRest)
 	panel_.mouseUp(x, y, skipRest);
 }
 
-void GLWVisiblePanel::keyDown(char *buffer, int bufferCount, 
+void GLWVisiblePanel::keyDown(char *buffer, unsigned int keyState, 
 		KeyboardHistory::HistoryElement *history, int hisCount, 
 		bool &skipRest)
 {
-	panel_.keyDown(buffer, bufferCount, history, hisCount, skipRest);
+	panel_.keyDown(buffer, keyState, history, hisCount, skipRest);
 }
 
 void GLWVisiblePanel::mouseDrag(float mx, float my, float x, float y, bool &skipRest)

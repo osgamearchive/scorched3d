@@ -42,30 +42,32 @@
 
 void WindowSetup::addCommonComponents(unsigned state, bool server)
 {
-	GLWWindow *killDialog = QuitDialog::instance();
-
+	KEYBOARDKEY("SHOW_QUIT_DIALOG", quitKey);
 	if (server || state == ClientState::StateScore)
 	{
 		WindowManager::instance()->addWindow(state, 
-			killDialog, SDLK_ESCAPE, false);
+ 			QuitDialog::instance(), quitKey, false);
 	}
 	else
 	{
 		WindowManager::instance()->addWindow(state, 
-			KillDialog::instance(), SDLK_ESCAPE, false);
+			KillDialog::instance(), quitKey, false);
 	}
 
+	KEYBOARDKEY("SHOW_HELP_DIALOG", helpKey);
 	WindowManager::instance()->addWindow(state, 
-		HelpDialog::instance(), SDLK_h, false);
+		HelpDialog::instance(), helpKey, false);
 	if (state != ClientState::StateScore)
 	{
+		KEYBOARDKEY("SHOW_SCORE_DIALOG", scoreKey);
 		WindowManager::instance()->addWindow(state, 
-			ScoreDialog::instance(), SDLK_s, false);
+			ScoreDialog::instance(), scoreKey, false);
 	}
 	if (server)
 	{
+		KEYBOARDKEY("SHOW_TALK_DIALOG", talkKey);
 		WindowManager::instance()->addWindow(state, 
-			TalkDialog::instance(), SDLK_t, false);
+			TalkDialog::instance(), talkKey, false);
 	}
 	if (state != ClientState::StateScore)
 	{
@@ -76,6 +78,13 @@ void WindowSetup::addCommonComponents(unsigned state, bool server)
 
 void WindowSetup::setup(bool server)
 {
+	KEYBOARDKEY("SHOW_TALK_DIALOG", talkKey);
+	KEYBOARDKEY("SHOW_QUIT_DIALOG", quitKey);
+	KEYBOARDKEY("SHOW_WIND_DIALOG", windKey);
+	KEYBOARDKEY("SHOW_PLAN_DIALOG", planKey);
+	KEYBOARDKEY("SHOW_PLAYER_DIALOG", playerKey);
+	KEYBOARDKEY("SHOW_KIBITZ_DIALOG", kibitzKey);
+	
 	GLWWindow *planView = new PlanViewDialog;
 
 	// StatePlayerOptions
@@ -84,23 +93,23 @@ void WindowSetup::setup(bool server)
 	WindowManager::instance()->addWindow(ClientState::StatePlayerOptions, 
 		PlayersDialog::instance(), 0, true);
 	WindowManager::instance()->addWindow(ClientState::StatePlayerOptions, 
-		QuitDialog::instance(), SDLK_ESCAPE, false);
+		QuitDialog::instance(), quitKey, false);
 
 	// StateClientConnectPlayer
 	WindowManager::instance()->addWindow(ClientState::StateClientConnectPlayer, 
 		BackdropDialog::instance(), 0, true);
 	WindowManager::instance()->addWindow(ClientState::StateClientConnectPlayer, 
-		QuitDialog::instance(), SDLK_ESCAPE, false);
+		QuitDialog::instance(), quitKey, false);
 	WindowManager::instance()->addWindow(ClientState::StateClientConnectPlayer, 
 		PlayerDialog::instance(), 0, true);
 
 	// StateClientConnect
 	WindowManager::instance()->addWindow(ClientState::StateClientConnect, 
-		TalkDialog::instance(), SDLK_t, false);
+		TalkDialog::instance(), talkKey, false);
 	WindowManager::instance()->addWindow(ClientState::StateClientConnect, 
 		BackdropDialog::instance(), 0, true);
 	WindowManager::instance()->addWindow(ClientState::StateClientConnect, 
-		QuitDialog::instance(), SDLK_ESCAPE, false);
+		QuitDialog::instance(), quitKey, false);
 	WindowManager::instance()->addWindow(ClientState::StateClientConnect, 
 		ConnectDialog::instance(), 0, true);
 
@@ -119,13 +128,13 @@ void WindowSetup::setup(bool server)
 
 	// StateMain
 	WindowManager::instance()->addWindow(ClientState::StateMain, 
-		planView, 0, true);
+		planView, planKey, true);
 	WindowManager::instance()->addWindow(ClientState::StateMain, 
-		WindDialog::instance(), 0, true);
+		WindDialog::instance(), windKey, true);
 	WindowManager::instance()->addWindow(ClientState::StateMain, 
-		TankDialog::instance(), 0, true);
+		TankDialog::instance(), playerKey, true);
 	WindowManager::instance()->addWindow(ClientState::StateMain, 
-		new KibitzingDialog, SDLK_k, false);
+		new KibitzingDialog, kibitzKey, false);
 	addCommonComponents(ClientState::StateMain, server);
 	
 	// StateShot

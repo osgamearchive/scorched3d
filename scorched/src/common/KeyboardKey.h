@@ -31,21 +31,24 @@ public:
 				const char *description);
 	virtual ~KeyboardKey();
 
-	bool keyDown(char *buffer, bool repeat = true);
+	bool keyDown(char *buffer, unsigned int keyState, bool repeat = true);
 	bool keyMatch(unsigned key);
-	bool addKeys(std::list<std::string> &keyNames);
+	bool addKeys(std::list<std::string> &keyNames,
+		std::list<std::string> &keyStates);
 
 	const char *getName() { return name_.c_str(); }
 	const char *getDescription() { return description_.c_str(); }
 
-	static unsigned int translateKeyName(const char *name);
+	static bool translateKeyName(const char *name, unsigned int &key);
+	static bool translateKeyState(const char *name, unsigned int &state);
 
 protected:
 	std::string name_;
 	std::string description_;
 	bool keyToogle_;
 	unsigned int noKeys_;
-	unsigned *keys_;
+	unsigned int *keys_;
+	unsigned int *keyStates_;
 
 private:
 	KeyboardKey(const KeyboardKey &);

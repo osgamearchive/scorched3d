@@ -122,6 +122,7 @@ void TankStart::calculateStartPosition()
 	std::map<unsigned int, Tank *> &tanks = 
 		TankContainer::instance()->getPlayingTanks();
 	std::map<unsigned int, Tank *>::iterator mainitor;
+	const int tankBorder = 10;
 	for (mainitor = tanks.begin();
 		 mainitor != tanks.end();
 		 mainitor++)
@@ -134,10 +135,10 @@ void TankStart::calculateStartPosition()
 		{
 			// Find a new position for the tank
 			tooClose = false;
-			float posX = float (GlobalHMap::instance()->getHMap().getWidth()) * 
-				RAND;
-			float posY = float (GlobalHMap::instance()->getHMap().getWidth()) * 
-				RAND;
+			float posX = float (GlobalHMap::instance()->getHMap().getWidth() - tankBorder * 2) * 
+				RAND + float(tankBorder);
+			float posY = float (GlobalHMap::instance()->getHMap().getWidth() - tankBorder * 2) * 
+				RAND + float(tankBorder);
 			float height = GlobalHMap::instance()->getHMap().
 				getHeight((int) posX, (int) posY);
 			tankPos = Vector(posX, posY, height);

@@ -66,7 +66,7 @@ public:
 		int mx, int my, int x, int y, bool &skipRest);
 	virtual void keyboardCheck(
 		const unsigned state, float frameTime, 
-		char *buffer, int bufCount,
+		char *buffer, unsigned int keyState,
 		KeyboardHistory::HistoryElement *history, int hisCount, 
 		bool &skipRest);
 

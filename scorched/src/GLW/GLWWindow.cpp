@@ -295,11 +295,11 @@ void GLWWindow::mouseDrag(float mx, float my, float x, float y, bool &skipRest)
 	}
 }
 
-void GLWWindow::keyDown(char *buffer, int bufferCount, 
+void GLWWindow::keyDown(char *buffer, unsigned int keyState, 
 		KeyboardHistory::HistoryElement *history, int hisCount, 
 		bool &skipRest)
 {
 	if (disabled_) return;
 
-	GLWVisiblePanel::keyDown(buffer, bufferCount, history, hisCount, skipRest);
+	GLWVisiblePanel::keyDown(buffer, keyState, history, hisCount, skipRest);
 }

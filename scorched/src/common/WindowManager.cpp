@@ -77,14 +77,15 @@ void WindowManager::setCurrentEntry(const unsigned state)
 	}
 }
 
-void WindowManager::addWindow(const unsigned state, GLWWindow *window, unsigned key, bool visible)
+void WindowManager::addWindow(const unsigned state, GLWWindow *window, KeyboardKey *key, bool visible)
 {
 	windowVisibility_[window->getId()] = visible;
 	idToWindow_[window->getId()] = window;
 
 	stateEntrys_[state].windows_.push_back(window);
 	stateEntrys_[state].state_ = state;
-	stateEntrys_[state].windowKeys_[key] = window;
+	stateEntrys_[state].windowKeys_.push_back(
+		std::pair<KeyboardKey *, GLWWindow *>(key, window));
 }
 
 bool WindowManager::showWindow(unsigned id)
@@ -208,7 +209,7 @@ void WindowManager::simulate(const unsigned state, float simTime)
 }
 
 void WindowManager::keyboardCheck(const unsigned state, float frameTime, 
-							   char *buffer, int bufCount,
+							   char *buffer, unsigned int keyState,
 							   KeyboardHistory::HistoryElement *history, int hisCount, 
 							   bool &skipRest)
 {
@@ -220,7 +221,7 @@ void WindowManager::keyboardCheck(const unsigned state, float frameTime,
 		GLWWindow *window = (*itor);
 		if (windowVisible(window->getId()))
 		{
-			window->keyDown(buffer, bufCount,
+			window->keyDown(buffer, keyState,
 								history, hisCount, 
 								skipRest);
 			if (skipRest) break;
@@ -234,18 +235,25 @@ void WindowManager::keyboardCheck(const unsigned state, float frameTime,
 		char c = history[i].representedKey;
 		DWORD dik = history[i].sdlKey;
 
-		std::map<unsigned, GLWWindow *>::iterator keyItor =
-			currentStateEntry_->windowKeys_.find(dik);
-		if (keyItor != currentStateEntry_->windowKeys_.end())
+		std::list<std::pair<KeyboardKey *, GLWWindow *> >::iterator keyItor;
+		std::list<std::pair<KeyboardKey *, GLWWindow *> >::iterator endKeyItor = 
+			currentStateEntry_->windowKeys_.end();
+		for (keyItor = currentStateEntry_->windowKeys_.begin();
+			keyItor != endKeyItor;
+			keyItor++)
 		{
-			GLWWindow *window = (*keyItor).second;
-			if (windowVisible(window->getId()))
+			KeyboardKey *key = (*keyItor).first;
+			if (key && key->keyDown(buffer, keyState))
 			{
-				hideWindow(window->getId());
-			}
-			else
-			{
-				showWindow(window->getId());
+				GLWWindow *window = (*keyItor).second;
+				if (windowVisible(window->getId()))
+				{
+					hideWindow(window->getId());
+				}
+				else
+				{
+					showWindow(window->getId());
+				}
 			}
 		}
 	}

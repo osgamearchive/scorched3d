@@ -68,7 +68,7 @@ void GLWidget::mouseDrag(float mx, float my, float x, float y, bool &skipRest)
 
 }
 
-void GLWidget::keyDown(char *buffer, int bufferCount, 
+void GLWidget::keyDown(char *buffer, unsigned int keyState, 
 		KeyboardHistory::HistoryElement *history, int hisCount, 
 		bool &skipRest)
 {

@@ -40,7 +40,7 @@ public:
 
 	virtual void draw();
 	virtual void simulate(float frameTime);
-	virtual void keyDown(char *buffer, int bufferCount, 
+	virtual void keyDown(char *buffer, unsigned int keyState, 
 		KeyboardHistory::HistoryElement *history, int hisCount, 
 		bool &skipRest);
 

@@ -123,7 +123,7 @@ void GLWPanel::mouseDrag(float mx, float my, float x, float y, bool &skipRest)
 	}
 }
 
-void GLWPanel::keyDown(char *buffer, int bufferCount, 
+void GLWPanel::keyDown(char *buffer, unsigned int keyState, 
 		KeyboardHistory::HistoryElement *history, int hisCount, 
 		bool &skipRest)
 {
@@ -132,7 +132,7 @@ void GLWPanel::keyDown(char *buffer, int bufferCount,
 		itor != widgets_.rend();
 		itor++)
 	{
-		(*itor)->keyDown(buffer, bufferCount, history, hisCount, skipRest);
+		(*itor)->keyDown(buffer, keyState, history, hisCount, skipRest);
 		if (skipRest) break;
 	}
 }

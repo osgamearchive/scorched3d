@@ -37,6 +37,7 @@ public:
 	bool init();
 
 	char *getkeyboardbuffer(unsigned int &bufCnt);
+	unsigned int getKeyboardState();
 	KeyboardHistory::HistoryElement *getkeyboardhistory(unsigned int &histCnt); 
 
 	void processKeyboardEvent(SDL_Event &event);

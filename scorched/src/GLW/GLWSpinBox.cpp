@@ -121,7 +121,7 @@ void GLWSpinBox::mouseDrag(float mx, float my, float x, float y, bool &skipRest)
 	if (skipRest) return;
 }
 
-void GLWSpinBox::keyDown(char *buffer, int bufferCount, 
+void GLWSpinBox::keyDown(char *buffer, unsigned int keyState, 
 		KeyboardHistory::HistoryElement *history, int hisCount, 
 		bool &skipRest)
 {

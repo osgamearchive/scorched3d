@@ -32,7 +32,8 @@ public:
 
 	virtual const char *getName() { return "Random"; }
 	virtual TankAIComputer *getCopy(Tank *tank);
-	virtual void playMove(const unsigned state, float frameTime, char *buffer) {};
+	virtual void playMove(const unsigned state, float frameTime, 
+		char *buffer, unsigned int keyState) {};
 };
 
 #endif

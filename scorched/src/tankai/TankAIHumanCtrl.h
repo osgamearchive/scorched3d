@@ -33,7 +33,7 @@ public:
 	// Inherited from GameStateI
 	virtual void enterState(const unsigned state);
 	virtual void keyboardCheck(const unsigned state, float frameTime, 
-		char *buffer, int bufCount,
+		char *buffer, unsigned int keyState,
 		KeyboardHistory::HistoryElement *history, int hisCount, 
 		bool &skipRest);
 
