@@ -1438,6 +1438,24 @@
 				RelativePath="..\weapons\Battery.h">
 			</File>
 			<File
+				RelativePath="..\weapons\Economy.cpp">
+			</File>
+			<File
+				RelativePath="..\weapons\Economy.h">
+			</File>
+			<File
+				RelativePath="..\weapons\EconomyFreeMarket.cpp">
+			</File>
+			<File
+				RelativePath="..\weapons\EconomyFreeMarket.h">
+			</File>
+			<File
+				RelativePath="..\weapons\EconomyNone.cpp">
+			</File>
+			<File
+				RelativePath="..\weapons\EconomyNone.h">
+			</File>
+			<File
 				RelativePath="..\weapons\Fuel.cpp">
 			</File>
 			<File
