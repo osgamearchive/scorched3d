@@ -39,13 +39,29 @@ strength and direction.</description>
 			<item type="GLWIcon">
 				<x>0</x><y>0</y>
 				<w>128</w><h>128</h>
-				<bitmap>data/windows/plan.bmp</bitmap>
-				<bitmapa>data/windows/plana.bmp</bitmapa>
+				<bitmap>data/windows/wind.bmp</bitmap>
+				<bitmapa>data/windows/winda.bmp</bitmapa>
 				<invert>true</invert>
 			</item>
 			<item type="GLWWindView">
 				<x>0</x><y>0</y>
 				<w>128</w><h>128</h>				
+			</item>
+			<item type="GLWIcon">
+				<x>0</x><y>0</y>
+				<w>128</w><h>128</h>
+				<bitmap>data/windows/wind.bmp</bitmap>
+				<bitmapa>data/windows/winda2.bmp</bitmapa>
+				<invert>true</invert>
+			</item>
+			<item type="GLWScorchedInfo">
+				<type>wind</type>
+				<x>0</x><y>7</y>
+				<w>128</w><h>20</h>	
+				<fontsize>12</fontsize>
+				<fontcolorr>0.9f</fontcolorr>
+				<fontcolorg>0.9f</fontcolorg>
+				<fontcolorb>1.0f</fontcolorb>	
 			</item>
 		</items>
 	</window>

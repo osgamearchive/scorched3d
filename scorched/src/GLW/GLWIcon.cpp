@@ -42,8 +42,6 @@ void GLWIcon::draw()
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glColor3f(1.0f, 1.0f, 1.0f);
 		texture_->draw();
-		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_CLAMP);
-		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,GL_CLAMP);
 
 		glBegin(GL_QUADS);
 			glTexCoord2f(0.0f, 0.0f);
@@ -82,6 +80,10 @@ bool GLWIcon::initFromXML(XMLNode *node)
 		texture_ = ASEStore::instance()->loadTexture(
 			bitmapName.c_str(), bitmapAName.c_str(), invert);
 		if (!texture_) return false;
+
+		texture_->draw();
+		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_CLAMP);
+		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,GL_CLAMP);
 	}
 	return true;
 }

@@ -59,6 +59,7 @@ protected:
 	InfoType infoType_;
 	float fontSize_;
 	Vector fontColor_;
+	bool noCenter_;
 };
 
 #endif // !defined(AFX_GLWScorchedInfo_H__E5E95ACF_A6F4_4552_B05C_75CA02ACB6D2__INCLUDED_)

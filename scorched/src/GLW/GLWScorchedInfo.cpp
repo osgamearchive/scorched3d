@@ -28,7 +28,7 @@
 REGISTER_CLASS_SOURCE(GLWScorchedInfo);
 
 GLWScorchedInfo::GLWScorchedInfo(float x, float y, float w, float h) : 
-	GLWVisibleWidget(x, y, w, h), infoType_(eNone)
+	GLWVisibleWidget(x, y, w, h), infoType_(eNone), noCenter_(false)
 {
 
 }
@@ -48,11 +48,29 @@ void GLWScorchedInfo::draw()
 	switch(infoType_)
 	{
 		case eWind:
-			GLWFont::instance()->getLargePtFont()->draw(
+		{
+			static char buffer[256];
+			if (ScorchedClient::instance()->
+				getOptionsTransient().getWindSpeed() == 0)
+			{
+				sprintf(buffer, "No Wind");
+			}
+			else
+			{
+				sprintf(buffer, "Force %.0f", 
+					ScorchedClient::instance()->
+					getOptionsTransient().getWindSpeed());
+			}
+			float windwidth = (float) GLWFont::instance()->
+				getSmallPtFont()->getWidth(
+				fontSize_, buffer);
+			float offSet = 0.0f;
+			if (!noCenter_) offSet = w_ / 2.0f - (windwidth / 2.0f);
+			GLWFont::instance()->getSmallPtFont()->draw(
 				fontColor_, fontSize_,
-				x_, y_, 0.0f,
-				"%i",
-				ScorchedClient::instance()->getOptionsTransient().getWindSpeed());                      
+				x_ + offSet, y_, 0.0f,
+				buffer);                    
+		}
 		break;
 	}
 	
@@ -79,9 +97,11 @@ void GLWScorchedInfo::draw()
 			setToolTip(&model->getTips()->nameTip);
 			float namewidth = (float) GLWFont::instance()->getSmallPtFont()->getWidth(
 				fontSize_, current->getName());
+			float offSet = 0.0f;
+			if (!noCenter_) offSet = w_ / 2.0f - (namewidth / 2.0f);
 			GLWFont::instance()->getSmallPtFont()->draw(
 				current->getColor(), fontSize_,
-				x_ + w_ / 2.0f - (namewidth / 2.0f), y_, 0.0f,
+				x_ + offSet, y_, 0.0f,
 				current->getName());
 		}
 		break;
@@ -155,13 +175,23 @@ void GLWScorchedInfo::draw()
 		case eWeaponName:
 		{
 			setToolTip(&weapon->getToolTip());
+			int count = current->getAccessories().getWeapons().getWeaponCount(
+				current->getAccessories().getWeapons().getCurrent());
+			static char buffer[256];
+			const char *format = "%s (%i)";
+			if (count < 0) format = "%s (I)";
+			sprintf(buffer, format, 
+				current->getAccessories().getWeapons().getCurrent()->getName(),
+				count);
 			float weaponWidth = (float) GLWFont::instance()->getSmallPtFont()->
-				getWidth(fontSize_, 
-				current->getAccessories().getWeapons().getCurrent()->getName());
+				getWidth(fontSize_, buffer);
+
+			float offSet = 0.0f;
+			if (!noCenter_) offSet = w_ / 2.0f - (weaponWidth / 2.0f);
 			GLWFont::instance()->getSmallPtFont()->draw(
 				current->getColor(), fontSize_,
-				x_ + w_ / 2.0f - weaponWidth / 2.0f, y_, 0.0f,
-				current->getAccessories().getWeapons().getCurrent()->getName());
+				x_ + offSet, y_, 0.0f,
+				buffer);
 		}
 		break;
 		case eWeaponCount:
@@ -317,6 +347,12 @@ bool GLWScorchedInfo::initFromXML(XMLNode *node)
 	if ((fontColor_[2] = node->getNamedFloatChild("fontcolorb", true)) 
 		== XMLNode::ErrorFloat) return false;
 
+	// No Center
+	XMLNode *centerNode = node->getNamedChild("nocenter");
+	if (centerNode)
+	{
+		noCenter_ = (0 == strcmp(centerNode->getContent(), "true"));
+	}
+
 	return true;
 }
-
