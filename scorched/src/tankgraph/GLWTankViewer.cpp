@@ -98,7 +98,7 @@ void GLWTankViewer::setTankModels(std::vector<TankModel *> &models)
 	while (!sorted)
 	{
 		sorted = true;
-		for (int i=0; i<models_.size()-1; i++)
+		for (int i=0; i<(int) models_.size()-1; i++)
 		{
 			TankModel *tmp = models_[i];
 			TankModel *test = models_[i+1];

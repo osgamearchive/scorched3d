@@ -18,10 +18,11 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
+#include <GLEXT/GLBitmap.h>
 #include <3dsparse/ASEStore.h>
 #include <3dsparse/ASEFile.h>
 #include <3dsparse/ModelArrayFact.h>
+#include <common/OptionsDisplay.h>
 
 ASEStore *ASEStore::instance_ = 0;
 
@@ -42,6 +43,38 @@ ASEStore::~ASEStore()
 {
 }
 
+GLTexture *ASEStore::loadTexture(const char *name)
+{
+	// Try to find the texture in the cache first
+	std::map<std::string, GLTexture *>::iterator itor =
+		skins_.find(name);
+	if (itor != skins_.end())
+	{
+		return (*itor).second;
+	}
+
+	// Load tank skin as bitmap
+	GLBitmap map((char *) name);
+	if (!map.getBits()) return 0;
+
+	// HACK for skin creator
+#ifdef dDOUBLE
+	// Use smaller tank skins for texture size 0
+	// Resize the bitmap
+	if (OptionsDisplay::instance()->getTexSize() == 0)
+	{
+		map.resize(map.getWidth() / 2, 
+				   map.getHeight() / 2);
+	}
+#endif
+
+	// Create skin texture from bitmap
+	GLTexture *texture = new GLTexture;
+	if (!texture->create(map)) return 0;
+	skins_[name] = texture;
+
+	return texture;
+}
 
 GLVertexArray *ASEStore::loadOrGetArray(const char *fileName)
 {
@@ -49,12 +82,11 @@ GLVertexArray *ASEStore::loadOrGetArray(const char *fileName)
 		fileMap_.find(fileName);
 	if (findItor == fileMap_.end())
 	{
-		ASEFile file(fileName);
+		ASEFile file(fileName, "NOTEXTURE");
 		if (file.getSuccess())
 		{
 			file.centre();
-			GLVertexArray *array = 
-				ModelArrayFact::getArray(file.getModels(), 1.0f);
+			GLVertexArray *array = file.getModels().front()->getArray(false);
 			fileMap_[fileName] = array;
 			return array;
 		}

@@ -24,7 +24,6 @@
 
 #include <tankgraph/TankMesh.h>
 #include <tankgraph/TankModel.h>
-#include <GLEXT/GLTexture.h>
 #include <string>
 
 class TankModelASE : public TankModel
@@ -32,7 +31,7 @@ class TankModelASE : public TankModel
 public:
 	TankModelASE(TankModelId &id,
 		const char *meshName, 
-		const char *skinName = 0);
+		const char *skinName);
 	virtual ~TankModelASE();
 
 	void draw(bool drawS, float angle, Vector &position, 
@@ -46,7 +45,6 @@ protected:
 
 	bool init_;
 	TankMesh *tankMesh_;
-	GLTexture *tankSkin_;
 
 };
 

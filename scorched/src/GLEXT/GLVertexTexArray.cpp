@@ -18,12 +18,13 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <GLEXT/GLVertexTexArray.h>
 #include <GLEXT/GLStateExtension.h>
+#include <GLEXT/GLState.h>
 #include <stdlib.h>
 
-GLVertexTexArray::GLVertexTexArray(int noTris) : GLVertexArray(noTris)
+GLVertexTexArray::GLVertexTexArray(GLTexture *texture, int noTris) : 
+	GLVertexArray(noTris), texture_(texture)
 {
 	texCoord_ = new GLVertexArrayTexCoord[noTris * 3];
 }
@@ -38,6 +39,13 @@ void GLVertexTexArray::setTexCoord(int offset, GLfloat a, GLfloat b)
 	DIALOG_ASSERT(offset < noTris_ * 3);
 	GLVertexArrayTexCoord newTexCoord = {a, b};
 	texCoord_[offset] = newTexCoord;
+}
+
+void GLVertexTexArray::draw()
+{
+	GLState textureState(GLState::TEXTURE_ON);
+	texture_->draw();
+	GLVertexArray::draw();
 }
 
 void GLVertexTexArray::buildList()

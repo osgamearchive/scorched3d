@@ -20,7 +20,7 @@
 
 #include <3dsparse/ModelArrayFact.h>
 #include <math.h>
-
+/*
 GLVertexArray *ModelArrayFact::getArray(std::list<Model> &modelList, float detail)
 {
 	std::list<Model *> modelList2;
@@ -210,3 +210,4 @@ Vector ModelArrayFact::getTexCoord(Vector &tri, MaxMag mag, Vector &max, Vector 
 	return newTri;
 }
 
+*/

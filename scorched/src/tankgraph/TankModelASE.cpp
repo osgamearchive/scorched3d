@@ -18,16 +18,17 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <tankgraph/TankModelASE.h>
 #include <tankgraph/TankModelStore.h>
+#include <3dsparse/ASEFile.h>
 #include <common/Defines.h>
+#include <common/OptionsDisplay.h>
 
 TankModelASE::TankModelASE(TankModelId &id,
 					 const char *meshName, const char *skinName) :
 	TankModel(id),
-	meshName_(meshName), skinName_(skinName?skinName:""),
-	tankMesh_(0), tankSkin_(0), init_(false)
+	meshName_(meshName), skinName_(skinName),
+	tankMesh_(0), init_(false)
 {
 
 }
@@ -43,42 +44,37 @@ void TankModelASE::draw(bool drawS, float angle,
 	if (!init_)
 	{
 		init_ = true;
-		tankMesh_ = TankModelStore::instance()->loadMesh(meshName_.c_str(), true);
-		if (!tankMesh_)
+
+		// Load the ASEFile containing the tank definitions
+		ASEFile newFile(meshName_.c_str(), skinName_.c_str());
+		if (!newFile.getSuccess())
 		{
-			dialogMessage("Scorched3D", "ERROR: Failed to load mesh \"%s\"",
-				meshName_.c_str());
+			dialogMessage("ASE File", "Failed to load ASE file \"%s\"", meshName_.c_str());
 			return;
 		}
 
-		if (skinName_.c_str()[0])
+		// Make sure the tank is not too large
+		const float maxSize = 3.0f;
+		float size = (newFile.getMax() - newFile.getMin()).Magnitude();
+		if (size > maxSize)
 		{
-			tankSkin_ = TankModelStore::instance()->loadTexture(skinName_.c_str());
-			if (!tankSkin_)
-			{
-				dialogMessage("Scorched3D", "ERROR: Failed to load skin \"%s\"",
-					skinName_.c_str());
-				return;
-			}
+			const float sfactor = 2.2f / size;
+			newFile.scale(sfactor);
 		}
-	}
 
-	GLState *currentState = 0;
-	if (tankSkin_)
-	{
-		currentState = new GLState(GLState::TEXTURE_ON);
-		tankSkin_->draw();
-	}
-	else
-	{
-		currentState = new GLState(GLState::TEXTURE_OFF);
+		// Get the model detail
+		float detail = 
+			float(OptionsDisplay::instance()->getMaxModelTriPercentage()) / 100.0f;
+
+		// Create tank mesh
+		tankMesh_ = new TankMesh(
+			newFile, !OptionsDisplay::instance()->getNoSkins(), detail);
 	}
 
 	if (tankMesh_)
 	{
 		tankMesh_->draw(drawS, angle, position, fireOffSet, rotXY, rotXZ);
 	}
-	delete currentState;
 }
 
 int TankModelASE::getNoTris()

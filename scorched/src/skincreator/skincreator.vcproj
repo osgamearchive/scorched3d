@@ -131,6 +131,12 @@
 				RelativePath="..\3dsparse\ASEModel.h">
 			</File>
 			<File
+				RelativePath="..\3dsparse\ASEStore.cpp">
+			</File>
+			<File
+				RelativePath="..\3dsparse\ASEStore.h">
+			</File>
+			<File
 				RelativePath="..\3dsparse\MeshLOD.cpp">
 			</File>
 			<File
@@ -222,6 +228,12 @@
 			</File>
 			<File
 				RelativePath="..\GLEXT\GLStateExtension.h">
+			</File>
+			<File
+				RelativePath="..\GLEXT\GLTexture.cpp">
+			</File>
+			<File
+				RelativePath="..\GLEXT\GLTexture.h">
 			</File>
 			<File
 				RelativePath="..\GLEXT\GLVertexArray.cpp">

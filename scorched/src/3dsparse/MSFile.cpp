@@ -73,6 +73,7 @@ bool MSFile::loadFile(FILE *in)
 	if (!getNextLine(buffer, in)) return false; 
 	if (sscanf(buffer, "Meshes: %i", &noMeshes) != 1) return false;
 
+	std::vector<int> meshMaterials;
 	for (int i=0; i<noMeshes; i++)
 	{
 		// Read the mesh name, flags and material indices
@@ -80,6 +81,7 @@ bool MSFile::loadFile(FILE *in)
 		int meshFlags, meshMatIndex;
 		if (!getNextLine(buffer, in)) return false; 
 		if (sscanf(buffer, "%s %i %i", meshName, &meshFlags, &meshMatIndex) != 3) return false;
+		meshMaterials.push_back(meshMatIndex);
 		
 		// Create and add the new model
 		Model *model = new Model(meshName);
@@ -91,18 +93,19 @@ bool MSFile::loadFile(FILE *in)
 		if (sscanf(buffer, "%i", &noVertices) != 1) return false;
 
 		int j;
+		std::vector<Vector> tcoords;
 		for (j=0; j<noVertices; j++)
 		{
 			// Read the current vertex
 			int vertexFlags, vertexBIndex;
-			Vector vertexPos;
-			float vertexU, vertexV;
+			Vector vertexPos, texCoord;
 			if (!getNextLine(buffer, in)) return false; 
 			if (sscanf(buffer, "%i %f %f %f %f %f %i",
 				&vertexFlags,
 				&vertexPos[0], &vertexPos[2], &vertexPos[1], 
-				&vertexU, &vertexV, &vertexBIndex) != 7) return false;
+				&texCoord[0], &texCoord[1], &vertexBIndex) != 7) return false;
 
+			tcoords.push_back(texCoord);
 			model->insertVertex(vertexPos);
 		}
 
@@ -143,6 +146,83 @@ bool MSFile::loadFile(FILE *in)
 			model->setFaceNormal(normals[nIndex1], j, 0);
 			model->setFaceNormal(normals[nIndex2], j, 2);
 			model->setFaceNormal(normals[nIndex3], j, 1);
+
+			model->setFaceTCoord(tcoords[face.v[0]], j, 0);
+			model->setFaceTCoord(tcoords[face.v[1]], j, 1);
+			model->setFaceTCoord(tcoords[face.v[2]], j, 2);
+		}
+	}
+
+	// Read number meshes
+	int noMaterials = 0;
+	if (!getNextLine(buffer, in)) return false; 
+	if (sscanf(buffer, "Materials: %i", &noMaterials) != 1) return false;
+
+	for (int m=0; m<noMaterials; m++)
+	{
+		// material: name
+		char materialName[256];
+		if (!getNextLine(buffer, in)) return false; 
+		if (sscanf(buffer, "%s", materialName) != 1) return false;
+
+		// ambient
+		float ambient[4];
+		if (!getNextLine(buffer, in)) return false; 
+		if (sscanf(buffer, "%f %f %f %f", 
+			&ambient[0], &ambient[1], &ambient[2], &ambient[3]) != 4) return false;
+
+		// diffuse
+		float diffuse[4];
+		if (!getNextLine(buffer, in)) return false; 
+		if (sscanf(buffer, "%f %f %f %f", 
+			&diffuse[0], &diffuse[1], &diffuse[2], &diffuse[3]) != 4) return false;
+
+		// specular
+		float specular[4];
+		if (!getNextLine(buffer, in)) return false; 
+		if (sscanf(buffer, "%f %f %f %f", 
+			&specular[0], &specular[1], &specular[2], &specular[3]) != 4) return false;
+
+		// emissive
+		float emissive[4];
+		if (!getNextLine(buffer, in)) return false; 
+		if (sscanf(buffer, "%f %f %f %f", 
+			&emissive[0], &emissive[1], &emissive[2], &emissive[3]) != 4) return false;
+
+		// shininess
+		float shininess;
+		if (!getNextLine(buffer, in)) return false; 
+		if (sscanf(buffer, "%f", &shininess) != 1) return false;
+
+		// transparency
+		float transparency;
+		if (!getNextLine(buffer, in)) return false; 
+		if (sscanf(buffer, "%f", &transparency) != 1) return false;
+
+		// color map
+		char textureName[256];
+		char fullTextureName[256];
+		if (!getNextLine(buffer, in)) return false; 
+		if (sscanf(buffer, "%s", textureName) != 1) return false;
+		textureName[strlen(textureName)-1] = '\0';
+		sprintf(fullTextureName, PKGDIR "data/tanks/%s", &textureName[1]);
+
+		// alphamap
+		char textureNameAlpha[256];
+		if (!getNextLine(buffer, in)) return false; 
+		if (sscanf(buffer, "%s", textureNameAlpha) != 1) return false;
+
+		int modelIndex = 0;
+		std::list<Model *>::iterator mitor;
+		for (mitor = models_.begin();
+			mitor != models_.end();
+			mitor++, modelIndex++)
+		{
+			if (meshMaterials[modelIndex] == m)
+			{
+				Model *model = *mitor;
+				model->setTextureName(fullTextureName);
+			}
 		}
 	}
 

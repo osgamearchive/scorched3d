@@ -34,7 +34,7 @@ namespace ModelArrayFact
 		MagZ
 	};
 
-	GLVertexArray *getArray(std::list<Model> &models, float detail);
+	/*GLVertexArray *getArray(std::list<Model> &models, float detail);
 	GLVertexArray *getArray(std::list<Model*> &models, float detail);
 
 	GLVertexTexArray *getTexArray(std::list<Model> &models,
@@ -42,7 +42,7 @@ namespace ModelArrayFact
 	GLVertexTexArray *getTexArray(std::list<Model*> &models,
 		Vector &max, Vector &min, float detail);
 
-	Vector getTexCoord(Vector &tri, MaxMag mag, Vector &max, Vector &min);
+	Vector getTexCoord(Vector &tri, MaxMag mag, Vector &max, Vector &min);*/
 };
 
 

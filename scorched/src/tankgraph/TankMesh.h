@@ -39,10 +39,12 @@ public:
 protected:
 	static GLuint sightList_;
 
+	bool useTextures_;
+	int otherArraySize_;
 	float turretHeight_;
 	GLVertexArray *gunArray_;
 	GLVertexArray *turretArray_;
-	GLVertexArray *otherArray_;
+	GLVertexArray **otherArrays_;
 
 	void drawSight();
 	void drawGun(bool drawS, float fireOffset, float rotXY, float rotXZ);

@@ -21,9 +21,9 @@
 #include <common/Defines.h>
 #include <3dsparse/ASEModel.h>
 
-ASEModel::ASEModel(char *name) : Model(name)
+ASEModel::ASEModel(char *name, char *texture) : Model(name)
 {
-
+	setTextureName(texture);
 }
 
 ASEModel::~ASEModel()

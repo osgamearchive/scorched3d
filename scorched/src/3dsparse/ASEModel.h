@@ -28,7 +28,7 @@
 class ASEModel : public Model
 {
 public:
-	ASEModel(char *name);
+	ASEModel(char *name, char *texture);
 	virtual ~ASEModel();
 
 	// Used by parser

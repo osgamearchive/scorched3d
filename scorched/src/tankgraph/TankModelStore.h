@@ -25,8 +25,6 @@
 #include <map>
 #include <set>
 #include <tankgraph/TankModel.h>
-#include <tankgraph/TankMesh.h>
-#include <GLEXT/GLTexture.h>
 
 class TankModelStore
 {
@@ -41,15 +39,10 @@ public:
 	std::vector<TankModel *> &getModels() { return models_; }
 	std::set<std::string> &getModelCatagories() { return modelCatagories_; }
 
-	GLTexture *loadTexture(const char *name);
-	TankMesh *loadMesh(const char *name, bool aseFile);
-
 protected:
 	static TankModelStore* instance_;
 	std::vector<TankModel *> models_;
 	std::set<std::string, std::less<std::string> > modelCatagories_;
-	std::map<std::string, TankMesh *> meshes_;
-	std::map<std::string, GLTexture *> skins_;
 
 private:
 	TankModelStore();

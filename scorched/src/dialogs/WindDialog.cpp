@@ -18,7 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <dialogs/WindDialog.h>
 #include <client/MainCamera.h>
 #include <GLW/GLWFont.h>
@@ -26,8 +25,7 @@
 #include <common/Defines.h>
 #include <landscape/Landscape.h>
 #include <landscape/GlobalHMap.h>
-#include <3dsparse/ASEFile.h>
-#include <3dsparse/ModelArrayFact.h>
+#include <3dsparse/ASEStore.h>
 #include <math.h>
 
 WindDialog *WindDialog::instance_ = 0;
@@ -46,8 +44,8 @@ WindDialog::WindDialog() :
 	GLWWindow("Wind", 10, 15, 100, 100, eTransparent | eResizeable | eSmallTitle),
 	listNo_(0)
 {
-	ASEFile windMesh(PKGDIR "data/meshes/wind.ase");
-	windModel_ = ModelArrayFact::getArray(windMesh.getModels(), 1.0f);
+	windModel_ = ASEStore::instance()->
+		loadOrGetArray(PKGDIR "data/meshes/wind.ase");
 }
 
 WindDialog::~WindDialog()

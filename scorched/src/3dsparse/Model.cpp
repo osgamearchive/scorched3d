@@ -21,6 +21,8 @@
 #include <common/Defines.h>
 #include <3dsparse/Model.h>
 #include <3dsparse/MeshLOD.h>
+#include <3dsparse/ASEStore.h>
+#include <GLEXT/GLVertexTexArray.h>
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
@@ -69,6 +71,14 @@ void Model::insertFace(Face &newFace)
 	faces_.push_back(newFace);
 }
 
+void Model::setFaceTCoord(Vector &tcoord, int face, int index)
+{
+	DIALOG_ASSERT(index < 3);
+	DIALOG_ASSERT(face < (int) faces_.size());
+
+	faces_[face].tcoord[index] = tcoord;
+}
+
 void Model::setFaceNormal(Vector &normal, int face, int index)
 {
 	DIALOG_ASSERT(index < 3);
@@ -77,10 +87,10 @@ void Model::setFaceNormal(Vector &normal, int face, int index)
 	faces_[face].normal[index] = normal;
 }
 
-Vector *Model::getVertex(int pos)
+Vector &Model::getVertex(int pos)
 {
 	DIALOG_ASSERT(pos < (int) vertexes_.size());
-	return &vertexes_[pos];
+	return vertexes_[pos];
 }
 
 void Model::centre(Vector &centre)
@@ -133,8 +143,119 @@ int Model::mapIndex(int i, float currentReduction)
 	return returnval;
 }
 
-void Model::getArray(std::list<Vector> &triList, 
+GLVertexArray *Model::getArray(bool useTextures, float detail)
+{
+	GLVertexArray *result = 0;
+	if (useTextures && getTextureName()[0]) result = getTexArray(detail);
+	else result = getNoTexArray(detail);
+	return result;
+}
+
+GLVertexArray *Model::getNoTexArray(float detail)
+{
+	// Get the list or normals and triangles for this detail level
+	std::list<Vector> triangles;
+	std::list<Vector> normals;
+	std::list<Vector> texCoords;
+	formArray(triangles, normals, texCoords, detail);
+
+	Vector lightpos(-0.3f, -0.2f, 1.0f);
+	lightpos.Normalize();
+
+	GLVertexArray *array = new GLVertexArray(int(triangles.size()) / 3);
+	std::list<Vector>::iterator triangleItor = triangles.begin();
+	std::list<Vector>::iterator normalItor = normals.begin();
+	int triPos = 0;
+	while (triangleItor != triangles.end() &&
+		normalItor != normals.end())
+	{
+		float intense = lightpos.dotP((*normalItor).Normalize()) + 0.2f; 
+		if (intense > 1.0f) intense = 1.0f; if (intense < 0.2f) intense = 0.2f;
+		array->setVertex(triPos, (*triangleItor)[0], (*triangleItor)[1], (*triangleItor)[2]); 
+		array->setColor(triPos, color_[0] * intense, color_[1] * intense, color_[2] * intense);
+		triangleItor++; normalItor++; triPos++;
+
+		intense = lightpos.dotP((*normalItor).Normalize()) + 0.2f; 
+		if (intense > 1.0f) intense = 1.0f; if (intense < 0.2f) intense = 0.2f;
+		array->setVertex(triPos, (*triangleItor)[0], (*triangleItor)[1], (*triangleItor)[2]); 
+		array->setColor(triPos, color_[0] * intense, color_[1] * intense, 
+						color_[2] * intense);
+		triangleItor++; normalItor++; triPos++;
+
+		intense = lightpos.dotP((*normalItor).Normalize()) + 0.2f; 
+		if (intense > 1.0f) intense = 1.0f; if (intense < 0.2f) intense = 0.2f;
+		array->setVertex(triPos, (*triangleItor)[0], (*triangleItor)[1], (*triangleItor)[2]); 
+		array->setColor(triPos, color_[0] * intense, color_[1] * intense, 
+						color_[2] * intense);
+		triangleItor++; normalItor++; triPos++;
+	}
+
+	return array;
+}
+
+GLVertexArray *Model::getTexArray(float detail)
+{
+	std::list<Vector> triangles;
+	std::list<Vector> normals;
+	std::list<Vector> texCoords;
+	formArray(triangles, normals, texCoords, detail);
+
+	Vector lightpos(0.3f, 0.2f, 1.0f);
+	lightpos.Normalize();
+
+	GLTexture *texture = ASEStore::instance()->loadTexture(getTextureName());
+	DIALOG_ASSERT(texture);
+	GLVertexTexArray *array = new GLVertexTexArray(texture, 
+		int(triangles.size()) / 3);
+	std::list<Vector>::iterator triangleItor = triangles.begin();
+	std::list<Vector>::iterator normalItor = normals.begin();
+	std::list<Vector>::iterator texCoordsItor = texCoords.begin();
+	int triPos = 0;
+	while (triangleItor != triangles.end() &&
+		normalItor != normals.end() &&
+		texCoordsItor != texCoords.end())
+	{
+		Vector &normalA = (*normalItor);
+		Vector &triA = (*triangleItor);
+		Vector &coordA = (*texCoordsItor);
+		triangleItor++; normalItor++; texCoordsItor++;
+		Vector &normalB = (*normalItor);
+		Vector &triB = (*triangleItor);
+		Vector &coordB = (*texCoordsItor);
+		triangleItor++; normalItor++; texCoordsItor++;
+		Vector &normalC = (*normalItor);
+		Vector &triC = (*triangleItor);
+		Vector &coordC = (*texCoordsItor);
+		triangleItor++; normalItor++; texCoordsItor++;
+
+		float intense = lightpos.dotP(normalA.Normalize()) + 0.2f; 
+		if (intense > 1.0f) intense = 1.0f; if (intense < 0.2f) intense = 0.2f;
+		array->setVertex(triPos, triA[0], triA[1], triA[2]); 
+		array->setColor(triPos, intense, intense, intense);
+		array->setTexCoord(triPos, coordA[0], coordA[1]);
+		triPos++;
+		
+		intense = lightpos.dotP(normalB.Normalize()) + 0.2f;
+		if (intense > 1.0f) intense = 1.0f; if (intense < 0.2f) intense = 0.2f;
+		array->setVertex(triPos, triB[0], triB[1], triB[2]); 
+		array->setColor(triPos, intense, intense, intense);
+		array->setTexCoord(triPos, coordB[0], coordB[1]);
+		triPos++;
+
+		intense = lightpos.dotP(normalC.Normalize()) + 0.2f; 
+		if (intense > 1.0f) intense = 1.0f; if (intense < 0.2f) intense = 0.2f;
+		array->setVertex(triPos, triC[0], triC[1], triC[2]); 
+		array->setColor(triPos, intense, intense, intense);
+		array->setTexCoord(triPos, coordC[0], coordC[1]);
+		triPos++;
+	}
+
+	return array;
+}
+
+void Model::formArray(std::list<Vector> &triList, 
 						std::list<Vector> &normalList,
+						std::list<Vector> &texCoordList,
 						float detail)
 {
 	if (detail != 1.0f) computeCollapseCosts();
@@ -153,13 +274,13 @@ void Model::getArray(std::list<Vector> &triList,
 		}
 		else
 		{
-			Vector *a = getVertex(posA);
-			Vector *b = getVertex(posB);
-			Vector *c = getVertex(posC);
+			triList.push_back(getVertex(posA));
+			triList.push_back(getVertex(posB));
+			triList.push_back(getVertex(posC));
 
-			triList.push_back(*a);
-			triList.push_back(*b);
-			triList.push_back(*c);
+			texCoordList.push_back(itor->tcoord[0]);
+			texCoordList.push_back(itor->tcoord[1]);
+			texCoordList.push_back(itor->tcoord[2]);
 
 			normalList.push_back(itor->normal[0]);
 			normalList.push_back(itor->normal[1]);

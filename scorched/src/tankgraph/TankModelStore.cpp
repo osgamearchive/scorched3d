@@ -23,10 +23,7 @@
 #include <tankgraph/TankModelMS.h>
 #include <common/Defines.h>
 #include <common/OptionsDisplay.h>
-#include <3dsparse/ASEFile.h>
-#include <3dsparse/MSFile.h>
 #include <XML/XMLFile.h>
-#include <GLEXT/GLBitmap.h>
 #include <wx/utils.h>
 
 TankModelStore *TankModelStore::instance_ = 0;
@@ -49,76 +46,6 @@ TankModelStore::TankModelStore()
 TankModelStore::~TankModelStore()
 {
 
-}
-
-GLTexture *TankModelStore::loadTexture(const char *name)
-{
-	// Try to find the texture in the cache first
-	std::map<std::string, GLTexture *>::iterator itor =
-		skins_.find(name);
-	if (itor != skins_.end())
-	{
-		return (*itor).second;
-	}
-
-	// Load tank skin as bitmap
-	GLBitmap map((char *) name);
-	if (!map.getBits()) return 0;
-
-	// Use smaller tank skins for texture size 0
-	// Resize the bitmap
-	if (OptionsDisplay::instance()->getTexSize() == 0)
-	{
-		map.resize(map.getWidth() / 2, 
-				   map.getHeight() / 2);
-	}
-
-	// Create skin texture from bitmap
-	GLTexture *texture = new GLTexture;
-	if (!texture->create(map)) return 0;
-	skins_[name] = texture;
-
-	return texture;
-}
-
-TankMesh *TankModelStore::loadMesh(const char *name, bool aseFile)
-{
-	// Try to find the mesh in the cache first
-	std::map<std::string, TankMesh *>::iterator itor =
-		meshes_.find(name);
-	if (itor != meshes_.end())
-	{
-		return (*itor).second;
-	}
-
-    // Load the ASEFile containing the tank definitions
-    ModelsFile *newFile = 0;
-	if (aseFile) newFile = new ASEFile(name);
-	else newFile = new MSFile(name);
-    if (!newFile->getSuccess()) return 0;
-
-    // Make sure the tank is not too large
-    const float maxSize = 3.0f;
-    float size = (newFile->getMax() - newFile->getMin()).Magnitude();
-    if (size > maxSize)
-    {
-        const float sfactor = 2.2f / size;
-        newFile->scale(sfactor);
-    }
-
-	// Get the model detail
-	float detail = 
-		float(OptionsDisplay::instance()->getMaxModelTriPercentage()) / 100.0f;
-
-	// Create tank mesh
-	TankMesh *tankMesh = new TankMesh(
-		*newFile, 
-		!OptionsDisplay::instance()->getNoSkins(),
-		detail);
-	meshes_[name] = tankMesh;
-
-	delete newFile;
-	return tankMesh;
 }
 
 bool TankModelStore::loadTankMeshes()
@@ -227,7 +154,7 @@ bool TankModelStore::loadTankMeshes()
 			model = new TankModelASE(
 				id,
 				meshName,
-				OptionsDisplay::instance()->getNoSkins()?0:skinName);
+				skinName);
 		}
 		else if (strcmp(typeNode->getContent(), "MilkShape") == 0)
 		{

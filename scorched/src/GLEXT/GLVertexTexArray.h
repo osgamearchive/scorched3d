@@ -23,6 +23,7 @@
 #define __INCLUDE_GLVertexTexArrayh_INCLUDE__
 
 #include <GLEXT/GLVertexArray.h>
+#include <GLEXT/GLTexture.h>
 
 class GLVertexTexArray : public GLVertexArray
 {
@@ -33,15 +34,17 @@ public:
 		GLfloat b;
 	};
 
-	GLVertexTexArray(int noTris);
+	GLVertexTexArray(GLTexture *texture, int noTris);
 	virtual ~GLVertexTexArray();
 
+	virtual void draw();
 	void setTexCoord(int offset, GLfloat a, GLfloat b);
 
 	GLVertexArrayTexCoord &getTexCoordInfo(int x) { return texCoord_[x]; }
 
 protected:
 	GLVertexArrayTexCoord *texCoord_;
+	GLTexture *texture_;
 
 	virtual void buildList();
 };

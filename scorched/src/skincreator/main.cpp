@@ -13,7 +13,7 @@ int main(int argc, char **argv)
 		exit(1);
 	}
 
-	ASEFile afile((const char *) argv[1]);
+	ASEFile afile((const char *) argv[1], "");
 	if (!afile.getSuccess())
 	{
 		printf("ERROR: Failed to load \"%s\" file\n", argv[1]);
@@ -38,17 +38,23 @@ int main(int argc, char **argv)
 	glScalef(100.0f, 100.0f, 100.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	GLVertexTexArray *texArray = 
-		ModelArrayFact::getTexArray(afile.getModels(), afile.getMax(), afile.getMin(), 1.0f);
-
-	glBegin(GL_TRIANGLES);
-	for (int i=0; i<texArray->getNoTris() * 3; i++)
+	std::list<Model *>::iterator itor;
+	for (itor = afile.getModels().begin();
+		itor != afile.getModels().end();
+		itor++)
 	{
-		float x = texArray->getTexCoordInfo(i).a;
-		float y = texArray->getTexCoordInfo(i).b;
-		glVertex2f(x, y);
+		GLVertexTexArray *texArray = (GLVertexTexArray *) 
+			(*itor)->getArray(true, 1.0f);
+
+		glBegin(GL_TRIANGLES);
+		for (int i=0; i<texArray->getNoTris() * 3; i++)
+		{
+			float x = texArray->getTexCoordInfo(i).a;
+			float y = texArray->getTexCoordInfo(i).b;
+			glVertex2f(x, y);
+		}
+		glEnd();
 	}
-	glEnd();
 
 	glFlush();
 	auxSwapBuffers();

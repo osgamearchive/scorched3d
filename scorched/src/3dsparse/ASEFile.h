@@ -23,12 +23,14 @@
 
 #include <3dsparse/ASEModel.h>
 #include <3dsparse/ModelsFile.h>
+#include <common/Vector.h>
 
 // File for pasing 3D Studio Max ASCII files
 class ASEFile : public ModelsFile
 {
 public:
-	ASEFile(const char *fileName);
+	ASEFile(const char *fileName,
+			const char *texName);
 	virtual ~ASEFile();
 
 	// Used by parser
@@ -37,8 +39,18 @@ public:
 	ASEModel *getCurrentModel();
 
 protected:
-	static ASEFile *current_;
+	enum MaxMag
+	{
+		MagX,
+		MagY,
+		MagZ
+	};
 
+	static ASEFile *current_;
+	const char *texName_;
+
+	void calculateTexCoords();
+	Vector getTexCoord(Vector &tri, MaxMag mag, Vector &max, Vector &min);
 	bool loadFile(const char *fileName);
 
 };

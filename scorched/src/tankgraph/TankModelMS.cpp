@@ -18,10 +18,11 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <tankgraph/TankModelMS.h>
 #include <tankgraph/TankModelStore.h>
+#include <3dsparse/MSFile.h>
 #include <common/Defines.h>
+#include <common/OptionsDisplay.h>
 
 TankModelMS::TankModelMS(TankModelId &id,
 					 const char *meshName) :
@@ -43,13 +44,31 @@ void TankModelMS::draw(bool drawS, float angle,
 	if (!init_)
 	{
 		init_ = true;
-		tankMesh_ = TankModelStore::instance()->loadMesh(meshName_.c_str(), false);
-		if (!tankMesh_)
+
+		// Load the ASEFile containing the tank definitions
+		MSFile newFile(meshName_.c_str());
+		if (!newFile.getSuccess())
 		{
-			dialogMessage("Scorched3D", "ERROR: Failed to load mesh \"%s\"",
-				meshName_.c_str());
+			dialogMessage("MS File", "Failed to load MS file \"%s\"", meshName_.c_str());
 			return;
 		}
+
+		// Make sure the tank is not too large
+		const float maxSize = 3.0f;
+		float size = (newFile.getMax() - newFile.getMin()).Magnitude();
+		if (size > maxSize)
+		{
+			const float sfactor = 2.2f / size;
+			newFile.scale(sfactor);
+		}
+
+		// Get the model detail
+		float detail = 
+			float(OptionsDisplay::instance()->getMaxModelTriPercentage()) / 100.0f;
+
+		// Create tank mesh
+		tankMesh_ = new TankMesh(
+			newFile, !OptionsDisplay::instance()->getNoSkins(), detail);
 	}
 
 	if (tankMesh_)

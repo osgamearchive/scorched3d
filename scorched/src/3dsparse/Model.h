@@ -23,6 +23,7 @@
 
 #pragma warning(disable: 4786)
 
+#include <GLEXT/GLVertexArray.h>
 #include <common/Vector.h>
 #include <common/Face.h>
 #include <string>
@@ -36,25 +37,28 @@ public:
 	Model(char *name);
 	virtual ~Model();
 
-	// Returns a list of triangle triplets that can be sent
-	// to glBegin(GL_TRIANGLES);
-	// and a list of normals for each triangle point.
 	// Detail is the LOD for the returned mesh (1.0 = full, 0.0 = none)
-	virtual void getArray(std::list<Vector> &triList, 
-		std::list<Vector> &normalList,
-		float detail = 1.0f);
+	virtual GLVertexArray *getArray(bool useTextures, float detail = 1.0f);
+
+	Vector &getVertex(int pos);
 
 	Vector &getMax() { return max_; }
 	Vector &getMin() { return min_; }
 	Vector &getColor() { return color_; }
 	const char *getName() { return name_.c_str(); }
+	const char *getTextureName() { return texture_.c_str(); }
+
+	std::vector<Vector> &getVertices() { return vertexes_; }
+	std::vector<Face> &getFaces() { return faces_; }
 
 	virtual void centre(Vector &centre);
 	virtual void scale(float scalef);
 
 	// Used by parser
+	virtual void setTextureName(const char *name) { texture_ = name; }
 	virtual void setColor(Vector &color);
 	virtual void setFaceNormal(Vector &normal, int face, int index);
+	virtual void setFaceTCoord(Vector &tcoord, int face, int index);
 	virtual void insertVertex(Vector &newVertex);
 	virtual void insertFace(Face &newFace);
 	
@@ -64,13 +68,22 @@ protected:
 	std::vector<Face> faces_;
 	Vector max_, min_;
 	Vector color_; // Color for meshes with no texture (material)
+	std::string texture_;
+
+	GLVertexArray *getNoTexArray(float detail);
+	GLVertexArray *getTexArray(float detail);
 
 	// All used only for LOD computations
 	bool computedCollapseCosts_; // Has the collapse cost been calculated
 	std::vector<int> map_; // Cached collapsed costs
 	int mapIndex(int pos, float currentReduction); 
-	Vector *getVertex(int pos);
 	void computeCollapseCosts();
+	void formArray(
+		std::list<Vector> &triList, 
+		std::list<Vector> &normalList,
+		std::list<Vector> &texCoordList,
+		float detail);
+
 };
 
 

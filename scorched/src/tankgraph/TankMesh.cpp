@@ -31,27 +31,43 @@
 GLuint TankMesh::sightList_ = 0;
 
 TankMesh::TankMesh(ModelsFile &tank, bool useTextures, float detail) 
-	: gunArray_(0), turretArray_(0), otherArray_(0), turretHeight_(0.0f)
+	: gunArray_(0), turretArray_(0), otherArrays_(0), turretHeight_(0.0f), 
+	otherArraySize_(0), useTextures_(useTextures)
 {
 	createArrays(tank, useTextures, detail);
 }
 
 TankMesh::~TankMesh()
 {
-
+	delete gunArray_;
+	delete turretArray_;
+	if (otherArrays_)
+	{
+		for (int i=0; i<otherArraySize_; i++)
+		{
+			delete otherArrays_[i];
+		}
+		delete [] otherArrays_;
+	}
 }
 
 int TankMesh::getNoTris()
 {
-	return gunArray_->getNoTris() + turretArray_->getNoTris() + 
-		otherArray_->getNoTris();
+	if (!gunArray_ || !turretArray_ || !otherArraySize_) return 0;
+
+	int tris = gunArray_->getNoTris() + turretArray_->getNoTris();
+	for (int i=0; i<otherArraySize_; i++)
+	{
+		tris += otherArrays_[i]->getNoTris();
+	}
+	return  tris;
 }
 
 void TankMesh::createArrays(ModelsFile &aseTank, bool useTextures, float detail)
 {
+	Model *turretModel = 0;
+	Model *gunModel = 0;
 	std::list<Model*> otherModels;
-	std::list<Model*> gunModels;
-	std::list<Model*> turretModels;
 
 	// Find the gun and turret meshes from all of the mesh
 	// parts used to create the tank
@@ -67,11 +83,11 @@ void TankMesh::createArrays(ModelsFile &aseTank, bool useTextures, float detail)
 		{
 			// Find the center that the tank should rotate around
 			turretCenter = ((*itor)->getMax() + (*itor)->getMin()) / 2.0f;
-			turretModels.push_back(*itor);
+			turretModel = *itor;
 		}
 		else if (stricmp(name, "\"Gun\"") == 0)
 		{
-			gunModels.push_back(*itor);
+			gunModel = *itor;
 		}
 		else
 		{
@@ -80,7 +96,7 @@ void TankMesh::createArrays(ModelsFile &aseTank, bool useTextures, float detail)
 	}	
 
 	// Check we have a valid tank model
-	if (gunModels.empty() ||turretModels.empty())
+	if (!gunModel || !turretModel)
 	{
 		dialogMessage("Tank", "ERROR: Failed to find gun and turret from mesh");
 		exit(1);
@@ -108,54 +124,37 @@ void TankMesh::createArrays(ModelsFile &aseTank, bool useTextures, float detail)
 		}
 	}
 
-
 	// Retreive actual vertex arrays from the meshes
-	if (useTextures)
+	otherArrays_ = new GLVertexArray*[otherModels.size()];
+	gunArray_ = gunModel->getArray(useTextures, detail);
+	turretArray_ = turretModel->getArray(useTextures, detail);
+
+	std::list<Model*>::iterator mitor;
+	for (mitor = otherModels.begin();
+		mitor != otherModels.end();
+		mitor++)
 	{
-		// Adjust max, min
-		aseTank.getMax() += oldCenter - newCenter;
-		aseTank.getMin() += oldCenter - newCenter;
-
-		turretArray_ = ModelArrayFact::getTexArray(turretModels, 
-			aseTank.getMax(),
-			aseTank.getMin(),
-			detail);
-		otherArray_ = ModelArrayFact::getTexArray(otherModels, 
-			aseTank.getMax(),
-			aseTank.getMin(),
-			detail);
-
-		// Adjust max, min back
-		aseTank.getMax() -= oldCenter - newCenter;
-		aseTank.getMin() -= oldCenter - newCenter;
-
-		// Adjust max, min for turret
-		aseTank.getMax() += oldCenter - turretCenter;
-		aseTank.getMin() += oldCenter - turretCenter;
-
-		gunArray_ = ModelArrayFact::getTexArray(gunModels, 
-			aseTank.getMax(),
-			aseTank.getMin(),
-			detail);
-	}
-	else
-	{
-		gunArray_ = ModelArrayFact::getArray(gunModels, detail);
-		turretArray_ = ModelArrayFact::getArray(turretModels, detail);
-		otherArray_ = ModelArrayFact::getArray(otherModels, detail);
+		otherArrays_[otherArraySize_++] = (*mitor)->getArray(useTextures, detail);
 	}
 }
 
 void TankMesh::draw(bool drawS, float angle, Vector &position, 
 					float fireOffset, float rotXY, float rotXZ)
 {
+	GLState *texState = 0;
+	if (useTextures_) texState = new GLState(GLState::TEXTURE_ON);
+
 	glPushMatrix();
 		glTranslatef(position[0], position[1], position[2]);
 		glRotatef(angle, 0.0f, 0.0f, 1.0f);
-		otherArray_->draw();
-
+		for (int i=0; i<otherArraySize_; i++)
+		{
+			otherArrays_[i]->draw();
+		}
 		drawGun(drawS, fireOffset, rotXY, rotXZ);
 	glPopMatrix();
+
+	delete texState;
 }
 
 void TankMesh::drawGun(bool drawS, float fireOffSet, float rotXY, float rotXZ)
