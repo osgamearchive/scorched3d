@@ -12,6 +12,17 @@
 		<model type="MilkShape">kenny2.txt</model>
 	</tank>
 	<tank>
+		<name>Death</name>
+		<catagory>Humour</catagory>
+		<model type="MilkShape">death/death.txt</model>
+	</tank>
+	<tank>
+		<name>Photon Cannon</name>
+		<catagory>Future</catagory>
+		<model type="MilkShape">photoncannon/photoncannon.txt</model>
+		<projectilemodel type="MilkShape">flare.txt</projectilemodel>
+	</tank>
+	<tank>
 		<name>battleship turret</name>
 		<catagory>Artillery</catagory>
 		<model type="MilkShape">battleship/battleship.txt</model>
