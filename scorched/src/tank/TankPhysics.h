@@ -18,13 +18,13 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #if !defined(__INCLUDE_TankPhysicsh_INCLUDE__)
 #define __INCLUDE_TankPhysicsh_INCLUDE__
 
 #include <engine/ScorchedCollisionIds.h>
 #include <engine/PhysicsEngine.h>
 #include <coms/NetBuffer.h>
+#include <vector>
 
 class ScorchedContext;
 class TankPhysics
@@ -35,20 +35,24 @@ public:
 
 	// State change
 	void newGame();
-	void nextShot();
+	void clientNewGame();
+	void clientNextShot();
 
 	// Rotation
+	void revertRotation(unsigned int index = 0);
 	float rotateGunXY(float angle, bool diff=true);
 	float rotateGunYZ(float angle, bool diff=true);
 	void rotateTank(float a) { angle_ = a; }
 	float getRotationGunXY() { return turretRotXY_; }
 	float getRotationGunYZ() { return turretRotYZ_; }
-	float getOldRotationGunXY() { return oldTurretRotXY_; }
-	float getOldRotationGunYZ() { return oldTurretRotYZ_; }
+	float getOldRotationGunXY();
+	float getOldRotationGunYZ();
 	float getAngle() { return angle_; }
 
 	// Position
 	void setTankPosition(Vector &pos);
+	std::vector<float> &getOldTurretRotXYs() { return oldTurretRotXYs_; }
+	std::vector<float> &getOldTurretRotYZs() { return oldTurretRotYZs_; }
 	Vector &getVelocityVector();
 	Vector &getTankPosition(); // Position of center bottom of tank
 	Vector &getTankTurretPosition(); // Position of center of turret
@@ -58,8 +62,8 @@ public:
 	const char *getElevationString();
 
 	// Serialize the tank
-    bool writeMessage(NetBuffer &buffer);
-    bool readMessage(NetBufferReader &reader);
+	bool writeMessage(NetBuffer &buffer);
+	bool readMessage(NetBufferReader &reader);
 
 protected:
 	// Position
@@ -67,7 +71,8 @@ protected:
 
 	// Turret angles
 	float turretRotXY_, turretRotYZ_;
-	float oldTurretRotXY_, oldTurretRotYZ_;
+	std::vector<float> oldTurretRotXYs_;
+	std::vector<float> oldTurretRotYZs_;
 	float angle_;
 
 	// Physics engine stuff
@@ -80,5 +85,5 @@ protected:
 
 };
 
-
 #endif
+

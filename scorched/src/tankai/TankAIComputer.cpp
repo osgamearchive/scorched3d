@@ -95,11 +95,6 @@ void TankAIComputer::newGame()
 
 }
 
-void TankAIComputer::nextShot()
-{
-
-}
-
 void TankAIComputer::tankHurt(Weapon *weapon, unsigned int firer)
 {
 	if (currentTank_->getState().getState() == TankState::sDead)

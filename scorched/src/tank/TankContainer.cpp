@@ -106,29 +106,42 @@ Tank *TankContainer::getCurrentTank()
 	return 0;
 }
 
-void TankContainer::nextShot()
-{
-	// Tell each tank a new round is starting
-	std::map<unsigned int, Tank *>::iterator mainitor;
-	for (mainitor = playingTanks_.begin();
-		 mainitor != playingTanks_.end();
-		 mainitor++)
-	{
-		Tank *current = (*mainitor).second;
-		current->nextShot();
-	}
-}
-
 void TankContainer::newGame()
 {
 	// Tell each tank a new game has started
 	std::map<unsigned int, Tank *>::iterator mainitor;
 	for (mainitor = playingTanks_.begin();
-		 mainitor != playingTanks_.end();
-		 mainitor++)
+		mainitor != playingTanks_.end();
+		mainitor++)
 	{
 		Tank *current = (*mainitor).second;
 		current->newGame();
+	}
+}
+
+void TankContainer::clientNextShot()
+{
+	// Tell each tank a new round is starting
+	std::map<unsigned int, Tank *>::iterator mainitor;
+	for (mainitor = playingTanks_.begin();
+		mainitor != playingTanks_.end();
+		mainitor++)
+	{
+		Tank *current = (*mainitor).second;
+		current->clientNextShot();
+	}
+}
+
+void TankContainer::clientNewGame()
+{
+	// Tell each tank a new game has started
+	std::map<unsigned int, Tank *>::iterator mainitor;
+	for (mainitor = playingTanks_.begin();
+		mainitor != playingTanks_.end();
+		mainitor++)
+	{
+		Tank *current = (*mainitor).second;
+		current->clientNewGame();
 	}
 }
 

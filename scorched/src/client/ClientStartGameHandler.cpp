@@ -82,11 +82,15 @@ bool ClientStartGameHandler::processMessage(unsigned int id,
 	ScorchedClient::instance()->getGameState().checkStimulate();
 	if (message.getBuyWeapons())
 	{
-		ScorchedClient::instance()->getGameState().stimulate(ClientState::StimBuyWeapons);
+		ScorchedClient::instance()->getGameState().stimulate(
+			ClientState::StimBuyWeapons);
 	}
 	else
 	{
-		ScorchedClient::instance()->getGameState().stimulate(ClientState::StimPlaying);
+		ScorchedClient::instance()->getTankContainer().
+			getCurrentTank()->clientNextShot();
+		ScorchedClient::instance()->getGameState().stimulate(
+			ClientState::StimPlaying);
 	}
 	return true;
 }

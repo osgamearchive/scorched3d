@@ -25,6 +25,18 @@
 #include <GLW/GLWSelector.h>
 #include <tank/Tank.h>
 
+class TankUndoMenu : public GLWSelectorI
+{
+public:
+	TankUndoMenu(Tank *tank);
+	virtual ~TankUndoMenu();
+
+	void showItems(float x, float y);
+	virtual void itemSelected(GLWSelectorEntry *entry, int position);
+protected:
+	Tank *tank_;
+};
+
 class TankFuelTip : public GLWTip, public GLWSelectorI
 {
 public:
@@ -32,6 +44,7 @@ public:
 	virtual ~TankFuelTip();
 
 	virtual void populate();
+	void showItems(float x, float y);
 	virtual void itemSelected(GLWSelectorEntry *entry, int position);
 protected:
 	Tank *tank_;
@@ -44,6 +57,7 @@ public:
 	virtual ~TankBatteryTip();
 
 	virtual void populate();
+	void showItems(float x, float y);
 	virtual void itemSelected(GLWSelectorEntry *entry, int position);
 protected:
 	Tank *tank_;
@@ -56,6 +70,7 @@ public:
 	virtual ~TankShieldTip();
 
 	virtual void populate();
+	void showItems(float x, float y);
 	virtual void itemSelected(GLWSelectorEntry *entry, int position);
 protected:
 	Tank *tank_;
@@ -79,6 +94,7 @@ public:
 	virtual ~TankParachutesTip();
 
 	virtual void populate();
+	void showItems(float x, float y);
 	virtual void itemSelected(GLWSelectorEntry *entry, int position);
 protected:
 	Tank *tank_;
@@ -90,6 +106,7 @@ public:
 	TankAutoDefenseTip(Tank *tank);
 	virtual ~TankAutoDefenseTip();
 
+	void showItems(float x, float y);
 	virtual void populate();
 protected:
 	Tank *tank_;
@@ -102,6 +119,7 @@ public:
 	virtual ~TankWeaponTip();
 
 	virtual void populate();
+	void showItems(float x, float y);
 	virtual void itemSelected(GLWSelectorEntry *entry, int position);
 protected:
 	Tank *tank_;
@@ -159,6 +177,7 @@ public:
 
 	TankTip tankTip;
 	GLWTip nameTip;
+	TankUndoMenu undoMenu;
 	TankWeaponTip weaponTip;
 	TankPowerTip powerTip;
 	TankRotationTip rotationTip;

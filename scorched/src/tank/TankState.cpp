@@ -26,7 +26,7 @@
 
 TankState::TankState(ScorchedContext &context) : 
 	state_(sPending), life_(100.0f), power_(1000.0f),
-	readyState_(sReady), oldPower_(1000.0f),
+	readyState_(sReady), 
 	context_(context), spectator_(false)
 {
 }
@@ -43,16 +43,21 @@ void TankState::reset()
 	power_ = 1000.0f;
 }
 
-void TankState::nextShot()
-{
-	oldPower_ = power_;
-}
-
 void TankState::newGame()
 {
 	state_ = sDead;
 	life_ = 100.0f;
-	oldPower_ = power_ = 1000.0f;
+	power_ = 1000.0f;
+}
+
+void TankState::clientNewGame()
+{
+	oldPowers_.clear();
+}
+
+void TankState::clientNextShot()
+{
+	oldPowers_.push_back(power_);
 }
 
 void TankState::setLife(float life)
@@ -62,6 +67,20 @@ void TankState::setLife(float life)
 	if (life_ >= 100) life_ = 100;
 	if (life_ <= 0) life_ = 0;
 	if (power_ > life_ * 10.0f) power_ = life_ * 10.0f;
+}
+
+void TankState::revertPower(unsigned int index)
+{
+	if (index < oldPowers_.size())
+	{
+		changePower(oldPowers_[(oldPowers_.size() - 1) - index], false);
+	}
+}
+
+float TankState::getOldPower()
+{
+	if (oldPowers_.empty()) return power_;
+	return oldPowers_.back();
 }
 
 float TankState::changePower(float power, bool diff)
@@ -124,7 +143,6 @@ bool TankState::writeMessage(NetBuffer &buffer)
 	buffer.addToBuffer((int) state_);
 	buffer.addToBuffer(life_);
 	buffer.addToBuffer(power_);
-	buffer.addToBuffer(oldPower_);
 	buffer.addToBuffer(spectator_);
 	return true;
 }
@@ -136,7 +154,7 @@ bool TankState::readMessage(NetBufferReader &reader)
 	state_ = (TankState::State) s;
 	if (!reader.getFromBuffer(life_)) return false;
 	if (!reader.getFromBuffer(power_)) return false;
-	if (!reader.getFromBuffer(oldPower_)) return false;
 	if (!reader.getFromBuffer(spectator_)) return false;
 	return true;
 }
+

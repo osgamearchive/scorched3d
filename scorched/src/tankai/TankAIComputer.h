@@ -39,7 +39,6 @@ public:
 
 	// Inherited from TankAI
 	virtual void newGame();
-	virtual void nextShot();
 	virtual bool parseConfig(XMLNode *node);
 	virtual const char *getName() { return name_.c_str(); }
 	virtual void tankHurt(Weapon *weapon, unsigned int firer);

@@ -23,6 +23,51 @@
 #include <weapons/Weapon.h>
 #include <landscape/Landscape.h>
 #include <client/ScorchedClient.h>
+#include <client/ClientState.h>
+#include <common/Defines.h>
+
+TankUndoMenu::TankUndoMenu(Tank *tank) :
+	tank_(tank)
+{
+}
+
+TankUndoMenu::~TankUndoMenu()
+{
+}
+
+void TankUndoMenu::showItems(float x, float y)
+{
+	static GLWTip useTip("Undo", 
+		"Reverts back to the selected rotation,\n"
+		"elevtaion and power.\n");
+
+	std::list<GLWSelectorEntry> entries;
+	std::vector<float> &oldPower =
+		tank_->getState().getOldPowers();
+	std::vector<float> &oldRotXY =
+		tank_->getPhysics().getOldTurretRotXYs();
+	std::vector<float> &oldRotYZ =
+		tank_->getPhysics().getOldTurretRotYZs();
+	for (int i=0; i<MIN(oldRotYZ.size(), MIN(oldRotXY.size(), oldPower.size())); i++)
+	{
+		char buffer[128];
+		sprintf(buffer, "Rot:%.1f Ele:%.1f Pwr:%.1f",
+			(360.0f - oldRotXY[i]), oldRotYZ[i], oldPower[i]);
+		entries.push_back(
+			GLWSelectorEntry(buffer, &useTip, 0, 0, (void *) 
+				((unsigned int) (oldPower.size() - 1 - i))));
+	}
+
+	GLWSelector::instance()->showSelector(
+		this, x, y, entries,
+		ClientState::StatePlaying);
+}
+
+void TankUndoMenu::itemSelected(GLWSelectorEntry *entry, int position)
+{
+	tank_->getState().revertPower((unsigned int) entry->getUserData());
+	tank_->getPhysics().revertRotation((unsigned int) entry->getUserData());
+}
 
 TankFuelTip::TankFuelTip(Tank *tank) : 
 	tank_(tank)
@@ -39,6 +84,25 @@ void TankFuelTip::populate()
 		"Allows the tank to move.\n"
 		"Fuel : %i",
 		tank_->getAccessories().getFuel().getNoFuel());
+}
+
+void TankFuelTip::showItems(float x, float y)
+{
+	static GLWTip useTip("Fuel", 
+		"Swicth movement mode on.\n"
+		"In this mode left clicking on the light areas\n"
+		"of the landscape will move the tank there.");
+	static GLWTip offTip("Fuel Cancel", 
+		"Switch back to the normal camera mode.");
+	
+	std::list<GLWSelectorEntry> entries;
+	if (tank_->getAccessories().getFuel().getNoFuel() > 0)
+	{
+		entries.push_back(GLWSelectorEntry("Move", &useTip, 0, 0, (void *) 1));
+	}
+	entries.push_back(GLWSelectorEntry("Cancel", &offTip, 0, 0, (void *) 0));
+	GLWSelector::instance()->showSelector(this, x, y, entries,
+		ClientState::StatePlaying);		
 }
 
 void TankFuelTip::itemSelected(GLWSelectorEntry *entry, int position)
@@ -81,6 +145,25 @@ void TankBatteryTip::populate()
 		tank_->getAccessories().getBatteries().getNoBatteries());
 }
 
+void TankBatteryTip::showItems(float x, float y)
+{
+	static GLWTip useTip("Battery", 
+		"Use some batteries");
+	static GLWTip offTip("Battery Cancel", 
+		"Don't use any batteries");
+	
+	std::list<GLWSelectorEntry> entries;
+	for (int i=1; i<=tank_->getAccessories().getBatteries().getNoBatteries(); i++)
+	{
+		char buffer[128];
+		sprintf(buffer, "Use %i", i);
+		entries.push_back(GLWSelectorEntry(buffer, &useTip, 0, 0, (void *) i));
+	}
+	entries.push_back(GLWSelectorEntry("Cancel", &offTip, 0, 0, (void *) 0));
+	GLWSelector::instance()->showSelector(this, x, y, entries,
+		ClientState::StatePlaying);		
+}
+
 void TankBatteryTip::itemSelected(GLWSelectorEntry *entry, int position)
 {
 	TankAIHuman *tankAI = (TankAIHuman *) tank_->getTankAI();
@@ -100,6 +183,32 @@ TankShieldTip::TankShieldTip(Tank *tank) :
 
 TankShieldTip::~TankShieldTip()
 {
+}
+
+void TankShieldTip::showItems(float x, float y)
+{
+	static GLWTip offTip("Sheild Off", 
+		"Don't select a shield or\n"
+		"turn off any current shield");
+
+	std::list<GLWSelectorEntry> entries;
+	std::map<Shield*, int> &shields = 
+		tank_->getAccessories().getShields().getAllShields();
+	std::map<Shield*, int>::iterator itor;
+	for (itor = shields.begin();
+		itor != shields.end();
+		itor++)
+	{
+		char buffer[128];
+		sprintf(buffer, "%s (%i)", 
+			(*itor).first->getName(),
+			(*itor).second);
+		entries.push_back(GLWSelectorEntry(buffer, &(*itor).first->getToolTip(), 
+			0, 0, (*itor).first));
+	}
+	entries.push_back(GLWSelectorEntry("Off", &offTip, 0, 0, 0));
+	GLWSelector::instance()->showSelector(this, x, y, entries,
+		ClientState::StatePlaying);
 }
 
 void TankShieldTip::populate()
@@ -175,6 +284,26 @@ void TankParachutesTip::populate()
 		"On":"Off"));
 }
 
+void TankParachutesTip::showItems(float x, float y)
+{
+	static GLWTip useTip("Parachutes On", 
+		"Enable parachutes.");
+	static GLWTip offTip("Parachutes Off", 
+		"Disable parachutes.");
+	
+	std::list<GLWSelectorEntry> entries;
+	if (tank_->getAccessories().getParachutes().getNoParachutes() > 0)
+	{
+		char buffer[128];
+		sprintf(buffer, "On (%i)", 
+			tank_->getAccessories().getParachutes().getNoParachutes());
+		entries.push_back(GLWSelectorEntry(buffer, &useTip, 0, 0, (void *) 1));
+	}
+	entries.push_back(GLWSelectorEntry("Off", &offTip, 0, 0, (void *) 0));
+	GLWSelector::instance()->showSelector(this, x, y, entries,
+		ClientState::StatePlaying);
+}
+
 void TankParachutesTip::itemSelected(GLWSelectorEntry *entry, int position)
 {
 	TankAIHuman *tankAI = (TankAIHuman *) tank_->getTankAI();
@@ -199,6 +328,21 @@ void TankAutoDefenseTip::populate()
 		"Status : %s",
 		(tank_->getAccessories().getAutoDefense().haveDefense()?
 		"On":"Off (Not Bought)"));
+}
+
+void TankAutoDefenseTip::showItems(float x, float y)
+{
+	static GLWTip useTip("Auto Defense On", 
+		"Enable the auto defense.");
+	static GLWTip offTip("Auto Defense Off", 
+		"Disable the auto defense.");
+	
+	std::list<GLWSelectorEntry> entries;
+	if (tank_->getAccessories().getAutoDefense().haveDefense()) 
+		entries.push_back(GLWSelectorEntry("On", &useTip));
+	else entries.push_back(GLWSelectorEntry("Off", &offTip));
+	GLWSelector::instance()->showSelector(0, x, y, entries,
+		ClientState::StatePlaying);
 }
 
 TankWeaponTip::TankWeaponTip(Tank *tank) : 
@@ -233,6 +377,35 @@ void TankWeaponTip::populate()
 			tank_->getAccessories().getWeapons().getCurrent()->getName(),
 			tank_->getAccessories().getWeapons().getCurrent()->getDescription());
 	}
+}
+
+void TankWeaponTip::showItems(float x, float y)
+{
+	std::list<GLWSelectorEntry> entries;
+	std::map<Weapon *, int> &weapons = 
+		tank_->getAccessories().getWeapons().getAllWeapons();
+	std::map<Weapon *, int>::iterator itor;
+	for (itor = weapons.begin();
+		itor != weapons.end();
+		itor++)
+	{
+		char buffer[128];
+		if ((*itor).second > 0)
+		{
+			sprintf(buffer, "%s (%i)", 
+				(*itor).first->getName(),
+				(*itor).second);
+		}
+		else
+		{
+			sprintf(buffer, "%s (Inf)", 
+				(*itor).first->getName());
+		}
+		entries.push_back(GLWSelectorEntry(buffer, &(*itor).first->getToolTip(), 
+			0, (*itor).first->getTexture(), (*itor).first));
+	}
+	GLWSelector::instance()->showSelector(this, x, y, entries,
+		ClientState::StatePlaying);
 }
 
 void TankWeaponTip::itemSelected(GLWSelectorEntry *entry, int position)
@@ -330,6 +503,7 @@ void TankTip::populate()
 
 GLWTankTips::GLWTankTips(Tank *tank) : 
 	tankTip(tank),
+	undoMenu(tank),
 	rotationTip(tank),
 	elevationTip(tank),
 	powerTip(tank),
@@ -349,3 +523,4 @@ GLWTankTips::GLWTankTips(Tank *tank) :
 GLWTankTips::~GLWTankTips()
 {
 }
+

@@ -18,11 +18,11 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #if !defined(__INCLUDE_TankStateh_INCLUDE__)
 #define __INCLUDE_TankStateh_INCLUDE__
 
 #include <coms/NetBuffer.h>
+#include <vector>
 
 class ScorchedContext;
 class TankState
@@ -45,8 +45,9 @@ public:
 	virtual ~TankState();
 
 	// State
-	void nextShot();
 	void newGame();
+	void clientNewGame();
+	void clientNextShot();
 	void reset();
 	void setReady() { readyState_ = sReady; }
 	void setNotReady() { readyState_ = SNotReady; }
@@ -62,8 +63,10 @@ public:
 
 	// Power of gun
 	float getPower() { return power_; }
-	float getOldPower() { return oldPower_; }
+	std::vector<float> &getOldPowers() { return oldPowers_; }
+	float getOldPower();
 	float changePower(float power, bool diff=true);
+	void revertPower(unsigned int index = 0);
 
 	void setSpectator(bool s) { spectator_ = s; }
 	bool getSpectator() { return spectator_; }
@@ -71,18 +74,19 @@ public:
 	const char *getPowerString();
 
 	// Serialize the tank
-    bool writeMessage(NetBuffer &buffer);
-    bool readMessage(NetBufferReader &reader);
+	bool writeMessage(NetBuffer &buffer);
+	bool readMessage(NetBufferReader &reader);
 
 protected:
+	std::vector<float> oldPowers_;
 	ScorchedContext &context_;
 	State state_;
 	ReadyState readyState_;
 	float life_;
-	float power_, oldPower_;
+	float power_;
 	bool spectator_;
 
 };
 
-
 #endif
+

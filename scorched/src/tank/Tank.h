@@ -43,7 +43,8 @@ public:
 	// Called when the state changes
 	void reset();
 	void newGame();
-	void nextShot();
+	void clientNewGame();
+	void clientNextShot();
 
 	// Serialize the tank
 	bool writeMessage(NetBuffer &buffer);

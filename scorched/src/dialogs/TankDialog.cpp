@@ -321,39 +321,15 @@ void TankDialog::mouseDown(float x, float y, bool &skipRest)
 		// Autodefense
 		if (inBox(x, y, x_- 21.0f, y_ + 108.0f, 50.0f, 18.0f))
 		{
-			static GLWTip useTip("Auto Defense On", 
-				"Enable the auto defense.");
-			static GLWTip offTip("Auto Defense Off", 
-				"Disable the auto defense.");
-
 			skipRest = true;
-			std::list<GLWSelectorEntry> entries;
-			if (current->getAccessories().getAutoDefense().haveDefense()) 
-				entries.push_back(GLWSelectorEntry("On", &useTip));
-			else entries.push_back(GLWSelectorEntry("Off", &offTip));
-			GLWSelector::instance()->showSelector(0, x, y, entries,
-				ClientState::StatePlaying);
+			tankTips->autodTip.showItems(x, y);
+
 		}
 		// Parachutes
 		else if (inBox(x, y, x_- 41.0f, y_ + 85.0f, 50.0f, 18.0f))
 		{
-			static GLWTip useTip("Parachutes On", 
-				"Enable parachutes.");
-			static GLWTip offTip("Parachutes Off", 
-				"Disable parachutes.");
-
 			skipRest = true;
-			std::list<GLWSelectorEntry> entries;
-			if (current->getAccessories().getParachutes().getNoParachutes() > 0)
-			{
-				char buffer[128];
-				sprintf(buffer, "On (%i)", 
-					current->getAccessories().getParachutes().getNoParachutes());
-				entries.push_back(GLWSelectorEntry(buffer, &useTip, 0, 0, (void *) 1));
-			}
-			entries.push_back(GLWSelectorEntry("Off", &offTip, 0, 0, (void *) 0));
-			GLWSelector::instance()->showSelector(&tankTips->paraTip, x, y, entries,
-				ClientState::StatePlaying);
+			tankTips->paraTip.showItems(x, y);
 		}
 		// Health
 		else if (inBox(x, y, x_- 49.0f, y_ + 62.0f, 50.0f, 18.0f))
@@ -363,69 +339,20 @@ void TankDialog::mouseDown(float x, float y, bool &skipRest)
 		// Shield
 		else if (inBox(x, y, x_- 49.0f, y_ + 39.0f, 50.0f, 18.0f))
 		{
-			static GLWTip offTip("Sheild Off", 
-				"Don't select a shield or\n"
-				"turn off any current shield");
-
+			tankTips->shieldTip.showItems(x, y);
 			skipRest = true;
-			std::list<GLWSelectorEntry> entries;
-			std::map<Shield*, int> &shields = 
-				current->getAccessories().getShields().getAllShields();
-			std::map<Shield*, int>::iterator itor;
-			for (itor = shields.begin();
-				itor != shields.end();
-				itor++)
-			{
-				char buffer[128];
-				sprintf(buffer, "%s (%i)", 
-					(*itor).first->getName(),
-					(*itor).second);
-				entries.push_back(GLWSelectorEntry(buffer, &(*itor).first->getToolTip(), 
-					0, 0, (*itor).first));
-			}
-			entries.push_back(GLWSelectorEntry("Off", &offTip, 0, 0, 0));
-			GLWSelector::instance()->showSelector(&tankTips->shieldTip, x, y, entries,
-				ClientState::StatePlaying);
 		}
 		// Batteries
 		else if (inBox(x, y, x_- 41.0f, y_ + 16.0f, 50.0f, 18.0f))
 		{
-			static GLWTip useTip("Battery", 
-				"Use some batteries");
-			static GLWTip offTip("Battery Cancel", 
-				"Don't use any batteries");
-
+			tankTips->batteryTip.showItems(x, y);
 			skipRest = true;
-			std::list<GLWSelectorEntry> entries;
-			for (int i=1; i<=current->getAccessories().getBatteries().getNoBatteries(); i++)
-			{
-				char buffer[128];
-				sprintf(buffer, "Use %i", i);
-				entries.push_back(GLWSelectorEntry(buffer, &useTip, 0, 0, (void *) i));
-			}
-			entries.push_back(GLWSelectorEntry("Cancel", &offTip, 0, 0, (void *) 0));
-			GLWSelector::instance()->showSelector(&tankTips->batteryTip, x, y, entries,
-				ClientState::StatePlaying);		
 		}
 		// Fuel
 		else if (inBox(x, y, x_- 21.0f, y_ - 7.0f, 50.0f, 18.0f))
 		{
-			static GLWTip useTip("Fuel", 
-				"Swicth movement mode on.\n"
-				"In this mode left clicking on the light areas\n"
-				"of the landscape will move the tank there.");
-			static GLWTip offTip("Fuel Cancel", 
-				"Switch back to the normal camera mode.");
-
+			tankTips->fuelTip.showItems(x, y);
 			skipRest = true;
-			std::list<GLWSelectorEntry> entries;
-			if (current->getAccessories().getFuel().getNoFuel() > 0)
-			{
-				entries.push_back(GLWSelectorEntry("Move", &useTip, 0, 0, (void *) 1));
-			}
-			entries.push_back(GLWSelectorEntry("Cancel", &offTip, 0, 0, (void *) 0));
-			GLWSelector::instance()->showSelector(&tankTips->fuelTip, x, y, entries,
-				ClientState::StatePlaying);		
 		}
 		else GLWWindow::mouseDown(x, y, skipRest);
 	}

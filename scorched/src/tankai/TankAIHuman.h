@@ -36,7 +36,6 @@ public:
 		float frameTime, char *buffer, unsigned int keyState);
 	virtual void endPlayMove();
 	virtual void newGame();
-	virtual void nextShot();
 	virtual void tankHurt(Weapon *weapon, unsigned int firer);
 	virtual void shotLanded(Weapon *weapon, unsigned int firer, 
 		Vector &position);

@@ -44,10 +44,6 @@ void TankAIHuman::newGame()
 {
 }
 
-void TankAIHuman::nextShot()
-{
-}
-
 void TankAIHuman::tankHurt(Weapon *weapon, unsigned int firer)
 {
 }
@@ -95,12 +91,8 @@ void TankAIHuman::playMove(const unsigned state,
 	KEYBOARDKEY("UNDO_MOVE", undoKey);
 	if (undoKey->keyDown(buffer, keyState, false))
 	{
-		currentTank_->getPhysics().rotateGunXY(
-			currentTank_->getPhysics().getOldRotationGunXY(), false);
-		currentTank_->getPhysics().rotateGunYZ(
-			currentTank_->getPhysics().getOldRotationGunYZ(), false);
-		currentTank_->getState().changePower(
-			currentTank_->getState().getOldPower(), false);
+		currentTank_->getPhysics().revertRotation();
+		currentTank_->getState().revertPower();
 	}
 
 	KEYBOARDKEY("CHANGE_UP_WEAPON", weaponUpKey);

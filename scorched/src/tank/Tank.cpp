@@ -63,11 +63,16 @@ void Tank::newGame()
 	if (tankAI_) tankAI_->newGame();
 }
 
-void Tank::nextShot()
+void Tank::clientNewGame()
 {
-	physics_.nextShot();
-	state_.nextShot();
-	if (tankAI_) tankAI_->nextShot();
+	physics_.clientNewGame();
+	state_.clientNewGame();
+}
+
+void Tank::clientNextShot()
+{
+	physics_.clientNextShot();
+	state_.clientNextShot();
 }
 
 Vector &Tank::getColor()

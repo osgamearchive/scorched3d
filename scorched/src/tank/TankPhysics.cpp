@@ -29,7 +29,6 @@ TankPhysics::TankPhysics(ScorchedContext &context, unsigned int playerId) :
 	shieldSmallInfo_(CollisionIdShieldSmall),
 	shieldLargeInfo_(CollisionIdShieldLarge),
 	turretRotXY_(0.0f), turretRotYZ_(0.0f),
-	oldTurretRotXY_(0.0f), oldTurretRotYZ_(0.0f),
 	angle_(0.0f)
 {
 	// The tank collision object
@@ -58,15 +57,21 @@ TankPhysics::~TankPhysics()
 
 void TankPhysics::newGame()
 {
-	oldTurretRotXY_ = turretRotXY_ = RAND * 360;
-	oldTurretRotYZ_ = turretRotYZ_ = RAND * 90;
+	turretRotXY_ = RAND * 360;
+	turretRotYZ_ = RAND * 90;
 }
 
-void TankPhysics::nextShot()
+void TankPhysics::clientNewGame()
+{
+	oldTurretRotXYs_.clear();
+	oldTurretRotYZs_.clear();
+}
+
+void TankPhysics::clientNextShot()
 {
 	angle_ = 0.0f;
-	oldTurretRotXY_ = turretRotXY_;
-	oldTurretRotYZ_ = turretRotYZ_;
+	oldTurretRotXYs_.push_back(turretRotXY_);
+	oldTurretRotYZs_.push_back(turretRotYZ_);
 }
 
 void TankPhysics::setTankPosition(Vector &pos)
@@ -75,6 +80,28 @@ void TankPhysics::setTankPosition(Vector &pos)
 	dGeomSetPosition(tankGeom_, pos[0], pos[1], pos[2]);
 	dGeomSetPosition(shieldSmallGeom_, pos[0], pos[1], pos[2]);
 	dGeomSetPosition(shieldLargeGeom_, pos[0], pos[1], pos[2]);
+}
+
+float TankPhysics::getOldRotationGunXY()
+{
+	if (oldTurretRotXYs_.empty()) return turretRotXY_;
+	return oldTurretRotXYs_.back();
+}
+
+float TankPhysics::getOldRotationGunYZ()
+{
+	if (oldTurretRotYZs_.empty()) return turretRotYZ_;
+	return oldTurretRotYZs_.back();
+}
+
+void TankPhysics::revertRotation(unsigned int index)
+{
+	if (index < oldTurretRotXYs_.size() &&
+		index < oldTurretRotYZs_.size())
+	{
+		rotateGunXY(oldTurretRotXYs_[(oldTurretRotXYs_.size() - 1) - index], false);
+		rotateGunYZ(oldTurretRotYZs_[(oldTurretRotYZs_.size() - 1) - index], false);
+	}
 }
 
 Vector &TankPhysics::getTankGunPosition()
@@ -183,8 +210,6 @@ bool TankPhysics::writeMessage(NetBuffer &buffer)
 	buffer.addToBuffer(position_[2]);
 	buffer.addToBuffer(turretRotXY_);
 	buffer.addToBuffer(turretRotYZ_);
-	buffer.addToBuffer(oldTurretRotXY_);
-	buffer.addToBuffer(oldTurretRotYZ_);
 	return true;
 }
 
@@ -197,7 +222,6 @@ bool TankPhysics::readMessage(NetBufferReader &reader)
 	setTankPosition(pos);
 	if (!reader.getFromBuffer(turretRotXY_)) return false;
 	if (!reader.getFromBuffer(turretRotYZ_)) return false;
-	if (!reader.getFromBuffer(oldTurretRotXY_)) return false;
-	if (!reader.getFromBuffer(oldTurretRotYZ_)) return false;
 	return true;
 }
+

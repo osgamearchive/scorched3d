@@ -43,7 +43,10 @@ Added: Action camera does not jump around so much (it stays with the best action
 Added: Camera and window menu items get tool tips
 Added: Free market economy
 Added: Window and font sizes can be set seperately from screen resolution
+Added: Can choose to revert back to any previous shot setting made in the round
 
+Fixed: Files installed with correct permissions on Unix
+Fixed: Most Radeon 9000 series card problems
 Fixed: Can quit game during player choice (single player)
 Fixed: Linux server exiting due to "broken pipe"
 Fixed: SG characters being printed during init stages

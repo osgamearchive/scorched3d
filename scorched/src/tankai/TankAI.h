@@ -46,7 +46,6 @@ public:
 		float frameTime, char *buffer, unsigned int keyState) = 0;
 	virtual void endPlayMove();
 	virtual void newGame() = 0;
-	virtual void nextShot() = 0;
 
 	// Information about shots landing
 	//
