@@ -28,6 +28,7 @@
 #include <common/OptionsParam.h>
 #include <common/Defines.h>
 #include <common/Logger.h>
+#include <common/StatsLogger.h>
 
 REGISTER_ACTION_SOURCE(TankDead);
 
@@ -62,9 +63,9 @@ void TankDead::simulate(float frameTime, bool &remove)
 		Tank *firedTank = 
 			context_->tankContainer.getTankById(firedPlayerId_);
 
-		if (killedTank && 
-			killedTank->getState().getState() == TankState::sNormal)
+		if (killedTank)
 		{
+			// Point the action camera at this event
 			if (context_->serverMode)
 			{
 				const float ShowTime = 5.0f;
@@ -85,6 +86,8 @@ void TankDead::simulate(float frameTime, bool &remove)
 				{
 					if (killedPlayerId_ == firedPlayerId_)
 					{
+						StatsLogger::instance()->
+							tankSelfKilled(firedTank, weapon_);
 						Logger::log(firedPlayerId_,
 							"\"%s\" killed self with a \"%s\"",
 							killedTank->getName(),
@@ -93,6 +96,8 @@ void TankDead::simulate(float frameTime, bool &remove)
 					else if ((context_->optionsGame.getTeams() > 1) &&
 							(firedTank->getTeam() == killedTank->getTeam())) 
 					{
+						StatsLogger::instance()->
+							tankTeamKilled(firedTank, killedTank, weapon_);
 						Logger::log(firedPlayerId_,
 								"\"%s\" team killed \"%s\" with a \"%s\"",
 								firedTank->getName(),
@@ -101,6 +106,8 @@ void TankDead::simulate(float frameTime, bool &remove)
 					}
 					else
 					{
+						StatsLogger::instance()->
+							tankKilled(firedTank, killedTank, weapon_);
 						Logger::log(firedPlayerId_,
 								"\"%s\" killed \"%s\" with a \"%s\"",
 								firedTank->getName(),
@@ -116,13 +123,6 @@ void TankDead::simulate(float frameTime, bool &remove)
 					new TankDeadRenderer(
 						weapon_, killedPlayerId_, firedPlayerId_));
 			}
-
-			// The tank is now dead
-			killedTank->getState().setState(TankState::sDead);
-			
-			// Inform the tank it is dead
-			TankAI *ai = killedTank->getTankAI();
-			if (ai) ai->tankHurt(weapon_, firedPlayerId_);
 
 			// Add the tank death explosion
 			// Make the tank explode in one of many ways

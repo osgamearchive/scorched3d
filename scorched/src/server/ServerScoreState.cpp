@@ -57,7 +57,7 @@ void ServerScoreState::enterState(const unsigned state)
 		std::list<Tank *>::iterator scoreitor = sortedTanks.begin();
 		serverLog((*scoreitor)->getPlayerId(), "\"%s\" is the overall winner!", (*scoreitor)->getName());
 		sendStringMessage(0, "\"%s\" is the overall winner!", (*scoreitor)->getName());
-		StatsLogger::instance()->tankWon((*scoreitor));
+		StatsLogger::instance()->tankOverallWinner((*scoreitor));
 	}
 	else
 	{

@@ -24,7 +24,6 @@
 #include <actions/TankScored.h>
 #include <actions/CameraPositionAction.h>
 #include <engine/ScorchedContext.h>
-#include <common/StatsLogger.h>
 
 REGISTER_ACTION_SOURCE(TankDamage);
 
@@ -62,6 +61,7 @@ void TankDamage::simulate(float frameTime, bool &remove)
 		{
 			if (damagedTank->getState().getState() == TankState::sNormal)
 			{
+				// Point the action camera at this action
 				if (context_->serverMode && damage_ > 0.0f)
 				{
 					const float ShowTime = 4.0f;
@@ -115,6 +115,9 @@ void TankDamage::simulate(float frameTime, bool &remove)
 						TankDead *deadTank = 
 							new TankDead(weapon_, damagedPlayerId_, firedPlayerId_);
 						context_->actionController.addAction(deadTank);
+
+						// The tank is now dead
+						damagedTank->getState().setState(TankState::sDead);
 						killedTank = true;
 					}
 
@@ -158,23 +161,6 @@ void TankDamage::simulate(float frameTime, bool &remove)
 								0);
 							context_->actionController.addAction(scored);
 						}
-
-						if (killedTank)
-						{
-							if (damagedPlayerId_ ==  firedPlayerId_) 
-							{
-								StatsLogger::instance()->tankSelfKilled(firedTank, weapon_);
-							}
-							else if ((context_->optionsGame.getTeams() > 1) &&
-								(firedTank->getTeam() == damagedTank->getTeam()))
-							{
-								StatsLogger::instance()->tankTeamKilled(firedTank, damagedTank, weapon_);
-							}
-							else
-							{
-								StatsLogger::instance()->tankKilled(firedTank, damagedTank, weapon_);
-							}
-						}
 					}
 				}
 
@@ -182,21 +168,25 @@ void TankDamage::simulate(float frameTime, bool &remove)
 				TankAI *ai = damagedTank->getTankAI();
 				if (ai) ai->tankHurt(weapon_, firedPlayerId_);
 
-				// The tank is not dead check if it needs to fall
-				Vector &position = damagedTank->getPhysics().getTankPosition();
-				if (context_->landscapeMaps.getHMap().
-					getInterpHeight(position[0], position[1]) < position[2])
+				// Check if the tank needs to fall
+				if (damagedTank->getState().getState() != TankState::sDead)
 				{
-					// Check this tank is not already falling
-					std::set<unsigned int>::iterator findItor =
-						TankFalling::fallingTanks.find(damagedPlayerId_);
-					if (findItor == TankFalling::fallingTanks.end())
+					// The tank is not dead check if it needs to fall
+					Vector &position = damagedTank->getPhysics().getTankPosition();
+					if (context_->landscapeMaps.getHMap().
+						getInterpHeight(position[0], position[1]) < position[2])
 					{
-						TankFalling::fallingTanks.insert(damagedPlayerId_);
-
-						// Tank falling
-						context_->actionController.addAction(
-							new TankFalling(weapon_, damagedPlayerId_, firedPlayerId_));
+						// Check this tank is not already falling
+						std::set<unsigned int>::iterator findItor =
+							TankFalling::fallingTanks.find(damagedPlayerId_);
+						if (findItor == TankFalling::fallingTanks.end())
+						{
+							TankFalling::fallingTanks.insert(damagedPlayerId_);
+							
+							// Tank falling
+							context_->actionController.addAction(
+								new TankFalling(weapon_, damagedPlayerId_, firedPlayerId_));
+						}
 					}
 				}
 			}
