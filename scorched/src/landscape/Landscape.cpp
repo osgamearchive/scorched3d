@@ -189,6 +189,7 @@ void Landscape::draw(const unsigned state)
 	hMapSurround_.draw();
 	cloudTexture_.draw();
 	surround_.draw();
+	//wWaves_.draw();
 	if (OptionsDisplay::instance()->getDrawWater())
 	{
 		glColor3fv(ScorchedClient::instance()->getOptionsTransient().getWallColor());
@@ -347,6 +348,8 @@ void Landscape::generate(ProgressCounter *counter)
 		waterNormalMap->create(bitmapWater, GL_RGB, false);
 		waterTexture_ = waterNormalMap;
 	}
+
+	wWaves_.generateWaves(counter);
 	
 	// Ensure that all components use new landscape
 	reset();

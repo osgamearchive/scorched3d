@@ -90,6 +90,8 @@ OptionsDisplay::OptionsDisplay() :
 		"Do not use the sound.", RWAccess, false),
 	noTrees_(options_, "NoTrees",
 		"Do not draw the trees", RWAccess, true),
+	noDepthSorting_(options_, "NoDepthSorting",
+		"Do not sort sprites, can cause graphic artifacts", RWAccess, false),
 	drawLines_(options_, "DrawLines", 
 		"Do not fill in the landscape", RWAccess, false),
 	drawNormals_(options_, "DrawNormals", 

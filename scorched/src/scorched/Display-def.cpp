@@ -32,6 +32,7 @@ static wxCheckBox *IDC_INVERT_CTRL = 0;
 static wxCheckBox *IDC_TIMER_CTRL = 0;
 static wxCheckBox *IDC_NODETAILTEX_CTRL = 0;
 static wxCheckBox *IDC_NOLANDSCAPESCORCH_CTRL = 0;
+static wxCheckBox *IDC_NODEPTHSORT_CTRL = 0;
 static wxRadioButton *IDC_SMALLTEX_CTRL = 0;
 static wxRadioButton *IDC_MEDIUMTEX_CTRL = 0;
 static wxRadioButton *IDC_LARGETEX_CTRL = 0;

@@ -325,15 +325,27 @@ void WaterMap::drawWater()
 
 					float otherHeight = otherEntry->height + height_;
 					float height = currentEntry->height + height_;
+
+					// Make the heights at the side of water
+					// The actual side height
 					if (i==0 || i==width_-1)
 					{
 						otherHeight = height_;
 						height = height_;
 					}
 					if (j==0) height = height_;
-					if (j==width_ -2) otherHeight = height_;
+					else if (j==width_ -2) otherHeight = height_;
 
+					if (otherEntry->depth < 0.2f) 
+					{
+						otherHeight = height_;
+					}
+					if (currentEntry->depth < 0.2f)
+					{
+						height = height_;
+					}
 
+					// Make the shallows a lighter color
 					float otherColor = 0.7f;
 					float otherAlpha = 0.9f;
 					if (otherEntry->depth < 1.0f)
@@ -343,7 +355,9 @@ void WaterMap::drawWater()
 					}
 					glColor4f(otherColor, otherColor, otherColor, otherAlpha);
 
+					// Set the normal
 					glNormal3f(otherEntry->normal[0], otherEntry->normal[1], otherEntry->normal[2]);
+					// Set tex coord
 					if (GLStateExtension::glMultiTextCoord2fARB()) 
 					{
 						GLStateExtension::glMultiTextCoord2fARB()
@@ -354,8 +368,10 @@ void WaterMap::drawWater()
 								(GL_TEXTURE2_ARB, otherEntry->texX * 16.0f, otherEntry->texY * 16.0f); 
 						}
 					}
+					// Draw pt
 					glVertex3f(pointX, pointY + widthMult_, otherHeight);
 
+					// Make the shallows a lighter color
 					float currentColor = 0.7f;
 					float currentAlpha = 0.9f;
 					if (currentEntry->depth < 1.0f)
@@ -365,7 +381,9 @@ void WaterMap::drawWater()
 					}
 					glColor4f(currentColor, currentColor, currentColor, currentAlpha);
 
+					// Set the normal
 					glNormal3f(currentEntry->normal[0], currentEntry->normal[1], currentEntry->normal[2]);
+					// Set tex coord
 					if (GLStateExtension::glMultiTextCoord2fARB()) 
 					{
 						GLStateExtension::glMultiTextCoord2fARB()
@@ -376,6 +394,7 @@ void WaterMap::drawWater()
 								(GL_TEXTURE2_ARB, currentEntry->texX * 16.0f, currentEntry->texY * 16.0f); 
 						}
 					}
+					// Draw pt
 					glVertex3f(pointX, pointY, height);
 				}
 

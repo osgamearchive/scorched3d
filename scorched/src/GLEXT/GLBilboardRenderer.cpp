@@ -91,6 +91,7 @@ void GLBilboardRenderer::drawItem(float distance, GLOrderedItemRenderer::Ordered
 {
 	GLBilboardRenderer::GLBilboardOrderedEntry &entry =
 		(GLBilboardRenderer::GLBilboardOrderedEntry &) oentry;
+	if (!entry.texture) return;
 
 	totalBilboards_++;
 	if (entry.texture != GLTexture::getLastBind())

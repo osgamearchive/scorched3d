@@ -23,6 +23,7 @@
 #include <3dsparse/MSFile.h>
 #include <GLEXT/GLVertexSetGroup.h>
 #include <GLEXT/GLBitmap.h>
+#include <GLEXT/GLCameraFrustum.h>
 #include <common/Defines.h>
 #include <common/OptionsDisplay.h>
 #include <client/ScorchedClient.h>
@@ -62,19 +63,24 @@ void LandscapeObjects::drawItem(float distance, GLOrderedItemRenderer::OrderedEn
 	LandscapeObjects::LandscapeObjectOrderedEntry &entry = 
 		(LandscapeObjects::LandscapeObjectOrderedEntry &) oentry;
 
-	// Draw Trees
-	glDepthMask(GL_TRUE);
-	glPushMatrix();
-		glTranslatef(entry.posX, entry.posY, entry.posZ);
-		vertexSet_->draw();
-	glPopMatrix();
-	glDepthMask(GL_FALSE);
+	static Vector point;
+	point[0] = entry.posX;
+	point[1] = entry.posY;
+	point[2] = entry.posZ;
+	if (GLCameraFrustum::instance()->pointInFrustum(point))
+	{
+		// Draw Trees
+		glDepthMask(GL_TRUE);
+		glPushMatrix();
+			glTranslatef(entry.posX, entry.posY, entry.posZ);
+			vertexSet_->draw();
+		glPopMatrix();
+		glDepthMask(GL_FALSE);
+	}
 }
 
 void LandscapeObjects::generate(ProgressCounter *counter)
 {
-	//return; // No trees for now ;)
-
 	if (counter) counter->setNewOp("Populating Landscape");
 
 	// TODO we need to add the shadow to the texture map

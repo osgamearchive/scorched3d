@@ -153,6 +153,9 @@ public:
 	bool getNoTrees() { return noTrees_.getValue(); }
 	void setNoTrees(bool value) { noTrees_.setValue(value); }
 
+	bool getNoDepthSorting() { return noDepthSorting_.getValue(); }
+	void setNoDepthSorting(bool value) { noDepthSorting_.setValue(value); }
+
 	bool getShowContextHelp() { return showContextHelp_.getValue(); }
 	void setShowContextHelp(bool value) { showContextHelp_.setValue(value); }
 
@@ -233,6 +236,7 @@ protected:
 	OptionEntryBool drawPlayerColor_;
 	OptionEntryBool drawPlayerHealth_;
 	OptionEntryBool noTrees_;
+	OptionEntryBool noDepthSorting_;
 	OptionEntryBool noROAM_;
 	OptionEntryBool useLandscapeTexture_;
 	OptionEntryBool noSkyLayers_;

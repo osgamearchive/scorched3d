@@ -22,6 +22,7 @@
 #define __INCLUDE_WaterWavesh_INCLUDE__
 
 #include <common/Vector.h>
+#include <common/ProgressCounter.h>
 #include <vector>
 
 class WaterWaves
@@ -30,14 +31,23 @@ public:
 	WaterWaves();
 	virtual ~WaterWaves();
 
-	void generateWaves();
+	void generateWaves(ProgressCounter *counter);
+	void draw();
 
 protected:
-	bool wavePoints_[256 * 256];
-	std::vector<std::pair<Vector, Vector> > paths_;
+	struct WaterWaveEntry 
+	{
+		Vector ptA;
+		Vector ptB;
+		Vector ptC;
+		Vector ptD;
+	};
 
-	void findPoints();
-	bool findNextPath();
+	bool wavePoints_[256 * 256];
+	std::vector<WaterWaveEntry> paths_;
+
+	void findPoints(ProgressCounter *counter);
+	bool findNextPath(ProgressCounter *counter);
 	void findPath(std::vector<Vector> &points, int x, int y);
 	void constructLines(std::vector<Vector> &points);
 

@@ -23,6 +23,7 @@
 #include <GLEXT/GLCameraFrustum.h>
 #include <client/MainCamera.h>
 #include <common/OptionsDisplay.h>
+#include <algorithm>
 
 GLOrderedItemRenderer *GLOrderedItemRenderer::instance_ = 0;
 
@@ -38,22 +39,77 @@ GLOrderedItemRenderer *GLOrderedItemRenderer::instance()
 GLOrderedItemRenderer::GLOrderedItemRenderer()
 {
 	// Calculate how many entries we can see
-	numberOfBilboards_ = 2000;
+	numberOfBilboards_ = 4000;
 	if (OptionsDisplay::instance()->getEffectsDetail() == 0) 
 		numberOfBilboards_ = 500;
 	else if (OptionsDisplay::instance()->getEffectsDetail() == 2) 
-		numberOfBilboards_ = 5000;
+		numberOfBilboards_ = 8000;
 }
 
 GLOrderedItemRenderer::~GLOrderedItemRenderer()
 {
 }
 
+inline unsigned int approx_distance(int  dx, int  dy)
+{
+   unsigned int min, max, approx;
+
+   if ( dx < 0 ) dx = -dx;
+   if ( dy < 0 ) dy = -dy;
+
+   if ( dx < dy )
+   {
+      min = dx;
+      max = dy;
+   } else {
+      min = dy;
+      max = dx;
+   }
+
+   approx = ( max * 1007 ) + ( min * 441 );
+   if ( max < ( min << 4 ))
+      approx -= ( max * 40 );
+
+   // add 512 for proper rounding
+   return (( approx + 512 ) >> 10 );
+}
+
+inline bool lt_distance(GLOrderedItemRenderer::OrderedEntry *o1, 
+						GLOrderedItemRenderer::OrderedEntry *o2) 
+{ 
+	return o1->distance > o2->distance;
+}
+
 void GLOrderedItemRenderer::simulate(const unsigned int state, float simTime)
 {
-	// TODO sort by distance
-	//Vector &cameraPos = 
-	//	MainCamera::instance()->getCamera().getCurrentPos();
+	static float total = 0.0f;
+	total += simTime;
+	if (total > 0.2f)
+	{
+		total = 0.0f;
+
+		// Calculate the dist from camera
+		Vector &cameraPos = 
+			MainCamera::instance()->getCamera().getCurrentPos();
+
+		if (!OptionsDisplay::instance()->getNoDepthSorting())
+		{
+			// Calculate the current distance for the object
+			std::vector<OrderedEntry *>::iterator addItor;
+			for (addItor = requiredEntries_.begin();
+				addItor != requiredEntries_.end();
+				addItor++)
+			{
+				OrderedEntry *entry = *addItor;
+				entry->distance = (float) approx_distance(
+					int(cameraPos[0] - entry->posX),
+					int(cameraPos[1] - entry->posY));
+			}
+
+			// sort by distance
+			std::sort(requiredEntries_.begin(), requiredEntries_.end(), lt_distance); 
+		}
+	}
 
 	// Simulate all of the providers
 	std::list<GLOrderedItemRendererProviderSetup *>::iterator itor;
@@ -112,25 +168,26 @@ void GLOrderedItemRenderer::draw(const unsigned state)
 	// Todo sort by depth (hmm)
 
 	// Draw entries 
-	int drawn = 0;
+	int notDrawn = (int) requiredEntries_.size() - numberOfBilboards_;
 	Vector point;
 	std::vector<OrderedEntry *>::iterator addItor;
 	for (addItor = requiredEntries_.begin();
 		addItor != requiredEntries_.end();
-		addItor++, drawn++)
+		addItor++, notDrawn--)
 	{
 		OrderedEntry *entry = *addItor;
 
 		// Check if we need to draw this item
-		if (drawn < numberOfBilboards_)
+		if (notDrawn <=0)
 		{
 			point[0] = entry->posX;
 			point[1] = entry->posY;
 			point[2] = entry->posZ;
-			if (GLCameraFrustum::instance()->pointInFrustum(point))
-			{			
+			// Too expensive ??
+			//if (GLCameraFrustum::instance()->pointInFrustum(point))
+			//{			
 				entry->provider_->drawItem(entry->distance, *entry);
-			}
+			//}
 		}
 
 		// Check if we need to remove this item

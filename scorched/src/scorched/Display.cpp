@@ -112,6 +112,10 @@ static void createControls(wxWindow *parent, wxSizer *sizer)
 		new wxCheckBox(parent, -1, "No trees",
 		wxDefaultPosition, wxSize((int) 150, (int) -1));
 	detailSizer2->Add(IDC_NOTREES_CTRL, 0);
+	IDC_NODEPTHSORT_CTRL = 
+		new wxCheckBox(parent, -1, "No sprite depth sorting",
+		wxDefaultPosition, wxSize((int) 150, (int) -1));
+	detailSizer2->Add(IDC_NODEPTHSORT_CTRL, 0);
 	detailSizer->Add(detailSizer2, 0, wxGROW);
 	sizer->Add(detailSizer, 0, wxGROW | wxLEFT | wxRIGHT | wxTOP, 5);
 

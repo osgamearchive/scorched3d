@@ -137,7 +137,13 @@ ExplosionNukeRenderer::~ExplosionNukeRenderer()
 
 void ExplosionNukeRenderer::draw(Action *action)
 {
-
+ 	std::list<Entry*>::iterator itor = entries_.begin();
+ 	std::list<Entry*>::iterator enditor = entries_.end();
+ 	for (;itor != enditor; itor++)
+ 	{
+ 		Entry *entry = *itor;
+ 		entry->draw(position_, size_);
+ 	}
 }
 
 void ExplosionNukeRenderer::simulate(Action *action, float frameTime, bool &remove)
