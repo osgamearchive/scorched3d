@@ -33,8 +33,6 @@ Riot Blast
 A way to allow tank spawn positions to be configured, bitmap landscapes only?
 Custom maps etc can be auto-downloaded from server
 Web interface for server to change settings
-Add some way of stopping the OptionsGame from being messed up!
-Fix parachutes so they dont come on too often (perhaps allow threshold to be set).
 A way to set the maximum and minimum players for a map
 Lightning, rain and meteors
 New surrounds instead of the water
@@ -44,6 +42,7 @@ Move resources into landscape definitons file
 Make rollers look better
 More weapons options as seen in http://scorched3d.sourceforge.net/phpBB2/viewtopic.php?t=875
 Stats prefix can be (pre/a)pended onto mysql stats tables
+Some kind of fire out the back of missiles
 
 -- Server Stuff
 Chat filter (swear words)
@@ -85,8 +84,5 @@ communism
 -- Graphics Stuff
 anti-gravity dirt (doesn't fall) Needed for cavern environment 
 New animations for weapons
-New landscape surrounds, desert etc...
-Some kind of fire out the back of missiles
-lightning
 Napalm scorches ground
 
