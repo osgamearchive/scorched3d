@@ -160,7 +160,10 @@ SettingsFrame::SettingsFrame(bool server, OptionsGame &context) :
 	SettingsLand::createControls(landPanel_, landPanelSizer);
 	book_->AddPage(landPanel_, "Land");
 	landPanel_->SetAutoLayout(TRUE);
-	//landPanel_->SetSizer(landPanelSizer);
+#if wxCHECK_VERSION(2,5,0)
+#else
+	landPanel_->SetSizer(landPanelSizer);
+#endif
 
 	topsizer->Add(nbs, 0, wxALL, 10);
 

@@ -30,7 +30,7 @@ static void createControls(wxWindow *parent, wxSizer *topsizer)
 	landscapes = new wxCheckBox*[landscapeDefinitions.getAllLandscapes().size()];
 
 	wxScrolledWindow *scrolledWindow = new wxScrolledWindow(parent, -1, 
-		wxDefaultPosition, wxSize(300, 300));
+		wxDefaultPosition, wxSize(225, 200));
 
 	wxSizer *sizer = new wxFlexGridSizer(2, 2);
 	int i = 0;

@@ -369,7 +369,7 @@ static std::list<wxButton *> keyboardKeyList;
 static void createKeysControls(wxWindow *parent, wxSizer *topsizer)
 {
 	wxScrolledWindow *scrolledWindow = new wxScrolledWindow(parent, -1, 
-		wxDefaultPosition, wxSize(500, 350));
+		wxDefaultPosition, wxSize(480, 250));
 	wxSizer *sizer = new wxFlexGridSizer(5, 1);
 	
 	keyboardKeyList.clear();
