@@ -89,7 +89,7 @@ OptionsDisplay::OptionsDisplay() :
 	noSound_(options_, "NoSound", 
 		"Do not use the sound.", RWAccess, false),
 	noTrees_(options_, "NoTrees",
-		"Do not draw the trees", RWAccess, false),
+		"Do not draw the trees", RWAccess, true),
 	drawLines_(options_, "DrawLines", 
 		"Do not fill in the landscape", RWAccess, false),
 	drawNormals_(options_, "DrawNormals", 
