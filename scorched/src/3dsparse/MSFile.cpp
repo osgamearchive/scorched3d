@@ -102,7 +102,7 @@ bool MSFile::loadFile(FILE *in)
 			if (!getNextLine(buffer, in)) return false; 
 			if (sscanf(buffer, "%i %f %f %f %f %f %i",
 				&vertexFlags,
-				&vertexPos[0], &vertexPos[2], &vertexPos[1], 
+				&vertexPos[0], &vertexPos[1], &vertexPos[2], 
 				&texCoord[0], &texCoord[1], &vertexBIndex) != 7) return false;
 
 			tcoords.push_back(texCoord);
@@ -120,7 +120,7 @@ bool MSFile::loadFile(FILE *in)
 			Vector normal;
 			if (!getNextLine(buffer, in)) return false; 
 			if (sscanf(buffer, "%f %f %f",
-				&normal[0], &normal[2], &normal[1]) != 3) return false;
+				&normal[0], &normal[1], &normal[2]) != 3) return false;
 
 			normals.push_back(normal.Normalize());
 		}
@@ -138,14 +138,14 @@ bool MSFile::loadFile(FILE *in)
 			if (!getNextLine(buffer, in)) return false; 
 			if (sscanf(buffer, "%i %i %i %i %i %i %i %i",
 				&faceFlags,
-				&face.v[0], &face.v[2], &face.v[1],
+				&face.v[0], &face.v[1], &face.v[2],
 				&nIndex1, &nIndex2, &nIndex3,
 				&sGroup) != 8) return false;
 
 			model->insertFace(face);
 			model->setFaceNormal(normals[nIndex1], j, 0);
-			model->setFaceNormal(normals[nIndex2], j, 2);
-			model->setFaceNormal(normals[nIndex3], j, 1);
+			model->setFaceNormal(normals[nIndex2], j, 1);
+			model->setFaceNormal(normals[nIndex3], j, 2);
 
 			model->setFaceTCoord(tcoords[face.v[0]], j, 0);
 			model->setFaceTCoord(tcoords[face.v[1]], j, 1);
@@ -176,6 +176,7 @@ bool MSFile::loadFile(FILE *in)
 		if (!getNextLine(buffer, in)) return false; 
 		if (sscanf(buffer, "%f %f %f %f", 
 			&diffuse[0], &diffuse[1], &diffuse[2], &diffuse[3]) != 4) return false;
+		Vector dcolor(diffuse[0], diffuse[1], diffuse[2]);
 
 		// specular
 		float specular[4];
@@ -209,8 +210,11 @@ bool MSFile::loadFile(FILE *in)
 
 		// alphamap
 		char textureNameAlpha[256];
+		char fullTextureAlphaName[256];
 		if (!getNextLine(buffer, in)) return false; 
 		if (sscanf(buffer, "%s", textureNameAlpha) != 1) return false;
+		textureNameAlpha[strlen(textureNameAlpha)-1] = '\0';
+		sprintf(fullTextureAlphaName, PKGDIR "data/tanks/%s", &textureNameAlpha[1]);
 
 		int modelIndex = 0;
 		std::list<Model *>::iterator mitor;
@@ -222,6 +226,8 @@ bool MSFile::loadFile(FILE *in)
 			{
 				Model *model = *mitor;
 				model->setTextureName(fullTextureName);
+				model->setATextureName(fullTextureAlphaName);
+				model->setColor(dcolor);
 			}
 		}
 	}

@@ -203,7 +203,9 @@ GLVertexArray *Model::getTexArray(float detail)
 	Vector lightpos(0.3f, 0.2f, 1.0f);
 	lightpos.Normalize();
 
-	GLTexture *texture = ASEStore::instance()->loadTexture(getTextureName());
+	GLTexture *texture = 
+		ASEStore::instance()->loadTexture(
+			getTextureName(), getATextureName());
 	DIALOG_ASSERT(texture);
 	GLVertexTexArray *array = new GLVertexTexArray(texture, 
 		int(triangles.size()) / 3);

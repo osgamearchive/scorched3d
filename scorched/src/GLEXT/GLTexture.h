@@ -48,10 +48,13 @@ public:
 
 	virtual void draw(bool force = false);
 	bool textureValid() { return texNum_ != 0; }
+	GLenum getTexType() { return texType_; }
+	GLenum getTexFormat() { return texFormat_; }
 
 protected:
 	GLuint texNum_;
 	GLenum texType_;
+	GLenum texFormat_;
 	static GLTexture *lastBind_;
 
 	virtual bool createTexture(const void * data, 

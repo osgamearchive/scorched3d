@@ -43,7 +43,14 @@ void GLVertexTexArray::setTexCoord(int offset, GLfloat a, GLfloat b)
 
 void GLVertexTexArray::draw()
 {
-	GLState textureState(GLState::TEXTURE_ON);
+	unsigned int requiredState = GLState::TEXTURE_ON;
+	if (texture_->getTexFormat() == GL_RGBA)
+	{
+		requiredState |= GLState::BLEND_ON;
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	
+	}
+
+	GLState textureState(requiredState);
 	texture_->draw();
 	GLVertexArray::draw();
 }

@@ -106,6 +106,7 @@ bool GLTexture::createTexture(const void * data,
 							  GLenum format, 
 							  bool mipMap)
 {
+	texFormat_ = format;
 	glPixelStorei(GL_UNPACK_ALIGNMENT, alignment);
 	glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
 	glPixelStorei(GL_UNPACK_SKIP_ROWS, 0);

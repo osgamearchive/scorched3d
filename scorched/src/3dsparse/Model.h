@@ -47,6 +47,7 @@ public:
 	Vector &getColor() { return color_; }
 	const char *getName() { return name_.c_str(); }
 	const char *getTextureName() { return texture_.c_str(); }
+	const char *getATextureName() { return atexture_.c_str(); }
 
 	std::vector<Vector> &getVertices() { return vertexes_; }
 	std::vector<Face> &getFaces() { return faces_; }
@@ -56,6 +57,7 @@ public:
 
 	// Used by parser
 	virtual void setTextureName(const char *name) { texture_ = name; }
+	virtual void setATextureName(const char *name) { atexture_ = name; }
 	virtual void setColor(Vector &color);
 	virtual void setFaceNormal(Vector &normal, int face, int index);
 	virtual void setFaceTCoord(Vector &tcoord, int face, int index);
@@ -69,6 +71,7 @@ protected:
 	Vector max_, min_;
 	Vector color_; // Color for meshes with no texture (material)
 	std::string texture_;
+	std::string atexture_; // Alpha texture
 
 	GLVertexArray *getNoTexArray(float detail);
 	GLVertexArray *getTexArray(float detail);

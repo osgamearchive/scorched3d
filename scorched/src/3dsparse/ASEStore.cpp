@@ -43,19 +43,32 @@ ASEStore::~ASEStore()
 {
 }
 
-GLTexture *ASEStore::loadTexture(const char *name)
+GLTexture *ASEStore::loadTexture(const char *name, const char *aname)
 {
+	std::string wholeName;
+	wholeName += name;
+	wholeName += "::";
+	wholeName += aname;
+
 	// Try to find the texture in the cache first
 	std::map<std::string, GLTexture *>::iterator itor =
-		skins_.find(name);
+		skins_.find(wholeName);
 	if (itor != skins_.end())
 	{
 		return (*itor).second;
 	}
 
 	// Load tank skin as bitmap
-	GLBitmap map((char *) name);
-	if (!map.getBits()) return 0;
+	GLBitmap *map = 0;
+	if (aname[0])
+	{
+		map = new GLBitmap((char *) name, (char *) aname);
+	}
+	else
+	{
+		map = new GLBitmap((char *) name);
+	}
+	if (!map->getBits()) return 0;
 
 	// HACK for skin creator
 #ifdef dDOUBLE
@@ -63,16 +76,19 @@ GLTexture *ASEStore::loadTexture(const char *name)
 	// Resize the bitmap
 	if (OptionsDisplay::instance()->getTexSize() == 0)
 	{
-		map.resize(map.getWidth() / 2, 
-				   map.getHeight() / 2);
+		map->resize(map->getWidth() / 2, 
+				   map->getHeight() / 2);
 	}
 #endif
 
 	// Create skin texture from bitmap
+	GLenum format = GL_RGB;
+	if (aname[0]) format = GL_RGBA;
 	GLTexture *texture = new GLTexture;
-	if (!texture->create(map)) return 0;
-	skins_[name] = texture;
+	if (!texture->create(*map, format)) return 0;
+	delete map;
 
+	skins_[wholeName] = texture;
 	return texture;
 }
 
