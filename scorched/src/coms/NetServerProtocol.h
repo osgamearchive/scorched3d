@@ -43,5 +43,14 @@ public:
 	virtual NetMessage *readBuffer(TCPsocket &socket);
 };
 
+class NetServerHTTPProtocol : public NetServerProtocol
+{
+public:
+	NetServerHTTPProtocol();
+	virtual ~NetServerHTTPProtocol();
+
+	virtual bool sendBuffer(NetBuffer &buffer, TCPsocket &socket);
+	virtual NetMessage *readBuffer(TCPsocket &socket);
+};
 
 #endif

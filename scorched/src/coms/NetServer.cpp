@@ -227,12 +227,15 @@ int NetServer::getNoClients()
 
 void NetServer::addClient(TCPsocket &client)
 {
+	SDL_LockMutex(setMutex_);
 	connections_.insert(client);
 	updateSockSet();
+	SDL_UnlockMutex(setMutex_);
 }
 
 void NetServer::rmClient(TCPsocket &client)
 {
+	SDL_LockMutex(setMutex_);
 	std::set<TCPsocket>::iterator itor = 
 		connections_.find(client);
 	if (itor != connections_.end())
@@ -240,10 +243,12 @@ void NetServer::rmClient(TCPsocket &client)
 		connections_.erase(itor);
 	}
 	updateSockSet();
+	SDL_UnlockMutex(setMutex_);
 }
 
 void NetServer::updateSockSet()
 {
+	SDL_LockMutex(setMutex_);
 	if (sockSet_) SDLNet_FreeSocketSet(sockSet_);
 	sockSet_ = SDLNet_AllocSocketSet((int) connections_.size());
 
@@ -255,6 +260,7 @@ void NetServer::updateSockSet()
 		TCPsocket currentSock = *itor;
 		SDLNet_TCP_AddSocket(sockSet_, currentSock);
 	}
+	SDL_UnlockMutex(setMutex_);
 }
 
 void NetServer::destroyClient(TCPsocket client)

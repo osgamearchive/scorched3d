@@ -54,7 +54,7 @@ bool NetServerScorchedProtocol::sendBuffer(NetBuffer &buffer, TCPsocket &socket)
 		return false;
 	}
 	
-	// send the buffer, with the NULL as well
+	// send the buffer
 	result = SDLNet_TCP_Send(socket,buffer.getBuffer(),len);
 	if(result<int(len))
 	{
@@ -126,4 +126,67 @@ NetMessage *NetServerScorchedProtocol::readBuffer(TCPsocket &socket)
 
 	// return the new buffer
 	return buffer;
+}
+
+
+bool NetServerHTTPProtocol::sendBuffer(NetBuffer &buffer, TCPsocket &socket)
+{
+	Uint32 len = buffer.getBufferUsed();
+	
+	// send the buffer
+	int result = SDLNet_TCP_Send(socket,buffer.getBuffer(),len);
+	if(result<int(len))
+	{
+		Logger::log(0, "Failed to send HTTP buffer. Sent %i of %i.",
+			result, int(len));
+		return false;
+	}
+	NetBufferUtil::getBytesOut() += len;
+	
+	// return the length sent
+	return true;
+}
+
+NetMessage *NetServerHTTPProtocol::readBuffer(TCPsocket &socket)
+{
+	// allocate the buffer memory
+	NetMessage *netBuffer = NetMessagePool::instance()->
+		getFromPool(NetMessage::BufferMessage, socket);
+	netBuffer->getBuffer().reset();
+
+	// get the string buffer over the socket
+	Uint32 len = 0;
+	int chars = 0;
+	bool done = false;
+	char buffer[1];
+	while (!done)
+	{
+		int recv = SDLNet_TCP_Recv(socket, buffer, 1);
+		if (recv <= 0) 
+		{
+			Logger::log(0, "Read failed for HTTP buffer chunk");
+			NetMessagePool::instance()->addToPool(netBuffer);
+			return 0;
+		}
+
+		netBuffer->getBuffer().addDataToBuffer(buffer, 1);
+		len += 1;
+
+		switch (buffer[0])
+		{
+		case '\r':
+			break;
+		case '\n':
+			if (chars == 0) done = true;
+			chars = 0;
+			break;
+		default:
+			chars++;
+			break;
+		}
+	}
+	NetBufferUtil::getBytesIn() += len;
+
+	// return the new buffer
+	return netBuffer;
 }
