@@ -18,8 +18,8 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <landscape/HeightMapLoader.h>
+#include <common/RandomGenerator.h>
 
 void HeightMapLoader::saveTerrain(HeightMap &hmap, GLBitmap &bitmap)
 {
@@ -91,4 +91,65 @@ void HeightMapLoader::loadTerrain(HeightMap &hmap,
 
 	if (levelSurround) HeightMapModifier::levelSurround(hmap);
 	hmap.generateNormals(0, hmap.getWidth(), 0, hmap.getWidth(), counter);
+}
+
+bool HeightMapLoader::generateTerrain(
+	unsigned int seed,
+	LandscapeDefnType *defn,
+	const char *defnType,
+	HeightMap &hmap,
+	ProgressCounter *counter)
+{
+	// Do we generate or load the landscape
+	if (0 == strcmp(defnType, "file"))
+	{
+		LandscapeDefnHeightMapFile *file = 
+			(LandscapeDefnHeightMapFile *) defn;
+
+		// Load the landscape
+		GLBitmap bitmap;
+		const char *fileName = getDataFile(file->file.c_str());
+		if (!bitmap.loadFromFile(fileName, false))
+		{
+			dialogMessage("HeightMapLoader",
+				"Error: Unabled to find landscape map \"%s\"",
+				fileName);
+			return false;
+		}
+		else
+		{
+			HeightMapLoader::loadTerrain(
+				hmap,
+				bitmap, 
+				file->levelsurround,
+				counter);
+		}
+	}
+	else if (0 == strcmp(defnType, "generate"))
+	{
+		LandscapeDefnHeightMapGenerate *generate = 
+			(LandscapeDefnHeightMapGenerate *) defn;
+
+		// Seed the generator and generate the landscape
+		RandomGenerator generator;
+		RandomGenerator offsetGenerator;
+		generator.seed(seed);
+		offsetGenerator.seed(seed);
+
+		HeightMapModifier::generateTerrain(
+			hmap, 
+			*generate, 
+			generator, 
+			offsetGenerator, 
+			counter);
+	}
+	else 
+	{
+		dialogMessage("HeightMapLoader", 
+			"Error: Unkown generate type %s",
+			defnType);
+		return false;
+	}
+	
+	return true;
 }

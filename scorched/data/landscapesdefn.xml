@@ -4,6 +4,8 @@
 		<name>oldstyle</name>
 		<minplayers>0</minplayers>
 		<maxplayers>24</maxplayers>
+		<surround type="none"></surround>
+		<roof type="none"></roof>
 		<tankstart type="height">
 			<startcloseness>20</startcloseness>
 			<height><min>5.5</min><max>20</max></height>
@@ -35,6 +37,8 @@
    		<name>lowlands</name>
 		<minplayers>0</minplayers>
 		<maxplayers>24</maxplayers>
+		<surround type="none"></surround>
+		<roof type="none"></roof>
 		<tankstart type="height">
 			<startcloseness>20</startcloseness>
 			<height><min>5.5</min><max>20</max></height>
@@ -66,6 +70,8 @@
    		<name>hilly</name>
 		<minplayers>0</minplayers>
 		<maxplayers>24</maxplayers>
+		<surround type="none"></surround>
+		<roof type="none"></roof>
 		<tankstart type="height">
 			<startcloseness>20</startcloseness>
 			<height><min>5.5</min><max>20</max></height>
@@ -97,6 +103,8 @@
    		<name>ridge</name>
 		<minplayers>0</minplayers>
 		<maxplayers>24</maxplayers>
+		<surround type="none"></surround>
+		<roof type="none"></roof>
 		<tankstart type="height">
 			<startcloseness>20</startcloseness>
 			<height><min>5.5</min><max>20</max></height>
@@ -128,6 +136,8 @@
    		<name>islands</name>
 		<minplayers>0</minplayers>
 		<maxplayers>24</maxplayers>
+		<surround type="none"></surround>
+		<roof type="none"></roof>
 		<tankstart type="height">
 			<startcloseness>20</startcloseness>
 			<height><min>5.5</min><max>20</max></height>
@@ -159,6 +169,8 @@
    		<name>halfed</name>
 		<minplayers>0</minplayers>
 		<maxplayers>24</maxplayers>
+		<surround type="none"></surround>
+		<roof type="none"></roof>
 		<tankstart type="height">
 			<startcloseness>20</startcloseness>
 			<height><min>5.5</min><max>20</max></height>
@@ -190,6 +202,8 @@
    		<name>valley</name>
 		<minplayers>0</minplayers>
 		<maxplayers>24</maxplayers>
+		<surround type="none"></surround>
+		<roof type="none"></roof>
 		<tankstart type="height">
 			<startcloseness>20</startcloseness>
 			<height><min>5.5</min><max>20</max></height>

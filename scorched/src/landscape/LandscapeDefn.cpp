@@ -31,11 +31,19 @@ static LandscapeDefnType *fetchTankStartDefnType(const char *type)
 	return 0;
 }
 
-static LandscapeDefnType *fetchHeightMapDefnType(const char *type)
+static LandscapeDefnType *fetchRoofHeightMapDefnType(const char *type)
 {
+	if (0 == strcmp(type, "none")) return new LandscapeDefnTypeNone;
 	if (0 == strcmp(type, "generate")) return new LandscapeDefnHeightMapGenerate;
 	if (0 == strcmp(type, "file")) return new LandscapeDefnHeightMapFile;
 	dialogMessage("LandscapeDefnType", "Unknown heightmap type %s", type);
+	return 0;
+}
+
+static LandscapeDefnType *fetchSurroundDefnType(const char *type)
+{
+	if (0 == strcmp(type, "none")) return new LandscapeDefnTypeNone;
+	dialogMessage("LandscapeDefnType", "Unknown surround type %s", type);
 	return 0;
 }
 
@@ -46,6 +54,21 @@ static bool parseMinMax(XMLNode *parent, const char *name,
 	if (!parent->getNamedChild(name, node)) return false;
 	if (!node->getNamedChild("max", max)) return false;
 	if (!node->getNamedChild("min", min)) return false;
+	return node->failChildren();
+}
+
+bool LandscapeDefnTypeNone::writeMessage(NetBuffer &buffer)
+{
+	return true;
+}
+
+bool LandscapeDefnTypeNone::readMessage(NetBufferReader &reader)
+{
+	return true;
+}
+
+bool LandscapeDefnTypeNone::readXML(XMLNode *node)
+{
 	return node->failChildren();
 }
 
@@ -167,7 +190,7 @@ bool LandscapeDefnHeightMapGenerate::readXML(XMLNode *node)
 }
 
 LandscapeDefn::LandscapeDefn() :
-	heightmap(0), tankstart(0)
+	heightmap(0), tankstart(0), surround(0), roof(0)
 {
 }
 
@@ -184,6 +207,10 @@ bool LandscapeDefn::writeMessage(NetBuffer &buffer)
 	if (!tankstart->writeMessage(buffer)) return false;
 	buffer.addToBuffer(heightmaptype);
 	if (!heightmap->writeMessage(buffer)) return false;
+	buffer.addToBuffer(rooftype);
+	if (!roof->writeMessage(buffer)) return false;
+	buffer.addToBuffer(surroundtype);
+	if (!surround->writeMessage(buffer)) return false;
 	return true;
 }
 
@@ -192,12 +219,23 @@ bool LandscapeDefn::readMessage(NetBufferReader &reader)
 	if (!reader.getFromBuffer(name)) return false;
 	if (!reader.getFromBuffer(minplayers)) return false;
 	if (!reader.getFromBuffer(maxplayers)) return false;
+	
 	if (!reader.getFromBuffer(tankstarttype)) return false;
 	if (!(tankstart = fetchTankStartDefnType(tankstarttype.c_str()))) return false;
 	if (!tankstart->readMessage(reader)) return false;
+	
 	if (!reader.getFromBuffer(heightmaptype)) return false;
-	if (!(heightmap = fetchHeightMapDefnType(heightmaptype.c_str()))) return false;
+	if (!(heightmap = fetchRoofHeightMapDefnType(heightmaptype.c_str()))) return false;
 	if (!heightmap->readMessage(reader)) return false;
+	
+	if (!reader.getFromBuffer(rooftype)) return false;
+	if (!(roof = fetchRoofHeightMapDefnType(rooftype.c_str()))) return false;
+	if (!roof->readMessage(reader)) return false;
+	
+	if (!reader.getFromBuffer(surroundtype)) return false;
+	if (!(surround = fetchSurroundDefnType(surroundtype.c_str()))) return false;
+	if (!surround->readMessage(reader)) return false;
+	
 	return true;
 }
 
@@ -218,8 +256,22 @@ bool LandscapeDefn::readXML(XMLNode *node)
 		XMLNode *heightNode;
 		if (!node->getNamedChild("heightmap", heightNode)) return false;
 		if (!heightNode->getNamedParameter("type", heightmaptype)) return false;
-		if (!(heightmap = fetchHeightMapDefnType(heightmaptype.c_str()))) return false;
+		if (!(heightmap = fetchRoofHeightMapDefnType(heightmaptype.c_str()))) return false;
 		if (!heightmap->readXML(heightNode)) return false;
+	}
+	{
+		XMLNode *surroundNode;
+		if (!node->getNamedChild("surround", surroundNode)) return false;
+		if (!surroundNode->getNamedParameter("type", surroundtype)) return false;
+		if (!(surround = fetchSurroundDefnType(surroundtype.c_str()))) return false;
+		if (!surround->readXML(surroundNode)) return false;
+	}
+	{
+		XMLNode *roofNode;
+		if (!node->getNamedChild("roof", roofNode)) return false;
+		if (!roofNode->getNamedParameter("type", rooftype)) return false;
+		if (!(roof = fetchRoofHeightMapDefnType(rooftype.c_str()))) return false;
+		if (!roof->readXML(roofNode)) return false;
 	}
 	return node->failChildren();
 }

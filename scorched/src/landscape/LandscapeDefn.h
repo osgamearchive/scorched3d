@@ -34,6 +34,14 @@ public:
 	virtual bool readMessage(NetBufferReader &reader) = 0;
 };
 
+class LandscapeDefnTypeNone : public LandscapeDefnType
+{
+public:
+	virtual bool writeMessage(NetBuffer &buffer);
+	virtual bool readMessage(NetBufferReader &reader);
+	virtual bool readXML(XMLNode *node);
+};
+
 class LandscapeDefnStartHeight : public LandscapeDefnType
 {
 public:
@@ -84,6 +92,10 @@ public:
 	int minplayers;
 	int maxplayers;
 
+	std::string rooftype;
+	LandscapeDefnType *roof;
+	std::string surroundtype;
+	LandscapeDefnType *surround;
 	std::string tankstarttype;
 	LandscapeDefnType *tankstart;
 	std::string heightmaptype;

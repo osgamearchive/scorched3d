@@ -32,7 +32,9 @@
 
 LandscapeMaps::LandscapeMaps() : 
 	map_(256), mmap_(map_, 256), nmap_(256), 
-	storedMap_(0), storedHdef_(0)
+	rmap_(64),
+	storedMap_(0), storedHdef_(0), 
+	roof_(false)
 {
 	// Allocate the stored map size to be the same
 	// as the height map size
@@ -45,57 +47,38 @@ LandscapeMaps::~LandscapeMaps()
 }
 
 void LandscapeMaps::generateHMap(LandscapeDefinition *hdef,
-								ProgressCounter *counter)
+	ProgressCounter *counter)
 {
 	// Store the landscape settings for anyone that connects later
 	delete storedHdef_;
 	storedHdef_ = hdef;
 
-	// Do we generate or load the landscape
-	if (0 == strcmp(hdef->getDefn()->heightmaptype.c_str(), "file"))
+	// Generate the landscape
+	if (!HeightMapLoader::generateTerrain(
+		hdef->getSeed(),
+		hdef->getDefn()->heightmap,
+		hdef->getDefn()->heightmaptype.c_str(),
+		getHMap(),
+		counter))
 	{
-		LandscapeDefnHeightMapFile *file = 
-			(LandscapeDefnHeightMapFile *) hdef->getDefn()->heightmap;
+		dialogExit("Landscape", "Failed to generate landscape");
+	}
 
-		// Load the landscape
-		GLBitmap bitmap;
-		const char *fileName = getDataFile(file->file.c_str());
-		if (!bitmap.loadFromFile(fileName, false))
+	// Generate the roof
+	if (0 != strcmp(hdef->getDefn()->rooftype.c_str(), "none"))
+	{
+		if (!HeightMapLoader::generateTerrain(
+			hdef->getSeed() + 1,
+			hdef->getDefn()->roof,
+			hdef->getDefn()->rooftype.c_str(),
+			getRMap(),
+			counter))
 		{
-			dialogExit("Landscape",
-				"Error: Unabled to find landscape map \"%s\"",
-				fileName);
+			dialogExit("Landscape", "Failed to generate roof");
 		}
-		else
-		{
-			HeightMapLoader::loadTerrain(
-				getHMap(),
-				bitmap, 
-				file->levelsurround,
-				counter);
-		}
+		roof_ = true;
 	}
-	else if (0 == strcmp(hdef->getDefn()->heightmaptype.c_str(), "generate"))
-	{
-		LandscapeDefnHeightMapGenerate *generate = 
-			(LandscapeDefnHeightMapGenerate *) hdef->getDefn()->heightmap;
-
-		// Seed the generator and generate the landscape
-		RandomGenerator generator;
-		RandomGenerator offsetGenerator;
-		generator.seed(hdef->getSeed());
-		offsetGenerator.seed(hdef->getSeed());
-
-		HeightMapModifier::generateTerrain(
-			getHMap(), 
-			*generate, generator, offsetGenerator, counter);
-	}
-	else 
-	{
-		dialogExit("LandscapeMaps", 
-			"Error: Unkown generate type %s",
-			hdef->getDefn()->heightmaptype.c_str());
-	}
+	else roof_ = false;
 
 	// Save this height map for later
 	getHMap().resetMinHeight();

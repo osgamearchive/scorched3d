@@ -36,9 +36,11 @@ public:
 	// Returns the inner maps
 	// Joy, I have used letters that all look the same :(
 	HeightMap &getHMap() { return map_; }
+	HeightMap &getRMap() { return rmap_; }
 	MovementMap &getMMap() { return mmap_; }
 	NapalmMap &getNMap() { return nmap_; }
 	LandscapeDefinition &getLandDfn() { return *storedHdef_; }
+	bool getRoof() { return roof_; }
 
 	// Generates the next level
 	void generateHMap(LandscapeDefinition *hdef,
@@ -62,6 +64,10 @@ protected:
 
 	// The part of the landscape covered by napalm
 	NapalmMap nmap_;
+
+	// The roof of the landscape
+	bool roof_;
+	HeightMap rmap_;
 
 	// The values at the start of the level
 	float *storedMap_;

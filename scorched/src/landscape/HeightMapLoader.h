@@ -23,6 +23,7 @@
 #define __INCLUDE_HeightMapLoaderh_INCLUDE__
 
 #include <landscape/HeightMapModifier.h>
+#include <landscape/LandscapeDefn.h>
 #include <GLEXT/GLBitmap.h>
 
 namespace HeightMapLoader
@@ -32,6 +33,13 @@ namespace HeightMapLoader
 		bool levelSurround,
 		ProgressCounter *counter= 0);
 	void saveTerrain(HeightMap &hmap, GLBitmap &bitmap);
+	
+	bool generateTerrain(
+		unsigned int seed,
+		LandscapeDefnType *defn,
+		const char *defnType,
+		HeightMap &hmap,
+		ProgressCounter *counter = 0);
 };
 
 
