@@ -1109,4 +1109,30 @@ the air in a wedge shape.
 			</subweapon2>
 		</nextaction>
 	</accessory>
+	<!--<accessory type="WeaponDelay">
+		<name>Test Example 1</name>
+		<description>
+		</description>
+		<icon>dcharge.bmp</icon>
+		<armslevel>1</armslevel>	
+		<cost>10</cost>
+		<bundlesize>1</bundlesize>
+		<delay>3.0</delay>
+		<delayedweapon type="Weapon">
+			...
+		</delayedweapon>
+	</accessory>
+	<accessory type="WeaponVelocity">
+		<name>Test Example 2</name>
+		<description>
+		</description>
+		<icon>dcharge.bmp</icon>
+		<armslevel>1</armslevel>	
+		<cost>10</cost>
+		<bundlesize>1</bundlesize>
+		<velocitychange>0.8</velocitychange>
+		<aimedweapon type="Weapon">
+			...
+		</aimedweapon>
+	</accessory>-->
 </accessories>
