@@ -23,7 +23,7 @@
 
 ParticleEngine::ParticleEngine(unsigned int maxParticles) :
 	particlesOnScreen_(0), particles_(0), 
-	freeParticles_(0),
+	freeParticles_(0), 
 	speed_(1.0f)
 {
 	setMaxParticles(maxParticles);
@@ -64,10 +64,13 @@ void ParticleEngine::killAll()
 	{
 		Particle &particle = particles_[i];
 		if (particle.life_ > 0.0f) particle.life_ = -1.0f;
+		particle.next_ = 0;
 
 		freeParticles_[i] = &particles_[i];
 	}
 	particlesOnScreen_ = 0;
+	start_ = 0;
+	end_ = 0;
 }
 
 void ParticleEngine::draw(const unsigned state)
@@ -75,14 +78,14 @@ void ParticleEngine::draw(const unsigned state)
 	GLState glstate(GLState::TEXTURE_ON | GLState::BLEND_ON | GLState::DEPTH_ON);
 	glDepthMask(GL_FALSE);
 	
-	for (unsigned int i=0; i<maxParticles_; i++)
+	Particle *particle = start_;
+	while (particle)
 	{
-		Particle &particle = particles_[i];
-		if (particle.renderer_ != 0 &&
-			particle.life_ > 0.0f)
+		if (particle->renderer_)
 		{
-			particle.renderer_->renderParticle(particle);
+			particle->renderer_->renderParticle(*particle);
 		}
+		particle = particle->next_;
 	}
 
 	glDepthMask(GL_TRUE);
@@ -93,36 +96,41 @@ void ParticleEngine::simulate(const unsigned state, float time)
 	if (speed_ != 1.0f) time *= speed_;
 
 	Vector momentum;
-	for (unsigned int i=0; i<maxParticles_; i++)
+	Particle *particle = start_;
+	Particle *lastParticle = 0;
+	while (particle)
 	{
-		Particle &particle = particles_[i];
-
-		if (particle.life_ > 0.0f)
+		Particle *next = particle->next_;
+		particle->life_ -= time;
+		if (particle->life_ > 0.0f)
 		{
-			particle.life_ -= time;
+			momentum = particle->velocity_ * particle->mass_;
 
-			if (particle.life_ > 0.0f)
-			{
-				momentum = particle.velocity_ * particle.mass_;
+			//update the particle's position
+			particle->position_ += momentum * time;
+			
+			//interpolate the color, alpha value, and size
+			particle->color_ += particle->colorCounter_ * time;
+			particle->alpha_ += particle->alphaCounter_ * time;
+			particle->size_ += particle->sizeCounter_ * time;
 
-				//update the particle's position
-				particle.position_ += momentum * time;
-				
-				//interpolate the color, alpha value, and size
-				particle.color_ += particle.colorCounter_ * time;
-				particle.alpha_ += particle.alphaCounter_ * time;
-				particle.size_ += particle.sizeCounter_ * time;
+			//now its time for the external forces to take their toll
+			particle->velocity_ *= 1.0f - (particle->friction_ * time);
+			particle->velocity_ += particle->gravity_ * time * time;
 
-				//now its time for the external forces to take their toll
-				particle.velocity_ *= 1.0f - (particle.friction_ * time);
-				particle.velocity_ += particle.gravity_ * time * time;
-			}
-			else
-			{
-				particlesOnScreen_--;
-				freeParticles_[particlesOnScreen_] = &particle;
-			}
+			lastParticle = particle;
 		}
+		else
+		{
+			particlesOnScreen_--;
+			freeParticles_[particlesOnScreen_] = particle;
+
+			if (end_ == particle) end_ = lastParticle;
+			if (start_ == particle) start_ = particle->next_;
+			if (lastParticle) lastParticle->next_ = particle->next_;
+			particle->next_ = 0;
+		}
+		particle = next;
 	}
 }
 
@@ -132,8 +140,12 @@ Particle *ParticleEngine::getNextAliveParticle()
 	if (particlesOnScreen_ < maxParticles_)
 	{
 		particle = freeParticles_[particlesOnScreen_];
+		if (end_) end_->next_ = particle;
+		end_ = particle;
+		if (!start_) start_ = particle;
 		particlesOnScreen_ ++;	
 	}
 
 	return particle;
 }
+

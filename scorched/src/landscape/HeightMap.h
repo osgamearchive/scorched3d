@@ -40,13 +40,13 @@ public:
 		int maxY, ProgressCounter *counter = 0);
 	int getWidth() { return width_; }
 
-	float getHeight(int w, int h) { 
+	inline float getHeight(int w, int h) { 
 		if (w >= 0 && h >= 0 && w<=width_ && h<=width_) 
 			return hMap_[(width_+1) * h + w]; 
 		return 0.0f; }
 	float getInterpHeight(float w, float h);
 
-	Vector &getNormal(int w, int h) {
+	inline Vector &getNormal(int w, int h) {
 		if (w >= 0 && h >= 0 && w<=width_ && h<=width_) 
 			return normals_[(width_+1) * h + w]; 
 		return nvec; }

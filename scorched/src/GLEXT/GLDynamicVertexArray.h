@@ -27,7 +27,11 @@
 class GLDynamicVertexArray
 {
 public:
-	static GLDynamicVertexArray *instance();
+	inline static GLDynamicVertexArray *instance()
+	{
+		if (!instance_) instance_ = new GLDynamicVertexArray;
+		return instance_;
+	}
 
 	int getSpace() { return capacity_ - used_; }
 	int getUsed() { return used_; }

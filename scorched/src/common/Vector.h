@@ -66,10 +66,10 @@ public:
 	bool operator==(const Vector &Vin1);
 	bool operator!=(const Vector &Vin1);
 
-	float &operator[](const int m) { DIALOG_ASSERT(m<=2); return V[m]; }
-	float const &operator[](const int m) const { DIALOG_ASSERT(m<=2); return V[m]; }
+	inline float &operator[](const int m) { DIALOG_ASSERT(m<=2); return V[m]; }
+	inline float const &operator[](const int m) const { DIALOG_ASSERT(m<=2); return V[m]; }
 
-	operator float*() { return V; }
+	inline operator float*() { return V; }
 
 protected:
 	float V[3];

@@ -24,15 +24,6 @@
 
 GLDynamicVertexArray *GLDynamicVertexArray::instance_ = 0;
 
-GLDynamicVertexArray *GLDynamicVertexArray::instance()
-{
-	if (!instance_) 
-	{
-		instance_ = new GLDynamicVertexArray();
-	}
-	return instance_;
-}
-
 GLDynamicVertexArray::GLDynamicVertexArray() : 
 	capacity_(3000), used_(0), array_(0)
 {

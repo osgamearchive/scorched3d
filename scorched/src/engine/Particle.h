@@ -30,7 +30,6 @@ public:
 	Particle();
 	virtual ~Particle();
 
-	void setDead();
 	void setParticle(
 		float life, float mass, float friction,
         Vector &velocity, Vector &gravity,
@@ -50,6 +49,7 @@ public:
 	float alpha_, alphaCounter_;
 
 	ParticleRenderer *renderer_;
+	Particle *next_;
 };
 
 #endif // __INCLUDE_Particleh_INCLUDE__

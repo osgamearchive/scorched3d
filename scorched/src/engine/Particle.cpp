@@ -20,19 +20,12 @@
 
 #include <engine/Particle.h>
 
-Particle::Particle()
+Particle::Particle() : next_(0), life_(-1.0f), renderer_(0)
 {
-	setDead();
 }
 
 Particle::~Particle()
 {
-}
-
-void Particle::setDead()
-{
-	life_ = -1.0f;
-	renderer_ = 0;
 }
 
 void Particle::setParticle(

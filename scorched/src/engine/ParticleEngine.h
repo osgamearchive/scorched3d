@@ -46,9 +46,9 @@ public:
 	virtual void simulate(const unsigned int state, float simTime);
 
 protected:
+	Particle *start_, *end_;
 	Particle *particles_;
 	Particle **freeParticles_;
-	Particle **usedParticles_;
 
 	float speed_;
 	unsigned int maxParticles_;
