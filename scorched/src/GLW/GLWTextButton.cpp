@@ -18,20 +18,12 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// GLWTextButton.cpp: implementation of the GLWTextButton class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <GLW/GLWTextButton.h>
 
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
-
 GLWTextButton::GLWTextButton(char *buttonText,float x, float y, float w, GLWButtonI *handler,
-							 bool ok, bool cancel) :
-	GLWButton(x, y, w, 22.0f, handler, ok ,cancel), label_(x, y -2, buttonText)
+							 unsigned flags) :
+	GLWButton(x, y, w, 22.0f, handler, flags), 
+		label_(x, y -2, buttonText)
 {
 
 }
@@ -45,16 +37,22 @@ void GLWTextButton::draw()
 {
 	GLWButton::draw();
 
+	float x = x_;
 	if (!pressed_)
 	{
-		label_.setX(x_);
 		label_.setY(y_ - 2);
 	}
 	else
 	{
-		label_.setX(x_ + 1);
+		x = x_ + 1;
 		label_.setY(y_ - 3);
 	}
+	if (flags_ & ButtonFlagCenterX)
+	{
+		label_.calcWidth();
+		x += (w_ / 2.0f) - (label_.getW() / 2.0f);
+	}
 
+	label_.setX(x);
 	label_.draw();
 }

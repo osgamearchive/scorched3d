@@ -18,14 +18,8 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// GLWTextButton.h: interface for the GLWTextButton class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_GLWTEXTBUTTON_H__36D49253_FFE6_4E93_89FC_F2CAC2DC3336__INCLUDED_)
 #define AFX_GLWTEXTBUTTON_H__36D49253_FFE6_4E93_89FC_F2CAC2DC3336__INCLUDED_
-
 
 #include <GLW/GLWButton.h>
 #include <GLW/GLWLabel.h>
@@ -34,7 +28,7 @@ class GLWTextButton : public GLWButton
 {
 public:
 	GLWTextButton(char *buttonText, float x, float y, float w, GLWButtonI *handler = 0,
-		bool ok = false, bool cancel = false);
+		unsigned flags = 0);
 	virtual ~GLWTextButton();
 
 	virtual void draw();

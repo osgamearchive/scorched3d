@@ -28,10 +28,10 @@ GLWButtonI::~GLWButtonI()
 }
 
 GLWButton::GLWButton(float x, float y, float w, float h, GLWButtonI *handler,
-					 bool ok, bool cancel) : 
+					 unsigned flags) : 
 	handler_(handler),
 	GLWVisibleWidget(x, y, w, h),
-	ok_(ok), cancel_(cancel), pressed_(false), startdrag_(false),
+	flags_(flags), pressed_(false), startdrag_(false),
 	repeatMode_(false), repeatTime_(0.0f)
 {
 
@@ -53,7 +53,7 @@ void GLWButton::draw()
 	if (w_ < 16 || h_ < 16) size = 6.0f;
 	else if (w_ < 12 || h_ < 12) size = 4.0f;
 
-	glLineWidth(ok_?2.0f:1.0f);
+	glLineWidth((flags_&ButtonFlagOk)?2.0f:1.0f);
 	glBegin(GL_LINE_LOOP);
 		drawShadedRoundBox(x_, y_, w_, h_, size, !pressed_);
 	glEnd();
@@ -125,7 +125,7 @@ void GLWButton::keyDown(char *buffer, unsigned int keyState,
 		KeyboardHistory::HistoryElement *history, int hisCount, 
 		bool &skipRest)
 {
-	if (handler_ && (ok_ || cancel_))
+	if (handler_ && ((flags_&ButtonFlagOk) || (flags_&ButtonFlagCancel)))
 	{
 		for (int i=0; i<hisCount; i++)
 		{
@@ -134,14 +134,14 @@ void GLWButton::keyDown(char *buffer, unsigned int keyState,
 			{
 				case SDLK_KP_ENTER:
 				case SDLK_RETURN:
-					if (ok_) 
+					if ((flags_&ButtonFlagOk)) 
 					{ 
 						handler_->buttonDown(getId()); 
 						skipRest = true; 
 					}
 					break;
 				case SDLK_ESCAPE:
-					if (cancel_) 
+					if ((flags_&ButtonFlagCancel)) 
 					{ 
 						handler_->buttonDown(getId()); 
 						skipRest = true; 

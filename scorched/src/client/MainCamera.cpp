@@ -44,7 +44,7 @@ MainCamera *MainCamera::instance()
 
 MainCamera::MainCamera() 
 {
-	MainMenuDialog::instance()->addMenu("Camera", 80, this, 0, this);
+	MainMenuDialog::instance()->addMenu("Camera", 90, this, 0, this);
 }
 
 MainCamera::~MainCamera()
@@ -58,11 +58,10 @@ void MainCamera::getMenuItems(const char* menuName,
 	for (int i=0; i<TargetCamera::getNoCameraNames(); i++)
 	{
 		static char buffer[128];
-		sprintf(buffer, "%c %s",
-			((targetCam_.getCameraType() == 
-			(TargetCamera::CamType) i)?'x':' '), 
+		sprintf(buffer, "%s",
 			TargetCamera::getCameraNames()[i]);
-		result.push_back(buffer);
+		result.push_back(GLMenuItem(buffer, 0, (targetCam_.getCameraType() == 
+			(TargetCamera::CamType) i)));
 	}
 }
 

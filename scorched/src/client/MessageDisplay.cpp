@@ -86,15 +86,16 @@ void MessageDisplay::draw(const unsigned currentstate)
 	static Vector fontColor(0.7f, 0.7f, 0.2f);
 	static Vector fontColor2(0.0f, 0.0f, 0.0f);
 
-	float x = (fVPort[2]/2.0f) - (10.0f * currentText_.size());
+	float x = (fVPort[2]/2.0f) - float(GLWFont::instance()->getLargePtFont()->getWidth(
+		30, currentText_.c_str()) / 2);
 	float y = fVPort[3] - 120.0f;
 
-	GLWFont::instance()->getFont()->draw(
+	GLWFont::instance()->getLargePtFont()->draw(
 		fontColor2, 30, 
 		x + 2, y + 2, 0.0f,
 		currentText_.c_str());
 
-	GLWFont::instance()->getFont()->draw(
+	GLWFont::instance()->getLargePtFont()->draw(
 		fontColor, 30, 
 		x, y, 0.0f,
 		currentText_.c_str());

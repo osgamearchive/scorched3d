@@ -40,7 +40,8 @@ LogDialog::LogDialog() :
 {
 	needCentered_ = true;
 	quit_ = (GLWTextButton *) 
-		addWidget(new GLWTextButton(" Quit", 205, 10, 85, this, false));
+		addWidget(new GLWTextButton("Quit", 205, 10, 85, this, 
+		GLWButton::ButtonFlagCenterX));
 	listView_ = (GLWListView *) addWidget(new GLWListView(10, 40, 280, 140, 100));
 	serverName_ = (GLWLabel *) addWidget(new GLWLabel(5, 195, "Local"));
 

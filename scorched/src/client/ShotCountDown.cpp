@@ -23,6 +23,7 @@
 #include <client/ClientState.h>
 #include <common/OptionsGame.h>
 #include <GLW/GLWFont.h>
+#include <GLW/GLWVisibleWidget.h>
 
 ShotCountDown *ShotCountDown::instance_ = 0;
 
@@ -92,19 +93,37 @@ void ShotCountDown::draw(const unsigned currentstate)
 
 	const char *format = "%02i:%02i";
 	if (timeLeft < 0) format = "--:--";
+
+	float width = 0.0f;
 	if (currentstate == ClientState::StateWait)
 	{
-		GLWFont::instance()->getFont()->draw(
-			fontColor, 10, (fVPort[2]/2.0f) - 10.0f, 
-			fVPort[3] - 43.0f, 0.0f, format, 
+		width = (float) GLWFont::instance()->getSmallPtFont()->getWidth(10,
+			format, 
+			split.quot,
+			split.rem);	
+	}
+	else 
+	{
+		width = (float) GLWFont::instance()->getSmallPtFont()->getWidth(20,
+			format, 
+			split.quot,
+			split.rem);	
+	}
+
+	if (currentstate == ClientState::StateWait)
+	{
+		static Vector green(0.2f, 0.7f, 0.2f);
+		GLWFont::instance()->getSmallPtFont()->draw(
+			green, 10, (fVPort[2]/2.0f) - (width / 2), 
+			fVPort[3] - 50.0f, 0.0f, format, 
 			split.quot,
 			split.rem);	
 	}
 	else if (showTime_)
 	{
-		GLWFont::instance()->getFont()->draw(
-			fontColor, 20, (fVPort[2]/2.0f) - 30.0f, 
-			fVPort[3] - 43.0f, 0.0f, format, 
+		GLWFont::instance()->getLargePtFont()->draw(
+			fontColor, 20, (fVPort[2]/2.0f) - (width / 2),
+			fVPort[3] - 50.0f, 0.0f, format, 
 			split.quot,
 			split.rem);
 	}

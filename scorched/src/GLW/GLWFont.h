@@ -18,14 +18,8 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// GLWFont.h: interface for the GLWFont class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_GLWFONT_H__0BCF1F78_3D58_47EC_8B98_EB39AB3CADD4__INCLUDED_)
 #define AFX_GLWFONT_H__0BCF1F78_3D58_47EC_8B98_EB39AB3CADD4__INCLUDED_
-
 
 #include <GLEXT/GLFont2d.h>
 
@@ -36,13 +30,12 @@ public:
 
 	static Vector widgetFontColor;
 
-	GLFont2d *getFont() { return courierFont_; }
-	GLFont2d *getOverLapFont() { return courierFontOverLap_; }
+	GLFont2d *getLargePtFont() { return courier16Font_; }
+	GLFont2d *getSmallPtFont() { return courier16Font_; }
 
 protected:
 	static  GLWFont *instance_;
-	GLFont2d *courierFont_;
-	GLFont2d *courierFontOverLap_;
+	GLFont2d *courier16Font_;
 
 private:
 	GLWFont();

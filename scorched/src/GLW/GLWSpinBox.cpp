@@ -73,8 +73,8 @@ void GLWSpinBox::draw()
 		glVertex2d(x_ + w_ - 7.0f + botOffset, y_ + 4.0f - botOffset);
 	glEnd();
 
-	GLWFont::instance()->getFont()->draw(
-		GLWFont::widgetFontColor, 16,
+	GLWFont::instance()->getLargePtFont()->draw(
+		GLWFont::widgetFontColor, 14,
 		x_ + 5.0f, y_ + 5.0f, 0.0f, "%i", value_);
 }
 

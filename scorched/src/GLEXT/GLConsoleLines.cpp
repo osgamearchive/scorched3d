@@ -59,11 +59,11 @@ void GLConsoleLine::drawLine(float x, float y, GLFont2d *font)
 	{
 		// We show a line number of those lines with commands
 		// on them
-		font->draw(color, 14, x, y, 0.0f, "%4i : %s", lineNumber_, line_.c_str());
+		font->draw(color, 12, x, y, 0.0f, "%4i : %s", lineNumber_, line_.c_str());
 	}
 	else
 	{
-		font->draw(color, 14, x, y, 0.0f,"      %s", line_.c_str());
+		font->draw(color, 12, x, y, 0.0f,"      %s", line_.c_str());
 	}
 }
 

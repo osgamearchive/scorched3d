@@ -18,14 +18,8 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #ifndef _GLWBUTTON_H_
 #define _GLWBUTTON_H_
-// GLWButton.h: interface for the GLWButton class.
-//
-//////////////////////////////////////////////////////////////////////
-
-
 
 #include <GLW/GLWVisibleWidget.h>
 
@@ -40,8 +34,15 @@ public:
 class GLWButton : public GLWVisibleWidget
 {
 public:
+	enum
+	{
+		ButtonFlagOk = 1,
+		ButtonFlagCancel = 2,
+		ButtonFlagCenterX = 4
+	};
+
 	GLWButton(float x, float y, float w, float h, GLWButtonI *handler = 0,
-			  bool ok = false, bool cancel = false);
+			  unsigned flags = 0);
 	virtual ~GLWButton();
 
 	virtual void draw();	
@@ -54,6 +55,7 @@ public:
 		bool &skipRest);
 	bool &getPressed() { return pressed_; }
 
+	void setFlags(unsigned f) { flags_ = f; }
 	virtual void setHandler(GLWButtonI *handler);
 	void setRepeatMode() { repeatMode_ = true; }
 
@@ -61,7 +63,7 @@ METACLASSID
 
 protected:
 	GLWButtonI *handler_;
-	bool cancel_, ok_;
+	unsigned flags_;
 	bool startdrag_, pressed_;
 	bool repeatMode_;
 	float repeatTime_;

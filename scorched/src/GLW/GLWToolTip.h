@@ -60,6 +60,7 @@ public:
 	virtual float getW();
 	virtual float getH();
 	unsigned int getId() { return id_; }
+	void calcWidth();
 
 protected:
 	GLWTipI *handler_;

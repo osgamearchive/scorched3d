@@ -51,25 +51,27 @@ PlayerDialog::PlayerDialog() :
 	viewer_ = new GLWTankViewer(10.0f, 25.0f, 4, 3);
 
 	// Add buttons
-	okId_ = addWidget(new GLWTextButton(" Ok", 375, 10, 55, this, true))->getId();
+	okId_ = addWidget(new GLWTextButton("Ok", 375, 10, 55, this, 
+		GLWButton::ButtonFlagOk | GLWButton::ButtonFlagCenterX))->getId();
 	if (OptionsParam::instance()->getConnectedToServer())
 	{
-		cancelId_ = addWidget(new GLWTextButton("Cancel", 280, 10, 85, this, false, true))->getId();
+		cancelId_ = addWidget(new GLWTextButton("Cancel", 280, 10, 85, this, 
+			GLWButton::ButtonFlagCancel | GLWButton::ButtonFlagCenterX))->getId();
 	}
 	addWidget(viewer_);
 
 	// Create player name choice
-	playerName_ = (GLWTextBox *) addWidget(new GLWTextBox(70, 265, 340, "Player"));
+	playerName_ = (GLWTextBox *) addWidget(new GLWTextBox(80, 265, 340, "Player"));
 	playerName_->setMaxTextLen(22);
 	addWidget(new GLWLabel(10, 265, "Name:"));
 
 	// Create team choice
-	addWidget(new GLWLabel(260, 235, "Team:"));
+	addWidget(new GLWLabel(250, 235, "Team:"));
 	teamDropDown_ = (GLWDropDown *) addWidget(new GLWDropDown(320, 235, 110));
 
 	// Create computer type choice
 	addWidget(new GLWLabel(10, 235, "Type:"));
-	typeDropDown_ = (GLWDropDown *) addWidget(new GLWDropDown(70, 235, 110));
+	typeDropDown_ = (GLWDropDown *) addWidget(new GLWDropDown(80, 235, 110));
 
 }
 

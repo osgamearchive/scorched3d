@@ -123,7 +123,7 @@ void TankModelRenderer::drawSecond(bool currentTank)
 		bilX *= float(tank_->getNameLen()) * 0.35f;
 
 		glDepthMask(GL_FALSE);
-		GLWFont::instance()->getFont()->drawBilboard(
+		GLWFont::instance()->getSmallPtFont()->drawBilboard(
 			tank_->getColor(), 1,
 			(float) tank_->getPhysics().getTankPosition()[0] - bilX[0], 
 			(float) tank_->getPhysics().getTankPosition()[1] - bilX[1], 
@@ -424,13 +424,13 @@ void TankModelRenderer::draw2d(bool currentTank)
 		if (TankModelRendererHUD::drawText())
 		{
 			Vector yellow(0.7f, 0.7f, 0.0f);
-			GLWFont::instance()->getFont()->draw(
-				yellow, 12,
+			GLWFont::instance()->getSmallPtFont()->draw(
+				yellow, 10,
 				(float) posX_ + 47.0f, (float) posY_ - 4.0f, (float) posZ_,
 				TankModelRendererHUD::getTextA());
-			GLWFont::instance()->getFont()->draw(
-				yellow, 12,
-				(float) posX_ + 47.0f, (float) posY_ - 13.0f, (float) posZ_,
+			GLWFont::instance()->getSmallPtFont()->draw(
+				yellow, 10,
+				(float) posX_ + 47.0f, (float) posY_ - 15.0f, (float) posZ_,
 				TankModelRendererHUD::getTextB());
 
 			if (TankModelRendererHUD::getPercentage() >= 0.0f)

@@ -121,13 +121,14 @@ void WeaponDialog::drawWeapon(Tank *current)
 		Vector yellow(0.9f, 0.9f, 1.0f); // Not Yellow!! ;)
 
 		// Draw the weapon name
-		float weaponWidth = float(strlen(
-			current->getAccessories().getWeapons().getCurrent()->getName())) * 8.4f;
-		GLWFont::instance()->getFont()->draw(
+		float weaponWidth = (float) GLWFont::instance()->getSmallPtFont()->
+			getWidth(10.0f, 
+			current->getAccessories().getWeapons().getCurrent()->getName());
+		GLWFont::instance()->getSmallPtFont()->draw(
 			current->getColor(),
-			12.0f,
+			10.0f,
 			x_ + 60.0f - (weaponWidth / 2.0f),
-			y_ + 20.0f,
+			y_ + 21.0f,
 			0.0f,
 			current->getAccessories().getWeapons().getCurrent()->getName());
 
@@ -136,49 +137,49 @@ void WeaponDialog::drawWeapon(Tank *current)
 			current->getAccessories().getWeapons().getCurrent());
 		const char *format = "%i";
 		if (count < 0) format = "Inf";
-		drawInfoBox(x_ + 113, y_ + 103.0f, 45.0f);
+		drawInfoBox(x_ + 113, y_ + 103.0f, 47.0f);
 		drawJoin(x_ + 113.0f, y_ + 90.0f);
-		GLWFont::instance()->getFont()->draw(
+		GLWFont::instance()->getSmallPtFont()->draw(
 			yellow,
 			12.0f,
-			x_ + 130.0f,
-			y_ + 87.0f,
+			x_ + 133.0f,
+			y_ + 88.0f,
 			0.0f,
 			format,
 			count);
 
 		// Rotation XY
-		drawInfoBox(x_ + 111.0f, y_ + 34.0f, 67.0f);
+		drawInfoBox(x_ + 111.0f, y_ + 34.0f, 72.0f);
 		drawJoin(x_ + 111.0f, y_ + 29.0f);
-		GLWFont::instance()->getFont()->draw(
+		GLWFont::instance()->getSmallPtFont()->draw(
 			yellow,
 			12.0f,
-			x_ + 128.0f,
-			y_ + 18.0f,
+			x_ + 131.0f,
+			y_ + 19.0f,
 			0.0f,
 			"%.1f",
 			current->getPhysics().getRotationGunXY());
 
 		// Rotation YZ
-		drawInfoBox(x_ + 118.0f, y_ + 57.0f, 56.0f);
+		drawInfoBox(x_ + 118.0f, y_ + 57.0f, 61.0f);
 		drawJoin(x_ + 118.0f, y_ + 49.0f);
-		GLWFont::instance()->getFont()->draw(
+		GLWFont::instance()->getSmallPtFont()->draw(
 			yellow,
 			12.0f,
-			x_ + 134.0f,
-			y_ + 41.0f,
+			x_ + 137.0f,
+			y_ + 42.0f,
 			0.0f,
 			"%.1f",
 			current->getPhysics().getRotationGunYZ());
 
 		// Power
-		drawInfoBox(x_ + 118.0f, y_ + 80.0f, 73.0f);
+		drawInfoBox(x_ + 118.0f, y_ + 80.0f, 80.0f);
 		drawJoin(x_ + 118.0f, y_ + 72.0f);
-		GLWFont::instance()->getFont()->draw(
+		GLWFont::instance()->getSmallPtFont()->draw(
 			yellow,
 			12.0f,
-			x_ + 134.0f,
-			y_ + 64.0f,
+			x_ + 137.0f,
+			y_ + 65.0f,
 			0.0f,
 			"%.1f",
 			current->getState().getPower());

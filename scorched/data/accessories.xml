@@ -3,7 +3,8 @@
 		<name>Parachute</name>
 		<description>Deployed when the tank falls.  
 Prevents the tank from taking falling damage.
-Parachutes must be enbabled before they are effective.</description>
+Parachutes must be enbabled before they are
+effective.</description>
 		<icon>para.bmp</icon>
 		<cost>10000</cost>
 		<bundlesize>8</bundlesize>
@@ -33,9 +34,10 @@ to move rather than fire.</description>
 	</accessory>
 	<accessory type="Shield">
 		<name>Shield</name>
-		<description>A small defensive shield that protects the
-tank from small amounts of damage. Shields must
-be activated before they work.</description>
+		<description>A small defensive shield that protects 
+the tank from small amounts of damage. 
+Shields must be activated before they 
+work.</description>
 		<icon>shield.bmp</icon>
 		<cost>20000</cost>
 		<bundlesize>3</bundlesize>
@@ -48,9 +50,10 @@ be activated before they work.</description>
 	</accessory>
 	<accessory type="Shield">
 		<name>Heavy Shield</name>
-		<description>A large defensive shield that protects the
-tank from small amounts of damage. Shields must
-be activated before they work.</description>
+		<description>A large defensive shield that protects
+the tank from small amounts of damage.
+Shields must be activated before they 
+work.</description>
 		<icon>hshield.bmp</icon>
 		<cost>30000</cost>
 		<bundlesize>2</bundlesize>
@@ -63,10 +66,11 @@ be activated before they work.</description>
 	</accessory>
 	<accessory type="ShieldReflective">
 		<name>Force Shield</name>
-		<description>A small reflective shield that protects the
-tank from large amounts of damage. Force shields
-reflect any shots that hit them. Shields must be
-activated before they work.</description>
+		<description>A small reflective shield that protects 
+the tank from large amounts of damage. 
+Force shields reflect any shots that hit 
+them. Shields must be activated before 
+they work.</description>
 		<icon>fshield.bmp</icon>
 		<cost>25000</cost>
 		<bundlesize>3</bundlesize>
@@ -79,10 +83,11 @@ activated before they work.</description>
 	</accessory>
 	<accessory type="ShieldReflectiveMag">
 		<name>Mag Deflect</name>
-		<description>A small reflective shield that protects the
-tank from small amounts of damage. Mag shields
-reflect any shots that hit them but only from above.
-Shields must be activated before they work.</description>
+		<description>A small reflective shield that protects
+the tank from small amounts of damage. 
+Mag shields reflect any shots that hit
+them but only from above. Shields must 
+be activated before they work.</description>
 		<icon>mag.bmp</icon>
 		<cost>10000</cost>
 		<bundlesize>2</bundlesize>
@@ -95,10 +100,11 @@ Shields must be activated before they work.</description>
 	</accessory>
 	<accessory type="ShieldReflectiveMag">
 		<name>Heavy Mag</name>
-		<description>A large reflective shield that protects the
-tank from small amounts of damage.  Mag shields
-reflect any shots that hit them but only from above.
-Shields must be activated before they work.</description>
+		<description>A large reflective shield that protects
+the tank from small amounts of damage.
+Mag shields reflect any shots that hit
+them but only from above. Shields must be 
+activated before they work.</description>
 		<icon>smag.bmp</icon>
 		<cost>25000</cost>
 		<bundlesize>2</bundlesize>
@@ -112,7 +118,8 @@ Shields must be activated before they work.</description>
 	<accessory type="AutoDefense">
 		<name>Auto Defense</name>
 		<description>Allows the tank to raise shields and 
-activate parachutes before the tanks main move.</description>
+activate parachutes before the tanks 
+main move.</description>
 		<icon>autod.bmp</icon>
 		<cost>10000</cost>
 		<bundlesize>1</bundlesize>
@@ -121,8 +128,8 @@ activate parachutes before the tanks main move.</description>
 	<accessory type="WeaponProjectile">
 		<name>Napalm</name>
 		<description>A projectile weapon that explodes 
-into a river of flame. Any tanks near the
-flames will loose life.</description>
+into a river of flame. Any tanks
+near the flames will loose life.</description>
 		<icon>napalm.bmp</icon>
 		<cost>10000</cost>
 		<bundlesize>10</bundlesize>
@@ -144,8 +151,9 @@ flames will loose life.</description>
 	<accessory type="WeaponProjectile">
 		<name>Hot Napalm</name>
 		<description>A projectile weapon that explodes 
-into a large river of flame. Any tanks near the
-Any flames near tanks will remove life.</description>
+into a large river of flame. Any 
+tanks near the flames near tanks 
+will loose life.</description>
 		<icon>hnapalm.bmp</icon>
 		<cost>20000</cost>
 		<bundlesize>2</bundlesize>
@@ -167,8 +175,9 @@ Any flames near tanks will remove life.</description>
 	<accessory type="WeaponProjectile">
 		<name>Baby Roller</name>
 		<description>A projectile weapon that explodes 
-into a number of rolling bombs.  These bombs roll
-downhill exploding on contact with any tank.</description>
+into a number of rolling bombs. These 
+bombs roll downhill exploding on 
+contact with any tank.</description>
 		<icon>broller.bmp</icon>
 		<cost>5000</cost>
 		<bundlesize>10</bundlesize>
@@ -192,8 +201,9 @@ downhill exploding on contact with any tank.</description>
 	<accessory type="WeaponProjectile">
 		<name>Roller</name>
 		<description>A projectile weapon that explodes 
-into a number of rolling bombs.  These bombs roll
-downhill exploding on contact with any tank.</description>
+into a number of rolling bombs.  These
+bombs roll downhill exploding on contact 
+with any tank.</description>
 		<icon>roller.bmp</icon>
 		<cost>6000</cost>
 		<bundlesize>5</bundlesize>
@@ -217,8 +227,9 @@ downhill exploding on contact with any tank.</description>
 	<accessory type="WeaponProjectile">
 		<name>Heavy Roller</name>
 		<description>A projectile weapon that explodes 
-into a number of rolling bombs.  These bombs roll
-downhill exploding on contact with any tank.</description>
+into a number of rolling bombs.  These
+bombs roll downhill exploding on contact 
+with any tank.</description>
 		<icon>hroller.bmp</icon>
 		<cost>7500</cost>
 		<bundlesize>2</bundlesize>
@@ -320,8 +331,9 @@ downhill exploding on contact with any tank.</description>
 	<accessory type="WeaponProjectile">
 		<name>Dirt Clod</name>
 		<description>A projectile weapon that explodes making 
-a small mound of earth. The explosion does not 
-harm tanks but can be used to cover them.</description>
+a small mound of earth. The explosion 
+does not  harm tanks but can be used 
+to cover them.</description>
 		<icon>dclod.bmp</icon>
 		<cost>5000</cost>
 		<bundlesize>10</bundlesize>
@@ -340,8 +352,9 @@ harm tanks but can be used to cover them.</description>
 	<accessory type="WeaponProjectile">
 		<name>Dirt Ball</name>
 		<description>A projectile weapon that explodes making
-a medium mound of earth.  The explosion does not 
-harm tanks but can be used to cover them.</description>
+a medium mound of earth.  The explosion
+does not harm tanks but can be used to 
+cover them.</description>
 		<icon>dball.bmp</icon>
 		<cost>5000</cost>
 		<bundlesize>5</bundlesize>
@@ -360,8 +373,9 @@ harm tanks but can be used to cover them.</description>
 	<accessory type="WeaponProjectile">
 		<name>Ton Of Dirt</name>
 		<description>A projectile weapon that explodes making
-a large mound of earth.  The explosion does not 
-harm tanks but can be used to cover them.</description>
+a large mound of earth.  The explosion
+does not harm tanks but can be used to 
+cover them.</description>
 		<icon>tdirt.bmp</icon>
 		<cost>6750</cost>
 		<bundlesize>2</bundlesize>
@@ -381,9 +395,9 @@ harm tanks but can be used to cover them.</description>
 	<accessory type="WeaponProjectile">
 		<name>Riot Bomb</name>
 		<description>A projectile weapon that explodes removing
-a small amount of earth. The explosion does not
-harm tanks but can be used to remove earth from 
-under them.</description>
+a small amount of earth. The explosion
+does not harm tanks but can be used to 
+remove earth from under them.</description>
 		<icon>rbomb.bmp</icon>
 		<cost>5000</cost>
 		<bundlesize>5</bundlesize>
@@ -402,9 +416,9 @@ under them.</description>
 	<accessory type="WeaponProjectile">
 		<name>Hvy Riot Bomb</name>
 		<description>A projectile weapon that explodes removing
-a large amount of earth. The explosion does not 
-harm tanks but can be used to remove earth from 
-under them.</description>
+a large amount of earth. The explosion
+does not harm tanks but can be used to 
+remove earth from under them.</description>
 		<icon>hrbomb.bmp</icon>
 		<cost>4750</cost>
 		<bundlesize>2</bundlesize>
@@ -424,8 +438,9 @@ under them.</description>
 	<accessory type="WeaponProjectile">
 		<name>Leap Frog</name>
 		<description>An explosive projectile weapon.  When the 
-warhead explodes it creates other small warheads 
-that continue in the same direction as the original.</description>
+warhead explodes it creates other
+small warheads that continue in the 
+same direction as the original.</description>
 		<icon>lfrog.bmp</icon>
 		<cost>10000</cost>
 		<bundlesize>2</bundlesize>
@@ -491,8 +506,8 @@ that continue in the same direction as the original.</description>
 	</accessory>
 	<accessory type="WeaponProjectile">
 		<name>Baby Digger</name>
-		<description>A projectile weapon that explodes creating
-some small riot bombs.</description>
+		<description>A projectile weapon that explodes 
+creating some small riot bombs.</description>
 		<icon>bdigger.bmp</icon>
 		<cost>3000</cost>
 		<bundlesize>10</bundlesize>
@@ -524,8 +539,8 @@ some small riot bombs.</description>
 	</accessory>
 	<accessory type="WeaponProjectile">
 		<name>Digger</name>
-		<description>A projectile weapon that explodes creating 
-some riot bombs.</description>
+		<description>A projectile weapon that explodes
+creating some riot bombs.</description>
 		<icon>digger.bmp</icon>
 		<cost>2500</cost>
 		<bundlesize>5</bundlesize>
@@ -555,8 +570,8 @@ some riot bombs.</description>
 	</accessory>
 	<accessory type="WeaponProjectile">
 		<name>Heavy Digger</name>
-		<description>A projectile weapon that explodes creating
-many small riot bombs.</description>
+		<description>A projectile weapon that explodes 
+creating many large riot bombs.</description>
 		<icon>hdigger.bmp</icon>
 		<cost>6750</cost>
 		<bundlesize>2</bundlesize>
@@ -589,8 +604,8 @@ many small riot bombs.</description>
 	<accessory type="WeaponProjectile">
 		<name>Baby Sandhog</name>
 		<description>A projectile weapon that explodes creating
-some small burrowing missiles. These missiles 
-target nearby tanks.</description>
+some small burrowing missiles. These 
+missiles target nearby tanks.</description>
 		<icon>bshog.bmp</icon>
 		<cost>10000</cost>
 		<bundlesize>7</bundlesize>
@@ -622,8 +637,9 @@ target nearby tanks.</description>
 	</accessory>
 	<accessory type="WeaponProjectile">
 		<name>Sandhog</name>
-		<description>A projectile weapon that explodes creating some 
-burrowing missiles. These missiles target nearby tanks.</description>
+		<description>A projectile weapon that explodes
+creating some burrowing missiles. These 
+missiles target nearby tanks.</description>
 		<icon>shog.bmp</icon>
 		<cost>16750</cost>
 		<bundlesize>5</bundlesize>
@@ -653,8 +669,9 @@ burrowing missiles. These missiles target nearby tanks.</description>
 	</accessory>
 	<accessory type="WeaponProjectile">
 		<name>Heavy Sandhog</name>
-		<description>A projectile weapon that explodes creating many 
-burrowing missiles. These missiles target nearby tanks.</description>
+		<description>A projectile weapon that explodes
+creating many burrowing missiles. These 
+missiles target nearby tanks.</description>
 		<icon>hshog.bmp</icon>
 		<cost>25000</cost>
 		<bundlesize>2</bundlesize>
@@ -686,9 +703,10 @@ burrowing missiles. These missiles target nearby tanks.</description>
 	</accessory>
 	<accessory type="WeaponProjectile">
 		<name>MIRV</name>
-		<description>A projectile weapon that on reaching its highest
-point releases several small warheads. These
-warheads fan out in a straight line from the 
+		<description>A projectile weapon that on 
+reaching its highest point releases 
+several small warheads. These warheads 
+fan out in a straight line from the 
 direction of the firer.</description>
 		<icon>mirv.bmp</icon>
 		<cost>10000</cost>
@@ -724,9 +742,10 @@ direction of the firer.</description>
 	</accessory>
 	<accessory type="WeaponProjectile">
 		<name>Spread MIRV</name>
-		<description>A projectile weapon that on reaching its highest
-point releases several small warheads. These 
-warheads fan out in a random direction.</description>
+		<description>A projectile weapon that on reaching
+its highest point releases several 
+small warheads. These warheads fan out 
+in a random direction.</description>
 		<icon>mirv.bmp</icon>
 		<cost>10000</cost>
 		<bundlesize>2</bundlesize>
@@ -761,9 +780,10 @@ warheads fan out in a random direction.</description>
 	</accessory>
 	<accessory type="WeaponProjectile">
 		<name>Death Head</name>
-		<description>A projectile weapon that on reaching its highest
-point releases many large warheads. These 
-warheads fan out in a random direction.</description>
+		<description>A projectile weapon that on
+reaching its highest point releases 
+many large warheads. These warheads fan 
+out in a random direction.</description>
 		<icon>dhead.bmp</icon>
 		<cost>20000</cost>
 		<bundlesize>1</bundlesize>
@@ -797,8 +817,10 @@ warheads fan out in a random direction.</description>
 	</accessory>
 	<accessory type="WeaponProjectile">
 		<name>Funky Bomb</name>
-		<description>A projectile weapon that on exploding releases many small
-missiles.  These missiles automatically target nearby tanks.</description>
+		<description>A projectile weapon that on 
+exploding releases many small 
+missiles.  These missiles automatically 
+target nearby tanks.</description>
 		<icon>fbomb.bmp</icon>
 		<cost>12000</cost>
 		<bundlesize>2</bundlesize>
@@ -844,9 +866,11 @@ missiles.  These missiles automatically target nearby tanks.</description>
 	</accessory>
 	<accessory type="WeaponProjectile">
 		<name>Tracer</name>
-		<description>A projectile weapon that causes no damage.
-Can be used to determine range without wasting other weapons.
-Leaves a marker at the final position.</description>
+		<description>A projectile weapon that 
+causes no damage. Can be used to 
+determine range without wasting 
+other weapons.  Leaves a marker at the 
+final position.</description>
 		<icon>tracer.bmp</icon>
 		<cost>10</cost>
 		<bundlesize>20</bundlesize>
@@ -860,9 +884,11 @@ Leaves a marker at the final position.</description>
 	</accessory>
 	<accessory type="WeaponProjectile">
 		<name>Smoke Tracer</name>
-		<description>A projectile weapon that causes no damage.
-Can be used to determine range without wasting other weapons.
-Leaves a colored trace of the shot path.</description>
+		<description>A projectile weapon that
+causes no damage.  Can be used to 
+determine range without wasting 
+other weapons.  Leaves a colored 
+trace of the shot path.</description>
 		<icon>stracer.bmp</icon>
 		<cost>500</cost>
 		<bundlesize>10</bundlesize>

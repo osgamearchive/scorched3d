@@ -28,7 +28,8 @@ KibitzingDialog::KibitzingDialog() : GLWWindow("Kibitzing", 280.0f, 80.0f, 0)
 {
 	addWidget(new GLWLabel(10, 40, "No kibitzing, please."));
 
-	okId_ = addWidget(new GLWTextButton(" Ok", 215, 10, 55, this, true))->getId();
+	okId_ = addWidget(new GLWTextButton("Ok", 215, 10, 55, this, 
+		GLWButton::ButtonFlagOk | GLWButton::ButtonFlagCenterX))->getId();
 }
 
 KibitzingDialog::~KibitzingDialog()

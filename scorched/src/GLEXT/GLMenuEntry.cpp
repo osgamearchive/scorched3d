@@ -33,7 +33,7 @@ GLMenuEntry::GLMenuEntry(char *name, float width,
 	depressed_(false), left_(0.0f), width_(width), height_(0.0f),
 	selectFn_(selectFn), textFn_(textFn), 
 	subMenuFn_(subMenuFn), enabledFn_(enabledFn),
-	menuName_(name)
+	menuName_(name), selectedWidth_(0.0f)
 {
 
 }
@@ -75,8 +75,8 @@ void GLMenuEntry::draw(GLFont2d &font, float currentTop, float currentLeft)
 		menuTitle = (char *) menuName_.c_str();
 	}
 
-	font.draw(color, 14, currentLeft + 5.0f, 
-		currentTop - 18.0f, 0.0f, menuTitle);
+	font.draw(color, 12, currentLeft + 5.0f, 
+		currentTop - 15.0f, 0.0f, menuTitle);
 }
 
 void GLMenuEntry::drawNonDepressed(float currentTop, float currentLeft)
@@ -113,6 +113,8 @@ void GLMenuEntry::drawDepressed(GLFont2d &font, float currentTop, float currentL
 	}
 
 	// Get the height of the menu
+	selectedWidth_ = 0.0f;
+	bool oneSelected = false;
 	GLfloat lowerHeight = 0.0f;
 	std::list<GLMenuItem>::iterator itor;
 	for (itor =	menuItems_.begin();
@@ -120,9 +122,16 @@ void GLMenuEntry::drawDepressed(GLFont2d &font, float currentTop, float currentL
 		itor++)
 	{
 		GLMenuItem &item = (*itor);
+		if (item.getSelected()) oneSelected = true;
 		if (item.getText()[0] == '-') lowerHeight += 8.0f;
 		else lowerHeight += 18.0f;
+
+		float currentwidth = 
+			(float) font.getWidth(12, (char *) item.getText()) + 10.0f;
+		if (currentwidth > selectedWidth_) selectedWidth_ = currentwidth;
 	}
+	float side = (oneSelected?20.0f:10.0f);
+	selectedWidth_ += side + 5.0f;
 
 	lowerHeight = lowerHeight + menuItemHeight + 5.0f;
 	if (lowerHeight < 52.0f) lowerHeight = 52.0f;
@@ -137,7 +146,7 @@ void GLMenuEntry::drawDepressed(GLFont2d &font, float currentTop, float currentL
 			glVertex2f(currentLeft + 20.0f, currentTop - 25.0f - drop);
 			glVertex2f(currentLeft + 20.0f, currentTop - lowerHeight - drop);
 			GLWVisibleWidget::drawRoundBox(currentLeft, currentTop - lowerHeight - drop, 
-				165.0f, lowerHeight - drop, 20.0f);
+				selectedWidth_, lowerHeight - drop, 20.0f);
 			glVertex2f(currentLeft + 20.0f, currentTop - lowerHeight - drop);
 		glEnd();
 
@@ -145,7 +154,7 @@ void GLMenuEntry::drawDepressed(GLFont2d &font, float currentTop, float currentL
 		glLineWidth(2.0f);
 		glBegin(GL_LINE_LOOP);
 			GLWVisibleWidget::drawRoundBox(currentLeft, currentTop - lowerHeight  - drop, 
-				165.0f, lowerHeight - drop, 20.0f);
+				selectedWidth_, lowerHeight - drop, 20.0f);
 		glEnd();
 		glLineWidth(1.0f);
 	}
@@ -169,14 +178,14 @@ void GLMenuEntry::drawDepressed(GLFont2d &font, float currentTop, float currentL
 			glBegin(GL_LINES);
 				glColor3f(0.0f, 0.0f, 0.0f);
 				glVertex2f(currentLeft + 5.0f, currentTop - 5.0f);
-				glVertex2f(currentLeft + 165.0f - 5.0f, currentTop - 5.0f);
+				glVertex2f(currentLeft + selectedWidth_ - 5.0f, currentTop - 5.0f);
 			glEnd();
 			currentTop -= 8.0f;
 		}
 		else
 		{
 			bool selected = false;
-			if (currentLeft < mouseX && mouseX < currentLeft + 165.0f &&
+			if (currentLeft < mouseX && mouseX < currentLeft + selectedWidth_ &&
 				currentTop - 18.0f < mouseY && mouseY < currentTop)
 			{
 				selected = true;
@@ -185,9 +194,14 @@ void GLMenuEntry::drawDepressed(GLFont2d &font, float currentTop, float currentL
 			if (item.getToolTip())
 			{
 				GLWToolTip::instance()->addToolTip(item.getToolTip(),
-					currentLeft, currentTop - 18.0f, 165.0f, 18.0f);
+					currentLeft, currentTop - 18.0f, selectedWidth_, 18.0f);
 			}
-			font.draw(selected?color:itemcolor, 12, currentLeft + 5.0f, 
+			if (item.getSelected())
+			{
+				font.draw(selected?color:itemcolor, 12, currentLeft + 5.0f, 
+					currentTop - 16.0f, 0.0f, "x");
+			}
+			font.draw(selected?color:itemcolor, 12, currentLeft + side, 
 				currentTop - 16.0f, 0.0f, (char *) item.getText());
 			currentTop -= 18.0f;
 		}
@@ -227,7 +241,7 @@ bool GLMenuEntry::clickMenu(float currentTop, int x, int y)
 {
 	if (!depressed_) return false;
 
-	bool thisMenu = (x>left_ && x<left_ + 165.0f && y>height_);
+	bool thisMenu = (x>left_ && x<left_ + selectedWidth_ && y>height_);
 	if (thisMenu)
 	{
 		GLfloat lowerHeight = currentTop - menuItemHeight - 7.0f;

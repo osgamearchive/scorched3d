@@ -39,7 +39,7 @@ GLConsole::GLConsole() :
 	height_(0.0f), opening_(false), lines_(1000), 
 	methods_(rules_, lines_), showCursor_(true)
 {
-	font_ = GLWFont::instance()->getFont();
+	font_ = GLWFont::instance()->getSmallPtFont();
 }
 
 GLConsole::~GLConsole()
@@ -214,7 +214,7 @@ void GLConsole::drawBackdrop(float width, float top)
 void GLConsole::drawText(float width, float top)
 {
 	static Vector color(0.8f, 0.8f, 0.8f);
-	font_->draw(color, 16,
+	font_->draw(color, 14,
 		10.0f, top - (height_ - 14.0f), 0.0f, "> %s%c", 
 		currentLine_.c_str(),
 		(showCursor_?'_':' '));

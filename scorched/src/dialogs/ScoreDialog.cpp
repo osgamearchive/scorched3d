@@ -28,6 +28,12 @@
 #include <client/ScorchedClient.h>
 #include <stdio.h>
 
+static const float rankLeft = 5.0f;
+static const float nameLeft = 20.0f;
+static const float killsLeft = 205.0f;
+static const float moneyLeft = 260.0f;
+static const float winsLeft = 360.0f;
+static const float readyLeft = 390.0f;
 static const float lineSpacer = 10.0f;
 
 ScoreDialog *ScoreDialog::instance_ = 0;
@@ -113,7 +119,7 @@ void ScoreDialog::draw()
 
 	Vector white(0.9f, 0.9f, 1.0f);
 	bool finished = (ScorchedClient::instance()->getGameState().getState() == ClientState::StateScore);
-	GLWFont::instance()->getFont()->draw(
+	GLWFont::instance()->getLargePtFont()->draw(
 			white,
 			20,
 			x_ + 8.0f, y_ + h_ - 21.0f, 0.0f,
@@ -122,7 +128,7 @@ void ScoreDialog::draw()
 	bool server = (OptionsParam::instance()->getConnectedToServer());
 	if (server)
 	{
-		GLWFont::instance()->getFont()->draw(
+		GLWFont::instance()->getLargePtFont()->draw(
 				white,
 				18,
 				x_ + 8.0f, y_ + h_ - 41.0f, 0.0f,
@@ -140,24 +146,35 @@ void ScoreDialog::draw()
 			sprintf(moves, ", %i Moves", movesLeft);
 		}
 
-		GLWFont::instance()->getFont()->draw(
+		GLWFont::instance()->getSmallPtFont()->draw(
 				white,
-				12,
-				x_ + 240.0f, y_ + h_ - 21.0f, 0.0f,
-				"   %i Rounds%s",
+				10,
+				x_ + 260.0f, y_ + h_ - 21.0f, 0.0f,
+				"%i Rounds%s",
 				ScorchedClient::instance()->getOptionsTransient().getNoRoundsLeft(),
 				moves);
 	}
 
 	float y = lineSpacer + 10.0f;
-	GLWFont::instance()->getFont()->draw(
+	GLWFont::instance()->getSmallPtFont()->draw(
 			white,
 			12,
-			x_ + 6.0f, y_ + h_ - y - lineSpacer - 22.0f, 0.0f,
-			"   %-24s%5s%10s%8s",
-			"Name",
-			"Kills",
-			"Money",
+			x_ + nameLeft, y_ + h_ - y - lineSpacer - 26.0f, 0.0f,
+			"Name");
+	GLWFont::instance()->getSmallPtFont()->draw(
+			white,
+			12,
+			x_ + killsLeft, y_ + h_ - y - lineSpacer - 26.0f, 0.0f,
+			"Kills");
+	GLWFont::instance()->getSmallPtFont()->draw(
+			white,
+			12,
+			x_ + moneyLeft, y_ + h_ - y - lineSpacer - 26.0f, 0.0f,
+			"Money");
+	GLWFont::instance()->getSmallPtFont()->draw(
+			white,
+			12,
+			x_ + winsLeft, y_ + h_ - y - lineSpacer - 26.0f, 0.0f,
 			"Wins");
 	y+= lineSpacer + lineSpacer;
 
@@ -247,7 +264,7 @@ void ScoreDialog::draw()
 			}
 		}	
 	}
-	y+= lineSpacer;
+	y+= lineSpacer / 1.5f;
 	// Spectators
 	std::list<unsigned int>::iterator itor;
 	for (itor = sortedTanks_.begin();
@@ -272,24 +289,34 @@ void ScoreDialog::draw()
 
 void ScoreDialog::addScoreLine(float y, int kills, int money, int wins)
 {
-	float textX = x_ + 6.0f;
+	float textX = x_;
 	float textY  = y_ + h_ - y - lineSpacer - 30.0f;
 	Vector white(0.9f, 0.9f, 1.0f);
 
-	char *format = "%32i%10i $%6i";
-
 	// Print the name on the screen
-	GLWFont::instance()->getFont()->draw(
+	GLWFont::instance()->getSmallPtFont()->draw(
 		white,
-		12,
-		textX, textY, 0.0f,
-		format,
-		kills, money, wins);	
+		10,
+		textX + killsLeft, textY, 0.0f,
+		"%i",
+		kills);	
+	GLWFont::instance()->getSmallPtFont()->draw(
+		white,
+		10,
+		textX + moneyLeft, textY, 0.0f,
+		"$%i",
+		money);	
+	GLWFont::instance()->getSmallPtFont()->draw(
+		white,
+		10,
+		textX + winsLeft, textY, 0.0f,
+		"%i",
+		wins);	
 }
 
 void ScoreDialog::addLine(Tank *current, float y, char *rank)
 {
-	float textX = x_ + 6.0f;
+	float textX = x_;
 	float textY  = y_ + h_ - y - lineSpacer - 25.0f;
 	bool currentPlayer = false;
 	
@@ -302,10 +329,10 @@ void ScoreDialog::addLine(Tank *current, float y, char *rank)
 
 		glColor4f(0.0f, 0.0f, 0.0f, 0.4f);
 		glBegin(GL_QUADS);
-			glVertex2f(x_ + w_ - 3.0f, textY + lineSpacer - 0.0f);
-			glVertex2f(x_ + 3.0f, textY + lineSpacer - 0.0f);
-			glVertex2f(x_ + 3.0f, textY + 2.0f);
-			glVertex2f(x_ + w_ - 3.0f, textY + 2.0f);
+			glVertex2f(x_ + w_ - 3.0f, textY + lineSpacer - 1.0f);
+			glVertex2f(x_ + 3.0f, textY + lineSpacer - 1.0f);
+			glVertex2f(x_ + 3.0f, textY - 1.0f);
+			glVertex2f(x_ + w_ - 3.0f, textY - 1.0f);
 		glEnd();
 	}
 
@@ -323,31 +350,56 @@ void ScoreDialog::addLine(Tank *current, float y, char *rank)
 	if (current->getState().getSpectator())
 	{
 		// Print the name on the screen
-		GLWFont::instance()->getFont()->draw(
+		GLWFont::instance()->getSmallPtFont()->draw(
 			current->getColor(),
-			12,
-			textX, textY, 0.0f,
-			"%-3s%-27s%2s%10s  %6s%2s",
-			"",
-			name,
-			"",
-			"",
-			"",
+			10,
+			textX + nameLeft, textY, 0.0f,
+			name);
+		GLWFont::instance()->getSmallPtFont()->draw(
+			current->getColor(),
+			10,
+			textX + readyLeft, textY, 0.0f,
+			"%2s",
 			((current->getState().getReadyState() == TankState::SNotReady)?"*":" "));
 	}
 	else
 	{
 		// Print the name on the screen
-		GLWFont::instance()->getFont()->draw(
+		GLWFont::instance()->getSmallPtFont()->draw(
 			current->getColor(),
-			12,
-			textX, textY, 0.0f,
-			"%-3s%-27s%2i%10i $%6i%2s",
-			rank,
-			name,
-			current->getScore().getKills(),
-			current->getScore().getMoney(),
-			current->getScore().getWins(),
+			10,
+			textX + rankLeft, textY, 0.0f,
+			"%s",
+			rank);
+		GLWFont::instance()->getSmallPtFont()->draw(
+			current->getColor(),
+			10,
+			textX + nameLeft, textY, 0.0f,
+			"%s",
+			name);
+		GLWFont::instance()->getSmallPtFont()->draw(
+			current->getColor(),
+			10,
+			textX + killsLeft, textY, 0.0f,
+			"%i",
+			current->getScore().getKills());
+		GLWFont::instance()->getSmallPtFont()->draw(
+			current->getColor(),
+			10,
+			textX + moneyLeft, textY, 0.0f,
+			"$%i",
+			current->getScore().getMoney());
+		GLWFont::instance()->getSmallPtFont()->draw(
+			current->getColor(),
+			10,
+			textX + winsLeft, textY, 0.0f,
+			"%i",
+			current->getScore().getWins());
+		GLWFont::instance()->getSmallPtFont()->draw(
+			current->getColor(),
+			10,
+			textX + readyLeft, textY, 0.0f,
+			"%s",
 			((current->getState().getReadyState() == TankState::SNotReady)?"*":" "));
 	}
 }

@@ -18,11 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// GLWLabel.h: interface for the GLWLabel class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_GLWLABEL_H__75483479_A6F8_45CC_8E83_B517E721211F__INCLUDED_)
 #define AFX_GLWLABEL_H__75483479_A6F8_45CC_8E83_B517E721211F__INCLUDED_
 
@@ -38,6 +33,7 @@ public:
 	virtual void draw();	
 	const char *getText() { return buttonText_.c_str(); }
 	void setText(const char *text);
+	void calcWidth();
 
 METACLASSID
 

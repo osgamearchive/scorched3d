@@ -59,7 +59,7 @@ void SpeedChange::draw(const unsigned state)
 		sprintf(buffer, "%iX", (int) speed);
 
 		static Vector fontColor(0.7f, 0.7f, 0.2f);
-		GLWFont::instance()->getFont()->draw(fontColor, 20, 10.0f, 10.0f, 0.0f, buffer);
+		GLWFont::instance()->getLargePtFont()->draw(fontColor, 20, 10.0f, 10.0f, 0.0f, buffer);
 	}
 }
 

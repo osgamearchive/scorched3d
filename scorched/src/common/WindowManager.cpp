@@ -40,7 +40,7 @@ WindowManager::WindowManager() : currentStateEntry_(0)
 {
 	setCurrentEntry(-1);
 	MainMenuDialog::instance()->
-		addMenu("Windows", 80.0f, this, 0, this, 0);
+		addMenu("Windows", 90.0f, this, 0, this, 0);
 }
 
 WindowManager::~WindowManager()
@@ -403,10 +403,9 @@ void WindowManager::getMenuItems(const char* menuName,
 			if (window->getName()[0] != '\0')
 			{
 				static char buffer[128];
-				sprintf(buffer, "%c %s",
-					(windowVisible(window->getId())?'x':' '),
+				sprintf(buffer, "%s",
 					window->getName());
-				items.push_back(buffer);
+				items.push_back(GLMenuItem(buffer, 0, windowVisible(window->getId())));
 			}
 		}
 	}

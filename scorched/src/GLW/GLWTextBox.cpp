@@ -51,8 +51,8 @@ void GLWTextBox::draw()
 		drawShadedRoundBox(x_, y_, w_, h_, 10.0f, false);
 	glEnd();
 
-	GLWFont::instance()->getFont()->draw(
-		GLWFont::widgetFontColor, 16,
+	GLWFont::instance()->getLargePtFont()->draw(
+		GLWFont::widgetFontColor, 14,
 		x_ + 5.0f, y_ + 5.0f, 0.0f, "%s%s", text_.c_str(), cursor_?"":"_");
 }
 

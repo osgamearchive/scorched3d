@@ -139,7 +139,7 @@ void WindDialog::drawDisplay()
 			drawInfoBox(w_ / 2.0f - 21.0f * multw, h_ / 2.0f - 03.0f * multh, 35.0f);
 			drawJoin(w_ / 2.0f - 18.0f * multw, h_ / 2.0f - 18.0f * multh);
 			static Vector fontColor(0.8f, 0.8f, 1.0f);
-			GLWFont::instance()->getFont()->draw(fontColor, 14,
+			GLWFont::instance()->getLargePtFont()->draw(fontColor, 14,
 				w_ / 2.0f - 4.0f * multw, h_ / 2.0f - 20.0f * multh, 0.0f, "%i", (int) 
 				ScorchedClient::instance()->getOptionsTransient().getWindSpeed());
 		}

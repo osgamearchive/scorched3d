@@ -35,7 +35,8 @@
 BuyAccessoryDialog::BuyAccessoryDialog() : 
 	GLWWindow("", 10.0f, 10.0f, 440.0f, 280.0f, 0)
 {
-	okId_ = addWidget(new GLWTextButton(" Ok", 375, 10, 55, this, true))->getId();
+	okId_ = addWidget(new GLWTextButton("Ok", 375, 10, 55, this, 
+		GLWButton::ButtonFlagOk | GLWButton::ButtonFlagCenterX))->getId();
 
 	buyWeaponTab_ = (GLWTab *)
 		addWidget(new GLWTab("Weapons", 0, 10, 40, 420, 160, 80));
@@ -137,10 +138,10 @@ void BuyAccessoryDialog::addPlayerWeaponsBuy(GLWTab *tab, bool showWeapons)
 		newPanel->setToolTip(&current->getToolTip());
 		sprintf(buffer, "%i", (currentNumber>=0?currentNumber:99));
 		newPanel->addWidget(new GLWLabel(0, -2, buffer));
-		newPanel->addWidget(new GLWIcon(45, 2, 16, 16, current->getTexture()));
-		newPanel->addWidget(new GLWLabel(65, -2, (char *) current->getName()));
+		newPanel->addWidget(new GLWIcon(30, 2, 16, 16, current->getTexture()));
+		newPanel->addWidget(new GLWLabel(50, -2, (char *) current->getName()));
 		sprintf(buffer, "$%i/%i", current->getPrice(), current->getBundle());
-		newPanel->addWidget(new GLWLabel(210, -2, buffer));
+		newPanel->addWidget(new GLWLabel(205, -2, buffer));
 
 		if ((!current->singular() && currentNumber >= 0) || (current->singular() && currentNumber==0))
 		{
@@ -148,7 +149,8 @@ void BuyAccessoryDialog::addPlayerWeaponsBuy(GLWTab *tab, bool showWeapons)
 				current->getPrice() <= tank->getScore().getMoney())
 			{
 				GLWidget *button = 
-					newPanel->addWidget(new GLWTextButton("Buy", 325, 0, 60, this));
+					newPanel->addWidget(new GLWTextButton("Buy", 325, 0, 60, this, 
+					GLWButton::ButtonFlagCenterX));
 				buyMap_[button->getId()] = current;
 			}
 		}
@@ -182,15 +184,16 @@ void BuyAccessoryDialog::addPlayerWeaponsSell()
 		newPanel->setToolTip(&current->getToolTip());
 		sprintf(buffer, "%i", (itor->second>=0?itor->second:99));
 		newPanel->addWidget(new GLWLabel(0, -2, buffer));
-		newPanel->addWidget(new GLWIcon(45, 2, 16, 16, current->getTexture()));
-		newPanel->addWidget(new GLWLabel(65, -2, (char *) current->getName()));
+		newPanel->addWidget(new GLWIcon(30, 2, 16, 16, current->getTexture()));
+		newPanel->addWidget(new GLWLabel(50, -2, (char *) current->getName()));
 		sprintf(buffer, "$%i/%i", current->getSellPrice(), 1);
-		newPanel->addWidget(new GLWLabel(210, -2, buffer));
+		newPanel->addWidget(new GLWLabel(205, -2, buffer));
 
 		if (itor->second >= 0)
 		{
 			GLWidget *button =
-				newPanel->addWidget(new GLWTextButton("Sell", 325, 0, 60, this));
+				newPanel->addWidget(new GLWTextButton("Sell", 325, 0, 60, this,
+				GLWButton::ButtonFlagCenterX));
 			sellMap_[button->getId()] = current;
 		}
 

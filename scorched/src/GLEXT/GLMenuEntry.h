@@ -18,11 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// GLMenuEntry.h: interface for the GLMenuEntry class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_GLMENUENTRY_H__5AE3319D_D83E_4392_BABB_7E34B2D69BD8__INCLUDED_)
 #define AFX_GLMENUENTRY_H__5AE3319D_D83E_4392_BABB_7E34B2D69BD8__INCLUDED_
 
@@ -50,6 +45,7 @@ protected:
 	bool depressed_;
 	float left_;
 	float width_, height_;
+	float selectedWidth_;
 	GLMenuI *selectFn_;
 	GLMenuI *textFn_;
 	GLMenuI *subMenuFn_;

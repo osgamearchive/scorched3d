@@ -33,14 +33,16 @@
 class GLMenuItem
 {
 public:
-	GLMenuItem(const char *text, GLWTip *tooltip = 0);
+	GLMenuItem(const char *text, GLWTip *tooltip = 0, bool selected = false);
 
 	const char *getText() { return menuText_.c_str(); }
 	GLWTip *getToolTip() { return tip_; }
+	bool getSelected() { return selected_; }
 
 protected:
 	std::string menuText_;
 	GLWTip *tip_;
+	bool selected_;
 };
 
 class GLMenuI  

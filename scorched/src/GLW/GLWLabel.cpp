@@ -35,7 +35,13 @@ GLWLabel::~GLWLabel()
 void GLWLabel::setText(const char *text)
 { 
 	buttonText_ = text; 
-	w_ = float(buttonText_.size()) * 9.0f;
+	w_ = 0.0f;
+}
+
+void GLWLabel::calcWidth()
+{
+	if (w_ == 0.0f) w_ = (float) GLWFont::instance()->getLargePtFont()->getWidth(14, 
+		(char *) buttonText_.c_str());
 }
 
 void GLWLabel::draw()
@@ -43,7 +49,8 @@ void GLWLabel::draw()
 	GLWVisibleWidget::draw();
 
 	glColor3f(1.0f, 0.0f, 0.0f);
-	GLWFont::instance()->getFont()->draw(
-		GLWFont::widgetFontColor, 16,
-		x_ + 5.0f, y_ + 5.0f, 0.0f, (char *) buttonText_.c_str());
+	calcWidth();
+	GLWFont::instance()->getLargePtFont()->draw(
+		GLWFont::widgetFontColor, 14,
+		x_, y_ + 6.0f, 0.0f, (char *) buttonText_.c_str());
 }

@@ -115,14 +115,14 @@ void TankMenus::showTankDetails()
 
 TankMenus::PlayerMenu::PlayerMenu()
 {
-	MainMenuDialog::instance()->addMenu("Player", 80, this, 0, 0, this);
+	MainMenuDialog::instance()->addMenu("Player", 90, this, 0, 0, this);
 	MainMenuDialog::instance()->addMenuItem("Player", 
 		GLMenuItem("Skip Move",
 		new GLWTip("Skip Move", 
 			"Player forfits this move.")));
 	MainMenuDialog::instance()->addMenuItem("Player", 
-		GLMenuItem("Resign Current Round",
-		new GLWTip("Resign Current Round", 
+		GLMenuItem("Resign Round",
+		new GLWTip("Resign Round", 
 			"Player resigns from this round.\nPlayer takes no part in the rest of the round.")));
 	MainMenuDialog::instance()->addMenuItem("Player", 
 		GLMenuItem("Exit Game",
@@ -172,7 +172,7 @@ bool TankMenus::PlayerMenu::getEnabled(const char* menuName)
 
 TankMenus::AccessoryMenu::AccessoryMenu()
 {
-	MainMenuDialog::instance()->addMenu("Weapons", 80, this, 0, this, this);
+	MainMenuDialog::instance()->addMenu("Weapons", 90, this, 0, this, this);
 }
 
 void TankMenus::AccessoryMenu::menuSelection(const char* menuName, 
@@ -278,18 +278,16 @@ void TankMenus::AccessoryMenu::getMenuItems(const char* menuName,
 		static char buffer[1024];
 		if (accessoryCount > 0)
 		{
-			sprintf(buffer, "%c %s (%i)", 
-				(sel?'x':' '),
+			sprintf(buffer, "%s (%i)", 
 				accessory->getName(), accessoryCount);
 		}
 		else
 		{
-			sprintf(buffer, "%c %s (In)", 
-				(sel?'x':' '),
+			sprintf(buffer, "%s (In)", 
 				accessory->getName());
 		}
 		menuItems_.push_back(accessory);
-		result.push_back(GLMenuItem(buffer, &accessory->getToolTip()));
+		result.push_back(GLMenuItem(buffer, &accessory->getToolTip(), sel));
 	}
 }
 

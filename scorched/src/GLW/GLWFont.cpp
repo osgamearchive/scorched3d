@@ -18,16 +18,7 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// GLWFont.cpp: implementation of the GLWFont class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <GLW/GLWFont.h>
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 Vector GLWFont::widgetFontColor = Vector(0.2f, 0.2f, 0.2f);
 
@@ -43,18 +34,12 @@ GLWFont *GLWFont::instance()
 	return instance_;
 }
 
-GLWFont::GLWFont() : courierFont_(0)
+GLWFont::GLWFont()
 {
-	courierFont_ = new GLFont2d;
-	courierFont_->createFont(
-		PKGDIR "data/fonts/data.bmp", 
-		PKGDIR "data/fonts/datainv.bmp");
-
-	courierFontOverLap_= new GLFont2d;
-	courierFontOverLap_->createFont(
-		PKGDIR "data/fonts/data.bmp", 
-		PKGDIR "data/fonts/datainv.bmp",
-		0.65f * 16.0f / 20.0f);
+	courier16Font_ = new GLFont2d;
+	courier16Font_->createFont(
+		PKGDIR "data/fonts/test.ttf",
+		16);
 }
 
 GLWFont::~GLWFont()

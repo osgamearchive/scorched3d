@@ -280,12 +280,14 @@ void GLWTankViewer::drawCaption(int pos)
 	GLState state(GLState::DEPTH_OFF);
 
 	Vector color(0.7f, 0.3f, 0.3f);
-	GLWFont::instance()->getFont()->
-		drawLen(22, color, 10.0f, -73.0f, 75.0f, 0.0f, 
-			 models_[pos]->getId().getModelName());
-	GLWFont::instance()->getFont()->
-		drawLen(22, color, 10.0f, -73.0f, 65.0f, 0.0f, 
-			"(%i Tris)", models_[pos]->getNoTris());
+	GLWFont::instance()->getSmallPtFont()->
+		drawWidth(int(TankSquareSize * numH_ + TankPadding), 
+			color, 10.0f, -70.0f, 75.0f, 0.0f, 
+			models_[pos]->getId().getModelName());
+	GLWFont::instance()->getSmallPtFont()->
+		drawWidth(int(TankSquareSize * numH_ + TankPadding), 
+			color, 10.0f, -70.0f, 63.0f, 0.0f, 
+			"(%i Triangles)", models_[pos]->getNoTris());
 }
 void GLWTankViewer::drawItem(int pos, bool selected)
 {

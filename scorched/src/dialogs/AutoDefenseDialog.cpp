@@ -36,9 +36,11 @@ AutoDefenseDialog::AutoDefenseDialog() :
 {
 	needCentered_ = true;
 	okId_ = addWidget(
-		new GLWTextButton(" Ok", 375, 10, 55, this, true))->getId();
+		new GLWTextButton("Ok", 375, 10, 55, this, 
+		GLWButton::ButtonFlagOk | GLWButton::ButtonFlagCenterX))->getId();
 	cancelId_ = addWidget(
-		new GLWTextButton(" Cancel ", 265, 10, 105, this, false, true))->getId();
+		new GLWTextButton("Cancel", 265, 10, 105, this, 
+		GLWButton::ButtonFlagCancel | GLWButton::ButtonFlagCenterX))->getId();
 	topPanel_ = (GLWVisiblePanel *)
 		addWidget(new GLWVisiblePanel(10, 245, 420, 30));
 

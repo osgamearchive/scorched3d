@@ -54,7 +54,7 @@ void TextActionRenderer::draw(Action *action)
 
 	GLState currentState(GLState::DEPTH_ON | GLState::TEXTURE_ON);
 	glDepthMask(GL_FALSE);
-	GLWFont::instance()->getFont()->drawBilboard(color_, 1.0f, 
+	GLWFont::instance()->getSmallPtFont()->drawBilboard(color_, 1.0f, 
 		position_[0], position_[1], position_[2],
 		text_.c_str());
 

@@ -118,6 +118,8 @@ void ClientState::setupGameState(bool network)
 
 	// StateGetPlayers (Single Player Only)
 	addWindowManager(gameState, StateGetPlayers);
+	gameState.addStateLoop(StateGetPlayers, Main2DCamera::instance(), 
+		GLWToolTip::instance());
 	gameState.addStateStimulus(StateGetPlayers, 
 		StimWait, StateWait);
 

@@ -40,7 +40,8 @@ HelpDialog::HelpDialog() :
 {
 	needCentered_ = true;
 	addWidget(new GLWFileView(PKGDIR "documentation/readme.txt", 10, 40, 320, 180));
-	okId_ = addWidget(new GLWTextButton(" Ok", 275, 10, 55, this, true))->getId();
+	okId_ = addWidget(new GLWTextButton("Ok", 275, 10, 55, this,
+		GLWButton::ButtonFlagOk | GLWButton::ButtonFlagCenterX))->getId();
 }
 
 HelpDialog::~HelpDialog()

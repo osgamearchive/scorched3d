@@ -115,83 +115,85 @@ void TankDialog::drawTankDetails(Tank *current)
 	Vector yellow(0.9f, 0.9f, 1.0f);
 
 	// Name
-	float namewidth = float(current->getNameLen()) * 8.4f;
-	GLWFont::instance()->getFont()->draw(
+	float namewidth = (float) GLWFont::instance()->getSmallPtFont()->getWidth(
+		10.0f,
+		current->getName());
+	GLWFont::instance()->getSmallPtFont()->draw(
 		current->getColor(),
-		12.0f,
+		10.0f,
 		x_ + 60.0f - (namewidth / 2.0f),
-		y_ + 20.0f,
+		y_ + 21.0f,
 		0.0f,
 		current->getName());
 
 	// AutoDefense
-	drawInfoBox(x_- 16.0f, y_ + 126.0f, 45.0f);
+	drawInfoBox(x_- 21.0f, y_ + 126.0f, 50.0f);
 	drawJoin(x_ + 28.0f, y_ + 112.0f);
-	GLWFont::instance()->getFont()->draw(
+	GLWFont::instance()->getSmallPtFont()->draw(
 		yellow,
 		12.0f,
-		x_ - 2.0f,
-		y_ + 110.0f,
+		x_ - 4.0f,
+		y_ + 111.0f,
 		0.0f,
 		"%i",
 		(current->getAccessories().getAutoDefense().haveDefense()?1:0));
 
 	// Parachutes
-	drawInfoBox(x_- 36.0f, y_ + 103.0f, 45.0f);
+	drawInfoBox(x_- 41.0f, y_ + 103.0f, 50.0f);
 	drawJoin(x_ + 8.0f, y_ + 92.0f);
-	GLWFont::instance()->getFont()->draw(
+	GLWFont::instance()->getSmallPtFont()->draw(
 		yellow,
 		12.0f,
-		x_ - 22.0f,
-		y_ + 87.0f,
+		x_ - 24.0f,
+		y_ + 88.0f,
 		0.0f,
 		"%i",
 		current->getAccessories().getParachutes().getNoParachutes());
 
 	// Health
-	drawInfoBox(x_- 44.0f, y_ + 80.0f, 45.0f);
+	drawInfoBox(x_- 49.0f, y_ + 80.0f, 50.0f);
 	drawJoin(x_ + 1.0f, y_ + 69.0f);
-	GLWFont::instance()->getFont()->draw(
+	GLWFont::instance()->getSmallPtFont()->draw(
 		yellow,
 		12.0f,
-		x_ - 30.0f,
-		y_ + 64.0f,
+		x_ - 32.0f,
+		y_ + 65.0f,
 		0.0f,
 		"%.0f",
 		current->getState().getLife());
 
 	// Shield
-	drawInfoBox(x_- 44.0f, y_ + 57.0f, 45.0f);
+	drawInfoBox(x_- 49.0f, y_ + 57.0f, 50.0f);
 	drawJoin(x_ + 1.0f, y_ + 46.0f);
-	GLWFont::instance()->getFont()->draw(
+	GLWFont::instance()->getSmallPtFont()->draw(
 		yellow,
 		12.0f,
-		x_ - 30.0f,
-		y_ + 41.0f,
+		x_ - 32.0f,
+		y_ + 42.0f,
 		0.0f,
 		"%.0f",
 		current->getAccessories().getShields().getShieldPower());
 
 	// Batteries
-	drawInfoBox(x_- 36.0f, y_ + 34.0f, 45.0f);
+	drawInfoBox(x_- 41.0f, y_ + 34.0f, 50.0f);
 	drawJoin(x_ + 8.0f, y_ + 29.0f);
-	GLWFont::instance()->getFont()->draw(
+	GLWFont::instance()->getSmallPtFont()->draw(
 		yellow,
 		12.0f,
-		x_ - 22.0f,
-		y_ + 18.0f,
+		x_ - 24.0f,
+		y_ + 19.0f,
 		0.0f,
 		"%i",
 		current->getAccessories().getBatteries().getNoBatteries());
 
 	// Fuel
-	drawInfoBox(x_- 16.0f, y_ + 11.0f, 45.0f);
+	drawInfoBox(x_- 21.0f, y_ + 11.0f, 50.0f);
 	drawJoin(x_ + 28.0f, y_ + 9.0f);
-	GLWFont::instance()->getFont()->draw(
+	GLWFont::instance()->getSmallPtFont()->draw(
 		yellow,
 		12.0f,
-		x_ - 2.0f,
-		y_ - 5.0f,
+		x_ - 4.0f,
+		y_ - 4.0f,
 		0.0f,
 		"%i",
 		current->getAccessories().getFuel().getNoFuel());
@@ -223,30 +225,30 @@ void TankDialog::drawTankDetails(Tank *current)
 	// Fuel
 	glColor4f(1.0f, 1.0f, 1.0f, 0.8f);
 	autodefenseTexture_.draw();
-	drawIconBox(x_ - 16.0f, y_ + 109.0f);
+	drawIconBox(x_ - 21.0f, y_ + 109.0f);
 
 	// Batteries
 	glColor4f(1.0f, 1.0f, 1.0f, 0.8f);
 	parachuteTexture_.draw();
-	drawIconBox(x_ - 36.0f, y_ + 86.0f);
+	drawIconBox(x_ - 41.0f, y_ + 86.0f);
 
 	// Health
 	glColor4f(0.9f, 0.0f, 0.0f, 0.8f);
 	healthTexture_.draw();
-	drawIconBox(x_ - 44.0f, y_ + 63.0f);
+	drawIconBox(x_ - 49.0f, y_ + 63.0f);
 
 	// Shield
 	glColor4f(1.0f, 1.0f, 1.0f, 0.8f);
 	shieldTexture_.draw();
-	drawIconBox(x_ - 44.0f, y_ + 40.0f);
+	drawIconBox(x_ - 49.0f, y_ + 40.0f);
 
 	// Batteries
 	glColor4f(1.0f, 1.0f, 1.0f, 0.8f);
 	batteryTexture_.draw();
-	drawIconBox(x_ - 36.0f, y_ + 17.0f);
+	drawIconBox(x_ - 41.0f, y_ + 17.0f);
 
 	// Fuel
 	glColor4f(1.0f, 1.0f, 1.0f, 0.8f);
 	fuelTexture_.draw();
-	drawIconBox(x_ - 16.0f, y_ - 6.0f);
+	drawIconBox(x_ - 21.0f, y_ - 6.0f);
 }

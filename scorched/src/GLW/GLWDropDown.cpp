@@ -116,8 +116,8 @@ void GLWDropDown::draw()
 		glVertex2d(x_ + w_ + 10.0f + offset, y_ + 7.0f - offset);
 	glEnd();
 
-	GLWFont::instance()->getFont()->draw(
-		GLWFont::widgetFontColor, 16,
+	GLWFont::instance()->getLargePtFont()->draw(
+		GLWFont::widgetFontColor, 14,
 		x_ + 5.0f, y_ + 5.0f, 0.0f, text_.c_str());
 
 	if (button_.getPressed())
@@ -144,8 +144,8 @@ void GLWDropDown::draw()
 			bool selected = 
 				inBox(mouseX, mouseY, x_, top, w_, 19.0f);
 
-			GLWFont::instance()->getFont()->draw(
-				selected?selectedColor:GLWFont::widgetFontColor, 16,
+			GLWFont::instance()->getLargePtFont()->draw(
+				selected?selectedColor:GLWFont::widgetFontColor, 14,
 				x_ + 5.0f, top + 5.0f, 0.0f, (*itor).c_str());
 			top -= 20.0f;
 		}

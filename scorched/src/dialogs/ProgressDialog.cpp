@@ -99,7 +99,7 @@ void ProgressDialog::draw()
 			}
 
 			Vector color(0.2f, 0.2f, 0.2f);
-			GLWFont::instance()->getFont()->draw(color, 14.0f, 20.0f, 25.0f, 0.0f, 
+			GLWFont::instance()->getLargePtFont()->draw(color, 14.0f, 20.0f, 28.0f, 0.0f, 
 				progressLabel_->getText());
 		glPopMatrix();
 	}

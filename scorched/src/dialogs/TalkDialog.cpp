@@ -43,11 +43,13 @@ TalkDialog::TalkDialog() :
 
 	// Add buttons
 	ok_ = (GLWTextButton *) 
-		addWidget(new GLWTextButton(" Ok", 235, 10, 55, this, true));
+		addWidget(new GLWTextButton("Ok", 235, 10, 55, this, 
+		GLWButton::ButtonFlagOk | GLWButton::ButtonFlagCenterX));
 	cancel_ = (GLWTextButton *) 
-		addWidget(new GLWTextButton(" Cancel ", 120, 10, 105, this, false, true));
+		addWidget(new GLWTextButton("Cancel ", 120, 10, 105, this, 
+		GLWButton::ButtonFlagCancel | GLWButton::ButtonFlagCenterX));
 
-	addWidget(new GLWLabel(25, 7, "Team Say"));
+	addWidget(new GLWLabel(30, 7, "Team Say"));
 	teamBox_ = (GLWCheckBox *)
 		addWidget(new GLWCheckBox(10, 10, false));
 

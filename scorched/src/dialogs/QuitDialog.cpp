@@ -38,8 +38,10 @@ QuitDialog *QuitDialog::instance()
 
 QuitDialog::QuitDialog() : GLWWindow("Quit", 210.0f, 80.0f, 0)
 {
-	quitId_ = addWidget(new GLWTextButton("Quit Game", 10, 45, 190, this, true))->getId();
-	okId_ = addWidget(new GLWTextButton(" Cancel ", 95, 10, 105, this))->getId();
+	quitId_ = addWidget(new GLWTextButton("Quit Game", 10, 45, 190, this, 
+		GLWButton::ButtonFlagOk | GLWButton::ButtonFlagCenterX))->getId();
+	okId_ = addWidget(new GLWTextButton("Cancel", 95, 10, 105, this, 
+		GLWButton::ButtonFlagCancel | GLWButton::ButtonFlagCenterX))->getId();
 }
 
 QuitDialog::~QuitDialog()

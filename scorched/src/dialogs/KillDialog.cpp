@@ -37,8 +37,10 @@ KillDialog *KillDialog::instance()
 
 KillDialog::KillDialog() : GLWWindow("Kill Tanks", 210.0f, 75.0f, 0)
 {
-	killId_ = addWidget(new GLWTextButton("Mass tank kill", 10, 45, 190, this, false))->getId();
-	okId_ = addWidget(new GLWTextButton(" Cancel ", 95, 10, 105, this, true))->getId();
+	killId_ = addWidget(new GLWTextButton("Mass tank kill", 10, 45, 190, this, 
+		GLWButton::ButtonFlagCancel | GLWButton::ButtonFlagCenterX))->getId();
+	okId_ = addWidget(new GLWTextButton("Cancel", 95, 10, 105, this, 
+		GLWButton::ButtonFlagOk | GLWButton::ButtonFlagCenterX))->getId();
 }
 
 KillDialog::~KillDialog()

@@ -28,7 +28,7 @@ GLWFileView::GLWFileView(char *fileName, float x, float y, float w, float h) :
 {
 	lines_.readFile(fileName);
 	scroll_.setMax((int) lines_.getLines().size());
-	scroll_.setSee((int) (h_ / 8));
+	scroll_.setSee((int) (h_ / 9));
 	scroll_.setCurrent(scroll_.getMax());
 }
 
@@ -50,11 +50,11 @@ void GLWFileView::draw()
 	float posY = y_ + h_ - 10.0f;
 	for (int i=scroll_.getMax() - scroll_.getCurrent(); i<(int) lines_.getLines().size(); i++)
 	{
-		GLWFont::instance()->getFont()->drawLen(
-			(unsigned) (w_ / 7.0f),
-			GLWFont::widgetFontColor, 10,
+		GLWFont::instance()->getSmallPtFont()->drawWidth(
+			(int) w_,
+			GLWFont::widgetFontColor, 8,
 			x_ + 5.0f, posY, 0.0f, "%s", lines_.getLines()[i].c_str());
-		posY -= 8.0f;
+		posY -= 9.0f;
 
 		if (posY < y_) break;
 	}

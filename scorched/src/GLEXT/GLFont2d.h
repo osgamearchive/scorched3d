@@ -18,16 +18,10 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #ifndef _GLFONT2D_H_
 #define _GLFONT2D_H_
 
-// GLFont2d.h: interface for the GLFont2d class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <GLEXT/GLState.h>
-#include <GLEXT/GLTexture.h>
 #include <common/Vector.h>
 
 class GLFont2d  
@@ -36,33 +30,32 @@ public:
 	GLFont2d();
 	virtual ~GLFont2d();
 
-	bool createFont(char *typeFace, char *typeMap, float moveWidth = 0.65f);
+	bool createFont(char *typeFace, unsigned int h);
 	bool getInit();
 
 	void draw(Vector &color, float size, 
 			  float x, float y, float z, 
 			  const char *fmt, ...);
-	void drawLen(unsigned len, 
+	void drawWidth(int width, 
 				 Vector &color, float size, 
 				 float x, float y, float z, 
 				 const char *fmt, ...);
 	void drawBilboard(Vector &color, float size, 
 			  float x, float y, float z, 
 			  const char *fmt, ...);
+	int getWidth(float size, const char *fmt, ...);
 
 protected:
-	GLTexture fontTexture_;
-	GLuint fontBase_;
-	
+	GLuint *textures_;
+	GLuint list_base_;
+	int *widths_;
+	float height_;
+
 	virtual bool drawString(unsigned len,
 							Vector &color, float size, 
 							float x, float y, float z, 
 							const char *string,
 							bool bilboard);
-
-	bool createTexture(char *typeFace, char* typeMap);
-	bool createLetters(float moveWidth);
-	void drawLetter(int i, float moveWidth, bool bilboard);
 
 };
 
