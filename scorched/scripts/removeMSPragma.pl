@@ -36,13 +36,23 @@ foreach $dir (@dirs)
 		my @filelines = <INFILE>;
 		close (INFILE);
 
-		my $incline = "__INCLUDE_".$file."_INCLUDE__";
-		$incline =~ s/\.//g;
-		if ($filelines[0] =~ /pragma once/)
+		my $index = -1;
+		for (my $i=0; $i<=$#filelines; $i++)
 		{
+			if ($filelines[$i] =~ /pragma once/)
+			{
+				$index = $i;
+			}
+		}
+
+		if ($index != -1)
+		{
+			my $incline = "__INCLUDE_".$file."_INCLUDE__";
+			$incline =~ s/\.//g;
+
 			print "$dir/$file\n";
 
-			$filelines[0] = "#if !defined($incline)\n#define $incline\n";
+			$filelines[$index] = "#if !defined($incline)\n#define $incline\n";
 			push @filelines, "\n\n#endif\n";
 
 			open(OUTFILE, ">..\\src\\$dir\\$file") || die "ERROR: Out";

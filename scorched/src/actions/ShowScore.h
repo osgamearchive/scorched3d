@@ -19,7 +19,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 
-#pragma once
+#if !defined(__INCLUDE_ShowScoreh_INCLUDE__)
+#define __INCLUDE_ShowScoreh_INCLUDE__
 
 #include <engine/ActionMeta.h>
 
@@ -40,3 +41,6 @@ protected:
 	float totalTime_;
 
 };
+
+
+#endif
