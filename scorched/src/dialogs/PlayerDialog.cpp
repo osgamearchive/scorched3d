@@ -147,10 +147,16 @@ void PlayerDialog::windowDisplay()
 		}	
 	}
 
-	AccessoryStore accessoryStore;
-	accessoryStore.parseFile();
-	TankAIStore tankAIStore;
-	tankAIStore.loadAIs(accessoryStore);
+	static AccessoryStore accessoryStore;
+	static TankAIStore tankAIStore;
+
+	static bool init = false;
+	if (!init)
+	{
+		init = true;
+		accessoryStore.parseFile();
+		tankAIStore.loadAIs(accessoryStore);
+	}
 
 	// Add player types
 	typeDropDown_->clear();

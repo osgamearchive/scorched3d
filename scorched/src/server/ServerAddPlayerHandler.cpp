@@ -129,8 +129,11 @@ bool ServerAddPlayerHandler::processMessage(unsigned int destinationId,
 	if (OptionsParam::instance()->getDedicatedServer())
 	{
 		char *rank = StatsLogger::instance()->tankRank(tank);
-		ServerCommon::sendString(0, "Welcome back %s, you are ranked %s",
-			tank->getName(), rank);
+		if (strcmp(rank, "-") != 0)
+		{
+			ServerCommon::sendString(0, "Welcome back %s, you are ranked %s",
+				tank->getName(), rank);
+		}
 	}
 	tank->getState().setSpectator(false);
 
