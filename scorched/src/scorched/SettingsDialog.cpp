@@ -269,12 +269,19 @@ bool SettingsFrame::TransferDataToWindow()
 		SettingsEco::IDC_MONEYPERHIT_CTRL->SetValue(buffer);
 		SettingsEco::IDC_MONEYPERHIT_CTRL->SetToolTip(
 			wxString("The money awarded for HITTING another tank.\n"
-				"This is multiplied by the weapons arms level"));
+				"This is multiplied by the weapons arms level\n"
+					 "and health points removed (if switched on)."));
 		sprintf(buffer, "%i", context_.optionsGame.getMoneyWonPerKillPoint());
 		SettingsEco::IDC_MONEYPERKILL_CTRL->SetValue(buffer);
 		SettingsEco::IDC_MONEYPERKILL_CTRL->SetToolTip(
 			wxString("The money awarded for KILLING another tank.\n"
-				"This is multiplied by the weapons arms level"));
+				"This is multiplied by the weapons arms level\n"
+				"and health points removed (if switched on)."));
+
+		SettingsEco::IDC_MONEYPERHEALTH_CTRL->SetValue(
+			context_.optionsGame.getMoneyPerHealthPoint());
+		SettingsEco::IDC_MONEYPERHEALTH_CTRL->SetToolTip(
+			wxString("Switchs on money being awarded by health points removed"));
 
 		// Start Money
 		for (i=250000; i>=0; i-=5000)
@@ -524,6 +531,7 @@ bool SettingsFrame::TransferDataFromWindow()
 		context_.optionsGame.setMoneyWonForRound(moneyperround);
 		context_.optionsGame.setMoneyWonPerHitPoint(moneyperhit);
 		context_.optionsGame.setMoneyWonPerKillPoint(moneyperkill);
+		context_.optionsGame.setMoneyPerHealthPoint(SettingsEco::IDC_MONEYPERHEALTH_CTRL->GetValue());
 	}
 
 	// Env

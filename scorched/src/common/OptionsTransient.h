@@ -54,6 +54,8 @@ public:
 	void newGame();
 	void nextRound();
 
+	void startNewGame();
+
 	// Walls
 	WallType &getWallType() { return settings_.wallType_; }
 	Vector &getWallColor();

@@ -53,6 +53,8 @@ OptionsGame::OptionsGame() :
 		"The minimum number of players to allow", 0, 2, 2, 24),
 	limitPowerByHealth_(options_, "LimitPowerByHealth", 
 		"Show power is limited by the amount of health a player has", 0, true),
+	autoBallanceTeams_(options_, "AutoBallanceTeams",
+		"Automatically ballance teams at the start of each round", 0, true),
 	moneyPerHealthPoint_(options_, "MoneyPerHealthPoint",
 		"The money awarded is proportional to the amount of health removed", 0, true),
 	turnType_(options_, "TurnType", 

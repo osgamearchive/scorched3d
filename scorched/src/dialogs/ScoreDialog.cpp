@@ -173,7 +173,7 @@ void ScoreDialog::draw()
 			if (current && current->getTeam() == 1 && !current->getState().getSpectator()) 
 			{
 				teamOne = true;
-				addLine(current, y, (char *)(winningTeam==1?">>":" "));
+				addLine(current, y, (char *)(winningTeam!=2?"1":"2"));
 				winsOne += current->getScore().getWins();
 				killsOne += current->getScore().getKills();
 				moneyOne += current->getScore().getMoney();
@@ -198,7 +198,7 @@ void ScoreDialog::draw()
 			if (current && current->getTeam() == 2 && !current->getState().getSpectator()) 
 			{
 				teamTwo = true;
-				addLine(current, y, (char *)(winningTeam==2?">>":" "));
+				addLine(current, y, (char *)(winningTeam!=1?"1":"2"));
 				winsTwo += current->getScore().getWins();
 				killsTwo += current->getScore().getKills();
 				moneyTwo += current->getScore().getMoney();
@@ -228,8 +228,7 @@ void ScoreDialog::draw()
 			Tank *current = ScorchedClient::instance()->getTankContainer().getTankById(playerId);
 			if (current && !current->getState().getSpectator()) 
 			{
-				if (rank != 1) sprintf(strrank, "%i", rank);
-				else strcpy(strrank, ">>");
+				sprintf(strrank, "%i", rank);
 
 				addLine(current, y, strrank);
 				tmpLastScoreValue += current->getScore().getMoney();

@@ -40,11 +40,11 @@ static void createControls(wxWindow *parent)
 	IDC_INTEREST_CTRL = 
 		new wxComboBox(parent, IDC_INTEREST,
 		"",
-		wxPoint((int) 184.5, (int) 54), wxSize((int) 72, (int) 124.5),
+		wxPoint((int) 184.5, (int) 54), wxSize((int) 72, (int) 148.5),
 		0, 0, wxCB_READONLY);
 	new wxStaticBox(parent, -1,
 		"Eco",
-		wxPoint((int) 10.5, (int) 10.5), wxSize((int) 339, (int) 186.5));
+		wxPoint((int) 10.5, (int) 10.5), wxSize((int) 339, (int) 215.5));
 	new wxStaticText(parent, -1,
 		"Buy On Round :",
 		wxPoint((int) 102, (int) 78));
@@ -85,5 +85,9 @@ static void createControls(wxWindow *parent)
 		"",
 		wxPoint((int) 184.5, (int) 174), wxSize((int) 72, (int) 124.5),
 		0, 0, wxCB_READONLY);
+	IDC_MONEYPERHEALTH_CTRL = 
+		new wxCheckBox(parent, IDC_MONEYPERHEALTH,
+		"Money Awarded by Health Taken",
+		wxPoint((int) 41.5, (int) 198));
 }
 

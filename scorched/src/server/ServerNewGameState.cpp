@@ -271,6 +271,7 @@ void ServerNewGameState::calculateStartPosition(ScorchedContext &context)
 void ServerNewGameState::checkTeams()
 {
 	if (ScorchedServer::instance()->getOptionsGame().getTeams() == 1) return;
+	if (!ScorchedServer::instance()->getOptionsGame().getAutoBallanceTeams()) return;
 
 	std::list<Tank *> team1;
 	std::list<Tank *> team2;

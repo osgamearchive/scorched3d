@@ -22,6 +22,7 @@
 #include <GLEXT/GLLenseFlare.h>
 #include <actions/ShotProjectileTracer.h>
 #include <common/OptionsDisplay.h>
+#include <common/Defines.h>
 #include <engine/ScorchedContext.h>
 #include <GLEXT/GLState.h>
 
@@ -49,10 +50,22 @@ void TracerActionRenderer::draw(Action *action)
 			glBegin(GL_LINES);
 			std::list<Vector>::iterator itor;
 			for (itor = shot->getPositions().begin();
-				itor != shot->getPositions().end();
-				itor++)
+				 itor != shot->getPositions().end();
+				 itor++)
 			{
-				glVertex3fv(*itor);
+				Vector &startPos = *itor;
+				itor++;
+				if (itor != shot->getPositions().end())
+				{
+					Vector &endPos = *itor;
+
+					if (fabs(startPos[0] - endPos[0]) < 100.0f &&
+						fabs(startPos[1] - endPos[1]) < 100.0f)
+					{
+						glVertex3fv(startPos);
+						glVertex3fv(endPos);
+					}
+				}
 			}
 			glEnd();
 		}

@@ -133,6 +133,11 @@ void OptionsTransient::reset()
 	settings_.noRoundsLeft_ = optionsGame_.getNoRounds();
 }
 
+void OptionsTransient::startNewGame()
+{
+	settings_.noRoundsLeft_ = 0;
+}
+
 void OptionsTransient::newGame()
 {
 	newGame_ = true;

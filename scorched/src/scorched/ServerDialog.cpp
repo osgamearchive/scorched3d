@@ -59,7 +59,8 @@ enum
 	IDC_MENU_PLAYERADD_6,
 	IDC_MENU_PLAYERADD_7,
 	IDC_MENU_PLAYERADD_8,
-	IDC_MENU_PLAYERADD_9
+	IDC_MENU_PLAYERADD_9,
+	IDC_MENU_STARTNEWGAME
 };
 
 void killAll()
@@ -180,6 +181,7 @@ public:
 	void onPlayerTalkAll();
 	void onPlayerKick();
 	void onKillAll();
+	void onStartNewGame();
 	void onPlayerAdd(int i);
 	void onPlayerAdd1();
 	void onPlayerAdd2();
@@ -224,6 +226,7 @@ BEGIN_EVENT_TABLE(ServerFrame, wxFrame)
 	EVT_MENU(IDC_MENU_PLAYERADD_8, ServerFrame::onPlayerAdd8)
 	EVT_MENU(IDC_MENU_PLAYERADD_9, ServerFrame::onPlayerAdd9)
 	EVT_MENU(IDC_MENU_PLAYERKILLALL, ServerFrame::onKillAll)
+	EVT_MENU(IDC_MENU_STARTNEWGAME, ServerFrame::onStartNewGame)
 END_EVENT_TABLE()
 
 ServerFrame::ServerFrame(const char *name) :
@@ -322,9 +325,13 @@ ServerFrame::ServerFrame(const char *name) :
 	menuPlayer->Append(IDC_MENU_PLAYERKILLALL, "Kill all players");
 	menuPlayer->Append(IDC_MENU_PLAYERADD, "Add a new player", menuAddPlayer);
 
+	wxMenu *menuGame = new wxMenu;
+	menuGame->Append(IDC_MENU_STARTNEWGAME, "Start a new game");
+
     wxMenuBar *menuBar = new wxMenuBar;
     menuBar->Append(menuFile, "&File");
 	menuBar->Append(menuPlayer, "&Players");
+	menuBar->Append(menuGame, "&Game");
     SetMenuBar( menuBar );
 
 #ifdef __WXMSW__
@@ -492,6 +499,12 @@ void kickDestination(unsigned int destinationId)
 void ServerFrame::onKillAll()
 {
 	killAll();
+}
+
+void ServerFrame::onStartNewGame()
+{
+	onKillAll();
+	ScorchedServer::instance()->getOptionsTransient().startNewGame();
 }
 
 void ServerFrame::onPlayerTalkAll()

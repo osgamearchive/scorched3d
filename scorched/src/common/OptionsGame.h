@@ -167,6 +167,9 @@ public:
 	bool getLimitPowerByHealth() { return limitPowerByHealth_.getValue(); }
 	void setLimitPowerByHealth(bool value) { limitPowerByHealth_.setValue(value); }
 
+	bool getAutoBallanceTeams() { return autoBallanceTeams_.getValue(); }
+	void setAutoBallanceTeams(bool value) { autoBallanceTeams_.setValue(value); }
+
 	int getComputersDeathTalk() { return computersDeathTalk_.getValue(); }
 	void setComputersDeathTalk(int value) { computersDeathTalk_.setValue(value); }
 
@@ -238,6 +241,7 @@ protected:
 	OptionEntryInt idleKickTime_;
 	OptionEntryBoundedInt moneyInterest_;
 	OptionEntryBool limitPowerByHealth_;
+	OptionEntryBool autoBallanceTeams_;
 	OptionEntryBoundedInt turnType_;
 	OptionEntryBoundedInt landWidthY_;
 	OptionEntryBoundedInt landWidthX_;
