@@ -149,7 +149,7 @@ void MainCamera::SaveScreen::draw(const unsigned state)
 	static unsigned counter = 0;
 	time_t currentTime = time(0);
 	char *fileName = (char *) 
-		getDataFile("ScreenShot-%i-%i.bmp", currentTime, counter++);
+		getHomeFile("ScreenShot-%i-%i.bmp", currentTime, counter++);
 
 	GLBitmap screenMap;
 	screenMap.grabScreen();

@@ -25,7 +25,7 @@ for (my $i=0; $i<=$#files; $i++)
 
 sub locatefiles
 {
-	my ($dir) = @_;
+	my ($dir, $basetypedir) = @_;
 	opendir(DIR, "../$dir") || die "ERROR: DIR ../$dir";
 	my @files = grep { !/^\./ && !/CVS/ } readdir(DIR);
 	closedir(DIR);
@@ -48,17 +48,19 @@ sub locatefiles
 	my $newdir = $dir;
 	$newdir =~ s!/!!g;
 	$newdir =~ s!-!!g;
-	print CLIENT "scorched${newdir}dir = \$\{datadir\}/$dir\n";
+	print CLIENT "scorched${newdir}dir = $basetypedir/$dir\n";
 	print CLIENT "scorched${newdir}_DATA = " . join(" \\\n\t", @newfiles) . "\n";
 	foreach $file (@newdirs)
 	{
-		locatefiles($file);
+		locatefiles($file, $basetypedir);
 	}
 }
 
 open (CLIENT, ">../Makefile.am") || die;
-print CLIENT "SUBDIRS = src\n";
-locatefiles("data");
+print CLIENT "SUBDIRS = src\n\n";
+print CLIENT "docdir = \@docdir\@\n\n";
+locatefiles("documentation", "\$\{docdir\}");
+locatefiles("data", "\$\{datadir\}");
 close(CLIENT);
 
 my @clientfiles = getFiles("../src/scorched/scorched.vcproj");

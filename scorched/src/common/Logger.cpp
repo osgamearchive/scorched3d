@@ -27,10 +27,6 @@
 #include <stdarg.h>
 #include <algorithm>
 
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
-
 // ************************************************
 // NOTE: This logger is and needs to be thread safe
 // ************************************************
@@ -184,6 +180,6 @@ void FileLogger::openFile(const char *fileName)
 {
 	lines_ = 0;
 	if (logFile_) fclose(logFile_);
-	logFile_ = fopen(getDataFile("logs/%s-%i.log", fileName, time(0)), "w");
+	logFile_ = fopen(getLogFile("%s-%i.log", fileName, time(0)), "w");
 }
 

@@ -398,6 +398,6 @@ void Landscape::savePlan()
 {
 	static unsigned counter = 0;
 	time_t currentTime = time(0);
-	bitmapPlan_.writeToFile(getDataFile("PlanShot-%i-%i.bmp", currentTime, counter++));
+	bitmapPlan_.writeToFile(getHomeFile("PlanShot-%i-%i.bmp", currentTime, counter++));
 }
 

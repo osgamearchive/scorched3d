@@ -27,6 +27,7 @@ Added: Say command added to console.  This allows custom taunts to be bound to k
 Added: Different on screen gui
 Added: New better looking fonts and FreeType2 support
 Added: Rollers 
+Added: Unix directory structure for people that like that sort of thing
 
 Fixed: Client does not start new game until all explosions have finished
 Fixed: accessories.xml will only allow recognised tags for weapon types

@@ -27,10 +27,10 @@
 #include <common/OptionsGame.h>
 #include <common/OptionsParam.h>
 #include <wx/wx.h>
+#include <wx/utils.h>
 #include "ServerS.cpp"
 
 extern char scorched3dAppName[128];
-static char *serverFilePath = "data/server.xml";
 
 class ServerSFrame: public wxDialog
 {
@@ -76,18 +76,25 @@ ServerSFrame::ServerSFrame() :
 
 void ServerSFrame::onSettingsButton()
 {
-	if (showSettingsDialog(true, ScorchedServer::instance()->getContext().optionsGame))
-	{
-		ScorchedServer::instance()->getOptionsGame().writeOptionsToFile(
-			(char *) getDataFile(serverFilePath));
-	}
+	// Don't save until the whole options have been choosen
+	showSettingsDialog(true, ScorchedServer::instance()->getOptionsGame());
 }
 
 bool ServerSFrame::TransferDataToWindow()
 {
 	// Load the server settings
-	ScorchedServer::instance()->getOptionsGame().readOptionsFromFile(
-		(char *) getDataFile(serverFilePath));
+	wxString serverFileSrc = getDataFile("data/server.xml");
+	wxString serverFileDest = getSettingsFile("server.xml");
+	if (::wxFileExists(serverFileDest))
+	{
+		ScorchedServer::instance()->getOptionsGame().readOptionsFromFile(
+			(char *) serverFileDest.c_str());
+	}
+	else
+	{
+		ScorchedServer::instance()->getOptionsGame().readOptionsFromFile(
+			(char *) serverFileSrc.c_str());
+	}
 
 	char buffer[256];
 	sprintf(buffer, "%i", ScorchedServer::instance()->getOptionsGame().getPortNo());
@@ -107,9 +114,6 @@ bool ServerSFrame::TransferDataFromWindow()
 	ScorchedServer::instance()->getOptionsGame().setPublishServer(IDC_PUBLISH_CTRL->GetValue());
 	ScorchedServer::instance()->getOptionsGame().setPublishAddress(IDC_PUBLISHIP_CTRL->GetValue());
 
-	// Save the server settings
-	ScorchedServer::instance()->getOptionsGame().writeOptionsToFile(
-		(char *) getDataFile(serverFilePath));
 	return true;
 }
 
@@ -118,8 +122,13 @@ bool showServerSDialog()
 	ServerSFrame frame;
 	if (frame.ShowModal() == wxID_OK)
 	{
-		runScorched3D("-startserver %s", getDataFile(serverFilePath));
+		wxString serverFileDest = getSettingsFile("server.xml");
+		ScorchedServer::instance()->getOptionsGame().writeOptionsToFile(
+			(char *) serverFileDest.c_str());
+
+		runScorched3D("-startserver %s", serverFileDest.c_str());
 		return true;
 	}
 	return false;
 }
+

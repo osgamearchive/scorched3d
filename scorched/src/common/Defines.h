@@ -39,6 +39,9 @@ extern void dialogAssert(const char *lineText, const int line, const char *file)
 extern void dialogMessage(const char *header, const char *fmt, ...);
 
 extern const char *getDataFile(const char *file, ...);
+extern const char *getDocFile(const char *file, ...);
+extern const char *getLogFile(const char *file, ...);
+extern const char *getSettingsFile(const char *file, ...);
 extern const char *getHomeFile(const char *file, ...);
 
 #define RAND ((float) rand() / (float) RAND_MAX)

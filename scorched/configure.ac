@@ -161,9 +161,22 @@ CXXFLAGS="$CXXFLAGS $FT2_CFLAGS"
 LIBS="$LIBS $FT2_LIBS"
 
 # Directory setup stuff
+
+dnl --docdir
+AC_ARG_WITH(docdir,
+	AC_HELP_STRING([--docdir=DIR],
+	[Use DIR to store documentation files (default DATADIR/doc)]),
+	[with_docdir=$withval])
+if test "x$with_docdir" = "x" ; then
+	docdir='${datadir}/doc'
+else
+	docdir=$with_docdir
+fi
+AC_SUBST(docdir)
+
 AC_PREFIX_DEFAULT(/usr/local/games/scorched3d)
-CFLAGS="$CFLAGS -DS3D_INFODIR=\\\"${infodir}\\\" -DS3D_DATADIR=\\\"${datadir}\\\" -DS3D_BINDIR=\\\"${bindir}\\\""
-CXXFLAGS="$CXXFLAGS -DS3D_INFODIR=\\\"${infodir}\\\" -DS3D_DATADIR=\\\"${datadir}\\\" -DS3D_BINDIR=\\\"${bindir}\\\""
+CFLAGS="$CFLAGS -DS3D_DOCDIR=\\\"${docdir}\\\" -DS3D_DATADIR=\\\"${datadir}\\\" -DS3D_BINDIR=\\\"${bindir}\\\""
+CXXFLAGS="$CXXFLAGS -DS3D_DOCDIR=\\\"${docdir}\\\" -DS3D_DATADIR=\\\"${datadir}\\\" -DS3D_BINDIR=\\\"${bindir}\\\""
 
 # extra fixed flags
 CFLAGS="$CFLAGS -DdDOUBLE"

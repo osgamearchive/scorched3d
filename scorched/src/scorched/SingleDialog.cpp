@@ -19,6 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <wx/wx.h>
+#include <wx/utils.h>
 #include <wx/image.h>
 #include <server/ScorchedServer.h>
 #include <scorched/MainDialog.h>
@@ -140,15 +141,27 @@ void SingleFrame::onHardButton()
 
 void SingleFrame::onCustomButton()
 {
-	const char *customFilePath = getDataFile("data/singlecustom.xml");
-	ScorchedServer::instance()->getOptionsGame().readOptionsFromFile((char *) customFilePath);
+	wxString customFilePathSrc = getDataFile("data/singlecustom.xml");
+	wxString customFilePathDest = getSettingsFile("singlecustom.xml");
+	if (::wxFileExists(customFilePathDest))
+	{
+		ScorchedServer::instance()->getOptionsGame().
+			readOptionsFromFile((char *) customFilePathDest.c_str());
+	}
+	else
+	{
+		ScorchedServer::instance()->getOptionsGame().
+			readOptionsFromFile((char *) customFilePathSrc.c_str());
+	}
 
 	if (showSettingsDialog(false, ScorchedServer::instance()->getContext().optionsGame))
 	{
-		ScorchedServer::instance()->getOptionsGame().writeOptionsToFile((char *) customFilePath);
 		EndModal(wxID_OK);
-
-		runScorched3D("-startclient %s", customFilePath);
+		if (ScorchedServer::instance()->getOptionsGame().
+			writeOptionsToFile((char *) customFilePathDest.c_str()))
+		{
+			runScorched3D("-startclient %s", customFilePathDest.c_str());
+		}
 	}
 }
 

@@ -154,7 +154,7 @@ OptionsDisplay::~OptionsDisplay()
 
 bool OptionsDisplay::writeOptionsToFile()
 {
-	const char *path = getHomeFile(".scorched3d.display.xml");
+	const char *path = getSettingsFile("display.xml");
 
 	// Check the options files are writeable
 	FILE *checkfile = fopen(path, "a");
@@ -175,7 +175,7 @@ bool OptionsDisplay::writeOptionsToFile()
 
 bool OptionsDisplay::readOptionsFromFile()
 {
-	const char *path = getHomeFile(".scorched3d.display.xml");
+	const char *path = getSettingsFile("display.xml");
 
 	if (!OptionEntryHelper::readFromFile(options_, (char *) path))
 	{
@@ -210,3 +210,4 @@ void OptionsDisplay::addToConsole()
 			access));
 	}
 }
+
