@@ -18,7 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <landscape/Landscape.h>
 #include <engine/ScorchedContext.h>
 #include <tank/TankController.h>
 #include <actions/Napalm.h>
@@ -150,7 +149,7 @@ void Napalm::simulateAddStep()
 
 	// Napalm does not go under water (for now)
 	// Perhaps we could add a boiling water sound at some point
-	if (height < Landscape::instance()->getWater().getHeight())
+	if (height < 5.0f) // Water height
 	{
 		if (!hitWater_)
 		{

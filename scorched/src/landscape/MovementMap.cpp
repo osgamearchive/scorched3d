@@ -19,7 +19,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <landscape/MovementMap.h>
-#include <landscape/Landscape.h>
 #include <tank/Tank.h>
 #include <memory.h>
 
@@ -64,7 +63,7 @@ void MovementMap::addPoint(unsigned int x, unsigned int y,
 	float newHeight = hMap_.getHeight(
 		(int) x, (int) y);
 	if (newHeight - height > MaxTankClimbHeight) return;
-	if (newHeight < Landscape::instance()->getWater().getHeight()) return;
+	if (newHeight < 5.0f) return; // Water height
 
 	// Check if we can already reach this point
 	// Through a shorted already visited path
@@ -162,6 +161,8 @@ void MovementMap::calculateForTank(Tank *tank)
 		getEntry(x, y) = (*finalItor).second;
 	}
 }
+
+#include <landscape/Landscape.h>
 
 void MovementMap::movementTexture()
 {

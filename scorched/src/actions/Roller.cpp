@@ -18,7 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <landscape/Landscape.h>
 #include <engine/ScorchedContext.h>
 #include <tank/TankController.h>
 #include <actions/Roller.h>
@@ -110,7 +109,7 @@ bool Roller::simulateMoveStep()
 
 	// Roller does not go under water (for now)
 	// Return finished
-	if (height < Landscape::instance()->getWater().getHeight())
+	if (height < 5.0f) // Water height
 	{
 		return false;
 	}
