@@ -66,14 +66,14 @@ bool ServerBuyAccessoryHandler::processMessage(unsigned int destinationId,
 	if (ScorchedServer::instance()->getGameState().getState() != 
 		ServerState::ServerStateBuying)
 	{
-		Logger::log(playerId, "ERROR: Player attempted to buy accessory but in incorrect state");
+		Logger::log( "ERROR: Player attempted to buy accessory but in incorrect state");
 		return true;
 	}
 
 	// Check we are in the correct round no to buy anything
 	if (ScorchedServer::instance()->getOptionsTransient().getCurrentGameNo() != 0)
 	{
-		Logger::log(playerId, "ERROR: Player attempted to buy at incorrect time");
+		Logger::log( "ERROR: Player attempted to buy at incorrect time");
 		return true;
 	}
 
@@ -81,33 +81,33 @@ bool ServerBuyAccessoryHandler::processMessage(unsigned int destinationId,
 	Tank *tank = ScorchedServer::instance()->getTankContainer().getTankById(playerId);
 	if (!tank)
 	{
-		Logger::log(playerId, "ERROR: Player buying does not exist");
+		Logger::log( "ERROR: Player buying does not exist");
 		return true;
 	}
 
 	if (tank->getDestinationId() != destinationId)
 	{
-		Logger::log(playerId, "ERROR: Player buying does not exist at this destination");
+		Logger::log( "ERROR: Player buying does not exist at this destination");
 		return true;
 	}
 
 	// Check this player is alive
 	if (tank->getState().getState() != TankState::sNormal)
 	{
-		Logger::log(playerId, "ERROR: Player buying is not alive");
+		Logger::log( "ERROR: Player buying is not alive");
 		return true;
 	}
 
 	// Check this player has not already given a move
 	if (ServerShotHolder::instance()->haveShot(playerId))
 	{
-		Logger::log(playerId, "ERROR: Player buying has made move");
+		Logger::log( "ERROR: Player buying has made move");
 		return true;
 	}
 
 	if (!TurnController::instance()->playerThisTurn(playerId))
 	{
-		Logger::log(playerId, "ERROR: Player buying should not be buying");
+		Logger::log( "ERROR: Player buying should not be buying");
 		return true;		
 	}
 
@@ -117,14 +117,14 @@ bool ServerBuyAccessoryHandler::processMessage(unsigned int destinationId,
 		findByAccessoryId(message.getAccessoryId());
 	if (!accessory)
 	{
-		Logger::log(playerId, "ERROR: Player buying not-existant weapon \"%i\"", 
+		Logger::log( "ERROR: Player buying not-existant weapon \"%i\"", 
 			message.getAccessoryId());
 		return true;
 	}
 
 	if (accessory->getMaximumNumber() == 0)
 	{
-		Logger::log(playerId, "ERROR: Player buying non-purchasable weapon \"%s\"",
+		Logger::log( "ERROR: Player buying non-purchasable weapon \"%s\"",
 			accessory->getName());
 		return true;
 	}
@@ -132,7 +132,7 @@ bool ServerBuyAccessoryHandler::processMessage(unsigned int destinationId,
 	if (10 - accessory->getArmsLevel() > 
 		ScorchedServer::instance()->getOptionsTransient().getArmsLevel())
 	{
-		Logger::log(playerId, "ERROR: Player atempting to buy weapon \"%s\" in wrong arms level", 
+		Logger::log( "ERROR: Player atempting to buy weapon \"%s\" in wrong arms level", 
 			accessory->getName());
 		return true;
 	}

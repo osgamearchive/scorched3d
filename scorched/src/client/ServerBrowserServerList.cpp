@@ -92,7 +92,7 @@ bool ServerBrowserServerList::fetchServerList()
 	// Connect to the master server
 	if (!netServer_.connect(ScorchedClient::instance()->getOptionsGame().getMasterListServer(), 80))
 	{
-		Logger::log(0, "Failed to contact registration server");
+		Logger::log( "Failed to contact registration server");
 		return false;
 	}
 

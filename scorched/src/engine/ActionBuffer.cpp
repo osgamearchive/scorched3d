@@ -56,7 +56,7 @@ void ActionBuffer::serverAdd(float time, ActionMeta *action)
 {
 	if (time > 60.0f)
 	{
-		Logger::log(0, "Warning: Action added for long time %.2f", time);
+		Logger::log( "Warning: Action added for long time %.2f", time);
 	}
 
 	// Add this action into the buffer to be sent to 
@@ -71,7 +71,7 @@ void ActionBuffer::serverAdd(float time, ActionMeta *action)
 	// Log buffer usage
 	if (false)
 	{
-		Logger::log(0, "Action size %s = %u", 
+		Logger::log( "Action size %s = %u", 
 			action->getClassName(),
 			usedAfter - usedBefore);
 	}
@@ -117,7 +117,7 @@ bool ActionBuffer::readMessage(NetBufferReader &reader)
 		std::string actionName;
 		if (!reader.getFromBuffer(actionName))
 		{
-			Logger::log(0, "ActionController - "
+			Logger::log( "ActionController - "
 				"Failed to deserailize action name");
 			return false;
 		}
@@ -125,14 +125,14 @@ bool ActionBuffer::readMessage(NetBufferReader &reader)
 			MetaClassRegistration::getNewClass(actionName.c_str());
 		if (!newAction)
 		{
-			Logger::log(0, "ActionController - "
+			Logger::log( "ActionController - "
 				"Failed to find action %s", actionName.c_str());
 			return false;
 		}
 		newAction->setScorchedContext(context_);
 		if (!newAction->readAction(reader))
 		{
-			Logger::log(0, "ActionController - "
+			Logger::log( "ActionController - "
 				"Failed to read action %s", actionName.c_str());
 			return false;
 		}

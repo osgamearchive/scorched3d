@@ -21,7 +21,6 @@
 #include <client/ScorchedClient.h>
 #include <client/ClientNewGameHandler.h>
 #include <client/ClientState.h>
-#include <client/MainBanner.h>
 #include <weapons/AccessoryStore.h>
 #include <GLW/GLWWindowManager.h>
 #include <server/ScorchedServer.h>
@@ -135,8 +134,6 @@ bool ClientNewGameHandler::processMessage(unsigned int id,
 
 bool ClientNewGameHandler::initialize()
 {
-	MainBanner::instance()->simulate(0, 20.0f);
-
 	// Clear any memory used by stored mod files as they will not be required now
 	ScorchedClient::instance()->getModFiles().clearData();
 	ScorchedServer::instance()->getModFiles().clearData();

@@ -106,10 +106,10 @@ int ServerRegistration::threadFunc(void *param)
 void ServerRegistration::registerGame()
 {
 	// Connect to the web server
-	Logger::log(0, "Contacting registration server...");
+	Logger::log( "Contacting registration server...");
 	if (!instance_->netServer_.connect(ScorchedServer::instance()->getOptionsGame().getMasterListServer(), 80))
 	{
-		Logger::log(0, "Failed to contact registration server");
+		Logger::log( "Failed to contact registration server");
 		instance_->finished_ = true;
 		instance_->success_ = false;
 		return;
@@ -119,7 +119,7 @@ void ServerRegistration::registerGame()
 
 	// Send the web request
 	instance_->netServer_.sendMessage(instance_->sendNetBuffer_);
-	Logger::log(0, "Registration request sent.");
+	Logger::log( "Registration request sent.");
 }
 
 void ServerRegistration::processMessage(NetMessage &message)
@@ -132,7 +132,7 @@ void ServerRegistration::processMessage(NetMessage &message)
 	}
 	else if (message.getMessageType() == NetMessage::DisconnectMessage)
 	{
-		Logger::log(0, "Registration complete (%s).", (success_?"Success":"Failure"));
+		Logger::log( "Registration complete (%s).", (success_?"Success":"Failure"));
 		finished_ = true;
 	}
 }

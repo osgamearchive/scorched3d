@@ -20,7 +20,7 @@
 
 #include <common/Defines.h>
 #include <common/Logger.h>
-#include <GLEXT/GLTexture.h>
+#include <common/LoggerI.h>
 #include <SDL/SDL.h>
 #include <time.h>
 #include <stdio.h>
@@ -30,12 +30,6 @@
 // ************************************************
 // NOTE: This logger is and needs to be thread safe
 // ************************************************
-
-LoggerInfo::LoggerInfo(unsigned int pId,
-	GLTexture *ic) : 
-	playerId(pId), icon(ic)
-{
-}
 
 static SDL_mutex *logMutex_ = 0;
 Logger * Logger::instance_ = 0;
@@ -82,8 +76,10 @@ void Logger::remLogger(LoggerI *logger)
 	SDL_UnlockMutex(logMutex_);
 }
 
-void Logger::log(const LoggerInfo &info, const char *fmt, ...)
+void Logger::log(const char *fmt, ...)
 {
+	if (!fmt) return;
+
 	Logger::instance();
 
 	SDL_LockMutex(logMutex_);
@@ -109,31 +105,46 @@ void Logger::log(const LoggerInfo &info, const char *fmt, ...)
 		while (found)
 		{
 			*found = '\0';
-			addLog(time, start, info);
+			addLogPart(time, start);
 			start = found;
 			start++;
 
 			found = strchr(start, '\n');
 		}
-		if (start[0] != '\0') addLog(time, start, info);
+		if (start[0] != '\0') addLogPart(time, start);
 	}
 	else
 	{
-		addLog(time, text, info);
+		addLogPart(time, text);
 	}
 	SDL_UnlockMutex(logMutex_);
 }
 
-void Logger::addLog(char *time, char *text, const LoggerInfo &info)
+void Logger::log(const LoggerInfo &info)
 {
 	Logger::instance();
 
-	instance_->entries_.push_back(LogEntry());
-	LogEntry &lastEntry = instance_->entries_.back();
+	SDL_LockMutex(logMutex_);
 
-	lastEntry.time_ = time;
-	lastEntry.message_ = text;
-	lastEntry.info_ = info;
+	// Add the time to the beginning of the log message
+	time_t theTime = time(0);
+	char *time = ctime(&theTime); 
+	char *nl = strchr(time, '\n'); 
+	if (nl) *nl = '\0';
+
+	instance_->entries_.push_back(new LoggerInfo(info));
+
+	SDL_UnlockMutex(logMutex_);
+}
+
+void Logger::addLogPart(char *time, char *text)
+{
+	Logger::instance();
+
+	instance_->entries_.push_back(new LoggerInfo);
+	LoggerInfo *lastEntry = instance_->entries_.back();
+	lastEntry->setTime(time);
+	lastEntry->setMessage(text);
 }
 
 void Logger::processLogEntries()
@@ -141,10 +152,10 @@ void Logger::processLogEntries()
 	Logger::instance();
 
 	SDL_LockMutex(logMutex_);
-	std::list<LogEntry> &entries = Logger::instance()->entries_;
+	std::list<LoggerInfo *> &entries = Logger::instance()->entries_;
 	while (!entries.empty())
 	{
-		LogEntry &firstEntry = entries.front();
+		LoggerInfo *firstEntry = entries.front();
 
 		std::list<LoggerI *> &loggers = Logger::instance()->loggers_;
 		std::list<LoggerI *>::iterator logItor;
@@ -153,45 +164,12 @@ void Logger::processLogEntries()
 			logItor++)
 		{
 			LoggerI *log = (*logItor);
-			log->logMessage(
-				firstEntry.time_.c_str(), 
-				firstEntry.message_.c_str(), 
-				firstEntry.info_);
+			log->logMessage(*firstEntry);
 		}
 
 		entries.pop_front();
+		delete firstEntry;
 	}
 	SDL_UnlockMutex(logMutex_);
-}
-
-FileLogger::FileLogger(const char *fileName) : 
-	lines_(0), logFile_(0), fileName_(fileName)
-{
-
-}
-
-FileLogger::~FileLogger()
-{
-}
-
-void FileLogger::logMessage(
-	const char *time,
-	const char *message,
-	const LoggerInfo &info)
-{
-	const unsigned int MaxLines = 4000;
-	if (!logFile_ || (lines_++>MaxLines)) openFile(fileName_.c_str());
-	if (!logFile_) return;
-
-	// Log to file and flush file
-	fprintf(logFile_, "%s - %s\n", time, message);
-	fflush(logFile_);
-}
-
-void FileLogger::openFile(const char *fileName)
-{
-	lines_ = 0;
-	if (logFile_) fclose(logFile_);
-	logFile_ = fopen(getLogFile("%s-%i.log", fileName, time(0)), "w");
 }
 

@@ -29,6 +29,7 @@
 #include <coms/ComsTextMessage.h>
 #include <common/SoundStore.h>
 #include <common/Logger.h>
+#include <common/LoggerI.h>
 
 ClientTextHandler *ClientTextHandler::instance_ = 0;
 
@@ -64,9 +65,7 @@ bool ClientTextHandler::processMessage(unsigned int id,
 		MessageDisplay::instance()->clear();
 		MessageDisplay::instance()->addMessage(message.getText());
 
-		Logger::log(
-			LoggerInfo(0, &ExplosionTextures::instance()->talkTexture), 
-			message.getText());
+		Logger::log(message.getText());
 	}
 	else
 	{
@@ -77,36 +76,30 @@ bool ClientTextHandler::processMessage(unsigned int id,
 			if (ScorchedClient::instance()->getGameState().getState() == 
 				ClientState::StateConnect)
 			{
-				Logger::log(message.getPlayerId(), message.getText());
+				Logger::log(message.getText());
 			}
 			else
 			{
 				CACHE_SOUND(sound,  (char *) getDataFile("data/wav/misc/text.wav"));
 				sound->play();
 
-				if (tank && tank->getState().getState() == TankState::sNormal)
-				{
-					// put a speach bubble over the talking tank
-					Vector white(1.0f, 1.0f, 1.0f);
-					TalkRenderer *talk = new TalkRenderer(
-						tank->getPhysics().getTankTurretPosition(),
-						white);
-					ScorchedClient::instance()->getActionController().addAction(new SpriteAction(talk));
-				}
-
 				if (tank)
 				{
-					Logger::log(
-						LoggerInfo(message.getPlayerId(),
-							tank->getAvatar().getTexture()), 
-						message.getText());
-				}
-				else
-				{
-					Logger::log(
-						LoggerInfo(message.getPlayerId(),
-							&ExplosionTextures::instance()->talkTexture), 
-						message.getText());
+					if(tank->getState().getState() == TankState::sNormal)
+					{
+						// put a speach bubble over the talking tank
+						Vector white(1.0f, 1.0f, 1.0f);
+						TalkRenderer *talk = new TalkRenderer(
+							tank->getPhysics().getTankTurretPosition(),
+							white);
+						ScorchedClient::instance()->getActionController().
+							addAction(new SpriteAction(talk));
+					}
+
+					LoggerInfo info(LoggerInfo::TypeTalk, message.getText());
+					info.setPlayerId(message.getPlayerId());
+					info.setIcon(tank->getAvatar().getTexture());
+					Logger::log(info);
 				}
 			}
 		}

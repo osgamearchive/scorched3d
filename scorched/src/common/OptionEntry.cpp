@@ -112,7 +112,7 @@ bool OptionEntryHelper::readFromBuffer(std::list<OptionEntry *> &options,
 			entryMap.find(name);
 		if (finditor == entryMap.end())
 		{
-			Logger::log(0, "Warning:Does not support server option \"%s\"",
+			Logger::log( "Warning:Does not support server option \"%s\"",
 				name.c_str());
 		}
 		else

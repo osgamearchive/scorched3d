@@ -21,7 +21,7 @@
 #if !defined(AFX_GLCONSOLE_H__516D85F7_420B_43EB_B0BE_563DCBE1B143__INCLUDED_)
 #define AFX_GLCONSOLE_H__516D85F7_420B_43EB_B0BE_563DCBE1B143__INCLUDED_
 
-#include <common/Logger.h>
+#include <common/LoggerI.h>
 #include <engine/GameStateI.h>
 #include <GLEXT/GLFont2d.h>
 #include <GLEXT/GLConsoleMethods.h>
@@ -54,10 +54,7 @@ public:
 							   bool &skipRest);
 
 	// Inherited from LoggerI
-	virtual void logMessage(
-		const char *time,
-		const char *message,
-		const LoggerInfo &info);
+	virtual void logMessage(LoggerInfo &info);
 
 protected:
 	static GLConsole *instance_;

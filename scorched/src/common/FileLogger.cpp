@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,41 +18,34 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#ifndef _LOGGER_H_
-#define _LOGGER_H_
+#include <common/FileLogger.h>
+#include <common/Defines.h>
+#include <time.h>
 
-#include <list>
-
-// ************************************************
-// NOTE: This logger is and needs to be thread safe
-// ************************************************
-
-class LoggerInfo;
-class LoggerI;
-class Logger
+FileLogger::FileLogger(const char *fileName) : 
+	lines_(0), logFile_(0), fileName_(fileName)
 {
-public:
-	static Logger *instance();
 
-	static LoggerInfo defaultInfo;
-	static void addLogger(LoggerI *logger);
-	static void remLogger(LoggerI *logger);
-	static void processLogEntries();
+}
 
-	static void log(const LoggerInfo &info);
-	static void log(const char *fmt, ...);
+FileLogger::~FileLogger()
+{
+}
 
-protected:
-	static Logger *instance_;
+void FileLogger::logMessage(LoggerInfo &info)
+{
+	const unsigned int MaxLines = 4000;
+	if (!logFile_ || (lines_++>MaxLines)) openFile(fileName_.c_str());
+	if (!logFile_) return;
 
-	std::list<LoggerI *> loggers_;
-	std::list<LoggerInfo *> entries_;
+	// Log to file and flush file
+	fprintf(logFile_, "%s - %s\n", info.getTime(), info.getMessage());
+	fflush(logFile_);
+}
 
-	static void addLogPart(char *time, char *text);
-
-private:
-	Logger();
-	virtual ~Logger();
-};
-
-#endif /* _LOGGER_H_ */
+void FileLogger::openFile(const char *fileName)
+{
+	lines_ = 0;
+	if (logFile_) fclose(logFile_);
+	logFile_ = fopen(getLogFile("%s-%i.log", fileName, time(0)), "w");
+}

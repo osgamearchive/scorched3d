@@ -149,7 +149,7 @@ int NetServer::threadFunc(void *param)
 		float timeDiff = netClock.getTimeDifference();
 		if (timeDiff > 1.0f)
 		{
-			Logger::log(0, "Warning: Net loop took %.2f seconds, server", 
+			Logger::log( "Warning: Net loop took %.2f seconds, server", 
 				timeDiff);
 		}
 
@@ -303,7 +303,7 @@ void NetServer::sendMessage(TCPsocket client, NetMessage *message)
 	else
 	{
 		NetMessagePool::instance()->addToPool(message);
-		Logger::log(0, "Unknown sendMessage destination %i",
+		Logger::log( "Unknown sendMessage destination %i",
 			(int) client);
 	}
 	SDL_UnlockMutex(setMutex_);

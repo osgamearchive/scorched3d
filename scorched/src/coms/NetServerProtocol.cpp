@@ -50,7 +50,7 @@ bool NetServerScorchedProtocol::sendBuffer(NetBuffer &buffer, TCPsocket socket)
 	int result = SDLNet_TCP_Send(socket, &netlen, sizeof(netlen));
 	if(result<(int) sizeof(netlen))
 	{
-		Logger::log(0, "Failed to send buffer length. Sent %i of %i.",
+		Logger::log( "Failed to send buffer length. Sent %i of %i.",
 			result, sizeof(netlen));
 		return false;
 	}
@@ -59,7 +59,7 @@ bool NetServerScorchedProtocol::sendBuffer(NetBuffer &buffer, TCPsocket socket)
 	result = SDLNet_TCP_Send(socket,buffer.getBuffer(),len);
 	if(result<int(len))
 	{
-		Logger::log(0, "Failed to send buffer. Sent %i of %i.",
+		Logger::log( "Failed to send buffer. Sent %i of %i.",
 			result, int(len));
 		return false;
 	}
@@ -85,7 +85,7 @@ static bool realSDLNet_TCP_Recv(TCPsocket socket, char *dest, int len)
 
 		if (len > 0)
 		{
-			//Logger::log(0, "Partial read, %i/%i %s", recv, len + recv, 
+			//Logger::log( "Partial read, %i/%i %s", recv, len + recv, 
 				//SDLNet_GetError());
 			SDL_Delay(10);
 		}
@@ -100,7 +100,7 @@ NetMessage *NetServerScorchedProtocol::readBuffer(TCPsocket socket)
 	char lenbuf[4];
 	if (!realSDLNet_TCP_Recv(socket, lenbuf, 4))
 	{
-		Logger::log(0, "Socket closed.");
+		Logger::log( "Socket closed.");
 		return 0;
 	}
 
@@ -110,14 +110,14 @@ NetMessage *NetServerScorchedProtocol::readBuffer(TCPsocket socket)
 	// check if anything is strange, like a zero length buffer
 	if(len == 0)
 	{
-		Logger::log(0, "Zero length buffer recieved.");
+		Logger::log( "Zero length buffer recieved.");
 		return 0;
 	}
 
 	// Cannot recieve a message large than .5 MB
 	if (len > 512000)
 	{
-		Logger::log(0, "Buffer was too large to recieve.  Size %i.",
+		Logger::log( "Buffer was too large to recieve.  Size %i.",
 			len);
 		return 0;
 	}
@@ -135,7 +135,7 @@ NetMessage *NetServerScorchedProtocol::readBuffer(TCPsocket socket)
 		buffer->getBuffer().getBuffer(),
 		len))
 	{
-		Logger::log(0, "Read failed for buffer");
+		Logger::log( "Read failed for buffer");
 		NetMessagePool::instance()->addToPool(buffer);
 		return 0;
 	}
@@ -182,14 +182,14 @@ bool NetServerCompressedProtocol::sendBuffer(NetBuffer &buffer, TCPsocket socket
 		newBuffer.setBufferUsed(destLen + 4);
 
 		// Actualy send the new message
-		//Logger::log(0, "Compressed %i->%i",
+		//Logger::log( "Compressed %i->%i",
 		//			buffer.getBufferUsed(), newBuffer.getBufferUsed());
 
 		retVal = NetServerScorchedProtocol::sendBuffer(newBuffer, socket);
 	}
 	else
 	{
-		Logger::log(0, "Failed to compress coms buffer");
+		Logger::log( "Failed to compress coms buffer");
 	}
 
 	// Re-cycle the new message buffer
@@ -209,7 +209,7 @@ NetMessage *NetServerCompressedProtocol::readBuffer(TCPsocket socket)
 		if (!reader.getFromBuffer(dLen))
 		{
 			// Return the error to the caller
-			Logger::log(0, "Failed to get compressed coms buffer size");
+			Logger::log( "Failed to get compressed coms buffer size");
 			NetMessagePool::instance()->addToPool(message);	
 			return 0;
 		}
@@ -217,7 +217,7 @@ NetMessage *NetServerCompressedProtocol::readBuffer(TCPsocket socket)
 		// Check for silly sized buffer
 		if (dLen > 512000)
 		{
-			Logger::log(0, "Compressed coms buffer was too large to recieve. Size = %i.",
+			Logger::log( "Compressed coms buffer was too large to recieve. Size = %i.",
 				dLen);
 			NetMessagePool::instance()->addToPool(message);	
 			return 0;
@@ -246,7 +246,7 @@ NetMessage *NetServerCompressedProtocol::readBuffer(TCPsocket socket)
 		}
 		else
 		{
-			Logger::log(0, "Failed to uncompress coms buffer");
+			Logger::log( "Failed to uncompress coms buffer");
 
 			// Return the error to the caller
 			NetMessagePool::instance()->addToPool(message);	
@@ -276,7 +276,7 @@ bool NetServerHTTPProtocol::sendBuffer(NetBuffer &buffer, TCPsocket socket)
 	int result = SDLNet_TCP_Send(socket,buffer.getBuffer(),len);
 	if(result<int(len))
 	{
-		Logger::log(0, "Failed to send HTTP buffer. Sent %i of %i.",
+		Logger::log( "Failed to send HTTP buffer. Sent %i of %i.",
 			result, int(len));
 		return false;
 	}

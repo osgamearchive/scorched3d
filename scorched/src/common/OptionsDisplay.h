@@ -280,10 +280,6 @@ public:
 	void setSoundVolume(int value) { soundVolume_.setValue(value); }
 	const char *getSoundVolumeToolTip() { return soundVolume_.getDescription(); }
 
-	int getBannerRows() { return bannerRows_.getValue(); }
-	void setBannerRows(int value) { bannerRows_.setValue(value); }
-	const char *getBannerRowsToolTip() { return bannerRows_.getDescription(); }
-
 	int getDialogSize() { return dialogSize_.getValue(); }
 	void setDialogSize(int value) { dialogSize_.setValue(value); }
 	const char *getDialogSizeToolTip() { return dialogSize_.getDescription(); }
@@ -354,7 +350,7 @@ protected:
 	OptionEntryInt soundChannels_;
 	OptionEntryInt bitsPerPixel_;
 	OptionEntryInt depthBufferBits_;
-	OptionEntryInt bannerRows_;
+	OptionEntryInt bannerRowsDepricated_;
 	OptionEntryInt tankModelSize_;
 	OptionEntryBool detailTexture_;
 	OptionEntryBool useHex_;

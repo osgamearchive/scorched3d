@@ -1,5 +1,65 @@
 <windows>
 	<window>
+		<name>Log</name>
+		<states>all</states>
+		<visible>true</visible>
+		<key></key>
+		<windowlevel>200000</windowlevel>
+		<w>-400</w>
+		<h>100</h>
+		<x>200</x>
+		<y>0</y>
+		<description>Shows log messages</description>
+		<disabled/>
+		<items>
+			<item>
+				<widget type="GLWLoggerView">
+					<x>0</x><y>0</y>
+					<w>0</w><h>0</h>
+					<mask>12</mask>
+					<oldstyle>off</oldstyle>
+					<displaytime>10.0</displaytime>
+					<totallines>5</totallines>
+					<linedepth>18</linedepth>
+					<fontsize>12</fontsize>
+					<outlinefontsize>14</outlinefontsize>
+					<textaligntop>false</textaligntop>
+					<parentsized>true</parentsized>
+				</widget>
+			</item>
+		</items>
+	</window>
+	<window>
+		<name>DeathLog</name>
+		<states>all</states>
+		<visible>true</visible>
+		<key></key>
+		<windowlevel>200000</windowlevel>
+		<w>-400</w>
+		<h>100</h>
+		<x>200</x>
+		<y>-110</y>
+		<description>Shows log messages</description>
+		<disabled/>
+		<items>
+			<item>
+				<widget type="GLWLoggerView">
+					<x>0</x><y>0</y>
+					<w>0</w><h>0</h>
+					<mask>2</mask>
+					<oldstyle>off</oldstyle>
+					<displaytime>10.0</displaytime>
+					<totallines>5</totallines>
+					<linedepth>14</linedepth>
+					<fontsize>8</fontsize>
+					<outlinefontsize>10</outlinefontsize>
+					<textaligntop>true</textaligntop>
+					<parentsized>true</parentsized>
+				</widget>
+			</item>
+		</items>
+	</window>
+	<window>
 		<name>Plan</name>
 		<states>all</states>
 		<visible>true</visible>

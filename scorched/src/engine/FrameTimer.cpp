@@ -21,6 +21,7 @@
 #include <stdio.h>
 #include <engine/FrameTimer.h>
 #include <common/Logger.h>
+#include <common/LoggerI.h>
 #include <common/OptionsDisplay.h>
 #include <GLEXT/GLInfo.h>
 #include <client/ScorchedClient.h>
@@ -81,12 +82,13 @@ void FrameTimer::simulate(const unsigned state, float frameTime)
 				if (dGeomIsEnabled(geom) == 1) enabledGeoms++;
 			}
 
-			Logger::log(0, "%.2f FPS (%iT %iP %iG %iS)", 
-				float(totalCount_) / totalTime_,
-				tris,
-				pOnScreen,
-				enabledGeoms,
-				Landscape::instance()->getPatchGrid().getDrawnPatches());
+			Logger::log(LoggerInfo(LoggerInfo::TypePerformance, 
+				formatString("%.2f FPS (%iT %iP %iG %iS)", 
+					float(totalCount_) / totalTime_,
+					tris,
+					pOnScreen,
+					enabledGeoms,
+					Landscape::instance()->getPatchGrid().getDrawnPatches())));
 		}
 		totalCount_ = 0;
 		totalTime_ = 0.0f;

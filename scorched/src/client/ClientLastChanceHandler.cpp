@@ -57,7 +57,7 @@ bool ClientLastChanceHandler::processMessage(unsigned int destinationId,
 	if (!message.readMessage(reader)) return false;
 
 	// Warn the user this is a last chance
-	Logger::log(0, "Server hurry up message received");
+	Logger::log( "Server hurry up message received");
 
 	// We are lagging in a state we should not be in!
 	// This is the last chance so be drastic

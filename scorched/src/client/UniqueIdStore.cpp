@@ -128,7 +128,7 @@ bool UniqueIdStore::saveUniqueId(unsigned int ip, const char *id,
 	IPaddress address;
 	if (SDLNet_ResolveHost(&address, (char *) published, 0) != 0)
 	{
-		Logger::log(0, "Failed to resolve published server host \"%s\"", published);
+		Logger::log( "Failed to resolve published server host \"%s\"", published);
 		return false;
 	}
 
@@ -137,7 +137,7 @@ bool UniqueIdStore::saveUniqueId(unsigned int ip, const char *id,
 	{
 		std::string actualIp = NetInterface::getIpName(ip);
 		std::string pubIp = NetInterface::getIpName(ipAddress);
-		Logger::log(0, "Server ip does not match published ip\n%s != %s (%s)",
+		Logger::log( "Server ip does not match published ip\n%s != %s (%s)",
 			actualIp.c_str(), published, pubIp.c_str());
 
 		if (OptionsDisplay::instance()->getValidateServerIp())
@@ -157,7 +157,7 @@ bool UniqueIdStore::saveUniqueId(unsigned int ip, const char *id,
 		{
 			if (0 != strcmp(entry.id.c_str(), id))
 			{
-				Logger::log(0, "Warning: Using different uniqueid from stored.");
+				Logger::log( "Warning: Using different uniqueid from stored.");
 			}
 
 			return true;

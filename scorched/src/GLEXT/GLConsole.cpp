@@ -20,6 +20,7 @@
 
 #include <common/Keyboard.h>
 #include <common/Defines.h>
+#include <common/Logger.h>
 #include <GLEXT/GLState.h>
 #include <GLEXT/GLConsole.h>
 #include <GLEXT/GLViewPort.h>
@@ -50,12 +51,9 @@ GLConsole::~GLConsole()
 
 }
 
-void GLConsole::logMessage(
-	const char *time,
-	const char *message,
-	const LoggerInfo &info)
+void GLConsole::logMessage(LoggerInfo &info)
 {
-	addLine(false, message);
+	addLine(false, info.getMessage());
 }
 
 void GLConsole::keyboardCheck(const unsigned state, float frameTime, 

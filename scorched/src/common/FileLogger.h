@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,41 +18,27 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#ifndef _LOGGER_H_
-#define _LOGGER_H_
+#if !defined(__INCLUDE_FileLoggerh_INCLUDE__)
+#define __INCLUDE_FileLoggerh_INCLUDE__
 
-#include <list>
+#include <common/LoggerI.h>
+#include <stdio.h>
 
-// ************************************************
-// NOTE: This logger is and needs to be thread safe
-// ************************************************
-
-class LoggerInfo;
-class LoggerI;
-class Logger
+class FileLogger : public LoggerI
 {
 public:
-	static Logger *instance();
+	FileLogger(const char *fileName);
+	virtual ~FileLogger();
 
-	static LoggerInfo defaultInfo;
-	static void addLogger(LoggerI *logger);
-	static void remLogger(LoggerI *logger);
-	static void processLogEntries();
-
-	static void log(const LoggerInfo &info);
-	static void log(const char *fmt, ...);
+	virtual void logMessage(LoggerInfo &info);
 
 protected:
-	static Logger *instance_;
+	std::string fileName_;
+	FILE *logFile_;
+	unsigned int lines_;
 
-	std::list<LoggerI *> loggers_;
-	std::list<LoggerInfo *> entries_;
+	void openFile(const char *fileName);
 
-	static void addLogPart(char *time, char *text);
-
-private:
-	Logger();
-	virtual ~Logger();
 };
 
-#endif /* _LOGGER_H_ */
+#endif // __INCLUDE_FileLoggerh_INCLUDE__

@@ -30,6 +30,7 @@
 #include <common/SoundStore.h>
 #include <common/OptionsDisplay.h>
 #include <common/Defines.h>
+#include <common/Logger.h>
 #include <math.h>
 #include <time.h>
 
@@ -243,7 +244,7 @@ void MainCamera::setQuick(int key)
 		targetCam_.getCamera().getRotationYZ(),
 		targetCam_.getCamera().getZoom()));
 	quickKeys_[key] = value;
-	Logger::log(0, "Saved camera preset %i", key);
+	Logger::log( "Saved camera preset %i", key);
 }
 
 void MainCamera::useQuick(int key)
@@ -257,7 +258,7 @@ void MainCamera::useQuick(int key)
 		targetCam_.getCamera().setLookAt(value.first);
 		targetCam_.getCamera().movePosition(value.second[0],
 			value.second[1], value.second[2]);
-		Logger::log(0, "Using camera preset %i", key);
+		Logger::log( "Using camera preset %i", key);
 	}
 }
 

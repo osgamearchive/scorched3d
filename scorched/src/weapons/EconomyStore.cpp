@@ -68,7 +68,7 @@ Economy *EconomyStore::getEconomy()
 	if (0 != strcmp(ScorchedServer::instance()->getOptionsGame().getEconomy(),
 		economy_->getClassName()))
 	{
-		Logger::log(0, "Loading new economy");
+		Logger::log( "Loading new economy");
 		loadEconomy();
 	}
 

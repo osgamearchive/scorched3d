@@ -315,12 +315,12 @@ bool OptionsGameWrapper::commitChanges()
 			{
 				if (strlen(str.c_str()) < 20 && strlen(otherstr.c_str()) < 20)
 				{
-					Logger::log(0, "Option %s has been changed from %s to %s",
+					Logger::log( "Option %s has been changed from %s to %s",
 						entry->getName(), str.c_str(), otherstr.c_str());
 				}
 				else
 				{
-					Logger::log(0, "Option %s has been changed.",
+					Logger::log( "Option %s has been changed.",
 						entry->getName());
 				}
 			}

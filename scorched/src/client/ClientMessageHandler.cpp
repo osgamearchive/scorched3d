@@ -46,12 +46,12 @@ ClientMessageHandler::~ClientMessageHandler()
 
 void ClientMessageHandler::clientConnected(NetMessage &message)
 {
-	Logger::log(0, "Connected");
+	Logger::log( "Connected");
 }
 
 void ClientMessageHandler::clientDisconnected(NetMessage &message)
 {
-	Logger::log(0, "Disconnected");
+	Logger::log( "Disconnected");
 	ScorchedClient::instance()->getGameState().stimulate(ClientState::StimDisconnected);
 	ScorchedClient::instance()->getTankContainer().setCurrentDestinationId(0);
 }
@@ -59,6 +59,6 @@ void ClientMessageHandler::clientDisconnected(NetMessage &message)
 void ClientMessageHandler::clientError(NetMessage &message,
 		const char *errorString)
 {
-	Logger::log(0, "***Client Error*** \"%s\"", errorString);
+	Logger::log( "***Client Error*** \"%s\"", errorString);
 	ScorchedClient::instance()->getNetInterface().disconnectAllClients();
 }

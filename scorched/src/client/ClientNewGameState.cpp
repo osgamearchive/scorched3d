@@ -21,7 +21,6 @@
 #include <client/ClientNewGameState.h>
 #include <client/ScorchedClient.h>
 #include <client/SpeedChange.h>
-#include <client/MainBanner.h>
 #include <client/ScorchedClient.h>
 #include <client/ClientState.h>
 #include <tank/TankContainer.h>

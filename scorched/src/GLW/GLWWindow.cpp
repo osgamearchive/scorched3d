@@ -202,7 +202,7 @@ void GLWWindow::drawMaximizedWindow()
 			{
 				drawWindowCircle(x_ + w_ - 12.0f, y_, 12.0f, 12.0f);
 			}
-			if (!(windowState_ & eNoTitle))
+			if (!(windowState_ & eNoTitle) && !disabled_)
 			{
 				float sizeX = 20.0f;
 				float sizeY = 20.0f;
@@ -282,6 +282,9 @@ void GLWWindow::draw()
 	{
 		if (x_ < 0.0f) setX(GLViewPort::getWidth() + x_);
 		if (y_ < 0.0f) setY(GLViewPort::getHeight() + y_);
+		if (w_ < 0.0f) setW(GLViewPort::getWidth() + w_);
+		if (h_ < 0.0f) setH(GLViewPort::getHeight() + h_);
+
 		initPosition_ = true;
 	}
 	if (needCentered_)
@@ -455,6 +458,15 @@ bool GLWWindow::initFromXML(XMLNode *node)
 	// Desc
 	if (!node->getNamedChild("description", description_)) return false;
 	toolTip_.setText(name_.c_str(), description_.c_str());
+
+	// Disabled
+	XMLNode *disabled = 0;
+	if (node->getNamedChild("disabled", disabled, false))
+	{
+		disabled_ = true;
+	}
+
+	node->getNamedChild("windowlevel", windowLevel_, false);
 
 	return true;
 }

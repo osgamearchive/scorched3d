@@ -64,7 +64,7 @@ void SaveDialog::buttonDown(unsigned int id)
 			const char *showFileName = saveFile;
 			for (const char *a=saveFile; *a; a++) 
 				if (*a == '/') showFileName = a;
-			Logger::log(0, "Game saved as %s.", showFileName);
+			Logger::log( "Game saved as %s.", showFileName);
 		}
 		GLWWindowManager::instance()->hideWindow(id_);
 	}

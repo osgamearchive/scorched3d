@@ -295,7 +295,7 @@ void GameState::simulate(float simTime)
 				{
 					if (stateLogging_)
 					{
-						Logger::log(0, "%s::acceptStateChange(%i, %i)", 
+						Logger::log( "%s::acceptStateChange(%i, %i)", 
 							name_.c_str(), thisState, p.second);
 					}
 					setState(itor->second);
@@ -337,7 +337,7 @@ void GameState::setState(const unsigned state)
 {
 	if (stateLogging_)
 	{
-		Logger::log(0, "%s::setState(%i)", name_.c_str(), state);
+		Logger::log( "%s::setState(%i)", name_.c_str(), state);
 	}
 
 	currentState_ = state;
@@ -402,7 +402,7 @@ void GameState::stimulate(const unsigned stimulus)
 {
 	if (stateLogging_)
 	{
-		Logger::log(0, "%s::stimulate(%i)", name_.c_str(), stimulus);
+		Logger::log( "%s::stimulate(%i)", name_.c_str(), stimulus);
 	}
 
 	pendingStimulus_ = stimulus;

@@ -32,6 +32,8 @@
 #include <GLW/GLWWindowManager.h>
 #include <common/OptionsParam.h>
 #include <common/OptionsDisplay.h>
+#include <common/FileLogger.h>
+#include <common/Logger.h>
 #include <coms/ComsMessageSender.h>
 #include <coms/ComsMessageHandler.h>
 #include <coms/ComsTextMessage.h>

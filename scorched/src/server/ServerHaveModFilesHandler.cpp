@@ -101,7 +101,7 @@ bool ServerHaveModFilesHandler::processMessage(unsigned int destinationId,
 	{
 		// If this server does not allow file downloads tell the client
 		// and disconnect them
-		Logger::log(destinationId, "No mod and mod download disabled");
+		Logger::log("No mod and mod download disabled");
 		ServerCommon::sendString(destinationId,
 			"This server requires the \"%s\" Scorched3D mod.\n"
 			"The server does not allow in game file downloads.\n"

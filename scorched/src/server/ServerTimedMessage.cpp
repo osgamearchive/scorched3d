@@ -53,7 +53,7 @@ void ServerTimedMessage::simulate()
 		lastTime_ = currentTime;
 		time_t theTime = time(0);
 		ServerCommon::sendString(0, message_.c_str(), ctime(&theTime));
-		Logger::log(0, message_.c_str(), ctime(&theTime));
+		Logger::log( message_.c_str(), ctime(&theTime));
 	}
 }
 
@@ -64,11 +64,11 @@ void ServerTimedMessage::setMessage(const char *message, unsigned int step)
 
 	if (message_.empty() || timeStep_ == 0)
 	{
-		Logger::log(0, "Timed Message Turned Off");
+		Logger::log( "Timed Message Turned Off");
 	}
 	else
 	{
-		Logger::log(0, "Sending message \"%s\" every %i seconds",
+		Logger::log( "Sending message \"%s\" every %i seconds",
 			message_.c_str(), timeStep_);
 	}
 }

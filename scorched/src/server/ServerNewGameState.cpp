@@ -201,7 +201,7 @@ int ServerNewGameState::addTanksToGame(const unsigned state,
 		ScorchedServer::instance()->getContext(),
 		newGameMessage.getLevelMessage()))
 	{
-		Logger::log(0, "ERROR: Failed to generate diff");
+		Logger::log( "ERROR: Failed to generate diff");
 	}
 
 	// Check if the generated landscape is too large to send to the clients

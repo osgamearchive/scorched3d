@@ -27,6 +27,7 @@
 #include <common/Defines.h>
 #include <common/OptionsParam.h>
 #include <common/Logger.h>
+#include <common/LoggerI.h>
 
 REGISTER_ACTION_SOURCE(TankSay);
 
@@ -63,14 +64,14 @@ void TankSay::init()
 
 		if (!context_->serverMode)
 		{
-			Logger::log(
-				LoggerInfo(tank->getPlayerId(),
-					tank->getAvatar().getTexture()), 
-				text_.c_str());
+			LoggerInfo info(LoggerInfo::TypeTalk, text_.c_str());
+			info.setPlayerId(tank->getPlayerId());
+			info.setIcon(tank->getAvatar().getTexture());
+			Logger::log(info);
 		}
 		else if (OptionsParam::instance()->getDedicatedServer())
 		{
-			Logger::log(tank->getPlayerId(), text_.c_str());
+			Logger::log(text_.c_str());
 		}
 	}
 }

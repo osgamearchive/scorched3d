@@ -69,7 +69,7 @@ bool ServerDefenseHandler::processMessage(unsigned int destinationId,
 		(ScorchedServer::instance()->getGameState().getState() != 
 		 ServerState::ServerStateBuying))
 	{
-		Logger::log(playerId, "ERROR: Player attempted to use defense but in incorrect state");
+		Logger::log("ERROR: Player attempted to use defense but in incorrect state");
 		return true;
 	}
 
@@ -77,20 +77,20 @@ bool ServerDefenseHandler::processMessage(unsigned int destinationId,
 	Tank *tank = ScorchedServer::instance()->getTankContainer().getTankById(playerId);
 	if (!tank || tank->getState().getState() != TankState::sNormal)
 	{
-		Logger::log(playerId, "ERROR: Player buying does not exist");
+		Logger::log("ERROR: Player buying does not exist");
 		return true;
 	}
 
 	if (tank->getDestinationId() != destinationId)
 	{
-		Logger::log(playerId, "ERROR: Player buying does not exist at this destination");
+		Logger::log("ERROR: Player buying does not exist at this destination");
 		return true;
 	}
 
 	// Check tank has not made move yet
 	if (ServerShotHolder::instance()->haveShot(playerId))
 	{
-		Logger::log(playerId, "ERROR: Player has already made move");
+		Logger::log("ERROR: Player has already made move");
 		return true;
 	}
 

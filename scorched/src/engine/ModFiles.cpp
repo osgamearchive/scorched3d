@@ -95,7 +95,7 @@ bool ModFiles::loadModFiles(const char *mod, bool createDir)
 			totalSize += entry->getUncompressedSize();
 		}
 
-		Logger::log(0, "Loaded mod \"%s\", space required %u (%u) bytes", 
+		Logger::log( "Loaded mod \"%s\", space required %u (%u) bytes", 
 			mod, totalCompSize, totalSize);
 
 		if (!createDir && files_.empty())

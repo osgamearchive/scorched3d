@@ -22,7 +22,6 @@
 #include <dialogs/PlayerDialog.h>
 #include <dialogs/LogDialog.h>
 #include <client/ScorchedClient.h>
-#include <client/MainBanner.h>
 #include <tank/TankContainer.h>
 #include <server/ScorchedServer.h>
 #include <common/OptionsDisplay.h>
@@ -67,8 +66,9 @@ void ConnectDialog::simulate(float frameTime)
 		{
 			if (++tryCount>2)
 			{
-				LogDialog::instance()->logMessage("", 
-					"Could not connect to server.", 0);
+				LoggerInfo info (LoggerInfo::TypeNormal, 
+					"Could not connect to server.", "");
+				LogDialog::instance()->logMessage(info);
 				break;
 			}
 		}
@@ -85,11 +85,17 @@ bool ConnectDialog::tryConnection()
 	LogDialog::instance()->setServerName(
 		formatString("Connecting to : %s", serverName));
 
-	LogDialog::instance()->logMessage("", 
-		"Attempting connection", 0);
-	LogDialog::instance()->logMessage("", 
-		formatString("  Trying \"%s\"....", 
-		serverName[0]?serverName:"Loopback"), 0);
+	{
+		LoggerInfo info (LoggerInfo::TypeNormal, 
+			"Attempting connection", "");
+		LogDialog::instance()->logMessage(info);
+	}
+	{
+		LoggerInfo info (LoggerInfo::TypeNormal, 
+			formatString("  Trying \"%s\"....", 
+			serverName[0]?serverName:"Loopback"), "");
+		LogDialog::instance()->logMessage(info);
+	}
 
 	ScorchedClient::instance()->getMainLoop().draw();
 	ScorchedClient::instance()->getMainLoop().swapBuffers();
@@ -116,8 +122,11 @@ bool ConnectDialog::tryConnection()
 		if (!ScorchedClient::instance()->getNetInterface().
 			connect((char *) hostPart.c_str(), port))
 		{
-			LogDialog::instance()->logMessage("", 
-				"  Connection Failed.", 0);
+			{
+				LoggerInfo info (LoggerInfo::TypeNormal, 
+					"  Connection Failed.", "");
+				LogDialog::instance()->logMessage(info);
+			}
 
 			ScorchedClient::instance()->getMainLoop().draw();
 			ScorchedClient::instance()->getMainLoop().swapBuffers();
@@ -129,15 +138,18 @@ bool ConnectDialog::tryConnection()
 		// Get the unique id
 		if (!idStore_.loadStore())
 		{
-			LogDialog::instance()->logMessage("", 
-				formatString("Failed to load id store"), 0);
+			LoggerInfo info (LoggerInfo::TypeNormal, 
+				"Failed to load id store", "");
+			LogDialog::instance()->logMessage(info);
 			return false;
 		}
 		IPaddress address;
 		if (SDLNet_ResolveHost(&address, (char *) hostPart.c_str(), 0) != 0)
 		{
-			LogDialog::instance()->logMessage("", 
-				formatString("Failed to resolve server name"), 0);
+			LoggerInfo info (LoggerInfo::TypeNormal, 
+				formatString("Failed to resolve server name %s", 
+				hostPart.c_str()), "");
+			LogDialog::instance()->logMessage(info);
 			return false;
 		}
 		unsigned int ipAddress = SDLNet_Read32(&address.host);
@@ -159,11 +171,11 @@ bool ConnectDialog::tryConnection()
 	connectMessage.setNoPlayers(noPlayers);
 	if (!ComsMessageSender::sendToServer(connectMessage))
 	{
-		LogDialog::instance()->logMessage("", 
-			"  Connection Send Failed!", 0);
+		LoggerInfo info (LoggerInfo::TypeNormal, 
+			"  Connection Send Failed!", "");
+		LogDialog::instance()->logMessage(info);
 	}
 
-	MainBanner::instance();
 	return true;
 }
 

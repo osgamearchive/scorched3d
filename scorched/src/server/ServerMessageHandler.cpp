@@ -56,7 +56,7 @@ void ServerMessageHandler::clientConnected(NetMessage &message)
 		ServerBanned::instance()->getBanned(message.getIpAddress()) == 
 		ServerBanned::Banned)
 	{
-		Logger::log(0, "Banned client connected dest=\"%i\" ip=\"%s\"", 
+		Logger::log( "Banned client connected dest=\"%i\" ip=\"%s\"", 
 			message.getDestinationId(),
 			NetInterface::getIpName(message.getIpAddress()));
 		ScorchedServer::instance()->getNetInterface().
@@ -64,7 +64,7 @@ void ServerMessageHandler::clientConnected(NetMessage &message)
 	}
 	else
 	{
-		Logger::log(0, "Client connected dest=\"%i\" ip=\"%s\"", 
+		Logger::log( "Client connected dest=\"%i\" ip=\"%s\"", 
 			message.getDestinationId(),
 			NetInterface::getIpName(message.getIpAddress()));
 	}
@@ -72,7 +72,7 @@ void ServerMessageHandler::clientConnected(NetMessage &message)
 
 void ServerMessageHandler::clientDisconnected(NetMessage &message)
 {
-	Logger::log(0, "Client disconnected dest=\"%i\" ip=\"%s\"", 
+	Logger::log( "Client disconnected dest=\"%i\" ip=\"%s\"", 
 		message.getDestinationId(),
 		NetInterface::getIpName(message.getIpAddress()));
 
@@ -110,7 +110,7 @@ void ServerMessageHandler::destroyPlayer(unsigned int tankId)
 	Tank *tank = ScorchedServer::instance()->getTankContainer().removeTank(tankId);
 	if (tank)
 	{
-		Logger::log(0, 
+		Logger::log( 
 			"Player disconnected dest=\"%i\" id=\"%i\" name=\"%s\"", 
 			tank->getDestinationId(),
 			tankId, tank->getName());
@@ -134,14 +134,14 @@ void ServerMessageHandler::destroyPlayer(unsigned int tankId)
 	}
 	else
 	{
-		Logger::log(0, "Unknown player disconnected id=\"%i\"", tankId);
+		Logger::log( "Unknown player disconnected id=\"%i\"", tankId);
 	}
 }
 
 void ServerMessageHandler::clientError(NetMessage &message,
 		const char *errorString)
 {
-	Logger::log(0, "Client \"%i\", ***Server Error*** \"%s\"", 
+	Logger::log( "Client \"%i\", ***Server Error*** \"%s\"", 
 		message.getDestinationId(),
 		errorString);
 	ServerCommon::kickDestination(message.getDestinationId());

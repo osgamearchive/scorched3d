@@ -52,7 +52,7 @@ void ActionController::clear(bool warn)
 		Action *act = *newItor;
 		if (warn)
 		{
-			Logger::log(0, "Warning: removing added timed out action %s, %s",
+			Logger::log( "Warning: removing added timed out action %s, %s",
 				act->getActionType(), (act->getReferenced()?"Ref":"UnRef"));
 		}
 		delete act;
@@ -68,7 +68,7 @@ void ActionController::clear(bool warn)
 		Action *act = *cItor;
 		if (warn)
 		{
-			Logger::log(0, "Warning: removing added timed out action %s, %s",
+			Logger::log( "Warning: removing added timed out action %s, %s",
 				act->getActionType(), (act->getReferenced()?"Ref":"UnRef"));
 		}
 		delete act;
@@ -102,7 +102,7 @@ bool ActionController::allEvents()
 
 void ActionController::logActions()
 {
-	Logger::log(0, "ActionLog : Time %.2f, New %i, Ref %i, Buf %i",
+	Logger::log( "ActionLog : Time %.2f, New %i, Ref %i, Buf %i",
 		time_,
 		(int) newActions_.size(), 
 		referenceCount_,
@@ -113,7 +113,7 @@ void ActionController::logActions()
 		itor++)
 	{
 		Action *act = *itor;
-		Logger::log(0, "Action : %s", act->getActionType());
+		Logger::log( "Action : %s", act->getActionType());
 	}
 }
 
@@ -274,7 +274,7 @@ void ActionController::stepActions(float frameTime)
 			if ((time_ - act->getActionStartTime() > 30.0f) ||
 				(totalTime_ > 0.0f && time_ > totalTime_ + 15.0f))
 			{
-				Logger::log(0, "Warning: removing timed out action %s",
+				Logger::log( "Warning: removing timed out action %s",
 					act->getActionType());
 				remove = true;
 			}

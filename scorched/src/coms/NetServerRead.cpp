@@ -74,7 +74,7 @@ void NetServerRead::start()
 		NetServerRead::ctrlThreadFunc, (void *) this);
 	if (!ctrlThread_ || !recvThread_ || !sendThread_)
 	{
-		Logger::log(0, "ERROR: Run out of threads");
+		Logger::log( "ERROR: Run out of threads");
 	}
 }
 
@@ -186,7 +186,7 @@ void NetServerRead::actualSendRecvThreadFunc(bool send)
 		float timeDiff = netClock.getTimeDifference();
 		if (timeDiff > 15.0f)
 		{
-			Logger::log(0, 
+			Logger::log( 
 				"Warning: %s net loop took %.2f seconds, client %i", 
 				(send?"Send":"Recv"),
 				timeDiff, (unsigned int) socket_);
@@ -221,7 +221,7 @@ bool NetServerRead::pollIncoming()
 		NetMessage *message = protocol_->readBuffer(socket_);
 		if (!message)
 		{
-			Logger::log(0, "Client socket has been closed.");
+			Logger::log( "Client socket has been closed.");
 			return false;
 		}
 		else
@@ -263,7 +263,7 @@ bool NetServerRead::pollOutgoing()
 		{
 			if (!protocol_->sendBuffer(message->getBuffer(), socket_))
 			{
-				Logger::log(0, "Failed to send message to client");
+				Logger::log( "Failed to send message to client");
 				result = false;
 			}
 		}

@@ -26,6 +26,7 @@
 #include <common/OptionsParam.h>
 #include <common/OptionsGame.h>
 #include <common/Logger.h>
+#include <common/FileLogger.h>
 #include <coms/ComsTextMessage.h>
 #include <coms/ComsMessageSender.h>
 #include <coms/NetInterface.h>
@@ -45,11 +46,11 @@ void ServerCommon::startFileLogger()
 			getServerFileLogger(), "none"))
 		{
 			Logger::addLogger(serverFileLogger);
-			Logger::log(0, "Created file logger.");
+			Logger::log( "Created file logger.");
 		}
 		else
 		{
-			Logger::log(0, "Not created file logger.");
+			Logger::log( "Not created file logger.");
 		}
 	}	
 }
@@ -124,7 +125,7 @@ void ServerCommon::sendStringAdmin(const char *fmt, ...)
 
 void ServerCommon::slapPlayer(unsigned int playerId, float slap)
 {
-	Logger::log(0, "Slapping player \"%i\" %.0f", 
+	Logger::log( "Slapping player \"%i\" %.0f", 
 		playerId, slap);
 
 	Tank *tank = ScorchedServer::instance()->
@@ -136,14 +137,14 @@ void ServerCommon::slapPlayer(unsigned int playerId, float slap)
 		sendString(0,
 			"Slapping player \"%s\" %.0f",
 			tank->getName(), slap);
-		Logger::log(0, "Slapping client \"%s\" \"%i\" %.0f", 
+		Logger::log( "Slapping client \"%s\" \"%i\" %.0f", 
 			tank->getName(), tank->getPlayerId(), slap);
 	}
 }
 
 void ServerCommon::kickDestination(unsigned int destinationId, bool delayed)
 {
-	Logger::log(0, "Kicking destination \"%i\"", destinationId);
+	Logger::log( "Kicking destination \"%i\"", destinationId);
 
 	bool kickedPlayers = false;
 	std::map<unsigned int, Tank *>::iterator itor;
@@ -171,7 +172,7 @@ void ServerCommon::kickDestination(unsigned int destinationId, bool delayed)
 
 void ServerCommon::kickPlayer(unsigned int playerId, bool delayed)
 {
-	Logger::log(0, "Kicking player \"%i\"", playerId);
+	Logger::log( "Kicking player \"%i\"", playerId);
 
 	Tank *tank = ScorchedServer::instance()->
 		getTankContainer().getTankById(playerId);
@@ -180,7 +181,7 @@ void ServerCommon::kickPlayer(unsigned int playerId, bool delayed)
 		sendString(0,
 			"Player \"%s\" has been kicked from the server",
 			tank->getName(), tank->getPlayerId());
-		Logger::log(0, "Kicking client \"%s\" \"%i\"", 
+		Logger::log( "Kicking client \"%s\" \"%i\"", 
 			tank->getName(), tank->getPlayerId());
 
 		if (tank->getDestinationId() == 0)
@@ -205,7 +206,7 @@ void ServerCommon::banPlayer(unsigned int playerId,
 	{
 		if (tank->getDestinationId() == 0)
 		{
-			Logger::log(0, "Cannot ban local player/bot");
+			Logger::log( "Cannot ban local player/bot");
 			return;
 		}
 		unsigned int ipAddress = tank->getIpAddress();
@@ -214,16 +215,16 @@ void ServerCommon::banPlayer(unsigned int playerId,
 			switch (type)
 			{
 			case ServerBanned::Banned:
-				Logger::log(0, "Banning player %i", playerId);
+				Logger::log( "Banning player %i", playerId);
 				break;
 			case ServerBanned::Muted:
-				Logger::log(0, "Perminantly muting player %i", playerId);
+				Logger::log( "Perminantly muting player %i", playerId);
 				break;
 			case ServerBanned::NotBanned:
-				Logger::log(0, "Unbanning player %i", playerId);
+				Logger::log( "Unbanning player %i", playerId);
 				break;
 			case ServerBanned::Flagged:
-				Logger::log(0, "Flagging player %i", playerId);
+				Logger::log( "Flagging player %i", playerId);
 				break;				
 			}
 		
@@ -260,6 +261,6 @@ void ServerCommon::serverLog(unsigned int playerId, const char *fmt, ...)
 		vsprintf(text, fmt, ap);
 		va_end(ap);
 
-		Logger::log(playerId, text);
+		Logger::log(text);
 	}
 }

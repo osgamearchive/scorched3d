@@ -29,6 +29,7 @@
 #include <common/OptionsParam.h>
 #include <common/Defines.h>
 #include <common/Logger.h>
+#include <common/LoggerI.h>
 #include <common/StatsLogger.h>
 #include <tank/TankContainer.h>
 
@@ -93,11 +94,15 @@ void TankDead::simulate(float frameTime, bool &remove)
 							tankSelfKilled(firedTank, weapon_);
 						StatsLogger::instance()->
 							weaponKilled(weapon_, (data_ & Weapon::eDataDeathAnimation));
-						Logger::log(
-							LoggerInfo(0, weaponTexture),
-							"\"%s\" killed self with a \"%s\"",
-							killedTank->getName(),
-							weapon_->getParent()->getName());
+						
+						LoggerInfo info(LoggerInfo::TypeDeath,
+							formatString("\"%s\" killed self with a \"%s\"",
+								killedTank->getName(),
+								weapon_->getParent()->getName()));
+						info.setPlayerId(firedPlayerId_);
+						info.setOtherPlayerId(killedPlayerId_);
+						info.setIcon(weaponTexture);
+						Logger::log(info);
 					}
 					else if ((context_->optionsGame->getTeams() > 1) &&
 							(firedTank->getTeam() == killedTank->getTeam())) 
@@ -106,12 +111,16 @@ void TankDead::simulate(float frameTime, bool &remove)
 							tankTeamKilled(firedTank, killedTank, weapon_);
 						StatsLogger::instance()->
 							weaponKilled(weapon_, (data_ & Weapon::eDataDeathAnimation));
-						Logger::log(
-							LoggerInfo(0, weaponTexture),
-							"\"%s\" team killed \"%s\" with a \"%s\"",
-							firedTank->getName(),
-							killedTank->getName(),
-							weapon_->getParent()->getName());
+
+						LoggerInfo info(LoggerInfo::TypeDeath,
+							formatString("\"%s\" team killed \"%s\" with a \"%s\"",
+								firedTank->getName(),
+								killedTank->getName(),
+								weapon_->getParent()->getName()));
+						info.setPlayerId(firedPlayerId_);
+						info.setOtherPlayerId(killedPlayerId_);
+						info.setIcon(weaponTexture);
+						Logger::log(info);
 					}
 					else
 					{
@@ -119,12 +128,16 @@ void TankDead::simulate(float frameTime, bool &remove)
 							tankKilled(firedTank, killedTank, weapon_);
 						StatsLogger::instance()->
 							weaponKilled(weapon_, (data_ & Weapon::eDataDeathAnimation));
-						Logger::log(
-							LoggerInfo(0, weaponTexture),
-							"\"%s\" killed \"%s\" with a \"%s\"",
+
+						LoggerInfo info(LoggerInfo::TypeDeath,
+							formatString("\"%s\" killed \"%s\" with a \"%s\"",
 							firedTank->getName(),
 							killedTank->getName(),
-							weapon_->getParent()->getName());
+							weapon_->getParent()->getName()));
+						info.setPlayerId(firedPlayerId_);
+						info.setOtherPlayerId(killedPlayerId_);
+						info.setIcon(weaponTexture);
+						Logger::log(info);
 					}
 				}
 			}
@@ -140,12 +153,16 @@ void TankDead::simulate(float frameTime, bool &remove)
 						tankKilled(&firedTank, killedTank, weapon_); 
 					StatsLogger::instance()->
 						weaponKilled(weapon_, (data_ & Weapon::eDataDeathAnimation));
-					Logger::log(
-						LoggerInfo(0, weaponTexture),
-						"\"%s\" killed \"%s\" with a \"%s\"",
+
+					LoggerInfo info(LoggerInfo::TypeDeath,
+							formatString("\"%s\" killed \"%s\" with a \"%s\"",
 						firedTank.getName(),
 						killedTank->getName(),
-						weapon_->getParent()->getName());
+						weapon_->getParent()->getName()));
+					info.setPlayerId(firedPlayerId_);
+					info.setOtherPlayerId(killedPlayerId_);
+					info.setIcon(weaponTexture);
+					Logger::log(info);
 				}
 			}
 

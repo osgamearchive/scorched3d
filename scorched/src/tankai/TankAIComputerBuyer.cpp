@@ -215,7 +215,7 @@ void TankAIComputerBuyer::buyAccessory()
 
 void TankAIComputerBuyer::dumpAccessories()
 {
-	Logger::log(0, "-------------");
+	Logger::log( "-------------");
 	std::list<Entry>::iterator itor;
 	for (itor = buyEntries_.begin();
 		itor != buyEntries_.end();
@@ -226,10 +226,10 @@ void TankAIComputerBuyer::dumpAccessories()
 			itor2 != (*itor).buyAccessories.end();
 			itor2++)
 		{
-			Logger::log(0, "%s", (*itor2).c_str());
+			Logger::log( "%s", (*itor2).c_str());
 		}
 	}
-	Logger::log(0, "-------------");
+	Logger::log( "-------------");
 }
 
 std::vector<Accessory *> TankAIComputerBuyer::getWeaponType(const char *type)

@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,44 +18,56 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_LogDialogh_INCLUDE__)
-#define __INCLUDE_LogDialogh_INCLUDE__
+#if !defined(__INCLUDE_GLWLoggerViewh_INCLUDE__)
+#define __INCLUDE_GLWLoggerViewh_INCLUDE__
 
-#include <GLW/GLWWindow.h>
-#include <GLW/GLWTextButton.h>
-#include <GLW/GLWListView.h>
-#include <GLW/GLWTextBox.h>
-#include <GLW/GLWLabel.h>
+#include <GLW/GLWidget.h>
 #include <common/LoggerI.h>
 
-class LogDialog : 
-	public GLWWindow,
-	public GLWButtonI,
+class GLWLoggerViewEntry
+{
+public:
+	LoggerInfo info;
+	float timeRemaining;
+};
+
+class GLWLoggerView : 
+	public GLWidget,
 	public LoggerI
 {
 public:
-	static LogDialog *instance();
+	GLWLoggerView();
+	virtual ~GLWLoggerView();
 
-	// Inherited from GLWWindow
+	// GLWidget
 	virtual void draw();
-
-	// Inherited from GLWButtonI
-	virtual void buttonDown(unsigned int id);
+	virtual void simulate(float frameTime);
+	virtual bool initFromXML(XMLNode *node);
+	virtual void mouseDown(float x, float y, bool &skipRest);
+	virtual void mouseUp(float x, float y, bool &skipRest);
+	virtual void mouseDrag(float mx, float my, float x, float y, bool &skipRest);
+	virtual void keyDown(char *buffer, unsigned int keyState, 
+		KeyboardHistory::HistoryElement *history, int hisCount, 
+		bool &skipRest);
 
 	// LoggerI
 	virtual void logMessage(LoggerInfo &info);
 
-	void setServerName(const char *name) { serverName_->setText(name); }
+	REGISTER_CLASS_HEADER(GLWLoggerView);
 
 protected:
-	static LogDialog *instance_;
-	GLWTextButton *quit_;
-	GLWLabel *serverName_;
-	GLWListView *listView_;
+	int mask_;
+	bool oldStyle_;
+	bool init_;
+	bool alignTop_;
+	bool parentSized_;
+	int lineDepth_;
+	float displayTime_;
+	float fontSize_, outlineFontSize_;
 
-private:
-	LogDialog();
-	virtual ~LogDialog();
+	int totalLines_;
+	int startLine_, usedLines_;
+	GLWLoggerViewEntry *textLines_;
 };
 
-#endif
+#endif // __INCLUDE_GLWLoggerViewh_INCLUDE__

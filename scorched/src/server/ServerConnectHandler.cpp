@@ -102,7 +102,7 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 			"Connection failed.", 
 			ScorchedVersion, ScorchedProtocolVersion,
 			message.getVersion(), message.getProtocolVersion());
-		Logger::log(0, 
+		Logger::log( 
 			"ERROR: Player connected with out of date version \"%s(%s)\"",
 			message.getVersion(),
 			message.getProtocolVersion());
@@ -132,7 +132,7 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 					   "This server is running a password protected game.\n"
 					   "Your supplied password does not match.\n"
 					"Connection failed.");
-			Logger::log(0, "ERROR: Player connected with an invalid password");
+			Logger::log( "ERROR: Player connected with an invalid password");
 			
 			ServerCommon::kickDestination(destinationId, true);
 			return true;
@@ -150,7 +150,7 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 		Tank *current = (*playingItor).second;
 		if (current->getDestinationId() == destinationId)
 		{
-			Logger::log(0, "ERROR: Duplicate connection from destination \"%i\"", 
+			Logger::log( "ERROR: Duplicate connection from destination \"%i\"", 
 				destinationId);
 			ServerCommon::kickDestination(destinationId);
 			return true;
@@ -161,7 +161,7 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 		{
 			if (ipAddress == current->getIpAddress())
 			{
-				Logger::log(0, "Duplicate ip connection from destination \"%i\"", 
+				Logger::log( "Duplicate ip connection from destination \"%i\"", 
 					destinationId);
 				ServerCommon::kickDestination(destinationId);
 				return true;
@@ -184,7 +184,7 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 		uniqueId);
 	if (!ComsMessageSender::sendToSingleClient(acceptMessage, destinationId))
 	{
-		Logger::log(0,
+		Logger::log(
 			"ERROR: Failed to send accept to client \"%i\"",
 			destinationId);
 		ServerCommon::kickDestination(destinationId);
@@ -307,7 +307,7 @@ void ServerConnectHandler::addNextTank(unsigned int destinationId,
 			getTankDeadContainer().getTank(sentUniqueId);
 		if (savedTank)
 		{
-			Logger::log(0, "Found residual player info");
+			Logger::log( "Found residual player info");
 			NetBufferDefault::defaultBuffer.reset();
 			if (savedTank->getAccessories().writeMessage(
 					NetBufferDefault::defaultBuffer) &&
@@ -318,12 +318,12 @@ void ServerConnectHandler::addNextTank(unsigned int destinationId,
 				if (!tank->getAccessories().readMessage(reader) ||
 					!tank->getScore().readMessage(reader))
 				{
-					Logger::log(0, "Failed to update residual player info (read)");
+					Logger::log( "Failed to update residual player info (read)");
 				}
 			}
 			else 
 			{
-				Logger::log(0, "Failed to update residual player info (write)");
+				Logger::log( "Failed to update residual player info (write)");
 			}
 			delete savedTank;
 		}
@@ -346,7 +346,7 @@ void ServerConnectHandler::addNextTank(unsigned int destinationId,
 	if (OptionsParam::instance()->getDedicatedServer())
 	{
 		// Add to dialog
-		Logger::log(0, "Player connected dest=\"%i\" id=\"%i\" name=\"%s\" unique=[%s]",
+		Logger::log( "Player connected dest=\"%i\" id=\"%i\" name=\"%s\" unique=[%s]",
 			tank->getDestinationId(),
 			tank->getPlayerId(),
 			tank->getName(),
@@ -367,13 +367,13 @@ void ServerConnectHandler::addNextTank(unsigned int destinationId,
 		if (type == ServerBanned::Muted)	
 		{
 			tank->getState().setMuted(true);
-			Logger::log(0, "Player admin muted");
+			Logger::log( "Player admin muted");
 			ServerCommon::sendStringAdmin("Player admin muted \"%s\"",
 				tank->getName());
 		}
 		else if (type == ServerBanned::Flagged)
 		{
-			Logger::log(0, "Player admin flagged");
+			Logger::log( "Player admin flagged");
 			ServerCommon::sendStringAdmin("Player admin flagged \"%s\"",
 				tank->getName());
 		}

@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,40 +18,45 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+#include <common/LoggerI.h>
+#include <GLEXT/GLTexture.h>
 
-// MainBanner.h: interface for the MainBanner class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_MAINBANNER_H__112625BE_5176_49BA_A456_EEE04E22CD80__INCLUDED_)
-#define AFX_MAINBANNER_H__112625BE_5176_49BA_A456_EEE04E22CD80__INCLUDED_
-
-#include <common/Logger.h>
-#include <engine/GameStateI.h>
-#include <GLEXT/GLFontBanner.h>
-
-class MainBanner : public GameStateI,
-	public LoggerI
+LoggerInfo::LoggerInfo(
+	LogType type,
+	const char *message, 
+	const char *time) : 
+	type_(type),
+	playerId_(0),
+	otherPlayerId_(0),
+	icon_(0),
+	message_(message),
+	time_(time)
 {
-public:
-	static MainBanner* instance();
+}
 
-	virtual void simulate(const unsigned state, float frameTime);
-	virtual void draw(const unsigned state);
+void LoggerInfo::setMessage(const char *message)
+{
+	message_ = message;
+}
 
-	virtual void logMessage(
-		const char *time,
-		const char *message,
-		const LoggerInfo &info);
+void LoggerInfo::setTime(const char *time)
+{
+	time_ = time;
+}
 
-protected:
-	static MainBanner* instance_;
-	GLFontBanner *banner_;
+void LoggerInfo::setIcon(GLTexture *icon)
+{
+	icon_ = icon;
+}
 
-private:
-	MainBanner();
-	virtual ~MainBanner();
+void LoggerInfo::setPlayerId(unsigned int playerId)
+{
+	playerId_ = playerId;
+}
 
-};
+void LoggerInfo::setOtherPlayerId(unsigned int playerId)
+{
+	otherPlayerId_ = playerId;
+}
 
-#endif // !defined(AFX_MAINBANNER_H__112625BE_5176_49BA_A456_EEE04E22CD80__INCLUDED_)
+

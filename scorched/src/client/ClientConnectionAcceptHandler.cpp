@@ -69,7 +69,7 @@ bool ClientConnectionAcceptHandler::processMessage(unsigned int id,
 		if (!ConnectDialog::instance()->getIdStore().saveUniqueId(
 			ip, message.getUniqueId(), message.getPublishAddress()))
 		{
-			Logger::log(0, "Server failed ip security check!");
+			Logger::log( "Server failed ip security check!");
 			return false;
 		}
 	}
@@ -80,7 +80,7 @@ bool ClientConnectionAcceptHandler::processMessage(unsigned int id,
 		setCurrentDestinationId(message.getDestinationId());
 
 	// Tell the user to wait
-	Logger::log(0,
+	Logger::log(
 		"Connection accepted by \"%s\".\nPlease wait...",
 		message.getServerName());
 

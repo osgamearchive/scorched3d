@@ -37,19 +37,19 @@ bool ComsMessageSender::sendToServer(ComsMessage &message)
 	NetBufferDefault::defaultBuffer.reset();
 	if (!message.writeTypeMessage(NetBufferDefault::defaultBuffer))
 	{
-		Logger::log(0, "ERROR: ComsMessageSender::sendToServer - Failed to write message type");
+		Logger::log( "ERROR: ComsMessageSender::sendToServer - Failed to write message type");
 		return false;
 	}
 	
 	if (ScorchedClient::instance()->getComsMessageHandler().getMessageLogging())
 	{
-		Logger::log(0, "sendToServer(%s, %u)", message.getMessageType(),
+		Logger::log( "sendToServer(%s, %u)", message.getMessageType(),
 			NetBufferDefault::defaultBuffer.getBufferUsed());
 	}	
 
 	if (!message.writeMessage(NetBufferDefault::defaultBuffer))
 	{
-		Logger::log(0, "ERROR: ComsMessageSender::sendToServer - Failed to write message");
+		Logger::log( "ERROR: ComsMessageSender::sendToServer - Failed to write message");
 		return false;
 	}
 	ScorchedClient::instance()->getNetInterface().sendMessage(NetBufferDefault::defaultBuffer);
@@ -65,12 +65,12 @@ bool ComsMessageSender::sendToSingleClient(ComsMessage &message,
 	NetBufferDefault::defaultBuffer.reset();
 	if (!message.writeTypeMessage(NetBufferDefault::defaultBuffer))
 	{
-		Logger::log(0, "ERROR: ComsMessageSender::sendToSingleClient - Failed to write message type");
+		Logger::log( "ERROR: ComsMessageSender::sendToSingleClient - Failed to write message type");
 		return false;
 	}
 	if (!message.writeMessage(NetBufferDefault::defaultBuffer))
 	{
-		Logger::log(0, "ERROR: ComsMessageSender::sendToSingleClient - Failed to write message");
+		Logger::log( "ERROR: ComsMessageSender::sendToSingleClient - Failed to write message");
 		return false;
 	}
 	
@@ -85,7 +85,7 @@ bool ComsMessageSender::sendToSingleClient(ComsMessage &message,
 			NetBufferDefault::defaultBuffer.getBufferUsed(),
 			6);
 	
-		Logger::log(0, "sendToSingleClient(%s, %i, %u (%u))", 
+		Logger::log( "sendToSingleClient(%s, %i, %u (%u))", 
 					message.getMessageType(),
 					(int) destination,
 					NetBufferDefault::defaultBuffer.getBufferUsed(),

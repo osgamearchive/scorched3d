@@ -21,7 +21,7 @@
 #if !defined(__INCLUDE_StatsLoggerFileh_INCLUDE__)
 #define __INCLUDE_StatsLoggerFileh_INCLUDE__
 
-#include <common/Logger.h>
+#include <common/FileLogger.h>
 #include <common/StatsLogger.h>
 
 class StatsLoggerFile : public StatsLogger

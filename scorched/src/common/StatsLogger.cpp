@@ -46,7 +46,7 @@ StatsLogger *StatsLogger::instance()
 		{
 #ifdef HAVE_MYSQL
 			instance_ = new StatsLoggerMySQL;
-			Logger::log(0, "Created mysql stats logger.");
+			Logger::log( "Created mysql stats logger.");
 #else
 			dialogExit("StatsLogger",
 				"Atempted to create mysql stats logger\n"
@@ -64,7 +64,7 @@ StatsLogger *StatsLogger::instance()
 		{
 #ifdef HAVE_PGSQL
 			instance_ = new StatsLoggerPGSQL;
-			Logger::log(0, "Created pgsql stats logger.");
+			Logger::log( "Created pgsql stats logger.");
 #else
 			dialogExit("StatsLogger",
 				"Atempted to create pgsql stats logger\n"
@@ -80,7 +80,7 @@ StatsLogger *StatsLogger::instance()
 		}
 		else if (strcmp(statsLogger, "file") == 0)
 		{
-			Logger::log(0, "Created file stats logger.");
+			Logger::log( "Created file stats logger.");
 			instance_ = new StatsLoggerFile;
 			
 			if (strcmp(ScorchedServer::instance()->getOptionsGame().getPublishAddress(),
@@ -92,7 +92,7 @@ StatsLogger *StatsLogger::instance()
 		}
 		else
 		{
-			Logger::log(0, "Created null stats logger.");
+			Logger::log( "Created null stats logger.");
 			instance_ = new StatsLoggerNone;
 		}
 	}

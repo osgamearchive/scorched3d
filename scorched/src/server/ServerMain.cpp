@@ -158,7 +158,7 @@ void serverMain()
 		ServerRegistration::instance()->start();
 	}
 
-	Logger::log(0, "Server started");
+	Logger::log( "Server started");
 }
 
 void serverLoop()
@@ -179,7 +179,7 @@ void serverLoop()
 		if (timeDifference > 5.0f &&
 			OptionsParam::instance()->getDedicatedServer())
 		{
-			Logger::log(0, "Warning: Server loop took %.2f seconds", 
+			Logger::log( "Warning: Server loop took %.2f seconds", 
 				timeDifference);
 		}
 	}

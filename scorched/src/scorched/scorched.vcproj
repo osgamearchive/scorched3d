@@ -322,12 +322,6 @@
 				RelativePath="..\GLEXT\GLFont2d.h">
 			</File>
 			<File
-				RelativePath="..\GLEXT\GLFontBanner.cpp">
-			</File>
-			<File
-				RelativePath="..\GLEXT\GLFontBanner.h">
-			</File>
-			<File
 				RelativePath="..\GLEXT\GLGif.cpp">
 			</File>
 			<File
@@ -512,6 +506,12 @@
 				RelativePath="..\GLW\GLWListView.h">
 			</File>
 			<File
+				RelativePath="..\GLW\GLWLoggerView.cpp">
+			</File>
+			<File
+				RelativePath="..\GLW\GLWLoggerView.h">
+			</File>
+			<File
 				RelativePath="..\GLW\GLWPanel.cpp">
 			</File>
 			<File
@@ -675,136 +675,6 @@
 			</File>
 		</Filter>
 		<Filter
-			Name="tank"
-			Filter="">
-			<File
-				RelativePath="..\tank\Tank.cpp">
-			</File>
-			<File
-				RelativePath="..\tank\Tank.h">
-			</File>
-			<File
-				RelativePath="..\tank\TankAccessories.cpp">
-			</File>
-			<File
-				RelativePath="..\tank\TankAccessories.h">
-			</File>
-			<File
-				RelativePath="..\tank\TankAdmin.cpp">
-			</File>
-			<File
-				RelativePath="..\tank\TankAdmin.h">
-			</File>
-			<File
-				RelativePath="..\tank\TankAutoDefense.cpp">
-			</File>
-			<File
-				RelativePath="..\tank\TankAutoDefense.h">
-			</File>
-			<File
-				RelativePath="..\tank\TankAvatar.cpp">
-			</File>
-			<File
-				RelativePath="..\tank\TankAvatar.h">
-			</File>
-			<File
-				RelativePath="..\tank\TankBatteries.cpp">
-			</File>
-			<File
-				RelativePath="..\tank\TankBatteries.h">
-			</File>
-			<File
-				RelativePath="..\tank\TankColorGenerator.cpp">
-			</File>
-			<File
-				RelativePath="..\tank\TankColorGenerator.h">
-			</File>
-			<File
-				RelativePath="..\tank\TankContainer.cpp">
-			</File>
-			<File
-				RelativePath="..\tank\TankContainer.h">
-			</File>
-			<File
-				RelativePath="..\tank\TankController.cpp">
-			</File>
-			<File
-				RelativePath="..\tank\TankController.h">
-			</File>
-			<File
-				RelativePath="..\tank\TankDeadContainer.cpp">
-			</File>
-			<File
-				RelativePath="..\tank\TankDeadContainer.h">
-			</File>
-			<File
-				RelativePath="..\tank\TankFuel.cpp">
-			</File>
-			<File
-				RelativePath="..\tank\TankFuel.h">
-			</File>
-			<File
-				RelativePath="..\tank\TankLib.cpp">
-			</File>
-			<File
-				RelativePath="..\tank\TankLib.h">
-			</File>
-			<File
-				RelativePath="..\tank\TankMod.cpp">
-			</File>
-			<File
-				RelativePath="..\tank\TankMod.h">
-			</File>
-			<File
-				RelativePath="..\tank\TankModelId.cpp">
-			</File>
-			<File
-				RelativePath="..\tank\TankModelId.h">
-			</File>
-			<File
-				RelativePath="..\tank\TankParachutes.cpp">
-			</File>
-			<File
-				RelativePath="..\tank\TankParachutes.h">
-			</File>
-			<File
-				RelativePath="..\tank\TankPhysics.cpp">
-			</File>
-			<File
-				RelativePath="..\tank\TankPhysics.h">
-			</File>
-			<File
-				RelativePath="..\tank\TankScore.cpp">
-			</File>
-			<File
-				RelativePath="..\tank\TankScore.h">
-			</File>
-			<File
-				RelativePath="..\tank\TankShields.cpp">
-			</File>
-			<File
-				RelativePath="..\tank\TankShields.h">
-			</File>
-			<File
-				RelativePath="..\tank\TankSort.cpp">
-			</File>
-			<File
-				RelativePath="..\tank\TankSort.h">
-			</File>
-			<File
-				RelativePath="..\tank\TankState.cpp">
-			</File>
-			<File
-				RelativePath="..\tank\TankState.h">
-			</File>
-			<File
-				RelativePath="..\tank\TankWeapon.cpp">
-			</File>
-			<File
-				RelativePath="..\tank\TankWeapon.h">
-			</File>
-		</Filter>
-		<Filter
 			Name="tankgraph"
 			Filter="">
 			<File
@@ -920,6 +790,12 @@
 				RelativePath="..\common\FileList.h">
 			</File>
 			<File
+				RelativePath="..\common\FileLogger.cpp">
+			</File>
+			<File
+				RelativePath="..\common\FileLogger.h">
+			</File>
+			<File
 				RelativePath="..\common\Gamma.cpp">
 			</File>
 			<File
@@ -957,6 +833,12 @@
 			</File>
 			<File
 				RelativePath="..\common\Logger.h">
+			</File>
+			<File
+				RelativePath="..\common\LoggerI.cpp">
+			</File>
+			<File
+				RelativePath="..\common\LoggerI.h">
 			</File>
 			<File
 				RelativePath="..\common\Mouse.cpp">
@@ -3076,12 +2958,6 @@
 				RelativePath="..\client\Main2DCamera.h">
 			</File>
 			<File
-				RelativePath="..\client\MainBanner.cpp">
-			</File>
-			<File
-				RelativePath="..\client\MainBanner.h">
-			</File>
-			<File
 				RelativePath="..\client\MainCamera.cpp">
 			</File>
 			<File
@@ -3579,6 +3455,136 @@
 			</File>
 			<File
 				RelativePath="..\boids\SimObject.h">
+			</File>
+		</Filter>
+		<Filter
+			Name="tank"
+			Filter="">
+			<File
+				RelativePath="..\tank\Tank.cpp">
+			</File>
+			<File
+				RelativePath="..\tank\Tank.h">
+			</File>
+			<File
+				RelativePath="..\tank\TankAccessories.cpp">
+			</File>
+			<File
+				RelativePath="..\tank\TankAccessories.h">
+			</File>
+			<File
+				RelativePath="..\tank\TankAdmin.cpp">
+			</File>
+			<File
+				RelativePath="..\tank\TankAdmin.h">
+			</File>
+			<File
+				RelativePath="..\tank\TankAutoDefense.cpp">
+			</File>
+			<File
+				RelativePath="..\tank\TankAutoDefense.h">
+			</File>
+			<File
+				RelativePath="..\tank\TankAvatar.cpp">
+			</File>
+			<File
+				RelativePath="..\tank\TankAvatar.h">
+			</File>
+			<File
+				RelativePath="..\tank\TankBatteries.cpp">
+			</File>
+			<File
+				RelativePath="..\tank\TankBatteries.h">
+			</File>
+			<File
+				RelativePath="..\tank\TankColorGenerator.cpp">
+			</File>
+			<File
+				RelativePath="..\tank\TankColorGenerator.h">
+			</File>
+			<File
+				RelativePath="..\tank\TankContainer.cpp">
+			</File>
+			<File
+				RelativePath="..\tank\TankContainer.h">
+			</File>
+			<File
+				RelativePath="..\tank\TankController.cpp">
+			</File>
+			<File
+				RelativePath="..\tank\TankController.h">
+			</File>
+			<File
+				RelativePath="..\tank\TankDeadContainer.cpp">
+			</File>
+			<File
+				RelativePath="..\tank\TankDeadContainer.h">
+			</File>
+			<File
+				RelativePath="..\tank\TankFuel.cpp">
+			</File>
+			<File
+				RelativePath="..\tank\TankFuel.h">
+			</File>
+			<File
+				RelativePath="..\tank\TankLib.cpp">
+			</File>
+			<File
+				RelativePath="..\tank\TankLib.h">
+			</File>
+			<File
+				RelativePath="..\tank\TankMod.cpp">
+			</File>
+			<File
+				RelativePath="..\tank\TankMod.h">
+			</File>
+			<File
+				RelativePath="..\tank\TankModelId.cpp">
+			</File>
+			<File
+				RelativePath="..\tank\TankModelId.h">
+			</File>
+			<File
+				RelativePath="..\tank\TankParachutes.cpp">
+			</File>
+			<File
+				RelativePath="..\tank\TankParachutes.h">
+			</File>
+			<File
+				RelativePath="..\tank\TankPhysics.cpp">
+			</File>
+			<File
+				RelativePath="..\tank\TankPhysics.h">
+			</File>
+			<File
+				RelativePath="..\tank\TankScore.cpp">
+			</File>
+			<File
+				RelativePath="..\tank\TankScore.h">
+			</File>
+			<File
+				RelativePath="..\tank\TankShields.cpp">
+			</File>
+			<File
+				RelativePath="..\tank\TankShields.h">
+			</File>
+			<File
+				RelativePath="..\tank\TankSort.cpp">
+			</File>
+			<File
+				RelativePath="..\tank\TankSort.h">
+			</File>
+			<File
+				RelativePath="..\tank\TankState.cpp">
+			</File>
+			<File
+				RelativePath="..\tank\TankState.h">
+			</File>
+			<File
+				RelativePath="..\tank\TankWeapon.cpp">
+			</File>
+			<File
+				RelativePath="..\tank\TankWeapon.h">
 			</File>
 		</Filter>
 	</Files>

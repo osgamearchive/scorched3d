@@ -24,6 +24,7 @@
 #include <GLW/GLWWindowManager.h>
 #include <GLEXT/GLViewPort.h>
 #include <common/OptionsDisplay.h>
+#include <common/Logger.h>
 
 LogDialog *LogDialog::instance_ = 0;
 
@@ -55,12 +56,9 @@ LogDialog::~LogDialog()
 {
 }
 
-void LogDialog::logMessage(
-		const char *time,
-		const char *message,
-		const LoggerInfo &info)
+void LogDialog::logMessage(LoggerInfo &info)
 {
-	listView_->addLine(message);
+	listView_->addLine(info.getMessage());
 }
 
 void LogDialog::draw()

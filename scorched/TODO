@@ -13,6 +13,7 @@ Fixed: Invisible window removed from connect dialog
 Fixed: Shields and player names showing through smoke
 Fixed: Scorched3D client does not go un-responsive when creating levels
 
+Added: Trial of new on screen message format (death messages seperated out)
 Added: Keep alive messages to further shorten lag
 Added: Boids (birds) to levels (needs animation)
 Added: Fog density attribute to levels (distance fogging)

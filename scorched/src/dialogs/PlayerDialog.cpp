@@ -339,7 +339,7 @@ void PlayerDialog::buttonDown(unsigned int id)
 					}
 					else
 					{
-						Logger::log(0, "Warning: Avatar too large to send to server");
+						Logger::log( "Warning: Avatar too large to send to server");
 					}
 				}
 			}

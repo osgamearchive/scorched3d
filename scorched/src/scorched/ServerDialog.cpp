@@ -30,6 +30,7 @@
 #include <common/OptionsGame.h>
 #include <common/OptionsTransient.h>
 #include <common/Logger.h>
+#include <common/LoggerI.h>
 #include <common/StatsLogger.h>
 #include <coms/NetBufferUtil.h>
 #include <coms/NetInterface.h>
@@ -436,7 +437,7 @@ void ServerFrame::onComsMessageLogging(wxCommandEvent &event)
 {
 	ScorchedServer::instance()->getComsMessageHandler().getMessageLogging() =
 		!ScorchedServer::instance()->getComsMessageHandler().getMessageLogging();
-	Logger::log(0, "Server Coms Message Logging %s",
+	Logger::log( "Server Coms Message Logging %s",
 		(ScorchedServer::instance()->getComsMessageHandler().getMessageLogging()?"On":"Off"));
 }
 
@@ -444,7 +445,7 @@ void ServerFrame::onStateLogging(wxCommandEvent &event)
 {
 	ScorchedServer::instance()->getGameState().getStateLogging() = 
 		!ScorchedServer::instance()->getGameState().getStateLogging();
-	Logger::log(0, "Server State Logging %s",
+	Logger::log( "Server State Logging %s",
 		(ScorchedServer::instance()->getGameState().getStateLogging()?"On":"Off"));
 }
 
@@ -538,7 +539,7 @@ void ServerFrame::onPlayerTalkAll(wxCommandEvent &event)
 		frame, "Message to players");
 	if (entryDialog.ShowModal() == wxID_OK)
 	{
-		Logger::log(0, "Says \"%s\"", 
+		Logger::log( "Says \"%s\"", 
 			entryDialog.GetValue().GetData());
 		ServerCommon::sendString(0, entryDialog.GetValue());
 	}
@@ -550,7 +551,7 @@ void ServerFrame::onPlayerTalk(wxCommandEvent &event)
 		frame, "Message to players");
 	if (entryDialog.ShowModal() == wxID_OK)
 	{
-		Logger::log(0, "Says \"%s\"", 
+		Logger::log( "Says \"%s\"", 
 			entryDialog.GetValue().GetData());
 
 		long item = -1;
@@ -809,10 +810,7 @@ void ServerFrame::onShowOptions(wxCommandEvent &event)
 static class ServerLogger : public LoggerI
 {
 public:
-	virtual void logMessage(
-		const char *time,
-		const char *message,
-		const LoggerInfo &info)
+	virtual void logMessage(LoggerInfo &info)
 	{
 		// Make sure the list does not exceed 500 entries
 		if (frame->logList_->GetItemCount() > 499)
@@ -823,7 +821,7 @@ public:
 
 		// Add a new entry and ensure it is visible
 		static char text[1024];
-		sprintf(text, "%s - %s", time, message);
+		sprintf(text, "%s - %s", info.getTime(), info.getMessage());
 		long index = frame->logList_->InsertItem(
 			frame->logList_->GetItemCount(), text);
 		frame->logList_->EnsureVisible(index);

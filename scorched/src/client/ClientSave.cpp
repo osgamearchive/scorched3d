@@ -213,7 +213,7 @@ bool ClientSave::loadClient(const char *fileName)
 	FILE *file = fopen(fileName, "rb");
 	if (!file) 
 	{
-		Logger::log(0, "ERROR: File \"%s\" cannot be found.",
+		Logger::log( "ERROR: File \"%s\" cannot be found.",
 			fileName);
 		return false;
 	}

@@ -69,7 +69,9 @@ void RulesDialog::addMOTD(const char *text)
 		{
 			*found = '\0';
 			listView_->addLine(start);
-			LogDialog::instance()->logMessage("", start, 0);
+
+			LoggerInfo info (LoggerInfo::TypeNormal, start, "");
+			LogDialog::instance()->logMessage(info);
 			start = found;
 			start++;
 
@@ -78,13 +80,15 @@ void RulesDialog::addMOTD(const char *text)
 		if (start[0] != '\0')
 		{
 			listView_->addLine(start);
-			LogDialog::instance()->logMessage("", start, 0);
+			LoggerInfo info (LoggerInfo::TypeNormal, start, "");
+			LogDialog::instance()->logMessage(info);
 		}
 	}
 	else
 	{
 		listView_->addLine(text);
-		LogDialog::instance()->logMessage("", start, 0);
+		LoggerInfo info (LoggerInfo::TypeNormal, start, "");
+		LogDialog::instance()->logMessage(info);
 	}
 }
 

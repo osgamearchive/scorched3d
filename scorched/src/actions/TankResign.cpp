@@ -60,7 +60,7 @@ void TankResign::simulate(float frameTime, bool &remove)
 			if (!context_->serverMode ||
 				OptionsParam::instance()->getDedicatedServer())
 			{
-				Logger::log(0, 
+				Logger::log( 
 					"\"%s\" resigned from round", tank->getName());
 			}
 		}

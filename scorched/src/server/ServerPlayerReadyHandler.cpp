@@ -60,13 +60,13 @@ bool ServerPlayerReadyHandler::processMessage(unsigned int destinationId,
 	Tank *tank = ScorchedServer::instance()->getTankContainer().getTankById(tankId);
 	if (!tank)
 	{
-		Logger::log(0, "ERROR: Message from unknown tank \"%i\"", tankId);
+		Logger::log( "ERROR: Message from unknown tank \"%i\"", tankId);
 		return false;
 	}
 
 	if (tank->getDestinationId() != destinationId)
 	{
-		Logger::log(0, "ERROR: ServerPlayerReadyHandler - "
+		Logger::log( "ERROR: ServerPlayerReadyHandler - "
 			"Message from tank at wrong destination \"%i != %i\"", 
 			tank->getDestinationId(), destinationId);
 		return false;

@@ -24,7 +24,6 @@
 #include <client/Main2DCamera.h>
 #include <client/SpeedChange.h>
 #include <client/MainCamera.h>
-#include <client/MainBanner.h>
 #include <client/ClientState.h>
 #include <client/ShotCountDown.h>
 #include <client/SoftwareMouse.h>
@@ -84,8 +83,6 @@ void ClientState::addStandardComponents(GameState &gameState, unsigned state, bo
 		gameState.addStateLoop(state, 
 			Main2DCamera::instance(), SpeedChange::instance());
 	}
-	gameState.addStateLoop(state, Main2DCamera::instance(), 
-		MainBanner::instance());
 	addWindowManager(gameState, state);
 	gameState.addStateLoop(state, Main2DCamera::instance(), 
 		MessageDisplay::instance());

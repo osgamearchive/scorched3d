@@ -110,7 +110,7 @@ bool ServerAddPlayerHandler::processMessage(unsigned int destinationId,
 		// Tell this computer that a new tank has connected
 		if (OptionsParam::instance()->getDedicatedServer())
 		{
-			Logger::log(0, "Player playing dest=\"%i\" id=\"%i\" \"%s\"->\"%s\"",
+			Logger::log( "Player playing dest=\"%i\" id=\"%i\" \"%s\"->\"%s\"",
 				tank->getDestinationId(), tank->getPlayerId(),
 				tank->getName(), name.c_str());
 			ServerCommon::sendString(0, "Player playing \"%s\"->\"%s\"",

@@ -24,7 +24,7 @@
 #include <GLEXT/GLMenuI.h>
 #include <GLEXT/GLConsoleRuleMethodIAdapter.h>
 #include <weapons/Accessory.h>
-#include <common/Logger.h>
+#include <common/FileLogger.h>
 #include <vector>
 #include <list>
 
