@@ -33,6 +33,7 @@ public:
 		bool *checkDeleted);
 	virtual ~NetServerRead();
 
+	void start();
 	bool getDisconnect();
 	void addMessage(NetMessage *message);
 
@@ -48,6 +49,7 @@ protected:
 	SDL_Thread *recvThread_;
 	SDL_Thread *ctrlThread_;
 	std::list<NetMessage *> newMessages_;
+	unsigned int startCount_;
 
 	void actualCtrlThreadFunc();
 	void actualSendRecvThreadFunc(bool send);

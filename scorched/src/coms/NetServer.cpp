@@ -192,13 +192,18 @@ bool NetServer::pollDeleted()
 
 void NetServer::addClient(TCPsocket client)
 {
+	// Create the thread to read this socket
 	NetServerRead *serverRead = new NetServerRead(
 		client, protocol_, &messageHandler_, &checkDeleted_);
 
+	// Add this to the collection of sockets (connections)
 	SDL_LockMutex(setMutex_);
 	connections_[client] = serverRead;
 	firstDestination_ = (*connections_.begin()).first;
 	SDL_UnlockMutex(setMutex_);
+
+	// Start the sockets
+	serverRead->start();
 }
 
 void NetServer::disconnectAllClients()

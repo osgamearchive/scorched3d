@@ -1823,6 +1823,12 @@
 				RelativePath="..\coms\ComsHaveModFilesMessage.h">
 			</File>
 			<File
+				RelativePath="..\coms\ComsLastChanceMessage.cpp">
+			</File>
+			<File
+				RelativePath="..\coms\ComsLastChanceMessage.h">
+			</File>
+			<File
 				RelativePath="..\coms\ComsLevelMessage.cpp">
 			</File>
 			<File
@@ -2648,6 +2654,12 @@
 			</File>
 			<File
 				RelativePath="..\client\ClientGameStoppedHandler.h">
+			</File>
+			<File
+				RelativePath="..\client\ClientLastChanceHandler.cpp">
+			</File>
+			<File
+				RelativePath="..\client\ClientLastChanceHandler.h">
 			</File>
 			<File
 				RelativePath="..\client\ClientLoadPlayersState.cpp">

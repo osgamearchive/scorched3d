@@ -31,6 +31,7 @@
 #include <coms/ComsGameStateMessage.h>
 #include <coms/ComsPlayerStatusMessage.h>
 #include <coms/ComsMessageSender.h>
+#include <coms/ComsLastChanceMessage.h>
 #include <tank/TankContainer.h>
 
 ServerReadyState::ServerReadyState(ServerShotState *shotState) : 
@@ -113,6 +114,17 @@ bool ServerReadyState::acceptStateChange(const unsigned state,
 				}
 			}
 			ComsMessageSender::sendToAllPlayingClients(statusMessage);			
+
+			// Send out a last chance message just before we kick
+			if ((ScorchedServer::instance()->getOptionsGame().getIdleKickTime() > 0) &&
+				(time_ > ScorchedServer::instance()->getOptionsGame().getIdleKickTime() - 6))
+			{
+				Logger::log(0, "Sending last chance message");
+
+				// Tell all clients to hurry up
+				ComsLastChanceMessage chanceMessage;
+				ComsMessageSender::sendToAllPlayingClients(chanceMessage);	
+			}
 		}
 	}	
 

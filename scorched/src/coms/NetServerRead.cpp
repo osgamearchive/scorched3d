@@ -31,28 +31,12 @@ NetServerRead::NetServerRead(TCPsocket socket,
 	socket_(socket), sockSet_(0), protocol_(protocol), 
 	outgoingMessagesMutex_(0), checkDeleted_(checkDeleted),
 	disconnect_(false), messageHandler_(messageHandler),
-	sentDisconnect_(false),
+	sentDisconnect_(false), startCount_(0),
 	ctrlThread_(0), recvThread_(0), sendThread_(0)
 {
 	sockSet_ = SDLNet_AllocSocketSet(1);
 	SDLNet_TCP_AddSocket(sockSet_, socket);
 	outgoingMessagesMutex_ = SDL_CreateMutex();
-
-	NetMessage *message = NetMessagePool::instance()->
-		getFromPool(NetMessage::ConnectMessage, 
-		(unsigned int) socket);
-	messageHandler_->addMessage(message);
-
-	recvThread_ = SDL_CreateThread(
-		NetServerRead::recvThreadFunc, (void *) this);
-	sendThread_ = SDL_CreateThread(
-		NetServerRead::sendThreadFunc, (void *) this);
-	ctrlThread_ = SDL_CreateThread(
-		NetServerRead::ctrlThreadFunc, (void *) this);
-	if (!ctrlThread_ || !recvThread_ || !sendThread_)
-	{
-		Logger::log(0, "ERROR: Run out of threads");
-	}
 }
 
 NetServerRead::~NetServerRead()
@@ -70,6 +54,20 @@ NetServerRead::~NetServerRead()
 	outgoingMessagesMutex_ = 0;
 	SDLNet_FreeSocketSet(sockSet_);
 	sockSet_ = 0;
+}
+
+void NetServerRead::start()
+{
+	recvThread_ = SDL_CreateThread(
+		NetServerRead::recvThreadFunc, (void *) this);
+	sendThread_ = SDL_CreateThread(
+		NetServerRead::sendThreadFunc, (void *) this);
+	ctrlThread_ = SDL_CreateThread(
+		NetServerRead::ctrlThreadFunc, (void *) this);
+	if (!ctrlThread_ || !recvThread_ || !sendThread_)
+	{
+		Logger::log(0, "ERROR: Run out of threads");
+	}
 }
 
 void NetServerRead::addMessage(NetMessage *message)
@@ -130,12 +128,31 @@ int NetServerRead::recvThreadFunc(void *netServerRead)
 
 void NetServerRead::actualCtrlThreadFunc()
 {
+	// Ensure the other threads have started
+	bool done = false;
+	while (!done)
+	{
+		SDL_LockMutex(outgoingMessagesMutex_);
+		if (startCount_ == 2) done = true;
+		SDL_UnlockMutex(outgoingMessagesMutex_);
+		SDL_Delay(100);
+	}
+
+	// Send the player connected notification
+	NetMessage *message = NetMessagePool::instance()->
+		getFromPool(NetMessage::ConnectMessage, 
+		(unsigned int) socket_);
+	messageHandler_->addMessage(message);
+
+	// Wait for the other threads to end
 	int status;
 	SDL_WaitThread(sendThread_, &status);
 	SDL_WaitThread(recvThread_, &status);
 
+	// Tidy socket
 	SDLNet_TCP_Close(socket_);
 
+	// Delete self
 	SDL_LockMutex(outgoingMessagesMutex_);
 	disconnect_ = true;
 	*checkDeleted_ = true;
@@ -144,6 +161,10 @@ void NetServerRead::actualCtrlThreadFunc()
 
 void NetServerRead::actualSendRecvThreadFunc(bool send)
 {
+	SDL_LockMutex(outgoingMessagesMutex_);
+	startCount_++;
+	SDL_UnlockMutex(outgoingMessagesMutex_);
+
 	Clock netClock;
 	while (!sentDisconnect_)
 	{
