@@ -1,4 +1,8 @@
 -- Bugs Fixed and Ready For Release 
+Fixed: Some display problems on Unix and 16bit mode display
+Fixed: Some cross compatability compilation problems
+Fixed: Invert keys now works
+Fixed: Gaphics for explosions do not cross into next round
 
 -- Bugs in current development release
 Fonts sometimes black-out (not seen for a while, fixed??)

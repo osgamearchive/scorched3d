@@ -68,6 +68,9 @@ void ClientNewGameState::enterState(const unsigned state)
 	TankRenderer::instance()->newGame();
 	SpeedChange::instance()->resetSpeed();
 
+	// Remove all actions (graphical objects) from the last round
+	ScorchedClient::instance()->getActionController().clear();
+
 	// As we have not returned to the main loop for ages the
 	// timer will have a lot of time in it
 	// Get rid of this time so we don't screw things up

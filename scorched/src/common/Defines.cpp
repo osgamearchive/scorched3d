@@ -43,7 +43,9 @@ void dialogMessage(const char *header, const char *fmt, ...)
 #else
 	if (wxWindowInit)
 	{
-		::wxMessageBox(text, header, wxOK | wxCENTRE);
+		wxString wxText(text);
+		wxString wxHeader(header);
+		::wxMessageBox(wxText, wxHeader, wxOK | wxCENTRE);
 	}
 	else
 	{

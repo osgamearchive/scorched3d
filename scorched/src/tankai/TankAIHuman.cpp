@@ -31,13 +31,6 @@
 #include <tank/Tank.h>
 #include <stdio.h>
 
-static void swapKeys(KeyboardKey *&key1, KeyboardKey *&key2)
-{
-	KeyboardKey *tmp = key1;
-	key1 = key2;
-	key2 = key1;
-}
-
 TankAIHuman::TankAIHuman(ScorchedContext *context, Tank *tank) : TankAI(context, tank)
 {
 }
@@ -239,17 +232,27 @@ void TankAIHuman::moveUpDown(char *buffer, unsigned int keyState, float frameTim
 	static bool UDMoving = false;
 	bool currentUDMoving = false;
 
-	KEYBOARDKEY("ROTATE_UP", upKey);
-	KEYBOARDKEY("ROTATE_UP_SLOW", upSlowKey);
-	KEYBOARDKEY("ROTATE_UP_FAST", upFastKey);
-	KEYBOARDKEY("ROTATE_DOWN", downKey);
-	KEYBOARDKEY("ROTATE_DOWN_SLOW", downSlowKey);
-	KEYBOARDKEY("ROTATE_DOWN_FAST", downFastKey);
+	KEYBOARDKEY("ROTATE_UP", staticUpKey);
+	KEYBOARDKEY("ROTATE_UP_SLOW", staticUpSlowKey);
+	KEYBOARDKEY("ROTATE_UP_FAST", staticUpFastKey);
+	KEYBOARDKEY("ROTATE_DOWN", staticDownKey);
+	KEYBOARDKEY("ROTATE_DOWN_SLOW", staticDownSlowKey);
+	KEYBOARDKEY("ROTATE_DOWN_FAST", staticDownFastKey);
+
+	KeyboardKey *upKey = staticUpKey;
+	KeyboardKey *upSlowKey = staticUpSlowKey;
+	KeyboardKey *upFastKey = staticUpFastKey;
+	KeyboardKey *downKey = staticDownKey;
+	KeyboardKey *downSlowKey = staticDownSlowKey;
+	KeyboardKey *downFastKey = staticDownFastKey;
 	if (OptionsDisplay::instance()->getInvertUpDownKey())
 	{
-		swapKeys(upKey, downKey);
-		swapKeys(upSlowKey, downSlowKey);
-		swapKeys(upFastKey, downFastKey);
+		upKey = staticDownKey;
+		upSlowKey = staticDownSlowKey;
+		upFastKey = staticDownFastKey;
+		downKey = staticUpKey;
+		downSlowKey = staticUpSlowKey;
+		downFastKey = staticUpFastKey;
 	}
 
 	bool upK = upKey->keyDown(buffer, keyState);
