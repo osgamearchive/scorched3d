@@ -96,6 +96,7 @@ Guidance
 Add action replay type functionality
 Use VBOs for landscape
 AIs know how to dig
+Investigate why framerate seems to be higher when camera moves
 
 -- Server Stuff
 Chat filter (swear words)
