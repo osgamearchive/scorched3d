@@ -472,7 +472,7 @@ void GLBitmapModifier::addWavesToBitmap(HeightMap &hMap,
 	{
 		for (int j=0; j<5; j++)
 		{
-			matrix[i][j] = 0.3f; // How much smoothing is done (> is more)
+			matrix[i][j] = 0.7f; // How much smoothing is done (> is more)
 			if (i==2 && j==2) matrix[i][j] = 4.0f;
 		}
 	}

@@ -326,7 +326,7 @@ void Landscape::generate(ProgressCounter *counter)
 	Vector *wavesColor = Resources::vectorResource("color-waves");
 	GLBitmapModifier::addWavesToBitmap(
 		ScorchedClient::instance()->getLandscapeMaps().getHMap(), 
-		wMap_.getBitmap(), wMap_.getHeight(), 0.6f, *wavesColor, 
+		wMap_.getBitmap(), wMap_.getHeight() - 1.2f, 0.6f, *wavesColor, 
 		counter);
 	wMap_.refreshTexture();
 
