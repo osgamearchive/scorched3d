@@ -42,11 +42,7 @@ TankAIStore *TankAIStore::instance()
 
 TankAIStore::TankAIStore()
 {
-	if (!loadAIs())
-	{
-		dialogMessage("Scorched 3D", "Failed to load all tank ais");		
-		exit(1);
-	}
+
 }
 
 TankAIStore::~TankAIStore()

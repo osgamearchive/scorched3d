@@ -24,7 +24,8 @@
 #include <common/OptionsGame.h>
 #include <stdio.h>
 
-TankParachutes::TankParachutes()
+TankParachutes::TankParachutes(ScorchedContext &context) :
+	context_(context)
 {
 	reset();
 }
@@ -54,7 +55,7 @@ void TankParachutes::reset()
 	setParachutesEnabled(false);	
 
 	std::list<Accessory *> accessories = 
-		AccessoryStore::instance()->getAllOthers();
+		context_.accessoryStore->getAllOthers();
 	std::list<Accessory *>::iterator itor;
 	for (itor = accessories.begin();
 		itor != accessories.end();

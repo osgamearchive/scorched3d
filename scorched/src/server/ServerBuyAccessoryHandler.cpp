@@ -55,7 +55,7 @@ ServerBuyAccessoryHandler::~ServerBuyAccessoryHandler()
 
 bool ServerBuyAccessoryHandler::processMessage(unsigned int destinationId,
 	const char *messageType,
-										  NetBufferReader &reader)
+	NetBufferReader &reader)
 {
 	ComsBuyAccessoryMessage message;
 	if (!message.readMessage(reader)) return false;
@@ -112,7 +112,8 @@ bool ServerBuyAccessoryHandler::processMessage(unsigned int destinationId,
 
 	// Check that the accessory is valid
 	Accessory *accessory = 
-		AccessoryStore::instance()->findByAccessoryId(message.getAccessoryId());
+		ScorchedServer::instance()->getAccessoryStore().
+		findByAccessoryId(message.getAccessoryId());
 	if (!accessory)
 	{
 		Logger::log(playerId, "ERROR: Player buying not-existant weapon \"%i\"", 

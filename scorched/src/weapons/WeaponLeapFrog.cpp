@@ -20,6 +20,7 @@
 
 #include <weapons/WeaponLeapFrog.h>
 #include <weapons/AccessoryStore.h>
+#include <server/ScorchedServer.h>
 
 REGISTER_ACCESSORY_SOURCE(WeaponLeapFrog);
 
@@ -49,7 +50,8 @@ bool WeaponLeapFrog::parseXML(XMLNode *accessoryNode)
 	}
 
 	// Check next weapon is correct type
-	Accessory *accessory = AccessoryStore::instance()->createAccessory(subNode);
+	Accessory *accessory = 
+		ScorchedServer::instance()->getAccessoryStore().createAccessory(subNode);
 	if (!accessory || accessory->getType() != Accessory::AccessoryWeapon)
 	{
 		dialogMessage("Accessory",

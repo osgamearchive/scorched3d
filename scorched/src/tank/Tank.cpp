@@ -33,7 +33,8 @@ Tank::Tank(ScorchedContext &context,
 	: playerId_(playerId), destinationId_(destinationId),
 	  color_(color), context_(context),
 	  physics_(context, playerId), model_(modelId), tankAI_(0),
-	  score_(context), state_(context, playerId), name_(name), team_(0)
+	  score_(context), state_(context, playerId), accessories_(context),
+	  name_(name), team_(0)
 {
 	physics_.setTank(this);
 	state_.setTank(this);

@@ -26,12 +26,13 @@
 #include <string>
 #include <coms/NetBuffer.h>
 
+class ScorchedContext;
 class Accessory;
 class Weapon;
 class TankWeapon  
 {
 public:
-	TankWeapon();
+	TankWeapon(ScorchedContext &context);
 	virtual ~TankWeapon();
 
 	void reset();
@@ -58,6 +59,7 @@ public:
 protected:
 	std::map<Weapon *, int> weapons_;
 	Weapon *currentWeapon_;
+	ScorchedContext &context_;
 
 	void setCurrentWeapon(Weapon *wp);
 

@@ -22,6 +22,7 @@
 #include <weapons/WeaponProjectile.h>
 #include <actions/ShotProjectile.h>
 #include <engine/ActionController.h>
+#include <server/ScorchedServer.h>
 
 REGISTER_ACCESSORY_SOURCE(WeaponProjectile);
 
@@ -71,7 +72,8 @@ bool WeaponProjectile::parseXML(XMLNode *accessoryNode)
 		return false;
 	}
 	// Check next weapon is correct type
-	Accessory *accessory = AccessoryStore::instance()->createAccessory(subNode);
+	Accessory *accessory = 
+		ScorchedServer::instance()->getAccessoryStore().createAccessory(subNode);
 	if (!accessory || accessory->getType() != Accessory::AccessoryWeapon)
 	{
 		dialogMessage("Accessory",
@@ -103,6 +105,7 @@ bool WeaponProjectile::readAccessory(NetBufferReader &reader)
 	if (!reader.getFromBuffer(showShotPath_)) return false;
 	if (!reader.getFromBuffer(showEndPoint_)) return false;
 	if (!reader.getFromBuffer(apexCollision_)) return false;
+	if (!reader.getFromBuffer(under_)) return false;
 	if (!reader.getFromBuffer(createSmoke_)) return false;
 	return true;
 }

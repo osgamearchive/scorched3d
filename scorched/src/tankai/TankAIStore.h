@@ -30,6 +30,8 @@ class TankAIStore
 public:
 	static TankAIStore *instance();
 
+	bool loadAIs();
+
 	std::list<TankAI*> &getAis() { return ais_; }
 	TankAI *getAIByName(const char *name);
 
@@ -38,7 +40,6 @@ protected:
 	std::list<TankAI *> ais_;
 
 	void addAI(TankAI *ai);
-	bool loadAIs();
 
 private:
 	TankAIStore();

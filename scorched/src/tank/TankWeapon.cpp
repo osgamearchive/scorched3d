@@ -24,10 +24,12 @@
 #include <weapons/Weapon.h>
 #include <tank/TankWeapon.h>
 #include <server/ScorchedServer.h>
+#include <engine/ScorchedContext.h>
 #include <stdio.h>
 #include <set>
 
-TankWeapon::TankWeapon() : currentWeapon_(0)
+TankWeapon::TankWeapon(ScorchedContext &context) : 
+	currentWeapon_(0), context_(context)
 {
 	reset();
 }
@@ -43,7 +45,7 @@ void TankWeapon::reset()
 	currentWeapon_ = 0;
 
 	std::list<Accessory *> accessories = 
-		AccessoryStore::instance()->getAllWeapons();
+		context_.accessoryStore->getAllWeapons();
 	std::list<Accessory *>::iterator itor;
 	for (itor = accessories.begin();
 		itor != accessories.end();
@@ -219,7 +221,7 @@ bool TankWeapon::readMessage(NetBufferReader &reader)
 		if (!reader.getFromBuffer(weaponCount)) return false;
 
 		Weapon *weapon = (Weapon *) 
-			AccessoryStore::instance()->findByAccessoryId(accessoryId);
+			context_.accessoryStore->findByAccessoryId(accessoryId);
 		if (!weapon) return false;
 		coveredWeapons.insert(weapon);
 

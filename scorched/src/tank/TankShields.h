@@ -26,10 +26,11 @@
 #include <map>
 #include <list>
 
+class ScorchedContext;
 class TankShields  
 {
 public:
-	TankShields();
+	TankShields(ScorchedContext &context);
 	virtual ~TankShields();
 
 	void reset();
@@ -52,6 +53,7 @@ public:
     bool readMessage(NetBufferReader &reader);
 
 protected:
+	ScorchedContext &context_;
 	std::map<Shield*, int> shields_;
 	Shield *currentShield_;
 	float power_;

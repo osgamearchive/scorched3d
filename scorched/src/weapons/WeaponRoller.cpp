@@ -24,6 +24,7 @@
 #include <common/Defines.h>
 #include <engine/ActionController.h>
 #include <landscape/LandscapeMaps.h>
+#include <server/ScorchedServer.h>
 #include <math.h>
 
 REGISTER_ACCESSORY_SOURCE(WeaponRoller);
@@ -63,7 +64,8 @@ bool WeaponRoller::parseXML(XMLNode *accessoryNode)
 		return false;
 	}
 	// Check next weapon is correct type
-	Accessory *accessory = AccessoryStore::instance()->createAccessory(subNode);
+	Accessory *accessory = 
+		ScorchedServer::instance()->getAccessoryStore().createAccessory(subNode);
 	if (!accessory || accessory->getType() != Accessory::AccessoryWeapon)
 	{
 		dialogMessage("Accessory",

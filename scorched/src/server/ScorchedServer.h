@@ -28,6 +28,7 @@ class ScorchedServer
 public:
 	static ScorchedServer *instance();
 
+	AccessoryStore &getAccessoryStore() { return *context_.accessoryStore; }
 	GameState &getGameState() { return *context_.gameState; }
 	TankContainer &getTankContainer() { return *context_.tankContainer; }
 	ActionController &getActionController() { return *context_.actionController; }

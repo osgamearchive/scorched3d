@@ -25,7 +25,8 @@
 #include <common/OptionsGame.h>
 #include <stdio.h>
 
-TankBatteries::TankBatteries()
+TankBatteries::TankBatteries(ScorchedContext &context) :
+	context_(context)
 {
 	reset();
 }
@@ -39,7 +40,7 @@ void TankBatteries::reset()
 {
 	batteryCount_ = 0;
 	std::list<Accessory *> accessories = 
-		AccessoryStore::instance()->getAllOthers();
+		context_.accessoryStore->getAllOthers();
 	std::list<Accessory *>::iterator itor;
 	for (itor = accessories.begin();
 		itor != accessories.end();

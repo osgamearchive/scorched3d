@@ -20,12 +20,14 @@
 
 #include <tank/TankFuel.h>
 #include <server/ScorchedServer.h>
+#include <engine/ScorchedContext.h>
 #include <weapons/AccessoryStore.h>
 #include <common/Defines.h>
 #include <common/OptionsGame.h>
 #include <stdio.h>
 
-TankFuel::TankFuel()
+TankFuel::TankFuel(ScorchedContext &context) :
+	context_(context)
 {
 	reset();
 }
@@ -39,7 +41,7 @@ void TankFuel::reset()
 {
 	fuelCount_ = 0;
 	std::list<Accessory *> accessories = 
-		AccessoryStore::instance()->getAllOthers();
+		context_.accessoryStore->getAllOthers();
 	std::list<Accessory *>::iterator itor;
 	for (itor = accessories.begin();
 		itor != accessories.end();

@@ -20,6 +20,8 @@
 
 #include <server/ServerCommon.h>
 #include <server/ScorchedServer.h>
+#include <server/ServerBanned.h>
+#include <server/ServerMessageHandler.h>
 #include <common/OptionsParam.h>
 #include <common/OptionsGame.h>
 #include <common/Logger.h>
@@ -91,17 +93,39 @@ void ServerCommon::sendString(unsigned int dest, const char *fmt, ...)
 	}
 }
 
-void ServerCommon::kickDestination(unsigned int destinationId)
+void ServerCommon::slapDestination(unsigned int destinationId, 
+								   float slap)
 {
-	if (destinationId == 0)
-	{
-		Logger::log(0, "Cannot kick local destination");
-		return;
-	}
-	Logger::log(0, "Kicking destination \"%i\"", destinationId);
+	Logger::log(0, "Slapping destination \"%i\" %.0f", 
+		destinationId, slap);
 
 	std::map<unsigned int, Tank *>::iterator itor;
 	std::map<unsigned int, Tank *> &tanks = 
+		ScorchedServer::instance()->getTankContainer().getPlayingTanks();
+	for (itor = tanks.begin();
+		itor != tanks.end();
+		itor++)
+	{
+		Tank *tank = (*itor).second;
+		if (tank->getDestinationId() == destinationId)
+		{
+			tank->getState().setLife(
+				tank->getState().getLife() - slap);
+			sendString(0,
+				"Slapping player \"%s\" %.0f",
+				tank->getName(), slap);
+			Logger::log(0, "Slapping client \"%s\" \"%i\" %.0f", 
+				tank->getName(), tank->getPlayerId(), slap);
+		}
+	}
+}
+
+void ServerCommon::kickDestination(unsigned int destinationId)
+{
+	Logger::log(0, "Kicking destination \"%i\"", destinationId);
+
+	std::map<unsigned int, Tank *>::iterator itor;
+	std::map<unsigned int, Tank *> tanks = 
 		ScorchedServer::instance()->getTankContainer().getPlayingTanks();
 	for (itor = tanks.begin();
 		itor != tanks.end();
@@ -115,10 +139,36 @@ void ServerCommon::kickDestination(unsigned int destinationId)
 				tank->getName(), tank->getPlayerId());
 			Logger::log(0, "Kicking client \"%s\" \"%i\"", 
 				tank->getName(), tank->getPlayerId());
+
+			if (destinationId == 0)
+			{
+				ServerMessageHandler::instance()->
+					destroyPlayer(tank->getPlayerId());
+			}
 		}
 	}
 
-	ScorchedServer::instance()->getNetInterface().disconnectClient(destinationId);
+	if (destinationId != 0)
+	{
+		ScorchedServer::instance()->getNetInterface().
+			disconnectClient(destinationId);
+	}
+}
+
+void ServerCommon::banDestination(unsigned int destinationId)
+{
+	if (destinationId == 0)
+	{
+		Logger::log(0, "Cannot ban local destination");
+		return;
+	}
+	unsigned int ipAddress = ScorchedServer::instance()->getNetInterface().
+		getIpAddress(destinationId);
+	if (ipAddress != 0)
+	{
+		ServerBanned::instance()->addBanned(ipAddress);
+		kickDestination(destinationId);
+	}
 }
 
 void ServerCommon::killAll()

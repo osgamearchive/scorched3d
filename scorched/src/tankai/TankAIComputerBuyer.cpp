@@ -18,9 +18,8 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-#define WIN32_LEAN_AND_MEAN		// Exclude rarely-used stuff from Windows headers
-
+#include <weapons/AccessoryStore.h>
+#include <server/ScorchedServer.h>
 #include <tankai/TankAIComputerBuyer.h>
 #include <tank/Tank.h>
 #include <math.h>
@@ -62,7 +61,8 @@ void TankAIComputerBuyer::clearAccessories()
 bool TankAIComputerBuyer::addAccessory(const char *accessoryName,
 									int buyLevel)
 {
-	Accessory *accessory = AccessoryStore::instance()->
+	Accessory *accessory = ScorchedServer::instance()->
+		getAccessoryStore().
 		findByPrimaryAccessoryName(accessoryName);
 	if (!accessory)
 	{
@@ -133,7 +133,8 @@ void TankAIComputerBuyer::buyAccessory()
 			aitor != (*itor).buyAccessories.end();
 			aitor++)
 		{
-			Accessory *current = AccessoryStore::instance()->findByAccessoryId((*aitor));
+			Accessory *current = ScorchedServer::instance()->
+				getAccessoryStore().findByAccessoryId((*aitor));
 			DIALOG_ASSERT(current);
 
 			// Check if the tank has each accessory

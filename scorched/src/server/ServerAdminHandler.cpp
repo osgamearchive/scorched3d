@@ -20,7 +20,11 @@
 
 #include <server/ServerAdminHandler.h>
 #include <server/ScorchedServer.h>
+#include <server/ServerCommon.h>
+#include <common/OptionsGame.h>
 #include <coms/ComsAdminMessage.h>
+#include <tank/TankContainer.h>
+#include <stdlib.h>
 
 ServerAdminHandler *ServerAdminHandler::instance()
 {
@@ -47,6 +51,89 @@ bool ServerAdminHandler::processMessage(unsigned int destinationId,
 	ComsAdminMessage message;
 	if (!message.readMessage(reader)) return false;
 
+	// Find the tank for this destination
+	Tank *adminTank = 0;
+	std::map<unsigned int, Tank *>::iterator itor;
+	std::map<unsigned int, Tank *> &tanks = 
+		ScorchedServer::instance()->
+			getTankContainer().getPlayingTanks();
+	for (itor = tanks.begin();
+		itor != tanks.end();
+		itor++)
+	{
+		Tank *tank = (*itor).second;
+		if (tank->getDestinationId() == destinationId)
+			adminTank = tank;
+	}
+	if (!adminTank) return true;
+
+	// Login if that is what is happening
+	if (message.getType() == ComsAdminMessage::AdminLogin)
+	{
+		if (ScorchedServer::instance()->getOptionsGame().
+			getServerAdminPassword()[0])
+		{
+			if (strcmp(message.getParam1(), 
+					ScorchedServer::instance()->getOptionsGame().
+					getServerAdminPassword()) == 0)
+			{
+				ServerCommon::sendString(destinationId,
+					"Admin logged in");
+				adminTank->getState().setAdmin(true);
+			}
+			else
+			{
+				ServerCommon::sendString(destinationId,
+					"Incorrect admin password");
+			}
+		}
+		else
+		{
+			ServerCommon::sendString(destinationId,
+				"Admin functionality not enabled");
+		}
+		return true;
+	}
+	// Else only allow logged in tanks
+	else if (!adminTank->getState().getAdmin())
+	{
+		ServerCommon::sendString(destinationId,
+			"You are not logged in as admin");
+		return true;
+	}
+
+	// Do admin fn (we are logged in at this point)
+	switch (message.getType())
+	{
+	case ComsAdminMessage::AdminBan:
+		{
+			Tank *targetTank = ScorchedServer::instance()->
+				getTankContainer().getTankById(atoi(message.getParam1()));
+			if (targetTank) ServerCommon::banDestination(
+				targetTank->getDestinationId());
+		}
+		break;
+	case ComsAdminMessage::AdminKick:
+		{
+			Tank *targetTank = ScorchedServer::instance()->
+				getTankContainer().getTankById(atoi(message.getParam1()));
+			if (targetTank) ServerCommon::kickDestination(
+				targetTank->getDestinationId());
+		}
+		break;
+	case ComsAdminMessage::AdminKillAll:
+		ServerCommon::killAll();
+		break;
+	case ComsAdminMessage::AdminSlap:
+		{
+			Tank *targetTank = ScorchedServer::instance()->
+				getTankContainer().getTankById(atoi(message.getParam1()));
+			if (targetTank) ServerCommon::slapDestination(
+				targetTank->getDestinationId(),
+				(float) atof(message.getParam2()));
+		}
+		break;
+	}
+
 	return true;
 }
-

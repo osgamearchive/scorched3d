@@ -22,7 +22,14 @@
 #include <tank/TankAccessories.h>
 #include <common/OptionsDisplay.h>
 
-TankAccessories::TankAccessories()
+TankAccessories::TankAccessories(ScorchedContext &context) :
+	context_(context),
+	tankFuel_(context),
+	tankWeapon_(context),
+	tankPara_(context),
+	tankShield_(context),
+	tankAuto_(context),
+	tankBatteries_(context)
 {
 
 }
@@ -79,7 +86,7 @@ std::list<Accessory *> TankAccessories::getAllAccessories(bool sort)
 	// Add parachutes
 	if (tankPara_.getNoParachutes() != 0)
 	{
-		Accessory *accessory = AccessoryStore::instance()->
+		Accessory *accessory = context_.accessoryStore->
 			findByAccessoryType(Accessory::AccessoryParachute);
 		result.push_back(accessory);
 	}
@@ -87,7 +94,7 @@ std::list<Accessory *> TankAccessories::getAllAccessories(bool sort)
 	// Add auto defense
 	if (tankAuto_.haveDefense())
 	{
-		Accessory *accessory = AccessoryStore::instance()->
+		Accessory *accessory = context_.accessoryStore->
 			findByAccessoryType(Accessory::AccessoryAutoDefense);
 		result.push_back(accessory);
 	}
@@ -95,7 +102,7 @@ std::list<Accessory *> TankAccessories::getAllAccessories(bool sort)
 	// Add batteries
 	if (tankBatteries_.getNoBatteries())
 	{
-		Accessory *accessory = AccessoryStore::instance()->
+		Accessory *accessory = context_.accessoryStore->
 			findByAccessoryType(Accessory::AccessoryBattery);
 		result.push_back(accessory);
 	}
@@ -103,7 +110,7 @@ std::list<Accessory *> TankAccessories::getAllAccessories(bool sort)
 	// Add fuel
 	if (tankFuel_.getNoFuel())
 	{
-		Accessory *accessory = AccessoryStore::instance()->
+		Accessory *accessory = context_.accessoryStore->
 			findByAccessoryType(Accessory::AccessoryFuel);
 		result.push_back(accessory);
 	}

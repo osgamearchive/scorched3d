@@ -48,7 +48,6 @@
 #include <GLEXT/GLConsoleFileReader.h>
 #include <GLEXT/GLConsole.h>
 #include <GLW/GLWWindowSkinManager.h>
-#include <tankai/TankAIStore.h>
 #include <landscape/HeightMapCollision.h>
 #include <tankgraph/TankModelStore.h>
 #include <engine/MainLoop.h>
@@ -180,9 +179,6 @@ bool startClient(ProgressCounter *progressCounter)
 	}
 
 	progressCounter->setNewPercentage(0.0f);
-	progressCounter->setNewOp("Loading AIs");
-	TankAIStore::instance();
-
 	progressCounter->setNewOp("Initializing Windows");
 	if (!GLWWindowSkinManager::instance()->loadWindows()) return false;
 	WindowSetup::setup();

@@ -50,7 +50,8 @@ bool ComsNewGameMessage::writeMessage(NetBuffer &buffer)
 			getOptionsGame().writeToBuffer(buffer, false)) return false;
 	}
 	if (!levelMessage_.writeMessage(buffer)) return false;
-	if (!AccessoryStore::instance()->writeEconomyToBuffer(buffer)) return false;
+	if (!ScorchedServer::instance()->getAccessoryStore().
+		writeEconomyToBuffer(buffer)) return false;
 
 	return true;
 }
@@ -64,7 +65,8 @@ bool ComsNewGameMessage::readMessage(NetBufferReader &reader)
 			getOptionsGame().readFromBuffer(reader, false)) return false;
 	}
 	if (!levelMessage_.readMessage(reader)) return false;
-	if (!AccessoryStore::instance()->readEconomyFromBuffer(reader)) return false;
+	if (!ScorchedClient::instance()->getAccessoryStore().
+		readEconomyFromBuffer(reader)) return false;
 
 	return true;
 }

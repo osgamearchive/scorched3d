@@ -21,6 +21,7 @@
 #include <weapons/WeaponTranslate.h>
 #include <weapons/AccessoryStore.h>
 #include <engine/ActionController.h>
+#include <server/ScorchedServer.h>
 
 REGISTER_ACCESSORY_SOURCE(WeaponTranslate);
 
@@ -59,7 +60,8 @@ bool WeaponTranslate::parseXML(XMLNode *accessoryNode)
 		return false;
 	}
 	// Check next weapon is correct type
-	Accessory *accessory = AccessoryStore::instance()->createAccessory(subNode);
+	Accessory *accessory = 
+		ScorchedServer::instance()->getAccessoryStore().createAccessory(subNode);
 	if (!accessory || accessory->getType() != Accessory::AccessoryWeapon)
 	{
 		dialogMessage("Accessory",

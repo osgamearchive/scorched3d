@@ -58,6 +58,7 @@
 #include <server/ServerBrowserInfo.h>
 #include <server/ServerState.h>
 #include <server/ServerCommon.h>
+#include <server/ServerBanned.h>
 #include <server/ScorchedServer.h>
 #include <SDL/SDL.h>
 
@@ -73,6 +74,7 @@ bool startServer(bool local)
 		ScorchedServer::instance()->getContext().netInterface = 
 			//new NetServer(new NetServerScorchedProtocol());
 			new NetServer(new NetServerCompressedProtocol());
+		ServerBanned::instance()->load();
 	}
 
 	ScorchedServer::instance()->getOptionsGame().updateChangeSet();
@@ -102,19 +104,17 @@ bool startServer(bool local)
 	ScorchedServer::instance()->getActionController().getPhysics().setCollisionHandler(
 		new ScorchedCollisionHandler(&ScorchedServer::instance()->getContext()));
 
+	if (!ScorchedServer::instance()->getAccessoryStore().parseFile()) return false;
 	ScorchedServer::instance()->getOptionsTransient().reset();
 	LandscapeDefinitions::instance();
 
 	// Add the server side bots
 	// Add any new AIs
-	TankAIStore::instance();
+	if (!TankAIStore::instance()->loadAIs()) return false;
 	TankAIAdder::addTankAIs(ScorchedServer::instance()->getContext());
 
 	// Start the state machine
 	ServerState::setupStates(ScorchedServer::instance()->getGameState());
-
-	// Economy
-	AccessoryStore::instance();
 	EconomyStore::instance();
 
 	return true;

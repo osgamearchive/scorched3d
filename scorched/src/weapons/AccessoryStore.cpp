@@ -27,19 +27,6 @@
 #include <math.h>
 #include <stdio.h>
 
-AccessoryStore *AccessoryStore::instance_ = 0;
-
-AccessoryStore *AccessoryStore::instance()
-{
-	if (!instance_)
-	{
-		instance_ = new AccessoryStore;
-		if (!instance_->parseFile(getDataFile("data/accessories.xml"))) exit(1);
-	}
-
-	return instance_;
-}
-
 AccessoryStore::AccessoryStore() 
 {
 
@@ -50,8 +37,9 @@ AccessoryStore::~AccessoryStore()
 
 }
 
-bool AccessoryStore::parseFile(const char *fileName)
+bool AccessoryStore::parseFile()
 {
+	const char *fileName = getDataFile("data/accessories.xml");
 	clearAccessories();
 
 	XMLFile file;
@@ -373,10 +361,6 @@ bool AccessoryStore::writeToBuffer(NetBuffer &buffer)
 
 bool AccessoryStore::readFromBuffer(NetBufferReader &reader)
 {
-	// Only use the sent accessories if we are actually remote from the
-	// server
-	if (!OptionsParam::instance()->getConnectedToServer()) return true;
-
 	clearAccessories();
 
 	int noAccessories = 0;
@@ -384,10 +368,19 @@ bool AccessoryStore::readFromBuffer(NetBufferReader &reader)
 	for (int a=0; a<noAccessories; a++)
 	{
 		std::string accessoryTypeName;
-		if (!reader.getFromBuffer(accessoryTypeName)) return false;
+		if (!reader.getFromBuffer(accessoryTypeName))
+		{
+			Logger::log(0, "AccessoryStore failed to read accessory type");
+			return false;
+		}
 		Accessory *accessory = 
 			AccessoryMetaRegistration::getNewAccessory(accessoryTypeName.c_str());
-		if (!accessory) return false;
+		if (!accessory)
+		{
+			Logger::log(0, "AccessoryStore failed to find accessory type \"%s\"",
+				accessoryTypeName.c_str());
+			return false;
+		}
 		if (!accessory->readAccessory(reader))
 		{
 			Logger::log(0, "AccessoryStore failed to read \"%s\" accessory",

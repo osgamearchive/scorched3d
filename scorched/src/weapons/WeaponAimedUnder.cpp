@@ -24,6 +24,7 @@
 #include <tank/TankLib.h>
 #include <tank/TankContainer.h>
 #include <common/Defines.h>
+#include <server/ScorchedServer.h>
 #include <list>
 #include <math.h>
 
@@ -65,7 +66,8 @@ bool WeaponAimedUnder::parseXML(XMLNode *accessoryNode)
 	}
 
 	// Check next weapon is correct type
-	Accessory *accessory = AccessoryStore::instance()->createAccessory(subNode);
+	Accessory *accessory = 
+		ScorchedServer::instance()->getAccessoryStore().createAccessory(subNode);
 	if (!accessory || accessory->getType() != Accessory::AccessoryWeapon)
 	{
 		dialogMessage("Accessory",

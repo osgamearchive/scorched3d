@@ -18,11 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// TankParachutes.h: interface for the TankParachutes class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_TANKPARACHUTES_H__83501862_9536_4108_A7E6_2377AD98EB72__INCLUDED_)
 #define AFX_TANKPARACHUTES_H__83501862_9536_4108_A7E6_2377AD98EB72__INCLUDED_
 
@@ -30,10 +25,11 @@
 #include <string>
 #include <coms/NetBuffer.h>
 
+class ScorchedContext;
 class TankParachutes  
 {
 public:
-	TankParachutes();
+	TankParachutes(ScorchedContext &context);
 	virtual ~TankParachutes();
 
 	void reset();
@@ -55,6 +51,7 @@ protected:
 	int parachuteCount_;
 	bool parachutesEnabled_;
 	float parachuteThreshold_;
+	ScorchedContext &context_;
 
 };
 

@@ -26,7 +26,8 @@
 #include <math.h>
 #include <set>
 
-TankShields::TankShields()
+TankShields::TankShields(ScorchedContext &context) :
+	context_(context)
 {
 	reset();
 }
@@ -42,7 +43,7 @@ void TankShields::reset()
 	newGame();
 
 	std::list<Accessory *> accessories = 
-		AccessoryStore::instance()->getAllOthers();
+		context_.accessoryStore->getAllOthers();
 	std::list<Accessory *>::iterator itor;
 	for (itor = accessories.begin();
 		itor != accessories.end();
@@ -171,7 +172,7 @@ bool TankShields::readMessage(NetBufferReader &reader)
 	if (!reader.getFromBuffer(shieldId)) return false;
 	if (shieldId == 0) currentShield_ = 0;
 	else currentShield_ = (Shield *)
-		AccessoryStore::instance()->findByAccessoryId(shieldId);
+		context_.accessoryStore->findByAccessoryId(shieldId);
 
 	std::set<Shield *> coveredShields;
 
@@ -184,7 +185,7 @@ bool TankShields::readMessage(NetBufferReader &reader)
 		if (!reader.getFromBuffer(shieldCount)) return false;
 
 		Shield *shield = (Shield *) 
-			AccessoryStore::instance()->findByAccessoryId(shieldId);
+			context_.accessoryStore->findByAccessoryId(shieldId);
 		if (!shield) return false;
 		coveredShields.insert(shield);
 

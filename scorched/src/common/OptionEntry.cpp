@@ -63,7 +63,6 @@ bool OptionEntryHelper::writeToBuffer(std::list<OptionEntry *> &options,
 	// We do this as strings this make the message larger than it needs to be but
 	// we always know how to read the options at the other end.
 	// Even if the other end does not have all the options this end does.
-	buffer.addToBuffer((int) options.size());
 	std::list<OptionEntry *>::iterator itor;
 	for (itor = options.begin();
 		itor != options.end();
@@ -76,6 +75,7 @@ bool OptionEntryHelper::writeToBuffer(std::list<OptionEntry *> &options,
 			buffer.addToBuffer(entry->getValueAsString());
 		}
 	}
+	buffer.addToBuffer("-"); // Marks the end of the entries
 
 	return true;
 }
@@ -101,12 +101,11 @@ bool OptionEntryHelper::readFromBuffer(std::list<OptionEntry *> &options,
 	}
 
 	// Read the strings from the other end
-	int noItems = 0;
-	if(!reader.getFromBuffer(noItems)) return false;
-	for (int i=0; i<noItems; i++)
+	for (;;)
 	{
 		std::string name, value;
 		if (!reader.getFromBuffer(name)) return false;
+		if (strcmp(name.c_str(), "-") == 0) break; // The end symbol
 		if (!reader.getFromBuffer(value)) return false;
 		
 		std::map<std::string, OptionEntry *>::iterator finditor =

@@ -79,3 +79,9 @@ void NetLoopBack::sendMessage(NetBuffer &buffer, unsigned int destination)
 	message->getBuffer().addDataToBuffer(buffer.getBuffer(), buffer.getBufferUsed());
 	loopback_->messageHandler_.addMessage(message);
 }
+
+unsigned int NetLoopBack::getIpAddress(unsigned int destination)
+{
+	return 0;
+}
+

@@ -1603,16 +1603,16 @@
 				RelativePath="..\weapons\WeaponAimedUnder.h">
 			</File>
 			<File
-				RelativePath="..\weapons\WeaponDelay.cpp">
-			</File>
-			<File
-				RelativePath="..\weapons\WeaponDelay.h">
-			</File>
-			<File
 				RelativePath="..\weapons\WeaponAnimation.cpp">
 			</File>
 			<File
 				RelativePath="..\weapons\WeaponAnimation.h">
+			</File>
+			<File
+				RelativePath="..\weapons\WeaponDelay.cpp">
+			</File>
+			<File
+				RelativePath="..\weapons\WeaponDelay.h">
 			</File>
 			<File
 				RelativePath="..\weapons\WeaponExplosion.cpp">
@@ -1682,12 +1682,6 @@
 				RelativePath="..\coms\ComsActionsMessage.cpp">
 			</File>
 			<File
-				RelativePath="..\coms\ComsAdminMessage.h">
-			</File>
-			<File
-				RelativePath="..\coms\ComsAdminMessage.cpp">
-			</File>
-			<File
 				RelativePath="..\coms\ComsActionsMessage.h">
 			</File>
 			<File
@@ -1695,6 +1689,12 @@
 			</File>
 			<File
 				RelativePath="..\coms\ComsAddPlayerMessage.h">
+			</File>
+			<File
+				RelativePath="..\coms\ComsAdminMessage.cpp">
+			</File>
+			<File
+				RelativePath="..\coms\ComsAdminMessage.h">
 			</File>
 			<File
 				RelativePath="..\coms\ComsBuyAccessoryMessage.cpp">
@@ -2254,16 +2254,16 @@
 				RelativePath="..\actions\ShieldHit.h">
 			</File>
 			<File
-				RelativePath="..\actions\ShotDelay.h">
+				RelativePath="..\actions\ShotBounce.cpp">
+			</File>
+			<File
+				RelativePath="..\actions\ShotBounce.h">
 			</File>
 			<File
 				RelativePath="..\actions\ShotDelay.cpp">
 			</File>
 			<File
-				RelativePath="..\actions\ShotBounce.cpp">
-			</File>
-			<File
-				RelativePath="..\actions\ShotBounce.h">
+				RelativePath="..\actions\ShotDelay.h">
 			</File>
 			<File
 				RelativePath="..\actions\ShotProjectile.cpp">
@@ -2512,12 +2512,6 @@
 			Name="client"
 			Filter="">
 			<File
-				RelativePath="..\client\ClientAdmin.cpp">
-			</File>
-			<File
-				RelativePath="..\client\ClientAdmin.h">
-			</File>
-			<File
 				RelativePath="..\client\ClientActionsHandler.cpp">
 			</File>
 			<File
@@ -2528,6 +2522,12 @@
 			</File>
 			<File
 				RelativePath="..\client\ClientAddPlayerHandler.h">
+			</File>
+			<File
+				RelativePath="..\client\ClientAdmin.cpp">
+			</File>
+			<File
+				RelativePath="..\client\ClientAdmin.h">
 			</File>
 			<File
 				RelativePath="..\client\ClientBuyAccessoryHandler.cpp">
@@ -2774,16 +2774,22 @@
 				RelativePath="..\server\ScorchedServer.h">
 			</File>
 			<File
-				RelativePath="..\server\ServerAdminHandler.h">
+				RelativePath="..\server\ServerAddPlayerHandler.cpp">
+			</File>
+			<File
+				RelativePath="..\server\ServerAddPlayerHandler.h">
 			</File>
 			<File
 				RelativePath="..\server\ServerAdminHandler.cpp">
 			</File>
 			<File
-				RelativePath="..\server\ServerAddPlayerHandler.cpp">
+				RelativePath="..\server\ServerAdminHandler.h">
 			</File>
 			<File
-				RelativePath="..\server\ServerAddPlayerHandler.h">
+				RelativePath="..\server\ServerBanned.cpp">
+			</File>
+			<File
+				RelativePath="..\server\ServerBanned.h">
 			</File>
 			<File
 				RelativePath="..\server\ServerBrowserInfo.cpp">

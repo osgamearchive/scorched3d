@@ -48,8 +48,8 @@ bool ScorchedApp::OnInit()
 	if (OptionsParam::instance()->getAction() == OptionsParam::ActionRunServer)
 	{
   		// Run the server
-		showServerDialog();
 		serverMain();
+		showServerDialog();
 	}
 	else if (OptionsParam::instance()->getAction() == OptionsParam::ActionHelp)
 	{

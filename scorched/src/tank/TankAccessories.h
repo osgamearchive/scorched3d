@@ -28,10 +28,11 @@
 #include <tank/TankBatteries.h>
 #include <tank/TankFuel.h>
 
+class ScorchedContext;
 class TankAccessories  
 {
 public:
-	TankAccessories();
+	TankAccessories(ScorchedContext &context);
 	virtual ~TankAccessories();
 
 	void reset();
@@ -56,6 +57,7 @@ public:
 	bool readXML(XMLNode *node);
 
 protected:
+	ScorchedContext &context_;
 	TankFuel tankFuel_;
 	TankWeapon tankWeapon_;
 	TankParachutes tankPara_;

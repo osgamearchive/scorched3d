@@ -29,6 +29,7 @@ class ScorchedClient
 public:
 	static ScorchedClient *instance();
 
+	AccessoryStore &getAccessoryStore() { return *context_.accessoryStore; }
 	MainLoop &getMainLoop() { return *mainLoop_; }
 	GameState &getGameState() { return *context_.gameState; }
 	TankContainer &getTankContainer() { return *context_.tankContainer; }

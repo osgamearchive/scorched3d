@@ -39,6 +39,8 @@ public:
 	virtual void sendMessage(NetBuffer &buffer) = 0;
 	virtual void sendMessage(NetBuffer &buffer, unsigned int destination) = 0;
 
+	virtual unsigned int getIpAddress(unsigned int destination) = 0;
+
 	static unsigned int &getBytesIn() { return bytesIn_; }
 	static unsigned int &getBytesOut() { return bytesOut_; }
 	static unsigned int &getPings() { return pings_; }

@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,39 +18,29 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_ScorchedContexth_INCLUDE__)
-#define __INCLUDE_ScorchedContexth_INCLUDE__
+#if !defined(__INCLUDE_ServerBannedh_INCLUDE__)
+#define __INCLUDE_ServerBannedh_INCLUDE__
 
-class AccessoryStore;
-class ActionController;
-class GameState;
-class TankContainer;
-class LandscapeMaps;
-class ComsMessageHandler;
-class NetInterface;
-class OptionsGameWrapper;
-class OptionsTransient;
-class ViewPoints;
-class ModFiles;
+#include <set>
 
-class ScorchedContext
+class ServerBanned
 {
 public:
-	ScorchedContext(const char *name);
-	virtual ~ScorchedContext();
+	static ServerBanned *instance();
 
-	ActionController *actionController;
-	GameState *gameState;
-	TankContainer *tankContainer;
-	LandscapeMaps *landscapeMaps;
-	ComsMessageHandler *comsMessageHandler;
-	NetInterface *netInterface;
-	OptionsGameWrapper *optionsGame;
-	OptionsTransient *optionsTransient;
-	ViewPoints *viewPoints;
-	ModFiles *modFiles;
-	AccessoryStore *accessoryStore;
-	bool serverMode;
+	bool isBanned(unsigned int ip);
+	void addBanned(unsigned int ip);
+
+	bool save();
+	bool load();
+
+protected:
+	static ServerBanned *instance_;
+	std::set<unsigned int> bannedIps_;	
+
+private:
+	ServerBanned();
+	virtual ~ServerBanned();
 };
 
-#endif
+#endif // __INCLUDE_ServerBannedh_INCLUDE__

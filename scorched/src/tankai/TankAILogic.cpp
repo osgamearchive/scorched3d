@@ -126,7 +126,7 @@ void TankAILogic::processFiredMessage(ScorchedContext &context,
 	{
 		// Check the weapon name exists and is a weapon
 		Accessory *accessory = 
-			AccessoryStore::instance()->findByAccessoryId(
+			context.accessoryStore->findByAccessoryId(
 			message.getWeaponId());
 		if (accessory && accessory->getType() == Accessory::AccessoryWeapon)
 		{
@@ -192,7 +192,8 @@ bool TankAILogic::processDefenseMessage(ScorchedContext &context,
 			if (!context.serverMode) 
 			{
 				Accessory *battery = 
-					AccessoryStore::instance()->findByAccessoryType(Accessory::AccessoryBattery);
+					context.accessoryStore->
+						findByAccessoryType(Accessory::AccessoryBattery);
 				if (battery)
 				{
 					SoundBuffer *batSound = 
@@ -210,7 +211,8 @@ bool TankAILogic::processDefenseMessage(ScorchedContext &context,
 	case ComsDefenseMessage::eShieldUp:
 		{
 			Accessory *accessory = 
-				AccessoryStore::instance()->findByAccessoryId(message.getInfoId());
+				context.accessoryStore->
+					findByAccessoryId(message.getInfoId());
 			if (accessory->getType() == Accessory::AccessoryShield)
 			{
 				Shield *shield = (Shield *) accessory;
@@ -246,7 +248,8 @@ bool TankAILogic::processDefenseMessage(ScorchedContext &context,
 		if (tank->getAccessories().getParachutes().getNoParachutes() != 0)
 		{
 			Accessory *parachute = 
-				AccessoryStore::instance()->findByAccessoryType(Accessory::AccessoryParachute);
+				context.accessoryStore->
+					findByAccessoryType(Accessory::AccessoryParachute);
 			if (parachute)
 			{
 				SoundBuffer *paraSound = 

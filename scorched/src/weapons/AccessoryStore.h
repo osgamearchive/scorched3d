@@ -28,9 +28,10 @@
 class AccessoryStore
 {
 public:
-	static AccessoryStore *instance();
+	AccessoryStore();
+	virtual ~AccessoryStore();
 
-	bool parseFile(const char *fileName);
+	bool parseFile();
 
 	Accessory *findByAccessoryType(Accessory::AccessoryType type);
 	Accessory *findByAccessoryId(unsigned int id);
@@ -52,16 +53,11 @@ public:
 	static void sortList(std::list<Accessory *> &accList);
 
 protected:
-	static AccessoryStore *instance_;
 	std::list<Accessory *> accessories_;
 	std::vector<Weapon *> deathAnimations_;
 
 	void clearAccessories();
 	void addAccessory(Accessory *accessory);
-
-private:
-	AccessoryStore();
-	virtual ~AccessoryStore();
 
 };
 

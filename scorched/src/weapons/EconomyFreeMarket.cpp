@@ -81,7 +81,7 @@ bool EconomyFreeMarket::loadPrices()
 				return false;
 			}
 
-			Accessory *accessory = AccessoryStore::instance()->
+			Accessory *accessory = ScorchedServer::instance()->getAccessoryStore().
 				findByPrimaryAccessoryName(nameNode->getContent());
 			if (!accessory)
 			{
@@ -107,8 +107,8 @@ bool EconomyFreeMarket::savePrices()
 	FileLines file;
 	file.addLine("<prices source=\"Scorched3D\">");
 
-	std::list<Accessory *> weapons = AccessoryStore::instance()->
-		getAllAccessories();
+	std::list<Accessory *> weapons = 
+		ScorchedServer::instance()->getAccessoryStore().getAllAccessories();
 	std::list<Accessory *>::iterator itor;
 	for (itor = weapons.begin();
 		itor != weapons.end();
@@ -139,7 +139,8 @@ void EconomyFreeMarket::calculatePrices()
 		int diff = (*itor).second;
 		if (diff != 0)
 		{
-			Accessory *accessory = AccessoryStore::instance()->
+			Accessory *accessory = 
+				ScorchedServer::instance()->getAccessoryStore().
 				findByAccessoryId((*itor).first);
 			
 			int price = accessory->getPrice() + diff;
@@ -164,14 +165,16 @@ void EconomyFreeMarket::accessoryBought(Tank *tank,
 		const char *accessoryName)
 {
 	// Find the bought accessory
-	Accessory *boughtAccessory = AccessoryStore::instance()->
+	Accessory *boughtAccessory = 
+		ScorchedServer::instance()->getAccessoryStore().
 		findByPrimaryAccessoryName(accessoryName);
 	DIALOG_ASSERT(boughtAccessory);
 
 	// Find the list of accessories that this player could have bought
 	std::list<Accessory *> possibleAccessories;
 	{
-		std::list<Accessory *> weapons = AccessoryStore::instance()->
+		std::list<Accessory *> weapons = 
+			ScorchedServer::instance()->getAccessoryStore().
 			getAllAccessories();
 		std::list<Accessory *>::iterator itor;
 		for (itor = weapons.begin();

@@ -22,6 +22,7 @@
 #include <weapons/AccessoryStore.h>
 #include <tankgraph/TankModelRenderer.h>
 #include <tankgraph/MissileMesh.h>
+#include <client/ScorchedClient.h>
 #include <common/OptionsDisplay.h>
 
 std::map<std::string, MissileMesh *> Weapon::loadedMeshes_;
@@ -134,7 +135,8 @@ Weapon *Weapon::read(NetBufferReader &reader)
 	unsigned int weaponId;
 	if (!reader.getFromBuffer(weaponId)) return 0;
 	Accessory *accessory = 
-		AccessoryStore::instance()->findByAccessoryId(weaponId);
+		ScorchedClient::instance()->getAccessoryStore().
+		findByAccessoryId(weaponId);
 	if (!accessory || (accessory->getType() != Accessory::AccessoryWeapon)) 
 	{
 		return 0;

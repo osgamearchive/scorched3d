@@ -21,8 +21,10 @@
 #include <server/ServerMessageHandler.h>
 #include <server/ScorchedServer.h>
 #include <server/ServerCommon.h>
+#include <server/ServerBanned.h>
 #include <coms/ComsRmPlayerMessage.h>
 #include <coms/ComsMessageSender.h>
+#include <coms/NetInterface.h>
 #include <common/Logger.h>
 #include <common/StatsLogger.h>
 
@@ -47,7 +49,22 @@ ServerMessageHandler::~ServerMessageHandler()
 
 void ServerMessageHandler::clientConnected(NetMessage &message)
 {
-	Logger::log(0, "Client connected \"%i\"", message.getDestinationId());
+	unsigned int ipAddress = 
+		ScorchedServer::instance()->getNetInterface().getIpAddress(
+			message.getDestinationId());
+	if (ipAddress != 0 &&
+		ServerBanned::instance()->isBanned(ipAddress))
+	{
+		Logger::log(0, "Banned client connected \"%i\"", 
+			message.getDestinationId());
+		ServerCommon::kickDestination(
+			message.getDestinationId());
+	}
+	else
+	{
+		Logger::log(0, "Client connected \"%i\"", 
+			message.getDestinationId());
+	}
 }
 
 void ServerMessageHandler::clientDisconnected(NetMessage &message)

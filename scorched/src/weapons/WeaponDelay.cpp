@@ -22,6 +22,7 @@
 #include <weapons/AccessoryStore.h>
 #include <actions/ShotDelay.h>
 #include <engine/ActionController.h>
+#include <server/ScorchedServer.h>
 
 REGISTER_ACCESSORY_SOURCE(WeaponDelay);
 
@@ -51,7 +52,8 @@ bool WeaponDelay::parseXML(XMLNode *accessoryNode)
 	}
 
 	// Check next weapon is correct type
-	Accessory *accessory = AccessoryStore::instance()->createAccessory(subNode);
+	Accessory *accessory = 
+		ScorchedServer::instance()->getAccessoryStore().createAccessory(subNode);
 	if (!accessory || accessory->getType() != Accessory::AccessoryWeapon)
 	{
 		dialogMessage("Accessory",

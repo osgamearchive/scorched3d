@@ -28,11 +28,13 @@
 #include <common/OptionsTransient.h>
 #include <tank/TankContainer.h>
 #include <landscape/LandscapeMaps.h>
+#include <weapons/AccessoryStore.h>
 
 ScorchedContext::ScorchedContext(const char *name) : 
 	serverMode(false)
 {
 	actionController = new ActionController();
+	accessoryStore = new AccessoryStore();
 	gameState = new GameState(name);
 	tankContainer = new TankContainer();
 	landscapeMaps = new LandscapeMaps();

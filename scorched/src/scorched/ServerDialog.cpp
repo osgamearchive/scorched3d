@@ -55,6 +55,7 @@ enum
 	IDC_MENU_PLAYERTALK,
 	IDC_MENU_PLAYERTALKALL,
 	IDC_MENU_PLAYERKICK,
+	IDC_MENU_PLAYERSLAP25,
 	IDC_MENU_PLAYERKILLALL,
 	IDC_MENU_PLAYERADD,
 	IDC_MENU_PLAYERADD_1,
@@ -164,6 +165,7 @@ public:
 	void onPlayerTalkAll();
 	void onTimedMsg();
 	void onPlayerKick();
+	void onPlayerSlap25();
 	void onKillAll();
 	void onStartNewGame();
 	void onPlayerAdd(int i);
@@ -205,6 +207,7 @@ BEGIN_EVENT_TABLE(ServerFrame, wxFrame)
 	EVT_MENU(IDC_MENU_PLAYERTALK, ServerFrame::onPlayerTalk)
 	EVT_MENU(IDC_MENU_PLAYERTALKALL, ServerFrame::onPlayerTalkAll)
 	EVT_MENU(IDC_MENU_PLAYERKICK, ServerFrame::onPlayerKick)
+	EVT_MENU(IDC_MENU_PLAYERSLAP25, ServerFrame::onPlayerSlap25)
 	EVT_MENU(IDC_MENU_PLAYERADD_1, ServerFrame::onPlayerAdd1)
 	EVT_MENU(IDC_MENU_PLAYERADD_2, ServerFrame::onPlayerAdd2)
 	EVT_MENU(IDC_MENU_PLAYERADD_3, ServerFrame::onPlayerAdd3)
@@ -320,6 +323,7 @@ ServerFrame::ServerFrame(const char *name) :
 	menuPlayer->Append(IDC_MENU_PLAYERTALKALL, "Talk to all players");
 	menuPlayer->Append(IDC_MENU_PLAYERKICK, "Kick selected players");
 	menuPlayer->Append(IDC_MENU_PLAYERKILLALL, "Kill all players");
+	menuPlayer->Append(IDC_MENU_PLAYERSLAP25, "Slap selected players (25 pts)");
 	menuPlayer->Append(IDC_MENU_PLAYERADD, "Add a new player", menuAddPlayer);
 
 	wxMenu *menuGame = new wxMenu;
@@ -503,14 +507,25 @@ void ServerFrame::onPlayerKick()
 		{
 			Tank *tank = 
 				ScorchedServer::instance()->getTankContainer().getTankByPos((unsigned int) item);
-			if (tank->getDestinationId() == 0)
-			{
-				ServerMessageHandler::instance()->destroyPlayer(tank->getPlayerId());
-			}
-			else
-			{
-				ServerCommon::kickDestination(tank->getDestinationId());
-			}
+			ServerCommon::kickDestination(tank->getDestinationId());
+		}		
+    }
+}
+
+void ServerFrame::onPlayerSlap25()
+{
+	long item = -1;
+    while ((item = frame->playerList_->GetNextItem(
+		item,
+		wxLIST_NEXT_ALL,
+        wxLIST_STATE_SELECTED)) != -1)
+    {
+		if ((item != -1) && (item < 
+			ScorchedServer::instance()->getTankContainer().getNoOfTanks()))
+		{
+			Tank *tank = 
+				ScorchedServer::instance()->getTankContainer().getTankByPos((unsigned int) item);
+			ServerCommon::slapDestination(tank->getDestinationId(), 25.0f);
 		}		
     }
 }

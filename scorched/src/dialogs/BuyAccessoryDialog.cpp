@@ -114,9 +114,11 @@ void BuyAccessoryDialog::addPlayerWeaponsBuy(GLWTab *tab, bool showWeapons)
 	if (!tank) return;
 
 	std::list<Accessory *> weapons;
-	if (showWeapons) weapons = AccessoryStore::instance()->getAllWeapons(
+	if (showWeapons) weapons = ScorchedClient::instance()->
+		getAccessoryStore().getAllWeapons(
 		OptionsDisplay::instance()->getSortAccessories());
-	else weapons = AccessoryStore::instance()->getAllOthers(
+	else weapons = ScorchedClient::instance()->
+		getAccessoryStore().getAllOthers(
 		OptionsDisplay::instance()->getSortAccessories());
 
 	char buffer[256];

@@ -128,7 +128,7 @@ void TankDead::simulate(float frameTime, bool &remove)
 
 			// Add the tank death explosion
 			// Make the tank explode in one of many ways
-			Weapon *weapon = AccessoryStore::instance()->getDeathAnimation();
+			Weapon *weapon = context_->accessoryStore->getDeathAnimation();
 			if (weapon)
 			{
 				Vector position = killedTank->getPhysics().getTankPosition();

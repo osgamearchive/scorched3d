@@ -18,20 +18,16 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// TankBatteries.h: interface for the TankBatteries class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_TANKBATTERIES_H__83501862_9536_4108_A7E6_2377AD98EB72__INCLUDED_)
 #define AFX_TANKBATTERIES_H__83501862_9536_4108_A7E6_2377AD98EB72__INCLUDED_
 
 #include <coms/NetBuffer.h>
 
+class ScorchedContext;
 class TankBatteries  
 {
 public:
-	TankBatteries();
+	TankBatteries(ScorchedContext &context);
 	virtual ~TankBatteries();
 
 	void reset();
@@ -47,6 +43,7 @@ public:
 
 protected:
 	int batteryCount_;
+	ScorchedContext &context_;
 
 };
 

@@ -18,16 +18,16 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #if !defined(__INCLUDE_TankFuelh_INCLUDE__)
 #define __INCLUDE_TankFuelh_INCLUDE__
 
 #include <coms/NetBuffer.h>
 
+class ScorchedContext;
 class TankFuel
 {
 public:
-	TankFuel();
+	TankFuel(ScorchedContext &context);
 	virtual ~TankFuel();
 
 	void reset();
@@ -43,7 +43,7 @@ public:
 
 protected:
 	int fuelCount_;
+	ScorchedContext &context_;
 };
-
 
 #endif

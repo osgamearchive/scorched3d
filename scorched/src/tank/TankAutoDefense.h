@@ -18,16 +18,16 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #if !defined(__INCLUDE_TankAutoDefenseh_INCLUDE__)
 #define __INCLUDE_TankAutoDefenseh_INCLUDE__
 
 #include <coms/NetBuffer.h>
 
+class ScorchedContext;
 class TankAutoDefense
 {
 public:
-	TankAutoDefense();
+	TankAutoDefense(ScorchedContext &context);
 	virtual ~TankAutoDefense();
 
 	void reset();
@@ -42,6 +42,7 @@ public:
 
 protected:
 	bool haveDefense_;
+	ScorchedContext &context_;
 };
 
 

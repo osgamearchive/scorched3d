@@ -20,6 +20,8 @@ Changed: Tank can move up and down bigger slopes (configurable)
 Changed: Spread and hurts weapon primative options are now variable
 Changed: LeapFrog weapon primative bounce now variable
 
+Added: Admin commands can be accessed from a client
+Added: Admin slap and ban
 Added: Start of sky dome time of day shading
 Added: Sound effect volume control
 Added: Custom explosion and napalm texture sets can be added
@@ -63,10 +65,7 @@ Make rollers look better
 Stats prefix can be (pre/a)pended onto mysql stats tables
 Some kind of fire out the back of missiles
 Proper mag shield
-Banning players
-Admin interface for client
 Guidance
-Change sound level settings
 
 -- Server Stuff
 Chat filter (swear words)

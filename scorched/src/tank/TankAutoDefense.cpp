@@ -23,7 +23,8 @@
 #include <server/ScorchedServer.h>
 #include <common/OptionsGame.h>
 
-TankAutoDefense::TankAutoDefense()
+TankAutoDefense::TankAutoDefense(ScorchedContext &context) :
+	context_(context)
 {
 	reset();
 }
@@ -37,7 +38,7 @@ void TankAutoDefense::reset()
 	haveDefense_ = false;
 	
 	std::list<Accessory *> accessories = 
-		AccessoryStore::instance()->getAllOthers();
+		context_.accessoryStore->getAllOthers();
 	std::list<Accessory *>::iterator itor;
 	for (itor = accessories.begin();
 		itor != accessories.end();
