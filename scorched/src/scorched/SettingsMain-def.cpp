@@ -33,3 +33,7 @@ static wxComboBox *IDC_SERVER_PLAYERS_CTRL = 0;
 static wxComboBox *IDC_WAIT_TIME_CTRL = 0;
 static wxComboBox *IDC_SHOT_TIME_CTRL = 0;
 static wxComboBox *IDC_IDLE_TIME_CTRL = 0;
+static wxStaticText *IDC_WAIT_TIME_CTRL_TEXT = 0;
+static wxStaticText *IDC_SHOT_TIME_CTRL_TEXT = 0;
+static wxStaticText *IDC_IDLE_TIME_CTRL_TEXT = 0;
+static wxStaticText *IDC_SERVER_PLAYERS_CTRL_TEXT = 0;

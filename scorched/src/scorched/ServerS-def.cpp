@@ -35,3 +35,4 @@ static wxTextCtrl *IDC_PUBLISHIP_CTRL = 0;
 static wxButton *IDOK_CTRL = 0;
 static wxButton *IDC_BUTTON_SETTINGS_CTRL = 0;
 static wxButton *IDCANCEL_CTRL = 0;
+static wxStaticText *IDC_PUBLISHIP_CTRL_TEXT = 0;

@@ -323,7 +323,8 @@ bool SettingsFrame::TransferDataToWindow()
 		}
 		sprintf(string, "%i", OptionsGame::instance()->getNoMaxPlayers());
 		SettingsMain::IDC_SERVER_PLAYERS_CTRL->SetValue(string);
-		SettingsMain::IDC_SERVER_PLAYERS_CTRL->Enable(playersPanel_ == 0);
+		SettingsMain::IDC_SERVER_PLAYERS_CTRL->Show(playersPanel_ == 0);
+		SettingsMain::IDC_SERVER_PLAYERS_CTRL_TEXT->Show(playersPanel_ == 0);
 
 		// Rounds combo
 		for (i=1; i<25; i++)
@@ -351,9 +352,12 @@ bool SettingsFrame::TransferDataToWindow()
 		SettingsMain::IDC_IDLE_TIME_CTRL->SetSelection(
 			OptionsGame::instance()->getIdleKickTime()/5);
 
-		SettingsMain::IDC_SHOT_TIME_CTRL->Enable(playersPanel_ != 0);
-		SettingsMain::IDC_WAIT_TIME_CTRL->Enable(playersPanel_ != 0);
-		SettingsMain::IDC_IDLE_TIME_CTRL->Enable(playersPanel_ != 0);
+		SettingsMain::IDC_SHOT_TIME_CTRL->Show(playersPanel_ != 0);
+		SettingsMain::IDC_WAIT_TIME_CTRL->Show(playersPanel_ != 0);
+		SettingsMain::IDC_IDLE_TIME_CTRL->Show(playersPanel_ != 0);
+		SettingsMain::IDC_SHOT_TIME_CTRL_TEXT->Show(playersPanel_ != 0);
+		SettingsMain::IDC_WAIT_TIME_CTRL_TEXT->Show(playersPanel_ != 0);
+		SettingsMain::IDC_IDLE_TIME_CTRL_TEXT->Show(playersPanel_ != 0);
 	}
 
 	return true;

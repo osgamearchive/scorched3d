@@ -23,7 +23,8 @@
 
 static void createControls(wxWindow *parent)
 {
-	new wxStaticText(parent, -1,
+	IDC_SERVER_PLAYERS_CTRL_TEXT = 
+		new wxStaticText(parent, -1,
 		"No Players :",
 		wxPoint((int) 28.5, (int) 55.5));
 	IDC_SERVER_PLAYERS_CTRL = 
@@ -47,7 +48,8 @@ static void createControls(wxWindow *parent)
 		"",
 		wxPoint((int) 250.5, (int) 27), wxSize((int) 87, (int) 124.5),
 		0, 0, wxCB_READONLY);
-	new wxStaticText(parent, -1,
+	IDC_WAIT_TIME_CTRL_TEXT = 
+		new wxStaticText(parent, -1,
 		"Wait Time :",
 		wxPoint((int) 195, (int) 30));
 	IDC_SHOT_TIME_CTRL = 
@@ -55,7 +57,8 @@ static void createControls(wxWindow *parent)
 		"",
 		wxPoint((int) 250.5, (int) 52.5), wxSize((int) 87, (int) 124.5),
 		0, 0, wxCB_READONLY);
-	new wxStaticText(parent, -1,
+	IDC_SHOT_TIME_CTRL_TEXT = 
+		new wxStaticText(parent, -1,
 		"Shot Time :",
 		wxPoint((int) 195, (int) 55.5));
 	IDC_IDLE_TIME_CTRL = 
@@ -63,7 +66,8 @@ static void createControls(wxWindow *parent)
 		"",
 		wxPoint((int) 250.5, (int) 78), wxSize((int) 87, (int) 124.5),
 		0, 0, wxCB_READONLY);
-	new wxStaticText(parent, -1,
+	IDC_IDLE_TIME_CTRL_TEXT =
+		new wxStaticText(parent, -1,
 		"Idle Time :",
 		wxPoint((int) 199.5, (int) 81));
 }
