@@ -65,7 +65,7 @@ flames will loose life.</description>
 		<icon>napalm.bmp</icon>
 		<cost>10000</cost>
 		<bundlesize>10</bundlesize>
-		<armslevel>7</armslevel>
+		<armslevel>5</armslevel>
 		<napalmtime>8.0</napalmtime>
 		<napalmheight>2.0</napalmheight>
 		<steptime>0.1</steptime>
@@ -84,7 +84,7 @@ Any flames near tanks will remove life.</description>
 		<icon>hnapalm.bmp</icon>
 		<cost>20000</cost>
 		<bundlesize>2</bundlesize>
-		<armslevel>5</armslevel>
+		<armslevel>3</armslevel>
 		<napalmtime>8.0</napalmtime>
 		<napalmheight>2.0</napalmheight>
 		<steptime>0.1</steptime>
@@ -243,7 +243,7 @@ some small riot bombs.</description>
 		<icon>bdigger.bmp</icon>
 		<cost>3000</cost>
 		<bundlesize>10</bundlesize>
-		<armslevel>10</armslevel>
+		<armslevel>8</armslevel>
 		<nowarheads>3</nowarheads>
 		<explosiontexture>exp03</explosiontexture>
 		<firedsound>shoot/flare.wav</firedsound>
@@ -256,7 +256,7 @@ some riot bombs.</description>
 		<icon>digger.bmp</icon>
 		<cost>2500</cost>
 		<bundlesize>5</bundlesize>
-		<armslevel>10</armslevel>
+		<armslevel>7</armslevel>
 		<nowarheads>5</nowarheads>
 		<explosiontexture>exp03</explosiontexture>
 		<firedsound>shoot/flare.wav</firedsound>
@@ -269,7 +269,7 @@ many small riot bombs.</description>
 		<icon>hdigger.bmp</icon>
 		<cost>6750</cost>
 		<bundlesize>2</bundlesize>
-		<armslevel>9</armslevel>
+		<armslevel>6</armslevel>
 		<nowarheads>10</nowarheads>
 		<explosiontexture>exp03</explosiontexture>
 		<firedsound>shoot/flare.wav</firedsound>
@@ -282,7 +282,7 @@ some small burrowing missiles. These missiles
 target nearby tanks.</description>
 		<icon>bshog.bmp</icon>
 		<cost>10000</cost>
-		<bundlesize>10</bundlesize>
+		<bundlesize>7</bundlesize>
 		<armslevel>10</armslevel>
 		<nowarheads>3</nowarheads>
 		<explosiontexture>exp03</explosiontexture>
@@ -296,7 +296,7 @@ burrowing missiles. These missiles target nearby tanks.</description>
 		<icon>shog.bmp</icon>
 		<cost>16750</cost>
 		<bundlesize>5</bundlesize>
-		<armslevel>10</armslevel>
+		<armslevel>5</armslevel>
 		<nowarheads>10</nowarheads>
 		<explosiontexture>exp03</explosiontexture>
 		<firedsound>shoot/flare.wav</firedsound>
@@ -309,7 +309,7 @@ burrowing missiles. These missiles target nearby tanks.</description>
 		<icon>hshog.bmp</icon>
 		<cost>25000</cost>
 		<bundlesize>2</bundlesize>
-		<armslevel>9</armslevel>
+		<armslevel>3</armslevel>
 		<nowarheads>20</nowarheads>
 		<explosiontexture>exp03</explosiontexture>
 		<firedsound>shoot/flare.wav</firedsound>
