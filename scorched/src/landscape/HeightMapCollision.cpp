@@ -162,7 +162,14 @@ int HeightMapCollision::dCollideLAABB(dGeomID o1, dGeomID o2, dReal aabb2[6])
 	{
 		for (int y=minY; y<=maxY; y++)
 		{
-			if (instance_->hMap_->getHeight(x, y) > aabb2[4]) return 1;
+			if (info2->collisionOnSurface && info1->collisionOnSurface)
+			{
+				if (instance_->hMap_->getHeight(x, y) > aabb2[4]) return 1;
+			}
+			else
+			{
+				if (instance_->hMap_->getHeight(x, y) < aabb2[5]) return 1;
+			}
 		}
 	}
 	return 0;

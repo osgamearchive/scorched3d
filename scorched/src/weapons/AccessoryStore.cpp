@@ -105,13 +105,13 @@ AccessoryStore::AccessoryStore()
 
 	// Under earth removal weapons
 	// char *name, int price, int bundle, int armsLevel, int noWarheads
-	/*ADD_NEW_ACCESSORY(new WeaponDigger("Baby Digger", 3000, 10, 10, 3));	
+	ADD_NEW_ACCESSORY(new WeaponDigger("Baby Digger", 3000, 10, 10, 3));	
 	ADD_NEW_ACCESSORY(new WeaponDigger("Digger", 2500, 5, 10, 5));	
 	ADD_NEW_ACCESSORY(new WeaponDigger("Heavy Digger", 6750, 2, 9, 10));
 
 	ADD_NEW_ACCESSORY(new WeaponSandHog("Baby Sandhog", 10000, 10, 10, 3));
 	ADD_NEW_ACCESSORY(new WeaponSandHog("Sandhog", 16750, 5, 10, 10));
-	ADD_NEW_ACCESSORY(new WeaponSandHog("Heavy Sandhog", 25000, 2, 9, 20));*/
+	ADD_NEW_ACCESSORY(new WeaponSandHog("Heavy Sandhog", 25000, 2, 9, 20));
 
 	// Multiple warhead weapons
 	// char *name, int price, int bundle, int armsLevel, int size, int numberWarheads, bool spread

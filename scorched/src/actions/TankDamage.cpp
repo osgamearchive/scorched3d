@@ -67,25 +67,28 @@ void TankDamage::simulate(float frameTime, bool &remove)
 				if (ai) ai->tankHurt(weapon_, firedPlayerId_);
 
 				// Remove any damage from shield first
-				float shieldDamage = 0.0f;
-				Shield *sh = damagedTank->getAccessories().getShields().getCurrentShield();
-				if (sh && useShieldDamage_)
+				if (damage_ > 0.0f)
 				{
-					// TODO: Hmm should different shield types and sizes take damage
-					// at different rates
-					float power = damagedTank->getAccessories().getShields().getShieldPower();
-					if (power < damage_)
+					float shieldDamage = 0.0f;
+					Shield *sh = damagedTank->getAccessories().getShields().getCurrentShield();
+					if (sh && useShieldDamage_)
 					{
-						power = 0.0f;
-						damage_ -= power;
-					}
-					else
-					{
-						power -= damage_;
-						damage_ = 0.0f;
-					}
+						// TODO: Hmm should different shield types and sizes take damage
+						// at different rates
+						float power = damagedTank->getAccessories().getShields().getShieldPower();
+						if (power < damage_)
+						{
+							power = 0.0f;
+							damage_ -= power;
+						}
+						else
+						{
+							power -= damage_;
+							damage_ = 0.0f;
+						}
 
-					damagedTank->getAccessories().getShields().setShieldPower(power);
+						damagedTank->getAccessories().getShields().setShieldPower(power);
+					}
 				}
 
 				// Remove the remaining damage from the tank
@@ -101,25 +104,23 @@ void TankDamage::simulate(float frameTime, bool &remove)
 							new TankDead(weapon_, damagedPlayerId_, firedPlayerId_);
 						ActionController::instance()->addAction(deadTank);
 					}
-					else
-					{
-						// The tank is not dead check if it needs to fall
-						Vector &position = damagedTank->getPhysics().getTankPosition();
-						if (GlobalHMap::instance()->getHMap().
-							getInterpHeight(position[0], position[1]) < position[2])
-						{
-							// Check this tank is not already falling
-							std::set<unsigned int>::iterator findItor =
-								TankFalling::fallingTanks.find(damagedPlayerId_);
-							if (findItor == TankFalling::fallingTanks.end())
-							{
-								TankFalling::fallingTanks.insert(damagedPlayerId_);
+				}
 
-								// Tank falling
-								ActionController::instance()->addAction(
-									new TankFalling(weapon_, damagedPlayerId_, firedPlayerId_));
-							}
-						}
+				// The tank is not dead check if it needs to fall
+				Vector &position = damagedTank->getPhysics().getTankPosition();
+				if (GlobalHMap::instance()->getHMap().
+					getInterpHeight(position[0], position[1]) < position[2])
+				{
+					// Check this tank is not already falling
+					std::set<unsigned int>::iterator findItor =
+						TankFalling::fallingTanks.find(damagedPlayerId_);
+					if (findItor == TankFalling::fallingTanks.end())
+					{
+						TankFalling::fallingTanks.insert(damagedPlayerId_);
+
+						// Tank falling
+						ActionController::instance()->addAction(
+							new TankFalling(weapon_, damagedPlayerId_, firedPlayerId_));
 					}
 				}
 			}

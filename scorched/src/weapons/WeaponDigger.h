@@ -33,6 +33,7 @@ public:
 	// Inherited from Weapon
 	Action *fireWeapon(unsigned int playerId);
 	virtual const char *getFiredSound();
+	virtual const char *getExplosionTexture();
 
 protected:
 	int warHeads_;

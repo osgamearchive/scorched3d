@@ -62,3 +62,8 @@ const char *WeaponDigger::getFiredSound()
 	// TODO
 	return PKGDIR "data/wav/shoot/flare.wav";
 }
+
+const char *WeaponDigger::getExplosionTexture()
+{
+	return "exp03";
+}

@@ -21,6 +21,7 @@
 #include <actions/ShotProjectileHog.h>
 #include <actions/ShotProjectileUnder.h>
 #include <engine/ActionController.h>
+#include <landscape/GlobalHMap.h>
 #include <tank/TankLib.h>
 
 REGISTER_ACTION_SOURCE(ShotProjectileHog);
@@ -65,13 +66,14 @@ void ShotProjectileHog::collision(Vector &position)
 
 	// NOTE: This code is very similar to the funky bomb code
 	// except it works under ground
-	position[2] -= 3.0f;
+	position[2] = GlobalHMap::instance()->getHMap().
+		getInterpHeight(position[0], position[1]) / 2.0f;
 
 	// Get all of the distances of the tanks less than 50 away
 	std::list<std::pair<float, Tank *> > sortedTanks;
 	TankLib::getTanksSortedByDistance(position, 
 									 sortedTanks,
-									 50.0f);
+									 75.0f);
 
 	// Add all of these distances together
 	float totalDist = 0.0f;
@@ -127,17 +129,17 @@ void ShotProjectileHog::collision(Vector &position)
 		// Calcuate the angle for the shot
 		float angleXYDegs = 360.0f * RAND;
 		float angleYZDegs = 30.0f * RAND + 50.0f;
-		float power = 300.0f * RAND + 150.0f;
+		float power = 1000.0f;
 		if (shootAt)
 		{
 			// We have a tank to aim at
 			// Aim a shot towards it
 			TankLib::getShotTowardsPosition(position, 
-				shootAt->getPhysics().getTankPosition(), 200.0f, 
+				shootAt->getPhysics().getTankPosition(), -1.0f, 
 				angleXYDegs, angleYZDegs, power);
 
-			angleXYDegs += (RAND * 10.0f) + -5.0f;
-			angleYZDegs += (RAND * 10.0f) + -5.0f;
+			angleXYDegs += (RAND * 30.0f) + -15.0f;
+			angleYZDegs += (RAND * 30.0f) + -15.0f;
 		}
 
 		// Create the shot
@@ -150,7 +152,7 @@ void ShotProjectileHog::collision(Vector &position)
 			new ShotProjectileUnder(
 				position, velocity,
 				weapon_, playerId_, 
-				3, explosive_);
+				5, explosive_);
 		ActionController::instance()->addAction(newShot);	
 	}
 }

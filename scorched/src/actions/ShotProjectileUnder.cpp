@@ -44,7 +44,9 @@ ShotProjectileUnder::~ShotProjectileUnder()
 
 void ShotProjectileUnder::init()
 {
+	ShotProjectile::init();
 	collisionInfo_.collisionOnSurface = false;
+	setActionRender(0);
 }
 
 bool ShotProjectileUnder::writeAction(NetBuffer &buffer)

@@ -124,9 +124,22 @@ void TankAIHuman::playMove(const unsigned state,
 		{
 			currentTank_->getAccessories().getWeapons().nextWeapon();
 		}
-		TankModelRendererHUD::setText(
-			"Weapon : ",
-			currentTank_->getAccessories().getWeapons().getCurrent()->getName());
+		int wcount = currentTank_->getAccessories().getWeapons().getWeaponCount(
+			currentTank_->getAccessories().getWeapons().getCurrent());
+		if (wcount > 0)
+		{
+			char buffer[256];
+			sprintf(buffer, "%s (%i)", 
+				currentTank_->getAccessories().getWeapons().getCurrent()->getName(), wcount);
+			TankModelRendererHUD::setText("Weapon : ", buffer);
+		}
+		else
+		{
+			char buffer[256];
+			sprintf(buffer, "%s (In)", 
+				currentTank_->getAccessories().getWeapons().getCurrent()->getName());
+			TankModelRendererHUD::setText("Weapon : ", buffer);
+		}
 	KEYPRESS_END
 }
 

@@ -35,6 +35,7 @@ public:
 	Action *fireWeapon(unsigned int playerId);
 	virtual const char *getFiredSound();
 	virtual const char *getExplosionSound();
+	virtual const char *getExplosionTexture();
 
 protected:
 	int size_;

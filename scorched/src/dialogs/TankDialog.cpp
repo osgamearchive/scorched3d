@@ -37,7 +37,7 @@ TankDialog *TankDialog::instance()
 }
 
 TankDialog::TankDialog() :
-	GLWWindow("Player", 110, 10, 195, 65, eTransparent | eSmallTitle)
+	GLWWindow("Player", 110, 10, 215, 65, eTransparent | eSmallTitle)
 {
 
 }
@@ -191,11 +191,29 @@ void TankDialog::drawTankDetails(Tank *current)
 		current->getState().getPower(),
 		current->getState().getPower() - 
 		current->getState().getOldPower());
-	GLWFont::instance()->getFont()->draw(
-		yellow,
-		12.0f,
-		x_ + 65.0f,
-		y_ + h_ - 62.0f,
-		0.0f,
-		current->getAccessories().getWeapons().getCurrent()->getName());
+
+	int count = current->getAccessories().getWeapons().getWeaponCount(
+		current->getAccessories().getWeapons().getCurrent());
+	if (count>0)
+	{
+		GLWFont::instance()->getFont()->draw(
+			yellow,
+			12.0f,
+			x_ + 65.0f,
+			y_ + h_ - 62.0f,
+			0.0f,
+			"%s (%i)", 
+			current->getAccessories().getWeapons().getCurrent()->getName(), count);
+	}
+	else
+	{
+		GLWFont::instance()->getFont()->draw(
+			yellow,
+			12.0f,
+			x_ + 65.0f,
+			y_ + h_ - 62.0f,
+			0.0f,
+			"%s (In)", 
+			current->getAccessories().getWeapons().getCurrent()->getName());
+	}
 }

@@ -85,7 +85,8 @@ void TankLib::getShotTowardsPosition(Vector &position, Vector &shootAt, float di
 	// Special case
 	// If we are less than a certain distance and under the position we
 	// will use a direct shot on full power
-	if ((distance2D < distForSniper) && (shootAt[2] >= position[2]))
+	if (((distance2D < distForSniper) && (shootAt[2] >= position[2])) ||
+		(distForSniper == -1.0f))
 	{
 		power = 1000.0f;
 		float angleYZRads = atan2f(distance2D, direction[2]);

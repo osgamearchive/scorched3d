@@ -61,3 +61,8 @@ const char *WeaponRiotBomb::getExplosionSound()
 {
 	return PKGDIR "data/wav/explosions/crunch.wav";
 }
+
+const char *WeaponRiotBomb::getExplosionTexture()
+{
+	return "exp03";
+}

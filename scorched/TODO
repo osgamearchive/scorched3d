@@ -43,9 +43,11 @@ Server logging added
 Unqiue user id added - should allow game stats from the server
 Tanks can move (after about 100 user requests for it).
 Fuel added to accessories.
-Random tank model option available from tank screen
+Random tank model option available from tank screen.
 Napalm added to accessories.
 Leapfrog added to accessories.
+Sand Hogs added to accessories.
+Diggers added to accessories.
 
 XML parser added
 Changed all paths to be in unix style
@@ -107,7 +109,6 @@ Configurable camera views using ctrl-2 etc...
 Towers can't move
 More weapons, always more weapons
 rollers.
-Sand hogs
 lasers
 plasma blast
 different hp / weapons capabilities for different tanks?

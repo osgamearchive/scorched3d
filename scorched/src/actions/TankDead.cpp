@@ -29,7 +29,6 @@
 #include <engine/ActionController.h>
 #include <common/OptionsGame.h>
 #include <common/OptionsParam.h>
-#include <common/SoundStore.h>
 #include <common/Defines.h>
 #include <common/Logger.h>
 
@@ -61,40 +60,34 @@ void TankDead::simulate(float frameTime, bool &remove)
 	{
 		firstTime_ = false;
 
-		if (!OptionsParam::instance()->getOnServer()) 
-		{
-			CACHE_SOUND(sound,  PKGDIR "data/wav/explosions/tank.wav");
-			sound->play();
-		}
-
 		Tank *killedTank = 
 			TankContainer::instance()->getTankById(killedPlayerId_);
 		Tank *firedTank = 
 			TankContainer::instance()->getTankById(firedPlayerId_);
 
-		// Print the banner on who killed who
-		if (killedTank && firedTank)
-		{
-			if (killedPlayerId_ == firedPlayerId_)
-			{
-				Logger::log(firedTank,
-					"\"%s\" killed self with a \"%s\"",
-					killedTank->getName(),
-					weapon_->getName());
-			}
-			else 
-			{
-				Logger::log(firedTank,
-						"\"%s\" killed %s with a \"%s\"",
-						firedTank->getName(),
-						killedTank->getName(),
-						weapon_->getName());
-			}
-		}
-
 		if (killedTank && 
 			killedTank->getState().getState() == TankState::sNormal)
 		{
+			// Print the banner on who killed who
+			if (killedTank && firedTank)
+			{
+				if (killedPlayerId_ == firedPlayerId_)
+				{
+					Logger::log(firedTank,
+						"\"%s\" killed self with a \"%s\"",
+						killedTank->getName(),
+						weapon_->getName());
+				}
+				else 
+				{
+					Logger::log(firedTank,
+							"\"%s\" killed \"%s\" with a \"%s\"",
+							firedTank->getName(),
+							killedTank->getName(),
+							weapon_->getName());
+				}
+			}
+
 			if (!OptionsParam::instance()->getOnServer()) 
 			{
 				setActionRender(
