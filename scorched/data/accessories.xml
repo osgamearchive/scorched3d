@@ -379,6 +379,7 @@ Leaves a marker at the final position.</description>
 		<smoke>false</smoke>
 		<explosiontexture>exp03</explosiontexture>
 		<firedsound>shoot/flare.wav</firedsound>
+		<projectilemodel type="MilkShape">flare.txt</projectilemodel>
 	</weapon>
 	<weapon type="WeaponTracer">
 		<name>Smoke Tracer</name>
