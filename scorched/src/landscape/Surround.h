@@ -21,32 +21,18 @@
 #if !defined(AFX_SURROUND_H__E92604A2_6E7D_4810_9685_B699CE743B19__INCLUDED_)
 #define AFX_SURROUND_H__E92604A2_6E7D_4810_9685_B699CE743B19__INCLUDED_
 
-#include <landscape/SurroundDefs.h>
-#include <landscape/Hemisphere.h>
+#include <landscape/SurroundDefault.h>
 
 class Surround
 {
 public:
-	Surround(SurroundDefs &defs);
+	Surround(HeightMap &map, int width, int height);
 	virtual ~Surround();
 
-	void simulate(float frameTime);
 	void draw();
 
-	void clear();
-
 protected:
-	static Surround *instance_;
-	float xy_;
-	float cloudSpeed_;
-	float cloudDirection_;
-	std::list<Hemisphere::HemispherePoint> layer1_;
-	std::list<Hemisphere::HemispherePoint> layer2_;
-
-	void drawLayer(
-		std::list<Hemisphere::HemispherePoint> &layer,
-		float radius, float radius2, float x, float y,
-		bool useColor);
+	SurroundDefault default_;
 
 };
 

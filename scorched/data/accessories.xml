@@ -98,7 +98,7 @@ be activated before they work.</description>
 		<radius>large</radius>
 		<halfshield>true</halfshield>
 		<deflectpower>50</deflectpower>
-		<color><r>1.0</r><g>1.0</g><b>1.0</b></color>
+		<color><r>0.0</r><g>1.0</g><b>0.0</b></color>
 		<activationsound>shield/activate.wav</activationsound>
 		<collisionsound>shield/hit2.wav</collisionsound>
 		<removepower>4</removepower>
@@ -117,7 +117,7 @@ activated before they work.</description>
 		<radius>large</radius>
 		<halfshield>true</halfshield>
 		<deflectpower>100</deflectpower>
-		<color><r>0.5</r><g>1.0</g><b>1.0</b></color>
+		<color><r>1.0</r><g>0.0</g><b>0.0</b></color>
 		<activationsound>shield/activate.wav</activationsound>
 		<collisionsound>shield/hit2.wav</collisionsound>
 		<removepower>4</removepower>

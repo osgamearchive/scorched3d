@@ -175,10 +175,10 @@ void Explosion::init()
 					0.2f, 0.5f, // Mass
 					0.01f, 0.02f, // Friction
 					Vector(0.0f, 0.0f, 0.0f), Vector(0.0f, 0.0f, 0.0f), // Velocity
-					Vector(1.0f, 1.0f, 1.0f), 0.8f, // StartColor1
-					Vector(1.0f, 1.0f, 1.0f), 0.9f, // StartColor2
-					Vector(1.0f, 1.0f, 1.0f), 0.0f, // EndColor1
-					Vector(1.0f, 1.0f, 1.0f), 0.1f, // EndColor2
+					expColor, 0.8f, // StartColor1
+					expColor, 0.9f, // StartColor2
+					expColor, 0.0f, // EndColor1
+					expColor, 0.1f, // EndColor2
 					0.2f, 0.2f, 0.5f, 0.5f, // Start Size
 					2.2f, 2.2f, 4.0f, 4.0f, // EndSize
 					Vector(0.0f, 0.0f, 0.0f), // Gravity

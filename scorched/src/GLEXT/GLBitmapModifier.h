@@ -23,7 +23,6 @@
 
 #include <GLEXT/GLBitmap.h>
 #include <landscape/HeightMap.h>
-#include <landscape/DeformLandscape.h>
 #include <common/Vector.h>
 
 namespace GLBitmapModifier  

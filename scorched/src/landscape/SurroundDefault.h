@@ -18,18 +18,23 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <landscape/Surround.h>
+#if !defined(AFX_SurroundDefault_H__2FD73942_AF29_49ED_8DD8_925E2E14E464__INCLUDED_)
+#define AFX_SurroundDefault_H__2FD73942_AF29_49ED_8DD8_925E2E14E464__INCLUDED_
 
-Surround::Surround(HeightMap &map, int width, int height) : 
-	default_(map, width, height)
-{
-}
+#include <landscape/HeightMap.h>
 
-Surround::~Surround()
+class SurroundDefault  
 {
-}
+public:
+	SurroundDefault(HeightMap &map, int width, int height);
+	virtual ~SurroundDefault();
 
-void Surround::draw()
-{
-	default_.draw();
-}
+	void draw();
+
+protected:
+	Vector hMapBoxVerts_[16];
+	void generateList();
+
+};
+
+#endif // !defined(AFX_SurroundDefault_H__2FD73942_AF29_49ED_8DD8_925E2E14E464__INCLUDED_)

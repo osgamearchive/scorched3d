@@ -59,7 +59,8 @@ TankModelRenderer::TankModelRenderer(Tank *tank) :
 	model_(0), canSeeTank_(false),
 	smokeTime_(0.0f), smokeWaitForTime_(0.0f),
 	fireOffSet_(0.0f), shieldHit_(0.0f),
-	posX_(0.0f), posY_(0.0f), posZ_(0.0f), totalTime_(0.0f)
+	posX_(0.0f), posY_(0.0f), posZ_(0.0f), 
+	totalTime_(0.0f), totalTime2_(1.5f)
 {
 	model_ = TankModelStore::instance()->getModelByName(
 		tank->getModel().getModelName());
@@ -161,6 +162,7 @@ void TankModelRenderer::drawShield()
 	// Create the shield textures
 	static GLTexture *texture = 0;
 	static GLTexture *texture2 = 0;
+	static GLTexture *magtexture = 0;
 	static GLUquadric *obj = 0;
 	if (!texture)
 	{
@@ -171,9 +173,13 @@ void TankModelRenderer::drawShield()
 
 		std::string file2 = getDataFile("data/textures/bordershield/grid22.bmp");
 		GLBitmap map2(file2.c_str(), file2.c_str(), false);
-
 		texture2 = new GLTexture;
 		texture2->create(map2, GL_RGBA, true);
+
+		std::string file3 = getDataFile("data/textures/bordershield/hit.bmp");
+		GLBitmap map3(file3.c_str(), file3.c_str(), false);
+		magtexture = new GLTexture;
+		magtexture->create(map3, GL_RGBA, true);
 
 		obj = gluNewQuadric();
 		gluQuadricTexture(obj, GL_TRUE);
@@ -201,23 +207,20 @@ void TankModelRenderer::drawShield()
 			Hemisphere::draw(6.0f, 6.0f, 10, 10, 6, 0, true);
 			Hemisphere::draw(6.0f, 6.0f, 10, 10, 6, 0, false);
 		glEndList();
-		const char *magFile = getDataFile("data/textures/glow1.bmp");
-		GLBitmap magMap(magFile, magFile, false);
-		magTexture.create(magMap, GL_RGBA);
 	}
 
 	// Draw the actual shield
 	Shield *shield = tank_->getAccessories().getShields().getCurrentShield();
-	GLState state(GLState::BLEND_ON | GLState::TEXTURE_ON); 
+	if (!shield) return;
 
+	GLState state(GLState::BLEND_ON | GLState::TEXTURE_ON); 
 	Vector &position = tank_->getPhysics().getTankPosition();
 	Vector &color = shield->getColor();
-	texture->draw();
-	glPushMatrix();
+	if (shield->getShieldType() == Shield::ShieldTypeMag)
+	{
+		magtexture->draw();
 		glColor4f(color[0], color[1], color[2], 0.5f + shieldHit_);
-		if (shield->getShieldType() == Shield::ShieldTypeMag)
-		{
-			magTexture.draw();
+		glPushMatrix();
 			float scale = totalTime_ / 2.0f;
 			glTranslatef(position[0], position[1], position[2] + scale + 1.0f);
 			glScalef(scale, scale, scale);
@@ -230,22 +233,60 @@ void TankModelRenderer::drawShield()
 				glVertex3f(-1.0f, -1.0f, 0.0f);
 				glTexCoord2d(0.0f, 1.0f);
 				glVertex3f(-1.0f, 1.0f, 0.0f);
+				glTexCoord2d(0.0f, 1.0f);
+				glVertex3f(-1.0f, 1.0f, 0.0f);
+				glTexCoord2d(0.0f, 0.0f);
+				glVertex3f(-1.0f, -1.0f, 0.0f);
+				glTexCoord2d(1.0f, 0.0f);
+				glVertex3f(1.0f, -1.0f, 0.0f);
+				glTexCoord2d(1.0f, 1.0f);
+				glVertex3f(1.0f, 1.0f, 0.0f);
 			glEnd();
-		}
-		else if (shield->getHalfShield())
-		{
+		glPopMatrix();
+		glPushMatrix();
+			scale = totalTime2_ / 2.0f;
+			glTranslatef(position[0], position[1], position[2] + scale + 1.0f);
+			glScalef(scale, scale, scale);
+			glBegin(GL_QUADS);
+				glTexCoord2d(1.0f, 1.0f);
+				glVertex3f(1.0f, 1.0f, 0.0f);
+				glTexCoord2d(1.0f, 0.0f);
+				glVertex3f(1.0f, -1.0f, 0.0f);
+				glTexCoord2d(0.0f, 0.0f);
+				glVertex3f(-1.0f, -1.0f, 0.0f);
+				glTexCoord2d(0.0f, 1.0f);
+				glVertex3f(-1.0f, 1.0f, 0.0f);
+				glTexCoord2d(0.0f, 1.0f);
+				glVertex3f(-1.0f, 1.0f, 0.0f);
+				glTexCoord2d(0.0f, 0.0f);
+				glVertex3f(-1.0f, -1.0f, 0.0f);
+				glTexCoord2d(1.0f, 0.0f);
+				glVertex3f(1.0f, -1.0f, 0.0f);
+				glTexCoord2d(1.0f, 1.0f);
+				glVertex3f(1.0f, 1.0f, 0.0f);
+			glEnd();
+		glPopMatrix();
+	}
+	else if (shield->getHalfShield())
+	{
+		texture->draw();
+		glPushMatrix();
+			glColor4f(color[0], color[1], color[2], 0.5f + shieldHit_);
 			glTranslatef(position[0], position[1], position[2]);
 			if (shield->getRadius() == Shield::ShieldSizeSmall) glCallList(smallHalfListNo);
 			else glCallList(largeHalfListNo);
-		}
-		else
-		{
+		glPopMatrix();
+	}
+	else
+	{
+		texture->draw();
+		glPushMatrix();
+			glColor4f(color[0], color[1], color[2], 0.5f + shieldHit_);
 			glTranslatef(position[0], position[1], position[2]);
 			if (shield->getRadius() == Shield::ShieldSizeSmall) glCallList(smallListNo);
 			else glCallList(largeListNo);
-		}
-	glPopMatrix();
-	glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+		glPopMatrix();
+	}
 }
 
 void TankModelRenderer::drawParachute()
@@ -295,8 +336,11 @@ void TankModelRenderer::shieldHit()
 
 void TankModelRenderer::simulate(float frameTime)
 {
-	totalTime_ += frameTime;
-	if (totalTime_ > 3.0f) totalTime_ = 0.0f;
+	totalTime_ += frameTime * 4.0f;
+	if (totalTime_ > 1.5f) totalTime_ = 0.0f;
+	totalTime2_ += frameTime * 4.0f;
+	if (totalTime2_ > 3.0f) totalTime2_ = 1.5f;
+
 	if (fireOffSet_ < 0.0f)
 	{
 		fireOffSet_ += frameTime / 25.0f;

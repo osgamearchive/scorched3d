@@ -54,6 +54,13 @@ static LandscapeTexType *fetchObjectTexType(const char *type)
 	return 0;
 }
 
+static LandscapeTexType *fetchSurroundTexType(const char *type)
+{
+	if (0 == strcmp(type, "none")) return new LandscapeTexTypeNone;
+	dialogMessage("LandscapeTexType", "Unknown surround type %s", type);
+	return 0;
+}
+
 bool LandscapeTexTypeNone::writeMessage(NetBuffer &buffer)
 {
 	return true;
@@ -234,7 +241,7 @@ bool LandscapeTexTextureGenerate::readXML(XMLNode *node)
 }
 
 LandscapeTex::LandscapeTex() :
-	border(0), texture(0)
+	border(0), texture(0), surround(0)
 {
 }
 
@@ -242,6 +249,7 @@ LandscapeTex::~LandscapeTex()
 {
 	delete border;
 	delete texture;
+	delete surround;
 	for (unsigned int i=0; i<objects.size(); i++)
 	{
 		delete objects[i];
@@ -266,6 +274,8 @@ bool LandscapeTex::writeMessage(NetBuffer &buffer)
 	if (!border->writeMessage(buffer)) return false;
 	buffer.addToBuffer(texturetype);
 	if (!texture->writeMessage(buffer)) return false;
+	buffer.addToBuffer(surroundtype);
+	if (!surround->writeMessage(buffer)) return false;
 
 	int size = (int) objects.size();
 	buffer.addToBuffer(size);
@@ -297,6 +307,10 @@ bool LandscapeTex::readMessage(NetBufferReader &reader)
 	if (!reader.getFromBuffer(texturetype)) return false;
 	if (!(texture = fetchTextureTexType(texturetype.c_str()))) return false;
 	if (!texture->readMessage(reader)) return false;
+
+	if (!reader.getFromBuffer(surroundtype)) return false;
+	if (!(surround = fetchSurroundTexType(surroundtype.c_str()))) return false;
+	if (!surround->readMessage(reader)) return false;
 
 	int size = 0;
 	if (!reader.getFromBuffer(size)) return false;
@@ -345,6 +359,13 @@ bool LandscapeTex::readXML(XMLNode *node)
 		if (!textureNode->getNamedParameter("type", texturetype)) return false;
 		if (!(texture = fetchTextureTexType(texturetype.c_str()))) return false;
 		if (!texture->readXML(textureNode)) return false;
+	}
+	{
+		XMLNode *surroundNode;
+		if (!node->getNamedChild("surround", surroundNode)) return false;
+		if (!surroundNode->getNamedParameter("type", surroundtype)) return false;
+		if (!(surround = fetchSurroundTexType(surroundtype.c_str()))) return false;
+		if (!surround->readXML(surroundNode)) return false;
 	}
 	{
 		XMLNode *placementsNode, *placementNode;

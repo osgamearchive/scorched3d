@@ -133,6 +133,8 @@ public:
 	LandscapeTexType *border;
 	std::string texturetype;
 	LandscapeTexType *texture;
+	std::string surroundtype;
+	LandscapeTexType *surround;
 
 	std::vector<std::string> objectstype;
 	std::vector<LandscapeTexType *> objects;

@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,18 +18,32 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <landscape/Surround.h>
+#if !defined(__INCLUDE_SkyDomeh_INCLUDE__)
+#define __INCLUDE_SkyDomeh_INCLUDE__
 
-Surround::Surround(HeightMap &map, int width, int height) : 
-	default_(map, width, height)
-{
-}
+#include <landscape/Hemisphere.h>
 
-Surround::~Surround()
+class SkyDome
 {
-}
+public:
+	SkyDome();
+	virtual ~SkyDome();
 
-void Surround::draw()
-{
-	default_.draw();
-}
+	void simulate(float frameTime);
+	void draw();
+	void generate();
+
+protected:
+	float xy_;
+	float cloudSpeed_;
+	float cloudDirection_;
+	std::list<Hemisphere::HemispherePoint> layer1_;
+	std::list<Hemisphere::HemispherePoint> layer2_;
+
+	void drawLayer(
+		std::list<Hemisphere::HemispherePoint> &layer,
+		float radius, float radius2, float x, float y,
+		bool useColor);
+};
+
+#endif // __INCLUDE_SkyDomeh_INCLUDE__

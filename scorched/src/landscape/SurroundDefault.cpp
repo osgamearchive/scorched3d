@@ -18,30 +18,13 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+#include <GLEXT/GLState.h>
+#include <landscape/SurroundDefault.h>
 
-// SurroundDefs.cpp: implementation of the SurroundDefs class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#include <landscape/SurroundDefs.h>
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
-
-SurroundDefs::SurroundDefs(HeightMap &map, int width, int height)
+SurroundDefault::SurroundDefault(HeightMap &map, int width, int height)
 {
 	Vector centre(map.getWidth() / 2, map.getWidth() / 2, height);
 	Vector offset(width, width, height);
-
-	skyBoxVerts_[0] = Vector(centre[0] - offset[0], centre[1] + offset[1], centre[2] + offset[2]);
-	skyBoxVerts_[1] = Vector(centre[0] + offset[0], centre[1] + offset[1], centre[2] + offset[2]);
-	skyBoxVerts_[2] = Vector(centre[0] + offset[0], centre[1] + offset[1], centre[2] - offset[2]);
-	skyBoxVerts_[3] = Vector(centre[0] - offset[0], centre[1] + offset[1], centre[2] - offset[2]);
-	skyBoxVerts_[4] = Vector(centre[0] - offset[0], centre[1] - offset[1], centre[2] + offset[2]);
-	skyBoxVerts_[5] = Vector(centre[0] + offset[0], centre[1] - offset[1], centre[2] + offset[2]);
-	skyBoxVerts_[6] = Vector(centre[0] + offset[0], centre[1] - offset[1], centre[2] - offset[2]);
-	skyBoxVerts_[7] = Vector(centre[0] - offset[0], centre[1] - offset[1], centre[2] - offset[2]);
 
 	Vector offset2(map.getWidth() / 2, map.getWidth() / 2, height);
 	hMapBoxVerts_[0] = Vector(centre[0] - offset2[0], centre[1] - offset2[1], centre[2] - offset[2]);
@@ -66,7 +49,67 @@ SurroundDefs::SurroundDefs(HeightMap &map, int width, int height)
 	hMapBoxVerts_[15] = Vector(centre[0] + offset3[0], centre[1] - offset2[1], centre[2] - offset[2]);
 }
 
-SurroundDefs::~SurroundDefs()
+SurroundDefault::~SurroundDefault()
 {
 
+}
+
+void SurroundDefault::draw()
+{
+	static GLuint listNo = 0;
+	if (listNo)
+	{
+		glCallList(listNo);
+	}
+	else
+	{
+		glNewList(listNo = glGenLists(1), GL_COMPILE);
+			generateList();
+		glEndList();
+	}
+}
+
+void SurroundDefault::generateList()
+{
+	const int dataOfs[8][4] = {
+		{8,11,3,0},
+		{1,2,10,9},
+		{4,8,0,12},
+		{11,7,15,3},
+		{3,15,14,2},
+		{2,14,6,10},
+		{13,1,9,5},
+		{12,0,1,13}
+	};
+
+	const float mapping[8][4][2] = { 
+		{{0,0}, {1,0}, {1,1}, {0,1}},
+		{{0,0}, {1,0}, {1,1}, {0,1}},
+		{{0,0}, {1,0}, {1,1}, {0,1}},
+		{{0,0}, {1,0}, {1,1}, {0,1}},
+		{{0,0}, {1,0}, {1,1}, {0,1}},
+		{{0,0}, {1,0}, {1,1}, {0,1}},
+		{{0,0}, {1,0}, {1,1}, {0,1}},
+		{{0,0}, {1,0}, {1,1}, {0,1}}
+	};
+
+	glColor3f(1.0f, 1.0f, 1.0f);
+	glBegin(GL_QUADS);
+	for (int i=0; i<8; i++) 
+	{
+		for (int j=0; j<4; j++) 
+		{
+			float x = hMapBoxVerts_[dataOfs[i][j]][0];
+			float y = hMapBoxVerts_[dataOfs[i][j]][1];
+
+			x /= 64.0f;
+			y /= 64.0f;
+
+			glTexCoord2f(x, y);
+			Vector pos = hMapBoxVerts_[dataOfs[i][j]];
+			if (pos.Magnitude()> 500) pos[2] -= 15.0f;
+			glVertex3fv(pos);
+		}
+	}
+	glEnd();
 }

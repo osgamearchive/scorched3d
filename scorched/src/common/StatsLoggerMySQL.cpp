@@ -23,6 +23,7 @@
 #include <common/StatsLoggerMySQL.h>
 #include <common/OptionsGame.h>
 #include <common/Logger.h>
+#include <coms/NetInterface.h>
 #include <server/ServerCommon.h>
 #include <weapons/AccessoryStore.h>
 #include <server/ScorchedServer.h>
@@ -360,9 +361,8 @@ void StatsLoggerMySQL::tankJoined(Tank *tank)
 		"playerid=%i AND name=\"%s\";", prefix_.c_str(), playerId, tank->getName());
 
 	// IP address
-	unsigned int ip = 
-		ScorchedServer::instance()->getNetInterface().
-			getIpAddress(tank->getDestinationId());
+	NetInterface &netinterface = ScorchedServer::instance()->getNetInterface();
+	unsigned int ip = netinterface.getIpAddress(tank->getDestinationId());
 	unsigned char address[4];
 	memcpy(address, &ip, sizeof(address));
 

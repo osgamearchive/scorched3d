@@ -38,6 +38,7 @@ Tank::Tank(ScorchedContext &context,
 {
 	physics_.setTank(this);
 	state_.setTank(this);
+	state_.setState(TankState::sPending);
 }
 
 Tank::~Tank()

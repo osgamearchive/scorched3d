@@ -18,6 +18,7 @@
 			<wavetexture2>data/textures/waves.bmp</wavetexture2>
 			<height>5.0</height>
 		</border>
+		<surround type="none"></surround>
 		<texture type="generate">
 			<rockside>data/textures/landscape/default/rockside.bmp</rockside>
 			<shore>data/textures/landscape/default/shore.bmp</shore>
@@ -57,7 +58,8 @@
 			<wavetexture1>data/textures/waves.bmp</wavetexture1>
 			<wavetexture2>data/textures/waves.bmp</wavetexture2>
 			<height>5.0</height>
-		</border>				
+		</border>
+		<surround type="none"></surround>
 		<texture type="generate">
 			<rockside>data/textures/landscape/hell/rockside.bmp</rockside>
 			<shore>data/textures/landscape/hell/shore.bmp</shore>
@@ -87,7 +89,8 @@
 			<wavetexture1>data/textures/waves.bmp</wavetexture1>
 			<wavetexture2>data/textures/waves.bmp</wavetexture2>
 			<height>5.0</height>
-		</border>				
+		</border>
+		<surround type="none"></surround>
 		<texture type="generate">
 			<rockside>data/textures/landscape/sand/rockside.bmp</rockside>
 			<shore>data/textures/landscape/sand/shore.bmp</shore>
@@ -127,7 +130,8 @@
 			<wavetexture1>data/textures/waves.bmp</wavetexture1>
 			<wavetexture2>data/textures/waves.bmp</wavetexture2>
 			<height>5.0</height>
-		</border>				
+		</border>
+		<surround type="none"></surround>
 		<texture type="generate">
 			<rockside>data/textures/landscape/snow/rockside.bmp</rockside>
 			<shore>data/textures/landscape/snow/shore.bmp</shore>
@@ -167,7 +171,8 @@
 			<wavetexture1>data/textures/waves.bmp</wavetexture1>
 			<wavetexture2>data/textures/waves.bmp</wavetexture2>
 			<height>5.0</height>
-		</border>				
+		</border>
+		<surround type="none"></surround>
 		<texture type="generate">
 			<rockside>data/textures/landscape/tropical/rockside.bmp</rockside>
 			<shore>data/textures/landscape/tropical/shore.bmp</shore>
@@ -207,7 +212,8 @@
 			<wavetexture1>data/textures/waves.bmp</wavetexture1>
 			<wavetexture2>data/textures/waves.bmp</wavetexture2>
 			<height>5.0</height>
-		</border>				
+		</border>
+		<surround type="none"></surround>
 		<texture type="generate">
 			<rockside>data/textures/landscape/vulcano/rockside.bmp</rockside>
 			<shore>data/textures/landscape/vulcano/shore.bmp</shore>
@@ -237,7 +243,8 @@
 			<wavetexture1>data/textures/waves.bmp</wavetexture1>
 			<wavetexture2>data/textures/waves.bmp</wavetexture2>
 			<height>5.0</height>
-		</border>				
+		</border>
+		<surround type="none"></surround>
 		<texture type="generate">
 			<rockside>data/textures/landscape/storm/rockside.bmp</rockside>
 			<shore>data/textures/landscape/storm/shore.bmp</shore>
@@ -271,7 +278,8 @@
 		<skytimeofday>3</skytimeofday>
 		<skysunxy>110</skysunxy>
 		<skysunyz>25</skysunyz>
-		<border type="none"></border>				
+		<border type="none"></border>
+		<surround type="none"></surround>
 		<texture type="generate">
 			<rockside>data/textures/landscape/storm/rockside.bmp</rockside>
 			<shore>data/textures/landscape/storm/shore.bmp</shore>

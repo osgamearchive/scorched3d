@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,30 +18,28 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+#include <landscape/Sky.h>
 
-// SurroundDefs.h: interface for the SurroundDefs class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_SURROUNDDEFS_H__5D5E88CC_1BA0_4A4B_BF2C_E9B2675A7A8B__INCLUDED_)
-#define AFX_SURROUNDDEFS_H__5D5E88CC_1BA0_4A4B_BF2C_E9B2675A7A8B__INCLUDED_
-
-
-#include <landscape/HeightMap.h>
-
-class SurroundDefs  
+Sky::Sky()
 {
-public:
-	SurroundDefs(HeightMap &map, int width, int height);
-	virtual ~SurroundDefs();
+}
 
-	Vector *getSkyBoxVerts() { return skyBoxVerts_; }
-	Vector *getHmapBoxVerts() { return hMapBoxVerts_; }
+Sky::~Sky()
+{
+}
 
-protected:
-	Vector skyBoxVerts_[8];
-	Vector hMapBoxVerts_[16];
+void Sky::draw()
+{
+	dome_.draw();
+}
 
-};
+void Sky::simulate(float frameTime)
+{
+	dome_.simulate(frameTime);
+}
 
-#endif // !defined(AFX_SURROUNDDEFS_H__5D5E88CC_1BA0_4A4B_BF2C_E9B2675A7A8B__INCLUDED_)
+void Sky::generate()
+{
+	dome_.generate();
+}
+

@@ -48,9 +48,7 @@ Landscape *Landscape::instance()
 
 Landscape::Landscape() : 
 	patchGrid_(&ScorchedClient::instance()->getLandscapeMaps().getHMap(), 16), 
-	surroundDefs_(ScorchedClient::instance()->getLandscapeMaps().getHMap(), 1524, 256), 
-	surround_(surroundDefs_),
-	hMapSurround_(surroundDefs_),
+	surround_(ScorchedClient::instance()->getLandscapeMaps().getHMap(), 1524, 256),
 	resetLandscape_(false), resetLandscapeTimer_(0.0f), 
 	textureType_(eDefault),
 	changeCount_(1)
@@ -84,7 +82,7 @@ void Landscape::simulate(const unsigned state, float frameTime)
 		getActionController().getFast();
 	water_.simulate(frameTime * speedMult);
 	patchGrid_.simulate(frameTime);
-	surround_.simulate(frameTime * speedMult);
+	sky_.simulate(frameTime * speedMult);
 	wall_.simulate(frameTime * speedMult);
 }
 
@@ -184,8 +182,8 @@ void Landscape::draw(const unsigned state)
 	// Be carefull as this we "dull" bilboard textures
 	glEnable(GL_FOG); // NOTE: Fog on
 	surroundTexture_.draw(true);
-	hMapSurround_.draw();
 	surround_.draw();
+	sky_.draw();
 	water_.draw();
 	glDisable(GL_FOG); // NOTE: Fog off
 
@@ -333,6 +331,9 @@ void Landscape::generate(ProgressCounter *counter)
 	fogColorF[3] = 1.0f;
 	glFogfv(GL_FOG_COLOR, fogColorF);
 	
+	// Load the sky
+	sky_.generate();
+
 	// Ensure that all components use new landscape
 	reset();
 }
@@ -367,7 +368,6 @@ void Landscape::reset()
 	recalculate(0, 0, 1000);
 	patchGrid_.forceCalculate(256);
 	changeCount_++;
-	surround_.clear();
 	water_.reset();
 	ScorchedClient::instance()->getParticleEngine().killAll();
 }

@@ -103,7 +103,6 @@ void GLDynamicVertexArray::drawROAM()
 		}
 
 		glDrawArrays(GL_TRIANGLES, 0, used_ / stride);
-		GLInfo::addNoTriangles((used_ / stride) / 3);
 
 		glDisableClientState(GL_VERTEX_ARRAY);
 		if (GLStateExtension::glClientActiveTextureARB())
@@ -120,6 +119,7 @@ void GLDynamicVertexArray::drawROAM()
 		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	}
 
+	GLInfo::addNoTriangles((used_ / stride) / 3);
 	used_ = 0;
 }
 
@@ -158,13 +158,13 @@ void GLDynamicVertexArray::drawQuadStrip(bool useColor)
 
 		// Draw
 		glDrawArrays(GL_QUAD_STRIP, 0, used_ / stride);
-		GLInfo::addNoTriangles((used_ / stride) - 2);
-
+		
 		// Undefine
 		glDisableClientState(GL_VERTEX_ARRAY);
 		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 		if (useColor) glDisableClientState(GL_COLOR_ARRAY);
 	}
 
+	GLInfo::addNoTriangles((used_ / stride) - 2);
 	used_ = 0;
 }

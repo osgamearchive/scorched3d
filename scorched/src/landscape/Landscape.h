@@ -24,7 +24,7 @@
 #include <engine/GameStateI.h>
 #include <landscape/Water.h>
 #include <landscape/PatchGrid.h>
-#include <landscape/HeightMapSurround.h>
+#include <landscape/Sky.h>
 #include <landscape/LandscapeObjects.h>
 #include <landscape/Surround.h>
 #include <landscape/Smoke.h>
@@ -86,8 +86,7 @@ protected:
 	// All objects that are used to draw the scene
 	Wall wall_;
 	PatchGrid patchGrid_;
-	HeightMapSurround hMapSurround_;
-	SurroundDefs surroundDefs_;
+	Sky sky_;
 	Surround surround_;
 	ShadowMap shadowMap_;
 	Smoke smoke_;

@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,30 +18,23 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+#if !defined(__INCLUDE_Skyh_INCLUDE__)
+#define __INCLUDE_Skyh_INCLUDE__
 
-// HeightMapSurround.h: interface for the HeightMapSurround class.
-//
-//////////////////////////////////////////////////////////////////////
+#include <landscape/SkyDome.h>
 
-#if !defined(AFX_HEIGHTMAPSURROUND_H__2FD73942_AF29_49ED_8DD8_925E2E14E464__INCLUDED_)
-#define AFX_HEIGHTMAPSURROUND_H__2FD73942_AF29_49ED_8DD8_925E2E14E464__INCLUDED_
-
-
-#include <landscape/SurroundDefs.h>
-
-class HeightMapSurround  
+class Sky
 {
 public:
-	HeightMapSurround(SurroundDefs &defs);
-	virtual ~HeightMapSurround();
+	Sky();
+	virtual ~Sky();
 
 	void draw();
+	void simulate(float frameTime);
+	void generate();
 
 protected:
-	SurroundDefs &defs_;
-
-	void generateList();
-
+	SkyDome dome_;
 };
 
-#endif // !defined(AFX_HEIGHTMAPSURROUND_H__2FD73942_AF29_49ED_8DD8_925E2E14E464__INCLUDED_)
+#endif // __INCLUDE_Skyh_INCLUDE__
