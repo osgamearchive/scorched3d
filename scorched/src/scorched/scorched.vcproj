@@ -971,6 +971,12 @@
 				RelativePath="..\common\OptionsGame.h">
 			</File>
 			<File
+				RelativePath="..\common\OptionsHomeDir.cpp">
+			</File>
+			<File
+				RelativePath="..\common\OptionsHomeDir.h">
+			</File>
+			<File
 				RelativePath="..\common\OptionsParam.cpp">
 			</File>
 			<File

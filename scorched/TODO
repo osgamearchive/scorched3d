@@ -14,6 +14,7 @@ Fixed: Accessories.xml file format to remove duplication
 Fixed: Computer AIs becoming confused when shots hit off walls
 Fixed: Aming sight is correctly positioned for all tanks
 
+Added: Mods in the users mod directory are moved out the way when a new version is installed
 Added: Each computer AI can now have multiple different buying stratagies
 Added: New aiming algorithm for Cyborg computer AI (copes with wind and tank movement)
 Added: Computer AIs now choose weapons more appropraitely

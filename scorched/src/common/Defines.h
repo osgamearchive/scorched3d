@@ -48,6 +48,7 @@ extern void setDataFileMod(const char *mod);
 extern const char *getDataFileMod();
 extern bool checkDataFile(const char *file, ...);
 extern bool fileExists(const char *file);
+extern bool dirExists(const char *file);
 
 extern const char *getDataFile(const char *file, ...);
 extern const char *getDocFile(const char *file, ...);

@@ -201,6 +201,7 @@ bool ModFiles::exportModFiles(const char *mod, const char *fileName)
 	// Mod Name
 	NetBuffer tmpBuffer;
 	tmpBuffer.reset();
+	tmpBuffer.addToBuffer(ScorchedProtocolVersion);
 	tmpBuffer.addToBuffer(mod);
 	fwrite(tmpBuffer.getBuffer(),
 		sizeof(unsigned char),
@@ -256,9 +257,23 @@ bool ModFiles::importModFiles(const char **mod, const char *fileName)
 
 	// Mod Name
 	static std::string modName;
+	std::string version;
 	NetBufferReader tmpReader(tmpBuffer);
+	if (!tmpReader.getFromBuffer(version)) return false;
 	if (!tmpReader.getFromBuffer(modName)) return false;
 	*mod = modName.c_str();
+
+	if (0 != strcmp(version.c_str(), ScorchedProtocolVersion))
+	{
+		dialogMessage("Scorched3D",
+			"Failed to import mod, scorched version differs.\n"
+			"Please obtain a newer version of this mod.\n"
+			"Import version = %s\n"
+			"Current version = %s\n",
+			version.c_str(),
+			ScorchedProtocolVersion);
+		return false;
+	}
 
 	for (;;)
 	{

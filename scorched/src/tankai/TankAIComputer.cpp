@@ -117,7 +117,7 @@ void TankAIComputer::reset()
 		tankBuyer_ = &tankBuyers_[rand() % tankBuyers_.size()];
 	}
 	else DIALOG_ASSERT(0);
-	tankBuyer_->dumpAccessories();
+	//tankBuyer_->dumpAccessories();
 
 	tankTarget_.reset();
 }

@@ -25,6 +25,8 @@
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <common/Defines.h>
+#include <map>
+#include <string>
 
 unsigned int ScorchedPort = 27270;
 char *ScorchedVersion = "38.1";
@@ -36,6 +38,20 @@ extern bool wxWindowInit;
 bool fileExists(const char *file)
 {
 	return ::wxFileExists(file);
+}
+
+bool dirExists(const char *file)
+{
+	static std::map<std::string, bool> cache_;
+	std::map<std::string, bool>::iterator itor =
+		cache_.find(file);
+	if (itor != cache_.end())
+	{
+		return (*itor).second;
+	}
+	bool result = ::wxDirExists(file);
+	cache_[file] = result;
+	return result;
 }
 
 void dialogMessage(const char *header, const char *fmt, ...)
@@ -198,7 +214,7 @@ const char *getHomeFile(const char *file, ...)
 
 	const char *homeDirStr = S3D_DATADIR;
 	wxString homeDir = ::wxGetHomeDir();
-	if (::wxDirExists(homeDir)) homeDirStr = homeDir.c_str();
+	if (dirExists(homeDir)) homeDirStr = homeDir.c_str();
 
 	sprintf(buffer, "%s/%s", homeDirStr, filename);
 	::wxDos2UnixFilename(buffer);
@@ -216,7 +232,7 @@ const char *getSettingsFile(const char *file ...)
 	                                                                                                    
 	const char *homeDirStr = getHomeFile("");
 	wxString newDir(wxString(homeDirStr) + wxString("/.scorched3d"));
-	if (::wxDirExists(newDir)) homeDirStr = newDir.c_str();
+	if (dirExists(newDir)) homeDirStr = newDir.c_str();
 	else if (::wxMkdir(newDir, 0755)) homeDirStr = newDir.c_str();
 
 	sprintf(buffer, "%s/%s", homeDirStr, filename);
@@ -235,7 +251,7 @@ const char *getLogFile(const char *file ...)
 	                                                                                                    
 	const char *homeDirStr = getSettingsFile("");
 	wxString newDir(wxString(homeDirStr) + wxString("/logs"));
-	if (::wxDirExists(newDir)) homeDirStr = newDir.c_str();
+	if (dirExists(newDir)) homeDirStr = newDir.c_str();
 	else if (::wxMkdir(newDir, 0755)) homeDirStr = newDir.c_str();
 	                                                                                                    
 	sprintf(buffer, "%s/%s", homeDirStr, filename);
@@ -254,7 +270,7 @@ const char *getSaveFile(const char *file ...)
 	static char buffer[1024];
 	const char *homeDirStr = getSettingsFile("");
 	wxString newDir(wxString(homeDirStr) + wxString("/saves"));
-	if (::wxDirExists(newDir)) homeDirStr = newDir.c_str();
+	if (dirExists(newDir)) homeDirStr = newDir.c_str();
 	else if (::wxMkdir(newDir, 0755)) homeDirStr = newDir.c_str();
 	                                                                                                    
 	sprintf(buffer, "%s/%s", homeDirStr, filename);
@@ -273,7 +289,7 @@ const char *getModFile(const char *file ...)
 	static char buffer[1024];
 	const char *homeDirStr = getSettingsFile("");
 	wxString newDir(wxString(homeDirStr) + wxString("/mods"));
-	if (::wxDirExists(newDir)) homeDirStr = newDir.c_str();
+	if (dirExists(newDir)) homeDirStr = newDir.c_str();
 	else if (::wxMkdir(newDir, 0755)) homeDirStr = newDir.c_str();
 	                                                                                                    
 	sprintf(buffer, "%s/%s", homeDirStr, filename);
