@@ -41,12 +41,13 @@ typedef void (* PFNGLCLIENTACTIVETEXTUREARBPROC) (GLenum texture);
 #define GL_ARRAY_BUFFER_ARB 0x8892
 #define GL_STATIC_DRAW_ARB 0x88E4
 #define GL_DYNAMIC_DRAW_ARB 0x88E8
+#define GL_WRITE_ONLY_ARB 0x88B9
 typedef void (APIENTRY * PFNGLBINDBUFFERARBPROC) (GLenum target, GLuint buffer);
 typedef void (APIENTRY * PFNGLDELETEBUFFERSARBPROC) (GLsizei n, const GLuint *buffers);
 typedef void (APIENTRY * PFNGLGENBUFFERSARBPROC) (GLsizei n, GLuint *buffers);
 typedef void (APIENTRY * PFNGLBUFFERDATAARBPROC) (GLenum target, int size, const GLvoid *data, GLenum usage);
 typedef void *(APIENTRY * PFNGLMAPBUFFERARBPROC) (GLenum target, GLenum access);
-typedef GLboolean APIENTRY * PFNGLUNMAPBUFFERARBPROC) (GLenum target);
+typedef GLboolean (APIENTRY * PFNGLUNMAPBUFFERARBPROC) (GLenum target);
 #endif
 
 class GLStateExtension
