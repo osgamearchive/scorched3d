@@ -7,6 +7,20 @@
 		</model>
 	</tank>
 	<tank>
+		<name>Panzer III</name>
+		<model type="ase">
+			<mesh>panzer3.ase</mesh>
+			<skin>panzer3.bmp</skin>
+		</model>
+	</tank>
+	<tank>
+		<name>Flakpanzer Wirbelwind</name>
+		<model type="ase">
+			<mesh>flakpanzerwirbelwind.ase</mesh>
+			<skin>flakpanzerWirbelwind.bmp</skin>
+		</model>
+	</tank>
+	<tank>
 		<name>SA-19 GRISON (2K22 Tunguska)</name>
 		<model type="ase">
 			<mesh>sa-19.ase</mesh>
