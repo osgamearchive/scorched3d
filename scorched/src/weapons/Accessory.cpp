@@ -135,6 +135,12 @@ GLTexture *Accessory::getTexture()
 		texture = new GLTexture();
 		texture->create(bmap, GL_RGBA, false);
 	}
+	else
+	{
+		GLBitmap bmap(getDataFile("data/textures/wicons/%s", "tracer.bmp"), true);
+		texture = new GLTexture();
+		texture->create(bmap, GL_RGBA, false);
+	}
 	texture_ = texture;
 	return texture;
 }

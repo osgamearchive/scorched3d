@@ -1199,4 +1199,22 @@ trace of the shot path.</description>
 			</aimedweapon>
 		</accessoryaction>
 	</accessory>
+
+	<!--<accessory>
+		<name>Laser</name>
+		<armslevel>10</armslevel>
+		<startingnumber>-1</startingnumber>
+		<accessoryaction type='WeaponLaser'>
+			<totaltime>1</totaltime>
+			<minimumdistance>10</minimumdistance>
+			<maximumdistance>200</maximumdistance>
+			<minimumhurt>10</minimumhurt>
+			<maximumhurt>100</maximumhurt>
+			<color>
+				<A>1.0</A>
+				<B>0.0</B>
+				<C>0.0</C>
+			</color>
+		</accessoryaction>
+	</accessory>-->
 </accessories>

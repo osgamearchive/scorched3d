@@ -1816,6 +1816,12 @@
 				RelativePath="..\weapons\WeaponExplosion.h">
 			</File>
 			<File
+				RelativePath="..\weapons\WeaponLaser.cpp">
+			</File>
+			<File
+				RelativePath="..\weapons\WeaponLaser.h">
+			</File>
+			<File
 				RelativePath="..\weapons\WeaponLeapFrog.cpp">
 			</File>
 			<File
@@ -2528,6 +2534,12 @@
 			</File>
 			<File
 				RelativePath="..\actions\Explosion.h">
+			</File>
+			<File
+				RelativePath="..\actions\Laser.cpp">
+			</File>
+			<File
+				RelativePath="..\actions\Laser.h">
 			</File>
 			<File
 				RelativePath="..\actions\Lightning.cpp">
