@@ -117,16 +117,16 @@
 			<item>storm</item>
 		</tex>
 	</landscape>
-	<!--<landscape>
-		<name>test</name>
+	<landscape>
+		<name>cavern</name>
 		<description></description>
 		<picture>valley.bmp</picture>
 		<weight>100</weight>
 		<defn>
-			<item>test</item>
+			<item>cavern</item>
 		</defn>
 		<tex>
-			<item>test</item>
+			<item>cavern</item>
 		</tex>
-	</landscape>-->
+	</landscape>
 </landscapes>

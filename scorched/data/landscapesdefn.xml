@@ -239,7 +239,7 @@
 		</heightmap>
 	</defn>
 	<defn>
-		<name>test</name>
+		<name>cavern</name>
 		<minplayers>0</minplayers>
 		<maxplayers>24</maxplayers>
 		<surround type="none"></surround>
