@@ -127,16 +127,22 @@ XMLNode::~XMLNode()
 		children_.pop_front();
 		delete node;
 	}
-	while (!removedNodes_.empty())
+	while (!removedChildren_.empty())
 	{
-		XMLNode *node = removedNodes_.front();
-		removedNodes_.pop_front();
+		XMLNode *node = removedChildren_.front();
+		removedChildren_.pop_front();
 		delete node;
 	}
 	while (!parameters_.empty())
 	{
 		XMLNode *node = parameters_.front();
 		parameters_.pop_front();
+		delete node;
+	}
+	while (!removedParameters_.empty())
+	{
+		XMLNode *node = removedParameters_.front();
+		removedParameters_.pop_front();
 		delete node;
 	}
 }
@@ -215,6 +221,47 @@ bool XMLNode::failChildren()
 	return true;
 }
 
+void XMLNode::resurrectRemovedChildren()
+{
+	while (!removedChildren_.empty())
+	{
+		XMLNode *node = removedChildren_.front();
+		removedChildren_.pop_front();
+		children_.push_back(node);
+		
+		node->resurrectRemovedChildren();
+	}
+	while (!removedParameters_.empty())
+	{
+		XMLNode *node = removedParameters_.front();
+		removedParameters_.pop_front();
+		parameters_.push_back(node);
+	}
+}
+
+bool XMLNode::getNamedRemovedChild(const char *name, XMLNode *&value,
+	bool failOnError)
+{
+	std::list<XMLNode *>::iterator itor;
+	for (itor = removedChildren_.begin();
+		itor != removedChildren_.end();
+		itor++)
+	{
+		XMLNode *node = (*itor);
+		if (strcmp(name, node->getName()) == 0) 
+		{
+			value = node;
+			return true;
+		}
+	}
+
+	if (failOnError)
+	{
+		returnError(formatString("Failed to find \"%s\" node", name));
+	}
+	return false;	
+}
+
 bool XMLNode::getNamedChild(const char *name, XMLNode *&value,
 	bool failOnError, bool remove)
 {
@@ -228,7 +275,7 @@ bool XMLNode::getNamedChild(const char *name, XMLNode *&value,
 		{
 			if (remove)
 			{
-				removedNodes_.push_back(node);
+				removedChildren_.push_back(node);
 				children_.erase(itor);
 			}
 			value = node;
@@ -256,7 +303,7 @@ bool XMLNode::getNamedParameter(const char *name, XMLNode *&value,
 		{
 			if (remove)
 			{
-				removedNodes_.push_back(node);
+				removedParameters_.push_back(node);
 				parameters_.erase(itor);
 			}
 			value = node;

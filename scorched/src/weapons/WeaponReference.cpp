@@ -42,14 +42,29 @@ bool WeaponReference::parseXML(XMLNode *accessoryNode)
 	std::string subNode;
 	if (!accessoryNode->getNamedChild("weapon", subNode)) return false;
 
-	// Check next weapon is correct type
+	// Find the root node
+	XMLNode *parent = accessoryNode;
+	while (parent->getParent()) parent = (XMLNode *) parent->getParent();
+	
+	// Find the accessory name
+	XMLNode *weaponNode = 0;
+	if (!parent->getNamedRemovedChild(subNode.c_str(), weaponNode, false))
+	{
+		dialogMessage("WeaponReference",
+			"Failed to find weapon \"%s\"",
+			subNode.c_str());
+		return false;	
+	}
+	weaponNode->resurrectRemovedChildren();
+	
+	// Create the new weapon
 	Accessory *accessory = 
-		ScorchedServer::instance()->getAccessoryStore().findByPrimaryAccessoryName(subNode.c_str());
+		ScorchedServer::instance()->getAccessoryStore().createAccessory(weaponNode);
 	if (!accessory || accessory->getType() != Accessory::AccessoryWeapon)
 	{
 		dialogMessage("Accessory",
-			"Failed to find weapon/wrong type \"%s\"",
-			name_.c_str());
+			"Failed to find create weapon/wrong type \"%s\"",
+			subNode.c_str());
 		return false;
 	}
 	refWeapon_ = (Weapon*) accessory;

@@ -79,6 +79,9 @@ public:
 		bool failOnError = true, bool remove = true);
 
 	bool failChildren();
+	void resurrectRemovedChildren();
+	bool getNamedRemovedChild(const char *name, XMLNode *&node,
+		bool failOnError = true);
 
 	void setSource(const char *source);
 	void setLine(int line, int col);
@@ -93,8 +96,9 @@ protected:
 	NodeType type_;
 	XMLNode *parent_;
 	std::list<XMLNode *> children_;
-	std::list<XMLNode *> removedNodes_; // So they are tidied up as well
+	std::list<XMLNode *> removedChildren_; // So they are tidied up as well
 	std::list<XMLNode *> parameters_;
+	std::list<XMLNode *> removedParameters_; // Tidied
 	std::string name_;
 	std::string content_;
 	std::string source_;

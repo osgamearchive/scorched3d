@@ -62,21 +62,9 @@ bool AccessoryStore::parseFile()
 	}
 
 	// Itterate all of the accessories in the file
-    std::list<XMLNode *>::iterator childrenItor;
-	std::list<XMLNode *> &children = file.getRootNode()->getChildren();
-    for (childrenItor = children.begin();
-        childrenItor != children.end();
-        childrenItor++)
-    {
-		// For each node named accessory
-        XMLNode *currentNode = (*childrenItor);
-		if (stricmp(currentNode->getName(), "accessory"))
-		{
-			dialogMessage("AccessoryStore",
-						  "Failed to find weapon node");
-			return false;
-		}
-
+	XMLNode *currentNode = 0;
+	while (file.getRootNode()->getNamedChild("accessory", currentNode))
+	{
 		// Parse the accessory
 		Accessory *accessory = createAccessory(currentNode);
 		if (!accessory) return false;
@@ -85,7 +73,7 @@ bool AccessoryStore::parseFile()
 		accessory->setPrimary(true);
 	}
 
-	return true;
+	return file.getRootNode()->failChildren();
 }
 
 Accessory *AccessoryStore::createAccessory(XMLNode *currentNode)
