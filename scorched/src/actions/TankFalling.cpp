@@ -74,9 +74,9 @@ void TankFalling::init()
 	Tank *current = 
 		context_->tankContainer->getTankById(fallingPlayerId_);
 	if (current && 
-		fallingTanks.find(firedPlayerId_) == fallingTanks.end())
+		fallingTanks.find(fallingPlayerId_) == fallingTanks.end())
 	{
-		fallingTanks[firedPlayerId_] = this;
+		fallingTanks[fallingPlayerId_] = this;
 
 		// Store the start positions
 		tankStartPosition_ = current->getPhysics().getTankPosition();

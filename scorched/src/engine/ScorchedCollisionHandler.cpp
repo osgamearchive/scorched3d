@@ -130,7 +130,7 @@ void ScorchedCollisionHandler::bounceCollision(dGeomID o1, dGeomID o2,
 				((otherInfo->id==CollisionIdShieldLarge)?
 				Shield::ShieldSizeLarge:Shield::ShieldSizeSmall),
 				particle,
-				0.2f);
+				0.0f);
 
 			// Unless there is no shield, we bounce off all shields
 			if (action != ParticleActionNone)
@@ -405,14 +405,20 @@ ScorchedCollisionHandler::ParticleAction ScorchedCollisionHandler::collisionShie
 					switch (shield->getShieldType())
 					{
 					case Shield::ShieldTypeNormal:
-						context_->actionController->addAction(
-							new ShieldHit(tank->getPlayerId(),
-							hitPercentage));
+						if (hitPercentage > 0.0f) 
+						{
+							context_->actionController->addAction(
+								new ShieldHit(tank->getPlayerId(),
+								hitPercentage));
+						}
 						return ParticleActionFinished;
 					case Shield::ShieldTypeReflective:
-						context_->actionController->addAction(
-							new ShieldHit(tank->getPlayerId(),
-							hitPercentage));
+						if (hitPercentage > 0.0f)
+						{
+							context_->actionController->addAction(
+								new ShieldHit(tank->getPlayerId(),
+								hitPercentage));
+						}
 						return ParticleActionBounce;
 					case Shield::ShieldTypeMag:
 						{
@@ -420,9 +426,12 @@ ScorchedCollisionHandler::ParticleAction ScorchedCollisionHandler::collisionShie
 							Vector force(0.0f, 0.0f, magShield->getDeflectPower());
 							shot->applyForce(force);
 
-							tank->getAccessories().getShields().setShieldPower(
-								tank->getAccessories().getShields().getShieldPower() -
-								shield->getHitRemovePower() * hitPercentage);
+							if (hitPercentage > 0.0f)
+							{
+								tank->getAccessories().getShields().setShieldPower(
+									tank->getAccessories().getShields().getShieldPower() -
+									shield->getHitRemovePower() * hitPercentage);
+							}
 						}
 						return ParticleActionNone;
 					}

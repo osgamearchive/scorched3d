@@ -15,6 +15,7 @@ Fixed: Computer AIs becoming confused when shots hit off walls
 Fixed: Aming sight is correctly positioned for all tanks
 Fixed: Bug where a player is assigned black as their color
 Fixed: Ensure tank movement and falling is consistent between server and client
+Fixed: Rollers don't affect shields so badly
 
 Added: Landscape definitions are not sent during new game (instead loaded from mod)
 Added: Laser weapon primitive

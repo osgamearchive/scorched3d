@@ -68,7 +68,7 @@ work.</description>
 		<icon>hshield.bmp</icon>
 		<activationsound>shield/activate.wav</activationsound>
 		<bundlesize>2</bundlesize>
-		<cost>30000</cost>
+		<cost>25000</cost>
 		<accessoryaction type='Shield'>
 			<radius>large</radius>
 			<halfshield>false</halfshield>
@@ -78,7 +78,7 @@ work.</description>
 				<b>1.0</b>
 			</color>
 			<collisionsound>shield/hit.wav</collisionsound>
-			<removepower>15</removepower>
+			<removepower>10</removepower>
 		</accessoryaction>
 	</accessory>
 	<accessory>
@@ -92,9 +92,9 @@ they work.</description>
 		<icon>fshield.bmp</icon>
 		<activationsound>shield/activateforce.wav</activationsound>
 		<bundlesize>3</bundlesize>
-		<cost>25000</cost>
+		<cost>30000</cost>
 		<accessoryaction type='ShieldReflective'>
-			<radius>small</radius>
+			<radius>large</radius>
 			<halfshield>false</halfshield>
 			<color>
 				<r>0.5</r>
@@ -102,7 +102,7 @@ they work.</description>
 				<b>1.0</b>
 			</color>
 			<collisionsound>shield/hit2.wav</collisionsound>
-			<removepower>20</removepower>
+			<removepower>10</removepower>
 		</accessoryaction>
 	</accessory>
 	<accessory>
@@ -152,7 +152,7 @@ activated before they work.</description>
 				<b>0.0</b>
 			</color>
 			<collisionsound>shield/hit2.wav</collisionsound>
-			<removepower>4</removepower>
+			<removepower>3</removepower>
 		</accessoryaction>
 	</accessory>
 	<accessory>
