@@ -20,6 +20,8 @@
 
 #include <scorched/MainDialog.h>
 #include <dialogs/HelpButtonDialog.h>
+#include <common/Sound.h>
+#include <common/OptionsDisplay.h>
 #include <GLEXT/GLViewPort.h>
 #include <GLEXT/GLBitmap.h>
 
@@ -35,7 +37,7 @@ HelpButtonDialog *HelpButtonDialog::instance()
 }
 
 HelpButtonDialog::HelpButtonDialog() : 
-	GLWWindow("", 0.0f, 10.0f, 32.0f, 32.0f, 0, "")
+	GLWWindow("", 0.0f, 10.0f, 64.0f, 32.0f, 0, "")
 {
 		windowLevel_ = 10000;
 }
@@ -53,15 +55,22 @@ void HelpButtonDialog::draw()
 		GLBitmap map(file.c_str(), filea.c_str(), false);
 		helpTexture_.create(map, GL_RGBA, false);
 	}
+	if (!soundTexture_.textureValid())
+	{
+		std::string file = getDataFile("data/windows/sound.bmp");
+		std::string filea = getDataFile("data/windows/sounda.bmp");
+		GLBitmap map(file.c_str(), filea.c_str(), false);
+		soundTexture_.create(map, GL_RGBA, false);
+	}
 
 	setY(float(GLViewPort::getHeight()) - h_);
-	setX(float(GLViewPort::getWidth()) - h_);
+	setX(float(GLViewPort::getWidth()) - w_);
 
 	GLState state(GLState::TEXTURE_ON | GLState::BLEND_ON | GLState::DEPTH_OFF);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	glColor4f(1.0f, 1.0f, 1.0f, 0.5f);
-	helpTexture_.draw();
+	soundTexture_.draw();
 	glBegin(GL_QUADS);
 		glTexCoord2f(0.0f, 0.0f);
 		glVertex2f(x_, y_);
@@ -72,6 +81,18 @@ void HelpButtonDialog::draw()
 		glTexCoord2f(0.0f, 1.0f);
 		glVertex2f(x_, y_ + 32.0f);
 	glEnd();
+
+	helpTexture_.draw();
+	glBegin(GL_QUADS);
+		glTexCoord2f(0.0f, 0.0f);
+		glVertex2f(x_ + 32.0f, y_);
+		glTexCoord2f(1.0f, 0.0f);
+		glVertex2f(x_ + 64.0f, y_);
+		glTexCoord2f(1.0f, 1.0f);
+		glVertex2f(x_ + 64.0f, y_ + 32.0f);
+		glTexCoord2f(0.0f, 1.0f);
+		glVertex2f(x_ + 32.0f, y_ + 32.0f);
+	glEnd();
 }
 
 void HelpButtonDialog::mouseDown(float x, float y, bool &skipRest)
@@ -79,7 +100,24 @@ void HelpButtonDialog::mouseDown(float x, float y, bool &skipRest)
 	if (inBox(x, y, x_, y_, w_, h_))
 	{
 		skipRest = true;
-		runScorched3D("-starthelp");
+		if (x > x_ + 32)
+		{
+			runScorched3D("-starthelp");
+		}
+		else
+		{
+			std::list<GLWSelectorEntry> entries;
+			for (int i=0; i<=10; i++)
+			{
+				entries.push_back(
+					GLWSelectorEntry(
+						formatString("Volume : %i", i * 10), 
+						0, false, 0, (void *) i));
+			}
+
+			GLWSelector::instance()->showSelector(
+				this, x, y, entries);
+		}
 	}
 }
 
@@ -95,4 +133,11 @@ void HelpButtonDialog::keyDown(char *buffer, unsigned int keyState,
 	KeyboardHistory::HistoryElement *history, int hisCount, 
 	bool &skipRest)
 {
+}
+
+void HelpButtonDialog::itemSelected(GLWSelectorEntry *entry, int position)
+{
+	int volume = int(float((int) entry->getUserData()) * 12.8f);
+	Sound::instance()->setVolume(volume);
+	OptionsDisplay::instance()->setSoundVolume(volume);
 }

@@ -22,9 +22,11 @@
 #define __INCLUDE_HelpButtonDialogh_INCLUDE__
 
 #include <GLW/GLWWindow.h>
+#include <GLW/GLWSelector.h>
 #include <GLEXT/GLTexture.h>
 
-class HelpButtonDialog : public GLWWindow
+class HelpButtonDialog : public GLWWindow,
+	public GLWSelectorI
 {
 public:
 	static HelpButtonDialog *instance();
@@ -32,7 +34,12 @@ public:
 protected:
 	static HelpButtonDialog *instance_;
 	GLTexture helpTexture_;
+	GLTexture soundTexture_;
 
+	// GLWSelectorI
+	virtual void itemSelected(GLWSelectorEntry *entry, int position);
+
+	// GLWWindow
 	virtual void draw();
 	virtual void mouseDown(float x, float y, bool &skipRest);
 	virtual void mouseUp(float x, float y, bool &skipRest);
