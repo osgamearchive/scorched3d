@@ -1,4 +1,4 @@
-drop table scorched3d_main, scorched3d_kills, scorched3d_names, scorched3d_players, scorched3d_weapons;
+drop table scorched3d_main, scorched3d_events, scorched3d_eventtypes, scorched3d_names, scorched3d_players, scorched3d_weapons;
 
 create table if not exists scorched3d_main (
 	name varchar(32),
@@ -32,16 +32,22 @@ create table if not exists scorched3d_weapons (
         PRIMARY KEY (weaponid)
         );
 
-create table if not exists scorched3d_kills (
-	killid INTEGER auto_increment, 
-	killer INTEGER,
-	killed INTEGER,
+create table if not exists scorched3d_eventtypes (
+	eventtype INTEGER,
+	name varchar(32),
+	PRIMARY KEY (eventtype)
+	);
+
+create table if not exists scorched3d_events (
+	eventid INTEGER auto_increment, 
+	eventtype INTEGER,
+	playerid INTEGER,
+	otherplayerid INTEGER,
 	weaponid INTEGER,
-	killtime DATETIME,
-	PRIMARY KEY (killid),
-	FOREIGN KEY (killer) REFERENCES players(playerid),
-	FOREIGN KEY (killed) REFERENCES players(playerid),
-	FOREIGN KEY (weaponid) REFERENCES weapons(weaponid)
+	eventtime DATETIME,
+	PRIMARY KEY (eventid),
+	FOREIGN KEY (playerid) REFERENCES scorched3d_players(playerid),
+	FOREIGN KEY (eventtype) REFERENCES scorched3d_eventtypes(eventtype)
 	);
 
 create table if not exists scorched3d_names (
@@ -49,6 +55,6 @@ create table if not exists scorched3d_names (
 	name varchar(64) BINARY NOT NULL DEFAULT "",
 	count INTEGER NOT NULL DEFAULT 0,
 	PRIMARY KEY (playerid, name),
-	FOREIGN KEY (playerid) REFERENCES players(playerid)
+	FOREIGN KEY (playerid) REFERENCES scorched3d_players(playerid)
 	);
 
