@@ -43,6 +43,7 @@ create table if not exists scorched3d_series (
 	
 	started DATETIME,
 	ended DATETIME,
+	name varchar(64),
 	games INTEGER NOT NULL DEFAULT 0,
 	rounds INTEGER NOT NULL DEFAULT 0,
 	type INTEGER NOT NULL DEFAULT 0,
