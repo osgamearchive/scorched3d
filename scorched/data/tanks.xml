@@ -7,6 +7,11 @@
 		</model>
 	</tank>
 	<tank>
+		<name>T-90</name>
+		<catagory>High Def</catagory>
+		<model type="MilkShape">t90/t90.txt</model>
+	</tank>
+	<tank>
 		<name>Tactical High Energy Laser</name>
 		<catagory>High Def</catagory>
 		<model type="MilkShape">thel/thel.txt</model>
