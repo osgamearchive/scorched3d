@@ -131,31 +131,45 @@ BEGIN_EVENT_TABLE(NetLanFrame, wxDialog)
 END_EVENT_TABLE()
 
 NetLanFrame::NetLanFrame() :
-	wxDialog(getMainDialog(), -1, scorched3dAppName, wxPoint(0,0), wxSize(542, 411))
+	wxDialog(getMainDialog(), -1, scorched3dAppName, wxDefaultPosition, wxDefaultSize)
 {
-	CentreOnScreen();
-
 #ifdef _WIN32
 	// Set the frame's icon
 	wxIcon icon(PKGDIR "data/windows/tank2.ico", wxBITMAP_TYPE_ICO);
 	SetIcon(icon);
 #endif
 
+	// Create the positioning sizer
+	wxBoxSizer *topsizer = new wxBoxSizer(wxVERTICAL);
+
+	addTitleToWindow(this, topsizer);
+
+	// Create all the display controls
+	createControlsPre(this, topsizer);
+
 	IDC_SERVER_LIST_CTRL = 
 		new NetListControl(this, IDC_SERVER_LIST,
-		wxPoint((int) 10.5, (int) 55.5), wxSize((int) 516, (int) 170.5));
+		wxDefaultPosition, wxSize((int) 550, (int) 170.5));
+	topsizer->Add(IDC_SERVER_LIST_CTRL, 0, wxALL, 5);
 
 	IDC_PLAYER_LIST_CTRL = 
 		new wxListCtrl(this, IDC_PLAYER_LIST,
-		wxPoint((int) 10.5, (int) 226.5), wxSize((int) 516, (int) 83),
+		wxDefaultPosition, wxSize((int) 550, (int) 100),
 		wxLC_REPORT | wxLC_HRULES | wxLC_VRULES | wxLC_SINGLE_SEL );
+	topsizer->Add(IDC_PLAYER_LIST_CTRL, 0, wxALL, 5);
+
+	// Create all the display controls
+	createControlsPost(this, topsizer);
+
+	// use the sizer for layout
+	SetSizer(topsizer); 
+	topsizer->SetSizeHints(this); // set size hints to honour minimum size
+
+	CentreOnScreen();
 
 	// Create a timer
 	timer_.SetOwner(this, 1001);
 	timer_.Start(3000, false);
-
-	// Create all the display controlls
-	createControls(this);
 	onTimer();
 }
 

@@ -13,7 +13,7 @@ Added: Max player name length increased from 16->22
 Added: Kenny tank model (thanks Knochi)
 Added: Mac OS X compatability patch (thanks C. Thomas)
 Added: Single player mode does not generate landscape before connecting
-Added: Display dialog generated using wxSizers (easier to add new features)
+Added: Most dialogs generated using wxSizers (better look across platforms)
 Added: All used GL extensions can be turned off individually
 Added: Tank model detail can be set using display dialog
 

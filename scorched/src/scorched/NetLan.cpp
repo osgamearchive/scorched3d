@@ -18,50 +18,57 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-
 #include "NetLan-def.cpp"
 #include <common/Defines.h>
 
-static void createControls(wxWindow *parent)
+static void createControlsPre(wxWindow *parent, wxSizer *sizer)
 {
-	new wxStaticText(parent, -1,
-		"Connect To Name/IP : ",
-		wxPoint((int) 30, (int) 10.5));
-	new wxStaticText(parent, -1,
-		"Password : ",
-		wxPoint((int) 30, (int) 34.5));
+	// Name/password
+	wxGridSizer *nameSizer = new wxFlexGridSizer(3, 3, 5, 5);
+	wxStaticText *nameText = 
+		new wxStaticText(parent, -1, "Connect To Name/IP : ");
+	wxStaticText *passText = 
+		new wxStaticText(parent, -1, "Password : ");
 	IDC_EDIT_SERVER_CTRL = 
 		new wxTextCtrl(parent, IDC_EDIT_SERVER,
-		"",
-		wxPoint((int) 147, (int) 6), wxSize((int) 285, (int) 21));
+		"", wxDefaultPosition, wxSize(285, -1));
 	IDC_EDIT_PASSWORD_CTRL = 
 		new wxTextCtrl(parent, IDC_EDIT_PASSWORD,
-		"",
-		wxPoint((int) 147, (int) 30), wxSize((int) 285, (int) 21), wxTE_PASSWORD);
+		"", wxDefaultPosition, wxSize(285, -1), wxTE_PASSWORD);
 	IDC_CLEAR_CTRL = 
 		new wxButton(parent, IDC_CLEAR,
-		"Clear",
-		wxPoint((int) 436.5, (int) 9), wxSize((int) 46.5, (int) 15));
+		"Clear");
 	IDC_CLEAR_PASSWORD_CTRL = 
 		new wxButton(parent, IDC_CLEAR_PASSWORD,
-		"Clear",
-		wxPoint((int) 436.5, (int) 33), wxSize((int) 46.5, (int) 15));
-	IDOK_CTRL = 
-		new wxButton(parent, wxID_OK,
-		"Join Game",
-		wxPoint((int) 451.5, (int) 346.5), wxSize((int) 75, (int) 21));
-	IDCANCEL_CTRL = 
-		new wxButton(parent, wxID_CANCEL,
-		"Cancel",
-		wxPoint((int) 370.5, (int) 346.5), wxSize((int) 75, (int) 21));
+		"Clear");
+	nameSizer->Add(nameText, 0, 0);
+	nameSizer->Add(IDC_EDIT_SERVER_CTRL, 0, 0);
+	nameSizer->Add(IDC_CLEAR_CTRL, 0, 0);
+	nameSizer->Add(passText, 0, 0);
+	nameSizer->Add(IDC_EDIT_PASSWORD_CTRL, 0, 0);
+	nameSizer->Add(IDC_CLEAR_PASSWORD_CTRL, 0, 0);
+	sizer->Add(nameSizer, 0, wxALIGN_CENTER);
+}
+
+
+static void createControlsPost(wxWindow *parent, wxSizer *sizer)
+{
+	// Lan/Internet refresh
+	wxBoxSizer *refreshButtonSizer = new wxBoxSizer(wxHORIZONTAL);
 	IDC_BUTTON_LAN_CTRL = 
-		new wxButton(parent, IDC_BUTTON_LAN,
-		"Refresh LAN Games",
-		wxPoint((int) 265.5, (int) 316), wxSize((int) 133.5, (int) 21));
+		new wxButton(parent, IDC_BUTTON_LAN, "Refresh LAN Games");
 	IDC_BUTTON_NET_CTRL = 
-		new wxButton(parent, IDC_BUTTON_NET,
-		"Refresh Internet Games",
-		wxPoint((int) 403.5, (int) 316), wxSize((int) 123, (int) 21));
+		new wxButton(parent, IDC_BUTTON_NET, "Refresh Internet Games");
+	refreshButtonSizer->Add(IDC_BUTTON_LAN_CTRL, 0, wxALL, 5);
+	refreshButtonSizer->Add(IDC_BUTTON_NET_CTRL, 0, wxALL, 5);
+	sizer->Add(refreshButtonSizer, 0, wxALIGN_RIGHT);
+
+	// Ok and cancel boxes
+	wxBoxSizer *buttonSizer = new wxBoxSizer(wxHORIZONTAL);
+	IDOK_CTRL = new wxButton(parent, wxID_OK, "Ok");
+	IDCANCEL_CTRL = new wxButton(parent, wxID_CANCEL, "Cancel");
+	buttonSizer->Add(IDCANCEL_CTRL, 0, wxALL, 5);
+	buttonSizer->Add(IDOK_CTRL, 0, wxALL, 5);
+	sizer->Add(buttonSizer, 0, wxALIGN_RIGHT);
 }
 
