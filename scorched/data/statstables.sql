@@ -1,7 +1,7 @@
 drop table scorched3d_main, scorched3d_events, scorched3d_eventtypes, scorched3d_names, scorched3d_players, scorched3d_weapons;
 
 create table if not exists scorched3d_main (
-	name varchar(32),
+	name varchar(64),
 	games INTEGER NOT NULL DEFAULT 0,
 	rounds INTEGER NOT NULL DEFAULT 0,
 	PRIMARY KEY (name)
@@ -9,7 +9,7 @@ create table if not exists scorched3d_main (
 
 create table if not exists scorched3d_players (
         playerid INTEGER auto_increment,
-        uniqueid varchar(32),
+        uniqueid varchar(64),
         name varchar(32),
 	lastconnected DATETIME,
         kills INTEGER NOT NULL DEFAULT 0,
@@ -52,7 +52,7 @@ create table if not exists scorched3d_events (
 
 create table if not exists scorched3d_names (
 	playerid INTEGER NOT NULL DEFAULT 0,
-	name varchar(64) BINARY NOT NULL DEFAULT "",
+	name varchar(32) BINARY NOT NULL DEFAULT "",
 	count INTEGER NOT NULL DEFAULT 0,
 	PRIMARY KEY (playerid, name),
 	FOREIGN KEY (playerid) REFERENCES scorched3d_players(playerid)
