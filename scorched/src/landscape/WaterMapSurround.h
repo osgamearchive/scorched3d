@@ -31,6 +31,7 @@ public:
 
 protected:
 	int width_, widthMult_;
+	int triangles_;
 
 	void drawPoint(Vector &start, Vector &diff, 
 		int numberX, int maxX,

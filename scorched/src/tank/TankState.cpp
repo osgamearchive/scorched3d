@@ -29,6 +29,7 @@ TankState::TankState(ScorchedContext &context, unsigned int playerId) :
 	readyState_(sReady), admin_(false),
 	context_(context), spectator_(false), loading_(false)
 {
+	setState(sPending);
 }
 
 TankState::~TankState()
@@ -37,15 +38,22 @@ TankState::~TankState()
 
 void TankState::reset()
 {
-	state_ = sDead;
+	setState(sDead);
 	readyState_ = sReady;
 	life_ = 100.0f;
 }
 
 void TankState::newGame()
 {
-	state_ = sDead;
+	setState(sDead);
 	life_ = 100.0f;
+}
+
+void TankState::setState(State s)
+{
+	state_ = s;
+	if (state_ == sNormal) tank_->getPhysics().enablePhysics();
+	else tank_->getPhysics().disablePhysics();
 }
 
 void TankState::setLife(float life)

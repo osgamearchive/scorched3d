@@ -59,7 +59,7 @@ TankModelRenderer::TankModelRenderer(Tank *tank) :
 	model_(0), canSeeTank_(false),
 	smokeTime_(0.0f), smokeWaitForTime_(0.0f),
 	fireOffSet_(0.0f), shieldHit_(0.0f),
-	posX_(0.0f), posY_(0.0f), posZ_(0.0f)
+	posX_(0.0f), posY_(0.0f), posZ_(0.0f), totalTime_(0.0f)
 {
 	model_ = TankModelStore::instance()->getModelByName(
 		tank->getModel().getModelName());
@@ -184,6 +184,7 @@ void TankModelRenderer::drawShield()
 	static unsigned int largeListNo = 0;
 	static unsigned int smallHalfListNo = 0;
 	static unsigned int largeHalfListNo = 0;
+	GLTexture magTexture;
 	if (!smallListNo)
 	{
 		glNewList(smallListNo = glGenLists(1), GL_COMPILE);
@@ -200,6 +201,9 @@ void TankModelRenderer::drawShield()
 			Hemisphere::draw(6.0f, 6.0f, 10, 10, 6, 0, true);
 			Hemisphere::draw(6.0f, 6.0f, 10, 10, 6, 0, false);
 		glEndList();
+		const char *magFile = getDataFile("data/textures/glow1.bmp");
+		GLBitmap magMap(magFile, magFile, false);
+		magTexture.create(magMap, GL_RGBA);
 	}
 
 	// Draw the actual shield
@@ -211,14 +215,32 @@ void TankModelRenderer::drawShield()
 	texture->draw();
 	glPushMatrix();
 		glColor4f(color[0], color[1], color[2], 0.5f + shieldHit_);
-		glTranslatef(position[0], position[1], position[2]);
-		if (shield->getHalfShield())
+		if (shield->getShieldType() == Shield::ShieldTypeMag)
 		{
+			magTexture.draw();
+			float scale = totalTime_ / 2.0f;
+			glTranslatef(position[0], position[1], position[2] + scale + 1.0f);
+			glScalef(scale, scale, scale);
+			glBegin(GL_QUADS);
+				glTexCoord2d(1.0f, 1.0f);
+				glVertex3f(1.0f, 1.0f, 0.0f);
+				glTexCoord2d(1.0f, 0.0f);
+				glVertex3f(1.0f, -1.0f, 0.0f);
+				glTexCoord2d(0.0f, 0.0f);
+				glVertex3f(-1.0f, -1.0f, 0.0f);
+				glTexCoord2d(0.0f, 1.0f);
+				glVertex3f(-1.0f, 1.0f, 0.0f);
+			glEnd();
+		}
+		else if (shield->getHalfShield())
+		{
+			glTranslatef(position[0], position[1], position[2]);
 			if (shield->getRadius() == Shield::ShieldSizeSmall) glCallList(smallHalfListNo);
 			else glCallList(largeHalfListNo);
 		}
 		else
 		{
+			glTranslatef(position[0], position[1], position[2]);
 			if (shield->getRadius() == Shield::ShieldSizeSmall) glCallList(smallListNo);
 			else glCallList(largeListNo);
 		}
@@ -273,6 +295,8 @@ void TankModelRenderer::shieldHit()
 
 void TankModelRenderer::simulate(float frameTime)
 {
+	totalTime_ += frameTime;
+	if (totalTime_ > 3.0f) totalTime_ = 0.0f;
 	if (fireOffSet_ < 0.0f)
 	{
 		fireOffSet_ += frameTime / 25.0f;

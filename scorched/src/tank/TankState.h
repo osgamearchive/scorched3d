@@ -53,7 +53,7 @@ public:
 	// State
 	void setReady() { readyState_ = sReady; }
 	void setNotReady() { readyState_ = SNotReady; }
-	void setState(State s) { state_ = s; }
+	void setState(State s);
 	State getState() { return state_; }
 	ReadyState getReadyState() { return readyState_; }
 	void setSpectator(bool s) { spectator_ = s; }

@@ -22,10 +22,11 @@
 #include <common/Vector.h>
 #include <GLEXT/GLState.h>
 #include <GLEXT/GLStateExtension.h>
+#include <GLEXT/GLInfo.h>
 #include <landscape/WaterMapSurround.h>
 
 WaterMapSurround::WaterMapSurround(int width, int widthMult) :
-	width_(width), widthMult_(widthMult)
+	width_(width), widthMult_(widthMult), triangles_(0)
 {
 
 }
@@ -45,6 +46,8 @@ void WaterMapSurround::draw()
 		glEndList();
 	}
 	glCallList(listNo);
+
+	GLInfo::addNoTriangles(triangles_);
 }
 
 void WaterMapSurround::drawPoint(Vector &start, Vector &diff, 
@@ -84,6 +87,7 @@ void WaterMapSurround::drawPoint(Vector &start, Vector &diff,
 	}
 
 	glVertex3fv(pos);
+	triangles_ ++;
 }
 
 void WaterMapSurround::generateList()

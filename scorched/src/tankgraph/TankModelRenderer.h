@@ -86,6 +86,7 @@ protected:
 	float fireOffSet_;
 	float shieldHit_;
 	float smokeTime_, smokeWaitForTime_;
+	float totalTime_;
 	bool canSeeTank_;
 	GLdouble posX_, posY_, posZ_; // 2d Position
 

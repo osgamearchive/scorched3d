@@ -86,6 +86,10 @@ public:
 	const char *getElevationString();
 	const char *getPowerString();
 
+	// Physics
+	void enablePhysics();
+	void disablePhysics();
+
 	// Serialize the tank
 	bool writeMessage(NetBuffer &buffer);
 	bool readMessage(NetBufferReader &reader);

@@ -61,6 +61,20 @@ TankPhysics::~TankPhysics()
 	dGeomDestroy(shieldLargeGeom_);
 }
 
+void TankPhysics::enablePhysics()
+{
+	dGeomEnable(tankGeom_);
+	dGeomEnable(shieldSmallGeom_);
+	dGeomEnable(shieldLargeGeom_);
+}
+
+void TankPhysics::disablePhysics()
+{
+	dGeomDisable(tankGeom_);
+	dGeomDisable(shieldSmallGeom_);
+	dGeomDisable(shieldLargeGeom_);
+}
+
 void TankPhysics::setTankPosition(Vector &pos)
 {
 	position_ = pos;

@@ -85,6 +85,7 @@ Added: Gravity can be changed
 Added: time connected, roundsplayed, armslevel, connects, add money earned to stats
 Added: Option to set max server players to zero (so no new players can connect)
 Added: Allow server password to be set when server running
+Added: Disable ODE geoms when not used
 
 -- Bugs in current development release
 Dvorak keyboard support is broken
@@ -100,7 +101,6 @@ Make rollers look better
 Guidance
 Add action replay type functionality
 AIs know how to dig
-Disable ODE geoms when not used
 Better mag deflect shield graphics
 Proper sun drawn
 

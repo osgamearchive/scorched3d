@@ -24,6 +24,7 @@
 #include <common/OptionsDisplay.h>
 #include <GLEXT/GLInfo.h>
 #include <client/ScorchedClient.h>
+#include <engine/ActionController.h>
 #include <engine/ParticleEngine.h>
 
 FrameTimer *FrameTimer::instance_ = 0;
@@ -61,10 +62,15 @@ void FrameTimer::simulate(const unsigned state, float frameTime)
 		unsigned int tris = GLInfo::getNoTriangles();
 		if (OptionsDisplay::instance()->getFrameTimer())
 		{
-			Logger::log(0, "%.2f FPS (%iT %iP)", 
+			int geoms = 
+				dSpaceGetNumGeoms(
+					ScorchedClient::instance()->getActionController().
+						getPhysics().getSpace());
+			Logger::log(0, "%.2f FPS (%iT %iP %iG)", 
 				float(totalCount_) / totalTime_,
 				tris,
-				pOnScreen);
+				pOnScreen,
+				geoms);
 		}
 		totalCount_ = 0;
 		totalTime_ = 0.0f;
