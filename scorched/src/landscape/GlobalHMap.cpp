@@ -24,6 +24,7 @@
 #include <common/OptionsGame.h>
 #include <common/RandomGenerator.h>
 #include <common/Defines.h>
+#include <common/Logger.h>
 #include <zlib/zlib.h>
 
 GlobalHMap *GlobalHMap::instance_ = 0;
@@ -62,6 +63,8 @@ void GlobalHMap::generateHMap(unsigned long seed,
 	// based on the parameters in the options
 	int maxHeight = OptionsGame::instance()->getMaxHeight();
 	int noHills = OptionsGame::instance()->getNoHills();
+
+	Logger::log(0, "Landscape : %i %i %i", storedSeed_, maxHeight, noHills);
 	HeightMapModifier::generateTerrain(getHMap(), 
 		noHills, maxHeight, generator, counter);
 
