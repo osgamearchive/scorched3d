@@ -37,13 +37,14 @@ Fixed: Auto defense dialog+bug dialog can be shown multiple times for same playe
 Fixed: Computer players say stuff when killed
 Fixed: Player/Quit menu option does not work in single player mode
 Fixed: Moved timer, so talk text is not in the way
+Fixed: Texturing of Milkshape models (Each texture must be a 256x256 bmp)
 
 -- Bugs in current development release
 Update ODE version and use StepFast
 Dvorak keyboard support is broken
 The server can start multiple times on the same port!
 Solaris client cannot choose weapons (Ok button does not work) gcc version??
-Texturing of Milkshape models
+
 
 -- Server Stuff
 Provide remote access to server (web server)
