@@ -31,6 +31,7 @@ Shot cam does not get LOD correctly
 Fix crashing when people win (Graphics card drivers??)
 
 -- Things for next release
+Add napalm option to allow napalm type weapons underwater
 Being able to register peoples nicknames
 Movement sounds
 Animated GIFs for avitars
