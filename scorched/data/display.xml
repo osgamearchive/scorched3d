@@ -9,7 +9,7 @@
   <option>
     <name>ExplosionParts</name>
     <value>10</value>
-    <defaultvalue>10</defaultvalue>
+    <defaultvalue>8</defaultvalue>
   </option>
   <!-- How many explosion sub clouds are drawn -->
   <option>
@@ -46,6 +46,12 @@
     <name>SunXYAng</name>
     <value>110</value>
     <defaultvalue>110</defaultvalue>
+  </option>
+  <!-- The number of bits requested for the depth buffer -->
+  <option>
+    <name>DepthBufferBits</name>
+    <value>24</value>
+    <defaultvalue>24</defaultvalue>
   </option>
   <!-- Whether to use full screen mode or not -->
   <option>
@@ -125,6 +131,12 @@
     <value>off</value>
     <defaultvalue>off</defaultvalue>
   </option>
+  <!-- Texture the landscape -->
+  <option>
+    <name>LandscapeTexture</name>
+    <value>on</value>
+    <defaultvalue>on</defaultvalue>
+  </option>
   <!-- Do not use multiple sky layers (just 1) -->
   <option>
     <name>NoSkyLayers</name>
@@ -149,6 +161,12 @@
     <value>off</value>
     <defaultvalue>off</defaultvalue>
   </option>
+  <!-- Show help bubbles for items that have it -->
+  <option>
+    <name>ShowContextHelp</name>
+    <value>on</value>
+    <defaultvalue>on</defaultvalue>
+  </option>
   <!-- The texture details setting -->
   <option>
     <name>TexureSize</name>
@@ -166,6 +184,18 @@
     <name>ScreenHeight</name>
     <value>600</value>
     <defaultvalue>480</defaultvalue>
+  </option>
+  <!-- The number of sprites to allow on screen -->
+  <option>
+    <name>NumberSprites</name>
+    <value>40</value>
+    <defaultvalue>40</defaultvalue>
+  </option>
+  <!-- The number of bilboards to allow on screen -->
+  <option>
+    <name>NumberBilboards</name>
+    <value>2000</value>
+    <defaultvalue>2000</defaultvalue>
   </option>
   <!-- The unique string given to any servers to uniquely identify the client. -->
   <option>

@@ -18,23 +18,25 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <tankgraph/GLWTankViewer.h>
-#include <tankgraph/TankModelStore.h>
 #include <GLW/GLWFont.h>
 
-GLWTankViewer::GLWTankViewer(float x, float y) :
-	GLWVisibleWidget(x, y, 80.0f, 200.0f),
-	scrollBar_(w_ - 6.0f, y + 2.0f, h_ - 4.0f, 0, 0, 3),
-	infoWindow_(x + 90.0f, y + 50.0f, 150.0f, 150.0f, true),
+static const float TankSquareSize = 60.0f;
+static const float TankHalfSquareSize = TankSquareSize / 2.0f;
+static const float TankPadding = 20.0f;
+static const float TankInfo = 150.0f;
+
+GLWTankViewer::GLWTankViewer(float x, float y, int numH, int numV) :
+	GLWVisibleWidget(x, y, TankSquareSize * numH + TankPadding, TankSquareSize * numV + TankPadding),
+	scrollBar_(w_ - 6.0f, y + 2.0f, h_ - 4.0f, 0, 0, numV),
+	infoWindow_(x + TankSquareSize * numH + TankPadding + 10.0f, 
+				y + TankSquareSize * numV + TankPadding - TankInfo, TankInfo, TankInfo, true),
+	numH_(numH), numV_(numV),
 	rot_(0.0f), selected_(0),
 	rotXY_(0.0f), rotYZ_(0.0f), 
 	rotXYD_(1.0f), rotYZD_(1.0f)
 {
-	scrollBar_.setMax(
-		int(TankModelStore::instance()->getModels().size()));
-	scrollBar_.setCurrent(
-		int(TankModelStore::instance()->getModels().size()));
+
 }
 
 GLWTankViewer::~GLWTankViewer()
@@ -42,14 +44,20 @@ GLWTankViewer::~GLWTankViewer()
 
 }
 
+void GLWTankViewer::setTankModels(std::vector<TankModel *> &models)
+{
+	models_.clear();
+	models_ = models;
+	scrollBar_.setMax((int) (models_.size() / numH_) + 1);
+	scrollBar_.setCurrent(0);//(int) (models_.size() / numH_) + 1);
+}
+
 const char *GLWTankViewer::getModelName()
 {
-    std::vector<TankModel *> &models = 
-		TankModelStore::instance()->getModels();
 	const char *name = "None";
-	if (models.size())
+	if (!models_.empty())
 	{
-		name = models[selected_]->getId().getModelName();
+		name = models_[selected_]->getId().getModelName();
 	}
 	return name;
 }
@@ -76,61 +84,66 @@ void GLWTankViewer::draw()
 	glEnd();
 
 	infoWindow_.draw();
-
 	scrollBar_.draw();
 
-	std::vector<TankModel *> &models = 
-		TankModelStore::instance()->getModels();
-
 	GLState depthState(GLState::DEPTH_ON);
-	const float heightdiv = (h_ / 3.0f);
-	const float widthdiv = ((w_ - 15.0f) / 2.0f);
-	for (int pos = 0; pos < 3; pos ++)
+	const float heightdiv = (h_ / float(numV_));
+	const float widthdiv = ((w_ - TankPadding - 10) / float(numH_));
+
+	int pos = 0;
+	for (int posV=0; posV<numV_; posV++)
 	{
-		int vectorPos = pos + scrollBar_.getCurrent() - 3;
-		if (vectorPos < (int) models.size() &&
-			vectorPos >= 0)
+		for (int posH=0; posH<numH_; posH++, pos++)
 		{
-			vectorPos = ((int) models.size()-1) - vectorPos;
-			float posX = x_ +  widthdiv;
-			float posY = y_ + heightdiv * pos + (heightdiv / 2.0f);
-
-			bool currselected = (vectorPos == selected_);
-			if (currselected)
+			int vectorPos = (scrollBar_.getCurrent() * numH_) + pos;// - (totalVisible);
+			if (vectorPos < (int) models_.size() &&
+				vectorPos >= 0)
 			{
-				const float squareSize = 30.0f;
-				glColor3f(0.4f, 0.4f, 0.6f);
-				glBegin(GL_LINE_LOOP);
-					glVertex2f(posX - squareSize, posY - squareSize);
-					glVertex2f(posX + squareSize, posY - squareSize);
-					glVertex2f(posX + squareSize, posY + squareSize);
-					glVertex2f(posX - squareSize, posY + squareSize);
-				glEnd();
+				//vectorPos = ((int) models_.size()-1) - vectorPos;
+				float posX = x_ + widthdiv * posH + TankHalfSquareSize + 4.0f;
+				float posY = y_ + heightdiv * posV + TankHalfSquareSize + 4.0f;
+
+				bool currselected = (vectorPos == selected_);
+				if (currselected)
+				{
+					glColor3f(0.4f, 0.4f, 0.6f);
+					glBegin(GL_LINE_LOOP);
+						glVertex2f(posX - TankHalfSquareSize, posY - TankHalfSquareSize);
+						glVertex2f(posX + TankHalfSquareSize, posY - TankHalfSquareSize);
+						glVertex2f(posX + TankHalfSquareSize, posY + TankHalfSquareSize);
+						glVertex2f(posX - TankHalfSquareSize, posY + TankHalfSquareSize);
+					glEnd();
+				}
+
+				float scale = 22.0f / 60.0f * TankSquareSize;
+				glPushMatrix();
+					glTranslatef(posX, posY - 5.0f, 0.0f);
+
+					glRotatef(-45.0f, 1.0f, 0.0f, 0.0f);
+					if (currselected) glRotatef(rot_, 0.0f, 0.0f, 1.0f);
+					glScalef(scale, scale, scale);
+
+					drawItem(vectorPos, currselected);
+				glPopMatrix();
 			}
-
-			glPushMatrix();
-				glTranslatef(posX, posY - 5.0f, 0.0f);
-
-				glRotatef(-45.0f, 1.0f, 0.0f, 0.0f);
-				if (currselected) glRotatef(rot_, 0.0f, 0.0f, 1.0f);
-				glScalef(22.0f, 22.0f, 22.0f);
-
-				drawItem(vectorPos, currselected);
-			glPopMatrix();
 		}
 	}
 
-	const float infoX = infoWindow_.getX() + (infoWindow_.getW() / 2.0f);
-	const float infoY = infoWindow_.getY() + (infoWindow_.getH() / 2.0f) - 15.0f;
-	glPushMatrix();
-		glTranslatef(infoX, infoY, 0.0f);
-		drawCaption(selected_);
-		glRotatef(-45.0f, 1.0f, 0.0f, 0.0f);
-		glRotatef(rot_, 0.0f, 0.0f, 1.0f);
-		glScalef(50.0f, 50.0f, 50.0f);
+	if (selected_ >= 0 &&
+		selected_ < (int) models_.size())
+	{
+		const float infoX = infoWindow_.getX() + (infoWindow_.getW() / 2.0f);
+		const float infoY = infoWindow_.getY() + (infoWindow_.getH() / 2.0f) - 15.0f;
+		glPushMatrix();
+			glTranslatef(infoX, infoY, 0.0f);
+			drawCaption(selected_);
+			glRotatef(-45.0f, 1.0f, 0.0f, 0.0f);
+			glRotatef(rot_, 0.0f, 0.0f, 1.0f);
+			glScalef(50.0f, 50.0f, 50.0f);
 	
-		drawItem(selected_, true);
-	glPopMatrix();
+			drawItem(selected_, true);
+		glPopMatrix();
+	}
 }
 
 void GLWTankViewer::mouseDown(float x, float y, bool &skipRest)
@@ -140,13 +153,11 @@ void GLWTankViewer::mouseDown(float x, float y, bool &skipRest)
 	{
 		if (inBox(x, y, x_, y_, w_, h_))
 		{
-			int pos = int((y - y_) / (h_ / 3.0f));
-			int vectorPos = (2 - pos) + (scrollBar_.getMax() - scrollBar_.getCurrent());
+			int posY = int((y - y_) / (h_ / numV_));
+			int posX = int((x - x_) / (w_ / numH_));
 
-			std::vector<TankModel *> &models = 
-				TankModelStore::instance()->getModels();
-
-			if (vectorPos < (int) models.size() &&
+			int vectorPos = posX + posY * numH_ + scrollBar_.getCurrent() * numH_;
+			if (vectorPos < (int) models_.size() &&
 				vectorPos >= 0)
 			{
 				selected_ = vectorPos;
@@ -169,31 +180,25 @@ void GLWTankViewer::drawCaption(int pos)
 {
 	GLState state(GLState::DEPTH_OFF);
 
-	std::vector<TankModel *> &models = 
-		TankModelStore::instance()->getModels();
-
 	Vector color(0.7f, 0.3f, 0.3f);
 	GLWFont::instance()->getFont()->
 		drawLen(22, color, 10.0f, -73.0f, 75.0f, 0.0f, 
-			 models[pos]->getId().getModelName());
+			 models_[pos]->getId().getModelName());
 	GLWFont::instance()->getFont()->
 		drawLen(22, color, 10.0f, -73.0f, 65.0f, 0.0f, 
-			"(%i Tris)", models[pos]->getNoTris());
+			"(%i Tris)", models_[pos]->getNoTris());
 }
 void GLWTankViewer::drawItem(int pos, bool selected)
 {
-	std::vector<TankModel *> &models = 
-		TankModelStore::instance()->getModels();
-
 	// Tank
 	Vector tankPos;
 	if (selected)
 	{
-		models[pos]->draw(false, 0.0f, tankPos, 0.0f, rotXY_, rotYZ_);
+		models_[pos]->draw(false, 0.0f, tankPos, 0.0f, rotXY_, rotYZ_);
 	}
 	else
 	{
-		models[pos]->draw(false, 0.0f, tankPos, 0.0f, 45.0f, 45.0f);
+		models_[pos]->draw(false, 0.0f, tankPos, 0.0f, 45.0f, 45.0f);
 	}
 
 	// Ground
@@ -219,15 +224,12 @@ void GLWTankViewer::drawItem(int pos, bool selected)
 
 void GLWTankViewer::selectModelByName(const char *name)
 {
-	std::vector<TankModel *> &models = 
-		TankModelStore::instance()->getModels();
-
-	DIALOG_ASSERT(models.size());
+	DIALOG_ASSERT(models_.size());
 
 	int currentSel = 0;
 	std::vector<TankModel *>::iterator itor;
-	for (itor = models.begin();
-		 itor != models.end();
+	for (itor = models_.begin();
+		 itor != models_.end();
 		 itor++, currentSel ++)
 	{
 		TankModel *current = (*itor);

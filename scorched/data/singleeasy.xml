@@ -35,6 +35,12 @@
     <value>15</value>
     <defaultvalue>15</defaultvalue>
   </option>
+  <!-- The number of moves a player is allowed to miss (due to the shot timer) -->
+  <option>
+    <name>AllowedMissedMoves</name>
+    <value>3</value>
+    <defaultvalue>3</defaultvalue>
+  </option>
   <!-- The number of rounds to play in each game -->
   <option>
     <name>NumberOfRounds</name>
@@ -136,6 +142,12 @@
     <name>WeaponScale</name>
     <value>1</value>
     <defaultvalue>1</defaultvalue>
+  </option>
+  <!-- Prepend and bot name with the specified text -->
+  <option>
+    <name>BotNamePrefix</name>
+    <value>(Bot) </value>
+    <defaultvalue>(Bot) </defaultvalue>
   </option>
   <!-- The name of the server to start -->
   <option>

@@ -24,16 +24,19 @@
 
 #include <GLW/GLWScrollW.h>
 #include <GLW/GLWVisiblePanel.h>
-#include <GLEXT/GLVertexArray.h>
+#include <tankgraph/TankModel.h>
+#include <vector.h>
 
 class GLWTankViewer : public GLWVisibleWidget
 {
 public:
-	GLWTankViewer(float x, float y);
+	GLWTankViewer(float x, float y, int numH, int numV);
 	virtual ~GLWTankViewer();
 
 	void selectModelByName(const char *name);
 	const char *getModelName();
+
+	void setTankModels(std::vector<TankModel *> &models);
 
 	// Inhertied from GLWidget
 	virtual void draw();
@@ -47,6 +50,8 @@ public:
 protected:
 	GLWScrollW scrollBar_;
 	GLWVisiblePanel infoWindow_;
+	std::vector<TankModel *> models_;
+	int numH_, numV_;
 	float rot_;
 	float rotXY_, rotYZ_;
 	float rotXYD_, rotYZD_;
