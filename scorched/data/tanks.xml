@@ -7,6 +7,10 @@
 		</model>
 	</tank>
 	<tank>
+		<name>battleship turret</name>
+		<model type="MilkShape">battleship/battleship.txt</model>
+	</tank>
+	<tank>
 		<name>T-90</name>
 		<catagory>High Def</catagory>
 		<model type="MilkShape">t90/t90.txt</model>
