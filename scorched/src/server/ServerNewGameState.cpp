@@ -119,7 +119,7 @@ int ServerNewGameState::addTanksToGame(const unsigned state,
 	if (addState)
 	{
 		// Tell client(s) of game settings changes
-		Logger::log(0, "Sending a new game state");
+		ServerCommon::serverLog(0, "Sending a new game state");
 		ServerCommon::sendString(0, "Game options have been changed!");
 		newGameMessage.addGameState(); 
 	}
