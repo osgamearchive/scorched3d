@@ -84,7 +84,8 @@ void MissileActionRenderer::simulate(Action *action, float timepassed, bool &rem
 	actualPos2[2] = actualPos[2] + 0.25f;
 
 	// Rotate the shot
-	rotation_ += shot->getCurrentVelocity().Magnitude();
+	rotation_ += shot->getCurrentVelocity().Magnitude() * 
+		shot->getWeapon()->getSpinSpeed();
 
 	// Add flame trail
 	if (shot->getWeapon()->getCreateFlame())

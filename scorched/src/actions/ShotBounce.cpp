@@ -148,7 +148,7 @@ void ShotBounce::simulate(float frameTime, bool &remove)
 	}
 
 	totalTime_ += frameTime;
-	if (totalTime_ > 8.0f)
+	if (totalTime_ > weapon_->getTime())
 	{
 		if (context_->serverMode) doCollision();
 		remove = true;

@@ -45,6 +45,8 @@ bool WeaponRoller::parseXML(XMLNode *accessoryNode)
 
 	if (!accessoryNode->getNamedChild("numberrollers", numberRollers_)) return false;
 
+	if (!accessoryNode->getNamedChild("time", time_)) return false;
+
 	XMLNode *subNode = 0;
 	if (!accessoryNode->getNamedChild("collisionaction", subNode)) return false;
 
@@ -72,6 +74,7 @@ bool WeaponRoller::writeAccessory(NetBuffer &buffer)
 	if (!Weapon::writeAccessory(buffer)) return false;
 	if (!Weapon::write(buffer, collisionAction_)) return false;
 	buffer.addToBuffer(numberRollers_);
+	buffer.addToBuffer(time_);
 	if (!rollerModelId_.writeModelID(buffer)) return false;
 	return true;
 }
@@ -81,6 +84,7 @@ bool WeaponRoller::readAccessory(NetBufferReader &reader)
 	if (!Weapon::readAccessory(reader)) return false;
 	collisionAction_ = Weapon::read(reader); if (!collisionAction_) return false;
 	if (!reader.getFromBuffer(numberRollers_)) return false;
+	if (!reader.getFromBuffer(time_)) return false;
 	if (!rollerModelId_.readModelID(reader)) return false;
 	return true;
 }

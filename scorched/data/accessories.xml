@@ -198,6 +198,7 @@ contact with any tank.</description>
 			<name>Baby Roller</name>
 			<armslevel>8</armslevel>
 			<numberrollers>8</numberrollers>
+			<time>8</time>
 			<rollermodel type="MilkShape">roller/roller.txt</rollermodel>
 			<collisionaction type="WeaponExplosion">
 				<name>Baby Roller</name>
@@ -225,6 +226,7 @@ with any tank.</description>
 			<name>Roller</name>
 			<armslevel>8</armslevel>
 			<numberrollers>8</numberrollers>
+			<time>8</time>
 			<rollermodel type="MilkShape">roller/roller.txt</rollermodel>
 			<collisionaction type="WeaponExplosion">
 				<name>Roller</name>
@@ -252,6 +254,7 @@ with any tank.</description>
 			<name>Heavy Roller</name>
 			<armslevel>8</armslevel>
 			<numberrollers>8</numberrollers>
+			<time>8</time>
 			<rollermodel type="MilkShape">roller/roller.txt</rollermodel>
 			<collisionaction type="WeaponExplosion">
 				<name>Heavy Roller</name>
@@ -273,6 +276,7 @@ with any tank.</description>
 		<armslevel>10</armslevel>
 		<firedsound>shoot/small.wav</firedsound>
 		<projectilescale>0.5</projectilescale>
+		<spinspeed>1.0</spinspeed>
 		<collisionaction type="WeaponExplosion">
 			<name>Baby Missile</name>
 			<armslevel>10</armslevel>

@@ -48,6 +48,7 @@ public:
 	bool getApexCollision() { return apexCollision_; }
 	bool getCreateSmoke() { return createSmoke_; }
 	bool getCreateFlame() { return createFlame_; }
+	float getSpinSpeed() { return spinSpeed_; }
 
 protected:
 	bool under_;
@@ -56,6 +57,7 @@ protected:
 	bool apexCollision_;
 	bool createSmoke_;
 	bool createFlame_;
+	float spinSpeed_;
 	Weapon *collisionAction_;
 
 };

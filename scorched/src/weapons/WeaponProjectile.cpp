@@ -29,7 +29,7 @@ REGISTER_ACCESSORY_SOURCE(WeaponProjectile);
 WeaponProjectile::WeaponProjectile() : 
 	under_(false), collisionAction_(0), apexCollision_(false),
 	showShotPath_(false), showEndPoint_(false), 
-	createSmoke_(true),	createFlame_(true)
+	createSmoke_(true),	createFlame_(true), spinSpeed_(1.0f)
 {
 
 }
@@ -47,6 +47,9 @@ bool WeaponProjectile::parseXML(XMLNode *accessoryNode)
 	XMLNode *underNode = 0;
 	accessoryNode->getNamedChild("under", underNode, false);
 	if (underNode) under_ = true;
+
+	// Get the spin
+	accessoryNode->getNamedChild("spinspeed", spinSpeed_, false);
 
 	// Get the smoke trails
 	XMLNode *smokeNode = 0;
@@ -102,6 +105,7 @@ bool WeaponProjectile::writeAccessory(NetBuffer &buffer)
 	buffer.addToBuffer(under_);
 	buffer.addToBuffer(createSmoke_);
 	buffer.addToBuffer(createFlame_);
+	buffer.addToBuffer(spinSpeed_);
 	return true;
 }
 
@@ -115,6 +119,7 @@ bool WeaponProjectile::readAccessory(NetBufferReader &reader)
 	if (!reader.getFromBuffer(under_)) return false;
 	if (!reader.getFromBuffer(createSmoke_)) return false;
 	if (!reader.getFromBuffer(createFlame_)) return false;
+	if (!reader.getFromBuffer(spinSpeed_)) return false;
 	return true;
 }
 
