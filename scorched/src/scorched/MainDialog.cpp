@@ -24,7 +24,6 @@
 #include <scorched/SingleDialog.h>
 #include <scorched/DisplayDialog.h>
 #include <scorched/ServerSDialog.h>
-#include <irc/IrcDialog.h>
 #include <server/ServerMain.h>
 #include <common/OptionsParam.h>
 #include <common/Defines.h>

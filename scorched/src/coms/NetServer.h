@@ -33,8 +33,8 @@ public:
 	NetServer(NetServerProtocol *protocol);
 	virtual ~NetServer();
 
-	bool connect(const char *hostName, int portNo);
-	bool start(int portNo, int maxClients = -1);
+	TCPsocket connect(const char *hostName, int portNo);
+	TCPsocket start(int portNo, int maxClients = -1);
 	bool started();
 
 	int getMaxClients() { return maxClients_; }
@@ -44,6 +44,7 @@ public:
 	void setMessageHandler(NetMessageHandlerI *handler) 
 		{ messageHandler_.setMessageHandler(handler); }
 
+	void disconnectAllClients();
 	void disconnectClient(TCPsocket &client);
 	void sendMessage(NetBuffer &buffer);
 	void sendMessage(NetBuffer &buffer,

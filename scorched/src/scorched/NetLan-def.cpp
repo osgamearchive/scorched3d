@@ -25,19 +25,14 @@ enum
 	IDC_PLAYER_LIST,
 	IDC_BUTTON_LAN,
 	IDC_BUTTON_NET,
-	IDC_PROGRESS1,
 	IDC_EDIT_SERVER,
-	IDC_BUTTON_EYE,
-	IDC_BUTTON_EYE2,
 	IDC_CLEAR
 };
 
 static wxTextCtrl *IDC_EDIT_SERVER_CTRL = 0;
 static wxButton *IDC_BUTTON_LAN_CTRL = 0;
 static wxButton *IDC_BUTTON_NET_CTRL = 0;
-static wxGauge *IDC_PROGRESS1_CTRL = 0;
-static wxBitmapButton *IDC_BUTTON_EYE_CTRL = 0;
 static wxButton *IDC_CLEAR_CTRL = 0;
 static wxButton *IDOK_CTRL = 0;
 static wxButton *IDCANCEL_CTRL = 0;
-static wxButton *ID_EYEURL = 0;
+

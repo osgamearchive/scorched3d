@@ -18,25 +18,29 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_XMLFileh_INCLUDE__)
-#define __INCLUDE_XMLFileh_INCLUDE__
+#if !defined(__INCLUDE_ServerBrowserInfoh_INCLUDE__)
+#define __INCLUDE_ServerBrowserInfoh_INCLUDE__
 
-#include <XML/XMLParser.h>
+#include <coms/NetServer.h>
 
-class XMLFile
+class ServerBrowserInfo
 {
 public:
-	XMLFile();
-	virtual ~XMLFile();
+	static ServerBrowserInfo *instance();
 
-	bool readFile(const char *fileName);
-
-	const char *getParserError() { return parser_.getParseError(); }
-	XMLNode *getRootNode() { return parser_.getRoot(); }
+	void start();
+	void processMessages();
 
 protected:
-	XMLParser parser_;
+	static ServerBrowserInfo *instance_;
+	UDPsocket udpsock_;
+	UDPpacket **packetV_;
 
+	void processMessage(UDPpacket *packet);
+
+private:
+	ServerBrowserInfo();
+	virtual ~ServerBrowserInfo();
 };
 
 #endif

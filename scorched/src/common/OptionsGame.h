@@ -139,6 +139,12 @@ public:
 	int getComputersAttackTalk() { return computersAttackTalk_.getValue(); }
 	void setComputersAttackTalk(int value) { computersAttackTalk_.setValue(value); }
 
+	const char *getMasterListServer() { return masterListServer_.getValue(); }
+	void setMasterListServer(const char *value) { masterListServer_.setValue(value); }
+
+	const char *getMasterListServerURI() { return masterListServerURI_.getValue(); }
+	void setMasterListServerURI(const char *value) { masterListServerURI_.setValue(value); }
+
 	// Server only options
 	const char *getBotNamePrefix() { return botNamePrefix_.getValue(); }
 	void setBotNamePrefix(const char *value) { botNamePrefix_.setValue(value); }
@@ -201,6 +207,8 @@ protected:
 	OptionEntryBoundedInt windType_;
 	OptionEntryBoundedInt wallType_;
 	OptionEntryBoundedInt weapScale_;
+	OptionEntryString masterListServer_;
+	OptionEntryString masterListServerURI_;
 
 	// Server only options
 	OptionEntryString botNamePrefix_;

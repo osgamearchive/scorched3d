@@ -169,6 +169,15 @@ int TankWeapon::getWeaponCount(Weapon *weapon)
 	return currentNumber;
 }
 
+const char *TankWeapon::getWeaponString()
+{
+	static char buffer[256];
+	int count = getWeaponCount(getCurrent());
+	sprintf(buffer, ((count>0)?"%s (%i)":"%s (In)"),
+		getCurrent()->getName(), count);
+	return buffer;
+}
+
 bool TankWeapon::writeMessage(NetBuffer &buffer)
 {
 	std::map<Weapon *, int>::iterator itor;

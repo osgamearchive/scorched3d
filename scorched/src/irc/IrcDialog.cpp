@@ -1,4 +1,4 @@
-#ifdef _NO_SERVER_ASE_
+#ifdef _NO_SERVER_ASE_2
 
 #include <irc/IrcDialog.h>
 #include <irc/ClientGameInfo.h>
@@ -302,4 +302,4 @@ bool showNetLanDialog()
 	return (frame.ShowModal() == wxID_OK);
 }
 
-#endif /* _NO_SERVER_ASE_ */
+#endif /* _NO_SERVER_ASE_2 */

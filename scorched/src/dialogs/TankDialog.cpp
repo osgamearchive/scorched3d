@@ -171,29 +171,24 @@ void TankDialog::drawTankDetails(Tank *current)
 		x_ + 65.0f,
 		y_ + h_ - 32.0f,
 		0.0f,
-		"Rot:%.1f (%+.1f)",
-		360.0f - current->getPhysics().getRotationGunXY(),
-		rotDiff);
+		"Rot:%s",
+		current->getPhysics().getRotationString());
 	GLWFont::instance()->getFont()->draw(
 		yellow,
 		12.0f,
 		x_ + 65.0f,
 		y_ + h_ - 42.0f,
 		0.0f,
-		"Ele:%.1f (%+.1f)",
-		current->getPhysics().getRotationGunYZ(),
-		current->getPhysics().getRotationGunYZ() - 
-		current->getPhysics().getOldRotationGunYZ());
+		"Ele:%s",
+		current->getPhysics().getElevationString());
 	GLWFont::instance()->getFont()->draw(
 		yellow,
 		12.0f,
 		x_ + 65.0f,
 		y_ + h_ - 52.0f,
 		0.0f,
-		"Pwr:%.1f (%+.1f)",
-		current->getState().getPower(),
-		current->getState().getPower() - 
-		current->getState().getOldPower());
+		"Pwr:%s",
+		current->getState().getPowerString());
 
 	GLWToolTip::instance()->addToolTip(
 		&current->getAccessories().getWeapons().getCurrent()->getToolTip(),
@@ -206,6 +201,5 @@ void TankDialog::drawTankDetails(Tank *current)
 		x_ + 65.0f,
 		y_ + h_ - 62.0f,
 		0.0f,
-		((count>0)?"%s (%i)":"%s (In)"),
-		current->getAccessories().getWeapons().getCurrent()->getName(), count);
+		current->getAccessories().getWeapons().getWeaponString());
 }

@@ -18,7 +18,7 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#ifdef _NO_SERVER_ASE_
+#ifdef _NO_SERVER_ASE_2
 
 #if !defined(__INCLUDE_NetDialogh_INCLUDE__)
 #define __INCLUDE_NetDialogh_INCLUDE__
@@ -26,4 +26,4 @@
 bool showNetLanDialog();
 
 #endif
-#endif /* _NO_SERVER_ASE_ */
+#endif /* _NO_SERVER_ASE_2 */

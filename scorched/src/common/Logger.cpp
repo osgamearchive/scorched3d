@@ -120,6 +120,8 @@ void Logger::log(unsigned int playerId, const char *fmt, ...)
 
 void Logger::addLog(char *time, char *text, unsigned int playerId)
 {
+	if (!instance_) return;
+
 	instance_->entries_.push_back(LogEntry());
 	LogEntry &lastEntry = instance_->entries_.back();
 

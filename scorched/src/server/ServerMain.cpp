@@ -18,7 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <windows.h>
 #include <common/Defines.h>
 #include <common/Timer.h>
@@ -45,50 +44,17 @@
 #include <server/ServerPlayedMoveHandler.h>
 #include <server/ServerBuyAccessoryHandler.h>
 #include <server/ServerConnectHandler.h>
+#include <server/ServerRegistration.h>
+#include <server/ServerBrowserInfo.h>
 #include <server/ServerState.h>
 #include <SDL/SDL.h>
 
 Timer serverTimer;
 
-#ifdef _NO_SERVER_ASE_
-#include <irc/ServerGameInfo.h>
-#else
-extern "C" {
-#include <ASE/ASEQuerySDK.h>
-}
-#endif
-
-void serverCleanup()
-{
-	if (ComsGateway::instance()->started())
-	{
-#ifdef _NO_SERVER_ASE_
- 		ServerGameInfo::instance()->Stop();
-#else
-		ASEQuery_shutdown();
-		WSACleanup();
-#endif
-	}
-}
-
 bool serverMain()
 {
-	// Create an exit handler to free all used resources
-	atexit(serverCleanup);
-
 	// Set the options so we are a server
 	OptionsParam::instance()->setServerFile("Hmm");
-
-#ifndef _NO_SERVER_ASE_
-	WORD WSAVerReq = (MAKEWORD((1),(1)));
-	WSADATA WSAData;
-	if (WSAStartup(WSAVerReq, &WSAData) != 0)
-	{
-		dialogMessage("Scorched3D Server", 
-			"Failed to start windows sockets.");
-		return false;
-	}
-#endif
 
 	// Setup the message handling classes
 	ComsGateway::instance()->setMessageHandler(
@@ -127,33 +93,13 @@ bool serverMain()
 		return false;
 	}
 
-#ifdef _NO_SERVER_ASE_
  	if (OptionsGame::instance()->getPublishServer()) 
 	{
- 		// launch game info servers
- 		ServerGameInfo::instance()->Start(
-			OptionsGame::instance()->getPortNo());
+		ServerBrowserInfo::instance()->start();
+		ServerRegistration::instance()->start();
 	}
-#else
-	char *publishAddress = 0;
-	if ((0 != strcmp("AutoDetect", OptionsGame::instance()->getPublishAddress())) &&
-		OptionsGame::instance()->getPublishAddress()[0])
-	{
-		publishAddress = (char *) OptionsGame::instance()->getPublishAddress();
-	}
-
-	if (!ASEQuery_initialize(OptionsGame::instance()->getPortNo(), 
-		(OptionsGame::instance()->getPublishServer()?1:0),
-		publishAddress))
-	{
-		dialogMessage("Scorched3D Server", 
-			"Failed to initialize the ASE server reporting.");
-		return false;
-	}
-#endif
 
 	Logger::log(0, "Server started");
-
 	return true;
 }
 
@@ -164,9 +110,7 @@ void serverLoop()
 	{
 		Logger::processLogEntries();
 		ComsGateway::instance()->processMessages();
+		ServerBrowserInfo::instance()->processMessages();
 		GameState::instance()->simulate(serverTimer.getTimeDifference());
-#ifndef _NO_SERVER_ASE_
-		ASEQuery_check();
-#endif
 	}
 }

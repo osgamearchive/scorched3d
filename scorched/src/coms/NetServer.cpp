@@ -41,18 +41,18 @@ NetServer::~NetServer()
 	SDL_DestroyMutex(setMutex_);
 }
 
-bool NetServer::start(int port, int maxClients)
+TCPsocket NetServer::start(int port, int maxClients)
 {
 	maxClients_ = maxClients;
 	if(SDLNet_Init()==-1)
 	{
-		return false;
+		return 0;
 	}
 
 	IPaddress ip;
 	if(SDLNet_ResolveHost(&ip,NULL,port)==-1)
 	{
-		return false;
+		return 0;
 	}
 
 	// TODO we seem to be able to open the same port
@@ -60,36 +60,36 @@ bool NetServer::start(int port, int maxClients)
 	server_=SDLNet_TCP_Open(&ip);
 	if (!server_)
 	{
-		return false;
+		return 0;
 	}
 	NetBufferUtil::setBlockingIO(server_);
 
 	addClient(server_);
-	return true;
+	return server_;
 }
 
-bool NetServer::connect(const char *hostName, int portNo)
+TCPsocket NetServer::connect(const char *hostName, int portNo)
 {
 	if(SDLNet_Init()==-1)
 	{
-		return false;
+		return 0;
 	}
 
 	IPaddress ip;
 	if(SDLNet_ResolveHost(&ip,(char *) hostName,portNo)==-1)
 	{
-		return false;
+		return 0;
 	}
 
 	TCPsocket client=SDLNet_TCP_Open(&ip);
 	if (!client)
 	{
-		return false;
+		return 0;
 	}
 	NetBufferUtil::setBlockingIO(client);
 
 	addClient(client);
-	return true;
+	return client;
 }
 
 bool NetServer::started()
@@ -164,7 +164,7 @@ bool NetServer::pollIncoming()
 				NetMessage *message = protocol_->readBuffer(currentSock);
 				if (!message)
 				{
-					Logger::log(0, "Read failed from client socket, has been closed?");
+					Logger::log(0, "Client socket has been closed.");
 
 					// Socket has been closed
 					disconnectClient(currentSock);
@@ -278,6 +278,19 @@ void NetServer::destroyClient(TCPsocket client)
 
 		SDLNet_TCP_Close(client);
 		rmClient(client);
+	}
+	SDL_UnlockMutex(setMutex_);
+}
+
+void NetServer::disconnectAllClients()
+{
+	SDL_LockMutex(setMutex_);
+	std::set<TCPsocket>::iterator itor;
+	for (itor = connections_.begin();
+		itor != connections_.end();
+		itor++)
+	{
+		disconnectClient(*itor);
 	}
 	SDL_UnlockMutex(setMutex_);
 }

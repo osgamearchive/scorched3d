@@ -36,7 +36,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/FIXED:NO"
-				AdditionalDependencies="opengl32.lib glu32.lib winmm.lib dxguid.lib comctl32.lib Ws2_32.lib $(SolutionDir)\visualc\lib\SDL\SDL.lib $(SolutionDir)\visualc\lib\SDL\SDL_mixer.lib $(SolutionDir)\visualc\lib\SDL\SDL_net.lib $(SolutionDir)\visualc\lib\SDL\SDLmain.lib $(SolutionDir)\visualc\lib\ASE\ingame.lib $(SolutionDir)\visualc\lib\ASE\ASEQuerySDK.lib $(SolutionDir)\visualc\lib\wx\wxmswd.lib rpcrt4.lib"
+				AdditionalDependencies="opengl32.lib glu32.lib winmm.lib dxguid.lib comctl32.lib Ws2_32.lib $(SolutionDir)\visualc\lib\SDL\SDL.lib $(SolutionDir)\visualc\lib\SDL\SDL_mixer.lib $(SolutionDir)\visualc\lib\SDL\SDL_net.lib $(SolutionDir)\visualc\lib\SDL\SDLmain.lib $(SolutionDir)\visualc\lib\wx\wxmswd.lib rpcrt4.lib"
 				OutputFile="$(OutDir)/scorched.exe"
 				LinkIncremental="2"
 				GenerateDebugInformation="TRUE"
@@ -72,57 +72,6 @@
 				OmitFramePointers="TRUE"
 				AdditionalIncludeDirectories="&quot;$(SolutionDir)\visualc\include\&quot;;&quot;$(SolutionDir)\src\&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;dDOUBLE;COMPILED_FROM_DSP;XML_STATIC;WINVER=0x400,_MT,wxUSE_GUI=1"
-				StringPooling="TRUE"
-				ExceptionHandling="TRUE"
-				RuntimeLibrary="2"
-				EnableFunctionLevelLinking="TRUE"
-				DisableLanguageExtensions="FALSE"
-				ForceConformanceInForLoopScope="TRUE"
-				UsePrecompiledHeader="0"
-				WarningLevel="3"
-				Detect64BitPortabilityProblems="FALSE"
-				DebugInformationFormat="0"/>
-			<Tool
-				Name="VCCustomBuildTool"/>
-			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="opengl32.lib glu32.lib winmm.lib dxguid.lib comctl32.lib Ws2_32.lib $(SolutionDir)\visualc\lib\SDL\SDL.lib $(SolutionDir)\visualc\lib\SDL\SDL_mixer.lib $(SolutionDir)\visualc\lib\SDL\SDL_net.lib $(SolutionDir)\visualc\lib\SDL\SDLmain.lib $(SolutionDir)\visualc\lib\ASE\ingame.lib $(SolutionDir)\visualc\lib\ASE\ASEQuerySDK.lib $(SolutionDir)\visualc\lib\wx\wxmsw.lib rpcrt4.lib"
-				OutputFile="$(OutDir)/scorched.exe"
-				LinkIncremental="1"
-				GenerateDebugInformation="TRUE"
-				SubSystem="2"
-				StackReserveSize="32000000"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
-				TargetMachine="1"/>
-			<Tool
-				Name="VCMIDLTool"/>
-			<Tool
-				Name="VCPostBuildEventTool"/>
-			<Tool
-				Name="VCPreBuildEventTool"/>
-			<Tool
-				Name="VCPreLinkEventTool"/>
-			<Tool
-				Name="VCResourceCompilerTool"/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"/>
-			<Tool
-				Name="VCWebDeploymentTool"/>
-		</Configuration>
-		<Configuration
-			Name="Release - No ASE|Win32"
-			OutputDirectory="Release - No ASE"
-			IntermediateDirectory="Release - No ASE"
-			ConfigurationType="1"
-			CharacterSet="2">
-			<Tool
-				Name="VCCLCompilerTool"
-				Optimization="2"
-				InlineFunctionExpansion="0"
-				OmitFramePointers="TRUE"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)\visualc\include\&quot;;&quot;$(SolutionDir)\src\&quot;"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;dDOUBLE;COMPILED_FROM_DSP;XML_STATIC;WINVER=0x400,_MT,wxUSE_GUI=1;_NO_SERVER_ASE_"
 				StringPooling="TRUE"
 				ExceptionHandling="TRUE"
 				RuntimeLibrary="2"
@@ -1823,6 +1772,12 @@
 				RelativePath="..\XML\XMLParser.h">
 			</File>
 			<File
+				RelativePath="..\XML\XMLStringBuffer.cpp">
+			</File>
+			<File
+				RelativePath="..\XML\XMLStringBuffer.h">
+			</File>
+			<File
 				RelativePath="..\XML\expat.h">
 			</File>
 			<File
@@ -1860,12 +1815,6 @@
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Release|Win32">
-					<Tool
-						Name="VCResourceCompilerTool"
-						AdditionalIncludeDirectories="..\..\visualc\include"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release - No ASE|Win32">
 					<Tool
 						Name="VCResourceCompilerTool"
 						AdditionalIncludeDirectories="..\..\visualc\include"/>
@@ -2307,12 +2256,6 @@
 						Name="VCCLCompilerTool"
 						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
 				</FileConfiguration>
-				<FileConfiguration
-					Name="Release - No ASE|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="ServerDialog.h">
@@ -2469,6 +2412,24 @@
 				RelativePath="..\client\MainCamera.h">
 			</File>
 			<File
+				RelativePath="..\client\ServerBrowser.cpp">
+			</File>
+			<File
+				RelativePath="..\client\ServerBrowser.h">
+			</File>
+			<File
+				RelativePath="..\client\ServerBrowserRefresh.cpp">
+			</File>
+			<File
+				RelativePath="..\client\ServerBrowserRefresh.h">
+			</File>
+			<File
+				RelativePath="..\client\ServerBrowserServerList.cpp">
+			</File>
+			<File
+				RelativePath="..\client\ServerBrowserServerList.h">
+			</File>
+			<File
 				RelativePath="..\client\ShotTimer.cpp">
 			</File>
 			<File
@@ -2491,7 +2452,10 @@
 			Name="server"
 			Filter="">
 			<File
-				RelativePath="..\server\ScorchedASE.cpp">
+				RelativePath="..\server\ServerBrowserInfo.cpp">
+			</File>
+			<File
+				RelativePath="..\server\ServerBrowserInfo.h">
 			</File>
 			<File
 				RelativePath="..\server\ServerBuyAccessoryHandler.cpp">
@@ -2552,6 +2516,12 @@
 			</File>
 			<File
 				RelativePath="..\server\ServerPlayingState.h">
+			</File>
+			<File
+				RelativePath="..\server\ServerRegistration.cpp">
+			</File>
+			<File
+				RelativePath="..\server\ServerRegistration.h">
 			</File>
 			<File
 				RelativePath="..\server\ServerScoreState.cpp">

@@ -23,6 +23,7 @@
 #include <tank/TankLib.h>
 #include <engine/ActionController.h>
 #include <common/Defines.h>
+#include <common/OptionsDisplay.h>
 
 TankPhysics::TankPhysics(unsigned int playerId) :
 	tankInfo_(CollisionIdTank),
@@ -130,6 +131,49 @@ float TankPhysics::rotateGunYZ(float angle, bool diff)
 	else if (turretRotYZ_ > 90.0f) turretRotYZ_ = 90.0f;
 
 	return turretRotYZ_;
+}
+
+const char *TankPhysics::getRotationString()
+{
+	static char messageBuffer[255];
+	float rotDiff = (360.0f - getRotationGunXY()) - (360.0f - getOldRotationGunXY());
+	if (rotDiff > 180.0f) rotDiff -= 360.0f;
+	else if (rotDiff < -180.0f) rotDiff += 360.0f;
+
+	if (OptionsDisplay::instance()->getUseHexidecimal())
+	{
+		sprintf(messageBuffer, "0x%x (0x%x)", 
+				int(360.0f - getRotationGunXY()),
+				int(rotDiff));
+	}
+	else
+	{
+		sprintf(messageBuffer, "%.1f (%+.1f)", 
+				360.0f - getRotationGunXY(),
+				rotDiff);
+	}
+
+	return messageBuffer;
+}
+
+const char *TankPhysics::getElevationString()
+{
+	static char messageBuffer[255];
+	if (OptionsDisplay::instance()->getUseHexidecimal())
+	{
+		sprintf(messageBuffer, "0x%x (0X%x)", 
+				int(getRotationGunYZ()),
+				int(getRotationGunYZ() - 
+				getOldRotationGunYZ()));
+	}
+	else
+	{
+		sprintf(messageBuffer, "%.1f (%+.1f)", 
+				getRotationGunYZ(),
+				getRotationGunYZ() - 
+				getOldRotationGunYZ());
+	}
+	return messageBuffer;
 }
 
 bool TankPhysics::writeMessage(NetBuffer &buffer)

@@ -55,6 +55,8 @@ public:
 	std::map<Weapon *, int> &getAllWeapons() { return weapons_; }
 	int getWeaponCount(Weapon *weapon);
 
+	const char *getWeaponString();
+
 	// Serialize the tank
     bool writeMessage(NetBuffer &buffer);
     bool readMessage(NetBufferReader &reader);

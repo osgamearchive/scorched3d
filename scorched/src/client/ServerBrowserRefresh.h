@@ -18,25 +18,31 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_XMLFileh_INCLUDE__)
-#define __INCLUDE_XMLFileh_INCLUDE__
+#if !defined(__INCLUDE_ServerBrowserRefreshh_INCLUDE__)
+#define __INCLUDE_ServerBrowserRefreshh_INCLUDE__
 
-#include <XML/XMLParser.h>
+#include <client/ServerBrowserServerList.h>
+#include <coms/NetServer.h>
+#include <map>
 
-class XMLFile
+class ServerBrowserRefresh
 {
 public:
-	XMLFile();
-	virtual ~XMLFile();
+	ServerBrowserRefresh(ServerBrowserServerList &list);
+	virtual ~ServerBrowserRefresh();
 
-	bool readFile(const char *fileName);
-
-	const char *getParserError() { return parser_.getParseError(); }
-	XMLNode *getRootNode() { return parser_.getRoot(); }
+	void refreshList();
 
 protected:
-	XMLParser parser_;
+	ServerBrowserServerList &list_;
+	std::list<ServerBrowserEntry *> refreshEntries_;
+	std::map<UDPsocket, ServerBrowserEntry*> entryMap_;
+	UDPpacket *sendPacket_;
+	UDPpacket *recvPacket_;
 
+	void sendNextEntry(ServerBrowserEntry *entry, time_t theTime);
+	void processMessages(time_t theTime);
+	void processMessage(UDPpacket *packet, ServerBrowserEntry *entry);
 };
 
 #endif

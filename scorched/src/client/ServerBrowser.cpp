@@ -18,25 +18,43 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_XMLFileh_INCLUDE__)
-#define __INCLUDE_XMLFileh_INCLUDE__
+#include <client/ServerBrowser.h>
 
-#include <XML/XMLParser.h>
+ServerBrowser *ServerBrowser::instance_ = 0;
 
-class XMLFile
+ServerBrowser *ServerBrowser::instance()
 {
-public:
-	XMLFile();
-	virtual ~XMLFile();
+	if (!instance_)
+	{
+		instance_ = new ServerBrowser;
+	}
+	return instance_;
+}
 
-	bool readFile(const char *fileName);
+ServerBrowser::ServerBrowser() : 
+	refreshing_(false), serverList_(), serverRefresh_(serverList_)
+{
+}
 
-	const char *getParserError() { return parser_.getParseError(); }
-	XMLNode *getRootNode() { return parser_.getRoot(); }
+ServerBrowser::~ServerBrowser()	
+{
+}
 
-protected:
-	XMLParser parser_;
+void ServerBrowser::refresh()
+{
+	if (refreshing_) return;
 
-};
+	refreshing_ = true;
+	SDL_CreateThread(ServerBrowser::threadFunc, (void *) this);
+}
 
-#endif
+int ServerBrowser::threadFunc(void *)
+{
+	if (instance_->serverList_.fetchServerList())
+	{
+		instance_->serverRefresh_.refreshList();
+	}
+	
+	instance_->refreshing_ = false;
+	return 0;
+}

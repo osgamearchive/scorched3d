@@ -18,25 +18,32 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_XMLFileh_INCLUDE__)
-#define __INCLUDE_XMLFileh_INCLUDE__
+#if !defined(__INCLUDE_ServerRegistrationh_INCLUDE__)
+#define __INCLUDE_ServerRegistrationh_INCLUDE__
 
-#include <XML/XMLParser.h>
+#include <coms/NetServer.h>
 
-class XMLFile
+class ServerRegistration : public NetMessageHandlerI
 {
 public:
-	XMLFile();
-	virtual ~XMLFile();
+	static ServerRegistration *instance();
 
-	bool readFile(const char *fileName);
-
-	const char *getParserError() { return parser_.getParseError(); }
-	XMLNode *getRootNode() { return parser_.getRoot(); }
+	void start();
 
 protected:
-	XMLParser parser_;
+	static ServerRegistration *instance_;
 
+	NetServer netServer_;
+	NetBuffer sendNetBuffer_;
+	static int threadFunc(void *);
+	static void registerGame();
+
+	// Inherited from NetMessageHandlerI
+	virtual void processMessage(NetMessage &message);
+
+private:
+	ServerRegistration();
+	virtual ~ServerRegistration();
 };
 
 #endif

@@ -18,25 +18,33 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_XMLFileh_INCLUDE__)
-#define __INCLUDE_XMLFileh_INCLUDE__
+#if !defined(__INCLUDE_ServerBrowserh_INCLUDE__)
+#define __INCLUDE_ServerBrowserh_INCLUDE__
 
-#include <XML/XMLParser.h>
+#include <client/ServerBrowserRefresh.h>
 
-class XMLFile
+class ServerBrowser 
 {
 public:
-	XMLFile();
-	virtual ~XMLFile();
+	static ServerBrowser *instance();
 
-	bool readFile(const char *fileName);
-
-	const char *getParserError() { return parser_.getParseError(); }
-	XMLNode *getRootNode() { return parser_.getRoot(); }
+	void refresh();
+	bool getRefreshing() { return refreshing_; }
+	
+	ServerBrowserServerList &getServerList() { return serverList_; }
 
 protected:
-	XMLParser parser_;
+	static ServerBrowser *instance_;
+	bool refreshing_;
+	unsigned int refreshId_;
+	ServerBrowserServerList serverList_;
+	ServerBrowserRefresh serverRefresh_;
 
+	static int threadFunc(void *);
+
+private:
+	ServerBrowser();
+	virtual ~ServerBrowser();
 };
 
 #endif

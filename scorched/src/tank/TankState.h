@@ -62,6 +62,8 @@ public:
 	float getOldPower() { return oldPower_; }
 	float changePower(float power, bool diff=true);
 
+	const char *getPowerString();
+
 	// Serialize the tank
     bool writeMessage(NetBuffer &buffer);
     bool readMessage(NetBufferReader &reader);

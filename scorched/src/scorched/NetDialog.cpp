@@ -18,22 +18,16 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#ifndef _NO_SERVER_ASE_
-
 #include <scorched/NetDialog.h>
 #include <scorched/MainDialog.h>
-#include <windows.h>
+#include <client/ServerBrowser.h>
 #include <common/OptionsParam.h>
 #include <common/Defines.h>
+#include <windows.h>
 #include <wx/wx.h>
 #include <wx/listctrl.h>
 #include <wx/image.h>
 #include "NetLan.cpp"
-#ifndef _NO_SERVER_ASE_
-extern "C" {
-#include <ASE/ingame.h>
-}
-#endif
 
 class NetListControl : public wxListCtrl
 {
@@ -63,111 +57,57 @@ int NetListControl::OnGetItemImage(long item) const
 
 wxString NetListControl::OnGetItemText(long item, long column) const
 {
-#ifndef _NO_SERVER_ASE_
-	if ((item != -1) && (item < ASEBrowser_servers))
+	if ((item != -1) && 
+		(item < ServerBrowser::instance()->getServerList().getNoEntries()))
 	{
-		if (column == 2)
+		char *name = "";
+		switch (column)
 		{
-			char *clients = ASEBrowser_getinfo(item, "clients");
-			char *maxclients = ASEBrowser_getinfo(item, "maxclients");
+		case 0: name = "servername"; break;
+		case 1: name = "ping"; break;
+		case 2:
+		{
+			std::string clients = 
+				ServerBrowser::instance()->getServerList().getEntryValue(item, "noplayers");
+			std::string maxclients = 
+				ServerBrowser::instance()->getServerList().getEntryValue(item, "maxplayers");
 			static char text[256];
-			sprintf(text, "%s/%s", clients, maxclients);
+			sprintf(text, "%s/%s", clients.c_str(), maxclients.c_str());
 
 			return text;
 		}
-		else
-		{
-			char *name = "ping";
-			switch (column)
-			{
-			case 0: name = "hostname"; break;
-			case 1: name = "ping"; break;
-			case 2: name = "clients"; break;
-			case 3: name = "address"; break;
-			case 4: name = "version"; break;
-			}
-			return ASEBrowser_getinfo(item, name);
+		case 3: name = "address"; break;
+		case 4: name = "fullversion"; break;
 		}
+		return ServerBrowser::instance()->getServerList().getEntryValue(item, name);
 	}
-#endif
 	return "";
 }
 
 static NetListControl *IDC_SERVER_LIST_CTRL = 0;
 static wxListCtrl *IDC_PLAYER_LIST_CTRL = 0;
 
-static bool invalidate = false;
+static unsigned int invalidateId = 0;
 extern char scorched3dAppName[128];
-
-void redrawListView()
-{
-#ifndef _NO_SERVER_ASE_
-	invalidate = false;
-	IDC_SERVER_LIST_CTRL->SetItemCount(ASEBrowser_servers);
-	IDC_PLAYER_LIST_CTRL->DeleteAllItems();
-#endif
-}
-
-void ASEBrowser_invalidate(void)
-{
-	invalidate = true;
-}
-
-void ASEBrowser_progress(void)
-{
-#ifndef _NO_SERVER_ASE_
-	IDC_PROGRESS1_CTRL->SetValue(ASEBrowser_progresspos);
-#endif
-}
 
 void refreshLANWindow(bool lanRefresh)
 {
-#ifndef _NO_SERVER_ASE_
-	static bool init = false;
-	if (!init)
-	{
-		WORD WSAVerReq = (MAKEWORD((1),(1)));
-		WSADATA WSAData;
-		if (WSAStartup(WSAVerReq, &WSAData) != 0)
-		{
-			dialogMessage("Scorched 3D LAN/NET", 
-				"Failed to initialize windows sockets");
-			return;
-		}
-
-		if (ASEBrowser_init()==0)
-		{
-			dialogMessage("Scorched 3D LAN/NET", 
-				"Failed to initialize the browser");
-			return;
-		}
-
-		ASEBrowser_setconfig(28800, 57600, 40, 59);
-		init = true;
-	}
-
 	if (lanRefresh)
 	{
-		if (ASEBrowser_refreshlan(ScorchedPort) == 0)
-		{
+		//if (ASEBrowser_refreshlan(ScorchedPort) == 0)
+		//{
 			dialogMessage("Scorched 3D LAN/NET", 
-				"Failed to initialize this request");
+				"LAN refresh not implemented!");
 			return;
-		}
+		//}
 	}
 	else
 	{
-		if (ASEBrowser_refresh("") == 0)
-		{
-			dialogMessage("Scorched 3D LAN/NET", 
-				"Failed to initialize this request");
-			return;
-		}
+		ServerBrowser::instance()->refresh();
 	}
 
 	IDC_BUTTON_LAN_CTRL->Disable();
 	IDC_BUTTON_NET_CTRL->Disable();
-#endif
 }
 
 class NetLanFrame: public wxDialog
@@ -184,7 +124,6 @@ public:
 	void onSelectServer();
 	void onTimer();
 	void onServerChanged();
-	void onEyeClick();
 
 private:
 	DECLARE_EVENT_TABLE()
@@ -195,15 +134,13 @@ BEGIN_EVENT_TABLE(NetLanFrame, wxDialog)
     EVT_BUTTON(IDC_BUTTON_LAN,  NetLanFrame::onRefreshLanButton)
 	EVT_BUTTON(IDC_BUTTON_NET,  NetLanFrame::onRefreshNETButton)
 	EVT_BUTTON(IDC_CLEAR,  NetLanFrame::onClearButton)
-	EVT_BUTTON(IDC_BUTTON_EYE, NetLanFrame::onEyeClick)
-	EVT_BUTTON(IDC_BUTTON_EYE2, NetLanFrame::onEyeClick)
 	EVT_TIMER(1001, NetLanFrame::onTimer)
 	EVT_LIST_ITEM_SELECTED(IDC_SERVER_LIST, NetLanFrame::onSelectServer)
 	EVT_TEXT(IDC_EDIT_SERVER, NetLanFrame::onServerChanged)
 END_EVENT_TABLE()
 
 NetLanFrame::NetLanFrame() :
-	wxDialog(getMainDialog(), -1, scorched3dAppName, wxPoint(0,0), wxSize(542, 465))
+	wxDialog(getMainDialog(), -1, scorched3dAppName, wxPoint(0,0), wxSize(542, 391))
 {
 	CentreOnScreen();
 
@@ -215,11 +152,11 @@ NetLanFrame::NetLanFrame() :
 
 	IDC_SERVER_LIST_CTRL = 
 		new NetListControl(this, IDC_SERVER_LIST,
-		wxPoint((int) 10.5, (int) 109.5), wxSize((int) 516, (int) 170.5));
+		wxPoint((int) 10.5, (int) 35.5), wxSize((int) 516, (int) 170.5));
 
 	IDC_PLAYER_LIST_CTRL = 
 		new wxListCtrl(this, IDC_PLAYER_LIST,
-		wxPoint((int) 10.5, (int) 280.5), wxSize((int) 516, (int) 83),
+		wxPoint((int) 10.5, (int) 206.5), wxSize((int) 516, (int) 83),
 		wxLC_REPORT | wxLC_HRULES | wxLC_VRULES | wxLC_SINGLE_SEL );
 
 	// Create a timer
@@ -228,15 +165,7 @@ NetLanFrame::NetLanFrame() :
 
 	// Create all the display controlls
 	createControls(this);
-
-	ID_EYEURL->SetForegroundColour(wxColour(0, 0, 255));
-}
-
-void NetLanFrame::onEyeClick()
-{
-#ifdef _WIN32
-	WinExec("explorer http://www.udpsoft.com/eye", SW_SHOWDEFAULT);
-#endif
+	onTimer();
 }
 
 void NetLanFrame::onClearButton()
@@ -247,7 +176,6 @@ void NetLanFrame::onClearButton()
 
 void NetLanFrame::onSelectServer()
 {
-#ifndef _NO_SERVER_ASE_
 	IDC_PLAYER_LIST_CTRL->DeleteAllItems();
 
     long item = -1;
@@ -257,25 +185,28 @@ void NetLanFrame::onSelectServer()
 			item, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
         if ( item == -1) break;
 
-		char *text = ASEBrowser_getinfo(item, "address");
-		if (text)
+		std::string text =
+			ServerBrowser::instance()->getServerList().getEntryValue(item, "address");
+		if (text.size())
 		{
-			char *protocolVersion = ASEBrowser_getinfo(item, "ProtocolVersion");
-			char *version = ASEBrowser_getinfo(item, "version");
-			if (!protocolVersion || (stricmp(protocolVersion, ScorchedProtocolVersion) != 0))
+			std::string protocolVersion = 
+				ServerBrowser::instance()->getServerList().getEntryValue(item, "protocolversion");
+			std::string version =
+				ServerBrowser::instance()->getServerList().getEntryValue(item, "version");
+			if (stricmp(protocolVersion.c_str(), ScorchedProtocolVersion) != 0)
 			{
 				dialogMessage("Scorched 3D", 
 					"Warning: This server is running a incompatable version of Scorched3D.\n"
 					"You cannot connect to this server.\n\n"
-					"This server is running Scorched build %s.\n"
+					"This server is running Scorched build %s (%s).\n"
 					"You are running Scorched build %s (%s).\n\n"					
 					"The latest version of Scorched3D can be downloaded from http://www.scorched3d.co.uk\n",
-					version?version:"??",
+					version.c_str(), protocolVersion.c_str(),
 					ScorchedVersion, ScorchedProtocolVersion);
 			}
-			IDC_EDIT_SERVER_CTRL->SetValue(text);
+			IDC_EDIT_SERVER_CTRL->SetValue(text.c_str());
 
-			if (ASEBrowser_getfirstplayer(item))
+			/*if (ASEBrowser_getfirstplayer(item))
 			{
 				do
 				{
@@ -286,12 +217,11 @@ void NetLanFrame::onSelectServer()
 					IDC_PLAYER_LIST_CTRL->
 						SetItem(index, 2, ASEBrowser_getplayerinfo("time"));
 				} while (ASEBrowser_getnextplayer());
-			}
+			}*/
 			
 			onServerChanged();
 		}
     }
-#endif
 }
 
 void NetLanFrame::onRefreshLanButton()
@@ -313,30 +243,30 @@ void NetLanFrame::onServerChanged()
 
 void NetLanFrame::onTimer()
 {
-#ifndef _NO_SERVER_ASE_
-	if (!ASEBrowser_pinging)
+	if (!ServerBrowser::instance()->getRefreshing())
 	{
 		IDC_BUTTON_LAN_CTRL->Enable();
 		IDC_BUTTON_NET_CTRL->Enable();
 	}
-	if (invalidate)
+	else
 	{
-		redrawListView();
+		IDC_BUTTON_LAN_CTRL->Disable();
+		IDC_BUTTON_NET_CTRL->Disable();
 	}
-#endif
+
+	if (invalidateId != ServerBrowser::instance()->getServerList().getRefreshId())
+	{
+		invalidateId = ServerBrowser::instance()->getServerList().getRefreshId();
+		IDC_SERVER_LIST_CTRL->SetItemCount(
+			ServerBrowser::instance()->getServerList().getNoEntries());
+		IDC_PLAYER_LIST_CTRL->DeleteAllItems();
+	}
 }
 
 bool NetLanFrame::TransferDataToWindow()
 {
 	// Set the ok button to disabled
 	IDC_EDIT_SERVER_CTRL->SetValue(OptionsParam::instance()->getConnect());
-	IDC_PROGRESS1_CTRL->SetRange(4096);
-	
-	// Disable server browsing on non-ase capable machines
-#ifdef _NO_SERVER_ASE_
-	IDC_BUTTON_LAN_CTRL->Disable();
-	IDC_BUTTON_NET_CTRL->Disable();
-#endif
 
 	// Setup the server list control
 	struct ListItem
@@ -382,10 +312,6 @@ bool NetLanFrame::TransferDataToWindow()
 
 bool NetLanFrame::TransferDataFromWindow()
 {
-#ifndef _NO_SERVER_ASE_
-	ASEBrowser_cancel();
-#endif
-
 	OptionsParam::instance()->setConnect(
 		IDC_EDIT_SERVER_CTRL->GetValue().c_str());
 	
@@ -398,4 +324,3 @@ bool showNetLanDialog()
 	return (frame.ShowModal() == wxID_OK);
 }
 
-#endif /*_NO_SERVER_ASE_ */

@@ -18,25 +18,25 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_XMLFileh_INCLUDE__)
-#define __INCLUDE_XMLFileh_INCLUDE__
+#if !defined(__INCLUDE_XMLStringBufferh_INCLUDE__)
+#define __INCLUDE_XMLStringBufferh_INCLUDE__
 
 #include <XML/XMLParser.h>
 
-class XMLFile
+class XMLStringBuffer
 {
 public:
-	XMLFile();
-	virtual ~XMLFile();
+	XMLStringBuffer();
+	virtual ~XMLStringBuffer();
 
-	bool readFile(const char *fileName);
+	bool create(const char *xmlString, unsigned int size);
 
 	const char *getParserError() { return parser_.getParseError(); }
 	XMLNode *getRootNode() { return parser_.getRoot(); }
 
 protected:
 	XMLParser parser_;
-
 };
+
 
 #endif

@@ -128,6 +128,13 @@ NetMessage *NetServerScorchedProtocol::readBuffer(TCPsocket &socket)
 	return buffer;
 }
 
+NetServerHTTPProtocol::NetServerHTTPProtocol()
+{
+}
+
+NetServerHTTPProtocol::~NetServerHTTPProtocol()
+{
+}
 
 bool NetServerHTTPProtocol::sendBuffer(NetBuffer &buffer, TCPsocket &socket)
 {
@@ -156,34 +163,25 @@ NetMessage *NetServerHTTPProtocol::readBuffer(TCPsocket &socket)
 
 	// get the string buffer over the socket
 	Uint32 len = 0;
-	int chars = 0;
-	bool done = false;
 	char buffer[1];
-	while (!done)
+	for (;;)
 	{
 		int recv = SDLNet_TCP_Recv(socket, buffer, 1);
 		if (recv <= 0) 
 		{
-			Logger::log(0, "Read failed for HTTP buffer chunk");
-			NetMessagePool::instance()->addToPool(netBuffer);
-			return 0;
+			// For HTTP the socket being closed signifies the end
+			// of the transmission and is probably not an error!
+			if (len == 0)
+			{
+				// If the len is zero then we have been disconnected
+				NetMessagePool::instance()->addToPool(netBuffer);
+				return 0;
+			}
+			else break;
 		}
 
 		netBuffer->getBuffer().addDataToBuffer(buffer, 1);
 		len += 1;
-
-		switch (buffer[0])
-		{
-		case '\r':
-			break;
-		case '\n':
-			if (chars == 0) done = true;
-			chars = 0;
-			break;
-		default:
-			chars++;
-			break;
-		}
 	}
 	NetBufferUtil::getBytesIn() += len;
 

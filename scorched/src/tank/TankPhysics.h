@@ -53,6 +53,9 @@ public:
 	Vector &getTankTurretPosition(); // Position of center of turret
 	Vector &getTankGunPosition(); // Position of end of gun
 
+	const char *getRotationString();
+	const char *getElevationString();
+
 	// Serialize the tank
     bool writeMessage(NetBuffer &buffer);
     bool readMessage(NetBufferReader &reader);

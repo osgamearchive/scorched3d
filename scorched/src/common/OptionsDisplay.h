@@ -99,6 +99,9 @@ public:
 	int getNumberBilboards() { return numberBilboards_.getValue(); }
 	void setNumberBilboards(int value) { numberBilboards_.setValue(value); }
 
+	bool getUseHexidecimal() { return useHex_.getValue(); }
+	void setUseHexidecimal(bool value) { useHex_.setValue(value); }
+
 	bool getDrawLines() { return drawLines_.getValue(); }
 	void setDrawLines(bool value) { drawLines_.setValue(value); }
 
@@ -155,6 +158,7 @@ protected:
 	OptionEntryInt sunYZAng_;
 	OptionEntryInt sunXYAng_;
 	OptionEntryInt depthBufferBits_;
+	OptionEntryBool useHex_;
 	OptionEntryBool fullScreen_;
 	OptionEntryBool fullClear_;
 	OptionEntryBool noExt_;

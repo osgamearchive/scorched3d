@@ -20,6 +20,7 @@
 
 
 #include <tank/TankState.h>
+#include <common/OptionsDisplay.h>
 #include <stdio.h>
 
 TankState::TankState() : 
@@ -82,6 +83,27 @@ const char *TankState::getStateString()
 		((state_==sDead)?"Dead":((state_==sNormal)?"Alive":"Pending")),
 		(int) life_);
 	return string;
+}
+
+const char *TankState::getPowerString()
+{
+	static char messageBuffer[255];
+	if (OptionsDisplay::instance()->getUseHexidecimal())
+	{
+		sprintf(messageBuffer, "0X%x (0X%x)", 		
+				int(getPower()),
+				int(getPower() - 
+				getOldPower()));
+	}
+	else
+	{
+		sprintf(messageBuffer, "%.1f (%+.1f)", 		
+				getPower(),
+				getPower() - 
+				getOldPower());
+	}
+
+	return messageBuffer;
 }
 
 bool TankState::writeMessage(NetBuffer &buffer)
