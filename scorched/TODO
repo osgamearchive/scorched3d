@@ -17,6 +17,8 @@ Added: Faster sprite depth sorting
 Added: Moving waves around the island shores
 Added: Trees (+ tree LOD)
 Added: Display options are stored in users home directory (if available)
+Added: Server and custom game settings are stored in users home directory (if available)
+Added: Logs are stored in users home directory (if available)
 Added: Server can be run in console (non-gui) mode
 Added: Client shows which players the game is waiting on
 Added: Stats and servers can tell what os clients and servers are on
@@ -50,8 +52,6 @@ Shot cam does not get LOD correctly
 -- Things I am currently looking at
 Capture stdout from secondary scorched windows and display in main
 Sort out window scaling at different resolutions
-Move all files that require RW access to users home dir
-Have a look at seperating data and binary paths
 Roller model
 Better arrows over tank
 GUI Icon stuff

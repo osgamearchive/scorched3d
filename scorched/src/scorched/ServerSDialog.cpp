@@ -126,7 +126,7 @@ bool showServerSDialog()
 		ScorchedServer::instance()->getOptionsGame().writeOptionsToFile(
 			(char *) serverFileDest.c_str());
 
-		runScorched3D("-startserver %s", serverFileDest.c_str());
+		runScorched3D("-startserver \"%s\"", serverFileDest.c_str());
 		return true;
 	}
 	return false;
