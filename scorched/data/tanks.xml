@@ -54,13 +54,13 @@
 	</tank>
 	<tank>
 		<name>ZSU-57 High Def</name>
-		<catagory>Tank</catagory>
+		<catagory>Artillery</catagory>
 		<catagory>High Def</catagory>
 		<model type="MilkShape">zsu57/zsu57.txt</model>
 	</tank>
 	<tank>
 		<name>ZSU-23 High Def</name>
-		<catagory>Tank</catagory>
+		<catagory>Artillery</catagory>
 		<catagory>High Def</catagory>
 		<model type="MilkShape">zsu23/zsu23.txt</model>
 	</tank>
@@ -143,7 +143,7 @@
 	</tank>
 	<tank>
 		<name>Flakpanzer Wirbelwind</name>
-		<catagory>Tank</catagory>
+		<catagory>Artillery</catagory>
 		<model type="ase">
 			<mesh>flakpanzerwirbelwind.ase</mesh>
 			<skin>flakpanzerwirbelwind.bmp</skin>
@@ -151,7 +151,7 @@
 	</tank>
 	<tank>
 		<name>SA-19 GRISON (2K22 Tunguska)</name>
-		<catagory>Tank</catagory>
+		<catagory>Artillery</catagory>
 		<model type="ase">
 			<mesh>sa-19.ase</mesh>
 			<skin>sa-19.bmp</skin>
@@ -160,7 +160,7 @@
 	</tank>
 	<tank>
 		<name>ZSU-24-1 (SHILKA)</name>
-		<catagory>Tank</catagory>
+		<catagory>Artillery</catagory>
 		<model type="ase">
 			<mesh>zsu-24-1.ase</mesh>
 			<skin>zsu-24-1.bmp</skin>
@@ -177,7 +177,7 @@
 	</tank>
 	<tank>
 		<name>Harpoon</name>
-		<catagory>Artillery</catagory>
+		<catagory>Missile</catagory>
 		<model type="ase">
 			<mesh>harpoon.ase</mesh>
 			<skin>harpoon.bmp</skin>
@@ -421,7 +421,7 @@
 	</tank>
 	<tank>
 		<name>M7 Priest</name>
-		<catagory>Missile</catagory>
+		<catagory>Artillery</catagory>
 		<model type="ase">
 			<mesh>m7priest.ase</mesh>
 			<skin>m7priest.bmp</skin>
@@ -429,7 +429,7 @@
 	</tank>
 	<tank>
 		<name>Paladin</name>
-		<catagory>Tank</catagory>
+		<catagory>Artillery</catagory>
 		<model type="ase">
 			<mesh>paladin.ase</mesh>
 			<skin>paladin.bmp</skin>
@@ -565,7 +565,7 @@
 	</tank>
 	<tank>
 		<name>Wespe</name>
-		<catagory>Tank</catagory>
+		<catagory>Artillery</catagory>
 		<model type="ase">
 			<mesh>wespe.ase</mesh>
 			<skin>wespe.bmp</skin>
