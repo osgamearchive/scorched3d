@@ -183,13 +183,13 @@ void Explosion::init()
 
 			if (texture)
 			{
-				setActionRender(
-					new ExplosionRenderer(
+				context_->actionController->addAction(
+					new SpriteAction(new ExplosionRenderer(
 						position_, 
 						*texture,
 						expColor,
 						explosionSize, 
-						(explosion->getHurtAmount() > 0.0f)));
+						(explosion->getHurtAmount() > 0.0f))));
 			}
 		}
 

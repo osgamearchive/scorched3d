@@ -21,6 +21,7 @@
 #include <actions/Animation.h>
 #include <engine/MetaClass.h>
 #include <engine/ScorchedContext.h>
+#include <engine/ActionController.h>
 #include <sprites/MetaActionRenderer.h>
 #include <common/Defines.h>
 
@@ -53,7 +54,8 @@ void Animation::init()
 		if (renderer)
 		{
 			renderer->init(playerId_, position_, velocity_);
-			setActionRender(renderer);
+			context_->actionController->addAction(
+				new SpriteAction(renderer));
 		}
 		else
 		{

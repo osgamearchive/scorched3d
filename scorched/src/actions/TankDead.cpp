@@ -121,9 +121,10 @@ void TankDead::simulate(float frameTime, bool &remove)
 
 			if (!context_->serverMode) 
 			{
-				setActionRender(
-					new TankDeadRenderer(
-						weapon_, killedPlayerId_, firedPlayerId_));
+				context_->actionController->addAction(
+					new SpriteAction(
+						new TankDeadRenderer(
+							weapon_, killedPlayerId_, firedPlayerId_)));
 			}
 
 			// Add the tank death explosion

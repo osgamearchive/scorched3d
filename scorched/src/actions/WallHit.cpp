@@ -21,6 +21,7 @@
 #include <actions/WallHit.h>
 #include <sprites/WallActionRenderer.h>
 #include <common/OptionsParam.h>
+#include <engine/ActionController.h>
 #include <engine/ScorchedContext.h>
 
 REGISTER_ACTION_SOURCE(WallHit);
@@ -45,7 +46,8 @@ void WallHit::init()
 {
 	if (!context_->serverMode)
 	{
-		setActionRender(new WallActionRenderer(position_, type_));
+		context_->actionController->addAction(
+			new SpriteAction(new WallActionRenderer(position_, type_)));
 	}
 }
 

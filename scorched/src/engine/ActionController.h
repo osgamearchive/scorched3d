@@ -38,7 +38,7 @@ public:
 	void addAction(Action *action);
 	bool noReferencedActions();
 	void resetTime();
-	void clear();
+	void clear(bool warn = false);
 
 	void setTotalTime(float t) { totalTime_ = t; }
 

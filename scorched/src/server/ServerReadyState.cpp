@@ -137,8 +137,8 @@ bool ServerReadyState::acceptStateChange(const unsigned state,
 					Tank *tank = (*itor).second;
 					if (tank->getState().getReadyState() == TankState::SNotReady)
 					{
-						Logger::log(0, "Sending last chance message to \"%s\"",
-							tank->getName());
+						Logger::log(0, "Sending last chance message to \"%s\" after %i seconds",
+							tank->getName(), time_);
 
 						// Tell client to hurry up
 						ComsLastChanceMessage chanceMessage;
@@ -162,6 +162,7 @@ bool ServerReadyState::acceptStateChange(const unsigned state,
 		// Check all players returned ready
 		if (ScorchedServer::instance()->getTankContainer().allReady())
 		{
+			//Logger::log(0, "All ready after %.2f seconds", time_);
 			finished();
 			return true;
 		}

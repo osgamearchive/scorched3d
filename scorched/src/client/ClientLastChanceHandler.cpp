@@ -57,7 +57,7 @@ bool ClientLastChanceHandler::processMessage(unsigned int destinationId,
 
 	// We are lagging in a state we should not be in!
 	// This is the last chance so be drastic
-	ScorchedClient::instance()->getActionController().clear();
+	ScorchedClient::instance()->getActionController().clear(true);
 
 	// Move to the correct state
 	ClientReadyState::instance()->enterState(ClientState::StateReady);

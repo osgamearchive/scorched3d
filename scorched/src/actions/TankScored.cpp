@@ -21,6 +21,7 @@
 #include <actions/TankScored.h>
 #include <sprites/TextActionRenderer.h>
 #include <engine/ScorchedContext.h>
+#include <engine/ActionController.h>
 #include <common/Defines.h>
 #include <common/OptionsParam.h>
 #include <common/Logger.h>
@@ -65,11 +66,13 @@ void TankScored::init()
 
 			char buffer[256];
 			sprintf(buffer, "$ %+i", moneyDiff_);
-			setActionRender(
-				new TextActionRenderer(
-					position,
-					(moneyDiff_>0.0f)?greenColor:((moneyDiff_<0.0f)?redColor:yellowColor),
-					buffer));
+
+			context_->actionController->addAction(
+				new SpriteAction(
+					new TextActionRenderer(
+						position,
+						(moneyDiff_>0.0f)?greenColor:((moneyDiff_<0.0f)?redColor:yellowColor),
+						buffer)));
 		}
 	}
 }

@@ -36,7 +36,7 @@ ActionController::~ActionController()
 
 }
 
-void ActionController::clear()
+void ActionController::clear(bool warn)
 {
 	// Action Buffer
 	buffer_.clear();
@@ -47,7 +47,13 @@ void ActionController::clear()
 		newItor != newActions_.end();
 		newItor++)
 	{
-		delete *newItor;
+		Action *act = *newItor;
+		if (warn)
+		{
+			Logger::log(0, "Warning: removing added timed out action %s, %s",
+				act->getActionType(), (act->getReferenced()?"Ref":"UnRef"));
+		}
+		delete act;
 	}
 	newActions_.clear();
 
@@ -57,7 +63,13 @@ void ActionController::clear()
 		cItor != actions_.end();
 		cItor++)
 	{
-		delete *cItor;
+		Action *act = *cItor;
+		if (warn)
+		{
+			Logger::log(0, "Warning: removing added timed out action %s, %s",
+				act->getActionType(), (act->getReferenced()?"Ref":"UnRef"));
+		}
+		delete act;
 	}
 	actions_.clear();
 
