@@ -34,7 +34,7 @@ ClientDefenseHandler *ClientDefenseHandler::instance()
 	return instance_;
 }
 
-ClientDefenseHandler::ClientDefenseHandler()
+ClientDefenseHandler::ClientDefenseHandler() : messageCount_(1)
 {
 	ScorchedClient::instance()->getComsMessageHandler().addHandler(
 		"ComsDefenseMessage",
@@ -64,5 +64,6 @@ bool ClientDefenseHandler::processMessage(unsigned int id,
 	TankAILogic::processDefenseMessage(
 		ScorchedClient::instance()->getContext(), 
 		message, tank);
+	messageCount_++;
 	return true;
 }

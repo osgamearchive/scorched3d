@@ -65,7 +65,7 @@ bool ServerDefenseHandler::processMessage(unsigned int destinationId,
 
 	// Check we are in the correct state
 	if ((ScorchedServer::instance()->getGameState().getState() != 
-		 ServerState::ServerStatePlaying) ||
+		 ServerState::ServerStatePlaying) &&
 		(ScorchedServer::instance()->getGameState().getState() != 
 		 ServerState::ServerStateBuying))
 	{

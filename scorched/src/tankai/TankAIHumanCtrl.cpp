@@ -76,15 +76,7 @@ void TankAIHumanCtrl::keyboardCheck(const unsigned state, float frameTime,
 	{
 		if (currentTank->getState().getState() == TankState::sNormal)
 		{
-			if (currentTank->getDestinationId() == 
-				ScorchedClient::instance()->getTankContainer().getCurrentDestinationId() &&
-				!currentTank->getTankAI()) 
-			{
-				// If this is a player local to this destination then add the human ai
-				TankAI *ai = new TankAIHuman(&ScorchedClient::instance()->getContext(), currentTank);
-				currentTank->setTankAI(ai);
-			}
-
+			setTankAI(); // Ensure this tank has an AI
 			TankAI *ai = currentTank->getTankAI();
 			if (ai)
 			{
@@ -94,6 +86,23 @@ void TankAIHumanCtrl::keyboardCheck(const unsigned state, float frameTime,
 		else
 		{
 			DIALOG_ASSERT(0);
+		}
+	}
+}
+
+void TankAIHumanCtrl::setTankAI()
+{
+	Tank *currentTank =
+		ScorchedClient::instance()->getTankContainer().getCurrentTank();
+	if (currentTank)
+	{
+		if (currentTank->getDestinationId() == 
+			ScorchedClient::instance()->getTankContainer().getCurrentDestinationId() &&
+			!currentTank->getTankAI()) 
+		{
+			// If this is a player local to this destination then add the human ai
+			TankAI *ai = new TankAIHuman(&ScorchedClient::instance()->getContext(), currentTank);
+			currentTank->setTankAI(ai);
 		}
 	}
 }

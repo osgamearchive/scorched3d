@@ -42,13 +42,15 @@ public:
 	virtual void select(unsigned int id, const int pos, const char *value);
 
 	// Inherited from GLWWindow
+	virtual void draw();
 	virtual void windowInit(const unsigned state);
 
 protected:
 	unsigned int okId_;
-	unsigned int paraId_;
-	unsigned int shieldId_;
+	unsigned int messageCount_;
 	GLWVisiblePanel *topPanel_;
+	GLWDropDown *ddshields_;
+	GLWDropDown *ddpara_;
 
 	void finished();
 	void displayCurrent();

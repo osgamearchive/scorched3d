@@ -30,6 +30,8 @@ class TankAIHumanCtrl : public GameStateI
 public:
 	static TankAIHumanCtrl *instance();
 
+	void setTankAI();
+
 	// Inherited from GameStateI
 	virtual void enterState(const unsigned state);
 	virtual void keyboardCheck(const unsigned state, float frameTime, 

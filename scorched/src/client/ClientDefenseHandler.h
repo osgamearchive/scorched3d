@@ -30,12 +30,14 @@ class ClientDefenseHandler :
 public:
 	static ClientDefenseHandler *instance();
 
+	unsigned int getMessageCount() { return messageCount_; }
 	virtual bool processMessage(unsigned int id,
 		const char *messageType,
 		NetBufferReader &reader);
 
 protected:
 	static ClientDefenseHandler *instance_;
+	unsigned int messageCount_;
 
 private:
 	ClientDefenseHandler();

@@ -22,11 +22,13 @@
 #include <GLW/GLWFlag.h>
 #include <GLW/GLWTextButton.h>
 #include <tankai/TankAIHuman.h>
+#include <tankai/TankAIHumanCtrl.h>
 #include <common/WindowManager.h>
 #include <common/OptionsTransient.h>
 #include <coms/ComsPlayedMoveMessage.h>
 #include <coms/ComsMessageSender.h>
 #include <client/ClientState.h>
+#include <client/ClientDefenseHandler.h>
 #include <client/ScorchedClient.h>
 
 AutoDefenseDialog::AutoDefenseDialog() :
@@ -38,11 +40,27 @@ AutoDefenseDialog::AutoDefenseDialog() :
 
 	topPanel_ = (GLWVisiblePanel *)
 		addWidget(new GLWVisiblePanel(10, 245, 420, 30));
+
+	ddpara_ = (GLWDropDown *) addWidget(new GLWDropDown(120, 170, 300));
+	ddpara_->setHandler(this);
+	ddshields_ = (GLWDropDown *) addWidget(new GLWDropDown(120, 200, 300));
+	ddshields_->setHandler(this);
 }
 
 AutoDefenseDialog::~AutoDefenseDialog()
 {
 
+}
+
+void AutoDefenseDialog::draw()
+{
+	// Check if the items need updating
+	if (messageCount_ != ClientDefenseHandler::instance()->getMessageCount())
+	{
+		displayCurrent();
+	}
+
+	GLWWindow::draw();
 }
 
 void AutoDefenseDialog::windowInit(const unsigned state)
@@ -81,77 +99,86 @@ void AutoDefenseDialog::displayCurrent()
 	Tank *tank = ScorchedClient::instance()->getTankContainer().getCurrentTank();
 	if (!tank) return;
 
-	topPanel_->clear();
-
 	// Put information at the top of the dialog
 	char buffer[256];
 	sprintf(buffer, "$%i", tank->getScore().getMoney());
+	topPanel_->clear();
 	topPanel_->addWidget(new GLWFlag(tank->getColor(), 5, 5, 60));
 	topPanel_->addWidget(new GLWLabel(70, 0, (char *) tank->getName()));
 	topPanel_->addWidget(new GLWLabel(280, 0, buffer));
 
 	// Put shields info
-	GLWDropDown *ddshields = (GLWDropDown *) 
-		topPanel_->addWidget(new GLWDropDown(120, -110, 300));
-	ddshields->setHandler(this);
-	shieldId_ = ddshields->getId();
-
+	ddshields_->clear();
 	std::map<Shield*, int>::iterator shieldsItor;
 	std::map<Shield*, int> &shields = 
 		tank->getAccessories().getShields().getAllShields();
-	ddshields->addText("Shields Off");
+	ddshields_->addText("Shields Off");
 	for (shieldsItor = shields.begin();
 		shieldsItor != shields.end();
 		shieldsItor++)
 	{
 		Shield *shield = (*shieldsItor).first;
-		ddshields->addText(shield->getName());
+		int shieldcount = (*shieldsItor).second;
+		char buffer[256];
+		sprintf(buffer, "%s (%i)",
+			shield->getName(),
+			shieldcount);
+		ddshields_->addText(buffer);
 	}
-	if (tank->getAccessories().getShields().getCurrentShield())
+
+	// Put parachutes info
+	ddpara_->clear();
+	ddpara_->addText("Parachutes Off");
+	if (tank->getAccessories().getParachutes().getNoParachutes() > 0)
 	{
-		ddshields->setText(
-			tank->getAccessories().getShields().getCurrentShield()->getName());
+		char buffer[256];
+		sprintf(buffer, "Parachutes On (%i)",
+			tank->getAccessories().getParachutes().getNoParachutes());
+		ddpara_->addText(buffer);
+	}
+
+	// Set the currently shown items
+	Shield *currentShield = tank->getAccessories().getShields().getCurrentShield();
+	if (currentShield)
+	{
+		char buffer[256];
+		sprintf(buffer, "%s (%i)",
+			currentShield->getName(),
+			tank->getAccessories().getShields().getShieldCount(currentShield));
+		ddshields_->setText(buffer);
 	}
 	else
 	{
-		ddshields->setText("Shields Off");
-	}
-
-
-	// Put parachutes info
-	GLWDropDown *ddpara = (GLWDropDown *) 
-		topPanel_->addWidget(new GLWDropDown(120, -70, 300));
-	ddpara->setHandler(this);
-	paraId_ = ddpara->getId();
-
-	ddpara->addText("Parachutes Off");
-	if (tank->getAccessories().getParachutes().getNoParachutes() > 0)
-	{
-		ddpara->addText("Parachutes On");
+		ddshields_->setText("Shields Off");
 	}
 	if (tank->getAccessories().getParachutes().parachutesEnabled())
 	{
-		ddpara->setText("Parachutes On");
+		char buffer[256];
+		sprintf(buffer, "Parachutes On (%i)",
+			tank->getAccessories().getParachutes().getNoParachutes());
+		ddpara_->setText(buffer);
 	}
 	else
 	{
-		ddpara->setText("Parachutes Off");
+		ddpara_->setText("Parachutes Off");
 	}
+
+	messageCount_ = ClientDefenseHandler::instance()->getMessageCount();
 }
 
 void AutoDefenseDialog::select(unsigned int id, 
 							   const int pos, 
 							   const char *value)
 {
+	TankAIHumanCtrl::instance()->setTankAI();
 	Tank *tank = ScorchedClient::instance()->getTankContainer().getCurrentTank();
 	if (!tank || !tank->getTankAI()) return;
 
-	if (id == paraId_)
+	if (id == ddpara_->getId())
 	{
 		((TankAIHuman *) tank->getTankAI())->parachutesUpDown(pos != 0);
-		displayCurrent();
 	}
-	else if (id == shieldId_)
+	else if (id == ddshields_->getId())
 	{
 		if (pos == 0)
 		{
@@ -170,7 +197,6 @@ void AutoDefenseDialog::select(unsigned int id,
 					(*shieldsItor).first->getAccessoryId());
 			}
 		}
-		displayCurrent();
 	}
 }
 
@@ -180,9 +206,6 @@ void AutoDefenseDialog::finished()
 	ComsPlayedMoveMessage comsMessage(
 		ScorchedClient::instance()->getTankContainer().getCurrentPlayerId(), 
 		ComsPlayedMoveMessage::eFinishedBuy);
-
-	// Check if we are running in a NET/LAN environment
-	// If so we send this move to the server
 	ComsMessageSender::sendToServer(comsMessage);
 
 	WindowManager::instance()->hideWindow(getId());
