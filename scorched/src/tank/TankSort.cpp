@@ -158,7 +158,7 @@ void TankSort::getSortedTanks(std::list<Tank *> &list, ScorchedContext &context)
 		list.erase(removeItor);
 	}
 
-	list.swap(newList);
+	list = newList;
 }
 
 void TankSort::getSortedTanksIds(ScorchedContext &context, std::list<unsigned int> &list)

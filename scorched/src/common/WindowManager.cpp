@@ -179,7 +179,7 @@ bool WindowManager::moveToFront(unsigned id)
 		else tmpList.push_back(window);
 	}
 
-	currentStateEntry_->windows_.swap(tmpList);
+	currentStateEntry_->windows_ = tmpList;
 	if (found) 
 	{
 		currentStateEntry_->windows_.push_back(found);

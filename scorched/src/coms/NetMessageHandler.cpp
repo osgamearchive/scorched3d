@@ -52,7 +52,8 @@ int NetMessageHandler::processMessages()
 	// Get the list of messages that should be processed
 	std::list<NetMessage *> newMessages;
 	SDL_LockMutex(messagesMutex_);
-	messages_.swap(newMessages);
+	newMessages = messages_;
+	messages_.clear();
 	messagesWaiting_ = false;
 	SDL_UnlockMutex(messagesMutex_);
 

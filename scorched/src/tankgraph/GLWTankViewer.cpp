@@ -136,7 +136,7 @@ void GLWTankViewer::setTankModels(std::vector<TankModel *> &models)
 			std::vector<TankModel *> tmpVector;
 			tmpVector.push_back(model);
 			tmpVector.insert(tmpVector.end(), models_.begin(), models_.end());
-			models_.swap(tmpVector);
+			models_ = tmpVector;
 			break;
 		}
 	}

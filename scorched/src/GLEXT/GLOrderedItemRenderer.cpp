@@ -184,7 +184,7 @@ void GLOrderedItemRenderer::draw(const unsigned state)
 	}
 
 	// Only use current entries
-	requiredEntries_.swap(tmpRequiredEntries_);
+	requiredEntries_ = tmpRequiredEntries_;
 
 	// Reset the depth mask
 	glDepthMask(GL_TRUE);

@@ -174,7 +174,8 @@ bool NetServerRead::pollOutgoing()
 {
 	std::list<NetMessage *> newMessages;
 	SDL_LockMutex(outgoingMessagesMutex_);
-	newMessages_.swap(newMessages);
+	newMessages = newMessages_;
+	newMessages_.clear();
 	SDL_UnlockMutex(outgoingMessagesMutex_);
 
 	bool result = true;
