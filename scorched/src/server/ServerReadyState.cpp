@@ -138,7 +138,7 @@ bool ServerReadyState::acceptStateChange(const unsigned state,
 					Tank *tank = (*itor).second;
 					if (tank->getState().getReadyState() == TankState::SNotReady)
 					{
-						Logger::log(0, "Sending last chance message to \"%s\" after %i seconds",
+						Logger::log(0, "Sending last chance message to \"%s\" after %.0f seconds",
 							tank->getName(), time_);
 
 						// Tell client to hurry up
@@ -185,7 +185,7 @@ bool ServerReadyState::acceptStateChange(const unsigned state,
 			if (tank->getState().getReadyState() == TankState::SNotReady)
 			{
 				Logger::log(0, 
-					"Player \"%s\" not returned ready for %i seconds", 
+					"Player \"%s\" not returned ready for %0.f seconds", 
 					tank->getName(),
 					idleTime_);
 
