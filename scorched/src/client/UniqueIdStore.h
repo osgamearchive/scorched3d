@@ -22,6 +22,7 @@
 #define __INCLUDE_UniqueIdStoreh_INCLUDE__
 
 #include <list>
+#include <string>
 
 class UniqueIdStore
 {
