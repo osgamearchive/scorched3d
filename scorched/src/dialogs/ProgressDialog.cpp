@@ -28,6 +28,7 @@
 #include <GLW/GLWFont.h>
 #include <GLEXT/GLBitmap.h>
 #include <math.h>
+#include <string.h>
 
 ProgressDialog *ProgressDialog::instance_ = 0;
 
@@ -41,7 +42,7 @@ ProgressDialog *ProgressDialog::instance()
 }
 
 ProgressDialog::ProgressDialog() : 
-	GLWWindow("Progress", 10.0f, 10.0f, 340.0f, 210.0f, eNoTitle,
+	GLWWindow("Progress", 10.0f, 10.0f, 420.0f, 300.0f, eNoTitle,
 		"Shows loading progress")
 {
 	setUser(this);
@@ -65,7 +66,19 @@ ProgressDialog::~ProgressDialog()
 
 void ProgressDialog::changeTip()
 {
-	tip_ = tips_.getRandomLine();
+	const char *tip = tips_.getRandomLine();
+	char *nl = strchr(tip, ':');
+	if (nl)
+	{
+		*nl = '\0';
+		tip1_ = tip;
+		tip2_ = nl + 1;
+	}
+	else
+	{
+		tip1_ = tip;
+		tip2_ = "";
+	}
 }
 
 void ProgressDialog::draw()
@@ -82,13 +95,13 @@ void ProgressDialog::draw()
 				glColor3f(1.0f, 1.0f, 1.0f);
 				glBegin(GL_QUADS);
 					glTexCoord2f(0.0f, 0.0f);
-					glVertex2f(20.0f, 50.0f);
+					glVertex2f(20.0f, 60.0f);
 					glTexCoord2f(1.0f, 0.0f);
-					glVertex2f(320.0f, 50.0f);
+					glVertex2f(400.0f, 60.0f);
 					glTexCoord2f(1.0f, 1.0f);
-					glVertex2f(320.0f, 180.0f);
+					glVertex2f(400.0f, 260.0f);
 					glTexCoord2f(0.0f, 1.0f);
-					glVertex2f(20.0f, 180.0f);
+					glVertex2f(20.0f, 260.0f);
 				glEnd();
 			}
 
@@ -97,45 +110,48 @@ void ProgressDialog::draw()
 
 				glColor3f(0.6f, 0.0f, 0.0f);
 				glBegin(GL_QUADS);
-					glVertex2f(20.0f, 15.0f);
-					glVertex2f(20.0f + 300.0f * progress_->getCurrent() / 100.0f, 15.0f);
-					glVertex2f(20.0f + 300.0f * progress_->getCurrent() / 100.0f, 21.0f);
 					glVertex2f(20.0f, 21.0f);
+					glVertex2f(20.0f + 380.0f * progress_->getCurrent() / 100.0f, 21.0f);
+					glVertex2f(20.0f + 380.0f * progress_->getCurrent() / 100.0f, 26.0f);
+					glVertex2f(20.0f, 26.0f);
 				glEnd();
 				glColor3f(0.2f, 0.2f, 0.2f);
 				glBegin(GL_LINE_LOOP);
-					glVertex2f(20.0f, 15.0f);
-					glVertex2f(320.0f, 15.0f);
-					glVertex2f(320.0f, 21.0f);
 					glVertex2f(20.0f, 21.0f);
+					glVertex2f(400.0f, 21.0f);
+					glVertex2f(400.0f, 26.0f);
+					glVertex2f(20.0f, 26.0f);
 				glEnd();
 			}
 
 			Vector color(0.2f, 0.2f, 0.2f);
 			GLWFont::instance()->getLargePtFont()->draw(color, 
-				14.0f, 20.0f, 28.0f, 0.0f, 
+				14.0f, 20.0f, 33.0f, 0.0f, 
 				progressLabel_->getText());
 
 			HelpButtonDialog::instance()->getHelpTexture().draw();
 			glPushMatrix();
 				glColor3f(1.0f, 1.0f, 1.0f);
-				glTranslatef(18.0f, -10.0f, 0.0f);
+				glTranslatef(18.0f, -11.0f, 0.0f);
 				glBegin(GL_QUADS);
 					glTexCoord2f(0.0f, 0.0f);
 					glVertex2f(0.0f, 0.0f);
 					glTexCoord2f(1.0f, 0.0f);
-					glVertex2f(20.0f, 0.0f);
+					glVertex2f(22.0f, 0.0f);
 					glTexCoord2f(1.0f, 1.0f);
-					glVertex2f(20.0f, 20.0f);
+					glVertex2f(22.0f, 22.0f);
 					glTexCoord2f(0.0f, 1.0f);
-					glVertex2f(0.0f, 20.0f);
+					glVertex2f(0.0f, 22.0f);
 				glEnd();
 			glPopMatrix();
 
 			Vector color2(0.4f, 0.4f, 0.4f);
-			GLWFont::instance()->getLargePtFont()->drawWidth(300, 
-				color2, 8.0f, 38.0f, -4.0f, 0.0f, 
-				tip_);
+			GLWFont::instance()->getLargePtFont()->drawWidth(380, 
+				color2, 10.0f, 44.0f, 3.0f, 0.0f, 
+				tip1_.c_str());
+			GLWFont::instance()->getLargePtFont()->drawWidth(380, 
+				color2, 10.0f, 44.0f, -12.0f, 0.0f, 
+				tip2_.c_str());
 		glPopMatrix();
 	}
 }

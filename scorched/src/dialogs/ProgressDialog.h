@@ -47,7 +47,7 @@ protected:
 	GLWLabel *progressLabel_;
 	GLWProgress *progress_;
 	FileLines tips_;
-	const char *tip_;
+	std::string tip1_, tip2_;
 
 private:
 	ProgressDialog();
