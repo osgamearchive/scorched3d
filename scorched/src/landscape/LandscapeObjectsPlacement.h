@@ -21,27 +21,17 @@
 #if !defined(__INCLUDE_LandscapeObjectsPlacementh_INCLUDE__)
 #define __INCLUDE_LandscapeObjectsPlacementh_INCLUDE__
 
-#include <engine/MetaClass.h>
 #include <common/ProgressCounter.h>
 #include <common/RandomGenerator.h>
 
-class LandscapeObjectsPlacement : public MetaClass
+class LandscapeTexObjectsPlacementTree;
+class LandscapeObjectPlacementTrees 
 {
 public:
 	virtual void generateObjects(
 		RandomGenerator &generator, 
-		ProgressCounter *counter = 0) = 0;
-};
-
-class LandscapeObjectPlacementTrees : 
-	public LandscapeObjectsPlacement
-{
-public:
-	virtual void generateObjects(
-		RandomGenerator &generator, 
+		LandscapeTexObjectsPlacementTree &placement,
 		ProgressCounter *counter = 0);
-
-	REGISTER_CLASS_HEADER(LandscapeObjectPlacementTrees);
 };
 
 #endif // __INCLUDE_LandscapeObjectsPlacementh_INCLUDE__

@@ -96,7 +96,7 @@ void dialogExit(const char *header, const char *file, ...)
 	va_end(ap); 
 
 	dialogMessage(header, result);
-	exit(0);
+	exit(1);
 }
 
 void setDataFileMod(const char *mod)

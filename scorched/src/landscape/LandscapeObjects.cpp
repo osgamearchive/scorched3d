@@ -21,6 +21,7 @@
 #include <landscape/LandscapeObjects.h>
 #include <landscape/Landscape.h>
 #include <landscape/LandscapeMaps.h>
+#include <landscape/LandscapeTex.h>
 #include <landscape/LandscapeObjectsPlacement.h>
 #include <client/ScorchedClient.h>
 #include <client/MainCamera.h>
@@ -77,7 +78,9 @@ static inline unsigned int pointToUInt(unsigned int x, unsigned int y)
 	return (x << 16) | (y & 0xffff);
 }
 
-void LandscapeObjects::generate(RandomGenerator &generator, ProgressCounter *counter)
+void LandscapeObjects::generate(RandomGenerator &generator, 
+	LandscapeTex &tex,
+	ProgressCounter *counter)
 {
 	if (counter) counter->setNewOp("Populating Landscape");
 
@@ -87,8 +90,27 @@ void LandscapeObjects::generate(RandomGenerator &generator, ProgressCounter *cou
 	// TODO allow turning of this off during game
 	if (OptionsDisplay::instance()->getNoTrees()) return;
 
-	LandscapeObjectPlacementTrees gen;
-	gen.generateObjects(generator, counter);
+	// Generate all the objects using the objects definitions
+	for (unsigned int i=0; i<tex.objects.size(); i++)
+	{
+		// Check which type of objects placement will be used
+		std::string placementtype = tex.objectstype[i];
+		if (0 == strcmp(placementtype.c_str(), "trees"))
+		{
+			// Trees type placement
+			LandscapeObjectPlacementTrees gen;
+			LandscapeTexObjectsPlacementTree *placement =
+				(LandscapeTexObjectsPlacementTree *)
+					tex.objects[i];
+			gen.generateObjects(generator, *placement, counter);
+		}
+		else
+		{
+			dialogExit("LandscapeObjects",
+				"Error: Unknown placement type \"%s\"",
+				placementtype.c_str());
+		}
+	}
 }
 
 void LandscapeObjects::addObject(unsigned int x, unsigned int y,

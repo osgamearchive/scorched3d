@@ -386,15 +386,12 @@ void Landscape::generate(ProgressCounter *counter)
 	GLBitmap bitmapDetail(tex->detail.c_str());
 	DIALOG_ASSERT(detailTexture_.replace(bitmapDetail, GL_RGB, true));
 
-	// Add objects to the landscape
+	// Add objects to the landscape (if any)
 	objects_.removeAllObjects();
-	/*if (resources_.getStringResource("objects")[0])
-	{
-		RandomGenerator objectsGenerator;
-		objectsGenerator.seed(
-			ScorchedClient::instance()->getLandscapeMaps().getLandDfn().getSeed());
-		objects_.generate(objectsGenerator, counter);
-	}*/
+	RandomGenerator objectsGenerator;
+	objectsGenerator.seed(
+		ScorchedClient::instance()->getLandscapeMaps().getLandDfn().getSeed());
+	objects_.generate(objectsGenerator, *tex, counter);
 
 	// Create the plan textures (for the plan and wind dialogs)
 	updatePlanTexture();

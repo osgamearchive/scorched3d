@@ -34,6 +34,32 @@ public:
 	virtual bool readXML(XMLNode *node) = 0;
 };
 
+class LandscapeTexObjectsTree : public LandscapeTexType
+{
+public:
+	std::string tree;
+	float snow;
+
+	virtual bool writeMessage(NetBuffer &buffer);
+	virtual bool readMessage(NetBufferReader &reader);
+	virtual bool readXML(XMLNode *node);
+};
+
+class LandscapeTexObjectsPlacementTree : public LandscapeTexType
+{
+public:
+	virtual ~LandscapeTexObjectsPlacementTree();
+
+	int numobjects;
+
+	std::string objecttype;
+	LandscapeTexType *object;
+
+	virtual bool writeMessage(NetBuffer &buffer);
+	virtual bool readMessage(NetBufferReader &reader);
+	virtual bool readXML(XMLNode *node);
+};
+
 class LandscapeTexBorderWater : public LandscapeTexType
 {
 public:
@@ -84,6 +110,9 @@ public:
 	LandscapeTexType *border;
 	std::string texturetype;
 	LandscapeTexType *texture;
+
+	std::vector<std::string> objectstype;
+	std::vector<LandscapeTexType *> objects;
 
 	bool writeMessage(NetBuffer &buffer);
 	bool readMessage(NetBufferReader &reader);

@@ -21,14 +21,14 @@
 #include <landscape/LandscapeObjectsPlacement.h>
 #include <landscape/LandscapeObjectsEntryTree.h>
 #include <landscape/LandscapeMaps.h>
+#include <landscape/LandscapeTex.h>
 #include <landscape/Landscape.h>
 #include <client/ScorchedClient.h>
 #include <GLEXT/GLBitmapModifier.h>
 
-REGISTER_CLASS_SOURCE(LandscapeObjectPlacementTrees);
-
 void LandscapeObjectPlacementTrees::generateObjects(
 	RandomGenerator &generator, 
+	LandscapeTexObjectsPlacementTree &placement,
 	ProgressCounter *counter)
 {
 	// Generate a map of where the trees should go
@@ -119,13 +119,25 @@ void LandscapeObjectPlacementTrees::generateObjects(
 		}
 	}
 
+	bool pine = true;
+	float snowHeight = 20.0f;
+	if (0 == strcmp(placement.objecttype.c_str(), "tree"))
+	{
+		LandscapeTexObjectsTree *treeObjects = 
+			(LandscapeTexObjectsTree *) placement.object;
+		pine = (0 == strcmp(treeObjects->tree.c_str(), "pine"));
+		snowHeight = treeObjects->snow;
+	}
+	else
+	{
+		dialogExit("LandscapeObjectPlacementTrees",
+			"Error: Unknown model type \"%s\"",
+			placement.objecttype.c_str());
+	}
+
 	// Add lots of trees, more chance of adding a tree where
 	// the map is stongest
-	bool pine = true;//(strcmp(Landscape::instance()->getResources().
-		//getStringResource("objects"), "pine") == 0);
-	float snowHeight = 20.0f;//Landscape::instance()->getResources().
-		//getFloatResource("objectsnowheight");
-	const int NoIterations = 1000000;
+	const int NoIterations = placement.numobjects;
 	for (int i=0; i<NoIterations; i++)
 	{
 		if (i % 1000 == 0) if (counter) 

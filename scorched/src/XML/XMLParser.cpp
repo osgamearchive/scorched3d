@@ -197,9 +197,7 @@ bool XMLNode::failChildren()
 	if (!children_.empty())
 	{
 		XMLNode *node = children_.front();
-		dialogMessage("XMLNode",
-			"Error: Node \"%s\" in \"%s:%s\" is unrecoginzied\n",
-			node->name_.c_str(), source_.c_str(), getName());
+		node->returnError(formatString("Unrecognised node."));
 		return false;
 	}
 
@@ -229,9 +227,7 @@ bool XMLNode::getNamedChild(const char *name, XMLNode *&value,
 
 	if (failOnError)
 	{
-		dialogMessage("XMLNode",
-			"Error: Failed to find \"%s\" node in \"%s:%s\"\n",
-			name, source_.c_str(), getName());
+		returnError(formatString("Failed to find \"%s\" node", name));
 	}
 	return false;
 }
@@ -259,9 +255,7 @@ bool XMLNode::getNamedParameter(const char *name, XMLNode *&value,
 
 	if (failOnError)
 	{
-		dialogMessage("XMLNode",
-			"Error: Failed to find \"%s\" parameter in \"%s:%s\"\n",
-			name, source_.c_str(), getName());
+		returnError(formatString("Failed to find \"%s\" parameter", name));
 	}
 	return false;
 }
@@ -335,9 +329,15 @@ bool XMLNode::getNamedChild(const char *name, Vector &value,
 	return true;
 }
 
-void XMLNode::addSource(const char *source)
+void XMLNode::setSource(const char *source)
 { 
 	source_ = source; 
+}
+
+void XMLNode::setLine(int line, int col)
+{
+	line_ = line;
+	col_ = col;
 }
 
 void XMLNode::addChild(XMLNode *node) 
@@ -363,6 +363,14 @@ void XMLNode::convertContent()
 {
 	std::string oldContent = content_;
 	addSpecialChars(oldContent, content_);
+}
+
+bool XMLNode::returnError(const char *error)
+{
+	dialogMessage("XMLNode",
+		"Parse Error, File:%s Line:%i Col:%i Node:%s Error:%s",
+		source_.c_str(), line_, col_, getName(), error);
+	return false;
 }
 
 XMLParser::XMLParser() : root_(0), current_(0), 
@@ -396,7 +404,8 @@ const char *XMLParser::getParseError()
 	XML_Error errorCode = XML_GetErrorCode(p_);
 
 	static char message[1024];
-	sprintf(message, "Parse Error, Line:%i Col:%i Error:%s",
+	sprintf(message, "Parse Error, File %s: Line:%i Col:%i Error:%s",
+		source_.c_str(),
 		XML_GetCurrentLineNumber(p_),
 		XML_GetCurrentColumnNumber(p_),
 		XML_ErrorString(errorCode));
@@ -410,7 +419,9 @@ void XMLParser::startElementHandler(const XML_Char *name,
 	{
 		// Create the root node
 		root_ = current_ = new XMLNode(name);
-		root_->addSource(source_.c_str());
+		root_->setSource(source_.c_str());
+		root_->setLine(XML_GetCurrentLineNumber(p_),
+			XML_GetCurrentColumnNumber(p_));
 	}
 	else
 	{
@@ -420,6 +431,8 @@ void XMLParser::startElementHandler(const XML_Char *name,
 		XMLNode *newNode = new XMLNode(name);
 		current_->addChild(newNode);
 		current_ = newNode;
+		current_->setLine(XML_GetCurrentLineNumber(p_),
+			XML_GetCurrentColumnNumber(p_));
 	}
 
 	if (atts)
@@ -434,6 +447,8 @@ void XMLParser::startElementHandler(const XML_Char *name,
 			XMLNode *param = new XMLNode(name, "", XMLNode::XMLParameterType);
 			param->addContent(value, strlen(value));
 			param->convertContent();
+			param->setLine(XML_GetCurrentLineNumber(p_),
+				XML_GetCurrentColumnNumber(p_));
 			current_->addParameter(param);
 		}
 	}

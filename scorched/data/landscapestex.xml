@@ -16,7 +16,7 @@
 			<texture>data/textures/landscape/default/water.bmp</texture>
 			<wavetexture1>data/textures/waves2.bmp</wavetexture1>
 			<wavetexture2>data/textures/waves.bmp</wavetexture2>
-		</border>				
+		</border>
 		<texture type="generate">
 			<rockside>data/textures/landscape/default/rockside.bmp</rockside>
 			<shore>data/textures/landscape/default/shore.bmp</shore>
@@ -26,14 +26,15 @@
 			<texture3>data/textures/landscape/default/texture3.bmp</texture3>
 			<texture4>data/textures/landscape/default/texture4.bmp</texture4>
 		</texture>
-		<!-- <objects>
-			<object type="trees">
-				<type>pine</type>
-			</object>
-			<object type="model">
-				<model></model>
-			</object>
-		</objects> -->
+		<placements>
+			<placement type="trees">
+				<numobjects>1000000</numobjects>
+				<object type="tree">
+					<tree>pine</tree>
+					<snow>25</snow>
+				</object>
+			</placement>
+		</placements>
 	</tex>
 	<tex>
 		<name>hell</name>
@@ -61,6 +62,8 @@
 			<texture3>data/textures/landscape/hell/texture3.bmp</texture3>
 			<texture4>data/textures/landscape/hell/texture4.bmp</texture4>
 		</texture>
+		<placements>
+		</placements>
 	</tex>
 	<tex>
 		<name>sand</name>
@@ -88,6 +91,15 @@
 			<texture3>data/textures/landscape/sand/texture3.bmp</texture3>
 			<texture4>data/textures/landscape/sand/texture4.bmp</texture4>
 		</texture>
+		<placements>
+			<placement type="trees">
+				<numobjects>1000000</numobjects>
+				<object type="tree">
+					<tree>palm</tree>
+					<snow>100</snow>
+				</object>
+			</placement>
+		</placements>
 	</tex>
 	<tex>
 		<name>snow</name>
@@ -115,6 +127,15 @@
 			<texture3>data/textures/landscape/snow/texture3.bmp</texture3>
 			<texture4>data/textures/landscape/snow/texture4.bmp</texture4>
 		</texture>
+		<placements>
+			<placement type="trees">
+				<numobjects>1000000</numobjects>
+				<object type="tree">
+					<tree>pine</tree>
+					<snow>10</snow>
+				</object>
+			</placement>
+		</placements>
 	</tex>
 	<tex>
 		<name>tropical</name>
@@ -142,6 +163,15 @@
 			<texture3>data/textures/landscape/tropical/texture3.bmp</texture3>
 			<texture4>data/textures/landscape/tropical/texture4.bmp</texture4>
 		</texture>
+		<placements>
+			<placement type="trees">
+				<numobjects>1000000</numobjects>
+				<object type="tree">
+					<tree>palm</tree>
+					<snow>100</snow>
+				</object>
+			</placement>
+		</placements>
 	</tex>
 	<tex>
 		<name>vulcano</name>
@@ -169,6 +199,8 @@
 			<texture3>data/textures/landscape/vulcano/texture3.bmp</texture3>
 			<texture4>data/textures/landscape/vulcano/texture4.bmp</texture4>
 		</texture>
+		<placements>
+		</placements>
 	</tex>
 	<tex>
 		<name>storm</name>
@@ -196,5 +228,14 @@
 			<texture3>data/textures/landscape/storm/texture3.bmp</texture3>
 			<texture4>data/textures/landscape/storm/texture4.bmp</texture4>
 		</texture>
+		<placements>
+			<placement type="trees">
+				<numobjects>1000000</numobjects>
+				<object type="tree">
+					<tree>pine</tree>
+					<snow>20</snow>
+				</object>
+			</placement>
+		</placements>
 	</tex>
 </texs>

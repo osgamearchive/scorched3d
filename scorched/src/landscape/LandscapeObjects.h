@@ -26,6 +26,7 @@
 #include <landscape/LandscapeObjectsEntry.h>
 #include <map>
 
+class LandscapeTex;
 class LandscapeObjects
 {
 public:
@@ -33,7 +34,9 @@ public:
 	virtual ~LandscapeObjects();
 
 	void draw();
-	void generate(RandomGenerator &generator, ProgressCounter *counter = 0);
+	void generate(RandomGenerator &generator, 
+		LandscapeTex &tex,
+		ProgressCounter *counter = 0);
 
 	void removeAroundTanks();
 	void removeAllObjects();

@@ -38,6 +38,74 @@ static LandscapeTexType *fetchTextureTexType(const char *type)
 	return 0;
 }
 
+static LandscapeTexType *fetchPlacementTexType(const char *type)
+{
+	if (0 == strcmp(type, "trees")) return new LandscapeTexObjectsPlacementTree;
+	dialogMessage("LandscapeTexType", "Unknown placement type %s", type);
+	return 0;
+}
+
+static LandscapeTexType *fetchObjectTexType(const char *type)
+{
+	if (0 == strcmp(type, "tree")) return new LandscapeTexObjectsTree;
+	dialogMessage("LandscapeTexType", "Unknown object type %s", type);
+	return 0;
+}
+
+bool LandscapeTexObjectsTree::writeMessage(NetBuffer &buffer)
+{
+	buffer.addToBuffer(tree);
+	buffer.addToBuffer(snow);
+	return true;
+}
+
+bool LandscapeTexObjectsTree::readMessage(NetBufferReader &reader)
+{
+	if (!reader.getFromBuffer(tree)) return false;
+	if (!reader.getFromBuffer(snow)) return false;
+	return true;
+}
+
+bool LandscapeTexObjectsTree::readXML(XMLNode *node)
+{
+	if (!node->getNamedChild("tree", tree)) return false;
+	if (!node->getNamedChild("snow", snow)) return false;
+	return node->failChildren();
+}
+
+LandscapeTexObjectsPlacementTree::~LandscapeTexObjectsPlacementTree()
+{
+	delete object;
+}
+
+bool LandscapeTexObjectsPlacementTree::writeMessage(NetBuffer &buffer)
+{
+	buffer.addToBuffer(numobjects);
+	buffer.addToBuffer(objecttype);
+	if (!object->writeMessage(buffer)) return false;
+	return true;
+}
+
+bool LandscapeTexObjectsPlacementTree::readMessage(NetBufferReader &reader)
+{
+	if (!reader.getFromBuffer(numobjects)) return false;
+	if (!reader.getFromBuffer(objecttype)) return false;
+	if (!(object = fetchObjectTexType(objecttype.c_str()))) return false;
+	if (!object->readMessage(reader)) return false;
+	return true;
+}
+
+bool LandscapeTexObjectsPlacementTree::readXML(XMLNode *node)
+{
+	XMLNode *objectNode;
+	if (!node->getNamedChild("numobjects", numobjects)) return false;
+	if (!node->getNamedChild("object", objectNode)) return false;
+	if (!objectNode->getNamedParameter("type", objecttype)) return false;
+	if (!(object = fetchObjectTexType(objecttype.c_str()))) return false;
+	if (!object->readXML(objectNode)) return false;
+	return node->failChildren();
+}
+
 bool LandscapeTexBorderWater::writeMessage(NetBuffer &buffer)
 {
 	buffer.addToBuffer(reflection);
@@ -121,6 +189,12 @@ LandscapeTex::~LandscapeTex()
 {
 	delete border;
 	delete texture;
+	for (unsigned int i=0; i<objects.size(); i++)
+	{
+		delete objects[i];
+	}
+	objects.clear();
+	objectstype.clear();
 }
 
 bool LandscapeTex::writeMessage(NetBuffer &buffer)
@@ -139,6 +213,14 @@ bool LandscapeTex::writeMessage(NetBuffer &buffer)
 	if (!border->writeMessage(buffer)) return false;
 	buffer.addToBuffer(texturetype);
 	if (!texture->writeMessage(buffer)) return false;
+
+	int size = (int) objects.size();
+	buffer.addToBuffer(size);
+	for (int i=0; i<size; i++)
+	{
+		buffer.addToBuffer(objectstype[i]);
+		if (!objects[i]->writeMessage(buffer)) return false;
+	}
 	return true;
 }
 
@@ -162,6 +244,19 @@ bool LandscapeTex::readMessage(NetBufferReader &reader)
 	if (!reader.getFromBuffer(texturetype)) return false;
 	if (!(texture = fetchTextureTexType(texturetype.c_str()))) return false;
 	if (!texture->readMessage(reader)) return false;
+
+	int size = 0;
+	if (!reader.getFromBuffer(size)) return false;
+	for (int i=0; i<size; i++)
+	{
+		std::string placementtype;
+		LandscapeTexType *placement = 0;
+		if (!reader.getFromBuffer(placementtype)) return false;
+		if (!(placement = fetchPlacementTexType(placementtype.c_str()))) return false;
+		if (!placement->readMessage(reader)) return false;
+		objects.push_back(placement);
+		objectstype.push_back(placementtype);
+	}
 	return true;
 }
 
@@ -197,6 +292,20 @@ bool LandscapeTex::readXML(XMLNode *node)
 		if (!textureNode->getNamedParameter("type", texturetype)) return false;
 		if (!(texture = fetchTextureTexType(texturetype.c_str()))) return false;
 		if (!texture->readXML(textureNode)) return false;
+	}
+	{
+		XMLNode *placementsNode, *placementNode;
+		if (!node->getNamedChild("placements", placementsNode)) return false;
+		while (placementsNode->getNamedChild("placement", placementNode, false))
+		{
+			std::string placementtype;
+			LandscapeTexType *placement = 0;
+			if (!placementNode->getNamedParameter("type", placementtype)) return false;
+			if (!(placement = fetchPlacementTexType(placementtype.c_str()))) return false;
+			if (!placement->readXML(placementNode)) return false;
+			objects.push_back(placement);
+			objectstype.push_back(placementtype);
+		}
 	}
 	return node->failChildren();
 }

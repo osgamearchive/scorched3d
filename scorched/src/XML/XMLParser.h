@@ -80,7 +80,9 @@ public:
 
 	bool failChildren();
 
-	void addSource(const char *source);
+	void setSource(const char *source);
+	void setLine(int line, int col);
+
 	void addChild(XMLNode *node); 
 	void addParameter(XMLNode *node);
 	void addContent(const char *data, int len);
@@ -95,7 +97,9 @@ protected:
 	std::string name_;
 	std::string content_;
 	std::string source_;
+	int line_, col_;
 
+	bool returnError(const char *error);
 	void addNodeToFile(FileLines &lines, int spacing);
 
 };
