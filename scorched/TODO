@@ -2,9 +2,11 @@
 Fixed: Free market economy getting confused when accessories.xml file edited
 Fixed: Display message when scorched3d data directory not present
 Fixed: Missed move message fixed for buying
-Fixed: Clicking on menu titles don't move viewport
+Fixed: Clicking on menu titles doesn't move viewport
 Fixed: Action camera not working correctly
+Fixed: Avatars with more than 32 characters not being stored correctly
 
+Added: Better mysql stats format that allows stats history
 Added: Error reporting to MS file loading
 Added: Rounds left show in game browsing dialog
 

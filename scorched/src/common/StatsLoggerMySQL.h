@@ -68,8 +68,11 @@ public:
 
 protected:
 	MYSQL *mysql_;
-	std::string prefix_;
-	bool success_;
+	int serverid_;
+	int seriesid_;
+	int prefixid_;
+    bool success_;
+
 	std::map<std::string, int> playerId_;
 	std::map<std::string, int> weaponId_;
 
