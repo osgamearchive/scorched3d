@@ -1723,6 +1723,12 @@
 				RelativePath="..\weapons\WeaponProjectile.h">
 			</File>
 			<File
+				RelativePath="..\weapons\WeaponRedirect.cpp">
+			</File>
+			<File
+				RelativePath="..\weapons\WeaponRedirect.h">
+			</File>
+			<File
 				RelativePath="..\weapons\WeaponRoller.cpp">
 			</File>
 			<File

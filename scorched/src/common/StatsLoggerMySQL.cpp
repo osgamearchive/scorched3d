@@ -71,22 +71,18 @@ void StatsLoggerMySQL::createLogger()
 		if (file.readFile(getDataFile("data/mysql.xml")) &&
 			file.getRootNode())
 		{
-			XMLNode *hostNode = 
-				file.getRootNode()->getNamedChild("host");
-			XMLNode *userNode =
-				file.getRootNode()->getNamedChild("user");
-			XMLNode *passwdNode =
-				file.getRootNode()->getNamedChild("passwd");
-			XMLNode *dbNode =
-				file.getRootNode()->getNamedChild("db");
-			if (hostNode && userNode && passwdNode && dbNode)
+			std::string host, user, passwd, db;
+			if (file.getRootNode()->getNamedChild("host", host) &&
+				file.getRootNode()->getNamedChild("user", user) &&
+				file.getRootNode()->getNamedChild("passwd", passwd) &&
+				file.getRootNode()->getNamedChild("db", db)) 
 			{
 				if (mysql_real_connect(
 					mysql_,
-					hostNode->getContent(),
-					userNode->getContent(),
-					passwdNode->getContent(),
-					dbNode->getContent(),
+					host.c_str(),
+					user.c_str(),
+					passwd.c_str(),
+					db.c_str(),
 					0, "/tmp/mysql.sock", 0))
 				{
 					Logger::log(0, "mysql stats logger started");
@@ -98,16 +94,14 @@ void StatsLoggerMySQL::createLogger()
 						"Error: %s",
 						mysql_error(mysql_));
 					Logger::log(0, "mysql params : host %s, user %s, passwd %s, db %s",
-						hostNode->getContent(), userNode->getContent(),
-						passwdNode->getContent(), dbNode->getContent());
+						host.c_str(), user.c_str(),
+						passwd.c_str(), db.c_str());
 				}
 			}
 			else
 			{
 				success_ = false;
-				Logger::log(0, "Failed to parse mysql.xml settings file." 
-					"Failed to find required nodes:"
-					"host, user, passwd, db");
+				Logger::log(0, "Failed to parse mysql.xml settings file.");
 			}
 		}
 		else

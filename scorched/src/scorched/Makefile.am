@@ -509,6 +509,8 @@ scorched3d_SOURCES = \
 	../weapons/WeaponNull.h \
 	../weapons/WeaponProjectile.cpp \
 	../weapons/WeaponProjectile.h \
+	../weapons/WeaponRedirect.cpp \
+	../weapons/WeaponRedirect.h \
 	../weapons/WeaponRoller.cpp \
 	../weapons/WeaponRoller.h \
 	../weapons/WeaponTranslate.cpp \
