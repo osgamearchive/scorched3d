@@ -159,12 +159,18 @@ bool MSFile::loadFile(FILE *in, const char *fileName)
 				&sGroup) != 8) return false;
 
 			model->insertFace(face);
+			DIALOG_ASSERT (nIndex1 < (int) normals.size());
 			model->setFaceNormal(normals[nIndex1], j, 0);
+			DIALOG_ASSERT (nIndex2 < (int) normals.size());
 			model->setFaceNormal(normals[nIndex2], j, 1);
+			DIALOG_ASSERT (nIndex3 < (int) normals.size());
 			model->setFaceNormal(normals[nIndex3], j, 2);
 
+			DIALOG_ASSERT (face.v[0] < (int) tcoords.size());
 			model->setFaceTCoord(tcoords[face.v[0]], j, 0);
+			DIALOG_ASSERT (face.v[1] < (int) tcoords.size());
 			model->setFaceTCoord(tcoords[face.v[1]], j, 1);
+			DIALOG_ASSERT (face.v[2] < (int) tcoords.size());
 			model->setFaceTCoord(tcoords[face.v[2]], j, 2);
 		}
 	}

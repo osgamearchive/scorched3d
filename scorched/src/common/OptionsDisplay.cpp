@@ -135,6 +135,8 @@ OptionsDisplay::OptionsDisplay() :
 		"Do not animate the sky", RWAccess, false),
 	noROAM_(options_,"NoROAM", 
 		"Do not use ROAM algorithm", RWAccess, false),
+	noVBO_(options_,"NoVBO", 
+		"Do not use Vertex Buffer Objects (if avaialable)", RWAccess, false),
 	useLandscapeTexture_(options_, "LandscapeTexture",
 		"Texture the landscape", RWAccess, true),
 	noLenseFlare_(options_,"NoLenseFlare", 

@@ -32,12 +32,21 @@
 #include <common/FileList.h>
 
 Surround::Surround(SurroundDefs &defs) : xy_(0.0f), 
-	cloudSpeed_(500.0f), cloudDirection_(0.0f)
+	cloudSpeed_(500.0f), cloudDirection_(0.0f),
+	layer1_(0), layer2_(0)
 {
 }
 
 Surround::~Surround()
 {
+}
+
+void Surround::clear()
+{
+	delete layer1_;
+	layer1_ = 0;
+	delete layer2_;
+	layer2_ = 0;
 }
 
 void Surround::simulate(float frameTime)
@@ -70,20 +79,49 @@ void Surround::draw()
 		glRotatef(cloudDirection_, 0.0f, 0.0f, 1.0f);
 
 		GLState mainState2(GLState::TEXTURE_ON | GLState::BLEND_OFF);
-		Vector sunDir = 
-			-Landscape::instance()->getSun().getPosition().Normalize();
-		Hemisphere::drawColored(1800, 180, 10, 10, 
-			slowXY, slowXY + 0.4f,
-			Landscape::instance()->getSkyColorsMap(),
-			sunDir,
-			ScorchedClient::instance()->getLandscapeMaps().getLandDfn().getTex()->skytimeofday);
+
+		if (!layer1_)
+		{
+			Vector sunDir = 
+				-Landscape::instance()->getSun().getPosition().Normalize();
+
+			layer1_ = Hemisphere::createColored(1800, 180, 10, 10,
+				Landscape::instance()->getSkyColorsMap(),
+				sunDir,
+				ScorchedClient::instance()->getLandscapeMaps().
+				getLandDfn().getTex()->skytimeofday);
+			layer1_->setNoVBO();
+		}
+		calculateWind(layer1_, 1800, 180, slowXY, slowXY + 0.4f);
+		layer1_->draw();
 
 		if (!OptionsDisplay::instance()->getNoSkyLayers())
 		{
 			GLState currentState(GLState::BLEND_ON);
 			glColor4f(1.0f, 1.0f, 1.0f, 0.3f);
-			Hemisphere::draw(2100, 120, 10, 20, 0, 0, 
-				false, true, 0.0f, xy_ + 0.3f);
+
+			if (!layer2_)
+			{
+				layer2_ = Hemisphere::createXY(2100, 120, 10, 20, 0, 0);
+				layer2_->setNoVBO();
+			}
+			calculateWind(layer2_, 2100, 120, 0.0f, xy_ + 0.3f);
+			layer2_->draw();
 		}
 	glPopMatrix();
+}
+
+void Surround::calculateWind(GLVertexArray *array, 
+	float radius, float radius2, float xvalue, float yvalue)
+{
+	for (int i=0; i<array->getNoTris(); i++)
+	{
+		GLVertexArray::GLVertexArrayTexCoord &tex = 
+			array->getTexCoordInfo(i);
+		GLVertexArray::GLVertexArrayVertex &ver = 
+			array->getVertexInfo(i);
+
+		tex.a = (ver.x + radius) / (2 * radius) + xvalue;
+		tex.b = (ver.y + radius) / (2 * radius) + yvalue;
+	}
 }

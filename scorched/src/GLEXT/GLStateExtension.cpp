@@ -29,11 +29,13 @@ bool GLStateExtension::hasCubeMap_ = false;
 bool GLStateExtension::hasHardwareMipmaps_ = false;
 bool GLStateExtension::envCombine_ = false;
 int GLStateExtension::textureUnits_ = 0;
-PFNGLLOCKARRAYSEXTPROC GLStateExtension::glLockArraysEXT_ = 0;
-PFNGLUNLOCKARRAYSEXTPROC GLStateExtension::glUnlockArraysEXT_ = 0;
 PFNGLACTIVETEXTUREARBPROC GLStateExtension::glActiveTextureARB_ =  0;
 PFNGLMULTITEXCOORD2FARBPROC GLStateExtension::glMultiTextCoord2fARB_ = 0;
 PFNGLCLIENTACTIVETEXTUREARBPROC GLStateExtension::glClientActiveTextureARB_ = 0;
+PFNGLGENBUFFERSARBPROC GLStateExtension::glGenBuffersARB_ = 0;
+PFNGLBINDBUFFERARBPROC GLStateExtension::glBindBufferARB_ = 0;
+PFNGLBUFFERDATAARBPROC GLStateExtension::glBufferDataARB_ = 0;
+PFNGLDELETEBUFFERSARBPROC GLStateExtension::glDeleteBuffersARB_ = 0;
 
 bool GLStateExtension::hasExtension(char *name)
 {
@@ -63,28 +65,32 @@ bool GLStateExtension::hasExtension(char *name)
 
 void GLStateExtension::setup()
 {
+	if (!OptionsDisplay::instance()->getNoVBO())
+	{
+		if (hasExtension("GL_ARB_vertex_buffer_object"))
+		{
+			glGenBuffersARB_ = (PFNGLGENBUFFERSARBPROC) 
+				SDL_GL_GetProcAddress("glGenBuffersARB");
+			glBindBufferARB_ = (PFNGLBINDBUFFERARBPROC) 
+				SDL_GL_GetProcAddress("glBindBufferARB");
+			glBufferDataARB_ = (PFNGLBUFFERDATAARBPROC) 
+				SDL_GL_GetProcAddress("glBufferDataARB");
+			glDeleteBuffersARB_ = (PFNGLDELETEBUFFERSARBPROC) 
+				SDL_GL_GetProcAddress("glDeleteBuffersARB");
+		}
+	}
+
 	if (!OptionsDisplay::instance()->getNoGLMultiTex())
 	{
 		if (hasExtension("GL_ARB_multitexture"))
 		{
 			glGetIntegerv(GL_MAX_TEXTURE_UNITS_ARB, &textureUnits_);
-			glActiveTextureARB_ = 
-				(PFNGLACTIVETEXTUREARBPROC)	SDL_GL_GetProcAddress("glActiveTextureARB");
-			glMultiTextCoord2fARB_ = 
-				(PFNGLMULTITEXCOORD2FARBPROC) SDL_GL_GetProcAddress("glMultiTexCoord2fARB");
-			glClientActiveTextureARB_ = 
-				(PFNGLCLIENTACTIVETEXTUREARBPROC) SDL_GL_GetProcAddress("glClientActiveTextureARB");
-		}
-	}
-
-	if (!OptionsDisplay::instance()->getNoGLCompiledArrays())
-	{
-		if (hasExtension("GL_EXT_compiled_vertex_array"))
-		{
-			glLockArraysEXT_ = (PFNGLLOCKARRAYSEXTPROC)
-				SDL_GL_GetProcAddress("glLockArraysEXT");
-			glUnlockArraysEXT_ = (PFNGLUNLOCKARRAYSEXTPROC)
-				SDL_GL_GetProcAddress("glUnlockArraysEXT");
+			glActiveTextureARB_ = (PFNGLACTIVETEXTUREARBPROC) 
+				SDL_GL_GetProcAddress("glActiveTextureARB");
+			glMultiTextCoord2fARB_ = (PFNGLMULTITEXCOORD2FARBPROC) 
+				SDL_GL_GetProcAddress("glMultiTexCoord2fARB");
+			glClientActiveTextureARB_ = (PFNGLCLIENTACTIVETEXTUREARBPROC) 
+				SDL_GL_GetProcAddress("glClientActiveTextureARB");
 		}
 	}
 
@@ -116,8 +122,8 @@ void GLStateExtension::setup()
 	GLConsole::instance()->addLine(false, (const char *) glGetString(GL_EXTENSIONS));
 	GLConsole::instance()->addLine(false, "TEXTURE_UNITS:");
 	GLConsole::instance()->addLine(false, "%s (%i units)", ((glActiveTextureARB_==0)?"Off":"On"),textureUnits_);
-	GLConsole::instance()->addLine(false, "COMPILED_ARRAYS:");
-	GLConsole::instance()->addLine(false, "%s", ((glLockArraysEXT_==0)?"Off":"On"));
+	GLConsole::instance()->addLine(false, "VBO:");
+	GLConsole::instance()->addLine(false, "%s", ((glGenBuffersARB_==0)?"Off":"On"));
 	GLConsole::instance()->addLine(false, "ENV COMBINE:");
 	GLConsole::instance()->addLine(false, "%s", (envCombine_?"On":"Off"));
 	GLConsole::instance()->addLine(false, "CUBE MAP:");

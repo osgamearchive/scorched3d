@@ -439,6 +439,7 @@ void Landscape::reset()
 		wMap_);
 	smoke_.removeAllSmokes();
 	wMap_.reset();
+	surround_.clear();
 }
 
 void Landscape::restoreLandscapeTexture()

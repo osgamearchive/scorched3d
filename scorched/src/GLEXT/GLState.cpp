@@ -35,6 +35,8 @@ unsigned GLState::currentState_ =
 
 GLState::GLState(unsigned wantedState)
 {
+	if (wantedState == 0) return;
+
 	returnState_ = currentState_;
 	setState(wantedState);
 }

@@ -18,7 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #if !defined(__INCLUDE_GLStateExtensionh_INCLUDE__)
 #define __INCLUDE_GLStateExtensionh_INCLUDE__
 
@@ -36,8 +35,15 @@
 typedef void (* PFNGLACTIVETEXTUREARBPROC) (GLenum texture);
 typedef void (* PFNGLMULTITEXCOORD2FARBPROC) (GLenum target, GLfloat s, GLfloat t);
 typedef void (* PFNGLCLIENTACTIVETEXTUREARBPROC) (GLenum texture);
-typedef void (* PFNGLLOCKARRAYSEXTPROC) (GLint first, GLsizei count);
-typedef void (* PFNGLUNLOCKARRAYSEXTPROC) ();
+#endif
+
+#ifndef GL_ARRAY_BUFFER_ARB
+#define GL_ARRAY_BUFFER_ARB 0x8892
+#define GL_STATIC_DRAW_ARB 0x88E4
+typedef void (APIENTRY * PFNGLBINDBUFFERARBPROC) (GLenum target, GLuint buffer);
+typedef void (APIENTRY * PFNGLDELETEBUFFERSARBPROC) (GLsizei n, const GLuint *buffers);
+typedef void (APIENTRY * PFNGLGENBUFFERSARBPROC) (GLsizei n, GLuint *buffers);
+typedef void (APIENTRY * PFNGLBUFFERDATAARBPROC) (GLenum target, int size, const GLvoid *data, GLenum usage);
 #endif
 
 class GLStateExtension
@@ -46,13 +52,15 @@ public:
 
 	static void setup(); // Setup and check for each extension
 
+	// Use VBO
+	static PFNGLGENBUFFERSARBPROC glGenBuffersARB() { return glGenBuffersARB_; }
+	static PFNGLBINDBUFFERARBPROC glBindBufferARB() { return glBindBufferARB_; }
+	static PFNGLBUFFERDATAARBPROC glBufferDataARB() { return glBufferDataARB_; }
+	static PFNGLDELETEBUFFERSARBPROC glDeleteBuffersARB() { return glDeleteBuffersARB_; }
 	// Use multi textureing?
 	static PFNGLACTIVETEXTUREARBPROC glActiveTextureARB() { return glActiveTextureARB_; }
 	static PFNGLMULTITEXCOORD2FARBPROC glMultiTextCoord2fARB() { return glMultiTextCoord2fARB_; }
 	static PFNGLCLIENTACTIVETEXTUREARBPROC glClientActiveTextureARB() { return glClientActiveTextureARB_; }
-	// Use locked arrays?
-	static PFNGLLOCKARRAYSEXTPROC glLockArraysEXT() { return glLockArraysEXT_; }
-	static PFNGLUNLOCKARRAYSEXTPROC glUnlockArraysEXT() { return glUnlockArraysEXT_; }
 	static bool getNoTexSubImage(); // Use tex sub image extension?
 	static bool hasCubeMap(); // Use cube map extension?
 	static bool hasHardwareMipmaps(); // Use hardware mipmap extension?
@@ -65,12 +73,14 @@ protected:
 	static bool envCombine_;
 	static bool multiTexDisabled_;
 
+	static PFNGLGENBUFFERSARBPROC glGenBuffersARB_;
+	static PFNGLBINDBUFFERARBPROC glBindBufferARB_;
+	static PFNGLBUFFERDATAARBPROC glBufferDataARB_;
+	static PFNGLDELETEBUFFERSARBPROC glDeleteBuffersARB_;
+
 	static PFNGLACTIVETEXTUREARBPROC glActiveTextureARB_;
 	static PFNGLMULTITEXCOORD2FARBPROC glMultiTextCoord2fARB_;
 	static PFNGLCLIENTACTIVETEXTUREARBPROC glClientActiveTextureARB_;
-
-	static PFNGLLOCKARRAYSEXTPROC glLockArraysEXT_;
-	static PFNGLUNLOCKARRAYSEXTPROC glUnlockArraysEXT_;
 
 	static int textureUnits_;
 	static bool hasCubeMap_;

@@ -18,25 +18,27 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <math.h>
-#include <GLEXT/GLState.h>
 #include <GLEXT/GLBitmap.h>
 #include <common/Vector.h>
 #include <landscape/Hemisphere.h>
+#include <vector>
+#include <math.h>
 
 void Hemisphere::draw(float radius, float radius2, 
-					  int heightSlices, int rotationSlices,
-					  int startHeightSlice, int startRotationSlice,
-					  bool inverse, bool xy, float xvalue, float yvalue)
+	int heightSlices, int rotationSlices,
+	int startHeightSlice, int startRotationSlice,
+	bool inverse)
 {
-	const float maxTexCoord = 1.0f;
+	std::vector<Vector> coords;
+	std::vector<Vector> points;
 
+	glBegin(GL_QUAD_STRIP);
+	const float maxTexCoord = 1.0f;
 	for (int j=startHeightSlice; j<heightSlices; j++) 
 	{
 		float theta1 = j * HALFPI / float(heightSlices);
 		float theta2 = (j + 1) * HALFPI / float(heightSlices);
 
-		glBegin(GL_QUAD_STRIP);
 		for (int i=startRotationSlice;i<=rotationSlices;i++) 
 		{
 			float theta3 = i * TWOPI / float(rotationSlices);
@@ -58,48 +60,90 @@ void Hemisphere::draw(float radius, float radius2,
 			p2[2] = radius2 * e2[2];
 			p2[1] = radius * e2[1];
 			
-			if (xy)
+			if (!inverse)
 			{
-				glTexCoord2f(((p1[0] + radius) / (2 * radius)) + xvalue, 
-					((p1[1] + radius) / (2 * radius)) + yvalue);		
+				glTexCoord2f(c, float(j) / float(heightSlices));
 				glVertex3fv(p1);
-
-				glTexCoord2f(((p2[0] + radius) / (2 * radius)) + xvalue, 
-					((p2[1] + radius) / (2 * radius)) + yvalue);		
-				glVertex3fv(p2);			
+				glTexCoord2f(c, float(j+1) / float(heightSlices));
+				glVertex3fv(p2);
 			}
 			else
 			{
-				if (!inverse)
-				{
-					glTexCoord2f(c, float(j) / float(heightSlices));		
-					glVertex3fv(p1);
-
-					glTexCoord2f(c, float(j+1) / float(heightSlices));
-					glVertex3fv(p2);
-				}
-				else
-				{
-					glTexCoord2f(c, float(j+1) / float(heightSlices));
-					glVertex3fv(p2);
-
-					glTexCoord2f(c, float(j) / float(heightSlices));		
-					glVertex3fv(p1);
-				}
+				glTexCoord2f(c, float(j+1) / float(heightSlices));
+				glVertex3fv(p2);
+				glTexCoord2f(c, float(j) / float(heightSlices));
+				glVertex3fv(p1);
 			}
 		}
-		glEnd();
 	}
+	glEnd();
 }
 
-void Hemisphere::drawColored(float radius, float radius2, 
-					  int heightSlices, int rotationSlices,
-					  float xvalue, float yvalue,
-					  GLBitmap &colors,
-					  Vector &sunDir,
-					  int daytime)
+GLVertexArray *Hemisphere::createXY(float radius, float radius2, 
+	int heightSlices, int rotationSlices,
+	int startHeightSlice, int startRotationSlice)
+{
+	std::vector<Vector> coords;
+	std::vector<Vector> points;
+
+	const float maxTexCoord = 1.0f;
+
+	for (int j=startHeightSlice; j<heightSlices; j++) 
+	{
+		float theta1 = j * HALFPI / float(heightSlices);
+		float theta2 = (j + 1) * HALFPI / float(heightSlices);
+
+		for (int i=startRotationSlice;i<=rotationSlices;i++) 
+		{
+			float theta3 = i * TWOPI / float(rotationSlices);
+			float c = theta3 / TWOPI * maxTexCoord;
+
+			Vector e1, p1;
+			e1[0] = float(cos(theta1) * cos(theta3));
+			e1[2] = float(sin(theta1));
+			e1[1] = float(cos(theta1) * sin(theta3));
+			p1[0] = radius * e1[0];
+			p1[2] = radius2 * e1[2];
+			p1[1] = radius * e1[1];
+
+			Vector e2, p2;
+			e2[0] = float(cos(theta2) * cos(theta3));
+			e2[2] = float(sin(theta2));
+			e2[1] = float(cos(theta2) * sin(theta3));
+			p2[0] = radius * e2[0];
+			p2[2] = radius2 * e2[2];
+			p2[1] = radius * e2[1];
+			
+			coords.push_back(Vector((p1[0] + radius) / (2 * radius),
+				(p1[1] + radius) / (2 * radius)));
+			points.push_back(p1);
+
+			coords.push_back(Vector((p2[0] + radius) / (2 * radius),
+				(p2[1] + radius) / (2 * radius)));
+			points.push_back(p2);	
+		}
+	}
+
+	GLVertexArray *array = new GLVertexArray(
+		GL_QUAD_STRIP, (int) points.size(),
+		GLVertexArray::typeVertex | GLVertexArray::typeTexture);
+	for (int i=0; i<(int) points.size(); i++)
+	{
+		array->setVertex(i, points[i][0], points[i][1], points[i][2]);
+		array->setTexCoord(i, coords[i][0], coords[i][1]);
+	}
+	return array;
+}
+
+GLVertexArray *Hemisphere::createColored(float radius, float radius2, 
+	int heightSlices, int rotationSlices,
+	GLBitmap &colors, Vector &sunDir, int daytime)
 {
 	const float maxTexCoord = 1.0f;
+
+	std::vector<Vector> coords;
+	std::vector<Vector> points;
+	std::vector<Vector> cols;
 
 	GLubyte *bits = colors.getBits();
 	for (int j=0; j<heightSlices; j++) 
@@ -118,7 +162,6 @@ void Hemisphere::drawColored(float radius, float radius2,
 		DIALOG_ASSERT(bitmapIndexB + 2 < 
 			colors.getWidth() * colors.getHeight() * colors.getComponents());
 
-		glBegin(GL_QUAD_STRIP);
 		for (int i=0;i<=rotationSlices;i++) 
 		{
 			float theta3 = i * TWOPI / float(rotationSlices);
@@ -139,10 +182,10 @@ void Hemisphere::drawColored(float radius, float radius2,
 				float colorG = MIN(float(bits[bitmapIndexA + 1]) / 255.0f + dotP, 1.0f);
 				float colorB = MIN(float(bits[bitmapIndexA + 2]) / 255.0f + dotP, 1.0f);
 
-				glColor4f(colorR, colorG, colorB, 1.0f);
-				glTexCoord2f(((p1[0] + radius) / (2 * radius)) + xvalue, 
-					((p1[1] + radius) / (2 * radius)) + yvalue);		
-				glVertex3fv(p1);
+				cols.push_back(Vector(colorR, colorG, colorB));
+				coords.push_back(Vector((p1[0] + radius) / (2 * radius), 
+					(p1[1] + radius) / (2 * radius)));
+				points.push_back(p1);
 			}
 
 			{
@@ -160,12 +203,22 @@ void Hemisphere::drawColored(float radius, float radius2,
 				float colorG = MIN(float(bits[bitmapIndexB + 1]) / 255.0f + dotP, 1.0f);
 				float colorB = MIN(float(bits[bitmapIndexB + 2]) / 255.0f + dotP, 1.0f);
 
-				glColor4f(colorR, colorG, colorB, 1.0f);
-				glTexCoord2f(((p2[0] + radius) / (2 * radius)) + xvalue, 
-					((p2[1] + radius) / (2 * radius)) + yvalue);		
-				glVertex3fv(p2);	
+				cols.push_back(Vector(colorR, colorG, colorB));
+				coords.push_back(Vector((p2[0] + radius) / (2 * radius),
+					(p2[1] + radius) / (2 * radius)));
+				points.push_back(p2);
 			}
-		}
-		glEnd();
+		}	
 	}
+
+	GLVertexArray *array = new GLVertexArray(
+		GL_QUAD_STRIP, (int) coords.size(), 
+		GLVertexArray::typeColor | GLVertexArray::typeVertex | GLVertexArray::typeTexture);
+	for (int i=0; i<(int) coords.size(); i++)
+	{
+		array->setVertex(i, points[i][0], points[i][1], points[i][2]);
+		array->setTexCoord(i, coords[i][0], coords[i][1]);
+		array->setColor(i, cols[i][0], cols[i][1], cols[i][2]);
+	}
+	return array;
 }

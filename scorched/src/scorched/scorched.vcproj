@@ -430,12 +430,6 @@
 				RelativePath="..\GLEXT\GLVertexSetGroup.h">
 			</File>
 			<File
-				RelativePath="..\GLEXT\GLVertexTexArray.cpp">
-			</File>
-			<File
-				RelativePath="..\GLEXT\GLVertexTexArray.h">
-			</File>
-			<File
 				RelativePath="..\GLEXT\GLViewPort.cpp">
 			</File>
 			<File

@@ -37,6 +37,7 @@ Changed: Spread and hurts weapon primative options are now variable
 Changed: LeapFrog weapon primative bounce now variable
 Changed: Message of the day now defined in server.xml file
 
+Added: VBO support for models and surrounds/sky
 Added: AIs can check to see if they will suicide
 Added: New cyborg AI that uses batteries
 Added: A way to allow tank spawn positions to be configured

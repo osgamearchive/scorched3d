@@ -72,6 +72,10 @@ public:
 	void setNoROAM(bool value) { noROAM_.setValue(value); }	
 	const char *getNoROAMToolTip() { return noROAM_.getDescription(); }
 
+	bool getNoVBO() { return noVBO_.getValue(); }
+	void setNoVBO(bool value) { noVBO_.setValue(value); }	
+	const char *getNoVBOToolTip() { return noVBO_.getDescription(); }
+
 	bool getDetailTexture() { return detailTexture_.getValue(); }
 	void setDetailTexture(bool value) { detailTexture_.setValue(value); }	
 	const char *getDetailTextureToolTip() { return detailTexture_.getDescription(); }
@@ -333,6 +337,7 @@ protected:
 	OptionEntryBool noTrees_;
 	OptionEntryBool noDepthSorting_;
 	OptionEntryBool noROAM_;
+	OptionEntryBool noVBO_;
 	OptionEntryBool useLandscapeTexture_;
 	OptionEntryBool noSkyLayers_;
 	OptionEntryBool noSkyMovement_;

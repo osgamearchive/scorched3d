@@ -22,7 +22,6 @@
 #include <3dsparse/Model.h>
 #include <3dsparse/MeshLOD.h>
 #include <3dsparse/ModelStore.h>
-#include <GLEXT/GLVertexTexArray.h>
 
 Model::Model(char *name) : 
 	name_(name), computedCollapseCosts_(false), 
@@ -158,7 +157,7 @@ GLVertexArray *Model::getNoTexArray(float detail)
 	Vector lightpos(-0.3f, -0.2f, 1.0f);
 	lightpos.Normalize();
 
-	GLVertexArray *array = new GLVertexArray(int(triangles.size()) / 3);
+	GLVertexArray *array = new GLVertexArray(GL_TRIANGLES, int(triangles.size()));
 	std::list<Vector>::iterator triangleItor = triangles.begin();
 	std::list<Vector>::iterator normalItor = normals.begin();
 	int triPos = 0;
@@ -203,8 +202,10 @@ GLVertexArray *Model::getTexArray(float detail)
 		ModelStore::instance()->loadTexture(
 			getTextureName(), getATextureName());
 	DIALOG_ASSERT(texture);
-	GLVertexTexArray *array = new GLVertexTexArray(texture, 
-		int(triangles.size()) / 3);
+	GLVertexArray *array = new GLVertexArray(
+		GL_TRIANGLES, int(triangles.size()),
+		GLVertexArray::typeVertex | GLVertexArray::typeTexture | GLVertexArray::typeColor,
+		texture);
 	std::list<Vector>::iterator triangleItor = triangles.begin();
 	std::list<Vector>::iterator normalItor = normals.begin();
 	std::list<Vector>::iterator texCoordsItor = texCoords.begin();

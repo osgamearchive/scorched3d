@@ -256,6 +256,10 @@ void createTroubleControls(wxWindow *parent, wxSizer *sizer)
 		new wxCheckBox(parent, -1, "No sphere map textures",
 		wxDefaultPosition, wxSize((int) 150, (int) -1));
 	troubleSizer2->Add(IDC_NOSPHEREMAP_CTRL, 0);
+	IDC_NOVBO_CTRL = 
+		new wxCheckBox(parent, -1, "No VBO",
+		wxDefaultPosition, wxSize((int) 150, (int) -1));
+	troubleSizer2->Add(IDC_NOVBO_CTRL, 0);
 
 	troubleSizer->Add(troubleSizer2, 0, wxGROW);
 	sizer->Add(troubleSizer, 0, wxGROW | wxLEFT | wxRIGHT | wxTOP, 5);

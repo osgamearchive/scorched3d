@@ -23,6 +23,7 @@
 
 #include <landscape/SurroundDefs.h>
 
+class GLVertexArray;
 class Surround
 {
 public:
@@ -32,11 +33,18 @@ public:
 	void simulate(float frameTime);
 	void draw();
 
+	void clear();
+
 protected:
 	static Surround *instance_;
 	float xy_;
 	float cloudSpeed_;
 	float cloudDirection_;
+	GLVertexArray *layer1_;
+	GLVertexArray *layer2_;
+
+	void calculateWind(GLVertexArray *array,
+		float radius, float radius2, float x, float y);
 
 };
 
