@@ -167,7 +167,7 @@ bool NetServer::pollIncoming()
 					Logger::log(0, "Read failed from client socket, has been closed?");
 
 					// Socket has been closed
-					destroyClient(currentSock);
+					disconnectClient(currentSock);
 					return true;
 				}
 				else

@@ -90,7 +90,7 @@ bool ServerConnectHandler::processMessage(NetPlayerID &id,
 	int nameLen = strlen(nameBeginning);
 	if (nameLen == 0)
 	{
-		sendString(id, "A player name must be provided");
+		sendString(id, "A player name must be provided.\nConnection Failed");
 		Logger::log(0, "Player connected with out a name");
 		kickPlayer(id);
 		return true;
@@ -108,7 +108,8 @@ bool ServerConnectHandler::processMessage(NetPlayerID &id,
 			"This server is running Scorched build %s (%s).\n"
 			"You are running Scorched build %s (%s).\n"
 			"New versions can be downloaded from\n"
-			"http://www.scorched3d.co.uk", 
+			"http://www.scorched3d.co.uk\n"
+			"Connection failed.", 
 			ScorchedVersion, ScorchedProtocolVersion,
 			message.getVersion(), message.getProtocolVersion());
 		Logger::log(0, 
@@ -128,8 +129,9 @@ bool ServerConnectHandler::processMessage(NetPlayerID &id,
 						OptionsGame::instance()->getServerPassword()))
 		{
 			sendString(id, 			
-					   "This server is running a password protected game."
-					   "Your supplied password does not match");
+					   "This server is running a password protected game.\n"
+					   "Your supplied password does not match.\n"
+					"Connection failed.");
 			Logger::log(0, 
 						"Player \"%s\" connected with an invalid password",
 						playerName.c_str());
