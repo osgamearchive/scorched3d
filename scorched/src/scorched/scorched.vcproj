@@ -1442,6 +1442,12 @@
 				RelativePath="..\weapons\WeaponRiotBomb.h">
 			</File>
 			<File
+				RelativePath="..\weapons\WeaponRoller.cpp">
+			</File>
+			<File
+				RelativePath="..\weapons\WeaponRoller.h">
+			</File>
+			<File
 				RelativePath="..\weapons\WeaponSandHog.cpp">
 			</File>
 			<File
@@ -1949,6 +1955,12 @@
 				RelativePath="..\actions\Napalm.h">
 			</File>
 			<File
+				RelativePath="..\actions\Roller.cpp">
+			</File>
+			<File
+				RelativePath="..\actions\Roller.h">
+			</File>
+			<File
 				RelativePath="..\actions\ShieldHit.cpp">
 			</File>
 			<File
@@ -2007,6 +2019,12 @@
 			</File>
 			<File
 				RelativePath="..\actions\ShotProjectileRiot.h">
+			</File>
+			<File
+				RelativePath="..\actions\ShotProjectileRoller.cpp">
+			</File>
+			<File
+				RelativePath="..\actions\ShotProjectileRoller.h">
 			</File>
 			<File
 				RelativePath="..\actions\ShotProjectileTracer.cpp">
@@ -2137,6 +2155,12 @@
 			</File>
 			<File
 				RelativePath="..\sprites\NapalmRenderer.h">
+			</File>
+			<File
+				RelativePath="..\sprites\RollerRenderer.cpp">
+			</File>
+			<File
+				RelativePath="..\sprites\RollerRenderer.h">
 			</File>
 			<File
 				RelativePath="..\sprites\SmokeActionRenderer.cpp">

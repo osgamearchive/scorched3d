@@ -40,6 +40,23 @@ activate parachutes before the tanks main move.</description>
 		<bundlesize>1</bundlesize>
 		<armslevel>7</armslevel>
 	</weapon>
+<!--	<weapon type="WeaponRoller">
+		<name>Baby Roller</name>
+		<description>A projectile weapon that explodes 
+into a rolling ball. The ball explodes when
+travling uphill.</description>
+		<icon>napalm.bmp</icon>
+		<cost>5000</cost>
+		<bundlesize>10</bundlesize>
+		<armslevel>8</armslevel>
+		<rollertime>8.0</rollertime>
+		<rollerheight>2.0</rollerheight>
+		<steptime>0.1</steptime>
+		<numberrollers>2</numberrollers>
+		<size>6</size>
+		<firedsound>shoot/small.wav</firedsound>
+		<explosionsound>explosions/small.wav</explosionsound>
+	</weapon> -->
 	<weapon type="WeaponNapalm">
 		<name>Napalm</name>
 		<description>A projectile weapon that explodes 

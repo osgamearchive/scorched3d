@@ -18,71 +18,42 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-#if !defined(__INCLUDE_Napalmh_INCLUDE__)
-#define __INCLUDE_Napalmh_INCLUDE__
+#if !defined(__INCLUDE_Rollerh_INCLUDE__)
+#define __INCLUDE_Rollerh_INCLUDE__
 
 #include <engine/ActionMeta.h>
-#include <GLEXT/GLBilboardRenderer.h>
-#include <weapons/WeaponNapalm.h>
-#include <list>
+#include <weapons/WeaponRoller.h>
+#include <set>
 
-class Napalm : public ActionMeta
+class Roller : public ActionMeta
 {
 public:
-	struct NapalmEntry 
-	{
-		NapalmEntry(int x, int y, int o) : offset(o), posX(x), posY(y)
-		{
-			renderEntry1.posX = float(posX) + 0.5f;
-			renderEntry2.posX = float(posX) - 0.5f;
-			renderEntry3.posX = float(posX);
-			renderEntry1.posY = float(posY) - 0.2f;
-			renderEntry2.posY = float(posY) - 0.2f;
-			renderEntry3.posY = float(posY) + 0.5f;
-			renderEntry1.width = renderEntry2.width = renderEntry3.width = 1.0f;
-			renderEntry1.height = renderEntry2.height = renderEntry3.height = 2.0f;
-		}
-
-		int offset;
-		int posX, posY;
-
-		GLBilboardRenderer::Entry renderEntry1;
-		GLBilboardRenderer::Entry renderEntry2;
-		GLBilboardRenderer::Entry renderEntry3;
-	};
-
-	Napalm();
-	Napalm(int x, int y, Weapon *weapon, unsigned int playerId);
-	virtual ~Napalm();
+	Roller();
+	Roller(int x, int y, Weapon *weapon, unsigned int playerId);
+	virtual ~Roller();
 
 	virtual void init();
 	virtual void simulate(float frameTime, bool &remove);
 	virtual bool writeAction(NetBuffer &buffer);
 	virtual bool readAction(NetBufferReader &reader);
 
-	std::list<NapalmEntry *> &getPoints() { return napalmPoints_; }
 	unsigned int getPlayerId() { return playerId_; }
+	int getX() { return x_; }
+	int getY() { return y_; }
 
-REGISTER_ACTION_HEADER(Napalm);
+REGISTER_ACTION_HEADER(Roller);
 
 protected:
 	int x_, y_;
 	unsigned int playerId_;
-	WeaponNapalm *weapon_;
-
-	// Not sent bu wire
-	bool hitWater_;
-	float totalTime_, hurtTime_;
-	float napalmTime_;
-	std::list<NapalmEntry *> napalmPoints_;
+	WeaponRoller *weapon_;
+	float totalTime_, rollerTime_;
+	std::set<unsigned int> usedPoints_;
 
 	float getHeight(int x, int y);
-	void simulateAddStep();
-	void simulateRmStep();
-	void simulateDamage();
+	bool simulateMoveStep();
+	void finished();
 
 };
-
 
 #endif

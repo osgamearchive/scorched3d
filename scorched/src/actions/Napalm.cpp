@@ -27,12 +27,13 @@
 
 REGISTER_ACTION_SOURCE(Napalm);
 
-Napalm::Napalm() : hitWater_(false), totalTime_(0.0f), hurtTime_(0.0f)
+Napalm::Napalm() : hitWater_(false), totalTime_(0.0f), hurtTime_(0.0f),
+	napalmTime_(0.0f)
 {
 }
 
 Napalm::Napalm(int x, int y, Weapon *weapon, unsigned int playerId) :
-	x_(x), y_(y), napalmTime_(((WeaponNapalm *) weapon)->getNapalmTime()), 
+	x_(x), y_(y), napalmTime_(0.0f), 
 	weapon_((WeaponNapalm *) weapon), 
 	playerId_(playerId), hitWater_(false),
 	totalTime_(0.0f), hurtTime_(0.0f)
@@ -65,8 +66,8 @@ void Napalm::simulate(float frameTime, bool &remove)
 	while (totalTime_ > StepTime)
 	{
 		totalTime_ -= StepTime;
-		napalmTime_ -= StepTime;
-		if (napalmTime_ > 0.0f)
+		napalmTime_ += StepTime;
+		if (napalmTime_ < weapon_->getNapalmTime())
 		{
 			// Still within the time period, add more napalm
 			simulateAddStep();
