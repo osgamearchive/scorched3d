@@ -18,21 +18,19 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #if !defined(__INCLUDE_SmokeActionRendererh_INCLUDE__)
 #define __INCLUDE_SmokeActionRendererh_INCLUDE__
 
-#include <engine/Action.h>
+#include <common/Vector.h>
 #include <landscape/Smoke.h>
 
-class SmokeActionRenderer : public ActionRenderer
+class SmokeActionRenderer
 {
 public:
 	SmokeActionRenderer();
-	virtual ~SmokeActionRenderer();
+	~SmokeActionRenderer();
 
-	virtual void simulate(Action *action, float timepassed, bool &remove);
-	virtual void draw(Action *action);
+	void simulate(Vector &position, float timepassed);
 
 public:
 	SmokeCounter counter_;

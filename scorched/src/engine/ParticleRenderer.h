@@ -26,18 +26,21 @@ class ParticleRenderer
 {
 public:
 	virtual void renderParticle(Particle &particle) = 0;
+	virtual void simulateParticle(Particle &particle, float time) = 0;
 };
 
 class ParticleRendererPoints : public ParticleRenderer
 {
 public:
 	virtual void renderParticle(Particle &particle);
+	virtual void simulateParticle(Particle &particle, float time);
 };
 
 class ParticleRendererQuads : public ParticleRenderer
 {
 public:
 	virtual void renderParticle(Particle &particle);
+	virtual void simulateParticle(Particle &particle, float time);
 };
 
 class ParticleRendererQuadsParticle : public ParticleRendererQuads
@@ -54,5 +57,20 @@ public:
 	virtual void renderParticle(Particle &particle);
 };
 
+class ParticleRendererDebris : public ParticleRenderer
+{
+public:
+	static ParticleRendererDebris *getInstance();
+	virtual void renderParticle(Particle &particle);
+	virtual void simulateParticle(Particle &particle, float time);
+};
+
+class ParticleRendererSmoke : public ParticleRenderer
+{
+public:
+	static ParticleRendererSmoke *getInstance();
+	virtual void renderParticle(Particle &particle);
+	virtual void simulateParticle(Particle &particle, float time);
+};
 
 #endif // __INCLUDE_ParticleRendererh_INCLUDE__

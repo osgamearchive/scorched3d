@@ -86,6 +86,10 @@ public:
 		Vector &position,
 		ParticleEngine &engine,
 		ParticleRenderer *renderer = 0);
+
+	void emitDebris(int number,
+		Vector &position,
+		ParticleEngine &engine);
 };
 
 #endif // __INCLUDE_ParticleEmitterh_INCLUDE__

@@ -20,6 +20,8 @@
 
 #include <common/Defines.h>
 #include <engine/ParticleEmitter.h>
+#include <sprites/DebrisActionRenderer.h>
+#include <sprites/SmokeActionRenderer.h>
 #include <math.h>
 #include <stdlib.h>
 
@@ -219,3 +221,38 @@ void ParticleEmitter::emitExplosionRing(int number,
 	}
 }
 
+void ParticleEmitter::emitDebris(int number,
+	Vector &position,
+	ParticleEngine &engine)
+{
+	for (int i=0; i<number; i++)
+	{
+		Particle *particle = engine.getNextAliveParticle();
+		if (!particle) return;
+
+		createDefaultParticle(*particle);
+
+		float direction = RAND * 3.14f * 2.0f;
+		float speed = RAND * 25.0f + 5.0f;
+		float height = RAND * 15.0f + 5.0f;
+		Vector velocity(sinf(direction) * speed, 
+			cosf(direction) * speed, height);
+
+		if (RAND > 0.5f)
+		{
+			DebrisActionRenderer *debris = new DebrisActionRenderer;
+			particle->velocity_ = velocity;
+			particle->position_ = position;
+			particle->renderer_ = ParticleRendererDebris::getInstance();
+			particle->userData_ = debris;
+		}
+		else
+		{
+			SmokeActionRenderer *smoke = new SmokeActionRenderer;
+			particle->velocity_ = velocity;
+			particle->position_ = position;
+			particle->renderer_ = ParticleRendererSmoke::getInstance();
+			particle->userData_ = smoke;
+		}
+	}
+}

@@ -118,17 +118,25 @@ void ParticleEngine::simulate(const unsigned state, float time)
 			particle->velocity_ *= 1.0f - (particle->friction_ * time);
 			particle->velocity_ += particle->gravity_ * time * time;
 
+			// Simulate the particle
+			if (particle->renderer_)
+			{
+				particle->renderer_->simulateParticle(*particle, time);
+			}
+
 			lastParticle = particle;
 		}
 		else
 		{
 			particlesOnScreen_--;
 			freeParticles_[particlesOnScreen_] = particle;
+			delete particle->userData_;
 
 			if (end_ == particle) end_ = lastParticle;
 			if (start_ == particle) start_ = particle->next_;
 			if (lastParticle) lastParticle->next_ = particle->next_;
 			particle->next_ = 0;
+			particle->userData_ = 0;
 		}
 		particle = next;
 	}

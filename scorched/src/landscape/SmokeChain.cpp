@@ -31,6 +31,7 @@ void SmokeChainEntry::set(Vector &position, Vector &velocity, float ms, float mt
 	//r_color = 0.5f;
 	//g_color = 0.5f;
 	//b_color = 0.5f;
+	shadow_ = (RAND > 0.75f);
 	posX = position[0];
 	posY = position[1];
 	posZ = position[2];
@@ -58,7 +59,8 @@ void SmokeChainEntry::draw()
 		alpha = (1.0f - a) * 0.4f;
 
 		// Add a shadow of the smoke on the ground
-		if (posX > 0.0f && posY > 0.0f && 
+		if (shadow_ &&
+			posX > 0.0f && posY > 0.0f && 
 			posX < 255.0f && posY < 255.0f)
 		{
 			float aboveGround =

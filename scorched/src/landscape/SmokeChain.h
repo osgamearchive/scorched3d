@@ -33,6 +33,7 @@ public:
 	void draw();
 	bool move(float frameTime);
 
+	bool shadow_;
 	Vector velocity_; // Smoke velocity
 	float a, t; // Alpha and time
 	float maxTime, maxSize; // Max time, max size

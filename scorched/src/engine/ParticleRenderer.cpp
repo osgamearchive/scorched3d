@@ -21,12 +21,18 @@
 #include <engine/ParticleRenderer.h>
 #include <engine/Particle.h>
 #include <sprites/ExplosionTextures.h>
+#include <sprites/DebrisActionRenderer.h>
+#include <sprites/SmokeActionRenderer.h>
 #include <landscape/Landscape.h>
 #include <landscape/LandscapeMaps.h>
 #include <client/ScorchedClient.h>
 #include <GLEXT/GLState.h>
 #include <GLEXT/GLCameraFrustum.h>
 #include <GLEXT/GLInfo.h>
+
+void ParticleRendererPoints::simulateParticle(Particle &particle, float time)
+{
+}
 
 void ParticleRendererPoints::renderParticle(Particle &particle)
 {
@@ -38,6 +44,10 @@ void ParticleRendererPoints::renderParticle(Particle &particle)
 	glBegin(GL_POINTS);
 		glVertex3fv(particle.position_);
 	glEnd();
+}
+
+void ParticleRendererQuads::simulateParticle(Particle &particle, float time)
+{
 }
 
 void ParticleRendererQuads::renderParticle(Particle &particle)
@@ -131,4 +141,41 @@ void ParticleRendererQuadsSmoke::renderParticle(Particle &particle)
 				(particle.size_[0] * aboveGround) / 10.0f, smokeAlpha);
 		}
 	}
+}
+
+ParticleRendererDebris *ParticleRendererDebris::getInstance()
+{
+	static ParticleRendererDebris instance_;
+	return &instance_;
+}
+
+void ParticleRendererDebris::renderParticle(Particle &particle)
+{
+	DebrisActionRenderer *renderer = (DebrisActionRenderer *)
+		particle.userData_;
+	renderer->draw(particle.position_);
+}
+
+void ParticleRendererDebris::simulateParticle(Particle &particle, float time)
+{
+	DebrisActionRenderer *renderer = (DebrisActionRenderer *)
+		particle.userData_;
+	renderer->simulate(time);	
+}
+
+ParticleRendererSmoke *ParticleRendererSmoke::getInstance()
+{
+	static ParticleRendererSmoke instance_;
+	return &instance_;
+}
+
+void ParticleRendererSmoke::renderParticle(Particle &particle)
+{
+}
+
+void ParticleRendererSmoke::simulateParticle(Particle &particle, float time)
+{
+	SmokeActionRenderer *renderer = (SmokeActionRenderer *)
+		particle.userData_;
+	renderer->simulate(particle.position_, time);	
 }

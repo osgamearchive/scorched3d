@@ -20,7 +20,8 @@
 
 #include <engine/Particle.h>
 
-Particle::Particle() : next_(0), life_(-1.0f), renderer_(0)
+Particle::Particle() : 
+	next_(0), life_(-1.0f), renderer_(0), userData_(0)
 {
 }
 

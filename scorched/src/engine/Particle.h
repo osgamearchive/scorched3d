@@ -48,6 +48,7 @@ public:
 	Vector size_, sizeCounter_;
 	float alpha_, alphaCounter_;
 
+	void *userData_;
 	ParticleRenderer *renderer_;
 	Particle *next_;
 };

@@ -7,6 +7,6 @@ Buying fuel will allow your tank to move.
 All shots are affected by wind.
 The 's' key will show you your current score.
 The 't' key allows you to talk to online players.
-The 'a' key will aim at the mouse pointer.
+The 'a' key will auto-aim at the mouse pointer.
 Use the 1 to 9 keys to switch camera views.
 The 'c' key will show a second camera view.

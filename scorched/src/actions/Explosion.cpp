@@ -19,6 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <client/MainCamera.h>
+#include <client/ScorchedClient.h>
 #include <tank/TankController.h>
 #include <common/OptionsGame.h>
 #include <common/SoundStore.h>
@@ -32,6 +33,7 @@
 #include <actions/SpriteProjectile.h>
 #include <engine/ScorchedContext.h>
 #include <engine/ActionController.h>
+#include <engine/ParticleEmitter.h>
 #include <landscape/DeformLandscape.h>
 #include <landscape/DeformTextures.h>
 #include <landscape/LandscapeMaps.h>
@@ -39,8 +41,6 @@
 #include <sprites/ExplosionRenderer.h>
 #include <sprites/ExplosionNukeRenderer.h>
 #include <sprites/SprayActionRenderer.h>
-#include <sprites/SmokeActionRenderer.h>
-#include <sprites/DebrisActionRenderer.h>
 #include <sprites/ExplosionTextures.h>
 #include <math.h>
 
@@ -115,45 +115,28 @@ void Explosion::init()
 						new SprayActionRenderer(position_, explosion->getSize() - 2.0f)));
 			}
 
+			ParticleEmitter emitter;
+			emitter.setAttributes(
+				2.5f, 4.0f, // Life
+				0.2f, 0.5f, // Mass
+				0.01f, 0.02f, // Friction
+				Vector(-0.05f, -0.1f, 0.3f), Vector(0.05f, 0.1f, 0.9f), // Velocity
+				Vector(0.7f, 0.7f, 0.7f), 0.3f, // StartColor1
+				Vector(0.7f, 0.7f, 0.7f), 0.3f, // StartColor2
+				Vector(0.7f, 0.7f, 0.7f), 0.0f, // EndColor1
+				Vector(0.8f, 0.8f, 0.8f), 0.1f, // EndColor2
+				0.2f, 0.2f, 0.5f, 0.5f, // Start Size
+				2.2f, 2.2f, 4.0f, 4.0f, // EndSize
+				Vector(0.0f, 0.0f, -800.0f) // Gravity
+				);
+
 			// Create debris
 			float mult = float(
-				OptionsDisplay::instance()->getExplosionParticlesMult()) / 10.0f;
-			for (int a=0; a<int(explosion->getSize() * mult); a++)
-			{
-				int numberOfSprites = 40;
-				if (OptionsDisplay::instance()->getEffectsDetail() == 0) 
-					numberOfSprites = 10;
-				else if (OptionsDisplay::instance()->getEffectsDetail() == 2) 
-					numberOfSprites = 100;
-
-				if ((int) SpriteProjectile::getNoSpriteProjectiles() <
-					numberOfSprites)
-				{
-					float direction = RAND * 3.14f * 2.0f;
-					float speed = RAND * 5.0f + 5.0f;
-					float height = RAND * 10.0f + 5.0f;
-					Vector velocity(sinf(direction) * speed, 
-						cosf(direction) * speed, height);
-
-					SpriteProjectile *particle = new SpriteProjectile;
-					particle->setScorchedContext(context_);
-					particle->setPhysics(position_, velocity);
-					particle->setData(&particle->collisionInfo);
-
-					if (RAND > 0.5)
-					{
-						SmokeActionRenderer *render = new SmokeActionRenderer;
-						particle->setActionRender(render);
-					}
-					else
-					{
-						DebrisActionRenderer *render = new DebrisActionRenderer;
-						particle->setActionRender(render);
-					}
-
-					context_->actionController->addAction(particle);
-				}
-			}
+				OptionsDisplay::instance()->getExplosionParticlesMult()) / 40.0f;
+			int debris = 5 + int(explosion->getSize() * mult);
+			emitter.emitDebris(debris,
+				position_, 
+				ScorchedClient::instance()->getParticleEngine());
 		}
 
 		if (0 == strcmp(explosion->getAccessoryTypeName(), "WeaponMuzzle"))

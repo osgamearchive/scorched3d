@@ -18,21 +18,20 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #if !defined(__INCLUDE_DebrisActionRendererh_INCLUDE__)
 #define __INCLUDE_DebrisActionRendererh_INCLUDE__
 
-#include <engine/Action.h>
+#include <common/Vector.h>
 #include <GLEXT/GLVertexSet.h>
 
-class DebrisActionRenderer : public ActionRenderer
+class DebrisActionRenderer
 {
 public:
 	DebrisActionRenderer();
-	virtual ~DebrisActionRenderer();
+	~DebrisActionRenderer();
 
-	virtual void simulate(Action *action, float timepassed, bool &remove);
-	virtual void draw(Action *action);
+	void simulate(float time);
+	void draw(Vector &position);
 
 protected:
 	GLVertexSet *debris_;
@@ -41,6 +40,5 @@ protected:
 	float rotationSpeed_;
 
 };
-
 
 #endif

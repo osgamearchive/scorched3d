@@ -18,9 +18,7 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <sprites/SmokeActionRenderer.h>
-#include <engine/PhysicsParticle.h>
 #include <landscape/Landscape.h>
 
 SmokeActionRenderer::SmokeActionRenderer() : counter_(0.1f, 0.1f)
@@ -32,17 +30,12 @@ SmokeActionRenderer::~SmokeActionRenderer()
 {
 }
 
-void SmokeActionRenderer::simulate(Action *action, float timepassed, bool &remove)
+void SmokeActionRenderer::simulate(Vector &actualPos, float timepassed)
 {
 	if (counter_.nextDraw(timepassed))
 	{
-		Vector &actualPos = ((PhysicsParticle *)action)->getCurrentPosition();
 		Landscape::instance()->getSmoke().
 			addSmoke(actualPos[0], actualPos[1], actualPos[2], 
 			0.0f, 0.0f, 0.0f, 1.0f);
 	}
-}
-
-void SmokeActionRenderer::draw(Action *action)
-{
 }

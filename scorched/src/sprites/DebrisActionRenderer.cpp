@@ -18,10 +18,8 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <sprites/DebrisActionRenderer.h>
 #include <3dsparse/ModelStore.h>
-#include <engine/PhysicsParticle.h>
 #include <common/Defines.h>
 #include <GLEXT/GLState.h>
 #include <stdlib.h>
@@ -55,14 +53,13 @@ DebrisActionRenderer::~DebrisActionRenderer()
 {
 }
 
-void DebrisActionRenderer::simulate(Action *action, float timepassed, bool &remove)
+void DebrisActionRenderer::simulate(float timepassed)
 {
 	rotationAng_ += timepassed * rotationSpeed_;
 }
 
-void DebrisActionRenderer::draw(Action *action)
+void DebrisActionRenderer::draw(Vector &actualPos)
 {
-	Vector &actualPos = ((PhysicsParticle *)action)->getCurrentPosition();
 	GLState state(GLState::TEXTURE_OFF | GLState::BLEND_OFF);
 
 	glColor3f(0.3f, 0.4f, 0.3f);
