@@ -26,6 +26,7 @@
 #include <common/OptionsGame.h>
 #include <common/Timer.h>
 #include <common/Logger.h>
+#include <coms/ComsNextRoundMessage.h>
 #include <coms/ComsGameStateMessage.h>
 #include <coms/ComsNewGameMessage.h>
 #include <coms/ComsMessageSender.h>
@@ -170,6 +171,13 @@ int ServerNewGameState::addTanksToGame(const unsigned state)
 				ComsGameStateMessage stateMessage;
 				ComsMessageSender::sendToSingleClient(stateMessage,
 					destination);
+
+				// Make sure client says it is ready
+				if (state == ServerState::ServerStateReady)
+				{
+					ComsNextRoundMessage nrmessage;
+					ComsMessageSender::sendToSingleClient(nrmessage, destination);
+				}
 			}
 		}
 	}
