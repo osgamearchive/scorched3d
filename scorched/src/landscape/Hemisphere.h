@@ -18,25 +18,28 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// Hemisphere.h: interface for the Hemisphere class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_HEMISPHERE_H__3577D267_2B6C_4300_B0EE_61E1E50E57DD__INCLUDED_)
 #define AFX_HEMISPHERE_H__3577D267_2B6C_4300_B0EE_61E1E50E57DD__INCLUDED_
 
-
+class GLBitmap;
+class Vector;
 class Hemisphere  
 {
 public:
-	Hemisphere();
-	virtual ~Hemisphere();
-
-	void draw(float radius, float radius2,
+	static void draw(float radius, float radius2,
 				int heightSlices = 10, int rotationSlices = 20,
 				int startHeightSlice = 0, int startRotationSlice = 0,
 				bool inverse = false, bool xy = false, float xvalue = 0.0f, float yvalue = 0.0f);
+	static void drawColored(float radius, float radius2, 
+				int heightSlices, int rotationSlices,
+				float xvalue, float yvalue,
+				GLBitmap &colors,
+				Vector &sunDir,
+				int colorIndex);
+
+private:
+	Hemisphere();
+	virtual ~Hemisphere();
 };
 
 #endif // !defined(AFX_HEMISPHERE_H__3577D267_2B6C_4300_B0EE_61E1E50E57DD__INCLUDED_)

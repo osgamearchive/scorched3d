@@ -119,7 +119,7 @@ public:
 	opacity.  When creating an alpha bitmap the bitmap is created
 	in RGBA format, otherwise in RGB format.
 	*/
-	bool loadFromFile(const char *filename, bool alpha);
+	bool loadFromFile(const char *filename, bool alpha = false);
 	/**
 	Saves the current bitmap to a file.
 	Files are saved in windows BMP format.

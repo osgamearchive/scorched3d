@@ -18,16 +18,10 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// Surround.h: interface for the Surround class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_SURROUND_H__E92604A2_6E7D_4810_9685_B699CE743B19__INCLUDED_)
 #define AFX_SURROUND_H__E92604A2_6E7D_4810_9685_B699CE743B19__INCLUDED_
 
-#include <GLEXT/GLState.h>
-#include <GLEXT/GLTexture.h>
+#include <GLEXT/GLBitmap.h>
 #include <landscape/SurroundDefs.h>
 
 class Surround
@@ -41,6 +35,7 @@ public:
 
 protected:
 	static Surround *instance_;
+	GLBitmap skyColors_;
 	float xy_;
 	float cloudSpeed_;
 	float cloudDirection_;

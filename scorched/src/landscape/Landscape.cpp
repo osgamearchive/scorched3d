@@ -192,7 +192,6 @@ void Landscape::draw(const unsigned state)
 	glEnable(GL_FOG); // NOTE: Fog on
 	surroundTexture_.draw(true);
 	hMapSurround_.draw();
-	cloudTexture_.draw();
 	surround_.draw();
 	if (OptionsDisplay::instance()->getDrawWater())
 	{

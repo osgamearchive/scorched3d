@@ -115,7 +115,7 @@ void GLLenseFlare::init(ProgressCounter *counter)
 	}
 }
 
-void GLLenseFlare::draw(Vector &flarePos,  bool fullFlare, int colorNo)
+void GLLenseFlare::draw(Vector &flarePos,  bool fullFlare, int colorNo, float size)
 {
 	if (GLCameraFrustum::instance()->sphereInFrustum(flarePos, 5))
 	{
@@ -130,8 +130,8 @@ void GLLenseFlare::draw(Vector &flarePos,  bool fullFlare, int colorNo)
 		Vector dy = (dx * view_dir).Normalize();
 		dx = -(dy * view_dir).Normalize();
 
-		dx *= 2.0f;
-		dy *= 2.0f;
+		dx *= 2.0f * size;
+		dy *= 2.0f * size;
 
 		glDepthMask(GL_FALSE);
 		GLState currentState(GLState::BLEND_ON);

@@ -18,7 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <landscape/Sun.h>
 #include <common/OptionsGame.h>
 #include <common/OptionsDisplay.h>
@@ -28,16 +27,16 @@
 #include <stdlib.h>
 #include <math.h>
 
-Sun::Sun() : drawSun_(false)
+Sun::Sun() : drawSun_(true)
 {
 	float sunRotXY = float(OptionsDisplay::instance()->getSunXYAng()) 
 		/ 180.0f * 3.14f;
 	float sunRotYZ = float(OptionsDisplay::instance()->getSunYZAng())
 		/ 180.0f * 3.14f;
 	position_ = Vector(
-		sinf(sunRotXY) * 1800 * cosf(sunRotYZ), 
-		cosf(sunRotXY) * 1800 * cosf(sunRotYZ), 
-		sinf(sunRotYZ) * 150);
+		sinf(sunRotXY) * 900 * cosf(sunRotYZ), 
+		cosf(sunRotXY) * 900 * cosf(sunRotYZ), 
+		sinf(sunRotYZ) * 900);
 }
 
 Sun::~Sun()
@@ -50,17 +49,18 @@ void Sun::draw()
 	// Just return for now
 	if (!drawSun_) return;
 
-	Vector pos;
-	pos[0] = position_[0] / 1.5f + 128.0f;
-	pos[1] = position_[1] / 1.5f + 128.0f;
-	pos[2] = position_[2] / 1.5f;
-	GLLenseFlare::instance()->draw(pos, false, 2);
+	/*Vector pos;
+	pos[0] = position_[0] + 128.0f;
+	pos[1] = position_[1] + 128.0f;
+	pos[2] = position_[2];
 
 	glPushMatrix();
-		glTranslatef(128.0f, 128.0f, -15.0f);
+		GLLenseFlare::instance()->draw(pos, false, 2, 50.0f);
+	glPopMatrix();*/
 
-		GLState currentState(GLState::TEXTURE_OFF | GLState::BLEND_OFF);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	GLState currentState(GLState::TEXTURE_OFF | GLState::DEPTH_ON);
+	glPushMatrix();
+		glTranslatef(128.0f, 128.0f, 0.0f);
 		glColor4f(1.0f, 0.0f, 0.0f, 1.0f);
 		glBegin(GL_LINES);
 			glVertex3f(0.0f, 0.0f, 0.0f);

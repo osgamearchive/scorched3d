@@ -186,14 +186,13 @@ void TankModelRenderer::drawShield()
 		glNewList(largeListNo = glGenLists(1), GL_COMPILE);
 			gluSphere(obj, 6.0f, 8, 8);
 		glEndList();
-		Hemisphere h;
 		glNewList(smallMagListNo = glGenLists(1), GL_COMPILE);
-			h.draw(3.0f, 3.0f, 10, 10, 6, 0, true);
-			h.draw(3.0f, 3.0f, 10, 10, 6, 0, false);
+			Hemisphere::draw(3.0f, 3.0f, 10, 10, 6, 0, true);
+			Hemisphere::draw(3.0f, 3.0f, 10, 10, 6, 0, false);
 		glEndList();
 		glNewList(largeMagListNo = glGenLists(1), GL_COMPILE);
-			h.draw(6.0f, 6.0f, 10, 10, 6, 0, true);
-			h.draw(6.0f, 6.0f, 10, 10, 6, 0, false);
+			Hemisphere::draw(6.0f, 6.0f, 10, 10, 6, 0, true);
+			Hemisphere::draw(6.0f, 6.0f, 10, 10, 6, 0, false);
 		glEndList();
 	}
 

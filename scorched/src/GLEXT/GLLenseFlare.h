@@ -36,7 +36,7 @@ public:
 	static GLLenseFlare *instance();
 	void init(ProgressCounter *counter = 0);
 
-	void draw(Vector &flarePos, bool fullFlare, int color=0);
+	void draw(Vector &flarePos, bool fullFlare, int color=0, float size = 1.0f);
 	void draw(Vector &flarePos, Vector &flareDirection, int color=0);
 
 protected:

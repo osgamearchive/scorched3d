@@ -60,6 +60,9 @@ public:
 	void setSunXYAng(int value) { sunXYAng_.setValue(value); }
 	const char *getSunXYAngToolTip() { return sunXYAng_.getDescription(); }
 
+	int getDayTime() { return dayTime_.getValue(); }
+	void setDayTime(int value) { dayTime_.setValue(value); }
+
 	int getSunYZAng() { return sunYZAng_.getValue(); }
 	void setSunYZAng(int value) { sunYZAng_.setValue(value); }
 	const char *getSunYZAngToolTip() { return sunYZAng_.getDescription(); }
@@ -299,6 +302,7 @@ protected:
 	OptionEntryBoundedInt explosionSubParts_;
 	OptionEntryBoundedInt maxModelTriPercentage_;
 	OptionEntryBoundedInt explosionParticleMult_;
+	OptionEntryInt dayTime_;
 	OptionEntryInt sunYZAng_;
 	OptionEntryInt sunXYAng_;
 	OptionEntryInt colorComponentSize_;

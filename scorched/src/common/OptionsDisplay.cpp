@@ -61,6 +61,8 @@ OptionsDisplay::OptionsDisplay() :
 		"The maximum percentage of triangles each model will use.", RAccess, 100, 50, 100),
 	explosionParticleMult_(options_, "ExplosionParticleMult",
 		"The number of particles that each explosion will create (relative to explosion size)", RAccess, 20, 0, 100),
+	dayTime_(options_, "DayTime",
+		"The Day Time", RWAccess, 2),
 	sunXYAng_(options_, "SunXYAng",
 		"The XY Rotation of the sun (degrees)", RAccess, 110),
 	sunYZAng_(options_, "SunYZAng",

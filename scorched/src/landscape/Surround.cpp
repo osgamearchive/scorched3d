@@ -19,6 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <landscape/Surround.h>
+#include <landscape/Landscape.h>
 #include <landscape/Hemisphere.h>
 #include <GLEXT/GLBitmap.h>
 #include <GLEXT/GLState.h>
@@ -32,7 +33,8 @@
 Surround::Surround(SurroundDefs &defs) : xy_(0.0f), 
 	cloudSpeed_(500.0f), cloudDirection_(0.0f)
 {
-
+	skyColors_.loadFromFile(getDataFile("data/textures/clearsky.bmp"));
+	DIALOG_ASSERT(skyColors_.getBits());
 }
 
 Surround::~Surround()
@@ -58,7 +60,7 @@ void Surround::simulate(float frameTime)
 
 void Surround::draw()
 {
-	GLState currentState(GLState::TEXTURE_ON | GLState::BLEND_ON);
+	Landscape::instance()->getCloudTexture().draw();
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	// Cannot use a display list for heimisphere as we change texture
@@ -66,23 +68,30 @@ void Surround::draw()
 	float slowXY = xy_ / 1.5f;
 	glPushMatrix();
 		// Rotate the scene so clouds blow the correct way
+		glTranslatef(128.0f, 128.0f, -15.0f);
 		glRotatef(cloudDirection_, 0.0f, 0.0f, 1.0f);
 
-		glTranslatef(128.0f, 128.0f, -15.0f);
+		/*GLState mainState1(GLState::TEXTURE_OFF);
+		Vector *fogColor = Resources::vectorResource("color-fog");
+		glColor3fv(*fogColor);
+		Hemisphere::draw(2050, 200, 10, 10, 0, 0, 
+			false, true, 0.0f, xy_ + 0.3f);*/
 
-		// Should change this to use a compiled GLVertexArray
-		// this would be faster
-		Hemisphere h;
-		//glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-		//h.draw(1900, 300);
-
-		glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-		h.draw(2000, 180, 5, 10, 0, 0, false, true, slowXY, slowXY + 0.4f);
+		GLState mainState2(GLState::TEXTURE_ON | GLState::BLEND_OFF);
+		Vector sunDir = 
+			-Landscape::instance()->getSun().getPosition().Normalize();
+		Hemisphere::drawColored(1800, 180, 10, 10, 
+			slowXY, slowXY + 0.4f,
+			skyColors_,
+			sunDir,
+			OptionsDisplay::instance()->getDayTime());
 
 		if (!OptionsDisplay::instance()->getNoSkyLayers())
 		{
+			GLState currentState(GLState::BLEND_ON);
 			glColor4f(1.0f, 1.0f, 1.0f, 0.3f);
-			h.draw(1800, 120, 10, 20, 0, 0, false, true, 0.0f, xy_ + 0.3f);
+			Hemisphere::draw(2100, 120, 10, 20, 0, 0, 
+				false, true, 0.0f, xy_ + 0.3f);
 		}
 	glPopMatrix();
 }
