@@ -44,6 +44,7 @@
  */
 
 #include "Obstacle.h"
+#include <assert.h>
 #include <limits.h>
 #include <float.h>
 #include <stdarg.h>
@@ -82,11 +83,12 @@ BoidPolygon::BoidPolygon(const BoidPolygon &p) {
 }
 
 BoidPolygon::BoidPolygon(int numverts, const BoidVector v0, 
-		 const BoidVector v1, const BoidVector v2, ...) {
+		 const BoidVector v1, const BoidVector v2, const BoidVector v3) {
 
   BoidVector p;
-  va_list arg_ptr;
   int i;
+
+	assert(numverts == 4);
 
   // Set the number of vertices in the BoidPolygon and allocate the array
   // of vertices
@@ -118,11 +120,9 @@ BoidPolygon::BoidPolygon(int numverts, const BoidVector v0,
   }
 
   // set up the rest of them
-  va_start(arg_ptr, v2); 
   for (i=3; i<numverts; i++) {
-    vertex[i] = va_arg(arg_ptr, BoidVector);
+    vertex[i] = v3;
   }
-  va_end(arg_ptr);
 
 }
 

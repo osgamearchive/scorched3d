@@ -104,7 +104,8 @@ class BoidPolygon : public Obstacle {
 public:
   
   BoidPolygon(int numverts,
-	  const BoidVector v0, const BoidVector v1, const BoidVector v2, ...);
+	  const BoidVector v0, const BoidVector v1, const BoidVector v2, const
+	  BoidVector v3);
   // Constructor. Vertices must be specified in clockwise or
   // counter-clockwise order.
   

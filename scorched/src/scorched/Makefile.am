@@ -209,10 +209,10 @@ scorched3d_SOURCES = \
 	../tankgraph/TankModel.h \
 	../tankgraph/TankModelRenderer.cpp \
 	../tankgraph/TankModelRenderer.h \
-	../tankgraph/TankParticleRenderer.h \
-	../tankgraph/TankParticleRenderer.cpp \
 	../tankgraph/TankModelStore.cpp \
 	../tankgraph/TankModelStore.h \
+	../tankgraph/TankParticleRenderer.cpp \
+	../tankgraph/TankParticleRenderer.h \
 	../tankgraph/TankRenderer.cpp \
 	../tankgraph/TankRenderer.h \
 	../tankgraph/TracerStore.cpp \
@@ -1034,6 +1034,19 @@ scorched3d_SOURCES = \
 	../tankai/TankAIStore.cpp \
 	../tankai/TankAIStore.h \
 	../tankai/TankAIStrings.cpp \
-	../tankai/TankAIStrings.h
+	../tankai/TankAIStrings.h \
+	../boids/Boid.cpp \
+	../boids/Boid.h \
+	../boids/BoidVector.cpp \
+	../boids/BoidVector.h \
+	../boids/BoidWorld.cpp \
+	../boids/BoidWorld.h \
+	../boids/Obstacle.cpp \
+	../boids/Obstacle.h \
+	../boids/ScorchedBoids.cpp \
+	../boids/ScorchedBoids.h \
+	../boids/ScorchedBoidsObstacle.cpp \
+	../boids/ScorchedBoidsObstacle.h \
+	../boids/SimObject.h
 
 INCLUDES = -I../porting -I.. 
