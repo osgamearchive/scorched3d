@@ -22,6 +22,8 @@
 #include <server/ServerShotHolder.h>
 #include <server/TurnController.h>
 #include <tankai/TankAILogic.h>
+#include <coms/ComsMessageSender.h>
+#include <coms/ComsPlayerStatusMessage.h>
 
 ServerShotHolder *ServerShotHolder::instance_ = 0;
 
@@ -61,6 +63,26 @@ void ServerShotHolder::addShot(unsigned int playerId,
 	if (!haveShot(playerId))
 	{
 		messages_[playerId] = message;
+
+		// Tell the client who we are currently waiting on
+		ComsPlayerStatusMessage statusMessage;
+		std::list<unsigned int> &tanks = 
+			TurnController::instance()->getPlayersThisTurn();
+		std::list<unsigned int>::iterator itor;
+		for (itor = tanks.begin();
+			 itor != tanks.end();
+			 itor++)
+		{
+			unsigned int playerId = (*itor);
+			Tank *tank = 
+				ScorchedServer::instance()->getTankContainer().getTankById(playerId);
+			if (tank && tank->getState().getState() == TankState::sNormal)
+			{
+				if (!haveShot(tank->getPlayerId())) 
+					statusMessage.getWaitingPlayers().push_back(playerId);
+			}
+		}
+		ComsMessageSender::sendToAllPlayingClients(statusMessage);
 	}
 }
 

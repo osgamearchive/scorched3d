@@ -37,6 +37,7 @@
 #include <client/ClientActionsHandler.h>
 #include <client/ClientNextRoundHandler.h>
 #include <client/ClientDefenseHandler.h>
+#include <client/ClientPlayerStatusHandler.h>
 #include <client/ClientState.h>
 #include <client/WindowSetup.h>
 #include <server/ScorchedServer.h>
@@ -100,6 +101,7 @@ void startClient()
 	ClientDefenseHandler::instance();
 	ClientActionsHandler::instance();
 	ClientBuyAccessoryHandler::instance();
+	ClientPlayerStatusHandler::instance();
 	ClientScoreHandler::instance();
 
 	HeightMapCollision *hmcol = 

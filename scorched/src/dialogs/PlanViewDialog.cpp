@@ -23,16 +23,13 @@
 #include <tankgraph/TankModelRenderer.h>
 #include <client/MainCamera.h>
 #include <client/ScorchedClient.h>
+#include <client/ClientState.h>
 #include <dialogs/PlanViewDialog.h>
 #include <landscape/Landscape.h>
 #include <common/Vector.h>
 
 static const float degToRad = 3.14f / 180.0f;
 static const float maxAnimationTime = 2.0f;
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 PlanViewDialog *PlanViewDialog::instance_ = 0;
 
@@ -197,6 +194,8 @@ void PlanViewDialog::drawCurrentTank()
 	Tank *currentTank = ScorchedClient::instance()->getTankContainer().getCurrentTank();
 	if (!currentTank || 
 		currentTank->getState().getState() != TankState::sNormal) return;
+	if (ScorchedClient::instance()->getGameState().getState() != 
+		ClientState::StatePlaying) return;
 
 	// Calculate the constants
 	float width = (float) 

@@ -27,6 +27,7 @@
 #include <coms/ComsStartGameMessage.h>
 #include <coms/ComsTimerStartMessage.h>
 #include <coms/ComsMessageSender.h>
+#include <coms/ComsPlayerStatusMessage.h>
 #include <common/Logger.h>
 
 ServerNextTurnState::ServerNextTurnState()
@@ -59,6 +60,11 @@ void ServerNextTurnState::enterState(const unsigned state)
 		if (weaponBuy) time = ScorchedServer::instance()->getOptionsGame().getBuyingTime();
 		ComsTimerStartMessage timerMessage(time);
 		ComsMessageSender::sendToAllPlayingClients(timerMessage);
+
+		// Tell the client who we are currently waiting on
+		ComsPlayerStatusMessage statusMessage;
+		statusMessage.getWaitingPlayers() = TurnController::instance()->getPlayersThisTurn();
+		ComsMessageSender::sendToAllPlayingClients(statusMessage);
 
 		// Tell the players to play the turn
 		std::list<unsigned int>::iterator itor;

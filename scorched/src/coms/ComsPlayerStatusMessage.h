@@ -18,10 +18,33 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_ClientMainh_INCLUDE__)
-#define __INCLUDE_ClientMainh_INCLUDE__
+#ifndef _comsPlayerStatusMessage_h
+#define _comsPlayerStatusMessage_h
 
-void clientMain();
+#include <coms/ComsMessage.h>
+#include <list>
 
+class ComsPlayerStatusMessage : public ComsMessage
+{
+public:
+	ComsPlayerStatusMessage();
+	virtual ~ComsPlayerStatusMessage();
 
-#endif
+	std::list<unsigned int> &getWaitingPlayers() { return waitingPlayers_; }
+	bool playerWaiting(unsigned int playerId);
+
+	// Inherited from ComsMessage
+	virtual bool writeMessage(NetBuffer &buffer);
+	virtual bool readMessage(NetBufferReader &reader);
+
+protected:
+	std::list<unsigned int> waitingPlayers_;
+
+private:
+	ComsPlayerStatusMessage(const ComsPlayerStatusMessage &);
+	const ComsPlayerStatusMessage & operator=(const ComsPlayerStatusMessage &);
+
+};
+
+#endif // _comsPlayerStatusMessage_h
+

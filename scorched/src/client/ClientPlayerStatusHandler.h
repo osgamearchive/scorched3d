@@ -18,10 +18,28 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_ClientMainh_INCLUDE__)
-#define __INCLUDE_ClientMainh_INCLUDE__
+#if !defined(__INCLUDE_ClientPlayerStatusHandlerh_INCLUDE__)
+#define __INCLUDE_ClientPlayerStatusHandlerh_INCLUDE__
 
-void clientMain();
+#include <coms/ComsMessageHandler.h>
 
+class ClientPlayerStatusHandler : 
+	public ComsMessageHandlerI
+{
+public:
+	static ClientPlayerStatusHandler *instance();
 
-#endif
+	virtual bool processMessage(unsigned int id,
+		const char *message,
+		NetBufferReader &reader);
+
+protected:
+	static ClientPlayerStatusHandler *instance_;
+
+private:
+	ClientPlayerStatusHandler();
+	virtual ~ClientPlayerStatusHandler();
+
+};
+
+#endif // __INCLUDE_ClientPlayerStatusHandlerh_INCLUDE__

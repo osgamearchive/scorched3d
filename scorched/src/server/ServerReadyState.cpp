@@ -29,6 +29,7 @@
 #include <common/Logger.h>
 #include <common/OptionsTransient.h>
 #include <coms/ComsGameStateMessage.h>
+#include <coms/ComsPlayerStatusMessage.h>
 #include <coms/ComsMessageSender.h>
 #include <tank/TankContainer.h>
 
@@ -53,6 +54,7 @@ void ServerReadyState::enterState(const unsigned state)
 	ScorchedServer::instance()->getTankContainer().setAllNotReady();
 
 	// Make all computer players ready
+	ComsPlayerStatusMessage statusMessage;
 	std::map<unsigned int, Tank *> &tanks = 
 		ScorchedServer::instance()->getTankContainer().getPlayingTanks();
 	std::map<unsigned int, Tank *>::iterator itor;
@@ -66,7 +68,14 @@ void ServerReadyState::enterState(const unsigned state)
 		{
 			tank->getState().setReady();
 		}
+		else
+		{
+			statusMessage.getWaitingPlayers().push_back(tank->getPlayerId());
+		}
 	}
+
+	// Tell clients who we are waiting on
+	ComsMessageSender::sendToAllPlayingClients(statusMessage);	
 
 	// Set the wait timer to the current time
 	time_ = 0.0f;
@@ -81,6 +90,27 @@ bool ServerReadyState::acceptStateChange(const unsigned state,
 		const unsigned nextState,
 		float frameTime)
 {
+	// Send status messages every 5 seconds
+	if (((int) time_) / 5 != ((int) (time_ + frameTime)) / 5)
+	{
+		// Say who we are waiting on
+		ComsPlayerStatusMessage statusMessage;
+		std::map<unsigned int, Tank *> &tanks = 
+			ScorchedServer::instance()->getTankContainer().getPlayingTanks();
+		std::map<unsigned int, Tank *>::iterator itor;
+		for (itor = tanks.begin();
+			 itor != tanks.end();
+			 itor++)
+		{
+			Tank *tank = (*itor).second;
+			if (tank->getState().getReadyState() == TankState::SNotReady)
+			{
+				statusMessage.getWaitingPlayers().push_back(tank->getPlayerId());
+			}
+		}
+		ComsMessageSender::sendToAllPlayingClients(statusMessage);			
+	}
+
 	time_ += frameTime;
 
 	// Show down the shots, when we are on a dedicated server
@@ -92,6 +122,10 @@ bool ServerReadyState::acceptStateChange(const unsigned state,
 		// Check all players returned ready
 		if (ScorchedServer::instance()->getTankContainer().allReady())
 		{
+			// Say we are waiting on no one
+			ComsPlayerStatusMessage statusMessage;
+			ComsMessageSender::sendToAllPlayingClients(statusMessage);	
+
 			// Make sure all clients have the correct game settings
 			ComsGameStateMessage message;
 			ComsMessageSender::sendToAllPlayingClients(message);	
@@ -122,6 +156,10 @@ bool ServerReadyState::acceptStateChange(const unsigned state,
 				ServerCommon::kickDestination(tank->getDestinationId());
 			}
 		}
+
+		// Say we are waiting on no one
+		ComsPlayerStatusMessage statusMessage;
+		ComsMessageSender::sendToAllPlayingClients(statusMessage);	
 
 		// Make sure all clients have the correct game settings
 		ComsGameStateMessage message;
