@@ -166,6 +166,9 @@ void ServerCommon::banDestination(unsigned int destinationId)
 		getIpAddress(destinationId);
 	if (ipAddress != 0)
 	{
+		Logger::log(0, "Banning destination %i",
+			destinationId);
+	
 		ServerBanned::instance()->addBanned(ipAddress);
 		kickDestination(destinationId);
 	}

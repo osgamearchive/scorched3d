@@ -100,13 +100,14 @@ bool ServerBanned::save()
 		itor++)
 	{
 		unsigned int ip = *itor;
-		char address[4];
+		unsigned char address[4];
 		memcpy(address, &ip, sizeof(address));
 
 		// Add comment
 		node.addChild(new XMLNode("", 
 			formatString("%i.%i.%i.%i",
-			address[0], address[1], address[2], address[3]), 
+			(int) address[0], (int) address[1], 
+			(int) address[2], (int) address[3]), 
 			XMLNode::XMLCommentType));
 
 		// Add ip address

@@ -111,6 +111,7 @@ bool ServerAdminHandler::processMessage(unsigned int destinationId,
 				getTankContainer().getTankById(atoi(message.getParam1()));
 			if (targetTank) ServerCommon::banDestination(
 				targetTank->getDestinationId());
+			else ServerCommon::sendString(destinationId, "Unknown player for ban");
 		}
 		break;
 	case ComsAdminMessage::AdminKick:
@@ -119,6 +120,7 @@ bool ServerAdminHandler::processMessage(unsigned int destinationId,
 				getTankContainer().getTankById(atoi(message.getParam1()));
 			if (targetTank) ServerCommon::kickDestination(
 				targetTank->getDestinationId());
+			else ServerCommon::sendString(destinationId, "Unknown player for kick");
 		}
 		break;
 	case ComsAdminMessage::AdminKillAll:
@@ -131,6 +133,7 @@ bool ServerAdminHandler::processMessage(unsigned int destinationId,
 			if (targetTank) ServerCommon::slapDestination(
 				targetTank->getDestinationId(),
 				(float) atof(message.getParam2()));
+			else ServerCommon::sendString(destinationId, "Unknown player for slap");
 		}
 		break;
 	}

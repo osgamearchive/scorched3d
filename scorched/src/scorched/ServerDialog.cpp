@@ -57,6 +57,7 @@ enum
 	IDC_MENU_PLAYERKICK,
 	IDC_MENU_PLAYERSLAP25,
 	IDC_MENU_PLAYERKILLALL,
+	IDC_MENU_PLAYERBAN,
 	IDC_MENU_PLAYERADD,
 	IDC_MENU_PLAYERADD_1,
 	IDC_MENU_PLAYERADD_2,
@@ -168,6 +169,7 @@ public:
 	void onPlayerSlap25();
 	void onKillAll();
 	void onStartNewGame();
+	void onPlayerBan();
 	void onPlayerAdd(int i);
 	void onPlayerAdd1();
 	void onPlayerAdd2();
@@ -204,6 +206,7 @@ BEGIN_EVENT_TABLE(ServerFrame, wxFrame)
 	EVT_MENU(IDC_MENU_LOADOPTIONS, ServerFrame::onLoadOptions)
 	EVT_MENU(IDC_MENU_SAVEOPTIONS, ServerFrame::onSaveOptions)
 	EVT_MENU(IDC_MENU_TIMEDMSG, ServerFrame::onTimedMsg)
+	EVT_MENU(IDC_MENU_PLAYERBAN, ServerFrame::onPlayerBan)
 	EVT_MENU(IDC_MENU_PLAYERTALK, ServerFrame::onPlayerTalk)
 	EVT_MENU(IDC_MENU_PLAYERTALKALL, ServerFrame::onPlayerTalkAll)
 	EVT_MENU(IDC_MENU_PLAYERKICK, ServerFrame::onPlayerKick)
@@ -322,6 +325,7 @@ ServerFrame::ServerFrame(const char *name) :
 	menuPlayer->Append(IDC_MENU_PLAYERTALK, "Talk to selected players");
 	menuPlayer->Append(IDC_MENU_PLAYERTALKALL, "Talk to all players");
 	menuPlayer->Append(IDC_MENU_PLAYERKICK, "Kick selected players");
+	menuPlayer->Append(IDC_MENU_PLAYERBAN, "Ban selected players");
 	menuPlayer->Append(IDC_MENU_PLAYERKILLALL, "Kill all players");
 	menuPlayer->Append(IDC_MENU_PLAYERSLAP25, "Slap selected players (25 pts)");
 	menuPlayer->Append(IDC_MENU_PLAYERADD, "Add a new player", menuAddPlayer);
@@ -508,6 +512,24 @@ void ServerFrame::onPlayerKick()
 			Tank *tank = 
 				ScorchedServer::instance()->getTankContainer().getTankByPos((unsigned int) item);
 			ServerCommon::kickDestination(tank->getDestinationId());
+		}		
+    }
+}
+
+void ServerFrame::onPlayerBan()
+{
+	long item = -1;
+    while ((item = frame->playerList_->GetNextItem(
+		item,
+		wxLIST_NEXT_ALL,
+        wxLIST_STATE_SELECTED)) != -1)
+    {
+		if ((item != -1) && (item < 
+			ScorchedServer::instance()->getTankContainer().getNoOfTanks()))
+		{
+			Tank *tank = 
+				ScorchedServer::instance()->getTankContainer().getTankByPos((unsigned int) item);
+			ServerCommon::banDestination(tank->getDestinationId());
 		}		
     }
 }
