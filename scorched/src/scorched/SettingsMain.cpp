@@ -114,5 +114,13 @@ static void createControls(wxWindow *parent, wxSizer *topsizer)
 		"",
 		wxDefaultPosition, wxSize((int) 100, -1), wxTE_PASSWORD);
 	sizer->Add(IDC_SERVER_PASSWORD_CTRL, 0, wxALIGN_CENTER);
+	IDC_SERVERADMIN_PASSWORD_CTRL_TEXT =
+		new wxStaticText(parent, -1, "Admin Password :");
+	sizer->Add(IDC_SERVERADMIN_PASSWORD_CTRL_TEXT, 0, wxALIGN_CENTER);
+	IDC_SERVERADMIN_PASSWORD_CTRL =
+		new wxTextCtrl(parent, -1,
+		"",
+		wxDefaultPosition, wxSize((int) 100, -1), wxTE_PASSWORD);
+	sizer->Add(IDC_SERVERADMIN_PASSWORD_CTRL, 0, wxALIGN_CENTER);
 }
 

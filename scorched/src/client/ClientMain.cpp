@@ -23,6 +23,7 @@
 #include <client/MainCamera.h>
 #include <client/Main2DCamera.h>
 #include <client/ScorchedClient.h>
+#include <client/ClientAdmin.h>
 #include <client/ClientGameStoppedHandler.h>
 #include <client/ClientMessageHandler.h>
 #include <client/ClientTextHandler.h>
@@ -142,6 +143,7 @@ bool startClient(ProgressCounter *progressCounter)
 	}
 
 	// Setup the coms handlers
+	ClientAdmin::instance();
 	ScorchedClient::instance()->getNetInterface().setMessageHandler(
 		&ScorchedClient::instance()->getComsMessageHandler());
 	ScorchedClient::instance()->getComsMessageHandler().setConnectionHandler(

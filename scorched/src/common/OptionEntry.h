@@ -30,6 +30,11 @@
 class OptionEntry
 {
 public:
+	enum StandardData
+	{
+		DataDepricated = 128,
+		DataProtected = 256
+	};
 	enum EntryType
 	{
 		OptionEntryIntType,
@@ -65,9 +70,11 @@ class OptionEntryHelper
 {
 public:
 	static bool writeToBuffer(std::list<OptionEntry *> &options,
-							  NetBuffer &buffer);
+							  NetBuffer &buffer,
+							  bool useprotected);
 	static bool readFromBuffer(std::list<OptionEntry *> &options,
-							   NetBufferReader &reader);
+							   NetBufferReader &reader,
+							   bool useprotected);
 
 	static bool writeToXML(std::list<OptionEntry *> &options,
 								XMLNode *node);

@@ -107,13 +107,13 @@ unsigned int OptionsTransient::getLeastUsedTeam(TankContainer &container)
 
 bool OptionsTransient::writeToBuffer(NetBuffer &buffer)
 {
-	if (!OptionEntryHelper::writeToBuffer(options_, buffer)) return false;
+	if (!OptionEntryHelper::writeToBuffer(options_, buffer, false)) return false;
 	return true;
 }
 
 bool OptionsTransient::readFromBuffer(NetBufferReader &reader)
 {
-	if (!OptionEntryHelper::readFromBuffer(options_, reader)) return false;
+	if (!OptionEntryHelper::readFromBuffer(options_, reader, false)) return false;
 	return true;
 }
 

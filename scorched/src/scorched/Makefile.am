@@ -494,6 +494,8 @@ scorched3d_SOURCES = \
 	../weapons/WeaponVelocity.cpp \
 	../weapons/WeaponVelocity.h \
 	../coms/ComsActionsMessage.cpp \
+	../coms/ComsAdminMessage.h \
+	../coms/ComsAdminMessage.cpp \
 	../coms/ComsActionsMessage.h \
 	../coms/ComsAddPlayerMessage.cpp \
 	../coms/ComsAddPlayerMessage.h \
@@ -751,6 +753,8 @@ scorched3d_SOURCES = \
 	SingleDialog.cpp \
 	SingleDialog.h \
 	main.cpp \
+	../client/ClientAdmin.cpp \
+	../client/ClientAdmin.h \
 	../client/ClientActionsHandler.cpp \
 	../client/ClientActionsHandler.h \
 	../client/ClientAddPlayerHandler.cpp \
@@ -835,6 +839,8 @@ scorched3d_SOURCES = \
 	../client/WindowSetup.h \
 	../server/ScorchedServer.cpp \
 	../server/ScorchedServer.h \
+	../server/ServerAdminHandler.h \
+	../server/ServerAdminHandler.cpp \
 	../server/ServerAddPlayerHandler.cpp \
 	../server/ServerAddPlayerHandler.h \
 	../server/ServerBrowserInfo.cpp \

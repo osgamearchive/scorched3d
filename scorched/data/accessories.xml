@@ -897,7 +897,7 @@ trace of the shot path.</description>
 		<armslevel>9</armslevel>
 		<firedsound>shoot/flare.wav</firedsound>
 		<showendpoint></showendpoint>
-		<smoke></smoke>
+		<showshotpath></showshotpath>
 		<collisionaction type="WeaponNull">
 			<name>Smoke Tracer</name>
 			<armslevel>9</armslevel>

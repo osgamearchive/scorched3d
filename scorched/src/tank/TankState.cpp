@@ -26,7 +26,7 @@
 
 TankState::TankState(ScorchedContext &context, unsigned int playerId) : 
 	state_(sPending), life_(100.0f), tank_(0),
-	readyState_(sReady), 
+	readyState_(sReady), admin_(false),
 	context_(context), spectator_(false), loading_(false)
 {
 }

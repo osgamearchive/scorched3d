@@ -45,7 +45,7 @@ bool ClientSave::storeClient()
 	// GameState (removing the spectator tank)
 	ScorchedServer::instance()->getOptionsGame().setNoMaxPlayers(
 		ScorchedServer::instance()->getOptionsGame().getNoMaxPlayers()-1);
-	ScorchedServer::instance()->getOptionsGame().writeToBuffer(buffer);
+	ScorchedServer::instance()->getOptionsGame().writeToBuffer(buffer, true);
 	ScorchedServer::instance()->getOptionsGame().setNoMaxPlayers(
 		ScorchedServer::instance()->getOptionsGame().getNoMaxPlayers()+1);
 	
@@ -110,7 +110,10 @@ bool ClientSave::restoreClient(bool loadGameState, bool loadPlayers)
 	if (!reader.getFromBuffer(version)) return false;
 	if (0 != strcmp(version.c_str(), ScorchedProtocolVersion))
 	{
-		Logger::log(0, "ERROR: Saved file version does not match game version");
+		dialogMessage("LoadGame", 
+			"ERROR: Saved file version %s does not match game version %s",
+			version.c_str(),
+			ScorchedProtocolVersion);
 		return false;
 	}
 	
@@ -118,12 +121,12 @@ bool ClientSave::restoreClient(bool loadGameState, bool loadPlayers)
 	if (loadGameState)
 	{
 		if (!ScorchedServer::instance()->getOptionsGame().readFromBuffer(
-			reader)) return false;
+			reader, true)) return false;
 	}
 	else
 	{
 		OptionsGame optionsGame;
-		optionsGame.readFromBuffer(reader);
+		optionsGame.readFromBuffer(reader, true);
 	}
 	
 	// Transient State

@@ -142,7 +142,7 @@ void ServerBrowserInfo::processInfoMessage(char *buffer)
 		optionItor ++)
 	{
 		OptionEntry *entry = (*optionItor);
-		if (strcmp(entry->getName(), "ServerPassword"))
+		if (!(entry->getData() & OptionEntry::DataProtected))
 		{
 			addTag(buffer, entry->getName(), entry->getValueAsString());
 		}

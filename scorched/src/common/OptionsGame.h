@@ -263,6 +263,10 @@ public:
 	void setServerName(const char *value) { serverName_.setValue(value); }
 	const char *getServerNameToolTip() { return serverName_.getDescription(); }
 
+	const char *getServerAdminPassword() { return serverAdminPassword_.getValue(); }
+	void setServerAdminPassword(const char *value) { serverAdminPassword_.setValue(value); }
+	const char *getServerAdminPasswordToolTip() { return serverAdminPassword_.getDescription(); }
+
 	const char *getServerPassword() { return serverPassword_.getValue(); }
 	void setServerPassword(const char *value) { serverPassword_.setValue(value); }
 	const char *getServerPasswordToolTip() { return serverPassword_.getDescription(); }
@@ -284,8 +288,8 @@ public:
 	virtual bool readOptionsFromXML(XMLNode *xmlNode);
 	virtual bool writeOptionsToFile(char *filePath);
 	virtual bool readOptionsFromFile(char *filePath);
-	virtual bool writeToBuffer(NetBuffer &buffer);
-	virtual bool readFromBuffer(NetBufferReader &reader);
+	virtual bool writeToBuffer(NetBuffer &buffer, bool useProtected);
+	virtual bool readFromBuffer(NetBufferReader &reader, bool useProtected);
 
 protected:
 	std::list<OptionEntry *> options_;
@@ -342,6 +346,7 @@ protected:
 	OptionEntryString serverName_;
 	OptionEntryString *playerType_[24];
 	OptionEntryString serverPassword_;
+	OptionEntryString serverAdminPassword_;
 	OptionEntryInt portNo_;
 	OptionEntryString publishAddress_;
 	OptionEntryBool publishServer_;

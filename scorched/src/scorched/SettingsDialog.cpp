@@ -490,14 +490,20 @@ bool SettingsFrame::TransferDataToWindow()
 			context_.getServerPassword());
 		SettingsMain::IDC_SERVER_PASSWORD_CTRL->SetToolTip(
 			context_.getServerPasswordToolTip());
+		SettingsMain::IDC_SERVERADMIN_PASSWORD_CTRL->SetValue(
+			context_.getServerAdminPassword());
+		SettingsMain::IDC_SERVERADMIN_PASSWORD_CTRL->SetToolTip(
+			context_.getServerAdminPasswordToolTip());
 
 		// Turn on/off settings if server or client
 		SettingsMain::IDC_SHOT_TIME_CTRL->Show(playersPanel_ != 0);
 		SettingsMain::IDC_IDLE_TIME_CTRL->Show(playersPanel_ != 0);
 		SettingsMain::IDC_SERVER_PASSWORD_CTRL->Show(playersPanel_ != 0);
+		SettingsMain::IDC_SERVERADMIN_PASSWORD_CTRL->Show(playersPanel_ != 0);
 		SettingsMain::IDC_SHOT_TIME_CTRL_TEXT->Show(playersPanel_ != 0);
 		SettingsMain::IDC_IDLE_TIME_CTRL_TEXT->Show(playersPanel_ != 0);
 		SettingsMain::IDC_SERVER_PASSWORD_CTRL_TEXT->Show(playersPanel_ != 0);
+		SettingsMain::IDC_SERVERADMIN_PASSWORD_CTRL_TEXT->Show(playersPanel_ != 0);
 	}
 
 	return true;
@@ -633,6 +639,8 @@ bool SettingsFrame::TransferDataFromWindow()
 		
 		context_.setServerPassword(
 			SettingsMain::IDC_SERVER_PASSWORD_CTRL->GetValue());
+		context_.setServerAdminPassword(
+			SettingsMain::IDC_SERVERADMIN_PASSWORD_CTRL->GetValue());
 	}
 
 	return true;

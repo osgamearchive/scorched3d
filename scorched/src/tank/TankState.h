@@ -60,6 +60,8 @@ public:
 	bool getSpectator() { return spectator_; }	
 	void setLoading(bool l) { loading_ = l; }
 	bool getLoading() { return loading_; }
+	void setAdmin(bool admin) { admin_ = admin; }
+	bool getAdmin() { return admin_; }
 	
 	const char *getStateString();
 	const char *getSmallStateString();
@@ -78,6 +80,7 @@ protected:
 	State state_;
 	ReadyState readyState_;
 	float life_;
+	bool admin_;
 	bool spectator_;
 	bool loading_;
 

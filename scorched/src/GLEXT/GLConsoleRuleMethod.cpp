@@ -53,7 +53,7 @@ void GLConsoleRuleMethod::checkRule(const char *line,
 				std::list<std::string> &resultList)
 {
 	std::list<GLConsoleRuleSplit>::iterator iter = split.begin();
-	result = iter->rule;
+	result = line;
 
 	user_->runMethod(name_.c_str(), split, result, resultList);
 }

@@ -36,10 +36,10 @@ typedef int     HKEY;
 #define HKEY_CURRENT_USER 0
 
 #ifndef TRUE
-#define TRUE true;
+#define TRUE true
 #endif
 #ifndef FALSE
-#define FALSE false;
+#define FALSE false
 #endif
 
 #endif

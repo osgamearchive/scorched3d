@@ -84,4 +84,32 @@ protected:
 	void (T::*call_)(std::list<GLConsoleRuleSplit>);
 };
 
+// Same as above but passed params and result to method
+template<class T>
+class GLConsoleRuleMethodIAdapterEx2 : public GLConsoleRuleMethodI
+{
+public:
+	GLConsoleRuleMethodIAdapterEx2(T *inst, void (T::*call)(std::list<GLConsoleRuleSplit>, 
+		std::list<std::string>&), const char *name)
+		: inst_(inst), call_(call)
+	{
+		GLConsole::instance()->addMethod(name, this);
+	};
+	virtual ~GLConsoleRuleMethodIAdapterEx2()
+	{
+	};
+	virtual void runMethod(const char *name,  
+		std::list<GLConsoleRuleSplit> split,
+		std::string &result,
+		std::list<std::string> &resultList)
+	{
+		(inst_->*call_)(split, resultList);
+	};
+	
+protected:
+	T *inst_;
+	void (T::*call_)(std::list<GLConsoleRuleSplit>, std::list<std::string>&);
+};                         
+
 #endif
+

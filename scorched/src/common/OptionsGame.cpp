@@ -112,7 +112,9 @@ OptionsGame::OptionsGame() :
 	landscapes_(options_, "Landscapes", 
 		"Colon seperated list of landscape names", 0, ""),
 	serverPassword_(options_, "ServerPassword", 
-		"The password for this server (empty password = no password)", 0, ""),
+		"The password for this server (empty password = no password)", OptionEntry::DataProtected, ""),
+	serverAdminPassword_(options_, "ServerAdminPassword", 
+		"The admin password for this server (empty password = no access)", OptionEntry::DataProtected, ""),
 	publishServer_(options_, "PublishServer",
 		"Allow other scorched net clients to see this server.  Do not use for LAN games.", 0, false),
 	publishAddress_(options_, "PublishAddress",
@@ -144,35 +146,39 @@ OptionsGame::~OptionsGame()
 	
 }
 
-bool OptionsGame::writeToBuffer(NetBuffer &buffer)
+bool OptionsGame::writeToBuffer(NetBuffer &buffer,
+	bool useProtected)
 {
-        std::list<OptionEntry *> saveOptions;
-        std::list<OptionEntry *>::iterator itor;
-        for (itor = options_.begin();
-                itor != options_.end();
-                itor++)
-        {
-                OptionEntry *entry = *itor;
+	std::list<OptionEntry *> saveOptions;
+	std::list<OptionEntry *>::iterator itor;
+	for (itor = options_.begin();
+		itor != options_.end();
+		itor++)
+	{
+		OptionEntry *entry = *itor;
 		saveOptions.push_back(entry);
-        }
+	}
 
-	if (!OptionEntryHelper::writeToBuffer(saveOptions, buffer)) return false;
+	if (!OptionEntryHelper::writeToBuffer(
+		saveOptions, buffer, useProtected)) return false;
 	return true;
 }
 
-bool OptionsGame::readFromBuffer(NetBufferReader &reader)
+bool OptionsGame::readFromBuffer(NetBufferReader &reader,
+	bool useProtected)
 {
-        std::list<OptionEntry *> saveOptions;
-        std::list<OptionEntry *>::iterator itor;
-        for (itor = options_.begin();
-                itor != options_.end();
-                itor++)
-        {
-                OptionEntry *entry = *itor;
+	std::list<OptionEntry *> saveOptions;
+	std::list<OptionEntry *>::iterator itor;
+	for (itor = options_.begin();
+		itor != options_.end();
+		itor++)
+	{
+		OptionEntry *entry = *itor;
 		saveOptions.push_back(entry);
-        }
+	}
 
-	if (!OptionEntryHelper::readFromBuffer(saveOptions, reader)) return false;
+	if (!OptionEntryHelper::readFromBuffer(
+		saveOptions, reader, useProtected)) return false;
 	return true;
 }
 
@@ -238,9 +244,9 @@ OptionsGameWrapper::~OptionsGameWrapper()
 void OptionsGameWrapper::updateChangeSet()
 {
 	NetBufferDefault::defaultBuffer.reset();
-	writeToBuffer(NetBufferDefault::defaultBuffer);
+	writeToBuffer(NetBufferDefault::defaultBuffer, true);
 	NetBufferReader reader(NetBufferDefault::defaultBuffer);
-	changedOptions_.readFromBuffer(reader);
+	changedOptions_.readFromBuffer(reader, true);
 }
 
 bool OptionsGameWrapper::commitChanges()
@@ -251,8 +257,8 @@ bool OptionsGameWrapper::commitChanges()
 	NetBufferDefault::defaultBuffer.reset();
 
 	// Write to buffers
-	writeToBuffer(NetBufferDefault::defaultBuffer);
-	changedOptions_.writeToBuffer(testBuffer);
+	writeToBuffer(NetBufferDefault::defaultBuffer, true);
+	changedOptions_.writeToBuffer(testBuffer, true);
 
 	// Compare buffers
 	if (memcmp(testBuffer.getBuffer(), 
@@ -280,7 +286,7 @@ bool OptionsGameWrapper::commitChanges()
 		}
 
 		NetBufferReader reader(testBuffer);
-		readFromBuffer(reader);
+		readFromBuffer(reader, true);
 		return true;
 	}
 

@@ -1682,6 +1682,12 @@
 				RelativePath="..\coms\ComsActionsMessage.cpp">
 			</File>
 			<File
+				RelativePath="..\coms\ComsAdminMessage.h">
+			</File>
+			<File
+				RelativePath="..\coms\ComsAdminMessage.cpp">
+			</File>
+			<File
 				RelativePath="..\coms\ComsActionsMessage.h">
 			</File>
 			<File
@@ -2506,6 +2512,12 @@
 			Name="client"
 			Filter="">
 			<File
+				RelativePath="..\client\ClientAdmin.cpp">
+			</File>
+			<File
+				RelativePath="..\client\ClientAdmin.h">
+			</File>
+			<File
 				RelativePath="..\client\ClientActionsHandler.cpp">
 			</File>
 			<File
@@ -2760,6 +2772,12 @@
 			</File>
 			<File
 				RelativePath="..\server\ScorchedServer.h">
+			</File>
+			<File
+				RelativePath="..\server\ServerAdminHandler.h">
+			</File>
+			<File
+				RelativePath="..\server\ServerAdminHandler.cpp">
 			</File>
 			<File
 				RelativePath="..\server\ServerAddPlayerHandler.cpp">

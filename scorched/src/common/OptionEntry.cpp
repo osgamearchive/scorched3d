@@ -18,7 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <common/OptionEntry.h>
 #include <common/Defines.h>
 #include <common/Logger.h>
@@ -57,7 +56,8 @@ bool OptionEntryHelper::addToArgParser(std::list<OptionEntry *> &options,
 }
 
 bool OptionEntryHelper::writeToBuffer(std::list<OptionEntry *> &options,
-									  NetBuffer &buffer)
+									  NetBuffer &buffer,
+									  bool useprotected)
 {
 	// Write out all of the options
 	// We do this as strings this make the message larger than it needs to be but
@@ -70,15 +70,19 @@ bool OptionEntryHelper::writeToBuffer(std::list<OptionEntry *> &options,
 		itor++)
 	{
 		OptionEntry *entry = *itor;
-		buffer.addToBuffer(entry->getName());
-		buffer.addToBuffer(entry->getValueAsString());
+		if (!(entry->getData() & OptionEntry::DataProtected) || useprotected)
+		{
+			buffer.addToBuffer(entry->getName());
+			buffer.addToBuffer(entry->getValueAsString());
+		}
 	}
 
 	return true;
 }
 
 bool OptionEntryHelper::readFromBuffer(std::list<OptionEntry *> &options,
-									   NetBufferReader &reader)
+									   NetBufferReader &reader,
+									   bool useprotected)
 {
 	// Create a map from string name to existing options
 	// So we can find the named option when reading the buffer
@@ -89,8 +93,11 @@ bool OptionEntryHelper::readFromBuffer(std::list<OptionEntry *> &options,
 		itor++)
 	{
 		OptionEntry *entry = (*itor);
-		std::string name = entry->getName();
-		entryMap[name] = entry;
+		if (!(entry->getData() & OptionEntry::DataProtected) || useprotected)
+		{
+			std::string name = entry->getName();
+			entryMap[name] = entry;
+		}
 	}
 
 	// Read the strings from the other end
@@ -128,23 +135,26 @@ bool OptionEntryHelper::writeToXML(std::list<OptionEntry *> &options,
 		itor++)
 	{
 		OptionEntry *entry = (*itor);
-	
-		// Add the comments for this node
-		node->addChild(new XMLNode("", 
-			entry->getDescription(), XMLNode::XMLCommentType));
-		std::string defaultValue = "(default value : \"";
-		defaultValue += entry->getDefaultValueAsString();
-		defaultValue += "\")";
-		node->addChild(new XMLNode("", 
-			defaultValue.c_str(), XMLNode::XMLCommentType));
+
+		if (!(entry->getData() & OptionEntry::DataDepricated))
+		{
+			// Add the comments for this node
+			node->addChild(new XMLNode("", 
+				entry->getDescription(), XMLNode::XMLCommentType));
+			std::string defaultValue = "(default value : \"";
+			defaultValue += entry->getDefaultValueAsString();
+			defaultValue += "\")";
+			node->addChild(new XMLNode("", 
+				defaultValue.c_str(), XMLNode::XMLCommentType));
 			
-		// Add the name and value
-		XMLNode *optionNode = new XMLNode("option");
-		node->addChild(optionNode);
-		optionNode->addChild(
-			new XMLNode("name", entry->getName()));
-		optionNode->addChild(
-			new XMLNode("value", entry->getValueAsString()));
+			// Add the name and value
+			XMLNode *optionNode = new XMLNode("option");
+			node->addChild(optionNode);
+			optionNode->addChild(
+				new XMLNode("name", entry->getName()));
+			optionNode->addChild(
+				new XMLNode("value", entry->getValueAsString()));
+		}
 	}
 	return true;
 }
