@@ -210,7 +210,7 @@ MainFrame::MainFrame() :
 	{
 		wxBitmapButton *button =
 			addButtonToWindow(ID_BUTTON_SINGLE,
-				"Start a single or multi-player player game.\n"
+				"Start a single or multi-player game.\n"
 				"One or more people play against themselves or the computer.", 
 				"data/windows/tank2.bmp", this, gridsizer);
 		if (button && !OptionsParam::instance()->getSDLInitVideo())
@@ -235,7 +235,7 @@ MainFrame::MainFrame() :
 	// Server Player Bitmap
 	{
 		addButtonToWindow(ID_BUTTON_SERVER,
-			"Start a multiplayer LAN or internet server.\n"
+			"Start a multi-player LAN or internet server.\n"
 			"Allow other people to connect to your computer to play.", 
 			"data/windows/server.bmp", this, gridsizer);
 	}

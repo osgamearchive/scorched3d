@@ -37,6 +37,7 @@ typedef void (* PFNGLACTIVETEXTUREARBPROC) (GLenum texture);
 typedef void (* PFNGLMULTITEXCOORD2FARBPROC) (GLenum target, GLfloat s, GLfloat t);
 typedef void (* PFNGLCLIENTACTIVETEXTUREARBPROC) (GLenum texture);
 typedef void (* PFNGLLOCKARRAYSEXTPROC) (GLint first, GLsizei count);
+typedef void (* PFNGLUNLOCKARRAYSEXTPROC) ();
 #endif
 
 class GLStateExtension
