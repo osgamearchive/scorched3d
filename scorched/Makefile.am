@@ -83,7 +83,9 @@ scorcheddata_DATA = data/accessories.xml \
 	data/landscapes.xml \
 	data/prunetables.sql \
 	data/safedisplay.xml \
-	data/singletarget.xml
+	data/singletarget.xml \
+	data/ssdisplay.xml \
+	data/ssgame.xml
 scorcheddataaccessoriesdir = ${datadir}/data/accessories
 scorcheddataaccessories_DATA = data/accessories/clusterbomb.ase \
 	data/accessories/clusterbomb2.ase \
