@@ -2477,12 +2477,6 @@
 				RelativePath="..\sprites\ExplosionNukeRenderer.h">
 			</File>
 			<File
-				RelativePath="..\sprites\ExplosionRenderer.cpp">
-			</File>
-			<File
-				RelativePath="..\sprites\ExplosionRenderer.h">
-			</File>
-			<File
 				RelativePath="..\sprites\ExplosionTextures.cpp">
 			</File>
 			<File
