@@ -201,8 +201,9 @@ bool ServerFileServer::sendNextFile(ComsFileMessage &message,
 
 		// Tell client of progress
 		ServerCommon::sendString(tank->getDestinationId(),
-			"  Finished downloading \"%s\", %i left",
+			"  Downloaded \"%s\" %i bytes, %i files left",
 			modentry->getFileName(),
+			modentry->getCompressedSize(),
 			tank->getMod().getFiles().size());
 	}
 

@@ -174,7 +174,7 @@ ModFiles::~ModFiles()
 
 bool ModFiles::excludeFile(const char *file)
 {
-	if (0 == strcmp(file, "Thumbs.db")) return true;
+	if (strstr(file, "Thumbs.db")) return true;
 	return false;
 }
 
