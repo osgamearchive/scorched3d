@@ -53,6 +53,8 @@ scorched3d_SOURCES = \
 	../GLEXT/GLMenuEntry.h \
 	../GLEXT/GLMenuI.cpp \
 	../GLEXT/GLMenuI.h \
+	../GLEXT/GLOrderedItemRenderer.cpp \
+	../GLEXT/GLOrderedItemRenderer.h \
 	../GLEXT/GLState.cpp \
 	../GLEXT/GLState.h \
 	../GLEXT/GLStateExtension.cpp \
@@ -285,8 +287,6 @@ scorched3d_SOURCES = \
 	../dialogs/PlanViewDialog.h \
 	../dialogs/PlayerDialog.cpp \
 	../dialogs/PlayerDialog.h \
-	../dialogs/PlayersDialog.cpp \
-	../dialogs/PlayersDialog.h \
 	../dialogs/ProgressDialog.cpp \
 	../dialogs/ProgressDialog.h \
 	../dialogs/QuitDialog.cpp \
@@ -359,6 +359,8 @@ scorched3d_SOURCES = \
 	../landscape/Landscape.h \
 	../landscape/LandscapeMaps.cpp \
 	../landscape/LandscapeMaps.h \
+	../landscape/LandscapeObjects.cpp \
+	../landscape/LandscapeObjects.h \
 	../landscape/MovementMap.cpp \
 	../landscape/MovementMap.h \
 	../landscape/NapalmMap.cpp \
@@ -453,6 +455,8 @@ scorched3d_SOURCES = \
 	../coms/ComsConnectMessage.h \
 	../coms/ComsDefenseMessage.cpp \
 	../coms/ComsDefenseMessage.h \
+	../coms/ComsGameStateMessage.cpp \
+	../coms/ComsGameStateMessage.h \
 	../coms/ComsGameStoppedMessage.cpp \
 	../coms/ComsGameStoppedMessage.h \
 	../coms/ComsLevelMessage.cpp \
@@ -587,6 +591,8 @@ scorched3d_SOURCES = \
 	../zlib/zlib.h \
 	../zlib/zutil.c \
 	../zlib/zutil.h \
+	../actions/CameraPositionAction.cpp \
+	../actions/CameraPositionAction.h \
 	../actions/Explosion.cpp \
 	../actions/Explosion.h \
 	../actions/Napalm.cpp \
@@ -701,6 +707,8 @@ scorched3d_SOURCES = \
 	../client/ClientDefenseHandler.h \
 	../client/ClientDialog.cpp \
 	../client/ClientDialog.h \
+	../client/ClientGameStateHandler.cpp \
+	../client/ClientGameStateHandler.h \
 	../client/ClientGameStoppedHandler.cpp \
 	../client/ClientGameStoppedHandler.h \
 	../client/ClientMain.cpp \
@@ -753,6 +761,8 @@ scorched3d_SOURCES = \
 	../client/WindowSetup.h \
 	../server/ScorchedServer.cpp \
 	../server/ScorchedServer.h \
+	../server/ServerAddPlayerHandler.cpp \
+	../server/ServerAddPlayerHandler.h \
 	../server/ServerBrowserInfo.cpp \
 	../server/ServerBrowserInfo.h \
 	../server/ServerBuyAccessoryHandler.cpp \
@@ -795,12 +805,12 @@ scorched3d_SOURCES = \
 	../server/ServerShotState.h \
 	../server/ServerState.cpp \
 	../server/ServerState.h \
+	../server/ServerStateTooFewPlayersState.cpp \
+	../server/ServerStateTooFewPlayersState.h \
 	../server/ServerTextHandler.cpp \
 	../server/ServerTextHandler.h \
 	../server/ServerTooFewPlayersStimulus.cpp \
 	../server/ServerTooFewPlayersStimulus.h \
-	../server/ServerWaitingForPlayersState.cpp \
-	../server/ServerWaitingForPlayersState.h \
 	../server/TurnController.cpp \
 	../server/TurnController.h \
 	../irc/ClientGameInfo.cpp \
