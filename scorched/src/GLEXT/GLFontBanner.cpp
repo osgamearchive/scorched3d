@@ -115,8 +115,8 @@ void GLFontBanner::simulate(float frameTime)
 
 void GLFontBanner::draw()
 {
-	const int lineDepth = 17;
-	const int lineBorder = 7;
+	const int lineDepth = 13;
+	const int lineBorder = 4;
 
 	if (usedLines_ > 0)
 	{
@@ -130,19 +130,19 @@ void GLFontBanner::draw()
 		for (int i=0; i<used; i++)
 		{
 			float minus = GLWFont::instance()->getLargePtFont()->
-				getWidth(14, textLines_[pos].getText()) / 2.0f;
+				getWidth(10, textLines_[pos].getText()) / 2.0f;
 
 			GLWFont::instance()->getLargePtFont()->
-				draw(black, 14,
-					x_ + lineBorder - minus + 3, start - i * lineDepth - 6.0f, 0.0f, 
+				draw(black, 10,
+					x_ + lineBorder - minus + 1, start - i * lineDepth - 5.0f, 0.0f, 
 					textLines_[pos].getText());
 			GLWFont::instance()->getLargePtFont()->
-				draw(black, 14,
-					x_ + lineBorder - minus - 3, start - i * lineDepth - 0.0f, 0.0f, 
+				draw(black, 10,
+					x_ + lineBorder - minus - 1, start - i * lineDepth - 1.0f, 0.0f, 
 					textLines_[pos].getText());
 
 			GLWFont::instance()->getLargePtFont()->
-				draw(textLines_[pos].getColor(), 14,
+				draw(textLines_[pos].getColor(), 10,
 					x_ + lineBorder - minus, start - i * lineDepth - 3.0f, 0.0f, 
 					textLines_[pos].getText());
 			if (++pos >= totalLines_) pos = 0;

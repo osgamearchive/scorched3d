@@ -143,6 +143,11 @@ public:
 	As set by the move position methods.
 	*/
 	float getRotationYZ() { return rotationYZ_; }
+	/**
+	Returns the current camera zoom.
+	As set by the move position methods.
+	*/
+	float getZoom() { return zoom_; }
 
 	enum ScrollDir
 	{

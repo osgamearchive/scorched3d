@@ -239,7 +239,9 @@ void MainCamera::setQuick(int key)
 {
 	std::pair<Vector, Vector> value(
 		targetCam_.getCamera().getLookAt(),
-		targetCam_.getCamera().getOffSet());
+		Vector(targetCam_.getCamera().getRotationXY(),
+		targetCam_.getCamera().getRotationYZ(),
+		targetCam_.getCamera().getZoom()));
 	quickKeys_[key] = value;
 	Logger::log(0, "Saved camera preset %i", key);
 }
@@ -253,7 +255,8 @@ void MainCamera::useQuick(int key)
 		std::pair<Vector, Vector> value = (*findItor).second;
 		targetCam_.setCameraType(TargetCamera::CamFree);
 		targetCam_.getCamera().setLookAt(value.first);
-		targetCam_.getCamera().setOffSet(value.second);
+		targetCam_.getCamera().movePosition(value.second[0],
+			value.second[1], value.second[2]);
 		Logger::log(0, "Using camera preset %i", key);
 	}
 }

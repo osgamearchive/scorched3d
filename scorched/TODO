@@ -1,120 +1,11 @@
 -- Bugs Fixed and Ready For Release 
-Fixed: Freezing due to SDL_GetTicks bug
-Fixed: Talk dialog is always ontop of other windows
-Fixed: Infinite weapons available in other single player modes
-Fixed: Migrated the game and transient options so version dependancies dont occur
-Fixed: Display settings now refered to as game settings
-Fixed: No parachutes used or health lost during very small falls (configurable)
-Fixed: Special characters are supported in XML files
-Fixed: Some small memory leaks
-Fixed: Matched sounding mixing format to sound buffer format
-Fixed: Drop down menus can go outside the window extents
-Fixed: Can see progress during connect retries
-Fixed: Don't need window focus while connecting
-Fixed: The server can start multiple times on the same port (windows only)!
-Fixed: Plan view is cropped so it does not extend out of dialog
-Fixed: XML Parser does not add extra LFs (Fixes enabled landscapes becoming disabled)
-Fixed: Sky dome incorrectly positioned
-Fixed: Tank cannot move when burried
-Fixed: Tank is not covered by trees on the first move
-Fixed: Shot and buy timer won't expire prematurely
-Fixed: 16bit color support for naughty unix graphics card drivers
-Fixed: Better XML error reporting
-Fixed: Console does not jump to end when new text added
-Fixed: Remove waiting for non-crucial items like nukes + debris
-Fixed: Idle counter for player increases when buy time exceeded
-Fixed: Player resigns only take place at the end of the round
-Fixed: Load fail safe settings dialog is only displayed after a sigsegv 
-Fixed: Server coms should be more responsive
-Fixed: Client failed to read 3/4 message
-Fixed: Clients timing out after players disconnect
-Fixed: All bots of same type (e.g. shark) share the same stats
-Fixed: Spectators do not earn interest
-Fixed: Funky bomb and dirt interaction with concrete walls
-Fixed: Water coverage algorithm sometimes has holes in the water
-Fixed: Better mag deflect shield graphics
-Fixed: Interest and wins awarded when maximum moves exceeded
-Fixed: Apex collision weapons explode on contact with ground before apex
-Fixed: Loading after saving freezing bug
-Fixed: Players cannot have blank names
-Fixed: Better landscape culling when drawing pointy landscape
-Fixed: Displaying large menus
+Fixed: Shields obscure health bars
+Fixed: Napalm does not now work under water (I'll not change this again ;) )
+Fixed: Camera does not follow meteors or other environment actions
+Fixed: Talk text appears under other windows (text now smaller too)
+Fixed: Fix camera presets
 
-Changed: Changed free market ecconmy so price decreases are slower
-Changed: Tank can move up and down bigger slopes (configurable)
-Changed: Spread and hurts weapon primative options are now variable
-Changed: LeapFrog weapon primative bounce now variable
-Changed: Message of the day now defined in server.xml file
-
-Added: Option to disallow people from the same ip address
-Added: Option to change number of sound mixing channels
-Added: Unique ids are different for each stats server (to stop spoofing)
-Added: Scorched textures can be specified on a per weapon basis
-Added: Rain and Snow
-Added: Player model remembered for multiplayer games
-Added: WeaponReference primative (now uses parents name and armslevel)
-Added: Lightning and meteor storms
-Added: Single player games are now specified in xml (for mod support)
-Added: A surround (islands) around the landscape can be drawn
-Added: Players can be muted via the talk dialog
-Added: Slow motion camera speeds
-Added: Maps can be cycled through in order
-Added: Keys can be set via the scorched3d settings dialog
-Added: Cavern environment (comments please!!)
-Added: Trees and models can be placed using a mask and/or height range
-Added: First person style camera mode (WSAD keys with LALT held down)
-Added: A set amount of money can be given at the end of each round
-Added: More dirt option for landscape (perhaps cannot go under water)
-Added: Arms level can be progressive (changed) during the lifetime of a match
-Added: Water height can be adjusted in landscape definition
-Added: Water can be turned off in landscape definition
-Added: Better roller model
-Added: Smoothed roller movement, added roller rotation
-Added: Ability to use a different kick time when loading a level to when waiting after a shot
-Added: Vertex Array support for models and surrounds/sky
-Added: AIs can check to see if they will suicide and can dig
-Added: New cyborg AI that uses batteries
-Added: A way to allow tank spawn positions to be configured
-Added: Proper mag shield
-Added: Gale and breezy wind settings (for smaller random wind ranges)
-Added: Clever bots do not commit suicide
-Added: Configurable camera views using ctrl-2 etc...
-Added: Stats ranking is show in the score dialog
-Added: Stats prefix can be (pre/a)pended onto mysql stats tables
-Added: When a player reconnects give back kills, money etc until the end of the game
-Added: Allow objects other than trees to be used (as models)
-Added: Players say and team say commands echoed to console (for repeat)
-Added: Banner messages are written to console
-Added: New more expressive landscape definition format
-Added: Add sun pos + ambient light to landscape def
-Added: Fire trails on missiles
-Added: Better looking fire + explosions
-Added: Way to choose mods for server and single player
-Added: WeaponAimedOver and WeaponAimedUnder weapon primatives can be configured
-Added: Admin commands can be accessed from a client
-Added: Admin slap, mute and ban
-Added: Players can be banned by ip address (and ip address range)
-Added: Start of sky dome time of day shading
-Added: Sound effect volume control
-Added: Custom explosion and napalm texture sets can be added
-Added: No smoke trails option to projectile weapons
-Added: Riot Charge, Riot Blast and Dirt Charge weapons
-Added: Server can broadcast a message every x seconds
-Added: More resolutions when "More Resolutions" chosen
-Added: "none" sound available for weapon primative explosions
-Added: "none" texture available for weapon primative explosions
-Added: New weapon primatives WeaponVelocity, WeaponDelay, WeaponRedirect and WeaponTranslate
-Added: Simplistic water option (no movement, shading and only uses one quad)
-Added: No sphere mapping option for water
-Added: Custom maps (and other mods) can be auto-downloaded from server
-Added: Dialog to toggle display indicators (instead of toggle key)
-Added: Sizers for auto-placement of widgets in GLW dialogs
-Added: Bouyes sway with the waves
-Added: Gravity can be changed
-Added: time connected, roundsplayed, armslevel, connects, add money earned to stats
-Added: Option to set max server players to zero (so no new players can connect)
-Added: Allow server password to be set when server running
-Added: Disable ODE geoms when not used
+Added: Users can turn IP authentication off
 
 -- Bugs in current development release
 Dvorak keyboard support is broken
@@ -123,11 +14,6 @@ Shot cam does not get LOD correctly
 
 -- Things I am currently looking at
 Fix crashing when people win (Graphics card drivers??)
-Napalm does not now work under water (I'll not change this again ;) )
-Camera does not follow meteors or other environment actions
-Users can turn IP authentication off
-Talk text appears under other windows
-Fix camera presets
 
 -- Things for next release
 Ambient sounds

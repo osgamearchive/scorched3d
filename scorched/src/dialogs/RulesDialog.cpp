@@ -47,7 +47,7 @@ RulesDialog::RulesDialog() :
 {
 	needCentered_ = true;
 	okId_ = addWidget(new GLWTextButton("Ok", 295, 10, 55, this, 
-		GLWButton::ButtonFlagOk | GLWButton::ButtonFlagCenterX))->getId();
+		GLWButton::ButtonFlagCancel | GLWButton::ButtonFlagOk | GLWButton::ButtonFlagCenterX))->getId();
 	listView_ = (GLWListView *) addWidget(new GLWListView(10, 130, 340, 140, 100));
 }
 
