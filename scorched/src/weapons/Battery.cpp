@@ -25,10 +25,14 @@ REGISTER_ACCESSORY_SOURCE(Battery);
 
 Battery::Battery()
 {
-
 }
 
 Battery::~Battery()
 {
+}
 
+bool Battery::parseXML(OptionsGame &context,
+	AccessoryStore *store, XMLNode *accessoryNode)
+{
+	return true;
 }

@@ -29,9 +29,8 @@ public:
 	WeaponTranslate();
 	virtual ~WeaponTranslate();
 
-	virtual bool parseXML(XMLNode *accessoryNode);
-	virtual bool writeAccessory(NetBuffer &buffer);
-	virtual bool readAccessory(NetBufferReader &reader);
+	virtual bool parseXML(OptionsGame &context, 
+		AccessoryStore *store, XMLNode *accessoryNode);
 
 	Weapon *getNextAction() { return nextAction_; }
 	float getTranslateDist() { return translateDist_; }
@@ -41,7 +40,7 @@ public:
 		unsigned int playerId, Vector &position, Vector &velocity,
 		unsigned int data = 0);
 
-	REGISTER_ACCESSORY_HEADER(WeaponTranslate, Accessory::AccessoryWeapon);
+	REGISTER_ACCESSORY_HEADER(WeaponTranslate, AccessoryPart::AccessoryWeapon);
 
 protected:
 	float translateDist_;

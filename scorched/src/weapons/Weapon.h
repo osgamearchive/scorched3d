@@ -21,17 +21,15 @@
 #if !defined(AFX_WEAPON_H__65439E20_84A6_406A_8FD0_045A3E7555D3__INCLUDED_)
 #define AFX_WEAPON_H__65439E20_84A6_406A_8FD0_045A3E7555D3__INCLUDED_
 
-#include <weapons/Accessory.h>
+#include <weapons/AccessoryPart.h>
 #include <3dsparse/ModelID.h>
 #include <coms/NetBuffer.h>
 #include <common/Defines.h>
 #include <common/Vector.h>
 #include <engine/ScorchedContext.h>
 
-class Tank;
 class Action;
-class MissileMesh;
-class Weapon : public Accessory
+class Weapon : public AccessoryPart
 {
 public:
 	enum DataEnum
@@ -42,28 +40,21 @@ public:
 	Weapon();
 	virtual ~Weapon();
 
-	virtual bool parseXML(XMLNode *accessoryNode);
-	virtual bool writeAccessory(NetBuffer &buffer);
-	virtual bool readAccessory(NetBufferReader &reader);
+	virtual bool parseXML(OptionsGame &context, 
+		AccessoryStore *store, XMLNode *accessoryNode);
 	
 	virtual void fireWeapon(ScorchedContext &context,
 		unsigned int playerId, 
 		Vector &position, Vector &velocity,
 		unsigned int data = 0) = 0;
 
-	int getDeathAnimationWeight() { return deathAnimationWeight_; }
-	const char *getFiredSound();
 	float getScale() { return scale_; }
 	bool getMuzzleFlash() { return muzzleFlash_; }
 	ModelID &getModelID();
-	MissileMesh *getWeaponMesh(Tank *currentPlayer);
 
 protected:
-	static std::map<std::string, MissileMesh *> loadedMeshes_;
-	int deathAnimationWeight_;
 	float scale_;
 	bool muzzleFlash_;
-	std::string firedSound_;
 	ModelID modelId_;
 
 };

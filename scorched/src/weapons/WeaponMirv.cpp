@@ -34,9 +34,10 @@ WeaponMirv::~WeaponMirv()
 
 }
 
-bool WeaponMirv::parseXML(XMLNode *accessoryNode)
+bool WeaponMirv::parseXML(OptionsGame &context, 
+	AccessoryStore *store, XMLNode *accessoryNode)
 {
-	if (!Weapon::parseXML(accessoryNode)) return false;
+	if (!Weapon::parseXML(context, store, accessoryNode)) return false;
 
 	// Get the accessory spread
 	if (!accessoryNode->getNamedChild("hspreaddist", hspreadDist_)) 
@@ -49,12 +50,12 @@ bool WeaponMirv::parseXML(XMLNode *accessoryNode)
 	if (!accessoryNode->getNamedChild("aimedweapon", subNode)) return false;
 
 	// Check next weapon is correct type
-	Accessory *accessory = store_->createAccessory(subNode);
-	if (!accessory || accessory->getType() != Accessory::AccessoryWeapon)
+	AccessoryPart *accessory = store->createAccessoryPart(context, parent_, subNode);
+	if (!accessory || accessory->getType() != AccessoryPart::AccessoryWeapon)
 	{
 		dialogMessage("Accessory",
 			"Sub weapon of wrong type \"%s\"",
-			name_.c_str());
+			accessory->getAccessoryTypeName());
 		return false;
 	}
 	aimedWeapon_ = (Weapon*) accessory;
@@ -62,26 +63,6 @@ bool WeaponMirv::parseXML(XMLNode *accessoryNode)
 	// Get the accessory warheads
 	if (!accessoryNode->getNamedChild("nowarheads", noWarheads_)) return false;
 
-	return true;
-}
-
-bool WeaponMirv::writeAccessory(NetBuffer &buffer)
-{
-	if (!Weapon::writeAccessory(buffer)) return false;
-	buffer.addToBuffer(hspreadDist_);
-	buffer.addToBuffer(vspreadDist_);
-	if (!store_->writeWeapon(buffer, aimedWeapon_)) return false;
-	buffer.addToBuffer(noWarheads_);
-	return true;
-}
-
-bool WeaponMirv::readAccessory(NetBufferReader &reader)
-{
-	if (!Weapon::readAccessory(reader)) return false;
-	if (!reader.getFromBuffer(hspreadDist_)) return false;
-	if (!reader.getFromBuffer(vspreadDist_)) return false;
-	aimedWeapon_ = store_->readWeapon(reader); if (!aimedWeapon_) return false;
-	if (!reader.getFromBuffer(noWarheads_)) return false;
 	return true;
 }
 

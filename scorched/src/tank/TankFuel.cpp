@@ -26,7 +26,7 @@
 #include <stdio.h>
 
 TankFuel::TankFuel(ScorchedContext &context) :
-	context_(context)
+	context_(context), infinite_(false)
 {
 	reset();
 }
@@ -39,6 +39,7 @@ TankFuel::~TankFuel()
 void TankFuel::reset()
 {
 	fuelCount_ = 0;
+	infinite_ = false;
 	std::list<Accessory *> accessories = 
 		context_.accessoryStore->getAllOthers();
 	std::list<Accessory *>::iterator itor;
@@ -47,15 +48,19 @@ void TankFuel::reset()
 		itor++)
 	{
 		Accessory *accessory = (*itor);
-		if (accessory->getType() == Accessory::AccessoryFuel)
+		if (accessory->getType() == AccessoryPart::AccessoryFuel)
 		{
-			if (accessory->getPurchasable())
+			if (accessory->getMaximumNumber() > 0)
 			{
-				if ((accessory->getPrice() == 0 && 
-					accessory->getBundle() == 0) ||
-					context_.optionsGame->getGiveAllWeapons())
+				if (context_.optionsGame->getGiveAllWeapons() ||
+					accessory->getStartingNumber() == -1)
 				{
 					addFuel(20);
+					infinite_ = true;
+				}
+				else if (accessory->getStartingNumber() > 0)
+				{
+					addFuel(accessory->getStartingNumber());
 				}
 			}
 		}
@@ -64,7 +69,7 @@ void TankFuel::reset()
 
 void TankFuel::rmFuel(int no)
 {
-	if (context_.optionsGame->getGiveAllWeapons()) return;
+	if (infinite_) return;
 
 	fuelCount_ -= no;
 	if (fuelCount_ < 0)
@@ -81,11 +86,13 @@ void TankFuel::addFuel(int no)
 bool TankFuel::writeMessage(NetBuffer &buffer)
 {
 	buffer.addToBuffer(fuelCount_);
+	buffer.addToBuffer(infinite_);
 	return true;
 }
 
 bool TankFuel::readMessage(NetBufferReader &reader)
 {
 	if (!reader.getFromBuffer(fuelCount_)) return false;
+	if (!reader.getFromBuffer(infinite_)) return false;
 	return true;
 }

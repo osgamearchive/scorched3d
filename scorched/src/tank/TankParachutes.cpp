@@ -61,15 +61,18 @@ void TankParachutes::reset()
 		itor++)
 	{
 		Accessory *accessory = (*itor);
-		if (accessory->getType() == Accessory::AccessoryParachute)
+		if (accessory->getType() == AccessoryPart::AccessoryParachute)
 		{
-			if (accessory->getPurchasable())
+			if (accessory->getMaximumNumber() > 0)
 			{
-				if ((accessory->getPrice() == 0 && 
-					accessory->getBundle() == 0) ||
-					context_.optionsGame->getGiveAllWeapons())
+				if (context_.optionsGame->getGiveAllWeapons() ||
+					accessory->getStartingNumber() == -1)
 				{
 					addParachutes(-1);
+				}
+				else if (accessory->getStartingNumber() > 0)
+				{
+					addParachutes(accessory->getStartingNumber());
 				}
 			}
 		}

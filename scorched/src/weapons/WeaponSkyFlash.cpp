@@ -34,21 +34,10 @@ WeaponSkyFlash::~WeaponSkyFlash()
 
 }
 
-bool WeaponSkyFlash::parseXML(XMLNode *accessoryNode)
+bool WeaponSkyFlash::parseXML(OptionsGame &context, 
+	AccessoryStore *store, XMLNode *accessoryNode)
 {
-	if (!Weapon::parseXML(accessoryNode)) return false;
-	return true;
-}
-
-bool WeaponSkyFlash::writeAccessory(NetBuffer &buffer)
-{
-	if (!Weapon::writeAccessory(buffer)) return false;
-	return true;
-}
-
-bool WeaponSkyFlash::readAccessory(NetBufferReader &reader)
-{
-	if (!Weapon::readAccessory(reader)) return false;
+	if (!Weapon::parseXML(context, store, accessoryNode)) return false;
 	return true;
 }
 

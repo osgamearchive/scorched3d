@@ -29,14 +29,13 @@ public:
 	ShieldMag();
 	virtual ~ShieldMag();
 
-	virtual bool parseXML(XMLNode *accessoryNode);
-	virtual bool writeAccessory(NetBuffer &buffer);
-	virtual bool readAccessory(NetBufferReader &reader);
+	virtual bool parseXML(OptionsGame &context, 
+		AccessoryStore *store, XMLNode *accessoryNode);
 	virtual ShieldType getShieldType();
 
 	float getDeflectPower() { return deflectPower_; }
 
-	REGISTER_ACCESSORY_HEADER(ShieldMag, Accessory::AccessoryShield);
+	REGISTER_ACCESSORY_HEADER(ShieldMag, AccessoryPart::AccessoryShield);
 
 protected:
 	float deflectPower_;

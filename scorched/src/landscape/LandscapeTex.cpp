@@ -177,10 +177,10 @@ void LandscapeTexActionFireWeapon::fireAction(ScorchedContext &context)
 			weapon.c_str());
 	if (!accessory) dialogExit("LandscapeTexActionFireWeapon",
 		"Failed to find weapon named \"%s\"", weapon.c_str());
-	if (accessory->getType() != Accessory::AccessoryWeapon) 
+	if (accessory->getType() != AccessoryPart::AccessoryWeapon) 
 		dialogExit("LandscapeTexActionFireWeapon",
 			"Accessory named \"%s\" is not a weapon", weapon.c_str());
-	Weapon *weapon = (Weapon *) accessory;
+	Weapon *weapon = (Weapon *) accessory->getAction();
 
 	Vector pos, vel;
 	pos[0] += position[0] - positionoffset[0] + 

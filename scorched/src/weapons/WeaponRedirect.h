@@ -29,16 +29,15 @@ public:
 	WeaponRedirect();
 	virtual ~WeaponRedirect();
 
-	virtual bool parseXML(XMLNode *accessoryNode);
-	virtual bool writeAccessory(NetBuffer &buffer);
-	virtual bool readAccessory(NetBufferReader &reader);
+	virtual bool parseXML(OptionsGame &context, 
+		AccessoryStore *store, XMLNode *accessoryNode);
 
 	// Inherited from Weapon
 	void fireWeapon(ScorchedContext &context,
 		unsigned int playerId, Vector &position, Vector &velocity,
 		unsigned int data = 0);
 
-	REGISTER_ACCESSORY_HEADER(WeaponRedirect, Accessory::AccessoryWeapon);
+	REGISTER_ACCESSORY_HEADER(WeaponRedirect, AccessoryPart::AccessoryWeapon);
 
 protected:
 	float hredirect_, vredirect_;

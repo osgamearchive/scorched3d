@@ -21,7 +21,7 @@
 #include <common/Keyboard.h>
 #include <common/SoundStore.h>
 #include <common/OptionsDisplay.h>
-#include <weapons/Weapon.h>
+#include <weapons/Accessory.h>
 #include <GLEXT/GLConsole.h>
 #include <client/MainCamera.h>
 #include <client/ScorchedClient.h>
@@ -392,7 +392,7 @@ void TankAIHuman::powerHUD()
 
 void TankAIHuman::fireShot()
 {
-	Weapon *currentWeapon = 
+	Accessory *currentWeapon = 
 		currentTank_->getAccessories().getWeapons().getCurrent();
 	if (currentWeapon)
 	{

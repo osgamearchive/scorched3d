@@ -33,9 +33,10 @@ WeaponMulti::~WeaponMulti()
 
 }
 
-bool WeaponMulti::parseXML(XMLNode *accessoryNode)
+bool WeaponMulti::parseXML(OptionsGame &context, 
+	AccessoryStore *store, XMLNode *accessoryNode)
 {
-	if (!Weapon::parseXML(accessoryNode)) return false;
+	if (!Weapon::parseXML(context, store, accessoryNode)) return false;
 
 	for (int i=1;;i++)
 	{
@@ -47,45 +48,15 @@ bool WeaponMulti::parseXML(XMLNode *accessoryNode)
 		if (!subNode) break;
 		
 		// Check next weapon is correct type
-		Accessory *accessory = store_->createAccessory(subNode);
-		if (!accessory || accessory->getType() != Accessory::AccessoryWeapon)
+		AccessoryPart *accessory = store->createAccessoryPart(context, parent_, subNode);
+		if (!accessory || accessory->getType() != AccessoryPart::AccessoryWeapon)
 		{
 			dialogMessage("Accessory",
 						  "Sub weapon of wrong type \"%s\"",
-						  name_.c_str());
+						  accessory->getAccessoryTypeName());
 			return false;
 		}
 		subWeapons_.push_back((Weapon*) accessory);
-	}
-
-	return true;
-}
-
-bool WeaponMulti::writeAccessory(NetBuffer &buffer)
-{
-	if (!Weapon::writeAccessory(buffer)) return false;
-	buffer.addToBuffer((int) subWeapons_.size());
-	std::list<Weapon *>::iterator itor;
-	for (itor = subWeapons_.begin();
-		 itor != subWeapons_.end();
-		 itor++)
-	{
-		Weapon *weapon = *itor;
-		if (!store_->writeWeapon(buffer, weapon)) return false;
-	}
-	return true;
-}
-
-bool WeaponMulti::readAccessory(NetBufferReader &reader)
-{
-	if (!Weapon::readAccessory(reader)) return false;
-	int size = 0;
-	if (!reader.getFromBuffer(size)) return false;
-	for (int i=0; i<size; i++)
-	{
-		Weapon *weapon = store_->readWeapon(reader); 
-		if (!weapon) return false;
-		subWeapons_.push_back(weapon);
 	}
 
 	return true;

@@ -29,9 +29,8 @@ public:
 	WeaponLeapFrog();
 	virtual ~WeaponLeapFrog();
 
-	virtual bool parseXML(XMLNode *accessoryNode);
-	virtual bool writeAccessory(NetBuffer &buffer);
-	virtual bool readAccessory(NetBufferReader &reader);
+	virtual bool parseXML(OptionsGame &context, 
+		AccessoryStore *store, XMLNode *accessoryNode);
 
 	Weapon *getCollisionAction() { return collisionAction_; }
 
@@ -40,7 +39,7 @@ public:
 		unsigned int playerId, Vector &position, Vector &velocity,
 		unsigned int data = 0);
 
-	REGISTER_ACCESSORY_HEADER(WeaponLeapFrog, Accessory::AccessoryWeapon);
+	REGISTER_ACCESSORY_HEADER(WeaponLeapFrog, AccessoryPart::AccessoryWeapon);
 
 protected:
 	float bounce_;

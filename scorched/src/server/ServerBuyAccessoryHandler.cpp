@@ -122,14 +122,7 @@ bool ServerBuyAccessoryHandler::processMessage(unsigned int destinationId,
 		return true;
 	}
 
-	if (!accessory->getPrimary())
-	{
-		Logger::log(playerId, "ERROR: Player buying non-primary weapon \"%s\"",
-			accessory->getName());
-		return true;
-	}
-
-	if (!accessory->getPurchasable())
+	if (accessory->getMaximumNumber() == 0)
 	{
 		Logger::log(playerId, "ERROR: Player buying non-purchasable weapon \"%s\"",
 			accessory->getName());
@@ -149,6 +142,8 @@ bool ServerBuyAccessoryHandler::processMessage(unsigned int destinationId,
 	if (message.getBuy())
 	{
 		if (tank->getScore().getMoney() < accessory->getPrice()) return true;
+		if (tank->getAccessories().getAccessoryCount(accessory) + accessory->getBundle() >
+			accessory->getMaximumNumber()) return true;
 
 		EconomyStore::instance()->getEconomy()->accessoryBought(
 			tank, accessory->getName());

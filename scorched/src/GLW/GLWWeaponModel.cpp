@@ -27,6 +27,7 @@
 #include <tank/TankContainer.h>
 #include <GLW/GLWTranslate.h>
 #include <weapons/AccessoryStore.h>
+#include <weapons/Accessory.h>
 
 REGISTER_CLASS_SOURCE(GLWWeaponModel);
 
@@ -63,19 +64,19 @@ void GLWWeaponModel::draw()
 	if (!model) return;
 
 	GLWTankTips *tankTips = model->getTips();
-	Weapon *weapon = current->getAccessories().getWeapons().getCurrent();
+	Accessory *weapon = current->getAccessories().getWeapons().getCurrent();
 	if (!weapon) return;
 
 	// Cache some stuff we should only fetch when tank
 	// or tank's weapon changes
-	static Weapon *storedWeapon = 0;
+	static Accessory *storedWeapon = 0;
 	static Tank *storedTank = 0;
 	static MissileMesh *storedMesh = 0;
 	if (weapon != storedWeapon || current != storedTank)
 	{
 		storedWeapon = weapon;
 		storedTank = current;
-		storedMesh = weapon->getWeaponMesh(current);
+		storedMesh = Accessory::getWeaponMesh(storedWeapon->getModel(), current);
 	}
 
 	GLState tankState(GLState::TEXTURE_ON | GLState::DEPTH_ON);
@@ -87,7 +88,7 @@ void GLWWeaponModel::draw()
 		glRotatef(totalTime_ * 45.0f, 0.0f, 0.0f, 1.0f);
 		Vector position;
 		Vector direction(0.3f, 1.0f, 1.0f);
-		float scale = MIN(storedWeapon->getScale(), 1.0f);
+		float scale = MIN(storedWeapon->getModelScale(), 1.0f);
 		storedMesh->setScale(w_ / 3.0f * scale);
 		storedMesh->draw(position, direction, 0, totalTime_ * 45.0f);
 	glPopMatrix();

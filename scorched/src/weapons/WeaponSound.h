@@ -29,9 +29,8 @@ public:
 	WeaponSound();
 	virtual ~WeaponSound();
 
-	virtual bool parseXML(XMLNode *accessoryNode);
-	virtual bool writeAccessory(NetBuffer &buffer);
-	virtual bool readAccessory(NetBufferReader &reader);
+	virtual bool parseXML(OptionsGame &context, 
+		AccessoryStore *store, XMLNode *accessoryNode);
 
 	const char *getSound() { return sound_.c_str(); }
 
@@ -40,7 +39,7 @@ public:
 		unsigned int playerId, Vector &position, Vector &velocity,
 		unsigned int data = 0);
 
-	REGISTER_ACCESSORY_HEADER(WeaponSound, Accessory::AccessoryWeapon);
+	REGISTER_ACCESSORY_HEADER(WeaponSound, AccessoryPart::AccessoryWeapon);
 protected:
 	std::string sound_;
 };

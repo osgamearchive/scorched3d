@@ -32,8 +32,8 @@ AutoDefense::~AutoDefense()
 {
 }
 
-bool AutoDefense::singular()
+bool AutoDefense::parseXML(OptionsGame &context,
+	AccessoryStore *store, XMLNode *accessoryNode)
 {
 	return true;
 }
-

@@ -28,7 +28,6 @@
 
 class ScorchedContext;
 class Accessory;
-class Weapon;
 class TankWeapon  
 {
 public:
@@ -37,18 +36,18 @@ public:
 
 	void reset();
 
-	void addWeapon(Weapon *wp, int count); // (count < 0) == infinite
-	void rmWeapon(Weapon *wp, int count);
-	bool setWeapon(Weapon *wp);
+	void addWeapon(Accessory *wp, int count); // (count < 0) == infinite
+	void rmWeapon(Accessory *wp, int count);
+	bool setWeapon(Accessory *wp);
 
 	// Change the currently selected weapon
 	void prevWeapon();
 	void nextWeapon();
-	Weapon *getCurrent();
+	Accessory *getCurrent();
 
 	// Get inventry
 	std::list<Accessory *> getAllWeapons(bool sort=false);
-	int getWeaponCount(Weapon *weapon);
+	int getWeaponCount(Accessory *weapon);
 
 	const char *getWeaponString();
 
@@ -57,11 +56,11 @@ public:
     bool readMessage(NetBufferReader &reader);
 
 protected:
-	std::map<Weapon *, int> weapons_;
-	Weapon *currentWeapon_;
+	std::map<Accessory *, int> weapons_;
+	Accessory *currentWeapon_;
 	ScorchedContext &context_;
 
-	void setCurrentWeapon(Weapon *wp);
+	void setCurrentWeapon(Accessory *wp);
 
 };
 

@@ -21,17 +21,18 @@
 #if !defined(__INCLUDE_AutoDefenseh_INCLUDE__)
 #define __INCLUDE_AutoDefenseh_INCLUDE__
 
-#include <weapons/Accessory.h>
+#include <weapons/AccessoryPart.h>
 
-class AutoDefense : public Accessory
+class AutoDefense : public AccessoryPart
 {
 public:
 	AutoDefense();
 	virtual ~AutoDefense();
 
-	virtual bool singular();
+	virtual bool parseXML(OptionsGame &context, 
+		AccessoryStore *store, XMLNode *accessoryNode);
 
-	REGISTER_ACCESSORY_HEADER(AutoDefense, Accessory::AccessoryAutoDefense);
+	REGISTER_ACCESSORY_HEADER(AutoDefense, AccessoryPart::AccessoryAutoDefense);
 };
 
 #endif

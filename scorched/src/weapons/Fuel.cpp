@@ -25,10 +25,14 @@ REGISTER_ACCESSORY_SOURCE(Fuel);
 
 Fuel::Fuel()
 {
-
 }
 
 Fuel::~Fuel()
 {
+}
 
+bool Fuel::parseXML(OptionsGame &context,
+	AccessoryStore *store, XMLNode *accessoryNode)
+{
+	return true;
 }

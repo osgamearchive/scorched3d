@@ -72,7 +72,7 @@ void TankDamage::simulate(float frameTime, bool &remove)
 				if (damage_ > 0.0f)
 				{
 					float shieldDamage = 0.0f;
-					Shield *sh = damagedTank->getAccessories().getShields().getCurrentShield();
+					Accessory *sh = damagedTank->getAccessories().getShields().getCurrentShield();
 					if (sh && useShieldDamage_)
 					{
 						// TODO: Hmm should different shield types and sizes take damage
@@ -123,9 +123,9 @@ void TankDamage::simulate(float frameTime, bool &remove)
 						// Calculate the score (more for more damage and the most if you kill them)
 						int score = 0;
 						if (killedTank) score = context_->optionsGame->getMoneyWonPerKillPoint() *
-								weapon_->getArmsLevel();
+								weapon_->getParent()->getArmsLevel();
 						else score = context_->optionsGame->getMoneyWonPerHitPoint() *
-								weapon_->getArmsLevel();
+								weapon_->getParent()->getArmsLevel();
 
 						// Make this a percentage if you want
 						if (context_->optionsGame->getMoneyPerHealthPoint()) 

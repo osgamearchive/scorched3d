@@ -21,15 +21,18 @@
 #if !defined(AFX_BATTERY_H__F9BCDF39_FB62_4BB4_9D64_C70215669F9C__INCLUDED_)
 #define AFX_BATTERY_H__F9BCDF39_FB62_4BB4_9D64_C70215669F9C__INCLUDED_
 
-#include <weapons/Accessory.h>
+#include <weapons/AccessoryPart.h>
 
-class Battery : public Accessory
+class Battery : public AccessoryPart
 {
 public:
 	Battery();
 	virtual ~Battery();
 
-	REGISTER_ACCESSORY_HEADER(Battery, Accessory::AccessoryBattery);
+	virtual bool parseXML(OptionsGame &context, 
+		AccessoryStore *store, XMLNode *accessoryNode);
+
+	REGISTER_ACCESSORY_HEADER(Battery, AccessoryPart::AccessoryBattery);
 
 };
 

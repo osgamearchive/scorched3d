@@ -25,6 +25,7 @@
 #include <vector>
 #include <map>
 #include <weapons/Weapon.h>
+#include <weapons/Accessory.h>
 
 class XMLNode;
 class AccessoryStore
@@ -33,13 +34,14 @@ public:
 	AccessoryStore();
 	virtual ~AccessoryStore();
 
-	bool parseFile();
+	bool parseFile(OptionsGame &context);
 	void clearAccessories();
 
-	Accessory *findByAccessoryType(Accessory::AccessoryType type);
+	Accessory *findByAccessoryType(AccessoryPart::AccessoryType type);
 	Accessory *findByAccessoryId(unsigned int id);
 	Accessory *findByPrimaryAccessoryName(const char *name); // **careful there**
-	Accessory *createAccessory(XMLNode *currentNode);
+	AccessoryPart *createAccessoryPart(OptionsGame &context, 
+		Accessory *parent, XMLNode *currentNode);
 
 	Weapon *getDeathAnimation();
 	Weapon *getMuzzelFlash();
@@ -55,18 +57,16 @@ public:
 	bool writeEconomyToBuffer(NetBuffer &buffer);
 	bool readEconomyFromBuffer(NetBufferReader &reader);
 
-	bool writeToBuffer(NetBuffer &buffer);
-	bool readFromBuffer(NetBufferReader &reader);
-
 	static void sortList(std::list<Accessory *> &accList);
 
 protected:
+	AccessoryPart *findByAccessoryPartId(unsigned int id);
+
 	std::list<Accessory *> accessories_;
+	std::list<AccessoryPart *> accessoryParts_;
 	std::vector<Weapon *> deathAnimations_;
 	std::map<std::string, XMLNode *> parsingNodes_;
 	Weapon *muzzleFlash_;
-
-	void addAccessory(Accessory *accessory);
 
 };
 

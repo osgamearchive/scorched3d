@@ -18,19 +18,21 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #if !defined(__INCLUDE_Fuelh_INCLUDE__)
 #define __INCLUDE_Fuelh_INCLUDE__
 
-#include <weapons/Accessory.h>
+#include <weapons/AccessoryPart.h>
 
-class Fuel : public Accessory
+class Fuel : public AccessoryPart
 {
 public:
 	Fuel();
 	virtual ~Fuel();
 
-	REGISTER_ACCESSORY_HEADER(Fuel, Accessory::AccessoryFuel);
+	virtual bool parseXML(OptionsGame &context, 
+		AccessoryStore *store, XMLNode *accessoryNode);
+
+	REGISTER_ACCESSORY_HEADER(Fuel, AccessoryPart::AccessoryFuel);
 
 };
 

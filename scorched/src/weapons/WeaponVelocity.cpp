@@ -34,43 +34,28 @@ WeaponVelocity::~WeaponVelocity()
 
 }
 
-bool WeaponVelocity::parseXML(XMLNode *accessoryNode)
+bool WeaponVelocity::parseXML(OptionsGame &context, 
+	AccessoryStore *store, XMLNode *accessoryNode)
 {
-	if (!Weapon::parseXML(accessoryNode)) return false;
+	if (!Weapon::parseXML(context, store, accessoryNode)) return false;
 
 	// Get the next weapon
 	XMLNode *subNode = 0;
 	if (!accessoryNode->getNamedChild("aimedweapon", subNode)) return false;
 
 	// Check next weapon is correct type
-	Accessory *accessory = store_->createAccessory(subNode);
-	if (!accessory || accessory->getType() != Accessory::AccessoryWeapon)
+	AccessoryPart *accessory = store->createAccessoryPart(context, parent_, subNode);
+	if (!accessory || accessory->getType() != AccessoryPart::AccessoryWeapon)
 	{
 		dialogMessage("Accessory",
 			"Sub weapon of wrong type \"%s\"",
-			name_.c_str());
+			accessory->getAccessoryTypeName());
 		return false;
 	}
 	aimedWeapon_ = (Weapon*) accessory;
 
 	if (!accessoryNode->getNamedChild("velocitychange", velocityChange_)) return false;
 
-	return true;
-}
-
-bool WeaponVelocity::writeAccessory(NetBuffer &buffer)
-{
-	if (!Weapon::writeAccessory(buffer)) return false;
-	if (!store_->writeWeapon(buffer, aimedWeapon_)) return false;
-	buffer.addToBuffer(velocityChange_);
-	return true;
-}
-
-bool WeaponVelocity::readAccessory(NetBufferReader &reader)
-{
-	if (!Weapon::readAccessory(reader)) return false;
-	aimedWeapon_ = store_->readWeapon(reader); if (!aimedWeapon_) return false;
-	if (!reader.getFromBuffer(velocityChange_)) return false;
 	return true;
 }
 

@@ -37,9 +37,10 @@ WeaponNapalm::~WeaponNapalm()
 
 }
 
-bool WeaponNapalm::parseXML(XMLNode *accessoryNode)
+bool WeaponNapalm::parseXML(OptionsGame &context, 
+	AccessoryStore *store, XMLNode *accessoryNode)
 {
-	if (!Weapon::parseXML(accessoryNode)) return false;
+	if (!Weapon::parseXML(context, store, accessoryNode)) return false;
 
 	if (!accessoryNode->getNamedChild("napalmtime", napalmTime_)) return false;
 	if (!accessoryNode->getNamedChild("napalmheight", napalmHeight_)) return false;
@@ -52,36 +53,6 @@ bool WeaponNapalm::parseXML(XMLNode *accessoryNode)
 	if (!accessoryNode->getNamedChild("napalmtexture", napalmTexture_)) return false;
 	if (!checkDataFile("data/wav/%s", getNapalmSound())) return false;
 
-	return true;
-}
-
-bool WeaponNapalm::writeAccessory(NetBuffer &buffer)
-{
-	if (!Weapon::writeAccessory(buffer)) return false;
-	buffer.addToBuffer(napalmTime_);
-	buffer.addToBuffer(napalmHeight_);
-	buffer.addToBuffer(stepTime_);
-	buffer.addToBuffer(hurtStepTime_);
-	buffer.addToBuffer(hurtPerSecond_);
-	buffer.addToBuffer(numberStreams_);
-	buffer.addToBuffer(effectRadius_);
-	buffer.addToBuffer(napalmSound_);
-	buffer.addToBuffer(napalmTexture_);
-	return true;
-}
-
-bool WeaponNapalm::readAccessory(NetBufferReader &reader)
-{
-	if (!Weapon::readAccessory(reader)) return false;
-	if (!reader.getFromBuffer(napalmTime_)) return false;
-	if (!reader.getFromBuffer(napalmHeight_)) return false;
-	if (!reader.getFromBuffer(stepTime_)) return false;
-	if (!reader.getFromBuffer(hurtStepTime_)) return false;
-	if (!reader.getFromBuffer(hurtPerSecond_)) return false;
-	if (!reader.getFromBuffer(numberStreams_)) return false;
-	if (!reader.getFromBuffer(effectRadius_)) return false;
-	if (!reader.getFromBuffer(napalmSound_)) return false;
-	if (!reader.getFromBuffer(napalmTexture_)) return false;
 	return true;
 }
 

@@ -29,9 +29,8 @@ public:
 	WeaponProjectile();
 	virtual ~WeaponProjectile();
 
-	virtual bool parseXML(XMLNode *accessoryNode);
-	virtual bool writeAccessory(NetBuffer &buffer);
-	virtual bool readAccessory(NetBufferReader &reader);
+	virtual bool parseXML(OptionsGame &context, 
+		AccessoryStore *store, XMLNode *accessoryNode);
 
 	Weapon *getCollisionAction() { return collisionAction_; }
 
@@ -40,7 +39,7 @@ public:
 		unsigned int playerId, Vector &position, Vector &velocity,
 		unsigned int data = 0);
 
-	REGISTER_ACCESSORY_HEADER(WeaponProjectile, Accessory::AccessoryWeapon);
+	REGISTER_ACCESSORY_HEADER(WeaponProjectile, AccessoryPart::AccessoryWeapon);
 
 	bool getUnder() { return under_; }
 	bool getShowShotPath() { return showShotPath_; }

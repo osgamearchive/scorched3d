@@ -47,6 +47,7 @@ protected:
 	float selectedIndent_;
 	int basePosition_;
 	bool transparent_;
+	bool icon_, selected_;
 
 	void calculateDimensions(float x, float y);
 

@@ -51,26 +51,31 @@ void TankWeapon::reset()
 		itor++)
 	{
 		Accessory *accessory = (*itor);
-		if (accessory->getType() == Accessory::AccessoryWeapon)
+		if (accessory->getType() == AccessoryPart::AccessoryWeapon)
 		{
-			if (accessory->getPurchasable())
+			if (accessory->getMaximumNumber() > 0)
 			{
-				if ((accessory->getPrice() == 0 && 
-					accessory->getBundle() == 0) ||
-					context_.optionsGame->getGiveAllWeapons())
+				if (context_.optionsGame->getGiveAllWeapons() ||
+					accessory->getStartingNumber() == -1)
 				{
-					addWeapon((Weapon*) accessory, -1);
+					addWeapon(accessory, -1);
+				}
+				else if (accessory->getStartingNumber() > 0)
+				{
+					addWeapon(accessory, accessory->getStartingNumber());
 				}
 			}
 		}
 	}
 }
 
-void TankWeapon::addWeapon(Weapon *wp, int count)
+void TankWeapon::addWeapon(Accessory *wp, int count)
 {
+	DIALOG_ASSERT(wp->getType() == AccessoryPart::AccessoryWeapon);
+
 	if (!currentWeapon_) setCurrentWeapon(wp);
 
-	std::map<Weapon *, int>::iterator itor = weapons_.find(wp);
+	std::map<Accessory *, int>::iterator itor = weapons_.find(wp);
 	if (itor == weapons_.end() || count < 0)
 	{
 		weapons_[wp] = count;
@@ -81,9 +86,9 @@ void TankWeapon::addWeapon(Weapon *wp, int count)
 	}
 }
 
-void TankWeapon::rmWeapon(Weapon *wp, int count)
+void TankWeapon::rmWeapon(Accessory *wp, int count)
 {
-	std::map<Weapon *, int>::iterator itor = weapons_.find(wp);
+	std::map<Accessory *, int>::iterator itor = weapons_.find(wp);
 	if (itor != weapons_.end())
 	{
 		if (weapons_[wp] > 0)
@@ -95,17 +100,23 @@ void TankWeapon::rmWeapon(Weapon *wp, int count)
 
 				if (wp == currentWeapon_)
 				{
-					DIALOG_ASSERT(!weapons_.empty());
-					setCurrentWeapon(weapons_.begin()->first);
+					if(!weapons_.empty())
+					{
+						setCurrentWeapon(weapons_.begin()->first);
+					}
+					else
+					{
+						setCurrentWeapon(0);
+					}
 				}
 			}
 		}
 	}
 }
 
-bool TankWeapon::setWeapon(Weapon *wp)
+bool TankWeapon::setWeapon(Accessory *wp)
 {
-	std::map<Weapon *, int>::iterator itor;
+	std::map<Accessory *, int>::iterator itor;
 	for (itor = weapons_.begin();
 		itor != weapons_.end();
 		itor++)
@@ -120,21 +131,19 @@ bool TankWeapon::setWeapon(Weapon *wp)
 	return false;
 }
 
-Weapon *TankWeapon::getCurrent()
+Accessory *TankWeapon::getCurrent()
 {
-	DIALOG_ASSERT(currentWeapon_);
 	return currentWeapon_;
 }
 
-void TankWeapon::setCurrentWeapon(Weapon *wp)
+void TankWeapon::setCurrentWeapon(Accessory *wp)
 {
-	DIALOG_ASSERT(wp);
 	currentWeapon_ = wp;
 }
 
 void TankWeapon::nextWeapon()
 {
-	std::map<Weapon *, int>::iterator itor = weapons_.find(currentWeapon_);
+	std::map<Accessory *, int>::iterator itor = weapons_.find(currentWeapon_);
 
 	if (++itor == weapons_.end())
 	{
@@ -146,7 +155,7 @@ void TankWeapon::nextWeapon()
 
 void TankWeapon::prevWeapon()
 {
-	std::map<Weapon *, int>::iterator itor = weapons_.find(currentWeapon_);
+	std::map<Accessory *, int>::iterator itor = weapons_.find(currentWeapon_);
 
 	if (itor == weapons_.begin())
 	{
@@ -169,8 +178,8 @@ std::list<Accessory *> TankWeapon::getAllWeapons(bool sort)
 		itor != accessories.end();
 		itor++)
 	{
-		Weapon *weapon = (Weapon*)(*itor);
-		std::map<Weapon *, int>::iterator findItor =
+		Accessory *weapon = (*itor);
+		std::map<Accessory *, int>::iterator findItor =
 			weapons_.find(weapon);
 		if (findItor != weapons_.end())
 		{
@@ -182,9 +191,9 @@ std::list<Accessory *> TankWeapon::getAllWeapons(bool sort)
 	return result;
 }
 
-int TankWeapon::getWeaponCount(Weapon *weapon)
+int TankWeapon::getWeaponCount(Accessory *weapon)
 {
-	std::map<Weapon *, int>::iterator foundWeapon =
+	std::map<Accessory *, int>::iterator foundWeapon =
 		weapons_.find(weapon);
 	int currentNumber = 0;
 	if (foundWeapon != weapons_.end())
@@ -206,13 +215,13 @@ const char *TankWeapon::getWeaponString()
 
 bool TankWeapon::writeMessage(NetBuffer &buffer)
 {
-	std::map<Weapon *, int>::iterator itor;
+	std::map<Accessory *, int>::iterator itor;
 	buffer.addToBuffer((int) weapons_.size());
 	for (itor = weapons_.begin();
 		itor != weapons_.end();
 		itor++)
 	{
-		Weapon *weapon = (*itor).first;
+		Accessory *weapon = (*itor).first;
 		int count = (*itor).second;
 		buffer.addToBuffer(weapon->getAccessoryId());
 		buffer.addToBuffer(count);
@@ -223,7 +232,7 @@ bool TankWeapon::writeMessage(NetBuffer &buffer)
 
 bool TankWeapon::readMessage(NetBufferReader &reader)
 {
-	std::set<Weapon *> coveredWeapons;
+	std::set<Accessory *> coveredWeapons;
 
 	int totalWeapons = 0;
 	if (!reader.getFromBuffer(totalWeapons)) return false;
@@ -234,9 +243,9 @@ bool TankWeapon::readMessage(NetBufferReader &reader)
 		if (!reader.getFromBuffer(accessoryId)) return false;
 		if (!reader.getFromBuffer(weaponCount)) return false;
 
-		Weapon *weapon = (Weapon *) 
-			context_.accessoryStore->findByAccessoryId(accessoryId);
+		Accessory *weapon = context_.accessoryStore->findByAccessoryId(accessoryId);
 		if (!weapon) return false;
+		if (weapon->getType() != AccessoryPart::AccessoryWeapon) return false;
 		coveredWeapons.insert(weapon);
 
 		int actualCount = getWeaponCount(weapon);
@@ -247,14 +256,14 @@ bool TankWeapon::readMessage(NetBufferReader &reader)
 		}
 	}
 
-	std::map<Weapon *, int> weaponCopy = weapons_;
-	std::map<Weapon *, int>::iterator itor;
+	std::map<Accessory *, int> weaponCopy = weapons_;
+	std::map<Accessory *, int>::iterator itor;
 	for (itor = weaponCopy.begin();
 		itor != weaponCopy.end();
 		itor++)
 	{
-		Weapon *weapon = (*itor).first;
-		std::set<Weapon *>::iterator findItor =
+		Accessory *weapon = (*itor).first;
+		std::set<Accessory *>::iterator findItor =
 			coveredWeapons.find(weapon);
 		if (findItor == coveredWeapons.end())
 		{

@@ -44,6 +44,7 @@ public:
 protected:
 	int batteryCount_;
 	ScorchedContext &context_;
+	bool infinite_;
 
 };
 

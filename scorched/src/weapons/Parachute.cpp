@@ -26,10 +26,14 @@ REGISTER_ACCESSORY_SOURCE(Parachute);
 
 Parachute::Parachute()
 {
-
 }
 
 Parachute::~Parachute()
 {
+}
 
+bool Parachute::parseXML(OptionsGame &context,
+	AccessoryStore *store, XMLNode *accessoryNode)
+{
+	return true;
 }

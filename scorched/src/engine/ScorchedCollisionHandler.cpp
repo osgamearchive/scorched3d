@@ -27,6 +27,7 @@
 #include <engine/PhysicsParticle.h>
 #include <engine/ActionController.h>
 #include <weapons/ShieldMag.h>
+#include <weapons/Accessory.h>
 #include <tank/TankContainer.h>
 
 ScorchedCollisionHandler::ScorchedCollisionHandler(ScorchedContext *context) :
@@ -376,9 +377,10 @@ ParticleAction ScorchedCollisionHandler::collisionShield(
 	if (tank && tank->getState().getState() == TankState::sNormal &&
 		tank->getState().getSpectator() == false)
 	{
-		Shield *shield = tank->getAccessories().getShields().getCurrentShield();
-		if (shield)
+		Accessory *accessory = tank->getAccessories().getShields().getCurrentShield();
+		if (accessory)
 		{
+			Shield *shield = (Shield *) accessory->getAction();
 			if (shield->getRadius() == size)
 			{
 				bool passed = true;

@@ -40,9 +40,10 @@ WeaponRedirect::~WeaponRedirect()
 
 }
 
-bool WeaponRedirect::parseXML(XMLNode *accessoryNode)
+bool WeaponRedirect::parseXML(OptionsGame &context, 
+	AccessoryStore *store, XMLNode *accessoryNode)
 {
-	if (!Weapon::parseXML(accessoryNode)) return false;
+	if (!Weapon::parseXML(context, store, accessoryNode)) return false;
 
 	if (!accessoryNode->getNamedChild("hredirect", hredirect_)) return false;
 	if (!accessoryNode->getNamedChild("habs", habs_)) return false;
@@ -53,38 +54,16 @@ bool WeaponRedirect::parseXML(XMLNode *accessoryNode)
 	if (!accessoryNode->getNamedChild("nextaction", subNode)) return false;
 	
 	// Check next weapon is correct type
-	Accessory *accessory = store_->createAccessory(subNode);
-	if (!accessory || accessory->getType() != Accessory::AccessoryWeapon)
+	AccessoryPart *accessory = store->createAccessoryPart(context, parent_, subNode);
+	if (!accessory || accessory->getType() != AccessoryPart::AccessoryWeapon)
 	{
 		dialogMessage("Accessory",
 			"Sub weapon of wrong type \"%s\"",
-			name_.c_str());
+			accessory->getAccessoryTypeName());
 		return false;
 	}
 	nextAction_ = (Weapon*) accessory;
 
-	return true;
-}
-
-bool WeaponRedirect::writeAccessory(NetBuffer &buffer)
-{
-	if (!Weapon::writeAccessory(buffer)) return false;
-	if (!store_->writeWeapon(buffer, nextAction_)) return false;
-	buffer.addToBuffer(hredirect_);
-	buffer.addToBuffer(vredirect_);
-	buffer.addToBuffer(habs_);
-	buffer.addToBuffer(vabs_);
-	return true;
-}
-
-bool WeaponRedirect::readAccessory(NetBufferReader &reader)
-{
-	if (!Weapon::readAccessory(reader)) return false;
-	nextAction_ = store_->readWeapon(reader); if (!nextAction_) return false;
-	if (!reader.getFromBuffer(hredirect_)) return false;
-	if (!reader.getFromBuffer(vredirect_)) return false;
-	if (!reader.getFromBuffer(habs_)) return false;
-	if (!reader.getFromBuffer(vabs_)) return false;
 	return true;
 }
 

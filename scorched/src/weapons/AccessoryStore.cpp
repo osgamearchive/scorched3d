@@ -37,7 +37,7 @@ AccessoryStore::~AccessoryStore()
 
 }
 
-bool AccessoryStore::parseFile()
+bool AccessoryStore::parseFile(OptionsGame &context)
 {
 	const char *fileName = getDataFile("data/accessories.xml");
 	clearAccessories();
@@ -66,9 +66,15 @@ bool AccessoryStore::parseFile()
 	while (file.getRootNode()->getNamedChild("accessory", currentNode, false))
 	{
 		// Parse the accessory
-		Accessory *accessory = createAccessory(currentNode);
-		if (!accessory) return false;
+		Accessory *accessory = new Accessory();
+		if (!accessory->parseXML(context, this, currentNode))
+		{
+			return currentNode->returnError(
+				formatString("Failed to create accessory \"%s\"",
+				accessory->getName()));
+		}
 
+		// Check uniqueness
 		if (findByPrimaryAccessoryName(accessory->getName()))
 		{
 			return currentNode->returnError(
@@ -76,8 +82,23 @@ bool AccessoryStore::parseFile()
 				accessory->getName()));
 		}
 
-		// This is a searchable primary accessory
-		accessory->setPrimary(true);
+		// Add the accessory
+		accessories_.push_back(accessory);
+
+		// Add weapons to death animations, weighted by arms level
+		if (accessory->getAction()->getType() == AccessoryPart::AccessoryWeapon)
+		{
+			Weapon *weapon = (Weapon *) accessory->getAction();
+
+			if (0 == strcmp(weapon->getAccessoryTypeName(), "WeaponMuzzle"))
+			{
+				muzzleFlash_ = weapon;
+			}
+			for (int i=0; i<accessory->getDeathAnimationWeight(); i++)
+			{
+				deathAnimations_.push_back(weapon);
+			}
+		}	
 
 		// Add to the map so references can find it
 		parsingNodes_[accessory->getName()] = currentNode;
@@ -88,33 +109,38 @@ bool AccessoryStore::parseFile()
 	return file.getRootNode()->failChildren();
 }
 
-Accessory *AccessoryStore::createAccessory(XMLNode *currentNode)
+AccessoryPart *AccessoryStore::createAccessoryPart(
+	OptionsGame &context, 
+	Accessory *parent, XMLNode *currentNode)
 {
 	XMLNode *typeNode = 0;
 	if (!currentNode->getNamedParameter("type", typeNode)) return false;
 
-	Accessory *accessory = 
+	AccessoryPart *accessoryPart = 
 		AccessoryMetaRegistration::getNewAccessory(typeNode->getContent(), this);
-	if (!accessory)
+	if (!accessoryPart)
 	{
 		dialogMessage("AccessoryStore",
-						"Failed to find a weapon type \"%s\"",
+						"Failed to find accessory part type \"%s\"",
 						typeNode->getContent());
 		return 0;
 	}
+	// Set the parent accessory
+	accessoryPart->setParent(parent);
 	
 	// Tell this accessory instance to initialize its settings from
 	// the current accessory xml definition node
-	if (!accessory->parseXML(currentNode)) return 0;
+	if (!accessoryPart->parseXML(context, this, currentNode)) return 0;
 
 	// There should not be any children left
 	// Any that are, are children that have not been
 	// handled by the parse routine
 	if (!currentNode->failChildren()) return 0;
+	DIALOG_ASSERT(accessoryPart->getParent());
 
 	// Add the accessory
-	addAccessory(accessory);
-	return accessory;
+	accessoryParts_.push_back(accessoryPart);
+	return accessoryPart;
 }
 
 void AccessoryStore::sortList(std::list<Accessory *> &accList)
@@ -164,8 +190,7 @@ std::list<Accessory *> AccessoryStore::getAllWeapons(bool sort)
 		itor != accessories_.end();
 		itor++)
 	{
-		if ((*itor)->getType() == Accessory::AccessoryWeapon &&
-			(*itor)->getPrimary())
+		if ((*itor)->getAction()->getType() == AccessoryPart::AccessoryWeapon)
 		{
 			result.push_back(*itor);
 		}
@@ -183,8 +208,7 @@ std::list<Accessory *> AccessoryStore::getAllOthers(bool sort)
 		itor != accessories_.end();
 		itor++)
 	{
-		if ((*itor)->getType() != Accessory::AccessoryWeapon &&
-			(*itor)->getPrimary())
+		if ((*itor)->getAction()->getType() != AccessoryPart::AccessoryWeapon)
 		{
 			result.push_back(*itor);
 		}
@@ -202,10 +226,7 @@ std::list<Accessory *> AccessoryStore::getAllAccessories(bool sort)
 		itor != accessories_.end();
 		itor++)
 	{
-		if ((*itor)->getPrimary())
-		{
-			result.push_back(*itor);
-		}
+		result.push_back(*itor);
 	}
 
 	if (sort) sortList(result);
@@ -224,7 +245,7 @@ Weapon *AccessoryStore::getDeathAnimation()
 	return 0;
 }
 
-Accessory *AccessoryStore::findByAccessoryType(Accessory::AccessoryType type)
+Accessory *AccessoryStore::findByAccessoryType(AccessoryPart::AccessoryType type)
 {
 	std::list<Accessory *>::iterator itor;
 	for (itor = accessories_.begin();
@@ -232,20 +253,7 @@ Accessory *AccessoryStore::findByAccessoryType(Accessory::AccessoryType type)
 		itor++)
 	{
 		Accessory *accessory = (*itor);
-		if (accessory->getType() == type) return accessory;
-	}
-	return 0;
-}
-
-Accessory *AccessoryStore::findByAccessoryId(unsigned int id)
-{
-	std::list<Accessory *>::iterator itor;
-	for (itor = accessories_.begin();
-		itor != accessories_.end();
-		itor++)
-	{
-		Accessory *accessory = (*itor);
-		if (accessory->getAccessoryId() == id) return accessory;
+		if (accessory->getAction()->getType() == type) return accessory;
 	}
 	return 0;
 }
@@ -258,8 +266,7 @@ Accessory *AccessoryStore::findByPrimaryAccessoryName(const char *name)
 		itor++)
 	{
 		Accessory *accessory = (*itor);
-		if (accessory->getPrimary() &&
-			strcmp(accessory->getName(), name) == 0)
+		if (strcmp(accessory->getName(), name) == 0)
 		{
 			return accessory;
 		}
@@ -267,8 +274,42 @@ Accessory *AccessoryStore::findByPrimaryAccessoryName(const char *name)
 	return 0;
 }
 
+Accessory *AccessoryStore::findByAccessoryId(unsigned int id)
+{
+	std::list<Accessory *>::iterator itor;
+	for (itor = accessories_.begin();
+		itor != accessories_.end();
+		itor++)
+	{
+		Accessory *accessory = (*itor);
+		if (accessory->getAccessoryId() == id)
+		{
+			return accessory;
+		}
+	}
+	return 0;
+}
+
+AccessoryPart *AccessoryStore::findByAccessoryPartId(unsigned int id)
+{
+	std::list<AccessoryPart *>::iterator itor;
+	for (itor = accessoryParts_.begin();
+		itor != accessoryParts_.end();
+		itor++)
+	{
+		AccessoryPart *accessoryPart = (*itor);
+		if (accessoryPart->getAccessoryPartId() == id)
+		{
+			return accessoryPart;
+		}
+	}
+	return 0;
+}
+
 void AccessoryStore::clearAccessories()
 {
+	AccessoryPart::resetAccessoryPartIds();
+	Accessory::resetAccessoryIds();
 	muzzleFlash_ = 0;
 	deathAnimations_.clear();
 	while (!accessories_.empty())
@@ -277,31 +318,17 @@ void AccessoryStore::clearAccessories()
 		accessories_.pop_front();
 		delete accessory;
 	}
-}
-
-void AccessoryStore::addAccessory(Accessory *accessory)
-{
-	accessories_.push_back(accessory);
-
-	// Add weapons to death animations, weighted by arms level
-	if (accessory->getType() == Accessory::AccessoryWeapon)
+	while (!accessoryParts_.empty())
 	{
-		Weapon *weapon = (Weapon *) accessory;
-
-		if (0 == strcmp(weapon->getAccessoryTypeName(), "WeaponMuzzle"))
-		{
-			muzzleFlash_ = weapon;
-		}
-		for (int i=0; i<weapon->getDeathAnimationWeight(); i++)
-		{
-			deathAnimations_.push_back(weapon);
-		}
-	}	
+		AccessoryPart *accessoryPart = accessoryParts_.front();
+		accessoryParts_.pop_front();
+		delete accessoryPart;
+	}
 }
 
 bool AccessoryStore::writeWeapon(NetBuffer &buffer, Weapon *weapon)
 {
-	buffer.addToBuffer(weapon->getAccessoryId());
+	buffer.addToBuffer(weapon->getAccessoryPartId());
 	return true;
 }
 
@@ -309,12 +336,13 @@ Weapon *AccessoryStore::readWeapon(NetBufferReader &reader)
 {
 	unsigned int weaponId;
 	if (!reader.getFromBuffer(weaponId)) return 0;
-	Accessory *accessory = findByAccessoryId(weaponId);
-	if (!accessory || (accessory->getType() != Accessory::AccessoryWeapon)) 
+	AccessoryPart *accessoryPart = findByAccessoryPartId(weaponId);
+	if (accessoryPart->getAccessoryPartId() == weaponId &&
+		accessoryPart->getType() == AccessoryPart::AccessoryWeapon)
 	{
-		return 0;
+		return ((Weapon *) accessoryPart);
 	}
-	return ((Weapon *) accessory);
+	return 0;
 }
 
 bool AccessoryStore::writeEconomyToBuffer(NetBuffer &buffer)
@@ -351,60 +379,6 @@ bool AccessoryStore::readEconomyFromBuffer(NetBufferReader &reader)
 		if (!accessory) return false;
 		accessory->setPrice(price);
 		accessory->setSellPrice(sellPrice);
-	}
-	return true;
-}
-
-bool AccessoryStore::writeToBuffer(NetBuffer &buffer)
-{
-	buffer.addToBuffer((int) accessories_.size());
-	std::list<Accessory *>::iterator itor;
-	for (itor = accessories_.begin();
-		itor != accessories_.end();
-		itor++)
-	{
-		Accessory *accessory = (*itor);
-		buffer.addToBuffer(accessory->getAccessoryTypeName());
-		if (!accessory->writeAccessory(buffer))
-		{
-			Logger::log(0, "AccessoryStore failed to write \"%s\" accessory",
-				accessory->getName());
-			return false;
-		}
-	}	
-	return true;
-}
-
-bool AccessoryStore::readFromBuffer(NetBufferReader &reader)
-{
-	clearAccessories();
-
-	int noAccessories = 0;
-	if (!reader.getFromBuffer(noAccessories)) return false;
-	for (int a=0; a<noAccessories; a++)
-	{
-		std::string accessoryTypeName;
-		if (!reader.getFromBuffer(accessoryTypeName))
-		{
-			Logger::log(0, "AccessoryStore failed to read accessory type");
-			return false;
-		}
-		Accessory *accessory = 
-			AccessoryMetaRegistration::getNewAccessory(accessoryTypeName.c_str(), this);
-		if (!accessory)
-		{
-			Logger::log(0, "AccessoryStore failed to find accessory type \"%s\"",
-				accessoryTypeName.c_str());
-			return false;
-		}
-		if (!accessory->readAccessory(reader))
-		{
-			Logger::log(0, "AccessoryStore failed to read \"%s\" accessory",
-				accessory->getName());
-			return false;
-		}
-
-		addAccessory(accessory);
 	}
 	return true;
 }

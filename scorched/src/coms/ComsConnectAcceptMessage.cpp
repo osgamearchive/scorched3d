@@ -50,9 +50,6 @@ bool ComsConnectAcceptMessage::writeMessage(NetBuffer &buffer)
 	buffer.addToBuffer(uniqueId_);
 	if (!ScorchedServer::instance()->getOptionsGame().
 		writeToBuffer(buffer, false)) return false;
-	if (!ScorchedServer::instance()->getAccessoryStore().
-		writeToBuffer(buffer)) return false;
-	
 	return true;
 }
 
@@ -64,8 +61,5 @@ bool ComsConnectAcceptMessage::readMessage(NetBufferReader &reader)
 	if (!reader.getFromBuffer(uniqueId_)) return false;
 	if (!ScorchedClient::instance()->getOptionsGame().
 		readFromBuffer(reader, false)) return false;
-	if (!ScorchedClient::instance()->getAccessoryStore().
-		readFromBuffer(reader)) return false;
-
 	return true;
 }

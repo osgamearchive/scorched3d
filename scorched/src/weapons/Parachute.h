@@ -21,15 +21,18 @@
 #if !defined(AFX_PARACHUTE_H__F934B35F_3195_45F7_A6B4_D10CCDB296BD__INCLUDED_)
 #define AFX_PARACHUTE_H__F934B35F_3195_45F7_A6B4_D10CCDB296BD__INCLUDED_
 
-#include <weapons/Accessory.h>
+#include <weapons/AccessoryPart.h>
 
-class Parachute : public Accessory
+class Parachute : public AccessoryPart
 {
 public:
 	Parachute();
 	virtual ~Parachute();
 
-	REGISTER_ACCESSORY_HEADER(Parachute, Accessory::AccessoryParachute);
+	virtual bool parseXML(OptionsGame &context, 
+		AccessoryStore *store, XMLNode *accessoryNode);
+
+	REGISTER_ACCESSORY_HEADER(Parachute, AccessoryPart::AccessoryParachute);
 };
 
 #endif // !defined(AFX_PARACHUTE_H__F934B35F_3195_45F7_A6B4_D10CCDB296BD__INCLUDED_)

@@ -22,6 +22,7 @@
 #define __INCLUDE_TankAIComputerAimh_INCLUDE__
 
 #include <tank/Tank.h>
+#include <XML/XMLParser.h>
 
 class TankAIComputerAim
 {

@@ -28,6 +28,8 @@
 #include <client/ScorchedClient.h>
 #include <common/OptionsDisplay.h>
 #include <3dsparse/ModelStore.h>
+#include <weapons/Shield.h>
+#include <weapons/Accessory.h>
 #include <GLEXT/GLCameraFrustum.h>
 #include <GLEXT/GLBitmap.h>
 #include <GLEXT/GLTexture.h>
@@ -128,6 +130,15 @@ void TankModelRenderer::drawSecond(bool currentTank)
 		drawShield();
 	}
 
+	Vector &position = tank_->getPhysics().getTankPosition();
+	float height = position[2];
+	float groundHeight = ScorchedClient::instance()->getLandscapeMaps().getHMap().
+		getHeight((int) position[0], (int) position[1]);
+	if (height < groundHeight)
+	{
+		height = groundHeight;
+	}
+
 	// Draw the names above all the tanks
 	if (OptionsDisplay::instance()->getDrawPlayerNames())
 	{
@@ -140,7 +151,7 @@ void TankModelRenderer::drawSecond(bool currentTank)
 			tank_->getColor(), 1,
 			(float) tank_->getPhysics().getTankPosition()[0] - bilX[0], 
 			(float) tank_->getPhysics().getTankPosition()[1] - bilX[1], 
-			(float) tank_->getPhysics().getTankPosition()[2] + 8.0f,
+			(float) height + 8.0f,
 			tank_->getName());
 		glDepthMask(GL_TRUE);
 	}
@@ -161,7 +172,7 @@ void TankModelRenderer::drawSecond(bool currentTank)
 
 		Vector position = 
 			tank_->getPhysics().getTankPosition() - bilX;
-		position[2] += 8.7f;
+		position[2] = height + 8.7f;
 
 		tank_->getAvatar().getTexture().draw();
 		static Vector white(1.0f, 1.0f, 1.0f);
@@ -234,8 +245,9 @@ void TankModelRenderer::drawShield()
 	}
 
 	// Draw the actual shield
-	Shield *shield = tank_->getAccessories().getShields().getCurrentShield();
-	if (!shield) return;
+	Accessory *accessory = tank_->getAccessories().getShields().getCurrentShield();
+	if (!accessory) return;
+	Shield *shield = (Shield *) accessory->getAction();
 
 	GLState state(GLState::BLEND_ON | GLState::TEXTURE_ON); 
 	Vector &position = tank_->getPhysics().getTankPosition();
@@ -449,7 +461,7 @@ void TankModelRenderer::drawLife()
 	if (OptionsDisplay::instance()->getDrawPlayerHealth())
 	{
 		float shieldLife = 0.0f;
-		Shield *currentShield =
+		Accessory *currentShield =
 			tank_->getAccessories().getShields().getCurrentShield();
 		if (currentShield) shieldLife = 
 			tank_->getAccessories().getShields().getShieldPower();

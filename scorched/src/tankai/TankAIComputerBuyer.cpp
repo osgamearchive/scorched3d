@@ -89,7 +89,6 @@ bool TankAIComputerBuyer::addAccessory(AccessoryStore &store,
 			"Failed to find accessory \"%s\"", accessoryName);
 		return false;
 	}
-	DIALOG_ASSERT(accessory->getPrimary());
 
 	std::list<Entry>::iterator itor;
 	for (itor = buyEntries_.begin();

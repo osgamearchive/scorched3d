@@ -21,6 +21,7 @@
 #include <sprites/MissileActionRenderer.h>
 #include <sprites/ExplosionTextures.h>
 #include <GLEXT/GLCameraFrustum.h>
+#include <weapons/Accessory.h>
 #include <3dsparse/ModelsFile.h>
 #include <actions/ShotProjectile.h>
 #include <landscape/Landscape.h>
@@ -169,7 +170,8 @@ void MissileActionRenderer::draw(Action *action)
 		Tank *currentPlayer = action->
 			getScorchedContext()->tankContainer->getTankById(
 			shot->getPlayerId());
-		mesh_ = shot->getWeapon()->getWeaponMesh(currentPlayer);
+		mesh_ = Accessory::getWeaponMesh(
+			shot->getWeapon()->getModelID(), currentPlayer);
 	}
 
 	mesh_->setScale(scale_);

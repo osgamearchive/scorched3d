@@ -112,7 +112,8 @@ bool EconomyFreeMarket::savePrices()
 	{
 		Accessory *accessory = *itor;
 
-		if (accessory->getPurchasable())
+		if (accessory->getMaximumNumber() != 0 &&
+			accessory->getStartingNumber() != -1)
 		{
 			file.addLine("  <accessory>");
 			file.addLine("    <name>%s</name>", accessory->getName());
@@ -190,9 +191,9 @@ void EconomyFreeMarket::accessoryBought(Tank *tank,
 			if (accessory->getPrice() <= tank->getScore().getMoney() &&
 				accessory->getPrice() >= int(float(boughtAccessory->getPrice()) * 0.5f) &&
 				accessory->getPrice() <= int(float(boughtAccessory->getPrice()) * 1.5f) &&
-				accessory->getPrice() != 0 &&
-				accessory->getPurchasable() &&
-				accessory->getType() == Accessory::AccessoryWeapon)
+				accessory->getStartingNumber() != -1 &&
+				accessory->getMaximumNumber() != 0 &&
+				accessory->getType() == AccessoryPart::AccessoryWeapon)
 			{
 				possibleAccessories.push_back(accessory);
 			}

@@ -33,16 +33,17 @@ WeaponReference::~WeaponReference()
 
 }
 
-bool WeaponReference::parseXML(XMLNode *accessoryNode)
+bool WeaponReference::parseXML(OptionsGame &context, 
+	AccessoryStore *store, XMLNode *accessoryNode)
 {
-	if (!Weapon::parseXML(accessoryNode)) return false;
+	if (!Weapon::parseXML(context, store, accessoryNode)) return false;
 
 	// Get the next weapon
 	std::string subNode;
 	if (!accessoryNode->getNamedChild("weapon", subNode)) return false;
 
 	// Find the accessory name
-	std::map<std::string, XMLNode *> &nodes = store_->getParsingNodes();
+	std::map<std::string, XMLNode *> &nodes = store->getParsingNodes();
 	std::map<std::string, XMLNode *>::iterator finditor =
 		nodes.find(subNode.c_str());
 	if (finditor == nodes.end()) 
@@ -54,13 +55,14 @@ bool WeaponReference::parseXML(XMLNode *accessoryNode)
 	}
 	XMLNode *weaponNode = (*finditor).second;
 	weaponNode->resurrectRemovedChildren();
-	replaceValues(weaponNode, "name", getName());
-	replaceValues(weaponNode, "armslevel", 
-		formatString("%i", getArmsLevel()));
+
+	// Action
+	XMLNode *actionNode = 0;
+	if (!weaponNode->getNamedChild("accessoryaction", actionNode)) return false;
 	
 	// Create the new weapon
-	Accessory *accessory = store_->createAccessory(weaponNode);
-	if (!accessory || accessory->getType() != Accessory::AccessoryWeapon)
+	AccessoryPart *accessory = store->createAccessoryPart(context, parent_, actionNode);
+	if (!accessory || accessory->getType() != AccessoryPart::AccessoryWeapon)
 	{
 		dialogMessage("Accessory",
 			"Failed to find create weapon/wrong type \"%s\"",
@@ -89,20 +91,6 @@ void WeaponReference::replaceValues(XMLNode *node,
 		}
 		replaceValues(current, name, value);
 	}
-}
-
-bool WeaponReference::writeAccessory(NetBuffer &buffer)
-{
-	if (!Weapon::writeAccessory(buffer)) return false;
-	if (!store_->writeWeapon(buffer, refWeapon_)) return false;
-	return true;
-}
-
-bool WeaponReference::readAccessory(NetBufferReader &reader)
-{
-	if (!Weapon::readAccessory(reader)) return false;
-	refWeapon_ = store_->readWeapon(reader); if (!refWeapon_) return false;
-	return true;
 }
 
 void WeaponReference::fireWeapon(ScorchedContext &context,

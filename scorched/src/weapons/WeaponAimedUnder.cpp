@@ -39,9 +39,10 @@ WeaponAimedUnder::~WeaponAimedUnder()
 
 }
 
-bool WeaponAimedUnder::parseXML(XMLNode *accessoryNode)
+bool WeaponAimedUnder::parseXML(OptionsGame &context, 
+	AccessoryStore *store, XMLNode *accessoryNode)
 {
-	if (!Weapon::parseXML(accessoryNode)) return false;
+	if (!Weapon::parseXML(context, store, accessoryNode)) return false;
 
 	// Get the accessory size
 	if (!accessoryNode->getNamedChild("nowarheads", warHeads_)) return false;
@@ -51,12 +52,12 @@ bool WeaponAimedUnder::parseXML(XMLNode *accessoryNode)
 	if (!accessoryNode->getNamedChild("aimedweapon", subNode)) return false;
 
 	// Check next weapon is correct type
-	Accessory *accessory = store_->createAccessory(subNode);
-	if (!accessory || accessory->getType() != Accessory::AccessoryWeapon)
+	AccessoryPart *accessory = store->createAccessoryPart(context, parent_, subNode);
+	if (!accessory || accessory->getType() != AccessoryPart::AccessoryWeapon)
 	{
 		dialogMessage("Accessory",
 			"Sub weapon of wrong type \"%s\"",
-			name_.c_str());
+			accessory->getAccessoryTypeName());
 		return false;
 	}
 	aimedWeapon_ = (Weapon*) accessory;
@@ -70,28 +71,6 @@ bool WeaponAimedUnder::parseXML(XMLNode *accessoryNode)
 	// Get the accessory percentage miss chance
 	if (!accessoryNode->getNamedChild("inaccuracy", maxInacuracy_)) return false;
 
-	return true;
-}
-
-bool WeaponAimedUnder::writeAccessory(NetBuffer &buffer)
-{
-	if (!Weapon::writeAccessory(buffer)) return false;
-	buffer.addToBuffer(warHeads_);
-	if (!store_->writeWeapon(buffer, aimedWeapon_)) return false;
-	buffer.addToBuffer(maxAimedDistance_);
-	buffer.addToBuffer(percentageMissChance_);
-	buffer.addToBuffer(maxInacuracy_);
-	return true;
-}
-
-bool WeaponAimedUnder::readAccessory(NetBufferReader &reader)
-{
-	if (!Weapon::readAccessory(reader)) return false;
-	if (!reader.getFromBuffer(warHeads_)) return false;
-	aimedWeapon_ = store_->readWeapon(reader); if (!aimedWeapon_) return false;
-	if (!reader.getFromBuffer(maxAimedDistance_)) return false;
-	if (!reader.getFromBuffer(percentageMissChance_)) return false;
-	if (!reader.getFromBuffer(maxInacuracy_)) return false;
 	return true;
 }
 

@@ -272,7 +272,7 @@ bool SettingsFrame::TransferDataToWindow()
 		// Reload the AIs in case a new mod has been loaded
 		SettingsPlayers::tankAIStore.clearAIs();
 		SettingsPlayers::accessoryStore.clearAccessories();
-		SettingsPlayers::accessoryStore.parseFile();
+		SettingsPlayers::accessoryStore.parseFile(context_);
 		SettingsPlayers::tankAIStore.loadAIs(SettingsPlayers::accessoryStore);
 
 		std::list<TankAI *> &ais = 

@@ -263,6 +263,12 @@ TankAIComputerAim::AimResult TankAIComputerAim::refinedAim(Tank *targetTank, boo
 			checkNearCollision_);
 	}
 
+	// Set the parameters
+	// Sets the angle of the gun and the power
+	currentTank_->getPhysics().rotateGunXY(angleXYDegs, false);
+	currentTank_->getPhysics().rotateGunYZ(angleYZDegs, false);
+	currentTank_->getPhysics().changePower(power, false);
+
 	// Check we will not kill ourselves
 	if (checkNearCollision_)
 	{
@@ -272,7 +278,7 @@ TankAIComputerAim::AimResult TankAIComputerAim::refinedAim(Tank *targetTank, boo
 		int allowedIntersectDist = int(distance / 2.0f);
 		while (TankLib::intersection(
 			ScorchedServer::instance()->getContext(), 
-			currentTank_->getPhysics().getTankPosition(), 
+			currentTank_->getPhysics().getTankGunPosition(), 
 			angleXYDegs, angleYZDegs, allowedIntersectDist))
 		{
 			angleYZDegs += 10.0f;

@@ -19,6 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <dialogs/AutoDefenseDialog.h>
+#include <weapons/Accessory.h>
 #include <GLW/GLWFlag.h>
 #include <GLW/GLWTextButton.h>
 #include <GLW/GLWWindowManager.h>
@@ -219,7 +220,7 @@ void AutoDefenseDialog::displayCurrent()
 	}
 
 	// Set the currently shown items
-	Shield *currentShield = tank->getAccessories().getShields().getCurrentShield();
+	Accessory *currentShield = tank->getAccessories().getShields().getCurrentShield();
 	if (currentShield)
 	{
 		char buffer[256];

@@ -32,21 +32,10 @@ WeaponNull::~WeaponNull()
 
 }
 
-bool WeaponNull::parseXML(XMLNode *accessoryNode)
+bool WeaponNull::parseXML(OptionsGame &context, 
+	AccessoryStore *store, XMLNode *accessoryNode)
 {
-	if (!Weapon::parseXML(accessoryNode)) return false;
-	return true;
-}
-
-bool WeaponNull::writeAccessory(NetBuffer &buffer)
-{
-	if (!Weapon::writeAccessory(buffer)) return false;
-	return true;
-}
-
-bool WeaponNull::readAccessory(NetBufferReader &reader)
-{
-	if (!Weapon::readAccessory(reader)) return false;
+	if (!Weapon::parseXML(context, store, accessoryNode)) return false;
 	return true;
 }
 

@@ -189,7 +189,8 @@ void PlayerDialog::windowDisplay()
 	if (!init)
 	{
 		init = true;
-		accessoryStore.parseFile();
+		accessoryStore.parseFile(
+			ScorchedClient::instance()->getOptionsGame());
 		tankAIStore.loadAIs(accessoryStore);
 	}
 

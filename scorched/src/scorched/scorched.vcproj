@@ -1696,6 +1696,12 @@
 				RelativePath="..\weapons\Accessory.h">
 			</File>
 			<File
+				RelativePath="..\weapons\AccessoryPart.cpp">
+			</File>
+			<File
+				RelativePath="..\weapons\AccessoryPart.h">
+			</File>
+			<File
 				RelativePath="..\weapons\AccessoryStore.cpp">
 			</File>
 			<File

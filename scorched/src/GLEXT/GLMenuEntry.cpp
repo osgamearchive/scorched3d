@@ -114,7 +114,8 @@ bool GLMenuEntry::click(float currentTop, int x, int y)
 				GLWSelectorEntry(
 					item.getText(),
 					item.getToolTip(),
-					item.getSelected()
+					item.getSelected(),
+					item.getTexture()
 					)
 				);
 		}

@@ -87,7 +87,7 @@ std::list<Accessory *> TankAccessories::getAllAccessories(bool sort)
 	if (tankPara_.getNoParachutes() != 0)
 	{
 		Accessory *accessory = context_.accessoryStore->
-			findByAccessoryType(Accessory::AccessoryParachute);
+			findByAccessoryType(AccessoryPart::AccessoryParachute);
 		result.push_back(accessory);
 	}
 
@@ -95,7 +95,7 @@ std::list<Accessory *> TankAccessories::getAllAccessories(bool sort)
 	if (tankAuto_.haveDefense())
 	{
 		Accessory *accessory = context_.accessoryStore->
-			findByAccessoryType(Accessory::AccessoryAutoDefense);
+			findByAccessoryType(AccessoryPart::AccessoryAutoDefense);
 		result.push_back(accessory);
 	}
 
@@ -103,7 +103,7 @@ std::list<Accessory *> TankAccessories::getAllAccessories(bool sort)
 	if (tankBatteries_.getNoBatteries())
 	{
 		Accessory *accessory = context_.accessoryStore->
-			findByAccessoryType(Accessory::AccessoryBattery);
+			findByAccessoryType(AccessoryPart::AccessoryBattery);
 		result.push_back(accessory);
 	}
 
@@ -111,7 +111,7 @@ std::list<Accessory *> TankAccessories::getAllAccessories(bool sort)
 	if (tankFuel_.getNoFuel())
 	{
 		Accessory *accessory = context_.accessoryStore->
-			findByAccessoryType(Accessory::AccessoryFuel);
+			findByAccessoryType(AccessoryPart::AccessoryFuel);
 		result.push_back(accessory);
 	}
 
@@ -123,22 +123,22 @@ int TankAccessories::getAccessoryCount(Accessory *accessory)
 {
 	switch (accessory->getType())
 	{
-	case Accessory::AccessoryAutoDefense:
+	case AccessoryPart::AccessoryAutoDefense:
 		return (tankAuto_.haveDefense()?1:0);
 		break;
-	case Accessory::AccessoryWeapon:
-		return tankWeapon_.getWeaponCount((Weapon*) accessory);
+	case AccessoryPart::AccessoryWeapon:
+		return tankWeapon_.getWeaponCount(accessory);
 		break;
-	case Accessory::AccessoryParachute:
+	case AccessoryPart::AccessoryParachute:
 		return tankPara_.getNoParachutes();
 		break;
-	case Accessory::AccessoryShield:
-		return tankShield_.getShieldCount((Shield *) accessory);
+	case AccessoryPart::AccessoryShield:
+		return tankShield_.getShieldCount(accessory);
 		break;
-	case Accessory::AccessoryBattery:
+	case AccessoryPart::AccessoryBattery:
 		return tankBatteries_.getNoBatteries();
 		break;
-	case Accessory::AccessoryFuel:
+	case AccessoryPart::AccessoryFuel:
 		return tankFuel_.getNoFuel();
 		break;
 	}
@@ -150,22 +150,22 @@ void TankAccessories::add(Accessory *accessory)
 {
 	switch (accessory->getType())
 	{
-	case Accessory::AccessoryAutoDefense:
+	case AccessoryPart::AccessoryAutoDefense:
 		tankAuto_.addDefense();
 		break;
-	case Accessory::AccessoryWeapon:
-		tankWeapon_.addWeapon((Weapon*) accessory, accessory->getBundle());
+	case AccessoryPart::AccessoryWeapon:
+		tankWeapon_.addWeapon(accessory, accessory->getBundle());
 		break;
-	case Accessory::AccessoryParachute:
+	case AccessoryPart::AccessoryParachute:
 		tankPara_.addParachutes(accessory->getBundle());
 		break;
-	case Accessory::AccessoryShield:
-		tankShield_.addShield((Shield *) accessory, accessory->getBundle());
+	case AccessoryPart::AccessoryShield:
+		tankShield_.addShield(accessory, accessory->getBundle());
 		break;
-	case Accessory::AccessoryBattery:
+	case AccessoryPart::AccessoryBattery:
 		tankBatteries_.addBatteries(accessory->getBundle());
 		break;
-	case Accessory::AccessoryFuel:
+	case AccessoryPart::AccessoryFuel:
 		tankFuel_.addFuel(accessory->getBundle());
 		break;
 	}
@@ -175,22 +175,22 @@ void TankAccessories::rm(Accessory *accessory)
 {
 	switch (accessory->getType())
 	{
-	case Accessory::AccessoryAutoDefense:
+	case AccessoryPart::AccessoryAutoDefense:
 		tankAuto_.rmDefense();
 		break;
-	case Accessory::AccessoryWeapon:
-		tankWeapon_.rmWeapon((Weapon*) accessory, 1);
+	case AccessoryPart::AccessoryWeapon:
+		tankWeapon_.rmWeapon(accessory, 1);
 		break;
-	case Accessory::AccessoryParachute:
+	case AccessoryPart::AccessoryParachute:
 		tankPara_.useParachutes(1);
 		break;
-	case Accessory::AccessoryShield:
-		tankShield_.rmShield((Shield *) accessory, 1);
+	case AccessoryPart::AccessoryShield:
+		tankShield_.rmShield(accessory, 1);
 		break;
-	case Accessory::AccessoryBattery:
+	case AccessoryPart::AccessoryBattery:
 		tankBatteries_.rmBatteries(1);
 		break;
-	case Accessory::AccessoryFuel:
+	case AccessoryPart::AccessoryFuel:
 		tankFuel_.rmFuel(1);
 		break;
 	}

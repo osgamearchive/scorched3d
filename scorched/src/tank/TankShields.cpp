@@ -49,15 +49,18 @@ void TankShields::reset()
 		itor++)
 	{
 		Accessory *accessory = (*itor);
-		if (accessory->getType() == Accessory::AccessoryShield)
+		if (accessory->getType() == AccessoryPart::AccessoryShield)
 		{
-			if (accessory->getPurchasable())
+			if (accessory->getMaximumNumber() > 0)
 			{
-				if ((accessory->getPrice() == 0 && 
-					accessory->getBundle() == 0) ||
-					context_.optionsGame->getGiveAllWeapons())
+				if (context_.optionsGame->getGiveAllWeapons() ||
+					accessory->getStartingNumber() == -1)
+				{ 
+					addShield(accessory, -1);
+				}
+				else if (accessory->getStartingNumber() > 0)
 				{
-					addShield((Shield*) accessory, -1);
+					addShield(accessory, accessory->getStartingNumber());
 				}
 			}
 		}
@@ -69,9 +72,9 @@ void TankShields::newGame()
 	setCurrentShield(0);
 }
 
-void TankShields::setCurrentShield(Shield *sh)
+void TankShields::setCurrentShield(Accessory *sh)
 {
-	std::map<Shield*, int>::iterator itor = shields_.find(sh);
+	std::map<Accessory *, int>::iterator itor = shields_.find(sh);
 	if (itor != shields_.end())
 	{
 		power_ = 100.0f;
@@ -95,9 +98,11 @@ void TankShields::setShieldPower(float power)
 	}
 }
 
-void TankShields::addShield(Shield *sh, int count)
+void TankShields::addShield(Accessory *sh, int count)
 {
-	std::map<Shield*, int>::iterator itor = shields_.find(sh);
+	DIALOG_ASSERT(sh->getType() == AccessoryPart::AccessoryShield);
+
+	std::map<Accessory *, int>::iterator itor = shields_.find(sh);
 	if (itor == shields_.end() || count < 0)
 	{
 		shields_[sh] = count;
@@ -108,9 +113,9 @@ void TankShields::addShield(Shield *sh, int count)
 	}
 }
 
-void TankShields::rmShield(Shield *sh, int count)
+void TankShields::rmShield(Accessory *sh, int count)
 {
-	std::map<Shield*, int>::iterator itor = shields_.find(sh);
+	std::map<Accessory *, int>::iterator itor = shields_.find(sh);
 	if (itor != shields_.end())
 	{
 		if (shields_[sh] > 0)
@@ -124,9 +129,9 @@ void TankShields::rmShield(Shield *sh, int count)
 	}
 }
 
-int TankShields::getShieldCount(Shield *shield)
+int TankShields::getShieldCount(Accessory *shield)
 {
-	std::map<Shield*, int>::iterator itor = shields_.find(shield);
+	std::map<Accessory *, int>::iterator itor = shields_.find(shield);
 	if (itor != shields_.end())
 	{
 		return (*itor).second;
@@ -137,7 +142,7 @@ int TankShields::getShieldCount(Shield *shield)
 std::list<Accessory *> TankShields::getAllShields(bool sort)
 {
 	std::list<Accessory *> result;
-	std::map<Shield *, int>::iterator itor;
+	std::map<Accessory *, int>::iterator itor;
 	for (itor = shields_.begin();
 		itor != shields_.end();
 		itor++)
@@ -154,7 +159,7 @@ bool TankShields::writeMessage(NetBuffer &buffer)
 	buffer.addToBuffer(power_);
 	buffer.addToBuffer((unsigned int)(currentShield_?currentShield_->getAccessoryId():0));
 
-	std::map<Shield *, int>::iterator itor;
+	std::map<Accessory *, int>::iterator itor;
 	buffer.addToBuffer((int) shields_.size());
 	for (itor = shields_.begin();
 		itor != shields_.end();
@@ -173,10 +178,9 @@ bool TankShields::readMessage(NetBufferReader &reader)
 	if (!reader.getFromBuffer(power_)) return false;
 	if (!reader.getFromBuffer(shieldId)) return false;
 	if (shieldId == 0) currentShield_ = 0;
-	else currentShield_ = (Shield *)
-		context_.accessoryStore->findByAccessoryId(shieldId);
+	else currentShield_ = context_.accessoryStore->findByAccessoryId(shieldId);
 
-	std::set<Shield *> coveredShields;
+	std::set<Accessory *> coveredShields;
 
 	int totalShields = 0;
 	if (!reader.getFromBuffer(totalShields)) return false;
@@ -186,9 +190,10 @@ bool TankShields::readMessage(NetBufferReader &reader)
 		if (!reader.getFromBuffer(shieldId)) return false;
 		if (!reader.getFromBuffer(shieldCount)) return false;
 
-		Shield *shield = (Shield *) 
+		Accessory *shield = 
 			context_.accessoryStore->findByAccessoryId(shieldId);
 		if (!shield) return false;
+		if (shield->getType() != AccessoryPart::AccessoryShield) return false;
 		coveredShields.insert(shield);
 
 		int actualCount = getShieldCount(shield);
@@ -198,14 +203,14 @@ bool TankShields::readMessage(NetBufferReader &reader)
 		}
 	}
 
-	std::map<Shield *, int> shieldCopy = shields_;
-	std::map<Shield *, int>::iterator itor;
+	std::map<Accessory *, int> shieldCopy = shields_;
+	std::map<Accessory *, int>::iterator itor;
 	for (itor = shieldCopy.begin();
 		itor != shieldCopy.end();
 		itor++)
 	{
-		Shield *shield = (*itor).first;
-		std::set<Shield *>::iterator findItor =
+		Accessory *shield = (*itor).first;
+		std::set<Accessory *>::iterator findItor =
 			coveredShields.find(shield);
 		if (findItor == coveredShields.end())
 		{

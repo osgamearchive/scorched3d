@@ -20,26 +20,35 @@
 
 #include <GLEXT/GLBitmap.h>
 #include <GLEXT/GLTexture.h>
+#include <3dsparse/ModelID.h>
+#include <tankgraph/TankModelRenderer.h>
+#include <tankgraph/MissileMesh.h>
 #include <weapons/Accessory.h>
+#include <weapons/AccessoryStore.h>
 #include <common/Defines.h>
+#include <common/OptionsGame.h>
+#include <common/OptionsDisplay.h>
 #include <stdlib.h>
 
 unsigned int Accessory::nextAccessoryId_ = 0;
+std::map<std::string, MissileMesh *> Accessory::loadedMeshes_;
 
 Accessory::Accessory() :
+	accessoryId_(++nextAccessoryId_),
 	name_("NONAME"), description_("NODESC"), toolTip_("", ""),
-	price_(0), bundle_(0), armsLevel_(0), accessoryId_(++nextAccessoryId_),
-	primary_(false), purchasable_(true), texture_(0), store_(0)
+	price_(0), bundle_(1), armsLevel_(0),
+	texture_(0), modelScale_(1.0f),
+	deathAnimationWeight_(0), maximumNumber_(0),
+	startingNumber_(0)
 {
-
 }
 
 Accessory::~Accessory()
 {
-
 }
 
-bool Accessory::parseXML(XMLNode *accessoryNode)
+bool Accessory::parseXML(OptionsGame &context,
+	AccessoryStore *store, XMLNode *accessoryNode)
 {
 	// Get the accessory name
 	if (!accessoryNode->getNamedChild("name", name_)) return false;
@@ -63,19 +72,44 @@ bool Accessory::parseXML(XMLNode *accessoryNode)
 		if (!checkDataFile("data/wav/%s", getActivationSound())) return false;
 	}
 
+	// Get the deathWeight
+	accessoryNode->getNamedChild("deathanimationweight", deathAnimationWeight_, false);
+
 	// Get the accessory bundle
-	bundle_ = -1;
 	accessoryNode->getNamedChild("bundlesize", bundle_, false);
 
+	// Get the maximum number
+	maximumNumber_ = context.getMaxNumberWeapons();
+	accessoryNode->getNamedChild("maximumnumber", maximumNumber_, false);
+
+	// Get the starting number
+	accessoryNode->getNamedChild("startingnumber", startingNumber_, false);
+
 	// Get the accessory cost
-	price_ = -1;
 	accessoryNode->getNamedChild("cost", price_, false);
 
-	// Get the purchasable
-	XMLNode *nonpurchasable = 0;
-	accessoryNode->getNamedChild("nonpurchasable", nonpurchasable, false);
-	if (nonpurchasable) purchasable_ = false;
+	// Get the weapon model scale
+	accessoryNode->getNamedChild("modelscale", modelScale_, false);
 
+	// Get the weapon model
+	XMLNode *modelNode = 0;
+	if (accessoryNode->getNamedChild("model", modelNode, false))
+	{
+		if (!modelId_.initFromNode("data/accessories", modelNode)) return false;
+	}
+
+	// Get action
+	XMLNode *subNode = 0;
+	if (!accessoryNode->getNamedChild("accessoryaction", subNode)) return false;
+	action_ = store->createAccessoryPart(context, this, subNode);
+	if (!action_)
+	{
+		dialogMessage("Accessory",
+			"Failed to create action \"%s\"", name_.c_str());
+		return false;
+	}
+
+	// Setup price
 	sellPrice_ = 0;
 	if (price_ > 0 && bundle_ > 0) sellPrice_ = int((price_ / bundle_) * 0.8f);
 	originalPrice_ = price_;
@@ -84,121 +118,10 @@ bool Accessory::parseXML(XMLNode *accessoryNode)
 	return true;
 }
 
-bool Accessory::writeAccessory(NetBuffer &buffer)
-{
-	buffer.addToBuffer(name_);
-	buffer.addToBuffer(description_);
-	buffer.addToBuffer(iconName_);
-	buffer.addToBuffer(activationSound_);
-	buffer.addToBuffer(price_);
-	buffer.addToBuffer(originalPrice_);
-	buffer.addToBuffer(bundle_);
-	buffer.addToBuffer(armsLevel_);
-	buffer.addToBuffer(sellPrice_);
-	buffer.addToBuffer(originalSellPrice_);
-	buffer.addToBuffer(accessoryId_);
-	buffer.addToBuffer(primary_);
-	buffer.addToBuffer(purchasable_);
-	return true;
-}
-
-bool Accessory::readAccessory(NetBufferReader &reader)
-{
-	if (!reader.getFromBuffer(name_)) return false;
-	if (!reader.getFromBuffer(description_)) return false;
-	if (!reader.getFromBuffer(iconName_)) return false;
-	if (!reader.getFromBuffer(activationSound_)) return false;
-	if (!reader.getFromBuffer(price_)) return false;
-	if (!reader.getFromBuffer(originalPrice_)) return false;
-	if (!reader.getFromBuffer(bundle_)) return false;
-	if (!reader.getFromBuffer(armsLevel_)) return false;
-	if (!reader.getFromBuffer(sellPrice_)) return false;
-	if (!reader.getFromBuffer(originalSellPrice_)) return false;
-	if (!reader.getFromBuffer(accessoryId_)) return false;
-	if (!reader.getFromBuffer(primary_)) return false;
-	if (!reader.getFromBuffer(purchasable_)) return false;
-	toolTip_.setText(getName(), getDescription());
-	return true;
-}
-
 const char *Accessory::getActivationSound()
 {
 	if (!activationSound_.c_str()[0]) return 0;
 	return activationSound_.c_str();
-}
-
-const char *Accessory::getName()
-{ 
-	return name_.c_str(); 
-}
-
-const char *Accessory::getDescription()
-{
-	return description_.c_str();
-}
-
-const int Accessory::getPrice() 
-{ 
-	return price_; 
-}
-
-const int Accessory::getSellPrice() 
-{ 
-	return sellPrice_; 
-}
-
-const int Accessory::getOriginalSellPrice()
-{
-	return originalSellPrice_;
-}
-
-const int Accessory::getOriginalPrice()
-{
-	return originalPrice_;
-}
-
-const int Accessory::getBundle() 
-{ 
-	return bundle_; 
-}
-
-const int Accessory::getArmsLevel() 
-{ 
-	return armsLevel_; 
-}
-
-bool Accessory::singular()
-{
-	return false;
-}
-
-GLWTip &Accessory::getToolTip()
-{ 
-	return toolTip_; 
-}
-
-std::map<std::string, Accessory *> *AccessoryMetaRegistration::accessoryMap = 0;
-
-void AccessoryMetaRegistration::addMap(const char *name, Accessory *accessory)
-{
-	if (!accessoryMap) accessoryMap = new std::map<std::string, Accessory *>;
-
-	std::map<std::string, Accessory *>::iterator itor = 
-		accessoryMap->find(name);
-	DIALOG_ASSERT(itor == accessoryMap->end());
-
-	(*accessoryMap)[name] = accessory;
-}
-
-Accessory *AccessoryMetaRegistration::getNewAccessory(const char *name, AccessoryStore *store)
-{
-	std::map<std::string, Accessory *>::iterator itor = 
-		accessoryMap->find(name);
-	if (itor == accessoryMap->end()) return 0;
-
-	Accessory *newAccessory = (*itor).second->getAccessoryCopy();
-	newAccessory->setAccessoryStore(store);
-	return newAccessory;
 }
 
 GLTexture *Accessory::getTexture()
@@ -214,4 +137,64 @@ GLTexture *Accessory::getTexture()
 	}
 	texture_ = texture;
 	return texture;
+}
+
+MissileMesh *Accessory::getWeaponMesh(ModelID &id, Tank *currentPlayer)
+{
+	// Set the default model to use if neither the tank
+	// or weapon have one
+	static ModelID defaultModelId;
+	if (!defaultModelId.modelValid())
+	{
+		defaultModelId.initFromString(
+			"MilkShape",
+			"data/accessories/v2missile/v2missile.txt",
+			"");
+	}
+
+	// Set the model to use as the default model id
+	ModelID *usedModelId = &defaultModelId;
+
+	// Get the model to use from the weapon (if there is one)
+	if (id.modelValid())
+	{
+		usedModelId = &id;
+	}
+	else
+	{
+		// The weapon does not have a model defined for it
+		// check the player to see if they have a default model
+		if (currentPlayer)
+		{
+			TankModelRenderer *model = (TankModelRenderer *) 
+					currentPlayer->getModel().getModelIdRenderer();
+			if (model && 
+				model->getModel()->getProjectileModelID().modelValid())
+			{
+				usedModelId = &model->getModel()->getProjectileModelID();
+			}
+		}
+	}
+
+	// Load or find the correct missile mesh
+	MissileMesh *mesh = 0;
+	const char *name = usedModelId->getStringHash();
+	std::map<std::string, MissileMesh *>::iterator itor =
+		loadedMeshes_.find(name);
+	if (itor == loadedMeshes_.end())
+	{
+		usedModelId->clearCachedFile();
+		ModelsFile *newFile = usedModelId->getModelsFile();
+		if (!newFile) return 0;
+
+		mesh = new MissileMesh(*newFile, 
+			!OptionsDisplay::instance()->getNoSkins(), 1.0f);
+		loadedMeshes_[name] = mesh;
+	}
+	else
+	{
+		// Find
+		mesh = (*itor).second;
+	}
+	return mesh;
 }

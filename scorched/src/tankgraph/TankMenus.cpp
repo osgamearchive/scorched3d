@@ -262,25 +262,24 @@ void TankMenus::AccessoryMenu::menuSelection(const char* menuName,
 
 			switch (accessory->getType())
 			{
-			case Accessory::AccessoryParachute:
+			case AccessoryPart::AccessoryParachute:
 				tankAI->parachutesUpDown(
 					!firstTank->getAccessories().getParachutes().parachutesEnabled());
 				break;
-			case Accessory::AccessoryShield:
+			case AccessoryPart::AccessoryShield:
 				// TODO No way of putting the shield off!
 				tankAI->shieldsUpDown(accessory->getAccessoryId());
 				break;
-			case Accessory::AccessoryWeapon:
-				firstTank->getAccessories().getWeapons().setWeapon(
-					(Weapon *) accessory);
+			case AccessoryPart::AccessoryWeapon:
+				firstTank->getAccessories().getWeapons().setWeapon(accessory);
 				break;
-			case Accessory::AccessoryBattery:
+			case AccessoryPart::AccessoryBattery:
 				if (firstTank->getState().getLife() < 100.0f)
 				{
 					tankAI->useBattery();
 				}
 				break;
-			case Accessory::AccessoryFuel:
+			case AccessoryPart::AccessoryFuel:
 				if (Landscape::instance()->getTextureType() == Landscape::eMovement)
 				{
 					Landscape::instance()->restoreLandscapeTexture();
@@ -293,7 +292,7 @@ void TankMenus::AccessoryMenu::menuSelection(const char* menuName,
 				}
 				break;
 			default:
-			case Accessory::AccessoryAutoDefense:
+			case AccessoryPart::AccessoryAutoDefense:
 				break;
 			}
 		}
@@ -307,7 +306,7 @@ void TankMenus::AccessoryMenu::getMenuItems(const char* menuName,
 	Tank *firstTank = ScorchedClient::instance()->getTankContainer().getCurrentTank();
 	if (!firstTank) return;
 
-	Accessory::AccessoryType lastType = Accessory::AccessoryWeapon;
+	AccessoryPart::AccessoryType lastType = AccessoryPart::AccessoryWeapon;
 	std::list<Accessory *> tankAccessories = 
 		firstTank->getAccessories().getAllAccessories();
 	std::list<Accessory *>::iterator itor;
@@ -322,23 +321,23 @@ void TankMenus::AccessoryMenu::getMenuItems(const char* menuName,
 		bool sel = false;
 		switch (accessory->getType())
 		{
-		case Accessory::AccessoryParachute:
+		case AccessoryPart::AccessoryParachute:
 			sel = firstTank->getAccessories().getParachutes().parachutesEnabled();
 			break;
-		case Accessory::AccessoryShield:
+		case AccessoryPart::AccessoryShield:
 			sel = (firstTank->getAccessories().getShields().getCurrentShield() == accessory);
 			break;
-		case Accessory::AccessoryWeapon:
+		case AccessoryPart::AccessoryWeapon:
 			sel = (firstTank->getAccessories().getWeapons().getCurrent() == accessory);
 			break;
-		case Accessory::AccessoryFuel:
+		case AccessoryPart::AccessoryFuel:
 			sel = (Landscape::instance()->getTextureType() == Landscape::eMovement);
 			break;
-		case Accessory::AccessoryAutoDefense:
+		case AccessoryPart::AccessoryAutoDefense:
 			sel = true;
 			break;
 		default:
-		case Accessory::AccessoryBattery:
+		case AccessoryPart::AccessoryBattery:
 			sel = false;
 			break;
 		}
@@ -362,7 +361,12 @@ void TankMenus::AccessoryMenu::getMenuItems(const char* menuName,
 				accessory->getName());
 		}
 		menuItems_.push_back(accessory);
-		result.push_back(GLMenuItem(buffer, &accessory->getToolTip(), sel));
+		result.push_back(
+			GLMenuItem(
+				buffer, 
+				&accessory->getToolTip(), 
+				sel,
+				accessory->getTexture()));
 	}
 }
 

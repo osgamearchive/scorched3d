@@ -135,22 +135,22 @@ void TankAILogic::processFiredMessage(ScorchedContext &context,
 		Accessory *accessory = 
 			context.accessoryStore->findByAccessoryId(
 			message.getWeaponId());
-		if (accessory && accessory->getType() == Accessory::AccessoryWeapon)
+		if (accessory && accessory->getType() == AccessoryPart::AccessoryWeapon)
 		{
 			// Check this tank has these weapons
-			Weapon *weapon = (Weapon *) accessory;
 			int count = 
-				tank->getAccessories().getWeapons().getWeaponCount(weapon);
+				tank->getAccessories().getWeapons().getWeaponCount(accessory);
 			if (count > 0 || count == -1)
 			{
-				if ((10 - weapon->getArmsLevel()) <=
+				if ((10 - accessory->getArmsLevel()) <=
 					context.optionsTransient->getArmsLevel() ||
 					context.optionsGame->getGiveAllWeapons())
 				{
 					// Actually use up one of the weapons
-					tank->getAccessories().getWeapons().rmWeapon(weapon, 1);
+					tank->getAccessories().getWeapons().rmWeapon(accessory, 1);
 
 					// shot fired action
+					Weapon *weapon = (Weapon *) accessory->getAction();
 					TankFired *fired = new TankFired(tank->getPlayerId(), 
 						weapon,
 						message.getRotationXY(), message.getRotationYZ());
@@ -202,7 +202,7 @@ bool TankAILogic::processDefenseMessage(ScorchedContext &context,
 			{
 				Accessory *battery = 
 					context.accessoryStore->
-						findByAccessoryType(Accessory::AccessoryBattery);
+						findByAccessoryType(AccessoryPart::AccessoryBattery);
 				if (battery)
 				{
 					SoundBuffer *batSound = 
@@ -222,10 +222,9 @@ bool TankAILogic::processDefenseMessage(ScorchedContext &context,
 			Accessory *accessory = 
 				context.accessoryStore->
 					findByAccessoryId(message.getInfoId());
-			if (accessory->getType() == Accessory::AccessoryShield)
+			if (accessory->getType() == AccessoryPart::AccessoryShield)
 			{
-				Shield *shield = (Shield *) accessory;
-				if (tank->getAccessories().getShields().getShieldCount(shield) != 0)
+				if (tank->getAccessories().getShields().getShieldCount(accessory) != 0)
 				{
 					if (!context.serverMode) 
 					{
@@ -235,7 +234,7 @@ bool TankAILogic::processDefenseMessage(ScorchedContext &context,
 						activateSound->play();
 					}
 
-					tank->getAccessories().getShields().setCurrentShield(shield);
+					tank->getAccessories().getShields().setCurrentShield(accessory);
 				}
 				else return false;
 			}
@@ -244,7 +243,7 @@ bool TankAILogic::processDefenseMessage(ScorchedContext &context,
 		break;
 	case ComsDefenseMessage::eShieldDown:
 		{
-			Shield *shield =
+			Accessory *shield =
 				tank->getAccessories().getShields().getCurrentShield();
 			if (shield)
 			{
@@ -258,7 +257,7 @@ bool TankAILogic::processDefenseMessage(ScorchedContext &context,
 		{
 			Accessory *parachute = 
 				context.accessoryStore->
-					findByAccessoryType(Accessory::AccessoryParachute);
+					findByAccessoryType(AccessoryPart::AccessoryParachute);
 			if (parachute)
 			{
 				SoundBuffer *paraSound = 

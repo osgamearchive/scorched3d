@@ -38,9 +38,10 @@ WeaponRoller::~WeaponRoller()
 
 }
 
-bool WeaponRoller::parseXML(XMLNode *accessoryNode)
+bool WeaponRoller::parseXML(OptionsGame &context, 
+	AccessoryStore *store, XMLNode *accessoryNode)
 {
-	if (!Weapon::parseXML(accessoryNode)) return false;
+	if (!Weapon::parseXML(context, store, accessoryNode)) return false;
 
 	if (!accessoryNode->getNamedChild("numberrollers", numberRollers_)) return false;
 
@@ -49,12 +50,12 @@ bool WeaponRoller::parseXML(XMLNode *accessoryNode)
 	XMLNode *subNode = 0;
 	if (!accessoryNode->getNamedChild("collisionaction", subNode)) return false;
 
-	Accessory *accessory = store_->createAccessory(subNode);
-	if (!accessory || accessory->getType() != Accessory::AccessoryWeapon)
+	AccessoryPart *accessory = store->createAccessoryPart(context, parent_, subNode);
+	if (!accessory || accessory->getType() != AccessoryPart::AccessoryWeapon)
 	{
 		dialogMessage("Accessory",
 			"Sub weapon of wrong type \"%s\"",
-			name_.c_str());
+			accessory->getAccessoryTypeName());
 		return false;
 	}
 	collisionAction_ = (Weapon*) accessory;
@@ -64,26 +65,6 @@ bool WeaponRoller::parseXML(XMLNode *accessoryNode)
 	if (!accessoryNode->getNamedChild("rollermodel", modelNode)) return false;
 	if (!rollerModelId_.initFromNode("data/accessories", modelNode)) return false;
 
-	return true;
-}
-
-bool WeaponRoller::writeAccessory(NetBuffer &buffer)
-{
-	if (!Weapon::writeAccessory(buffer)) return false;
-	if (!store_->writeWeapon(buffer, collisionAction_)) return false;
-	buffer.addToBuffer(numberRollers_);
-	buffer.addToBuffer(time_);
-	if (!rollerModelId_.writeModelID(buffer)) return false;
-	return true;
-}
-
-bool WeaponRoller::readAccessory(NetBufferReader &reader)
-{
-	if (!Weapon::readAccessory(reader)) return false;
-	collisionAction_ = store_->readWeapon(reader); if (!collisionAction_) return false;
-	if (!reader.getFromBuffer(numberRollers_)) return false;
-	if (!reader.getFromBuffer(time_)) return false;
-	if (!rollerModelId_.readModelID(reader)) return false;
 	return true;
 }
 

@@ -22,6 +22,8 @@
 #include <common/SoundStore.h>
 #include <common/OptionsParam.h>
 #include <engine/ScorchedContext.h>
+#include <weapons/Accessory.h>
+#include <weapons/Shield.h>
 #include <tank/TankContainer.h>
 #include <tankgraph/TankModelRenderer.h>
 
@@ -58,10 +60,11 @@ void ShieldHit::simulate(float frameTime, bool &remove)
 			context_->tankContainer->getTankById(playerId_);
 		if (tank)
 		{
-			Shield *shield = 
+			Accessory *accessory = 
 				tank->getAccessories().getShields().getCurrentShield();
-			if (shield)
+			if (accessory)
 			{
+				Shield *shield = (Shield *) accessory->getAction();
 				if (!context_->serverMode) 
 				{
 					SoundBuffer *shieldSound = 

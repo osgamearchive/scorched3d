@@ -22,71 +22,63 @@
 #define AFX_ACCESSORY_H__21765D5B_DB45_4275_AB63_BAD1E84C1790__INCLUDED_
 
 #include <XML/XMLFile.h>
-#include <coms/NetBuffer.h>
 #include <GLW/GLWToolTip.h>
+#include <3dsparse/ModelID.h>
+#include <weapons/AccessoryPart.h>
 #include <string>
+#include <map>
 
-#define REGISTER_ACCESSORY_HEADER(x, y) \
-	virtual const char *getAccessoryTypeName() { return #x ; } \
-	virtual AccessoryType getType() { return y ; } \
-	virtual Accessory *getAccessoryCopy() { return new x ; }
-
-#define REGISTER_ACCESSORY_SOURCE(x) \
-	struct META_##x { META_##x() { AccessoryMetaRegistration::addMap(#x , new x ); } }; \
-	static META_##x META_IMPL_##x ;
-
+class Tank;
+class MissileMesh;
 class GLTexture;
 class AccessoryStore;
+class OptionsGame;
 class Accessory  
 {
 public:
-	enum AccessoryType
-	{
-		AccessoryWeapon,
-		AccessoryParachute,
-		AccessoryShield,
-		AccessoryAutoDefense,
-		AccessoryBattery,
-		AccessoryFuel
-	};
-
 	Accessory();
 	virtual ~Accessory();
 
-	virtual bool parseXML(XMLNode *accessoryNode);
-	virtual bool writeAccessory(NetBuffer &buffer);
-	virtual bool readAccessory(NetBufferReader &reader);
+	bool parseXML(OptionsGame &context,
+		AccessoryStore *store, XMLNode *accessoryNode);
 
-	virtual const char *getActivationSound();
-	virtual const char *getName();
-	virtual const char *getDescription();
-	virtual const int getPrice();
-	virtual const int getSellPrice();
-	virtual const int getOriginalPrice();
-	virtual const int getOriginalSellPrice();
-	virtual const int getBundle();
-	virtual const int getArmsLevel();
-	GLWTip &getToolTip();
+	const char *getActivationSound();
+	const char *getName() { return name_.c_str(); }
+	const char *getDescription() { return description_.c_str(); }
+	const int getPrice() { return price_; }
+	const int getSellPrice() { return sellPrice_; }
+	const int getOriginalSellPrice() { return originalSellPrice_; }
+	const int getOriginalPrice() { return originalPrice_; }
+	const int getBundle() { return bundle_; }
+	const int getArmsLevel() { return armsLevel_; }
+	const int getDeathAnimationWeight() { return deathAnimationWeight_; }
+	const int getMaximumNumber() { return maximumNumber_; }
+	const int getStartingNumber() { return startingNumber_; }
+	GLWTip &getToolTip() { return toolTip_; }
 	const char *getIconName() { return iconName_.c_str(); }
+	AccessoryPart *getAction() { return action_; }
+	float getModelScale() { return modelScale_; }
+	ModelID &getModel() { return modelId_; }
 
+	AccessoryPart::AccessoryType getType() { return action_->getType(); }
 	GLTexture *getTexture();
-	unsigned int getAccessoryId() { return accessoryId_; }
-	virtual void setPrice(int p) { if (p>0) price_ = p; }
-	virtual void setSellPrice(int p) { if (p>0) sellPrice_ = p; }
-	virtual bool getPrimary() { return primary_; }
-	virtual void setPrimary(bool p) { primary_ = p; }
-	virtual bool getPurchasable() { return purchasable_; }
-	virtual bool singular();
-	void setAccessoryStore(AccessoryStore *s) { store_ = s; }
 
-	virtual AccessoryType getType() = 0;
-	virtual const char *getAccessoryTypeName() = 0;
-	virtual Accessory *getAccessoryCopy() = 0;
+	void setPrice(int p) { if (p>0) price_ = p; }
+	void setSellPrice(int p) { if (p>0) sellPrice_ = p; }
+
+	static void resetAccessoryIds() { nextAccessoryId_ = 0; }
+	unsigned int getAccessoryId() { return accessoryId_; }
+
+	static MissileMesh *getWeaponMesh(ModelID &id, Tank *currentPlayer);
 
 protected:
+	static std::map<std::string, MissileMesh *> loadedMeshes_;
 	static unsigned int nextAccessoryId_;
+	unsigned int accessoryId_;
+	AccessoryPart *action_;
 	GLWTip toolTip_;
 	GLTexture *texture_;
+	ModelID modelId_;
 	std::string iconName_;
 	std::string name_;
 	std::string description_;
@@ -97,20 +89,10 @@ protected:
 	int armsLevel_;
 	int sellPrice_;
 	int originalSellPrice_;
-	bool primary_;
-	bool purchasable_;
-	unsigned int accessoryId_;
-	AccessoryStore *store_;
-};
-
-class AccessoryMetaRegistration
-{
-public:
-	static void addMap(const char *name, Accessory *action);
-	static Accessory *getNewAccessory(const char *name, AccessoryStore *store);
-
-private:
-	static std::map<std::string, Accessory *> *accessoryMap;
+	int deathAnimationWeight_;
+	int maximumNumber_;
+	int startingNumber_;
+	float modelScale_;
 };
 
 #endif // !defined(AFX_ACCESSORY_H__21765D5B_DB45_4275_AB63_BAD1E84C1790__INCLUDED_)

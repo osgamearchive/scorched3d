@@ -22,6 +22,7 @@
 #include <client/ClientNewGameHandler.h>
 #include <client/ClientState.h>
 #include <client/MainBanner.h>
+#include <weapons/AccessoryStore.h>
 #include <GLW/GLWWindowManager.h>
 #include <server/ScorchedServer.h>
 #include <common/OptionsParam.h>
@@ -74,6 +75,8 @@ bool ClientNewGameHandler::processMessage(unsigned int id,
 		if (!initialize()) dialogExit("Scorched3D", 
 			"Failed to initialize");
 	}
+	if (!ScorchedClient::instance()->getAccessoryStore().
+		readEconomyFromBuffer(reader)) return false;
 
 	// A small hack
 	// When playing a single player game and the player(s) have
@@ -135,6 +138,10 @@ bool ClientNewGameHandler::initialize()
 	// Clear any memory used by stored mod files as they will not be required now
 	ScorchedClient::instance()->getModFiles().clearData();
 	ScorchedServer::instance()->getModFiles().clearData();
+
+	// Load the accessory files
+	if (!ScorchedClient::instance()->getAccessoryStore().parseFile(
+		ScorchedClient::instance()->getOptionsGame())) return false;
 
 	// Load tank models here
 	// This is after mods are complete but before any tanks models are used

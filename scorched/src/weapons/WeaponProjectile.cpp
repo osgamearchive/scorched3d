@@ -38,9 +38,10 @@ WeaponProjectile::~WeaponProjectile()
 
 }
 
-bool WeaponProjectile::parseXML(XMLNode *accessoryNode)
+bool WeaponProjectile::parseXML(OptionsGame &context, 
+	AccessoryStore *store, XMLNode *accessoryNode)
 {
-	if (!Weapon::parseXML(accessoryNode)) return false;
+	if (!Weapon::parseXML(context, store, accessoryNode)) return false;
 
 	// Get the accessory under
 	XMLNode *underNode = 0;
@@ -80,44 +81,16 @@ bool WeaponProjectile::parseXML(XMLNode *accessoryNode)
 	if (!accessoryNode->getNamedChild("collisionaction", subNode)) return false;
 
 	// Check next weapon is correct type
-	Accessory *accessory = store_->createAccessory(subNode);
-	if (!accessory || accessory->getType() != Accessory::AccessoryWeapon)
+	AccessoryPart *accessory = store->createAccessoryPart(context, parent_, subNode);
+	if (!accessory || accessory->getType() != AccessoryPart::AccessoryWeapon)
 	{
 		dialogMessage("Accessory",
 			"Sub weapon of wrong type \"%s\"",
-			name_.c_str());
+			accessory->getAccessoryTypeName());
 		return false;
 	}
 	collisionAction_ = (Weapon*) accessory;
 
-	return true;
-}
-
-bool WeaponProjectile::writeAccessory(NetBuffer &buffer)
-{
-	if (!Weapon::writeAccessory(buffer)) return false;
-	if (!store_->writeWeapon(buffer, collisionAction_)) return false;
-	buffer.addToBuffer(showShotPath_);
-	buffer.addToBuffer(showEndPoint_);
-	buffer.addToBuffer(apexCollision_);
-	buffer.addToBuffer(under_);
-	buffer.addToBuffer(createSmoke_);
-	buffer.addToBuffer(createFlame_);
-	buffer.addToBuffer(spinSpeed_);
-	return true;
-}
-
-bool WeaponProjectile::readAccessory(NetBufferReader &reader)
-{
-	if (!Weapon::readAccessory(reader)) return false;
-	collisionAction_ = store_->readWeapon(reader); if (!collisionAction_) return false;
-	if (!reader.getFromBuffer(showShotPath_)) return false;
-	if (!reader.getFromBuffer(showEndPoint_)) return false;
-	if (!reader.getFromBuffer(apexCollision_)) return false;
-	if (!reader.getFromBuffer(under_)) return false;
-	if (!reader.getFromBuffer(createSmoke_)) return false;
-	if (!reader.getFromBuffer(createFlame_)) return false;
-	if (!reader.getFromBuffer(spinSpeed_)) return false;
 	return true;
 }
 

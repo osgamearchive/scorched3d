@@ -43,6 +43,7 @@ public:
 
 protected:
 	int fuelCount_;
+	bool infinite_;
 	ScorchedContext &context_;
 };
 

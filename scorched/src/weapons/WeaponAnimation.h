@@ -29,19 +29,14 @@ public:
 	WeaponAnimation();
 	virtual ~WeaponAnimation();
 
-	// This weapon can never be bought
-	virtual bool getPrimary() { return false; } 
-	virtual void setPrimary(bool p) { }
-
-	virtual bool parseXML(XMLNode *accessoryNode);
-	virtual bool writeAccessory(NetBuffer &buffer);
-	virtual bool readAccessory(NetBufferReader &reader);
+	virtual bool parseXML(OptionsGame &context, 
+		AccessoryStore *store, XMLNode *accessoryNode);
 
 	// Inherited from Weapon
 	virtual void fireWeapon(ScorchedContext &context,
 		unsigned int playerId, Vector &position, Vector &velocity, unsigned int data);
 
-	REGISTER_ACCESSORY_HEADER(WeaponAnimation, Accessory::AccessoryWeapon);
+	REGISTER_ACCESSORY_HEADER(WeaponAnimation, AccessoryPart::AccessoryWeapon);
 
 protected:
 	std::string rendererName_;

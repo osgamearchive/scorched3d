@@ -36,43 +36,28 @@ WeaponDelay::~WeaponDelay()
 
 }
 
-bool WeaponDelay::parseXML(XMLNode *accessoryNode)
+bool WeaponDelay::parseXML(OptionsGame &context, 
+	AccessoryStore *store, XMLNode *accessoryNode)
 {
-	if (!Weapon::parseXML(accessoryNode)) return false;
+	if (!Weapon::parseXML(context, store, accessoryNode)) return false;
 
 	// Get the next weapon
 	XMLNode *subNode = 0;
 	if (!accessoryNode->getNamedChild("delayedweapon", subNode)) return false;
 
 	// Check next weapon is correct type
-	Accessory *accessory = store_->createAccessory(subNode);
-	if (!accessory || accessory->getType() != Accessory::AccessoryWeapon)
+	AccessoryPart *accessory = store->createAccessoryPart(context, parent_, subNode);
+	if (!accessory || accessory->getType() != AccessoryPart::AccessoryWeapon)
 	{
 		dialogMessage("Accessory",
 			"Sub weapon of wrong type \"%s\"",
-			name_.c_str());
+			accessory->getAccessoryTypeName());
 		return false;
 	}
 	delayedWeapon_ = (Weapon*) accessory;
 
 	if (!accessoryNode->getNamedChild("delay", delay_)) return false;
 
-	return true;
-}
-
-bool WeaponDelay::writeAccessory(NetBuffer &buffer)
-{
-	if (!Weapon::writeAccessory(buffer)) return false;
-	if (!store_->writeWeapon(buffer, delayedWeapon_)) return false;
-	buffer.addToBuffer(delay_);
-	return true;
-}
-
-bool WeaponDelay::readAccessory(NetBufferReader &reader)
-{
-	if (!Weapon::readAccessory(reader)) return false;
-	delayedWeapon_ = store_->readWeapon(reader); if (!delayedWeapon_) return false;
-	if (!reader.getFromBuffer(delay_)) return false;
 	return true;
 }
 

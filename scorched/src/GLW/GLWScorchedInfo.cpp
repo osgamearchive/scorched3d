@@ -115,7 +115,7 @@ void GLWScorchedInfo::draw()
 		current->getModel().getModelIdRenderer();
 	if (!model) return;
 
-	Weapon *weapon = current->getAccessories().getWeapons().getCurrent();
+	Accessory *weapon = current->getAccessories().getWeapons().getCurrent();
 	if (!weapon) return;
 
 	// Items relating to the current player

@@ -30,18 +30,23 @@
 #include <string>
 #include <GLW/GLWToolTip.h>
 
+class GLTexture;
 class GLMenuItem
 {
 public:
-	GLMenuItem(const char *text, GLWTip *tooltip = 0, bool selected = false);
+	GLMenuItem(const char *text, 
+		GLWTip *tooltip = 0, bool selected = false, 
+		GLTexture *texture = 0);
 
 	const char *getText() { return menuText_.c_str(); }
 	GLWTip *getToolTip() { return tip_; }
+	GLTexture *getTexture() { return texture_; }
 	bool getSelected() { return selected_; }
 
 protected:
 	std::string menuText_;
 	GLWTip *tip_;
+	GLTexture *texture_;
 	bool selected_;
 };
 

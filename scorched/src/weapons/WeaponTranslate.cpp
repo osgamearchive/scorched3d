@@ -35,9 +35,10 @@ WeaponTranslate::~WeaponTranslate()
 
 }
 
-bool WeaponTranslate::parseXML(XMLNode *accessoryNode)
+bool WeaponTranslate::parseXML(OptionsGame &context, 
+	AccessoryStore *store, XMLNode *accessoryNode)
 {
-	if (!Weapon::parseXML(accessoryNode)) return false;
+	if (!Weapon::parseXML(context, store, accessoryNode)) return false;
 
 	if (!accessoryNode->getNamedChild("translatedist", translateDist_)) return false;
 
@@ -45,32 +46,16 @@ bool WeaponTranslate::parseXML(XMLNode *accessoryNode)
 	if (!accessoryNode->getNamedChild("nextaction", subNode)) return false;
 	
 	// Check next weapon is correct type
-	Accessory *accessory = store_->createAccessory(subNode);
-	if (!accessory || accessory->getType() != Accessory::AccessoryWeapon)
+	AccessoryPart *accessory = store->createAccessoryPart(context, parent_, subNode);
+	if (!accessory || accessory->getType() != AccessoryPart::AccessoryWeapon)
 	{
 		dialogMessage("Accessory",
 			"Sub weapon of wrong type \"%s\"",
-			name_.c_str());
+			accessory->getAccessoryTypeName());
 		return false;
 	}
 	nextAction_ = (Weapon*) accessory;
 
-	return true;
-}
-
-bool WeaponTranslate::writeAccessory(NetBuffer &buffer)
-{
-	if (!Weapon::writeAccessory(buffer)) return false;
-	if (!store_->writeWeapon(buffer, nextAction_)) return false;
-	buffer.addToBuffer(translateDist_);
-	return true;
-}
-
-bool WeaponTranslate::readAccessory(NetBufferReader &reader)
-{
-	if (!Weapon::readAccessory(reader)) return false;
-	nextAction_ = store_->readWeapon(reader); if (!nextAction_) return false;
-	if (!reader.getFromBuffer(translateDist_)) return false;
 	return true;
 }
 

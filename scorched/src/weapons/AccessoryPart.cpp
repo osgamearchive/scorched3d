@@ -18,24 +18,41 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+#include <weapons/AccessoryPart.h>
+#include <stdlib.h>
 
-#if !defined(__INCLUDE_ShieldReflectiveh_INCLUDE__)
-#define __INCLUDE_ShieldReflectiveh_INCLUDE__
-#include <weapons/Shield.h>
+unsigned int AccessoryPart::nextAccessoryPartId_ = 100000;
 
-class ShieldReflective : public Shield
+AccessoryPart::AccessoryPart() :
+	accessoryPartId_(++nextAccessoryPartId_),
+	parent_(0)
 {
-public:
-	ShieldReflective();
-	virtual ~ShieldReflective();
+}
 
-	virtual bool parseXML(OptionsGame &context, 
-		AccessoryStore *store, XMLNode *accessoryNode);
-	virtual ShieldType getShieldType();
+AccessoryPart::~AccessoryPart()
+{
 
-	REGISTER_ACCESSORY_HEADER(ShieldReflective, AccessoryPart::AccessoryShield);
+}
 
-protected:
-};
+std::map<std::string, AccessoryPart *> *AccessoryMetaRegistration::accessoryMap = 0;
 
-#endif
+void AccessoryMetaRegistration::addMap(const char *name, AccessoryPart *accessory)
+{
+	if (!accessoryMap) accessoryMap = new std::map<std::string, AccessoryPart *>;
+
+	std::map<std::string, AccessoryPart *>::iterator itor = 
+		accessoryMap->find(name);
+	DIALOG_ASSERT(itor == accessoryMap->end());
+
+	(*accessoryMap)[name] = accessory;
+}
+
+AccessoryPart *AccessoryMetaRegistration::getNewAccessory(const char *name, AccessoryStore *store)
+{
+	std::map<std::string, AccessoryPart *>::iterator itor = 
+		accessoryMap->find(name);
+	if (itor == accessoryMap->end()) return 0;
+
+	AccessoryPart *newAccessory = (*itor).second->getAccessoryCopy();
+	return newAccessory;
+}

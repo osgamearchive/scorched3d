@@ -67,7 +67,7 @@ void TankDead::simulate(float frameTime, bool &remove)
 		{
 			Accessory *accessory = 
 				context_->accessoryStore->
-				findByPrimaryAccessoryName(weapon_->getName());
+				findByAccessoryId(weapon_->getParent()->getAccessoryId());
 			if (accessory)
 			{
 				weaponTexture = accessory->getTexture();
@@ -97,7 +97,7 @@ void TankDead::simulate(float frameTime, bool &remove)
 							LoggerInfo(0, weaponTexture),
 							"\"%s\" killed self with a \"%s\"",
 							killedTank->getName(),
-							weapon_->getName());
+							weapon_->getParent()->getName());
 					}
 					else if ((context_->optionsGame->getTeams() > 1) &&
 							(firedTank->getTeam() == killedTank->getTeam())) 
@@ -111,7 +111,7 @@ void TankDead::simulate(float frameTime, bool &remove)
 							"\"%s\" team killed \"%s\" with a \"%s\"",
 							firedTank->getName(),
 							killedTank->getName(),
-							weapon_->getName());
+							weapon_->getParent()->getName());
 					}
 					else
 					{
@@ -124,7 +124,7 @@ void TankDead::simulate(float frameTime, bool &remove)
 							"\"%s\" killed \"%s\" with a \"%s\"",
 							firedTank->getName(),
 							killedTank->getName(),
-							weapon_->getName());
+							weapon_->getParent()->getName());
 					}
 				}
 			}
@@ -145,7 +145,7 @@ void TankDead::simulate(float frameTime, bool &remove)
 						"\"%s\" killed \"%s\" with a \"%s\"",
 						firedTank.getName(),
 						killedTank->getName(),
-						weapon_->getName());
+						weapon_->getParent()->getName());
 				}
 			}
 

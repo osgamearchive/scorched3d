@@ -25,6 +25,7 @@
 #include <engine/ScorchedCollisionIds.h>
 #include <common/Vector.h>
 #include <tank/Tank.h>
+#include <weapons/Shield.h>
 
 class PhysicsParticleMeta;
 class ScorchedCollisionHandler : public PhysicsEngineCollision

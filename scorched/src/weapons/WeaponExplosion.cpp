@@ -19,6 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <weapons/WeaponExplosion.h>
+#include <weapons/Accessory.h>
 #include <engine/ActionController.h>
 
 REGISTER_ACCESSORY_SOURCE(WeaponExplosion);
@@ -40,9 +41,10 @@ WeaponExplosion::~WeaponExplosion()
 
 }
 
-bool WeaponExplosion::parseXML(XMLNode *accessoryNode)
+bool WeaponExplosion::parseXML(OptionsGame &context, 
+	AccessoryStore *store, XMLNode *accessoryNode)
 {
-	if (!Weapon::parseXML(accessoryNode)) return false;
+	if (!Weapon::parseXML(context, store, accessoryNode)) return false;
 
     // Get the accessory size
     if (!accessoryNode->getNamedChild("size", size_)) return false;
@@ -117,55 +119,11 @@ bool WeaponExplosion::parseXML(XMLNode *accessoryNode)
 	{
         dialogMessage("Accessory",
             "Unknown deform type \"%s\" in accessory \"%s\" should be up, down or none",
-            deformNode->getContent(), name_.c_str());
+            deformNode->getContent(), parent_->getName());
         return false;		
 	}
 
 	return true;
-}
-
-bool WeaponExplosion::writeAccessory(NetBuffer &buffer)
-{
-    if (!Weapon::writeAccessory(buffer)) return false;
-    buffer.addToBuffer(size_);
-	buffer.addToBuffer(minLife_);
-	buffer.addToBuffer(maxLife_);
-	buffer.addToBuffer(hurtAmount_);
-	buffer.addToBuffer((int) deformType_);
-	buffer.addToBuffer(multiColored_);
-	buffer.addToBuffer(createDebris_);
-	buffer.addToBuffer(createMushroom_);
-	buffer.addToBuffer(createSplash_);
-	buffer.addToBuffer(windAffected_);
-	buffer.addToBuffer(luminance_);
-	buffer.addToBuffer(animate_);
-	buffer.addToBuffer(deformTexture_);
-	buffer.addToBuffer(explosionTexture_);
-	buffer.addToBuffer(explosionSound_);
-    return true;
-}
-
-bool WeaponExplosion::readAccessory(NetBufferReader &reader)
-{
-    if (!Weapon::readAccessory(reader)) return false;
-    if (!reader.getFromBuffer(size_)) return false;
-	if (!reader.getFromBuffer(minLife_)) return false;
-	if (!reader.getFromBuffer(maxLife_)) return false;
-	if (!reader.getFromBuffer(hurtAmount_)) return false;
-	int def = 0;
-	if (!reader.getFromBuffer(def)) return false;
-	deformType_ = (Explosion::DeformType) def;
-	if (!reader.getFromBuffer(multiColored_)) return false;
-	if (!reader.getFromBuffer(createDebris_)) return false;
-	if (!reader.getFromBuffer(createMushroom_)) return false;
-	if (!reader.getFromBuffer(createSplash_)) return false;
-	if (!reader.getFromBuffer(windAffected_)) return false;
-	if (!reader.getFromBuffer(luminance_)) return false;
-	if (!reader.getFromBuffer(animate_)) return false;
-	if (!reader.getFromBuffer(deformTexture_)) return false;
-	if (!reader.getFromBuffer(explosionTexture_)) return false;
-	if (!reader.getFromBuffer(explosionSound_)) return false;
-    return true;
 }
 
 const char *WeaponExplosion::getExplosionTexture()

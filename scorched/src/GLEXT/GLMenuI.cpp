@@ -20,8 +20,12 @@
 
 #include <GLEXT/GLMenuI.h>
 
-GLMenuItem::GLMenuItem(const char *text, GLWTip *tooltip, bool selected) : 
-	menuText_(text), tip_(tooltip), selected_(selected)
+GLMenuItem::GLMenuItem(const char *text, 
+	GLWTip *tooltip, 
+	bool selected,
+	GLTexture *texture) : 
+	menuText_(text), tip_(tooltip), 
+	selected_(selected), texture_(texture)
 {
 }
 

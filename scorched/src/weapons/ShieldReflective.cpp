@@ -30,21 +30,10 @@ ShieldReflective::~ShieldReflective()
 {
 }
 
-bool ShieldReflective::parseXML(XMLNode *accessoryNode)
+bool ShieldReflective::parseXML(OptionsGame &context,
+	AccessoryStore *store, XMLNode *accessoryNode)
 {
-	if (!Shield::parseXML(accessoryNode)) return false;
-	return true;
-}
-
-bool ShieldReflective::writeAccessory(NetBuffer &buffer)
-{
-	if (!Shield::writeAccessory(buffer)) return false;
-	return true;
-}
-
-bool ShieldReflective::readAccessory(NetBufferReader &reader)
-{
-	if (!Shield::readAccessory(reader)) return false;
+	if (!Shield::parseXML(context, store, accessoryNode)) return false;
 	return true;
 }
 

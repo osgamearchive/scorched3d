@@ -30,9 +30,8 @@ public:
 	WeaponNapalm();
 	virtual ~WeaponNapalm();
 
-	virtual bool parseXML(XMLNode *accessoryNode);
-	virtual bool writeAccessory(NetBuffer &buffer);
-	virtual bool readAccessory(NetBufferReader &reader);
+	virtual bool parseXML(OptionsGame &context, 
+		AccessoryStore *store, XMLNode *accessoryNode);
 
 	const float getNapalmTime() { return napalmTime_; }
 	const float getNaplamHeight() { return napalmHeight_; }
@@ -49,7 +48,7 @@ public:
 		unsigned int playerId, Vector &position, Vector &velocity,
 		unsigned int data = 0);
 
-	REGISTER_ACCESSORY_HEADER(WeaponNapalm, Accessory::AccessoryWeapon);
+	REGISTER_ACCESSORY_HEADER(WeaponNapalm, AccessoryPart::AccessoryWeapon);
 
 protected:
 	float napalmTime_;   // The time to generate napalm

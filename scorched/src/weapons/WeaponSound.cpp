@@ -34,25 +34,12 @@ WeaponSound::~WeaponSound()
 
 }
 
-bool WeaponSound::parseXML(XMLNode *accessoryNode)
+bool WeaponSound::parseXML(OptionsGame &context, 
+	AccessoryStore *store, XMLNode *accessoryNode)
 {
-	if (!Weapon::parseXML(accessoryNode)) return false;
+	if (!Weapon::parseXML(context, store, accessoryNode)) return false;
 	if (!accessoryNode->getNamedChild("sound", sound_)) return false;
 	if (!checkDataFile("%s", getSound())) return false;
-	return true;
-}
-
-bool WeaponSound::writeAccessory(NetBuffer &buffer)
-{
-	if (!Weapon::writeAccessory(buffer)) return false;
-	buffer.addToBuffer(sound_);
-	return true;
-}
-
-bool WeaponSound::readAccessory(NetBufferReader &reader)
-{
-	if (!Weapon::readAccessory(reader)) return false;
-	if (!reader.getFromBuffer(sound_)) return false;
 	return true;
 }
 

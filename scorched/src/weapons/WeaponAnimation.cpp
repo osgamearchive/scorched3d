@@ -19,6 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <weapons/WeaponAnimation.h>
+#include <weapons/Accessory.h>
 #include <actions/Animation.h>
 #include <engine/ActionController.h>
 #include <common/Defines.h>
@@ -35,9 +36,10 @@ WeaponAnimation::~WeaponAnimation()
 
 }
 
-bool WeaponAnimation::parseXML(XMLNode *accessoryNode)
+bool WeaponAnimation::parseXML(OptionsGame &context,
+	AccessoryStore *store, XMLNode *accessoryNode)
 {
-	if (!Weapon::parseXML(accessoryNode)) return false;
+	if (!Weapon::parseXML(context, store, accessoryNode)) return false;
 
 	if (!accessoryNode->getNamedChild("data", data_)) return false;
 	if (!accessoryNode->getNamedChild("animation", rendererName_)) return false;
@@ -49,27 +51,11 @@ bool WeaponAnimation::parseXML(XMLNode *accessoryNode)
 		dialogMessage("Accessory",
 			"Failed to find animation named \"%s\" in accessory \"%s\"",
 			rendererName_.c_str(),
-			name_.c_str());
+			parent_->getName());
 		return false;
 	}
 	delete newclass;
 
-	return true;
-}
-
-bool WeaponAnimation::writeAccessory(NetBuffer &buffer)
-{
-	if (!Weapon::writeAccessory(buffer)) return false;
-	buffer.addToBuffer(rendererName_);
-	buffer.addToBuffer(data_);
-	return true;
-}
-
-bool WeaponAnimation::readAccessory(NetBufferReader &reader)
-{
-	if (!Weapon::readAccessory(reader)) return false;
-	if (!reader.getFromBuffer(rendererName_)) return false;
-	if (!reader.getFromBuffer(data_)) return false;
 	return true;
 }
 

@@ -25,7 +25,7 @@
 #include <stdio.h>
 
 TankBatteries::TankBatteries(ScorchedContext &context) :
-	context_(context)
+	context_(context), infinite_(false)
 {
 	reset();
 }
@@ -37,6 +37,7 @@ TankBatteries::~TankBatteries()
 
 void TankBatteries::reset()
 {
+	infinite_ = false;
 	batteryCount_ = 0;
 	std::list<Accessory *> accessories = 
 		context_.accessoryStore->getAllOthers();
@@ -46,15 +47,19 @@ void TankBatteries::reset()
 		itor++)
 	{
 		Accessory *accessory = (*itor);
-		if (accessory->getType() == Accessory::AccessoryBattery)
+		if (accessory->getType() == AccessoryPart::AccessoryBattery)
 		{
-			if (accessory->getPurchasable())
+			if (accessory->getMaximumNumber() > 0)
 			{
-				if ((accessory->getPrice() == 0 && 
-					accessory->getBundle() == 0) ||
-					context_.optionsGame->getGiveAllWeapons())
+				if (context_.optionsGame->getGiveAllWeapons() ||
+					accessory->getStartingNumber() == -1)
 				{
 					addBatteries(20);
+					infinite_ = true;
+				}
+				else if (accessory->getStartingNumber() > 0)
+				{
+					addBatteries(accessory->getStartingNumber());
 				}
 			}
 		}
@@ -63,7 +68,7 @@ void TankBatteries::reset()
 
 void TankBatteries::rmBatteries(int no)
 {
-	if (context_.optionsGame->getGiveAllWeapons()) return;
+	if (infinite_) return;
 
 	batteryCount_ -= no;
 	if (batteryCount_ < 0)
@@ -80,11 +85,13 @@ void TankBatteries::addBatteries(int no)
 bool TankBatteries::writeMessage(NetBuffer &buffer)
 {
 	buffer.addToBuffer(batteryCount_);
+	buffer.addToBuffer(infinite_);
 	return true;
 }
 
 bool TankBatteries::readMessage(NetBufferReader &reader)
 {
 	if (!reader.getFromBuffer(batteryCount_)) return false;
+	if (!reader.getFromBuffer(infinite_)) return false;
 	return true;
 }

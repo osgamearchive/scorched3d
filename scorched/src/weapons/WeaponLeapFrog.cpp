@@ -34,21 +34,22 @@ WeaponLeapFrog::~WeaponLeapFrog()
 
 }
 
-bool WeaponLeapFrog::parseXML(XMLNode *accessoryNode)
+bool WeaponLeapFrog::parseXML(OptionsGame &context, 
+	AccessoryStore *store, XMLNode *accessoryNode)
 {
-	if (!Weapon::parseXML(accessoryNode)) return false;
+	if (!Weapon::parseXML(context, store, accessoryNode)) return false;
 
 	// Get the next weapon
 	XMLNode *subNode = 0;
 	if (!accessoryNode->getNamedChild("collisionaction", subNode)) return false;
 
 	// Check next weapon is correct type
-	Accessory *accessory = store_->createAccessory(subNode);
-	if (!accessory || accessory->getType() != Accessory::AccessoryWeapon)
+	AccessoryPart *accessory = store->createAccessoryPart(context, parent_, subNode);
+	if (!accessory || accessory->getType() != AccessoryPart::AccessoryWeapon)
 	{
 		dialogMessage("Accessory",
 			"Sub weapon of wrong type \"%s\"",
-			name_.c_str());
+			accessory->getAccessoryTypeName());
 		return false;
 	}
 	collisionAction_ = (Weapon*) accessory;
@@ -56,22 +57,6 @@ bool WeaponLeapFrog::parseXML(XMLNode *accessoryNode)
 	// Get the bounce
 	if (!accessoryNode->getNamedChild("bounce", bounce_)) return false;
 
-	return true;
-}
-
-bool WeaponLeapFrog::writeAccessory(NetBuffer &buffer)
-{
-	if (!Weapon::writeAccessory(buffer)) return false;
-	if (!store_->writeWeapon(buffer, collisionAction_)) return false;
-	buffer.addToBuffer(bounce_);
-	return true;
-}
-
-bool WeaponLeapFrog::readAccessory(NetBufferReader &reader)
-{
-	if (!Weapon::readAccessory(reader)) return false;
-	collisionAction_ = store_->readWeapon(reader); if (!collisionAction_) return false;
-	if (!reader.getFromBuffer(bounce_)) return false;
 	return true;
 }
 
@@ -83,4 +68,3 @@ void WeaponLeapFrog::fireWeapon(ScorchedContext &context,
 	if (newVelocity[2] < 0.0f) newVelocity[2] *= -1.0f;
 	collisionAction_->fireWeapon(context, playerId, position, newVelocity, data);
 }
-

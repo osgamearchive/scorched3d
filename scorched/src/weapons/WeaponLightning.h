@@ -29,9 +29,8 @@ public:
 	WeaponLightning();
 	virtual ~WeaponLightning();
 
-	virtual bool parseXML(XMLNode *accessoryNode);
-	virtual bool writeAccessory(NetBuffer &buffer);
-	virtual bool readAccessory(NetBufferReader &reader);
+	virtual bool parseXML(OptionsGame &context, 
+		AccessoryStore *store, XMLNode *accessoryNode);
 
 	float getConeLength() { return coneLength_; }
 	float getSegLength() { return segLength_; }
@@ -54,7 +53,7 @@ public:
 		unsigned int playerId, Vector &position, Vector &velocity,
 		unsigned int data = 0);
 
-	REGISTER_ACCESSORY_HEADER(WeaponLightning, Accessory::AccessoryWeapon);
+	REGISTER_ACCESSORY_HEADER(WeaponLightning, AccessoryPart::AccessoryWeapon);
 
 protected:
 	float coneLength_;

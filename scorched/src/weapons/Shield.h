@@ -18,18 +18,13 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// Shield.h: interface for the Shield class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_SHIELD_H__F9BCDF39_FB62_4BB4_9D64_C70215669F9C__INCLUDED_)
 #define AFX_SHIELD_H__F9BCDF39_FB62_4BB4_9D64_C70215669F9C__INCLUDED_
 
-#include <weapons/Accessory.h>
+#include <weapons/AccessoryPart.h>
 #include <common/Vector.h>
 
-class Shield : public Accessory
+class Shield : public AccessoryPart
 {
 public:
 	enum ShieldSize
@@ -47,20 +42,18 @@ public:
 	Shield();
 	virtual ~Shield();
 
-	virtual bool parseXML(XMLNode *accessoryNode);
-	virtual bool writeAccessory(NetBuffer &buffer);
-	virtual bool readAccessory(NetBufferReader &reader);
-
-	const char *getCollisionSound();
+	virtual bool parseXML(OptionsGame &context, 
+		AccessoryStore *store, XMLNode *accessoryNode);
 
 	// Shield attributes
+	const char *getCollisionSound();
 	float getHitRemovePower();
 	ShieldSize getRadius() { return radius_; }
 	Vector &getColor() { return color_; }
 	bool getHalfShield() { return halfShield_; }
 	virtual ShieldType getShieldType();
 
-	REGISTER_ACCESSORY_HEADER(Shield, Accessory::AccessoryShield);
+	REGISTER_ACCESSORY_HEADER(Shield, AccessoryPart::AccessoryShield);
 
 protected:
 	std::string collisionSound_;

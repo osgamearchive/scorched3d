@@ -27,18 +27,15 @@ REGISTER_ACCESSORY_SOURCE(Shield);
 
 Shield::Shield()
 {
-
 }
 
 Shield::~Shield()
 {
-
 }
 
-bool Shield::parseXML(XMLNode *accessoryNode)
+bool Shield::parseXML(OptionsGame &context,
+	AccessoryStore *store, XMLNode *accessoryNode)
 {
-	if (!Accessory::parseXML(accessoryNode)) return false;
-
 	// Get the accessory radius
 	XMLNode *radiusNode = 0;
 	if (!accessoryNode->getNamedChild("radius", radiusNode)) return false; 
@@ -61,28 +58,6 @@ bool Shield::parseXML(XMLNode *accessoryNode)
 	// Get the half size
 	if (!accessoryNode->getNamedChild("halfshield", halfShield_)) return false;
 
-	return true;
-}
-
-bool Shield::writeAccessory(NetBuffer &buffer)
-{
-	if (!Accessory::writeAccessory(buffer)) return false;
-	buffer.addToBuffer((int) radius_);
-	buffer.addToBuffer(removePower_);
-	buffer.addToBuffer(collisionSound_);
-	buffer.addToBuffer(color_);
-	buffer.addToBuffer(halfShield_);
-	return true;
-}
-
-bool Shield::readAccessory(NetBufferReader &reader)
-{
-	if (!Accessory::readAccessory(reader)) return false;
-	int r; if (!reader.getFromBuffer(r)) return false; radius_ = (ShieldSize) r;
-	if (!reader.getFromBuffer(removePower_)) return false;
-	if (!reader.getFromBuffer(collisionSound_)) return false;
-	if (!reader.getFromBuffer(color_)) return false;
-	if (!reader.getFromBuffer(halfShield_)) return false;
 	return true;
 }
 

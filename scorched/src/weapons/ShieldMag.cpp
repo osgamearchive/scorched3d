@@ -30,27 +30,14 @@ ShieldMag::~ShieldMag()
 {
 }
 
-bool ShieldMag::parseXML(XMLNode *accessoryNode)
+bool ShieldMag::parseXML(OptionsGame &context,
+	AccessoryStore *store, XMLNode *accessoryNode)
 {
-	if (!Shield::parseXML(accessoryNode)) return false;
+	if (!Shield::parseXML(context, store, accessoryNode)) return false;
 
 	// Get the half size
 	if (!accessoryNode->getNamedChild("deflectpower", deflectPower_)) return false;
 
-	return true;
-}
-
-bool ShieldMag::writeAccessory(NetBuffer &buffer)
-{
-	if (!Shield::writeAccessory(buffer)) return false;
-	buffer.addToBuffer(deflectPower_);
-	return true;
-}
-
-bool ShieldMag::readAccessory(NetBufferReader &reader)
-{
-	if (!Shield::readAccessory(reader)) return false;
-	if (!reader.getFromBuffer(deflectPower_)) return false;
 	return true;
 }
 

@@ -21,11 +21,11 @@
 #if !defined(AFX_TANKSHIELDS_H__88E5EA32_F84D_41E3_AF97_01CBD2874CE3__INCLUDED_)
 #define AFX_TANKSHIELDS_H__88E5EA32_F84D_41E3_AF97_01CBD2874CE3__INCLUDED_
 
-#include <weapons/Shield.h>
 #include <coms/NetBuffer.h>
 #include <map>
 #include <list>
 
+class Accessory;
 class ScorchedContext;
 class TankShields  
 {
@@ -36,16 +36,16 @@ public:
 	void reset();
 	void newGame();
 
-	void setCurrentShield(Shield *sh);
+	void setCurrentShield(Accessory *sh);
 
-	Shield *getCurrentShield() { return currentShield_; }
+	Accessory *getCurrentShield() { return currentShield_; }
 	float getShieldPower() { return power_; }
 	void setShieldPower(float power);
 
-	void addShield(Shield *sh, int count);
-	void rmShield(Shield *sh, int count);
+	void addShield(Accessory *sh, int count);
+	void rmShield(Accessory *sh, int count);
 
-	int getShieldCount(Shield *shield);
+	int getShieldCount(Accessory *shield);
 	std::list<Accessory *> getAllShields(bool sort=false);
 
 	// Serialize the tank
@@ -54,8 +54,8 @@ public:
 
 protected:
 	ScorchedContext &context_;
-	std::map<Shield*, int> shields_;
-	Shield *currentShield_;
+	std::map<Accessory *, int> shields_;
+	Accessory *currentShield_;
 	float power_;
 
 };

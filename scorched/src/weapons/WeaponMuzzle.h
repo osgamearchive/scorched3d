@@ -29,11 +29,7 @@ public:
 	WeaponMuzzle();
 	virtual ~WeaponMuzzle();
 
-	// This weapon can never be bought
-	virtual bool getPrimary() { return false; } 
-	virtual void setPrimary(bool p) { }
-
-	REGISTER_ACCESSORY_HEADER(WeaponMuzzle, Accessory::AccessoryWeapon);
+	REGISTER_ACCESSORY_HEADER(WeaponMuzzle, AccessoryPart::AccessoryWeapon);
 };
 
 #endif // __INCLUDE_WeaponMuzzleh_INCLUDE__

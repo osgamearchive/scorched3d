@@ -22,8 +22,9 @@
 #include <common/OptionsGame.h>
 #include <common/Defines.h>
 #include <server/ScorchedServer.h>
+#include <weapons/Accessory.h>
+#include <weapons/Shield.h>
 #include <stdlib.h>
-
 
 StatsLoggerFile::StatsLoggerFile() : statsLogger_(0)
 {
@@ -100,7 +101,7 @@ void StatsLoggerFile::tankFired(Tank *firedTank, Weapon *weapon)
 	char message[1024];
 	sprintf(message, "fired \"%s\" [%s] \"%s\"", 
 		firedTank->getName(), firedTank->getUniqueId(),
-		weapon->getName());
+		weapon->getParent()->getName());
 	statsLogger_->logMessage(time, message, 0);
 }
 
@@ -166,7 +167,7 @@ void StatsLoggerFile::tankKilled(Tank *firedTank, Tank *deadTank, Weapon *weapon
 	sprintf(message, "killed \"%s\" [%s] \"%s\" [%s] \"%s\"", 
 		firedTank->getName(), firedTank->getUniqueId(),
 		deadTank->getName(), deadTank->getUniqueId(),
-		weapon->getName());
+		weapon->getParent()->getName());
 	statsLogger_->logMessage(time, message, 0);
 }
 
@@ -184,7 +185,7 @@ void StatsLoggerFile::tankTeamKilled(Tank *firedTank, Tank *deadTank, Weapon *we
 	sprintf(message, "teamkilled \"%s\" [%s] \"%s\" [%s] \"%s\"", 
 		firedTank->getName(), firedTank->getUniqueId(),
 		deadTank->getName(), deadTank->getUniqueId(),
-		weapon->getName());
+		weapon->getParent()->getName());
 	statsLogger_->logMessage(time, message, 0);
 }
 
@@ -201,7 +202,7 @@ void StatsLoggerFile::tankSelfKilled(Tank *firedTank, Weapon *weapon)
 	char message[1024];
 	sprintf(message, "selfkilled \"%s\" [%s] \"%s\"", 
 		firedTank->getName(), firedTank->getUniqueId(),
-		weapon->getName());
+		weapon->getParent()->getName());
 	statsLogger_->logMessage(time, message, 0);
 }
 
@@ -248,7 +249,7 @@ void StatsLoggerFile::weaponFired(Weapon *weapon, bool deathAni)
 	if (nl) *nl = '\0';
 
 	char message[1024];
-	sprintf(message, "weaponfired \"%s\"", weapon->getName());
+	sprintf(message, "weaponfired \"%s\"", weapon->getParent()->getName());
 	statsLogger_->logMessage(time, message, 0);
 }
 
@@ -263,6 +264,6 @@ void StatsLoggerFile::weaponKilled(Weapon *weapon, bool deathAni)
 	if (nl) *nl = '\0';
 
 	char message[1024];
-	sprintf(message, "weaponkilled \"%s\" [%s]", weapon->getName());
+	sprintf(message, "weaponkilled \"%s\" [%s]", weapon->getParent()->getName());
 	statsLogger_->logMessage(time, message, 0);
 }

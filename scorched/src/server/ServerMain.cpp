@@ -118,8 +118,8 @@ bool startServer(bool local)
 		new SkyRoofCollision(&ScorchedServer::instance()->getContext());
 	ScorchedServer::instance()->getActionController().getPhysics().setCollisionHandler(
 		new ScorchedCollisionHandler(&ScorchedServer::instance()->getContext()));
-
-	if (!ScorchedServer::instance()->getAccessoryStore().parseFile()) return false;
+	if (!ScorchedServer::instance()->getAccessoryStore().parseFile(
+		ScorchedServer::instance()->getOptionsGame())) return false;
 	ScorchedServer::instance()->getOptionsTransient().reset();
 	if (!ScorchedServer::instance()->getLandscapes().readLandscapeDefinitions()) return false;
 

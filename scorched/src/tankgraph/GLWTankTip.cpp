@@ -21,6 +21,7 @@
 #include <tankgraph/GLWTankTip.h>
 #include <tankai/TankAIHuman.h>
 #include <weapons/Weapon.h>
+#include <weapons/Accessory.h>
 #include <landscape/Landscape.h>
 #include <landscape/LandscapeMaps.h>
 #include <client/ScorchedClient.h>
@@ -192,6 +193,8 @@ void TankShieldTip::showItems(float x, float y)
 		"Don't select a shield or\n"
 		"turn off any current shield");
 
+	Accessory *currentShield = 
+		tank_->getAccessories().getShields().getCurrentShield();
 	std::list<GLWSelectorEntry> entries;
 	std::list<Accessory *> shields = 
 		tank_->getAccessories().getShields().getAllShields(
@@ -217,7 +220,7 @@ void TankShieldTip::showItems(float x, float y)
 				current->getName());
 		}
 		entries.push_back(GLWSelectorEntry(buffer, &current->getToolTip(), 
-			0, 0, current));
+			(currentShield == current), current->getTexture(), current));
 	}
 	entries.push_back(GLWSelectorEntry("Off", &offTip, 0, 0, 0));
 	GLWSelector::instance()->showSelector(this, x, y, entries,
@@ -260,7 +263,7 @@ void TankShieldTip::itemSelected(GLWSelectorEntry *entry, int position)
 {
 	TankAIHuman *tankAI = (TankAIHuman *) tank_->getTankAI();
 	if (entry->getUserData() == 0) tankAI->shieldsUpDown(0);
-	else tankAI->shieldsUpDown(((Shield *)entry->getUserData())->getAccessoryId());
+	else tankAI->shieldsUpDown(((Accessory *)entry->getUserData())->getAccessoryId());
 }
 
 TankHealthTip::TankHealthTip(Tank *tank) : 
@@ -412,10 +415,11 @@ void TankWeaponTip::showItems(float x, float y)
 {
 	std::list<GLWSelectorEntry> entries;
 
+	Accessory *currentWeapon = 
+		tank_->getAccessories().getWeapons().getCurrent();
 	std::list<Accessory *> weapons = 
 		tank_->getAccessories().getWeapons().getAllWeapons(
 			OptionsDisplay::instance()->getSortAccessories());
-
 	std::list<Accessory *>::iterator itor;
 	for (itor = weapons.begin();
 		itor != weapons.end();
@@ -437,7 +441,7 @@ void TankWeaponTip::showItems(float x, float y)
 				weapon->getName());
 		}
 		entries.push_back(GLWSelectorEntry(buffer, &weapon->getToolTip(), 
-			0, weapon->getTexture(), weapon));
+			(currentWeapon == weapon), weapon->getTexture(), weapon));
 	}
 	GLWSelector::instance()->showSelector(this, x, y, entries,
 		ClientState::StatePlaying);
@@ -446,7 +450,7 @@ void TankWeaponTip::showItems(float x, float y)
 void TankWeaponTip::itemSelected(GLWSelectorEntry *entry, int position)
 {
 	TankAIHuman *tankAI = (TankAIHuman *) tank_->getTankAI();
-	tank_->getAccessories().getWeapons().setWeapon((Weapon *) entry->getUserData());
+	tank_->getAccessories().getWeapons().setWeapon((Accessory *) entry->getUserData());
 }
 
 TankPowerTip::TankPowerTip(Tank *tank) : 

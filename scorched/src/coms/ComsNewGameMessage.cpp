@@ -65,8 +65,6 @@ bool ComsNewGameMessage::readMessage(NetBufferReader &reader)
 			getOptionsGame().readFromBuffer(reader, false)) return false;
 	}
 	if (!levelMessage_.readMessage(reader)) return false;
-	if (!ScorchedClient::instance()->getAccessoryStore().
-		readEconomyFromBuffer(reader)) return false;
 
 	return true;
 }

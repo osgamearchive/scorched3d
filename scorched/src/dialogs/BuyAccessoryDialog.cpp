@@ -134,7 +134,7 @@ void BuyAccessoryDialog::addPlayerWeaponsBuy(GLWTab *tab, bool showWeapons)
 		itor++)
 	{	
 		Accessory *current = (*itor);
-		if (current->getPurchasable() &&
+		if (current->getMaximumNumber() > 0 &&
 			10-current->getArmsLevel() <= 
 			ScorchedClient::instance()->getOptionsTransient().getArmsLevel())
 		{
@@ -162,10 +162,10 @@ void BuyAccessoryDialog::addPlayerWeaponsBuy(GLWTab *tab, bool showWeapons)
 		sprintf(buffer, "$%i/%i", current->getPrice(), current->getBundle());
 		newPanel->addWidget(new GLWLabel(205, -2, buffer));
 
-		if ((!current->singular() && currentNumber >= 0) || (current->singular() && currentNumber==0))
+		if (currentNumber + current->getBundle() <= current->getMaximumNumber() && // Not exceeded maximum
+			current->getStartingNumber() != -1) // Not infinite
 		{
-			if (currentNumber < ScorchedClient::instance()->getOptionsGame().getMaxNumberWeapons() &&
-				current->getPrice() <= tank->getScore().getMoney())
+			if (current->getPrice() <= tank->getScore().getMoney())
 			{
 				GLWidget *button = 
 					newPanel->addWidget(new GLWTextButton("Buy", 325, 0, 60, this, 
@@ -203,7 +203,7 @@ void BuyAccessoryDialog::addPlayerWeaponsSell()
 		GLWPanel *newPanel = (GLWPanel *)
 			sellTab_->addWidget(new GLWPanel(10.0f, (float) height, 315.0f, 20.0f, true));
 		newPanel->setToolTip(&current->getToolTip());
-		if (count >= 0) sprintf(buffer, "%i", count);
+		if (current->getStartingNumber() != -1) sprintf(buffer, "%i", count);
 		else sprintf(buffer, "In");
 		newPanel->addWidget(new GLWLabel(0, -2, buffer));
 		newPanel->addWidget(new GLWIcon(30, 2, 16, 16, current->getTexture()));
@@ -211,7 +211,7 @@ void BuyAccessoryDialog::addPlayerWeaponsSell()
 		sprintf(buffer, "$%i/%i", current->getSellPrice(), 1);
 		newPanel->addWidget(new GLWLabel(205, -2, buffer));
 
-		if (count >= 0)
+		if (current->getStartingNumber() != -1)
 		{
 			GLWidget *button =
 				newPanel->addWidget(new GLWTextButton("Sell", 325, 0, 60, this,

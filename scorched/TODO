@@ -9,7 +9,11 @@ Fixed: New games or rounds do not cause mod downloads to stop
 Fixed: Reduced the server to client payload size considerably (lag??)
 Fixed: Key repeat for console macros bound to keys
 Fixed: wx 2.5 compilation errors (sizers still to fix)
+Fixed: Tank name is above ground when tank burried
+Fixed: Accessories.xml file format to remove duplication
 
+Added: Maximum number of weapons can be set on a per weapon basis
+Added: Starting number of weapons can be set on a per weapon basis
 Added: Start timer to server for joining players
 Added: Player decals for in game
 Added: Banned username and time to players that have been banned

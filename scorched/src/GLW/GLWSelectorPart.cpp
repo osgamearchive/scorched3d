@@ -48,7 +48,8 @@ void GLWSelectorPart::calculateDimensions(float drawX, float drawY)
 	GLFont2d &font = *GLWFont::instance()->getLargePtFont();
 	float selectedHeight = 10.0f; // Padding
 	float selectedWidth = 0.0f;
-	float indent = 0.0f;
+	selected_ = false;
+	icon_ = false;
 	std::list<GLWSelectorEntry>::iterator itor;
 	for (itor =	entries_.begin();
 		itor != entries_.end();
@@ -62,11 +63,13 @@ void GLWSelectorPart::calculateDimensions(float drawX, float drawY)
 		// Get width
 		float currentwidth = 
 			(float) font.getWidth(12, (char *) item.getText()) + 20.0f;
-		if (item.getSelected()) indent = MAX(indent, 10.0f);
-		if (item.getIcon()) indent = MAX(indent, 16.0f);	
-
+		if (item.getSelected()) selected_ = true;
+		if (item.getIcon()) icon_ = true;
 		if (currentwidth > selectedWidth) selectedWidth = currentwidth;
 	}
+	float indent = 0.0f;
+	if (selected_) indent += 10.0f;
+	if (icon_) indent += 16.0f;
 	selectedWidth += indent;
 
 	float selectedX = drawX;
@@ -177,7 +180,7 @@ void GLWSelectorPart::draw()
 				glColor3f(1.0f, 1.0f, 1.0f);
 				GLState textureOn(GLState::TEXTURE_ON);
 				item.getIcon()->draw();
-				GLWSelector::instance()->drawIconBox(selectedX_ + 5.0f, currentTop - 19.0f);
+				GLWSelector::instance()->drawIconBox(selectedX_ + (selected_?15.0f:5.0f), currentTop - 19.0f);
 			}
 
 			static Vector color(0.9f, 0.9f, 1.0f);

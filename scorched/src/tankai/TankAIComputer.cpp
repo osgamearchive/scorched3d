@@ -193,11 +193,26 @@ void TankAIComputer::playMove(const unsigned state, float frameTime,
 									char *buffer, unsigned int keyState)
 {
 	// Play move is called when the computer opponent must make there move
-	// Chooses a random weapon
-	int weaponInc = int(RAND * 3.0f);
-	for (int i=0; i<weaponInc; i++)
+	// Chooses a random explosive weapon
+	std::pair<std::multimap<std::string, std::string>::iterator,
+		std::multimap<std::string, std::string>::iterator> findItor = 
+		tankBuyer_.getTypes().equal_range("explosion");
+	std::multimap<std::string, std::string>::iterator itor;
+	std::vector<std::string> useful;
+	for (itor = findItor.first;
+		itor != findItor.second;
+		itor++)
 	{
-		currentTank_->getAccessories().getWeapons().nextWeapon();
+		useful.push_back((*itor).second);
+	}
+
+	if (!useful.empty())
+	{
+		int weaponIndex = int(RAND * (float)(useful.size()));
+		Accessory *current = ScorchedServer::instance()->
+			getAccessoryStore().findByPrimaryAccessoryName(
+				useful[weaponIndex].c_str());
+		currentTank_->getAccessories().getWeapons().setWeapon(current);
 	}
 
 	// Make sure defenses are raised (if we don't have an autodefense)
@@ -227,8 +242,16 @@ void TankAIComputer::playMove(const unsigned state, float frameTime,
 
 		if (aimResult == TankAIComputerAim::AimOk)
 		{
-			fireShot();
-			return;
+			if (currentTank_->getAccessories().getWeapons().getCurrent())
+			{
+				fireShot();
+				return;
+			}
+			else
+			{
+				resign(); // No weapons
+				return;
+			}
 		}
 		else if (aimResult == TankAIComputerAim::AimBurried)
 		{
@@ -236,7 +259,7 @@ void TankAIComputer::playMove(const unsigned state, float frameTime,
 				tankBuyer_.getTypes().find("dig");
 			if (findItor != tankBuyer_.getTypes().end())
 			{
-				Weapon *current = (Weapon *) ScorchedServer::instance()->
+				Accessory *current = ScorchedServer::instance()->
 					getAccessoryStore().findByPrimaryAccessoryName(
 						(*findItor).second.c_str());
 				if (current)
@@ -260,14 +283,14 @@ void TankAIComputer::playMove(const unsigned state, float frameTime,
 void TankAIComputer::fireShot()
 {
 	primaryShot_ = true;
-	Weapon *currentWeapon = 
+	Accessory *currentWeapon = 
 		currentTank_->getAccessories().getWeapons().getCurrent();
 	if (currentWeapon)
 	{
 		ComsPlayedMoveMessage *message = 
 			new ComsPlayedMoveMessage(currentTank_->getPlayerId(), ComsPlayedMoveMessage::eShot);
 		message->setShot(
-			currentTank_->getAccessories().getWeapons().getCurrent()->getAccessoryId(),
+			currentWeapon->getAccessoryId(),
 			currentTank_->getPhysics().getRotationGunXY(),
 			currentTank_->getPhysics().getRotationGunYZ(),
 			currentTank_->getPhysics().getPower());

@@ -157,11 +157,12 @@ void StatsLoggerMySQL::createLogger()
 				itor++)
 			{
 				Weapon *weapon = (Weapon *) *itor;
+				Accessory *accessory = weapon->getParent();
 
 				// Try to determine this players sql playerid
 				int weaponId = 0;
 				if (runQuery("SELECT weaponid FROM scorched3d%s_weapons "
-					"WHERE name = \"%s\";", prefix_.c_str(), weapon->getName()))
+					"WHERE name = \"%s\";", prefix_.c_str(), accessory->getName()))
 				{
 					MYSQL_RES *result = mysql_store_result(mysql_);
 					if (result)
@@ -181,15 +182,15 @@ void StatsLoggerMySQL::createLogger()
 					runQuery("INSERT INTO scorched3d%s_weapons (name, description, armslevel, cost, bundlesize) "
 						"VALUES(\"%s\", \"%s\", %i, %i, %i);", 
 						prefix_.c_str(),
-						weapon->getName(), 
-						weapon->getDescription(),
-						weapon->getArmsLevel(),
-						weapon->getOriginalPrice(),
-						weapon->getBundle());
+						accessory->getName(), 
+						accessory->getDescription(),
+						accessory->getArmsLevel(),
+						accessory->getOriginalPrice(),
+						accessory->getBundle());
 					weaponId = (int) mysql_insert_id(mysql_);		
 				}
 
-				weaponId_[weapon->getName()] = weaponId;
+				weaponId_[accessory->getName()] = weaponId;
 			}
 		}
 	}
@@ -430,7 +431,7 @@ void StatsLoggerMySQL::tankKilled(Tank *firedTank, Tank *deadTank, Weapon *weapo
 		EventKill,
 		playerId_[firedTank->getUniqueId()], 
 		playerId_[deadTank->getUniqueId()], 
-		weaponId_[weapon->getName()]);
+		weaponId_[weapon->getParent()->getName()]);
 
 	// Update both players skill points
 	if (runQuery("SELECT a.skill, b.skill FROM "
@@ -450,7 +451,7 @@ void StatsLoggerMySQL::tankKilled(Tank *firedTank, Tank *deadTank, Weapon *weapo
 				int firedSkill = atoi(row[0]);
 				int deadSkill = atoi(row[1]);
 
-				float weaponMult = (float(weapon->getArmsLevel()) / 10.0f) + 1.0f;
+				float weaponMult = (float(weapon->getParent()->getArmsLevel()) / 10.0f) + 1.0f;
 
 				int skillDiff = 
 					int((20.0f * weaponMult) / (1.0f + powf(10.0f, (float(firedSkill - deadSkill) / 1000.0f))));
@@ -489,7 +490,7 @@ void StatsLoggerMySQL::tankTeamKilled(Tank *firedTank, Tank *deadTank, Weapon *w
 		EventTeamKill,
 		playerId_[firedTank->getUniqueId()],
 		playerId_[deadTank->getUniqueId()], 
-		weaponId_[weapon->getName()]);
+		weaponId_[weapon->getParent()->getName()]);
 
 	runQuery("UPDATE scorched3d%s_players SET teamkills=teamkills+1 "
 		"WHERE playerid = %i;", prefix_.c_str(), playerId_[firedTank->getUniqueId()]);
@@ -508,7 +509,7 @@ void StatsLoggerMySQL::tankSelfKilled(Tank *firedTank, Weapon *weapon)
 		prefix_.c_str(),
 		EventSelfKill,
 		playerId_[firedTank->getUniqueId()],
-		weaponId_[weapon->getName()]);
+		weaponId_[weapon->getParent()->getName()]);
 
 	runQuery("UPDATE scorched3d%s_players SET selfkills=selfkills+1 "
 		"WHERE playerid = %i;", prefix_.c_str(), playerId_[firedTank->getUniqueId()]);
@@ -552,12 +553,14 @@ void StatsLoggerMySQL::weaponFired(Weapon *weapon, bool deathAni)
 	if (deathAni)
 	{
 		runQuery("UPDATE scorched3d%s_weapons SET deathshots=deathshots+1 "
-			"WHERE weaponid = \"%i\";", prefix_.c_str(), weaponId_[weapon->getName()]);
+			"WHERE weaponid = \"%i\";", prefix_.c_str(), 
+			weaponId_[weapon->getParent()->getName()]);
 	}
 	else
 	{
 		runQuery("UPDATE scorched3d%s_weapons SET shots=shots+1 "
-			"WHERE weaponid = \"%i\";", prefix_.c_str(), weaponId_[weapon->getName()]);
+			"WHERE weaponid = \"%i\";", prefix_.c_str(), 
+			weaponId_[weapon->getParent()->getName()]);
 	}
 }
 
@@ -566,12 +569,14 @@ void StatsLoggerMySQL::weaponKilled(Weapon *weapon, bool deathAni)
 	if (deathAni)
 	{
 		runQuery("UPDATE scorched3d%s_weapons SET deathkills=deathkills+1 "
-			"WHERE weaponid = \"%i\";", prefix_.c_str(), weaponId_[weapon->getName()]);
+			"WHERE weaponid = \"%i\";", prefix_.c_str(), 
+			weaponId_[weapon->getParent()->getName()]);
 	}
 	else
 	{
 		runQuery("UPDATE scorched3d%s_weapons SET kills=kills+1 "
-			"WHERE weaponid = \"%i\";", prefix_.c_str(), weaponId_[weapon->getName()]);
+			"WHERE weaponid = \"%i\";", prefix_.c_str(), 
+			weaponId_[weapon->getParent()->getName()]);
 	}
 }
 
