@@ -172,7 +172,7 @@ bool OptionEntryHelper::readFromFile(std::list<OptionEntry *> &options,
 		std::string name = nameNode->getContent();
 		std::string value = valueNode->getContent();
 		_strlwr((char *) name.c_str());
-		
+
 		std::map<std::string, OptionEntry *>::iterator finditor =
 			entryMap.find(name);
 		if (finditor == entryMap.end())

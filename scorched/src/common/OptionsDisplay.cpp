@@ -182,13 +182,19 @@ bool OptionsDisplay::readOptionsFromFile()
 		dialogMessage(
 			"Scorched3D",
 			"Warning: Your display settings file (%s) cannot be\n"
-			"read.  This may be because it is an out of date version.\n"
-			"If this is the case it can be safe deleted.",
+			"read.  This may be because it was create by an out of date version of Scorched3D.\n"
+			"If this is the case it can be safely deleted.",
 			path);
 		return false;
 	}
 
 	return true;
+}
+
+void OptionsDisplay::loadSafeValues()
+{
+	const char *path = getDataFile("data/safedisplay.xml");
+	OptionEntryHelper::readFromFile(options_, (char *) path);
 }
 
 void OptionsDisplay::addToConsole()

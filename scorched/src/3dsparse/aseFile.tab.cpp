@@ -55,9 +55,6 @@
 #define	MAX_TM_ROW2	294
 #define	MAX_TM_ROW3	295
 
-#line 1 "g:\\cxx\\scorched\\3dsparse\\aseFile.y"
-
-
 #include <common/Defines.h>
 #include <3dsparse/ASEFile.h>
 
@@ -451,7 +448,6 @@ int yydebug;			/*  nonzero means print parse trace	*/
 #ifdef __GNUC__
 int yyparse (void);
 #endif
-
 #if __GNUC__ > 1		/* GNU C and GNU C++ define this.  */
 #define __yy_memcpy(TO,FROM,COUNT)	__builtin_memcpy(TO,FROM,COUNT)
 #else				/* not GNU C or C++ */
@@ -490,7 +486,6 @@ __yy_memcpy (char *to, char *from, int count)
 
 #endif
 #endif
-
 
 /* The user can define YYPARSE_PARAM as the name of an argument to be passed
    into yyparse.  The argument should have type void *.
@@ -795,63 +790,50 @@ yyreduce:
   switch (yyn) {
 
 case 9:
-#line 97 "g:\\cxx\\scorched\\3dsparse\\aseFile.y"
 { ASEFile::getCurrent()->getCurrentModel()->setColor(aseVector); ;
     break;}
 case 10:
-#line 102 "g:\\cxx\\scorched\\3dsparse\\aseFile.y"
 { ASEFile::getCurrent()->addModel(aseString); ;
     break;}
 case 12:
-#line 126 "g:\\cxx\\scorched\\3dsparse\\aseFile.y"
 { ASEFile::getCurrent()->getCurrentModel()->setTmRow(aseVector, 0); ;
     break;}
 case 13:
-#line 131 "g:\\cxx\\scorched\\3dsparse\\aseFile.y"
 { ASEFile::getCurrent()->getCurrentModel()->setTmRow(aseVector, 1); ;
     break;}
 case 14:
-#line 136 "g:\\cxx\\scorched\\3dsparse\\aseFile.y"
 { ASEFile::getCurrent()->getCurrentModel()->setTmRow(aseVector, 2); ;
     break;}
 case 18:
-#line 158 "g:\\cxx\\scorched\\3dsparse\\aseFile.y"
 { ASEFile::getCurrent()->getCurrentModel()->insertVertex(aseVector); ;
     break;}
 case 22:
-#line 180 "g:\\cxx\\scorched\\3dsparse\\aseFile.y"
 { aseFace.v[0] = aseDigit; ;
     break;}
 case 23:
-#line 185 "g:\\cxx\\scorched\\3dsparse\\aseFile.y"
 { aseFace.v[1] = aseDigit; ;
     break;}
 case 24:
-#line 190 "g:\\cxx\\scorched\\3dsparse\\aseFile.y"
 { 
 		aseFace.v[2] = aseDigit;
 		ASEFile::getCurrent()->getCurrentModel()->insertFace(aseFace);	
 	;
     break;}
 case 28:
-#line 210 "g:\\cxx\\scorched\\3dsparse\\aseFile.y"
 { aseFaceNo = aseDigit; ;
     break;}
 case 29:
-#line 215 "g:\\cxx\\scorched\\3dsparse\\aseFile.y"
 { ASEFile::getCurrent()->getCurrentModel()->setFaceNormal(aseVector, aseFaceNo, 0); ;
     break;}
 case 30:
-#line 220 "g:\\cxx\\scorched\\3dsparse\\aseFile.y"
 { ASEFile::getCurrent()->getCurrentModel()->setFaceNormal(aseVector, aseFaceNo, 1); ;
     break;}
 case 31:
-#line 225 "g:\\cxx\\scorched\\3dsparse\\aseFile.y"
 { ASEFile::getCurrent()->getCurrentModel()->setFaceNormal(aseVector, aseFaceNo, 2); ;
     break;}
 }
    /* the action file gets copied in in place of this dollarsign */
-
+
   yyvsp -= yylen;
   yyssp -= yylen;
 #ifdef YYLSP_NEEDED
@@ -1046,8 +1028,6 @@ yyerrhandle:
   yystate = yyn;
   goto yynewstate;
 }
-#line 236 "g:\\cxx\\scorched\\3dsparse\\aseFile.y"
-
 
 int aseerror(const char *errmsg)
 {

@@ -159,10 +159,7 @@ int main(int argc, char *argv[])
 
 	srand((unsigned)time(0));
 	// Parse command line
-	if (!parseCommandLine(argc, argv))
-	{
-		return false;
-	}
+	if (!parseCommandLine(argc, argv)) exit(1);
 
 	// Init SDL
 	unsigned int initFlags = SDL_INIT_VIDEO;
@@ -190,7 +187,7 @@ int main(int argc, char *argv[])
 			dialogMessage(scorched3dAppName,
 				"Server file \"%s\" does not exist.",
 				OptionsParam::instance()->getServerFile());
-			return false;
+			exit(1);
 		}
 		ScorchedServer::instance()->getOptionsGame().readOptionsFromFile(
 			(char *) OptionsParam::instance()->getServerFile());
@@ -198,7 +195,7 @@ int main(int argc, char *argv[])
 		if (OptionsParam::instance()->getConsole())
 		{
 			consoleServer();
-			return true;
+			exit(0);
 		}
 
 		// Note: WE DO NOT BREAK
@@ -234,7 +231,7 @@ int main(int argc, char *argv[])
 					dialogMessage(scorched3dAppName,
 						"Client file \"%s\" does not exist.",
 						OptionsParam::instance()->getClientFile());
-					return false;
+					exit(1);
 				}
 				ScorchedServer::instance()->getOptionsGame().readOptionsFromFile(
 					(char *) OptionsParam::instance()->getClientFile());
@@ -257,8 +254,9 @@ int main(int argc, char *argv[])
 		dialogMessage(
 			scorched3dAppName,
 			"Error: You provided incorrect or incompatable parameters");
-		return false;
+		exit(1);
 	}
 
-	return 0;
+	return 0; // exit(0)
 }
+

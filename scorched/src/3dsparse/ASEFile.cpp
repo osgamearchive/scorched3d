@@ -33,9 +33,7 @@ ASEFile::ASEFile(const char *fileName,
 				 const char *texName) : 
 	ModelsFile(fileName), texName_(texName)
 {
-	printf(">\n");
 	success_ = loadFile(fileName);
-	printf("<\n");
 	if (success_)
 	{
 		centre();

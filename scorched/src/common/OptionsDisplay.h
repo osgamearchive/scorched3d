@@ -194,6 +194,7 @@ public:
 	const char *getHostDescription() { return hostDescription_.getValue(); }
 	void setHostDescription(const char *value) { hostDescription_.setValue(value); }
 
+	void loadSafeValues();
 	bool writeOptionsToFile();
 	bool readOptionsFromFile();
 	void addToConsole();

@@ -20,6 +20,11 @@
 
 #include <wx/wx.h>
 #include <wx/image.h>
+#include <wx/process.h>
+#include <wx/txtstrm.h>
+#include <wx/msgdlg.h>
+#include <SDL/SDL.h>
+#include <SDL/SDL_net.h>
 #include <windows.h>
 #include <scorched/MainDialog.h>
 #include <scorched/NetDialog.h>
@@ -28,6 +33,7 @@
 #include <scorched/ServerSDialog.h>
 #include <server/ServerMain.h>
 #include <common/OptionsParam.h>
+#include <common/OptionsDisplay.h>
 #include <common/Defines.h>
 
 extern char scorched3dAppName[128];
@@ -41,7 +47,8 @@ enum
 	ID_BUTTON_NETLAN,
 	ID_BUTTON_SINGLE,
 	ID_BUTTON_SERVER,
-	ID_BUTTON_SCORCHED
+	ID_BUTTON_SCORCHED,
+	ID_MAIN_TIMER
 };
 
 void addTitleToWindow(
@@ -69,6 +76,35 @@ void setExeName(const char *name, bool allowExceptions)
 	}
 }
 
+static SDL_mutex *messageMutex_ = 0;
+static wxString messageString_;
+
+class ScorchedProcess : public wxProcess
+{
+public:
+	ScorchedProcess() : wxProcess(wxPROCESS_REDIRECT) { }
+	
+	virtual void OnTerminate(int pid, int status) 
+	{
+		if (status != 0)
+		{
+			SDL_LockMutex(messageMutex_);
+			messageString_ = "The Scorched3d process "
+				"terminated unexpectedly.\n"
+				"The error given was :-\n";
+			while (IsInputAvailable())
+			{
+				wxTextInputStream tis(*GetInputStream());
+				messageString_.append(tis.ReadLine());
+				messageString_.append("\n");
+			}
+			SDL_UnlockMutex(messageMutex_);
+		}
+		Detach();
+		wxProcess::OnTerminate(pid, status);
+	}
+};
+
 void runScorched3D(const char *fmt, ...)
 {
 	char text[1024];
@@ -81,9 +117,11 @@ void runScorched3D(const char *fmt, ...)
 	char path[1024];
 	sprintf(path, "%s %s", exeName, text);
 
-	long result = ::wxExecute(path);
+	ScorchedProcess *process = new ScorchedProcess();
+	long result = ::wxExecute(path, wxEXEC_ASYNC, process);
 	if (result == 0)
 	{
+		delete process;
 		dialogMessage(scorched3dAppName,
 			"Error: Failed to execute scorched3d using commandline :-\n"
 			"%s",
@@ -120,6 +158,7 @@ class MainFrame: public wxFrame
 public:
 	MainFrame();
 
+	void onTimer();
 	void onDisplayButton();
 	void onQuitButton();
 	void onNetLanButton();
@@ -128,11 +167,13 @@ public:
 	void onScorchedClick();
 
 private:
-    DECLARE_EVENT_TABLE()
+	DECLARE_EVENT_TABLE()
+	wxTimer timer_;
 };
 
 BEGIN_EVENT_TABLE(MainFrame, wxFrame)
-    EVT_BUTTON(ID_BUTTON_DISPLAY,  MainFrame::onDisplayButton)
+	EVT_TIMER(ID_MAIN_TIMER, MainFrame::onTimer)
+	EVT_BUTTON(ID_BUTTON_DISPLAY,  MainFrame::onDisplayButton)
 	EVT_BUTTON(ID_BUTTON_NETLAN,  MainFrame::onNetLanButton)
 	EVT_BUTTON(ID_BUTTON_SINGLE,  MainFrame::onSingleButton)
 	EVT_BUTTON(ID_BUTTON_SERVER,  MainFrame::onServerButton)
@@ -144,6 +185,8 @@ MainFrame::MainFrame() :
 	wxFrame((wxFrame *)NULL, -1, scorched3dAppName, wxDefaultPosition, wxDefaultSize, 
 		wxMINIMIZE_BOX | wxCAPTION)
 {
+	if (!messageMutex_) messageMutex_ = SDL_CreateMutex();
+
 	// Set the frame's icon
 	wxIcon icon(getDataFile("data/windows/tank2.ico"), wxBITMAP_TYPE_ICO);
 	SetIcon(icon);
@@ -210,6 +253,10 @@ MainFrame::MainFrame() :
 	}
 	topsizer->Add(gridsizer, 0, wxALIGN_CENTER);
 
+	// Setup timer
+	timer_.SetOwner(this, ID_MAIN_TIMER);
+	timer_.Start(1000, false);
+
 	// Quit button
 	wxBoxSizer *buttonSizer = new wxBoxSizer(wxHORIZONTAL);
 	buttonSizer->Add(new wxButton(this, wxID_CANCEL, "Quit"), 0, wxALL, 5);
@@ -220,6 +267,33 @@ MainFrame::MainFrame() :
 	topsizer->SetSizeHints(this); // set size hints to honour minimum size
 
 	CentreOnScreen();
+}
+
+void MainFrame::onTimer()
+{
+	SDL_LockMutex(messageMutex_);
+	if (!messageString_.empty())
+	{
+		messageString_.append("\n"
+			"Would you like to load the failsafe "
+			"scorched3d settings?\n"
+			"This gives the best chance of working but "
+			"at the cost of graphical detail.\n"
+			"You can adjust this later in the Scorched3D "
+			"display settings dialog.");
+		int answer = ::wxMessageBox(
+			messageString_,
+			"Scorched3D Abnormal Termination",
+			wxYES_NO | wxICON_ERROR);
+		if (answer == wxYES)
+		{
+			OptionsDisplay::instance()->loadSafeValues();
+			OptionsDisplay::instance()->writeOptionsToFile();
+		}
+
+		messageString_ = "";
+	}
+	SDL_UnlockMutex(messageMutex_);
 }
 
 void MainFrame::onScorchedClick()
