@@ -45,6 +45,9 @@ public:
 	int getWins() { return wins_; }
 	void setWins(int wins) { wins_ = wins; }
 
+	int getMissedMoves() { return missedMoves_; }
+	void setMissedMoves(int miss) { missedMoves_ = miss; }
+
 	// Get info as text
 	const char *getTimePlayedString();
 	const char *getScoreString();
@@ -57,6 +60,7 @@ protected:
 	int kills_;
 	int money_;
 	int wins_;
+	int missedMoves_;
 	time_t startTime_;
 
 };

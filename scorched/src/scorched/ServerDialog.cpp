@@ -88,18 +88,29 @@ wxString ServerPlayerListControl::OnGetItemText(long item, long column) const
 			break;
 		case 1:
 			{
+				bool human = true;
+				if (tank->getTankAI())
+				{
+					human = tank->getTankAI()->isHuman();
+				}
+
+				return (human?"Human":"Bot");
+			}
+			break;
+		case 2:
+			{
 				static char buffer[256];
 				sprintf(buffer, "%u", tank->getPlayerId());
 				return buffer;
 			}
 			break;
-		case 2:
+		case 3:
 			return (char *) tank->getScore().getTimePlayedString();
 			break;
-		case 3:
+		case 4:
 			return (char *) tank->getScore().getScoreString();
 			break;
-		case 4:
+		case 5:
 			return (char *) tank->getState().getStateString();
 			break;
 		}
@@ -187,9 +198,10 @@ ServerFrame::ServerFrame(const char *name) :
 	ListItem playerListItems[] =
 		{
 			{ "Player Name", 100 },
+			{ "Player Type", 80 },
 			{ "Player Id", 80 },
 			{ "Played Time", 100 },
-			{ "Player Score", 175 },
+			{ "Player Score", 100 },
 			{ "Player State", 140 }
 		};
 	for (i=0; i<sizeof(playerListItems)/sizeof(ListItem); i++)
@@ -202,7 +214,7 @@ ServerFrame::ServerFrame(const char *name) :
 	}
 	ListItem mainListItems[] =
 		{
-			{ "Log Message", 600 }
+			{ "Server Log Messages", 600 }
 		};
 	for (i=0; i<sizeof(mainListItems)/sizeof(ListItem); i++)
 	{
@@ -308,6 +320,7 @@ void sendString(NetPlayerID dest, const char *fmt, ...)
 
 void kickPlayer(NetPlayerID id)
 {
+	bool human = true;
 	unsigned int tankId = (unsigned int) id;
 	Tank *tank = TankContainer::instance()->getTankById(tankId);
 	if (tank)
@@ -317,6 +330,11 @@ void kickPlayer(NetPlayerID id)
 			tank->getName(), id);
 		Logger::log(tank, "Kicking client \"%s\" \"%i\"", 
 			tank->getName(), id);
+
+		if (tank->getTankAI() && !tank->getTankAI()->isHuman())
+		{
+			human = false;
+		}
 	}
 	else
 	{
@@ -326,7 +344,14 @@ void kickPlayer(NetPlayerID id)
 		Logger::log(0, "Kicking client \"%i\"", id);
 	}
 
-	NetServer::instance()->destroyClient(id);
+	if (human)
+	{
+		NetServer::instance()->destroyClient(id);
+	}
+	else
+	{
+		Logger::log(0, "Cannot kick server bot");
+	}
 }
 
 void ServerFrame::onPlayerTalkAll()
@@ -360,7 +385,10 @@ void ServerFrame::onPlayerTalk()
 			{
 				Tank *tank = 
 					TankContainer::instance()->getTankByPos((unsigned int) item);
-				sendString((NetPlayerID)tank->getPlayerId(), entryDialog.GetValue());
+				if (!tank->getTankAI())
+				{
+					sendString((NetPlayerID)tank->getPlayerId(), entryDialog.GetValue());
+				}
 			}
 		}
 	}
@@ -411,17 +439,19 @@ public:
 		const char *message,
 		Tank *source)
 	{
+		// Make sure the list does not exceed 100 entries
+		if (frame->logList_->GetItemCount() > 99)
+		{
+			// Remove the top 20 entries
+			for (int j=0; j<20; j++) frame->logList_->DeleteItem(0);
+		}
+
+		// Add a new entry and ensure it is visible
 		static char text[1024];
 		sprintf(text, "%s - %s", time, message);
-		long index = frame->logList_->InsertItem(0, text);
-
-		if (frame->logList_->GetItemCount() > 100)
-		{
-			for (int j=0; j<20; j++)
-			{
-				frame->logList_->DeleteItem(0);
-			}
-		}
+		long index = frame->logList_->InsertItem(
+			frame->logList_->GetItemCount(), text);
+		frame->logList_->EnsureVisible(index);
 	};
 } serverLogger;
 

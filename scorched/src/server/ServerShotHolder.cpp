@@ -100,10 +100,14 @@ void ServerShotHolder::playShots()
 		ComsPlayedMoveMessage *message = (*itor).second;
 
 		// Check the tank exists for this player
-		// (may not if the player has left the game after firing)
+		// It may not if the player has left the game after firing.
 		Tank *tank = TankContainer::instance()->getTankById(playerId);
 		if (tank)
 		{
+			// This tank has now made a move, reset its missed move counter
+			tank->getScore().setMissedMoves(0);
+
+			// Actually play the move
 			TankAILogic::processPlayedMoveMessage(*message, tank);
 		}
 	}

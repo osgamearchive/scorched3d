@@ -61,7 +61,7 @@ void Logger::addLogger(LoggerI *logger)
 
 void Logger::log(Tank *src, const char *fmt, ...)
 {
-	static char text[1024];
+	static char text[2048];
 
 	// Add the time to the beginning of the log message
 	time_t theTime = time(0);
@@ -75,6 +75,30 @@ void Logger::log(Tank *src, const char *fmt, ...)
 	vsprintf(text, fmt, ap);
 	va_end(ap);
 
+	// Add single or multiple lines
+	char *found = strchr(text, '\n');
+	char *start = text;
+	if (found)
+	{
+		while (found)
+		{
+			*found = '\0';
+			addLog(time, start, src);
+			start = found;
+			start++;
+
+			found = strchr(start, '\n');
+		}
+		if (start[0] != '\0') addLog(time, start, src);
+	}
+	else
+	{
+		addLog(time, text, src);
+	}
+}
+
+void Logger::addLog(char *time, char *text, Tank *src)
+{
 	std::list<LoggerI *> &loggers = Logger::instance()->loggers_;
 	std::list<LoggerI *>::iterator itor;
 	for (itor = loggers.begin();

@@ -51,6 +51,7 @@ void TankScore::reset()
 	money_ = OptionsGame::instance()->getStartMoney();
 	wins_ = 0;
 	kills_ = 0;
+	missedMoves_ = 0;
 }
 
 void TankScore::setMoney(int money)

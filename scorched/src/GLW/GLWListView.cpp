@@ -92,26 +92,7 @@ void GLWListView::addLine(const char *fmt, ...)
 	vsprintf(text, fmt, ap);
 	va_end(ap);	
 
-	// Add single or multiple lines
-	char *found = strchr(text, '\n');
-	char *start = text;
-	if (found)
-	{
-		while (found)
-		{
-			*found = '\0';
-			lines_.push_back(start);
-			start = found;
-			start++;
-
-			found = strchr(start, '\n');
-		}
-		if (start[0] != '\0') lines_.push_back(start);
-	}
-	else
-	{
-		lines_.push_back(text);
-	}
+	lines_.push_back(text);
 
 	// Setup the current scroll position
 	int view = (int) (h_ / 8);

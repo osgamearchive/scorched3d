@@ -48,6 +48,8 @@ protected:
 	static Logger *instance_;
 	std::list<LoggerI *> loggers_;
 
+	static void addLog(char *time, char *text, Tank *src);
+
 private:
 	Logger();
 	virtual ~Logger();

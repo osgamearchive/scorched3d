@@ -46,6 +46,8 @@ OptionsGame::OptionsGame() :
 		"The amount of team each player has for each shot", 0, 0),
 	waitTime_(options_, "WaitTime", 
 		"The amount of time to wait for new players to join", 0, 15),
+	allowedMissedMoves_(options_, "AllowedMissedMoves",
+		"The number of moves a player is allowed to miss (due to the shot timer)", 0, 3),
 	scoreTime_(options_, "ScoreTime", 
 		"The amount of time to show the end of game scores for", 0, 15),
 	idleKickTime_(options_, "IdleKickTime",

@@ -18,9 +18,9 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <server/ServerPlayingState.h>
 #include <server/ServerShotHolder.h>
+#include <scorched/ServerDialog.h>
 #include <common/OptionsGame.h>
 #include <common/Logger.h>
 #include <coms/ComsStartGameMessage.h>
@@ -60,6 +60,56 @@ bool ServerPlayingState::acceptStateChange(const unsigned state,
 	{
 		if (time_ > OptionsGame::instance()->getShotTime())
 		{
+			// For each alive tank
+			// Check if the tank has missed its go
+			// If so increment the missed counter
+			// Once missed counter exceeds it threshold then kick the player
+			std::map<unsigned int, Tank *> &tanks =
+				TankContainer::instance()->getPlayingTanks();
+			std::map<unsigned int, Tank *>::iterator itor;
+			for (itor = tanks.begin();
+				itor != tanks.end();
+				itor++)
+			{
+				Tank *tank = (*itor).second;
+				if (tank->getState().getState() == TankState::sNormal)
+				{
+					if (!ServerShotHolder::instance()->haveShot(
+						tank->getPlayerId()))
+					{
+						int movesMissed = tank->getScore().getMissedMoves() + 1;
+						tank->getScore().setMissedMoves(movesMissed);
+
+						if (movesMissed == 1)
+						{
+							Logger::log(tank, "Player \"%s\" failed to make a move",
+								tank->getName());
+							sendString(0, "Player \"%s\" failed to make a move",
+								tank->getName());
+						}
+						else
+						{
+							Logger::log(tank, "Player \"%s\" failed to make %i moves in a row",
+								tank->getName(), movesMissed);
+							sendString(0, "Player \"%s\" failed to make %i moves in a row",
+								tank->getName(), movesMissed);
+						}
+
+						// If the allowed missed moves has been specified
+						if (OptionsGame::instance()->getAllowedMissedMoves() > 0)
+						{
+							// And this player has exceeded them
+							if (movesMissed >= OptionsGame::instance()->getAllowedMissedMoves())
+							{
+								// Then kick this player
+								NetPlayerID id = (NetPlayerID) tank->getPlayerId();
+								kickPlayer(id);
+							}
+						}
+					}
+				}
+			}
+
 			return true;
 		}
 	}

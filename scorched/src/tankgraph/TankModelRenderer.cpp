@@ -85,6 +85,8 @@ void TankModelRenderer::draw(bool currentTank)
 
 void TankModelRenderer::drawSecond(bool currentTank)
 {
+	if (!canSeeTank_) return;
+
 	// Draw the current shield (if any)
 	if (tank_->getAccessories().getShields().getCurrentShield())
 	{
@@ -97,12 +99,14 @@ void TankModelRenderer::drawSecond(bool currentTank)
 		Vector &bilX = GLCameraFrustum::instance()->getBilboardVectorX(); 
 		bilX *= float(tank_->getNameLen()) * 0.35f;
 
+		glDepthMask(GL_FALSE);
 		GLWFont::instance()->getFont()->drawBilboard(
 			tank_->getColor(), 1,
 			(float) tank_->getPhysics().getTankPosition()[0] - bilX[0], 
 			(float) tank_->getPhysics().getTankPosition()[1] - bilX[1], 
 			(float) tank_->getPhysics().getTankPosition()[2] + 8.0f,
 			tank_->getName());
+		glDepthMask(GL_TRUE);
 	}
 
 	// Draw the parachutes (if any)

@@ -100,6 +100,9 @@ public:
 	int getScoreTime() { return scoreTime_.getValue(); }
 	void setScoreTime(int value) { scoreTime_.setValue(value); }
 
+	int getAllowedMissedMoves() { return allowedMissedMoves_.getValue(); }
+	void setAllowedMissedMoves(int value) { allowedMissedMoves_.setValue(value); }
+
 	int getIdleKickTime() { return idleKickTime_.getValue(); }
 	void setIdleKickTime(int value) { idleKickTime_.setValue(value); }
 
@@ -165,6 +168,7 @@ protected:
 	OptionEntryInt shotTime_;
 	OptionEntryInt waitTime_;
 	OptionEntryInt scoreTime_;
+	OptionEntryInt allowedMissedMoves_;
 	OptionEntryInt numberOfRounds_;
 	OptionEntryBoundedInt numberOfPlayers_;
 	OptionEntryBoundedInt numberOfMinPlayers_;
