@@ -1,0 +1,68 @@
+Scorched 3D - http://www.scorched3d.co.uk
+
+Overview
+--------
+
+Scorched3D supports multiple platforms : Win32, Linux and Solaris.
+Each platform requires different libraries and compilers.  The
+following sections outline a brief guide to compiling.
+
+If any errors are encountered please see the FAQ and Forums at
+http://www.scorched3d.co.uk
+
+
+Windows (Win32)
+---------------
+
+Compilation of Scorched3D is supported on windows via the 
+Microsoft Visual Studio .NET compiler :- 
+http://www.microsoft.com/visualc
+and the free borland compiler :-
+http://www.borland.com/products/downloads/download_cbuilder.html.
+
+To compile using Visual Studio .NET compiler :- 
+1) Load the scorched.sln file in the base directory.
+2) Choose build from the build menu.  No extra libraries are required
+as they are all bundled in the source distribution.
+
+To compile using the borland compiler.
+NOTE: The borland versions of the wxWindows, SDL, SDL_net and SDL_mixer 
+libraries are required for compilation.
+1) cd into the borland sub-directory.
+2) Run the createMakefile.pl perl script (Note: Perl is required for this
+step http://www.activestate.com/ActivePerl/download.htm).
+3) Edit the generated makefile and make.cmd file to point to your installed
+borland compiler.
+4) Run the make.cmd file in the borland directory.
+
+
+Linux
+-----
+
+Compilation on Linux is supported via the GCC compiler.  You will also need
+to have to SDL, SDL_net, SDL_mixer and wxWindows packages installed.
+
+SDL, SDL_net, SDL_mixer are installed as part of the developer installation
+on some Linux systems, or they can be downloaded from :-
+http://www.libsdl.org/
+
+The wxWindows RPMs can be downloaded from :-
+http://www.wxwindows.org
+
+Run the following commands to compile scorched :-
+1) chmod +x autogen.sh
+2) ./autogen.sh
+3) make
+4) make install (may need to be done as root)
+
+Scorched3D will be installed in /usr/local/games/scorched3d.
+
+
+Generic
+-------
+
+A generic makefile generator is available in the generic directory.  cd into the 
+generic directory and run createMakefile.pl to generate the makefile.
+
+This makefile is a "generic" simple makefile that can be edited to allow scorched
+to be compiled on most systems.
