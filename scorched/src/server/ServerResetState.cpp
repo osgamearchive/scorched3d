@@ -22,6 +22,7 @@
 #include <server/ServerState.h>
 #include <server/ScorchedServer.h>
 #include <tank/TankDeadContainer.h>
+#include <tank/TankContainer.h>
 #include <scorched/ServerDialog.h>
 #include <common/OptionsTransient.h>
 #include <common/Logger.h>

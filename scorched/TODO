@@ -6,8 +6,10 @@ Fixed: Talk text appears under other windows (text now smaller too)
 Fixed: Fix camera presets
 Fixed: CTRL LF in mod files linux hosts causing mod file downloads
 Fixed: New games or rounds do not cause mod disconnection
+Fixed: Reduced the server to client payload size considerably (lag??)
 
 Added: Users can turn IP authentication off
+Added: Weapon and talk icons to the speach lines
 
 -- Bugs in current development release
 Dvorak keyboard support is broken

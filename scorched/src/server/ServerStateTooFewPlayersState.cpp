@@ -24,6 +24,7 @@
 #include <server/ServerNewGameState.h>
 #include <server/ServerState.h>
 #include <server/ServerCommon.h>
+#include <tank/TankContainer.h>
 #include <coms/ComsGameStoppedMessage.h>
 #include <coms/ComsGameStateMessage.h>
 #include <coms/ComsMessageSender.h>

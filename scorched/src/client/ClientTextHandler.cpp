@@ -22,8 +22,10 @@
 #include <client/ClientState.h>
 #include <client/ScorchedClient.h>
 #include <client/MessageDisplay.h>
+#include <tank/TankContainer.h>
 #include <engine/ActionController.h>
 #include <sprites/TalkRenderer.h>
+#include <sprites/ExplosionTextures.h>
 #include <coms/ComsTextMessage.h>
 #include <common/SoundStore.h>
 #include <common/Logger.h>
@@ -62,7 +64,10 @@ bool ClientTextHandler::processMessage(unsigned int id,
 		MessageDisplay::instance()->clear();
 		MessageDisplay::instance()->addMessage(message.getText());
 
-		Logger::log(0, message.getText());
+		Logger::log(
+			LoggerInfo(0,
+				&ExplosionTextures::instance()->talkTexture), 
+			message.getText());
 	}
 	else
 	{
@@ -73,7 +78,10 @@ bool ClientTextHandler::processMessage(unsigned int id,
 			if (ScorchedClient::instance()->getGameState().getState() == 
 				ClientState::StateConnect)
 			{
-				Logger::log(0, message.getText());
+				Logger::log(
+					LoggerInfo(0,
+						&ExplosionTextures::instance()->talkTexture), 
+					message.getText());
 			}
 			else
 			{
@@ -90,7 +98,10 @@ bool ClientTextHandler::processMessage(unsigned int id,
 					ScorchedClient::instance()->getActionController().addAction(new SpriteAction(talk));
 				}
 
-				Logger::log(message.getPlayerId(), message.getText());
+				Logger::log(
+					LoggerInfo(message.getPlayerId(),
+						&ExplosionTextures::instance()->talkTexture), 
+					message.getText());
 			}
 		}
 	}

@@ -57,7 +57,7 @@ public:
 	virtual void logMessage(
 		const char *time,
 		const char *message,
-		unsigned int playerId);
+		const LoggerInfo &info);
 
 protected:
 	static GLConsole *instance_;

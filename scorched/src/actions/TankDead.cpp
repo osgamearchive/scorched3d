@@ -62,6 +62,18 @@ void TankDead::simulate(float frameTime, bool &remove)
 	{
 		firstTime_ = false;
 
+		GLTexture *weaponTexture = 0;
+		if (!context_->serverMode)
+		{
+			Accessory *accessory = 
+				context_->accessoryStore->
+				findByPrimaryAccessoryName(weapon_->getName());
+			if (accessory)
+			{
+				weaponTexture = accessory->getTexture();
+			}
+		}
+
 		Tank *killedTank = 
 			context_->tankContainer->getTankById(killedPlayerId_);
 		Tank *firedTank = 
@@ -69,19 +81,6 @@ void TankDead::simulate(float frameTime, bool &remove)
 
 		if (killedTank)
 		{
-			// Point the action camera at this event
-			if (context_->serverMode)
-			{
-				const float ShowTime = 5.0f;
-				ActionMeta *pos = new CameraPositionAction(
-					killedTank->getPhysics().getTankPosition(), ShowTime,
-					20);
-				context_->actionController->getBuffer().serverAdd(
-					context_->actionController->getActionTime() - 4.0f,
-					pos);
-				delete pos;
-			}
-
 			// Print the banner on who killed who
 			if (firedTank)
 			{
@@ -94,7 +93,8 @@ void TankDead::simulate(float frameTime, bool &remove)
 							tankSelfKilled(firedTank, weapon_);
 						StatsLogger::instance()->
 							weaponKilled(weapon_, (data_ & Weapon::eDataDeathAnimation));
-						Logger::log(0,
+						Logger::log(
+							LoggerInfo(0, weaponTexture),
 							"\"%s\" killed self with a \"%s\"",
 							killedTank->getName(),
 							weapon_->getName());
@@ -106,11 +106,12 @@ void TankDead::simulate(float frameTime, bool &remove)
 							tankTeamKilled(firedTank, killedTank, weapon_);
 						StatsLogger::instance()->
 							weaponKilled(weapon_, (data_ & Weapon::eDataDeathAnimation));
-						Logger::log(0,
-								"\"%s\" team killed \"%s\" with a \"%s\"",
-								firedTank->getName(),
-								killedTank->getName(),
-								weapon_->getName());
+						Logger::log(
+							LoggerInfo(0, weaponTexture),
+							"\"%s\" team killed \"%s\" with a \"%s\"",
+							firedTank->getName(),
+							killedTank->getName(),
+							weapon_->getName());
 					}
 					else
 					{
@@ -118,11 +119,12 @@ void TankDead::simulate(float frameTime, bool &remove)
 							tankKilled(firedTank, killedTank, weapon_);
 						StatsLogger::instance()->
 							weaponKilled(weapon_, (data_ & Weapon::eDataDeathAnimation));
-						Logger::log(0,
-								"\"%s\" killed \"%s\" with a \"%s\"",
-								firedTank->getName(),
-								killedTank->getName(),
-								weapon_->getName());
+						Logger::log(
+							LoggerInfo(0, weaponTexture),
+							"\"%s\" killed \"%s\" with a \"%s\"",
+							firedTank->getName(),
+							killedTank->getName(),
+							weapon_->getName());
 					}
 				}
 			}
@@ -138,11 +140,12 @@ void TankDead::simulate(float frameTime, bool &remove)
 						tankKilled(&firedTank, killedTank, weapon_); 
 					StatsLogger::instance()->
 						weaponKilled(weapon_, (data_ & Weapon::eDataDeathAnimation));
-					Logger::log(0,
-							"\"%s\" killed \"%s\" with a \"%s\"",
-							firedTank.getName(),
-							killedTank->getName(),
-							weapon_->getName());
+					Logger::log(
+						LoggerInfo(0, weaponTexture),
+						"\"%s\" killed \"%s\" with a \"%s\"",
+						firedTank.getName(),
+						killedTank->getName(),
+						weapon_->getName());
 				}
 			}
 
@@ -187,5 +190,20 @@ bool TankDead::readAction(NetBufferReader &reader)
 	if (!reader.getFromBuffer(firedPlayerId_)) return false;
 	if (!reader.getFromBuffer(data_)) return false;
 	weapon_ = context_->accessoryStore->readWeapon(reader); if (!weapon_) return false;
+
+	Tank *killedTank = 
+			context_->tankContainer->getTankById(killedPlayerId_);
+	if (killedTank)
+	{
+		if (killedTank->getState().getState() == TankState::sNormal)
+		{
+			const float ShowTime = 5.0f;
+			ActionMeta *pos = new CameraPositionAction(
+				killedTank->getPhysics().getTankPosition(), ShowTime,
+				20);
+			context_->actionController->getBuffer().clientAdd(-4.0f, pos);
+		}
+	}
+
 	return true;
 }

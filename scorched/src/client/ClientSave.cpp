@@ -22,6 +22,7 @@
 #include <client/ScorchedClient.h>
 #include <server/ScorchedServer.h>
 #include <tankai/TankAIStore.h>
+#include <tank/TankContainer.h>
 #include <coms/NetBuffer.h>
 #include <coms/ComsAddPlayerMessage.h>
 #include <coms/ComsMessageSender.h>

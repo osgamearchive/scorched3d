@@ -25,6 +25,7 @@
 #include <scorched/ListDialog.h>
 #include <tankai/TankAIStore.h>
 #include <tankai/TankAIAdder.h>
+#include <tank/TankContainer.h>
 #include <engine/ModFiles.h>
 #include <common/OptionsGame.h>
 #include <common/OptionsTransient.h>
@@ -782,7 +783,7 @@ public:
 	virtual void logMessage(
 		const char *time,
 		const char *message,
-		unsigned int playerId)
+		const LoggerInfo &info)
 	{
 		// Make sure the list does not exceed 500 entries
 		if (frame->logList_->GetItemCount() > 499)

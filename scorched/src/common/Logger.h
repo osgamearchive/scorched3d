@@ -24,7 +24,17 @@
 #include <stdio.h>
 #include <string>
 #include <list>
-#include <tank/TankContainer.h>
+
+class GLTexture;
+class LoggerInfo
+{
+public:
+	LoggerInfo(unsigned int pId = 0,
+		GLTexture *icon = 0);
+
+	unsigned int playerId;
+	GLTexture *icon;
+};
 
 class LoggerI
 {
@@ -32,7 +42,7 @@ public:
 	virtual void logMessage(
 		const char *time,
 		const char *message,
-		unsigned int playerId) = 0;
+		const LoggerInfo &info) = 0;
 };
 
 // ************************************************
@@ -44,10 +54,11 @@ class Logger
 public:
 	static Logger *instance();
 
+	static LoggerInfo defaultInfo;
 	static void addLogger(LoggerI *logger);
 	static void remLogger(LoggerI *logger);
 	static void processLogEntries();
-	static void log(unsigned int playerId, const char *fmt, ...);
+	static void log(const LoggerInfo &info, const char *fmt, ...);
 
 protected:
 	static Logger *instance_;
@@ -55,14 +66,14 @@ protected:
 	{
 		std::string time_;
 		std::string message_;
-		unsigned int playerId_;
+		LoggerInfo info_;
 	};
 
 	std::list<LoggerI *> loggers_;
 	std::list<LogEntry> entries_;
 
-	static void addLog(char *time, char *text, unsigned int playerId);
-
+	static void addLog(char *time, char *text, 
+		const LoggerInfo &info);
 
 private:
 	Logger();
@@ -78,7 +89,7 @@ public:
 	virtual void logMessage(
 		const char *time,
 		const char *message,
-		unsigned int playerId);
+		const LoggerInfo &info);
 
 protected:
 	std::string fileName_;

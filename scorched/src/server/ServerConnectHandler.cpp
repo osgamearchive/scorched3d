@@ -25,6 +25,7 @@
 #include <server/ServerCommon.h>
 #include <tank/TankColorGenerator.h>
 #include <tank/TankDeadContainer.h>
+#include <tank/TankContainer.h>
 #include <tankai/TankAIAdder.h>
 #include <tankai/TankAIStrings.h>
 #include <common/OptionsParam.h>

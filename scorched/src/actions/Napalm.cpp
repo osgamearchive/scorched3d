@@ -64,20 +64,6 @@ void Napalm::init()
 		set_ = ExplosionTextures::instance()->getTextureSetByName(
 			weapon_->getNapalmTexture());
 	}
-
-	// Point the action camera at this event
-	if (context_->serverMode)
-	{
-		const float ShowTime = 5.0f;
-		Vector position((float) x_, (float) y_, getHeight(x_, y_));
-		ActionMeta *pos = new CameraPositionAction(
-			position, ShowTime,
-			5);
-		context_->actionController->getBuffer().serverAdd(
-			context_->actionController->getActionTime() - 4.0f,
-			pos);
-		delete pos;
-	}
 }
 
 void Napalm::simulate(float frameTime, bool &remove)
@@ -427,5 +413,12 @@ bool Napalm::readAction(NetBufferReader &reader)
 	weapon_ = (WeaponNapalm *) context_->accessoryStore->readWeapon(reader); if (!weapon_) return false;
 	if (!reader.getFromBuffer(playerId_)) return false;
 	if (!reader.getFromBuffer(data_)) return false;
+
+	const float ShowTime = 5.0f;
+	Vector position((float) x_, (float) y_, getHeight(x_, y_));
+	ActionMeta *pos = new CameraPositionAction(
+		position, ShowTime, 5);
+	context_->actionController->getBuffer().clientAdd(-4.0f, pos);
+
 	return true;
 }

@@ -23,6 +23,7 @@
 #include <dialogs/RulesDialog.h>
 #include <dialogs/ConnectDialog.h>
 #include <engine/ModFiles.h>
+#include <tank/TankContainer.h>
 #include <coms/ComsConnectAcceptMessage.h>
 #include <coms/ComsHaveModFilesMessage.h>
 #include <coms/ComsMessageSender.h>

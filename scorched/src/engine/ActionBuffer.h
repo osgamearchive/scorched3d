@@ -18,14 +18,15 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #if !defined(__INCLUDE_ActionBufferh_INCLUDE__)
 #define __INCLUDE_ActionBufferh_INCLUDE__
 
 #include <engine/ActionMeta.h>
 #include <list>
+#include <map>
 
 class ScorchedContext;
+class ActionController;
 class ActionBuffer
 {
 public:
@@ -36,17 +37,23 @@ public:
 	bool empty();
 	int size();
 
-	void serverAdd(float time, ActionMeta *action);
-	ActionMeta *getActionForTime(float time);
-	void setContext(ScorchedContext *c) { context_ = c; }
-
+	void clientAdd(float time, ActionMeta *action);
 	bool writeMessage(NetBuffer &buffer);
 	bool readMessage(NetBufferReader &reader);
 
 protected:
+	friend class ActionController;
+
+	void serverAdd(float time, ActionMeta *action);
+	ActionMeta *getActionForTime(float time);
+	void setContext(ScorchedContext *c) { context_ = c; }
+
+protected:
 	NetBuffer actionBuffer_;
 	std::list<std::pair<float, ActionMeta *> > actionList_;
+	std::multimap<float, ActionMeta *> tmpOrderedList;
 	ScorchedContext *context_;
+	float clientTime_;
 
 };
 

@@ -22,6 +22,7 @@
 #include <server/ScorchedServer.h>
 #include <server/ServerBanned.h>
 #include <server/ServerMessageHandler.h>
+#include <tank/TankContainer.h>
 #include <common/OptionsParam.h>
 #include <common/OptionsGame.h>
 #include <common/Logger.h>

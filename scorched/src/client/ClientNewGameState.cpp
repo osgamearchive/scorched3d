@@ -24,6 +24,7 @@
 #include <client/MainBanner.h>
 #include <client/ScorchedClient.h>
 #include <client/ClientState.h>
+#include <tank/TankContainer.h>
 #include <landscape/Landscape.h>
 #include <tankgraph/TankRenderer.h>
 #include <GLEXT/GLLenseFlare.h>

@@ -26,6 +26,7 @@
 #include <server/ScorchedServer.h>
 #include <tankai/TankAIHuman.h>
 #include <tankai/TankAIComputer.h>
+#include <tank/TankContainer.h>
 #include <tankgraph/TankMenus.h>
 #include <tankgraph/TankModelRenderer.h>
 #include <GLW/GLWWindowManager.h>

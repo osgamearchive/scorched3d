@@ -24,6 +24,7 @@
 #include <server/ServerState.h>
 #include <server/ServerShotHolder.h>
 #include <server/ServerCommon.h>
+#include <tank/TankContainer.h>
 #include <actions/TankScored.h>
 #include <actions/ShowScore.h>
 #include <coms/ComsActionsMessage.h>

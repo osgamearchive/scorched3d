@@ -33,11 +33,9 @@ REGISTER_ACTION_SOURCE(ShotBounce);
 
 ShotBounce::ShotBounce() : 
 	collisionInfo_(CollisionIdBounce),
-	totalTime_(0.0f), actionId_(0), actionVector_(0),
-	snapshotTime_(0.0f), vPoint_(0), model_(0), data_(0)
+	totalTime_(0.0f), 
+	vPoint_(0), model_(0), data_(0)
 {
-	memset(rotMatrix_, 0, sizeof(float) * 16);
-	rotMatrix_[0] = rotMatrix_[5] = rotMatrix_[10] = rotMatrix_[15] = 1.0f;
 }
 
 ShotBounce::ShotBounce(Vector &startPosition, Vector &velocity,
@@ -45,47 +43,23 @@ ShotBounce::ShotBounce(Vector &startPosition, Vector &velocity,
 	unsigned int data) : 
 	collisionInfo_(CollisionIdBounce), startPosition_(startPosition),
 	velocity_(velocity), weapon_(weapon), playerId_(playerId),
-	totalTime_(0.0f), actionId_(0), actionVector_(0),
-	snapshotTime_(0.0f), vPoint_(0), model_(0), data_(data)
+	totalTime_(0.0f), 
+	vPoint_(0), model_(0), data_(data)
 {
-	memset(rotMatrix_, 0, sizeof(float) * 16);
-	rotMatrix_[0] = rotMatrix_[5] = rotMatrix_[10] = rotMatrix_[15] = 1.0f;
-	actionId_ = ActionVectorHolder::getNextActionId();
 }
 
 void ShotBounce::init()
 {
-	if (context_->serverMode)
-	{
-		setPhysics(startPosition_, velocity_, 1.0f, 5.0f);
-		collisionInfo_.data = this;
-		collisionInfo_.collisionOnSurface = true;
-		physicsObject_.setData(&collisionInfo_);
+	setPhysics(startPosition_, velocity_, 1.0f, 5.0f);
+	collisionInfo_.data = this;
+	collisionInfo_.collisionOnSurface = true;
+	physicsObject_.setData(&collisionInfo_);
 
-		actionVector_ = new ActionVector(actionId_);	
-
-		// Point the action camera at this event
-		const float ShowTime = 5.0f;
-		ActionMeta *pos = new CameraPositionAction(
-			startPosition_, ShowTime,
-			5);
-		context_->actionController->getBuffer().serverAdd(
-			context_->actionController->getActionTime() - 4.0f,
-			pos);
-		delete pos;
-	}
-	else
-	{
-		actionVector_ = ActionVectorHolder::getActionVector(actionId_);
-	}
 	//vPoint_ = context_->viewPoints.getNewViewPoint(playerId_);
 }
 
 ShotBounce::~ShotBounce()
 {
-	ActionVectorHolder::getActionVector(actionId_);
-	if (actionVector_) actionVector_->remove();
-	if (context_->serverMode) delete actionVector_;
 	if (vPoint_) context_->viewPoints->releaseViewPoint(vPoint_);
 }
 
@@ -97,57 +71,6 @@ void ShotBounce::collision(Vector &position)
 
 void ShotBounce::simulate(float frameTime, bool &remove)
 {
-	const float timeStep = 0.1f;
-	snapshotTime_ += frameTime;
-	while (snapshotTime_ > timeStep)
-	{
-		if (context_->serverMode) 
-		{
-			actionVector_->addPointF(getCurrentPosition()[0]);
-			actionVector_->addPointF(getCurrentPosition()[1]);
-			actionVector_->addPointF(getCurrentPosition()[2]);
-			float *quat = getRotationQuat();
-			for (int i=0; i<4; i++)
-				actionVector_->addPointF(quat[i]);
-		}
-		else
-		{
-			if (!actionVector_ || actionVector_->empty()) remove = true;
-			else
-			{
-				startPosition_[0] = actionVector_->getPointF();
-				startPosition_[1] = actionVector_->getPointF();
-				startPosition_[2] = actionVector_->getPointF();
-				dReal quat[4];
-				for (int i=0; i<4; i++)
-					quat[i] = (dReal) actionVector_->getPointF();
-
-				// And I thought this would be easy!!
-				dMatrix3 matrix;
-				dQtoR(quat, matrix);
-				rotMatrix_[0] = matrix[0];
-				rotMatrix_[1] = matrix[4];
-				rotMatrix_[2] = matrix[8];
-				rotMatrix_[4] = matrix[1];
-				rotMatrix_[5] = matrix[5];
-				rotMatrix_[6] = matrix[9];
-				rotMatrix_[8] = matrix[2];
-				rotMatrix_[9] = matrix[6];
-				rotMatrix_[10] = matrix[10];
-				rotMatrix_[3] = rotMatrix_[7] = rotMatrix_[11] = 0.0;
-				rotMatrix_[15] = 1.0;
-				rotMatrix_[12] = rotMatrix_[13] = rotMatrix_[14] = 0.0;				
-
-				if (vPoint_)
-				{
-					vPoint_->setPosition(startPosition_);
-				}
-			}
-		}
-
-		snapshotTime_ -= timeStep;
-	}
-
 	totalTime_ += frameTime;
 	if (totalTime_ > weapon_->getTime())
 	{
@@ -162,6 +85,28 @@ void ShotBounce::draw()
 {
 	if (!context_->serverMode) 
 	{
+		static double rotMatrix[16];
+		static dReal quat[4];
+		float *fquat = getRotationQuat();
+		for (int i=0; i<4; i++)
+			quat[i] = (dReal) fquat[i];
+
+		// And I thought this would be easy!!
+		dMatrix3 matrix;
+		dQtoR(quat, matrix);
+		rotMatrix[0] = matrix[0];
+		rotMatrix[1] = matrix[4];
+		rotMatrix[2] = matrix[8];
+		rotMatrix[4] = matrix[1];
+		rotMatrix[5] = matrix[5];
+		rotMatrix[6] = matrix[9];
+		rotMatrix[8] = matrix[2];
+		rotMatrix[9] = matrix[6];
+		rotMatrix[10] = matrix[10];
+		rotMatrix[3] = rotMatrix[7] = rotMatrix[11] = 0.0;
+		rotMatrix[15] = 1.0;
+		rotMatrix[12] = rotMatrix[13] = rotMatrix[14] = 0.0;	
+
 		if (!model_)
 		{
 			ModelID &id = ((WeaponRoller *) weapon_)->getRollerModelID();
@@ -171,8 +116,11 @@ void ShotBounce::draw()
 
 		GLState state(GLState::TEXTURE_OFF);
 		glPushMatrix();
-			glTranslatef(startPosition_[0], startPosition_[1], startPosition_[2]);
-			glMultMatrixd(rotMatrix_);
+			glTranslatef(
+				getCurrentPosition()[0], 
+				getCurrentPosition()[1], 
+				getCurrentPosition()[2]);
+			glMultMatrixd(rotMatrix);
 			glScalef(0.08f, 0.08f, 0.08f);
 			model_->draw();
 		glPopMatrix();
@@ -181,11 +129,6 @@ void ShotBounce::draw()
 
 void ShotBounce::doCollision()
 {
-	if (context_->serverMode)
-	{
-		context_->actionController->getBuffer().serverAdd(0.0f, actionVector_);
-	}
-	
 	WeaponRoller *proj = (WeaponRoller *) weapon_;
 	proj->getCollisionAction()->fireWeapon(
 		*context_,
@@ -196,8 +139,9 @@ void ShotBounce::doCollision()
 bool ShotBounce::writeAction(NetBuffer &buffer)
 {
 	buffer.addToBuffer(playerId_);
-	buffer.addToBuffer(actionId_);
 	buffer.addToBuffer(data_);
+	buffer.addToBuffer(startPosition_);
+	buffer.addToBuffer(velocity_);
 	context_->accessoryStore->writeWeapon(buffer, weapon_);
 	return true;
 }
@@ -205,8 +149,17 @@ bool ShotBounce::writeAction(NetBuffer &buffer)
 bool ShotBounce::readAction(NetBufferReader &reader)
 {
 	if (!reader.getFromBuffer(playerId_)) return false;
-	if (!reader.getFromBuffer(actionId_)) return false;
 	if (!reader.getFromBuffer(data_)) return false;
+	if (!reader.getFromBuffer(startPosition_)) return false;
+	if (!reader.getFromBuffer(velocity_)) return false;
 	weapon_ = (WeaponRoller *) context_->accessoryStore->readWeapon(reader); if (!weapon_) return false;
+
+	// Point the action camera at this event
+	const float ShowTime = 5.0f;
+	ActionMeta *pos = new CameraPositionAction(
+		startPosition_, ShowTime,
+		5);
+	context_->actionController->getBuffer().clientAdd(-4.0f, pos);
+
 	return true;
 }

@@ -1033,18 +1033,18 @@ out in a random direction.</description>
 		<projectilescale>5</projectilescale>
 		<projectilemodel type="MilkShape">icbm/icbm.txt</projectilemodel>
 		<collisionaction type="WeaponMirv">
-			<name>Death Head</name>
+			<name>Death's Head</name>
 			<armslevel>2</armslevel>
 			<nowarheads>20</nowarheads>
 			<hspreaddist>1.0</hspreaddist>
 			<vspreaddist>5.0</vspreaddist>
 			<aimedweapon type="WeaponProjectile">
-				<name>Death Head</name>
+				<name>Death's Head</name>
 				<armslevel>2</armslevel>	
 				<projectilescale>0.5</projectilescale>
 				<projectilemodel type="MilkShape">mirvwarhead/mirvwarhead.txt</projectilemodel>
 				<collisionaction type="WeaponExplosion">
-					<name>Death Head</name>
+					<name>Death's Head</name>
 					<armslevel>2</armslevel>
 					<deform>down</deform>
 					<hurtamount>1.0</hurtamount>

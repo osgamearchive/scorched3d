@@ -52,11 +52,12 @@ MainBanner::~MainBanner()
 void MainBanner::logMessage(
 		const char *time,
 		const char *message,
-		unsigned int playerId)
+		const LoggerInfo &info)
 {
 	Tank *source = ScorchedClient::instance()->
-		getTankContainer().getTankById(playerId);
+		getTankContainer().getTankById(info.playerId);
 	banner_->addLine(source?source->getColor():GLFontBanner::defaultColor, 
+		info.icon,
 		message);
 }
 

@@ -20,6 +20,7 @@
 
 #include <actions/TankResign.h>
 #include <engine/ScorchedContext.h>
+#include <tank/TankContainer.h>
 #include <common/Defines.h>
 #include <common/Logger.h>
 #include <common/OptionsParam.h>

@@ -24,6 +24,7 @@
 #include <GLW/GLWTextButton.h>
 #include <GLW/GLWFont.h>
 #include <GLW/GLWWindowManager.h>
+#include <tank/TankContainer.h>
 #include <common/OptionsParam.h>
 #include <common/OptionsGame.h>
 #include <common/OptionsTransient.h>

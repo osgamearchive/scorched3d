@@ -24,6 +24,7 @@
 #include <coms/NetInterface.h>
 #include <common/Defines.h>
 #include <common/Logger.h>
+#include <tank/TankContainer.h>
 #include <client/ScorchedClient.h>
 #include <server/ScorchedServer.h>
 #include <zlib/zlib.h>

@@ -23,6 +23,7 @@
 #include <server/ServerCommon.h>
 #include <server/ServerBanned.h>
 #include <tank/TankDeadContainer.h>
+#include <tank/TankContainer.h>
 #include <coms/ComsRmPlayerMessage.h>
 #include <coms/ComsMessageSender.h>
 #include <coms/NetInterface.h>

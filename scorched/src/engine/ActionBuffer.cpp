@@ -18,11 +18,10 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <map>
 #include <engine/ActionBuffer.h>
 #include <common/Logger.h>
 
-ActionBuffer::ActionBuffer() : context_(0)
+ActionBuffer::ActionBuffer() : context_(0), clientTime_(0.0f)
 {
 }
 
@@ -62,10 +61,20 @@ void ActionBuffer::serverAdd(float time, ActionMeta *action)
 
 	// Add this action into the buffer to be sent to 
 	// the client
+	unsigned int usedBefore = actionBuffer_.getBufferUsed();
 	actionBuffer_.addToBuffer(time);
 	actionBuffer_.addToBuffer(action->getClassName());
 	action->setScorchedContext(context_);
 	action->writeAction(actionBuffer_);
+	unsigned int usedAfter = actionBuffer_.getBufferUsed();
+
+	// Log buffer usage
+	if (false)
+	{
+		Logger::log(0, "Action size %s = %u", 
+			action->getClassName(),
+			usedAfter - usedBefore);
+	}
 }
 
 ActionMeta *ActionBuffer::getActionForTime(float time)
@@ -87,13 +96,23 @@ bool ActionBuffer::writeMessage(NetBuffer &buffer)
 	return true;
 }
 
+void ActionBuffer::clientAdd(float time, ActionMeta *action)
+{
+	action->setScorchedContext(context_);
+	tmpOrderedList.insert(
+		std::pair<float, ActionMeta *>(time + clientTime_, action));
+}
+
 bool ActionBuffer::readMessage(NetBufferReader &reader)
 {
-	std::multimap<float, ActionMeta *> orderedList;
+	// Clear client list
+	tmpOrderedList.clear();
 
 	float time;
 	while (reader.getFromBuffer(time))
 	{
+		clientTime_ = time;
+
 		// Create and read the action
 		std::string actionName;
 		if (!reader.getFromBuffer(actionName)) return false;
@@ -104,15 +123,14 @@ bool ActionBuffer::readMessage(NetBufferReader &reader)
 		if (!newAction->readAction(reader)) return false;
 
 		// Put the action onto the list
-		orderedList.insert(
-			std::pair<float, ActionMeta *>(time, newAction));
+		clientAdd(0.0f, newAction);
 	}
 
 	// Now order the list (This is so you can add actions for any
 	// time interval
 	std::multimap<float, ActionMeta *>::iterator itor;
-	std::multimap<float, ActionMeta *>::iterator endItor = orderedList.end();
-	for (itor = orderedList.begin();
+	std::multimap<float, ActionMeta *>::iterator endItor = tmpOrderedList.end();
+	for (itor = tmpOrderedList.begin();
 			itor != endItor;
 			itor++)
 	{

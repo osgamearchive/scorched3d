@@ -24,6 +24,7 @@
 #include <GLW/GLWidget.h>
 #include <common/Vector.h>
 
+class GLTexture;
 class GLFontBannerEntry
 {
 public:
@@ -31,6 +32,9 @@ public:
 	virtual ~GLFontBannerEntry();
 
 	bool decrementTime(float time);
+
+	void setTexture(GLTexture *tex) { texture_ = tex; }
+	GLTexture *getTexture() { return texture_; }
 
 	char *getText() { return textLine_; }
 	void setText(char *text);
@@ -42,6 +46,7 @@ public:
 protected:
 	char textLine_[1024];
 	Vector color_;
+	GLTexture *texture_;
 	int len_;
 	float timeRemaining_;
 };
@@ -57,7 +62,8 @@ public:
 
 	virtual void simulate(float frameTime);
 	virtual void draw();
-	void addLine(Vector &color, const char *fmt, ...);
+	void addLine(Vector &color, GLTexture *texture, 
+		const char *fmt, ...);
 	
 	void setX(float x) { x_ = x; }
 	void setY(float y) { y_ = y; }

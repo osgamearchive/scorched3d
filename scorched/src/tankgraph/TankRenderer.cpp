@@ -20,6 +20,7 @@
 
 #include <tankgraph/TankRenderer.h>
 #include <tankgraph/TankModelRenderer.h>
+#include <tank/TankContainer.h>
 #include <client/ClientState.h>
 #include <client/ScorchedClient.h>
 #include <client/MainCamera.h>

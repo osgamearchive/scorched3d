@@ -22,6 +22,7 @@
 #include <sprites/TextActionRenderer.h>
 #include <engine/ScorchedContext.h>
 #include <engine/ActionController.h>
+#include <tank/TankContainer.h>
 #include <common/Defines.h>
 #include <common/OptionsParam.h>
 #include <common/Logger.h>

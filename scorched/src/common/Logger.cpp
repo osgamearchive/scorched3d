@@ -20,7 +20,7 @@
 
 #include <common/Defines.h>
 #include <common/Logger.h>
-#include <tank/TankContainer.h>
+#include <GLEXT/GLTexture.h>
 #include <SDL/SDL.h>
 #include <time.h>
 #include <stdio.h>
@@ -30,6 +30,12 @@
 // ************************************************
 // NOTE: This logger is and needs to be thread safe
 // ************************************************
+
+LoggerInfo::LoggerInfo(unsigned int pId,
+	GLTexture *ic) : 
+	playerId(pId), icon(ic)
+{
+}
 
 static SDL_mutex *logMutex_ = 0;
 Logger * Logger::instance_ = 0;
@@ -76,7 +82,7 @@ void Logger::remLogger(LoggerI *logger)
 	SDL_UnlockMutex(logMutex_);
 }
 
-void Logger::log(unsigned int playerId, const char *fmt, ...)
+void Logger::log(const LoggerInfo &info, const char *fmt, ...)
 {
 	Logger::instance();
 
@@ -103,22 +109,22 @@ void Logger::log(unsigned int playerId, const char *fmt, ...)
 		while (found)
 		{
 			*found = '\0';
-			addLog(time, start, playerId);
+			addLog(time, start, info);
 			start = found;
 			start++;
 
 			found = strchr(start, '\n');
 		}
-		if (start[0] != '\0') addLog(time, start, playerId);
+		if (start[0] != '\0') addLog(time, start, info);
 	}
 	else
 	{
-		addLog(time, text, playerId);
+		addLog(time, text, info);
 	}
 	SDL_UnlockMutex(logMutex_);
 }
 
-void Logger::addLog(char *time, char *text, unsigned int playerId)
+void Logger::addLog(char *time, char *text, const LoggerInfo &info)
 {
 	Logger::instance();
 
@@ -127,7 +133,7 @@ void Logger::addLog(char *time, char *text, unsigned int playerId)
 
 	lastEntry.time_ = time;
 	lastEntry.message_ = text;
-	lastEntry.playerId_ = playerId;
+	lastEntry.info_ = info;
 }
 
 void Logger::processLogEntries()
@@ -150,7 +156,7 @@ void Logger::processLogEntries()
 			log->logMessage(
 				firstEntry.time_.c_str(), 
 				firstEntry.message_.c_str(), 
-				firstEntry.playerId_);
+				firstEntry.info_);
 		}
 
 		entries.pop_front();
@@ -169,9 +175,9 @@ FileLogger::~FileLogger()
 }
 
 void FileLogger::logMessage(
-		const char *time,
-		const char *message,
-		unsigned int playerId)
+	const char *time,
+	const char *message,
+	const LoggerInfo &info)
 {
 	const unsigned int MaxLines = 4000;
 	if (!logFile_ || (lines_++>MaxLines)) openFile(fileName_.c_str());

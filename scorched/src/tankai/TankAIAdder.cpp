@@ -22,6 +22,7 @@
 #include <tankai/TankAIStore.h>
 #include <tankai/TankAIStrings.h>
 #include <tank/TankColorGenerator.h>
+#include <tank/TankContainer.h>
 #include <common/OptionsGame.h>
 #include <common/OptionsParam.h>
 #include <common/OptionsTransient.h>

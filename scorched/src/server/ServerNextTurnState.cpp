@@ -24,6 +24,7 @@
 #include <server/TurnController.h>
 #include <server/ServerCommon.h>
 #include <tankai/TankAIComputer.h>
+#include <tank/TankContainer.h>
 #include <coms/ComsStartGameMessage.h>
 #include <coms/ComsTimerStartMessage.h>
 #include <coms/ComsMessageSender.h>

@@ -200,19 +200,6 @@ void Explosion::init()
 		// Make the camera shake
 		MainCamera::instance()->getCamera().addShake(weapon_->getShake());
 	}
-	else 
-	{
-		if (0 != strcmp(weapon_->getAccessoryTypeName(), "WeaponMuzzle"))
-		{
-			const float ShowTime = 4.0f;
-			ActionMeta *pos = new CameraPositionAction(
-				position_, ShowTime, 10);
-			context_->actionController->getBuffer().serverAdd(
-				context_->actionController->getActionTime() - 3.0f,
-				pos);
-			delete pos;
-		}
-	}
 }
 
 void Explosion::simulate(float frameTime, bool &remove)
@@ -301,5 +288,14 @@ bool Explosion::readAction(NetBufferReader &reader)
 	weapon_ = (WeaponExplosion *) context_->accessoryStore->readWeapon(reader); if (!weapon_) return false;
 	if (!reader.getFromBuffer(playerId_)) return false;
 	if (!reader.getFromBuffer(data_)) return false;
+
+	if (0 != strcmp(weapon_->getAccessoryTypeName(), "WeaponMuzzle"))
+	{
+		const float ShowTime = 4.0f;
+		ActionMeta *pos = new CameraPositionAction(
+			position_, ShowTime, 10);
+		context_->actionController->getBuffer().clientAdd(-3.0f, pos);
+	}
+
 	return true;
 }

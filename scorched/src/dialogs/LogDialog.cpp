@@ -58,7 +58,7 @@ LogDialog::~LogDialog()
 void LogDialog::logMessage(
 		const char *time,
 		const char *message,
-		unsigned int playerId)
+		const LoggerInfo &info)
 {
 	listView_->addLine(message);
 }

@@ -20,6 +20,7 @@
 
 #include <stdio.h> 
 #include <GLEXT/GLFontBanner.h>
+#include <GLEXT/GLTexture.h>
 #include <GLW/GLWFont.h>
 
 static const float visibleTimeLimit = 10.0f;
@@ -64,7 +65,8 @@ GLFontBanner::~GLFontBanner()
 	delete [] textLines_;
 }
 
-void GLFontBanner::addLine(Vector &color, const char *fmt, ...)
+void GLFontBanner::addLine(Vector &color, GLTexture *texture, 
+	const char *fmt, ...)
 {
 	bool textRemoved = false;
 	if (usedLines_ < totalLines_)
@@ -95,6 +97,7 @@ void GLFontBanner::addLine(Vector &color, const char *fmt, ...)
 
 	textLines_[pos].setText(text);
 	textLines_[pos].setColor(color);
+	textLines_[pos].setTexture(texture);
 }
 
 void GLFontBanner::simulate(float frameTime)
@@ -119,11 +122,12 @@ void GLFontBanner::draw()
 
 	if (usedLines_ > 0)
 	{
-		GLState currentStateBlend(GLState::BLEND_ON | GLState::DEPTH_OFF);
+		GLState currentStateBlend(GLState::TEXTURE_ON | 
+			GLState::BLEND_ON | GLState::DEPTH_OFF);
 
 		Vector black(0.0f, 0.0f, 0.0f);
-		const int fontWidth = 10;
-		const int outlineFontWidth = 14;
+		const float fontWidth = 12;
+		const float outlineFontWidth = 16;
 
 		float start = y_ + lineDepth * usedLines_;
 		{
@@ -151,14 +155,40 @@ void GLFontBanner::draw()
 			int pos = startLine_;
 			int used = usedLines_;
 			for (int i=0; i<used; i++)
-			{		
+			{
+				GLFontBannerEntry &entry = textLines_[pos];
+
+				// Figure texture width
 				float minus = GLWFont::instance()->getLargePtFont()->
-					getWidth(fontWidth, textLines_[pos].getText()) / 2.0f;
-				
+					getWidth(fontWidth, entry.getText()) / 2.0f;
+				float x = x_ - minus;
+				float y = start - i * lineDepth;
+
+				// Draw icon
+				if (entry.getTexture())
+				{
+					entry.getTexture()->draw();
+					glPushMatrix();
+						glTranslatef(x - fontWidth - 5.0f, y, 0.0f);
+						glColor3f(1.0f, 1.0f, 1.0f);
+						glBegin(GL_QUADS);
+							glTexCoord2f(0.0f, 0.0f);
+							glVertex2f(0.0f, 0.0f);
+							glTexCoord2f(1.0f, 0.0f);
+							glVertex2f(outlineFontWidth, 0.0f);
+							glTexCoord2f(1.0f, 1.0f);
+							glVertex2f(outlineFontWidth, outlineFontWidth);
+							glTexCoord2f(0.0f, 1.0f);
+							glVertex2f(0.0f, outlineFontWidth);
+						glEnd();
+					glPopMatrix();
+				}
+
+				// Draw Text
 				GLWFont::instance()->getLargePtFont()->
-					draw(textLines_[pos].getColor(), fontWidth,
-						x_ - minus, start - i * lineDepth, 0.0f, 
-						textLines_[pos].getText());
+					draw(entry.getColor(), fontWidth,
+						x, y, 0.0f, 
+						entry.getText());
 				if (++pos >= totalLines_) pos = 0;
 			}
 		}

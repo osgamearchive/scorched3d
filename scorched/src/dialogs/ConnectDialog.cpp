@@ -23,6 +23,7 @@
 #include <dialogs/LogDialog.h>
 #include <client/ScorchedClient.h>
 #include <client/MainBanner.h>
+#include <tank/TankContainer.h>
 #include <server/ScorchedServer.h>
 #include <common/OptionsDisplay.h>
 #include <common/OptionsParam.h>

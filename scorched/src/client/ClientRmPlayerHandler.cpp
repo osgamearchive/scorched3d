@@ -21,6 +21,7 @@
 #include <client/ScorchedClient.h>
 #include <client/ClientRmPlayerHandler.h>
 #include <client/ClientState.h>
+#include <tank/TankContainer.h>
 #include <common/Logger.h>
 #include <coms/ComsRmPlayerMessage.h>
 

@@ -20,6 +20,8 @@
 
 #include <actions/TankSay.h>
 #include <sprites/TalkRenderer.h>
+#include <sprites/ExplosionTextures.h>
+#include <tank/TankContainer.h>
 #include <engine/ScorchedContext.h>
 #include <engine/ActionController.h>
 #include <common/Defines.h>
@@ -62,7 +64,10 @@ void TankSay::init()
 		if (!context_->serverMode ||
 			OptionsParam::instance()->getDedicatedServer())
 		{
-			Logger::log(tank->getPlayerId(), text_.c_str());
+			Logger::log(
+				LoggerInfo(tank->getPlayerId(),
+					&ExplosionTextures::instance()->talkTexture), 
+				text_.c_str());
 		}
 	}
 }

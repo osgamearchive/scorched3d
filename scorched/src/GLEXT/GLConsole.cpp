@@ -53,7 +53,7 @@ GLConsole::~GLConsole()
 void GLConsole::logMessage(
 	const char *time,
 	const char *message,
-	unsigned int playerId)
+	const LoggerInfo &info)
 {
 	addLine(false, message);
 }

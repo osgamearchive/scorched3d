@@ -23,6 +23,7 @@
 #include <server/ServerShotHolder.h>
 #include <server/ScorchedServer.h>
 #include <server/TurnController.h>
+#include <tank/TankContainer.h>
 #include <scorched/ServerDialog.h>
 #include <engine/ActionController.h>
 #include <coms/ComsNextRoundMessage.h>

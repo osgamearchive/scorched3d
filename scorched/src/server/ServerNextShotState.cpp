@@ -25,6 +25,7 @@
 #include <server/ServerTooFewPlayersStimulus.h>
 #include <server/ServerCommon.h>
 #include <server/ServerShotHolder.h>
+#include <tank/TankContainer.h>
 #include <common/OptionsGame.h>
 #include <common/OptionsTransient.h>
 #include <common/Logger.h>

@@ -46,7 +46,7 @@ public:
 	virtual void logMessage(
 		const char *time,
 		const char *message,
-		unsigned int playerId);
+		const LoggerInfo &info);
 
 	void setServerName(const char *name) { serverName_->setText(name); }
 

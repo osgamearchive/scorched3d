@@ -68,19 +68,6 @@ void TankDamage::simulate(float frameTime, bool &remove)
 		{
 			if (damagedTank->getState().getState() == TankState::sNormal)
 			{
-				// Point the action camera at this action
-				if (context_->serverMode && damage_ > 0.0f)
-				{
-					const float ShowTime = 4.0f;
-					ActionMeta *pos = new CameraPositionAction(
-						damagedTank->getPhysics().getTankPosition(), ShowTime,
-						15);
-					context_->actionController->getBuffer().serverAdd(
-						context_->actionController->getActionTime() - 3.0f,
-						pos);
-					delete pos;
-				}
-
 				// Remove any damage from shield first
 				if (damage_ > 0.0f)
 				{
@@ -223,5 +210,20 @@ bool TankDamage::readAction(NetBufferReader &reader)
 	if (!reader.getFromBuffer(useShieldDamage_)) return false;
 	if (!reader.getFromBuffer(data_)) return false;
 	weapon_ = context_->accessoryStore->readWeapon(reader); if (!weapon_) return false;
+
+	Tank *damagedTank = 
+		context_->tankContainer->getTankById(damagedPlayerId_);
+	if (damagedTank)
+	{
+		if (damagedTank->getState().getState() == TankState::sNormal)
+		{
+			const float ShowTime = 4.0f;
+			ActionMeta *pos = new CameraPositionAction(
+				damagedTank->getPhysics().getTankPosition(), ShowTime,
+				15);
+			context_->actionController->getBuffer().clientAdd(-3.0f, pos);
+		}
+	}
+
 	return true;
 }

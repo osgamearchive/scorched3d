@@ -25,6 +25,7 @@
 #include <common/StatsLogger.h>
 #include <common/Logger.h>
 #include <tank/TankSort.h>
+#include <tank/TankContainer.h>
 #include <coms/ComsScoreMessage.h>
 #include <coms/ComsMessageSender.h>
 

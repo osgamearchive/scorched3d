@@ -24,7 +24,6 @@
 #include <engine/PhysicsParticle.h>
 #include <engine/ScorchedCollisionIds.h>
 #include <engine/ViewPoints.h>
-#include <actions/ActionVector.h>
 #include <weapons/WeaponRoller.h>
 
 class GLVertexSet;
@@ -57,13 +56,9 @@ protected:
 	Vector startPosition_, velocity_;
 	WeaponRoller *weapon_;
 	unsigned int playerId_;
-	unsigned int actionId_;
 	unsigned int data_;
 	float totalTime_;
-	float snapshotTime_;
-	ActionVector *actionVector_;
 	GLVertexSet *model_;
-	double rotMatrix_[16];
 
 	void doCollision();
 
