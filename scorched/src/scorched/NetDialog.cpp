@@ -193,7 +193,9 @@ BEGIN_EVENT_TABLE(NetLanFrame, wxDialog)
 END_EVENT_TABLE()
 
 NetLanFrame::NetLanFrame() :
-	wxDialog(getMainDialog(), -1, scorched3dAppName, wxDefaultPosition, wxDefaultSize)
+	wxDialog(getMainDialog(), -1, scorched3dAppName, 
+		wxDefaultPosition, wxDefaultSize,
+		wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER | wxMAXIMIZE_BOX)
 {
 #ifdef _WIN32
 	// Set the frame's icon
@@ -209,14 +211,14 @@ NetLanFrame::NetLanFrame() :
 
 	IDC_SERVER_LIST_CTRL = 
 		new NetListControl(this, IDC_SERVER_LIST,
-		wxDefaultPosition, wxSize((int) 550, (int) 170.5));
-	topsizer->Add(IDC_SERVER_LIST_CTRL, 0, wxALL, 5);
+		wxDefaultPosition, wxSize(550, 170));
+	topsizer->Add(IDC_SERVER_LIST_CTRL, 3, wxALL | wxGROW, 5);
 
 	IDC_PLAYER_LIST_CTRL = 
 		new wxListCtrl(this, IDC_PLAYER_LIST,
-		wxDefaultPosition, wxSize((int) 550, (int) 100),
+		wxDefaultPosition, wxSize(550, 100),
 		wxLC_REPORT | wxLC_HRULES | wxLC_VRULES | wxLC_SINGLE_SEL );
-	topsizer->Add(IDC_PLAYER_LIST_CTRL, 0, wxALL, 5);
+	topsizer->Add(IDC_PLAYER_LIST_CTRL, 2, wxALL | wxGROW, 5);
 
 	// Create all the display controls
 	createControlsPost(this, topsizer);
@@ -248,13 +250,16 @@ void NetLanFrame::onClearPasswordButton(wxCommandEvent &event)
 void NetLanFrame::onSelectServer(wxListEvent &event)
 {
 	IDC_PLAYER_LIST_CTRL->DeleteAllItems();
+	wxCommandEvent ev;
+	onClearButton(ev);
 
     long item = -1;
     for ( ;; )
     {
         item = IDC_SERVER_LIST_CTRL->GetNextItem(
 			item, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
-        if ( item == -1) break;
+        if (item == -1 || 
+			item >= ServerBrowser::instance()->getServerList().getNoEntries()) break;
 
 		std::string text =
 			ServerBrowser::instance()->getServerList().getEntryValue(item, "address");
@@ -315,11 +320,13 @@ void NetLanFrame::onSelectServer(wxListEvent &event)
 
 void NetLanFrame::onRefreshLanButton(wxCommandEvent &event)
 {
+	IDC_PLAYER_LIST_CTRL->DeleteAllItems();
 	refreshLANWindow(true);
 }
 
 void NetLanFrame::onRefreshNETButton(wxCommandEvent &event)
 {
+	IDC_PLAYER_LIST_CTRL->DeleteAllItems();
 	refreshLANWindow(false);
 }
 
@@ -348,7 +355,7 @@ void NetLanFrame::onTimer(wxTimerEvent &event)
 		invalidateId = ServerBrowser::instance()->getServerList().getRefreshId();
 		IDC_SERVER_LIST_CTRL->SetItemCount(
 			ServerBrowser::instance()->getServerList().getNoEntries());
-		IDC_PLAYER_LIST_CTRL->DeleteAllItems();
+		//IDC_PLAYER_LIST_CTRL->DeleteAllItems();
 	}
 }
 
