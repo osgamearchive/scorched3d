@@ -80,8 +80,6 @@ void TankFalling::init()
 	{
 		// Store the start positions
 		tankStartPosition_ = current->getPhysics().getTankPosition();
-		lastPosition_= tankStartPosition_;
-		lastPosition_[2] += 0.25f;
 
 		for (int i=0; i<4; i++)
 		{
@@ -133,19 +131,16 @@ void TankFalling::simulate(float frameTime, bool &remove)
 	Vector spherePosition;
 	getAllPositions(spherePosition);
 	
-	float distance = lastPosition_[2] - spherePosition[2];
-	if (distance > 0.5f)
+	// Calcuate the action position
+	Vector position(spherePosition[0], 
+		spherePosition[1], 
+		spherePosition[2] - 0.25f);
+
+	// Move the tank to the new position
+	Tank *tank = context_->tankContainer->getTankById(fallingPlayerId_);
+	if (tank && tank ->getState().getState() == TankState::sNormal)
 	{
-		lastPosition_ = spherePosition;
-
-		// Calcuate the action position
-		Vector position(spherePosition[0], 
-			spherePosition[1], 
-			spherePosition[2] - 0.25f);
-
-		// Move the tank to the new position
-		context_->actionController->addAction(
-			new TankMove(position, fallingPlayerId_, false));
+		tank->getPhysics().setTankPosition(position);
 	}
 
 	remove = remove_;
@@ -213,8 +208,6 @@ void TankFalling::collision()
 		float damage = dist * 20.0f;
 
 		// Check we need to cancel the damage
-		bool useParachute = false;
-
 		float minDist = float(context_->optionsGame->
 			getMinFallingDistance()) / 10.0f;
 		if (dist < minDist)
@@ -229,13 +222,13 @@ void TankFalling::collision()
 			{
 				// No damage we were using parachutes
 				damage = 0.0f;
-				useParachute = true;
+				current->getAccessories().getParachutes().useParachutes();
 			}
 		}
 
 		// Move the tank to the final position
 		context_->actionController->addAction(
-			new TankMove(position, fallingPlayerId_, useParachute));
+			new TankMove(position, fallingPlayerId_));
 
 		// Add the damage to the tank
 		TankController::damageTank(

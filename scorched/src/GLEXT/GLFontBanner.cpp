@@ -115,37 +115,52 @@ void GLFontBanner::simulate(float frameTime)
 
 void GLFontBanner::draw()
 {
-	const int lineDepth = 13;
-	const int lineBorder = 4;
+	const int lineDepth = 15;
 
 	if (usedLines_ > 0)
 	{
 		GLState currentStateBlend(GLState::BLEND_ON | GLState::DEPTH_OFF);
 
 		Vector black(0.0f, 0.0f, 0.0f);
+		const int fontWidth = 10;
+		const int outlineFontWidth = 14;
 
 		float start = y_ + lineDepth * usedLines_;
-		int pos = startLine_;
-		int used = usedLines_;
-		for (int i=0; i<used; i++)
 		{
-			float minus = GLWFont::instance()->getLargePtFont()->
-				getWidth(10, textLines_[pos].getText()) / 2.0f;
+			int pos = startLine_;
+			int used = usedLines_;
+			for (int i=0; i<used; i++)
+			{
+				float minus = GLWFont::instance()->getLargePtFont()->
+					getWidth(fontWidth, textLines_[pos].getText()) / 2.0f;
 
-			GLWFont::instance()->getLargePtFont()->
-				draw(black, 10,
-					x_ + lineBorder - minus + 1, start - i * lineDepth - 5.0f, 0.0f, 
-					textLines_[pos].getText());
-			GLWFont::instance()->getLargePtFont()->
-				draw(black, 10,
-					x_ + lineBorder - minus - 1, start - i * lineDepth - 1.0f, 0.0f, 
-					textLines_[pos].getText());
+				GLWFont::instance()->getLargePtFont()->
+					drawOutline(black, outlineFontWidth, fontWidth,
+						x_ - minus - 2, start - i * lineDepth - 2.0f, 0.0f, 
+						textLines_[pos].getText());
+				/*GLWFont::instance()->getLargePtFont()->
+					drawOutline(black, outlineFontWidth, fontWidth,
+						x_ - minus - 0, start - i * lineDepth - 0.0f, 0.0f, 
+						textLines_[pos].getText());*/
 
-			GLWFont::instance()->getLargePtFont()->
-				draw(textLines_[pos].getColor(), 10,
-					x_ + lineBorder - minus, start - i * lineDepth - 3.0f, 0.0f, 
-					textLines_[pos].getText());
-			if (++pos >= totalLines_) pos = 0;
+				if (++pos >= totalLines_) pos = 0;
+			}
+		}
+
+		{
+			int pos = startLine_;
+			int used = usedLines_;
+			for (int i=0; i<used; i++)
+			{		
+				float minus = GLWFont::instance()->getLargePtFont()->
+					getWidth(fontWidth, textLines_[pos].getText()) / 2.0f;
+				
+				GLWFont::instance()->getLargePtFont()->
+					draw(textLines_[pos].getColor(), fontWidth,
+						x_ - minus, start - i * lineDepth, 0.0f, 
+						textLines_[pos].getText());
+				if (++pos >= totalLines_) pos = 0;
+			}
 		}
 	}
 }

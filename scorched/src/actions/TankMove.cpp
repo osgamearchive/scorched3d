@@ -29,9 +29,8 @@ TankMove::TankMove()
 }
 
 TankMove::TankMove(Vector &position, 
-		unsigned int playerId,
-		bool useParachute) : 
-	position_(position), playerId_(playerId), useParachute_(useParachute)
+		unsigned int playerId) :
+	position_(position), playerId_(playerId)
 {
 }
 
@@ -53,12 +52,6 @@ void TankMove::simulate(float frameTime, bool &remove)
 	{
 		// Set the new tank position
 		tank->getPhysics().setTankPosition(position_);
-
-		// Check if we use parachute
-		if (useParachute_)
-		{
-			tank->getAccessories().getParachutes().useParachutes();
-		}
 	}
 
 	remove = true;
@@ -71,7 +64,6 @@ bool TankMove::writeAction(NetBuffer &buffer)
 	buffer.addToBuffer(position_[0]);
 	buffer.addToBuffer(position_[1]);
 	buffer.addToBuffer(position_[2]);
-	buffer.addToBuffer(useParachute_);
 	return true;
 }
 
@@ -81,6 +73,5 @@ bool TankMove::readAction(NetBufferReader &reader)
 	if (!reader.getFromBuffer(position_[0])) return false;
 	if (!reader.getFromBuffer(position_[1])) return false;
 	if (!reader.getFromBuffer(position_[2])) return false;
-	if (!reader.getFromBuffer(useParachute_)) return false;
 	return true;
 }

@@ -26,16 +26,12 @@
 #include <common/Logger.h>
 #include <client/ScorchedClient.h>
 #include <server/ScorchedServer.h>
+#include <zlib/zlib.h>
 #include <set>
 
 bool ComsMessageSender::sendToServer(ComsMessage &message)
 {
 	if (!ScorchedClient::instance()->getNetInterface().started()) return false;
-
-	if (ScorchedClient::instance()->getComsMessageHandler().getMessageLogging())
-	{
-		Logger::log(0, "sendToServer(%s)", message.getMessageType());
-	}
 
 	NetBufferDefault::defaultBuffer.reset();
 	if (!message.writeTypeMessage(NetBufferDefault::defaultBuffer))
@@ -43,6 +39,13 @@ bool ComsMessageSender::sendToServer(ComsMessage &message)
 		Logger::log(0, "ERROR: ComsMessageSender::sendToServer - Failed to write message type");
 		return false;
 	}
+	
+	if (ScorchedClient::instance()->getComsMessageHandler().getMessageLogging())
+	{
+		Logger::log(0, "sendToServer(%s, %u)", message.getMessageType(),
+			NetBufferDefault::defaultBuffer.getBufferUsed());
+	}	
+
 	if (!message.writeMessage(NetBufferDefault::defaultBuffer))
 	{
 		Logger::log(0, "ERROR: ComsMessageSender::sendToServer - Failed to write message");
@@ -58,13 +61,6 @@ bool ComsMessageSender::sendToSingleClient(ComsMessage &message,
 	if (!ScorchedServer::instance()->getNetInterface().started()) return false;
 	if (destination == 0) return true;
 
-	if (ScorchedServer::instance()->getComsMessageHandler().getMessageLogging())
-	{
-		Logger::log(0, "sendToSingleClient(%s, %i)", 
-					message.getMessageType(),
-					(int) destination);
-	}
-
 	NetBufferDefault::defaultBuffer.reset();
 	if (!message.writeTypeMessage(NetBufferDefault::defaultBuffer))
 	{
@@ -75,6 +71,24 @@ bool ComsMessageSender::sendToSingleClient(ComsMessage &message,
 	{
 		Logger::log(0, "ERROR: ComsMessageSender::sendToSingleClient - Failed to write message");
 		return false;
+	}
+	
+	if (ScorchedServer::instance()->getComsMessageHandler().getMessageLogging())
+	{
+		NetBuffer tmpBuffer;
+		unsigned long destLen = NetBufferDefault::defaultBuffer.getBufferUsed() * 2 + 12;
+		tmpBuffer.allocate(destLen);
+		compress2((unsigned char *) tmpBuffer.getBuffer(), 
+			&destLen,
+			(unsigned char *)NetBufferDefault::defaultBuffer.getBuffer(),
+			NetBufferDefault::defaultBuffer.getBufferUsed(),
+			6);
+	
+		Logger::log(0, "sendToSingleClient(%s, %i, %u (%u))", 
+					message.getMessageType(),
+					(int) destination,
+					NetBufferDefault::defaultBuffer.getBufferUsed(),
+					destLen);
 	}
 	ScorchedServer::instance()->getNetInterface().sendMessage(NetBufferDefault::defaultBuffer,
 		destination);

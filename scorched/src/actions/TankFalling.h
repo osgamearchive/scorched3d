@@ -71,7 +71,6 @@ protected:
 	unsigned int firedPlayerId_;
 	unsigned int data_;
 	Vector tankStartPosition_;
-	Vector lastPosition_;
 	bool remove_;
 
 	void getAllPositions(Vector &spherePositions);

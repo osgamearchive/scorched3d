@@ -30,8 +30,7 @@ class TankMove : public ActionMeta
 public:
 	TankMove();
 	TankMove(Vector &position, 
-		unsigned int playerId,
-		bool useParachute);
+		unsigned int playerId);
 	virtual ~TankMove();
 
 	virtual void init();
@@ -44,9 +43,6 @@ public:
 protected:
 	Vector position_;
 	unsigned int playerId_;
-	bool useParachute_;
-
 };
-
 
 #endif

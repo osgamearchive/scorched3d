@@ -81,6 +81,20 @@ void GLFont2d::draw(Vector &color, float size,
 	drawString((GLsizei) strlen(text), color, size, x, y, z, text, false);
 }
 
+void GLFont2d::drawOutline(Vector &color, float size, float size2,
+					float x, float y, float z, 
+					const char *fmt, ...)
+{
+	static char text[2048];
+	va_list ap;
+
+	va_start(ap, fmt);
+	vsprintf(text, fmt, ap);
+	va_end(ap);	
+
+	drawString((GLsizei) strlen(text), color, size, x, y, z, text, false, size2);
+}
+
 void GLFont2d::drawWidth(int len, Vector &color, float size, 
 					   float x, float y, float z, 
 					   const char *fmt, ...)
@@ -117,7 +131,8 @@ void GLFont2d::drawBilboard(Vector &color, float size,
 	drawString((GLsizei) strlen(text), color, size, x, y, z, text, true);
 }
 
-static void drawLetter(char ch, GLuint list_base, GLuint *tex_base, GLFont2d::CharEntry *characters)
+static void drawLetter(char ch, GLuint list_base, GLuint *tex_base, 
+	GLFont2d::CharEntry *characters)
 {
 	Vector &bilX = GLCameraFrustum::instance()->getBilboardVectorX();
 	Vector &bilY = GLCameraFrustum::instance()->getBilboardVectorY();
@@ -149,9 +164,10 @@ static void drawLetter(char ch, GLuint list_base, GLuint *tex_base, GLFont2d::Ch
 }
 
 bool GLFont2d::drawString(unsigned length, Vector &color, float size, 
-						  float x, float y, float z, 
-						  const char *string,
-						  bool bilboard)
+	float x, float y, float z, 
+	const char *string,
+	bool bilboard,
+	float size2)
 {
 	if (textures_)
 	{
@@ -172,7 +188,7 @@ bool GLFont2d::drawString(unsigned length, Vector &color, float size,
 				}
 			glPopMatrix();
 		}
-		else
+		else if (size2 == 0.0f)
 		{
 			glPushAttrib(GL_LIST_BIT);
 				glListBase(list_base_);
@@ -183,6 +199,22 @@ bool GLFont2d::drawString(unsigned length, Vector &color, float size,
 					glCallLists(length, GL_UNSIGNED_BYTE, string);
 				glPopMatrix();
 			glPopAttrib();
+		}
+		else
+		{
+			glPushMatrix();
+				glTranslatef(x,y,z);
+				glScalef(size / height_, size / height_, size / height_);
+				float scale = size / height_;
+				float outlineScale = size2 / height_;
+				for (;*string; string++)
+				{
+					float advances = (float)((characters_+*string)->advances);
+					unsigned int list = *string;
+					glCallList(list + list_base_);
+					glTranslatef(-advances + advances * outlineScale / scale,0.0f ,0.0f);
+				}
+			glPopMatrix();
 		}
 
 		return true;

@@ -31,10 +31,9 @@ class TankMovement : public ActionMeta
 {
 public:
 	TankMovement();
-	TankMovement(unsigned int playerId);
+	TankMovement(unsigned int playerId,
+		int positionX, int positionY);
 	virtual ~TankMovement();
-
-	std::list<unsigned int> &getPositions() { return positions_; }
 
 	virtual void init();
 	virtual void simulate(float frameTime, bool &remove);
@@ -44,13 +43,6 @@ public:
 	REGISTER_ACTION_HEADER(TankMovement);
 
 protected:
-	// As with everything to do with movement
-	// The xy position is stored as an unsigned int
-	// to save space, z is calculated from the landscape
-	// Lower 32 bits = y position
-	// Upper 32 bits = x positions
-	std::list<unsigned int> positions_;
-
 	// A list containing smooth positions
 	struct PositionEntry
 	{
@@ -65,9 +57,11 @@ protected:
 		float *heighta, *heightb;
 	};
 	std::list<PositionEntry> expandedPositions_;
-	unsigned int playerId_;
 	float timePassed_;
 	ViewPoints::ViewPoint *vPoint_;
+
+	unsigned int playerId_;
+	int positionX_, positionY_;
 
 	void moveTank(Tank *tank);
 

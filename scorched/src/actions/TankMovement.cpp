@@ -36,8 +36,11 @@ TankMovement::TankMovement() : timePassed_(0.0f), vPoint_(0)
 {
 }
 
-TankMovement::TankMovement(unsigned int playerId) : 
-	playerId_(playerId), timePassed_(0.0f), vPoint_(0)
+TankMovement::TankMovement(unsigned int playerId,
+	int positionX, int positionY) : 
+	playerId_(playerId), 
+	positionX_(positionX), positionY_(positionY),
+	timePassed_(0.0f), vPoint_(0)
 {
 }
 
@@ -48,15 +51,50 @@ TankMovement::~TankMovement()
 
 void TankMovement::init()
 {
+	Tank *tank = context_->tankContainer->getTankById(playerId_);
+	if (!tank) return;	
+
 	vPoint_ = context_->viewPoints->getNewViewPoint(playerId_);
+	
+	// As with everything to do with movement
+	// The xy position is stored as an unsigned int
+	// to save space, z is calculated from the landscape
+	// Lower 32 bits = y position
+	// Upper 32 bits = x positions
+	std::list<unsigned int> positions;
+	context_->landscapeMaps->getMMap().calculateForTank(tank, *context_);
+	
+	MovementMap::MovementMapEntry entry =
+		context_->landscapeMaps->getMMap().getEntry(positionX_, positionY_);
+	if (entry.type == MovementMap::eMovement)
+	{
+		// Add the end (destination) point to the list of points for the tank
+		// to visit
+		unsigned int pt = (positionX_ << 16) | (positionY_ & 0xffff);
+		positions.push_front(pt);
+
+		// Work backward to the source point and pre-pend them onto the
+		// this of points
+		while (entry.srcEntry)
+		{
+			pt = entry.srcEntry;
+			unsigned int x = pt >> 16;
+			unsigned int y = pt & 0xffff;
+			positions.push_front(pt);
+			entry = context_->landscapeMaps->getMMap().getEntry(x, y);
+		}
+	}
+	
+	// Expand these positions into a interpolated set of positions with
+	// x, y and z
 	std::list<unsigned int>::iterator itor;
-	for (itor = positions_.begin();
-		itor != positions_.end();)
+	for (itor = positions.begin();
+		itor != positions.end();)
 	{
 		unsigned int fistpt = (*itor);
 		itor++;
 
-		if (itor != positions_.end())
+		if (itor != positions.end())
 		{
 			unsigned int secpt = (*itor);
 
@@ -130,7 +168,7 @@ void TankMovement::simulate(float frameTime, bool &remove)
 			tank->getPhysics().rotateTank(0.0f);
 			context_->actionController->addAction(
 				new TankMove(tank->getPhysics().getTankPosition(),
-					tank->getPlayerId(), false));
+					tank->getPlayerId()));
 		}
 	}
 	else remove = true;
@@ -172,27 +210,15 @@ void TankMovement::moveTank(Tank *tank)
 bool TankMovement::writeAction(NetBuffer &buffer)
 {
 	buffer.addToBuffer(playerId_);
-	buffer.addToBuffer((unsigned int) positions_.size());
-	std::list<unsigned int>::iterator itor;
-	for (itor = positions_.begin();
-		itor != positions_.end();
-		itor++)
-	{
-		buffer.addToBuffer((*itor));
-	}
-
+	buffer.addToBuffer(positionX_);
+	buffer.addToBuffer(positionY_);
 	return true;
 }
 
 bool TankMovement::readAction(NetBufferReader &reader)
 {
 	if (!reader.getFromBuffer(playerId_)) return false;
-	unsigned int size, pt;
-	if (!reader.getFromBuffer(size)) return false;
-	for (;size>0; size--)
-	{
-		if (!reader.getFromBuffer(pt)) return false;
-		positions_.push_back(pt);
-	}
+	if (!reader.getFromBuffer(positionX_)) return false;
+	if (!reader.getFromBuffer(positionY_)) return false;
 	return true;
 }

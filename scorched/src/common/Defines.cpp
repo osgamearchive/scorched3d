@@ -27,8 +27,8 @@
 #include <common/Defines.h>
 
 unsigned int ScorchedPort = 27270;
-char *ScorchedVersion = "38";
-char *ScorchedProtocolVersion = "bb";
+char *ScorchedVersion = "38.1";
+char *ScorchedProtocolVersion = "bc";
 static char *dataModFile = 0;
 
 extern bool wxWindowInit;

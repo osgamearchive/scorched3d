@@ -48,6 +48,9 @@ public:
 				 Vector &color, float size, 
 				 float x, float y, float z, 
 				 const char *fmt, ...);
+	void drawOutline(Vector &color, float size, float size2,
+			float x, float y, float z,
+			const char *fmt, ...);
 	void drawBilboard(Vector &color, float size, 
 			  float x, float y, float z, 
 			  const char *fmt, ...);
@@ -63,7 +66,8 @@ protected:
 							Vector &color, float size, 
 							float x, float y, float z, 
 							const char *string,
-							bool bilboard);
+							bool bilboard,
+							float size2 = 0.0f);
 
 };
 

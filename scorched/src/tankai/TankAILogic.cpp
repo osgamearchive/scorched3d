@@ -104,25 +104,8 @@ void TankAILogic::processMoveMessage(ScorchedContext &context,
 		if (entry.type == MovementMap::eMovement &&
 			entry.dist < tank->getAccessories().getFuel().getNoFuel())
 		{
-			TankMovement *move = new TankMovement(tank->getPlayerId());
-
-			// Add the end (destination) point to the list of points for the tank
-			// to visit
-			unsigned int pt = (posX << 16) | (posY & 0xffff);
-			move->getPositions().push_front(pt);
-
-			// Work backward to the source point and pre-pend them onto the
-			// this of points
-			while (entry.srcEntry)
-			{
-				pt = entry.srcEntry;
-				unsigned int x = pt >> 16;
-				unsigned int y = pt & 0xffff;
-				move->getPositions().push_front(pt);
-				entry = context.landscapeMaps->getMMap().getEntry(x, y);
-			}
-
-			// Action to perform "walking" the list of points
+			TankMovement *move = 
+				new TankMovement(tank->getPlayerId(), posX, posY);
 			context.actionController->addAction(move);
 		}
 	}
