@@ -256,7 +256,7 @@ void ActionController::stepActions(float frameTime)
 	// Ensure any new actions are added
 	addNewActions();
 
-	static std::list<Action *> removeActions;
+	std::list<Action *> removeActions;
 	// Itterate and draw all of the actions
 	std::set<Action *>::iterator itor;
 	for (itor = actions_.begin();
@@ -299,7 +299,7 @@ void ActionController::stepActions(float frameTime)
 				if (referenceCount_<0) referenceCount_ = 0;
 			}
 			actions_.erase(action);
-			delete *ritor;
+			delete action;
 		}
 		removeActions.clear();
 	}

@@ -255,15 +255,19 @@ void Explosion::simulate(float frameTime, bool &remove)
 			}
 		}
 
-		// Check the tanks for damage
-		TankController::explosion(
-			*context_,
-			weapon_, playerId_, 
-			newPosition, 
-			weapon_->getSize() , 
-			weapon_->getHurtAmount(),
-			(weapon_->getDeformType() != DeformNone),
-			data_);
+		if (weapon_->getHurtAmount() != 0.0f ||
+			weapon_->getDeformType() != DeformNone)
+		{
+			// Check the tanks for damage
+			TankController::explosion(
+				*context_,
+				weapon_, playerId_, 
+				newPosition, 
+				weapon_->getSize() , 
+				weapon_->getHurtAmount(),
+				(weapon_->getDeformType() != DeformNone),
+				data_);
+		}
 	}
 
 	if (!renderer_) remove = true;

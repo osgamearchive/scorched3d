@@ -170,6 +170,7 @@ int main(int argc, char *argv[])
 	// Tells Linux not to issue a sig pipe when writting to a closed socket
 	// Why does it have to be dificult!
 	signal(SIGPIPE, SIG_IGN);
+	signal(SIGFPE, SIG_IGN);
 #endif
 
 	srand((unsigned)time(0));

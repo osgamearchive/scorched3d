@@ -127,6 +127,9 @@ void ServerBrowserInfo::processStatusMessage(char *buffer)
 		ScorchedServer::instance()->getOptionsGame().getServerPassword()[0]?"On":"Off");
 	addTag(buffer, "noplayers", players);
 	addTag(buffer, "maxplayers", maxplayers);
+	addTag(buffer, "round", formatString("%i/%i",
+		ScorchedServer::instance()->getOptionsTransient().getCurrentRoundNo(),
+		ScorchedServer::instance()->getOptionsGame().getNoRounds()));
 	addTag(buffer, "os", osDesc.c_str());
 	strcat(buffer, "/>");
 }

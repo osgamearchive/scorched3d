@@ -91,6 +91,7 @@ void CameraPositionActionRegistry::addCameraPositionAction(CameraPositionAction 
 
 void CameraPositionActionRegistry::rmCameraPositionAction(CameraPositionAction *action)
 {
+	if (currentAction_ == action) currentAction_ = 0;
 	actions_.erase(action);
 }
 
