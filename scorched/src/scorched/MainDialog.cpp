@@ -57,7 +57,7 @@ void addTitleToWindow(
 	wxSizer *sizer)
 {
 	wxImage image;
-	if (image.LoadFile(getDataFile("data/windows/scorcheds.bmp"), wxBITMAP_TYPE_BMP))
+	if (image.LoadFile(getDataFile("data/windows/scorched.bmp"), wxBITMAP_TYPE_BMP))
 	{
 		wxBitmap scorchedBitmap(image);
 		wxBitmapButton *button = new wxBitmapButton(
@@ -252,7 +252,7 @@ MainFrame::MainFrame() :
 			button->Disable();
 		}
 	}
-	topsizer->Add(gridsizer, 0, wxALIGN_CENTER);
+	topsizer->Add(gridsizer, 0, wxALIGN_CENTER | wxLEFT | wxRIGHT, 20);
 
 	// Setup timer
 	timer_.SetOwner(this, ID_MAIN_TIMER);

@@ -35,7 +35,6 @@ protected:
 	static BackdropDialog *instance_;
 	float offset_;
 	static GLTexture backTex_;
-	static GLTexture titleTex_;
 	static GLuint displayList_;
 
 private:

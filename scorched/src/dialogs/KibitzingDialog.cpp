@@ -18,7 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <dialogs/KibitzingDialog.h>
 #include <GLW/GLWTextButton.h>
 #include <GLW/GLWLabel.h>
@@ -31,7 +30,8 @@ KibitzingDialog::KibitzingDialog() :
 	addWidget(new GLWLabel(10, 40, "No kibitzing, please."));
 
 	okId_ = addWidget(new GLWTextButton("Ok", 215, 10, 55, this, 
-		GLWButton::ButtonFlagOk | GLWButton::ButtonFlagCenterX))->getId();
+		GLWButton::ButtonFlagOk | GLWButton::ButtonFlagCancel | 
+		GLWButton::ButtonFlagCenterX))->getId();
 }
 
 KibitzingDialog::~KibitzingDialog()

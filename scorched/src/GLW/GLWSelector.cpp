@@ -125,7 +125,7 @@ void GLWSelector::drawMain(float indent)
 	// Draw the background
 	{
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	
-		glColor4f(0.5f, 0.5f, 1.0f, 0.5f);
+		glColor4f(0.4f, 0.6f, 0.8f, 0.6f);
 		glBegin(GL_TRIANGLE_FAN);
 			glVertex2f(selectedX_ + 20.0f, 
 				selectedY_ - 25.0f + 5.0f);
@@ -138,7 +138,7 @@ void GLWSelector::drawMain(float indent)
 				selectedY_ - selectedHeight_ + 5.0f);
 		glEnd();
 
-		glColor4f(0.9f, 0.9f, 1.0f, 0.5f);
+		glColor4f(0.0f, 0.0f, 0.0f, 0.8f);
 		glLineWidth(2.0f);
 		glBegin(GL_LINE_LOOP);
 			GLWVisibleWidget::drawRoundBox(

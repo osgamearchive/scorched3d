@@ -84,7 +84,7 @@ void GLMenuEntry::drawNonDepressed(float currentTop, float currentLeft)
 	{
 		GLState currentStateBlend(GLState::BLEND_ON);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	
-		glColor4f(0.5f, 0.5f, 1.0f, 0.5f);	
+		glColor4f(0.4f, 0.6f, 0.8f, 0.6f);
 		glBegin(GL_TRIANGLE_FAN);
 			glVertex2f(currentLeft + 10.0f, currentTop - 10.0f);
 			glVertex2f(currentLeft + 10.0f, currentTop - menuItemHeight);
@@ -93,7 +93,7 @@ void GLMenuEntry::drawNonDepressed(float currentTop, float currentLeft)
 			glVertex2f(currentLeft + 10.0f, currentTop - menuItemHeight);
 		glEnd();
 
-		glColor4f(0.9f, 0.9f, 1.0f, 0.5f);
+		glColor4f(0.0f, 0.0f, 0.0f, 0.8f);
 		glLineWidth(2.0f);
 		glBegin(GL_LINE_LOOP);
 			GLWVisibleWidget::drawRoundBox(currentLeft, currentTop - menuItemHeight, 
@@ -140,7 +140,7 @@ void GLMenuEntry::drawDepressed(GLFont2d &font, float currentTop, float currentL
 		float drop = 12.0f;
 		GLState currentStateBlend(GLState::BLEND_ON);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	
-		glColor4f(0.5f, 0.5f, 1.0f, 0.5f);	
+		glColor4f(0.4f, 0.6f, 0.8f, 0.6f);	
 		glBegin(GL_TRIANGLE_FAN);
 			glVertex2f(currentLeft + 20.0f, currentTop - 25.0f - drop);
 			glVertex2f(currentLeft + 20.0f, currentTop - lowerHeight - drop);
@@ -149,7 +149,7 @@ void GLMenuEntry::drawDepressed(GLFont2d &font, float currentTop, float currentL
 			glVertex2f(currentLeft + 20.0f, currentTop - lowerHeight - drop);
 		glEnd();
 
-		glColor4f(0.9f, 0.9f, 1.0f, 0.5f);
+		glColor4f(0.0f, 0.0f, 0.0f, 0.8f);
 		glLineWidth(2.0f);
 		glBegin(GL_LINE_LOOP);
 			GLWVisibleWidget::drawRoundBox(currentLeft, currentTop - lowerHeight  - drop, 

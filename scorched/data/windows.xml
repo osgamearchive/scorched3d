@@ -58,7 +58,7 @@ strength and direction.</description>
 				<type>wind</type>
 				<x>0</x><y>7</y>
 				<w>128</w><h>20</h>	
-				<fontsize>12</fontsize>
+				<fontsize>10</fontsize>
 				<fontcolorr>0.9f</fontcolorr>
 				<fontcolorg>0.9f</fontcolorg>
 				<fontcolorb>1.0f</fontcolorb>	

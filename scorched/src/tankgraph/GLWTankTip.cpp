@@ -212,7 +212,7 @@ void TankShieldTip::populate()
 	if (tank_->getAccessories().getShields().getCurrentShield())
 	{
 		setText("Shields",
-			"Protect the tank from taking damage.\n"
+			"Protect the tank from taking shot damage.\n"
 			"Shields must be enabled before they take\n"
 			"effect.\n"
 			"Current Shield : %s (%i)\n"
@@ -225,7 +225,7 @@ void TankShieldTip::populate()
 	else
 	{
 		setText("Shields",
-			"Protect the tank from taking damage.\n"
+			"Protect the tank from taking shot damage.\n"
 			"Shields must be enabled before they take\n"
 			"effect.\n"
 			"Shields Off");
