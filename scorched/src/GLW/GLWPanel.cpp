@@ -231,5 +231,6 @@ bool GLWPanel::initFromXML(XMLNode *node)
 
 		addWidget(widget, condition);
 	}
+	return true;
 }
 
