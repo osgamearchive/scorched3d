@@ -619,7 +619,7 @@
     	<surround type="generate">
 			<mask>data/landscapes/surround-mask.bmp</mask>
 			<landhills>
-				<min>250</min><max>300</max>
+				<min>100</min><max>200</max>
 			</landhills>
 			<landheight>
 				<min>40</min><max>75</max>
@@ -627,10 +627,10 @@
 			<landwidthx>96</landwidthx>
 			<landwidthy>96</landwidthy>
 			<landpeakwidthx>
-				<min>2</min><max>3</max>
+				<min>5</min><max>10</max>
 			</landpeakwidthx>
 			<landpeakwidthy>
-				<min>-1</min><max>1</max>
+				<min>-5</min><max>5</max>
 			</landpeakwidthy>
 			<landpeakheight>
 				<min>1.0</min><max>1.5</max>
