@@ -446,11 +446,11 @@ static GLubyte getWaveAlpha(int x, int y,
 		{
 			if (height > waterHeight)
 			{
-				alpha = GLubyte(128);
+				alpha = GLubyte(255);
 			}
 			else
 			{
-				alpha = GLubyte(128.0f * (waterHeight - height)/offSet);
+				alpha = GLubyte(255.0f * (waterHeight - height)/offSet);
 			}
 		}
 	}	
@@ -471,8 +471,8 @@ void GLBitmapModifier::addWavesToBitmap(HeightMap &hMap,
 	{
 		for (int j=0; j<5; j++)
 		{
-			matrix[i][j] = 0.04f; // How much smoothing is done (> is more)
-			if (i==2 && j==2) matrix[i][j] = 1.0f;
+			matrix[i][j] = 0.2f; // How much smoothing is done (> is more)
+			if (i==2 && j==2) matrix[i][j] = 2.0f;
 		}
 	}
 
@@ -500,12 +500,12 @@ void GLBitmapModifier::addWavesToBitmap(HeightMap &hMap,
 				}
 			}
 	 
-			GLubyte alpha = GLubyte(inc / total);
+			GLubyte alpha = GLubyte(inc/total);
 
 			destBits[0] = GLubyte(255);
 			destBits[1] = GLubyte(255);
 			destBits[2] = GLubyte(255);
-			destBits[3] = GLubyte(alpha);
+			destBits[3] = alpha;
 			destBits+=4;
 		}
 	}

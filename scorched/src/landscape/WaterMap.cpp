@@ -309,7 +309,7 @@ void WaterMap::drawWater()
 					if (otherEntry->depth < 1.0f)
 					{
 						otherColor = 1.0f - (otherEntry->depth * 0.5f);
-						otherAlpha = otherEntry->depth * 0.6f + 0.3f;
+						otherAlpha = otherEntry->depth * 0.4f + 0.5f;
 					}
 					glColor4f(otherColor, otherColor, otherColor, otherAlpha);
 
@@ -323,7 +323,7 @@ void WaterMap::drawWater()
 					if (currentEntry->depth < 1.0f)
 					{
 						currentColor = 1.0f - (currentEntry->depth * 0.5f);
-						currentAlpha = currentEntry->depth * 0.6f + 0.3f;
+						currentAlpha = currentEntry->depth * 0.4f + 0.5f;
 					}
 					glColor4f(currentColor, currentColor, currentColor, currentAlpha);
 
