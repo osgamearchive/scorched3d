@@ -142,17 +142,17 @@ void ClientAdmin::admin(std::list<GLConsoleRuleSplit> split,
 
 void ClientAdmin::adminHelp(std::list<std::string> &result)
 {
-	result.push_back("  help - this help");
-	result.push_back("  show - show ids for all current players");
+	result.push_back("  help - This help");
+	result.push_back("  show - Show ids for all current players");
 	result.push_back("  login <password> - Login as admin");
-	result.push_back("  killall - kills all current players");
+	result.push_back("  killall - Kills all current players and starts next round");
 	result.push_back("  kick <player id> - Kicks specified player");
 	result.push_back("  ban <player id> - Bans and kicks specified player");
-	result.push_back("  mute <player id> - Mutes specified player");
-	result.push_back("  unmute <player id> - Un-mutes specified player");
+	result.push_back("  mute <player id> - Mutes specified player for everyone");
+	result.push_back("  unmute <player id> - Un-mutes specified player for everyone");
 	result.push_back("  slap <player id> <health> - Removes health from specified player");
-	result.push_back("  talk <text> - Talk to all players");
-	result.push_back("  message <text> - Message to all players");
+	result.push_back("  talk <text> - Admin talk to all players (white with no name)");
+	result.push_back("  message <text> - Message to all players (yellow in center of screen)");
 }
 
 void ClientAdmin::adminShow(std::list<std::string> &result)
