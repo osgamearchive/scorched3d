@@ -134,7 +134,7 @@ void TankAIComputer::autoDefense()
 
 void TankAIComputer::buyAccessories()
 {
-	tankBuyer_.buyAccessories(3);
+	tankBuyer_.buyAccessories(10);
 
 	ComsPlayedMoveMessage *message = 
 		new ComsPlayedMoveMessage(currentTank_->getPlayerId(), ComsPlayedMoveMessage::eFinishedBuy);
