@@ -28,7 +28,8 @@ class ShieldHit : public ActionMeta
 {
 public:
 	ShieldHit();
-	ShieldHit(unsigned int playerId);
+	ShieldHit(unsigned int playerId,
+		float hitPercentage);
 	virtual ~ShieldHit();
 
 	virtual void init();
@@ -41,6 +42,7 @@ public:
 protected:
 	bool firstTime_;
 	unsigned int playerId_;
+	float hitPercentage_;
 
 };
 

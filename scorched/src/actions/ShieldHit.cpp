@@ -31,8 +31,10 @@ ShieldHit::ShieldHit() : firstTime_(true)
 {
 }
 
-ShieldHit::ShieldHit(unsigned int playerId) :
-	firstTime_(true), playerId_(playerId)
+ShieldHit::ShieldHit(unsigned int playerId,
+	float hitPercentage) :
+	firstTime_(true), playerId_(playerId),
+	hitPercentage_(hitPercentage)
 {
 
 }
@@ -77,7 +79,7 @@ void ShieldHit::simulate(float frameTime, bool &remove)
 
 				tank->getAccessories().getShields().setShieldPower(
 					tank->getAccessories().getShields().getShieldPower() -
-					shield->getHitRemovePower());
+					shield->getHitRemovePower() * hitPercentage_);
 			}
 		}
 	}
@@ -89,11 +91,13 @@ void ShieldHit::simulate(float frameTime, bool &remove)
 bool ShieldHit::writeAction(NetBuffer &buffer)
 {
 	buffer.addToBuffer(playerId_);
+	buffer.addToBuffer(hitPercentage_);
 	return true;
 }
 
 bool ShieldHit::readAction(NetBufferReader &reader)
 {
 	if (!reader.getFromBuffer(playerId_)) return false;
+	if (!reader.getFromBuffer(hitPercentage_)) return false;
 	return true;
 }

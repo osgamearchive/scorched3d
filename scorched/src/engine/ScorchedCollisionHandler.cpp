@@ -128,7 +128,8 @@ void ScorchedCollisionHandler::bounceCollision(dGeomID o1, dGeomID o2,
 			ParticleAction action = collisionShield(id, bouncePositionV, 
 				((otherInfo->id==CollisionIdShieldLarge)?
 				Shield::ShieldSizeLarge:Shield::ShieldSizeSmall),
-				particle);
+				particle,
+				0.2f);
 
 			// Unless there is no shield, we bounce off all shields
 			if (action != ParticleActionNone)
@@ -231,7 +232,8 @@ void ScorchedCollisionHandler::shotCollision(dGeomID o1, dGeomID o2,
 				action = collisionShield(id, particlePositionV, 
 					((otherInfo->id==CollisionIdShieldLarge)?
 					Shield::ShieldSizeLarge:Shield::ShieldSizeSmall),
-					shot);
+					shot,
+					1.0f);
 			}
 			else
 			{
@@ -366,7 +368,8 @@ ParticleAction ScorchedCollisionHandler::collisionShield(
 	unsigned int id,
 	Vector &collisionPos,
 	Shield::ShieldSize size,
-	PhysicsParticleMeta *shot)
+	PhysicsParticleMeta *shot,
+	float hitPercentage)
 {
 	// Check tank still exists and is alive
 	Tank *tank = context_->tankContainer->getTankById(id);
@@ -393,11 +396,13 @@ ParticleAction ScorchedCollisionHandler::collisionShield(
 					{
 					case Shield::ShieldTypeNormal:
 						context_->actionController->addAction(
-							new ShieldHit(tank->getPlayerId()));
+							new ShieldHit(tank->getPlayerId(),
+							hitPercentage));
 						return ParticleActionFinished;
 					case Shield::ShieldTypeReflective:
 						context_->actionController->addAction(
-							new ShieldHit(tank->getPlayerId()));
+							new ShieldHit(tank->getPlayerId(),
+							hitPercentage));
 						return ParticleActionBounce;
 					case Shield::ShieldTypeMag:
 						{
@@ -407,7 +412,7 @@ ParticleAction ScorchedCollisionHandler::collisionShield(
 
 							tank->getAccessories().getShields().setShieldPower(
 								tank->getAccessories().getShields().getShieldPower() -
-								shield->getHitRemovePower());
+								shield->getHitRemovePower() * hitPercentage);
 						}
 						return ParticleActionNone;
 					}
