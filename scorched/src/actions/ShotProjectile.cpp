@@ -96,7 +96,7 @@ void ShotProjectile::simulate(float frameTime, bool &remove)
 		vPoint_->setPosition(getCurrentPosition());
 
 		Vector velocity = -getCurrentVelocity();
-		velocity[2] = fabs(velocity[2]) + 4.0f;
+		velocity[2] = 4.0f;
 		vPoint_->setLookFrom(velocity);
 	}
 	PhysicsParticleMeta::simulate(frameTime, remove);

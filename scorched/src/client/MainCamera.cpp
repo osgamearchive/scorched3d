@@ -180,9 +180,8 @@ bool MainCamera::moveCamera(float frameTime)
 			Vector lookatPos, lookfromPos;
 			ScorchedClient::instance()->getContext().viewPoints.getValues(lookatPos, lookfromPos);
 			mainCam_.setLookAt(lookatPos, true);
-			mainCam_.getCurrentPos() = lookatPos + lookfromPos;
-			//mainCam_.movePosition(currentRotation + 0.3f, 1.0f, 10.0f);
-			simulateCamera = false;
+			mainCam_.setOffSet(lookfromPos, true);
+			//simulateCamera = false;
 		}
 		else
 		{

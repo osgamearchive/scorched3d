@@ -55,6 +55,7 @@ protected:
 	bool firstTime_;
 	
 	Vector position_;
+	float totalTime_;
 	float width_;
 	Weapon *weapon_;
 	unsigned int playerId_;

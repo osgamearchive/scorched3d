@@ -66,6 +66,15 @@ void GLCamera::setLookAt(Vector &lookAt, bool instant)
 	}
 }
 
+void GLCamera::setOffSet(Vector &offSet, bool instant)
+{
+	wantedOffset_ = offSet;
+ 	if (instant)
+	{
+		currentPosition_ = wantedOffset_ + lookAt_;
+	}
+}
+
 void GLCamera::setWindowSize(GLsizei windowWidth, GLsizei windowHeight)
 {
 	windowW_ = windowWidth;

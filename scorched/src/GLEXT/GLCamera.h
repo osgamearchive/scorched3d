@@ -41,6 +41,7 @@ public:
 	void setHeightFunc(HeightFunc func);
 	void setUseHeightFunc(bool toggle);
 	void setLookAt(Vector &lookAt, bool instant = false);
+	void setOffSet(Vector &offSet, bool instant = false);
 	void setWindowSize(GLsizei windowWidth, GLsizei windowHeight);
 	void setWindowOffset(GLsizei windowLeft, GLsizei windowTop);
 

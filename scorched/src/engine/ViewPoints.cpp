@@ -71,11 +71,14 @@ void ViewPoints::getValues(Vector &lookAt,
 
 	float dist = 10.0f;
 	float maxMin = (max - min).Magnitude();
-	if (maxMin > 0.0f) dist = 10.0f + maxMin;
+	if (maxMin > 0.0f)
+	{
+		dist = 10.0f + maxMin;
+	}
 	lookFrom.StoreNormalize();
 
 	lookAt /= count;
-	lookFrom *= dist / count;
+	lookFrom *= dist;
 }
 
 int ViewPoints::getLookAtCount()

@@ -23,6 +23,7 @@
 #include <common/OptionsGame.h>
 #include <common/SoundStore.h>
 #include <common/OptionsParam.h>
+#include <common/Defines.h>
 #include <weapons/AccessoryStore.h>
 #include <weapons/WeaponProjectile.h>
 #include <actions/Explosion.h>
@@ -35,11 +36,12 @@
 #include <sprites/ExplosionNukeRenderer.h>
 #include <sprites/SprayActionRenderer.h>
 #include <sprites/ExplosionTextures.h>
+#include <math.h>
 
 REGISTER_ACTION_SOURCE(Explosion);
 
 Explosion::Explosion() :
-	firstTime_(true), vPoint_(0)
+	firstTime_(true), vPoint_(0), totalTime_(0.0f)
 {
 
 }
@@ -51,7 +53,7 @@ Explosion::Explosion(Vector &position, float width,
 	firstTime_(true),
 	weapon_(weapon), playerId_(fired), 
 	position_(position), width_(width), deformType_(deformType),
-	explosionHurts_(explosionHurts), vPoint_(0)
+	explosionHurts_(explosionHurts), vPoint_(0), totalTime_(0.0f)
 {
 
 }
@@ -131,6 +133,7 @@ void Explosion::init()
 
 void Explosion::simulate(float frameTime, bool &remove)
 {
+	totalTime_ += frameTime;
 	if (firstTime_)
 	{
 		firstTime_ = false;
@@ -184,7 +187,15 @@ void Explosion::simulate(float frameTime, bool &remove)
 
 	if (deformType_ != DeformNone)
 	{
-		if (vPoint_) vPoint_->setPosition(position_);
+		if (vPoint_)
+		{
+			vPoint_->setPosition(position_);
+			Vector velocity(
+				sinf(0.0f / 10.0f * 3.14f), 
+				cosf(0.0f / 10.0f * 3.14f), 1.0f);
+			vPoint_->setLookFrom(velocity);
+			vPoint_->setRadius(10.0f + width_ / 3.0f);
+		}
 	}
 
 	if (!renderer_) remove = true;
