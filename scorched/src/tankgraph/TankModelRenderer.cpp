@@ -125,21 +125,6 @@ void TankModelRenderer::drawSecond(bool currentTank)
 {
 	if (!canSeeTank_) return;
 
-	// Draw the approximate aiming path
-	/*{
-		GLState newState(GLState::TEXTURE_OFF);
-		glColor3f(1.0f, 0.0f, 0.0f);
-		glBegin(GL_LINES);
-		TankLib::intersection(ScorchedClient::instance()->getContext(), 
-			tank_->getPhysics().getTankGunPosition(), 
-			tank_->getPhysics().getRotationGunXY(),
-			tank_->getPhysics().getRotationGunYZ(),
-			tank_->getPhysics().getPower(),
-			255, 
-			true);
-		glEnd();
-	}*/
-
 	// Draw the life bars and arrow
 	drawLife();
 

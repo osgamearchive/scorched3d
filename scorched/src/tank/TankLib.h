@@ -30,7 +30,7 @@ namespace TankLib
 {
 	bool intersection(ScorchedContext &context,
 		Vector position, float xy, float yz, float power,
-		int dist, bool drawDots = false);
+		int dist);
 	float getDistanceToTank(Vector &position, Tank *targetTank);
 	void getTanksSortedByDistance(
 		ScorchedContext &context,

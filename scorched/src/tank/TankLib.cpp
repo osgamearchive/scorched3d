@@ -78,7 +78,7 @@ void TankLib::getTanksSortedByDistance(ScorchedContext &context,
 
 bool TankLib::intersection(ScorchedContext &context,
 	Vector position, float xy, float yz, float power, 
-	int dist, bool drawDots)
+	int dist)
 {
 	Vector startPosition = position;
 	Vector velocity = getVelocityVector(xy, yz) * power / 250.0f;
@@ -90,7 +90,6 @@ bool TankLib::intersection(ScorchedContext &context,
 		{
 			return true;
 		}
-		if (drawDots) glVertex3fv(position);
 		position += velocity;
 		velocity += Vector(0.0f, 0.0f, -0.00015f);
 	} while ((position - startPosition).Magnitude() < dist);
