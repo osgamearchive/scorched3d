@@ -70,7 +70,10 @@ void setup()
 	{
 		dialogMessage("Scorched3D Keyboard", 
 			"SDL failed to aquire keyboard.\n"
-			"Win32: Is DirectX 5.0 installed?");
+#ifdef WIN32
+			"Is DirectX 5.0 installed?"
+#endif
+		);
 		exit(1);
 	}
 
@@ -80,17 +83,19 @@ void setup()
 		{
 			dialogMessage("Scorched3D Sound", 
 				"Failed to initialise sound.\n"
-				"Win32: Is DirectX 5.0 installed?\n"
-				"All: Is anything else currently using the sound card?");
-			exit(1);
+#ifdef WIN32
+				"Is DirectX 5.0 installed?\n"
+#endif
+				"Is anything else currently using the sound card?");
 		}
 		if (!Sound::instance()->init())
 		{
 			dialogMessage("Scorched3D Sound", 
-				"DirectX 5.0 failed to aquire sound.\n"
-				"Win32: Is DirectX 5.0 installed?\n"
-				"All: Is anything else currently using the sound card?");
-			exit(1);
+				"Failed to aquire sound.\n"
+#ifdef WIN32
+				"Is DirectX 5.0 installed?\n"
+#endif
+				"Is anything else currently using the sound card?");
 		}	
 	}
 

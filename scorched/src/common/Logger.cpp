@@ -25,6 +25,7 @@
 #include <time.h>
 #include <stdio.h>
 #include <stdarg.h>
+#include <algorithm>
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
@@ -59,6 +60,21 @@ void Logger::addLogger(LoggerI *logger)
 {
 	SDL_LockMutex(logMutex_);
 	Logger::instance()->loggers_.push_back(logger);
+	SDL_UnlockMutex(logMutex_);
+}
+
+void Logger::remLogger(LoggerI *logger)
+{
+	std::list<LoggerI *>::iterator itor;
+	SDL_LockMutex(logMutex_);
+	itor = Logger::instance()->loggers_.begin();
+	while(itor != Logger::instance()->loggers_.end()) {
+		if (*itor == logger) {
+			Logger::instance()->loggers_.erase(itor);
+			break;
+		}
+		itor++;
+	}
 	SDL_UnlockMutex(logMutex_);
 }
 

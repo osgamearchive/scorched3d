@@ -44,6 +44,7 @@ public:
 	static Logger *instance();
 
 	static void addLogger(LoggerI *logger);
+	static void remLogger(LoggerI *logger);
 	static void processLogEntries();
 	static void log(unsigned int playerId, const char *fmt, ...);
 
@@ -60,6 +61,7 @@ protected:
 	std::list<LogEntry> entries_;
 
 	static void addLog(char *time, char *text, unsigned int playerId);
+
 
 private:
 	Logger();

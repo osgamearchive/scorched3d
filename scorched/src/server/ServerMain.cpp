@@ -50,7 +50,9 @@
 
 Timer serverTimer;
 
-#ifndef _NO_SERVER_ASE_
+#ifdef _NO_SERVER_ASE_
+#include <irc/ServerGameInfo.h>
+#else
 extern "C" {
 #include <ASE/ASEQuerySDK.h>
 }
@@ -60,7 +62,9 @@ void serverCleanup()
 {
 	if (NetServer::instance()->started())
 	{
-#ifndef _NO_SERVER_ASE_
+#ifdef _NO_SERVER_ASE_
+ 		ServerGameInfo::instance()->Stop();
+#else
 		ASEQuery_shutdown();
 		WSACleanup();
 #endif
@@ -122,7 +126,14 @@ bool serverMain()
 		return false;
 	}
 
-#ifndef _NO_SERVER_ASE_
+#ifdef _NO_SERVER_ASE_
+ 	if (OptionsGame::instance()->getPublishServer()) 
+	{
+ 		// launch game info servers
+ 		ServerGameInfo::instance()->Start(
+			OptionsGame::instance()->getPortNo());
+	}
+#else
 	char *publishAddress = 0;
 	if ((0 != strcmp("AutoDetect", OptionsGame::instance()->getPublishAddress())) &&
 		OptionsGame::instance()->getPublishAddress()[0])

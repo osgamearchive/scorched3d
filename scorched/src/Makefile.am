@@ -1,7 +1,24 @@
 SUBDIRS = scorched
 
 UNIX_DIST = \
-	porting
+	porting \
+	scorched/Display-def.cpp \
+	scorched/Display.cpp \
+	scorched/NetLan-def.cpp \
+	scorched/NetLan.cpp \
+	scorched/ServerS-def.cpp \
+	scorched/ServerS.cpp \
+	scorched/SettingsEco-def.cpp \
+	scorched/SettingsEco.cpp \
+	scorched/SettingsEnv-def.cpp \
+	scorched/SettingsEnv.cpp \
+	scorched/SettingsLand-def.cpp \
+	scorched/SettingsLand.cpp \
+	scorched/SettingsMain-def.cpp \
+	scorched/SettingsMain.cpp \
+	scorched/SettingsPlayers-def.cpp \
+	scorched/SettingsPlayers.cpp \
+	scorched/wxinclude.rc
 
 WIN_DIST = \
 	XML/ascii.h                             \

@@ -21,7 +21,7 @@ IrcConnection::IrcConnection()
 	port = "0";
 
 	task = TSK_DISCONNECTED;
-	trace_enable = true;
+	trace_enable = false;
 	prefix = cmd = params = NULL;
 	sock = NULL;
 	set = NULL;

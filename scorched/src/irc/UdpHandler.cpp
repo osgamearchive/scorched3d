@@ -2,7 +2,7 @@
 
 UdpHandler::UdpHandler() 
 {
-	trace_enable = true;
+	trace_enable = false;
 	port = 0xffff;
 	udpsock = NULL;
 	udp_query_dispatcher_ = NULL;

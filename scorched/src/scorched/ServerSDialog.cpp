@@ -83,23 +83,8 @@ bool ServerSFrame::TransferDataToWindow()
 	sprintf(buffer, "%i", OptionsGame::instance()->getPortNo());
 	IDC_SERVER_PORT_CTRL->SetValue(buffer);
 	IDC_SERVER_NAME_CTRL->SetValue(OptionsGame::instance()->getServerName());
-
-	// Disable the publish options for non-win 32 clients
-#ifdef _NO_SERVER_ASE_
-	if (OptionsGame::instance()->getPublishServer())
-	{
-		dialogMessage("Scorched3D Server", 
-			"The publish server option is currently only available for\n"
-			"officially built and Win32 versions of Scorched");
-	}
-	IDC_PUBLISH_CTRL->Enable(false);
-	IDC_PUBLISHIP_CTRL->Enable(false);
-	IDC_PUBLISHIP_CTRL_TEXT->Enable(false);
-#else
 	IDC_PUBLISH_CTRL->SetValue(OptionsGame::instance()->getPublishServer());
 	IDC_PUBLISHIP_CTRL->SetValue(OptionsGame::instance()->getPublishAddress());
-#endif
-
 	return true;
 }
 
