@@ -157,20 +157,35 @@ void AutoDefenseDialog::displayCurrent()
 		Shield *shield = (*shieldsItor).first;
 		int shieldcount = (*shieldsItor).second;
 		char buffer[256];
-		sprintf(buffer, "%s (%i)",
-			shield->getName(),
-			shieldcount);
+		if (shieldcount > 0)
+		{
+			sprintf(buffer, "%s (%i)",
+				shield->getName(),
+				shieldcount);
+		}
+		else
+		{
+			sprintf(buffer, "%s (In)",
+				shield->getName());
+		}
 		ddshields_->addText(buffer);
 	}
 
 	// Put parachutes info
 	ddpara_->clear();
 	ddpara_->addText("Parachutes Off");
-	if (tank->getAccessories().getParachutes().getNoParachutes() > 0)
+	if (tank->getAccessories().getParachutes().getNoParachutes() != 0)
 	{
 		char buffer[256];
-		sprintf(buffer, "Parachutes On (%i)",
-			tank->getAccessories().getParachutes().getNoParachutes());
+		if (tank->getAccessories().getParachutes().getNoParachutes() > 0)
+		{
+			sprintf(buffer, "Parachutes On (%i)",
+				tank->getAccessories().getParachutes().getNoParachutes());
+		}
+		else
+		{
+			sprintf(buffer, "Parachutes On (In)");
+		}
 		ddpara_->addText(buffer);
 	}
 
@@ -179,9 +194,17 @@ void AutoDefenseDialog::displayCurrent()
 	if (currentShield)
 	{
 		char buffer[256];
-		sprintf(buffer, "%s (%i)",
-			currentShield->getName(),
-			tank->getAccessories().getShields().getShieldCount(currentShield));
+		if (tank->getAccessories().getShields().getShieldCount(currentShield) > 0)
+		{
+			sprintf(buffer, "%s (%i)",
+				currentShield->getName(),
+				tank->getAccessories().getShields().getShieldCount(currentShield));
+		}
+		else
+		{
+			sprintf(buffer, "%s (In)",
+				currentShield->getName());
+		}
 		ddshields_->setText(buffer);
 	}
 	else
@@ -191,8 +214,15 @@ void AutoDefenseDialog::displayCurrent()
 	if (tank->getAccessories().getParachutes().parachutesEnabled())
 	{
 		char buffer[256];
-		sprintf(buffer, "Parachutes On (%i)",
-			tank->getAccessories().getParachutes().getNoParachutes());
+		if (tank->getAccessories().getParachutes().getNoParachutes() > 0)
+		{
+			sprintf(buffer, "Parachutes On (%i)",
+				tank->getAccessories().getParachutes().getNoParachutes());
+		}
+		else
+		{
+			sprintf(buffer, "Parachutes On (In)");
+		}	
 		ddpara_->setText(buffer);
 	}
 	else

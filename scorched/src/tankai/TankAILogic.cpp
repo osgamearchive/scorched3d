@@ -213,7 +213,7 @@ bool TankAILogic::processDefenseMessage(ScorchedContext &context,
 			if (accessory->getType() == Accessory::AccessoryShield)
 			{
 				Shield *shield = (Shield *) accessory;
-				if (tank->getAccessories().getShields().getShieldCount(shield) > 0)
+				if (tank->getAccessories().getShields().getShieldCount(shield) != 0)
 				{
 					if (!context.serverMode) 
 					{
@@ -242,7 +242,7 @@ bool TankAILogic::processDefenseMessage(ScorchedContext &context,
 		}	
 		break;
 	case ComsDefenseMessage::eParachutesUp:
-		if (tank->getAccessories().getParachutes().getNoParachutes() > 0)
+		if (tank->getAccessories().getParachutes().getNoParachutes() != 0)
 		{
 			Accessory *parachute = 
 				AccessoryStore::instance()->findByAccessoryType(Accessory::AccessoryParachute);

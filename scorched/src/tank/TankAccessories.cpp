@@ -79,7 +79,7 @@ void TankAccessories::getAllAccessories(std::list<std::pair<Accessory *, int> > 
 	}
 
 	// Add parachutes
-	if (tankPara_.getNoParachutes())
+	if (tankPara_.getNoParachutes() != 0)
 	{
 		Accessory *accessory = AccessoryStore::instance()->
 			findByAccessoryType(Accessory::AccessoryParachute);

@@ -877,6 +877,8 @@ scorched3d_SOURCES = \
 	../tankai/TankAIComputerRandom.h \
 	../tankai/TankAIComputerShooter.cpp \
 	../tankai/TankAIComputerShooter.h \
+	../tankai/TankAIComputerTarget.cpp \
+	../tankai/TankAIComputerTarget.h \
 	../tankai/TankAIComputerTosser.cpp \
 	../tankai/TankAIComputerTosser.h \
 	../tankai/TankAIHuman.cpp \

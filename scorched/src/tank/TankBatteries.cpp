@@ -51,8 +51,7 @@ void TankBatteries::reset()
 				accessory->getBundle() == 0) ||
 				ScorchedServer::instance()->getOptionsGame().getGiveAllWeapons())
 			{
-				addBatteries(ScorchedServer::instance()->getOptionsGame().
-					getMaxNumberWeapons());
+				addBatteries(20);
 			}
 		}
 	}

@@ -7,6 +7,7 @@ Fixed: Buoys now shaded
 Fixed: Client does not wait at the end of each shot when fast speed is enabled
 Fixed: TankAIs will not get "confused" by bouncy walls, shields or wrap walls
 
+Added: Target mode for single player that gives all weapons + accessories
 Added: Target tank ai that does shoot at all (for target practice)
 Added: Initial tank elevation and rotation only random for the first round only
 Added: Settings dialog split over tabs to reduce size (and apparent complexity)

@@ -51,8 +51,7 @@ void TankFuel::reset()
 				accessory->getBundle() == 0) ||
 				ScorchedServer::instance()->getOptionsGame().getGiveAllWeapons())
 			{
-				addFuel(ScorchedServer::instance()->getOptionsGame().
-					getMaxNumberWeapons());
+				addFuel(20);
 			}
 		}
 	}

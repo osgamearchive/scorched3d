@@ -18,8 +18,9 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
+#include <weapons/AccessoryStore.h>
 #include <tank/TankAutoDefense.h>
+#include <server/ScorchedServer.h>
 
 TankAutoDefense::TankAutoDefense()
 {
@@ -33,6 +34,25 @@ TankAutoDefense::~TankAutoDefense()
 void TankAutoDefense::reset()
 {
 	haveDefense_ = false;
+	
+	std::list<Accessory *> accessories = 
+		AccessoryStore::instance()->getAllOthers();
+	std::list<Accessory *>::iterator itor;
+	for (itor = accessories.begin();
+		itor != accessories.end();
+		itor++)
+	{
+		Accessory *accessory = (*itor);
+		if (accessory->getType() == Accessory::AccessoryAutoDefense)
+		{
+			if ((accessory->getPrice() == 0 && 
+				accessory->getBundle() == 0) ||
+				ScorchedServer::instance()->getOptionsGame().getGiveAllWeapons())
+			{
+				haveDefense_ = true;
+			}
+		}
+	}
 }
 
 void TankAutoDefense::addDefense()

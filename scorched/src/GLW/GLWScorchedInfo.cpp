@@ -147,11 +147,15 @@ void GLWScorchedInfo::draw()
 			}
 			else
 			{
+				int count = current->getAccessories().
+					getParachutes().getNoParachutes();
+				char buffer[128];
+				if (count >= 0) sprintf(buffer, "%i", count);
+				else sprintf(buffer, "In");
 				GLWFont::instance()->getSmallPtFont()->draw(
 					*fontColor, fontSize_,
 					x_, y_, 0.0f,
-					"%i",
-					current->getAccessories().getParachutes().getNoParachutes());
+					"%s", buffer);
 			}
 		break;
 		case eHealthCount:
@@ -224,7 +228,7 @@ void GLWScorchedInfo::draw()
 			int count = current->getAccessories().getWeapons().getWeaponCount(
 				current->getAccessories().getWeapons().getCurrent());
 			const char *format = "%i";
-			if (count < 0) format = "Inf";
+			if (count < 0) format = "In";
 			GLWFont::instance()->getSmallPtFont()->draw(
 				*fontColor, fontSize_,
 				x_, y_, 0.0f,

@@ -121,7 +121,7 @@ void BuyAccessoryDialog::addPlayerWeaponsBuy(GLWTab *tab, bool showWeapons)
 		}
 	}
 
-	sort(accVector);
+	//sort(accVector);
 
 	std::vector<Accessory *>::iterator itor2;
 	for (itor2 = accVector.begin();
@@ -182,7 +182,8 @@ void BuyAccessoryDialog::addPlayerWeaponsSell()
 		GLWVisiblePanel *newPanel = (GLWVisiblePanel *)
 			sellTab_->addWidget(new GLWVisiblePanel(10.0f, (float) height, 315.0f, 20.0f, true));
 		newPanel->setToolTip(&current->getToolTip());
-		sprintf(buffer, "%i", (itor->second>=0?itor->second:99));
+		if (itor->second>=0) sprintf(buffer, "%i", itor->second);
+		else sprintf(buffer, "In");
 		newPanel->addWidget(new GLWLabel(0, -2, buffer));
 		newPanel->addWidget(new GLWIcon(30, 2, 16, 16, current->getTexture()));
 		newPanel->addWidget(new GLWLabel(50, -2, (char *) current->getName()));

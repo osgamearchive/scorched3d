@@ -105,7 +105,7 @@ void TankAIComputerShooter::playMove(const unsigned state,
 void TankAIComputerShooter::autoDefense()
 {
 	// Try to enable parachutes (fails if we don't have any)
-	if (currentTank_->getAccessories().getParachutes().getNoParachutes() > 0)
+	if (currentTank_->getAccessories().getParachutes().getNoParachutes() != 0)
 	{
 		if (!currentTank_->getAccessories().getParachutes().parachutesEnabled())
 		{
