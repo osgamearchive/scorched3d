@@ -306,6 +306,10 @@
 		<description>Shows or hides the aiming dialog</description>
 	</keyentry>	
 	<keyentry>
+		<name>SHOW_WEAPON_DIALOG</name>
+		<description>Shows or hides the weapon choosing dialog</description>
+	</keyentry>	
+	<keyentry>
 		<name>SHOW_TEAM_DIALOG</name>
 		<description>Shows or hides the team dialog</description>
 		<key>m</key>

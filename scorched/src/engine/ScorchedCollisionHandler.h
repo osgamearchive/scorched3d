@@ -50,10 +50,12 @@ protected:
 	void groundCollision(dGeomID o1, dGeomID o2, 
 		dContactGeom *contacts, int noContacts,
 		bool metaAction);
+	void bounceCollision(dGeomID o1, dGeomID o2, 
+		dContactGeom *contacts, int noContacts);
 	void shotCollision(dGeomID o1, dGeomID o2, 
 		dContactGeom *contacts, int noContacts);
 	void collisionBounce(dGeomID o1, dGeomID o2, 
-		dContactGeom *contacts, int noContacts);
+		dContactGeom *contacts, int noContacts, double bvel = 0.0);
 
 	ParticleAction collisionShield(unsigned int id,
 		Vector &collisionPos,

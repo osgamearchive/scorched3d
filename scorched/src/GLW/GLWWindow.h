@@ -18,16 +18,12 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// GLWWindow.h: interface for the GLWWindow class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_GLWWINDOW_H__DF296D0F_BC67_4A40_B8F9_3B70E8AC1F65__INCLUDED_)
 #define AFX_GLWWINDOW_H__DF296D0F_BC67_4A40_B8F9_3B70E8AC1F65__INCLUDED_
 
 #include <string>
 #include <GLW/GLWVisiblePanel.h>
+#include <GLEXT/GLTexture.h>
 
 class GLWWindow : public GLWVisiblePanel
 {
@@ -37,7 +33,8 @@ public:
 		eNoTitle = 1,
 		eSmallTitle = 2,
 		eTransparent = 4,
-		eResizeable = 8
+		eResizeable = 8,
+		eCircle = 16
 	};
 
 	GLWWindow(const char *name, float x, float y, 
@@ -71,18 +68,23 @@ protected:
 		SizeDrag
 	} dragging_;
 
+	GLTexture moveTexture_;
 	bool showTitle_;
 	bool needCentered_;
 	bool disabled_;
 	unsigned int windowState_;
+	float maxWindowSize_;
 	std::string name_;
 
+	virtual void drawWindowCircle(float x, float y, float w, float h);
 	virtual void drawOutlinePoints(float x, float y, float w, float h);
-
 	virtual void drawBackSurface(float x, float y, float w, float h);
 	virtual void drawTitleBar(float x, float y, float w, float h);
 	virtual void drawSurround(float x, float y, float w, float h);
 	virtual void drawMaximizedWindow();
+	virtual void drawInfoBox(float x, float y, float w);
+	virtual void drawJoin(float x, float y);
+	virtual void drawIconBox(float x, float y);
 
 };
 

@@ -57,7 +57,7 @@ void TankModel::clear()
 
 void TankModel::draw(bool drawS, float angle, 
 	Vector &position, float fireOffSet, 
-	float rotXY, float rotXZ)
+	float rotXY, float rotXZ, bool absCenter)
 {
 	if (!init_)
 	{
@@ -77,7 +77,7 @@ void TankModel::draw(bool drawS, float angle,
 
 	if (tankMesh_)
 	{
-		tankMesh_->draw(drawS, angle, position, fireOffSet, rotXY, rotXZ);
+		tankMesh_->draw(drawS, angle, position, fireOffSet, rotXY, rotXZ, absCenter);
 	}
 }
 

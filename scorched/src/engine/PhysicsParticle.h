@@ -63,7 +63,8 @@ public:
 	PhysicsParticleMeta();
 	virtual ~PhysicsParticleMeta();
 
-	virtual void setPhysics(Vector &position, Vector &velocity);
+	virtual void setPhysics(Vector &position, Vector &velocity,
+		float sphereSize = 0.0f, float sphereDensity = 0.0f);
 	virtual void collision(Vector &position);
 
 	Vector &getCurrentPosition();

@@ -54,7 +54,7 @@ ScoreDialog *ScoreDialog::instance2()
 }
 
 ScoreDialog::ScoreDialog() :
-	GLWWindow("Score", 10.0f, 10.0f, 417.0f, 310.0f, eTransparent | eSmallTitle),
+	GLWWindow("Score", 10.0f, 10.0f, 417.0f, 310.0f, eTransparent |eSmallTitle),
 	lastScoreValue_(0), lastWinsValue_(0)
 {
 
@@ -111,7 +111,7 @@ void ScoreDialog::draw()
 	GLWWindow::draw();
 	GLState newState(GLState::TEXTURE_OFF | GLState::DEPTH_OFF);
 
-	Vector white(0.8f, 0.8f, 0.8f);
+	Vector white(0.9f, 0.9f, 1.0f);
 	bool finished = (ScorchedClient::instance()->getGameState().getState() == ClientState::StateScore);
 	GLWFont::instance()->getFont()->draw(
 			white,
@@ -274,7 +274,7 @@ void ScoreDialog::addScoreLine(float y, int kills, int money, int wins)
 {
 	float textX = x_ + 6.0f;
 	float textY  = y_ + h_ - y - lineSpacer - 30.0f;
-	Vector white(0.8f, 0.8f, 0.8f);
+	Vector white(0.9f, 0.9f, 1.0f);
 
 	char *format = "%32i%10i $%6i";
 

@@ -18,12 +18,8 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #ifndef _GLFONTBANNER_H_
 #define _GLFONTBANNER_H_
-// GLFontBanner.h: interface for the GLFontBanner class.
-//
-//////////////////////////////////////////////////////////////////////
 
 #include <GLW/GLWidget.h>
 #include <common/Vector.h>
@@ -38,6 +34,7 @@ public:
 
 	char *getText() { return textLine_; }
 	void setText(char *text);
+	int getLen() { return len_; }
 
 	void setColor(Vector &color) { color_ = color; }
 	Vector &getColor() { return color_; }
@@ -45,6 +42,7 @@ public:
 protected:
 	char textLine_[1024];
 	Vector color_;
+	int len_;
 	float timeRemaining_;
 };
 

@@ -44,8 +44,6 @@ protected:
 	float rotation_;
 	float scale_;
 
-	static std::map<std::string, MissileMesh *> loadedMeshes_;
-
 };
 
 #endif

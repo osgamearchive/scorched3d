@@ -100,11 +100,13 @@ void CameraDialog::draw()
 	targetCam_.draw();
 	
 	// Draw the stuff we want to see
+	//GLCameraFrustum::instance()->backupFrustum();
 	drawLandscape();
+	//GLCameraFrustum::instance()->restoreFrustum();
 	
 	// Return the viewport to the original
 	Main2DCamera::instance()->draw(0);
-	GLCameraFrustum::instance()->draw(0);
+
 }
 
 void CameraDialog::simulate(float frameTime)

@@ -22,6 +22,8 @@
 #include <GLEXT/GLTexture.h>
 #include <GLEXT/GLBitmap.h>
 #include <GLW/GLWWindow.h>
+#include <client/ScorchedClient.h>
+#include <common/WindowManager.h>
 
 static const float roundSize = 20.0f;
 static const float smallRoundSize = 10.0f;
@@ -36,7 +38,7 @@ GLWWindow::GLWWindow(const char *name, float x, float y,
 					 unsigned int states) : 
 	GLWVisiblePanel(x, y, w, h), dragging_(NoDrag), 
 	needCentered_(false), showTitle_(false), name_(name),
-	disabled_(false), windowState_(states)
+	disabled_(false), windowState_(states), maxWindowSize_(0.0f)
 {
 	getDrawPanel() = false;
 }
@@ -141,30 +143,98 @@ void GLWWindow::drawTitleBar(float x, float y, float w, float h)
 	glEnd();
 }
 
+void GLWWindow::drawWindowCircle(float x, float y, float w, float h)
+{
+	glColor4f(0.5f, 0.5f, 1.0f, 0.3f);	
+	float halfWidth = w / 2.0f;
+	float halfHeight = h / 2.0f;
+	glPushMatrix();
+		glTranslatef(x + halfWidth, y + halfHeight, 0.0f);
+		glScalef(halfWidth, halfHeight, 0.0f);
+		glBegin(GL_TRIANGLE_FAN);
+			glVertex2f(0.0f, 0.0f);
+			drawWholeCircle(true);
+		glEnd();
+		glColor4f(0.9f, 0.9f, 1.0f, 0.5f);
+		glLineWidth(2.0f);
+		glBegin(GL_LINE_LOOP);
+			drawWholeCircle(false);
+		glEnd();
+		glLineWidth(1.0f);
+	glPopMatrix();
+}
+
 void GLWWindow::drawMaximizedWindow()
 {
-	if (windowState_ & eTransparent)
+	if (windowState_ & eCircle)
+	{
+		if (!moveTexture_.textureValid())
+		{
+			GLBitmap moveMap(PKGDIR "data/windows/move.bmp", true);
+			moveTexture_.create(moveMap, GL_RGBA, false);
+		}
+
+		GLState state(GLState::TEXTURE_OFF | GLState::BLEND_ON | GLState::DEPTH_OFF);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	
+		drawWindowCircle(x_, y_, w_, h_);
+
+		static int iVPort[4];
+		glGetIntegerv(GL_VIEWPORT, iVPort);
+		int x = ScorchedClient::instance()->getGameState().getMouseX();
+		int y = iVPort[3] - ScorchedClient::instance()->getGameState().getMouseY();
+		if (WindowManager::instance()->getFocus(x, y) == getId())
+		{
+			if (windowState_ & eResizeable)
+			{
+				drawWindowCircle(x_ + w_ - 12.0f, y_, 12.0f, 12.0f);
+			}
+			if (!(windowState_ & eNoTitle))
+			{
+				float sizeX = w_ / 5.6f;
+				float sizeY = w_ / 5.6f;
+				drawWindowCircle(x_, y_ + h_ - sizeY, sizeX, sizeY);
+				drawJoin(x_ + sizeX * 0.85f, y_ + h_ - sizeY * 0.85f);
+
+				GLState currentStateBlend(GLState::BLEND_ON | GLState::TEXTURE_ON);
+				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	
+				moveTexture_.draw();
+				glColor4f(0.8f, 0.0f, 0.0f, 0.8f);
+				glPushMatrix();
+					glTranslatef(x_, y_ + h_ - sizeY, 0.0f);
+					glScalef(sizeX / 16.0f, sizeY / 16.0f, 1.0f);
+					drawIconBox(0.0f, 0.0f);
+				glPopMatrix();
+			}
+		}
+	}
+	else if (windowState_ & eTransparent)
 	{
 		{
-			GLState newState(GLState::DEPTH_ON);
+			// NOTE WE DONT NEED CUNNING STUFF NOW
+			// AS WE DO A DEPTH CLEAR IN 2DCAMERA
+
+			//GLState newState(GLState::DEPTH_ON);
 			// Do some cunning depth stuff to ensure that
 			// anything drawn over the window will still be drawn
 			// even if it is drawn with DEPTH_ON
-			GLint func;
-			glGetIntegerv(GL_DEPTH_FUNC, &func);
-			glDepthFunc(GL_ALWAYS);
+			//GLint func;
+			//glGetIntegerv(GL_DEPTH_FUNC, &func);
+			//glDepthFunc(GL_ALWAYS);
+			GLState newState(GLState::DEPTH_OFF);
 			glPushMatrix();
-				glTranslatef(0.0f, 0.0f, -4000.0f);
+				glTranslatef(0.0f, 0.0f, 0.0f);
 				{
 					GLState currentStateBlend(GLState::BLEND_ON);
 					glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	
-					glColor4f(0.0f, 0.0, 0.0f, 0.7f);
+					glColor4f(0.5f, 0.5f, 1.0f, 0.3f);
 					drawBackSurface(x_, y_, w_, h_);
 				}
-				glColor3f(0.1f, 0.1f, 0.1f);
+				glLineWidth(2.0f);
+				glColor4f(0.9f, 0.9f, 1.0f, 0.5f);
 				drawSurround(x_, y_, w_, h_);
+				glLineWidth(1.0f);
 			glPopMatrix();
-			glDepthFunc(func);
+			//glDepthFunc(func);
 		}
 
 		glPushMatrix();
@@ -173,19 +243,17 @@ void GLWWindow::drawMaximizedWindow()
 	}
 	else
 	{
-		{
-			GLState currentStateBlend(GLState::BLEND_ON);
-			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	
-			glColor4f(0.0f, 0.0f, 0.0f, 0.8f);
-			drawBackSurface(x_ + shadowWidth, y_ - shadowWidth, w_, h_);
-		}
+		GLState currentStateBlend(GLState::BLEND_ON);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	
 		{
 			glColor3f(0.8f, 0.8f, 1.0f);
 			drawBackSurface(x_, y_, w_, h_);
 		}
 		if (showTitle_ && !(windowState_ & eSmallTitle)) drawTitleBar(x_, y_, w_, h_);
+		glLineWidth(2.0f);
 		glColor3f(0.0f, 0.0f, 0.0f);
 		drawSurround(x_, y_, w_, h_);
+		glLineWidth(1.0f);
 
 		glPushMatrix();
 			GLWVisiblePanel::draw();
@@ -221,21 +289,16 @@ void GLWWindow::mouseDown(float x, float y, bool &skipRest)
 
 	if (x > x_ && x < x_ + w_)
 	{
-		float th = titleHeight;
-		if (windowState_ & eSmallTitle) th = smallTitleHeight;
-		if (y > y_ + h_ && y < y_ + h_ + th && showTitle_ && x < x_ + titleWidth)
+		if (windowState_ & eCircle)
 		{
-			// Start window drag
-			dragging_ = TitleDrag;
-			skipRest = true;
-		}
-		else
-		{
-			if ((windowState_ & eResizeable) && 
-				inBox(x, y, x_ + w_ - 12.0f, y_, 12.0f, 12.0f))
+			float sizeX = w_ / 5.6f;
+			float sizeY = w_ / 5.6f;
+			if (x < x_ + sizeX &&
+				y < y_ + h_ &&
+				y > y_ + h_ - sizeY)
 			{
-				// Start resize window drag
-				dragging_ = SizeDrag;
+				// Start window drag
+				dragging_ = TitleDrag;
 				skipRest = true;
 			}
 			else if (y > y_ && y < y_ + h_)
@@ -244,7 +307,34 @@ void GLWWindow::mouseDown(float x, float y, bool &skipRest)
 				GLWVisiblePanel::mouseDown(x, y, skipRest);
 				skipRest = true;
 			}
-		}	
+		}
+		else
+		{
+			float th = titleHeight;
+			if (windowState_ & eSmallTitle) th = smallTitleHeight;
+			if (y > y_ + h_ && y < y_ + h_ + th && showTitle_ && x < x_ + titleWidth)
+			{
+				// Start window drag
+				dragging_ = TitleDrag;
+				skipRest = true;
+			}
+			else
+			{
+				if ((windowState_ & eResizeable) && 
+					inBox(x, y, x_ + w_ - 12.0f, y_, 12.0f, 12.0f))
+				{
+					// Start resize window drag
+					dragging_ = SizeDrag;
+					skipRest = true;
+				}
+				else if (y > y_ && y < y_ + h_)
+				{
+					// There is a mouse down in the actual window
+					GLWVisiblePanel::mouseDown(x, y, skipRest);
+					skipRest = true;
+				}
+			}	
+		}
 	}
 }
 
@@ -274,11 +364,13 @@ void GLWWindow::mouseDrag(float mx, float my, float x, float y, bool &skipRest)
 		skipRest = true;
 		break;
 	case SizeDrag:
-		if (w_ + x > minWindowSize)
+		if (w_ + x > minWindowSize &&
+			(maxWindowSize_ == 0.0f || w_ + x < maxWindowSize_))
 		{
 			w_ += x;
 		}
-		if (h_ + y > minWindowSize)
+		if (h_ + y > minWindowSize &&
+			(maxWindowSize_ == 0.0f || h_ + y < maxWindowSize_))
 		{
 			h_ += y;
 			y_ -= y;
@@ -299,4 +391,48 @@ void GLWWindow::keyDown(char *buffer, unsigned int keyState,
 	if (disabled_) return;
 
 	GLWVisiblePanel::keyDown(buffer, keyState, history, hisCount, skipRest);
+}
+
+void GLWWindow::drawInfoBox(float x, float y, float w)
+{
+	glColor4f(0.5f, 0.5f, 1.0f, 0.3f);	
+	glBegin(GL_TRIANGLE_FAN);
+		glVertex2f(x + 20.0f, y - 8.0f);
+		glVertex2f(x + 20.0f, y - 18.0f);
+		drawRoundBox(x, y - 18.0f, w, 18.0f, 9.0f);
+		glVertex2f(x + 20.0f, y - 18.0f);
+	glEnd();
+
+	glColor4f(0.9f, 0.9f, 1.0f, 0.5f);
+	glLineWidth(2.0f);
+	glBegin(GL_LINE_LOOP);
+		drawRoundBox(x, y - 18.0f, w, 18.0f, 9.0f);
+	glEnd();
+	glLineWidth(1.0f);
+}
+
+void GLWWindow::drawJoin(float x, float y)
+{
+	glColor4f(0.8f, 0.8f, 0.9f, 0.8f);
+	glPushMatrix();
+		glTranslatef(x, y, 0.0f);
+		glScalef(3.0f, 3.0f, 3.0f);
+		glBegin(GL_TRIANGLE_FAN);
+			drawWholeCircle(true);
+		glEnd();
+	glPopMatrix();
+}
+
+void GLWWindow::drawIconBox(float x, float y)
+{
+	glBegin(GL_QUADS);
+		glTexCoord2f(0.0f, 0.0f);
+		glVertex2f(x, y);
+		glTexCoord2f(1.0f, 0.0f);
+		glVertex2f(x + 16.0f, y);
+		glTexCoord2f(1.0f, 1.0f);
+		glVertex2f(x + 16.0f, y + 16.0f);
+		glTexCoord2f(0.0f, 1.0f);
+		glVertex2f(x, y + 16.0f);
+	glEnd();
 }

@@ -22,6 +22,7 @@
 #include <client/MainCamera.h>
 #include <client/ScorchedClient.h>
 #include <GLW/GLWFont.h>
+#include <GLEXT/GLBitmap.h>
 #include <common/OptionsTransient.h>
 #include <common/Defines.h>
 #include <landscape/Landscape.h>
@@ -41,7 +42,8 @@ WindDialog *WindDialog::instance()
 }
 
 WindDialog::WindDialog() : 
-	GLWWindow("Wind", 10, 15, 100, 100, eTransparent | eResizeable | eSmallTitle),
+	GLWWindow("Wind", 10, 15, 100, 100, 
+		eCircle),
 	listNo_(0)
 {
 	windModel_ = ASEStore::instance()->
@@ -65,7 +67,7 @@ void WindDialog::draw()
 	static bool init = false;
 	if (!init)
 	{
-		float width = MainCamera::instance()->getCamera().getWidth() / 8.0f;
+		float width = MIN(MainCamera::instance()->getCamera().getWidth() / 8.0f, 120.0f);
 		setW(width);
 		setH(width);
 
@@ -90,6 +92,12 @@ void WindDialog::drawDisplay()
 	float angYZ = acosf(dir[2]) / 3.14f * 180.0f + 180.0f;
 	if (angYZ < 280.0f) angYZ = 280.0f;
 
+	if (!windTexture_.textureValid())
+	{
+		GLBitmap windMap(PKGDIR "data/windows/wind.bmp", true);
+		windTexture_.create(windMap, GL_RGBA, false);
+	}
+
 	GLState currentState(GLState::DEPTH_ON);
 	glPushMatrix();
 		glLoadIdentity();
@@ -113,7 +121,7 @@ void WindDialog::drawDisplay()
 			GLState texState(GLState::TEXTURE_OFF);
 			if (ScorchedClient::instance()->getOptionsTransient().getWindOn())
 			{
-				glTranslatef(0.0f, 0.0f, 30.0f);
+				glTranslatef(0.0f, 0.0f, 20.0f);
 				glScalef(scale, scale, scale);
 
 				glRotatef(-ScorchedClient::instance()->getOptionsTransient().getWindAngle(), 0.0f, 0.0f, 1.0f);
@@ -122,19 +130,24 @@ void WindDialog::drawDisplay()
 
 		glPopMatrix();
 
+		float multw = w_ / 120.0f;
+		float multh = h_ / 120.0f;
 		// Draw the wind speed indicator
-		static Vector fontColor(0.6f, 0.6f, 0.0f);
-		if (ScorchedClient::instance()->getOptionsTransient().getWindOn())
 		{
+			GLState currentState2(GLState::BLEND_ON | GLState::DEPTH_OFF);
+
+			drawInfoBox(w_ / 2.0f - 21.0f * multw, h_ / 2.0f - 03.0f * multh, 35.0f);
+			drawJoin(w_ / 2.0f - 18.0f * multw, h_ / 2.0f - 18.0f * multh);
+			static Vector fontColor(0.8f, 0.8f, 1.0f);
 			GLWFont::instance()->getFont()->draw(fontColor, 14,
-				-33, -h_ / 2.0f + 2.0f, 0.0f, "Force %i", (int) 
+				w_ / 2.0f - 4.0f * multw, h_ / 2.0f - 20.0f * multh, 0.0f, "%i", (int) 
 				ScorchedClient::instance()->getOptionsTransient().getWindSpeed());
 		}
-		else
-		{
-			GLWFont::instance()->getFont()->draw(fontColor, 14, 
-				-33, -h_ / 2.0f + 2.0f, 0.0f, "No wind");
-		}
+
+		glColor4f(1.0f, 1.0f, 1.0f, 0.8f);
+		GLState currentState2(GLState::BLEND_ON | GLState::DEPTH_OFF | GLState::TEXTURE_ON);
+		windTexture_.draw();
+		drawIconBox(w_ / 2.0f - 19.0f * multw, h_ / 2.0f - 21.0f * multh);
 	glPopMatrix();
 }
 

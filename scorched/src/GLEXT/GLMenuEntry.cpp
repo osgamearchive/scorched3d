@@ -23,8 +23,8 @@
 #include <GLEXT/GLMenuEntry.h>
 #include <GLW/GLWVisibleWidget.h>
 
-static Vector color(0.7f, 0.7f, 0.0f);
-static Vector selectedColor(1.0f, 1.0f, 0.0f);
+static Vector color(0.9f, 0.9f, 1.0f);
+static Vector itemcolor(0.1f, 0.1f, 0.4f);
 static const float menuItemHeight = 20.0f;
 
 GLMenuEntry::GLMenuEntry(char *name, float width, 
@@ -60,10 +60,7 @@ void GLMenuEntry::draw(GLFont2d &font, float currentTop, float currentLeft)
 	{
 		drawDepressed(font, currentTop, currentLeft);
 	}
-	else
-	{
-		drawNonDepressed(currentTop, currentLeft);
-	}
+	drawNonDepressed(currentTop, currentLeft);
 
 	// Get and print the menu title text
 	char *menuTitle = 0;
@@ -78,7 +75,7 @@ void GLMenuEntry::draw(GLFont2d &font, float currentTop, float currentLeft)
 		menuTitle = (char *) menuName_.c_str();
 	}
 
-	font.draw(depressed_?selectedColor:color, 14, currentLeft + 5.0f, 
+	font.draw(color, 14, currentLeft + 5.0f, 
 		currentTop - 18.0f, 0.0f, menuTitle);
 }
 
@@ -87,7 +84,7 @@ void GLMenuEntry::drawNonDepressed(float currentTop, float currentLeft)
 	{
 		GLState currentStateBlend(GLState::BLEND_ON);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	
-		glColor4f(0.0f, 0.0, 0.0f, 0.7f);
+		glColor4f(0.5f, 0.5f, 1.0f, 0.5f);	
 		glBegin(GL_TRIANGLE_FAN);
 			glVertex2f(currentLeft + 10.0f, currentTop - 10.0f);
 			glVertex2f(currentLeft + 10.0f, currentTop - menuItemHeight);
@@ -95,23 +92,15 @@ void GLMenuEntry::drawNonDepressed(float currentTop, float currentLeft)
 				width_, menuItemHeight, 10.0f);
 			glVertex2f(currentLeft + 10.0f, currentTop - menuItemHeight);
 		glEnd();
-	}
-	glColor3f(0.0f, 0.0f, 0.0f);
-	glBegin(GL_LINE_LOOP);
-		GLWVisibleWidget::drawRoundBox(currentLeft, currentTop - menuItemHeight, 
-			width_, menuItemHeight, 10.0f);
-	glEnd();
-}
 
-void GLMenuEntry::drawBackdrop(float x, float y, float w, float w2, float h)
-{
-	static const float size = 10.0f;
-	GLWVisibleWidget::drawCircle(8, 4, x + w2 - size, y + size, 10.0f);
-	GLWVisibleWidget::drawCircle(4, 0, x + w2 - size, y + h - menuItemHeight - 5 - size, 10.0f);
-	GLWVisibleWidget::drawCircle(8, 12, x + w + size, y + h - menuItemHeight - 5 + size, 10.0f);
-	GLWVisibleWidget::drawCircle(4, 0, x + w - size, y + h - size, 10.0f);
-	GLWVisibleWidget::drawCircle(0, -4, x + size, y + h - size, 10.0f);
-	GLWVisibleWidget::drawCircle(-4, -8, x + size, y + size, 10.0f);
+		glColor4f(0.9f, 0.9f, 1.0f, 0.5f);
+		glLineWidth(2.0f);
+		glBegin(GL_LINE_LOOP);
+			GLWVisibleWidget::drawRoundBox(currentLeft, currentTop - menuItemHeight, 
+				width_, menuItemHeight, 10.0f);
+		glEnd();
+		glLineWidth(1.0f);
+	}
 }
 
 void GLMenuEntry::drawDepressed(GLFont2d &font, float currentTop, float currentLeft)
@@ -135,27 +124,31 @@ void GLMenuEntry::drawDepressed(GLFont2d &font, float currentTop, float currentL
 		else lowerHeight += 18.0f;
 	}
 
-	lowerHeight = lowerHeight + menuItemHeight + 10.0f;
+	lowerHeight = lowerHeight + menuItemHeight + 5.0f;
+	if (lowerHeight < 52.0f) lowerHeight = 52.0f;
 	height_ = currentTop - lowerHeight;
 
-	// Draw the menu backdrop
 	{
+		float drop = 12.0f;
 		GLState currentStateBlend(GLState::BLEND_ON);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	
-		glColor4f(0.0f, 0.0, 0.0f, 0.7f);
+		glColor4f(0.5f, 0.5f, 1.0f, 0.5f);	
 		glBegin(GL_TRIANGLE_FAN);
-			glVertex2f(currentLeft + 10.0f, currentTop - 25.0f);
-			glVertex2f(currentLeft + 10.0f, currentTop - lowerHeight);
-			drawBackdrop(currentLeft, currentTop - lowerHeight, 
-				width_, 165.0f, lowerHeight);
-			glVertex2f(currentLeft + 10.0f, currentTop - lowerHeight);
+			glVertex2f(currentLeft + 20.0f, currentTop - 25.0f - drop);
+			glVertex2f(currentLeft + 20.0f, currentTop - lowerHeight - drop);
+			GLWVisibleWidget::drawRoundBox(currentLeft, currentTop - lowerHeight - drop, 
+				165.0f, lowerHeight - drop, 20.0f);
+			glVertex2f(currentLeft + 20.0f, currentTop - lowerHeight - drop);
 		glEnd();
+
+		glColor4f(0.9f, 0.9f, 1.0f, 0.5f);
+		glLineWidth(2.0f);
+		glBegin(GL_LINE_LOOP);
+			GLWVisibleWidget::drawRoundBox(currentLeft, currentTop - lowerHeight  - drop, 
+				165.0f, lowerHeight - drop, 20.0f);
+		glEnd();
+		glLineWidth(1.0f);
 	}
-	glColor3f(0.0f, 0.0f, 0.0f);
-	glBegin(GL_LINE_LOOP);
-		drawBackdrop(currentLeft, currentTop - lowerHeight, 
-			width_, 165.0f, lowerHeight);
-	glEnd();
 
 	static int iVPort[4];
 	glGetIntegerv(GL_VIEWPORT, iVPort);
@@ -194,7 +187,7 @@ void GLMenuEntry::drawDepressed(GLFont2d &font, float currentTop, float currentL
 				GLWToolTip::instance()->addToolTip(item.getToolTip(),
 					currentLeft, currentTop - 18.0f, 165.0f, 18.0f);
 			}
-			font.draw(selected?selectedColor:color, 12, currentLeft + 5.0f, 
+			font.draw(selected?color:itemcolor, 12, currentLeft + 5.0f, 
 				currentTop - 16.0f, 0.0f, (char *) item.getText());
 			currentTop -= 18.0f;
 		}

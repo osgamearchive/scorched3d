@@ -18,14 +18,8 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// GLCameraFrustum.h: interface for the GLCameraFrustum class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_GLCAMERAFRUSTUM_H__4C341296_0589_46D5_BFD7_3114534F7E2D__INCLUDED_)
 #define AFX_GLCAMERAFRUSTUM_H__4C341296_0589_46D5_BFD7_3114534F7E2D__INCLUDED_
-
 
 #include <engine/GameStateI.h>
 #include <common/Vector.h>
@@ -39,18 +33,23 @@ public:
 
 	bool pointInFrustum(Vector &point);
 	bool sphereInFrustum(Vector &point, float fRadius);
+	void backupFrustum();
+	void restoreFrustum();
 
 	Vector &getBilboardVectorX();
 	Vector &getBilboardVectorY();
 
-	float *getViewMatrix() { return fView; }
+	float *getViewMatrix() { return s.fView; }
 
 protected:
 	static GLCameraFrustum *instance_;
-	float frustum_[6][4];
-	float fProj[16];
-	float fView[16];
-	float fClip[16];
+	struct Settings
+	{
+		float frustum_[6][4];
+		float fProj[16];
+		float fView[16];
+		float fClip[16];
+	} s, b;
 
 	void normalize(float vector[4]);
 

@@ -20,6 +20,8 @@
 
 #include <client/MainCamera.h>
 #include <client/Main2DCamera.h>
+#include <client/ScorchedClient.h>
+#include <common/OptionsDisplay.h>
 
 Main2DCamera *Main2DCamera::instance_ = 0;
 
@@ -45,6 +47,25 @@ Main2DCamera::~Main2DCamera()
 
 void Main2DCamera::draw(const unsigned state)
 {
+	if (OptionsDisplay::instance()->getFullClear())
+	{
+		glClearDepth(1.0f);
+		glClear(GL_DEPTH_BUFFER_BIT);
+	}
+	else
+	{
+		if (ScorchedClient::instance()->getMainLoop().getFlip())
+		{
+			glClearDepth(0.5f);
+			glClear(GL_DEPTH_BUFFER_BIT);
+		}
+		else
+		{
+			glClearDepth(0.5f);
+			glClear(GL_DEPTH_BUFFER_BIT);
+		}
+	}
+
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();	
 	glViewport(0, 0, 

@@ -20,6 +20,11 @@
 
 #include <weapons/Weapon.h>
 #include <weapons/AccessoryStore.h>
+#include <tankgraph/TankModelRenderer.h>
+#include <tankgraph/MissileMesh.h>
+#include <common/OptionsDisplay.h>
+
+std::map<std::string, MissileMesh *> Weapon::loadedMeshes_;
 
 Weapon::Weapon() : deathAnimationWeight_(0), explosionTexture_("exp00"), scale_(1.0f), shake_(0.0f)
 {
@@ -168,4 +173,63 @@ float Weapon::getScale()
 float Weapon::getShake()
 {
 	return shake_;
+}
+
+MissileMesh *Weapon::getWeaponMesh(Tank *currentPlayer)
+{
+	// Set the default model to use if neither the tank
+	// or weapon have one
+	static ModelID defaultModelId;
+	if (!defaultModelId.modelValid())
+	{
+		defaultModelId.initFromString(
+			"MilkShape",
+			"data/accessories/v2missile/v2missile.txt",
+			"");
+	}
+
+	// Set the model to use as the default model id
+	ModelID *usedModelId = &defaultModelId;
+
+	// Get the model to use from the weapon (if there is one)
+	if (getModelID().modelValid())
+	{
+		usedModelId = &getModelID();
+	}
+	else
+	{
+		// The weapon does not have a model defined for it
+		// check the player to see if they have a default model
+		if (currentPlayer)
+		{
+			TankModelRenderer *model = (TankModelRenderer *) 
+					currentPlayer->getModel().getModelIdRenderer();
+			if (model && 
+				model->getModel()->getProjectileModelID().modelValid())
+			{
+				usedModelId = &model->getModel()->getProjectileModelID();
+			}
+		}
+	}
+
+	// Load or find the correct missile mesh
+	MissileMesh *mesh = 0;
+	const char *name = usedModelId->getStringHash();
+	std::map<std::string, MissileMesh *>::iterator itor =
+		loadedMeshes_.find(name);
+	if (itor == loadedMeshes_.end())
+	{
+		ModelsFile *newFile = usedModelId->getModelsFile();
+		if (!newFile) return 0;
+
+		mesh = new MissileMesh(*newFile, 
+			!OptionsDisplay::instance()->getNoSkins(), 1.0f);
+		loadedMeshes_[name] = mesh;
+	}
+	else
+	{
+		// Find
+		mesh = (*itor).second;
+	}
+	return mesh;
 }

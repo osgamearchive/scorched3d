@@ -66,9 +66,9 @@ bool ClientNextRoundHandler::processMessage(unsigned int id,
 		if (tank->getState().getState() == TankState::sNormal)
 		{
 			Vector &tankPos = tank->getPhysics().getTankPosition();
-			for (int x=int(tankPos[0]) - 2; x<int(tankPos[0])+2; x++)
+			for (int x=int(tankPos[0]) - 3; x<=int(tankPos[0])+3; x++)
 			{
-				for (int y=int(tankPos[1]) - 2; y<int(tankPos[1])+2; y++)
+				for (int y=int(tankPos[1]) - 3; y<=int(tankPos[1])+3; y++)
 				{
 					Landscape::instance()->getObjects().removeTrees(x, y);
 				}

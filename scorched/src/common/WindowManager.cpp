@@ -126,6 +126,9 @@ void WindowManager::setCurrentEntry(const unsigned state)
 			}
 		}
 	}
+
+	moveToFront(
+		MainMenuDialog::instance()->getId());
 }
 
 void WindowManager::addWindow(const unsigned state, GLWWindow *window, KeyboardKey *key, bool visible)
@@ -151,7 +154,9 @@ bool WindowManager::showWindow(unsigned id)
 			(*itor).second = true;
 			window->windowDisplay();
 			moveToFront(id);
-		
+			moveToFront(
+				MainMenuDialog::instance()->getId());
+
 			return true;
 		}
 	}
@@ -245,6 +250,28 @@ void WindowManager::draw(const unsigned state)
 			window->draw();
 		}
 	}
+}
+
+unsigned int WindowManager::getFocus(int x, int y)
+{
+	std::deque<GLWWindow *>::reverse_iterator itor;
+	for (itor = currentStateEntry_->windows_.rbegin();
+		itor != currentStateEntry_->windows_.rend();
+		itor++)
+	{
+		GLWWindow *window = (*itor);
+		if (windowVisible(window->getId()))
+		{
+			if (GLWVisibleWidget::inBox(
+				(float) x, (float) y,
+				window->getX(), window->getY(),
+				window->getW(), window->getH()))
+			{
+				return window->getId();
+			}
+		}
+	}
+	return 0;
 }
 
 void WindowManager::simulate(const unsigned state, float simTime)
@@ -410,8 +437,6 @@ void WindowManager::menuSelection(const char* menuName, const int position, cons
 					{
 						showWindow(window->getId());
 					}
-					moveToFront(
-						MainMenuDialog::instance()->getId());
 					return;
 				}
 			}

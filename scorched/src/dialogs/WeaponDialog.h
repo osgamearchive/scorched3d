@@ -18,41 +18,34 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_Rollerh_INCLUDE__)
-#define __INCLUDE_Rollerh_INCLUDE__
+#if !defined(__INCLUDE_WeaponDialogh_INCLUDE__)
+#define __INCLUDE_WeaponDialogh_INCLUDE__
 
-#include <engine/ActionMeta.h>
-#include <weapons/WeaponRoller.h>
-#include <set>
+#include <GLW/GLWWindow.h>
+#include <GLEXT/GLTexture.h>
+#include <tank/Tank.h>
 
-class Roller : public ActionMeta
+class WeaponDialog : public GLWWindow
 {
 public:
-	Roller();
-	Roller(int x, int y, Weapon *weapon, unsigned int playerId);
-	virtual ~Roller();
+	static WeaponDialog *instance();
 
-	virtual void init();
-	virtual void simulate(float frameTime, bool &remove);
-	virtual bool writeAction(NetBuffer &buffer);
-	virtual bool readAction(NetBufferReader &reader);
-
-	unsigned int getPlayerId() { return playerId_; }
-	int getX() { return x_; }
-	int getY() { return y_; }
-
-REGISTER_ACTION_HEADER(Roller);
+	// Inherited from GLWWindow
+	virtual void draw();
+	virtual void simulate(float frameTime);
 
 protected:
-	int x_, y_;
-	unsigned int playerId_;
-	WeaponRoller *weapon_;
-	float totalTime_, rollerTime_;
-	std::set<unsigned int> usedPoints_;
+	static WeaponDialog *instance_;
+	float totalTime_;
+	GLTexture xyTexture_;
+	GLTexture yzTexture_;
+	GLTexture powerTexture_;
 
-	float getHeight(int x, int y);
-	bool simulateMoveStep();
-	void finished();
+	void drawWeapon(Tank *current);
+
+private:
+	WeaponDialog();
+	virtual ~WeaponDialog();
 
 };
 

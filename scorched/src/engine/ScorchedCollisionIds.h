@@ -36,7 +36,8 @@ enum ScorchedCollisionId
 	CollisionIdTank,
 	CollisionIdShieldSmall,
 	CollisionIdShieldLarge,
-	CollisionIdSprite
+	CollisionIdSprite,
+	CollisionIdBounce
 };
 
 struct ScorchedCollisionInfo

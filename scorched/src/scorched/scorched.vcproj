@@ -25,9 +25,11 @@
 				ExceptionHandling="TRUE"
 				BasicRuntimeChecks="0"
 				RuntimeLibrary="3"
+				BufferSecurityCheck="FALSE"
 				DisableLanguageExtensions="FALSE"
 				ForceConformanceInForLoopScope="TRUE"
 				UsePrecompiledHeader="0"
+				BrowseInformation="0"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="FALSE"
 				DebugInformationFormat="4"/>
@@ -420,22 +422,16 @@
 				RelativePath="..\GLW\GLWScrollPanel.h">
 			</File>
 			<File
-				RelativePath="..\GLW\GLWTracker.cpp">
+				RelativePath="..\GLW\GLWScrollW.cpp">
 			</File>
 			<File
-				RelativePath="..\GLW\GLWTracker.h">
+				RelativePath="..\GLW\GLWScrollW.h">
 			</File>
 			<File
 				RelativePath="..\GLW\GLWSlider.cpp">
 			</File>
 			<File
 				RelativePath="..\GLW\GLWSlider.h">
-			</File>
-			<File
-				RelativePath="..\GLW\GLWScrollW.cpp">
-			</File>
-			<File
-				RelativePath="..\GLW\GLWScrollW.h">
 			</File>
 			<File
 				RelativePath="..\GLW\GLWSpinBox.cpp">
@@ -466,6 +462,12 @@
 			</File>
 			<File
 				RelativePath="..\GLW\GLWToolTip.h">
+			</File>
+			<File
+				RelativePath="..\GLW\GLWTracker.cpp">
+			</File>
+			<File
+				RelativePath="..\GLW\GLWTracker.h">
 			</File>
 			<File
 				RelativePath="..\GLW\GLWTranslate.cpp">
@@ -1064,6 +1066,12 @@
 				RelativePath="..\dialogs\TankDialog.h">
 			</File>
 			<File
+				RelativePath="..\dialogs\WeaponDialog.cpp">
+			</File>
+			<File
+				RelativePath="..\dialogs\WeaponDialog.h">
+			</File>
+			<File
 				RelativePath="..\dialogs\WindDialog.cpp">
 			</File>
 			<File
@@ -1128,16 +1136,16 @@
 				RelativePath="..\engine\MainLoop.h">
 			</File>
 			<File
-				RelativePath="..\engine\MetaClass.cpp">
-			</File>
-			<File
-				RelativePath="..\engine\MetaClass.h">
-			</File>
-			<File
 				RelativePath="..\engine\MainLoopI.cpp">
 			</File>
 			<File
 				RelativePath="..\engine\MainLoopI.h">
+			</File>
+			<File
+				RelativePath="..\engine\MetaClass.cpp">
+			</File>
+			<File
+				RelativePath="..\engine\MetaClass.h">
 			</File>
 			<File
 				RelativePath="..\engine\PhysicsEngine.cpp">
@@ -1478,6 +1486,18 @@
 				RelativePath="..\weapons\WeaponAimedUnder.h">
 			</File>
 			<File
+				RelativePath="..\weapons\WeaponDeathAnimation.cpp">
+			</File>
+			<File
+				RelativePath="..\weapons\WeaponDeathAnimation.h">
+			</File>
+			<File
+				RelativePath="..\weapons\WeaponExplosion.cpp">
+			</File>
+			<File
+				RelativePath="..\weapons\WeaponExplosion.h">
+			</File>
+			<File
 				RelativePath="..\weapons\WeaponLeapFrog.cpp">
 			</File>
 			<File
@@ -1490,10 +1510,22 @@
 				RelativePath="..\weapons\WeaponMirv.h">
 			</File>
 			<File
+				RelativePath="..\weapons\WeaponMulti.cpp">
+			</File>
+			<File
+				RelativePath="..\weapons\WeaponMulti.h">
+			</File>
+			<File
 				RelativePath="..\weapons\WeaponNapalm.cpp">
 			</File>
 			<File
 				RelativePath="..\weapons\WeaponNapalm.h">
+			</File>
+			<File
+				RelativePath="..\weapons\WeaponNull.cpp">
+			</File>
+			<File
+				RelativePath="..\weapons\WeaponNull.h">
 			</File>
 			<File
 				RelativePath="..\weapons\WeaponProjectile.cpp">
@@ -1507,52 +1539,10 @@
 			<File
 				RelativePath="..\weapons\WeaponRoller.h">
 			</File>
-			<File
-				RelativePath="..\weapons\WeaponMulti.cpp">
-			</File>
-			<File
-				RelativePath="..\weapons\WeaponMulti.h">
-			</File>
-			<File
-				RelativePath="..\weapons\WeaponNull.cpp">
-			</File>
-			<File
-				RelativePath="..\weapons\WeaponNull.h">
-			</File>
-			<File
-				RelativePath="..\weapons\WeaponDeathAnimation.cpp">
-			</File>
-			<File
-				RelativePath="..\weapons\WeaponDeathAnimation.h">
-			</File>
-			<File
-				RelativePath="..\weapons\WeaponExplosion.cpp">
-			</File>
-			<File
-				RelativePath="..\weapons\WeaponExplosion.h">
-			</File>
 		</Filter>
 		<Filter
 			Name="coms"
 			Filter="">
-			<File
-				RelativePath="..\coms\ComsPlayerAimMessage.cpp">
-			</File>
-			<File
-				RelativePath="..\coms\ComsPlayerAimMessage.h">
-			</File>
-			<File
-				RelativePath="..\coms\ComsTimerStartMessage.cpp">
-			</File>
-			<File
-				RelativePath="..\coms\ComsTimerStartMessage.h">
-			</File>
-			<File
-				RelativePath="..\coms\ComsPlayerStatusMessage.cpp">
-			</File>
-			<File
-				RelativePath="..\coms\ComsPlayerStatusMessage.h">
-			</File>
 			<File
 				RelativePath="..\coms\ComsActionsMessage.cpp">
 			</File>
@@ -1644,6 +1634,12 @@
 				RelativePath="..\coms\ComsPlayedMoveMessage.h">
 			</File>
 			<File
+				RelativePath="..\coms\ComsPlayerAimMessage.cpp">
+			</File>
+			<File
+				RelativePath="..\coms\ComsPlayerAimMessage.h">
+			</File>
+			<File
 				RelativePath="..\coms\ComsPlayerReadyMessage.cpp">
 			</File>
 			<File
@@ -1654,6 +1650,12 @@
 			</File>
 			<File
 				RelativePath="..\coms\ComsPlayerStateMessage.h">
+			</File>
+			<File
+				RelativePath="..\coms\ComsPlayerStatusMessage.cpp">
+			</File>
+			<File
+				RelativePath="..\coms\ComsPlayerStatusMessage.h">
 			</File>
 			<File
 				RelativePath="..\coms\ComsRmPlayerMessage.cpp">
@@ -1678,6 +1680,12 @@
 			</File>
 			<File
 				RelativePath="..\coms\ComsTextMessage.h">
+			</File>
+			<File
+				RelativePath="..\coms\ComsTimerStartMessage.cpp">
+			</File>
+			<File
+				RelativePath="..\coms\ComsTimerStartMessage.h">
 			</File>
 			<File
 				RelativePath="..\coms\NetBuffer.cpp">
@@ -2039,6 +2047,12 @@
 			Name="actions"
 			Filter="">
 			<File
+				RelativePath="..\actions\ActionVector.cpp">
+			</File>
+			<File
+				RelativePath="..\actions\ActionVector.h">
+			</File>
+			<File
 				RelativePath="..\actions\CameraPositionAction.cpp">
 			</File>
 			<File
@@ -2063,16 +2077,16 @@
 				RelativePath="..\actions\Napalm.h">
 			</File>
 			<File
-				RelativePath="..\actions\Roller.cpp">
-			</File>
-			<File
-				RelativePath="..\actions\Roller.h">
-			</File>
-			<File
 				RelativePath="..\actions\ShieldHit.cpp">
 			</File>
 			<File
 				RelativePath="..\actions\ShieldHit.h">
+			</File>
+			<File
+				RelativePath="..\actions\ShotBounce.cpp">
+			</File>
+			<File
+				RelativePath="..\actions\ShotBounce.h">
 			</File>
 			<File
 				RelativePath="..\actions\ShotProjectile.cpp">
@@ -2205,12 +2219,6 @@
 				RelativePath="..\sprites\NapalmRenderer.h">
 			</File>
 			<File
-				RelativePath="..\sprites\RollerRenderer.cpp">
-			</File>
-			<File
-				RelativePath="..\sprites\RollerRenderer.h">
-			</File>
-			<File
 				RelativePath="..\sprites\SmokeActionRenderer.cpp">
 			</File>
 			<File
@@ -2303,24 +2311,6 @@
 			Name="client"
 			Filter="">
 			<File
-				RelativePath="..\client\ClientPlayerAimHandler.cpp">
-			</File>
-			<File
-				RelativePath="..\client\ClientPlayerAimHandler.h">
-			</File>
-			<File
-				RelativePath="..\client\ClientPlayerStatusHandler.cpp">
-			</File>
-			<File
-				RelativePath="..\client\ClientPlayerStatusHandler.h">
-			</File>
-			<File
-				RelativePath="..\client\ClientStartTimerHandler.cpp">
-			</File>
-			<File
-				RelativePath="..\client\ClientStartTimerHandler.h">
-			</File>
-			<File
 				RelativePath="..\client\ClientActionsHandler.cpp">
 			</File>
 			<File
@@ -2399,6 +2389,18 @@
 				RelativePath="..\client\ClientNextRoundHandler.h">
 			</File>
 			<File
+				RelativePath="..\client\ClientPlayerAimHandler.cpp">
+			</File>
+			<File
+				RelativePath="..\client\ClientPlayerAimHandler.h">
+			</File>
+			<File
+				RelativePath="..\client\ClientPlayerStatusHandler.cpp">
+			</File>
+			<File
+				RelativePath="..\client\ClientPlayerStatusHandler.h">
+			</File>
+			<File
 				RelativePath="..\client\ClientReadyState.cpp">
 			</File>
 			<File
@@ -2427,6 +2429,12 @@
 			</File>
 			<File
 				RelativePath="..\client\ClientStartGameHandler.h">
+			</File>
+			<File
+				RelativePath="..\client\ClientStartTimerHandler.cpp">
+			</File>
+			<File
+				RelativePath="..\client\ClientStartTimerHandler.h">
 			</File>
 			<File
 				RelativePath="..\client\ClientState.cpp">
@@ -2529,22 +2537,10 @@
 			Name="server"
 			Filter="">
 			<File
-				RelativePath="..\server\ServerCommon.cpp">
-			</File>
-			<File
-				RelativePath="..\server\ServerCommon.h">
-			</File>
-			<File
 				RelativePath="..\server\ScorchedServer.cpp">
 			</File>
 			<File
 				RelativePath="..\server\ScorchedServer.h">
-			</File>
-			<File
-				RelativePath="..\server\ServerPlayerAimHandler.cpp">
-			</File>
-			<File
-				RelativePath="..\server\ServerPlayerAimHandler.h">
 			</File>
 			<File
 				RelativePath="..\server\ServerAddPlayerHandler.cpp">
@@ -2569,6 +2565,12 @@
 			</File>
 			<File
 				RelativePath="..\server\ServerBuyingState.h">
+			</File>
+			<File
+				RelativePath="..\server\ServerCommon.cpp">
+			</File>
+			<File
+				RelativePath="..\server\ServerCommon.h">
 			</File>
 			<File
 				RelativePath="..\server\ServerConnectHandler.cpp">
@@ -2623,6 +2625,12 @@
 			</File>
 			<File
 				RelativePath="..\server\ServerPlayedMoveHandler.h">
+			</File>
+			<File
+				RelativePath="..\server\ServerPlayerAimHandler.cpp">
+			</File>
+			<File
+				RelativePath="..\server\ServerPlayerAimHandler.h">
 			</File>
 			<File
 				RelativePath="..\server\ServerPlayerReadyHandler.cpp">

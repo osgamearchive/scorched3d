@@ -55,7 +55,7 @@ void ExplosionLaserBeamRenderer::draw(Action *action)
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); 
 	glPushMatrix();	
 	glTranslatef(position_[0],position_[1],0.0f);
-	glScalef((GLfloat)time_*0.05,time_*0.05,1.0f);
+	glScalef(time_*0.05f,time_*0.05f,1.0f);
 	
 	for (int j=0;j<layers;j++){
 		glRotatef(angle_,0.0f,0.0f,1.0f);

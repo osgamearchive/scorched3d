@@ -18,11 +18,11 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #if !defined(__INCLUDE_TankDialogh_INCLUDE__)
 #define __INCLUDE_TankDialogh_INCLUDE__
 
 #include <GLW/GLWWindow.h>
+#include <GLEXT/GLTexture.h>
 
 class Tank;
 class TankDialog : public GLWWindow 
@@ -35,6 +35,12 @@ public:
 
 protected:
 	static TankDialog *instance_;
+	GLTexture healthTexture_;
+	GLTexture shieldTexture_;
+	GLTexture batteryTexture_;
+	GLTexture parachuteTexture_;
+	GLTexture autodefenseTexture_;
+	GLTexture fuelTexture_;
 
 	void drawTankModel(Tank *current);
 	void drawTankDetails(Tank *current);

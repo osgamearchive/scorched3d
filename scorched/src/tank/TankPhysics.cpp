@@ -34,7 +34,7 @@ TankPhysics::TankPhysics(ScorchedContext &context, unsigned int playerId) :
 {
 	// The tank collision object
 	tankGeom_ = 
-		dCreateSphere(context.actionController.getPhysics().getSpace(), 1.0f);
+		dCreateSphere(context.actionController.getPhysics().getSpace(), 2.0f);
 	tankInfo_.data = (void *) playerId;
 	dGeomSetData(tankGeom_, &tankInfo_);
 

@@ -29,7 +29,6 @@
 #include <sprites/DebrisActionRenderer.h>
 #include <actions/SpriteProjectile.h>
 #include <engine/ScorchedContext.h>
-#include <engine/PhysicsParticle.h>
 #include <common/SoundStore.h>
 #include <common/Defines.h>
 

@@ -15,7 +15,7 @@ Added: Landscapes can be loaded from saved files
 Added: Landscape types can be turned on and off from game settings.
 Added: Faster sprite depth sorting
 Added: Moving waves around the island shores
-Added: Trees
+Added: Trees (+ tree LOD)
 Added: Display options are stored in users home directory (if available)
 Added: Server can be run in console (non-gui) mode
 Added: Client shows which players the game is waiting on
@@ -25,6 +25,7 @@ Added: More complex but more customizable accessories format (accessories.xml)
 Added: Computers talk when attacking
 Added: Say command added to console.  This allows custom taunts to be bound to keys.
 
+Fixed: Client does not start new game until all explosions have finished
 Fixed: accessories.xml will only allow recognised tags for weapon types
 Fixed: Menu items could only be clicked in left hand side
 Fixed: Shot cam goes back to player even when not their turn

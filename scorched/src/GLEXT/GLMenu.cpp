@@ -21,12 +21,10 @@
 #include <GLEXT/GLMenu.h>
 #include <GLEXT/GLState.h>
 #include <GLW/GLWFont.h>
+#include <client/ScorchedClient.h>
+#include <common/WindowManager.h>
 
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
-
-GLMenu::GLMenu() : GLWWindow("", 10.0f, 10.0f, 10.0f, 10.0f, 0)
+GLMenu::GLMenu() : GLWWindow("", 0.0f, 10.0f, 10000.0f, 25.0f, 0)
 {
 	menuFont_ = GLWFont::instance()->getFont();
 }
@@ -81,18 +79,39 @@ void GLMenu::draw()
 	glGetFloatv(GL_VIEWPORT, fVPort);
 	float currentTop = fVPort[3];
 
-	GLfloat currentWidth = 0.0f;
+	
+	bool depressed = false;
 	std::map<std::string, GLMenuEntry *>::iterator itor;
 	for (itor = menuList_.begin();
 		itor != menuList_.end();
 		itor++)
 	{
 		GLMenuEntry *entry = itor->second;
-		if (entry->getEnabled())
+		if (entry->getEnabled() && entry->getDepressed())
 		{
-			entry->draw(*menuFont_, currentTop - 1.0f, currentWidth);
-			currentWidth += entry->getWidth() + 1.0f;
+			depressed = true;
 		}
+	}	
+	if (depressed) setH(1000000.0f);
+	else setH(25.0f);
+	setY(currentTop - h_);
+
+	int x = ScorchedClient::instance()->getGameState().getMouseX();
+	int y = int(fVPort[3]) - ScorchedClient::instance()->getGameState().getMouseY();
+	if (WindowManager::instance()->getFocus(x, y) == getId())
+	{
+		GLfloat currentWidth = 0.0f;
+		for (itor = menuList_.begin();
+			itor != menuList_.end();
+			itor++)
+		{
+			GLMenuEntry *entry = itor->second;
+			if (entry->getEnabled())
+			{
+				entry->draw(*menuFont_, currentTop - 1.0f, currentWidth);
+				currentWidth += entry->getWidth() + 1.0f;
+			}
+		}		
 	}
 }
 

@@ -60,10 +60,82 @@ void ScorchedCollisionHandler::collision(dGeomID o1, dGeomID o2,
 		groundCollision(o1, o2, contacts, noContacts, false);
 	}
 	else
+	if (info1->id == CollisionIdBounce || info2->id == CollisionIdBounce)
+	{
+		// We have a bouncy particle collision
+		bounceCollision(o1, o2, contacts, noContacts);
+	}
+	else
 	if (info1->id == CollisionIdShot || info2->id == CollisionIdShot)
 	{
 		// We have a particle collision
 		shotCollision(o1, o2, contacts, noContacts);
+	}
+}
+
+void ScorchedCollisionHandler::bounceCollision(dGeomID o1, dGeomID o2, 
+		dContactGeom *contacts, int noContacts)
+{
+	const dReal *bouncePosition = dGeomGetPosition(o1);
+	ScorchedCollisionInfo *bounceInfo = 
+		(ScorchedCollisionInfo *) dGeomGetData(o1);
+	ScorchedCollisionInfo *otherInfo = 
+		(ScorchedCollisionInfo *) dGeomGetData(o2);
+	if (otherInfo->id == CollisionIdBounce)
+	{
+		bouncePosition = dGeomGetPosition(o2);
+		bounceInfo = (ScorchedCollisionInfo *) dGeomGetData(o2);
+		otherInfo = (ScorchedCollisionInfo *) dGeomGetData(o1);
+	}
+
+	// only collide with the ground, walls or landscape,
+	// or iteself
+	switch (otherInfo->id)
+	{
+	case CollisionIdGround:
+	case CollisionIdLandscape:
+		collisionBounce(o1, o2, contacts, noContacts, 10000.0);
+		break;
+	case CollisionIdBounce:
+		//collisionBounce(o1, o2, contacts, noContacts);
+		break;
+	case CollisionIdWallRight:
+	case CollisionIdWallTop:
+	case CollisionIdWallBottom:
+	case CollisionIdWallLeft:
+	case CollisionIdTank:
+		{
+			Vector bouncePositionV(
+				(float) bouncePosition[0],
+				(float) bouncePosition[1],
+				(float) bouncePosition[2]);
+
+			PhysicsParticleMeta *particle = (PhysicsParticleMeta *) bounceInfo->data;
+			particle->collision(bouncePositionV);
+		}
+		break;
+	case CollisionIdShieldSmall:
+	case CollisionIdShieldLarge:
+		{
+			Vector bouncePositionV(
+				(float) bouncePosition[0],
+				(float) bouncePosition[1],
+				(float) bouncePosition[2]);
+
+			unsigned int id = (unsigned int) otherInfo->data;
+			ParticleAction action = collisionShield(id, bouncePositionV, 
+				((otherInfo->id==CollisionIdShieldLarge)?
+				Shield::ShieldSizeLarge:Shield::ShieldSizeSmall));
+
+			// Unless there is no shield, we bounce off all shields
+			if (action != ParticleActionNone)
+			{
+				collisionBounce(o1, o2, contacts, noContacts, 10000.0);
+			}
+		}
+		break;
+	default:
+		break;
 	}
 }
 
@@ -174,7 +246,8 @@ void ScorchedCollisionHandler::shotCollision(dGeomID o1, dGeomID o2,
 				// Make sure tank we are colliding with is alive
 				Tank *tank = context_->tankContainer.getTankById(id);
 				if (tank &&
-					tank->getState().getState() == TankState::sNormal)
+					tank->getState().getState() == TankState::sNormal &&
+					tank->getState().getSpectator() == false)
 				{
 					action = ParticleActionFinished;
 				}
@@ -268,7 +341,8 @@ ScorchedCollisionHandler::ParticleAction ScorchedCollisionHandler::collisionShie
 {
 	// Check tank still exists and is alive
 	Tank *tank = context_->tankContainer.getTankById(id);
-	if (tank && tank->getState().getState() == TankState::sNormal)
+	if (tank && tank->getState().getState() == TankState::sNormal &&
+		tank->getState().getSpectator() == false)
 	{
 		Shield *shield = tank->getAccessories().getShields().getCurrentShield();
 		if (shield)
@@ -307,7 +381,7 @@ ScorchedCollisionHandler::ParticleAction ScorchedCollisionHandler::collisionShie
 }
 
 void ScorchedCollisionHandler::collisionBounce(dGeomID o1, dGeomID o2, 
-		dContactGeom *contacts, int noContacts)
+		dContactGeom *contacts, int noContacts, double bounceVel)
 {
 	// TODO allow the physics to be changed by the server settings
 	dContact contact;
@@ -315,7 +389,7 @@ void ScorchedCollisionHandler::collisionBounce(dGeomID o1, dGeomID o2,
 	contact.surface.mu = dInfinity;
 	contact.surface.mu2 = 0;
 	contact.surface.bounce = 1.0;
-	contact.surface.bounce_vel = 0.0;
+	contact.surface.bounce_vel = bounceVel;
 	contact.surface.soft_cfm = 0.01;
 
 	for (int i=0; i<noContacts; i++)

@@ -57,6 +57,8 @@ void TankMesh::createArrays(ModelsFile &aseTank, bool useTextures, float detail)
 		const float sfactor = 2.2f / size;
 		aseTank.scale(sfactor);
 	}
+	aseTank.centre();
+	modelCenter_ = (aseTank.getMax() + aseTank.getMin()) / 2.0f;
 
 	std::list<Model*> otherModels;
 	std::list<Model*> turretModels;
@@ -135,6 +137,8 @@ void TankMesh::createArrays(ModelsFile &aseTank, bool useTextures, float detail)
 		gunCenter = (gunPivot->getMax() + gunPivot->getMin()) / 2.0f;
 	}
 	gunOffset_ = gunCenter - turretCenter;
+
+	modelCenter_ -= turretCenter;
 	
 	// Center all meshes around base of turret
 	// Center gun around turret center
@@ -173,13 +177,24 @@ void TankMesh::addToSet(GLVertexSetGroup &vset, std::list<Model*> &models, float
 }
 
 void TankMesh::draw(bool drawS, float angle, Vector &position, 
-					float fireOffset, float rotXY, float rotXZ)
+					float fireOffset, float rotXY, float rotXZ,
+					bool absCenter)
 {
 	GLState *texState = 0;
 	if (useTextures_) texState = new GLState(GLState::TEXTURE_ON);
 
+	float x = position[0];
+	float y = position[1];
+	float z = position[2];
+	if (absCenter)
+	{
+		x -= modelCenter_[0];
+		y -= modelCenter_[1];
+		z -= modelCenter_[2];
+	}
+
 	glPushMatrix();
-		glTranslatef(position[0], position[1], position[2]);
+		glTranslatef(x, y, z);
 		glRotatef(angle, 0.0f, 0.0f, 1.0f);
 		otherArrays_.draw();
 		drawGun(drawS, fireOffset, rotXY, rotXZ);

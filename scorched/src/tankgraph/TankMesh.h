@@ -34,7 +34,8 @@ public:
 	virtual ~TankMesh();
 
 	void draw(bool drawS, float angle, Vector &position, 
-		float fireOffSet, float rotXY, float rotXZ);
+		float fireOffSet, float rotXY, float rotXZ,
+		bool absCenter = false);
 	float getTurretHeight() { return turretHeight_; }
 	int getNoTris();
 
@@ -43,6 +44,7 @@ protected:
 	bool useTextures_;
 	float turretHeight_;
 	Vector gunOffset_;
+	Vector modelCenter_;
 	GLVertexSetGroup gunArrays_;
 	GLVertexSetGroup turretArrays_;
 	GLVertexSetGroup otherArrays_;

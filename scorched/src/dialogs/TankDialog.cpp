@@ -24,6 +24,7 @@
 #include <weapons/Weapon.h>
 #include <tankgraph/TankModelRenderer.h>
 #include <GLW/GLWFont.h>
+#include <GLEXT/GLBitmap.h>
 
 TankDialog *TankDialog::instance_ = 0;
 
@@ -37,9 +38,8 @@ TankDialog *TankDialog::instance()
 }
 
 TankDialog::TankDialog() :
-	GLWWindow("Player", 110, 10, 215, 75, eTransparent | eSmallTitle)
+	GLWWindow("Player", 130, 30, 120, 120, eCircle | eSmallTitle)
 {
-
 }
 
 TankDialog::~TankDialog()
@@ -73,54 +73,11 @@ void TankDialog::drawTankModel(Tank *current)
 {
 	TankModelRenderer *model = (TankModelRenderer *) 
 		current->getModel().getModelIdRenderer();
-
-	{
-		if (model)
-		{
-			GLWToolTip::instance()->addToolTip(model->getTip(), 
-				x_ + 7.0f, y_ + 3.0f, 55.0f, 55.0f);
-		}
-
-		// Draw the round window containing the tank model
-		GLState newState(GLState::DEPTH_OFF | GLState::TEXTURE_OFF | GLState::BLEND_ON);
-		glColor4f(1.0f, 1.0f, 1.0f, 0.2f);
-		glBegin(GL_TRIANGLE_FAN);
-			glVertex2f(x_ + 27.0f, y_ + 23.0f);
-			glVertex2f(x_ + 27.0f, y_ + 3.0f);
-			drawRoundBox(x_ + 7.0f, y_ + 3.0f, 55.0f, 55.0f, 10.0f);
-			glVertex2f(x_ + 27.0f, y_ + 3.0f);
-		glEnd();
-
-		glColor3f(0.0f, 0.0f, 0.0f);
-		GLState neState(GLState::BLEND_OFF);
-		glBegin(GL_LINE_LOOP);
-			drawRoundBox(x_ + 7.0f, y_ + 3.0f, 55.0f, 55.0f, 10.0f);
-		glEnd();
-
-		// Draw the life bar
-		float lifePart = 14.0f + 40.0f * current->getState().getLife() / 100.0f;		
-		glBegin(GL_QUADS);
-			if (current->getState().getLife() > 0.0f)
-			{
-				glColor3f(0.0f, 0.8f, 0.0f);
-				glVertex2f(x_ + 14.0f, y_ + 8.0f);
-				glVertex2f(x_ + lifePart, y_ + 8.0f);
-				glVertex2f(x_ + lifePart, y_ + 11.0f);
-				glVertex2f(x_ + 14.0f, y_ + 11.0f);
-			}
-	
-			if (current->getState().getLife() < 100.0f)
-			{
-				glColor3f(0.8f, 0.0f, 0.0f);
-				glVertex2f(x_ + lifePart, y_ + 8.0f);
-				glVertex2f(x_ + 54, y_ + 8.0f);
-				glVertex2f(x_ + 54, y_ + 11.0f);
-				glVertex2f(x_ + lifePart, y_ + 11.0f);
-			}
-		glEnd();
-	}
-
 	if (!model) return;
+
+	// Add the tooltip for the model name+attributes
+	GLWToolTip::instance()->addToolTip(model->getTip(), 
+		x_ + 10.0f, y_ + 10.0f, 100.0f, 100.0f);
 
 	// Find the angles to rotate so the tank is at the
 	// same angle as the "real" tank on the landscape
@@ -134,84 +91,162 @@ void TankDialog::drawTankModel(Tank *current)
 	// Draw the tank
 	glPushMatrix();
 		// Set the tank angle
-		glTranslatef(x_ + 34.0f, y_ + 23.0f, 0.0f);
+		glTranslatef(x_ + 64.0f, y_ + 64.0f, 0.0f);
 		glRotatef(angYZ, 1.0f, 0.0f, 0.0f);
 		glRotatef(angXY, 0.0f, 0.0f, 1.0f);
 
 		// Draw the tank model
-		glScalef(20.0f, 20.0f, 20.0f);
+		glScalef(32.0f, 32.0f, 32.0f);
 		GLState tankState(GLState::TEXTURE_OFF); // For no tank skins
 		Vector position;
 		model->getModel()->draw(
 			false, 0.0f, position, 0.0f,
 			current->getPhysics().getRotationGunXY(),
-			current->getPhysics().getRotationGunYZ());
+			current->getPhysics().getRotationGunYZ(),
+			true);
 	glPopMatrix();
 }
 
 void TankDialog::drawTankDetails(Tank *current)
 {
-	GLState newState(GLState::DEPTH_OFF);
+	GLState newState(GLState::DEPTH_OFF | GLState::TEXTURE_OFF | GLState::BLEND_ON);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	
 
-	// Draw the name of the tank
-	GLWFont::instance()->getFont()->drawLen(
-		22,
+	Vector yellow(0.9f, 0.9f, 1.0f);
+
+	// Name
+	float namewidth = float(current->getNameLen()) * 8.4f;
+	GLWFont::instance()->getFont()->draw(
 		current->getColor(),
-		14.0f,
-		x_ + 5.0f,
-		y_ + h_ - 17.0f,
+		12.0f,
+		x_ + 60.0f - (namewidth / 2.0f),
+		y_ + 20.0f,
 		0.0f,
 		current->getName());
 
-	// Draw the elevation rotation etc...
-	Vector yellow(0.7f, 0.7f, 0.0f);
-	float rotDiff = (360.0f - current->getPhysics().getRotationGunXY()) - 
-		(360.0f - current->getPhysics().getOldRotationGunXY());
-	if (rotDiff > 180.0f) rotDiff -= 360.0f;
-	else if (rotDiff < -180.0f) rotDiff += 360.0f;
+	// AutoDefense
+	drawInfoBox(x_- 16.0f, y_ + 126.0f, 45.0f);
+	drawJoin(x_ + 28.0f, y_ + 112.0f);
 	GLWFont::instance()->getFont()->draw(
 		yellow,
 		12.0f,
-		x_ + 67.0f,
-		y_ + h_ - 32.0f,
+		x_ - 2.0f,
+		y_ + 110.0f,
 		0.0f,
-		"Rot:%s",
-		current->getPhysics().getRotationString());
-	GLWFont::instance()->getFont()->draw(
-		yellow,
-		12.0f,
-		x_ + 67.0f,
-		y_ + h_ - 42.0f,
-		0.0f,
-		"Ele:%s",
-		current->getPhysics().getElevationString());
-	GLWFont::instance()->getFont()->draw(
-		yellow,
-		12.0f,
-		x_ + 67.0f,
-		y_ + h_ - 52.0f,
-		0.0f,
-		"Pwr:%s",
-		current->getState().getPowerString());
+		"%i",
+		(current->getAccessories().getAutoDefense().haveDefense()?1:0));
 
-	GLWToolTip::instance()->addToolTip(
-		&current->getAccessories().getWeapons().getCurrent()->getToolTip(),
-		x_ + 67.0f, y_ + h_ - 62.0f, 150.0f, 10.0f);
-	int count = current->getAccessories().getWeapons().getWeaponCount(
-		current->getAccessories().getWeapons().getCurrent());
+	// Parachutes
+	drawInfoBox(x_- 36.0f, y_ + 103.0f, 45.0f);
+	drawJoin(x_ + 8.0f, y_ + 92.0f);
 	GLWFont::instance()->getFont()->draw(
 		yellow,
 		12.0f,
-		x_ + 67.0f,
-		y_ + h_ - 62.0f,
+		x_ - 22.0f,
+		y_ + 87.0f,
 		0.0f,
-		current->getAccessories().getWeapons().getWeaponString());
+		"%i",
+		current->getAccessories().getParachutes().getNoParachutes());
 
+	// Health
+	drawInfoBox(x_- 44.0f, y_ + 80.0f, 45.0f);
+	drawJoin(x_ + 1.0f, y_ + 69.0f);
 	GLWFont::instance()->getFont()->draw(
 		yellow,
 		12.0f,
-		x_ + 67.0f,
-		y_ + h_ - 72.0f,
+		x_ - 30.0f,
+		y_ + 64.0f,
 		0.0f,
-		current->getScore().getScoreString());
+		"%.0f",
+		current->getState().getLife());
+
+	// Shield
+	drawInfoBox(x_- 44.0f, y_ + 57.0f, 45.0f);
+	drawJoin(x_ + 1.0f, y_ + 46.0f);
+	GLWFont::instance()->getFont()->draw(
+		yellow,
+		12.0f,
+		x_ - 30.0f,
+		y_ + 41.0f,
+		0.0f,
+		"%.0f",
+		current->getAccessories().getShields().getShieldPower());
+
+	// Batteries
+	drawInfoBox(x_- 36.0f, y_ + 34.0f, 45.0f);
+	drawJoin(x_ + 8.0f, y_ + 29.0f);
+	GLWFont::instance()->getFont()->draw(
+		yellow,
+		12.0f,
+		x_ - 22.0f,
+		y_ + 18.0f,
+		0.0f,
+		"%i",
+		current->getAccessories().getBatteries().getNoBatteries());
+
+	// Fuel
+	drawInfoBox(x_- 16.0f, y_ + 11.0f, 45.0f);
+	drawJoin(x_ + 28.0f, y_ + 9.0f);
+	GLWFont::instance()->getFont()->draw(
+		yellow,
+		12.0f,
+		x_ - 2.0f,
+		y_ - 5.0f,
+		0.0f,
+		"%i",
+		current->getAccessories().getFuel().getNoFuel());
+
+	GLState currentStateBlend(GLState::BLEND_ON | GLState::TEXTURE_ON);
+
+	// Load textures
+	if (!healthTexture_.textureValid())
+	{
+		GLBitmap healthMap(PKGDIR "data/windows/health.bmp", true);
+		healthTexture_.create(healthMap, GL_RGBA, false);
+
+		GLBitmap sheildMap(PKGDIR "data/textures/wicons/shield.bmp", true);
+		shieldTexture_.create(sheildMap, GL_RGBA, false);
+
+		GLBitmap batteryMap(PKGDIR "data/textures/wicons/battery.bmp", true);
+		batteryTexture_.create(batteryMap, GL_RGBA, false);
+
+		GLBitmap parachuteMap(PKGDIR "data/textures/wicons/para.bmp", true);
+		parachuteTexture_.create(parachuteMap, GL_RGBA, false);
+
+		GLBitmap autoaMap(PKGDIR "data/textures/wicons/autod.bmp", true);
+		autodefenseTexture_.create(autoaMap, GL_RGBA, false);
+		
+		GLBitmap fuelMap(PKGDIR "data/textures/wicons/fuel.bmp", true);
+		fuelTexture_.create(fuelMap, GL_RGBA, false);
+	}
+
+	// Fuel
+	glColor4f(1.0f, 1.0f, 1.0f, 0.8f);
+	autodefenseTexture_.draw();
+	drawIconBox(x_ - 16.0f, y_ + 109.0f);
+
+	// Batteries
+	glColor4f(1.0f, 1.0f, 1.0f, 0.8f);
+	parachuteTexture_.draw();
+	drawIconBox(x_ - 36.0f, y_ + 86.0f);
+
+	// Health
+	glColor4f(0.9f, 0.0f, 0.0f, 0.8f);
+	healthTexture_.draw();
+	drawIconBox(x_ - 44.0f, y_ + 63.0f);
+
+	// Shield
+	glColor4f(1.0f, 1.0f, 1.0f, 0.8f);
+	shieldTexture_.draw();
+	drawIconBox(x_ - 44.0f, y_ + 40.0f);
+
+	// Batteries
+	glColor4f(1.0f, 1.0f, 1.0f, 0.8f);
+	batteryTexture_.draw();
+	drawIconBox(x_ - 36.0f, y_ + 17.0f);
+
+	// Fuel
+	glColor4f(1.0f, 1.0f, 1.0f, 0.8f);
+	fuelTexture_.draw();
+	drawIconBox(x_ - 16.0f, y_ - 6.0f);
 }

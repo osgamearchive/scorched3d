@@ -30,7 +30,6 @@
 #include <coms/ComsMessageSender.h>
 #include <coms/ComsBuyAccessoryMessage.h>
 #include <weapons/AccessoryStore.h>
-#include <3dsparse/ASEStore.h>
 #include <stdio.h>
 
 BuyAccessoryDialog::BuyAccessoryDialog() : 
@@ -138,14 +137,7 @@ void BuyAccessoryDialog::addPlayerWeaponsBuy(GLWTab *tab, bool showWeapons)
 		newPanel->setToolTip(&current->getToolTip());
 		sprintf(buffer, "%i", (currentNumber>=0?currentNumber:99));
 		newPanel->addWidget(new GLWLabel(0, -2, buffer));
-		GLTexture *texture = 0;
-		if (current->getIconName()[0])
-		{
-			char fileBuffer[256];
-			sprintf(fileBuffer, PKGDIR "data/textures/wicons/%s", current->getIconName());
-			texture = ASEStore::instance()->loadTexture(fileBuffer, "");
-		}
-		newPanel->addWidget(new GLWIcon(45, 2, 16, 16, texture));
+		newPanel->addWidget(new GLWIcon(45, 2, 16, 16, current->getTexture()));
 		newPanel->addWidget(new GLWLabel(65, -2, (char *) current->getName()));
 		sprintf(buffer, "$%i/%i", current->getPrice(), current->getBundle());
 		newPanel->addWidget(new GLWLabel(210, -2, buffer));
@@ -190,14 +182,7 @@ void BuyAccessoryDialog::addPlayerWeaponsSell()
 		newPanel->setToolTip(&current->getToolTip());
 		sprintf(buffer, "%i", (itor->second>=0?itor->second:99));
 		newPanel->addWidget(new GLWLabel(0, -2, buffer));
-		GLTexture *texture = 0;
-		if (current->getIconName()[0])
-		{
-			char fileBuffer[256];
-			sprintf(fileBuffer, PKGDIR "data/textures/wicons/%s", current->getIconName());
-			texture = ASEStore::instance()->loadTexture(fileBuffer, "");
-		}
-		newPanel->addWidget(new GLWIcon(45, 2, 16, 16, texture));
+		newPanel->addWidget(new GLWIcon(45, 2, 16, 16, current->getTexture()));
 		newPanel->addWidget(new GLWLabel(65, -2, (char *) current->getName()));
 		sprintf(buffer, "$%i/%i", current->getSellPrice(), 1);
 		newPanel->addWidget(new GLWLabel(210, -2, buffer));

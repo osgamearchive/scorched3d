@@ -22,7 +22,10 @@
 #include <GLW/GLWToolTip.h>
 #include <GLW/GLWTranslate.h>
 #include <common/Vector.h>
+#include <common/Defines.h>
 #include <math.h>
+
+static GLuint list = 0;
 
 GLWVisibleWidget::GLWVisibleWidget(float x, float y, float w, float h) :
 	x_(x), y_(y), w_(w), h_(h), tooltip_(0)
@@ -37,6 +40,18 @@ GLWVisibleWidget::~GLWVisibleWidget()
 
 void GLWVisibleWidget::draw()
 {
+	if (list == 0)
+	{
+		list = glGenLists(1);
+		glNewList(list, GL_COMPILE);
+			for (float a=360.0f; a>0.0f; a-=360.0f / 36.0f)
+			{
+				glVertex2f(sinf(a/180.0f * PI), 
+					cosf(a/180.0f * PI));
+			}
+		glEndList();
+	}
+
 	if (tooltip_)
 	{
 		GLWToolTip::instance()->addToolTip(tooltip_, 
@@ -44,6 +59,12 @@ void GLWVisibleWidget::draw()
 			GLWTranslate::getPosY() + y_, 
 			w_, h_);
 	}
+}
+
+void GLWVisibleWidget::drawWholeCircle(bool cap)
+{
+	glCallList(list);
+	if (cap) glVertex2f(0.0f, 1.0f);
 }
 
 void GLWVisibleWidget::drawCircle(int startA, int endA, float posX, float posY, float size)

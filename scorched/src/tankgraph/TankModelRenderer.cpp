@@ -467,12 +467,7 @@ void TankModelRenderer::draw2d(bool currentTank)
 		GLState newState(GLState::TEXTURE_OFF | GLState::BLEND_ON);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	
 
-		glColor4f(
-			tank_->getColor()[0],
-			tank_->getColor()[1],
-			tank_->getColor()[2],
-			0.3f);
-
+		glColor4f(0.9f, 0.9f, 1.0f, 0.5f);
 		static GLuint listNo = 0;
 		if (!listNo)
 		{

@@ -18,12 +18,12 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #if !defined(__INCLUDE_WindDialogh_INCLUDE__)
 #define __INCLUDE_WindDialogh_INCLUDE__
 
 #include <GLW/GLWWindow.h>
 #include <GLEXT/GLVertexSet.h>
+#include <GLEXT/GLTexture.h>
 
 class WindDialog : public GLWWindow 
 {
@@ -38,6 +38,7 @@ public:
 protected:
 	static WindDialog *instance_;
 	GLVertexSet *windModel_;
+	GLTexture windTexture_;
 	GLuint listNo_;
 
 	void drawArrow();

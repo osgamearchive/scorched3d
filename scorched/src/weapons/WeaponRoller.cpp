@@ -19,8 +19,10 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <weapons/WeaponRoller.h>
-#include <actions/Roller.h>
+#include <weapons/AccessoryStore.h>
+#include <actions/ShotBounce.h>
 #include <common/Defines.h>
+#include <math.h>
 
 REGISTER_ACCESSORY_SOURCE(WeaponRoller);
 
@@ -39,46 +41,6 @@ bool WeaponRoller::parseXML(XMLNode *accessoryNode)
 	if (!Weapon::parseXML(accessoryNode)) return false;
 
 	// Get the accessory size
-	XMLNode *sizeNode = accessoryNode->removeNamedChild("size");
-	if (!sizeNode)
-	{
-		dialogMessage("Accessory",
-			"Failed to find size node in accessory \"%s\"",
-			name_.c_str());
-		return false;
-	}
-	size_ = atoi(sizeNode->getContent());
-
-	XMLNode *timeNode = accessoryNode->removeNamedChild("rollertime");
-	if (!timeNode)
-	{
-		dialogMessage("Accessory",
-			"Failed to find rollertime node in accessory \"%s\"",
-			name_.c_str());
-		return false;
-	}
-	rollerTime_ = (float) atof(timeNode->getContent());
-
-	XMLNode *heightNode = accessoryNode->removeNamedChild("rollerheight");
-	if (!heightNode)
-	{
-		dialogMessage("Accessory",
-			"Failed to find rollerheight node in accessory \"%s\"",
-			name_.c_str());
-		return false;
-	}
-	rollerHeight_ = (float) atof(heightNode->getContent());
-
-	XMLNode *stepNode = accessoryNode->removeNamedChild("steptime");
-	if (!stepNode)
-	{
-		dialogMessage("Accessory",
-			"Failed to find steptime node in accessory \"%s\"",
-			name_.c_str());
-		return false;
-	}
-	stepTime_ = (float) atof(stepNode->getContent());
-
 	XMLNode *rollersNode = accessoryNode->removeNamedChild("numberrollers");
 	if (!rollersNode)
 	{
@@ -89,53 +51,71 @@ bool WeaponRoller::parseXML(XMLNode *accessoryNode)
 	}
 	numberRollers_ = atoi(rollersNode->getContent());	
 
+	// Get the next weapon
+	XMLNode *subNode = accessoryNode->removeNamedChild("collisionaction");
+	if (!subNode)
+	{
+		dialogMessage("Accessory",
+			"Failed to find collisionaction node in accessory \"%s\"",
+			name_.c_str());
+		return false;
+	}
+	// Check next weapon is correct type
+	Accessory *accessory = AccessoryStore::instance()->createAccessory(subNode);
+	if (!accessory || accessory->getType() != Accessory::AccessoryWeapon)
+	{
+		dialogMessage("Accessory",
+			"Sub weapon of wrong type \"%s\"",
+			name_.c_str());
+		return false;
+	}
+	collisionAction_ = (Weapon*) accessory;
+
 	return true;
 }
 
 bool WeaponRoller::writeAccessory(NetBuffer &buffer)
 {
 	if (!Weapon::writeAccessory(buffer)) return false;
-	buffer.addToBuffer(rollerTime_);
-	buffer.addToBuffer(rollerHeight_);
-	buffer.addToBuffer(stepTime_);
+	if (!Weapon::write(buffer, collisionAction_)) return false;
 	buffer.addToBuffer(numberRollers_);
-	buffer.addToBuffer(size_);
 	return true;
 }
 
 bool WeaponRoller::readAccessory(NetBufferReader &reader)
 {
 	if (!Weapon::readAccessory(reader)) return false;
-	if (!reader.getFromBuffer(rollerTime_)) return false;
-	if (!reader.getFromBuffer(rollerHeight_)) return false;
-	if (!reader.getFromBuffer(stepTime_)) return false;
+	collisionAction_ = Weapon::read(reader); if (!collisionAction_) return false;
 	if (!reader.getFromBuffer(numberRollers_)) return false;
-	if (!reader.getFromBuffer(size_)) return false;
 	return true;
 }
 
 void WeaponRoller::fireWeapon(ScorchedContext &context,
-	unsigned int playerId, Vector &position, Vector &velocity)
+	unsigned int playerId, Vector &oldposition, Vector &velocity)
 {
-	for (int i=0; i<getNumberRollers(); i++)
+	for (int i=0; i<numberRollers_; i++)
 	{
-		int x = int(position[0] + RAND * 4.0f - 2.0f);
-		int y = int(position[1] + RAND * 4.0f - 2.0f);
-		addRoller(context, playerId, x, y);
+	//for (float i=0.0f; i<360.0f; i+= 360.0f / float(numberRollers_))
+	//{
+		Vector position = oldposition;
+		position[2] = context.landscapeMaps.getHMap().getInterpHeight(
+			position[0], position[1]) + 1.0f;
+		addRoller(context, playerId, position);
 	}
 }
 
 void WeaponRoller::addRoller(ScorchedContext &context,
 	unsigned int playerId,
-	int x, int y)
+	Vector &position)
 {
 	// Ensure that the Roller has not hit the walls
 	// or anything outside the landscape
-	if (x > 1 && y > 1 &&
-		x < context.landscapeMaps.getHMap().getWidth() - 1 &&
-		y < context.landscapeMaps.getHMap().getWidth() - 1)
+	if (position[0] > 1 && position[1] > 1 &&
+		position[0] < context.landscapeMaps.getHMap().getWidth() - 1 &&
+		position[1] < context.landscapeMaps.getHMap().getWidth() - 1)
 	{
+		Vector velocity(RAND - 0.5f, RAND - 0.5f, 2.0f * RAND);
 		context.actionController.addAction(
-			new Roller(x, y, this, playerId));
+			new ShotBounce(position, velocity, this, playerId));
 	}
 }

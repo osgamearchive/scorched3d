@@ -38,6 +38,7 @@ public:
 	virtual ~GLMenuEntry();
 
 	bool click(float currentTop, int x, int y);
+	bool getDepressed() { return depressed_; }
 	bool getEnabled() { return (enabledFn_?
 		enabledFn_->getEnabled(menuName_.c_str()):true); }
 	void draw(GLFont2d &font, float currentTop, float currentLeft);
@@ -59,7 +60,6 @@ protected:
 	void collapse();
 	void drawNonDepressed(float currentTop, float currentLeft);
 	void drawDepressed(GLFont2d &font, float currentTop, float currentLeft);
-	void drawBackdrop(float x, float y, float w, float w2, float h);
 	bool clickTitle(float currentTop, int x);
 	bool clickMenu(float currentTop, int x, int y);
 

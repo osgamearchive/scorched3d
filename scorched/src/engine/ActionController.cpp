@@ -98,7 +98,7 @@ void ActionController::addNewActions()
 			buffer_.getActionForTime(time_);
 		while (action)
 		{
-			referenceCount_++;
+			if (action->getReferenced()) referenceCount_ ++;
 			action->setScorchedContext(context_);
 			action->init();
 			actions_.insert(action);
@@ -127,6 +127,7 @@ void ActionController::addNewActions()
 			}
 			else
 			{
+				if (action->getReferenced()) referenceCount_ ++;
 				action->init();
 				actions_.insert(action);
 			}

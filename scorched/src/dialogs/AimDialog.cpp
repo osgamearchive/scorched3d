@@ -33,10 +33,10 @@ AimDialog *AimDialog::instance()
 }
 
 AimDialog::AimDialog() : 
-	GLWWindow("Aim", 10, 15, 150, 150, eTransparent | eSmallTitle)
+	GLWWindow("Aim", 10, 100, 120, 120, eCircle | eSmallTitle)
 {
 	pwrSlider_ = (GLWSlider *) 
-		addWidget(new GLWSlider(140, 10, 130, 0.0f, 100.0f));
+		addWidget(new GLWSlider(140, 10, 100, 0.0f, 100.0f));
 	pwrSlider_->setHandler(this);
 
 	tracker_ = (GLWTracker *)

@@ -31,7 +31,10 @@ public:
 	PhysicsParticleObject();
 	virtual ~PhysicsParticleObject();
 
-	void setPhysics(PhysicsEngine &engine, Vector &position, Vector &velocity);
+	void setPhysics(PhysicsEngine &engine, 
+		Vector &position, Vector &velocity,
+		float sphereSize = 0.0f,
+		float sphereDensity = 0.0f);
 
 	Vector &getPosition();
 	Vector &getVelocity();

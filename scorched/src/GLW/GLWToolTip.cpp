@@ -28,8 +28,8 @@
 #include <string.h>
 
 unsigned int GLWTip::nextId_ = 0;
-static Vector color(0.2f, 0.2f, 0.2f);
-static Vector selectedColor(0.0f, 0.0f, 0.0f);
+static Vector color(0.1f, 0.1f, 0.4f);
+static Vector selectedColor(0.9f, 0.9f, 1.0f);
 
 GLWTipI::~GLWTipI()
 {
@@ -182,7 +182,7 @@ void GLWToolTip::draw(const unsigned state)
 	{
 		GLState currentStateBlend(GLState::BLEND_ON);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	
-		glColor4f(1.0f, 1.0, 0.5f, 0.7f);
+		glColor4f(0.5f, 0.5f, 1.0f, 0.8f);	
 		glBegin(GL_TRIANGLE_FAN);
 			glVertex2f(posX + 10.0f, posY + 2.0f);
 			glVertex2f(posX + 10.0f, posY);
@@ -191,14 +191,15 @@ void GLWToolTip::draw(const unsigned state)
 				posW, posH, 10.0f);
 			glVertex2f(posX + 10.0f, posY);
 		glEnd();
+		glColor4f(0.9f, 0.9f, 1.0f, 0.5f);
+		glLineWidth(2.0f);
+		glBegin(GL_LINE_LOOP);
+			GLWVisibleWidget::drawRoundBox(
+				posX, posY,
+				posW, posH, 10.0f);
+		glEnd();
+		glLineWidth(1.0f);
 	}
-	glColor3f(0.0f, 0.0f, 0.0f);
-	glBegin(GL_LINE_LOOP);
-
-		GLWVisibleWidget::drawRoundBox(
-			posX, posY,
-			posW, posH, 10.0f);
-	glEnd();
 
 	float pos = posY + posH - 16.0f;
 	GLWFont::instance()->getFont()->draw(selectedColor, 11, posX + 3.0f, 

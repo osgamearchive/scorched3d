@@ -123,9 +123,11 @@ int HeightMapCollision::dCollideLAABB(dGeomID o1, dGeomID o2, dReal aabb2[6])
 	DIALOG_ASSERT(info1 && info2);
 	if (info2->id != CollisionIdShot &&
 		info2->id != CollisionIdFallingTank &&
+		info2->id != CollisionIdBounce &&
 		info2->id != CollisionIdSprite && 
 		info1->id != CollisionIdShot &&
 		info1->id != CollisionIdFallingTank &&
+		info1->id != CollisionIdBounce &&
 		info1->id != CollisionIdSprite)
 	{
 		return 0;
@@ -174,6 +176,7 @@ int HeightMapCollision::dCollideLS (dGeomID o1, dGeomID o2, int flags,
 	// Only use the sphere collision for shots and falling tanks
 	int num_contacts = 0;
 	if (info2->id == CollisionIdShot ||
+		info2->id == CollisionIdBounce ||
 		info2->id == CollisionIdFallingTank)
 	{
 		// Do we actually need to do this??

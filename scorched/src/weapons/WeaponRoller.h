@@ -33,11 +33,7 @@ public:
 	virtual bool writeAccessory(NetBuffer &buffer);
 	virtual bool readAccessory(NetBufferReader &reader);
 
-	const float getRollerTime() { return rollerTime_; }
-	const float getRollerHeight() { return rollerHeight_; }
-	const float getStepTime() { return stepTime_; }
-	const int getNumberRollers() { return numberRollers_; }
-	const int getSize() { return size_; }
+	Weapon *getCollisionAction() { return collisionAction_; }
 
 	// Inherited from Weapon
 	virtual void fireWeapon(ScorchedContext &context,
@@ -46,16 +42,12 @@ public:
 	REGISTER_ACCESSORY_HEADER(WeaponRoller, Accessory::AccessoryWeapon);
 
 protected:
-	float rollerTime_;   // The time to generate Roller
-	float rollerHeight_; // The height of a roller point
-	float stepTime_;     // Move roller every StepTime secs
-	int numberRollers_;  // The number of rollers
-	int size_;           // Explosion size
+	int numberRollers_;
+	Weapon *collisionAction_;
 
 	void addRoller(ScorchedContext &context, unsigned int playerId,
-		int x, int y);
+		Vector &position);
 
 };
-
 
 #endif

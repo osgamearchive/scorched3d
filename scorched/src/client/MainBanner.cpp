@@ -37,8 +37,9 @@ MainBanner* MainBanner::instance()
 }
 
 MainBanner::MainBanner() : 
-	banner_(0, 40, 1024, OptionsDisplay::instance()->getBannerRows())
+	banner_(0)
 {
+	banner_ = new GLFontBanner(140, 0, 1024, OptionsDisplay::instance()->getBannerRows());
 	Logger::addLogger(this);
 }
 
@@ -53,12 +54,12 @@ void MainBanner::logMessage(
 		unsigned int playerId)
 {
 	Tank *source = ScorchedClient::instance()->getTankContainer().getTankById(playerId);
-	banner_.addLine(source?source->getColor():GLFontBanner::defaultColor, message);
+	banner_->addLine(source?source->getColor():GLFontBanner::defaultColor, message);
 }
 
 void MainBanner::simulate(const unsigned state, float frameTime)
 {
-	banner_.simulate(frameTime);
+	banner_->simulate(frameTime);
 }
 
 void MainBanner::draw(const unsigned state)
@@ -66,6 +67,7 @@ void MainBanner::draw(const unsigned state)
 	GLState currentState(GLState::TEXTURE_OFF);
 	glColor3f(1.0f, 1.0f, 0.0f);
 
-	banner_.setY(/*MainCamera::instance()->getCamera().getHeight() - 50*/ 0.0f);
-	banner_.draw();
+	GLsizei width = MainCamera::instance()->getCamera().getWidth();
+	banner_->setX(width / 2.0f);
+	banner_->draw();
 } 

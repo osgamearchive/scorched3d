@@ -35,6 +35,7 @@
 	struct META_##x { META_##x() { AccessoryMetaRegistration::addMap(#x , new x ); } }; \
 	static META_##x META_IMPL_##x ;
 
+class GLTexture;
 class Accessory  
 {
 public:
@@ -65,6 +66,7 @@ public:
 	GLWTip &getToolTip();
 	const char *getIconName() { return iconName_.c_str(); }
 
+	GLTexture *getTexture();
 	unsigned int getAccessoryId() { return accessoryId_; }
 	virtual bool getPrimary() { return primary_; }
 	virtual void setPrimary(bool p) { primary_ = p; }
@@ -77,6 +79,7 @@ public:
 protected:
 	static unsigned int nextAccessoryId_;
 	GLWTip toolTip_;
+	GLTexture *texture_;
 	std::string iconName_;
 	std::string name_;
 	std::string description_;

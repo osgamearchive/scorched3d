@@ -45,10 +45,10 @@ void DeathAnimation::init()
 {
 	if (!context_->serverMode)
 	{
-		if (strcmp(rendererName_.c_str(), "ExplosionLaserBeamRenderer"))
+		if (0 == strcmp(rendererName_.c_str(), "ExplosionLaserBeamRenderer"))
 		{
 			setActionRender(
-				new ExplosionLaserBeamRenderer(position_, 4.0f));
+				new ExplosionLaserBeamRenderer(position_, 12.0f));
 		}
 		else
 		{

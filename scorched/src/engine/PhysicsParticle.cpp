@@ -79,9 +79,12 @@ PhysicsParticleMeta::~PhysicsParticleMeta()
 
 }
 
-void PhysicsParticleMeta::setPhysics(Vector &position, Vector &velocity)
+void PhysicsParticleMeta::setPhysics(Vector &position, Vector &velocity,
+									 float sphereSize, float sphereDensity)
 {
-	physicsObject_.setPhysics(context_->actionController.getPhysics(), position, velocity);
+	physicsObject_.setPhysics(context_->actionController.getPhysics(), 
+		position, velocity,
+		sphereSize, sphereDensity);
 }
 
 void PhysicsParticleMeta::collision(Vector &position)

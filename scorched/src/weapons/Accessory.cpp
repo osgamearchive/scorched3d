@@ -18,6 +18,8 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+#include <GLEXT/GLBitmap.h>
+#include <GLEXT/GLTexture.h>
 #include <weapons/Accessory.h>
 #include <common/Defines.h>
 #include <stdlib.h>
@@ -27,7 +29,7 @@ unsigned int Accessory::nextAccessoryId_ = 0;
 Accessory::Accessory() :
 	name_("NONAME"), description_("NODESC"), toolTip_("", ""),
 	price_(0), bundle_(0), armsLevel_(0), accessoryId_(++nextAccessoryId_),
-	primary_(false)
+	primary_(false), texture_(0)
 {
 
 }
@@ -202,3 +204,19 @@ Accessory *AccessoryMetaRegistration::getNewAccessory(const char *name)
 	return (*itor).second->getAccessoryCopy();
 }
 
+GLTexture *Accessory::getTexture()
+{
+	if (texture_) return texture_;
+
+	GLTexture *texture = 0;
+	if (getIconName()[0])
+	{
+		char fileBuffer[256];
+		sprintf(fileBuffer, PKGDIR "data/textures/wicons/%s", getIconName());
+		GLBitmap bmap(fileBuffer, true);
+		texture = new GLTexture();
+		texture->create(bmap, GL_RGBA, false);
+	}
+	texture_ = texture;
+	return texture;
+}

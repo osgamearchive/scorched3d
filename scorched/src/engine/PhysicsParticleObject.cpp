@@ -34,14 +34,16 @@ PhysicsParticleObject::~PhysicsParticleObject()
 	geom_ = 0;
 }
 
-void PhysicsParticleObject::setPhysics(PhysicsEngine &engine, Vector &position, Vector &velocity)
+void PhysicsParticleObject::setPhysics(PhysicsEngine &engine, Vector &position, 
+									   Vector &velocity,
+									   float sphereSize, float sphereDensity)
 {
-	const dReal DENSITY = 5.0;
-	const dReal size = 0.25f;
+	if (sphereSize == 0.0f) sphereSize = 0.25f;
+	if (sphereDensity == 0.0f) sphereDensity = 5.0f;
 
 	// Create the mass for the object
 	dMass m;
-	dMassSetSphere(&m,DENSITY,size);
+	dMassSetSphere(&m,sphereDensity,sphereSize);
 
 	// Create the body for the object
 	body_ = dBodyCreate(engine.getWorld());
@@ -52,7 +54,7 @@ void PhysicsParticleObject::setPhysics(PhysicsEngine &engine, Vector &position, 
 	dBodySetMass(body_,&m);
 
 	// Create the geom representing the object
-	geom_ = dCreateSphere(engine.getSpace(), size);
+	geom_ = dCreateSphere(engine.getSpace(), sphereSize);
 	dGeomSetBody(geom_, body_);	
 }
 

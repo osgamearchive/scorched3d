@@ -189,7 +189,7 @@ bool GLBitmap::loadFromFile(char * filename, bool alpha)
 			dest[2] = from[0];
 			if (alpha)
 			{
-				dest[3] = (GLubyte)(from[0]==0?0:255);
+				dest[3] = (GLubyte)(from[0]+from[1]+from[2]==0?0:255);
 			}
 			
 			from+=3;

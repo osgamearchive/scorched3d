@@ -21,6 +21,7 @@
 #include <common/OptionsGame.h>
 #include <common/OptionsTransient.h>
 #include <common/Defines.h>
+#include <common/Logger.h>
 #include <string.h>
 
 OptionsGame::OptionsGame() :
@@ -231,6 +232,25 @@ bool OptionsGameWrapper::commitChanges()
 		MIN(testBuffer.getBufferUsed(),
 		NetBufferDefault::defaultBuffer.getBufferUsed())) != 0)
 	{
+		std::list<OptionEntry *> &options = getOptions();
+		std::list<OptionEntry *> &otheroptions = changedOptions_.getOptions();
+		std::list<OptionEntry *>::iterator itor;
+		std::list<OptionEntry *>::iterator otheritor;
+		for (itor=options.begin(), otheritor=otheroptions.begin();
+			itor!=options.end() && otheritor!=options.end();
+			itor++, otheritor++)
+		{
+			OptionEntry *entry = *itor;
+			OptionEntry *otherentry = *otheritor;
+			std::string str = entry->getValueAsString();
+			std::string otherstr = otherentry->getValueAsString();
+			if (str != otherstr)
+			{
+				Logger::log(0, "Option %s has been changed from %s to %s",
+					entry->getName(), str.c_str(), otherstr.c_str());
+			}
+		}
+
 		NetBufferReader reader(testBuffer);
 		readFromBuffer(reader);
 		return true;

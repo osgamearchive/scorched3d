@@ -44,7 +44,8 @@ PlanViewDialog *PlanViewDialog::instance()
 
 PlanViewDialog::PlanViewDialog() : 
 	animationTime_(0.0f), flashTime_(0.0f),
-	GLWWindow("Plan", 10, 15, 100, 100, eTransparent | eResizeable | eSmallTitle),
+	GLWWindow("Plan", 10, 15, 100, 100, 
+		eCircle),
 	flash_(true)
 {
 
@@ -78,7 +79,7 @@ void PlanViewDialog::draw()
 	static bool init = false;
 	if (!init)
 	{
-		float width = MainCamera::instance()->getCamera().getWidth() / 5.0f;
+		float width = MIN(MainCamera::instance()->getCamera().getWidth() / 8.0f, 120.0f);
 		setX(MainCamera::instance()->getCamera().getWidth() - width - 10.0f);
 		setY(MainCamera::instance()->getCamera().getHeight() - width - 40.0f);
 		setW(width);
@@ -129,16 +130,21 @@ void PlanViewDialog::drawTexture()
 void PlanViewDialog::drawCameraPointer()
 {
 	// Draw the camera pointer
-	glColor3f(0.5f, 0.5f, 0.0f);
+	glColor3f(0.9f, 0.9f, 1.0f);
 	float mapWidth = (float) ScorchedClient::instance()->getLandscapeMaps().getHMap().getWidth();
 	Vector currentPos = MainCamera::instance()->getCamera().getCurrentPos();
 	Vector lookAt = MainCamera::instance()->getCamera().getLookAt();
 	Vector direction = (currentPos - lookAt).Normalize2D() * 0.2f;
 
-	if (currentPos[0] < 0.0f) currentPos[0] = 0.0f;
-	else if (currentPos[0] > 256.0f) currentPos[0] = 256.0f;
-	if (currentPos[1] < 0.0f) currentPos[1] = 0.0f;
-	else if (currentPos[1] > 256.0f) currentPos[1] = 256.0f;
+	static Vector mid(128.0f, 128.0f);
+	currentPos[2] = 0.0f;
+	float dist = (currentPos - mid).Magnitude();
+	if (dist > 128.0f)
+	{
+		currentPos -= mid;
+		currentPos *= 128.0f / dist;
+		currentPos += mid;
+	}
 	currentPos /= mapWidth;
 
 	Vector directionPerp = direction.get2DPerp();

@@ -56,16 +56,18 @@ void LandscapeObjects::drawItem(float distance, GLOrderedItemRenderer::OrderedEn
 	if (!GLCameraFrustum::instance()->sphereInFrustum(point, 2.0f)) return;
 
 	texture_.draw();
-	glColor4f(entry.treeColor, entry.treeColor, entry.treeColor, 1.0f);
-
 	glDepthMask(GL_TRUE);
 	glPushMatrix();
 		glTranslatef(entry.posX, entry.posY, entry.posZ);
 		glRotatef(entry.treeRotation, 0.0f, 0.0f, 1.0f);
 		glScalef(entry.treeSize, entry.treeSize, entry.treeSize);
-		if (OptionsDisplay::instance()->getLowTreeDetail() || distance > 5000) 
+
+		glColor4f(entry.treeColor, entry.treeColor, entry.treeColor, 1.0f);
+		if (OptionsDisplay::instance()->getLowTreeDetail() || distance > 16000) 
 			glCallList(entry.smallTreeType);
 		else glCallList(entry.treeType);
+
+
 	glPopMatrix();
 	glDepthMask(GL_FALSE);
 }

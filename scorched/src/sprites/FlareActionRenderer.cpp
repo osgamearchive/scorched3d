@@ -38,7 +38,7 @@ void FlareActionRenderer::simulate(Action *action, float timepassed, bool &remov
 {
 	if (counter_.nextDraw(timepassed))
 	{
-		Vector &actualPos = ((PhysicsParticle *)action)->getCurrentPosition();
+		Vector &actualPos = ((PhysicsParticleMeta *)action)->getCurrentPosition();
 		Landscape::instance()->getSmoke().
 			addSmoke(actualPos[0], actualPos[1], actualPos[2], 
 				0.0f, 0.0f, 0.0f, 0.7f);
@@ -47,7 +47,7 @@ void FlareActionRenderer::simulate(Action *action, float timepassed, bool &remov
 
 void FlareActionRenderer::draw(Action *action)
 {
-	Vector &actualPos = ((PhysicsParticle *)action)->getCurrentPosition();
+	Vector &actualPos = ((PhysicsParticleMeta *)action)->getCurrentPosition();
 	float aboveGround =
 		actualPos[2] - action->getScorchedContext()->landscapeMaps.getHMap().
 		getHeight((int) actualPos[0], (int) actualPos[1]);

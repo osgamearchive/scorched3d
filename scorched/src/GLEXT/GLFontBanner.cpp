@@ -18,21 +18,12 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// GLFontBanner.cpp: implementation of the GLFontBanner class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <stdio.h> 
 #include <GLEXT/GLFontBanner.h>
 #include <GLEXT/GLConsole.h>
 #include <GLW/GLWFont.h>
 
 static const float visibleTimeLimit = 10.0f;
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 GLFontBannerEntry::GLFontBannerEntry()
 {
@@ -53,6 +44,7 @@ bool GLFontBannerEntry::decrementTime(float time)
 void GLFontBannerEntry::setText(char *text)
 {
 	strncpy(textLine_, text, 999);
+	len_ = strlen(text);
 	textLine_[999] = '\0';
 	timeRemaining_ = visibleTimeLimit;
 }
@@ -148,13 +140,15 @@ void GLFontBanner::draw()
 		int used = usedLines_;
 		for (int i=0; i<used; i++)
 		{
+			float minus = textLines_[pos].getLen() * 5.1f;
+
 			GLWFont::instance()->getOverLapFont()->
 				draw(black, 20,
-					x_ + lineBorder, start - i * lineDepth - 9.0f, 0.0f, 
+					x_ + lineBorder - minus, start - i * lineDepth - 9.0f, 0.0f, 
 					textLines_[pos].getText());
 			GLWFont::instance()->getFont()->
 				draw(textLines_[pos].getColor(), 16,
-					x_ + lineBorder, start - i * lineDepth - 3.0f, 0.0f, 
+					x_ + lineBorder - minus, start - i * lineDepth - 3.0f, 0.0f, 
 					textLines_[pos].getText());
 			if (++pos >= totalLines_) pos = 0;
 		}

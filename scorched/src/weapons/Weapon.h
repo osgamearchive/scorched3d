@@ -29,6 +29,7 @@
 #include <engine/ScorchedContext.h>
 
 class Action;
+class MissileMesh;
 class Weapon : public Accessory
 {
 public:
@@ -52,11 +53,13 @@ public:
 	float getShake();
 	float getScale();
 	ModelID &getModelID();
+	MissileMesh *getWeaponMesh(Tank *currentPlayer);
 
 	static bool write(NetBuffer &buffer, Weapon *weapon);
 	static Weapon *read(NetBufferReader &reader);
 
 protected:
+	static std::map<std::string, MissileMesh *> loadedMeshes_;
 	int deathAnimationWeight_;
 	float scale_;
 	float shake_;

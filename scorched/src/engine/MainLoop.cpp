@@ -24,7 +24,7 @@
 #include <GLEXT/GLState.h>
 #include <SDL/SDL.h>
 
-MainLoop::MainLoop() :  exitLoop_(false), lastDrawTime_(0.0f)
+MainLoop::MainLoop() :  exitLoop_(false), lastDrawTime_(0.0f), flip_(false)
 {
 
 }
@@ -32,6 +32,11 @@ MainLoop::MainLoop() :  exitLoop_(false), lastDrawTime_(0.0f)
 MainLoop::~MainLoop()
 {
 
+}
+
+bool MainLoop::getFlip()
+{
+	return flip_;
 }
 
 void MainLoop::clear()
@@ -95,6 +100,7 @@ void MainLoop::draw()
 	if (firstTime)
 	{
 		firstTime = false;
+		glClearDepth(0.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 
@@ -112,23 +118,23 @@ void MainLoop::draw()
 	if (OptionsDisplay::instance()->getFullClear())
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glClearDepth(1.0f);
 		glDepthRange(0.0, 1.0);
 		glDepthFunc(GL_LESS);
 	}
 	else
 	{
-		static bool flip = false;
-		if (flip)
+		if (flip_)
 		{
 			glDepthRange(0.0, 0.5);
 			glDepthFunc(GL_LESS);
-			flip = false;
+			flip_ = false;
 		}
 		else
 		{
 			glDepthRange(1.0, 0.5);
 			glDepthFunc(GL_GREATER);
-			flip = true;
+			flip_ = true;
 		}
 	}
 }

@@ -46,7 +46,7 @@ public:
 
 protected:
 	static MainBanner* instance_;
-	GLFontBanner banner_;
+	GLFontBanner *banner_;
 
 private:
 	MainBanner();

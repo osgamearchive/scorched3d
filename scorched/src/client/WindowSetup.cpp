@@ -39,6 +39,7 @@
 #include <dialogs/RulesDialog.h>
 #include <dialogs/TalkDialog.h>
 #include <dialogs/TankDialog.h>
+#include <dialogs/WeaponDialog.h>
 #include <dialogs/ScoreDialog.h>
 #include <dialogs/KillDialog.h>
 #include <dialogs/KibitzingDialog.h>
@@ -108,6 +109,8 @@ void WindowSetup::setup()
 	KEYBOARDKEY("SHOW_TALK_DIALOG", talkKey);
 	KEYBOARDKEY("SHOW_QUIT_DIALOG", quitKey);
 	KEYBOARDKEY("SHOW_PLAYER_DIALOG", playerKey);
+	KEYBOARDKEY("SHOW_AIM_DIALOG", aimKey);
+	KEYBOARDKEY("SHOW_WEAPON_DIALOG", weaponKey);
 
 	// StateConnect
 	WindowManager::instance()->addWindow(ClientState::StateConnect, 
@@ -150,7 +153,8 @@ void WindowSetup::setup()
 	// StatePlaying
 	WindowManager::instance()->addWindow(ClientState::StatePlaying, 
 		TankDialog::instance(), playerKey, true);
-	KEYBOARDKEY("SHOW_AIM_DIALOG", aimKey);
+	WindowManager::instance()->addWindow(ClientState::StatePlaying, 
+		WeaponDialog::instance(), weaponKey, true);
 	WindowManager::instance()->addWindow(ClientState::StatePlaying, 
 		AimDialog::instance(), aimKey, false);
 	addCommonComponents(ClientState::StatePlaying);

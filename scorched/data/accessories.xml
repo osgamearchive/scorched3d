@@ -165,6 +165,81 @@ Any flames near tanks will remove life.</description>
 		</collisionaction>
 	</accessory>
 	<accessory type="WeaponProjectile">
+		<name>Baby Roller</name>
+		<description>A projectile weapon that explodes 
+into a number of rolling bombs.  These bombs roll
+downhill exploding on contact with any tank.</description>
+		<icon>broller.bmp</icon>
+		<cost>5000</cost>
+		<bundlesize>10</bundlesize>
+		<armslevel>8</armslevel>
+		<firedsound>shoot/small.wav</firedsound>
+		<collisionaction type="WeaponRoller">
+			<name>Baby Roller</name>
+			<armslevel>8</armslevel>
+			<numberrollers>8</numberrollers>
+			<collisionaction type="WeaponExplosion">
+				<name>Baby Roller</name>
+				<armslevel>8</armslevel>
+				<hurts>yes</hurts>
+				<deform>down</deform>
+				<size>6</size>
+				<explosiontexture>exp00</explosiontexture>		
+				<explosionsound>explosions/small.wav</explosionsound>
+			</collisionaction>
+		</collisionaction>
+	</accessory>	
+	<accessory type="WeaponProjectile">
+		<name>Roller</name>
+		<description>A projectile weapon that explodes 
+into a number of rolling bombs.  These bombs roll
+downhill exploding on contact with any tank.</description>
+		<icon>roller.bmp</icon>
+		<cost>6000</cost>
+		<bundlesize>5</bundlesize>
+		<armslevel>8</armslevel>
+		<firedsound>shoot/medium.wav</firedsound>
+		<collisionaction type="WeaponRoller">
+			<name>Roller</name>
+			<armslevel>8</armslevel>
+			<numberrollers>8</numberrollers>
+			<collisionaction type="WeaponExplosion">
+				<name>Roller</name>
+				<armslevel>8</armslevel>
+				<hurts>yes</hurts>
+				<deform>down</deform>
+				<size>9</size>
+				<explosiontexture>exp00</explosiontexture>		
+				<explosionsound>explosions/medium.wav</explosionsound>
+			</collisionaction>
+		</collisionaction>
+	</accessory>	
+	<accessory type="WeaponProjectile">
+		<name>Heavy Roller</name>
+		<description>A projectile weapon that explodes 
+into a number of rolling bombs.  These bombs roll
+downhill exploding on contact with any tank.</description>
+		<icon>hroller.bmp</icon>
+		<cost>7500</cost>
+		<bundlesize>2</bundlesize>
+		<armslevel>8</armslevel>
+		<firedsound>shoot/large.wav</firedsound>
+		<collisionaction type="WeaponRoller">
+			<name>Heavy Roller</name>
+			<armslevel>8</armslevel>
+			<numberrollers>8</numberrollers>
+			<collisionaction type="WeaponExplosion">
+				<name>Heavy Roller</name>
+				<armslevel>8</armslevel>
+				<hurts>yes</hurts>
+				<deform>down</deform>
+				<size>12</size>
+				<explosiontexture>exp00</explosiontexture>		
+				<explosionsound>explosions/large.wav</explosionsound>
+			</collisionaction>
+		</collisionaction>
+	</accessory>	
+	<accessory type="WeaponProjectile">
 		<name>Baby Missile</name>
 		<description>A small explosive projectile weapon</description>
 		<icon>bmissile.bmp</icon>
@@ -799,5 +874,15 @@ Leaves a colored trace of the shot path.</description>
 			<name>Smoke Tracer</name>
 			<armslevel>9</armslevel>
 		</collisionaction>
+	</accessory>
+	<accessory type="WeaponDeathAnimation">
+		<name></name>
+		<description></description>
+		<icon></icon>
+		<cost></cost>
+		<bundlesize></bundlesize>
+		<armslevel></armslevel>
+		<deathanimationweight>10</deathanimationweight>
+		<renderer>ExplosionLaserBeamRenderer</renderer>
 	</accessory>
 </accessories>
