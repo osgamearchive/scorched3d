@@ -39,9 +39,9 @@ std::string TankModelRendererHUD::textB_ = "";
 Vector TankModelRendererAIM::aimPosition_;
 float TankModelRendererAIM::timeLeft_ = -1.0f;
 
-GLVertexArray *TankModelRendererAIM::getAutoAimModel()
+GLVertexSet *TankModelRendererAIM::getAutoAimModel()
 {
-	static GLVertexArray *array = 
+	static GLVertexSet *array = 
 		ASEStore::instance()->loadOrGetArray(PKGDIR "data/meshes/autoaim.ase");
 	return array;
 }
@@ -299,24 +299,30 @@ void TankModelRenderer::drawLife()
 		height = groundHeight;
 	}
 
-	glBegin(GL_TRIANGLES);
-		glColor3fv(tank_->getColor());
-		glVertex3f(position[0], 
-			position[1], height + 5.0f);
-		glVertex3f(position[0] + bilX[0], 
-			position[1] + bilX[1], height + 8.0f);
-		glVertex3f(position[0] - bilX[0], 
-			position[1] - bilX[1], height + 8.0f);
-	glEnd();
+	if (OptionsDisplay::instance()->getDrawPlayerColor())
+	{
+		glBegin(GL_TRIANGLES);
+			glColor3fv(tank_->getColor());
+			glVertex3f(position[0], 
+				position[1], height + 5.0f);
+			glVertex3f(position[0] + bilX[0], 
+				position[1] + bilX[1], height + 8.0f);
+			glVertex3f(position[0] - bilX[0], 
+				position[1] - bilX[1], height + 8.0f);
+		glEnd();
+	}
 
-	float shieldLife = 0.0f;
-	Shield *currentShield =
-		tank_->getAccessories().getShields().getCurrentShield();
-	if (currentShield) shieldLife = 
-		tank_->getAccessories().getShields().getShieldPower();
+	if (OptionsDisplay::instance()->getDrawPlayerHealth())
+	{
+		float shieldLife = 0.0f;
+		Shield *currentShield =
+			tank_->getAccessories().getShields().getCurrentShield();
+		if (currentShield) shieldLife = 
+			tank_->getAccessories().getShields().getShieldPower();
 
-	drawLifeBar(bilX, tank_->getState().getLife(), height, 3.3f);
-	drawLifeBar(bilX, shieldLife, height, 3.7f);
+		drawLifeBar(bilX, tank_->getState().getLife(), height, 3.3f);
+		drawLifeBar(bilX, shieldLife, height, 3.7f);
+	}
 }
 
 void TankModelRenderer::drawLifeBar(Vector &bilX, float value, 

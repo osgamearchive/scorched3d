@@ -19,6 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <windows.h>
+#include <stdlib.h>
 #include <common/Defines.h>
 #include <common/Timer.h>
 #include <common/ARGParser.h>
@@ -90,7 +91,7 @@ bool serverMain()
 		dialogMessage("Scorched3D Server", 
 			"Failed to start the server.\n\n"
 			"Ensure the specified port does not conflict with any other program.");
-		return false;
+		exit(1);
 	}
 
 	ServerBrowserInfo::instance()->start();

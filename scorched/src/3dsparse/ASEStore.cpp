@@ -19,6 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <GLEXT/GLBitmap.h>
+#include <GLEXT/GLVertexSetGroup.h>
 #include <3dsparse/ASEStore.h>
 #include <3dsparse/ASEFile.h>
 #include <common/OptionsDisplay.h>
@@ -107,9 +108,9 @@ GLTexture *ASEStore::loadTexture(const char *name, const char *aname)
 	return texture;
 }
 
-GLVertexArray *ASEStore::loadOrGetArray(const char *fileName)
+GLVertexSet *ASEStore::loadOrGetArray(const char *fileName)
 {
-	std::map<const char *, GLVertexArray *>::iterator findItor =
+	std::map<const char *, GLVertexSet *>::iterator findItor =
 		fileMap_.find(fileName);
 	if (findItor == fileMap_.end())
 	{
@@ -117,9 +118,18 @@ GLVertexArray *ASEStore::loadOrGetArray(const char *fileName)
 		if (file.getSuccess())
 		{
 			file.centre();
-			GLVertexArray *array = file.getModels().front()->getArray(false);
-			fileMap_[fileName] = array;
-			return array;
+			GLVertexSetGroup *arraySet = new GLVertexSetGroup();
+			std::list<Model *>::iterator itor;
+			for (itor = file.getModels().begin();
+				 itor != file.getModels().end();
+				 itor++)
+			{
+				Model *currentModel = *itor;
+				GLVertexArray *array = currentModel->getArray(false);
+				arraySet->addToGroup(*array);
+			}
+			fileMap_[fileName] = arraySet;
+			return arraySet;
 		}
 	}
 	else

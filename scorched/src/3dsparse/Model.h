@@ -21,8 +21,6 @@
 #if !defined(__INCLUDE_Modelh_INCLUDE__)
 #define __INCLUDE_Modelh_INCLUDE__
 
-#pragma warning(disable: 4786)
-
 #include <GLEXT/GLVertexArray.h>
 #include <common/Vector.h>
 #include <common/Face.h>

@@ -26,8 +26,6 @@
 #if !defined(AFX_GAMESTATE_H__00A5F6B7_02B2_45B3_9D9B_F8B0AC9F5614__INCLUDED_)
 #define AFX_GAMESTATE_H__00A5F6B7_02B2_45B3_9D9B_F8B0AC9F5614__INCLUDED_
 
-#pragma warning(disable: 4786)
-
 #include <map>
 #include <list>
 #include <engine/MainLoopI.h>

@@ -26,8 +26,6 @@
 #if !defined(AFX_ACTIONCONTROLLER_H__86995B4A_478E_4CFE_BD4C_79128DE51904__INCLUDED_)
 #define AFX_ACTIONCONTROLLER_H__86995B4A_478E_4CFE_BD4C_79128DE51904__INCLUDED_
 
-#pragma warning(disable: 4786)
-
 #include <set>
 #include <list>
 #include <engine/ActionBuffer.h>

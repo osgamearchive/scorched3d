@@ -22,7 +22,7 @@
 #if !defined(__INCLUDE_ASEStoreh_INCLUDE__)
 #define __INCLUDE_ASEStoreh_INCLUDE__
 
-#include <GLEXT/GLVertexArray.h>
+#include <GLEXT/GLVertexSet.h>
 #include <GLEXT/GLTexture.h>
 #include <map>
 #include <string>
@@ -32,12 +32,12 @@ class ASEStore
 public:
 	static ASEStore *instance();
 
-	GLVertexArray *loadOrGetArray(const char *fileName);
+	GLVertexSet *loadOrGetArray(const char *fileName);
 	GLTexture *loadTexture(const char *name, const char *aname);
 
 protected:
 	static ASEStore *instance_;
-	std::map<const char *, GLVertexArray *> fileMap_;
+	std::map<const char *, GLVertexSet *> fileMap_;
 	std::map<std::string, GLTexture *> skins_;
 
 private:

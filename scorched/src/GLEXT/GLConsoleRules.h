@@ -26,9 +26,6 @@
 #if !defined(AFX_GLCONSOLERULES_H__F75EC197_F0BD_459C_BC62_929D3A97FB5A__INCLUDED_)
 #define AFX_GLCONSOLERULES_H__F75EC197_F0BD_459C_BC62_929D3A97FB5A__INCLUDED_
 
-#pragma warning(disable: 4786)
-
-	
 #include <GLEXT/GLConsoleRule.h>
 
 class GLConsoleRules  

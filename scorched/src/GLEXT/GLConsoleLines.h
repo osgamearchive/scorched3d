@@ -26,9 +26,6 @@
 #if !defined(AFX_GLCONSOLELINES_H__2DA65C94_3E52_43C6_B75B_D0CEDBF6A9DE__INCLUDED_)
 #define AFX_GLCONSOLELINES_H__2DA65C94_3E52_43C6_B75B_D0CEDBF6A9DE__INCLUDED_
 
-#pragma warning(disable: 4786)
-
-
 #include <GLEXT/GLFont2d.h>
 #include <list>
 #include <string>

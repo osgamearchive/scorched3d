@@ -26,9 +26,6 @@
 //////////////////////////////////////////////////////////////////////
 
 
-#pragma warning(disable: 4786)
-
-
 #include <string>
 #include <GLW/GLWVisibleWidget.h>
 

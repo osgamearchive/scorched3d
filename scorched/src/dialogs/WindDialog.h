@@ -23,7 +23,7 @@
 #define __INCLUDE_WindDialogh_INCLUDE__
 
 #include <GLW/GLWWindow.h>
-#include <GLEXT/GLVertexArray.h>
+#include <GLEXT/GLVertexSet.h>
 
 class WindDialog : public GLWWindow 
 {
@@ -37,7 +37,7 @@ public:
 
 protected:
 	static WindDialog *instance_;
-	GLVertexArray *windModel_;
+	GLVertexSet *windModel_;
 	GLuint listNo_;
 
 	void drawArrow();

@@ -74,6 +74,8 @@ Run the following commands to compile scorched :-
 4) make install (may need to be done as root)
 
 Scorched3D will be installed in /usr/local/games/scorched3d.
+The Scorched3D executable is called scorched3d and is located
+directly in this directory.
 
 
 Generic

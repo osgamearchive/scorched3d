@@ -12,7 +12,8 @@ Added: Tank choice dialog shows many more tanks
 Added: Tanks placed into catagories to make for easier choosing
 Added: MilkShape model support (including alpha maps)
 Added: Keys are defined and can be configured via XML file (keys.xml)
-Added: Resouces can be enabled and disabled in the resource file (landscapes can be disabled)
+Added: Resouces can be enabled and disabled in the resource file 
+Added: Specified landscape textures to be disabled
 Added: Weapons are defined and can be configured via XML file (weapons.xml)
 Added: Bots (AIs) are defined and can be configured via XML file (tankai.xml)
 Added: Auto aim (A key), points tank to a position on the landscape
@@ -21,6 +22,10 @@ Added: Tank has multiple falling contact points (stops tank being burried when f
 Added: Weapon icons in the buy/sell dialogs
 Added: Start of Hexidecimal support
 Added: Cross platform server browsing
+Added: Aiming cross hair can be seen from above
+Added: Can turn off player triangles, sight, names and health bars
+Added: Tank models can have different turret and gun pivot points (untested)
+Added: Tank models can contain multiple gun and turret objects (untested)
 
 Fixed: Random windows crashes, increased stack size to stop ODE from running out of stack
 Fixed: Tanks do not start right at the landscape edge
@@ -54,11 +59,8 @@ master stats reporting site?
 ability to tell if the server is up or down remotely without using ASE
 Add password
 ability to adjust server options on the fly, so the next match will have the new options
-change weapons radius, damage, cost either on the fly or from a config file? (that might confuse network though)
 ability to set higher average base height for land. If I get shot near the water, I basically just end up underwater
-option to delay availibility for weapons (say till round 3)
 Ban players 
-Stats
 Loadable maps?
 
 -- Client Stuff

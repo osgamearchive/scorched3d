@@ -26,8 +26,6 @@
 #if !defined(AFX_ARGPARSER_H__F5D7DE2F_967A_44B0_A2DF_423F96B02EC0__INCLUDED_)
 #define AFX_ARGPARSER_H__F5D7DE2F_967A_44B0_A2DF_423F96B02EC0__INCLUDED_
 
-#pragma warning(disable: 4786)
-
 #include <list>
 #include <map>
 #include <string>

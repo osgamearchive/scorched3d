@@ -67,6 +67,10 @@ scorched3d_SOURCES = \
 	../GLEXT/GLVar.h \
 	../GLEXT/GLVertexArray.cpp \
 	../GLEXT/GLVertexArray.h \
+	../GLEXT/GLVertexSet.cpp \
+	../GLEXT/GLVertexSet.h \
+	../GLEXT/GLVertexSetGroup.cpp \
+	../GLEXT/GLVertexSetGroup.h \
 	../GLEXT/GLVertexTexArray.cpp \
 	../GLEXT/GLVertexTexArray.h \
 	../GLW/GLWButton.cpp \
@@ -354,7 +358,7 @@ scorched3d_SOURCES = \
 	../landscape/InfoMap.cpp \
 	../landscape/InfoMap.h \
 	../landscape/Landscape.h \
-	../landscape/Lanscape.cpp \
+	../landscape/Landscape.cpp \
 	../landscape/MovementMap.cpp \
 	../landscape/MovementMap.h \
 	../landscape/NapalmMap.cpp \

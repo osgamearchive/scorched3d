@@ -26,8 +26,6 @@
 #if !defined(AFX_GLMENUI_H__7171A46C_8265_4A9F_A984_889EF2547CB1__INCLUDED_)
 #define AFX_GLMENUI_H__7171A46C_8265_4A9F_A984_889EF2547CB1__INCLUDED_
 
-#pragma warning(disable: 4786)
-
 #include <list>
 #include <string>
 #include <GLW/GLWToolTip.h>

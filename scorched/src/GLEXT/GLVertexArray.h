@@ -26,10 +26,10 @@
 #if !defined(AFX_GLVERTEXARRAY_H__281612E4_C081_45C1_A049_B92631DBA524__INCLUDED_)
 #define AFX_GLVERTEXARRAY_H__281612E4_C081_45C1_A049_B92631DBA524__INCLUDED_
 
-
+#include <GLEXT/GLVertexSet.h>
 #include <GLEXT/GLState.h>
 
-class GLVertexArray  
+class GLVertexArray : public GLVertexSet
 {
 public:
 	struct GLVertexArrayVertex 
@@ -50,10 +50,11 @@ public:
 	virtual ~GLVertexArray();
 
 	virtual void draw();
+	virtual int getNoTris() { return noTris_; }
+
 	void setVertex(int offset, GLfloat x, GLfloat y, GLfloat z);
 	void setColor(int offset, GLfloat r, GLfloat g, GLfloat b);
 
-	int getNoTris() { return noTris_; }
 	GLVertexArrayVertex &getVertexInfo(int x) { return vertices_[x]; }
 	GLVertexArrayColor &getColorInfo(int x) { return colors_[x]; }
 

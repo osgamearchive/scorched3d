@@ -26,8 +26,6 @@
 #if !defined(AFX_ACCESSORYSTORE_H__6A964E56_3784_42FA_A900_2AB4B98F99A8__INCLUDED_)
 #define AFX_ACCESSORYSTORE_H__6A964E56_3784_42FA_A900_2AB4B98F99A8__INCLUDED_
 
-#pragma warning(disable: 4786)
-
 #include <list>
 #include <vector>
 #include <weapons/Weapon.h>

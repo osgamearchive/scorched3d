@@ -26,9 +26,6 @@
 #if !defined(AFX_MainLoop_H__6E7B84B0_E055_48B6_B992_4D4C3C7455E0__INCLUDED_)
 #define AFX_MainLoop_H__6E7B84B0_E055_48B6_B992_4D4C3C7455E0__INCLUDED_
 
-#pragma warning(disable: 4786)
-
-
 #include <list>
 #include <set>
 #include <GLEXT/GLState.h>

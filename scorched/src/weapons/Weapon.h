@@ -21,8 +21,6 @@
 #if !defined(AFX_WEAPON_H__65439E20_84A6_406A_8FD0_045A3E7555D3__INCLUDED_)
 #define AFX_WEAPON_H__65439E20_84A6_406A_8FD0_045A3E7555D3__INCLUDED_
 
-#pragma warning(disable: 4786)
-
 #include <weapons/Accessory.h>
 #include <coms/NetBuffer.h>
 #include <common/Defines.h>

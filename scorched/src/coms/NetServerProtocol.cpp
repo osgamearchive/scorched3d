@@ -47,7 +47,7 @@ bool NetServerScorchedProtocol::sendBuffer(NetBuffer &buffer, TCPsocket &socket)
 
 	// send the length of the string
 	int result = SDLNet_TCP_Send(socket, &netlen, sizeof(netlen));
-	if(result<sizeof(netlen))
+	if(result<(int) sizeof(netlen))
 	{
 		Logger::log(0, "Failed to send buffer length. Sent %i of %i.",
 			result, sizeof(netlen));
@@ -75,7 +75,7 @@ NetMessage *NetServerScorchedProtocol::readBuffer(TCPsocket &socket)
 	int result=SDLNet_TCP_Recv(socket,&netlen,sizeof(netlen));
 	if (result <= 0) return 0;
 
-	if(result<sizeof(netlen))
+	if(result<(int) sizeof(netlen))
 	{
 		Logger::log(0, "Failed to read buffer length. Read %i of %i.",
 			result, sizeof(netlen));

@@ -21,72 +21,79 @@
 #include <math.h>
 #include <tankgraph/TankMesh.h>
 #include <3dsparse/ModelsFile.h>
+#include <common/OptionsDisplay.h>
 #include <common/Defines.h> // For porting
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 GLuint TankMesh::sightList_ = 0;
 
 TankMesh::TankMesh(ModelsFile &tank, bool useTextures, float detail) 
-	: gunArray_(0), turretArray_(0), otherArrays_(0), turretHeight_(0.0f), 
-	otherArraySize_(0), useTextures_(useTextures)
+	: turretHeight_(0.0f), useTextures_(useTextures)
 {
 	createArrays(tank, useTextures, detail);
 }
 
 TankMesh::~TankMesh()
 {
-	delete gunArray_;
-	delete turretArray_;
-	if (otherArrays_)
-	{
-		for (int i=0; i<otherArraySize_; i++)
-		{
-			delete otherArrays_[i];
-		}
-		delete [] otherArrays_;
-	}
+	gunArrays_.destroyGroup();
+	turretArrays_.destroyGroup();
+	otherArrays_.destroyGroup();
 }
 
 int TankMesh::getNoTris()
 {
-	if (!gunArray_ || !turretArray_ || !otherArraySize_) return 0;
-
-	int tris = gunArray_->getNoTris() + turretArray_->getNoTris();
-	for (int i=0; i<otherArraySize_; i++)
-	{
-		tris += otherArrays_[i]->getNoTris();
-	}
-	return  tris;
+	return 
+		gunArrays_.getNoTris() + 
+		turretArrays_.getNoTris() +
+		otherArrays_.getNoTris();
 }
 
 void TankMesh::createArrays(ModelsFile &aseTank, bool useTextures, float detail)
 {
-	Model *turretModel = 0;
-	Model *gunModel = 0;
 	std::list<Model*> otherModels;
+	std::list<Model*> turretModels;
+	std::list<Model*> gunModels;
 
 	// Find the gun and turret meshes from all of the mesh
 	// parts used to create the tank
 	// Keep them and use them to draw tank's gun
 	Vector turretCenter;
+	Model *turretPivot = 0;
+	Model *gunPivot = 0;
 	std::list<Model *>::iterator itor;
 	for (itor = aseTank.getModels().begin();
 		itor != aseTank.getModels().end();
 		itor++)
 	{
 		const char *name = (*itor)->getName();
-		if (stricmp(name, "\"Turret\"") == 0)
+
+		if (strstr(name, "\"Turret") == name ||
+			strstr(name, "\"turret") == name)
 		{
-			// Find the center that the tank should rotate around
-			turretCenter = ((*itor)->getMax() + (*itor)->getMin()) / 2.0f;
-			turretModel = *itor;
+			if (strstr(name, "pivot") ||
+				strstr(name, "Pivot"))
+			{
+				turretPivot = *itor;
+			}
+			else
+			{
+				turretModels.push_back(*itor);
+
+				// Find the center that the tank should rotate around
+				turretCenter += ((*itor)->getMax() + (*itor)->getMin()) / 2.0f;
+			}
 		}
-		else if (stricmp(name, "\"Gun\"") == 0)
+		else if (strstr(name, "\"Gun") == name ||
+			strstr(name, "\"gun") == name)
 		{
-			gunModel = *itor;
+			if (strstr(name, "pivot") ||
+				strstr(name, "Pivot"))
+			{
+				gunPivot = *itor;
+			}
+			else
+			{
+				gunModels.push_back(*itor);
+			}
 		}
 		else
 		{
@@ -95,19 +102,34 @@ void TankMesh::createArrays(ModelsFile &aseTank, bool useTextures, float detail)
 	}	
 
 	// Check we have a valid tank model
-	if (!gunModel || !turretModel)
+	if (gunModels.empty() || turretModels.empty())
 	{
 		dialogMessage("Tank", "ERROR: Failed to find gun and turret from mesh");
 		exit(1);
 	}
 
+	// Find the center of rotation for the turret
+	if (turretPivot)
+	{
+		turretCenter = (turretPivot->getMax() + turretPivot->getMin()) / 2.0f;
+	}
+	else
+	{
+		turretCenter /= float(turretModels.size());
+	}
+	Vector gunCenter = turretCenter;
+	turretCenter[2] = aseTank.getMin()[2];
+
+	// Find the center of rotation for the gun
+	if (gunPivot)
+	{
+		gunCenter = (gunPivot->getMax() + gunPivot->getMin()) / 2.0f;
+	}
+	gunOffset_ = gunCenter - turretCenter;
+	
 	// Center all meshes around base of turret
 	// Center gun around turret center
 	// and place all of the meshes on the ground 
-	Vector oldCenter = (aseTank.getMax() + aseTank.getMin()) / 2.0f;
-	Vector newCenter = turretCenter;
-	newCenter[2] = aseTank.getMin()[2];
-	turretHeight_ = turretCenter[2] - aseTank.getMin()[2];
 	for (itor = aseTank.getModels().begin();
 		itor != aseTank.getModels().end();
 		itor++)
@@ -115,26 +137,29 @@ void TankMesh::createArrays(ModelsFile &aseTank, bool useTextures, float detail)
 		const char *name = (*itor)->getName();
 		if (stricmp(name, "\"Gun\"") == 0)
 		{
-			(*itor)->centre(turretCenter);
+			(*itor)->centre(gunCenter);
 		}
 		else
 		{
-			(*itor)->centre(newCenter);
+			(*itor)->centre(turretCenter);
 		}
 	}
 
-	// Retreive actual vertex arrays from the meshes
-	otherArrays_ = new GLVertexArray*[otherModels.size()];
-	gunArray_ = gunModel->getArray(useTextures, detail);
-	turretArray_ = turretModel->getArray(useTextures, detail);
+	addToSet(turretArrays_, turretModels, detail);
+	addToSet(gunArrays_, gunModels, detail);
+	addToSet(otherArrays_, otherModels, detail);
+}
 
+void TankMesh::addToSet(GLVertexSetGroup &vset, std::list<Model*> &models, float detail)
+{
 	std::list<Model*>::iterator mitor;
-	for (mitor = otherModels.begin();
-		mitor != otherModels.end();
+	for (mitor = models.begin();
+		mitor != models.end();
 		mitor++)
 	{
-		otherArrays_[otherArraySize_++] = (*mitor)->getArray(useTextures, detail);
-	}
+		GLVertexSet *set = (*mitor)->getArray(useTextures_, detail);
+		vset.addToGroup(*set);
+	}	
 }
 
 void TankMesh::draw(bool drawS, float angle, Vector &position, 
@@ -146,10 +171,7 @@ void TankMesh::draw(bool drawS, float angle, Vector &position,
 	glPushMatrix();
 		glTranslatef(position[0], position[1], position[2]);
 		glRotatef(angle, 0.0f, 0.0f, 1.0f);
-		for (int i=0; i<otherArraySize_; i++)
-		{
-			otherArrays_[i]->draw();
-		}
+		otherArrays_.draw();
 		drawGun(drawS, fireOffset, rotXY, rotXZ);
 	glPopMatrix();
 
@@ -160,16 +182,17 @@ void TankMesh::drawGun(bool drawS, float fireOffSet, float rotXY, float rotXZ)
 {
 	// Rotate around z axis and then draw turret
 	glRotatef(rotXY, 0.0f, 0.0f, 1.0f);
-	if (turretArray_) turretArray_->draw();
+	turretArrays_.draw();
 
 	// Rotate around y axis and then draw gun
-	glTranslatef(0.0f, 0.0f, turretHeight_);
+	glTranslatef(gunOffset_[0], gunOffset_[1], gunOffset_[2]);
 	glRotatef(rotXZ, 1.0f, 0.0f, 0.0f);
 	if (fireOffSet != 0.0f) glTranslatef(0.0f, fireOffSet, 0.0f);
-	if (gunArray_) gunArray_->draw();
+	gunArrays_.draw();
 
 	// Draw the sight
-	if (drawS) drawSight();
+	if (drawS &&
+		OptionsDisplay::instance()->getDrawPlayerSight()) drawSight();
 }
 
 void TankMesh::drawSight()
@@ -179,31 +202,30 @@ void TankMesh::drawSight()
 		glNewList(sightList_ = glGenLists(1), GL_COMPILE);
 			glBegin(GL_QUAD_STRIP);
 				float x;
-				for (x=90.0f; x<135.0f; x+=9.0f)
+				for (x=135.0f; x>=90.0f; x-=9.0f)
 				{
 					const float deg = 3.14f / 180.0f;
 					float dx = x * deg;
+					float color = 1.0f - fabsf(90.0f - x) / 45.0f;
 
-					glColor4f(1.0f, 0.5f, 0.5f, 1.0f - fabsf(90.0f - x) / 45.0f);
-					glVertex3f(0.0f, 10.0f * sinf(dx), 10.0f * cosf(dx));
-					glVertex3f(0.0f, 2.0f * sinf(dx), 2.0f * cosf(dx));
+					glColor3f(1.0f * color, 0.5f * color, 0.5f * color);
+					glVertex3f(+0.07f * color, 2.0f * sinf(dx), 2.0f * cosf(dx));
+					glVertex3f(+0.07f * color, 10.0f * sinf(dx), 10.0f * cosf(dx));
 				}
-			glEnd();
-			glBegin(GL_QUAD_STRIP);
 				for (x=90.0f; x<135.0f; x+=9.0f)
 				{
 					const float deg = 3.14f / 180.0f;
 					float dx = x * deg;
+					float color = 1.0f - fabsf(90.0f - x) / 45.0f;
 
-					glColor4f(1.0f, 0.5f, 0.5f, 1.0f - fabsf(90.0f - x) / 45.0f);
-					glVertex3f(0.0f, 2.0f * sinf(dx), 2.0f * cosf(dx));
-					glVertex3f(0.0f, 10.0f * sinf(dx), 10.0f * cosf(dx));
+					glColor3f(1.0f * color, 0.5f * color, 0.5f * color);
+					glVertex3f(-0.07f * color, 2.0f * sinf(dx), 2.0f * cosf(dx));
+					glVertex3f(-0.07f * color, 10.0f * sinf(dx), 10.0f * cosf(dx));
 				}
 			glEnd();
 		glEndList();
 	}
 
-	GLState currentState(GLState::BLEND_ON | GLState::TEXTURE_OFF);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	
+	GLState currentState(GLState::BLEND_OFF | GLState::TEXTURE_OFF);
 	glCallList(sightList_);
 }

@@ -21,8 +21,6 @@
 #if !defined(AFX_TankMenus_H__571BC1CA_BDBC_4F2B_9F83_4AA083520198__INCLUDED_)
 #define AFX_TankMenus_H__571BC1CA_BDBC_4F2B_9F83_4AA083520198__INCLUDED_
 
-#pragma warning(disable: 4786)
-
 #include <GLEXT/GLMenuI.h>
 #include <weapons/Accessory.h>
 #include <vector>

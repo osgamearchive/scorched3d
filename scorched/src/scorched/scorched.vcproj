@@ -302,6 +302,18 @@
 				RelativePath="..\GLEXT\GLVertexArray.h">
 			</File>
 			<File
+				RelativePath="..\GLEXT\GLVertexSet.cpp">
+			</File>
+			<File
+				RelativePath="..\GLEXT\GLVertexSet.h">
+			</File>
+			<File
+				RelativePath="..\GLEXT\GLVertexSetGroup.cpp">
+			</File>
+			<File
+				RelativePath="..\GLEXT\GLVertexSetGroup.h">
+			</File>
+			<File
 				RelativePath="..\GLEXT\GLVertexTexArray.cpp">
 			</File>
 			<File
@@ -1195,7 +1207,7 @@
 				RelativePath="..\landscape\Landscape.h">
 			</File>
 			<File
-				RelativePath="..\landscape\Lanscape.cpp">
+				RelativePath="..\landscape\Landscape.cpp">
 			</File>
 			<File
 				RelativePath="..\landscape\MovementMap.cpp">

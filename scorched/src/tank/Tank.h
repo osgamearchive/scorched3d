@@ -26,8 +26,6 @@
 #if !defined(AFX_TANK_H__52F37177_46EA_49C8_9B58_E6C57ABDB78A__INCLUDED_)
 #define AFX_TANK_H__52F37177_46EA_49C8_9B58_E6C57ABDB78A__INCLUDED_
 
-#pragma warning(disable: 4786)
-
 #include <tank/TankAccessories.h>
 #include <tank/TankScore.h>
 #include <tank/TankState.h>

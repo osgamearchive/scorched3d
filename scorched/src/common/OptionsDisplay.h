@@ -111,6 +111,15 @@ public:
 	bool getDrawPlayerNames() { return drawPlayerNames_.getValue(); }
 	void setDrawPlayerNames(bool value) { drawPlayerNames_.setValue(value); }
 
+	bool getDrawPlayerSight() { return drawPlayerSight_.getValue(); }
+	void setDrawPlayerSight(bool value) { drawPlayerSight_.setValue(value); }
+
+	bool getDrawPlayerHealth() { return drawPlayerHealth_.getValue(); }
+	void setDrawPlayerHealth(bool value) { drawPlayerHealth_.setValue(value); }
+
+	bool getDrawPlayerColor() { return drawPlayerColor_.getValue(); }
+	void setDrawPlayerColor(bool value) { drawPlayerColor_.setValue(value); }
+
 	bool getDrawWater() { return drawWater_.getValue(); }
 	void setDrawWater(bool value) { drawWater_.setValue(value); }
 
@@ -171,6 +180,9 @@ protected:
 	OptionEntryBool noSkins_;
 	OptionEntryBool drawWater_;
 	OptionEntryBool drawPlayerNames_;
+	OptionEntryBool drawPlayerSight_;
+	OptionEntryBool drawPlayerColor_;
+	OptionEntryBool drawPlayerHealth_;
 	OptionEntryBool noROAM_;
 	OptionEntryBool useLandscapeTexture_;
 	OptionEntryBool noSkyLayers_;

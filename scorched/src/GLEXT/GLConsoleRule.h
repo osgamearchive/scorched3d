@@ -26,8 +26,6 @@
 #if !defined(AFX_GLCONSOLERULE_H__7A8C972C_069D_44F7_A604_A8A8D1B4773A__INCLUDED_)
 #define AFX_GLCONSOLERULE_H__7A8C972C_069D_44F7_A604_A8A8D1B4773A__INCLUDED_
 
-#pragma warning(disable: 4786)
-
 #include <string>
 #include <list>
 #include <map>

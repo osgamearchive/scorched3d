@@ -26,9 +26,6 @@
 #if !defined(AFX_FILELIST_H__2CF7C1A5_3860_4215_90E4_7D6ACFAAAD52__INCLUDED_)
 #define AFX_FILELIST_H__2CF7C1A5_3860_4215_90E4_7D6ACFAAAD52__INCLUDED_
 
-#pragma warning(disable: 4786)
-
-
 #include <string>
 #include <list>
 

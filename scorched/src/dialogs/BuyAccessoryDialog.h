@@ -26,8 +26,6 @@
 #if !defined(AFX_BuyAccessoryDialog_H__4B5E93CF_1DE2_4979_A629_AEBD725ABE65__INCLUDED_)
 #define AFX_BuyAccessoryDialog_H__4B5E93CF_1DE2_4979_A629_AEBD725ABE65__INCLUDED_
 
-#pragma warning(disable: 4786)
-
 #include <map>
 #include <vector>
 #include <weapons/Weapon.h>

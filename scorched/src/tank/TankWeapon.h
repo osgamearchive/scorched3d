@@ -26,8 +26,6 @@
 #if !defined(AFX_TANKWEAPON_H__CC20069B_6E50_49E0_B735_D739BCBF58A9__INCLUDED_)
 #define AFX_TANKWEAPON_H__CC20069B_6E50_49E0_B735_D739BCBF58A9__INCLUDED_
 
-#pragma warning(disable: 4786)
-
 #include <map>
 #include <list>
 #include <string>

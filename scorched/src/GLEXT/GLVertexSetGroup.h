@@ -18,40 +18,27 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(AFX_GLMENU_H__ED2E8B2C_46B3_400F_A3E2_FC1B53732D15__INCLUDED_)
-#define AFX_GLMENU_H__ED2E8B2C_46B3_400F_A3E2_FC1B53732D15__INCLUDED_
+#if !defined(AFX_GLVERTEXARRAYGROUP_H__281612E4_C081_45C1_A049_B92631DBA524__INCLUDED_)
+#define AFX_GLVERTEXARRAYGROUP_H__281612E4_C081_45C1_A049_B92631DBA524__INCLUDED_
 
-#include <map>
-#include <GLEXT/GLMenuEntry.h>
-#include <GLW/GLWWindow.h>
+#include <GLEXT/GLVertexArray.h>
+#include <vector>
 
-class GLMenu : public GLWWindow
+class GLVertexSetGroup : public GLVertexSet
 {
 public:
-	GLMenu();
-	virtual ~GLMenu();
+	GLVertexSetGroup();
+	virtual ~GLVertexSetGroup();
 
-	bool addMenu(char *menuName, float width, GLMenuI *selectFn,
-				GLMenuI *textFn = 0, 
-				GLMenuI *subMenuFn = 0,
-				GLMenuI *enabledFn = 0);
-	bool addMenuItem(char *menuName, const GLMenuItem item);
+	void addToGroup(GLVertexSet &set);
+	void destroyGroup();
 
+	virtual int getNoTris();
 	virtual void draw();
-	virtual void mouseDown(float x, float y, bool &skipRest);
-	virtual void mouseUp(float x, float y, bool &skipRest);
-	virtual void mouseDrag(float mx, float my, float x, float y, bool &skipRest);
-	virtual void keyDown(char *buffer, unsigned int keyState, 
-		KeyboardHistory::HistoryElement *history, int hisCount, 
-		bool &skipRest);
 
-	METACLASSID
 protected:
-	GLFont2d *menuFont_;
-	std::map<std::string, GLMenuEntry *> menuList_;
-
-	GLMenuEntry *getMenu(char *menuItem);
+	std::vector<GLVertexSet *> sets_;
 
 };
 
-#endif // !defined(AFX_GLMENU_H__ED2E8B2C_46B3_400F_A3E2_FC1B53732D15__INCLUDED_)
+#endif // !defined(AFX_GLVERTEXARRAYGROUP_H__281612E4_C081_45C1_A049_B92631DBA524__INCLUDED_)

@@ -23,7 +23,7 @@
 #define __INCLUDE_DebrisActionRendererh_INCLUDE__
 
 #include <engine/Action.h>
-#include <GLEXT/GLVertexArray.h>
+#include <GLEXT/GLVertexSet.h>
 
 class DebrisActionRenderer : public ActionRenderer
 {
@@ -35,7 +35,7 @@ public:
 	virtual void draw(Action *action);
 
 protected:
-	GLVertexArray *debris_;
+	GLVertexSet *debris_;
 	float rotationAng_;
 	float rotationX_, rotationY_, rotationZ_;
 	float rotationSpeed_;

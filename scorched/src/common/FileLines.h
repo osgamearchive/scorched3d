@@ -26,9 +26,6 @@
 #if !defined(AFX_FILELINES_H__EE120EC6_091D_4625_A3D0_F24F0D701A62__INCLUDED_)
 #define AFX_FILELINES_H__EE120EC6_091D_4625_A3D0_F24F0D701A62__INCLUDED_
 
-#pragma warning(disable: 4786)
-
-
 #include <vector>
 #include <string>
 

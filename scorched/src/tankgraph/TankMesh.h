@@ -22,8 +22,10 @@
 #define AFX_TANKMESH_H__CB857C65_A22F_4FBC_9344_EFF22F8A4EEA__INCLUDED_
 
 #include <common/Vector.h>
-#include <GLEXT/GLVertexArray.h>
+#include <GLEXT/GLVertexSetGroup.h>
+#include <list>
 
+class Model;
 class ModelsFile;
 class TankMesh  
 {
@@ -38,20 +40,18 @@ public:
 
 protected:
 	static GLuint sightList_;
-
 	bool useTextures_;
-	int otherArraySize_;
 	float turretHeight_;
-	GLVertexArray *gunArray_;
-	GLVertexArray *turretArray_;
-	GLVertexArray **otherArrays_;
+	Vector gunOffset_;
+	GLVertexSetGroup gunArrays_;
+	GLVertexSetGroup turretArrays_;
+	GLVertexSetGroup otherArrays_;
 
 	void drawSight();
 	void drawGun(bool drawS, float fireOffset, float rotXY, float rotXZ);
 	void createArrays(ModelsFile &aseTank, bool useTextures, float detail);
+	void addToSet(GLVertexSetGroup &vset, std::list<Model*> &models, float detail);
 
 };
-
-
 
 #endif // !defined(AFX_TANKMESH_H__CB857C65_A22F_4FBC_9344_EFF22F8A4EEA__INCLUDED_)

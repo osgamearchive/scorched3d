@@ -21,8 +21,6 @@
 #if !defined(AFX_ASEMODEL_H__5164D8CF_5506_4E58_BB87_A89EDC315B0B__INCLUDED_)
 #define AFX_ASEMODEL_H__5164D8CF_5506_4E58_BB87_A89EDC315B0B__INCLUDED_
 
-#pragma warning(disable: 4786)
-
 #include <3dsparse/Model.h>
 
 class ASEModel : public Model

@@ -18,32 +18,47 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+#include <GLEXT/GLVertexSetGroup.h>
 
-// GLWLabel.h: interface for the GLWLabel class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_GLWLABEL_H__75483479_A6F8_45CC_8E83_B517E721211F__INCLUDED_)
-#define AFX_GLWLABEL_H__75483479_A6F8_45CC_8E83_B517E721211F__INCLUDED_
-
-#include <string>
-#include <GLW/GLWVisibleWidget.h>
-
-class GLWLabel : public GLWVisibleWidget  
+GLVertexSetGroup::GLVertexSetGroup()
 {
-public:
-	GLWLabel(float x, float y, char *buttonText = 0);
-	virtual ~GLWLabel();
 
-	virtual void draw();	
-	const char *getText() { return buttonText_.c_str(); }
-	void setText(const char *text);
+}
 
-METACLASSID
+GLVertexSetGroup::~GLVertexSetGroup()
+{
 
-protected:
-	std::string buttonText_;
+}
 
-};
+void GLVertexSetGroup::draw()
+{
+	for (unsigned int i=0; i<sets_.size(); i++)
+	{
+		sets_[i]->draw();
+	}
+}
 
-#endif // !defined(AFX_GLWLABEL_H__75483479_A6F8_45CC_8E83_B517E721211F__INCLUDED_)
+void GLVertexSetGroup::destroyGroup()
+{
+	while (!sets_.empty())
+	{
+		delete sets_.back();
+		sets_.pop_back();		
+	}
+}
+
+void GLVertexSetGroup::addToGroup(GLVertexSet &set)
+{
+	sets_.push_back(&set);
+}
+
+int GLVertexSetGroup::getNoTris()
+{
+	int tris = 0;
+	for (unsigned int i=0; i<sets_.size(); i++)
+	{
+		tris += sets_[i]->getNoTris();
+	}
+
+	return tris;
+}

@@ -26,9 +26,6 @@
 #if !defined(AFX_GLWPANEL_H__6619410E_0A6B_459B_8A38_11024F49A6E3__INCLUDED_)
 #define AFX_GLWPANEL_H__6619410E_0A6B_459B_8A38_11024F49A6E3__INCLUDED_
 
-#pragma warning(disable: 4786)
-
-
 #include <list>
 #include <GLW/GLWidget.h>
 
