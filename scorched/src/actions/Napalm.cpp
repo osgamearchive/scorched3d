@@ -27,7 +27,13 @@
 #include <common/OptionsParam.h>
 #include <weapons/AccessoryStore.h>
 
-static const float NapalmHeight = 2.0f;
+// TODO, should these be configurable in the OptionsGame file?
+static const float NapalmHeight = 2.0f; // The height of a napalm point
+static const float StepTime = 0.1f; // Add/rm napalm every StepTime secs
+static const float HurtStepTime = 2.0f; // Calculate damage every HurtStepTime secs
+static const float HurtPerSecond = 1.0f;
+static const float HurtPerSecondHot = 2.0f;
+static const int EffectRadius = 5; // The distance of the burn radius
 
 REGISTER_ACTION_SOURCE(Napalm);
 
@@ -60,7 +66,6 @@ void Napalm::simulate(float frameTime, bool &remove)
 	// Add napalm for the period of the time interval
 	// once the time interval has expired then start taking it away
 	// Once all napalm has disapeared the simulation is over
-	const float StepTime = 0.25f; // Add/rm napalm every StepTime secs
 	totalTime_ += frameTime;
 	while (totalTime_ > StepTime)
 	{
@@ -94,7 +99,6 @@ void Napalm::simulate(float frameTime, bool &remove)
 	}
 
 	// Calculate how much damage to make to the tanks
-	const float HurtStepTime = 2.0f; // Calculate damage every HurtStepTime secs
 	hurtTime_ += frameTime;
 	while (hurtTime_ > HurtStepTime)
 	{
@@ -213,9 +217,8 @@ void Napalm::simulateAddStep()
 
 void Napalm::simulateDamage()
 {
-	const int EffectRadius = 5;
-	float DamagePerPointSecond = 1.0f;
-	if (hot_) DamagePerPointSecond = 2.0f;
+	float damagePerPointSecond = HurtPerSecond;
+	if (hot_) damagePerPointSecond = HurtPerSecondHot;
 
 	// Store how much each tank is damaged
 	// Keep in a map so we don't need to create multiple
@@ -259,11 +262,11 @@ void Napalm::simulateDamage()
 						tankDamage.find(tank);
 					if (damageItor == tankDamage.end())
 					{
-						tankDamage[tank] = DamagePerPointSecond;
+						tankDamage[tank] = damagePerPointSecond;
 					}
 					else
 					{
-						tankDamage[tank] += DamagePerPointSecond;
+						tankDamage[tank] += damagePerPointSecond;
 					}
 				}
 			}

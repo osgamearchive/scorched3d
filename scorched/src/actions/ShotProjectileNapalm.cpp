@@ -23,6 +23,8 @@
 #include <actions/Napalm.h>
 #include <engine/ActionController.h>
 
+static const float NapalmBurnTime = 8.0f;
+
 REGISTER_ACTION_SOURCE(ShotProjectileNapalm);
 
 ShotProjectileNapalm::ShotProjectileNapalm()
@@ -75,6 +77,6 @@ void ShotProjectileNapalm::addNapalm(int x, int y)
 		y < GlobalHMap::instance()->getHMap().getWidth() - 1)
 	{
 		ActionController::instance()->addAction(
-			new Napalm(x, y, 20.0f, hot_, playerId_));
+			new Napalm(x, y, NapalmBurnTime, hot_, playerId_));
 	}
 }
