@@ -27,9 +27,12 @@ ServerBrowserRefresh::ServerBrowserRefresh(ServerBrowserServerList &list) :
 	list_(list)
 {
 	recvPacket_ = SDLNet_AllocPacket(10000);
-	sendPacket_ = SDLNet_AllocPacket(20);
-	sendPacket_->len = 7;
-	memcpy(sendPacket_->data, "status", 7);
+	sendPacketStatus_ = SDLNet_AllocPacket(20);
+	sendPacketStatus_->len = 7;
+	memcpy(sendPacketStatus_->data, "status", 7);
+	sendPacketPlayers_ = SDLNet_AllocPacket(20);
+	sendPacketPlayers_->len = 8;
+	memcpy(sendPacketPlayers_->data, "players", 8);
 }
 
 ServerBrowserRefresh::~ServerBrowserRefresh()
@@ -89,9 +92,11 @@ void ServerBrowserRefresh::sendNextEntry(ServerBrowserEntry *entry, time_t theTi
 	entryMap_[udpsock] = entry;
 	entry->retries_ ++;
 	entry->sentTime_ = theTime;
+	entry->recieved_ = 0;
 
 	// Send the request for info
-	SDLNet_UDP_Send(udpsock, chan, sendPacket_);
+	SDLNet_UDP_Send(udpsock, chan, sendPacketStatus_);
+	SDLNet_UDP_Send(udpsock, chan, sendPacketPlayers_);
 }
 
 void ServerBrowserRefresh::processMessages(time_t theTime)
@@ -104,17 +109,22 @@ void ServerBrowserRefresh::processMessages(time_t theTime)
 	{
 		UDPsocket socket = (*itor).first;
 		ServerBrowserEntry *entry = (*itor).second;
-		if (SDLNet_UDP_Recv(socket, recvPacket_))
-		{
-			processMessage(recvPacket_, entry);
-			finished.push_back(socket);
 
-			list_.getRefreshId()++;
-		}
-		else if (theTime - entry->sentTime_ > 5)
+		if (theTime - entry->sentTime_ > 5)
 		{
 			if (entry->retries_ < 3) refreshEntries_.push_back(entry);
 			finished.push_back(socket);
+		}
+		else
+		{
+			while (SDLNet_UDP_Recv(socket, recvPacket_))
+			{
+				processMessage(recvPacket_, entry);
+				entry->recieved_ ++;
+				list_.getRefreshId()++;
+
+				if (entry->recieved_ == 2) finished.push_back(socket);
+			}
 		}
 	}
 
@@ -139,7 +149,7 @@ void ServerBrowserRefresh::processMessage(UDPpacket *packet, ServerBrowserEntry 
 	{
 		// Itterate all of the keys in the buffer
 		std::list<XMLNode *>::iterator childrenItor;
-		std::list<XMLNode *> &children = xmlBuffer.getRootNode()->getChildren();
+		std::list<XMLNode *> &children = xmlBuffer.getRootNode()->getParameters();
 		for (childrenItor = children.begin();
 			childrenItor != children.end();
 			childrenItor++)
@@ -151,3 +161,4 @@ void ServerBrowserRefresh::processMessage(UDPpacket *packet, ServerBrowserEntry 
 		}
 	}
 }
+

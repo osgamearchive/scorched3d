@@ -37,6 +37,10 @@ protected:
 	UDPpacket **packetV_;
 
 	void processMessage(UDPpacket *packet);
+	void processStatusMessage(char *buffer);
+	void processPlayerMessage(char *buffer);
+	void processInfoMessage(char *buffer);
+	void processPingMessage(char *buffer);
 	void addTag(char *buffer, const char *name, const char *value);
 
 private:

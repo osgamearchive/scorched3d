@@ -37,7 +37,8 @@ protected:
 	ServerBrowserServerList &list_;
 	std::list<ServerBrowserEntry *> refreshEntries_;
 	std::map<UDPsocket, ServerBrowserEntry*> entryMap_;
-	UDPpacket *sendPacket_;
+	UDPpacket *sendPacketStatus_;
+	UDPpacket *sendPacketPlayers_;
 	UDPpacket *recvPacket_;
 
 	void sendNextEntry(ServerBrowserEntry *entry, time_t theTime);

@@ -37,6 +37,7 @@ public:
 
 	int retries_;
 	int sentTime_;
+	int recieved_;
 
 protected:
 	std::map<std::string, std::string> attributes_;

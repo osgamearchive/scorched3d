@@ -24,7 +24,7 @@
 #include <common/Logger.h>
 #include <time.h>
 
-ServerBrowserEntry::ServerBrowserEntry() : retries_(0), sentTime_(0)
+ServerBrowserEntry::ServerBrowserEntry() : retries_(0), sentTime_(0), recieved_(0)
 {
 }
 
@@ -67,8 +67,8 @@ ServerBrowserServerList::ServerBrowserServerList() :
 
 	recvPacket_ = SDLNet_AllocPacket(10000);
 	sendPacket_ = SDLNet_AllocPacket(20);
-	sendPacket_->len = 7;
-	memcpy(sendPacket_->data, "status", 7);
+	sendPacket_->len = 5;
+	memcpy(sendPacket_->data, "ping", 5);
 }
 
 

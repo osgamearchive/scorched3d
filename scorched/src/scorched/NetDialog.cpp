@@ -206,16 +206,16 @@ void NetLanFrame::onSelectServer()
 			for (int i=0; i<noplayers; i++)
 			{
 				static char tmp[128];
-				sprintf(tmp, "playername_%i", i);
+				sprintf(tmp, "pn%i", i);
 				long index = IDC_PLAYER_LIST_CTRL->InsertItem(0, 
 					ServerBrowser::instance()->getServerList().getEntryValue(item, tmp));
 
-				sprintf(tmp, "playerscore_%i", i);
+				sprintf(tmp, "ps%i", i);
 				IDC_PLAYER_LIST_CTRL->
 					SetItem(index, 1, 
 					ServerBrowser::instance()->getServerList().getEntryValue(item, tmp));
 
-				sprintf(tmp, "playertime_%i", i);
+				sprintf(tmp, "pt%i", i);
 				IDC_PLAYER_LIST_CTRL->
 					SetItem(index, 2, 
 					ServerBrowser::instance()->getServerList().getEntryValue(item, tmp));
