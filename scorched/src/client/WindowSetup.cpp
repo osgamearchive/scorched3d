@@ -151,9 +151,6 @@ void WindowSetup::setup()
 		TankDialog::instance(), playerKey, true);
 	addCommonComponents(ClientState::StatePlaying);
 
-	// StatePlayed
-	addCommonComponents(ClientState::StatePlayed);
-	
 	// StateShot
 	addCommonComponents(ClientState::StateShot);
 

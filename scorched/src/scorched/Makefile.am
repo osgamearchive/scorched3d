@@ -455,6 +455,8 @@ scorched3d_SOURCES = \
 	../weapons/WeaponRoller.h \
 	../weapons/WeaponTracer.cpp \
 	../weapons/WeaponTracer.h \
+	../coms/ComsTimerStartMessage.cpp \
+	../coms/ComsTimerStartMessage.h \
 	../coms/ComsActionsMessage.cpp \
 	../coms/ComsActionsMessage.h \
 	../coms/ComsAddPlayerMessage.cpp \
@@ -709,6 +711,8 @@ scorched3d_SOURCES = \
 	SingleDialog.cpp \
 	SingleDialog.h \
 	main.cpp \
+	../client/ClientStartTimerHandler.cpp \
+	../client/ClientStartTimerHandler.h \
 	../client/ClientActionsHandler.cpp \
 	../client/ClientActionsHandler.h \
 	../client/ClientAddPlayerHandler.cpp \
@@ -771,8 +775,6 @@ scorched3d_SOURCES = \
 	../client/ServerBrowserServerList.h \
 	../client/ShotCountDown.cpp \
 	../client/ShotCountDown.h \
-	../client/ShotTimer.cpp \
-	../client/ShotTimer.h \
 	../client/SpeedChange.cpp \
 	../client/SpeedChange.h \
 	../client/TargetCamera.cpp \

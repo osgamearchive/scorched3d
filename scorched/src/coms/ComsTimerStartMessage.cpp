@@ -18,35 +18,28 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_ShotCountDownh_INCLUDE__)
-#define __INCLUDE_ShotCountDownh_INCLUDE__
+#include <coms/ComsTimerStartMessage.h>
 
-#include <engine/GameStateI.h>
-
-class ShotCountDown : 
-	public GameStateI
+ComsTimerStartMessage::ComsTimerStartMessage(int timerValue) :
+	ComsMessage("ComsTimerStartMessage"),
+	timerValue_(timerValue)
 {
-public:
-	static ShotCountDown *instance();
 
-	void reset(float time);
+}
 
-	//Inherited from GameStateI
-	virtual void simulate(const unsigned state, float simTime);
-	virtual void draw(const unsigned state);
+ComsTimerStartMessage::~ComsTimerStartMessage()
+{
 
-protected:
-	static ShotCountDown *instance_;
-	float counter_;
-	float blinkTimer_;
-	bool showTime_;
-	bool timerOff_;
+}
 
-private:
-	ShotCountDown();
-	virtual ~ShotCountDown ();
+bool ComsTimerStartMessage::writeMessage(NetBuffer &buffer)
+{
+	buffer.addToBuffer(timerValue_);
+	return true;
+}
 
-
-};
-
-#endif
+bool ComsTimerStartMessage::readMessage(NetBufferReader &reader)
+{
+	if (!reader.getFromBuffer(timerValue_)) return false;
+	return true;
+}

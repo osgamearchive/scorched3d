@@ -1506,6 +1506,12 @@
 			Name="coms"
 			Filter="">
 			<File
+				RelativePath="..\coms\ComsTimerStartMessage.cpp">
+			</File>
+			<File
+				RelativePath="..\coms\ComsTimerStartMessage.h">
+			</File>
+			<File
 				RelativePath="..\coms\ComsActionsMessage.cpp">
 			</File>
 			<File
@@ -2315,6 +2321,12 @@
 			Name="client"
 			Filter="">
 			<File
+				RelativePath="..\client\ClientStartTimerHandler.cpp">
+			</File>
+			<File
+				RelativePath="..\client\ClientStartTimerHandler.h">
+			</File>
+			<File
 				RelativePath="..\client\ClientActionsHandler.cpp">
 			</File>
 			<File
@@ -2499,12 +2511,6 @@
 			</File>
 			<File
 				RelativePath="..\client\ShotCountDown.h">
-			</File>
-			<File
-				RelativePath="..\client\ShotTimer.cpp">
-			</File>
-			<File
-				RelativePath="..\client\ShotTimer.h">
 			</File>
 			<File
 				RelativePath="..\client\SpeedChange.cpp">

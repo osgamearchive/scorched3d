@@ -36,7 +36,6 @@ namespace ClientState
 		StimBuyWeapons,
 		StimAutoDefense,
 		StimPlaying,
-		StimPlayed,
 		StimDisconnected,
 		StimGameStopped,
 		StimShot,
@@ -53,7 +52,6 @@ namespace ClientState
 		StateBuyWeapons,
 		StateAutoDefense,
 		StatePlaying,
-		StatePlayed,
 		StateShot,
 		StateScore
 	};

@@ -18,35 +18,41 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_ShotCountDownh_INCLUDE__)
-#define __INCLUDE_ShotCountDownh_INCLUDE__
+#include <client/ClientStartTimerHandler.h>
+#include <client/ShotCountDown.h>
+#include <client/ScorchedClient.h>
+#include <coms/ComsTimerStartMessage.h>
 
-#include <engine/GameStateI.h>
+ClientStartTimerHandler *ClientStartTimerHandler::instance_ = 0;
 
-class ShotCountDown : 
-	public GameStateI
+ClientStartTimerHandler *ClientStartTimerHandler::instance()
 {
-public:
-	static ShotCountDown *instance();
+	if (!instance_)
+	{
+		instance_ = new ClientStartTimerHandler;
+	}
+	return instance_;
+}
 
-	void reset(float time);
+ClientStartTimerHandler::ClientStartTimerHandler()
+{
+	ScorchedClient::instance()->getComsMessageHandler().addHandler(
+		"ComsTimerStartMessage",
+		this);
+}
 
-	//Inherited from GameStateI
-	virtual void simulate(const unsigned state, float simTime);
-	virtual void draw(const unsigned state);
+ClientStartTimerHandler::~ClientStartTimerHandler()
+{
+}
 
-protected:
-	static ShotCountDown *instance_;
-	float counter_;
-	float blinkTimer_;
-	bool showTime_;
-	bool timerOff_;
+bool ClientStartTimerHandler::processMessage(unsigned int id,
+	const char *messageType,
+	NetBufferReader &reader)
+{
+	ComsTimerStartMessage message;
+	if (!message.readMessage(reader)) return false;
 
-private:
-	ShotCountDown();
-	virtual ~ShotCountDown ();
-
-
-};
-
-#endif
+	ShotCountDown::instance()->reset((float) message.getTimerValue());
+	
+	return true;
+}

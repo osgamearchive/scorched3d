@@ -19,7 +19,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <client/ShotCountDown.h>
-#include <client/ShotTimer.h>
 #include <client/ScorchedClient.h>
 #include <client/ClientState.h>
 #include <common/OptionsGame.h>
@@ -36,7 +35,8 @@ ShotCountDown *ShotCountDown::instance()
 	return instance_;
 }
 
-ShotCountDown::ShotCountDown()
+ShotCountDown::ShotCountDown() : 
+	counter_(0.0f), blinkTimer_(0.0f), showTime_(true), timerOff_(true)
 {
 }
 
@@ -44,18 +44,35 @@ ShotCountDown::~ShotCountDown()
 {
 }
 
+void ShotCountDown::reset(float time)
+{
+	timerOff_ = (time == 0.0f);
+	counter_ = time;
+	blinkTimer_ = 0.0f;
+	showTime_ = true;
+}
+
+void ShotCountDown::simulate(const unsigned state, float simTime)
+{
+	counter_ -= simTime;
+	blinkTimer_ += simTime;
+
+	if (blinkTimer_ > 0.25f)
+	{
+		if (counter_ < 5.0f)
+		{
+			showTime_ = !showTime_;
+		}
+		blinkTimer_ = 0.0f;
+	}
+}
+
 void ShotCountDown::draw(const unsigned currentstate)
 {
-	int shotTime = ScorchedClient::instance()->getOptionsGame().getShotTime();
-	if (currentstate == ClientState::StateBuyWeapons ||
-		currentstate == ClientState::StateAutoDefense)
-	{
-		shotTime = ScorchedClient::instance()->getOptionsGame().getBuyingTime();
-	}
-	if (shotTime == 0) return;
+	if (timerOff_) return;
 
 	// The remaining time for this shot
-	int timeLeft = (shotTime - int(ShotTimer::instance()->getCounter()));
+	int timeLeft = (int) counter_;
 
 	// Split into seconds and minutes
 	div_t split = div(timeLeft, 60);
@@ -73,29 +90,22 @@ void ShotCountDown::draw(const unsigned currentstate)
 		fontColor = Vector(0.7f, 0.0f, 0.0f);
 	}
 
-	if (ShotTimer::instance()->getShowTime())
+	const char *format = "%02i:%02i";
+	if (timeLeft < 0) format = "--:--";
+	if (currentstate == ClientState::StateWait)
 	{
-		const char *format = "%02i:%02i";
-		if (timeLeft < 0) format = "--:--";
 		GLWFont::instance()->getFont()->draw(
-			fontColor, 20, (fVPort[2]/2.0f) - 30.0f, fVPort[3] - 43.0f, 0.0f, format, 
+			fontColor, 10, (fVPort[2]/2.0f) - 10.0f, 
+			fVPort[3] - 43.0f, 0.0f, format, 
+			split.quot,
+			split.rem);	
+	}
+	else if (showTime_)
+	{
+		GLWFont::instance()->getFont()->draw(
+			fontColor, 20, (fVPort[2]/2.0f) - 30.0f, 
+			fVPort[3] - 43.0f, 0.0f, format, 
 			split.quot,
 			split.rem);
 	}
-}
-
-bool ShotCountDown::acceptStateChange(const unsigned currentstate, 
-		const unsigned nextState,
-		float frameTime)
-{
-	int shotTime = ScorchedClient::instance()->getOptionsGame().getShotTime();
-	if (currentstate == ClientState::StateBuyWeapons ||
-		currentstate == ClientState::StateAutoDefense)
-	{
-		shotTime = ScorchedClient::instance()->getOptionsGame().getBuyingTime();
-	}
-	if (shotTime == 0) return false; // ShotTime == 0 is infinite time
-
-	int timeLeft = (shotTime - int(ShotTimer::instance()->getCounter()));
-	return (timeLeft < 0);
 }

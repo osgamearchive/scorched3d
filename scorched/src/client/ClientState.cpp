@@ -24,7 +24,6 @@
 #include <client/MainCamera.h>
 #include <client/MainBanner.h>
 #include <client/ClientState.h>
-#include <client/ShotTimer.h>
 #include <client/ShotCountDown.h>
 #include <client/MessageDisplay.h>
 #include <client/ClientReadyState.h>
@@ -146,6 +145,8 @@ void ClientState::setupGameState(bool network)
 
 	// StateWait
 	addStandardComponents(gameState, StateWait, network);
+	gameState.addStateLoop(StateWait,
+		Main2DCamera::instance(), ShotCountDown::instance());
 	gameState.addStateEntry(StateWait, 
 		TankAIHumanCtrl::instance());
 	gameState.addStateEntry(StateWait,
@@ -175,10 +176,6 @@ void ClientState::setupGameState(bool network)
 
 	// StateBuyWeapons
 	addStandardComponents(gameState, StateBuyWeapons, network);
-	gameState.addStateEntry(StateBuyWeapons,
-		ShotTimer::instance());
-	gameState.addStateLoop(StateBuyWeapons,
-		Main2DCamera::instance(), ShotTimer::instance());
 	gameState.addStateLoop(StateBuyWeapons,
 		Main2DCamera::instance(), ShotCountDown::instance());
 	gameState.addStateStimulus(StateBuyWeapons, 
@@ -189,34 +186,22 @@ void ClientState::setupGameState(bool network)
 		StimAutoDefense, StateAutoDefense);
 	gameState.addStateStimulus(StateBuyWeapons, 
 		StimWait, StateWait);
-	gameState.addStateStimulus(StateBuyWeapons, 
-		ShotCountDown::instance(), StateWait);
 
 	// StateAutoDefense
 	addStandardComponents(gameState, StateAutoDefense, network);
 	gameState.addStateLoop(StateAutoDefense,
-		Main2DCamera::instance(), ShotTimer::instance());
-	gameState.addStateLoop(StateAutoDefense,
 		Main2DCamera::instance(), ShotCountDown::instance());
 	gameState.addStateStimulus(StateAutoDefense, 
 		StimDisconnected, StateConnect);
 	gameState.addStateStimulus(StateAutoDefense, 
 		StimGameStopped, StateWait);
 	gameState.addStateStimulus(StateAutoDefense, 
-		StimPlayed, StatePlayed);
-	gameState.addStateStimulus(StateAutoDefense, 
 		StimWait, StateWait);
-	gameState.addStateStimulus(StateAutoDefense, 
-		ShotCountDown::instance(), StateWait);
 
 	// StatePlaying
 	addStandardComponents(gameState, StatePlaying, network);
-	gameState.addStateEntry(StatePlaying,
-		ShotTimer::instance());
 	gameState.addStateKeyEntry(StatePlaying, 
 		TankAIHumanCtrl::instance());
-	gameState.addStateLoop(StatePlaying,
-		Main2DCamera::instance(), ShotTimer::instance());
 	gameState.addStateLoop(StatePlaying,
 		Main2DCamera::instance(), ShotCountDown::instance());
 	gameState.addStateStimulus(StatePlaying, 
@@ -224,21 +209,6 @@ void ClientState::setupGameState(bool network)
 	gameState.addStateStimulus(StatePlaying, 
 		StimDisconnected, StateConnect);
 	gameState.addStateStimulus(StatePlaying, 
-		StimPlayed, StatePlayed);
-	gameState.addStateStimulus(StatePlaying, 
-		StimWait, StateWait);
-	gameState.addStateStimulus(StatePlaying, 
-		ShotCountDown::instance(), StateWait);
-
-	// StatePlayed
-	addStandardComponents(gameState, StatePlayed, network);
-	gameState.addStateLoop(StatePlayed,
-		Main2DCamera::instance(), ShotTimer::instance());
-	gameState.addStateStimulus(StatePlayed, 
-		StimGameStopped, StateWait);
-	gameState.addStateStimulus(StatePlayed, 
-		StimDisconnected, StateConnect);
-	gameState.addStateStimulus(StatePlayed, 
 		StimWait, StateWait);
 
 	// StateShot

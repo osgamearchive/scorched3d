@@ -25,6 +25,7 @@
 #include <scorched/ServerDialog.h>
 #include <tankai/TankAIComputer.h>
 #include <coms/ComsStartGameMessage.h>
+#include <coms/ComsTimerStartMessage.h>
 #include <coms/ComsMessageSender.h>
 #include <common/Logger.h>
 
@@ -41,6 +42,10 @@ void ServerNextTurnState::enterState(const unsigned state)
 	TurnController::instance()->nextTurn();
 	if (TurnController::instance()->getPlayersThisTurn().empty())
 	{
+		// Tell each client to end the shot timer
+		ComsTimerStartMessage timerMessage(0);
+		ComsMessageSender::sendToAllPlayingClients(timerMessage);
+
 		// No more turns left, play the shot
 		ScorchedServer::instance()->getGameState().stimulate(ServerState::ServerStimulusShot);
 	}
@@ -48,6 +53,12 @@ void ServerNextTurnState::enterState(const unsigned state)
 	{
 		bool weaponBuy = 
 			(ScorchedServer::instance()->getOptionsTransient().getCurrentGameNo() == 0);
+
+		// Tell each client to start the shot timer
+		int time = ScorchedServer::instance()->getOptionsGame().getShotTime();
+		if (weaponBuy) time = ScorchedServer::instance()->getOptionsGame().getBuyingTime();
+		ComsTimerStartMessage timerMessage(time);
+		ComsMessageSender::sendToAllPlayingClients(timerMessage);
 
 		// Tell the players to play the turn
 		std::list<unsigned int>::iterator itor;

@@ -50,13 +50,13 @@ void ServerNewGameState::enterState(const unsigned state)
 	sendString(0, "Next Round");
 
 	// Update the game settings to use the new settings
-	{
+	/*{
 		NetBufferDefault::defaultBuffer.reset();
 		ScorchedServer::instance()->getChangedOptionsGame().writeToBuffer(
 			NetBufferDefault::defaultBuffer);
 		NetBufferReader reader(NetBufferDefault::defaultBuffer);
 		ScorchedServer::instance()->getOptionsGame().readFromBuffer(reader);		
-	}
+	}*/
 
 	// Setup landscape and tank start pos
 	serverLog(0, "Generating landscape");

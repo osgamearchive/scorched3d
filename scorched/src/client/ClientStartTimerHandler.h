@@ -18,34 +18,30 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+#if !defined(__INCLUDE_ClientStartTimerHandlerh_INCLUDE__)
+#define __INCLUDE_ClientStartTimerHandlerh_INCLUDE__
 
-#if !defined(__INCLUDE_ShotTimerh_INCLUDE__)
-#define __INCLUDE_ShotTimerh_INCLUDE__
+#include <coms/ComsMessageHandler.h>
 
-#include <engine/GameStateI.h>
-
-class ShotTimer : public GameStateI
+class ClientStartTimerHandler  : 
+	public ComsMessageHandlerI
 {
 public:
-	static ShotTimer *instance();
+	static ClientStartTimerHandler* instance();
 
-	float getCounter() { return counter_; }
-	bool getShowTime() { return showTime_; }
-
-	//Inherited from GameStateI
-	virtual void enterState(const unsigned state);
-	virtual void simulate(const unsigned state, float simTime);
-	virtual void draw(const unsigned state);
+	virtual bool processMessage(unsigned int id,
+		const char *message,
+		NetBufferReader &reader);
 
 protected:
-	static ShotTimer *instance_;
-	float counter_;
-	float blinkTimer_;
-	bool showTime_;
+	static ClientStartTimerHandler* instance_;
 
 private:
-	ShotTimer();
-	virtual ~ShotTimer ();
+	ClientStartTimerHandler();
+	virtual ~ClientStartTimerHandler();
+
+	ClientStartTimerHandler(const ClientStartTimerHandler &);
+	const ClientStartTimerHandler & operator=(const ClientStartTimerHandler &);
 };
 
 #endif
