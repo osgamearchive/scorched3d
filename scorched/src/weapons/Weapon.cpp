@@ -36,49 +36,49 @@ bool Weapon::parseXML(XMLNode *accessoryNode)
 	if (!Accessory::parseXML(accessoryNode)) return false;
 
 	// Get the deathWeight
-	XMLNode *deathWeight = accessoryNode->getNamedChild("deathanimationweight");
+	XMLNode *deathWeight = accessoryNode->removeNamedChild("deathanimationweight");
 	if (deathWeight)
 	{
 		deathAnimationWeight_ = atoi(deathWeight->getContent());
 	}
 
 	// Get the explosion texture
-	XMLNode *explosionTextureNode = accessoryNode->getNamedChild("explosiontexture");
+	XMLNode *explosionTextureNode = accessoryNode->removeNamedChild("explosiontexture");
 	if (explosionTextureNode)
 	{
 		explosionTexture_ = explosionTextureNode->getContent();
 	}
 
 	// Get the explosion texture
-	XMLNode *firedSoundNode = accessoryNode->getNamedChild("firedsound");
+	XMLNode *firedSoundNode = accessoryNode->removeNamedChild("firedsound");
 	if (firedSoundNode)
 	{
 		firedSound_ = firedSoundNode->getContent();
 	}
 
 	// Get the explosion texture
-	XMLNode *explosionSoundNode = accessoryNode->getNamedChild("explosionsound");
+	XMLNode *explosionSoundNode = accessoryNode->removeNamedChild("explosionsound");
 	if (explosionSoundNode)
 	{
 		explosionSound_ = explosionSoundNode->getContent();
 	}
 
 	// Get the weapon model scale
-	XMLNode *modelScaleNode = accessoryNode->getNamedChild("projectilescale");
+	XMLNode *modelScaleNode = accessoryNode->removeNamedChild("projectilescale");
 	if (modelScaleNode)
 	{
 		scale_= (float) atof(modelScaleNode->getContent());
 	}
 
 	// Get the weapon model explosion shake
-	XMLNode *modelShakeNode = accessoryNode->getNamedChild("explosionshake");
+	XMLNode *modelShakeNode = accessoryNode->removeNamedChild("explosionshake");
 	if (modelShakeNode)
 	{
 		shake_ = (float) atof(modelShakeNode->getContent());
 	}
 
 	// Get the weapon model
-	XMLNode *modelNode = accessoryNode->getNamedChild("projectilemodel");
+	XMLNode *modelNode = accessoryNode->removeNamedChild("projectilemodel");
 	if (modelNode)
 	{
 		if (!modelId_.initFromNode("data/accessories", modelNode)) return false;

@@ -36,6 +36,12 @@ XMLNode::~XMLNode()
 		children_.pop_front();
 		delete node;
 	}
+	while (!removedChildren_.empty())
+	{
+		XMLNode *node = removedChildren_.front();
+		removedChildren_.pop_front();
+		delete node;
+	}
 	while (!parameters_.empty())
 	{
 		XMLNode *node = parameters_.front();
@@ -53,6 +59,24 @@ XMLNode *XMLNode::getNamedChild(const char *name)
 	{
 		XMLNode *node = (*itor);
 		if (strcmp(name, node->getName()) == 0) return node;
+	}
+	return 0;
+}
+
+XMLNode *XMLNode::removeNamedChild(const char *name)
+{
+	std::list<XMLNode *>::iterator itor;
+	for (itor = children_.begin();
+		itor != children_.end();
+		itor++)
+	{
+		XMLNode *node = (*itor);
+		if (strcmp(name, node->getName()) == 0)
+		{
+			removedChildren_.push_back(node);
+			children_.erase(itor);
+			return node;
+		}
 	}
 	return 0;
 }

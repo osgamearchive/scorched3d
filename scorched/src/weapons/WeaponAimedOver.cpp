@@ -43,7 +43,7 @@ bool WeaponAimedOver::parseXML(XMLNode *accessoryNode)
 	if (!Weapon::parseXML(accessoryNode)) return false;
 
 	// Get the next weapon
-	XMLNode *subNode = accessoryNode->getNamedChild("aimedweapon");
+	XMLNode *subNode = accessoryNode->removeNamedChild("aimedweapon");
 	if (!subNode)
 	{
 		dialogMessage("Accessory",
@@ -64,7 +64,7 @@ bool WeaponAimedOver::parseXML(XMLNode *accessoryNode)
 	aimedWeapon_ = (Weapon*) accessory;
 
 	// Get the accessory warheads
-	XMLNode *warheadsNode = accessoryNode->getNamedChild("nowarheads");
+	XMLNode *warheadsNode = accessoryNode->removeNamedChild("nowarheads");
 	if (!warheadsNode)
 	{
 		dialogMessage("Accessory",

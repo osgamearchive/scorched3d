@@ -40,7 +40,7 @@ bool Shield::parseXML(XMLNode *accessoryNode)
 	if (!Accessory::parseXML(accessoryNode)) return false;
 
 	// Get the accessory radius
-	XMLNode *radiusNode = accessoryNode->getNamedChild("radius");
+	XMLNode *radiusNode = accessoryNode->removeNamedChild("radius");
 	if (!radiusNode)
 	{
 		dialogMessage("Accessory",
@@ -51,7 +51,7 @@ bool Shield::parseXML(XMLNode *accessoryNode)
 	radius_ = ((strcmp(radiusNode->getContent(), "large")==0)?ShieldSizeLarge:ShieldSizeSmall);
 
 	// Get the remove power 
-	XMLNode *removePowerNode = accessoryNode->getNamedChild("removepower");
+	XMLNode *removePowerNode = accessoryNode->removeNamedChild("removepower");
 	if (!removePowerNode)
 	{
 		dialogMessage("Accessory",
@@ -62,7 +62,7 @@ bool Shield::parseXML(XMLNode *accessoryNode)
 	removePower_ = (float) atof(removePowerNode->getContent());
 
 	// Get the collision sound
-	XMLNode *collisionSoundNode = accessoryNode->getNamedChild("collisionsound");
+	XMLNode *collisionSoundNode = accessoryNode->removeNamedChild("collisionsound");
 	if (!collisionSoundNode)
 	{
 		dialogMessage("Accessory",
@@ -73,7 +73,7 @@ bool Shield::parseXML(XMLNode *accessoryNode)
 	collisionSound_ = collisionSoundNode->getContent();
 
 	// Get the accessory color
-	XMLNode *colorNode = accessoryNode->getNamedChild("color");
+	XMLNode *colorNode = accessoryNode->removeNamedChild("color");
 	if (!colorNode)
 	{
 		dialogMessage("Accessory",
@@ -81,9 +81,9 @@ bool Shield::parseXML(XMLNode *accessoryNode)
 			name_.c_str());
 		return false;
 	}
-	XMLNode *rcolorNode = colorNode->getNamedChild("r");
-	XMLNode *gcolorNode = colorNode->getNamedChild("g");
-	XMLNode *bcolorNode = colorNode->getNamedChild("b");
+	XMLNode *rcolorNode = colorNode->removeNamedChild("r");
+	XMLNode *gcolorNode = colorNode->removeNamedChild("g");
+	XMLNode *bcolorNode = colorNode->removeNamedChild("b");
 	if (!rcolorNode || !gcolorNode || !bcolorNode)
 	{
 		dialogMessage("Accessory",

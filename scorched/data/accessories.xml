@@ -728,7 +728,6 @@ missiles.  These missiles automatically target nearby tanks.</description>
 		<cost>12000</cost>
 		<bundlesize>2</bundlesize>
 		<armslevel>3</armslevel>
-		<size>10</size>
 		<projectilemodel type="MilkShape">icbm/icbm.txt</projectilemodel>
 		<firedsound>shoot/large.wav</firedsound>
 		<deathanimationweight>10</deathanimationweight>

@@ -47,6 +47,7 @@ public:
 	NodeType getType() { return type_; }
 	XMLNode *getNamedParameter(const char *name);
 	XMLNode *getNamedChild(const char *name);
+	XMLNode *removeNamedChild(const char *name);
 
 	float getNamedFloatChild(const char *name, const char *file);
 
@@ -57,6 +58,7 @@ protected:
 	NodeType type_;
 	XMLNode *parent_;
 	std::list<XMLNode *> children_;
+	std::list<XMLNode *> removedChildren_; // So they are tidied up as well
 	std::list<XMLNode *> parameters_;
 	std::string name_;
 	std::string content_;

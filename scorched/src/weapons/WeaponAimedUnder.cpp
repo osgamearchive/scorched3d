@@ -42,7 +42,7 @@ bool WeaponAimedUnder::parseXML(XMLNode *accessoryNode)
 	if (!Weapon::parseXML(accessoryNode)) return false;
 
 	// Get the accessory size
-	XMLNode *warHeadsNode = accessoryNode->getNamedChild("nowarheads");
+	XMLNode *warHeadsNode = accessoryNode->removeNamedChild("nowarheads");
 	if (!warHeadsNode)
 	{
 		dialogMessage("Accessory",
@@ -53,7 +53,7 @@ bool WeaponAimedUnder::parseXML(XMLNode *accessoryNode)
 	warHeads_ = atoi(warHeadsNode->getContent());
 
 	// Get the next weapon
-	XMLNode *subNode = accessoryNode->getNamedChild("aimedweapon");
+	XMLNode *subNode = accessoryNode->removeNamedChild("aimedweapon");
 	if (!subNode)
 	{
 		dialogMessage("Accessory",

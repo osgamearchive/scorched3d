@@ -120,7 +120,22 @@ Accessory *AccessoryStore::createAccessory(XMLNode *currentNode)
 		return 0;
 	}
 	
+	// Tell this accessory instance to initialize its settings from
+	// the current accessory xml definition node
 	if (!accessory->parseXML(currentNode)) return 0;
+
+	// There should not be any children left
+	// Any that are, are children that have not been
+	// handled by the parse routine
+	std::list<XMLNode *> &children = currentNode->getChildren();
+	if (!children.empty())
+	{
+		dialogMessage("AccessoryStore",
+						"Unrecognised node \"%s\" for accessory \"%s\" type \"%s\"",
+						children.front()->getName(),
+						accessory->getName(), typeNode->getContent());
+		return 0;		
+	}
 
 	// Add the accessory
 	addAccessory(accessory);

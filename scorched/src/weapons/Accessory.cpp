@@ -40,7 +40,7 @@ Accessory::~Accessory()
 bool Accessory::parseXML(XMLNode *accessoryNode)
 {
 	// Get the accessory name
-	XMLNode *nameNode = accessoryNode->getNamedChild("name");
+	XMLNode *nameNode = accessoryNode->removeNamedChild("name");
 	if (!nameNode)
 	{
 		dialogMessage("Accessory",
@@ -50,7 +50,7 @@ bool Accessory::parseXML(XMLNode *accessoryNode)
 	name_ = nameNode->getContent();
 
 	// Get the accessory armslevel
-	XMLNode *armsLevelNode = accessoryNode->getNamedChild("armslevel");
+	XMLNode *armsLevelNode = accessoryNode->removeNamedChild("armslevel");
 	if (!armsLevelNode)
 	{
 		dialogMessage("Accessory",
@@ -61,7 +61,7 @@ bool Accessory::parseXML(XMLNode *accessoryNode)
 	armsLevel_ = atoi(armsLevelNode->getContent());
 
 	// Get the accessory description
-	XMLNode *descriptionNode = accessoryNode->getNamedChild("description");
+	XMLNode *descriptionNode = accessoryNode->removeNamedChild("description");
 	if (descriptionNode)
 	{
 		description_ = descriptionNode->getContent();
@@ -69,21 +69,21 @@ bool Accessory::parseXML(XMLNode *accessoryNode)
 	toolTip_.setText(getName(), getDescription());
 
 	// Get the accessory icon
-	XMLNode *iconNode = accessoryNode->getNamedChild("icon");
+	XMLNode *iconNode = accessoryNode->removeNamedChild("icon");
 	if (iconNode)
 	{
 		iconName_ = iconNode->getContent();
 	}
 
 	// Get the accessory icon
-	XMLNode *activationSoundNode = accessoryNode->getNamedChild("activationsound");
+	XMLNode *activationSoundNode = accessoryNode->removeNamedChild("activationsound");
 	if (activationSoundNode)
 	{
 		activationSound_ = activationSoundNode->getContent();
 	}
 
 	// Get the accessory bundle
-	XMLNode *bundleNode = accessoryNode->getNamedChild("bundlesize");
+	XMLNode *bundleNode = accessoryNode->removeNamedChild("bundlesize");
 	if (bundleNode)
 	{
 		bundle_ = atoi(bundleNode->getContent());
@@ -91,7 +91,7 @@ bool Accessory::parseXML(XMLNode *accessoryNode)
 	else bundle_ = -1;
 
 	// Get the accessory cost
-	XMLNode *costNode = accessoryNode->getNamedChild("cost");
+	XMLNode *costNode = accessoryNode->removeNamedChild("cost");
 	if (costNode)
 	{
 		price_ = atoi(costNode->getContent());

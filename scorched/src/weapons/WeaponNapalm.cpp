@@ -39,7 +39,7 @@ bool WeaponNapalm::parseXML(XMLNode *accessoryNode)
 {
 	if (!Weapon::parseXML(accessoryNode)) return false;
 
-	XMLNode *timeNode = accessoryNode->getNamedChild("napalmtime");
+	XMLNode *timeNode = accessoryNode->removeNamedChild("napalmtime");
 	if (!timeNode)
 	{
 		dialogMessage("Accessory",
@@ -49,7 +49,7 @@ bool WeaponNapalm::parseXML(XMLNode *accessoryNode)
 	}
 	napalmTime_ = (float) atof(timeNode->getContent());
 
-	XMLNode *heightNode = accessoryNode->getNamedChild("napalmheight");
+	XMLNode *heightNode = accessoryNode->removeNamedChild("napalmheight");
 	if (!heightNode)
 	{
 		dialogMessage("Accessory",
@@ -59,7 +59,7 @@ bool WeaponNapalm::parseXML(XMLNode *accessoryNode)
 	}
 	napalmHeight_ = (float) atof(heightNode->getContent());
 
-	XMLNode *stepNode = accessoryNode->getNamedChild("steptime");
+	XMLNode *stepNode = accessoryNode->removeNamedChild("steptime");
 	if (!stepNode)
 	{
 		dialogMessage("Accessory",
@@ -69,7 +69,7 @@ bool WeaponNapalm::parseXML(XMLNode *accessoryNode)
 	}
 	stepTime_ = (float) atof(stepNode->getContent());
 
-	XMLNode *hurtStepNode = accessoryNode->getNamedChild("hurtsteptime");
+	XMLNode *hurtStepNode = accessoryNode->removeNamedChild("hurtsteptime");
 	if (!hurtStepNode)
 	{
 		dialogMessage("Accessory",
@@ -79,7 +79,7 @@ bool WeaponNapalm::parseXML(XMLNode *accessoryNode)
 	}
 	hurtStepTime_ = (float) atof(hurtStepNode->getContent());
 
-	XMLNode *hurtPerSecondNode = accessoryNode->getNamedChild("hurtpersecond");
+	XMLNode *hurtPerSecondNode = accessoryNode->removeNamedChild("hurtpersecond");
 	if (!hurtPerSecondNode)
 	{
 		dialogMessage("Accessory",
@@ -89,7 +89,7 @@ bool WeaponNapalm::parseXML(XMLNode *accessoryNode)
 	}
 	hurtPerSecond_ = (float) atof(hurtPerSecondNode->getContent());
 
-	XMLNode *streamsNode = accessoryNode->getNamedChild("numberstreams");
+	XMLNode *streamsNode = accessoryNode->removeNamedChild("numberstreams");
 	if (!streamsNode)
 	{
 		dialogMessage("Accessory",
@@ -99,7 +99,7 @@ bool WeaponNapalm::parseXML(XMLNode *accessoryNode)
 	}
 	numberStreams_ = atoi(streamsNode->getContent());	
 
-	XMLNode *effectNode = accessoryNode->getNamedChild("effectradius");
+	XMLNode *effectNode = accessoryNode->removeNamedChild("effectradius");
 	if (!effectNode)
 	{
 		dialogMessage("Accessory",

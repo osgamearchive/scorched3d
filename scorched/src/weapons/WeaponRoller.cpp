@@ -39,7 +39,7 @@ bool WeaponRoller::parseXML(XMLNode *accessoryNode)
 	if (!Weapon::parseXML(accessoryNode)) return false;
 
 	// Get the accessory size
-	XMLNode *sizeNode = accessoryNode->getNamedChild("size");
+	XMLNode *sizeNode = accessoryNode->removeNamedChild("size");
 	if (!sizeNode)
 	{
 		dialogMessage("Accessory",
@@ -49,7 +49,7 @@ bool WeaponRoller::parseXML(XMLNode *accessoryNode)
 	}
 	size_ = atoi(sizeNode->getContent());
 
-	XMLNode *timeNode = accessoryNode->getNamedChild("rollertime");
+	XMLNode *timeNode = accessoryNode->removeNamedChild("rollertime");
 	if (!timeNode)
 	{
 		dialogMessage("Accessory",
@@ -59,7 +59,7 @@ bool WeaponRoller::parseXML(XMLNode *accessoryNode)
 	}
 	rollerTime_ = (float) atof(timeNode->getContent());
 
-	XMLNode *heightNode = accessoryNode->getNamedChild("rollerheight");
+	XMLNode *heightNode = accessoryNode->removeNamedChild("rollerheight");
 	if (!heightNode)
 	{
 		dialogMessage("Accessory",
@@ -69,7 +69,7 @@ bool WeaponRoller::parseXML(XMLNode *accessoryNode)
 	}
 	rollerHeight_ = (float) atof(heightNode->getContent());
 
-	XMLNode *stepNode = accessoryNode->getNamedChild("steptime");
+	XMLNode *stepNode = accessoryNode->removeNamedChild("steptime");
 	if (!stepNode)
 	{
 		dialogMessage("Accessory",
@@ -79,7 +79,7 @@ bool WeaponRoller::parseXML(XMLNode *accessoryNode)
 	}
 	stepTime_ = (float) atof(stepNode->getContent());
 
-	XMLNode *rollersNode = accessoryNode->getNamedChild("numberrollers");
+	XMLNode *rollersNode = accessoryNode->removeNamedChild("numberrollers");
 	if (!rollersNode)
 	{
 		dialogMessage("Accessory",

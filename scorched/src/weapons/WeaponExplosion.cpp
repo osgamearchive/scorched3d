@@ -39,7 +39,7 @@ bool WeaponExplosion::parseXML(XMLNode *accessoryNode)
 	if (!Weapon::parseXML(accessoryNode)) return false;
 
     // Get the accessory size
-    XMLNode *sizeNode = accessoryNode->getNamedChild("size");
+    XMLNode *sizeNode = accessoryNode->removeNamedChild("size");
     if (!sizeNode)
     {
         dialogMessage("Accessory",
@@ -50,11 +50,11 @@ bool WeaponExplosion::parseXML(XMLNode *accessoryNode)
     size_ = atoi(sizeNode->getContent());
 
     // Get the accessory colored
-    XMLNode *colorNode = accessoryNode->getNamedChild("multicolor");
+    XMLNode *colorNode = accessoryNode->removeNamedChild("multicolor");
     if (colorNode) multiColored_ = true;
 
     // Get the hutiness
-    XMLNode *hurtsNode = accessoryNode->getNamedChild("hurts");
+    XMLNode *hurtsNode = accessoryNode->removeNamedChild("hurts");
     if (!hurtsNode)
     {
         dialogMessage("Accessory",
@@ -73,7 +73,7 @@ bool WeaponExplosion::parseXML(XMLNode *accessoryNode)
 	}
 
 	// Get the deform
-	XMLNode *deformNode = accessoryNode->getNamedChild("deform");
+	XMLNode *deformNode = accessoryNode->removeNamedChild("deform");
     if (!deformNode)
     {
         dialogMessage("Accessory",
