@@ -77,8 +77,6 @@ bool startServer(bool local)
 	ServerAddPlayerHandler::instance();
 	ServerDefenseHandler::instance();
 
-	if (!AccessoryStore::instance()->parseFile(PKGDIR "data/accessories.xml")) return false;
-
 	// Init physics
 	HeightMapCollision *hmcol = 
 		new HeightMapCollision(&ScorchedServer::instance()->getContext());

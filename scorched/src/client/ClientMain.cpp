@@ -111,7 +111,6 @@ void startClient()
 		exit(1);
 	}
 
-	if (!AccessoryStore::instance()->parseFile(PKGDIR "data/accessories.xml")) exit(1);
 	TankAIStore::instance();
 
 	WindowSetup::setup();
