@@ -28,17 +28,15 @@
 
 NetServer::NetServer(NetServerProtocol *protocol) : 
 	sockSet_(0), firstDestination_(0),
-	server_(0), outgoingMessagesMutex_(0),
-	protocol_(protocol)
+	server_(0), protocol_(protocol), checkDeleted_(false)
 {
-	outgoingMessagesMutex_ = SDL_CreateMutex();
+	sockSet_ = SDLNet_AllocSocketSet(1);
 	setMutex_ = SDL_CreateMutex();
 	SDL_CreateThread(NetServer::threadFunc, (void *) this);
 }
 
 NetServer::~NetServer()
 {
-	SDL_DestroyMutex(outgoingMessagesMutex_);
 	SDL_DestroyMutex(setMutex_);
 }
 
@@ -50,6 +48,11 @@ void NetServer::setMessageHandler(NetMessageHandlerI *handler)
 int NetServer::processMessages()
 { 
 	return messageHandler_.processMessages(); 
+}
+
+bool NetServer::started()
+{
+	return (server_ != 0 || firstDestination_ != 0);
 }
 
 unsigned int NetServer::start(int port)
@@ -73,8 +76,8 @@ unsigned int NetServer::start(int port)
 		return 0;
 	}
 	NetBufferUtil::setBlockingIO(server_);
+	SDLNet_TCP_AddSocket(sockSet_, server_);
 
-	addClient(server_);
 	return (unsigned int) server_;
 }
 
@@ -102,11 +105,6 @@ unsigned int NetServer::connect(const char *hostName, int portNo)
 	return (unsigned int) client;
 }
 
-bool NetServer::started()
-{
-	return !connections_.empty();
-}
-
 int NetServer::threadFunc(void *param)
 {
 	NetServer *netServer = (NetServer *) param;
@@ -116,25 +114,24 @@ int NetServer::threadFunc(void *param)
 	{
 		netClock.getTimeDifference();
 
-		SDL_LockMutex(netServer->setMutex_);
-		bool empty = false;
-		if (netServer->connections_.empty()) empty = true;
-		else
+		if (netServer->server_) 
 		{
 			netServer->pollIncoming();
-			netServer->pollOutgoing();
 		}
-		SDL_UnlockMutex(netServer->setMutex_);
+		if (netServer->checkDeleted_)
+		{
+			netServer->checkDeleted_ = false;
+			netServer->pollDeleted();
+		}
 
 		float timeDiff = netClock.getTimeDifference();
 		if (timeDiff > 1.0f)
 		{
-			Logger::log(0, "Warning: Net loop took %.2f seconds", 
+			Logger::log(0, "Warning: Net loop took %.2f seconds, server", 
 				timeDiff);
 		}
 
-		if (empty) SDL_Delay(1000);
-		else SDL_Delay(10);
+		SDL_Delay(100);
 	}
 
 	return 0;
@@ -142,159 +139,73 @@ int NetServer::threadFunc(void *param)
 
 bool NetServer::pollIncoming()
 {
-	if (!sockSet_) return false;
-
 	int numready = SDLNet_CheckSockets(sockSet_, 10);
 	if (numready == -1) return false;
 	if (numready == 0) return true;
 
-	std::set<TCPsocket>::iterator itor;
-	for (itor = connections_.begin();
-		 itor != connections_.end() && numready;
-		 itor++)
+	if(SDLNet_SocketReady(server_))
 	{
-		TCPsocket currentSock = *itor;
-		if(SDLNet_SocketReady(*itor))
+		TCPsocket sock = SDLNet_TCP_Accept(server_);
+		if (sock)
 		{
-			numready--;
-			if (currentSock == server_)
-			{
-				TCPsocket sock = SDLNet_TCP_Accept(server_);
-				if (sock)
-				{
-					addClient(sock);
-					getConnects()++;
-
-					NetMessage *message = NetMessagePool::instance()->
-						getFromPool(NetMessage::ConnectMessage, (unsigned int) sock);
-					messageHandler_.addMessage(message);
-					return true;
-				}
-			}
-			else
-			{
-				NetMessage *message = protocol_->readBuffer(currentSock);
-				if (!message)
-				{
-					Logger::log(0, "Client socket has been closed.");
-
-					// Socket has been closed
-					disconnectClient((unsigned int) currentSock);
-					return true;
-				}
-				else
-				{
-					// We have a buffer containing the message
-					messageHandler_.addMessage(message);
-				}
-			}
+			NetBufferUtil::setBlockingIO(sock);
+			addClient(sock);
+			getConnects()++;
 		}
 	}
 
 	return true;
 }
 
-void NetServer::pollOutgoing()
+bool NetServer::pollDeleted()
 {
-	std::list<NetMessage *> newMessages;
-	SDL_LockMutex(outgoingMessagesMutex_);
-	outgoing_.swap(newMessages);
-	SDL_UnlockMutex(outgoingMessagesMutex_);
-
-	while (!newMessages.empty())
+	SDL_LockMutex(setMutex_);
+	std::list<TCPsocket> remove;
+	std::map<TCPsocket, NetServerRead *>::iterator itor;
+	for (itor = connections_.begin();
+		itor != connections_.end();
+		itor++)
 	{
-		NetMessage *message = newMessages.front();
-		newMessages.pop_front();
-
-		std::set<TCPsocket>::iterator itor = 
-			connections_.find((TCPsocket) message->getDestinationId());
-		if (itor != connections_.end())
-		{	
-			if (message->getMessageType() == NetMessage::DisconnectMessage)
-			{
-				destroyClient((TCPsocket) message->getDestinationId());
-			}
-			else
-			{
-				if (!protocol_->sendBuffer(
-					message->getBuffer(), (TCPsocket) message->getDestinationId()))
-				{
-					Logger::log(0, "Failed to send message to client");
-				}
-			}
+		NetServerRead *serverRead = (*itor).second;
+		TCPsocket socket = (*itor).first;
+		if (serverRead->getDisconnect())
+		{
+			delete serverRead;
+			remove.push_back(socket);
 		}
-
-		NetMessagePool::instance()->addToPool(message);
 	}
+	std::list<TCPsocket>::iterator itor2;
+	for (itor2 = remove.begin();
+		itor2 != remove.end();
+		itor2++)
+	{
+		TCPsocket socket = (*itor2);
+		connections_.erase(socket);
+	}
+	SDL_UnlockMutex(setMutex_);
+	return true;
 }
 
 void NetServer::addClient(TCPsocket client)
 {
-	SDL_LockMutex(setMutex_);
-	connections_.insert(client);
-	updateSockSet();
-	firstDestination_ = (unsigned int) (*connections_.begin());
-	SDL_UnlockMutex(setMutex_);
-}
-
-void NetServer::rmClient(TCPsocket client)
-{
-	SDL_LockMutex(setMutex_);
-	std::set<TCPsocket>::iterator itor = 
-		connections_.find(client);
-	if (itor != connections_.end())
-	{
-		connections_.erase(itor);
-	}
-	updateSockSet();
-	SDL_UnlockMutex(setMutex_);
-}
-
-void NetServer::updateSockSet()
-{
-	SDL_LockMutex(setMutex_);
-	if (sockSet_) SDLNet_FreeSocketSet(sockSet_);
-	sockSet_ = SDLNet_AllocSocketSet((int) connections_.size());
-
-	std::set<TCPsocket>::iterator itor;
-	for (itor = connections_.begin();
-		 itor != connections_.end();
-		 itor++)
-	{
-		TCPsocket currentSock = *itor;
-		SDLNet_TCP_AddSocket(sockSet_, currentSock);
-	}
-	SDL_UnlockMutex(setMutex_);
-}
-
-void NetServer::destroyClient(TCPsocket client)
-{
-	if (client == server_) return;
+	NetServerRead *serverRead = new NetServerRead(
+		client, protocol_, &messageHandler_, &checkDeleted_);
 
 	SDL_LockMutex(setMutex_);
-	std::set<TCPsocket>::iterator itor =
-		connections_.find(client);
-	if (itor != connections_.end())
-	{
-		NetMessage *message = NetMessagePool::instance()->
-			getFromPool(NetMessage::DisconnectMessage, (unsigned int) client);
-		messageHandler_.addMessage(message);
-
-		SDLNet_TCP_Close(client);
-		rmClient(client);
-	}
+	connections_[client] = serverRead;
+	firstDestination_ = (*connections_.begin()).first;
 	SDL_UnlockMutex(setMutex_);
 }
 
 void NetServer::disconnectAllClients()
 {
 	SDL_LockMutex(setMutex_);
-	std::set<TCPsocket>::iterator itor;
+	std::map<TCPsocket, NetServerRead *>::iterator itor;
 	for (itor = connections_.begin();
 		itor != connections_.end();
 		itor++)
 	{
-		TCPsocket sock = *itor;
+		TCPsocket sock = (*itor).first;
 		disconnectClient((unsigned int) sock);
 	}
 	SDL_UnlockMutex(setMutex_);
@@ -309,14 +220,12 @@ void NetServer::disconnectClient(unsigned int dest)
 		getFromPool(NetMessage::DisconnectMessage, (unsigned int) client);	
 
 	// Add the message to the list of out going
-	SDL_LockMutex(outgoingMessagesMutex_);
-	outgoing_.push_back(message);
-	SDL_UnlockMutex(outgoingMessagesMutex_);	
+	sendMessage(client, message);
 }
 
 void NetServer::sendMessage(NetBuffer &buffer)
 {
-	sendMessage(buffer, firstDestination_);
+	sendMessage(buffer, (unsigned int) firstDestination_);
 }
 
 void NetServer::sendMessage(NetBuffer &buffer, unsigned int dest)
@@ -335,9 +244,21 @@ void NetServer::sendMessage(NetBuffer &buffer, unsigned int dest)
 		buffer.getBuffer(), buffer.getBufferUsed());
 	message->getBuffer().setBufferUsed(buffer.getBufferUsed());
 
-	// Add the message to the list of out going
-	SDL_LockMutex(outgoingMessagesMutex_);
-	outgoing_.push_back(message);
-	SDL_UnlockMutex(outgoingMessagesMutex_);
+	// Send Mesage
+	sendMessage(destination, message);
 }
 
+void NetServer::sendMessage(TCPsocket client, NetMessage *message)
+{
+	// Find the client
+	SDL_LockMutex(setMutex_);
+	std::map<TCPsocket, NetServerRead *>::iterator itor = 
+		connections_.find(client);
+	if (itor != connections_.end()) 
+	{
+		// Add the message to the list of out going
+		NetServerRead *serverRead = (*itor).second;
+		serverRead->addMessage(message);
+	}
+	SDL_UnlockMutex(setMutex_);
+}

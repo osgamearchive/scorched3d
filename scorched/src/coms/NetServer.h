@@ -23,8 +23,9 @@
 
 #include <coms/NetInterface.h>
 #include <coms/NetServerProtocol.h>
+#include <coms/NetServerRead.h>
 #include <list>
-#include <set>
+#include <map>
 
 class NetServer : public NetInterface
 {
@@ -32,9 +33,9 @@ public:
 	NetServer(NetServerProtocol *protocol);
 	virtual ~NetServer();
 
+	virtual bool started();
 	unsigned int connect(const char *hostName, int portNo);
 	unsigned int start(int portNo);
-	virtual bool started();
 
 	virtual int processMessages();
 	virtual void setMessageHandler(NetMessageHandlerI *handler);
@@ -47,22 +48,19 @@ public:
 protected:
 	NetServerProtocol *protocol_;
 	TCPsocket server_;
+	TCPsocket firstDestination_;
 	SDLNet_SocketSet sockSet_;
-	unsigned int firstDestination_;
-	std::set<TCPsocket> connections_;
-	std::list<NetMessage *> outgoing_;
-	SDL_mutex *outgoingMessagesMutex_;
+	std::map<TCPsocket, NetServerRead *> connections_;
 	SDL_mutex *setMutex_;
 	NetMessageHandler messageHandler_;
+	bool checkDeleted_;
 
 	static int threadFunc(void *);
 
 	bool pollIncoming();
-	void pollOutgoing();
+	bool pollDeleted();
 	void addClient(TCPsocket client);
-	void rmClient(TCPsocket client);
-	void destroyClient(TCPsocket client);
-	void updateSockSet();
+	void sendMessage(TCPsocket client, NetMessage *message);
 
 private:
 
