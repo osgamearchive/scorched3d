@@ -289,8 +289,6 @@ scorched3d_SOURCES = \
 	../3dsparse/aseFile.lex.cpp \
 	../3dsparse/aseFile.tab.cpp \
 	../3dsparse/aseFile.tab.cpp.h \
-	../dialogs/AimDialog.cpp \
-	../dialogs/AimDialog.h \
 	../dialogs/AutoDefenseDialog.cpp \
 	../dialogs/AutoDefenseDialog.h \
 	../dialogs/BackdropDialog.cpp \

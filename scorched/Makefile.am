@@ -626,8 +626,6 @@ scorcheddatawindows_DATA = data/windows/client.bmp \
 	data/windows/move.bmp \
 	data/windows/weapon.bmp \
 	data/windows/scorched.bmp \
-	data/windows/scorchedi.bmp \
-	data/windows/scorcheds.bmp \
 	data/windows/server.bmp \
 	data/windows/tank-easy.bmp \
 	data/windows/tank-hard.bmp \
@@ -646,4 +644,6 @@ scorcheddatawindows_DATA = data/windows/client.bmp \
 	data/windows/playera2.bmp \
 	data/windows/weapona.bmp \
 	data/windows/weapona2.bmp \
-	data/windows/winda2.bmp
+	data/windows/winda2.bmp \
+	data/windows/aim.bmp \
+	data/windows/aima.bmp
