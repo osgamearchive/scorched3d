@@ -1,8 +1,6 @@
 ## Process with automake to produce Makefile.in
                                                                                 
-EXTRA_DIST = scorched.vcproj
-
-noinst_PROGRAMS = scorched3d
+bin_PROGRAMS = scorched3d
 
 scorched3d_SOURCES = \
 	../GLEXT/GLBilboardRenderer.cpp \

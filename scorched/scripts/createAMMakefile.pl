@@ -23,6 +23,44 @@ for (my $i=0; $i<=$#files; $i++)
     return @files;
 }
 
+sub locatefiles
+{
+	my ($dir) = @_;
+	opendir(DIR, "../$dir") || die "ERROR: DIR ../$dir";
+	my @files = grep { !/^\./ && !/CVS/ } readdir(DIR);
+	closedir(DIR);
+
+	my @newdirs = ();
+	my @newfiles = ();
+	my $file;
+	foreach $file (@files)
+	{
+		if (-d "../$dir/$file") 
+		{
+			push @newdirs, "$dir/$file";
+		}
+		else
+		{
+			push @newfiles,"$dir/$file";
+		}
+	}
+
+	my $newdir = $dir;
+	$newdir =~ s!/!!g;
+	$newdir =~ s!-!!g;
+	print CLIENT "scorched${newdir}dir = \$\{datadir\}/$dir\n";
+	print CLIENT "scorched${newdir}_DATA = " . join(" \\\n\t", @newfiles) . "\n";
+	foreach $file (@newdirs)
+	{
+		locatefiles($file);
+	}
+}
+
+open (CLIENT, ">../Makefile.am") || die;
+print CLIENT "SUBDIRS = src\n";
+locatefiles("data");
+close(CLIENT);
+
 my @clientfiles = getFiles("../src/scorched/scorched.vcproj");
 
 open (CLIENT, ">../src/scorched/Makefile.am") || die;
@@ -30,9 +68,7 @@ open (CLIENT, ">../src/scorched/Makefile.am") || die;
 print CLIENT << "EOF";
 ## Process with automake to produce Makefile.in
                                                                                 
-EXTRA_DIST = scorched.vcproj
-
-noinst_PROGRAMS = scorched3d
+bin_PROGRAMS = scorched3d
 
 scorched3d_SOURCES = \\
 EOF
@@ -43,4 +79,5 @@ print CLIENT << "EOF";
 
 INCLUDES = -I../porting -I.. 
 EOF
+close(CLIENT);
 

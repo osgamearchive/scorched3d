@@ -63,8 +63,8 @@ void dialogAssert(const char *lineText, const int line, const char *file)
 	exit(1);
 }
 
-#ifndef PKGDIR
-#define PKGDIR ""
+#ifndef S3D_DATADIR
+#define S3D_DATADIR "."
 #endif
 
 const char *getDataFile(const char *file, ...)
@@ -75,7 +75,7 @@ const char *getDataFile(const char *file, ...)
         va_start(ap, file);
         vsprintf(filename, file, ap);
         va_end(ap);
-	sprintf(buffer, PKGDIR "%s", filename);
+	sprintf(buffer, S3D_DATADIR "/%s", filename);
 	::wxDos2UnixFilename(buffer);
 	return buffer;
 }

@@ -4,7 +4,7 @@ AC_INIT(README)
 AC_CANONICAL_TARGET([]) 
 
 dnl Setup for automake
-AM_INIT_AUTOMAKE(scorched3d, 0.36.2)
+AM_INIT_AUTOMAKE(scorched3d, 37)
 
 dnl Check for tools
 AC_PROG_MAKE_SET
@@ -160,11 +160,10 @@ CFLAGS="$CFLAGS $FT2_CFLAGS"
 CXXFLAGS="$CXXFLAGS $FT2_CFLAGS"
 LIBS="$LIBS $FT2_LIBS"
 
-dnl Define install prefix 
-if test x$prefix = xNONE; then
-	prefix=/usr/local/games
-fi
-AC_DEFINE_UNQUOTED(PKGDIR, "$prefix/$PACKAGE/", [install directory])
+# Directory setup stuff
+AC_PREFIX_DEFAULT(/usr/local/games/scorched3d)
+CFLAGS="$CFLAGS -DS3D_INFODIR=\\\"${infodir}\\\" -DS3D_DATADIR=\\\"${datadir}\\\" -DS3D_BINDIR=\\\"${bindir}\\\""
+CXXFLAGS="$CXXFLAGS -DS3D_INFODIR=\\\"${infodir}\\\" -DS3D_DATADIR=\\\"${datadir}\\\" -DS3D_BINDIR=\\\"${bindir}\\\""
 
 # extra fixed flags
 CFLAGS="$CFLAGS -DdDOUBLE"
