@@ -141,10 +141,13 @@ void WindowSetup::setup()
 	WindowManager::instance()->addWindow(ClientState::StateAutoDefense, 
 		new AutoDefenseDialog, 0, false);
 
-	// StateMain
+	// StatePlaying
 	WindowManager::instance()->addWindow(ClientState::StatePlaying, 
 		TankDialog::instance(), playerKey, true);
 	addCommonComponents(ClientState::StatePlaying);
+
+	// StatePlayed
+	addCommonComponents(ClientState::StatePlayed);
 	
 	// StateShot
 	addCommonComponents(ClientState::StateShot);

@@ -60,9 +60,13 @@ void addTitleToWindow(
 	}
 }
 
-void setExeName(const char *name)
+void setExeName(const char *name, bool allowExceptions)
 {
 	strcpy(exeName, name);
+	if (allowExceptions)
+	{
+		strcat(exeName, " -allowexceptions");
+	}
 }
 
 void runScorched3D(const char *fmt, ...)

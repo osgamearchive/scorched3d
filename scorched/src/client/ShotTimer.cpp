@@ -57,9 +57,13 @@ void ShotTimer::simulate(const unsigned state, float simTime)
 
 	if (blinkTimer_ > 0.25f)
 	{
-		if (counter_ < 5.0f)
+		int shotTime = ScorchedClient::instance()->getOptionsGame().getShotTime();
+		if (shotTime > 0)
 		{
-			showTime_ = !showTime_;
+			if (shotTime - counter_ < 5.0f)
+			{
+				showTime_ = !showTime_;
+			}
 		}
 		blinkTimer_ = 0.0f;
 	}
@@ -89,7 +93,7 @@ void ShotTimer::draw(const unsigned currentstate)
 	const char *format = "%02i:%02i";
 	if (timeLeft < 0) format = "--:--";
 	GLWFont::instance()->getFont()->draw(
-		fontColor, 10, (fVPort[2]/2.0f) - 20.0f, fVPort[3] - 43.0f, 0.0f, format, 
+		fontColor, 10, (fVPort[2]/2.0f) - 10.0f, fVPort[3] - 43.0f, 0.0f, format, 
 		split.quot,
 		split.rem);
 }

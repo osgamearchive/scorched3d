@@ -143,8 +143,8 @@ void ScoreDialog::draw()
 		GLWFont::instance()->getFont()->draw(
 				white,
 				12,
-				x_ + 6.0f, y_ + h_ - 35.0f, 0.0f,
-				"%i Rounds%s Left",
+				x_ + 240.0f, y_ + h_ - 35.0f, 0.0f,
+			"   %i Rounds%s",
 				ScorchedClient::instance()->getOptionsTransient().getNoRoundsLeft(),
 				moves);
 	}

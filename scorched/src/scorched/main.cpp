@@ -61,18 +61,6 @@ bool parseCommandLine(int argc, char *argv[])
 		OptionsDisplay::instance()->setUniqueUserId(buffer);
 	}
 
-	// Set the path the executable was run with
-	setExeName((const char *) argv[0]);
-	if (!::wxFileExists((const char *) argv[0]))
-	{
-		dialogMessage(
-			scorched3dAppName,
-			"Error: Cannot find the executable for scorched3d."
-			"We think it is this file but we cannot find it :- %s",
-			argv[0]);
-		return false;
-	}
-
 	// Read options from command line
 	ARGParser aParser;
 	if (!OptionEntryHelper::addToArgParser(
@@ -80,6 +68,18 @@ bool parseCommandLine(int argc, char *argv[])
 	aParser.addEntry("-allowexceptions", &allowExceptions, 
 					 "Allows any program exceptions to be thrown (core dumps)");
 	if (!aParser.parse(argc, argv)) return false;
+
+	// Set the path the executable was run with
+	setExeName((const char *) argv[0], allowExceptions);
+	if (!::wxFileExists((const char *) argv[0]))
+	{
+		dialogMessage(
+			scorched3dAppName,
+			"Error: Cannot find the executable for scorched3d."
+			"We think it is this file but we cannot find it :- \"%s\"",
+			argv[0]);
+		return false;
+	}
 
 	return true;
 }
