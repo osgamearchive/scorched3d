@@ -19,13 +19,13 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <GLEXT/GLStateExtension.h>
+#include <GLEXT/GLConsole.h>
 #include <SDL/SDL.h>
 #include <string.h>
 #include <string>
 
 bool GLStateExtension::noExtensions_ = false;
 bool GLStateExtension::multiTexDisabled_ = false;
-
 bool GLStateExtension::hasCubeMap_ = false;
 bool GLStateExtension::hasHardwareMipmaps_ = false;
 PFNGLLOCKARRAYSEXTPROC GLStateExtension::glLockArraysEXT_ = 0;
@@ -33,34 +33,52 @@ PFNGLACTIVETEXTUREARBPROC GLStateExtension::glActiveTextureARB_ =  0;
 PFNGLMULTITEXCOORD2FARBPROC GLStateExtension::glMultiTextCoord2fARB_ = 0;
 PFNGLCLIENTACTIVETEXTUREARBPROC GLStateExtension::glClientActiveTextureARB_ = 0;
 
-// glGetIntegerv(GL_MAX_TEXTURE_UNITS_ARB,&num_tus);
-
 bool GLStateExtension::hasExtension(char *name)
 {
-	if (noExtensions_) return false;
-
-	if (multiTexDisabled_)
-	{
-		if (strcmp(name, "GL_ARB_multitexture") == 0) return false;
-	}
-
 	bool result = false;
-	const char *ext = (char *) glGetString(GL_EXTENSIONS);
-	std::string extCopy(ext);
-	char *token = strtok((char *) extCopy.c_str(), " ");
-	while(token != 0)
+
+	if (!noExtensions_)
 	{
-		if (0 == strcmp(token, name)) result = true;
-		token = strtok(NULL, "\n");
+		if (multiTexDisabled_ && (strcmp(name, "GL_ARB_multitexture") == 0))
+		{
+		}
+		else
+		{
+			const char *ext = (char *) glGetString(GL_EXTENSIONS);
+			std::string extCopy(ext);
+			char *token = strtok((char *) extCopy.c_str(), " ");
+			while(token != 0)
+			{
+				if (0 == strcmp(token, name)) result = true;
+				token = strtok(NULL, "\n");
+			}
+		}
 	}
+
+	GLConsole::instance()->addLine(false, "GL extension \"%s\" = %s",
+								   name,
+								   (result?"on":"off"));
 
 	return result;
 }
 
 void GLStateExtension::setup()
 {
-	if (hasExtension("GL_ARB_multitexture") && ! multiTexDisabled_)
+	GLConsole::instance()->addLine(false, "GL_VENDOR:");
+	GLConsole::instance()->addLine(false, (const char *) glGetString(GL_VENDOR));
+	GLConsole::instance()->addLine(false, "GL_RENDERER:");
+	GLConsole::instance()->addLine(false, (const char *) glGetString(GL_RENDERER));
+	GLConsole::instance()->addLine(false, "GL_VERSION:");
+	GLConsole::instance()->addLine(false, (const char *) glGetString(GL_VERSION));
+	GLConsole::instance()->addLine(false, "GL_EXTENSIONS:");
+	GLConsole::instance()->addLine(false, (const char *) glGetString(GL_EXTENSIONS));
+
+	if (hasExtension("GL_ARB_multitexture"))
 	{
+		GLint num_tus = 0;
+		glGetIntegerv(GL_MAX_TEXTURE_UNITS_ARB,&num_tus);
+		GLConsole::instance()->addLine(false, "%i texture units", num_tus);
+
 		glActiveTextureARB_ = 
 			(PFNGLACTIVETEXTUREARBPROC)	SDL_GL_GetProcAddress("glActiveTextureARB");
 		glMultiTextCoord2fARB_ = 

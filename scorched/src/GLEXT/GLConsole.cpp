@@ -48,16 +48,6 @@ GLConsole::GLConsole() :
 	methods_(rules_, lines_), showCursor_(true)
 {
 	font_ = GLWFont::instance()->getFont();
-
-	// Some default stuff
-	lines_.addLine("GL_VENDOR:", false);
-	lines_.addLine((const char *) glGetString(GL_VENDOR), false);
-	lines_.addLine("GL_RENDERER:", false);
-	lines_.addLine((const char *) glGetString(GL_RENDERER), false);
-	lines_.addLine("GL_VERSION:", false);
-	lines_.addLine((const char *) glGetString(GL_VERSION), false);
-	lines_.addLine("GL_EXTENSIONS:", false);
-	lines_.addLine((const char *) glGetString(GL_EXTENSIONS), false);
 }
 
 GLConsole::~GLConsole()

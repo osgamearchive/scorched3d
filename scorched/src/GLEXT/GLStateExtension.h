@@ -34,7 +34,6 @@ typedef void (* PFNGLLOCKARRAYSEXTPROC) (GLint first, GLsizei count);
 class GLStateExtension
 {
 public:
-	static bool hasExtension(char *name);
 	static bool &getNoExtensions() { return noExtensions_; }
 	static bool &getNoMultiTex() { return multiTexDisabled_; }
 
@@ -50,6 +49,8 @@ public:
 	static void setup();
 
 protected:
+	static bool hasExtension(char *name);
+
 	static bool noExtensions_;
 	static bool multiTexDisabled_;
 
