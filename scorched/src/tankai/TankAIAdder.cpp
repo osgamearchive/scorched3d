@@ -125,10 +125,13 @@ void TankAIAdder::addTankAI(ScorchedContext &context,
 				*context.tankContainer));
 		}
 
-		Logger::log(0, 
-			"Player connected \"%i\" \"%s\"",
-			tank->getPlayerId(),
-			tank->getName());
+		if (OptionsParam::instance()->getDedicatedServer())
+		{
+			Logger::log(0, 
+				"Player connected \"%i\" \"%s\"",
+				tank->getPlayerId(),
+				tank->getName());
+		}
 
 		StatsLogger::instance()->tankJoined(tank);
 

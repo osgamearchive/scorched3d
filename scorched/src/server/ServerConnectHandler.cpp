@@ -302,13 +302,16 @@ void ServerConnectHandler::addNextTank(unsigned int destinationId,
 		tank->getTeam());
 	ComsMessageSender::sendToAllConnectedClients(addPlayerMessage);
 
-	// Add to dialog
-	Logger::log(0, "Player connected \"%i\" \"%s\" [%s]",
-		tank->getPlayerId(),
-		tank->getName(),
-		tank->getUniqueId());
-
 	// Tell this computer that a new tank has connected
-	ServerCommon::sendString(0, "Player connected \"%s\"",
-		playerName);
+	if (OptionsParam::instance()->getDedicatedServer())
+	{
+		// Add to dialog
+		Logger::log(0, "Player connected \"%i\" \"%s\" [%s]",
+			tank->getPlayerId(),
+			tank->getName(),
+			tank->getUniqueId());
+
+		ServerCommon::sendString(0, "Player connected \"%s\"",
+			playerName);
+	}
 }

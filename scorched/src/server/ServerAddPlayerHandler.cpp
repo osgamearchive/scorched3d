@@ -103,10 +103,14 @@ bool ServerAddPlayerHandler::processMessage(unsigned int destinationId,
 	std::string name(message.getPlayerName());
 	if (name != tank->getName())
 	{
-		// Tell this computer that a new tank has connected
-		ServerCommon::sendString(0, "Player playing \"%s\"->\"%s\"",
-			tank->getName(), name.c_str());
 		getUniqueName(name);
+
+		// Tell this computer that a new tank has connected
+		if (OptionsParam::instance()->getDedicatedServer())
+		{
+			ServerCommon::sendString(0, "Player playing \"%s\"->\"%s\"",
+				tank->getName(), name.c_str());
+		}
 	}
 
 	TankModelId modelId(message.getModelName());
@@ -117,9 +121,12 @@ bool ServerAddPlayerHandler::processMessage(unsigned int destinationId,
 		StatsLogger::instance()->tankJoined(tank);
 	}
 
-	char *rank = StatsLogger::instance()->tankRank(tank);
-	ServerCommon::sendString(0, "Welcome back %s, you are ranked %s",
-		tank->getName(), rank);
+	if (OptionsParam::instance()->getDedicatedServer())
+	{
+		char *rank = StatsLogger::instance()->tankRank(tank);
+		ServerCommon::sendString(0, "Welcome back %s, you are ranked %s",
+			tank->getName(), rank);
+	}
 	tank->getState().setSpectator(false);
 
 	// Choose a team (if applicable)
