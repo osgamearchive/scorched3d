@@ -41,17 +41,16 @@ bool KeyboardKey::addKeys(std::list<std::string> &keyNames,
 	DIALOG_ASSERT(keyNames.size() == keyStates.size());
 	keys_.clear();
 
-	int i=0;
+	unsigned int i = 0;
 	std::list<std::string>::iterator itor;
 	std::list<std::string>::iterator itorState;
 	for (itor = keyNames.begin(), itorState = keyStates.begin();
 		 itor != keyNames.end() && itorState != keyStates.end();
 		 itor++, i++, itorState++)
 	{
-		KeyEntry entry;
-
+		unsigned int keyValue = 0;
 		std::string &name = *itor;
-		if (!translateKeyName(name.c_str(), entry.key)) 
+		if (!translateKeyName(name.c_str(), keyValue)) 
 		{
 			dialogMessage("KeyboardKey",
 						  "Failed to find key names \"%s\" for \"%s\"",
@@ -60,8 +59,9 @@ bool KeyboardKey::addKeys(std::list<std::string> &keyNames,
 			return false;
 		}
 
+		unsigned int keyState = 0;
 		std::string &state = *itorState;
-		if (!translateKeyState(state.c_str(), entry.state)) 
+		if (!translateKeyState(state.c_str(), keyState)) 
 		{
 			dialogMessage("KeyboardKey",
 						  "Failed to find key state \"%s\" for \"%s\"",
@@ -70,10 +70,46 @@ bool KeyboardKey::addKeys(std::list<std::string> &keyNames,
 			return false;
 		}
 
-		keys_.push_back(entry);
+		addKey(i, keyValue, keyState);
 	}
 
 	return true;
+}
+
+void KeyboardKey::addKey(unsigned int position,
+	unsigned int key, unsigned int state)
+{
+	KeyEntry entry;
+	entry.key = key;
+	entry.state = state;
+	
+	if (position < keys_.size())
+	{ 
+		keys_[position] = entry;
+	}
+	else
+	{
+		keys_.push_back(entry);
+	}
+}
+
+void KeyboardKey::removeKey(unsigned int position)
+{
+	if (position < keys_.size())
+	{
+		unsigned int i = 0;
+		std::vector<KeyEntry>::iterator itor;
+		for (itor = keys_.begin();
+			itor != keys_.end();
+			itor++, i++)
+		{
+			if (i == position)
+			{
+				keys_.erase(itor);
+				break;
+			}
+		}
+	}
 }
 
 bool KeyboardKey::translateKeyName(const char *name, unsigned int &key)
@@ -125,6 +161,20 @@ bool KeyboardKey::translateKeyStateValue(unsigned int state, const char *&name)
 	}
 	return false;
 }
+
+bool KeyboardKey::translateKeyNameWX(unsigned int wxkey, unsigned int &key)
+{
+	for (int i=0; i<sizeof(KeyTranslationTable)/sizeof(KeyTranslation); i++)
+	{
+		if (KeyTranslationTable[i].wxKeySym == wxkey)
+		{
+			key = KeyTranslationTable[i].keySym;
+			return true;
+		}
+	}
+	return false;
+}
+
 
 bool KeyboardKey::keyDown(char *buffer, unsigned int keyState, bool repeat)
 {

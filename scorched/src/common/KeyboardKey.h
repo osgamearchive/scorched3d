@@ -34,15 +34,19 @@ public:
 		unsigned int state;
 	};
 
-	KeyboardKey(const char *name,
-				const char *description,
-				bool command);
+	KeyboardKey(const char *name, 
+		const char *description,
+		bool command);
 	virtual ~KeyboardKey();
 
 	bool keyDown(char *buffer, unsigned int keyState, bool repeat = true);
 	bool keyMatch(unsigned key);
+	
 	bool addKeys(std::list<std::string> &keyNames,
 		std::list<std::string> &keyStates);
+	void addKey(unsigned int position,
+		unsigned int key, unsigned int state);
+	void removeKey(unsigned int position);
 
 	std::vector<KeyEntry> &getKeys() { return keys_; }
 	const char *getName() { return name_.c_str(); }
@@ -53,6 +57,7 @@ public:
 	static bool translateKeyState(const char *name, unsigned int &state);
 	static bool translateKeyNameValue(unsigned int key, const char *&name);
 	static bool translateKeyStateValue(unsigned int state, const char *&name);
+	static bool translateKeyNameWX(unsigned int wxkey, unsigned int &key);
 
 protected:
 	std::string name_;

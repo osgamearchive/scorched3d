@@ -337,6 +337,7 @@
 				<xsnap>0</xsnap>
 				<ysnap>0</ysnap>
 				<angsnap>0</angsnap>
+				<minslope>0</minslope>
 				<object type="model">
 					<model type="MilkShape">data/accessories/banana/banana.txt</model>
 					<modelburnt type="MilkShape">data/accessories/banana/banana.txt</modelburnt>
