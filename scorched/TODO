@@ -6,7 +6,9 @@ Fixed: Some MSVC 2003 compilation problems
 Fixed: Buoys now shaded
 Fixed: Client does not wait at the end of each shot when fast speed is enabled
 Fixed: TankAIs will not get "confused" by bouncy walls, shields or wrap walls
+Fixed: Spelling and gammour in talk lines (thanks Stefan Lindner)
 
+Added: Even more tank talk lines (thanks Maxim Genis)
 Added: Target mode for single player that gives all weapons + accessories
 Added: Target tank ai that does shoot at all (for target practice)
 Added: Initial tank elevation and rotation only random for the first round only
