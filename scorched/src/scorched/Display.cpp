@@ -205,6 +205,10 @@ static void createControls(wxWindow *parent, wxSizer *sizer)
 		new wxCheckBox(parent, -1, "Show ToolTips",
 		wxDefaultPosition, wxSize((int) 150, (int) -1));
 	miscSizer2->Add(IDC_TOOLTIP_CTRL, 0);
+	IDC_SMOUSE_CTRL = 
+		new wxCheckBox(parent, -1, "Software Mouse",
+		wxDefaultPosition, wxSize((int) 150, (int) -1));
+	miscSizer2->Add(IDC_SMOUSE_CTRL, 0);
 	miscSizer->Add(miscSizer2, 0, wxGROW);
 	sizer->Add(miscSizer, 0, wxGROW | wxLEFT | wxRIGHT | wxTOP, 5);
 

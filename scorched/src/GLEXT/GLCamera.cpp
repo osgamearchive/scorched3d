@@ -240,3 +240,21 @@ bool GLCamera::getDirectionFromPt(GLfloat winX, GLfloat winY, Line &direction)
 
 	return true;
 }
+
+void GLCamera::scroll(ScrollDir direction)
+{
+	static Vector up(0.0f, 0.0f, 1.0f);
+	Vector dir = lookAt_ - currentPosition_;
+	dir.StoreNormalize();
+
+	Vector left = dir * up;
+
+	wantedLookAt_ += left;
+
+	if (wantedLookAt_[0] < 0.0f) wantedLookAt_[0] = 0.0f;
+	else if (wantedLookAt_[0] > 256.0f) wantedLookAt_[0] = 256.0f;
+
+	if (wantedLookAt_[1] < 0.0f) wantedLookAt_[1] = 0.0f;
+	else if (wantedLookAt_[1] > 256.0f) wantedLookAt_[1] = 256.0f;
+}
+

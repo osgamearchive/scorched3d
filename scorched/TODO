@@ -1,10 +1,13 @@
 -- Bugs Fixed and Ready For Release 
 Added: Rotation, elevation and power differences to weapon dialog
 Added: Clickable areas lighten on mouseover in HUD
+Added: Option to have software drawn mouse pointer (for 3D glasses etc)
 
+Fixed: Napalm does not make scorched sound under water
 Fixed: data and document location in RPM (thanks Edward Rudd)
 Fixed: testing code being produced in console
 Fixed: Failing to load display.xml because of user name containing "foreign" chars
+Fixed: Free market tending prices towards zero
 Fixed: Selling items in the free market gives too much money
 
 -- Bugs in current development release

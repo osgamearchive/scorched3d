@@ -165,6 +165,9 @@ public:
 	bool getNoWaves() { return noWaves_.getValue(); }
 	void setNoWaves(bool value) { noWaves_.setValue(value); }
 
+	bool getSoftwareMouse() { return softwareMouse_.getValue(); }
+	void setSoftwareMouse(bool value) { softwareMouse_.setValue(value); }
+
 	bool getShowContextHelp() { return showContextHelp_.getValue(); }
 	void setShowContextHelp(bool value) { showContextHelp_.setValue(value); }
 
@@ -261,6 +264,7 @@ protected:
 	OptionEntryBool noWaves_;
 	OptionEntryBool showContextHelp_;
 	OptionEntryBool lowTreeDetail_;
+	OptionEntryBool softwareMouse_;
 	OptionEntryBoundedInt dialogSize_;
 	OptionEntryBoundedInt texSize_;
 	OptionEntryBoundedInt tankDetail_;

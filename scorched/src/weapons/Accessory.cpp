@@ -113,9 +113,11 @@ bool Accessory::writeAccessory(NetBuffer &buffer)
 	buffer.addToBuffer(iconName_);
 	buffer.addToBuffer(activationSound_);
 	buffer.addToBuffer(price_);
+	buffer.addToBuffer(originalPrice_);
 	buffer.addToBuffer(bundle_);
 	buffer.addToBuffer(armsLevel_);
 	buffer.addToBuffer(sellPrice_);
+	buffer.addToBuffer(originalSellPrice_);
 	buffer.addToBuffer(accessoryId_);
 	buffer.addToBuffer(primary_);
 	return true;
@@ -128,9 +130,11 @@ bool Accessory::readAccessory(NetBufferReader &reader)
 	if (!reader.getFromBuffer(iconName_)) return false;
 	if (!reader.getFromBuffer(activationSound_)) return false;
 	if (!reader.getFromBuffer(price_)) return false;
+	if (!reader.getFromBuffer(originalPrice_)) return false;
 	if (!reader.getFromBuffer(bundle_)) return false;
 	if (!reader.getFromBuffer(armsLevel_)) return false;
 	if (!reader.getFromBuffer(sellPrice_)) return false;
+	if (!reader.getFromBuffer(originalSellPrice_)) return false;
 	if (!reader.getFromBuffer(accessoryId_)) return false;
 	if (!reader.getFromBuffer(primary_)) return false;
 	toolTip_.setText(getName(), getDescription());
@@ -161,6 +165,16 @@ const int Accessory::getPrice()
 const int Accessory::getSellPrice() 
 { 
 	return sellPrice_; 
+}
+
+const int Accessory::getOriginalSellPrice()
+{
+	return originalSellPrice_;
+}
+
+const int Accessory::getOriginalPrice()
+{
+	return originalPrice_;
 }
 
 const int Accessory::getBundle() 

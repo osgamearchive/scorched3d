@@ -124,7 +124,7 @@ void DisplayFrame::refreshScreen()
 	IDC_NODEPTHSORT_CTRL->SetValue(OptionsDisplay::instance()->getNoDepthSorting());
 	IDC_INVERT_CTRL->SetValue(OptionsDisplay::instance()->getInvertElevation());
 	IDC_INVERTMOUSE_CTRL->SetValue(OptionsDisplay::instance()->getInvertMouse());
-	IDC_INVERTMOUSE_CTRL->SetValue(OptionsDisplay::instance()->getInvertMouse());
+	IDC_SMOUSE_CTRL->SetValue(OptionsDisplay::instance()->getSoftwareMouse());
 	IDC_TOOLTIP_CTRL->SetValue(OptionsDisplay::instance()->getShowContextHelp());
 	IDC_TIMER_CTRL->SetValue(OptionsDisplay::instance()->getFrameTimer());
 	IDC_SLIDER1_CTRL->SetRange(3, 40);
@@ -264,6 +264,7 @@ bool DisplayFrame::TransferDataFromWindow()
 	OptionsDisplay::instance()->setDrawWater(!IDC_NOWATER_CTRL->GetValue());
 	OptionsDisplay::instance()->setInvertElevation(IDC_INVERT_CTRL->GetValue());
 	OptionsDisplay::instance()->setInvertMouse(IDC_INVERTMOUSE_CTRL->GetValue());
+	OptionsDisplay::instance()->setSoftwareMouse(IDC_SMOUSE_CTRL->GetValue());
 	OptionsDisplay::instance()->setShowContextHelp(IDC_TOOLTIP_CTRL->GetValue());
 	OptionsDisplay::instance()->setFrameTimer(IDC_TIMER_CTRL->GetValue());
 	OptionsDisplay::instance()->setUniqueUserId(IDC_USERID_CTRL->GetValue());

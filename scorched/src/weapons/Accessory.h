@@ -61,6 +61,8 @@ public:
 	virtual const char *getDescription();
 	virtual const int getPrice();
 	virtual const int getSellPrice();
+	virtual const int getOriginalPrice();
+	virtual const int getOriginalSellPrice();
 	virtual const int getBundle();
 	virtual const int getArmsLevel();
 	GLWTip &getToolTip();
@@ -87,9 +89,11 @@ protected:
 	std::string description_;
 	std::string activationSound_;
 	int price_;
+	int originalPrice_;
 	int bundle_;
 	int armsLevel_;
 	int sellPrice_;
+	int originalSellPrice_;
 	bool primary_;
 	unsigned int accessoryId_;
 };

@@ -136,17 +136,22 @@ void EconomyFreeMarket::calculatePrices()
 		itor++)
 	{
 		int diff = (*itor).second;
-		diff = (diff / 25) * 25; // Round to 25
 		if (diff != 0)
 		{
 			Accessory *accessory = AccessoryStore::instance()->
 				findByAccessoryId((*itor).first);
 			
 			int price = accessory->getPrice() + diff;
+			price = (price / 25) * 25; // Round to 25
+
+			if (price > int(float(accessory->getOriginalPrice()) * 1.5f))
+				price = int(float(accessory->getOriginalPrice()) * 1.5f);
+			else if (price < int(float(accessory->getOriginalPrice()) / 2.0f))
+				price = int(float(accessory->getOriginalPrice()) / 2.0f);
 			accessory->setPrice(price);
 
-			int selPrice = int((accessory->getPrice() /
-				accessory->getBundle()) * 0.8f);
+			int selPrice = int(float(accessory->getPrice()) /
+				float(accessory->getBundle()) * 0.8f);
 			selPrice = (selPrice / 25) * 25; // Round to 25
 			accessory->setSellPrice(selPrice);
 		}
@@ -176,7 +181,7 @@ void EconomyFreeMarket::accessoryBought(Tank *tank,
 	
 			if (accessory->getPrice() <= tank->getScore().getMoney() &&
 				accessory->getPrice() >= boughtAccessory->getPrice() / 2 &&
-				accessory->getPrice() <= boughtAccessory->getPrice() * 1.5 &&
+				accessory->getPrice() <= int(float(boughtAccessory->getPrice()) * 1.5f) &&
 				accessory->getPrice() != 0 &&
 				accessory->getType() == Accessory::AccessoryWeapon)
 			{
@@ -203,14 +208,18 @@ void EconomyFreeMarket::accessoryBought(Tank *tank,
 			if (accessory == boughtAccessory) moneyDidAquire = 
 				boughtAccessory->getPrice();
 
+			int adjustment = 
+				ScorchedServer::instance()->getOptionsGame().
+				getFreeMarketAdjustment();
 			int priceDiff = 0;
 			if (moneyDidAquire < moneyShouldAquire)
 			{
-				priceDiff = -500 / int(possibleAccessories.size());
+				priceDiff = -adjustment / int(possibleAccessories.size());
 			}
 			else if (moneyDidAquire >= moneyShouldAquire)
 			{
-				priceDiff = 500 / int(possibleAccessories.size());
+				priceDiff = int((float(adjustment) * (float(possibleAccessories.size()) - 1.0f))
+					/ float(possibleAccessories.size()));
 			}
 			std::map<unsigned int, int>::iterator findItor = newPrices_.
 				find(accessory->getAccessoryId());

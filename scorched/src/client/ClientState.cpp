@@ -25,6 +25,7 @@
 #include <client/MainBanner.h>
 #include <client/ClientState.h>
 #include <client/ShotCountDown.h>
+#include <client/SoftwareMouse.h>
 #include <client/MessageDisplay.h>
 #include <client/ClientReadyState.h>
 #include <client/ClientShotState.h>
@@ -90,6 +91,8 @@ void ClientState::addStandardComponents(GameState &gameState, unsigned state, bo
 		GLWToolTip::instance());
 	gameState.addStateLoop(state, Main2DCamera::instance(), 
 		GLConsole::instance());
+	gameState.addStateLoop(state, Main2DCamera::instance(), 
+		SoftwareMouse::instance());
 	gameState.addStateMouseDownEntry(state,
 		GameState::MouseButtonLeft, MainCamera::instance());
 	gameState.addStateMouseDragEntry(state, 
@@ -109,6 +112,8 @@ void ClientState::setupGameState(bool network)
 
 	// StateConnect
 	addWindowManager(gameState, StateConnect);
+	gameState.addStateLoop(StateConnect, 
+		Main2DCamera::instance(), SoftwareMouse::instance());
 	gameState.addStateStimulus(StateConnect, 
 		StimDisconnected, StateConnect);
 	gameState.addStateStimulus(StateConnect, 
@@ -118,6 +123,8 @@ void ClientState::setupGameState(bool network)
 
 	// StateGetPlayers (Single Player Only)
 	addWindowManager(gameState, StateGetPlayers);
+	gameState.addStateLoop(StateGetPlayers, 
+		Main2DCamera::instance(), SoftwareMouse::instance());
 	gameState.addStateLoop(StateGetPlayers, Main2DCamera::instance(), 
 		GLWToolTip::instance());
 	gameState.addStateStimulus(StateGetPlayers, 
@@ -125,6 +132,8 @@ void ClientState::setupGameState(bool network)
 
 	// StateNewGame
 	addWindowManager(gameState, StateNewGame);
+	gameState.addStateLoop(StateNewGame, 
+		Main2DCamera::instance(), SoftwareMouse::instance());
 	gameState.addStateEntry(StateNewGame,
 		ClientNewGameState::instance());
 	gameState.addStateStimulus(StateNewGame, 

@@ -102,6 +102,9 @@ public:
 	int getInterest() { return moneyInterest_.getValue(); }
 	void setInterest(int value) { moneyInterest_.setValue(value); }
 
+	int getFreeMarketAdjustment() { return freeMarketAdjustment_.getValue(); }
+	void setFreeMarketAdjustment(int value) { freeMarketAdjustment_.setValue(value); }
+
 	int getMaxLandscapeSize() { return maxLandscapeSize_.getValue(); }
 	void setMaxLandscapeSize(int value) { maxLandscapeSize_.setValue(value); }
 
@@ -232,6 +235,7 @@ protected:
 	OptionEntryInt maxLandscapeSize_;
 	OptionEntryInt moneyPerHitPoint_;
 	OptionEntryInt moneyPerKillPoint_;
+	OptionEntryInt freeMarketAdjustment_;
 	OptionEntryBool moneyPerHealthPoint_;
 	OptionEntryBoundedInt moneyStarting_;
 	OptionEntryInt idleKickTime_;

@@ -2563,6 +2563,12 @@
 				RelativePath="..\client\ServerBrowserServerList.h">
 			</File>
 			<File
+				RelativePath="..\client\SoftwareMouse.cpp">
+			</File>
+			<File
+				RelativePath="..\client\SoftwareMouse.h">
+			</File>
+			<File
 				RelativePath="..\client\ShotCountDown.cpp">
 			</File>
 			<File

@@ -43,7 +43,7 @@ MainCamera *MainCamera::instance()
 	return instance_;
 }
 
-MainCamera::MainCamera() 
+MainCamera::MainCamera() : scrollTime_(0.0f)
 {
 	MainMenuDialog::instance()->addMenu("Camera", 90, this, 0, this);
 }
@@ -73,6 +73,36 @@ void MainCamera::menuSelection(const char* menuName,
 
 void MainCamera::simulate(const unsigned state, float frameTime)
 {
+	int mouseX = ScorchedClient::instance()->getGameState().getMouseX();
+	int mouseY = ScorchedClient::instance()->getGameState().getMouseY();
+	int windowX = targetCam_.getCamera().getCameraWidthInternal();
+	int windowY = targetCam_.getCamera().getCameraHeightInternal();
+
+	scrollTime_ += frameTime;
+	while (scrollTime_ > 0.0f)
+	{
+		scrollTime_ -= 0.1f;
+
+		const int scrollWindow = 5;
+		if (mouseX < scrollWindow)
+		{
+			targetCam_.getCamera().scroll(GLCamera::eScrollLeft);
+		}
+		else if (mouseX > windowX - scrollWindow)
+		{
+			targetCam_.getCamera().scroll(GLCamera::eScrollRight);
+		}
+	
+		if (mouseY < scrollWindow)
+		{
+			targetCam_.getCamera().scroll(GLCamera::eScrollDown);
+		}
+		else if (mouseY > windowY - scrollWindow)
+		{
+			targetCam_.getCamera().scroll(GLCamera::eScrollUp);
+		}
+	}
+
 	ScorchedClient::instance()->getContext().viewPoints.simulate(frameTime);
 	targetCam_.simulate(frameTime, (state == ClientState::StatePlaying));
 }

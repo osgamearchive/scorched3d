@@ -140,6 +140,18 @@ public:
 	*/
 	float getRotationYZ() { return rotationYZ_; }
 
+	GLsizei getCameraWidthInternal() { return windowW_; }
+	GLsizei getCameraHeightInternal() { return windowH_; }
+
+	enum ScrollDir
+	{
+		eScrollLeft,
+		eScrollRight,
+		eScrollUp,
+		eScrollDown
+	};
+	void scroll(ScrollDir direction);
+
 protected:
 	GLsizei windowW_, windowH_;
 	GLsizei windowL_, windowT_;

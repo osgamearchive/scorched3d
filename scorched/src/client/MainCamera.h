@@ -68,6 +68,7 @@ public:
 protected:
 	static MainCamera *instance_;
 	TargetCamera targetCam_;
+	float scrollTime_;
 
 private:
 	MainCamera();

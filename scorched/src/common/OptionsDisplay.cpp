@@ -125,6 +125,8 @@ OptionsDisplay::OptionsDisplay() :
 		"Texture the landscape", RWAccess, true),
 	noLenseFlare_(options_,"NoLenseFlare", 
 		"Do not show the full lense flare effect", RWAccess, true),
+	softwareMouse_(options_,"SoftwareMouse", 
+		"Use a software mouse pointer", RWAccess, false),
 	useHex_(options_,"UseHexidecimal", 
 		"Show the tank angles and amounts in hex", RWAccess, false),
 	texSize_(options_, "TexureSize", 

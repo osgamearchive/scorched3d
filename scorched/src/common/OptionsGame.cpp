@@ -71,6 +71,8 @@ OptionsGame::OptionsGame() :
 		"The money each player starts with", 0, 10000, 0, 500000),
 	moneyInterest_(options_, "MoneyInterest", 
 		"The interest awarded at the end of each round", 0, 15, 0, 100),
+	freeMarketAdjustment_(options_, "FreeMarketAdjustment",
+		"The scale of the adjustment changes made by the free market", 0, 100),
 	scoreType_(options_, "ScoreType",
 		"How the winnder is choosen", 0, int(ScoreWins), int(ScoreWins), int(ScoreMoney)),
 	windForce_(options_, "WindForce", 
