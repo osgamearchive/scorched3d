@@ -45,6 +45,19 @@ TankAIComputer::~TankAIComputer()
 {
 }
 
+TankAIComputerBuyer *TankAIComputer::getTankBuyer()
+{
+	if (!tankBuyer_)
+	{
+		if (!tankBuyers_.empty())
+		{
+			tankBuyer_ = &tankBuyers_[rand() % tankBuyers_.size()];
+		}
+		else DIALOG_ASSERT(0);
+	}
+	return tankBuyer_;
+}
+
 void TankAIComputer::setTank(Tank *tank)
 {
 	std::vector<TankAIComputerBuyer>::iterator itor;
@@ -112,12 +125,7 @@ bool TankAIComputer::parseConfig(AccessoryStore &store, XMLNode *node)
 
 void TankAIComputer::reset()
 {
-	if (!tankBuyers_.empty())
-	{
-		tankBuyer_ = &tankBuyers_[rand() % tankBuyers_.size()];
-	}
-	else DIALOG_ASSERT(0);
-	//tankBuyer_->dumpAccessories();
+	//getTankBuyer()->dumpAccessories();
 
 	tankTarget_.reset();
 }
@@ -168,7 +176,7 @@ void TankAIComputer::autoDefense()
 
 void TankAIComputer::buyAccessories()
 {
-	tankBuyer_->buyAccessories(10);
+	getTankBuyer()->buyAccessories(10);
 
 	ComsPlayedMoveMessage *message = 
 		new ComsPlayedMoveMessage(currentTank_->getPlayerId(), ComsPlayedMoveMessage::eFinishedBuy);
@@ -262,11 +270,11 @@ void TankAIComputer::playMove(const unsigned state, float frameTime,
 			std::vector<Accessory *> weapons;
 			if (distance < 15.0f && noShots > 1)
 			{
-				weapons = tankBuyer_->getWeaponType("explosionlarge");
+				weapons = getTankBuyer()->getWeaponType("explosionlarge");
 			}
 			if (weapons.empty())
 			{
-				weapons = tankBuyer_->getWeaponType("explosionsmall");
+				weapons = getTankBuyer()->getWeaponType("explosionsmall");
 			}
 
 			if (!weapons.empty())
@@ -286,7 +294,7 @@ void TankAIComputer::playMove(const unsigned state, float frameTime,
 		else if (aimResult == TankAIComputerAim::AimBurried)
 		{
 			std::vector<Accessory *> digs = 
-				tankBuyer_->getWeaponType("dig");
+				getTankBuyer()->getWeaponType("dig");
 			if (!digs.empty())
 			{
 				int pos = rand() % digs.size();
