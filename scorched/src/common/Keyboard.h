@@ -35,8 +35,9 @@ class Keyboard
 public:
 	static Keyboard *instance();
 
+	bool loadKeyFile();
+	bool saveKeyFile();
 	bool init();
-	void clear();
 
 	char *getkeyboardbuffer(unsigned int &bufCnt);
 	unsigned int getKeyboardState();
@@ -45,7 +46,6 @@ public:
 	void processKeyboardEvent(SDL_Event &event);
 	static bool &getDvorak();
 
-	bool parseKeyFile(const char *fileName);
 	KeyboardKey *getKey(const char *name);
 	std::list<KeyboardKey *> &getCommandKeys();
 	std::map<std::string, KeyboardKey *, std::less<std::string> > &getKeyMap();
@@ -55,6 +55,7 @@ protected:
 	static bool dvorak_; // TODO // FIX ME NOT WORKING
 	KeyboardHistory::HistoryElement keybHist_[MAX_KEYBDHIST];
 	int keybHistCnt_;
+	void clear();
 
 	std::list<KeyboardKey *> commandKeys_;
 	std::map<std::string, KeyboardKey *, std::less<std::string> > keyMap_;

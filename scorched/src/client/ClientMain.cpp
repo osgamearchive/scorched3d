@@ -88,10 +88,10 @@ bool initHardware(ProgressCounter *progressCounter)
 		return false;
 	}
 	progressCounter->setNewOp("Loading Keyboard Bindings");
-	if (!Keyboard::instance()->parseKeyFile(getDataFile("data/keys.xml")))
+	if (!Keyboard::instance()->loadKeyFile())
 	{
 		dialogMessage("Scorched3D Keyboard", 
-			"Failed to process keyboard file \"data/keys.xml\"");
+			"Failed to process keyboard file.");
 		return false;
 	}
 

@@ -292,7 +292,7 @@ void createKeysControls(wxWindow *parent, wxSizer *topsizer)
 		wxDefaultPosition, wxSize(470, 270));
 	wxSizer *sizer = new wxFlexGridSizer(5, 1);
 	
-	Keyboard::instance()->parseKeyFile(getDataFile("data/keys.xml"));
+	Keyboard::instance()->loadKeyFile();
 	std::map<std::string, KeyboardKey *, std::less<std::string> > &keys =
 		Keyboard::instance()->getKeyMap();
 	std::map<std::string, KeyboardKey *, std::less<std::string> >::iterator itor;

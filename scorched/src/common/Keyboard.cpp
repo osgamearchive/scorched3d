@@ -21,6 +21,8 @@
 #include <common/Keyboard.h>
 #include <common/Defines.h>
 #include <XML/XMLFile.h>
+#include <wx/wx.h>
+#include <wx/utils.h>
 
 bool Keyboard::dvorak_ = false;
 
@@ -50,7 +52,6 @@ bool Keyboard::init()
 {
  	SDL_EnableUNICODE(1);
 	SDL_EnableKeyRepeat(250, 100);
-	
 	return true;
 }
 
@@ -125,8 +126,51 @@ void Keyboard::clear()
 	}
 }
 
-bool Keyboard::parseKeyFile(const char *fileName)
+bool Keyboard::saveKeyFile()
 {
+	XMLNode keysNode("keys");
+	std::map<std::string, KeyboardKey *, std::less<std::string> >::iterator itor;
+	for (itor = keyMap_.begin();
+		itor != keyMap_.end();
+		itor++)
+	{
+		KeyboardKey *key = (*itor).second;
+		XMLNode *keyNode = new XMLNode("keyentry");
+		keyNode->addChild(new XMLNode("name", key->getName()));
+		keyNode->addChild(new XMLNode("description", key->getDescription()));
+
+		std::vector<KeyboardKey::KeyEntry> &keys = key->getKeys();
+		std::vector<KeyboardKey::KeyEntry>::iterator subitor;
+		for (subitor = keys.begin();
+			subitor != keys.end();
+			subitor++)
+		{
+			KeyboardKey::KeyEntry &subentry = (*subitor);
+			const char *name = "";
+			const char *state = "";
+			KeyboardKey::translateKeyNameValue(subentry.key, name);
+			KeyboardKey::translateKeyStateValue(subentry.state, state);
+			XMLNode *subnode = new XMLNode("key", name);
+			if (state[0]) subnode->addParameter(new XMLNode("state", state, XMLNode::XMLParameterType));
+			keyNode->addChild(subnode);
+		}
+
+		keysNode.addChild(keyNode);
+	}
+
+	const char *fileName = getSettingsFile("keys.xml");
+	if (!keysNode.writeToFile(fileName)) return false;
+
+	return true;
+}
+
+bool Keyboard::loadKeyFile()
+{
+	const char *fileName = getSettingsFile("keys.xml");
+	if (!::wxFileExists(fileName))
+	{
+		fileName = getDataFile("data/keys.xml");
+	}
 	clear();
 
 	// Load key definition file
