@@ -25,7 +25,7 @@
 #include <GLW/GLWScrollW.h>
 #include <GLW/GLWVisiblePanel.h>
 #include <tankgraph/TankModel.h>
-#include <vector.h>
+#include <vector>
 
 class GLWTankViewer : public GLWVisibleWidget
 {

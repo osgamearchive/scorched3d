@@ -47,7 +47,7 @@ public:
 protected:
 	static TankModelStore* instance_;
 	std::vector<TankModel *> models_;
-	std::set<std::string, less<std::string> > modelCatagories_;
+	std::set<std::string, std::less<std::string> > modelCatagories_;
 	std::map<std::string, TankMesh *> meshes_;
 	std::map<std::string, GLTexture *> skins_;
 
