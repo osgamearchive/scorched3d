@@ -50,15 +50,15 @@ void TankDeadRenderer::simulate(Action *action, float frametime, bool &removeAct
 	
 	Tank *killedTank = ScorchedClient::instance()->
 		getTankContainer().getTankById(killedPlayerId_);                                                                           
-        if (killedTank)
-        {
+	if (killedTank)
+	{
 		Vector position = 
 			killedTank->getPhysics().getTankPosition();
 		ParticleEmitter emmiter;
 		emmiter.setAttributes(
-			0.5f, 2.0f, // Life
-			0.5f, 1.0f, // Mass
-			0.01f, 0.02f, // Friction
+			0.6f, 0.6f, // Life
+			0.5f, 0.5f, // Mass
+			0.0f, 0.0f, // Friction
 			Vector(), Vector(), // Velocity
 			Vector(0.0f, 0.0f, 0.8f), 0.9f, // StartColor1
 			Vector(0.2f, 0.2f, 0.9f), 1.0f, // StartColor2
@@ -69,7 +69,7 @@ void TankDeadRenderer::simulate(Action *action, float frametime, bool &removeAct
 			Vector(0.0f, 0.0f, 0.0f) // Gravity
 			);
 		emmiter.emitExplosionRing(
-			200, position, 
+			400, position, 
 			ScorchedClient::instance()->getParticleEngine(), 
 			ParticleRendererQuadsParticle::getInstance());
 	}

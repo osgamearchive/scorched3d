@@ -204,11 +204,14 @@ void ParticleEmitter::emitExplosionRing(int number,
 		Particle *particle = engine.getNextAliveParticle();
 		if (!particle) return;
 
+		createDefaultParticle(*particle);
+
 		Vector velocity;
 		float ang = RAND * 2.0f * 3.14f;
-		velocity[0] = sinf(ang) * 2.0f;
-		velocity[1] = cosf(ang) * 2.0f;
-		velocity[2] = RAND * 0.1f - 0.05f;
+		float speed = 45.0f;
+		velocity[0] = sinf(ang) * speed;
+		velocity[1] = cosf(ang) * speed;
+		velocity[2] = 0.0f;
 
 		particle->velocity_ = velocity;
 		particle->position_ = position;
