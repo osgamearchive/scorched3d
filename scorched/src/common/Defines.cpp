@@ -35,7 +35,7 @@ extern bool wxWindowInit;
 
 void dialogMessage(const char *header, const char *fmt, ...)
 {
-	char text[2048];
+	char text[20048];
 	va_list ap;
 
 	va_start(ap, fmt);
@@ -61,7 +61,7 @@ void dialogMessage(const char *header, const char *fmt, ...)
 void dialogAssert(const char *lineText, const int line, const char *file)
 {
 	// Dont use formatString here as this method is called by formatString.
-	char buffer[1024];
+	char buffer[20048];
 	sprintf(buffer, "%s\n%i:%s", lineText, line, file);
 	dialogMessage("Program Assert", buffer);
 	exit(64);
@@ -69,7 +69,7 @@ void dialogAssert(const char *lineText, const int line, const char *file)
 
 const char *formatStringList(const char *format, va_list ap)
 {
-	static char buffer[4000];
+	static char buffer[20048];
 	buffer[sizeof(buffer) - 1] = '\0';
 	vsprintf(buffer, format, ap);
 	if (buffer[sizeof(buffer) - 1] != 0) 

@@ -168,6 +168,13 @@ void serverLoop()
 		ScorchedServer::instance()->getGameState().simulate(timeDifference);
 		ServerFileServer::instance()->simulate(timeDifference);
 		ServerTimedMessage::instance()->simulate();
+
+		if (timeDifference > 5.0f &&
+			OptionsParam::instance()->getDedicatedServer())
+		{
+			Logger::log(0, "Warning: Server loop took %.2f seconds", 
+				timeDifference);
+		}
 	}
 }
 

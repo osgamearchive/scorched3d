@@ -109,8 +109,8 @@ bool ServerAdminHandler::processMessage(unsigned int destinationId,
 		{
 			Tank *targetTank = ScorchedServer::instance()->
 				getTankContainer().getTankById(atoi(message.getParam1()));
-			if (targetTank) ServerCommon::banDestination(
-				targetTank->getDestinationId());
+			if (targetTank) ServerCommon::banPlayer(
+				targetTank->getPlayerId());
 			else ServerCommon::sendString(destinationId, "Unknown player for ban");
 		}
 		break;
@@ -118,8 +118,8 @@ bool ServerAdminHandler::processMessage(unsigned int destinationId,
 		{
 			Tank *targetTank = ScorchedServer::instance()->
 				getTankContainer().getTankById(atoi(message.getParam1()));
-			if (targetTank) ServerCommon::kickDestination(
-				targetTank->getDestinationId());
+			if (targetTank) ServerCommon::kickPlayer(
+				targetTank->getPlayerId());
 			else ServerCommon::sendString(destinationId, "Unknown player for kick");
 		}
 		break;
@@ -130,8 +130,8 @@ bool ServerAdminHandler::processMessage(unsigned int destinationId,
 		{
 			Tank *targetTank = ScorchedServer::instance()->
 				getTankContainer().getTankById(atoi(message.getParam1()));
-			if (targetTank) ServerCommon::slapDestination(
-				targetTank->getDestinationId(),
+			if (targetTank) ServerCommon::slapPlayer(
+				targetTank->getPlayerId(),
 				(float) atof(message.getParam2()));
 			else ServerCommon::sendString(destinationId, "Unknown player for slap");
 		}

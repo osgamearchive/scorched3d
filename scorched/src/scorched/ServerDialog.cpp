@@ -516,8 +516,9 @@ void ServerFrame::onPlayerKick()
 			ScorchedServer::instance()->getTankContainer().getNoOfTanks()))
 		{
 			Tank *tank = 
-				ScorchedServer::instance()->getTankContainer().getTankByPos((unsigned int) item);
-			ServerCommon::kickDestination(tank->getDestinationId());
+				ScorchedServer::instance()->getTankContainer().
+				getTankByPos((unsigned int) item);
+			ServerCommon::kickPlayer(tank->getPlayerId());
 		}		
     }
 }
@@ -534,8 +535,9 @@ void ServerFrame::onPlayerBan()
 			ScorchedServer::instance()->getTankContainer().getNoOfTanks()))
 		{
 			Tank *tank = 
-				ScorchedServer::instance()->getTankContainer().getTankByPos((unsigned int) item);
-			ServerCommon::banDestination(tank->getDestinationId());
+				ScorchedServer::instance()->getTankContainer().
+				getTankByPos((unsigned int) item);
+			ServerCommon::banPlayer(tank->getPlayerId());
 		}		
     }
 }
@@ -552,8 +554,9 @@ void ServerFrame::onPlayerSlap25()
 			ScorchedServer::instance()->getTankContainer().getNoOfTanks()))
 		{
 			Tank *tank = 
-				ScorchedServer::instance()->getTankContainer().getTankByPos((unsigned int) item);
-			ServerCommon::slapDestination(tank->getDestinationId(), 25.0f);
+				ScorchedServer::instance()->getTankContainer().
+				getTankByPos((unsigned int) item);
+			ServerCommon::slapPlayer(tank->getPlayerId(), 25.0f);
 		}		
     }
 }
