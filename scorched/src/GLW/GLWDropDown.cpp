@@ -193,7 +193,7 @@ void GLWDropDown::mouseDown(float x, float y, bool &skipRest)
 					GLWDropDownEntry &entry = *itor;
 					if (inBox(x, y, x_, top, w_, 19.0f))
 					{
-						entry.text_.c_str();
+						text_ = entry.text_.c_str();
 						if (handler_)
 						{
 							handler_->select(id_, pos, entry);
