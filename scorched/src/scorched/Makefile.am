@@ -421,12 +421,12 @@ scorched3d_SOURCES = \
 	../weapons/ShieldReflectiveMag.h \
 	../weapons/Weapon.cpp \
 	../weapons/Weapon.h \
+	../weapons/WeaponAimedOver.cpp \
+	../weapons/WeaponAimedOver.h \
+	../weapons/WeaponAimedUnder.cpp \
+	../weapons/WeaponAimedUnder.h \
 	../weapons/WeaponClod.cpp \
 	../weapons/WeaponClod.h \
-	../weapons/WeaponDigger.cpp \
-	../weapons/WeaponDigger.h \
-	../weapons/WeaponFunky.cpp \
-	../weapons/WeaponFunky.h \
 	../weapons/WeaponLeapFrog.cpp \
 	../weapons/WeaponLeapFrog.h \
 	../weapons/WeaponMirv.cpp \
@@ -439,8 +439,6 @@ scorched3d_SOURCES = \
 	../weapons/WeaponRiotBomb.h \
 	../weapons/WeaponRoller.cpp \
 	../weapons/WeaponRoller.h \
-	../weapons/WeaponSandHog.cpp \
-	../weapons/WeaponSandHog.h \
 	../weapons/WeaponTracer.cpp \
 	../weapons/WeaponTracer.h \
 	../coms/ComsActionsMessage.cpp \
@@ -605,14 +603,14 @@ scorched3d_SOURCES = \
 	../actions/ShieldHit.h \
 	../actions/ShotProjectile.cpp \
 	../actions/ShotProjectile.h \
+	../actions/ShotProjectileAimedOver.cpp \
+	../actions/ShotProjectileAimedOver.h \
+	../actions/ShotProjectileAimedUnder.cpp \
+	../actions/ShotProjectileAimedUnder.h \
 	../actions/ShotProjectileClod.cpp \
 	../actions/ShotProjectileClod.h \
 	../actions/ShotProjectileExplosion.cpp \
 	../actions/ShotProjectileExplosion.h \
-	../actions/ShotProjectileFunky.cpp \
-	../actions/ShotProjectileFunky.h \
-	../actions/ShotProjectileHog.cpp \
-	../actions/ShotProjectileHog.h \
 	../actions/ShotProjectileLeapFrog.cpp \
 	../actions/ShotProjectileLeapFrog.h \
 	../actions/ShotProjectileMirv.cpp \
@@ -625,8 +623,6 @@ scorched3d_SOURCES = \
 	../actions/ShotProjectileRoller.h \
 	../actions/ShotProjectileTracer.cpp \
 	../actions/ShotProjectileTracer.h \
-	../actions/ShotProjectileUnder.cpp \
-	../actions/ShotProjectileUnder.h \
 	../actions/ShowScore.cpp \
 	../actions/ShowScore.h \
 	../actions/SpriteProjectile.cpp \
