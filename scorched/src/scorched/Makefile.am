@@ -744,6 +744,8 @@ scorched3d_SOURCES = \
 	../client/MainBanner.h \
 	../client/MainCamera.cpp \
 	../client/MainCamera.h \
+	../client/ScorchedClient.cpp \
+	../client/ScorchedClient.h \
 	../client/ServerBrowser.cpp \
 	../client/ServerBrowser.h \
 	../client/ServerBrowserRefresh.cpp \
@@ -756,6 +758,8 @@ scorched3d_SOURCES = \
 	../client/SpeedChange.h \
 	../client/WindowSetup.cpp \
 	../client/WindowSetup.h \
+	../server/ScorchedServer.cpp \
+	../server/ScorchedServer.h \
 	../server/ServerBrowserInfo.cpp \
 	../server/ServerBrowserInfo.h \
 	../server/ServerBuyAccessoryHandler.cpp \
