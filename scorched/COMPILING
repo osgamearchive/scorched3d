@@ -16,9 +16,9 @@ Windows (Win32)
 
 Compilation of Scorched3D is supported on windows via the 
 Microsoft Visual Studio .NET compiler :- 
-http://www.microsoft.com/visualc
+ http://www.microsoft.com/visualc
 and the free borland compiler :-
-http://www.borland.com/products/downloads/download_cbuilder.html.
+ http://www.borland.com/products/downloads/download_cbuilder.html.
 
 To compile using Visual Studio .NET compiler :- 
 1) Load the scorched.sln file in the base directory.
@@ -35,21 +35,33 @@ step http://www.activestate.com/ActivePerl/download.htm).
 borland compiler.
 4) Run the make.cmd file in the borland directory.
 
-
 Linux
 -----
+Compiling requirements  : 
 
-Compilation on Linux is supported via the GCC compiler.  You will also need
-to have to SDL, SDL_net, SDL_mixer and wxWindows packages installed.
+ * GNU tools (http://www.gnu.org/directory/GNU/)
+    aclocal (GNU automake) 1.5		[aclocal --version]
+    automake (GNU automake) 1.5		[automake --version]
+    autoconf (GNU Autoconf) 2.57	[autoconf --version]
+    GNU Make 3.80			[make --version]
+    gcc version 2.95.3 			[g++ --version]
 
-SDL, SDL_net, SDL_mixer are installed as part of the developer installation
-on some Linux systems, or they can be downloaded from :-
-http://www.libsdl.org/
+ * Simple Directmedia Layer (http://www.libsdl.org/)
+    SDL 1.2.4
+    SDL_mixer 1.2.4 			[sdl-config --version]     
+    SDL_net 1.2.5
+	
+ * WX-windows (http://www.wxwindows.org)
+    wx-windows				[wx-config --version]
 
-The wxWindows RPMs can be downloaded from :-
-http://www.wxwindows.org
+Make sure at least all these are properly installed.
+Note that SDL and wx-win provide their own m4 files. So 
+a proper installed sdl and wxwin should provide :
+sdl.m4 and wxwin.m4 in the ac-dir.
+( probably  /usr/share/aclocal, check with : aclocal --print-ac-dir) 
 
 Run the following commands to compile scorched :-
+
 1) chmod +x autogen.sh
 2) ./autogen.sh
 3) make
