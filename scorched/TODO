@@ -44,10 +44,11 @@ Added: Camera and window menu items get tool tips
 Added: Free market economy
 Added: Window and font sizes can be set seperately from screen resolution
 Added: Can choose to revert back to any previous shot setting made in the round
+Added: Aiming dialog so users can aim using the mouse
 
 Fixed: Players gun does not go back to original position if turn missed
 Fixed: Files installed with correct permissions on Unix
-Fixed: Most Radeon 9000 series card problems
+Fixed: Radeon 9x00 series card problems under Linux and Windows
 Fixed: Can quit game during player choice (single player)
 Fixed: Linux server exiting due to "broken pipe"
 Fixed: SG characters being printed during init stages
@@ -71,7 +72,6 @@ Shot cam does not get LOD correctly
 
 -- Things I am currently looking at
 Make AIs better
-Finish aiming dialog
 Single player saving
 Riot Blast (perhaps)
 
@@ -87,9 +87,8 @@ keep track of money after you leave the server
 keep track of views 
 Make a count down sound when timer runs out.
 Add option for human players to say stuff when firing/killed
-Chat logger (for urls)
-Only show sprites/pictures for the tanks in the chooser dialog (use 3d model for selected tanks)
-
+Chat logger (for urls) (you can do this using client logging)
+Only show sprites/pictures for the tanks in the chooser dialog (use 3d model for selected tanks) (kind of fixed by using progress bar)
 
 -- Other Stuff
 Add the ability to customize the languages (for dialogs etc..) (localisation)
@@ -121,7 +120,6 @@ communism
 # real-time mode - everyone shoots as fast as they can?
 
 -- Graphics Stuff
-Try to find out what GL extension is causing people so much hastle
 anti-gravity dirt (doesn't fall) Needed for cavern environment 
 New animations for weapons
 New landscape surrounds, desert etc...
