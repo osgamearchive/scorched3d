@@ -173,6 +173,9 @@ scorcheddataaccessoriesv2missile_DATA = data/accessories/v2missile/black.bmp \
 	data/accessories/v2missile/gradient.bmp \
 	data/accessories/v2missile/v2missile.txt \
 	data/accessories/v2missile/yellow.bmp
+scorcheddataaccessoriesbananadir = ${datadir}/data/accessories/banana
+scorcheddataaccessoriesbanana_DATA = data/accessories/banana/banana.txt \
+	data/accessories/banana/bantex.bmp
 scorcheddataacessoriesdir = ${datadir}/data/acessories
 scorcheddataacessories_DATA = 
 scorcheddatafontsdir = ${datadir}/data/fonts
@@ -399,6 +402,10 @@ scorcheddatatanksphotoncannon_DATA = data/tanks/photoncannon/basetexture.bmp \
 	data/tanks/photoncannon/gradient.bmp \
 	data/tanks/photoncannon/photoncannon.txt \
 	data/tanks/photoncannon/yellow.bmp
+scorcheddatatanksgorilladir = ${datadir}/data/tanks/gorilla
+scorcheddatatanksgorilla_DATA = data/tanks/gorilla/gorilla.bmp \
+	data/tanks/gorilla/gorilla.txt \
+	data/tanks/gorilla/gun.bmp
 scorcheddatatexturesdir = ${datadir}/data/textures
 scorcheddatatextures_DATA = data/textures/glow1.bmp \
 	data/textures/smoke01.bmp \
