@@ -30,7 +30,6 @@
 #include <landscape/Smoke.h>
 #include <landscape/Wall.h>
 #include <landscape/ShadowMap.h>
-#include <landscape/Sun.h>
 
 class Landscape : public GameStateI
 {
@@ -52,8 +51,8 @@ public:
 	// Access to internal objects
 	Smoke &getSmoke() { return smoke_; }
 	ShadowMap &getShadowMap() { return shadowMap_; }
-	Sun &getSun() { return sun_; }
 	Wall &getWall() { return wall_; }
+	Sky &getSky() { return sky_; }
 	Water &getWater() { return water_; }
 	LandscapeObjects &getObjects() { return objects_; }
 
@@ -90,7 +89,6 @@ protected:
 	Surround surround_;
 	ShadowMap shadowMap_;
 	Smoke smoke_;
-	Sun sun_;
 	Water water_;
 	LandscapeObjects objects_;
 	LandscapeTextureType textureType_;

@@ -27,7 +27,7 @@
 #include <stdlib.h>
 #include <math.h>
 
-Sun::Sun() : drawSun_(false)
+Sun::Sun() : drawSun_(true)
 {
 }
 
@@ -40,9 +40,9 @@ void Sun::setPosition(float sunRotXY, float sunRotYZ)
 	sunRotXY = sunRotXY / 180.0f * 3.14f;
 	sunRotYZ = sunRotYZ / 180.0f * 3.14f;
 	position_ = Vector(
-		sinf(sunRotXY) * 900 * cosf(sunRotYZ), 
-		cosf(sunRotXY) * 900 * cosf(sunRotYZ), 
-		sinf(sunRotYZ) * 900);
+		(sinf(sunRotXY) * 300.0f * cosf(sunRotYZ)) + 128.0f, 
+		(cosf(sunRotXY) * 300.0f * cosf(sunRotYZ)) + 128.0f, 
+		(sinf(sunRotYZ) * 300.0f));
 }
 
 void Sun::draw()
@@ -51,22 +51,33 @@ void Sun::draw()
 	// Just return for now
 	if (!drawSun_) return;
 
-	/*Vector pos;
-	pos[0] = position_[0] + 128.0f;
-	pos[1] = position_[1] + 128.0f;
-	pos[2] = position_[2];
+	if (!texture_.textureValid())
+	{
+		std::string file = getDataFile("data/textures/glow1.bmp");
+		GLBitmap map(file.c_str(), file.c_str(), false);
+		texture_.create(map, GL_RGBA, true);
+	}
 
-	glPushMatrix();
-		GLLenseFlare::instance()->draw(pos, false, 2, 50.0f);
-	glPopMatrix();*/
+	GLState currentStateOne(GLState::TEXTURE_ON | GLState::DEPTH_OFF | GLState::BLEND_ON);
+	texture_.draw();
+	Vector color(1.0f, 1.0f, 1.0f);
+	GLCameraFrustum::instance()->drawBilboard(
+		position_, color, 
+		1.0f, // alpha
+		10.0f, 10.0f, // width, height
+		true, // additive texture
+		0); // tex coord
 
-	GLState currentState(GLState::TEXTURE_OFF | GLState::DEPTH_ON);
-	glPushMatrix();
-		glTranslatef(128.0f, 128.0f, 0.0f);
-		glColor4f(1.0f, 0.0f, 0.0f, 1.0f);
-		glBegin(GL_LINES);
-			glVertex3f(0.0f, 0.0f, 0.0f);
-			glVertex3fv(position_);
-		glEnd();
-	glPopMatrix();
+	GLState currentState(GLState::TEXTURE_OFF);
+	glColor4f(1.0f, 0.0f, 0.0f, 1.0f);
+	glBegin(GL_LINES);
+		glVertex3f(128.0f, 128.0f, 0.0f);
+		glVertex3fv(position_);
+	glEnd();
+	glPointSize(3.0f);
+	glBegin(GL_POINTS);
+		glVertex3fv(position_);
+	glEnd();
+	glPointSize(1.0f);
 }
+

@@ -112,26 +112,27 @@ bool LandscapeMaps::generateHMapDiff(ComsLevelMessage &message)
 	unsigned char *diffMap = new unsigned char[srcLen];
 	unsigned char *currentDiff = diffMap;
 	float *currentStored = storedMap_;
-	float *current = map_.getData();
 
 	// Calculate the differences between the current level
 	// and the landscape when the level first started
 	// need to change into network byte ordering so 
 	// will work on all arches
 	unsigned int noDiffs = 0;
-	for (int i = 0; i<(256 + 1) * (256 + 1); 
-		 i++, current++, currentStored++)
+	for (int j = 0; j<(256 + 1); j++)
 	{
-		float diff = ((*current) - (*currentStored));
-		if (diff != 0.0f) noDiffs ++;
+		for (int i = 0; i<(256 + 1); i++, currentStored++)
+		{
+			float diff = (map_.getHeight(i, j) - (*currentStored));
+			if (diff != 0.0f) noDiffs ++;
 
-		Uint32 value = 0;
-		Uint32 add = 0;
-		memcpy(&add, &diff, sizeof(Uint32));
-		SDLNet_Write32(add, &value);
-		memcpy(currentDiff, &value, 4);
+			Uint32 value = 0;
+			Uint32 add = 0;
+			memcpy(&add, &diff, sizeof(Uint32));
+			SDLNet_Write32(add, &value);
+			memcpy(currentDiff, &value, 4);
 
-		currentDiff += 4; // Move by 4 bytes (32 bits)
+			currentDiff += 4; // Move by 4 bytes (32 bits)
+		}
 	}
 
 	// Compress this information
@@ -191,18 +192,21 @@ bool LandscapeMaps::generateHMapFromDiff(ComsLevelMessage &message,
 		// will work on all arches
 		unsigned char *destCurrent = dest;
 		float *current = map_.getData();		
-		for (int i = 0; i<(256 + 1) * (256 + 1); 
-			 i++, current++)
+		for (int j = 0; j<(256 + 1); j++)
 		{
-			float diff = 0.0f;
-			Uint32 value = 0;
-			memcpy(&value, destCurrent, 4);
-			Uint32 result = SDLNet_Read32(&value);
-			memcpy(&diff, &result, sizeof(Uint32));
+			for (int i = 0; i<(256 + 1); i++)
+			{
+				float diff = 0.0f;
+				Uint32 value = 0;
+				memcpy(&value, destCurrent, 4);
+				Uint32 result = SDLNet_Read32(&value);
+				memcpy(&diff, &result, sizeof(Uint32));
 
-			(*current) += diff;
+				float current = map_.getHeight(i, j);
+				map_.setHeight(i, j, current + diff);
 			
-			destCurrent += 4; // Move by 4 bytes (32 bits)
+				destCurrent += 4; // Move by 4 bytes (32 bits)
+			}
 		}
 
 		//dialogMessage("hmm", "%i=%i", message.getLevelLen(), destLen);

@@ -63,78 +63,10 @@ void ParticleRendererQuads::renderParticle(Particle &particle)
 	if (!particle.texture_) return;
 	particle.texture_->draw();
 
-	if (particle.additiveTexture_)
-	{
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE);
-	}
-
-	Vector &bilX = GLCameraFrustum::instance()->getBilboardVectorX();
-	Vector &bilY = GLCameraFrustum::instance()->getBilboardVectorY();
-
-	float bilXX = bilX[0] * particle.size_[0];
-	float bilXY = bilX[1] * particle.size_[0];
-	float bilXZ = bilX[2] * particle.size_[0];
-	float bilYX = bilY[0] * particle.size_[1];
-	float bilYY = bilY[1] * particle.size_[1];
-	float bilYZ = bilY[2] * particle.size_[1];
-
-	glColor4f(
-		particle.color_[0],
-		particle.color_[1],
-		particle.color_[2], 
-		particle.alpha_);
-	glBegin(GL_QUADS);
-	switch(particle.textureCoord_)
-	{
-	default: glTexCoord2d(1.0f, 1.0f); break;
-	case 1:  glTexCoord2d(0.0f, 1.0f); break;
-	case 2:  glTexCoord2d(0.0f, 0.0f); break;
-	case 3:  glTexCoord2d(1.0f, 0.0f); break;
-	}
-	glVertex3f(
-		particle.position_[0] + bilXX + bilYX, 
-		particle.position_[1] + bilXY + bilYY, 
-		particle.position_[2] + bilXZ + bilYZ);
-	switch(particle.textureCoord_)
-	{
-	default: glTexCoord2d(0.0f, 1.0f); break;
-	case 1:  glTexCoord2d(0.0f, 0.0f); break;
-	case 2:  glTexCoord2d(1.0f, 0.0f); break;
-	case 3:  glTexCoord2d(1.0f, 1.0f); break;
-	}
-	glVertex3f(
-		particle.position_[0] - bilXX + bilYX, 
-		particle.position_[1] - bilXY + bilYY, 
-		particle.position_[2] - bilXZ + bilYZ);
-	switch(particle.textureCoord_)
-	{
-	default: glTexCoord2d(0.0f, 0.0f); break;
-	case 1:  glTexCoord2d(1.0f, 0.0f); break;
-	case 2:  glTexCoord2d(1.0f, 1.0f); break;
-	case 3:  glTexCoord2d(0.0f, 1.0f); break;
-	}
-	glVertex3f(
-		particle.position_[0] - bilXX - bilYX, 
-		particle.position_[1] - bilXY - bilYY, 
-		particle.position_[2] - bilXZ - bilYZ);
-	switch(particle.textureCoord_)
-	{
-	default: glTexCoord2d(1.0f, 0.0f); break;
-	case 1:  glTexCoord2d(1.0f, 1.0f); break;
-	case 2:  glTexCoord2d(0.0f, 1.0f); break;
-	case 3:  glTexCoord2d(0.0f, 0.0f); break;
-	}
-	glVertex3f(
-		particle.position_[0] + bilXX - bilYX, 
-		particle.position_[1] + bilXY - bilYY, 
-		particle.position_[2] + bilXZ - bilYZ);
-	
-	glEnd();
-
-	if (particle.additiveTexture_)
-	{
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	}
+	GLCameraFrustum::instance()->drawBilboard(
+		particle.position_, particle.color_, particle.alpha_,
+		particle.size_[0], particle.size_[1], particle.additiveTexture_, 
+		particle.textureCoord_);
 
 	// Add a shadow of the smoke on the ground
 	float posX = particle.position_[0];

@@ -123,6 +123,7 @@ public:
 	std::string magmasmall;
 	std::string scorch;
 	Vector fog;
+	float lowestlandheight;
 	std::string skytexture;
 	std::string skycolormap;
 	int skytimeofday;

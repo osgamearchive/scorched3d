@@ -190,3 +190,69 @@ void GLCameraFrustum::restoreFrustum()
 	memcpy(&s, &b, sizeof(b));
 }
 
+void GLCameraFrustum::drawBilboard(Vector &position, Vector &color, float alpha,
+	float width, float height, bool additive, int textureCoord)
+{
+	if (additive) glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+
+	Vector &bilX = getBilboardVectorX();
+	Vector &bilY = getBilboardVectorY();
+
+	float bilXX = bilX[0] * width;
+	float bilXY = bilX[1] * width;
+	float bilXZ = bilX[2] * width;
+	float bilYX = bilY[0] * height;
+	float bilYY = bilY[1] * height;
+	float bilYZ = bilY[2] * height;
+
+	glColor4f(color[0], color[1], color[2], alpha);
+	glBegin(GL_QUADS);
+	switch(textureCoord)
+	{
+	default: glTexCoord2d(1.0f, 1.0f); break;
+	case 1:  glTexCoord2d(0.0f, 1.0f); break;
+	case 2:  glTexCoord2d(0.0f, 0.0f); break;
+	case 3:  glTexCoord2d(1.0f, 0.0f); break;
+	}
+	glVertex3f(
+		position[0] + bilXX + bilYX, 
+		position[1] + bilXY + bilYY, 
+		position[2] + bilXZ + bilYZ);
+	switch(textureCoord)
+	{
+	default: glTexCoord2d(0.0f, 1.0f); break;
+	case 1:  glTexCoord2d(0.0f, 0.0f); break;
+	case 2:  glTexCoord2d(1.0f, 0.0f); break;
+	case 3:  glTexCoord2d(1.0f, 1.0f); break;
+	}
+	glVertex3f(
+		position[0] - bilXX + bilYX, 
+		position[1] - bilXY + bilYY, 
+		position[2] - bilXZ + bilYZ);
+	switch(textureCoord)
+	{
+	default: glTexCoord2d(0.0f, 0.0f); break;
+	case 1:  glTexCoord2d(1.0f, 0.0f); break;
+	case 2:  glTexCoord2d(1.0f, 1.0f); break;
+	case 3:  glTexCoord2d(0.0f, 1.0f); break;
+	}
+	glVertex3f(
+		position[0] - bilXX - bilYX, 
+		position[1] - bilXY - bilYY, 
+		position[2] - bilXZ - bilYZ);
+	switch(textureCoord)
+	{
+	default: glTexCoord2d(1.0f, 0.0f); break;
+	case 1:  glTexCoord2d(1.0f, 1.0f); break;
+	case 2:  glTexCoord2d(0.0f, 1.0f); break;
+	case 3:  glTexCoord2d(0.0f, 0.0f); break;
+	}
+	glVertex3f(
+		position[0] + bilXX - bilYX, 
+		position[1] + bilXY - bilYY, 
+		position[2] + bilXZ - bilYZ);
+	glEnd();
+
+	if (additive) glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+}
+

@@ -265,6 +265,7 @@ bool LandscapeTex::writeMessage(NetBuffer &buffer)
 	buffer.addToBuffer(magmasmall);
 	buffer.addToBuffer(scorch);
 	buffer.addToBuffer(fog);
+	buffer.addToBuffer(lowestlandheight);
 	buffer.addToBuffer(skytexture);
 	buffer.addToBuffer(skycolormap);
 	buffer.addToBuffer(skytimeofday);
@@ -294,6 +295,7 @@ bool LandscapeTex::readMessage(NetBufferReader &reader)
 	if (!reader.getFromBuffer(magmasmall)) return false;
 	if (!reader.getFromBuffer(scorch)) return false;
 	if (!reader.getFromBuffer(fog)) return false;
+	if (!reader.getFromBuffer(lowestlandheight)) return false;
 	if (!reader.getFromBuffer(skytexture)) return false;
 	if (!reader.getFromBuffer(skycolormap)) return false;
 	if (!reader.getFromBuffer(skytimeofday)) return false;
@@ -334,6 +336,7 @@ bool LandscapeTex::readXML(XMLNode *node)
 	if (!node->getNamedChild("magmasmall", magmasmall)) return false;
 	if (!node->getNamedChild("scorch", scorch)) return false;
 	if (!node->getNamedChild("fog", fog)) return false;
+	if (!node->getNamedChild("lowestlandheight", lowestlandheight)) return false;
 	if (!node->getNamedChild("skytexture", skytexture)) return false;
 	if (!node->getNamedChild("skycolormap", skycolormap)) return false;
 	if (!node->getNamedChild("skytimeofday", skytimeofday)) return false;

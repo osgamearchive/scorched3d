@@ -35,6 +35,9 @@ public:
 	bool sphereInFrustum(Vector &point, float fRadius);
 	void backupFrustum();
 	void restoreFrustum();
+	void drawBilboard(
+		Vector &position, Vector &color, float alpha,
+		float width, float height, bool additive, int texCoord);
 
 	Vector &getBilboardVectorX();
 	Vector &getBilboardVectorY();

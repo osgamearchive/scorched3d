@@ -45,7 +45,7 @@ public:
 		Vector normal;
 	} *heights_;
 
-	WaterMap(int width, int squareWidth, int texSize);
+	WaterMap(int width, int squareWidth);
 	virtual ~WaterMap();
 
 	void draw();

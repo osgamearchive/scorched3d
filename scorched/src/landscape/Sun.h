@@ -18,11 +18,11 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #if !defined(__INCLUDE_Sunh_INCLUDE__)
 #define __INCLUDE_Sunh_INCLUDE__
 
 #include <GLEXT/GLState.h>
+#include <GLEXT/GLTexture.h>
 #include <common/Vector.h>
 
 class Sun
@@ -40,7 +40,7 @@ public:
 protected:
 	bool drawSun_;
 	Vector position_;
+	GLTexture texture_;
 };
-
 
 #endif

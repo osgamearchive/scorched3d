@@ -20,6 +20,8 @@
 
 #include <landscape/DeformLandscape.h>
 #include <landscape/LandscapeMaps.h>
+#include <landscape/LandscapeTex.h>
+#include <landscape/LandscapeDefinition.h>
 #include <engine/ScorchedContext.h>
 #include <common/Defines.h>
 #include <math.h>
@@ -33,6 +35,8 @@ bool DeformLandscape::deformLandscape(
 	bool hits = false;
 	int iradius = (int) radius + 1;
 	if (iradius > 49) iradius = 49;
+
+	float lowestHeight = context.landscapeMaps->getLandDfn().getTex()->lowestlandheight;
 
 	// Take out or add a chunk into the landsacpe
 	for (int x=-iradius; x<=iradius; x++)
@@ -50,7 +54,7 @@ bool DeformLandscape::deformLandscape(
 				if (dist < radius)
 				{
 					float distToRadius = radius - dist;
-					float &currentHeight = hmap.setHeight((int) newPos[0], (int) newPos[1]);
+					float currentHeight = hmap.getHeight((int) newPos[0], (int) newPos[1]);
 					float explosionDepth = (float) sin((distToRadius / radius) * 1.57) * radius;
 
 					float newMap = -1.0f;
@@ -71,7 +75,7 @@ bool DeformLandscape::deformLandscape(
 								currentHeight = newPos[2] - explosionDepth;
 							}
 
-							if (currentHeight < 0.0f) currentHeight = 0.0f;
+							if (currentHeight < lowestHeight) currentHeight = lowestHeight;
 							hits = true;
 						}
 					}
@@ -95,6 +99,7 @@ bool DeformLandscape::deformLandscape(
 						}
 						hits = true;
 					}
+					hmap.setHeight((int) newPos[0], (int) newPos[1], currentHeight);
 
 					map.map[x+iradius][y+iradius] = newMap;
 				}

@@ -31,6 +31,7 @@ Sky::~Sky()
 void Sky::draw()
 {
 	dome_.draw();
+	sun_.draw();
 }
 
 void Sky::simulate(float frameTime)

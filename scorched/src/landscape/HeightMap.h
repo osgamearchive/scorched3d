@@ -54,15 +54,20 @@ public:
 
 	bool getIntersect(Line &direction, Vector &intersect);
 
+	float getMinHeight(int w, int h);
+	int getMinWidth() { return minWidth_; }
+
 	// Returns the actual internal HeightMap points
 	// Should not be used
-	float &setHeight(int w, int h);
+	float &getHeightRef(int w, int h); // Do not use to alter height
+	void setHeight(int w, int h, float height);
 	float *getData() { return hMap_; }
 
 protected:
 	static Vector nvec;
-	int width_;
+	int width_, minWidth_;
 	float *hMap_;
+	float *minMap_;
 	Vector *normals_;
 
 	void performItteration();
@@ -72,3 +77,4 @@ protected:
 };
 
 #endif // !defined(AFX_HEIGHTMAP_H__F4CB4CAD_C592_4183_AFB2_016FC66C144A__INCLUDED_)
+

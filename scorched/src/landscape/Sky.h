@@ -22,6 +22,7 @@
 #define __INCLUDE_Skyh_INCLUDE__
 
 #include <landscape/SkyDome.h>
+#include <landscape/Sun.h>
 
 class Sky
 {
@@ -33,8 +34,11 @@ public:
 	void simulate(float frameTime);
 	void generate();
 
+	Sun &getSun() { return sun_; }
+
 protected:
 	SkyDome dome_;
+	Sun sun_;
 };
 
 #endif // __INCLUDE_Skyh_INCLUDE__

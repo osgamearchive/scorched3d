@@ -29,14 +29,14 @@ void HeightMapModifier::levelSurround(HeightMap &hmap)
 {
 	for (int x=0; x<=hmap.getWidth(); x++)
 	{
-		hmap.setHeight(0, x) = 0.0f;
-		hmap.setHeight(1, x) = 0.0f;
-		hmap.setHeight(hmap.getWidth(), x) = 0.0f;
-		hmap.setHeight(hmap.getWidth()-1, x) = 0.0f;
-		hmap.setHeight(x, 0) = 0.0f;
-		hmap.setHeight(x, 1) = 0.0f;
-		hmap.setHeight(x, hmap.getWidth()) = 0.0f;
-		hmap.setHeight(x, hmap.getWidth()-1) = 0.0f;
+		hmap.setHeight(0, x, 0.0f);
+		hmap.setHeight(1, x, 0.0f);
+		hmap.setHeight(hmap.getWidth(), x, 0.0f);
+		hmap.setHeight(hmap.getWidth()-1, x, 0.0f);
+		hmap.setHeight(x, 0, 0.0f);
+		hmap.setHeight(x, 1, 0.0f);
+		hmap.setHeight(x, hmap.getWidth(), 0.0f);
+		hmap.setHeight(x, hmap.getWidth()-1, 0.0f);
 	}
 }
 
@@ -91,7 +91,7 @@ void HeightMapModifier::smooth(HeightMap &hmap,
 	{
 		for (int y=0; y<=hmap.getWidth(); y++)
 		{
-			hmap.setHeight(x, y) = *(start++);
+			hmap.setHeight(x, y, *(start++));
 		}
 	}
 	delete [] newhMap_;
@@ -129,7 +129,8 @@ void HeightMapModifier::scale(HeightMap &hmap,
 		if (counter) counter->setNewPercentage((100.0f * float(x)) / float(hmap.getWidth()));
 		for (int y=0; y<=hmap.getWidth(); y++)
 		{
-			hmap.setHeight(x,y) *= per;
+			float height = hmap.getHeight(x,y);
+			hmap.setHeight(x,y, height * per);
 		}
 	}
 }
@@ -161,7 +162,8 @@ void HeightMapModifier::addCirclePeak(HeightMap &hmap, Vector &start,
 				if (dist < sizew)
 				{
 					float newHeight = (float) cos(dist * PI / sizew) * sizeh / 4 + sizeh / 4;
-					hmap.setHeight(x, y) += newHeight;
+					newHeight += hmap.getHeight(x,y);
+					hmap.setHeight(x, y, newHeight);
 				}
 			}
 		}

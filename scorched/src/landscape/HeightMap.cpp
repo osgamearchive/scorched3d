@@ -21,14 +21,19 @@
 #include <common/Triangle.h>
 #include <common/Defines.h>
 #include <landscape/HeightMap.h>
+#include <float.h>
 
 Vector HeightMap::nvec(0.0f, 0.0f, 1.0f);
+static const int minMapShift = 3;
 
 HeightMap::HeightMap(const int width) :
 	width_(width)
 {
 	hMap_ = new float[(width_ + 1) * (width_ + 1)];
 	normals_ = new Vector[(width_ + 1) * (width_ + 1)];
+
+	minWidth_ = width >> minMapShift;
+	minMap_ = new float[(minWidth_ + 1) * (minWidth_ + 1)];
 
 	reset();
 }
@@ -37,12 +42,14 @@ HeightMap::~HeightMap()
 {
 	delete [] hMap_;
 	delete [] normals_;
+	delete [] minMap_;
 }
 
 void HeightMap::reset()
 {
 	memset(hMap_, 0, sizeof(float)  * (width_ + 1) * (width_ + 1));
 	memset(normals_, 0, sizeof(Vector)  * (width_ + 1) * (width_ + 1));
+	for (int i=0; i<(minWidth_ + 1) * (minWidth_ + 1); i++) minMap_[i] = FLT_MAX;
 }
 
 bool HeightMap::getVector(Vector &vec, int x, int y)
@@ -148,13 +155,15 @@ bool HeightMap::getIntersect(Line &direction, Vector &intersect)
 				float(x) - 0.5f, float(y), getHeight(x, y),
 				getNormal(x, y),
 				float(x + searchSquareWidth_), float(y), getHeight(x + searchSquareWidth_, y),
-				getNormal(x + searchSquareWidth_, y),
-				float(x + searchSquareWidth_), float(y + searchSquareWidth_) + 0.5f, getHeight(x + searchSquareWidth_, y + searchSquareWidth_),
+					getNormal(x + searchSquareWidth_, y),
+				float(x + searchSquareWidth_), float(y + searchSquareWidth_) + 0.5f, 
+					getHeight(x + searchSquareWidth_, y + searchSquareWidth_),
 				getNormal(x + searchSquareWidth_, y + searchSquareWidth_));
 
 			static Triangle triB;
 			triB.setPointComponents(
-				float(x + searchSquareWidth_) + 0.5f, float(y + searchSquareWidth_), getHeight(x + searchSquareWidth_, y + searchSquareWidth_),
+				float(x + searchSquareWidth_) + 0.5f, float(y + searchSquareWidth_), 
+					getHeight(x + searchSquareWidth_, y + searchSquareWidth_),
 				getNormal(x + searchSquareWidth_, y+  searchSquareWidth_),
 				float(x), float(y + searchSquareWidth_), getHeight(x, y + searchSquareWidth_),
 				getNormal(x, y+  searchSquareWidth_),
@@ -251,8 +260,30 @@ void HeightMap::getInterpNormal(float w, float h, Vector &normal)
 	normal += normalDiffEF;
 }
 
-float &HeightMap::setHeight(int w, int h)
+float &HeightMap::getHeightRef(int w, int h)
 {
 	DIALOG_ASSERT(w >= 0 && h >= 0 && w<=width_ && h<=width_);
 	return hMap_[(width_+1) * h + w];
 }
+
+void HeightMap::setHeight(int w, int h, float height)
+{
+	DIALOG_ASSERT(w >= 0 && h >= 0 && w<=width_ && h<=width_);
+	hMap_[(width_+1) * h + w] = height;
+
+	int newW = w >> minMapShift;
+	int newH = h >> minMapShift;
+	float *minHeight = &minMap_[(minWidth_+1) * newH + newW];
+	if (*minHeight > height)
+	{
+		*minHeight = height;
+	}
+}
+
+float HeightMap::getMinHeight(int w, int h)
+{
+	DIALOG_ASSERT(w >= 0 && h >= 0 && w<=minWidth_ && h<=minWidth_);
+	float minHeight = minMap_[(minWidth_+1) * h + w];
+	return minHeight;
+}
+

@@ -82,7 +82,7 @@ void SkyDome::draw()
 		if (layer1_.empty())
 		{
 			Vector sunDir = 
-				-Landscape::instance()->getSun().getPosition().Normalize();
+				-Landscape::instance()->getSky().getSun().getPosition().Normalize();
 
 			Hemisphere::createColored(layer1_, 
 				1800, 180, 10, 10,

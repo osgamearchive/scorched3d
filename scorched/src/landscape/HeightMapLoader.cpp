@@ -85,7 +85,7 @@ void HeightMapLoader::loadTerrain(HeightMap &hmap,
 
 			GLfloat h = ((XB - XA) * (hy - ihy)) + XA;
 
-			hmap.setHeight(bx, by) = h / 2.5f;
+			hmap.setHeight(bx, by, h / 2.5f);
 		}
 	}
 

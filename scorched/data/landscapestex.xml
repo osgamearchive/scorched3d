@@ -6,6 +6,7 @@
 		<magmasmall>data/textures/landscape/default/magma-small.bmp</magmasmall>
 		<scorch>data/textures/landscape/default/scorch.bmp</scorch>
 		<fog><A>0.8</A><B>0.8</B><C>0.8</C></fog>
+		<lowestlandheight>0.0</lowestlandheight>
 		<skytexture>data/textures/landscape/default/cloud1.bmp</skytexture>
 		<skycolormap>data/textures/clearsky.bmp</skycolormap>
 		<skytimeofday>3</skytimeofday>
@@ -47,6 +48,7 @@
 		<magmasmall>data/textures/landscape/default/magma-small.bmp</magmasmall>
 		<scorch>data/textures/landscape/hell/scorch.bmp</scorch>
 		<fog><A>0.8</A><B>0.1</B><C>0.1</C></fog>
+		<lowestlandheight>0.0</lowestlandheight>
 		<skytexture>data/textures/landscape/hell/cloud1.bmp</skytexture>
 		<skycolormap>data/textures/clearsky.bmp</skycolormap>
 		<skytimeofday>3</skytimeofday>
@@ -78,6 +80,7 @@
 		<magmasmall>data/textures/landscape/default/magma-small.bmp</magmasmall>
 		<scorch>data/textures/landscape/sand/scorch.bmp</scorch>
 		<fog><A>0.8</A><B>0.8</B><C>0.8</C></fog>
+		<lowestlandheight>0.0</lowestlandheight>
 		<skytexture>data/textures/landscape/sand/cloud1.bmp</skytexture>
 		<skycolormap>data/textures/clearsky.bmp</skycolormap>
 		<skytimeofday>3</skytimeofday>
@@ -119,6 +122,7 @@
 		<magmasmall>data/textures/landscape/default/magma-small.bmp</magmasmall>
 		<scorch>data/textures/landscape/snow/scorch.bmp</scorch>
 		<fog><A>0.8</A><B>0.8</B><C>0.8</C></fog>
+		<lowestlandheight>0.0</lowestlandheight>
 		<skytexture>data/textures/landscape/snow/cloud1.bmp</skytexture>
 		<skycolormap>data/textures/clearsky.bmp</skycolormap>
 		<skytimeofday>3</skytimeofday>
@@ -160,6 +164,7 @@
 		<magmasmall>data/textures/landscape/default/magma-small.bmp</magmasmall>
 		<scorch>data/textures/landscape/tropical/scorch.bmp</scorch>
 		<fog><A>0.8</A><B>0.8</B><C>0.8</C></fog>
+		<lowestlandheight>0.0</lowestlandheight>
 		<skytexture>data/textures/landscape/tropical/cloud1.bmp</skytexture>
 		<skycolormap>data/textures/clearsky.bmp</skycolormap>
 		<skytimeofday>3</skytimeofday>
@@ -201,6 +206,7 @@
 		<magmasmall>data/textures/landscape/default/magma-small.bmp</magmasmall>
 		<scorch>data/textures/landscape/vulcano/scorch.bmp</scorch>
 		<fog><A>0.8</A><B>0.8</B><C>0.8</C></fog>
+		<lowestlandheight>0.0</lowestlandheight>
 		<skytexture>data/textures/landscape/vulcano/cloud1.bmp</skytexture>
 		<skycolormap>data/textures/clearsky.bmp</skycolormap>
 		<skytimeofday>3</skytimeofday>
@@ -232,6 +238,7 @@
 		<magmasmall>data/textures/landscape/default/magma-small.bmp</magmasmall>
 		<scorch>data/textures/landscape/storm/scorch.bmp</scorch>
 		<fog><A>0.8</A><B>0.8</B><C>0.8</C></fog>
+		<lowestlandheight>0.0</lowestlandheight>
 		<skytexture>data/textures/landscape/storm/cloud1.bmp</skytexture>
 		<skycolormap>data/textures/clearsky.bmp</skycolormap>
 		<skytimeofday>3</skytimeofday>
@@ -273,6 +280,7 @@
 		<magmasmall>data/textures/landscape/default/magma-small.bmp</magmasmall>
 		<scorch>data/textures/landscape/storm/scorch.bmp</scorch>
 		<fog><A>0.8</A><B>0.8</B><C>0.8</C></fog>
+		<lowestlandheight>0.0</lowestlandheight>
 		<skytexture>data/textures/landscape/storm/cloud1.bmp</skytexture>
 		<skycolormap>data/textures/clearsky.bmp</skycolormap>
 		<skytimeofday>3</skytimeofday>

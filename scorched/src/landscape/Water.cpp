@@ -33,7 +33,7 @@
 
 Water::Water() :
 	height_(25.0f),
-	wMap_(64, 8, 256), 
+	wMap_(64, 8), 
 	wMapPoints_(wMap_, 256, 4),
 	resetWater_(false), resetWaterTimer_(0.0f), 
 	waterOn_(false)

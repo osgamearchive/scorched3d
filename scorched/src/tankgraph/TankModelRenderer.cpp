@@ -176,7 +176,7 @@ void TankModelRenderer::drawShield()
 		texture2 = new GLTexture;
 		texture2->create(map2, GL_RGBA, true);
 
-		std::string file3 = getDataFile("data/textures/bordershield/hit.bmp");
+		std::string file3 = getDataFile("data/textures/ring.bmp");
 		GLBitmap map3(file3.c_str(), file3.c_str(), false);
 		magtexture = new GLTexture;
 		magtexture->create(map3, GL_RGBA, true);
@@ -219,7 +219,7 @@ void TankModelRenderer::drawShield()
 	if (shield->getShieldType() == Shield::ShieldTypeMag)
 	{
 		magtexture->draw();
-		glColor4f(color[0], color[1], color[2], 0.5f + shieldHit_);
+		glColor4f(color[0], color[1], color[2], (0.5f + shieldHit_) * (1.0f - (totalTime_ / 3.0f)));
 		glPushMatrix();
 			float scale = totalTime_ / 2.0f;
 			glTranslatef(position[0], position[1], position[2] + scale + 1.0f);
@@ -243,6 +243,7 @@ void TankModelRenderer::drawShield()
 				glVertex3f(1.0f, 1.0f, 0.0f);
 			glEnd();
 		glPopMatrix();
+		glColor4f(color[0], color[1], color[2], (0.5f + shieldHit_) * (1.0f - (totalTime2_ / 3.0f)));
 		glPushMatrix();
 			scale = totalTime2_ / 2.0f;
 			glTranslatef(position[0], position[1], position[2] + scale + 1.0f);

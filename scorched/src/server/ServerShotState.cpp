@@ -20,6 +20,7 @@
 
 #include <server/ScorchedServer.h>
 #include <server/ServerShotState.h>
+#include <server/ServerNextShotState.h>
 #include <server/ServerState.h>
 #include <server/ServerShotHolder.h>
 #include <server/ServerCommon.h>
@@ -81,9 +82,7 @@ bool ServerShotState::acceptStateChange(const unsigned state,
 			stepActions(state, 0.5f);
 
 			// Check if any player or team has won the round
-			if (ScorchedServer::instance()->getTankContainer().aliveCount() < 2 ||
-				(ScorchedServer::instance()->getTankContainer().teamCount() == 1 &&
-				ScorchedServer::instance()->getOptionsGame().getTeams() == 2))
+			if (ServerNextShotState::getRoundFinished())
 			{
 				// The actual state transition for no tanks left is done
 				// in the next round state however

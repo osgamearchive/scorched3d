@@ -383,8 +383,6 @@ scorched3d_SOURCES = \
 	../landscape/HeightMapModifier.h \
 	../landscape/HeightMapRenderer.cpp \
 	../landscape/HeightMapRenderer.h \
-	../landscape/HeightMapSurround.cpp \
-	../landscape/HeightMapSurround.h \
 	../landscape/Hemisphere.cpp \
 	../landscape/Hemisphere.h \
 	../landscape/InfoMap.cpp \
@@ -423,14 +421,18 @@ scorched3d_SOURCES = \
 	../landscape/PatchSide.h \
 	../landscape/ShadowMap.cpp \
 	../landscape/ShadowMap.h \
+	../landscape/Sky.cpp \
+	../landscape/Sky.h \
+	../landscape/SkyDome.cpp \
+	../landscape/SkyDome.h \
 	../landscape/Smoke.cpp \
 	../landscape/Smoke.h \
 	../landscape/Sun.cpp \
 	../landscape/Sun.h \
 	../landscape/Surround.cpp \
 	../landscape/Surround.h \
-	../landscape/SurroundDefs.cpp \
-	../landscape/SurroundDefs.h \
+	../landscape/SurroundDefault.cpp \
+	../landscape/SurroundDefault.h \
 	../landscape/TriNode.cpp \
 	../landscape/TriNode.h \
 	../landscape/TriNodePool.cpp \

@@ -40,22 +40,18 @@ void WaterMapModifier::addWaterVisibility(
 			if (posX >= 0 && posY >= 0 &&
 				posX < hMap.getWidth() && posY < hMap.getWidth())
 			{
-				float height = hMap.getHeight(posX, posY);
-				if (height > waterHeight + 3.0f)
-				{
-					currentEntry->dontDraw = true;
-				}
-				else
-				{
-					currentEntry->dontDraw = false;
-				}
+				posX = posX >> 3;
+				posY = posY >> 3;
 
+				float height = hMap.getMinHeight(posX, posY);
 				if (height > waterHeight)
 				{
+					currentEntry->dontDraw = true;
 					currentEntry->depth = 0.0f;
 				}
 				else
 				{
+					currentEntry->dontDraw = false;
 					currentEntry->depth = 1.0f - height / waterHeight;
 				}
 			}
@@ -69,3 +65,4 @@ void WaterMapModifier::addWaterVisibility(
 		}
 	}
 }
+

@@ -189,7 +189,6 @@ void Landscape::draw(const unsigned state)
 
 	objects_.draw();
 	wall_.draw();
-	sun_.draw();
 
 	if (OptionsDisplay::instance()->getDrawLines()) glPolygonMode(GL_FRONT, GL_FILL);
 }
@@ -276,10 +275,10 @@ void Landscape::generate(ProgressCounter *counter)
 	water_.generate();
 
 	// Add lighting to the landscape texture
-	sun_.setPosition(tex->skysunxy, tex->skysunyz);
+	sky_.getSun().setPosition(tex->skysunxy, tex->skysunyz);
 	GLBitmapModifier::addLightMapToBitmap(mainMap_,
 		ScorchedClient::instance()->getLandscapeMaps().getHMap(),
-		sun_.getPosition(), counter);
+		sky_.getSun().getPosition(), counter);
 
     // Create the landscape texture used for the small plan window
 	gluScaleImage(

@@ -36,6 +36,36 @@ ServerNextShotState::~ServerNextShotState()
 {
 }
 
+bool ServerNextShotState::getRoundFinished(bool log)
+{
+	// Check why this round has finished
+	bool roundFinished = false;
+	if (ScorchedServer::instance()->getOptionsGame().getTeams() == 2 &&
+		ScorchedServer::instance()->getTankContainer().teamCount() == 1)
+	{
+		// Only one team left
+		roundFinished = true;
+	}
+	else if (ScorchedServer::instance()->getTankContainer().aliveCount() < 2)
+	{
+		// Only one person left
+		roundFinished = true;
+	}
+	else if (ScorchedServer::instance()->getOptionsTransient().getCurrentGameNo() >
+		ScorchedServer::instance()->getOptionsGame().getNoMaxRoundTurns() &&
+		ScorchedServer::instance()->getOptionsGame().getNoMaxRoundTurns() > 0)
+	{
+		roundFinished = true;
+
+		if (log)
+		{
+			ServerCommon::serverLog(0, "Skipping round due to turn limit");
+			ServerCommon::sendString(0, "Skipping round due to turn limit");
+		}
+	}
+	return roundFinished;
+}
+
 void ServerNextShotState::enterState(const unsigned state)
 {
 	// Check there are enough players for this shot
@@ -46,30 +76,8 @@ void ServerNextShotState::enterState(const unsigned state)
 		return;
 	}
 
-	// Check why this round has finished
-	bool roundFinished = false;
-	if (ScorchedServer::instance()->getOptionsGame().getTeams() == 2 &&
-		ScorchedServer::instance()->getTankContainer().teamCount() == 1)
-	{
-		// Only one team left
-		roundFinished = true;
-	}
-	else if (ScorchedServer::instance()->getTankContainer().aliveCount() < 2) 
-	{
-		// Only one person left
-		roundFinished = true;
-	}
-	else if (ScorchedServer::instance()->getOptionsTransient().getCurrentGameNo() > 
-			 ScorchedServer::instance()->getOptionsGame().getNoMaxRoundTurns() && 
-			 ScorchedServer::instance()->getOptionsGame().getNoMaxRoundTurns() > 0)
-	{
-		roundFinished = true;
-		ServerCommon::serverLog(0, "Skipping round due to turn limit");
-		ServerCommon::sendString(0, "Skipping round due to turn limit");
-	}
-
 	// Check if this round has finished
-	if (roundFinished)
+	if (getRoundFinished(true))
 	{
 		// We have finished with this round
 		// check for all rounds completely finished

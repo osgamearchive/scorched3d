@@ -63,11 +63,11 @@ void TankMovement::init()
 			float firstx = float(fistpt >> 16);
 			float firsty = float(fistpt & 0xffff);
 			float *firstHeight = 
-				&context_->landscapeMaps->getHMap().setHeight(int(firstx), int(firsty));
+				&context_->landscapeMaps->getHMap().getHeightRef(int(firstx), int(firsty));
 			float secx = float(secpt >> 16);
 			float secy = float(secpt & 0xffff);
 			float *secondHeight = 
-				&context_->landscapeMaps->getHMap().setHeight(int(secx), int(secy));
+				&context_->landscapeMaps->getHMap().getHeightRef(int(secx), int(secy));
 
 			float diffX = secx - firstx;
 			float diffY = secy - firsty;

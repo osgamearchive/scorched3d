@@ -97,6 +97,7 @@ scorcheddatatextures_DATA = data/textures/glow1.bmp \
 	data/textures/pinea.bmp \
 	data/textures/waves.bmp \
 	data/textures/clearsky.bmp \
+	data/textures/ring.bmp \
 	data/textures/particle.bmp \
 	data/textures/waves2.bmp
 scorcheddatatexturesbordershielddir = ${datadir}/data/textures/bordershield
@@ -588,13 +589,6 @@ scorcheddatatankszsu57dir = ${datadir}/data/tanks/zsu57
 scorcheddatatankszsu57_DATA = data/tanks/zsu57/zsu57.bmp \
 	data/tanks/zsu57/zsu57.txt \
 	data/tanks/zsu57/black.bmp
-scorcheddatatanksCannonTowerdir = ${datadir}/data/tanks/CannonTower
-scorcheddatatanksCannonTower_DATA = data/tanks/CannonTower/side2.bmp \
-	data/tanks/CannonTower/top.bmp \
-	data/tanks/CannonTower/cannontower.txt \
-	data/tanks/CannonTower/side.bmp \
-	data/tanks/CannonTower/base.bmp \
-	data/tanks/CannonTower/gun.bmp
 scorcheddatatankssa6dir = ${datadir}/data/tanks/sa6
 scorcheddatatankssa6_DATA = data/tanks/sa6/guncover.bmp \
 	data/tanks/sa6/chrome.bmp \
@@ -656,6 +650,13 @@ scorcheddatatanksmissileturret_DATA = data/tanks/missileturret/red.bmp \
 scorcheddatatanksbattleshipdir = ${datadir}/data/tanks/battleship
 scorcheddatatanksbattleship_DATA = data/tanks/battleship/battleship.txt \
 	data/tanks/battleship/grey.bmp
+scorcheddatatankscannontowerdir = ${datadir}/data/tanks/cannontower
+scorcheddatatankscannontower_DATA = data/tanks/cannontower/side2.bmp \
+	data/tanks/cannontower/top.bmp \
+	data/tanks/cannontower/cannontower.txt \
+	data/tanks/cannontower/side.bmp \
+	data/tanks/cannontower/base.bmp \
+	data/tanks/cannontower/gun.bmp
 scorcheddatatanksgorilladir = ${datadir}/data/tanks/gorilla
 scorcheddatatanksgorilla_DATA = data/tanks/gorilla/gorilla.txt \
 	data/tanks/gorilla/gorilla.bmp \

@@ -24,7 +24,7 @@
 
 // The maximum amount of money allowed by anyone
 // Range limited to 0 -> maxMoney
-static const int maxMoney = 500000;
+static const int maxMoney = 999999;
 
 TankScore::TankScore(ScorchedContext &context) : 
 	context_(context), totalMoneyEarned_(0),

@@ -35,7 +35,7 @@
 	* SQRT_OF_TWO_INV; currentEntry->force -= f; x.force += f;
 
 WaterMap::WaterMap(
-	int width, int squareSize, int texSize) : 
+	int width, int squareSize) : 
 	width_(width), squareSize_(squareSize),
 	heights_(0), widthMult_(6),
 	drawNormals_(false), drawVisiblePoints_(false),
