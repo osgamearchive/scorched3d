@@ -18,19 +18,11 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// GLConsole.cpp: implementation of the GLConsole class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <common/Keyboard.h>
+#include <common/Defines.h>
 #include <GLEXT/GLState.h>
 #include <GLEXT/GLConsole.h>
 #include <GLW/GLWFont.h>
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 GLConsole *GLConsole::instance_ = 0;
 
@@ -234,13 +226,15 @@ void GLConsole::parseLine(const char *line)
 
 void GLConsole::addLine(bool parse, const char *fmt, ...)
 {
-	static char text[2048];
+	const int TEXT_SIZE = 10000;
+	static char text[TEXT_SIZE];
 	va_list ap;
 
 	va_start(ap, fmt);
 	vsprintf(text, fmt, ap);
 	va_end(ap);
 
+	DIALOG_ASSERT(strlen(text)<TEXT_SIZE);
 	if (parse)
 	{
 		parseLine(text);

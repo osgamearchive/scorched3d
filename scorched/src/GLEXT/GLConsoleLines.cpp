@@ -169,7 +169,8 @@ const char *GLConsoleLines::getItem(int lines)
 void GLConsoleLines::addLine(const char *text, bool showPointer)
 {
 	const int bufferSize = 80;
-	if ((int) strlen(text) < bufferSize)
+	int len = (int) strlen(text);
+	if (len < bufferSize)
 	{
 		addSmallLine(text, showPointer);
 	}
