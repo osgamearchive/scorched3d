@@ -447,6 +447,8 @@ scorched3d_SOURCES = \
 	../landscape/Surround.h \
 	../landscape/SurroundDefault.cpp \
 	../landscape/SurroundDefault.h \
+	../landscape/SurroundLandscape.cpp \
+	../landscape/SurroundLandscape.h \
 	../landscape/TriNode.cpp \
 	../landscape/TriNode.h \
 	../landscape/TriNodePool.cpp \

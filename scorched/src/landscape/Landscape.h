@@ -68,6 +68,7 @@ public:
 	GLTexture &getCloudTexture() { return cloudTexture_; }
 	GLTexture &getLandscapeTexture1() { return landTex1_; }
 	GLTexture &getSurroundTexture() { return surroundTexture_; }
+	GLTexture &getGroundTexture() { return groundTexture_; }
 	GLTexture &getDetailTexture() { return detailTexture_; }
 	GLTexture &getRoofTexture() { return roofTexture_; }
 
@@ -110,6 +111,7 @@ protected:
 	GLTexture detailTexture_;
 	GLTexture roofTexture_;
 	GLTexture landTex1_;
+	GLTexture groundTexture_;
 	GLBitmap mainMap_;
 	GLBitmap scorchMap_;
 	GLBitmap skyColorsMap_;

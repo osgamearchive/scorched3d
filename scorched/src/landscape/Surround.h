@@ -22,6 +22,7 @@
 #define AFX_SURROUND_H__E92604A2_6E7D_4810_9685_B699CE743B19__INCLUDED_
 
 #include <landscape/SurroundDefault.h>
+#include <landscape/SurroundLandscape.h>
 
 class Surround
 {
@@ -34,6 +35,7 @@ public:
 
 protected:
 	SurroundDefault default_;
+	SurroundLandscape landscape_;
 
 };
 

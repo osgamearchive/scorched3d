@@ -1584,6 +1584,12 @@
 				RelativePath="..\landscape\SurroundDefault.h">
 			</File>
 			<File
+				RelativePath="..\landscape\SurroundLandscape.cpp">
+			</File>
+			<File
+				RelativePath="..\landscape\SurroundLandscape.h">
+			</File>
+			<File
 				RelativePath="..\landscape\TriNode.cpp">
 			</File>
 			<File

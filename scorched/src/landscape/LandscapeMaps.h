@@ -37,10 +37,12 @@ public:
 	// Joy, I have used letters that all look the same :(
 	HeightMap &getHMap() { return map_; }
 	HeightMap &getRMap() { return rmap_; }
+	HeightMap &getSMap() { return smap_; }
 	MovementMap &getMMap() { return mmap_; }
 	NapalmMap &getNMap() { return nmap_; }
 	LandscapeDefinition &getLandDfn() { return *storedHdef_; }
 	bool getRoof() { return roof_; }
+	bool getSurround() { return surround_; }
 
 	// Generates the next level
 	void generateHMap(LandscapeDefinition *hdef,
@@ -68,6 +70,10 @@ protected:
 	// The roof of the landscape
 	bool roof_;
 	HeightMap rmap_;
+
+	// The surround of the landscape
+	bool surround_;
+	HeightMap smap_;
 
 	// The values at the start of the level
 	float *storedMap_;

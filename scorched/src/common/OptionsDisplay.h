@@ -196,6 +196,10 @@ public:
 	void setDrawWater(bool value) { drawWater_.setValue(value); }
 	const char *getDrawWaterToolTip() { return drawWater_.getDescription(); }
 
+	bool getDrawSurround() { return drawSurround_.getValue(); }
+	void setDrawSurround(bool value) { drawSurround_.setValue(value); }
+	const char *getDrawSurroundToolTip() { return drawSurround_.getDescription(); }
+
 	bool getNoWaterMovement() { return noWaterMovement_.getValue(); }
 	void setNoWaterMovement(bool value) { noWaterMovement_.setValue(value); }
 	const char *getNoWaterMovementToolTip() { return noWaterMovement_.getDescription(); }
@@ -334,6 +338,7 @@ protected:
 	OptionEntryBool noSkins_;
 	OptionEntryBool sortAccessories_;
 	OptionEntryBool drawWater_;
+	OptionEntryBool drawSurround_;
 	OptionEntryBool drawPlayerNames_;
 	OptionEntryBool drawPlayerSight_;
 	OptionEntryBool drawPlayerColor_;

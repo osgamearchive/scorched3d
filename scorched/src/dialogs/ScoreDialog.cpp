@@ -126,7 +126,7 @@ void ScoreDialog::draw()
 
 	Vector white(0.9f, 0.9f, 1.0f);
 	bool server = (OptionsParam::instance()->getConnectedToServer());
-	if (server)
+	if (server && !finished)
 	{
 		GLWFont::instance()->getLargePtFont()->drawWidth(
 			405,

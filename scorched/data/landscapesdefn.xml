@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <defns>
 	<defn>
 		<name>oldstyle</name>
@@ -140,7 +140,28 @@
    		<name>islands</name>
 		<minplayers>0</minplayers>
 		<maxplayers>24</maxplayers>
-		<surround type="none"></surround>
+		<surround type="generate">
+			<mask>data/landscapes/surround-mask.bmp</mask>
+			<landhills>
+				<min>32</min><max>50</max>
+			</landhills>
+			<landheight>
+				<min>30</min><max>50</max>
+			</landheight>
+			<landwidthx>96</landwidthx>
+			<landwidthy>96</landwidthy>
+			<landpeakwidthx>
+				<min>2</min><max>3</max>
+			</landpeakwidthx>
+			<landpeakwidthy>
+				<min>-1</min><max>1</max>
+			</landpeakwidthy>
+			<landpeakheight>
+				<min>1.0</min><max>1.5</max>
+			</landpeakheight>
+			<landsmoothing>0.04</landsmoothing>
+			<levelsurround>true</levelsurround>
+		</surround>
 		<roof type="sky"></roof>
 		<tankstart type="height">
 			<startcloseness>20</startcloseness>

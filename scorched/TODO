@@ -43,6 +43,7 @@ Changed: Spread and hurts weapon primative options are now variable
 Changed: LeapFrog weapon primative bounce now variable
 Changed: Message of the day now defined in server.xml file
 
+Added: A surround (islands) around the landscape can be drawn
 Added: Players can be muted via the talk dialog
 Added: Slow motion camera speeds
 Added: Maps can be cycled through in order

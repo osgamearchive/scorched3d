@@ -19,6 +19,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <landscape/Surround.h>
+#include <landscape/LandscapeMaps.h>
+#include <client/ScorchedClient.h>
+#include <common/OptionsDisplay.h>
 
 Surround::Surround(HeightMap &map, int width, int height) : 
 	default_(map, width, height)
@@ -32,10 +35,16 @@ Surround::~Surround()
 void Surround::draw()
 {
 	default_.draw();
+	if (ScorchedClient::instance()->getLandscapeMaps().getSurround() &&
+		OptionsDisplay::instance()->getDrawSurround())
+	{
+		landscape_.draw();
+	}
 }
 
 void Surround::generate()
 {
 	default_.generate();
+	landscape_.generate();
 }
 

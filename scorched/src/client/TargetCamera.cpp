@@ -144,6 +144,16 @@ float TargetCamera::minHeightFunc(int x, int y, void *data)
 			getHMap().getHeight(x, y) + addition;
 	}
 
+	if (x > -640 && x < 896 &&
+		y > -640 && y < 896)
+	{
+		int a = (x + 640) / 16;
+		int b = (y + 640) / 16;
+
+		h = MAX(h, ScorchedClient::instance()->getLandscapeMaps().
+			getSMap().getHeight(a, b) + addition);
+	}
+
 	return (h>heightMin + addition?h:heightMin + addition);
 }
 

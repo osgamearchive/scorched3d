@@ -259,6 +259,7 @@ bool LandscapeTexBorderWater::readXML(XMLNode *node)
 bool LandscapeTexTextureGenerate::writeMessage(NetBuffer &buffer)
 {
 	buffer.addToBuffer(roof);
+	buffer.addToBuffer(surround);
 	buffer.addToBuffer(rockside);
 	buffer.addToBuffer(shore);
 	buffer.addToBuffer(texture0);
@@ -272,6 +273,7 @@ bool LandscapeTexTextureGenerate::writeMessage(NetBuffer &buffer)
 bool LandscapeTexTextureGenerate::readMessage(NetBufferReader &reader)
 {
 	if (!reader.getFromBuffer(roof)) return false;
+	if (!reader.getFromBuffer(surround)) return false;
 	if (!reader.getFromBuffer(rockside)) return false;
 	if (!reader.getFromBuffer(shore)) return false;
 	if (!reader.getFromBuffer(texture0)) return false;
@@ -285,6 +287,7 @@ bool LandscapeTexTextureGenerate::readMessage(NetBufferReader &reader)
 bool LandscapeTexTextureGenerate::readXML(XMLNode *node)
 {
 	if (!node->getNamedChild("roof", roof)) return false;
+	if (!node->getNamedChild("surround", surround)) return false;
 	if (!node->getNamedChild("rockside", rockside)) return false;
 	if (!node->getNamedChild("shore", shore)) return false;
 	if (!node->getNamedChild("texture0", texture0)) return false;
@@ -292,6 +295,7 @@ bool LandscapeTexTextureGenerate::readXML(XMLNode *node)
 	if (!node->getNamedChild("texture2", texture2)) return false;
 	if (!node->getNamedChild("texture3", texture3)) return false;
 	if (!node->getNamedChild("texture4", texture4)) return false;
+	if (!checkDataFile(surround.c_str())) return false;
 	if (!checkDataFile(roof.c_str())) return false;
 	if (!checkDataFile(rockside.c_str())) return false;
 	if (!checkDataFile(shore.c_str())) return false;

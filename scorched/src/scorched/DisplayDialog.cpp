@@ -291,6 +291,8 @@ void DisplayFrame::refreshScreen()
 	IDC_NOWATERANI_CTRL->SetToolTip(OptionsDisplay::instance()->getNoWaterMovementToolTip());
 	IDC_NOWATER_CTRL->SetValue(!OptionsDisplay::instance()->getDrawWater());
 	IDC_NOWATER_CTRL->SetToolTip(OptionsDisplay::instance()->getDrawWaterToolTip());
+	IDC_NOSURROUND_CTRL->SetValue(!OptionsDisplay::instance()->getDrawSurround());
+	IDC_NOSURROUND_CTRL->SetToolTip(OptionsDisplay::instance()->getDrawSurroundToolTip());
 	IDC_NOTREES_CTRL->SetValue(OptionsDisplay::instance()->getNoTrees());
 	IDC_NOTREES_CTRL->SetToolTip(OptionsDisplay::instance()->getNoTreesToolTip());
 	IDC_NOWAVES_CTRL->SetValue(OptionsDisplay::instance()->getNoWaves());
@@ -476,6 +478,7 @@ bool DisplayFrame::TransferDataFromWindow()
 	OptionsDisplay::instance()->setBrightness(IDC_SLIDER1_CTRL->GetValue());
 	OptionsDisplay::instance()->setSoundVolume(IDC_VOLUME_CTRL->GetValue());
 	OptionsDisplay::instance()->setDrawWater(!IDC_NOWATER_CTRL->GetValue());
+	OptionsDisplay::instance()->setDrawSurround(!IDC_NOSURROUND_CTRL->GetValue());
 	OptionsDisplay::instance()->setInvertElevation(IDC_INVERT_CTRL->GetValue());
 	OptionsDisplay::instance()->setInvertMouse(IDC_INVERTMOUSE_CTRL->GetValue());
 	OptionsDisplay::instance()->setSoftwareMouse(IDC_SMOUSE_CTRL->GetValue());

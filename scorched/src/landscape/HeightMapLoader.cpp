@@ -98,6 +98,7 @@ bool HeightMapLoader::generateTerrain(
 	LandscapeDefnType *defn,
 	const char *defnType,
 	HeightMap &hmap,
+	bool &levelSurround,
 	ProgressCounter *counter)
 {
 	// Do we generate or load the landscape
@@ -107,6 +108,7 @@ bool HeightMapLoader::generateTerrain(
 			(LandscapeDefnHeightMapFile *) defn;
 
 		// Load the landscape
+		levelSurround = file->levelsurround;
 		GLBitmap bitmap;
 		const char *fileName = getDataFile(file->file.c_str());
 		if (!bitmap.loadFromFile(fileName, false))
@@ -131,6 +133,7 @@ bool HeightMapLoader::generateTerrain(
 			(LandscapeDefnHeightMapGenerate *) defn;
 
 		// Seed the generator and generate the landscape
+		levelSurround = generate->levelsurround;
 		RandomGenerator generator;
 		RandomGenerator offsetGenerator;
 		generator.seed(seed);

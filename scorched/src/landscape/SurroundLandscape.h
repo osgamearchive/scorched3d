@@ -18,16 +18,16 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_SkyRoofh_INCLUDE__)
-#define __INCLUDE_SkyRoofh_INCLUDE__
+#if !defined(__INCLUDE_SurroundLandscapeh_INCLUDE__)
+#define __INCLUDE_SurroundLandscapeh_INCLUDE__
 
 #include <common/Vector.h>
 
-class SkyRoof
+class SurroundLandscape
 {
 public:
-	SkyRoof();
-	virtual ~SkyRoof();
+	SurroundLandscape();
+	virtual ~SurroundLandscape();
 
 	void draw();
 	void generate();
@@ -37,9 +37,7 @@ protected:
 	unsigned int tris_;
 
 	void makeList();
-	void drawSegment(Vector &a, Vector &b, 
-		Vector &na, Vector &nb);
 	void makeNormal(Vector &position, Vector &normal);
 };
 
-#endif // __INCLUDE_SkyRoofh_INCLUDE__
+#endif // __INCLUDE_SurroundLandscapeh_INCLUDE__

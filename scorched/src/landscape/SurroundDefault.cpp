@@ -20,6 +20,7 @@
 
 #include <GLEXT/GLState.h>
 #include <GLEXT/GLStateExtension.h>
+#include <GLEXT/GLInfo.h>
 #include <client/ScorchedClient.h>
 #include <common/OptionsDisplay.h>
 #include <landscape/Sky.h>
@@ -85,7 +86,7 @@ void SurroundDefault::draw()
 		Landscape::instance()->getDetailTexture().draw(true);
 		GLStateExtension::glActiveTextureARB()(GL_TEXTURE0_ARB);
 	}
-	Landscape::instance()->getSurroundTexture().draw(true);
+	Landscape::instance()->getGroundTexture().draw(true);
 	glCallList(listNo_);
 	if (detail)
 	{
@@ -93,6 +94,8 @@ void SurroundDefault::draw()
 		glDisable(GL_TEXTURE_2D);
 		GLStateExtension::glActiveTextureARB()(GL_TEXTURE0_ARB);
 	}
+
+	GLInfo::addNoTriangles(8);
 }
 
 void SurroundDefault::generate()
@@ -114,8 +117,6 @@ void SurroundDefault::generateList(bool detail)
 		{12,0,1,13}
 	};
 
-
-
 	Vector &ambient = 
 		ScorchedClient::instance()->getLandscapeMaps().
 			getLandDfn().getTex()->skyambience;
@@ -135,7 +136,6 @@ void SurroundDefault::generateList(bool detail)
 			float y = hMapBoxVerts_[dataOfs[i][j]][1] / 64.0f;
 
 			Vector pos = hMapBoxVerts_[dataOfs[i][j]];
-			if (pos.Magnitude()> 500) pos[2] -= 15.0f;
 			Vector sunDirection = (sunPos - pos).Normalize();
 			float diffuseLightMult = 
 				(((normal.dotP(sunDirection)) / 2.0f) + 0.5f);			

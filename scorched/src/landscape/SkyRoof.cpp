@@ -28,10 +28,11 @@
 #include <landscape/LandscapeMaps.h>
 #include <client/ScorchedClient.h>
 #include <engine/ScorchedContext.h>
+#include <GLEXT/GLInfo.h>
 #include <common/Defines.h>
 #include <math.h>
 
-SkyRoof::SkyRoof() : list_(0)
+SkyRoof::SkyRoof() : list_(0), tris_(0)
 {
 }
 
@@ -43,6 +44,7 @@ void SkyRoof::generate()
 {
 	if (list_) glDeleteLists(list_, 1);
 	list_ = 0;
+	tris_ = 0;
 }
 
 void SkyRoof::makeNormal(Vector &position, Vector &normal)
@@ -86,6 +88,8 @@ void SkyRoof::makeList()
 				makeNormal(b, rmap.getNormal(i, j + 1));
 				glTexCoord2f(b[0] / 64.0f, b[1] / 64.0f);
 				glVertex3fv(b);
+
+				tris_ += 2;
 			}
 			glEnd();
 		}
@@ -183,6 +187,8 @@ void SkyRoof::drawSegment(Vector &a, Vector &b, Vector &na, Vector &nb)
 		b += diffb;
 		a[2] = heighta * cosf(1.57f * float(i) / float(steps));
 		b[2] = heightb * cosf(1.57f * float(i) / float(steps));
+
+		tris_ += 2;
 	}	
 	glEnd();
 }
@@ -191,6 +197,7 @@ void SkyRoof::draw()
 {
 	if (!list_) makeList();
 	
+	GLInfo::addNoTriangles(tris_);
 	Landscape::instance()->getRoofTexture().draw(true);
 	glCallList(list_);
 }

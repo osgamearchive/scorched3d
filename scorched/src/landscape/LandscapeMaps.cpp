@@ -32,9 +32,9 @@
 
 LandscapeMaps::LandscapeMaps() : 
 	map_(256), mmap_(map_, 256), nmap_(256), 
-	rmap_(64),
+	rmap_(64), smap_(96),
 	storedMap_(0), storedHdef_(0), 
-	roof_(false)
+	roof_(false), surround_(false)
 {
 	// Allocate the stored map size to be the same
 	// as the height map size
@@ -54,11 +54,13 @@ void LandscapeMaps::generateHMap(LandscapeDefinition *hdef,
 	storedHdef_ = hdef;
 
 	// Generate the landscape
+	bool levelSurround = false;
 	if (!HeightMapLoader::generateTerrain(
 		hdef->getSeed(),
 		hdef->getDefn()->heightmap,
 		hdef->getDefn()->heightmaptype.c_str(),
 		getHMap(),
+		levelSurround,
 		counter))
 	{
 		dialogExit("Landscape", "Failed to generate landscape");
@@ -75,6 +77,7 @@ void LandscapeMaps::generateHMap(LandscapeDefinition *hdef,
 			cavern->heightmap,
 			cavern->heightmaptype.c_str(),
 			getRMap(),
+			levelSurround,
 			counter))
 		{
 			dialogExit("Landscape", "Failed to generate roof");
@@ -93,6 +96,37 @@ void LandscapeMaps::generateHMap(LandscapeDefinition *hdef,
 		roof_ = true;
 	}
 	else roof_ = false;
+
+	// Generate the surround
+	if (0 != strcmp(hdef->getDefn()->surroundtype.c_str(), "none"))
+	{
+		if (!HeightMapLoader::generateTerrain(
+			hdef->getSeed() + 1,
+			hdef->getDefn()->surround,
+			hdef->getDefn()->surroundtype.c_str(),
+			getSMap(),
+			levelSurround,
+			counter))
+		{
+			dialogExit("Landscape", "Failed to generate surround");
+		}
+
+		if (levelSurround)
+		{
+			for (int j=40; j<=56; j++)
+			{
+				for (int i=40; i<=56; i++)
+				{
+					getSMap().setHeight(i, j, 0);
+				}
+			}
+			getSMap().generateNormals(0, getSMap().getWidth(), 
+				0, getSMap().getWidth());
+		}
+
+		surround_ = true;
+	}
+	else surround_ = false;
 
 	// Save this height map for later
 	getHMap().resetMinHeight();

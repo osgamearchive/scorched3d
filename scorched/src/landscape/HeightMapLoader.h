@@ -39,6 +39,7 @@ namespace HeightMapLoader
 		LandscapeDefnType *defn,
 		const char *defnType,
 		HeightMap &hmap,
+		bool &levelSurround,
 		ProgressCounter *counter = 0);
 };
 

@@ -269,6 +269,7 @@ void Landscape::generate(ProgressCounter *counter)
 		GLBitmap bitmapShore(getDataFile(generate->shore.c_str()));
 		GLBitmap bitmapRock(getDataFile(generate->rockside.c_str()));
 		GLBitmap bitmapRoof(getDataFile(generate->roof.c_str()));
+		GLBitmap bitmapSurround(getDataFile(generate->surround.c_str()));
 		GLBitmap *bitmaps[5];
 		bitmaps[0] = &texture0;
 		bitmaps[1] = &texture1;
@@ -283,7 +284,8 @@ void Landscape::generate(ProgressCounter *counter)
 			bitmapRock, bitmapShore, bitmaps, 5, 1024, counter);
 
 		// Set the general surround and roof texture
-		surroundTexture_.replace(texture0, GL_RGB, false);
+		groundTexture_.replace(texture0, GL_RGB, false);
+		surroundTexture_.replace(bitmapSurround, GL_RGB, false);
 		roofTexture_.replace(bitmapRoof, GL_RGB, true);
 	}
 	else

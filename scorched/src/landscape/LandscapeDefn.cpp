@@ -50,6 +50,8 @@ static LandscapeDefnType *fetchRoofMapDefnType(const char *type)
 static LandscapeDefnType *fetchSurroundDefnType(const char *type)
 {
 	if (0 == strcmp(type, "none")) return new LandscapeDefnTypeNone;
+	if (0 == strcmp(type, "generate")) return new LandscapeDefnHeightMapGenerate;
+	if (0 == strcmp(type, "file")) return new LandscapeDefnHeightMapFile;
 	dialogMessage("LandscapeDefnType", "Unknown surround type %s", type);
 	return 0;
 }

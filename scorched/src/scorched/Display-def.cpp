@@ -36,6 +36,7 @@ static wxCheckBox *IDC_FULLCLEAR_CTRL = 0;
 static wxCheckBox *IDC_NOEXT_CTRL = 0;
 static wxCheckBox *IDC_NOSOUND_CTRL = 0;
 static wxCheckBox *IDC_NOWATER_CTRL = 0;
+static wxCheckBox *IDC_NOSURROUND_CTRL = 0;
 static wxCheckBox *IDC_NOVBO_CTRL = 0;
 static wxCheckBox *IDC_NOTREES_CTRL = 0;
 static wxCheckBox *IDC_NOMULTITEX_CTRL = 0;

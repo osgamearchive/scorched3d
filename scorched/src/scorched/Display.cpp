@@ -192,6 +192,10 @@ static void createTroubleControls(wxWindow *parent, wxSizer *sizer)
 		new wxCheckBox(parent, -1, "Don't draw water",
 		wxDefaultPosition, wxSize((int) 150, (int) -1));
 	detailSizer2->Add(IDC_NOWATER_CTRL, 0);
+	IDC_NOSURROUND_CTRL = 
+		new wxCheckBox(parent, -1, "Don't draw surround",
+		wxDefaultPosition, wxSize((int) 150, (int) -1));
+	detailSizer2->Add(IDC_NOSURROUND_CTRL, 0);
 	IDC_NODETAILTEX_CTRL = 
 		new wxCheckBox(parent, -1, "Don't use detail textures",
 		wxDefaultPosition, wxSize((int) 150, (int) -1));
