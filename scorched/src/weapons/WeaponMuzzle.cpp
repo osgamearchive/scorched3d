@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,43 +18,16 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_Explosionh_INCLUDE__)
-#define __INCLUDE_Explosionh_INCLUDE__
+#include <weapons/WeaponMuzzle.h>
 
-#include <engine/ActionMeta.h>
-#include <engine/ViewPoints.h>
-#include <weapons/Weapon.h>
-#include <common/Vector.h>
+REGISTER_ACCESSORY_SOURCE(WeaponMuzzle);
 
-class Explosion : public ActionMeta
+WeaponMuzzle::WeaponMuzzle()
 {
-public:
-	enum DeformType
-	{
-		DeformDown,
-		DeformUp,
-		DeformNone
-	};
 
-	Explosion();
-	Explosion(Vector &position, Weapon *weapon, 
-		unsigned int playerId);
-	virtual ~Explosion();
+}
 
-	virtual void init();
-	virtual void simulate(float frameTime, bool &remove);
-	virtual bool writeAction(NetBuffer &buffer);
-	virtual bool readAction(NetBufferReader &reader);
+WeaponMuzzle::~WeaponMuzzle()
+{
 
-	REGISTER_ACTION_HEADER(Explosion);
-
-protected:
-	bool firstTime_;
-	Vector position_;
-	float totalTime_;
-	Weapon *weapon_;
-	unsigned int playerId_;
-	
-};
-
-#endif
+}

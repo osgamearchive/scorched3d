@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,43 +18,22 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_Explosionh_INCLUDE__)
-#define __INCLUDE_Explosionh_INCLUDE__
+#if !defined(__INCLUDE_WeaponMuzzleh_INCLUDE__)
+#define __INCLUDE_WeaponMuzzleh_INCLUDE__
 
-#include <engine/ActionMeta.h>
-#include <engine/ViewPoints.h>
-#include <weapons/Weapon.h>
-#include <common/Vector.h>
+#include <weapons/WeaponExplosion.h>
 
-class Explosion : public ActionMeta
+class WeaponMuzzle : public WeaponExplosion
 {
 public:
-	enum DeformType
-	{
-		DeformDown,
-		DeformUp,
-		DeformNone
-	};
+	WeaponMuzzle();
+	virtual ~WeaponMuzzle();
 
-	Explosion();
-	Explosion(Vector &position, Weapon *weapon, 
-		unsigned int playerId);
-	virtual ~Explosion();
+	// This weapon can never be bought
+	virtual bool getPrimary() { return false; } 
+	virtual void setPrimary(bool p) { }
 
-	virtual void init();
-	virtual void simulate(float frameTime, bool &remove);
-	virtual bool writeAction(NetBuffer &buffer);
-	virtual bool readAction(NetBufferReader &reader);
-
-	REGISTER_ACTION_HEADER(Explosion);
-
-protected:
-	bool firstTime_;
-	Vector position_;
-	float totalTime_;
-	Weapon *weapon_;
-	unsigned int playerId_;
-	
+	REGISTER_ACCESSORY_HEADER(WeaponMuzzle, Accessory::AccessoryWeapon);
 };
 
-#endif
+#endif // __INCLUDE_WeaponMuzzleh_INCLUDE__

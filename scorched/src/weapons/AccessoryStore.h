@@ -40,6 +40,7 @@ public:
 	Accessory *createAccessory(XMLNode *currentNode);
 
 	Weapon *getDeathAnimation();
+	Weapon *getMuzzelFlash();
 
 	std::list<Accessory *> getAllWeapons(bool sort=false);
 	std::list<Accessory *> getAllOthers(bool sort=false);	
@@ -56,6 +57,7 @@ public:
 protected:
 	std::list<Accessory *> accessories_;
 	std::vector<Weapon *> deathAnimations_;
+	Weapon *muzzleFlash_;
 
 	void addAccessory(Accessory *accessory);
 

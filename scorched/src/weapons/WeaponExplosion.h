@@ -35,7 +35,11 @@ public:
 	virtual bool readAccessory(NetBufferReader &reader);
 
 	virtual Vector &getExplosionColor();
-	int getSize() { return size_; }
+	float  getSize() { return size_; }
+	Explosion::DeformType getDeformType() { return deformType_; }
+	float getHurtAmount() { return hurtAmount_; }
+	bool getCreateDebris() { return createDebris_; }
+	bool getCreateMushroom() { return createMushroom_; }
 
 	// Inherited from Weapon
 	virtual void fireWeapon(ScorchedContext &context,
@@ -44,8 +48,10 @@ public:
 	REGISTER_ACCESSORY_HEADER(WeaponExplosion, Accessory::AccessoryWeapon);
 
 protected:
-	int size_;
+	float size_;
 	bool multiColored_;
+	bool createDebris_;
+	bool createMushroom_;
 	float hurtAmount_;
 	Explosion::DeformType deformType_;
 

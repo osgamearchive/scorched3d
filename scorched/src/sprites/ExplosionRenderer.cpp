@@ -22,15 +22,9 @@
 #include <common/OptionsDisplay.h>
 #include <GLEXT/GLState.h>
 #include <GLEXT/GLCameraFrustum.h>
-#include <landscape/Landscape.h>
 #include <sprites/ExplosionTextures.h>
 #include <sprites/ExplosionRenderer.h>
-#include <sprites/SmokeActionRenderer.h>
-#include <sprites/DebrisActionRenderer.h>
 #include <actions/SpriteProjectile.h>
-#include <engine/ScorchedContext.h>
-#include <engine/ActionController.h>
-#include <common/SoundStore.h>
 #include <common/Defines.h>
 
 ExplosionRenderer::ExplosionMainPart::ExplosionMainPart()
@@ -160,7 +154,7 @@ void ExplosionRenderer::ExplosionSubPart::draw(
 ExplosionRenderer::ExplosionRenderer(Vector &position, GLTextureSet &textureSet, 
 									 Vector &color, float width, bool weapon) 
 	: width_(width), currentWidth_(0.0f), textureSet_(textureSet),
-	centrePosition_(position), firstTime_(true),
+	centrePosition_(position), 
 	weapon_(weapon), color_(color)
 {
 	mainParts = new ExplosionMainPart[
@@ -174,82 +168,6 @@ ExplosionRenderer::~ExplosionRenderer()
 
 void ExplosionRenderer::simulate(Action *action, float frameTime, bool &remove)
 {
-	if (firstTime_)
-	{
-		firstTime_ = false;
-
-		if (weapon_)
-		{
-			// If there is a weapon play a splash sound when in water
-			if (centrePosition_[2] < 5.0f)
-			{
-				float mult = Landscape::instance()->getWater().getWidthMult();
-				int posX = int((centrePosition_[0] + 64.0f) / mult);
-				int posY = int((centrePosition_[1] + 64.0f) / mult);
-
-				Landscape::instance()->getWater().addWave(posX, posY, 5.0f);
-
-				CACHE_SOUND(sound, (char *) getDataFile("data/wav/misc/splash.wav"));
-				sound->play();
-			}
-
-			// Create particles from the center of the explosion
-			// These particles will render smoke trails or bits of debris
-			float mult = float(
-				OptionsDisplay::instance()->getExplosionParticlesMult()) / 10.0f;
-			for (int a=0; a<int(width_ * mult); a++)
-			{
-				int numberOfSprites = 40;
-				if (OptionsDisplay::instance()->getEffectsDetail() == 0) 
-					numberOfSprites = 10;
-				else if (OptionsDisplay::instance()->getEffectsDetail() == 2) 
-					numberOfSprites = 100;
-
-				if ((int) SpriteProjectile::getNoSpriteProjectiles() <
-					numberOfSprites)
-				{
-					float direction = RAND * 3.14f * 2.0f;
-					float speed = RAND * 5.0f + 5.0f;
-					float height = RAND * 10.0f + 5.0f;
-					Vector velocity(sinf(direction) * speed, 
-						cosf(direction) * speed, height);
-
-					SpriteProjectile *particle = new SpriteProjectile;
-					particle->setScorchedContext(action->getScorchedContext());
-					particle->setPhysics(centrePosition_, velocity);
-					particle->setData(&particle->collisionInfo);
-
-					if (RAND > 0.5)
-					{
-						SmokeActionRenderer *render = new SmokeActionRenderer;
-						particle->setActionRender(render);
-					}
-					else
-					{
-						DebrisActionRenderer *render = new DebrisActionRenderer;
-						particle->setActionRender(render);
-					}
-
-					action->getScorchedContext()->actionController->addAction(particle);
-				}
-			}
-		}
-		else
-		{
-			// Add initial smoke clouds
-			for (int a=0; a<OptionsDisplay::instance()->getNumberExplosionSubParts() * 2; a++)
-			{
-				float posXY = (RAND * 4.0f) - 2.0f;
-				float posYZ = (RAND * 4.0f) - 2.0f;
-
-				Landscape::instance()->getSmoke().addSmoke(
-					centrePosition_[0] + posXY, centrePosition_[1] + posYZ, centrePosition_[2] + 2.0f,
-					0.0f, 0.0f, 0.0f,
-					0.5f);
-			}
-		}
-	}
-
 	// Update position of explosion parts
 	for (int i=0; i<OptionsDisplay::instance()->getNumberExplosionSubParts(); i++)
 	{

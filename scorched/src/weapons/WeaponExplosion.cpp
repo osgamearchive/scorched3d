@@ -23,9 +23,10 @@
 
 REGISTER_ACCESSORY_SOURCE(WeaponExplosion);
 
-WeaponExplosion::WeaponExplosion() : size_(0), 
+WeaponExplosion::WeaponExplosion() : size_(0.0f), 
 	multiColored_(false), hurtAmount_(0.0f),
-	deformType_(Explosion::DeformNone)
+	deformType_(Explosion::DeformNone),
+	createDebris_(true), createMushroom_(false)
 {
 
 }
@@ -49,6 +50,16 @@ bool WeaponExplosion::parseXML(XMLNode *accessoryNode)
 
     // Get the hutiness
 	if (!accessoryNode->getNamedChild("hurtamount", hurtAmount_)) return false;
+
+	// Get the no debris node
+	XMLNode *noCreateDebrisNode = 0;
+	accessoryNode->getNamedChild("nocreatedebris", noCreateDebrisNode, false);
+	if (noCreateDebrisNode) createDebris_ = false;
+
+	// Get the createMushroom node
+	XMLNode *createMushroomNode = 0;
+	accessoryNode->getNamedChild("createmushroom", createMushroomNode, false);
+	if (createMushroomNode) createMushroom_ = true;
 
 	// Get the deform
 	XMLNode *deformNode = 0;
@@ -74,6 +85,8 @@ bool WeaponExplosion::writeAccessory(NetBuffer &buffer)
 	buffer.addToBuffer(hurtAmount_);
 	buffer.addToBuffer((int) deformType_);
 	buffer.addToBuffer(multiColored_);
+	buffer.addToBuffer(createDebris_);
+	buffer.addToBuffer(createMushroom_);
     return true;
 }
 
@@ -86,6 +99,8 @@ bool WeaponExplosion::readAccessory(NetBufferReader &reader)
 	if (!reader.getFromBuffer(def)) return false;
 	deformType_ = (Explosion::DeformType) def;
 	if (!reader.getFromBuffer(multiColored_)) return false;
+	if (!reader.getFromBuffer(createDebris_)) return false;
+	if (!reader.getFromBuffer(createMushroom_)) return false;
     return true;
 }
 
@@ -117,8 +132,7 @@ void WeaponExplosion::fireWeapon(ScorchedContext &context,
 	unsigned int playerId, Vector &position, Vector &velocity)
 {
 	Action *action = new Explosion(
-		position, (float) size_,
-		this, playerId, hurtAmount_, deformType_);
+		position, this, playerId);
 	context.actionController->addAction(action);	
 }
 

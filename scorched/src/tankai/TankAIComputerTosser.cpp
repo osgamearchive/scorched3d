@@ -216,15 +216,16 @@ void TankAIComputerTosser::playMove(const unsigned state, float frameTime,
 {
 	// Play move is called when the computer opponent must make there move
 
+	// Choose weapons
+	selectWeapons();
+
 	// Is there any point in making a move
+	// Done after select weapons to allow batteries to be used
 	if (currentTank_->getState().getLife() < 10) 
 	{
 		resign();
 		return;
 	}
-
-	// Choose weapons
-	selectWeapons();
 
 	// Find the tank to shoot at
 	Tank *targetTank = findTankToShootAt();

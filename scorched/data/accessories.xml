@@ -325,6 +325,7 @@ with any tank.</description>
 			<hurtamount>1.0</hurtamount>
 			<deform>down</deform>
 			<size>18</size>
+			<createmushroom/>
 			<explosionshake>4.0</explosionshake>
 			<explosiontexture>exp00</explosiontexture>
 			<explosionsound>explosions/xlarge.wav</explosionsound>
@@ -345,6 +346,7 @@ to cover them.</description>
 			<name>Dirt Clod</name>
 			<armslevel>10</armslevel>
 			<hurtamount>0.0</hurtamount>
+			<nocreatedebris/>
 			<deform>up</deform>
 			<size>6</size>
 			<explosiontexture>exp03</explosiontexture>
@@ -367,6 +369,7 @@ cover them.</description>
 			<armslevel>9</armslevel>
 			<deform>up</deform>
 			<hurtamount>0.0</hurtamount>
+			<nocreatedebris/>
 			<size>10</size>
 			<explosiontexture>exp03</explosiontexture>
 			<explosionsound>explosions/gloop.wav</explosionsound>
@@ -389,6 +392,7 @@ cover them.</description>
 			<armslevel>7</armslevel>
 			<deform>up</deform>
 			<hurtamount>0.0</hurtamount>
+			<nocreatedebris/>
 			<size>18</size>
 			<explosiontexture>exp03</explosiontexture>
 			<explosionsound>explosions/gloop.wav</explosionsound>
@@ -410,6 +414,7 @@ remove earth from under them.</description>
 			<armslevel>10</armslevel>
 			<deform>down</deform>
 			<hurtamount>0.0</hurtamount>
+			<nocreatedebris/>
 			<size>6</size>
 			<explosiontexture>exp03</explosiontexture>
 			<explosionsound>explosions/crunch.wav</explosionsound>
@@ -432,6 +437,7 @@ remove earth from under them.</description>
 			<armslevel>8</armslevel>
 			<deform>down</deform>
 			<hurtamount>0.0</hurtamount>
+			<nocreatedebris/>
 			<size>12</size>
 			<explosiontexture>exp03</explosiontexture>
 			<explosionsound>explosions/crunch.wav</explosionsound>
@@ -537,6 +543,7 @@ creating some small riot bombs.</description>
 					<armslevel>8</armslevel>
 					<deform>down</deform>
 					<hurtamount>0.0</hurtamount>
+					<nocreatedebris/>
 					<size>6</size>
 					<explosiontexture>exp03</explosiontexture>
 					<explosionsound>explosions/crunch.wav</explosionsound>
@@ -571,6 +578,7 @@ creating some riot bombs.</description>
 					<armslevel>7</armslevel>
 					<deform>down</deform>
 					<hurtamount>0.0</hurtamount>
+					<nocreatedebris/>
 					<size>6</size>
 					<explosiontexture>exp03</explosiontexture>
 					<explosionsound>explosions/crunch.wav</explosionsound>
@@ -607,6 +615,7 @@ creating many large riot bombs.</description>
 					<armslevel>6</armslevel>
 					<deform>down</deform>
 					<hurtamount>0.0</hurtamount>
+					<nocreatedebris/>
 					<size>6</size>
 					<explosiontexture>exp03</explosiontexture>
 					<explosionsound>explosions/crunch.wav</explosionsound>
@@ -833,6 +842,7 @@ out in a random direction.</description>
 					<deform>down</deform>
 					<hurtamount>1.0</hurtamount>
 					<size>18</size>
+					<createmushroom/>
 					<explosionsound>explosions/xlarge.wav</explosionsound>
 					<explosiontexture>exp04</explosiontexture>
 					<explosionshake>2.0</explosionshake>
@@ -941,6 +951,20 @@ trace of the shot path.</description>
 		<deathanimationweight>10</deathanimationweight>
 		<animation>ExplosionLaserBeamRenderer</animation>
 	</accessory>
+	<accessory type="WeaponMuzzle">
+		<name></name>
+		<description>The muzzle flash for guns</description>
+		<icon></icon>
+		<cost></cost>
+		<bundlesize></bundlesize>
+		<armslevel></armslevel>
+		<hurtamount>0.0</hurtamount>
+		<nocreatedebris/>
+		<deform>none</deform>
+		<size>3</size>
+		<explosiontexture>default</explosiontexture>
+		<explosionsound>none</explosionsound>			
+	</accessory>
 	<accessory type="WeaponTranslate">
 		<name>Riot Charge</name>
 		<description>Riot Charges destroy a wedge-shaped section of
@@ -960,6 +984,7 @@ covered with dirt.
 				<name>Riot Charge</name>
 				<armslevel>8</armslevel>
 				<hurtamount>0.0</hurtamount>
+				<nocreatedebris/>
 				<deform>down</deform>
 				<size>2</size>
 				<explosiontexture>exp03</explosiontexture>
@@ -976,6 +1001,7 @@ covered with dirt.
 						<name>Riot Charge</name>
 						<armslevel>8</armslevel>
 						<hurtamount>0.0</hurtamount>
+						<nocreatedebris/>
 						<deform>down</deform>
 						<size>5</size>
 						<explosiontexture>exp03</explosiontexture>
@@ -989,6 +1015,7 @@ covered with dirt.
 							<name>Riot Charge</name>
 							<armslevel>7</armslevel>
 							<hurtamount>0.0</hurtamount>
+							<nocreatedebris/>
 							<deform>down</deform>
 							<size>6</size>
 							<explosiontexture>exp03</explosiontexture>
@@ -1017,6 +1044,7 @@ the thickness of the wedge destroyed is also greater.
 				<name>Riot Blast</name>
 				<armslevel>7</armslevel>
 				<hurtamount>0.0</hurtamount>
+				<nocreatedebris/>
 				<deform>down</deform>
 				<size>4</size>
 				<explosiontexture>exp03</explosiontexture>
@@ -1033,6 +1061,7 @@ the thickness of the wedge destroyed is also greater.
 						<name>Riot Blast</name>
 						<armslevel>7</armslevel>
 						<hurtamount>0.0</hurtamount>
+						<nocreatedebris/>
 						<deform>down</deform>
 						<size>7</size>
 						<explosiontexture>exp03</explosiontexture>
@@ -1046,6 +1075,7 @@ the thickness of the wedge destroyed is also greater.
 							<name>Riot Charge</name>
 							<armslevel>7</armslevel>
 							<hurtamount>0.0</hurtamount>
+							<nocreatedebris/>
 							<deform>down</deform>
 							<size>10</size>
 							<explosiontexture>exp03</explosiontexture>
@@ -1073,6 +1103,7 @@ the air in a wedge shape.
 				<name>Dirt Charge</name>
 				<armslevel>9</armslevel>
 				<hurtamount>0.0</hurtamount>
+				<nocreatedebris/>
 				<deform>up</deform>
 				<size>2</size>
 				<explosiontexture>exp03</explosiontexture>
@@ -1089,6 +1120,7 @@ the air in a wedge shape.
 						<name>Dirt Charge</name>
 						<armslevel>9</armslevel>
 						<hurtamount>0.0</hurtamount>
+						<nocreatedebris/>
 						<deform>up</deform>
 						<size>3</size>
 						<explosiontexture>exp03</explosiontexture>
@@ -1102,6 +1134,7 @@ the air in a wedge shape.
 							<name>Dirt Charge</name>
 							<armslevel>9</armslevel>
 							<hurtamount>0.0</hurtamount>
+							<nocreatedebris/>
 							<deform>up</deform>
 							<size>4</size>
 							<explosiontexture>exp03</explosiontexture>

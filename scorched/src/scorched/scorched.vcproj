@@ -1699,6 +1699,12 @@
 				RelativePath="..\weapons\WeaponMulti.h">
 			</File>
 			<File
+				RelativePath="..\weapons\WeaponMuzzle.cpp">
+			</File>
+			<File
+				RelativePath="..\weapons\WeaponMuzzle.h">
+			</File>
+			<File
 				RelativePath="..\weapons\WeaponNapalm.cpp">
 			</File>
 			<File
@@ -3139,7 +3145,7 @@
 			</File>
 		</Filter>
 		<Filter
-			Name="DOCS"
+			Name="data/docs"
 			Filter="">
 			<File
 				RelativePath="..\..\AUTHORS">
@@ -3155,6 +3161,78 @@
 			</File>
 			<File
 				RelativePath="..\..\TODO">
+			</File>
+			<File
+				RelativePath="..\..\data\accessories.xml">
+			</File>
+			<File
+				RelativePath="..\..\data\ainames.txt">
+			</File>
+			<File
+				RelativePath="..\..\data\autoexec.xml">
+			</File>
+			<File
+				RelativePath="..\..\data\keys.xml">
+			</File>
+			<File
+				RelativePath="..\..\data\landscapes.xml">
+			</File>
+			<File
+				RelativePath="..\..\data\landscapesdefn.xml">
+			</File>
+			<File
+				RelativePath="..\..\data\landscapestex.xml">
+			</File>
+			<File
+				RelativePath="..\..\data\motd.txt">
+			</File>
+			<File
+				RelativePath="..\..\data\mysql.xml">
+			</File>
+			<File
+				RelativePath="..\..\data\playernames.txt">
+			</File>
+			<File
+				RelativePath="..\..\data\safedisplay.xml">
+			</File>
+			<File
+				RelativePath="..\..\data\server.xml">
+			</File>
+			<File
+				RelativePath="..\..\data\singlecustom.xml">
+			</File>
+			<File
+				RelativePath="..\..\data\singleeasy.xml">
+			</File>
+			<File
+				RelativePath="..\..\data\singlehard.xml">
+			</File>
+			<File
+				RelativePath="..\..\data\singlenormal.xml">
+			</File>
+			<File
+				RelativePath="..\..\data\singletarget.xml">
+			</File>
+			<File
+				RelativePath="..\..\data\ssdisplay.xml">
+			</File>
+			<File
+				RelativePath="..\..\data\ssgame.xml">
+			</File>
+			<File
+				RelativePath="..\..\data\tankais.xml">
+			</File>
+			<File
+				RelativePath="..\..\data\tanks.xml">
+			</File>
+			<File
+				RelativePath="..\..\data\textureset.xml">
+			</File>
+			<File
+				RelativePath="..\..\data\tips.txt">
+			</File>
+			<File
+				RelativePath="..\..\data\windows.xml">
 			</File>
 		</Filter>
 	</Files>

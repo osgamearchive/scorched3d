@@ -27,7 +27,7 @@
 #include <math.h>
 #include <stdio.h>
 
-AccessoryStore::AccessoryStore() 
+AccessoryStore::AccessoryStore() : muzzleFlash_(0)
 {
 
 }
@@ -212,6 +212,11 @@ std::list<Accessory *> AccessoryStore::getAllAccessories(bool sort)
 	return result;
 }
 
+Weapon *AccessoryStore::getMuzzelFlash()
+{
+	return muzzleFlash_;
+}
+
 Weapon *AccessoryStore::getDeathAnimation()
 {
 	int pos = int(float(deathAnimations_.size()) * RAND);
@@ -264,6 +269,7 @@ Accessory *AccessoryStore::findByPrimaryAccessoryName(const char *name)
 
 void AccessoryStore::clearAccessories()
 {
+	muzzleFlash_ = 0;
 	deathAnimations_.clear();
 	while (!accessories_.empty())
 	{
@@ -281,6 +287,11 @@ void AccessoryStore::addAccessory(Accessory *accessory)
 	if (accessory->getType() == Accessory::AccessoryWeapon)
 	{
 		Weapon *weapon = (Weapon *) accessory;
+
+		if (0 == strcmp(weapon->getAccessoryTypeName(), "WeaponMuzzle"))
+		{
+			muzzleFlash_ = weapon;
+		}
 		for (int i=0; i<weapon->getDeathAnimationWeight(); i++)
 		{
 			deathAnimations_.push_back(weapon);

@@ -84,9 +84,9 @@ void TankFired::simulate(float frameTime, bool &remove)
 				}
 			}
 
-			Explosion *explosion = new Explosion(tank->getPhysics().getTankGunPosition(), 3.0f, 
-				weapon_, playerId_, 0.0f, Explosion::DeformNone);
-			context_->actionController->addAction(explosion);
+			Weapon *muzzleFlash = context_->accessoryStore->getMuzzelFlash();
+			if (muzzleFlash) muzzleFlash->fireWeapon(*context_, playerId_, 
+				tank->getPhysics().getTankGunPosition(), Vector::nullVector);
 		}
 	}
 
