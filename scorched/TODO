@@ -15,6 +15,7 @@ Fixed: Computer AIs becoming confused when shots hit off walls
 Fixed: Aming sight is correctly positioned for all tanks
 Fixed: Bug where a player is assigned black as their color
 
+Added: Buying time to settings dialogs
 Added: flame color attributes to WeaponProjectile to control the trail color
 Added: smokelife and flamelife attributes to WeaponProjectile to control trail length
 Added: nosmoke and noobjectdamage attributes to WeaponNapalm to control smoke and tree damage

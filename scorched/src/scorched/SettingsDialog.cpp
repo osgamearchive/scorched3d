@@ -574,6 +574,7 @@ bool SettingsFrame::TransferDataToWindow()
 			sprintf(string, "%i Seconds", i);
 			if (i==0) sprintf(string, "%i (Infinite)", i);	
 			SettingsMain::IDC_SHOT_TIME_CTRL->Append(string);
+			SettingsMain::IDC_BUYING_TIME_CTRL->Append(string);
 			SettingsMain::IDC_START_TIME_CTRL->Append(string);
 			SettingsMain::IDC_IDLE_SHOTTIME_CTRL->Append(string);
 			SettingsMain::IDC_IDLE_TIME_CTRL->Append(string);
@@ -586,6 +587,10 @@ bool SettingsFrame::TransferDataToWindow()
 			context_.getShotTime()/5);
 		SettingsMain::IDC_SHOT_TIME_CTRL->SetToolTip(
 			wxString("The maximum amount of time allowed for each player to make a move."));
+		SettingsMain::IDC_BUYING_TIME_CTRL->SetSelection(
+			context_.getBuyingTime()/5);
+		SettingsMain::IDC_BUYING_TIME_CTRL->SetToolTip(
+			wxString("The maximum amount of time allowed for each player to buy accessories."));
 		SettingsMain::IDC_IDLE_TIME_CTRL->SetSelection(
 			context_.getIdleKickTime()/5);
 		SettingsMain::IDC_IDLE_TIME_CTRL->SetToolTip(
@@ -761,6 +766,7 @@ bool SettingsFrame::TransferDataFromWindow()
 	{
 		int noRounds = 5;
 		int shotTime = 30;
+		int buyingTime = 30;
 		int waitTime = 30;
 		int idleTime = 30;
 		int startTime = 10;
@@ -776,6 +782,7 @@ bool SettingsFrame::TransferDataFromWindow()
 		sscanf(SettingsMain::IDC_NOSHOTS_CTRL->GetValue(), "%i", &maxRoundTurns);
 		sscanf(SettingsMain::IDC_SERVER_ROUNDS_CTRL->GetValue(), "%i", &noRounds);
 		sscanf(SettingsMain::IDC_SHOT_TIME_CTRL->GetValue(), "%i", &shotTime);
+		sscanf(SettingsMain::IDC_BUYING_TIME_CTRL->GetValue(), "%i", &buyingTime);
 		sscanf(SettingsMain::IDC_START_TIME_CTRL->GetValue(), "%i", &startTime);
 		sscanf(SettingsMain::IDC_IDLE_TIME_CTRL->GetValue(), "%i", &idleTime);
 		sscanf(SettingsMain::IDC_IDLE_SHOTTIME_CTRL->GetValue(), "%i", &idleShotTime);
@@ -784,6 +791,7 @@ bool SettingsFrame::TransferDataFromWindow()
 		
 		context_.setNoRounds(noRounds);
 		context_.setShotTime(shotTime);
+		context_.setBuyingTime(buyingTime);
 		context_.setStartTime(startTime);
 		context_.setIdleKickTime(idleTime);
 		context_.setIdleShotKickTime(idleShotTime);

@@ -96,6 +96,17 @@ static void createControls(wxWindow *parent, wxSizer *topsizer)
 		0, 0, wxCB_READONLY);
 	sizer->Add(IDC_SHOT_TIME_CTRL, 0, wxALIGN_CENTER);
 		
+	IDC_BUYING_TIME_CTRL_TEXT = 
+		new wxStaticText(parent, -1,
+		"Buying Time :");
+	sizer->Add(IDC_BUYING_TIME_CTRL_TEXT, 0, wxALIGN_CENTER);
+	IDC_BUYING_TIME_CTRL = 
+		new wxComboBox(parent, IDC_SHOT_TIME,
+		"",
+		wxDefaultPosition, wxSize((int) 132, (int) 124.5),
+		0, 0, wxCB_READONLY);
+	sizer->Add(IDC_BUYING_TIME_CTRL, 0, wxALIGN_CENTER);
+
 	IDC_IDLE_TIME_CTRL_TEXT =
 		new wxStaticText(parent, -1,
 		"Level Idle Time :");
