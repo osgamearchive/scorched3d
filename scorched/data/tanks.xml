@@ -106,6 +106,7 @@
 	</tank>
 	<tank>
 		<name>Hoth Gun</name>
+		<catagory>Starwars</catagory>
 		<model type="ase">
 			<mesh>hothgun.ase</mesh>
 			<skin>hothgun.bmp</skin>
@@ -113,6 +114,7 @@
 	</tank>
 	<tank>
 		<name>Hoth Gun 2</name>
+		<catagory>Starwars</catagory>
 		<model type="ase">
 			<mesh>hothgun2.ase</mesh>
 			<skin>hothgun2.bmp</skin>
@@ -120,6 +122,7 @@
 	</tank>
 	<tank>
 		<name>A.T.S.T Walker</name>
+		<catagory>Starwars</catagory>
 		<model type="ase">
 			<mesh>atst.ase</mesh>
 			<skin>atst.bmp</skin>
@@ -127,6 +130,7 @@
 	</tank>
 	<tank>
 		<name>AAT</name>
+		<catagory>Starwars</catagory>
 		<model type="ase">
 			<mesh>aat.ase</mesh>
 			<skin>aat.bmp</skin>
