@@ -153,6 +153,9 @@ public:
 	bool getShowContextHelp() { return showContextHelp_.getValue(); }
 	void setShowContextHelp(bool value) { showContextHelp_.setValue(value); }
 
+	int getBannerRows() { return bannerRows_.getValue(); }
+	void setBannerRows(int value) { bannerRows_.setValue(value); }
+
 	int getTexSize() { return texSize_.getValue(); }
 	void setTexSize(int value) { texSize_.setValue(value); }
 
@@ -199,6 +202,7 @@ protected:
 	OptionEntryInt colorComponentSize_;
 	OptionEntryInt bitsPerPixel_;
 	OptionEntryInt depthBufferBits_;
+	OptionEntryInt bannerRows_;
 	OptionEntryBool detailTexture_;
 	OptionEntryBool useHex_;
 	OptionEntryBool doubleBuffer_;

@@ -23,23 +23,19 @@
 #define __INCLUDE_ShotTimerh_INCLUDE__
 
 #include <engine/GameStateI.h>
-#include <engine/GameStateStimulusI.h>
 
-class ShotTimer : 
-	public GameStateI,
-	public GameStateStimulusI
+class ShotTimer : public GameStateI
 {
 public:
 	static ShotTimer *instance();
+
+	float getCounter() { return counter_; }
+	bool getShowTime() { return showTime_; }
 
 	//Inherited from GameStateI
 	virtual void enterState(const unsigned state);
 	virtual void simulate(const unsigned state, float simTime);
 	virtual void draw(const unsigned state);
-
-	virtual bool acceptStateChange(const unsigned state, 
-		const unsigned nextState,
-		float frameTime);
 
 protected:
 	static ShotTimer *instance_;
@@ -50,8 +46,6 @@ protected:
 private:
 	ShotTimer();
 	virtual ~ShotTimer ();
-
-
 };
 
 #endif

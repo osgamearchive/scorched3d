@@ -131,12 +131,22 @@ void ScoreDialog::draw()
 
 	if (!finished)
 	{
+		char moves[256];
+		moves[0] = '\0';
+		if (ScorchedClient::instance()->getOptionsGame().getNoMaxRoundTurns() > 0)
+		{
+			int movesLeft = ScorchedClient::instance()->getOptionsGame().getNoMaxRoundTurns() -
+				ScorchedClient::instance()->getOptionsTransient().getCurrentGameNo();
+			sprintf(moves, ", %i Moves", movesLeft);
+		}
+
 		GLWFont::instance()->getFont()->draw(
 				white,
 				12,
-				x_ + 305.0f, y_ + h_ - 35.0f, 0.0f,
-				"%i Rounds Left",
-				ScorchedClient::instance()->getOptionsTransient().getNoRoundsLeft());
+				x_ + 6.0f, y_ + h_ - 35.0f, 0.0f,
+				"%i Rounds%s Left",
+				ScorchedClient::instance()->getOptionsTransient().getNoRoundsLeft(),
+				moves);
 	}
 
 	float y = lineSpacer + 10.0f;

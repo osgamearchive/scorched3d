@@ -2501,6 +2501,12 @@
 				RelativePath="..\client\ShotTimer.h">
 			</File>
 			<File
+				RelativePath="..\client\ShotCountDown.cpp">
+			</File>
+			<File
+				RelativePath="..\client\ShotCountDown.h">
+			</File>
+			<File
 				RelativePath="..\client\SpeedChange.cpp">
 			</File>
 			<File

@@ -22,6 +22,7 @@
 #include <client/MainCamera.h>
 #include <client/ScorchedClient.h>
 #include <tank/TankContainer.h>
+#include <common/OptionsDisplay.h>
 
 MainBanner* MainBanner::instance_ = 0;
 
@@ -35,7 +36,8 @@ MainBanner* MainBanner::instance()
 	return instance_;
 }
 
-MainBanner::MainBanner() : banner_(0, 40, 1024, 5)
+MainBanner::MainBanner() : 
+	banner_(0, 40, 1024, OptionsDisplay::instance()->getBannerRows())
 {
 	Logger::addLogger(this);
 }

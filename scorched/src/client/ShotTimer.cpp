@@ -35,7 +35,7 @@ ShotTimer *ShotTimer::instance()
 	return instance_;
 }
 
-ShotTimer::ShotTimer() : counter_(0.0f), showTime_(true)
+ShotTimer::ShotTimer() : counter_(0.0f), blinkTimer_(0.0f), showTime_(true)
 {
 }
 
@@ -54,17 +54,22 @@ void ShotTimer::simulate(const unsigned state, float simTime)
 {
 	counter_ += simTime;
 	blinkTimer_ += simTime;
+
+	if (blinkTimer_ > 0.25f)
+	{
+		if (counter_ < 5.0f)
+		{
+			showTime_ = !showTime_;
+		}
+		blinkTimer_ = 0.0f;
+	}
 }
 
 void ShotTimer::draw(const unsigned currentstate)
 {
 	int shotTime = ScorchedClient::instance()->getOptionsGame().getShotTime();
-	if (currentstate == ClientState::StateBuyWeapons ||
-		currentstate == ClientState::StateAutoDefense)
-	{
-		shotTime = ScorchedClient::instance()->getOptionsGame().getBuyingTime();
-	}
-	if (shotTime == 0) return;
+	if (shotTime == 0 ||
+		currentstate != ClientState::StatePlayed) return;
 
 	// The remaining time for this shot
 	int timeLeft = (shotTime - int(counter_));
@@ -79,40 +84,12 @@ void ShotTimer::draw(const unsigned currentstate)
 	glGetFloatv(GL_VIEWPORT, fVPort);
 
 	static Vector fontColor;
-	fontColor = Vector(0.7f, 0.7f, 0.2f);
-	if (timeLeft <= 5)
-	{
-		fontColor = Vector(0.7f, 0.0f, 0.0f);
-		if (blinkTimer_ > 0.25f)
-		{
-			showTime_ = !showTime_;
-			blinkTimer_ = 0.0f;
-		}
-	}
+	fontColor = Vector(0.2f, 0.2f, 0.2f);
 
-	if (showTime_)
-	{
-		const char *format = "%02i:%02i";
-		if (timeLeft < 0) format = "--:--";
-		GLWFont::instance()->getFont()->draw(
-			fontColor, 20, (fVPort[2]/2.0f) - 30.0f, fVPort[3] - 43.0f, 0.0f, format, 
-			split.quot,
-			split.rem);
-	}
-}
-
-bool ShotTimer::acceptStateChange(const unsigned currentstate, 
-		const unsigned nextState,
-		float frameTime)
-{
-	int shotTime = ScorchedClient::instance()->getOptionsGame().getShotTime();
-	if (currentstate == ClientState::StateBuyWeapons ||
-		currentstate == ClientState::StateAutoDefense)
-	{
-		shotTime = ScorchedClient::instance()->getOptionsGame().getBuyingTime();
-	}
-	if (shotTime == 0) return false; // ShotTime == 0 is infinite time
-
-	int timeLeft = (shotTime - int(counter_));
-	return (timeLeft < 0);
+	const char *format = "%02i:%02i";
+	if (timeLeft < 0) format = "--:--";
+	GLWFont::instance()->getFont()->draw(
+		fontColor, 10, (fVPort[2]/2.0f) - 20.0f, fVPort[3] - 43.0f, 0.0f, format, 
+		split.quot,
+		split.rem);
 }

@@ -44,7 +44,7 @@ OptionsGame::OptionsGame() :
 	idleKickTime_(options_, "IdleKickTime",
 		"The amount of time to give clients to respond before kicking them", 0, 30),
 	maxRoundTurns_(options_, "MaxNumberOfRoundTurns",
-		"The maximum number of turns all players are allowed in each round", 0, 15),
+		"The maximum number of turns all players are allowed in each round (0 = infinite)", 0, 15),
 	numberOfRounds_(options_, "NumberOfRounds", 
 		"The number of rounds to play in each game", 0, 5),
 	numberOfPlayers_(options_, "NumberOfPlayers", 

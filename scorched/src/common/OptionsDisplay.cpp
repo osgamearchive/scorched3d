@@ -112,6 +112,8 @@ OptionsDisplay::OptionsDisplay() :
 		"Show the tank angles and amounts in hex", RWAccess, false),
 	texSize_(options_, "TexureSize", 
 		"The texture details setting", RAccess, 1, 0, 2),
+	bannerRows_(options_, "BannerRows",
+		"The number of log rows shown at the bottom of the screen", RAccess, 5),
 	tankDetail_(options_, "TankDetail", 
 		"The tank details setting", RAccess, 2, 0, 2),
 	effectsDetail_(options_, "EffectsDetail",

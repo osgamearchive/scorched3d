@@ -58,7 +58,8 @@ void ServerNextShotState::enterState(const unsigned state)
 		roundFinished = true;
 	}
 	else if (ScorchedServer::instance()->getOptionsTransient().getCurrentGameNo() > 
-		ScorchedServer::instance()->getOptionsGame().getNoMaxRoundTurns())
+			 ScorchedServer::instance()->getOptionsGame().getNoMaxRoundTurns() && 
+			 ScorchedServer::instance()->getOptionsGame().getNoMaxRoundTurns() > 0)
 	{
 		roundFinished = true;
 		serverLog(0, "Skipping round due to turn limit");

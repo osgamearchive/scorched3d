@@ -1,34 +1,7 @@
 -- Bugs Fixed and Ready For Release 
-Fixed: Some display problems on Unix
-Fixed: 16bit display mode performance problems on win32/unix
-Fixed: Some cross compatability compilation problems
-Fixed: Invert/swap keys now works
-Fixed: Graphics for explosions do not cross into next round
-Fixed: Client stimulus 6 in state 4 bug
-Fixed: Clicking sound sometimes continues after move has been made
-Fixed: Fonts sometimes black-out or plan dialog goes all white (I think)
-Fixed: Auto defense dialog only changes settings when ok is pressed
-Fixed: AIs can only use an auto defense if they have bought one!
-Fixed: Display modes should be shown only once
-Fixed: Targeting triangle is much thinner (seen from above)
-Fixed: Shot camera does not get left behind
-
-Added: Player stats generation and master stats site
-Added: MySql database support (primarily for stats)
-Added: Console commands can be bound to quick keys
-Added: Online player name remembered from one game to the next
-Added: Player gets warned if settings cannot be saved
-Added: Shot camera zooms out for large explosions/multi-part weapons
-Added: Fastword modes increased to x8
-Added: AIs should be able to use batteries now
-Added: Player score added to the player dialog (bottom right)
-Added: Max player name length increased from 16->22
-Added: Kenny tank model (thanks Knochi)
-Added: Mac OS X compatability patch (thanks C. Thomas)
-Added: Single player mode does not generate landscape before connecting
-Added: Most dialogs generated using wxSizers (better look across platforms)
-Added: All used GL extensions can be turned off individually
-Added: Tank model detail can be set using display dialog
+Added: Count down timer is visible even after shots are made
+Added: Number of shots left in this round is visible in score dialog
+Added: Number of shots left can be turned off
 
 -- Bugs in current development release
 Dvorak keyboard support is broken

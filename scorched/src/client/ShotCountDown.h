@@ -18,49 +18,34 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+#if !defined(__INCLUDE_ShotCountDownh_INCLUDE__)
+#define __INCLUDE_ShotCountDownh_INCLUDE__
 
-#if !defined(__INCLUDE_ClientStateh_INCLUDE__)
-#define __INCLUDE_ClientStateh_INCLUDE__
+#include <engine/GameStateI.h>
+#include <engine/GameStateStimulusI.h>
 
-#include <engine/GameState.h>
-
-namespace ClientState  
+class ShotCountDown : 
+	public GameStateI,
+	public GameStateStimulusI
 {
-	enum Stimulus
-	{
-		StimNextPlayerDialog = 1,
-		StimGetPlayers,
-		StimNewGame,
-		StimReady,
-		StimWait,
-		StimBuyWeapons,
-		StimAutoDefense,
-		StimPlaying,
-		StimPlayed,
-		StimDisconnected,
-		StimGameStopped,
-		StimShot,
-		StimScore
-	};
+public:
+	static ShotCountDown *instance();
 
-	enum State
-	{
-		StateConnect = 1,
-		StateNewGame,
-		StateGetPlayers,
-		StateReady,
-		StateWait,
-		StateBuyWeapons,
-		StateAutoDefense,
-		StatePlaying,
-		StatePlayed,
-		StateShot,
-		StateScore
-	};
+	//Inherited from GameStateI
+	virtual void draw(const unsigned state);
 
-	void setupGameState(bool network);
-	void addWindowManager(GameState &gameState, unsigned state);
-	void addStandardComponents(GameState &gameState, unsigned state, bool network);
+	virtual bool acceptStateChange(const unsigned state, 
+		const unsigned nextState,
+		float frameTime);
+
+protected:
+	static ShotCountDown *instance_;
+
+private:
+	ShotCountDown();
+	virtual ~ShotCountDown ();
+
+
 };
 
 #endif

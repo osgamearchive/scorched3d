@@ -763,6 +763,8 @@ scorched3d_SOURCES = \
 	../client/ServerBrowserServerList.h \
 	../client/ShotTimer.cpp \
 	../client/ShotTimer.h \
+	../client/ShotCountDown.cpp \
+	../client/ShotCountDown.h \
 	../client/SpeedChange.cpp \
 	../client/SpeedChange.h \
 	../client/WindowSetup.cpp \
