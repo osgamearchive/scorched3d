@@ -171,7 +171,7 @@ void LandscapeDefinition::generate()
 	srand(time(0));
 	landSeed = rand();
 
-	unsigned int pos = unsigned int(RAND * float(resourceFiles.size()));
+	unsigned int pos = (unsigned int)(RAND * float(resourceFiles.size()));
 	DIALOG_ASSERT(pos >= 0 && pos < resourceFiles.size());
 	resourceFile = resourceFiles[pos];
 }
