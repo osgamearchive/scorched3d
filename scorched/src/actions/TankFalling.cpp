@@ -202,6 +202,12 @@ void TankFalling::collision()
 
 		// Check we need to cancel the damage
 		bool useParachute = false;
+		if (dist < 0.5f)
+		{
+			// No damage (or parachutes used for tiny falls)
+			damage = 0.0f;
+		}
+		else
 		if (current->getAccessories().getParachutes().parachutesEnabled())
 		{
 			if (dist >= current->getAccessories().getParachutes().getThreshold())

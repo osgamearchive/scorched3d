@@ -102,7 +102,7 @@ void TankMovement::simulate(float frameTime, bool &remove)
 				// Move the tank one position every 0.1 seconds
 				// i.e. 10 positions a second
 				timePassed_ += frameTime;
-				const float stepsPerFrame = 0.1f;
+				const float stepsPerFrame = 0.05f;
 				while (timePassed_ >= stepsPerFrame)
 				{
 					timePassed_ -= stepsPerFrame;

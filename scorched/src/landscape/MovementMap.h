@@ -26,7 +26,7 @@
 #include <landscape/HeightMap.h>
 #include <map>
 
-const float MaxTankClimbHeight = 0.4f;
+const float MaxTankClimbHeight = 0.8f;
 
 class Tank;
 class MovementMap

@@ -504,7 +504,7 @@ const char *OptionEntryFloat::getDefaultValueAsString()
 
 bool OptionEntryFloat::setValueFromString(const char *string)
 {
-	int val;
+	float val;
 	if (sscanf(string, "%f", &val) != 1) return false;
 	return setValue(val);
 }

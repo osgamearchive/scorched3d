@@ -104,6 +104,7 @@ bool TankParachutes::writeMessage(NetBuffer &buffer)
 {
 	buffer.addToBuffer(parachuteCount_);
 	buffer.addToBuffer(parachutesEnabled_);
+	buffer.addToBuffer(parachuteThreshold_);
 	return true;
 }
 
@@ -111,5 +112,6 @@ bool TankParachutes::readMessage(NetBufferReader &reader)
 {
 	if (!reader.getFromBuffer(parachuteCount_)) return false;
 	if (!reader.getFromBuffer(parachutesEnabled_)) return false;
+	if (!reader.getFromBuffer(parachuteThreshold_)) return false;
 	return true;
 }
