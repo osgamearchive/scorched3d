@@ -76,7 +76,6 @@ Solaris client cannot choose weapons (Ok button does not work) gcc version??
 Gun fires at same point for all tanks (ignores turret/gun position in model)
 
 -- Server Stuff
-Provide remote access to server (web server)
 Individual users stats (should be available now)
 master stats reporting site?
 ability to adjust server options on the fly, so the next match will have the new options
@@ -94,10 +93,14 @@ missile landing view
 Make a count down sound when timer runs out.
 
 -- Other Stuff
+Make AIs better
 Save game
+Teleport (to random position)
 Configurable camera views using ctrl-2 etc...
 Towers can't move
 More weapons, always more weapons
+Partiot missile type defense
+Wrap around walls
 rollers.
 lasers
 plasma blast
@@ -107,8 +110,11 @@ fire control
 lazy boy
 
 -- Game Play
+resignation penalty
+
 teams
 auto balance teams
+money for hitting (and not killing a tank)
 free market
 communism
 
