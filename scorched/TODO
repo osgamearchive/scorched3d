@@ -19,6 +19,7 @@ Changed: Tank can move up and down bigger slopes (configurable)
 Changed: Spread and hurts weapon primative options are now variable
 Changed: LeapFrog weapon primative bounce now variable
 
+Added: Custom explosion and napalm texture sets can be added
 Added: No smoke trails option to projectile weapons
 Added: Riot Charge, Riot Blast and Dirt Charge weapons
 Added: Server can broadcast a message every x seconds

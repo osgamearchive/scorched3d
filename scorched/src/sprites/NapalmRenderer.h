@@ -25,6 +25,7 @@
 #include <engine/Action.h>
 #include <landscape/Smoke.h>
 
+class GLTextureSet;
 class NapalmRenderer : public ActionRenderer
 {
 public:
@@ -38,6 +39,7 @@ protected:
 	int textureNo_;
 	float totalTime_;
 	SmokeCounter counter_;
+	GLTextureSet *set_;
 };
 
 

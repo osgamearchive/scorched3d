@@ -76,7 +76,8 @@ void Explosion::init()
 	if (!context_->serverMode) 
 	{
 		{
-			GLTextureSet *texture = &ExplosionTextures::instance()->exp00;
+			GLTextureSet *texture = 
+				ExplosionTextures::instance()->getTextureSetByName("dontmatchthis");
 			Vector expColor(1.0f, 1.0f, 1.0f);
 			if (deformType_ != DeformNone)
 			{

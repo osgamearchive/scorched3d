@@ -55,6 +55,7 @@ public:
 
 	std::list<NapalmEntry *> &getPoints() { return napalmPoints_; }
 	unsigned int getPlayerId() { return playerId_; }
+	WeaponNapalm *getWeapon() { return weapon_; }
 
 REGISTER_ACTION_HEADER(Napalm);
 

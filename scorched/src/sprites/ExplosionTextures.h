@@ -30,16 +30,7 @@ class ExplosionTextures
 {
 public:
 	static ExplosionTextures *instance();
-	void createTextures(ProgressCounter *counter = 0);
-
-	GLTextureSet exp00;
-	GLTextureSet exp01;
-	GLTextureSet exp02;
-	GLTextureSet exp03;
-	GLTextureSet exp04;
-	GLTextureSet exp05;
-
-	GLTextureSet flames;
+	bool createTextures(ProgressCounter *counter = 0);
 
 	GLTexture smokeTexture;
 	GLTexture smokeTexture2;
@@ -50,12 +41,8 @@ public:
 protected:
 	static ExplosionTextures *instance_;
 
-	void addTextureToSet(GLTextureSet &set,
+	bool addTextureToSet(GLTextureSet &set,
 						const char *texPath);
-	void createTextureSet(GLTextureSet &set,
-						int number, 
-						const char *baseName,
-						bool zeros = false);
 private:
 	ExplosionTextures();
 	virtual ~ExplosionTextures();

@@ -28,7 +28,7 @@
 #include <client/ScorchedClient.h>
 
 NapalmRenderer::NapalmRenderer() : 
-	textureNo_(0), totalTime_(0.0f), counter_(0.1f, 0.1f)
+	textureNo_(0), totalTime_(0.0f), counter_(0.1f, 0.1f), set_(0)
 {
 
 }
@@ -82,9 +82,15 @@ void NapalmRenderer::draw(Action *action)
 	}
 
 	Napalm *napalm = (Napalm *) action;
+	if (!set_)
+	{
+		set_ = 
+			ExplosionTextures::instance()->getTextureSetByName(
+			napalm->getWeapon()->getExplosionTexture());
+	}
 
 	// Setup the bilboard
-	int noTextures = ExplosionTextures::instance()->flames.getNoTextures();
+	int noTextures = set_->getNoTextures();
 
 	std::list<Napalm::NapalmEntry *>::iterator itor;
 	std::list<Napalm::NapalmEntry *>::iterator endItor = 
@@ -106,17 +112,17 @@ void NapalmRenderer::draw(Action *action)
 
 			// Particle 1
 			entry->renderEntry1->posZ = fz + 2.5f;
-			entry->renderEntry1->texture = ExplosionTextures::instance()->flames.getTexture(
+			entry->renderEntry1->texture = set_->getTexture(
 				(textureNo_ + entry->offset + 0) % noTextures);
 
 			// Particle 2
 			entry->renderEntry2->posZ = fz + 2.5f;
-			entry->renderEntry2->texture = ExplosionTextures::instance()->flames.getTexture(
+			entry->renderEntry2->texture = set_->getTexture(
 				(textureNo_ + entry->offset + 10) % noTextures);
 
 			// Particle 3
 			entry->renderEntry3->posZ = fz + 2.5f;
-			entry->renderEntry3->texture = ExplosionTextures::instance()->flames.getTexture(
+			entry->renderEntry3->texture = set_->getTexture(
 				(textureNo_ + entry->offset + 20) % noTextures);
 		}
 	}

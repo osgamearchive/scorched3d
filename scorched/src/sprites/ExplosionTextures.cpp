@@ -20,6 +20,7 @@
 
 #include <stdio.h>
 #include <GLEXT/GLBitmap.h>
+#include <XML/XMLFile.h>
 #include <sprites/ExplosionTextures.h>
 
 ExplosionTextures *ExplosionTextures::instance_ = 0;
@@ -44,36 +45,18 @@ ExplosionTextures::~ExplosionTextures()
 
 }
 
-void ExplosionTextures::addTextureToSet(GLTextureSet &set,
+bool ExplosionTextures::addTextureToSet(GLTextureSet &set,
 										const char *texPath)
 {
 	GLBitmap bitmap((char *) texPath, (char *) texPath, false);
 	GLTexture *texture = new GLTexture;
 
-	if (!texture->create(bitmap, GL_RGBA))
-	{
-		dialogMessage("ExplosionTextures", "Failed to load texture \"%s\"",
-			texPath);
-		exit(1);
-	}
+	if (!texture->create(bitmap, GL_RGBA)) return false;
 	set.addTexture(texture);
+	return true;
 }
 
-void ExplosionTextures::createTextureSet(GLTextureSet &set,
-										 int number, 
-										 const char *baseName,
-										 bool zeros)
-{
-	char name[256];
-	for (int i=1; i<=number; i++)
-	{
-		if (!zeros) sprintf(name, "%s%i.bmp", baseName, i);
-		else sprintf(name, "%s%02i.bmp", baseName, i);
-		addTextureToSet(set, name);
-	}
-}
-
-void ExplosionTextures::createTextures(ProgressCounter *counter)
+bool ExplosionTextures::createTextures(ProgressCounter *counter)
 {
 	if (counter) counter->setNewOp("Explosion Textures");
 
@@ -85,30 +68,87 @@ void ExplosionTextures::createTextures(ProgressCounter *counter)
 	GLBitmap bitmap2(file2.c_str(), file2.c_str(), false);
 	smokeTexture.create(bitmap2, GL_RGBA);
 
-	createTextureSet(exp00, 10, getDataFile("data/textures/explode/exp00_"));
-	textureSets["exp00"] = &exp00;
+	XMLFile file;
+	if (!file.readFile(getDataFile("data/textureset.xml")))
+	{
+		dialogMessage("ExplosionTextures", 
+					  "Failed to parse \"%s\"\n%s", 
+					  "data/textureset.xml",
+					  file.getParserError());
+		return false;
+	}
+	if (!file.getRootNode())
+	{
+		dialogMessage("ExplosionTextures",
+					  "Failed to find explosion textures definition file \"%s\"",
+					  "data/textureset.xml");
+		return false;		
+	}
 
-	createTextureSet(exp01, 3, getDataFile("data/textures/explode/exp01_"));
-	textureSets["exp01"] = &exp01;
+    std::list<XMLNode *>::iterator childrenItor;
+	std::list<XMLNode *> &children = file.getRootNode()->getChildren();
+    for (childrenItor = children.begin();
+		 childrenItor != children.end();
+		 childrenItor++)
+    {
+		// Check if it is a texture set
+        XMLNode *currentNode = (*childrenItor);
+		if (strcmp(currentNode->getName(), "textureset"))
+		{
+			dialogMessage("ExplosionTextures",
+						  "Failed to find textureset node");
+			return false;
+		}
+		XMLNode *name = currentNode->getNamedParameter("name");
+		if (!name)
+		{
+			dialogMessage("ExplosionTextures",
+						  "Failed to find name node");
+			return false;
+		}
+		const char *setName = name->getContent();
 
-	createTextureSet(exp02, 3, getDataFile("data/textures/explode/exp02_"));
-	textureSets["exp02"] = &exp02;
+		// Create and store the new texture set
+		GLTextureSet *set = new GLTextureSet();
+		textureSets[setName] = set;
 
-	createTextureSet(exp03, 3, getDataFile("data/textures/explode/exp03_"));
-	textureSets["exp03"] = &exp03;
+		// Load all the textures
+		std::list<XMLNode *>::iterator textureItor;
+		std::list<XMLNode *> &textures = currentNode->getChildren();
+		for (textureItor = textures.begin();
+			textureItor != textures.end();
+			textureItor++)
+		{
+			// Check if it is a texture
+			XMLNode *currentTexture = (*textureItor);
+			if (strcmp(currentTexture->getName(), "texture"))
+			{
+				dialogMessage("ExplosionTextures",
+							"Failed to find texture sub-node");
+				return false;
+			}
 
-	createTextureSet(exp04, 3, getDataFile("data/textures/explode/exp04_"));
-	textureSets["exp04"] = &exp04;
+			// Load texture
+			const char *texFile = 
+				getDataFile("data/%s", currentTexture->getContent());
+			if (!addTextureToSet(*set, texFile))
+			{
+				dialogMessage("ExplosionTextures",
+							"Failed to load texture %s",
+							texFile);
+				return false;
+			}
+		}
+	}
 
-	createTextureSet(exp05, 7, getDataFile("data/textures/explode/exp05_"));
-	textureSets["exp05"] = &exp05;
-
-	createTextureSet(flames, 33, getDataFile("data/textures/flame/flame"), true);
+	return true;
 }
 
 GLTextureSet *ExplosionTextures::getTextureSetByName(const char *name)
 {
-	GLTextureSet * result = &exp00;
+	DIALOG_ASSERT(!textureSets.empty());
+
+	GLTextureSet *result = (*textureSets.begin()).second;
 	std::map<std::string, GLTextureSet*>::iterator itor =
 		textureSets.find(name);
 	if (itor != textureSets.end())
