@@ -93,6 +93,8 @@ OptionsDisplay::OptionsDisplay() :
 		"Draw the icons above the tanks", RWAccess, true),
 	drawPlayerSight_(options_, "DrawPlayerSight",
 		"Draw the aiming sight infront of the tanks", RWAccess, true),
+	oldSightPosition_(options_, "OldSightPosition",
+		"Draw the aiming sight aligned with the model and not the shot", RWAccess, false),
 	drawPlayerColor_(options_, "DrawPlayerColor",
 		"Draw the player color triangle over the tank", RWAccess, true),
 	drawPlayerHealth_(options_, "DrawPlayerHealth",

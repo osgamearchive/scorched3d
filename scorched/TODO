@@ -1,61 +1,4 @@
 -- Bugs Fixed and Ready For Release 
-Fixed: Shields obscure health bars
-Fixed: Napalm does not now work under water (I'll not change this again ;) )
-Fixed: Camera does not follow meteors or other environment actions
-Fixed: Talk text appears under other windows (text now smaller too)
-Fixed: Fix camera presets
-Fixed: CTRL LF in mod files linux hosts causing mod file downloads
-Fixed: New games or rounds do not cause mod downloads to stop
-Fixed: Reduced the server to client payload size considerably (lag??)
-Fixed: Key repeat for console macros bound to keys
-Fixed: wx 2.5 compilation errors (sizers still to fix)
-Fixed: Tank name is above ground when tank burried
-Fixed: Accessories.xml file format to remove duplication
-Fixed: Computer AIs becoming confused when shots hit off walls
-Fixed: Aming sight is correctly positioned for all tanks
-Fixed: Bug where a player is assigned black as their color
-Fixed: Ensure tank movement and falling is consistent between server and client
-Fixed: Rollers don't affect shields so badly
-Fixed: Game browsing dialog can now be resized
-Fixed: Players table in game browsing dialog being cleared unnecessarily
-Fixed: Console font now courier and easier to read
-
-Added: Player resign and player skip move dialogs (and key assignments)
-Added: Key to raise shields (only works if player has only one shield type)
-Added: Herring model to tux (thanks A Moogle) and Shark model (thanks Shark)
-Added: Users with previous stats accounts now connect with that name
-Added: Windows installer switched to nsis (http://nsis.sourceforge.net/)
-Added: Level send size made smaller
-Added: Default scorched settings now stored in the "none" mod so settings can be changed
-Added: Admin users now defined in xml document
-Added: Admin users require a username and password
-Added: Admin show shows all players ip address and stats id
-Added: admin permmute, admin unpermmute, admin admintalk, admin showbanned, admin showaliases
-Added: Players can be persistantly admin muted
-Added: Server logging for all admin operations
-Added: Shield penetration can be configured in accessories.xml file
-Added: Landscape definitions are not sent during new game (instead loaded from mod)
-Added: Laser weapon primitive
-Added: Ground (re)flattened around tank after move or fall
-Added: Buying time to settings dialogs
-Added: flame color attributes to WeaponProjectile to control the trail color
-Added: smokelife and flamelife attributes to WeaponProjectile to control trail length
-Added: nosmoke and noobjectdamage attributes to WeaponNapalm to control smoke and tree damage
-Added: Player decals stored in database for stats usage
-Added: Optional Armslevel attribute to weapons (if missing parents armslevel is used)
-Added: Player and weapon icons to game gui
-Added: Mods in the users mod directory are moved out the way when a new version is installed
-Added: Each computer AI can now have multiple different buying stratagies
-Added: New aiming algorithm for Cyborg computer AI (copes with wind and tank movement)
-Added: Computer AIs now choose weapons more appropraitely
-Added: Maximum number of weapons can be set on a per weapon basis
-Added: Starting number of weapons can be set on a per weapon basis
-Added: Start timer to server for joining players
-Added: Player decals for in game (thanks to http://www.entity.cc/ for the avatars)
-Added: Banned username and time to players that have been banned
-Added: Users can turn IP authentication off
-Added: Weapon and talk icons to the speach lines
-Added: Mod file import and export in options dialog
 
 -- Bugs in current development release
 Dvorak keyboard support is broken
@@ -76,6 +19,7 @@ Allow players to choose players without joining first
 Shadows for other models
 Teleport (to random position)
 Show buy/choose accessories in groups (rather than one long list)
+Allow same ip addresses to connect but don't collect stats
 
 -- Server Stuff
 Chat filter (swear words)

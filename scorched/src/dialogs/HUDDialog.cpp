@@ -44,6 +44,8 @@ HUDDialog::HUDDialog() :
 	addWidget(nameBox_, 0, SpaceLeft | SpaceRight | SpaceTop, 10.0f);
 	sightBox_ = new GLWCheckBoxText(0.0f, 0.0f, "Show Sight");
 	addWidget(sightBox_, 0, SpaceLeft | SpaceRight | SpaceTop, 10.0f);
+	oldSightBox_  = new GLWCheckBoxText(0.0f, 0.0f, "Use Old Sight Position");
+	addWidget(oldSightBox_, 0, SpaceLeft | SpaceRight | SpaceTop, 10.0f);
 	colorBox_ = new GLWCheckBoxText(0.0f, 0.0f, "Show Color");
 	addWidget(colorBox_, 0, SpaceLeft | SpaceRight | SpaceTop, 10.0f);
 	healthBox_ = new GLWCheckBoxText(0.0f, 0.0f, "Show Health");
@@ -77,6 +79,8 @@ void HUDDialog::windowDisplay()
 		OptionsDisplay::instance()->getDrawPlayerNames());
 	sightBox_->getCheckBox().setState(
 		OptionsDisplay::instance()->getDrawPlayerSight());
+	oldSightBox_->getCheckBox().setState(
+		OptionsDisplay::instance()->getOldSightPosition());
 	colorBox_->getCheckBox().setState(
 		OptionsDisplay::instance()->getDrawPlayerColor());
 	healthBox_->getCheckBox().setState(
@@ -93,6 +97,8 @@ void HUDDialog::buttonDown(unsigned int id)
 			nameBox_->getCheckBox().getState());
 		OptionsDisplay::instance()->setDrawPlayerSight(
 			sightBox_->getCheckBox().getState());
+		OptionsDisplay::instance()->setOldSightPosition(
+			oldSightBox_->getCheckBox().getState());
 		OptionsDisplay::instance()->setDrawPlayerColor(
 			colorBox_->getCheckBox().getState());
 		OptionsDisplay::instance()->setDrawPlayerHealth(

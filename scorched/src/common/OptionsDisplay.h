@@ -196,6 +196,10 @@ public:
 	void setDrawPlayerSight(bool value) { drawPlayerSight_.setValue(value); }
 	const char *getDrawPlayerSightToolTip() { return drawPlayerSight_.getDescription(); }
 
+	bool getOldSightPosition() { return oldSightPosition_.getValue(); }
+	void setOldSightPosition(bool value) { oldSightPosition_.setValue(value); }
+	const char *getOldSightPositionToolTip() { return oldSightPosition_.getDescription(); }
+
 	bool getDrawPlayerHealth() { return drawPlayerHealth_.getValue(); }
 	void setDrawPlayerHealth(bool value) { drawPlayerHealth_.setValue(value); }
 	const char *getDrawPlayerHealthToolTip() { return drawPlayerHealth_.getDescription(); }
@@ -377,6 +381,7 @@ protected:
 	OptionEntryBool drawPlayerNames_;
 	OptionEntryBool drawPlayerIcons_;
 	OptionEntryBool drawPlayerSight_;
+	OptionEntryBool oldSightPosition_;
 	OptionEntryBool drawPlayerColor_;
 	OptionEntryBool drawPlayerHealth_;
 	OptionEntryBool noTrees_;

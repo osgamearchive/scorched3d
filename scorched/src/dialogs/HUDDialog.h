@@ -42,6 +42,7 @@ protected:
 	unsigned int okId_, cancelId_;
 	GLWCheckBoxText *nameBox_;
 	GLWCheckBoxText *sightBox_;
+	GLWCheckBoxText *oldSightBox_;
 	GLWCheckBoxText *colorBox_;
 	GLWCheckBoxText *healthBox_;
 	GLWCheckBoxText *iconBox_;

@@ -403,7 +403,7 @@ bool TargetCamera::moveCamera(float frameTime, bool playing)
 				Vector newPos = currentTank->getPhysics().getTankGunPosition();
 				Vector diff = newPos - position;
 				Vector newPos2 = position + (diff);
-				newPos2 += Vector(0.0f, 0.0f, 0.5f);
+				newPos2[2] += 0.5f;
 
 				mainCam_.setLookAt(newPos2);
 				mainCam_.movePosition(currentRotation, currentElevation + 1.57f, 3.0f);

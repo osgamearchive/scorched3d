@@ -45,6 +45,7 @@ public:
 	TankModelId &getId();
 	ModelID &getTankModelID();
 	ModelID &getProjectileModelID();
+	TankMesh *getTankMesh() { return tankMesh_; }
 
 	bool isOfCatagory(const char *catagory);
 	std::list<std::string> &getCatagories() { return catagories_; }

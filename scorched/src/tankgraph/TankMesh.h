@@ -39,6 +39,7 @@ public:
 	float getTurretHeight() { return turretHeight_; }
 	int getNoTris();
 
+	static void drawSight();
 protected:
 	bool useTextures_;
 	float turretHeight_;

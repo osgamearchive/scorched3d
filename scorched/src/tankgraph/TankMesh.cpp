@@ -214,7 +214,45 @@ void TankMesh::drawGun(bool drawS, float fireOffSet, float rotXY, float rotXZ)
 	gunArrays_.draw();
 
 	// Draw the sight
-	//if (drawS &&
-	//	OptionsDisplay::instance()->getDrawPlayerSight()) drawSight();
+	if (drawS &&
+		OptionsDisplay::instance()->getDrawPlayerSight() &&
+		OptionsDisplay::instance()->getOldSightPosition())
+	{
+		GLState sightState(GLState::BLEND_OFF | GLState::TEXTURE_OFF);
+		drawSight();
+	}
 }
 
+void TankMesh::drawSight()
+{
+	static GLuint sightList_ = 0;
+	if (!sightList_)
+	{
+		glNewList(sightList_ = glGenLists(1), GL_COMPILE);
+			glBegin(GL_QUAD_STRIP);
+				float x;
+				for (x=135.0f; x>=90.0f; x-=9.0f)
+				{
+					const float deg = 3.14f / 180.0f;
+					float dx = x * deg;
+					float color = 1.0f - fabsf(90.0f - x) / 45.0f;
+
+					glColor3f(1.0f * color, 0.5f * color, 0.5f * color);
+					glVertex3f(+0.03f * color, 2.0f * sinf(dx), 2.0f * cosf(dx));
+					glVertex3f(+0.03f * color, 10.0f * sinf(dx), 10.0f * cosf(dx));
+				}
+				for (x=90.0f; x<135.0f; x+=9.0f)
+				{
+					const float deg = 3.14f / 180.0f;
+					float dx = x * deg;
+					float color = 1.0f - fabsf(90.0f - x) / 45.0f;
+
+					glColor3f(1.0f * color, 0.5f * color, 0.5f * color);
+					glVertex3f(-0.03f * color, 2.0f * sinf(dx), 2.0f * cosf(dx));
+					glVertex3f(-0.03f * color, 10.0f * sinf(dx), 10.0f * cosf(dx));
+				}
+			glEnd();
+		glEndList();
+	}
+	glCallList(sightList_);
+}
