@@ -163,10 +163,10 @@ scorched3d_SOURCES = \
 	../tank/TankColorGenerator.h \
 	../tank/TankContainer.cpp \
 	../tank/TankContainer.h \
-	../tank/TankDeadContainer.cpp \
-	../tank/TankDeadContainer.h \
 	../tank/TankController.cpp \
 	../tank/TankController.h \
+	../tank/TankDeadContainer.cpp \
+	../tank/TankDeadContainer.h \
 	../tank/TankFuel.cpp \
 	../tank/TankFuel.h \
 	../tank/TankLib.cpp \
@@ -407,6 +407,8 @@ scorched3d_SOURCES = \
 	../landscape/LandscapeObjects.h \
 	../landscape/LandscapeObjectsEntry.cpp \
 	../landscape/LandscapeObjectsEntry.h \
+	../landscape/LandscapeObjectsEntryModel.cpp \
+	../landscape/LandscapeObjectsEntryModel.h \
 	../landscape/LandscapeObjectsEntryTree.cpp \
 	../landscape/LandscapeObjectsEntryTree.h \
 	../landscape/LandscapeObjectsPlacement.cpp \
