@@ -2,7 +2,7 @@
 Added: Tooltips over tanks
 Added: Decimal point on tank evelevation/rotation angles
 Added: Depth buffer size can be set in config
-Added: Menu items change color when available (mouse over)
+Added: Menu items + drop down lists change color when available (mouse over)
 Added: Can now kick computer players (from server dialog)
 Added: Can now add computer players (from server dialog)
 Added: Can set number of sprites and bilboards
@@ -54,7 +54,9 @@ Added: Wrap around wall option
 Added: Money can be awarded for hits as well as kills
 Added: New camera angle shows the final position of shots and killed tanks
 Added: Different scoring modes (winner chosen in different ways)
-Added: Start of team Play
+Added: Team Play
+Added: Team auto ballancing
+Added: can change team, tank and name during game
 
 Fixed: Tank bounding boxes can still cause collisions when tank is dead
 Fixed: Random windows crashes, increased stack size to stop ODE from running out of stack
@@ -105,7 +107,7 @@ Teleport (to random position)
 Configurable camera views using ctrl-2 etc...
 Towers can't move
 More weapons, always more weapons
-Partiot missile type defense
+Patriot missile type defense
 rollers.
 lasers
 plasma blast
@@ -115,8 +117,7 @@ fire control
 lazy boy
 
 -- Game Play
-resignation penalty
-auto balance teams
+resignation penalty (there already is, you can't win round!)
 free market
 communism
 
@@ -131,6 +132,6 @@ New landscape surrounds, desert etc...
 Some kind of fire out the back of missiles
 Clouds
 lightning
-Trees,
+Trees (done, just need LOD and remove them when ground is cleared)
 Water has waves as appose to ripples
 Napalm scorches ground
