@@ -54,6 +54,7 @@ GLWSelector::GLWSelector() :
 	GLWWindow("", 0.0f, 0.0f, 0.0f, 0.0f, 0, ""), 
 	visible_(false), showState_(0)
 {
+		windowLevel_ = 1000;
 }
 
 GLWSelector::~GLWSelector()

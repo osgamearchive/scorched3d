@@ -42,6 +42,7 @@ TalkDialog::TalkDialog() :
 		"Allows the current player to send messages\n"
 		"to other online players.")
 {
+	windowLevel_ = 50000;
 	needCentered_ = true;
 
 	// Add buttons

@@ -84,10 +84,6 @@ bool parseCommandLine(int argc, char *argv[])
 		wxString userName = ::wxGetUserName();
 		if (userName.c_str()[0])
 		{
-			for (char *c=(char *) userName.c_str(); *c; c++)
-			{
-				if (*c < 32 || *c > 125) *c = ' ';
-			}
 			OptionsDisplay::instance()->setOnlineUserName(userName.c_str());
 		}
 	}

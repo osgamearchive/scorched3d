@@ -235,6 +235,14 @@ void createTroubleControls(wxWindow *parent, wxSizer *sizer)
 
 void createIdentControls(wxWindow *parent, wxSizer *sizer)
 {
+	// User name edit box
+	wxStaticBox *userNameBox = new wxStaticBox(parent, -1, 
+		"Online User Name");
+	wxStaticBoxSizer *userNameSizer = new wxStaticBoxSizer(userNameBox, wxVERTICAL);
+	IDC_USERNAME_CTRL = new wxTextCtrl(parent, -1, wxString(), wxDefaultPosition, wxSize(300, -1));
+	userNameSizer->Add(IDC_USERNAME_CTRL, 0, wxALIGN_CENTER);
+	sizer->Add(userNameSizer, 0, wxGROW | wxLEFT | wxRIGHT | wxTOP, 5);
+
 	// User id edit box
 	wxStaticBox *userBox = new wxStaticBox(parent, -1, 
 		"User ID (Uniquely identifies this player for stats, not generated from any user information.)");

@@ -42,6 +42,7 @@ public:
 	bool windowVisible(unsigned id);
 	bool moveToFront(unsigned id);
 	bool windowInCurrentState(unsigned id);
+	void sortWindowLevels();
 	unsigned int getFocus(int x, int y);
 
 	void clear();

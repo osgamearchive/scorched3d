@@ -19,12 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <GLW/GLWWindowManager.h>
-#include <GLW/GLWWindow.h>
-#include <GLW/GLWSelector.h>
-#include <common/Keyboard.h>
 #include <dialogs/MainMenuDialog.h>
-#include <dialogs/HelpButtonDialog.h>
-#include <dialogs/TalkDialog.h>
 #include <limits.h>
 #include <set>
 
@@ -131,10 +126,7 @@ void GLWWindowManager::setCurrentEntry(const unsigned state)
 		}
 	}
 
-	moveToFront(TalkDialog::instance()->getId());
-	moveToFront(MainMenuDialog::instance()->getId());
-	moveToFront(HelpButtonDialog::instance()->getId());
-	moveToFront(GLWSelector::instance()->getId());
+	sortWindowLevels();
 }
 
 void GLWWindowManager::addWindow(const unsigned state, GLWWindow *window, KeyboardKey *key, bool visible)
@@ -160,10 +152,6 @@ bool GLWWindowManager::showWindow(unsigned id)
 			(*itor).second = true;
 			window->windowDisplay();
 			moveToFront(id);
-			moveToFront(TalkDialog::instance()->getId());
-			moveToFront(MainMenuDialog::instance()->getId());
-			moveToFront(HelpButtonDialog::instance()->getId());
-			moveToFront(GLWSelector::instance()->getId());
 
 			return true;
 		}
@@ -189,9 +177,34 @@ bool GLWWindowManager::moveToFront(unsigned id)
 	if (found) 
 	{
 		currentStateEntry_->windows_.push_back(found);
+		sortWindowLevels();
 	}
 
 	return (found != 0);
+}
+
+void GLWWindowManager::sortWindowLevels()
+{
+	if (!currentStateEntry_) return;
+
+	std::deque<GLWWindow *> &windows = currentStateEntry_->windows_;
+
+	bool changed = true;
+	while (changed)
+	{
+		changed = false;
+		for (int i=0; i<int(windows.size())-1; i++)
+		{
+			GLWWindow *first = windows[i];
+			GLWWindow *second = windows[i+1];
+			if (first->getWindowLevel() > second->getWindowLevel())
+			{
+				windows[i] = second;
+				windows[i+1] = first;
+				changed = true;
+			}
+		}
+	}
 }
 
 bool GLWWindowManager::windowVisible(unsigned id)

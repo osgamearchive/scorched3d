@@ -80,6 +80,7 @@ public:
 	void addChild(XMLNode *node); 
 	void addParameter(XMLNode *node);
 	void addContent(const char *data, int len);
+	void convertContent();
 
 protected:
 	NodeType type_;

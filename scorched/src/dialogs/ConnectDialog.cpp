@@ -128,7 +128,6 @@ bool ConnectDialog::tryConnection()
 		Logger::log(0, "  Connection Send Failed!");
 	}
 
-	Logger::log(0, "  Connection Succeeded.");
 	MainBanner::instance();
 	return true;
 }

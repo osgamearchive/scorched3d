@@ -64,6 +64,7 @@ public:
 	const char *getName() { return name_.c_str(); }
 	const char *getDescription() { return description_.c_str(); }
 	GLWTip &getToolTip() { return toolTip_; }
+	unsigned int getWindowLevel() { return windowLevel_; }
 	void needsCentered() { needCentered_ = true; }
 
 	REGISTER_CLASS_HEADER(GLWWindow);
@@ -83,6 +84,7 @@ protected:
 	bool disabled_;
 	bool initPosition_;
 	unsigned int windowState_;
+	unsigned int windowLevel_;
 	float maxWindowSize_;
 	std::string name_;
 	std::string description_;

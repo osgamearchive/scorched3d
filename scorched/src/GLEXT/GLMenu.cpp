@@ -27,6 +27,7 @@
 
 GLMenu::GLMenu() : GLWWindow("", 0.0f, 10.0f, 10000.0f, 25.0f, 0, "")
 {
+	windowLevel_ = 20000;
 	menuFont_ = GLWFont::instance()->getLargePtFont();
 }
 

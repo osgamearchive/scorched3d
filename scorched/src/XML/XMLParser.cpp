@@ -25,6 +25,42 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+static void removeSpecialChars(std::string &content, std::string &result)
+{
+	result = "";
+	for (char *c=(char *) content.c_str(); *c; c++)
+	{
+		char newchar = *c;
+		if (*c < 32 || *c > 125) result += ' ';
+		else if (*c == '>') result += "&gt;";
+		else if (*c == '<') result += "&lt;";
+		else if (*c == '\'') result += "&apos;";
+		else if (*c == '"') result += "&quot;";
+		else if (*c == '&') result += "&amp;";
+		else if (*c == '%') result += "&#37;";
+		else result += *c;
+	}
+}
+
+static void addSpecialChars(std::string &content, std::string &result)
+{
+	result = "";
+	for (char *c=(char *) content.c_str(); *c; c++)
+	{
+		if (*c == '&')
+		{
+			if (strstr(c, "&gt;") == c) { result += '>'; c+=3; }
+			else if (strstr(c, "&lt;") == c) { result += '<'; c+=3; }
+			else if (strstr(c, "&apos;") == c) { result += '\''; c+=5; }
+			else if (strstr(c, "&quot;") == c) { result += '"'; c+=5; }
+			else if (strstr(c, "&amp;") == c) { result += '&'; c+=4; }
+			else if (strstr(c, "&#37;") == c) { result += '%'; c+=4; }
+			else result += *c;
+		}
+		else result += *c;
+	}	
+}
+
 static const char *getSpacer(int space)
 {
 	static std::string spacestr;
@@ -118,15 +154,22 @@ void XMLNode::addNodeToFile(FileLines &lines, int spacing)
 		{
 			XMLNode *node = (*pitor);
 			DIALOG_ASSERT(node->type_ == XMLParameterType);
-			params += " " + node->name_ + "='" + node->content_ + "'";
+			
+			std::string newContent;
+			removeSpecialChars(node->content_, newContent);
+			
+			params += " " + node->name_ + "='" + newContent + "'";
 		}
 
 		if (children_.empty())
 		{
+			std::string newContent;
+			removeSpecialChars(content_, newContent);
+			
 			lines.addLine("%s<%s%s>%s</%s>", 
 				getSpacer(spacing),
 				name_.c_str(), params.c_str(), 
-				content_.c_str(), name_.c_str());
+				newContent.c_str(), name_.c_str());
 		}
 		else
 		{
@@ -272,6 +315,12 @@ void XMLNode::addContent(const char *data, int len)
 	content_.append(data, len); 
 }
 
+void XMLNode::convertContent()
+{
+	std::string oldContent = content_;
+	addSpecialChars(oldContent, content_);
+}
+
 XMLParser::XMLParser() : root_(0), current_(0), 
 	source_("Not Specified")
 {
@@ -340,6 +389,7 @@ void XMLParser::startElementHandler(const XML_Char *name,
 
 			XMLNode *param = new XMLNode(name, "", XMLNode::XMLParameterType);
 			param->addContent(value, strlen(value));
+			param->convertContent();
 			current_->addParameter(param);
 		}
 	}
@@ -350,6 +400,7 @@ void XMLParser::endElementHandler(const XML_Char *name)
 	DIALOG_ASSERT(current_);
 	DIALOG_ASSERT(strcmp(name, current_->getName()) == 0);
 
+	current_->convertContent();
 	current_ = (XMLNode *) current_->getParent();
 }
 

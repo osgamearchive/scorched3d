@@ -37,6 +37,7 @@ HelpButtonDialog *HelpButtonDialog::instance()
 HelpButtonDialog::HelpButtonDialog() : 
 	GLWWindow("", 0.0f, 10.0f, 32.0f, 32.0f, 0, "")
 {
+		windowLevel_ = 10000;
 }
 
 HelpButtonDialog::~HelpButtonDialog()

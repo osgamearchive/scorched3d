@@ -195,6 +195,8 @@ void DisplayFrame::refreshScreen()
 	IDC_SLIDER1_CTRL->SetRange(3, 40);
 	IDC_SLIDER1_CTRL->SetValue(OptionsDisplay::instance()->getBrightness());
 	IDC_SLIDER1_CTRL->SetToolTip(OptionsDisplay::instance()->getBrightnessToolTip());
+	IDC_USERNAME_CTRL->SetValue(OptionsDisplay::instance()->getOnlineUserName());
+	IDC_USERNAME_CTRL->SetToolTip(OptionsDisplay::instance()->getOnlineUserNameToolTip());
 	IDC_USERID_CTRL->SetValue(OptionsDisplay::instance()->getUniqueUserId());
 	IDC_USERID_CTRL->SetToolTip(OptionsDisplay::instance()->getUniqueUserIdToolTip());
 	IDC_HOSTDESC_CTRL->SetValue(OptionsDisplay::instance()->getHostDescription());
@@ -354,6 +356,7 @@ bool DisplayFrame::TransferDataFromWindow()
 	OptionsDisplay::instance()->setShowContextHelp(IDC_TOOLTIP_CTRL->GetValue());
 	OptionsDisplay::instance()->setFrameTimer(IDC_TIMER_CTRL->GetValue());
 	OptionsDisplay::instance()->setSideScroll(IDC_SIDESCROLL_CTRL->GetValue());
+	OptionsDisplay::instance()->setOnlineUserName(IDC_USERNAME_CTRL->GetValue());
 	OptionsDisplay::instance()->setUniqueUserId(IDC_USERID_CTRL->GetValue());
 	OptionsDisplay::instance()->setHostDescription(IDC_HOSTDESC_CTRL->GetValue());
 	OptionsDisplay::instance()->setDetailTexture(!IDC_NODETAILTEX_CTRL->GetValue());

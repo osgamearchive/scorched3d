@@ -42,7 +42,7 @@ GLWWindow::GLWWindow(const char *name, float x, float y,
 	needCentered_(false), showTitle_(false), name_(name),
 	disabled_(false), windowState_(states), maxWindowSize_(0.0f),
 	description_(description), toolTip_(name, description),
-	initPosition_(false)
+	initPosition_(false), windowLevel_(100000)
 {
 	getDrawPanel() = false;
 }
@@ -53,7 +53,8 @@ GLWWindow::GLWWindow(const char *name, float w, float h,
 	GLWVisiblePanel(0.0f, 0.0f, w, h), dragging_(NoDrag), 
 	needCentered_(true), showTitle_(false), name_(name),
 	disabled_(false), windowState_(states),
-	description_(description), toolTip_(name, description)
+	description_(description), toolTip_(name, description),
+	windowLevel_(100000)
 {
 	getDrawPanel() = false;
 }

@@ -53,6 +53,11 @@ public:
 
 	virtual wxString OnGetItemText(long WXUNUSED(item), long WXUNUSED(col)) const;
 	virtual int OnGetItemImage(long WXUNUSED(item)) const;
+	
+	void onDClickServer();
+	
+private:
+	DECLARE_EVENT_TABLE()
 };
 
 NetListControl::NetListControl(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size) :
@@ -137,6 +142,10 @@ wxString NetListControl::OnGetItemText(long item, long column) const
 	return "";
 }
 
+BEGIN_EVENT_TABLE(NetListControl, wxListCtrl)
+	EVT_LEFT_DCLICK(NetListControl::onDClickServer)
+END_EVENT_TABLE()
+
 static NetListControl *IDC_SERVER_LIST_CTRL = 0;
 static wxListCtrl *IDC_PLAYER_LIST_CTRL = 0;
 
@@ -173,7 +182,7 @@ private:
 };
 
 BEGIN_EVENT_TABLE(NetLanFrame, wxDialog)
-    EVT_BUTTON(IDC_BUTTON_LAN,  NetLanFrame::onRefreshLanButton)
+	EVT_BUTTON(IDC_BUTTON_LAN,  NetLanFrame::onRefreshLanButton)
 	EVT_BUTTON(IDC_BUTTON_NET,  NetLanFrame::onRefreshNETButton)
 	EVT_BUTTON(IDC_CLEAR,  NetLanFrame::onClearButton)
 	EVT_BUTTON(IDC_CLEAR_PASSWORD,  NetLanFrame::onClearPasswordButton)
@@ -391,6 +400,16 @@ bool NetLanFrame::TransferDataToWindow()
 bool NetLanFrame::TransferDataFromWindow()
 {
 	return true;
+}
+
+void NetListControl::onDClickServer()
+{
+	bool enabled = IDC_EDIT_SERVER_CTRL->GetValue().c_str()[0] != '\0';
+	if (enabled)
+	{
+		NetLanFrame *parent = (NetLanFrame *) GetParent();
+		parent->EndModal(wxID_OK);
+	}
 }
 
 bool showNetLanDialog()
