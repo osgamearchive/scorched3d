@@ -32,6 +32,7 @@ namespace TankLib
 		ScorchedContext &context,
 		Vector &position, 
 		std::list<std::pair<float, Tank *> > &result,
+		unsigned int teams,
 		float maxDistance = -1);
 	void getShotTowardsPosition(
 		ScorchedContext &context,

@@ -21,6 +21,7 @@
 #include <server/ServerAddPlayerHandler.h>
 #include <server/ScorchedServer.h>
 #include <server/ServerConnectHandler.h>
+#include <server/ServerState.h>
 #include <scorched/ServerDialog.h>
 #include <common/OptionsParam.h>
 #include <coms/ComsAddPlayerMessage.h>
@@ -57,10 +58,12 @@ bool ServerAddPlayerHandler::processMessage(unsigned int id,
 	ComsAddPlayerMessage message;
 	if (!message.readMessage(reader)) return false;
 
+	// Validate player
 	unsigned int playerId = message.getPlayerId();
 	Tank *tank = ScorchedServer::instance()->getTankContainer().getTankById(playerId);
 	if (!tank || !tank->getState().getSpectator()) return true;
 
+	// Add a computer player (if chosen and a single player match)
 	if (0 != strcmp(message.getPlayerType(), "Human"))
 	{
 		if (OptionsParam::instance()->getDedicatedServer()) return true;
@@ -100,26 +103,46 @@ bool ServerAddPlayerHandler::processMessage(unsigned int id,
 						"Random",
 						"",
 						true);
-
-					ComsGameStateMessage message;
-					ComsMessageSender::sendToAllPlayingClients(message);
 				}
 			}
 		}
 	}
 
+	// Setup the new player
 	std::string name(message.getPlayerName());
 	getUniqueName(name);
-
-	// Tell this computer that a new tank has connected
-	sendString(0, "Player playing \"%s\"->\"%s\"",
-		tank->getName(), name.c_str());
-
 	TankModelId modelId(message.getModelName());
 	tank->setName(name.c_str());
 	tank->setModel(modelId);
 	tank->getState().setSpectator(false);
 
+	// Choose a team (if applicable)
+	if (ScorchedServer::instance()->getOptionsGame().getTeams() > 1)
+	{
+		if (message.getPlayerTeam() > 0 && message.getPlayerTeam() <=
+			(unsigned int) ScorchedServer::instance()->getOptionsGame().getTeams())
+		{
+			tank->setTeam(message.getPlayerTeam());
+		}
+		else
+		{
+			tank->setTeam(ScorchedServer::instance()->getOptionsTransient().getLeastUsedTeam(
+				ScorchedServer::instance()->getTankContainer()));
+		}
+	}
+
+	// Tell this computer that a new tank has connected
+	sendString(0, "Player playing \"%s\"->\"%s\"",
+		tank->getName(), name.c_str());
+
+	// If we are in a waiting for players state then we can
+	// send the state of these new players
+	if (ScorchedServer::instance()->getGameState().getState() == 
+		ServerState::ServerStateTooFewPlayers)
+	{
+		ComsGameStateMessage message;
+		ComsMessageSender::sendToAllPlayingClients(message);
+	}
 	return true;
 }
 

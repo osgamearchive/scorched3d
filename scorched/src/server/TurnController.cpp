@@ -42,22 +42,6 @@ TurnController::~TurnController()
 {
 }
 
-const char *TurnController::getGameType(OptionsGame::TurnType type)
-{
-	const char *gameType = "Unknown";
-	switch (type)
-	{
-	case OptionsGame::TurnSequentialLooserFirst:
-	case OptionsGame::TurnSequentialRandom:
-		gameType = "Sequential";
-		break;
-	case OptionsGame::TurnSimultaneous:
-		gameType = "Simultaneous";
-		break;
-	}
-	return gameType;
-}
-
 void TurnController::newGame()
 {
 	playerOrder_.clear();
@@ -74,7 +58,7 @@ void TurnController::newGame()
 
 	// Standard player ordering is the reverse of the tank score
 	TankSort::getSortedTanksIds(
-		ScorchedServer::instance()->getTankContainer(), 
+		ScorchedServer::instance()->getContext(), 
 		playerOrder_);
 	playerOrder_.reverse();
 

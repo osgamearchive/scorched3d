@@ -49,7 +49,7 @@ void ServerScoreState::enterState(const unsigned state)
 		sortedTanks.push_back((*itor).second);
 	}
 
-	TankSort::getSortedTanks(sortedTanks);
+	TankSort::getSortedTanks(sortedTanks, ScorchedServer::instance()->getContext());
 
 	std::list<Tank *>::iterator scoreitor = sortedTanks.begin();
 

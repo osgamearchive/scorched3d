@@ -32,6 +32,15 @@ static void createControls(wxWindow *parent)
 		"",
 		wxPoint((int) 97.5, (int) 52.5), wxSize((int) 72, (int) 124.5),
 		0, 0, wxCB_READONLY);
+	IDC_TEAMS_CTRL_TEXT = 
+		new wxStaticText(parent, -1,
+		"Num Teams :",
+		wxPoint((int) 185, (int) 30));
+	IDC_TEAMS_CTRL = 
+		new wxComboBox(parent, IDC_TEAMS,
+		"",
+		wxPoint((int) 250.5, (int) 27), wxSize((int) 87, (int) 124.5),
+		0, 0, wxCB_READONLY);
 	IDC_TYPE_CTRL_TEXT = 
 		new wxStaticText(parent, -1,
 		"Game Type :",

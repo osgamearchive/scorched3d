@@ -23,6 +23,8 @@
 #include <common/Defines.h>
 
 OptionsGame::OptionsGame() :
+	teams_(options_, "Teams",
+		"The number of teams (1 == no teams)", 0, 1, 1, 2),
 	maxArmsLevel_(options_, "MaxArmsLevel",
 		"The largest weapon type allowed", 0, 10, 0, 10),
 	maxNumberWeapons_(options_, "MaxNumberWeapons",
@@ -75,6 +77,8 @@ OptionsGame::OptionsGame() :
 		"The maximum number of hills", 0, 100, 1, 500),
 	landHeight_(options_, "LandHeight", 
 		"The maximum land height", 0, 30, 0, 100),
+	scoreType_(options_, "ScoreType",
+		"How the winnder is choosen", 0, int(ScoreWins), int(ScoreWins), int(ScoreMoney)),
 	windForce_(options_, "WindForce", 
 		"The force of the wind", 0, int(WindRandom), int(WindRandom), int(Wind5)),
 	windType_(options_, "WindType", 

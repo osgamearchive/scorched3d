@@ -42,7 +42,8 @@ Tank *TankAIComputerShooter::findTankToShootAt()
 	TankLib::getTanksSortedByDistance(
 		*context_,
 		currentTank_->getPhysics().getTankPosition(), 
-		sortedTanks);
+		sortedTanks,
+		currentTank_->getTeam());
 
 	// Choose a tank based on a probablity
 	// The nearest tanks are more likely to be choosen
@@ -50,11 +51,11 @@ Tank *TankAIComputerShooter::findTankToShootAt()
 	if (!sortedTanks.empty())
 	{
 		// The number of tanks to skip before returning
-		int noTanks = int(RAND * 1.2f);
+		int noTanks = int(RAND * 1.5f);
 
-		// Always skip the current tank as it is the first tank
 		std::list<std::pair<float, Tank *> >::iterator itor = sortedTanks.begin();
-		itor++;
+		// Skip the current tank if it is the first tank
+		if ((*itor).second->getPlayerId() == currentTank_->getPlayerId()) itor++;
 
 		// Count the number of tanks to skip
 		for (int i=0;itor != sortedTanks.end() && i<=noTanks; itor++, i++)
@@ -79,7 +80,11 @@ void TankAIComputerShooter::playMove(const unsigned state,
 	float angleYZDegs = 0.0f;
 	float power = 0.0f;
 	Tank *targetTank = findTankToShootAt();
-	if (!targetTank) return;
+	if (!targetTank) 
+	{
+		skipShot();
+		return;
+	}
 
 	TankLib::getShotTowardsPosition(
 		*context_,

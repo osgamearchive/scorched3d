@@ -85,7 +85,7 @@ void ScoreDialog::calculateScores()
 
 	sortedTanks_.clear();
 	TankSort::getSortedTanksIds(
-		ScorchedClient::instance()->getTankContainer(), sortedTanks_);
+		ScorchedClient::instance()->getContext(), sortedTanks_);
 }
 
 void ScoreDialog::windowInit(const unsigned state)

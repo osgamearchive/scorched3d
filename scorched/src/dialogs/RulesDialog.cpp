@@ -25,7 +25,6 @@
 #include <common/WindowManager.h>
 #include <common/OptionsParam.h>
 #include <client/ScorchedClient.h>
-#include <server/TurnController.h>
 
 RulesDialog *RulesDialog::instance_ = 0;
 
@@ -39,7 +38,7 @@ RulesDialog *RulesDialog::instance()
 }
 
 RulesDialog::RulesDialog() : 
-	GLWWindow("Rules", 0.0f, 0.0f, 300.0f, 280.0f, 0)
+	GLWWindow("Rules", 0.0f, 0.0f, 300.0f, 295.0f, 0)
 {
 	needCentered_ = true;
 	okId_ = addWidget(new GLWTextButton(" Ok", 235, 10, 55, this, true))->getId();
@@ -156,17 +155,29 @@ void RulesDialog::draw()
 		14,
 		x_ + 12.0f, top - 75.0f, 0.0f,
 		"Game type : %s", 
-		TurnController::instance()->getGameType(options.getTurnType()));
+		ScorchedClient::instance()->getOptionsTransient().getGameType());
 	GLWFont::instance()->getFont()->draw(
 		yellow,
 		14,
 		x_ + 12.0f, top - 90.0f, 0.0f,
+		((options.getTeams() > 1)?"%i Teams":"No teams"),
+		options.getTeams());
+	GLWFont::instance()->getFont()->draw(
+		yellow,
+		14,
+		x_ + 12.0f, top - 105.0f, 0.0f,
+		"Score Mode : %s", (options.getScoreType() == OptionsGame::ScoreWins)?"Most Wins":
+		((options.getScoreType() == OptionsGame::ScoreKills)?"Most Kills":"Most Money"));
+	GLWFont::instance()->getFont()->draw(
+		yellow,
+		14,
+		x_ + 12.0f, top - 120.0f, 0.0f,
 		((options.getShotTime() > 0)?"Shot time : %i (s)":"No shot time limit"),
 		options.getShotTime());
 	GLWFont::instance()->getFont()->draw(
 		yellow,
 		14,
-		x_ + 12.0f, top - 105.0f, 0.0f,
+		x_ + 12.0f, top - 135.0f, 0.0f,
 		((options.getBuyingTime() > 0)?"Buying time : %i (s)":"No buying time limit"),
 		options.getShotTime());
 }

@@ -180,7 +180,8 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 			tank->getName(),
 			tank->getColor(),
 			tank->getModel().getModelName(),
-			tank->getDestinationId()); 
+			tank->getDestinationId(),
+			tank->getTeam()); 
 		ComsMessageSender::sendToSingleClient(oldPlayerMessage, destinationId);
 	}
 
@@ -233,7 +234,8 @@ void ServerConnectHandler::addNextTank(unsigned int destinationId,
 		tank->getName(),
 		tank->getColor(),
 		tank->getModel().getModelName(),
-		tank->getDestinationId()); 
+		tank->getDestinationId(),
+		tank->getTeam());
 	ComsMessageSender::sendToAllConnectedClients(addPlayerMessage);
 
 	// Add to dialog

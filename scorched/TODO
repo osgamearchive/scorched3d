@@ -53,6 +53,8 @@ Added: Option to not limit the shot power according to health
 Added: Wrap around wall option
 Added: Money can be awarded for hits as well as kills
 Added: New camera angle shows the final position of shots and killed tanks
+Added: Different scoring modes (winner chosen in different ways)
+Added: Start of team Play
 
 Fixed: Tank bounding boxes can still cause collisions when tank is dead
 Fixed: Random windows crashes, increased stack size to stop ODE from running out of stack
@@ -114,10 +116,7 @@ lazy boy
 
 -- Game Play
 resignation penalty
-
-teams
 auto balance teams
-money for hitting (and not killing a tank)
 free market
 communism
 

@@ -302,6 +302,15 @@ bool SettingsFrame::TransferDataToWindow()
 		SettingsEco::IDC_INTEREST_CTRL->SetValue(buffer);
 		SettingsEco::IDC_INTEREST_CTRL->SetToolTip(
 			wxString("The amount of monetary interest gained at the end of each round."));
+
+		// Interest
+		SettingsEco::IDC_SCOREMODE_CTRL->Append("Most Wins");
+		SettingsEco::IDC_SCOREMODE_CTRL->Append("Most Kills");
+		SettingsEco::IDC_SCOREMODE_CTRL->Append("Most Money");
+		SettingsEco::IDC_SCOREMODE_CTRL->SetSelection(
+			(int) context_.optionsGame.getScoreType());
+		SettingsEco::IDC_SCOREMODE_CTRL->SetToolTip(
+			wxString("Who wins each round."));
 	}
 
 	// Env
@@ -387,6 +396,18 @@ bool SettingsFrame::TransferDataToWindow()
 		SettingsMain::IDC_SERVER_PLAYERS_CTRL->SetToolTip(
 			wxString("The number of players that will play in this game.\n"
 				"This number should include computer players"));
+
+		// Teams combo
+		SettingsMain::IDC_TEAMS_CTRL->Append("None");
+		for (i=2; i<=2; i++)
+		{
+			sprintf(string, "%i", i);	
+			SettingsMain::IDC_TEAMS_CTRL->Append(string);
+		}
+		SettingsMain::IDC_TEAMS_CTRL->SetSelection(
+			context_.optionsGame.getTeams() - 1);
+		SettingsMain::IDC_TEAMS_CTRL->SetToolTip(
+			wxString("The number of teams that will play in this game."));
 
 		// Rounds combo
 		for (i=1; i<25; i++)
@@ -495,6 +516,8 @@ bool SettingsFrame::TransferDataFromWindow()
 		sscanf(SettingsEco::IDC_STARTMONEY_CTRL->GetValue(), "%i", &startMoney);
 		sscanf(SettingsEco::IDC_INTEREST_CTRL->GetValue(), "%i", &interest);
 
+		context_.optionsGame.setScoreType(
+			(OptionsGame::ScoreType) SettingsEco::IDC_SCOREMODE_CTRL->GetSelection());
 		context_.optionsGame.setStartMoney(startMoney);
 		context_.optionsGame.setInterest(interest);
 		context_.optionsGame.setBuyOnRound(buyonround);
@@ -537,6 +560,7 @@ bool SettingsFrame::TransferDataFromWindow()
 		context_.optionsGame.setTurnType((OptionsGame::TurnType) (int) 
 			SettingsMain::IDC_TYPE_CTRL->GetClientData(
 				SettingsMain::IDC_TYPE_CTRL->GetSelection()));
+		context_.optionsGame.setTeams((int) SettingsMain::IDC_TEAMS_CTRL->GetSelection() + 1);
 
 		sscanf(SettingsMain::IDC_SERVER_PLAYERS_CTRL->GetValue(), "%i", &noPlayers);
 		sscanf(SettingsMain::IDC_SERVER_ROUNDS_CTRL->GetValue(), "%i", &noRounds);

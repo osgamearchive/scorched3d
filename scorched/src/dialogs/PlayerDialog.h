@@ -33,6 +33,8 @@ public:
 	static PlayerDialog *instance();
 
 	virtual void addPlayers();
+	virtual void windowDisplay();
+	virtual void draw();
 
 	// Inherited from GLWWindow
 	virtual void keyDown(char *buffer, unsigned int keyState, 
@@ -47,9 +49,11 @@ protected:
 	virtual ~PlayerDialog();
 
 	static PlayerDialog *instance_;
-	GLWDropDown *dropDown_;
+	GLWDropDown *typeDropDown_;
+	GLWDropDown *teamDropDown_;
 	GLWTankViewer *viewer_;
 	GLWTextBox *playerName_;
+	unsigned int allocatedTeam_;
 	unsigned int okId_;
 	unsigned int currentPlayerId_;
 	bool beenShown_;

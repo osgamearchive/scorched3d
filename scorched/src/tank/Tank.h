@@ -53,6 +53,8 @@ public:
 	unsigned int getPlayerId() { return playerId_; }
 	unsigned int getDestinationId() { return destinationId_; }
 	void setDestinationId(unsigned int id) { destinationId_ = id; }
+	unsigned int getTeam() { return team_; }
+	void setTeam(unsigned int team) { team_ = team; }
 	const char *getName() { return name_.c_str(); }
 	void setName(const char *name) { name_ = name; }
 	unsigned int getNameLen() { return name_.size(); }
@@ -62,7 +64,7 @@ public:
 	void setTankAI(TankAI *ai) { tankAI_ = ai; }
 	TankModelId &getModel() { return model_; }
 	void setModel(TankModelId &model) { model_ = model; }
-	Vector &getColor() { return color_; }
+	Vector &getColor();
 	void setColor(Vector &color) { color_ = color; }
 
 	// Other attributes
@@ -81,6 +83,7 @@ protected:
 	Vector color_;
 	std::string name_;
 	std::string uniqueId_;
+	unsigned int team_;
 	unsigned int playerId_;
 	unsigned int destinationId_;
 

@@ -34,7 +34,6 @@ public:
 	void nextShot();
 	void nextTurn();
 
-	const char *getGameType(OptionsGame::TurnType type);
 	bool playerThisTurn(unsigned int playerId);
 	std::list<unsigned int> &getPlayersThisShot() { return playersThisShot_; }
 	std::list<unsigned int> &getPlayersThisTurn() { return playersThisTurn_; }

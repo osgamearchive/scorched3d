@@ -30,6 +30,12 @@ public:
 	OptionsGame();
 	virtual ~OptionsGame();
 
+	enum ScoreType
+	{
+		ScoreWins = 0,
+		ScoreKills = 1,
+		ScoreMoney = 2
+	};
 	enum TurnType
 	{
 		TurnSimultaneous = 0,
@@ -64,6 +70,9 @@ public:
 		ScaleMedium = 1,
 		ScaleLarge = 2
 	};
+
+	int getTeams() { return teams_.getValue(); }
+	void setTeams(int value) { teams_.setValue(value); }
 
 	int getMaxArmsLevel() { return maxArmsLevel_.getValue(); }
 	void setMaxArmsLevel(int value) { maxArmsLevel_.setValue(value); }
@@ -121,6 +130,9 @@ public:
 
 	int getIdleKickTime() { return idleKickTime_.getValue(); }
 	void setIdleKickTime(int value) { idleKickTime_.setValue(value); }
+
+	ScoreType getScoreType() { return (ScoreType) scoreType_.getValue(); }
+	void setScoreType(ScoreType value) { scoreType_.setValue((int) value); }
 
 	WindForce getWindForce() { return (WindForce) windForce_.getValue(); }
 	void setWindForce(WindForce value) { windForce_.setValue((int) value); }
@@ -210,6 +222,8 @@ protected:
 	OptionEntryInt allowedMissedMoves_;
 	OptionEntryInt numberOfRounds_;
 	OptionEntryInt maxNumberWeapons_;
+	OptionEntryBoundedInt scoreType_;
+	OptionEntryBoundedInt teams_;
 	OptionEntryBoundedInt numberOfPlayers_;
 	OptionEntryBoundedInt numberOfMinPlayers_;
 	OptionEntryBoundedInt computersDeathTalk_;

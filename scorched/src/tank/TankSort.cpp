@@ -20,7 +20,7 @@
 
 #include <tank/TankSort.h>
 
-bool TankSort::SortOnScore::operator()(const Tank *x, const Tank *y) const
+bool TankSort::SortOnScore::operator()(const Tank *x, const Tank *y, ScorchedContext &context) const
 {
 	Tank &tankX = *((Tank *) x);
 	Tank &tankY = *((Tank *) y);
@@ -42,9 +42,35 @@ bool TankSort::SortOnScore::operator()(const Tank *x, const Tank *y) const
 		return true;
 	}
 
-	if (scoreX.getWins() > scoreY.getWins()) return true;
-	if (scoreX.getWins() == scoreY.getWins())
+	switch (context.optionsGame.getScoreType())
 	{
+	case OptionsGame::ScoreWins:
+		if (scoreX.getWins() > scoreY.getWins()) return true;
+		if (scoreX.getWins() == scoreY.getWins())
+		{
+			if (scoreX.getMoney() > scoreY.getMoney()) return true;
+			if (scoreX.getMoney() == scoreY.getMoney())
+			{
+				if (scoreX.getKills() > scoreY.getKills()) return true;
+				if (scoreX.getKills() == scoreY.getKills())
+				{
+					if (strcmp(((Tank *)x)->getName(), ((Tank *)y)->getName()) < 0) return true;
+				}
+			}
+		}
+		break;
+	case OptionsGame::ScoreKills:
+		if (scoreX.getKills() > scoreY.getKills()) return true;
+		if (scoreX.getKills() == scoreY.getKills())
+		{
+			if (scoreX.getMoney() > scoreY.getMoney()) return true;
+			if (scoreX.getMoney() == scoreY.getMoney())
+			{
+				if (strcmp(((Tank *)x)->getName(), ((Tank *)y)->getName()) < 0) return true;
+			}
+		}
+		break;
+	case OptionsGame::ScoreMoney:
 		if (scoreX.getMoney() > scoreY.getMoney()) return true;
 		if (scoreX.getMoney() == scoreY.getMoney())
 		{
@@ -54,12 +80,13 @@ bool TankSort::SortOnScore::operator()(const Tank *x, const Tank *y) const
 				if (strcmp(((Tank *)x)->getName(), ((Tank *)y)->getName()) < 0) return true;
 			}
 		}
+		break;
 	}
 
 	return false;
 }
 
-void TankSort::getSortedTanks(std::list<Tank *> &list)
+void TankSort::getSortedTanks(std::list<Tank *> &list, ScorchedContext &context)
 {
 	std::list<Tank *> newList;
 	while (!list.empty())
@@ -69,7 +96,7 @@ void TankSort::getSortedTanks(std::list<Tank *> &list)
 		for (;itor != list.end(); itor++)
 		{
 			static TankSort::SortOnScore compare;
-			if (!compare(*itor, *removeItor)) removeItor = itor;
+			if (!compare(*itor, *removeItor, context)) removeItor = itor;
 		}
 
 		newList.push_front(*removeItor);
@@ -79,11 +106,11 @@ void TankSort::getSortedTanks(std::list<Tank *> &list)
 	list.swap(newList);
 }
 
-void TankSort::getSortedTanksIds(TankContainer &container, std::list<unsigned int> &list)
+void TankSort::getSortedTanksIds(ScorchedContext &context, std::list<unsigned int> &list)
 {
 	std::list<Tank *> sortedTanks;
 	std::map<unsigned int, Tank *> &tanks = 
-		container.getPlayingTanks();
+		context.tankContainer.getPlayingTanks();
 	std::map<unsigned int, Tank *>::iterator itor;
 	for (itor = tanks.begin();
 		itor != tanks.end();
@@ -93,7 +120,7 @@ void TankSort::getSortedTanksIds(TankContainer &container, std::list<unsigned in
 		sortedTanks.push_back(tank);
 	}
 
-	getSortedTanks(sortedTanks);
+	getSortedTanks(sortedTanks, context);
 	std::list<Tank *>::iterator resultitor;
 	for (resultitor = sortedTanks.begin();
 		resultitor != sortedTanks.end();

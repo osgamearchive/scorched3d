@@ -44,7 +44,7 @@ static void createControls(wxWindow *parent)
 		0, 0, wxCB_READONLY);
 	new wxStaticBox(parent, -1,
 		"Eco",
-		wxPoint((int) 10.5, (int) 10.5), wxSize((int) 339, (int) 162.5));
+		wxPoint((int) 10.5, (int) 10.5), wxSize((int) 339, (int) 186.5));
 	new wxStaticText(parent, -1,
 		"Buy On Round :",
 		wxPoint((int) 102, (int) 78));
@@ -76,6 +76,14 @@ static void createControls(wxWindow *parent)
 		new wxComboBox(parent, IDC_MONEYPERROUND,
 		"",
 		wxPoint((int) 184.5, (int) 150), wxSize((int) 72, (int) 124.5),
+		0, 0, wxCB_READONLY);
+	new wxStaticText(parent, -1,
+		"Scoring Mode :",
+		wxPoint((int) 61.5, (int) 174));
+	IDC_SCOREMODE_CTRL = 
+		new wxComboBox(parent, IDC_SCOREMODE,
+		"",
+		wxPoint((int) 184.5, (int) 174), wxSize((int) 72, (int) 124.5),
 		0, 0, wxCB_READONLY);
 }
 

@@ -58,8 +58,17 @@ Tank *TankAIComputerPShark::findTankToShootAt()
 		Tank *t = context_->tankContainer.getTankById(hit);
 		if (t && t->getState().getState() == TankState::sNormal)
 		{
-			hitlist_.push_back(hit);
-			return t;
+			bool sameTeam = false;
+			if (currentTank_->getTeam() > 0)
+			{
+				sameTeam = (currentTank_->getTeam() == t->getTeam());
+			}
+
+			if (!sameTeam)
+			{
+				hitlist_.push_back(hit);
+				return t;
+			}
 		}
 	}
 

@@ -237,7 +237,11 @@ void TankAIComputerTosser::playMove(const unsigned state, float frameTime,
 
 	// Find the tank to shoot at
 	Tank *targetTank = findTankToShootAt();
-	if (!targetTank) return;
+	if (!targetTank) 
+	{
+		skipShot();
+		return;
+	}
 
 	// Find the angle + power etc.. to use
 	float angleXYDegs = 0.0f; 

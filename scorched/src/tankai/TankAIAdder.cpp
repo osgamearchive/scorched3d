@@ -85,6 +85,12 @@ void TankAIAdder::addTankAI(ScorchedContext &context,
 		tank->setTankAI(ai->getCopy(tank, &context));
 		context.tankContainer.addTank(tank);
 
+		if (context.optionsGame.getTeams() > 1)
+		{
+			tank->setTeam(context.optionsTransient.getLeastUsedTeam(
+				context.tankContainer));
+		}
+
 		Logger::log(tank->getPlayerId(), "Player connected \"%i\" \"%s\"",
 			tank->getPlayerId(),
 			tank->getName());
@@ -97,7 +103,8 @@ void TankAIAdder::addTankAI(ScorchedContext &context,
 				tank->getName(),
 				tank->getColor(),
 				tank->getModel().getModelName(),
-				tank->getDestinationId()); 
+				tank->getDestinationId(),
+				tank->getTeam()); 
 			ComsMessageSender::sendToAllConnectedClients(addPlayerMessage);
 		}
 	}

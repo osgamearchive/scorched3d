@@ -27,17 +27,17 @@
 #define AFX_TANKSORT_H__21F68DAD_9352_4673_9E24_B869AD5645AE__INCLUDED_
 
 #include <list>
-#include <tank/TankContainer.h>
+#include <engine/ScorchedContext.h>
 
 namespace TankSort
 {
 	struct SortOnScore
 	{
-		bool operator()(const Tank *x, const Tank *y) const;
+		bool operator()(const Tank *x, const Tank *y, ScorchedContext &context) const;
 	};
 
-	void getSortedTanks(std::list<Tank *> &list);
-	void getSortedTanksIds(TankContainer &container, std::list<unsigned int> &list);
+	void getSortedTanks(std::list<Tank *> &list, ScorchedContext &context);
+	void getSortedTanksIds(ScorchedContext &context, std::list<unsigned int> &list);
 };
 
 #endif // !defined(AFX_TANKSORT_H__21F68DAD_9352_4673_9E24_B869AD5645AE__INCLUDED_)

@@ -31,7 +31,7 @@ Tank::Tank(ScorchedContext &context,
 	: playerId_(playerId), destinationId_(destinationId),
 	  color_(color), 
 	  physics_(context, playerId), model_(modelId), tankAI_(0),
-	  score_(context), state_(context), name_(name)
+	  score_(context), state_(context), name_(name), team_(0)
 {
 	
 }
@@ -64,10 +64,22 @@ void Tank::nextShot()
 	if (tankAI_) tankAI_->nextShot();
 }
 
+Vector &Tank::getColor()
+{
+	static Vector red(1.0f, 0.0f, 0.0f);
+	static Vector yellow(1.0f, 1.0f, 0.0f);
+	static Vector blue(0.0f, 1.0f, 0.0f);
+	static Vector green(0.0f, 0.0f, 1.0f);
+	if (team_ == 1) return red;
+	else if (team_ == 2) return blue;
+	return color_;
+}
+
 bool Tank::writeMessage(NetBuffer &buffer)
 {
 	buffer.addToBuffer(name_);
 	buffer.addToBuffer(destinationId_);
+	buffer.addToBuffer(team_);
 	buffer.addToBuffer(color_[0]);
 	buffer.addToBuffer(color_[1]);
 	buffer.addToBuffer(color_[2]);
@@ -83,6 +95,7 @@ bool Tank::readMessage(NetBufferReader &reader)
 {
 	if (!reader.getFromBuffer(name_)) return false;
 	if (!reader.getFromBuffer(destinationId_)) return false;
+	if (!reader.getFromBuffer(team_)) return false;
 	if (!reader.getFromBuffer(color_[0])) return false;
 	if (!reader.getFromBuffer(color_[1])) return false;
 	if (!reader.getFromBuffer(color_[2])) return false;

@@ -26,6 +26,7 @@ ComsAddPlayerMessage::ComsAddPlayerMessage(
 		Vector playerColor,
 		const char *modelName,
 		unsigned int destinationId,
+		unsigned int playerTeam,
 		const char *playerType) :
 	ComsMessage("ComsAddPlayerMessage"),
 	playerId_(playerId),
@@ -33,7 +34,8 @@ ComsAddPlayerMessage::ComsAddPlayerMessage(
 	playerType_(playerType),
 	playerColor_(playerColor),
 	modelName_(modelName),
-	destinationId_(destinationId)
+	destinationId_(destinationId),
+	playerTeam_(playerTeam)
 {
 
 }
@@ -50,6 +52,7 @@ bool ComsAddPlayerMessage::writeMessage(NetBuffer &buffer)
 	buffer.addToBuffer(modelName_.c_str());
 	buffer.addToBuffer(playerId_);
 	buffer.addToBuffer(destinationId_);
+	buffer.addToBuffer(playerTeam_);
 	buffer.addToBuffer(playerColor_[0]);
 	buffer.addToBuffer(playerColor_[1]);
 	buffer.addToBuffer(playerColor_[2]);
@@ -63,6 +66,7 @@ bool ComsAddPlayerMessage::readMessage(NetBufferReader &reader)
 	if (!reader.getFromBuffer(modelName_)) return false;
 	if (!reader.getFromBuffer(playerId_)) return false;
 	if (!reader.getFromBuffer(destinationId_)) return false;
+	if (!reader.getFromBuffer(playerTeam_)) return false;
 	if (!reader.getFromBuffer(playerColor_[0])) return false;
 	if (!reader.getFromBuffer(playerColor_[1])) return false;
 	if (!reader.getFromBuffer(playerColor_[2])) return false;

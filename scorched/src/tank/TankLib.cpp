@@ -35,6 +35,7 @@ float TankLib::getDistanceToTank(Vector &position, Tank *targetTank)
 void TankLib::getTanksSortedByDistance(ScorchedContext &context,
 									   Vector &position, 
 									  std::list<std::pair<float, Tank *> > &result,
+									  unsigned int teams,
 									  float maxDistance)
 {
 	std::list<std::pair<float, Tank *> > tankDistList;
@@ -48,6 +49,8 @@ void TankLib::getTanksSortedByDistance(ScorchedContext &context,
 		Tank *targetTank = (*itor).second;
 		if (targetTank->getState().getState() == TankState::sNormal)
 		{
+			if (teams > 0 && teams == targetTank->getTeam()) continue;
+
 			float maxdistance2D = getDistanceToTank(position, targetTank);
 			tankDistList.push_back(std::pair<float, Tank*>(maxdistance2D, targetTank));
 		}

@@ -21,6 +21,7 @@
 #include <common/OptionsTransient.h>
 #include <common/OptionsGame.h>
 #include <common/Defines.h>
+#include <tank/TankContainer.h>
 #include <time.h>
 #include <math.h>
 
@@ -38,6 +39,62 @@ OptionsTransient::OptionsTransient(OptionsGame &optionsGame) :
 
 OptionsTransient::~OptionsTransient()
 {
+}
+
+const char *OptionsTransient::getGameType()
+{
+	const char *gameType = "Unknown";
+	switch (optionsGame_.getTurnType())
+	{
+	case OptionsGame::TurnSequentialLooserFirst:
+		gameType = "Sequential (Looser)";
+		break;
+	case OptionsGame::TurnSequentialRandom:
+		gameType = "Sequential (Random)";
+		break;
+	case OptionsGame::TurnSimultaneous:
+		gameType = "Simultaneous";
+		break;
+	}
+	return gameType;
+}
+
+unsigned int OptionsTransient::getLeastUsedTeam(TankContainer &container)
+{
+	// Reset all the counts
+	std::map<unsigned int, unsigned int> counts;
+	for (int i=1; i<=optionsGame_.getTeams(); i++)
+	{
+		counts[i] = 0;
+	}
+
+	// Add all the tanks to the counts
+	std::map<unsigned int, Tank *>::iterator itor;
+	std::map<unsigned int, Tank *> &tanks = 
+		container.getPlayingTanks();
+	for (itor = tanks.begin();
+		itor != tanks.end();
+		itor++)
+	{
+		Tank *tank = (*itor).second;
+		if (!tank->getState().getSpectator())
+		{
+			counts[tank->getTeam()] ++;
+		}
+	}
+
+	// Find the least counted team
+	unsigned int team = 1;
+	unsigned int count = counts[1];
+	for (int i=2; i<=optionsGame_.getTeams(); i++)
+	{
+		if (counts[i] < count)
+		{
+			team = i;
+			count = counts[i];
+		}
+	}
+	return team;
 }
 
 bool OptionsTransient::writeToBuffer(NetBuffer &buffer)

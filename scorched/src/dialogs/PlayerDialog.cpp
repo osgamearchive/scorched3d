@@ -43,8 +43,8 @@ PlayerDialog *PlayerDialog::instance()
 }
 
 PlayerDialog::PlayerDialog() : 
-	GLWWindow("", 10.0f, 10.0f, 440.0f, 270.0f, 0),
-	dropDown_(0), beenShown_(false)
+	GLWWindow("", 10.0f, 10.0f, 440.0f, 300.0f, 0),
+	beenShown_(false), allocatedTeam_(0)
 {
 	needCentered_ = true;
 	viewer_ = new GLWTankViewer(10.0f, 25.0f, 4, 3);
@@ -54,26 +54,72 @@ PlayerDialog::PlayerDialog() :
 	okId_ = addWidget(new GLWTextButton(" Ok", 365, 10, 55, this, true))->getId();
 
 	// Create player name choice
-	playerName_ = (GLWTextBox *) addWidget(new GLWTextBox(70, 235, 240, "Player"));
-	addWidget(new GLWLabel(10, 235, "Name:"));
+	playerName_ = (GLWTextBox *) addWidget(new GLWTextBox(70, 265, 340, "Player"));
+	addWidget(new GLWLabel(10, 265, "Name:"));
 
+	// Create team choice
+	addWidget(new GLWLabel(260, 235, "Team:"));
+	teamDropDown_ = (GLWDropDown *) addWidget(new GLWDropDown(320, 235, 110));
+
+	// Create computer type choice
+	addWidget(new GLWLabel(10, 235, "Type:"));
+	typeDropDown_ = (GLWDropDown *) addWidget(new GLWDropDown(70, 235, 110));
+
+}
+
+PlayerDialog::~PlayerDialog()
+{
+}
+
+void PlayerDialog::draw()
+{
+	if (ScorchedClient::instance()->getOptionsGame().getTeams() != 1)
+	{
+		// Auto select the team with the least players
+		unsigned int newTeam = 
+			ScorchedClient::instance()->getOptionsTransient().getLeastUsedTeam(
+			ScorchedClient::instance()->getTankContainer());
+		if (newTeam != allocatedTeam_)
+		{
+			teamDropDown_->setCurrentPosition(newTeam - 1);
+			allocatedTeam_ = newTeam;
+		}
+	}
+	GLWWindow::draw();
+}
+
+void PlayerDialog::windowDisplay()
+{
+	// Add teams
+	allocatedTeam_ = 0;
+	teamDropDown_->clear();
+	if (ScorchedClient::instance()->getOptionsGame().getTeams() == 1)
+	{
+		teamDropDown_->addText("None");
+	}
+	else
+	{
+		for (int i=1; i<=ScorchedClient::instance()->getOptionsGame().getTeams(); i++)
+		{
+			char buffer[10];
+			sprintf(buffer, "Team %i", i);
+			teamDropDown_->addText(buffer);
+		}	
+	}
+
+	// Add player types
+	typeDropDown_->clear();
+	typeDropDown_->addText("Human");
 	if (!OptionsParam::instance()->getConnectedToServer())
 	{
-		// Create computer type choice
-		dropDown_ = (GLWDropDown *) addWidget(new GLWDropDown(320, 235, 110));
-		dropDown_->addText("Human");
 		std::list<TankAIComputer *>::iterator aiitor;
 		for (aiitor = TankAIStore::instance()->getAis().begin();
 			aiitor != TankAIStore::instance()->getAis().end();
 			aiitor++)
 		{
-			dropDown_->addText((*aiitor)->getName());
+			typeDropDown_->addText((*aiitor)->getName());
 		}
 	}
-}
-
-PlayerDialog::~PlayerDialog()
-{
 }
 
 void PlayerDialog::keyDown(char *buffer, unsigned int keyState, 
@@ -122,6 +168,8 @@ void PlayerDialog::nextPlayer()
 		Tank *tank = 
 			ScorchedClient::instance()->getTankContainer().getTankById(currentPlayerId_);
 	}
+
+	windowDisplay();
 }
 
 unsigned int PlayerDialog::getNextPlayer(unsigned int current)
@@ -159,8 +207,7 @@ void PlayerDialog::buttonDown(unsigned int id)
 				TankModelStore::instance()->getModelByName(viewer_->getModelName());
 
 			// Get the player type
-			const char *playerType = "Human";
-			if (dropDown_) playerType = dropDown_->getText();
+			const char *playerType = typeDropDown_->getText();
 
 			// Add this player
 			ComsAddPlayerMessage message(currentPlayerId_,
@@ -168,6 +215,8 @@ void PlayerDialog::buttonDown(unsigned int id)
 				Vector(),
 				model->getId().getModelName(),
 				ScorchedClient::instance()->getTankContainer().getCurrentDestinationId(),
+				((ScorchedClient::instance()->getOptionsGame().getTeams() > 1)?
+				teamDropDown_->getCurrentPosition() + 1:0),
 				playerType);
 			ComsMessageSender::sendToServer(message);
 

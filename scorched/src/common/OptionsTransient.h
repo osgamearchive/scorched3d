@@ -26,11 +26,15 @@
 #include <common/OptionsGame.h>
 #include <coms/NetBuffer.h>
 
+class TankContainer;
 class OptionsTransient
 {
 public:
 	OptionsTransient(OptionsGame &optionsGame);
 	virtual ~OptionsTransient();
+
+	const char *getGameType();
+	unsigned int getLeastUsedTeam(TankContainer &container);
 
 	enum WallType
 	{
