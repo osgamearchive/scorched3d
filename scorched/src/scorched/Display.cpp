@@ -285,3 +285,28 @@ void createIdentControls(wxWindow *parent, wxSizer *sizer)
 	userSizer->Add(IDC_HOSTDESC_CTRL, 0, wxALIGN_CENTER);
 	sizer->Add(userSizer, 0, wxGROW | wxLEFT | wxRIGHT | wxTOP, 5);
 }
+
+void createKeysControls(wxWindow *parent, wxSizer *topsizer)
+{
+	wxScrolledWindow *scrolledWindow = new wxScrolledWindow(parent, -1,
+		wxDefaultPosition, wxSize(340, 320));
+	wxSizer *sizer = new wxFlexGridSizer(3, 3);
+	
+	Keyboard::instance()->parseKeyFile(getDataFile("data/keys.xml"));
+	std::map<std::string, KeyboardKey *, std::less<std::string> > &keys =
+		Keyboard::instance()->getKeyMap();
+	std::map<std::string, KeyboardKey *, std::less<std::string> >::iterator itor;
+	for (itor = keys.begin();
+		itor != keys.end();
+		itor++)
+	{
+		wxCheckBox *box = new wxCheckBox(scrolledWindow, -1, (*itor).first.c_str());
+		sizer->Add(box, 0, wxALL, 5);
+	}
+	
+	scrolledWindow->SetAutoLayout(TRUE);
+	scrolledWindow->SetSizer(sizer);
+	wxSize minSize = sizer->CalcMin();
+	scrolledWindow->SetScrollbars(0, 10, 50, minSize.GetHeight() / 10);
+	topsizer->Add(scrolledWindow, 0, wxALL | wxALIGN_CENTER, 10);
+}

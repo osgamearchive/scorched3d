@@ -48,6 +48,7 @@ public:
 	bool parseKeyFile(const char *fileName);
 	KeyboardKey *getKey(const char *name);
 	std::list<KeyboardKey *> &getCommandKeys();
+	std::map<std::string, KeyboardKey *, std::less<std::string> > &getKeyMap();
 			                       
 protected:
 	static Keyboard *instance_;

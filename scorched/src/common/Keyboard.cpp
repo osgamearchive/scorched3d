@@ -116,6 +116,13 @@ void Keyboard::clear()
 		delete (*itor).second;
 	}
 	keyMap_.clear();
+	
+	while (!commandKeys_.empty())
+	{
+		KeyboardKey *key = commandKeys_.front();
+		commandKeys_.pop_front();
+		delete key;
+	}
 }
 
 bool Keyboard::parseKeyFile(const char *fileName)
@@ -251,6 +258,11 @@ bool Keyboard::parseKeyFile(const char *fileName)
 std::list<KeyboardKey *> &Keyboard::getCommandKeys()
 {
 	return commandKeys_;
+}
+
+std::map<std::string, KeyboardKey *, std::less<std::string> > &Keyboard::getKeyMap()
+{
+	return keyMap_;
 }
 
 KeyboardKey *Keyboard::getKey(const char *name)
