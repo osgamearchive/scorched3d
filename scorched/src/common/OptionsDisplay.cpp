@@ -71,6 +71,8 @@ OptionsDisplay::OptionsDisplay() :
 		"Invert the elevation directions", RWAccess, false),
 	invertMouse_(options_, "InvertMouse",
 		"Invert the mouse vertical directions", RWAccess, false),
+	sideScroll_(options_, "SideScroll",
+		"Allows the user to scroll the viewport using the mouse", RWAccess, true),
 	drawPlayerNames_(options_, "DrawPlayerNames",
 		"Draw the names above the tanks", RWAccess, true),
 	drawPlayerSight_(options_, "DrawPlayerSight",

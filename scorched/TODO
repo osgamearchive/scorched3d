@@ -2,6 +2,7 @@
 Added: Rotation, elevation and power differences to weapon dialog
 Added: Clickable areas lighten on mouseover in HUD
 Added: Option to have software drawn mouse pointer (for 3D glasses etc)
+Added: Sideways scrolling using mouse (at screen extremes)
 
 Fixed: Napalm does not make scorched sound under water
 Fixed: data and document location in RPM (thanks Edward Rudd)

@@ -21,6 +21,7 @@
 #include <client/MainCamera.h>
 #include <client/ClientState.h>
 #include <client/ScorchedClient.h>
+#include <client/Main2DCamera.h>
 #include <GLEXT/GLBitmap.h>
 #include <GLEXT/GLConsole.h>
 #include <dialogs/MainMenuDialog.h>
@@ -73,33 +74,76 @@ void MainCamera::menuSelection(const char* menuName,
 
 void MainCamera::simulate(const unsigned state, float frameTime)
 {
-	int mouseX = ScorchedClient::instance()->getGameState().getMouseX();
-	int mouseY = ScorchedClient::instance()->getGameState().getMouseY();
-	int windowX = targetCam_.getCamera().getCameraWidthInternal();
-	int windowY = targetCam_.getCamera().getCameraHeightInternal();
-
-	scrollTime_ += frameTime;
-	while (scrollTime_ > 0.0f)
+	if (OptionsDisplay::instance()->getSideScroll())
 	{
-		scrollTime_ -= 0.1f;
+		int mouseX = ScorchedClient::instance()->getGameState().getMouseX();
+		int mouseY = ScorchedClient::instance()->getGameState().getMouseY();
+		int windowX = Main2DCamera::instance()->getViewPort().getWidth();
+		int windowY = Main2DCamera::instance()->getViewPort().getHeight();
 
-		const int scrollWindow = 5;
-		if (mouseX < scrollWindow)
+		scrollTime_ += frameTime;
+		while (scrollTime_ > 0.0f)
 		{
-			targetCam_.getCamera().scroll(GLCamera::eScrollLeft);
-		}
-		else if (mouseX > windowX - scrollWindow)
-		{
-			targetCam_.getCamera().scroll(GLCamera::eScrollRight);
-		}
-	
-		if (mouseY < scrollWindow)
-		{
-			targetCam_.getCamera().scroll(GLCamera::eScrollDown);
-		}
-		else if (mouseY > windowY - scrollWindow)
-		{
-			targetCam_.getCamera().scroll(GLCamera::eScrollUp);
+			scrollTime_ -= 0.1f;
+
+			const int scrollWindow = 5;
+			if (mouseX < scrollWindow)
+			{
+				targetCam_.setCameraType(TargetCamera::CamFree);
+				if (Keyboard::instance()->getKeyboardState() & KMOD_LSHIFT)
+				{
+					targetCam_.getCamera().movePositionDelta(-0.3f, 0.0f, 0.0f);
+				}
+				else
+				{
+					targetCam_.getCamera().scroll(GLCamera::eScrollLeft);
+				}
+			}
+			else if (mouseX > windowX - scrollWindow)
+			{
+				targetCam_.setCameraType(TargetCamera::CamFree);
+				if (Keyboard::instance()->getKeyboardState() & KMOD_LSHIFT)
+				{
+					targetCam_.getCamera().movePositionDelta(+0.3f, 0.0f, 0.0f);
+				}
+				else
+				{
+					targetCam_.getCamera().scroll(GLCamera::eScrollRight);
+				}
+			}
+		
+			if (mouseY < scrollWindow)
+			{
+				targetCam_.setCameraType(TargetCamera::CamFree);
+				if (Keyboard::instance()->getKeyboardState() & KMOD_LSHIFT)
+				{
+					targetCam_.getCamera().movePositionDelta(0.0f, 0.3f, 0.0f);
+				}
+				else if (Keyboard::instance()->getKeyboardState() & KMOD_LCTRL)
+				{
+					targetCam_.getCamera().movePositionDelta(0.0f, 0.0f, +5.0f);
+				}
+				else
+				{
+					targetCam_.getCamera().scroll(GLCamera::eScrollDown);
+				}
+			}
+			else if (mouseY > windowY - scrollWindow)
+			{
+				targetCam_.setCameraType(TargetCamera::CamFree);
+				if (Keyboard::instance()->getKeyboardState() & KMOD_LSHIFT)
+				{
+					targetCam_.getCamera().movePositionDelta(0.0f, -0.3f, 0.0f);
+				}
+				else if (Keyboard::instance()->getKeyboardState() & KMOD_LCTRL)
+				{
+					targetCam_.getCamera().movePositionDelta(0.0f, 0.0f, -5.0f);
+				}
+				else
+				{
+					targetCam_.getCamera().scroll(GLCamera::eScrollUp);
+				}
+			}
 		}
 	}
 

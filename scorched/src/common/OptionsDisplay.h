@@ -87,6 +87,9 @@ public:
 	bool getInvertMouse() { return invertMouse_.getValue(); }
 	void setInvertMouse(bool value) { invertMouse_.setValue(value); }
 
+	bool getSideScroll() { return sideScroll_.getValue(); }
+	void setSideScroll(bool value) { sideScroll_.setValue(value); }
+
 	bool getNoGLExt() { return noGLExt_.getValue(); }
 	void setNoGLExt(bool value) { noGLExt_.setValue(value); }
 
@@ -265,6 +268,7 @@ protected:
 	OptionEntryBool showContextHelp_;
 	OptionEntryBool lowTreeDetail_;
 	OptionEntryBool softwareMouse_;
+	OptionEntryBool sideScroll_;
 	OptionEntryBoundedInt dialogSize_;
 	OptionEntryBoundedInt texSize_;
 	OptionEntryBoundedInt tankDetail_;
