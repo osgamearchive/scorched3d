@@ -18,12 +18,12 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #if !defined(__INCLUDE_ShotProjectileh_INCLUDE__)
 #define __INCLUDE_ShotProjectileh_INCLUDE__
 
 #include <engine/PhysicsParticle.h>
 #include <engine/ScorchedCollisionIds.h>
+#include <engine/ViewPoints.h>
 #include <weapons/Weapon.h>
 
 class ShotProjectile : 
@@ -40,7 +40,7 @@ public:
 
 	unsigned int getPlayerId() { return playerId_; }
 
-	virtual void draw();
+	virtual void simulate(float frameTime, bool &remove);
 	virtual void init();
 	virtual bool writeAction(NetBuffer &buffer);
 	virtual bool readAction(NetBufferReader &reader);
@@ -50,18 +50,13 @@ public:
 
 	Weapon *getWeapon() { return weapon_; }
 
-	static void addLookAtPosition(Vector &position, 
-		unsigned int playerId,
-		ScorchedContext &context);
-	static Vector getEndLookAtPosition();
-	static unsigned int getLookatCount() { return lookatCount_; }
-
 protected:
 	static Vector lookatPosition_;
 	static unsigned int lookatCount_;
 	ScorchedCollisionInfo collisionInfo_;
 	Vector startPosition_, velocity_;
 	Weapon *weapon_;
+	ViewPoints::ViewPoint *vPoint_;
 	unsigned int playerId_;
 	unsigned int flareType_;
 	bool under_;

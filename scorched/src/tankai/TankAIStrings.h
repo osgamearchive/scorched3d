@@ -18,11 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// TankAIStrings.h: interface for the TankAIStrings class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_TankAIStrings_H__C6D1A1B3_EA15_43B7_9232_A90A5D0CF60B__INCLUDED_)
 #define AFX_TankAIStrings_H__C6D1A1B3_EA15_43B7_9232_A90A5D0CF60B__INCLUDED_
 
@@ -36,12 +31,14 @@ public:
 	const char *getDeathLine();
 	const char *getAttackLine();
 	const char *getPlayerName();
+	const char *getAIPlayerName();
 
 protected:
 	static TankAIStrings *instance_;
 	FileLines deathLines_;
 	FileLines attackLines_;
 	FileLines playerNames_;
+	FileLines aiPlayerNames_;
 
 private:
 	TankAIStrings();

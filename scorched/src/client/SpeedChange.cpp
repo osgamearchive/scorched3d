@@ -83,10 +83,10 @@ void SpeedChange::keyboardCheck(const unsigned state, float frameTime,
 	}
 	else if (x3Key->keyDown(buffer, keyState))
 	{
-		ScorchedClient::instance()->getActionController().setFast(3.0f);
+		ScorchedClient::instance()->getActionController().setFast(4.0f);
 	}
 	else if (x4Key->keyDown(buffer, keyState))
 	{
-		ScorchedClient::instance()->getActionController().setFast(4.0f);
+		ScorchedClient::instance()->getActionController().setFast(8.0f);
 	}
 }

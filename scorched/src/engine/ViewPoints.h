@@ -18,34 +18,41 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_ScorchedContexth_INCLUDE__)
-#define __INCLUDE_ScorchedContexth_INCLUDE__
+#if !defined(__INCLUDE_ViewPointsh_INCLUDE__)
+#define __INCLUDE_ViewPointsh_INCLUDE__
 
-#include <engine/GameState.h>
-#include <engine/ActionController.h>
-#include <engine/ViewPoints.h>
-#include <coms/NetInterface.h>
-#include <coms/ComsMessageHandler.h>
-#include <common/OptionsTransient.h>
-#include <tank/TankContainer.h>
-#include <landscape/LandscapeMaps.h>
+#include <list>
+#include <common/Vector.h>
 
-class ScorchedContext
+class ScorchedContext;
+class ViewPoints
 {
 public:
-	ScorchedContext(const char *name);
-	virtual ~ScorchedContext();
+	class ViewPoint 
+	{
+	public:
+		void setPosition(Vector &pos) { position_ = pos; }
+		Vector &getPosition() { return position_; }
 
-	ActionController actionController;
-	GameState gameState;
-	TankContainer tankContainer;
-	LandscapeMaps landscapeMaps;
-	ComsMessageHandler comsMessageHandler;
-	NetInterface *netInterface;
-	OptionsGame optionsGame;
-	OptionsTransient optionsTransient;
-	ViewPoints viewPoints;
-	bool serverMode;
+	protected:
+		Vector position_;
+	};
+
+	ViewPoints();
+	virtual ~ViewPoints();
+
+	Vector &getLookAt();
+	int getLookAtCount();
+
+	ViewPoints::ViewPoint *getNewViewPoint(unsigned int playerId);
+	void releaseViewPoint(ViewPoints::ViewPoint *point);
+
+	void setContext(ScorchedContext *context) { context_ = context; }
+
+protected:
+	std::list<ViewPoint *> points_;
+	ScorchedContext *context_;
+
 };
 
 #endif

@@ -28,6 +28,7 @@
 #include <dialogs/MainMenuDialog.h>
 #include <landscape/Landscape.h>
 #include <tankai/TankAIHuman.h>
+#include <engine/ViewPoints.h>
 #include <common/Keyboard.h>
 #include <common/SoundStore.h>
 #include <common/OptionsDisplay.h>
@@ -122,8 +123,10 @@ void MainCamera::menuSelection(const char* menuName, const int position, const c
 
 void MainCamera::simulate(const unsigned state, float frameTime)
 {
-	moveCamera(frameTime);
-	mainCam_.simulate(frameTime);
+	if (moveCamera(frameTime))
+	{
+		mainCam_.simulate(frameTime);
+	}
 }
 
 void MainCamera::draw(const unsigned state)
@@ -131,8 +134,9 @@ void MainCamera::draw(const unsigned state)
 	mainCam_.draw();
 }
 
-void MainCamera::moveCamera(float frameTime)
+bool MainCamera::moveCamera(float frameTime)
 {
+	bool simulateCamera = true;
 	Vector position(128.0f, 128.0f, 0.0f);
 	float currentRotation = 0.0f;
 
@@ -171,12 +175,15 @@ void MainCamera::moveCamera(float frameTime)
 		}
 		break;
 	case CamGun:
-		if (!ScorchedClient::instance()->getActionController().noReferencedActions() &&
-			ShotProjectile::getLookatCount() > 0)
+		if (ScorchedClient::instance()->getContext().viewPoints.getLookAtCount() > 0)
 		{
-			Vector lookatPos = ShotProjectile::getEndLookAtPosition();
-			mainCam_.setLookAt(lookatPos);
-			mainCam_.movePosition(currentRotation + 0.3f, 1.0f, 10.0f);
+			Vector lookatPos = ScorchedClient::instance()->getContext().viewPoints.getLookAt();
+			mainCam_.setLookAt(lookatPos, true);
+			lookatPos[2] += 8.0f;
+			lookatPos[1] += 8.0f;
+			mainCam_.getCurrentPos() = lookatPos;
+			//mainCam_.movePosition(currentRotation + 0.3f, 1.0f, 10.0f);
+			simulateCamera = false;
 		}
 		else
 		{
@@ -263,6 +270,8 @@ void MainCamera::moveCamera(float frameTime)
 	default:
 		break;
 	}
+
+	return simulateCamera;
 }
 
 void MainCamera::mouseDrag(const unsigned state, GameState::MouseButton button, 

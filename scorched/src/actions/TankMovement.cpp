@@ -28,31 +28,23 @@ static const int NoMovementTransitions = 4;
 
 REGISTER_ACTION_SOURCE(TankMovement);
 
-TankMovement::TankMovement() : timePassed_(0.0f)
+TankMovement::TankMovement() : timePassed_(0.0f), vPoint_(0)
 {
 }
 
 TankMovement::TankMovement(unsigned int playerId) : 
-	playerId_(playerId), timePassed_(0.0f)
+	playerId_(playerId), timePassed_(0.0f), vPoint_(0)
 {
 }
 
 TankMovement::~TankMovement()
 {
-}
-
-void TankMovement::draw()
-{
-	Tank *tank = context_->tankContainer.getTankById(playerId_);
-	if (tank)
-	{
-		ShotProjectile::addLookAtPosition(
-			tank->getPhysics().getTankPosition(), playerId_, *context_);
-	}
+	if (vPoint_) context_->viewPoints.releaseViewPoint(vPoint_);
 }
 
 void TankMovement::init()
 {
+	vPoint_ = context_->viewPoints.getNewViewPoint(playerId_);
 	std::list<unsigned int>::iterator itor;
 	for (itor = positions_.begin();
 		itor != positions_.end();)
@@ -97,6 +89,8 @@ void TankMovement::simulate(float frameTime, bool &remove)
 		context_->tankContainer.getTankById(playerId_);
 	if (tank)
 	{
+		if (vPoint_) vPoint_->setPosition(tank->getPhysics().getTankPosition());
+
 		if (tank->getState().getState() == TankState::sNormal)
 		{
 			// Check to see if this tank is falling

@@ -29,7 +29,7 @@ Vector ShotProjectile::lookatPosition_;
 unsigned int ShotProjectile::lookatCount_ = 0;
 
 ShotProjectile::ShotProjectile() : 
-	collisionInfo_(CollisionIdShot)
+	collisionInfo_(CollisionIdShot), vPoint_(0)
 {
 
 }
@@ -40,7 +40,7 @@ ShotProjectile::ShotProjectile(Vector &startPosition, Vector &velocity,
 							   bool under) : 
 	collisionInfo_(CollisionIdShot), startPosition_(startPosition),
 	velocity_(velocity), weapon_(weapon), playerId_(playerId), 
-	flareType_(flareType), under_(under)
+	flareType_(flareType), under_(under), vPoint_(0)
 {
 
 }
@@ -52,6 +52,7 @@ void ShotProjectile::init()
 		setActionRender(new MissileActionRenderer(flareType_, weapon_->getScale()));
 	}
 
+	vPoint_ = context_->viewPoints.getNewViewPoint(playerId_);
 	setPhysics(startPosition_, velocity_);
 	collisionInfo_.data = this;
 	collisionInfo_.collisionOnSurface = !under_;
@@ -60,6 +61,7 @@ void ShotProjectile::init()
 
 ShotProjectile::~ShotProjectile()
 {
+	if (vPoint_) context_->viewPoints.releaseViewPoint(vPoint_);
 }
 
 void ShotProjectile::collision(Vector &position)
@@ -85,10 +87,10 @@ void ShotProjectile::collision(Vector &position)
 	PhysicsParticleMeta::collision(position);
 }
 
-void ShotProjectile::draw()
+void ShotProjectile::simulate(float frameTime, bool &remove)
 {
-	addLookAtPosition(getCurrentPosition(), playerId_, *context_);
-	PhysicsParticleMeta::draw();
+	if (vPoint_) vPoint_->setPosition(getCurrentPosition());
+	PhysicsParticleMeta::simulate(frameTime, remove);
 }
 
 bool ShotProjectile::writeAction(NetBuffer &buffer)
@@ -119,26 +121,4 @@ bool ShotProjectile::readAction(NetBufferReader &reader)
 	if (!reader.getFromBuffer(flareType_)) return false;
 	if (!reader.getFromBuffer(under_)) return false;
 	return true;
-}
-
-void ShotProjectile::addLookAtPosition(Vector &position,
-									   unsigned int playerId,
-									   ScorchedContext &context)
-{
-	if (context.tankContainer.getCurrentPlayerId() != playerId &&
-		context.optionsGame.getTurnType() == OptionsGame::TurnSimultaneous)
-	{
-		return;
-	}
-
-	lookatCount_++;
-	lookatPosition_ += position;
-}
-
-Vector ShotProjectile::getEndLookAtPosition()
-{
-	 Vector result = lookatPosition_ / (float) lookatCount_;
-	 lookatPosition_.zero();
-	 lookatCount_ = 0;
-	 return result;
 }

@@ -41,6 +41,7 @@ protected:
 	int flareType_;
 	SmokeCounter counter_;
 	MissileMesh *mesh_;
+	float rotation_;
 	float scale_;
 
 	static std::map<std::string, MissileMesh *> loadedMeshes_;

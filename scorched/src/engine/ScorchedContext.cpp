@@ -24,6 +24,7 @@ ScorchedContext::ScorchedContext(const char *name) :
 	gameState(name), netInterface(0), optionsGame(), optionsTransient(optionsGame),
 	serverMode(false)
 {
+	viewPoints.setContext(this);
 }
 
 ScorchedContext::~ScorchedContext()

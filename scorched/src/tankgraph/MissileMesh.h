@@ -32,7 +32,7 @@ public:
 	MissileMesh(ModelsFile &missile, bool useTextures, float detail);
 	virtual ~MissileMesh();
 
-	void draw(Vector &position, Vector &direction, int flareType);
+	void draw(Vector &position, Vector &direction, int flareType, float rotation);
 	void setScale(float scale);
 
 protected:
@@ -41,7 +41,6 @@ protected:
 	std::list<Vector> flarePos_;
 
 	void createArrays(ModelsFile &aseTank, bool useTextures, float detail);
-	float rotation_;
 	float scale_;
 
 };

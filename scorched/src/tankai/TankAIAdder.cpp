@@ -49,7 +49,7 @@ void TankAIAdder::addTankAIs(ScorchedContext &context)
 		{
 			std::string botName = 
 				context.optionsGame.getBotNamePrefix();
-			botName += TankAIStrings::instance()->getPlayerName();
+			botName += TankAIStrings::instance()->getAIPlayerName();
 
 			addTankAI(context, playerType, "Random", botName.c_str());
 		}
@@ -71,7 +71,7 @@ void TankAIAdder::addTankAI(ScorchedContext &context,
 		{
 			newname = 
 				context.optionsGame.getBotNamePrefix();
-			newname += TankAIStrings::instance()->getPlayerName();
+			newname += TankAIStrings::instance()->getAIPlayerName();
 		}
 
 		Vector color = TankColorGenerator::instance()->getNextColor();

@@ -10,7 +10,10 @@ Fixed: Fonts sometimes black-out or plan dialog goes all white (I think)
 Fixed: Auto defense dialog only changes settings when ok is pressed
 Fixed: AIs can only use an auto defense if they have bought one!
 Fixed: Display modes should be shown only once
+Fixed: Targeting triangle is much thinner (seen from above)
+Fixed: Shot camera does not get left behind
 
+Added: Fastword modes increased to x8
 Added: AIs should be able to use batteries now
 Added: Player score added to the player dialog (bottom right)
 Added: Max player name length increased from 16->22

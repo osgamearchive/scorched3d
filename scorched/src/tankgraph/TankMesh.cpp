@@ -219,8 +219,8 @@ void TankMesh::drawSight()
 					float color = 1.0f - fabsf(90.0f - x) / 45.0f;
 
 					glColor3f(1.0f * color, 0.5f * color, 0.5f * color);
-					glVertex3f(+0.07f * color, 2.0f * sinf(dx), 2.0f * cosf(dx));
-					glVertex3f(+0.07f * color, 10.0f * sinf(dx), 10.0f * cosf(dx));
+					glVertex3f(+0.03f * color, 2.0f * sinf(dx), 2.0f * cosf(dx));
+					glVertex3f(+0.03f * color, 10.0f * sinf(dx), 10.0f * cosf(dx));
 				}
 				for (x=90.0f; x<135.0f; x+=9.0f)
 				{
@@ -229,8 +229,8 @@ void TankMesh::drawSight()
 					float color = 1.0f - fabsf(90.0f - x) / 45.0f;
 
 					glColor3f(1.0f * color, 0.5f * color, 0.5f * color);
-					glVertex3f(-0.07f * color, 2.0f * sinf(dx), 2.0f * cosf(dx));
-					glVertex3f(-0.07f * color, 10.0f * sinf(dx), 10.0f * cosf(dx));
+					glVertex3f(-0.03f * color, 2.0f * sinf(dx), 2.0f * cosf(dx));
+					glVertex3f(-0.03f * color, 10.0f * sinf(dx), 10.0f * cosf(dx));
 				}
 			glEnd();
 		glEndList();

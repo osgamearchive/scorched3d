@@ -23,6 +23,7 @@
 #define __INCLUDE_Explosionh_INCLUDE__
 
 #include <engine/ActionMeta.h>
+#include <engine/ViewPoints.h>
 #include <weapons/Weapon.h>
 #include <common/Vector.h>
 
@@ -43,7 +44,6 @@ public:
 			DeformType deformType = DeformDown);
 	virtual ~Explosion();
 
-	virtual void draw();
 	virtual void init();
 	virtual void simulate(float frameTime, bool &remove);
 	virtual bool writeAction(NetBuffer &buffer);
@@ -60,6 +60,7 @@ protected:
 	unsigned int playerId_;
 	bool explosionHurts_;
 	DeformType deformType_;
+	ViewPoints::ViewPoint *vPoint_;
 	
 };
 

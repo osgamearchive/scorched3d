@@ -21,7 +21,6 @@
 #include <actions/Roller.h>
 #include <sprites/RollerRenderer.h>
 #include <client/ScorchedClient.h>
-#include <actions/ShotProjectile.h>
 #include <GLEXT/GLState.h>
 
 RollerRenderer::RollerRenderer()
@@ -48,11 +47,4 @@ void RollerRenderer::draw(Action *action)
 		glVertex3f((float) roller->getX(), (float) roller->getY(), z);
 	glEnd();
 	glPointSize(1.0f);
-
-	Vector position(
-		(float) roller->getX(), 
-		(float) roller->getY(),
-		z);
-	ShotProjectile::addLookAtPosition(
-		position, roller->getPlayerId(), *roller->getScorchedContext());
 }

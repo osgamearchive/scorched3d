@@ -39,7 +39,7 @@
 REGISTER_ACTION_SOURCE(Explosion);
 
 Explosion::Explosion() :
-	firstTime_(true)
+	firstTime_(true), vPoint_(0)
 {
 
 }
@@ -51,21 +51,14 @@ Explosion::Explosion(Vector &position, float width,
 	firstTime_(true),
 	weapon_(weapon), playerId_(fired), 
 	position_(position), width_(width), deformType_(deformType),
-	explosionHurts_(explosionHurts)
+	explosionHurts_(explosionHurts), vPoint_(0)
 {
 
 }
 
 Explosion::~Explosion()
 {
-}
-
-void Explosion::draw()
-{
-	ShotProjectile::addLookAtPosition(
-		position_, playerId_, *context_);
-
-	ActionMeta::draw();
+	if (vPoint_) context_->viewPoints.releaseViewPoint(vPoint_);
 }
 
 void Explosion::init()
@@ -75,6 +68,11 @@ void Explosion::init()
 	multiplier *= 0.5f;
 	multiplier += 1.0f;
 	float explosionSize = width_ * multiplier;	
+
+	if (deformType_ != DeformNone)
+	{
+		vPoint_ = context_->viewPoints.getNewViewPoint(playerId_);
+	}
 
 	if (!context_->serverMode) 
 	{
@@ -182,6 +180,11 @@ void Explosion::simulate(float frameTime, bool &remove)
 			*context_,
 			weapon_, playerId_, 
 			position_, width_ , !explosionHurts_);
+	}
+
+	if (deformType_ != DeformNone)
+	{
+		if (vPoint_) vPoint_->setPosition(position_);
 	}
 
 	if (!renderer_) remove = true;

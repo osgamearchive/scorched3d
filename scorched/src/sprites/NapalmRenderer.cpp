@@ -21,7 +21,6 @@
 #include <tank/TankContainer.h>
 #include <landscape/Landscape.h>
 #include <actions/Napalm.h>
-#include <actions/ShotProjectile.h>
 #include <sprites/NapalmRenderer.h>
 #include <sprites/ExplosionTextures.h>
 #include <client/ScorchedClient.h>
@@ -54,10 +53,9 @@ void NapalmRenderer::simulate(Action *action, float timepassed, bool &remove)
 				itor != endItor;
 				itor++, count--)
 		{
+			Napalm::NapalmEntry *entry = (*itor);
 			if (count == 0)
 			{
-				Napalm::NapalmEntry *entry = (*itor);
-
 				float posZ = 
 					ScorchedClient::instance()->getLandscapeMaps().getHMap().getHeight(
 					entry->posX, entry->posY);
@@ -122,12 +120,5 @@ void NapalmRenderer::draw(Action *action)
 				(textureNo_ + entry->offset + 20) % noTextures);
 			GLBilboardRenderer::instance()->addEntry(&entry->renderEntry3);
 		}
-
-		Vector position(
-			entry->renderEntry1.posX, 
-			entry->renderEntry1.posY,
-			entry->renderEntry1.posZ);
-		ShotProjectile::addLookAtPosition(
-			position, napalm->getPlayerId(), *napalm->getScorchedContext());
 	}
 }

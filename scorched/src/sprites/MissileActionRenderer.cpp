@@ -29,13 +29,13 @@
 std::map<std::string, MissileMesh *> MissileActionRenderer::loadedMeshes_;
 
 MissileActionRenderer::MissileActionRenderer(int flareType, float scale) : 
-	flareType_(flareType), counter_(0.1f, 0.1f), mesh_(0), scale_(scale)
+	flareType_(flareType), counter_(0.1f, 0.1f), mesh_(0), scale_(scale), rotation_(0.0f)
 {
 
 }
 
 MissileActionRenderer::MissileActionRenderer(int flareType) : 
-	flareType_(flareType), counter_(0.1f, 0.1f), mesh_(0)
+	flareType_(flareType), counter_(0.1f, 0.1f), mesh_(0), scale_(1.0f), rotation_(0.0f)
 {
 
 }
@@ -53,6 +53,7 @@ void MissileActionRenderer::simulate(Action *action, float timepassed, bool &rem
 			addSmoke(actualPos[0], actualPos[1], actualPos[2], 
 				0.0f, 0.0f, 0.0f, 0.7f);
 	}
+	rotation_ += ((PhysicsParticle *)action)->getCurrentVelocity().Magnitude();
 }
 
 void MissileActionRenderer::draw(Action *action)
@@ -121,6 +122,7 @@ void MissileActionRenderer::draw(Action *action)
 
 	Vector &actualPos = shot->getCurrentPosition();
 	Vector &actualdir = shot->getCurrentVelocity();
+
 	mesh_->setScale(scale_);
-	mesh_->draw(actualPos, actualdir, flareType_);
+	mesh_->draw(actualPos, actualdir, flareType_, rotation_);
 }

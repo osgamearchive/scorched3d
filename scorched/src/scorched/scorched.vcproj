@@ -1133,6 +1133,12 @@
 			<File
 				RelativePath="..\engine\ScorchedContext.h">
 			</File>
+			<File
+				RelativePath="..\engine\ViewPoints.cpp">
+			</File>
+			<File
+				RelativePath="..\engine\ViewPoints.h">
+			</File>
 		</Filter>
 		<Filter
 			Name="landscape"

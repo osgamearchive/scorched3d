@@ -18,14 +18,8 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// MainCamera.h: interface for the MainCamera class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_MAINCAMERA_H__97593EBB_5901_4D81_BAEB_8ADC76CFB627__INCLUDED_)
 #define AFX_MAINCAMERA_H__97593EBB_5901_4D81_BAEB_8ADC76CFB627__INCLUDED_
-
 
 #include <GLEXT/GLCamera.h>
 #include <GLEXT/GLMenuI.h>
@@ -94,7 +88,7 @@ protected:
 	GLCamera mainCam_;
 	CamType cameraPos_;
 
-	void moveCamera(float frameTime);
+	bool moveCamera(float frameTime);
 
 private:
 	MainCamera();

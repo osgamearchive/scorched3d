@@ -18,11 +18,11 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #if !defined(__INCLUDE_TankMovementh_INCLUDE__)
 #define __INCLUDE_TankMovementh_INCLUDE__
 
 #include <engine/ActionMeta.h>
+#include <engine/ViewPoints.h>
 #include <common/Vector.h>
 #include <list>
 
@@ -36,7 +36,6 @@ public:
 
 	std::list<unsigned int> &getPositions() { return positions_; }
 
-	virtual void draw();
 	virtual void init();
 	virtual void simulate(float frameTime, bool &remove);
 	virtual bool writeAction(NetBuffer &buffer);
@@ -68,6 +67,7 @@ protected:
 	std::list<PositionEntry> expandedPositions_;
 	unsigned int playerId_;
 	float timePassed_;
+	ViewPoints::ViewPoint *vPoint_;
 
 	void moveTank(Tank *tank);
 

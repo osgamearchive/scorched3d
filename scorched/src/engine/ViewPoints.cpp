@@ -18,34 +18,58 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_ScorchedContexth_INCLUDE__)
-#define __INCLUDE_ScorchedContexth_INCLUDE__
-
-#include <engine/GameState.h>
-#include <engine/ActionController.h>
 #include <engine/ViewPoints.h>
-#include <coms/NetInterface.h>
-#include <coms/ComsMessageHandler.h>
-#include <common/OptionsTransient.h>
-#include <tank/TankContainer.h>
-#include <landscape/LandscapeMaps.h>
+#include <engine/ScorchedContext.h>
 
-class ScorchedContext
+ViewPoints::ViewPoints() : context_(0)
 {
-public:
-	ScorchedContext(const char *name);
-	virtual ~ScorchedContext();
+}
 
-	ActionController actionController;
-	GameState gameState;
-	TankContainer tankContainer;
-	LandscapeMaps landscapeMaps;
-	ComsMessageHandler comsMessageHandler;
-	NetInterface *netInterface;
-	OptionsGame optionsGame;
-	OptionsTransient optionsTransient;
-	ViewPoints viewPoints;
-	bool serverMode;
-};
+ViewPoints::~ViewPoints()
+{
+}
 
-#endif
+Vector &ViewPoints::getLookAt()
+{
+	static Vector position;
+	position.zero();
+	float count = 0.0f;
+
+	std::list<ViewPoint *>::iterator itor =
+		points_.begin();
+	std::list<ViewPoint *>::iterator enditor =
+		points_.end();
+	for (; itor != enditor; itor++)
+	{
+		position += (*itor)->getPosition();
+		count += 1.0f;
+	}
+
+	position /= count;
+	return position;
+}
+
+int ViewPoints::getLookAtCount()
+{
+	return (int) points_.size();
+}
+
+ViewPoints::ViewPoint *ViewPoints::getNewViewPoint(unsigned int playerId)
+{
+	if (context_->serverMode) return 0;
+
+	if (context_->tankContainer.getCurrentPlayerId() != playerId &&
+		context_->optionsGame.getTurnType() == OptionsGame::TurnSimultaneous)
+	{
+		return 0;
+	}
+
+	ViewPoint *viewpoint = new ViewPoint();
+	points_.push_back(viewpoint);
+	return viewpoint;
+}
+
+void ViewPoints::releaseViewPoint(ViewPoint *point)
+{
+	points_.remove(point);
+}
