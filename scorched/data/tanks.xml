@@ -9,43 +9,43 @@
 	<tank>
 		<name>Rail Gun</name>
 		<model type="ase">
-			<mesh>RailGun.ase</mesh>
-			<skin>RailGun.bmp</skin>
+			<mesh>railgun.ase</mesh>
+			<skin>railgun.bmp</skin>
 		</model>
 	</tank>
 	<tank>
 		<name>Siege Tank</name>
 		<model type="ase">
-			<mesh>SiegeTank.ase</mesh>
-			<skin>SiegeTank.bmp</skin>
+			<mesh>siegetank.ase</mesh>
+			<skin>siegetank.bmp</skin>
 		</model>
 	</tank>
 	<tank>
 		<name>Siege Tank (Artillery)</name>
 		<model type="ase">
-			<mesh>SiegeTank2.ase</mesh>
-			<skin>SiegeTank2.bmp</skin>
+			<mesh>siegetank2.ase</mesh>
+			<skin>siegetank2.bmp</skin>
 		</model>
 	</tank>
 	<tank>
 		<name>Hoth Gun</name>
 		<model type="ase">
-			<mesh>HothGun.ase</mesh>
-			<skin>HothGun.bmp</skin>
+			<mesh>hothgun.ase</mesh>
+			<skin>hothgun.bmp</skin>
 		</model>
 	</tank>
 	<tank>
 		<name>Hoth Gun 2</name>
 		<model type="ase">
-			<mesh>HothGun2.ase</mesh>
-			<skin>HothGun2.bmp</skin>
+			<mesh>hothgun2.ase</mesh>
+			<skin>hothgun2.bmp</skin>
 		</model>
 	</tank>
 	<tank>
 		<name>AAT</name>
 		<model type="ase">
-			<mesh>AAT.ase</mesh>
-			<skin>AAT.bmp</skin>
+			<mesh>aat.ase</mesh>
+			<skin>aat.bmp</skin>
 		</model>
 	</tank>
 	<tank>
