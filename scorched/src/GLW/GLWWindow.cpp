@@ -28,7 +28,7 @@
 
 static const float roundSize = 20.0f;
 static const float smallRoundSize = 10.0f;
-static const float smallTitleHeight = 10.0f;
+static const float smallTitleHeight = 14.0f;
 static const float minWindowSize = 50.0f;
 static const float titleWidth = 100.0f;
 static const float titleHeight = 20.0f;

@@ -83,8 +83,8 @@ void GLWWindView::draw()
 		listNo_ = 0;
 	}
 
-	drawDisplay();
 	GLWVisibleWidget::draw();
+	drawDisplay();
 }
 
 void GLWWindView::drawDisplay()

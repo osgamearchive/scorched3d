@@ -70,8 +70,8 @@ void GLWPlanView::simulate(float frameTime)
 
 void GLWPlanView::draw()
 {
-	drawMap();
 	GLWVisibleWidget::draw();
+	drawMap();
 }
 
 void GLWPlanView::drawMap()
