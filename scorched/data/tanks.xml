@@ -7,6 +7,11 @@
 		</model>
 	</tank>
 	<tank>
+		<name>Lav-25 HighDef</name>
+		<catagory>High Def</catagory>
+		<model type="MilkShape">lav-25/lav-25.txt</model>
+	</tank>
+	<tank>
 		<name>M1A1 HighDef</name>
 		<catagory>High Def</catagory>
 		<model type="MilkShape">m1a1/m1a1.txt</model>
