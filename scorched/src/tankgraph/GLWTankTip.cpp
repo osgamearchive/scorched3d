@@ -78,6 +78,7 @@ void TankFuelTip::populate()
 {
 	setText("Fuel",
 		"Allows the tank to move.\n"
+		"Click to toggle movement mode.\n"
 		"Fuel : %i",
 		tank_->getAccessories().getFuel().getNoFuel());
 }
@@ -85,7 +86,7 @@ void TankFuelTip::populate()
 void TankFuelTip::showItems(float x, float y)
 {
 	static GLWTip useTip("Fuel", 
-		"Swicth movement mode on.\n"
+		"Switch movement mode on.\n"
 		"In this mode left clicking on the light areas\n"
 		"of the landscape will move the tank there.");
 	static GLWTip offTip("Fuel Cancel", 
@@ -137,6 +138,7 @@ void TankBatteryTip::populate()
 	setText("Batteries",
 		"Can be used to recharge life.\n"
 		"Each battery gives back 10 life.\n"
+		"Click to use some battery(s).\n"
 		"Batteries : %i",
 		tank_->getAccessories().getBatteries().getNoBatteries());
 }
@@ -215,6 +217,7 @@ void TankShieldTip::populate()
 			"Protect the tank from taking shot damage.\n"
 			"Shields must be enabled before they take\n"
 			"effect.\n"
+			"Click to enable/disable shields.\n"
 			"Current Shield : %s (%i)\n"
 			"Shield Power : %.0f",
 			tank_->getAccessories().getShields().getCurrentShield()->getName(),
@@ -228,6 +231,7 @@ void TankShieldTip::populate()
 			"Protect the tank from taking shot damage.\n"
 			"Shields must be enabled before they take\n"
 			"effect.\n"
+			"Click to enable/disable shields.\n"
 			"Shields Off");
 	}
 }
@@ -273,6 +277,7 @@ void TankParachutesTip::populate()
 		"Prevents the tank from taking damage\n"
 		"when falling.  Must be enabled before\n"
 		"they take effect.\n"
+		"Click to enable/disable parachutes.\n"
 		"Number Parachutes : %i\n"
 		"Status : %s",
 		tank_->getAccessories().getParachutes().getNoParachutes(),
@@ -321,6 +326,7 @@ void TankAutoDefenseTip::populate()
 		"Allows the tank to raise shields and\n"
 		"activate parachutes before the round\n"
 		"starts.\n"
+		"Click to see auto defense status.\n"
 		"Status : %s",
 		(tank_->getAccessories().getAutoDefense().haveDefense()?
 		"On":"Off (Not Bought)"));
@@ -357,6 +363,7 @@ void TankWeaponTip::populate()
 	{
 		setText("Weapon",
 			"The currently selected weapon.\n"
+			"Click to change weapon.\n"
 			"Weapon : %s (%i)\n"
 			"Description :\n%s",
 			tank_->getAccessories().getWeapons().getCurrent()->getName(),
@@ -368,6 +375,7 @@ void TankWeaponTip::populate()
 	{
 		setText("Weapon",
 			"The currently selected weapon.\n"
+			"Click to change weapon.\n"
 			"Weapon : %s (Infinite)\n"
 			"Description :\n%s",
 			tank_->getAccessories().getWeapons().getCurrent()->getName(),
@@ -423,6 +431,7 @@ void TankPowerTip::populate()
 {
 	setText("Power",
 		"The power used to fire the %s.\n"
+		"Click to revert back to previous settings.\n"
 		"Power : %s",
 		tank_->getAccessories().getWeapons().getCurrent()->getName(),
 		tank_->getPhysics().getPowerString());
@@ -441,6 +450,7 @@ void TankRotationTip::populate()
 {
 	setText("Rotation",
 		"The rotation of the current player's tank turret.\n"
+		"Click to revert back to previous settings.\n"
 		"Rotation : %s",
 		tank_->getPhysics().getRotationString());
 }
@@ -458,6 +468,7 @@ void TankElevationTip::populate()
 {
 	setText("Elevation",
 		"The elevation of the current player's gun.\n"
+		"Click to revert back to previous settings.\n"
 		"Elevation : %s",
 		tank_->getPhysics().getElevationString());
 }

@@ -51,6 +51,7 @@ public:
 	static PFNGLCLIENTACTIVETEXTUREARBPROC glClientActiveTextureARB() { return glClientActiveTextureARB_; }
 	// Use locked arrays?
 	static PFNGLLOCKARRAYSEXTPROC glLockArraysEXT() { return glLockArraysEXT_; }
+	static PFNGLUNLOCKARRAYSEXTPROC glUnlockArraysEXT() { return glUnlockArraysEXT_; }
 	static bool getNoTexSubImage(); // Use tex sub image extension?
 	static bool hasCubeMap(); // Use cube map extension?
 	static bool hasHardwareMipmaps(); // Use hardware mipmap extension?
@@ -68,6 +69,7 @@ protected:
 	static PFNGLCLIENTACTIVETEXTUREARBPROC glClientActiveTextureARB_;
 
 	static PFNGLLOCKARRAYSEXTPROC glLockArraysEXT_;
+	static PFNGLUNLOCKARRAYSEXTPROC glUnlockArraysEXT_;
 
 	static int textureUnits_;
 	static bool hasCubeMap_;

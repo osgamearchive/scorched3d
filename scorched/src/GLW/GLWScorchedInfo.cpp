@@ -174,12 +174,12 @@ void GLWScorchedInfo::draw()
 		break;
 		case eWeaponName:
 		{
-			setToolTip(&weapon->getToolTip());
+			setToolTip(&model->getTips()->weaponTip);
 			int count = current->getAccessories().getWeapons().getWeaponCount(
 				current->getAccessories().getWeapons().getCurrent());
 			static char buffer[256];
 			const char *format = "%s (%i)";
-			if (count < 0) format = "%s (I)";
+			if (count < 0) format = "%s (In)";
 			sprintf(buffer, format, 
 				current->getAccessories().getWeapons().getCurrent()->getName(),
 				count);

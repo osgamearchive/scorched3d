@@ -30,6 +30,7 @@ bool GLStateExtension::hasHardwareMipmaps_ = false;
 bool GLStateExtension::envCombine_ = false;
 int GLStateExtension::textureUnits_ = 0;
 PFNGLLOCKARRAYSEXTPROC GLStateExtension::glLockArraysEXT_ = 0;
+PFNGLUNLOCKARRAYSEXTPROC GLStateExtension::glUnlockArraysEXT_ = 0;
 PFNGLACTIVETEXTUREARBPROC GLStateExtension::glActiveTextureARB_ =  0;
 PFNGLMULTITEXCOORD2FARBPROC GLStateExtension::glMultiTextCoord2fARB_ = 0;
 PFNGLCLIENTACTIVETEXTUREARBPROC GLStateExtension::glClientActiveTextureARB_ = 0;
@@ -82,6 +83,8 @@ void GLStateExtension::setup()
 		{
 			glLockArraysEXT_ = (PFNGLLOCKARRAYSEXTPROC)
 				SDL_GL_GetProcAddress("glLockArraysEXT");
+			glUnlockArraysEXT_ = (PFNGLUNLOCKARRAYSEXTPROC)
+				SDL_GL_GetProcAddress("glUnlockArraysEXT");
 		}
 	}
 
@@ -92,7 +95,8 @@ void GLStateExtension::setup()
 
 	if (!OptionsDisplay::instance()->getNoGLCubeMap())
 	{
-		hasCubeMap_ = hasExtension("GL_EXT_texture_cube_map");
+		hasCubeMap_ = hasExtension("GL_EXT_texture_cube_map") ||
+			hasExtension("GL_ARB_texture_cube_map");
 	}
 
 	if (!OptionsDisplay::instance()->getNoGLHardwareMipmaps())

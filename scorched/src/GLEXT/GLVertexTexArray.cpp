@@ -65,13 +65,16 @@ void GLVertexTexArray::buildList()
 	glColorPointer(3, GL_FLOAT, sizeof(GLVertexArrayColor), &colors_[0].r);
 	glTexCoordPointer(2, GL_FLOAT, sizeof(GLVertexArrayTexCoord), &texCoord_[0].a);
 
-	if (GLStateExtension::glLockArraysEXT())
-	{
-		GLStateExtension::glLockArraysEXT()(0, noTris_ * 3);
-	}
-
 	glNewList(listNo_ = glGenLists(1), GL_COMPILE_AND_EXECUTE);
+		if (GLStateExtension::glLockArraysEXT())
+		{
+			GLStateExtension::glLockArraysEXT()(0, noTris_ * 3);
+		}
 		glDrawArrays(GL_TRIANGLES, 0, noTris_ * 3 );
+		if (GLStateExtension::glUnlockArraysEXT())
+		{
+			GLStateExtension::glUnlockArraysEXT()();
+		}
 	glEndList();
 
 	glDisableClientState(GL_VERTEX_ARRAY);

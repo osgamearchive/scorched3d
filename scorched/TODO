@@ -46,6 +46,7 @@ Added: Window and font sizes can be set seperately from screen resolution
 Added: Can choose to revert back to any previous shot setting made in the round
 Added: Aiming dialog so users can aim using the mouse
 
+Fixed: Intel 8xxG graphics card cubemap and compiled vertex array problems
 Fixed: Players gun does not go back to original position if turn missed
 Fixed: Files installed with correct permissions on Unix
 Fixed: Radeon 9x00 series card problems under Linux and Windows

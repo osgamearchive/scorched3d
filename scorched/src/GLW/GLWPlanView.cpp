@@ -40,6 +40,12 @@ GLWPlanView::GLWPlanView(float x, float y, float w, float h) :
 	animationTime_(0.0f), flashTime_(0.0f),
 	flash_(true)
 {
+	setToolTip(new GLWTip("Plan View",
+		"Shows the position of the the tanks\n"
+		"on a overhead map of the island.\n"
+		"Flashing tanks are still to make a move.\n"
+		"Clicking on the plan will move the camera\n"
+		"to look at that point."));
 }
 
 GLWPlanView::~GLWPlanView()
