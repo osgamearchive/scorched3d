@@ -23,6 +23,7 @@ $result = mysql_query($query) or die("Query failed : " . mysql_error());
 <td bgcolor=#111111><b>Player Name</b></td>
 <td bgcolor=#111111><b>Player ID</b></td>
 <td bgcolor=#111111><b>Last Used Player Name</b></td>
+<td bgcolor=#111111><b>View Stats Page</b></td>
 </tr>
 <?
 while ($row = mysql_fetch_object($result))
@@ -31,10 +32,19 @@ while ($row = mysql_fetch_object($result))
 	$result2 = mysql_query($query2) or die("Query failed : " . mysql_error());
 	$row2 = mysql_fetch_object($result2);
 
+	$games = "";
+	$query3 = " select seriesid, prefixid from scorched3d_stats where playerid=\"".$row->playerid."\"";
+	$result3 = mysql_query($query3) or die("Query failed : " . mysql_error());
+	while ($row3 = mysql_fetch_object($result3))
+	{
+		$games .= "<a href='playerstats.php?Prefix=".$row3->prefixid."&Series=".$row3->seriesid."&PlayerID=".$row->playerid."'>View</a> ";
+	}
+
         echo "<tr>";
         echo "<td>".$row->name."</td>";
 	echo "<td>".$row->playerid."</td>";
 	echo "<td>".$row2->name."</td>";
+	echo "<td>".$games."</td>";
         echo "</tr>\n";
 }
 ?>
