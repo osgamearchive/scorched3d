@@ -24,6 +24,7 @@
 #include <weapons/AccessoryStore.h>
 #include <weapons/EconomyStore.h>
 #include <coms/NetLoopBack.h>
+#include <coms/NetServer.h>
 #include <common/Defines.h>
 #include <common/Clock.h>
 #include <common/ARGParser.h>
@@ -141,9 +142,7 @@ void serverMain()
 	if (!startServer(false)) exit(64);
 
 	// Try to start the server
-	NetServer *netServer = (NetServer *) 
-		ScorchedServer::instance()->getContext().netInterface;
-	if (!netServer->start(
+	if (!ScorchedServer::instance()->getContext().netInterface->start(
 		ScorchedServer::instance()->getOptionsGame().getPortNo()) ||
 		!ServerBrowserInfo::instance()->start())
 	{

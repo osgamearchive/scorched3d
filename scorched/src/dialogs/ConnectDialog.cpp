@@ -28,10 +28,10 @@
 #include <common/OptionsParam.h>
 #include <common/OptionsGame.h>
 #include <engine/MainLoop.h>
-#include <coms/NetServer.h>
 #include <coms/ComsMessageHandler.h>
 #include <coms/ComsMessageSender.h>
 #include <coms/ComsConnectMessage.h>
+#include <coms/NetInterface.h>
 
 ConnectDialog *ConnectDialog::instance_ = 0;
 
@@ -112,8 +112,8 @@ bool ConnectDialog::tryConnection()
 		}
 
 		// Try to connect to the server
-		NetServer &netServer = (NetServer &) ScorchedClient::instance()->getNetInterface();
-		if (!netServer.connect((char *) hostPart.c_str(), port))
+		if (!ScorchedClient::instance()->getNetInterface().
+			connect((char *) hostPart.c_str(), port))
 		{
 			LogDialog::instance()->logMessage("", 
 				"  Connection Failed.", 0);

@@ -39,6 +39,8 @@ public:
 	void setLoopBack(NetLoopBack *loopback);
 
 	virtual bool started();
+	virtual bool connect(const char *hostName, int portNo) { return true; }
+	virtual bool start(int portNo) { return true; }
 
 	virtual int processMessages();
 	virtual void setMessageHandler(NetMessageHandlerI *handler);

@@ -119,14 +119,14 @@ void TankModelRenderer::drawSecond(bool currentTank)
 {
 	if (!canSeeTank_) return;
 
+	// Draw the life bars and arrow
+	drawLife();
+
 	// Draw the current shield (if any)
 	if (tank_->getAccessories().getShields().getCurrentShield())
 	{
 		drawShield();
 	}
-
-	// Draw the life bars and arrow
-	drawLife();
 
 	// Draw the names above all the tanks
 	if (OptionsDisplay::instance()->getDrawPlayerNames())

@@ -77,17 +77,17 @@ bool NetServer::started()
 	return (server_ != 0 || firstDestination_ != 0);
 }
 
-unsigned int NetServer::start(int port)
+bool NetServer::start(int port)
 {
 	if(SDLNet_Init()==-1)
 	{
-		return 0;
+		return false;
 	}
 
 	IPaddress ip;
 	if(SDLNet_ResolveHost(&ip,NULL,port)==-1)
 	{
-		return 0;
+		return false;
 	}
 
 	// TODO we seem to be able to open the same port
@@ -95,36 +95,36 @@ unsigned int NetServer::start(int port)
 	server_=SDLNet_TCP_Open(&ip);
 	if (!server_)
 	{
-		return 0;
+		return false;
 	}
 	NetBufferUtil::setBlockingIO(server_);
 	SDLNet_TCP_AddSocket(sockSet_, server_);
 
-	return (unsigned int) server_;
+	return true;
 }
 
-unsigned int NetServer::connect(const char *hostName, int portNo)
+bool NetServer::connect(const char *hostName, int portNo)
 {
 	if(SDLNet_Init()==-1)
 	{
-		return 0;
+		return false;
 	}
 
 	IPaddress ip;
 	if(SDLNet_ResolveHost(&ip,(char *) hostName,portNo)==-1)
 	{
-		return 0;
+		return false;
 	}
 
 	TCPsocket client=SDLNet_TCP_Open(&ip);
 	if (!client)
 	{
-		return 0;
+		return false;
 	}
 	NetBufferUtil::setBlockingIO(client);
 
 	addClient(client);
-	return (unsigned int) client;
+	return true;
 }
 
 int NetServer::threadFunc(void *param)

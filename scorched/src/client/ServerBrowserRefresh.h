@@ -22,7 +22,6 @@
 #define __INCLUDE_ServerBrowserRefreshh_INCLUDE__
 
 #include <client/ServerBrowserServerList.h>
-#include <coms/NetServer.h>
 #include <map>
 #include <time.h>
 

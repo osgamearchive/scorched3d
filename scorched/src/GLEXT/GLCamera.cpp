@@ -197,7 +197,7 @@ void GLCamera::movePositionDelta(float XY, float YZ, float Z)
 	if (YZ < 0.17f) YZ = 0.17f;
 	if (YZ > 1.91f) YZ = 1.91f;
 	if (Z < 5.0) Z = 5.0f;
-	if (Z > 200.0f) Z = 200.0f;
+	if (Z > 250.0f) Z = 250.0f;
 
 	movePosition(XY, YZ, Z);
 }

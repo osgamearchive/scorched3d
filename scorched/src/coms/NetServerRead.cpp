@@ -231,6 +231,10 @@ bool NetServerRead::pollIncoming()
 				// We have a buffer containing the message
 				messageHandler_->addMessage(message);
 			}
+			else
+			{
+				NetMessagePool::instance()->addToPool(message);
+			}
 		}
 	}
 

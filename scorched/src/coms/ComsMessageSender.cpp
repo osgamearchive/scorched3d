@@ -21,7 +21,7 @@
 #include <coms/ComsMessageSender.h>
 #include <coms/ComsMessageHandler.h>
 #include <coms/NetBuffer.h>
-#include <coms/NetServer.h>
+#include <coms/NetInterface.h>
 #include <common/Defines.h>
 #include <common/Logger.h>
 #include <client/ScorchedClient.h>

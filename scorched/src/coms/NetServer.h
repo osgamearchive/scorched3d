@@ -35,8 +35,8 @@ public:
 	virtual ~NetServer();
 
 	virtual bool started();
-	unsigned int connect(const char *hostName, int portNo);
-	unsigned int start(int portNo);
+	virtual bool connect(const char *hostName, int portNo);
+	virtual bool start(int portNo);
 
 	virtual int processMessages();
 	virtual void setMessageHandler(NetMessageHandlerI *handler);

@@ -21,7 +21,7 @@
 #if !defined(__INCLUDE_ServerBrowserInfoh_INCLUDE__)
 #define __INCLUDE_ServerBrowserInfoh_INCLUDE__
 
-#include <coms/NetServer.h>
+#include <SDL/SDL_net.h>
 
 class ServerBrowserInfo
 {

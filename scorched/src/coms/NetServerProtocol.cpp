@@ -86,7 +86,8 @@ static bool realSDLNet_TCP_Recv(TCPsocket socket, char *dest, int len)
 
 		if (len > 0)
 		{
-			//Logger::log(0, "Partial read, %i/%i", recv, len + recv);
+			Logger::log(0, "Partial read, %i/%i %s", recv, len + recv, 
+				SDLNet_GetError());
 		}
 	}	
 
