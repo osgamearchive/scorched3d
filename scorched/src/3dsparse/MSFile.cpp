@@ -112,6 +112,7 @@ bool MSFile::loadFile(FILE *in, const char *fileName)
 				&vertexFlags,
 				&vertexPos[0], &vertexPos[2], &vertexPos[1], 
 				&texCoord[0], &texCoord[1], &vertexBIndex) != 7) return false;
+			texCoord[1]=1.0f-texCoord[1];
 
 			tcoords.push_back(texCoord);
 			model->insertVertex(vertexPos);
