@@ -40,10 +40,13 @@ typedef void (* PFNGLCLIENTACTIVETEXTUREARBPROC) (GLenum texture);
 #ifndef GL_ARRAY_BUFFER_ARB
 #define GL_ARRAY_BUFFER_ARB 0x8892
 #define GL_STATIC_DRAW_ARB 0x88E4
+#define GL_DYNAMIC_DRAW_ARB 0x88E8
 typedef void (APIENTRY * PFNGLBINDBUFFERARBPROC) (GLenum target, GLuint buffer);
 typedef void (APIENTRY * PFNGLDELETEBUFFERSARBPROC) (GLsizei n, const GLuint *buffers);
 typedef void (APIENTRY * PFNGLGENBUFFERSARBPROC) (GLsizei n, GLuint *buffers);
 typedef void (APIENTRY * PFNGLBUFFERDATAARBPROC) (GLenum target, int size, const GLvoid *data, GLenum usage);
+typedef void *(APIENTRY * PFNGLMAPBUFFERARBPROC) (GLenum target, GLenum access);
+typedef GLboolean APIENTRY * PFNGLUNMAPBUFFERARBPROC) (GLenum target);
 #endif
 
 class GLStateExtension
@@ -57,6 +60,8 @@ public:
 	inline static PFNGLBINDBUFFERARBPROC glBindBufferARB() { return glBindBufferARB_; }
 	inline static PFNGLBUFFERDATAARBPROC glBufferDataARB() { return glBufferDataARB_; }
 	inline static PFNGLDELETEBUFFERSARBPROC glDeleteBuffersARB() { return glDeleteBuffersARB_; }
+	inline static PFNGLMAPBUFFERARBPROC glMapBufferARB() { return glMapBufferARB_; }
+	inline static PFNGLUNMAPBUFFERARBPROC glUnmapBufferARB() { return glUnmapBufferARB_; }
 	// Use multi textureing?
 	inline static PFNGLACTIVETEXTUREARBPROC glActiveTextureARB() { return glActiveTextureARB_; }
 	inline static PFNGLMULTITEXCOORD2FARBPROC glMultiTextCoord2fARB() { return glMultiTextCoord2fARB_; }
@@ -83,6 +88,8 @@ protected:
 	static PFNGLBINDBUFFERARBPROC glBindBufferARB_;
 	static PFNGLBUFFERDATAARBPROC glBufferDataARB_;
 	static PFNGLDELETEBUFFERSARBPROC glDeleteBuffersARB_;
+	static PFNGLMAPBUFFERARBPROC glMapBufferARB_;
+	static PFNGLUNMAPBUFFERARBPROC glUnmapBufferARB_;
 
 	static PFNGLACTIVETEXTUREARBPROC glActiveTextureARB_;
 	static PFNGLMULTITEXCOORD2FARBPROC glMultiTextCoord2fARB_;

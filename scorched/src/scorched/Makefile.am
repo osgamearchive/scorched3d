@@ -35,12 +35,16 @@ scorched3d_SOURCES = \
 	../GLEXT/GLConsoleRuleMethodIAdapter.h \
 	../GLEXT/GLConsoleRules.cpp \
 	../GLEXT/GLConsoleRules.h \
+	../GLEXT/GLDynamicVertexArray.cpp \
+	../GLEXT/GLDynamicVertexArray.h \
 	../GLEXT/GLFont2d.cpp \
 	../GLEXT/GLFont2d.h \
 	../GLEXT/GLFontBanner.cpp \
 	../GLEXT/GLFontBanner.h \
 	../GLEXT/GLImage.cpp \
 	../GLEXT/GLImage.h \
+	../GLEXT/GLInfo.cpp \
+	../GLEXT/GLInfo.h \
 	../GLEXT/GLLenseFlare.cpp \
 	../GLEXT/GLLenseFlare.h \
 	../GLEXT/GLLuminance.cpp \
@@ -65,8 +69,6 @@ scorched3d_SOURCES = \
 	../GLEXT/GLTextureCubeMap.h \
 	../GLEXT/GLTextureSet.cpp \
 	../GLEXT/GLTextureSet.h \
-	../GLEXT/GLVar.cpp \
-	../GLEXT/GLVar.h \
 	../GLEXT/GLVertexArray.cpp \
 	../GLEXT/GLVertexArray.h \
 	../GLEXT/GLVertexSet.cpp \
@@ -423,8 +425,6 @@ scorched3d_SOURCES = \
 	../landscape/PatchGrid.h \
 	../landscape/PatchSide.cpp \
 	../landscape/PatchSide.h \
-	../landscape/PatchVar.cpp \
-	../landscape/PatchVar.h \
 	../landscape/ShadowMap.cpp \
 	../landscape/ShadowMap.h \
 	../landscape/Smoke.cpp \

@@ -19,7 +19,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <GLEXT/GLDynamicVertexArray.h>
-#include <GLEXT/GLStateExtension.h>
 #include <GLEXT/GLInfo.h>
 
 GLDynamicVertexArray *GLDynamicVertexArray::instance_ = 0;
@@ -34,14 +33,33 @@ GLDynamicVertexArray *GLDynamicVertexArray::instance()
 }
 
 GLDynamicVertexArray::GLDynamicVertexArray() : 
-	capacity_(3000), used_(0)
+	capacity_(3000), used_(0), vbo_(0), array_(0)
 {
-	array_ = new GLfloat[capacity_];
+	if (false) //GLStateExtension::glGenBuffersARB())
+	{
+		GLStateExtension::glGenBuffersARB()(1, &vbo_);
+		GLStateExtension::glBindBufferARB()(GL_ARRAY_BUFFER_ARB, vbo_);
+		GLStateExtension::glBufferDataARB()
+			(GL_ARRAY_BUFFER_ARB, sizeof(GLfloat) * capacity_, 0, GL_DYNAMIC_DRAW_ARB);
+		if (glGetError() == GL_OUT_OF_MEMORY) vbo_ = 0;
+	}
+
+	if (!vbo_)
+	{
+		array_ = new GLfloat[capacity_];
+	}
 }
 
 GLDynamicVertexArray::~GLDynamicVertexArray()
 {
-	delete [] array_;
+	if (vbo_)
+	{
+		GLStateExtension::glDeleteBuffersARB()(1, &vbo_);
+	}
+	else
+	{
+		delete [] array_;
+	}
 }
 
 void GLDynamicVertexArray::drawROAM()
@@ -120,6 +138,9 @@ void GLDynamicVertexArray::drawQuadStrip(bool useColor)
 		used_ = 0;
 		return;	
 	}
+
+	// TODO *** Half of this information is actually static and could be held
+	// in non-dynamic memory.
 
 	// Vertices
 	glEnableClientState(GL_VERTEX_ARRAY);

@@ -22,6 +22,7 @@
 #define __INCLUDE_GLDynamicVertexArrayh_INCLUDE__
 
 #include <GLEXT/GLState.h>
+#include <GLEXT/GLStateExtension.h>
 
 class GLDynamicVertexArray
 {
@@ -34,7 +35,15 @@ public:
 	inline void addFloat(GLfloat floats)
 	{
 		DIALOG_ASSERT(used_ < capacity_);
-		array_[used_] = floats;
+
+		GLfloat *mem = array_;
+		if (used_ == 0 && vbo_ != 0)
+		{
+			mem = (GLfloat *)
+				GLStateExtension::glMapBufferARB()(GL_ARRAY_BUFFER_ARB, GL_WRITE_ONLY_ARB);
+		}
+
+		mem[used_] = floats;
 		used_++;
 	}
 	void drawROAM();
@@ -43,6 +52,7 @@ public:
 protected:
 	static GLDynamicVertexArray *instance_;
 	GLfloat *array_;
+	unsigned int vbo_;
 	int used_;
 	int capacity_;
 

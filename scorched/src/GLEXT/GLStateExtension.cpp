@@ -37,6 +37,8 @@ PFNGLGENBUFFERSARBPROC GLStateExtension::glGenBuffersARB_ = 0;
 PFNGLBINDBUFFERARBPROC GLStateExtension::glBindBufferARB_ = 0;
 PFNGLBUFFERDATAARBPROC GLStateExtension::glBufferDataARB_ = 0;
 PFNGLDELETEBUFFERSARBPROC GLStateExtension::glDeleteBuffersARB_ = 0;
+PFNGLMAPBUFFERARBPROC GLStateExtension::glMapBufferARB_ = 0;
+PFNGLUNMAPBUFFERARBPROC GLStateExtension::glUnmapBufferARB_ = 0;
 
 bool GLStateExtension::hasExtension(char *name)
 {
@@ -78,6 +80,10 @@ void GLStateExtension::setup()
 				SDL_GL_GetProcAddress("glBufferDataARB");
 			glDeleteBuffersARB_ = (PFNGLDELETEBUFFERSARBPROC) 
 				SDL_GL_GetProcAddress("glDeleteBuffersARB");
+			glMapBufferARB_ = (PFNGLMAPBUFFERARBPROC) 
+				SDL_GL_GetProcAddress("glMapBufferARB");
+			glUnmapBufferARB_ = (PFNGLUNMAPBUFFERARBPROC) 
+				SDL_GL_GetProcAddress("glUnmapBufferARB");
 		}
 	}
 
