@@ -53,22 +53,29 @@ while ($row = mysql_fetch_object($result))
 }
 ?>
 </table>
-<table width=500 align=center border=0> 
+<table width=600 align=center border=0> 
 <tr><td>
-<table border=0> 
+<table border=0 align=center> 
 <tr>
 <?
 $query = "select count(playerid) from scorched3d_players;";
 $result = mysql_query($query) or die("Query failed : " . mysql_error());
 $row = mysql_fetch_array($result);
 $pages = $row[0] / 25 ;
+$rows = 0;
 if (gettype($pages)!="integer") $pages++;
 for ($i=1; $i<=$pages; $i++)
 {
 	$startplayer = ($i - 1) * 25 + 1;
 	$playerindex = $startplayer - 1;
 	$endplayer = $startplayer + 24;
-	echo "<td align=center width=75><a href=\"allplayers.php?PlayerID=$playerindex\">[$startplayer-$endplayer]</a></td>";
+	echo "<td align=center><font size=-2><a href=\"allplayers.php?PlayerID=$playerindex\">[$startplayer-$endplayer]</a></font></td>";
+	$rows++;
+	if ($rows > 7)
+	{
+		$rows = 0;
+		echo "</tr><tr>\n";
+	}
 }
 ?>
 </tr>

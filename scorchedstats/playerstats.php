@@ -27,6 +27,7 @@ $row = mysql_fetch_object($result);
 <table width="500" bordercolor=#333333 cellspacing="0" cellpadding="0" border="1" align="center">
 <tr><td bgcolor=#111111><b>Last Used Player Name</b></td><td><?=$row->name?></td></tr>
 <tr><td bgcolor=#111111><b>Last Connected</b></td><td><?=$row->lastconnected?></td></tr>
+<tr><td bgcolor=#111111><b>OS</b></td><td><?=$row->osdesc?></td></tr>
 <tr><td bgcolor=#111111><b>Player ID</b></td><td><?=$row->playerid?></td></tr>
 <tr><td bgcolor=#111111><b>Times Connected</b></td><td><?=$row->connects?></td></tr>
 <tr><td bgcolor=#111111><b>Games Won</b></td><td><?=$row->overallwinner?></td></tr>
@@ -36,6 +37,7 @@ $row = mysql_fetch_object($result);
 <tr><td bgcolor=#111111><b>Opponent Kills</b></td><td><?=$row->kills?></td></tr>
 <tr><td bgcolor=#111111><b>Self Kills</b></td><td><?=$row->selfkills?></td></tr>
 <tr><td bgcolor=#111111><b>Team Kills</b></td><td><?=$row->teamkills?></td></tr>
+<tr><td bgcolor=#111111><b>Deaths</b></td><td><?=$row->deaths?></td></tr>
 </table>
 <table width="500" border="0" align="center">
 <tr><td><a href="playerevents.php?PlayerID=<?=$playerid?>">
