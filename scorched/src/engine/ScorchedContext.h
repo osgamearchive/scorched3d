@@ -42,7 +42,7 @@ public:
 	LandscapeMaps landscapeMaps;
 	ComsMessageHandler comsMessageHandler;
 	NetInterface *netInterface;
-	OptionsGame optionsGame;
+	OptionsGameWrapper optionsGame;
 	OptionsTransient optionsTransient;
 	ViewPoints viewPoints;
 	bool serverMode;

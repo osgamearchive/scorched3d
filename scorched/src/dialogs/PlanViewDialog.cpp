@@ -43,7 +43,7 @@ PlanViewDialog *PlanViewDialog::instance()
 }
 
 PlanViewDialog::PlanViewDialog() : 
-	animationTime_(0.0f),
+	animationTime_(0.0f), flashTime_(0.0f),
 	GLWWindow("Plan", 10, 15, 100, 100, eTransparent | eResizeable | eSmallTitle),
 	flash_(true)
 {
@@ -131,19 +131,24 @@ void PlanViewDialog::drawCameraPointer()
 	// Draw the camera pointer
 	glColor3f(1.0f, 1.0f, 0.0f);
 	float mapWidth = (float) ScorchedClient::instance()->getLandscapeMaps().getHMap().getWidth();
-	Vector &currentPos = MainCamera::instance()->getCamera().getCurrentPos();
+	Vector currentPos = MainCamera::instance()->getCamera().getCurrentPos();
 	Vector lookAt = MainCamera::instance()->getCamera().getLookAt();
 	Vector direction = (currentPos - lookAt).Normalize2D() * 0.2f;
-	lookAt /= mapWidth;
+
+	if (currentPos[0] < 0.0f) currentPos[0] = 0.0f;
+	else if (currentPos[0] > 256.0f) currentPos[0] = 256.0f;
+	if (currentPos[1] < 0.0f) currentPos[1] = 0.0f;
+	else if (currentPos[1] > 256.0f) currentPos[1] = 256.0f;
+	currentPos /= mapWidth;
 
 	Vector directionPerp = direction.get2DPerp();
 	glBegin(GL_LINES);
-		glVertex3fv(lookAt);
-		glVertex3fv(lookAt - (direction + directionPerp) / 2.0f);
-		glVertex3fv(lookAt);
-		glVertex3fv(lookAt - (direction - directionPerp) / 2.0f);
-		glVertex3fv(lookAt - (direction + directionPerp) / 4.0f);
-		glVertex3fv(lookAt - (direction - directionPerp) / 4.0f);
+		glVertex3fv(currentPos);
+		glVertex3fv(currentPos - (direction + directionPerp) / 2.0f);
+		glVertex3fv(currentPos);
+		glVertex3fv(currentPos - (direction - directionPerp) / 2.0f);
+		glVertex3fv(currentPos - (direction + directionPerp) / 4.0f);
+		glVertex3fv(currentPos - (direction - directionPerp) / 4.0f);
 	glEnd();
 }
 

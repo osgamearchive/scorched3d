@@ -18,16 +18,7 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// Resources.cpp: implementation of the Timer class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <common/Resources.h>
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 Resources *Resources::instance_ = 0;
 
@@ -56,4 +47,9 @@ Vector *Resources::vectorResource(const char *name)
 char *Resources::stringResource(const char *name)
 {
 	return (char *) instance_->main.getStringResource(name);
+}
+
+float Resources::floatResource(const char *name)
+{
+	return instance_->main.getFloatResource(name);
 }

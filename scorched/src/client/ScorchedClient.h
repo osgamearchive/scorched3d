@@ -36,7 +36,7 @@ public:
 	LandscapeMaps &getLandscapeMaps() { return context_.landscapeMaps; }
 	ScorchedContext &getContext() { return context_; }
 	NetInterface &getNetInterface() { return *context_.netInterface; }
-	OptionsGame &getOptionsGame() { return context_.optionsGame; }
+	OptionsGameWrapper &getOptionsGame() { return context_.optionsGame; }
 	OptionsTransient &getOptionsTransient() { return context_.optionsTransient; }
 	ComsMessageHandler &getComsMessageHandler() { return context_.comsMessageHandler; }
 

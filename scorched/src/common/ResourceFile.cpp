@@ -22,6 +22,7 @@
 #include <common/Defines.h>
 #include <XML/XMLFile.h>
 #include <wx/utils.h>
+#include <stdlib.h>
 
 ResourceFile::ResourceFile() : currentModule_(0)
 {
@@ -87,6 +88,11 @@ const char *ResourceFile::getStringResource(const char *name)
 	std::string *str = (std::string *) getResource(currentModule_, name);
 	if (str) return str->c_str();
 	return 0;
+}
+
+float ResourceFile::getFloatResource(const char *name)
+{
+	return *((float *) getResource(currentModule_, name));
 }
 
 bool ResourceFile::initFromFile(const char *xmlFileName)
@@ -220,6 +226,11 @@ void *ResourceFile::parseType(const char *type,
 		if (0 == strcmp(type, "string"))
 		{
 			return new std::string(valueNode->getContent());
+		}
+		else
+		if (0 == strcmp(type, "float"))
+		{
+			return new float(atof(valueNode->getContent()));
 		}
 		else
 		if (0 == strcmp(type, "file"))

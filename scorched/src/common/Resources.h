@@ -31,6 +31,7 @@ public:
 	
 	static Vector *vectorResource(const char *name);
 	static char *stringResource(const char *name);
+	static float floatResource(const char *name);
 
 	ResourceFile main;
 

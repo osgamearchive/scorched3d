@@ -19,6 +19,7 @@ Added: Trees
 Added: Display options are stored in users home directory (if available)
 Added: Server can be run in console (non-gui) mode
 Added: Client shows which players the game is waiting on
+Added: Stats and servers can tell what os clients and servers are on
 
 Fixed: Menu items could only be clicked in left hand side
 Fixed: Shot cam goes back to player even when not their turn
@@ -37,8 +38,8 @@ Gun fires at same point for all tanks (ignores turret/gun position in model)
 
 -- Things I am currently looking at
 Bilboards for far away trees
-Different tree types
 Remove trees from around tanks
+Allow os logging for players
 Ability to adjust server options on the fly, so the next match will have the new options
 Make AIs better
 

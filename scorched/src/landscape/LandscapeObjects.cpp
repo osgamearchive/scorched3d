@@ -25,10 +25,11 @@
 #include <GLEXT/GLBitmapModifier.h>
 #include <common/Defines.h>
 #include <common/OptionsDisplay.h>
+#include <common/Resources.h>
 #include <client/ScorchedClient.h>
 #include <stdio.h>
 
-LandscapeObjects::LandscapeObjects()
+LandscapeObjects::LandscapeObjects() : pine_(false)
 {
 
 }
@@ -60,14 +61,14 @@ void LandscapeObjects::drawItem(float distance, GLOrderedItemRenderer::OrderedEn
 	glDepthMask(GL_TRUE);
 	glPushMatrix();
 		glTranslatef(entry.posX, entry.posY, entry.posZ);
-		glRotatef(0.0f, 0.0f, 1.0f, entry.treeRotation);
+		glRotatef(entry.treeRotation, 0.0f, 0.0f, 1.0f);
 		glScalef(entry.treeSize, entry.treeSize, entry.treeSize);
 		glCallList(entry.treeType);
 	glPopMatrix();
 	glDepthMask(GL_FALSE);
 }
 
-static void drawLevel(float centerX, float centerY,
+static void drawPineLevel(float centerX, float centerY,
 		float width, float height, float lowheight)
 {
 	glBegin(GL_TRIANGLE_FAN);
@@ -86,7 +87,7 @@ static void drawLevel(float centerX, float centerY,
 	glEnd();
 }
 
-static void drawTrunc(float width, float height, float lowheight )
+static void drawPineTrunc(float width, float height, float lowheight )
 {
 	glBegin(GL_TRIANGLE_FAN);
 		glTexCoord2f(0.875f, 0.0f);
@@ -98,6 +99,97 @@ static void drawTrunc(float width, float height, float lowheight )
 				sinf(i/180.0f * PI) * width, 
 				cosf(i/180.0f * PI) * width, 
 				lowheight);
+		}
+	glEnd();
+}
+
+static void drawPalmTrunc(float width, float height)
+{
+	bool tex = false;
+	glBegin(GL_QUAD_STRIP);
+		for (float i=360.0f; i>=0.0f; i-=360.0f / 5.0f)
+		{
+			if (tex) glTexCoord2f(0.0f, 0.0f);
+			else glTexCoord2f(0.0f, 0.125f);
+			glVertex3f(
+				sinf(i/180.0f * PI) * (width - 0.1f), 
+				cosf(i/180.0f * PI) * (width - 0.1f), 
+				height);
+			if (tex) glTexCoord2f(1.0f, 0.0f);
+			else glTexCoord2f(1.0f, 0.125f);
+			glVertex3f(
+				sinf(i/180.0f * PI) * width, 
+				cosf(i/180.0f * PI) * width, 
+				0.0f);
+			tex = !tex;
+		}
+	glEnd();
+	glBegin(GL_TRIANGLE_FAN);
+		glTexCoord2f(1.0f, 0.0f);
+		glVertex3f(0.0f, 0.0f, height + 0.05f);
+		for (float i=360.0f; i>=0.0f; i-=360.0f / 5.0f)
+		{
+			if (tex) glTexCoord2f(1.0f, 0.0f);
+			else glTexCoord2f(1.0f, 0.125f);
+			glVertex3f(
+				sinf(i/180.0f * PI) * 0.03f, 
+				cosf(i/180.0f * PI) * 0.03f, 
+				height - 0.01f);
+			tex = !tex;
+		}
+	glEnd();
+}
+
+static void drawPalmLevel(float centerX, float centerY,
+		float width1, float width2, float height, float height2)
+{
+	glBegin(GL_QUADS);
+		glTexCoord2f(centerX, centerY);
+		for (float i=360.0f; i>=0.0f;)
+		{
+			glTexCoord2f(0.0f, 0.365f);
+			glVertex3f(
+				sinf(i/180.0f * PI) * width1, 
+				cosf(i/180.0f * PI) * width1, 
+				height);
+			glTexCoord2f(0.0f, 0.488f);
+			glVertex3f(
+				sinf(i/180.0f * PI) * width1, 
+				cosf(i/180.0f * PI) * width1, 
+				height2 + RAND * 0.1f - 0.05f);
+			glTexCoord2f(0.37f, 0.488f);
+			glVertex3f(
+				sinf(i/180.0f * PI) * width2, 
+				cosf(i/180.0f * PI) * width2, 
+				height2 + RAND * 0.1f - 0.05f);
+			glTexCoord2f(0.37f,  0.365f);
+			glVertex3f(
+				sinf(i/180.0f * PI) * width2, 
+				cosf(i/180.0f * PI) * width2, 
+				height);
+
+			glTexCoord2f(0.37f, 0.365f);
+			glVertex3f(
+				sinf(i/180.0f * PI) * width2, 
+				cosf(i/180.0f * PI) * width2, 
+				height);
+			glTexCoord2f(0.37f, 0.488f);
+			glVertex3f(
+				sinf(i/180.0f * PI) * width2, 
+				cosf(i/180.0f * PI) * width2, 
+				height2 + RAND * 0.1f - 0.05f);
+			glTexCoord2f(0.0f, 0.488f);
+			glVertex3f(
+				sinf(i/180.0f * PI) * width1, 
+				cosf(i/180.0f * PI) * width1, 
+				height2 + RAND * 0.1f - 0.05f);
+			glTexCoord2f(0.0f, 0.365f);
+			glVertex3f(
+				sinf(i/180.0f * PI) * width1, 
+				cosf(i/180.0f * PI) * width1, 
+				height);
+
+			i-= (360.0f / (7.0f + 6.0f * RAND));
 		}
 	glEnd();
 }
@@ -119,35 +211,30 @@ void LandscapeObjects::generate(RandomGenerator &generator, ProgressCounter *cou
 		DIALOG_ASSERT(map.getBits());
 		texture_.create(map, GL_RGBA, true);
 
-		glNewList(tree1 = glGenLists(1), GL_COMPILE);
-			drawTrunc(0.1f, 1.1f, 0.0f);
-			drawLevel(0.625f, 0.125f, 0.7f, 0.3f, 0.1f);
-			drawLevel(0.375f, 0.125f, 0.5f, 0.7f, 0.2f);
-			drawLevel(0.125f, 0.125f, 0.3f, 1.1f, 0.5f);
+		glNewList(treePine = glGenLists(1), GL_COMPILE);
+			drawPineTrunc(0.1f, 1.1f, 0.0f);
+			drawPineLevel(0.625f, 0.875f, 0.7f, 0.3f, 0.1f);
+			drawPineLevel(0.375f, 0.875f, 0.5f, 0.7f, 0.2f);
+			drawPineLevel(0.125f, 0.875f, 0.3f, 1.1f, 0.5f);
 		glEndList();
-		glNewList(tree2 = glGenLists(1), GL_COMPILE);
-			drawTrunc(0.1f, 1.1f, 0.0f);
-			drawLevel(0.625f, 0.375f, 0.7f, 0.3f, 0.1f);
-			drawLevel(0.375f, 0.375f, 0.5f, 0.7f, 0.2f);
-			drawLevel(0.125f, 0.375f, 0.3f, 1.1f, 0.5f);
+		glNewList(treePineSnow = glGenLists(1), GL_COMPILE);
+			drawPineTrunc(0.1f, 1.1f, 0.0f);
+			drawPineLevel(0.625f, 0.625f, 0.7f, 0.3f, 0.1f);
+			drawPineLevel(0.375f, 0.625f, 0.5f, 0.7f, 0.2f);
+			drawPineLevel(0.125f, 0.625f, 0.3f, 1.1f, 0.5f);
 		glEndList();
-		glNewList(tree3 = glGenLists(1), GL_COMPILE);
-			drawTrunc(0.1f, 1.1f, 0.0f);
-			drawLevel(0.625f, 0.875f, 0.7f, 0.3f, 0.1f);
-			drawLevel(0.375f, 0.875f, 0.5f, 0.7f, 0.2f);
-			drawLevel(0.125f, 0.875f, 0.3f, 1.1f, 0.5f);
+		glNewList(treePineBurnt = glGenLists(1), GL_COMPILE);
+			drawPineTrunc(0.1f, 1.1f, 0.0f);
+			drawPineLevel(0.875f, 0.875f, 0.7f, 0.3f, 0.1f);
+			drawPineLevel(0.875f, 0.875f, 0.5f, 0.7f, 0.2f);
+			drawPineLevel(0.875f, 0.875f, 0.3f, 1.1f, 0.5f);
 		glEndList();
-		glNewList(treeSnow = glGenLists(1), GL_COMPILE);
-			drawTrunc(0.1f, 1.1f, 0.0f);
-			drawLevel(0.625f, 0.625f, 0.7f, 0.3f, 0.1f);
-			drawLevel(0.375f, 0.625f, 0.5f, 0.7f, 0.2f);
-			drawLevel(0.125f, 0.625f, 0.3f, 1.1f, 0.5f);
+		glNewList(treePalm = glGenLists(1), GL_COMPILE);
+			drawPalmTrunc(0.07f, 0.7f);
+			drawPalmLevel(0.0f, 0.0f, 0.0f, 0.6f, 0.6f, 0.8f);
 		glEndList();
-		glNewList(treeBurnt = glGenLists(1), GL_COMPILE);
-			drawTrunc(0.1f, 1.1f, 0.0f);
-			drawLevel(0.875f, 0.875f, 0.7f, 0.3f, 0.1f);
-			drawLevel(0.875f, 0.875f, 0.5f, 0.7f, 0.2f);
-			drawLevel(0.875f, 0.875f, 0.3f, 1.1f, 0.5f);
+		glNewList(treePalmBurnt = glGenLists(1), GL_COMPILE);
+			drawPalmTrunc(0.07f, 0.7f);
 		glEndList();
 	}
 
@@ -247,6 +334,8 @@ void LandscapeObjects::generate(RandomGenerator &generator, ProgressCounter *cou
 
 	// Add lots of trees, more chance of adding a tree where
 	// the map is stongest
+	pine_ = (strcmp(Resources::stringResource("objects"), "pine") == 0);
+	float snowHeight = Resources::floatResource("objectsnowheight");
 	const int NoIterations = 1000000;
 	for (int i=0; i<NoIterations; i++)
 	{
@@ -280,15 +369,20 @@ void LandscapeObjects::generate(RandomGenerator &generator, ProgressCounter *cou
 				entry->posY = ly;
 				entry->posZ = height;
 
-				if (height > 20.0f)
+				if (pine_)
 				{
-					entry->treeType = treeSnow;
+					if (height > snowHeight + (RAND * 10.0f) - 5.0f)
+					{
+						entry->treeType = treePineSnow;
+					}
+					else
+					{
+						entry->treeType = treePine;
+					}
 				}
-				else
-				{
-					entry->treeType = tree3;
-				}
-				entry->treeRotation = RAND * PI * 2.0f;
+				else entry->treeType = treePalm;
+
+				entry->treeRotation = RAND * 360.0f;
 				entry->treeColor = RAND * 0.5f + 0.5f;
 				entry->treeSize =  RAND * 2.0f + 1.0f;
 
@@ -367,6 +461,7 @@ void LandscapeObjects::burnTrees(unsigned int x, unsigned int y)
 	for (iter = lower; iter != upper; iter++)
 	{
 		LandscapeObjectOrderedEntry *entry = (*iter).second;
-		entry->treeType = treeBurnt;
+		if (pine_) entry->treeType = treePineBurnt;
+		else entry->treeType = treePalmBurnt;
 	}
 }

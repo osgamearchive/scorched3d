@@ -50,10 +50,11 @@ protected:
 		float treeSize;
 	};
 
-	GLuint tree1, tree2, tree3;
-	GLuint treeBurnt, treeSnow;
+	GLuint treePine, treePineBurnt, treePineSnow;
+	GLuint treePalm, treePalmBurnt;
 	std::multimap<unsigned int, LandscapeObjectOrderedEntry*> entries_;
 	GLTexture texture_;
+	bool pine_;
 
 };
 

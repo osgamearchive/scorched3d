@@ -79,6 +79,7 @@ wxString NetListControl::OnGetItemText(long item, long column) const
 		case 3: name = "address"; break;
 		case 4: name = "fullversion"; break;
 		case 5: name = "gametype"; break;
+		case 6: name = "os"; break;
 		}
 		return ServerBrowser::instance()->getServerList().getEntryValue(item, name);
 	}
@@ -304,7 +305,8 @@ bool NetLanFrame::TransferDataToWindow()
 		{ "Plyrs", 50 },
 		{ "Server IP Address", 140 },
 		{ "Version", 60 },
-		{ "Game Type", 160 }
+		{ "Game Type", 160 },
+		{ "OS", 160 }
 	};
 	for (int i=0; i<sizeof(mainListItems)/sizeof(ListItem); i++)
 	{

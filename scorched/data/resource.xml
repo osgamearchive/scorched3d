@@ -1,6 +1,7 @@
 <resources>
 	<default>
-		<objects type="string">trees</objects>
+		<objects type="string">pine</objects>
+		<objectsnowheight type="float">25.0</objectsnowheight>
 		<color-fog type="color">
 			<r>0.8</r><g>0.8</g><b>0.8</b>
 		</color-fog>
@@ -81,6 +82,8 @@
 		</bitmap-texture4>
 	</hell>
 	<sand inherits="default">
+		<objects type="string">palm</objects>
+		<objectsnowheight type="float">100.0</objectsnowheight>
 		<bitmap-cloud type="file">
 			data/textures/landscape/sand/cloud1.bmp
 		</bitmap-cloud>
@@ -113,6 +116,7 @@
 		</bitmap-texture4>
 	</sand>
 	<snow inherits="default">
+		<objectsnowheight type="float">10.0</objectsnowheight>
 		<bitmap-cloud type="file">
 			data/textures/landscape/snow/cloud1.bmp
 		</bitmap-cloud>
@@ -145,6 +149,8 @@
 		</bitmap-texture4>
 	</snow>
 	<tropical inherits="default">
+		<objects type="string">palm</objects>
+		<objectsnowheight type="float">100.0</objectsnowheight>
 		<bitmap-cloud type="file">
 			data/textures/landscape/tropical/cloud1.bmp
 		</bitmap-cloud>
@@ -210,6 +216,7 @@
 		</bitmap-texture4>
 	</vulcano>
 	<storm inherits="default">
+		<objectsnowheight type="float">20.0</objectsnowheight>
 		<bitmap-cloud type="file">
 			data/textures/landscape/storm/cloud1.bmp
 		</bitmap-cloud>

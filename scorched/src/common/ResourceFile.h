@@ -37,6 +37,7 @@ public:
 
 	Vector *getVectorResource(const char *name);
 	const char *getStringResource(const char *name);
+	float getFloatResource(const char *name);
 
 protected:
 	struct ResourceModule

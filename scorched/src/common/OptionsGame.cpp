@@ -120,12 +120,20 @@ OptionsGame::~OptionsGame()
 	
 }
 
-std::list<OptionEntry *> &OptionsGame::getOptions()
+std::list<OptionEntry *> &OptionsGameWrapper::getOptions()
 {
 	return options_;
 }
 
-bool OptionsGame::writeToBuffer(NetBuffer &buffer)
+OptionsGameWrapper::OptionsGameWrapper()
+{
+}
+
+OptionsGameWrapper::~OptionsGameWrapper()
+{
+}
+
+bool OptionsGameWrapper::writeToBuffer(NetBuffer &buffer)
 {
         std::list<OptionEntry *> saveOptions;
         std::list<OptionEntry *>::iterator itor;
@@ -144,7 +152,7 @@ bool OptionsGame::writeToBuffer(NetBuffer &buffer)
 	return true;
 }
 
-bool OptionsGame::readFromBuffer(NetBufferReader &reader)
+bool OptionsGameWrapper::readFromBuffer(NetBufferReader &reader)
 {
         std::list<OptionEntry *> saveOptions;
         std::list<OptionEntry *>::iterator itor;
@@ -163,7 +171,7 @@ bool OptionsGame::readFromBuffer(NetBufferReader &reader)
 	return true;
 }
 
-bool OptionsGame::writeOptionsToFile(char *filePath)
+bool OptionsGameWrapper::writeOptionsToFile(char *filePath)
 {
 	std::list<OptionEntry *> saveOptions = 
 		playerTypeOptions_; // Note: The players are also saved
@@ -180,7 +188,7 @@ bool OptionsGame::writeOptionsToFile(char *filePath)
 	return true;
 }
 
-bool OptionsGame::readOptionsFromFile(char *filePath)
+bool OptionsGameWrapper::readOptionsFromFile(char *filePath)
 {
 	std::list<OptionEntry *> saveOptions = 
 		playerTypeOptions_; // Note: The players are also saved
@@ -197,3 +205,6 @@ bool OptionsGame::readOptionsFromFile(char *filePath)
 	return true;
 }
 
+void OptionsGameWrapper::commitChanges()
+{
+}

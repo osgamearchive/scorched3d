@@ -26,6 +26,8 @@
 #include <common/OptionsTransient.h>
 #include <common/Defines.h>
 #include <coms/NetInterface.h>
+#include <wx/wx.h>
+#include <wx/utils.h>
 
 ServerBrowserInfo *ServerBrowserInfo::instance_ = 0;
 
@@ -112,6 +114,7 @@ void ServerBrowserInfo::processStatusMessage(char *buffer)
 	sprintf(type, "%s (%s)", 
 		ScorchedServer::instance()->getOptionsTransient().getGameType(),
 		((ScorchedServer::instance()->getOptionsGame().getTeams() > 1)?"Teams":"No Teams"));
+	wxString osDesc = ::wxGetOsDescription();
 
 	strcpy(buffer, "<status ");
 	addTag(buffer, "gametype", type);
@@ -123,6 +126,7 @@ void ServerBrowserInfo::processStatusMessage(char *buffer)
 	addTag(buffer, "password", ScorchedServer::instance()->getOptionsGame().getServerPassword()[0]?"On":"Off");
 	addTag(buffer, "noplayers", players);
 	addTag(buffer, "maxplayers", maxplayers);
+	addTag(buffer, "os", osDesc.c_str());
 	strcat(buffer, "/>");
 }
 

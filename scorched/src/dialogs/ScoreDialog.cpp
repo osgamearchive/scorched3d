@@ -154,7 +154,7 @@ void ScoreDialog::draw()
 			white,
 			12,
 			x_ + 6.0f, y_ + h_ - y - lineSpacer - 22.0f, 0.0f,
-			"   %-24s%5s%10s%10s",
+			"   %-24s%5s%10s%8s",
 			"Name",
 			"Kills",
 			"Money",
@@ -276,7 +276,7 @@ void ScoreDialog::addScoreLine(float y, int kills, int money, int wins)
 	float textY  = y_ + h_ - y - lineSpacer - 30.0f;
 	Vector white(0.8f, 0.8f, 0.8f);
 
-	char *format = "%32i%10i $%8i";
+	char *format = "%32i%10i $%6i";
 
 	// Print the name on the screen
 	GLWFont::instance()->getFont()->draw(
@@ -320,21 +320,34 @@ void ScoreDialog::addLine(Tank *current, float y, char *rank)
 	}
 	name[26] = '\0'; // Limit length
 
-	const char *format = "%-3s%-27s%2i%10i $%8i";
 	if (current->getState().getSpectator())
 	{
-		format = "%-3s%-27s";
+		// Print the name on the screen
+		GLWFont::instance()->getFont()->draw(
+			current->getColor(),
+			12,
+			textX, textY, 0.0f,
+			"%-3s%-27s%2s%10s  %6s%2s",
+			"",
+			name,
+			"",
+			"",
+			"",
+			((current->getState().getReadyState() == TankState::SNotReady)?"*":" "));
 	}
-
-	// Print the name on the screen
-	GLWFont::instance()->getFont()->draw(
-		current->getColor(),
-		12,
-		textX, textY, 0.0f,
-		format,
-		rank,
-		name,
-		current->getScore().getKills(),
-		current->getScore().getMoney(),
-		current->getScore().getWins());
+	else
+	{
+		// Print the name on the screen
+		GLWFont::instance()->getFont()->draw(
+			current->getColor(),
+			12,
+			textX, textY, 0.0f,
+			"%-3s%-27s%2i%10i $%6i%2s",
+			rank,
+			name,
+			current->getScore().getKills(),
+			current->getScore().getMoney(),
+			current->getScore().getWins(),
+			((current->getState().getReadyState() == TankState::SNotReady)?"*":" "));
+	}
 }
