@@ -21,16 +21,19 @@
 #include <weapons/Weapon.h>
 #include <engine/GameState.h>
 #include <client/ClientState.h>
+#include <client/ClientSave.h>
 #include <client/ScorchedClient.h>
 #include <tankai/TankAIHuman.h>
 #include <tankgraph/TankMenus.h>
 #include <tankgraph/TankModelRenderer.h>
 #include <common/WindowManager.h>
+#include <common/OptionsParam.h>
 #include <coms/ComsMessageSender.h>
 #include <coms/ComsTextMessage.h>
 #include <landscape/Landscape.h>
 #include <dialogs/MainMenuDialog.h>
 #include <dialogs/QuitDialog.h>
+#include <dialogs/KillDialog.h>
 #include <GLEXT/GLConsoleRuleFnIAdapter.h>
 
 TankMenus::TankMenus() : logger_("ClientLog")
@@ -127,6 +130,17 @@ TankMenus::PlayerMenu::PlayerMenu()
 	MainMenuDialog::instance()->addMenuItem("Player", 
 		GLMenuItem("Exit Game",
 		new GLWTip("Exit Game", "Stop Playing Scorched.")));
+	if (!OptionsParam::instance()->getConnectedToServer())
+	{
+		MainMenuDialog::instance()->addMenuItem("Player",
+			GLMenuItem("Mass Tank Kill",
+			new GLWTip("Mass Tank Kill",
+				"Kill all tanks.\nStarts the next round.")));
+		/*MainMenuDialog::instance()->addMenuItem("Player",
+			GLMenuItem("Save Game",
+			new GLWTip("Save Game",
+				"Save the current game and.\ncontinue playing.")));*/
+	}
 }
 
 void TankMenus::PlayerMenu::menuSelection(const char* menuName, 
@@ -149,6 +163,13 @@ void TankMenus::PlayerMenu::menuSelection(const char* menuName,
 			case 2:
 				WindowManager::instance()->showWindow(
 					QuitDialog::instance()->getId());
+				break;
+			case 3:
+				WindowManager::instance()->showWindow(
+					KillDialog::instance()->getId());
+				break;
+			case 4:
+				saveClient();
 				break;
 			}
 		}

@@ -101,6 +101,8 @@ scorched3d_SOURCES = \
 	../GLW/GLWProgress.h \
 	../GLW/GLWPushButton.cpp \
 	../GLW/GLWPushButton.h \
+	../GLW/GLWScorchedInfo.cpp \
+	../GLW/GLWScorchedInfo.h \
 	../GLW/GLWScrollButton.cpp \
 	../GLW/GLWScrollButton.h \
 	../GLW/GLWScrollPanel.cpp \
@@ -749,6 +751,8 @@ scorched3d_SOURCES = \
 	../client/ClientReadyState.h \
 	../client/ClientRmPlayerHandler.cpp \
 	../client/ClientRmPlayerHandler.h \
+	../client/ClientSave.cpp \
+	../client/ClientSave.h \
 	../client/ClientScoreHandler.cpp \
 	../client/ClientScoreHandler.h \
 	../client/ClientShotState.cpp \

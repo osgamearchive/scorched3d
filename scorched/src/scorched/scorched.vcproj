@@ -416,6 +416,12 @@
 				RelativePath="..\GLW\GLWPushButton.h">
 			</File>
 			<File
+				RelativePath="..\GLW\GLWScorchedInfo.cpp">
+			</File>
+			<File
+				RelativePath="..\GLW\GLWScorchedInfo.h">
+			</File>
+			<File
 				RelativePath="..\GLW\GLWScrollButton.cpp">
 			</File>
 			<File
@@ -2441,6 +2447,12 @@
 			</File>
 			<File
 				RelativePath="..\client\ClientRmPlayerHandler.h">
+			</File>
+			<File
+				RelativePath="..\client\ClientSave.cpp">
+			</File>
+			<File
+				RelativePath="..\client\ClientSave.h">
 			</File>
 			<File
 				RelativePath="..\client\ClientScoreHandler.cpp">
