@@ -1,0 +1,134 @@
+////////////////////////////////////////////////////////////////////////////////
+//    Scorched3D (c) 2000-2003
+//
+//    This file is part of Scorched3D.
+//
+//    Scorched3D is free software; you can redistribute it and/or modify
+//    it under the terms of the GNU General Public License as published by
+//    the Free Software Foundation; either version 2 of the License, or
+//    (at your option) any later version.
+//
+//    Scorched3D is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//    GNU General Public License for more details.
+//
+//    You should have received a copy of the GNU General Public License
+//    along with Scorched3D; if not, write to the Free Software
+//    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+////////////////////////////////////////////////////////////////////////////////
+
+#include <sprites/ExplosionLaserBeamRenderer.h>
+#include <common/Defines.h>
+#include <GLEXT/GLConsole.h>
+#include <GLEXT/GLBitmap.h>
+
+
+
+ExplosionLaserBeamRenderer::ExplosionLaserBeamRenderer(void)
+{
+}
+
+ExplosionLaserBeamRenderer::~ExplosionLaserBeamRenderer(void)
+{
+}
+
+ExplosionLaserBeamRenderer::ExplosionLaserBeamRenderer(Vector &position, float size):
+totalTime_(0), time_(0), size_(size), position_(position), angle_(0)
+{
+	for (int j=0;j<layers;j++){
+		for(int i=0;i<sides;i++){
+			points[j][i]=Vector((float)(360/sides)*i,(double)((size_/(layers+1))*(j+1)));
+		}
+	}
+	_texture = 0;
+	
+	GLBitmap map( PKGDIR "data/textures/bordershield/grid2.bmp", 
+			 PKGDIR "data/textures/bordershield/grid2.bmp", true);
+	_texture = new GLTexture;
+	_texture->create(map, GL_RGBA, true);
+	//GLConsole::instance()->addLine(false, "Size=%f", size_);
+
+
+
+
+}
+
+void ExplosionLaserBeamRenderer::draw(Action *action)
+{
+	
+	glPushMatrix();	
+	glTranslatef(position_[0],position_[1],0.0f);
+	glScalef((GLfloat)time_*0.05,time_*0.05,1.0f);
+	
+	for (int j=0;j<layers;j++){
+		glRotatef(angle_,0.0f,0.0f,1.0f);
+		glBegin(GL_TRIANGLE_STRIP);
+		int tempheight=(int)(time_*time_*time_);
+		if (tempheight>100) tempheight=100;
+		Vector height(0,0,tempheight);
+
+		for (int i=0;i<(sides+1);i++){
+			
+		_texture->draw();
+		//GLState currentState(GLState::TEXTURE_ON);
+
+			glColor4f((GLfloat)1.0f,(1/sides)*i,0.0f, 0.5f);
+			
+			glNormal3fv ((float*)(points[j][i%sides]));
+			if (i%2){
+				glTexCoord2f(0.0f, 0.0f);
+			}else{
+				glTexCoord2f(1.0f, 0.0f);
+			}
+			glVertex3fv((float*)(points[j][i%sides]));
+			glNormal3fv ((float*)(points[j][i%sides]));
+			if (i%2){
+				glTexCoord2f(0.0f, (float)(tempheight/10));
+			}else{
+				glTexCoord2f(1.0f, (float)(tempheight/10));
+			}
+			glVertex3fv((float*)(points[j][i%sides]+height));
+		}
+		for (int i=0;i<(sides+1);i++){
+			
+			_texture->draw();
+			glColor4f(0.0f,0.0f,0.8f, 0.5f);
+			glNormal3fv ((float*)(points[j][i%sides]));
+			if (i%2){
+				glTexCoord2f(0.0f, 0.0f);
+			}else{
+				glTexCoord2f(1.0f, 0.0f);
+			}
+			glVertex3fv((float*)(points[j][i%sides]+height));
+			glNormal3fv ((float*)(points[j][i%sides]));
+			if (i%2){
+				glTexCoord2f(0.0f, (float)(tempheight/10));
+			}else{
+				glTexCoord2f(1.0f, (float)(tempheight/10));
+			}
+			glVertex3fv((float*)(points[j][i%sides]));
+		}
+		
+		glEnd();
+	}
+	glPopMatrix();
+	
+}
+void ExplosionLaserBeamRenderer::simulate(Action *action, float frameTime, bool &remove)
+{
+	totalTime_ += frameTime;
+	time_ += frameTime;
+	angle_=(angle_+3.0f);
+	if (angle_>360.0f){
+		angle_=0.0f;
+	}
+	if ((time_)>size_){
+		remove=true;
+	}else{
+		remove=false;
+	}
+
+		
+}
+
