@@ -23,6 +23,9 @@
 #if !defined(__INCLUDE_StatsLoggerMySQLh_INCLUDE__)
 #define __INCLUDE_StatsLoggerMySQLh_INCLUDE__
 
+#if defined(_WIN32)
+#include <Winsock2.h>
+#endif
 #include <common/StatsLogger.h>
 #include <mysql/mysql.h>
 #include <string>

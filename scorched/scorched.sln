@@ -9,6 +9,7 @@ Global
 	GlobalSection(SolutionConfiguration) = preSolution
 		ConfigName.0 = Debug
 		ConfigName.1 = Release
+		ConfigName.2 = Release - MySql
 	EndGlobalSection
 	GlobalSection(ProjectDependencies) = postSolution
 	EndGlobalSection
@@ -17,10 +18,14 @@ Global
 		{EB4F3DB9-D924-4469-B69C-C8BB62FEEC7A}.Debug.Build.0 = Debug|Win32
 		{EB4F3DB9-D924-4469-B69C-C8BB62FEEC7A}.Release.ActiveCfg = Release|Win32
 		{EB4F3DB9-D924-4469-B69C-C8BB62FEEC7A}.Release.Build.0 = Release|Win32
+		{EB4F3DB9-D924-4469-B69C-C8BB62FEEC7A}.Release - MySql.ActiveCfg = Release - MySql|Win32
+		{EB4F3DB9-D924-4469-B69C-C8BB62FEEC7A}.Release - MySql.Build.0 = Release - MySql|Win32
 		{B9B5E9FF-3641-4A90-AA46-C9E5AFA335CB}.Debug.ActiveCfg = Debug|Win32
 		{B9B5E9FF-3641-4A90-AA46-C9E5AFA335CB}.Release.ActiveCfg = Release|Win32
+		{B9B5E9FF-3641-4A90-AA46-C9E5AFA335CB}.Release - MySql.ActiveCfg = Release - MySql|Win32
 		{4A9591BB-38BF-4019-B58A-CC2FABE1A03C}.Debug.ActiveCfg = Debug
 		{4A9591BB-38BF-4019-B58A-CC2FABE1A03C}.Release.ActiveCfg = Release
+		{4A9591BB-38BF-4019-B58A-CC2FABE1A03C}.Release - MySql.ActiveCfg = Release - MySql
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 	EndGlobalSection
