@@ -55,16 +55,17 @@ public:
 	WaterEntry &getNearestWaterPoint(Vector &point);
 	int getWidth() { return width_; }
 	float getWidthMult() { return widthMult_; }
-	float getHeight() { return height_; }
 	bool &getDrawNormals() { return drawNormals_; }
 	bool &getDrawVisiblePoints() { return drawVisiblePoints_; }
+	GLTextureBase *&getWaterTexture() { return waterTexture_; }
+	GLTexture &getWaterDetail() { return waterDetail_; }
+
 	void reset();
 
 protected:
 	int width_;
 	int squareSize_;
 	int noVisiblesWidth_;
-	float height_;
 	float widthMult_;
 	WaterMapSurround surround_;
 	struct VisibleEntry
@@ -75,6 +76,8 @@ protected:
 
 	bool drawNormals_;
 	bool drawVisiblePoints_;
+	GLTextureBase *waterTexture_;
+	GLTexture waterDetail_;
 
 	WaterEntry &getEntry(int i, int j) { return heights_[i + j * width_]; }
 	void generateSplash();

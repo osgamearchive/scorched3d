@@ -128,7 +128,8 @@ float TargetCamera::heightFunc(int x, int y, void *data)
 			instance->mainCam_.getLookAt()).Magnitude() < 5.0f) return 0.0f;
 	}
 
-	const float heightMin = 5.0f;
+	const float heightMin = (Landscape::instance()->getWater().getWaterOn()?
+		Landscape::instance()->getWater().getWaterHeight():0.0f);
 	float addition = 5.0f;
 
 	float h = 0;

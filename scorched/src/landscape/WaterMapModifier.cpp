@@ -20,9 +20,11 @@
 
 #include <landscape/WaterMapModifier.h>
 
-void WaterMapModifier::addWaterVisibility(HeightMap &hMap,
-										WaterMap &wMap,
-										ProgressCounter *counter)
+void WaterMapModifier::addWaterVisibility(
+	float waterHeight,
+	HeightMap &hMap,
+	WaterMap &wMap,
+	ProgressCounter *counter)
 {
 	if (counter) counter->setNewOp("Water Visibility");
 
@@ -39,7 +41,7 @@ void WaterMapModifier::addWaterVisibility(HeightMap &hMap,
 				posX < hMap.getWidth() && posY < hMap.getWidth())
 			{
 				float height = hMap.getHeight(posX, posY);
-				if (height > wMap.getHeight() + 3.0f)
+				if (height > waterHeight + 3.0f)
 				{
 					currentEntry->dontDraw = true;
 				}
@@ -48,13 +50,13 @@ void WaterMapModifier::addWaterVisibility(HeightMap &hMap,
 					currentEntry->dontDraw = false;
 				}
 
-				if (height > wMap.getHeight())
+				if (height > waterHeight)
 				{
 					currentEntry->depth = 0.0f;
 				}
 				else
 				{
-					currentEntry->depth = 1.0f - height / wMap.getHeight();
+					currentEntry->depth = 1.0f - height / waterHeight;
 				}
 			}
 			else

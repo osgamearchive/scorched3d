@@ -70,7 +70,9 @@ void LandscapeMaps::generateHMap(LandscapeDefinition *hdef,
 		{
 			HeightMapLoader::loadTerrain(
 				getHMap(),
-				bitmap, counter);
+				bitmap, 
+				file->levelsurround,
+				counter);
 		}
 	}
 	else if (0 == strcmp(hdef->getDefn()->heightmaptype.c_str(), "generate"))

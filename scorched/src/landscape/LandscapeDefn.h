@@ -50,6 +50,7 @@ class LandscapeDefnHeightMapFile : public LandscapeDefnType
 {
 public:
 	std::string file;
+	bool levelsurround;
 
 	virtual bool writeMessage(NetBuffer &buffer);
 	virtual bool readMessage(NetBufferReader &reader);

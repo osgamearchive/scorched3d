@@ -317,7 +317,8 @@ void ParticleEmitter::emitNapalm(
 void ParticleEmitter::emitSpray(
 	Vector &position,
 	ParticleEngine &engine,
-	float width)
+	float width,
+	GLTexture *texture)
 {
 	for (int i=0; i<6 + int(width) * 2; i++)
 	{
@@ -337,14 +338,7 @@ void ParticleEmitter::emitSpray(
 		velocity[1] = (y * RAND) / 10.0f;
 		velocity[2] = 25.0f * RAND + 15.0f;
 
-		if (position[2] < 5.0f)
-		{
-			particle->texture_ = &Landscape::instance()->getLandscapeTextureWater();
-		}
-		else
-		{
-			particle->texture_ = &Landscape::instance()->getLandscapeTexture1();
-		}
+		particle->texture_ = texture;
 		particle->velocity_ = velocity;
 		particle->position_ = pos;
 		particle->renderer_ = ParticleRendererQuads::getInstance();

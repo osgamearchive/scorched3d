@@ -77,40 +77,13 @@ void Explosion::init()
 			position_[0], position_[1]);
 		float aboveGround = position_[2] - height;
 
-		ParticleEmitter sprayemitter;
-		sprayemitter.setAttributes(
-			3.0f, 4.0f, // Life
-			0.5f, 1.0f, // Mass
-			0.01f, 0.02f, // Friction
-			Vector(0.0f, 0.0f, 0.0f), Vector(0.0f, 0.0f, 0.0f), // Velocity
-			Vector(0.9f, 0.9f, 0.9f), 0.5f, // StartColor1
-			Vector(1.0f, 1.0f, 1.0f), 0.7f, // StartColor2
-			Vector(0.9f, 0.9f, 0.9f), 0.0f, // EndColor1
-			Vector(1.0f, 1.0f, 1.0f), 0.1f, // EndColor2
-			3.0f, 3.0f, 4.0f, 4.0f, // Start Size
-			3.0f, 3.0f, 4.0f, 4.0f, // EndSize
-			Vector(0.0f, 0.0f, -800.0f), // Gravity
-			false,
-			true);
-
 		// If there is a weapon play a splash sound when in water
+		bool waterSplash = false;
 		if (weapon_->getCreateSplash())
 		{
-			if (position_[2] < 5.0f)
-			{
-				float mult = Landscape::instance()->getWater().getWidthMult();
-				int posX = int((position_[0] + 64.0f) / mult);
-				int posY = int((position_[1] + 64.0f) / mult);
-
-				Landscape::instance()->getWater().addWave(posX, posY, 5.0f);
-
-				CACHE_SOUND(sound, (char *) getDataFile("data/wav/misc/splash.wav"));
-				sound->play();
-
-				sprayemitter.emitSpray(position_, 
-					ScorchedClient::instance()->getParticleEngine(),
-					weapon_->getSize() - 2.0f);
-			}
+			waterSplash = 
+				Landscape::instance()->getWater().explosion(
+					position_, weapon_->getSize());
 		}
 
 		// Create particles from the center of the explosion
@@ -118,12 +91,28 @@ void Explosion::init()
 		if (weapon_->getCreateDebris())
 		{
 			// If we are below the ground create the spray of dirt (or water)
-			if (aboveGround < 1.0f &&
-				position_[2] >= 5.0f)
+			if (aboveGround < 1.0f && !waterSplash)
 			{
+				ParticleEmitter sprayemitter;
+				sprayemitter.setAttributes(
+					3.0f, 4.0f, // Life
+					0.5f, 1.0f, // Mass
+					0.01f, 0.02f, // Friction
+					Vector(0.0f, 0.0f, 0.0f), Vector(0.0f, 0.0f, 0.0f), // Velocity
+					Vector(0.9f, 0.9f, 0.9f), 0.5f, // StartColor1
+					Vector(1.0f, 1.0f, 1.0f), 0.7f, // StartColor2
+					Vector(0.9f, 0.9f, 0.9f), 0.0f, // EndColor1
+					Vector(1.0f, 1.0f, 1.0f), 0.1f, // EndColor2
+					3.0f, 3.0f, 4.0f, 4.0f, // Start Size
+					3.0f, 3.0f, 4.0f, 4.0f, // EndSize
+					Vector(0.0f, 0.0f, -800.0f), // Gravity
+					false,
+					true);
+
 				sprayemitter.emitSpray(position_, 
 					ScorchedClient::instance()->getParticleEngine(),
-					weapon_->getSize() - 2.0f);
+					weapon_->getSize() - 2.0f,
+					&Landscape::instance()->getLandscapeTexture1());
 			}
 
 			ParticleEmitter emitter;

@@ -43,7 +43,6 @@ protected:
 		WaterMap::WaterEntry *entry;
 	} *pts_;
 	int noPts_;
-	float height_;
 
 	void createPoints(WaterMap &map, int width, int points);
 	void findPoint(WaterMap &map, Position *pos, float x, float y);

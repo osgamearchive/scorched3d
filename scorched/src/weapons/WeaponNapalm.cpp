@@ -86,10 +86,6 @@ void WeaponNapalm::fireWeapon(ScorchedContext &context,
 	{
 		int x = int(position[0] + RAND * 4.0f - 2.0f);
 		int y = int(position[1] + RAND * 4.0f - 2.0f);
-		if (context.landscapeMaps->getHMap().getHeight(x, y) > 5.0f)
-		{
-			playSound = true;
-		}
 		addNapalm(context, playerId, x, y);
 	}
 

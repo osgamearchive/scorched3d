@@ -105,7 +105,8 @@ public:
 	void emitSpray(
 		Vector &position,
 		ParticleEngine &engine,
-		float width);
+		float width,
+		GLTexture *texture);
 	void emitTalk(
 		Vector &position,
 		ParticleEngine &engine);

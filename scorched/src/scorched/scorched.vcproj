@@ -1560,6 +1560,12 @@
 				RelativePath="..\landscape\Wall.h">
 			</File>
 			<File
+				RelativePath="..\landscape\Water.cpp">
+			</File>
+			<File
+				RelativePath="..\landscape\Water.h">
+			</File>
+			<File
 				RelativePath="..\landscape\WaterMap.cpp">
 			</File>
 			<File
@@ -1756,6 +1762,12 @@
 				RelativePath="..\weapons\WeaponRedirect.h">
 			</File>
 			<File
+				RelativePath="..\weapons\WeaponReference.cpp">
+			</File>
+			<File
+				RelativePath="..\weapons\WeaponReference.h">
+			</File>
+			<File
 				RelativePath="..\weapons\WeaponRoller.cpp">
 			</File>
 			<File
@@ -1772,12 +1784,6 @@
 			</File>
 			<File
 				RelativePath="..\weapons\WeaponVelocity.h">
-			</File>
-			<File
-				RelativePath="..\weapons\WeaponReference.cpp">
-			</File>
-			<File
-				RelativePath="..\weapons\WeaponReference.h">
 			</File>
 		</Filter>
 		<Filter

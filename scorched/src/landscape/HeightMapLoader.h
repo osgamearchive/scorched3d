@@ -27,7 +27,10 @@
 
 namespace HeightMapLoader
 {
-	void loadTerrain(HeightMap &hmap, GLBitmap &bitmap, ProgressCounter *counter= 0);
+	void loadTerrain(HeightMap &hmap, 
+		GLBitmap &bitmap, 
+		bool levelSurround,
+		ProgressCounter *counter= 0);
 	void saveTerrain(HeightMap &hmap, GLBitmap &bitmap);
 };
 

@@ -40,7 +40,10 @@ void HeightMapLoader::saveTerrain(HeightMap &hmap, GLBitmap &bitmap)
 	}
 }
 
-void HeightMapLoader::loadTerrain(HeightMap &hmap, GLBitmap &bitmap, ProgressCounter *counter)
+void HeightMapLoader::loadTerrain(HeightMap &hmap, 
+	GLBitmap &bitmap, 
+	bool levelSurround,
+	ProgressCounter *counter)
 {
 	if (counter) counter->setNewOp("Loading Landscape");
 	hmap.reset();
@@ -86,6 +89,6 @@ void HeightMapLoader::loadTerrain(HeightMap &hmap, GLBitmap &bitmap, ProgressCou
 		}
 	}
 
-	HeightMapModifier::levelSurround(hmap);
+	if (levelSurround) HeightMapModifier::levelSurround(hmap);
 	hmap.generateNormals(0, hmap.getWidth(), 0, hmap.getWidth(), counter);
 }

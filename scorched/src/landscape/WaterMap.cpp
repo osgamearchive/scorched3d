@@ -34,12 +34,13 @@
 #define CALC_FORCE_ENTRY_SQ(x) f = (currentEntry->height - x.height) \
 	* SQRT_OF_TWO_INV; currentEntry->force -= f; x.force += f;
 
-WaterMap::WaterMap(int width, int squareSize, int texSize) : 
+WaterMap::WaterMap(
+	int width, int squareSize, int texSize) : 
 	width_(width), squareSize_(squareSize),
 	heights_(0), widthMult_(6),
-	height_(5.0f),
 	drawNormals_(false), drawVisiblePoints_(false),
-	surround_(width, (int) widthMult_, 5.0f)
+	surround_(width, (int) widthMult_),
+	waterTexture_(0)
 {
 	// Create water entry structs
 	heights_ = new WaterEntry[width_ * width_];
@@ -57,7 +58,7 @@ WaterMap::WaterMap(int width, int squareSize, int texSize) :
 		float yPoint = -64 + (widthMult_ * (y+1) * squareSize_) - (widthMult_ * squareSize_ / 2);
 
 		visible_[x + y * noVisiblesWidth_].notVisible = false;
-		visible_[x + y * noVisiblesWidth_].pos = Vector(xPoint, yPoint, height_);
+		visible_[x + y * noVisiblesWidth_].pos = Vector(xPoint, yPoint, 0.0f);
 	}
 
 	// Set the visiblity flags in the water entry structs to point
@@ -103,7 +104,7 @@ WaterMap::WaterEntry &WaterMap::getNearestWaterPoint(Vector &point)
 		float pointX = -64.0f;
 		for (int i=0; i<width_; i++)
 		{
-			Vector pt(pointX, pointY, currentEntry->height + height_);
+			Vector pt(pointX, pointY, currentEntry->height);
 			float currentDist = (pt-point).Magnitude();
 			if(currentDist < dist)
 			{
@@ -135,7 +136,7 @@ void WaterMap::draw()
 			GLStateExtension::glActiveTextureARB()(GL_TEXTURE1_ARB);
 			glEnable(GL_TEXTURE_2D);
 
-			Landscape::instance()->getWaterDetail().draw(true);
+			waterDetail_.draw(true);
 
 			GLStateExtension::glActiveTextureARB()(GL_TEXTURE0_ARB);
 		}
@@ -143,7 +144,7 @@ void WaterMap::draw()
 		if (OptionsDisplay::instance()->getNoGLSphereMap())
 		{
 			GLState currentState(GLState::TEXTURE_ON | GLState::BLEND_ON);
-			Landscape::instance()->getWaterTexture().draw();
+			waterTexture_->draw();
 
 			// Set up texture coordinate generation for reflections
 			float PlaneS[] = { 0.0f, 1.0f / 20.0f, 0.0f, 0.0f };
@@ -179,7 +180,7 @@ void WaterMap::draw()
 		else
 		{
 			GLState currentState(GLState::TEXTURE_ON | GLState::BLEND_ON);
-			Landscape::instance()->getWaterTexture().draw();
+			waterTexture_->draw();
 
 			glEnable(GL_TEXTURE_GEN_S); 
 			glEnable(GL_TEXTURE_GEN_T);
@@ -245,7 +246,7 @@ void WaterMap::drawNormals()
 		float pointX = -64.0f;
 			for (int i=0; i<width_; i++)
 			{
-				Vector pt(pointX, pointY, currentEntry->height + height_);
+				Vector pt(pointX, pointY, currentEntry->height);
 				glVertex3fv(pt);
 				Vector normal(
 					currentEntry->normal[2], 
@@ -274,27 +275,27 @@ void WaterMap::drawWater()
 				GLStateExtension::glMultiTextCoord2fARB()
 					(GL_TEXTURE1_ARB, 0.0f, 0.0f); 
 			}
-			glVertex3f(-64.0f, -64.0f, height_);
+			glVertex3f(-64.0f, -64.0f, 0.0f);
 			if (GLStateExtension::glMultiTextCoord2fARB()) 
 			{
 				GLStateExtension::glMultiTextCoord2fARB()
 					(GL_TEXTURE1_ARB, 32.0f, 0.0f); 
 			}
 			glVertex3f(-64.0f + widthMult_ * (width_ - 1), 
-				-64.0f, height_);
+				-64.0f, 0.0f);
 			if (GLStateExtension::glMultiTextCoord2fARB()) 
 			{
 				GLStateExtension::glMultiTextCoord2fARB()
 					(GL_TEXTURE1_ARB, 32.0f, 32.0f); 
 			}
 			glVertex3f(-64.0f + widthMult_ * (width_ - 1), 
-				-64.0f + widthMult_ * (width_ - 1), height_);
+				-64.0f + widthMult_ * (width_ - 1), 0.0f);
 				if (GLStateExtension::glMultiTextCoord2fARB()) 
 			{
 				GLStateExtension::glMultiTextCoord2fARB()
 					(GL_TEXTURE1_ARB, 0.0f, 32.0f); 
 			}
-			glVertex3f(-64.0f, -64.0f + widthMult_ * (width_ - 1), height_);
+			glVertex3f(-64.0f, -64.0f + widthMult_ * (width_ - 1), 0.0f);
 		glEnd();
 		return;
 	}
@@ -323,26 +324,26 @@ void WaterMap::drawWater()
 				{
 					if (!glbegin) { glBegin(GL_QUAD_STRIP); glbegin = true; };
 
-					float otherHeight = otherEntry->height + height_;
-					float height = currentEntry->height + height_;
+					float otherHeight = otherEntry->height + 0.0f;
+					float height = currentEntry->height + 0.0f;
 
 					// Make the heights at the side of water
 					// The actual side height
 					if (i==0 || i==width_-1)
 					{
-						otherHeight = height_;
-						height = height_;
+						otherHeight = 0.0f;
+						height = 0.0f;
 					}
-					if (j==0) height = height_;
-					else if (j==width_ -2) otherHeight = height_;
+					if (j==0) height = 0.0f;
+					else if (j==width_ -2) otherHeight = 0.0f;
 
 					if (otherEntry->depth < 0.2f) 
 					{
-						otherHeight = height_;
+						otherHeight = 0.0f;
 					}
 					if (currentEntry->depth < 0.2f)
 					{
-						height = height_;
+						height = 0.0f;
 					}
 
 					// Make the shallows a lighter color

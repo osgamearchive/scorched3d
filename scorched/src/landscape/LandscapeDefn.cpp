@@ -85,18 +85,22 @@ bool LandscapeDefnStartHeight::readXML(XMLNode *node)
 bool LandscapeDefnHeightMapFile::writeMessage(NetBuffer &buffer)
 {
 	buffer.addToBuffer(file);
+	buffer.addToBuffer(levelsurround);
 	return true;
 }
 
 bool LandscapeDefnHeightMapFile::readMessage(NetBufferReader &reader)
 {
 	if (!reader.getFromBuffer(file)) return false;
+	if (!reader.getFromBuffer(levelsurround)) return false;
 	return true;
 }
 
 bool LandscapeDefnHeightMapFile::readXML(XMLNode *node)
 {
 	if (!node->getNamedChild("file", file)) return false;
+	if (!node->getNamedChild("levelsurround", levelsurround)) return false;
+	if (!checkDataFile(file.c_str())) return false;
 	return node->failChildren();
 }
 

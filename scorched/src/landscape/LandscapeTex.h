@@ -35,6 +35,14 @@ public:
 	virtual bool readXML(XMLNode *node) = 0;
 };
 
+class LandscapeTexTypeNone : public LandscapeTexType
+{
+public:
+	virtual bool writeMessage(NetBuffer &buffer);
+	virtual bool readMessage(NetBufferReader &reader);
+	virtual bool readXML(XMLNode *node);
+};
+
 class LandscapeTexObjectsModel : public LandscapeTexType
 {
 public:
@@ -81,6 +89,7 @@ public:
 	std::string texture;
 	std::string wavetexture1;
 	std::string wavetexture2;
+	float height;
 
 	virtual bool writeMessage(NetBuffer &buffer);
 	virtual bool readMessage(NetBufferReader &reader);

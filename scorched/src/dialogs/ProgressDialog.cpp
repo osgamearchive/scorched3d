@@ -73,6 +73,7 @@ void ProgressDialog::changeTip()
 		*nl = '\0';
 		tip1_ = tip;
 		tip2_ = nl + 1;
+		*nl = '\:';
 	}
 	else
 	{

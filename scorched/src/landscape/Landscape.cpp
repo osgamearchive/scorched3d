@@ -24,7 +24,6 @@
 #include <landscape/LandscapeDefinition.h>
 #include <landscape/ShadowMap.h>
 #include <landscape/InfoMap.h>
-#include <landscape/WaterMapModifier.h>
 #include <landscape/HeightMapRenderer.h>
 #include <GLEXT/GLBitmapModifier.h>
 #include <GLEXT/GLStateExtension.h>
@@ -48,12 +47,11 @@ Landscape *Landscape::instance()
 }
 
 Landscape::Landscape() : 
-	wMap_(64, 8, 256), patchGrid_(&ScorchedClient::instance()->getLandscapeMaps().getHMap(), 16), 
-	wMapPoints_(wMap_, 256, 4),
+	patchGrid_(&ScorchedClient::instance()->getLandscapeMaps().getHMap(), 16), 
 	surroundDefs_(ScorchedClient::instance()->getLandscapeMaps().getHMap(), 1524, 256), 
 	surround_(surroundDefs_),
 	hMapSurround_(surroundDefs_),
-	resetWater_(false), resetWaterTimer_(0.0f), waterTexture_(0),
+	resetLandscape_(false), resetLandscapeTimer_(0.0f), 
 	textureType_(eDefault),
 	changeCount_(1)
 {
@@ -67,45 +65,40 @@ Landscape::~Landscape()
 
 void Landscape::simulate(const unsigned state, float frameTime)
 {
-	float speedMult = ScorchedClient::instance()->getActionController().getFast();
-	if (OptionsDisplay::instance()->getDrawWater())
+	if (resetLandscape_)
 	{
-		wMap_.simulate(frameTime * speedMult);
-		if (resetWater_)
+		resetLandscapeTimer_ -= frameTime;
+		if (resetLandscapeTimer_ < 0.0f)
 		{
-			resetWaterTimer_ -= frameTime;
-			if (resetWaterTimer_ < 0.0f)
-			{
-				// Re-calculate the water (what water is visible)
-				WaterMapModifier::addWaterVisibility(
-					ScorchedClient::instance()->getLandscapeMaps().getHMap(), wMap_);
+			// Update the plan texture
+			updatePlanATexture();
+			updatePlanTexture();
 
-				// Update the plan texture
-				updatePlanATexture();
-				updatePlanTexture();
-
-				// Re-calculate the landsacpe on the wind indicator
-				changeCount_++;
-				resetWater_ = false;
-			}
+			// Re-calculate the landsacpe on the wind indicator
+			changeCount_++;
+			resetLandscape_ = false;
 		}
 	}
+
+	float speedMult = ScorchedClient::instance()->
+		getActionController().getFast();
+	water_.simulate(frameTime * speedMult);
 	patchGrid_.simulate(frameTime);
 	surround_.simulate(frameTime * speedMult);
 	wall_.simulate(frameTime * speedMult);
-	wWaves_.simulate(frameTime * speedMult);
 }
 
 void Landscape::recalculate(int posX, int posY, int dist)
 {
-	if (!resetWater_)
+	if (!resetLandscape_)
 	{
-		resetWater_ = true;
-		resetWaterTimer_ = 1.0f; // Recalculate the water in x seconds
+		resetLandscape_ = true;
+		resetLandscapeTimer_ = 1.0f; // Recalculate the water in x seconds
 	}
 
 	// Recalculate the level of detail for the terrain
 	patchGrid_.recalculate(posX, posY, dist);
+	water_.recalculate();
 }
 
 void Landscape::draw(const unsigned state)
@@ -193,13 +186,7 @@ void Landscape::draw(const unsigned state)
 	surroundTexture_.draw(true);
 	hMapSurround_.draw();
 	surround_.draw();
-	if (OptionsDisplay::instance()->getDrawWater())
-	{
-		wWaves_.draw();
-		glColor3fv(ScorchedClient::instance()->getOptionsTransient().getWallColor());
-		wMapPoints_.draw();
-		wMap_.draw();
-	}
+	water_.draw();
 	glDisable(GL_FOG); // NOTE: Fog off
 
 	objects_.draw();
@@ -275,7 +262,7 @@ void Landscape::generate(ProgressCounter *counter)
 			bitmapRock, bitmapShore, bitmaps, 5, 1024, counter);
 
 		// Set the general surround texture
-		surroundTexture_.replace(texture0);
+		surroundTexture_.replace(texture0, GL_RGB, false);
 	}
 	else
 	{
@@ -287,65 +274,8 @@ void Landscape::generate(ProgressCounter *counter)
 	// Create the main landscape texture
 	DIALOG_ASSERT(texture_.replace(mainMap_, GL_RGB, false));
 
-	// Load a mask
-	std::string sprayMaskFile = getDataFile("data/textures/smoke01.bmp");
-	GLBitmap sprayMaskBitmap(sprayMaskFile.c_str(), sprayMaskFile.c_str(), false);
-
-	if (0 == strcmp(tex->bordertype.c_str(), "water"))
-	{
-		LandscapeTexBorderWater *water = 
-			(LandscapeTexBorderWater *) tex->border;
-
-		const char *wave1 = getDataFile(
-			water->wavetexture1.c_str());
-		GLBitmap waves1Map(wave1, wave1, false);
-		const char *wave2 = getDataFile(
-			water->wavetexture2.c_str());
-		GLBitmap waves2Map(wave2, wave2, false);
-		waves1Texture_.replace(waves1Map, GL_RGBA);
-		waves2Texture_.replace(waves2Map, GL_RGBA);
-		bitmapWater_.loadFromFile(getDataFile(water->reflection.c_str()), false);
-		GLBitmap bitmapWaterDetail(getDataFile(water->texture.c_str()));
-		waterDetail_.replace(bitmapWaterDetail, GL_RGB, true);
-
-		// Generate the water texture for the spray sprite
-		GLBitmap bitmapWater(getDataFile(water->reflection.c_str()));
-		bitmapWater.resize(
-			sprayMaskBitmap.getWidth(), sprayMaskBitmap.getHeight());
-		GLBitmap textureWaterNew(
-			sprayMaskBitmap.getWidth(), sprayMaskBitmap.getHeight(), true);
-		GLBitmapModifier::makeBitmapTransparent(textureWaterNew, 
-			bitmapWater, sprayMaskBitmap);
-		landTexWater_.replace(textureWaterNew, GL_RGBA);
-
-		// Load the water reflection bitmap
-		// Create water cubemap texture
-		bitmapWater.resize(256, 256);
-		DIALOG_ASSERT(bitmapWater.getBits());
-		delete waterTexture_;
-		if (GLStateExtension::hasCubeMap() &&
-			!OptionsDisplay::instance()->getNoGLSphereMap())
-		{
-			GLTextureCubeMap *waterCubeMap = new GLTextureCubeMap();
-			waterCubeMap->create(bitmapWater, GL_RGB, false);
-			waterTexture_ = waterCubeMap;
-		}
-		else 
-		{
-			GLTexture *waterNormalMap = new GLTexture();
-			waterNormalMap->create(bitmapWater, GL_RGB, false);
-			waterTexture_ = waterNormalMap;
-		}
-
-		// Find the waves around this island
-		wWaves_.generateWaves(counter);
-	}
-	else
-	{
-		dialogExit("Landscape",
-			"Failed to find border type %s",
-			tex->bordertype.c_str());
-	}
+	// Create the water (if any)
+	water_.generate();
 
 	// Add lighting to the landscape texture
 	sun_.setPosition(tex->skysunxy, tex->skysunyz);
@@ -362,6 +292,8 @@ void Landscape::generate(ProgressCounter *counter)
 		GL_UNSIGNED_BYTE, bitmapPlan_.getBits());
 
 	// Generate the scorch map for the landscape
+	std::string sprayMaskFile = getDataFile("data/textures/smoke01.bmp");
+	GLBitmap sprayMaskBitmap(sprayMaskFile.c_str(), sprayMaskFile.c_str(), false);
 	GLBitmap scorchMap(getDataFile(tex->scorch.c_str()));
 	GLBitmapModifier::tileBitmap(scorchMap, scorchMap_);
 	scorchMap.resize(sprayMaskBitmap.getWidth(), sprayMaskBitmap.getHeight());
@@ -407,9 +339,12 @@ void Landscape::generate(ProgressCounter *counter)
 
 void Landscape::updatePlanTexture()
 {
-	GLBitmapModifier::addWaterToBitmap(
-		ScorchedClient::instance()->getLandscapeMaps().getHMap(), 
-		bitmapPlan_, bitmapWater_, wMap_.getHeight());
+	if (water_.getWaterOn())
+	{
+		GLBitmapModifier::addWaterToBitmap(
+			ScorchedClient::instance()->getLandscapeMaps().getHMap(), 
+			bitmapPlan_, water_.getWaterBitmap(), water_.getWaterHeight());
+	}
 	DIALOG_ASSERT(planTexture_.replace(bitmapPlan_, GL_RGB, false));
 }
 
@@ -418,7 +353,7 @@ void Landscape::updatePlanATexture()
 	GLBitmapModifier::removeWaterFromBitmap(
 		ScorchedClient::instance()->getLandscapeMaps().getHMap(), 
 		bitmapPlan_, bitmapPlanAlpha_, bitmapPlanAlphaAlpha_, 
-		wMap_.getHeight());
+		(water_.getWaterOn()?water_.getWaterHeight():-50.0f));
 	DIALOG_ASSERT(planAlphaTexture_.replace(bitmapPlanAlpha_, GL_RGBA, false));
 	planAlphaTexture_.draw();
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_CLAMP);
@@ -432,11 +367,8 @@ void Landscape::reset()
 	recalculate(0, 0, 1000);
 	patchGrid_.forceCalculate(256);
 	changeCount_++;
-	WaterMapModifier::addWaterVisibility(
-		ScorchedClient::instance()->getLandscapeMaps().getHMap(), 
-		wMap_);
-	wMap_.reset();
 	surround_.clear();
+	water_.reset();
 	ScorchedClient::instance()->getParticleEngine().killAll();
 }
 

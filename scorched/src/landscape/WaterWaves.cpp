@@ -19,10 +19,10 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <landscape/WaterWaves.h>
-#include <landscape/Landscape.h>
 #include <landscape/LandscapeMaps.h>
 #include <client/ScorchedClient.h>
 #include <common/OptionsDisplay.h>
+#include <common/OptionsTransient.h>
 #include <common/Defines.h>
 #include <GLEXT/GLStateExtension.h>
 #include <GLEXT/GLInfo.h>
@@ -37,7 +37,7 @@ WaterWaves::~WaterWaves()
 {
 }
 
-void WaterWaves::generateWaves(ProgressCounter *counter)
+void WaterWaves::generateWaves(float waterHeight, WaterMap &wmap, ProgressCounter *counter)
 {
 	memset(wavePoints_, 0, 256 * 256 * sizeof(bool));
 	paths1_.clear();
@@ -50,33 +50,37 @@ void WaterWaves::generateWaves(ProgressCounter *counter)
 
 	// Find all of the points that are equal to a certain height (the water height)
 	if (counter) counter->setNewOp("Creating waves 1");
-	findPoints(counter);
+	findPoints(waterHeight, counter);
 
 	// Find the list of points that are next to eachother
 	if (counter) counter->setNewOp("Creating waves 2");
-	while (findNextPath(counter)) {}
+	while (findNextPath(waterHeight, wmap, counter)) {}
 }
 
-void WaterWaves::findPoints(ProgressCounter *counter)
+void WaterWaves::findPoints(float waterHeight, ProgressCounter *counter)
 {
-	const float waterHeight = 5.0f;
 	for (int y=1; y<255; y++)
 	{
 		if (counter) counter->setNewPercentage(float(y)/float(255)*100.0f);
 		for (int x=1; x<255; x++)
 		{
 			float height =
-				ScorchedClient::instance()->getLandscapeMaps().getHMap().getHeight(x, y);
+				ScorchedClient::instance()->getLandscapeMaps().
+				getHMap().getHeight(x, y);
 			if (height > waterHeight - 4.0f && height < waterHeight)
 			{
 				float height2=
-					ScorchedClient::instance()->getLandscapeMaps().getHMap().getHeight(x+1, y);
+					ScorchedClient::instance()->getLandscapeMaps().
+					getHMap().getHeight(x+1, y);
 				float height3=
-					ScorchedClient::instance()->getLandscapeMaps().getHMap().getHeight(x-1, y);
+					ScorchedClient::instance()->getLandscapeMaps().
+					getHMap().getHeight(x-1, y);
 				float height4=
-					ScorchedClient::instance()->getLandscapeMaps().getHMap().getHeight(x, y+1);
+					ScorchedClient::instance()->getLandscapeMaps().
+					getHMap().getHeight(x, y+1);
 				float height5=
-					ScorchedClient::instance()->getLandscapeMaps().getHMap().getHeight(x, y-1);
+					ScorchedClient::instance()->getLandscapeMaps().
+					getHMap().getHeight(x, y-1);
 
 				if (height2 > waterHeight || height3 > waterHeight ||
 					height4 > waterHeight || height5 > waterHeight)
@@ -89,7 +93,7 @@ void WaterWaves::findPoints(ProgressCounter *counter)
 	}
 }
 
-bool WaterWaves::findNextPath(ProgressCounter *counter)
+bool WaterWaves::findNextPath(float waterHeight, WaterMap &wmap, ProgressCounter *counter)
 {
 	static std::vector<Vector> points;
 	points.clear();
@@ -102,7 +106,7 @@ bool WaterWaves::findNextPath(ProgressCounter *counter)
 			if (wavePoints_[x + y * 256]) 
 			{
 				findPath(points, x, y);
-				constructLines(points);
+				constructLines(waterHeight, wmap, points);
 				return true;			
 			}
 		}
@@ -113,7 +117,7 @@ bool WaterWaves::findNextPath(ProgressCounter *counter)
 
 void WaterWaves::findPath(std::vector<Vector> &points, int x, int y)
 {
-	points.push_back(Vector(float(x), float(y), 5.0f));
+	points.push_back(Vector(float(x), float(y), 0.0f));
 
 	wavePoints_[x + y * 256] = false;
 	removedCount_ ++;
@@ -127,11 +131,10 @@ void WaterWaves::findPath(std::vector<Vector> &points, int x, int y)
 	else if (wavePoints_[(x+1) + (y-1) * 256]) findPath(points, x+1, y-1);
 }
 
-void WaterWaves::constructLines(std::vector<Vector> &points)
+void WaterWaves::constructLines(float waterHeight, WaterMap &wmap, std::vector<Vector> &points)
 {
 	Vector ptA;
 	Vector ptB;
-	const float waterHeight = 5.0f;
 	Vector point = points.front();
 	int dist = int(RAND * 10.0f + 1.0f);
 	for (int i=0; i<(int)points.size(); i++)
@@ -173,10 +176,10 @@ void WaterWaves::constructLines(std::vector<Vector> &points)
 					entry.ptD = point + perp * 6.0f;
 				}
 
-				entry.ptAEntry = &Landscape::instance()->getWater().getNearestWaterPoint(ptA);
-				entry.ptBEntry = &Landscape::instance()->getWater().getNearestWaterPoint(ptB);
-				entry.ptCEntry = &Landscape::instance()->getWater().getNearestWaterPoint(entry.ptC);
-				entry.ptDEntry = &Landscape::instance()->getWater().getNearestWaterPoint(entry.ptD);
+				entry.ptAEntry = &wmap.getNearestWaterPoint(ptA);
+				entry.ptBEntry = &wmap.getNearestWaterPoint(ptB);
+				entry.ptCEntry = &wmap.getNearestWaterPoint(entry.ptC);
+				entry.ptDEntry = &wmap.getNearestWaterPoint(entry.ptD);
 
 				if (RAND > 0.5f) paths1_.push_back(entry);
 				else paths2_.push_back(entry);
@@ -211,12 +214,12 @@ void WaterWaves::draw()
 	GLState state(GLState::BLEND_OFF | GLState::TEXTURE_ON | GLState::BLEND_ON); 
 	glDepthMask(GL_FALSE);
 
-	Landscape::instance()->getWaves1Texture().draw(true);
+	wavesTexture1_.draw(true);
 	drawBoxes(totalTime_ + 0.0f, windDirPerp, paths1_);
 	drawBoxes(totalTime_ + 2.0f, windDirPerp, paths1_);
 	drawBoxes(totalTime_ + 4.0f, windDirPerp, paths1_);
 
-	Landscape::instance()->getWaves2Texture().draw(true);
+	wavesTexture2_.draw(true);
 	drawBoxes(totalTime_ + 1.0f, windDirPerp, paths2_);
 	drawBoxes(totalTime_ + 3.0f, windDirPerp, paths2_);
 	drawBoxes(totalTime_ + 5.0f, windDirPerp, paths2_);
@@ -263,14 +266,14 @@ void WaterWaves::drawBoxes(float totalTime, Vector &windDirPerp,
 				continue;
 
 			ptA = p.ptD - p.perp * frontlen;
-			ptA[2] = p.ptAEntry->height + 5.05f;
+			ptA[2] = p.ptAEntry->height + 0.05f;
 			ptB = p.ptC - p.perp * frontlen;
-			ptB[2] = p.ptBEntry->height + 5.05f;
+			ptB[2] = p.ptBEntry->height + 0.05f;
 
 			ptC = p.ptC - p.perp * endlen;
-			ptC[2] = p.ptCEntry->height + 5.05f;
+			ptC[2] = p.ptCEntry->height + 0.05f;
 			ptD = p.ptD - p.perp * endlen;
-			ptD[2] = p.ptCEntry->height + 5.05f;
+			ptD[2] = p.ptCEntry->height + 0.05f;
 			
 			glTexCoord2f(1.0f, 1.0f);
 			glVertex3fv(ptA);

@@ -211,7 +211,7 @@ void Napalm::simulateAddStep()
 
 	// Napalm does not go under water (for now)
 	// Perhaps we could add a boiling water sound at some point
-	if (height < 5.0f) // Water height
+	/*if (height < 5.0f) // Water height
 	{
 		if (!hitWater_)
 		{
@@ -223,7 +223,7 @@ void Napalm::simulateAddStep()
 			}
 		}
 		return;
-	}
+	}*/  // FIXME
 
 	// Add this current point to the napalm map
 	int offset = int(RAND * 31);

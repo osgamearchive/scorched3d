@@ -68,7 +68,7 @@ void MovementMap::addPoint(unsigned int x, unsigned int y,
 	float MaxTankClimbHeight = float(context.optionsGame->
 		getMaxClimbingDistance()) / 10.0f;
 	if (newHeight - height > MaxTankClimbHeight) return;
-	if (newHeight < 5.0f) return; // Water height
+	//if (newHeight < 5.0f) return; // Water height // FIXME
 
 	// Check if we can already reach this point
 	// Through a shorted already visited path

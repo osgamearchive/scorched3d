@@ -22,9 +22,7 @@
 #define __INCLUDE_Landscapeh_INCLUDE__
 
 #include <engine/GameStateI.h>
-#include <landscape/WaterMap.h>
-#include <landscape/WaterWaves.h>
-#include <landscape/WaterMapPoints.h>
+#include <landscape/Water.h>
 #include <landscape/PatchGrid.h>
 #include <landscape/HeightMapSurround.h>
 #include <landscape/LandscapeObjects.h>
@@ -54,9 +52,9 @@ public:
 	// Access to internal objects
 	Smoke &getSmoke() { return smoke_; }
 	ShadowMap &getShadowMap() { return shadowMap_; }
-	WaterMap &getWater() { return wMap_; }
 	Sun &getSun() { return sun_; }
 	Wall &getWall() { return wall_; }
+	Water &getWater() { return water_; }
 	LandscapeObjects &getObjects() { return objects_; }
 
 	// Textures created during landscape texturing
@@ -68,11 +66,6 @@ public:
 	GLTexture &getPlanATexture() { return planAlphaTexture_; }
 	GLTexture &getPlanTexture() { return planTexture_; }
 	GLTexture &getCloudTexture() { return cloudTexture_; }
-	GLTextureBase &getWaterTexture() { return *waterTexture_; }
-	GLTexture &getWaterDetail() { return waterDetail_; }
-	GLTexture &getWaves1Texture() { return waves1Texture_; }
-	GLTexture &getWaves2Texture() { return waves2Texture_; }
-	GLTexture &getLandscapeTextureWater() { return landTexWater_; }
 	GLTexture &getLandscapeTexture1() { return landTex1_; }
 
 	LandscapeTextureType getTextureType() { return textureType_; }
@@ -92,9 +85,6 @@ protected:
 
 	// All objects that are used to draw the scene
 	Wall wall_;
-	WaterMap wMap_;
-	WaterMapPoints wMapPoints_;
-	WaterWaves wWaves_;
 	PatchGrid patchGrid_;
 	HeightMapSurround hMapSurround_;
 	SurroundDefs surroundDefs_;
@@ -102,6 +92,7 @@ protected:
 	ShadowMap shadowMap_;
 	Smoke smoke_;
 	Sun sun_;
+	Water water_;
 	LandscapeObjects objects_;
 	LandscapeTextureType textureType_;
 
@@ -113,23 +104,17 @@ protected:
 	GLTexture surroundTexture_;
 	GLTexture cloudTexture_;
 	GLTexture detailTexture_;
-	GLTextureBase *waterTexture_;
-	GLTexture waterDetail_;
 	GLTexture landTex1_;
-	GLTexture landTexWater_;
-	GLTexture waves1Texture_;
-	GLTexture waves2Texture_;
 	GLBitmap mainMap_;
 	GLBitmap scorchMap_;
 	GLBitmap skyColorsMap_;
 	GLBitmap bitmapPlanAlphaAlpha_;
 	GLBitmap bitmapPlanAlpha_;
 	GLBitmap bitmapPlan_;
-	GLBitmap bitmapWater_;
 
 	// Variables used to set when the water is refreshed
-	bool resetWater_;
-	float resetWaterTimer_;
+	bool resetLandscape_;
+	float resetLandscapeTimer_;
 	unsigned int changeCount_;
 
 	void savePlan();

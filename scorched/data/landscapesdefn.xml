@@ -218,6 +218,7 @@
 		</heightmap>
 		<!--<heightmap type="file">
 			<file>data/landscapes/valley-mask.bmp</file>
+			<levelsurround>true</levelsurround>
 		</heightmap>-->
 	</defn>
 </defns>

@@ -18,11 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// WaterMapModifier.h: interface for the WaterMapModifier class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_WATERMAPMODIFIER_H__AD3CF4DB_FB59_4D0F_89B5_A4536C7E7DFC__INCLUDED_)
 #define AFX_WATERMAPMODIFIER_H__AD3CF4DB_FB59_4D0F_89B5_A4536C7E7DFC__INCLUDED_
 
@@ -32,7 +27,9 @@
 
 namespace WaterMapModifier  
 {
-	void addWaterVisibility(HeightMap &hMap, WaterMap &wMap, ProgressCounter *counter = 0);
+	void addWaterVisibility(float waterHeight, 
+		HeightMap &hMap, WaterMap &wMap, 
+		ProgressCounter *counter = 0);
 };
 
 #endif // !defined(AFX_WATERMAPMODIFIER_H__AD3CF4DB_FB59_4D0F_89B5_A4536C7E7DFC__INCLUDED_)

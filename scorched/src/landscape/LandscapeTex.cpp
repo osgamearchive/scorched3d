@@ -27,6 +27,7 @@
 static LandscapeTexType *fetchBorderTexType(const char *type)
 {
 	if (0 == strcmp(type, "water")) return new LandscapeTexBorderWater;
+	if (0 == strcmp(type, "none")) return new LandscapeTexTypeNone;
 	dialogMessage("LandscapeTexType", "Unknown border type %s", type);
 	return 0;
 }
@@ -51,6 +52,21 @@ static LandscapeTexType *fetchObjectTexType(const char *type)
 	if (0 == strcmp(type, "model")) return new LandscapeTexObjectsModel;
 	dialogMessage("LandscapeTexType", "Unknown object type %s", type);
 	return 0;
+}
+
+bool LandscapeTexTypeNone::writeMessage(NetBuffer &buffer)
+{
+	return true;
+}
+
+bool LandscapeTexTypeNone::readMessage(NetBufferReader &reader)
+{
+	return true;
+}
+
+bool LandscapeTexTypeNone::readXML(XMLNode *node)
+{
+	return node->failChildren();
 }
 
 bool LandscapeTexObjectsModel::writeMessage(NetBuffer &buffer)
@@ -146,6 +162,7 @@ bool LandscapeTexBorderWater::writeMessage(NetBuffer &buffer)
 	buffer.addToBuffer(texture);
 	buffer.addToBuffer(wavetexture1);
 	buffer.addToBuffer(wavetexture2);
+	buffer.addToBuffer(height);
 	return true;
 }
 
@@ -155,6 +172,7 @@ bool LandscapeTexBorderWater::readMessage(NetBufferReader &reader)
 	if (!reader.getFromBuffer(texture)) return false;
 	if (!reader.getFromBuffer(wavetexture1)) return false;
 	if (!reader.getFromBuffer(wavetexture2)) return false;
+	if (!reader.getFromBuffer(height)) return false;
 	return true;
 }
 
@@ -164,6 +182,7 @@ bool LandscapeTexBorderWater::readXML(XMLNode *node)
 	if (!node->getNamedChild("texture", texture)) return false;
 	if (!node->getNamedChild("wavetexture1", wavetexture1)) return false;
 	if (!node->getNamedChild("wavetexture2", wavetexture2)) return false;
+	if (!node->getNamedChild("height", height)) return false;
 	if (!checkDataFile(reflection.c_str())) return false;
 	if (!checkDataFile(texture.c_str())) return false;
 	if (!checkDataFile(wavetexture1.c_str())) return false;

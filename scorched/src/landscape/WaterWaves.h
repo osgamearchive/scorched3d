@@ -32,9 +32,14 @@ public:
 	WaterWaves();
 	virtual ~WaterWaves();
 
-	void generateWaves(ProgressCounter *counter);
+	void generateWaves(float waterHeight, 
+		WaterMap &map, 
+		ProgressCounter *counter = 0);
 	void draw();
 	void simulate(float frameTime);
+
+	GLTexture &getWavesTexture1() { return wavesTexture1_; }
+	GLTexture &getWavesTexture2() { return wavesTexture2_; }
 
 protected:
 	struct WaterWaveEntry 
@@ -55,12 +60,15 @@ protected:
 	unsigned int pointCount_;
 	unsigned int removedCount_;
 
-	void findPoints(ProgressCounter *counter);
-	bool findNextPath(ProgressCounter *counter);
+	void findPoints(float waterHeight, ProgressCounter *counter);
+	bool findNextPath(float waterHeight, WaterMap &wmap, ProgressCounter *counter);
 	void findPath(std::vector<Vector> &points, int x, int y);
-	void constructLines(std::vector<Vector> &points);
+	void constructLines(float waterHeight, WaterMap &wmap, std::vector<Vector> &points);
 	void drawBoxes(float totalTime, Vector &windDir, 
 		std::vector<WaterWaveEntry> &paths);
+
+	GLTexture wavesTexture1_;
+	GLTexture wavesTexture2_;
 
 };
 

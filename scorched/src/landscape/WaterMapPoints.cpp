@@ -29,7 +29,6 @@ WaterMapPoints::WaterMapPoints(WaterMap &map, int width, int points) :
 	borderModelBounce_(0),
 	borderModelConcrete_(0)
 {
-	height_ = map.getHeight();
 	createPoints(map, width, points);
 }
 
@@ -68,7 +67,7 @@ void WaterMapPoints::draw()
 	{
 		glPushMatrix();
 			glTranslatef(current->x, current->y, 
-				height_ + current->entry->height + 0.6f);
+				current->entry->height + 0.6f);
 			glRotatef(current->entry->normal[0] * 90.0f, 1.0f, 0.0f, 0.0f);
 			glRotatef(current->entry->normal[2] * 90.0f, 0.0f, 1.0f, 0.0f);
 			glScalef(0.15f, 0.15f, 0.15f);

@@ -123,7 +123,7 @@
 		<picture>valley.bmp</picture>
 		<weight>100</weight>
 		<defn>
-			<item>oldstyle</item>
+			<item>hilly</item>
 		</defn>
 		<tex>
 			<item>test</item>
