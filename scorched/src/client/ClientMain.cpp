@@ -182,9 +182,9 @@ bool startClient(ProgressCounter *progressCounter)
 	return true;
 }
 
-void clientMain()
+bool clientMain()
 {
-	if (!createScorchedWindow()) return;
+	if (!createScorchedWindow()) return false;
 
 	ClientState::setupGameState(
 		OptionsParam::instance()->getConnectedToServer());
@@ -192,8 +192,8 @@ void clientMain()
 	ProgressCounter progressCounter;
 	progressCounter.setUser(ProgressDialog::instance());
 	progressCounter.setNewPercentage(0.0f);
-	if (!initHardware(&progressCounter)) return;
-	if (!startClient(&progressCounter)) return;
+	if (!initHardware(&progressCounter)) return false;
+	if (!startClient(&progressCounter)) return false;
 	
 	if (!OptionsParam::instance()->getConnectedToServer())
 	{
@@ -268,5 +268,7 @@ void clientMain()
 	Gamma::instance()->reset();
 	Sound::instance()->destroy();
 	SDL_Quit();
+
+	return true;
 }
 

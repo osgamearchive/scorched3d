@@ -237,7 +237,7 @@ int main(int argc, char *argv[])
 					(char *) OptionsParam::instance()->getClientFile());
 			}
 
-			clientMain();
+			if (!clientMain()) exit(1);
 
 			// Write display options back to the file
 			// in case they have been changed by this client (in game by the console)

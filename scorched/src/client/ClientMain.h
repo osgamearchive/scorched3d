@@ -21,7 +21,6 @@
 #if !defined(__INCLUDE_ClientMainh_INCLUDE__)
 #define __INCLUDE_ClientMainh_INCLUDE__
 
-void clientMain();
-
+bool clientMain();
 
 #endif
