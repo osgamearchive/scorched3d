@@ -109,6 +109,8 @@ scorched3d_SOURCES = \
 	../GLW/GLWTextButton.h \
 	../GLW/GLWToolTip.cpp \
 	../GLW/GLWToolTip.h \
+	../GLW/GLWTranslate.cpp \
+	../GLW/GLWTranslate.h \
 	../GLW/GLWVisiblePanel.cpp \
 	../GLW/GLWVisiblePanel.h \
 	../GLW/GLWVisibleWidget.cpp \
@@ -167,6 +169,10 @@ scorched3d_SOURCES = \
 	../tankgraph/TankMesh.h \
 	../tankgraph/TankModel.cpp \
 	../tankgraph/TankModel.h \
+	../tankgraph/TankModelASE.cpp \
+	../tankgraph/TankModelASE.h \
+	../tankgraph/TankModelMS.cpp \
+	../tankgraph/TankModelMS.h \
 	../tankgraph/TankModelRenderer.cpp \
 	../tankgraph/TankModelRenderer.h \
 	../tankgraph/TankModelStore.cpp \
@@ -192,6 +198,8 @@ scorched3d_SOURCES = \
 	../common/Keyboard.cpp \
 	../common/Keyboard.h \
 	../common/KeyboardHistory.h \
+	../common/KeyboardKey.cpp \
+	../common/KeyboardKey.h \
 	../common/Line.cpp \
 	../common/Line.h \
 	../common/Logger.cpp \
@@ -234,20 +242,24 @@ scorched3d_SOURCES = \
 	../common/VectorLib.h \
 	../common/WindowManager.cpp \
 	../common/WindowManager.h \
-	../3dsparse/ASEArrayFact.cpp \
-	../3dsparse/ASEArrayFact.h \
 	../3dsparse/ASEFile.cpp \
 	../3dsparse/ASEFile.h \
 	../3dsparse/ASEModel.cpp \
 	../3dsparse/ASEModel.h \
 	../3dsparse/ASEStore.cpp \
 	../3dsparse/ASEStore.h \
+	../3dsparse/MSFile.cpp \
+	../3dsparse/MSFile.h \
 	../3dsparse/MeshLOD.cpp \
 	../3dsparse/MeshLOD.h \
 	../3dsparse/MeshLODTri.cpp \
 	../3dsparse/MeshLODTri.h \
 	../3dsparse/MeshLODVector.cpp \
 	../3dsparse/MeshLODVector.h \
+	../3dsparse/Model.cpp \
+	../3dsparse/Model.h \
+	../3dsparse/ModelsFile.cpp \
+	../3dsparse/ModelsFile.h \
 	../3dsparse/aseFile.lex.cpp \
 	../3dsparse/aseFile.tab.cpp \
 	../3dsparse/aseFile.tab.cpp.h \
@@ -473,25 +485,6 @@ scorched3d_SOURCES = \
 	../coms/NetMessagePool.h \
 	../coms/NetServer.cpp \
 	../coms/NetServer.h \
-	../irc/ClientGameInfo.cpp \
-	../irc/ClientGameInfo.h \
-	../irc/GameInfoEntry.cpp \
-	../irc/GameInfoEntry.h \
-	../irc/GameInfoList.cpp \
-	../irc/GameInfoList.h \
-	../irc/GameInfoMessage.cpp \
-	../irc/GameInfoMessage.h \
-	../irc/IrcBot.cpp \
-	../irc/IrcBot.h \
-	../irc/IrcConnection.cpp \
-	../irc/IrcConnection.h \
-	../irc/IrcDefines.h \
-	../irc/ServerGameInfo.cpp \
-	../irc/ServerGameInfo.h \
-	../irc/UdpHandler.cpp \
-	../irc/UdpHandler.h \
-	../irc/IrcDialog.cpp \
-        ../irc/IrcDialog.h \
 	../ode/array.cpp \
 	../ode/array.h \
 	../ode/collision.h \
@@ -659,12 +652,8 @@ scorched3d_SOURCES = \
 	../tankai/TankAIComputer.h \
 	../tankai/TankAIComputerBuyer.cpp \
 	../tankai/TankAIComputerBuyer.h \
-	../tankai/TankAIComputerChooser.cpp \
-	../tankai/TankAIComputerChooser.h \
 	../tankai/TankAIComputerCtrl.cpp \
 	../tankai/TankAIComputerCtrl.h \
-	../tankai/TankAIComputerDHTest.cpp \
-	../tankai/TankAIComputerDHTest.h \
 	../tankai/TankAIComputerMoron.cpp \
 	../tankai/TankAIComputerMoron.h \
 	../tankai/TankAIComputerPShark.cpp \
@@ -781,6 +770,25 @@ scorched3d_SOURCES = \
 	../server/ServerTooFewPlayersStimulus.cpp \
 	../server/ServerTooFewPlayersStimulus.h \
 	../server/ServerWaitingForPlayersState.cpp \
-	../server/ServerWaitingForPlayersState.h
+	../server/ServerWaitingForPlayersState.h \
+	../irc/ClientGameInfo.cpp \
+	../irc/ClientGameInfo.h \
+	../irc/GameInfoEntry.cpp \
+	../irc/GameInfoEntry.h \
+	../irc/GameInfoList.cpp \
+	../irc/GameInfoList.h \
+	../irc/GameInfoMessage.cpp \
+	../irc/GameInfoMessage.h \
+	../irc/IrcBot.cpp \
+	../irc/IrcBot.h \
+	../irc/IrcConnection.cpp \
+	../irc/IrcConnection.h \
+	../irc/IrcDefines.h \
+	../irc/IrcDialog.cpp \
+	../irc/IrcDialog.h \
+	../irc/ServerGameInfo.cpp \
+	../irc/ServerGameInfo.h \
+	../irc/UdpHandler.cpp \
+	../irc/UdpHandler.h
 
 INCLUDES = -I../porting -I.. 
