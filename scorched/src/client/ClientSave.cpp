@@ -42,22 +42,21 @@ bool ClientSave::storeClient()
 	// Add Version
 	buffer.addToBuffer(ScorchedProtocolVersion);
 	
-	// GameState (removing the spectator tank)
-	ScorchedServer::instance()->getOptionsGame().setNoMaxPlayers(
-		ScorchedServer::instance()->getOptionsGame().getNoMaxPlayers()-1);
+	// GameState
 	ScorchedServer::instance()->getOptionsGame().writeToBuffer(buffer, true);
-	ScorchedServer::instance()->getOptionsGame().setNoMaxPlayers(
-		ScorchedServer::instance()->getOptionsGame().getNoMaxPlayers()+1);
 	
 	// Transient State
 	if (!ScorchedServer::instance()->getOptionsTransient().writeToBuffer(
 		buffer)) return false;
 	
+	// No Players
+	buffer.addToBuffer(ScorchedServer::instance()->getTankContainer().
+		getNoOfNonSpectatorTanks());
+
 	// Players
 	std::map<unsigned int, Tank *> &tanks = 
 		ScorchedServer::instance()->getTankContainer().
 			getPlayingTanks();
-	buffer.addToBuffer((int) tanks.size() - 1);
  	std::map<unsigned int, Tank *>::iterator itor;
 	for (itor = tanks.begin();
 		itor != tanks.end();
@@ -146,10 +145,10 @@ bool ClientSave::restoreClient(bool loadGameState, bool loadPlayers)
 		unsigned int playerId = 0;
 		if (!reader.getFromBuffer(playerId)) return false;
 	
-		Tank *tank = 
-			ScorchedServer::instance()->getTankContainer().getTankById(playerId);
 		if (!specTanks)
 		{
+			Tank *tank = 
+				ScorchedServer::instance()->getTankContainer().getTankById(playerId);
 			if (tank)
 			{
 				if (!tank->readMessage(reader)) return false;
@@ -161,33 +160,29 @@ bool ClientSave::restoreClient(bool loadGameState, bool loadPlayers)
 		{
 			Vector color;
 			TankModelId model("");
-			Tank *tank = new Tank(
+			Tank tank(
 				ScorchedServer::instance()->getContext(),
 				playerId, // PlayerId
 				0, // DestinationId
 				"", // Name
 				color,
 				model);
-			if (!tank->readMessage(reader)) return false;
+			if (!tank.readMessage(reader)) return false;
 		
 			std::string tankAIStr;
 			if (!reader.getFromBuffer(tankAIStr)) return false;
 		
-			if (tank->getState().getSpectator())
-			{
-				delete tank;
-			}
-			else
+			if (!tank.getState().getSpectator())
 			{
 				ComsAddPlayerMessage message(
-					tank->getPlayerId(),
-					tank->getName(),
-					tank->getColor(),
-					tank->getModel().getModelName(),
+					tank.getPlayerId(),
+					tank.getName(),
+					tank.getColor(),
+					tank.getModel().getModelName(),
 					ScorchedClient::instance()->getTankContainer().getCurrentDestinationId(),
-					tank->getTeam(),
+					tank.getTeam(),
 					tankAIStr.c_str());
-			        ComsMessageSender::sendToServer(message);
+				ComsMessageSender::sendToServer(message);
 			}
 		}
 	}

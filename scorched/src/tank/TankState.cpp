@@ -100,7 +100,7 @@ bool TankState::readMessage(NetBufferReader &reader)
 {
 	int s;
 	if (!reader.getFromBuffer(s)) return false;
-	state_ = (TankState::State) s;
+	setState((TankState::State) s);
 	if (!reader.getFromBuffer(life_)) return false;
 	if (!reader.getFromBuffer(spectator_)) return false;
 	if (!reader.getFromBuffer(loading_)) return false;

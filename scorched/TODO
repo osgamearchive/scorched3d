@@ -35,6 +35,7 @@ Fixed: Water coverage algorithm sometimes has holes in the water
 Fixed: Better mag deflect shield graphics
 Fixed: Interest and wins awarded when maximum moves exceeded
 Fixed: Apex collision weapons explode on contact with ground before apex
+Fixed: Loading after saving freezing bug
 
 Changed: Changed free market ecconmy so price decreases are slower
 Changed: Tank can move up and down bigger slopes (configurable)

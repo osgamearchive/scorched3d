@@ -200,10 +200,6 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 	// send messages to them
 	if (!OptionsParam::instance()->getDedicatedServer())
 	{
-		ScorchedServer::instance()->getOptionsGame().setNoMaxPlayers(
-			ScorchedServer::instance()->getOptionsGame().getNoMaxPlayers()+1);
-		ScorchedServer::instance()->getOptionsGame().getChangedOptions().setNoMaxPlayers(
-			ScorchedServer::instance()->getOptionsGame().getNoMaxPlayers());
 		addNextTank(destinationId,
 			message.getUniqueId(),
 			message.getHostDesc(),

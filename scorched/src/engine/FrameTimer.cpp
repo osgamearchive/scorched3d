@@ -62,15 +62,25 @@ void FrameTimer::simulate(const unsigned state, float frameTime)
 		unsigned int tris = GLInfo::getNoTriangles();
 		if (OptionsDisplay::instance()->getFrameTimer())
 		{
+			int enabledGeoms = 0;
 			int geoms = 
 				dSpaceGetNumGeoms(
 					ScorchedClient::instance()->getActionController().
 						getPhysics().getSpace());
+			for (int i=0; i<geoms; i++)
+			{
+				dGeomID geom = 
+					dSpaceGetGeom(
+						ScorchedClient::instance()->getActionController().
+							getPhysics().getSpace(), i);
+				if (dGeomIsEnabled(geom) == 1) enabledGeoms++;
+			}
+
 			Logger::log(0, "%.2f FPS (%iT %iP %iG)", 
 				float(totalCount_) / totalTime_,
 				tris,
 				pOnScreen,
-				geoms);
+				enabledGeoms);
 		}
 		totalCount_ = 0;
 		totalTime_ = 0.0f;

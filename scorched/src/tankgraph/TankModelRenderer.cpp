@@ -221,8 +221,8 @@ void TankModelRenderer::drawShield()
 		magtexture->draw();
 		glColor4f(color[0], color[1], color[2], (0.5f + shieldHit_) * (1.0f - (totalTime_ / 3.0f)));
 		glPushMatrix();
-			float scale = totalTime_ / 2.0f;
-			glTranslatef(position[0], position[1], position[2] + scale + 1.0f);
+			float scale = totalTime_ * 1.5f;
+			glTranslatef(position[0], position[1], position[2] + totalTime_ + 1.0f);
 			glScalef(scale, scale, scale);
 			glBegin(GL_QUADS);
 				glTexCoord2d(1.0f, 1.0f);
@@ -245,8 +245,7 @@ void TankModelRenderer::drawShield()
 		glPopMatrix();
 		glColor4f(color[0], color[1], color[2], (0.5f + shieldHit_) * (1.0f - (totalTime2_ / 3.0f)));
 		glPushMatrix();
-			scale = totalTime2_ / 2.0f;
-			glTranslatef(position[0], position[1], position[2] + scale + 1.0f);
+			glTranslatef(position[0], position[1], position[2] + totalTime_ + 1.0f);
 			glScalef(scale, scale, scale);
 			glBegin(GL_QUADS);
 				glTexCoord2d(1.0f, 1.0f);
