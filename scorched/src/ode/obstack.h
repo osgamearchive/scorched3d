@@ -23,7 +23,7 @@
 #ifndef _ODE_OBSTACK_H_
 #define _ODE_OBSTACK_H_
 
-#include "int-objects.h" 
+#include "objects-internal.h" 
 
 // each obstack Arena pointer points to a block of this many bytes
 #define dOBSTACK_ARENA_SIZE 16384

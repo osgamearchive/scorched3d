@@ -28,7 +28,7 @@
 // Note that this source file duplicates a lot of stuff from step.cpp,
 // eventually we should move the common code to a third file.
 
-#include "int-objects.h"
+#include "objects-internal.h"
 #include "joint.h"
 #include <ode/config.h>
 #include <ode/objects.h>
@@ -37,9 +37,11 @@
 #include <ode/timer.h>
 #include <ode/error.h>
 #include <ode/matrix.h>
+#include <ode/misc.h>
 #include "lcp.h"
 #include "step.h"
-#include <stdlib.h>
+#include "util.h"
+
 
 // misc defines
 
@@ -352,7 +354,7 @@ dInternalStepFast (dxWorld * world, dxBody * body[2], dReal * GI[2], dReal * Gin
 	dTimerNow ("compute A");
 #   endif
 	dReal JinvM[2 * 6 * 8];
-	dSetZero (JinvM, 2 * m * 8);
+	//dSetZero (JinvM, 2 * m * 8);
 
 	dReal *Jsrc = Jinfo.J1l;
 	dReal *Jdst = JinvM;
@@ -385,12 +387,18 @@ dInternalStepFast (dxWorld * world, dxBody * body[2], dReal * GI[2], dReal * Gin
 	// now compute A = JinvM * J'.
 	int mskip = dPAD (m);
 	dReal A[6 * 8];
-	dSetZero (A, 6 * 8);
+	//dSetZero (A, 6 * 8);
 
-	if (body[0])
+	if (body[0]) {
 		Multiply2_sym_p8p (A, JinvM, Jinfo.J1l, m, mskip);
-	if (body[1])
-		MultiplyAdd2_sym_p8p (A, JinvM + 8 * m, Jinfo.J2l, m, mskip);
+		if (body[1])
+			MultiplyAdd2_sym_p8p (A, JinvM + 8 * m, Jinfo.J2l,
+                                              m, mskip);
+	} else {
+		if (body[1])
+			Multiply2_sym_p8p (A, JinvM + 8 * m, Jinfo.J2l,
+                                           m, mskip);
+	}
 
 	// add cfm to the diagonal of A
 	for (i = 0; i < m; i++)
@@ -401,7 +409,7 @@ dInternalStepFast (dxWorld * world, dxBody * body[2], dReal * GI[2], dReal * Gin
 	dTimerNow ("compute rhs");
 #   endif
 	dReal tmp1[16];
-	dSetZero (tmp1, 16);
+	//dSetZero (tmp1, 16);
 	// put v/h + invM*fe into tmp1
 	for (i = 0; i < 2; i++)
 	{
@@ -415,12 +423,16 @@ dInternalStepFast (dxWorld * world, dxBody * body[2], dReal * GI[2], dReal * Gin
 	}
 	// put J*tmp1 into rhs
 	dReal rhs[6];
-	dSetZero (rhs, 6);
+	//dSetZero (rhs, 6);
 
-	if (body[0])
+	if (body[0]) {
 		Multiply0_p81 (rhs, Jinfo.J1l, tmp1, m);
-	if (body[1])
-		MultiplyAdd0_p81 (rhs, Jinfo.J2l, tmp1 + 8, m);
+		if (body[1])
+			MultiplyAdd0_p81 (rhs, Jinfo.J2l, tmp1 + 8, m);
+	} else {
+		if (body[1])
+			Multiply0_p81 (rhs, Jinfo.J2l, tmp1 + 8, m);
+	}
 
 	// complete rhs
 	for (i = 0; i < m; i++)
@@ -582,7 +594,7 @@ dInternalStepFast (dxWorld * world, dxBody * body[2], dReal * GI[2], dReal * Gin
 	// compute cforce = J'*lambda
 	dJointFeedback *fb = joint->feedback;
 	dReal cforce[16];
-	dSetZero (cforce, 16);
+	//dSetZero (cforce, 16);
 
 	if (fb)
 	{
@@ -691,15 +703,25 @@ dInternalStepIslandFast (dxWorld * world, dxBody * const *bodies, int nb, dxJoin
 		ofs[i] = m;
 		m += info[i].m;
 	}
+	dReal *c = NULL;
+	dReal *cfm = NULL;
+	dReal *lo = NULL;
+	dReal *hi = NULL;
+	int *findex = NULL;
 
+	dReal *J = NULL;
+	dxJoint::Info2 * Jinfo = NULL;
+
+	if (m)
+	{
 	// create a constraint equation right hand side vector `c', a constraint
 	// force mixing vector `cfm', and LCP low and high bound vectors, and an
 	// 'findex' vector.
-	dReal *c = (dReal *) ALLOCA (m * sizeof (dReal));
-	dReal *cfm = (dReal *) ALLOCA (m * sizeof (dReal));
-	dReal *lo = (dReal *) ALLOCA (m * sizeof (dReal));
-	dReal *hi = (dReal *) ALLOCA (m * sizeof (dReal));
-	int *findex = (int *) ALLOCA (m * sizeof (int));
+		c = (dReal *) ALLOCA (m * sizeof (dReal));
+		cfm = (dReal *) ALLOCA (m * sizeof (dReal));
+		lo = (dReal *) ALLOCA (m * sizeof (dReal));
+		hi = (dReal *) ALLOCA (m * sizeof (dReal));
+		findex = (int *) ALLOCA (m * sizeof (int));
 	dSetZero (c, m);
 	dSetValue (cfm, m, world->global_cfm);
 	dSetValue (lo, m, -dInfinity);
@@ -727,9 +749,9 @@ dInternalStepIslandFast (dxWorld * world, dxBody * const *bodies, int nb, dxJoin
 #   ifdef TIMING
 	dTimerNow ("create J");
 #   endif
-	dReal *J = (dReal *) ALLOCA (2 * m * 8 * sizeof (dReal));
-	dSetZero (J, 2 * m * 8);
-	dxJoint::Info2 * Jinfo = (dxJoint::Info2 *) ALLOCA (nj * sizeof (dxJoint::Info2));
+		J = (dReal *) ALLOCA (2 * m * 8 * sizeof (dReal));
+		dSetZero (J, 2 * m * 8);
+		Jinfo = (dxJoint::Info2 *) ALLOCA (nj * sizeof (dxJoint::Info2));
 	for (i = 0; i < nj; i++)
 	{
 		Jinfo[i].rowskip = 8;
@@ -747,6 +769,8 @@ dInternalStepIslandFast (dxWorld * world, dxBody * const *bodies, int nb, dxJoin
 		//joints[i]->vtable->getInfo2 (joints[i], Jinfo+i);
 	}
 
+	}
+
 	dReal *saveFacc = (dReal *) ALLOCA (nb * 4 * sizeof (dReal));
 	dReal *saveTacc = (dReal *) ALLOCA (nb * 4 * sizeof (dReal));
 	dReal *globalI = (dReal *) ALLOCA (nb * 12 * sizeof (dReal));
@@ -757,8 +781,8 @@ dInternalStepIslandFast (dxWorld * world, dxBody * const *bodies, int nb, dxJoin
 		{
 			saveFacc[b * 4 + i] = bodies[b]->facc[i];
 			saveTacc[b * 4 + i] = bodies[b]->tacc[i];
-			bodies[b]->tag = b;
 		}
+                bodies[b]->tag = b;
 	}
 
 	for (iter = 0; iter < maxiterations; iter++)
@@ -797,7 +821,12 @@ dInternalStepIslandFast (dxWorld * world, dxBody * const *bodies, int nb, dxJoin
 				body->facc[1] = saveFacc[b * 4 + 1] + body->mass.mass * world->gravity[1];
 				body->facc[2] = saveFacc[b * 4 + 2] + body->mass.mass * world->gravity[2];
 				body->facc[3] = 0;
-			}
+			} else {
+                                body->facc[0] = saveFacc[b * 4 + 0];
+                                body->facc[1] = saveFacc[b * 4 + 1];
+                                body->facc[2] = saveFacc[b * 4 + 2];
+				body->facc[3] = 0;
+                        }
 
 		}
 
@@ -812,7 +841,7 @@ dInternalStepIslandFast (dxWorld * world, dxBody * const *bodies, int nb, dxJoin
 			joint = joints[j];
 			dxJoint::Info1 i1 = info[j];
 			dxJoint::Info2 i2 = Jinfo[j];
-			int r = rand () % (j + 1);
+                        const int r = dRandInt(j+1);
 			joints[j] = joints[r];
 			info[j] = info[r];
 			Jinfo[j] = Jinfo[r];
@@ -857,8 +886,10 @@ dInternalStepIslandFast (dxWorld * world, dxBody * const *bodies, int nb, dxJoin
 			//dInternalStepIslandFast is an exact copy of the old routine with one
 			//modification: the calculated forces are added back to the facc and tacc
 			//vectors instead of applying them to the bodies and moving them.
+			if (info[j].m > 0)
+			{
 			dInternalStepFast (world, bodyPair, GIPair, GinvIPair, joint, info[j], Jinfo[j], ministep);
-
+			}		
 		}
 		//  }
 #	ifdef TIMING
@@ -903,6 +934,8 @@ processIslandsFast (dxWorld * world, dReal stepsize, int maxiterations)
 	// nothing to do if no bodies
 	if (world->nb <= 0)
 		return;
+
+	dInternalHandleAutoDisabling (world,stepsize);
 
 #	ifdef TIMING
 	dTimerStart ("creating joint and body arrays");
@@ -955,6 +988,8 @@ processIslandsFast (dxWorld * world, dReal stepsize, int maxiterations)
 	// nothing to do if no bodies
 	if (world->nb <= 0)
 		return;
+
+	dInternalHandleAutoDisabling (world,stepsize);
 
 	// make arrays for body and joint lists (for a single island) to go into
 	body = (dxBody **) ALLOCA (world->nb * sizeof (dxBody *));

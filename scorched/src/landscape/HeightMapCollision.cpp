@@ -26,7 +26,7 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-extern int dSphereClass;
+//extern int dSphereClass;
 #ifdef __cplusplus
 }
 #endif

@@ -20,28 +20,21 @@
  *                                                                       *
  *************************************************************************/
 
-#ifndef _ODE_ODE_H_
-#define _ODE_ODE_H_
+#ifndef _ODE_COMPATIBILITY_H_
+#define _ODE_COMPATIBILITY_H_
 
-/* include *everything* here */
+/*
+ * ODE's backward compatibility system ensures that as ODE's API
+ * evolves, user code will not break.
+ */
 
-#include <ode/config.h>
-#include <ode/compatibility.h>
-#include <ode/common.h>
-#include <ode/contact.h>
-#include <ode/error.h>
-#include <ode/memory.h>
-#include <ode/odemath.h>
-#include <ode/matrix.h>
-#include <ode/timer.h>
-#include <ode/rotation.h>
-#include <ode/mass.h>
-#include <ode/misc.h>
-#include <ode/objects.h>
-#include <ode/odecpp.h>
-#include <ode/collision_space.h>
-#include <ode/collision.h>
-#include <ode/odecpp_collision.h>
-#include <ode/export-dif.h>
+/*
+ * These new rotation function names are more consistent with the
+ * rest of the API.
+ */
+#define dQtoR(q,R) dRfromQ((R),(q))
+#define dRtoQ(R,q) dQfromR((q),(R))
+#define dWtoDQ(w,q,dq) dDQfromW((dq),(w),(q))
+
 
 #endif

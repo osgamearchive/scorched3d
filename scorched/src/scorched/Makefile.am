@@ -592,19 +592,30 @@ scorched3d_SOURCES = \
 	../ode/array.cpp \
 	../ode/array.h \
 	../ode/collision.h \
+	../ode/collision_kernel.cpp \
+	../ode/collision_kernel.h \
+	../ode/collision_quadtreespace.cpp \
+	../ode/collision_space.cpp \
+	../ode/collision_space.h \
+	../ode/collision_space_internal.h \
+	../ode/collision_std.cpp \
+	../ode/collision_std.h \
+	../ode/collision_transform.cpp \
+	../ode/collision_transform.h \
+	../ode/collision_trimesh.h \
+	../ode/collision_util.cpp \
+	../ode/collision_util.h \
 	../ode/common.h \
-	../ode/config.h \
+	../ode/compatibility.h \
 	../ode/contact.h \
 	../ode/error.cpp \
 	../ode/error.h \
+	../ode/export-dif.cpp \
+	../ode/export-dif.h \
 	../ode/fastdot.c \
 	../ode/fastldlt.c \
 	../ode/fastlsolve.c \
 	../ode/fastltsolve.c \
-	../ode/geom.cpp \
-	../ode/geom.h \
-	../ode/geom_internal.h \
-	../ode/iobjects.h \
 	../ode/joint.cpp \
 	../ode/joint.h \
 	../ode/lcp.cpp \
@@ -619,6 +630,7 @@ scorched3d_SOURCES = \
 	../ode/memory.h \
 	../ode/misc.cpp \
 	../ode/misc.h \
+	../ode/objects-internal.h \
 	../ode/objects.h \
 	../ode/obstack.cpp \
 	../ode/obstack.h \
@@ -626,13 +638,13 @@ scorched3d_SOURCES = \
 	../ode/ode.h \
 	../ode/odecpp.h \
 	../ode/odecpp_collision.h \
+	../ode/odecpp_old.h \
 	../ode/odemath.cpp \
 	../ode/odemath.h \
+	../ode/quickstep.cpp \
+	../ode/quickstep.h \
 	../ode/rotation.cpp \
 	../ode/rotation.h \
-	../ode/space.cpp \
-	../ode/space.h \
-	../ode/stack.h \
 	../ode/step.cpp \
 	../ode/step.h \
 	../ode/stepfast.cpp \
@@ -640,6 +652,8 @@ scorched3d_SOURCES = \
 	../ode/testing.h \
 	../ode/timer.cpp \
 	../ode/timer.h \
+	../ode/util.cpp \
+	../ode/util.h \
 	../XML/XMLFile.cpp \
 	../XML/XMLFile.h \
 	../XML/XMLParser.cpp \

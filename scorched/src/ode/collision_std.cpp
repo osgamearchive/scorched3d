@@ -38,6 +38,10 @@ dContactGeom::g1 and dContactGeom::g2.
 #include "collision_std.h"
 #include "collision_util.h"
 
+#ifdef _MSC_VER
+#pragma warning(disable:4291)  // for VC++, no complaints about "no matching operator delete found"
+#endif
+
 //****************************************************************************
 // the basic geometry objects
 
@@ -197,9 +201,9 @@ dReal dGeomBoxPointDepth (dGeomID g, dReal x, dReal y, dReal z)
   p[1] = y - b->pos[1];
   p[2] = z - b->pos[2];
   dMULTIPLY1_331 (q,b->R,p);
-  dReal dx = b->side[0]*0.5 - dFabs(q[0]);
-  dReal dy = b->side[1]*0.5 - dFabs(q[1]);
-  dReal dz = b->side[2]*0.5 - dFabs(q[2]);
+  dReal dx = b->side[0]*REAL(0.5) - dFabs(q[0]);
+  dReal dy = b->side[1]*REAL(0.5) - dFabs(q[1]);
+  dReal dz = b->side[2]*REAL(0.5) - dFabs(q[2]);
   if (dx < dy) {
     if (dx < dz) return dx; else return dz;
   }
@@ -438,10 +442,16 @@ void dGeomRaySet (dGeomID g, dReal px, dReal py, dReal pz,
 		  dReal dx, dReal dy, dReal dz)
 {
   dUASSERT (g && g->type == dRayClass,"argument not a ray");
-  dGeomSetPosition (g,px,py,pz);
-  dMatrix3 R;
-  dRFromZAxis (R,dx,dy,dz);
-  dGeomSetRotation (g,R);
+  dReal* rot = g->R;
+  dReal* pos = g->pos;
+  pos[0] = px;
+  pos[1] = py;
+  pos[2] = pz;
+
+  rot[0*4+2] = dx;
+  rot[1*4+2] = dy;
+  rot[2*4+2] = dz;
+  dGeomMoved (g);
 }
 
 
@@ -481,54 +491,21 @@ void dGeomRayGetParams (dxGeom *g, int *FirstContact, int *BackfaceCull)
   (*BackfaceCull) = ((g->gflags & RAY_BACKFACECULL) != 0);
 }
 
-//****************************************************************************
-// geom group public API
 
-enum {
-  dGeomGroupClass = dSimpleSpaceClass
-};
-
-
-dGeomID dCreateGeomGroup (dSpaceID space)
+void dGeomRaySetClosestHit (dxGeom *g, int closestHit)
 {
-  dSpaceID s = dSimpleSpaceCreate (space);
-  dSpaceSetCleanup (s,0);
-  return s;
+  dUASSERT (g && g->type == dRayClass,"argument not a ray");
+  if (closestHit){
+    g->gflags |= RAY_CLOSEST_HIT;
+  }
+  else g->gflags &= ~RAY_CLOSEST_HIT;
 }
 
 
-void dGeomGroupAdd (dxGeom *g, dxGeom *x)
+int dGeomRayGetClosestHit (dxGeom *g)
 {
-  dUASSERT (g && g->type == dGeomGroupClass,"argument not a geomgroup");
-  dSpaceAdd ((dxSpace*)g,x);
-}
-
-
-void dGeomGroupRemove (dxGeom *g, dxGeom *x)
-{
-  dUASSERT (g && g->type == dGeomGroupClass,"argument not a geomgroup");
-  dSpaceRemove ((dxSpace*)g,x);
-}
-
-
-int dGeomGroupGetNumGeoms (dxGeom *g)
-{
-  dUASSERT (g && g->type == dGeomGroupClass,"argument not a geomgroup");
-  return dSpaceGetNumGeoms ((dxSpace*)g);
-}
-
-
-dGeomID dGeomGroupGetGeom (dxGeom *g, int i)
-{
-  dUASSERT (g && g->type == dGeomGroupClass,"argument not a geomgroup");
-  return dSpaceGetGeom ((dxSpace*)g,i);
-}
-
-
-int dGeomGroupQuery (dxGeom *g, dxGeom *x)
-{
-  dUASSERT (g && g->type == dGeomGroupClass,"argument not a geomgroup");
-  return dSpaceQuery ((dxSpace*)g,x);
+  dUASSERT (g && g->type == dRayClass,"argument not a ray");
+  return ((g->gflags & RAY_CLOSEST_HIT) != 0);
 }
 
 //****************************************************************************
@@ -686,7 +663,7 @@ int dBoxBox (const dVector3 p1, const dMatrix3 R1,
 	     dVector3 normal, dReal *depth, int *return_code,
 	     int maxc, dContactGeom *contact, int skip)
 {
-  const dReal fudge_factor = 1.05;
+  const dReal fudge_factor = REAL(1.05);
   dVector3 p,pp,normalC;
   const dReal *normalR = 0;
   dReal A[3],B[3],R11,R12,R13,R21,R22,R23,R31,R32,R33,
@@ -1064,7 +1041,7 @@ int dCollideSphereBox (dxGeom *o1, dxGeom *o2, int flags,
   // that to the boundary of the box (call that point `q'). if q is on the
   // boundary of the box and |p-q| is <= sphere radius, they touch.
   // if q is inside the box, the sphere is inside the box, so set a contact
-  // normal to push the sphere to the closest box edge.
+  // normal to push the sphere to the closest box face.
 
   dVector3 l,t,p,q,r;
   dReal depth;
@@ -1099,29 +1076,29 @@ int dCollideSphereBox (dxGeom *o1, dxGeom *o2, int flags,
   if (t[2] >  l[2]) { t[2] =  l[2]; onborder = 1; }
 
   if (!onborder) {
-    // sphere center inside box. find largest `t' value
-    dReal max = dFabs(t[0]);
-    int maxi = 0;
+    // sphere center inside box. find closest face to `t'
+    dReal min_distance = l[0] - dFabs(t[0]);
+    int mini = 0;
     for (int i=1; i<3; i++) {
-      dReal tt = dFabs(t[i]);
-      if (tt > max) {
-	max = tt;
-	maxi = i;
+      dReal face_distance = l[i] - dFabs(t[i]);
+      if (face_distance < min_distance) {
+	min_distance = face_distance;
+	mini = i;
       }
     }
     // contact position = sphere center
     contact->pos[0] = o1->pos[0];
     contact->pos[1] = o1->pos[1];
     contact->pos[2] = o1->pos[2];
-    // contact normal aligned with box edge along largest `t' value
+    // contact normal points to closest face
     dVector3 tmp;
     tmp[0] = 0;
     tmp[1] = 0;
     tmp[2] = 0;
-    tmp[maxi] = (t[maxi] > 0) ? REAL(1.0) : REAL(-1.0);
+    tmp[mini] = (t[mini] > 0) ? REAL(1.0) : REAL(-1.0);
     dMULTIPLY0_331 (contact->normal,o2->R,tmp);
     // contact depth = distance to wall along normal plus radius
-    contact->depth = l[maxi] - max + sphere->radius;
+    contact->depth = min_distance + sphere->radius;
     return 1;
   }
 
@@ -1585,7 +1562,7 @@ static int ray_sphere_helper (dxRay *ray, dVector3 sphere_pos, dReal radius,
   contact->pos[0] = ray->pos[0] + alpha*ray->R[0*4+2];
   contact->pos[1] = ray->pos[1] + alpha*ray->R[1*4+2];
   contact->pos[2] = ray->pos[2] + alpha*ray->R[2*4+2];
-  dReal nsign = (C < 0 || mode) ? -1 : 1;
+  dReal nsign = (C < 0 || mode) ? REAL(-1.0) : REAL(1.0);
   contact->normal[0] = nsign*(contact->pos[0] - sphere_pos[0]);
   contact->normal[1] = nsign*(contact->pos[1] - sphere_pos[1]);
   contact->normal[2] = nsign*(contact->pos[2] - sphere_pos[2]);
@@ -1786,7 +1763,7 @@ int dCollideRayCCylinder (dxGeom *o1, dxGeom *o2,
       q[1] = contact->pos[1] - ccyl->pos[1];
       q[2] = contact->pos[2] - ccyl->pos[2];
       k = dDOT14(q,ccyl->R+2);
-      dReal nsign = inside_ccyl ? -1 : 1;
+      dReal nsign = inside_ccyl ? REAL(-1.0) : REAL(1.0);
       if (k >= -lz2 && k <= lz2) {
 	contact->normal[0] = nsign * (contact->pos[0] -
 				      (ccyl->pos[0] + k*ccyl->R[0*4+2]));
@@ -1825,7 +1802,7 @@ int dCollideRayPlane (dxGeom *o1, dxGeom *o2, int flags,
 
   dReal alpha = plane->p[3] - dDOT (plane->p,ray->pos);
   // note: if alpha > 0 the starting point is below the plane
-  dReal nsign = (alpha > 0) ? -1 : 1;
+  dReal nsign = (alpha > 0) ? REAL(-1.0) : REAL(1.0);
   dReal k = dDOT14(plane->p,ray->R+2);
   if (k==0) return 0;		// ray parallel to plane
   alpha /= k;

@@ -2022,157 +2022,202 @@
 			Name="ode"
 			Filter="">
 			<File
-				RelativePath="..\ode\array.cpp">
+				RelativePath="../ode/README">
 			</File>
 			<File
-				RelativePath="..\ode\array.h">
+				RelativePath="../ode/array.cpp">
 			</File>
 			<File
-				RelativePath="..\ode\collision.h">
+				RelativePath="../ode/array.h">
 			</File>
 			<File
-				RelativePath="..\ode\common.h">
+				RelativePath="../ode/collision.h">
 			</File>
 			<File
-				RelativePath="..\ode\config.h">
+				RelativePath="../ode/collision_kernel.cpp">
 			</File>
 			<File
-				RelativePath="..\ode\contact.h">
+				RelativePath="../ode/collision_kernel.h">
 			</File>
 			<File
-				RelativePath="..\ode\error.cpp">
+				RelativePath="../ode/collision_quadtreespace.cpp">
 			</File>
 			<File
-				RelativePath="..\ode\error.h">
+				RelativePath="../ode/collision_space.cpp">
 			</File>
 			<File
-				RelativePath="..\ode\fastdot.c">
+				RelativePath="../ode/collision_space.h">
 			</File>
 			<File
-				RelativePath="..\ode\fastldlt.c">
+				RelativePath="../ode/collision_space_internal.h">
 			</File>
 			<File
-				RelativePath="..\ode\fastlsolve.c">
+				RelativePath="../ode/collision_std.cpp">
 			</File>
 			<File
-				RelativePath="..\ode\fastltsolve.c">
+				RelativePath="../ode/collision_std.h">
 			</File>
 			<File
-				RelativePath="..\ode\geom.cpp">
+				RelativePath="../ode/collision_transform.cpp">
 			</File>
 			<File
-				RelativePath="..\ode\geom.h">
+				RelativePath="../ode/collision_transform.h">
 			</File>
 			<File
-				RelativePath="..\ode\geom_internal.h">
+				RelativePath="../ode/collision_trimesh.h">
 			</File>
 			<File
-				RelativePath="..\ode\iobjects.h">
+				RelativePath="../ode/collision_util.cpp">
 			</File>
 			<File
-				RelativePath="..\ode\joint.cpp">
+				RelativePath="../ode/collision_util.h">
 			</File>
 			<File
-				RelativePath="..\ode\joint.h">
+				RelativePath="../ode/common.h">
 			</File>
 			<File
-				RelativePath="..\ode\lcp.cpp">
+				RelativePath="../ode/compatibility.h">
 			</File>
 			<File
-				RelativePath="..\ode\lcp.h">
+				RelativePath="../ode/contact.h">
 			</File>
 			<File
-				RelativePath="..\ode\mass.cpp">
+				RelativePath="../ode/error.cpp">
 			</File>
 			<File
-				RelativePath="..\ode\mass.h">
+				RelativePath="../ode/error.h">
 			</File>
 			<File
-				RelativePath="..\ode\mat.cpp">
+				RelativePath="../ode/export-dif.cpp">
 			</File>
 			<File
-				RelativePath="..\ode\mat.h">
+				RelativePath="../ode/export-dif.h">
 			</File>
 			<File
-				RelativePath="..\ode\matrix.cpp">
+				RelativePath="../ode/fastdot.c">
 			</File>
 			<File
-				RelativePath="..\ode\matrix.h">
+				RelativePath="../ode/fastldlt.c">
 			</File>
 			<File
-				RelativePath="..\ode\memory.cpp">
+				RelativePath="../ode/fastlsolve.c">
 			</File>
 			<File
-				RelativePath="..\ode\memory.h">
+				RelativePath="../ode/fastltsolve.c">
 			</File>
 			<File
-				RelativePath="..\ode\misc.cpp">
+				RelativePath="../ode/joint.cpp">
 			</File>
 			<File
-				RelativePath="..\ode\misc.h">
+				RelativePath="../ode/joint.h">
 			</File>
 			<File
-				RelativePath="..\ode\objects.h">
+				RelativePath="../ode/lcp.cpp">
 			</File>
 			<File
-				RelativePath="..\ode\obstack.cpp">
+				RelativePath="../ode/lcp.h">
 			</File>
 			<File
-				RelativePath="..\ode\obstack.h">
+				RelativePath="../ode/mass.cpp">
 			</File>
 			<File
-				RelativePath="..\ode\ode.cpp">
+				RelativePath="../ode/mass.h">
 			</File>
 			<File
-				RelativePath="..\ode\ode.h">
+				RelativePath="../ode/mat.cpp">
 			</File>
 			<File
-				RelativePath="..\ode\odecpp.h">
+				RelativePath="../ode/mat.h">
 			</File>
 			<File
-				RelativePath="..\ode\odecpp_collision.h">
+				RelativePath="../ode/matrix.cpp">
 			</File>
 			<File
-				RelativePath="..\ode\odemath.cpp">
+				RelativePath="../ode/matrix.h">
 			</File>
 			<File
-				RelativePath="..\ode\odemath.h">
+				RelativePath="../ode/memory.cpp">
 			</File>
 			<File
-				RelativePath="..\ode\rotation.cpp">
+				RelativePath="../ode/memory.h">
 			</File>
 			<File
-				RelativePath="..\ode\rotation.h">
+				RelativePath="../ode/misc.cpp">
 			</File>
 			<File
-				RelativePath="..\ode\space.cpp">
+				RelativePath="../ode/misc.h">
 			</File>
 			<File
-				RelativePath="..\ode\space.h">
+				RelativePath="../ode/objects-internal.h">
 			</File>
 			<File
-				RelativePath="..\ode\stack.h">
+				RelativePath="../ode/objects.h">
 			</File>
 			<File
-				RelativePath="..\ode\step.cpp">
+				RelativePath="../ode/obstack.cpp">
 			</File>
 			<File
-				RelativePath="..\ode\step.h">
+				RelativePath="../ode/obstack.h">
 			</File>
 			<File
-				RelativePath="..\ode\stepfast.cpp">
+				RelativePath="../ode/ode.cpp">
 			</File>
 			<File
-				RelativePath="..\ode\testing.cpp">
+				RelativePath="../ode/ode.h">
 			</File>
 			<File
-				RelativePath="..\ode\testing.h">
+				RelativePath="../ode/odecpp.h">
 			</File>
 			<File
-				RelativePath="..\ode\timer.cpp">
+				RelativePath="../ode/odecpp_collision.h">
 			</File>
 			<File
-				RelativePath="..\ode\timer.h">
+				RelativePath="../ode/odecpp_old.h">
+			</File>
+			<File
+				RelativePath="../ode/odemath.cpp">
+			</File>
+			<File
+				RelativePath="../ode/odemath.h">
+			</File>
+			<File
+				RelativePath="../ode/quickstep.cpp">
+			</File>
+			<File
+				RelativePath="../ode/quickstep.h">
+			</File>
+			<File
+				RelativePath="../ode/rotation.cpp">
+			</File>
+			<File
+				RelativePath="../ode/rotation.h">
+			</File>
+			<File
+				RelativePath="../ode/step.cpp">
+			</File>
+			<File
+				RelativePath="../ode/step.h">
+			</File>
+			<File
+				RelativePath="../ode/stepfast.cpp">
+			</File>
+			<File
+				RelativePath="../ode/testing.cpp">
+			</File>
+			<File
+				RelativePath="../ode/testing.h">
+			</File>
+			<File
+				RelativePath="../ode/timer.cpp">
+			</File>
+			<File
+				RelativePath="../ode/timer.h">
+			</File>
+			<File
+				RelativePath="../ode/util.cpp">
+			</File>
+			<File
+				RelativePath="../ode/util.h">
 			</File>
 		</Filter>
 		<Filter

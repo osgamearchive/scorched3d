@@ -40,7 +40,7 @@ TODO
 // implementation for windows based on the multimedia performance counter.
 
 #ifdef WIN32
-#define WIN32_LEAN_AND_MEAN
+
 #include "windows.h"
 
 static inline void getClockCount (unsigned long cc[2])
@@ -342,7 +342,8 @@ static void fprintDoubleWithPrefix (FILE *f, double a, char *fmt)
 
 void dTimerReport (FILE *fout, int average)
 {
-  int i,maxl;
+  int i;
+  size_t maxl;
   double ccunit = 1.0/dTimerTicksPerSecond();
   fprintf (fout,"\nTimer Report (");
   fprintDoubleWithPrefix (fout,ccunit,"%.2f ");
@@ -352,7 +353,7 @@ void dTimerReport (FILE *fout, int average)
   // get maximum description length
   maxl = 0;
   for (i=0; i<num; i++) {
-    int l = strlen (event[i].description);
+    size_t l = strlen (event[i].description);
     if (l > maxl) maxl = l;
   }
 

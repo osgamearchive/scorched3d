@@ -75,7 +75,7 @@ enum {
 };
 
 /* class numbers - each geometry object needs a unique number */
-/*enum {
+enum {
   dSphereClass = 0,
   dBoxClass,
   dCCylinderClass,
@@ -94,7 +94,7 @@ enum {
   dFirstUserClass,
   dLastUserClass = dFirstUserClass + dMaxUserClasses - 1,
   dGeomNumClasses
-};*/
+};
 
 
 dGeomID dCreateSphere (dSpaceID space, dReal radius);
@@ -131,14 +131,10 @@ void dGeomRayGet (dGeomID ray, dVector3 start, dVector3 dir);
  */
 void dGeomRaySetParams (dGeomID g, int FirstContact, int BackfaceCull);
 void dGeomRayGetParams (dGeomID g, int *FirstContact, int *BackfaceCull);
+void dGeomRaySetClosestHit (dGeomID g, int closestHit);
+int dGeomRayGetClosestHit (dGeomID g);
 
-/* for backward compatibility */
-dGeomID dCreateGeomGroup (dSpaceID space);
-void dGeomGroupAdd (dGeomID group, dGeomID x);
-void dGeomGroupRemove (dGeomID group, dGeomID x);
-int dGeomGroupGetNumGeoms (dGeomID group);
-dGeomID dGeomGroupGetGeom (dGeomID group, int i);
-int dGeomGroupQuery (dGeomID group, dGeomID x);
+#include "collision_trimesh.h"
 
 dGeomID dCreateGeomTransform (dSpaceID space);
 void dGeomTransformSetGeom (dGeomID g, dGeomID obj);

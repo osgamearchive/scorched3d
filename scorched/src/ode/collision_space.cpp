@@ -34,6 +34,10 @@ spaces
 
 #include "collision_space_internal.h"
 
+#ifdef _MSC_VER
+#pragma warning(disable:4291)  // for VC++, no complaints about "no matching operator delete found"
+#endif
+
 //****************************************************************************
 // make the geom dirty by setting the GEOM_DIRTY and GEOM_BAD_AABB flags
 // and moving it to the front of the space's list. all the parents of a
@@ -302,7 +306,9 @@ void dxSimpleSpace::collide2 (void *data, dxGeom *geom,
 // utility stuff for hash table space
 
 // kind of silly, but oh well...
+#ifndef MAXINT
 #define MAXINT ((int)((((unsigned int)(-1)) << 1) >> 1))
+#endif
 
 
 // prime[i] is the largest prime smaller than 2^i
@@ -341,6 +347,12 @@ struct Node {
 
 static int findLevel (dReal bounds[6])
 {
+  if (bounds[0] <= -dInfinity || bounds[1] >= dInfinity ||
+      bounds[2] <= -dInfinity || bounds[3] >= dInfinity ||
+      bounds[4] <= -dInfinity || bounds[5] >= dInfinity) {
+    return MAXINT;
+  }
+
   // compute q
   dReal q,q2;
   q = bounds[1] - bounds[0];	// x bounds
@@ -348,8 +360,6 @@ static int findLevel (dReal bounds[6])
   if (q2 > q) q = q2;
   q2 = bounds[5] - bounds[4];	// z bounds
   if (q2 > q) q = q2;
-
-  if (q == dInfinity || q == -dInfinity) return MAXINT;
 
   // find level such that 0.5 * 2^level < q <= 2^level
   int level;
@@ -379,6 +389,7 @@ struct dxHashSpace : public dxSpace {
 
   dxHashSpace (dSpaceID _space);
   void setLevels (int minlevel, int maxlevel);
+  void getLevels (int *minlevel, int *maxlevel);
   void cleanGeoms();
   void collide (void *data, dNearCallback *callback);
   void collide2 (void *data, dxGeom *geom, dNearCallback *callback);
@@ -398,6 +409,13 @@ void dxHashSpace::setLevels (int minlevel, int maxlevel)
   dAASSERT (minlevel <= maxlevel);
   global_minlevel = minlevel;
   global_maxlevel = maxlevel;
+}
+
+
+void dxHashSpace::getLevels (int *minlevel, int *maxlevel)
+{
+  if (minlevel) *minlevel = global_minlevel;
+  if (maxlevel) *maxlevel = global_maxlevel;
 }
 
 
@@ -585,8 +603,21 @@ void dxHashSpace::collide (void *data, dNearCallback *callback)
 void dxHashSpace::collide2 (void *data, dxGeom *geom,
 			    dNearCallback *callback)
 {
-  //@@@
-  dDebug (0,"dxHashSpace::collide2() not yet implemented");
+  dAASSERT (geom && callback);
+  
+  // this could take advantage of the hash structure to avoid
+  // O(n2) complexity, but it does not yet.
+  
+  lock_count++;
+  cleanGeoms();
+  geom->recomputeAABB();
+  
+  // intersect bounding boxes
+  for (dxGeom *g=first; g; g=g->next) {
+    collideAABBs (g,geom,data,callback);
+  }
+  
+  lock_count--;
 }
 
 //****************************************************************************
@@ -611,6 +642,15 @@ void dHashSpaceSetLevels (dxSpace *space, int minlevel, int maxlevel)
   dUASSERT (space->type == dHashSpaceClass,"argument must be a hash space");
   dxHashSpace *hspace = (dxHashSpace*) space;
   hspace->setLevels (minlevel,maxlevel);
+}
+
+
+void dHashSpaceGetLevels (dxSpace *space, int *minlevel, int *maxlevel)
+{
+  dAASSERT (space);
+  dUASSERT (space->type == dHashSpaceClass,"argument must be a hash space");
+  dxHashSpace *hspace = (dxHashSpace*) space;
+  hspace->getLevels (minlevel,maxlevel);
 }
 
 
@@ -663,6 +703,12 @@ int dSpaceQuery (dxSpace *space, dxGeom *g)
   return space->query (g);
 }
 
+void dSpaceClean (dxSpace *space){
+  dAASSERT (space);
+  dUASSERT (dGeomIsSpace(space),"argument not a space");
+
+  space->cleanGeoms();
+}
 
 int dSpaceGetNumGeoms (dxSpace *space)
 {

@@ -32,7 +32,7 @@ internal data structures and functions for collision detection.
 #include <ode/common.h>
 #include <ode/contact.h>
 #include <ode/collision.h>
-#include "int-objects.h"
+#include "objects-internal.h"
 
 //****************************************************************************
 // constants and macros
@@ -76,6 +76,7 @@ enum {
   // Ray specific
   RAY_FIRSTCONTACT = 0x10000,
   RAY_BACKFACECULL = 0x20000,
+  RAY_CLOSEST_HIT  = 0x40000
 };
 
 
