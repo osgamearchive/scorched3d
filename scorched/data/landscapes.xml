@@ -117,7 +117,7 @@
 			<item>storm</item>
 		</tex>
 	</landscape>
-	<landscape>
+	<!--<landscape>
 		<name>test</name>
 		<description></description>
 		<picture>valley.bmp</picture>
@@ -128,5 +128,5 @@
 		<tex>
 			<item>test</item>
 		</tex>
-	</landscape>
+	</landscape>-->
 </landscapes>

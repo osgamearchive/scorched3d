@@ -108,6 +108,8 @@ bool ClientNewGameHandler::processMessage(unsigned int id,
 	}
 	else
 	{
+		ProgressDialog::instance()->changeTip();
+
 		// Generate new landscape
 		if (!ScorchedClient::instance()->getLandscapeMaps().generateHMapFromDiff(
 			message.getLevelMessage(),

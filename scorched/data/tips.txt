@@ -1,0 +1,8 @@
+Batteries can be used to heal yourself.
+Shields protect your from weapon damage.
+Parachutes protect you from falling damage.
+Parachutes and shields must be enabled.
+Buying fuel will allow your tank to move.
+All shots are affected by wind.
+Pressing the 's' key will show your current score.
+Pressing the 't' key allows you to talk to players.

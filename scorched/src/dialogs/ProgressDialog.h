@@ -18,11 +18,11 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #if !defined(__INCLUDE_ProgressDialogh_INCLUDE__)
 #define __INCLUDE_ProgressDialogh_INCLUDE__
 
 #include <common/ProgressCounter.h>
+#include <common/FileLines.h>
 #include <GLW/GLWLabel.h>
 #include <GLW/GLWProgress.h>
 #include <GLW/GLWWindow.h>
@@ -39,11 +39,15 @@ public:
 	virtual void progressChange(const char *op, const float percentage);
 	virtual void draw();
 
+	void changeTip();
+
 protected:
 	static ProgressDialog *instance_;
 	GLTexture wait_;
 	GLWLabel *progressLabel_;
 	GLWProgress *progress_;
+	FileLines tips_;
+	const char *tip_;
 
 private:
 	ProgressDialog();

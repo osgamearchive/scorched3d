@@ -40,7 +40,7 @@ ProgressDialog *ProgressDialog::instance()
 }
 
 ProgressDialog::ProgressDialog() : 
-	GLWWindow("Progress", 10.0f, 10.0f, 340.0f, 200.0f, eNoTitle,
+	GLWWindow("Progress", 10.0f, 10.0f, 340.0f, 210.0f, eNoTitle,
 		"Shows loading progress")
 {
 	setUser(this);
@@ -52,11 +52,19 @@ ProgressDialog::ProgressDialog() :
 	GLBitmap map(file1.c_str(), file2.c_str());
 	DIALOG_ASSERT(wait_.create(map, GL_RGBA, false));
 
+	tips_.readFile((char *) getDataFile("data/tips.txt"));
+
+	changeTip();
 	needsCentered();
 }
 
 ProgressDialog::~ProgressDialog()
 {
+}
+
+void ProgressDialog::changeTip()
+{
+	tip_ = tips_.getRandomLine();
 }
 
 void ProgressDialog::draw()
@@ -69,7 +77,7 @@ void ProgressDialog::draw()
 		wait_.draw();
 
 		glPushMatrix();
-			glTranslatef(x_, y_, 0.0f);
+			glTranslatef(x_, y_ + 20.0f, 0.0f);
 			{
 				GLState state2(GLState::TEXTURE_ON | GLState::BLEND_ON);
 				glColor3f(1.0f, 1.0f, 1.0f);
@@ -105,8 +113,14 @@ void ProgressDialog::draw()
 			}
 
 			Vector color(0.2f, 0.2f, 0.2f);
-			GLWFont::instance()->getLargePtFont()->draw(color, 14.0f, 20.0f, 28.0f, 0.0f, 
+			GLWFont::instance()->getLargePtFont()->draw(color, 
+				14.0f, 20.0f, 28.0f, 0.0f, 
 				progressLabel_->getText());
+
+			Vector color2(0.4f, 0.4f, 0.4f);
+			GLWFont::instance()->getLargePtFont()->drawWidth(300, 
+				color2, 8.0f, 20.0f, -10.0f, 0.0f, 
+				tip_);
 		glPopMatrix();
 	}
 }

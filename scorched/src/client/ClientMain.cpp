@@ -192,6 +192,7 @@ bool clientMain()
 		OptionsParam::instance()->getConnectedToServer());
 
 	ProgressCounter progressCounter;
+	ProgressDialog::instance()->changeTip();
 	progressCounter.setUser(ProgressDialog::instance());
 	progressCounter.setNewPercentage(0.0f);
 	if (!initHardware(&progressCounter)) return false;
