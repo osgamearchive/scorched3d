@@ -4,6 +4,9 @@ Fixed: Some cross compatability compilation problems
 Fixed: Invert keys now works
 Fixed: Gaphics for explosions do not cross into next round
 
+Added: Kenny tank model (thanks Knochi)
+Added: Max OS X compatability patch (thanks C. Thomas)
+
 -- Bugs in current development release
 Fonts sometimes black-out (not seen for a while, fixed??)
 Dvorak keyboard support is broken
