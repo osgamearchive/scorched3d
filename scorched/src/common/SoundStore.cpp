@@ -52,7 +52,8 @@ SoundBuffer *SoundStore::fetchOrCreateBuffer(char *fn)
 	SoundBuffer *buffer = Sound::instance()->createBuffer(fn);
 	if (!buffer)
 	{
-		dialogMessage(fn, "Failed to load sound");
+		dialogMessage("Failed to load sound",
+				"\"%s\"", fn);
 	}
 
 	bufferMap_[filename] = buffer;

@@ -48,8 +48,10 @@ void ExplosionLaserBeamRenderer::init(unsigned int playerId,
 {
 	if (0 != strcmp("none", data))
 	{
-		CACHE_SOUND(sound, (char *) getDataFile(data));
-		sound->play();
+		SoundBuffer *firedSound = 
+			SoundStore::instance()->fetchOrCreateBuffer( (char*)
+				getDataFile(data));
+		firedSound->play();
 	}
 
 	for (int j=0;j<layers;j++){
