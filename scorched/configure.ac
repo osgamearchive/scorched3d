@@ -117,6 +117,8 @@ if test x$have_mysql != xyes; then
     AC_MSG_ERROR([*** Can't find the MySql library Try: http://www.mysql.com])
 else
 AC_DEFINE(HAVE_MYSQL)
+MYSQLLIBS=`mysql_config --libs`
+LIBS="$LIBS $MYSQLLIBS"
 fi
 fi
 

@@ -53,4 +53,28 @@ protected:
 
 };
 
+class StatsLoggerNone : public StatsLogger
+{
+public:
+        StatsLoggerNone() {}
+        virtual ~StatsLoggerNone() {}
+
+        virtual void gameStart() {}
+        virtual void roundStart() {}
+
+        virtual void tankJoined(Tank *tank) {}
+        virtual void tankLeft(Tank *tank) {}
+
+        virtual void tankFired(Tank *firedTank, Weapon *weapon) {}
+        virtual void tankResigned(Tank *resignedTank) {}
+
+        virtual void tankKilled(Tank *firedTank, Tank *deadTank, Weapon *weapon) {}
+        virtual void tankTeamKilled(Tank *firedTank, Tank *deadTank, Weapon *weapon) {}
+        virtual void tankSelfKilled(Tank *firedTank, Weapon *weapon) {}
+
+        virtual void tankWon(Tank *tank) {}
+        virtual void tankOverallWinner(Tank *tank) {}
+};
+
 #endif
+

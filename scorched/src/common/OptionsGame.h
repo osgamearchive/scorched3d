@@ -30,6 +30,10 @@ public:
 	OptionsGame();
 	virtual ~OptionsGame();
 
+	enum OptionFlags
+	{
+		FlagDontSend = 1 // Can be used to keep compatability between versions
+	};
 	enum ScoreType
 	{
 		ScoreWins = 0,
@@ -182,6 +186,9 @@ public:
 	const char *getMasterListServerURI() { return masterListServerURI_.getValue(); }
 	void setMasterListServerURI(const char *value) { masterListServerURI_.setValue(value); }
 
+	const char *getStatsLogger() { return statsLogger_.getValue(); }
+	void setStatsLogger(const char *value) { statsLogger_.setValue(value); }
+
 	// Server only options
 	const char *getBotNamePrefix() { return botNamePrefix_.getValue(); }
 	void setBotNamePrefix(const char *value) { botNamePrefix_.setValue(value); }
@@ -253,6 +260,7 @@ protected:
 	OptionEntryBoundedInt weapScale_;
 	OptionEntryString masterListServer_;
 	OptionEntryString masterListServerURI_;
+	OptionEntryString statsLogger_;
 
 	// Server only options
 	OptionEntryString botNamePrefix_;

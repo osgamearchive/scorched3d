@@ -19,14 +19,50 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <common/StatsLoggerFile.h>
+#include <common/StatsLoggerMySQL.h>
+#include <common/OptionsParam.h>
+#include <common/Logger.h>
+#include <server/ScorchedServer.h>
+#include <stdlib.h>
 
 StatsLogger *StatsLogger::instance_ = 0;
 
 StatsLogger *StatsLogger::instance()
 {
+	if (!instance_ &&
+		!OptionsParam::instance()->getDedicatedServer())
+	{
+		instance_ = new StatsLoggerNone;
+	}
+
+
 	if (!instance_)
 	{
-		instance_ = new StatsLoggerFile;
+		const char *statsLogger =
+			ScorchedServer::instance()->getOptionsGame().getStatsLogger();
+		if (strcmp(statsLogger, "mysql") == 0)
+		{
+#ifdef HAVE_MYSQL
+			instance_ = new StatsLoggerMySQL;
+			Logger::log(0, "Created mysql stats logger.");
+#else
+			dialogMessage("StatsLogger",
+				"Atempted to create mysql stats logger\n"
+				"but mysql support has not been compiled into this\n"
+				"scorched3d binary.");
+			exit(1);
+#endif
+		}
+		else if (strcmp(statsLogger, "file") == 0)
+		{
+			Logger::log(0, "Created file stats logger.");
+			instance_ = new StatsLoggerFile;
+		}
+		else
+		{
+			Logger::log(0, "Created null stats logger.");
+			instance_ = new StatsLoggerNone;
+		}
 	}
 	return instance_;
 }
@@ -39,3 +75,4 @@ StatsLogger::StatsLogger()
 StatsLogger::~StatsLogger()
 {
 }
+

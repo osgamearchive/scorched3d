@@ -1,0 +1,6 @@
+<mysql>
+	<host>localhost</host>
+	<user></user>
+	<passwd>scorched3d</passwd>
+	<db>scorched3d</db>
+</mysql>

@@ -831,6 +831,12 @@
 				RelativePath="..\common\StatsLoggerFile.h">
 			</File>
 			<File
+				RelativePath="..\common\StatsLoggerMySQL.cpp">
+			</File>
+			<File
+				RelativePath="..\common\StatsLoggerMySQL.h">
+			</File>
+			<File
 				RelativePath="..\common\Triangle.cpp">
 			</File>
 			<File

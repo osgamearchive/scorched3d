@@ -238,6 +238,8 @@ scorched3d_SOURCES = \
 	../common/StatsLogger.h \
 	../common/StatsLoggerFile.cpp \
 	../common/StatsLoggerFile.h \
+	../common/StatsLoggerMySQL.cpp \
+	../common/StatsLoggerMySQL.h \
 	../common/Triangle.cpp \
 	../common/Triangle.h \
 	../common/Vector.cpp \

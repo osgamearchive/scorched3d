@@ -93,6 +93,8 @@ OptionsGame::OptionsGame() :
 		"The master list server for scorched3d", 0, "www.employees.org"),
 	masterListServerURI_(options_, "MasterListServerURI",
 		"The URI on the master list server for scorched3d", 0, "/~gcamp/scorched"),
+	statsLogger_(options_, "StatsLogger",
+		"The type of player stats to be logged (none, mysql, file)", FlagDontSend, "none"),
 	portNo_(options_, "PortNo", 
 		"The port to start the server on", 0, ScorchedPort),
 	serverName_(options_, "ServerName", 
@@ -133,24 +135,54 @@ std::list<OptionEntry *> &OptionsGame::getOptions()
 
 bool OptionsGame::writeToBuffer(NetBuffer &buffer)
 {
-	if (!OptionEntryHelper::writeToBuffer(options_, buffer)) return false;
+        std::list<OptionEntry *> saveOptions;
+        std::list<OptionEntry *>::iterator itor;
+        for (itor = options_.begin();
+                itor != options_.end();
+                itor++)
+        {
+                OptionEntry *entry = *itor;
+                if (!(entry->getData() & FlagDontSend))
+                {
+                        saveOptions.push_back(entry);
+                }
+        }
+
+	if (!OptionEntryHelper::writeToBuffer(saveOptions, buffer)) return false;
 	return true;
 }
 
 bool OptionsGame::readFromBuffer(NetBufferReader &reader)
 {
-	if (!OptionEntryHelper::readFromBuffer(options_, reader)) return false;
+        std::list<OptionEntry *> saveOptions;
+        std::list<OptionEntry *>::iterator itor;
+        for (itor = options_.begin();
+                itor != options_.end();
+                itor++)
+        {
+                OptionEntry *entry = *itor;
+                if (!(entry->getData() & FlagDontSend))
+                {
+                        saveOptions.push_back(entry);
+                }
+        }
+
+	if (!OptionEntryHelper::readFromBuffer(saveOptions, reader)) return false;
 	return true;
 }
 
 bool OptionsGame::writeOptionsToFile(char *filePath)
 {
 	std::list<OptionEntry *> saveOptions = 
-		playerTypeOptions_;
-	saveOptions.insert(
-		saveOptions.begin(),
-		options_.begin(),
-		options_.end());
+		playerTypeOptions_; // Note: The players are also saved
+	std::list<OptionEntry *>::iterator itor;
+	for (itor = options_.begin();
+		itor != options_.end();
+		itor++)
+	{
+		OptionEntry *entry = *itor;
+		saveOptions.push_back(entry);
+	} 
 
 	if (!OptionEntryHelper::writeToFile(saveOptions, filePath)) return false;
 	return true;
@@ -159,12 +191,17 @@ bool OptionsGame::writeOptionsToFile(char *filePath)
 bool OptionsGame::readOptionsFromFile(char *filePath)
 {
 	std::list<OptionEntry *> saveOptions = 
-		playerTypeOptions_;
-	saveOptions.insert(
-		saveOptions.begin(),
-		options_.begin(),
-		options_.end());
+		playerTypeOptions_; // Note: The players are also saved
+        std::list<OptionEntry *>::iterator itor;
+        for (itor = options_.begin();
+                itor != options_.end();
+                itor++)
+        {
+                OptionEntry *entry = *itor;
+                saveOptions.push_back(entry);
+        } 
 
 	if (!OptionEntryHelper::readFromFile(saveOptions, filePath)) return false;
 	return true;
 }
+

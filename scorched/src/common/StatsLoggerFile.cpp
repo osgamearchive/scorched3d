@@ -19,7 +19,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <common/StatsLoggerFile.h>
-#include <common/OptionsParam.h>
 #include <server/ScorchedServer.h>
 
 StatsLoggerFile::StatsLoggerFile() : statsLogger_(0)
@@ -33,7 +32,7 @@ StatsLoggerFile::~StatsLoggerFile()
 
 void StatsLoggerFile::createLogger()
 {
-	if (!statsLogger_ && OptionsParam::instance()->getDedicatedServer())
+	if (!statsLogger_)
 	{
 		char buffer[256];
 		sprintf(buffer, "StatsLog-%i-", 
