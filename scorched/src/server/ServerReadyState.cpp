@@ -24,6 +24,7 @@
 #include <server/ServerShotHolder.h>
 #include <server/ScorchedServer.h>
 #include <scorched/ServerDialog.h>
+#include <common/OptionsParam.h>
 #include <common/OptionsGame.h>
 #include <common/Logger.h>
 #include <common/OptionsTransient.h>
@@ -80,18 +81,26 @@ bool ServerReadyState::acceptStateChange(const unsigned state,
 		const unsigned nextState,
 		float frameTime)
 {
-	// Check all players returned ready
-	if (ScorchedServer::instance()->getTankContainer().allReady())
-	{
-		// Make sure all clients have the correct game settings
-		ComsGameStateMessage message;
-		ComsMessageSender::sendToAllPlayingClients(message);	
+	time_ += frameTime;
 
-		return true;
+	// Show down the shots, when we are on a dedicated server
+	// so if there are only bots playing the games don't end
+	// too quickly
+	if (!OptionsParam::instance()->getDedicatedServer() ||
+		time_ > 0.0f) 
+	{
+		// Check all players returned ready
+		if (ScorchedServer::instance()->getTankContainer().allReady())
+		{
+			// Make sure all clients have the correct game settings
+			ComsGameStateMessage message;
+			ComsMessageSender::sendToAllPlayingClients(message);	
+
+			return true;
+		}
 	}
 
 	// Check if any players have timed out
-	time_ += frameTime;
 	if ((ScorchedServer::instance()->getOptionsGame().getIdleKickTime() > 0) &&
 		(time_ > ScorchedServer::instance()->getOptionsGame().getIdleKickTime()))
 	{

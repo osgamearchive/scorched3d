@@ -43,9 +43,21 @@
 
 void WindowSetup::addCommonComponents(unsigned state)
 {
+	KEYBOARDKEY("SHOW_PLAN_DIALOG", planKey);
+	WindowManager::instance()->addWindow(state, 
+		PlanViewDialog::instance(), planKey, true);
+
+	KEYBOARDKEY("SHOW_WIND_DIALOG", windKey);
+	WindowManager::instance()->addWindow(state, 
+		WindDialog::instance(), windKey, true);
+
 	KEYBOARDKEY("SHOW_QUIT_DIALOG", quitKey);
 	WindowManager::instance()->addWindow(state, 
  		QuitDialog::instance(), quitKey, false);
+
+	KEYBOARDKEY("SHOW_KIBITZ_DIALOG", kibitzKey);
+	WindowManager::instance()->addWindow(state, 
+		new KibitzingDialog, kibitzKey, false);
 
 	if (!OptionsParam::instance()->getConnectedToServer())
 	{
@@ -85,12 +97,7 @@ void WindowSetup::setup()
 {
 	KEYBOARDKEY("SHOW_TALK_DIALOG", talkKey);
 	KEYBOARDKEY("SHOW_QUIT_DIALOG", quitKey);
-	KEYBOARDKEY("SHOW_WIND_DIALOG", windKey);
-	KEYBOARDKEY("SHOW_PLAN_DIALOG", planKey);
 	KEYBOARDKEY("SHOW_PLAYER_DIALOG", playerKey);
-	KEYBOARDKEY("SHOW_KIBITZ_DIALOG", kibitzKey);
-	
-	GLWWindow *planView = new PlanViewDialog;
 
 	// StateConnect
 	WindowManager::instance()->addWindow(ClientState::StateConnect, 
@@ -107,7 +114,7 @@ void WindowSetup::setup()
 	// StateWait
 	addCommonComponents(ClientState::StateWait);
 
-	// StateNextRound
+	// StateReady
 	addCommonComponents(ClientState::StateReady);
 
 	// StateBuyWeapons
@@ -122,20 +129,10 @@ void WindowSetup::setup()
 
 	// StateMain
 	WindowManager::instance()->addWindow(ClientState::StatePlaying, 
-		planView, planKey, true);
-	WindowManager::instance()->addWindow(ClientState::StatePlaying, 
-		WindDialog::instance(), windKey, true);
-	WindowManager::instance()->addWindow(ClientState::StatePlaying, 
 		TankDialog::instance(), playerKey, true);
-	WindowManager::instance()->addWindow(ClientState::StatePlaying, 
-		new KibitzingDialog, kibitzKey, false);
 	addCommonComponents(ClientState::StatePlaying);
 	
 	// StateShot
-	WindowManager::instance()->addWindow(ClientState::StateShot, 
-		planView, planKey, true);
-	WindowManager::instance()->addWindow(ClientState::StateShot, 
-		WindDialog::instance(), windKey, true);
 	addCommonComponents(ClientState::StateShot);
 
 	// StateScore

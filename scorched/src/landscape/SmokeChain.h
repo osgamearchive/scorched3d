@@ -32,6 +32,8 @@
 class SmokeChainEntry : public GLBilboardRenderer::Entry
 {
 public:
+	SmokeChainEntry() : a(0.0f), t(0.0), maxTime(0.0f), maxSize(0.0) {}
+
 	void set(Vector &position, Vector &velocity, float maxS, float maxT);
 	void draw();
 	bool move(float frameTime);

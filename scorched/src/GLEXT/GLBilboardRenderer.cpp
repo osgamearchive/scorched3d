@@ -104,31 +104,7 @@ void GLBilboardRenderer::drawItem(GLOrderedItemRenderer::OrderedEntry &oentry)
 		entry.texture->draw();
 		totalSwitches_++;
 	}
-	if (entry.style==1){
-		float r = 0;
-		float g = 0;
-		float b = 0;
-		r=1.0f;
-		if (entry.alpha>=0.5f){
-			b=(1.0f - (entry.alpha * 2.0f));
-			if (g<0) g*=-1.0f;
-			if (g>1.0f) g=1.0f;
-		}else{
-			g=(1.0f - (entry.alpha * 2.0f));
-			if (g<0) g*=-1.0f;
-			if (g>1.0f) g=1.0f;
-		}
-		if (entry.alpha>=0.5f){
-			b=0.0f;
-		}else{
-			b=(1.0f - (entry.alpha * 2.0f));
-			if (b<0) b*=-1.0f;
-			if (g>1.0f) g=1.0f;
-		}
-		glColor4f(r, g, b, entry.alpha);
-	}else{
-		glColor4f(1.0f, 1.0f, 1.0f, entry.alpha);
-	}
+	glColor4f(entry.r_color, entry.g_color, entry.b_color, entry.alpha);
 
 	float bilXX = bilX_[0] * entry.width;
 	float bilXY = bilX_[1] * entry.width;

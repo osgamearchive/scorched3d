@@ -86,12 +86,17 @@ void Explosion::init()
 			texture = (*itor).second;
 		}
 
+		float height = context_->landscapeMaps.getHMap().getInterpHeight(
+			position_[0], position_[1]);
+		float aboveGround = position_[2] - height;
+
 		setActionRender(
 			new ExplosionRenderer(
 				position_, 
 				*texture,
 				explosionSize, explosionHurts_));
-		if (width_ >=11 && deformType_==DeformDown && explosionHurts_)
+		if (width_ >=11 && deformType_==DeformDown && explosionHurts_ &&
+			aboveGround < 2.0f)
 		{
 			context_->actionController.addAction(
 				new SpriteAction(new ExplosionNukeRenderer(position_, float(width_ - 2))));

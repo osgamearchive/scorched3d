@@ -32,8 +32,7 @@
 class PlanViewDialog : public GLWWindow
 {
 public:
-	PlanViewDialog();
-	virtual ~PlanViewDialog();
+	static PlanViewDialog *instance();
 
 	// Inherited from GLWWindow
 	virtual void draw();
@@ -42,7 +41,6 @@ public:
 
 protected:
 	static PlanViewDialog *instance_;
-	GLuint listNo_;
 	float animationTime_;
 
 	void drawMap();
@@ -51,6 +49,10 @@ protected:
 	void drawCameraPointer();
 	void drawTanks();
 	void drawCurrentTank();
+
+private:
+	PlanViewDialog();
+	virtual ~PlanViewDialog();
 
 };
 

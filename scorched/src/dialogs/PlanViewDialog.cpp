@@ -34,8 +34,18 @@ static const float maxAnimationTime = 2.0f;
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
+PlanViewDialog *PlanViewDialog::instance_ = 0;
+
+PlanViewDialog *PlanViewDialog::instance()
+{
+	if (!instance_)
+	{
+		instance_ = new PlanViewDialog();
+	}
+	return instance_;
+}
+
 PlanViewDialog::PlanViewDialog() : 
-	listNo_(0),
 	animationTime_(0.0f),
 	GLWWindow("Plan", 10, 15, 100, 100, eTransparent | eResizeable | eSmallTitle)
 {
@@ -44,7 +54,7 @@ PlanViewDialog::PlanViewDialog() :
 
 PlanViewDialog::~PlanViewDialog()
 {
-	if (glIsList(listNo_)) glDeleteLists(listNo_, 1);
+
 }
 
 void PlanViewDialog::simulate(float frameTime)
@@ -96,30 +106,19 @@ void PlanViewDialog::drawMap()
 
 void PlanViewDialog::drawTexture()
 {
-	if (listNo_)
-	{
-		glCallList(listNo_);
-	}
-	else
-	{
-		glNewList(listNo_ = glGenLists(1), GL_COMPILE_AND_EXECUTE);
-
-		// Draw the square of land
-		glColor3f(1.0f, 1.0f, 1.0f);
-		Landscape::instance()->getPlanATexture().draw(true);
-		glBegin(GL_QUADS);
-			glTexCoord2f(1.0f, 0.0f);
-			glVertex2f(1.0f, 0.0f);
-			glTexCoord2f(1.0f, 1.0f);
-			glVertex2f(1.0f, 1.0f);
-			glTexCoord2f(0.0f, 1.0f);
-			glVertex2f(0.0f, 1.0f);
-			glTexCoord2f(0.0f, 0.0f);
-			glVertex2f(0.0f, 0.0f);
-		glEnd();
-
-		glEndList();
-	}
+	// Draw the square of land
+	glColor3f(1.0f, 1.0f, 1.0f);
+	Landscape::instance()->getPlanATexture().draw(true);
+	glBegin(GL_QUADS);
+		glTexCoord2f(1.0f, 0.0f);
+		glVertex2f(1.0f, 0.0f);
+		glTexCoord2f(1.0f, 1.0f);
+		glVertex2f(1.0f, 1.0f);
+		glTexCoord2f(0.0f, 1.0f);
+		glVertex2f(0.0f, 1.0f);
+		glTexCoord2f(0.0f, 0.0f);
+		glVertex2f(0.0f, 0.0f);
+	glEnd();
 }
 
 void PlanViewDialog::drawCameraPointer()

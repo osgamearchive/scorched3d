@@ -44,6 +44,9 @@ protected:
 	{
 		float rotation_;
 		int position_;
+
+		void simulate();
+		void draw(Vector startPosition, float size);
 	};
 
 	std::list<Entry> entries_;

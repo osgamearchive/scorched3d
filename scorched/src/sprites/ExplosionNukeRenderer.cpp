@@ -25,6 +25,74 @@
 #include <landscape/Landscape.h>
 #include <math.h>
 
+void ExplosionNukeRenderer::Entry::simulate()
+{
+	position_ ++;
+
+	if (alpha>=0.1f){
+	alpha*=(0.8f+(RAND*0.2f));
+	//entry.rotation_+=((RAND*(0.5f*3.14f))-(3.14f*0.25f));
+	}
+
+	float r = 0;
+	float g = 0;
+	float b = 0;
+	r=1.0f;
+	if (alpha>=0.5f){
+		g=(1.0f - (alpha * 2.0f));
+		if (g<0) g*=-1.0f;
+		if (g>1.0f) g=1.0f;
+	}else{
+		g=(1.0f - (alpha * 2.0f));
+		if (g<0) g*=-1.0f;
+		if (g>1.0f) g=1.0f;
+	}
+	if (alpha>=0.5f){
+		b=0.0f;
+	}else{
+		b=(1.0f - (alpha * 2.0f));
+		if (b<0) b*=-1.0f;
+		if (b>1.0f) g=1.0f;
+	}
+	r_color = r;
+	g_color = g;
+	b_color = b;
+}
+
+void ExplosionNukeRenderer::Entry::draw(Vector startPosition, float size)
+{
+	// Set the current position
+	float z = positions_[position_][2] - size / 2.0f ;
+	float w = positions_[position_][0] + 4;
+	posX = startPosition[0] + sinf(rotation_) * w;
+	posY = startPosition[1] + cosf(rotation_) * w;
+	posZ = startPosition[2] + z;
+
+	// Add a little offset to the current position
+	// (NOTE: This should really be done in simulate!!)
+	if (position_>=(ExplosionNukeRenderer_STEPS *0.3f)){
+		//entry.posZ+=(RAND*2.0f)-1.0f;
+		float delta= ExplosionNukeRenderer_STEPS-(ExplosionNukeRenderer_STEPS*0.3f);
+		float diff = position_-(ExplosionNukeRenderer_STEPS*0.3f);
+		float num = diff/delta;  //num =0..1
+		posZ-=(num*num*num)*size;
+	}
+	
+	// Add a shadow of the smoke on the ground
+	if (posX > 0.0f && posY > 0.0f && 
+		posX < 255.0f && posY < 255.0f)
+	{
+		float aboveGround =	posZ - 
+			ScorchedClient::instance()->getLandscapeMaps().getHMap().
+			getHeight(int (posX), int(posY));
+		Landscape::instance()->getShadowMap().
+			addCircle(posX, posY, (height * aboveGround) / 10.0f, 0.2f);
+	}
+
+	// add the actual smoke cloud
+	GLBilboardRenderer::instance()->addEntry(this);
+}
+
 Vector *ExplosionNukeRenderer::positions_ = 0;
 
 ExplosionNukeRenderer::ExplosionNukeRenderer(Vector &position, float size) 
@@ -69,44 +137,14 @@ void ExplosionNukeRenderer::draw(Action *action)
 	for (;itor != enditor; itor++)
 	{
 		Entry &entry = *itor;
-
-		float z = positions_[entry.position_][2] - size_ / 2.0f ;
-		float w = positions_[entry.position_][0] + 4;
-
-		entry.posX = position_[0] + sinf((*itor).rotation_) * w;
-		entry.posY = position_[1] + cosf((*itor).rotation_) * w;
-		entry.posZ = position_[2] + z;
-		if (entry.alpha>=0.1f){
-		entry.alpha*=(0.95f+(RAND*0.05f));
-		//entry.rotation_+=((RAND*(0.5f*3.14f))-(3.14f*0.25f));
-		}
-		if (entry.position_>=(ExplosionNukeRenderer_STEPS *0.3f)){
-			//entry.posZ+=(RAND*2.0f)-1.0f;
-			float delta= ExplosionNukeRenderer_STEPS-(ExplosionNukeRenderer_STEPS*0.3f);
-			float diff = entry.position_-(ExplosionNukeRenderer_STEPS*0.3f);
-			float num = diff/delta;  //num =0..1
-			entry.posZ-=(num*num*num)*size_;
-
-
-		}
-		
-
-		// Add a shadow of the smoke on the ground
-		if (entry.posX > 0.0f && entry.posY > 0.0f && entry.posX < 255.0f && entry.posY < 255.0f)
-		{
-			float aboveGround =	entry.posZ - ScorchedClient::instance()->getLandscapeMaps().getHMap().getHeight(int (entry.posX), int(entry.posY));
-			Landscape::instance()->getShadowMap().addCircle(entry.posX, entry.posY, (entry.height * aboveGround) / 10.0f, 0.2f);
-		}
-
-		// add the actual smoke cloud
-		GLBilboardRenderer::instance()->addEntry(&entry);
+		entry.draw(position_, size_);
 	}
 }
 
 void ExplosionNukeRenderer::simulate(Action *action, float frameTime, bool &remove)
 {
 	const float AddSmokeTime = 0.08f;
-	const int SmokesPerTime = 4;
+	const int SmokesPerTime = 2;
 
 	totalTime_ += frameTime;
 	time_ += frameTime;
@@ -115,21 +153,24 @@ void ExplosionNukeRenderer::simulate(Action *action, float frameTime, bool &remo
 	{
 		time_ -= AddSmokeTime;
 
+		// Simulate all current entries
 		std::list<Entry>::iterator itor = entries_.begin();
 		std::list<Entry>::iterator enditor = entries_.end();
 		for (;itor != enditor; itor++)
 		{
-			(*itor).position_ ++;
+			(*itor).simulate();
 		}
-			while (!entries_.empty() && 
-				entries_.back().position_ >= ExplosionNukeRenderer_STEPS) entries_.pop_back();
 
+		// Remove any entries that have finished the cycle
+		while (!entries_.empty() && 
+			entries_.back().position_ >= ExplosionNukeRenderer_STEPS) entries_.pop_back();
+
+		// Add any new entries
 		if (totalTime_ < size_ / 2.0f)
 		{
 			for (int i=0; i<SmokesPerTime; i++)
 			{
 				Entry entry;
-				entry.style=1;
 				entry.width = 4.0f;
 				entry.height = 4.0f;
 				entry.alpha = 0.5f+(RAND *0.5f);

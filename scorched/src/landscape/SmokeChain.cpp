@@ -91,7 +91,6 @@ SmokeChain::SmokeChain(int noEntries) :
 {
 	firstEntry_ = nextEntry_ = entries_ = new SmokeChainEntry[noEntries];
 	lastEntry_ = &entries_[noEntries - 1];
-	memset(entries_, 0, sizeof(SmokeChainEntry) * noEntries);
 }
 
 SmokeChain::~SmokeChain()
