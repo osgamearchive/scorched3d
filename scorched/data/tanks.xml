@@ -7,6 +7,20 @@
 		</model>
 	</tank>
 	<tank>
+		<name>STURMPANZERWAGEN A7V</name>
+		<model type="ase">
+			<mesh>a7v.ase</mesh>
+			<skin>a7v.bmp</skin>
+		</model>
+	</tank>
+	<tank>
+		<name>Mark 1</name>
+		<model type="ase">
+			<mesh>mark1.ase</mesh>
+			<skin>mark1.bmp</skin>
+		</model>
+	</tank>
+	<tank>
 		<name>Rail Gun</name>
 		<model type="ase">
 			<mesh>railgun.ase</mesh>
