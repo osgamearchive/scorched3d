@@ -28,6 +28,7 @@
 
 UniqueIdStore::UniqueIdStore()
 {
+	if(SDLNet_Init()==-1) false;
 }
 
 UniqueIdStore::~UniqueIdStore()
