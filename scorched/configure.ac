@@ -16,8 +16,8 @@ AC_PROG_RANLIB
 LDFLAGS=-L/usr/X11R6/lib
 CPPFLAGS=-I/usr/X11R6/include
 if test `uname` == Darwin; then
-LDFLAGS="-L/usr/X11R6/lib -lmx"
-CPPFLAGS="-I/usr/X11R6/include -D__DARWIN__"
+LDFLAGS="$LDFLAGS -lmx"
+CPPFLAGS="$CPPFLAGS -D__DARWIN__"
 fi
 
 dnl Check for SDL
@@ -95,6 +95,30 @@ else
     OPENGL_LIBS="-lGL -lGLU" 
 fi 
 LIBS="$LIBS $OPENGL_LIBS"
+
+dnl Checks for mysql
+AC_ARG_WITH([mysql],
+            AC_HELP_STRING([--with-mysql],
+                           [enable mysql support (default no)]),
+            [use_mysql=${withval}],,)
+AH_TEMPLATE(HAVE_MYSQL,[Define if you have libmysql])
+
+if test x"$use_mysql" = x"yes"; then
+AC_MSG_CHECKING(for MySql support)
+have_mysql=no
+AC_TRY_COMPILE([
+        #include <mysql/mysql.h>
+],[
+],[
+have_mysql=yes
+])
+AC_MSG_RESULT($have_mysql)
+if test x$have_mysql != xyes; then
+    AC_MSG_ERROR([*** Can't find the MySql library Try: http://www.mysql.com])
+else
+AC_DEFINE(HAVE_MYSQL)
+fi
+fi
 
 dnl Check for wxwindows
 AM_OPTIONS_WXCONFIG
