@@ -105,12 +105,10 @@ scorched3d_SOURCES = \
 	../GLW/GLWScrollButton.h \
 	../GLW/GLWScrollPanel.cpp \
 	../GLW/GLWScrollPanel.h \
-	../GLW/GLWTracker.cpp \
-	../GLW/GLWTracker.h \
-	../GLW/GLWSlider.cpp \
-	../GLW/GLWSlider.h \
 	../GLW/GLWScrollW.cpp \
 	../GLW/GLWScrollW.h \
+	../GLW/GLWSlider.cpp \
+	../GLW/GLWSlider.h \
 	../GLW/GLWSpinBox.cpp \
 	../GLW/GLWSpinBox.h \
 	../GLW/GLWTab.cpp \
@@ -121,6 +119,8 @@ scorched3d_SOURCES = \
 	../GLW/GLWTextButton.h \
 	../GLW/GLWToolTip.cpp \
 	../GLW/GLWToolTip.h \
+	../GLW/GLWTracker.cpp \
+	../GLW/GLWTracker.h \
 	../GLW/GLWTranslate.cpp \
 	../GLW/GLWTranslate.h \
 	../GLW/GLWVisiblePanel.cpp \
@@ -313,6 +313,8 @@ scorched3d_SOURCES = \
 	../dialogs/TalkDialog.h \
 	../dialogs/TankDialog.cpp \
 	../dialogs/TankDialog.h \
+	../dialogs/WeaponDialog.cpp \
+	../dialogs/WeaponDialog.h \
 	../dialogs/WindDialog.cpp \
 	../dialogs/WindDialog.h \
 	../engine/Action.cpp \
@@ -333,10 +335,10 @@ scorched3d_SOURCES = \
 	../engine/GameStateStimulusI.h \
 	../engine/MainLoop.cpp \
 	../engine/MainLoop.h \
-	../engine/MetaClass.cpp \
-	../engine/MetaClass.h \
 	../engine/MainLoopI.cpp \
 	../engine/MainLoopI.h \
+	../engine/MetaClass.cpp \
+	../engine/MetaClass.h \
 	../engine/PhysicsEngine.cpp \
 	../engine/PhysicsEngine.h \
 	../engine/PhysicsParticle.cpp \
@@ -447,28 +449,24 @@ scorched3d_SOURCES = \
 	../weapons/WeaponAimedOver.h \
 	../weapons/WeaponAimedUnder.cpp \
 	../weapons/WeaponAimedUnder.h \
+	../weapons/WeaponDeathAnimation.cpp \
+	../weapons/WeaponDeathAnimation.h \
+	../weapons/WeaponExplosion.cpp \
+	../weapons/WeaponExplosion.h \
 	../weapons/WeaponLeapFrog.cpp \
 	../weapons/WeaponLeapFrog.h \
 	../weapons/WeaponMirv.cpp \
 	../weapons/WeaponMirv.h \
+	../weapons/WeaponMulti.cpp \
+	../weapons/WeaponMulti.h \
 	../weapons/WeaponNapalm.cpp \
 	../weapons/WeaponNapalm.h \
+	../weapons/WeaponNull.cpp \
+	../weapons/WeaponNull.h \
 	../weapons/WeaponProjectile.cpp \
 	../weapons/WeaponProjectile.h \
 	../weapons/WeaponRoller.cpp \
 	../weapons/WeaponRoller.h \
-	../weapons/WeaponMulti.cpp \
-	../weapons/WeaponMulti.h \
-	../weapons/WeaponNull.cpp \
-	../weapons/WeaponNull.h \
-	../weapons/WeaponExplosion.cpp \
-	../weapons/WeaponExplosion.h \
-	../coms/ComsPlayerAimMessage.cpp \
-	../coms/ComsPlayerAimMessage.h \
-	../coms/ComsTimerStartMessage.cpp \
-	../coms/ComsTimerStartMessage.h \
-	../coms/ComsPlayerStatusMessage.cpp \
-	../coms/ComsPlayerStatusMessage.h \
 	../coms/ComsActionsMessage.cpp \
 	../coms/ComsActionsMessage.h \
 	../coms/ComsAddPlayerMessage.cpp \
@@ -499,10 +497,14 @@ scorched3d_SOURCES = \
 	../coms/ComsNextRoundMessage.h \
 	../coms/ComsPlayedMoveMessage.cpp \
 	../coms/ComsPlayedMoveMessage.h \
+	../coms/ComsPlayerAimMessage.cpp \
+	../coms/ComsPlayerAimMessage.h \
 	../coms/ComsPlayerReadyMessage.cpp \
 	../coms/ComsPlayerReadyMessage.h \
 	../coms/ComsPlayerStateMessage.cpp \
 	../coms/ComsPlayerStateMessage.h \
+	../coms/ComsPlayerStatusMessage.cpp \
+	../coms/ComsPlayerStatusMessage.h \
 	../coms/ComsRmPlayerMessage.cpp \
 	../coms/ComsRmPlayerMessage.h \
 	../coms/ComsScoreMessage.cpp \
@@ -511,6 +513,8 @@ scorched3d_SOURCES = \
 	../coms/ComsStartGameMessage.h \
 	../coms/ComsTextMessage.cpp \
 	../coms/ComsTextMessage.h \
+	../coms/ComsTimerStartMessage.cpp \
+	../coms/ComsTimerStartMessage.h \
 	../coms/NetBuffer.cpp \
 	../coms/NetBuffer.h \
 	../coms/NetBufferUtil.cpp \
@@ -619,16 +623,20 @@ scorched3d_SOURCES = \
 	../zlib/zlib.h \
 	../zlib/zutil.c \
 	../zlib/zutil.h \
+	../actions/ActionVector.cpp \
+	../actions/ActionVector.h \
 	../actions/CameraPositionAction.cpp \
 	../actions/CameraPositionAction.h \
+	../actions/DeathAnimation.cpp \
+	../actions/DeathAnimation.h \
 	../actions/Explosion.cpp \
 	../actions/Explosion.h \
 	../actions/Napalm.cpp \
 	../actions/Napalm.h \
-	../actions/Roller.cpp \
-	../actions/Roller.h \
 	../actions/ShieldHit.cpp \
 	../actions/ShieldHit.h \
+	../actions/ShotBounce.cpp \
+	../actions/ShotBounce.h \
 	../actions/ShotProjectile.cpp \
 	../actions/ShotProjectile.h \
 	../actions/ShowScore.cpp \
@@ -671,8 +679,6 @@ scorched3d_SOURCES = \
 	../sprites/MissileActionRenderer.h \
 	../sprites/NapalmRenderer.cpp \
 	../sprites/NapalmRenderer.h \
-	../sprites/RollerRenderer.cpp \
-	../sprites/RollerRenderer.h \
 	../sprites/SmokeActionRenderer.cpp \
 	../sprites/SmokeActionRenderer.h \
 	../sprites/SprayActionRenderer.cpp \
@@ -701,12 +707,6 @@ scorched3d_SOURCES = \
 	SingleDialog.cpp \
 	SingleDialog.h \
 	main.cpp \
-	../client/ClientPlayerAimHandler.cpp \
-	../client/ClientPlayerAimHandler.h \
-	../client/ClientPlayerStatusHandler.cpp \
-	../client/ClientPlayerStatusHandler.h \
-	../client/ClientStartTimerHandler.cpp \
-	../client/ClientStartTimerHandler.h \
 	../client/ClientActionsHandler.cpp \
 	../client/ClientActionsHandler.h \
 	../client/ClientAddPlayerHandler.cpp \
@@ -733,6 +733,10 @@ scorched3d_SOURCES = \
 	../client/ClientNewGameState.h \
 	../client/ClientNextRoundHandler.cpp \
 	../client/ClientNextRoundHandler.h \
+	../client/ClientPlayerAimHandler.cpp \
+	../client/ClientPlayerAimHandler.h \
+	../client/ClientPlayerStatusHandler.cpp \
+	../client/ClientPlayerStatusHandler.h \
 	../client/ClientReadyState.cpp \
 	../client/ClientReadyState.h \
 	../client/ClientRmPlayerHandler.cpp \
@@ -743,6 +747,8 @@ scorched3d_SOURCES = \
 	../client/ClientShotState.h \
 	../client/ClientStartGameHandler.cpp \
 	../client/ClientStartGameHandler.h \
+	../client/ClientStartTimerHandler.cpp \
+	../client/ClientStartTimerHandler.h \
 	../client/ClientState.cpp \
 	../client/ClientState.h \
 	../client/ClientTextHandler.cpp \
@@ -775,12 +781,8 @@ scorched3d_SOURCES = \
 	../client/TargetCamera.h \
 	../client/WindowSetup.cpp \
 	../client/WindowSetup.h \
-	../server/ServerCommon.cpp \
-	../server/ServerCommon.h \
 	../server/ScorchedServer.cpp \
 	../server/ScorchedServer.h \
-	../server/ServerPlayerAimHandler.cpp \
-	../server/ServerPlayerAimHandler.h \
 	../server/ServerAddPlayerHandler.cpp \
 	../server/ServerAddPlayerHandler.h \
 	../server/ServerBrowserInfo.cpp \
@@ -789,6 +791,8 @@ scorched3d_SOURCES = \
 	../server/ServerBuyAccessoryHandler.h \
 	../server/ServerBuyingState.cpp \
 	../server/ServerBuyingState.h \
+	../server/ServerCommon.cpp \
+	../server/ServerCommon.h \
 	../server/ServerConnectHandler.cpp \
 	../server/ServerConnectHandler.h \
 	../server/ServerDefenseHandler.cpp \
@@ -807,6 +811,8 @@ scorched3d_SOURCES = \
 	../server/ServerNextTurnState.h \
 	../server/ServerPlayedMoveHandler.cpp \
 	../server/ServerPlayedMoveHandler.h \
+	../server/ServerPlayerAimHandler.cpp \
+	../server/ServerPlayerAimHandler.h \
 	../server/ServerPlayerReadyHandler.cpp \
 	../server/ServerPlayerReadyHandler.h \
 	../server/ServerPlayingState.cpp \
