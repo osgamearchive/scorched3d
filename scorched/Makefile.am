@@ -67,6 +67,7 @@ scorcheddata_DATA = data/landscapesdefn.xml \
 	data/tankais.xml \
 	data/tanks.xml \
 	data/ssdisplay.xml \
+	data/tips.txt \
 	data/prunetables.sql \
 	data/ssgame.xml \
 	data/resource-old.xml \

@@ -43,9 +43,8 @@ void MissileMesh::createArrays(ModelsFile &aseMissile, bool useTextures, float d
 	// Check we have a valid tank model
 	if (aseMissile.getModels().empty())
 	{
-		dialogMessage("MissileMesh", 
-					  "ERROR: Failed to find any objects in missile mesh");
-		exit(1);
+		dialogExit("MissileMesh", 
+			"ERROR: Failed to find any objects in missile mesh");
 	}
 
 	// Make sure model is not too large

@@ -116,14 +116,13 @@ int main(int argc, char *argv[])
 	FILE *checkfile = fopen(getDataFile("data/autoexec.xml"), "r");
 	if (!checkfile)
 	{
-		dialogMessage(
+		dialogExit(
 			scorched3dAppName,
 			"Error: This game requires the Scorched3D data directory to run.\n"
 			"Your machine does not appear to have the Scorched3D data directory in\n"
 			"the same directory as the scorched.exe file (set to \"%s\").\n\n"
 			"If Scorched3D does not run please re-install Scorched3D.",
 			getDataFile("."));
-		exit(1);
 	}
 	else fclose(checkfile);
 
@@ -140,7 +139,7 @@ int main(int argc, char *argv[])
 
 	srand((unsigned)time(0));
 	// Parse command line
-	if (!parseCommandLine(argc, argv)) exit(1);
+	if (!parseCommandLine(argc, argv)) exit(64);
 
 	// Init SDL
 	unsigned int initFlags = SDL_INIT_VIDEO;
@@ -165,10 +164,9 @@ int main(int argc, char *argv[])
 		// Load the server settings file
 		if (!::wxFileExists(OptionsParam::instance()->getServerFile()))
 		{
-			dialogMessage(scorched3dAppName,
+			dialogExit(scorched3dAppName,
 				"Server file \"%s\" does not exist.",
 				OptionsParam::instance()->getServerFile());
-			exit(1);
 		}
 		ScorchedServer::instance()->getOptionsGame().readOptionsFromFile(
 			(char *) OptionsParam::instance()->getServerFile());
@@ -230,10 +228,9 @@ int main(int argc, char *argv[])
 					// If not load the client settings file
 					if (!::wxFileExists(OptionsParam::instance()->getClientFile()))
 					{
-						dialogMessage(scorched3dAppName,
+						dialogExit(scorched3dAppName,
 							"Client file \"%s\" does not exist.",
 							OptionsParam::instance()->getClientFile());
-						exit(1);
 					}
 					ScorchedServer::instance()->getOptionsGame().readOptionsFromFile(
 						(char *) OptionsParam::instance()->getClientFile());
@@ -243,23 +240,21 @@ int main(int argc, char *argv[])
 					// Or the client saved game
 					if (!::wxFileExists(OptionsParam::instance()->getSaveFile()))
 					{
-						dialogMessage(scorched3dAppName,
+						dialogExit(scorched3dAppName,
 							"Client save file \"%s\" does not exist.",
 							OptionsParam::instance()->getSaveFile());
-						exit(1);
 					}
 					if (!ClientSave::loadClient(OptionsParam::instance()->getSaveFile()) ||
 						!ClientSave::restoreClient(true, false))
 					{
-						dialogMessage(scorched3dAppName,
+						dialogExit(scorched3dAppName,
 							"Cannot load client save file \"%s\".",
 							OptionsParam::instance()->getSaveFile());
-						exit(1);
 					}
 				}
 			}
 
-			if (!clientMain()) exit(1);
+			if (!clientMain()) exit(64);
 
 			// Write display options back to the file
 			// in case they have been changed by this client (in game by the console)
@@ -273,10 +268,9 @@ int main(int argc, char *argv[])
 		}
 		break;
 	default:
-		dialogMessage(
+		dialogExit(
 			scorched3dAppName,
 			"Error: You provided incorrect or incompatable parameters");
-		exit(1);
 	}
 
 	return 0; // exit(0)

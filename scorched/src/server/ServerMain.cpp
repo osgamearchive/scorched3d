@@ -130,10 +130,7 @@ bool startServer(bool local)
 void serverMain()
 {
 	// Create the server states
-	if (!startServer(false))
-	{
-		exit(1);
-	}
+	if (!startServer(false)) exit(64);
 
 	// Try to start the server
 	NetServer *netServer = (NetServer *) 
@@ -142,13 +139,12 @@ void serverMain()
 		ScorchedServer::instance()->getOptionsGame().getPortNo()) ||
 		!ServerBrowserInfo::instance()->start())
 	{
-		dialogMessage("Scorched3D Server", 
+		dialogExit("Scorched3D Server", 
 			"Failed to start the server.\n\n"
 			"Could not bind to the server ports.\n"
 			"Ensure the specified ports (%i, %i) do not conflict with any other program.",
 			ScorchedServer::instance()->getOptionsGame().getPortNo(),
 			ScorchedServer::instance()->getOptionsGame().getPortNo() + 1);
-		exit(0);
 	}
 
  	if (ScorchedServer::instance()->getOptionsGame().getPublishServer()) 

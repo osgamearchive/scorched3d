@@ -35,7 +35,8 @@ public:
 	// perform the actual actions the messages contain
 	// e.g. actually raise the shields
 	static void processPlayedMoveMessage(
-		ScorchedContext &context, ComsPlayedMoveMessage &message, Tank *tank);
+		ScorchedContext &context, ComsPlayedMoveMessage &message, Tank *tank,
+		bool roundStart);
 	static void processMoveMessage(
 		ScorchedContext &context, ComsPlayedMoveMessage &message, Tank *tank);
 	static void processResignMessage(
@@ -49,5 +50,5 @@ private:
 	TankAILogic();
 };
 
-
 #endif
+

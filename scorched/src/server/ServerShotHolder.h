@@ -31,7 +31,7 @@ public:
 	static ServerShotHolder *instance();
 
 	void clearShots();
-	void playShots();
+	void playShots(bool roundStart);
 
 	void addShot(unsigned int playerId,
 		ComsPlayedMoveMessage *message);
@@ -42,11 +42,6 @@ protected:
 	static ServerShotHolder *instance_;
 	std::map<unsigned int, ComsPlayedMoveMessage *> 
 		messages_;
-
-	void playResign(unsigned int playerId,
-		ComsPlayedMoveMessage *message);
-	void playFiredShot(unsigned int playerId,
-		ComsPlayedMoveMessage *message);
 
 private:
 	ServerShotHolder();

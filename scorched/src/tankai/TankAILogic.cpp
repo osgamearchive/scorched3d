@@ -36,35 +36,53 @@
 #include <engine/ActionController.h>
 
 void TankAILogic::processPlayedMoveMessage(ScorchedContext &context, 
-										   ComsPlayedMoveMessage &message, Tank *tank)
+	ComsPlayedMoveMessage &message, Tank *tank, bool roundStart)
 {
-	switch (message.getType())
+	if (roundStart)
 	{
-		case ComsPlayedMoveMessage::eShot:
-			processFiredMessage(context, message, tank);
-			break;
-		case ComsPlayedMoveMessage::eSkip:
-			// Just do nothing as the player has requested
-			// That they skip their move
-			break;
-		case ComsPlayedMoveMessage::eFinishedBuy:
-			// Just used as a notification that the player
-			// has finished buying, do nothing
-			break;
-		case ComsPlayedMoveMessage::eResign:
-			processResignMessage(context, message, tank);
-			break;
-		case ComsPlayedMoveMessage::eMove:
-			processMoveMessage(context, message, tank);
-			break;
-		default:
-			// add other types
-			break;
+		// All actions that are done at the very START of a new round
+		switch (message.getType())
+		{
+			case ComsPlayedMoveMessage::eShot:
+				processFiredMessage(context, message, tank);
+				break;
+			case ComsPlayedMoveMessage::eSkip:
+				// Just do nothing as the player has requested
+				// That they skip their move
+				break;
+			case ComsPlayedMoveMessage::eFinishedBuy:
+				// Just used as a notification that the player
+				// has finished buying, do nothing
+				break;
+			case ComsPlayedMoveMessage::eResign:
+				// Just do nothing as this will be done at the END
+				// of the round
+				break;
+			case ComsPlayedMoveMessage::eMove:
+				processMoveMessage(context, message, tank);
+				break;
+			default:
+				// add other START round types
+				break;
+		}
+	}
+	else
+	{
+		// All actions that are done at the very END of a round
+		switch (message.getType())
+		{
+			case ComsPlayedMoveMessage::eResign:
+				processResignMessage(context, message, tank);
+				break;
+			default:
+				// Add other END round types
+				break;
+		}
 	}
 }
 
 void TankAILogic::processMoveMessage(ScorchedContext &context, 
-									 ComsPlayedMoveMessage &message, Tank *tank)
+	ComsPlayedMoveMessage &message, Tank *tank)
 {
 	// Check the is alive
 	if (tank->getState().getState() != TankState::sNormal) return;
@@ -105,7 +123,7 @@ void TankAILogic::processMoveMessage(ScorchedContext &context,
 }
 
 void TankAILogic::processResignMessage(ScorchedContext &context, 
-									   ComsPlayedMoveMessage &message, Tank *tank)
+	ComsPlayedMoveMessage &message, Tank *tank)
 {
 	// Check the is alive
 	if (tank->getState().getState() == TankState::sNormal)
@@ -119,7 +137,7 @@ void TankAILogic::processResignMessage(ScorchedContext &context,
 }
 
 void TankAILogic::processFiredMessage(ScorchedContext &context, 
-									  ComsPlayedMoveMessage &message, Tank *tank)
+	ComsPlayedMoveMessage &message, Tank *tank)
 {
 	// Check the tank is alive
 	if (tank->getState().getState() == TankState::sNormal)
@@ -181,7 +199,7 @@ void TankAILogic::processFiredMessage(ScorchedContext &context,
 }
 
 bool TankAILogic::processDefenseMessage(ScorchedContext &context, 
-										ComsDefenseMessage &message, Tank *tank)
+	ComsDefenseMessage &message, Tank *tank)
 {
 	// Actually perform the required action
 	switch (message.getChange())

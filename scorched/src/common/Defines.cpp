@@ -64,7 +64,7 @@ void dialogAssert(const char *lineText, const int line, const char *file)
 	char buffer[1024];
 	sprintf(buffer, "%s\n%i:%s", lineText, line, file);
 	dialogMessage("Program Assert", buffer);
-	exit(1);
+	exit(64);
 }
 
 const char *formatStringList(const char *format, va_list ap)
@@ -96,7 +96,7 @@ void dialogExit(const char *header, const char *file, ...)
 	va_end(ap); 
 
 	dialogMessage(header, result);
-	exit(1);
+	exit(64);
 }
 
 void setDataFileMod(const char *mod)

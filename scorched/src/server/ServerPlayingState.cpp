@@ -20,6 +20,7 @@
 
 #include <server/ServerPlayingState.h>
 #include <server/ServerShotHolder.h>
+#include <server/ServerState.h>
 #include <server/ScorchedServer.h>
 #include <server/TurnController.h>
 #include <server/ServerCommon.h>
@@ -38,17 +39,31 @@ void ServerPlayingState::enterState(const unsigned state)
 {
 	// Set the wait timer to the current time
 	time_ = 0.0f;
+
+	// Clear the current player shots (if any)
+	ServerShotHolder::instance()->clearShots();
 }
 
 bool ServerPlayingState::acceptStateChange(const unsigned state, 
 		const unsigned nextState,
 		float frameTime)
 {
-	// Check if the time to make the shots has expired
+	// Check how long we are allowed to wait
 	time_ += frameTime;
-	if (ScorchedServer::instance()->getOptionsGame().getShotTime() > 0)
+	int shotTime = 0;
+	if (state == ServerState::ServerStateBuying)
 	{
-		if (time_ > ScorchedServer::instance()->getOptionsGame().getShotTime() + 5)
+		shotTime = ScorchedServer::instance()->getOptionsGame().getBuyingTime();
+	}
+	else
+	{
+		shotTime = ScorchedServer::instance()->getOptionsGame().getShotTime();
+	}
+
+	// Check if the time to make the shots has expired
+	if (shotTime > 0)
+	{
+		if (time_ > shotTime + 5)
 		{
 			// For each alive tank that should have made a move
 			// Check if the tank has missed its go

@@ -29,7 +29,6 @@
 #include <server/ServerTooFewPlayersStimulus.h>
 #include <server/ServerStateTooFewPlayersState.h>
 #include <server/ServerPlayingState.h>
-#include <server/ServerBuyingState.h>
 #include <server/ServerScoreState.h>
 #include <server/ServerShotState.h>
 
@@ -112,7 +111,7 @@ void ServerState::setupStates(GameState &gameState)
 		serverPlaying, ServerStateNextTurn);
 
 	// ServerStateBuying
-	ServerBuyingState *serverBuying = new ServerBuyingState;
+	ServerPlayingState *serverBuying = new ServerPlayingState;
 	gameState.addStateEntry(ServerStateBuying,
 		serverBuying);
 	gameState.addStateStimulus(ServerStateBuying,

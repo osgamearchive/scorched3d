@@ -186,10 +186,9 @@ void HeightMapModifier::generateTerrain(HeightMap &hmap,
 		const char *fileName = getDataFile(defn.mask.c_str());
 		if (!maskMap.loadFromFile(fileName, false))
 		{
-			dialogMessage("Landscape",
-						  "Error: Failed to find mask map \"%s\"",
-						  fileName);
-			exit(1);
+			dialogExit("Landscape",
+				"Error: Failed to find mask map \"%s\"",
+				fileName);
 		}
 	}
 

@@ -501,6 +501,8 @@ scorched3d_SOURCES = \
 	../weapons/WeaponMirv.h \
 	../weapons/WeaponMulti.cpp \
 	../weapons/WeaponMulti.h \
+	../weapons/WeaponMuzzle.cpp \
+	../weapons/WeaponMuzzle.h \
 	../weapons/WeaponNapalm.cpp \
 	../weapons/WeaponNapalm.h \
 	../weapons/WeaponNull.cpp \
@@ -871,8 +873,6 @@ scorched3d_SOURCES = \
 	../server/ServerBrowserInfo.h \
 	../server/ServerBuyAccessoryHandler.cpp \
 	../server/ServerBuyAccessoryHandler.h \
-	../server/ServerBuyingState.cpp \
-	../server/ServerBuyingState.h \
 	../server/ServerCommon.cpp \
 	../server/ServerCommon.h \
 	../server/ServerConnectHandler.cpp \
@@ -935,20 +935,12 @@ scorched3d_SOURCES = \
 	../tankai/TankAIAdder.h \
 	../tankai/TankAIComputer.cpp \
 	../tankai/TankAIComputer.h \
+	../tankai/TankAIComputerAim.cpp \
+	../tankai/TankAIComputerAim.h \
 	../tankai/TankAIComputerBuyer.cpp \
 	../tankai/TankAIComputerBuyer.h \
-	../tankai/TankAIComputerMoron.cpp \
-	../tankai/TankAIComputerMoron.h \
-	../tankai/TankAIComputerPShark.cpp \
-	../tankai/TankAIComputerPShark.h \
-	../tankai/TankAIComputerRandom.cpp \
-	../tankai/TankAIComputerRandom.h \
-	../tankai/TankAIComputerShooter.cpp \
-	../tankai/TankAIComputerShooter.h \
 	../tankai/TankAIComputerTarget.cpp \
 	../tankai/TankAIComputerTarget.h \
-	../tankai/TankAIComputerTosser.cpp \
-	../tankai/TankAIComputerTosser.h \
 	../tankai/TankAIHuman.cpp \
 	../tankai/TankAIHuman.h \
 	../tankai/TankAIHumanCtrl.cpp \

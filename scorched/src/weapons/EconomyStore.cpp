@@ -57,9 +57,8 @@ void EconomyStore::loadEconomy()
 		ScorchedServer::instance()->getOptionsGame().getEconomy());
 	if (!economy_)
 	{
-		dialogMessage("Failed to find an economy called \"%s\"",
+		dialogExit("Failed to find an economy called \"%s\"",
 			ScorchedServer::instance()->getOptionsGame().getEconomy());
-		exit(1);
 	}
 	economy_->loadPrices();
 }

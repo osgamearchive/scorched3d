@@ -47,11 +47,10 @@ StatsLogger *StatsLogger::instance()
 			instance_ = new StatsLoggerMySQL;
 			Logger::log(0, "Created mysql stats logger.");
 #else
-			dialogMessage("StatsLogger",
+			dialogExit("StatsLogger",
 				"Atempted to create mysql stats logger\n"
 				"but mysql support has not been compiled into this\n"
 				"scorched3d binary.");
-			exit(1);
 #endif
 		}
 		else if (strcmp(statsLogger, "file") == 0)

@@ -114,7 +114,7 @@ bool ServerShotHolder::haveAllTurnShots()
 	return true;
 }
 
-void ServerShotHolder::playShots()
+void ServerShotHolder::playShots(bool roundStart)
 {
 	std::map<unsigned int, ComsPlayedMoveMessage *>::iterator itor;
 	for (itor = messages_.begin();
@@ -135,8 +135,8 @@ void ServerShotHolder::playShots()
 			// Actually play the move
 			TankAILogic::processPlayedMoveMessage(
 				ScorchedServer::instance()->getContext(),
-				*message, tank);
+				*message, tank, roundStart);
 		}
 	}
-	clearShots();
 }
+

@@ -47,8 +47,9 @@ void ServerShotState::enterState(const unsigned state)
 	ScorchedServer::instance()->getActionController().resetTime();
 	ScorchedServer::instance()->getActionController().clear();
 
-	// Add all shots to the action controller
-	ServerShotHolder::instance()->playShots();
+	// Add all shots that should be run at the start of the round
+	// to the action controller
+	ServerShotHolder::instance()->playShots(true);
 
 	// Reset the amount of time taken
 	totalTime_ = 0.0f;
@@ -69,6 +70,11 @@ bool ServerShotState::acceptStateChange(const unsigned state,
 		// All the actions have finished
 		if (ScorchedServer::instance()->getActionController().noReferencedActions())
 		{ 
+			// Add all the shots that should be run at the end of the round
+			// to the action controller
+			ServerShotHolder::instance()->playShots(false);
+			stepActions(state, 0.5f);
+
 			// Check if any player or team has won the round
 			if (ScorchedServer::instance()->getTankContainer().aliveCount() < 2 ||
 				(ScorchedServer::instance()->getTankContainer().teamCount() == 1 &&

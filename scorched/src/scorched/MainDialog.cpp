@@ -82,6 +82,7 @@ void setExeName(const char *name, bool allowExceptions)
 
 static SDL_mutex *messageMutex_ = 0;
 static wxString messageString_;
+static int exitCode_ = 0;
 
 class ScorchedProcess : public wxProcess
 {
@@ -93,13 +94,14 @@ public:
 		if (status != 0)
 		{
 			SDL_LockMutex(messageMutex_);
+			exitCode_ = status;
 			messageString_ = "The Scorched3d process "
-				"terminated unexpectedly.\n"
-				"The error given was :\n";
+				"terminated unexpectedly.\n";
 			while (IsInputAvailable())
 			{
 				wxTextInputStream tis(*GetInputStream());
-				messageString_.append(tis.ReadLine());
+				wxString line = tis.ReadLine();
+				messageString_.append(line);
 				messageString_.append("\n");
 			}
 			SDL_UnlockMutex(messageMutex_);
@@ -301,24 +303,34 @@ void MainFrame::onTimer()
 
 	if (!newString.empty())
 	{
-		newString.append("\n"
-			"Would you like to load the failsafe "
-			"scorched3d settings?\n"
-			"This gives the best chance of working but "
-			"at the cost of graphical detail.\n"
-			"You can adjust this later in the Scorched3D "
-			"display settings dialog.\n"
-			"Note: Most problems can be fixed by using "
-			"the very latest drivers\n"
-			"for your graphics card.");
-		int answer = ::wxMessageBox(
-			newString,
-			"Scorched3D Abnormal Termination",
-			wxYES_NO | wxICON_ERROR);
-		if (answer == wxYES)
+		if (exitCode_ != 64)
 		{
-			OptionsDisplay::instance()->loadSafeValues();
-			OptionsDisplay::instance()->writeOptionsToFile();
+			newString.append("\n"
+				"Would you like to load the failsafe "
+				"scorched3d settings?\n"
+				"This gives the best chance of working but "
+				"at the cost of graphical detail.\n"
+				"You can adjust this later in the Scorched3D "
+				"display settings dialog.\n"
+				"Note: Most problems can be fixed by using "
+				"the very latest drivers\n"
+				"for your graphics card.");
+			int answer = ::wxMessageBox(
+				newString,
+				"Scorched3D Abnormal Termination",
+				wxYES_NO | wxICON_ERROR);
+			if (answer == wxYES)
+			{
+				OptionsDisplay::instance()->loadSafeValues();
+				OptionsDisplay::instance()->writeOptionsToFile();
+			}
+		}
+		else
+		{
+			::wxMessageBox(
+				newString,
+				"Scorched3D Abnormal Termination",
+				wxICON_ERROR);
 		}
 	}
 }

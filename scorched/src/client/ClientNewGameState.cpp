@@ -62,7 +62,8 @@ void ClientNewGameState::enterState(const unsigned state)
 	if (!initOnce)
 	{
 		if (!ExplosionTextures::instance()->createTextures(
-			ProgressDialog::instance())) exit(1);
+			ProgressDialog::instance())) 
+				dialogExit("Scorched3D", "Failed to load explosion textures");
 		GLLenseFlare::instance()->init(
 			ProgressDialog::instance());
 		initOnce = true;

@@ -17,11 +17,14 @@ Fixed: XML Parser does not add extra LFs (Fixes enabled landscapes becoming disa
 Fixed: Sky dome incorrectly positioned
 Fixed: Tank cannot move when burried
 Fixed: Tank is not covered by trees on the first move
-Fixed: Shot timer won't expire prematurely
+Fixed: Shot and buy timer won't expire prematurely
 Fixed: 16bit color support for naughty unix graphics card drivers
 Fixed: Better XML error reporting
 Fixed: Console does not jump to end when new text added
 Fixed: Remove waiting for non-crucial items like nukes + debris
+Fixed: Idle counter for player increases when buy time exceeded
+Fixed: Player resigns only take place at the end of the round
+Fixed: Load fail safe settings dialog is only displayed after a sigsegv 
 
 Changed: Changed free market ecconmy so price decreases are slower
 Changed: Tank can move up and down bigger slopes (configurable)

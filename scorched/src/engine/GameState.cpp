@@ -367,11 +367,10 @@ void GameState::setState(const unsigned state)
 	}
 	else
 	{
-		dialogMessage("Scorched3D", 
+		dialogExit("Scorched3D", 
 			"%s: Failed to find state %i", 
 			name_.c_str(),
 			state);
-		exit(1);
 	}
 }
 
@@ -389,11 +388,10 @@ bool GameState::checkStimulate()
 		}
 		else
 		{
-			dialogMessage("Scorched3D", 
+			dialogExit("Scorched3D", 
 				"%s: Failed to find stimulus %i in state %i", 
 				name_.c_str(),
 				pendingStimulus_, currentState_);
-			exit(1);
 		}
 	}
 

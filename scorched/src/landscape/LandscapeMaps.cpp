@@ -62,10 +62,9 @@ void LandscapeMaps::generateHMap(LandscapeDefinition *hdef,
 		const char *fileName = getDataFile(file->file.c_str());
 		if (!bitmap.loadFromFile(fileName, false))
 		{
-			dialogMessage("Landscape",
-						  "Error: Unabled to find landscape map \"%s\"",
-						  fileName);
-			exit(1);
+			dialogExit("Landscape",
+				"Error: Unabled to find landscape map \"%s\"",
+				fileName);
 		}
 		else
 		{

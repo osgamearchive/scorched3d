@@ -2876,12 +2876,6 @@
 				RelativePath="..\server\ServerBuyAccessoryHandler.h">
 			</File>
 			<File
-				RelativePath="..\server\ServerBuyingState.cpp">
-			</File>
-			<File
-				RelativePath="..\server\ServerBuyingState.h">
-			</File>
-			<File
 				RelativePath="..\server\ServerCommon.cpp">
 			</File>
 			<File

@@ -115,8 +115,7 @@ void TankMesh::createArrays(ModelsFile &aseTank, bool useTextures, float detail)
 	// Check we have a valid tank model
 	if (gunModels.empty() || turretModels.empty())
 	{
-		dialogMessage("Tank", "ERROR: Failed to find gun and turret from mesh");
-		exit(1);
+		dialogExit("Tank", "ERROR: Failed to find gun and turret from mesh");
 	}
 
 	// Find the center of rotation for the turret
