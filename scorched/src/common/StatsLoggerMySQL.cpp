@@ -547,6 +547,14 @@ void StatsLoggerMySQL::addInfo(Tank *tank)
 		"playerid=%i AND ipaddress=\"%s\";", prefix_.c_str(), 
 		playerId_[tank->getUniqueId()], 
 		NetInterface::getIpName(tank->getIpAddress()));
+
+	// Update last username etc
+        runQuery("UPDATE scorched3d%s_players SET "
+                "name=\"%s\", ipaddress=\"%s\" "
+                "WHERE playerid = %i;",
+                prefix_.c_str(), tank->getName(), 
+                NetInterface::getIpName(tank->getIpAddress()),
+                playerId_[tank->getUniqueId()]);
 }
 
 void StatsLoggerMySQL::tankConnected(Tank *tank)
@@ -581,10 +589,9 @@ void StatsLoggerMySQL::tankConnected(Tank *tank)
 
 	// Connecting stats
 	runQuery("UPDATE scorched3d%s_players SET connects=connects+1, "
-		"lastconnected=NOW(), name=\"%s\", osdesc=\"%s\", ipaddress=\"%s\" "
+		"lastconnected=NOW(), osdesc=\"%s\" "
 		"WHERE playerid = %i;", 
-		prefix_.c_str(), tank->getName(), tank->getHostDesc(), 
-		NetInterface::getIpName(tank->getIpAddress()),
+		prefix_.c_str(), tank->getHostDesc(), 
 		playerId);
 }
 
