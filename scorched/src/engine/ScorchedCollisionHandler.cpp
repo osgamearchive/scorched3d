@@ -150,7 +150,6 @@ void ScorchedCollisionHandler::shotCollision(dGeomID o1, dGeomID o2,
 			unsigned int id = (unsigned int) otherInfo->data;
 
 			// Only collide with other peoples shields
-
 			if (shot->getPlayerId() != id)
 			{
 				action = collisionShield(id, particlePositionV, 
@@ -172,7 +171,13 @@ void ScorchedCollisionHandler::shotCollision(dGeomID o1, dGeomID o2,
 			// Only collide with other tanks
 			if (shot->getPlayerId() != id)
 			{
-				action = ParticleActionFinished;
+				// Make sure tank we are colliding with is alive
+				Tank *tank = context_->tankContainer.getTankById(id);
+				if (tank &&
+					tank->getState().getState() == TankState::sNormal)
+				{
+					action = ParticleActionFinished;
+				}
 			}
 			else
 			{
@@ -227,8 +232,9 @@ ScorchedCollisionHandler::ParticleAction ScorchedCollisionHandler::collisionShie
 	Vector &collisionPos,
 	Shield::ShieldSize size)
 {
+	// Check tank still exists and is alive
 	Tank *tank = context_->tankContainer.getTankById(id);
-	if (tank)
+	if (tank && tank->getState().getState() == TankState::sNormal)
 	{
 		Shield *shield = tank->getAccessories().getShields().getCurrentShield();
 		if (shield)
