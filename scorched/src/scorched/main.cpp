@@ -39,6 +39,7 @@
 #include <math.h>
 #include <signal.h>
 #include <float.h>
+#include <time.h>
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
@@ -99,7 +100,7 @@ bool parseCommandLine(int argc, char *argv[])
 		{
 			const char *modDir = (*itor).c_str();
 			std::string src = getModFile(modDir);
-			std::string dest = getSettingsFile("/oldmods/%s", modDir);
+			std::string dest = getSettingsFile("/oldmods/%s-%u", modDir, time(0));
 			if (dirExists(src.c_str()))
 			{
 				if (::wxRenameFile(src.c_str(), dest.c_str()))
