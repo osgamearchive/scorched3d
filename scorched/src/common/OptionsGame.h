@@ -130,6 +130,10 @@ public:
 	void setMaxLandscapeSize(int value) { maxLandscapeSize_.setValue(value); }
 	const char *getMaxLandscapeSizeToolTip() { return maxLandscapeSize_.getDescription(); }
 
+	int getStartTime() { return startTime_.getValue(); }
+	void setStartTime(int value) { startTime_.setValue(value); }
+	const char *getStartTimeToolTip() { return startTime_.getDescription(); }
+
 	int getShotTime() { return shotTime_.getValue(); }
 	void setShotTime(int value) { shotTime_.setValue(value); }
 	const char *getShotTimeToolTip() { return shotTime_.getDescription(); }
@@ -339,6 +343,7 @@ protected:
 	OptionEntryBoundedInt endArmsLevel_;
 	OptionEntryInt maxRoundTurns_;
 	OptionEntryInt shotTime_;
+	OptionEntryInt startTime_;
 	OptionEntryInt buyingTime_;
 	OptionEntryInt scoreTime_;
 	OptionEntryInt allowedMissedMoves_;

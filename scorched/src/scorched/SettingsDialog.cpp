@@ -574,9 +574,14 @@ bool SettingsFrame::TransferDataToWindow()
 			sprintf(string, "%i Seconds", i);
 			if (i==0) sprintf(string, "%i (Infinite)", i);	
 			SettingsMain::IDC_SHOT_TIME_CTRL->Append(string);
+			SettingsMain::IDC_START_TIME_CTRL->Append(string);
 			SettingsMain::IDC_IDLE_SHOTTIME_CTRL->Append(string);
 			SettingsMain::IDC_IDLE_TIME_CTRL->Append(string);
 		}
+		SettingsMain::IDC_START_TIME_CTRL->SetSelection(
+			context_.getStartTime()/5);
+		SettingsMain::IDC_START_TIME_CTRL->SetToolTip(
+			wxString("The time to wait before starting a new game."));
 		SettingsMain::IDC_SHOT_TIME_CTRL->SetSelection(
 			context_.getShotTime()/5);
 		SettingsMain::IDC_SHOT_TIME_CTRL->SetToolTip(
@@ -758,6 +763,7 @@ bool SettingsFrame::TransferDataFromWindow()
 		int shotTime = 30;
 		int waitTime = 30;
 		int idleTime = 30;
+		int startTime = 10;
 		int idleShotTime = 10;
 		int maxRoundTurns = 15;
 		int downloadSpeed = 0;
@@ -770,6 +776,7 @@ bool SettingsFrame::TransferDataFromWindow()
 		sscanf(SettingsMain::IDC_NOSHOTS_CTRL->GetValue(), "%i", &maxRoundTurns);
 		sscanf(SettingsMain::IDC_SERVER_ROUNDS_CTRL->GetValue(), "%i", &noRounds);
 		sscanf(SettingsMain::IDC_SHOT_TIME_CTRL->GetValue(), "%i", &shotTime);
+		sscanf(SettingsMain::IDC_START_TIME_CTRL->GetValue(), "%i", &startTime);
 		sscanf(SettingsMain::IDC_IDLE_TIME_CTRL->GetValue(), "%i", &idleTime);
 		sscanf(SettingsMain::IDC_IDLE_SHOTTIME_CTRL->GetValue(), "%i", &idleShotTime);
 		sscanf(SettingsMain::IDC_DOWNLOAD_SPEED_CTRL->GetValue(), "%i", &downloadSpeed);
@@ -777,6 +784,7 @@ bool SettingsFrame::TransferDataFromWindow()
 		
 		context_.setNoRounds(noRounds);
 		context_.setShotTime(shotTime);
+		context_.setStartTime(startTime);
 		context_.setIdleKickTime(idleTime);
 		context_.setIdleShotKickTime(idleShotTime);
 		context_.setNoMaxRoundTurns(maxRoundTurns);

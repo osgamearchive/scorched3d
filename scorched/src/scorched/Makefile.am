@@ -39,8 +39,8 @@ scorched3d_SOURCES = \
 	../GLEXT/GLFont2d.h \
 	../GLEXT/GLFontBanner.cpp \
 	../GLEXT/GLFontBanner.h \
-	../GLEXT/GLGif.h \
 	../GLEXT/GLGif.cpp \
+	../GLEXT/GLGif.h \
 	../GLEXT/GLImage.cpp \
 	../GLEXT/GLImage.h \
 	../GLEXT/GLInfo.cpp \
@@ -93,6 +93,8 @@ scorched3d_SOURCES = \
 	../GLW/GLWFont.h \
 	../GLW/GLWIcon.cpp \
 	../GLW/GLWIcon.h \
+	../GLW/GLWImageList.cpp \
+	../GLW/GLWImageList.h \
 	../GLW/GLWLabel.cpp \
 	../GLW/GLWLabel.h \
 	../GLW/GLWListView.cpp \
@@ -157,6 +159,8 @@ scorched3d_SOURCES = \
 	../tank/TankAccessories.h \
 	../tank/TankAutoDefense.cpp \
 	../tank/TankAutoDefense.h \
+	../tank/TankAvatar.cpp \
+	../tank/TankAvatar.h \
 	../tank/TankBatteries.cpp \
 	../tank/TankBatteries.h \
 	../tank/TankColorGenerator.cpp \
@@ -355,10 +359,10 @@ scorched3d_SOURCES = \
 	../engine/MainLoopI.h \
 	../engine/MetaClass.cpp \
 	../engine/MetaClass.h \
-	../engine/ModFiles.cpp \
-	../engine/ModFiles.h \
 	../engine/ModFileEntry.cpp \
 	../engine/ModFileEntry.h \
+	../engine/ModFiles.cpp \
+	../engine/ModFiles.h \
 	../engine/Particle.cpp \
 	../engine/Particle.h \
 	../engine/ParticleEmitter.cpp \
@@ -977,6 +981,8 @@ scorched3d_SOURCES = \
 	../server/ServerShotHolder.h \
 	../server/ServerShotState.cpp \
 	../server/ServerShotState.h \
+	../server/ServerStartingState.cpp \
+	../server/ServerStartingState.h \
 	../server/ServerState.cpp \
 	../server/ServerState.h \
 	../server/ServerStateTooFewPlayersState.cpp \

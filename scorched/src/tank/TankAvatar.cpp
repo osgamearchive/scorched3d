@@ -21,7 +21,6 @@
 #include <tank/TankAvatar.h>
 #include <GLEXT/GLTexture.h>
 #include <GLEXT/GLGif.h>
-#include <coms/NetBuffer.h>
 #include <common/Defines.h>
 #include <stdio.h>
 
@@ -36,6 +35,32 @@ TankAvatar::~TankAvatar()
 {
 	delete texture_;
 	delete file_;
+}
+
+bool TankAvatar::writeMessage(NetBuffer &buffer)
+{
+	buffer.addToBuffer(name_);
+	buffer.addToBuffer(file_->getBufferUsed());
+	if (file_->getBufferUsed() > 0)
+	{
+		buffer.addDataToBuffer(file_->getBuffer(),
+			file_->getBufferUsed());
+	}
+}
+
+bool TankAvatar::readMessage(NetBufferReader &reader)
+{
+	unsigned int used = 0;
+	if (!reader.getFromBuffer(name_)) return false;
+	if (!reader.getFromBuffer(used)) return false;
+	if (used > 0)
+	{
+		file_->allocate(used);
+		file_->reset();
+		file_->setBufferUsed(used);
+		reader.getDataFromBuffer(file_->getBuffer(),
+			used);
+	}
 }
 
 bool TankAvatar::loadFromFile(const char *fileName)

@@ -30,6 +30,7 @@ namespace ServerState
 	{
 		ServerStateTooFewPlayers = 1,
 		ServerStateReset,
+		ServerStateStarting,
 		ServerStateNewGame,
 		ServerStateNextRound,
 		ServerStateReady,
@@ -51,7 +52,8 @@ namespace ServerState
 		ServerStimulusBuying,
 		ServerStimulusShot,
 		ServerStimulusScore,
-		ServerStimulusTooFewPlayers
+		ServerStimulusTooFewPlayers,
+		ServerStimulusStarting
 	};
 
 	void setupStates(GameState &gameState);

@@ -3260,6 +3260,12 @@
 				RelativePath="..\server\ServerShotState.h">
 			</File>
 			<File
+				RelativePath="..\server\ServerStartingState.cpp">
+			</File>
+			<File
+				RelativePath="..\server\ServerStartingState.h">
+			</File>
+			<File
 				RelativePath="..\server\ServerState.cpp">
 			</File>
 			<File

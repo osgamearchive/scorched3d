@@ -70,7 +70,7 @@ bool ServerBanned::load()
 		childrenItor++)
 	{
 		XMLNode *currentNode = (*childrenItor);
-		XMLNode *maskNode = 0;
+		XMLNode *maskNode = 0, *nameNode = 0, *timeNode = 0;
 
 		// Read the mask
 		unsigned int m = UINT_MAX;
@@ -88,6 +88,20 @@ bool ServerBanned::load()
 			m = mask[3] << 24 | mask[2] << 16 | mask[1] << 8 | mask[0];
 		}
 
+		// Read name
+		std::string name;
+		if (currentNode->getNamedParameter("name", nameNode, false))
+		{
+			name = nameNode->getContent();
+		}
+
+		// Time
+		time_t bantime = 0;
+		if (currentNode->getNamedParameter("time", timeNode, false))
+		{
+			sscanf(timeNode->getContent(), "%u", &bantime);
+		}
+
 		// Read the ip address
 		unsigned int address[4];
 		if (sscanf(currentNode->getContent(), "%u.%u.%u.%u", 
@@ -103,7 +117,7 @@ bool ServerBanned::load()
 		ip = address[3] << 24 | address[2] << 16 | address[1] << 8 | address[0];
 
 		// Add the new entry
-		addBannedEntry(ip, m);
+		addBannedEntry(ip, m, name.c_str(), bantime);
 	}
 	return true;
 }
@@ -117,22 +131,27 @@ bool ServerBanned::isBanned(unsigned int ip)
 	{
 		BannedRange &range = *itor;
 		unsigned int newip = range.mask & ip;
-		std::set<unsigned int>::iterator findItor =
+		std::map<unsigned int, BannedEntry>::iterator findItor =
 			range.ips.find(newip);
 		if (findItor != range.ips.end()) return true;
 	}
 	return false;
 }
 
-void ServerBanned::addBanned(unsigned int ip)
+void ServerBanned::addBanned(unsigned int ip, const char *name)
 {
-	addBannedEntry(ip, UINT_MAX);
+	unsigned int t = time(0);
+	addBannedEntry(ip, UINT_MAX, name, t);
 	save();
 }
 
-void ServerBanned::addBannedEntry(unsigned int ip, unsigned int mask)
+void ServerBanned::addBannedEntry(unsigned int ip, unsigned int mask,
+	const char *name, unsigned int bantime)
 {
 	unsigned int newip = mask & ip;
+	BannedEntry newEntry;
+	newEntry.name = name;
+	newEntry.bantime = bantime;
 
 	bool found = false;
 	std::list<BannedRange>::iterator itor;
@@ -144,13 +163,13 @@ void ServerBanned::addBannedEntry(unsigned int ip, unsigned int mask)
 		if (range.mask == mask)
 		{
 			found = true;
-			range.ips.insert(newip);
+			range.ips[newip] = newEntry;
 		}
 	}
 	if (!found)
 	{
 		BannedRange range;
-		range.ips.insert(newip);
+		range.ips[newip] = newEntry;
 		range.mask = mask;
 		bannedIps_.push_back(range);
 	}
@@ -170,13 +189,14 @@ bool ServerBanned::save()
 	{
 		BannedRange &range = *itor;
 		unsigned int m = range.mask;
-		std::set<unsigned int>::iterator ipitor;
+		std::map<unsigned int, BannedEntry>::iterator ipitor;
 		for (ipitor = range.ips.begin();
 			ipitor != range.ips.end();
 			ipitor++)
 		{
 			// Add ip address
-			unsigned int ip = (*ipitor);
+			unsigned int ip = (*ipitor).first;
+			BannedEntry &entry = (*ipitor).second;
 			XMLNode *optionNode = 
 				new XMLNode("ipaddress", NetInterface::getIpName(ip));
 
@@ -186,6 +206,12 @@ bool ServerBanned::save()
 				optionNode->addParameter(new XMLNode("mask", NetInterface::getIpName(m),
 						XMLNode::XMLParameterType));
 			}
+			optionNode->addParameter(new XMLNode("name", 
+					entry.name.c_str(),
+					XMLNode::XMLParameterType));
+			optionNode->addParameter(new XMLNode("time", 
+					formatString("%u", entry.bantime),
+					XMLNode::XMLParameterType));
 
 			// Add to file
 			node.addChild(optionNode);

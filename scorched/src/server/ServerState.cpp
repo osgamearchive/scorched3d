@@ -29,6 +29,7 @@
 #include <server/ServerTooFewPlayersStimulus.h>
 #include <server/ServerStateTooFewPlayersState.h>
 #include <server/ServerPlayingState.h>
+#include <server/ServerStartingState.h>
 #include <server/ServerScoreState.h>
 #include <server/ServerShotState.h>
 
@@ -42,7 +43,17 @@ void ServerState::setupStates(GameState &gameState)
 	gameState.addStateEntry(ServerStateTooFewPlayers,
 		serverTooFewPlayers);
 	gameState.addStateStimulus(ServerStateTooFewPlayers, 
-		serverTooFewPlayers, ServerStateReset);
+		serverTooFewPlayers, ServerStateStarting);
+
+	// ServerStateStarting
+	ServerStartingState *serverStarting = 
+		new ServerStartingState();
+	gameState.addStateEntry(ServerStateStarting,
+		serverStarting);
+	gameState.addStateStimulus(ServerStateStarting, 
+		ServerTooFewPlayersStimulus::instance(), ServerStateTooFewPlayers);	
+	gameState.addStateStimulus(ServerStateStarting, 
+		serverStarting, ServerStateReset);
 
 	// ServerStateReset (Start State)
 	ServerResetState *serverReset = new ServerResetState();
@@ -134,7 +145,7 @@ void ServerState::setupStates(GameState &gameState)
 	gameState.addStateStimulus(ServerStateScore,
 		ServerTooFewPlayersStimulus::instance(), ServerStateTooFewPlayers);	
 	gameState.addStateStimulus(ServerStateScore,
-		serverScore, ServerStateReset);	
+		serverScore, ServerStateStarting);	
 
 	// Set the start state
 	gameState.setState(ServerStateReset);

@@ -54,22 +54,35 @@ bool ClientAddPlayerHandler::processMessage(unsigned int id,
 	ComsAddPlayerMessage message;
 	if (!message.readMessage(reader)) return false;
 
-	// Create the new tank and add it to the tank container
-	// Collections
-	TankModelId modelId(message.getModelName());
-	Tank *tank = new Tank(
-		ScorchedClient::instance()->getContext(),
-		message.getPlayerId(),
-		message.getDestinationId(),
-		message.getPlayerName(),
-		message.getPlayerColor(),
-		modelId);
-	tank->setTeam(message.getPlayerTeam());
-	tank->getAvatar().setFromBuffer(
-		message.getPlayerIconName(),
-		message.getPlayerIcon(),
-		true);
-	ScorchedClient::instance()->getTankContainer().addTank(tank);
+	Tank *tank = ScorchedClient::instance()->getTankContainer().getTankById(
+		message.getPlayerId());
+	if (!tank)
+	{
+		// Create the new tank and add it to the tank container
+		// Collections
+		TankModelId modelId(message.getModelName());
+		tank = new Tank(
+			ScorchedClient::instance()->getContext(),
+			message.getPlayerId(),
+			message.getDestinationId(),
+			message.getPlayerName(),
+			message.getPlayerColor(),
+			modelId);
+		tank->setTeam(message.getPlayerTeam());
+		tank->getAvatar().setFromBuffer(
+			message.getPlayerIconName(),
+			message.getPlayerIcon(),
+			true);
+		ScorchedClient::instance()->getTankContainer().addTank(tank);
+	}
+	else
+	{
+		// Update the tanks icon
+		tank->getAvatar().setFromBuffer(
+			message.getPlayerIconName(),
+			message.getPlayerIcon(),
+			true);
+	}
 
 	return true;
 }

@@ -184,7 +184,8 @@ void ServerCommon::banPlayer(unsigned int playerId)
 		{
 			Logger::log(0, "Banning player %i", playerId);
 		
-			ServerBanned::instance()->addBanned(ipAddress);
+			ServerBanned::instance()->
+				addBanned(ipAddress, tank->getName());
 			kickPlayer(playerId);
 		}
 	}

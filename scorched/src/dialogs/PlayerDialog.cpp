@@ -232,8 +232,11 @@ void PlayerDialog::nextPlayer()
 				OptionsDisplay::instance()->getOnlineUserName());
 			viewer_->selectModelByName(
 				OptionsDisplay::instance()->getOnlineTankModel());
-			imageList_->setCurrent(
-				OptionsDisplay::instance()->getOnlineUserIcon());
+			if (!imageList_->setCurrent(
+				OptionsDisplay::instance()->getOnlineUserIcon()))
+			{
+				imageList_->setCurrent("player.gif");
+			}
 		}
 		else
 		{

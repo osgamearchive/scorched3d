@@ -37,6 +37,8 @@ OptionsGame::OptionsGame() :
 		"The number of each weapon the player is allowed", 0, 90),
 	maxLandscapeSize_(options_, "MaxLandscapeSize",
 		"The largest landscape (in bytes) that will be sent to the clients", 0, 200000),
+	startTime_(options_, "StartTime", 
+		"The amount of time before a new game starts", 0, 0),
 	shotTime_(options_, "ShotTime", 
 		"The amount of time each player has for each shot", 0, 0),
 	buyingTime_(options_, "BuyingTime", 

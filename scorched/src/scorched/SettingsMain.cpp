@@ -73,6 +73,17 @@ static void createControls(wxWindow *parent, wxSizer *topsizer)
 		wxDefaultPosition, wxSize((int) 132, (int) 124.5),
 		0, 0, wxCB_READONLY);
 	sizer->Add(IDC_NOSHOTS_CTRL, 0, wxALIGN_CENTER);	
+
+	IDC_START_TIME_CTRL_TEXT = 
+		new wxStaticText(parent, -1,
+		"Start Time :");
+	sizer->Add(IDC_START_TIME_CTRL_TEXT, 0, wxALIGN_CENTER);
+	IDC_START_TIME_CTRL = 
+		new wxComboBox(parent, IDC_START_TIME,
+		"",
+		wxDefaultPosition, wxSize((int) 132, (int) 124.5),
+		0, 0, wxCB_READONLY);
+	sizer->Add(IDC_START_TIME_CTRL, 0, wxALIGN_CENTER);
 		
 	IDC_SHOT_TIME_CTRL_TEXT = 
 		new wxStaticText(parent, -1,

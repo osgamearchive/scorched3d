@@ -1116,7 +1116,6 @@ scorcheddatawavshoot_DATA = data/wav/shoot/flare.wav \
 scorcheddatawindowsdir = ${datadir}/data/windows
 scorcheddatawindows_DATA = data/windows/aima.bmp \
 	data/windows/aim.bmp \
-	data/windows/player.gif \
 	data/windows/arrow.bmp \
 	data/windows/arrowi.bmp \
 	data/windows/client.bmp \
@@ -1163,3 +1162,22 @@ scorcheddatawindows_DATA = data/windows/aima.bmp \
 	data/windows/wind.bmp \
 	data/windows/winda.bmp \
 	data/windows/winda2.bmp
+scorcheddataavatarsdir = ${datadir}/data/avatars
+scorcheddataavatars_DATA = data/avatars/animal.gif \
+	data/avatars/baby.gif \
+	data/avatars/bavia.gif \
+	data/avatars/computer.gif \
+	data/avatars/daisy.gif \
+	data/avatars/fish.gif \
+	data/avatars/flower.gif \
+	data/avatars/floyd.gif \
+	data/avatars/heart.gif \
+	data/avatars/lips.gif \
+	data/avatars/mxpx.gif \
+	data/avatars/pint.gif \
+	data/avatars/player.gif \
+	data/avatars/prot.gif \
+	data/avatars/termin.gif \
+	data/avatars/vader.gif \
+	data/avatars/web.gif \
+	data/avatars/yoda.gif

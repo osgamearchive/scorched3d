@@ -72,6 +72,7 @@ bool ClientSave::storeClient()
 			// Add all other tanks
 			buffer.addToBuffer(tank->getPlayerId());
 			if (!tank->writeMessage(buffer)) return false;
+			if (!tank->getAvatar().writeMessage(buffer)) return false;
 
 			TankAI *tankAI = tank->getTankAI();
 			if (tankAI) 
@@ -169,6 +170,7 @@ bool ClientSave::restoreClient(bool loadGameState, bool loadPlayers)
 				color,
 				model);
 			if (!tank.readMessage(reader)) return false;
+			if (!tank.getAvatar().readMessage(reader)) return false;
 		
 			std::string tankAIStr;
 			if (!reader.getFromBuffer(tankAIStr)) return false;
@@ -183,6 +185,11 @@ bool ClientSave::restoreClient(bool loadGameState, bool loadPlayers)
 					ScorchedClient::instance()->getTankContainer().getCurrentDestinationId(),
 					tank.getTeam(),
 					tankAIStr.c_str());
+
+				message.setPlayerIconName(tank.getAvatar().getName());
+				message.getPlayerIcon().addDataToBuffer(
+					tank.getAvatar().getFile().getBuffer(),
+					tank.getAvatar().getFile().getBufferUsed());
 				ComsMessageSender::sendToServer(message);
 			}
 		}

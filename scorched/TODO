@@ -5,10 +5,14 @@ Fixed: Camera does not follow meteors or other environment actions
 Fixed: Talk text appears under other windows (text now smaller too)
 Fixed: Fix camera presets
 Fixed: CTRL LF in mod files linux hosts causing mod file downloads
-Fixed: New games or rounds do not cause mod disconnection
+Fixed: New games or rounds do not cause mod downloads to stop
 Fixed: Reduced the server to client payload size considerably (lag??)
-Fixed: Key repeat for console commands bound to keys
+Fixed: Key repeat for console macros bound to keys
+Fixed: wx 2.5 compilation errors (sizers still to fix)
 
+Added: Start timer to server for joining players
+Added: Player decals for in game
+Added: Banned username and time to players that have been banned
 Added: Users can turn IP authentication off
 Added: Weapon and talk icons to the speach lines
 Added: Mod file import and export in options dialog
@@ -27,8 +31,6 @@ Boids
 Move placements to seperate file
 Resigning position due to health left
 Allow players to choose players without joining first
-Add start timer to server for joining players
-Add player decals for in game and stats
 Shadows for other models
 
 -- Server Stuff

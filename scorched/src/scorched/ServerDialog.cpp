@@ -745,16 +745,19 @@ void ServerFrame::onShowBanned(wxCommandEvent &event)
 
 		std::string mask = NetInterface::getIpName(range.mask);
 
-		std::set<unsigned int>::iterator ipitor;
+		std::map<unsigned int, ServerBanned::BannedEntry>::iterator ipitor;
 		for (ipitor = range.ips.begin();
 			ipitor != range.ips.end();
 			ipitor++)
 		{
-			unsigned int ip = *ipitor;
+			unsigned int ip = (*ipitor).first;
+			ServerBanned::BannedEntry &entry = (*ipitor).second;
 			std::string ipName = NetInterface::getIpName(ip);
 
-			listDialog.addItem(formatString("%s (%s)",
-				ipName.c_str(), mask.c_str()));
+			listDialog.addItem(formatString("\"%s\" %s (%s) - %s",
+				entry.name.c_str(),
+				ipName.c_str(), mask.c_str(),
+				entry.bantime?ctime(&entry.bantime):""));
 		}
 	}
 	listDialog.ShowModal();

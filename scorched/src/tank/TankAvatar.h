@@ -22,14 +22,17 @@
 #define __INCLUDE_TankAvatarh_INCLUDE__
 
 #include <string>
+#include <coms/NetBuffer.h>
 
-class NetBuffer;
 class GLTexture;
 class TankAvatar
 {
 public:
 	TankAvatar();
 	virtual ~TankAvatar();
+	
+	bool writeMessage(NetBuffer &buffer);
+	bool readMessage(NetBufferReader &reader);
 
 	bool loadFromFile(const char *fileName);
 	bool setFromBuffer(const char *fileName,

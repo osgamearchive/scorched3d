@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2004
+//    Scorched3D (c) 2000-2003
 //
 //    This file is part of Scorched3D.
 //
@@ -18,48 +18,26 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_ServerBannedh_INCLUDE__)
-#define __INCLUDE_ServerBannedh_INCLUDE__
+#if !defined(__INCLUDE_ServerStartingStateh_INCLUDE__)
+#define __INCLUDE_ServerStartingStateh_INCLUDE__
 
-#include <set>
-#include <map>
-#include <list>
-#include <string>
-#include <time.h>
+#include <engine/GameStateI.h>
+#include <engine/GameStateStimulusI.h>
 
-class ServerBanned
+class ServerStartingState : 
+	public GameStateI, public GameStateStimulusI
 {
 public:
-	static ServerBanned *instance();
-	struct BannedEntry
-	{
-		time_t bantime;
-		std::string name;
-	};
-	struct BannedRange
-	{
-		unsigned int mask;
-		std::map<unsigned int, BannedEntry> ips;
-	};	
-	std::list<BannedRange> &getBannedIps() { return bannedIps_; }
+	ServerStartingState();
+	virtual ~ServerStartingState();
 
-	bool isBanned(unsigned int ip);
-	void addBanned(unsigned int ip, const char *name);
-
-	bool save();
-	bool load();
+	virtual void enterState(const unsigned state);
+	virtual bool acceptStateChange(const unsigned state, 
+		const unsigned nextState,
+		float frameTime);
 
 protected:
-	static ServerBanned *instance_;
-	std::list<BannedRange> bannedIps_;	
-
-	void addBannedEntry(unsigned int ip, unsigned int mask,
-		const char *name, unsigned int bantime);
-
-private:
-	ServerBanned();
-	virtual ~ServerBanned();
+	float timeLeft_;
 };
 
-#endif // __INCLUDE_ServerBannedh_INCLUDE__
-
+#endif

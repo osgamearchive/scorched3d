@@ -30,13 +30,14 @@
 #include <server/ScorchedServer.h>
 #include <stdio.h>
 
-static const float rankLeft = 5.0f;
-static const float nameLeft = 25.0f;
-static const float killsLeft = 205.0f;
-static const float moneyLeft = 260.0f;
-static const float winsLeft = 340.0f;
-static const float readyLeft = 370.0f;
-static const float statsLeft = 395.0f;
+static const float rankLeft = 15.0f;
+static const float iconLeft = 5.0f;
+static const float nameLeft = 35.0f;
+static const float killsLeft = 215.0f;
+static const float moneyLeft = 270.0f;
+static const float winsLeft = 350.0f;
+static const float readyLeft = 380.0f;
+static const float statsLeft = 405.0f;
 static const float lineSpacer = 10.0f;
 
 ScoreDialog *ScoreDialog::instance_ = 0;
@@ -63,7 +64,7 @@ ScoreDialog *ScoreDialog::instance2()
 }
 
 ScoreDialog::ScoreDialog() :
-	GLWWindow("Score", 10.0f, 10.0f, 437.0f, 310.0f, eTransparent |eSmallTitle,
+	GLWWindow("Score", 10.0f, 10.0f, 447.0f, 310.0f, eTransparent |eSmallTitle,
 		"Shows the current score for all players."),
 	lastScoreValue_(0), lastWinsValue_(0)
 {
@@ -393,6 +394,24 @@ void ScoreDialog::addLine(Tank *current, float y, char *rank, bool finished)
 	}
 	else
 	{
+		GLState state(GLState::TEXTURE_ON);
+		glColor3f(1.0f, 1.0f, 1.0f);
+		current->getAvatar().getTexture().draw();
+		glBegin(GL_QUADS);
+			glTexCoord2f(0.0f, 0.0f);
+			glVertex2f(textX + iconLeft,
+				textY + 2.0f);
+			glTexCoord2f(1.0f, 0.0f);
+			glVertex2f(textX + iconLeft + 8.0f, 
+				textY + 2.0f);
+			glTexCoord2f(1.0f, 1.0f);
+			glVertex2f(textX + iconLeft + 8.0f,
+				textY + 10.0f);
+			glTexCoord2f(0.0f, 1.0f);
+			glVertex2f(textX + iconLeft,
+				textY + 10.0f);
+        glEnd();
+
 		// Print the name on the screen
 		GLWFont::instance()->getSmallPtFont()->draw(
 			current->getColor(),
