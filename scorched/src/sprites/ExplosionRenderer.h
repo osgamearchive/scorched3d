@@ -43,13 +43,14 @@ protected:
 	{
 	public:
 		ExplosionSubPart();
+		virtual ~ExplosionSubPart();
 
 		void simulate(float frametime);
 		void draw(	Vector &center, Vector &color, float w, float opacity1, 
 			float opacity2, GLTexture *t1, GLTexture *t2);
 
-		GLBilboardRenderer::Entry graphicEntry1_;
-		GLBilboardRenderer::Entry graphicEntry2_;
+		GLBilboardRenderer::GLBilboardOrderedEntry *graphicEntry1_;
+		GLBilboardRenderer::GLBilboardOrderedEntry *graphicEntry2_;
 	protected:
 		Vector rotation;
 		Vector position;

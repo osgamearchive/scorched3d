@@ -32,48 +32,50 @@ SprayActionRenderer::SprayActionRenderer(Vector &position, float width) :
 
 	for (int i=0; i<6 + int(width) * 2; i++)
 	{
-		Entry entry;
+		Entry *entry = new Entry;
 		float rotation = RAND * 2.0f * 3.14f;
 		float x = sinf(rotation);
 		float y = cosf(rotation);
-		entry.posX = (x * width * RAND) + position[0];
-		entry.posY = (y * width * RAND) + position[1];
-		entry.posZ = position[2];
-		entry.offset[0] = (x * RAND) / 10.0f;
-		entry.offset[1] = (y * RAND) / 10.0f;
-		entry.offset[2] = 0.5f * RAND + 0.5f;
-		entry.alpha = 0.4f;
-		entry.width = 4.0f;
-		entry.height = 4.0f;
-		entry.textureCoord = int(RAND * 3.0f);
+		entry->posX = (x * width * RAND) + position[0];
+		entry->posY = (y * width * RAND) + position[1];
+		entry->posZ = position[2];
+		entry->offset[0] = (x * RAND) / 10.0f;
+		entry->offset[1] = (y * RAND) / 10.0f;
+		entry->offset[2] = 0.5f * RAND + 0.5f;
+		entry->alpha = 0.4f;
+		entry->width = 4.0f;
+		entry->height = 4.0f;
+		entry->textureCoord = int(RAND * 3.0f);
 
 		if (position[2] < 5.0f)
 		{
-			entry.texture = &Landscape::instance()->getLandscapeTextureWater();
+			entry->texture = &Landscape::instance()->getLandscapeTextureWater();
 		}
 		else
 		{
-			entry.texture = &Landscape::instance()->getLandscapeTexture1();
+			entry->texture = &Landscape::instance()->getLandscapeTexture1();
 		}
 		entries_.push_back(entry);
+		
+		GLBilboardRenderer::instance()->addEntry(entry);
 	}
 }
 
 SprayActionRenderer::~SprayActionRenderer()
 {
+	std::list<Entry*>::iterator itor = entries_.begin();
+	std::list<Entry*>::iterator enditor = entries_.end();
+	for (;itor != enditor; itor++)
+	{
+		Entry *entry = *itor;
+		GLBilboardRenderer::instance()->removeEntry(entry);		
+	}
+	entries_.clear();
 }
 
 void SprayActionRenderer::draw(Action *action)
 {
-	std::list<Entry>::iterator itor = entries_.begin();
-	std::list<Entry>::iterator enditor = entries_.end();
-	for (;itor != enditor; itor++)
-	{
-		Entry &entry = *itor;
 
-		// add the actual smoke cloud
-		GLBilboardRenderer::instance()->addEntry(&entry);	
-	}
 }
 
 void SprayActionRenderer::simulate(Action *action, float frameTime, bool &remove)
@@ -85,18 +87,17 @@ void SprayActionRenderer::simulate(Action *action, float frameTime, bool &remove
 	{
 		time_ -= 0.05f;
 
-		std::list<Entry>::iterator itor = entries_.begin();
-		std::list<Entry>::iterator enditor = entries_.end();
+		std::list<Entry*>::iterator itor = entries_.begin();
+		std::list<Entry*>::iterator enditor = entries_.end();
 		for (;itor != enditor; itor++)
 		{
-			Entry &entry = *itor;
+			Entry *entry = *itor;
 
-			entry.posX += entry.offset[0];
-			entry.posY += entry.offset[1];
-			entry.posZ += entry.offset[2];
-			entry.alpha = 0.35f - (totalTime_ / 8.0f);
-
-			entry.offset[2] -= 0.03f;
+			entry->posX += entry->offset[0];
+			entry->posY += entry->offset[1];
+			entry->posZ += entry->offset[2];
+			entry->alpha = 0.35f - (totalTime_ / 8.0f);
+			entry->offset[2] -= 0.03f;
 		}
 	}
 

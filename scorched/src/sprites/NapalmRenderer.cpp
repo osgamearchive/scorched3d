@@ -103,22 +103,19 @@ void NapalmRenderer::draw(Action *action)
 			// particle
 
 			// Particle 1
-			entry->renderEntry1.posZ = fz + 2.5f;
-			entry->renderEntry1.texture = ExplosionTextures::instance()->flames.getTexture(
+			entry->renderEntry1->posZ = fz + 2.5f;
+			entry->renderEntry1->texture = ExplosionTextures::instance()->flames.getTexture(
 				(textureNo_ + entry->offset + 0) % noTextures);
-			GLBilboardRenderer::instance()->addEntry(&entry->renderEntry1);
 
 			// Particle 2
-			entry->renderEntry2.posZ = fz + 2.5f;
-			entry->renderEntry2.texture = ExplosionTextures::instance()->flames.getTexture(
+			entry->renderEntry2->posZ = fz + 2.5f;
+			entry->renderEntry2->texture = ExplosionTextures::instance()->flames.getTexture(
 				(textureNo_ + entry->offset + 10) % noTextures);
-			GLBilboardRenderer::instance()->addEntry(&entry->renderEntry2);
 
 			// Particle 3
-			entry->renderEntry3.posZ = fz + 2.5f;
-			entry->renderEntry3.texture = ExplosionTextures::instance()->flames.getTexture(
+			entry->renderEntry3->posZ = fz + 2.5f;
+			entry->renderEntry3->texture = ExplosionTextures::instance()->flames.getTexture(
 				(textureNo_ + entry->offset + 20) % noTextures);
-			GLBilboardRenderer::instance()->addEntry(&entry->renderEntry3);
 		}
 	}
 }

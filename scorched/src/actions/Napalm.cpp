@@ -42,7 +42,18 @@ Napalm::Napalm(int x, int y, Weapon *weapon, unsigned int playerId) :
 
 Napalm::~Napalm()
 {
-
+	std::list<NapalmEntry *>::iterator itor;
+	std::list<NapalmEntry *>::iterator endItor = 
+		napalmPoints_.end();
+	for (itor = napalmPoints_.begin();
+		itor != endItor;
+		itor++)
+	{
+		NapalmEntry *entry = (*itor);
+		GLBilboardRenderer::instance()->removeEntry(entry->renderEntry1);
+		GLBilboardRenderer::instance()->removeEntry(entry->renderEntry2);
+		GLBilboardRenderer::instance()->removeEntry(entry->renderEntry3);		
+	}
 }
 
 void Napalm::init()
@@ -132,6 +143,12 @@ void Napalm::simulateRmStep()
 	// Remove the first napalm point from the list
 	// and remove the height from the landscape
 	NapalmEntry *entry = napalmPoints_.front();
+	if (!context_->serverMode)
+	{
+		GLBilboardRenderer::instance()->removeEntry(entry->renderEntry1);
+		GLBilboardRenderer::instance()->removeEntry(entry->renderEntry2);
+		GLBilboardRenderer::instance()->removeEntry(entry->renderEntry3);
+	}
 	int x = entry->posX;
 	int y = entry->posY;
 	delete entry;
@@ -164,7 +181,30 @@ void Napalm::simulateAddStep()
 	}
 
 	// Add this current point to the napalm map
-	napalmPoints_.push_back(new NapalmEntry(x_, y_, int(RAND * 31)));
+	int offset = int(RAND * 31);
+	NapalmEntry *newEntry = new NapalmEntry(x_, y_, offset);
+	napalmPoints_.push_back(newEntry);
+	if (!context_->serverMode)
+	{
+		newEntry->renderEntry1 = new GLBilboardRenderer::GLBilboardOrderedEntry;
+		newEntry->renderEntry2 = new GLBilboardRenderer::GLBilboardOrderedEntry;
+		newEntry->renderEntry3 = new GLBilboardRenderer::GLBilboardOrderedEntry;
+		newEntry->renderEntry1->posX = float(x_) + 0.5f;
+		newEntry->renderEntry2->posX = float(x_) - 0.5f;
+		newEntry->renderEntry3->posX = float(x_);
+		newEntry->renderEntry1->posY = float(y_) - 0.2f;
+		newEntry->renderEntry2->posY = float(y_) - 0.2f;
+		newEntry->renderEntry3->posY = float(y_) + 0.5f;
+		newEntry->renderEntry1->width = newEntry->renderEntry2->width = 
+			newEntry->renderEntry3->width = 1.0f;
+		newEntry->renderEntry1->height = newEntry->renderEntry2->height = 
+			newEntry->renderEntry3->height = 2.0f;		
+
+		GLBilboardRenderer::instance()->addEntry(newEntry->renderEntry1);
+		GLBilboardRenderer::instance()->addEntry(newEntry->renderEntry2);
+		GLBilboardRenderer::instance()->addEntry(newEntry->renderEntry3);
+	}
+
 	context_->landscapeMaps.getNMap().getHeight(x_, y_) += NapalmHeight;
 	height += NapalmHeight;
 

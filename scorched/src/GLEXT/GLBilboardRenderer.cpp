@@ -75,17 +75,22 @@ void GLBilboardRenderer::itemsSetup()
 	bilY_ = GLCameraFrustum::instance()->getBilboardVectorY();
 }
 
-void GLBilboardRenderer::addEntry(Entry *entry)
+void GLBilboardRenderer::addEntry(GLBilboardOrderedEntry *entry)
 {
 	entry->provider_ = this;
 	entry->requiredItem_ = false;
 	GLOrderedItemRenderer::instance()->addEntry(entry);
 }
 
+void GLBilboardRenderer::removeEntry(GLBilboardOrderedEntry *entry, bool deleteItem)
+{
+	GLOrderedItemRenderer::instance()->rmEntry(entry, deleteItem);
+}
+
 void GLBilboardRenderer::drawItem(float distance, GLOrderedItemRenderer::OrderedEntry &oentry)
 {
-	GLBilboardRenderer::Entry &entry =
-		(GLBilboardRenderer::Entry &) oentry;
+	GLBilboardRenderer::GLBilboardOrderedEntry &entry =
+		(GLBilboardRenderer::GLBilboardOrderedEntry &) oentry;
 
 	totalBilboards_++;
 	if (entry.texture != GLTexture::getLastBind())

@@ -38,12 +38,12 @@ public:
 	virtual void draw(Action *action);
 
 protected:
-	struct Entry : public GLBilboardRenderer::Entry
+	struct Entry : public GLBilboardRenderer::GLBilboardOrderedEntry
 	{
 		Vector offset;
 	};
 
-	std::list<Entry> entries_;
+	std::list<Entry*> entries_;
 	float totalTime_;
 	float time_;
 

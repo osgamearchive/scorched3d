@@ -92,8 +92,20 @@ ExplosionRenderer::ExplosionSubPart::ExplosionSubPart()
 	rotation[2] = RAND * 1.0f - 0.5f;
 	position = Vector();
 	positionMove = move;
-	graphicEntry1_.textureCoord = 
-		graphicEntry2_.textureCoord = int(RAND * 4.0);
+	graphicEntry1_ = new GLBilboardRenderer::GLBilboardOrderedEntry;
+	graphicEntry2_ = new GLBilboardRenderer::GLBilboardOrderedEntry;
+
+	graphicEntry1_->textureCoord = 
+		graphicEntry2_->textureCoord = int(RAND * 4.0);
+
+	GLBilboardRenderer::instance()->addEntry(graphicEntry1_);
+	GLBilboardRenderer::instance()->addEntry(graphicEntry2_);
+}
+
+ExplosionRenderer::ExplosionSubPart::~ExplosionSubPart()
+{
+	GLBilboardRenderer::instance()->removeEntry(graphicEntry1_);
+	GLBilboardRenderer::instance()->removeEntry(graphicEntry2_);	
 }
 
 void ExplosionRenderer::ExplosionSubPart::simulate(float frameTime)
@@ -126,23 +138,21 @@ void ExplosionRenderer::ExplosionSubPart::draw(
 	float opacity2, GLTexture *t1, GLTexture *t2)
 {	
 	// Set the bilboard parameters and add it the renderer
-	graphicEntry1_.posX = graphicEntry2_.posX = center[0] + position[0];
-	graphicEntry1_.posY = graphicEntry2_.posY = center[1] + position[1];
-	graphicEntry1_.posZ = graphicEntry2_.posZ = center[2] + position[2];
-	graphicEntry1_.width = graphicEntry2_.width = w;
-	graphicEntry1_.height = graphicEntry2_.height = w;
-	graphicEntry1_.texture = t1;
-	graphicEntry2_.texture = t2;
-	graphicEntry1_.alpha = opacity1;
-	graphicEntry2_.alpha = opacity2;
-	graphicEntry1_.r_color = color[0];
-	graphicEntry1_.g_color = color[1];
-	graphicEntry1_.b_color = color[2];
-	graphicEntry2_.r_color = color[0];
-	graphicEntry2_.g_color = color[1];
-	graphicEntry2_.b_color = color[2];
-	GLBilboardRenderer::instance()->addEntry(&graphicEntry1_);
-	if (t2)	GLBilboardRenderer::instance()->addEntry(&graphicEntry2_);
+	graphicEntry1_->posX = graphicEntry2_->posX = center[0] + position[0];
+	graphicEntry1_->posY = graphicEntry2_->posY = center[1] + position[1];
+	graphicEntry1_->posZ = graphicEntry2_->posZ = center[2] + position[2];
+	graphicEntry1_->width = graphicEntry2_->width = w;
+	graphicEntry1_->height = graphicEntry2_->height = w;
+	graphicEntry1_->texture = t1;
+	graphicEntry2_->texture = t2;
+	graphicEntry1_->alpha = opacity1;
+	graphicEntry2_->alpha = opacity2;
+	graphicEntry1_->r_color = color[0];
+	graphicEntry1_->g_color = color[1];
+	graphicEntry1_->b_color = color[2];
+	graphicEntry2_->r_color = color[0];
+	graphicEntry2_->g_color = color[1];
+	graphicEntry2_->b_color = color[2];
 }
 
 ExplosionRenderer::ExplosionRenderer(Vector &position, GLTextureSet &textureSet, 
@@ -296,6 +306,6 @@ void ExplosionRenderer::drawExplosion()
 			0.3f, 0.3f,
 			width, 
 			&ExplosionTextures::instance()->smokeTexture,
-			0);
+			&ExplosionTextures::instance()->smokeTexture);
 	}
 }

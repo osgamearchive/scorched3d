@@ -37,16 +37,20 @@ public:
 	class OrderedEntry
 	{
 	public:
-		OrderedEntry() : provider_(0), requiredItem_(true) {}
+		OrderedEntry() : provider_(0), 
+			requiredItem_(true), removeItem_(false), deleteItem_(true) {}
 
 		float posX, posY, posZ;
+		float distance;
 		bool requiredItem_;
+		bool removeItem_, deleteItem_;
 		GLOrderedItemRendererProvider *provider_;
 	};
 
 	// Public Interface, use add entry to add bilboard
 	static GLOrderedItemRenderer *instance();
 	void addEntry(OrderedEntry *entry);
+	void rmEntry(OrderedEntry *entry, bool deleteItem = true);
 	void addSetup(GLOrderedItemRendererProviderSetup *setup);
 
 	// Inherited from GameStateI
@@ -55,8 +59,9 @@ public:
 
 protected:
 	static GLOrderedItemRenderer *instance_;
+	int numberOfBilboards_;
 	std::vector<OrderedEntry *> requiredEntries_;
-	std::vector<OrderedEntry *> notRequiredEntries_;
+	std::vector<OrderedEntry *> tmpRequiredEntries_;
 	std::list<GLOrderedItemRendererProviderSetup *> setups_;
 
 private:

@@ -40,7 +40,7 @@ public:
 
 protected:
 	static Vector *positions_;
-	struct Entry : public GLBilboardRenderer::Entry
+	struct Entry : public GLBilboardRenderer::GLBilboardOrderedEntry
 	{
 		float rotation_;
 		int position_;
@@ -49,7 +49,7 @@ protected:
 		void draw(Vector startPosition, float size);
 	};
 
-	std::list<Entry> entries_;
+	std::list<Entry*> entries_;
 	Vector position_;
 	float size_;
 	float time_;

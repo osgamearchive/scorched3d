@@ -35,15 +35,17 @@ TalkRenderer::TalkRenderer(Vector &position) :
 		talkTex_.create(talkBitmap, GL_RGBA);
 	}
 
-	bilEntry_.texture = &talkTex_;
-	bilEntry_.alpha = 1.0f;
-	bilEntry_.width = 2.0f; bilEntry_.height = 2.0f;
-	bilEntry_.textureCoord = 0;
+	bilEntry_ = new GLBilboardRenderer::GLBilboardOrderedEntry;
+	bilEntry_->texture = &talkTex_;
+	bilEntry_->alpha = 1.0f;
+	bilEntry_->width = 2.0f; bilEntry_->height = 2.0f;
+	bilEntry_->textureCoord = 0;
+	GLBilboardRenderer::instance()->addEntry(bilEntry_);
 }
 
 TalkRenderer::~TalkRenderer()
 {
-
+	GLBilboardRenderer::instance()->removeEntry(bilEntry_);
 }
 
 void TalkRenderer::draw(Action *action)
@@ -51,10 +53,9 @@ void TalkRenderer::draw(Action *action)
 	Vector &bilX = GLCameraFrustum::instance()->getBilboardVectorX();
 	Vector &bilY = GLCameraFrustum::instance()->getBilboardVectorY();
 
-	bilEntry_.posX = position_[0] + 4.0f * bilX[0];
-	bilEntry_.posY = position_[1] + 4.0f * bilX[1];
-	bilEntry_.posZ = position_[2] + 5.0f;
-	GLBilboardRenderer::instance()->addEntry(&bilEntry_);
+	bilEntry_->posX = position_[0] + 4.0f * bilX[0];
+	bilEntry_->posY = position_[1] + 4.0f * bilX[1];
+	bilEntry_->posZ = position_[2] + 5.0f;
 }
 
 void TalkRenderer::simulate(Action *action, float timepassed, bool &remove)

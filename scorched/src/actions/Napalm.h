@@ -32,24 +32,16 @@ class Napalm : public ActionMeta
 public:
 	struct NapalmEntry 
 	{
-		NapalmEntry(int x, int y, int o) : offset(o), posX(x), posY(y)
-		{
-			renderEntry1.posX = float(posX) + 0.5f;
-			renderEntry2.posX = float(posX) - 0.5f;
-			renderEntry3.posX = float(posX);
-			renderEntry1.posY = float(posY) - 0.2f;
-			renderEntry2.posY = float(posY) - 0.2f;
-			renderEntry3.posY = float(posY) + 0.5f;
-			renderEntry1.width = renderEntry2.width = renderEntry3.width = 1.0f;
-			renderEntry1.height = renderEntry2.height = renderEntry3.height = 2.0f;
-		}
+		NapalmEntry(int x, int y, int o) : 
+			offset(o), posX(x), posY(y),
+			renderEntry1(0), renderEntry2(0), renderEntry3(0) {}
 
 		int offset;
 		int posX, posY;
 
-		GLBilboardRenderer::Entry renderEntry1;
-		GLBilboardRenderer::Entry renderEntry2;
-		GLBilboardRenderer::Entry renderEntry3;
+		GLBilboardRenderer::GLBilboardOrderedEntry *renderEntry1;
+		GLBilboardRenderer::GLBilboardOrderedEntry *renderEntry2;
+		GLBilboardRenderer::GLBilboardOrderedEntry *renderEntry3;
 	};
 
 	Napalm();

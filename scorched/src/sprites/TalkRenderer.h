@@ -36,7 +36,7 @@ public:
 	virtual void draw(Action *action);
 
 protected:
-	GLBilboardRenderer::Entry bilEntry_;
+	GLBilboardRenderer::GLBilboardOrderedEntry *bilEntry_;
 	float frameTime_;
 	Vector position_;
 	static GLTexture talkTex_;

@@ -64,9 +64,6 @@ void SmokeChainEntry::draw()
 			Landscape::instance()->getShadowMap().
 				addCircle(posX, posY, (height * aboveGround) / 10.0f, smokeAlpha);
 		}
-
-		// Actually add the smoke to the renderer to be drawn
-		GLBilboardRenderer::instance()->addEntry(this);
 	}
 }
 
@@ -106,6 +103,8 @@ SmokeChainEntry *SmokeChain::getNextEntry()
 		noEntries_++;
 		result = nextEntry_++;
 		if (nextEntry_ > lastEntry_) nextEntry_ = entries_;
+
+		GLBilboardRenderer::instance()->addEntry(result);
 	}
 
 	return result;
@@ -115,6 +114,8 @@ void SmokeChain::removeEntry()
 {
 	if (noEntries_ == 0) return;
 	noEntries_--;
+
+	GLBilboardRenderer::instance()->removeEntry(firstEntry_, false);
 	firstEntry_++;
 	if (firstEntry_ > lastEntry_) firstEntry_ = entries_;
 }

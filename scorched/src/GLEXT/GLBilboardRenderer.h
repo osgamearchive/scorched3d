@@ -34,10 +34,10 @@ class GLBilboardRenderer : public GLOrderedItemRendererProvider,
 public:
 	static GLBilboardRenderer *instance();
 
-	class Entry : public GLOrderedItemRenderer::OrderedEntry
+	class GLBilboardOrderedEntry : public GLOrderedItemRenderer::OrderedEntry
 	{
 	public:
-		Entry() : 
+		GLBilboardOrderedEntry() : 
 			width(1.0f), height(1.0f), alpha(1.0f), 
 			texture(0), textureCoord(0), 
 			r_color(1.0f), g_color(1.0f), b_color(1.0f) { }
@@ -50,7 +50,8 @@ public:
 	};
 
 	// Public Interface, use add entry to add bilboard
-	void addEntry(Entry *entry);
+	void addEntry(GLBilboardOrderedEntry *entry);
+	void removeEntry(GLBilboardOrderedEntry *entry, bool deleteItem = false);
 
 	// Inherited from Interfaces
 	virtual void itemsSetup();

@@ -89,9 +89,6 @@ void ExplosionNukeRenderer::Entry::draw(Vector startPosition, float size)
 		Landscape::instance()->getShadowMap().
 			addCircle(posX, posY, (height * aboveGround) / 10.0f, 0.2f);
 	}
-
-	// add the actual smoke cloud
-	GLBilboardRenderer::instance()->addEntry(this);
 }
 
 Vector *ExplosionNukeRenderer::positions_ = 0;
@@ -129,17 +126,18 @@ ExplosionNukeRenderer::ExplosionNukeRenderer(Vector &position, float size)
 
 ExplosionNukeRenderer::~ExplosionNukeRenderer()
 {
+	std::list<Entry*>::iterator itor = entries_.begin();
+	std::list<Entry*>::iterator enditor = entries_.end();
+	for (;itor != enditor; itor++)
+	{
+		Entry *entry = *itor;
+		GLBilboardRenderer::instance()->removeEntry(entry);
+	}
 }
 
 void ExplosionNukeRenderer::draw(Action *action)
 {
-	std::list<Entry>::iterator itor = entries_.begin();
-	std::list<Entry>::iterator enditor = entries_.end();
-	for (;itor != enditor; itor++)
-	{
-		Entry &entry = *itor;
-		entry.draw(position_, size_);
-	}
+
 }
 
 void ExplosionNukeRenderer::simulate(Action *action, float frameTime, bool &remove)
@@ -163,30 +161,37 @@ void ExplosionNukeRenderer::simulate(Action *action, float frameTime, bool &remo
 		time_ -= AddSmokeTime;
 
 		// Simulate all current entries
-		std::list<Entry>::iterator itor = entries_.begin();
-		std::list<Entry>::iterator enditor = entries_.end();
+		std::list<Entry*>::iterator itor = entries_.begin();
+		std::list<Entry*>::iterator enditor = entries_.end();
 		for (;itor != enditor; itor++)
 		{
-			(*itor).simulate();
+			(*itor)->simulate();
 		}
 
 		// Remove any entries that have finished the cycle
 		while (!entries_.empty() && 
-			entries_.back().position_ >= ExplosionNukeRenderer_STEPS) entries_.pop_back();
+			entries_.back()->position_ >= ExplosionNukeRenderer_STEPS)
+		{
+			Entry *entry = entries_.back();
+			GLBilboardRenderer::instance()->removeEntry(entry);
+			entries_.pop_back();
+		}
 
 		// Add any new entries
 		if (totalTime_ < size_ / 2.0f)
 		{
 			for (int i=0; i<SmokesPerTime; i++)
 			{
-				Entry entry;
-				entry.width = 4.0f;
-				entry.height = 4.0f;
-				entry.alpha = 0.5f+(RAND *0.5f);
-				entry.position_ = 0;
-				entry.rotation_ = RAND * (3.14f * 2.0f);
-				entry.texture = &ExplosionTextures::instance()->smokeTexture;
-				entry.textureCoord = (int) (RAND * 3.0f);
+				Entry *entry = new Entry;
+				entry->width = 4.0f;
+				entry->height = 4.0f;
+				entry->alpha = 0.5f+(RAND *0.5f);
+				entry->position_ = 0;
+				entry->rotation_ = RAND * (3.14f * 2.0f);
+				entry->texture = &ExplosionTextures::instance()->smokeTexture;
+				entry->textureCoord = (int) (RAND * 3.0f);
+
+				GLBilboardRenderer::instance()->addEntry(entry);
 				entries_.push_front(entry);
 			}
 		}

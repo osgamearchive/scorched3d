@@ -55,24 +55,12 @@ LandscapeObjects::~LandscapeObjects()
 
 void LandscapeObjects::draw()
 {
-	if (OptionsDisplay::instance()->getNoTrees()) return;
-
-	std::list<Entry*>::iterator itor = entries_.begin();
-	std::list<Entry*>::iterator enditor = entries_.end();
-	for (; itor != enditor; itor++)
-	{
-		Entry *entry = *itor;
-		GLOrderedItemRenderer::instance()->addEntry(entry);
-	}
 }
 
 void LandscapeObjects::drawItem(float distance, GLOrderedItemRenderer::OrderedEntry &oentry)
 {
-	LandscapeObjects::Entry &entry = (LandscapeObjects::Entry &) oentry;
-
-	// Add shadow
-	//Landscape::instance()->getShadowMap().
-	//	addCircle(entry.posX, entry.posY, 5.0f, 1.0f);
+	LandscapeObjects::LandscapeObjectOrderedEntry &entry = 
+		(LandscapeObjects::LandscapeObjectOrderedEntry &) oentry;
 
 	// Draw Trees
 	glDepthMask(GL_TRUE);
@@ -92,7 +80,17 @@ void LandscapeObjects::generate(ProgressCounter *counter)
 	// TODO we need to add the shadow to the texture map
 
 	// Clear any current trees
+	std::list<LandscapeObjectOrderedEntry*>::iterator itor = entries_.begin();
+	std::list<LandscapeObjectOrderedEntry*>::iterator enditor = entries_.end();
+	for (; itor != enditor; itor++)
+	{
+		LandscapeObjectOrderedEntry *entry = *itor;
+		GLOrderedItemRenderer::instance()->rmEntry(entry);
+	}	
 	entries_.clear();
+
+	// TODO allow turning of this off during game
+	if (OptionsDisplay::instance()->getNoTrees()) return;
 
 	// Generate a map of where the trees should go
 	unsigned char objectMap[64 * 64];
@@ -199,11 +197,14 @@ void LandscapeObjects::generate(ProgressCounter *counter)
 				ScorchedClient::instance()->getLandscapeMaps().
 					getHMap().getInterpHeight(lx, ly);
 
-			Entry *entry = new Entry;
+			LandscapeObjectOrderedEntry *entry = new LandscapeObjectOrderedEntry;
 			entry->provider_ = this;
 			entry->posX = lx;
 			entry->posY = ly;
 			entry->posZ = height + 1.0f;
+
+			// Add the entry
+			GLOrderedItemRenderer::instance()->addEntry(entry);
 			entries_.push_back(entry);
 		}
 	}

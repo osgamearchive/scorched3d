@@ -18,18 +18,13 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// SmokeChain.h: interface for the SmokeChain class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_SMOKECHAIN_H__23478194_10E3_48AB_A956_ED2B21618665__INCLUDED_)
 #define AFX_SMOKECHAIN_H__23478194_10E3_48AB_A956_ED2B21618665__INCLUDED_
 
 #include <common/Vector.h>
 #include <GLEXT/GLBilboardRenderer.h>
 
-class SmokeChainEntry : public GLBilboardRenderer::Entry
+class SmokeChainEntry : public GLBilboardRenderer::GLBilboardOrderedEntry
 {
 public:
 	SmokeChainEntry() : a(0.0f), t(0.0), maxTime(0.0f), maxSize(0.0) {}

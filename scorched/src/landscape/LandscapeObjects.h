@@ -37,11 +37,11 @@ public:
 	void drawItem(float distance, GLOrderedItemRenderer::OrderedEntry &entry);
 
 protected:
-	struct Entry : public GLOrderedItemRenderer::OrderedEntry
+	struct LandscapeObjectOrderedEntry : public GLOrderedItemRenderer::OrderedEntry
 	{
 	};
 
-	std::list<Entry*> entries_;
+	std::list<LandscapeObjectOrderedEntry*> entries_;
 	GLVertexSet *vertexSet_;
 
 };
