@@ -434,6 +434,12 @@
 				RelativePath="..\GLW\GLWScrollW.h">
 			</File>
 			<File
+				RelativePath="..\GLW\GLWSelector.cpp">
+			</File>
+			<File
+				RelativePath="..\GLW\GLWSelector.h">
+			</File>
+			<File
 				RelativePath="..\GLW\GLWSlider.cpp">
 			</File>
 			<File
