@@ -21,11 +21,15 @@
 				</tr>
 				<tr>
 					<td>27270 TCP</td>
-					<td>For game messages (outgoing connections only).</td>
+					<td>For game messages (outgoing connections only).
+					This may differ depending on the game port the server is running on.
+					</td>
 				</tr>
 				<tr>
 					<td>27271 UDP</td>
-					<td>For server browsing (outgoing connections only).</td>
+					<td>For server browsing (outgoing connections only).
+					This may differ depending on the game port the server is running on.
+					</td>
 				</tr>
 			</table>
 			<br>
@@ -45,17 +49,20 @@
 					<td>27270 TCP
 					</td>
 					<td>For game messages (incoming connections only).
+					This can be changed using the server settings.
 					</td>
 				</tr>
 				<tr>
 					<td>27271 UDP
 					</td>
 					<td>For server browsing (incoming connections only).
+					When the server port is changed will always be the server port + 1.
 					</td>
 				</tr>
 			</table>
 			<br>
-			To run a server ports 27270 TCP and 27271 UDP need to be accessible externally. 
+			To run a server ports 27270 TCP and 27271 UDP (or whatever ports you choose 
+			for the server) need to be accessible externally. 
 			When running a Scorched3D server behind a firewall or NAT router it may be 
 			necersary to open or forward these ports.
 		</p>
