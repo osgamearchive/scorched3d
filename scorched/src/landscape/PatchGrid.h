@@ -41,8 +41,11 @@ public:
 	void draw(PatchSide::DrawType sides);
 	void simulate(float frameTime);
 
+	int getDrawnPatches() { return drawnPatches_; }
+
 protected:
 	Vector lastPos_;
+	int drawnPatches_;
 	int width_;
 	int patchSize_;
 	float simulationTime_;

@@ -34,6 +34,7 @@ HeightMap::HeightMap(const int width) :
 
 	minWidth_ = width >> minMapShift;
 	minMap_ = new float[(minWidth_ + 1) * (minWidth_ + 1)];
+	maxMap_ = new float[(minWidth_ + 1) * (minWidth_ + 1)];
 
 	reset();
 }
@@ -43,6 +44,7 @@ HeightMap::~HeightMap()
 	delete [] hMap_;
 	delete [] normals_;
 	delete [] minMap_;
+	delete [] maxMap_;
 }
 
 void HeightMap::reset()
@@ -50,6 +52,7 @@ void HeightMap::reset()
 	memset(hMap_, 0, sizeof(float)  * (width_ + 1) * (width_ + 1));
 	memset(normals_, 0, sizeof(Vector)  * (width_ + 1) * (width_ + 1));
 	for (int i=0; i<(minWidth_ + 1) * (minWidth_ + 1); i++) minMap_[i] = FLT_MAX;
+	for (int i=0; i<(minWidth_ + 1) * (minWidth_ + 1); i++) maxMap_[i] = 0.0f;
 }
 
 bool HeightMap::getVector(Vector &vec, int x, int y)
@@ -274,16 +277,23 @@ void HeightMap::setHeight(int w, int h, float height)
 	int newW = w >> minMapShift;
 	int newH = h >> minMapShift;
 	DIALOG_ASSERT(newW >= 0 && newH >= 0 && newW<=minWidth_ && newH<=minWidth_);
-	float *minHeight = &minMap_[(minWidth_+1) * newH + newW];
+	int minOffSet = (minWidth_+1) * newH + newW;
+	float *minHeight = &minMap_[minOffSet];
 	if (*minHeight > height)
 	{
 		*minHeight = height;
+	}
+	float *maxHeight = &maxMap_[minOffSet];
+	if (*maxHeight < height)
+	{
+		*maxHeight = height;
 	}
 }
 
 void HeightMap::resetMinHeight()
 {
 	for (int i=0; i<(minWidth_ + 1) * (minWidth_ + 1); i++) minMap_[i] = FLT_MAX;
+	for (int i=0; i<(minWidth_ + 1) * (minWidth_ + 1); i++) maxMap_[i] = 0.0f;
 	for (int h=0; h<width_; h++)
 	{
 		for (int w=0; w<width_; w++)
@@ -292,10 +302,16 @@ void HeightMap::resetMinHeight()
 			int newW = w >> minMapShift;
 			int newH = h >> minMapShift;
 			DIALOG_ASSERT(newW >= 0 && newH >= 0 && newW<=minWidth_ && newH<=minWidth_);
-			float *minHeight = &minMap_[(minWidth_+1) * newH + newW];
+			int minOffSet = (minWidth_+1) * newH + newW;
+			float *minHeight = &minMap_[minOffSet];
 			if (*minHeight > height)
 			{
 				*minHeight = height;
+			}
+			float *maxHeight = &maxMap_[minOffSet];
+			if (*maxHeight < height)
+			{
+				*maxHeight = height;
 			}
 		}
 	}
@@ -306,5 +322,12 @@ float HeightMap::getMinHeight(int w, int h)
 	DIALOG_ASSERT(w >= 0 && h >= 0 && w<=minWidth_ && h<=minWidth_);
 	float minHeight = minMap_[(minWidth_+1) * h + w];
 	return minHeight;
+}
+
+float HeightMap::getMaxHeight(int w, int h)
+{
+	DIALOG_ASSERT(w >= 0 && h >= 0 && w<=minWidth_ && h<=minWidth_);
+	float maxHeight = maxMap_[(minWidth_+1) * h + w];
+	return maxHeight;
 }
 

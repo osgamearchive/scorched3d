@@ -180,6 +180,10 @@ public:
 	void setDrawNormals(bool value) { drawNormals_.setValue(value); }
 	const char *getDrawNormalsToolTip() { return drawNormals_.getDescription(); }
 
+	bool getDrawBoundingSpheres() { return drawBoundingSpheres_.getValue(); }
+	void setDrawBoundingSpheres(bool value) { drawBoundingSpheres_.setValue(value); }
+	const char *getDrawBoundingSpheresToolTip() { return drawBoundingSpheres_.getDescription(); }
+
 	bool getDrawPlayerNames() { return drawPlayerNames_.getValue(); }
 	void setDrawPlayerNames(bool value) { drawPlayerNames_.setValue(value); }
 	const char *getDrawPlayerNamesToolTip() { return drawPlayerNames_.getDescription(); }
@@ -347,6 +351,7 @@ protected:
 	OptionEntryBool noSound_;
 	OptionEntryBool drawNormals_;
 	OptionEntryBool drawLines_;
+	OptionEntryBool drawBoundingSpheres_;
 	OptionEntryBool noLenseFlare_;
 	OptionEntryBool noSkins_;
 	OptionEntryBool sortAccessories_;

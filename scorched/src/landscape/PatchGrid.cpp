@@ -31,7 +31,7 @@
 
 PatchGrid::PatchGrid(HeightMap *hMap, int patchSize) :
 	hMap_(hMap), lastPos_(-1, -2, -3), patchSize_(patchSize),
-	simulationTime_(0.0f)
+	simulationTime_(0.0f), drawnPatches_(0)
 {
  	width_ = (hMap_->getWidth()+1) / patchSize;
 	patches_ = new Patch*[width_ * width_];
@@ -217,17 +217,46 @@ void PatchGrid::draw(PatchSide::DrawType sides)
 	{
 	case PatchSide::typeTop:
 	{
+		Vector point, point2;
+		drawnPatches_ = 0;
+		int divide = 256 / hMap_->getMinWidth();
 		Patch **patch = patches_;
 		for (int p=0; p<width_ * width_; p++)
 		{			
-			static Vector point;
-			point[0] = float((*patch)->getX() + ((*patch)->getWidth() / 2));
-			point[1] = float((*patch)->getY() + ((*patch)->getWidth() / 2));
-			point[2] = float(hMap_->getHeight((*patch)->getX() + ((*patch)->getWidth() / 2), 
-				(*patch)->getY() + ((*patch)->getWidth() /2)));
+			point2[0] = point[0] = float((*patch)->getX() + ((*patch)->getWidth() / 2));
+			point2[1] = point[1] = float((*patch)->getY() + ((*patch)->getWidth() / 2));
+			point[2] = MAX(
+				hMap_->getMaxHeight(((*patch)->getX() + 2) / divide, 
+					((*patch)->getY() + 2)  / divide),
+				hMap_->getMaxHeight(((*patch)->getX() + (*patch)->getWidth() - 2) / divide, 
+					((*patch)->getY() + (*patch)->getWidth() - 2) / divide )) / 2.0f;
+			float width = MAX(point[2], (*patch)->getWidth() + 5.0f);
 
-			if (frustum->sphereInFrustum(point, (*patch)->getWidth() + 5.0f))
+			if (OptionsDisplay::instance()->getDrawBoundingSpheres())
 			{
+				static GLUquadric *obj = 0;
+				if (!obj)
+				{
+					obj = gluNewQuadric();
+					gluQuadricDrawStyle(obj, GLU_LINE);
+				}
+
+				GLState glState(GLState::TEXTURE_OFF);
+				glColor3f(1.0f, 0.0f, 0.0f);
+				glPushMatrix();
+					glTranslatef(point[0], point[1], point[2]);
+					gluSphere(obj, width, 6, 6);
+				glPopMatrix();
+				glPushMatrix();
+					glTranslatef(point2[0], point2[1], point2[2]);
+					gluSphere(obj, width, 6, 6);
+				glPopMatrix();
+			}
+
+			if (frustum->sphereInFrustum(point, width) ||
+				frustum->sphereInFrustum(point2, width)) 
+			{
+				drawnPatches_ ++;
 				if ((*patch)->getRecalculate() &&
 					tessCount < 0)
 				{

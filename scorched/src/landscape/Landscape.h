@@ -56,6 +56,7 @@ public:
 	Sky &getSky() { return *sky_; }
 	Water &getWater() { return water_; }
 	LandscapeObjects &getObjects() { return objects_; }
+	PatchGrid &getPatchGrid() { return patchGrid_; }
 
 	// Textures created during landscape texturing
 	GLBitmap &getMainMap() { return mainMap_; }

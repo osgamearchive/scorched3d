@@ -56,6 +56,7 @@ public:
 	bool getIntersect(Line &direction, Vector &intersect);
 
 	float getMinHeight(int w, int h);
+	float getMaxHeight(int w, int h);
 	int getMinWidth() { return minWidth_; }
 
 	// Returns the actual internal HeightMap points
@@ -68,7 +69,7 @@ protected:
 	static Vector nvec;
 	int width_, minWidth_;
 	float *hMap_;
-	float *minMap_;
+	float *minMap_, *maxMap_;
 	Vector *normals_;
 
 	void performItteration();

@@ -27,6 +27,7 @@
 #include <client/MainCamera.h>
 #include <engine/ActionController.h>
 #include <engine/ParticleEngine.h>
+#include <landscape/Landscape.h>
 
 FrameTimer *FrameTimer::instance_ = 0;
 
@@ -80,11 +81,12 @@ void FrameTimer::simulate(const unsigned state, float frameTime)
 				if (dGeomIsEnabled(geom) == 1) enabledGeoms++;
 			}
 
-			Logger::log(0, "%.2f FPS (%iT %iP %iG)", 
+			Logger::log(0, "%.2f FPS (%iT %iP %iG %iS)", 
 				float(totalCount_) / totalTime_,
 				tris,
 				pOnScreen,
-				enabledGeoms);
+				enabledGeoms,
+				Landscape::instance()->getPatchGrid().getDrawnPatches());
 		}
 		totalCount_ = 0;
 		totalTime_ = 0.0f;

@@ -125,6 +125,8 @@ OptionsDisplay::OptionsDisplay() :
 		"Do not fill in the landscape", RWAccess, false),
 	drawNormals_(options_, "DrawNormals", 
 		"Show landscape normals on the landscape", RWAccess, false),
+	drawBoundingSpheres_(options_, "DrawBoundingSpheres", 
+		"Show landscape bounding spheres on the landscape", RWAccess, false),
 	frameTimer_(options_, "FrameTimer",
 		"Show the current number of frames per second (FPS)", RWAccess, false),
 	noSkins_(options_,"NoTankSkins", 
