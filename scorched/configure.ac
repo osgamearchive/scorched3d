@@ -4,7 +4,7 @@ AC_INIT(README)
 AC_CANONICAL_TARGET([]) 
 
 dnl Setup for automake
-AM_INIT_AUTOMAKE(scorched3d, 0.35.0)
+AM_INIT_AUTOMAKE(scorched3d, 0.35.1)
 
 dnl Check for tools
 AC_PROG_MAKE_SET
@@ -14,7 +14,7 @@ AC_PROG_INSTALL
 AC_PROG_RANLIB
 
 dnl Check for SDL
-SDL_VERSION=1.0.1
+SDL_VERSION=1.2.5
 AM_PATH_SDL($SDL_VERSION,
             :,
             AC_MSG_ERROR([*** SDL version $SDL_VERSION not found. Try http://www.libsdl.org/])
