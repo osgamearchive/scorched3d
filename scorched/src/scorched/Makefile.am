@@ -457,6 +457,8 @@ scorched3d_SOURCES = \
 	../weapons/WeaponTracer.h \
 	../coms/ComsTimerStartMessage.cpp \
 	../coms/ComsTimerStartMessage.h \
+	../coms/ComsPlayerStatusMessage.cpp \
+	../coms/ComsPlayerStatusMessage.h \
 	../coms/ComsActionsMessage.cpp \
 	../coms/ComsActionsMessage.h \
 	../coms/ComsAddPlayerMessage.cpp \
@@ -711,6 +713,8 @@ scorched3d_SOURCES = \
 	SingleDialog.cpp \
 	SingleDialog.h \
 	main.cpp \
+	../client/ClientPlayerStatusHandler.cpp \
+	../client/ClientPlayerStatusHandler.h \
 	../client/ClientStartTimerHandler.cpp \
 	../client/ClientStartTimerHandler.h \
 	../client/ClientActionsHandler.cpp \
