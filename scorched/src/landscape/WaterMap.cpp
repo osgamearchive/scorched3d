@@ -144,7 +144,8 @@ void WaterMap::draw()
 
 	//glPolygonOffset(10.0f, 10.0f);
 	glPushAttrib(GL_TEXTURE_BIT);
-		glBlendFunc(GL_ONE, GL_SRC_COLOR);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		//glBlendFunc(GL_ONE, GL_SRC_COLOR);
 
 		// Turn on the coordinate generation
 		glEnable(GL_TEXTURE_GEN_S); 
@@ -302,13 +303,30 @@ void WaterMap::drawWater()
 					if (j==0) height = height_;
 					if (j==width_ -2) otherHeight = height_;
 
-					glColor3f(otherEntry->depth, otherEntry->depth, otherEntry->depth);
+
+					float otherColor = 0.5f;
+					float otherAlpha = 0.9f;
+					if (otherEntry->depth < 1.0f)
+					{
+						otherColor = 1.0f - (otherEntry->depth * 0.5f);
+						otherAlpha = otherEntry->depth * 0.6f + 0.3f;
+					}
+					glColor4f(otherColor, otherColor, otherColor, otherAlpha);
+
 					glNormal3f(otherEntry->normal[0], otherEntry->normal[1], otherEntry->normal[2]);
 					if (GLStateExtension::glMultiTextCoord2fARB()) 
 						GLStateExtension::glMultiTextCoord2fARB()(GL_TEXTURE1_ARB, otherEntry->texX, otherEntry->texY); 
 					glVertex3f(pointX, pointY + widthMult_, otherHeight);
 
-					glColor3f(currentEntry->depth, currentEntry->depth, currentEntry->depth);
+					float currentColor = 0.5f;
+					float currentAlpha = 0.9f;
+					if (currentEntry->depth < 1.0f)
+					{
+						currentColor = 1.0f - (currentEntry->depth * 0.5f);
+						currentAlpha = currentEntry->depth * 0.6f + 0.3f;
+					}
+					glColor4f(currentColor, currentColor, currentColor, currentAlpha);
+
 					glNormal3f(currentEntry->normal[0], currentEntry->normal[1], currentEntry->normal[2]);
 					if (GLStateExtension::glMultiTextCoord2fARB()) 
 						GLStateExtension::glMultiTextCoord2fARB()(GL_TEXTURE1_ARB, currentEntry->texX, currentEntry->texY); 

@@ -59,17 +59,17 @@ void WaterMapModifier::addWaterVisibility(HeightMap &hMap,
 
 				if (height > wMap.getHeight())
 				{
-					currentEntry->depth = 1.0f;
+					currentEntry->depth = 0.0f;
 				}
 				else
 				{
-					currentEntry->depth = (height / wMap.getHeight() * 0.5f) + 0.5f;
+					currentEntry->depth = 1.0f - height / wMap.getHeight();
 				}
 			}
 			else
 			{
 				currentEntry->dontDraw = false;
-				currentEntry->depth = 0.5f;
+				currentEntry->depth = 1.0f;
 			}
 
 			currentEntry++;

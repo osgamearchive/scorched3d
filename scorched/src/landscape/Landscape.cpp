@@ -274,7 +274,7 @@ void Landscape::generate(ProgressCounter *counter)
 	// Water waves texture
 	GLBitmapModifier::addWavesToBitmap(
 		ScorchedClient::instance()->getLandscapeMaps().getHMap(), 
-		wMap_.getBitmap(), wMap_.getHeight(), 0.3f);
+		wMap_.getBitmap(), wMap_.getHeight(), 0.3f, counter);
 	wMap_.refreshTexture();
 
 	// Load the water reflection bitmap

@@ -70,7 +70,6 @@ void WaterMapSurround::drawPoint(Vector &start, Vector &diff,
 	float numberXf = (float) numberX;
 	float maxXf = (float) maxX;
 
-	float color = 0.5f;// - (numberYf / 40.0f * 2.5f);
 	float multiplier = float(sin((numberXf / maxXf) * 3.14));
 
 	multiplier *= 0.3f + (0.4f * numberXf / maxXf);
@@ -89,7 +88,6 @@ void WaterMapSurround::drawPoint(Vector &start, Vector &diff,
 	}*/
 	//pos[2] -= height_ * (numberYf / maxYf);
 
-	glColor3f(color, color, color);
 	glVertex3fv(pos);
 }
 
@@ -101,6 +99,7 @@ void WaterMapSurround::generateList()
 	const float largeMult = largeLen / width_;
 	
 	glNormal3f(0.0f, 1.0f, 0.0f);
+	glColor4f(0.5f, 0.5f, 0.5f, 0.9f);
 
 	int maxSquares = 10;
 	for (int j=0; j<maxSquares; j++)

@@ -428,47 +428,84 @@ void GLBitmapModifier::addHeightToBitmap(HeightMap &hMap,
 	delete [] heightBitmaps;
 }
 
+static GLubyte getWaveAlpha(int x, int y,
+							HeightMap &hMap,
+							GLBitmap &destBitmap,
+							float waterHeight,
+							float offSet)
+{
+	int a = int((float(x) / float(destBitmap.getWidth()) * 384.0f) - 64.0f);
+	int b = int((float(y) / float(destBitmap.getHeight()) * 384.0f) - 64.0f);
+
+	GLubyte alpha = 0;
+	if (a>0 && b>0 &&
+		a<hMap.getWidth() && b<hMap.getWidth())
+	{
+		float height = hMap.getHeight(a, b);
+		if ((height > waterHeight - offSet) && (height <= waterHeight + offSet + offSet))
+		{
+			if (height > waterHeight)
+			{
+				alpha = GLubyte(128);
+			}
+			else
+			{
+				alpha = GLubyte(128.0f * (waterHeight - height)/offSet);
+			}
+		}
+	}	
+
+	return alpha;
+}
+
 void GLBitmapModifier::addWavesToBitmap(HeightMap &hMap,
 										GLBitmap &destBitmap,
 										float waterHeight,
-										float offSet)
+										float offSet,
+										ProgressCounter *counter)
 {
+	if (counter) counter->setNewOp("Waves");
+
+	float matrix[5][5];
+	for (int i=0; i<5; i++)
+	{
+		for (int j=0; j<5; j++)
+		{
+			matrix[i][j] = 0.04f; // How much smoothing is done (> is more)
+			if (i==2 && j==2) matrix[i][j] = 1.0f;
+		}
+	}
+
 	GLubyte *destBits = destBitmap.getBits();
 	for (int y=0; y<destBitmap.getHeight(); y++)
 	{
+		if (counter) counter->setNewPercentage(100.0f * float(y) / float(destBitmap.getHeight()));
+
 		for (int x=0; x<destBitmap.getWidth(); x++)
 		{
-			destBits[0] = GLubyte(0);
-			destBits[1] = GLubyte(0);
-			destBits[2] = GLubyte(0);
-			destBits[3] = GLubyte(0);
-
-			int a = int((float(x) / float(destBitmap.getWidth()) * 384.0f) - 64.0f);
-			int b = int((float(y) / float(destBitmap.getHeight()) * 384.0f) - 64.0f);
-
-			if (a>0 && b>0 &&
-				a<hMap.getWidth() && b<hMap.getWidth())
+			// Total is used to catch corner cases
+			float total = 0.0f;
+			float inc = 0.0f;
+			for (int i=0; i<5; i++)
 			{
-				float height = hMap.getHeight(a, b);
-				if ((height > waterHeight - offSet) && (height <= waterHeight + offSet + offSet))
+				for (int j=0; j<5; j++)
 				{
-					if (height > waterHeight)
-					{
-						destBits[0] = GLubyte(255);
-						destBits[1] = GLubyte(255);
-						destBits[2] = GLubyte(255);
-						destBits[3] = GLubyte(128);
-					}
-					else
-					{
-						destBits[0] = GLubyte(255);
-						destBits[1] = GLubyte(255);
-						destBits[2] = GLubyte(255);
-						destBits[3] = GLubyte(128.0f * (waterHeight - height)/offSet);
-					}
+					int newx = i + x - 2;
+					int newy = j + y - 2;
+
+					inc += matrix[i][j] * float(getWaveAlpha(
+						newx, newy, hMap, 
+						destBitmap, waterHeight, offSet));
+					total += matrix[i][j];
 				}
 			}
+	 
+			GLubyte alpha = GLubyte(inc / total);
 
+			destBits[0] = GLubyte(255);
+			destBits[1] = GLubyte(255);
+			destBits[2] = GLubyte(255);
+			destBits[3] = GLubyte(alpha);
 			destBits+=4;
 		}
 	}
