@@ -38,7 +38,7 @@ static void createControls(wxWindow *parent)
 	IDC_EDIT_PASSWORD_CTRL = 
 		new wxTextCtrl(parent, IDC_EDIT_PASSWORD,
 		"",
-		wxPoint((int) 147, (int) 30), wxSize((int) 285, (int) 21));
+		wxPoint((int) 147, (int) 30), wxSize((int) 285, (int) 21), wxTE_PASSWORD);
 	IDC_CLEAR_CTRL = 
 		new wxButton(parent, IDC_CLEAR,
 		"Clear",

@@ -37,7 +37,7 @@ static void createControls(wxWindow *parent)
 	IDC_SERVER_PASSWORD_CTRL = 
 		new wxTextCtrl(parent, IDC_SERVER_PASSWORD,
 		"",
-		wxPoint((int) 111, (int) 73.5), wxSize((int) 226.5, (int) 21));
+		wxPoint((int) 111, (int) 73.5), wxSize((int) 226.5, (int) 21), wxTE_PASSWORD);
 	new wxStaticText(parent, -1,
 		"Port Number :",
 		wxPoint((int) 19.5, (int) 54));
