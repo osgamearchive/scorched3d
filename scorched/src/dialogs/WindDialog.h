@@ -25,6 +25,15 @@
 #include <GLEXT/GLVertexSet.h>
 #include <GLEXT/GLTexture.h>
 
+class WindDialogToolTip : public GLWTip
+{
+public:
+	WindDialogToolTip();
+	virtual ~WindDialogToolTip();
+
+	virtual void populate();
+};
+
 class WindDialog : public GLWWindow 
 {
 public:
@@ -40,6 +49,7 @@ protected:
 	GLVertexSet *windModel_;
 	GLTexture windTexture_;
 	GLuint listNo_;
+	WindDialogToolTip tip_;
 
 	void drawArrow();
 	void drawScene();

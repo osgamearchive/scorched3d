@@ -76,12 +76,12 @@ public:
 	virtual void simulate(float frameTime);
 
 	TankModel *getModel() { return model_; }
-	GLWTankTip *getTip() { return &tankTip_; }
+	GLWTankTips *getTips() { return &tankTips_; }
 
 protected:
 	Tank *tank_;
 	TankModel *model_;
-	GLWTankTip tankTip_;
+	GLWTankTips tankTips_;
 	float fireOffSet_;
 	float smokeTime_, smokeWaitForTime_;
 	bool canSeeTank_;

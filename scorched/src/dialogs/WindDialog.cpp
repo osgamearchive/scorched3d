@@ -30,6 +30,33 @@
 #include <3dsparse/ASEStore.h>
 #include <math.h>
 
+WindDialogToolTip::WindDialogToolTip()
+{
+}
+
+WindDialogToolTip::~WindDialogToolTip()
+{
+}
+
+void WindDialogToolTip::populate()
+{
+	if ((int) ScorchedClient::instance()->getOptionsTransient().getWindSpeed() == 0)
+	{
+		setText("Wind",
+			"Displays the current wind direction\n"
+			"and speed.\n"
+			"Currently No Wind.\n");
+	}
+	else
+	{
+		setText("Wind",
+			"Displays the current wind direction\n"
+			"and speed.\n"
+			"Current Wind Force : %i (out of 5)\n",
+			(int) ScorchedClient::instance()->getOptionsTransient().getWindSpeed());
+	}
+}
+
 WindDialog *WindDialog::instance_ = 0;
 
 WindDialog *WindDialog::instance()
@@ -73,6 +100,9 @@ void WindDialog::draw()
 		setY(GLViewPort::getHeight() - h_ - 40.0f);
 		init = true;
 	}
+
+	GLWToolTip::instance()->addToolTip(&tip_, 
+		x_ + 20.0f, y_ + 20.0f, 80.0f, 80.0f);
 
 	GLWWindow::draw();
 	drawDisplay();

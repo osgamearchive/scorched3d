@@ -49,7 +49,7 @@ GLVertexSet *TankModelRendererAIM::getAutoAimModel()
 }
 
 TankModelRenderer::TankModelRenderer(Tank *tank) :
-	tank_(tank), tankTip_(tank),
+	tank_(tank), tankTips_(tank),
 	model_(0), canSeeTank_(false),
 	smokeTime_(0.0f), smokeWaitForTime_(0.0f),
 	fireOffSet_(0.0f), posX_(0.0f), posY_(0.0f), posZ_(0.0f)
@@ -443,7 +443,7 @@ void TankModelRenderer::draw2d(bool currentTank)
 	if (!canSeeTank_) return;
 
 	// Add the tooltip that displays the tank info
-	GLWToolTip::instance()->addToolTip(&tankTip_,
+	GLWToolTip::instance()->addToolTip(&tankTips_.tankTip,
 		float(posX_) - 10.0f, float(posY_) - 10.0f, 20.0f, 20.0f);
 
 	// Draw the hightlighted ring around the tank

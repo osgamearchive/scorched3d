@@ -47,7 +47,7 @@ PlanViewDialog::PlanViewDialog() :
 	animationTime_(0.0f), flashTime_(0.0f),
 	GLWWindow("Plan", 10, 15, 120, 120, eCircle,
 		"Shows the position of the the tanks\n"
-		"on a overhead map."),
+		"on a overhead map of the island."),
 	flash_(true)
 {
 
@@ -85,6 +85,9 @@ void PlanViewDialog::draw()
 		setY(GLViewPort::getHeight() - h_ - 40.0f);
 		init = true;
 	}
+
+	GLWToolTip::instance()->addToolTip(&toolTip_, 
+		x_ + 20.0f, y_ + 20.0f, 80.0f, 80.0f);
 
 	GLWWindow::draw();
 	drawMap();
@@ -196,7 +199,7 @@ void PlanViewDialog::drawTanks()
 			tank->getModel().getModelIdRenderer();
 			if (model)
 			{
-				GLWToolTip::instance()->addToolTip(model->getTip(),
+				GLWToolTip::instance()->addToolTip(&model->getTips()->tankTip,
 					x_ + position[0] * w_ - 4.0f, y_ + position[1] * h_ - 4.0f, 
 					8.0f, 8.0f);
 			}

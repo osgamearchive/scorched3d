@@ -18,11 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// GLConsole.h: interface for the GLConsole class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_GLCONSOLE_H__516D85F7_420B_43EB_B0BE_563DCBE1B143__INCLUDED_)
 #define AFX_GLCONSOLE_H__516D85F7_420B_43EB_B0BE_563DCBE1B143__INCLUDED_
 

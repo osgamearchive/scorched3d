@@ -24,6 +24,50 @@
 #include <GLW/GLWToolTip.h>
 #include <tank/Tank.h>
 
+class GLWTankWeapon : public GLWTip
+{
+public:
+	GLWTankWeapon(Tank *tank);
+	virtual ~GLWTankWeapon();
+
+	virtual void populate();
+protected:
+	Tank *tank_;
+};
+
+class GLWTankPower : public GLWTip
+{
+public:
+	GLWTankPower(Tank *tank);
+	virtual ~GLWTankPower();
+
+	virtual void populate();
+protected:
+	Tank *tank_;
+};
+
+class GLWTankRotation : public GLWTip
+{
+public:
+	GLWTankRotation(Tank *tank);
+	virtual ~GLWTankRotation();
+
+	virtual void populate();
+protected:
+	Tank *tank_;
+};
+
+class GLWTankElevation : public GLWTip
+{
+public:
+	GLWTankElevation(Tank *tank);
+	virtual ~GLWTankElevation();
+
+	virtual void populate();
+protected:
+	Tank *tank_;
+};
+
 class GLWTankTip : public GLWTip
 {
 public:
@@ -33,11 +77,24 @@ public:
 	virtual void populate();
 protected:
 	Tank *tank_;
+};
+
+class GLWTankTips 
+{
+public:
+	GLWTankTips(Tank *tank);
+	virtual ~GLWTankTips();
+
+	GLWTankTip tankTip;
+	GLWTip nameTip;
+	GLWTankWeapon weaponTip;
+	GLWTankPower powerTip;
+	GLWTankRotation rotationTip;
+	GLWTankElevation elevationTip;
 
 private:
-	GLWTankTip(const GLWTankTip &);
-	const GLWTankTip & operator=(const GLWTankTip &);
-
+	GLWTankTips(const GLWTankTips &);
+	const GLWTankTips & operator=(const GLWTankTips &);
 };
 
 #endif // _gLWTankTip_h

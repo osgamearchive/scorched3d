@@ -22,7 +22,6 @@
 #include <actions/CameraPositionAction.h>
 #include <actions/Explosion.h>
 #include <sprites/TankDeadRenderer.h>
-#include <sprites/ExplosionLaserBeamRenderer.h>
 #include <weapons/AccessoryStore.h>
 #include <engine/ScorchedContext.h>
 #include <common/OptionsGame.h>

@@ -255,7 +255,9 @@ static bool make_dlist(FT_Face face, char ch, GLuint list_base, GLuint *tex_base
 	glBindTexture( GL_TEXTURE_2D, tex_base[ch]);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
-
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_CLAMP);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,GL_CLAMP);
+	
 	// Here We Actually Create The Texture Itself, Notice
 	// That We Are Using GL_LUMINANCE_ALPHA To Indicate That
 	// We Are Using 2 Channel Data.

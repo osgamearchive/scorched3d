@@ -79,8 +79,8 @@ void TankDialog::drawTankModel(Tank *current)
 	if (!model) return;
 
 	// Add the tooltip for the model name+attributes
-	GLWToolTip::instance()->addToolTip(model->getTip(), 
-		x_ + 10.0f, y_ + 10.0f, 100.0f, 100.0f);
+	GLWToolTip::instance()->addToolTip(&model->getTips()->tankTip, 
+		x_ + 20.0f, y_ + 20.0f, 80.0f, 80.0f);
 
 	// Find the angles to rotate so the tank is at the
 	// same angle as the "real" tank on the landscape
@@ -112,6 +112,12 @@ void TankDialog::drawTankModel(Tank *current)
 
 void TankDialog::drawTankDetails(Tank *current)
 {
+	TankModelRenderer *model = (TankModelRenderer *) 
+		current->getModel().getModelIdRenderer();
+	if (!model) return;
+
+	GLWTankTips *tankTips = model->getTips();
+
 	GLState newState(GLState::DEPTH_OFF | GLState::TEXTURE_OFF | GLState::BLEND_ON);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	
 
@@ -121,6 +127,8 @@ void TankDialog::drawTankDetails(Tank *current)
 	float namewidth = (float) GLWFont::instance()->getSmallPtFont()->getWidth(
 		10.0f,
 		current->getName());
+	GLWToolTip::instance()->addToolTip(&model->getTips()->nameTip, 
+		x_ + 60.0f - (namewidth / 2.0f), y_ + 21.0f, namewidth, 20.0f);
 	GLWFont::instance()->getSmallPtFont()->draw(
 		current->getColor(),
 		10.0f,
@@ -225,7 +233,7 @@ void TankDialog::drawTankDetails(Tank *current)
 		fuelTexture_.create(fuelMap, GL_RGBA, false);
 	}
 
-	// Fuel
+	// Auto Defense
 	glColor4f(1.0f, 1.0f, 1.0f, 0.8f);
 	autodefenseTexture_.draw();
 	drawIconBox(x_ - 21.0f, y_ + 109.0f);

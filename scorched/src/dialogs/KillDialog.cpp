@@ -41,9 +41,9 @@ KillDialog::KillDialog() :
 		"players to end the current round.")
 {
 	killId_ = addWidget(new GLWTextButton("Mass tank kill", 10, 45, 190, this, 
-		GLWButton::ButtonFlagCancel | GLWButton::ButtonFlagCenterX))->getId();
-	okId_ = addWidget(new GLWTextButton("Cancel", 95, 10, 105, this, 
 		GLWButton::ButtonFlagOk | GLWButton::ButtonFlagCenterX))->getId();
+	okId_ = addWidget(new GLWTextButton("Cancel", 95, 10, 105, this, 
+		GLWButton::ButtonFlagCancel | GLWButton::ButtonFlagCenterX))->getId();
 }
 
 KillDialog::~KillDialog()

@@ -22,6 +22,7 @@
 #include <client/ScorchedClient.h>
 #include <weapons/Weapon.h>
 #include <tankgraph/MissileMesh.h>
+#include <tankgraph/TankModelRenderer.h>
 #include <GLEXT/GLState.h>
 #include <GLEXT/GLBitmap.h>
 #include <GLW/GLWFont.h>
@@ -76,6 +77,11 @@ void WeaponDialog::draw()
 
 void WeaponDialog::drawWeapon(Tank *current)
 {
+	TankModelRenderer *model = (TankModelRenderer *) 
+		current->getModel().getModelIdRenderer();
+	if (!model) return;
+	GLWTankTips *tankTips = model->getTips();
+
 	Weapon *weapon = current->getAccessories().getWeapons().getCurrent();
 	if (!weapon) return;
 
@@ -125,6 +131,8 @@ void WeaponDialog::drawWeapon(Tank *current)
 		float weaponWidth = (float) GLWFont::instance()->getSmallPtFont()->
 			getWidth(10.0f, 
 			current->getAccessories().getWeapons().getCurrent()->getName());
+		GLWToolTip::instance()->addToolTip(&weapon->getToolTip(), 
+			x_ + 20.0f, y_ + 20.0f, 80.0f, 80.0f);
 		GLWFont::instance()->getSmallPtFont()->draw(
 			current->getColor(),
 			10.0f,
@@ -138,6 +146,8 @@ void WeaponDialog::drawWeapon(Tank *current)
 			current->getAccessories().getWeapons().getCurrent());
 		const char *format = "%i";
 		if (count < 0) format = "Inf";
+		GLWToolTip::instance()->addToolTip(&tankTips->weaponTip, 
+			x_ + 113, y_ + 85.0f, 47.0f, 18.0f);
 		drawInfoBox(x_ + 113, y_ + 103.0f, 47.0f);
 		drawJoin(x_ + 113.0f, y_ + 90.0f);
 		GLWFont::instance()->getSmallPtFont()->draw(
@@ -150,6 +160,8 @@ void WeaponDialog::drawWeapon(Tank *current)
 			count);
 
 		// Rotation XY
+		GLWToolTip::instance()->addToolTip(&tankTips->rotationTip, 
+			x_ + 111.0f, y_ + 16.0f, 72.0f, 18.0f);
 		drawInfoBox(x_ + 111.0f, y_ + 34.0f, 72.0f);
 		drawJoin(x_ + 111.0f, y_ + 29.0f);
 		GLWFont::instance()->getSmallPtFont()->draw(
@@ -159,9 +171,11 @@ void WeaponDialog::drawWeapon(Tank *current)
 			y_ + 19.0f,
 			0.0f,
 			"%.1f",
-			current->getPhysics().getRotationGunXY());
+			360.0f - current->getPhysics().getRotationGunXY());
 
 		// Rotation YZ
+		GLWToolTip::instance()->addToolTip(&tankTips->elevationTip, 
+			x_ + 118.0f, y_ + 39.0f, 61.0f, 18.0f);
 		drawInfoBox(x_ + 118.0f, y_ + 57.0f, 61.0f);
 		drawJoin(x_ + 118.0f, y_ + 49.0f);
 		GLWFont::instance()->getSmallPtFont()->draw(
@@ -174,6 +188,8 @@ void WeaponDialog::drawWeapon(Tank *current)
 			current->getPhysics().getRotationGunYZ());
 
 		// Power
+		GLWToolTip::instance()->addToolTip(&tankTips->powerTip, 
+			x_ + 118.0f, y_ + 62.0f, 80.0f, 18.0f);
 		drawInfoBox(x_ + 118.0f, y_ + 80.0f, 80.0f);
 		drawJoin(x_ + 118.0f, y_ + 72.0f);
 		GLWFont::instance()->getSmallPtFont()->draw(
