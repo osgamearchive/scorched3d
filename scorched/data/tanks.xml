@@ -7,6 +7,16 @@
 		</model>
 	</tank>
 	<tank>
+		<name>Tactical High Energy Laser</name>
+		<catagory>High Def</catagory>
+		<model type="MilkShape">thel/thel.txt</model>
+	</tank>
+	<tank>
+		<name>SA-6 Gainful</name>
+		<catagory>High Def</catagory>
+		<model type="MilkShape">sa6/sa6.txt</model>
+	</tank>
+	<tank>
 		<name>ZSU-57 High Def</name>
 		<catagory>High Def</catagory>
 		<model type="MilkShape">zsu57/zsu57.txt</model>
