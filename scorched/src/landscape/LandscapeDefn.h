@@ -54,6 +54,22 @@ public:
 	virtual bool readMessage(NetBufferReader &reader);
 };
 
+class LandscapeDefnRoofCavern : public LandscapeDefnType
+{
+public:
+	LandscapeDefnRoofCavern();
+	virtual ~LandscapeDefnRoofCavern();
+
+	float width;
+	float height;
+	std::string heightmaptype;
+	LandscapeDefnType *heightmap;
+
+	virtual bool readXML(XMLNode *node);
+	virtual bool writeMessage(NetBuffer &buffer);
+	virtual bool readMessage(NetBufferReader &reader);
+};
+
 class LandscapeDefnHeightMapFile : public LandscapeDefnType
 {
 public:

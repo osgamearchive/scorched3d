@@ -967,6 +967,7 @@ trace of the shot path.</description>
 		<armslevel>0</armslevel>
 		<deathanimationweight>10</deathanimationweight>
 		<animation>ExplosionLaserBeamRenderer</animation>
+		<data>data/wav/misc/laserdeath.wav</data>
 	</accessory>
 	<accessory type="WeaponMuzzle">
 		<name></name>

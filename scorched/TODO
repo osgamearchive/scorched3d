@@ -34,6 +34,7 @@ Fixed: Funky bomb and dirt interaction with concrete walls
 Fixed: Water coverage algorithm sometimes has holes in the water
 Fixed: Better mag deflect shield graphics
 Fixed: Interest and wins awarded when maximum moves exceeded
+Fixed: Apex collision weapons explode on contact with ground before apex
 
 Changed: Changed free market ecconmy so price decreases are slower
 Changed: Tank can move up and down bigger slopes (configurable)
@@ -41,6 +42,9 @@ Changed: Spread and hurts weapon primative options are now variable
 Changed: LeapFrog weapon primative bounce now variable
 Changed: Message of the day now defined in server.xml file
 
+Added: Cavern environment (comments please!!)
+Added: Trees and models can be placed using a mask and/or height range
+Added: First person style camera mode (WSAD keys with LALT held down)
 Added: A set amount of money can be given at the end of each round
 Added: More dirt option for landscape (perhaps cannot go under water)
 Added: Arms level can be progressive (changed) during the lifetime of a match
@@ -125,7 +129,6 @@ Add the ability to customize the languages (for dialogs etc..) (localisation)
 Birds/seaguls
 Whales
 Teleport (to random position)
-First person style camera mode
 Towers can't move
 More weapons, always more weapons
 Smoke bombs
@@ -145,7 +148,5 @@ resignation penalty (there already is, you can't win round!)
 communism
 
 -- Graphics Stuff
-anti-gravity dirt (doesn't fall) Needed for cavern environment 
-New animations for weapons
-Napalm scorches ground
+Napalm scorches ground (half done)
 

@@ -65,12 +65,15 @@ void LandscapeMaps::generateHMap(LandscapeDefinition *hdef,
 	}
 
 	// Generate the roof
-	if (0 != strcmp(hdef->getDefn()->rooftype.c_str(), "none"))
+	if (0 == strcmp(hdef->getDefn()->rooftype.c_str(), "cavern"))
 	{
+		LandscapeDefnRoofCavern *cavern = 
+			(LandscapeDefnRoofCavern *) hdef->getDefn()->roof;
+
 		if (!HeightMapLoader::generateTerrain(
 			hdef->getSeed() + 1,
-			hdef->getDefn()->roof,
-			hdef->getDefn()->rooftype.c_str(),
+			cavern->heightmap,
+			cavern->heightmaptype.c_str(),
 			getRMap(),
 			counter))
 		{
@@ -82,7 +85,7 @@ void LandscapeMaps::generateHMap(LandscapeDefinition *hdef,
 			for (int i=0; i<=getRMap().getWidth(); i++)
 			{
 				float height = getRMap().getHeight(i, j);
-				height = 125.0f - height;
+				height = cavern->height - height;
 				getRMap().setHeight(i, j, height);
 				getRMap().getNormal(i, j)[2] = -getRMap().getNormal(i, j)[2];
 			}

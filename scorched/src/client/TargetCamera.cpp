@@ -30,6 +30,7 @@
 #include <common/Keyboard.h>
 #include <common/Defines.h>
 #include <math.h>
+#include <float.h>
 
 static const char *cameraNames[] = 
 {
@@ -79,7 +80,8 @@ static const int noCameraDescriptions = sizeof(cameraDescriptions) / sizeof(char
 TargetCamera::TargetCamera() : mainCam_(300, 300), cameraPos_(CamSpectator)
 {
 	resetCam();
-	mainCam_.setHeightFunc(heightFunc, this);
+	mainCam_.setMinHeightFunc(minHeightFunc, this);
+	mainCam_.setMaxHeightFunc(maxHeightFunc, this);
 	DIALOG_ASSERT(noCameraDescriptions == noCameraNames);
 }
 
@@ -119,7 +121,7 @@ int TargetCamera::getNoCameraNames()
 	return noCameraNames;
 }
 
-float TargetCamera::heightFunc(int x, int y, void *data)
+float TargetCamera::minHeightFunc(int x, int y, void *data)
 {
 	TargetCamera *instance = (TargetCamera *) data;
 	if (instance->cameraPos_ == CamGun)
@@ -143,6 +145,29 @@ float TargetCamera::heightFunc(int x, int y, void *data)
 	}
 
 	return (h>heightMin + addition?h:heightMin + addition);
+}
+
+float TargetCamera::maxHeightFunc(int x, int y, void *data)
+{
+	if (!ScorchedClient::instance()->getLandscapeMaps().getRoof())
+	{
+		return FLT_MAX;
+	}
+
+	x = MAX(0, x);
+	y = MAX(0, y);
+	x = MIN(ScorchedClient::instance()->
+			getLandscapeMaps().getHMap().getWidth(), x);
+	y = MIN(ScorchedClient::instance()->
+			getLandscapeMaps().getHMap().getWidth(), y);
+
+	int size = ScorchedClient::instance()->
+		getLandscapeMaps().getHMap().getWidth() /
+		ScorchedClient::instance()->getLandscapeMaps().
+		getRMap().getWidth();
+	float h = ScorchedClient::instance()->getLandscapeMaps().
+			getRMap().getHeight(x / size, y / size) - 2.0f;
+	return h;
 }
 
 void TargetCamera::simulate(float frameTime, bool playing)

@@ -5,7 +5,7 @@
 		<minplayers>0</minplayers>
 		<maxplayers>24</maxplayers>
 		<surround type="none"></surround>
-		<roof type="none"></roof>
+		<roof type="sky"></roof>
 		<tankstart type="height">
 			<startcloseness>20</startcloseness>
 			<height><min>5.5</min><max>20</max></height>
@@ -39,7 +39,7 @@
 		<minplayers>0</minplayers>
 		<maxplayers>24</maxplayers>
 		<surround type="none"></surround>
-		<roof type="none"></roof>
+		<roof type="sky"></roof>
 		<tankstart type="height">
 			<startcloseness>20</startcloseness>
 			<height><min>5.5</min><max>20</max></height>
@@ -73,7 +73,7 @@
 		<minplayers>0</minplayers>
 		<maxplayers>24</maxplayers>
 		<surround type="none"></surround>
-		<roof type="none"></roof>
+		<roof type="sky"></roof>
 		<tankstart type="height">
 			<startcloseness>20</startcloseness>
 			<height><min>5.5</min><max>20</max></height>
@@ -107,7 +107,7 @@
 		<minplayers>0</minplayers>
 		<maxplayers>24</maxplayers>
 		<surround type="none"></surround>
-		<roof type="none"></roof>
+		<roof type="sky"></roof>
 		<tankstart type="height">
 			<startcloseness>20</startcloseness>
 			<height><min>5.5</min><max>20</max></height>
@@ -141,7 +141,7 @@
 		<minplayers>0</minplayers>
 		<maxplayers>24</maxplayers>
 		<surround type="none"></surround>
-		<roof type="none"></roof>
+		<roof type="sky"></roof>
 		<tankstart type="height">
 			<startcloseness>20</startcloseness>
 			<height><min>5.5</min><max>20</max></height>
@@ -175,7 +175,7 @@
 		<minplayers>0</minplayers>
 		<maxplayers>24</maxplayers>
 		<surround type="none"></surround>
-		<roof type="none"></roof>
+		<roof type="sky"></roof>
 		<tankstart type="height">
 			<startcloseness>20</startcloseness>
 			<height><min>5.5</min><max>20</max></height>
@@ -209,7 +209,7 @@
 		<minplayers>0</minplayers>
 		<maxplayers>24</maxplayers>
 		<surround type="none"></surround>
-		<roof type="none"></roof>
+		<roof type="sky"></roof>
 		<tankstart type="height">
 			<startcloseness>20</startcloseness>
 			<height><min>5.5</min><max>20</max></height>
@@ -248,27 +248,31 @@
 			<height><min>5.5</min><max>20</max></height>
 			<startmask></startmask>
 		</tankstart>
-		<roof type="generate">
-			<mask></mask>
-			<landhills>
-				<min>60</min><max>80</max>
-			</landhills>
-			<landheight>
-				<min>30</min><max>40</max>
-			</landheight>
-			<landwidthx>256</landwidthx>
-			<landwidthy>256</landwidthy>
-			<landpeakwidthx>
-				<min>4</min><max>10</max>
-			</landpeakwidthx>
-			<landpeakwidthy>
-				<min>-3</min><max>3</max>
-			</landpeakwidthy>
-			<landpeakheight>
-				<min>0.5</min><max>1.5</max>
-			</landpeakheight>
-			<landsmoothing>0.04</landsmoothing>
-			<levelsurround>false</levelsurround>
+		<roof type="cavern">
+			<width>300</width>
+			<height>125</height>
+			<heightmap type="generate">
+				<mask></mask>
+				<landhills>
+					<min>60</min><max>80</max>
+				</landhills>
+				<landheight>
+					<min>40</min><max>70</max>
+				</landheight>
+				<landwidthx>64</landwidthx>
+				<landwidthy>64</landwidthy>
+				<landpeakwidthx>
+					<min>4</min><max>10</max>
+				</landpeakwidthx>
+				<landpeakwidthy>
+					<min>-3</min><max>3</max>
+				</landpeakwidthy>
+				<landpeakheight>
+					<min>0.5</min><max>1.5</max>
+				</landpeakheight>
+				<landsmoothing>0.04</landsmoothing>
+				<levelsurround>false</levelsurround>
+			</heightmap>
 		</roof>
 		<heightmap type="generate">
 			<mask>data/landscapes/valley-mask.bmp</mask>

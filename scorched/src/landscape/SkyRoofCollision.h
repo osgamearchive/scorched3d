@@ -18,23 +18,33 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(AFX_SURROUND_H__E92604A2_6E7D_4810_9685_B699CE743B19__INCLUDED_)
-#define AFX_SURROUND_H__E92604A2_6E7D_4810_9685_B699CE743B19__INCLUDED_
+#if !defined(AFX_SKYROOFCOLLISION_H__D335723A_9576_42EB_A750_29F20EFDF7AD__INCLUDED_)
+#define AFX_SKYROOFCOLLISION_H__D335723A_9576_42EB_A750_29F20EFDF7AD__INCLUDED_
 
-#include <landscape/SurroundDefault.h>
+#include <engine/ScorchedContext.h>
+#include <engine/ScorchedCollisionIds.h>
+#include <engine/ActionController.h>
 
-class Surround
+class SkyRoofCollision
 {
 public:
-	Surround(HeightMap &map, int width, int height);
-	virtual ~Surround();
+	SkyRoofCollision(ScorchedContext *context);
+	virtual ~SkyRoofCollision();
 
-	void draw();
-	void generate();
+	static void setContext(ScorchedContext *context);
 
 protected:
-	SurroundDefault default_;
+	int roofClass_;
+	ScorchedContext *context_;
+	ScorchedCollisionInfo info_;
+
+	void create();
+
+	static dColliderFn *dLandscapeGetColliderFn(int num);
+	static int dCollideLAABB(dGeomID o1, dGeomID o2, dReal aabb2[6]);
+	static int dCollideLS (dGeomID o1, dGeomID o2, int flags,
+        dContactGeom *contact, int skip);
 
 };
 
-#endif // !defined(AFX_SURROUND_H__E92604A2_6E7D_4810_9685_B699CE743B19__INCLUDED_)
+#endif // !defined(AFX_SKYROOFCOLLISION_H__D335723A_9576_42EB_A750_29F20EFDF7AD__INCLUDED_)

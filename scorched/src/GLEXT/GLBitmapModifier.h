@@ -38,6 +38,8 @@ namespace GLBitmapModifier
 	void addLightMapToBitmap(GLBitmap &bitmap, 
 							HeightMap &hMap,
 							Vector &sunPos,
+							Vector &ambience,
+							Vector &diffuse,
 							ProgressCounter *counter = 0);
 
 	void addHeightToBitmap(HeightMap &hMap,

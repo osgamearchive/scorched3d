@@ -97,6 +97,7 @@ void ScorchedCollisionHandler::bounceCollision(dGeomID o1, dGeomID o2,
 	{
 	case CollisionIdGround:
 	case CollisionIdLandscape:
+	case CollisionIdRoof:
 		collisionBounce(o1, o2, contacts, noContacts, 10000.0);
 		break;
 	case CollisionIdBounce:
@@ -311,6 +312,7 @@ void ScorchedCollisionHandler::shotCollision(dGeomID o1, dGeomID o2,
 		break;
 	case CollisionIdGround:
 	case CollisionIdLandscape:
+	case CollisionIdRoof:
 		// A shot collides with the landscape
 		action = ParticleActionFinished;
 		break;

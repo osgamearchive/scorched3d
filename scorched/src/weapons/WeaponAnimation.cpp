@@ -39,6 +39,7 @@ bool WeaponAnimation::parseXML(XMLNode *accessoryNode)
 {
 	if (!Weapon::parseXML(accessoryNode)) return false;
 
+	if (!accessoryNode->getNamedChild("data", data_)) return false;
 	if (!accessoryNode->getNamedChild("animation", rendererName_)) return false;
 
 	MetaClass *newclass = MetaClassRegistration::getNewClass(
@@ -60,6 +61,7 @@ bool WeaponAnimation::writeAccessory(NetBuffer &buffer)
 {
 	if (!Weapon::writeAccessory(buffer)) return false;
 	buffer.addToBuffer(rendererName_);
+	buffer.addToBuffer(data_);
 	return true;
 }
 
@@ -67,6 +69,7 @@ bool WeaponAnimation::readAccessory(NetBufferReader &reader)
 {
 	if (!Weapon::readAccessory(reader)) return false;
 	if (!reader.getFromBuffer(rendererName_)) return false;
+	if (!reader.getFromBuffer(data_)) return false;
 	return true;
 }
 
@@ -77,5 +80,6 @@ void WeaponAnimation::fireWeapon(ScorchedContext &context,
 	context.actionController->addAction(
 		new Animation(playerId, 
 			position, velocity,
-			rendererName_.c_str()));
+			rendererName_.c_str(), 
+			data_.c_str()));
 }

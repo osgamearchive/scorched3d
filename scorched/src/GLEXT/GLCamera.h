@@ -32,7 +32,8 @@ that any OpenGL calls will be "looking" at the given position.
 class GLCamera
 {
 public:
-	typedef float (*HeightFunc)(int, int, void *);
+	typedef float (*MinHeightFunc)(int, int, void *);
+	typedef float (*MaxHeightFunc)(int, int, void *);
 
 	/**
 	Create the camera.
@@ -47,7 +48,8 @@ public:
 	height at a specified position.  This can be used for example
 	to prevent the camera from entering the landscape.
 	*/
-	void setHeightFunc(HeightFunc func, void *heightData = 0);
+	void setMinHeightFunc(MinHeightFunc func, void *heightData = 0);
+	void setMaxHeightFunc(MaxHeightFunc func, void *heightData = 0);
 	/** 
 	Turns the user of the height function on or off.
 	See setHeightFunc.
@@ -164,8 +166,10 @@ protected:
 	Vector wantedLookAt_;
 	Vector wantedOffset_;
 	Vector currentPosition_;
-	HeightFunc heightFunc_;
-	void *heightData_;
+	MinHeightFunc minHeightFunc_;
+	MaxHeightFunc maxHeightFunc_;
+	void *minHeightData_;
+	void *maxHeightData_;
 
 	virtual void calculateWantedOffset();
 	virtual void moveViewport(Vector &lookFrom, Vector &lookAt);

@@ -104,6 +104,15 @@ void LandscapeObjects::generate(RandomGenerator &generator,
 					tex.objects[i];
 			gen.generateObjects(generator, *placement, counter);
 		}
+		else if (0 == strcmp(placementtype.c_str(), "mask"))
+		{
+			// Mask type placement
+			LandscapeObjectPlacementMask gen;
+			LandscapeTexObjectsPlacementMask *placement =
+				(LandscapeTexObjectsPlacementMask *)
+					tex.objects[i];
+			gen.generateObjects(generator, *placement, counter);
+		}
 		else
 		{
 			dialogExit("LandscapeObjects",

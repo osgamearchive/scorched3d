@@ -66,6 +66,7 @@ public:
 	GLTexture &getPlanTexture() { return planTexture_; }
 	GLTexture &getCloudTexture() { return cloudTexture_; }
 	GLTexture &getLandscapeTexture1() { return landTex1_; }
+	GLTexture &getSurroundTexture() { return surroundTexture_; }
 
 	LandscapeTextureType getTextureType() { return textureType_; }
 	void setTextureType(LandscapeTextureType type) { textureType_ = type; }

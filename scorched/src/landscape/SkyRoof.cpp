@@ -22,14 +22,14 @@
 #include <landscape/Sky.h>
 #include <landscape/Sun.h>
 #include <landscape/Landscape.h>
+#include <landscape/LandscapeDefinition.h>
+#include <landscape/LandscapeTex.h>
+#include <landscape/LandscapeDefn.h>
 #include <landscape/LandscapeMaps.h>
 #include <client/ScorchedClient.h>
 #include <engine/ScorchedContext.h>
 #include <common/Defines.h>
 #include <math.h>
-
-static const float ambientLightConst = 0.3f;
-static const float directLightConst = 0.7f;
 
 SkyRoof::SkyRoof() : list_(0)
 {
@@ -47,16 +47,21 @@ void SkyRoof::generate()
 
 void SkyRoof::makeNormal(Vector &position, Vector &normal)
 {
+	Vector &ambient = 
+		ScorchedClient::instance()->getLandscapeMaps().
+			getLandDfn().getTex()->skyambience;
+	Vector &diffuse = 
+		ScorchedClient::instance()->getLandscapeMaps().
+			getLandDfn().getTex()->skydiffuse;
 	Vector &sunPos = Landscape::instance()->getSky().getSun().getPosition();
 	Vector sunDirection = (sunPos - position).Normalize();
 	
-	float diffuseLight = directLightConst * (((normal.dotP(sunDirection)) / 2.0f) + 0.5f);
-	float ambientLight = ambientLightConst;
-	float lightIntense = diffuseLight + ambientLight;
-	
-	glColor3f(lightIntense, lightIntense, lightIntense);
+	float diffuseLight = (((normal.dotP(sunDirection)) / 2.0f) + 0.5f);
+	Vector light = diffuse * diffuseLight + ambient;
+
+	glColor3fv(light);
 }
-	
+
 void SkyRoof::makeList()
 {	
 	HeightMap &rmap = ScorchedClient::instance()->
@@ -65,7 +70,6 @@ void SkyRoof::makeList()
 		getLandscapeMaps().getHMap();
 
 	float mult = float(hmap.getWidth()) / float(rmap.getWidth());
-	float texmult = mult / 4.0f;
 	
 	glNewList(list_ = glGenLists(1), GL_COMPILE);
 		for (int j=0; j<rmap.getWidth(); j++)
@@ -75,12 +79,12 @@ void SkyRoof::makeList()
 			{
 				Vector a(i * mult, j * mult, rmap.getHeight(i, j));
 				makeNormal(a, rmap.getNormal(i, j));
-				glTexCoord2f(i * texmult, j * texmult);
+				glTexCoord2f(a[0] / 64.0f, a[1] / 64.0f);
 				glVertex3fv(a);
 				
 				Vector b(i * mult, (j + 1) * mult, rmap.getHeight(i, j + 1));
 				makeNormal(b, rmap.getNormal(i, j + 1));
-				glTexCoord2f(i * texmult, (j+1) * texmult);
+				glTexCoord2f(b[0] / 64.0f, b[1] / 64.0f);
 				glVertex3fv(b);
 			}
 			glEnd();
@@ -93,40 +97,45 @@ void SkyRoof::makeList()
 				Vector na = rmap.getNormal(i,0);
 				Vector b((i + 1) * mult, 0.0f, rmap.getHeight(i + 1, 0));
 				Vector nb = rmap.getNormal(i + 1, 0);
-				drawSegment(a, b, na, nb, texmult);
+				drawSegment(a, b, na, nb);
 			}
 			{
 				Vector b(i * mult, 256.0f, rmap.getHeight(i, rmap.getWidth()));
 				Vector nb = rmap.getNormal(i, rmap.getWidth());
 				Vector a((i + 1) * mult, 256.0f, rmap.getHeight(i + 1, rmap.getWidth()));
 				Vector na = rmap.getNormal(i + 1, rmap.getWidth());
-				drawSegment(a, b, na, nb, texmult);
+				drawSegment(a, b, na, nb);
 			}
 			{
 				Vector b(0.0f, i * mult, rmap.getHeight(0, i));
 				Vector nb = rmap.getNormal(0, i);
 				Vector a(0.0f, (i + 1) * mult, rmap.getHeight(0, i + 1));
 				Vector na = rmap.getNormal(0, i + 1);
-				drawSegment(a, b, na, nb, texmult);
+				drawSegment(a, b, na, nb);
 			}
 			{
 				Vector a(256.0f, i * mult, rmap.getHeight(rmap.getWidth(), i));
 				Vector na = rmap.getNormal(rmap.getWidth(), i);
 				Vector b(256.0f, (i + 1) * mult, rmap.getHeight(rmap.getWidth(), i + 1));
 				Vector nb = rmap.getNormal(rmap.getWidth(), i + 1);
-				drawSegment(a, b, na, nb, texmult);
+				drawSegment(a, b, na, nb);
 			}
 		}
 
 	glEndList();
 }
 
-void SkyRoof::drawSegment(Vector &a, Vector &b, Vector &na, Vector &nb, float texmult)
+void SkyRoof::drawSegment(Vector &a, Vector &b, Vector &na, Vector &nb)
 {
 	HeightMap &rmap = ScorchedClient::instance()->
 		getLandscapeMaps().getRMap();
-	const float hemispehereRadius = 1500.0f;
-	const int steps = 10;
+	LandscapeDefnRoofCavern *cavern = 
+		(LandscapeDefnRoofCavern *) 
+		ScorchedClient::instance()->getLandscapeMaps().
+		getLandDfn().getDefn()->roof;
+	float hemispehereRadius = cavern->width;
+
+	const int steps = 5;
 
 	float heighta = a[2];
 	float heightb = b[2];
@@ -139,22 +148,36 @@ void SkyRoof::drawSegment(Vector &a, Vector &b, Vector &na, Vector &nb, float te
 	float distb = diffb.Magnitude();
 	diffa.StoreNormalize();
 	diffb.StoreNormalize();
-	diffa *= (1800.0f - dista) / float(steps);
-	diffb *= (1800.0f - distb) / float(steps);
+	diffa *= (hemispehereRadius - dista) / float(steps);
+	diffb *= (hemispehereRadius - distb) / float(steps);
 
 	Vector midPoint(128.0f, 128.0f, 0.0f);
 	glBegin(GL_QUAD_STRIP);
 	for (int i=0; i<=steps + 3; i++)
 	{
-		glTexCoord2f(a[0] * texmult, a[1] * texmult);
-		Vector dira(0.0f, 0.0f, -1.0f);// = (midPoint - a).Normalize();
-		makeNormal(a, na);
-		glVertex3fv(a);
+		{
+			Vector c = a + diffa;
+			Vector e = (a - c).Normalize();
+			Vector f = (a - b).Normalize();
+			Vector n = e * f;
+
+			glTexCoord2f(a[0] / 64.0f, a[1] / 64.0f);
+			if (i < 1) n = na;
+			makeNormal(a, n);
+			glVertex3fv(a);
+		}
 		
-		glTexCoord2f(b[0] * texmult, b[1] * texmult);
-		Vector dirb(0.0f, 0.0f, -1.0f);// = (midPoint - b).Normalize();
-		makeNormal(b, nb);
-		glVertex3fv(b);
+		{
+			Vector c = b + diffb;
+			Vector f = (b - c).Normalize();
+			Vector e = (b - a).Normalize();
+			Vector n = e * f;
+
+			glTexCoord2f(b[0] / 64.0f, b[1] / 64.0f);
+			if (i < 1) n = nb;
+			makeNormal(b, n);
+			glVertex3fv(b);
+		}
 
 		a += diffa;
 		b += diffb;
@@ -168,7 +191,6 @@ void SkyRoof::draw()
 {
 	if (!list_) makeList();
 	
-	GLState state(GLState::TEXTURE_OFF);
+	Landscape::instance()->getSurroundTexture().draw(true);
 	glCallList(list_);
 }
-

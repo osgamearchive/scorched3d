@@ -156,7 +156,8 @@ void TankAILogic::processFiredMessage(ScorchedContext &context,
 			if (count > 0 || count == -1)
 			{
 				if ((10 - weapon->getArmsLevel()) <=
-					context.optionsTransient->getArmsLevel())
+					context.optionsTransient->getArmsLevel() ||
+					context.optionsGame->getGiveAllWeapons())
 				{
 					// Actually use up one of the weapons
 					tank->getAccessories().getWeapons().rmWeapon(weapon, 1);

@@ -50,6 +50,7 @@
 #include <GLEXT/GLConsole.h>
 #include <GLW/GLWWindowSkinManager.h>
 #include <landscape/HeightMapCollision.h>
+#include <landscape/SkyRoofCollision.h>
 #include <engine/MainLoop.h>
 #include <engine/ScorchedCollisionHandler.h>
 #include <engine/ActionController.h>
@@ -170,6 +171,8 @@ bool startClient(ProgressCounter *progressCounter)
 
 	HeightMapCollision *hmcol = 
 		new HeightMapCollision(&ScorchedClient::instance()->getContext());
+	SkyRoofCollision *srcol = 
+		new SkyRoofCollision(&ScorchedClient::instance()->getContext());
 	ScorchedClient::instance()->getActionController().getPhysics().setCollisionHandler(
 		new ScorchedCollisionHandler(&ScorchedClient::instance()->getContext()));
 

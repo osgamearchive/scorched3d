@@ -34,9 +34,10 @@ Animation::Animation()
 Animation::Animation(unsigned int playerId,
 		Vector &position, 
 		Vector &velocity,
-		const char *rendererName) : 
+		const char *rendererName,
+		const char *data) : 
 	position_(position), playerId_(playerId), velocity_(velocity),
-	rendererName_(rendererName)
+	rendererName_(rendererName), data_(data)
 {
 }
 
@@ -53,7 +54,7 @@ void Animation::init()
 
 		if (renderer)
 		{
-			renderer->init(playerId_, position_, velocity_);
+			renderer->init(playerId_, position_, velocity_, data_.c_str());
 			context_->actionController->addAction(
 				new SpriteAction(renderer));
 		}
@@ -82,6 +83,7 @@ bool Animation::writeAction(NetBuffer &buffer)
 	buffer.addToBuffer(velocity_[1]);
 	buffer.addToBuffer(velocity_[2]);
 	buffer.addToBuffer(rendererName_);
+	buffer.addToBuffer(data_);
 	return true;
 }
 
@@ -95,6 +97,7 @@ bool Animation::readAction(NetBufferReader &reader)
 	if (!reader.getFromBuffer(velocity_[1])) return false;
 	if (!reader.getFromBuffer(velocity_[2])) return false;
 	if (!reader.getFromBuffer(rendererName_)) return false;
+	if (!reader.getFromBuffer(data_)) return false;
 	return true;
 }
 

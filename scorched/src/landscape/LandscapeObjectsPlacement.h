@@ -34,4 +34,14 @@ public:
 		ProgressCounter *counter = 0);
 };
 
+class LandscapeTexObjectsPlacementMask;
+class LandscapeObjectPlacementMask 
+{
+public:
+	virtual void generateObjects(
+		RandomGenerator &generator, 
+		LandscapeTexObjectsPlacementMask &placement,
+		ProgressCounter *counter = 0);
+};
+
 #endif // __INCLUDE_LandscapeObjectsPlacementh_INCLUDE__

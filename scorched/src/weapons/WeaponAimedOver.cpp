@@ -20,6 +20,7 @@
 
 #include <weapons/WeaponAimedOver.h>
 #include <weapons/AccessoryStore.h>
+#include <landscape/LandscapeMaps.h>
 #include <tank/TankLib.h>
 #include <tank/TankContainer.h>
 #include <common/Defines.h>
@@ -102,11 +103,23 @@ void WeaponAimedOver::fireWeapon(ScorchedContext &context,
 	unsigned int data)
 {
 	Vector position = sentPosition;
-	position[2] += 0.2f;
 	if (position[0] < 6.0f) position[0] = 6.0f;
 	else if (position[0] > 249.0f) position[0] = 249.0f;
 	if (position[1] < 6.0f) position[1] = 6.0f;
 	else if (position[1] > 249.0f) position[1] = 249.0f;
+
+	position[2] += 0.2f;
+	bool ceiling = false;
+	if (context.landscapeMaps->getRoof())
+	{
+		float maxHeight = context.landscapeMaps->getRMap().getInterpHeight(
+			position[0] / 4.0f, position[1] / 4.0f);
+		if (position[2] > maxHeight - 1.0f)
+		{
+			ceiling = true;
+			position[2] = maxHeight - 1.0f;
+		}
+	}
 
 	// Get all of the distances of the tanks less than maxAimedDistance_ away
 	std::list<std::pair<float, Tank *> > sortedTanks;
@@ -187,6 +200,7 @@ void WeaponAimedOver::fireWeapon(ScorchedContext &context,
 			angleYZDegs += (RAND * maxInacuracy_) - 
 				(maxInacuracy_ / 2.0f);
 		}
+		if (ceiling) angleYZDegs += 180.0f;
 
 		// Create the shot
 		Vector &velocity = TankLib::getVelocityVector(

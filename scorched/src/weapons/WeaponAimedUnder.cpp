@@ -103,8 +103,13 @@ void WeaponAimedUnder::fireWeapon(ScorchedContext &context,
 {
 	// NOTE: This code is very similar to the funky bomb code
 	// except it works under ground
-	position[2] = context.landscapeMaps->getHMap().
-		getInterpHeight(position[0], position[1]) / 2.0f;
+	float height = context.landscapeMaps->getHMap().
+		getInterpHeight(position[0], position[1]);
+	if (position[2] < height + 1.0f)
+	{
+		position[2] = context.landscapeMaps->getHMap().
+			getInterpHeight(position[0], position[1]) / 2.0f;
+	}
 
 	// Get all of the distances of the tanks less than 50 away
 	std::list<std::pair<float, Tank *> > sortedTanks;

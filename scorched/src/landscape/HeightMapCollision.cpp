@@ -23,14 +23,6 @@
 #include <common/Triangle.h>
 #include <common/Defines.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-//extern int dSphereClass;
-#ifdef __cplusplus
-}
-#endif
-
 static ScorchedContext *staticContext_ = 0;
 
 HeightMapCollision::HeightMapCollision(ScorchedContext *context) : 

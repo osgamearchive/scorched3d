@@ -42,6 +42,7 @@ static LandscapeTexType *fetchTextureTexType(const char *type)
 static LandscapeTexType *fetchPlacementTexType(const char *type)
 {
 	if (0 == strcmp(type, "trees")) return new LandscapeTexObjectsPlacementTree;
+	if (0 == strcmp(type, "mask")) return new LandscapeTexObjectsPlacementMask;
 	dialogMessage("LandscapeTexType", "Unknown placement type %s", type);
 	return 0;
 }
@@ -114,20 +115,73 @@ bool LandscapeTexObjectsTree::readXML(XMLNode *node)
 	return node->failChildren();
 }
 
-LandscapeTexObjectsPlacementTree::~LandscapeTexObjectsPlacementTree()
+// LandscapeTexObjectsPlacementTree
+LandscapeTexObjectsPlacement::~LandscapeTexObjectsPlacement()
 {
 	delete object;
 }
 
+bool LandscapeTexObjectsPlacement::writeMessage(NetBuffer &buffer)
+{
+	buffer.addToBuffer(objecttype);
+	if (!object->writeMessage(buffer)) return false;
+	return true;
+}
+
+bool LandscapeTexObjectsPlacement::readMessage(NetBufferReader &reader)
+{
+	if (!reader.getFromBuffer(objecttype)) return false;
+	if (!(object = fetchObjectTexType(objecttype.c_str()))) return false;
+	if (!object->readMessage(reader)) return false;
+	return true;
+}
+
+bool LandscapeTexObjectsPlacement::readXML(XMLNode *node)
+{
+	XMLNode *objectNode;
+	if (!node->getNamedChild("object", objectNode)) return false;
+	if (!objectNode->getNamedParameter("type", objecttype)) return false;
+	if (!(object = fetchObjectTexType(objecttype.c_str()))) return false;
+	if (!object->readXML(objectNode)) return false;
+	return node->failChildren();
+}
+
+// LandscapeTexObjectsPlacementMask
+bool LandscapeTexObjectsPlacementMask::writeMessage(NetBuffer &buffer)
+{
+	buffer.addToBuffer(numobjects);
+	buffer.addToBuffer(mask);
+	buffer.addToBuffer(minheight);
+	buffer.addToBuffer(maxheight);
+	return LandscapeTexObjectsPlacement::writeMessage(buffer);
+}
+
+bool LandscapeTexObjectsPlacementMask::readMessage(NetBufferReader &reader)
+{
+	if (!reader.getFromBuffer(numobjects)) return false;
+	if (!reader.getFromBuffer(mask)) return false;
+	if (!reader.getFromBuffer(minheight)) return false;
+	if (!reader.getFromBuffer(maxheight)) return false;
+	return LandscapeTexObjectsPlacement::readMessage(reader);
+}
+
+bool LandscapeTexObjectsPlacementMask::readXML(XMLNode *node)
+{
+	if (!node->getNamedChild("numobjects", numobjects)) return false;
+	if (!node->getNamedChild("mask", mask)) return false;
+	if (!node->getNamedChild("minheight", minheight)) return false;
+	if (!node->getNamedChild("maxheight", maxheight)) return false;
+	return LandscapeTexObjectsPlacement::readXML(node);
+}
+
+// LandscapeTexObjectsPlacementTree
 bool LandscapeTexObjectsPlacementTree::writeMessage(NetBuffer &buffer)
 {
 	buffer.addToBuffer(numobjects);
 	buffer.addToBuffer(numclusters);
 	buffer.addToBuffer(minheight);
 	buffer.addToBuffer(maxheight);
-	buffer.addToBuffer(objecttype);
-	if (!object->writeMessage(buffer)) return false;
-	return true;
+	return LandscapeTexObjectsPlacement::writeMessage(buffer);
 }
 
 bool LandscapeTexObjectsPlacementTree::readMessage(NetBufferReader &reader)
@@ -136,26 +190,19 @@ bool LandscapeTexObjectsPlacementTree::readMessage(NetBufferReader &reader)
 	if (!reader.getFromBuffer(numclusters)) return false;
 	if (!reader.getFromBuffer(minheight)) return false;
 	if (!reader.getFromBuffer(maxheight)) return false;
-	if (!reader.getFromBuffer(objecttype)) return false;
-	if (!(object = fetchObjectTexType(objecttype.c_str()))) return false;
-	if (!object->readMessage(reader)) return false;
-	return true;
+	return LandscapeTexObjectsPlacement::readMessage(reader);
 }
 
 bool LandscapeTexObjectsPlacementTree::readXML(XMLNode *node)
 {
-	XMLNode *objectNode;
 	if (!node->getNamedChild("numobjects", numobjects)) return false;
 	if (!node->getNamedChild("numclusters", numclusters)) return false;
 	if (!node->getNamedChild("minheight", minheight)) return false;
 	if (!node->getNamedChild("maxheight", maxheight)) return false;
-	if (!node->getNamedChild("object", objectNode)) return false;
-	if (!objectNode->getNamedParameter("type", objecttype)) return false;
-	if (!(object = fetchObjectTexType(objecttype.c_str()))) return false;
-	if (!object->readXML(objectNode)) return false;
-	return node->failChildren();
+	return LandscapeTexObjectsPlacement::readXML(node);
 }
 
+// LandscapeTexBorderWater 
 bool LandscapeTexBorderWater::writeMessage(NetBuffer &buffer)
 {
 	buffer.addToBuffer(reflection);
@@ -193,6 +240,7 @@ bool LandscapeTexBorderWater::readXML(XMLNode *node)
 	return node->failChildren();
 }
 
+// LandscapeTexTextureGenerate
 bool LandscapeTexTextureGenerate::writeMessage(NetBuffer &buffer)
 {
 	buffer.addToBuffer(rockside);
@@ -236,6 +284,7 @@ bool LandscapeTexTextureGenerate::readXML(XMLNode *node)
 	return node->failChildren();
 }
 
+// LandscapeTex
 LandscapeTex::LandscapeTex() :
 	border(0), texture(0)
 {
@@ -266,6 +315,9 @@ bool LandscapeTex::writeMessage(NetBuffer &buffer)
 	buffer.addToBuffer(skytimeofday);
 	buffer.addToBuffer(skysunxy);
 	buffer.addToBuffer(skysunyz);
+	buffer.addToBuffer(skyambience);
+	buffer.addToBuffer(skydiffuse);
+
 	buffer.addToBuffer(bordertype);
 	if (!border->writeMessage(buffer)) return false;
 	buffer.addToBuffer(texturetype);
@@ -294,6 +346,8 @@ bool LandscapeTex::readMessage(NetBufferReader &reader)
 	if (!reader.getFromBuffer(skytimeofday)) return false;
 	if (!reader.getFromBuffer(skysunxy)) return false;
 	if (!reader.getFromBuffer(skysunyz)) return false;
+	if (!reader.getFromBuffer(skyambience)) return false;
+	if (!reader.getFromBuffer(skydiffuse)) return false;
 
 	if (!reader.getFromBuffer(bordertype)) return false;
 	if (!(border = fetchBorderTexType(bordertype.c_str()))) return false;
@@ -331,6 +385,8 @@ bool LandscapeTex::readXML(XMLNode *node)
 	if (!node->getNamedChild("skytimeofday", skytimeofday)) return false;
 	if (!node->getNamedChild("skysunxy", skysunxy)) return false;
 	if (!node->getNamedChild("skysunyz", skysunyz)) return false;
+	if (!node->getNamedChild("skydiffuse", skydiffuse)) return false;
+	if (!node->getNamedChild("skyambience", skyambience)) return false;
 
 	if (!checkDataFile(detail.c_str())) return false;
 	if (!checkDataFile(magmasmall.c_str())) return false;

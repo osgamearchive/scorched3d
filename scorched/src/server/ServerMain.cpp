@@ -36,6 +36,7 @@
 #include <engine/ScorchedCollisionHandler.h>
 #include <engine/ModFiles.h>
 #include <landscape/HeightMapCollision.h>
+#include <landscape/SkyRoofCollision.h>
 #include <landscape/LandscapeDefinitions.h>
 #include <tankai/TankAIAdder.h>
 #include <tankai/TankAIStore.h>
@@ -108,6 +109,8 @@ bool startServer(bool local)
 	// Init physics
 	HeightMapCollision *hmcol = 
 		new HeightMapCollision(&ScorchedServer::instance()->getContext());
+	SkyRoofCollision *srcol = 
+		new SkyRoofCollision(&ScorchedServer::instance()->getContext());
 	ScorchedServer::instance()->getActionController().getPhysics().setCollisionHandler(
 		new ScorchedCollisionHandler(&ScorchedServer::instance()->getContext()));
 

@@ -37,7 +37,7 @@ protected:
 
 	void makeList();
 	void drawSegment(Vector &a, Vector &b, 
-		Vector &na, Vector &nb, float texmult);
+		Vector &na, Vector &nb);
 	void makeNormal(Vector &position, Vector &normal);
 };
 

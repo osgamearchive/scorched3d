@@ -33,6 +33,7 @@ enum ScorchedCollisionId
 {
 	CollisionIdNone = 0,
 	CollisionIdLandscape,
+	CollisionIdRoof,
 	CollisionIdShot,
 	CollisionIdFallingTank,
 	CollisionIdGround,

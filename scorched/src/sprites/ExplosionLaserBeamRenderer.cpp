@@ -44,9 +44,9 @@ ExplosionLaserBeamRenderer::ExplosionLaserBeamRenderer():
 }
 
 void ExplosionLaserBeamRenderer::init(unsigned int playerId,
-	Vector &position, Vector &velocity)
+	Vector &position, Vector &velocity, const char *data)
 {
-	CACHE_SOUND(sound, (char *) getDataFile("data/wav/misc/laserdeath.wav"));
+	CACHE_SOUND(sound, (char *) getDataFile(data));
 	sound->play();
 
 	for (int j=0;j<layers;j++){

@@ -27,8 +27,9 @@
 
 GLCamera::GLCamera(GLsizei windowWidth, GLsizei windowHeight) :
 	rotationXY_(0.0f), rotationYZ_(PI / 4), zoom_(150.0f),
-	useHeightFunc_(false), heightFunc_(0), totalTime_(0.0f), 
-	shake_(0.0f), heightData_(0)
+	useHeightFunc_(false), minHeightFunc_(0), maxHeightFunc_(0), 
+	totalTime_(0.0f), 
+	shake_(0.0f), minHeightData_(0), maxHeightData_(0)
 {
 	setWindowOffset(0, 0);
 	setWindowSize(windowWidth, windowHeight);
@@ -45,10 +46,20 @@ void GLCamera::setUseHeightFunc(bool toggle)
 	useHeightFunc_ = toggle;
 }
 
-void GLCamera::setHeightFunc(HeightFunc func, void *data)
+void GLCamera::setMinHeightFunc(MinHeightFunc func, void *data)
 {
-	heightFunc_ = func;
-	heightData_ = data;
+	minHeightFunc_ = func;
+	minHeightData_ = data;
+	if (func)
+	{
+		useHeightFunc_ = true;
+	}
+}
+
+void GLCamera::setMaxHeightFunc(MaxHeightFunc func, void *data)
+{
+	maxHeightFunc_ = func;
+	maxHeightData_ = data;
 	if (func)
 	{
 		useHeightFunc_ = true;
@@ -96,9 +107,15 @@ void GLCamera::calculateWantedOffset()
 void GLCamera::moveViewport(Vector &lookFrom, Vector &lookAt)
 {
 	GLfloat lz(lookFrom[2]);
-	if (heightFunc_ && useHeightFunc_)
+	if (minHeightFunc_ && useHeightFunc_)
 	{
-		lz = MAX(lz, (*heightFunc_)((int) lookFrom[0], (int) lookFrom[1], heightData_));
+		lz = MAX(lz, (*minHeightFunc_)((int) lookFrom[0], 
+			(int) lookFrom[1], minHeightData_));
+	}
+	if (maxHeightFunc_ && useHeightFunc_)
+	{
+		lz = MIN(lz, (*maxHeightFunc_)((int) lookFrom[0], 
+			(int) lookFrom[1], maxHeightData_));
 	}
 
 	glMatrixMode(GL_PROJECTION);

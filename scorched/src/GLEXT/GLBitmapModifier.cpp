@@ -24,9 +24,6 @@
 #include <GLEXT/GLBitmapModifier.h>
 #include <common/Defines.h>
 
-static const float ambientLightConst = 0.3f;
-static const float directLightConst = 0.7f;
-
 bool GLBitmapModifier::findIntersection(HeightMap &hMap,
 										Vector start,
 										Vector end,
@@ -85,9 +82,11 @@ void GLBitmapModifier::tileBitmap(GLBitmap &src, GLBitmap &dest)
 }
 
 void GLBitmapModifier::addLightMapToBitmap(GLBitmap &destBitmap, 
-										   HeightMap &hMap,
-										   Vector &sunPos,
-										   ProgressCounter *counter)
+	HeightMap &hMap,
+	Vector &sunPos,
+	Vector &ambience,
+	Vector &diffuse,
+	ProgressCounter *counter)
 {
 	const float softShadow = 3.0f;
 	const int sideFade = 16;
@@ -96,8 +95,8 @@ void GLBitmapModifier::addLightMapToBitmap(GLBitmap &destBitmap,
 	if (counter) counter->setNewOp("Light Map");
 
 	// Itterate the dest bitmap pixels
-	GLubyte *bitmap = new GLubyte[mapWidth * mapWidth];
-	GLubyte *bitmapBits = bitmap;
+	GLfloat *bitmap = new GLfloat[mapWidth * mapWidth * 3];
+	GLfloat *bitmapBits = bitmap;
 	int y;
 	for (y=0; y<mapWidth; y++)
 	{
@@ -114,98 +113,63 @@ void GLBitmapModifier::addLightMapToBitmap(GLBitmap &destBitmap,
 			hMap.getInterpNormal(dx, dy, testNormal);
 			Vector sunDirection = (sunPos - testPosition).Normalize();
 
-			// Calculate lighting
-			float diffuseLight = directLightConst * (((testNormal.dotP(sunDirection)) / 2.0f) + 0.5f);
-			float ambientLight = ambientLightConst;
-
 			// Calculate light based on whether obejcts in path
+			float diffuseLightMult = 
+				(((testNormal.dotP(sunDirection)) / 2.0f) + 0.5f);
 			float dist = 0.0f;
-			if (findIntersection(hMap, testPosition, sunPos, dist, softShadow))
+			if (findIntersection(hMap, 
+				testPosition, sunPos, dist, softShadow))
 			{
 				// An object is in the path
 				if (dist < softShadow)
 				{
 					// The object is only just in the path
 					// Create soft shadow
-					diffuseLight *= 1.0f - (dist / softShadow);
+					diffuseLightMult *= 1.0f - (dist / softShadow);
 				}
 				else
 				{
 					// Totaly in path, dark shadow
-					diffuseLight = 0.0f;
+					diffuseLightMult = 0.0f;
 				}
 			}
-			float lightIntense = diffuseLight + ambientLight;
-			if (lightIntense > 1.0f) lightIntense = 1.0f;
-			else if (lightIntense < 0.0f) lightIntense = 0.0f;
 
-			// Fade the lightmap at the sides of the bitmap
-			// All light -> 1 at borders
-			int fadeAmount = sideFade;
-			bool fade = false;
-			if (x < sideFade)
-			{
-				fade = true;
-				fadeAmount = MIN(fadeAmount, x);
-			}
-			if (y < sideFade)
-			{
-				fade = true;
-				fadeAmount = MIN(fadeAmount, y);
-			}
-			if (x + sideFade > mapWidth)
-			{
-				fade = true;
-				fadeAmount = MIN(fadeAmount, mapWidth - x);
-			}
-			if (y + sideFade > mapWidth)
-			{
-				fade = true;
-				fadeAmount = MIN(fadeAmount, mapWidth - y);
-			}
-			if (fade)
-			{
-				float useIntense = lightIntense * fadeAmount / float(sideFade);
-				float useFade = 1.0f - (fadeAmount / float(sideFade));
-				lightIntense = useIntense + useFade;
-			}
+			Vector diffuseLight = diffuse * diffuseLightMult;
+			Vector ambientLight = ambience;
+			Vector lightColor = diffuseLight + ambientLight;
 
-			GLubyte lightColor = GLubyte (lightIntense * 255.0f);
-			*bitmapBits = lightColor;
-			bitmapBits ++;
+			bitmapBits[0] = lightColor[0];
+			bitmapBits[1] = lightColor[1];
+			bitmapBits[2] = lightColor[2];
+			bitmapBits +=3;
 		}
 	}
 
-	GLubyte *copyDest = new GLubyte[destBitmap.getWidth() * destBitmap.getHeight()];
+	GLfloat *copyDest = new GLfloat[destBitmap.getWidth() * destBitmap.getHeight() * 3];
 	gluScaleImage(
-		GL_LUMINANCE, 
+		GL_RGB, 
 		mapWidth, mapWidth, 
-		GL_UNSIGNED_BYTE, bitmap,
+		GL_FLOAT, bitmap,
 		destBitmap.getWidth(), destBitmap.getHeight(), 
-		GL_UNSIGNED_BYTE, copyDest);
+		GL_FLOAT, copyDest);
 	
-	GLubyte *srcBits = copyDest;
+	GLfloat *srcBits = copyDest;
 	GLubyte *destBits = destBitmap.getBits();
 	for (y=0; y<destBitmap.getHeight(); y++)
 	{
 		for (int x=0; x<destBitmap.getWidth(); x++)
 		{
-			// Note 225 to lighten the darkened bitmap (due to rescale)
-			float src = float(*srcBits) / 225.0f;
-			if (src < 1.0f)
-			{
-				destBits[0] = GLubyte(float(destBits[0]) * src);
-				destBits[1] = GLubyte(float(destBits[1]) * src);
-				destBits[2] = GLubyte(float(destBits[2]) * src);		
-			}
+			destBits[0] = GLubyte(MIN(float(destBits[0]) * (srcBits[0] * 1.2f), 255.0f));
+			destBits[1] = GLubyte(MIN(float(destBits[1]) * (srcBits[1] * 1.2f), 255.0f));
+			destBits[2] = GLubyte(MIN(float(destBits[2]) * (srcBits[2] * 1.2f), 255.0f));
 
-			srcBits ++;
+			srcBits += 3;
 			destBits += 3;
 		}
 	}
 
-	delete [] bitmap;
 	delete [] copyDest;
+	delete [] bitmap;
 }
 
 void GLBitmapModifier::addHeightToBitmap(HeightMap &hMap,

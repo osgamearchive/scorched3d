@@ -30,8 +30,10 @@ public:
 	virtual ~SurroundDefault();
 
 	void draw();
+	void generate();
 
 protected:
+	unsigned int listNo_;
 	Vector hMapBoxVerts_[16];
 	void generateList();
 

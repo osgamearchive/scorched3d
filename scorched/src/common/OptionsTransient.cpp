@@ -132,7 +132,8 @@ void OptionsTransient::newGame()
 {
 	newGame_ = true;
 	int roundsPlayed = optionsGame_.getNoRounds() - getNoRoundsLeft();
-	if (optionsGame_.getBuyOnRound() - 1 <= roundsPlayed)
+	if (optionsGame_.getBuyOnRound() - 1 <= roundsPlayed &&
+		!optionsGame_.getGiveAllWeapons())
 	{
 		currentGameNo_.setValue(0);	
 	}

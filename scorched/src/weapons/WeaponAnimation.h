@@ -45,6 +45,7 @@ public:
 
 protected:
 	std::string rendererName_;
+	std::string data_;
 
 };
 

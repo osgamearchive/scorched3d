@@ -32,7 +32,8 @@ public:
 	virtual ~MetaActionRenderer();
 
 	virtual void init(unsigned int playerId,
-		Vector &position, Vector &velocity) = 0;
+		Vector &position, Vector &velocity,
+		const char *data) = 0;
 
 };
 

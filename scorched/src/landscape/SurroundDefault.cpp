@@ -19,9 +19,16 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <GLEXT/GLState.h>
+#include <client/ScorchedClient.h>
+#include <landscape/Sky.h>
+#include <landscape/Landscape.h>
+#include <landscape/LandscapeMaps.h>
+#include <landscape/LandscapeDefinition.h>
+#include <landscape/LandscapeTex.h>
 #include <landscape/SurroundDefault.h>
 
-SurroundDefault::SurroundDefault(HeightMap &map, int width, int height)
+SurroundDefault::SurroundDefault(HeightMap &map, int width, int height) :
+	listNo_(0)
 {
 	Vector centre(map.getWidth() / 2, map.getWidth() / 2, height);
 	Vector offset(width, width, height);
@@ -56,15 +63,21 @@ SurroundDefault::~SurroundDefault()
 
 void SurroundDefault::draw()
 {
-	static GLuint listNo = 0;
-	if (!listNo)
+	if (!listNo_)
 	{
-		glNewList(listNo = glGenLists(1), GL_COMPILE);
+		glNewList(listNo_ = glGenLists(1), GL_COMPILE);
 			generateList();
 		glEndList();
-
 	}
-	glCallList(listNo);
+
+	Landscape::instance()->getSurroundTexture().draw(true);
+	glCallList(listNo_);
+}
+
+void SurroundDefault::generate()
+{
+	if (listNo_) glDeleteLists(listNo_, 1);
+	listNo_ = 0;
 }
 
 void SurroundDefault::generateList()
@@ -80,21 +93,33 @@ void SurroundDefault::generateList()
 		{12,0,1,13}
 	};
 
-	glColor3f(1.0f, 1.0f, 1.0f);
+	Vector &ambient = 
+		ScorchedClient::instance()->getLandscapeMaps().
+			getLandDfn().getTex()->skyambience;
+	Vector &diffuse = 
+		ScorchedClient::instance()->getLandscapeMaps().
+			getLandDfn().getTex()->skydiffuse;
+	Vector &sunPos =
+		Landscape::instance()->getSky().getSun().getPosition();
+	Vector normal(0.0f, 0.0f, 1.0f);
+
 	glBegin(GL_QUADS);
 	for (int i=0; i<8; i++) 
 	{
 		for (int j=0; j<4; j++) 
 		{
-			float x = hMapBoxVerts_[dataOfs[i][j]][0];
-			float y = hMapBoxVerts_[dataOfs[i][j]][1];
+			float x = hMapBoxVerts_[dataOfs[i][j]][0] / 64.0f;
+			float y = hMapBoxVerts_[dataOfs[i][j]][1] / 64.0f;
 
-			x /= 64.0f;
-			y /= 64.0f;
-
-			glTexCoord2f(x, y);
 			Vector pos = hMapBoxVerts_[dataOfs[i][j]];
 			if (pos.Magnitude()> 500) pos[2] -= 15.0f;
+			Vector sunDirection = (sunPos - pos).Normalize();
+			float diffuseLightMult = 
+				(((normal.dotP(sunDirection)) / 2.0f) + 0.5f);			
+			Vector light = diffuse * diffuseLightMult + ambient;
+
+			glTexCoord2f(x, y);
+			glColor3fv(light);
 			glVertex3fv(pos);
 		}
 	}

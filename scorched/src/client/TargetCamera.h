@@ -68,7 +68,8 @@ public:
 	static const char **getCameraNames();
 	static GLWTip *getCameraToolTips();
 	static int getNoCameraNames();
-	static float heightFunc(int x, int y, void *heightData);
+	static float minHeightFunc(int x, int y, void *heightData);
+	static float maxHeightFunc(int x, int y, void *heightData);
 
 protected:
 	GLCamera mainCam_;

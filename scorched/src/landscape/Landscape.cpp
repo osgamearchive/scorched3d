@@ -184,7 +184,6 @@ void Landscape::draw(const unsigned state)
 	// NOTE: The following code is drawn with fog on
 	// Be carefull as this we "dull" bilboard textures
 	glEnable(GL_FOG); // NOTE: Fog on
-	surroundTexture_.draw(true);
 	surround_->draw();
 	sky_->draw();
 	water_.draw();
@@ -278,7 +277,8 @@ void Landscape::generate(ProgressCounter *counter)
 	sky_->getSun().setPosition(tex->skysunxy, tex->skysunyz);
 	GLBitmapModifier::addLightMapToBitmap(mainMap_,
 		ScorchedClient::instance()->getLandscapeMaps().getHMap(),
-		sky_->getSun().getPosition(), counter);
+		sky_->getSun().getPosition(), 
+		tex->skyambience, tex->skydiffuse, counter);
 
 	// Create the main landscape texture
 	DIALOG_ASSERT(texture_.replace(mainMap_, GL_RGB, false));
@@ -335,6 +335,7 @@ void Landscape::generate(ProgressCounter *counter)
 	
 	// Load the sky
 	sky_->generate();
+	surround_->generate();
 
 	// Ensure that all components use new landscape
 	reset();

@@ -33,3 +33,8 @@ void Surround::draw()
 {
 	default_.draw();
 }
+
+void Surround::generate()
+{
+	default_.generate();
+}

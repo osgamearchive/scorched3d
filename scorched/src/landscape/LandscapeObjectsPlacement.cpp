@@ -181,7 +181,7 @@ void LandscapeObjectPlacementTrees::generateObjects(
 				ScorchedClient::instance()->getLandscapeMaps().
 					getHMap().getInterpHeight(lx, ly);
 
-			if (height > 5.5f)
+			if (height > placement.minheight + 0.5f)
 			{
 				float mult = (float) Landscape::instance()->getMainMap().getWidth() / 256.0f;
 				GLBitmapModifier::addCircle(Landscape::instance()->getMainMap(),
@@ -221,25 +221,111 @@ void LandscapeObjectPlacementTrees::generateObjects(
 			}
 		}
 	}
+}
 
-	// Uncomment to see the treemap put onto the landscape
-	/*GLBitmap newMap(
-		Landscape::instance()->getMainMap().getWidth(),
-		Landscape::instance()->getMainMap().getHeight());
-	GLubyte *dest = newMap.getBits();
-	for (int y=0; y<newMap.getHeight(); y++)
+void LandscapeObjectPlacementMask::generateObjects(
+	RandomGenerator &generator, 
+	LandscapeTexObjectsPlacementMask &placement,
+	ProgressCounter *counter)
+{
+	bool pine = true;
+	float snowHeight = 20.0f;
+	GLVertexSet *model = 0;
+	GLVertexSet *modelburnt = 0;
+	if (0 == strcmp(placement.objecttype.c_str(), "tree"))
 	{
-		for (int x=0; x<newMap.getWidth(); x++)
+		LandscapeTexObjectsTree *treeObjects = 
+			(LandscapeTexObjectsTree *) placement.object;
+		pine = (0 == strcmp(treeObjects->tree.c_str(), "pine"));
+		snowHeight = treeObjects->snow;
+	}
+	else if (0 == strcmp(placement.objecttype.c_str(), "model"))
+	{
+		LandscapeTexObjectsModel *modelObjects = 
+			(LandscapeTexObjectsModel *) placement.object;
+		
+		model = ModelStore::instance()->loadOrGetArray(
+			modelObjects->model, true, true);
+		modelburnt = ModelStore::instance()->loadOrGetArray(
+			modelObjects->modelburnt, true, true);
+		if (!model || !modelburnt)
 		{
-			int xn = int(float(x) / (float(newMap.getWidth() / 64.0f)));
-			int yn = int(float(y) / (float(newMap.getHeight() / 64.0f)));
-
-			dest[0] = objectMap[xn + 64 * yn];
-			dest[1] = objectMap[xn + 64 * yn];
-			dest[2] = objectMap[xn + 64 * yn];
-
-			dest+=3;
+			dialogExit("LandscapeObjectPlacementMask",
+				"Failed to find models");
 		}
 	}
-	Landscape::instance()->getMainTexture().replace(newMap, GL_RGB, false);*/
+	else
+	{
+		dialogExit("LandscapeObjectPlacementMask",
+			"Error: Unknown model type \"%s\"",
+			placement.objecttype.c_str());
+	}
+
+	GLBitmap map(getDataFile(placement.mask.c_str()));
+	if (!map.getBits())
+	{
+		dialogExit("LandscapeObjectPlacementMask",
+			"Error: failed to find mask \"%s\"",
+			placement.mask.c_str());
+	}
+
+	const int NoIterations = placement.numobjects;
+	for (int i=0; i<NoIterations; i++)
+	{
+		if (i % 1000 == 0) if (counter) 
+			counter->setNewPercentage(float(i)/float(NoIterations)*100.0f);
+
+		float x = generator.getRandFloat();
+		float y = generator.getRandFloat();
+	
+		float lx = x * 255.0f;
+		float ly = y * 255.0f;
+		int mx = int(map.getWidth() * x);
+		int my = int(map.getWidth() * y);
+
+		float height = 
+			ScorchedClient::instance()->getLandscapeMaps().
+				getHMap().getInterpHeight(lx, ly);
+		if (height > placement.minheight && 
+			height < placement.maxheight)
+		{
+			GLubyte *bits = map.getBits() +
+				mx * 3 + my * map.getWidth() * 3;
+			if (bits[0] > 127)
+			{
+				LandscapeObjectsEntry *entry = 0;
+				if (model)
+				{
+					entry = new LandscapeObjectsEntryModel;
+					((LandscapeObjectsEntryModel *) entry)->model = model;
+					((LandscapeObjectsEntryModel *) entry)->modelburnt = modelburnt;				
+					entry->color = 1.0f;
+					entry->size = 0.05f;
+					entry->posX = lx;
+					entry->posY = ly;
+					entry->posZ = height;
+					entry->rotation = RAND * 360.0f;
+				}
+				else
+				{
+					entry = new LandscapeObjectsEntryTree;
+					((LandscapeObjectsEntryTree *) entry)->snow = (pine && 
+						(height > snowHeight + (RAND * 10.0f) - 5.0f));
+					((LandscapeObjectsEntryTree *) entry)->pine = pine;
+					entry->color = RAND * 0.5f + 0.5f;
+					entry->size =  RAND * 2.0f + 1.0f;
+					entry->posX = lx;
+					entry->posY = ly;
+					entry->posZ = height;
+					entry->rotation = RAND * 360.0f;
+				}
+
+				Landscape::instance()->getObjects().addObject(
+					(unsigned int) lx,
+					(unsigned int) ly,
+					entry);
+			}
+		}
+	}
 }
+

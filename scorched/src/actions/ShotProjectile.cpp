@@ -74,8 +74,11 @@ ShotProjectile::~ShotProjectile()
 
 void ShotProjectile::collision(Vector &position)
 {
-	doCollision(position);
-	context_->viewPoints->explosion(playerId_);
+	if (!getWeapon()->getApexCollision())
+	{
+		doCollision(position);
+		context_->viewPoints->explosion(playerId_);
+	}
 	PhysicsParticleMeta::collision(position);
 }
 

@@ -1524,6 +1524,12 @@
 				RelativePath="..\landscape\SkyRoof.h">
 			</File>
 			<File
+				RelativePath="..\landscape\SkyRoofCollision.cpp">
+			</File>
+			<File
+				RelativePath="..\landscape\SkyRoofCollision.h">
+			</File>
+			<File
 				RelativePath="..\landscape\Smoke.cpp">
 			</File>
 			<File

@@ -31,7 +31,8 @@ public:
 	Animation(unsigned int playerId,
 		Vector &position, 
 		Vector &velocity,
-		const char *rendererName);
+		const char *rendererName,
+		const char *data);
 	virtual ~Animation();
 
 	virtual void init();
@@ -45,6 +46,7 @@ protected:
 	Vector position_, velocity_;
 	unsigned int playerId_;
 	std::string rendererName_;
+	std::string data_;
 
 };
 

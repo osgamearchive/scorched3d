@@ -31,12 +31,19 @@ static LandscapeDefnType *fetchTankStartDefnType(const char *type)
 	return 0;
 }
 
-static LandscapeDefnType *fetchRoofHeightMapDefnType(const char *type)
+static LandscapeDefnType *fetchHeightMapDefnType(const char *type)
 {
-	if (0 == strcmp(type, "none")) return new LandscapeDefnTypeNone;
 	if (0 == strcmp(type, "generate")) return new LandscapeDefnHeightMapGenerate;
 	if (0 == strcmp(type, "file")) return new LandscapeDefnHeightMapFile;
 	dialogMessage("LandscapeDefnType", "Unknown heightmap type %s", type);
+	return 0;
+}
+
+static LandscapeDefnType *fetchRoofMapDefnType(const char *type)
+{
+	if (0 == strcmp(type, "sky")) return new LandscapeDefnTypeNone;
+	if (0 == strcmp(type, "cavern")) return new LandscapeDefnRoofCavern;
+	dialogMessage("LandscapeDefnType", "Unknown roof type %s", type);
 	return 0;
 }
 
@@ -71,6 +78,49 @@ bool LandscapeDefnTypeNone::readXML(XMLNode *node)
 {
 	return node->failChildren();
 }
+
+LandscapeDefnRoofCavern::LandscapeDefnRoofCavern() : heightmap(0)
+{
+}
+
+LandscapeDefnRoofCavern::~LandscapeDefnRoofCavern()
+{
+	delete heightmap;
+}
+
+bool LandscapeDefnRoofCavern::writeMessage(NetBuffer &buffer)
+{
+	buffer.addToBuffer(width);
+	buffer.addToBuffer(height);
+	buffer.addToBuffer(heightmaptype);
+	if (!heightmap->writeMessage(buffer)) return false;
+	return true;
+}
+
+bool LandscapeDefnRoofCavern::readMessage(NetBufferReader &reader)
+{
+	if (!reader.getFromBuffer(width)) return false;
+	if (!reader.getFromBuffer(height)) return false;
+	if (!reader.getFromBuffer(heightmaptype)) return false;
+	if (!(heightmap = fetchHeightMapDefnType(heightmaptype.c_str()))) return false;
+	if (!heightmap->readMessage(reader)) return false;
+	return true;
+}
+
+bool LandscapeDefnRoofCavern::readXML(XMLNode *node)
+{
+	if (!node->getNamedChild("width", width)) return false;
+	if (!node->getNamedChild("height", height)) return false;
+	{
+		XMLNode *heightNode;
+		if (!node->getNamedChild("heightmap", heightNode)) return false;
+		if (!heightNode->getNamedParameter("type", heightmaptype)) return false;
+		if (!(heightmap = fetchHeightMapDefnType(heightmaptype.c_str()))) return false;
+		if (!heightmap->readXML(heightNode)) return false;
+	}	
+	return node->failChildren();
+}
+
 
 bool LandscapeDefnStartHeight::writeMessage(NetBuffer &buffer)
 {
@@ -228,11 +278,11 @@ bool LandscapeDefn::readMessage(NetBufferReader &reader)
 	if (!tankstart->readMessage(reader)) return false;
 	
 	if (!reader.getFromBuffer(heightmaptype)) return false;
-	if (!(heightmap = fetchRoofHeightMapDefnType(heightmaptype.c_str()))) return false;
+	if (!(heightmap = fetchHeightMapDefnType(heightmaptype.c_str()))) return false;
 	if (!heightmap->readMessage(reader)) return false;
 	
 	if (!reader.getFromBuffer(rooftype)) return false;
-	if (!(roof = fetchRoofHeightMapDefnType(rooftype.c_str()))) return false;
+	if (!(roof = fetchRoofMapDefnType(rooftype.c_str()))) return false;
 	if (!roof->readMessage(reader)) return false;
 	
 	if (!reader.getFromBuffer(surroundtype)) return false;
@@ -259,7 +309,7 @@ bool LandscapeDefn::readXML(XMLNode *node)
 		XMLNode *heightNode;
 		if (!node->getNamedChild("heightmap", heightNode)) return false;
 		if (!heightNode->getNamedParameter("type", heightmaptype)) return false;
-		if (!(heightmap = fetchRoofHeightMapDefnType(heightmaptype.c_str()))) return false;
+		if (!(heightmap = fetchHeightMapDefnType(heightmaptype.c_str()))) return false;
 		if (!heightmap->readXML(heightNode)) return false;
 	}
 	{
@@ -273,7 +323,7 @@ bool LandscapeDefn::readXML(XMLNode *node)
 		XMLNode *roofNode;
 		if (!node->getNamedChild("roof", roofNode)) return false;
 		if (!roofNode->getNamedParameter("type", rooftype)) return false;
-		if (!(roof = fetchRoofHeightMapDefnType(rooftype.c_str()))) return false;
+		if (!(roof = fetchRoofMapDefnType(rooftype.c_str()))) return false;
 		if (!roof->readXML(roofNode)) return false;
 	}
 	return node->failChildren();

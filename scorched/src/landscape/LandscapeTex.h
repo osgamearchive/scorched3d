@@ -65,17 +65,37 @@ public:
 	virtual bool readXML(XMLNode *node);
 };
 
-class LandscapeTexObjectsPlacementTree : public LandscapeTexType
+class LandscapeTexObjectsPlacement : public LandscapeTexType
 {
 public:
-	virtual ~LandscapeTexObjectsPlacementTree();
+	virtual ~LandscapeTexObjectsPlacement();
 
+	std::string objecttype;
+	LandscapeTexType *object;
+
+	virtual bool writeMessage(NetBuffer &buffer);
+	virtual bool readMessage(NetBufferReader &reader);
+	virtual bool readXML(XMLNode *node);
+};
+
+class LandscapeTexObjectsPlacementTree : public LandscapeTexObjectsPlacement
+{
+public:
 	int numobjects;
 	int numclusters;
 	float minheight, maxheight;
 
-	std::string objecttype;
-	LandscapeTexType *object;
+	virtual bool writeMessage(NetBuffer &buffer);
+	virtual bool readMessage(NetBufferReader &reader);
+	virtual bool readXML(XMLNode *node);
+};
+
+class LandscapeTexObjectsPlacementMask : public LandscapeTexObjectsPlacement
+{
+public:
+	int numobjects;
+	std::string mask;
+	float minheight, maxheight;
 
 	virtual bool writeMessage(NetBuffer &buffer);
 	virtual bool readMessage(NetBufferReader &reader);
@@ -130,6 +150,8 @@ public:
 	int skytimeofday;
 	float skysunxy;
 	float skysunyz;
+	Vector skydiffuse;
+	Vector skyambience;
 
 	std::string bordertype;
 	LandscapeTexType *border;

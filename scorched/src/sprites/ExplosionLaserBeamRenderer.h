@@ -35,7 +35,8 @@ public:
 	virtual ~ExplosionLaserBeamRenderer();
 
 	virtual void init(unsigned int playerId,
-		Vector &position, Vector &velocity);
+		Vector &position, Vector &velocity,
+		const char *data);
 
 	virtual void draw(Action *action);
 	virtual void simulate(Action *action, float frameTime, bool &remove);
