@@ -20,6 +20,16 @@ To start a Scorched3D server:-
 2) Choose all the game options
 3) Start the server
 
+NOTE: The Scorched3D server browsing code will try to
+automatically determine the IP address of the server.
+If the server is behind a NAT or web proxy this may fail.
+In this case it may be necessary to specify the server IP
+address in the box provided on the server settings page.
+
+Server conectivity can be checked by going to the Scorched3D
+homepage (http://www.scorched3d.co.uk) and choosing the 
+servers page.
+
 ----------------------------------------------------------
 
 The Scorched3D client uses the following ports:-
@@ -32,7 +42,7 @@ The Scorched3D server uses the following ports:-
 27270 TCP - For game messages (incoming connections only).
 27271 UDP - For server browsing (incoming connections only).
 
-To run a server ports 27270 TCP and 27271 UDP need to be accessable
+To run a server ports 27270 TCP and 27271 UDP need to be accessible
 externally.
 
 ----------------------------------------------------------
