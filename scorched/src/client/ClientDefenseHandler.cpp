@@ -64,6 +64,8 @@ bool ClientDefenseHandler::processMessage(unsigned int id,
 	TankAILogic::processDefenseMessage(
 		ScorchedClient::instance()->getContext(), 
 		message, tank);
-	messageCount_++;
+
+	// Only count local tanks
+	if (tank->getTankAI()) messageCount_++;
 	return true;
 }

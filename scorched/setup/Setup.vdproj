@@ -16427,7 +16427,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Scorched3D"
         "ProductCode" = "8:{6D195B55-488B-4A85-BCB2-788EA45CB11F}"
-        "PackageCode" = "8:{C7D00345-244A-453B-A01E-9B0878083297}"
+        "PackageCode" = "8:{B2808B23-32A6-4B2B-AA14-A38E2A7F77B2}"
         "UpgradeCode" = "8:{8EE7F3CA-B23C-4008-B4BC-B74542AD07A1}"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
@@ -16474,7 +16474,7 @@
                     }
                 }
             "LanguageId" = "3:0"
-            "Exclude" = "11:FALSE"
+            "Exclude" = "11:TRUE"
             "Folder" = "8:"
             "Feature" = "8:"
             "IsolateTo" = "8:"
@@ -16500,7 +16500,7 @@
                     }
                 }
             "LanguageId" = "3:0"
-            "Exclude" = "11:FALSE"
+            "Exclude" = "11:TRUE"
             "Folder" = "8:"
             "Feature" = "8:"
             "IsolateTo" = "8:"

@@ -60,7 +60,7 @@ AutoDefenseDialog::~AutoDefenseDialog()
 void AutoDefenseDialog::draw()
 {
 	// Check if the items need updating
-	if (messageCount_ != ClientDefenseHandler::instance()->getMessageCount())
+	if (messageCount_ != ClientDefenseHandler::instance()->getLocalTankMessageCount())
 	{
 		displayCurrent();
 	}
@@ -200,7 +200,7 @@ void AutoDefenseDialog::displayCurrent()
 		ddpara_->setText("Parachutes Off");
 	}
 
-	messageCount_ = ClientDefenseHandler::instance()->getMessageCount();
+	messageCount_ = ClientDefenseHandler::instance()->getLocalTankMessageCount();
 }
 
 void AutoDefenseDialog::select(unsigned int id, 

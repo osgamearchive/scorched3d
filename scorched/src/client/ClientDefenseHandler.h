@@ -30,7 +30,7 @@ class ClientDefenseHandler :
 public:
 	static ClientDefenseHandler *instance();
 
-	unsigned int getMessageCount() { return messageCount_; }
+	unsigned int getLocalTankMessageCount() { return messageCount_; }
 	virtual bool processMessage(unsigned int id,
 		const char *messageType,
 		NetBufferReader &reader);
