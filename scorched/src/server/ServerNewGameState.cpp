@@ -291,7 +291,7 @@ void ServerNewGameState::flattenArea(ScorchedContext &context, Vector &tankPos)
 				ix < context.landscapeMaps->getHMap().getWidth() &&
 				iy < context.landscapeMaps->getHMap().getWidth())
 			{
-				context.landscapeMaps->getHMap().getHeight(ix, iy) = tankPos[2];
+				context.landscapeMaps->getHMap().setHeight(ix, iy) = tankPos[2];
 			}
 		}
 	}

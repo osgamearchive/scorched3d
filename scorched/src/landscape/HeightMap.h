@@ -18,11 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// HeightMap.h: interface for the HeightMap class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_HEIGHTMAP_H__F4CB4CAD_C592_4183_AFB2_016FC66C144A__INCLUDED_)
 #define AFX_HEIGHTMAP_H__F4CB4CAD_C592_4183_AFB2_016FC66C144A__INCLUDED_
 
@@ -41,26 +36,31 @@ public:
 
 	void reset();
 
-	void generateNormals(int minX, int maxX, int minY, int maxY, ProgressCounter *counter = 0);
+	void generateNormals(int minX, int maxX, int minY, 
+		int maxY, ProgressCounter *counter = 0);
 	int getWidth() { return width_; }
 
-	float &getHeight(int w, int h) { 
-		DIALOG_ASSERT(w >= 0 && h >= 0 && w<=width_ && h<=width_); 
-		return hMap_[(width_+1) * h + w]; }
+	float getHeight(int w, int h) { 
+		if (w >= 0 && h >= 0 && w<=width_ && h<=width_) 
+			return hMap_[(width_+1) * h + w]; 
+		return 0.0f; }
 	float getInterpHeight(float w, float h);
 
 	Vector &getNormal(int w, int h) {
-		DIALOG_ASSERT(w >= 0 && h >= 0 && w<=width_ && h<=width_); 
-		return normals_[(width_+1) * h + w]; }
+		if (w >= 0 && h >= 0 && w<=width_ && h<=width_) 
+			return normals_[(width_+1) * h + w]; 
+		return nvec; }
 	void getInterpNormal(float w, float h, Vector &normal);
 
 	bool getIntersect(Line &direction, Vector &intersect);
 
 	// Returns the actual internal HeightMap points
 	// Should not be used
+	float &setHeight(int w, int h);
 	float *getData() { return hMap_; }
 
 protected:
+	static Vector nvec;
 	int width_;
 	float *hMap_;
 	Vector *normals_;

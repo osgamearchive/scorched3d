@@ -50,7 +50,7 @@ bool DeformLandscape::deformLandscape(
 				if (dist < radius)
 				{
 					float distToRadius = radius - dist;
-					float &currentHeight = hmap.getHeight((int) newPos[0], (int) newPos[1]);
+					float &currentHeight = hmap.setHeight((int) newPos[0], (int) newPos[1]);
 					float explosionDepth = (float) sin((distToRadius / radius) * 1.57) * radius;
 
 					float newMap = -1.0f;

@@ -82,7 +82,7 @@ void HeightMapLoader::loadTerrain(HeightMap &hmap, GLBitmap &bitmap, ProgressCou
 
 			GLfloat h = ((XB - XA) * (hy - ihy)) + XA;
 
-			hmap.getHeight(bx, by) = h / 2.5f;
+			hmap.setHeight(bx, by) = h / 2.5f;
 		}
 	}
 

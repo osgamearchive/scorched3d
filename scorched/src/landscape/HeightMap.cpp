@@ -19,7 +19,10 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <common/Triangle.h>
+#include <common/Defines.h>
 #include <landscape/HeightMap.h>
+
+Vector HeightMap::nvec(0.0f, 0.0f, 1.0f);
 
 HeightMap::HeightMap(const int width) :
 	width_(width)
@@ -184,20 +187,18 @@ bool HeightMap::getIntersect(Line &direction, Vector &intersect)
 
 float HeightMap::getInterpHeight(float w, float h)
 {
-	DIALOG_ASSERT(w >= 0 && h >= 0 && w<=width_ && h<=width_);
-
-	int ihx = (int) w; if (ihx == width_+1) ihx--;
-	int ihy = (int) h; if (ihy == width_+1) ihy--;
-	int ihx2 = ihx+1; if (ihx2 == width_+1) ihx2--;
-	int ihy2 = ihy+1; if (ihy2 == width_+1) ihy2--;
+	int ihx = (int) w; 
+	int ihy = (int) h;
+	int ihx2 = ihx+1;
+	int ihy2 = ihy+1; 
 
 	float fhx = w - (float) ihx;
 	float fhy = h - (float) ihy;
 	
-	float &heightA = getHeight(ihx, ihy);
-	float &heightB = getHeight(ihx, ihy2);
-	float &heightC = getHeight(ihx2, ihy);
-	float &heightD = getHeight(ihx2, ihy2);
+	float heightA = getHeight(ihx, ihy);
+	float heightB = getHeight(ihx, ihy2);
+	float heightC = getHeight(ihx2, ihy);
+	float heightD = getHeight(ihx2, ihy2);
 
 	float heightDiffAB = heightB-heightA;
 	float heightDiffCD = heightD-heightC;
@@ -212,12 +213,10 @@ float HeightMap::getInterpHeight(float w, float h)
 
 void HeightMap::getInterpNormal(float w, float h, Vector &normal)
 {
-	DIALOG_ASSERT(w >= 0 && h >= 0 && w<=width_ && h<=width_);
-
-	int ihx = (int) w; if (ihx == width_+1) ihx--;
-	int ihy = (int) h; if (ihy == width_+1) ihy--;
-	int ihx2 = ihx+1; if (ihx2 == width_+1) ihx2--;
-	int ihy2 = ihy+1; if (ihy2 == width_+1) ihy2--;
+	int ihx = (int) w;
+	int ihy = (int) h;
+	int ihx2 = ihx+1;
+	int ihy2 = ihy+1;
 
 	float fhx = w - (float) ihx;
 	float fhy = h - (float) ihy;
@@ -250,4 +249,10 @@ void HeightMap::getInterpNormal(float w, float h, Vector &normal)
 
 	normal = normalE;
 	normal += normalDiffEF;
+}
+
+float &HeightMap::setHeight(int w, int h)
+{
+	DIALOG_ASSERT(w >= 0 && h >= 0 && w<=width_ && h<=width_);
+	return hMap_[(width_+1) * h + w];
 }
