@@ -300,6 +300,7 @@ bool LandscapeMaps::generateHMapFromDiff(
 			}
 		}
 
+		map_.generateNormals(0, map_.getWidth(), 0, map_.getWidth(), counter);
 		//dialogMessage("hmm", "%i=%i", message.getLevelLen(), destLen);
 	}
 
