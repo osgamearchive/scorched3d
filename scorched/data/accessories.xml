@@ -102,6 +102,7 @@ Any flames near tanks will remove life.</description>
 		<explosiontexture>exp03</explosiontexture>
 		<firedsound>shoot/large.wav</firedsound>
 		<explosionsound>explosions/large.wav</explosionsound>
+		<projectilemodel type="MilkShape">littleboy/littleboy.txt</projectilemodel>
 	</weapon>
 	<weapon type="WeaponProjectile">
 		<name>Nuke</name>
@@ -115,6 +116,7 @@ Any flames near tanks will remove life.</description>
 		<explosiontexture>exp03</explosiontexture>
 		<firedsound>shoot/xlarge.wav</firedsound>
 		<explosionsound>explosions/xlarge.wav</explosionsound>
+		<projectilemodel type="MilkShape">fatman/fatman.txt</projectilemodel>
 	</weapon>
 	<weapon type="WeaponLeapFrog">
 		<name>Leap Frog</name>
