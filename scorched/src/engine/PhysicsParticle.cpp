@@ -88,6 +88,11 @@ void PhysicsParticleMeta::setPhysics(Vector &position, Vector &velocity,
 		sphereSize, sphereDensity);
 }
 
+void PhysicsParticleMeta::applyForce(Vector &force)
+{
+	physicsObject_.applyForce(force);
+}
+
 void PhysicsParticleMeta::collision(Vector &position)
 {
 	collision_ = true;

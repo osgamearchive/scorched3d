@@ -57,6 +57,9 @@ bool Shield::parseXML(XMLNode *accessoryNode)
 	if (!colorNode->getNamedChild("g", color_[1])) return false;
 	if (!colorNode->getNamedChild("b", color_[2])) return false;
 
+	// Get the half size
+	if (!accessoryNode->getNamedChild("halfshield", halfShield_)) return false;
+
 	return true;
 }
 
@@ -66,9 +69,8 @@ bool Shield::writeAccessory(NetBuffer &buffer)
 	buffer.addToBuffer((int) radius_);
 	buffer.addToBuffer(removePower_);
 	buffer.addToBuffer(collisionSound_);
-	buffer.addToBuffer(color_[0]);
-	buffer.addToBuffer(color_[1]);
-	buffer.addToBuffer(color_[2]);
+	buffer.addToBuffer(color_);
+	buffer.addToBuffer(halfShield_);
 	return true;
 }
 
@@ -78,9 +80,8 @@ bool Shield::readAccessory(NetBufferReader &reader)
 	int r; if (!reader.getFromBuffer(r)) return false; radius_ = (ShieldSize) r;
 	if (!reader.getFromBuffer(removePower_)) return false;
 	if (!reader.getFromBuffer(collisionSound_)) return false;
-	if (!reader.getFromBuffer(color_[0])) return false;
-	if (!reader.getFromBuffer(color_[1])) return false;
-	if (!reader.getFromBuffer(color_[2])) return false;
+	if (!reader.getFromBuffer(color_)) return false;
+	if (!reader.getFromBuffer(halfShield_)) return false;
 	return true;
 }
 

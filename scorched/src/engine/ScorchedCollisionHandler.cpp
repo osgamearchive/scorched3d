@@ -26,6 +26,7 @@
 #include <engine/ScorchedCollisionHandler.h>
 #include <engine/PhysicsParticle.h>
 #include <engine/ActionController.h>
+#include <weapons/ShieldMag.h>
 #include <tank/TankContainer.h>
 
 ScorchedCollisionHandler::ScorchedCollisionHandler(ScorchedContext *context) :
@@ -88,6 +89,8 @@ void ScorchedCollisionHandler::bounceCollision(dGeomID o1, dGeomID o2,
 		otherInfo = (ScorchedCollisionInfo *) dGeomGetData(o1);
 	}
 
+	PhysicsParticleMeta *particle = (PhysicsParticleMeta *) bounceInfo->data;
+
 	// only collide with the ground, walls or landscape,
 	// or iteself
 	switch (otherInfo->id)
@@ -109,8 +112,6 @@ void ScorchedCollisionHandler::bounceCollision(dGeomID o1, dGeomID o2,
 				(float) bouncePosition[0],
 				(float) bouncePosition[1],
 				(float) bouncePosition[2]);
-
-			PhysicsParticleMeta *particle = (PhysicsParticleMeta *) bounceInfo->data;
 			particle->collision(bouncePositionV);
 		}
 		break;
@@ -125,7 +126,8 @@ void ScorchedCollisionHandler::bounceCollision(dGeomID o1, dGeomID o2,
 			unsigned int id = (unsigned int) otherInfo->data;
 			ParticleAction action = collisionShield(id, bouncePositionV, 
 				((otherInfo->id==CollisionIdShieldLarge)?
-				Shield::ShieldSizeLarge:Shield::ShieldSizeSmall));
+				Shield::ShieldSizeLarge:Shield::ShieldSizeSmall),
+				particle);
 
 			// Unless there is no shield, we bounce off all shields
 			if (action != ParticleActionNone)
@@ -226,8 +228,9 @@ void ScorchedCollisionHandler::shotCollision(dGeomID o1, dGeomID o2,
 			if (shot->getPlayerId() != id)
 			{
 				action = collisionShield(id, particlePositionV, 
-										 ((otherInfo->id==CollisionIdShieldLarge)?
-										 Shield::ShieldSizeLarge:Shield::ShieldSizeSmall));
+					((otherInfo->id==CollisionIdShieldLarge)?
+					Shield::ShieldSizeLarge:Shield::ShieldSizeSmall),
+					shot);
 			}
 			else
 			{
@@ -360,7 +363,8 @@ void ScorchedCollisionHandler::shotCollision(dGeomID o1, dGeomID o2,
 ParticleAction ScorchedCollisionHandler::collisionShield(
 	unsigned int id,
 	Vector &collisionPos,
-	Shield::ShieldSize size)
+	Shield::ShieldSize size,
+	PhysicsParticleMeta *shot)
 {
 	// Check tank still exists and is alive
 	Tank *tank = context_->tankContainer->getTankById(id);
@@ -372,29 +376,39 @@ ParticleAction ScorchedCollisionHandler::collisionShield(
 		{
 			if (shield->getRadius() == size)
 			{
-				switch (shield->getShieldType())
-				{
-				case Shield::ShieldTypeNormal:
-					context_->actionController->addAction(
-						new ShieldHit(tank->getPlayerId()));
-					return ParticleActionFinished;
-				case Shield::ShieldTypeReflective:
-					context_->actionController->addAction(
-						new ShieldHit(tank->getPlayerId()));
-					return ParticleActionBounce;
-				case Shield::ShieldTypeReflectiveMag:
+				bool passed = true;
+				if (shield->getHalfShield())
 				{
 					Vector normal = (collisionPos - 
 						tank->getPhysics().getTankPosition()).Normalize();
 					Vector up(0.0f, 0.0f, 1.0f);
-					if (normal.dotP(up) > 0.8f)
+					passed = (normal.dotP(up) > 0.7f);
+				}
+
+				if (passed)
+				{
+					switch (shield->getShieldType())
 					{
+					case Shield::ShieldTypeNormal:
+						context_->actionController->addAction(
+							new ShieldHit(tank->getPlayerId()));
+						return ParticleActionFinished;
+					case Shield::ShieldTypeReflective:
 						context_->actionController->addAction(
 							new ShieldHit(tank->getPlayerId()));
 						return ParticleActionBounce;
+					case Shield::ShieldTypeMag:
+						{
+							ShieldMag *magShield = (ShieldMag *) shield;
+							Vector force(0.0f, 0.0f, magShield->getDeflectPower());
+							shot->applyForce(force);
+
+							tank->getAccessories().getShields().setShieldPower(
+								tank->getAccessories().getShields().getShieldPower() -
+								shield->getHitRemovePower());
+						}
+						return ParticleActionNone;
 					}
-					return ParticleActionNone;
-				}
 				}
 			}
 		}

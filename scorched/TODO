@@ -35,6 +35,7 @@ Changed: Tank can move up and down bigger slopes (configurable)
 Changed: Spread and hurts weapon primative options are now variable
 Changed: LeapFrog weapon primative bounce now variable
 
+Added: Proper mag shield
 Added: Gale and breezy wind settings (for smaller random wind ranges)
 Added: Clever bots do not commit suicide
 Added: Configurable camera views using ctrl-2 etc...
@@ -87,7 +88,6 @@ Lightning, rain and meteors
 New surrounds instead of the water
 More dirt option for landscape (perhaps cannot go under water)
 Make rollers look better
-Proper mag shield
 Guidance
 Add action replay type functionality
 

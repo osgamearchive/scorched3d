@@ -18,19 +18,28 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_ShieldReflectiveMagh_INCLUDE__)
-#define __INCLUDE_ShieldReflectiveMagh_INCLUDE__
-#include <weapons/ShieldReflective.h>
+#if !defined(__INCLUDE_ShieldMagh_INCLUDE__)
+#define __INCLUDE_ShieldMagh_INCLUDE__
 
-class ShieldReflectiveMag : public ShieldReflective
+#include <weapons/Shield.h>
+
+class ShieldMag : public Shield
 {
 public:
-	ShieldReflectiveMag();
-	virtual ~ShieldReflectiveMag();
+	ShieldMag();
+	virtual ~ShieldMag();
 
+	virtual bool parseXML(XMLNode *accessoryNode);
+	virtual bool writeAccessory(NetBuffer &buffer);
+	virtual bool readAccessory(NetBufferReader &reader);
 	virtual ShieldType getShieldType();
 
-	REGISTER_ACCESSORY_HEADER(ShieldReflectiveMag, Accessory::AccessoryShield);
+	float getDeflectPower() { return deflectPower_; }
+
+	REGISTER_ACCESSORY_HEADER(ShieldMag, Accessory::AccessoryShield);
+
+protected:
+	float deflectPower_;
 };
 
 #endif

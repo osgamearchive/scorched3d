@@ -70,7 +70,8 @@ bool ClientNewGameHandler::processMessage(unsigned int id,
 	if (!initialized_)
 	{
 		initialized_ = true;
-		if (!initialize()) return false;
+		if (!initialize()) dialogExit("Scorched3D", 
+			"Failed to initialize");
 	}
 
 	// A small hack
@@ -115,8 +116,7 @@ bool ClientNewGameHandler::processMessage(unsigned int id,
 			message.getLevelMessage(),
 			ProgressDialog::instance()))
 		{
-			dialogMessage("Scorched3D", "Failed to generate heightmap diff");
-			return false;
+			dialogExit("Scorched3D", "Failed to generate heightmap diff");
 		}
 
 		ScorchedClient::instance()->getGameState().stimulate(ClientState::StimWait);

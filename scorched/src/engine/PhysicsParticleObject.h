@@ -36,6 +36,8 @@ public:
 		float sphereSize = 0.0f,
 		float sphereDensity = 0.0f);
 
+	void applyForce(Vector &force);
+
 	Vector &getPosition();
 	Vector &getVelocity();
 	void setPosition(Vector &position);

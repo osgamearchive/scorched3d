@@ -34,6 +34,11 @@ PhysicsParticleObject::~PhysicsParticleObject()
 	geom_ = 0;
 }
 
+void PhysicsParticleObject::applyForce(Vector &force)
+{
+	dBodyAddForce(body_, force[0], force[1], force[2]);
+}
+
 void PhysicsParticleObject::setPhysics(PhysicsEngine &engine, Vector &position, 
 									   Vector &velocity,
 									   float sphereSize, float sphereDensity)

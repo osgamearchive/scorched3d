@@ -1684,16 +1684,16 @@
 				RelativePath="..\weapons\Shield.h">
 			</File>
 			<File
+				RelativePath="..\weapons\ShieldMag.cpp">
+			</File>
+			<File
+				RelativePath="..\weapons\ShieldMag.h">
+			</File>
+			<File
 				RelativePath="..\weapons\ShieldReflective.cpp">
 			</File>
 			<File
 				RelativePath="..\weapons\ShieldReflective.h">
-			</File>
-			<File
-				RelativePath="..\weapons\ShieldReflectiveMag.cpp">
-			</File>
-			<File
-				RelativePath="..\weapons\ShieldReflectiveMag.h">
 			</File>
 			<File
 				RelativePath="..\weapons\Weapon.cpp">

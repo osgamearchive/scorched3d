@@ -72,6 +72,8 @@ public:
 	void setData(void *data);
 	void setCurrentPosition(Vector &position);
 
+	void applyForce(Vector &force);
+
 	// Inherited from action
 	virtual void simulate(float timepassed, bool &remove);
 

@@ -178,7 +178,7 @@ void OptionsTransient::newGameWind()
 			break;
 		case OptionsGame::WindGale:
 			windSpeed_.setValue(
-				float((int)(RAND * 2.9f))) + 3.0f; // ie range 3->5);
+				float((int)(RAND * 2.9f)) + 3.0f); // ie range 3->5);
 			break;
 		case OptionsGame::WindNone:
 		default:

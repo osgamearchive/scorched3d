@@ -23,6 +23,7 @@
 #include <common/OptionsParam.h>
 #include <engine/ScorchedContext.h>
 #include <tank/TankContainer.h>
+#include <tankgraph/TankModelRenderer.h>
 
 REGISTER_ACTION_SOURCE(ShieldHit);
 
@@ -65,6 +66,13 @@ void ShieldHit::simulate(float frameTime, bool &remove)
 						SoundStore::instance()->fetchOrCreateBuffer( (char *)
 							getDataFile( "data/wav/%s", shield->getCollisionSound()));
 					shieldSound->play();
+
+					TankModelRenderer *model = (TankModelRenderer *) 
+						tank->getModel().getModelIdRenderer();
+					if (model)
+					{
+						model->shieldHit();
+					}
 				}
 
 				tank->getAccessories().getShields().setShieldPower(

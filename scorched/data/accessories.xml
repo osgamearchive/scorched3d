@@ -43,6 +43,7 @@ work.</description>
 		<bundlesize>3</bundlesize>
 		<armslevel>8</armslevel>
 		<radius>small</radius>
+		<halfshield>false</halfshield>
 		<color><r>1.0</r><g>1.0</g><b>1.0</b></color>
 		<activationsound>shield/activate.wav</activationsound>
 		<collisionsound>shield/hit.wav</collisionsound>
@@ -59,6 +60,7 @@ work.</description>
 		<bundlesize>2</bundlesize>
 		<armslevel>7</armslevel>
 		<radius>large</radius>
+		<halfshield>false</halfshield>
 		<color><r>1.0</r><g>1.0</g><b>1.0</b></color>
 		<activationsound>shield/activate.wav</activationsound>
 		<collisionsound>shield/hit.wav</collisionsound>
@@ -76,12 +78,13 @@ they work.</description>
 		<bundlesize>3</bundlesize>
 		<armslevel>6</armslevel>
 		<radius>small</radius>
+		<halfshield>false</halfshield>
 		<color><r>0.5</r><g>1.0</g><b>1.0</b></color>
 		<activationsound>shield/activateforce.wav</activationsound>
 		<collisionsound>shield/hit2.wav</collisionsound>
 		<removepower>20</removepower>
 	</accessory>
-	<accessory type="ShieldReflectiveMag">
+	<accessory type="ShieldMag">
 		<name>Mag Deflect</name>
 		<description>A small reflective shield that protects
 the tank from small amounts of damage. 
@@ -92,13 +95,15 @@ be activated before they work.</description>
 		<cost>10000</cost>
 		<bundlesize>2</bundlesize>
 		<armslevel>8</armslevel>
-		<radius>small</radius>
-		<color><r>0.5</r><g>1.0</g><b>1.0</b></color>
+		<radius>large</radius>
+		<halfshield>true</halfshield>
+		<deflectpower>50</deflectpower>
+		<color><r>1.0</r><g>1.0</g><b>1.0</b></color>
 		<activationsound>shield/activate.wav</activationsound>
 		<collisionsound>shield/hit2.wav</collisionsound>
-		<removepower>20</removepower>
+		<removepower>4</removepower>
 	</accessory>
-	<accessory type="ShieldReflectiveMag">
+	<accessory type="ShieldMag">
 		<name>Heavy Mag</name>
 		<description>A large reflective shield that protects
 the tank from small amounts of damage.
@@ -110,10 +115,12 @@ activated before they work.</description>
 		<bundlesize>2</bundlesize>
 		<armslevel>6</armslevel>
 		<radius>large</radius>
+		<halfshield>true</halfshield>
+		<deflectpower>100</deflectpower>
 		<color><r>0.5</r><g>1.0</g><b>1.0</b></color>
 		<activationsound>shield/activate.wav</activationsound>
 		<collisionsound>shield/hit2.wav</collisionsound>
-		<removepower>15</removepower>
+		<removepower>4</removepower>
 	</accessory>
 	<accessory type="AutoDefense">
 		<name>Auto Defense</name>

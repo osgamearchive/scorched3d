@@ -58,7 +58,8 @@ TankModelRenderer::TankModelRenderer(Tank *tank) :
 	tank_(tank), tankTips_(tank),
 	model_(0), canSeeTank_(false),
 	smokeTime_(0.0f), smokeWaitForTime_(0.0f),
-	fireOffSet_(0.0f), posX_(0.0f), posY_(0.0f), posZ_(0.0f)
+	fireOffSet_(0.0f), shieldHit_(0.0f),
+	posX_(0.0f), posY_(0.0f), posZ_(0.0f)
 {
 	model_ = TankModelStore::instance()->getModelByName(
 		tank->getModel().getModelName());
@@ -181,8 +182,8 @@ void TankModelRenderer::drawShield()
 	// Create the shield objects
 	static unsigned int smallListNo = 0;
 	static unsigned int largeListNo = 0;
-	static unsigned int smallMagListNo = 0;
-	static unsigned int largeMagListNo = 0;
+	static unsigned int smallHalfListNo = 0;
+	static unsigned int largeHalfListNo = 0;
 	if (!smallListNo)
 	{
 		glNewList(smallListNo = glGenLists(1), GL_COMPILE);
@@ -191,11 +192,11 @@ void TankModelRenderer::drawShield()
 		glNewList(largeListNo = glGenLists(1), GL_COMPILE);
 			gluSphere(obj, 6.0f, 8, 8);
 		glEndList();
-		glNewList(smallMagListNo = glGenLists(1), GL_COMPILE);
+		glNewList(smallHalfListNo = glGenLists(1), GL_COMPILE);
 			Hemisphere::draw(3.0f, 3.0f, 10, 10, 6, 0, true);
 			Hemisphere::draw(3.0f, 3.0f, 10, 10, 6, 0, false);
 		glEndList();
-		glNewList(largeMagListNo = glGenLists(1), GL_COMPILE);
+		glNewList(largeHalfListNo = glGenLists(1), GL_COMPILE);
 			Hemisphere::draw(6.0f, 6.0f, 10, 10, 6, 0, true);
 			Hemisphere::draw(6.0f, 6.0f, 10, 10, 6, 0, false);
 		glEndList();
@@ -210,12 +211,12 @@ void TankModelRenderer::drawShield()
 	texture->draw();
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glPushMatrix();
-		glColor4f(color[0], color[1], color[2], 0.5f);
+		glColor4f(color[0], color[1], color[2], 0.5f + shieldHit_);
 		glTranslatef(position[0], position[1], position[2]);
-		if (shield->getShieldType() == Shield::ShieldTypeReflectiveMag)
+		if (shield->getHalfShield())
 		{
-			if (shield->getRadius() == Shield::ShieldSizeSmall) glCallList(smallMagListNo);
-			else glCallList(largeMagListNo);
+			if (shield->getRadius() == Shield::ShieldSizeSmall) glCallList(smallHalfListNo);
+			else glCallList(largeHalfListNo);
 		}
 		else
 		{
@@ -266,12 +267,22 @@ void TankModelRenderer::fired()
 	fireOffSet_ = -0.25f;
 }
 
+void TankModelRenderer::shieldHit()
+{
+	shieldHit_ = 0.25f;
+}
+
 void TankModelRenderer::simulate(float frameTime)
 {
 	if (fireOffSet_ < 0.0f)
 	{
 		fireOffSet_ += frameTime / 25.0f;
 		if (fireOffSet_ > 0.0f) fireOffSet_ = 0.0f;
+	}
+	if (shieldHit_ > 0.0f)
+	{
+		shieldHit_ -= frameTime / 25.0f;
+		if (shieldHit_ < 0.0f) shieldHit_ = 0.0f;
 	}
 	if (tank_->getState().getLife() < 100)
 	{

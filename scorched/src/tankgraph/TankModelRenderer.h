@@ -73,6 +73,7 @@ public:
 	virtual void drawSecond(bool currentTank);
 	virtual void draw2d(bool currentTank);
 	virtual void fired();
+	virtual void shieldHit();
 	virtual void simulate(float frameTime);
 
 	TankModel *getModel() { return model_; }
@@ -83,6 +84,7 @@ protected:
 	TankModel *model_;
 	GLWTankTips tankTips_;
 	float fireOffSet_;
+	float shieldHit_;
 	float smokeTime_, smokeWaitForTime_;
 	bool canSeeTank_;
 	GLdouble posX_, posY_, posZ_; // 2d Position

@@ -41,7 +41,7 @@ public:
 	{
 		ShieldTypeNormal,
 		ShieldTypeReflective,
-		ShieldTypeReflectiveMag
+		ShieldTypeMag
 	};
 
 	Shield();
@@ -57,6 +57,7 @@ public:
 	float getHitRemovePower();
 	ShieldSize getRadius() { return radius_; }
 	Vector &getColor() { return color_; }
+	bool getHalfShield() { return halfShield_; }
 	virtual ShieldType getShieldType();
 
 	REGISTER_ACCESSORY_HEADER(Shield, Accessory::AccessoryShield);
@@ -66,6 +67,7 @@ protected:
 	ShieldSize radius_;
 	Vector color_;
 	float removePower_;
+	bool halfShield_;
 };
 
 #endif // !defined(AFX_SHIELD_H__F9BCDF39_FB62_4BB4_9D64_C70215669F9C__INCLUDED_)

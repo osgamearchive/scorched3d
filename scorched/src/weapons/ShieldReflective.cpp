@@ -30,6 +30,24 @@ ShieldReflective::~ShieldReflective()
 {
 }
 
+bool ShieldReflective::parseXML(XMLNode *accessoryNode)
+{
+	if (!Shield::parseXML(accessoryNode)) return false;
+	return true;
+}
+
+bool ShieldReflective::writeAccessory(NetBuffer &buffer)
+{
+	if (!Shield::writeAccessory(buffer)) return false;
+	return true;
+}
+
+bool ShieldReflective::readAccessory(NetBufferReader &reader)
+{
+	if (!Shield::readAccessory(reader)) return false;
+	return true;
+}
+
 Shield::ShieldType ShieldReflective::getShieldType()
 {
 	return ShieldTypeReflective;

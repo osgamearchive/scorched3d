@@ -29,9 +29,14 @@ public:
 	ShieldReflective();
 	virtual ~ShieldReflective();
 
+	virtual bool parseXML(XMLNode *accessoryNode);
+	virtual bool writeAccessory(NetBuffer &buffer);
+	virtual bool readAccessory(NetBufferReader &reader);
 	virtual ShieldType getShieldType();
 
 	REGISTER_ACCESSORY_HEADER(ShieldReflective, Accessory::AccessoryShield);
+
+protected:
 };
 
 #endif

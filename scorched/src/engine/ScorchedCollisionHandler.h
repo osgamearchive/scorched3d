@@ -52,7 +52,8 @@ protected:
 
 	ParticleAction collisionShield(unsigned int id,
 		Vector &collisionPos,
-		Shield::ShieldSize size);
+		Shield::ShieldSize size,
+		PhysicsParticleMeta *shot);
 
 };
 

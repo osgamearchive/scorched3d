@@ -18,19 +18,43 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <weapons/ShieldReflectiveMag.h>
+#include <weapons/ShieldMag.h>
 
-REGISTER_ACCESSORY_SOURCE(ShieldReflectiveMag);
+REGISTER_ACCESSORY_SOURCE(ShieldMag);
 
-ShieldReflectiveMag::ShieldReflectiveMag()
+ShieldMag::ShieldMag()
 {
 }
 
-ShieldReflectiveMag::~ShieldReflectiveMag()
+ShieldMag::~ShieldMag()
 {
 }
 
-Shield::ShieldType ShieldReflectiveMag::getShieldType()
+bool ShieldMag::parseXML(XMLNode *accessoryNode)
 {
-	return ShieldTypeReflectiveMag;
+	if (!Shield::parseXML(accessoryNode)) return false;
+
+	// Get the half size
+	if (!accessoryNode->getNamedChild("deflectpower", deflectPower_)) return false;
+
+	return true;
+}
+
+bool ShieldMag::writeAccessory(NetBuffer &buffer)
+{
+	if (!Shield::writeAccessory(buffer)) return false;
+	buffer.addToBuffer(deflectPower_);
+	return true;
+}
+
+bool ShieldMag::readAccessory(NetBufferReader &reader)
+{
+	if (!Shield::readAccessory(reader)) return false;
+	if (!reader.getFromBuffer(deflectPower_)) return false;
+	return true;
+}
+
+Shield::ShieldType ShieldMag::getShieldType()
+{
+	return ShieldTypeMag;
 }
