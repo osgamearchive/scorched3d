@@ -142,9 +142,9 @@ Accessory *AccessoryStore::createAccessory(XMLNode *currentNode)
 	return accessory;
 }
 
-std::list<Accessory *> AccessoryStore::getAllWeapons()
+std::list<Accessory *> AccessoryStore::getAllWeapons(bool sort)
 {
-	std::list<Accessory *> result;
+	std::vector<Accessory *> accVector;
 	std::list<Accessory *>::iterator itor;
 	for (itor = accessories_.begin();
 		itor != accessories_.end();
@@ -153,8 +153,38 @@ std::list<Accessory *> AccessoryStore::getAllWeapons()
 		if ((*itor)->getType() == Accessory::AccessoryWeapon &&
 			(*itor)->getPrimary())
 		{
-			result.push_back(*itor);
+			accVector.push_back(*itor);
 		}
+	}
+	
+	if (sort)
+	{
+		// Crudely sort by name
+		// stl sort method list is broken in visual c 6
+		// bubble sort
+		bool changed = true;
+		while (changed)
+		{
+			changed = false;
+			for (int i=0; i<int(accVector.size())-2; i++)
+			{
+				if (strcmp(accVector[i]->getName(), accVector[i+1]->getName())<0)
+				{
+					// swap
+					Accessory *tmp = accVector[i];
+					accVector[i] = accVector[i+1];
+					accVector[i+1] = tmp;
+					changed = true;
+					break;
+				}
+			}
+		} 
+	}
+	
+	std::list<Accessory *> result;
+	for (int i=0; i<int(accVector.size())-1; i++)
+	{
+		result.push_back(accVector[i]);
 	}
 
 	return result;

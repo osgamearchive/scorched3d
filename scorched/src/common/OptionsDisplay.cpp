@@ -157,7 +157,9 @@ OptionsDisplay::OptionsDisplay() :
 	bitsPerPixel_(options_, "BitsPerPixel",
 		"The number of bits per pixel to use for the display (0 = current display bbp)", RAccess, 0),
 	showContextHelp_(options_, "ShowContextHelp",
-		"Show in game help bubbles (tooltips) for items that have it", RWAccess, true)
+		"Show in game help bubbles (tooltips) for items that have it", RWAccess, true),
+	sortAccessories_(options_, "SortAccessories",
+		"Sort accessories alphabetically by name before displaying", RWAccess, false)
 {
 
 }

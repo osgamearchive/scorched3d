@@ -27,7 +27,11 @@ static void createControls(wxWindow *parent, wxSizer *topsizer)
 		LandscapeDefinitions::instance()->getAllLandscapes().size()];
 
 	wxSizer *sizer = new wxGridSizer(3, 3);
-	topsizer->Add(sizer, 0, wxALL | wxALIGN_CENTER, 10);
+	wxScrolledWindow *scrolledWindow = new wxScrolledWindow(parent, -1,
+		wxDefaultPosition, wxSize(340, 320));
+	scrolledWindow->SetSizer(sizer);
+	scrolledWindow->SetScrollRate(0, 10);
+	topsizer->Add(scrolledWindow, 0, wxALL | wxALIGN_CENTER, 10);
 
 	int i = 0;
 	std::vector<LandscapeDefinition> &defns =
@@ -50,14 +54,15 @@ static void createControls(wxWindow *parent, wxSizer *topsizer)
 		if (image.LoadFile(fileName, wxBITMAP_TYPE_BMP))
 		{
 			wxBitmap bitmap(image);
-			wxStaticBitmap *staticBmp = new wxStaticBitmap(parent, -1, bitmap);
+			wxStaticBitmap *staticBmp = new wxStaticBitmap(scrolledWindow, -1, bitmap);
 			staticBmp->SetToolTip(wxString(dfn.description.c_str()));
 			boxSizer->Add(staticBmp, 0, wxALL, 2);
 		}
 
-		landscapes[i] = new wxCheckBox(parent, -1, dfn.name.c_str());
+		landscapes[i] = new wxCheckBox(scrolledWindow, -1, dfn.name.c_str());
 		boxSizer->Add(landscapes[i]);
 
 		sizer->Add(boxSizer, 0, wxALL, 5);
 	}
 }
+

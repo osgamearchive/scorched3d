@@ -39,7 +39,7 @@ public:
 
 	Weapon *getDeathAnimation();
 
-	std::list<Accessory *> getAllWeapons();
+	std::list<Accessory *> getAllWeapons(bool sort=false);
 	std::list<Accessory *> getAllOthers();	
 	std::list<Accessory *> getAllAccessories();	
 

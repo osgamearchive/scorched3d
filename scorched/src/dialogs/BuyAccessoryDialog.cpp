@@ -26,6 +26,7 @@
 #include <client/ClientState.h>
 #include <client/ScorchedClient.h>
 #include <common/OptionsGame.h>
+#include <common/OptionsDisplay.h>
 #include <common/OptionsTransient.h>
 #include <coms/ComsMessageSender.h>
 #include <coms/ComsBuyAccessoryMessage.h>
@@ -101,13 +102,14 @@ void BuyAccessoryDialog::addPlayerWeaponsBuy(GLWTab *tab, bool showWeapons)
 	if (!tank) return;
 
 	std::list<Accessory *> weapons;
-	if (showWeapons) weapons = AccessoryStore::instance()->getAllWeapons();
+	if (showWeapons) weapons = AccessoryStore::instance()->getAllWeapons(
+		OptionsDisplay::instance()->getSortAccessories());
 	else weapons = AccessoryStore::instance()->getAllOthers();
 
 	char buffer[256];
 	int height = 10;
 
-	std::vector<Accessory *> accVector;
+	std::list<Accessory *> accessories;
 	std::list<Accessory *>::iterator itor;
 	for (itor = weapons.begin();
 		itor != weapons.end();
@@ -117,15 +119,13 @@ void BuyAccessoryDialog::addPlayerWeaponsBuy(GLWTab *tab, bool showWeapons)
 		if (10-current->getArmsLevel() <= 
 			ScorchedClient::instance()->getOptionsGame().getMaxArmsLevel())
 		{
-			accVector.push_back(current);
+			accessories.push_back(current);
 		}
 	}
 
-	//sort(accVector);
-
-	std::vector<Accessory *>::iterator itor2;
-	for (itor2 = accVector.begin();
-		itor2 != accVector.end();
+	std::list<Accessory *>::iterator itor2;
+	for (itor2 = accessories.begin();
+		itor2 != accessories.end();
 		itor2++)
 	{
 		Accessory *current = (*itor2);
@@ -271,28 +271,4 @@ void BuyAccessoryDialog::buttonDown(unsigned int id)
 			}
 		}
 	}
-}
-
-void BuyAccessoryDialog::sort(std::vector<Accessory *> &accVector)
-{
-	// Crudely sort by name
-	// stl sort method list is broken in visual c 6
-	// bubble sort
-	bool changed = true;
-	while (changed)
-	{
-		changed = false;
-		for (int i=0; i<int(accVector.size())-1; i++)
-		{
-			if (strcmp(accVector[i]->getName(), accVector[i+1]->getName())<0)
-			{
-				// swap
-				Accessory *tmp = accVector[i];
-				accVector[i] = accVector[i+1];
-				accVector[i+1] = tmp;
-				changed = true;
-				break;
-			}
-		}
-	} 
 }

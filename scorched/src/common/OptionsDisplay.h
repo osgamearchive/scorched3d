@@ -208,6 +208,10 @@ public:
 	void setLowTreeDetail(bool value) { lowTreeDetail_.setValue(value); }
 	const char *getLowTreeDetailToolTip() { return lowTreeDetail_.getDescription(); }
 
+	bool getSortAccessories() { return sortAccessories_.getValue(); }
+	void setSortAccessories(bool value) { sortAccessories_.setValue(value); }
+	const char *getSortAccessoriesToolTip() { return sortAccessories_.getDescription(); }
+
 	bool getNoDepthSorting() { return noDepthSorting_.getValue(); }
 	void setNoDepthSorting(bool value) { noDepthSorting_.setValue(value); }
 	const char *getNoDepthSortingToolTip() { return noDepthSorting_.getDescription(); }
@@ -314,6 +318,7 @@ protected:
 	OptionEntryBool drawLines_;
 	OptionEntryBool noLenseFlare_;
 	OptionEntryBool noSkins_;
+	OptionEntryBool sortAccessories_;
 	OptionEntryBool drawWater_;
 	OptionEntryBool drawPlayerNames_;
 	OptionEntryBool drawPlayerSight_;

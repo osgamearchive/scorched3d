@@ -55,7 +55,6 @@ protected:
 	void addPlayerWeapons();
 	void addPlayerWeaponsSell();
 	void addPlayerWeaponsBuy(GLWTab *tab, bool weapons);
-	void sort(std::vector<Accessory *> &accVector);
 
 };
 
