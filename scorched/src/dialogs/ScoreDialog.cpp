@@ -173,7 +173,7 @@ void ScoreDialog::draw()
 			if (current && current->getTeam() == 1 && !current->getState().getSpectator()) 
 			{
 				teamOne = true;
-				addLine(current, y, (winningTeam==1?">>":" "));
+				addLine(current, y, (char *)(winningTeam==1?">>":" "));
 				winsOne += current->getScore().getWins();
 				killsOne += current->getScore().getKills();
 				moneyOne += current->getScore().getMoney();
@@ -198,7 +198,7 @@ void ScoreDialog::draw()
 			if (current && current->getTeam() == 2 && !current->getState().getSpectator()) 
 			{
 				teamTwo = true;
-				addLine(current, y, (winningTeam==2?">>":" "));
+				addLine(current, y, (char *)(winningTeam==2?">>":" "));
 				winsTwo += current->getScore().getWins();
 				killsTwo += current->getScore().getKills();
 				moneyTwo += current->getScore().getMoney();

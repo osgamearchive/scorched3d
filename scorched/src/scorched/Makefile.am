@@ -155,8 +155,6 @@ scorched3d_SOURCES = \
 	../tank/TankShields.h \
 	../tank/TankSort.cpp \
 	../tank/TankSort.h \
-	../tank/TankStart.cpp \
-	../tank/TankStart.h \
 	../tank/TankState.cpp \
 	../tank/TankState.h \
 	../tank/TankWeapon.cpp \
@@ -232,6 +230,8 @@ scorched3d_SOURCES = \
 	../common/SoundBuffer.h \
 	../common/SoundStore.cpp \
 	../common/SoundStore.h \
+	../common/StatsLogger.cpp \
+	../common/StatsLogger.h \
 	../common/Timer.cpp \
 	../common/Timer.h \
 	../common/Triangle.cpp \
