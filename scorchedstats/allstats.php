@@ -328,7 +328,7 @@ else {
 	$filter=", filter: ".columnformat($filterby)." ".urldecode($filtercompare)." ".$filtervalue;
 }
 //Query requested info from the database and setup table for displaying it
-$query = "SELECT name, playerid, $columnquery FROM scorched3d".$prefix."_players $wherequery ORDER BY $orderby $dir LIMIT $playerid, $limit";
+$query = "SELECT name, playerid, avatarid, $columnquery FROM scorched3d".$prefix."_players $wherequery ORDER BY $orderby $dir LIMIT $playerid, $limit";
 $result = mysql_query($query) or die("Query failed : " . mysql_error());
 ?>
 <table width=760 border="0" align="center">
@@ -353,7 +353,17 @@ while ($row = mysql_fetch_array($result, MYSQL_ASSOC))
 	++$rownum;
 	echo "<tr>";
 	echo "<td align=center>".($rownum + $playerid)."</td>";
-	echo "<td><a href=playerstats.php?Prefix=$prefix&PlayerID=$row[playerid]>$row[name]</a></td>";
+
+	echo "<td>";
+	echo "<table><tr>";
+	echo "<td align=center><img border=0 src='getbinary.php?id=".$row[avatarid]."'></td>";
+	echo "<td>";
+	echo "<a href=\"playerstats.php?Prefix=".$prefix."&PlayerID=".$row[playerid]."\">";
+	echo $row[name];
+	echo "</a>";
+	echo "</td>";
+	echo "</tr></table>";
+	echo "</td>";
 	for ($i=0; $i<$num_cols; $i++){
 		$rowname=$fieldarray[$i];
 	    echo dataformat($rowname, $row[$rowname]);

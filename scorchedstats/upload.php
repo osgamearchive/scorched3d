@@ -10,7 +10,7 @@ $count = 0;
 $currenttime = time();
 while (!feof ($fp))
 {
-	$line = fgets($fp, 1024);
+	$line = fgets($fp, 128048);
 	if ($line[0] != '-')
 	{
 		$sql .= $line;

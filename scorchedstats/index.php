@@ -89,10 +89,7 @@ while ($row = mysql_fetch_object($result))
 	echo "<td align=center>$rownum</center></td>";
 	echo "<td>";
 	echo "<table><tr>";
-	if ($rownum == 1)
-	{
-		echo "<td align=center><img border=0 src='getbinary.php?id=".$row->avatarid."'></td>";
-	}
+	echo "<td align=center><img border=0 src='getbinary.php?id=".$row->avatarid."'></td>";
 	echo "<td>";
 	echo "<a href=\"playerstats.php?Prefix=".$prefix."&PlayerID=".$row->playerid."\">";
 	echo $row->name;
