@@ -45,6 +45,7 @@ Tanks can move (after about 100 user requests for it).
 Fuel added to accessories.
 Random tank model option available from tank screen
 Napalm added to accessories.
+Leapfrog added to accessories.
 
 XML parser added
 Changed all paths to be in unix style
@@ -109,8 +110,6 @@ rollers.
 Sand hogs
 lasers
 plasma blast
-leapfrog
-cluster bomb?
 different hp / weapons capabilities for different tanks?
 guidance systems
 fire control

@@ -34,6 +34,7 @@
 #include <weapons/WeaponMirv.h>
 #include <weapons/WeaponRiotBomb.h>
 #include <weapons/WeaponNapalm.h>
+#include <weapons/WeaponLeapFrog.h>
 
 #define ADD_NEW_ACCESSORY(x) { Accessory *acc = x; accessories_.push_back(acc); }
 
@@ -87,6 +88,7 @@ AccessoryStore::AccessoryStore()
 	ADD_NEW_ACCESSORY(new WeaponProjectile("Missile", 1875, 5, 9, 6));
 	ADD_NEW_ACCESSORY(new WeaponProjectile("Baby Nuke", 10000, 3, 6, 10));
 	ADD_NEW_ACCESSORY(new WeaponProjectile("Nuke", 12000, 1, 4, 18));
+	ADD_NEW_ACCESSORY(new WeaponLeapFrog("Leap Frog", 10000, 2, 7, 8));
 
 	// Earth clod weapons
 	// char *name, int price, int bundle, int armsLevel, int size

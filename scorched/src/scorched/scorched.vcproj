@@ -1338,6 +1338,12 @@
 				RelativePath="..\weapons\WeaponFunky.h">
 			</File>
 			<File
+				RelativePath="..\weapons\WeaponLeapFrog.cpp">
+			</File>
+			<File
+				RelativePath="..\weapons\WeaponLeapFrog.h">
+			</File>
+			<File
 				RelativePath="..\weapons\WeaponMirv.cpp">
 			</File>
 			<File
@@ -1858,6 +1864,12 @@
 			</File>
 			<File
 				RelativePath="..\actions\ShotProjectileFunky.h">
+			</File>
+			<File
+				RelativePath="..\actions\ShotProjectileLeapFrog.cpp">
+			</File>
+			<File
+				RelativePath="..\actions\ShotProjectileLeapFrog.h">
 			</File>
 			<File
 				RelativePath="..\actions\ShotProjectileMirv.cpp">
