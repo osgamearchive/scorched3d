@@ -28,7 +28,11 @@ Added: Tank models can have different turret and gun pivot points
 Added: Tank models can contain multiple gun and turret objects
 Added: New version of ODE physics engine used
 Added: Missiles now have a model and not just a photon torpedo
+Added: Missile models can be configured on a per weapon basis
+Added: Coms message and state logging
+Added: Client can log to file
 
+Fixed: Tank bounding boxes can still cause collisions when tank is dead
 Fixed: Random windows crashes, increased stack size to stop ODE from running out of stack
 Fixed: Tanks do not start right at the landscape edge
 Fixed: Applied http://wwwra.informatik.uni-rostock.de/~waschk/Scorched3D-35-gcc3.3.patch
