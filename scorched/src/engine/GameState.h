@@ -46,6 +46,7 @@ public:
 	virtual void simulate(float simTime);
 	virtual void draw();
 
+	bool checkStimulate();
 	void clear();
 
 	// Called by SDL subsystem 
@@ -152,7 +153,6 @@ protected:
 	int mouseRDragX_, mouseRDragY_;
 	int currentMouseX_, currentMouseY_;
 
-	bool checkStimulate();
 	void mouseMoveCall(const unsigned state, MouseButton button, 
 		StateIList &currentList, 
 		int mx, int my,

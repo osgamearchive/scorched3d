@@ -176,5 +176,5 @@ void AutoDefenseDialog::finished()
 	ComsMessageSender::sendToServer(comsMessage);
 
 	WindowManager::instance()->hideWindow(getId());
-	ScorchedClient::instance()->getGameState().stimulate(ClientState::StimShot);
+	ScorchedClient::instance()->getGameState().stimulate(ClientState::StimWait);
 }

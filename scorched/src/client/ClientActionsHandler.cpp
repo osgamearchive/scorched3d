@@ -58,6 +58,8 @@ bool ClientActionsHandler::processMessage(unsigned int id,
 	if (!actionsMessage.readMessage(reader)) return false;
 
 	// Ensure we are in the shot state
+	ScorchedClient::instance()->getGameState().stimulate(ClientState::StimWait);
+	ScorchedClient::instance()->getGameState().checkStimulate();
 	ScorchedClient::instance()->getGameState().stimulate(ClientState::StimShot);
 	return true;
 }

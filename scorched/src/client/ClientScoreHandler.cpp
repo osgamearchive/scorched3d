@@ -53,6 +53,8 @@ bool ClientScoreHandler::processMessage(unsigned int id,
 	ComsScoreMessage message;
 	if (!message.readMessage(reader)) return false;
 
+	ScorchedClient::instance()->getGameState().stimulate(ClientState::StimWait);
+	ScorchedClient::instance()->getGameState().checkStimulate();
 	ScorchedClient::instance()->getGameState().stimulate(ClientState::StimScore);
 
 	return true;

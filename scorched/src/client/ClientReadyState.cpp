@@ -20,6 +20,7 @@
 
 #include <client/ClientReadyState.h>
 #include <client/ScorchedClient.h>
+#include <client/ClientState.h>
 #include <coms/ComsMessageSender.h>
 #include <coms/ComsPlayerReadyMessage.h>
 
@@ -44,6 +45,8 @@ ClientReadyState::~ClientReadyState()
 
 void ClientReadyState::enterState(const unsigned state)
 {
+	ScorchedClient::instance()->getGameState().stimulate(ClientState::StimWait);
+
 	// move into player or main state place
 	// The server will move the client into the main state
 	// when all clients+server are ready

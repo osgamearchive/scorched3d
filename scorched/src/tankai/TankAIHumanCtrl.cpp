@@ -83,8 +83,7 @@ void TankAIHumanCtrl::keyboardCheck(const unsigned state, float frameTime,
 		}
 		else
 		{
-			// Stimulate into the shot state
-			ScorchedClient::instance()->getGameState().stimulate(ClientState::StimShot);
+			DIALOG_ASSERT(0);
 		}
 	}
 }

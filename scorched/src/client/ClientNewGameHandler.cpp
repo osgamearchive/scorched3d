@@ -65,6 +65,8 @@ bool ClientNewGameHandler::processMessage(unsigned int id,
 		return false;
 	}
 
+	ScorchedClient::instance()->getGameState().stimulate(ClientState::StimWait);
+	ScorchedClient::instance()->getGameState().checkStimulate();
 	ScorchedClient::instance()->getGameState().stimulate(ClientState::StimNewGame);
 	return true;
 }

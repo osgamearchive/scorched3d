@@ -392,7 +392,7 @@ void TankAIHuman::fireShot()
 		ComsMessageSender::sendToServer(comsMessage);
 
 		// Stimulate into the next state waiting for all the shots
-		ScorchedClient::instance()->getGameState().stimulate(ClientState::StimShot);
+		ScorchedClient::instance()->getGameState().stimulate(ClientState::StimWait);
 	}
 }
 
@@ -406,7 +406,7 @@ void TankAIHuman::skipShot()
 	ComsMessageSender::sendToServer(comsMessage);
 
 	// Stimulate into the next state waiting for all the shots
-	ScorchedClient::instance()->getGameState().stimulate(ClientState::StimShot);
+	ScorchedClient::instance()->getGameState().stimulate(ClientState::StimWait);
 }
 
 void TankAIHuman::resign()
@@ -419,7 +419,7 @@ void TankAIHuman::resign()
 	ComsMessageSender::sendToServer(comsMessage);
 	
 	// Stimulate into the next state waiting for all the shots
-	ScorchedClient::instance()->getGameState().stimulate(ClientState::StimShot);
+	ScorchedClient::instance()->getGameState().stimulate(ClientState::StimWait);
 }
 
 void TankAIHuman::move(int x, int y)
@@ -432,7 +432,7 @@ void TankAIHuman::move(int x, int y)
 	ComsMessageSender::sendToServer(comsMessage);
 	
 	// Stimulate into the next state waiting for all the shots
-	ScorchedClient::instance()->getGameState().stimulate(ClientState::StimShot);
+	ScorchedClient::instance()->getGameState().stimulate(ClientState::StimWait);
 }
 
 void TankAIHuman::parachutesUpDown(bool on)

@@ -89,6 +89,8 @@ bool ClientStartGameHandler::processMessage(unsigned int id,
 	}
 
 	// Stimulate into the new game state
+	ScorchedClient::instance()->getGameState().stimulate(ClientState::StimWait);
+	ScorchedClient::instance()->getGameState().checkStimulate();
 	if (message.getBuyWeapons())
 	{
 		ScorchedClient::instance()->getGameState().stimulate(ClientState::StimBuyWeapons);

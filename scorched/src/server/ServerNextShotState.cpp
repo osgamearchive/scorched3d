@@ -37,10 +37,6 @@ void ServerNextShotState::enterState(const unsigned state)
 {
 	serverLog(0, "Choosing Shots");
 
-	// Tell all tanks it is the next shot
-	// Set the all the tanks to wait state
-	ScorchedServer::instance()->getContext().tankContainer.nextShot();	
-
 	// Check if this round has finished
 	if (ScorchedServer::instance()->getTankContainer().aliveCount() < 2 ||
 		ScorchedServer::instance()->getOptionsTransient().getCurrentGameNo() > 
@@ -76,6 +72,10 @@ void ServerNextShotState::enterState(const unsigned state)
 		}
 		else
 		{
+			// Tell all tanks it is the next shot
+			// Set the all the tanks to wait state
+			ScorchedServer::instance()->getContext().tankContainer.nextShot();	
+
 			// We have shots to make, lets make them
 			ScorchedServer::instance()->getGameState().stimulate(ServerState::ServerStimulusNextTurn);
 		}

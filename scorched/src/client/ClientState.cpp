@@ -125,7 +125,7 @@ void ClientState::setupGameState(bool network)
 	gameState.addStateStimulus(StateConnect, 
 		StimDisconnected, StateConnect);
 	gameState.addStateStimulus(StateConnect, 
-		StimNewGame, StateNewGame);
+		StimWait, StateWait);
 
 	// StateNewGame
 	addWindowManager(gameState, StateNewGame);
@@ -143,14 +143,23 @@ void ClientState::setupGameState(bool network)
 	gameState.addStateStimulus(StateReady, 
 		StimDisconnected, StateConnect);
 	gameState.addStateStimulus(StateReady, 
+		StimWait, StateWait);
+
+	// StateWait
+	addStandardComponents(gameState, StateWait, network);
+	gameState.addStateStimulus(StateWait, 
+		StimDisconnected, StateConnect);
+	gameState.addStateStimulus(StateWait, 
 		StimBuyWeapons, StateBuyWeapons);
-	gameState.addStateStimulus(StateReady, 
+	gameState.addStateStimulus(StateWait, 
 		StimPlaying, StatePlaying);
-	gameState.addStateStimulus(StateReady, 
+	gameState.addStateStimulus(StateWait, 
 		StimShot, StateShot);
-	gameState.addStateStimulus(StateReady, 
+	gameState.addStateStimulus(StateWait, 
+		StimWait, StateWait);
+	gameState.addStateStimulus(StateWait, 
 		StimScore, StateScore);
-	gameState.addStateStimulus(StateReady, 
+	gameState.addStateStimulus(StateWait, 
 		StimNewGame, StateNewGame);
 
 	// StateBuyWeapons
@@ -164,9 +173,9 @@ void ClientState::setupGameState(bool network)
 	gameState.addStateStimulus(StateBuyWeapons, 
 		StimAutoDefense, StateAutoDefense);
 	gameState.addStateStimulus(StateBuyWeapons, 
-		StimShot, StateShot);
+		StimWait, StateWait);
 	gameState.addStateStimulus(StateBuyWeapons, 
-		ShotTimer::instance(), StateShot);
+		ShotTimer::instance(), StateWait);
 
 	// StateAutoDefense
 	addStandardComponents(gameState, StateAutoDefense, network);
@@ -175,9 +184,9 @@ void ClientState::setupGameState(bool network)
 	gameState.addStateStimulus(StateAutoDefense, 
 		StimDisconnected, StateConnect);
 	gameState.addStateStimulus(StateAutoDefense, 
-		StimShot, StateShot);
+		StimWait, StateWait);
 	gameState.addStateStimulus(StateAutoDefense, 
-		ShotTimer::instance(), StateShot);
+		ShotTimer::instance(), StateWait);
 
 	// StatePlaying
 	addStandardComponents(gameState, StatePlaying, network);
@@ -190,9 +199,9 @@ void ClientState::setupGameState(bool network)
 	gameState.addStateStimulus(StatePlaying, 
 		StimDisconnected, StateConnect);
 	gameState.addStateStimulus(StatePlaying, 
-		StimShot, StateShot);
+		StimWait, StateWait);
 	gameState.addStateStimulus(StatePlaying, 
-		ShotTimer::instance(), StateShot);
+		ShotTimer::instance(), StateWait);
 
 	// StateShot
 	addStandardComponents(gameState, StateShot, network);
@@ -203,18 +212,14 @@ void ClientState::setupGameState(bool network)
 	gameState.addStateStimulus(StateShot, 
 		StimDisconnected, StateConnect);
 	gameState.addStateStimulus(StateShot, 
-		StimShot, StateShot);
-	gameState.addStateStimulus(StateShot, 
 		ClientShotState::instance(), StateReady);
-	gameState.addStateStimulus(StateShot, 
-		StimBuyWeapons, StateBuyWeapons);
 
 	// StateScore
 	addStandardComponents(gameState, StateScore, network);
 	gameState.addStateStimulus(StateScore, 
 		StimDisconnected, StateConnect);
 	gameState.addStateStimulus(StateScore, 
-		StimNewGame, StateNewGame);
+		StimWait, StateWait);
 
 	if (network) gameState.setState(StateConnectPlayer);
 	else gameState.setState(StateSinglePlayer);
