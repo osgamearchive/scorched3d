@@ -18,12 +18,18 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <3dsparse/ModelID.h>
 #include <3dsparse/MSFile.h>
 #include <3dsparse/ASEFile.h>
 #include <common/Defines.h>
 #include <wx/utils.h>
+
+static const char *getDirectoryPath(const char *file)
+{
+	static char buffer[256];
+	sprintf(buffer, PKGDIR "%s", file);
+	return buffer;
+}
 
 ModelID::ModelID()
 {
@@ -80,14 +86,14 @@ bool ModelID::initFromNode(const char *directory, XMLNode *modelNode)
 		static char meshName[1024];
 		sprintf(meshName, "%s/%s", directory, meshNameContent);
 
-		if (!::wxFileExists(skinName))
+		if (!::wxFileExists(getDirectoryPath(skinName)))
 		{
 			dialogMessage("Scorched Models",
 						"Skin file \"%s\" does not exist",
 						skinName);
 			return false;
 		}
-		if (!::wxFileExists(meshName))
+		if (!::wxFileExists(getDirectoryPath(meshName)))
 		{
 			dialogMessage("Scorched Models",
 						"Mesh file \"%s\"does not exist",
@@ -104,7 +110,7 @@ bool ModelID::initFromNode(const char *directory, XMLNode *modelNode)
 		static char meshName[1024];
 		sprintf(meshName, "%s/%s", directory, meshNameContent);
 
-		if (!::wxFileExists(meshName))
+		if (!::wxFileExists(getDirectoryPath(meshName)))
 		{
 			dialogMessage("Scorched Models",
 						"Mesh file \"%s\"does not exist",
@@ -146,13 +152,9 @@ ModelsFile *ModelID::getNewFile()
 	ModelsFile *newFile = 0;
 	if (0 == strcmp(getType(), "ase"))
 	{
-		char newMeshName[256];
-		char newSkinName[256];
-		sprintf(newMeshName, PKGDIR "%s", getMeshName());
-		sprintf(newSkinName, PKGDIR "%s", getSkinName());
-
 		// Load the ASEFile containing the tank definitions
-		newFile = new ASEFile(newMeshName, newSkinName);
+		std::string meshName(getDirectoryPath(getMeshName()));
+		newFile = new ASEFile(meshName.c_str(), getDirectoryPath(getSkinName()));
 		if (!newFile->getSuccess())
 		{
 			dialogMessage("ASE File", "Failed to load ASE file \"%s\"", getMeshName());
@@ -161,11 +163,8 @@ ModelsFile *ModelID::getNewFile()
 	}
 	else
 	{
-		char newMeshName[256];
-		sprintf(newMeshName, PKGDIR "%s", getMeshName());
-
 		// Load the Milkshape containing the tank definitions
-		newFile = new MSFile(newMeshName);
+		newFile = new MSFile(getDirectoryPath(getMeshName()));
 		if (!newFile->getSuccess())
 		{
 			dialogMessage("MS File", "Failed to load MS file \"%s\"", getMeshName());
