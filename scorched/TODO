@@ -17,6 +17,7 @@ Fixed: XML Parser does not add extra LFs (Fixes enabled landscapes becoming disa
 Fixed: Sky dome incorrectly positioned
 Fixed: Tank cannot move when burried
 Fixed: Tank is not covered by trees on the first move
+Fixed: Shot timer won't expire prematurely
 
 Changed: Changed free market ecconmy so price decreases are slower
 Changed: Tank can move up and down bigger slopes (configurable)
