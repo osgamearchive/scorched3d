@@ -53,8 +53,11 @@ void GLViewPort::setWindowSize(int width, int height,
 {
 	width_ = width;
 	height_ = height;
-	actualWidth_ = awidth;
-	actualHeight_ = aheight;
+	if (awidth != 0 && aheight != 0)
+	{
+		actualWidth_ = awidth;
+		actualHeight_ = aheight;
+	}
 
 	widthMult_ = (float) width_ / (float) actualWidth_;
 	heightMult_ = (float) height_ / (float) actualHeight_;

@@ -37,7 +37,7 @@ public:
 	than usual.
 	*/
 	void setWindowSize(int width, int height,
-		int awidth, int aheight);
+		int awidth = 0, int aheight = 0);
 
 	static int getWidth() { return width_; }
 	static int getHeight() { return height_; }

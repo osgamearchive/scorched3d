@@ -103,7 +103,7 @@ bool Display::changeSettings(int width, int height, bool full)
 	if (init_)
 	{	
 		/* create display surface */
-		int videoFlags = SDL_OPENGL | SDL_ANYFORMAT;  
+		int videoFlags = SDL_OPENGL | SDL_ANYFORMAT; // | SDL_RESIZABLE;  
 		int flags = ( full ? videoFlags|SDL_FULLSCREEN : videoFlags);
 		int bpp = OptionsDisplay::instance()->getBitsPerPixel();
 		surface = SDL_SetVideoMode( width, height, bpp, flags);

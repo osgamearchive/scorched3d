@@ -21,6 +21,7 @@
 #include <server/ServerMain.h>
 #include <client/ClientDialog.h>
 #include <client/MainCamera.h>
+#include <client/Main2DCamera.h>
 #include <client/ScorchedClient.h>
 #include <client/ClientGameStoppedHandler.h>
 #include <client/ClientMessageHandler.h>
@@ -262,12 +263,12 @@ bool clientMain()
 			case SDL_VIDEORESIZE:
 				/*Display::instance()->changeSettings(
 					event.resize.w,event.resize.h, 
-					OptionsDisplay::instance()->getFullScreen());
+					OptionsDisplay::instance()->getFullScreen());*/
 				MainCamera::instance()->getCamera().setWindowSize(
 					event.resize.w, event.resize.h);
 				Main2DCamera::instance()->getViewPort().setWindowSize(
 					event.resize.w, event.resize.h);
-					*/
+					
 				break;
 			case SDL_QUIT:
 				ScorchedClient::instance()->getMainLoop().exitLoop();
