@@ -85,6 +85,12 @@ public:
 	int getInterest() { return moneyInterest_.getValue(); }
 	void setInterest(int value) { moneyInterest_.setValue(value); }
 
+	int getLandWidthX() { return landWidthX_.getValue(); }
+	void setLandWidthX(int value) { landWidthX_.setValue(value); }
+
+	int getLandWidthY() { return landWidthY_.getValue(); }
+	void setLandWidthY(int value) { landWidthY_.setValue(value); }
+
 	int getNoHills() { return landHills_.getValue(); }
 	void setNoHills(int value) { landHills_.setValue(value); }
 
@@ -200,6 +206,8 @@ protected:
 	OptionEntryInt idleKickTime_;
 	OptionEntryBoundedInt moneyInterest_;
 	OptionEntryBool simultaneous_;
+	OptionEntryBoundedInt landWidthY_;
+	OptionEntryBoundedInt landWidthX_;
 	OptionEntryBoundedInt landHills_;
 	OptionEntryBoundedInt landHeight_;
 	OptionEntryBoundedInt windForce_;

@@ -176,6 +176,7 @@ void HeightMapModifier::addCirclePeak(HeightMap &hmap, Vector &start,
 
 void HeightMapModifier::generateTerrain(HeightMap &hmap, 
 										int noHills, int maxHeight, 
+										int widthx, int widthy,
 										RandomGenerator &generator,
 										RandomGenerator &offsetGenerator,
 										ProgressCounter *counter)
@@ -183,7 +184,11 @@ void HeightMapModifier::generateTerrain(HeightMap &hmap,
 	if (counter) counter->setNewOp("Teraform Landscape");
 
 	hmap.reset();
-	float width = (float) hmap.getWidth();
+	float useWidthX = (float) widthx;
+	float useWidthY = (float) widthy;
+	float useBorderX = float(hmap.getWidth() - widthx) / 2.0f;
+	float useBorderY = float(hmap.getWidth() - widthy) / 2.0f;
+
 	const int noItter = noHills;
 
 	for (int i=0; i<noItter; i++)
@@ -193,12 +198,14 @@ void HeightMapModifier::generateTerrain(HeightMap &hmap,
 		float sizew = generator.getRandFloat() * 40.0f + 10.0f;
 		float sizew2 = generator.getRandFloat() * 20.0f - 10.0f + sizew;
 		float bordersize = MAX(sizew, sizew2) * 1.2f;
+		float bordersizex = bordersize + useBorderX;
+		float bordersizey = bordersize + useBorderY;
 		float sizeh = (generator.getRandFloat() * 1.0f + 0.5f) * sizew;
 
 		// NOTE: This has been changed as I386/SPARC have different calling ordering
 		// symantics (see CVS diff for changes)
-		float sx = (generator.getRandFloat() * (width - (bordersize * 2))) + bordersize;
-		float sy = (generator.getRandFloat() * (width - (bordersize * 2))) + bordersize;
+		float sx = (generator.getRandFloat() * (useWidthX - (bordersizex * 2))) + bordersizex;
+		float sy = (generator.getRandFloat() * (useWidthY - (bordersizey * 2))) + bordersizey;
 		Vector start(sx, sy);
 
 		addCirclePeak(hmap, start, sizew, sizew2, sizeh, offsetGenerator);
@@ -210,5 +217,3 @@ void HeightMapModifier::generateTerrain(HeightMap &hmap,
 	levelSurround(hmap);
 	hmap.generateNormals(0, hmap.getWidth(), 0, hmap.getWidth(), counter);
 }
-
-

@@ -37,6 +37,7 @@ namespace HeightMapModifier
 			   ProgressCounter *counter = 0);
 
 	void generateTerrain(HeightMap &hmap, int noHills, int maxHeight, 
+						 int widthx, int widthy,
 						 RandomGenerator &generator, 
 						 RandomGenerator &offsetGenerator,
 						 ProgressCounter *counter = 0);

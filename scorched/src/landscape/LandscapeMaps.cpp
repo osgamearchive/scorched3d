@@ -55,10 +55,12 @@ void LandscapeMaps::generateHMap(ScorchedContext &context,
 	// based on the parameters in the options
 	int maxHeight = context.optionsGame.getMaxHeight();
 	int noHills = context.optionsGame.getNoHills();
+	int widthx = context.optionsGame.getLandWidthX();
+	int widthy = context.optionsGame.getLandWidthY();
 
 	//Logger::log(0, "Landscape : %i %i %i", storedSeed_, maxHeight, noHills);
 	HeightMapModifier::generateTerrain(getHMap(), 
-		noHills, maxHeight, generator, offsetGenerator, counter);
+		noHills, maxHeight, widthx, widthy, generator, offsetGenerator, counter);
 
 	// Save this height map for later
 	memcpy(storedMap_, map_.getData(), 
