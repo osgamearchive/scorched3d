@@ -75,7 +75,7 @@ void GLMenuEntry::draw(GLFont2d &font, float currentTop, float currentLeft)
 		menuTitle = (char *) menuName_.c_str();
 	}
 
-	font.draw(color, 12, currentLeft + 5.0f, 
+	font.draw(depressed_?color:itemcolor, 12, currentLeft + 5.0f, 
 		currentTop - 15.0f, 0.0f, menuTitle);
 }
 
