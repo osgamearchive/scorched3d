@@ -22,6 +22,12 @@
 #ifndef _comsConnectMessage_h
 #define _comsConnectMessage_h
 
+// The very first message sent from the client to the server
+// requesting a connection.
+// NOTE: Do not change the serialization format of this
+// message as it will cause problems for earlier versioned
+// servers.
+
 #include <coms/ComsMessage.h>
 
 class ComsConnectMessage : public ComsMessage
