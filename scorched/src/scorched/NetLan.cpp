@@ -25,32 +25,43 @@
 
 static void createControls(wxWindow *parent)
 {
-	IDC_BUTTON_LAN_CTRL = 
-		new wxButton(parent, IDC_BUTTON_LAN,
-		"Refresh LAN Games",
-		wxPoint((int) 265.5, (int) 296), wxSize((int) 133.5, (int) 21));
-	IDC_BUTTON_NET_CTRL = 
-		new wxButton(parent, IDC_BUTTON_NET,
-		"Refresh Internet Games",
-		wxPoint((int) 403.5, (int) 296), wxSize((int) 123, (int) 21));
 	new wxStaticText(parent, -1,
 		"Connect To Name/IP : ",
-		wxPoint((int) 37.5, (int) 14.5), wxSize((int) 111, (int) 12));
+		wxPoint((int) 30, (int) 10.5));
+	new wxStaticText(parent, -1,
+		"Password : ",
+		wxPoint((int) 30, (int) 34.5));
 	IDC_EDIT_SERVER_CTRL = 
 		new wxTextCtrl(parent, IDC_EDIT_SERVER,
 		"",
-		wxPoint((int) 147, (int) 10), wxSize((int) 285, (int) 21));
+		wxPoint((int) 147, (int) 6), wxSize((int) 285, (int) 21));
+	IDC_EDIT_PASSWORD_CTRL = 
+		new wxTextCtrl(parent, IDC_EDIT_PASSWORD,
+		"",
+		wxPoint((int) 147, (int) 30), wxSize((int) 285, (int) 21));
 	IDC_CLEAR_CTRL = 
 		new wxButton(parent, IDC_CLEAR,
 		"Clear",
-		wxPoint((int) 436.5, (int) 13), wxSize((int) 46.5, (int) 15));
+		wxPoint((int) 436.5, (int) 9), wxSize((int) 46.5, (int) 15));
+	IDC_CLEAR_PASSWORD_CTRL = 
+		new wxButton(parent, IDC_CLEAR_PASSWORD,
+		"Clear",
+		wxPoint((int) 436.5, (int) 33), wxSize((int) 46.5, (int) 15));
 	IDOK_CTRL = 
 		new wxButton(parent, wxID_OK,
 		"Join Game",
-		wxPoint((int) 451.5, (int) 326.5), wxSize((int) 75, (int) 21));
+		wxPoint((int) 451.5, (int) 346.5), wxSize((int) 75, (int) 21));
 	IDCANCEL_CTRL = 
 		new wxButton(parent, wxID_CANCEL,
 		"Cancel",
-		wxPoint((int) 370.5, (int) 326.5), wxSize((int) 75, (int) 21));
+		wxPoint((int) 370.5, (int) 346.5), wxSize((int) 75, (int) 21));
+	IDC_BUTTON_LAN_CTRL = 
+		new wxButton(parent, IDC_BUTTON_LAN,
+		"Refresh LAN Games",
+		wxPoint((int) 265.5, (int) 316), wxSize((int) 133.5, (int) 21));
+	IDC_BUTTON_NET_CTRL = 
+		new wxButton(parent, IDC_BUTTON_NET,
+		"Refresh Internet Games",
+		wxPoint((int) 403.5, (int) 316), wxSize((int) 123, (int) 21));
 }
 

@@ -81,6 +81,8 @@ scorched3d_SOURCES = \
 	../GLW/GLWFlag.h \
 	../GLW/GLWFont.cpp \
 	../GLW/GLWFont.h \
+	../GLW/GLWIcon.cpp \
+	../GLW/GLWIcon.h \
 	../GLW/GLWLabel.cpp \
 	../GLW/GLWLabel.h \
 	../GLW/GLWListView.cpp \
@@ -447,6 +449,8 @@ scorched3d_SOURCES = \
 	../coms/ComsDefenseMessage.h \
 	../coms/ComsGameStoppedMessage.cpp \
 	../coms/ComsGameStoppedMessage.h \
+	../coms/ComsGateway.cpp \
+	../coms/ComsGateway.h \
 	../coms/ComsLevelMessage.cpp \
 	../coms/ComsLevelMessage.h \
 	../coms/ComsMessage.cpp \
@@ -475,8 +479,6 @@ scorched3d_SOURCES = \
 	../coms/NetBuffer.h \
 	../coms/NetBufferUtil.cpp \
 	../coms/NetBufferUtil.h \
-	../coms/NetClient.cpp \
-	../coms/NetClient.h \
 	../coms/NetMessage.cpp \
 	../coms/NetMessage.h \
 	../coms/NetMessageHandler.cpp \
@@ -485,6 +487,8 @@ scorched3d_SOURCES = \
 	../coms/NetMessagePool.h \
 	../coms/NetServer.cpp \
 	../coms/NetServer.h \
+	../coms/NetServerProtocol.cpp \
+	../coms/NetServerProtocol.h \
 	../ode/array.cpp \
 	../ode/array.h \
 	../ode/collision.h \
@@ -537,6 +541,8 @@ scorched3d_SOURCES = \
 	../XML/XMLFile.h \
 	../XML/XMLParser.cpp \
 	../XML/XMLParser.h \
+	../XML/XMLStringBuffer.cpp \
+	../XML/XMLStringBuffer.h \
 	../XML/expat.h \
 	../XML/expat_config.h \
 	../XML/winconfig.h \
@@ -730,13 +736,20 @@ scorched3d_SOURCES = \
 	../client/MainBanner.h \
 	../client/MainCamera.cpp \
 	../client/MainCamera.h \
+	../client/ServerBrowser.cpp \
+	../client/ServerBrowser.h \
+	../client/ServerBrowserRefresh.cpp \
+	../client/ServerBrowserRefresh.h \
+	../client/ServerBrowserServerList.cpp \
+	../client/ServerBrowserServerList.h \
 	../client/ShotTimer.cpp \
 	../client/ShotTimer.h \
 	../client/SpeedChange.cpp \
 	../client/SpeedChange.h \
 	../client/WindowSetup.cpp \
 	../client/WindowSetup.h \
-	../server/ScorchedASE.cpp \
+	../server/ServerBrowserInfo.cpp \
+	../server/ServerBrowserInfo.h \
 	../server/ServerBuyAccessoryHandler.cpp \
 	../server/ServerBuyAccessoryHandler.h \
 	../server/ServerConnectHandler.cpp \
@@ -757,6 +770,8 @@ scorched3d_SOURCES = \
 	../server/ServerPlayerReadyHandler.h \
 	../server/ServerPlayingState.cpp \
 	../server/ServerPlayingState.h \
+	../server/ServerRegistration.cpp \
+	../server/ServerRegistration.h \
 	../server/ServerScoreState.cpp \
 	../server/ServerScoreState.h \
 	../server/ServerShotHolder.cpp \

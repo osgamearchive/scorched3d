@@ -290,7 +290,8 @@ void NetServer::disconnectAllClients()
 		itor != connections_.end();
 		itor++)
 	{
-		disconnectClient(*itor);
+		TCPsocket sock = *itor;
+		disconnectClient(sock);
 	}
 	SDL_UnlockMutex(setMutex_);
 }

@@ -64,7 +64,7 @@ wxString NetListControl::OnGetItemText(long item, long column) const
 		switch (column)
 		{
 		case 0: name = "servername"; break;
-		case 1: name = "ping"; break;
+		case 1: name = "password"; break;
 		case 2:
 		{
 			std::string clients = 
@@ -121,6 +121,7 @@ public:
 	void onRefreshLanButton();
 	void onRefreshNETButton();
 	void onClearButton();
+	void onClearPasswordButton();
 	void onSelectServer();
 	void onTimer();
 	void onServerChanged();
@@ -134,13 +135,14 @@ BEGIN_EVENT_TABLE(NetLanFrame, wxDialog)
     EVT_BUTTON(IDC_BUTTON_LAN,  NetLanFrame::onRefreshLanButton)
 	EVT_BUTTON(IDC_BUTTON_NET,  NetLanFrame::onRefreshNETButton)
 	EVT_BUTTON(IDC_CLEAR,  NetLanFrame::onClearButton)
+	EVT_BUTTON(IDC_CLEAR_PASSWORD,  NetLanFrame::onClearPasswordButton)
 	EVT_TIMER(1001, NetLanFrame::onTimer)
 	EVT_LIST_ITEM_SELECTED(IDC_SERVER_LIST, NetLanFrame::onSelectServer)
 	EVT_TEXT(IDC_EDIT_SERVER, NetLanFrame::onServerChanged)
 END_EVENT_TABLE()
 
 NetLanFrame::NetLanFrame() :
-	wxDialog(getMainDialog(), -1, scorched3dAppName, wxPoint(0,0), wxSize(542, 391))
+	wxDialog(getMainDialog(), -1, scorched3dAppName, wxPoint(0,0), wxSize(542, 411))
 {
 	CentreOnScreen();
 
@@ -152,11 +154,11 @@ NetLanFrame::NetLanFrame() :
 
 	IDC_SERVER_LIST_CTRL = 
 		new NetListControl(this, IDC_SERVER_LIST,
-		wxPoint((int) 10.5, (int) 35.5), wxSize((int) 516, (int) 170.5));
+		wxPoint((int) 10.5, (int) 55.5), wxSize((int) 516, (int) 170.5));
 
 	IDC_PLAYER_LIST_CTRL = 
 		new wxListCtrl(this, IDC_PLAYER_LIST,
-		wxPoint((int) 10.5, (int) 206.5), wxSize((int) 516, (int) 83),
+		wxPoint((int) 10.5, (int) 226.5), wxSize((int) 516, (int) 83),
 		wxLC_REPORT | wxLC_HRULES | wxLC_VRULES | wxLC_SINGLE_SEL );
 
 	// Create a timer
@@ -172,6 +174,11 @@ void NetLanFrame::onClearButton()
 {
 	IDC_EDIT_SERVER_CTRL->SetValue("");
 	onServerChanged();
+}
+
+void NetLanFrame::onClearPasswordButton()
+{
+	IDC_EDIT_PASSWORD_CTRL->SetValue("");
 }
 
 void NetLanFrame::onSelectServer()
@@ -266,7 +273,10 @@ void NetLanFrame::onTimer()
 bool NetLanFrame::TransferDataToWindow()
 {
 	// Set the ok button to disabled
-	IDC_EDIT_SERVER_CTRL->SetValue(OptionsParam::instance()->getConnect());
+	IDC_EDIT_SERVER_CTRL->SetValue(
+		OptionsParam::instance()->getConnect());
+	IDC_EDIT_PASSWORD_CTRL->SetValue(
+		OptionsParam::instance()->getPassword());
 
 	// Setup the server list control
 	struct ListItem
@@ -276,7 +286,7 @@ bool NetLanFrame::TransferDataToWindow()
 	} mainListItems[] =
 	{
 		{ "Server Name", 200 },
-		{ "Ping", 40 },
+		{ "Pswd", 40 },
 		{ "Plyrs", 50 },
 		{ "Server IP Address", 140 },
 		{ "Version", 60 }
@@ -314,7 +324,9 @@ bool NetLanFrame::TransferDataFromWindow()
 {
 	OptionsParam::instance()->setConnect(
 		IDC_EDIT_SERVER_CTRL->GetValue().c_str());
-	
+	OptionsParam::instance()->setPassword(
+		IDC_EDIT_PASSWORD_CTRL->GetValue().c_str());
+		
 	return true;
 }
 
@@ -323,4 +335,3 @@ bool showNetLanDialog()
 	NetLanFrame frame;
 	return (frame.ShowModal() == wxID_OK);
 }
-

@@ -8,7 +8,7 @@ print OUT "# General definitions\n";
 print OUT "RM = rm -f\n";
 print OUT "CC = gcc\n";
 print OUT "CPP = g++\n";
-print OUT "DEFINES = -DNO_FLOAT_MATH -D_NO_SERVER_ASE_ -DdDOUBLE\n";
+print OUT "DEFINES = -DNO_FLOAT_MATH -DdDOUBLE\n";
 print OUT "DEFINESscorched = \$(DEFINES) -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES -D__WXGTK__ -D_REENTRANT -DGTK_NO_CHECK_CASTS\n";
 print OUT "INCLUDE = -I../src -I../src/porting -I/opt/wxGTK-2.4.1/lib/wx/include/gtk-2.4 -I/opt/wxGTK-2.4.1/include -I/usr/openwin/include -I/opt/SDL/include -I/usr/cisco/packages/gtk+/gtk+-1.2.10/include/gtk-1.2 -I/usr/cisco/packages/glib/glib-1.2.10/include/glib-1.2\n";
 print OUT "CCFLAGS = \$(INCLUDE) -g -O2 -c -pthreads\n";

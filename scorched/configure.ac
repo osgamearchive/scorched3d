@@ -102,8 +102,8 @@ fi
 AC_DEFINE_UNQUOTED(PKGDIR, "$prefix/$PACKAGE/", [install directory])
 
 # extra fixed flags
-CFLAGS="$CFLAGS -DdDOUBLE -D_NO_SERVER_ASE_"
-CXXFLAGS="$CXXFLAGS -DdDOUBLE -D_NO_SERVER_ASE_"
+CFLAGS="$CFLAGS -DdDOUBLE"
+CXXFLAGS="$CXXFLAGS -DdDOUBLE"
 
 # put here at end because of sdl.m4 not defining
 AC_LANG_CPLUSPLUS

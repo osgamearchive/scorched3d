@@ -20,6 +20,7 @@ Added: Server password functionality
 Added: Tank has multiple falling contact points (stops tank being burried when falling)
 Added: Weapon icons in the buy/sell dialogs
 Added: Start of Hexidecimal support
+Added: Cross platform server browsing
 
 Fixed: Random windows crashes, increased stack size to stop ODE from running out of stack
 Fixed: Tanks do not start right at the landscape edge

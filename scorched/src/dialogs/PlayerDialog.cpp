@@ -38,7 +38,7 @@ PlayerDialog *PlayerDialog::instance()
 }
 
 PlayerDialog::PlayerDialog() : 
-	GLWWindow("Player", 10.0f, 10.0f, 440.0f, 300.0f, 0),
+	GLWWindow("Player", 10.0f, 10.0f, 440.0f, 270.0f, 0),
 	skipInit_(false)
 {
 	needCentered_ = true;
@@ -49,12 +49,8 @@ PlayerDialog::PlayerDialog() :
 	okId_ = addWidget(new GLWTextButton(" Ok", 365, 10, 55, this, true))->getId();
 
 	// Create player name choice
-	playerName_ = (GLWTextBox *) addWidget(new GLWTextBox(120, 265, 240, "Player"));
-	addWidget(new GLWLabel(10, 265, "Player:"));
-
-	// Create player password choice
-	playerPassword_ = (GLWTextBox *) new GLWTextBox(120, 235, 240, ""); // TODO
-	addWidget(new GLWLabel(10, 235, "Password:"));
+	playerName_ = (GLWTextBox *) addWidget(new GLWTextBox(120, 235, 240, "Player"));
+	addWidget(new GLWLabel(10, 235, "Player:"));
 }
 
 PlayerDialog::~PlayerDialog()
@@ -72,15 +68,9 @@ void PlayerDialog::draw()
 			OptionsParam::instance()->getSkin();
 		const char *playerName =
 			OptionsParam::instance()->getName();
-		const char *playerPassword =
-			OptionsParam::instance()->getPassword();
 		if (playerModel[0])
 		{
 			viewer_->selectModelByName(playerModel);
-		}
-		if (playerPassword[0])
-		{
-			playerPassword_->setText(playerPassword);
 		}
 		if (playerName[0])
 		{
