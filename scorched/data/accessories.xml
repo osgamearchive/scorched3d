@@ -27,7 +27,7 @@ Giving more health and longer shots.</description>
 When it is the players turn the tank may choose 
 to move rather than fire.</description>
 		<icon>fuel.bmp</icon>
-		<cost>10000</cost>
+		<cost>6000</cost>
 		<bundlesize>20</bundlesize>
 		<armslevel>7</armslevel>
 		<activationsound>battery/battery.wav</activationsound>
@@ -153,8 +153,8 @@ near the flames will loose life.</description>
 			<hurtpersecond>1.0</hurtpersecond>
 			<numberstreams>2</numberstreams>
 			<effectradius>5</effectradius>
-			<explosiontexture>flames</explosiontexture>		
-			<explosionsound>explosions/napalm.wav</explosionsound>
+			<napalmtexture>flames</napalmtexture>		
+			<napalmsound>explosions/napalm.wav</napalmsound>
 		</collisionaction>
 	</accessory>
 	<accessory type="WeaponProjectile">
@@ -179,8 +179,8 @@ will loose life.</description>
 			<hurtpersecond>2.0</hurtpersecond>
 			<numberstreams>3</numberstreams>
 			<effectradius>5</effectradius>	
-			<explosiontexture>flames</explosiontexture>		
-			<explosionsound>explosions/napalm.wav</explosionsound>
+			<napalmtexture>flames</napalmtexture>		
+			<napalmsound>explosions/napalm.wav</napalmsound>
 		</collisionaction>
 	</accessory>
 	<accessory type="WeaponProjectile">
@@ -1174,8 +1174,23 @@ trace of the shot path.</description>
 		<description></description>
 		<icon>bmissile.bmp</icon>
 		<cost>0</cost>
+		<nomuzzleflash/>
 		<bundlesize>0</bundlesize>
 		<armslevel>10</armslevel>
+		<conelength>30</conelength>
+		<seglength>1</seglength>
+		<segvar>2</segvar>
+		<size>4</size>
+		<sizevar>-1</sizevar>
+		<minsize>0.1</minsize>
+		<splitprob>0.2</splitprob>
+		<splitvar>0.02</splitvar>
+		<deathprob>0.03</deathprob>
+		<derivangle>0.5</derivangle>
+		<anglevar>0.94</anglevar>
+		<totaltime>1</totaltime>
+		<seghurt>10</seghurt>
+		<seghurtradius>2</seghurtradius>
 	</accessory>
 	<!-- <accessory type="WeaponReference">
 		<name>Test Reference</name>

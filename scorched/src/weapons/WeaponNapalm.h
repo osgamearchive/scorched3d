@@ -41,6 +41,8 @@ public:
 	const float getHurtPerSecond() { return hurtPerSecond_; }
 	const int getEffectRadius() { return effectRadius_; }
 	const int getNumberStreams() { return numberStreams_; }
+	const char *getNapalmSound() { return napalmSound_.c_str(); }
+	const char *getNapalmTexture() { return napalmTexture_.c_str(); }
 
 	// Inherited from Weapon
 	virtual void fireWeapon(ScorchedContext &context,
@@ -57,6 +59,8 @@ protected:
 	float hurtPerSecond_;// Damage per second
 	int numberStreams_;  // The number of napalm paths
 	int effectRadius_;   // How close do tanks take damage
+	std::string napalmSound_;
+	std::string napalmTexture_;
 
 	void addNapalm(ScorchedContext &context, unsigned int playerId,
 		int x, int y, unsigned int data);

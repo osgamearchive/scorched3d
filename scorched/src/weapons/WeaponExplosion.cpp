@@ -29,7 +29,8 @@ WeaponExplosion::WeaponExplosion() : size_(0.0f),
 	createDebris_(true), createMushroom_(false),
 	createSplash_(true), windAffected_(true),
 	luminance_(true), animate_(false),
-	minLife_(0.5f), maxLife_(1.0f)
+	minLife_(0.5f), maxLife_(1.0f), shake_(0.0f),
+	explosionTexture_("exp00")
 {
 
 }
@@ -53,6 +54,9 @@ bool WeaponExplosion::parseXML(XMLNode *accessoryNode)
 
     // Get the hutiness
 	if (!accessoryNode->getNamedChild("hurtamount", hurtAmount_)) return false;
+
+	// Get the weapon model explosion shake
+	accessoryNode->getNamedChild("explosionshake", shake_, false);
 
 	// Get the no debris node
 	XMLNode *noCreateDebrisNode = 0;
@@ -91,6 +95,12 @@ bool WeaponExplosion::parseXML(XMLNode *accessoryNode)
 	// Get tje deform texture
 	accessoryNode->getNamedChild("deformtexture", deformTexture_, false);
 
+	// Get the explosion texture
+	accessoryNode->getNamedChild("explosiontexture", explosionTexture_, false);
+
+	// Get the explosion sound
+	accessoryNode->getNamedChild("explosionsound", explosionSound_, false);
+
 	// Get the deform
 	XMLNode *deformNode = 0;
 	if (!accessoryNode->getNamedChild("deform", deformNode)) return false;
@@ -124,6 +134,8 @@ bool WeaponExplosion::writeAccessory(NetBuffer &buffer)
 	buffer.addToBuffer(luminance_);
 	buffer.addToBuffer(animate_);
 	buffer.addToBuffer(deformTexture_);
+	buffer.addToBuffer(explosionTexture_);
+	buffer.addToBuffer(explosionSound_);
     return true;
 }
 
@@ -145,12 +157,26 @@ bool WeaponExplosion::readAccessory(NetBufferReader &reader)
 	if (!reader.getFromBuffer(luminance_)) return false;
 	if (!reader.getFromBuffer(animate_)) return false;
 	if (!reader.getFromBuffer(deformTexture_)) return false;
+	if (!reader.getFromBuffer(explosionTexture_)) return false;
+	if (!reader.getFromBuffer(explosionSound_)) return false;
     return true;
+}
+
+const char *WeaponExplosion::getExplosionTexture()
+{
+	return explosionTexture_.c_str();
+}
+
+const char *WeaponExplosion::getExplosionSound()
+{
+	if (!explosionSound_.c_str()[0]) return 0;
+	return explosionSound_.c_str();
 }
 
 Vector &WeaponExplosion::getExplosionColor()
 {
-    if (!multiColored_) return Weapon::getExplosionColor();
+	static Vector white(1.0f, 1.0f, 1.0f);
+	if (!multiColored_) return white;
 
     static Vector red(1.0f, 0.0f, 0.0f);
     static Vector green(0.0f, 1.0f, 0.0f);
@@ -169,7 +195,7 @@ Vector &WeaponExplosion::getExplosionColor()
     case 3:
         return yellow;
     }
-    return Weapon::getExplosionColor();
+    return white;
 }
 
 void WeaponExplosion::fireWeapon(ScorchedContext &context,

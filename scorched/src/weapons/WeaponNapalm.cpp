@@ -48,6 +48,8 @@ bool WeaponNapalm::parseXML(XMLNode *accessoryNode)
 	if (!accessoryNode->getNamedChild("hurtpersecond", hurtPerSecond_)) return false;
 	if (!accessoryNode->getNamedChild("numberstreams", numberStreams_)) return false;
 	if (!accessoryNode->getNamedChild("effectradius", effectRadius_)) return false;
+	if (!accessoryNode->getNamedChild("napalmsound", napalmSound_)) return false;
+	if (!accessoryNode->getNamedChild("napalmtexture", napalmTexture_)) return false;
 
 	return true;
 }
@@ -62,6 +64,8 @@ bool WeaponNapalm::writeAccessory(NetBuffer &buffer)
 	buffer.addToBuffer(hurtPerSecond_);
 	buffer.addToBuffer(numberStreams_);
 	buffer.addToBuffer(effectRadius_);
+	buffer.addToBuffer(napalmSound_);
+	buffer.addToBuffer(napalmTexture_);
 	return true;
 }
 
@@ -75,6 +79,8 @@ bool WeaponNapalm::readAccessory(NetBufferReader &reader)
 	if (!reader.getFromBuffer(hurtPerSecond_)) return false;
 	if (!reader.getFromBuffer(numberStreams_)) return false;
 	if (!reader.getFromBuffer(effectRadius_)) return false;
+	if (!reader.getFromBuffer(napalmSound_)) return false;
+	if (!reader.getFromBuffer(napalmTexture_)) return false;
 	return true;
 }
 
@@ -82,7 +88,6 @@ void WeaponNapalm::fireWeapon(ScorchedContext &context,
 	unsigned int playerId, Vector &position, Vector &velocity,
 	unsigned int data)
 {
-	bool playSound = false;
 	for (int i=0; i<numberStreams_; i++)
 	{
 		int x = int(position[0] + RAND * 4.0f - 2.0f);
@@ -92,11 +97,11 @@ void WeaponNapalm::fireWeapon(ScorchedContext &context,
 
 	if (!context.serverMode) 
 	{
-		if (getExplosionSound() && playSound)
+		if (getNapalmSound()[0])
 		{
 			SoundBuffer *expSound = 
 				SoundStore::instance()->fetchOrCreateBuffer((char *)
-					getDataFile("data/wav/%s", getExplosionSound()));
+					getDataFile("data/wav/%s", getNapalmSound()));
 			expSound->play();
 		}
 	}

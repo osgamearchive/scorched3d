@@ -34,6 +34,8 @@ public:
 	virtual bool writeAccessory(NetBuffer &buffer);
 	virtual bool readAccessory(NetBufferReader &reader);
 
+	const char *getExplosionTexture();
+	const char *getExplosionSound();
 	virtual Vector &getExplosionColor();
 	float getSize() { return size_; }
 	float getMaxLife() { return maxLife_; }
@@ -46,6 +48,7 @@ public:
 	bool getWindAffected() { return windAffected_; }
 	bool getLuminance() { return luminance_; }
 	bool getAnimate() { return animate_; }
+	float getShake() { return shake_; }
 	const char *getDeformTexture() { return deformTexture_.c_str(); }
 
 	// Inherited from Weapon
@@ -57,6 +60,7 @@ public:
 
 protected:
 	float size_;
+	float shake_;
 	float minLife_, maxLife_;
 	bool luminance_;
 	bool windAffected_;
@@ -67,6 +71,8 @@ protected:
 	bool animate_;
 	float hurtAmount_;
 	std::string deformTexture_;
+	std::string explosionTexture_;
+	std::string explosionSound_;
 	Explosion::DeformType deformType_;
 
 };

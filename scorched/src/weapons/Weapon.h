@@ -51,14 +51,10 @@ public:
 		Vector &position, Vector &velocity,
 		unsigned int data = 0) = 0;
 
-	virtual Vector &getExplosionColor();
-
 	int getDeathAnimationWeight() { return deathAnimationWeight_; }
-	const char *getExplosionTexture();
 	const char *getFiredSound();
-	const char *getExplosionSound();
-	float getShake();
-	float getScale();
+	float getScale() { return scale_; }
+	bool getMuzzleFlash() { return muzzleFlash_; }
 	ModelID &getModelID();
 	MissileMesh *getWeaponMesh(Tank *currentPlayer);
 
@@ -69,10 +65,8 @@ protected:
 	static std::map<std::string, MissileMesh *> loadedMeshes_;
 	int deathAnimationWeight_;
 	float scale_;
-	float shake_;
-	std::string explosionTexture_;
+	bool muzzleFlash_;
 	std::string firedSound_;
-	std::string explosionSound_;
 	ModelID modelId_;
 
 };

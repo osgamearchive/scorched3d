@@ -59,7 +59,7 @@ void Napalm::init()
 	if (!context_->serverMode) 
 	{
 		set_ = ExplosionTextures::instance()->getTextureSetByName(
-			weapon_->getExplosionTexture());
+			weapon_->getNapalmTexture());
 	}
 
 	// Point the action camera at this event

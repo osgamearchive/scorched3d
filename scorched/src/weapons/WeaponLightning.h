@@ -33,6 +33,21 @@ public:
 	virtual bool writeAccessory(NetBuffer &buffer);
 	virtual bool readAccessory(NetBufferReader &reader);
 
+	float getConeLength() { return coneLength_; }
+	float getSegLength() { return segLength_; }
+	float getSegVar() { return segVar_; }
+	float getSize() { return size_; }
+	float getSizeVar() { return sizeVar_; }
+	float getMinSize() { return minSize_; }
+	float getSplitProb() { return splitProb_; }
+	float getSplitVar() { return splitVar_; }
+	float getDeathProb() { return deathProb_; }
+	float getDerivAngle() { return derivAngle_; }
+	float getAngleVar() { return angleVar_; }
+	float getTotalTime() { return totalTime_; }
+	float getSegHurt() { return segHurt_; }
+	float getSegHurtRadius() { return segHurtRadius_; }
+
 	// Inherited from Weapon
 	void fireWeapon(ScorchedContext &context,
 		unsigned int playerId, Vector &position, Vector &velocity,
@@ -41,6 +56,20 @@ public:
 	REGISTER_ACCESSORY_HEADER(WeaponLightning, Accessory::AccessoryWeapon);
 
 protected:
+	float coneLength_;
+	float segLength_;
+	float segVar_;
+	float size_;
+	float sizeVar_;
+	float minSize_;
+	float splitProb_;
+	float splitVar_;
+	float deathProb_;
+	float derivAngle_;
+	float angleVar_;
+	float totalTime_;
+	float segHurt_;
+	float segHurtRadius_;
 
 };
 

@@ -37,18 +37,60 @@ WeaponLightning::~WeaponLightning()
 bool WeaponLightning::parseXML(XMLNode *accessoryNode)
 {
 	if (!Weapon::parseXML(accessoryNode)) return false;
+	if (!accessoryNode->getNamedChild("conelength", coneLength_)) return false;
+	if (!accessoryNode->getNamedChild("seglength", segLength_)) return false;
+	if (!accessoryNode->getNamedChild("segvar", segVar_)) return false;
+	if (!accessoryNode->getNamedChild("size", size_)) return false;
+	if (!accessoryNode->getNamedChild("sizevar", sizeVar_)) return false;
+	if (!accessoryNode->getNamedChild("minsize", minSize_)) return false;
+	if (!accessoryNode->getNamedChild("splitprob", splitProb_)) return false;
+	if (!accessoryNode->getNamedChild("splitvar", splitVar_)) return false;
+	if (!accessoryNode->getNamedChild("deathprob", deathProb_)) return false;
+	if (!accessoryNode->getNamedChild("derivangle", derivAngle_)) return false;
+	if (!accessoryNode->getNamedChild("anglevar", angleVar_)) return false;
+	if (!accessoryNode->getNamedChild("totaltime", totalTime_)) return false;
+	if (!accessoryNode->getNamedChild("seghurt", segHurt_)) return false;
+	if (!accessoryNode->getNamedChild("seghurtradius", segHurtRadius_)) return false;
 	return true;
 }
 
 bool WeaponLightning::writeAccessory(NetBuffer &buffer)
 {
 	if (!Weapon::writeAccessory(buffer)) return false;
+	buffer.addToBuffer(coneLength_);
+	buffer.addToBuffer(segLength_);
+	buffer.addToBuffer(segVar_);
+	buffer.addToBuffer(size_);
+	buffer.addToBuffer(sizeVar_);
+	buffer.addToBuffer(minSize_);
+	buffer.addToBuffer(splitProb_);
+	buffer.addToBuffer(splitVar_);
+	buffer.addToBuffer(deathProb_);
+	buffer.addToBuffer(derivAngle_);
+	buffer.addToBuffer(angleVar_);
+	buffer.addToBuffer(totalTime_);
+	buffer.addToBuffer(segHurt_);
+	buffer.addToBuffer(segHurtRadius_);
 	return true;
 }
 
 bool WeaponLightning::readAccessory(NetBufferReader &reader)
 {
 	if (!Weapon::readAccessory(reader)) return false;
+	if (!reader.getFromBuffer(coneLength_)) return false;
+	if (!reader.getFromBuffer(segLength_)) return false;
+	if (!reader.getFromBuffer(segVar_)) return false;
+	if (!reader.getFromBuffer(size_)) return false;
+	if (!reader.getFromBuffer(sizeVar_)) return false;
+	if (!reader.getFromBuffer(minSize_)) return false;
+	if (!reader.getFromBuffer(splitProb_)) return false;
+	if (!reader.getFromBuffer(splitVar_)) return false;
+	if (!reader.getFromBuffer(deathProb_)) return false;
+	if (!reader.getFromBuffer(derivAngle_)) return false;
+	if (!reader.getFromBuffer(angleVar_)) return false;
+	if (!reader.getFromBuffer(totalTime_)) return false;
+	if (!reader.getFromBuffer(segHurt_)) return false;
+	if (!reader.getFromBuffer(segHurtRadius_)) return false;
 	return true;
 }
 

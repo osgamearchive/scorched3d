@@ -23,25 +23,15 @@
 #include <GLEXT/GLState.h>
 #include <sprites/ExplosionTextures.h>
 #include <client/MainCamera.h>
+#include <tank/TankContainer.h>
+#include <tank/TankController.h>
 #include <math.h>
 
 REGISTER_ACTION_SOURCE(Lightning);
 
-static const float m_coneLength = 30.0f;
-static const float m_segLength = 1.0f;
-static const float m_segVar = 2.0f;
-static const float m_sizeVar = -1.0f;
-static const float m_size = 4.0f;
-static const float m_minSize = 0.1f;
-static const float m_splitProb = 0.2f;
-static const float m_deathProb = 0.03f;
-static const float m_derivAngle = cosf(60.0f / 57.295f);
-static const float m_angleVar = cosf(20.0f / 57.295f);
-static const float m_totalTime = 1.0f;
-
 Lightning::Lightning() :
 	totalTime_(0.0f),
-	weapon_(0)
+	weapon_(0), playerId_(0), data_(0)
 {
 }
 
@@ -51,6 +41,7 @@ Lightning::Lightning(WeaponLightning *weapon,
 		unsigned int data) :
 	totalTime_(0.0f),
 	weapon_(weapon),
+	playerId_(playerId), data_(data),
 	position_(position), velocity_(velocity)
 {
 	seed_ = (unsigned int) rand();
@@ -64,13 +55,29 @@ void Lightning::init()
 {
 	generator_.seed(seed_);
 	Vector direction = velocity_.Normalize();
-	generateLightning(0, 1, m_size, position_, direction, position_, direction);
+	std::map<Tank *, float> hurtMap;
+
+	generateLightning(0, 1, weapon_->getSize(), 
+		position_, direction, position_, direction,
+		hurtMap);
+
+	std::map<Tank *, float>::iterator hurtItor;
+	for (hurtItor = hurtMap.begin();
+		hurtItor != hurtMap.end();
+		hurtItor++)
+	{
+		Tank *tank = (*hurtItor).first;
+		float damage = (*hurtItor).second;
+		TankController::damageTank(
+			*context_, tank, weapon_, playerId_, 
+			damage, false, data_);
+	}
 }
 
 void Lightning::simulate(float frameTime, bool &remove)
 {
 	totalTime_ += frameTime;
-	remove = (totalTime_ > m_totalTime);
+	remove = (totalTime_ > weapon_->getTotalTime());
 	Action::simulate(frameTime, remove);
 }
 
@@ -84,7 +91,8 @@ void Lightning::draw()
 		GLState state(GLState::TEXTURE_ON | GLState::BLEND_ON);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 		glDepthMask(GL_FALSE);
-		glColor4f(1.0f, 1.0f, 1.0f, 1.0f - totalTime_ / m_totalTime);
+		glColor4f(1.0f, 1.0f, 1.0f, 
+			1.0f - totalTime_ / weapon_->getTotalTime());
 
 		ExplosionTextures::instance()->lightningTexture.draw();
 		
@@ -134,6 +142,8 @@ void Lightning::draw()
 bool Lightning::writeAction(NetBuffer &buffer)
 {
 	buffer.addToBuffer(seed_);
+	buffer.addToBuffer(playerId_);
+	buffer.addToBuffer(data_);
 	buffer.addToBuffer(position_);
 	buffer.addToBuffer(velocity_);
 	Weapon::write(buffer, weapon_);
@@ -143,6 +153,8 @@ bool Lightning::writeAction(NetBuffer &buffer)
 bool Lightning::readAction(NetBufferReader &reader)
 {
 	if (!reader.getFromBuffer(seed_)) return false;
+	if (!reader.getFromBuffer(playerId_)) return false;
+	if (!reader.getFromBuffer(data_)) return false;
 	if (!reader.getFromBuffer(position_)) return false;
 	if (!reader.getFromBuffer(velocity_)) return false;
 	weapon_ = (WeaponLightning *) Weapon::read(reader); if (!weapon_) return false;
@@ -168,7 +180,7 @@ void Lightning::dispaceDirection(Vector &direction,
 		float b = newdir[0] * originalDirection[0] + 
 			newdir[1] * originalDirection[1] + 
 			newdir[2] * originalDirection[2];
-		if (b >= m_derivAngle)
+		if (b >= weapon_->getDerivAngle())
 		{
 			direction = newdir;
 			return;
@@ -178,9 +190,11 @@ void Lightning::dispaceDirection(Vector &direction,
 
 void Lightning::generateLightning(int id, int depth, float size, 
 	Vector &originalPosition, Vector &originalDirection,
-	Vector &start, Vector &direction)
+	Vector &start, Vector &direction,
+	std::map<Tank *, float> &hurtMap)
 {
-	float length = m_segLength + m_segVar * generator_.getRandFloat();
+	float length = weapon_->getSegLength() + 
+		weapon_->getSegVar() * generator_.getRandFloat();
 	Vector end = start + direction * length;
 
 	// Add the new lightning segment
@@ -194,15 +208,20 @@ void Lightning::generateLightning(int id, int depth, float size,
 	segment.direction = direction;
 	segment.endsegment = false;
 
+	// Damage any tanks
+	damageTanks(segment.end, hurtMap);
+
 	// Rand posibility that we stop
-	if (depth > 1 && generator_.getRandFloat() < m_deathProb)
+	if (depth > 1 && generator_.getRandFloat() < 
+		weapon_->getDeathProb())
 	{
 		segment.endsegment = true;
 		return;
 	}
 
 	// Check if we have gone too far
-	if ((originalPosition - end).Magnitude() > m_coneLength) 
+	if ((originalPosition - end).Magnitude() > 
+		weapon_->getConeLength()) 
 	{
 		segment.endsegment = true;
 		return;
@@ -211,22 +230,64 @@ void Lightning::generateLightning(int id, int depth, float size,
 	// Continue this lightning strand
 	{
 		Vector newdirection = end - start;
-		dispaceDirection(newdirection, originalDirection, m_angleVar * 0.25f);
+		dispaceDirection(newdirection, originalDirection, 
+			weapon_->getAngleVar() * 0.25f);
 		generateLightning(id + 1, depth, size, 
 			originalPosition, originalDirection, 
-			end, newdirection);	
+			end, newdirection,
+			hurtMap);	
 	}
 
 	// Make a new strand
-    if (generator_.getRandFloat() <= m_splitProb - (depth - 1) * 0.02f)
+	if (generator_.getRandFloat() <= 
+		weapon_->getSplitProb() - (depth - 1) * weapon_->getSplitVar())
     {
-		float newsize = size + m_sizeVar;
-		if (newsize < m_minSize) newsize = m_minSize;
+		float newsize = size + weapon_->getSizeVar();
+		if (newsize < weapon_->getMinSize()) 
+			newsize = weapon_->getMinSize();
 
 		Vector newdirection = end - start;
-		dispaceDirection(newdirection, originalDirection, m_angleVar);
+		dispaceDirection(newdirection, originalDirection, 
+			weapon_->getAngleVar());
 		generateLightning(id + 1, depth + 1, newsize, 
 			originalPosition, originalDirection, 
-			end, newdirection);	
+			end, newdirection,
+			hurtMap);	
+	}
+}
+
+void Lightning::damageTanks(Vector &position, 
+		std::map<Tank *, float> &hurtMap)
+{
+	if (weapon_->getSegHurt() <= 0.0f) return;
+
+	std::map<unsigned int, Tank *> &tanks = 
+		context_->tankContainer->getPlayingTanks();
+	std::map<unsigned int, Tank *>::iterator itor;
+	for (itor = tanks.begin();
+		itor != tanks.end();
+		itor++)
+	{
+		Tank *tank = (*itor).second;
+		if (tank->getState().getState() == TankState::sNormal &&
+			!tank->getState().getSpectator() &&
+			tank->getPlayerId() != playerId_)
+		{
+			float distance = (tank->getPhysics().getTankPosition() -
+				position).Magnitude();
+			if (distance < weapon_->getSegHurtRadius())
+			{
+				std::map<Tank *, float>::iterator findItor = 
+					hurtMap.find(tank);
+				if (findItor == hurtMap.end())
+				{
+					hurtMap[tank] = weapon_->getSegHurt();
+				}
+				else
+				{
+					hurtMap[tank] += weapon_->getSegHurt();
+				}
+			}
+		}
 	}
 }

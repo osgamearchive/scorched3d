@@ -27,7 +27,8 @@
 
 std::map<std::string, MissileMesh *> Weapon::loadedMeshes_;
 
-Weapon::Weapon() : deathAnimationWeight_(0), explosionTexture_("exp00"), scale_(1.0f), shake_(0.0f)
+Weapon::Weapon() : deathAnimationWeight_(0),
+	scale_(1.0f), muzzleFlash_(true)
 {
 
 }
@@ -45,19 +46,15 @@ bool Weapon::parseXML(XMLNode *accessoryNode)
 	accessoryNode->getNamedChild("deathanimationweight", deathAnimationWeight_, false);
 
 	// Get the explosion texture
-	accessoryNode->getNamedChild("explosiontexture", explosionTexture_, false);
-
-	// Get the explosion texture
 	accessoryNode->getNamedChild("firedsound", firedSound_, false);
-
-	// Get the explosion texture
-	accessoryNode->getNamedChild("explosionsound", explosionSound_, false);
 
 	// Get the weapon model scale
 	accessoryNode->getNamedChild("projectilescale", scale_, false);
 
-	// Get the weapon model explosion shake
-	accessoryNode->getNamedChild("explosionshake", shake_, false);
+	// Get the muzzleflash
+	XMLNode *muzzleFlashNode = 0;
+	accessoryNode->getNamedChild("nomuzzleflash", muzzleFlashNode, false);
+	if (muzzleFlashNode) muzzleFlash_ = false;
 
 	// Get the weapon model
 	XMLNode *modelNode = 0;
@@ -73,11 +70,9 @@ bool Weapon::writeAccessory(NetBuffer &buffer)
 {
 	if (!Accessory::writeAccessory(buffer)) return false;
 	buffer.addToBuffer(deathAnimationWeight_);
-	buffer.addToBuffer(explosionTexture_);
 	buffer.addToBuffer(firedSound_);
-	buffer.addToBuffer(explosionSound_);
 	buffer.addToBuffer(scale_);
-	buffer.addToBuffer(shake_);
+	buffer.addToBuffer(muzzleFlash_);
 	if (!modelId_.writeModelID(buffer)) return false;
 	return true;
 }
@@ -86,11 +81,9 @@ bool Weapon::readAccessory(NetBufferReader &reader)
 {
 	if (!Accessory::readAccessory(reader)) return false;
 	if (!reader.getFromBuffer(deathAnimationWeight_)) return false;
-	if (!reader.getFromBuffer(explosionTexture_)) return false;
 	if (!reader.getFromBuffer(firedSound_)) return false;
-	if (!reader.getFromBuffer(explosionSound_)) return false;
 	if (!reader.getFromBuffer(scale_)) return false;
-	if (!reader.getFromBuffer(shake_)) return false;
+	if (!reader.getFromBuffer(muzzleFlash_)) return false;
 	if (!modelId_.readModelID(reader)) return false;
 	return true;
 }
@@ -120,37 +113,10 @@ Weapon *Weapon::read(NetBufferReader &reader)
 	return ((Weapon *) accessory);
 }
 
-Vector &Weapon::getExplosionColor()
-{
-	static Vector white(1.0f, 1.0f, 1.0f);
-	return white;
-}
-
-const char *Weapon::getExplosionTexture()
-{
-	return explosionTexture_.c_str();
-}
-
 const char *Weapon::getFiredSound()
 {
 	if (!firedSound_.c_str()[0]) return 0;
 	return firedSound_.c_str();
-}
-
-const char *Weapon::getExplosionSound()
-{
-	if (!explosionSound_.c_str()[0]) return 0;
-	return explosionSound_.c_str();
-}
-
-float Weapon::getScale()
-{
-	return scale_;
-}
-
-float Weapon::getShake()
-{
-	return shake_;
 }
 
 MissileMesh *Weapon::getWeaponMesh(Tank *currentPlayer)
