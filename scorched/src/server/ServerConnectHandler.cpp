@@ -306,7 +306,8 @@ void ServerConnectHandler::addNextTank(unsigned int destinationId,
 	if (OptionsParam::instance()->getDedicatedServer())
 	{
 		// Add to dialog
-		Logger::log(0, "Player connected \"%i\" \"%s\" [%s]",
+		Logger::log(0, "Player connected dest=\"%i\" id=\"%i\" name=\"%s\" unique=[%s]",
+			tank->getDestinationId(),
 			tank->getPlayerId(),
 			tank->getName(),
 			tank->getUniqueId());

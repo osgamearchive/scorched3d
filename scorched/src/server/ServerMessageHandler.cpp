@@ -53,25 +53,44 @@ void ServerMessageHandler::clientConnected(NetMessage &message)
 {
 	unsigned int ipAddress = 
 		ScorchedServer::instance()->getNetInterface().getIpAddress(
-			message.getDestinationId());
+	message.getDestinationId());
+	unsigned char address[4];
+	memcpy(address, &ipAddress, sizeof(address));
+
 	if (ipAddress != 0 &&
 		ServerBanned::instance()->isBanned(ipAddress))
 	{
-		Logger::log(0, "Banned client connected \"%i\"", 
-			message.getDestinationId());
+		Logger::log(0, "Banned client connected dest=\"%i\" ip=\"%i.%i.%i.%i(%i)\"", 
+			message.getDestinationId(),
+			(int) address[0], (int) address[1], 
+			(int) address[2], (int) address[3],
+			ipAddress);
 		ServerCommon::kickDestination(
 			message.getDestinationId());
 	}
 	else
 	{
-		Logger::log(0, "Client connected \"%i\"", 
-			message.getDestinationId());
+		Logger::log(0, "Client connected dest=\"%i\" ip=\"%i.%i.%i.%i(%i)\"", 
+			message.getDestinationId(),
+			(int) address[0], (int) address[1],
+			(int) address[2], (int) address[3],
+			ipAddress);
 	}
 }
 
 void ServerMessageHandler::clientDisconnected(NetMessage &message)
 {
-	Logger::log(0, "Client disconnected \"%i\"", message.getDestinationId());
+	unsigned int ipAddress = 
+		ScorchedServer::instance()->getNetInterface().getIpAddress(
+	message.getDestinationId());
+	unsigned char address[4];
+	memcpy(address, &ipAddress, sizeof(address));
+
+	Logger::log(0, "Client disconnected dest=\"%i\" ip=\"%i.%i.%i.%i(%i)\"", 
+		message.getDestinationId(),
+		(int) address[0], (int) address[1],
+		(int) address[2], (int) address[3],
+		ipAddress);
 
 	// Build up a list of players at this destination
 	std::list<unsigned int> removePlayers;
@@ -108,7 +127,8 @@ void ServerMessageHandler::destroyPlayer(unsigned int tankId)
 	if (tank)
 	{
 		Logger::log(0, 
-			"Player disconnected \"%i\" \"%s\"", 
+			"Player disconnected dest=\"%i\" id=\"%i\" name=\"%s\"", 
+			tank->getDestinationId(),
 			tankId, tank->getName());
 
 		StatsLogger::instance()->tankLeft(tank);
@@ -130,7 +150,7 @@ void ServerMessageHandler::destroyPlayer(unsigned int tankId)
 	}
 	else
 	{
-		Logger::log(0, "Unknown player disconnected \"%i\"", tankId);
+		Logger::log(0, "Unknown player disconnected id=\"%i\"", tankId);
 	}
 }
 

@@ -27,6 +27,7 @@
 #include <common/OptionsGame.h>
 #include <common/OptionsTransient.h>
 #include <common/StatsLogger.h>
+#include <common/Logger.h>
 #include <coms/ComsAddPlayerMessage.h>
 #include <coms/ComsGameStateMessage.h>
 #include <coms/ComsMessageSender.h>
@@ -108,6 +109,9 @@ bool ServerAddPlayerHandler::processMessage(unsigned int destinationId,
 		// Tell this computer that a new tank has connected
 		if (OptionsParam::instance()->getDedicatedServer())
 		{
+			Logger::log(0, "Player playing dest=\"%i\" id=\"%i\" \"%s\"->\"%s\"",
+				tank->getDestinationId(), tank->getPlayerId(),
+				tank->getName(), name.c_str());
 			ServerCommon::sendString(0, "Player playing \"%s\"->\"%s\"",
 				tank->getName(), name.c_str());
 		}

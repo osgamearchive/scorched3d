@@ -127,7 +127,8 @@ wxString ServerPlayerListControl::OnGetItemText(long item, long column) const
 		case 2:
 			{
 				static char buffer[256];
-				sprintf(buffer, "%u", tank->getPlayerId());
+				sprintf(buffer, "dest=%i id=%i", 
+					tank->getDestinationId(), tank->getPlayerId());
 				return buffer;
 			}
 			break;
