@@ -208,6 +208,7 @@ bool clientMain()
 	OptionsDisplay::instance()->addToConsole();
 
 	// Enter the SDL main loop to process SDL events
+	int mouseEventCount = 0;
 	Clock loopClock;
 	bool timeLoop = false;
 	bool paused = false;
@@ -224,6 +225,14 @@ bool clientMain()
 			case SDL_KEYUP:
 				break;
 			case SDL_KEYDOWN:
+				if (OptionsParam::instance()->getScreenSaverMode()) 
+				{
+					if (!(SDL_GetModState() & KMOD_LSHIFT))
+					{
+						ScorchedClient::instance()->getMainLoop().exitLoop();
+					}
+				}
+
 				/* keyevents are handled in mainloop */
 				Keyboard::instance()->processKeyboardEvent(event);
 				break;
@@ -232,6 +241,17 @@ bool clientMain()
 			case SDL_MOUSEBUTTONDOWN:
 			case SDL_MOUSEBUTTONUP:
 			case SDL_MOUSEMOTION:
+				if (OptionsParam::instance()->getScreenSaverMode()) 
+				{
+					if (!(SDL_GetModState() & KMOD_LSHIFT))
+					{
+						if (++ mouseEventCount > 5)
+						{
+							ScorchedClient::instance()->getMainLoop().exitLoop();
+						}
+					}
+				}
+
 				Mouse::instance()->processMouseEvent(event);
 				break;
 			case SDL_ACTIVEEVENT:

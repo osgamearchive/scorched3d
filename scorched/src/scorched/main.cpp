@@ -52,7 +52,16 @@ bool parseCommandLine(int argc, char *argv[])
 	if (!Resources::instance()->main.initFromFile(
 		getDataFile("data/resource.xml"))) return false;
 
+	// Read options from command line
+	ARGParser aParser;
+	if (!OptionEntryHelper::addToArgParser(
+		OptionsParam::instance()->getOptions(), aParser)) return false;
+	aParser.addEntry("-allowexceptions", &allowExceptions, 
+					 "Allows any program exceptions to be thrown (core dumps)");
+	if (!aParser.parse(argc, argv)) return false;
+
 	// Read display options from a file
+	// **This NEEDS to be after the arg parser**
 	if (!OptionsDisplay::instance()->readOptionsFromFile())
 	{
 		return false;
@@ -92,14 +101,6 @@ bool parseCommandLine(int argc, char *argv[])
 		(char *) optionsGamePath);
 	ScorchedClient::instance()->getOptionsGame().writeOptionsToFile(
 		(char *) optionsGamePath);
-
-	// Read options from command line
-	ARGParser aParser;
-	if (!OptionEntryHelper::addToArgParser(
-		OptionsParam::instance()->getOptions(), aParser)) return false;
-	aParser.addEntry("-allowexceptions", &allowExceptions, 
-					 "Allows any program exceptions to be thrown (core dumps)");
-	if (!aParser.parse(argc, argv)) return false;
 
 	// Set the path the executable was run with
 	setExeName((const char *) argv[0], allowExceptions);

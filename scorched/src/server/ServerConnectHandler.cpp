@@ -61,14 +61,18 @@ ServerConnectHandler::~ServerConnectHandler()
 bool ServerConnectHandler::processMessage(unsigned int destinationId,
 	const char *messageType, NetBufferReader &reader)
 {
-	// First things, first
-	// Check we can actually accept the connection
-	if (ScorchedServer::instance()->getOptionsGame().getNoMaxPlayers() ==
-		ScorchedServer::instance()->getTankContainer().getNoOfTanks())
+	// Only do this on the server, the client can have all bots
+	if (OptionsParam::instance()->getDedicatedServer())
 	{
-		ServerCommon::sendString(destinationId, "Too many players");
-		ServerCommon::kickDestination(destinationId);
-		return true;		
+		// First things, first
+		// Check we can actually accept the connection
+		if (ScorchedServer::instance()->getOptionsGame().getNoMaxPlayers() ==
+			ScorchedServer::instance()->getTankContainer().getNoOfTanks())
+		{
+			ServerCommon::sendString(destinationId, "Too many players");
+			ServerCommon::kickDestination(destinationId);
+			return true;		
+		}
 	}
 
 	// Decode the connect message

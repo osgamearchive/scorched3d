@@ -90,6 +90,10 @@ bool createScorchedWindow()
 		float(OptionsDisplay::instance()->getBrightness()) / 10.0f);
 
 	GLSetup::setup();
+	if (OptionsParam::instance()->getScreenSaverMode())
+	{
+		SDL_ShowCursor(SDL_DISABLE);
+	}
 
 	return TRUE;
 }

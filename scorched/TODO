@@ -18,7 +18,9 @@ Fixed: Looser->Loser spelling on dialogs
 Fixed: Shot cam does not jump around (back to v35 kind of)
 Fixed: Scaled down all sand hogs power
 Fixed: Changed server browser to use new browsing server (scorched3d.sourceforge.net)
+Fixed: MOTD is put to logging console as well as rules dialog
 
+Added: Screensaver mode
 Added: Option to auto remove computer players when a certain number of humans in game
 Added: Laser death sound from original game (thanks josh morris)
 Added: Static compiling flags for wx-windows and SDL
@@ -73,13 +75,13 @@ keep track of money after you leave the server
 keep track of views 
 Make a count down sound when timer runs out.
 Add option for human players to say stuff when firing/killed
-Chat logger (for urls) (you can do this using client logging) Only show sprites/pictures for the tanks in the chooser dialog (use 3d model for selected tanks) (kind of fixed by using progress bar)
+Chat logger (for urls) (you can do this using client logging) 
+Only show sprites/pictures for the tanks in the chooser dialog (use 3d model for selected tanks) (kind of fixed by using progress bar)
 
 -- Other Stuff
 Add the ability to customize the languages (for dialogs etc..) (localisation)
 Birds/seaguls
 Whales
-Save game
 Teleport (to random position)
 Configurable camera views using ctrl-2 etc...
 First person style camera mode
@@ -101,15 +103,11 @@ lazy boy
 resignation penalty (there already is, you can't win round!)
 communism
 
-# i don't think this is possible - Dave
-# real-time mode - everyone shoots as fast as they can?
-
 -- Graphics Stuff
 anti-gravity dirt (doesn't fall) Needed for cavern environment 
 New animations for weapons
 New landscape surrounds, desert etc...
 Some kind of fire out the back of missiles
-Clouds
 lightning
 Napalm scorches ground
 

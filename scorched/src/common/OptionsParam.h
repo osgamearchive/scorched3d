@@ -28,12 +28,14 @@ class OptionsParam
 public:
 	static OptionsParam *instance();
 
+
 	const char *getConnect() { return connect_.getValue(); }
 	const char *getServerFile() { return server_.getValue(); }
 	const char *getClientFile() { return client_.getValue(); }
 	const char *getSaveFile() { return save_.getValue(); }
 	const char *getPassword() { return password_.getValue(); }
 	bool getConsole() { return console_.getValue(); }
+	bool getScreenSaverMode() { return screensaver_.getValue(); }
 
 	enum Action
 	{
@@ -62,10 +64,12 @@ protected:
 	OptionEntryString client_;
 	OptionEntryString password_;
 	OptionEntryString save_;
+	OptionEntryBool screensaver_;
 	OptionEntryBool nooptions_;
 	OptionEntryBool console_;
 	OptionEntryBool help_;
 	bool SDLInitVideo_;
+	bool screenSaverMode_;
 
 private:
 	OptionsParam();

@@ -32,6 +32,7 @@ public:
 	static RulesDialog *instance();
 
 	virtual void windowHide();
+	virtual void windowDisplay();
 	virtual void buttonDown(unsigned int id);
 	virtual void draw();
 

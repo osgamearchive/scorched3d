@@ -21,6 +21,7 @@
 #include <wx/wx.h>
 #include <wx/utils.h>
 #include <common/OptionsDisplay.h>
+#include <common/OptionsParam.h>
 #include <GLEXT/GLConsoleRuleFnIAdapter.h>
 #include <stdio.h>
 
@@ -171,6 +172,8 @@ OptionsDisplay::~OptionsDisplay()
 
 bool OptionsDisplay::writeOptionsToFile()
 {
+	if (OptionsParam::instance()->getScreenSaverMode()) return true;
+
 	const char *path = getSettingsFile("display.xml");
 
 	// Check the options files are writeable
@@ -193,6 +196,10 @@ bool OptionsDisplay::writeOptionsToFile()
 bool OptionsDisplay::readOptionsFromFile()
 {
 	const char *path = getSettingsFile("display.xml");
+	if (OptionsParam::instance()->getScreenSaverMode())
+	{
+		path = getDataFile("data/ssdisplay.xml");
+	}
 
 	if (!OptionEntryHelper::readFromFile(options_, (char *) path))
 	{

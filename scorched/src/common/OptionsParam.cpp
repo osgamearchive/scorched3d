@@ -35,6 +35,8 @@ OptionsParam *OptionsParam::instance()
 
 OptionsParam::OptionsParam() :
 	SDLInitVideo_(false),
+	screensaver_(options_, "screensaver",
+		"The program will terminate on any keyboard or mouse events", 0, false),
 	connect_(options_, "connect", 
 		"The name of the server to connect to, starts a NET/LAN client", 0, ""),
 	server_(options_, "startserver",
@@ -67,6 +69,11 @@ std::list<OptionEntry *> &OptionsParam::getOptions()
 
 OptionsParam::Action OptionsParam::getAction()
 {
+	if (screensaver_.getValue())
+	{
+		client_.setValue(getDataFile("data/ssgame.xml"));
+	}
+
 	if (getConnect()[0] || getClientFile()[0] || getSaveFile()[0])
 	{
 		if (getServerFile()[0]) return ActionError;

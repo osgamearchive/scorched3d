@@ -20,6 +20,7 @@
 
 #include <dialogs/RulesDialog.h>
 #include <dialogs/PlayerDialog.h>
+#include <dialogs/LogDialog.h>
 #include <GLW/GLWTextButton.h>
 #include <GLW/GLWFont.h>
 #include <GLW/GLWWindowManager.h>
@@ -65,16 +66,22 @@ void RulesDialog::addMOTD(const char *text)
 		{
 			*found = '\0';
 			listView_->addLine(start);
+			LogDialog::instance()->logMessage("", start, 0);
 			start = found;
 			start++;
 
 			found = strchr(start, '\n');
 		}
-		if (start[0] != '\0') listView_->addLine(start);
+		if (start[0] != '\0')
+		{
+			listView_->addLine(start);
+			LogDialog::instance()->logMessage("", start, 0);
+		}
 	}
 	else
 	{
 		listView_->addLine(text);
+		LogDialog::instance()->logMessage("", start, 0);
 	}
 }
 
@@ -190,6 +197,14 @@ void RulesDialog::buttonDown(unsigned int id)
 	if (id == okId_)
 	{
 		GLWWindowManager::instance()->hideWindow(id_);	
+	}
+}
+
+void RulesDialog::windowDisplay()
+{
+	if (OptionsParam::instance()->getScreenSaverMode())
+	{
+		GLWWindowManager::instance()->hideWindow(getId());
 	}
 }
 
