@@ -86,9 +86,9 @@ void ClientState::addStandardComponents(GameState &gameState, unsigned state, bo
 		gameState.addStateLoop(state, 
 			Main2DCamera::instance(), SpeedChange::instance());
 	}
-	addWindowManager(gameState, state);
 	gameState.addStateLoop(state, Main2DCamera::instance(), 
 		MainBanner::instance());
+	addWindowManager(gameState, state);
 	gameState.addStateLoop(state, Main2DCamera::instance(), 
 		MessageDisplay::instance());
 	gameState.addStateLoop(state, Main2DCamera::instance(), 

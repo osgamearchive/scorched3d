@@ -123,6 +123,11 @@ Shot cam does not get LOD correctly
 
 -- Things I am currently looking at
 Fix crashing when people win (Graphics card drivers??)
+Napalm does not now work under water (I'll not change this again ;) )
+Camera does not follow meteors or other environment actions
+Users can turn IP authentication off
+Talk text appears under other windows
+Fix camera presets
 
 -- Things for next release
 Ambient sounds

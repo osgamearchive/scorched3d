@@ -112,6 +112,7 @@ int ViewPoints::getLookAtCount()
 ViewPoints::ViewPoint *ViewPoints::getNewViewPoint(unsigned int playerId)
 {
 	if (context_->serverMode) return 0;
+	if (playerId == 0) return 0;
 
 	if (context_->tankContainer->getCurrentPlayerId() != playerId &&
 		context_->optionsGame->getTurnType() == OptionsGame::TurnSimultaneous)

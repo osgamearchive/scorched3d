@@ -30,6 +30,8 @@
 #include <GLEXT/GLStateExtension.h>
 #include <landscape/Landscape.h>
 #include <landscape/LandscapeMaps.h>
+#include <landscape/LandscapeDefinition.h>
+#include <landscape/LandscapeTex.h>
 #include <weapons/AccessoryStore.h>
 #include <common/OptionsParam.h>
 #include <client/ScorchedClient.h>
@@ -213,7 +215,17 @@ void Napalm::simulateAddStep()
 
 	// Napalm does not go under water (for now)
 	// Perhaps we could add a boiling water sound at some point
-	/*if (height < 5.0f) // Water height
+	float waterHeight = -10.0f;
+	LandscapeTex *tex = 
+		context_->landscapeMaps->getLandDfn()->getTex();
+	if (0 == strcmp(tex->bordertype.c_str(), "water"))
+	{
+		LandscapeTexBorderWater *water = 
+			(LandscapeTexBorderWater *) tex->border;
+        	waterHeight = water->height;
+	}
+
+	if (height < waterHeight) // Water height
 	{
 		if (!hitWater_)
 		{
@@ -225,7 +237,7 @@ void Napalm::simulateAddStep()
 			}
 		}
 		return;
-	}*/  // FIXME
+	} 
 
 	// Add this current point to the napalm map
 	int offset = int(RAND * 31);
