@@ -464,7 +464,7 @@ void ServerFrame::OnClose(wxCloseEvent& event)
 			itor++)
 	{
 		Tank *tank = (*itor).second;
-		StatsLogger::instance()->tankLeft(tank);
+		StatsLogger::instance()->tankDisconnected(tank);
 	}
 }
 

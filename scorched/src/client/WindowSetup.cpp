@@ -41,6 +41,8 @@
 #include <dialogs/ScoreDialog.h>
 #include <dialogs/KibitzingDialog.h>
 #include <dialogs/InventoryDialog.h>
+#include <dialogs/ResignDialog.h>
+#include <dialogs/SkipDialog.h>
 #include <dialogs/HUDDialog.h>
 #include <dialogs/HelpButtonDialog.h>
 
@@ -137,6 +139,8 @@ void WindowSetup::setup()
 	KEYBOARDKEY("SHOW_PLAYER_DIALOG", playerKey);
 	KEYBOARDKEY("SHOW_AIM_DIALOG", aimKey);
 	KEYBOARDKEY("SHOW_WEAPON_DIALOG", weaponKey);
+	KEYBOARDKEY("SHOW_RESIGN_DIALOG", resignKey);
+	KEYBOARDKEY("SHOW_SKIP_DIALOG", skipKey);
 
 	// StateConnect
 	GLWWindowManager::instance()->addWindow(ClientState::StateConnect, 
@@ -209,6 +213,10 @@ void WindowSetup::setup()
 		GLWWindowManager::instance()->addWindow(ClientState::StatePlaying, 
 			window, key, window->getVisible());
 	}
+	GLWWindowManager::instance()->addWindow(ClientState::StatePlaying, 
+			ResignDialog::instance(), resignKey, false);
+	GLWWindowManager::instance()->addWindow(ClientState::StatePlaying, 
+			SkipDialog::instance(), skipKey, false);
 	addCommonComponents(ClientState::StatePlaying);
 
 	// StateShot

@@ -19,6 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <tank/Tank.h>
+#include <tank/TankAdmin.h>
 #include <common/OptionsDisplay.h>
 #include <common/OptionsGame.h>
 #include <engine/ScorchedContext.h>
@@ -26,7 +27,7 @@
 
 TankState::TankState(ScorchedContext &context, unsigned int playerId) : 
 	state_(sPending), life_(100.0f), tank_(0),
-	readyState_(sReady), admin_(false),
+	readyState_(sReady), admin_(0),
 	context_(context), spectator_(false), loading_(false),
 	muted_(false), adminTries_(0)
 {
@@ -57,6 +58,12 @@ void TankState::setState(State s)
 	state_ = s;
 	if (state_ == sNormal) tank_->getPhysics().enablePhysics();
 	else tank_->getPhysics().disablePhysics();
+}
+
+void TankState::setAdmin(TankAdmin *admin)
+{ 
+	delete admin_; 
+	admin_ = admin; 
 }
 
 void TankState::setLife(float life)

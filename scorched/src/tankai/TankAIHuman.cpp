@@ -100,6 +100,20 @@ void TankAIHuman::playMove(const unsigned state,
 		parachutesUpDown(true);
 	}
 
+	KEYBOARDKEY("ENABLE_SHIELDS", shieldKey);
+	if (shieldKey->keyDown(buffer, keyState, false))
+	{
+		if (!currentTank_->getAccessories().getShields().getCurrentShield())
+		{
+			std::list<Accessory *> shields = 
+				currentTank_->getAccessories().getShields().getAllShields();
+			if (shields.size() == 1)
+			{
+				shieldsUpDown(shields.front()->getAccessoryId());
+			}
+		}
+	}
+
 	KEYBOARDKEY("USE_BATTERY", batteryKey);
 	if (batteryKey->keyDown(buffer, keyState, false))
 	{

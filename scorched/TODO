@@ -20,6 +20,9 @@ Fixed: Game browsing dialog can now be resized
 Fixed: Players table in game browsing dialog being cleared unnecessarily
 Fixed: Console font now courier and easier to read
 
+Added: Player resign and player skip move dialogs (and key assignments)
+Added: Key to raise shields (only works if player has only one shield type)
+Added: Herring model to tux (thanks A Moogle) and Shark model (thanks Shark)
 Added: Users with previous stats accounts now connect with that name
 Added: Windows installer switched to nsis (http://nsis.sourceforge.net/)
 Added: Level send size made smaller
@@ -72,7 +75,7 @@ Resigning position due to health left
 Allow players to choose players without joining first
 Shadows for other models
 Teleport (to random position)
-Key assignments for all weapons/actions and perhaps skip/resign
+Show buy/choose accessories in groups (rather than one long list)
 
 -- Server Stuff
 Chat filter (swear words)

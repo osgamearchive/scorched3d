@@ -89,6 +89,12 @@ std::list<std::string> StatsLoggerFile::getAliases(Tank *tank)
 	return result;
 }
 
+std::list<std::string> StatsLoggerFile::getIpAliases(Tank *tank)
+{
+	std::list<std::string> result;
+	return result;
+}
+
 char *StatsLoggerFile::tankRank(Tank *firedTank)
 {
 	return "-";
@@ -143,7 +149,7 @@ void StatsLoggerFile::tankJoined(Tank *tank)
 	statsLogger_->logMessage(time, message, 0);
 }
 
-void StatsLoggerFile::tankLeft(Tank *tank)
+void StatsLoggerFile::tankConnected(Tank *tank)
 {
 	createLogger();
 	if (!statsLogger_) return;
@@ -154,7 +160,23 @@ void StatsLoggerFile::tankLeft(Tank *tank)
 	if (nl) *nl = '\0';
 
 	char message[1024];
-	sprintf(message, "left \"%s\" [%s]", 
+	sprintf(message, "connected \"%s\" [%s]", 
+		tank->getName(), tank->getUniqueId());
+	statsLogger_->logMessage(time, message, 0);
+}
+
+void StatsLoggerFile::tankDisconnected(Tank *tank)
+{
+	createLogger();
+	if (!statsLogger_) return;
+
+	time_t theTime = time(0);
+	char *time = ctime(&theTime); 
+	char *nl = strchr(time, '\n'); 
+	if (nl) *nl = '\0';
+
+	char message[1024];
+	sprintf(message, "disconnected \"%s\" [%s]", 
 		tank->getName(), tank->getUniqueId());
 	statsLogger_->logMessage(time, message, 0);
 }

@@ -37,12 +37,14 @@ public:
 	virtual void roundStart(std::list<Tank *> &tanks) = 0;
 
 	virtual std::list<std::string> getAliases(Tank *tank) = 0;
+	virtual std::list<std::string> getIpAliases(Tank *tank) = 0;
 	virtual char *tankRank(Tank *tank) = 0;
 	virtual void updateStats(Tank *tank) = 0;
 	virtual char *allocateId() = 0;
 
+	virtual void tankConnected(Tank *tank) = 0;
+	virtual void tankDisconnected(Tank *tank) = 0;
 	virtual void tankJoined(Tank *tank) = 0;
-	virtual void tankLeft(Tank *tank) = 0;
 
 	virtual void tankFired(Tank *firedTank, Weapon *weapon) = 0;
 	virtual void tankResigned(Tank *resignedTank) = 0;
@@ -73,12 +75,15 @@ public:
 
 	virtual std::list<std::string> getAliases(Tank *tank) 
 		{ std::list<std::string> result; return result; }
+	virtual std::list<std::string> getIpAliases(Tank *tank) 
+		{ std::list<std::string> result; return result; }
 	virtual char *tankRank(Tank *tank) { return "-"; }
 	virtual void updateStats(Tank *tank) {}
 	virtual char *allocateId() { return ""; }
 
+	virtual void tankConnected(Tank *tank) {}
+	virtual void tankDisconnected(Tank *tank) {}
 	virtual void tankJoined(Tank *tank) {}
-	virtual void tankLeft(Tank *tank) {}
 
 	virtual void tankFired(Tank *firedTank, Weapon *weapon) {}
 	virtual void tankResigned(Tank *resignedTank) {}

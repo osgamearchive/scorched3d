@@ -350,8 +350,11 @@ void ServerConnectHandler::addNextTank(unsigned int destinationId,
 			tank->getUniqueId());
 
 		ServerCommon::sendString(0, "Player connected \"%s\"",
-			playerName);
+			tank->getName());
 	}
+
+	// Add this tank to stats
+	StatsLogger::instance()->tankConnected(tank);
 	
 	// Check if admin muted
 	if (ipAddress != 0 &&

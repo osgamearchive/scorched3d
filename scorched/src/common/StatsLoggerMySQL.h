@@ -30,6 +30,7 @@
 #include <mysql/mysql.h>
 #include <string>
 #include <map>
+#include <set>
 
 class Weapon;
 class StatsLoggerMySQL : public StatsLogger
@@ -42,12 +43,14 @@ public:
 	virtual void roundStart(std::list<Tank *> &tanks);
 
 	virtual std::list<std::string> getAliases(Tank *tank);
+	virtual std::list<std::string> getIpAliases(Tank *tank);
 	virtual char *tankRank(Tank *tank);
 	virtual void updateStats(Tank *tank);
 	virtual char *allocateId();
 
+	virtual void tankConnected(Tank *tank);
+	virtual void tankDisconnected(Tank *tank);
 	virtual void tankJoined(Tank *tank);
-	virtual void tankLeft(Tank *tank);
 
 	virtual void tankFired(Tank *firedTank, Weapon *weapon);
 	virtual void tankResigned(Tank *resignedTank);
@@ -72,6 +75,12 @@ protected:
 	bool runQuery(const char *, ...);
 	void createLogger();
 	int getPlayerId(const char *uniqueId);
+
+	void addInfo(Tank *tank);
+	void addAliases(int playerId, 
+		std::list<std::string> &results);
+	void addIpAliases(int playerId, 
+		std::set<int> &currentPlayers, std::list<std::string> &result);
 
 };
 

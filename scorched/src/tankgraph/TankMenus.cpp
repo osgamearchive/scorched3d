@@ -40,6 +40,8 @@
 #include <dialogs/MainMenuDialog.h>
 #include <dialogs/QuitDialog.h>
 #include <dialogs/SaveDialog.h>
+#include <dialogs/ResignDialog.h>
+#include <dialogs/SkipDialog.h>
 #include <GLEXT/GLConsoleRuleFnIAdapter.h>
 #include <GLEXT/GLTexture.h>
 
@@ -206,10 +208,12 @@ void TankMenus::PlayerMenu::menuSelection(const char* menuName,
 			switch (position)
 			{
 			case 0:
-				tankAI->skipShot();
+				GLWWindowManager::instance()->showWindow(
+					SkipDialog::instance()->getId());
 				break;
 			case 1:
-				tankAI->resign();
+				GLWWindowManager::instance()->showWindow(
+					ResignDialog::instance()->getId());
 				break;
 			case 2:
 				GLWWindowManager::instance()->showWindow(

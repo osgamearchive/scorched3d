@@ -34,12 +34,14 @@ public:
 	virtual void roundStart(std::list<Tank *> &tanks);
 
 	virtual std::list<std::string> getAliases(Tank *tank);
+	virtual std::list<std::string> getIpAliases(Tank *tank);
 	virtual char *tankRank(Tank *tank);
 	virtual void updateStats(Tank *tank);
 	virtual char *allocateId();
 
+	virtual void tankConnected(Tank *tank);
+	virtual void tankDisconnected(Tank *tank);
 	virtual void tankJoined(Tank *tank);
-	virtual void tankLeft(Tank *tank);
 
 	virtual void tankFired(Tank *firedTank, Weapon *weapon);
 	virtual void tankResigned(Tank *resignedTank);

@@ -135,6 +135,7 @@ void TankAIAdder::addTankAI(ScorchedServer &context,
 				tank->getUniqueId());
 		}
 
+		StatsLogger::instance()->tankConnected(tank);
 		StatsLogger::instance()->tankJoined(tank);
 
 		if (raiseEvent)

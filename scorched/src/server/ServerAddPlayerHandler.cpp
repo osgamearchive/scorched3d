@@ -138,11 +138,8 @@ bool ServerAddPlayerHandler::processMessage(unsigned int destinationId,
 		ComsMessageSender::sendToAllConnectedClients(message);
 	}
 
-	if (tank->getState().getSpectator())
-	{
-		// Tell the logger about a new tank
-		StatsLogger::instance()->tankJoined(tank);
-	}
+	// Tell the logger about a new tank
+	StatsLogger::instance()->tankJoined(tank);
 
 	if (OptionsParam::instance()->getDedicatedServer())
 	{

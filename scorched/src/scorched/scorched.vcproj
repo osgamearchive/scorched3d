@@ -690,6 +690,12 @@
 				RelativePath="..\tank\TankAccessories.h">
 			</File>
 			<File
+				RelativePath="..\tank\TankAdmin.cpp">
+			</File>
+			<File
+				RelativePath="..\tank\TankAdmin.h">
+			</File>
+			<File
 				RelativePath="..\tank\TankAutoDefense.cpp">
 			</File>
 			<File
@@ -1216,6 +1222,12 @@
 				RelativePath="..\dialogs\QuitDialog.h">
 			</File>
 			<File
+				RelativePath="..\dialogs\ResignDialog.cpp">
+			</File>
+			<File
+				RelativePath="..\dialogs\ResignDialog.h">
+			</File>
+			<File
 				RelativePath="..\dialogs\RulesDialog.cpp">
 			</File>
 			<File
@@ -1232,6 +1244,12 @@
 			</File>
 			<File
 				RelativePath="..\dialogs\ScoreDialog.h">
+			</File>
+			<File
+				RelativePath="..\dialogs\SkipDialog.cpp">
+			</File>
+			<File
+				RelativePath="..\dialogs\SkipDialog.h">
 			</File>
 			<File
 				RelativePath="..\dialogs\TalkDialog.cpp">

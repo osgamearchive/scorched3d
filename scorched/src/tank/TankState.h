@@ -23,6 +23,7 @@
 
 #include <coms/NetBuffer.h>
 
+class TankAdmin;
 class Tank;
 class ScorchedContext;
 class TankState
@@ -60,8 +61,8 @@ public:
 	bool getSpectator() { return spectator_; }	
 	void setLoading(bool l) { loading_ = l; }
 	bool getLoading() { return loading_; }
-	void setAdmin(bool admin) { admin_ = admin; }
-	bool getAdmin() { return admin_; }
+	void setAdmin(TankAdmin *admin);
+	TankAdmin *getAdmin() { return admin_; }
 	void setAdminTries(int adminTries) { adminTries_ = adminTries; }
 	int getAdminTries() { return adminTries_; }
 	void setMuted(bool muted) { muted_ = muted; }
@@ -84,7 +85,7 @@ protected:
 	State state_;
 	ReadyState readyState_;
 	float life_;
-	bool admin_; int adminTries_;
+	TankAdmin *admin_; int adminTries_;
 	bool spectator_;
 	bool loading_;
 	bool muted_;

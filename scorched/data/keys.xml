@@ -505,6 +505,18 @@
 		<key>q</key>
 	</keyentry>
 	<keyentry>
+		<name>SHOW_RESIGN_DIALOG</name>
+		<title>Show resign from round dialog</title>
+		<description>Shows or hides the resign from round dialog</description>
+		<group>5</group>
+	</keyentry>
+	<keyentry>
+		<name>SHOW_SKIP_DIALOG</name>
+		<title>Show skip move dialog</title>
+		<description>Shows or hides the skip move dialog</description>
+		<group>5</group>
+	</keyentry>
+	<keyentry>
 		<name>SHOW_INVENTORY_DIALOG</name>
 		<title>Show inventory</title>
 		<description>Shows or hides the inventory dialog</description>
@@ -579,6 +591,13 @@
 		<description>Enables parachutes</description>
 		<group>8</group>
 		<key>p</key>
+	</keyentry>
+	<keyentry>
+		<name>ENABLE_SHIELDS</name>
+		<title>Enable shields</title>
+		<description>Enables shields</description>
+		<group>8</group>
+		<key>d</key>
 	</keyentry>
 	<keyentry>
 		<name>USE_BATTERY</name>

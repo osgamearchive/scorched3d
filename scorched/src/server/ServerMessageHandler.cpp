@@ -115,7 +115,7 @@ void ServerMessageHandler::destroyPlayer(unsigned int tankId)
 			tank->getDestinationId(),
 			tankId, tank->getName());
 
-		StatsLogger::instance()->tankLeft(tank);
+		StatsLogger::instance()->tankDisconnected(tank);
 
 		// Tell all the clients to remove this player
 		ComsRmPlayerMessage rmPlayerMessage(

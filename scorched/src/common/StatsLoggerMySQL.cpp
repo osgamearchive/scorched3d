@@ -42,7 +42,8 @@ enum EventType
 	EventWon = 5,
 	EventOverallWinner = 6,
 	EventConnected = 7,
-	EventDisconnected = 8
+	EventDisconnected = 8,
+	EventJoined = 9
 };
 
 StatsLoggerMySQL::StatsLoggerMySQL() : mysql_(0), success_(true)
@@ -142,11 +143,13 @@ void StatsLoggerMySQL::createLogger()
 				"(%i, \"OVERALLWINNER\"), "
 				"(%i, \"CONNECTED\"), "
 				"(%i, \"DISCONNECTED\"), "
+				"(%i, \"JOINED\"), "
 				"(%i, \"RESIGNED\"); ",
 				prefix_.c_str(),
 				EventKill, EventTeamKill, EventSelfKill,
 				EventWon, EventOverallWinner, 
-				EventConnected, EventDisconnected, EventResigned);
+				EventConnected, EventDisconnected, 
+				EventJoined, EventResigned);
 
 			// Add all the weapons
 			std::list<Accessory *> weapons = 
@@ -215,15 +218,98 @@ void StatsLoggerMySQL::createLogger()
 
 }
 
-std::list<std::string> StatsLoggerMySQL::getAliases(Tank *tank)
+void StatsLoggerMySQL::addIpAliases(int playerId, 
+	std::set<int> &currentPlayers, std::list<std::string> &results)
 {
-	std::list result;
+	currentPlayers.insert(playerId);
+	addAliases(playerId, results);
+
+	std::list<std::string> ipaddresses;
+	if (runQuery("SELECT ipaddress FROM scorched3d%s_ipaddress "
+			"WHERE playerid = %i;", prefix_.c_str(), playerId))
+	{
+		MYSQL_RES *result = mysql_store_result(mysql_);
+		if (result)
+		{
+			int rows = (int) mysql_num_rows(result);
+			for (int r=0; r<rows; r++)
+			{
+				MYSQL_ROW row = mysql_fetch_row(result);
+				ipaddresses.push_back(row[0]);
+			}
+			mysql_free_result(result);
+		}
+	}
+
+	std::list<std::string>::iterator itor;
+	for (itor = ipaddresses.begin();
+		itor != ipaddresses.end();
+		itor++)
+	{
+		const char *ipaddress = (*itor).c_str();
+		std::list<int> newplayers;
+
+		if (runQuery("SELECT playerid FROM scorched3d%s_ipaddress "
+				"WHERE ipaddress = \"%s\";", prefix_.c_str(), ipaddress))
+		{
+			MYSQL_RES *result = mysql_store_result(mysql_);
+			if (result)
+			{
+				int rows = (int) mysql_num_rows(result);
+				for (int r=0; r<rows; r++)
+				{
+					MYSQL_ROW row = mysql_fetch_row(result);
+					int newplayerid = atoi(row[0]);
+					if (currentPlayers.find(newplayerid) == currentPlayers.end())
+					{
+						newplayers.push_back(newplayerid);
+					}
+				}
+				mysql_free_result(result);
+			}
+		}
+
+		std::list<int>::iterator itor2;
+		for (itor2 = newplayers.begin();
+			itor2 != newplayers.end();
+			itor2++)
+		{
+			addIpAliases((*itor2), currentPlayers, results);
+		}
+	}
+}
+
+std::list<std::string> StatsLoggerMySQL::getIpAliases(Tank *tank)
+{
+	std::list<std::string> results;
 	createLogger();
-	if (!success_) return result;
+	if (!success_) return results;
 	
 	int playerId = getPlayerId(tank->getUniqueId());
-	if (playerId == 0) return result;
+	if (playerId == 0) return results;
+
+	std::set<int> currentPlayers;
+	addIpAliases(playerId, currentPlayers, results);
 	
+	return results;
+}
+
+static bool findInList(std::list<std::string> &results, 
+	const char *name)
+{
+	std::list<std::string>::iterator itor;
+	for (itor = results.begin();
+		itor != results.end();
+		itor++)
+	{
+		if (0 == strcmp(name, (*itor).c_str())) return true;
+	}
+	return false;
+}
+
+void StatsLoggerMySQL::addAliases(int playerId, 
+	std::list<std::string> &results)
+{
 	if (runQuery("SELECT name FROM scorched3d%s_players "
 			"WHERE playerid = %i;", prefix_.c_str(), playerId))
 	{
@@ -234,7 +320,10 @@ std::list<std::string> StatsLoggerMySQL::getAliases(Tank *tank)
 			for (int r=0; r<rows; r++)
 			{
 				MYSQL_ROW row = mysql_fetch_row(result);
-				result.push_back(row[0]);
+				if (!findInList(results, row[0]))
+				{
+					results.push_back(row[0]);
+				}
 			}
 			mysql_free_result(result);
 		}
@@ -250,13 +339,27 @@ std::list<std::string> StatsLoggerMySQL::getAliases(Tank *tank)
 			for (int r=0; r<rows; r++)
 			{
 				MYSQL_ROW row = mysql_fetch_row(result);
-				result.push_back(row[0]);
+				if (!findInList(results, row[0]))
+				{
+					results.push_back(row[0]);
+				}
 			}
 			mysql_free_result(result);
 		}
-	}	
+	}
+}
 
-	return result;
+std::list<std::string> StatsLoggerMySQL::getAliases(Tank *tank)
+{
+	std::list<std::string> results;
+	createLogger();
+	if (!success_) return results;
+	
+	int playerId = getPlayerId(tank->getUniqueId());
+	if (playerId == 0) return results;
+	addAliases(playerId, results);
+
+	return results;
 }
 
 void StatsLoggerMySQL::gameStart(std::list<Tank *> &tanks)
@@ -392,7 +495,7 @@ char *StatsLoggerMySQL::tankRank(Tank *tank)
 int StatsLoggerMySQL::getPlayerId(const char *uniqueId)
 {
 	createLogger();
-	if (!success_) return;
+	if (!success_) return 0;
 
 	// Try to determine this players sql playerid
 	int playerId = 0;
@@ -425,11 +528,29 @@ char *StatsLoggerMySQL::allocateId()
 	return buffer;
 }
 
-void StatsLoggerMySQL::tankJoined(Tank *tank)
+void StatsLoggerMySQL::addInfo(Tank *tank)
 {
-	createLogger();
-	if (!success_) return;
+	// Add the players name (may fail if duplicates)
+	runQuery("INSERT INTO scorched3d%s_names (playerid, name, count) VALUES "
+		"(%i, \"%s\", 0);", prefix_.c_str(), playerId_[tank->getUniqueId()], 
+		tank->getName());
+	runQuery("UPDATE scorched3d%s_names SET count=count+1 WHERE "
+		"playerid=%i AND name=\"%s\";", prefix_.c_str(), 
+		playerId_[tank->getUniqueId()], tank->getName());
 
+	// Add the ipaddress (may fail if duplicates)
+	runQuery("INSERT INTO scorched3d%s_ipaddress (playerid, ipaddress, count) VALUES "
+		"(%i, \"%s\", 0);", prefix_.c_str(), 
+		playerId_[tank->getUniqueId()], 
+		NetInterface::getIpName(tank->getIpAddress()));
+	runQuery("UPDATE scorched3d%s_ipaddress SET count=count+1 WHERE "
+		"playerid=%i AND ipaddress=\"%s\";", prefix_.c_str(), 
+		playerId_[tank->getUniqueId()], 
+		NetInterface::getIpName(tank->getIpAddress()));
+}
+
+void StatsLoggerMySQL::tankConnected(Tank *tank)
+{
 	// We don't have a player id, create one
 	int playerId = getPlayerId(tank->getUniqueId());
 	if (playerId == 0)
@@ -448,34 +569,39 @@ void StatsLoggerMySQL::tankJoined(Tank *tank)
 	// Store this new player id
 	playerId_[tank->getUniqueId()] = playerId;
 
-	// Add the players name (may fail if duplicates)
-	runQuery("INSERT INTO scorched3d%s_names (playerid, name, count) VALUES "
-		"(%i, \"%s\", 0);", prefix_.c_str(), playerId, tank->getName());
-	runQuery("UPDATE scorched3d%s_names SET count=count+1 WHERE "
-		"playerid=%i AND name=\"%s\";", prefix_.c_str(), playerId, tank->getName());
+	// Add name and ip address
+	addInfo(tank);
 
-	// Add the ipaddress (may fail if duplicates)
-	runQuery("INSERT INTO scorched3d%s_ipaddress (playerid, ipaddress, count) VALUES "
-		"(%i, \"%s\", 0);", prefix_.c_str(), playerId, 
-		NetInterface::getIpName(tank->getIpAddress()));
-	runQuery("UPDATE scorched3d%s_ipaddress SET count=count+1 WHERE "
-		"playerid=%i AND ipaddress=\"%s\";", prefix_.c_str(), playerId, 
-		NetInterface::getIpName(tank->getIpAddress()));
-
-	// Joining events
+	// Connecting events
 	runQuery("INSERT INTO scorched3d%s_events (eventtype, playerid, otherplayerid, weaponid, eventtime) "
 		"VALUES(%i, %i, 0, 0, NOW());",
 		prefix_.c_str(),
 		EventConnected,
 		playerId_[tank->getUniqueId()]);
 
-	// Joining stats
+	// Connecting stats
 	runQuery("UPDATE scorched3d%s_players SET connects=connects+1, "
 		"lastconnected=NOW(), name=\"%s\", osdesc=\"%s\", ipaddress=\"%s\" "
 		"WHERE playerid = %i;", 
 		prefix_.c_str(), tank->getName(), tank->getHostDesc(), 
 		NetInterface::getIpName(tank->getIpAddress()),
 		playerId);
+}
+
+void StatsLoggerMySQL::tankJoined(Tank *tank)
+{
+	createLogger();
+	if (!success_) return;
+
+	// Joined events
+	runQuery("INSERT INTO scorched3d%s_events (eventtype, playerid, otherplayerid, weaponid, eventtime) "
+		"VALUES(%i, %i, 0, 0, NOW());",
+		prefix_.c_str(),
+		EventJoined,
+		playerId_[tank->getUniqueId()]);
+
+	// add new info
+	addInfo(tank);
 
 	// Add the avatar
 	if (tank->getAvatar().getName()[0])
@@ -521,11 +647,11 @@ void StatsLoggerMySQL::tankJoined(Tank *tank)
 		runQuery("UPDATE scorched3d%s_players SET avatarid = %i "
 			"WHERE playerid = %i;", 
 			prefix_.c_str(), binaryid,
-			playerId);
+			playerId_[tank->getUniqueId()]);
 	}
 }
 
-void StatsLoggerMySQL::tankLeft(Tank *tank)
+void StatsLoggerMySQL::tankDisconnected(Tank *tank)
 {
 	createLogger();
 	if (!success_) return;

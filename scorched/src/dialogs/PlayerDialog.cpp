@@ -244,6 +244,7 @@ void PlayerDialog::nextPlayer()
 			// Else use the default names
 			if (tank) playerName_->setText(tank->getName());
 		}
+		imageList_->setEnabled(tank->getState().getSpectator());
 	}
 }
 

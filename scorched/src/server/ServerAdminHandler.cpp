@@ -27,6 +27,7 @@
 #include <coms/ComsAdminMessage.h>
 #include <coms/NetInterface.h>
 #include <tank/TankContainer.h>
+#include <tank/TankAdmin.h>
 #include <XML/XMLFile.h>
 #include <stdlib.h>
 
@@ -77,14 +78,14 @@ bool ServerAdminHandler::processMessage(unsigned int destinationId,
 		if (login(message.getParam1(), message.getParam2()))
 		{
 			ServerCommon::sendString(0,
-				"\"%s\" logged in as server admin \"%s\"",
-				adminTank->getName(),
+				"server admin \"%s\" logged in",
 				message.getParam1());
 			ServerCommon::serverLog(0,
 				"\"%s\" logged in as server admin \"%s\"",
 				adminTank->getName(),
 				message.getParam1());
-			adminTank->getState().setAdmin(true);
+			adminTank->getState().setAdmin(
+				new TankAdmin(message.getParam1()));
 		}
 		else
 		{
@@ -146,12 +147,13 @@ bool ServerAdminHandler::processMessage(unsigned int destinationId,
 	case ComsAdminMessage::AdminLogout:
 		{
 			ServerCommon::sendString(0,
-				"\"%s\" logged out as server admin",
-				adminTank->getName());
+				"server admin \"%s\" logged out",
+				adminTank->getState().getAdmin()->getName());
 			ServerCommon::serverLog(0,
-				"\"%s\" logged out as server admin",
-				adminTank->getName());
-			adminTank->getState().setAdmin(false);
+				"\"%s\" logged out as server admin \"%s\"",
+				adminTank->getName(),
+				adminTank->getState().getAdmin()->getName());
+			adminTank->getState().setAdmin(0);
 		}
 		break;
 	case ComsAdminMessage::AdminShowBanned:
@@ -211,7 +213,7 @@ bool ServerAdminHandler::processMessage(unsigned int destinationId,
 				{
 					std::string alias = (*itor);
 
-					result += formatString("\"%s\"",
+					result += formatString("\"%s\"\n",
 						alias.c_str());
 				}
 				result +=
@@ -219,6 +221,37 @@ bool ServerAdminHandler::processMessage(unsigned int destinationId,
 
 				ServerCommon::sendString(destinationId, result.c_str());
 			}
+			else ServerCommon::sendString(destinationId, "Unknown player for showaliases");
+		}
+		break;
+	case ComsAdminMessage::AdminShowIpAliases:
+		{
+			Tank *targetTank = ScorchedServer::instance()->
+				getTankContainer().getTankById(atoi(message.getParam1()));
+			if (targetTank)
+			{
+				std::string result;
+				result += 
+					"--Admin Show Ip Aliases------------------------------\n";
+
+				std::list<std::string> aliases =
+					StatsLogger::instance()->getIpAliases(targetTank);
+				std::list<std::string>::iterator itor;
+				for (itor = aliases.begin();
+					itor != aliases.end();
+					itor++)
+				{
+					std::string alias = (*itor);
+
+					result += formatString("\"%s\"\n",
+						alias.c_str());
+				}
+				result +=
+					"-----------------------------------------------------\n";
+
+				ServerCommon::sendString(destinationId, result.c_str());
+			}
+			else ServerCommon::sendString(destinationId, "Unknown player for showipaliases");
 		}
 		break;
 	case ComsAdminMessage::AdminBan:
@@ -248,8 +281,7 @@ bool ServerAdminHandler::processMessage(unsigned int destinationId,
 					adminTank->getName(),
 					targetTank->getName());
 				ServerCommon::sendString(0,
-					"\"%s\" admin poor \"%s\"",
-					adminTank->getName(),
+					"admin poor \"%s\"",
 					targetTank->getName());
 				targetTank->getScore().setMoney(0);
 			}
@@ -279,12 +311,17 @@ bool ServerAdminHandler::processMessage(unsigned int destinationId,
 				getTankContainer().getTankById(atoi(message.getParam1()));
 			if (targetTank)
 			{
+				bool mute = (message.getType() == ComsAdminMessage::AdminMute);
 				ServerCommon::serverLog(0,
-					"\"%s\" admin mute \"%s\"",
+					"\"%s\" admin %s \"%s\"",
 					adminTank->getName(),
+					(mute?"mute":"unmute"),
 					targetTank->getName());
-				targetTank->getState().setMuted(
-					message.getType() == ComsAdminMessage::AdminMute); 
+				ServerCommon::sendString(0,
+					"admin %s \"%s\"",
+					(mute?"mute":"unmute"),
+					targetTank->getName());
+				targetTank->getState().setMuted(mute); 
 			}
 			else ServerCommon::sendString(destinationId, "Unknown player for mute");
 		}
@@ -298,6 +335,9 @@ bool ServerAdminHandler::processMessage(unsigned int destinationId,
 				ServerCommon::serverLog(0,
 					"\"%s\" admin permmute \"%s\"",
 					adminTank->getName(),
+					targetTank->getName());
+				ServerCommon::sendString(0,
+					"admin permmute \"%s\"",
 					targetTank->getName());
 				ServerCommon::banPlayer(
 					targetTank->getPlayerId(),
@@ -316,6 +356,9 @@ bool ServerAdminHandler::processMessage(unsigned int destinationId,
 				ServerCommon::serverLog(0,
 					"\"%s\" admin unpermmute \"%s\"",
 					adminTank->getName(),
+					targetTank->getName());
+				ServerCommon::sendString(0,
+					"admin unpermmute \"%s\"",
 					targetTank->getName());
 				ServerCommon::banPlayer(
 					targetTank->getPlayerId(),
@@ -369,6 +412,8 @@ bool ServerAdminHandler::processMessage(unsigned int destinationId,
 		ServerCommon::serverLog(0,
 			"\"%s\" admin killall",
 			adminTank->getName());
+		ServerCommon::sendString(0,
+			"admin killall");
 
 		ServerCommon::killAll();
 		break;
@@ -381,6 +426,10 @@ bool ServerAdminHandler::processMessage(unsigned int destinationId,
 				ServerCommon::serverLog(0,
 					"\"%s\" admin slap \"%s\" %.0f",
 					adminTank->getName(),
+					targetTank->getName(),
+					(float) atof(message.getParam2()));
+				ServerCommon::sendString(0,
+					"admin slap \"%s\" %.0f",
 					targetTank->getName(),
 					(float) atof(message.getParam2()));
 				ServerCommon::slapPlayer(

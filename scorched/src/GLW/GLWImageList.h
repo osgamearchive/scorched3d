@@ -48,6 +48,8 @@ public:
 	// GLWSelectorI
 	virtual void itemSelected(GLWSelectorEntry *entry, int position);
 
+	void setEnabled(bool enabled) { enabled_ = enabled; }
+
 	REGISTER_CLASS_HEADER(GLWImageList);
 
 protected:
@@ -59,6 +61,7 @@ protected:
 	};
 	std::list<GLWImageListEntry*> entries_;
 	GLWImageListEntry *current_;
+	bool enabled_;
 		
 };
 

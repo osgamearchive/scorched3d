@@ -28,7 +28,7 @@
 REGISTER_CLASS_SOURCE(GLWImageList);
 
 GLWImageList::GLWImageList(float x, float y, const char *directory) :
-	GLWidget(x, y, 32.0f, 32.0f), current_(0)
+	GLWidget(x, y, 32.0f, 32.0f), current_(0), enabled_(true)
 {
 	if (!directory) return;
 
@@ -146,23 +146,27 @@ void GLWImageList::mouseDown(float x, float y,
 	if (inBox(x, y, x_, y_, w_, h_))
 	{
 		skipRest = true;
-		std::list<GLWSelectorEntry> entries;
-		std::list<GLWImageListEntry*>::iterator itor;
-		for (itor = entries_.begin();
-			itor != entries_.end();
-			itor++)
-		{
-			GLWImageListEntry *entry = (*itor);
-			entries.push_back(
-				GLWSelectorEntry(entry->shortFileName.c_str(), 
-				0, 0, &entry->texture));
-		}
 
-		GLWSelector::instance()->showSelector(
-			this, 
-			GLWTranslate::getPosX() + x, 
-			GLWTranslate::getPosY() + y, 
-			entries, 0, false);
+		if (enabled_)
+		{
+			std::list<GLWSelectorEntry> entries;
+			std::list<GLWImageListEntry*>::iterator itor;
+			for (itor = entries_.begin();
+				itor != entries_.end();
+				itor++)
+			{
+				GLWImageListEntry *entry = (*itor);
+				entries.push_back(
+					GLWSelectorEntry(entry->shortFileName.c_str(), 
+					0, 0, &entry->texture));
+			}
+
+			GLWSelector::instance()->showSelector(
+				this, 
+				GLWTranslate::getPosX() + x, 
+				GLWTranslate::getPosY() + y, 
+				entries, 0, false);
+		}
 	}
 }
 
