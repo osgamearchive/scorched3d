@@ -65,6 +65,7 @@ Custom maps etc can be auto-downloaded from server
 Web interface for server to change settings
 Allow tank movement up bigger slopes
 Add some way of stopping the OptionsGame from being messed up!
+A way to set the maximum and minimum players for a map
 
 -- Server Stuff
 Chat filter (swear words)
