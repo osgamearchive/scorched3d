@@ -62,9 +62,10 @@ BEGIN_EVENT_TABLE(SingleFrame, wxDialog)
 END_EVENT_TABLE()
 
 SingleFrame::SingleFrame() :
-	wxDialog(getMainDialog(), -1, scorched3dAppName, wxPoint(0,0), wxSize(390, 290))
+	wxDialog(getMainDialog(), -1, scorched3dAppName, wxDefaultPosition, wxDefaultSize)
 {
-	CentreOnScreen();
+	// Create the positioning sizer
+	wxBoxSizer *topsizer = new wxBoxSizer(wxVERTICAL);
 
 #ifdef _WIN32
 	// Set the frame's icon
@@ -73,33 +74,44 @@ SingleFrame::SingleFrame() :
 #endif
 
 	{
-		addButtonToWindow(ID_BUTTON_EASY, 20, 20,
-			"Start an easy single player game.\n"
-			"Play a quick game against easy computer players.", 
-			PKGDIR "data/windows/tank-easy.bmp", this);
-	}
-	{
-		addButtonToWindow(ID_BUTTON_NORMAL, 20, 75,
-			"Start an normal single player game.\n"
-			"Play a quick game against normal strength computer players.", 
-			PKGDIR "data/windows/tank-med.bmp", this);
-	}
-	{
-		addButtonToWindow(ID_BUTTON_HARD, 20, 130,
-			"Start an hard single player game.\n"
-			"Play a quick game against hard computer players.", 
-			PKGDIR "data/windows/tank-hard.bmp", this);
-	}
-	{
-		addButtonToWindow(ID_BUTTON_CUSTOM, 20, 185,
-			"Start an custom single or multi-player game.\n"
-			"Choose the opponents to play against.", 
-			PKGDIR "data/windows/tank2.bmp", this);
+		addTitleToWindow(this, topsizer);
 	}
 
-	new wxButton(this, wxID_CANCEL,
-		"Cancel",
-		wxPoint((int) 300, (int) 230), wxSize((int) 75, (int) 21));
+	{
+		addButtonToWindow(ID_BUTTON_EASY, 
+			"Start an easy single player game.\n"
+			"Play a quick game against easy computer players.", 
+			PKGDIR "data/windows/tank-easy.bmp", this, topsizer);
+	}
+	{
+		addButtonToWindow(ID_BUTTON_NORMAL, 
+			"Start an normal single player game.\n"
+			"Play a quick game against normal strength computer players.", 
+			PKGDIR "data/windows/tank-med.bmp", this, topsizer);
+	}
+	{
+		addButtonToWindow(ID_BUTTON_HARD,
+			"Start an hard single player game.\n"
+			"Play a quick game against hard computer players.", 
+			PKGDIR "data/windows/tank-hard.bmp", this, topsizer);
+	}
+	{
+		addButtonToWindow(ID_BUTTON_CUSTOM,
+			"Start an custom single or multi-player game.\n"
+			"Choose the opponents to play against.", 
+			PKGDIR "data/windows/tank2.bmp", this, topsizer);
+	}
+
+	// Quit button
+	wxBoxSizer *buttonSizer = new wxBoxSizer(wxHORIZONTAL);
+	buttonSizer->Add(new wxButton(this, wxID_CANCEL, "Close"), 0, wxALL, 5);
+	topsizer->Add(buttonSizer, 0, wxALIGN_RIGHT);
+
+	// use the sizer for layout
+	SetSizer(topsizer); 
+	topsizer->SetSizeHints(this); // set size hints to honour minimum size
+
+	CentreOnScreen();
 }
 
 void SingleFrame::onEasyButton()

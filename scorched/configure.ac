@@ -13,9 +13,10 @@ AC_PROG_CXX
 AC_PROG_INSTALL
 AC_PROG_RANLIB
 
+LDFLAGS=-L/usr/X11R6/lib
+CPPFLAGS=-I/usr/X11R6/include
 if test `uname` == Darwin; then
 CPPFLAGS="-I/usr/X11R6/include -D__DARWIN__"
-LDFLAGS=-L/usr/X11R6/lib
 fi
 
 dnl Check for SDL

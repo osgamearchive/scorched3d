@@ -27,10 +27,14 @@
 void showMainDialog();
 
 wxFrame *getMainDialog();
+void addTitleToWindow(
+	wxWindow *parent,
+	wxSizer *sizer);
 wxBitmapButton *addButtonToWindow(
-	int id, int X, int Y,
+	int id,
 	char *text,
 	char *bitmapName,
-	wxWindow *parent);
+	wxWindow *parent,
+	wxSizer *sizer);
 
 #endif

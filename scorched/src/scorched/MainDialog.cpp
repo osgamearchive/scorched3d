@@ -35,34 +35,57 @@ extern char scorched3dAppName[128];
 static wxFrame *mainDialog = 0;
 bool wxWindowExit = false;
 
+enum
+{
+	ID_BUTTON_DISPLAY = 27270,
+	ID_BUTTON_NETLAN,
+	ID_BUTTON_SINGLE,
+	ID_BUTTON_SERVER,
+	ID_BUTTON_SCORCHED
+};
+
+void addTitleToWindow(
+	wxWindow *parent,
+	wxSizer *sizer)
+{
+	wxImage image;
+	if (image.LoadFile(_T(PKGDIR "data/windows/scorcheds.bmp"), wxBITMAP_TYPE_BMP))
+	{
+		wxBitmap scorchedBitmap(image);
+		wxBitmapButton *button = new wxBitmapButton(
+			parent, ID_BUTTON_SCORCHED, scorchedBitmap);
+		wxBoxSizer *boxSizer = new wxBoxSizer(wxHORIZONTAL);
+		boxSizer->Add(button, 0, wxALL, 5);
+		sizer->Add(boxSizer, 0, wxALIGN_CENTER | wxALL, 10);
+	}
+}
+
 wxBitmapButton *addButtonToWindow(
-	int id, int X, int Y,
+	int id,
 	char *text,
 	char *bitmapName,
-	wxWindow *parent)
+	wxWindow *parent,
+	wxSizer *sizer)
 {
 	wxBitmapButton *button = 0;
 	wxImage image;
 	if (image.LoadFile(_T(bitmapName), wxBITMAP_TYPE_BMP))
 	{
 		wxBitmap bitmap(image);
+
+		wxBoxSizer *boxSizer = new wxBoxSizer(wxHORIZONTAL);
 		button = new wxBitmapButton(
-			parent, id, bitmap, wxPoint(X, Y));
-		new wxStaticText(
+			parent, id, bitmap);
+		wxStaticText *staticText = new wxStaticText(
 			parent, -1, 
-			text, wxPoint(X + 60, Y + 5));
+			text);
+
+		boxSizer->Add(button, 0, wxALL, 5);
+		boxSizer->Add(staticText, 0, wxALL, 5);
+		sizer->Add(boxSizer, 0, wxALIGN_LEFT | wxALL, 5);
 	}
 	return button;
 }
-
-enum
-{
-	ID_BUTTON_DISPLAY = 1,
-	ID_BUTTON_NETLAN,
-	ID_BUTTON_SINGLE,
-	ID_BUTTON_SERVER,
-	ID_BUTTON_SCORCHED
-};
 
 class MainFrame: public wxFrame
 {
@@ -90,11 +113,9 @@ BEGIN_EVENT_TABLE(MainFrame, wxFrame)
 END_EVENT_TABLE()
 
 MainFrame::MainFrame() :
-	wxFrame((wxFrame *)NULL, -1, scorched3dAppName, wxPoint(0,0), wxSize(418, 345), 
+	wxFrame((wxFrame *)NULL, -1, scorched3dAppName, wxDefaultPosition, wxDefaultSize, 
 		wxMINIMIZE_BOX | wxCAPTION)
 {
-	CentreOnScreen();
-
 	// Set the frame's icon
 	wxIcon icon(PKGDIR "data/windows/tank2.ico", wxBITMAP_TYPE_ICO);
 	SetIcon(icon);
@@ -104,26 +125,21 @@ MainFrame::MainFrame() :
 	wxPanel panel;
 	SetBackgroundColour(panel.GetBackgroundColour());
 
+	// Create the positioning sizer
+	wxBoxSizer *topsizer = new wxBoxSizer(wxVERTICAL);
+
 	// Top Scorched Bitmap
 	{
-		wxImage image;
-
-		if (image.LoadFile(_T(PKGDIR "data/windows/scorcheds.bmp"), wxBITMAP_TYPE_BMP))
-		{
-			wxBitmap scorchedBitmap(image);
-			wxBitmapButton *button = new wxBitmapButton(
-				this, ID_BUTTON_SCORCHED, scorchedBitmap, wxPoint(10, 10));
-
-		}
-	}
+		addTitleToWindow(this, topsizer);
+	}	
 
 	// Single Player Bitmap
 	{
 		wxBitmapButton *button =
-			addButtonToWindow(ID_BUTTON_SINGLE, 30, 85,
+			addButtonToWindow(ID_BUTTON_SINGLE,
 				"Start a single or multi-player player game.\n"
 				"One or more people play against themselves or the computer.", 
-				PKGDIR "data/windows/tank2.bmp", this);
+				PKGDIR "data/windows/tank2.bmp", this, topsizer);
 		if (button && !OptionsParam::instance()->getSDLInitVideo())
 		{
 			button->Disable();
@@ -133,10 +149,10 @@ MainFrame::MainFrame() :
 	// Client Player Bitmap
 	{
 		wxBitmapButton *button =
-			addButtonToWindow(ID_BUTTON_NETLAN, 30, 140,
+			addButtonToWindow(ID_BUTTON_NETLAN,
 				"Join a game over the internet or LAN.\n"
 				"Connect to a server and play with others over the internet.", 
-				PKGDIR "data/windows/client.bmp", this);
+				PKGDIR "data/windows/client.bmp", this, topsizer);
 		if (button && !OptionsParam::instance()->getSDLInitVideo())
 		{
 			button->Disable();
@@ -145,28 +161,35 @@ MainFrame::MainFrame() :
 
 	// Server Player Bitmap
 	{
-		addButtonToWindow(ID_BUTTON_SERVER, 30, 195,
+		addButtonToWindow(ID_BUTTON_SERVER,
 			"Start a multiplayer LAN or internet server.\n"
 			"Allow other people to connect to your computer to play.", 
-			PKGDIR "data/windows/server.bmp", this);
+			PKGDIR "data/windows/server.bmp", this, topsizer);
 	}
 
 	// Display Settings
 	{
 		wxBitmapButton *button =
-			addButtonToWindow(ID_BUTTON_DISPLAY, 30, 250,
+			addButtonToWindow(ID_BUTTON_DISPLAY,
 				"Change the display settings.\n"
 				"Change graphics and compatability options", 
-				PKGDIR "data/windows/display.bmp", this);
+				PKGDIR "data/windows/display.bmp", this, topsizer);
 		if (button && !OptionsParam::instance()->getSDLInitVideo())
 		{
 			button->Disable();
 		}
 	}
 
-	new wxButton(this, wxID_CANCEL,
-		"Quit",
-		wxPoint((int) 330, (int) 285), wxSize((int) 75, (int) 21));
+	// Quit button
+	wxBoxSizer *buttonSizer = new wxBoxSizer(wxHORIZONTAL);
+	buttonSizer->Add(new wxButton(this, wxID_CANCEL, "Quit"), 0, wxALL, 5);
+	topsizer->Add(buttonSizer, 0, wxALIGN_RIGHT);
+
+	// use the sizer for layout
+	SetSizer(topsizer); 
+	topsizer->SetSizeHints(this); // set size hints to honour minimum size
+
+	CentreOnScreen();
 }
 
 void MainFrame::onScorchedClick()
