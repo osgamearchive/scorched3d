@@ -14,6 +14,8 @@ Fixed: Smoke disapears after a while
 Fixed: Server more responsive, slow clients don't affect other players
 Fixed: Tooltips don't show through other dialogs
 
+Added: Talk dialog can be shown in team talk mode (y key)
+Added: Single player games can be saved
 Added: Auto ballance teams option is available via settings gui
 Added: Help tooltips to most dialogs
 Added: Can sort accessories in buying dialog by name (or not)
@@ -43,7 +45,6 @@ Shot cam does not get LOD correctly
 
 -- Things I am currently looking at
 Make AIs better (partialy done)
-Single player saving (partialy done)
 Option to auto remove computer players when a certain number of humans in game
 Make shot cam zoom out for explosion (partialy done)
 Riot Blast

@@ -25,6 +25,7 @@
 #include <wx/wx.h>
 #include <wx/listctrl.h>
 #include <wx/image.h>
+#include <wx/imaglist.h>
 #include <client/ServerBrowser.h>
 #include <common/OptionsParam.h>
 #include <common/Defines.h>
@@ -45,6 +46,8 @@ NetListControl::NetListControl(wxWindow* parent, wxWindowID id, const wxPoint& p
 	wxListCtrl(parent, id, pos, size, 
 		wxLC_REPORT | wxLC_HRULES | wxLC_VRULES | wxLC_VIRTUAL | wxLC_SINGLE_SEL )
 {
+	SetImageList(netLanImageList, wxIMAGE_LIST_SMALL);
+	SetImageList(netLanImageList, wxIMAGE_LIST_NORMAL);
 }
 
 NetListControl::~NetListControl()
@@ -53,7 +56,37 @@ NetListControl::~NetListControl()
 
 int NetListControl::OnGetItemImage(long item) const
 {
-	return -1;
+	if ((item != -1) && 
+		(item < ServerBrowser::instance()->getServerList().getNoEntries()))
+	{
+		std::string pversion =
+			ServerBrowser::instance()->getServerList().
+				getEntryValue(item, "protocolversion");
+		if (pversion.size() > 0 && 
+			0 != strcmp(pversion.c_str(), ScorchedProtocolVersion))
+		{
+			return 3;
+		}
+
+		std::string clients = 
+			ServerBrowser::instance()->getServerList().
+				getEntryValue(item, "noplayers");
+		std::string maxclients = 
+			ServerBrowser::instance()->getServerList().
+				getEntryValue(item, "maxplayers");
+		if (clients.size() > 0 &&
+			0 == strcmp(clients.c_str(), maxclients.c_str()))
+		{
+			return 3;
+		}
+		
+		std::string state = 
+			ServerBrowser::instance()->getServerList().
+				getEntryValue(item, "state");
+		if (0 == strcmp(state.c_str(), "Waiting")) return 2;
+		if (0 == strcmp(state.c_str(), "Started")) return 1;
+	}
+	return 0;
 }
 
 wxString NetListControl::OnGetItemText(long item, long column) const
@@ -69,9 +102,11 @@ wxString NetListControl::OnGetItemText(long item, long column) const
 		case 2:
 		{
 			std::string clients = 
-				ServerBrowser::instance()->getServerList().getEntryValue(item, "noplayers");
+				ServerBrowser::instance()->getServerList().
+					getEntryValue(item, "noplayers");
 			std::string maxclients = 
-				ServerBrowser::instance()->getServerList().getEntryValue(item, "maxplayers");
+				ServerBrowser::instance()->getServerList().
+					getEntryValue(item, "maxplayers");
 			static char text[256];
 			sprintf(text, "%s/%s", clients.c_str(), maxclients.c_str());
 

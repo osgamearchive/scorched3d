@@ -31,6 +31,7 @@ enum
 	IDC_CLEAR_PASSWORD
 };
 
+static wxImageList *netLanImageList = 0;
 static wxTextCtrl *IDC_EDIT_SERVER_CTRL = 0;
 static wxTextCtrl *IDC_EDIT_PASSWORD_CTRL = 0;
 static wxButton *IDC_BUTTON_LAN_CTRL = 0;

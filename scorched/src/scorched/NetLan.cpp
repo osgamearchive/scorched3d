@@ -23,6 +23,31 @@
 
 static void createControlsPre(wxWindow *parent, wxSizer *sizer)
 {
+	wxBitmap questionBitmap;
+	questionBitmap.LoadFile(
+		getDataFile("data/windows/question.bmp"),
+		wxBITMAP_TYPE_BMP);
+	wxBitmap okBitmap;
+	okBitmap.LoadFile(
+		getDataFile("data/windows/ok.bmp"),
+		wxBITMAP_TYPE_BMP);
+	wxBitmap warnBitmap;
+	warnBitmap.LoadFile(
+		getDataFile("data/windows/warn.bmp"),
+		wxBITMAP_TYPE_BMP);
+	wxBitmap exlaimBitmap;
+	exlaimBitmap.LoadFile(
+		getDataFile("data/windows/exclaim.bmp"),
+		wxBITMAP_TYPE_BMP);
+	if (!netLanImageList)
+	{
+		netLanImageList = new wxImageList();
+		netLanImageList->Add(questionBitmap);
+		netLanImageList->Add(okBitmap);
+		netLanImageList->Add(warnBitmap);
+		netLanImageList->Add(exlaimBitmap);
+	}
+
 	// Name/password
 	wxGridSizer *nameSizer = new wxFlexGridSizer(3, 3, 5, 5);
 	wxStaticText *nameText = 
@@ -48,6 +73,18 @@ static void createControlsPre(wxWindow *parent, wxSizer *sizer)
 	nameSizer->Add(IDC_EDIT_PASSWORD_CTRL, 0, 0);
 	nameSizer->Add(IDC_CLEAR_PASSWORD_CTRL, 0, 0);
 	sizer->Add(nameSizer, 0, wxALIGN_CENTER | wxALL, 5);
+	
+	// Key
+	wxFlexGridSizer *keySizer = new wxFlexGridSizer(1, 8, 5, 5);
+	keySizer->Add(new wxStaticBitmap(parent, -1, questionBitmap));
+	keySizer->Add(new wxStaticText(parent, -1, "State unknown"), 0, wxRIGHT, 10);
+	keySizer->Add(new wxStaticBitmap(parent, -1, okBitmap));
+	keySizer->Add(new wxStaticText(parent, -1, "Game in progress"), 0, wxRIGHT, 10);
+	keySizer->Add(new wxStaticBitmap(parent, -1, warnBitmap));
+	keySizer->Add(new wxStaticText(parent, -1, "No game in progress"), 0, wxRIGHT, 10);
+	keySizer->Add(new wxStaticBitmap(parent, -1, exlaimBitmap));
+	keySizer->Add(new wxStaticText(parent, -1, "Cannot join"));	
+	sizer->Add(keySizer, 0, wxALIGN_CENTER | wxALL, 5);
 }
 
 

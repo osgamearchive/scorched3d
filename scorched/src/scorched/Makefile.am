@@ -307,8 +307,6 @@ scorched3d_SOURCES = \
 	../dialogs/HelpButtonDialog.h \
 	../dialogs/KibitzingDialog.cpp \
 	../dialogs/KibitzingDialog.h \
-	../dialogs/SaveDialog.cpp \
-	../dialogs/SaveDialog.h \
 	../dialogs/LogDialog.cpp \
 	../dialogs/LogDialog.h \
 	../dialogs/MainMenuDialog.cpp \
@@ -321,6 +319,8 @@ scorched3d_SOURCES = \
 	../dialogs/QuitDialog.h \
 	../dialogs/RulesDialog.cpp \
 	../dialogs/RulesDialog.h \
+	../dialogs/SaveDialog.cpp \
+	../dialogs/SaveDialog.h \
 	../dialogs/ScoreDialog.cpp \
 	../dialogs/ScoreDialog.h \
 	../dialogs/TalkDialog.cpp \
@@ -743,14 +743,14 @@ scorched3d_SOURCES = \
 	../client/ClientGameStateHandler.h \
 	../client/ClientGameStoppedHandler.cpp \
 	../client/ClientGameStoppedHandler.h \
+	../client/ClientLoadPlayersState.cpp \
+	../client/ClientLoadPlayersState.h \
 	../client/ClientMain.cpp \
 	../client/ClientMain.h \
 	../client/ClientMessageHandler.cpp \
 	../client/ClientMessageHandler.h \
 	../client/ClientNewGameHandler.cpp \
 	../client/ClientNewGameHandler.h \
-	../client/ClientLoadPlayersState.cpp \
-	../client/ClientLoadPlayersState.h \
 	../client/ClientNewGameState.cpp \
 	../client/ClientNewGameState.h \
 	../client/ClientNextRoundHandler.cpp \
