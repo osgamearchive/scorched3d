@@ -502,10 +502,22 @@ bool SettingsFrame::TransferDataToWindow()
 			(void *) OptionsGame::ResignStart);
 		SettingsEnv::IDC_RESIGNENDROUND_CTRL->Append("Round End", 
 			(void *) OptionsGame::ResignEnd);
+		SettingsEnv::IDC_RESIGNENDROUND_CTRL->Append("Round Start or End (Due to Health)", 
+			(void *) OptionsGame::ResignDueToHealth);
 		SettingsEnv::IDC_RESIGNENDROUND_CTRL->SetSelection(
 			context_.getResignMode());
 		SettingsEnv::IDC_RESIGNENDROUND_CTRL->SetToolTip(
-			wxString("Players resign at the end of the round."));	
+			wxString("During which part of the round players resign."));	
+
+		// Movement restriction Mode
+		SettingsEnv::IDC_MOVEMENTRESTRICTION_CTRL->Append("None", 
+			(void *) OptionsGame::MovementRestrictionNone);
+		SettingsEnv::IDC_MOVEMENTRESTRICTION_CTRL->Append("Land Only", 
+			(void *) OptionsGame::MovementRestrictionLand);
+		SettingsEnv::IDC_MOVEMENTRESTRICTION_CTRL->SetSelection(
+			context_.getMovementRestriction());
+		SettingsEnv::IDC_MOVEMENTRESTRICTION_CTRL->SetToolTip(
+			wxString("Any restrictions to tank movement"));	
 	}
 
 	// MOTD
@@ -751,6 +763,10 @@ bool SettingsFrame::TransferDataFromWindow()
 		context_.setResignMode((OptionsGame::ResignType) (int)
 			SettingsEnv::IDC_RESIGNENDROUND_CTRL->GetClientData(
 				SettingsEnv::IDC_RESIGNENDROUND_CTRL->GetSelection()));
+
+		context_.setMovementRestriction((OptionsGame::MovementRestrictionType) (int)
+			SettingsEnv::IDC_MOVEMENTRESTRICTION_CTRL->GetClientData(
+				SettingsEnv::IDC_MOVEMENTRESTRICTION_CTRL->GetSelection()));
 	}
 
 	// MOTD

@@ -75,7 +75,13 @@ public:
 	enum ResignType
 	{
 		ResignStart = 0,
-		ResignEnd = 1
+		ResignEnd = 1,
+		ResignDueToHealth = 2
+	};
+	enum MovementRestrictionType
+	{
+		MovementRestrictionNone = 0,
+		MovementRestrictionLand = 1
 	};
 
 	int getTeams() { return teams_.getValue(); }
@@ -274,6 +280,10 @@ public:
 	void setResignMode(int value) { resignMode_.setValue(value); }
 	const char *getResignModeToolTip() { return resignMode_.getDescription(); }
 
+	MovementRestrictionType getMovementRestriction() { return (MovementRestrictionType) movementRestriction_.getValue(); }
+	void setMovementRestriction(MovementRestrictionType value) { movementRestriction_.setValue((int) value); }
+	const char *getMovementRestrictionToolTip() { return movementRestriction_.getDescription(); }
+
 	bool getRandomizeBotNames() { return randomizeBotNames_.getValue(); }
 	void setRandomizeBotNames(bool value) { randomizeBotNames_.setValue(value); }
 	const char *getRandomizeBotNamesToolTip() { return randomizeBotNames_.getDescription(); }
@@ -371,6 +381,7 @@ protected:
 	OptionEntryBool autoBallanceTeams_;
 	OptionEntryBool cycleMaps_;
 	OptionEntryBoundedInt resignMode_;
+	OptionEntryBoundedInt movementRestriction_;
 	OptionEntryBoundedInt turnType_;
 	OptionEntryBoundedInt windForce_;
 	OptionEntryBoundedInt windType_;

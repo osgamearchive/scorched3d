@@ -60,6 +60,13 @@ void TankAILogic::processPlayedMoveMessage(ScorchedContext &context,
 				{
 					processResignMessage(context, message, tank);
 				}
+				else if (context.optionsGame->getResignMode() == OptionsGame::ResignDueToHealth)
+				{
+					if (RAND * 100.0f <= tank->getState().getLife())
+					{
+						processResignMessage(context, message, tank);
+					}
+				}
 				break;
 			case ComsPlayedMoveMessage::eMove:
 				processMoveMessage(context, message, tank);
@@ -75,7 +82,8 @@ void TankAILogic::processPlayedMoveMessage(ScorchedContext &context,
 		switch (message.getType())
 		{
 			case ComsPlayedMoveMessage::eResign:
-				if (context.optionsGame->getResignMode() == OptionsGame::ResignEnd)
+				if (context.optionsGame->getResignMode() == OptionsGame::ResignEnd ||
+					context.optionsGame->getResignMode() == OptionsGame::ResignDueToHealth)
 				{
 					processResignMessage(context, message, tank);
 				}
@@ -114,7 +122,7 @@ void TankAILogic::processMoveMessage(ScorchedContext &context,
 void TankAILogic::processResignMessage(ScorchedContext &context, 
 	ComsPlayedMoveMessage &message, Tank *tank)
 {
-	// Check the is alive
+	// Check the tank is alive
 	if (tank->getState().getState() == TankState::sNormal)
 	{
 		// Tank resign action

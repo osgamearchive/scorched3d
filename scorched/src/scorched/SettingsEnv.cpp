@@ -92,6 +92,13 @@ static void createControls(wxWindow *parent, wxSizer *topsizer)
 		"",
 		wxDefaultPosition, wxDefaultSize,
 		0, 0, wxCB_READONLY), 0, wxALIGN_CENTER);
+	sizer->Add(new wxStaticText(parent, -1,
+		"Movement Restrictions"), 0, wxALIGN_CENTER);
+	sizer->Add(IDC_MOVEMENTRESTRICTION_CTRL = 
+		new wxComboBox(parent, -1,
+		"",
+		wxDefaultPosition, wxDefaultSize,
+		0, 0, wxCB_READONLY), 0, wxALIGN_CENTER);
 	topsizer->Add(IDC_GIVEALLWEAPONS_CTRL = 
 		new wxCheckBox(parent, -1,
 			"Give all weapons",

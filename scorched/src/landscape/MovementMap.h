@@ -71,7 +71,8 @@ protected:
 					 std::map<unsigned int, MovementMap::MovementMapEntry> &edgeMap,
 					 std::map<unsigned int, MovementMap::MovementMapEntry> &pointsMap,
 					 unsigned int sourcePt,
-					 ScorchedContext &context);
+					 ScorchedContext &context,
+					 float minHeight);
 
 };
 

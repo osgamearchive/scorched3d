@@ -19,6 +19,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <landscape/MovementMap.h>
+#include <landscape/LandscapeTex.h>
+#include <landscape/LandscapeMaps.h>
+#include <engine/ScorchedContext.h>
 #include <common/OptionsGame.h>
 #include <tank/Tank.h>
 #include <memory.h>
@@ -50,7 +53,8 @@ void MovementMap::addPoint(unsigned int x, unsigned int y,
 					 std::map<unsigned int, MovementMap::MovementMapEntry> &edgeMap,
 					 std::map<unsigned int, MovementMap::MovementMapEntry> &pointsMap,
 					 unsigned int sourcePt,
-					 ScorchedContext &context)
+					 ScorchedContext &context,
+					 float minHeight)
 {
 	// Check that we are not going outside the arena
 	if (x < 0 || y < 0 ||
@@ -68,7 +72,7 @@ void MovementMap::addPoint(unsigned int x, unsigned int y,
 	float MaxTankClimbHeight = float(context.optionsGame->
 		getMaxClimbingDistance()) / 10.0f;
 	if (newHeight - height > MaxTankClimbHeight) return;
-	//if (newHeight < 5.0f) return; // Water height // FIXME
+	if (newHeight < minHeight) return; // Water height 
 
 	// Check if we can already reach this point
 	// Through a shorted already visited path
@@ -118,6 +122,22 @@ void MovementMap::calculateForTank(Tank *tank, ScorchedContext &context)
 		return;
 	}
 
+	// Calculate the water height
+	float waterHeight = -10.0f;
+	if (context.optionsGame->getMovementRestriction() ==
+		OptionsGame::MovementRestrictionLand)
+	{
+		LandscapeTex &tex = context.landscapeMaps->getTex(context);
+		if (0 == strcmp(tex.bordertype.c_str(), "water"))
+		{
+			LandscapeTexBorderWater *water = 
+				(LandscapeTexBorderWater *) tex.border;
+
+			waterHeight = water->height;
+		}
+	}
+
+	// Move
 	unsigned int posX = (unsigned int) 
 		tank->getPhysics().getTankPosition()[0];
 	unsigned int posY = (unsigned int) 
@@ -156,14 +176,14 @@ void MovementMap::calculateForTank(Tank *tank, ScorchedContext &context)
 					hMap_.getHeight(
 					(int) x, (int) y);
 
-				addPoint(x+1, y, height, dist + 1, edgeMap, pointsMap, pt, context);
-				addPoint(x, y+1, height, dist + 1, edgeMap, pointsMap, pt, context);
-				addPoint(x-1, y, height, dist + 1, edgeMap, pointsMap, pt, context);
-				addPoint(x, y-1, height, dist + 1, edgeMap, pointsMap, pt, context);
-				addPoint(x+1, y+1, height, dist + 1.4f, edgeMap, pointsMap, pt, context);
-				addPoint(x-1, y+1, height, dist + 1.4f, edgeMap, pointsMap, pt, context);
-				addPoint(x-1, y-1, height, dist + 1.4f, edgeMap, pointsMap, pt, context);
-				addPoint(x+1, y-1, height, dist + 1.4f, edgeMap, pointsMap, pt, context);
+				addPoint(x+1, y, height, dist + 1, edgeMap, pointsMap, pt, context, waterHeight);
+				addPoint(x, y+1, height, dist + 1, edgeMap, pointsMap, pt, context, waterHeight);
+				addPoint(x-1, y, height, dist + 1, edgeMap, pointsMap, pt, context, waterHeight);
+				addPoint(x, y-1, height, dist + 1, edgeMap, pointsMap, pt, context, waterHeight);
+				addPoint(x+1, y+1, height, dist + 1.4f, edgeMap, pointsMap, pt, context, waterHeight);
+				addPoint(x-1, y+1, height, dist + 1.4f, edgeMap, pointsMap, pt, context, waterHeight);
+				addPoint(x-1, y-1, height, dist + 1.4f, edgeMap, pointsMap, pt, context, waterHeight);
+				addPoint(x+1, y-1, height, dist + 1.4f, edgeMap, pointsMap, pt, context, waterHeight);
 			}
 		}
 	}
