@@ -33,6 +33,7 @@
 #include <engine/ActionController.h>
 #include <engine/ScorchedCollisionHandler.h>
 #include <landscape/HeightMapCollision.h>
+#include <landscape/LandscapeDefinitions.h>
 #include <tankai/TankAIAdder.h>
 #include <tankai/TankAIStore.h>
 #include <scorched/ServerDialog.h>
@@ -55,7 +56,6 @@ Clock serverTimer;
 bool startServer(bool local)
 {
 	// Setup the message handling classes
-
 	if (!local)
 	{
 		// Only create a net server for the actual multiplayer case
@@ -85,6 +85,8 @@ bool startServer(bool local)
 
 	ScorchedServer::instance()->getOptionsTransient().reset();
 
+	if (!LandscapeDefinitions::instance()->readLandscapeDefinitions()) return false;
+
 	ServerState::setupStates(ScorchedServer::instance()->getGameState());
 
 	// Add the server side bots
@@ -98,7 +100,10 @@ bool startServer(bool local)
 bool serverMain()
 {
 	// Create the server states
-	startServer(false);
+	if (!startServer(false))
+	{
+		exit(1);
+	}
 
 	// Try to start the server
 	NetServer *netServer = (NetServer *) 

@@ -48,6 +48,8 @@ public:
 	XMLNode *getNamedParameter(const char *name);
 	XMLNode *getNamedChild(const char *name);
 
+	float getNamedFloatChild(const char *name, const char *file);
+
 	void addChild(XMLNode *node) { children_.push_back(node); }
 	void addContent(const char *data, int len) { content_.append(data, len); }
 

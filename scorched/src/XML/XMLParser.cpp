@@ -20,6 +20,7 @@
 
 #include <XML/XMLParser.h>
 #include <common/Defines.h>
+#include <stdlib.h>
 #include <stdio.h>
 
 XMLNode::XMLNode(const char *name, XMLNode *parent, NodeType type) : 
@@ -67,6 +68,20 @@ XMLNode *XMLNode::getNamedParameter(const char *name)
 		if (strcmp(name, node->getName()) == 0) return node;
 	}
 	return 0;
+}
+
+float XMLNode::getNamedFloatChild(const char *name, const char *file)
+{
+	XMLNode *node = getNamedChild(name);
+	if (!node)
+	{
+		dialogMessage("XMLNode",
+			"Error: Failed to find node \"%s\" in file \"%s\"",
+			name, file);
+		return 0.0f;
+	}
+
+	return (float) atof(node->getContent());
 }
 
 XMLParser::XMLParser() : root_(0), current_(0)

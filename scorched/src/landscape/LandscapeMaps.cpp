@@ -18,7 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <engine/ScorchedContext.h>
 #include <landscape/LandscapeMaps.h>
 #include <landscape/HeightMapModifier.h>
 #include <common/OptionsGame.h>
@@ -28,7 +27,7 @@
 #include <zlib/zlib.h>
 
 LandscapeMaps::LandscapeMaps() : 
-	map_(256), mmap_(map_, 256), nmap_(256), storedMap_(0), storedSeed_(0)
+	map_(256), mmap_(map_, 256), nmap_(256), storedMap_(0)
 {
 	// Allocate the stored map size to be the same
 	// as the height map size
@@ -40,27 +39,18 @@ LandscapeMaps::~LandscapeMaps()
 	delete [] storedMap_;
 }
 
-void LandscapeMaps::generateHMap(ScorchedContext &context,
-								 unsigned long seed,
+void LandscapeMaps::generateHMap(LandscapeDefinition &hdef,
 								ProgressCounter *counter)
 {
 	// Seed the generator
 	static RandomGenerator generator;
 	static RandomGenerator offsetGenerator;
-	generator.seed(seed);
-	offsetGenerator.seed(seed);
-	storedSeed_ = seed;
+	generator.seed(hdef.landSeed);
+	offsetGenerator.seed(hdef.landSeed);
+	storedHdef_ = hdef;
 
-	// Create the new height map
-	// based on the parameters in the options
-	int maxHeight = context.optionsGame.getMaxHeight();
-	int noHills = context.optionsGame.getNoHills();
-	int widthx = context.optionsGame.getLandWidthX();
-	int widthy = context.optionsGame.getLandWidthY();
-
-	//Logger::log(0, "Landscape : %i %i %i", storedSeed_, maxHeight, noHills);
 	HeightMapModifier::generateTerrain(getHMap(), 
-		noHills, maxHeight, widthx, widthy, generator, offsetGenerator, counter);
+		hdef, generator, offsetGenerator, counter);
 
 	// Save this height map for later
 	memcpy(storedMap_, map_.getData(), 
@@ -109,7 +99,7 @@ bool LandscapeMaps::generateHMapDiff(ComsLevelMessage &message)
 	{
 		// Create the coms message containing the compressed
 		// level
-		message.createMessage(storedSeed_,
+		message.createMessage(storedHdef_,
 							  compressed,
 							  destLen);
 		//dialogMessage("hmm", "%i=%i %i", srcLen, destLen, noDiffs);
@@ -123,8 +113,7 @@ bool LandscapeMaps::generateHMapDiff(ComsLevelMessage &message)
 	return result;
 }
 
-bool LandscapeMaps::generateHMapFromDiff(ScorchedContext &context,
-										 ComsLevelMessage &message,
+bool LandscapeMaps::generateHMapFromDiff(ComsLevelMessage &message,
 									  ProgressCounter *counter)
 {
 	// Buffer sizes
@@ -150,7 +139,7 @@ bool LandscapeMaps::generateHMapFromDiff(ScorchedContext &context,
 	if (result)
 	{
 		// Create the new base Level using the seed
-		generateHMap(context, message.getSeed(), counter);
+		generateHMap(message.getHmapDefn(), counter);
 
 		// Update this level with any changes specified in the diffs
 		// need to change from network byte ordering so 

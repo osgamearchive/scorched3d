@@ -63,9 +63,8 @@ void ServerNewGameState::enterState(const unsigned state)
 	checkTeams();
 
 	// Generate the new level
-	unsigned long seed = rand();
-	ScorchedServer::instance()->getContext().landscapeMaps.generateHMap(
-		ScorchedServer::instance()->getContext(), seed);
+	LandscapeDefinition &defn = LandscapeDefinitions::instance()->getLandscapeDefn();
+	ScorchedServer::instance()->getContext().landscapeMaps.generateHMap(defn);
 
 	// Set the start positions for the tanks
 	// Must be generated after the level as it alters the
@@ -117,7 +116,8 @@ int ServerNewGameState::addTanksToGame(const unsigned state)
 	{
 		Logger::log(0, "ERROR: Failed to generate diff");
 	}
-	serverLog(0, "Finished generating landscape message (%i bytes)", 
+	serverLog(0, "Finished generating landscape \"%s\" message (%i bytes)", 
+		newGameMessage.getLevelMessage().getHmapDefn().name.c_str(),
 		newGameMessage.getLevelMessage().getLevelLen());
 
 	// Check if the generated landscape is too large to send to the clients
@@ -222,8 +222,8 @@ void ServerNewGameState::calculateStartPosition(ScorchedContext &context)
 	{
 		Vector tankPos;
 		bool tooClose = true;
-		float closeness = (float) 
-			context.optionsGame.getTankStartCloseness();
+		float closeness =
+			ScorchedServer::instance()->getLandscapeMaps().getLandDfn().tankStartCloseness;
 		while (tooClose)
 		{
 			// Find a new position for the tank
@@ -238,9 +238,11 @@ void ServerNewGameState::calculateStartPosition(ScorchedContext &context)
 
 			// Make sure not lower than water line
 			// And that the tank is not too close to other tanks
-			if (tankPos[2] < 5.5f) 
+			if (tankPos[2] < ScorchedServer::instance()->getLandscapeMaps().getLandDfn().tankStartHeightMin ||
+				tankPos[2] > ScorchedServer::instance()->getLandscapeMaps().getLandDfn().tankStartHeightMax) 
 			{
 				tooClose = true;
+				closeness -= 0.1f;
 			}
 			else
 			{
@@ -253,12 +255,14 @@ void ServerNewGameState::calculateStartPosition(ScorchedContext &context)
 						closeness) 
 					{
 						tooClose = true;
+						closeness -= 1.0f;
 						break;
 					}
 				}
 			}
-
-			closeness -= 1.0f;
+			
+			// Ensure we never go inifinite
+			if (closeness < 1.0f) tooClose = false;
 		}
 
 		// Get the height of the tank

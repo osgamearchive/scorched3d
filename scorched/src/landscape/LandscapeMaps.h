@@ -21,13 +21,12 @@
 #if !defined(__INCLUDE_LanscapeMapsh_INCLUDE__)
 #define __INCLUDE_LanscapeMapsh_INCLUDE__
 
-#include <landscape/HeightMap.h>
+#include <landscape/HeightMapModifier.h>
 #include <landscape/MovementMap.h>
 #include <landscape/NapalmMap.h>
 #include <coms/ComsLevelMessage.h>
 #include <common/ProgressCounter.h>
 
-class ScorchedContext;
 class LandscapeMaps
 {
 public:
@@ -39,10 +38,10 @@ public:
 	HeightMap &getHMap() { return map_; }
 	MovementMap &getMMap() { return mmap_; }
 	NapalmMap &getNMap() { return nmap_; }
+	LandscapeDefinition &getLandDfn() { return storedHdef_; }
 
 	// Generates the next level
-	void generateHMap(ScorchedContext &context,
-		unsigned long seed,
+	void generateHMap(LandscapeDefinition &hdef,
 		ProgressCounter *counter = 0);
 
 	// Compresses the level into a form that can be
@@ -51,8 +50,7 @@ public:
 
 	// De-compresses the level sent from the server
 	// into the hmap structure
-	bool generateHMapFromDiff(ScorchedContext &context,
-		ComsLevelMessage &message,
+	bool generateHMapFromDiff(ComsLevelMessage &message,
 		ProgressCounter *counter = 0);
 
 protected:
@@ -67,7 +65,7 @@ protected:
 
 	// The values at the start of the level
 	float *storedMap_;
-	unsigned long storedSeed_;
+	LandscapeDefinition storedHdef_;
 };
 
 #endif

@@ -2,12 +2,14 @@
 Added: Count down timer is visible even after shots are made
 Added: Number of shots left in this round is visible in score dialog
 Added: Number of shots left can be turned off in options
-Added: When quit game you go back to the start dialogs
+Added: Return to the launcher after a game finishes.
 Added: All dialogs now use wxSizers
 Added: The first round ordering for sequential mode games is always random
 Added: Can set the number of text rows shown at bottom of screen
 Added: Secondary camera view, that shows the shot cam when enabled
 Added: Pressing enter on the quit dialog quits the game
+Added: Same ground textures used across all clients
+Added: Server generates very different landscapes for the same game (landscape.xml)
 
 Fixed: Coms wont pause during send from client when already sending/receiving
 Fixed: Screen mode is restored when quit is chosen from console
@@ -22,16 +24,13 @@ Gun fires at same point for all tanks (ignores turret/gun position in model)
 
 -- Server Stuff
 ability to adjust server options on the fly, so the next match will have the new options
-ability to set higher average base height for land. If I get shot near the water, I basically just end up underwater
 Ban players 
 Loadable maps?
-All clients should use same ground textures.
 
 -- Client Stuff
 A safe mode option for when scorched crashed last time
 Options should be stored in users home directory.
 Option to reconnect when disconected from server.
-Return to the launcher after a game finishes.
 In local mode when it's the next person's turn, re-center the view to where they last had it, and display who's turn it is on the screen.
 Ability to re center view around other tanks
 keep track of money after you leave the server
@@ -45,7 +44,6 @@ Make AIs better
 Save game
 Teleport (to random position)
 Configurable camera views using ctrl-2 etc...
-Have split screen etc. camera views
 First person style camera mode
 Towers can't move
 More weapons, always more weapons

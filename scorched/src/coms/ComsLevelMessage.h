@@ -18,11 +18,11 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #ifndef _comsLevelMessage_h
 #define _comsLevelMessage_h
 
 #include <coms/ComsMessage.h>
+#include <landscape/LandscapeDefinitions.h>
 
 class ComsLevelMessage : public ComsMessage
 {
@@ -30,12 +30,12 @@ public:
 	ComsLevelMessage();
 	virtual ~ComsLevelMessage();
 
-	void createMessage(unsigned int seed,
+	void createMessage(LandscapeDefinition &hdef,
 					   unsigned char *levelData,
 					   unsigned int levelLen);
 
 	// Accessors
-	unsigned int getSeed() { return seed_; }
+	LandscapeDefinition &getHmapDefn() { return hdef_; }
 	unsigned char *getLevelData() { return levelData_; }
 	unsigned int getLevelLen() { return levelLen_; }
 
@@ -44,7 +44,7 @@ public:
     virtual bool readMessage(NetBufferReader &reader);
 
 protected:
-	unsigned int seed_;
+	LandscapeDefinition hdef_;
 	unsigned char *levelData_;
 	unsigned int levelLen_;
 

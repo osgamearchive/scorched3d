@@ -24,7 +24,7 @@
 
 ComsLevelMessage::ComsLevelMessage() :
 	ComsMessage("ComsLevelMessage"),
-	seed_(0), levelData_(0), levelLen_(0)
+	levelData_(0), levelLen_(0)
 {
 
 }
@@ -34,11 +34,11 @@ ComsLevelMessage::~ComsLevelMessage()
 	delete [] levelData_;
 }
 
-void ComsLevelMessage::createMessage(unsigned int seed,
+void ComsLevelMessage::createMessage(LandscapeDefinition &hdef,
 									 unsigned char *levelData,
 									 unsigned int levelLen)
 {
-	seed_ = seed;
+	hdef_ = hdef;
 	levelData_ = levelData;
 	levelLen_ = levelLen;
 }
@@ -47,7 +47,7 @@ bool ComsLevelMessage::writeMessage(NetBuffer &buffer)
 {
 	DIALOG_ASSERT(levelData_ && levelLen_);
 
-	buffer.addToBuffer(seed_);
+	if (!hdef_.writeMessage(buffer)) return false;
 	buffer.addToBuffer(levelLen_);
 	if (levelLen_ && levelData_)
 	{
@@ -58,7 +58,7 @@ bool ComsLevelMessage::writeMessage(NetBuffer &buffer)
 
 bool ComsLevelMessage::readMessage(NetBufferReader &reader)
 {
-	if (!reader.getFromBuffer(seed_)) return false;
+	if (!hdef_.readMessage(reader)) return false;
 	if (!reader.getFromBuffer(levelLen_)) return false;
 	if (levelLen_)
 	{

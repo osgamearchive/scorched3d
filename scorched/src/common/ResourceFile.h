@@ -33,8 +33,6 @@ public:
 	virtual ~ResourceFile();
 
 	bool initFromFile(const char *fileName);
-
-	void setRandomModule();
 	bool setModule(const char *name);
 
 	Vector *getVectorResource(const char *name);

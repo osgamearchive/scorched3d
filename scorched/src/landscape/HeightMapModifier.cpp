@@ -18,18 +18,10 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// HeightMapModifier.cpp: implementation of the HeightMapModifier class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <math.h>
 #include <landscape/HeightMapModifier.h>
+#include <landscape/LandscapeDefinitions.h>
 #include <common/Defines.h>
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 void HeightMapModifier::levelSurround(HeightMap &hmap)
 {
@@ -46,7 +38,9 @@ void HeightMapModifier::levelSurround(HeightMap &hmap)
 	}
 }
 
-void HeightMapModifier::smooth(HeightMap &hmap, ProgressCounter *counter)
+void HeightMapModifier::smooth(HeightMap &hmap, 
+							   LandscapeDefinition &defn,
+							   ProgressCounter *counter)
 {
 	if (counter) counter->setNewOp("Smoothing");
 
@@ -57,7 +51,7 @@ void HeightMapModifier::smooth(HeightMap &hmap, ProgressCounter *counter)
 	{
 		for (int j=0; j<5; j++)
 		{
-			matrix[i][j] = 0.04f; // How much smoothing is done (> is more)
+			matrix[i][j] = defn.landSmoothing; // How much smoothing is done (> is more)
 			if (i==2 && j==2) matrix[i][j] = 1.0f;
 		}
 	}
@@ -101,8 +95,10 @@ void HeightMapModifier::smooth(HeightMap &hmap, ProgressCounter *counter)
 	delete [] newhMap_;
 }
 
-void HeightMapModifier::scale(HeightMap &hmap, int maxHeight, 
-							  RandomGenerator &generator, ProgressCounter *counter)
+void HeightMapModifier::scale(HeightMap &hmap, 
+							  LandscapeDefinition &defn,
+							  RandomGenerator &generator, 
+							  ProgressCounter *counter)
 {
 	if (counter) counter->setNewOp("Scaling Phase 1");
 
@@ -122,20 +118,16 @@ void HeightMapModifier::scale(HeightMap &hmap, int maxHeight,
 
 	if (counter) counter->setNewOp("Scaling Phase 2");
 
-	float maxH = (float) maxHeight;
-	float realMax = generator.getRandFloat() * maxH + 20.0f;
+	float realMax = ((defn.landHeightMax - defn.landHeightMin) * generator.getRandFloat()) + 
+		defn.landHeightMin;
+	float per = realMax / max;
 
-	if (max > realMax)
+	for (x=0; x<=hmap.getWidth(); x++)
 	{
-		float per = realMax / max;
-
-		for (x=0; x<=hmap.getWidth(); x++)
+		if (counter) counter->setNewPercentage((100.0f * float(x)) / float(hmap.getWidth()));
+		for (int y=0; y<=hmap.getWidth(); y++)
 		{
-			if (counter) counter->setNewPercentage((100.0f * float(x)) / float(hmap.getWidth()));
-			for (int y=0; y<=hmap.getWidth(); y++)
-			{
-				hmap.getHeight(x,y) *= per;
-			}
+			hmap.getHeight(x,y) *= per;
 		}
 	}
 }
@@ -175,8 +167,7 @@ void HeightMapModifier::addCirclePeak(HeightMap &hmap, Vector &start,
 }
 
 void HeightMapModifier::generateTerrain(HeightMap &hmap, 
-										int noHills, int maxHeight, 
-										int widthx, int widthy,
+										LandscapeDefinition &defn,
 										RandomGenerator &generator,
 										RandomGenerator &offsetGenerator,
 										ProgressCounter *counter)
@@ -184,23 +175,27 @@ void HeightMapModifier::generateTerrain(HeightMap &hmap,
 	if (counter) counter->setNewOp("Teraform Landscape");
 
 	hmap.reset();
-	float useWidthX = (float) widthx;
-	float useWidthY = (float) widthy;
-	float useBorderX = float(hmap.getWidth() - widthx) / 2.0f;
-	float useBorderY = float(hmap.getWidth() - widthy) / 2.0f;
+	float useWidthX = defn.landWidthX;
+	float useWidthY = defn.landWidthY;
+	float useBorderX = float(hmap.getWidth() - defn.landWidthX) / 2.0f;
+	float useBorderY = float(hmap.getWidth() - defn.landWidthY) / 2.0f;
 
-	const int noItter = noHills;
+	const int noItter = int((defn.landHillsMax - defn.landHillsMin) *
+		generator.getRandFloat() + defn.landHillsMin);
 
 	for (int i=0; i<noItter; i++)
 	{
 		if (counter) counter->setNewPercentage((100.0f * float(i)) / float(noItter));
 
-		float sizew = generator.getRandFloat() * 40.0f + 10.0f;
-		float sizew2 = generator.getRandFloat() * 20.0f - 10.0f + sizew;
+		float sizew = (defn.landPeakWidthXMax - defn.landPeakWidthXMin) * generator.getRandFloat() 
+			+ defn.landPeakWidthXMin;
+		float sizew2 = (defn.landPeakWidthYMax - defn.landPeakWidthYMin) * generator.getRandFloat() 
+			+ defn.landPeakWidthYMin + sizew;
 		float bordersize = MAX(sizew, sizew2) * 1.2f;
 		float bordersizex = bordersize + useBorderX;
 		float bordersizey = bordersize + useBorderY;
-		float sizeh = (generator.getRandFloat() * 1.0f + 0.5f) * sizew;
+		float sizeh = ((defn.landPeakHeightMax - defn.landPeakHeightMin) * generator.getRandFloat() 
+			+ defn.landPeakHeightMin) * MAX(sizew, sizew2);
 
 		// NOTE: This has been changed as I386/SPARC have different calling ordering
 		// symantics (see CVS diff for changes)
@@ -211,9 +206,9 @@ void HeightMapModifier::generateTerrain(HeightMap &hmap,
 		addCirclePeak(hmap, start, sizew, sizew2, sizeh, offsetGenerator);
 	}
 
-	scale(hmap, maxHeight, generator, counter);
+	scale(hmap, defn, generator, counter);
 	levelSurround(hmap);
-	smooth(hmap, counter);
+	smooth(hmap, defn, counter);
 	levelSurround(hmap);
 	hmap.generateNormals(0, hmap.getWidth(), 0, hmap.getWidth(), counter);
 }

@@ -18,19 +18,10 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// ResourceFile.cpp: implementation of the Timer class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <common/ResourceFile.h>
 #include <common/Defines.h>
 #include <XML/XMLFile.h>
 #include <wx/utils.h>
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 ResourceFile::ResourceFile() : currentModule_(0)
 {
@@ -39,23 +30,6 @@ ResourceFile::ResourceFile() : currentModule_(0)
 
 ResourceFile::~ResourceFile()
 {
-}
-
-void ResourceFile::setRandomModule()
-{
-	int moduleId = (int) (RAND * modules_.size());
-	std::map<std::string, ResourceModule *>::iterator itor;
-	for (itor = modules_.begin();
-		itor != modules_.end();
-		itor++)
-	{
-		if (moduleId-- == 0) 
-		{
-			currentModule_ = (*itor).second;
-			return;
-		}
-	}
-	currentModule_ = (*modules_.begin()).second;
 }
 
 bool ResourceFile::setModule(const char *name)
@@ -145,83 +119,69 @@ bool ResourceFile::initFromFile(const char *xmlFileName)
 		// Get the current module
 		XMLNode *moduleNode = (*itor);
 
-		// Check if this resource is enabled
-		bool resouceEnabled = true;
-		XMLNode *enabled = moduleNode->getNamedParameter("enabled");
-		if (enabled)
+		ResourceModule *inheritedNode = 0;
+		XMLNode *inherits = moduleNode->getNamedParameter("inherits");
+		if (inherits)
 		{
-			if (strcmp(enabled->getContent(), "true"))
+			std::map<std::string, ResourceModule *>::iterator findItor =
+				modules_.find(inherits->getContent());
+			if (findItor == modules_.end())
 			{
-				resouceEnabled = false;
+				dialogMessage("Resource File", 
+					"Resource file \"%s\" module \"%s\" inherits unknown module \"%s\"",
+					xmlFileName, moduleNode->getName(), inherits->getContent());
+				return false;
+			}
+			else
+			{
+				inheritedNode = (*findItor).second;
 			}
 		}
 
-		if (resouceEnabled)
+		ResourceModule *module = 
+			new ResourceModule(moduleNode->getName(), inheritedNode);
+		if (!currentModule_) currentModule_ = module;
+
+		// Add new module type and check it does not already exist
+		std::map<std::string, ResourceModule *>::iterator findItor =
+			modules_.find(moduleNode->getName());
+		if (findItor != modules_.end())
 		{
-			ResourceModule *inheritedNode = 0;
-			XMLNode *inherits = moduleNode->getNamedParameter("inherits");
-			if (inherits)
-			{
-				std::map<std::string, ResourceModule *>::iterator findItor =
-					modules_.find(inherits->getContent());
-				if (findItor == modules_.end())
-				{
-					dialogMessage("Resource File", 
-						"Resource file \"%s\" module \"%s\" inherits unknown module \"%s\"",
-						xmlFileName, moduleNode->getName(), inherits->getContent());
-					return false;
-				}
-				else
-				{
-					inheritedNode = (*findItor).second;
-				}
-			}
+			dialogMessage("Resource File", 
+				"Resource file \"%s\" has duplicate module \"%s\"",
+				xmlFileName, moduleNode->getName());
+			return false;
+		}
+		modules_[moduleNode->getName()] = module;
 
-			ResourceModule *module = 
-				new ResourceModule(moduleNode->getName(), inheritedNode);
-			if (!currentModule_) currentModule_ = module;
+		// Add all the values from the module
+		std::list<XMLNode *> &valueNodes = moduleNode->getChildren();
+		std::list<XMLNode *>::iterator valueItor;
+		for (valueItor = valueNodes.begin();
+			valueItor != valueNodes.end();
+			valueItor++)
+		{
+			// Get the current value
+			XMLNode *valueNode = (*valueItor);
 
-			// Add new module type and check it does not already exist
-			std::map<std::string, ResourceModule *>::iterator findItor =
-				modules_.find(moduleNode->getName());
-			if (findItor != modules_.end())
+			// Check the value does not already exist and add the value
+			std::map<std::string, void *>::iterator valueFind =
+				module->moduleValues.find(valueNode->getName());
+			if (valueFind != module->moduleValues.end())
 			{
 				dialogMessage("Resource File", 
-					"Resource file \"%s\" has duplicate module \"%s\"",
-					xmlFileName, moduleNode->getName());
+					"Resource file \"%s\" has duplicate value \"%s:%s\"",
+					xmlFileName, moduleNode->getName(), valueNode->getName());
 				return false;
 			}
-			modules_[moduleNode->getName()] = module;
 
-			// Add all the values from the module
-			std::list<XMLNode *> &valueNodes = moduleNode->getChildren();
-			std::list<XMLNode *>::iterator valueItor;
-			for (valueItor = valueNodes.begin();
-				valueItor != valueNodes.end();
-				valueItor++)
-			{
-				// Get the current value
-				XMLNode *valueNode = (*valueItor);
+			// Parse the node with respect the specified node type
+			XMLNode *type = valueNode->getNamedParameter("type");
+			void *result = parseType((type?type->getContent():0), 
+				xmlFileName, moduleNode, valueNode);
+			if (!result) return false;
 
-				// Check the value does not already exist and add the value
-				std::map<std::string, void *>::iterator valueFind =
-					module->moduleValues.find(valueNode->getName());
-				if (valueFind != module->moduleValues.end())
-				{
-					dialogMessage("Resource File", 
-						"Resource file \"%s\" has duplicate value \"%s:%s\"",
-						xmlFileName, moduleNode->getName(), valueNode->getName());
-					return false;
-				}
-
-				// Parse the node with respect the specified node type
-				XMLNode *type = valueNode->getNamedParameter("type");
-				void *result = parseType((type?type->getContent():0), 
-					xmlFileName, moduleNode, valueNode);
-				if (!result) return false;
-
-				module->moduleValues[valueNode->getName()] = result;
-			}
+			module->moduleValues[valueNode->getName()] = result;
 		}
 	}
 

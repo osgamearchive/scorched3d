@@ -84,9 +84,6 @@ public:
 	int getMaxNumberWeapons() { return maxNumberWeapons_.getValue(); }
 	void setMaxNumberWeapons(int value) { maxNumberWeapons_.setValue(value); }
 
-	int getTankStartCloseness() { return tankStartCloseness_.getValue(); }
-	void setTankStartCloseness(int value) { tankStartCloseness_.setValue(value); }
-
 	int getNoMaxPlayers() { return numberOfPlayers_.getValue(); }
 	void setNoMaxPlayers(int value) { numberOfPlayers_.setValue(value); }
 
@@ -104,18 +101,6 @@ public:
 
 	int getInterest() { return moneyInterest_.getValue(); }
 	void setInterest(int value) { moneyInterest_.setValue(value); }
-
-	int getLandWidthX() { return landWidthX_.getValue(); }
-	void setLandWidthX(int value) { landWidthX_.setValue(value); }
-
-	int getLandWidthY() { return landWidthY_.getValue(); }
-	void setLandWidthY(int value) { landWidthY_.setValue(value); }
-
-	int getNoHills() { return landHills_.getValue(); }
-	void setNoHills(int value) { landHills_.setValue(value); }
-
-	int getMaxHeight() { return landHeight_.getValue(); }
-	void setMaxHeight(int value) { landHeight_.setValue(value); }
 
 	int getMaxLandscapeSize() { return maxLandscapeSize_.getValue(); }
 	void setMaxLandscapeSize(int value) { maxLandscapeSize_.setValue(value); }
@@ -225,7 +210,6 @@ protected:
 
 	OptionEntryBoundedInt maxArmsLevel_;
 	OptionEntryInt maxRoundTurns_;
-	OptionEntryInt tankStartCloseness_;
 	OptionEntryInt shotTime_;
 	OptionEntryInt buyingTime_;
 	OptionEntryInt scoreTime_;
@@ -250,10 +234,6 @@ protected:
 	OptionEntryBool limitPowerByHealth_;
 	OptionEntryBool autoBallanceTeams_;
 	OptionEntryBoundedInt turnType_;
-	OptionEntryBoundedInt landWidthY_;
-	OptionEntryBoundedInt landWidthX_;
-	OptionEntryBoundedInt landHills_;
-	OptionEntryBoundedInt landHeight_;
 	OptionEntryBoundedInt windForce_;
 	OptionEntryBoundedInt windType_;
 	OptionEntryBoundedInt wallType_;

@@ -24,6 +24,7 @@
 #include <server/ScorchedServer.h>
 #include <common/OptionsParam.h>
 #include <common/WindowManager.h>
+#include <common/Resources.h>
 #include <coms/ComsNewGameMessage.h>
 #include <dialogs/PlayerDialog.h>
 #include <dialogs/ProgressDialog.h>
@@ -88,13 +89,16 @@ bool ClientNewGameHandler::processMessage(unsigned int id,
 	{
 		// Generate new landscape
 		if (!ScorchedClient::instance()->getLandscapeMaps().generateHMapFromDiff(
-			ScorchedClient::instance()->getContext(),
 			message.getLevelMessage(),
 			ProgressDialog::instance()))
 		{
 			dialogMessage("Scorched3D", "Failed to generate heightmap diff");
 			return false;
 		}
+
+		// Set a random resource value
+		Resources::instance()->main.setModule(
+			message.getLevelMessage().getHmapDefn().resourceFile.c_str());
 
 		ScorchedClient::instance()->getGameState().stimulate(ClientState::StimWait);
 		ScorchedClient::instance()->getGameState().checkStimulate();

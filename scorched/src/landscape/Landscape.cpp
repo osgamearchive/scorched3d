@@ -207,9 +207,6 @@ void Landscape::generate(ProgressCounter *counter)
 	textureType_ = eDefault;
 	InfoMap::instance();
 
-	// Set a random resource value
-	Resources::instance()->main.setRandomModule();
-
 	// Choose the correct sizes for the current LOD
 	int mapTexSize = 1024;
 	int planTexSize = 128;

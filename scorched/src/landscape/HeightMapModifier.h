@@ -18,32 +18,33 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// HeightMapModifier.h: interface for the HeightMapModifier class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_HEIGHTMAPMODIFIER_H__26733049_91D4_4AB9_8870_1BC94F531E9A__INCLUDED_)
 #define AFX_HEIGHTMAPMODIFIER_H__26733049_91D4_4AB9_8870_1BC94F531E9A__INCLUDED_
 
 #include <common/RandomGenerator.h>
 #include <landscape/HeightMap.h>
 
+class LandscapeDefinition;
+
 namespace HeightMapModifier  
 {
 	void levelSurround(HeightMap &hmap);
-	void smooth(HeightMap &hmap, ProgressCounter *counter = 0);
-	void scale(HeightMap &hmap, int maxHeight, RandomGenerator &generator,
-			   ProgressCounter *counter = 0);
+	void smooth(HeightMap &hmap, 
+		LandscapeDefinition &defn,
+		ProgressCounter *counter = 0);
+	void scale(HeightMap &hmap, 
+		LandscapeDefinition &defn,
+		RandomGenerator &generator,
+		ProgressCounter *counter = 0);
 
-	void generateTerrain(HeightMap &hmap, int noHills, int maxHeight, 
-						 int widthx, int widthy,
-						 RandomGenerator &generator, 
-						 RandomGenerator &offsetGenerator,
-						 ProgressCounter *counter = 0);
+	void generateTerrain(HeightMap &hmap, 
+		LandscapeDefinition &defn,
+		RandomGenerator &generator, 
+		RandomGenerator &offsetGenerator,
+		ProgressCounter *counter = 0);
 	void addCirclePeak(HeightMap &hmap, Vector &start, 
-					   float sizew, float sizew2, float sizeh,
-					   RandomGenerator &generator);
+		float sizew, float sizew2, float sizeh,
+		RandomGenerator &generator);
 };
 
 #endif // !defined(AFX_HEIGHTMAPMODIFIER_H__26733049_91D4_4AB9_8870_1BC94F531E9A__INCLUDED_)

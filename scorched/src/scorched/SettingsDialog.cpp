@@ -115,12 +115,12 @@ SettingsFrame::SettingsFrame(bool server, OptionsGame &context) :
 	envPanel_->SetAutoLayout(TRUE);
 	envPanel_->SetSizer(envPanelSizer);
 
-	landPanel_ = new wxPanel(book_, -1);
+	/*landPanel_ = new wxPanel(book_, -1);
 	wxSizer *landPanelSizer = new wxBoxSizer(wxVERTICAL);
 	SettingsLand::createControls(landPanel_, landPanelSizer);
 	book_->AddPage(landPanel_, "Land");
 	landPanel_->SetAutoLayout(TRUE);
-	landPanel_->SetSizer(landPanelSizer);
+	landPanel_->SetSizer(landPanelSizer);*/
 
 	if (server)
 	{
@@ -224,46 +224,7 @@ bool SettingsFrame::TransferDataToWindow()
 
 	// Land 
 	{
-		// Coverage
-		char buffer[25];
-		int i;
-		for (i=500; i>=10; i-=10)
-		{	
-			sprintf(buffer, "%i", i);
-			SettingsLand::IDC_LANDCOVERAGE_CTRL->Append(buffer);
-		}
-		SettingsLand::IDC_LANDCOVERAGE_CTRL->Append("5");
-		SettingsLand::IDC_LANDCOVERAGE_CTRL->Append("1");
-		sprintf(buffer, "%i", context_.getNoHills());
-		SettingsLand::IDC_LANDCOVERAGE_CTRL->SetValue(buffer);
-		SettingsLand::IDC_LANDCOVERAGE_CTRL->SetToolTip(
-			wxString("Specifies how large the island is."));
 
-		// Land Height
-		for (i=100; i>=0; i-=10)
-		{	
-			sprintf(buffer, "%i", i);
-			SettingsLand::IDC_LANDHEIGHT_CTRL->Append(buffer);
-		}
-		sprintf(buffer, "%i", context_.getMaxHeight());
-		SettingsLand::IDC_LANDHEIGHT_CTRL->SetValue(buffer);
-		SettingsLand::IDC_LANDHEIGHT_CTRL->SetToolTip(
-			wxString("Specifies how hilly the landscape is."));
-
-		for (i=256; i>=64; i-=64)
-		{	
-			sprintf(buffer, "%i", i);
-			SettingsLand::IDC_LANDWIDTHX_CTRL->Append(buffer);
-			SettingsLand::IDC_LANDWIDTHY_CTRL->Append(buffer);
-		}
-		sprintf(buffer, "%i", context_.getLandWidthX());
-		SettingsLand::IDC_LANDWIDTHX_CTRL->SetValue(buffer);
-		SettingsLand::IDC_LANDWIDTHX_CTRL->SetToolTip(
-			wxString("Specifies how wide the island can be."));
-		sprintf(buffer, "%i", context_.getLandWidthY());
-		SettingsLand::IDC_LANDWIDTHY_CTRL->SetValue(buffer);
-		SettingsLand::IDC_LANDWIDTHY_CTRL->SetToolTip(
-			wxString("Specifies how wide the island can be."));
 	}
 
 	// Eco
@@ -526,19 +487,7 @@ bool SettingsFrame::TransferDataFromWindow()
 
 	// Land
 	{
-		int ilandCover = 2;
-		sscanf(SettingsLand::IDC_LANDCOVERAGE_CTRL->GetValue(), "%i", &ilandCover);
-		int ilandHeight = 2;
-		sscanf(SettingsLand::IDC_LANDHEIGHT_CTRL->GetValue(), "%i", &ilandHeight);
-		int ilandWidthX = 256;
-		sscanf(SettingsLand::IDC_LANDWIDTHX_CTRL->GetValue(), "%i", &ilandWidthX);
-		int ilandWidthY = 256;
-		sscanf(SettingsLand::IDC_LANDWIDTHY_CTRL->GetValue(), "%i", &ilandWidthY);
 
-		context_.setMaxHeight(ilandHeight);
-		context_.setNoHills(ilandCover);
-		context_.setLandWidthX(ilandWidthX);
-		context_.setLandWidthY(ilandWidthY);
 	}
 
 	// Eco
