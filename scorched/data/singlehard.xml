@@ -341,4 +341,10 @@
     <value>Human</value>
     <defaultvalue>Human</defaultvalue>
   </option>
+  <!-- Start the game will all the weapons -->
+  <option>
+    <name>GiveAllWeapons</name>
+    <value>off</value>
+    <defaultvalue>off</defaultvalue>
+  </option>
 </options>

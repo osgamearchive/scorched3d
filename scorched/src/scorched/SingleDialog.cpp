@@ -146,8 +146,6 @@ void SingleFrame::onLoadButton()
 void SingleFrame::onTargetButton()
 {
 	const char *targetFilePath = getDataFile("data/singletarget.xml");
-	ScorchedServer::instance()->getOptionsGame().readOptionsFromFile((char *) targetFilePath);
-	ScorchedServer::instance()->getOptionsGame().writeOptionsToFile((char *) targetFilePath);
 	EndModal(wxID_OK);
 
 	runScorched3D("-startclient \"%s\"", targetFilePath);
@@ -156,8 +154,6 @@ void SingleFrame::onTargetButton()
 void SingleFrame::onEasyButton()
 {
 	const char *easyFilePath = getDataFile("data/singleeasy.xml");
-	ScorchedServer::instance()->getOptionsGame().readOptionsFromFile((char *) easyFilePath);
-	ScorchedServer::instance()->getOptionsGame().writeOptionsToFile((char *) easyFilePath);
 	EndModal(wxID_OK);
 
 	runScorched3D("-startclient \"%s\"", easyFilePath);
@@ -166,8 +162,6 @@ void SingleFrame::onEasyButton()
 void SingleFrame::onNormalButton()
 {
 	const char *normalFilePath = getDataFile("data/singlenormal.xml");
-	ScorchedServer::instance()->getOptionsGame().readOptionsFromFile((char *) normalFilePath);
-	ScorchedServer::instance()->getOptionsGame().writeOptionsToFile((char *) normalFilePath);
 	EndModal(wxID_OK);
 
 	runScorched3D("-startclient \"%s\"", normalFilePath);
@@ -176,8 +170,6 @@ void SingleFrame::onNormalButton()
 void SingleFrame::onHardButton()
 {
 	const char *hardFilePath = getDataFile("data/singlehard.xml");
-	ScorchedServer::instance()->getOptionsGame().readOptionsFromFile((char *) hardFilePath);
-	ScorchedServer::instance()->getOptionsGame().writeOptionsToFile((char *) hardFilePath);
 	EndModal(wxID_OK);
 
 	runScorched3D("-startclient \"%s\"", hardFilePath);
