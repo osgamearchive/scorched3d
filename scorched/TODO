@@ -23,11 +23,9 @@ Fix crashing when people win (Graphics card drivers??)
 
 -- Things for next release
 Being able to register peoples nicknames
-Change stats db format to only have one user entry for all servers
 Ambient sounds
 Boids
 Move placements to seperate file
-Resigning position due to health left
 Allow players to choose players without joining first
 Shadows for other models
 Teleport (to random position)

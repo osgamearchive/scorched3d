@@ -125,7 +125,9 @@ void MovementMap::calculateForTank(Tank *tank, ScorchedContext &context)
 	// Calculate the water height
 	float waterHeight = -10.0f;
 	if (context.optionsGame->getMovementRestriction() ==
-		OptionsGame::MovementRestrictionLand)
+		OptionsGame::MovementRestrictionLand ||
+		context.optionsGame->getMovementRestriction() ==
+		OptionsGame::MovementRestrictionLandOrAbove)
 	{
 		LandscapeTex &tex = context.landscapeMaps->getTex(context);
 		if (0 == strcmp(tex.bordertype.c_str(), "water"))
@@ -134,6 +136,15 @@ void MovementMap::calculateForTank(Tank *tank, ScorchedContext &context)
 				(LandscapeTexBorderWater *) tex.border;
 
 			waterHeight = water->height;
+		}
+	}
+
+	if (context.optionsGame->getMovementRestriction() ==
+		OptionsGame::MovementRestrictionLandOrAbove)
+	{
+		if (waterHeight > tank->getPhysics().getTankPosition()[2] - 0.1f)
+		{
+			waterHeight = tank->getPhysics().getTankPosition()[2] - 0.1f;
 		}
 	}
 

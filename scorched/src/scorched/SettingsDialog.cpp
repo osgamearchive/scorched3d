@@ -514,6 +514,8 @@ bool SettingsFrame::TransferDataToWindow()
 			(void *) OptionsGame::MovementRestrictionNone);
 		SettingsEnv::IDC_MOVEMENTRESTRICTION_CTRL->Append("Land Only", 
 			(void *) OptionsGame::MovementRestrictionLand);
+		SettingsEnv::IDC_MOVEMENTRESTRICTION_CTRL->Append("Land Or Above Only", 
+			(void *) OptionsGame::MovementRestrictionLandOrAbove);
 		SettingsEnv::IDC_MOVEMENTRESTRICTION_CTRL->SetSelection(
 			context_.getMovementRestriction());
 		SettingsEnv::IDC_MOVEMENTRESTRICTION_CTRL->SetToolTip(

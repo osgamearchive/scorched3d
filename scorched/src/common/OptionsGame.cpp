@@ -74,7 +74,7 @@ OptionsGame::OptionsGame() :
 	resignMode_(options_, "ResignMode",
 		"When does a players resign take place", 0, int(ResignEnd), int(ResignStart), int(ResignDueToHealth)),
 	movementRestriction_(options_, "MovementRestriction",
-		"Where a tank is allowed to move to", 0, int(MovementRestrictionNone), int(MovementRestrictionNone), int(MovementRestrictionLand)),
+		"Where a tank is allowed to move to", 0, int(MovementRestrictionNone), int(MovementRestrictionNone), int(MovementRestrictionLandOrAbove)),
 	autoBallanceTeams_(options_, "AutoBallanceTeams",
 		"Automatically ballance teams at the start of each round", 0, true),
 	moneyPerHealthPoint_(options_, "MoneyPerHealthPoint",

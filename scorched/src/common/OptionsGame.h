@@ -81,7 +81,8 @@ public:
 	enum MovementRestrictionType
 	{
 		MovementRestrictionNone = 0,
-		MovementRestrictionLand = 1
+		MovementRestrictionLand = 1,
+		MovementRestrictionLandOrAbove = 2
 	};
 
 	int getTeams() { return teams_.getValue(); }
