@@ -13,15 +13,13 @@ Changes Since 1.6
 	New Accessories:
 		- Bottomless Pit - Creates a narrow but deep pit at the point of impact
 		- Earthquake - shakes the earth and does damage over a large area
-		- EMP Grenade - Bounces once and explodes causing damage to opponents without deforming the earth.
-		- Hard Hat - Replacement for the old style heavy mag
-		- Hornet Swarm - Releases multiple Hornet's Nests
+		- EMP Grenade - Bounces once and explodes causing damage to opponents without deforming the earth
+		- Frag Grenade - Bounces once and does a fairly small explosion which releases some shrapnel
 		- Gas Grenade - Lands, bounces and releases a cloud of harmful gas.  Custom model by ShoCkwaVe
-		- Grenade - Bounces once and does a fairly small explosion.
+		- Hornet Swarm - Releases multiple Hornet's Nests
 		- Lightning Strike - Explodes at the apex of the projectiles arc creating a small cloud and lightning bolt
 		- Lightning Storm - Explodes at the apex of the projectile's arc creating several lightning bolts over a few seconds
 		- Mega EMP - Larger version of the EMP grenade
-		- Mini Hard Hat - Replacement for the old style mag deflect shield
 		- Ring of Dirt - Raises multiple walls of dirt forming a ring around your tank
 		- Riot Drill - 3 heavy riot bombs are shot in rapid succession at the same point
 		- Wall of Dirt - Raises a wall of dirt a short distance from your tank in the direction you aim
@@ -49,6 +47,7 @@ Changes Since 1.6
 		- Maze - raised the entire map up some, lowered wall height and widened the lanes to make the map easier.  Also tweaked the map so napalm works better
 		- Cities added to some other maps
 		- Moon maps have a new texture set and rocks added to the landscape
+		- Desert maps have rocks and cactus
 	
 	Other:
 		- New elemental AI types based off of the new Cyborg AI type

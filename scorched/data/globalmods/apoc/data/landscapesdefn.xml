@@ -37,7 +37,7 @@
 	<defn>
    		<name>lowlands</name>
 		<minplayers>0</minplayers>
-		<maxplayers>12</maxplayers>
+		<maxplayers>24</maxplayers>
 		<surround type="none"></surround>
 		<roof type="sky"></roof>
 		<tankstart type="height">
@@ -140,7 +140,28 @@
    		<name>islands</name>
 		<minplayers>0</minplayers>
 		<maxplayers>24</maxplayers>
-		<surround type="none"></surround>
+		<surround type="generate">
+			<mask>data/landscapes/surround-mask.bmp</mask>
+			<landhills>
+				<min>32</min><max>50</max>
+			</landhills>
+			<landheight>
+				<min>30</min><max>50</max>
+			</landheight>
+			<landwidthx>96</landwidthx>
+			<landwidthy>96</landwidthy>
+			<landpeakwidthx>
+				<min>2</min><max>3</max>
+			</landpeakwidthx>
+			<landpeakwidthy>
+				<min>-1</min><max>1</max>
+			</landpeakwidthy>
+			<landpeakheight>
+				<min>1.0</min><max>1.5</max>
+			</landpeakheight>
+			<landsmoothing>0.04</landsmoothing>
+			<levelsurround>true</levelsurround>
+		</surround>
 		<roof type="sky"></roof>
 		<tankstart type="height">
 			<startcloseness>20</startcloseness>
@@ -237,12 +258,9 @@
 			<landsmoothing>0.04</landsmoothing>
 			<levelsurround>true</levelsurround>
 		</heightmap>
-		<!--<heightmap type="file">
-			<file>data/landscapes/valley-mask.bmp</file>
-		</heightmap>-->
 	</defn>
 	<defn>
-		<name>test</name>
+		<name>cavern</name>
 		<minplayers>0</minplayers>
 		<maxplayers>24</maxplayers>
 		<surround type="none"></surround>
@@ -257,7 +275,7 @@
 			<heightmap type="generate">
 				<mask></mask>
 				<landhills>
-					<min>60</min><max>80</max>
+					<min>120</min><max>160</max>
 				</landhills>
 				<landheight>
 					<min>40</min><max>70</max>
@@ -265,15 +283,15 @@
 				<landwidthx>64</landwidthx>
 				<landwidthy>64</landwidthy>
 				<landpeakwidthx>
-					<min>4</min><max>10</max>
+					<min>2</min><max>8</max>
 				</landpeakwidthx>
 				<landpeakwidthy>
-					<min>-3</min><max>3</max>
+					<min>-1</min><max>1</max>
 				</landpeakwidthy>
 				<landpeakheight>
 					<min>0.5</min><max>1.5</max>
 				</landpeakheight>
-				<landsmoothing>0.04</landsmoothing>
+				<landsmoothing>0.0</landsmoothing>
 				<levelsurround>false</levelsurround>
 			</heightmap>
 		</roof>
@@ -299,6 +317,10 @@
 			<landsmoothing>0.04</landsmoothing>
 			<levelsurround>true</levelsurround>
 		</heightmap>
+		<!--<heightmap type="file">
+			<file>data/landscapes/valley-mask.bmp</file>
+			<levelsurround>true</levelsurround>
+		</heightmap>-->
 	</defn>
 	<!-- 
 	Maps designed by Bobirov (a.k.a. Robert Hand)
@@ -594,7 +616,28 @@
     	<name>moon</name>
     	<minplayers>4</minplayers>
     	<maxplayers>24</maxplayers>
-    	<surround type="none"></surround>
+    	<surround type="generate">
+			<mask>data/landscapes/surround-mask.bmp</mask>
+			<landhills>
+				<min>250</min><max>300</max>
+			</landhills>
+			<landheight>
+				<min>40</min><max>75</max>
+			</landheight>
+			<landwidthx>96</landwidthx>
+			<landwidthy>96</landwidthy>
+			<landpeakwidthx>
+				<min>2</min><max>3</max>
+			</landpeakwidthx>
+			<landpeakwidthy>
+				<min>-1</min><max>1</max>
+			</landpeakwidthy>
+			<landpeakheight>
+				<min>1.0</min><max>1.5</max>
+			</landpeakheight>
+			<landsmoothing>0.04</landsmoothing>
+			<levelsurround>true</levelsurround>
+		</surround>
 		<roof type="sky"></roof>
     	<tankstart type="height">
     		<startcloseness>20</startcloseness>
@@ -610,7 +653,28 @@
     	<name>pyramids</name>
     	<minplayers>0</minplayers>
     	<maxplayers>24</maxplayers>
-    	<surround type="none"></surround>
+    	<surround type="generate">
+			<mask>data/landscapes/surround-mask.bmp</mask>
+			<landhills>
+				<min>32</min><max>50</max>
+			</landhills>
+			<landheight>
+				<min>30</min><max>50</max>
+			</landheight>
+			<landwidthx>96</landwidthx>
+			<landwidthy>96</landwidthy>
+			<landpeakwidthx>
+				<min>2</min><max>3</max>
+			</landpeakwidthx>
+			<landpeakwidthy>
+				<min>-1</min><max>1</max>
+			</landpeakwidthy>
+			<landpeakheight>
+				<min>1.0</min><max>1.5</max>
+			</landpeakheight>
+			<landsmoothing>0.04</landsmoothing>
+			<levelsurround>true</levelsurround>
+		</surround>
 		<roof type="sky"></roof>
     	<tankstart type="height">
     		<startcloseness>20</startcloseness>
@@ -674,7 +738,28 @@
     	<name>craters</name>
     	<minplayers>0</minplayers>
     	<maxplayers>24</maxplayers>
-    	<surround type="none"></surround>
+    	<surround type="generate">
+			<mask>data/landscapes/surround-mask.bmp</mask>
+			<landhills>
+				<min>32</min><max>50</max>
+			</landhills>
+			<landheight>
+				<min>30</min><max>50</max>
+			</landheight>
+			<landwidthx>96</landwidthx>
+			<landwidthy>96</landwidthy>
+			<landpeakwidthx>
+				<min>2</min><max>3</max>
+			</landpeakwidthx>
+			<landpeakwidthy>
+				<min>-1</min><max>1</max>
+			</landpeakwidthy>
+			<landpeakheight>
+				<min>1.0</min><max>1.5</max>
+			</landpeakheight>
+			<landsmoothing>0.04</landsmoothing>
+			<levelsurround>true</levelsurround>
+		</surround>
 		<roof type="sky"></roof>
     	<tankstart type="height">
     		<startcloseness>20</startcloseness>
@@ -690,7 +775,28 @@
     	<name>pyramids2</name>
     	<minplayers>0</minplayers>
     	<maxplayers>24</maxplayers>
-    	<surround type="none"></surround>
+    	<surround type="generate">
+			<mask>data/landscapes/surround-mask.bmp</mask>
+			<landhills>
+				<min>32</min><max>50</max>
+			</landhills>
+			<landheight>
+				<min>30</min><max>50</max>
+			</landheight>
+			<landwidthx>96</landwidthx>
+			<landwidthy>96</landwidthy>
+			<landpeakwidthx>
+				<min>2</min><max>3</max>
+			</landpeakwidthx>
+			<landpeakwidthy>
+				<min>-1</min><max>1</max>
+			</landpeakwidthy>
+			<landpeakheight>
+				<min>1.0</min><max>1.5</max>
+			</landpeakheight>
+			<landsmoothing>0.04</landsmoothing>
+			<levelsurround>true</levelsurround>
+		</surround>
 		<roof type="sky"></roof>
     	<tankstart type="height">
     		<startcloseness>20</startcloseness>
@@ -793,7 +899,28 @@
     	<name>arizonaislands</name>
     	<minplayers>0</minplayers>
     	<maxplayers>24</maxplayers>
-    	<surround type="none"></surround>
+    	<surround type="generate">
+			<mask>data/landscapes/surround-mask.bmp</mask>
+			<landhills>
+				<min>32</min><max>50</max>
+			</landhills>
+			<landheight>
+				<min>30</min><max>50</max>
+			</landheight>
+			<landwidthx>96</landwidthx>
+			<landwidthy>96</landwidthy>
+			<landpeakwidthx>
+				<min>2</min><max>3</max>
+			</landpeakwidthx>
+			<landpeakwidthy>
+				<min>-1</min><max>1</max>
+			</landpeakwidthy>
+			<landpeakheight>
+				<min>1.0</min><max>1.5</max>
+			</landpeakheight>
+			<landsmoothing>0.04</landsmoothing>
+			<levelsurround>true</levelsurround>
+		</surround>
 		<roof type="sky"></roof>
 		<tankstart type="height">
 			<startcloseness>20</startcloseness>
