@@ -282,6 +282,10 @@ public:
 	void setPublishServer(bool value) { publishServer_.setValue(value); }	
 	const char *getPublishServerToolTip() { return publishServer_.getDescription(); }
 
+	bool getResidualPlayers() { return residualPlayers_.getValue(); }
+	void setResidualPlayers(bool value) { residualPlayers_.setValue(value); }	
+	const char *getResidualPlayersToolTip() { return residualPlayers_.getDescription(); }
+
 	// Fns used to save or restore the state of the options
 	std::list<OptionEntry *> &getOptions();
 	virtual bool writeOptionsToXML(XMLNode *xmlNode);
@@ -341,6 +345,7 @@ protected:
 
 	// Server only options
 	OptionEntryString botNamePrefix_;
+	OptionEntryBool residualPlayers_;
 	OptionEntryBool randomizeBotNames_;
 	OptionEntryBool giveAllWeapons_;
 	OptionEntryString serverName_;

@@ -46,22 +46,19 @@ void WaterMapPoints::draw()
 	if (!borderModelWrap_)
 	{
 		ModelID id;
-		id.initFromString("ase",
-			getDataFile("data/meshes/wrap.ase"), "none");
+		id.initFromString("ase", "data/meshes/wrap.ase", "none");
 		borderModelWrap_ = ModelStore::instance()->loadOrGetArray(id);
 	}
 	if (!borderModelBounce_)
 	{
 		ModelID id;
-		id.initFromString("ase",
-			getDataFile("data/meshes/bounce.ase"), "none");
+		id.initFromString("ase", "data/meshes/bounce.ase", "none");
 		borderModelBounce_ = ModelStore::instance()->loadOrGetArray(id);
 	}
 	if (!borderModelConcrete_)
 	{	
 		ModelID id;
-		id.initFromString("ase",
-			getDataFile("data/meshes/concrete.ase"), "none");
+		id.initFromString("ase", "data/meshes/concrete.ase", "none");
 		borderModelConcrete_ = ModelStore::instance()->loadOrGetArray(id);
 	}
 

@@ -37,16 +37,14 @@ DebrisActionRenderer::DebrisActionRenderer() :
 	if (RAND > 0.5f)
 	{
 		ModelID id;
-		id.initFromString("ase",
-			getDataFile("data/meshes/rock1.ase"), 
+		id.initFromString("ase", "data/meshes/rock1.ase", 
 			"none");
 		debris_ = ModelStore::instance()->loadOrGetArray(id);
 	}
 	else
 	{
 		ModelID id;
-		id.initFromString("ase",
-			getDataFile("data/meshes/rock2.ase"), 
+		id.initFromString("ase", "data/meshes/rock2.ase", 
 			"none");
 		debris_ = ModelStore::instance()->loadOrGetArray(id);
 	}

@@ -18,10 +18,10 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <server/ServerResetState.h>
 #include <server/ServerState.h>
 #include <server/ScorchedServer.h>
+#include <tank/TankDeadContainer.h>
 #include <scorched/ServerDialog.h>
 #include <common/OptionsTransient.h>
 #include <common/Logger.h>
@@ -38,6 +38,7 @@ void ServerResetState::enterState(const unsigned state)
 {
 	// Reset all the tanks back to their original scores etc...
 	ScorchedServer::instance()->getTankContainer().resetTanks();
+	ScorchedServer::instance()->getTankDeadContainer().clearTanks();
 	ScorchedServer::instance()->getOptionsTransient().reset();
 
 	// Start the game

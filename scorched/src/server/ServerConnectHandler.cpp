@@ -24,6 +24,7 @@
 #include <server/TurnController.h>
 #include <server/ServerCommon.h>
 #include <tank/TankColorGenerator.h>
+#include <tank/TankDeadContainer.h>
 #include <tankai/TankAIAdder.h>
 #include <tankai/TankAIStrings.h>
 #include <common/OptionsParam.h>
@@ -250,8 +251,7 @@ void ServerConnectHandler::addNextTank(unsigned int destinationId,
 	// Make sure host desc does not contain \"
 	for (char *h=(char *)sentHostDesc; *h; h++) if (*h == '\"') *h=' ';
 	
-	// Create the new tank and add it to the tank container
-	// Collections
+	// Create the new tank 
 	Tank *tank = new Tank(
 		ScorchedServer::instance()->getContext(),
 		tankId,
@@ -263,6 +263,40 @@ void ServerConnectHandler::addNextTank(unsigned int destinationId,
 	tank->setHostDesc(sentHostDesc);
 	tank->getState().setSpectator(true);
 	tank->getState().setLoading(true);
+
+	// Check if this is a bot
+	// if not update from any residual tank we have.
+	// Residual tanks are only available until the next
+	// whole game starts.
+	if (destinationId != 0)
+	{
+		Tank *savedTank = ScorchedServer::instance()->
+			getTankDeadContainer().getTank(sentUniqueId);
+		if (savedTank)
+		{
+			Logger::log(0, "Found residual player info");
+			NetBufferDefault::defaultBuffer.reset();
+			if (savedTank->getAccessories().writeMessage(
+					NetBufferDefault::defaultBuffer) &&
+				savedTank->getScore().writeMessage(
+					NetBufferDefault::defaultBuffer))
+			{
+				NetBufferReader reader(NetBufferDefault::defaultBuffer);
+				if (!tank->getAccessories().readMessage(reader) ||
+					!tank->getScore().readMessage(reader))
+				{
+					Logger::log(0, "Failed to update residual player info");
+				}
+			}
+			else 
+			{
+				Logger::log(0, "Failed to update residual player info");
+			}
+			delete savedTank;
+		}
+	}
+
+	// Add the tank to the list of tanks
 	ScorchedServer::instance()->getTankContainer().addTank(tank);
 
 	// Tell the clients to create this tank

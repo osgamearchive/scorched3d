@@ -61,6 +61,8 @@ OptionsGame::OptionsGame() :
 		"The number of players to allow before remvoing bots", 0, 0, 0, 24),
 	limitPowerByHealth_(options_, "LimitPowerByHealth", 
 		"Show power is limited by the amount of health a player has", 0, true),
+	residualPlayers_(options_, "ResidualPlayers",
+		"Players that leave will have the same state when reconnecting", 0, true),
 	autoBallanceTeams_(options_, "AutoBallanceTeams",
 		"Automatically ballance teams at the start of each round", 0, true),
 	moneyPerHealthPoint_(options_, "MoneyPerHealthPoint",

@@ -18,28 +18,49 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <server/ScorchedServer.h>
 #include <tank/TankDeadContainer.h>
 
-ScorchedServer *ScorchedServer::instance_ = 0;
-
-ScorchedServer *ScorchedServer::instance()
+TankDeadContainer::TankDeadContainer() 
 {
-	if (!instance_)
+
+}
+
+TankDeadContainer::~TankDeadContainer()
+{
+
+}
+
+void TankDeadContainer::addTank(Tank *tank)
+{
+	Tank *old = getTank(tank->getUniqueId());
+	if (old) delete old;
+
+	deadTanks_[tank->getUniqueId()] = tank;
+}
+
+Tank *TankDeadContainer::getTank(const char *uniqueId)
+{
+	std::map<std::string, Tank *>::iterator finditor =
+		deadTanks_.find(uniqueId);
+	if (finditor != deadTanks_.end())
 	{
-		instance_ = new ScorchedServer;
+		Tank *tank = (*finditor).second;
+		deadTanks_.erase(finditor);
+		return tank;
 	}
-	return instance_;
+	return 0;
 }
 
-ScorchedServer::ScorchedServer()  : context_("Server")
+void TankDeadContainer::clearTanks()
 {
-	deadContainer_ = new TankDeadContainer;
-	context_.serverMode = true;
-}
-
-ScorchedServer::~ScorchedServer()
-{
-	delete deadContainer_;
+	std::map<std::string, Tank *>::iterator itor;
+	for (itor = deadTanks_.begin();
+		itor != deadTanks_.end();
+		itor++)
+	{
+		Tank *current = (*itor).second;
+		delete current;
+	}
+	deadTanks_.clear();
 }
 

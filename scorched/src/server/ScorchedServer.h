@@ -23,6 +23,7 @@
 
 #include <engine/ScorchedContext.h>
 
+class TankDeadContainer;
 class ScorchedServer
 {
 public:
@@ -31,6 +32,7 @@ public:
 	AccessoryStore &getAccessoryStore() { return *context_.accessoryStore; }
 	GameState &getGameState() { return *context_.gameState; }
 	TankContainer &getTankContainer() { return *context_.tankContainer; }
+	TankDeadContainer &getTankDeadContainer() { return *deadContainer_; }
 	ActionController &getActionController() { return *context_.actionController; }
 	LandscapeMaps &getLandscapeMaps() { return *context_.landscapeMaps; }
 	ScorchedContext &getContext() { return context_; }
@@ -43,6 +45,7 @@ public:
 protected:
 	static ScorchedServer *instance_;
 	ScorchedContext context_;
+	TankDeadContainer *deadContainer_;
 
 private:
 	ScorchedServer();

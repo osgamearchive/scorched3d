@@ -78,8 +78,7 @@ void GLWWindView::draw()
 	if (!windModel_)
 	{
 		ModelID id;
-		id.initFromString("ase",
-			getDataFile("data/meshes/wind.ase"), "none");
+		id.initFromString("ase", "data/meshes/wind.ase", "none");
 		windModel_ = ModelStore::instance()->loadOrGetArray(id);
 	}
 

@@ -51,10 +51,8 @@ public:
 	TankBatteries &getBatteries() { return tankBatteries_; }
 
 	// Serialize the tank accessories
-    bool writeMessage(NetBuffer &buffer);
-    bool readMessage(NetBufferReader &reader);
-	bool writeXML(XMLNode *node);
-	bool readXML(XMLNode *node);
+	bool writeMessage(NetBuffer &buffer);
+	bool readMessage(NetBufferReader &reader);
 
 protected:
 	ScorchedContext &context_;

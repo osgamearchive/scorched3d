@@ -48,8 +48,7 @@ GLVertexSet *TankModelRendererAIM::getAutoAimModel()
 	if (!array)
 	{
 		ModelID id;
-		id.initFromString("ase",
-			getDataFile("data/meshes/autoaim.ase"), "none");
+		id.initFromString("ase", "data/meshes/autoaim.ase", "none");
 		array = ModelStore::instance()->loadOrGetArray(id);
 	}
 	return array;

@@ -18,28 +18,26 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <server/ScorchedServer.h>
-#include <tank/TankDeadContainer.h>
+#if !defined(AFX_TankDeadContainer_H__56AF98E2_E188_45EC_AA25_1865ADBBA3F1__INCLUDED_)
+#define AFX_TankDeadContainer_H__56AF98E2_E188_45EC_AA25_1865ADBBA3F1__INCLUDED_
 
-ScorchedServer *ScorchedServer::instance_ = 0;
+#include <map>
+#include <tank/Tank.h>
 
-ScorchedServer *ScorchedServer::instance()
+class TankDeadContainer  
 {
-	if (!instance_)
-	{
-		instance_ = new ScorchedServer;
-	}
-	return instance_;
-}
+public:
+	TankDeadContainer();
+	virtual ~TankDeadContainer();
 
-ScorchedServer::ScorchedServer()  : context_("Server")
-{
-	deadContainer_ = new TankDeadContainer;
-	context_.serverMode = true;
-}
+	void clearTanks();
+	void addTank(Tank *tank);
+	Tank *getTank(const char *uniqueId);
 
-ScorchedServer::~ScorchedServer()
-{
-	delete deadContainer_;
-}
+protected:
+	static TankDeadContainer *instance_;
+	std::map<std::string, Tank *> deadTanks_;
 
+};
+
+#endif // !defined(AFX_TankDeadContainer_H__56AF98E2_E188_45EC_AA25_1865ADBBA3F1__INCLUDED_)

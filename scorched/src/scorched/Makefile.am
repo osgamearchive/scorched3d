@@ -163,6 +163,8 @@ scorched3d_SOURCES = \
 	../tank/TankColorGenerator.h \
 	../tank/TankContainer.cpp \
 	../tank/TankContainer.h \
+	../tank/TankDeadContainer.cpp \
+	../tank/TankDeadContainer.h \
 	../tank/TankController.cpp \
 	../tank/TankController.h \
 	../tank/TankFuel.cpp \
@@ -270,8 +272,6 @@ scorched3d_SOURCES = \
 	../3dsparse/ASEFile.h \
 	../3dsparse/ASEModel.cpp \
 	../3dsparse/ASEModel.h \
-	../3dsparse/ASEStore.cpp \
-	../3dsparse/ASEStore.h \
 	../3dsparse/MSFile.cpp \
 	../3dsparse/MSFile.h \
 	../3dsparse/MeshLOD.cpp \
@@ -284,6 +284,8 @@ scorched3d_SOURCES = \
 	../3dsparse/Model.h \
 	../3dsparse/ModelID.cpp \
 	../3dsparse/ModelID.h \
+	../3dsparse/ModelStore.cpp \
+	../3dsparse/ModelStore.h \
 	../3dsparse/ModelsFile.cpp \
 	../3dsparse/ModelsFile.h \
 	../3dsparse/aseFile.lex.cpp \
@@ -393,14 +395,12 @@ scorched3d_SOURCES = \
 	../landscape/InfoMap.h \
 	../landscape/Landscape.cpp \
 	../landscape/Landscape.h \
-	../landscape/LandscapeDefn.cpp \
-	../landscape/LandscapeDefn.h \
-	../landscape/LandscapeTex.cpp \
-	../landscape/LandscapeTex.h \
 	../landscape/LandscapeDefinition.cpp \
 	../landscape/LandscapeDefinition.h \
 	../landscape/LandscapeDefinitions.cpp \
 	../landscape/LandscapeDefinitions.h \
+	../landscape/LandscapeDefn.cpp \
+	../landscape/LandscapeDefn.h \
 	../landscape/LandscapeMaps.cpp \
 	../landscape/LandscapeMaps.h \
 	../landscape/LandscapeObjects.cpp \
@@ -411,6 +411,8 @@ scorched3d_SOURCES = \
 	../landscape/LandscapeObjectsEntryTree.h \
 	../landscape/LandscapeObjectsPlacement.cpp \
 	../landscape/LandscapeObjectsPlacement.h \
+	../landscape/LandscapeTex.cpp \
+	../landscape/LandscapeTex.h \
 	../landscape/MovementMap.cpp \
 	../landscape/MovementMap.h \
 	../landscape/NapalmMap.cpp \

@@ -139,8 +139,7 @@ void ShotBounce::draw()
 		if (!model_)
 		{
 			ModelID id;
-			id.initFromString("ase", 
-				getDataFile("data/accessories/roller.ase"),
+			id.initFromString("ase", "data/accessories/roller.ase",
 				"none");
 			model_ = ModelStore::instance()->loadOrGetArray(id);
 		}

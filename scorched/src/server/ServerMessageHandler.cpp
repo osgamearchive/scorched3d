@@ -22,10 +22,12 @@
 #include <server/ScorchedServer.h>
 #include <server/ServerCommon.h>
 #include <server/ServerBanned.h>
+#include <tank/TankDeadContainer.h>
 #include <coms/ComsRmPlayerMessage.h>
 #include <coms/ComsMessageSender.h>
 #include <coms/NetInterface.h>
 #include <common/Logger.h>
+#include <common/OptionsGame.h>
 #include <common/StatsLogger.h>
 
 ServerMessageHandler *ServerMessageHandler::instance_ = 0;
@@ -117,7 +119,14 @@ void ServerMessageHandler::destroyPlayer(unsigned int tankId)
 		ComsMessageSender::sendToAllConnectedClients(rmPlayerMessage);
 
 		// Tidy player
-		delete tank;
+		if (ScorchedServer::instance()->getOptionsGame().getResidualPlayers())
+		{
+			ScorchedServer::instance()->getTankDeadContainer().addTank(tank);
+		}
+		else
+		{
+			delete tank;
+		}
 	}
 	else
 	{
