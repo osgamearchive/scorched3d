@@ -74,6 +74,7 @@ Added: Way to choose mods for server and single player
 Added: WeaponAimedOver and WeaponAimedUnder weapon primatives can be configured
 Added: Admin commands can be accessed from a client
 Added: Admin slap and ban
+Added: Players can be banned by ip address (and ip address range)
 Added: Start of sky dome time of day shading
 Added: Sound effect volume control
 Added: Custom explosion and napalm texture sets can be added
