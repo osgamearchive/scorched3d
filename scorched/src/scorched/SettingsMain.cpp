@@ -36,10 +36,13 @@ static void createControls(wxWindow *parent, wxSizer *topsizer)
 		0, 0, wxCB_READONLY);
 	sizer->Add(IDC_TEAMS_CTRL, 0, wxALIGN_CENTER);
 
-	sizer->Add(new wxStaticText(parent, -1, ""), 0, wxALIGN_CENTER);
-	sizer->Add(IDC_AUTOBALANCETEAMS_CTRL = 
-		new wxCheckBox(parent, IDC_AUTOBALANCETEAMS,
-		"Auto ballance teams"), 0, wxALIGN_CENTER);
+	sizer->Add(new wxStaticText(parent, -1, 
+		"Team Ballance"), 0, wxALIGN_CENTER);
+	sizer->Add(IDC_TEAMBALLANCE_CTRL = 
+		new wxComboBox(parent, -1,
+		"",
+		wxDefaultPosition, wxDefaultSize,
+		0, 0, wxCB_READONLY), 0, wxALIGN_CENTER);
 		
 	IDC_TYPE_CTRL_TEXT = 
 		new wxStaticText(parent, -1,

@@ -60,6 +60,7 @@ void ClientAdmin::admin(std::list<GLConsoleRuleSplit> split,
 		bool failed = false;
 		if (0 == stricmp(firstsplit.rule.c_str(), "help")) adminHelp(result);
 		else if (0 == stricmp(firstsplit.rule.c_str(), "killall") ||
+			0 == stricmp(firstsplit.rule.c_str(), "newgame") ||
 			0 == stricmp(firstsplit.rule.c_str(), "showbanned") ||
 			0 == stricmp(firstsplit.rule.c_str(), "show") ||
 			0 == stricmp(firstsplit.rule.c_str(), "logout"))
@@ -75,6 +76,8 @@ void ClientAdmin::admin(std::list<GLConsoleRuleSplit> split,
 				type = ComsAdminMessage::AdminShowBanned;
 			else if (0 == stricmp(firstsplit.rule.c_str(), "killall"))
 				type = ComsAdminMessage::AdminKillAll;
+			else if (0 == stricmp(firstsplit.rule.c_str(), "newgame"))
+				type = ComsAdminMessage::AdminNewGame;
 			else if (0 == stricmp(firstsplit.rule.c_str(), "logout"))
 				type = ComsAdminMessage::AdminLogout;
 
@@ -187,6 +190,7 @@ void ClientAdmin::adminHelp(std::list<std::string> &result)
 	result.push_back("  showaliases <player id> - Shows all stats names this player has");
 	result.push_back("  showipaliases <player id> - Shows all names this player's ip adddresses has");
 	result.push_back("  killall - Kills all current players and starts next round");
+	result.push_back("  newgame - Kills all current players and starts new game");	
 	result.push_back("  kick <player id> - Kicks specified player");
 	result.push_back("  ban <player id> - Bans and kicks specified player");
 	result.push_back("  poor <player id> - Removes all money from player");

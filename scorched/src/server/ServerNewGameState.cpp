@@ -431,12 +431,27 @@ void ServerNewGameState::checkTeams()
 	// Do we check teams
 	if (ScorchedServer::instance()->getOptionsGame().getTeams() == 1) return;
 
-	// Do we auto ballance
-	if (!ScorchedServer::instance()->getOptionsGame().getAutoBallanceTeams()) return;
+	switch (ScorchedServer::instance()->getOptionsGame().getTeamBallance())
+	{
+		case OptionsGame::TeamBallanceAuto:
+			checkTeamsAuto();
+			break;
+		case OptionsGame::TeamBallanceBotsVs:
+			checkTeamsBotsVs();
+			break;
+		deafult:
+			break;
+	}
+}
 
+void ServerNewGameState::checkTeamsAuto()
+{
 	// Count players in each team
 	std::list<Tank *> team1;
 	std::list<Tank *> team2;
+	std::map<unsigned int, Tank *> &playingTanks = 
+		ScorchedServer::instance()->getTankContainer().getPlayingTanks();
+	std::map<unsigned int, Tank *>::iterator mainitor;
 	for (mainitor = playingTanks.begin();
 		 mainitor != playingTanks.end();
 		 mainitor++)
@@ -474,6 +489,24 @@ void ServerNewGameState::checkTeams()
 			Tank *tank = team1.front();
 			team1.pop_front();
 			tank->setTeam(2);
+		}
+	}
+}
+
+void ServerNewGameState::checkTeamsBotsVs()
+{
+	std::map<unsigned int, Tank *> &playingTanks = 
+		ScorchedServer::instance()->getTankContainer().getPlayingTanks();
+	std::map<unsigned int, Tank *>::iterator mainitor;
+	for (mainitor = playingTanks.begin();
+		 mainitor != playingTanks.end();
+		 mainitor++)
+	{
+		Tank *current = (*mainitor).second;
+		if (!current->getState().getSpectator())
+		{
+			if (current->getDestinationId() == 0) current->setTeam(1);
+			else current->setTeam(2);
 		}
 	}
 }

@@ -46,7 +46,8 @@ public:
 		AdminUnMute,
 		AdminAdminTalk,
 		AdminTalk,
-		AdminMessage
+		AdminMessage,
+		AdminNewGame
 	};
 
 	ComsAdminMessage(

@@ -31,7 +31,7 @@ enum
 	IDC_IDLE_TIME,
 	IDC_IDLE_SHOTTIME,
 	IDC_TEAMS,
-	IDC_AUTOBALANCETEAMS
+	IDC_TEAMBALLANCE
 };
 
 static wxTextCtrl *IDC_SERVER_PASSWORD_CTRL = 0;
@@ -46,7 +46,7 @@ static wxComboBox *IDC_IDLE_TIME_CTRL = 0;
 static wxComboBox *IDC_IDLE_SHOTTIME_CTRL = 0;
 static wxComboBox *IDC_TYPE_CTRL = 0;
 static wxComboBox *IDC_TEAMS_CTRL = 0;
-static wxCheckBox *IDC_AUTOBALANCETEAMS_CTRL = 0;
+static wxComboBox *IDC_TEAMBALLANCE_CTRL = 0;
 static wxStaticText *IDC_SERVER_PASSWORD_CTRL_TEXT = 0;
 static wxStaticText *IDC_SERVER_ROUNDS_CTRL_TEXT = 0;
 static wxStaticText *IDC_TEAMS_CTRL_TEXT = 0;

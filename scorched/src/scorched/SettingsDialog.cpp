@@ -532,10 +532,17 @@ bool SettingsFrame::TransferDataToWindow()
 
 	// Main
 	{
-		SettingsMain::IDC_AUTOBALANCETEAMS_CTRL->SetValue(
-			context_.getAutoBallanceTeams());
-		SettingsMain::IDC_AUTOBALANCETEAMS_CTRL->SetToolTip(
-			wxString("Players are moved between teams to ballance them."));
+		// Teams ballance
+		SettingsMain::IDC_TEAMBALLANCE_CTRL->Append("None",
+			(void *) OptionsGame::TeamBallanceNone);
+		SettingsMain::IDC_TEAMBALLANCE_CTRL->Append("Auto",
+			(void *) OptionsGame::TeamBallanceAuto);
+		SettingsMain::IDC_TEAMBALLANCE_CTRL->Append("BotsVs",
+			(void *) OptionsGame::TeamBallanceBotsVs);
+		SettingsMain::IDC_TEAMBALLANCE_CTRL->SetSelection(
+			context_.getTeamBallance());
+		SettingsMain::IDC_TEAMBALLANCE_CTRL->SetToolTip(
+			wxString("The mode that players are moved between teams to ballance them."));
 
 		// Teams combo
 		SettingsMain::IDC_TEAMS_CTRL->Append("None");
@@ -792,6 +799,9 @@ bool SettingsFrame::TransferDataFromWindow()
 		context_.setTurnType((OptionsGame::TurnType) (int) 
 			SettingsMain::IDC_TYPE_CTRL->GetClientData(
 				SettingsMain::IDC_TYPE_CTRL->GetSelection()));
+		context_.setTeamBallance((OptionsGame::TeamBallanceType) (int)
+			SettingsMain::IDC_TEAMBALLANCE_CTRL->GetClientData(
+				SettingsMain::IDC_TEAMBALLANCE_CTRL->GetSelection()));			
 		context_.setTeams((int) SettingsMain::IDC_TEAMS_CTRL->GetSelection() + 1);
 
 		sscanf(SettingsMain::IDC_NOSHOTS_CTRL->GetValue(), "%i", &maxRoundTurns);
@@ -802,8 +812,6 @@ bool SettingsFrame::TransferDataFromWindow()
 		sscanf(SettingsMain::IDC_IDLE_TIME_CTRL->GetValue(), "%i", &idleTime);
 		sscanf(SettingsMain::IDC_IDLE_SHOTTIME_CTRL->GetValue(), "%i", &idleShotTime);
 		sscanf(SettingsMain::IDC_DOWNLOAD_SPEED_CTRL->GetValue(), "%i", &downloadSpeed);
-		context_.setAutoBallanceTeams(SettingsMain::IDC_AUTOBALANCETEAMS_CTRL->GetValue());
-		
 		context_.setNoRounds(noRounds);
 		context_.setShotTime(shotTime);
 		context_.setBuyingTime(buyingTime);

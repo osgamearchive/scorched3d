@@ -84,6 +84,12 @@ public:
 		MovementRestrictionLand = 1,
 		MovementRestrictionLandOrAbove = 2
 	};
+	enum TeamBallanceType
+	{
+		TeamBallanceNone,
+		TeamBallanceAuto,
+		TeamBallanceBotsVs
+	};
 
 	int getTeams() { return teams_.getValue(); }
 	void setTeams(int value) { teams_.setValue(value); }
@@ -229,9 +235,9 @@ public:
 	void setLimitPowerByHealth(bool value) { limitPowerByHealth_.setValue(value); }
 	const char *getLimitPowerByHealthToolTip() { return limitPowerByHealth_.getDescription(); }
 
-	bool getAutoBallanceTeams() { return autoBallanceTeams_.getValue(); }
-	void setAutoBallanceTeams(bool value) { autoBallanceTeams_.setValue(value); }
-	const char *getAutoBallanceTeamsToolTip() { return autoBallanceTeams_.getDescription(); }
+	TeamBallanceType getTeamBallance() { return (TeamBallanceType) teamBallance_.getValue(); }
+	void setTeamBallance(TeamBallanceType value) { teamBallance_.setValue((int) value); }
+	const char *getTeamBallanceTeamsTip() { return teamBallance_.getDescription(); }
 
 	int getComputersDeathTalk() { return computersDeathTalk_.getValue(); }
 	void setComputersDeathTalk(int value) { computersDeathTalk_.setValue(value); }
@@ -381,9 +387,10 @@ protected:
 	OptionEntryBoundedInt moneyStarting_;
 	OptionEntryInt idleKickTime_;
 	OptionEntryInt idleShotKickTime_;
+	OptionEntryBoundedInt teamBallance_;
 	OptionEntryBoundedInt moneyInterest_;
 	OptionEntryBool limitPowerByHealth_;
-	OptionEntryBool autoBallanceTeams_;
+	OptionEntryBool depricatedAutoBallanceTeams_;
 	OptionEntryBool cycleMaps_;
 	OptionEntryBoundedInt resignMode_;
 	OptionEntryBoundedInt movementRestriction_;

@@ -23,6 +23,7 @@
 #include <server/ServerCommon.h>
 #include <server/ServerBanned.h>
 #include <common/OptionsGame.h>
+#include <common/OptionsTransient.h>
 #include <common/StatsLogger.h>
 #include <coms/ComsAdminMessage.h>
 #include <coms/NetInterface.h>
@@ -417,6 +418,16 @@ bool ServerAdminHandler::processMessage(unsigned int destinationId,
 
 		ServerCommon::killAll();
 		break;
+	case ComsAdminMessage::AdminNewGame:
+		ServerCommon::serverLog(0,
+			"\"%s\" admin new game",
+			adminTank->getName());
+		ServerCommon::sendString(0,
+			"admin new game");
+
+		ServerCommon::killAll();
+		ScorchedServer::instance()->getOptionsTransient().startNewGame();	
+		break;	
 	case ComsAdminMessage::AdminSlap:
 		{
 			Tank *targetTank = ScorchedServer::instance()->

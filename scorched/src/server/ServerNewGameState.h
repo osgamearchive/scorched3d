@@ -41,6 +41,9 @@ public:
 	static void checkBots();
 
 protected:
+
+	static void checkTeamsAuto();
+	static void checkTeamsBotsVs();
 	void calculateStartPosition(
 		LandscapeDefnType *defn,
 		const char *type,

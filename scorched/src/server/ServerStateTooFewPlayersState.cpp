@@ -28,6 +28,7 @@
 #include <coms/ComsGameStoppedMessage.h>
 #include <coms/ComsGameStateMessage.h>
 #include <coms/ComsMessageSender.h>
+#include <common/OptionsParam.h>
 #include <common/OptionsGame.h>
 #include <common/Logger.h>
 
@@ -61,6 +62,19 @@ bool ServerStateTooFewPlayersState::acceptStateChange(const unsigned state,
 
 	if (!readyToPlay)
 	{
+		if (!OptionsParam::instance()->getDedicatedServer())
+		{
+			if (ScorchedServer::instance()->getTankContainer().getNoOfNonSpectatorTanks() ==
+				ScorchedServer::instance()->getOptionsGame().getNoMinPlayers())
+			{
+				// Something has gone wrong
+				// We are playing a single player game.
+				// We have enough players but have not started
+				dialogExit("Scorched3D",
+					"Incorrect players added for current game settings");
+			}
+		}
+	
 		// Check if we need to add any new bots
 		ServerNewGameState::checkBots();
 

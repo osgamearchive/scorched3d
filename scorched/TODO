@@ -10,6 +10,9 @@ Fixed: Fonts changed to be totaly open source
 Fixed: Wind indicator missing one face (thanks The Funkinator)
 Fixed: Window ordering in window menu does not change due to z order
 
+Added: Admin newgame command
+Added: Error message for single player team game with incorrect teams
+Added: BotsVs team ballance mode, for player vs bots action
 Added: Server can set maximum avatar size
 Added: Postgresql stats logger (thanks Funkinator)
 Added: New resign option to make tanks resign at end of round depending on how much health they have
@@ -31,11 +34,8 @@ Fix crashing when people win (Graphics card drivers??)
 Being able to register peoples nicknames
 Movement sounds
 Animated GIFs for avitars
-Size limit for avitars
 Distance fogging
 Admin alerts for ip addresses that have been tagged
-Admin team commands (change team etc)
-Bots all in one team option
 Ambient sounds
 Boids
 Move placements to seperate file

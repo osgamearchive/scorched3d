@@ -19,6 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <server/ServerTooFewPlayersStimulus.h>
+#include <server/ServerNewGameState.h>
 #include <server/ScorchedServer.h>
 #include <tank/TankContainer.h>
 #include <common/OptionsGame.h>
@@ -48,10 +49,43 @@ bool ServerTooFewPlayersStimulus::acceptStateChange(const unsigned state,
 													const unsigned nextState,
 													float frameTime)
 {
+	// Make sure we have enough players to play a game
 	if (ScorchedServer::instance()->getTankContainer().getNoOfNonSpectatorTanks() <
 		ScorchedServer::instance()->getOptionsGame().getNoMinPlayers())
 	{
 		return true;
 	}
+	
+	// Check we have enough team players
+	if (ScorchedServer::instance()->getOptionsGame().getTeams() > 1 &&
+		ScorchedServer::instance()->getOptionsGame().getTeamBallance() !=
+			OptionsGame::TeamBallanceAuto)
+	{
+		// If it is auto ballanced, then if there are at least two players
+		// then we are ok.  And if there are not two players then
+		// the first check will catch it.
+		
+		// Move players between teams
+		ServerNewGameState::checkTeams();
+		
+		// Check there is at least one player in each team
+		int team1 = 0, team2 = 0;
+		std::map<unsigned int, Tank *> &playingTanks = 
+			ScorchedServer::instance()->getTankContainer().getPlayingTanks();
+		std::map<unsigned int, Tank *>::iterator mainitor;
+		for (mainitor = playingTanks.begin();
+			 mainitor != playingTanks.end();
+			 mainitor++)
+		{
+			Tank *current = (*mainitor).second;
+			if (!current->getState().getSpectator())
+			{
+				if (current->getTeam() == 1) team1++;
+				if (current->getTeam() == 2) team2++;
+			}
+		}
+		if (team1 == 0 || team2 == 0) return true;
+	}
+	
 	return false;
 }
