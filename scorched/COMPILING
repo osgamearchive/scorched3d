@@ -40,11 +40,11 @@ Linux
 Compiling requirements  : 
 
  * GNU tools (http://www.gnu.org/directory/GNU/)
-    aclocal (GNU automake) 1.5		[aclocal --version]
-    automake (GNU automake) 1.5		[automake --version]
-    autoconf (GNU Autoconf) 2.57	[autoconf --version]
+    aclocal (GNU aclocal) 1.6		[aclocal --version]
+    automake (GNU automake) 1.6		[automake --version]
+    autoconf (GNU autoconf) 2.57	[autoconf --version]
     GNU Make 3.80			[make --version]
-    gcc version 2.95.3 			[g++ --version]
+    gcc version 3.2 			[g++ --version]
 
  * Simple Directmedia Layer (http://www.libsdl.org/)
     SDL 1.2.4
@@ -55,7 +55,7 @@ Compiling requirements  :
     freetype 7.0.1                      [freetype-config --version]
 	
  * WX-windows (http://www.wxwindows.org)
-    wx-windows				[wx-config --version]
+    wx-windows 2.4.2			[wx-config --version]
 
  * OpenGL (http://www.opengl.org) 	[glxinfo | grep -i version]
     server glx version string: 1.3
