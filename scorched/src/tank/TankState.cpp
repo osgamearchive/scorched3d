@@ -26,7 +26,7 @@
 
 TankState::TankState(ScorchedContext &context) : 
 	state_(sPending), life_(100.0f), power_(1000.0f),
-	readyState_(SNotReady), oldPower_(1000.0f),
+	readyState_(sReady), oldPower_(1000.0f),
 	context_(context), spectator_(false)
 {
 }
@@ -37,22 +37,20 @@ TankState::~TankState()
 
 void TankState::reset()
 {
-	state_ = sPending;
-	readyState_ = SNotReady;
+	state_ = sDead;
+	readyState_ = sReady;
 	life_ = 100.0f;
 	power_ = 1000.0f;
 }
 
 void TankState::nextShot()
 {
-	readyState_ = SNotReady;
 	oldPower_ = power_;
 }
 
 void TankState::newGame()
 {
-	readyState_ = SNotReady;
-	state_ = sPending;
+	state_ = sDead;
 	life_ = 100.0f;
 	oldPower_ = power_ = 1000.0f;
 }
@@ -96,7 +94,7 @@ const char *TankState::getStateString()
 
 const char *TankState::getSmallStateString()
 {
-	if (spectator_) return "Spectator";
+	//if (spectator_) return "Spectator";
 	return ((state_==sDead)?"Dead":((state_==sNormal)?"Alive":"Pending"));
 }
 

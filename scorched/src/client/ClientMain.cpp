@@ -34,6 +34,7 @@
 #include <client/ClientRmPlayerHandler.h>
 #include <client/ClientGameStateHandler.h>
 #include <client/ClientActionsHandler.h>
+#include <client/ClientNextRoundHandler.h>
 #include <client/ClientDefenseHandler.h>
 #include <client/ClientState.h>
 #include <client/WindowSetup.h>
@@ -91,6 +92,7 @@ void startClient()
 	ClientRmPlayerHandler::instance();
 	ClientGameStoppedHandler::instance();
 	ClientStartGameHandler::instance();
+	ClientNextRoundHandler::instance();
 	ClientGameStateHandler::instance();
 	ClientDefenseHandler::instance();
 	ClientActionsHandler::instance();
@@ -121,8 +123,6 @@ void startClient()
 
 void clientMain()
 {
-	srand((unsigned) time(NULL));
-
 	if (!createScorchedWindow()) return;
 
 	startClient();

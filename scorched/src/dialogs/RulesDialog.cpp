@@ -123,7 +123,7 @@ void RulesDialog::draw()
 				yellow,
 				14,
 				x_ + 12.0f, top - 45.0f, 0.0f,
-				"Choose your player to start game");
+				"Players waiting for you");
 		}
 		else
 		{

@@ -78,8 +78,6 @@ void OptionsTransient::reset()
 
 void OptionsTransient::newGame()
 {
-	srand(time(0));
-
 	newGame_ = true;
 	int roundsPlayed = optionsGame_.getNoRounds() - getNoRoundsLeft();
 	if (optionsGame_.getBuyOnRound() - 1 <= roundsPlayed)

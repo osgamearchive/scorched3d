@@ -128,7 +128,7 @@
   <!-- The force of the wind -->
   <option>
     <name>WindForce</name>
-    <value>0</value>
+    <value>1</value>
     <defaultvalue>0</defaultvalue>
   </option>
   <!-- When the wind changes -->

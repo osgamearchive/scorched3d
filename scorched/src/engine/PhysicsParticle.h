@@ -52,6 +52,7 @@ public:
 protected:
 	PhysicsParticleObject physicsObject_;
 	bool collision_;
+	float totalTime_;
 
 };
 
@@ -74,6 +75,7 @@ public:
 protected:
 	PhysicsParticleObject physicsObject_;
 	bool collision_;
+	float totalTime_;
 
 };
 

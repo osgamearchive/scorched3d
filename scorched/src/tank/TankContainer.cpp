@@ -211,6 +211,23 @@ bool TankContainer::allReady()
 	return true;
 }
 
+void TankContainer::setAllNotReady()
+{
+	std::map<unsigned int, Tank *>::iterator mainitor;
+	for (mainitor = playingTanks_.begin();
+		 mainitor != playingTanks_.end();
+		 mainitor++)
+	{
+		Tank *current = (*mainitor).second;
+
+		// current check tanks that are not pending
+		if (current->getState().getState() != TankState::sPending)
+		{
+			current->getState().setNotReady();
+		}
+	}
+}
+
 int TankContainer::getNoOfNonSpectatorTanks()
 {
 	int count = 0;

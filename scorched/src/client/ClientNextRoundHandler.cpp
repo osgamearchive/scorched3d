@@ -19,55 +19,43 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <client/ScorchedClient.h>
-#include <client/ClientNewGameHandler.h>
+#include <client/ClientNextRoundHandler.h>
 #include <client/ClientState.h>
-#include <coms/ComsNewGameMessage.h>
-#include <dialogs/ProgressDialog.h>
+#include <coms/ComsNextRoundMessage.h>
 
-ClientNewGameHandler *ClientNewGameHandler::instance_ = 0;
+ClientNextRoundHandler *ClientNextRoundHandler::instance_ = 0;
 
-ClientNewGameHandler *ClientNewGameHandler::instance()
+ClientNextRoundHandler *ClientNextRoundHandler::instance()
 {
 	if (!instance_)
 	{
-	  instance_ = new ClientNewGameHandler();
+		instance_ = new ClientNextRoundHandler;
 	}
-
 	return instance_;
 }
 
-ClientNewGameHandler::ClientNewGameHandler()
+ClientNextRoundHandler::ClientNextRoundHandler()
 {
 	ScorchedClient::instance()->getComsMessageHandler().addHandler(
-		"ComsNewGameMessage",
+		"ComsNextRoundMessage",
 		this);
 }
 
-ClientNewGameHandler::~ClientNewGameHandler()
+ClientNextRoundHandler::~ClientNextRoundHandler()
 {
-
 }
 
-bool ClientNewGameHandler::processMessage(unsigned int id,
-		const char *messageType,
-		NetBufferReader &reader)
+bool ClientNextRoundHandler::processMessage(unsigned int id,
+	const char *messageType,
+	NetBufferReader &reader)
 {
-	ComsNewGameMessage message;
+	// Decode the connect message
+	ComsNextRoundMessage message;
 	if (!message.readMessage(reader)) return false;
-
-	// Generate new landscape
-	if (!ScorchedClient::instance()->getLandscapeMaps().generateHMapFromDiff(
-		ScorchedClient::instance()->getContext(),
-		message.getLevelMessage(),
-		ProgressDialog::instance()))
-	{
-		dialogMessage("Scorched3D", "Failed to generate heightmap diff");
-		return false;
-	}
 
 	ScorchedClient::instance()->getGameState().stimulate(ClientState::StimWait);
 	ScorchedClient::instance()->getGameState().checkStimulate();
-	ScorchedClient::instance()->getGameState().stimulate(ClientState::StimNewGame);
-	ScorchedClient::instance()->getGameState().checkStimulate();
+	ScorchedClient::instance()->getGameState().stimulate(ClientState::StimReady);
+    
 	return true;
 }

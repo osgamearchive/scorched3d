@@ -77,5 +77,5 @@ void ClientNewGameState::enterState(const unsigned state)
 	Landscape::instance()->recalculate(0, 0, 10000);
 
 	// Stimulate into the next round state
-	ScorchedClient::instance()->getGameState().stimulate(ClientState::StimReady);
+	ScorchedClient::instance()->getGameState().stimulate(ClientState::StimWait);
 }

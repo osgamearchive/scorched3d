@@ -49,6 +49,7 @@ public:
 	void newGame();
 	void reset();
 	void setReady() { readyState_ = sReady; }
+	void setNotReady() { readyState_ = SNotReady; }
 	void setState(State s) { state_ = s; }
 	State getState() { return state_; }
 	ReadyState getReadyState() { return readyState_; }

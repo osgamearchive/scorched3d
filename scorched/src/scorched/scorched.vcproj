@@ -1548,6 +1548,12 @@
 				RelativePath="..\coms\ComsNewGameMessage.h">
 			</File>
 			<File
+				RelativePath="..\coms\ComsNextRoundMessage.cpp">
+			</File>
+			<File
+				RelativePath="..\coms\ComsNextRoundMessage.h">
+			</File>
+			<File
 				RelativePath="..\coms\ComsPlayedMoveMessage.cpp">
 			</File>
 			<File
@@ -2367,6 +2373,12 @@
 			</File>
 			<File
 				RelativePath="..\client\ClientNewGameState.h">
+			</File>
+			<File
+				RelativePath="..\client\ClientNextRoundHandler.cpp">
+			</File>
+			<File
+				RelativePath="..\client\ClientNextRoundHandler.h">
 			</File>
 			<File
 				RelativePath="..\client\ClientReadyState.cpp">

@@ -47,6 +47,9 @@ void ServerReadyState::enterState(const unsigned state)
 	// Add any pending tanks into the game
 	ServerNewGameState::addTanksToGame(state);
 
+	// Set all the tanks to not ready
+	ScorchedServer::instance()->getTankContainer().setAllNotReady();
+
 	// Make all computer players ready
 	std::map<unsigned int, Tank *> &tanks = 
 		ScorchedServer::instance()->getTankContainer().getPlayingTanks();

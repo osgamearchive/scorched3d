@@ -164,8 +164,8 @@ bool NetServerCompressedProtocol::sendBuffer(NetBuffer &buffer, TCPsocket socket
 		newBuffer.setBufferUsed(destLen + 4);
 
 		// Actualy send the new message
-		Logger::log(0, "Compressed %i->%i",
-					buffer.getBufferUsed(), newBuffer.getBufferUsed());
+		//Logger::log(0, "Compressed %i->%i",
+		//			buffer.getBufferUsed(), newBuffer.getBufferUsed());
 
 		retVal = NetServerScorchedProtocol::sendBuffer(newBuffer, socket);
 	}

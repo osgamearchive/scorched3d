@@ -45,10 +45,11 @@ public:
 	
 	void nextShot();
 	void newGame();
-
+	
 	void resetTanks();
 	void setAllDead();
 	void removeAllTanks();
+	void setAllNotReady();
 	bool allReady();
 	int aliveCount();
 

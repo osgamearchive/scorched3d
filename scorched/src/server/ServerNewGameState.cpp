@@ -76,10 +76,6 @@ void ServerNewGameState::enterState(const unsigned state)
 	// Get rid of this time so we don't screw things up
 	serverTimer.getTimeDifference();
 
-	// Make sure all clients have the correct state
-	ComsGameStateMessage message;
-	ComsMessageSender::sendToAllPlayingClients(message);	
-
 	// Move into the state that waits for players to become ready
 	ScorchedServer::instance()->getGameState().stimulate(ServerState::ServerStimulusNextRound);
 }
@@ -99,7 +95,8 @@ int ServerNewGameState::addTanksToGame(const unsigned state)
 	{
 		Tank *tank = (*itor).second;
 		// Check to see if any tanks are pending being added
-		if (tank->getState().getState() == TankState::sPending)
+		if (tank->getState().getState() == TankState::sPending ||
+			state == ServerState::ServerStateNewGame)
 		{
 			pending = true;
 		}
@@ -139,7 +136,8 @@ int ServerNewGameState::addTanksToGame(const unsigned state)
 	{
 		Tank *tank = (*itor).second;
 		// Check to see if any tanks are pending being added
-		if (tank->getState().getState() == TankState::sPending)
+		if (tank->getState().getState() == TankState::sPending ||
+			state == ServerState::ServerStateNewGame)
 		{
 			count++;
 			if (tank->getState().getSpectator())
@@ -166,6 +164,11 @@ int ServerNewGameState::addTanksToGame(const unsigned state)
 				destinations.insert(destination);
 				// Send new game message to clients
 				ComsMessageSender::sendToSingleClient(newGameMessage,
+					destination);
+
+				// Make sure all clients have the correct state
+				ComsGameStateMessage stateMessage;
+				ComsMessageSender::sendToSingleClient(stateMessage,
 					destination);
 			}
 		}

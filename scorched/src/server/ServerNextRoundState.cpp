@@ -23,6 +23,8 @@
 #include <server/ScorchedServer.h>
 #include <server/TurnController.h>
 #include <scorched/ServerDialog.h>
+#include <coms/ComsNextRoundMessage.h>
+#include <coms/ComsMessageSender.h>
 #include <common/Logger.h>
 
 ServerNextRoundState::ServerNextRoundState()
@@ -50,6 +52,10 @@ void ServerNextRoundState::enterState(const unsigned state)
 
 	// Setup this list of players that need to move before this round is over
 	TurnController::instance()->nextRound();
+
+	// Tell all clients to start the next round
+	ComsNextRoundMessage message;
+	ComsMessageSender::sendToAllPlayingClients(message);
 
 	// Move into the ready state
 	ScorchedServer::instance()->getGameState().stimulate(ServerState::ServerStimulusReady);

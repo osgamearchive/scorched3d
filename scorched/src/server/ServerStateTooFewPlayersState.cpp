@@ -25,6 +25,7 @@
 #include <server/ServerState.h>
 #include <scorched/ServerDialog.h>
 #include <coms/ComsGameStoppedMessage.h>
+#include <coms/ComsGameStateMessage.h>
 #include <coms/ComsMessageSender.h>
 #include <common/OptionsGame.h>
 #include <common/Logger.h>
@@ -59,10 +60,12 @@ bool ServerStateTooFewPlayersState::acceptStateChange(const unsigned state,
 
 	if (!readyToPlay)
 	{
-		if (ServerNewGameState::addTanksToGame(state) > 0)
+		// Add any new clients
+		if (ServerNewGameState::addTanksToGame(state))
 		{
-			ScorchedServer::instance()->getGameState().stimulate(
-				ServerState::ServerStimulusReady);
+			// If we add any tell the others
+			ComsGameStateMessage stateMessage;
+			ComsMessageSender::sendToAllPlayingClients(stateMessage);
 		}
 	}
 	else

@@ -44,8 +44,6 @@ void ServerState::setupStates(GameState &gameState)
 		serverTooFewPlayers);
 	gameState.addStateStimulus(ServerStateTooFewPlayers, 
 		serverTooFewPlayers, ServerStateReset);
-	gameState.addStateStimulus(ServerStateTooFewPlayers, 
-		ServerStimulusReady, ServerStateReady);
 
 	// ServerStateReset (Start State)
 	ServerResetState *serverReset = new ServerResetState();

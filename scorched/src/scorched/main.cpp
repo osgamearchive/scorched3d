@@ -50,7 +50,6 @@ bool parseCommandLine(int argc, char *argv[])
 	}
 	if (!OptionsDisplay::instance()->getUniqueUserId()[0])
 	{
-		srand((unsigned)time(0));
 		char buffer[128];
 		sprintf(buffer, "%i-%i-%i", rand(), rand(), rand());
 		OptionsDisplay::instance()->setUniqueUserId(buffer);
@@ -129,6 +128,7 @@ int main(int argc, char *argv[])
 
 #endif
 
+	srand((unsigned)time(0));
 	// Parse command line
 	if (!parseCommandLine(argc, argv))
 	{
