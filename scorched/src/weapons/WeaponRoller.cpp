@@ -93,6 +93,8 @@ void WeaponRoller::fireWeapon(ScorchedContext &context,
 	//for (float i=0.0f; i<360.0f; i+= 360.0f / float(numberRollers_))
 	//{
 		Vector position = oldposition;
+		position[0] += RAND * 2.0f - 1.0f;
+		position[1] += RAND * 2.0f - 1.0f;
 		position[2] = context.landscapeMaps->getHMap().getInterpHeight(
 			position[0], position[1]) + 1.0f;
 		addRoller(context, playerId, position);

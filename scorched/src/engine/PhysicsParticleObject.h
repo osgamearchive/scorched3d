@@ -40,6 +40,7 @@ public:
 
 	Vector &getPosition();
 	Vector &getVelocity();
+	float *getRotationQuat();
 	void setPosition(Vector &position);
 	void setData(void *data);
 

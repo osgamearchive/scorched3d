@@ -198,7 +198,7 @@ contact with any tank.</description>
 			<numberrollers>8</numberrollers>
 			<rollermodel type="ase">
 				<mesh>roller.ase</mesh>
-				<skin>none</skin>
+				<skin>default.bmp</skin>
 			</rollermodel>
 			<collisionaction type="WeaponExplosion">
 				<name>Baby Roller</name>
@@ -228,7 +228,7 @@ with any tank.</description>
 			<numberrollers>8</numberrollers>
 			<rollermodel type="ase">
 				<mesh>roller.ase</mesh>
-				<skin>none</skin>
+				<skin>default.bmp</skin>
 			</rollermodel>
 			<collisionaction type="WeaponExplosion">
 				<name>Roller</name>
@@ -258,7 +258,7 @@ with any tank.</description>
 			<numberrollers>8</numberrollers>
 			<rollermodel type="ase">
 				<mesh>roller.ase</mesh>
-				<skin>none</skin>
+				<skin>default.bmp</skin>
 			</rollermodel>
 			<collisionaction type="WeaponExplosion">
 				<name>Heavy Roller</name>

@@ -389,7 +389,7 @@ void ParticleEmitter::emitExplosion(
 		particle->position_ = position;
 		particle->renderer_ = ParticleRendererQuads::getInstance();
 		particle->textureCoord_ = int(RAND * 4.0f);
-		particle->texture_ = set->getTexture(int(RAND * set->getNoTextures()));
+		particle->texture_ = set->getTexture(int(RAND * (set->getNoTextures() - 1)));
 	}
 }
 

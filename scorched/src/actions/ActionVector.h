@@ -33,7 +33,9 @@ public:
 	virtual ~ActionVector();
 
 	void addPoint(unsigned int point);
+	void addPointF(float point);
 	unsigned int getPoint();
+	float getPointF();
 	bool empty() { return points_.empty(); }
 	void remove() { remove_ = true; }
 

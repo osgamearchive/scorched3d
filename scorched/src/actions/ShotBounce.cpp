@@ -25,6 +25,8 @@
 #include <weapons/WeaponRoller.h>
 #include <GLEXT/GLState.h>
 #include <3dsparse/ModelStore.h>
+#include <ode/ode.h>
+#include <string.h>
 
 REGISTER_ACTION_SOURCE(ShotBounce);
 
@@ -33,7 +35,8 @@ ShotBounce::ShotBounce() :
 	totalTime_(0.0f), actionId_(0), actionVector_(0),
 	snapshotTime_(0.0f), vPoint_(0), model_(0)
 {
-	
+	memset(rotMatrix_, 0, sizeof(float) * 16);
+	rotMatrix_[0] = rotMatrix_[5] = rotMatrix_[10] = rotMatrix_[15] = 1.0f;
 }
 
 ShotBounce::ShotBounce(Vector &startPosition, Vector &velocity,
@@ -43,6 +46,8 @@ ShotBounce::ShotBounce(Vector &startPosition, Vector &velocity,
 	totalTime_(0.0f), actionId_(0), actionVector_(0),
 	snapshotTime_(0.0f), vPoint_(0), model_(0)
 {
+	memset(rotMatrix_, 0, sizeof(float) * 16);
+	rotMatrix_[0] = rotMatrix_[5] = rotMatrix_[10] = rotMatrix_[15] = 1.0f;
 	actionId_ = ActionVectorHolder::getNextActionId();
 }
 
@@ -96,21 +101,40 @@ void ShotBounce::simulate(float frameTime, bool &remove)
 	{
 		if (context_->serverMode) 
 		{
-			actionVector_->addPoint((unsigned int) getCurrentPosition()[0]);
-			actionVector_->addPoint((unsigned int) getCurrentPosition()[1]);
-			actionVector_->addPoint((unsigned int) getCurrentPosition()[2]);
+			actionVector_->addPointF(getCurrentPosition()[0]);
+			actionVector_->addPointF(getCurrentPosition()[1]);
+			actionVector_->addPointF(getCurrentPosition()[2]);
+			float *quat = getRotationQuat();
+			for (int i=0; i<4; i++)
+				actionVector_->addPointF(quat[i]);
 		}
 		else
 		{
 			if (!actionVector_ || actionVector_->empty()) remove = true;
 			else
 			{
-				unsigned int pointx = actionVector_->getPoint();
-				unsigned int pointy = actionVector_->getPoint();
-				unsigned int pointz = actionVector_->getPoint();
-				startPosition_[0] = (float) pointx;
-				startPosition_[1] = (float) pointy;
-				startPosition_[2] = (float) pointz;
+				startPosition_[0] = actionVector_->getPointF();
+				startPosition_[1] = actionVector_->getPointF();
+				startPosition_[2] = actionVector_->getPointF();
+				dReal quat[4];
+				for (int i=0; i<4; i++)
+					quat[i] = (dReal) actionVector_->getPointF();
+
+				// And I thought this would be easy!!
+				dMatrix3 matrix;
+				dQtoR(quat, matrix);
+				rotMatrix_[0] = matrix[0];
+				rotMatrix_[1] = matrix[4];
+				rotMatrix_[2] = matrix[8];
+				rotMatrix_[4] = matrix[1];
+				rotMatrix_[5] = matrix[5];
+				rotMatrix_[6] = matrix[9];
+				rotMatrix_[8] = matrix[2];
+				rotMatrix_[9] = matrix[6];
+				rotMatrix_[10] = matrix[10];
+				rotMatrix_[3] = rotMatrix_[7] = rotMatrix_[11] = 0.0;
+				rotMatrix_[15] = 1.0;
+				rotMatrix_[12] = rotMatrix_[13] = rotMatrix_[14] = 0.0;				
 
 				if (vPoint_)
 				{
@@ -146,6 +170,7 @@ void ShotBounce::draw()
 		GLState state(GLState::TEXTURE_OFF);
 		glPushMatrix();
 			glTranslatef(startPosition_[0], startPosition_[1], startPosition_[2]);
+			glMultMatrixd(rotMatrix_);
 			glScalef(0.08f, 0.08f, 0.08f);
 			model_->draw();
 		glPopMatrix();

@@ -37,6 +37,7 @@ Changed: Spread and hurts weapon primative options are now variable
 Changed: LeapFrog weapon primative bounce now variable
 Changed: Message of the day now defined in server.xml file
 
+Added: Smoothed roller movement, added roller rotation
 Added: Ability to use a different kick time when loading a level to when waiting after a shot
 Added: Vertex Array support for models and surrounds/sky
 Added: AIs can check to see if they will suicide
@@ -95,6 +96,8 @@ Make rollers look better
 Guidance
 Add action replay type functionality
 AIs know how to dig
+Disable ODE geoms when not used
+Better mag deflect shield graphics
 
 -- Server Stuff
 Chat filter (swear words)

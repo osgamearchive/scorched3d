@@ -61,6 +61,7 @@ protected:
 	float snapshotTime_;
 	ActionVector *actionVector_;
 	GLVertexSet *model_;
+	double rotMatrix_[16];
 
 	void doCollision();
 

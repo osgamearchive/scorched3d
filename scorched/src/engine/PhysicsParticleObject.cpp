@@ -105,3 +105,14 @@ void PhysicsParticleObject::setData(void *data)
 	dGeomSetData(geom_, data);
 }
 
+float *PhysicsParticleObject::getRotationQuat()
+{
+	static float result[4];
+	if (body_)
+	{
+		const dReal *quat = dBodyGetQuaternion(body_);
+		for (int i=0; i<4; i++) result[i] = (float) quat[i];
+	}
+	return result;
+}
+

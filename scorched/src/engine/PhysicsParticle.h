@@ -44,6 +44,7 @@ public:
 
 	Vector &getCurrentPosition();
 	Vector &getCurrentVelocity();
+	float *getRotationQuat();
 	void setData(void *data);
 	void setCurrentPosition(Vector &position);
 
@@ -69,6 +70,7 @@ public:
 
 	Vector &getCurrentPosition();
 	Vector &getCurrentVelocity();
+	float *getRotationQuat();
 	void setData(void *data);
 	void setCurrentPosition(Vector &position);
 
