@@ -30,10 +30,6 @@ public:
 	OptionsGame();
 	virtual ~OptionsGame();
 
-	enum OptionFlags
-	{
-		FlagDontSend = 1 // Can be used to keep compatability between versions
-	};
 	enum ScoreType
 	{
 		ScoreWins = 0,

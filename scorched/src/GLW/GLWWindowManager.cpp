@@ -24,6 +24,7 @@
 #include <common/Keyboard.h>
 #include <dialogs/MainMenuDialog.h>
 #include <dialogs/HelpButtonDialog.h>
+#include <dialogs/TalkDialog.h>
 #include <limits.h>
 #include <set>
 
@@ -130,6 +131,7 @@ void GLWWindowManager::setCurrentEntry(const unsigned state)
 		}
 	}
 
+	moveToFront(TalkDialog::instance()->getId());
 	moveToFront(MainMenuDialog::instance()->getId());
 	moveToFront(HelpButtonDialog::instance()->getId());
 	moveToFront(GLWSelector::instance()->getId());
@@ -158,6 +160,7 @@ bool GLWWindowManager::showWindow(unsigned id)
 			(*itor).second = true;
 			window->windowDisplay();
 			moveToFront(id);
+			moveToFront(TalkDialog::instance()->getId());
 			moveToFront(MainMenuDialog::instance()->getId());
 			moveToFront(HelpButtonDialog::instance()->getId());
 			moveToFront(GLWSelector::instance()->getId());

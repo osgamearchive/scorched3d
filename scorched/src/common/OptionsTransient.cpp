@@ -25,14 +25,22 @@
 #include <time.h>
 #include <math.h>
 
-OptionsTransient::Settings::Settings()  : 
-	noRoundsLeft_(5), currentGameNo_(0)
-{
-
-}
-
 OptionsTransient::OptionsTransient(OptionsGame &optionsGame) :
-	optionsGame_(optionsGame), newGame_(false)
+	optionsGame_(optionsGame), newGame_(false),
+	noRoundsLeft_(options_, "NoRoundsLeft", 
+		"The current number of rounds left in this game", 0, 5),
+	currentGameNo_(options_, "CurrentGameNo",
+		"The current game", 0, 0),
+	windAngle_(options_, "WindAngle",
+		"The current wind angle (direction)", 0, 0.0f),
+	windStartAngle_(options_, "WindStartAngle",
+		"The angle (direction) the wind started the round on", 0, 0.0f),
+	windSpeed_(options_, "WindSpeed",
+		"The current speed of the wind", 0, 0.0f),	
+	windDirection_(options_, "WindDirection",
+		"The current wind direction vector", 0, Vector::nullVector),
+	wallType_(options_, "WallType",
+		"The current wall type", 0, 0)
 {
 	
 }
@@ -99,43 +107,25 @@ unsigned int OptionsTransient::getLeastUsedTeam(TankContainer &container)
 
 bool OptionsTransient::writeToBuffer(NetBuffer &buffer)
 {
-	buffer.addToBuffer(settings_.noRoundsLeft_);
-	buffer.addToBuffer(settings_.currentGameNo_);
-	buffer.addToBuffer(settings_.windAngle_);
-	buffer.addToBuffer(settings_.windStartAngle_);
-	buffer.addToBuffer(settings_.windSpeed_);
-	buffer.addToBuffer(settings_.windDirection_[0]);
-	buffer.addToBuffer(settings_.windDirection_[1]);
-	buffer.addToBuffer(settings_.windDirection_[2]);
-	buffer.addToBuffer((int) settings_.wallType_);
+	if (!OptionEntryHelper::writeToBuffer(options_, buffer)) return false;
 	return true;
 }
 
 bool OptionsTransient::readFromBuffer(NetBufferReader &reader)
 {
-	if (!reader.getFromBuffer(settings_.noRoundsLeft_)) return false;
-	if (!reader.getFromBuffer(settings_.currentGameNo_)) return false;
-	if (!reader.getFromBuffer(settings_.windAngle_)) return false;
-	if (!reader.getFromBuffer(settings_.windStartAngle_)) return false;
-	if (!reader.getFromBuffer(settings_.windSpeed_)) return false;
-	if (!reader.getFromBuffer(settings_.windDirection_[0])) return false;
-	if (!reader.getFromBuffer(settings_.windDirection_[1])) return false;
-	if (!reader.getFromBuffer(settings_.windDirection_[2])) return false;
-	int wallType;
-	if (!reader.getFromBuffer(wallType)) return false;
-	settings_.wallType_ = (WallType) wallType;
+	if (!OptionEntryHelper::readFromBuffer(options_, reader)) return false;
 	return true;
 }
 
 void OptionsTransient::reset()
 {
-	settings_.currentGameNo_ = 0;
-	settings_.noRoundsLeft_ = optionsGame_.getNoRounds();
+	currentGameNo_.setValue(0);
+	noRoundsLeft_.setValue(optionsGame_.getNoRounds());
 }
 
 void OptionsTransient::startNewGame()
 {
-	settings_.noRoundsLeft_ = 0;
+	noRoundsLeft_.setValue(0);
 }
 
 void OptionsTransient::newGame()
@@ -144,21 +134,24 @@ void OptionsTransient::newGame()
 	int roundsPlayed = optionsGame_.getNoRounds() - getNoRoundsLeft();
 	if (optionsGame_.getBuyOnRound() - 1 <= roundsPlayed)
 	{
-		settings_.currentGameNo_ = 0;	
+		currentGameNo_.setValue(0);	
 	}
 	else
 	{
-		settings_.currentGameNo_ = 1;
+		currentGameNo_.setValue(1);
 	}
 	
-	settings_.noRoundsLeft_ --;
+	noRoundsLeft_.setValue(noRoundsLeft_.getValue() - 1);
 	newGameWind();
 	newGameWall();
 }
 
 void OptionsTransient::nextRound()
 {
-	if (!newGame_) settings_.currentGameNo_++;
+	if (!newGame_)
+	{
+		currentGameNo_.setValue(currentGameNo_.getValue() + 1);
+	}
 	newGame_ = false;
 	nextRoundWind();
 }
@@ -168,31 +161,38 @@ void OptionsTransient::newGameWind()
 	switch(optionsGame_.getWindForce())
 	{
 		case OptionsGame::WindRandom:
-			settings_.windSpeed_ = float((int)(RAND * 5.9f)); // ie range 0->5
+			windSpeed_.setValue(
+				float((int)(RAND * 5.9f))); // ie range 0->5
 			break;
 		case OptionsGame::Wind1:
 		case OptionsGame::Wind2:
 		case OptionsGame::Wind3:
 		case OptionsGame::Wind4:
 		case OptionsGame::Wind5:
-			settings_.windSpeed_ = float(int(optionsGame_.getWindForce()) - 1);
+			windSpeed_.setValue(
+				float(int(optionsGame_.getWindForce()) - 1));
 			break;
 		case OptionsGame::WindNone:
 		default:
-			settings_.windSpeed_ = 0.0f;
+			windSpeed_.setValue(0.0f);
 			break;
 	}
 
-	if (settings_.windSpeed_ > 0.0f)
+	if (windSpeed_.getValue() > 0.0f)
 	{
-		settings_.windStartAngle_ = settings_.windAngle_ = RAND * 360.0f;
-		settings_.windDirection_ = Vector(sinf(settings_.windAngle_ / 180.0f * 3.14f),
-				cosf(settings_.windAngle_ / 180.0f * 3.14f), 0.0f);
+		float winAngle = RAND * 360.0f;
+		windStartAngle_.setValue(winAngle);
+		windAngle_.setValue(winAngle);
+		
+		Vector windDir(sinf(winAngle / 180.0f * 3.14f),
+			cosf(winAngle / 180.0f * 3.14f), 0.0f);
+		windDirection_.setValue(windDir);
 	}
 	else
 	{
-		settings_.windStartAngle_ = settings_.windAngle_ = 0.0f;
-		settings_.windDirection_ = Vector(0.0f, 0.0f, 0.0f);
+		windStartAngle_.setValue(0.0f);
+		windAngle_.setValue(0.0f);
+		windDirection_.setValue(Vector::nullVector);
 	}
 }
 
@@ -203,11 +203,14 @@ void OptionsTransient::nextRoundWind()
 		return;
 	}
 
-	if (settings_.windSpeed_ > 0.0f)
+	if (windSpeed_.getValue() > 0.0f)
 	{
-		settings_.windAngle_ = settings_.windStartAngle_ + ((RAND * 40.0f) - 20.0f);
-		settings_.windDirection_ = Vector(sinf(settings_.windAngle_ / 180.0f * 3.14f),
-				cosf(settings_.windAngle_ / 180.0f * 3.14f), 0.0f);
+		float winAngle = windStartAngle_.getValue() + ((RAND * 40.0f) - 20.0f);
+		windAngle_.setValue(winAngle);
+		
+		Vector winDir(sinf(winAngle / 180.0f * 3.14f),
+				cosf(winAngle / 180.0f * 3.14f), 0.0f);
+		windDirection_.setValue(winDir);
 	}
 }
 
@@ -235,17 +238,17 @@ void OptionsTransient::newGameWall()
 	switch (optionsGame_.getWallType())
 	{
 	case OptionsGame::WallConcrete:
-		settings_.wallType_ = wallConcrete;
+		wallType_.setValue((int) wallConcrete);
 		break;
 	case OptionsGame::WallBouncy:
-		settings_.wallType_ = wallBouncy;
+		wallType_.setValue((int) wallBouncy);
 		break;
 	case OptionsGame::WallWrapAround:
-		settings_.wallType_ = wallWrapAround;
+		wallType_.setValue((int) wallWrapAround);
 		break;
 	default:
 		float r = RAND * 3.0f;
-		settings_.wallType_ = WallType(int(r));
+		wallType_.setValue((int) r);
 		break;
 	}
 }

@@ -28,7 +28,8 @@
 static const char *getSpacer(int space)
 {
 	static std::string spacestr;
-	spacestr.clear();
+	spacestr = "";
+
 	for (int i=0; i<space; i++) spacestr+="\t";
 	return spacestr.c_str();
 }

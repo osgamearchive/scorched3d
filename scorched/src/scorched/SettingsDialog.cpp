@@ -188,14 +188,17 @@ bool SettingsFrame::TransferDataToWindow()
 		// Min max players are rounds combos
 		char buffer[25];
 		int i;
-		for (i=24; i>1; i--)
+		for (i=24; i>=0; i--)
 		{
 			char string[20];
 			sprintf(string, "%i", i);
 
-			SettingsPlayers::IDC_SERVER_MIN_PLAYERS_CTRL->Append(string);
+			if (i > 1)
+			{
+				SettingsPlayers::IDC_SERVER_MIN_PLAYERS_CTRL->Append(string);
+				SettingsPlayers::IDC_SERVER_REMOVEBOT_PLAYERS_CTRL->Append(string);
+			}
 			SettingsPlayers::IDC_SERVER_MAX_PLAYERS_CTRL->Append(string);
-			SettingsPlayers::IDC_SERVER_REMOVEBOT_PLAYERS_CTRL->Append(string);
 		}
 		SettingsPlayers::IDC_SERVER_REMOVEBOT_PLAYERS_CTRL->Append("0");
 
@@ -482,10 +485,19 @@ bool SettingsFrame::TransferDataToWindow()
 		SettingsMain::IDC_IDLE_TIME_CTRL->SetToolTip(
 			wxString("The amount of time to wait for a client to respond before kicking it."));
 
+		// Password
+		SettingsMain::IDC_SERVER_PASSWORD_CTRL->SetValue(
+			context_.getServerPassword());
+		SettingsMain::IDC_SERVER_PASSWORD_CTRL->SetToolTip(
+			context_.getServerPasswordToolTip());
+
+		// Turn on/off settings if server or client
 		SettingsMain::IDC_SHOT_TIME_CTRL->Show(playersPanel_ != 0);
 		SettingsMain::IDC_IDLE_TIME_CTRL->Show(playersPanel_ != 0);
+		SettingsMain::IDC_SERVER_PASSWORD_CTRL->Show(playersPanel_ != 0);
 		SettingsMain::IDC_SHOT_TIME_CTRL_TEXT->Show(playersPanel_ != 0);
 		SettingsMain::IDC_IDLE_TIME_CTRL_TEXT->Show(playersPanel_ != 0);
+		SettingsMain::IDC_SERVER_PASSWORD_CTRL_TEXT->Show(playersPanel_ != 0);
 	}
 
 	return true;
@@ -618,6 +630,9 @@ bool SettingsFrame::TransferDataFromWindow()
 			context_.setNoMaxPlayers(noPlayers);
 			context_.setNoMinPlayers(noPlayers);
 		}
+		
+		context_.setServerPassword(
+			SettingsMain::IDC_SERVER_PASSWORD_CTRL->GetValue());
 	}
 
 	return true;

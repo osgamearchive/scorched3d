@@ -66,7 +66,7 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 	{
 		// First things, first
 		// Check we can actually accept the connection
-		if (ScorchedServer::instance()->getOptionsGame().getNoMaxPlayers() ==
+		if (ScorchedServer::instance()->getOptionsGame().getNoMaxPlayers() <=
 			ScorchedServer::instance()->getTankContainer().getNoOfTanks())
 		{
 			ServerCommon::sendString(destinationId, "Too many players");

@@ -48,11 +48,11 @@ OptionsGame::OptionsGame() :
 	numberOfRounds_(options_, "NumberOfRounds", 
 		"The number of rounds to play in each game", 0, 5),
 	numberOfPlayers_(options_, "NumberOfPlayers", 
-		"The maximum number of players to allow", 0, 2, 1, 24),
+		"The maximum number of players to allow", 0, 2, 0, 24),
 	numberOfMinPlayers_(options_, "NumberOfMinPlayers", 
 		"The minimum number of players to allow", 0, 2, 2, 24),
 	removeBotsAtPlayers_(options_, "RemoveBotsAtPlayers",
-		"The number of players to allow before remvoing bots", FlagDontSend, 0, 0, 24),
+		"The number of players to allow before remvoing bots", 0, 0, 0, 24),
 	limitPowerByHealth_(options_, "LimitPowerByHealth", 
 		"Show power is limited by the amount of health a player has", 0, true),
 	autoBallanceTeams_(options_, "AutoBallanceTeams",
@@ -90,9 +90,9 @@ OptionsGame::OptionsGame() :
 	masterListServerURI_(options_, "MasterListServerURI",
 		"The URI on the master list server for scorched3d", 0, "/scorched"),
 	statsLogger_(options_, "StatsLogger",
-		"The type of player stats to be logged (none, mysql, file)", FlagDontSend, "none"),
+		"The type of player stats to be logged (none, mysql, file)", 0, "none"),
 	serverFileLogger_(options_, "ServerLogger",
-		"The type of server events to be logged to file (none, file)", FlagDontSend, "none"),
+		"The type of server events to be logged to file (none, file)", 0, "none"),
 	portNo_(options_, "PortNo", 
 		"The port to start the server on", 0, ScorchedPort),
 	serverName_(options_, "ServerName", 
@@ -110,9 +110,9 @@ OptionsGame::OptionsGame() :
 	botNamePrefix_(options_, "BotNamePrefix", 
 		"Prepend and bot name with the specified text", 0, "(Bot) "),
 	giveAllWeapons_(options_, "GiveAllWeapons",
-		"Start the game will all the weapons", FlagDontSend, false),
+		"Start the game will all the weapons", 0, false),
 	randomizeBotNames_(options_, "RandomizeBotNames",
-		"Choose random bot names instread of sequential names", FlagDontSend, false),
+		"Choose random bot names instread of sequential names", 0, false),
 	computersDeathTalk_(options_, "ComputersDeathTalk",
 		"The percentage chance the computers will say something when killed", 0, 100, 0, 100),
 	computersAttackTalk_(options_, "ComputersAttackTalk",
@@ -143,10 +143,7 @@ bool OptionsGame::writeToBuffer(NetBuffer &buffer)
                 itor++)
         {
                 OptionEntry *entry = *itor;
-                if (!(entry->getData() & FlagDontSend))
-                {
-                        saveOptions.push_back(entry);
-                }
+		saveOptions.push_back(entry);
         }
 
 	if (!OptionEntryHelper::writeToBuffer(saveOptions, buffer)) return false;
@@ -162,10 +159,7 @@ bool OptionsGame::readFromBuffer(NetBufferReader &reader)
                 itor++)
         {
                 OptionEntry *entry = *itor;
-                if (!(entry->getData() & FlagDontSend))
-                {
-                        saveOptions.push_back(entry);
-                }
+		saveOptions.push_back(entry);
         }
 
 	if (!OptionEntryHelper::readFromBuffer(saveOptions, reader)) return false;

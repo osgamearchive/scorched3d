@@ -21,6 +21,7 @@
 
 #include <common/OptionEntry.h>
 #include <common/Defines.h>
+#include <common/Logger.h>
 #include <XML/XMLFile.h>
 #include <stdio.h>
 #include <map>
@@ -58,12 +59,19 @@ bool OptionEntryHelper::addToArgParser(std::list<OptionEntry *> &options,
 bool OptionEntryHelper::writeToBuffer(std::list<OptionEntry *> &options,
 									  NetBuffer &buffer)
 {
+	// Write out all of the options
+	// We do this as strings this make the message larger than it needs to be but
+	// we always know how to read the options at the other end.
+	// Even if the other end does not have all the options this end does.
+	buffer.addToBuffer((int) options.size());
 	std::list<OptionEntry *>::iterator itor;
 	for (itor = options.begin();
 		itor != options.end();
 		itor++)
 	{
-		if (!(*itor)->writeToBuffer(buffer)) return false;
+		OptionEntry *entry = *itor;
+		buffer.addToBuffer(entry->getName());
+		buffer.addToBuffer(entry->getValueAsString());
 	}
 
 	return true;
@@ -72,12 +80,40 @@ bool OptionEntryHelper::writeToBuffer(std::list<OptionEntry *> &options,
 bool OptionEntryHelper::readFromBuffer(std::list<OptionEntry *> &options,
 									   NetBufferReader &reader)
 {
+	// Create a map from string name to existing options
+	// So we can find the named option when reading the buffer
+	std::map<std::string, OptionEntry *> entryMap;
 	std::list<OptionEntry *>::iterator itor;
 	for (itor = options.begin();
 		itor != options.end();
 		itor++)
 	{
-		if (!(*itor)->readFromBuffer(reader)) return false;
+		OptionEntry *entry = (*itor);
+		std::string name = entry->getName();
+		entryMap[name] = entry;
+	}
+
+	// Read the strings from the other end
+	int noItems = 0;
+	if(!reader.getFromBuffer(noItems)) return false;
+	for (int i=0; i<noItems; i++)
+	{
+		std::string name, value;
+		if (!reader.getFromBuffer(name)) return false;
+		if (!reader.getFromBuffer(value)) return false;
+		
+		std::map<std::string, OptionEntry *>::iterator finditor =
+			entryMap.find(name);
+		if (finditor == entryMap.end())
+		{
+			Logger::log(0, "Warning:Does not support server option \"%s\"",
+				name.c_str());
+		}
+		else
+		{
+			OptionEntry *entry = (*finditor).second;
+			if (!entry->setValueFromString(value.c_str())) return false;
+		}
 	}
 
 	return true;
@@ -93,16 +129,22 @@ bool OptionEntryHelper::writeToXML(std::list<OptionEntry *> &options,
 	{
 		OptionEntry *entry = (*itor);
 	
+		// Add the comments for this node
 		node->addChild(new XMLNode("", 
 			entry->getDescription(), XMLNode::XMLCommentType));
+		std::string defaultValue = "(default value : \"";
+		defaultValue += entry->getDefaultValueAsString();
+		defaultValue += "\")";
+		node->addChild(new XMLNode("", 
+			defaultValue.c_str(), XMLNode::XMLCommentType));
+			
+		// Add the name and value
 		XMLNode *optionNode = new XMLNode("option");
 		node->addChild(optionNode);
 		optionNode->addChild(
 			new XMLNode("name", entry->getName()));
 		optionNode->addChild(
 			new XMLNode("value", entry->getValueAsString()));
-		optionNode->addChild(
-			new XMLNode("defaultvalue", entry->getDefaultValueAsString()));
 	}
 	return true;
 }
@@ -230,17 +272,6 @@ OptionEntryInt::~OptionEntryInt()
 
 }
 
-bool OptionEntryInt::writeToBuffer(NetBuffer &buffer)
-{
-	buffer.addToBuffer(value_);
-	return true;
-}
-
-bool OptionEntryInt::readFromBuffer(NetBufferReader &reader)
-{
-	return reader.getFromBuffer(value_);
-}
-
 const char *OptionEntryInt::getValueAsString()
 {
 	static char value[256];
@@ -290,11 +321,6 @@ bool OptionEntryInt::addToArgParser(ARGParser &parser)
 	return true;
 }
 
-OptionEntry::OptionType OptionEntryInt::getType()
-{
-	return OptionEntryIntType;
-}
-
 OptionEntryBoundedInt::OptionEntryBoundedInt(std::list<OptionEntry *> &group,
 											 const char *name,
 											 const char *description,
@@ -332,20 +358,6 @@ OptionEntryBool::OptionEntryBool(std::list<OptionEntry *> &group,
 OptionEntryBool::~OptionEntryBool()
 {
 	
-}
-
-bool OptionEntryBool::writeToBuffer(NetBuffer &buffer)
-{
-	buffer.addToBuffer(value_?1:0);
-	return true;
-}
-
-bool OptionEntryBool::readFromBuffer(NetBufferReader &reader)
-{
-	int val;
-	if (!reader.getFromBuffer(val)) return false;
-	value_ = (val==1);
-	return true;
 }
 
 const char *OptionEntryBool::getDefaultValueAsString()
@@ -401,11 +413,6 @@ bool OptionEntryBool::addToArgParser(ARGParser &parser)
 	return true;
 }
 
-OptionEntry::OptionType OptionEntryBool::getType()
-{
-	return OptionEntryBoolType;
-}
-
 OptionEntryString::OptionEntryString(std::list<OptionEntry *> &group,
 									 const char *name, 
 									 const char *description, 
@@ -420,17 +427,6 @@ OptionEntryString::OptionEntryString(std::list<OptionEntry *> &group,
 OptionEntryString::~OptionEntryString()
 {
 
-}
-
-bool OptionEntryString::writeToBuffer(NetBuffer &buffer)
-{
-	buffer.addToBuffer(value_);
-	return true;
-}
-
-bool OptionEntryString::readFromBuffer(NetBufferReader &reader)
-{
-	return reader.getFromBuffer(value_);
 }
 
 const char *OptionEntryString::getValueAsString()
@@ -476,7 +472,113 @@ bool OptionEntryString::addToArgParser(ARGParser &parser)
 	return true;
 }
 
-OptionEntry::OptionType OptionEntryString::getType()
+OptionEntryFloat::OptionEntryFloat(std::list<OptionEntry *> &group,
+							   const char *name,
+							   const char *description,
+							   unsigned int data,
+							   float value) :
+	OptionEntry(group, name, description, data), 
+	value_(value), defaultValue_(value)
 {
-	return OptionEntryStringType;
+	
+}
+
+OptionEntryFloat::~OptionEntryFloat()
+{
+
+}
+
+const char *OptionEntryFloat::getValueAsString()
+{
+	static char value[256];
+	sprintf(value, "%.2f", value_);
+	return value;
+}
+
+const char *OptionEntryFloat::getDefaultValueAsString()
+{
+	static char value[256];
+	sprintf(value, "%.2f", defaultValue_);
+	return value;
+}
+
+bool OptionEntryFloat::setValueFromString(const char *string)
+{
+	int val;
+	if (sscanf(string, "%f", &val) != 1) return false;
+	return setValue(val);
+}
+
+float OptionEntryFloat::getValue() 
+{
+	return value_;
+}
+
+bool OptionEntryFloat::setValue(float value)
+{
+	value_ = value;
+	return true;
+}
+
+bool OptionEntryFloat::addToArgParser(ARGParser &parser)
+{
+	DIALOG_ASSERT(0);
+	return false;
+}
+
+OptionEntryVector::OptionEntryVector(std::list<OptionEntry *> &group,
+							   const char *name,
+							   const char *description,
+							   unsigned int data,
+							   Vector value) :
+	OptionEntry(group, name, description, data), 
+	value_(value), defaultValue_(value)
+{
+	
+}
+
+OptionEntryVector::~OptionEntryVector()
+{
+
+}
+
+const char *OptionEntryVector::getValueAsString()
+{
+	static char value[256];
+	sprintf(value, "%.2f %.2f %.2f", 
+		value_[0], value_[1], value_[2]);
+	return value;
+}
+
+const char *OptionEntryVector::getDefaultValueAsString()
+{
+	static char value[256];
+	sprintf(value, "%.2f %.2f %.2f", 
+		defaultValue_[0], defaultValue_[1], defaultValue_[2]);
+	return value;
+}
+
+bool OptionEntryVector::setValueFromString(const char *string)
+{
+	Vector vec;
+	if (sscanf(string, "%f %f %f", 
+		&vec[0], &vec[1], &vec[2]) != 3) return false;
+	return setValue(vec);
+}
+
+Vector &OptionEntryVector::getValue() 
+{
+	return value_;
+}
+
+bool OptionEntryVector::setValue(Vector value)
+{
+	value_ = value;
+	return true;
+}
+
+bool OptionEntryVector::addToArgParser(ARGParser &parser)
+{
+	DIALOG_ASSERT(0);
+	return false;
 }

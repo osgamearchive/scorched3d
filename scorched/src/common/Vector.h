@@ -18,18 +18,14 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// Vector.h: interface for the Vector class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_VECTOR_H__AD959187_7A1C_11D2_957C_00A0C9A4CA3E__INCLUDED_)
 #define AFX_VECTOR_H__AD959187_7A1C_11D2_957C_00A0C9A4CA3E__INCLUDED_
 
 class Vector  
 {
-	float V[3];
 public:
+	static Vector nullVector;
+
 	Vector();
 	Vector(const Vector &v);
 	Vector(const float Pt[3]);
@@ -73,6 +69,10 @@ public:
 
 	operator float*() { return V; }
 
+protected:
+	float V[3];
+
 };
 
 #endif // !defined(AFX_VECTOR_H__AD959187_7A1C_11D2_957C_00A0C9A4CA3E__INCLUDED_)
+

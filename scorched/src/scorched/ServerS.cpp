@@ -41,14 +41,7 @@ static void createControls(wxWindow *parent,
 		wxDefaultPosition, wxSize((int) 72, -1));
 	servernameSizer2->Add(new wxStaticText(parent, -1, "Port Number :"),
 						  0, wxALIGN_CENTER_VERTICAL);
-	servernameSizer2->Add(IDC_SERVER_PORT_CTRL);	
-	IDC_SERVER_PASSWORD_CTRL = 
-		new wxTextCtrl(parent, IDC_SERVER_PASSWORD,
-		"",
-		wxDefaultPosition, wxSize((int) 226.5, -1), wxTE_PASSWORD);
-	servernameSizer2->Add(new wxStaticText(parent, -1, "Password :"),
-						  0, wxALIGN_CENTER_VERTICAL);
-	servernameSizer2->Add(IDC_SERVER_PASSWORD_CTRL);	
+	servernameSizer2->Add(IDC_SERVER_PORT_CTRL);		
 	servernameSizer->Add(servernameSizer2);
 	IDC_PUBLISHIP_CTRL_TEXT = new wxStaticText(parent, -1, "Published IP :");
 	IDC_PUBLISHIP_CTRL = 
@@ -81,7 +74,5 @@ static void createControls(wxWindow *parent,
 	buttonSizer->Add(IDCANCEL_CTRL, 0, wxALL, 10);
 	buttonSizer->Add(IDOK_CTRL, 0, wxALL, 10);
 	sizer->Add(buttonSizer, 0, wxALIGN_RIGHT);
-
-
 }
 

@@ -56,36 +56,33 @@ public:
 	void startNewGame();
 
 	// Walls
-	WallType &getWallType() { return settings_.wallType_; }
+	WallType getWallType() { return (WallType) wallType_.getValue(); }
 	Vector &getWallColor();
 
 	// Rounds left
-	int getNoRoundsLeft() { return settings_.noRoundsLeft_; }
-	int getCurrentGameNo() { return settings_.currentGameNo_; }
+	int getNoRoundsLeft() { return noRoundsLeft_.getValue(); }
+	int getCurrentGameNo() { return currentGameNo_.getValue(); }
 
 	// Wind
-	float getWindAngle() { return settings_.windAngle_; }
-	float getWindSpeed() { return settings_.windSpeed_; }
-	Vector &getWindDirection() { return settings_.windDirection_; }
-	bool getWindOn() { return (settings_.windSpeed_ > 0.0f); }
+	float getWindAngle() { return windAngle_.getValue(); }
+	float getWindSpeed() { return windSpeed_.getValue(); }
+	Vector &getWindDirection() { return windDirection_.getValue(); }
+	bool getWindOn() { return (windSpeed_.getValue() > 0.0f); }
 
 	// Used to send this structure over coms
 	bool writeToBuffer(NetBuffer &buffer);
 	bool readFromBuffer(NetBufferReader &reader);
 
 protected:
+	std::list<OptionEntry *> options_;
 	OptionsGame &optionsGame_;
-	struct Settings
-	{
-		Settings();
-
-		int noRoundsLeft_;
-		int currentGameNo_;
-		float windAngle_, windStartAngle_;
-		float windSpeed_;
-		Vector windDirection_;
-		WallType wallType_;
-	} settings_;
+	OptionEntryInt noRoundsLeft_;
+	OptionEntryInt currentGameNo_;
+	OptionEntryFloat windAngle_;
+	OptionEntryFloat windStartAngle_;
+	OptionEntryFloat windSpeed_;
+	OptionEntryVector windDirection_;
+	OptionEntryInt wallType_;
 
 	bool newGame_;
 	void newGameWind();

@@ -63,7 +63,7 @@ GLConsoleRuleFnIOptionsAdapter::GLConsoleRuleFnIOptionsAdapter(
 	entry_(entry)
 {
 	GLConsoleRuleType type = GLConsoleRuleTypeBoolean;
-	switch (entry.getType())
+	switch (entry.getEntryType())
 	{
 		case OptionEntry::OptionEntryIntType:
 			type = GLConsoleRuleTypeNumber;
@@ -71,8 +71,11 @@ GLConsoleRuleFnIOptionsAdapter::GLConsoleRuleFnIOptionsAdapter(
 		case OptionEntry::OptionEntryStringType:
 			type = GLConsoleRuleTypeString;
 		break;
-		default:
+		case OptionEntry::OptionEntryBoolType:
 			type = GLConsoleRuleTypeBoolean;
+		break;
+		default:
+			DIALOG_ASSERT(0);
 		break;
 	}
 

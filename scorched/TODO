@@ -1,4 +1,10 @@
 -- Bugs Fixed and Ready For Release 
+Fixed: Talk dialog is always ontop of other windows
+Fixed: Infinite weapons available in other single player modes
+Fixed: Migrated the game and transient options so version dependancies dont occur
+
+Added: Option to set max server players to zero (so no new players can connect)
+Added: Allow server password to be set when server running
 
 -- Bugs in current development release
 Dvorak keyboard support is broken

@@ -32,6 +32,7 @@ enum
 	IDC_AUTOBALANCETEAMS
 };
 
+static wxTextCtrl *IDC_SERVER_PASSWORD_CTRL = 0;
 static wxComboBox *IDC_SERVER_ROUNDS_CTRL = 0;
 static wxComboBox *IDC_SERVER_PLAYERS_CTRL = 0;
 static wxComboBox *IDC_NOSHOTS_CTRL = 0;
@@ -41,6 +42,7 @@ static wxComboBox *IDC_IDLE_TIME_CTRL = 0;
 static wxComboBox *IDC_TYPE_CTRL = 0;
 static wxComboBox *IDC_TEAMS_CTRL = 0;
 static wxCheckBox *IDC_AUTOBALANCETEAMS_CTRL = 0;
+static wxStaticText *IDC_SERVER_PASSWORD_CTRL_TEXT = 0;
 static wxStaticText *IDC_SERVER_ROUNDS_CTRL_TEXT = 0;
 static wxStaticText *IDC_TEAMS_CTRL_TEXT = 0;
 static wxStaticText *IDC_NOSHOTS_CTRL_TEXT = 0;

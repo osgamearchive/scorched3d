@@ -23,17 +23,20 @@
 #define __INCLUDE_OptionEntryh_INCLUDE__
 
 #include <coms/NetBuffer.h>
+#include <common/Vector.h>
 #include <common/ARGParser.h>
 #include <XML/XMLParser.h>
 
 class OptionEntry
 {
 public:
-	enum OptionType
+	enum EntryType
 	{
-		OptionEntryBoolType,
 		OptionEntryIntType,
-		OptionEntryStringType
+		OptionEntryStringType,
+		OptionEntryBoolType,
+		OptionEntryFloatType,
+		OptionEntryVectorType
 	};
 
 	OptionEntry(std::list<OptionEntry *> &group,
@@ -42,18 +45,15 @@ public:
 				unsigned int data);
 	virtual ~OptionEntry();
 
-	virtual bool writeToBuffer(NetBuffer &buffer) = 0;
-	virtual bool readFromBuffer(NetBufferReader &reader) = 0;
-	virtual bool addToArgParser(ARGParser &parser) = 0;
-
 	const char *getName() { return name_.c_str(); }
 	const char *getDescription() { return description_.c_str(); }
 	unsigned getData() { return data_; }
 
+	virtual EntryType getEntryType() = 0;
 	virtual const char *getDefaultValueAsString() = 0;
 	virtual const char *getValueAsString() = 0;
 	virtual bool setValueFromString(const char *string) = 0;
-	virtual OptionType getType() = 0;
+	virtual bool addToArgParser(ARGParser &parser) = 0;
 
 protected:
 	unsigned int data_;
@@ -93,9 +93,7 @@ public:
 				   int defaultValue);
 	virtual ~OptionEntryInt();
 
-	virtual bool writeToBuffer(NetBuffer &buffer);
-	virtual bool readFromBuffer(NetBufferReader &reader);
-
+	virtual EntryType getEntryType() { return OptionEntryIntType; }
 	virtual const char *getValueAsString();
 	virtual const char *getDefaultValueAsString();
 	virtual bool setValueFromString(const char *string);
@@ -105,7 +103,6 @@ public:
 
 	virtual bool addToArgParser(ARGParser &parser);
 	virtual bool setIntArgument(int value);
-	virtual OptionType getType();
 
 protected:
 	int defaultValue_;
@@ -141,9 +138,7 @@ public:
 					bool defaultValue);
 	virtual ~OptionEntryBool();
 
-	virtual bool writeToBuffer(NetBuffer &buffer);
-	virtual bool readFromBuffer(NetBufferReader &reader);
-
+	virtual EntryType getEntryType() { return OptionEntryBoolType; }
 	virtual const char *getValueAsString();
 	virtual const char *getDefaultValueAsString();
 	virtual bool setValueFromString(const char *string);
@@ -153,7 +148,6 @@ public:
 
 	virtual bool addToArgParser(ARGParser &parser);
 	virtual bool setBoolArgument(bool value);
-	virtual OptionType getType();
 
 protected:
 	bool defaultValue_;
@@ -170,9 +164,7 @@ public:
 					  const char *defaultValue);
 	virtual ~OptionEntryString();
 
-	virtual bool writeToBuffer(NetBuffer &buffer);
-	virtual bool readFromBuffer(NetBufferReader &reader);
-
+	virtual EntryType getEntryType() { return OptionEntryStringType; }
 	virtual const char *getValueAsString();
 	virtual const char *getDefaultValueAsString();
 	virtual bool setValueFromString(const char *string);
@@ -182,11 +174,62 @@ public:
 
 	virtual bool addToArgParser(ARGParser &parser);
 	virtual bool setStringArgument(const char* value);
-	virtual OptionType getType();
 
 protected:
 	std::string value_;
 	std::string defaultValue_;
+
+};
+
+class OptionEntryFloat : public OptionEntry
+{
+public:
+	OptionEntryFloat(std::list<OptionEntry *> &group,
+				   const char *name, 
+				   const char *description,
+				   unsigned int data,
+				   float defaultValue);
+	virtual ~OptionEntryFloat();
+
+	virtual EntryType getEntryType() { return OptionEntryFloatType; }
+	virtual const char *getValueAsString();
+	virtual const char *getDefaultValueAsString();
+	virtual bool setValueFromString(const char *string);
+
+	virtual float getValue();
+	virtual bool setValue(float value);
+
+	virtual bool addToArgParser(ARGParser &parser);
+
+protected:
+	float defaultValue_;
+	float value_;
+
+};
+
+class OptionEntryVector : public OptionEntry
+{
+public:
+	OptionEntryVector(std::list<OptionEntry *> &group,
+				   const char *name, 
+				   const char *description,
+				   unsigned int data,
+				   Vector defaultValue);
+	virtual ~OptionEntryVector();
+
+	virtual EntryType getEntryType() { return OptionEntryVectorType; }
+	virtual const char *getValueAsString();
+	virtual const char *getDefaultValueAsString();
+	virtual bool setValueFromString(const char *string);
+
+	virtual Vector &getValue();
+	virtual bool setValue(Vector value);
+
+	virtual bool addToArgParser(ARGParser &parser);
+
+protected:
+	Vector defaultValue_;
+	Vector value_;
 
 };
 

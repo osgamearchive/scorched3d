@@ -105,10 +105,6 @@ bool ServerSFrame::TransferDataToWindow()
 		ScorchedServer::instance()->getOptionsGame().getServerName());
 	IDC_SERVER_NAME_CTRL->SetToolTip(
 		ScorchedServer::instance()->getOptionsGame().getServerNameToolTip());
-	IDC_SERVER_PASSWORD_CTRL->SetValue(
-		ScorchedServer::instance()->getOptionsGame().getServerPassword());
-	IDC_SERVER_PASSWORD_CTRL->SetToolTip(
-		ScorchedServer::instance()->getOptionsGame().getServerPasswordToolTip());
 	IDC_PUBLISH_CTRL->SetValue(
 		ScorchedServer::instance()->getOptionsGame().getPublishServer());
 	IDC_PUBLISH_CTRL->SetToolTip(
@@ -124,7 +120,6 @@ bool ServerSFrame::TransferDataFromWindow()
 {
 	ScorchedServer::instance()->getOptionsGame().setPortNo(atoi(IDC_SERVER_PORT_CTRL->GetValue()));
 	ScorchedServer::instance()->getOptionsGame().setServerName(IDC_SERVER_NAME_CTRL->GetValue());
-	ScorchedServer::instance()->getOptionsGame().setServerPassword(IDC_SERVER_PASSWORD_CTRL->GetValue());
 	ScorchedServer::instance()->getOptionsGame().setPublishServer(IDC_PUBLISH_CTRL->GetValue());
 	ScorchedServer::instance()->getOptionsGame().setPublishAddress(IDC_PUBLISHIP_CTRL->GetValue());
 
