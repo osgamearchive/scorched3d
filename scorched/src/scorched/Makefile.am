@@ -531,6 +531,8 @@ scorched3d_SOURCES = \
 	../weapons/WeaponReference.h \
 	../weapons/WeaponRoller.cpp \
 	../weapons/WeaponRoller.h \
+	../weapons/WeaponSkyFlash.cpp \
+	../weapons/WeaponSkyFlash.h \
 	../weapons/WeaponTranslate.cpp \
 	../weapons/WeaponTranslate.h \
 	../weapons/WeaponVelocity.cpp \
@@ -739,6 +741,8 @@ scorched3d_SOURCES = \
 	../actions/ShotProjectile.h \
 	../actions/ShowScore.cpp \
 	../actions/ShowScore.h \
+	../actions/SkyFlash.cpp \
+	../actions/SkyFlash.h \
 	../actions/SpriteProjectile.cpp \
 	../actions/SpriteProjectile.h \
 	../actions/TankDamage.cpp \

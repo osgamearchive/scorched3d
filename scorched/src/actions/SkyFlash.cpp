@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2004
+//    Scorched3D (c) 2000-2003
 //
 //    This file is part of Scorched3D.
 //
@@ -18,50 +18,42 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+#include <actions/SkyFlash.h>
+#include <engine/ScorchedContext.h>
+#include <landscape/Landscape.h>
 #include <landscape/Sky.h>
-#include <landscape/LandscapeMaps.h>
-#include <client/ScorchedClient.h>
 
-Sky::Sky()
+REGISTER_ACTION_SOURCE(SkyFlash);
+
+SkyFlash::SkyFlash() 
 {
 }
 
-Sky::~Sky()
+SkyFlash::~SkyFlash()
 {
 }
 
-void Sky::draw()
+void SkyFlash::init()
 {
-	if (ScorchedClient::instance()->getLandscapeMaps().getRoof())
+}
+
+void SkyFlash::simulate(float frameTime, bool &remove)
+{
+	if (!context_->serverMode)
 	{
-		roof_.draw();
+		Landscape::instance()->getSky().flashSky();
 	}
-	else
-	{
-		sun_.draw();
-		dome_.draw();
-	}
+
+	remove = true;
+	Action::simulate(frameTime, remove);
 }
 
-void Sky::simulate(float frameTime)
+bool SkyFlash::writeAction(NetBuffer &buffer)
 {
-	if (ScorchedClient::instance()->getLandscapeMaps().getRoof())
-	{
-	}
-	else
-	{
-		dome_.simulate(frameTime);
-	}
+	return true;
 }
 
-void Sky::flashSky()
+bool SkyFlash::readAction(NetBufferReader &reader)
 {
-	dome_.flash();
+	return true;
 }
-
-void Sky::generate()
-{
-	dome_.generate();
-	roof_.generate();
-}
-

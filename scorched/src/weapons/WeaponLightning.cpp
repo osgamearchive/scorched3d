@@ -51,6 +51,7 @@ bool WeaponLightning::parseXML(XMLNode *accessoryNode)
 	if (!accessoryNode->getNamedChild("totaltime", totalTime_)) return false;
 	if (!accessoryNode->getNamedChild("seghurt", segHurt_)) return false;
 	if (!accessoryNode->getNamedChild("seghurtradius", segHurtRadius_)) return false;
+	if (!accessoryNode->getNamedChild("sound", sound_)) return false;
 	return true;
 }
 
@@ -71,6 +72,7 @@ bool WeaponLightning::writeAccessory(NetBuffer &buffer)
 	buffer.addToBuffer(totalTime_);
 	buffer.addToBuffer(segHurt_);
 	buffer.addToBuffer(segHurtRadius_);
+	buffer.addToBuffer(sound_);
 	return true;
 }
 
@@ -91,6 +93,7 @@ bool WeaponLightning::readAccessory(NetBufferReader &reader)
 	if (!reader.getFromBuffer(totalTime_)) return false;
 	if (!reader.getFromBuffer(segHurt_)) return false;
 	if (!reader.getFromBuffer(segHurtRadius_)) return false;
+	if (!reader.getFromBuffer(sound_)) return false;
 	return true;
 }
 

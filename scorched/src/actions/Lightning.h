@@ -54,6 +54,7 @@ protected:
 		bool endsegment;
 		float size;
 	};
+	bool firstTime_;
 	float totalTime_;
 	std::list<Segment> segments_;
 	RandomGenerator generator_;

@@ -1192,6 +1192,7 @@ trace of the shot path.</description>
 		<totaltime>1</totaltime>
 		<seghurt>0</seghurt>
 		<seghurtradius>0</seghurtradius>
+		<sound>none</sound>
 	</accessory>
 	<!-- <accessory type="WeaponReference">
 		<name>Test Reference</name>

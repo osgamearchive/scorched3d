@@ -34,6 +34,7 @@ public:
 	void draw();
 	void simulate(float frameTime);
 	void generate();
+	void flashSky();
 
 	Sun &getSun() { return sun_; }
 

@@ -20,6 +20,7 @@
 
 #include <actions/Lightning.h>
 #include <common/Defines.h>
+#include <common/SoundStore.h>
 #include <GLEXT/GLState.h>
 #include <sprites/ExplosionTextures.h>
 #include <client/MainCamera.h>
@@ -30,7 +31,7 @@
 REGISTER_ACTION_SOURCE(Lightning);
 
 Lightning::Lightning() :
-	totalTime_(0.0f),
+	totalTime_(0.0f), firstTime_(true),
 	weapon_(0), playerId_(0), data_(0)
 {
 }
@@ -76,6 +77,22 @@ void Lightning::init()
 
 void Lightning::simulate(float frameTime, bool &remove)
 {
+	if (!context_->serverMode)
+	{   
+		if (firstTime_)
+		{ 
+			firstTime_ = false;
+			if (weapon_->getSound() &&
+				0 != strcmp("none", weapon_->getSound()))
+			{
+				SoundBuffer *expSound =
+					SoundStore::instance()->fetchOrCreateBuffer(
+					(char *) getDataFile(weapon_->getSound()));
+				expSound->play();
+			}
+		} 
+	}
+
 	totalTime_ += frameTime;
 	remove = (totalTime_ > weapon_->getTotalTime());
 	Action::simulate(frameTime, remove);

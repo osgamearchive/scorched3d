@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2004
+//    Scorched3D (c) 2000-2003
 //
 //    This file is part of Scorched3D.
 //
@@ -18,50 +18,31 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <landscape/Sky.h>
-#include <landscape/LandscapeMaps.h>
-#include <client/ScorchedClient.h>
+#if !defined(AFX_WeaponSkyFlash_H__B5C043F0_7DC6_4198_AE5B_E19002234FCE__INCLUDED_)
+#define AFX_WeaponSkyFlash_H__B5C043F0_7DC6_4198_AE5B_E19002234FCE__INCLUDED_
 
-Sky::Sky()
-{
-}
+#include <weapons/Weapon.h>
 
-Sky::~Sky()
+class WeaponSkyFlash  : public Weapon
 {
-}
+public:
+	WeaponSkyFlash();
+	virtual ~WeaponSkyFlash();
 
-void Sky::draw()
-{
-	if (ScorchedClient::instance()->getLandscapeMaps().getRoof())
-	{
-		roof_.draw();
-	}
-	else
-	{
-		sun_.draw();
-		dome_.draw();
-	}
-}
+	virtual bool parseXML(XMLNode *accessoryNode);
+	virtual bool writeAccessory(NetBuffer &buffer);
+	virtual bool readAccessory(NetBufferReader &reader);
 
-void Sky::simulate(float frameTime)
-{
-	if (ScorchedClient::instance()->getLandscapeMaps().getRoof())
-	{
-	}
-	else
-	{
-		dome_.simulate(frameTime);
-	}
-}
+	// Inherited from Weapon
+	void fireWeapon(ScorchedContext &context,
+		unsigned int playerId, Vector &position, Vector &velocity,
+		unsigned int data = 0);
 
-void Sky::flashSky()
-{
-	dome_.flash();
-}
+	REGISTER_ACCESSORY_HEADER(WeaponSkyFlash, Accessory::AccessoryWeapon);
 
-void Sky::generate()
-{
-	dome_.generate();
-	roof_.generate();
-}
+protected:
+
+};
+
+#endif // !defined(AFX_WeaponSkyFlash_H__B5C043F0_7DC6_4198_AE5B_E19002234FCE__INCLUDED_)
 

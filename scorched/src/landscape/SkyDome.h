@@ -32,11 +32,13 @@ public:
 	void simulate(float frameTime);
 	void draw();
 	void generate();
+	void flash();
 
 protected:
 	float xy_;
 	float cloudSpeed_;
 	float cloudDirection_;
+	float flashTime_;
 	std::list<Hemisphere::HemispherePoint> layer1_;
 	std::list<Hemisphere::HemispherePoint> layer2_;
 

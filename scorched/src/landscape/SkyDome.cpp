@@ -36,12 +36,18 @@
 SkyDome::SkyDome() : 
 	xy_(0.0f), 
 	cloudSpeed_(500.0f), 
-	cloudDirection_(0.0f)
+	cloudDirection_(0.0f),
+	flashTime_(0.0f)
 {
 }
 
 SkyDome::~SkyDome()
 {
+}
+
+void SkyDome::flash()
+{
+	flashTime_ = 0.25f;
 }
 
 void SkyDome::generate()
@@ -65,6 +71,9 @@ void SkyDome::simulate(float frameTime)
 	cloudSpeed_ = wantedSpeed;
 	cloudDirection_ = wantedAngle;
 	xy_ += frameTime / cloudSpeed_;
+
+	// The sky flash
+	flashTime_ -= frameTime;
 }
 
 void SkyDome::draw()
@@ -131,11 +140,22 @@ void SkyDome::drawLayer(
 		GLDynamicVertexArray::instance()->addFloat(point.z);
 		GLDynamicVertexArray::instance()->addFloat(point.tx);
 		GLDynamicVertexArray::instance()->addFloat(point.ty);
+
+		float r = point.r;
+		float g = point.g;
+		float b = point.b;
+		if (flashTime_ > 0.0f)
+		{
+			r = MIN(r + flashTime_ * 2.0f, 1.0f);
+			g = MIN(g + flashTime_ * 2.0f, 1.0f);
+			b = MIN(b + flashTime_ * 2.0f, 1.0f);
+		}
+
 		if (useColor)
 		{
-			GLDynamicVertexArray::instance()->addFloat(point.r);
-			GLDynamicVertexArray::instance()->addFloat(point.g);
-			GLDynamicVertexArray::instance()->addFloat(point.b);
+			GLDynamicVertexArray::instance()->addFloat(r);
+			GLDynamicVertexArray::instance()->addFloat(g);
+			GLDynamicVertexArray::instance()->addFloat(b);
 		}
 
 		if (GLDynamicVertexArray::instance()->getSpace() < 10)
@@ -148,9 +168,9 @@ void SkyDome::drawLayer(
 			GLDynamicVertexArray::instance()->addFloat(point.ty);
 			if (useColor)
 			{
-				GLDynamicVertexArray::instance()->addFloat(point.r);
-				GLDynamicVertexArray::instance()->addFloat(point.g);
-				GLDynamicVertexArray::instance()->addFloat(point.b);
+				GLDynamicVertexArray::instance()->addFloat(r);
+				GLDynamicVertexArray::instance()->addFloat(g);
+				GLDynamicVertexArray::instance()->addFloat(b);
 			}
 		}
 	}

@@ -47,6 +47,7 @@ public:
 	float getTotalTime() { return totalTime_; }
 	float getSegHurt() { return segHurt_; }
 	float getSegHurtRadius() { return segHurtRadius_; }
+	const char *getSound() { return sound_.c_str(); }
 
 	// Inherited from Weapon
 	void fireWeapon(ScorchedContext &context,
@@ -70,6 +71,7 @@ protected:
 	float totalTime_;
 	float segHurt_;
 	float segHurtRadius_;
+	std::string sound_;
 
 };
 
