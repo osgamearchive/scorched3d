@@ -41,7 +41,17 @@ ServerNextRoundState::~ServerNextRoundState()
 
 void ServerNextRoundState::enterState(const unsigned state)
 {
-	StatsLogger::instance()->roundStart();
+	std::list<Tank *> currentTanks;
+	std::map<unsigned int, Tank *> &playingTanks =
+		ScorchedServer::instance()->getTankContainer().getPlayingTanks();
+	std::map<unsigned int, Tank *>::iterator playingTanksItor;
+	for (playingTanksItor = playingTanks.begin();
+		playingTanksItor != playingTanks.end();
+		playingTanksItor++)
+	{
+		currentTanks.push_back((*playingTanksItor).second);
+	}
+	StatsLogger::instance()->roundStart(currentTanks);
 
 	// Move all tanks into the next round
 	// Load the set of options for this next player

@@ -53,7 +53,17 @@ ServerNewGameState::~ServerNewGameState()
 
 void ServerNewGameState::enterState(const unsigned state)
 {
-	StatsLogger::instance()->gameStart();
+	std::list<Tank *> currentTanks;
+	std::map<unsigned int, Tank *> &playingTanks =
+		ScorchedServer::instance()->getTankContainer().getPlayingTanks();
+	std::map<unsigned int, Tank *>::iterator playingTanksItor;
+	for (playingTanksItor = playingTanks.begin();
+		playingTanksItor != playingTanks.end();
+		playingTanksItor++)
+	{
+		currentTanks.push_back((*playingTanksItor).second);
+	}
+	StatsLogger::instance()->gameStart(currentTanks);
 
 	// Tell clients a new game is starting
 	ServerCommon::sendString(0, "Next Round");

@@ -101,17 +101,23 @@ bool ServerAddPlayerHandler::processMessage(unsigned int destinationId,
 
 	// Setup the new player
 	std::string name(message.getPlayerName());
-	if (name != tank->getName()) getUniqueName(name);
-
-	// Tell this computer that a new tank has connected
-	ServerCommon::sendString(0, "Player playing \"%s\"->\"%s\"",
-		tank->getName(), name.c_str());
+	if (name != tank->getName())
+	{
+		// Tell this computer that a new tank has connected
+		ServerCommon::sendString(0, "Player playing \"%s\"->\"%s\"",
+			tank->getName(), name.c_str());
+		getUniqueName(name);
+	}
 
 	TankModelId modelId(message.getModelName());
 	tank->setName(name.c_str());
 	tank->setModel(modelId);
+	if (tank->getState().getSpectator())
+	{
+		StatsLogger::instance()->tankJoined(tank);
+	}
+	StatsLogger::instance()->tankRank(tank);
 	tank->getState().setSpectator(false);
-	StatsLogger::instance()->tankJoined(tank);
 
 	// Choose a team (if applicable)
 	if (ScorchedServer::instance()->getOptionsGame().getTeams() > 1)

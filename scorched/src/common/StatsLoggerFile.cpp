@@ -42,7 +42,7 @@ void StatsLoggerFile::createLogger()
 	}
 }
 
-void StatsLoggerFile::gameStart()
+void StatsLoggerFile::gameStart(std::list<Tank *> &tanks)
 {
 	createLogger();
 	if (!statsLogger_) return;
@@ -55,7 +55,7 @@ void StatsLoggerFile::gameStart()
 	statsLogger_->logMessage(time, "startgame", 0);
 }
 
-void StatsLoggerFile::roundStart()
+void StatsLoggerFile::roundStart(std::list<Tank *> &tanks)
 {
 	createLogger();
 	if (!statsLogger_) return;
@@ -66,6 +66,19 @@ void StatsLoggerFile::roundStart()
 	if (nl) *nl = '\0';
 
 	statsLogger_->logMessage(time, "startround", 0);
+}
+
+void StatsLoggerFile::tankRank(Tank *firedTank)
+{
+	createLogger();
+	if (!statsLogger_) return;
+                                                                                                          
+	time_t theTime = time(0);
+	char *time = ctime(&theTime);
+	char *nl = strchr(time, '\n');
+	if (nl) *nl = '\0';
+	
+	statsLogger_->logMessage(time, "tankrank", 0);
 }
 
 void StatsLoggerFile::tankFired(Tank *firedTank, Weapon *weapon)

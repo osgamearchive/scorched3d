@@ -37,6 +37,7 @@ public:
 
 	int getMoney() { return money_; }
 	void setMoney(int money);
+	int getTotalMoneyEarned() { return totalMoneyEarned_; }
 
 	int getWins() { return wins_; }
 	void setWins(int wins) { wins_ = wins; }
@@ -44,6 +45,7 @@ public:
 	int getMissedMoves() { return missedMoves_; }
 	void setMissedMoves(int miss) { missedMoves_ = miss; }
 
+	time_t getTimePlayed() { return time(0) - startTime_; }
 	time_t getStartTime() { return startTime_; }
 
 	// Get info as text
@@ -51,13 +53,14 @@ public:
 	const char *getScoreString();
 
 	// Serialize the tank
-    bool writeMessage(NetBuffer &buffer);
-    bool readMessage(NetBufferReader &reader);
+	bool writeMessage(NetBuffer &buffer);
+	bool readMessage(NetBufferReader &reader);
 
 protected:
 	ScorchedContext &context_;
 	int kills_;
 	int money_;
+	int totalMoneyEarned_;
 	int wins_;
 	int missedMoves_;
 	time_t startTime_;

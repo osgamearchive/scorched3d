@@ -22,6 +22,9 @@ create table if not exists scorched3d_players (
         wins INTEGER NOT NULL DEFAULT 0,
         overallwinner INTEGER NOT NULL DEFAULT 0,
         resigns INTEGER NOT NULL DEFAULT 0,
+        timeplayed INTEGER NOT NULL DEFAULT 0,
+        roundsplayed INTEGER NOT NULL DEFAULT 0,
+        moneyearned INTEGER NOT NULL DEFAULT 0,
 	PRIMARY KEY (playerid),
 	UNIQUE (uniqueid)
         );
@@ -30,6 +33,7 @@ create table if not exists scorched3d_weapons (
         weaponid INTEGER auto_increment,
 	kills INTEGER NOT NULL DEFAULT 0,
         name varchar(64),
+	armslevel INTEGER NOT NULL DEFAULT 0,
         description varchar(255) NOT NULL DEFAULT 'No Desc',
         PRIMARY KEY (weaponid)
         );

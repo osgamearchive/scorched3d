@@ -73,10 +73,14 @@ void Sound::destroy()
 
 bool Sound::init()
 {
-	if ( Mix_OpenAudio(11025, AUDIO_U8, 1, 512) < 0 ) 
+	if ( Mix_OpenAudio(11025, // frequency 
+		AUDIO_S16SYS, // format (16 bit)
+		1, // channels (mono) 
+		512) // mixing buffer
+		< 0 ) 
 	{
 		dialogMessage(SDL_GetError(), 
-			"Warning: Couldn't set 11025 Hz 8-bit audio");
+			"Warning: Couldn't set 11025 Hz 16-bit mono audio");
 	}
 	else
 	{

@@ -139,6 +139,10 @@ public:
 	void setIdleKickTime(int value) { idleKickTime_.setValue(value); }
 	const char *getIdleKickTimeToolTip() { return idleKickTime_.getDescription(); }
 
+	int getGravity() { return gravity_.getValue(); }
+	void setGravity(int value) { gravity_.setValue(value); }
+	const char *getGravityToolTip() { return gravity_.getDescription(); }
+
 	ScoreType getScoreType() { return (ScoreType) scoreType_.getValue(); }
 	void setScoreType(ScoreType value) { scoreType_.setValue((int) value); }
 	const char *getScoreTypeToolTip() { return scoreType_.getDescription(); }
@@ -283,6 +287,7 @@ protected:
 	OptionEntryInt allowedMissedMoves_;
 	OptionEntryInt numberOfRounds_;
 	OptionEntryInt maxNumberWeapons_;
+	OptionEntryInt gravity_;
 	OptionEntryBoundedInt scoreType_;
 	OptionEntryBoundedInt teams_;
 	OptionEntryBoundedInt numberOfPlayers_;

@@ -30,9 +30,10 @@ public:
 	StatsLoggerFile();
 	virtual ~StatsLoggerFile();
 
-	virtual void gameStart();
-	virtual void roundStart();
+	virtual void gameStart(std::list<Tank *> &tanks);
+	virtual void roundStart(std::list<Tank *> &tanks);
 
+	virtual void tankRank(Tank *tank);
 	virtual void tankJoined(Tank *tank);
 	virtual void tankLeft(Tank *tank);
 

@@ -26,8 +26,8 @@
 // Range limited to 0 -> maxMoney
 static const int maxMoney = 500000;
 
-TankScore::TankScore(ScorchedContext &context) : context_(context)
-	
+TankScore::TankScore(ScorchedContext &context) : 
+	context_(context), totalMoneyEarned_(0)
 {
 	startTime_ = time(0);
 	reset();
@@ -48,6 +48,7 @@ void TankScore::reset()
 
 void TankScore::setMoney(int money)
 {
+	totalMoneyEarned_ += money - money_;
 	money_ = money;
 	if (money_ > maxMoney) money_ = maxMoney;
 	if (money_ < 0) money_ = 0;

@@ -109,6 +109,7 @@ void ActionController::resetTime()
 void ActionController::setScorchedContext(ScorchedContext *context)
 {
 	context_ = context;
+	physicsEngine_.setScorchedContext(context);
 }
 
 void ActionController::setFast(float speedMult)

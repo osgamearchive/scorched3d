@@ -7,9 +7,12 @@ Fixed: Display settings now refered to as game settings
 Fixed: No parachutes used or health lost during very small falls
 Fixed: Special characters are supported in XML files
 Fixed: Some small memory leaks
+Fixed: Matched sounding mixing format to sound buffer format
 
 Changed: Tank can move up and down bigger slopes
 
+Added: Gravity can be changed
+Added: time connected, roundsplayed, armslevel, connects, add money earned to stats
 Added: Option to set max server players to zero (so no new players can connect)
 Added: Allow server password to be set when server running
 
@@ -20,19 +23,15 @@ Gun fires at same point for all tanks (ignores turret/gun position in model)
 Shot cam does not get LOD correctly
 
 -- Things I am currently looking at
-Allow gravity to be set
-Allow sound buffer options to be set
 Fix crashing when people win
 Make AIs even better
 Riot Blast
 A way to allow tank spawn positions to be configured, bitmap landscapes only?
 Custom maps etc can be auto-downloaded from server
 Web interface for server to change settings
-Allow tank movement up bigger slopes
 Add some way of stopping the OptionsGame from being messed up!
 Fix parachutes so they dont come on too often (perhaps allow threshold to be set).
 A way to set the maximum and minimum players for a map
-Add time connected, roundsplayed, weapons.armslevel, fix player connects, add money earned to stats
 Lightning, rain and meteors
 New surrounds instead of the water
 Allow objects other than trees to be used (as models)

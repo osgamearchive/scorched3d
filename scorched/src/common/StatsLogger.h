@@ -23,6 +23,7 @@
 
 #include <tank/Tank.h>
 #include <weapons/Weapon.h>
+#include <list>
 
 class StatsLogger
 {
@@ -32,9 +33,10 @@ public:
 	StatsLogger();
 	virtual ~StatsLogger();
 
-	virtual void gameStart() = 0;
-	virtual void roundStart() = 0;
+	virtual void gameStart(std::list<Tank *> &tanks) = 0;
+	virtual void roundStart(std::list<Tank *> &tanks) = 0;
 
+	virtual void tankRank(Tank *tank) = 0;
 	virtual void tankJoined(Tank *tank) = 0;
 	virtual void tankLeft(Tank *tank) = 0;
 
@@ -59,9 +61,10 @@ public:
         StatsLoggerNone() {}
         virtual ~StatsLoggerNone() {}
 
-        virtual void gameStart() {}
-        virtual void roundStart() {}
+        virtual void gameStart(std::list<Tank *> &tanks) {}
+        virtual void roundStart(std::list<Tank *> &tanks) {}
 
+	virtual void tankRank(Tank *tank) {}
         virtual void tankJoined(Tank *tank) {}
         virtual void tankLeft(Tank *tank) {}
 

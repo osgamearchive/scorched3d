@@ -19,8 +19,13 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <engine/PhysicsEngine.h>
+#include <common/Defines.h>
+#include <common/OptionsGame.h>
 
-PhysicsEngine::PhysicsEngine() : world_(0), space_(0), contactgroup_(0), handler_(0)
+PhysicsEngine::PhysicsEngine() : 
+	world_(0), space_(0), 
+	contactgroup_(0), handler_(0),
+	context_(0)
 {
 	create();
 }
@@ -28,6 +33,11 @@ PhysicsEngine::PhysicsEngine() : world_(0), space_(0), contactgroup_(0), handler
 PhysicsEngine::~PhysicsEngine()
 {
 	destroy();
+}
+
+void PhysicsEngine::setScorchedContext(ScorchedContext *context)
+{
+	context_ = context;
 }
 
 void PhysicsEngine::setCollisionHandler(PhysicsEngineCollision *handler)
@@ -43,7 +53,7 @@ bool PhysicsEngine::create()
 	contactgroup_ = dJointGroupCreate (0);
 
 	// Setup the world's settings
-	dWorldSetGravity(world_,0,0,-10.0);
+	dWorldSetGravity(world_,0,0,-10.0); // Set a default gravity (this will change)
 	dWorldSetCFM(world_,1e-5);
 
 	return true;
@@ -51,7 +61,9 @@ bool PhysicsEngine::create()
 
 void PhysicsEngine::setWind(Vector &wind)
 {
-	dWorldSetGravity(world_, wind[0], wind[1], wind[2] - 10.0);
+	DIALOG_ASSERT(context_);
+	float gravity = (float) context_->optionsGame->getGravity();
+	dWorldSetGravity(world_, wind[0], wind[1], wind[2] + gravity);
 }
 
 void PhysicsEngine::destroy()

@@ -23,6 +23,7 @@
 
 #include <ode/ode.h>
 #include <common/Vector.h>
+#include <engine/ScorchedContext.h>
 
 class PhysicsEngineCollision
 {
@@ -36,6 +37,7 @@ public:
 	PhysicsEngine();
 	virtual ~PhysicsEngine();
 
+	void setScorchedContext(ScorchedContext *context);
 	void setCollisionHandler(PhysicsEngineCollision *handler);
 	void addCollision(dGeomID o1, dGeomID o2, dContact &contact);
 
@@ -47,6 +49,7 @@ public:
 	virtual void stepSimulation(float frameTime);
 
 protected:
+	ScorchedContext *context_;
 	PhysicsEngineCollision *handler_;
 	dWorldID world_;
 	dSpaceID space_;
