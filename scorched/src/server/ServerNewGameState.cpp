@@ -99,6 +99,9 @@ void ServerNewGameState::addTanksToGame(const unsigned state)
 	if (newGameMessage.getLevelMessage().getLevelLen() >
 		(unsigned int) OptionsGame::instance()->getMaxLandscapeSize())
 	{
+		Logger::log(0, "Landscape too large to send to waiting clients.");
+		sendString(0, "Landscape too large to send to waiting clients (%i bytes).", 
+			newGameMessage.getLevelMessage().getLevelLen());
 		return;
 	}
 
