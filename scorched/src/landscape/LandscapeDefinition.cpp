@@ -27,27 +27,26 @@
 #include <time.h>
 
 LandscapeDefinition::LandscapeDefinition(
-	LandscapeTex *tex, LandscapeDefn *defn,
+	const char *tex,
+	const char *defn,
 	unsigned int seed) :
-	tex_(tex), defn_(defn), seed_(seed)
+	tex_(tex), defn_(defn), seed_(seed),
+	cachedTex_(0), cachedDefn_(0)
 {
 }
 
 bool LandscapeDefinition::writeMessage(NetBuffer &buffer)
 {
 	buffer.addToBuffer(seed_);
-	if (!tex_->writeMessage(buffer)) return false;
-	if (!defn_->writeMessage(buffer)) return false;
+	buffer.addToBuffer(tex_);
+	buffer.addToBuffer(defn_);
 	return true;
 }
 
 bool LandscapeDefinition::readMessage(NetBufferReader &reader)
 {
 	if (!reader.getFromBuffer(seed_)) return false;
-	tex_ = new LandscapeTex;
-	if (!tex_->readMessage(reader)) return false;
-	defn_ = new LandscapeDefn;
-	if (!defn_->readMessage(reader)) return false;
+	if (!reader.getFromBuffer(tex_)) return false;
+	if (!reader.getFromBuffer(defn_)) return false;
 	return true;
 }
-

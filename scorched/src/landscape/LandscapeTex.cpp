@@ -80,16 +80,6 @@ static LandscapeTexAction *fetchActionTexType(const char *type)
 	return 0;
 }
 
-bool LandscapeTexTypeNone::writeMessage(NetBuffer &buffer)
-{
-	return true;
-}
-
-bool LandscapeTexTypeNone::readMessage(NetBufferReader &reader)
-{
-	return true;
-}
-
 bool LandscapeTexTypeNone::readXML(XMLNode *node)
 {
 	return node->failChildren();
@@ -100,26 +90,6 @@ LandscapeTexEvent::~LandscapeTexEvent()
 {
 	delete condition;
 	delete action;
-}
-
-bool LandscapeTexEvent::writeMessage(NetBuffer &buffer)
-{
-	buffer.addToBuffer(conditiontype);
-	if (!condition->writeMessage(buffer)) return false;
-	buffer.addToBuffer(actiontype);
-	if (!action->writeMessage(buffer)) return false;
-	return true;
-}
-
-bool LandscapeTexEvent::readMessage(NetBufferReader &reader)
-{
-	if (!reader.getFromBuffer(conditiontype)) return false;
-	if (!(condition = fetchConditionTexType(conditiontype.c_str()))) return false;
-	if (!condition->readMessage(reader)) return false;
-	if (!reader.getFromBuffer(actiontype)) return false;
-	if (!(action = fetchActionTexType(actiontype.c_str()))) return false;
-	if (!action->readMessage(reader)) return false;	
-	return true;
 }
 
 bool LandscapeTexEvent::readXML(XMLNode *node)
@@ -146,20 +116,6 @@ bool LandscapeTexEvent::readXML(XMLNode *node)
 float LandscapeTexConditionTime::getNextEventTime()
 {
 	return RAND * (maxtime - mintime) + mintime;
-}
-
-bool LandscapeTexConditionTime::writeMessage(NetBuffer &buffer)
-{
-	buffer.addToBuffer(mintime);
-	buffer.addToBuffer(maxtime);
-	return true;
-}
-
-bool LandscapeTexConditionTime::readMessage(NetBufferReader &reader)
-{
-	if (!reader.getFromBuffer(mintime)) return false;
-	if (!reader.getFromBuffer(maxtime)) return false;
-	return true;
 }
 
 bool LandscapeTexConditionTime::readXML(XMLNode *node)
@@ -200,26 +156,6 @@ void LandscapeTexActionFireWeapon::fireAction(ScorchedContext &context)
 		Weapon::eDataDeathAnimation);
 }
 
-bool LandscapeTexActionFireWeapon::writeMessage(NetBuffer &buffer)
-{
-	buffer.addToBuffer(position);
-	buffer.addToBuffer(positionoffset);
-	buffer.addToBuffer(direction);
-	buffer.addToBuffer(directionoffset);
-	buffer.addToBuffer(weapon);
-	return true;
-}
-
-bool LandscapeTexActionFireWeapon::readMessage(NetBufferReader &reader)
-{
-	if (!reader.getFromBuffer(position)) return false;
-	if (!reader.getFromBuffer(positionoffset)) return false;
-	if (!reader.getFromBuffer(direction)) return false;
-	if (!reader.getFromBuffer(directionoffset)) return false;
-	if (!reader.getFromBuffer(weapon)) return false;
-	return true;
-}
-
 bool LandscapeTexActionFireWeapon::readXML(XMLNode *node)
 {
 	if (!node->getNamedChild("position", position)) return false;
@@ -231,20 +167,6 @@ bool LandscapeTexActionFireWeapon::readXML(XMLNode *node)
 }
 
 // LandscapeTexObjectsModel
-bool LandscapeTexObjectsModel::writeMessage(NetBuffer &buffer)
-{
-	if (!model.writeModelID(buffer)) return false;
-	if (!modelburnt.writeModelID(buffer)) return false;
-	return true;
-}
-
-bool LandscapeTexObjectsModel::readMessage(NetBufferReader &reader)
-{
-	if (!model.readModelID(reader)) return false;
-	if (!modelburnt.readModelID(reader)) return false;
-	return true;
-}
-
 bool LandscapeTexObjectsModel::readXML(XMLNode *node)
 {
 	XMLNode *modelnode, *burntmodelnode;
@@ -256,20 +178,6 @@ bool LandscapeTexObjectsModel::readXML(XMLNode *node)
 }
 
 // LandscapeTexObjectsTree
-bool LandscapeTexObjectsTree::writeMessage(NetBuffer &buffer)
-{
-	buffer.addToBuffer(tree);
-	buffer.addToBuffer(snow);
-	return true;
-}
-
-bool LandscapeTexObjectsTree::readMessage(NetBufferReader &reader)
-{
-	if (!reader.getFromBuffer(tree)) return false;
-	if (!reader.getFromBuffer(snow)) return false;
-	return true;
-}
-
 bool LandscapeTexObjectsTree::readXML(XMLNode *node)
 {
 	if (!node->getNamedChild("tree", tree)) return false;
@@ -278,18 +186,6 @@ bool LandscapeTexObjectsTree::readXML(XMLNode *node)
 }
 
 // LandscapeTexPrecipitation
-bool LandscapeTexPrecipitation::writeMessage(NetBuffer &buffer)
-{
-	buffer.addToBuffer(particles);
-	return true;
-}
-
-bool LandscapeTexPrecipitation::readMessage(NetBufferReader &reader)
-{
-	if (!reader.getFromBuffer(particles)) return false;
-	return true;
-}
-
 bool LandscapeTexPrecipitation::readXML(XMLNode *node)
 {
 	if (!node->getNamedChild("particles", particles)) return false;
@@ -300,21 +196,6 @@ bool LandscapeTexPrecipitation::readXML(XMLNode *node)
 LandscapeTexObjectsPlacement::~LandscapeTexObjectsPlacement()
 {
 	delete object;
-}
-
-bool LandscapeTexObjectsPlacement::writeMessage(NetBuffer &buffer)
-{
-	buffer.addToBuffer(objecttype);
-	if (!object->writeMessage(buffer)) return false;
-	return true;
-}
-
-bool LandscapeTexObjectsPlacement::readMessage(NetBufferReader &reader)
-{
-	if (!reader.getFromBuffer(objecttype)) return false;
-	if (!(object = fetchObjectTexType(objecttype.c_str()))) return false;
-	if (!object->readMessage(reader)) return false;
-	return true;
 }
 
 bool LandscapeTexObjectsPlacement::readXML(XMLNode *node)
@@ -328,34 +209,6 @@ bool LandscapeTexObjectsPlacement::readXML(XMLNode *node)
 }
 
 // LandscapeTexObjectsPlacementMask
-bool LandscapeTexObjectsPlacementMask::writeMessage(NetBuffer &buffer)
-{
-	buffer.addToBuffer(numobjects);
-	buffer.addToBuffer(mask);
-	buffer.addToBuffer(minheight);
-	buffer.addToBuffer(maxheight);
-	buffer.addToBuffer(mincloseness);
-	buffer.addToBuffer(minslope);
-	buffer.addToBuffer(xsnap);
-	buffer.addToBuffer(ysnap);
-	buffer.addToBuffer(angsnap);
-	return LandscapeTexObjectsPlacement::writeMessage(buffer);
-}
-
-bool LandscapeTexObjectsPlacementMask::readMessage(NetBufferReader &reader)
-{
-	if (!reader.getFromBuffer(numobjects)) return false;
-	if (!reader.getFromBuffer(mask)) return false;
-	if (!reader.getFromBuffer(minheight)) return false;
-	if (!reader.getFromBuffer(maxheight)) return false;
-	if (!reader.getFromBuffer(mincloseness)) return false;
-	if (!reader.getFromBuffer(minslope)) return false;
-	if (!reader.getFromBuffer(xsnap)) return false;
-	if (!reader.getFromBuffer(ysnap)) return false;
-	if (!reader.getFromBuffer(angsnap)) return false;
-	return LandscapeTexObjectsPlacement::readMessage(reader);
-}
-
 bool LandscapeTexObjectsPlacementMask::readXML(XMLNode *node)
 {
 	if (!node->getNamedChild("numobjects", numobjects)) return false;
@@ -371,24 +224,6 @@ bool LandscapeTexObjectsPlacementMask::readXML(XMLNode *node)
 }
 
 // LandscapeTexObjectsPlacementTree
-bool LandscapeTexObjectsPlacementTree::writeMessage(NetBuffer &buffer)
-{
-	buffer.addToBuffer(numobjects);
-	buffer.addToBuffer(numclusters);
-	buffer.addToBuffer(minheight);
-	buffer.addToBuffer(maxheight);
-	return LandscapeTexObjectsPlacement::writeMessage(buffer);
-}
-
-bool LandscapeTexObjectsPlacementTree::readMessage(NetBufferReader &reader)
-{
-	if (!reader.getFromBuffer(numobjects)) return false;
-	if (!reader.getFromBuffer(numclusters)) return false;
-	if (!reader.getFromBuffer(minheight)) return false;
-	if (!reader.getFromBuffer(maxheight)) return false;
-	return LandscapeTexObjectsPlacement::readMessage(reader);
-}
-
 bool LandscapeTexObjectsPlacementTree::readXML(XMLNode *node)
 {
 	if (!node->getNamedChild("numobjects", numobjects)) return false;
@@ -399,28 +234,6 @@ bool LandscapeTexObjectsPlacementTree::readXML(XMLNode *node)
 }
 
 // LandscapeTexBorderWater 
-bool LandscapeTexBorderWater::writeMessage(NetBuffer &buffer)
-{
-	buffer.addToBuffer(reflection);
-	buffer.addToBuffer(texture);
-	buffer.addToBuffer(wavecolor);
-	buffer.addToBuffer(wavetexture1);
-	buffer.addToBuffer(wavetexture2);
-	buffer.addToBuffer(height);
-	return true;
-}
-
-bool LandscapeTexBorderWater::readMessage(NetBufferReader &reader)
-{
-	if (!reader.getFromBuffer(reflection)) return false;
-	if (!reader.getFromBuffer(texture)) return false;
-	if (!reader.getFromBuffer(wavecolor)) return false;
-	if (!reader.getFromBuffer(wavetexture1)) return false;
-	if (!reader.getFromBuffer(wavetexture2)) return false;
-	if (!reader.getFromBuffer(height)) return false;
-	return true;
-}
-
 bool LandscapeTexBorderWater::readXML(XMLNode *node)
 {
 	if (!node->getNamedChild("reflection", reflection)) return false;
@@ -437,34 +250,6 @@ bool LandscapeTexBorderWater::readXML(XMLNode *node)
 }
 
 // LandscapeTexTextureGenerate
-bool LandscapeTexTextureGenerate::writeMessage(NetBuffer &buffer)
-{
-	buffer.addToBuffer(roof);
-	buffer.addToBuffer(surround);
-	buffer.addToBuffer(rockside);
-	buffer.addToBuffer(shore);
-	buffer.addToBuffer(texture0);
-	buffer.addToBuffer(texture1);
-	buffer.addToBuffer(texture2);
-	buffer.addToBuffer(texture3);
-	buffer.addToBuffer(texture4);
-	return true;
-}
-
-bool LandscapeTexTextureGenerate::readMessage(NetBufferReader &reader)
-{
-	if (!reader.getFromBuffer(roof)) return false;
-	if (!reader.getFromBuffer(surround)) return false;
-	if (!reader.getFromBuffer(rockside)) return false;
-	if (!reader.getFromBuffer(shore)) return false;
-	if (!reader.getFromBuffer(texture0)) return false;
-	if (!reader.getFromBuffer(texture1)) return false;
-	if (!reader.getFromBuffer(texture2)) return false;
-	if (!reader.getFromBuffer(texture3)) return false;
-	if (!reader.getFromBuffer(texture4)) return false;
-	return true;
-}
-
 bool LandscapeTexTextureGenerate::readXML(XMLNode *node)
 {
 	if (!node->getNamedChild("roof", roof)) return false;
@@ -509,98 +294,6 @@ LandscapeTex::~LandscapeTex()
 	objects.clear();
 	objectstype.clear();
 	events.clear();
-}
-
-bool LandscapeTex::writeMessage(NetBuffer &buffer)
-{
-	buffer.addToBuffer(name);
-	buffer.addToBuffer(detail);
-	buffer.addToBuffer(magmasmall);
-	buffer.addToBuffer(scorch);
-	buffer.addToBuffer(fog);
-	buffer.addToBuffer(lowestlandheight);
-	buffer.addToBuffer(skytexture);
-	buffer.addToBuffer(skycolormap);
-	buffer.addToBuffer(skytimeofday);
-	buffer.addToBuffer(skysunxy);
-	buffer.addToBuffer(skysunyz);
-	buffer.addToBuffer(skyambience);
-	buffer.addToBuffer(skydiffuse);
-
-	buffer.addToBuffer(bordertype);
-	if (!border->writeMessage(buffer)) return false;
-	
-	buffer.addToBuffer(texturetype);
-	if (!texture->writeMessage(buffer)) return false;
-	
-	buffer.addToBuffer(precipitationtype);
-	if (!precipitation->writeMessage(buffer)) return false;
-
-	int size = 0;
-	size = (int) objects.size();
-	buffer.addToBuffer(size);
-	for (int i=0; i<size; i++)
-	{
-		buffer.addToBuffer(objectstype[i]);
-		if (!objects[i]->writeMessage(buffer)) return false;
-	}
-	size = (int) events.size();
-	buffer.addToBuffer(size);
-	for (int i=0; i<size; i++)
-	{
-		if (!events[i]->writeMessage(buffer)) return false;
-	}
-	return true;
-}
-
-bool LandscapeTex::readMessage(NetBufferReader &reader)
-{
-	if (!reader.getFromBuffer(name)) return false;
-	if (!reader.getFromBuffer(detail)) return false;
-	if (!reader.getFromBuffer(magmasmall)) return false;
-	if (!reader.getFromBuffer(scorch)) return false;
-	if (!reader.getFromBuffer(fog)) return false;
-	if (!reader.getFromBuffer(lowestlandheight)) return false;
-	if (!reader.getFromBuffer(skytexture)) return false;
-	if (!reader.getFromBuffer(skycolormap)) return false;
-	if (!reader.getFromBuffer(skytimeofday)) return false;
-	if (!reader.getFromBuffer(skysunxy)) return false;
-	if (!reader.getFromBuffer(skysunyz)) return false;
-	if (!reader.getFromBuffer(skyambience)) return false;
-	if (!reader.getFromBuffer(skydiffuse)) return false;
-
-	if (!reader.getFromBuffer(bordertype)) return false;
-	if (!(border = fetchBorderTexType(bordertype.c_str()))) return false;
-	if (!border->readMessage(reader)) return false;
-
-	if (!reader.getFromBuffer(texturetype)) return false;
-	if (!(texture = fetchTextureTexType(texturetype.c_str()))) return false;
-	if (!texture->readMessage(reader)) return false;
-	
-	if (!reader.getFromBuffer(precipitationtype)) return false;
-	if (!(precipitation = fetchPrecipitationTexType(precipitationtype.c_str()))) return false;
-	if (!precipitation->readMessage(reader)) return false;	
-
-	int size = 0;
-	if (!reader.getFromBuffer(size)) return false;
-	for (int i=0; i<size; i++)
-	{
-		std::string placementtype;
-		LandscapeTexType *placement = 0;
-		if (!reader.getFromBuffer(placementtype)) return false;
-		if (!(placement = fetchPlacementTexType(placementtype.c_str()))) return false;
-		if (!placement->readMessage(reader)) return false;
-		objects.push_back(placement);
-		objectstype.push_back(placementtype);
-	}
-	if (!reader.getFromBuffer(size)) return false;
-	for (int i=0; i<size; i++)
-	{
-		LandscapeTexEvent *event = new LandscapeTexEvent;
-		if (!event->readMessage(reader)) return false;
-		events.push_back(event);
-	}
-	return true;
 }
 
 bool LandscapeTex::readXML(XMLNode *node)

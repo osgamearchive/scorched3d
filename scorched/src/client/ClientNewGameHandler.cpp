@@ -117,6 +117,7 @@ bool ClientNewGameHandler::processMessage(unsigned int id,
 
 		// Generate new landscape
 		if (!ScorchedClient::instance()->getLandscapeMaps().generateHMapFromDiff(
+			ScorchedClient::instance()->getContext(),
 			message.getLevelMessage(),
 			ProgressDialog::instance()))
 		{

@@ -30,15 +30,11 @@ class LandscapeDefnType
 {
 public:
 	virtual bool readXML(XMLNode *node) = 0;
-	virtual bool writeMessage(NetBuffer &buffer) = 0;
-	virtual bool readMessage(NetBufferReader &reader) = 0;
 };
 
 class LandscapeDefnTypeNone : public LandscapeDefnType
 {
 public:
-	virtual bool writeMessage(NetBuffer &buffer);
-	virtual bool readMessage(NetBufferReader &reader);
 	virtual bool readXML(XMLNode *node);
 };
 
@@ -50,8 +46,6 @@ public:
 	std::string startmask;
 
 	virtual bool readXML(XMLNode *node);
-	virtual bool writeMessage(NetBuffer &buffer);
-	virtual bool readMessage(NetBufferReader &reader);
 };
 
 class LandscapeDefnRoofCavern : public LandscapeDefnType
@@ -66,8 +60,6 @@ public:
 	LandscapeDefnType *heightmap;
 
 	virtual bool readXML(XMLNode *node);
-	virtual bool writeMessage(NetBuffer &buffer);
-	virtual bool readMessage(NetBufferReader &reader);
 };
 
 class LandscapeDefnHeightMapFile : public LandscapeDefnType
@@ -76,8 +68,6 @@ public:
 	std::string file;
 	bool levelsurround;
 
-	virtual bool writeMessage(NetBuffer &buffer);
-	virtual bool readMessage(NetBufferReader &reader);
 	virtual bool readXML(XMLNode *node);
 };
 
@@ -94,8 +84,6 @@ public:
 	float landsmoothing;
 	bool levelsurround;
 
-	virtual bool writeMessage(NetBuffer &buffer);
-	virtual bool readMessage(NetBufferReader &reader);
 	virtual bool readXML(XMLNode *node);
 };
 
@@ -118,8 +106,6 @@ public:
 	std::string heightmaptype;
 	LandscapeDefnType *heightmap;
 
-	bool writeMessage(NetBuffer &buffer);
-	bool readMessage(NetBufferReader &reader);
 	bool readXML(XMLNode *node);
 
 private:

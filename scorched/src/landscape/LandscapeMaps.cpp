@@ -21,8 +21,10 @@
 #include <landscape/LandscapeMaps.h>
 #include <landscape/LandscapeDefn.h>
 #include <landscape/LandscapeDefinition.h>
+#include <landscape/LandscapeDefinitions.h>
 #include <landscape/HeightMapModifier.h>
 #include <landscape/HeightMapLoader.h>
+#include <engine/ScorchedContext.h>
 #include <common/OptionsGame.h>
 #include <common/RandomGenerator.h>
 #include <common/Defines.h>
@@ -46,7 +48,38 @@ LandscapeMaps::~LandscapeMaps()
 	delete [] storedMap_;
 }
 
-void LandscapeMaps::generateHMap(LandscapeDefinition *hdef,
+LandscapeTex &LandscapeMaps::getTex(ScorchedContext &context)
+{
+	LandscapeTex *tex = storedHdef_->cachedTex_;
+	if (!tex)
+	{
+		tex = context.landscapes->getTex(storedHdef_->getTex());
+	}
+	DIALOG_ASSERT(tex);
+	storedHdef_->cachedTex_ = tex;
+	return *tex;
+}
+
+LandscapeDefn &LandscapeMaps::getDefn(ScorchedContext &context)
+{
+	LandscapeDefn *defn = storedHdef_->cachedDefn_;
+	if (!defn)
+	{
+		defn = context.landscapes->getDefn(storedHdef_->getDefn());
+	}
+	DIALOG_ASSERT(defn);
+	storedHdef_->cachedDefn_ = defn;
+	return *defn;
+}
+
+unsigned int LandscapeMaps::getSeed()
+{
+	return storedHdef_->getSeed();
+}
+
+void LandscapeMaps::generateHMap(
+	ScorchedContext &context, 
+	LandscapeDefinition *hdef,
 	ProgressCounter *counter)
 {
 	// Store the landscape settings for anyone that connects later
@@ -56,9 +89,9 @@ void LandscapeMaps::generateHMap(LandscapeDefinition *hdef,
 	// Generate the landscape
 	bool levelSurround = false;
 	if (!HeightMapLoader::generateTerrain(
-		hdef->getSeed(),
-		hdef->getDefn()->heightmap,
-		hdef->getDefn()->heightmaptype.c_str(),
+		getSeed(),
+		getDefn(context).heightmap,
+		getDefn(context).heightmaptype.c_str(),
 		getHMap(),
 		levelSurround,
 		counter))
@@ -67,10 +100,10 @@ void LandscapeMaps::generateHMap(LandscapeDefinition *hdef,
 	}
 
 	// Generate the roof
-	if (0 == strcmp(hdef->getDefn()->rooftype.c_str(), "cavern"))
+	if (0 == strcmp(getDefn(context).rooftype.c_str(), "cavern"))
 	{
 		LandscapeDefnRoofCavern *cavern = 
-			(LandscapeDefnRoofCavern *) hdef->getDefn()->roof;
+			(LandscapeDefnRoofCavern *) getDefn(context).roof;
 
 		if (!HeightMapLoader::generateTerrain(
 			hdef->getSeed() + 1,
@@ -98,12 +131,12 @@ void LandscapeMaps::generateHMap(LandscapeDefinition *hdef,
 	else roof_ = false;
 
 	// Generate the surround
-	if (0 != strcmp(hdef->getDefn()->surroundtype.c_str(), "none"))
+	if (0 != strcmp(getDefn(context).surroundtype.c_str(), "none"))
 	{
 		if (!HeightMapLoader::generateTerrain(
-			hdef->getSeed() + 1,
-			hdef->getDefn()->surround,
-			hdef->getDefn()->surroundtype.c_str(),
+			getSeed() + 1,
+			getDefn(context).surround,
+			getDefn(context).surroundtype.c_str(),
 			getSMap(),
 			levelSurround,
 			counter))
@@ -134,7 +167,8 @@ void LandscapeMaps::generateHMap(LandscapeDefinition *hdef,
 		   (256 + 1) * (256 + 1) * sizeof(float));
 }
 
-bool LandscapeMaps::generateHMapDiff(ComsLevelMessage &message)
+bool LandscapeMaps::generateHMapDiff(
+	ScorchedContext &context, ComsLevelMessage &message)
 {
 	// Buffer sizes
 	unsigned long destLen = (256 + 1) * (256 + 1) * sizeof(float) * 2;
@@ -191,8 +225,10 @@ bool LandscapeMaps::generateHMapDiff(ComsLevelMessage &message)
 	return result;
 }
 
-bool LandscapeMaps::generateHMapFromDiff(ComsLevelMessage &message,
-									  ProgressCounter *counter)
+bool LandscapeMaps::generateHMapFromDiff(
+	ScorchedContext &context, 
+	ComsLevelMessage &message,
+	ProgressCounter *counter)
 {
 	// Buffer sizes
 	unsigned long wantedDestLen = (256 + 1) * (256 + 1) * sizeof(float);
@@ -217,7 +253,7 @@ bool LandscapeMaps::generateHMapFromDiff(ComsLevelMessage &message,
 	if (result)
 	{
 		// Create the new base Level using the seed
-		generateHMap(message.getHmapDefn(), counter);
+		generateHMap(context, message.getHmapDefn(), counter);
 
 		// Update this level with any changes specified in the diffs
 		// need to change from network byte ordering so 

@@ -129,17 +129,20 @@ void ServerNewGameState::enterState(const unsigned state)
 		dialogExit("ServerNewGameState", 
 			"No available landscapes are configured for the server.");
 	}
-	ScorchedServer::instance()->getContext().landscapeMaps->generateHMap(defn);
-
+	ScorchedServer::instance()->getContext().landscapeMaps->generateHMap(
+		ScorchedServer::instance()->getContext(), defn);
 	ServerCommon::serverLog(0, "Finished generating landscape (%s, %s)", 
-		ScorchedServer::instance()->getLandscapeMaps().getLandDfn()->getDefn()->name.c_str(),
-		ScorchedServer::instance()->getLandscapeMaps().getLandDfn()->getTex()->name.c_str());
+		defn->getDefn(), defn->getTex());
 
 	// Set the start positions for the tanks
 	// Must be generated after the level as it alters the
 	// level
-	calculateStartPosition(defn->getDefn()->tankstart, 
-		defn->getDefn()->tankstarttype.c_str(), 
+	LandscapeDefn &tankDefn = 
+		ScorchedServer::instance()->getLandscapeMaps().getDefn(
+			ScorchedServer::instance()->getContext());
+	calculateStartPosition(
+		tankDefn.tankstart, 
+		tankDefn.tankstarttype.c_str(), 
 		ScorchedServer::instance()->getContext());
 
 	// Add pending tanks (all tanks should be pending) into the game
@@ -195,6 +198,7 @@ int ServerNewGameState::addTanksToGame(const unsigned state,
 		newGameMessage.addGameState(); 
 	}
 	if (!ScorchedServer::instance()->getLandscapeMaps().generateHMapDiff(
+		ScorchedServer::instance()->getContext(),
 		newGameMessage.getLevelMessage()))
 	{
 		Logger::log(0, "ERROR: Failed to generate diff");

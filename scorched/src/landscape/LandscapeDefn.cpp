@@ -66,16 +66,6 @@ static bool parseMinMax(XMLNode *parent, const char *name,
 	return node->failChildren();
 }
 
-bool LandscapeDefnTypeNone::writeMessage(NetBuffer &buffer)
-{
-	return true;
-}
-
-bool LandscapeDefnTypeNone::readMessage(NetBufferReader &reader)
-{
-	return true;
-}
-
 bool LandscapeDefnTypeNone::readXML(XMLNode *node)
 {
 	return node->failChildren();
@@ -90,25 +80,6 @@ LandscapeDefnRoofCavern::~LandscapeDefnRoofCavern()
 	delete heightmap;
 }
 
-bool LandscapeDefnRoofCavern::writeMessage(NetBuffer &buffer)
-{
-	buffer.addToBuffer(width);
-	buffer.addToBuffer(height);
-	buffer.addToBuffer(heightmaptype);
-	if (!heightmap->writeMessage(buffer)) return false;
-	return true;
-}
-
-bool LandscapeDefnRoofCavern::readMessage(NetBufferReader &reader)
-{
-	if (!reader.getFromBuffer(width)) return false;
-	if (!reader.getFromBuffer(height)) return false;
-	if (!reader.getFromBuffer(heightmaptype)) return false;
-	if (!(heightmap = fetchHeightMapDefnType(heightmaptype.c_str()))) return false;
-	if (!heightmap->readMessage(reader)) return false;
-	return true;
-}
-
 bool LandscapeDefnRoofCavern::readXML(XMLNode *node)
 {
 	if (!node->getNamedChild("width", width)) return false;
@@ -121,25 +92,6 @@ bool LandscapeDefnRoofCavern::readXML(XMLNode *node)
 		if (!heightmap->readXML(heightNode)) return false;
 	}	
 	return node->failChildren();
-}
-
-
-bool LandscapeDefnStartHeight::writeMessage(NetBuffer &buffer)
-{
-	buffer.addToBuffer(startcloseness);
-	buffer.addToBuffer(heightmin);
-	buffer.addToBuffer(heightmax);
-	buffer.addToBuffer(startmask);
-	return true;
-}
-
-bool LandscapeDefnStartHeight::readMessage(NetBufferReader &reader)
-{
-	if (!reader.getFromBuffer(startcloseness)) return false;
-	if (!reader.getFromBuffer(heightmin)) return false;
-	if (!reader.getFromBuffer(heightmax)) return false;
-	if (!reader.getFromBuffer(startmask)) return false;
-	return true;
 }
 
 bool LandscapeDefnStartHeight::readXML(XMLNode *node)
@@ -157,66 +109,12 @@ bool LandscapeDefnStartHeight::readXML(XMLNode *node)
 	return node->failChildren();
 }
 
-bool LandscapeDefnHeightMapFile::writeMessage(NetBuffer &buffer)
-{
-	buffer.addToBuffer(file);
-	buffer.addToBuffer(levelsurround);
-	return true;
-}
-
-bool LandscapeDefnHeightMapFile::readMessage(NetBufferReader &reader)
-{
-	if (!reader.getFromBuffer(file)) return false;
-	if (!reader.getFromBuffer(levelsurround)) return false;
-	return true;
-}
-
 bool LandscapeDefnHeightMapFile::readXML(XMLNode *node)
 {
 	if (!node->getNamedChild("file", file)) return false;
 	if (!node->getNamedChild("levelsurround", levelsurround)) return false;
 	if (!checkDataFile(file.c_str())) return false;
 	return node->failChildren();
-}
-
-bool LandscapeDefnHeightMapGenerate::writeMessage(NetBuffer &buffer)
-{
-	buffer.addToBuffer(mask);
-	buffer.addToBuffer(landhillsmax);
-	buffer.addToBuffer(landhillsmin);
-	buffer.addToBuffer(landheightmax);
-	buffer.addToBuffer(landheightmin);
-	buffer.addToBuffer(landwidthx);
-	buffer.addToBuffer(landwidthy);
-	buffer.addToBuffer(landpeakwidthxmax);
-	buffer.addToBuffer(landpeakwidthxmin);
-	buffer.addToBuffer(landpeakwidthymax);
-	buffer.addToBuffer(landpeakwidthymin);
-	buffer.addToBuffer(landpeakheightmax);
-	buffer.addToBuffer(landpeakheightmin);
-	buffer.addToBuffer(landsmoothing);
-	buffer.addToBuffer(levelsurround);
-	return true;
-}
-
-bool LandscapeDefnHeightMapGenerate::readMessage(NetBufferReader &reader)
-{
-	if (!reader.getFromBuffer(mask)) return false;
-	if (!reader.getFromBuffer(landhillsmax)) return false;
-	if (!reader.getFromBuffer(landhillsmin)) return false;
-	if (!reader.getFromBuffer(landheightmax)) return false;
-	if (!reader.getFromBuffer(landheightmin)) return false;
-	if (!reader.getFromBuffer(landwidthx)) return false;
-	if (!reader.getFromBuffer(landwidthy)) return false;
-	if (!reader.getFromBuffer(landpeakwidthxmax)) return false;
-	if (!reader.getFromBuffer(landpeakwidthxmin)) return false;
-	if (!reader.getFromBuffer(landpeakwidthymax)) return false;
-	if (!reader.getFromBuffer(landpeakwidthymin)) return false;
-	if (!reader.getFromBuffer(landpeakheightmax)) return false;
-	if (!reader.getFromBuffer(landpeakheightmin)) return false;
-	if (!reader.getFromBuffer(landsmoothing)) return false;
-	if (!reader.getFromBuffer(levelsurround)) return false;
-	return true;
 }
 
 bool LandscapeDefnHeightMapGenerate::readXML(XMLNode *node)
@@ -251,47 +149,6 @@ LandscapeDefn::LandscapeDefn() :
 
 LandscapeDefn::~LandscapeDefn()
 {
-}
-
-bool LandscapeDefn::writeMessage(NetBuffer &buffer)
-{
-	buffer.addToBuffer(name);
-	buffer.addToBuffer(minplayers);
-	buffer.addToBuffer(maxplayers);
-	buffer.addToBuffer(tankstarttype);
-	if (!tankstart->writeMessage(buffer)) return false;
-	buffer.addToBuffer(heightmaptype);
-	if (!heightmap->writeMessage(buffer)) return false;
-	buffer.addToBuffer(rooftype);
-	if (!roof->writeMessage(buffer)) return false;
-	buffer.addToBuffer(surroundtype);
-	if (!surround->writeMessage(buffer)) return false;
-	return true;
-}
-
-bool LandscapeDefn::readMessage(NetBufferReader &reader)
-{
-	if (!reader.getFromBuffer(name)) return false;
-	if (!reader.getFromBuffer(minplayers)) return false;
-	if (!reader.getFromBuffer(maxplayers)) return false;
-	
-	if (!reader.getFromBuffer(tankstarttype)) return false;
-	if (!(tankstart = fetchTankStartDefnType(tankstarttype.c_str()))) return false;
-	if (!tankstart->readMessage(reader)) return false;
-	
-	if (!reader.getFromBuffer(heightmaptype)) return false;
-	if (!(heightmap = fetchHeightMapDefnType(heightmaptype.c_str()))) return false;
-	if (!heightmap->readMessage(reader)) return false;
-	
-	if (!reader.getFromBuffer(rooftype)) return false;
-	if (!(roof = fetchRoofMapDefnType(rooftype.c_str()))) return false;
-	if (!roof->readMessage(reader)) return false;
-	
-	if (!reader.getFromBuffer(surroundtype)) return false;
-	if (!(surround = fetchSurroundDefnType(surroundtype.c_str()))) return false;
-	if (!surround->readMessage(reader)) return false;
-	
-	return true;
 }
 
 bool LandscapeDefn::readXML(XMLNode *node)

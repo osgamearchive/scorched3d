@@ -117,12 +117,11 @@ void SurroundDefault::generateList(bool detail)
 		{12,0,1,13}
 	};
 
-	Vector &ambient = 
-		ScorchedClient::instance()->getLandscapeMaps().
-			getLandDfn()->getTex()->skyambience;
-	Vector &diffuse = 
-		ScorchedClient::instance()->getLandscapeMaps().
-			getLandDfn()->getTex()->skydiffuse;
+	LandscapeTex &tex =
+		ScorchedClient::instance()->getLandscapeMaps().getTex(
+		ScorchedClient::instance()->getContext());
+	Vector &ambient = tex.skyambience;
+	Vector &diffuse = tex.skydiffuse;
 	Vector &sunPos =
 		Landscape::instance()->getSky().getSun().getPosition();
 	Vector normal(0.0f, 0.0f, 1.0f);

@@ -28,6 +28,7 @@
 #include <common/OptionsTransient.h>
 #include <tank/TankContainer.h>
 #include <landscape/LandscapeMaps.h>
+#include <landscape/LandscapeDefinitions.h>
 #include <weapons/AccessoryStore.h>
 
 ScorchedContext::ScorchedContext(const char *name) : 
@@ -44,6 +45,7 @@ ScorchedContext::ScorchedContext(const char *name) :
 	optionsTransient = new OptionsTransient(*optionsGame);
 	viewPoints = new ViewPoints();
 	modFiles = new ModFiles();
+	landscapes = new LandscapeDefinitions();
 
 	viewPoints->setContext(this);
 	actionController->setScorchedContext(this);

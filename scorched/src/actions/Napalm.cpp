@@ -203,12 +203,11 @@ void Napalm::simulateAddStep()
 	// Napalm does not go under water (for now)
 	// Perhaps we could add a boiling water sound at some point
 	float waterHeight = -10.0f;
-	LandscapeTex *tex = 
-		context_->landscapeMaps->getLandDfn()->getTex();
-	if (0 == strcmp(tex->bordertype.c_str(), "water"))
+	LandscapeTex &tex = context_->landscapeMaps->getTex(*context_);
+	if (0 == strcmp(tex.bordertype.c_str(), "water"))
 	{
 		LandscapeTexBorderWater *water = 
-			(LandscapeTexBorderWater *) tex->border;
+			(LandscapeTexBorderWater *) tex.border;
         	waterHeight = water->height;
 	}
 

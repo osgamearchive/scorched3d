@@ -313,12 +313,11 @@ LandscapeDefinition *LandscapeDefinitions::getRandomLandscapeDefn(
 	unsigned int defnPos = int(RAND * float(result->defns.size()));
 	DIALOG_ASSERT(texPos < result->texs.size());
 	DIALOG_ASSERT(defnPos < result->defns.size());
-	LandscapeTex *tex = getTex(result->texs[texPos].c_str());
-	LandscapeDefn *defn = getDefn(result->defns[defnPos].c_str());
-	DIALOG_ASSERT(tex && defn);
+	std::string tex = result->texs[texPos].c_str();
+	std::string defn = result->defns[defnPos].c_str();
 	unsigned int seed = (unsigned int) rand();
 	LandscapeDefinition *entry = 
-		new LandscapeDefinition(tex, defn, seed);
+		new LandscapeDefinition(tex.c_str(), defn.c_str(), seed);
 	return entry;
 }
 

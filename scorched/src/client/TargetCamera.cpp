@@ -224,25 +224,21 @@ void TargetCamera::simulate(float frameTime, bool playing)
 		if (ScorchedClient::instance()->getLandscapeMaps().getLandDfn() &&
 			!OptionsDisplay::instance()->getNoPrecipitation())
 		{
-			if (0 == strcmp("rain", 
-				ScorchedClient::instance()->getLandscapeMaps().
-				getLandDfn()->getTex()->precipitationtype.c_str()))
+			LandscapeTex &tex = ScorchedClient::instance()->getLandscapeMaps().
+				getTex(ScorchedClient::instance()->getContext());
+			if (0 == strcmp("rain", tex.precipitationtype.c_str()))
 			{
 				LandscapeTexPrecipitation *rain = (LandscapeTexPrecipitation *)
-					ScorchedClient::instance()->getLandscapeMaps().
-					getLandDfn()->getTex()->precipitation;
+					tex.precipitation;
 				rainEmitter_.emitPrecipitation(mainCam_.getCurrentPos(),
 					particleEngine_,
 					rain->particles,
 					true);
 			}
-			else if (0 == strcmp("snow", 
-				ScorchedClient::instance()->getLandscapeMaps().
-				getLandDfn()->getTex()->precipitationtype.c_str()))
+			else if (0 == strcmp("snow", tex.precipitationtype.c_str()))
 			{
 				LandscapeTexPrecipitation *snow = (LandscapeTexPrecipitation *)
-					ScorchedClient::instance()->getLandscapeMaps().
-					getLandDfn()->getTex()->precipitation;
+					tex.precipitation;
 				snowEmitter_.emitPrecipitation(mainCam_.getCurrentPos(),
 					particleEngine_,
 					snow->particles,

@@ -51,6 +51,8 @@ public:
 	void clearLandscapeDefinitions();
 
 	LandscapeDefinition *getRandomLandscapeDefn(OptionsGame &context);
+	LandscapeTex *getTex(const char *name);
+	LandscapeDefn *getDefn(const char *name);
 
 	bool landscapeEnabled(OptionsGame &context, const char *name);
 	std::list<LandscapeDefinitionsEntry> &getAllLandscapes() 
@@ -60,9 +62,6 @@ protected:
 	std::list<LandscapeDefinitionsEntry> entries_;
 	std::list<LandscapeTex*> texs_;
 	std::list<LandscapeDefn*> defns_;
-
-	LandscapeTex *getTex(const char *name);
-	LandscapeDefn *getDefn(const char *name);
 
 	bool readDefinitions();
 	bool readTexs();

@@ -259,8 +259,8 @@ void Landscape::generate(ProgressCounter *counter)
 
 	// Load the texture bitmaps from resources 
 	LandscapeTex *tex = 
-			ScorchedClient::instance()->getLandscapeMaps().getLandDfn()->getTex();
-
+			&ScorchedClient::instance()->getLandscapeMaps().getTex(
+			ScorchedClient::instance()->getContext());
 	if (0 == strcmp(tex->texturetype.c_str(), "generate"))
 	{
 		LandscapeTexTextureGenerate *generate = 

@@ -30,19 +30,23 @@ class LandscapeDefinition
 {
 public:
 	LandscapeDefinition(
-		LandscapeTex *tex = 0, LandscapeDefn *defn = 0,
+		const char *tex = "", 
+		const char *defn = "",
 		unsigned int seed = 0);
 
-	LandscapeTex *getTex() { return tex_; }
-	LandscapeDefn *getDefn() { return defn_; }
+	const char *getTex() { return tex_.c_str(); }
+	const char *getDefn() { return defn_.c_str(); }
 	unsigned int getSeed() { return seed_; }
+
+	LandscapeTex *cachedTex_;
+	LandscapeDefn *cachedDefn_;
 
 	bool writeMessage(NetBuffer &buffer);
 	bool readMessage(NetBufferReader &reader);
 
 protected:
-	LandscapeTex *tex_;
-	LandscapeDefn *defn_;
+	std::string tex_;
+	std::string defn_;
 	unsigned int seed_;
 
 	LandscapeDefinition(const LandscapeDefinition &other);

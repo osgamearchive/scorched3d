@@ -32,6 +32,7 @@ class OptionsGameWrapper;
 class OptionsTransient;
 class ViewPoints;
 class ModFiles;
+class LandscapeDefinitions;
 
 class ScorchedContext
 {
@@ -50,6 +51,7 @@ public:
 	ViewPoints *viewPoints;
 	ModFiles *modFiles;
 	AccessoryStore *accessoryStore;
+	LandscapeDefinitions *landscapes;
 	bool serverMode;
 };
 

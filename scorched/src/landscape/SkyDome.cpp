@@ -94,12 +94,14 @@ void SkyDome::draw()
 			Vector sunDir = 
 				-Landscape::instance()->getSky().getSun().getPosition().Normalize();
 
+			LandscapeTex &tex =
+				ScorchedClient::instance()->getLandscapeMaps().getTex(
+				ScorchedClient::instance()->getContext());
 			Hemisphere::createColored(layer1_, 
 				1800, 180, 10, 10,
 				Landscape::instance()->getSkyColorsMap(),
 				sunDir,
-				ScorchedClient::instance()->getLandscapeMaps().
-				getLandDfn()->getTex()->skytimeofday);
+				tex.skytimeofday);
 		}
 		GLState mainState2(GLState::TEXTURE_ON | GLState::BLEND_OFF);
 		drawLayer(layer1_, 1800, 180, slowXY, slowXY + 0.4f, true);

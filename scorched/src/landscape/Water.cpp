@@ -99,16 +99,16 @@ void Water::simulate(float frameTime)
 
 void Water::generate(ProgressCounter *counter)
 {
-	LandscapeTex *tex = 
-			ScorchedClient::instance()->getLandscapeMaps().getLandDfn()->getTex();
-	if (0 == strcmp(tex->bordertype.c_str(), "none"))
+	LandscapeTex &tex = ScorchedClient::instance()->getLandscapeMaps().getTex(
+		ScorchedClient::instance()->getContext());
+	if (0 == strcmp(tex.bordertype.c_str(), "none"))
 	{
 		waterOn_ = false;
 	}
-	else if (0 == strcmp(tex->bordertype.c_str(), "water"))
+	else if (0 == strcmp(tex.bordertype.c_str(), "water"))
 	{
 		LandscapeTexBorderWater *water = 
-			(LandscapeTexBorderWater *) tex->border;
+			(LandscapeTexBorderWater *) tex.border;
 
 		height_ = water->height;
 
@@ -164,7 +164,7 @@ void Water::generate(ProgressCounter *counter)
 	{
 		dialogExit("Landscape",
 			"Failed to find border type %s",
-			tex->bordertype.c_str());
+			tex.bordertype.c_str());
 	}
 }
 

@@ -37,7 +37,6 @@ ScorchedServer *ScorchedServer::instance()
 ScorchedServer::ScorchedServer()  : context_("Server")
 {
 	deadContainer_ = new TankDeadContainer;
-	landscapes_ = new LandscapeDefinitions;
 	context_.serverMode = true;
 	tankAIStore_ = new TankAIStore;
 }

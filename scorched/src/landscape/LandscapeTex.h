@@ -31,16 +31,12 @@ class ScorchedContext;
 class LandscapeTexType
 {
 public:
-	virtual bool writeMessage(NetBuffer &buffer) = 0;
-	virtual bool readMessage(NetBufferReader &reader) = 0;
 	virtual bool readXML(XMLNode *node) = 0;
 };
 
 class LandscapeTexTypeNone : public LandscapeTexType
 {
 public:
-	virtual bool writeMessage(NetBuffer &buffer);
-	virtual bool readMessage(NetBufferReader &reader);
 	virtual bool readXML(XMLNode *node);
 };
 
@@ -57,8 +53,6 @@ public:
 	float maxtime;
 
 	virtual float getNextEventTime();
-	virtual bool writeMessage(NetBuffer &buffer);
-	virtual bool readMessage(NetBufferReader &reader);
 	virtual bool readXML(XMLNode *node);
 };
 
@@ -78,8 +72,6 @@ public:
 	std::string weapon;
 
 	virtual void fireAction(ScorchedContext &context);
-	virtual bool writeMessage(NetBuffer &buffer);
-	virtual bool readMessage(NetBufferReader &reader);
 	virtual bool readXML(XMLNode *node);
 };
 
@@ -93,8 +85,6 @@ public:
 	LandscapeTexCondition *condition;
 	LandscapeTexAction *action;
 
-	virtual bool writeMessage(NetBuffer &buffer);
-	virtual bool readMessage(NetBufferReader &reader);
 	virtual bool readXML(XMLNode *node);
 };
 
@@ -104,8 +94,6 @@ public:
 	ModelID model;
 	ModelID modelburnt;
 
-	virtual bool writeMessage(NetBuffer &buffer);
-	virtual bool readMessage(NetBufferReader &reader);
 	virtual bool readXML(XMLNode *node);
 };
 
@@ -115,8 +103,6 @@ public:
 	std::string tree;
 	float snow;
 
-	virtual bool writeMessage(NetBuffer &buffer);
-	virtual bool readMessage(NetBufferReader &reader);
 	virtual bool readXML(XMLNode *node);
 };
 
@@ -125,8 +111,6 @@ class LandscapeTexPrecipitation : public LandscapeTexType
 public:
 	int particles;
 
-	virtual bool writeMessage(NetBuffer &buffer);
-	virtual bool readMessage(NetBufferReader &reader);
 	virtual bool readXML(XMLNode *node);
 };
 
@@ -138,8 +122,6 @@ public:
 	std::string objecttype;
 	LandscapeTexType *object;
 
-	virtual bool writeMessage(NetBuffer &buffer);
-	virtual bool readMessage(NetBufferReader &reader);
 	virtual bool readXML(XMLNode *node);
 };
 
@@ -150,8 +132,6 @@ public:
 	int numclusters;
 	float minheight, maxheight;
 
-	virtual bool writeMessage(NetBuffer &buffer);
-	virtual bool readMessage(NetBufferReader &reader);
 	virtual bool readXML(XMLNode *node);
 };
 
@@ -164,8 +144,6 @@ public:
 	float mincloseness, minslope;
 	float xsnap, ysnap, angsnap;
 
-	virtual bool writeMessage(NetBuffer &buffer);
-	virtual bool readMessage(NetBufferReader &reader);
 	virtual bool readXML(XMLNode *node);
 };
 
@@ -179,8 +157,6 @@ public:
 	float height;
 	Vector wavecolor;
 
-	virtual bool writeMessage(NetBuffer &buffer);
-	virtual bool readMessage(NetBufferReader &reader);
 	virtual bool readXML(XMLNode *node);
 };
 
@@ -197,8 +173,6 @@ public:
 	std::string texture3;
 	std::string texture4;
 
-	virtual bool writeMessage(NetBuffer &buffer);
-	virtual bool readMessage(NetBufferReader &reader);
 	virtual bool readXML(XMLNode *node);
 };
 
@@ -233,8 +207,6 @@ public:
 	std::vector<LandscapeTexType *> objects;
 	std::vector<LandscapeTexEvent *> events;
 
-	bool writeMessage(NetBuffer &buffer);
-	bool readMessage(NetBufferReader &reader);
 	bool readXML(XMLNode *node);
 
 private:

@@ -43,6 +43,7 @@ public:
 	ComsMessageHandler &getComsMessageHandler() { return *context_.comsMessageHandler; }
 	ModFiles &getModFiles() { return *context_.modFiles; }
 	ParticleEngine &getParticleEngine() { return *particleEngine_; }
+	LandscapeDefinitions &getLandscapes() { return *context_.landscapes; }
 
 protected:
 	static ScorchedClient *instance_;
