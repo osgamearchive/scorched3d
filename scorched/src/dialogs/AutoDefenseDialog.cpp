@@ -24,6 +24,7 @@
 #include <GLW/GLWFlag.h>
 #include <GLW/GLWTextButton.h>
 #include <common/WindowManager.h>
+#include <common/OptionsParam.h>
 #include <common/OptionsTransient.h>
 #include <client/ClientState.h>
 
@@ -68,15 +69,15 @@ void AutoDefenseDialog::nextPlayer()
 	}
 	else
 	{
-		if (!current->getAccessories().getAutoDefense().haveDefense() ||
-			(current->getTankAI() && !current->getTankAI()->isHuman()))
-		{
-			nextPlayer();
-		}
-		else
+		if (current->getTankAI() && current->getTankAI()->isHuman() &&
+			current->getAccessories().getAutoDefense().haveDefense())
 		{
 			actualPlayer_ = current->getPlayerId();
 			displayCurrent();
+		}
+		else
+		{
+			nextPlayer();
 		}
 	}
 }
@@ -85,7 +86,14 @@ void AutoDefenseDialog::buttonDown(unsigned int id)
 {
 	if (id == okId_)
 	{
-		nextPlayer();
+		if (OptionsParam::instance()->getConnectedToServer())
+		{
+			finished();
+		}
+		else
+		{
+			nextPlayer();
+		}
 	}
 }
 

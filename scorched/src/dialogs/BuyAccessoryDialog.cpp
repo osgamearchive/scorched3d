@@ -260,7 +260,14 @@ void BuyAccessoryDialog::buttonDown(unsigned int id)
 {
 	if (id == okId_)
 	{
-		nextPlayer();
+		if (OptionsParam::instance()->getConnectedToServer())
+		{
+			finished();
+		}
+		else
+		{
+			nextPlayer();
+		}
 	}
 	else
 	{
