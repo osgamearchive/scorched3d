@@ -35,6 +35,8 @@ public:
 	virtual void clientError(NetMessage &message,
 		const char *errorString);
 
+	void destroyPlayer(unsigned int playerId);
+
 protected:
 	static ServerMessageHandler *instance_;
 

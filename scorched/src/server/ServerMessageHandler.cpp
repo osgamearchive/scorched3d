@@ -53,11 +53,16 @@ void ServerMessageHandler::clientConnected(NetMessage &message)
 void ServerMessageHandler::clientDisconnected(NetMessage &message)
 {
 	unsigned int tankId = (unsigned int) message.getPlayerId();
+	destroyPlayer(tankId);
+}
+
+void ServerMessageHandler::destroyPlayer(unsigned int tankId)
+{
 	Tank *tank = TankContainer::instance()->removeTank(tankId);
 	if (tank)
 	{
 		Logger::log(tankId, "Client disconnected \"%i\" \"%s\"", 
-			message.getPlayerId(), tank->getName());
+			tankId, tank->getName());
 
 		// Tell all the clients to remove the tank
 		ComsRmPlayerMessage rmPlayerMessage(
@@ -68,10 +73,10 @@ void ServerMessageHandler::clientDisconnected(NetMessage &message)
 	}
 	else
 	{
-		Logger::log(0, "Client disconnected \"%i\"", 
-			message.getPlayerId());
+		Logger::log(0, "Client disconnected \"%i\"", tankId);
 	}
 }
+
 
 void ServerMessageHandler::clientError(NetMessage &message,
 		const char *errorString)

@@ -187,28 +187,32 @@ void ExplosionRenderer::simulate(Action *action, float frameTime, bool &remove)
 				OptionsDisplay::instance()->getExplosionParticlesMult()) / 10.0f;
 			for (int a=0; a<int(width_ * mult); a++)
 			{
-				float direction = RAND * 3.14f * 2.0f;
-				float speed = RAND * 5.0f + 5.0f;
-				float height = RAND * 10.0f + 5.0f;
-				Vector velocity(sinf(direction) * speed, 
-					cosf(direction) * speed, height);
-
-				SpriteProjectile *particle = new SpriteProjectile;
-				particle->setPhysics(centrePosition_, velocity);
-				particle->setData(&particle->collisionInfo);
-
-				if (RAND > 0.5)
+				if ((int) SpriteProjectile::getNoSpriteProjectiles() <
+					OptionsDisplay::instance()->getNumberSprites())
 				{
-					SmokeActionRenderer *render = new SmokeActionRenderer;
-					particle->setActionRender(render);
-				}
-				else
-				{
-					DebrisActionRenderer *render = new DebrisActionRenderer;
-					particle->setActionRender(render);
-				}
+					float direction = RAND * 3.14f * 2.0f;
+					float speed = RAND * 5.0f + 5.0f;
+					float height = RAND * 10.0f + 5.0f;
+					Vector velocity(sinf(direction) * speed, 
+						cosf(direction) * speed, height);
 
-				ActionController::instance()->addAction(particle);
+					SpriteProjectile *particle = new SpriteProjectile;
+					particle->setPhysics(centrePosition_, velocity);
+					particle->setData(&particle->collisionInfo);
+
+					if (RAND > 0.5)
+					{
+						SmokeActionRenderer *render = new SmokeActionRenderer;
+						particle->setActionRender(render);
+					}
+					else
+					{
+						DebrisActionRenderer *render = new DebrisActionRenderer;
+						particle->setActionRender(render);
+					}
+
+					ActionController::instance()->addAction(particle);
+				}
 			}
 		}
 		else

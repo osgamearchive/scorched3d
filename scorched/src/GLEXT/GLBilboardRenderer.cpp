@@ -23,6 +23,7 @@
 #include <GLEXT/GLState.h>
 #include <GLEXT/GLConsoleRuleFnIAdapter.h>
 #include <client/MainCamera.h>
+#include <common/OptionsDisplay.h>
 #include <common/Logger.h>
 
 GLBilboardRenderer *GLBilboardRenderer::instance_ = 0;
@@ -37,7 +38,8 @@ GLBilboardRenderer *GLBilboardRenderer::instance()
 }
 
 GLBilboardRenderer::GLBilboardRenderer() : 
-	totalTime_(0.0f), totalSwitches_(0), totalBilboards_(0), showMessages_(false)
+	totalTime_(0.0f), totalSwitches_(0), totalBilboards_(0), showMessages_(false),
+	bilboardsThisFrame_(0)
 {
 	new GLConsoleRuleFnIBooleanAdapter("BilboardStats", showMessages_);
 }
@@ -76,11 +78,17 @@ void GLBilboardRenderer::addEntry(Entry *entry)
 	dist += (cameraPos[1] - entry->posY) * (cameraPos[1] - entry->posY);
 	dist += (cameraPos[2] - entry->posZ) * (cameraPos[2] - entry->posZ);
 
+	++bilboardsThisFrame_;
 	entries_.insert(std::pair<float, Entry *>(dist,entry));
 }
 
 void GLBilboardRenderer::draw(const unsigned state)
 {
+	float bilboardsAllowed = 
+		float(OptionsDisplay::instance()->getNumberBilboards()) /
+		float(bilboardsThisFrame_);
+	bilboardsThisFrame_ = 0;
+
 	// Setup the transparecy and textures
 	GLState drawState(GLState::TEXTURE_ON | GLState::BLEND_ON | GLState::DEPTH_ON);
 	glDepthMask(GL_FALSE);
@@ -91,12 +99,18 @@ void GLBilboardRenderer::draw(const unsigned state)
 	Vector &bilY = GLCameraFrustum::instance()->getBilboardVectorY();
 	GLTexture *lastTexture = 0;
 	
+	float bilboardCount = 0.0f;
+	float bilboardDrawn = 0.0f;
 	std::multimap<float, Entry *>::reverse_iterator itor;
 	std::multimap<float, Entry *>::reverse_iterator endItor = entries_.rend();
 	for (itor = entries_.rbegin();
 			itor != endItor;
 			itor++)
 	{
+		bilboardCount += bilboardsAllowed;
+		if (bilboardDrawn > bilboardCount) continue;
+		
+		bilboardDrawn += 1.0f;
 		Entry *entry = (*itor).second;
 
 		totalBilboards_++;

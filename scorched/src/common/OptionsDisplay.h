@@ -93,6 +93,12 @@ public:
 	bool getNoSkins() { return noSkins_.getValue(); }
 	void setNoSkins(bool value) { noSkins_.setValue(value); }
 
+	int getNumberSprites() { return numberSprites_.getValue(); }
+	void setNumberSprites(int value) { numberSprites_.setValue(value); }
+
+	int getNumberBilboards() { return numberBilboards_.getValue(); }
+	void setNumberBilboards(int value) { numberBilboards_.setValue(value); }
+
 	bool getDrawLines() { return drawLines_.getValue(); }
 	void setDrawLines(bool value) { drawLines_.setValue(value); }
 
@@ -171,6 +177,8 @@ protected:
 	OptionEntryBoundedInt texSize_;
 	OptionEntryInt screenWidth_;
 	OptionEntryInt screenHeight_;
+	OptionEntryInt numberSprites_;
+	OptionEntryInt numberBilboards_;
 	OptionEntryString uniqueUserId_;
 
 private:

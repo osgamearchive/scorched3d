@@ -32,6 +32,7 @@
 #include <engine/GameState.h>
 #include <server/ServerState.h>
 #include <server/ServerMain.h>
+#include <server/ServerMessageHandler.h>
 #include <wx/wx.h>
 #include <wx/image.h>
 #include <wx/listctrl.h>
@@ -350,7 +351,7 @@ void kickPlayer(NetPlayerID id)
 	}
 	else
 	{
-		Logger::log(0, "Cannot kick server bot");
+		ServerMessageHandler::instance()->destroyPlayer(tankId);
 	}
 }
 

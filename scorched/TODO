@@ -3,12 +3,20 @@ Added: Tooltips over tanks
 Added: Decimal point on tank evelevation/rotation angles
 Added: Depth buffer size can be set in config
 Added: Menu items change color when available (mouse over)
+Added: Can now kick computer players (from server dialog)
+Added: Can set number of sprites and bilboards
+
+Fixed: Text drawn outside dialogs (help and connect dialogs)
+Fixed: Player name will always fit on score dialog
+Fixed: can set number arguments via the console
+Fixed: Reduced bilboards and sprites used
 Fixed: <SHFT>/<CNTRL> wrong way round in README
 Fixed: Auto defense dialog shown for other players
 Fixed: +/- keys do not work on key pad
 Fixed: Auto defense dialog+bug dialog can be shown multiple times for same player
 Fixed: Computer players say stuff when killed
 Fixed: Player/Quit menu option does not work in single player mode
+Fixed: Moved timer, so talk text is not in the way
 
 -- Bugs in current development release
 Dvorak keyboard support is broken

@@ -89,7 +89,7 @@ void ShotTimer::draw(const unsigned currentstate)
 		const char *format = "%02i:%02i";
 		if (timeLeft < 0) format = "--:--";
 		GLWFont::instance()->getFont()->draw(
-			fontColor, 20, (fVPort[2]/2.0f) - 30.0f, 10.0f, 0.0f, format, 
+			fontColor, 20, (fVPort[2]/2.0f) - 30.0f, fVPort[3] - 43.0f, 0.0f, format, 
 			split.quot,
 			split.rem);
 	}

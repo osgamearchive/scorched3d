@@ -60,6 +60,7 @@ protected:
 	bool showMessages_;
 	int totalSwitches_;
 	int totalBilboards_;
+	int bilboardsThisFrame_;
 
 private:
 	GLBilboardRenderer();

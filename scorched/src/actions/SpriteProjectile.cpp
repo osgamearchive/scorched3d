@@ -21,14 +21,18 @@
 
 #include <actions/SpriteProjectile.h>
 
+unsigned int SpriteProjectile::noSpriteProjectiles_ = 0;
+
 SpriteProjectile::SpriteProjectile() : 
 	collisionInfo(CollisionIdSprite)
 {
 	collisionInfo.data = this;
+	noSpriteProjectiles_++;
 }
 
 SpriteProjectile::~SpriteProjectile()
 {
+	noSpriteProjectiles_--;
 }
 
 void SpriteProjectile::init()

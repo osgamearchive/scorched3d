@@ -34,8 +34,12 @@ public:
 
 	virtual void init();
 
+	static unsigned int getNoSpriteProjectiles() 
+		{ return noSpriteProjectiles_; }
+
 	ScorchedCollisionInfo collisionInfo;
 protected:
+	static unsigned int noSpriteProjectiles_;
 	
 };
 

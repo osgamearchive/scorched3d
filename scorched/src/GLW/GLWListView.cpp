@@ -49,7 +49,8 @@ void GLWListView::draw()
 		float posY = y_ + h_ - 10.0f;
 		for (int i=scroll_.getMax() - scroll_.getCurrent(); i<(int) lines_.size(); i++)
 		{
-			GLWFont::instance()->getFont()->draw(
+			GLWFont::instance()->getFont()->drawLen(
+				(unsigned) (w_ / 7.0f),
 				GLWFont::widgetFontColor, 10,
 				x_ + 5.0f, posY, 0.0f, "%s", lines_[i].c_str());
 			posY -= 8.0f;

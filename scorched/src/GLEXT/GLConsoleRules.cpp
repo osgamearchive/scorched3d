@@ -203,10 +203,13 @@ void GLConsoleRules::parseAddLine(int position, const char *line, std::list<GLCo
 		bool numbersOnly = true;
 		for (int i=0; i<n; i++)
 		{
-			if ((line[i] < '0') || (line[i] > '9') || (line[i]!='.'))
+			if ((line[i] < '0') || (line[i] > '9'))
 			{
-				numbersOnly = false;
-				break;
+				if (line[i]!='.')
+				{
+					numbersOnly = false;
+					break;
+				}
 			}
 		}
 

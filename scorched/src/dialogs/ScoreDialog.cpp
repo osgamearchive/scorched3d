@@ -208,13 +208,14 @@ void ScoreDialog::draw()
 			{
 				strcat(name, " (PENDING)");
 			}
+			if (strlen(name) > 26) name[26] = '\0';
 
 			// Print the name on the screen
 			GLWFont::instance()->getFont()->draw(
 				current->getColor(),
 				12,
 				textX, textY, 0.0f,
-				"%-3i%-24s%5i%10i $%8i",
+				"%-3i%-27s%2i%10i $%8i",
 				pos,
 				name,
 				current->getScore().getKills(),

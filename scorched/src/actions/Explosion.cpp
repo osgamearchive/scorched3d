@@ -139,8 +139,8 @@ void Explosion::simulate(float frameTime, bool &remove)
 			{
 				if (!OptionsParam::instance()->getOnServer()) 
 				{
-					DeformTextures::deformLandscape(position_, explosionSize, 
-						(deformType_ == DeformDown), map);
+					//DeformTextures::deformLandscape(position_, explosionSize, 
+					//	(deformType_ == DeformDown), map);
 				}
 			}
 		}
