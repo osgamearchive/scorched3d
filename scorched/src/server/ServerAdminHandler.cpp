@@ -23,7 +23,6 @@
 #include <server/ServerCommon.h>
 #include <server/ServerBanned.h>
 #include <common/OptionsGame.h>
-#include <common/Logger.h>
 #include <coms/ComsAdminMessage.h>
 #include <coms/NetInterface.h>
 #include <tank/TankContainer.h>
@@ -80,7 +79,7 @@ bool ServerAdminHandler::processMessage(unsigned int destinationId,
 				"\"%s\" logged in as server admin \"%s\"",
 				adminTank->getName(),
 				message.getParam1());
-			Logger::log(0,
+			ServerCommon::serverLog(0,
 				"\"%s\" logged in as server admin \"%s\"",
 				adminTank->getName(),
 				message.getParam1());
@@ -94,7 +93,7 @@ bool ServerAdminHandler::processMessage(unsigned int destinationId,
 			ServerCommon::sendString(destinationId,
 				"Incorrect admin password (try %i/3)", 
 				adminTank->getState().getAdminTries());
-			Logger::log(0,
+			ServerCommon::serverLog(0,
 				"Incorrect admin password (try %i/3)", 
 				adminTank->getState().getAdminTries());
 			if (adminTank->getState().getAdminTries() > 3)
@@ -187,7 +186,7 @@ bool ServerAdminHandler::processMessage(unsigned int destinationId,
 				getTankContainer().getTankById(atoi(message.getParam1()));
 			if (targetTank)
 			{
-				Logger::log(0,
+				ServerCommon::serverLog(0,
 					"\"%s\" admin ban \"%s\"",
 					adminTank->getName(),
 					targetTank->getName());
@@ -203,7 +202,7 @@ bool ServerAdminHandler::processMessage(unsigned int destinationId,
 				getTankContainer().getTankById(atoi(message.getParam1()));
 			if (targetTank)
 			{
-				Logger::log(0,
+				ServerCommon::serverLog(0,
 					"\"%s\" admin kick \"%s\"",
 					adminTank->getName(),
 					targetTank->getName());
@@ -220,7 +219,7 @@ bool ServerAdminHandler::processMessage(unsigned int destinationId,
 				getTankContainer().getTankById(atoi(message.getParam1()));
 			if (targetTank)
 			{
-				Logger::log(0,
+				ServerCommon::serverLog(0,
 					"\"%s\" admin mute \"%s\"",
 					adminTank->getName(),
 					targetTank->getName());
@@ -236,7 +235,7 @@ bool ServerAdminHandler::processMessage(unsigned int destinationId,
 				getTankContainer().getTankById(atoi(message.getParam1()));
 			if (targetTank)
 			{
-				Logger::log(0,
+				ServerCommon::serverLog(0,
 					"\"%s\" admin permmute \"%s\"",
 					adminTank->getName(),
 					targetTank->getName());
@@ -254,7 +253,7 @@ bool ServerAdminHandler::processMessage(unsigned int destinationId,
 				getTankContainer().getTankById(atoi(message.getParam1()));
 			if (targetTank)
 			{
-				Logger::log(0,
+				ServerCommon::serverLog(0,
 					"\"%s\" admin unpermmute \"%s\"",
 					adminTank->getName(),
 					targetTank->getName());
@@ -267,7 +266,7 @@ bool ServerAdminHandler::processMessage(unsigned int destinationId,
 		}
 		break;
 	case ComsAdminMessage::AdminTalk:
-		Logger::log(0,
+		ServerCommon::serverLog(0,
 			"\"%s\" admin talk \"%s\"",
 			adminTank->getName(),
 			message.getParam1());
@@ -276,7 +275,7 @@ bool ServerAdminHandler::processMessage(unsigned int destinationId,
 		break;
 	case ComsAdminMessage::AdminAdminTalk:
 		{
-			Logger::log(0,
+			ServerCommon::serverLog(0,
 				"\"%s\" admin admintalk \"%s\"",
 				adminTank->getName(),
 				message.getParam1());
@@ -300,14 +299,14 @@ bool ServerAdminHandler::processMessage(unsigned int destinationId,
 		}
 		break;
 	case ComsAdminMessage::AdminMessage:
-		Logger::log(0,
+		ServerCommon::serverLog(0,
 			"\"%s\" admin message \"%s\"",
 			adminTank->getName(),
 			message.getParam1());
 		ServerCommon::sendStringMessage(0, message.getParam1());
 		break;
 	case ComsAdminMessage::AdminKillAll:
-		Logger::log(0,
+		ServerCommon::serverLog(0,
 			"\"%s\" admin killall",
 			adminTank->getName());
 
@@ -319,7 +318,7 @@ bool ServerAdminHandler::processMessage(unsigned int destinationId,
 				getTankContainer().getTankById(atoi(message.getParam1()));
 			if (targetTank)
 			{	
-				Logger::log(0,
+				ServerCommon::serverLog(0,
 					"\"%s\" admin slap \"%s\" %.0f",
 					adminTank->getName(),
 					targetTank->getName(),
@@ -345,7 +344,7 @@ bool ServerAdminHandler::login(const char *name, const char *password)
 	XMLFile file;
 	if (!file.readFile(fileName))
 	{
-		Logger::log(0, 
+		ServerCommon::serverLog(0, 
 			"Failed to parse \"%s\"\n%s", 
 			fileName,
 			file.getParserError());
@@ -353,7 +352,7 @@ bool ServerAdminHandler::login(const char *name, const char *password)
 	}
 	if (!file.getRootNode())
 	{
-		Logger::log(0, 
+		ServerCommon::serverLog(0, 
 			"Please create file %s to have admin users", 
 			fileName);
 		return false;
