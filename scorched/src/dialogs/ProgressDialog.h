@@ -26,6 +26,7 @@
 #include <GLW/GLWLabel.h>
 #include <GLW/GLWProgress.h>
 #include <GLW/GLWWindow.h>
+#include <GLEXT/GLTexture.h>
 
 class ProgressDialog : 
 	public GLWWindow,
@@ -36,9 +37,11 @@ public:
 	static ProgressDialog *instance();
 
 	virtual void progressChange(const char *op, const float percentage);
+	virtual void draw();
 
 protected:
 	static ProgressDialog *instance_;
+	GLTexture wait_;
 	GLWLabel *progressLabel_;
 	GLWProgress *progress_;
 
