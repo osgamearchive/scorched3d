@@ -90,15 +90,6 @@ bool parseCommandLine(int argc, char *argv[])
 
 	// Set the path the executable was run with
 	setExeName((const char *) argv[0], allowExceptions);
-	if (!::wxFileExists((const char *) argv[0]))
-	{
-		dialogMessage(
-			scorched3dAppName,
-			"Error: Cannot find the executable for scorched3d."
-			"We think it is this file but we cannot find it :- \"%s\"",
-			argv[0]);
-		return false;
-	}
 
 	return true;
 }

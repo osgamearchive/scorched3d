@@ -21,27 +21,20 @@ Earth "The Mother Of All Games".
 
 %build
 # sh ./autogen.sh
-%configure --prefix=%{_libdir}/games
+%configure 
 make %{?_smp_mflags}
 
 %install
 rm -rf $RPM_BUILD_ROOT
-%makeinstall prefix=$RPM_BUILD_ROOT%{_libdir}/games
-install -d %{buildroot}%{_bindir}
+%makeinstall -j2
 
-cat > %{buildroot}%{_bindir}/scorched3d <<EOF
-#!/bin/sh
-pushd %{_libdir}/games/scorched3d > /dev/null
-./scorched3d $*
-popd > /dev/null
-EOF
-chmod 755 %{buildroot}%{_bindir}/scorched3d
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
-%defattr(644,root,games)
-%{_libdir}/games/scorched3d
+%defattr(755,root,games)
+%{_datadir}/data
+%{_datadir}/doc
 %{_bindir}/scorched3d
 
 %changelog
