@@ -108,8 +108,10 @@ void PhysicsEngine::stepSimulation(float stepSize)
 	// Simulate the world
 	dSpaceCollide(space_, this, &nearCallback);
 	//dWorldStep(world_, stepSize);
-	dWorldStepFast1(world_, stepSize, 5);
+	//dWorldStepFast1(world_, stepSize, 5);
+	dWorldQuickStep(world_, stepSize);
 
 	// remove all contact joints
 	dJointGroupEmpty(contactgroup_);
 }
+
