@@ -40,18 +40,10 @@ bool createScorchedWindow()
 	int height = OptionsDisplay::instance()->getScreenHeight();
 	bool fullscreen = OptionsDisplay::instance()->getFullScreen();
 
-	if ((width<0) || (height<0)) {
-		Display::instance()->autoSettings(width,height,fullscreen);
-		OptionsDisplay::instance()->setScreenWidth(width);
-		OptionsDisplay::instance()->setScreenHeight(height);
-		OptionsDisplay::instance()->setFullScreen(fullscreen);
-	}
-
 	SDL_WM_SetCaption(scorched3dAppName, "tank2");
 	SDL_WM_SetIcon(SDL_LoadBMP(getDataFile("data/windows/tank2.bmp")), NULL);
 
-	if (!Display::instance()->init() || 
-		!Display::instance()->changeSettings(width,height,fullscreen)) 
+	if (!Display::instance()->changeSettings(width,height,fullscreen)) 
 	{
 		dialogMessage("Scorched 3D Display", 
 			"ERROR: Failed to set the display mode.\n"

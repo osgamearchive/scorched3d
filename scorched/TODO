@@ -18,6 +18,7 @@ Fixed: Sky dome incorrectly positioned
 Fixed: Tank cannot move when burried
 Fixed: Tank is not covered by trees on the first move
 Fixed: Shot timer won't expire prematurely
+Fixed: 16bit color support for naughty unix graphics card drivers
 
 Changed: Changed free market ecconmy so price decreases are slower
 Changed: Tank can move up and down bigger slopes (configurable)

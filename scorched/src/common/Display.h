@@ -18,7 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #ifndef _DISPLAY_H_
 #define _DISPLAY_H_
 
@@ -30,9 +29,7 @@ class Display
 public:
 	static Display *instance();
 
-	bool init();
 	bool changeSettings(int width,int height, bool fullscreen);
-	void autoSettings(int &width, int &height, bool &full);
 
 protected:
 	static Display *instance_;
@@ -41,7 +38,6 @@ private:
 	Display();
 	virtual ~Display();
 
-	bool init_;
 	SDL_Surface *surface;
 
 };
