@@ -4,6 +4,7 @@ Fixed: Auto defense dialog refreshing when other players use theirs
 Fixed: Compilation problems due to std namespace being global
 Fixed: Some MSVC 2003 compilation problems
 Fixed: Buoys now shaded
+Fixed: Client does not wait at the end of each shot when fast speed is enabled
 
 Added: Bot names can be randomly choosen by setting config option
 Added: All effects speed up with increased speed settings

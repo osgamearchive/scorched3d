@@ -60,6 +60,32 @@ void ServerReadyState::enterState(const unsigned state)
 	// So we don't time clients out too quickly
 	time_ -= shotState_->getShotTime();
 	shotState_->getShotTime() = 0.0f;
+
+	// Make all computer players ready
+	// And send out the first status messages
+	ComsPlayerStatusMessage statusMessage;
+	std::map<unsigned int, Tank *> &tanks = 
+		ScorchedServer::instance()->getTankContainer().getPlayingTanks();
+	std::map<unsigned int, Tank *>::iterator itor;
+	for (itor = tanks.begin();
+			itor != tanks.end();
+			itor++)
+	{
+		Tank *tank = (*itor).second;
+		if (tank->getDestinationId() == 0)
+		{
+			// Set computer player ready
+			tank->getState().setReady();
+		}
+		else
+		{
+			// Set all other players not-ready
+			statusMessage.getWaitingPlayers().push_back(tank->getPlayerId());
+		}
+	}
+
+	// Tell clients who we are waiting on
+	ComsMessageSender::sendToAllPlayingClients(statusMessage);	
 }
 
 bool ServerReadyState::acceptStateChange(const unsigned state, 
@@ -89,36 +115,10 @@ bool ServerReadyState::acceptStateChange(const unsigned state,
 			ComsMessageSender::sendToAllPlayingClients(statusMessage);			
 		}
 	}	
-	else if (time_ + frameTime > 0.0f)
-	{
-		// Make all computer players ready
-		ComsPlayerStatusMessage statusMessage;
-		std::map<unsigned int, Tank *> &tanks = 
-			ScorchedServer::instance()->getTankContainer().getPlayingTanks();
-		std::map<unsigned int, Tank *>::iterator itor;
-		for (itor = tanks.begin();
-			 itor != tanks.end();
-			 itor++)
-		{
-			Tank *tank = (*itor).second;
-			
-			if (tank->getDestinationId() == 0)
-			{
-				tank->getState().setReady();
-			}
-			else
-			{
-				statusMessage.getWaitingPlayers().push_back(tank->getPlayerId());
-			}
-		}
-
-		// Tell clients who we are waiting on
-		ComsMessageSender::sendToAllPlayingClients(statusMessage);	
-	}
 
 	time_ += frameTime;
 
-	// Show down the shots, when we are on a dedicated server
+	// Slow down the shots, when we are on a dedicated server
 	// so if there are only bots playing the games don't end
 	// too quickly
 	if (!OptionsParam::instance()->getDedicatedServer() ||
