@@ -90,7 +90,10 @@ scorcheddata_DATA = data/accessories.xml \
 	data/tanks.xml \
 	data/textureset.xml \
 	data/tips.txt \
-	data/windows.xml
+	data/windows.xml \
+	data/pgprunetables.sql \
+	data/pgsql.xml \
+	data/pgstatstables.sql
 scorcheddataaccessoriesdir = ${datadir}/data/accessories
 scorcheddataaccessories_DATA = data/accessories/clusterbomb.ase \
 	data/accessories/clusterbomb2.ase \
@@ -205,6 +208,9 @@ scorcheddataaccessoriesherringdir = ${datadir}/data/accessories/herring
 scorcheddataaccessoriesherring_DATA = data/accessories/herring/body.bmp \
 	data/accessories/herring/eyes.bmp \
 	data/accessories/herring/herring.txt
+scorcheddataaccessoriesbeer_bottledir = ${datadir}/data/accessories/beer_bottle
+scorcheddataaccessoriesbeer_bottle_DATA = data/accessories/beer_bottle/bottle.bmp \
+	data/accessories/beer_bottle/bottle.txt
 scorcheddataacessoriesdir = ${datadir}/data/acessories
 scorcheddataacessories_DATA = 
 scorcheddatafontsdir = ${datadir}/data/fonts
@@ -858,6 +864,10 @@ scorcheddatatankszsu57dir = ${datadir}/data/tanks/zsu57
 scorcheddatatankszsu57_DATA = data/tanks/zsu57/black.bmp \
 	data/tanks/zsu57/zsu57.bmp \
 	data/tanks/zsu57/zsu57.txt
+scorcheddatatanksbenderdir = ${datadir}/data/tanks/bender
+scorcheddatatanksbender_DATA = data/tanks/bender/bender-info.txt \
+	data/tanks/bender/bender-tex.bmp \
+	data/tanks/bender/bender.txt
 scorcheddatatexturesdir = ${datadir}/data/textures
 scorcheddatatextures_DATA = data/textures/clearsky.bmp \
 	data/textures/glow1.bmp \

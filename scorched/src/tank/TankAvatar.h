@@ -35,6 +35,7 @@ public:
 	bool writeMessage(NetBuffer &buffer);
 	bool readMessage(NetBufferReader &reader);
 
+	void clear();
 	bool loadFromFile(const char *fileName);
 	bool setFromBuffer(const char *fileName,
 		NetBuffer &buffer,

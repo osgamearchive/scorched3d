@@ -181,6 +181,32 @@ if test x"$use_mysql" = x"yes"; then
 	fi
 fi
 
+dnl Checks for pgsql
+AC_ARG_WITH([pgsql],
+            AC_HELP_STRING([--with-pgsql],
+                           [enable pgsql support (default no)]),
+            [use_pgsql=${withval}],,)
+AH_TEMPLATE(HAVE_PGSQL,[Define if you have libpq])
+
+if test x"$use_pgsql" = x"yes"; then
+	AC_MSG_CHECKING(for PGSql support)
+	have_pgsql=no
+	AC_TRY_COMPILE([
+		#include <pgsql/libpq-fe.h>
+		],[
+		],[
+		have_pgsql=yes
+	])
+	AC_MSG_RESULT($have_pgsql)
+
+	if test x$have_pgsql != xyes; then
+		AC_MSG_ERROR([*** Can't find the PGSql library Try: http://www.postgresql.org])
+	else
+		AC_DEFINE(HAVE_PGSQL)
+		LIBS="$LIBS -lpq"
+	fi
+fi
+
 dnl Checks for static linking for wx windows
 AC_ARG_WITH([wx-static],
             AC_HELP_STRING([--with-wx-static],

@@ -425,14 +425,16 @@ void GLWWindowManager::getMenuItems(const char* menuName,
 {
 	if (currentStateEntry_) 
 	{
-		std::deque<GLWWindow *>::reverse_iterator itor;
-		for (itor = currentStateEntry_->windows_.rbegin();
-			itor != currentStateEntry_->windows_.rend();
+		std::map<unsigned, GLWWindow *>::iterator itor;
+		for (itor = idToWindow_.begin();
+			itor != idToWindow_.end();
 			itor++)
 		{
-			GLWWindow *window = (*itor);
+			unsigned id = (*itor).first;
+			GLWWindow *window = (*itor).second;
 
-			if (window->getName()[0] != '\0')
+			if (window->getName()[0] != '\0' &&
+				windowInCurrentState(id))
 			{
 				items.push_back(
 					GLMenuItem(
@@ -446,18 +448,19 @@ void GLWWindowManager::getMenuItems(const char* menuName,
 
 void GLWWindowManager::menuSelection(const char* menuName, const int position, const char *menuItem)
 {
-	std::list<std::string> items;
 	if (currentStateEntry_) 
 	{
 		int pos = 0;
-		std::deque<GLWWindow *>::reverse_iterator itor;
-		for (itor = currentStateEntry_->windows_.rbegin();
-			itor != currentStateEntry_->windows_.rend();
+		std::map<unsigned, GLWWindow *>::iterator itor;
+		for (itor = idToWindow_.begin();
+			itor != idToWindow_.end();
 			itor++)
 		{
-			GLWWindow *window = (*itor);
+			unsigned id = (*itor).first;
+			GLWWindow *window = (*itor).second;
 
-			if (window->getName()[0] != '\0')
+			if (window->getName()[0] != '\0' &&
+				windowInCurrentState(id))
 			{
 				if (pos++ == position) 
 				{

@@ -8,7 +8,10 @@ Fixed: Avatars with more than 32 characters not being stored correctly
 Fixed: Player colors are allocated so no duplicates occur
 Fixed: Fonts changed to be totaly open source
 Fixed: Wind indicator missing one face (thanks The Funkinator)
+Fixed: Window ordering in window menu does not change due to z order
 
+Added: Server can set maximum avatar size
+Added: Postgresql stats logger (thanks Funkinator)
 Added: New resign option to make tanks resign at end of round depending on how much health they have
 Added: Movement restriction option to stop tanks from moving under water
 Added: Better mysql stats format that allows stats history

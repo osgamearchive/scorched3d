@@ -126,16 +126,20 @@ bool ServerAddPlayerHandler::processMessage(unsigned int destinationId,
 		&& message.getPlayerIconName()[0];
 	if (noAvatar) // Currently we can only set the avatar once
 	{
-		tank->getAvatar().setFromBuffer(
-			message.getPlayerIconName(),
-			message.getPlayerIcon());
+		if (message.getPlayerIcon().getBufferUsed() <=
+			ScorchedServer::instance()->getOptionsGame().getMaxAvatarSize())
+		{
+			tank->getAvatar().setFromBuffer(
+				message.getPlayerIconName(),
+				message.getPlayerIcon());
 	
-		// Send a new add message to all clients (this contains the avatar)
-		// the client will not add the player but will update the avatar instead
-		// Note: this can be removed if we ever have enough bandwidth to send
-		// the avatar in each state message along with the rest of the tanks
-		// attributes.
-		ComsMessageSender::sendToAllConnectedClients(message);
+			// Send a new add message to all clients (this contains the avatar)
+			// the client will not add the player but will update the avatar instead
+			// Note: this can be removed if we ever have enough bandwidth to send
+			// the avatar in each state message along with the rest of the tanks
+			// attributes.
+			ComsMessageSender::sendToAllConnectedClients(message);
+		}
 	}
 
 	// Tell the logger about a new tank

@@ -305,6 +305,10 @@ public:
 	void setModDownloadSpeed(int value) { modDownloadSpeed_.setValue(value); }
 	const char *getModDownloadSpeedToolTip() { return modDownloadSpeed_.getDescription(); }
 
+	int getMaxAvatarSize() { return maxAvatarSize_.getValue(); }
+	void setMaxAvatarSize(int value) { maxAvatarSize_.setValue(value); }
+	const char *getMaxAvatarToolTip() { return maxAvatarSize_.getDescription(); }
+
 	const char *getServerName() { return serverName_.getValue(); }
 	void setServerName(const char *value) { serverName_.setValue(value); }
 	const char *getServerNameToolTip() { return serverName_.getDescription(); }
@@ -389,6 +393,7 @@ protected:
 	OptionEntryBoundedInt wallType_;
 	OptionEntryBoundedInt weapScale_;
 	OptionEntryInt modDownloadSpeed_;
+	OptionEntryInt maxAvatarSize_;
 	OptionEntryString mod_;
 	OptionEntryString motd_;
 	OptionEntryString economy_;

@@ -60,7 +60,7 @@ bool StatsLoggerMySQL::runQuery(const char *fmt, ...)
 {
 	if (!success_) return false;
 
-	static char text[2048];
+	static char text[50000];
 	va_list ap;
 	va_start(ap, fmt);
 	vsprintf(text, fmt, ap);

@@ -50,6 +50,13 @@ bool TankAvatar::writeMessage(NetBuffer &buffer)
 	return true;
 }
 
+void TankAvatar::clear()
+{
+	name_ = "";
+	file_->reset();
+	texture_ = 0;
+}
+
 bool TankAvatar::readMessage(NetBufferReader &reader)
 {
 	unsigned int used = 0;

@@ -20,6 +20,7 @@
 
 #include <common/StatsLoggerFile.h>
 #include <common/StatsLoggerMySQL.h>
+#include <common/StatsLoggerPGSQL.h>
 #include <common/OptionsParam.h>
 #include <common/OptionsGame.h>
 #include <common/Logger.h>
@@ -50,6 +51,24 @@ StatsLogger *StatsLogger::instance()
 			dialogExit("StatsLogger",
 				"Atempted to create mysql stats logger\n"
 				"but mysql support has not been compiled into this\n"
+				"scorched3d binary.");
+#endif
+			if (strcmp(ScorchedServer::instance()->getOptionsGame().getPublishAddress(),
+						"AutoDetect") == 0)
+			{
+				dialogExit("StatsLogger",
+					"Stats logging enabled but AutoDetect used for server address");
+			}
+		}
+                else if (strcmp(statsLogger, "pgsql") == 0)
+		{
+#ifdef HAVE_PGSQL
+			instance_ = new StatsLoggerPGSQL;
+			Logger::log(0, "Created pgsql stats logger.");
+#else
+			dialogExit("StatsLogger",
+				"Atempted to create pgsql stats logger\n"
+				"but pgsql support has not been compiled into this\n"
 				"scorched3d binary.");
 #endif
 			if (strcmp(ScorchedServer::instance()->getOptionsGame().getPublishAddress(),

@@ -323,7 +323,7 @@
     <value>1</value>
     <defaultvalue>1</defaultvalue>
   </option>
-  <!-- The type of player stats to be logged (none, mysql, file) -->
+  <!-- The type of player stats to be logged (none, pgsql, mysql, file) -->
   <option>
     <name>StatsLogger</name>
     <value>none</value>

@@ -29,6 +29,7 @@
 #include <common/OptionsDisplay.h>
 #include <common/OptionsTransient.h>
 #include <common/OptionsGame.h>
+#include <common/Logger.h>
 #include <GLW/GLWWindowManager.h>
 #include <GLW/GLWTextButton.h>
 #include <coms/ComsAddPlayerMessage.h>
@@ -328,10 +329,18 @@ void PlayerDialog::buttonDown(unsigned int id)
 			{
 				if (tank->getAvatar().loadFromFile(imageList_->getCurrent()))
 				{
-					message.setPlayerIconName(imageList_->getCurrent());
-					message.getPlayerIcon().addDataToBuffer(
-						tank->getAvatar().getFile().getBuffer(),
-						tank->getAvatar().getFile().getBufferUsed());
+					if (tank->getAvatar().getFile().getBufferUsed() <=
+						ScorchedClient::instance()->getOptionsGame().getMaxAvatarSize())
+					{
+						message.setPlayerIconName(imageList_->getCurrent());
+						message.getPlayerIcon().addDataToBuffer(
+							tank->getAvatar().getFile().getBuffer(),
+							tank->getAvatar().getFile().getBufferUsed());
+					}
+					else
+					{
+						Logger::log(0, "Warning: Avatar too large to send to server");
+					}
 				}
 			}
 			ComsMessageSender::sendToServer(message);
