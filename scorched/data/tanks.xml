@@ -17,7 +17,7 @@
 		<name>Flakpanzer Wirbelwind</name>
 		<model type="ase">
 			<mesh>flakpanzerwirbelwind.ase</mesh>
-			<skin>flakpanzerWirbelwind.bmp</skin>
+			<skin>flakpanzerwirbelwind.bmp</skin>
 		</model>
 	</tank>
 	<tank>
