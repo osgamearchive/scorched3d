@@ -20,6 +20,7 @@
 
 #include <server/ServerNextRoundState.h>
 #include <server/ServerState.h>
+#include <server/ServerShotHolder.h>
 #include <server/ScorchedServer.h>
 #include <server/TurnController.h>
 #include <scorched/ServerDialog.h>
@@ -65,6 +66,9 @@ void ServerNextRoundState::enterState(const unsigned state)
 		wind *= ScorchedServer::instance()->getOptionsTransient().getWindSpeed() / 2.0f;
 	}
 	ScorchedServer::instance()->getActionController().getPhysics().setWind(wind);
+
+	// Make sure that no players have made shots
+	ServerShotHolder::instance()->clearShots();
 
 	// Setup this list of players that need to move before this round is over
 	TurnController::instance()->nextRound();

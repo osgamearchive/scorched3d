@@ -43,6 +43,7 @@ public:
 
 protected:
 	float totalTime_;
+	bool firstTime_;
 
 	void stepActions(unsigned int state, float maxSingleSimTime);
 	void scoreWinners();

@@ -39,9 +39,6 @@ void ServerPlayingState::enterState(const unsigned state)
 {
 	// Set the wait timer to the current time
 	time_ = 0.0f;
-
-	// Clear the current player shots (if any)
-	ServerShotHolder::instance()->clearShots();
 }
 
 bool ServerPlayingState::acceptStateChange(const unsigned state, 

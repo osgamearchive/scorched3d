@@ -33,7 +33,8 @@
 #include <common/OptionsTransient.h>
 #include <common/Logger.h>
 
-ServerShotState::ServerShotState() : totalTime_(0.0f)
+ServerShotState::ServerShotState() 
+	: totalTime_(0.0f), firstTime_(true)
 {
 }
 
@@ -53,14 +54,18 @@ void ServerShotState::enterState(const unsigned state)
 
 	// Reset the amount of time taken
 	totalTime_ = 0.0f;
+	firstTime_ = true;
 }
 
 bool ServerShotState::acceptStateChange(const unsigned state, 
 		const unsigned nextState,
 		float frameTime)
 {
-	if (!ScorchedServer::instance()->getActionController().noReferencedActions())
+	if (!ScorchedServer::instance()->getActionController().noReferencedActions() ||
+		firstTime_)
 	{
+		firstTime_ = false;
+
 		// The action controller will now have shots to simulate
 		// We continue simulation until there are no actions left
 		// in the action controller
