@@ -59,15 +59,15 @@ static const char *cameraDescriptions[] =
 	"Automaticaly tracks any action around the\n"
 	"island by moving to view any explosions\n"
 	"and deaths.",
-	"Look from at the left of the current tank.\n"
+	"Look at the left of the current tank.\n"
 	"Tracks the current tanks rotation.",
-	"Look from at the right of the current tank.\n"
+	"Look at the right of the current tank.\n"
 	"Tracks the current tanks rotation.",
-	"Look from at the left of the current tank.\n"
+	"Look at the left of the current tank.\n"
 	"Tracks the current tanks rotation.",
-	"Look from at the right of the current tank.\n"
+	"Look at the right of the current tank.\n"
 	"Tracks the current tanks rotation.",
-	"Look from at the island from afar.",
+	"Look at the island from afar.",
 	"A custom camera position has been made by the\n"
 	"user."
 };
