@@ -197,7 +197,7 @@ including its health, and defense status</description>
 		<states>player</states>
 		<visible>true</visible>
 		<key>SHOW_WEAPON_DIALOG</key>
-		<w>159</w>
+		<w>180</w>
 		<h>128</h>
 		<x>10</x>
 		<y>10</y>
@@ -243,7 +243,7 @@ including its power and direction.</description>
 				<widget type="GLWScorchedInfo">
 					<type>power</type>
 					<x>116</x><y>89</y>
-					<w>70</w><h>20</h>
+					<w>60</w><h>20</h>
 					<fontsize>12</fontsize>
 					<fontcolorr>0.9f</fontcolorr>
 					<fontcolorg>0.9f</fontcolorg>
@@ -271,6 +271,57 @@ including its power and direction.</description>
 					<fontcolorg>0.9f</fontcolorg>
 					<fontcolorb>1.0f</fontcolorb>
 				</widget>
+			</item>
+			<item>
+				<widget type="GLWVisiblePanel">
+					<x>169</x><y>26</y>
+					<w>128</w><h>128</h>
+					<items>
+						<item>
+							<widget type="GLWIcon">
+								<x>0</x><y>0</y>
+								<w>94</w><h>94</h>
+								<bitmap>data/windows/diff.bmp</bitmap>
+								<bitmapa>data/windows/diffa.bmp</bitmapa>
+								<invert>true</invert>
+							</widget>
+						</item>
+						<item>
+							<widget type="GLWScorchedInfo">
+								<type>powerdiff</type>
+								<x>21</x><y>63</y>
+								<w>60</w><h>20</h>
+								<fontsize>12</fontsize>
+								<fontcolorr>0.9f</fontcolorr>
+								<fontcolorg>0.9f</fontcolorg>
+								<fontcolorb>1.0f</fontcolorb>
+							</widget>
+						</item>
+						<item>
+							<widget type="GLWScorchedInfo">
+								<type>elevationdiff</type>
+								<x>9</x><y>39</y>
+								<w>50</w><h>20</h>
+								<fontsize>12</fontsize>
+								<fontcolorr>0.9f</fontcolorr>
+								<fontcolorg>0.9f</fontcolorg>
+								<fontcolorb>1.0f</fontcolorb>
+							</widget>
+						</item>
+						<item>
+							<widget type="GLWScorchedInfo">
+								<type>rotationdiff</type>
+								<x>13</x><y>14</y>
+								<w>50</w><h>20</h>
+								<fontsize>12</fontsize>
+								<fontcolorr>0.9f</fontcolorr>
+								<fontcolorg>0.9f</fontcolorg>
+								<fontcolorb>1.0f</fontcolorb>
+							</widget>
+						</item>
+					</items>
+				</widget>
+				<condition type="GLWHudCondition"/>
 			</item>
 		</items>
 	</window>

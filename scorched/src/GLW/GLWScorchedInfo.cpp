@@ -231,6 +231,13 @@ void GLWScorchedInfo::draw()
 				"%.1f",
 				360.0f - current->getPhysics().getRotationGunXY());
 		break;
+		case eRotationDiff:
+			GLWFont::instance()->getSmallPtFont()->draw(
+				fontColor_, fontSize_,
+				x_, y_, 0.0f,
+				"%+.1f",
+				current->getPhysics().getRotationXYDiff());
+		break;
 		case eElevation:
 			setToolTip(&model->getTips()->elevationTip);
 			GLWFont::instance()->getSmallPtFont()->draw(
@@ -239,6 +246,13 @@ void GLWScorchedInfo::draw()
 				"%.1f",
 				current->getPhysics().getRotationGunYZ());
 		break;
+		case eElevationDiff:
+			GLWFont::instance()->getSmallPtFont()->draw(
+				fontColor_, fontSize_,
+				x_, y_, 0.0f,
+				"%+.1f",
+				current->getPhysics().getRotationYZDiff());
+		break;
 		case ePower:
 			setToolTip(&model->getTips()->powerTip);
 			GLWFont::instance()->getSmallPtFont()->draw(
@@ -246,6 +260,13 @@ void GLWScorchedInfo::draw()
 				x_, y_, 0.0f,
 				"%.1f",
 				current->getPhysics().getPower());
+		break;
+		case ePowerDiff:
+			GLWFont::instance()->getSmallPtFont()->draw(
+				fontColor_, fontSize_,
+				x_, y_, 0.0f,
+				"%+.1f",
+				current->getPhysics().getPowerDiff());
 		break;
 	}
 }
@@ -342,6 +363,9 @@ bool GLWScorchedInfo::initFromXML(XMLNode *node)
 	else if (0 == strcmp(typeNode->getContent(), "rotation")) infoType_ = eRotation;
 	else if (0 == strcmp(typeNode->getContent(), "elevation")) infoType_ = eElevation;
 	else if (0 == strcmp(typeNode->getContent(), "power")) infoType_ = ePower;
+	else if (0 == strcmp(typeNode->getContent(), "rotationdiff")) infoType_ = eRotationDiff;
+	else if (0 == strcmp(typeNode->getContent(), "elevationdiff")) infoType_ = eElevationDiff;
+	else if (0 == strcmp(typeNode->getContent(), "powerdiff")) infoType_ = ePowerDiff;
 	else
 	{
 		dialogMessage("GLWScorchedInfo",

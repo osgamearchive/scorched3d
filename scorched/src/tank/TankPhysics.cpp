@@ -187,12 +187,28 @@ float TankPhysics::changePower(float power, bool diff)
 	return power_;
 }
 
-const char *TankPhysics::getRotationString()
+float TankPhysics::getRotationXYDiff()
 {
-	static char messageBuffer[255];
 	float rotDiff = (360.0f - getRotationGunXY()) - (360.0f - getOldRotationGunXY());
 	if (rotDiff > 180.0f) rotDiff -= 360.0f;
 	else if (rotDiff < -180.0f) rotDiff += 360.0f;
+	return rotDiff;
+}
+
+float TankPhysics::getRotationYZDiff()
+{
+	return getRotationGunYZ() - getOldRotationGunYZ();
+}
+
+float TankPhysics::getPowerDiff()
+{
+	return getPower() - getOldPower();
+}
+
+const char *TankPhysics::getRotationString()
+{
+	static char messageBuffer[255];
+	float rotDiff = getRotationXYDiff();
 
 	if (OptionsDisplay::instance()->getUseHexidecimal())
 	{
@@ -213,19 +229,19 @@ const char *TankPhysics::getRotationString()
 const char *TankPhysics::getElevationString()
 {
 	static char messageBuffer[255];
+	float rotDiff = getRotationYZDiff();
+
 	if (OptionsDisplay::instance()->getUseHexidecimal())
 	{
 		sprintf(messageBuffer, "0x%x (0X%x)", 
 				int(getRotationGunYZ()),
-				int(getRotationGunYZ() - 
-				getOldRotationGunYZ()));
+				int(rotDiff));
 	}
 	else
 	{
 		sprintf(messageBuffer, "%.1f (%+.1f)", 
 				getRotationGunYZ(),
-				getRotationGunYZ() - 
-				getOldRotationGunYZ());
+				rotDiff);
 	}
 	return messageBuffer;
 }
@@ -233,19 +249,19 @@ const char *TankPhysics::getElevationString()
 const char *TankPhysics::getPowerString()
 {
 	static char messageBuffer[255];
+	float powDiff = getPowerDiff();
+
 	if (OptionsDisplay::instance()->getUseHexidecimal())
 	{
 		sprintf(messageBuffer, "0X%x (0X%x)", 		
 				int(getPower()),
-				int(getPower() - 
-				getOldPower()));
+				int(powDiff));
 	}
 	else
 	{
 		sprintf(messageBuffer, "%.1f (%+.1f)", 		
 				getPower(),
-				getPower() - 
-				getOldPower());
+				powDiff);
 	}
 
 	return messageBuffer;

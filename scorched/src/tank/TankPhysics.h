@@ -55,6 +55,9 @@ public:
 	float getOldPower();
 	float getOldRotationGunXY();
 	float getOldRotationGunYZ();
+	float getRotationXYDiff();
+	float getRotationYZDiff();
+	float getPowerDiff();
 	void revertSettings(unsigned int index = 0);
 	std::vector<ShotEntry> &getOldShots() { return oldShots_; }
 
