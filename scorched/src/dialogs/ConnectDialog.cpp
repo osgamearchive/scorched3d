@@ -86,7 +86,7 @@ bool ConnectDialog::tryConnection()
 		formatString("Connecting to : %s", serverName));
 
 	LogDialog::instance()->logMessage("", 
-		"Atempting connection", 0);
+		"Attempting connection", 0);
 	LogDialog::instance()->logMessage("", 
 		formatString("  Trying \"%s\"....", 
 		serverName[0]?serverName:"Loopback"), 0);
