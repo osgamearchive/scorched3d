@@ -23,6 +23,7 @@
 #include <GLEXT/GLState.h>
 #include <GLEXT/GLFont2d.h>
 #include <GLEXT/GLCameraFrustum.h>
+#include <GLEXT/GLTextureBase.h>
 #include <common/Defines.h>
 #include <freetype/freetype.h>
 #include <freetype/ftglyph.h>
@@ -154,6 +155,8 @@ bool GLFont2d::drawString(unsigned length, Vector &color, float size,
 {
 	if (textures_)
 	{
+		GLTextureBase::setLastBind(0); // Clear so no texture is cached
+
 		GLState currentState(GLState::BLEND_ON | GLState::TEXTURE_ON);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glColor3fv(color);

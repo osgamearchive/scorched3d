@@ -35,6 +35,8 @@ Added: A safe settings option is displayed if scorched3d fails to start
 Added: Safe and default options can be loaded from Display dialog
 Added: Laser beam death animation (thanks Cameron Smith)
 Added: More cool tank models (thanks Cameron Smith)
+Added: Customizable arrow over tanks (instead of triangle)
+Added: Progress dialog shown during client init
 
 Fixed: SG characters being printed during init stages
 Fixed: Client does not start new game until all explosions have finished
@@ -57,7 +59,6 @@ Shot cam does not get LOD correctly
 
 -- Things I am currently looking at
 Sort out window scaling at different resolutions
-Better arrows over tank
 GUI Icon stuff
 Make AIs better
 Free market economy

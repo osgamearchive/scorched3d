@@ -47,9 +47,10 @@ TankModelStore::~TankModelStore()
 
 }
 
-bool TankModelStore::loadTankMeshes()
+bool TankModelStore::loadTankMeshes(ProgressCounter *counter)
 {
 	// Load tank definition file
+	if (counter) counter->setNewOp("Loading Tank Models");
 	XMLFile file;
 	if (!file.readFile(getDataFile("data/tanks.xml")))
 	{
@@ -68,12 +69,15 @@ bool TankModelStore::loadTankMeshes()
 	}
 
 	// Itterate all of the tanks in the file
+	int count = 0;
     std::list<XMLNode *>::iterator childrenItor;
 	std::list<XMLNode *> &children = file.getRootNode()->getChildren();
     for (childrenItor = children.begin();
         childrenItor != children.end();
-        childrenItor++)
+        childrenItor++, count++)
     {
+		if (counter) counter->
+			setNewPercentage(float(count) / float(children.size()) * 100.0f);
 		// Parse the tank entry
         XMLNode *currentNode = (*childrenItor);
 		if (stricmp(currentNode->getName(), "tank"))

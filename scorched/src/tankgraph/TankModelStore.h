@@ -25,13 +25,14 @@
 #include <map>
 #include <set>
 #include <tankgraph/TankModel.h>
+#include <common/ProgressCounter.h>
 
 class TankModelStore
 {
 public:
 	static TankModelStore* instance();
 
-	bool loadTankMeshes();
+	bool loadTankMeshes(ProgressCounter *counter = 0);
 
 	TankModel *getModelByName(const char *name);
 	TankModel *getRandomModel();

@@ -48,6 +48,7 @@
 #include <tankgraph/TankModelStore.h>
 #include <engine/ScorchedCollisionHandler.h>
 #include <weapons/AccessoryStore.h>
+#include <dialogs/ProgressDialog.h>
 #include <coms/NetServer.h>
 #include <coms/NetLoopBack.h>
 #include <common/OptionsDisplay.h>
@@ -56,19 +57,69 @@
 #include <common/Logger.h>
 #include <common/OptionsParam.h>
 #include <common/OptionsGame.h>
+#include <common/Keyboard.h>
+#include <common/ProgressCounter.h>
+#include <common/Sound.h>
 #include <common/Mouse.h>
 #include <common/Display.h>
 #include <common/Gamma.h>
 #include <common/Sound.h>
 #include <SDL/SDL.h>
 
-void startClient()
+bool initHardware(ProgressCounter *progressCounter)
 {
-	ScorchedClient::instance();
+	progressCounter->setNewPercentage(0.0f);
+	progressCounter->setNewOp("Initializing Keyboard");
+	if (!Keyboard::instance()->init())
+	{
+		dialogMessage("Scorched3D Keyboard", 
+			"SDL failed to aquire keyboard.\n"
+#ifdef WIN32
+			"Is DirectX 5.0 installed?"
+#endif
+		);
+		return false;
+	}
+	progressCounter->setNewOp("Loading Keyboard Bindings");
+	if (!Keyboard::instance()->parseKeyFile(getDataFile("data/keys.xml")))
+	{
+		dialogMessage("Scorched3D Keyboard", 
+			"Failed to process keyboard file \"data/keys.xml\"");
+		return false;
+	}
 
-	bool useServer = (OptionsParam::instance()->getConnectedToServer());
-	ClientState::setupGameState(useServer);
-	if (useServer)
+	if (!OptionsDisplay::instance()->getNoSound())
+	{
+		progressCounter->setNewOp("Initializing Sound HW");
+		if (SDL_InitSubSystem(SDL_INIT_AUDIO) < 0)
+		{
+			dialogMessage("Scorched3D Sound", 
+				"Failed to initialise sound.\n"
+#ifdef WIN32
+				"Is DirectX 5.0 installed?\n"
+#endif
+				"Is anything else currently using the sound card?");
+		}
+		progressCounter->setNewOp("Initializing Sound SW");
+		if (!Sound::instance()->init())
+		{
+			dialogMessage("Scorched3D Sound", 
+				"Failed to aquire sound.\n"
+#ifdef WIN32
+				"Is DirectX 5.0 installed?\n"
+#endif
+				"Is anything else currently using the sound card?");
+		}	
+	}
+	return true;
+}
+
+bool startClient(ProgressCounter *progressCounter)
+{
+	progressCounter->setNewPercentage(0.0f);
+	progressCounter->setNewOp("Initializing Client");
+	ScorchedClient::instance();
+	if (OptionsParam::instance()->getConnectedToServer())
 	{
 		ScorchedClient::instance()->getContext().netInterface = 
 			//new NetServer(new NetServerScorchedProtocol());
@@ -111,29 +162,40 @@ void startClient()
 	ScorchedClient::instance()->getActionController().getPhysics().setCollisionHandler(
 		new ScorchedCollisionHandler(&ScorchedClient::instance()->getContext()));
 
-	if (!TankModelStore::instance()->loadTankMeshes())
+	if (!TankModelStore::instance()->loadTankMeshes(progressCounter))
 	{
 		dialogMessage("Scorched 3D", "Failed to load all tank models");		
-		exit(1);
+		return false;
 	}
 
+	progressCounter->setNewPercentage(0.0f);
+	progressCounter->setNewOp("Loading AIs");
 	TankAIStore::instance();
 
+	progressCounter->setNewOp("Initializing Windows");
 	WindowSetup::setup();
-
 	std::string errorString;
 	if (!GLConsoleFileReader::loadFileIntoConsole(getDataFile("data/autoexec.xml"), errorString))
 	{
 		dialogMessage("Failed to parse data/autoexec.xml", errorString.c_str());
-		exit(1);
+		return false;
 	}
+	return true;
 }
 
 void clientMain()
 {
 	if (!createScorchedWindow()) return;
 
-	startClient();
+	ClientState::setupGameState(
+		OptionsParam::instance()->getConnectedToServer());
+
+	ProgressCounter progressCounter;
+	progressCounter.setUser(ProgressDialog::instance());
+	progressCounter.setNewPercentage(0.0f);
+	if (!initHardware(&progressCounter)) return;
+	if (!startClient(&progressCounter)) return;
+	
 	if (!OptionsParam::instance()->getConnectedToServer())
 	{
 		startServer(true);

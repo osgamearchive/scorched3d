@@ -27,6 +27,8 @@
 #include <client/ScorchedClient.h>
 #include <common/OptionsDisplay.h>
 #include <GLEXT/GLCameraFrustum.h>
+#include <GLEXT/GLBitmap.h>
+#include <GLEXT/GLTexture.h>
 #include <3dsparse/ASEStore.h>
 #include <GLW/GLWFont.h>
 
@@ -94,9 +96,6 @@ void TankModelRenderer::draw(bool currentTank)
 		tank_->getPhysics().getTankPosition()[1], 
 		2.0f);
 
-	// Draw the life bars
-	drawLife();
-
 	// Draw the tank model
 	model_->draw(currentTank, 
 		tank_->getPhysics().getAngle(),
@@ -115,6 +114,9 @@ void TankModelRenderer::drawSecond(bool currentTank)
 	{
 		drawShield();
 	}
+
+	// Draw the life bars and arrow
+	drawLife();
 
 	// Draw the names above all the tanks
 	if (OptionsDisplay::instance()->getDrawPlayerNames())
@@ -300,17 +302,39 @@ void TankModelRenderer::drawLife()
 		height = groundHeight;
 	}
 
+	// Arrow over tank
 	if (OptionsDisplay::instance()->getDrawPlayerColor())
 	{
-		glBegin(GL_TRIANGLES);
-			glColor3fv(tank_->getColor());
-			glVertex3f(position[0], 
-				position[1], height + 5.0f);
-			glVertex3f(position[0] + bilX[0], 
-				position[1] + bilX[1], height + 8.0f);
+		static GLTexture arrowTexture;
+		if (!arrowTexture.textureValid())
+		{
+			std::string file1 = getDataFile("data/windows/arrow.bmp");
+			std::string file2 = getDataFile("data/windows/arrowi.bmp");
+			GLBitmap bitmap(file1.c_str(), file2.c_str(), true);
+			arrowTexture.create(bitmap, GL_RGBA);
+		}
+
+		GLState currentState(GLState::TEXTURE_ON | GLState::BLEND_ON);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		arrowTexture.draw(true);
+
+		glDepthMask(GL_FALSE);
+		glColor3fv(tank_->getColor());
+		glBegin(GL_QUADS);
+			glTexCoord2f(0.0f, 0.0f);
 			glVertex3f(position[0] - bilX[0], 
-				position[1] - bilX[1], height + 8.0f);
+				position[1] - bilX[1], height + 4.0f);
+			glTexCoord2f(1.0f, 0.0f);
+			glVertex3f(position[0] + bilX[0], 
+				position[1] + bilX[1], height + 4.0f);
+			glTexCoord2f(1.0f, 1.0f);
+			glVertex3f(position[0] + bilX[0], 
+				position[1] + bilX[1], height + 7.0f);
+			glTexCoord2f(0.0f, 1.0f);
+			glVertex3f(position[0] - bilX[0], 
+				position[1] - bilX[1], height + 7.0f);
 		glEnd();
+		glDepthMask(GL_TRUE);
 	}
 
 	if (OptionsDisplay::instance()->getDrawPlayerHealth())

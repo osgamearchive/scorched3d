@@ -30,6 +30,7 @@ public:
 	virtual void draw(bool force = false) = 0;
 
 	static GLTextureBase *getLastBind() { return lastBind_; }
+	static void setLastBind(GLTextureBase *bind) { lastBind_ = bind; }
 
 protected:
 	static GLTextureBase *lastBind_; 

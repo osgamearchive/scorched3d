@@ -23,9 +23,7 @@
 #include <client/MainCamera.h>
 #include <common/OptionsDisplay.h>
 #include <common/OptionsParam.h>
-#include <common/Keyboard.h>
 #include <common/Display.h>
-#include <common/Sound.h>
 #include <common/OptionsTransient.h>
 #include <common/OptionsGame.h>
 #include <common/Gamma.h>
@@ -34,53 +32,6 @@
 #include <time.h>
 
 extern char scorched3dAppName[128];
-
-void setup()
-{
-	Gamma::instance()->set(
-		float(OptionsDisplay::instance()->getBrightness()) / 10.0f);
-
-	GLSetup::setup();
-
-	if (!Keyboard::instance()->init())
-	{
-		dialogMessage("Scorched3D Keyboard", 
-			"SDL failed to aquire keyboard.\n"
-#ifdef WIN32
-			"Is DirectX 5.0 installed?"
-#endif
-		);
-		exit(1);
-	}
-	if (!Keyboard::instance()->parseKeyFile(getDataFile("data/keys.xml")))
-	{
-		dialogMessage("Scorched3D Keyboard", 
-			"Failed to process keyboard file \"data/keys.xml\"");
-		exit(1);		
-	}
-
-	if (!OptionsDisplay::instance()->getNoSound())
-	{
-		if (SDL_InitSubSystem(SDL_INIT_AUDIO) < 0)
-		{
-			dialogMessage("Scorched3D Sound", 
-				"Failed to initialise sound.\n"
-#ifdef WIN32
-				"Is DirectX 5.0 installed?\n"
-#endif
-				"Is anything else currently using the sound card?");
-		}
-		if (!Sound::instance()->init())
-		{
-			dialogMessage("Scorched3D Sound", 
-				"Failed to aquire sound.\n"
-#ifdef WIN32
-				"Is DirectX 5.0 installed?\n"
-#endif
-				"Is anything else currently using the sound card?");
-		}	
-	}
-}
 
 bool createScorchedWindow()
 {
@@ -109,7 +60,11 @@ bool createScorchedWindow()
 	}
 
 	MainCamera::instance()->getCamera().setWindowSize(width,height);
-	setup();
+
+	Gamma::instance()->set(
+		float(OptionsDisplay::instance()->getBrightness()) / 10.0f);
+
+	GLSetup::setup();
 
 	return TRUE;
 }

@@ -119,7 +119,9 @@ void ProgressDialog::progressChange(const char *op, const float percentage)
 	progressLabel_->setText(op);
 	progress_->setCurrent(percentage);
 
-	if ((timeDelay > 0.25f) || (percentage > 99.9f) || 
+	if ((percentage == 0.0f) ||
+		(timeDelay > 0.25f) || 
+		(percentage > 99.9f) || 
 		(fabsf(oldPercentage - percentage) > 5.0f))
 	{
 		oldPercentage = percentage;
