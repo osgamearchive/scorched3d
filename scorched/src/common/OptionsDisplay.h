@@ -183,6 +183,9 @@ public:
 	const char *getOnlineUserName() { return onlineUserName_.getValue(); }
 	void setOnlineUserName(const char *value) { onlineUserName_.setValue(value); }
 
+	const char *getHostDescription() { return hostDescription_.getValue(); }
+	void setHostDescription(const char *value) { hostDescription_.setValue(value); }
+
 	bool writeOptionsToFile(char *filePath);
 	bool readOptionsFromFile(char *filePath);
 	void addToConsole();
@@ -239,6 +242,7 @@ protected:
 	OptionEntryInt screenWidth_;
 	OptionEntryInt screenHeight_;
 	OptionEntryString uniqueUserId_;
+	OptionEntryString hostDescription_;
 	OptionEntryString onlineUserName_;
 
 private:

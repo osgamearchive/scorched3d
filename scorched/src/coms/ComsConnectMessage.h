@@ -23,38 +23,48 @@
 
 // The very first message sent from the client to the server
 // requesting a connection.
-// NOTE: Do not change the serialization format of this
-// message as it will cause problems for earlier versioned
-// servers. Ooops i have had to change it, oh well
+//
+// Since version 37 the format of this message has been changed
+// it is now sent/serialized as a name/value pair list
+// this means we can add any extra args can be added without breaking
+// backward compatability
 
 #include <coms/ComsMessage.h>
+#include <stdlib.h>
+#include <map>
+#include <string>
 
 class ComsConnectMessage : public ComsMessage
 {
 public:
-	ComsConnectMessage(const char *version = "",
-		const char *protocolVersion = "",
-		const char *password = "",
-		const char *unqiueId = "",
-		unsigned int noPlayers = 0);
+	ComsConnectMessage();
 	virtual ~ComsConnectMessage();
 
-	const char *getVersion() { return version_.c_str(); }
-	const char *getProtocolVersion() { return protocolVersion_.c_str(); }
-	const char *getPassword() { return password_.c_str(); }
-	const char *getUniqueId() { return uniqueId_.c_str(); }
-	unsigned int getNoPlayers() { return noPlayers_; }
+	void setVersion(const char *version) { setValue("version", version); }
+	void setProtocolVersion(const char *pversion) { setValue("pversion", pversion); }
+	void setPassword(const char *password) { setValue("password", password); }
+	void setUniqueId(const char *uid) { setValue("uid", uid); }
+	void setHostDesc(const char *host) { setValue("host", host); }
+	void setNoPlayers(unsigned int players) { 
+		char buf[10]; sprintf(buf, "%i", players); setValue("numplayers", buf); }
+
+	const char *getVersion() { return getValue("version"); }
+	const char *getProtocolVersion() { return getValue("pversion"); }
+	const char *getPassword() { return getValue("password"); }
+	const char *getHostDesc() { return getValue("host"); }
+	const char *getUniqueId() { return getValue("uid"); }
+	unsigned int getNoPlayers() { 
+		return (unsigned int) atoi(getValue("numplayers")?getValue("numplayers"):"0"); }
 
 	// Inherited from ComsMessage
-    virtual bool writeMessage(NetBuffer &buffer);
-    virtual bool readMessage(NetBufferReader &reader);
+	virtual bool writeMessage(NetBuffer &buffer);
+	virtual bool readMessage(NetBufferReader &reader);
 
 protected:
-	std::string version_;
-	std::string protocolVersion_;
-	std::string password_;
-	std::string uniqueId_;
-	unsigned int noPlayers_;
+	std::map<std::string, std::string> values_;
+
+	void setValue(const char *name, const char *value);
+	const char *getValue(const char *name);
 
 private:
 	ComsConnectMessage(const ComsConnectMessage &);

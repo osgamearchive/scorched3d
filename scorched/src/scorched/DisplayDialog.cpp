@@ -85,6 +85,7 @@ bool DisplayFrame::TransferDataToWindow()
 	IDC_SLIDER1_CTRL->SetRange(3, 40);
 	IDC_SLIDER1_CTRL->SetValue(OptionsDisplay::instance()->getBrightness());
 	IDC_USERID_CTRL->SetValue(OptionsDisplay::instance()->getUniqueUserId());
+	IDC_HOSTDESC_CTRL->SetValue(OptionsDisplay::instance()->getHostDescription());
 	IDC_NODETAILTEX_CTRL->SetValue(!OptionsDisplay::instance()->getDetailTexture());
 
 	std::set<std::string> displaySet;
@@ -175,6 +176,7 @@ bool DisplayFrame::TransferDataFromWindow()
 	OptionsDisplay::instance()->setInvertUpDownKey(IDC_INVERT_CTRL->GetValue());
 	OptionsDisplay::instance()->setFrameTimer(IDC_TIMER_CTRL->GetValue());
 	OptionsDisplay::instance()->setUniqueUserId(IDC_USERID_CTRL->GetValue());
+	OptionsDisplay::instance()->setHostDescription(IDC_HOSTDESC_CTRL->GetValue());
 	OptionsDisplay::instance()->setDetailTexture(!IDC_NODETAILTEX_CTRL->GetValue());
 
 	wxString buffer = IDC_DISPLAY_CTRL->GetValue();

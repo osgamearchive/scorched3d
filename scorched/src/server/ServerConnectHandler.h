@@ -39,6 +39,7 @@ protected:
 
 	void addNextTank(unsigned int destinationId,
 		const char *uniqueId,
+		const char *hostDesc,
 		bool extraSpectator);
 
 private:

@@ -20,17 +20,8 @@
 
 #include <coms/ComsConnectMessage.h>
 
-ComsConnectMessage::ComsConnectMessage(const char *version,
-		const char *protocolVersion,
-		const char *password,
-		const char *unqiueId,
-		unsigned int noPlayers)
-	: ComsMessage("ComsConnectMessage"),
-	  version_(version),
-	  protocolVersion_(protocolVersion),
-	  password_(password),
-	  uniqueId_(unqiueId),
-	  noPlayers_(noPlayers)
+ComsConnectMessage::ComsConnectMessage()
+	: ComsMessage("ComsConnectMessage")
 {
 
 }
@@ -42,22 +33,48 @@ ComsConnectMessage::~ComsConnectMessage()
 
 bool ComsConnectMessage::writeMessage(NetBuffer &buffer)
 {
-	buffer.addToBuffer(version_);
-	buffer.addToBuffer(protocolVersion_);
-	buffer.addToBuffer(password_);
-	buffer.addToBuffer(uniqueId_);
-	buffer.addToBuffer(noPlayers_);
+	buffer.addToBuffer((unsigned int) values_.size());
+	std::map<std::string, std::string>::iterator itor;
+	for (itor = values_.begin();
+		itor != values_.end();
+		itor++)
+	{
+		buffer.addToBuffer((*itor).first.c_str());
+		buffer.addToBuffer((*itor).second.c_str());
+	}
 
 	return true;
 }
 
 bool ComsConnectMessage::readMessage(NetBufferReader &reader)
 {
-	if (!reader.getFromBuffer(version_)) return false;
-	if (!reader.getFromBuffer(protocolVersion_)) return false;
-	if (!reader.getFromBuffer(password_)) return false;
-	if (!reader.getFromBuffer(uniqueId_)) return false;
-	if (!reader.getFromBuffer(noPlayers_)) return false;
+	unsigned int noV = 0;
+	values_.clear();
+	if (!reader.getFromBuffer(noV)) return false;
+	for (unsigned int i=0; i<noV; i++)
+	{
+		std::string name, value;
+
+		if (!reader.getFromBuffer(name)) return false;
+		if (!reader.getFromBuffer(value)) return false;
+
+		values_[name] = value;
+	}
 
 	return true;
 }
+
+const char *ComsConnectMessage::getValue(const char *name)
+{
+	std::map<std::string, std::string>::iterator itor =
+		values_.find(name);
+	if (itor == values_.end()) return "";
+
+	return (*itor).second.c_str();
+}
+
+void ComsConnectMessage::setValue(const char *name, const char *value)
+{
+	values_[name] = value;
+}
+

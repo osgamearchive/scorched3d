@@ -174,9 +174,11 @@ static void createControls(wxWindow *parent, wxSizer *sizer)
 	// User id edit box
 	wxStaticBox *userBox = new wxStaticBox(parent, -1, 
 		"User ID (Uniquely identifies this player for stats, not generated from any user information.)");
-	wxStaticBoxSizer *userSizer = new wxStaticBoxSizer(userBox, wxHORIZONTAL);
+	wxStaticBoxSizer *userSizer = new wxStaticBoxSizer(userBox, wxVERTICAL);
 	IDC_USERID_CTRL = new wxTextCtrl(parent, -1, wxString(), wxDefaultPosition, wxSize(300, -1));
 	userSizer->Add(IDC_USERID_CTRL, 0, wxALIGN_CENTER);
+	IDC_HOSTDESC_CTRL = new wxTextCtrl(parent, -1, wxString(), wxDefaultPosition, wxSize(300, -1));
+	userSizer->Add(IDC_HOSTDESC_CTRL, 0, wxALIGN_CENTER);
 	sizer->Add(userSizer, 0, wxGROW | wxLEFT | wxRIGHT | wxTOP, 5);
 
 	// Ok and cancel boxes

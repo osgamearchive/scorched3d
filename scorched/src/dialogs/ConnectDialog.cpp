@@ -116,12 +116,13 @@ bool ConnectDialog::tryConnection()
 	}
 
 	// If we connected then send our details to the server
-	ComsConnectMessage connectMessage(
-		ScorchedVersion,
-		ScorchedProtocolVersion,
-		OptionsParam::instance()->getPassword(),
-		OptionsDisplay::instance()->getUniqueUserId(),
-		noPlayers);
+	ComsConnectMessage connectMessage;
+	connectMessage.setVersion(ScorchedVersion);
+	connectMessage.setProtocolVersion(ScorchedProtocolVersion);
+	connectMessage.setPassword(OptionsParam::instance()->getPassword());
+	connectMessage.setUniqueId(OptionsDisplay::instance()->getUniqueUserId());
+	connectMessage.setHostDesc(OptionsDisplay::instance()->getHostDescription());
+	connectMessage.setNoPlayers(noPlayers);
 	if (!ComsMessageSender::sendToServer(connectMessage))
 	{
 		Logger::log(0, "  Connection Send Failed!");

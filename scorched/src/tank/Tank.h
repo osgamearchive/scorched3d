@@ -46,8 +46,8 @@ public:
 	void nextShot();
 
 	// Serialize the tank
-    bool writeMessage(NetBuffer &buffer);
-    bool readMessage(NetBufferReader &reader);
+	bool writeMessage(NetBuffer &buffer);
+	bool readMessage(NetBufferReader &reader);
 
 	// The base attributes of the tank
 	unsigned int getPlayerId() { return playerId_; }
@@ -60,6 +60,8 @@ public:
 	unsigned int getNameLen() { return name_.size(); }
 	const char *getUniqueId() { return uniqueId_.c_str(); }
 	void setUnqiueId(const char *id) { uniqueId_ = id; }
+	const char *getHostDesc() { return hostDesc_.c_str(); }
+	void setHostDesc(const char *id) { hostDesc_ = id; }
 	TankAI *getTankAI() { return tankAI_; }
 	void setTankAI(TankAI *ai);
 	TankModelId &getModel() { return model_; }
@@ -83,6 +85,7 @@ protected:
 	Vector color_;
 	std::string name_;
 	std::string uniqueId_;
+	std::string hostDesc_;
 	unsigned int team_;
 	unsigned int playerId_;
 	unsigned int destinationId_;

@@ -73,10 +73,10 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 
 	// Decode the connect message
 	ComsConnectMessage message;
-	if (!message.readMessage(reader)) return false;
 
 	// Check the player protocol versions are the same (correct)
-	if (0 != strcmp(message.getProtocolVersion(), ScorchedProtocolVersion))
+	if (!message.readMessage(reader) ||
+		(0 != strcmp(message.getProtocolVersion(), ScorchedProtocolVersion)))
 	{
 		sendString(destinationId, 			
 			"The version of Scorched you are running\n"
@@ -192,6 +192,7 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 	{
 		addNextTank(destinationId,
 			message.getUniqueId(),
+			message.getHostDesc(),
 			false);
 	}
 
@@ -205,6 +206,7 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 			ScorchedServer::instance()->getOptionsGame().getNoMaxPlayers()+1);
 		addNextTank(destinationId,
 			message.getUniqueId(),
+			message.getHostDesc(),
 			true);
 	}
 
@@ -213,6 +215,7 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 
 void ServerConnectHandler::addNextTank(unsigned int destinationId,
 	const char *sentUniqueId,
+	const char *sentHostDesc,
 	bool extraSpectator)
 {
 	// The player has connected
@@ -248,6 +251,7 @@ void ServerConnectHandler::addNextTank(unsigned int destinationId,
 		color,
 		modelId);
 	tank->setUnqiueId(sentUniqueId);
+	tank->setHostDesc(sentHostDesc);
 	tank->getState().setSpectator(true);
 	ScorchedServer::instance()->getTankContainer().addTank(tank);
 

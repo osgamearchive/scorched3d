@@ -48,5 +48,6 @@ static wxCheckBox *IDC_SINGLESKYLAYER_CTRL = 0;
 static wxCheckBox *IDC_NOSKYANI_CTRL = 0;
 static wxCheckBox *IDC_NOWATERANI_CTRL = 0;
 static wxTextCtrl *IDC_USERID_CTRL = 0;
+static wxTextCtrl *IDC_HOSTDESC_CTRL = 0;
 static wxButton *IDOK_CTRL = 0;
 static wxButton *IDCANCEL_CTRL = 0;

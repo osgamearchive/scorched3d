@@ -38,6 +38,8 @@ OptionsDisplay::OptionsDisplay() :
 		"Use the detail texture on the landscape", RWAccess, true),
 	uniqueUserId_(options_, "UniqueUserId",
 		"The unique string given to any servers to uniquely identify the client.", RAccess, ""),
+	hostDescription_(options_, "HostDescription",
+		"The description of this host given to any servers for stats.", RAccess, ""),
 	onlineUserName_(options_, "OnlineUserName",
 		"The player name that will be used for all online games.", RAccess, "Player"),
 	explosionParts_(options_, "ExplosionParts",

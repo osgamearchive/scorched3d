@@ -62,6 +62,16 @@ bool parseCommandLine(int argc, char *argv[])
 		OptionsDisplay::instance()->setUniqueUserId(buffer);
 	}
 
+	// Get this hosts description
+	if (!OptionsDisplay::instance()->getHostDescription()[0])
+	{
+		wxString osDesc = ::wxGetOsDescription();
+		OptionsDisplay::instance()->setHostDescription(osDesc.c_str());
+	}
+
+	// Write the new options back the the file
+	OptionsDisplay::instance()->writeOptionsToFile(displayOptions);
+
 	// Read options from command line
 	ARGParser aParser;
 	if (!OptionEntryHelper::addToArgParser(
