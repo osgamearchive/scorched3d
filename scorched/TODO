@@ -1,4 +1,7 @@
 -- Bugs Fixed and Ready For Release 
+Added: Rotation, elevation and power differences to weapon dialog
+
+Fixed: testing code being producing in console
 Fixed: Failing to load display.xml because of user name containing "forgien" chars
 Fixed: Selling items in the free market gives too much money
 
