@@ -24,14 +24,11 @@
 #include <common/OptionsTransient.h>
 
 WaterMapPoints::WaterMapPoints(WaterMap &map, int width, int points) :
-	pts_(0), noPts_(0)
+	pts_(0), noPts_(0), 
+	borderModelWrap_(0),
+	borderModelBounce_(0),
+	borderModelConcrete_(0)
 {
-	borderModelWrap_ = ASEStore::instance()->
-		loadOrGetArray(getDataFile("data/meshes/wrap.ase"));
-	borderModelBounce_ = ASEStore::instance()->
-		loadOrGetArray(getDataFile("data/meshes/bounce.ase"));
-	borderModelConcrete_ = ASEStore::instance()->
-		loadOrGetArray(getDataFile("data/meshes/concrete.ase"));
 	height_ = map.getHeight();
 	createPoints(map, width, points);
 }
@@ -46,6 +43,13 @@ WaterMapPoints::~WaterMapPoints()
 
 void WaterMapPoints::draw()
 {
+	if (!borderModelWrap_) borderModelWrap_ = ASEStore::instance()->
+		loadOrGetArray(getDataFile("data/meshes/wrap.ase"));
+	if (!borderModelBounce_) borderModelBounce_ = ASEStore::instance()->
+		loadOrGetArray(getDataFile("data/meshes/bounce.ase"));
+	if (!borderModelConcrete_) borderModelConcrete_ = ASEStore::instance()->
+		loadOrGetArray(getDataFile("data/meshes/concrete.ase"));
+
 	GLState currentState(GLState::TEXTURE_OFF);
 	Position *current = pts_;
 	for (int i=0; i<noPts_; i++)

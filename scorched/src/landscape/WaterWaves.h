@@ -24,7 +24,6 @@
 #include <common/Vector.h>
 #include <common/ProgressCounter.h>
 #include <landscape/WaterMap.h>
-#include <GLEXT/GLTexture.h>
 #include <vector>
 
 class WaterWaves
@@ -49,7 +48,6 @@ protected:
 		Vector ptD;
 	};
 
-	GLTexture texture1_, texture2_;
 	bool wavePoints_[256 * 256];
 	std::vector<WaterWaveEntry> paths1_;
 	std::vector<WaterWaveEntry> paths2_;

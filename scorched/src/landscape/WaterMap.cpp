@@ -21,7 +21,6 @@
 #include <memory.h>
 #include <math.h>
 #include <common/OptionsDisplay.h>
-#include <common/Resources.h>
 #include <landscape/WaterMap.h>
 #include <landscape/Landscape.h>
 #include <GLEXT/GLBitmap.h>

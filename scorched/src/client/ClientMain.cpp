@@ -49,7 +49,6 @@
 #include <GLEXT/GLConsole.h>
 #include <GLW/GLWWindowSkinManager.h>
 #include <landscape/HeightMapCollision.h>
-#include <tankgraph/TankModelStore.h>
 #include <engine/MainLoop.h>
 #include <engine/ScorchedCollisionHandler.h>
 #include <engine/ActionController.h>
@@ -171,12 +170,6 @@ bool startClient(ProgressCounter *progressCounter)
 		new HeightMapCollision(&ScorchedClient::instance()->getContext());
 	ScorchedClient::instance()->getActionController().getPhysics().setCollisionHandler(
 		new ScorchedCollisionHandler(&ScorchedClient::instance()->getContext()));
-
-	if (!TankModelStore::instance()->loadTankMeshes(progressCounter))
-	{
-		dialogMessage("Scorched 3D", "Failed to load all tank models");		
-		return false;
-	}
 
 	progressCounter->setNewPercentage(0.0f);
 	progressCounter->setNewOp("Initializing Windows");

@@ -106,6 +106,9 @@ const char *getDataFile(const char *file, ...)
 	va_end(ap);
 	sprintf(buffer, S3D_DATADIR "/%s", filename);
 	::wxDos2UnixFilename(buffer);
+
+	printf("%s\n", buffer);
+
 	return buffer;
 }
 

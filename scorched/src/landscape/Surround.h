@@ -21,7 +21,6 @@
 #if !defined(AFX_SURROUND_H__E92604A2_6E7D_4810_9685_B699CE743B19__INCLUDED_)
 #define AFX_SURROUND_H__E92604A2_6E7D_4810_9685_B699CE743B19__INCLUDED_
 
-#include <GLEXT/GLBitmap.h>
 #include <landscape/SurroundDefs.h>
 
 class Surround
@@ -35,7 +34,6 @@ public:
 
 protected:
 	static Surround *instance_;
-	GLBitmap skyColors_;
 	float xy_;
 	float cloudSpeed_;
 	float cloudDirection_;

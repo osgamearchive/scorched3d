@@ -5,6 +5,15 @@
 		<color-fog type="color">
 			<r>0.8</r><g>0.8</g><b>0.8</b>
 		</color-fog>
+		<bitmap-skycolors type="file">
+			data/textures/clearsky.bmp
+		</bitmap-skycolors>
+		<bitmap-waves1 type="file">
+			data/textures/waves.bmp
+		</bitmap-waves1>
+		<bitmap-waves2 type="file">
+			data/textures/waves2.bmp
+		</bitmap-waves2>
 		<bitmap-water type="file">
 			data/textures/landscape/default/water.bmp
 		</bitmap-water>

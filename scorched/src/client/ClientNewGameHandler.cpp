@@ -31,6 +31,7 @@
 #include <dialogs/ProgressDialog.h>
 #include <landscape/LandscapeMaps.h>
 #include <tank/TankContainer.h>
+#include <tankgraph/TankModelStore.h>
 
 ClientNewGameHandler *ClientNewGameHandler::instance_ = 0;
 
@@ -44,7 +45,7 @@ ClientNewGameHandler *ClientNewGameHandler::instance()
 	return instance_;
 }
 
-ClientNewGameHandler::ClientNewGameHandler()
+ClientNewGameHandler::ClientNewGameHandler() : initialized_(false)
 {
 	ScorchedClient::instance()->getComsMessageHandler().addHandler(
 		"ComsNewGameMessage",
@@ -63,9 +64,15 @@ bool ClientNewGameHandler::processMessage(unsigned int id,
 	ComsNewGameMessage message;
 	if (!message.readMessage(reader)) return false;
 
-	// Clear any memory used by stored mod files as they will not be required now
-	ScorchedClient::instance()->getModFiles().clearData();
-	ScorchedServer::instance()->getModFiles().clearData();
+	// Perform one off initialization, this will happen
+	// before the game starts but after connection and the mods
+	// have been downloaded
+	if (!initialized_)
+	{
+		printf("-----------------\n");
+		initialized_ = true;
+		if (!initialize()) return false;
+	}
 
 	// A small hack
 	// When playing a single player game and the player(s) have
@@ -119,6 +126,22 @@ bool ClientNewGameHandler::processMessage(unsigned int id,
 		ScorchedClient::instance()->getGameState().checkStimulate();
 		ScorchedClient::instance()->getGameState().stimulate(ClientState::StimNewGame);
 		ScorchedClient::instance()->getGameState().checkStimulate();
+	}
+	return true;
+}
+
+bool ClientNewGameHandler::initialize()
+{
+	// Clear any memory used by stored mod files as they will not be required now
+	ScorchedClient::instance()->getModFiles().clearData();
+	ScorchedServer::instance()->getModFiles().clearData();
+
+	// Load tank models here
+	// This is after mods are complete but before any tanks models are used
+	if (!TankModelStore::instance()->loadTankMeshes(ProgressDialog::instance()))
+	{
+		dialogMessage("Scorched 3D", "Failed to load all tank models");
+		return false;
 	}
 	return true;
 }

@@ -253,6 +253,14 @@ void Landscape::generate(ProgressCounter *counter)
 	GLBitmap texture3(Resources::stringResource("bitmap-texture3"));
 	GLBitmap texture4(Resources::stringResource("bitmap-texture4"));
 	GLBitmap scorchMap(Resources::stringResource("bitmap-scorch"));
+	GLBitmap waves1Map(
+		Resources::stringResource("bitmap-waves1"), 
+		Resources::stringResource("bitmap-waves1"), false);
+	GLBitmap waves2Map(
+		Resources::stringResource("bitmap-waves2"), 
+		Resources::stringResource("bitmap-waves2"), false);
+	waves1Texture_.create(waves1Map, GL_RGBA);
+	waves2Texture_.create(waves2Map, GL_RGBA);
 	GLBitmapModifier::tileBitmap(scorchMap, scorchMap_);
 	GLBitmap bitmapShore(Resources::stringResource("bitmap-shore"));
 	GLBitmap bitmapRock(Resources::stringResource("bitmap-rockside"));
@@ -268,6 +276,7 @@ void Landscape::generate(ProgressCounter *counter)
 	GLBitmap bitmapCloud(Resources::stringResource("bitmap-cloud"));
 	GLBitmap bitmapDetail(Resources::stringResource("bitmap-detail"));
 	GLBitmap bitmapWaterDetail(Resources::stringResource("bitmap-water"));
+	skyColorsMap_.loadFromFile(Resources::stringResource("bitmap-skycolors"));
 
 	// Generate landscape texture
 	surroundTexture_.replace(texture0);

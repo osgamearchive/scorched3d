@@ -50,10 +50,9 @@ PlayerDialog::PlayerDialog() :
 	GLWWindow("Team", 10.0f, 10.0f, 440.0f, 300.0f, eSmallTitle,
 		"Allows the player to make changes to their\n"
 		"name, their tank and to change teams."),
-	allocatedTeam_(0), cancelId_(0)
+	allocatedTeam_(0), cancelId_(0), viewer_(0)
 {
 	needCentered_ = true;
-	viewer_ = new GLWTankViewer(10.0f, 25.0f, 4, 3);
 
 	// Add buttons
 	okId_ = addWidget(new GLWTextButton("Ok", 375, 10, 55, this, 
@@ -63,7 +62,6 @@ PlayerDialog::PlayerDialog() :
 		cancelId_ = addWidget(new GLWTextButton("Cancel", 280, 10, 85, this, 
 			GLWButton::ButtonFlagCancel | GLWButton::ButtonFlagCenterX))->getId();
 	}
-	addWidget(viewer_);
 
 	// Create player name choice
 	GLWTip *nameTip = new GLWTip("Player Name",
@@ -126,7 +124,13 @@ void PlayerDialog::keyDown(char *buffer, unsigned int keyState,
 }
 
 void PlayerDialog::windowDisplay()
-{
+{	
+	if (!viewer_)
+	{
+		viewer_ = new GLWTankViewer(10.0f, 25.0f, 4, 3);
+		addWidget(viewer_);
+	}
+
 	// Add teams
 	teamDropDown_->clear();
 	if (ScorchedClient::instance()->getOptionsGame().getTeams() == 1)

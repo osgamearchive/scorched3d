@@ -62,11 +62,9 @@ void WindDialogToolTip::populate()
 
 GLWWindView::GLWWindView(float x, float y, float w, float h) :
 	GLWidget(x, y, w, h),
-	listNo_(0), changeCount_(0)
+	listNo_(0), changeCount_(0), windModel_(0)
 {
 	setToolTip(new WindDialogToolTip());
-	windModel_ = ASEStore::instance()->
-		loadOrGetArray(getDataFile("data/meshes/wind.ase"));
 }
 
 GLWWindView::~GLWWindView()
@@ -77,6 +75,12 @@ GLWWindView::~GLWWindView()
 
 void GLWWindView::draw()
 {
+	if (!windModel_)
+	{
+		windModel_ = ASEStore::instance()->
+			loadOrGetArray(getDataFile("data/meshes/wind.ase"));
+	}
+
 	if (changeCount_ != Landscape::instance()->getChangeCount())
 	{
 		changeCount_ = Landscape::instance()->getChangeCount();

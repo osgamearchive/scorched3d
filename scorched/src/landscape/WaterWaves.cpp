@@ -26,17 +26,10 @@
 #include <common/Defines.h>
 #include <GLEXT/GLStateExtension.h>
 
-WaterWaves::WaterWaves() : totalTime_(0.0f), pointCount_(0), removedCount_(0)
+WaterWaves::WaterWaves() : 
+	totalTime_(0.0f), pointCount_(0), removedCount_(0)
 {
-	std::string file1 = getDataFile("data/textures/waves.bmp");
-	GLBitmap bitmap1(file1.c_str(), file1.c_str(), false);
-	DIALOG_ASSERT(bitmap1.getBits());
-	texture1_.create(bitmap1, GL_RGBA);
 
-	std::string file2 = getDataFile("data/textures/waves2.bmp");
-	GLBitmap bitmap2(file2.c_str(), file2.c_str(), false);
-	DIALOG_ASSERT(bitmap2.getBits());
-	texture2_.create(bitmap2, GL_RGBA);
 }
 
 WaterWaves::~WaterWaves()
@@ -218,12 +211,12 @@ void WaterWaves::draw()
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glDepthMask(GL_FALSE);
 
-	texture1_.draw(true);
+	Landscape::instance()->getWaves1Texture().draw(true);
 	drawBoxes(totalTime_ + 0.0f, windDirPerp, paths1_);
 	drawBoxes(totalTime_ + 2.0f, windDirPerp, paths1_);
 	drawBoxes(totalTime_ + 4.0f, windDirPerp, paths1_);
 
-	texture2_.draw(true);
+	Landscape::instance()->getWaves2Texture().draw(true);
 	drawBoxes(totalTime_ + 1.0f, windDirPerp, paths2_);
 	drawBoxes(totalTime_ + 3.0f, windDirPerp, paths2_);
 	drawBoxes(totalTime_ + 5.0f, windDirPerp, paths2_);

@@ -18,7 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #ifndef _clientNewGameHandler_h
 #define _clientNewGameHandler_h
 
@@ -36,6 +35,9 @@ public:
 
 protected:
 	static ClientNewGameHandler* instance_;
+	bool initialized_;
+
+	bool initialize();
 
 private:
 	ClientNewGameHandler();

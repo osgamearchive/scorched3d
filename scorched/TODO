@@ -52,7 +52,6 @@ Shot cam does not get LOD correctly
 Add sun pos + ambient light to landscape def
 Fix crashing when people win (Graphics card drivers??)
 Make AIs even better
-Riot Blast
 A way to allow tank spawn positions to be configured, bitmap landscapes only?
 Web interface for server to change settings
 A way to set the maximum and minimum players for a map
@@ -66,6 +65,7 @@ Stats prefix can be (pre/a)pended onto mysql stats tables
 Some kind of fire out the back of missiles
 Proper mag shield
 Guidance
+Fix: Movement when burried
 
 -- Server Stuff
 Chat filter (swear words)

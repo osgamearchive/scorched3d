@@ -62,6 +62,7 @@ public:
 	// Textures created during landscape texturing
 	GLBitmap &getMainMap() { return mainMap_; }
 	GLBitmap &getScorchMap() { return scorchMap_; }
+	GLBitmap &getSkyColorsMap() { return skyColorsMap_; }
 	GLTexture &getMainTexture() { return texture_; }
 	GLTexture &getMagTexture() { return magTexture_; }
 	GLTexture &getPlanATexture() { return planAlphaTexture_; }
@@ -69,7 +70,8 @@ public:
 	GLTexture &getCloudTexture() { return cloudTexture_; }
 	GLTextureBase &getWaterTexture() { return *waterTexture_; }
 	GLTexture &getWaterDetail() { return waterDetail_; }
-
+	GLTexture &getWaves1Texture() { return waves1Texture_; }
+	GLTexture &getWaves2Texture() { return waves2Texture_; }
 	GLTexture &getLandscapeTextureWater() { return landTexWater_; }
 	GLTexture &getLandscapeTexture1() { return landTex1_; }
 
@@ -115,8 +117,11 @@ protected:
 	GLTexture waterDetail_;
 	GLTexture landTex1_;
 	GLTexture landTexWater_;
+	GLTexture waves1Texture_;
+	GLTexture waves2Texture_;
 	GLBitmap mainMap_;
 	GLBitmap scorchMap_;
+	GLBitmap skyColorsMap_;
 	GLBitmap bitmapPlanAlphaAlpha_;
 	GLBitmap bitmapPlanAlpha_;
 	GLBitmap bitmapPlan_;

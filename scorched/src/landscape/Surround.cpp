@@ -21,7 +21,6 @@
 #include <landscape/Surround.h>
 #include <landscape/Landscape.h>
 #include <landscape/Hemisphere.h>
-#include <GLEXT/GLBitmap.h>
 #include <GLEXT/GLState.h>
 #include <client/MainCamera.h>
 #include <client/ScorchedClient.h>
@@ -33,13 +32,10 @@
 Surround::Surround(SurroundDefs &defs) : xy_(0.0f), 
 	cloudSpeed_(500.0f), cloudDirection_(0.0f)
 {
-	skyColors_.loadFromFile(getDataFile("data/textures/clearsky.bmp"));
-	DIALOG_ASSERT(skyColors_.getBits());
 }
 
 Surround::~Surround()
 {
-
 }
 
 void Surround::simulate(float frameTime)
@@ -82,7 +78,7 @@ void Surround::draw()
 			-Landscape::instance()->getSun().getPosition().Normalize();
 		Hemisphere::drawColored(1800, 180, 10, 10, 
 			slowXY, slowXY + 0.4f,
-			skyColors_,
+			Landscape::instance()->getSkyColorsMap(),
 			sunDir,
 			OptionsDisplay::instance()->getDayTime());
 
