@@ -62,10 +62,6 @@ void TankDamage::simulate(float frameTime, bool &remove)
 		{
 			if (damagedTank->getState().getState() == TankState::sNormal)
 			{
-				// Tell this tanks ai that is has been hurt by another tank
-				TankAI *ai = damagedTank->getTankAI();
-				if (ai) ai->tankHurt(weapon_, firedPlayerId_);
-
 				// Remove any damage from shield first
 				if (damage_ > 0.0f)
 				{
@@ -105,6 +101,10 @@ void TankDamage::simulate(float frameTime, bool &remove)
 						ActionController::instance()->addAction(deadTank);
 					}
 				}
+
+				// Tell this tanks ai that is has been hurt by another tank
+				TankAI *ai = damagedTank->getTankAI();
+				if (ai) ai->tankHurt(weapon_, firedPlayerId_);
 
 				// The tank is not dead check if it needs to fall
 				Vector &position = damagedTank->getPhysics().getTankPosition();

@@ -26,8 +26,8 @@ TANK
 <SPACE BAR> or F- Fire current weapon.
 <TAB>           - Change current weapon.
 <+/->           - Change current weapon power.
-<LSHIFT>        - Speed up rotation.
-<LControl>      - Slow down rotation.
+<LSHIFT>        - Slow down rotation + power.
+<LCTRL>         - Speed up rotation + power.
 <ALT>           - Allow camera through ground.
 
 <P>             - Turn on/off parachutes.
