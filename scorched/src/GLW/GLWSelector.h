@@ -60,6 +60,7 @@ class GLWSelectorI
 {
 public:
 	virtual void itemSelected(GLWSelectorEntry *entry, int position) = 0;
+	virtual void noItemSelected() { };
 };
 
 /**
@@ -74,9 +75,11 @@ public:
     static GLWSelector *instance();
 
 	// Show the selector as the specified position
-	void showSelector(GLWSelectorI *user,
+	void showSelector(
+		GLWSelectorI *user,
 		float x, float y,
-		std::list<GLWSelectorEntry> &entries);
+		std::list<GLWSelectorEntry> &entries,
+		unsigned int showState = 0);
 	// Hide the selector
 	void hideSelector();
 
@@ -92,11 +95,15 @@ public:
 protected:
 	static GLWSelector *instance_;
 
+	unsigned int showState_;
 	GLWSelectorI *user_;
 	std::list<GLWSelectorEntry> entries_;
 	float drawX_, drawY_;
 	float selectedHeight_, selectedWidth_;
+	float selectedX_, selectedY_;
 	bool visible_;
+
+	void drawMain(float indent);
 
 private:
 	GLWSelector();

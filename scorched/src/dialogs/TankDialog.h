@@ -32,6 +32,7 @@ public:
 
 	// Inherited from GLWWindow
 	virtual void draw();
+	virtual void mouseDown(float x, float y, bool &skipRest);
 
 protected:
 	static TankDialog *instance_;

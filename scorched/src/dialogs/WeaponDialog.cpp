@@ -20,6 +20,7 @@
 
 #include <dialogs/WeaponDialog.h>
 #include <client/ScorchedClient.h>
+#include <client/ClientState.h>
 #include <weapons/Weapon.h>
 #include <tankgraph/MissileMesh.h>
 #include <tankgraph/TankModelRenderer.h>
@@ -226,4 +227,70 @@ void WeaponDialog::drawWeapon(Tank *current)
 		powerTexture_.draw();
 		drawIconBox(x_ + 122.0f, y_ + 63.0f);
 	}
+}
+
+void WeaponDialog::mouseDown(float x, float y, bool &skipRest)
+{
+	Tank *current = 
+		ScorchedClient::instance()->getTankContainer().getCurrentTank();
+	GLWTankTips *tankTips = 0;
+	if (current)
+	{
+		TankModelRenderer *model = (TankModelRenderer *) 
+			current->getModel().getModelIdRenderer();
+		tankTips = model->getTips();
+	}
+
+	if (current && tankTips &&
+		current->getState().getState() == TankState::sNormal)
+	{
+		// Weapons
+		if (inBox(x, y, x_ + 113, y_ + 85.0f, 47.0f, 18.0f))
+		{
+			skipRest = true;
+
+			std::list<GLWSelectorEntry> entries;
+			std::map<Weapon *, int> &weapons = 
+				current->getAccessories().getWeapons().getAllWeapons();
+			std::map<Weapon *, int>::iterator itor;
+			for (itor = weapons.begin();
+				itor != weapons.end();
+				itor++)
+			{
+				char buffer[128];
+				if ((*itor).second > 0)
+				{
+					sprintf(buffer, "%s (%i)", 
+						(*itor).first->getName(),
+						(*itor).second);
+				}
+				else
+				{
+					sprintf(buffer, "%s (Inf)", 
+						(*itor).first->getName());
+				}
+				entries.push_back(GLWSelectorEntry(buffer, &(*itor).first->getToolTip(), 
+					0, (*itor).first->getTexture(), (*itor).first));
+			}
+			GLWSelector::instance()->showSelector(&tankTips->weaponTip, x, y, entries,
+				ClientState::StatePlaying);
+		}
+		// Rotation XY
+		else if (inBox(x, y, x_ + 111.0f, y_ + 16.0f, 72.0f, 18.0f))
+		{
+			skipRest = true;
+		}
+		// Rotation YZ
+		else if (inBox(x, y, x_ + 118.0f, y_ + 39.0f, 61.0f, 18.0f))
+		{
+			skipRest = true;
+		}
+		// Power
+		else if (inBox(x, y, x_ + 118.0f, y_ + 62.0f, 80.0f, 18.0f))
+		{
+			skipRest = true;
+		}
+		else GLWWindow::mouseDown(x, y, skipRest);
+	}
+	else GLWWindow::mouseDown(x, y, skipRest);
 }

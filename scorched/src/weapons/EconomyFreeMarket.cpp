@@ -136,10 +136,14 @@ void EconomyFreeMarket::calculatePrices()
 		itor++)
 	{
 		int diff = (*itor).second;
-		Accessory *accessory = AccessoryStore::instance()->
-			findByAccessoryId((*itor).first);
-		accessory->setPrice(accessory->getPrice() + diff);
-		accessory->setSellPrice(int(accessory->getPrice() * 0.8f));
+		if (diff != 0)
+		{
+			Accessory *accessory = AccessoryStore::instance()->
+				findByAccessoryId((*itor).first);
+			diff = (diff / 25) * 25; // Round to 25
+			accessory->setPrice(accessory->getPrice() + diff);
+			accessory->setSellPrice(int(accessory->getPrice() * 0.8f));
+		}
 	}
 	newPrices_.clear();
 }
@@ -167,7 +171,8 @@ void EconomyFreeMarket::accessoryBought(Tank *tank,
 			if (accessory->getPrice() < tank->getScore().getMoney() &&
 				accessory->getPrice() > boughtAccessory->getPrice() / 2 &&
 				accessory->getPrice() < boughtAccessory->getPrice() * 1.5 &&
-				accessory->getPrice() != 0)
+				accessory->getPrice() != 0 &&
+				accessory->getType() == Accessory::AccessoryWeapon)
 			{
 				possibleAccessories.push_back(accessory);
 			}

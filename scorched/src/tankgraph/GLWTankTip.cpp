@@ -19,7 +19,10 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <tankgraph/GLWTankTip.h>
+#include <tankai/TankAIHuman.h>
 #include <weapons/Weapon.h>
+#include <landscape/Landscape.h>
+#include <client/ScorchedClient.h>
 
 TankFuelTip::TankFuelTip(Tank *tank) : 
 	tank_(tank)
@@ -36,6 +39,28 @@ void TankFuelTip::populate()
 		"Allows the tank to move.\n"
 		"Fuel : %i",
 		tank_->getAccessories().getFuel().getNoFuel());
+}
+
+void TankFuelTip::itemSelected(GLWSelectorEntry *entry, int position)
+{
+	TankAIHuman *tankAI = (TankAIHuman *) tank_->getTankAI();
+	if (entry->getUserData() == 0)
+	{
+		if (Landscape::instance()->getTextureType() == Landscape::eMovement)
+		{
+			Landscape::instance()->restoreLandscapeTexture();
+		}
+	}
+	else
+	{
+		if (Landscape::instance()->getTextureType() != Landscape::eMovement)
+		{
+			ScorchedClient::instance()->getLandscapeMaps().
+				getMMap().calculateForTank(tank_);
+			ScorchedClient::instance()->getLandscapeMaps().
+				getMMap().movementTexture();
+		}
+	}
 }
 
 TankBatteryTip::TankBatteryTip(Tank *tank) : 
@@ -56,6 +81,18 @@ void TankBatteryTip::populate()
 		tank_->getAccessories().getBatteries().getNoBatteries());
 }
 
+void TankBatteryTip::itemSelected(GLWSelectorEntry *entry, int position)
+{
+	TankAIHuman *tankAI = (TankAIHuman *) tank_->getTankAI();
+	for (int i=1; i<=(int) entry->getUserData(); i++)
+	{
+		if (tank_->getState().getLife() < 100.0f)
+		{
+			tankAI->useBattery();
+		}
+	}
+}
+
 TankShieldTip::TankShieldTip(Tank *tank) : 
 	tank_(tank)
 {
@@ -73,11 +110,12 @@ void TankShieldTip::populate()
 			"Protect the tank from taking damage.\n"
 			"Shields must be enabled before they take\n"
 			"effect.\n"
-			"Current Shield : %s\n"
-			"Shield Power : %i",
+			"Current Shield : %s (%i)\n"
+			"Shield Power : %.0f",
 			tank_->getAccessories().getShields().getCurrentShield()->getName(),
 			tank_->getAccessories().getShields().getShieldCount(
-			tank_->getAccessories().getShields().getCurrentShield()));
+			tank_->getAccessories().getShields().getCurrentShield()),
+			tank_->getAccessories().getShields().getShieldPower());
 	}
 	else
 	{
@@ -85,9 +123,15 @@ void TankShieldTip::populate()
 			"Protect the tank from taking damage.\n"
 			"Shields must be enabled before they take\n"
 			"effect.\n"
-			"Current Shield : %s\n",
-			"Disabled");
+			"Shields Off");
 	}
+}
+
+void TankShieldTip::itemSelected(GLWSelectorEntry *entry, int position)
+{
+	TankAIHuman *tankAI = (TankAIHuman *) tank_->getTankAI();
+	if (entry->getUserData() == 0) tankAI->shieldsUpDown(0);
+	else tankAI->shieldsUpDown(((Shield *)entry->getUserData())->getAccessoryId());
 }
 
 TankHealthTip::TankHealthTip(Tank *tank) : 
@@ -128,7 +172,13 @@ void TankParachutesTip::populate()
 		"Status : %s",
 		tank_->getAccessories().getParachutes().getNoParachutes(),
 		(tank_->getAccessories().getParachutes().parachutesEnabled()?
-		"Active":"Disabled"));
+		"On":"Off"));
+}
+
+void TankParachutesTip::itemSelected(GLWSelectorEntry *entry, int position)
+{
+	TankAIHuman *tankAI = (TankAIHuman *) tank_->getTankAI();
+	tankAI->parachutesUpDown(entry->getUserData()==0?false:true);
 }
 
 TankAutoDefenseTip::TankAutoDefenseTip(Tank *tank) : 
@@ -148,7 +198,7 @@ void TankAutoDefenseTip::populate()
 		"starts.\n"
 		"Status : %s",
 		(tank_->getAccessories().getAutoDefense().haveDefense()?
-		"Active":"Disabled"));
+		"On":"Off (Not Bought)"));
 }
 
 TankWeaponTip::TankWeaponTip(Tank *tank) : 
@@ -167,8 +217,7 @@ void TankWeaponTip::populate()
 	{
 		setText("Weapon",
 			"The currently selected weapon.\n"
-			"Weapon : %s\n"
-			"Weapon Count : %s\n"
+			"Weapon : %s (%i)\n"
 			"Description :\n%s",
 			tank_->getAccessories().getWeapons().getCurrent()->getName(),
 			tank_->getAccessories().getWeapons().getWeaponCount(
@@ -179,12 +228,17 @@ void TankWeaponTip::populate()
 	{
 		setText("Weapon",
 			"The currently selected weapon.\n"
-			"Weapon : %s\n"
-			"Weapon Count : Infinite\n"
+			"Weapon : %s (Infinite)\n"
 			"Description :\n%s",
 			tank_->getAccessories().getWeapons().getCurrent()->getName(),
 			tank_->getAccessories().getWeapons().getCurrent()->getDescription());
 	}
+}
+
+void TankWeaponTip::itemSelected(GLWSelectorEntry *entry, int position)
+{
+	TankAIHuman *tankAI = (TankAIHuman *) tank_->getTankAI();
+	tank_->getAccessories().getWeapons().setWeapon((Weapon *) entry->getUserData());
 }
 
 TankPowerTip::TankPowerTip(Tank *tank) : 

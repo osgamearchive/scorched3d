@@ -22,37 +22,41 @@
 #define _gLWTankTip_h
 
 #include <GLW/GLWToolTip.h>
+#include <GLW/GLWSelector.h>
 #include <tank/Tank.h>
 
-class TankFuelTip : public GLWTip
+class TankFuelTip : public GLWTip, public GLWSelectorI
 {
 public:
 	TankFuelTip(Tank *tank);
 	virtual ~TankFuelTip();
 
 	virtual void populate();
+	virtual void itemSelected(GLWSelectorEntry *entry, int position);
 protected:
 	Tank *tank_;
 };
 
-class TankBatteryTip : public GLWTip
+class TankBatteryTip : public GLWTip, public GLWSelectorI
 {
 public:
 	TankBatteryTip(Tank *tank);
 	virtual ~TankBatteryTip();
 
 	virtual void populate();
+	virtual void itemSelected(GLWSelectorEntry *entry, int position);
 protected:
 	Tank *tank_;
 };
 
-class TankShieldTip : public GLWTip
+class TankShieldTip : public GLWTip, public GLWSelectorI
 {
 public:
 	TankShieldTip(Tank *tank);
 	virtual ~TankShieldTip();
 
 	virtual void populate();
+	virtual void itemSelected(GLWSelectorEntry *entry, int position);
 protected:
 	Tank *tank_;
 };
@@ -68,13 +72,14 @@ protected:
 	Tank *tank_;
 };
 
-class TankParachutesTip : public GLWTip
+class TankParachutesTip : public GLWTip, public GLWSelectorI
 {
 public:
 	TankParachutesTip(Tank *tank);
 	virtual ~TankParachutesTip();
 
 	virtual void populate();
+	virtual void itemSelected(GLWSelectorEntry *entry, int position);
 protected:
 	Tank *tank_;
 };
@@ -90,13 +95,14 @@ protected:
 	Tank *tank_;
 };
 
-class TankWeaponTip : public GLWTip
+class TankWeaponTip : public GLWTip, public GLWSelectorI
 {
 public:
 	TankWeaponTip(Tank *tank);
 	virtual ~TankWeaponTip();
 
 	virtual void populate();
+	virtual void itemSelected(GLWSelectorEntry *entry, int position);
 protected:
 	Tank *tank_;
 };

@@ -134,7 +134,6 @@ void GLMenuEntry::drawDepressed(GLFont2d &font, float currentTop, float currentL
 	selectedWidth_ += side + 5.0f;
 
 	lowerHeight = lowerHeight + menuItemHeight + 5.0f;
-	if (lowerHeight < 52.0f) lowerHeight = 52.0f;
 	height_ = currentTop - lowerHeight;
 
 	{
@@ -146,7 +145,7 @@ void GLMenuEntry::drawDepressed(GLFont2d &font, float currentTop, float currentL
 			glVertex2f(currentLeft + 20.0f, currentTop - 25.0f - drop);
 			glVertex2f(currentLeft + 20.0f, currentTop - lowerHeight - drop);
 			GLWVisibleWidget::drawRoundBox(currentLeft, currentTop - lowerHeight - drop, 
-				selectedWidth_, lowerHeight - drop, 20.0f);
+				selectedWidth_, lowerHeight - drop, 10.0f);
 			glVertex2f(currentLeft + 20.0f, currentTop - lowerHeight - drop);
 		glEnd();
 
@@ -154,7 +153,7 @@ void GLMenuEntry::drawDepressed(GLFont2d &font, float currentTop, float currentL
 		glLineWidth(2.0f);
 		glBegin(GL_LINE_LOOP);
 			GLWVisibleWidget::drawRoundBox(currentLeft, currentTop - lowerHeight  - drop, 
-				selectedWidth_, lowerHeight - drop, 20.0f);
+				selectedWidth_, lowerHeight - drop, 10.0f);
 		glEnd();
 		glLineWidth(1.0f);
 	}
