@@ -28,8 +28,7 @@
 #include <common/OptionsGame.h>
 #include <common/OptionsParam.h>
 #include <common/OptionsTransient.h>
-#include <coms/NetServer.h>
-#include <coms/NetMessageHandler.h>
+#include <coms/ComsGateway.h>
 #include <engine/GameState.h>
 #include <engine/ActionController.h>
 #include <engine/ScorchedCollisionHandler.h>
@@ -61,7 +60,7 @@ extern "C" {
 
 void serverCleanup()
 {
-	if (NetServer::instance()->started())
+	if (ComsGateway::instance()->started())
 	{
 #ifdef _NO_SERVER_ASE_
  		ServerGameInfo::instance()->Stop();
@@ -92,7 +91,7 @@ bool serverMain()
 #endif
 
 	// Setup the message handling classes
-	NetMessageHandler::instance()->setMessageHandler(
+	ComsGateway::instance()->setMessageHandler(
 		ComsMessageHandler::instance());
 	ComsMessageHandler::instance()->setConnectionHandler(
 		ServerMessageHandler::instance());
@@ -117,7 +116,7 @@ bool serverMain()
 	TankAIAdder::addTankAIs();
 
 	// Try to start the server
-	if (!NetServer::instance()->start(
+	if (!ComsGateway::instance()->start(
 		OptionsGame::instance()->getPortNo(),
 		OptionsGame::instance()->getNoMaxPlayers() - 
 		TankContainer::instance()->getNoOfTanks()))
@@ -161,10 +160,10 @@ bool serverMain()
 void serverLoop()
 {
 	// Main server loop:
-	if (NetServer::instance()->started())
+	if (ComsGateway::instance()->started())
 	{
 		Logger::processLogEntries();
-		NetMessageHandler::instance()->processMessages();
+		ComsGateway::instance()->processMessages();
 		GameState::instance()->simulate(serverTimer.getTimeDifference());
 #ifndef _NO_SERVER_ASE_
 		ASEQuery_check();

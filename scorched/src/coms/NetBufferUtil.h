@@ -27,11 +27,8 @@
 class NetBufferUtil
 {
 public:
-	static bool sendBuffer(NetBuffer &buffer, TCPsocket &socket);
-	static NetMessage *readBuffer(TCPsocket &socket);
-
-	static unsigned int getBytesIn() { return bytesIn_; }
-	static unsigned int getBytesOut() { return bytesOut_; }
+	static unsigned int &getBytesIn() { return bytesIn_; }
+	static unsigned int &getBytesOut() { return bytesOut_; }
 
 	static void setBlockingIO(TCPsocket &socket);
 

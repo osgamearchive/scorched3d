@@ -18,43 +18,23 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+#include <coms/ComsGateway.h>
 
-#ifndef __INCLUDE_netClient_h_INCLUDE__
-#define __INCLUDE_netClient_h_INCLUDE__
+ComsGateway *ComsGateway::instance_ = 0;
 
-#include <coms/NetMessage.h>
-#include <list>
-
-class NetClient
+ComsGateway *ComsGateway::instance()
 {
-public:
-	static NetClient* instance();
+	if (!instance_)
+	{
+		instance_ = new ComsGateway();
+	}
+	return instance_;
+}
 
-	bool connect(const char *hostName, int portNo);
-	bool started();
+ComsGateway::ComsGateway() : NetServer(new NetServerScorchedProtocol())
+{
+}
 
-	void sendMessage(NetBuffer &buffer);
-
-protected:
-	static NetClient* instance_;
-	TCPsocket client_;
-	SDLNet_SocketSet sockSet_;
-	std::list<NetMessage *> outgoing_;
-	SDL_mutex *outgoingMessagesMutex_;
-
-	static int threadFunc(void *);
-	void stop();
-	bool pollIncoming();
-	void pollOutgoing();
-
-private:
-	NetClient();
-	virtual ~NetClient();
-
-	NetClient(const NetClient &);
-	const NetClient & operator=(const NetClient &);
-
-};
-
-#endif // __INCLUDE_netClient_h_INCLUDE__
-
+ComsGateway::~ComsGateway()
+{
+}

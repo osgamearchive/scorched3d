@@ -138,6 +138,10 @@ void WindowSetup::setup(bool server)
 	addCommonComponents(ClientState::StateMain, server);
 	
 	// StateShot
+	WindowManager::instance()->addWindow(ClientState::StateShot, 
+		planView, planKey, true);
+	WindowManager::instance()->addWindow(ClientState::StateShot, 
+		WindDialog::instance(), windKey, true);
 	addCommonComponents(ClientState::StateShot, server);
 
 	// StateScore

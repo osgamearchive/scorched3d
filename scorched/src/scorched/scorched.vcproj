@@ -1539,6 +1539,12 @@
 				RelativePath="..\coms\ComsGameStoppedMessage.h">
 			</File>
 			<File
+				RelativePath="..\coms\ComsGateway.cpp">
+			</File>
+			<File
+				RelativePath="..\coms\ComsGateway.h">
+			</File>
+			<File
 				RelativePath="..\coms\ComsLevelMessage.cpp">
 			</File>
 			<File
@@ -1623,12 +1629,6 @@
 				RelativePath="..\coms\NetBufferUtil.h">
 			</File>
 			<File
-				RelativePath="..\coms\NetClient.cpp">
-			</File>
-			<File
-				RelativePath="..\coms\NetClient.h">
-			</File>
-			<File
 				RelativePath="..\coms\NetMessage.cpp">
 			</File>
 			<File
@@ -1651,6 +1651,12 @@
 			</File>
 			<File
 				RelativePath="..\coms\NetServer.h">
+			</File>
+			<File
+				RelativePath="..\coms\NetServerProtocol.cpp">
+			</File>
+			<File
+				RelativePath="..\coms\NetServerProtocol.h">
 			</File>
 		</Filter>
 		<Filter

@@ -2,7 +2,7 @@
 #include "irc/GameInfoMessage.h"
 #include "irc/ServerGameInfo.h"
 #include "common/OptionsGame.h"
-#include "coms/NetServer.h"
+#include "coms/ComsGateway.h"
 #include "server/ServerState.h"
 #include <stdlib.h>
 #include <string.h>
@@ -16,14 +16,14 @@ GameInfoMessage::~GameInfoMessage()
 }
 
 
-int  GameInfoMessage::setQuery(char *data)
+int GameInfoMessage::setQuery(char *data)
 {
 	sprintf(data,PROTOCOL ": QUERY protocol=%s;",
 		ScorchedProtocolVersion);
 	return strlen(data);
 }
 
-int  GameInfoMessage::setQueryReply(char *reply,char *query,char *host,char *port)
+int GameInfoMessage::setQueryReply(char *reply,char *query,char *host,char *port)
 {
 	// veryfy query
 	if (strstr(query,PROTOCOL ": QUERY protocol=") == NULL )
@@ -35,8 +35,8 @@ int  GameInfoMessage::setQueryReply(char *reply,char *query,char *host,char *por
 		ScorchedProtocolVersion,
 		(host == NULL ? "unknown" : host  ),
 		(port == NULL ? -1 : atoi(port) ),
-		NetServer::instance()->getNoClients(),
-		NetServer::instance()->getMaxClients(),
+		ComsGateway::instance()->getNoClients(),
+		ComsGateway::instance()->getMaxClients(),
 		OptionsGame::instance()->getServerName());
 
 	return strlen(reply);

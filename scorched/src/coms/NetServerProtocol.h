@@ -18,38 +18,30 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+#if !defined(__INCLUDE_NetServerProtocolh_INCLUDE__)
+#define __INCLUDE_NetServerProtocolh_INCLUDE__
 
-#include <GLW/GLWIcon.h>
-#include <GLEXT/GLState.h>
+#include <coms/NetMessage.h>
 
-GLWIcon::GLWIcon(float x, float y, float w, float h, GLTexture *texture) : 
-	GLWVisibleWidget(x, y, w, h),
-	texture_(texture)
+class NetServerProtocol
 {
-}
+public:
+	NetServerProtocol();
+	virtual ~NetServerProtocol();
 
-GLWIcon::~GLWIcon()
+	virtual bool sendBuffer(NetBuffer &buffer, TCPsocket &socket) = 0;
+	virtual NetMessage *readBuffer(TCPsocket &socket) = 0;
+};
+
+class NetServerScorchedProtocol : public NetServerProtocol
 {
-}
+public:
+	NetServerScorchedProtocol();
+	virtual ~NetServerScorchedProtocol();
 
-void GLWIcon::draw()
-{
-	if (texture_)
-	{
-		GLState state(GLState::TEXTURE_ON);
-		glColor3f(1.0f, 1.0f, 1.0f);
-		texture_->draw();
-		glBegin(GL_QUADS);
-			glTexCoord2f(0.0f, 0.0f);
-			glVertex2f(x_, y_);
-			glTexCoord2f(1.0f, 0.0f);
-			glVertex2f(x_ + w_, y_);
-			glTexCoord2f(1.0f, 1.0f);
-			glVertex2f(x_ + w_, y_ + h_);
-			glTexCoord2f(0.0f, 1.0f);
-			glVertex2f(x_, y_ + h_);
-		glEnd();
-	}
+	virtual bool sendBuffer(NetBuffer &buffer, TCPsocket &socket);
+	virtual NetMessage *readBuffer(TCPsocket &socket);
+};
 
-	GLWVisibleWidget::draw();
-}
+
+#endif

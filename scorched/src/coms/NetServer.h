@@ -22,35 +22,43 @@
 #ifndef __INCLUDE_netServer_h_INCLUDE__
 #define __INCLUDE_netServer_h_INCLUDE__
 
-#include <coms/NetMessage.h>
+#include <coms/NetMessageHandler.h>
+#include <coms/NetServerProtocol.h>
 #include <list>
 #include <set>
 
 class NetServer
 {
 public:
-	static NetServer* instance();
+	NetServer(NetServerProtocol *protocol);
+	virtual ~NetServer();
 
+	bool connect(const char *hostName, int portNo);
 	bool start(int portNo, int maxClients = -1);
 	bool started();
-	void stop();
 
 	int getMaxClients() { return maxClients_; }
 	int getNoClients();
 
+	int processMessages() { return messageHandler_.processMessages(); }
+	void setMessageHandler(NetMessageHandlerI *handler) 
+		{ messageHandler_.setMessageHandler(handler); }
+
 	void destroyClient(TCPsocket client);
+	void sendMessage(NetBuffer &buffer);
 	void sendMessage(NetBuffer &buffer,
 					 TCPsocket destination);
 
 protected:
-	static NetServer* instance_;
 	int maxClients_;
+	NetServerProtocol *protocol_;
 	TCPsocket server_;
 	SDLNet_SocketSet sockSet_;
 	std::set<TCPsocket> connections_;
 	std::list<NetMessage *> outgoing_;
 	SDL_mutex *outgoingMessagesMutex_;
 	SDL_mutex *setMutex_;
+	NetMessageHandler messageHandler_;
 
 	static int threadFunc(void *);
 
@@ -61,8 +69,6 @@ protected:
 	void updateSockSet();
 
 private:
-	NetServer();
-	virtual ~NetServer();
 
 	NetServer(const NetServer &);
 	const NetServer & operator=(const NetServer &);

@@ -37,7 +37,8 @@ public:
 class NetMessageHandler
 {
 public:
-	static NetMessageHandler *instance();
+	NetMessageHandler();
+	virtual ~NetMessageHandler();
 
 	void addMessage(NetMessage *message);
 
@@ -45,15 +46,11 @@ public:
 	void setMessageHandler(NetMessageHandlerI *handler);
 
 protected:
-	static NetMessageHandler *instance_;
 	NetMessageHandlerI *handler_;
 	std::list<NetMessage *> messages_;
 	SDL_mutex *messagesMutex_;
 	bool messagesWaiting_;
 
-private:
-	NetMessageHandler();
-	virtual ~NetMessageHandler();
 };
 
 

@@ -41,7 +41,7 @@
 #include <coms/ComsMessageHandler.h>
 #include <coms/ComsMessageSender.h>
 #include <coms/ComsConnectMessage.h>
-#include <coms/NetClient.h>
+#include <coms/ComsGateway.h>
 #include <common/WindowManager.h>
 #include <common/OptionsParam.h>
 
@@ -143,7 +143,7 @@ bool ConnectDialog::tryConnection()
 	MainLoop::instance()->draw();
 
 	// Setup the coms handlers
-	NetMessageHandler::instance()->setMessageHandler(
+	ComsGateway::instance()->setMessageHandler(
 		ComsMessageHandler::instance());
 	ComsMessageHandler::instance()->setConnectionHandler(
 		ClientMessageHandler::instance());
@@ -160,7 +160,7 @@ bool ConnectDialog::tryConnection()
 	ClientScoreHandler::instance();
 
 	// Try to connect to the server
-	if (!NetClient::instance()->connect((char *) hostPart.c_str(), port))
+	if (!ComsGateway::instance()->connect((char *) hostPart.c_str(), port))
 	{
 		Logger::log(0, "  Connection Failed.");
 		MainLoop::instance()->draw();

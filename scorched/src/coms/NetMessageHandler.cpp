@@ -26,17 +26,6 @@ NetMessageHandlerI::~NetMessageHandlerI()
 {
 }
 
-NetMessageHandler *NetMessageHandler::instance_ = 0;
-
-NetMessageHandler *NetMessageHandler::instance()
-{
-	if (!instance_)
-	{
-		instance_ = new NetMessageHandler;
-	}
-	return instance_;
-}
-
 NetMessageHandler::NetMessageHandler() : 
 	handler_(0), messagesMutex_(0), messagesWaiting_(false)
 {

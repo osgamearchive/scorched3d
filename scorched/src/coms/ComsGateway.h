@@ -18,38 +18,22 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+#if !defined(__INCLUDE_ComsGatewayh_INCLUDE__)
+#define __INCLUDE_ComsGatewayh_INCLUDE__
 
-#include <GLW/GLWIcon.h>
-#include <GLEXT/GLState.h>
+#include <coms/NetServer.h>
 
-GLWIcon::GLWIcon(float x, float y, float w, float h, GLTexture *texture) : 
-	GLWVisibleWidget(x, y, w, h),
-	texture_(texture)
+class ComsGateway : public NetServer
 {
-}
+public:
+	static ComsGateway *instance();
 
-GLWIcon::~GLWIcon()
-{
-}
+protected:
+	static ComsGateway *instance_;
 
-void GLWIcon::draw()
-{
-	if (texture_)
-	{
-		GLState state(GLState::TEXTURE_ON);
-		glColor3f(1.0f, 1.0f, 1.0f);
-		texture_->draw();
-		glBegin(GL_QUADS);
-			glTexCoord2f(0.0f, 0.0f);
-			glVertex2f(x_, y_);
-			glTexCoord2f(1.0f, 0.0f);
-			glVertex2f(x_ + w_, y_);
-			glTexCoord2f(1.0f, 1.0f);
-			glVertex2f(x_ + w_, y_ + h_);
-			glTexCoord2f(0.0f, 1.0f);
-			glVertex2f(x_, y_ + h_);
-		glEnd();
-	}
+private:
+	ComsGateway();
+	virtual ~ComsGateway();
+};
 
-	GLWVisibleWidget::draw();
-}
+#endif

@@ -27,7 +27,7 @@
 #include <coms/NetBufferUtil.h>
 #include <coms/ComsTextMessage.h>
 #include <coms/ComsMessageSender.h>
-#include <coms/NetServer.h>
+#include <coms/ComsGateway.h>
 #include <tank/TankContainer.h>
 #include <engine/GameState.h>
 #include <server/ServerState.h>
@@ -347,7 +347,7 @@ void kickPlayer(NetPlayerID id)
 
 	if (human)
 	{
-		NetServer::instance()->destroyClient(id);
+		ComsGateway::instance()->destroyClient(id);
 	}
 	else
 	{
