@@ -7,6 +7,12 @@
 		</model>
 	</tank>
 	<tank>
+		<name>Bender</name>
+		<catagory>Humour</catagory>
+		<model type="MilkShape">bender/bender.txt</model>
+		<projectilemodel type="MilkShape">beer_bottle/bottle.txt</projectilemodel>
+	</tank>
+	<tank>
 		<name>Kenny</name>
 		<catagory>Humour</catagory>
 		<model type="MilkShape">kenny2.txt</model>

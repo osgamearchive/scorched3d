@@ -11,21 +11,6 @@ $playerquery = "SELECT * FROM scorched3d_players WHERE playerid=$playerid";
 $playerresult = mysql_query($playerquery) or die("Query failed : " . mysql_error());
 $playerrow = mysql_fetch_object($playerresult);
 $playername=$playerrow->name;
-
-if ($row->shots==0)	$killratio="No Shots Recorded";
-else $killratio=prependnumber(((($row->kills-$row->teamkills-$row->selfkills)/$row->shots)*100), "%", 2);
-if ($row->kills==0){
-	$shotsperkill=0;
-	$cashperkill=0;
-}
-else{
-	$shotsperkill=round($row->shots/$row->kills, 2);
-	$cashperkill=round($row->moneyearned/$row->kills, 2);
-}
-if ($row->gamesplayed==0)
-	$killsperround="No Rounds Recorded";
-else
-	$killsperround = round((($row->kills-$row->teamkills-$row->selfkills)/$row->gamesplayed), 2);	
 ?>
 
 <table width="790" border="0" align="center">
@@ -51,7 +36,7 @@ else
 
 <?
 // Player Aliases
-$query = "SELECT * FROM scorched3d_names where playerid=$playerid";
+$query = "SELECT * FROM scorched3d_names where playerid=$playerid order by count desc limit 15";
 $result = mysql_query($query) or die("Query failed : " . mysql_error());
 ?>
 <table width="600" border="0" align="center">
@@ -76,6 +61,25 @@ $result = mysql_query($query) or die("Query failed : " . mysql_error());
 $query = "SELECT *, round((skill + (overallwinner*5) + (COALESCE(round((wins/gamesplayed)*(skill-1000), 3), 0)) + ((skill-1000) * COALESCE(round(((kills-(teamkills+selfkills))/shots), 3), 0))),0) as skill FROM scorched3d_stats WHERE playerid=$playerid AND prefixid=$prefixid AND seriesid=$seriesid GROUP BY playerid ORDER BY kills";
 $result = mysql_query($query) or die("Query failed : " . mysql_error());
 $row = mysql_fetch_object($result);
+
+if ($row->shots==0)	$killratio="No Shots Recorded";
+else $killratio=prependnumber(((($row->kills-$row->teamkills-$row->selfkills)/$row->shots)*100), "%", 2);
+if ($row->kills==0){
+	$shotsperkill=0;
+	$cashperkill=0;
+}
+else{
+	$shotsperkill=round($row->shots/$row->kills, 2);
+	$cashperkill=round($row->moneyearned/$row->kills, 2);
+}
+if ($row->gamesplayed==0)
+	$killsperround="No Rounds Recorded";
+else
+	$killsperround = round((($row->kills-$row->teamkills-$row->selfkills)/$row->gamesplayed), 2);	
+
+$query = "SELECT count(*) FROM scorched3d_stats WHERE kills > ".$row->kills." AND prefixid = ".$prefixid." AND seriesid = ".$seriesid; 
+$rankresult = mysql_query($query) or die("Query failed : " . mysql_error());
+$rankrow = mysql_fetch_array($rankresult);
 ?>
 
 <?include('util.php');?>
@@ -84,6 +88,8 @@ $row = mysql_fetch_object($result);
 <tr><td align=center><b>Main Stats</b></td></tr>
 </table>
 <table width="600" bordercolor=#333333 cellspacing="0" cellpadding="0" border="1" align="center">
+
+<tr><td bgcolor=#111111><b>Rank</b></td><td><?echo ($rankrow[0]+1)?></td></tr>
 <tr><td bgcolor=#111111><b>Last Connected</b></td><td><?=$row->lastconnected?></td></tr>
 <tr><td bgcolor=#111111><b>Times Connected</b></td><td><?=$row->connects?></td></tr>
 <tr><td bgcolor=#111111><b>Time Played</b></td><td><? echo secondstotext($row->timeplayed)."  (".number_format($row->timeplayed, 0)." seconds)";?></td></tr>

@@ -69,7 +69,7 @@
 			*MESH_FACE   13:    A:   11 B:    9 C:    8 AB:    1 BC:    1 CA:    0	 *MESH_SMOOTHING 2 	*MESH_MTLID 1
 			*MESH_FACE   14:    A:   12 B:   13 C:   15 AB:    1 BC:    1 CA:    0	 *MESH_SMOOTHING 3 	*MESH_MTLID 0
 			*MESH_FACE   15:    A:   15 B:   14 C:   12 AB:    1 BC:    1 CA:    0	 *MESH_SMOOTHING 3 	*MESH_MTLID 0
-			*MESH_FACE   16:    A:    9 B:    9 C:   13 AB:    1 BC:    1 CA:    0	 *MESH_SMOOTHING 4 	*MESH_MTLID 4
+			*MESH_FACE   16:    A:    8 B:    9 C:   13 AB:    1 BC:    1 CA:    0	 *MESH_SMOOTHING 4 	*MESH_MTLID 4
 			*MESH_FACE   17:    A:   13 B:   12 C:    8 AB:    1 BC:    1 CA:    0	 *MESH_SMOOTHING 4 	*MESH_MTLID 4
 			*MESH_FACE   18:    A:    9 B:   11 C:   15 AB:    1 BC:    1 CA:    0	 *MESH_SMOOTHING 5 	*MESH_MTLID 3
 			*MESH_FACE   19:    A:   15 B:   13 C:    9 AB:    1 BC:    1 CA:    0	 *MESH_SMOOTHING 5 	*MESH_MTLID 3
