@@ -176,9 +176,10 @@ void GLOrderedItemRenderer::draw(const unsigned state)
 		{
 			tmpRequiredEntries_.push_back(entry);
 		}
-		else if (entry->deleteItem_)
+		else 
 		{
-			delete entry;
+			if (entry->deleteItem_) delete entry;
+			else entry->removeItem_ = false;
 		}
 	}
 

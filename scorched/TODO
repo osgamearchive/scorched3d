@@ -10,6 +10,7 @@ Fixed: Spelling and gammour in talk lines (thanks Stefan Lindner)
 Fixed: Score dialog only shown once in the final round
 Fixed: DirectX is only checked when running the client.
 Fixed: Added scroll bars to landscape settings dialog
+Fixed: Smoke disapears after a while
 
 Added: Can sort accessories in buying dialog by name (or not)
 Added: Even more tank talk lines (thanks Maxim Genis)

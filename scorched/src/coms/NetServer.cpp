@@ -24,6 +24,7 @@
 #include <coms/NetMessagePool.h>
 #include <common/Defines.h>
 #include <common/Logger.h>
+#include <common/Clock.h>
 
 NetServer::NetServer(NetServerProtocol *protocol) : 
 	sockSet_(0), firstDestination_(0),
@@ -110,8 +111,11 @@ int NetServer::threadFunc(void *param)
 {
 	NetServer *netServer = (NetServer *) param;
 
+	Clock netClock;
 	for (;;)
 	{
+		netClock.getTimeDifference();
+
 		SDL_LockMutex(netServer->setMutex_);
 		bool empty = false;
 		if (netServer->connections_.empty()) empty = true;
@@ -121,6 +125,13 @@ int NetServer::threadFunc(void *param)
 			netServer->pollOutgoing();
 		}
 		SDL_UnlockMutex(netServer->setMutex_);
+
+		float timeDiff = netClock.getTimeDifference();
+		if (timeDiff > 1.0f)
+		{
+			Logger::log(0, "Warning: Net loop took %.2f seconds", 
+				timeDiff);
+		}
 
 		if (empty) SDL_Delay(1000);
 		else SDL_Delay(10);

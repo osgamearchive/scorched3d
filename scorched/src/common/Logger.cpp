@@ -167,7 +167,7 @@ void FileLogger::logMessage(
 		const char *message,
 		unsigned int playerId)
 {
-	const unsigned int MaxLines = 1000;
+	const unsigned int MaxLines = 4000;
 	if (!logFile_ || (lines_++>MaxLines)) openFile(fileName_.c_str());
 	if (!logFile_) return;
 
