@@ -236,6 +236,8 @@ scorched3d_SOURCES = \
 	../common/SoundStore.h \
 	../common/StatsLogger.cpp \
 	../common/StatsLogger.h \
+	../common/StatsLoggerFile.cpp \
+	../common/StatsLoggerFile.h \
 	../common/Triangle.cpp \
 	../common/Triangle.h \
 	../common/Vector.cpp \
@@ -335,6 +337,8 @@ scorched3d_SOURCES = \
 	../engine/ScorchedCollisionIds.h \
 	../engine/ScorchedContext.cpp \
 	../engine/ScorchedContext.h \
+	../engine/ViewPoints.cpp \
+	../engine/ViewPoints.h \
 	../landscape/CloudSim.cpp \
 	../landscape/CloudSim.h \
 	../landscape/DeformLandscape.cpp \
