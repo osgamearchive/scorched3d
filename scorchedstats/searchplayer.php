@@ -1,7 +1,5 @@
 <?
 include('statsheader.php');
-$prefix=$_GET['Prefix'];
-if ($prefix==Null)	$prefix="";
 ?>
 
 <table width=600 border="0" align="center">
@@ -14,7 +12,7 @@ include('search.php');
 
 <?
 $playername=$_GET['playername'] or die ("No player name specified");
-$query = " select name, playerid from scorched3d".$prefix."_names where name rlike \"$playername\"";
+$query = " select name, playerid from scorched3d_names where name rlike \"$playername\"";
 $result = mysql_query($query) or die("Query failed : " . mysql_error());
 ?>
 <table width=600 border="0" align="center">
@@ -29,12 +27,12 @@ $result = mysql_query($query) or die("Query failed : " . mysql_error());
 <?
 while ($row = mysql_fetch_object($result))
 {
-	$query2 = " select name from scorched3d".$prefix."_players where playerid=\"".$row->playerid."\"";
+	$query2 = " select name from scorched3d_players where playerid=\"".$row->playerid."\"";
 	$result2 = mysql_query($query2) or die("Query failed : " . mysql_error());
 	$row2 = mysql_fetch_object($result2);
 
         echo "<tr>";
-        echo "<td><a href=\"playerstats.php?Prefix=$prefix&PlayerID=$row->playerid\">$row->name</a></td>";
+        echo "<td>".$row->name."</td>";
 	echo "<td>".$row->playerid."</td>";
 	echo "<td>".$row2->name."</td>";
         echo "</tr>\n";

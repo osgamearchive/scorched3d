@@ -1,14 +1,15 @@
 <?
 $weaponid=$_GET['WeaponID'] or die ("No Weapon specified");
-$prefix=$_GET['Prefix'];
-if ($prefix==Null)	$prefix="";
+$prefixid=$_GET['Prefix'] or die ("No prefix specified");
+$seriesid=$_GET['Series'] or die ("No series specified");
+
 include('statsheader.php');
 include('conversionfunctions.php');
 ?>
 
 <?
 // General Weapon Stats
-$query = "SELECT *, COALESCE(round(kills/shots, 2), 0.0) as killratio FROM scorched3d".$prefix."_weapons where weaponid=$weaponid";
+$query = "SELECT *, COALESCE(round(kills/shots, 2), 0.0) as killratio FROM scorched3d_weapons where weaponid=$weaponid and prefixid=$prefixid and seriesid=$seriesid";
 $result = mysql_query($query) or die("Query failed : " . mysql_error());
 $row = mysql_fetch_object($result);
 $weaponname=$row->name;
@@ -31,7 +32,7 @@ $weaponname=$row->name;
 
 <?
 // Weapon users
-$query="select (scorched3d".$prefix."_players.name) as name, (scorched3d".$prefix."_events.playerid) as killer, SUM(IF(scorched3d".$prefix."_events.eventtype='1',1,0)) AS kills, SUM(IF(scorched3d".$prefix."_events.eventtype='2',1,0)) AS teamkills , SUM(IF(scorched3d".$prefix."_events.eventtype='3',1,0)) AS selfkills from scorched3d".$prefix."_events LEFT JOIN scorched3d".$prefix."_players ON (scorched3d".$prefix."_events.playerid=scorched3d".$prefix."_players.playerid) WHERE weaponid=$weaponid group by killer order by kills desc limit 25";
+$query="select (scorched3d_players.name) as name, (scorched3d_events.playerid) as killer, SUM(IF(scorched3d_events.eventtype='1',1,0)) AS kills, SUM(IF(scorched3d_events.eventtype='2',1,0)) AS teamkills , SUM(IF(scorched3d_events.eventtype='3',1,0)) AS selfkills from scorched3d_events LEFT JOIN scorched3d_players ON (scorched3d_events.playerid=scorched3d_players.playerid) WHERE weaponid=$weaponid and scorched3d_events.prefixid=$prefixid and scorched3d_events.seriesid=$seriesid group by killer order by kills desc limit 25";
 $result = mysql_query($query) or die("Query failed : " . mysql_error(). "<BR>query=$query");
 ?>
 <table width="600" border="0" align="center">
@@ -52,7 +53,7 @@ while ($row = mysql_fetch_object($result))
         ++$rownumber;
         echo "<tr>";
 	echo "<td>$rownumber</td>";
-	echo "<td><a href=\"playerstats.php?Prefix=".$prefix."&PlayerID=$row->killer\">$row->name</a></td>";
+	echo "<td><a href=\"playerstats.php?Prefix=".$prefixid."&Series=".$seriesid."&PlayerID=$row->killer\">$row->name</a></td>";
 	echo "<td>$row->kills</td>";
 	echo "<td>$row->selfkills</td>";
 	echo "<td>$row->teamkills</td>";
@@ -63,7 +64,7 @@ while ($row = mysql_fetch_object($result))
 
 <?
 // Query last 25 weapon events
-$query ="SELECT scorched3d".$prefix."_events.playerid, scorched3d".$prefix."_events.weaponid, scorched3d".$prefix."_events.eventtime, scorched3d".$prefix."_events.eventtype, scorched3d".$prefix."_events.otherplayerid, (playernames.name) as playername, (otherplayernames.name) as otherplayername FROM scorched3d".$prefix."_events LEFT JOIN scorched3d".$prefix."_players playernames ON scorched3d".$prefix."_events.playerid=playernames.playerid LEFT JOIN scorched3d".$prefix."_players otherplayernames ON scorched3d".$prefix."_events.otherplayerid=otherplayernames.playerid WHERE scorched3d".$prefix."_events.weaponid=$weaponid ORDER BY eventtime desc limit 25";
+$query ="SELECT scorched3d_events.playerid, scorched3d_events.weaponid, scorched3d_events.eventtime, scorched3d_events.eventtype, scorched3d_events.otherplayerid, (playernames.name) as playername, (otherplayernames.name) as otherplayername FROM scorched3d_events LEFT JOIN scorched3d_players playernames ON scorched3d_events.playerid=playernames.playerid LEFT JOIN scorched3d_players otherplayernames ON scorched3d_events.otherplayerid=otherplayernames.playerid WHERE scorched3d_events.weaponid=$weaponid and scorched3d_events.prefixid=$prefixid and scorched3d_events.seriesid=$seriesid ORDER BY eventtime desc limit 25";
 $result = mysql_query($query) or die("Query failed : " . mysql_error());
 $row = mysql_fetch_object($result);
 ?>
@@ -86,10 +87,10 @@ while ($row = mysql_fetch_object($result))
 	case 2: $event = 'violet>team killed'; break;
 	case 3: $event = 'violet>killed self'; break;
 	}
-	$otherplayer = "<a href='playerstats.php?Prefix=".$prefix."&PlayerID=".$row->otherplayerid."'>".$row->otherplayername."</a>";
+	$otherplayer = "<a href='playerstats.php?Prefix=".$prefixid."&Series=".$seriesid."&PlayerID=".$row->otherplayerid."'>".$row->otherplayername."</a>";
         echo "<tr>";
         echo "<td>$row->eventtime</td>";
-        echo "<td align=right><a href='playerstats.php?Prefix=".$prefix."&PlayerID=".$row->playerid."'>".$row->playername."</a></td>";
+        echo "<td align=right><a href='playerstats.php?Prefix=".$prefixid."&Series=".$seriesid."&PlayerID=".$row->playerid."'>".$row->playername."</a></td>";
         echo "<td align=center><font color=".$event."</font></td>";
         echo "<td>$otherplayer</td>";
         echo "</tr>";

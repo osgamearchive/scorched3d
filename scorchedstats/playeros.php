@@ -3,10 +3,7 @@ include('statsheader.php');
 ?>
 
 <?
-$prefix=$_GET['Prefix'];
-if ($prefix==Null) $prefix="";
-
-$query = " select count(*) as cnt FROM scorched3d".$prefix."_players";
+$query = " select count(*) as cnt FROM scorched3d_players";
 $result = mysql_query($query) or die("Query failed : " . mysql_error());
 $row = mysql_fetch_object($result);
 $total = $row->cnt;
@@ -32,7 +29,7 @@ $arr = array(
 );
 
 foreach ($arr as $key => $value) {
-	$query = " select count(*) as cnt FROM scorched3d".$prefix."_players where osdesc LIKE '$value'";
+	$query = " select count(*) as cnt FROM scorched3d_players where osdesc LIKE '$value'";
 	$result = mysql_query($query) or die("Query failed : " . mysql_error());
 	$row = mysql_fetch_object($result);
 	$windows = $row->cnt;
@@ -67,7 +64,7 @@ for ($i=27; $i>=0; $i--)
 { 
 	$start = $i * 21600;
 	$end = ($i + 1) * 21600;
-	$query = " select count(eventid) as cnt from scorched3d".$prefix."_events where eventtype=7 and UNIX_TIMESTAMP(NOW()) - UNIX_TIMESTAMP(eventtime) < $end and UNIX_TIMESTAMP(NOW()) - UNIX_TIMESTAMP(eventtime) >= $start;";
+	$query = " select count(eventid) as cnt from scorched3d_events where eventtype=7 and UNIX_TIMESTAMP(NOW()) - UNIX_TIMESTAMP(eventtime) < $end and UNIX_TIMESTAMP(NOW()) - UNIX_TIMESTAMP(eventtime) >= $start;";
 	$result = mysql_query($query) or die("Query failed : " . mysql_error());
 	$row = mysql_fetch_object($result);
 	$total = $row->cnt;

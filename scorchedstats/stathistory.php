@@ -1,8 +1,9 @@
 <?//Gather any sort info or set defaults
 $playerid=$_GET['PlayerID'];// or die ("No player specified");
 if ($playerid==Null) $playerid=0;
-$prefix=$_GET['Prefix'];
-if ($prefix==Null)	$prefix="";
+$prefixid=$_GET['Prefix'] or die ("No prefix specified");
+$seriesid=$_GET['Series'] or die ("No series specified");
+
 $orderby=$_GET['OrderBy'];
 if ($orderby==Null)	$orderby="kills";
 $dir=$_GET['Dir'];
@@ -45,17 +46,18 @@ Search Days
 </select>
 <input type="reset"><BR>
 <input type="submit" value="Go!">
-<input type="hidden" name="Prefix" value="<?=$prefix?>">
+<input type="hidden" name="Prefix" value="<?=$prefixid?>">
+<input type="hidden" name="Series" value="<?=$seriesid?>">
 </form>
 
 </td></tr>
 </table>
 
 <?
-$query = "SELECT (scorched3d".$prefix."_events.playerid) as playerid, (scorched3d".$prefix."_players.name) as name, (scorched3d".$prefix."_players.lastconnected) as lastconnected, SUM(IF(scorched3d".$prefix."_events.eventtype='1',1,0)) AS kills, SUM(IF(scorched3d".$prefix."_events.eventtype='2',1,0)) AS teamkills, SUM(IF(scorched3d".$prefix."_events.eventtype='3',1,0)) AS selfkills, SUM(IF(scorched3d".$prefix."_events.eventtype='4',1,0)) AS resigns, SUM(IF(scorched3d".$prefix."_events.eventtype='5',1,0)) AS roundwins, SUM(IF(scorched3d".$prefix."_events.eventtype='6',1,0)) AS gamewins FROM scorched3d".$prefix."_events LEFT JOIN scorched3d".$prefix."_players ON (scorched3d".$prefix."_events.playerid=scorched3d".$prefix."_players.playerid) WHERE TO_DAYS(NOW()) - TO_DAYS(scorched3d".$prefix."_events.eventtime) $compare $days GROUP BY playerid ORDER BY $orderby $dir LIMIT $playerid, 25";
+$query = "SELECT (scorched3d_events.playerid) as playerid, (scorched3d_players.name) as name, SUM(IF(scorched3d_events.eventtype='1',1,0)) AS kills, SUM(IF(scorched3d_events.eventtype='2',1,0)) AS teamkills, SUM(IF(scorched3d_events.eventtype='3',1,0)) AS selfkills, SUM(IF(scorched3d_events.eventtype='4',1,0)) AS resigns, SUM(IF(scorched3d_events.eventtype='5',1,0)) AS roundwins, SUM(IF(scorched3d_events.eventtype='6',1,0)) AS gamewins FROM scorched3d_events LEFT JOIN scorched3d_players ON (scorched3d_events.playerid=scorched3d_players.playerid) WHERE TO_DAYS(NOW()) - TO_DAYS(scorched3d_events.eventtime) AND prefixid=$prefixid AND seriesid=$seriesid $compare $days GROUP BY playerid ORDER BY $orderby $dir LIMIT $playerid, 25";
 $result = mysql_query($query) or die("Query failed : " . mysql_error());
 if ($num_rows==Null){
-	$query = "SELECT playerid FROM scorched3d".$prefix."_events WHERE TO_DAYS(NOW()) - TO_DAYS(scorched3d".$prefix."_events.eventtime) $compare $days GROUP BY playerid";
+	$query = "SELECT playerid FROM scorched3d_events WHERE TO_DAYS(NOW()) - TO_DAYS(scorched3d_events.eventtime) and prefixid=$prefixid and seriesid=$seriesid $compare $days GROUP BY playerid";
 	$result_info = mysql_query($query);
 	$num_rows = mysql_num_rows($result_info);
 }
@@ -87,14 +89,13 @@ else{
 
 <?
 $compare=urlencode($compare);
-echo "<td bgcolor=#111111><b><a href=stathistory.php?Prefix=".$prefix."&PlayerID=0&OrderBy=name&Dir=".sortdirection('name', $orderby, $dir)."&Compare=".$compare."&Days=".$days."&Players=".$num_rows.">Player Name</a></b></td>";
-echo "<td bgcolor=#111111><b><a href=stathistory.php?Prefix=".$prefix."&PlayerID=0&OrderBy=kills&Dir=".sortdirection('kills', $orderby, $dir)."&Compare=".$compare."&Days=".$days."&Players=".$num_rows.">Kills</a></b></td>";
-echo "<td bgcolor=#111111><b><a href=stathistory.php?Prefix=".$prefix."&PlayerID=0&OrderBy=roundwins&Dir=".sortdirection('roundwins', $orderby, $dir)."&Compare=".$compare."&Days=".$days."&Players=".$num_rows.">Round Wins</a></b></td>";
-echo "<td bgcolor=#111111><b><a href=stathistory.php?Prefix=".$prefix."&PlayerID=0&OrderBy=gamewins&Dir=".sortdirection('gamewins', $orderby, $dir)."&Compare=".$compare."&Days=".$days."&Players=".$num_rows.">Game Wins</a></b></td>";
-echo "<td bgcolor=#111111><b><a href=stathistory.php?Prefix=".$prefix."&PlayerID=0&OrderBy=resigns&Dir=".sortdirection('resigns', $orderby, $dir)."&Compare=".$compare."&Days=".$days."&Players=".$num_rows.">Resigns</a></b></td>";
-echo "<td bgcolor=#111111><b><a href=stathistory.php?Prefix=".$prefix."&PlayerID=0&OrderBy=selfkills&Dir=".sortdirection('selfkills', $orderby, $dir)."&Compare=".$compare."&Days=".$days."&Players=".$num_rows.">Suicides</a></b></td>";
-echo "<td bgcolor=#111111><b><a href=stathistory.php?Prefix=".$prefix."&PlayerID=0&OrderBy=teamkills&Dir=".sortdirection('teamkills', $orderby, $dir)."&Compare=".$compare."&Days=".$days."&Players=".$num_rows.">Team Kills</a></b></td>";
-//echo "<td width=160 bgcolor=#111111><b><a href=stathistory.php?Prefix=".$prefix."&PlayerID=0&OrderBy=lastconnected&Dir=".sortdirection('lastconnected', $orderby, $dir)."&Compare=".$compare."&Days=".$days."&Players=".$num_rows.">Last Connect</b></td>";
+echo "<td bgcolor=#111111><b><a href=stathistory.php?Prefix=".$prefixid."&Series=".$seriesid."&PlayerID=0&OrderBy=name&Dir=".sortdirection('name', $orderby, $dir)."&Compare=".$compare."&Days=".$days."&Players=".$num_rows.">Player Name</a></b></td>";
+echo "<td bgcolor=#111111><b><a href=stathistory.php?Prefix=".$prefixid."&Series=".$seriesid."&PlayerID=0&OrderBy=kills&Dir=".sortdirection('kills', $orderby, $dir)."&Compare=".$compare."&Days=".$days."&Players=".$num_rows.">Kills</a></b></td>";
+echo "<td bgcolor=#111111><b><a href=stathistory.php?Prefix=".$prefixid."&Series=".$seriesid."&PlayerID=0&OrderBy=roundwins&Dir=".sortdirection('roundwins', $orderby, $dir)."&Compare=".$compare."&Days=".$days."&Players=".$num_rows.">Round Wins</a></b></td>";
+echo "<td bgcolor=#111111><b><a href=stathistory.php?Prefix=".$prefixid."&Series=".$seriesid."&PlayerID=0&OrderBy=gamewins&Dir=".sortdirection('gamewins', $orderby, $dir)."&Compare=".$compare."&Days=".$days."&Players=".$num_rows.">Game Wins</a></b></td>";
+echo "<td bgcolor=#111111><b><a href=stathistory.php?Prefix=".$prefixid."&Series=".$seriesid."&PlayerID=0&OrderBy=resigns&Dir=".sortdirection('resigns', $orderby, $dir)."&Compare=".$compare."&Days=".$days."&Players=".$num_rows.">Resigns</a></b></td>";
+echo "<td bgcolor=#111111><b><a href=stathistory.php?Prefix=".$prefixid."&Series=".$seriesid."&PlayerID=0&OrderBy=selfkills&Dir=".sortdirection('selfkills', $orderby, $dir)."&Compare=".$compare."&Days=".$days."&Players=".$num_rows.">Suicides</a></b></td>";
+echo "<td bgcolor=#111111><b><a href=stathistory.php?Prefix=".$prefixid."&Series=".$seriesid."&PlayerID=0&OrderBy=teamkills&Dir=".sortdirection('teamkills', $orderby, $dir)."&Compare=".$compare."&Days=".$days."&Players=".$num_rows.">Team Kills</a></b></td>";
 ?>
 </tr>
 <?
@@ -104,14 +105,13 @@ while ($row = mysql_fetch_object($result))
         ++$rownum;
         echo "<tr>";
         echo "<td>".($rownum + $playerid)."</td>";
-        echo "<td><a href=playerstats.php?Prefix=".$prefix."&PlayerID=$row->playerid>$row->name</a></td>";
+        echo "<td><a href=playerstats.php?Prefix=".$prefixid."&Series=".$seriesid."&PlayerID=$row->playerid>$row->name</a></td>";
         echo "<td>$row->kills</td>";
         echo "<td>$row->roundwins</td>";
         echo "<td>$row->gamewins</td>";
         echo "<td>$row->resigns</td>";
 		echo "<td>$row->selfkills</td>";
 		echo "<td>$row->teamkills</td>";
-        //echo "<td>$row->lastconnected</td>";
         echo "</tr>";
 }
 ?>
@@ -129,7 +129,7 @@ for ($i=1; $i<=$pages; $i++)
 	$startplayer = ($i - 1) * 25 + 1;
 	$playerindex = $startplayer - 1;
 	$endplayer = $startplayer + 24;
-	echo "<td align=center><font size=-2><a href=stathistory.php?Prefix=".$prefix."&PlayerID=$playerindex&OrderBy=$orderby&Dir=$dir&Compare=$compare&Days=$days&Players=$num_rows>[$startplayer-$endplayer]</a></font></td>";
+	echo "<td align=center><font size=-2><a href=stathistory.php?Prefix=".$prefixid."&Series=".$seriesid."&PlayerID=$playerindex&OrderBy=$orderby&Dir=$dir&Compare=$compare&Days=$days&Players=$num_rows>[$startplayer-$endplayer]</a></font></td>";
 	$rows++;
 	if ($rows > 7)
 	{

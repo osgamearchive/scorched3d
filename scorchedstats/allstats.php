@@ -3,8 +3,8 @@ include('statsheader.php');
 include('sortfunction.php');
 include('conversionfunctions.php');
 
-$prefix=$_GET['Prefix'];
-if ($prefix==Null)	$prefix="";
+$prefixid=$_GET['Prefix'];
+$seriesid=$_GET['Series'];
 
 // Looks to see if $valuetocheck exists in the array of currently displayed fields
 function fieldcheck($datastring, $valuetocheck){
@@ -53,7 +53,6 @@ function expandfieldname($fieldname){
 		case 'c': return 'connections'; break;
 		case 'lc': return 'lastconnected'; break;
 		case 'pid': return 'playerid'; break;
-		case 'osd': return 'osdesc'; break;
 		default: return $fieldname;
 	}
 }
@@ -61,8 +60,7 @@ function expandfieldname($fieldname){
 // Takes a field name and returns a queriable string for use in a SELECT statement
 function queryformat($fieldname){
 	switch ($fieldname){
-		case 'playerid':
-		case 'osdesc':
+		case 'playerid': return "scorched3d_stats.playerid"	; break;
 		case 'lastconnected':
 		case 'kills':
 		case 'deaths':
@@ -95,7 +93,6 @@ function queryformat($fieldname){
 // Takes a field name and returns a proper column name for displaying purposes
 function columnformat($fieldname){
 	switch ($fieldname) {
-		case 'name': return "Player Name"; break;
 		case 'playerid': return "Player ID"; break;
 		case 'lastconnected': return "Last Connected"; break;
 		case 'kills': return "Kills"; break;
@@ -122,7 +119,6 @@ function columnformat($fieldname){
 		case 'winratio': return "Win Ratio"; break;
 		case 'timeperconnect': return "Time Per Connect"; break;
 		case 'timeplayed': return "Time Played"; break;
-		case 'osdesc': return "OS"; break;
 		default: return '';
 	}
 }
@@ -156,7 +152,6 @@ function dataformat($fieldname, $value){
 		case 'winratio': return "<td align=center>".prependnumber($value, "%", 1)."</td>";
 		case 'timeperconnect':
 		case 'timeplayed': return "<td align=right>".secondstotext($value)."</td>";
-		case 'osdesc': return "<td>$value</td>"; break;
 		default: return '';
 	}
 }
@@ -171,7 +166,7 @@ elseif ($dir!="desc" and $dir!="asc") $dir="desc";
 
 $orderby=$_GET['OrderBy'];
 if ($orderby==Null) {
-	$orderby="name";
+	$orderby="kills";
 	$dir='asc';
 }
 
@@ -217,7 +212,7 @@ if ($limit==Null or !is_numeric($limit)) $limit=25;
 elseif ($limit<10) $limit=10;
 elseif ($limit>100) $limit=100;
 
-$urlinfo="allstats.php?Prefix=".$prefix."&Fields=".$fields."&Limit=".$limit."&FBy=".$filterurl;
+$urlinfo="allstats.php?Prefix=".$prefixid."&Series=".$seriesid."&Fields=".$fields."&Limit=".$limit."&FBy=".$filterurl;
 ?>
 
 <!-- Begin the visible section of the page -->
@@ -263,7 +258,6 @@ $urlinfo="allstats.php?Prefix=".$prefix."&Fields=".$fields."&Limit=".$limit."&FB
 				<option id='cols' value='c'<?=fieldcheck($fields, 'c')?>Connections</option>
 				<option id='cols' value='lc'<?=fieldcheck($fields, 'lc')?>Last Connection</option>
 				<option id='cols' value='pid'<?=fieldcheck($fields, 'pid')?>Player ID</option>
-				<option id='cols' value='osd'<?=fieldcheck($fields, 'osd')?>OS Description</option>
 			</select>
 		</td>
 		<td align=center valign=middle>
@@ -299,7 +293,8 @@ $urlinfo="allstats.php?Prefix=".$prefix."&Fields=".$fields."&Limit=".$limit."&FB
 			</select>
 			<P><input type="reset">
 			<BR><input type="submit" value="Lookup">
-			<input type="hidden" name="Prefix" value="<? echo $prefix; ?>">
+			<input type="hidden" name="Prefix" value="<? echo $prefixid; ?>">
+			<input type="hidden" name="Series" value="<? echo $seriesid; ?>">
 		</td>
 	</tr>
 	</table>
@@ -320,16 +315,17 @@ if ($num_cols>0) {
 else $columnquery="kills";
 
 if ($filterby=='none' or $filterby==Null){
-	$wherequery = '';
+	$wherequery = 'where prefixid='.$prefixid.' and seriesid='.$seriesid;
 	$filter='';
 }
 else {
-	$wherequery = "WHERE (".$filterby." ".urldecode($filtercompare)." ".$filtervalue.")";
+	$wherequery = "WHERE prefixid=".$prefixid." and seriesid=".$seriesid." and (".$filterby." ".urldecode($filtercompare)." ".$filtervalue.")";
 	$filter=", filter: ".columnformat($filterby)." ".urldecode($filtercompare)." ".$filtervalue;
 }
+
 //Query requested info from the database and setup table for displaying it
-$query = "SELECT name, playerid, avatarid, $columnquery FROM scorched3d".$prefix."_players $wherequery ORDER BY $orderby $dir LIMIT $playerid, $limit";
-$result = mysql_query($query) or die("Query failed : " . mysql_error());
+$query = "SELECT scorched3d_stats.playerid, name, avatarid, $columnquery FROM scorched3d_stats LEFT JOIN scorched3d_players playernames ON scorched3d_stats.playerid=playernames.playerid $wherequery ORDER BY $orderby $dir LIMIT $playerid, $limit";
+$result = mysql_query($query) or die("Query failed : " . mysql_error()."<br>".$query);
 ?>
 <table width=760 border="0" align="center">
 <tr><td align=center><font size="+1"><b><? echo "Players ".($playerid+1)." to ".($playerid+$limit)." (sorted by ".columnformat($orderby).$filter.")";?></b></font></td></tr>
@@ -340,7 +336,7 @@ $result = mysql_query($query) or die("Query failed : " . mysql_error());
 
 <?
 //Display field names in the table with appropriate links for sorting the data
-echo "<td bgcolor=#111111><b><a href=".$urlinfo."&PlayerID=0&OrderBy=name&Dir=".sortdirection('name', $orderby, $dir).">Player Name</a></b></td>";
+echo "<td bgcolor=#111111><b>Player Name</b></td>";
 for ($i=0; $i<$num_cols; $i++){
 	echo "<td bgcolor=#111111 align=center><b><a href=".$urlinfo."&PlayerID=0&OrderBy=".$fieldarray[$i]."&Dir=".sortdirection($fieldarray[$i], $orderby, $dir).">".columnformat($fieldarray[$i])."</a></b></td>";
 }
@@ -358,7 +354,7 @@ while ($row = mysql_fetch_array($result, MYSQL_ASSOC))
 	echo "<table><tr>";
 	echo "<td align=center><img border=0 src='getbinary.php?id=".$row[avatarid]."'></td>";
 	echo "<td>";
-	echo "<a href=\"playerstats.php?Prefix=".$prefix."&PlayerID=".$row[playerid]."\">";
+	echo "<a href=\"playerstats.php?Prefix=".$prefixid."&Series=".$seriesid."&PlayerID=".$row[playerid]."\">";
 	echo $row[name];
 	echo "</a>";
 	echo "</td>";
@@ -381,10 +377,7 @@ while ($row = mysql_fetch_array($result, MYSQL_ASSOC))
 <?
 //Count users and create links to all results
 if ($num_rows==Null){
-	//$query = "SELECT playerid FROM scorched3d".$prefix."_players $wherequery";
-	//$result = mysql_query($query);
-	//$num_rows = mysql_num_rows($result);
-	$query = "select count(playerid) from scorched3d".$prefix."_players $wherequery";
+	$query = "select count(playerid) from scorched3d_stats $wherequery";
 	$result = mysql_query($query) or die("Query failed : " . mysql_error());
 	$row = mysql_fetch_array($result);
 	$num_rows=$row[0];
@@ -397,7 +390,7 @@ for ($i=1; $i<=$pages; $i++)
 	$startplayer = ($i - 1) * $limit + 1;
 	$playerindex = $startplayer - 1;
 	$endplayer = $startplayer + ($limit-1);
-	echo "<td align=center><font size=-2><a href=".$urlinfo."&Prefix=".$prefix."&PlayerID=".$playerindex."&Players=".$num_rows."&OrderBy=".$orderby."&Dir=".$dir.">[$startplayer-$endplayer]</a></font></td>";
+	echo "<td align=center><font size=-2><a href=".$urlinfo."&Prefix=".$prefixid."&Series=".$seriesid."&PlayerID=".$playerindex."&Players=".$num_rows."&OrderBy=".$orderby."&Dir=".$dir.">[$startplayer-$endplayer]</a></font></td>";
 	$rows++;
 	if ($rows > 7)
 	{

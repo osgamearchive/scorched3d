@@ -1,12 +1,12 @@
 <?
-$prefix=$_GET['Prefix'];
-if ($prefix==Null)	$prefix="";
+$prefixid=$_GET['Prefix'];
+$seriesid=$_GET['Series'];
 include('statsheader.php');
 ?>
 
 <?
 // Top Players Query
-$query = " select osdesc, playerid, name, connects, lastconnected FROM scorched3d".$prefix."_players GROUP BY playerid ORDER BY lastconnected desc limit 25";
+$query = " select name, osdesc, scorched3d_stats.playerid, lastconnected, connects FROM scorched3d_stats LEFT JOIN scorched3d_players playernames ON scorched3d_stats.playerid=playernames.playerid where prefixid=$prefixid and seriesid=$seriesid GROUP BY playerid ORDER BY lastconnected desc limit 25";
 $result = mysql_query($query) or die("Query failed : " . mysql_error());
 ?>
 <table width="640" border="0" align="center">
@@ -22,11 +22,10 @@ $result = mysql_query($query) or die("Query failed : " . mysql_error());
 $rownum=0;	
 while ($row = mysql_fetch_object($result))
 {
-	$tmp = preg_replace("/[\(-].*/", "", $row->osdesc);
 	++$rownum;
 	echo "<tr>";
 	echo "<td><center>$row->lastconnected</td></center>";
-	echo "<td><a href=\"playerstats.php?Prefix=".$prefix."&PlayerID=$row->playerid\">$row->name</a></td>";
+	echo "<td><a href=\"playerstats.php?Prefix=".$prefixid."&Series=".$seriesid."&PlayerID=$row->playerid\">$row->name</a></td>";
 	echo "<td><center>$row->connects</td></center>";
 	echo "<td><center>$row->osdesc</td></center>";
 	echo "</tr>";
