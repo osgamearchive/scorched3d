@@ -38,7 +38,7 @@ totalTime_(0), time_(0), size_(size), position_(position), angle_(0)
 	}
 	_texture = 0;
 
-	std::string file1 = getDataFile("data/textures/bordershield/grid22.bmp");
+	std::string file1 = getDataFile("data/textures/waves.bmp");
 	
 	GLBitmap map(file1.c_str(), file1.c_str(), false);
 	_texture = new GLTexture;
@@ -67,21 +67,22 @@ void ExplosionLaserBeamRenderer::draw(Action *action)
 		if (tempheight>100) tempheight=100;
 		Vector height(0,0,tempheight);
 
-		glColor4f(0.8f,0.8f,1.0f, 0.7f);
+		glColor4f(0.0f,0.6f,0.9f, 0.4f);
+		
 		for (int i=0;i<(sides+1);i++){
 			
 			glNormal3fv ((float*)(points[j][i%sides]));
 			if (i%2){
-				glTexCoord2f(0.0f, 0.0f+time_);
+				glTexCoord2f(0.0f, 0.0f+((layers-j)*time_));
 			}else{
-				glTexCoord2f(1.0f, 0.0f+time_);
+				glTexCoord2f(2.0f, 0.0f+((layers-j)*time_));
 			}
 			glVertex3fv((float*)(points[j][i%sides]+height));
 			glNormal3fv ((float*)(points[j][i%sides]));
 			if (i%2){
-				glTexCoord2f(0.0f, (float)(tempheight/10)+time_);
+				glTexCoord2f(0.0f, (float)(tempheight/10)+((layers-j)*time_));
 			}else{
-				glTexCoord2f(1.0f, (float)(tempheight/10)+time_);
+				glTexCoord2f(2.0f, (float)(tempheight/10)+((layers-j)*time_));
 			}
 			glVertex3fv((float*)(points[j][i%sides]));
 		}
@@ -89,16 +90,16 @@ void ExplosionLaserBeamRenderer::draw(Action *action)
 			
 			glNormal3fv ((float*)(points[j][i%sides]));
 			if (i%2){
-				glTexCoord2f(0.0f, 0.0f-time_);
+				glTexCoord2f(0.0f, 0.0f-((layers-j)*time_));
 			}else{
-				glTexCoord2f(1.0f, 0.0f-time_);
+				glTexCoord2f(2.0f, 0.0f-((layers-j)*time_));
 			}
 			glVertex3fv((float*)(points[j][i%sides]));
 			glNormal3fv ((float*)(points[j][i%sides]));
 			if (i%2){
-				glTexCoord2f(0.0f, (float)(tempheight/10)-time_);
+				glTexCoord2f(0.0f, (float)(tempheight/10)-((layers-j)*time_));
 			}else{
-				glTexCoord2f(1.0f, (float)(tempheight/10)-time_);
+				glTexCoord2f(2.0f, (float)(tempheight/10)-((layers-j)*time_));
 			}
 			glVertex3fv((float*)(points[j][i%sides]+height));
 		}

@@ -26,7 +26,7 @@
 #include <sprites/ExplosionRenderer.h>
 
 #define sides 8
-#define layers 4
+#define layers 5
 #define star_interval 10
 
 
