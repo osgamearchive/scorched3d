@@ -1,0 +1,63 @@
+////////////////////////////////////////////////////////////////////////////////
+//    Scorched3D (c) 2000-2003
+//
+//    This file is part of Scorched3D.
+//
+//    Scorched3D is free software; you can redistribute it and/or modify
+//    it under the terms of the GNU General Public License as published by
+//    the Free Software Foundation; either version 2 of the License, or
+//    (at your option) any later version.
+//
+//    Scorched3D is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//    GNU General Public License for more details.
+//
+//    You should have received a copy of the GNU General Public License
+//    along with Scorched3D; if not, write to the Free Software
+//    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+////////////////////////////////////////////////////////////////////////////////
+
+
+// TankParachutes.h: interface for the TankParachutes class.
+//
+//////////////////////////////////////////////////////////////////////
+
+#if !defined(AFX_TANKPARACHUTES_H__83501862_9536_4108_A7E6_2377AD98EB72__INCLUDED_)
+#define AFX_TANKPARACHUTES_H__83501862_9536_4108_A7E6_2377AD98EB72__INCLUDED_
+
+#pragma warning(disable: 4786)
+
+#include <list>
+#include <string>
+#include <coms/NetBuffer.h>
+
+class TankParachutes  
+{
+public:
+	TankParachutes();
+	virtual ~TankParachutes();
+
+	void reset();
+	void newGame();
+	void useParachutes(int no=1);
+	void addParachutes(int no);
+
+	int getNoParachutes() { return parachuteCount_; }
+	float getThreshold() { return parachuteThreshold_; }
+
+	bool parachutesEnabled() { return parachutesEnabled_; }
+	void setParachutesEnabled(bool enabled);
+
+	// Serialize the tank
+    bool writeMessage(NetBuffer &buffer);
+    bool readMessage(NetBufferReader &reader);
+
+protected:
+	int parachuteCount_;
+	bool parachutesEnabled_;
+	float parachuteThreshold_;
+
+};
+
+#endif // !defined(AFX_TANKPARACHUTES_H__83501862_9536_4108_A7E6_2377AD98EB72__INCLUDED_)

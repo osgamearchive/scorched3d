@@ -1,0 +1,84 @@
+////////////////////////////////////////////////////////////////////////////////
+//    Scorched3D (c) 2000-2003
+//
+//    This file is part of Scorched3D.
+//
+//    Scorched3D is free software; you can redistribute it and/or modify
+//    it under the terms of the GNU General Public License as published by
+//    the Free Software Foundation; either version 2 of the License, or
+//    (at your option) any later version.
+//
+//    Scorched3D is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//    GNU General Public License for more details.
+//
+//    You should have received a copy of the GNU General Public License
+//    along with Scorched3D; if not, write to the Free Software
+//    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+////////////////////////////////////////////////////////////////////////////////
+
+
+// GLBitmapModifier.h: interface for the GLBitmapModifier class.
+//
+//////////////////////////////////////////////////////////////////////
+
+#if !defined(AFX_GLBITMAPMODIFIER_H__3C6E8BBF_1AB2_4847_BEB1_934C97C76F05__INCLUDED_)
+#define AFX_GLBITMAPMODIFIER_H__3C6E8BBF_1AB2_4847_BEB1_934C97C76F05__INCLUDED_
+
+#include <GLEXT/GLBitmap.h>
+#include <landscape/HeightMap.h>
+#include <landscape/DeformLandscape.h>
+
+namespace GLBitmapModifier  
+{
+	bool findIntersection(HeightMap &hMap,
+							Vector start,
+							Vector end,
+							float &dist,
+							float stopDist);
+
+	void addLightMapToBitmap(GLBitmap &bitmap, 
+							HeightMap &hMap,
+							Vector &sunPos,
+							ProgressCounter *counter = 0);
+
+	void addHeightToBitmap(HeightMap &hMap,
+							GLBitmap &destBitmap, 
+							GLBitmap &slopeBitmap,
+							GLBitmap &shoreBitmap,
+							GLBitmap **heightBitmaps,
+							int numberSources,
+							int destBitmapScaleSize,
+							ProgressCounter *counter = 0);
+
+	void addScorchToBitmap(HeightMap &hMap,
+							Vector &sunPos,
+							GLBitmap &destBitmap,
+							GLBitmap &scorchBitmap,
+							DeformLandscape::DeformPoints &map,
+							int scorchX, int scorchY,
+							int scorchW);
+
+	void addWavesToBitmap(HeightMap &hMap,
+							GLBitmap &destBitmap,
+							float waterHeight,
+							float offSet);
+
+	void addWaterToBitmap(HeightMap &hMap,
+							GLBitmap &destBitmap,
+							GLBitmap &waterBitmap,
+							float waterHeight);
+
+	void removeWaterFromBitmap(HeightMap &hMap,
+							GLBitmap &srcBitmap,
+							GLBitmap &destBitmap,
+							float waterHeight);
+
+	void addBorderToBitmap(GLBitmap &destBitmap,
+							int borderWidth,
+							float colors[3]);
+
+};
+
+#endif // !defined(AFX_GLBITMAPMODIFIER_H__3C6E8BBF_1AB2_4847_BEB1_934C97C76F05__INCLUDED_)

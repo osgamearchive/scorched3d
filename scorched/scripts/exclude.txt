@@ -1,0 +1,12 @@
+*.obj
+*.pch
+*.pdb
+*.ilk
+*.idb
+*.opt
+*.ncb
+*.plg
+*.log
+*.htm
+*.msi
+*pure*.*

@@ -1,0 +1,255 @@
+<tanks>
+	<tank>
+		<name>Random</name>
+		<model type="ase">
+			<mesh>question.ase</mesh>
+			<skin>question.bmp</skin>
+		</model>
+	</tank>
+	<tank>
+		<name>TowedArtilleryB</name>
+		<model type="ase">
+			<mesh>towedartillery.ase</mesh>
+			<skin>towedartilleryb.bmp</skin>
+		</model>
+	</tank>
+	<tank>
+		<name>Hawk</name>
+		<model type="ase">
+			<mesh>hawk.ase</mesh>
+			<skin>hawk.bmp</skin>
+		</model>
+	</tank>
+	<tank>
+		<name>TowedArtilleryA</name>
+		<model type="ase">
+			<mesh>towedartillery.ase</mesh>
+			<skin>towedartillery.bmp</skin>
+		</model>
+	</tank>
+	<tank>
+		<name>AH-64 Apache</name>
+		<model type="ase">
+			<mesh>apache.ase</mesh>
+			<skin>apache.bmp</skin>
+		</model>
+	</tank>
+	<tank>
+		<name>AH-64D Apache Longbow</name>
+		<model type="ase">
+			<mesh>apache-long.ase</mesh>
+			<skin>apache-long.bmp</skin>
+		</model>
+	</tank>
+	<tank>
+		<name>B.M. 13 (Stalin's Organ)</name>
+		<model type="ase">
+			<mesh>bm13.ase</mesh>
+			<skin>bm13.bmp</skin>
+		</model>
+	</tank>
+	<tank>
+		<name>Bradley (Jungle)</name>
+		<model type="ase">
+			<mesh>bradley.ase</mesh>
+			<skin>bradley.bmp</skin>
+		</model>
+	</tank>
+	<tank>
+		<name>Bradley (Desert)</name>
+		<model type="ase">
+			<mesh>bradley.ase</mesh>
+			<skin>bradleyb.bmp</skin>
+		</model>
+	</tank>
+	<tank>
+		<name>M-24 Hind</name>
+		<model type="ase">
+			<mesh>hind.ase</mesh>
+			<skin>hind.bmp</skin>
+		</model>
+	</tank>	
+	<tank>
+		<name>Howitzer</name>
+		<model type="ase">
+			<mesh>howitzer.ase</mesh>
+			<skin>howitzer.bmp</skin>
+		</model>
+	</tank>
+	<tank>
+		<name>Hummer MLRS</name>
+		<model type="ase">
+			<mesh>hummermlrs.ase</mesh>
+			<skin>hummermlrs.bmp</skin>
+		</model>
+	</tank>
+	<tank>
+		<name>Hummer SAM</name>
+		<model type="ase">
+			<mesh>hummersam.ase</mesh>
+			<skin>hummersam.bmp</skin>
+		</model>
+	</tank>
+	<tank>
+		<name>Hummer TOW</name>
+		<model type="ase">
+			<mesh>hummertow.ase</mesh>
+			<skin>hummertow.bmp</skin>
+		</model>
+	</tank>
+	<tank>
+		<name>M 110</name>
+		<model type="ase">
+			<mesh>m110.ase</mesh>
+			<skin>m110.bmp</skin>
+		</model>
+	</tank>
+	<tank>
+		<name>M 198</name>
+		<model type="ase">
+			<mesh>m198.ase</mesh>
+			<skin>m198.bmp</skin>
+		</model>
+	</tank>
+	<tank>
+		<name>M1A1</name>
+		<model type="ase">
+			<mesh>m1a1.ase</mesh>
+			<skin>m1a1.bmp</skin>
+		</model>
+	</tank>
+	<tank>
+		<name>M7 Priest</name>
+		<model type="ase">
+			<mesh>m7priest.ase</mesh>
+			<skin>m7priest.bmp</skin>
+		</model>
+	</tank>
+	<tank>
+		<name>Paladin</name>
+		<model type="ase">
+			<mesh>paladin.ase</mesh>
+			<skin>paladin.bmp</skin>
+		</model>
+	</tank>
+	<tank>
+		<name>Patriot</name>
+		<model type="ase">
+			<mesh>patriot.ase</mesh>
+			<skin>patriot.bmp</skin>
+		</model>
+	</tank>
+	<tank>
+		<name>S.A. 6</name>
+		<model type="ase">
+			<mesh>sa6.ase</mesh>
+			<skin>sa6.bmp</skin>
+		</model>
+	</tank>
+	<tank>
+		<name>Scud</name>
+		<model type="ase">
+			<mesh>scud.ase</mesh>
+			<skin>scud.bmp</skin>
+		</model>
+	</tank>
+	<tank>
+		<name>T-55 (Europe)</name>
+		<model type="ase">
+			<mesh>t55.ase</mesh>
+			<skin>t55.bmp</skin>
+		</model>
+	</tank>
+	<tank>
+		<name>T-55 (Desert)</name>
+		<model type="ase">
+			<mesh>t55.ase</mesh>
+			<skin>t55b.bmp</skin>
+		</model>
+	</tank>
+	<tank>
+		<name>T-74 (Europe)</name>
+		<model type="ase">
+			<mesh>t74.ase</mesh>
+			<skin>t74.bmp</skin>
+		</model>
+	</tank>
+	<tank>
+		<name>T-74 (Desert)</name>
+		<model type="ase">
+			<mesh>t74.ase</mesh>
+			<skin>t74b.bmp</skin>
+		</model>
+	</tank>
+	<tank>
+		<name>Tank 2</name>
+		<model type="ase">
+			<mesh>tank2.ase</mesh>
+			<skin>tank2.bmp</skin>
+		</model>
+	</tank>
+	<tank>
+		<name>Cammo Turret</name>
+		<model type="ase">
+			<mesh>tank3.ase</mesh>
+			<skin>tank3.bmp</skin>
+		</model>
+	</tank>
+	<tank>
+		<name>Metal Turret</name>
+		<model type="ase">
+			<mesh>tank4.ase</mesh>
+			<skin>tank4.bmp</skin>
+		</model>
+	</tank>
+	<tank>
+		<name>Tank 5 (Europe)</name>
+		<model type="ase">
+			<mesh>tank5.ase</mesh>
+			<skin>tank5.bmp</skin>
+		</model>
+	</tank>
+	<tank>
+		<name>Tank 5 (Desert)</name>
+		<model type="ase">
+			<mesh>tank5.ase</mesh>
+			<skin>tank5a.bmp</skin>
+		</model>
+	</tank>
+	<tank>
+		<name>M-80 (Jungle)</name>
+		<model type="ase">
+			<mesh>tank6.ase</mesh>
+			<skin>tank6.bmp</skin>
+		</model>
+	</tank>
+	<tank>
+		<name>M-80 (Europe)</name>
+		<model type="ase">
+			<mesh>tank6.ase</mesh>
+			<skin>tank6a.bmp</skin>
+		</model>
+	</tank>
+	<tank>
+		<name>M-80 (Desert)</name>
+		<model type="ase">
+			<mesh>tank6.ase</mesh>
+			<skin>tank6b.bmp</skin>
+		</model>
+	</tank>
+	<tank>
+		<name>T.O.S. 1</name>
+		<model type="ase">
+			<mesh>tos1.ase</mesh>
+			<skin>tos1.bmp</skin>
+		</model>
+	</tank>
+	<tank>
+		<name>Wespe</name>
+		<model type="ase">
+			<mesh>wespe.ase</mesh>
+			<skin>wespe.bmp</skin>
+		</model>
+	</tank>
+
+</tanks>

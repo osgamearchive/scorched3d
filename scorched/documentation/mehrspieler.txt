@@ -1,0 +1,44 @@
+Scorched3D : Copyright 2002 Gavin Camp
+Updates und News gibt es auf
+http://www.scorched3d.co.uk
+----------------------------------------------------------
+
+Scorched ist mehrspielerfähig, entweder übers Internet oder
+in einem lokalen Netzwerk (LAN).
+
+Um eine Verbindung zu einem Server herzustellen,
+führen sie folgende Schritte aus:
+1) Finden sie die IP-Adresse oder den Namen des Servers heraus.
+2) Starten sie Scorched3D.
+3) Markieren "Join Server" und tragen sie den Namen des Servers
+   oder seine IP-Adresse rechts daneben ein.
+5) Jetzt noch ein Klick auf OK und dann können sie wie gewohnt
+   fortfahren.
+
+----------------------------------------------------------
+
+Scorched unterstützt auch die Serversuche mit the ASE (all seeing
+eye). Diese Software können sie sich von http://www.udpsoft.com/eye/
+runterladen.
+
+Sie macht das Verbinden zu Scorched-Servern wesentlich einfacher.
+Einmal installiert, kann man mit ihr alle Server im Internet oder
+LAN sehen und sich zu jedem sofort verbinden.
+
+Befor sie ASE starten, müssen sie Scorched3D starten, ihre
+Einstellungen tätigen und diese mit "Save as Defaults" aus dem
+"File"-Menü speichern.
+
+Falls ASE Scorched3D nicht anzeigt, müssen sie bei den Filtern
+die folgenden Zeilen ergänzen:
+
+Scorched3D
+ServerType: NEW
+RegKey: HKEY_CURRENT_USER\Software\Scorched\Location
+ExeName: Scorched.exe
+JoinTemplate: {EXEPATH} -connect {address} -nooptions [-name "{NAME}"]
+Port: 27393
+Mutex: SV
+Flags: NEW
+1 if servertype != "NEW" remove
+2 if game ~!= "Scorched3D" remove

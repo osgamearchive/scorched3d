@@ -1,0 +1,133 @@
+////////////////////////////////////////////////////////////////////////////////
+//    Scorched3D (c) 2000-2003
+//
+//    This file is part of Scorched3D.
+//
+//    Scorched3D is free software; you can redistribute it and/or modify
+//    it under the terms of the GNU General Public License as published by
+//    the Free Software Foundation; either version 2 of the License, or
+//    (at your option) any later version.
+//
+//    Scorched3D is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//    GNU General Public License for more details.
+//
+//    You should have received a copy of the GNU General Public License
+//    along with Scorched3D; if not, write to the Free Software
+//    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+////////////////////////////////////////////////////////////////////////////////
+
+
+// Mouse.cpp: implementation of the Mouse class.
+//
+//////////////////////////////////////////////////////////////////////
+
+#include <common/Mouse.h>
+#include <engine/GameState.h>
+
+//////////////////////////////////////////////////////////////////////
+// Construction/Destruction
+//////////////////////////////////////////////////////////////////////
+
+
+Mouse *Mouse::instance_ = 0;
+
+Mouse *Mouse::instance()
+{
+	if (!instance_) {
+		instance_ = new Mouse;
+	}
+
+	return instance_;
+}
+
+Mouse::Mouse() : mouse_sensitivity_(120)
+{
+
+}
+
+Mouse::~Mouse()
+{
+
+}
+
+
+
+void Mouse::mouseDown(SDL_Event &event)
+{
+	switch (event.button.button) {
+	case SDL_BUTTON_LEFT:
+		GameState::instance()->
+		    mouseDown(GameState::MouseButtonLeft,
+			      (int) event.button.x,
+			      (int) event.button.y);
+		break;
+	case SDL_BUTTON_MIDDLE:
+		GameState::instance()->
+		    mouseDown(GameState::MouseButtonMiddle,
+			      (int) event.button.x,
+			      (int) event.button.y);
+		break;
+	case SDL_BUTTON_RIGHT:
+		GameState::instance()->
+		    mouseDown(GameState::MouseButtonRight,
+			      (int) event.button.x,
+			      (int) event.button.y);
+		break;
+	case 4:
+		GameState::instance()->mouseWheel(-mouse_sensitivity_);
+		break;
+	case 5:
+		GameState::instance()->mouseWheel(mouse_sensitivity_);
+		break;
+	default:
+		break;
+	}
+}
+
+void Mouse::mouseUp(SDL_Event &event)
+{
+	switch (event.button.button) {
+	case SDL_BUTTON_LEFT:
+		GameState::instance()->mouseUp(GameState::MouseButtonLeft,
+					       (int) event.button.x,
+					       (int) event.button.y);
+		break;
+	case SDL_BUTTON_MIDDLE:
+		GameState::instance()->
+		    mouseUp(GameState::MouseButtonMiddle,
+			    (int) event.button.x, (int) event.button.y);
+		break;
+	case SDL_BUTTON_RIGHT:
+		GameState::instance()->mouseUp(GameState::MouseButtonRight,
+					       (int) event.button.x,
+					       (int) event.button.y);
+		break;
+	default:
+		break;
+	}
+}
+
+void Mouse::mouseMove(SDL_Event &event)
+{
+	GameState::instance()->mouseMove(
+        	(int) event.motion.x,
+                (int) event.motion.y);
+
+}
+
+void Mouse::processMouseEvent(SDL_Event & event)
+{
+	switch (event.type) {
+	case SDL_MOUSEBUTTONDOWN:
+		mouseDown(event);
+		break;
+	case SDL_MOUSEBUTTONUP:
+		mouseUp(event);
+		break;
+	case SDL_MOUSEMOTION:
+		mouseMove(event);
+		break;
+	}
+}

@@ -1,0 +1,26 @@
+//------------------------------------------------------------------------------
+// File : Borland.txt
+//------------------------------------------------------------------------------
+// Scorched3D : Copyright 2002 Gavin Camp
+// For updates and news visit www.scorched3d.co.uk
+//------------------------------------------------------------------------------
+//
+// This directory contains the files need to compile Scorched 3d
+// using the free borland compiler.
+//
+// The free borland compiler can be downloaded from:-
+// http://www.borland.com/products/downloads/download_cbuilder.html
+// Borland compatible DirectX libraries can be obtained from
+// http://bcb-tools.com/Latest_News.htm#Dx8
+//  
+// You must run the generate makefile perl script to generate an up to date
+// makefile, then edit the Makefile it creates in the the borland directory 
+// to point to the location of your installed borland compiler.
+// You will need to extract the new borland compatible DirectX libraries
+// into the borland compiler's lib directory.
+//
+// The author(s) make no 
+// representations about the suitability of this software for any purpose. 
+// It is provided "as is" without express or implied warranty.
+//
+//------------------------------------------------------------------------------

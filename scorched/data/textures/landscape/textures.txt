@@ -1,0 +1,12 @@
+
+available skins/mods :
+
+hell : skin only
+snow : skin only
+sand : skin only
+
+thanks go to :
+- to "booda" for providing the origanl version of hell.
+- brian judy for hist free texture art on which most textures
+  of snow & sand are based
+ 

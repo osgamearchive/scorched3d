@@ -1,0 +1,180 @@
+////////////////////////////////////////////////////////////////////////////////
+//    Scorched3D (c) 2000-2003
+//
+//    This file is part of Scorched3D.
+//
+//    Scorched3D is free software; you can redistribute it and/or modify
+//    it under the terms of the GNU General Public License as published by
+//    the Free Software Foundation; either version 2 of the License, or
+//    (at your option) any later version.
+//
+//    Scorched3D is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//    GNU General Public License for more details.
+//
+//    You should have received a copy of the GNU General Public License
+//    along with Scorched3D; if not, write to the Free Software
+//    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+////////////////////////////////////////////////////////////////////////////////
+
+
+#include <landscape/InfoMap.h>
+#include <landscape/Landscape.h>
+#include <landscape/GlobalHMap.h>
+#include <GLEXT/GLConsoleRuleMethodIAdapter.h>
+
+InfoMap *InfoMap::instance_ = 0;
+
+InfoMap *InfoMap::instance()
+{
+	if (!instance_)
+	{
+		instance_ = new InfoMap;
+	}
+	return instance_;
+}
+
+InfoMap::InfoMap()
+{
+	new GLConsoleRuleMethodIAdapter<Landscape>(
+		Landscape::instance(), &Landscape::restoreLandscapeTexture, "LandscapeInfoOff");
+	new GLConsoleRuleMethodIAdapter<InfoMap>(
+		this, &InfoMap::showHeightBands, "LandscapeInfoHeightBands");
+	new GLConsoleRuleMethodIAdapter<InfoMap>(
+		this, &InfoMap::showGrid, "LandscapeInfoGrid");
+
+}
+
+InfoMap::~InfoMap()
+{
+}
+
+void InfoMap::showHeightBands()
+{
+	static GLBitmap newMap(
+		Landscape::instance()->getMainMap().getWidth(),
+		Landscape::instance()->getMainMap().getHeight());
+	static float *heights = new float[
+		Landscape::instance()->getMainMap().getWidth() *
+		Landscape::instance()->getMainMap().getHeight()];
+
+	const float sqSize = 256.0f / float(newMap.getWidth());
+	const float heightSep = 3.0f;
+	
+	int y;
+	for (y=0; y<newMap.getHeight(); y++)
+	{
+         	float posY = float(y) * sqSize;
+		for (int x=0; x<newMap.getWidth(); x++)
+		{
+			float posX = float(x) * sqSize;
+
+			heights[x + y * newMap.getWidth()] = 
+				GlobalHMap::instance()->getHMap().getInterpHeight(posX, posY);
+		}
+	}
+
+	GLubyte *dest = newMap.getBits();
+	GLubyte *src = Landscape::instance()->getMainMap().getBits();
+	for (y=0; y<newMap.getHeight(); y++)
+	{
+		for (int x=0; x<newMap.getWidth(); x++)
+		{
+			GLubyte r = src[0];
+			GLubyte g = src[1];
+			GLubyte b = src[2];
+
+			if (x!=0 && y!=0 && x<newMap.getWidth()-1 && y<newMap.getHeight()-1)
+			{
+			float height = heights[x + y * newMap.getWidth()];
+			float height2 = heights[x + 1 + y * newMap.getWidth()];
+			float height3 = heights[x - 1 + y * newMap.getWidth()];
+			float height4 = heights[x + (y +1) * newMap.getWidth()];
+			float height5 = heights[x + (y -1) * newMap.getWidth()];
+			float baseHeight = float(int(height / heightSep)) * heightSep;
+			float baseHeight2 = float(int(height2 / heightSep)) * heightSep;
+			float baseHeight3 = float(int(height3 / heightSep)) * heightSep;
+			float baseHeight4 = float(int(height4 / heightSep)) * heightSep;
+			float baseHeight5 = float(int(height5 / heightSep)) * heightSep;
+
+			if (baseHeight < baseHeight2 || baseHeight < baseHeight3 ||
+				baseHeight < baseHeight4 || baseHeight < baseHeight5)
+			{
+				r = g = b = 0;
+			}
+			else if (baseHeight > baseHeight2 || baseHeight > baseHeight3 ||
+                        	baseHeight > baseHeight4 || baseHeight > baseHeight5)
+			{
+       				 r = g = b = 255;
+			}
+			}
+
+			dest[0] = r;
+			dest[1] = g;
+			dest[2] = b;
+
+			dest+=3;
+			src+=3;
+		}
+	}
+
+	Landscape::instance()->getMainTexture().draw(true);
+	glPixelStorei(GL_UNPACK_ROW_LENGTH, 
+		Landscape::instance()->getMainMap().getWidth());
+	glTexSubImage2D(GL_TEXTURE_2D, 0, 
+					0, 0, 
+					newMap.getWidth(), newMap.getHeight(), 
+					GL_RGB, GL_UNSIGNED_BYTE, 
+					newMap.getBits());
+	glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
+
+	Landscape::instance()->setTextureType(Landscape::eOther);
+}
+
+void InfoMap::showGrid()
+{
+	static GLBitmap newMap(
+		Landscape::instance()->getMainMap().getWidth(),
+		Landscape::instance()->getMainMap().getHeight());
+
+	GLubyte *dest = newMap.getBits();
+	GLubyte *src = Landscape::instance()->getMainMap().getBits();
+	for (int y=0; y<newMap.getHeight(); y++)
+	{
+		for (int x=0; x<newMap.getWidth(); x++)
+		{
+                 	GLubyte r = src[0];
+			GLubyte g = src[1];
+			GLubyte b = src[2];
+
+			if (x % 15 == 0 || y % 15 == 0)
+			{
+				r = g = b = 255;
+			}
+			else if ((1+x) % 15 == 0 || (1+y) % 15 == 0)
+			{
+                        	r = g = b = 0;
+			}
+	
+			dest[0] = r;
+			dest[1] = g;
+			dest[2] = b;
+
+			dest+=3;
+			src+=3;
+		}
+	}
+
+	Landscape::instance()->getMainTexture().draw(true);
+	glPixelStorei(GL_UNPACK_ROW_LENGTH, 
+		Landscape::instance()->getMainMap().getWidth());
+	glTexSubImage2D(GL_TEXTURE_2D, 0, 
+					0, 0, 
+					newMap.getWidth(), newMap.getHeight(), 
+					GL_RGB, GL_UNSIGNED_BYTE, 
+					newMap.getBits());
+	glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
+
+	Landscape::instance()->setTextureType(Landscape::eOther);
+}

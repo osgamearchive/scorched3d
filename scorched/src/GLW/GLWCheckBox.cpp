@@ -1,0 +1,75 @@
+////////////////////////////////////////////////////////////////////////////////
+//    Scorched3D (c) 2000-2003
+//
+//    This file is part of Scorched3D.
+//
+//    Scorched3D is free software; you can redistribute it and/or modify
+//    it under the terms of the GNU General Public License as published by
+//    the Free Software Foundation; either version 2 of the License, or
+//    (at your option) any later version.
+//
+//    Scorched3D is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//    GNU General Public License for more details.
+//
+//    You should have received a copy of the GNU General Public License
+//    along with Scorched3D; if not, write to the Free Software
+//    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+////////////////////////////////////////////////////////////////////////////////
+
+
+#include <GLW/GLWCheckBox.h>
+
+GLWCheckBoxI::~GLWCheckBoxI()
+{
+
+}
+
+GLWCheckBox::GLWCheckBox(float x, float y, bool startState) :
+	GLWVisibleWidget(x, y, 20.0f, 20.0f), state_(startState), handler_(0)
+{
+}
+
+GLWCheckBox::~GLWCheckBox()
+{
+}
+
+void GLWCheckBox::setHandler(GLWCheckBoxI *handler)
+{
+	handler_ = handler;
+}
+
+void GLWCheckBox::draw()
+{
+	glLineWidth(1.0f);
+	glBegin(GL_LINES);
+		drawBox(x_, y_, w_, h_, false);
+	glEnd();
+
+	if (state_)
+	{
+		// Draw check mark
+		glLineWidth(3.0f);
+		glColor3f(0.2f, 0.2f, 0.2f);
+		glBegin(GL_LINES);
+			glVertex2f(x_ + 4.0f, y_ + 4.0f);
+			glVertex2f(x_ + w_ - 4.0f, y_ + h_ - 4.0f);
+
+			glVertex2f(x_ + 4.0f, y_ + h_ - 4.0f);
+			glVertex2f(x_ + w_ - 4.0f, y_ + 4.0f);
+		glEnd();
+		glLineWidth(1.0f);
+	}
+}
+
+void GLWCheckBox::mouseDown(float x, float y, bool &skipRest)
+{
+	if (x > x_ && x<x_+w_ &&
+		y > y_ && y<y_+h_)
+	{
+		state_ = !state_;
+		skipRest = true;
+		if (handler_) handler_->stateChange(state_, getId());
+	}
+}

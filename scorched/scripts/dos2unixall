@@ -1,0 +1,7 @@
+#!/bin/sh
+
+for a in `find . -name \*.cpp` `find . -name \*.h` `find . -name \*.c`; do
+	echo $a;
+	dos2unix $a $a.new
+	mv $a.new $a
+done

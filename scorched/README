@@ -1,0 +1,54 @@
+Scorched Controls
+=================
+
+CAMERAS
+-------
+1 - TopCam
+2 - AboveTankCam
+3 - TankCam
+4 - ShotCam
+5 - LeftCam
+6 - RightCam
+7 - LeftFarCam
+8 - RightFarCam
+0 - SpectatorCam
+
+<LEFT CLICK>    - Lookat point on landscape.
+<LEFT CLICK>    - Lookat point on plan view.
+<RIGHT DRAG>    - Rotate current viewpoint.
+<MIDDLE DRAG>   - Zoom viewpoint.
+<MOUSE WHEEL>   - Zoom viewpoint.
+
+TANK
+----
+<LR ARROW KEYS> - Rotate tank left right.
+<UD ARROW KEYS> - Elevate tank gun.
+<SPACE BAR> or F- Fire current weapon.
+<TAB>           - Change current weapon.
+<+/->           - Change current weapon power.
+<LSHIFT>        - Speed up rotation.
+<LControl>      - Slow down rotation.
+<ALT>           - Allow camera through ground.
+
+<P>             - Turn on/off parachutes.
+<B>             - Use a Battery.
+
+MISC
+----
+<Esc>     - Exit game
+<T>       - NET/LAN Talk.
+<K>       - Say "No Kibitzing!!".
+<H>       - Help screen.
+<U>       - Undo movement changes back to last used.
+<S>       - Toggle Score view.
+<F5>      - Take screenshot.
+
+CONSOLE
+-------
+<`>             - Bring down console
+Type "help" in console for commands.
+
+-----------------------------------------------
+
+More help files are available in the 
+documentation directory.

@@ -1,0 +1,133 @@
+<resources>
+	<default>
+		<bitmap-cloud type="file">
+			data/textures/landscape/default/cloud1.bmp
+		</bitmap-cloud>
+		<bitmap-cloudreflection type="file">
+			data/textures/landscape/default/cubemap.bmp
+		</bitmap-cloudreflection>
+		<bitmap-magmasmall type="file">
+			data/textures/landscape/default/magma-small.bmp
+		</bitmap-magmasmall>
+		<bitmap-rockside type="file">
+			data/textures/landscape/default/rockside.bmp
+		</bitmap-rockside>
+		<bitmap-scorch type="file">
+			data/textures/landscape/default/scorch.bmp
+		</bitmap-scorch>
+		<bitmap-shore type="file">
+			data/textures/landscape/default/shore.bmp
+		</bitmap-shore>
+		<bitmap-texture0 type="file">
+			data/textures/landscape/default/texture0.bmp
+		</bitmap-texture0>
+		<bitmap-texture1 type="file">
+			data/textures/landscape/default/texture1.bmp
+		</bitmap-texture1>
+		<bitmap-texture2 type="file">
+			data/textures/landscape/default/texture2.bmp
+		</bitmap-texture2>
+		<bitmap-texture3 type="file">
+			data/textures/landscape/default/texture3.bmp
+		</bitmap-texture3>
+		<bitmap-texture4 type="file">
+			data/textures/landscape/default/texture4.bmp
+		</bitmap-texture4>
+	</default>
+	<hell inherits="default">
+		<bitmap-cloud type="file">
+			data/textures/landscape/hell/cloud1.bmp
+		</bitmap-cloud>
+		<bitmap-cloudreflection type="file">
+			data/textures/landscape/hell/cubemap.bmp
+		</bitmap-cloudreflection>
+		<bitmap-rockside type="file">
+			data/textures/landscape/hell/rockside.bmp
+		</bitmap-rockside>
+		<bitmap-scorch type="file">
+			data/textures/landscape/hell/scorch.bmp
+		</bitmap-scorch>
+		<bitmap-shore type="file">
+			data/textures/landscape/hell/shore.bmp
+		</bitmap-shore>
+		<bitmap-texture0 type="file">
+			data/textures/landscape/hell/texture0.bmp
+		</bitmap-texture0>
+		<bitmap-texture1 type="file">
+			data/textures/landscape/hell/texture1.bmp
+		</bitmap-texture1>
+		<bitmap-texture2 type="file">
+			data/textures/landscape/hell/texture2.bmp
+		</bitmap-texture2>
+		<bitmap-texture3 type="file">
+			data/textures/landscape/hell/texture3.bmp
+		</bitmap-texture3>
+		<bitmap-texture4 type="file">
+			data/textures/landscape/hell/texture4.bmp
+		</bitmap-texture4>
+	</hell>
+	<sand inherits="default">
+		<bitmap-cloud type="file">
+			data/textures/landscape/sand/cloud1.bmp
+		</bitmap-cloud>
+		<bitmap-cloudreflection type="file">
+			data/textures/landscape/sand/cubemap.bmp
+		</bitmap-cloudreflection>
+		<bitmap-rockside type="file">
+			data/textures/landscape/sand/rockside.bmp
+		</bitmap-rockside>
+		<bitmap-scorch type="file">
+			data/textures/landscape/sand/scorch.bmp
+		</bitmap-scorch>
+		<bitmap-shore type="file">
+			data/textures/landscape/sand/shore.bmp
+		</bitmap-shore>
+		<bitmap-texture0 type="file">
+			data/textures/landscape/sand/texture0.bmp
+		</bitmap-texture0>
+		<bitmap-texture1 type="file">
+			data/textures/landscape/sand/texture1.bmp
+		</bitmap-texture1>
+		<bitmap-texture2 type="file">
+			data/textures/landscape/sand/texture2.bmp
+		</bitmap-texture2>
+		<bitmap-texture3 type="file">
+			data/textures/landscape/sand/texture3.bmp
+		</bitmap-texture3>
+		<bitmap-texture4 type="file">
+			data/textures/landscape/sand/texture4.bmp
+		</bitmap-texture4>
+	</sand>
+	<snow inherits="default">
+		<bitmap-cloud type="file">
+			data/textures/landscape/snow/cloud1.bmp
+		</bitmap-cloud>
+		<bitmap-cloudreflection type="file">
+			data/textures/landscape/snow/cubemap.bmp
+		</bitmap-cloudreflection>
+		<bitmap-rockside type="file">
+			data/textures/landscape/snow/rockside.bmp
+		</bitmap-rockside>
+		<bitmap-scorch type="file">
+			data/textures/landscape/snow/scorch.bmp
+		</bitmap-scorch>
+		<bitmap-shore type="file">
+			data/textures/landscape/snow/shore.bmp
+		</bitmap-shore>
+		<bitmap-texture0 type="file">
+			data/textures/landscape/snow/texture0.bmp
+		</bitmap-texture0>
+		<bitmap-texture1 type="file">
+			data/textures/landscape/snow/texture1.bmp
+		</bitmap-texture1>
+		<bitmap-texture2 type="file">
+			data/textures/landscape/snow/texture2.bmp
+		</bitmap-texture2>
+		<bitmap-texture3 type="file">
+			data/textures/landscape/snow/texture3.bmp
+		</bitmap-texture3>
+		<bitmap-texture4 type="file">
+			data/textures/landscape/snow/texture4.bmp
+		</bitmap-texture4>
+	</snow>
+</resources>

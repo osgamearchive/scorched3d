@@ -1,0 +1,220 @@
+////////////////////////////////////////////////////////////////////////////////
+//    Scorched3D (c) 2000-2003
+//
+//    This file is part of Scorched3D.
+//
+//    Scorched3D is free software; you can redistribute it and/or modify
+//    it under the terms of the GNU General Public License as published by
+//    the Free Software Foundation; either version 2 of the License, or
+//    (at your option) any later version.
+//
+//    Scorched3D is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//    GNU General Public License for more details.
+//
+//    You should have received a copy of the GNU General Public License
+//    along with Scorched3D; if not, write to the Free Software
+//    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+////////////////////////////////////////////////////////////////////////////////
+
+
+// TankWeapon.cpp: implementation of the TankWeapon class.
+//
+//////////////////////////////////////////////////////////////////////
+
+#include <common/Defines.h>
+#include <weapons/AccessoryStore.h>
+#include <tank/TankWeapon.h>
+#include <stdio.h>
+#include <set>
+
+//////////////////////////////////////////////////////////////////////
+// Construction/Destruction
+//////////////////////////////////////////////////////////////////////
+
+TankWeapon::TankWeapon() : currentWeapon_(0)
+{
+	reset();
+}
+
+TankWeapon::~TankWeapon()
+{
+
+}
+
+void TankWeapon::reset()
+{
+	weapons_.clear();
+	currentWeapon_ = 0;
+	Weapon *bm = (Weapon *) AccessoryStore::instance()->findByName("Baby Missile");
+	DIALOG_ASSERT(bm);
+
+	addWeapon(bm, -1);
+}
+
+void TankWeapon::addWeapon(Weapon *wp, int count)
+{
+	if (!currentWeapon_) setCurrentWeapon(wp);
+
+	std::map<Weapon *, int>::iterator itor = weapons_.find(wp);
+	if (itor == weapons_.end() || count < 0)
+	{
+		weapons_[wp] = count;
+	}
+	else
+	{
+		weapons_[wp] += count;
+	}
+}
+
+void TankWeapon::rmWeapon(Weapon *wp, int count)
+{
+	std::map<Weapon *, int>::iterator itor = weapons_.find(wp);
+	if (itor != weapons_.end())
+	{
+		if (weapons_[wp] > 0)
+		{
+			weapons_[wp] -= count;
+			if (weapons_[wp] <= 0)
+			{
+				weapons_.erase(wp);
+
+				if (wp == currentWeapon_)
+				{
+					DIALOG_ASSERT(!weapons_.empty());
+					setCurrentWeapon(weapons_.begin()->first);
+				}
+			}
+		}
+	}
+}
+
+bool TankWeapon::setWeapon(Weapon *wp)
+{
+	std::map<Weapon *, int>::iterator itor;
+	for (itor = weapons_.begin();
+		itor != weapons_.end();
+		itor++)
+	{
+		if ((*itor).first == wp)
+		{
+			setCurrentWeapon(wp);
+			return true;
+		}
+	}
+
+	return false;
+}
+
+Weapon *TankWeapon::getCurrent()
+{
+	DIALOG_ASSERT(currentWeapon_);
+	return currentWeapon_;
+}
+
+void TankWeapon::setCurrentWeapon(Weapon *wp)
+{
+	DIALOG_ASSERT(wp);
+	currentWeapon_ = wp;
+}
+
+void TankWeapon::nextWeapon()
+{
+	std::map<Weapon *, int>::iterator itor = weapons_.find(currentWeapon_);
+
+	if (++itor == weapons_.end())
+	{
+		itor = weapons_.begin();
+	}
+
+	setCurrentWeapon(itor->first);
+}
+
+void TankWeapon::prevWeapon()
+{
+	std::map<Weapon *, int>::iterator itor = weapons_.find(currentWeapon_);
+
+	if (itor == weapons_.begin())
+	{
+		itor = weapons_.end();
+	}
+
+	--itor;
+	setCurrentWeapon(itor->first);
+}
+
+int TankWeapon::getWeaponCount(Weapon *weapon)
+{
+	std::map<Weapon *, int>::iterator foundWeapon =
+		weapons_.find(weapon);
+	int currentNumber = 0;
+	if (foundWeapon != weapons_.end())
+	{
+		currentNumber = foundWeapon->second;
+	}
+
+	return currentNumber;
+}
+
+bool TankWeapon::writeMessage(NetBuffer &buffer)
+{
+	std::map<Weapon *, int>::iterator itor;
+	buffer.addToBuffer(weapons_.size());
+	for (itor = weapons_.begin();
+		itor != weapons_.end();
+		itor++)
+	{
+		buffer.addToBuffer((*itor).first->getName());
+		buffer.addToBuffer((*itor).second);
+	}
+
+	return true;
+}
+
+bool TankWeapon::readMessage(NetBufferReader &reader)
+{
+	std::set<Weapon *> coveredWeapons;
+
+	int totalWeapons = 0;
+	if (!reader.getFromBuffer(totalWeapons)) return false;
+	for (int w=0; w<totalWeapons; w++)
+	{
+		std::string weaponName;
+		int weaponCount = 0;
+		if (!reader.getFromBuffer(weaponName)) return false;
+		if (!reader.getFromBuffer(weaponCount)) return false;
+
+		Weapon *weapon = (Weapon *) 
+			AccessoryStore::instance()->findByName(weaponName.c_str());
+		if (!weapon) return false;
+		coveredWeapons.insert(weapon);
+
+		int actualCount = getWeaponCount(weapon);
+		if (actualCount < weaponCount)
+		{
+			addWeapon(weapon, weaponCount - actualCount);
+		}
+		else if (actualCount > weaponCount)
+		{
+			rmWeapon(weapon, actualCount - weaponCount);
+		}
+	}
+
+	std::map<Weapon *, int> weaponCopy = weapons_;
+	std::map<Weapon *, int>::iterator itor;
+	for (itor = weaponCopy.begin();
+		itor != weaponCopy.end();
+		itor++)
+	{
+		Weapon *weapon = (*itor).first;
+		std::set<Weapon *>::iterator findItor =
+			coveredWeapons.find(weapon);
+		if (findItor == coveredWeapons.end())
+		{
+			rmWeapon(weapon, getWeaponCount(weapon));
+		}
+	}
+
+	return true;
+}

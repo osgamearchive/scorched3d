@@ -1,0 +1,48 @@
+Scorched3D : Copyright 2002 Gavin Camp
+For updates and news visit 
+http://www.scorched3d.co.uk
+----------------------------------------------------------
+
+Scorched can be played multiplayer either over the internet
+or a LAN.
+
+To connect to a server perform the following steps.
+1) Obtain the IP address or name of the server.
+2) Start Scorched3D.
+3) Check the "join server" option and enter the server name or
+   IP address in the space provided.
+5) Choose OK and continue as usual.
+
+----------------------------------------------------------
+
+Scorched also supports server browsing via the ASE (all seeing
+eye) server browser. This software can be downloaded and installed
+from http://www.udpsoft.com/eye/.
+
+This software makes connecting to Scorched servers much easier.
+Once installed this software will allow you to see all games
+currently being played on the internet or LAN.  You can connect to
+a server by simply clicking on the server.
+
+Before starting ASE you must start Scorched3D and save your
+screen mode and settings using the "Save as Defaults" option
+from the menu.
+
+If ASE does not show Scorched3D as one of its available options
+you must open its filters file and add the following lines.
+
+Scorched3D
+ServerType: NEW
+RegKey: HKEY_CURRENT_USER\Software\Scorched\Location
+ExeName: Scorched.exe
+JoinTemplate: {EXEPATH} -connect {address} -nooptions [-name "{NAME}"]
+Port: 27393
+Mutex: SV
+Flags: NEW
+1 if servertype != "NEW" remove
+2 if game ~!= "Scorched3D" remove
+
+----------------------------------------------------------
+
+The default server port is 27270.
+The deafult ASE port is the server port +123.

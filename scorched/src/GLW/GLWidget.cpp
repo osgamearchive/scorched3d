@@ -1,0 +1,76 @@
+////////////////////////////////////////////////////////////////////////////////
+//    Scorched3D (c) 2000-2003
+//
+//    This file is part of Scorched3D.
+//
+//    Scorched3D is free software; you can redistribute it and/or modify
+//    it under the terms of the GNU General Public License as published by
+//    the Free Software Foundation; either version 2 of the License, or
+//    (at your option) any later version.
+//
+//    Scorched3D is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//    GNU General Public License for more details.
+//
+//    You should have received a copy of the GNU General Public License
+//    along with Scorched3D; if not, write to the Free Software
+//    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+////////////////////////////////////////////////////////////////////////////////
+
+
+// GLWidget.cpp: implementation of the GLWidget class.
+//
+//////////////////////////////////////////////////////////////////////
+
+#include <GLW/GLWidget.h>
+#include <GLW/GLWPanel.h>
+
+//////////////////////////////////////////////////////////////////////
+// Construction/Destruction
+//////////////////////////////////////////////////////////////////////
+
+unsigned int GLWidget::nextId_ = 0;
+unsigned int GLWidget::nextMetaClassId_ = 0;
+
+GLWidget::GLWidget() : id_(++nextId_), parent_(0)
+{
+
+}
+
+GLWidget::~GLWidget()
+{
+
+}
+
+void GLWidget::simulate(float frameTime)
+{
+
+}
+
+void GLWidget::setParent(GLWPanel *parent)
+{
+	parent_ = parent;
+}
+
+void GLWidget::mouseDown(float x, float y, bool &skipRest)
+{
+
+}
+
+void GLWidget::mouseUp(float x, float y, bool &skipRest)
+{
+
+}
+
+void GLWidget::mouseDrag(float mx, float my, float x, float y, bool &skipRest)
+{
+
+}
+
+void GLWidget::keyDown(char *buffer, int bufferCount, 
+		KeyboardHistory::HistoryElement *history, int hisCount, 
+		bool &skipRest)
+{
+
+}

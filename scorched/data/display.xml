@@ -1,0 +1,176 @@
+<options source="Scorched3D">
+  <!-- The screen brightness -->
+  <option>
+    <name>Brightness</name>
+    <value>10</value>
+    <defaultvalue>10</defaultvalue>
+  </option>
+  <!-- How many explosion clouds are drawn -->
+  <option>
+    <name>ExplosionParts</name>
+    <value>10</value>
+    <defaultvalue>10</defaultvalue>
+  </option>
+  <!-- How many explosion sub clouds are drawn -->
+  <option>
+    <name>ExplosionSubParts</name>
+    <value>4</value>
+    <defaultvalue>4</defaultvalue>
+  </option>
+  <!-- The maximum percentage of triangles each model will use -->
+  <option>
+    <name>MaxModelTriPercentage</name>
+    <value>100</value>
+    <defaultvalue>100</defaultvalue>
+  </option>
+  <!-- The number of particles that each explosion will create (relative to explosion size) -->
+  <option>
+    <name>ExplosionParticleMult</name>
+    <value>20</value>
+    <defaultvalue>20</defaultvalue>
+  </option>
+  <!-- The height of the sea water level -->
+  <option>
+    <name>WaterHeight</name>
+    <value>5</value>
+    <defaultvalue>5</defaultvalue>
+  </option>
+  <!-- The YZ Rotation of the sun (degrees) -->
+  <option>
+    <name>SunYZAng</name>
+    <value>75</value>
+    <defaultvalue>75</defaultvalue>
+  </option>
+  <!-- The XY Rotation of the sun (degrees) -->
+  <option>
+    <name>SunXYAng</name>
+    <value>110</value>
+    <defaultvalue>110</defaultvalue>
+  </option>
+  <!-- Whether to use full screen mode or not -->
+  <option>
+    <name>FullScreen</name>
+    <value>off</value>
+    <defaultvalue>off</defaultvalue>
+  </option>
+  <!-- Completely clear the screen on each frame -->
+  <option>
+    <name>FullClear</name>
+    <value>on</value>
+    <defaultvalue>off</defaultvalue>
+  </option>
+  <!-- Do not use any OpenGL extensions -->
+  <option>
+    <name>NoGLExt</name>
+    <value>off</value>
+    <defaultvalue>off</defaultvalue>
+  </option>
+  <!-- Invert the up and down cursor key directions -->
+  <option>
+    <name>InvertUpDownKeys</name>
+    <value>off</value>
+    <defaultvalue>off</defaultvalue>
+  </option>
+  <!-- Do not use the sound. -->
+  <option>
+    <name>NoSound</name>
+    <value>off</value>
+    <defaultvalue>off</defaultvalue>
+  </option>
+  <!-- Show landscape normals on the landscape -->
+  <option>
+    <name>DrawNormals</name>
+    <value>off</value>
+    <defaultvalue>off</defaultvalue>
+  </option>
+  <!-- Do not fill in the landscape -->
+  <option>
+    <name>DrawLines</name>
+    <value>off</value>
+    <defaultvalue>off</defaultvalue>
+  </option>
+  <!-- Do not show the full lense flare effect -->
+  <option>
+    <name>NoLenseFlare</name>
+    <value>on</value>
+    <defaultvalue>on</defaultvalue>
+  </option>
+  <!-- Do not use more than one texture per face -->
+  <option>
+    <name>NoMultiTex</name>
+    <value>off</value>
+    <defaultvalue>off</defaultvalue>
+  </option>
+  <!-- Do not texture tanks -->
+  <option>
+    <name>NoTankSkins</name>
+    <value>off</value>
+    <defaultvalue>off</defaultvalue>
+  </option>
+  <!-- Do not draw water -->
+  <option>
+    <name>DrawWater</name>
+    <value>on</value>
+    <defaultvalue>on</defaultvalue>
+  </option>
+  <!-- Draw the names above the tanks -->
+  <option>
+    <name>DrawPlayerNames</name>
+    <value>on</value>
+    <defaultvalue>on</defaultvalue>
+  </option>
+  <!-- Do not use ROAM algorithm -->
+  <option>
+    <name>NoROAM</name>
+    <value>off</value>
+    <defaultvalue>off</defaultvalue>
+  </option>
+  <!-- Do not use multiple sky layers (just 1) -->
+  <option>
+    <name>NoSkyLayers</name>
+    <value>off</value>
+    <defaultvalue>off</defaultvalue>
+  </option>
+  <!-- Do not animate the sky -->
+  <option>
+    <name>NoSkyMovement</name>
+    <value>off</value>
+    <defaultvalue>off</defaultvalue>
+  </option>
+  <!-- Show the current number of frames per second (FPS) -->
+  <option>
+    <name>FrameTimer</name>
+    <value>on</value>
+    <defaultvalue>off</defaultvalue>
+  </option>
+  <!-- Do not animate the water -->
+  <option>
+    <name>NoWaterMovement</name>
+    <value>off</value>
+    <defaultvalue>off</defaultvalue>
+  </option>
+  <!-- The texture details setting -->
+  <option>
+    <name>TexureSize</name>
+    <value>1</value>
+    <defaultvalue>1</defaultvalue>
+  </option>
+  <!-- The window width to use (in pixels) -->
+  <option>
+    <name>ScreenWidth</name>
+    <value>800</value>
+    <defaultvalue>640</defaultvalue>
+  </option>
+  <!-- The window height to use (in pixels) -->
+  <option>
+    <name>ScreenHeight</name>
+    <value>600</value>
+    <defaultvalue>480</defaultvalue>
+  </option>
+  <!-- The unique string given to any servers to uniquely identify the client. -->
+  <option>
+    <name>UniqueUserId</name>
+    <value>8068-16487-9391</value>
+    <defaultvalue></defaultvalue>
+  </option>
+</options>
