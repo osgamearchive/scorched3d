@@ -43,6 +43,7 @@ Changed: Spread and hurts weapon primative options are now variable
 Changed: LeapFrog weapon primative bounce now variable
 Changed: Message of the day now defined in server.xml file
 
+Added: Single player games are now specified in xml (for mod support)
 Added: A surround (islands) around the landscape can be drawn
 Added: Players can be muted via the talk dialog
 Added: Slow motion camera speeds
@@ -112,7 +113,6 @@ Shot cam does not get LOD correctly
 -- Things I am currently looking at
 Fix crashing when people win (Graphics card drivers??)
 Lightning, rain and meteors
-New surrounds instead of the water
 AIs know how to dig
 Ambient sounds
 Boids?

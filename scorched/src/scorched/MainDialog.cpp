@@ -140,11 +140,13 @@ wxButton *addButtonToWindow(
 	char *text,
 	char *bitmapName,
 	wxWindow *parent,
-	wxSizer *sizer)
+	wxSizer *sizer,
+	wxObjectRefData *data)
 {
 	wxButton *button = 0;
 	wxBitmap bitmap;
-	if (bitmap.LoadFile(getDataFile(bitmapName), wxBITMAP_TYPE_BMP) &&
+	const char *bitmapFile = getDataFile(bitmapName);
+	if (bitmap.LoadFile(bitmapFile, wxBITMAP_TYPE_BMP) &&
 		bitmap.Ok())
 	{
 		button = new wxBitmapButton(parent, id, bitmap);
@@ -153,6 +155,7 @@ wxButton *addButtonToWindow(
 	{
 		button = new wxButton(parent, id, "Select");
 	}
+	if (data) button->SetRefData(data);
 
 	wxStaticText *staticText = new wxStaticText(
 		parent, -1, 

@@ -2727,10 +2727,22 @@
 				RelativePath="SettingsDialog.h">
 			</File>
 			<File
+				RelativePath="SingleChoiceDialog.cpp">
+			</File>
+			<File
+				RelativePath="SingleChoiceDialog.h">
+			</File>
+			<File
 				RelativePath="SingleDialog.cpp">
 			</File>
 			<File
 				RelativePath="SingleDialog.h">
+			</File>
+			<File
+				RelativePath="SingleGames.cpp">
+			</File>
+			<File
+				RelativePath="SingleGames.h">
 			</File>
 			<File
 				RelativePath="SingleSDialog.cpp">
@@ -3341,6 +3353,9 @@
 			</File>
 			<File
 				RelativePath="..\..\data\singleeasy.xml">
+			</File>
+			<File
+				RelativePath="..\..\data\singlegames.xml">
 			</File>
 			<File
 				RelativePath="..\..\data\singlehard.xml">

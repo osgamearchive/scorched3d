@@ -22,22 +22,35 @@
 #include <wx/utils.h>
 #include <wx/image.h>
 #include <wx/filedlg.h>
+#include <wx/dir.h>
 #include <scorched/MainDialog.h>
 #include <scorched/SingleSDialog.h>
+#include <scorched/SingleGames.h>
+#include <scorched/SingleChoiceDialog.h>
 #include <common/Defines.h>
 #include <common/OptionsGame.h>
 #include <common/OptionsParam.h>
+#include <set>
+#include <string>
+#include <string.h>
 
 extern char scorched3dAppName[128];
 
 enum
 {
 	ID_BUTTON_EASY = 1,
-	ID_BUTTON_NORMAL,
-	ID_BUTTON_HARD,
 	ID_BUTTON_CUSTOM,
-	ID_BUTTON_TARGET,
-	ID_BUTTON_LOAD
+	ID_BUTTON_LOAD,
+	ID_BUTTON_GAME = 100
+};
+
+class SingleFrameData : public wxObjectRefData
+{
+public:
+	SingleFrameData(const char *m) : mod(m) { }
+	virtual ~SingleFrameData() { }
+
+	std::string mod;
 };
 
 class SingleFrame: public wxDialog
@@ -45,28 +58,38 @@ class SingleFrame: public wxDialog
 public:
 	SingleFrame();
 
-	void onEasyButton();
-	void onNormalButton();
-	void onHardButton();
+	void onGameButton(wxCommandEvent &event);
 	void onCustomButton();
-	void onTargetButton();
 	void onLoadButton();
+
+protected:
+	void addModButton(
+		int &count,
+		std::set<std::string> &mods, 
+		const char *mod, wxSizer *sizer);
 
 private:
     DECLARE_EVENT_TABLE()
 };
 
 BEGIN_EVENT_TABLE(SingleFrame, wxDialog)
-    EVT_BUTTON(ID_BUTTON_EASY,  SingleFrame::onEasyButton)
-	EVT_BUTTON(ID_BUTTON_NORMAL,  SingleFrame::onNormalButton)
-	EVT_BUTTON(ID_BUTTON_HARD,  SingleFrame::onHardButton)
 	EVT_BUTTON(ID_BUTTON_CUSTOM,  SingleFrame::onCustomButton)
-	EVT_BUTTON(ID_BUTTON_TARGET, SingleFrame::onTargetButton)
 	EVT_BUTTON(ID_BUTTON_LOAD, SingleFrame::onLoadButton)
+	EVT_BUTTON(ID_BUTTON_GAME,  SingleFrame::onGameButton)
+	EVT_BUTTON(ID_BUTTON_GAME + 1,  SingleFrame::onGameButton)
+	EVT_BUTTON(ID_BUTTON_GAME + 2,  SingleFrame::onGameButton)
+	EVT_BUTTON(ID_BUTTON_GAME + 3,  SingleFrame::onGameButton)
+	EVT_BUTTON(ID_BUTTON_GAME + 4,  SingleFrame::onGameButton)
+	EVT_BUTTON(ID_BUTTON_GAME + 5,  SingleFrame::onGameButton)
+	EVT_BUTTON(ID_BUTTON_GAME + 6,  SingleFrame::onGameButton)
+	EVT_BUTTON(ID_BUTTON_GAME + 7,  SingleFrame::onGameButton)
+	EVT_BUTTON(ID_BUTTON_GAME + 8,  SingleFrame::onGameButton)
+	EVT_BUTTON(ID_BUTTON_GAME + 9,  SingleFrame::onGameButton)
 END_EVENT_TABLE()
 
 SingleFrame::SingleFrame() :
-	wxDialog(getMainDialog(), -1, scorched3dAppName, wxDefaultPosition, wxDefaultSize)
+	wxDialog(getMainDialog(), -1, scorched3dAppName, 
+		wxDefaultPosition, wxDefaultSize)
 {
 	// Create the positioning sizer
 	wxBoxSizer *topsizer = new wxBoxSizer(wxVERTICAL);
@@ -78,36 +101,48 @@ SingleFrame::SingleFrame() :
 #endif
 
 	wxFlexGridSizer *gridsizer = new wxFlexGridSizer(4, 2, 5, 5);
+
+	std::set<std::string> loadedMods;
+	int count = ID_BUTTON_GAME;
+	addModButton(count, loadedMods, "", gridsizer);
+
 	{
-		addButtonToWindow(ID_BUTTON_TARGET, 
-			"Start an target practice game.\n"
-			"Play a practice level against targets that don't fire back.", 
-			"data/windows/target.bmp", this, gridsizer);
+		wxDir dir(getModFile(""));
+		if (dir.IsOpened())
+		{
+			wxString filename;
+			bool cont = dir.GetFirst(&filename, "", wxDIR_DIRS);
+			while (cont)
+			{
+				addModButton(count, loadedMods, 
+					filename.c_str(), gridsizer);
+				cont = dir.GetNext(&filename);
+			}
+		}
 	}
 	{
-		addButtonToWindow(ID_BUTTON_EASY, 
-			"Start an easy single player game.\n"
-			"Play a quick game against easy computer players.", 
-			"data/windows/tank-easy.bmp", this, gridsizer);
+		wxDir dir(getGlobalModFile(""));
+		if (dir.IsOpened())
+		{
+			wxString filename;
+			bool cont = dir.GetFirst(&filename, "", wxDIR_DIRS);
+			while (cont)
+			{
+				addModButton(count, loadedMods, 
+					filename.c_str(), gridsizer);
+				cont = dir.GetNext(&filename);
+			}
+		}
 	}
-	{
-		addButtonToWindow(ID_BUTTON_NORMAL, 
-			"Start an normal single player game.\n"
-			"Play a quick game against normal strength computer players.", 
-			"data/windows/tank-med.bmp", this, gridsizer);
-	}
-	{
-		addButtonToWindow(ID_BUTTON_HARD,
-			"Start an hard single player game.\n"
-			"Play a quick game against hard computer players.", 
-			"data/windows/tank-hard.bmp", this, gridsizer);
-	}
+
 	{
 		addButtonToWindow(ID_BUTTON_CUSTOM,
 			"Start an custom single or multi-player game.\n"
-			"Choose the opponents to play against.", 
+			"Choose the opponents to play against,\n"
+			"the settings and the mod.",
 			"data/windows/tank-cus.bmp", this, gridsizer);
 	}
+
 	{
 		addButtonToWindow(ID_BUTTON_LOAD,
 			"Load a previously saved single or multi-player game.", 
@@ -127,10 +162,35 @@ SingleFrame::SingleFrame() :
 	CentreOnScreen();
 }
 
+void SingleFrame::addModButton(
+	int &count,
+	std::set<std::string> &mods, 
+	const char *mod,
+	wxSizer *sizer)
+{
+	_strlwr((char *) mod);
+	if (mods.find(mod) != mods.end()) return;
+
+	std::string noModGamesFile = getDataFile("data/singlegames.xml");
+	setDataFileMod(mod);
+	std::string modGamesFile = getDataFile("data/singlegames.xml");
+	if (mod[0] && noModGamesFile == modGamesFile) return;
+	mods.insert(mod);
+
+	SingleGames games;
+	if (!games.parse(modGamesFile.c_str())) 
+		dialogExit("SingleFrame", "Failed to load \"%s\" games", mod);
+	wxObjectRefData *refData = new SingleFrameData(mod);
+	addButtonToWindow(count++, 
+		(char *) games.description.c_str(), 
+		(char *) games.icon.c_str(), 
+		this, sizer, refData);
+
+	setDataFileMod("");
+}
+
 void SingleFrame::onLoadButton()
 {
-	EndModal(wxID_OK);
-
 	wxString file = ::wxFileSelector("Please choose the saved game to load",
 									 getSaveFile(""), // default path
 									 "", // default filename
@@ -139,40 +199,24 @@ void SingleFrame::onLoadButton()
 									 wxOPEN | wxFILE_MUST_EXIST);
 	if (!file.empty())
 	{
+		EndModal(wxID_OK);
 		runScorched3D("-loadsave \"%s\"", file.c_str());
 	}
 }
 
-void SingleFrame::onTargetButton()
+void SingleFrame::onGameButton(wxCommandEvent &event)
 {
-	const char *targetFilePath = getDataFile("data/singletarget.xml");
-	EndModal(wxID_OK);
+	wxObject *object = event.GetEventObject();
+	if (!object) return;
+	SingleFrameData *data = 
+		(SingleFrameData *) object->GetRefData();
+	if (!data) return;
+	const char *mod = data->mod.c_str();
 
-	runScorched3D("-startclient \"%s\"", targetFilePath);
-}
-
-void SingleFrame::onEasyButton()
-{
-	const char *easyFilePath = getDataFile("data/singleeasy.xml");
-	EndModal(wxID_OK);
-
-	runScorched3D("-startclient \"%s\"", easyFilePath);
-}
-
-void SingleFrame::onNormalButton()
-{
-	const char *normalFilePath = getDataFile("data/singlenormal.xml");
-	EndModal(wxID_OK);
-
-	runScorched3D("-startclient \"%s\"", normalFilePath);
-}
-
-void SingleFrame::onHardButton()
-{
-	const char *hardFilePath = getDataFile("data/singlehard.xml");
-	EndModal(wxID_OK);
-
-	runScorched3D("-startclient \"%s\"", hardFilePath);
+	if (showSingleChoiceDialog(mod))
+	{
+		EndModal(wxID_OK);
+	}
 }
 
 void SingleFrame::onCustomButton()

@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,26 +18,30 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+#if !defined(__INCLUDE_SingleGamesh_INCLUDE__)
+#define __INCLUDE_SingleGamesh_INCLUDE__
 
-#if !defined(__INCLUDE_MainDialogh_INCLUDE__)
-#define __INCLUDE_MainDialogh_INCLUDE__
+#include <string>
+#include <list>
 
-#include <wx/wx.h>
+class SingleGames
+{
+public:
+	struct Entry
+	{
+		std::string icon;
+		std::string description;
+		std::string gamefile;
+	};
 
-void showMainDialog();
-void setExeName(const char *name, bool allowExceptions);
-void runScorched3D(const char *flags, ...);
+	SingleGames();
+	virtual ~SingleGames();
 
-wxFrame *getMainDialog();
-void addTitleToWindow(
-	wxWindow *parent,
-	wxSizer *sizer);
-wxButton *addButtonToWindow(
-	int id,
-	char *text,
-	char *bitmapName,
-	wxWindow *parent,
-	wxSizer *sizer,
-	wxObjectRefData *data = 0);
+	bool parse(const char *fileName);
 
-#endif
+	std::string icon;
+	std::string description;
+	std::list<Entry> entries;
+};
+
+#endif // __INCLUDE_SingleGamesh_INCLUDE__
