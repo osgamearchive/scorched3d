@@ -90,6 +90,16 @@ bool Sound::init()
 	return init_;
 }
 
+void Sound::setVolume(int volume)
+{
+	Mix_Volume(-1, volume);
+}
+
+int Sound::getVolume()
+{
+	return Mix_Volume(-1, -1);
+}
+
 SoundBuffer *Sound::createBuffer(char *fileName)
 {
 	// If sound is not init return an empty buffer

@@ -22,6 +22,7 @@
 
 static void createMainControls(wxWindow *parent, wxSizer *sizer)
 {
+	{
 	// Display settings
 	wxStaticBox *displayBox = new wxStaticBox(parent, -1, "Display");
 	wxStaticBoxSizer *displaySizer = new wxStaticBoxSizer(displayBox, wxVERTICAL);
@@ -65,32 +66,51 @@ static void createMainControls(wxWindow *parent, wxSizer *sizer)
 	displaySizer3->Add(IDC_HUGEDIALOGS_CTRL);
 	displaySizer->Add(displaySizer3, 0, wxTOP | wxBOTTOM, 10);
 	sizer->Add(displaySizer, 0, wxGROW | wxLEFT | wxRIGHT | wxTOP, 5);
+	}
 
+	{
+	// Sound settings
+	wxStaticBox *soundBox = new wxStaticBox(parent, -1, "Sound");
+	wxStaticBoxSizer *soundSizer = new wxStaticBoxSizer(soundBox, wxVERTICAL);
+	wxFlexGridSizer *soundSizer2 = new wxFlexGridSizer(2, 3, 5, 5);
+	wxStaticText *volumeText = new wxStaticText(parent, -1, "Volume :");
+	IDC_NOSOUND_CTRL = 
+		new wxCheckBox(parent, -1, "No Sound",
+		wxDefaultPosition, wxSize((int) 150, (int) -1));
+	IDC_VOLUME_CTRL = 
+		new wxSlider(parent, -1,
+		0,0,0,
+		wxDefaultPosition, wxSize((int) 315, -1),
+		wxSL_HORIZONTAL | wxSL_AUTOTICKS);
+	soundSizer2->Add(volumeText, 0, wxALIGN_CENTER_VERTICAL);
+	soundSizer2->Add(IDC_VOLUME_CTRL, 0);
+	soundSizer2->Add(IDC_NOSOUND_CTRL, 0, wxALIGN_CENTRE_VERTICAL);
+	soundSizer->Add(soundSizer2, 0);
+	sizer->Add(soundSizer, 0, wxGROW | wxLEFT | wxRIGHT | wxTOP, 5);
+	}
+
+	{
 	// Misc switches 
 	wxStaticBox *miscBox = new wxStaticBox(parent, -1, 
 		"Misc. Options");
 	wxStaticBoxSizer *miscSizer = new wxStaticBoxSizer(miscBox, wxHORIZONTAL);
 	wxGridSizer *miscSizer2 = new wxGridSizer(3, 3, 10, 10);
 	IDC_INVERT_CTRL = 
-		new wxCheckBox(parent, -1, "Invert key elevation direction",
+		new wxCheckBox(parent, -1, "Invert key elevation",
 		wxDefaultPosition, wxSize((int) 150, (int) -1));
 	miscSizer2->Add(IDC_INVERT_CTRL, 0);
 	IDC_INVERTMOUSE_CTRL = 
-		new wxCheckBox(parent, -1, "Invert mouse elevation direction",
+		new wxCheckBox(parent, -1, "Invert mouse elevation",
 		wxDefaultPosition, wxSize((int) 150, (int) -1));
 	miscSizer2->Add(IDC_INVERTMOUSE_CTRL, 0);
 	IDC_SWAPYAXIS_CTRL = 
-		new wxCheckBox(parent, -1, "Invert mouse y axis direction (OS X)",
+		new wxCheckBox(parent, -1, "Invert mouse y axis (OS X)",
 		wxDefaultPosition, wxSize((int) 150, (int) -1));
 	miscSizer2->Add(IDC_SWAPYAXIS_CTRL, 0);
 	IDC_TIMER_CTRL = 
 		new wxCheckBox(parent, -1, "Show frames per second",
 		wxDefaultPosition, wxSize((int) 150, (int) -1));
 	miscSizer2->Add(IDC_TIMER_CTRL, 0);
-	IDC_NOSOUND_CTRL = 
-		new wxCheckBox(parent, -1, "No Sound",
-		wxDefaultPosition, wxSize((int) 150, (int) -1));
-	miscSizer2->Add(IDC_NOSOUND_CTRL, 0);
 	IDC_TOOLTIP_CTRL = 
 		new wxCheckBox(parent, -1, "Show ToolTips",
 		wxDefaultPosition, wxSize((int) 150, (int) -1));
@@ -105,7 +125,9 @@ static void createMainControls(wxWindow *parent, wxSizer *sizer)
 	miscSizer2->Add(IDC_SIDESCROLL_CTRL, 0);
 	miscSizer->Add(miscSizer2, 0, wxGROW);
 	sizer->Add(miscSizer, 0, wxGROW | wxLEFT | wxRIGHT | wxTOP, 5);
+	}
 
+	{
 	// Load settings
 	wxBoxSizer *loadSizer = new wxBoxSizer(wxHORIZONTAL);
 	IDC_LOADDEFAULTS_CTRL = new wxButton(parent, ID_LOADDEFAULTS, "Restore Defaults");
@@ -113,6 +135,7 @@ static void createMainControls(wxWindow *parent, wxSizer *sizer)
 	loadSizer->Add(IDC_LOADDEFAULTS_CTRL, 0, wxALL, 10);
 	loadSizer->Add(IDC_LOADSAFE_CTRL, 0, wxALL, 10);
 	sizer->Add(loadSizer, 0, wxALIGN_CENTER);
+	}
 }
 
 void createTroubleControls(wxWindow *parent, wxSizer *sizer)

@@ -143,6 +143,8 @@ OptionsDisplay::OptionsDisplay() :
 		"Use a software mouse pointer.  Useful if mouse clicks are not aligned.", RWAccess, false),
 	useHex_(options_,"UseHexidecimal", 
 		"Show the tank angles and amounts in hex", RWAccess, false),
+	soundVolume_(options_, "SoundVolume",
+		"The sound effect volume. Max = 128, Min = 0", RAccess, 128, 0, 128),
 	texSize_(options_, "TexureSize", 
 		"The texture details setting.  Lower is faster.", RAccess, 1, 0, 2),
 	bannerRows_(options_, "BannerRows",

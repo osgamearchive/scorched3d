@@ -36,6 +36,8 @@ public:
 	static Sound *instance();
 
 	bool init();
+	void setVolume(int volume);
+	int getVolume();
 	void destroy();
 	SoundBuffer *createBuffer(char *fileName);
 

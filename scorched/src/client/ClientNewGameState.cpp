@@ -31,6 +31,7 @@
 #include <sprites/ExplosionTextures.h>
 #include <engine/ActionController.h>
 #include <engine/MainLoop.h>
+#include <stdio.h>
 
 ClientNewGameState *ClientNewGameState::instance_ = 0;
 
@@ -60,8 +61,8 @@ void ClientNewGameState::enterState(const unsigned state)
 	static bool initOnce = false;
 	if (!initOnce)
 	{
-		ExplosionTextures::instance()->createTextures(
-			ProgressDialog::instance());
+		if (!ExplosionTextures::instance()->createTextures(
+			ProgressDialog::instance())) exit(1);
 		GLLenseFlare::instance()->init(
 			ProgressDialog::instance());
 		initOnce = true;

@@ -239,6 +239,10 @@ public:
 	void setShowContextHelp(bool value) { showContextHelp_.setValue(value); }
 	const char *getShowContextHelpToolTip() { return showContextHelp_.getDescription(); }
 
+	int getSoundVolume() { return soundVolume_.getValue(); }
+	void setSoundVolume(int value) { soundVolume_.setValue(value); }
+	const char *getSoundVolumeToolTip() { return soundVolume_.getDescription(); }
+
 	int getBannerRows() { return bannerRows_.getValue(); }
 	void setBannerRows(int value) { bannerRows_.setValue(value); }
 	const char *getBannerRowsToolTip() { return bannerRows_.getDescription(); }
@@ -355,6 +359,7 @@ protected:
 	OptionEntryBoundedInt texSize_;
 	OptionEntryBoundedInt tankDetail_;
 	OptionEntryBoundedInt effectsDetail_;
+	OptionEntryBoundedInt soundVolume_;
 	OptionEntryInt screenWidth_;
 	OptionEntryInt screenHeight_;
 	OptionEntryString uniqueUserId_;

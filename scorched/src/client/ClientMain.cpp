@@ -116,7 +116,9 @@ bool initHardware(ProgressCounter *progressCounter)
 				"Is DirectX 5.0 installed?\n"
 #endif
 				"Is anything else currently using the sound card?");
-		}	
+		}
+		Sound::instance()->setVolume(
+			OptionsDisplay::instance()->getSoundVolume());
 	}
 	return true;
 }

@@ -197,6 +197,9 @@ void DisplayFrame::refreshScreen()
 	IDC_SLIDER1_CTRL->SetRange(3, 40);
 	IDC_SLIDER1_CTRL->SetValue(OptionsDisplay::instance()->getBrightness());
 	IDC_SLIDER1_CTRL->SetToolTip(OptionsDisplay::instance()->getBrightnessToolTip());
+	IDC_VOLUME_CTRL->SetRange(0, 128);
+	IDC_VOLUME_CTRL->SetValue(OptionsDisplay::instance()->getSoundVolume());
+	IDC_VOLUME_CTRL->SetToolTip(OptionsDisplay::instance()->getSoundVolumeToolTip());
 	IDC_USERNAME_CTRL->SetValue(OptionsDisplay::instance()->getOnlineUserName());
 	IDC_USERNAME_CTRL->SetToolTip(OptionsDisplay::instance()->getOnlineUserNameToolTip());
 	IDC_USERID_CTRL->SetValue(OptionsDisplay::instance()->getUniqueUserId());
@@ -353,6 +356,7 @@ bool DisplayFrame::TransferDataFromWindow()
 	OptionsDisplay::instance()->setNoSkyMovement(IDC_NOSKYANI_CTRL->GetValue());
 	OptionsDisplay::instance()->setNoWaterMovement(IDC_NOWATERANI_CTRL->GetValue());
 	OptionsDisplay::instance()->setBrightness(IDC_SLIDER1_CTRL->GetValue());
+	OptionsDisplay::instance()->setSoundVolume(IDC_VOLUME_CTRL->GetValue());
 	OptionsDisplay::instance()->setDrawWater(!IDC_NOWATER_CTRL->GetValue());
 	OptionsDisplay::instance()->setInvertElevation(IDC_INVERT_CTRL->GetValue());
 	OptionsDisplay::instance()->setInvertMouse(IDC_INVERTMOUSE_CTRL->GetValue());
