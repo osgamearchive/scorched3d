@@ -167,6 +167,7 @@ bool LandscapeTexBorderWater::writeMessage(NetBuffer &buffer)
 {
 	buffer.addToBuffer(reflection);
 	buffer.addToBuffer(texture);
+	buffer.addToBuffer(wavecolor);
 	buffer.addToBuffer(wavetexture1);
 	buffer.addToBuffer(wavetexture2);
 	buffer.addToBuffer(height);
@@ -177,6 +178,7 @@ bool LandscapeTexBorderWater::readMessage(NetBufferReader &reader)
 {
 	if (!reader.getFromBuffer(reflection)) return false;
 	if (!reader.getFromBuffer(texture)) return false;
+	if (!reader.getFromBuffer(wavecolor)) return false;
 	if (!reader.getFromBuffer(wavetexture1)) return false;
 	if (!reader.getFromBuffer(wavetexture2)) return false;
 	if (!reader.getFromBuffer(height)) return false;
@@ -187,6 +189,7 @@ bool LandscapeTexBorderWater::readXML(XMLNode *node)
 {
 	if (!node->getNamedChild("reflection", reflection)) return false;
 	if (!node->getNamedChild("texture", texture)) return false;
+	if (!node->getNamedChild("wavecolor", wavecolor)) return false;
 	if (!node->getNamedChild("wavetexture1", wavetexture1)) return false;
 	if (!node->getNamedChild("wavetexture2", wavetexture2)) return false;
 	if (!node->getNamedChild("height", height)) return false;

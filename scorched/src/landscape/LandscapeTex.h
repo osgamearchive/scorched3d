@@ -90,6 +90,7 @@ public:
 	std::string wavetexture1;
 	std::string wavetexture2;
 	float height;
+	Vector wavecolor;
 
 	virtual bool writeMessage(NetBuffer &buffer);
 	virtual bool readMessage(NetBufferReader &reader);

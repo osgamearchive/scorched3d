@@ -51,7 +51,7 @@ void ExplosionNukeRendererEntry::simulate(Particle *particle, float time)
 	if (position >= ExplosionNukeRenderer_STEPS)
 		position = ExplosionNukeRenderer_STEPS - 1;
 
-	float z = ExplosionNukeRenderer::positions_[position][2] * 14.0f / size_ - size_;
+	float z = ExplosionNukeRenderer::positions_[position][2] * 14.0f / size_;
 	float w = ExplosionNukeRenderer::positions_[position][0] + size_ / 4 + 4.0f;
 	particle->position_[0] = startPosition_[0] + sinf(rotation_) * w * width_;
 	particle->position_[1] = startPosition_[1] + cosf(rotation_) * w * width_;
@@ -73,6 +73,11 @@ Vector *ExplosionNukeRenderer::positions_ = 0;
 ExplosionNukeRenderer::ExplosionNukeRenderer(Vector &position, float size) 
 	: totalTime_(0.0f), time_(0.0f), position_(position), size_(size)
 {
+	position_[2] -= size_;
+	float height = ScorchedClient::instance()->getLandscapeMaps().
+		getHMap().getHeight((int) position_[0], (int) position_[1]);
+	if (position_[2] < height) position_[2] = height;
+
 	if (!positions_)
 	{
 		positions_ = new Vector[ExplosionNukeRenderer_STEPS];

@@ -40,6 +40,7 @@ public:
 
 	GLTexture &getWavesTexture1() { return wavesTexture1_; }
 	GLTexture &getWavesTexture2() { return wavesTexture2_; }
+	Vector &getWavesColor() { return wavesColor_; }
 
 protected:
 	struct WaterWaveEntry 
@@ -69,6 +70,7 @@ protected:
 
 	GLTexture wavesTexture1_;
 	GLTexture wavesTexture2_;
+	Vector wavesColor_;
 
 };
 

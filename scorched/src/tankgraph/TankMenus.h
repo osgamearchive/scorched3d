@@ -62,6 +62,7 @@ protected:
 	} accessoryMenu_;	
 
 	void showTankDetails();
+	void showTextureDetails();
 	void logToFile();
 	void say(std::list<GLConsoleRuleSplit>);
 	void teamsay(std::list<GLConsoleRuleSplit>);

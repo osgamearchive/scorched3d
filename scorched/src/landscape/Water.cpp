@@ -126,6 +126,7 @@ void Water::generate(ProgressCounter *counter)
 		bitmapWater_.loadFromFile(getDataFile(water->reflection.c_str()), false);
 		GLBitmap bitmapWaterDetail(getDataFile(water->texture.c_str()));
 		wMap_.getWaterDetail().replace(bitmapWaterDetail, GL_RGB, true);
+		wWaves_.getWavesColor() = water->wavecolor;
 
 		// Generate the water texture for the spray sprite
 		std::string sprayMaskFile = getDataFile("data/textures/smoke01.bmp");

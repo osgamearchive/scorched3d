@@ -57,6 +57,7 @@ bool DeformLandscape::deformLandscape(
 					float currentHeight = hmap.getHeight((int) newPos[0], (int) newPos[1]);
 					float explosionDepth = (float) sin((distToRadius / radius) * 1.57) * radius;
 
+					float newHeight = currentHeight;
 					float newMap = -1.0f;
 					if (down)
 					{
@@ -68,14 +69,24 @@ bool DeformLandscape::deformLandscape(
 
 							if (currentHeight > newPos[2] + explosionDepth)
 							{
-								currentHeight -= explosionDepth + explosionDepth;
+								newHeight -= explosionDepth + explosionDepth;
 							}
 							else
 							{
-								currentHeight = newPos[2] - explosionDepth;
+								newHeight = newPos[2] - explosionDepth;
 							}
 
-							if (currentHeight < lowestHeight) currentHeight = lowestHeight;
+							if (newHeight < lowestHeight)
+							{
+								if (currentHeight < lowestHeight)
+								{
+									newHeight = currentHeight;
+								}
+								else
+								{
+									newHeight = lowestHeight;
+								}
+							}
 							hits = true;
 						}
 					}
@@ -94,13 +105,12 @@ bool DeformLandscape::deformLandscape(
 							}
 							else
 							{
-								currentHeight = newPos[2] + explosionDepth;
+								newHeight = newPos[2] + explosionDepth;
 							}
 						}
 						hits = true;
 					}
-					hmap.setHeight((int) newPos[0], (int) newPos[1], currentHeight);
-
+					hmap.setHeight((int) newPos[0], (int) newPos[1], newHeight);
 					map.map[x+iradius][y+iradius] = newMap;
 				}
 			}
@@ -117,3 +127,4 @@ bool DeformLandscape::deformLandscape(
 
 	return hits;
 }
+

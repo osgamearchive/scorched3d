@@ -253,7 +253,7 @@ void WaterWaves::drawBoxes(float totalTime, Vector &windDirPerp,
 	endlen *= 2.0f;
 
 	// Draw the actual texture boxes
-	glColor4f(1.0f, 1.0f, 1.0f, alpha);
+	glColor4f(wavesColor_[0], wavesColor_[1], wavesColor_[2], alpha);
 	glBegin(GL_QUADS);
 		Vector ptA, ptB, ptC, ptD;
 		std::vector<WaterWaveEntry>::iterator itor = paths.begin();

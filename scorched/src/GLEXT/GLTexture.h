@@ -49,8 +49,11 @@ public:
 	bool textureValid();
 	GLenum getTexType() { return texType_; }
 	GLenum getTexFormat() { return texFormat_; }
+	static unsigned int getTextureSpace() { return textureSpace_; }
 
 protected:
+	static unsigned int textureSpace_;
+	unsigned int usedSpace_;
 	GLuint texNum_;
 	GLenum texType_;
 	GLenum texFormat_;

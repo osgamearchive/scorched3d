@@ -23,8 +23,9 @@
 #include <set>
 
 static std::set<GLuint> usedNumbers_;
+unsigned int GLTexture::textureSpace_ = 0;
 
-GLTexture::GLTexture() : texNum_(0), texType_(GL_TEXTURE_2D)
+GLTexture::GLTexture() : texNum_(0), texType_(GL_TEXTURE_2D), usedSpace_(0)
 {
 
 }
@@ -149,6 +150,10 @@ bool GLTexture::createTexture(const void * data,
 							  GLenum format, 
 							  bool mipMap)
 {
+	textureSpace_ -= usedSpace_;
+	usedSpace_ = width * height * components;
+	textureSpace_ += usedSpace_;
+
 	texFormat_ = format;
 	glPixelStorei(GL_UNPACK_ALIGNMENT, alignment);
 	glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);

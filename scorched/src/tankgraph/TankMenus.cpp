@@ -39,6 +39,7 @@
 #include <dialogs/QuitDialog.h>
 #include <dialogs/SaveDialog.h>
 #include <GLEXT/GLConsoleRuleFnIAdapter.h>
+#include <GLEXT/GLTexture.h>
 
 TankMenus::TankMenus() : logger_("ClientLog")
 {
@@ -51,6 +52,8 @@ TankMenus::TankMenus() : logger_("ClientLog")
 
 	new GLConsoleRuleMethodIAdapter<TankMenus>(
 		this, &TankMenus::showTankDetails, "TankDetails");
+	new GLConsoleRuleMethodIAdapter<TankMenus>(
+		this, &TankMenus::showTextureDetails, "TextureDetails");
 	new GLConsoleRuleMethodIAdapter<TankMenus>(
 		this, &TankMenus::logToFile, "LogToFile");
 	new GLConsoleRuleMethodIAdapterEx<TankMenus>(
@@ -102,6 +105,12 @@ void TankMenus::teamsay(std::list<GLConsoleRuleSplit> list)
 void TankMenus::logToFile()
 {
 	Logger::addLogger(&logger_);
+}
+
+void TankMenus::showTextureDetails()
+{
+	GLConsole::instance()->addLine(false,
+		formatString("%i bytes", GLTexture::getTextureSpace()));
 }
 
 void TankMenus::showTankDetails()
