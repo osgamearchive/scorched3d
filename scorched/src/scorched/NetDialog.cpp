@@ -132,11 +132,11 @@ wxString NetListControl::OnGetItemText(long item, long column) const
 
 			return text;
 		}
-		case 3: name = "address"; break;
+		case 3: name = "mod"; break;
 		case 4: name = "fullversion"; break;
 		case 5: name = "gametype"; break;
 		case 6: name = "os"; break;
-		case 7: name = "mod"; break;
+		case 7: name = "address"; break;
 		}
 		return ServerBrowser::instance()->getServerList().getEntryValue(item, name);
 	}
@@ -299,6 +299,11 @@ void NetLanFrame::onSelectServer()
 				IDC_PLAYER_LIST_CTRL->
 					SetItem(index, 3, 
 					ServerBrowser::instance()->getServerList().getEntryValue(item, tmp));
+
+				sprintf(tmp, "pr%i", i);
+				IDC_PLAYER_LIST_CTRL->
+					SetItem(index, 4, 
+					ServerBrowser::instance()->getServerList().getEntryValue(item, tmp));
 			}
 			
 			onServerChanged();
@@ -363,11 +368,11 @@ bool NetLanFrame::TransferDataToWindow()
 		{ "Server Name", 200 },
 		{ "Pswd", 40 },
 		{ "Plyrs", 50 },
-		{ "Server IP Address", 140 },
-		{ "Version", 60 },
+		{ "Mod", 70 },
+		{ "Ver", 50 },
 		{ "Game Type", 160 },
 		{ "OS", 160 },
-		{ "Mod", 60 }
+		{ "Server IP Address", 140 }
 	};
 	for (int i=0; i<sizeof(mainListItems)/sizeof(ListItem); i++)
 	{
@@ -384,7 +389,8 @@ bool NetLanFrame::TransferDataToWindow()
 		{ "Player Name", 200 },
 		{ "Player Score", 100 },
 		{ "Player Time", 100 },
-		{ "Player Team", 80 }
+		{ "Player Team", 80 },
+		{ "Player Rank", 80 }
 	};
 	for (int i=0; i<sizeof(playerListItems)/sizeof(ListItem); i++)
 	{

@@ -71,6 +71,20 @@ static void createControls(wxWindow *parent, wxSizer *topsizer)
 		"",
 		wxDefaultPosition, wxSize((int) 132, (int) 91.5),
 		0, 0, wxCB_READONLY), 0, wxALIGN_CENTER);
+	sizer->Add(new wxStaticText(parent, -1,
+		"Falling Distance"), 0, wxALIGN_CENTER);
+	sizer->Add(IDC_COMBO_FALLINGDISTANCE_CTRL = 
+		new wxComboBox(parent, -1,
+		"",
+		wxDefaultPosition, wxSize((int) 132, (int) 91.5),
+		0, 0, wxCB_READONLY), 0, wxALIGN_CENTER);
+	sizer->Add(new wxStaticText(parent, -1,
+		"Climbing Distance"), 0, wxALIGN_CENTER);
+	sizer->Add(IDC_COMBO_CLIMBINGDISTANCE_CTRL = 
+		new wxComboBox(parent, -1,
+		"",
+		wxDefaultPosition, wxSize((int) 132, (int) 91.5),
+		0, 0, wxCB_READONLY), 0, wxALIGN_CENTER);
 
 	topsizer->Add(IDC_GIVEALLWEAPONS_CTRL = 
 		new wxCheckBox(parent, -1,

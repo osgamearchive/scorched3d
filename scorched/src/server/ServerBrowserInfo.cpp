@@ -182,6 +182,9 @@ void ServerBrowserInfo::processPlayerMessage(char *buffer)
 
 		sprintf(tmp, "pm%i", i);
 		addTag(buffer, tmp, (tank->getTeam()==0)?"None":((tank->getTeam()==1)?"Red":"Green"));
+
+		sprintf(tmp, "pr%i", i);
+		addTag(buffer, tmp, tank->getScore().getStatsRank());
 	}
 	strcat(buffer, "/>");
 }

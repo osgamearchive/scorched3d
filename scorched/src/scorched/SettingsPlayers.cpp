@@ -49,6 +49,10 @@ static void createControls(wxWindow *parent, wxSizer *topsizer)
 		"",
 		wxDefaultPosition, wxSize((int) 72, (int) 135),
 		0, 0, wxCB_READONLY), 0, wxALIGN_CENTER);
+
+	IDC_SERVER_RESIDUAL_CTRL = new wxCheckBox(parent, -1, 
+		"Players are persistent for game");
+	topsizer->Add(IDC_SERVER_RESIDUAL_CTRL, 0, wxALIGN_CENTER | wxTOP, 10);
 		
 	wxSizer *sizer = new wxGridSizer(3, 3);
 	topsizer->Add(sizer, 0, wxALL | wxALIGN_CENTER, 10);

@@ -28,3 +28,4 @@ static wxComboBox *IDC_SERVER_MAX_PLAYERS_CTRL = 0;
 static wxComboBox *IDC_SERVER_REMOVEBOT_PLAYERS_CTRL = 0;
 static wxComboBox **IDC_COMBO_PTYPE_CTRL = 0;
 static wxTextCtrl *IDC_EDIT3_CTRL = 0;
+static wxCheckBox *IDC_SERVER_RESIDUAL_CTRL = 0;

@@ -35,7 +35,7 @@ static void createControls(wxWindow *parent,
 	IDC_CLIENT_PLAYERS_CTRL = 
 		new wxComboBox(parent, -1,
 		"",
-		wxDefaultPosition, wxSize((int) 100, (int) 124.5),
+		wxDefaultPosition, wxSize((int) 132, (int) 124.5),
 		0, 0, wxCB_READONLY);
 	clientnameSizer2->Add(IDC_CLIENT_PLAYERS_CTRL, 0, wxALIGN_CENTER);
 	clientnameSizer->Add(clientnameSizer2);
@@ -50,7 +50,7 @@ static void createControls(wxWindow *parent,
 	IDC_CLIENT_MOD_CTRL = 
 		new wxComboBox(parent, -1,
 		"",
-		wxDefaultPosition, wxSize((int) 100, (int) 124.5),
+		wxDefaultPosition, wxSize((int) 150, (int) 124.5),
 		0, 0, wxCB_READONLY);
 	modSizer->Add(IDC_CLIENT_MOD_CTRL, 0, wxALL, 5);
 	sizer->Add(modSizer, 0, wxGROW | wxALIGN_RIGHT | wxALL, 5);

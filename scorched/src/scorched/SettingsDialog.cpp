@@ -264,6 +264,11 @@ bool SettingsFrame::TransferDataToWindow()
 		SettingsPlayers::IDC_SERVER_REMOVEBOT_PLAYERS_CTRL->SetToolTip(
 			wxString("The number of players to allow before remvoing bots."));
 
+		SettingsPlayers::IDC_SERVER_RESIDUAL_CTRL->SetValue(
+				context_.getResidualPlayers());
+		SettingsPlayers::IDC_SERVER_RESIDUAL_CTRL->SetToolTip(
+			wxString("Players re-connect with the same money and weapons."));
+
 		// Reload the AIs in case a new mod has been loaded
 		SettingsPlayers::tankAIStore.clearAIs();
 		SettingsPlayers::accessoryStore.clearAccessories();
@@ -455,13 +460,17 @@ bool SettingsFrame::TransferDataToWindow()
 			wxString("Specifies the size of the blast radius for explosive weapons."));
 
 		// Weapon Scale
-		for (int i=0; i<=10; i++)
+		for (int i=0; i<=20; i++)
 		{
 			char buffer[25];
 			sprintf(buffer, "%i", i, i);
-			SettingsEnv::IDC_COMBO_STARTARMSLEVEL_CTRL->Append(buffer, (void *) i);
-			SettingsEnv::IDC_COMBO_ENDARMSLEVEL_CTRL->Append(buffer, (void *) i);
-
+			if (i<=10)
+			{
+				SettingsEnv::IDC_COMBO_STARTARMSLEVEL_CTRL->Append(buffer, (void *) i);
+				SettingsEnv::IDC_COMBO_ENDARMSLEVEL_CTRL->Append(buffer, (void *) i);
+			}
+			SettingsEnv::IDC_COMBO_CLIMBINGDISTANCE_CTRL->Append(buffer, (void *) i);
+			SettingsEnv::IDC_COMBO_FALLINGDISTANCE_CTRL->Append(buffer, (void *) i);
 		}
 		SettingsEnv::IDC_COMBO_STARTARMSLEVEL_CTRL->SetSelection(
 			context_.getStartArmsLevel());
@@ -471,6 +480,14 @@ bool SettingsFrame::TransferDataToWindow()
 			context_.getEndArmsLevel());
 		SettingsEnv::IDC_COMBO_ENDARMSLEVEL_CTRL->SetToolTip(
 			wxString("Specifies the most powerful weapon that will be available to buy in the final round."));
+		SettingsEnv::IDC_COMBO_FALLINGDISTANCE_CTRL->SetSelection(
+			context_.getMinFallingDistance());
+		SettingsEnv::IDC_COMBO_FALLINGDISTANCE_CTRL->SetToolTip(
+			wxString("Specifies the largest fall without taking damage."));
+		SettingsEnv::IDC_COMBO_CLIMBINGDISTANCE_CTRL->SetSelection(
+			context_.getMaxClimbingDistance());
+		SettingsEnv::IDC_COMBO_CLIMBINGDISTANCE_CTRL->SetToolTip(
+			wxString("Specifies the largest distance the tank can climb in one step."));
 
 		SettingsEnv::IDC_GIVEALLWEAPONS_CTRL->SetValue(
 			context_.getGiveAllWeapons());
@@ -610,6 +627,9 @@ bool SettingsFrame::TransferDataFromWindow()
 		context_.setNoMinPlayers(minPlayers);
 		context_.setNoMaxPlayers(maxPlayers);
 
+		context_.setResidualPlayers(
+				SettingsPlayers::IDC_SERVER_RESIDUAL_CTRL->GetValue());
+
 		for (int i=0; i<24; i++)
 		{
 			context_.setPlayerType(i, 
@@ -693,6 +713,12 @@ bool SettingsFrame::TransferDataFromWindow()
 		context_.setEndArmsLevel((int) 
 			SettingsEnv::IDC_COMBO_ENDARMSLEVEL_CTRL->GetClientData(
 				SettingsEnv::IDC_COMBO_ENDARMSLEVEL_CTRL->GetSelection()));
+		context_.setMinFallingDistance((int) 
+			SettingsEnv::IDC_COMBO_FALLINGDISTANCE_CTRL->GetClientData(
+				SettingsEnv::IDC_COMBO_FALLINGDISTANCE_CTRL->GetSelection()));
+		context_.setMaxClimbingDistance((int) 
+			SettingsEnv::IDC_COMBO_CLIMBINGDISTANCE_CTRL->GetClientData(
+				SettingsEnv::IDC_COMBO_CLIMBINGDISTANCE_CTRL->GetSelection()));
 
 		context_.setGiveAllWeapons(
 			SettingsEnv::IDC_GIVEALLWEAPONS_CTRL->GetValue());

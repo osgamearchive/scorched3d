@@ -32,7 +32,7 @@ static void createControls(wxWindow *parent, wxSizer *topsizer)
 	IDC_TEAMS_CTRL = 
 		new wxComboBox(parent, IDC_TEAMS,
 		"",
-		wxDefaultPosition, wxSize((int) 100, (int) 124.5),
+		wxDefaultPosition, wxSize((int) 132, (int) 124.5),
 		0, 0, wxCB_READONLY);
 	sizer->Add(IDC_TEAMS_CTRL, 0, wxALIGN_CENTER);
 
@@ -48,7 +48,7 @@ static void createControls(wxWindow *parent, wxSizer *topsizer)
 	IDC_TYPE_CTRL = 
 		new wxComboBox(parent, IDC_GAME_TYPE,
 		"",
-		wxDefaultPosition, wxSize((int) 100, (int) 124.5),
+		wxDefaultPosition, wxSize((int) 132, (int) 124.5),
 		0, 0, wxCB_READONLY);
 	sizer->Add(IDC_TYPE_CTRL, 0, wxALIGN_CENTER);
 		
@@ -59,7 +59,7 @@ static void createControls(wxWindow *parent, wxSizer *topsizer)
 	IDC_SERVER_ROUNDS_CTRL = 
 		new wxComboBox(parent, IDC_SERVER_ROUNDS,
 		"",
-		wxDefaultPosition, wxSize((int) 100, (int) 124.5),
+		wxDefaultPosition, wxSize((int) 132, (int) 124.5),
 		0, 0, wxCB_READONLY);
 	sizer->Add(IDC_SERVER_ROUNDS_CTRL, 0, wxALIGN_CENTER);
 		
@@ -70,7 +70,7 @@ static void createControls(wxWindow *parent, wxSizer *topsizer)
 	IDC_NOSHOTS_CTRL = 
 		new wxComboBox(parent, IDC_NOSHOTS,
 		"",
-		wxDefaultPosition, wxSize((int) 100, (int) 124.5),
+		wxDefaultPosition, wxSize((int) 132, (int) 124.5),
 		0, 0, wxCB_READONLY);
 	sizer->Add(IDC_NOSHOTS_CTRL, 0, wxALIGN_CENTER);	
 		
@@ -81,7 +81,7 @@ static void createControls(wxWindow *parent, wxSizer *topsizer)
 	IDC_SHOT_TIME_CTRL = 
 		new wxComboBox(parent, IDC_SHOT_TIME,
 		"",
-		wxDefaultPosition, wxSize((int) 100, (int) 124.5),
+		wxDefaultPosition, wxSize((int) 132, (int) 124.5),
 		0, 0, wxCB_READONLY);
 	sizer->Add(IDC_SHOT_TIME_CTRL, 0, wxALIGN_CENTER);
 		
@@ -92,7 +92,7 @@ static void createControls(wxWindow *parent, wxSizer *topsizer)
 	IDC_IDLE_TIME_CTRL = 
 		new wxComboBox(parent, IDC_IDLE_TIME,
 		"",
-		wxDefaultPosition, wxSize((int) 100, (int) 124.5),
+		wxDefaultPosition, wxSize((int) 132, (int) 124.5),
 		0, 0, wxCB_READONLY);
 	sizer->Add(IDC_IDLE_TIME_CTRL, 0, wxALIGN_CENTER);
 	IDC_IDLE_SHOTTIME_CTRL_TEXT =
@@ -102,7 +102,7 @@ static void createControls(wxWindow *parent, wxSizer *topsizer)
 	IDC_IDLE_SHOTTIME_CTRL = 
 		new wxComboBox(parent, IDC_IDLE_SHOTTIME,
 		"",
-		wxDefaultPosition, wxSize((int) 100, (int) 124.5),
+		wxDefaultPosition, wxSize((int) 132, (int) 124.5),
 		0, 0, wxCB_READONLY);
 	sizer->Add(IDC_IDLE_SHOTTIME_CTRL, 0, wxALIGN_CENTER);
 	IDC_SERVER_PASSWORD_CTRL_TEXT = 
@@ -111,7 +111,7 @@ static void createControls(wxWindow *parent, wxSizer *topsizer)
 	IDC_SERVER_PASSWORD_CTRL = 
 		new wxTextCtrl(parent, -1,
 		"",
-		wxDefaultPosition, wxSize((int) 100, -1), wxTE_PASSWORD);
+		wxDefaultPosition, wxSize((int) 132, -1), wxTE_PASSWORD);
 	sizer->Add(IDC_SERVER_PASSWORD_CTRL, 0, wxALIGN_CENTER);
 	IDC_SERVERADMIN_PASSWORD_CTRL_TEXT =
 		new wxStaticText(parent, -1, "Admin Password :");
@@ -119,7 +119,7 @@ static void createControls(wxWindow *parent, wxSizer *topsizer)
 	IDC_SERVERADMIN_PASSWORD_CTRL =
 		new wxTextCtrl(parent, -1,
 		"",
-		wxDefaultPosition, wxSize((int) 100, -1), wxTE_PASSWORD);
+		wxDefaultPosition, wxSize((int) 132, -1), wxTE_PASSWORD);
 	sizer->Add(IDC_SERVERADMIN_PASSWORD_CTRL, 0, wxALIGN_CENTER);
 }
 
