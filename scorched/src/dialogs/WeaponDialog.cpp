@@ -199,7 +199,7 @@ void WeaponDialog::drawWeapon(Tank *current)
 			y_ + 65.0f,
 			0.0f,
 			"%.1f",
-			current->getState().getPower());
+			current->getPhysics().getPower());
 
 		GLState currentStateBlend(GLState::BLEND_ON | GLState::TEXTURE_ON);
 

@@ -152,13 +152,13 @@ void TankAILogic::processFiredMessage(ScorchedContext &context,
 						message.getRotationXY(), false);
 					tank->getPhysics().rotateGunYZ(
 						message.getRotationYZ(), false);
-					tank->getState().changePower(
+					tank->getPhysics().changePower(
 						message.getPower(), false);
 
 					// Create the action for the weapon and
 					// add it to the action controller
 					Vector velocity = tank->getPhysics().getVelocityVector() *
-						tank->getState().getPower();
+						tank->getPhysics().getPower();
 					Vector position = tank->getPhysics().getTankGunPosition();
 
 					weapon->fireWeapon(context, tank->getPlayerId(), position, velocity);

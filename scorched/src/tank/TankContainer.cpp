@@ -119,19 +119,6 @@ void TankContainer::newGame()
 	}
 }
 
-void TankContainer::clientNextShot()
-{
-	// Tell each tank a new round is starting
-	std::map<unsigned int, Tank *>::iterator mainitor;
-	for (mainitor = playingTanks_.begin();
-		mainitor != playingTanks_.end();
-		mainitor++)
-	{
-		Tank *current = (*mainitor).second;
-		current->clientNextShot();
-	}
-}
-
 void TankContainer::clientNewGame()
 {
 	// Tell each tank a new game has started

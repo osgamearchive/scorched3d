@@ -18,14 +18,13 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-#include <tank/TankState.h>
+#include <tank/Tank.h>
 #include <common/OptionsDisplay.h>
 #include <engine/ScorchedContext.h>
 #include <stdio.h>
 
-TankState::TankState(ScorchedContext &context) : 
-	state_(sPending), life_(100.0f), power_(1000.0f),
+TankState::TankState(ScorchedContext &context, unsigned int playerId) : 
+	state_(sPending), life_(100.0f), tank_(0),
 	readyState_(sReady), 
 	context_(context), spectator_(false)
 {
@@ -40,24 +39,12 @@ void TankState::reset()
 	state_ = sDead;
 	readyState_ = sReady;
 	life_ = 100.0f;
-	power_ = 1000.0f;
 }
 
 void TankState::newGame()
 {
 	state_ = sDead;
 	life_ = 100.0f;
-	power_ = 1000.0f;
-}
-
-void TankState::clientNewGame()
-{
-	oldPowers_.clear();
-}
-
-void TankState::clientNextShot()
-{
-	oldPowers_.push_back(power_);
 }
 
 void TankState::setLife(float life)
@@ -66,39 +53,11 @@ void TankState::setLife(float life)
 
 	if (life_ >= 100) life_ = 100;
 	if (life_ <= 0) life_ = 0;
-	if (power_ > life_ * 10.0f) power_ = life_ * 10.0f;
-}
-
-void TankState::revertPower(unsigned int index)
-{
-	if (index < oldPowers_.size())
-	{
-		changePower(oldPowers_[(oldPowers_.size() - 1) - index], false);
-	}
-}
-
-float TankState::getOldPower()
-{
-	if (oldPowers_.empty()) return power_;
-	return oldPowers_.back();
-}
-
-float TankState::changePower(float power, bool diff)
-{
-	if (diff) power_ += power;
-	else power_ = power;
-
-	if (power_ < 0.0f) power_ = 0.0f;
 	if (context_.optionsGame.getLimitPowerByHealth())
 	{
-		if (power_ > life_ * 10.0f) power_ = life_ * 10.0f;
+		if (tank_->getPhysics().getPower() > life_ * 10.0f) 
+			tank_->getPhysics().changePower(life_ * 10.0f, false);
 	}
-	else
-	{
-		if (power_ > 1000.0f) power_ = 1000.0f;
-	}
-
-	return power_;
 }
 
 const char *TankState::getStateString()
@@ -117,32 +76,10 @@ const char *TankState::getSmallStateString()
 	return ((state_==sDead)?"Dead":((state_==sNormal)?"Alive":"Pending"));
 }
 
-const char *TankState::getPowerString()
-{
-	static char messageBuffer[255];
-	if (OptionsDisplay::instance()->getUseHexidecimal())
-	{
-		sprintf(messageBuffer, "0X%x (0X%x)", 		
-				int(getPower()),
-				int(getPower() - 
-				getOldPower()));
-	}
-	else
-	{
-		sprintf(messageBuffer, "%.1f (%+.1f)", 		
-				getPower(),
-				getPower() - 
-				getOldPower());
-	}
-
-	return messageBuffer;
-}
-
 bool TankState::writeMessage(NetBuffer &buffer)
 {
 	buffer.addToBuffer((int) state_);
 	buffer.addToBuffer(life_);
-	buffer.addToBuffer(power_);
 	buffer.addToBuffer(spectator_);
 	return true;
 }
@@ -153,7 +90,6 @@ bool TankState::readMessage(NetBufferReader &reader)
 	if (!reader.getFromBuffer(s)) return false;
 	state_ = (TankState::State) s;
 	if (!reader.getFromBuffer(life_)) return false;
-	if (!reader.getFromBuffer(power_)) return false;
 	if (!reader.getFromBuffer(spectator_)) return false;
 	return true;
 }

@@ -22,8 +22,8 @@
 #define __INCLUDE_TankStateh_INCLUDE__
 
 #include <coms/NetBuffer.h>
-#include <vector>
 
+class Tank;
 class ScorchedContext;
 class TankState
 {
@@ -41,19 +41,24 @@ public:
 		SNotReady
 	};
 
-	TankState(ScorchedContext &context);
+	TankState(ScorchedContext &context, unsigned int playerId);
 	virtual ~TankState();
+	
+	void setTank(Tank *tank) { tank_ = tank; }
 
-	// State
+	// State Modifiers
 	void newGame();
-	void clientNewGame();
-	void clientNextShot();
 	void reset();
+	
+	// State
 	void setReady() { readyState_ = sReady; }
 	void setNotReady() { readyState_ = SNotReady; }
 	void setState(State s) { state_ = s; }
 	State getState() { return state_; }
 	ReadyState getReadyState() { return readyState_; }
+	void setSpectator(bool s) { spectator_ = s; }
+	bool getSpectator() { return spectator_; }	
+	
 	const char *getStateString();
 	const char *getSmallStateString();
 
@@ -61,29 +66,16 @@ public:
 	float getLife() { return life_; }
 	void setLife(float life);
 
-	// Power of gun
-	float getPower() { return power_; }
-	std::vector<float> &getOldPowers() { return oldPowers_; }
-	float getOldPower();
-	float changePower(float power, bool diff=true);
-	void revertPower(unsigned int index = 0);
-
-	void setSpectator(bool s) { spectator_ = s; }
-	bool getSpectator() { return spectator_; }
-
-	const char *getPowerString();
-
 	// Serialize the tank
 	bool writeMessage(NetBuffer &buffer);
 	bool readMessage(NetBufferReader &reader);
 
 protected:
-	std::vector<float> oldPowers_;
+	Tank *tank_;
 	ScorchedContext &context_;
 	State state_;
 	ReadyState readyState_;
 	float life_;
-	float power_;
 	bool spectator_;
 
 };

@@ -243,7 +243,7 @@ bool SettingsFrame::TransferDataToWindow()
 		// Buy on round
 		char buffer[25];
 		int i;
-		for (i=25; i>=1; i-=1)
+		for (i=50; i>=1; i-=1)
 		{	
 			sprintf(buffer, "%i", i);
 			SettingsEco::IDC_BUYONROUND_CTRL->Append(buffer);
@@ -419,7 +419,7 @@ bool SettingsFrame::TransferDataToWindow()
 			wxString("The number of teams that will play in this game."));
 
 		// Rounds combo
-		for (i=1; i<25; i++)
+		for (i=1; i<50; i++)
 		{
 			sprintf(string, "%i", i);	
 			SettingsMain::IDC_SERVER_ROUNDS_CTRL->Append(string);

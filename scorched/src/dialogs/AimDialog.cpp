@@ -59,7 +59,7 @@ void AimDialog::draw()
 	{
 		if (currentTank->getState().getState() == TankState::sNormal)
 		{
-			pwrSlider_->setCurrent(currentTank->getState().getPower());
+			pwrSlider_->setCurrent(currentTank->getPhysics().getPower());
 			tracker_->setCurrentX(currentTank->getPhysics().getRotationGunXY());
 			tracker_->setCurrentY(currentTank->getPhysics().getRotationGunYZ());
 		}
@@ -96,7 +96,7 @@ void AimDialog::currentChanged(unsigned int id, float value)
 		{
 			if (id == pwrSlider_->getId())
 			{
-				currentTank->getState().changePower(value, false);
+				currentTank->getPhysics().changePower(value, false);
 			}
 		}
 	}	

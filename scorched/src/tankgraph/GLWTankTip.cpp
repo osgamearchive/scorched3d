@@ -42,20 +42,17 @@ void TankUndoMenu::showItems(float x, float y)
 		"elevtaion and power.\n");
 
 	std::list<GLWSelectorEntry> entries;
-	std::vector<float> &oldPower =
-		tank_->getState().getOldPowers();
-	std::vector<float> &oldRotXY =
-		tank_->getPhysics().getOldTurretRotXYs();
-	std::vector<float> &oldRotYZ =
-		tank_->getPhysics().getOldTurretRotYZs();
-	for (int i=0; i<MIN(oldRotYZ.size(), MIN(oldRotXY.size(), oldPower.size())); i++)
+	std::vector<TankPhysics::ShotEntry> &oldShots =
+		tank_->getPhysics().getOldShots();
+	for (int i=0; i<oldShots.size(); i++)
 	{
 		char buffer[128];
-		sprintf(buffer, "Rot:%.1f Ele:%.1f Pwr:%.1f",
-			(360.0f - oldRotXY[i]), oldRotYZ[i], oldPower[i]);
+		sprintf(buffer, "%i: Pwr:%.1f Ele:%.1f Rot:%.1f",
+			i, oldShots[i].power, oldShots[i].ele,
+			(360.0f - oldShots[i].rot));
 		entries.push_back(
 			GLWSelectorEntry(buffer, &useTip, 0, 0, (void *) 
-				((unsigned int) (oldPower.size() - 1 - i))));
+				((unsigned int) (oldShots.size() - 1 - i))));
 	}
 
 	GLWSelector::instance()->showSelector(
@@ -65,8 +62,7 @@ void TankUndoMenu::showItems(float x, float y)
 
 void TankUndoMenu::itemSelected(GLWSelectorEntry *entry, int position)
 {
-	tank_->getState().revertPower((unsigned int) entry->getUserData());
-	tank_->getPhysics().revertRotation((unsigned int) entry->getUserData());
+	tank_->getPhysics().revertSettings((unsigned int) entry->getUserData());
 }
 
 TankFuelTip::TankFuelTip(Tank *tank) : 
@@ -429,7 +425,7 @@ void TankPowerTip::populate()
 		"The power used to fire the %s.\n"
 		"Power : %s",
 		tank_->getAccessories().getWeapons().getCurrent()->getName(),
-		tank_->getState().getPowerString());
+		tank_->getPhysics().getPowerString());
 }
 
 TankRotationTip::TankRotationTip(Tank *tank) : 

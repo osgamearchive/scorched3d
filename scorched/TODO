@@ -45,6 +45,7 @@ Added: Free market economy
 Added: Window and font sizes can be set seperately from screen resolution
 Added: Can choose to revert back to any previous shot setting made in the round
 
+Fixed: Players gun does not go back to original position if turn missed
 Fixed: Files installed with correct permissions on Unix
 Fixed: Most Radeon 9000 series card problems
 Fixed: Can quit game during player choice (single player)
@@ -69,9 +70,10 @@ Gun fires at same point for all tanks (ignores turret/gun position in model)
 Shot cam does not get LOD correctly
 
 -- Things I am currently looking at
-GUI Icon stuff
 Make AIs better
 Finish aiming dialog
+Single player saving
+Riot Blast (perhaps)
 
 -- Server Stuff
 Chat filter (swear words)

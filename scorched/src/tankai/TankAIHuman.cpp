@@ -91,8 +91,7 @@ void TankAIHuman::playMove(const unsigned state,
 	KEYBOARDKEY("UNDO_MOVE", undoKey);
 	if (undoKey->keyDown(buffer, keyState, false))
 	{
-		currentTank_->getPhysics().revertRotation();
-		currentTank_->getState().revertPower();
+		currentTank_->getPhysics().revertSettings();
 	}
 
 	KEYBOARDKEY("CHANGE_UP_WEAPON", weaponUpKey);
@@ -328,7 +327,7 @@ void TankAIHuman::movePower(char *buffer, unsigned int keyState, float frameTime
 		if (incKF) mult *= 4.0f;
 		else if (incKS) mult *= 0.25f;
 
-		currentTank_->getState().changePower(250.0f * mult);
+		currentTank_->getPhysics().changePower(250.0f * mult);
 		currentPMoving = true;
 
 		powerHUD();
@@ -339,7 +338,7 @@ void TankAIHuman::movePower(char *buffer, unsigned int keyState, float frameTime
 		if (decKF) mult *= 4.0f;
 		else if (decKS) mult *= 0.25f;
 
-		currentTank_->getState().changePower(-250.0f * mult);
+		currentTank_->getPhysics().changePower(-250.0f * mult);
 		currentPMoving = true;
 
 		powerHUD();
@@ -364,9 +363,9 @@ void TankAIHuman::movePower(char *buffer, unsigned int keyState, float frameTime
 
 void TankAIHuman::powerHUD()
 {
-	float power = currentTank_->getState().getPower() / 1000.0f;
+	float power = currentTank_->getPhysics().getPower() / 1000.0f;
 	TankModelRendererHUD::setText("Pwr:", 
-		currentTank_->getState().getPowerString(), power * 100.0f);
+		currentTank_->getPhysics().getPowerString(), power * 100.0f);
 }
 
 
@@ -382,7 +381,7 @@ void TankAIHuman::fireShot()
 			currentWeapon->getAccessoryId(),
 			currentTank_->getPhysics().getRotationGunXY(),
 			currentTank_->getPhysics().getRotationGunYZ(),
-			currentTank_->getState().getPower());
+			currentTank_->getPhysics().getPower());
 
 		// If so we send this move to the server
 		ComsMessageSender::sendToServer(comsMessage);

@@ -26,33 +26,54 @@
 #include <coms/NetBuffer.h>
 #include <vector>
 
+class Tank;
 class ScorchedContext;
 class TankPhysics
 {
 public:
+
+	struct ShotEntry
+	{
+		ShotEntry(float p = 0.0f, float r = 0.0f, float e = 0.0f) : 
+			power(p), rot(r), ele(e) { }
+	
+		float power;
+		float rot;
+		float ele;
+	};
+
 	TankPhysics(ScorchedContext &context, unsigned int playerId);
 	virtual ~TankPhysics();
 
-	// State change
-	void newGame();
-	void clientNewGame();
-	void clientNextShot();
+	void setTank(Tank *tank) { tank_ = tank; }
 
-	// Rotation
-	void revertRotation(unsigned int index = 0);
-	float rotateGunXY(float angle, bool diff=true);
-	float rotateGunYZ(float angle, bool diff=true);
-	void rotateTank(float a) { angle_ = a; }
-	float getRotationGunXY() { return turretRotXY_; }
-	float getRotationGunYZ() { return turretRotYZ_; }
+	// State change
+	void clientNewGame();
+	void madeShot();
+	
+	// Saved settings
+	float getOldPower();
 	float getOldRotationGunXY();
 	float getOldRotationGunYZ();
+	void revertSettings(unsigned int index = 0);
+	std::vector<ShotEntry> &getOldShots() { return oldShots_; }
+
+	// Gun/Turret Rotation
+	float rotateGunXY(float angle, bool diff=true);
+	float rotateGunYZ(float angle, bool diff=true);
+	float getRotationGunXY() { return turretRotXY_; }
+	float getRotationGunYZ() { return turretRotYZ_; }
+	
+	// Tank Rotation
+	void rotateTank(float a) { angle_ = a; }
 	float getAngle() { return angle_; }
+
+	// Power of gun
+	float getPower() { return power_; }
+	float changePower(float power, bool diff=true);
 
 	// Position
 	void setTankPosition(Vector &pos);
-	std::vector<float> &getOldTurretRotXYs() { return oldTurretRotXYs_; }
-	std::vector<float> &getOldTurretRotYZs() { return oldTurretRotYZs_; }
 	Vector &getVelocityVector();
 	Vector &getTankPosition(); // Position of center bottom of tank
 	Vector &getTankTurretPosition(); // Position of center of turret
@@ -60,19 +81,22 @@ public:
 
 	const char *getRotationString();
 	const char *getElevationString();
+	const char *getPowerString();
 
 	// Serialize the tank
 	bool writeMessage(NetBuffer &buffer);
 	bool readMessage(NetBufferReader &reader);
 
 protected:
+	ScorchedContext &context_;
+	Tank *tank_;
+
 	// Position
 	Vector position_;
 
 	// Turret angles
-	float turretRotXY_, turretRotYZ_;
-	std::vector<float> oldTurretRotXYs_;
-	std::vector<float> oldTurretRotYZs_;
+	std::vector<ShotEntry> oldShots_;
+	float turretRotXY_, turretRotYZ_, power_;
 	float angle_;
 
 	// Physics engine stuff

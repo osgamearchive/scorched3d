@@ -45,7 +45,6 @@ public:
 	
 	void newGame();
 	void clientNewGame();
-	void clientNextShot();
 	
 	void resetTanks();
 	void setAllDead();

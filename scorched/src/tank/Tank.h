@@ -44,7 +44,6 @@ public:
 	void reset();
 	void newGame();
 	void clientNewGame();
-	void clientNextShot();
 
 	// Serialize the tank
 	bool writeMessage(NetBuffer &buffer);

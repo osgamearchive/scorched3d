@@ -87,8 +87,6 @@ bool ClientStartGameHandler::processMessage(unsigned int id,
 	}
 	else
 	{
-		ScorchedClient::instance()->getTankContainer().
-			getCurrentTank()->clientNextShot();
 		ScorchedClient::instance()->getGameState().stimulate(
 			ClientState::StimPlaying);
 	}

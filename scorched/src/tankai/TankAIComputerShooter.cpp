@@ -95,7 +95,7 @@ void TankAIComputerShooter::playMove(const unsigned state,
 	// Sets the angle of the gun and the power
 	currentTank_->getPhysics().rotateGunXY(angleXYDegs, false);
 	currentTank_->getPhysics().rotateGunYZ(angleYZDegs, false);
-	currentTank_->getState().changePower(power, false);
+	currentTank_->getPhysics().changePower(power, false);
 
 	// Actualy fire the shot
 	// Fires the shot and ends the turn

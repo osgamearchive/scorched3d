@@ -62,6 +62,7 @@ void TankFired::simulate(float frameTime, bool &remove)
 		{
 			tank->getPhysics().rotateGunXY(rotXY_, false);
 			tank->getPhysics().rotateGunYZ(rotXZ_, false);
+			tank->getPhysics().madeShot();
 
 			if (!context_->serverMode) 
 			{

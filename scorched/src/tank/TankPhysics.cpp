@@ -18,7 +18,7 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <tank/TankPhysics.h>
+#include <tank/Tank.h>
 #include <tank/TankLib.h>
 #include <engine/ScorchedContext.h>
 #include <common/Defines.h>
@@ -29,7 +29,7 @@ TankPhysics::TankPhysics(ScorchedContext &context, unsigned int playerId) :
 	shieldSmallInfo_(CollisionIdShieldSmall),
 	shieldLargeInfo_(CollisionIdShieldLarge),
 	turretRotXY_(0.0f), turretRotYZ_(0.0f),
-	angle_(0.0f)
+	angle_(0.0f), power_(1000.0f), tank_(0), context_(context)
 {
 	// The tank collision object
 	tankGeom_ = 
@@ -55,25 +55,6 @@ TankPhysics::~TankPhysics()
 	dGeomDestroy(shieldLargeGeom_);
 }
 
-void TankPhysics::newGame()
-{
-	turretRotXY_ = RAND * 360;
-	turretRotYZ_ = RAND * 90;
-}
-
-void TankPhysics::clientNewGame()
-{
-	oldTurretRotXYs_.clear();
-	oldTurretRotYZs_.clear();
-}
-
-void TankPhysics::clientNextShot()
-{
-	angle_ = 0.0f;
-	oldTurretRotXYs_.push_back(turretRotXY_);
-	oldTurretRotYZs_.push_back(turretRotYZ_);
-}
-
 void TankPhysics::setTankPosition(Vector &pos)
 {
 	position_ = pos;
@@ -82,25 +63,48 @@ void TankPhysics::setTankPosition(Vector &pos)
 	dGeomSetPosition(shieldLargeGeom_, pos[0], pos[1], pos[2]);
 }
 
+void TankPhysics::clientNewGame()
+{
+	angle_ = 0.0f;
+	power_ = 1000.0f;
+	turretRotXY_ = RAND * 360;
+	turretRotYZ_ = RAND * 90;
+	
+	oldShots_.clear();
+	madeShot();
+}
+
+void TankPhysics::madeShot()
+{
+	oldShots_.push_back(ShotEntry(power_, turretRotXY_, turretRotYZ_));
+}
+
+float TankPhysics::getOldPower()
+{
+	if (oldShots_.empty()) return power_;
+	return oldShots_.back().power;
+}
+
 float TankPhysics::getOldRotationGunXY()
 {
-	if (oldTurretRotXYs_.empty()) return turretRotXY_;
-	return oldTurretRotXYs_.back();
+	if (oldShots_.empty()) return turretRotXY_;
+	return oldShots_.back().rot;
 }
 
 float TankPhysics::getOldRotationGunYZ()
 {
-	if (oldTurretRotYZs_.empty()) return turretRotYZ_;
-	return oldTurretRotYZs_.back();
+	if (oldShots_.empty()) return turretRotYZ_;
+	return oldShots_.back().ele;
 }
 
-void TankPhysics::revertRotation(unsigned int index)
+void TankPhysics::revertSettings(unsigned int index)
 {
-	if (index < oldTurretRotXYs_.size() &&
-		index < oldTurretRotYZs_.size())
+	if (index < oldShots_.size())
 	{
-		rotateGunXY(oldTurretRotXYs_[(oldTurretRotXYs_.size() - 1) - index], false);
-		rotateGunYZ(oldTurretRotYZs_[(oldTurretRotYZs_.size() - 1) - index], false);
+		int newIndex = (oldShots_.size() - 1) - index;
+		rotateGunXY(oldShots_[newIndex].rot, false);
+		rotateGunYZ(oldShots_[newIndex].ele, false);
+		changePower(oldShots_[newIndex].power, false);
 	}
 }
 
@@ -160,6 +164,25 @@ float TankPhysics::rotateGunYZ(float angle, bool diff)
 	return turretRotYZ_;
 }
 
+float TankPhysics::changePower(float power, bool diff)
+{
+	if (diff) power_ += power;
+	else power_ = power;
+
+	if (power_ < 0.0f) power_ = 0.0f;
+	if (context_.optionsGame.getLimitPowerByHealth())
+	{
+		if (power_ > tank_->getState().getLife() * 10.0f) 
+			power_ = tank_->getState().getLife() * 10.0f;
+	}
+	else
+	{
+		if (power_ > 1000.0f) power_ = 1000.0f;
+	}
+
+	return power_;
+}
+
 const char *TankPhysics::getRotationString()
 {
 	static char messageBuffer[255];
@@ -203,13 +226,32 @@ const char *TankPhysics::getElevationString()
 	return messageBuffer;
 }
 
+const char *TankPhysics::getPowerString()
+{
+	static char messageBuffer[255];
+	if (OptionsDisplay::instance()->getUseHexidecimal())
+	{
+		sprintf(messageBuffer, "0X%x (0X%x)", 		
+				int(getPower()),
+				int(getPower() - 
+				getOldPower()));
+	}
+	else
+	{
+		sprintf(messageBuffer, "%.1f (%+.1f)", 		
+				getPower(),
+				getPower() - 
+				getOldPower());
+	}
+
+	return messageBuffer;
+}
+
 bool TankPhysics::writeMessage(NetBuffer &buffer)
 {
 	buffer.addToBuffer(position_[0]);
 	buffer.addToBuffer(position_[1]);
 	buffer.addToBuffer(position_[2]);
-	buffer.addToBuffer(turretRotXY_);
-	buffer.addToBuffer(turretRotYZ_);
 	return true;
 }
 
@@ -220,8 +262,7 @@ bool TankPhysics::readMessage(NetBufferReader &reader)
 	if (!reader.getFromBuffer(pos[1])) return false;
 	if (!reader.getFromBuffer(pos[2])) return false;
 	setTankPosition(pos);
-	if (!reader.getFromBuffer(turretRotXY_)) return false;
-	if (!reader.getFromBuffer(turretRotYZ_)) return false;
+	angle_ = 0.0f;
 	return true;
 }
 

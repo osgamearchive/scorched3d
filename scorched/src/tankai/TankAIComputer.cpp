@@ -170,7 +170,7 @@ void TankAIComputer::fireShot()
 			currentTank_->getAccessories().getWeapons().getCurrent()->getAccessoryId(),
 			currentTank_->getPhysics().getRotationGunXY(),
 			currentTank_->getPhysics().getRotationGunYZ(),
-			currentTank_->getState().getPower());
+			currentTank_->getPhysics().getPower());
 	
 		ServerShotHolder::instance()->addShot(currentTank_->getPlayerId(), message);
 	}

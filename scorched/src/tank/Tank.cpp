@@ -31,9 +31,10 @@ Tank::Tank(ScorchedContext &context,
 	: playerId_(playerId), destinationId_(destinationId),
 	  color_(color), 
 	  physics_(context, playerId), model_(modelId), tankAI_(0),
-	  score_(context), state_(context), name_(name), team_(0)
+	  score_(context), state_(context, playerId), name_(name), team_(0)
 {
-	
+	physics_.setTank(this);
+	state_.setTank(this);
 }
 
 Tank::~Tank()
@@ -58,7 +59,6 @@ void Tank::reset()
 void Tank::newGame()
 {
 	accessories_.newGame();
-	physics_.newGame();
 	state_.newGame();
 	if (tankAI_) tankAI_->newGame();
 }
@@ -66,13 +66,6 @@ void Tank::newGame()
 void Tank::clientNewGame()
 {
 	physics_.clientNewGame();
-	state_.clientNewGame();
-}
-
-void Tank::clientNextShot()
-{
-	physics_.clientNextShot();
-	state_.clientNextShot();
 }
 
 Vector &Tank::getColor()

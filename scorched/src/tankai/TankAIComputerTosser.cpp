@@ -266,7 +266,7 @@ void TankAIComputerTosser::playMove(const unsigned state, float frameTime,
 	// Sets the angle of the gun and the power
 	currentTank_->getPhysics().rotateGunXY(angleXYDegs, false);
 	currentTank_->getPhysics().rotateGunYZ(angleYZDegs, false);
-	currentTank_->getState().changePower(power, false);
+	currentTank_->getPhysics().changePower(power, false);
 
 	// Save the shot made in the list of shots
 	// Cache all shots made at the targets
