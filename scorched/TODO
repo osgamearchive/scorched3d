@@ -15,6 +15,7 @@ Fixed: The server can start multiple times on the same port (windows only)!
 
 Changed: Tank can move up and down bigger slopes
 
+Added: Custom maps (and other mods) can be auto-downloaded from server
 Added: Dialog to toggle display indicators (instead of toggle key)
 Added: Sizers for auto-placement of widgets in GLW dialogs
 Added: Bouyes sway with the waves
@@ -36,7 +37,6 @@ Add round mask to plan view
 Make AIs even better
 Riot Blast
 A way to allow tank spawn positions to be configured, bitmap landscapes only?
-Custom maps etc can be auto-downloaded from server
 Web interface for server to change settings
 A way to set the maximum and minimum players for a map
 Lightning, rain and meteors
