@@ -104,13 +104,13 @@
   <!-- The money awarded for each person hit * weapon used -->
   <option>
     <name>MoneyWonPerHitPoint</name>
-    <value>100</value>
+    <value>200</value>
     <defaultvalue>100</defaultvalue>
   </option>
   <!-- The money awarded for each person killed * weapon used -->
   <option>
     <name>MoneyWonPerKillPoint</name>
-    <value>500</value>
+    <value>750</value>
     <defaultvalue>500</defaultvalue>
   </option>
   <!-- The money awarded is proportional to the amount of health removed -->
@@ -134,7 +134,7 @@
   <!-- The interest awarded at the end of each round -->
   <option>
     <name>MoneyInterest</name>
-    <value>15</value>
+    <value>30</value>
     <defaultvalue>15</defaultvalue>
   </option>
   <!-- Show power is limited by the amount of health a player has -->
