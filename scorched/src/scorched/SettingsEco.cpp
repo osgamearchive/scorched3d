@@ -68,7 +68,15 @@ static void createControls(wxWindow *parent, wxSizer *topsizer)
 	sizer->Add(new wxStaticText(parent, -1,
 		"Money Per Round Won :"), 0, wxALIGN_CENTER);
 	sizer->Add(IDC_MONEYPERROUND_CTRL = 
-		new wxComboBox(parent, IDC_MONEYPERROUND,
+		new wxComboBox(parent, -1,
+		"",
+		wxDefaultPosition, wxSize((int) 100, (int) 124.5),
+		0, 0, wxCB_READONLY), 0, wxALIGN_CENTER);
+
+	sizer->Add(new wxStaticText(parent, -1,
+		"Money Per Round :"), 0, wxALIGN_CENTER);
+	sizer->Add(IDC_MONEYROUND_CTRL = 
+		new wxComboBox(parent, -1,
 		"",
 		wxDefaultPosition, wxSize((int) 100, (int) 124.5),
 		0, 0, wxCB_READONLY), 0, wxALIGN_CENTER);

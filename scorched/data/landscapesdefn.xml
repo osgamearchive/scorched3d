@@ -31,6 +31,7 @@
 				<min>0.5</min><max>1.5</max>
 			</landpeakheight>
 			<landsmoothing>0.04</landsmoothing>
+			<levelsurround>true</levelsurround>
 		</heightmap>
 	</defn>
 	<defn>
@@ -64,6 +65,7 @@
 				<min>0.5</min><max>1.5</max>
 			</landpeakheight>
 			<landsmoothing>0.04</landsmoothing>
+			<levelsurround>true</levelsurround>
 		</heightmap>    
 	</defn>
 	<defn>
@@ -97,6 +99,7 @@
 				<min>0.5</min><max>1.5</max>
 			</landpeakheight>
 			<landsmoothing>0.04</landsmoothing>
+			<levelsurround>true</levelsurround>
 		</heightmap>
 	</defn>
 	<defn>
@@ -130,6 +133,7 @@
 				<min>0.5</min><max>1.5</max>
 			</landpeakheight>
 			<landsmoothing>0.04</landsmoothing>
+			<levelsurround>true</levelsurround>
 		</heightmap>
 	</defn>
 	<defn>
@@ -163,6 +167,7 @@
 				<min>1.0</min><max>1.5</max>
 			</landpeakheight>
 			<landsmoothing>0.04</landsmoothing>
+			<levelsurround>true</levelsurround>
 		</heightmap>
 	</defn>
 	<defn>
@@ -196,6 +201,7 @@
 				<min>0.5</min><max>1.5</max>
 			</landpeakheight>
 			<landsmoothing>0.04</landsmoothing>
+			<levelsurround>true</levelsurround>
 		</heightmap>
 	</defn>
 	<defn>
@@ -229,6 +235,7 @@
 				<min>0.5</min><max>1.5</max>
 			</landpeakheight>
 			<landsmoothing>0.04</landsmoothing>
+			<levelsurround>true</levelsurround>
 		</heightmap>
 	</defn>
 	<defn>
@@ -252,15 +259,16 @@
 			<landwidthx>256</landwidthx>
 			<landwidthy>256</landwidthy>
 			<landpeakwidthx>
-				<min>10</min><max>50</max>
+				<min>4</min><max>10</max>
 			</landpeakwidthx>
 			<landpeakwidthy>
-				<min>-10</min><max>10</max>
+				<min>-3</min><max>3</max>
 			</landpeakwidthy>
 			<landpeakheight>
 				<min>0.5</min><max>1.5</max>
 			</landpeakheight>
 			<landsmoothing>0.04</landsmoothing>
+			<levelsurround>false</levelsurround>
 		</roof>
 		<heightmap type="generate">
 			<mask>data/landscapes/valley-mask.bmp</mask>
@@ -282,6 +290,11 @@
 				<min>0.5</min><max>1.5</max>
 			</landpeakheight>
 			<landsmoothing>0.04</landsmoothing>
+			<levelsurround>true</levelsurround>
 		</heightmap>
+		<!--<heightmap type="file">
+			<file>data/landscapes/valley-mask.bmp</file>
+			<levelsurround>true</levelsurround>
+		</heightmap>-->
 	</defn>
 </defns>

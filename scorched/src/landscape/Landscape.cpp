@@ -22,6 +22,8 @@
 #include <landscape/LandscapeMaps.h>
 #include <landscape/LandscapeTex.h>
 #include <landscape/LandscapeDefinition.h>
+#include <landscape/Sky.h>
+#include <landscape/Surround.h>
 #include <landscape/ShadowMap.h>
 #include <landscape/InfoMap.h>
 #include <landscape/HeightMapRenderer.h>
@@ -48,11 +50,13 @@ Landscape *Landscape::instance()
 
 Landscape::Landscape() : 
 	patchGrid_(&ScorchedClient::instance()->getLandscapeMaps().getHMap(), 16), 
-	surround_(ScorchedClient::instance()->getLandscapeMaps().getHMap(), 1524, 256),
 	resetLandscape_(false), resetLandscapeTimer_(0.0f), 
 	textureType_(eDefault),
 	changeCount_(1)
 {
+	surround_ = new Surround(ScorchedClient::instance()->getLandscapeMaps().getHMap(), 1524, 256);
+	sky_ = new Sky;
+
 	new GLConsoleRuleMethodIAdapter<Landscape>(
 		this, &Landscape::savePlan, "SavePlan");
 }
@@ -82,7 +86,7 @@ void Landscape::simulate(const unsigned state, float frameTime)
 		getActionController().getFast();
 	water_.simulate(frameTime * speedMult);
 	patchGrid_.simulate(frameTime);
-	sky_.simulate(frameTime * speedMult);
+	sky_->simulate(frameTime * speedMult);
 	wall_.simulate(frameTime * speedMult);
 }
 
@@ -181,8 +185,8 @@ void Landscape::draw(const unsigned state)
 	// Be carefull as this we "dull" bilboard textures
 	glEnable(GL_FOG); // NOTE: Fog on
 	surroundTexture_.draw(true);
-	surround_.draw();
-	sky_.draw();
+	surround_->draw();
+	sky_->draw();
 	water_.draw();
 	glDisable(GL_FOG); // NOTE: Fog off
 
@@ -271,10 +275,10 @@ void Landscape::generate(ProgressCounter *counter)
 	water_.generate();
 
 	// Add lighting to the landscape texture
-	sky_.getSun().setPosition(tex->skysunxy, tex->skysunyz);
+	sky_->getSun().setPosition(tex->skysunxy, tex->skysunyz);
 	GLBitmapModifier::addLightMapToBitmap(mainMap_,
 		ScorchedClient::instance()->getLandscapeMaps().getHMap(),
-		sky_.getSun().getPosition(), counter);
+		sky_->getSun().getPosition(), counter);
 
 	// Create the main landscape texture
 	DIALOG_ASSERT(texture_.replace(mainMap_, GL_RGB, false));
@@ -330,7 +334,7 @@ void Landscape::generate(ProgressCounter *counter)
 	glFogfv(GL_FOG_COLOR, fogColorF);
 	
 	// Load the sky
-	sky_.generate();
+	sky_->generate();
 
 	// Ensure that all components use new landscape
 	reset();

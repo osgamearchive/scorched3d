@@ -311,6 +311,7 @@ bool SettingsFrame::TransferDataToWindow()
 			sprintf(buffer, "%i", i);
 			SettingsEco::IDC_STARTMONEY_CTRL->Append(buffer);
 			SettingsEco::IDC_MONEYPERROUND_CTRL->Append(buffer);
+			SettingsEco::IDC_MONEYROUND_CTRL->Append(buffer);
 		}
 		sprintf(buffer, "%i", context_.getStartMoney());
 		SettingsEco::IDC_STARTMONEY_CTRL->SetValue(buffer);
@@ -320,6 +321,10 @@ bool SettingsFrame::TransferDataToWindow()
 		SettingsEco::IDC_MONEYPERROUND_CTRL->SetValue(buffer);
 		SettingsEco::IDC_MONEYPERROUND_CTRL->SetToolTip(
 			wxString("The money awarded to the last tank surviving a round."));
+		sprintf(buffer, "%i", context_.getMoneyPerRound());
+		SettingsEco::IDC_MONEYROUND_CTRL->SetValue(buffer);
+		SettingsEco::IDC_MONEYROUND_CTRL->SetToolTip(
+			wxString("The money given to every tank at the end of each round."));
 
 		// Interest
 		for (i=100; i>=0; i-=5)
@@ -339,7 +344,7 @@ bool SettingsFrame::TransferDataToWindow()
 		SettingsEco::IDC_SCOREMODE_CTRL->SetSelection(
 			(int) context_.getScoreType());
 		SettingsEco::IDC_SCOREMODE_CTRL->SetToolTip(
-			wxString("Who wins each round."));
+			wxString("The ranking that determines the winner."));
 	}
 
 	// Env
@@ -574,6 +579,7 @@ bool SettingsFrame::TransferDataFromWindow()
 		int moneyperhit = 2;
 		int moneyperkill = 2;
 		int moneyperround = 2;
+		int moneyround = 2;
 		int startMoney = 2;
 		int interest = 2;
 
@@ -581,6 +587,7 @@ bool SettingsFrame::TransferDataFromWindow()
 		sscanf(SettingsEco::IDC_MONEYPERHIT_CTRL->GetValue(), "%i", &moneyperhit);
 		sscanf(SettingsEco::IDC_MONEYPERKILL_CTRL->GetValue(), "%i", &moneyperkill);
 		sscanf(SettingsEco::IDC_MONEYPERROUND_CTRL->GetValue(), "%i", &moneyperround);
+		sscanf(SettingsEco::IDC_MONEYROUND_CTRL->GetValue(), "%i", &moneyround);
 		sscanf(SettingsEco::IDC_STARTMONEY_CTRL->GetValue(), "%i", &startMoney);
 		sscanf(SettingsEco::IDC_INTEREST_CTRL->GetValue(), "%i", &interest);
 
@@ -590,6 +597,7 @@ bool SettingsFrame::TransferDataFromWindow()
 		context_.setInterest(interest);
 		context_.setBuyOnRound(buyonround);
 		context_.setMoneyWonForRound(moneyperround);
+		context_.setMoneyPerRound(moneyround);
 		context_.setMoneyWonPerHitPoint(moneyperhit);
 		context_.setMoneyWonPerKillPoint(moneyperkill);
 		context_.setMoneyPerHealthPoint(SettingsEco::IDC_MONEYPERHEALTH_CTRL->GetValue());

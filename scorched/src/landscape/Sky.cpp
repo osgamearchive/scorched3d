@@ -32,17 +32,26 @@ Sky::~Sky()
 
 void Sky::draw()
 {
-	sun_.draw();
 	if (ScorchedClient::instance()->getLandscapeMaps().getRoof())
 	{
 		roof_.draw();
 	}
-	dome_.draw();
+	else
+	{
+		sun_.draw();
+		dome_.draw();
+	}
 }
 
 void Sky::simulate(float frameTime)
 {
-	dome_.simulate(frameTime);
+	if (ScorchedClient::instance()->getLandscapeMaps().getRoof())
+	{
+	}
+	else
+	{
+		dome_.simulate(frameTime);
+	}
 }
 
 void Sky::generate()

@@ -76,6 +76,7 @@ public:
 	float landpeakwidthymax, landpeakwidthymin;
 	float landpeakheightmax, landpeakheightmin;
 	float landsmoothing;
+	bool levelsurround;
 
 	virtual bool writeMessage(NetBuffer &buffer);
 	virtual bool readMessage(NetBufferReader &reader);

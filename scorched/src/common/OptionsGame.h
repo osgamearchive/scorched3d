@@ -201,6 +201,10 @@ public:
 	void setMoneyWonPerKillPoint(int value) { moneyPerKillPoint_.setValue(value); }
 	const char *getMoneyWonPerKillPointToolTip() { return moneyPerKillPoint_.getDescription(); }
 
+	int getMoneyPerRound() { return moneyPerRound_.getValue(); }
+	void setMoneyPerRound(int value) { moneyPerRound_.setValue(value); }
+	const char *getMoneyPerRoundToolTip() { return moneyPerRound_.getDescription(); }
+
 	bool getMoneyPerHealthPoint() { return moneyPerHealthPoint_.getValue(); }
 	void setMoneyPerHealthPoint(bool value) { moneyPerHealthPoint_.setValue(value); }
 	const char *getMoneyPerHealthPointToolTip() { return moneyPerHealthPoint_.getDescription(); }
@@ -338,6 +342,7 @@ protected:
 	OptionEntryInt maxLandscapeSize_;
 	OptionEntryInt moneyPerHitPoint_;
 	OptionEntryInt moneyPerKillPoint_;
+	OptionEntryInt moneyPerRound_;
 	OptionEntryInt freeMarketAdjustment_;
 	OptionEntryBool moneyPerHealthPoint_;
 	OptionEntryBoundedInt moneyStarting_;

@@ -84,6 +84,7 @@ void LandscapeMaps::generateHMap(LandscapeDefinition *hdef,
 				float height = getRMap().getHeight(i, j);
 				height = 125.0f - height;
 				getRMap().setHeight(i, j, height);
+				getRMap().getNormal(i, j)[2] = -getRMap().getNormal(i, j)[2];
 			}
 		}
 		roof_ = true;

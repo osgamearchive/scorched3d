@@ -21,6 +21,8 @@
 #if !defined(__INCLUDE_SkyRoofh_INCLUDE__)
 #define __INCLUDE_SkyRoofh_INCLUDE__
 
+#include <common/Vector.h>
+
 class SkyRoof
 {
 public:
@@ -34,6 +36,9 @@ protected:
 	unsigned int list_;
 
 	void makeList();
+	void drawSegment(Vector &a, Vector &b, 
+		Vector &na, Vector &nb, float texmult);
+	void makeNormal(Vector &position, Vector &normal);
 };
 
 #endif // __INCLUDE_SkyRoofh_INCLUDE__

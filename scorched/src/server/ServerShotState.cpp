@@ -144,6 +144,7 @@ void ServerShotState::scoreWinners()
 
 		// Calculate how much money each tank should get
 		int addMoney = int(float(tank->getScore().getMoney()) * interest);
+		addMoney += ScorchedServer::instance()->getOptionsGame().getMoneyPerRound();
 		int addRounds = 0;
 		if (tank->getState().getState() == TankState::sNormal)
 		{

@@ -143,6 +143,7 @@ bool LandscapeDefnHeightMapGenerate::writeMessage(NetBuffer &buffer)
 	buffer.addToBuffer(landpeakheightmax);
 	buffer.addToBuffer(landpeakheightmin);
 	buffer.addToBuffer(landsmoothing);
+	buffer.addToBuffer(levelsurround);
 	return true;
 }
 
@@ -162,6 +163,7 @@ bool LandscapeDefnHeightMapGenerate::readMessage(NetBufferReader &reader)
 	if (!reader.getFromBuffer(landpeakheightmax)) return false;
 	if (!reader.getFromBuffer(landpeakheightmin)) return false;
 	if (!reader.getFromBuffer(landsmoothing)) return false;
+	if (!reader.getFromBuffer(levelsurround)) return false;
 	return true;
 }
 
@@ -181,6 +183,7 @@ bool LandscapeDefnHeightMapGenerate::readXML(XMLNode *node)
 	if (!parseMinMax(node, "landpeakheight", 
 		landpeakheightmin, landpeakheightmax)) return false;
 	if (!node->getNamedChild("landsmoothing", landsmoothing)) return false;
+	if (!node->getNamedChild("levelsurround", levelsurround)) return false;
 
 	if (!mask.empty())
 	{
