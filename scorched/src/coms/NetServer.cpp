@@ -50,6 +50,25 @@ void NetServer::setMessageHandler(NetMessageHandlerI *handler)
 
 int NetServer::processMessages()
 { 
+	float timeDifference = delayedClock_.getTimeDifference();
+	if (!delayedMessages_.empty())
+	{
+		std::list<std::pair<float, NetMessage *> >::iterator itor;
+		for (itor = delayedMessages_.begin();
+				itor != delayedMessages_.end();
+				itor++)
+		{
+			(*itor).first -= timeDifference;
+		}
+		while (!delayedMessages_.empty() &&
+			delayedMessages_.front().first <= 0.0f)
+		{
+			NetMessage *message = (delayedMessages_.front()).second;
+			delayedMessages_.pop_front();
+			sendMessage((TCPsocket) message->getDestinationId(), message);
+		}
+	}
+
 	return messageHandler_.processMessages(); 
 }
 
@@ -220,7 +239,7 @@ void NetServer::disconnectAllClients()
 	SDL_UnlockMutex(setMutex_);
 }
 
-void NetServer::disconnectClient(unsigned int dest)
+void NetServer::disconnectClient(unsigned int dest, bool delayed)
 {
 	TCPsocket client = (TCPsocket) dest;
 	DIALOG_ASSERT(client);
@@ -230,8 +249,16 @@ void NetServer::disconnectClient(unsigned int dest)
 				(unsigned int) client,
 				getIpAddress(client));
 
-	// Add the message to the list of out going
-	sendMessage(client, message);
+	if (delayed)
+	{
+		std::pair<float, NetMessage *> item(1.0f, message);
+		delayedMessages_.push_back(item);
+	}
+	else
+	{
+		// Add the message to the list of out going
+		sendMessage(client, message);
+	}
 }
 
 void NetServer::sendMessage(NetBuffer &buffer)
@@ -285,10 +312,14 @@ void NetServer::sendMessage(TCPsocket client, NetMessage *message)
 unsigned int NetServer::getIpAddress(TCPsocket destination)
 {
 	if (destination == 0) return 0;
-	IPaddress *address = SDLNet_TCP_GetPeerAddress(destination);
-	if (!address) return 0;
 
-	unsigned int addr = SDLNet_Read32(&address->host);
+	unsigned int addr = 0;
+	IPaddress *address = SDLNet_TCP_GetPeerAddress(destination);
+	if (address)
+	{
+		addr = SDLNet_Read32(&address->host);
+	}
+
 	return addr;
 }
 

@@ -57,7 +57,7 @@ void NetLoopBack::disconnectAllClients()
 	Logger::log(0, "Cannot disconnect all clients, they are local!");
 }
 
-void NetLoopBack::disconnectClient(unsigned int client)
+void NetLoopBack::disconnectClient(unsigned int client, bool delay)
 {
 	Logger::log(0, "Cannot disconnect client %i, they are local!", client);
 }

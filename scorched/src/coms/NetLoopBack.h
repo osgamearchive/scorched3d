@@ -44,7 +44,7 @@ public:
 	virtual void setMessageHandler(NetMessageHandlerI *handler);
 
 	virtual void disconnectAllClients();
-	virtual void disconnectClient(unsigned int client);
+	virtual void disconnectClient(unsigned int client, bool delay = false);
 	virtual void sendMessage(NetBuffer &buffer);
 	virtual void sendMessage(NetBuffer &buffer, unsigned int destination);
 

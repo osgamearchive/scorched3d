@@ -24,6 +24,7 @@
 #include <coms/NetInterface.h>
 #include <coms/NetServerProtocol.h>
 #include <coms/NetServerRead.h>
+#include <common/Clock.h>
 #include <list>
 #include <map>
 
@@ -41,7 +42,7 @@ public:
 	virtual void setMessageHandler(NetMessageHandlerI *handler);
 
 	virtual void disconnectAllClients();
-	virtual void disconnectClient(unsigned int client);
+	virtual void disconnectClient(unsigned int client, bool delayed = false);
 	virtual void sendMessage(NetBuffer &buffer);
 	virtual void sendMessage(NetBuffer &buffer, unsigned int destination);
 
@@ -53,6 +54,8 @@ protected:
 	TCPsocket firstDestination_;
 	SDLNet_SocketSet sockSet_;
 	std::map<TCPsocket, NetServerRead *> connections_;
+	std::list<std::pair<float, NetMessage *> > delayedMessages_;
+	Clock delayedClock_;
 	SDL_mutex *setMutex_;
 	NetMessageHandler messageHandler_;
 	bool checkDeleted_;

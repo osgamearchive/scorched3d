@@ -123,7 +123,7 @@ OptionsGame::OptionsGame() :
 		"For updates and news visit:\n"
 		"http://www.scorched3d.co.uk"),
 	modDownloadSpeed_(options_, "ModDownloadSpeed",
-		"Max download speed of mods in bytes per second (0 == no mod download)", 0, 10000),
+		"Max download speed of mods in bytes per second (0 == no mod download)", 0, 0),
 	economy_(options_, "Economy", 
 		"Speicifies the name of the economy to use", 0, "EconomyFreeMarket"),
 	landscapes_(options_, "Landscapes", 

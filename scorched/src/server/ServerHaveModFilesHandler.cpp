@@ -108,7 +108,7 @@ bool ServerHaveModFilesHandler::processMessage(unsigned int destinationId,
 			"You must download and install this mod before you\n"
 			"can connect to this server.",
 			ScorchedServer::instance()->getOptionsGame().getMod());
-		ServerCommon::kickDestination(destinationId);
+		ServerCommon::kickDestination(destinationId, true);
 	}
 	else 
 	{

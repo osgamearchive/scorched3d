@@ -73,7 +73,7 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 			ScorchedServer::instance()->getTankContainer().getNoOfTanks())
 		{
 			ServerCommon::sendString(destinationId, "Too many players");
-			ServerCommon::kickDestination(destinationId);
+			ServerCommon::kickDestination(destinationId, true);
 			return true;		
 		}
 
@@ -103,7 +103,7 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 			message.getVersion(),
 			message.getProtocolVersion());
 
-		ServerCommon::kickDestination(destinationId);
+		ServerCommon::kickDestination(destinationId, true);
 		return true;
 	}
 
@@ -113,7 +113,7 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 		ScorchedServer::instance()->getTankContainer().getNoOfTanks())
 	{
 		ServerCommon::sendString(destinationId, "Too many players");
-		ServerCommon::kickDestination(destinationId);
+		ServerCommon::kickDestination(destinationId, true);
 		return true;
 	}
 
@@ -129,7 +129,7 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 					"Connection failed.");
 			Logger::log(0, "ERROR: Player connected with an invalid password");
 			
-			ServerCommon::kickDestination(destinationId);
+			ServerCommon::kickDestination(destinationId, true);
 			return true;
 		}
 	}

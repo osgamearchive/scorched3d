@@ -35,7 +35,7 @@ public:
 	virtual void setMessageHandler(NetMessageHandlerI *handler) = 0;
 
 	virtual void disconnectAllClients() = 0;
-	virtual void disconnectClient(unsigned int client) = 0;
+	virtual void disconnectClient(unsigned int client, bool delay = false) = 0;
 	virtual void sendMessage(NetBuffer &buffer) = 0;
 	virtual void sendMessage(NetBuffer &buffer, unsigned int destination) = 0;
 

@@ -112,7 +112,7 @@ void ServerCommon::slapPlayer(unsigned int playerId, float slap)
 	}
 }
 
-void ServerCommon::kickDestination(unsigned int destinationId)
+void ServerCommon::kickDestination(unsigned int destinationId, bool delayed)
 {
 	Logger::log(0, "Kicking destination \"%i\"", destinationId);
 
@@ -128,7 +128,7 @@ void ServerCommon::kickDestination(unsigned int destinationId)
 		if (tank->getDestinationId() == destinationId)
 		{
 			kickedPlayers = true;
-			kickPlayer(tank->getPlayerId());
+			kickPlayer(tank->getPlayerId(), delayed);
 		}
 	}
 	
@@ -136,11 +136,11 @@ void ServerCommon::kickDestination(unsigned int destinationId)
 	if (!kickedPlayers)
 	{
 		ScorchedServer::instance()->getNetInterface().
-			disconnectClient(destinationId);
+			disconnectClient(destinationId, delayed);
 	}
 }
 
-void ServerCommon::kickPlayer(unsigned int playerId)
+void ServerCommon::kickPlayer(unsigned int playerId, bool delayed)
 {
 	Logger::log(0, "Kicking player \"%i\"", playerId);
 
@@ -162,7 +162,7 @@ void ServerCommon::kickPlayer(unsigned int playerId)
 		else
 		{
 			ScorchedServer::instance()->getNetInterface().
-				disconnectClient(tank->getDestinationId());
+				disconnectClient(tank->getDestinationId(), delayed);
 		}
 	}
 }

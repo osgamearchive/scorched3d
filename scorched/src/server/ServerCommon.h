@@ -27,8 +27,8 @@ namespace ServerCommon
 	void sendStringMessage(unsigned int destinationId, const char *fmt, ...);
 	void serverLog(unsigned int playerId, const char *fmt, ...);
 	void sendString(unsigned int destinationId, const char *fmt, ...);
-	void kickDestination(unsigned int destinationId);
-	void kickPlayer(unsigned int playerId);
+	void kickDestination(unsigned int destinationId, bool delayed = false);
+	void kickPlayer(unsigned int playerId, bool delayed = false);
 	void banPlayer(unsigned int playerId);
 	void slapPlayer(unsigned int playerId, float slap);
 	void killAll();

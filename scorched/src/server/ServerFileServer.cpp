@@ -76,6 +76,12 @@ void ServerFileServer::simulate(float timeDifference)
 		}
 	}
 
+	// Do we allow file downloads
+	if (ScorchedServer::instance()->getOptionsGame().getModDownloadSpeed() == 0)
+	{
+		return;
+	}
+
 	// If no people are downloading then there is nothing to do
 	if (downloadCount == 0) return;
 
@@ -180,6 +186,7 @@ bool ServerFileServer::sendNextFile(ComsFileMessage &message,
 	unsigned int sizeSent = entry.length;
 	unsigned int sizeLeftToSend = modentry->getCompressedSize() - sizeSent;
 	unsigned int sizeToSend = MIN(sizeLeftToSend, size);
+	unsigned int filesLeft = (unsigned int) modfiles.size();
 	bool firstChunk = (sizeSent == 0);
 	bool lastChunk = (sizeToSend == sizeLeftToSend);
 
@@ -187,6 +194,7 @@ bool ServerFileServer::sendNextFile(ComsFileMessage &message,
 	message.fileBuffer.addToBuffer(modentry->getFileName());
 	message.fileBuffer.addToBuffer(firstChunk);
 	message.fileBuffer.addToBuffer(lastChunk);
+	message.fileBuffer.addToBuffer(filesLeft);
 	message.fileBuffer.addToBuffer(modentry->getCompressedSize());
 	message.fileBuffer.addToBuffer(modentry->getUncompressedSize());
 	message.fileBuffer.addToBuffer(modentry->getCompressedCrc());

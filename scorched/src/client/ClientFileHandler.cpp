@@ -76,6 +76,10 @@ bool ClientFileHandler::processMessage(unsigned int id,
 		reader.getFromBuffer(firstChunk);
 		reader.getFromBuffer(lastChunk);
 
+		// Read file count
+		unsigned int filesLeft = 0;
+		reader.getFromBuffer(filesLeft);
+
 		// Read the size
 		unsigned int maxsize = 0;
 		unsigned int uncompressedsize = 0;
@@ -126,7 +130,8 @@ bool ClientFileHandler::processMessage(unsigned int id,
 		if (lastChunk)
 		{
 			// Finished
-			Logger::log(0, "  %s - %i bytes",
+			Logger::log(0, " %u %s - %i bytes",
+				filesLeft,
 				fileName.c_str(),
 				entry->getCompressedSize());
 
