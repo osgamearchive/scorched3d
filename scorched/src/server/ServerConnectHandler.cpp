@@ -75,7 +75,8 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 		if (ScorchedServer::instance()->getOptionsGame().getNoMaxPlayers() <=
 			ScorchedServer::instance()->getTankContainer().getNoOfTanks())
 		{
-			ServerCommon::sendString(destinationId, "Too many players");
+			ServerCommon::sendString(destinationId, "This server is full, you cannot join!");
+			ServerCommon::serverLog(destinationId, "Server full, kicking");
 			ServerCommon::kickDestination(destinationId, true);
 			return true;		
 		}
@@ -115,7 +116,8 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 		ScorchedServer::instance()->getOptionsGame().getNoMaxPlayers() -
 		ScorchedServer::instance()->getTankContainer().getNoOfTanks())
 	{
-		ServerCommon::sendString(destinationId, "Too many players");
+		ServerCommon::sendString(destinationId, "This server is full, you cannot join!");
+		ServerCommon::serverLog(destinationId, "Server full, kicking");
 		ServerCommon::kickDestination(destinationId, true);
 		return true;
 	}
