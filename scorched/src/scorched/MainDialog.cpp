@@ -272,10 +272,18 @@ MainFrame::MainFrame() :
 
 void MainFrame::onTimer()
 {
+	wxString newString;
 	SDL_LockMutex(messageMutex_);
 	if (!messageString_.empty())
 	{
-		messageString_.append("\n"
+		newString = messageString_;
+		messageString_ = "";
+	}
+	SDL_UnlockMutex(messageMutex_);
+
+	if (!newString.empty())
+	{
+		newString.append("\n"
 			"Would you like to load the failsafe "
 			"scorched3d settings?\n"
 			"This gives the best chance of working but "
@@ -283,7 +291,7 @@ void MainFrame::onTimer()
 			"You can adjust this later in the Scorched3D "
 			"display settings dialog.");
 		int answer = ::wxMessageBox(
-			messageString_,
+			newString,
 			"Scorched3D Abnormal Termination",
 			wxYES_NO | wxICON_ERROR);
 		if (answer == wxYES)
@@ -291,10 +299,7 @@ void MainFrame::onTimer()
 			OptionsDisplay::instance()->loadSafeValues();
 			OptionsDisplay::instance()->writeOptionsToFile();
 		}
-
-		messageString_ = "";
 	}
-	SDL_UnlockMutex(messageMutex_);
 }
 
 void MainFrame::onScorchedClick()
