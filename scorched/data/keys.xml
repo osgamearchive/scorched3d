@@ -288,6 +288,11 @@
 		<description>Shows or hides the plan dialog</description>
 	</keyentry>	
 	<keyentry>
+		<name>SHOW_TEAM_DIALOG</name>
+		<description>Shows or hides the team dialog</description>
+		<key>m</key>
+	</keyentry>
+	<keyentry>
 		<name>SHOW_PLAYER_DIALOG</name>
 		<description>Shows or hides the player dialog</description>
 	</keyentry>
