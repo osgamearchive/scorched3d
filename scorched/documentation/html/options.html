@@ -19,32 +19,49 @@
 				</tr>
 				<tr>
 					<td>-allowexceptions</td>
-					<td>Allows any program exceptions to be thrown.
+					<td>Allows any program exceptions to be thrown.  On unix allows a core dump to be
+					generated.
 					</td>
 				</tr>
 				<tr>
+					<td>-console</td>
+					<td>Runs the server in non-gui console only mode.
+					</td>
+				</tr>	
+				<tr>
+					<td>-screensaver</td>
+					<td>Runs the game in screensaver mode.  Runs fullscreen, no sound and will terminate
+					if on any key or mouse movement.
+					</td>
+				</tr>				
+				<tr>
 					<td>-connect [name]
 					</td>
-					<td>Starts a NET/LAN client by connecting to NAME.
+					<td>Starts a NET/LAN client by connecting to NAME. e.g. -connect 127.0.0.1:27270
 					</td>
 				</tr>
 				<tr>
 					<td>-password
 					</td>
-					<td>Password needed for NET/LAN client to connect.
+					<td>The password required for locked online games during connection.
 					</td>
 				</tr>
 				<tr>
+					<td>-starthelp</td>
+					<td>Runs the Scorched3D help browser.
+					</td>
+				</tr>	
+				<tr>
 					<td>-startserver [filename]
 					</td>
-					<td>Starts a dedicated Scorched 3D Server. Specify server file [data/server.xml]
+					<td>Starts a dedicated Scorched 3D Server. e.g. - startsercver data/server.xml
 					</td>
 				</tr>
 				<tr>
 					<td>-startclient [filename]
 					</td>
-					<td>Starts the single player version of Scorched3D. Specify client file 
-						[data/singleeasy.xml]</td>
+					<td>Starts the single player version of Scorched3D. e.g. -startserver data/singleeasy.xml
+					</td>
 				</tr>
 			</table>
 		</p>
