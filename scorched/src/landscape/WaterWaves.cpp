@@ -126,7 +126,7 @@ void WaterWaves::constructLines(std::vector<Vector> &points)
 	const float waterHeight = 5.0f;
 	Vector point = points.front();
 	int dist = int(RAND * 6.0f + 1.0f);
-	for (int i=5; i<(int)points.size(); i+=5)
+	for (int i=2; i<(int)points.size(); i+=2)
 	{
 		Vector &current = points[i];
 		int diffX = int(current[0]) - int(point[0]);
@@ -180,7 +180,7 @@ void WaterWaves::constructLines(std::vector<Vector> &points)
 
 void WaterWaves::simulate(float frameTime)
 {
-	totalTime_ += frameTime / 2.0f;
+	totalTime_ += frameTime;
 	if (totalTime_ > 6.0f) totalTime_ = 0.0f;
 }
 
