@@ -58,6 +58,7 @@ void TankParticleRenderer::renderParticle(Particle &particle)
 			TankModelRenderer *model = (TankModelRenderer *) 
 				tank->getModel().getModelIdRenderer();
 			model->drawSecond();
+			glDepthMask(GL_FALSE);
 		}
 	}
 }
