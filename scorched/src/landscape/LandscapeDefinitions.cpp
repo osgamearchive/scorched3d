@@ -313,16 +313,15 @@ LandscapeDefinitions *LandscapeDefinitions::instance()
 
 LandscapeDefinitions::LandscapeDefinitions()
 {
-	if (!readLandscapeDefinitions())
-	{
-		dialogMessage("Scorched Landscape",
-			"Failed to parse \"data/landscapes.xml\"");
-		exit(1);
-	}
 }
 
 LandscapeDefinitions::~LandscapeDefinitions()
 {
+}
+
+void LandscapeDefinitions::clearLandscapeDefinitions()
+{
+	definitions_.clear();
 }
 
 bool LandscapeDefinitions::readLandscapeDefinitions()

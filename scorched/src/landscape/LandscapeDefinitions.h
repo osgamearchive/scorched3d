@@ -76,6 +76,9 @@ class LandscapeDefinitions
 public:
 	static LandscapeDefinitions *instance();
 
+	bool readLandscapeDefinitions();
+	void clearLandscapeDefinitions();
+
 	LandscapeDefinition &getRandomLandscapeDefn(OptionsGame &context);
 
 	bool landscapeEnabled(OptionsGame &context, const char *name);
@@ -85,8 +88,6 @@ public:
 protected:
 	static LandscapeDefinitions *instance_;
 	std::vector<LandscapeDefinition> definitions_;
-
-	bool readLandscapeDefinitions();
 
 private:
 	LandscapeDefinitions();

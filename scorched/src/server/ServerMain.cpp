@@ -113,7 +113,7 @@ bool startServer(bool local)
 
 	if (!ScorchedServer::instance()->getAccessoryStore().parseFile()) return false;
 	ScorchedServer::instance()->getOptionsTransient().reset();
-	LandscapeDefinitions::instance();
+	if (!LandscapeDefinitions::instance()->readLandscapeDefinitions()) return false;
 
 	// Add the server side bots
 	// Add any new AIs

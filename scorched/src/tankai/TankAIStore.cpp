@@ -50,6 +50,16 @@ TankAIStore::~TankAIStore()
 
 }
 
+void TankAIStore::clearAIs()
+{
+	while (!ais_.empty())
+	{
+		TankAI *ai = ais_.front();
+		ais_.pop_front();
+		delete ai;
+	}
+}
+
 bool TankAIStore::loadAIs()
 {
 	// Load key definition file

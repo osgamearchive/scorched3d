@@ -25,14 +25,14 @@
 #include <common/OptionsParam.h>
 #include <wx/wx.h>
 #include <wx/utils.h>
-#include "ServerS.cpp"
+#include "SingleS.cpp"
 
 extern char scorched3dAppName[128];
 
-class ServerSFrame: public wxDialog
+class SingleSFrame: public wxDialog
 {
 public:
-	ServerSFrame(OptionsGame &options);
+	SingleSFrame(OptionsGame &options);
 
 	virtual bool TransferDataToWindow();
 	virtual bool TransferDataFromWindow();
@@ -45,11 +45,11 @@ private:
 	OptionsGame &options_;
 };
 
-BEGIN_EVENT_TABLE(ServerSFrame, wxDialog)
-    EVT_BUTTON(IDC_BUTTON_SETTINGS,  ServerSFrame::onSettingsButton)
+BEGIN_EVENT_TABLE(SingleSFrame, wxDialog)
+    EVT_BUTTON(IDC_BUTTON_SETTINGS,  SingleSFrame::onSettingsButton)
 END_EVENT_TABLE()
 
-ServerSFrame::ServerSFrame(OptionsGame &options) :
+SingleSFrame::SingleSFrame(OptionsGame &options) :
 	wxDialog(getMainDialog(), -1, scorched3dAppName,
 			 wxDefaultPosition, wxDefaultSize),
 	 options_(options)
@@ -74,56 +74,60 @@ ServerSFrame::ServerSFrame(OptionsGame &options) :
 	CentreOnScreen();
 }
 
-void ServerSFrame::onSettingsButton()
+void SingleSFrame::onSettingsButton()
 {
 	// Don't save until the whole options have been choosen
-	showSettingsDialog(true, options_);
+	showSettingsDialog(false, options_);
 }
 
-bool ServerSFrame::TransferDataToWindow()
+bool SingleSFrame::TransferDataToWindow()
 {
-	char buffer[256];
-	sprintf(buffer, "%i", options_.getPortNo());
-	IDC_SERVER_PORT_CTRL->SetValue(buffer);
-	IDC_SERVER_PORT_CTRL->SetToolTip(options_.getPortNoToolTip());
-	IDC_SERVER_NAME_CTRL->SetValue(options_.getServerName());
-	IDC_SERVER_NAME_CTRL->SetToolTip(options_.getServerNameToolTip());
-	IDC_PUBLISH_CTRL->SetValue(options_.getPublishServer());
-	IDC_PUBLISH_CTRL->SetToolTip(options_.getPublishServerToolTip());
-	IDC_PUBLISHIP_CTRL->SetValue(options_.getPublishAddress());
-	IDC_PUBLISHIP_CTRL->SetToolTip(options_.getPublishAddressToolTip());
-	return true;
-}
-
-bool ServerSFrame::TransferDataFromWindow()
-{
-	options_.setPortNo(atoi(IDC_SERVER_PORT_CTRL->GetValue()));
-	options_.setServerName(IDC_SERVER_NAME_CTRL->GetValue());
-	options_.setPublishServer(IDC_PUBLISH_CTRL->GetValue());
-	options_.setPublishAddress(IDC_PUBLISHIP_CTRL->GetValue());
+	int i;
+	char string[20];
+	for (i=24; i>1; i--)
+	{
+		char string[20];
+		sprintf(string, "%i", i);
+		IDC_CLIENT_PLAYERS_CTRL->Append(string);
+	}
+	sprintf(string, "%i", options_.getNoMaxPlayers());
+	IDC_CLIENT_PLAYERS_CTRL->SetValue(string);
+	IDC_CLIENT_PLAYERS_CTRL->SetToolTip(
+		wxString("The number of players that will play in this game.\n"
+			"This number should include computer players"));
 
 	return true;
 }
 
-bool showServerSDialog()
+bool SingleSFrame::TransferDataFromWindow()
+{
+	int noPlayers = 2;
+	sscanf(IDC_CLIENT_PLAYERS_CTRL->GetValue(), "%i", &noPlayers);
+	options_.setNoMaxPlayers(noPlayers);
+	options_.setNoMinPlayers(noPlayers);
+
+	return true;
+}
+
+bool showSingleSDialog()
 {
 	OptionsGame tmpOptions;
-	wxString serverFileSrc = getDataFile("data/server.xml");
-	wxString serverFileDest = getSettingsFile("server.xml");
-	if (::wxFileExists(serverFileDest))
+	wxString customFilePathSrc = getDataFile("data/singlecustom.xml");
+	wxString customFilePathDest = getSettingsFile("singlecustom.xml");
+	if (::wxFileExists(customFilePathDest))
 	{
-		tmpOptions.readOptionsFromFile((char *) serverFileDest.c_str());
+		tmpOptions.readOptionsFromFile((char *) customFilePathDest.c_str());
 	}
 	else
 	{
-		tmpOptions.readOptionsFromFile((char *) serverFileSrc.c_str());
+		tmpOptions.readOptionsFromFile((char *) customFilePathSrc.c_str());
 	}
 
-	ServerSFrame frame(tmpOptions);
+	SingleSFrame frame(tmpOptions);
 	if (frame.ShowModal() == wxID_OK)
 	{
-		tmpOptions.writeOptionsToFile((char *) serverFileDest.c_str());
-		runScorched3D("-startserver \"%s\"", serverFileDest.c_str());
+		tmpOptions.writeOptionsToFile((char *) customFilePathDest.c_str());
+		runScorched3D("-startclient \"%s\"", customFilePathDest.c_str());
 		return true;
 	}
 	return false;

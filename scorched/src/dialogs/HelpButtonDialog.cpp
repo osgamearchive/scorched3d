@@ -109,10 +109,14 @@ void HelpButtonDialog::mouseDown(float x, float y, bool &skipRest)
 			std::list<GLWSelectorEntry> entries;
 			for (int i=0; i<=10; i++)
 			{
+				int volume = int(float(i) * 12.8f);
+				bool selected = 
+					(OptionsDisplay::instance()->getSoundVolume() >= volume &&
+					OptionsDisplay::instance()->getSoundVolume() < volume + 12);
 				entries.push_back(
 					GLWSelectorEntry(
 						formatString("Volume : %i", i * 10), 
-						0, false, 0, (void *) i));
+						0, selected, 0, (void *) i));
 			}
 
 			GLWSelector::instance()->showSelector(

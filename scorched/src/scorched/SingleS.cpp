@@ -18,44 +18,30 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include "ServerS-def.cpp"
+#include "SingleS-def.cpp"
 
 static void createControls(wxWindow *parent,
 						   wxSizer *sizer)
 {
-	wxStaticBox *servernameBox = 
-		new wxStaticBox(parent, -1, "Server Settings");
-	wxStaticBoxSizer *servernameSizer = 
-		new wxStaticBoxSizer(servernameBox, wxVERTICAL);
-	wxFlexGridSizer *servernameSizer2 = new wxFlexGridSizer(4, 2, 5, 5);
-	IDC_SERVER_NAME_CTRL = 
-		new wxTextCtrl(parent, IDC_SERVER_NAME,
+	wxStaticBox *clientnameBox = 
+		new wxStaticBox(parent, -1, "Client Settings");
+	wxStaticBoxSizer *clientnameSizer = 
+		new wxStaticBoxSizer(clientnameBox, wxVERTICAL);
+	wxFlexGridSizer *clientnameSizer2 = new wxFlexGridSizer(4, 2, 5, 5);
+
+	IDC_CLIENT_PLAYERS_CTRL_TEXT = 
+		new wxStaticText(parent, -1,
+		"Number Players :");
+	clientnameSizer2->Add(IDC_CLIENT_PLAYERS_CTRL_TEXT, 0, wxALIGN_CENTER);
+	IDC_CLIENT_PLAYERS_CTRL = 
+		new wxComboBox(parent, -1,
 		"",
-		wxDefaultPosition, wxSize((int) 226.5, -1));
-	servernameSizer2->Add(new wxStaticText(parent, -1, "Server Name :"), 
-						  0, wxALIGN_CENTER_VERTICAL);
-	servernameSizer2->Add(IDC_SERVER_NAME_CTRL);
-	IDC_SERVER_PORT_CTRL = 
-		new wxTextCtrl(parent, IDC_SERVER_PORT,
-		"",
-		wxDefaultPosition, wxSize((int) 72, -1));
-	servernameSizer2->Add(new wxStaticText(parent, -1, "Port Number :"),
-						  0, wxALIGN_CENTER_VERTICAL);
-	servernameSizer2->Add(IDC_SERVER_PORT_CTRL);		
-	servernameSizer->Add(servernameSizer2);
-	IDC_PUBLISHIP_CTRL_TEXT = new wxStaticText(parent, -1, "Published IP :");
-	IDC_PUBLISHIP_CTRL = 
-		new wxTextCtrl(parent, IDC_PUBLISHIP,
-		"",
-		wxDefaultPosition, wxSize((int) 228, -1));
-	servernameSizer2->Add(IDC_PUBLISHIP_CTRL_TEXT,
-						  0, wxALIGN_CENTER_VERTICAL);
-	servernameSizer2->Add(IDC_PUBLISHIP_CTRL);		
-	IDC_PUBLISH_CTRL = 
-		new wxCheckBox(parent, IDC_PUBLISH,
-		"Allow ALL other internet users to see and use this server");	
-	servernameSizer->Add(IDC_PUBLISH_CTRL);
-	sizer->Add(servernameSizer, 0, wxALL, 5);
+		wxDefaultPosition, wxSize((int) 100, (int) 124.5),
+		0, 0, wxCB_READONLY);
+	clientnameSizer2->Add(IDC_CLIENT_PLAYERS_CTRL, 0, wxALIGN_CENTER);
+
+	clientnameSizer->Add(clientnameSizer2);
+	sizer->Add(clientnameSizer, 0, wxALL, 5);
 	
 	wxStaticBox *advBox = 
 		new wxStaticBox(parent, -1, "Advanced Settings");
@@ -69,7 +55,7 @@ static void createControls(wxWindow *parent,
 
 	// Ok and cancel boxes
 	wxBoxSizer *buttonSizer = new wxBoxSizer(wxHORIZONTAL);
-	IDOK_CTRL = new wxButton(parent, wxID_OK, "Start Server");
+	IDOK_CTRL = new wxButton(parent, wxID_OK, "Start Client");
 	IDCANCEL_CTRL = new wxButton(parent, wxID_CANCEL, "Cancel");
 	buttonSizer->Add(IDCANCEL_CTRL, 0, wxALL, 10);
 	buttonSizer->Add(IDOK_CTRL, 0, wxALL, 10);

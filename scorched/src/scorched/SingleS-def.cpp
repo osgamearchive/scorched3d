@@ -18,33 +18,13 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-#if !defined(__INCLUDE_TankAIStoreh_INCLUDE__)
-#define __INCLUDE_TankAIStoreh_INCLUDE__
-
-#include <list>
-#include <tankai/TankAI.h>
-
-class TankAIStore
+enum
 {
-public:
-	static TankAIStore *instance();
-
-	bool loadAIs();
-	void clearAIs();
-
-	std::list<TankAI*> &getAis() { return ais_; }
-	TankAI *getAIByName(const char *name);
-
-protected:
-	static TankAIStore *instance_;
-	std::list<TankAI *> ais_;
-
-	void addAI(TankAI *ai);
-
-private:
-	TankAIStore();
-	virtual ~TankAIStore();
+	IDC_BUTTON_SETTINGS
 };
 
-#endif
+static wxComboBox *IDC_CLIENT_PLAYERS_CTRL = 0;
+static wxButton *IDOK_CTRL = 0;
+static wxButton *IDC_BUTTON_SETTINGS_CTRL = 0;
+static wxButton *IDCANCEL_CTRL = 0;
+static wxStaticText *IDC_CLIENT_PLAYERS_CTRL_TEXT = 0;

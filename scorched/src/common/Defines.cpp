@@ -90,6 +90,7 @@ const char *formatString(const char *file, ...)
 
 void setDataFileMod(const char *mod)
 {
+	delete [] dataModFile;
 	dataModFile = new char[strlen(mod) + 1];
 	strcpy(dataModFile, mod);
 }

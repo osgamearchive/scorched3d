@@ -25,17 +25,6 @@ static void createControls(wxWindow *parent, wxSizer *topsizer)
 	wxSizer *sizer = new wxFlexGridSizer(2, 2);
 	topsizer->Add(sizer, 0, wxALL | wxALIGN_CENTER, 10);
 
-	IDC_SERVER_PLAYERS_CTRL_TEXT = 
-		new wxStaticText(parent, -1,
-		"Number Players :");
-	sizer->Add(IDC_SERVER_PLAYERS_CTRL_TEXT, 0, wxALIGN_CENTER);
-	IDC_SERVER_PLAYERS_CTRL = 
-		new wxComboBox(parent, IDC_SERVER_PLAYERS,
-		"",
-		wxDefaultPosition, wxSize((int) 100, (int) 124.5),
-		0, 0, wxCB_READONLY);
-	sizer->Add(IDC_SERVER_PLAYERS_CTRL, 0, wxALIGN_CENTER);
-		
 	IDC_TEAMS_CTRL_TEXT = 
 		new wxStaticText(parent, -1,
 		"Number Teams :");

@@ -20,6 +20,8 @@
 
 #include <scorched/DisplayDialog.h>
 #include <scorched/MainDialog.h>
+#include <server/ScorchedServer.h>
+#include <weapons/AccessoryStore.h>
 #include <landscape/LandscapeDefinitions.h>
 #include <tankai/TankAIStore.h>
 #include <common/OptionsGame.h>
@@ -217,6 +219,11 @@ bool SettingsFrame::TransferDataToWindow()
 		SettingsPlayers::IDC_SERVER_REMOVEBOT_PLAYERS_CTRL->SetToolTip(
 			wxString("The number of players to allow before remvoing bots."));
 
+		// Reload the AIs in case a new mod has been loaded
+		TankAIStore::instance()->clearAIs();
+		ScorchedServer::instance()->getAccessoryStore().clearAccessories();
+		ScorchedServer::instance()->getAccessoryStore().parseFile();
+		TankAIStore::instance()->loadAIs();
 		std::list<TankAI *> &ais = 
 			TankAIStore::instance()->getAis();
 		for (int i=0; i<24; i++)
@@ -401,22 +408,6 @@ bool SettingsFrame::TransferDataToWindow()
 
 	// Main
 	{
-		int i;
-		char string[20];
-		for (i=24; i>1; i--)
-		{
-			char string[20];
-			sprintf(string, "%i", i);
-			SettingsMain::IDC_SERVER_PLAYERS_CTRL->Append(string);
-		}
-		sprintf(string, "%i", context_.getNoMaxPlayers());
-		SettingsMain::IDC_SERVER_PLAYERS_CTRL->SetValue(string);
-		SettingsMain::IDC_SERVER_PLAYERS_CTRL->Show(playersPanel_ == 0);
-		SettingsMain::IDC_SERVER_PLAYERS_CTRL_TEXT->Show(playersPanel_ == 0);
-		SettingsMain::IDC_SERVER_PLAYERS_CTRL->SetToolTip(
-			wxString("The number of players that will play in this game.\n"
-				"This number should include computer players"));
-
 		SettingsMain::IDC_AUTOBALANCETEAMS_CTRL->SetValue(
 			context_.getAutoBallanceTeams());
 		SettingsMain::IDC_AUTOBALANCETEAMS_CTRL->SetToolTip(
@@ -424,6 +415,8 @@ bool SettingsFrame::TransferDataToWindow()
 
 		// Teams combo
 		SettingsMain::IDC_TEAMS_CTRL->Append("None");
+		int i;
+		char string[256];
 		for (i=2; i<=2; i++)
 		{
 			sprintf(string, "%i", i);	
@@ -496,12 +489,8 @@ bool SettingsFrame::TransferDataToWindow()
 			context_.getServerAdminPasswordToolTip());
 
 		// Turn on/off settings if server or client
-		SettingsMain::IDC_SHOT_TIME_CTRL->Show(playersPanel_ != 0);
-		SettingsMain::IDC_IDLE_TIME_CTRL->Show(playersPanel_ != 0);
 		SettingsMain::IDC_SERVER_PASSWORD_CTRL->Show(playersPanel_ != 0);
 		SettingsMain::IDC_SERVERADMIN_PASSWORD_CTRL->Show(playersPanel_ != 0);
-		SettingsMain::IDC_SHOT_TIME_CTRL_TEXT->Show(playersPanel_ != 0);
-		SettingsMain::IDC_IDLE_TIME_CTRL_TEXT->Show(playersPanel_ != 0);
 		SettingsMain::IDC_SERVER_PASSWORD_CTRL_TEXT->Show(playersPanel_ != 0);
 		SettingsMain::IDC_SERVERADMIN_PASSWORD_CTRL_TEXT->Show(playersPanel_ != 0);
 	}
@@ -612,7 +601,6 @@ bool SettingsFrame::TransferDataFromWindow()
 		int shotTime = 30;
 		int waitTime = 30;
 		int idleTime = 30;
-		int noPlayers = 2;
 		int maxRoundTurns = 15;
 
 		context_.setTurnType((OptionsGame::TurnType) (int) 
@@ -621,7 +609,6 @@ bool SettingsFrame::TransferDataFromWindow()
 		context_.setTeams((int) SettingsMain::IDC_TEAMS_CTRL->GetSelection() + 1);
 
 		sscanf(SettingsMain::IDC_NOSHOTS_CTRL->GetValue(), "%i", &maxRoundTurns);
-		sscanf(SettingsMain::IDC_SERVER_PLAYERS_CTRL->GetValue(), "%i", &noPlayers);
 		sscanf(SettingsMain::IDC_SERVER_ROUNDS_CTRL->GetValue(), "%i", &noRounds);
 		sscanf(SettingsMain::IDC_SHOT_TIME_CTRL->GetValue(), "%i", &shotTime);
 		sscanf(SettingsMain::IDC_IDLE_TIME_CTRL->GetValue(), "%i", &idleTime);
@@ -631,11 +618,6 @@ bool SettingsFrame::TransferDataFromWindow()
 		context_.setShotTime(shotTime);
 		context_.setIdleKickTime(idleTime);
 		context_.setNoMaxRoundTurns(maxRoundTurns);
-		if (playersPanel_ == 0)
-		{
-			context_.setNoMaxPlayers(noPlayers);
-			context_.setNoMinPlayers(noPlayers);
-		}
 		
 		context_.setServerPassword(
 			SettingsMain::IDC_SERVER_PASSWORD_CTRL->GetValue());
@@ -648,6 +630,15 @@ bool SettingsFrame::TransferDataFromWindow()
 
 bool showSettingsDialog(bool server, OptionsGame &context)
 {
+	// Set the current mod
+	setDataFileMod(context.getMod());
+
+	// Show the settings
 	SettingsFrame frame(server, context);
-	return (frame.ShowModal() == wxID_OK);
+	bool result = (frame.ShowModal() == wxID_OK);
+
+	// Reset the mod
+	setDataFileMod("");
+
+	return result;
 }

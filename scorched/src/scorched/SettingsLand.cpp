@@ -22,6 +22,10 @@
 
 static void createControls(wxWindow *parent, wxSizer *topsizer)
 {
+	// Re-read just in case a new mod has been loaded
+	LandscapeDefinitions::instance()->clearLandscapeDefinitions();
+	LandscapeDefinitions::instance()->readLandscapeDefinitions();
+
 	delete [] landscapes;
 	landscapes = new wxCheckBox*[
 		LandscapeDefinitions::instance()->getAllLandscapes().size()];

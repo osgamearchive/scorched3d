@@ -32,6 +32,7 @@ public:
 	virtual ~AccessoryStore();
 
 	bool parseFile();
+	void clearAccessories();
 
 	Accessory *findByAccessoryType(Accessory::AccessoryType type);
 	Accessory *findByAccessoryId(unsigned int id);
@@ -56,7 +57,6 @@ protected:
 	std::list<Accessory *> accessories_;
 	std::vector<Weapon *> deathAnimations_;
 
-	void clearAccessories();
 	void addAccessory(Accessory *accessory);
 
 };

@@ -2499,6 +2499,12 @@
 				RelativePath="SingleDialog.h">
 			</File>
 			<File
+				RelativePath="SingleSDialog.cpp">
+			</File>
+			<File
+				RelativePath="SingleSDialog.h">
+			</File>
+			<File
 				RelativePath="main.cpp">
 			</File>
 		</Filter>

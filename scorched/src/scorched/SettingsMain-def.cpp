@@ -35,7 +35,6 @@ enum
 static wxTextCtrl *IDC_SERVER_PASSWORD_CTRL = 0;
 static wxTextCtrl *IDC_SERVERADMIN_PASSWORD_CTRL = 0;
 static wxComboBox *IDC_SERVER_ROUNDS_CTRL = 0;
-static wxComboBox *IDC_SERVER_PLAYERS_CTRL = 0;
 static wxComboBox *IDC_NOSHOTS_CTRL = 0;
 static wxComboBox *IDC_WAIT_TIME_CTRL = 0;
 static wxComboBox *IDC_SHOT_TIME_CTRL = 0;
@@ -52,4 +51,3 @@ static wxStaticText *IDC_TYPE_CTRL_TEXT = 0;
 static wxStaticText *IDC_WAIT_TIME_CTRL_TEXT = 0;
 static wxStaticText *IDC_SHOT_TIME_CTRL_TEXT = 0;
 static wxStaticText *IDC_IDLE_TIME_CTRL_TEXT = 0;
-static wxStaticText *IDC_SERVER_PLAYERS_CTRL_TEXT = 0;

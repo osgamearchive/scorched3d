@@ -23,7 +23,7 @@
 #include <wx/image.h>
 #include <wx/filedlg.h>
 #include <scorched/MainDialog.h>
-#include <scorched/SettingsDialog.h>
+#include <scorched/SingleSDialog.h>
 #include <common/Defines.h>
 #include <common/OptionsGame.h>
 #include <common/OptionsParam.h>
@@ -177,27 +177,9 @@ void SingleFrame::onHardButton()
 
 void SingleFrame::onCustomButton()
 {
-	OptionsGame tmpOptions;
-
-	wxString customFilePathSrc = getDataFile("data/singlecustom.xml");
-	wxString customFilePathDest = getSettingsFile("singlecustom.xml");
-	if (::wxFileExists(customFilePathDest))
-	{
-		tmpOptions.readOptionsFromFile((char *) customFilePathDest.c_str());
-	}
-	else
-	{
-		tmpOptions.readOptionsFromFile((char *) customFilePathSrc.c_str());
-	}
-
-	if (showSettingsDialog(false, tmpOptions))
+	if (showSingleSDialog())
 	{
 		EndModal(wxID_OK);
-		tmpOptions.setGiveAllWeapons(false); // To fix people that have 37.2 bug
-		if (tmpOptions.writeOptionsToFile((char *) customFilePathDest.c_str()))
-		{
-			runScorched3D("-startclient \"%s\"", customFilePathDest.c_str());
-		}
 	}
 }
 
