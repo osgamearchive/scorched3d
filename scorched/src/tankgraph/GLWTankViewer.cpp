@@ -19,6 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <tankgraph/GLWTankViewer.h>
+#include <tankgraph/TankModelStore.h>
 #include <GLW/GLWFont.h>
 
 static const float TankSquareSize = 60.0f;
@@ -27,16 +28,34 @@ static const float TankPadding = 20.0f;
 static const float TankInfo = 150.0f;
 
 GLWTankViewer::GLWTankViewer(float x, float y, int numH, int numV) :
-	GLWVisibleWidget(x, y, TankSquareSize * numH + TankPadding, TankSquareSize * numV + TankPadding),
+	GLWVisibleWidget(x, y, 
+					 TankSquareSize * numH + TankPadding, 
+					 TankSquareSize * numV + TankPadding),
 	scrollBar_(w_ - 6.0f, y + 2.0f, h_ - 4.0f, 0, 0, numV),
 	infoWindow_(x + TankSquareSize * numH + TankPadding + 10.0f, 
-				y + TankSquareSize * numV + TankPadding - TankInfo, TankInfo, TankInfo, true),
+				y + TankSquareSize * numV + TankPadding - TankInfo - 35.0f, 
+				TankInfo, TankInfo, true),
 	numH_(numH), numV_(numV),
 	rot_(0.0f), selected_(0),
 	rotXY_(0.0f), rotYZ_(0.0f), 
-	rotXYD_(1.0f), rotYZD_(1.0f)
+	rotXYD_(1.0f), rotYZD_(1.0f),
+	catagoryChoice_(x + TankSquareSize * numH + TankPadding + 10.0f, 
+					y + TankSquareSize * numV + TankPadding - 25.0f,
+					TankInfo)
 {
+	std::set<std::string> &catagories = 
+		TankModelStore::instance()->getModelCatagories();
+	std::set<std::string>::iterator catItor;
+	for (catItor = catagories.begin();
+		 catItor != catagories.end();
+		 catItor++)
+	{
+		catagoryChoice_.addText((*catItor).c_str());
+	}
 
+	catagoryChoice_.setHandler(this);
+	catagoryChoice_.setText("All");
+	select(0, 0, "All");
 }
 
 GLWTankViewer::~GLWTankViewer()
@@ -44,12 +63,35 @@ GLWTankViewer::~GLWTankViewer()
 
 }
 
+void GLWTankViewer::select(unsigned int id, 
+						   const int pos, const char *value)
+{
+	std::vector<TankModel *> newmodels;
+
+	std::vector<TankModel *> &models = 
+		TankModelStore::instance()->getModels();
+	std::vector<TankModel *>::iterator modelItor;
+	for (modelItor = models.begin();
+		 modelItor != models.end();
+		 modelItor++)
+	{
+		TankModel *model = (*modelItor);
+		if (model->isOfCatagory(value))
+		{
+			newmodels.push_back(model);
+		}
+	}
+
+	setTankModels(newmodels);
+}
+
 void GLWTankViewer::setTankModels(std::vector<TankModel *> &models)
 {
 	models_.clear();
 	models_ = models;
 	scrollBar_.setMax((int) (models_.size() / numH_) + 1);
-	scrollBar_.setCurrent(0);//(int) (models_.size() / numH_) + 1);
+	scrollBar_.setCurrent(0);
+	selected_ = 0;
 
 	// Sort the models 
 	bool sorted = false;
@@ -113,11 +155,10 @@ void GLWTankViewer::draw()
 	{
 		for (int posH=0; posH<numH_; posH++, pos++)
 		{
-			int vectorPos = (scrollBar_.getCurrent() * numH_) + pos;// - (totalVisible);
+			int vectorPos = (scrollBar_.getCurrent() * numH_) + pos;
 			if (vectorPos < (int) models_.size() &&
 				vectorPos >= 0)
 			{
-				//vectorPos = ((int) models_.size()-1) - vectorPos;
 				float posX = x_ + widthdiv * posH + TankHalfSquareSize + 2.0f;
 				float posY = y_ + heightdiv * posV + TankHalfSquareSize + 2.0f;
 
@@ -163,6 +204,9 @@ void GLWTankViewer::draw()
 			drawItem(selected_, true);
 		glPopMatrix();
 	}
+
+	GLState depthStateOff(GLState::DEPTH_OFF);
+	catagoryChoice_.draw();
 }
 
 void GLWTankViewer::mouseDown(float x, float y, bool &skipRest)
@@ -170,16 +214,20 @@ void GLWTankViewer::mouseDown(float x, float y, bool &skipRest)
 	scrollBar_.mouseDown(x, y, skipRest);
 	if (!skipRest)
 	{
-		if (inBox(x, y, x_, y_, w_, h_))
+		catagoryChoice_.mouseDown(x, y, skipRest);
+		if (!skipRest)
 		{
-			int posY = int((y - y_) / (h_ / numV_));
-			int posX = int((x - x_) / (w_ / numH_));
-
-			int vectorPos = posX + posY * numH_ + scrollBar_.getCurrent() * numH_;
-			if (vectorPos < (int) models_.size() &&
-				vectorPos >= 0)
+			if (inBox(x, y, x_, y_, w_, h_))
 			{
-				selected_ = vectorPos;
+				int posY = int((y - y_) / (h_ / numV_));
+				int posX = int((x - x_) / (w_ / numH_));
+				
+				int vectorPos = posX + posY * numH_ + scrollBar_.getCurrent() * numH_;
+				if (vectorPos < (int) models_.size() &&
+					vectorPos >= 0)
+				{
+					selected_ = vectorPos;
+				}
 			}
 		}
 	}
@@ -245,6 +293,10 @@ void GLWTankViewer::selectModelByName(const char *name)
 {
 	DIALOG_ASSERT(models_.size());
 
+	// Ensure that all models have been loaded
+	select(0, 0, "All");
+
+	// Select the appropriate model
 	int currentSel = 0;
 	std::vector<TankModel *>::iterator itor;
 	for (itor = models_.begin();

@@ -40,6 +40,8 @@ public:
 	virtual bool lessThan(TankModel *other);
 
 	TankModelId &getId();
+
+	bool isOfCatagory(const char *catagory);
 	std::list<std::string> &getCatagories() { return catagories_; }
 
 protected:

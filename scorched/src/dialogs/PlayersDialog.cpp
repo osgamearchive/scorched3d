@@ -61,22 +61,21 @@ PlayersDialog::PlayersDialog() :
 	DIALOG_ASSERT(playerNames_.getLines().size());
 
 	needCentered_ = true;
-	viewer_ = new GLWTankViewer(20.0f, 10.0f, 4, 3);
-	viewer_->setTankModels(TankModelStore::instance()->getModels());
+	viewer_ = new GLWTankViewer(20.0f, 25.0f, 4, 3);
 
 	// Add buttons
 	addWidget(viewer_);
 	okId_ = addWidget(new GLWTextButton(" Ok", 380, 10, 55, this, true))->getId();
 
 	// Create player name choice
-	playerName_ = (GLWTextBox *) addWidget(new GLWTextBox(80, 245, 240, ""));
+	playerName_ = (GLWTextBox *) addWidget(new GLWTextBox(80, 240, 240, ""));
 
 	// Create player name choice
 	Vector newColor;
-	playerFlag_ = (GLWFlag *) addWidget(new GLWFlag(newColor, 10, 250, 60));
+	playerFlag_ = (GLWFlag *) addWidget(new GLWFlag(newColor, 10, 245, 60));
 
 	// Create computer type choice
-	dropDown_ = (GLWDropDown *) addWidget(new GLWDropDown(330, 245, 110));
+	dropDown_ = (GLWDropDown *) addWidget(new GLWDropDown(330, 240, 110));
 
 	dropDown_->addText("Human");
 	std::list<TankAIComputer *>::iterator aiitor;

@@ -24,10 +24,12 @@
 
 #include <GLW/GLWScrollW.h>
 #include <GLW/GLWVisiblePanel.h>
+#include <GLW/GLWDropDown.h>
 #include <tankgraph/TankModel.h>
 #include <vector>
 
-class GLWTankViewer : public GLWVisibleWidget
+class GLWTankViewer : public GLWVisibleWidget,
+					  public GLWDropDownI
 {
 public:
 	GLWTankViewer(float x, float y, int numH, int numV);
@@ -37,6 +39,9 @@ public:
 	const char *getModelName();
 
 	void setTankModels(std::vector<TankModel *> &models);
+
+	// Inhertied from GLWDropDownI
+	virtual void select(unsigned int id, const int pos, const char *value);
 
 	// Inhertied from GLWidget
 	virtual void draw();
@@ -48,6 +53,7 @@ public:
 
 	METACLASSID
 protected:
+	GLWDropDown catagoryChoice_;
 	GLWScrollW scrollBar_;
 	GLWVisiblePanel infoWindow_;
 	std::vector<TankModel *> models_;

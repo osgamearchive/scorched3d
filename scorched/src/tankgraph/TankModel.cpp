@@ -40,3 +40,15 @@ bool TankModel::lessThan(TankModel *other)
 {
 	return (strcmp(id_.getModelName(), other->id_.getModelName()) < 0);
 }
+
+bool TankModel::isOfCatagory(const char *catagory)
+{
+	std::list<std::string>::iterator itor;
+	for (itor = catagories_.begin();
+		 itor != catagories_.end();
+		 itor++)
+	{
+		if ((*itor) == catagory) return true;
+	}
+	return false;
+}

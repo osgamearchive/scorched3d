@@ -38,19 +38,18 @@ PlayerDialog *PlayerDialog::instance()
 }
 
 PlayerDialog::PlayerDialog() : 
-	GLWWindow("Player", 10.0f, 10.0f, 440.0f, 255.0f, 0),
+	GLWWindow("Player", 10.0f, 10.0f, 440.0f, 270.0f, 0),
 	skipInit_(false)
 {
 	needCentered_ = true;
-	viewer_ = new GLWTankViewer(10.0f, 10.0f, 4, 3);
-	viewer_->setTankModels(TankModelStore::instance()->getModels());
+	viewer_ = new GLWTankViewer(10.0f, 25.0f, 4, 3);
 
 	// Add buttons
 	addWidget(viewer_);
 	okId_ = addWidget(new GLWTextButton(" Ok", 365, 10, 55, this, true))->getId();
 
 	// Create player name choice
-	playerName_ = (GLWTextBox *) addWidget(new GLWTextBox(10, 220, 240, ""));
+	playerName_ = (GLWTextBox *) addWidget(new GLWTextBox(10, 235, 240, ""));
 }
 
 PlayerDialog::~PlayerDialog()
