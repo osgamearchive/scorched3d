@@ -111,6 +111,7 @@ void ServerRegistration::registerGame()
 	{
 		Logger::log(0, "Failed to contact registration server");
 		instance_->finished_ = true;
+		instance_->success_ = false;
 		return;
 	}
 	instance_->finished_ = false;
