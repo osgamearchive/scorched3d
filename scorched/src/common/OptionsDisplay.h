@@ -140,6 +140,10 @@ public:
 	void setNoGLCubeMap(bool value) { noGLCubeMap_.setValue(value); }
 	const char *getNoGLCubeMapToolTip() { return noGLCubeMap_.getDescription(); }
 
+	bool getNoGLSphereMap() { return noGLSphereMap_.getValue(); }
+	void setNoGLSphereMap(bool value) { noGLSphereMap_.setValue(value); }
+	const char *getNoGLSphereMapToolTip() { return noGLSphereMap_.getDescription(); }
+
 	bool getNoGLHardwareMipmaps() { return noGLHardwareMipmaps_.getValue(); }
 	void setNoGLHardwareMipmaps(bool value) { noGLHardwareMipmaps_.setValue(value); }
 	const char *getNoGLHardwareMipmapsToolTip() { return noGLHardwareMipmaps_.getDescription(); }
@@ -314,6 +318,7 @@ protected:
 	OptionEntryBool noGLCompiledArrays_;
 	OptionEntryBool noGLEnvCombine_;
 	OptionEntryBool noGLCubeMap_;
+	OptionEntryBool noGLSphereMap_;
 	OptionEntryBool noGLHardwareMipmaps_;
 	OptionEntryBool invertElevation_;
 	OptionEntryBool invertMouse_;

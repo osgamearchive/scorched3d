@@ -158,6 +158,8 @@ void DisplayFrame::refreshScreen()
 	IDC_NOENVCOMBINE_CTRL->SetToolTip(OptionsDisplay::instance()->getNoGLEnvCombineToolTip());
 	IDC_NOCUBEMAP_CTRL->SetValue(OptionsDisplay::instance()->getNoGLCubeMap());
 	IDC_NOCUBEMAP_CTRL->SetToolTip(OptionsDisplay::instance()->getNoGLCubeMapToolTip());
+	IDC_NOSPHEREMAP_CTRL->SetValue(OptionsDisplay::instance()->getNoGLSphereMap());
+	IDC_NOSPHEREMAP_CTRL->SetToolTip(OptionsDisplay::instance()->getNoGLSphereMapToolTip());
 	IDC_NOMIPMAPS_CTRL->SetValue(OptionsDisplay::instance()->getNoGLHardwareMipmaps());
 	IDC_NOMIPMAPS_CTRL->SetToolTip(OptionsDisplay::instance()->getNoGLHardwareMipmapsToolTip());
 	IDC_NOSOUND_CTRL->SetValue(OptionsDisplay::instance()->getNoSound());
@@ -338,6 +340,7 @@ bool DisplayFrame::TransferDataFromWindow()
 	OptionsDisplay::instance()->setNoGLCompiledArrays(IDC_NOCOMPILEDARRAYS_CTRL->GetValue());
 	OptionsDisplay::instance()->setNoGLEnvCombine(IDC_NOENVCOMBINE_CTRL->GetValue());
 	OptionsDisplay::instance()->setNoGLCubeMap(IDC_NOCUBEMAP_CTRL->GetValue());
+	OptionsDisplay::instance()->setNoGLSphereMap(IDC_NOSPHEREMAP_CTRL->GetValue());
 	OptionsDisplay::instance()->setNoGLHardwareMipmaps(IDC_NOMIPMAPS_CTRL->GetValue());
 	OptionsDisplay::instance()->setNoSound(IDC_NOSOUND_CTRL->GetValue());
 	OptionsDisplay::instance()->setNoSkins(IDC_NOSKINS_CTRL->GetValue());

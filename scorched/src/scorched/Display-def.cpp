@@ -28,6 +28,7 @@ enum
 static wxCheckBox *IDC_NOCOMPILEDARRAYS_CTRL = 0;
 static wxCheckBox *IDC_NOENVCOMBINE_CTRL = 0;
 static wxCheckBox *IDC_NOCUBEMAP_CTRL = 0;
+static wxCheckBox *IDC_NOSPHEREMAP_CTRL = 0;
 static wxCheckBox *IDC_NOMIPMAPS_CTRL = 0;
 static wxCheckBox *IDC_FULLCLEAR_CTRL = 0;
 static wxCheckBox *IDC_NOEXT_CTRL = 0;

@@ -129,15 +129,8 @@ void WaterMap::draw()
 		drawNormals();
 	}
 
-	//glPolygonOffset(10.0f, 10.0f);
 	glPushAttrib(GL_TEXTURE_BIT);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		//glBlendFunc(GL_ONE, GL_SRC_COLOR);
-
-		// Turn on the coordinate generation
-		glEnable(GL_TEXTURE_GEN_S); 
-		glEnable(GL_TEXTURE_GEN_T);
-		glEnable(GL_TEXTURE_GEN_R);
 
 		if (GLStateExtension::glActiveTextureARB())
 		{
@@ -149,11 +142,34 @@ void WaterMap::draw()
 			GLStateExtension::glActiveTextureARB()(GL_TEXTURE0_ARB);
 		}
 
-		if (GLStateExtension::hasCubeMap())
+		if (OptionsDisplay::instance()->getNoGLSphereMap())
+		{
+			GLState currentState(GLState::TEXTURE_ON | GLState::BLEND_ON);
+			Landscape::instance()->getWaterTexture().draw();
+
+			// Set up texture coordinate generation for reflections
+			float PlaneS[] = { 0.0f, 1.0f / 20.0f, 0.0f, 0.0f };
+			float PlaneT[] = { 1.0f / 20.0f, 0.0f, 0.0f, 0.0f };
+
+			glEnable(GL_TEXTURE_GEN_S); 
+			glEnable(GL_TEXTURE_GEN_T);
+			glTexGenf(GL_S, GL_TEXTURE_GEN_MODE, GL_OBJECT_LINEAR);
+			glTexGenf(GL_T, GL_TEXTURE_GEN_MODE, GL_OBJECT_LINEAR);
+			glTexGenfv(GL_S, GL_OBJECT_PLANE, PlaneS);
+			glTexGenfv(GL_T, GL_OBJECT_PLANE, PlaneT);
+
+			// Draw the water
+			surround_.draw();
+			drawWater();
+		}
+		else if (GLStateExtension::hasCubeMap())
 		{
 			GLState currentState(GLState::TEXTURE_OFF | GLState::BLEND_ON | GLState::CUBEMAP_ON);
 
 			// Set up texture coordinate generation for reflections
+			glEnable(GL_TEXTURE_GEN_S); 
+			glEnable(GL_TEXTURE_GEN_T);
+			glEnable(GL_TEXTURE_GEN_R);
 			glTexGenf(GL_S, GL_TEXTURE_GEN_MODE, GL_REFLECTION_MAP_EXT);
 			glTexGenf(GL_T, GL_TEXTURE_GEN_MODE, GL_REFLECTION_MAP_EXT);
 			glTexGenf(GL_R, GL_TEXTURE_GEN_MODE, GL_REFLECTION_MAP_EXT);
@@ -167,6 +183,9 @@ void WaterMap::draw()
 			GLState currentState(GLState::TEXTURE_ON | GLState::BLEND_ON);
 			Landscape::instance()->getWaterTexture().draw();
 
+			glEnable(GL_TEXTURE_GEN_S); 
+			glEnable(GL_TEXTURE_GEN_T);
+			glEnable(GL_TEXTURE_GEN_R);
 			glTexGenf(GL_S, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
 			glTexGenf(GL_T, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
 			glTexGenf(GL_R, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
@@ -185,7 +204,6 @@ void WaterMap::draw()
 		}
 
 	glPopAttrib();
-	//glPolygonOffset(0.0f, 0.0f);
 }
 
 void WaterMap::refreshVisiblity()
@@ -247,6 +265,42 @@ void WaterMap::drawNormals()
 
 void WaterMap::drawWater()
 {
+	if (OptionsDisplay::instance()->getNoWaterMovement())
+	{
+		glBegin(GL_QUADS);
+			glNormal3f(0.0f, 1.0f, 0.0f);
+			glColor4f(0.7f, 0.7f, 0.7f, 0.9f);
+
+			if (GLStateExtension::glMultiTextCoord2fARB()) 
+			{
+				GLStateExtension::glMultiTextCoord2fARB()
+					(GL_TEXTURE1_ARB, 0.0f, 0.0f); 
+			}
+			glVertex3f(-64.0f, -64.0f, height_);
+			if (GLStateExtension::glMultiTextCoord2fARB()) 
+			{
+				GLStateExtension::glMultiTextCoord2fARB()
+					(GL_TEXTURE1_ARB, 32.0f, 0.0f); 
+			}
+			glVertex3f(-64.0f + widthMult_ * (width_ - 1), 
+				-64.0f, height_);
+			if (GLStateExtension::glMultiTextCoord2fARB()) 
+			{
+				GLStateExtension::glMultiTextCoord2fARB()
+					(GL_TEXTURE1_ARB, 32.0f, 32.0f); 
+			}
+			glVertex3f(-64.0f + widthMult_ * (width_ - 1), 
+				-64.0f + widthMult_ * (width_ - 1), height_);
+				if (GLStateExtension::glMultiTextCoord2fARB()) 
+			{
+				GLStateExtension::glMultiTextCoord2fARB()
+					(GL_TEXTURE1_ARB, 0.0f, 32.0f); 
+			}
+			glVertex3f(-64.0f, -64.0f + widthMult_ * (width_ - 1), height_);
+		glEnd();
+		return;
+	}
+
 	refreshVisiblity();
 
 	float pointY = -64.0f;

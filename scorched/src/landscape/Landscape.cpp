@@ -339,7 +339,8 @@ void Landscape::generate(ProgressCounter *counter)
 	bitmapWater.resize(256, 256);
 	DIALOG_ASSERT(bitmapWater.getBits());
 	delete waterTexture_;
-	if (GLStateExtension::hasCubeMap())
+	if (GLStateExtension::hasCubeMap() &&
+		!OptionsDisplay::instance()->getNoGLSphereMap())
 	{
 		GLTextureCubeMap *waterCubeMap = new GLTextureCubeMap();
 		waterCubeMap->create(bitmapWater, GL_RGB, false);

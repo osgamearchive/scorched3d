@@ -162,7 +162,7 @@ void createTroubleControls(wxWindow *parent, wxSizer *sizer)
 		wxDefaultPosition, wxSize((int) 150, (int) -1));
 	detailSizer2->Add(IDC_NOSKYANI_CTRL, 0);
 	IDC_NOWATERANI_CTRL = 
-		new wxCheckBox(parent, -1, "Don't animate water",
+		new wxCheckBox(parent, -1, "Draw simplistic water",
 		wxDefaultPosition, wxSize((int) 150, (int) -1));
 	detailSizer2->Add(IDC_NOWATERANI_CTRL, 0);
 	IDC_NOWATER_CTRL = 
@@ -229,6 +229,11 @@ void createTroubleControls(wxWindow *parent, wxSizer *sizer)
 		new wxCheckBox(parent, -1, "Full Clear",
 		wxDefaultPosition, wxSize((int) 150, (int) -1));
 	troubleSizer2->Add(IDC_FULLCLEAR_CTRL, 0);
+	IDC_NOSPHEREMAP_CTRL = 
+		new wxCheckBox(parent, -1, "No sphere map textures",
+		wxDefaultPosition, wxSize((int) 150, (int) -1));
+	troubleSizer2->Add(IDC_NOSPHEREMAP_CTRL, 0);
+
 	troubleSizer->Add(troubleSizer2, 0, wxGROW);
 	sizer->Add(troubleSizer, 0, wxGROW | wxLEFT | wxRIGHT | wxTOP, 5);
 }

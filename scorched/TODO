@@ -15,6 +15,8 @@ Fixed: The server can start multiple times on the same port (windows only)!
 
 Changed: Tank can move up and down bigger slopes
 
+Added: Simplistic water option (no movement, shading and only uses one quad)
+Added: No sphere mapping option
 Added: Custom maps (and other mods) can be auto-downloaded from server
 Added: Dialog to toggle display indicators (instead of toggle key)
 Added: Sizers for auto-placement of widgets in GLW dialogs
