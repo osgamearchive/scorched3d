@@ -50,9 +50,9 @@ GLOrderedItemRenderer::~GLOrderedItemRenderer()
 {
 }
 
-inline unsigned int approx_distance(int  dx, int  dy)
+inline float approx_distance(float  dx, float dy)
 {
-   unsigned int approx = (dx * dx) + (dy * dy);
+   float approx = (dx * dx) + (dy * dy);
    return approx;
 }
 
@@ -66,28 +66,27 @@ void GLOrderedItemRenderer::simulate(const unsigned int state, float simTime)
 {
 	static float total = 0.0f;
 	total += simTime;
-	if (total > 0.2f)
+	if (total > 0.1f)
 	{
 		total = 0.0f;
 
 		// Calculate the dist from camera
 		Vector &cameraPos = 
 			MainCamera::instance()->getCamera().getCurrentPos();
+		// Calculate the current distance for the object
+		std::vector<OrderedEntry *>::iterator addItor;
+		for (addItor = requiredEntries_.begin();
+			addItor != requiredEntries_.end();
+			addItor++)
+		{
+			OrderedEntry *entry = *addItor;
+			entry->distance = approx_distance(
+				cameraPos[0] - entry->posX,
+				cameraPos[1] - entry->posY);
+		}
 
 		if (!OptionsDisplay::instance()->getNoDepthSorting())
 		{
-			// Calculate the current distance for the object
-			std::vector<OrderedEntry *>::iterator addItor;
-			for (addItor = requiredEntries_.begin();
-				addItor != requiredEntries_.end();
-				addItor++)
-			{
-				OrderedEntry *entry = *addItor;
-				entry->distance = (float) approx_distance(
-					int(cameraPos[0] - entry->posX),
-					int(cameraPos[1] - entry->posY));
-			}
-
 			// sort by distance
 			std::sort(requiredEntries_.begin(), requiredEntries_.end(), lt_distance); 
 		}

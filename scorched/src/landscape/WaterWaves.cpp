@@ -25,7 +25,7 @@
 #include <common/Defines.h>
 #include <GLEXT/GLStateExtension.h>
 
-WaterWaves::WaterWaves() : totalTime_(0.0f)
+WaterWaves::WaterWaves() : totalTime_(0.0f), pointCount_(0), removedCount_(0)
 {
 	GLBitmap bitmap1(PKGDIR "data/textures/waves.bmp", 
 		PKGDIR "data/textures/waves.bmp", false);
@@ -47,19 +47,23 @@ void WaterWaves::generateWaves(ProgressCounter *counter)
 	memset(wavePoints_, 0, 256 * 256 * sizeof(bool));
 	paths1_.clear();
 	paths2_.clear();
+	pointCount_ = 0;
+	removedCount_ = 0;
 
 	if (OptionsDisplay::instance()->getNoWaves()) return;
+	if (!OptionsDisplay::instance()->getDrawWater()) return;
 
 	// Find all of the points that are equal to a certain height (the water height)
+	if (counter) counter->setNewOp("Creating waves 1");
 	findPoints(counter);
 
 	// Find the list of points that are next to eachother
+	if (counter) counter->setNewOp("Creating waves 2");
 	while (findNextPath(counter)) {}
 }
 
 void WaterWaves::findPoints(ProgressCounter *counter)
 {
-	if (counter) counter->setNewOp("Creating waves");
 	const float waterHeight = 5.0f;
 	for (int y=1; y<255; y++)
 	{
@@ -83,6 +87,7 @@ void WaterWaves::findPoints(ProgressCounter *counter)
 					height4 > waterHeight || height5 > waterHeight)
 				{
 					wavePoints_[x + y * 256] = true;
+					pointCount_ ++;
 				}
 			}
 		}
@@ -94,6 +99,7 @@ bool WaterWaves::findNextPath(ProgressCounter *counter)
 	static std::vector<Vector> points;
 	points.clear();
 
+	if (counter) counter->setNewPercentage(float(removedCount_)/float(pointCount_)*100.0f);
 	for (int y=1; y<255; y++)
 	{
 		for (int x=1; x<255; x++)
@@ -115,6 +121,7 @@ void WaterWaves::findPath(std::vector<Vector> &points, int x, int y)
 	points.push_back(Vector(float(x), float(y), 5.0f));
 
 	wavePoints_[x + y * 256] = false;
+	removedCount_ ++;
 	if (wavePoints_[(x+1) + y * 256]) findPath(points, x+1, y);
 	else if (wavePoints_[(x-1) + y * 256]) findPath(points, x-1, y);
 	else if (wavePoints_[x + (y-1) * 256]) findPath(points, x, y-1);

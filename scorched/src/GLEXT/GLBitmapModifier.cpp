@@ -661,3 +661,56 @@ void GLBitmapModifier::makeBitmapTransparent(GLBitmap &output,
 		maskBits += 4;
 	}
 }
+
+void GLBitmapModifier::addCircle(GLBitmap &destBitmap, 
+								 float sx, float sy, float sw, float opacity)
+{
+	const GLubyte minNum = 64;
+
+	int decrement = int(opacity * 125.0f);
+	float halfW = sw / 2.0f;
+
+	float minX = sx - halfW;
+	float minY = sy - halfW;
+	float maxX = sx + halfW;
+	float maxY = sy + halfW;
+	/*minX /= 2.0f;
+	minY /= 2.0f;
+	maxX /= 2.0f;
+	maxY /= 2.0f;*/
+
+	minX = MAX(minX, 0.0f);
+	minY = MAX(minY, 0.0f);
+	maxX = MIN(maxX, destBitmap.getWidth() - 1.0f);
+	maxY = MIN(maxY, destBitmap.getHeight() - 1.0f);
+
+	int xStart = int(minX);
+	int yStart = int(minY);
+	int xWidth = int(maxX - minX);
+	int yWidth = int(maxY - minY);
+	int yInc = (destBitmap.getWidth() - xWidth) * 3;
+
+	if (xWidth <= 0 || yWidth <= 0) return;
+	double degMult = (1 / double(yWidth)) * 3.14;
+
+	GLubyte *start = &destBitmap.getBits()[(yStart * destBitmap.getWidth() * 3) + xStart * 3];
+	for (int y=0; y<yWidth; y++, start += yInc)
+	{
+		double deg = double(y) * degMult;
+		int realXSize = int(sin(deg) * double(xWidth));
+		int halfSize = (xWidth - realXSize) / 2;
+
+		start+=halfSize * 3;
+		int x;
+		for (x=0; x<realXSize; x++, start+=3)
+		{
+			if (start[0] > 32) start[0]-=32;
+			else start[0] = 0;
+			if (start[1] > 32) start[1]-=32;
+			else start[1] = 0;
+			if (start[2] > 32) start[2]-=32;
+			else start[2] = 0;
+		}
+		start+=(xWidth - (halfSize + x)) * 3;
+	}
+}

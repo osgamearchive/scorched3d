@@ -22,7 +22,7 @@
 #define __INCLUDE_LandscapeObjectsh_INCLUDE__
 
 #include <common/ProgressCounter.h>
-#include <GLEXT/GLVertexSet.h>
+#include <GLEXT/GLTexture.h>
 #include <GLEXT/GLOrderedItemRenderer.h>
 #include <list>
 
@@ -33,16 +33,21 @@ public:
 	virtual ~LandscapeObjects();
 
 	void draw();
-	void generate(ProgressCounter *counter);
+	void generate(ProgressCounter *counter = 0);
 	void drawItem(float distance, GLOrderedItemRenderer::OrderedEntry &entry);
 
 protected:
 	struct LandscapeObjectOrderedEntry : public GLOrderedItemRenderer::OrderedEntry
 	{
+		GLuint treeType;
+		float treeRotation;
+		float color;
 	};
 
+	GLuint tree1, tree2, tree3;
+	GLuint treeBurnt, treeSnow;
 	std::list<LandscapeObjectOrderedEntry*> entries_;
-	GLVertexSet *vertexSet_;
+	GLTexture texture_;
 
 };
 

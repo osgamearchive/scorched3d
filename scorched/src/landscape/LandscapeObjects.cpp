@@ -20,10 +20,9 @@
 
 #include <landscape/LandscapeObjects.h>
 #include <landscape/Landscape.h>
-#include <3dsparse/MSFile.h>
-#include <GLEXT/GLVertexSetGroup.h>
 #include <GLEXT/GLBitmap.h>
 #include <GLEXT/GLCameraFrustum.h>
+#include <GLEXT/GLBitmapModifier.h>
 #include <common/Defines.h>
 #include <common/OptionsDisplay.h>
 #include <client/ScorchedClient.h>
@@ -31,23 +30,7 @@
 
 LandscapeObjects::LandscapeObjects()
 {
-	MSFile *newFile = new MSFile(PKGDIR "data/accessories/smallpine/smallpine.txt");
-	DIALOG_ASSERT(newFile->getSuccess());
 
-	newFile->centre();
-	newFile->scale(0.1f);
-
-	GLVertexSetGroup *arraySet = new GLVertexSetGroup();
-	std::list<Model *>::iterator itor;
-	for (itor = newFile->getModels().begin();
-			itor != newFile->getModels().end();
-			itor++)
-	{
-		Model *currentModel = *itor;
-		GLVertexArray *array = currentModel->getArray(true);
-		arraySet->addToGroup(*array);
-	}
-	vertexSet_ = arraySet;
 }
 
 LandscapeObjects::~LandscapeObjects()
@@ -69,23 +52,93 @@ void LandscapeObjects::drawItem(float distance, GLOrderedItemRenderer::OrderedEn
 	point[0] = entry.posX;
 	point[1] = entry.posY;
 	point[2] = entry.posZ;
-	if (GLCameraFrustum::instance()->pointInFrustum(point))
-	{
-		// Draw Trees
-		glDepthMask(GL_TRUE);
-		glPushMatrix();
-			glTranslatef(entry.posX, entry.posY, entry.posZ);
-			vertexSet_->draw();
-		glPopMatrix();
-		glDepthMask(GL_FALSE);
-	}
+	if (!GLCameraFrustum::instance()->sphereInFrustum(point, 2.0f)) return;
+
+	texture_.draw();
+	glColor4f(entry.color, entry.color, entry.color, 1.0f);
+
+	glDepthMask(GL_TRUE);
+	glPushMatrix();
+		glTranslatef(entry.posX, entry.posY, entry.posZ);
+		glRotatef(0.0f, 0.0f, 1.0f, entry.treeRotation);
+		glScalef(2.0f, 2.0f, 2.0f);
+		glCallList(entry.treeType);
+	glPopMatrix();
+	glDepthMask(GL_FALSE);
+}
+
+static void drawLevel(float centerX, float centerY,
+		float width, float height, float lowheight)
+{
+	glBegin(GL_TRIANGLE_FAN);
+		glTexCoord2f(centerX, centerY);
+		glVertex3f(0.0f, 0.0f, height);
+		for (float i=360.0f; i>=0.0f; i-=360.0f / 5.0f)
+		{
+			glTexCoord2f(
+				centerX + (sinf(i/180.0f * PI) * 0.125f), 
+				centerY + (cosf(i/180.0f * PI) * 0.125f));
+			glVertex3f(
+				sinf(i/180.0f * PI) * width, 
+				cosf(i/180.0f * PI) * width, 
+				lowheight);
+		}
+	glEnd();
+}
+
+static void drawTrunc(float width, float height, float lowheight )
+{
+	glBegin(GL_TRIANGLE_FAN);
+		glTexCoord2f(0.875f, 0.0f);
+		glVertex3f(0.0f, 0.0f, height);
+		for (float i=360.0f; i>=0.0f; i-=360.0f / 3.0f)
+		{
+			glTexCoord2f(0.875f + 0.125f*(i/360.0f), 0.1f);
+			glVertex3f(
+				sinf(i/180.0f * PI) * width, 
+				cosf(i/180.0f * PI) * width, 
+				lowheight);
+		}
+	glEnd();
 }
 
 void LandscapeObjects::generate(ProgressCounter *counter)
 {
 	if (counter) counter->setNewOp("Populating Landscape");
 
-	// TODO we need to add the shadow to the texture map
+	// Create the tree textures and models
+	if (!texture_.textureValid())
+	{
+		GLBitmap map( PKGDIR "data/textures/pine.bmp", 
+				PKGDIR "data/textures/pinea.bmp", false);
+		DIALOG_ASSERT(map.getBits());
+		texture_.create(map, GL_RGBA, true);
+
+		glNewList(tree1 = glGenLists(1), GL_COMPILE);
+			drawTrunc(0.1f, 1.1f, 0.0f);
+			drawLevel(0.625f, 0.125f, 0.7f, 0.3f, 0.1f);
+			drawLevel(0.375f, 0.125f, 0.5f, 0.7f, 0.2f);
+			drawLevel(0.125f, 0.125f, 0.3f, 1.1f, 0.5f);
+		glEndList();
+		glNewList(tree2 = glGenLists(1), GL_COMPILE);
+			drawTrunc(0.1f, 1.1f, 0.0f);
+			drawLevel(0.625f, 0.375f, 0.7f, 0.3f, 0.1f);
+			drawLevel(0.375f, 0.375f, 0.5f, 0.7f, 0.2f);
+			drawLevel(0.125f, 0.375f, 0.3f, 1.1f, 0.5f);
+		glEndList();
+		glNewList(tree3 = glGenLists(1), GL_COMPILE);
+			drawTrunc(0.1f, 1.1f, 0.0f);
+			drawLevel(0.625f, 0.875f, 0.7f, 0.3f, 0.1f);
+			drawLevel(0.375f, 0.875f, 0.5f, 0.7f, 0.2f);
+			drawLevel(0.125f, 0.875f, 0.3f, 1.1f, 0.5f);
+		glEndList();
+		glNewList(treeSnow = glGenLists(1), GL_COMPILE);
+			drawTrunc(0.1f, 1.1f, 0.0f);
+			drawLevel(0.625f, 0.625f, 0.7f, 0.3f, 0.1f);
+			drawLevel(0.375f, 0.625f, 0.5f, 0.7f, 0.2f);
+			drawLevel(0.125f, 0.625f, 0.3f, 1.1f, 0.5f);
+		glEndList();
+	}
 
 	// Clear any current trees
 	std::list<LandscapeObjectOrderedEntry*>::iterator itor = entries_.begin();
@@ -105,7 +158,7 @@ void LandscapeObjects::generate(ProgressCounter *counter)
 	memset(objectMap, 0, sizeof(unsigned char) * 64 * 64);
 
 	// A few points where trees will be clustered around
-	for (int i=0; i<50; i++)
+	for (int i=0; i<25; i++)
 	{
 		// Get a random point
 		int x = int(RAND * 64.0f);
@@ -114,8 +167,11 @@ void LandscapeObjects::generate(ProgressCounter *counter)
 		// Check point is in the correct height band
 		float height = 
 			ScorchedClient::instance()->getLandscapeMaps().
-				getHMap().getHeight(x * 4, y *4);
-		if (height > 10.0f && height < 20.0f)
+				getHMap().getHeight(x * 4, y * 4);
+		Vector &normal =
+			ScorchedClient::instance()->getLandscapeMaps().
+				getHMap().getNormal(x * 4, y * 4);
+		if (height > 8.0f && height < 20.0f && normal[2] > 0.7f)
 		{
 			// Group other areas around this point that are likely to get trees
 			// Do a few groups
@@ -128,10 +184,13 @@ void LandscapeObjects::generate(ProgressCounter *counter)
 				if (newX >= 0 && newX < 64 &&
 					newY >= 0 && newY < 64)
 				{
+					Vector &normal =
+						ScorchedClient::instance()->getLandscapeMaps().
+						getHMap().getNormal(newX * 4, newY * 4);
 					height = 
 						ScorchedClient::instance()->getLandscapeMaps().
 						getHMap().getHeight(newX * 4, newY *4);
-					if (height > 6.0f)
+					if (height > 8.0f && height < 30.0f && normal[2] > 0.7f)
 					{
 						objectMap[newX + 64 * newY] = 64;
 					}
@@ -184,7 +243,7 @@ void LandscapeObjects::generate(ProgressCounter *counter)
 
 	// Add lots of trees, more chance of adding a tree where
 	// the map is stongest
-	const int NoIterations = 500000;
+	const int NoIterations = 1000000;
 	for (int i=0; i<NoIterations; i++)
 	{
 		if (i % 1000 == 0) if (counter) 
@@ -205,15 +264,33 @@ void LandscapeObjects::generate(ProgressCounter *counter)
 				ScorchedClient::instance()->getLandscapeMaps().
 					getHMap().getInterpHeight(lx, ly);
 
-			LandscapeObjectOrderedEntry *entry = new LandscapeObjectOrderedEntry;
-			entry->provider_ = this;
-			entry->posX = lx;
-			entry->posY = ly;
-			entry->posZ = height + 1.0f;
+			if (height > 5.5f)
+			{
+				float mult = (float) Landscape::instance()->getMainMap().getWidth() / 256.0f;
+				GLBitmapModifier::addCircle(Landscape::instance()->getMainMap(),
+					lx * mult, ly * mult, 2.5f * mult, 1.0f);
 
-			// Add the entry
-			GLOrderedItemRenderer::instance()->addEntry(entry);
-			entries_.push_back(entry);
+				LandscapeObjectOrderedEntry *entry = new LandscapeObjectOrderedEntry;
+				entry->provider_ = this;
+				entry->posX = lx;
+				entry->posY = ly;
+				entry->posZ = height;
+
+				if (height > 20.0f)
+				{
+					entry->treeType = treeSnow;
+				}
+				else
+				{
+					entry->treeType = tree3;
+				}
+				entry->treeRotation = RAND * PI * 2.0f;
+				entry->color = RAND * 0.5f + 0.5f;
+
+				// Add the entry
+				GLOrderedItemRenderer::instance()->addEntry(entry);
+				entries_.push_back(entry);
+			}
 		}
 	}
 

@@ -21,6 +21,7 @@
 #include <dialogs/ProgressDialog.h>
 #include <dialogs/BackdropDialog.h>
 #include <client/ScorchedClient.h>
+#include <client/Main2DCamera.h>
 #include <GLW/GLWFont.h>
 #include <GLEXT/GLBitmap.h>
 #include <math.h>
@@ -121,6 +122,7 @@ void ProgressDialog::progressChange(const char *op, const float percentage)
 		oldPercentage = percentage;
 		timeDelay = 0.0f;
 	
+		Main2DCamera::instance()->draw(0);
 		BackdropDialog::instance()->draw();
 		draw();
 

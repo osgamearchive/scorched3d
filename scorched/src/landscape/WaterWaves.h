@@ -54,6 +54,8 @@ protected:
 	std::vector<WaterWaveEntry> paths1_;
 	std::vector<WaterWaveEntry> paths2_;
 	float totalTime_;
+	unsigned int pointCount_;
+	unsigned int removedCount_;
 
 	void findPoints(ProgressCounter *counter);
 	bool findNextPath(ProgressCounter *counter);

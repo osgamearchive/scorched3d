@@ -190,9 +190,9 @@ void Landscape::draw(const unsigned state)
 	hMapSurround_.draw();
 	cloudTexture_.draw();
 	surround_.draw();
-	wWaves_.draw();
 	if (OptionsDisplay::instance()->getDrawWater())
 	{
+		wWaves_.draw();
 		glColor3fv(ScorchedClient::instance()->getOptionsTransient().getWallColor());
 		wMapPoints_.draw();
 		wMap_.draw();
@@ -283,14 +283,14 @@ void Landscape::generate(ProgressCounter *counter)
 		bitmapPlan_.getWidth(), bitmapPlan_.getHeight(), 
 		GL_UNSIGNED_BYTE, bitmapPlan_.getBits());
 
+	// Add objects to the landscape
+	objects_.generate(counter);
+
 	// Create the magma texture
 	DIALOG_ASSERT(magTexture_.replace(bitmapMagma));
 
 	// Create the main landscape texture
 	DIALOG_ASSERT(texture_.replace(mainMap_, GL_RGB, false));
-
-	// Add objects to the landscape
-	objects_.generate(counter);
 
 	// Create the detail textures
 	DIALOG_ASSERT(detailTexture_.replace(bitmapDetail, GL_RGB, true));

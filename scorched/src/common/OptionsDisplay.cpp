@@ -87,7 +87,7 @@ OptionsDisplay::OptionsDisplay() :
 	noSound_(options_, "NoSound", 
 		"Do not use the sound.", RWAccess, false),
 	noTrees_(options_, "NoTrees",
-		"Do not draw the trees", RWAccess, true),
+		"Do not draw the trees", RWAccess, false),
 	noWaves_(options_, "NoWaves",
 		"Do not draw the shore waves", RWAccess, false),
 	noDepthSorting_(options_, "NoDepthSorting",
