@@ -18,16 +18,4 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-enum
-{
-	IDC_LANDCOVERAGE = 400,
-	IDC_LANDHEIGHT,
-	IDC_LANDWIDTHX,
-	IDC_LANDWIDTHY
-};
-
-static wxComboBox *IDC_LANDCOVERAGE_CTRL = 0;
-static wxComboBox *IDC_LANDHEIGHT_CTRL = 0;
-static wxComboBox *IDC_LANDWIDTHX_CTRL = 0;
-static wxComboBox *IDC_LANDWIDTHY_CTRL = 0;
+static wxCheckBox **landscapes = 0;

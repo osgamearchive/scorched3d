@@ -25,11 +25,13 @@
 #include <landscape/HeightMapRenderer.h>
 #include <GLEXT/GLBitmapModifier.h>
 #include <GLEXT/GLStateExtension.h>
+#include <GLEXT/GLConsoleRuleMethodIAdapter.h>
 #include <common/OptionsTransient.h>
 #include <common/Resources.h>
 #include <common/OptionsDisplay.h>
 #include <dialogs/WindDialog.h>
 #include <client/ScorchedClient.h>
+#include <time.h>
 
 Landscape *Landscape::instance_ = 0;
 
@@ -51,7 +53,8 @@ Landscape::Landscape() :
 	resetWater_(false), resetWaterTimer_(0.0f), waterTexture_(0),
 	textureType_(eDefault)
 {
-
+	new GLConsoleRuleMethodIAdapter<Landscape>(
+		this, &Landscape::savePlan, "SavePlan");
 }
 
 Landscape::~Landscape()
@@ -385,4 +388,13 @@ void Landscape::restoreLandscapeTexture()
 
 	DIALOG_ASSERT(texture_.replace(mainMap_, GL_RGB, false));
 	textureType_ = eDefault;
+}
+
+void Landscape::savePlan()
+{
+	static unsigned counter = 0;
+	time_t currentTime = time(0);
+	char fileName[256];
+	sprintf(fileName, PKGDIR "PlanShot-%i-%i.bmp", currentTime, counter++);
+	bitmapPlan_.writeToFile(fileName);
 }

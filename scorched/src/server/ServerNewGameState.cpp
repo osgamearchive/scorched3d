@@ -63,7 +63,8 @@ void ServerNewGameState::enterState(const unsigned state)
 	checkTeams();
 
 	// Generate the new level
-	LandscapeDefinition &defn = LandscapeDefinitions::instance()->getRandomLandscapeDefn();
+	LandscapeDefinition &defn = LandscapeDefinitions::instance()->getRandomLandscapeDefn(
+		ScorchedServer::instance()->getContext().optionsGame);
 	ScorchedServer::instance()->getContext().landscapeMaps.generateHMap(defn);
 
 	// Set the start positions for the tanks

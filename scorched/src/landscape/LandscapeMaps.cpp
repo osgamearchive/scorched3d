@@ -20,11 +20,13 @@
 
 #include <landscape/LandscapeMaps.h>
 #include <landscape/HeightMapModifier.h>
+#include <landscape/HeightMapLoader.h>
 #include <common/OptionsGame.h>
 #include <common/RandomGenerator.h>
 #include <common/Defines.h>
 #include <common/Logger.h>
 #include <zlib/zlib.h>
+#include <stdlib.h>
 
 LandscapeMaps::LandscapeMaps() : 
 	map_(256), mmap_(map_, 256), nmap_(256), storedMap_(0)
@@ -42,15 +44,43 @@ LandscapeMaps::~LandscapeMaps()
 void LandscapeMaps::generateHMap(LandscapeDefinition &hdef,
 								ProgressCounter *counter)
 {
-	// Seed the generator
-	static RandomGenerator generator;
-	static RandomGenerator offsetGenerator;
-	generator.seed(hdef.landSeed);
-	offsetGenerator.seed(hdef.landSeed);
+	// Store the landscape settings for anyone that connects later
 	storedHdef_ = hdef;
 
-	HeightMapModifier::generateTerrain(getHMap(), 
-		hdef, generator, offsetGenerator, counter);
+	// Do we generate or load the landscape
+	if (!hdef.heightMapFile.empty())
+	{
+		// Load the landscape
+		GLBitmap bitmap;
+		char fileName[256];
+		sprintf(fileName, PKGDIR "data/landscapes/%s", 
+			hdef.heightMapFile.c_str());
+		if (!bitmap.loadFromFile(fileName, false))
+		{
+			dialogMessage("Landscape",
+						  "Error: Unabled to find landscape map \"%s\"",
+						  fileName);
+			exit(1);
+		}
+		else
+		{
+			HeightMapLoader::loadTerrain(
+				getHMap(),
+				bitmap, counter);
+		}
+	}
+	else
+	{
+		// Seed the generator and generate the landscape
+		static RandomGenerator generator;
+		static RandomGenerator offsetGenerator;
+		generator.seed(hdef.landSeed);
+		offsetGenerator.seed(hdef.landSeed);
+
+		HeightMapModifier::generateTerrain(
+			getHMap(), 
+			hdef, generator, offsetGenerator, counter);
+	}
 
 	// Save this height map for later
 	memcpy(storedMap_, map_.getData(), 

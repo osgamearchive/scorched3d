@@ -20,9 +20,11 @@
 
 #include <scorched/DisplayDialog.h>
 #include <scorched/MainDialog.h>
+#include <landscape/LandscapeDefinitions.h>
 #include <tankai/TankAIStore.h>
 #include <common/OptionsGame.h>
 #include <wx/wx.h>
+#include <wx/utils.h>
 #include <wx/notebook.h>
 
 namespace SettingsEco 
@@ -115,12 +117,12 @@ SettingsFrame::SettingsFrame(bool server, OptionsGame &context) :
 	envPanel_->SetAutoLayout(TRUE);
 	envPanel_->SetSizer(envPanelSizer);
 
-	/*landPanel_ = new wxPanel(book_, -1);
+	landPanel_ = new wxPanel(book_, -1);
 	wxSizer *landPanelSizer = new wxBoxSizer(wxVERTICAL);
 	SettingsLand::createControls(landPanel_, landPanelSizer);
 	book_->AddPage(landPanel_, "Land");
 	landPanel_->SetAutoLayout(TRUE);
-	landPanel_->SetSizer(landPanelSizer);*/
+	landPanel_->SetSizer(landPanelSizer);
 
 	if (server)
 	{
@@ -224,7 +226,15 @@ bool SettingsFrame::TransferDataToWindow()
 
 	// Land 
 	{
-
+		std::vector<LandscapeDefinition> &defns =
+			LandscapeDefinitions::instance()->getAllLandscapes();
+		for (int i = 0; i<(int) defns.size(); i++)
+		{
+			SettingsLand::landscapes[i]->SetValue(
+				LandscapeDefinitions::instance()->landscapeEnabled(
+					context_,
+					defns[i].name.c_str()));
+		}
 	}
 
 	// Eco
@@ -487,7 +497,18 @@ bool SettingsFrame::TransferDataFromWindow()
 
 	// Land
 	{
-
+		std::string landscapes;
+		std::vector<LandscapeDefinition> &defns =
+			LandscapeDefinitions::instance()->getAllLandscapes();
+		for (int i = 0; i<(int) defns.size(); i++)
+		{
+			if (SettingsLand::landscapes[i]->GetValue())
+			{
+				if (!landscapes.empty()) landscapes += ":";
+				landscapes += defns[i].name.c_str();
+			}
+		}
+		context_.setLandscapes(landscapes.c_str());
 	}
 
 	// Eco

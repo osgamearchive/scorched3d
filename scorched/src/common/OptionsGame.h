@@ -165,6 +165,9 @@ public:
 	int getComputersAttackTalk() { return computersAttackTalk_.getValue(); }
 	void setComputersAttackTalk(int value) { computersAttackTalk_.setValue(value); }
 
+	const char *getLandscapes() { return landscapes_.getValue(); }
+	void setLandscapes(const char *value) { landscapes_.setValue(value); }
+
 	const char *getMasterListServer() { return masterListServer_.getValue(); }
 	void setMasterListServer(const char *value) { masterListServer_.setValue(value); }
 
@@ -238,6 +241,7 @@ protected:
 	OptionEntryBoundedInt windType_;
 	OptionEntryBoundedInt wallType_;
 	OptionEntryBoundedInt weapScale_;
+	OptionEntryString landscapes_;
 	OptionEntryString masterListServer_;
 	OptionEntryString masterListServerURI_;
 	OptionEntryString statsLogger_;

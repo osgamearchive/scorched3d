@@ -89,6 +89,8 @@ OptionsGame::OptionsGame() :
 		"The port to start the server on", 0, ScorchedPort),
 	serverName_(options_, "ServerName", 
 		"The name of the server to start", 0, "No Name"),
+	landscapes_(options_, "Landscapes", 
+		"Colon seperated list of landscape names", 0, ""),
 	serverPassword_(options_, "ServerPassword", 
 		"The password for this server (empty password = no password)", 0, ""),
 	publishServer_(options_, "PublishServer",

@@ -18,20 +18,11 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// GLBitmap.cpp: implementation of the GLBitmap class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <stdio.h>
 #include <math.h>
 #include <GLEXT/GLState.h>
 #include <GLEXT/GLBitmap.h>
 #include <SDL/SDL.h>
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 GLBitmap::GLBitmap() :
 	width_(0), height_(0), alpha_(false), newbits_(0)
@@ -177,8 +168,6 @@ bool GLBitmap::getAlpha()
 
 bool GLBitmap::loadFromFile(char * filename, bool alpha)
 {
-	bool success = false;
-
 	SDL_Surface *image = SDL_LoadBMP(filename);
 	if (!image) return false;
 
@@ -208,7 +197,7 @@ bool GLBitmap::loadFromFile(char * filename, bool alpha)
 	}
 	
 	SDL_FreeSurface(image);
-	return success;
+	return true;
 }
 
 bool GLBitmap::writeToFile(char * filename)

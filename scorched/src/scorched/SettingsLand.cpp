@@ -22,39 +22,43 @@
 
 static void createControls(wxWindow *parent, wxSizer *topsizer)
 {
-	wxSizer *sizer = new wxGridSizer(2, 2);
+	delete [] landscapes;
+	landscapes = new wxCheckBox*[
+		LandscapeDefinitions::instance()->getAllLandscapes().size()];
+
+	wxSizer *sizer = new wxGridSizer(3, 3);
 	topsizer->Add(sizer, 0, wxALL | wxALIGN_CENTER, 10);
 
-	sizer->Add(new wxStaticText(parent, -1,
-		"Land Coverage :"), 0, wxALIGN_CENTER);
-	sizer->Add(IDC_LANDCOVERAGE_CTRL = 
-		new wxComboBox(parent, IDC_LANDCOVERAGE,
-		"",
-		wxDefaultPosition, wxSize((int) 72, (int) 124.5),
-		0, 0, wxCB_READONLY), 0, wxALIGN_CENTER);
-		
-	sizer->Add(new wxStaticText(parent, -1,
-		"Land Height :"), 0, wxALIGN_CENTER);
-	sizer->Add(IDC_LANDHEIGHT_CTRL = 
-		new wxComboBox(parent, IDC_LANDHEIGHT,
-		"",
-		wxDefaultPosition, wxSize((int) 72, (int) 124.5),
-		0, 0, wxCB_READONLY), 0, wxALIGN_CENTER);
-		
-	sizer->Add(new wxStaticText(parent, -1,
-		"Land Width X :"), 0, wxALIGN_CENTER);
-	sizer->Add(IDC_LANDWIDTHX_CTRL = 
-		new wxComboBox(parent, IDC_LANDWIDTHX,
-		"",
-		wxDefaultPosition, wxSize((int) 72, (int) 124.5),
-		0, 0, wxCB_READONLY), 0, wxALIGN_CENTER);
-		
-	sizer->Add(new wxStaticText(parent, -1,
-		"Land Width Y :"), 0, wxALIGN_CENTER);
-	sizer->Add(IDC_LANDWIDTHY_CTRL = 
-		new wxComboBox(parent, IDC_LANDWIDTHY,
-		"",
-		wxDefaultPosition, wxSize((int) 72, (int) 124.5),
-		0, 0, wxCB_READONLY), 0, wxALIGN_CENTER);
-}
+	int i = 0;
+	std::vector<LandscapeDefinition> &defns =
+		LandscapeDefinitions::instance()->getAllLandscapes();
+	std::vector<LandscapeDefinition>::iterator itor;
+	for (itor = defns.begin();
+		 itor != defns.end();
+		 itor++, i++)
+	{
+		LandscapeDefinition &dfn = *itor;
+		wxBoxSizer *boxSizer = new wxBoxSizer(wxVERTICAL);
 
+		char fileName[256];
+		strcpy(fileName, PKGDIR "data/landscapes/picture-none.bmp");
+		if (::wxFileExists(dfn.picture.c_str()))
+		{
+			sprintf(fileName, PKGDIR "%s", dfn.picture.c_str());
+		}
+
+		wxImage image;
+		if (image.LoadFile(_T(fileName), wxBITMAP_TYPE_BMP))
+		{
+			wxBitmap bitmap(image);
+			wxStaticBitmap *staticBmp = new wxStaticBitmap(parent, -1, bitmap);
+			staticBmp->SetToolTip(wxString(dfn.description.c_str()));
+			boxSizer->Add(staticBmp, 0, wxALL, 2);
+		}
+
+		landscapes[i] = new wxCheckBox(parent, -1, dfn.name.c_str());
+		boxSizer->Add(landscapes[i]);
+
+		sizer->Add(boxSizer, 0, wxALL, 5);
+	}
+}

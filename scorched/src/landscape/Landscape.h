@@ -121,6 +121,8 @@ protected:
 	bool resetWater_;
 	float resetWaterTimer_;
 
+	void savePlan();
+
 private:
 	Landscape();
 	virtual ~Landscape();

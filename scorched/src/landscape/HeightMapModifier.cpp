@@ -19,9 +19,11 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <math.h>
+#include <stdlib.h>
 #include <landscape/HeightMapModifier.h>
 #include <landscape/LandscapeDefinitions.h>
 #include <common/Defines.h>
+#include <GLEXT/GLBitmap.h>
 
 void HeightMapModifier::levelSurround(HeightMap &hmap)
 {
@@ -174,11 +176,33 @@ void HeightMapModifier::generateTerrain(HeightMap &hmap,
 {
 	if (counter) counter->setNewOp("Teraform Landscape");
 
+	// Create a default mask that allows everything
+	GLBitmap maskMap(256, 256);
+	memset(maskMap.getBits(), 255, 256 * 256 * 3);
+
+	// Check if we need to load a new mask
+	if (!defn.heightMaskFile.empty())
+	{
+		char fileName[256];
+		sprintf(fileName, PKGDIR "data/landscapes/%s", 
+			defn.heightMaskFile.c_str());
+		if (!maskMap.loadFromFile(fileName , false))
+		{
+			dialogMessage("Landscape",
+						  "Error: Failed to find mask map \"%s\"",
+						  fileName);
+			exit(1);
+		}
+	}
+
+	// Generate the landscape
 	hmap.reset();
 	float useWidthX = defn.landWidthX;
 	float useWidthY = defn.landWidthY;
 	float useBorderX = float(hmap.getWidth() - defn.landWidthX) / 2.0f;
 	float useBorderY = float(hmap.getWidth() - defn.landWidthY) / 2.0f;
+	float maskMultX = float(maskMap.getWidth()) / float(hmap.getWidth());
+	float maskMultY = float(maskMap.getHeight()) / float(hmap.getWidth());
 
 	const int noItter = int((defn.landHillsMax - defn.landHillsMin) *
 		generator.getRandFloat() + defn.landHillsMin);
@@ -187,23 +211,44 @@ void HeightMapModifier::generateTerrain(HeightMap &hmap,
 	{
 		if (counter) counter->setNewPercentage((100.0f * float(i)) / float(noItter));
 
+		// Choose settings for a random hemisphere
 		float sizew = (defn.landPeakWidthXMax - defn.landPeakWidthXMin) * generator.getRandFloat() 
 			+ defn.landPeakWidthXMin;
 		float sizew2 = (defn.landPeakWidthYMax - defn.landPeakWidthYMin) * generator.getRandFloat() 
 			+ defn.landPeakWidthYMin + sizew;
+		float sizeh = ((defn.landPeakHeightMax - defn.landPeakHeightMin) * generator.getRandFloat() 
+					   + defn.landPeakHeightMin) * MAX(sizew, sizew2);
+
+		// Choose a border around this hemisphere
 		float bordersize = MAX(sizew, sizew2) * 1.2f;
 		float bordersizex = bordersize + useBorderX;
 		float bordersizey = bordersize + useBorderY;
-		float sizeh = ((defn.landPeakHeightMax - defn.landPeakHeightMin) * generator.getRandFloat() 
-			+ defn.landPeakHeightMin) * MAX(sizew, sizew2);
 
-		// NOTE: This has been changed as I386/SPARC have different calling ordering
-		// symantics (see CVS diff for changes)
-		float sx = (generator.getRandFloat() * (float(hmap.getWidth()) - (bordersizex * 2))) + bordersizex;
-		float sy = (generator.getRandFloat() * (float(hmap.getWidth()) - (bordersizey * 2))) + bordersizey;
-		Vector start(sx, sy);
+		// Choose a point for this hemisphere
+		float sx = (generator.getRandFloat() * (float(hmap.getWidth()) - 
+												(bordersizex * 2))) + bordersizex;
+		float sy = (generator.getRandFloat() * (float(hmap.getWidth()) - 
+												(bordersizey * 2))) + bordersizey;
 
-		addCirclePeak(hmap, start, sizew, sizew2, sizeh, offsetGenerator);
+		// Check if the point passes the mask
+		bool ok = true;
+		if (int(sx) >= 0 && int(sx) < hmap.getWidth() &&
+			int(sy) >= 0 && int(sy) < hmap.getWidth())
+		{
+			int bx = int(sx * maskMultX);
+			int by = int(sy * maskMultY);
+			GLubyte maskPt = maskMap.getBits()[(bx * 3) + (by * maskMap.getWidth() * 3)];
+
+			//printf("%i %i %i %s\n", maskPt, bx, by, defn.heightMaskFile.c_str());
+			ok = ((generator.getRandFloat() * 255.0f) < float(maskPt));
+		}
+
+		if (ok)
+		{
+			// Actually add the hemisphere
+			Vector start(sx, sy);
+			addCirclePeak(hmap, start, sizew, sizew2, sizeh, offsetGenerator);
+		}
 	}
 
 	scale(hmap, defn, generator, counter);

@@ -68,15 +68,17 @@ protected:
 	//LandscapeDefinition &operator=(LandscapeDefinition &other);
 };
 
+class OptionsGame;
 class LandscapeDefinitions
 {
 public:
 	static LandscapeDefinitions *instance();
 
-	LandscapeDefinition &getRandomLandscapeDefn();
-	LandscapeDefinition &getRandomLandscapeDefn(std::list<std::string> &names);
+	LandscapeDefinition &getRandomLandscapeDefn(OptionsGame &context);
 
-	std::vector<LandscapeDefinition> &getAllLandscapes() { return definitions_; }
+	bool landscapeEnabled(OptionsGame &context, const char *name);
+	std::vector<LandscapeDefinition> &getAllLandscapes() 
+		{ return definitions_; }
 
 protected:
 	static LandscapeDefinitions *instance_;
