@@ -25,7 +25,10 @@
 static std::set<GLuint> usedNumbers_;
 unsigned int GLTexture::textureSpace_ = 0;
 
-GLTexture::GLTexture() : texNum_(0), texType_(GL_TEXTURE_2D), usedSpace_(0)
+GLTexture::GLTexture() : 
+	texNum_(0), texType_(GL_TEXTURE_2D), 
+	usedSpace_(0),
+	width_(0), height_(0)
 {
 
 }
@@ -53,11 +56,16 @@ bool GLTexture::replace(GLImage &bitmap,
 						GLenum format, 
 						bool mipMap)
 {
-	if (textureValid() && GLStateExtension::getNoTexSubImage())
-	{
-		glDeleteTextures(1, &texNum_);
-		usedNumbers_.erase(texNum_);
-		texNum_ = 0;
+	if (textureValid())
+	{ 
+		if(GLStateExtension::getNoTexSubImage() ||
+			(bitmap.getWidth() != width_) ||
+			(bitmap.getHeight() != height_))
+		{
+			glDeleteTextures(1, &texNum_);
+			usedNumbers_.erase(texNum_);
+			texNum_ = 0;
+		}
 	}
 
 	if (textureValid())
@@ -153,6 +161,8 @@ bool GLTexture::createTexture(const void * data,
 	textureSpace_ -= usedSpace_;
 	usedSpace_ = width * height * components;
 	textureSpace_ += usedSpace_;
+	width_ = width;
+	height_ = height;
 
 	texFormat_ = format;
 	glPixelStorei(GL_UNPACK_ALIGNMENT, alignment);
