@@ -18,9 +18,10 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <GLW/GLWDropDown.h>
+#include <GLW/GLWTranslate.h>
 #include <GLW/GLWFont.h>
+#include <client/ScorchedClient.h>
 
 GLWDropDownI::~GLWDropDownI()
 {
@@ -91,6 +92,15 @@ void GLWDropDown::addText(const char *text)
 
 void GLWDropDown::draw()
 {
+	static int iVPort[4];
+	glGetIntegerv(GL_VIEWPORT, iVPort);
+	int windowHeight = iVPort[3];
+
+	float mouseX = float(ScorchedClient::instance()->getGameState().getMouseX());
+	mouseX -= GLWTranslate::getPosX();
+	float mouseY = float(windowHeight - ScorchedClient::instance()->getGameState().getMouseY());
+	mouseY -= GLWTranslate::getPosY();
+
 	glBegin(GL_LINE_LOOP);
 		drawShadedRoundBox(x_, y_, w_, h_, 10.0f, false);
 	glEnd();
@@ -130,8 +140,12 @@ void GLWDropDown::draw()
 			itor != texts_.end();
 			itor++)
 		{
+			static Vector selectedColor(0.7f, 0.7f, 0.7f);
+			bool selected = 
+				inBox(mouseX, mouseY, x_, top, w_, 19.0f);
+
 			GLWFont::instance()->getFont()->draw(
-				GLWFont::widgetFontColor, 16,
+				selected?selectedColor:GLWFont::widgetFontColor, 16,
 				x_ + 5.0f, top + 5.0f, 0.0f, (*itor).c_str());
 			top -= 20.0f;
 		}
@@ -151,25 +165,24 @@ void GLWDropDown::mouseDown(float x, float y, bool &skipRest)
 			float dropSize = float(20.0f * texts_.size());
 			if (inBox(x, y, x_, y_ - dropSize - 1, w_, dropSize))
 			{
-				float sel = y - (y_ - dropSize - 1);
-				sel /= 20.0f;
-
-				int currentSel = (int) texts_.size();
 				int pos = 0;
+				float top = y_ - 24.0f;
 				std::list<std::string>::iterator itor;
 				for (itor = texts_.begin();
 					itor != texts_.end();
 					itor++)
 				{
-					text_ = (*itor);
+					if (inBox(x, y, x_, top, w_, 19.0f))
+					{
+						text_ = (*itor);
+						if (handler_)
+						{
+							handler_->select(id_, pos, text_.c_str());
+						}
+					}
 
 					pos++;
-					if (--currentSel < sel) break;
-				}
-
-				if (handler_)
-				{
-					handler_->select(id_, pos-1, text_.c_str());
+					top -= 20.0f;
 				}
 			}
 		}
