@@ -755,6 +755,8 @@ scorched3d_SOURCES = \
 	../client/ServerBrowserRefresh.h \
 	../client/ServerBrowserServerList.cpp \
 	../client/ServerBrowserServerList.h \
+	../client/MessageDisplay.cpp \
+	../client/MessageDisplay.h \
 	../client/ShotTimer.cpp \
 	../client/ShotTimer.h \
 	../client/SpeedChange.cpp \
