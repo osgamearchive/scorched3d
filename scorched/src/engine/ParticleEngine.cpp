@@ -20,6 +20,8 @@
 
 #include <engine/ParticleEngine.h>
 #include <common/OptionsDisplay.h>
+#include <common/OptionsTransient.h>
+#include <client/ScorchedClient.h>
 #include <GLEXT/GLState.h>
 #include <client/MainCamera.h>
 #include <algorithm>
@@ -150,8 +152,8 @@ void ParticleEngine::normalizedSimulate(float time)
 			particle->velocity_ += particle->gravity_ * time * time;
 
 			// Wind
-			//particle->velocity_ += ScorchedClient::instance()->getOptionsTransient().getWindDirection() * 
-			//	ScorchedClient::instance()->getOptionsTransient().getWindSpeed() / 100.0f;
+			particle->velocity_ += ScorchedClient::instance()->getOptionsTransient().getWindDirection() * 
+				ScorchedClient::instance()->getOptionsTransient().getWindSpeed() * 200.0f * time;
 
 			// Simulate the particle
 			if (particle->renderer_)

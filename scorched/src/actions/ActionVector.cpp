@@ -19,7 +19,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <actions/ActionVector.h>
-#include <SDL/SDL_net.h>
 
 std::map<unsigned int, ActionVector *> ActionVectorHolder::actions_;
 unsigned int ActionVectorHolder::nextActionId_ = 0;
@@ -102,18 +101,15 @@ void ActionVector::addPoint(unsigned int point)
 
 void ActionVector::addPointF(float point)
 {
-	Uint32 value = 0;
 	Uint32 add = 0;
 	memcpy(&add, &point, sizeof(Uint32));
-	SDLNet_Write32(add, &value);
-	addPoint(value);
+	addPoint(add);
 }
 
 float ActionVector::getPointF()
 {
 	float resultf;
-	unsigned int value = getPoint();
-	Uint32 result = SDLNet_Read32(&value);
+	unsigned int result = getPoint();
 	memcpy(&resultf, &result, sizeof(Uint32));
 	return resultf;
 }
