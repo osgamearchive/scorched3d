@@ -22,6 +22,7 @@
 #define __INCLUDE_MSFileh_INCLUDE__
 
 #include <3dsparse/ModelsFile.h>
+#include <stdio.h>
 
 class MSFile : public ModelsFile
 {
