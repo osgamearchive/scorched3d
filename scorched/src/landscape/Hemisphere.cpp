@@ -115,6 +115,11 @@ void Hemisphere::createXY(
 			point.tx = (p1[0] + radius) / (2 * radius);
 			point.ty = (p1[1] + radius) / (2 * radius);
 			points.push_back(point);
+			if (i == startRotationSlice)
+			{
+				points.push_back(point);
+				points.push_back(point);
+			}
 
 			point.x = p2[0]; point.y = p2[1]; point.z = p2[2];
 			point.tx = (p2[0] + radius) / (2 * radius);
@@ -174,6 +179,12 @@ void Hemisphere::createColored(std::list<HemispherePoint> &points,
 				point.ty = (p1[1] + radius) / (2 * radius);
 				point.r = colorR; point.g = colorG; point.b = colorB;
 				points.push_back(point);
+
+				if (i == 0)
+				{
+					points.push_back(point);
+					points.push_back(point);
+				}
 			}
 
 			{
