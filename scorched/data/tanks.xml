@@ -7,6 +7,27 @@
 		</model>
 	</tank>
 	<tank>
+		<name>Rail Gun</name>
+		<model type="ase">
+			<mesh>RailGun.ase</mesh>
+			<skin>RailGun.bmp</skin>
+		</model>
+	</tank>
+	<tank>
+		<name>Siege Tank</name>
+		<model type="ase">
+			<mesh>SiegeTank.ase</mesh>
+			<skin>SiegeTank.bmp</skin>
+		</model>
+	</tank>
+	<tank>
+		<name>Siege Tank (Artillery)</name>
+		<model type="ase">
+			<mesh>SiegeTank2.ase</mesh>
+			<skin>SiegeTank2.bmp</skin>
+		</model>
+	</tank>
+	<tank>
 		<name>Hoth Gun</name>
 		<model type="ase">
 			<mesh>HothGun.ase</mesh>
