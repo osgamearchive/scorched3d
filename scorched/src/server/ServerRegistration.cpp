@@ -78,14 +78,23 @@ int ServerRegistration::threadFunc(void *param)
 		time_t lastTime = time(0);
 
 		// Wait for TimeBetweenRegistrations seconds before registering again
+		int waitTime = TimeBetweenRegistrations;
 		for (;;)
 		{
-			// Check for any replies or timeout every 5 seconds
+			// Check for any replies or timeout every 1 seconds
 			SDL_Delay(1000);
 			instance_->netServer_.processMessages();
 
+			// If we have finished and it was not a success only
+			// wait 30 seconds before registering again
+			if (instance_->finished_ && !instance_->success_)
+			{
+				waitTime = 30;
+			}
+
+			// Wait for TimeBetweenRegistrations seconds before sending again
 			time_t currentTime = time(0);
-			if (currentTime - lastTime > TimeBetweenRegistrations)
+			if (currentTime - lastTime > waitTime)
 			{
 				break;
 			}
@@ -101,8 +110,11 @@ void ServerRegistration::registerGame()
 	if (!instance_->netServer_.connect(ScorchedServer::instance()->getOptionsGame().getMasterListServer(), 80))
 	{
 		Logger::log(0, "Failed to contact registration server");
+		instance_->finished_ = true;
 		return;
 	}
+	instance_->finished_ = false;
+	instance_->success_ = false;
 
 	// Send the web request
 	instance_->netServer_.sendMessage(instance_->sendNetBuffer_);
@@ -114,6 +126,13 @@ void ServerRegistration::processMessage(NetMessage &message)
 	// We have received a reply from the web server
 	if (message.getMessageType() == NetMessage::BufferMessage)
 	{
-		Logger::log(0, "Registration complete.");
+		message.getBuffer().getBuffer()[message.getBuffer().getBufferUsed()] = '\0';
+		success_ = (strstr(message.getBuffer().getBuffer(), "success") != 0);
+	}
+	else if (message.getMessageType() == NetMessage::DisconnectMessage)
+	{
+		Logger::log(0, "Registration complete (%s).", (success_?"Success":"Failure"));
+		finished_ = true;
 	}
 }
+

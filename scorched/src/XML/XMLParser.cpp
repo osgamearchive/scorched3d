@@ -31,7 +31,7 @@ static void removeSpecialChars(std::string &content, std::string &result)
 	for (char *c=(char *) content.c_str(); *c; c++)
 	{
 		char newchar = *c;
-		if (*c < 32 || *c > 125) result += ' ';
+		if (*c < 32 || *c > 126) result += ' ';
 		else if (*c == '>') result += "&gt;";
 		else if (*c == '<') result += "&lt;";
 		else if (*c == '\'') result += "&apos;";

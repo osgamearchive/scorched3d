@@ -33,6 +33,7 @@ public:
 protected:
 	static ServerRegistration *instance_;
 
+	bool finished_, success_;
 	NetServer netServer_;
 	NetBuffer sendNetBuffer_;
 	static int threadFunc(void *);
