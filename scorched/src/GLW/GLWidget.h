@@ -54,6 +54,7 @@ public:
 	virtual bool initFromXML(XMLNode *node);
 	virtual void setToolTip(GLWTip *tooltip) { tooltip_ = tooltip; }
 	virtual void setParent(GLWPanel *parent);
+	virtual void layout();
 
 	// Width, height and position functions
 	virtual float getX() { return x_; }

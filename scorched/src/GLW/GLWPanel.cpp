@@ -37,8 +37,11 @@ GLWPanel::GLWPanelEntry::GLWPanelEntry(GLWidget *w, GLWCondition *c,
 
 REGISTER_CLASS_SOURCE(GLWPanel);
 
-GLWPanel::GLWPanel(float x, float y, float w, float h, bool depressed) : 
-	GLWidget(x, y, w, h), depressed_(depressed), drawPanel_(true)
+GLWPanel::GLWPanel(float x, float y, float w, float h, 
+	bool depressed, bool visible) : 
+	GLWidget(x, y, w, h), depressed_(depressed), 
+	drawPanel_(visible), layout_(LayoutNone),
+	gridWidth_(0)
 {
 
 }
@@ -288,5 +291,203 @@ bool GLWPanel::initFromXML(XMLNode *node)
 		addWidget(widget, condition);
 	}
 	return true;
+}
+
+void GLWPanel::layout()
+{
+	if (layout_ == LayoutNone) return;
+	
+	float w = 0.0f;
+	float h = 0.0f;
+	
+	// Figure out how wide and high this frame should be
+	std::list<GLWPanelEntry>::iterator itor;
+	for (itor = widgets_.begin();
+		itor != widgets_.end();
+		itor++)
+	{
+		GLWPanelEntry &entry = *itor;
+		
+		// Size this widget
+		entry.widget->layout();
+		
+		// Get the size
+		float width = entry.widget->getW() +
+			entry.leftSpace + entry.rightSpace;
+		float height = entry.widget->getH() +
+			entry.topSpace + entry.bottomSpace;		
+		if (layout_ == LayoutHorizontal)
+		{
+			w += height;
+			h = MAX(h, height);
+		}
+		else if (layout_ == LayoutVerticle)
+		{
+			w = MAX(w, width);
+			h += height;
+		}
+		else if (layout_ == LayoutGrid)
+		{
+			w = MAX(w, width);
+			h = MAX(h, height);
+		}
+		else DIALOG_ASSERT(0);
+	}
+	
+	float prevw = w;
+	float prevh = h;
+	if (layout_ == LayoutGrid)
+	{
+		w *= gridWidth_;
+		int rows = widgets_.size() / gridWidth_;
+		if (widgets_.size() % gridWidth_ > 0) rows ++;
+		h *= rows;
+	}
+	
+	// Set the width and height
+	setW(w);
+	setH(h);
+	
+	// Set the position of all the widgets
+	if (layout_ == LayoutHorizontal)
+	{
+		float width = 0.0f;
+		for (itor = widgets_.begin();
+			itor != widgets_.end();
+			itor++)
+		{
+			GLWPanelEntry &entry = *itor;
+			width += entry.leftSpace;
+			entry.widget->setX(width);
+			
+			if (entry.flags & AlignBottom)
+			{
+				entry.widget->setY(entry.bottomSpace);
+			}
+			else if (entry.flags & AlignCenterTopBottom)
+			{
+				entry.widget->setY(prevh / 2 - 
+					entry.widget->getH() / 2);
+			}
+			else if (entry.flags & AlignTop)
+			{
+				entry.widget->setY(prevh - entry.topSpace -
+					entry.widget->getH());
+			}
+			else DIALOG_ASSERT(0);
+			
+			width += entry.widget->getW();
+			width += entry.rightSpace;
+		}
+	}
+	else if (layout_ == LayoutVerticle)
+	{
+		float height = getH();
+		for (itor = widgets_.begin();
+			itor != widgets_.end();
+			itor++)
+		{
+			GLWPanelEntry &entry = *itor;
+			height -= entry.topSpace;
+			entry.widget->setY(height - entry.widget->getH());
+			
+			if (entry.flags & AlignLeft)
+			{
+				entry.widget->setX(entry.leftSpace);
+			}
+			else if (entry.flags & AlignCenterLeftRight)
+			{
+				entry.widget->setX(prevw / 2 - 
+					entry.widget->getW() / 2);
+			}
+			else if (entry.flags & AlignRight)
+			{
+				entry.widget->setX(prevw - entry.rightSpace -
+					entry.widget->getW());
+			}
+			else DIALOG_ASSERT(0);
+			
+			height -= entry.widget->getH();
+			height -= entry.bottomSpace;
+		}
+	}
+	else if (layout_ == LayoutGrid)
+	{
+		DIALOG_ASSERT(gridWidth_ != 0);
+	
+		int cell = 0;
+		float width = 0.0f;
+		float height = getH();
+		for (itor = widgets_.begin();
+			itor != widgets_.end();
+			itor++)
+		{
+			GLWPanelEntry &entry = *itor;
+			if (entry.flags & AlignLeft)
+			{
+				entry.widget->setX(width + entry.leftSpace);
+			}
+			else if (entry.flags & AlignCenterLeftRight)
+			{
+				entry.widget->setX(width + prevw / 2 - 
+					entry.widget->getW() / 2);
+			}
+			else if (entry.flags & AlignRight)
+			{
+				entry.widget->setX(width + prevw - entry.rightSpace -
+					entry.widget->getW());
+			}
+			else DIALOG_ASSERT(0);
+			
+			if (entry.flags & AlignBottom)
+			{
+				entry.widget->setY(height - prevh + entry.bottomSpace);
+			}
+			else if (entry.flags & AlignCenterTopBottom)
+			{
+				entry.widget->setY(height - prevh / 2 - 
+					entry.widget->getH() / 2);
+			}
+			else if (entry.flags & AlignTop)
+			{
+				entry.widget->setY(height - entry.topSpace -
+					entry.widget->getH());
+			}
+			else DIALOG_ASSERT(0);	
+		
+			cell++;
+			if (cell >= gridWidth_)
+			{
+				cell = 0;	
+				width = 0.0f;
+				height -= prevh;
+			}
+			else
+			{
+				width += prevw;
+			}
+		}		
+	}
+	else DIALOG_ASSERT(0);
+}
+
+void GLWPanel::setLayout(unsigned int layout)
+{
+	layout_ = layout;
+}
+
+unsigned int GLWPanel::getLayout()
+{
+	return layout_;
+}
+
+void GLWPanel::setGridWidth(unsigned int width)
+{
+	gridWidth_ = width;
+}
+
+unsigned int GLWPanel::getGridWidth()
+{
+	return gridWidth_;
 }
 

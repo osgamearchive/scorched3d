@@ -70,6 +70,11 @@ void GLWidget::draw()
 	}
 }
 
+void GLWidget::layout()
+{
+
+}
+
 void GLWidget::simulate(float frameTime)
 {
 

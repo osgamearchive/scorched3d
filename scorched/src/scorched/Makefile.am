@@ -135,10 +135,6 @@ scorched3d_SOURCES = \
 	../GLW/GLWTracker.h \
 	../GLW/GLWTranslate.cpp \
 	../GLW/GLWTranslate.h \
-	../GLW/GLWVisiblePanel.cpp \
-	../GLW/GLWVisiblePanel.h \
-	../GLW/GLWVisibleWidget.cpp \
-	../GLW/GLWVisibleWidget.h \
 	../GLW/GLWWeaponModel.cpp \
 	../GLW/GLWWeaponModel.h \
 	../GLW/GLWWindView.cpp \

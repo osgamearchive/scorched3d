@@ -39,8 +39,17 @@ public:
 		SpaceBottom = 8,
 		AlignLeft = 16,
 		AlignRight = 32,
-		AlignTop = 64,
-		AlignBottom = 128
+		AlignCenterLeftRight = 64,
+		AlignTop = 128,
+		AlignBottom = 256,
+		AlignCenterTopBottom = 512
+	};
+	enum LayoutType
+	{
+		LayoutNone,
+		LayoutHorizontal,
+		LayoutVerticle,
+		LayoutGrid
 	};
 
 	struct GLWPanelEntry
@@ -59,7 +68,8 @@ public:
 
 	GLWPanel(float x = 0.0f, float y = 0.0f, 
 		float w = 0.0f, float h = 0.0f, 
-		bool depressed = false);
+		bool depressed = false,
+		bool visible = true);
 	virtual ~GLWPanel();
 
 	virtual void simulate(float frameTime);
@@ -73,9 +83,16 @@ public:
 
 	virtual bool initFromXML(XMLNode *node);
 	virtual void clear();
+	virtual void layout();
+
+	virtual void setLayout(unsigned int layout);
+	virtual unsigned int getLayout();
+	virtual void setGridWidth(unsigned int grid);
+	virtual unsigned int getGridWidth();
 
 	GLWidget *addWidget(GLWidget *widget, GLWCondition *condition = 0, 
-		unsigned int flags = 0, float width = 0.0f);
+		unsigned int flags = AlignLeft | AlignTop, 
+		float width = 0.0f);
 	std::list<GLWPanelEntry> &getWidgets() { return widgets_; }
 
 	REGISTER_CLASS_HEADER(GLWPanel);
@@ -88,6 +105,8 @@ protected:
 	std::list<GLWPanelEntry> widgets_;
 	bool depressed_;
 	bool drawPanel_;
+	unsigned int layout_;
+	unsigned int gridWidth_;
 
 };
 
