@@ -191,6 +191,6 @@ void SkyRoof::draw()
 {
 	if (!list_) makeList();
 	
-	Landscape::instance()->getSurroundTexture().draw(true);
+	Landscape::instance()->getRoofTexture().draw(true);
 	glCallList(list_);
 }

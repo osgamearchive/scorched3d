@@ -289,8 +289,8 @@ void createIdentControls(wxWindow *parent, wxSizer *sizer)
 void createKeysControls(wxWindow *parent, wxSizer *topsizer)
 {
 	wxScrolledWindow *scrolledWindow = new wxScrolledWindow(parent, -1,
-		wxDefaultPosition, wxSize(340, 320));
-	wxSizer *sizer = new wxFlexGridSizer(3, 3);
+		wxDefaultPosition, wxSize(520, 370));
+	wxSizer *sizer = new wxFlexGridSizer(5, 1);
 	
 	Keyboard::instance()->parseKeyFile(getDataFile("data/keys.xml"));
 	std::map<std::string, KeyboardKey *, std::less<std::string> > &keys =
@@ -300,8 +300,29 @@ void createKeysControls(wxWindow *parent, wxSizer *topsizer)
 		itor != keys.end();
 		itor++)
 	{
-		wxCheckBox *box = new wxCheckBox(scrolledWindow, -1, (*itor).first.c_str());
-		sizer->Add(box, 0, wxALL, 5);
+		KeyboardKey *key = (*itor).second;
+
+		wxStaticText *text = new wxStaticText(scrolledWindow, -1, key->getName());
+		text->SetToolTip(key->getDescription());
+		sizer->Add(text);
+		for (unsigned int i=0; i<MAX(key->getKeys().size(), 4); i++)
+		{
+			char buffer[256];
+			buffer[0] = '\0';
+			if (i < key->getKeys().size())
+			{
+				const char *keyName = "";
+				const char *stateName = "";
+				KeyboardKey::translateKeyNameValue(key->getKeys()[i].key, keyName);
+				KeyboardKey::translateKeyStateValue(key->getKeys()[i].state, stateName);
+				if (strcmp(stateName, "NONE") == 0) sprintf(buffer, "%s", keyName);
+				else sprintf(buffer, "<%s> %s", stateName, keyName);
+			}
+
+			wxButton *button = new wxButton(scrolledWindow, ID_KEY, buffer);
+			button->SetToolTip(key->getDescription());
+			sizer->Add(button, 0, wxLEFT, 5);
+		}
 	}
 	
 	scrolledWindow->SetAutoLayout(TRUE);
@@ -310,3 +331,4 @@ void createKeysControls(wxWindow *parent, wxSizer *topsizer)
 	scrolledWindow->SetScrollbars(0, 10, 50, minSize.GetHeight() / 10);
 	topsizer->Add(scrolledWindow, 0, wxALL | wxALIGN_CENTER, 10);
 }
+

@@ -2649,6 +2649,12 @@
 				RelativePath="HtmlHelpDialog.h">
 			</File>
 			<File
+				RelativePath="KeyDialog.cpp">
+			</File>
+			<File
+				RelativePath="KeyDialog.h">
+			</File>
+			<File
 				RelativePath="MainDialog.cpp">
 			</File>
 			<File

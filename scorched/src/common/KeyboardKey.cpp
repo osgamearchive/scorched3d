@@ -27,24 +27,19 @@ KeyboardKey::KeyboardKey(const char *name,
 						 const char *description,
 						 bool command) :
 	name_(name), description_(description), 
-	noKeys_(0), keys_(0), keyStates_(0), keyToogle_(false), command_(command)
+	keyToogle_(false), command_(command)
 {
-
 }
 
 KeyboardKey::~KeyboardKey()
 {
-	delete [] keys_;
-	delete [] keyStates_;
 }
 
 bool KeyboardKey::addKeys(std::list<std::string> &keyNames,
 						  std::list<std::string> &keyStates)
 {
 	DIALOG_ASSERT(keyNames.size() == keyStates.size());
-
-	keys_ = new unsigned int[keyNames.size()];
-	keyStates_ = new unsigned int[keyStates.size()];
+	keys_.clear();
 
 	int i=0;
 	std::list<std::string>::iterator itor;
@@ -53,8 +48,10 @@ bool KeyboardKey::addKeys(std::list<std::string> &keyNames,
 		 itor != keyNames.end() && itorState != keyStates.end();
 		 itor++, i++, itorState++)
 	{
+		KeyEntry entry;
+
 		std::string &name = *itor;
-		if (!translateKeyName(name.c_str(), keys_[i])) 
+		if (!translateKeyName(name.c_str(), entry.key)) 
 		{
 			dialogMessage("KeyboardKey",
 						  "Failed to find key names \"%s\" for \"%s\"",
@@ -64,7 +61,7 @@ bool KeyboardKey::addKeys(std::list<std::string> &keyNames,
 		}
 
 		std::string &state = *itorState;
-		if (!translateKeyState(state.c_str(), keyStates_[i])) 
+		if (!translateKeyState(state.c_str(), entry.state)) 
 		{
 			dialogMessage("KeyboardKey",
 						  "Failed to find key state \"%s\" for \"%s\"",
@@ -72,7 +69,8 @@ bool KeyboardKey::addKeys(std::list<std::string> &keyNames,
 						  name_.c_str());
 			return false;
 		}
-		noKeys_ ++;
+
+		keys_.push_back(entry);
 	}
 
 	return true;
@@ -88,7 +86,6 @@ bool KeyboardKey::translateKeyName(const char *name, unsigned int &key)
 			return true;
 		}
 	}
-
 	return false;
 }
 
@@ -102,15 +99,38 @@ bool KeyboardKey::translateKeyState(const char *name, unsigned int &state)
 			return true;
 		}
 	}
+	return false;
+}
 
+bool KeyboardKey::translateKeyNameValue(unsigned int key, const char *&name)
+{
+	for (int i=0; i<sizeof(KeyTranslationTable)/sizeof(KeyTranslation); i++)
+	{
+		if (KeyTranslationTable[i].keySym == key)
+		{
+			name = KeyTranslationTable[i].keyName;
+		}
+	}
+	return false;
+}
+
+bool KeyboardKey::translateKeyStateValue(unsigned int state, const char *&name)
+{
+	for (int i=0; i<sizeof(KeyStateTranslationTable)/sizeof(KeyStateTranslation); i++)
+	{
+		if (KeyStateTranslationTable[i].keyStateSym == state)
+		{
+			name = KeyStateTranslationTable[i].keyStateName;
+		}
+	}
 	return false;
 }
 
 bool KeyboardKey::keyDown(char *buffer, unsigned int keyState, bool repeat)
 {
-	for (unsigned int i=0; i<noKeys_; i++)
+	for (unsigned int i=0; i<keys_.size(); i++)
 	{
-		if (keyState == keyStates_[i] && buffer[keys_[i]])
+		if (keyState == keys_[i].state && buffer[keys_[i].key])
 		{
 			if (!repeat && keyToogle_) return false;
 
@@ -125,9 +145,9 @@ bool KeyboardKey::keyDown(char *buffer, unsigned int keyState, bool repeat)
 
 bool KeyboardKey::keyMatch(unsigned key)
 {
-	for (unsigned int i=0; i<noKeys_; i++)
+	for (unsigned int i=0; i<keys_.size(); i++)
 	{
-		if (keys_[i] == key) return true;
+		if (keys_[i].key == key) return true;
 	}
 	return false;
 }

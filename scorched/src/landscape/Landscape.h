@@ -69,6 +69,7 @@ public:
 	GLTexture &getLandscapeTexture1() { return landTex1_; }
 	GLTexture &getSurroundTexture() { return surroundTexture_; }
 	GLTexture &getDetailTexture() { return detailTexture_; }
+	GLTexture &getRoofTexture() { return roofTexture_; }
 
 	LandscapeTextureType getTextureType() { return textureType_; }
 	void setTextureType(LandscapeTextureType type) { textureType_ = type; }
@@ -105,6 +106,7 @@ protected:
 	GLTexture surroundTexture_;
 	GLTexture cloudTexture_;
 	GLTexture detailTexture_;
+	GLTexture roofTexture_;
 	GLTexture landTex1_;
 	GLBitmap mainMap_;
 	GLBitmap scorchMap_;

@@ -122,6 +122,7 @@ public:
 class LandscapeTexTextureGenerate : public LandscapeTexType
 {
 public:
+	std::string roof;
 	std::string rockside;
 	std::string shore;
 	std::string texture0;

@@ -23,10 +23,17 @@
 
 #include <string>
 #include <list>
+#include <vector>
 
 class KeyboardKey
 {
 public:
+	struct KeyEntry
+	{
+		unsigned int key;
+		unsigned int state;
+	};
+
 	KeyboardKey(const char *name,
 				const char *description,
 				bool command);
@@ -37,21 +44,22 @@ public:
 	bool addKeys(std::list<std::string> &keyNames,
 		std::list<std::string> &keyStates);
 
+	std::vector<KeyEntry> &getKeys() { return keys_; }
 	const char *getName() { return name_.c_str(); }
 	const char *getDescription() { return description_.c_str(); }
 	bool getNameIsCommand() { return command_; }
 
 	static bool translateKeyName(const char *name, unsigned int &key);
 	static bool translateKeyState(const char *name, unsigned int &state);
+	static bool translateKeyNameValue(unsigned int key, const char *&name);
+	static bool translateKeyStateValue(unsigned int state, const char *&name);
 
 protected:
 	std::string name_;
 	std::string description_;
+	std::vector<KeyEntry> keys_;
 	bool keyToogle_;
 	bool command_;
-	unsigned int noKeys_;
-	unsigned int *keys_;
-	unsigned int *keyStates_;
 
 private:
 	KeyboardKey(const KeyboardKey &);

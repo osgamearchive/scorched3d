@@ -20,6 +20,7 @@
 
 #include <scorched/DisplayDialog.h>
 #include <scorched/MainDialog.h>
+#include <scorched/KeyDialog.h>
 #include <common/OptionsDisplay.h>
 #include <common/Defines.h>
 #include <common/Keyboard.h>
@@ -42,7 +43,9 @@ public:
 
 	void onLoadDefaultsButton(wxCommandEvent &event);
 	void onLoadSafeButton(wxCommandEvent &event);
+	void onKeyButton(wxCommandEvent &event);
 	void onMoreRes(wxCommandEvent &event);
+	void onKey();
 
 	wxNotebook *book_;
 	wxPanel *mainPanel_;
@@ -60,6 +63,7 @@ protected:
 BEGIN_EVENT_TABLE(DisplayFrame, wxDialog)
     EVT_BUTTON(ID_LOADDEFAULTS,  DisplayFrame::onLoadDefaultsButton)
     EVT_BUTTON(ID_LOADSAFE,  DisplayFrame::onLoadSafeButton)
+    EVT_BUTTON(ID_KEY,  DisplayFrame::onKeyButton)
 	EVT_CHECKBOX(ID_MORERES, DisplayFrame::onMoreRes) 
 END_EVENT_TABLE()
 
@@ -104,12 +108,12 @@ DisplayFrame::DisplayFrame() :
 	identPanel_->SetSizer(identPanelSizer);
 
 	// Keys Panel
-	keysPanel_ = new wxPanel(book_, -1);
+	/*keysPanel_ = new wxPanel(book_, -1);
 	wxSizer *keysPanelSizer = new wxBoxSizer(wxVERTICAL);
 	createKeysControls(keysPanel_, keysPanelSizer);
-	//book_->AddPage(keysPanel_, "Keys");
-	identPanel_->SetAutoLayout(TRUE);
-	identPanel_->SetSizer(keysPanelSizer);
+	book_->AddPage(keysPanel_, "Keys");
+	keysPanel_->SetAutoLayout(TRUE);
+	keysPanel_->SetSizer(keysPanelSizer);*/
 
 	// Notebook
 	topsizer->Add(nbs, 0, wxALL, 10);
@@ -143,6 +147,11 @@ void DisplayFrame::onLoadSafeButton(wxCommandEvent &event)
 void DisplayFrame::onMoreRes(wxCommandEvent &event)
 {
 	refreshResolutions();
+}
+
+void DisplayFrame::onKeyButton(wxCommandEvent &event)
+{
+	showKeyDialog(this);
 }
 
 bool DisplayFrame::TransferDataToWindow()
