@@ -45,6 +45,8 @@
 				</object>
 			</placement>
 		</placements>
+		<precipitation type="none"></precipitation>
+		<events></events>
 	</tex>
 	<tex>
 		<name>hell</name>
@@ -79,8 +81,9 @@
 			<texture3>data/textures/landscape/hell/texture3.bmp</texture3>
 			<texture4>data/textures/landscape/hell/texture4.bmp</texture4>
 		</texture>
-		<placements>
-		</placements>
+		<placements></placements>
+		<precipitation type="none"></precipitation>
+		<events></events>
 	</tex>
 	<tex>
 		<name>sand</name>
@@ -127,6 +130,8 @@
 				</object>
 			</placement>
 		</placements>
+		<precipitation type="none"></precipitation>
+		<events></events>
 	</tex>
 	<tex>
 		<name>snow</name>
@@ -173,6 +178,8 @@
 				</object>
 			</placement>
 		</placements>
+		<precipitation type="none"></precipitation>
+		<events></events>
 	</tex>
 	<tex>
 		<name>tropical</name>
@@ -219,6 +226,8 @@
 				</object>
 			</placement>
 		</placements>
+		<precipitation type="none"></precipitation>
+		<events></events>
 	</tex>
 	<tex>
 		<name>vulcano</name>
@@ -253,8 +262,9 @@
 			<texture3>data/textures/landscape/vulcano/texture3.bmp</texture3>
 			<texture4>data/textures/landscape/vulcano/texture4.bmp</texture4>
 		</texture>
-		<placements>
-		</placements>
+		<placements></placements>
+		<precipitation type="none"></precipitation>
+		<events></events>
 	</tex>
 	<tex>
 		<name>storm</name>
@@ -301,6 +311,22 @@
 				</object>
 			</placement>
 		</placements>
+		<precipitation type="none"></precipitation>
+		<events>
+			<event>
+				<condition type="time">
+					<mintime>0.0</mintime>
+					<maxtime>3.0</maxtime>
+				</condition>
+				<action type="fireweapon">
+					<position><A>128</A><B>128</B><C>200</C></position>
+					<positionoffset><A>110</A><B>110</B><C>0</C></positionoffset>
+					<direction><A>0</A><B>0</B><C>-1</C></direction>
+					<directionoffset><A>0</A><B>0</B><C>0</C></directionoffset>
+					<weapon>WeaponLightning</weapon>
+				</action>
+			</event>
+		</events>
 	</tex>
 	<tex>
 		<name>cavern</name>
@@ -347,6 +373,8 @@
 				</object>
 			</placement>
 		</placements>
+		<precipitation type="none"></precipitation>
+		<events></events>
 	</tex>
 	<tex>
 		<name>test</name>
@@ -413,5 +441,7 @@
 				</object>
 			</placement>			
 		</placements>
+		<precipitation type="none"></precipitation>
+		<events></events>
 	</tex>
 </texs>

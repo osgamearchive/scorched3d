@@ -55,6 +55,27 @@ static LandscapeTexType *fetchObjectTexType(const char *type)
 	return 0;
 }
 
+static LandscapeTexType *fetchPrecipitationTexType(const char *type)
+{
+	if (0 == strcmp(type, "none")) return new LandscapeTexTypeNone;
+	dialogMessage("LandscapeTexType", "Unknown precipitation type %s", type);
+	return 0;
+}
+
+static LandscapeTexType *fetchConditionTexType(const char *type)
+{
+	if (0 == strcmp(type, "time")) return new LandscapeTexConditionTime;
+	dialogMessage("LandscapeTexType", "Unknown condition type %s", type);
+	return 0;
+}
+
+static LandscapeTexType *fetchActionTexType(const char *type)
+{
+	if (0 == strcmp(type, "fireweapon")) return new LandscapeTexActionFireWeapon;
+	dialogMessage("LandscapeTexType", "Unknown action type %s", type);
+	return 0;
+}
+
 bool LandscapeTexTypeNone::writeMessage(NetBuffer &buffer)
 {
 	return true;
@@ -70,6 +91,107 @@ bool LandscapeTexTypeNone::readXML(XMLNode *node)
 	return node->failChildren();
 }
 
+// LandscapeTexEvent
+LandscapeTexEvent::~LandscapeTexEvent()
+{
+	delete condition;
+	delete action;
+}
+
+bool LandscapeTexEvent::writeMessage(NetBuffer &buffer)
+{
+	buffer.addToBuffer(conditiontype);
+	if (!condition->writeMessage(buffer)) return false;
+	buffer.addToBuffer(actiontype);
+	if (!action->writeMessage(buffer)) return false;
+	return true;
+}
+
+bool LandscapeTexEvent::readMessage(NetBufferReader &reader)
+{
+	if (!reader.getFromBuffer(conditiontype)) return false;
+	if (!(condition = fetchConditionTexType(conditiontype.c_str()))) return false;
+	if (!condition->readMessage(reader)) return false;
+	if (!reader.getFromBuffer(actiontype)) return false;
+	if (!(action = fetchActionTexType(actiontype.c_str()))) return false;
+	if (!action->readMessage(reader)) return false;	
+	return true;
+}
+
+bool LandscapeTexEvent::readXML(XMLNode *node)
+{
+	{
+		XMLNode *conditionNode;
+		if (!node->getNamedChild("condition", conditionNode)) return false;
+		if (!conditionNode->getNamedParameter("type", conditiontype)) return false;
+		if (!(condition = fetchConditionTexType(conditiontype.c_str()))) return false;
+		if (!condition->readXML(conditionNode)) return false;
+	}
+	{
+		XMLNode *actionNode;
+		if (!node->getNamedChild("action", actionNode)) return false;
+		if (!actionNode->getNamedParameter("type", actiontype)) return false;
+		if (!(action = fetchActionTexType(actiontype.c_str()))) return false;
+		if (!action->readXML(actionNode)) return false;
+	}	
+	
+	return node->failChildren();
+}
+
+// LandscapeTexConditionTime
+bool LandscapeTexConditionTime::writeMessage(NetBuffer &buffer)
+{
+	buffer.addToBuffer(mintime);
+	buffer.addToBuffer(maxtime);
+	return true;
+}
+
+bool LandscapeTexConditionTime::readMessage(NetBufferReader &reader)
+{
+	if (!reader.getFromBuffer(mintime)) return false;
+	if (!reader.getFromBuffer(maxtime)) return false;
+	return true;
+}
+
+bool LandscapeTexConditionTime::readXML(XMLNode *node)
+{
+	if (!node->getNamedChild("mintime", mintime)) return false;
+	if (!node->getNamedChild("maxtime", maxtime)) return false;
+	return node->failChildren();
+}
+
+// LandscapeTexActionFireWeapon
+bool LandscapeTexActionFireWeapon::writeMessage(NetBuffer &buffer)
+{
+	buffer.addToBuffer(position);
+	buffer.addToBuffer(positionoffset);
+	buffer.addToBuffer(direction);
+	buffer.addToBuffer(directionoffset);
+	buffer.addToBuffer(weapon);
+	return true;
+}
+
+bool LandscapeTexActionFireWeapon::readMessage(NetBufferReader &reader)
+{
+	if (!reader.getFromBuffer(position)) return false;
+	if (!reader.getFromBuffer(positionoffset)) return false;
+	if (!reader.getFromBuffer(direction)) return false;
+	if (!reader.getFromBuffer(directionoffset)) return false;
+	if (!reader.getFromBuffer(weapon)) return false;
+	return true;
+}
+
+bool LandscapeTexActionFireWeapon::readXML(XMLNode *node)
+{
+	if (!node->getNamedChild("position", position)) return false;
+	if (!node->getNamedChild("positionoffset", positionoffset)) return false;
+	if (!node->getNamedChild("direction", direction)) return false;
+	if (!node->getNamedChild("directionoffset", directionoffset)) return false;
+	if (!node->getNamedChild("weapon", weapon)) return false;
+	return node->failChildren();
+}
+
+// LandscapeTexObjectsModel
 bool LandscapeTexObjectsModel::writeMessage(NetBuffer &buffer)
 {
 	if (!model.writeModelID(buffer)) return false;
@@ -94,6 +216,7 @@ bool LandscapeTexObjectsModel::readXML(XMLNode *node)
 	return node->failChildren();
 }
 
+// LandscapeTexObjectsTree
 bool LandscapeTexObjectsTree::writeMessage(NetBuffer &buffer)
 {
 	buffer.addToBuffer(tree);
@@ -321,8 +444,13 @@ LandscapeTex::~LandscapeTex()
 	{
 		delete objects[i];
 	}
+	for (unsigned int i=0; i<events.size(); i++)
+	{
+		delete events[i];
+	}
 	objects.clear();
 	objectstype.clear();
+	events.clear();
 }
 
 bool LandscapeTex::writeMessage(NetBuffer &buffer)
@@ -343,15 +471,26 @@ bool LandscapeTex::writeMessage(NetBuffer &buffer)
 
 	buffer.addToBuffer(bordertype);
 	if (!border->writeMessage(buffer)) return false;
+	
 	buffer.addToBuffer(texturetype);
 	if (!texture->writeMessage(buffer)) return false;
+	
+	buffer.addToBuffer(precipitationtype);
+	if (!precipitation->writeMessage(buffer)) return false;
 
-	int size = (int) objects.size();
+	int size = 0;
+	size = (int) objects.size();
 	buffer.addToBuffer(size);
 	for (int i=0; i<size; i++)
 	{
 		buffer.addToBuffer(objectstype[i]);
 		if (!objects[i]->writeMessage(buffer)) return false;
+	}
+	size = (int) events.size();
+	buffer.addToBuffer(size);
+	for (int i=0; i<size; i++)
+	{
+		if (!events[i]->writeMessage(buffer)) return false;
 	}
 	return true;
 }
@@ -379,6 +518,10 @@ bool LandscapeTex::readMessage(NetBufferReader &reader)
 	if (!reader.getFromBuffer(texturetype)) return false;
 	if (!(texture = fetchTextureTexType(texturetype.c_str()))) return false;
 	if (!texture->readMessage(reader)) return false;
+	
+	if (!reader.getFromBuffer(precipitationtype)) return false;
+	if (!(precipitation = fetchTextureTexType(precipitationtype.c_str()))) return false;
+	if (!precipitation->readMessage(reader)) return false;	
 
 	int size = 0;
 	if (!reader.getFromBuffer(size)) return false;
@@ -391,6 +534,13 @@ bool LandscapeTex::readMessage(NetBufferReader &reader)
 		if (!placement->readMessage(reader)) return false;
 		objects.push_back(placement);
 		objectstype.push_back(placementtype);
+	}
+	if (!reader.getFromBuffer(size)) return false;
+	for (int i=0; i<size; i++)
+	{
+		LandscapeTexType *event = new LandscapeTexEvent;
+		if (!event->readMessage(reader)) return false;
+		events.push_back(event);
 	}
 	return true;
 }
@@ -432,6 +582,13 @@ bool LandscapeTex::readXML(XMLNode *node)
 		if (!texture->readXML(textureNode)) return false;
 	}
 	{
+		XMLNode *precipitationNode;
+		if (!node->getNamedChild("precipitation", precipitationNode)) return false;
+		if (!precipitationNode->getNamedParameter("type", precipitationtype)) return false;
+		if (!(precipitation = fetchPrecipitationTexType(precipitationtype.c_str()))) return false;
+		if (!precipitation->readXML(precipitationNode)) return false;
+	}
+	{
 		XMLNode *placementsNode, *placementNode;
 		if (!node->getNamedChild("placements", placementsNode)) return false;
 		while (placementsNode->getNamedChild("placement", placementNode, false))
@@ -444,6 +601,18 @@ bool LandscapeTex::readXML(XMLNode *node)
 			objects.push_back(placement);
 			objectstype.push_back(placementtype);
 		}
+		if (!placementsNode->failChildren()) return false;
+	}
+	{
+		XMLNode *eventsNode, *eventNode;
+		if (!node->getNamedChild("events", eventsNode)) return false;
+		while (eventsNode->getNamedChild("event", eventNode, false))
+		{
+			LandscapeTexType *event = new LandscapeTexEvent;
+			if (!event->readXML(eventNode)) return false;
+			events.push_back(event);
+		}
+		if (!eventsNode->failChildren()) return false;
 	}
 	return node->failChildren();
 }

@@ -43,6 +43,46 @@ public:
 	virtual bool readXML(XMLNode *node);
 };
 
+class LandscapeTexEvent : public LandscapeTexType
+{
+public:
+	virtual ~LandscapeTexEvent();
+
+	std::string conditiontype;
+	std::string actiontype;
+	LandscapeTexType *condition;
+	LandscapeTexType *action;
+
+	virtual bool writeMessage(NetBuffer &buffer);
+	virtual bool readMessage(NetBufferReader &reader);
+	virtual bool readXML(XMLNode *node);
+};
+
+class LandscapeTexConditionTime : public LandscapeTexType
+{
+public:
+	float mintime;
+	float maxtime;
+
+	virtual bool writeMessage(NetBuffer &buffer);
+	virtual bool readMessage(NetBufferReader &reader);
+	virtual bool readXML(XMLNode *node);
+};
+
+class LandscapeTexActionFireWeapon : public LandscapeTexType
+{
+public:
+	Vector position;
+	Vector positionoffset;
+	Vector direction;
+	Vector directionoffset;
+	std::string weapon;
+
+	virtual bool writeMessage(NetBuffer &buffer);
+	virtual bool readMessage(NetBufferReader &reader);
+	virtual bool readXML(XMLNode *node);
+};
+
 class LandscapeTexObjectsModel : public LandscapeTexType
 {
 public:
@@ -161,9 +201,12 @@ public:
 	LandscapeTexType *border;
 	std::string texturetype;
 	LandscapeTexType *texture;
+	std::string precipitationtype;
+	LandscapeTexType *precipitation;
 
 	std::vector<std::string> objectstype;
 	std::vector<LandscapeTexType *> objects;
+	std::vector<LandscapeTexType *> events;
 
 	bool writeMessage(NetBuffer &buffer);
 	bool readMessage(NetBufferReader &reader);
