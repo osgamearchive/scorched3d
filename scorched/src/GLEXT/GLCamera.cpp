@@ -19,6 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <math.h>
+#include <stdlib.h>
 #include <common/Defines.h>
 #include <GLEXT/GLState.h>
 #include <GLEXT/GLCamera.h>
@@ -29,7 +30,8 @@
 
 GLCamera::GLCamera(GLsizei windowWidth, GLsizei windowHeight) :
 	rotationXY_(0.0f), rotationYZ_(PI / 4), zoom_(150.0f),
-	useHeightFunc_(false), heightFunc_(0), totalTime_(0.0f)
+	useHeightFunc_(false), heightFunc_(0), totalTime_(0.0f), 
+	shake_(0.0f)
 {
 	setWindowOffset(0, 0);
 	setWindowSize(windowWidth, windowHeight);
@@ -104,6 +106,7 @@ void GLCamera::moveViewport(Vector &lookFrom, Vector &lookAt)
 void GLCamera::simulate(float frameTime)
 {
 	const float SecondsToReachTarget = 0.3f;
+	const float ShakeDecrease = 0.1f;
 
 	// Make some constant changes, regardless of framerate
 	totalTime_ += frameTime;
@@ -112,7 +115,7 @@ void GLCamera::simulate(float frameTime)
 		totalTime_ -= 0.1f;
 
 		// Calculate any camera shake
-		shake_ -= 0.1f;
+		shake_ -= ShakeDecrease;
 		if (shake_ > 0.0f)
 		{
 			shakeV_[0] = RAND * shake_;
