@@ -31,6 +31,8 @@ Fixed: Clients timing out after players disconnect
 Fixed: All bots of same type (e.g. shark) share the same stats
 Fixed: Spectators do not earn interest
 Fixed: Funky bomb and dirt interaction with concrete walls
+Fixed: Water coverage algorithm sometimes has holes in the water
+Fixed: Better mag deflect shield graphics
 
 Changed: Changed free market ecconmy so price decreases are slower
 Changed: Tank can move up and down bigger slopes (configurable)
@@ -38,6 +40,7 @@ Changed: Spread and hurts weapon primative options are now variable
 Changed: LeapFrog weapon primative bounce now variable
 Changed: Message of the day now defined in server.xml file
 
+Added: More dirt option for landscape (perhaps cannot go under water)
 Added: Arms level can be progressive (changed) during the lifetime of a match
 Added: Water height can be adjusted in landscape definition
 Added: Water can be turned off in landscape definition
@@ -96,12 +99,10 @@ Shot cam does not get LOD correctly
 Fix crashing when people win (Graphics card drivers??)
 Lightning, rain and meteors
 New surrounds instead of the water
-More dirt option for landscape (perhaps cannot go under water)
 Make rollers look better
 Guidance
 Add action replay type functionality
 AIs know how to dig
-Better mag deflect shield graphics
 Proper sun drawn
 
 -- Server Stuff

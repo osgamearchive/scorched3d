@@ -273,10 +273,31 @@ void HeightMap::setHeight(int w, int h, float height)
 
 	int newW = w >> minMapShift;
 	int newH = h >> minMapShift;
+	DIALOG_ASSERT(newW >= 0 && newH >= 0 && newW<=minWidth_ && newH<=minWidth_);
 	float *minHeight = &minMap_[(minWidth_+1) * newH + newW];
 	if (*minHeight > height)
 	{
 		*minHeight = height;
+	}
+}
+
+void HeightMap::resetMinHeight()
+{
+	for (int i=0; i<(minWidth_ + 1) * (minWidth_ + 1); i++) minMap_[i] = FLT_MAX;
+	for (int h=0; h<width_; h++)
+	{
+		for (int w=0; w<width_; w++)
+		{
+			float height = getHeight(w, h);
+			int newW = w >> minMapShift;
+			int newH = h >> minMapShift;
+			DIALOG_ASSERT(newW >= 0 && newH >= 0 && newW<=minWidth_ && newH<=minWidth_);
+			float *minHeight = &minMap_[(minWidth_+1) * newH + newW];
+			if (*minHeight > height)
+			{
+				*minHeight = height;
+			}
+		}
 	}
 }
 

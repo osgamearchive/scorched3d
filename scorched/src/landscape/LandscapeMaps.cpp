@@ -98,6 +98,7 @@ void LandscapeMaps::generateHMap(LandscapeDefinition *hdef,
 	}
 
 	// Save this height map for later
+	getHMap().resetMinHeight();
 	memcpy(storedMap_, map_.getData(), 
 		   (256 + 1) * (256 + 1) * sizeof(float));
 }
@@ -202,8 +203,11 @@ bool LandscapeMaps::generateHMapFromDiff(ComsLevelMessage &message,
 				Uint32 result = SDLNet_Read32(&value);
 				memcpy(&diff, &result, sizeof(Uint32));
 
-				float current = map_.getHeight(i, j);
-				map_.setHeight(i, j, current + diff);
+				if (diff != 0.0f)
+				{
+					float current = map_.getHeight(i, j);
+					map_.setHeight(i, j, current + diff);
+				}
 			
 				destCurrent += 4; // Move by 4 bytes (32 bits)
 			}

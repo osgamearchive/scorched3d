@@ -35,6 +35,7 @@ public:
 	virtual ~HeightMap();
 
 	void reset();
+	void resetMinHeight();
 
 	void generateNormals(int minX, int maxX, int minY, 
 		int maxY, ProgressCounter *counter = 0);
