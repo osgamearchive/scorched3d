@@ -391,7 +391,6 @@ scorcheddataglobalmodsapocdatawavexplosions_DATA = data/globalmods/apoc/data/wav
 scorcheddatatexturesdir = ${datadir}/data/textures
 scorcheddatatextures_DATA = data/textures/rain.bmp \
 	data/textures/glow1.bmp \
-	data/textures/ring.bmp2 \
 	data/textures/smoke01.bmp \
 	data/textures/smoke02.bmp \
 	data/textures/talk.bmp \
