@@ -336,7 +336,7 @@ void ServerFrame::onPlayerTalkAll()
 	if (entryDialog.ShowModal() == wxID_OK)
 	{
 		Logger::log(0, "Says \"%s\"", 
-			entryDialog.GetValue());
+			entryDialog.GetValue().GetData());
 		sendString(0, entryDialog.GetValue());
 	}
 }
@@ -348,7 +348,7 @@ void ServerFrame::onPlayerTalk()
 	if (entryDialog.ShowModal() == wxID_OK)
 	{
 		Logger::log(0, "Says \"%s\"", 
-			entryDialog.GetValue());
+			entryDialog.GetValue().GetData());
 
 		long item = -1;
 		while ((item = frame->playerList_->GetNextItem(
