@@ -503,6 +503,8 @@ scorched3d_SOURCES = \
 	../weapons/WeaponExplosion.h \
 	../weapons/WeaponLeapFrog.cpp \
 	../weapons/WeaponLeapFrog.h \
+	../weapons/WeaponLightning.cpp \
+	../weapons/WeaponLightning.h \
 	../weapons/WeaponMirv.cpp \
 	../weapons/WeaponMirv.h \
 	../weapons/WeaponMulti.cpp \
@@ -715,6 +717,8 @@ scorched3d_SOURCES = \
 	../actions/CameraPositionAction.h \
 	../actions/Explosion.cpp \
 	../actions/Explosion.h \
+	../actions/Lightning.cpp \
+	../actions/Lightning.h \
 	../actions/Napalm.cpp \
 	../actions/Napalm.h \
 	../actions/ShieldHit.cpp \

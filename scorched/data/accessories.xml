@@ -1165,6 +1165,14 @@ trace of the shot path.</description>
 		<explosiontexture>default</explosiontexture>
 		<explosionsound>none</explosionsound>			
 	</accessory>
+	<accessory type="WeaponLightning">
+		<name>Lightning</name>
+		<description></description>
+		<icon>bmissile.bmp</icon>
+		<cost>0</cost>
+		<bundlesize>0</bundlesize>
+		<armslevel>10</armslevel>
+	</accessory>
 	<!-- <accessory type="WeaponReference">
 		<name>Test Reference</name>
 		<description></description>

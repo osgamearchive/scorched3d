@@ -68,7 +68,8 @@ static void createControls(wxWindow *parent, wxSizer *topsizer)
 	scrolledWindow->SetAutoLayout(TRUE);
 	scrolledWindow->SetSizer(sizer);
 	wxSize minSize = sizer->CalcMin();
-	scrolledWindow->SetScrollbars(0, 10, 50, minSize.GetHeight() / 10);
+	scrolledWindow->SetScrollbars(10, 10, 
+		(minSize.GetWidth() + 10) / 10, (minSize.GetHeight() + 10) / 10);
 	topsizer->Add(scrolledWindow, 1, wxGROW | wxALL, 10);
 }
 

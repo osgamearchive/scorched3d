@@ -44,6 +44,7 @@ void HeightMapModifier::smooth(HeightMap &hmap,
 							   LandscapeDefnHeightMapGenerate &defn,
 							   ProgressCounter *counter)
 {
+	if (defn.landsmoothing == 0.0f) return;
 	if (counter) counter->setNewOp("Smoothing");
 
 	float *newhMap_ = new float[(hmap.getWidth()+1) * (hmap.getWidth()+1)];

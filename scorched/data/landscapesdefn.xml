@@ -254,7 +254,7 @@
 			<heightmap type="generate">
 				<mask></mask>
 				<landhills>
-					<min>60</min><max>80</max>
+					<min>120</min><max>160</max>
 				</landhills>
 				<landheight>
 					<min>40</min><max>70</max>
@@ -262,15 +262,15 @@
 				<landwidthx>64</landwidthx>
 				<landwidthy>64</landwidthy>
 				<landpeakwidthx>
-					<min>4</min><max>10</max>
+					<min>2</min><max>8</max>
 				</landpeakwidthx>
 				<landpeakwidthy>
-					<min>-3</min><max>3</max>
+					<min>-1</min><max>1</max>
 				</landpeakwidthy>
 				<landpeakheight>
 					<min>0.5</min><max>1.5</max>
 				</landpeakheight>
-				<landsmoothing>0.04</landsmoothing>
+				<landsmoothing>0.0</landsmoothing>
 				<levelsurround>false</levelsurround>
 			</heightmap>
 		</roof>

@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,38 +18,30 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(AFX_EXPLOSIONTEXTURES_H__F2BC42E7_B2FB_4C0D_ACF0_0B91D8DC84D3__INCLUDED_)
-#define AFX_EXPLOSIONTEXTURES_H__F2BC42E7_B2FB_4C0D_ACF0_0B91D8DC84D3__INCLUDED_
+#if !defined(__INCLUDE_WeaponLightningh_INCLUDE__)
+#define __INCLUDE_WeaponLightningh_INCLUDE__
 
-#include <GLEXT/GLTextureSet.h>
-#include <common/ProgressCounter.h>
-#include <string>
-#include <map>
+#include <weapons/Weapon.h>
 
-class ExplosionTextures  
+class WeaponLightning : public Weapon
 {
 public:
-	static ExplosionTextures *instance();
-	bool createTextures(ProgressCounter *counter = 0);
+	WeaponLightning();
+	virtual ~WeaponLightning();
 
-	GLTexture smokeTexture;
-	GLTexture smokeTexture2;
-	GLTexture particleTexture;
-	GLTexture talkTexture;
-	GLTexture lightningTexture;
+	virtual bool parseXML(XMLNode *accessoryNode);
+	virtual bool writeAccessory(NetBuffer &buffer);
+	virtual bool readAccessory(NetBufferReader &reader);
 
-	GLTextureSet *getTextureSetByName(const char *name);
-	std::map<std::string, GLTextureSet*> textureSets;
+	// Inherited from Weapon
+	void fireWeapon(ScorchedContext &context,
+		unsigned int playerId, Vector &position, Vector &velocity,
+		unsigned int data = 0);
+
+	REGISTER_ACCESSORY_HEADER(WeaponLightning, Accessory::AccessoryWeapon);
 
 protected:
-	static ExplosionTextures *instance_;
-
-	bool addTextureToSet(GLTextureSet &set,
-						const char *texPath);
-private:
-	ExplosionTextures();
-	virtual ~ExplosionTextures();
 
 };
 
-#endif // !defined(AFX_EXPLOSIONTEXTURES_H__F2BC42E7_B2FB_4C0D_ACF0_0B91D8DC84D3__INCLUDED_)
+#endif // __INCLUDE_WeaponLightningh_INCLUDE__

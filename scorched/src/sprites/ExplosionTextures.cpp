@@ -79,6 +79,11 @@ bool ExplosionTextures::createTextures(ProgressCounter *counter)
 	talkTexture.create(talkBitmap, GL_RGBA);
 	DIALOG_ASSERT(talkTexture.textureValid());
 
+	std::string file4 = getDataFile("data/textures/lightning.bmp");
+	GLBitmap bitmap4(file4.c_str(), file4.c_str(), false);
+	lightningTexture.create(bitmap4, GL_RGBA);
+	DIALOG_ASSERT(lightningTexture.textureValid());
+
 	XMLFile file;
 	if (!file.readFile(getDataFile("data/textureset.xml")))
 	{
