@@ -21,6 +21,7 @@
 #include <server/ServerConnectHandler.h>
 #include <server/ServerState.h>
 #include <server/ScorchedServer.h>
+#include <server/TurnController.h>
 #include <scorched/ServerDialog.h>
 #include <tank/TankColorGenerator.h>
 #include <tankai/TankAIAdder.h>
@@ -171,6 +172,16 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 		kickDestination(destinationId);
 		return true;
 	}
+
+	sendString(destinationId,
+		"Server playing a %s game.\n"
+		"Players will be kicked if their machine does not\n"
+		"return ready for %i seconds\n"
+		"or if they miss %i rounds",
+		TurnController::instance()->getGameType(
+			ScorchedServer::instance()->getOptionsGame().getTurnType()),
+		ScorchedServer::instance()->getOptionsGame().getIdleKickTime(),
+		ScorchedServer::instance()->getOptionsGame().getAllowedMissedMoves());
 
 	// Tell the client about the current state of play
 	// (e.g.) how many players how long to wait etc...

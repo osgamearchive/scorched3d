@@ -27,7 +27,7 @@ class Tank;
 
 void showServerDialog();
 
-void sendStringMessage(const char *fmt, ...);
+void sendStringMessage(unsigned int destinationId, const char *fmt, ...);
 void serverLog(unsigned int playerId, const char *fmt, ...);
 void sendString(unsigned int destinationId, const char *fmt, ...);
 void kickDestination(unsigned int destinationId);

@@ -950,6 +950,12 @@
 				RelativePath="..\dialogs\KibitzingDialog.h">
 			</File>
 			<File
+				RelativePath="..\dialogs\KillDialog.cpp">
+			</File>
+			<File
+				RelativePath="..\dialogs\KillDialog.h">
+			</File>
+			<File
 				RelativePath="..\dialogs\LogDialog.cpp">
 			</File>
 			<File
@@ -992,10 +998,10 @@
 				RelativePath="..\dialogs\QuitDialog.h">
 			</File>
 			<File
-				RelativePath="..\dialogs\KillDialog.cpp">
+				RelativePath="..\dialogs\RulesDialog.cpp">
 			</File>
 			<File
-				RelativePath="..\dialogs\KillDialog.h">
+				RelativePath="..\dialogs\RulesDialog.h">
 			</File>
 			<File
 				RelativePath="..\dialogs\ScoreDialog.cpp">

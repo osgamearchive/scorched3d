@@ -43,7 +43,7 @@ void ServerNewGameState::enterState(const unsigned state)
 {
 	// Tell clients a new game is starting
 	serverLog(0, "Starting new game");
-	sendString(0, "Starting a new game.");
+	sendStringMessage(0, "Next Round");
 
 	// Setup landscape and tank start pos
 	serverLog(0, "Generating landscape");

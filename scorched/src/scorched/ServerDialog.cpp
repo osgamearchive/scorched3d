@@ -413,7 +413,7 @@ void ServerFrame::onTimer()
 	frame->statusBar_->SetStatusText(buffer, 3);
 }
 
-void sendStringMessage(const char *fmt, ...)
+void sendStringMessage(unsigned int dest, const char *fmt, ...)
 {
 	static char text[1024];
 	va_list ap;
@@ -423,7 +423,14 @@ void sendStringMessage(const char *fmt, ...)
 	va_end(ap);	
 
 	ComsTextMessage message(text, 0, true);
-	ComsMessageSender::sendToAllConnectedClients(message);
+	if (dest == 0)
+	{
+		ComsMessageSender::sendToAllConnectedClients(message);
+	}
+	else
+	{
+		ComsMessageSender::sendToSingleClient(message, dest);
+	}
 }
 
 void sendString(unsigned int dest, const char *fmt, ...)

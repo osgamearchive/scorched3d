@@ -87,7 +87,7 @@ void GLMenuEntry::drawNonDepressed(float currentTop, float currentLeft)
 	{
 		GLState currentStateBlend(GLState::BLEND_ON);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	
-		glColor4f(0.0f, 0.0, 0.0f, 0.5f);
+		glColor4f(0.0f, 0.0, 0.0f, 0.7f);
 		glBegin(GL_TRIANGLE_FAN);
 			glVertex2f(currentLeft + 10.0f, currentTop - 10.0f);
 			glVertex2f(currentLeft + 10.0f, currentTop - menuItemHeight);
@@ -142,7 +142,7 @@ void GLMenuEntry::drawDepressed(GLFont2d &font, float currentTop, float currentL
 	{
 		GLState currentStateBlend(GLState::BLEND_ON);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	
-		glColor4f(0.0f, 0.0, 0.0f, 0.5f);
+		glColor4f(0.0f, 0.0, 0.0f, 0.7f);
 		glBegin(GL_TRIANGLE_FAN);
 			glVertex2f(currentLeft + 10.0f, currentTop - 25.0f);
 			glVertex2f(currentLeft + 10.0f, currentTop - lowerHeight);

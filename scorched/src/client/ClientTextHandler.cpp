@@ -56,22 +56,22 @@ bool ClientTextHandler::processMessage(unsigned int id,
 	ComsTextMessage message;
 	if (!message.readMessage(reader)) return false;
 
-	if (ScorchedClient::instance()->getGameState().getState() == 
-		ClientState::StateConnect)
+	if (message.getShowAsMessage())
 	{
-		Logger::log(0, message.getText());
+		MessageDisplay::instance()->addMessage(message.getText());
 	}
 	else
 	{
-		CACHE_SOUND(sound,  PKGDIR "data/wav/misc/text.wav");
-		sound->play();
-
-		if (message.getShowAsMessage())
+		if (ScorchedClient::instance()->getGameState().getState() == 
+			ClientState::StateConnect)
 		{
-			MessageDisplay::instance()->addMessage(message.getText());
+			Logger::log(0, message.getText());
 		}
 		else
 		{
+			CACHE_SOUND(sound,  PKGDIR "data/wav/misc/text.wav");
+			sound->play();
+
 			Tank *tank = 
 				ScorchedClient::instance()->getTankContainer().getTankById(message.getPlayerId());
 			if (tank && tank->getState().getState() == TankState::sNormal)

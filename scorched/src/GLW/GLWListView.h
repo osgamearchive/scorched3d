@@ -35,6 +35,7 @@ public:
 	virtual ~GLWListView();
 
 	void addLine(const char *fmt, ...);
+	void clear();
 
 	virtual void draw();
 	virtual void simulate(float frameTime);

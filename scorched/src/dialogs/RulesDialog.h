@@ -18,38 +18,30 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_TurnControllerh_INCLUDE__)
-#define __INCLUDE_TurnControllerh_INCLUDE__
+#if !defined(__INCLUDE_RulesDialogh_INCLUDE__)
+#define __INCLUDE_RulesDialogh_INCLUDE__
 
-#include <list>
-#include <common/OptionsGame.h>
+#include <GLW/GLWWindow.h>
+#include <GLW/GLWButton.h>
 
-class TurnController
+class RulesDialog : public GLWWindow , 
+					public GLWButtonI
 {
 public:
-	static TurnController *instance();
+	static RulesDialog *instance();
 
-	void newGame();
-	void nextRound();
-	void nextShot();
-	void nextTurn();
-
-	const char *getGameType(OptionsGame::TurnType type);
-	bool playerThisTurn(unsigned int playerId);
-	std::list<unsigned int> &getPlayersThisShot() { return playersThisShot_; }
-	std::list<unsigned int> &getPlayersThisTurn() { return playersThisTurn_; }
+	virtual void windowInit(const unsigned state);
+	virtual void buttonDown(unsigned int id);
+	virtual void draw();
 
 protected:
-	static TurnController *instance_;
-
-	std::list<unsigned int> playerOrder_; // Generated on new game
-	std::list<unsigned int> playersLeftToMove_; // Generated on next round
-	std::list<unsigned int> playersThisShot_; // Generated on next shot
-	std::list<unsigned int> playersThisTurn_; // Generated on next turn
+	static RulesDialog *instance_;
+	unsigned int okId_;
+	bool firstShow_;
 
 private:
-	TurnController();
-	virtual ~TurnController();
+	RulesDialog();
+	virtual ~RulesDialog();
 };
 
 #endif

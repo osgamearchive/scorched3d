@@ -55,9 +55,9 @@ void ServerScoreState::enterState(const unsigned state)
 
 	serverLog(0, "Showing Score");
 	serverLog((*scoreitor)->getPlayerId(), "\"%s\" is the overall winner!", (*scoreitor)->getName());
-	sendString(0, "\"%s\" is the overall winner!", (*scoreitor)->getName());
-	sendString(0, "This game has finished.");
-	sendString(0, "The next game will start soon...");
+	sendStringMessage(0, "Game Finished");
+	sendStringMessage(0, "\"%s\" is the overall winner!", (*scoreitor)->getName());
+	sendString(0, "Please wait for the next game...");
 
 	ComsScoreMessage scoreMessage;
 	ComsMessageSender::sendToAllPlayingClients(scoreMessage);

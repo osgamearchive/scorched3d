@@ -24,6 +24,7 @@
 
 #include <engine/GameStateI.h>
 #include <string>
+#include <list>
 
 class MessageDisplay : 
 	public GameStateI
@@ -40,7 +41,9 @@ public:
 protected:
 	static MessageDisplay *instance_;
 	float showTime_;
-	std::string text_;
+
+	std::string currentText_;
+	std::list<std::string> texts_;
 
 private:
 	MessageDisplay();

@@ -265,6 +265,11 @@
 		<key>t</key>
 	</keyentry>	
 	<keyentry>
+		<name>SHOW_RULES_DIALOG</name>
+		<description>Shows or hides the rules dialog</description>
+		<key>r</key>
+	</keyentry>	
+	<keyentry>
 		<name>SHOW_SCORE_DIALOG</name>
 		<description>Shows or hides the score dialog</description>
 		<key>s</key>

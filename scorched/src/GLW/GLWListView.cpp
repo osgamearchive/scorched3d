@@ -82,6 +82,12 @@ void GLWListView::mouseDrag(float mx, float my, float x, float y, bool &skipRest
 	scroll_.mouseDrag(mx, my, x, y, skipRest);
 }
 
+void GLWListView::clear()
+{
+	lines_.clear();
+	scroll_.setCurrent(0);
+}
+
 void GLWListView::addLine(const char *fmt, ...)
 {
 	// Remove extra lines

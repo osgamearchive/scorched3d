@@ -161,7 +161,7 @@ void GLWWindow::drawMaximizedWindow()
 				{
 					GLState currentStateBlend(GLState::BLEND_ON);
 					glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	
-					glColor4f(0.0f, 0.0, 0.0f, 0.5f);
+					glColor4f(0.0f, 0.0, 0.0f, 0.7f);
 					drawBackSurface(x_, y_, w_, h_);
 				}
 				glColor3f(0.0f, 0.0f, 0.0f);

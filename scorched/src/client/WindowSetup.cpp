@@ -35,6 +35,7 @@
 #include <dialogs/BackdropDialog.h>
 #include <dialogs/HelpDialog.h>
 #include <dialogs/BuyAccessoryDialog.h>
+#include <dialogs/RulesDialog.h>
 #include <dialogs/TalkDialog.h>
 #include <dialogs/TankDialog.h>
 #include <dialogs/ScoreDialog.h>
@@ -72,6 +73,10 @@ void WindowSetup::addCommonComponents(unsigned state)
 		WindowManager::instance()->addWindow(state, 
 			MainMenuDialog::instance(), 0, true);
 	}
+
+	KEYBOARDKEY("SHOW_RULES_DIALOG", rulesKey);
+	WindowManager::instance()->addWindow(state, 
+		RulesDialog::instance(), rulesKey, false);
 }
 
 void WindowSetup::setup()

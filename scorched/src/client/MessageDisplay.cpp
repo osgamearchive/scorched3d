@@ -44,13 +44,21 @@ MessageDisplay::~MessageDisplay()
 
 void MessageDisplay::addMessage(const char *text)
 {
-	text_ = text;
-	showTime_ = 5.0f;
+	texts_.push_back(text);
 }
 
 void MessageDisplay::simulate(const unsigned state, float simTime)
 {
 	showTime_ -= simTime;
+	if (showTime_ <= 0.0f)
+	{
+		if (!texts_.empty())
+		{
+			currentText_ = texts_.front();
+			texts_.pop_front();
+			showTime_ = 5.0f;
+		}
+	}
 }
 
 void MessageDisplay::draw(const unsigned currentstate)
@@ -63,11 +71,19 @@ void MessageDisplay::draw(const unsigned currentstate)
 	static float fVPort[4];
 	glGetFloatv(GL_VIEWPORT, fVPort);
 
-	static Vector fontColor;
-	fontColor = Vector(0.7f, 0.7f, 0.2f);
+	static Vector fontColor(0.7f, 0.7f, 0.2f);
+	static Vector fontColor2(0.0f, 0.0f, 0.0f);
+
+	float x = (fVPort[2]/2.0f) - (10.0f * currentText_.size());
+	float y = fVPort[3] - 120.0f;
 
 	GLWFont::instance()->getFont()->draw(
-		fontColor, 20, 
-		(fVPort[2]/2.0f) - (10.0f * text_.size()), (fVPort[3]/2.0f) - 10.0f, 0.0f, 
-		text_.c_str());
+		fontColor2, 30, 
+		x + 2, y + 2, 0.0f,
+		currentText_.c_str());
+
+	GLWFont::instance()->getFont()->draw(
+		fontColor, 30, 
+		x, y, 0.0f,
+		currentText_.c_str());
 }

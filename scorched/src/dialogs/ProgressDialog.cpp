@@ -37,7 +37,7 @@ ProgressDialog *ProgressDialog::instance()
 }
 
 ProgressDialog::ProgressDialog() : 
-	GLWWindow("Progress", 10.0f, 10.0f, 340.0f, 220.0f, eNoTitle)
+	GLWWindow("Progress", 10.0f, 10.0f, 340.0f, 200.0f, eNoTitle)
 {
 	setUser(this);
 	progress_ = (GLWProgress *) new GLWProgress(10, 10, 260);
@@ -72,9 +72,9 @@ void ProgressDialog::draw()
 					glTexCoord2f(1.0f, 0.0f);
 					glVertex2f(320.0f, 50.0f);
 					glTexCoord2f(1.0f, 1.0f);
-					glVertex2f(320.0f, 200.0f);
+					glVertex2f(320.0f, 180.0f);
 					glTexCoord2f(0.0f, 1.0f);
-					glVertex2f(20.0f, 200.0f);
+					glVertex2f(20.0f, 180.0f);
 				glEnd();
 			}
 
