@@ -909,6 +909,8 @@ scorched3d_SOURCES = \
 	../client/SpeedChange.h \
 	../client/TargetCamera.cpp \
 	../client/TargetCamera.h \
+	../client/UniqueIdStore.cpp \
+	../client/UniqueIdStore.h \
 	../client/WindowSetup.cpp \
 	../client/WindowSetup.h \
 	../server/ScorchedServer.cpp \

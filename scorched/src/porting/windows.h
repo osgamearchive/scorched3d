@@ -6,6 +6,7 @@
 #include <string.h>
 #include <strings.h>
 #include <stdarg.h>
+#include <ctype.h>
 #include <common/Defines.h>
 
 typedef char * 		LPSTR;
