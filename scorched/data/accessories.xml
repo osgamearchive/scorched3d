@@ -123,7 +123,7 @@ Any flames near tanks will remove life.</description>
 		<name>Baby Nuke</name>
 		<description>A large explosive projectile weapon</description>
 		<icon>bnuke.bmp</icon>
-		<cost>10000</cost>
+		<cost>6000</cost>
 		<bundlesize>3</bundlesize>
 		<armslevel>6</armslevel>
 		<size>11</size>
@@ -138,8 +138,8 @@ Any flames near tanks will remove life.</description>
 		<name>Nuke</name>
 		<description>A very large explosive projectile weapon</description>
 		<icon>nuke.bmp</icon>
-		<cost>12000</cost>
-		<bundlesize>1</bundlesize>
+		<cost>10000</cost>
+		<bundlesize>2</bundlesize>
 		<armslevel>4</armslevel>
 		<size>18</size>
 		<explosionshake>4.0</explosionshake>
@@ -494,7 +494,7 @@ warheads fan out in a random direction.</description>
 		<description>A projectile weapon that on exploding releases many small
 missiles.  These missiles automatically target nearby tanks.</description>
 		<icon>fbomb.bmp</icon>
-		<cost>7000</cost>
+		<cost>12000</cost>
 		<bundlesize>2</bundlesize>
 		<armslevel>3</armslevel>
 		<size>10</size>
