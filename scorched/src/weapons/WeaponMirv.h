@@ -41,7 +41,7 @@ public:
 
 protected:
 	int noWarheads_;
-	bool spread_;
+	float spreadDist_;
 	Weapon *aimedWeapon_;
 
 };

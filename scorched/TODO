@@ -4,7 +4,7 @@ Fixed: Talk dialog is always ontop of other windows
 Fixed: Infinite weapons available in other single player modes
 Fixed: Migrated the game and transient options so version dependancies dont occur
 Fixed: Display settings now refered to as game settings
-Fixed: No parachutes used or health lost during very small falls
+Fixed: No parachutes used or health lost during very small falls (configurable)
 Fixed: Special characters are supported in XML files
 Fixed: Some small memory leaks
 Fixed: Matched sounding mixing format to sound buffer format
@@ -13,10 +13,14 @@ Fixed: Can see progress during connect retries
 Fixed: Don't need window focus while connecting
 Fixed: The server can start multiple times on the same port (windows only)!
 
-Changed: Tank can move up and down bigger slopes
+Changed: Tank can move up and down bigger slopes (configurable)
+Changed: Spread and hurts weapon primative options are now variable
+Changed: LeapFrog weapon primative bounce now variable
 
+Added: "none" texture available for weapon primative explosions
+Added: New weapon primative type WeaponVelocity 
 Added: Simplistic water option (no movement, shading and only uses one quad)
-Added: No sphere mapping option
+Added: No sphere mapping option for water
 Added: Custom maps (and other mods) can be auto-downloaded from server
 Added: Dialog to toggle display indicators (instead of toggle key)
 Added: Sizers for auto-placement of widgets in GLW dialogs
@@ -47,7 +51,6 @@ Allow objects other than trees to be used (as models)
 More dirt option for landscape (perhaps cannot go under water)
 Move resources into landscape definitons file
 Make rollers look better
-More weapons options as seen in http://scorched3d.sourceforge.net/phpBB2/viewtopic.php?t=875
 Stats prefix can be (pre/a)pended onto mysql stats tables
 Some kind of fire out the back of missiles
 

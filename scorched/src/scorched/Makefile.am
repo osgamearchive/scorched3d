@@ -477,6 +477,8 @@ scorched3d_SOURCES = \
 	../weapons/WeaponLeapFrog.h \
 	../weapons/WeaponMirv.cpp \
 	../weapons/WeaponMirv.h \
+	../weapons/WeaponVelocity.h \
+	../weapons/WeaponVelocity.cpp \
 	../weapons/WeaponMulti.cpp \
 	../weapons/WeaponMulti.h \
 	../weapons/WeaponNapalm.cpp \

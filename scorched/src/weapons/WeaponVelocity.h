@@ -18,38 +18,31 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(AFX_WEAPONEXPLOSION_H__70119A64_2064_4066_8EE5_FD6A3E24D5FC__INCLUDED_)
-#define AFX_WEAPONPEXPLOSION_H__70119A64_2064_4066_8EE5_FD6A3E24D5FC__INCLUDED_
+#if !defined(AFX_WeaponVelocity_H__B5C043F0_7DC6_4198_AE5B_E19002234FCE__INCLUDED_)
+#define AFX_WeaponVelocity_H__B5C043F0_7DC6_4198_AE5B_E19002234FCE__INCLUDED_
 
 #include <weapons/Weapon.h>
-#include <actions/Explosion.h>
 
-class WeaponExplosion : public Weapon
+class WeaponVelocity  : public Weapon
 {
 public:
-	WeaponExplosion();
-	virtual ~WeaponExplosion();
+	WeaponVelocity();
+	virtual ~WeaponVelocity();
 
 	virtual bool parseXML(XMLNode *accessoryNode);
 	virtual bool writeAccessory(NetBuffer &buffer);
 	virtual bool readAccessory(NetBufferReader &reader);
 
-	virtual Vector &getExplosionColor();
-	int getSize() { return size_; }
-
 	// Inherited from Weapon
-	virtual void fireWeapon(ScorchedContext &context,
+	void fireWeapon(ScorchedContext &context,
 		unsigned int playerId, Vector &position, Vector &velocity);
 
-	REGISTER_ACCESSORY_HEADER(WeaponExplosion, Accessory::AccessoryWeapon);
+	REGISTER_ACCESSORY_HEADER(WeaponVelocity, Accessory::AccessoryWeapon);
 
 protected:
-	int size_;
-	bool multiColored_;
-	float hurtAmount_;
-	Explosion::DeformType deformType_;
+	float velocityChange_;
+	Weapon *aimedWeapon_;
 
 };
 
-#endif // !defined(AFX_WEAPONPEXPLOSION_H__70119A64_2064_4066_8EE5_FD6A3E24D5FC__INCLUDED_)
-
+#endif // !defined(AFX_WeaponVelocity_H__B5C043F0_7DC6_4198_AE5B_E19002234FCE__INCLUDED_)

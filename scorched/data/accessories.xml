@@ -190,7 +190,7 @@ contact with any tank.</description>
 			<collisionaction type="WeaponExplosion">
 				<name>Baby Roller</name>
 				<armslevel>8</armslevel>
-				<hurts>yes</hurts>
+				<hurtamount>1.0</hurtamount>
 				<deform>down</deform>
 				<size>6</size>
 				<explosiontexture>exp00</explosiontexture>		
@@ -216,7 +216,7 @@ with any tank.</description>
 			<collisionaction type="WeaponExplosion">
 				<name>Roller</name>
 				<armslevel>8</armslevel>
-				<hurts>yes</hurts>
+				<hurtamount>1.0</hurtamount>
 				<deform>down</deform>
 				<size>9</size>
 				<explosiontexture>exp00</explosiontexture>		
@@ -242,7 +242,7 @@ with any tank.</description>
 			<collisionaction type="WeaponExplosion">
 				<name>Heavy Roller</name>
 				<armslevel>8</armslevel>
-				<hurts>yes</hurts>
+				<hurtamount>1.0</hurtamount>
 				<deform>down</deform>
 				<size>12</size>
 				<explosiontexture>exp00</explosiontexture>		
@@ -261,7 +261,7 @@ with any tank.</description>
 		<collisionaction type="WeaponExplosion">
 			<name>Baby Missile</name>
 			<armslevel>10</armslevel>
-			<hurts>yes</hurts>
+			<hurtamount>1.0</hurtamount>
 			<deform>down</deform>
 			<size>4</size>
 			<explosiontexture>exp00</explosiontexture>		
@@ -279,7 +279,7 @@ with any tank.</description>
 		<collisionaction type="WeaponExplosion">
 			<name>Missile</name>
 			<armslevel>9</armslevel>
-			<hurts>yes</hurts>
+			<hurtamount>1.0</hurtamount>
 			<deform>down</deform>
 			<size>6</size>
 			<explosiontexture>exp00</explosiontexture>
@@ -299,7 +299,7 @@ with any tank.</description>
 		<collisionaction type="WeaponExplosion">
 			<name>Baby Nuke</name>
 			<armslevel>6</armslevel>
-			<hurts>yes</hurts>
+			<hurtamount>1.0</hurtamount>
 			<deform>down</deform>
 			<size>11</size>
 			<explosionshake>2.0</explosionshake>
@@ -320,7 +320,7 @@ with any tank.</description>
 		<collisionaction type="WeaponExplosion">
 			<name>Nuke</name>
 			<armslevel>4</armslevel>
-			<hurts>yes</hurts>
+			<hurtamount>1.0</hurtamount>
 			<deform>down</deform>
 			<size>18</size>
 			<explosionshake>4.0</explosionshake>
@@ -342,7 +342,7 @@ to cover them.</description>
 		<collisionaction type="WeaponExplosion">
 			<name>Dirt Clod</name>
 			<armslevel>10</armslevel>
-			<hurts>no</hurts>
+			<hurtamount>0.0</hurtamount>
 			<deform>up</deform>
 			<size>6</size>
 			<explosiontexture>exp03</explosiontexture>
@@ -364,7 +364,7 @@ cover them.</description>
 			<name>Dirt Ball</name>
 			<armslevel>9</armslevel>
 			<deform>up</deform>
-			<hurts>no</hurts>
+			<hurtamount>0.0</hurtamount>
 			<size>10</size>
 			<explosiontexture>exp03</explosiontexture>
 			<explosionsound>explosions/gloop.wav</explosionsound>
@@ -386,7 +386,7 @@ cover them.</description>
 			<name>Ton Of Dirt</name>
 			<armslevel>7</armslevel>
 			<deform>up</deform>
-			<hurts>no</hurts>
+			<hurtamount>0.0</hurtamount>
 			<size>18</size>
 			<explosiontexture>exp03</explosiontexture>
 			<explosionsound>explosions/gloop.wav</explosionsound>
@@ -407,7 +407,7 @@ remove earth from under them.</description>
 			<name>Riot Bomb</name>
 			<armslevel>10</armslevel>
 			<deform>down</deform>
-			<hurts>no</hurts>
+			<hurtamount>0.0</hurtamount>
 			<size>6</size>
 			<explosiontexture>exp03</explosiontexture>
 			<explosionsound>explosions/crunch.wav</explosionsound>
@@ -429,7 +429,7 @@ remove earth from under them.</description>
 			<name>Hvy Riot Bomb</name>
 			<armslevel>8</armslevel>
 			<deform>down</deform>
-			<hurts>no</hurts>
+			<hurtamount>0.0</hurtamount>
 			<size>12</size>
 			<explosiontexture>exp03</explosiontexture>
 			<explosionsound>explosions/crunch.wav</explosionsound>
@@ -453,7 +453,7 @@ same direction as the original.</description>
 			<subweapon1 type="WeaponExplosion">
 				<name>Leap Frog</name>
 				<armslevel>7</armslevel>
-				<hurts>yes</hurts>
+				<hurtamount>1.0</hurtamount>
 				<deform>down</deform>
 				<size>8</size>
 				<explosiontexture>exp01</explosiontexture>
@@ -462,6 +462,7 @@ same direction as the original.</description>
 			<subweapon2 type="WeaponLeapFrog">
 				<name>Leap Frog</name>
 				<armslevel>7</armslevel>
+				<bounce>0.6</bounce>
 				<collisionaction type="WeaponProjectile">
 					<name>Leap Frog</name>
 					<armslevel>7</armslevel>					
@@ -472,7 +473,7 @@ same direction as the original.</description>
 						<subweapon1 type="WeaponExplosion">
 							<name>Leap Frog</name>
 							<armslevel>6</armslevel>
-							<hurts>yes</hurts>
+							<hurtamount>1.0</hurtamount>
 							<deform>down</deform>
 							<size>7</size>
 							<explosiontexture>exp01</explosiontexture>
@@ -481,6 +482,7 @@ same direction as the original.</description>
 						<subweapon2 type="WeaponLeapFrog">
 							<name>Leap Frog</name>
 							<armslevel>7</armslevel>
+							<bounce>0.6</bounce>
 							<collisionaction type="WeaponProjectile">
 								<name>Leap Frog</name>
 								<armslevel>7</armslevel>					
@@ -491,7 +493,7 @@ same direction as the original.</description>
 									<cost>-1</cost>
 									<bundlesize>-1</bundlesize>
 									<armslevel>7</armslevel>
-									<hurts>yes</hurts>
+									<hurtamount>1.0</hurtamount>
 									<deform>down</deform>
 									<size>6</size>
 									<explosiontexture>exp01</explosiontexture>
@@ -529,7 +531,7 @@ creating some small riot bombs.</description>
 					<name>Baby Digger</name>
 					<armslevel>8</armslevel>
 					<deform>down</deform>
-					<hurts>no</hurts>
+					<hurtamount>0.0</hurtamount>
 					<size>6</size>
 					<explosiontexture>exp03</explosiontexture>
 					<explosionsound>explosions/crunch.wav</explosionsound>
@@ -560,7 +562,7 @@ creating some riot bombs.</description>
 					<name>Digger</name>
 					<armslevel>7</armslevel>
 					<deform>down</deform>
-					<hurts>no</hurts>
+					<hurtamount>0.0</hurtamount>
 					<size>6</size>
 					<explosiontexture>exp03</explosiontexture>
 					<explosionsound>explosions/crunch.wav</explosionsound>
@@ -593,7 +595,7 @@ creating many large riot bombs.</description>
 					<name>Heavy Digger</name>
 					<armslevel>6</armslevel>
 					<deform>down</deform>
-					<hurts>no</hurts>
+					<hurtamount>0.0</hurtamount>
 					<size>6</size>
 					<explosiontexture>exp03</explosiontexture>
 					<explosionsound>explosions/crunch.wav</explosionsound>
@@ -626,7 +628,7 @@ missiles target nearby tanks.</description>
 				<collisionaction type="WeaponExplosion">
 					<name>Baby Sandhog</name>
 					<armslevel>8</armslevel>
-					<hurts>yes</hurts>
+					<hurtamount>1.0</hurtamount>
 					<deform>down</deform>
 					<size>4</size>
 					<explosiontexture>exp03</explosiontexture>
@@ -658,7 +660,7 @@ missiles target nearby tanks.</description>
 				<collisionaction type="WeaponExplosion">
 					<name>Sandhog</name>
 					<armslevel>5</armslevel>
-					<hurts>yes</hurts>
+					<hurtamount>1.0</hurtamount>
 					<deform>down</deform>
 					<size>4</size>
 					<explosiontexture>exp03</explosiontexture>
@@ -692,7 +694,7 @@ missiles target nearby tanks.</description>
 				<collisionaction type="WeaponExplosion">
 					<name>Heavy Sandhog</name>
 					<armslevel>3</armslevel>
-					<hurts>yes</hurts>
+					<hurtamount>1.0</hurtamount>
 					<deform>down</deform>
 					<size>4</size>
 					<explosiontexture>exp03</explosiontexture>
@@ -722,7 +724,7 @@ direction of the firer.</description>
 			<name>MIRV</name>
 			<armslevel>6</armslevel>
 			<nowarheads>5</nowarheads>
-			<spread>false</spread>
+			<spreaddist>0.0</spreaddist>
 			<aimedweapon type="WeaponProjectile">
 				<name>MIRV</name>
 				<armslevel>6</armslevel>	
@@ -732,7 +734,7 @@ direction of the firer.</description>
 					<name>MIRV</name>
 					<armslevel>6</armslevel>
 					<deform>down</deform>
-					<hurts>yes</hurts>
+					<hurtamount>1.0</hurtamount>
 					<size>6</size>
 					<explosionsound>explosions/large.wav</explosionsound>
 					<explosiontexture>exp04</explosiontexture>
@@ -760,7 +762,7 @@ in a random direction.</description>
 			<name>Spread MIRV</name>
 			<armslevel>5</armslevel>
 			<nowarheads>5</nowarheads>
-			<spread>true</spread>
+			<spreaddist>1.0</spreaddist>
 			<aimedweapon type="WeaponProjectile">
 				<name>Spread MIRV</name>
 				<armslevel>5</armslevel>	
@@ -770,7 +772,7 @@ in a random direction.</description>
 					<name>Spread MIRV</name>
 					<armslevel>5</armslevel>
 					<deform>down</deform>
-					<hurts>yes</hurts>
+					<hurtamount>1.0</hurtamount>
 					<size>6</size>
 					<explosionsound>explosions/large.wav</explosionsound>
 					<explosiontexture>exp04</explosiontexture>
@@ -796,7 +798,7 @@ out in a random direction.</description>
 			<name>Death Head</name>
 			<armslevel>2</armslevel>
 			<nowarheads>20</nowarheads>
-			<spread>true</spread>
+			<spreaddist>1.0</spreaddist>
 			<aimedweapon type="WeaponProjectile">
 				<name>Death Head</name>
 				<armslevel>2</armslevel>	
@@ -806,7 +808,7 @@ out in a random direction.</description>
 					<name>Death Head</name>
 					<armslevel>2</armslevel>
 					<deform>down</deform>
-					<hurts>yes</hurts>
+					<hurtamount>1.0</hurtamount>
 					<size>18</size>
 					<explosionsound>explosions/xlarge.wav</explosionsound>
 					<explosiontexture>exp04</explosiontexture>
@@ -842,7 +844,7 @@ target nearby tanks.</description>
 					<collisionaction type="WeaponExplosion">
 						<name>Funky Bomb</name>
 						<armslevel>3</armslevel>
-						<hurts>yes</hurts>
+						<hurtamount>1.0</hurtamount>
 						<multicolor/>
 						<deform>down</deform>
 						<size>8</size>
@@ -854,7 +856,7 @@ target nearby tanks.</description>
 			<subweapon2 type="WeaponExplosion">
 				<name>Funky Bomb</name>
 				<armslevel>3</armslevel>
-				<hurts>yes</hurts>
+				<hurtamount>1.0</hurtamount>
 				<multicolor/>	
 				<deform>down</deform>
 				<size>10</size>

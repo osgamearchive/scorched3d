@@ -24,7 +24,7 @@
 REGISTER_ACCESSORY_SOURCE(WeaponExplosion);
 
 WeaponExplosion::WeaponExplosion() : size_(0), 
-	multiColored_(false), hurts_(false),
+	multiColored_(false), hurtAmount_(0.0f),
 	deformType_(Explosion::DeformNone)
 {
 
@@ -55,23 +55,15 @@ bool WeaponExplosion::parseXML(XMLNode *accessoryNode)
     if (colorNode) multiColored_ = true;
 
     // Get the hutiness
-    XMLNode *hurtsNode = accessoryNode->getNamedChild("hurts", false, true);
+    XMLNode *hurtsNode = accessoryNode->getNamedChild("hurtamount", false, true);
     if (!hurtsNode)
     {
         dialogMessage("Accessory",
-            "Failed to find hurts node in accessory \"%s\"",
+            "Failed to find hurtamount node in accessory \"%s\"",
             name_.c_str());
         return false;
     }
-	if (0==strcmp(hurtsNode->getContent(), "yes")) hurts_ = true;
-	else if (0==strcmp(hurtsNode->getContent(), "no")) hurts_ = false;
-	else 
-	{
-        dialogMessage("Accessory",
-            "Unknown hurts type \"%s\" in accessory \"%s\"",
-            hurtsNode->getContent(), name_.c_str());
-        return false;			
-	}
+	hurtAmount_ = (float) atof(hurtsNode->getContent());
 
 	// Get the deform
 	XMLNode *deformNode = accessoryNode->getNamedChild("deform", false, true);
@@ -88,7 +80,7 @@ bool WeaponExplosion::parseXML(XMLNode *accessoryNode)
 	else
 	{
         dialogMessage("Accessory",
-            "Unknown deform type \"%s\" in accessory \"%s\"",
+            "Unknown deform type \"%s\" in accessory \"%s\" should be up, down or none",
             deformNode->getContent(), name_.c_str());
         return false;		
 	}
@@ -100,7 +92,7 @@ bool WeaponExplosion::writeAccessory(NetBuffer &buffer)
 {
     if (!Weapon::writeAccessory(buffer)) return false;
     buffer.addToBuffer(size_);
-	buffer.addToBuffer(hurts_);
+	buffer.addToBuffer(hurtAmount_);
 	buffer.addToBuffer((int) deformType_);
 	buffer.addToBuffer(multiColored_);
     return true;
@@ -110,7 +102,7 @@ bool WeaponExplosion::readAccessory(NetBufferReader &reader)
 {
     if (!Weapon::readAccessory(reader)) return false;
     if (!reader.getFromBuffer(size_)) return false;
-	if (!reader.getFromBuffer(hurts_)) return false;
+	if (!reader.getFromBuffer(hurtAmount_)) return false;
 	int def = 0;
 	if (!reader.getFromBuffer(def)) return false;
 	deformType_ = (Explosion::DeformType) def;
@@ -147,6 +139,7 @@ void WeaponExplosion::fireWeapon(ScorchedContext &context,
 {
 	Action *action = new Explosion(
 		position, (float) size_,
-		this, playerId, hurts_, deformType_);
+		this, playerId, hurtAmount_, deformType_);
 	context.actionController->addAction(action);	
 }
+

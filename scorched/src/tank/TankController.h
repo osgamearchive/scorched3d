@@ -32,7 +32,7 @@ public:
 	static void explosion(ScorchedContext &context,
 		Weapon *weapon, unsigned int firer, 
 		Vector &position, float radius,
-		bool noDamage);
+		float damageAmount);
 	static void damageTank(ScorchedContext &context,
 		Tank *tank, 
 		Weapon *weapon,

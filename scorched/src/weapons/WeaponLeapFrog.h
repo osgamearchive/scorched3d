@@ -42,6 +42,7 @@ public:
 	REGISTER_ACCESSORY_HEADER(WeaponLeapFrog, Accessory::AccessoryWeapon);
 
 protected:
+	float bounce_;
 	Weapon *collisionAction_;
 
 };

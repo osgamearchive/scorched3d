@@ -23,7 +23,8 @@
 
 REGISTER_ACCESSORY_SOURCE(WeaponLeapFrog);
 
-WeaponLeapFrog::WeaponLeapFrog():  collisionAction_(0)
+WeaponLeapFrog::WeaponLeapFrog():  
+	collisionAction_(0), bounce_(0.6f)
 {
 
 }
@@ -58,6 +59,17 @@ bool WeaponLeapFrog::parseXML(XMLNode *accessoryNode)
 	}
 	collisionAction_ = (Weapon*) accessory;
 
+	// Get the bounce
+	XMLNode *bounceNode = accessoryNode->getNamedChild("bounce", false, true);
+	if (!bounceNode)
+	{
+		dialogMessage("Accessory",
+			"Failed to find bounce node in accessory \"%s\"",
+			name_.c_str());
+		return false;
+	}
+	bounce_ = (float) atof(bounceNode->getContent());
+
 	return true;
 }
 
@@ -65,6 +77,7 @@ bool WeaponLeapFrog::writeAccessory(NetBuffer &buffer)
 {
 	if (!Weapon::writeAccessory(buffer)) return false;
 	if (!Weapon::write(buffer, collisionAction_)) return false;
+	buffer.addToBuffer(bounce_);
 	return true;
 }
 
@@ -72,13 +85,15 @@ bool WeaponLeapFrog::readAccessory(NetBufferReader &reader)
 {
 	if (!Weapon::readAccessory(reader)) return false;
 	collisionAction_ = Weapon::read(reader); if (!collisionAction_) return false;
+	if (!reader.getFromBuffer(bounce_)) return false;
 	return true;
 }
 
 void WeaponLeapFrog::fireWeapon(ScorchedContext &context,
 	unsigned int playerId, Vector &position, Vector &velocity)
 {
-	Vector newVelocity = velocity * 0.6f;
+	Vector newVelocity = velocity * bounce_;
 	if (newVelocity[2] < 0.0f) newVelocity[2] *= -1.0f;
 	collisionAction_->fireWeapon(context, playerId, position, newVelocity);
 }
+

@@ -50,12 +50,12 @@ Explosion::Explosion() :
 
 Explosion::Explosion(Vector &position, float width, 
 					 Weapon *weapon, unsigned int fired,
-					 bool explosionHurts,
+					 float explosionLevel,
 					 DeformType deformType) :
 	firstTime_(true),
 	weapon_(weapon), playerId_(fired), 
 	position_(position), width_(width), deformType_(deformType),
-	explosionHurts_(explosionHurts), totalTime_(0.0f)
+	explosionLevel_(explosionLevel), totalTime_(0.0f)
 {
 
 }
@@ -75,41 +75,51 @@ void Explosion::init()
 
 	if (!context_->serverMode) 
 	{
-		GLTextureSet *texture = &ExplosionTextures::instance()->exp00;
-		Vector expColor(1.0f, 1.0f, 1.0f);
-		if (deformType_ != DeformNone)
 		{
-			texture = ExplosionTextures::instance()->getTextureSetByName(
-				weapon_->getExplosionTexture());
-			expColor = weapon_->getExplosionColor();
+			GLTextureSet *texture = &ExplosionTextures::instance()->exp00;
+			Vector expColor(1.0f, 1.0f, 1.0f);
+			if (deformType_ != DeformNone)
+			{
+				if (0 == strcmp(weapon_->getExplosionTexture(), "none")) texture = 0;
+				else
+				{
+					texture = ExplosionTextures::instance()->getTextureSetByName(
+						weapon_->getExplosionTexture());
+					expColor = weapon_->getExplosionColor();
+				}
+			}
+
+			if (texture)
+			{
+				setActionRender(
+					new ExplosionRenderer(
+						position_, 
+						*texture,
+						expColor,
+						explosionSize, 
+						explosionLevel_));
+			}
 		}
 
 		float height = context_->landscapeMaps->getHMap().getInterpHeight(
 			position_[0], position_[1]);
 		float aboveGround = position_[2] - height;
 
-		setActionRender(
-			new ExplosionRenderer(
-				position_, 
-				*texture,
-				expColor,
-				explosionSize, 
-				explosionHurts_));
-		if (width_ >=11 && deformType_==DeformDown && explosionHurts_ &&
+		if (width_ >=11 && deformType_==DeformDown && (explosionLevel_ > 0.0f) &&
 			aboveGround < 2.0f)
 		{
 			context_->actionController->addAction(
 				new SpriteActionReferenced(
 					new ExplosionNukeRenderer(position_, float(width_ - 2))));
 		}
-		if (deformType_==DeformDown && explosionHurts_)
+		if (deformType_==DeformDown && (explosionLevel_ > 0.0f))
 		{
 			context_->actionController->addAction(
 				new SpriteActionReferenced(
 					new SprayActionRenderer(position_, width_ - 2)));
 		}
 
-		if (weapon_ && explosionHurts_)
+		if (weapon_ && (explosionLevel_ > 0.0f))
 		{
 			// Make the camera shake
 			MainCamera::instance()->getCamera().addShake(weapon_->getShake());
@@ -180,7 +190,7 @@ void Explosion::simulate(float frameTime, bool &remove)
 		TankController::explosion(
 			*context_,
 			weapon_, playerId_, 
-			position_, width_ , !explosionHurts_);
+			position_, width_ , explosionLevel_);
 	}
 
 	if (!renderer_) remove = true;
@@ -195,7 +205,7 @@ bool Explosion::writeAction(NetBuffer &buffer)
 	buffer.addToBuffer(width_);
 	Weapon::write(buffer, weapon_);
 	buffer.addToBuffer(playerId_);
-	buffer.addToBuffer(explosionHurts_);
+	buffer.addToBuffer(explosionLevel_);
 	buffer.addToBuffer((int) deformType_);
 	return true;
 }
@@ -208,10 +218,11 @@ bool Explosion::readAction(NetBufferReader &reader)
 	if (!reader.getFromBuffer(width_)) return false;
 	weapon_ = Weapon::read(reader); if (!weapon_) return false;
 	if (!reader.getFromBuffer(playerId_)) return false;
-	if (!reader.getFromBuffer(explosionHurts_)) return false;
+	if (!reader.getFromBuffer(explosionLevel_)) return false;
 	int deform;
 	if (!reader.getFromBuffer(deform)) return false;
 	deformType_ = (DeformType) deform;
 
 	return true;
 }
+

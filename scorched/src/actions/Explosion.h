@@ -40,7 +40,7 @@ public:
 	Explosion();
 	Explosion(Vector &position, float width, 
 			Weapon *weapon, unsigned int playerId,
-			bool explosionHurts = true,
+			float explosionLevel = 0.0f,
 			DeformType deformType = DeformDown);
 	virtual ~Explosion();
 
@@ -59,9 +59,10 @@ protected:
 	float width_;
 	Weapon *weapon_;
 	unsigned int playerId_;
-	bool explosionHurts_;
+	float explosionLevel_;
 	DeformType deformType_;
 	
 };
 
 #endif
+

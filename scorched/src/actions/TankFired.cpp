@@ -85,7 +85,7 @@ void TankFired::simulate(float frameTime, bool &remove)
 			}
 
 			Explosion *explosion = new Explosion(tank->getPhysics().getTankGunPosition(), 3.0f, 
-				weapon_, playerId_, false, Explosion::DeformNone);
+				weapon_, playerId_, 0.0f, Explosion::DeformNone);
 			context_->actionController->addAction(explosion);
 		}
 	}

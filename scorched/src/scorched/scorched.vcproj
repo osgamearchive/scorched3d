@@ -1627,6 +1627,12 @@
 				RelativePath="..\weapons\WeaponMirv.h">
 			</File>
 			<File
+				RelativePath="..\weapons\WeaponVelocity.h">
+			</File>
+			<File
+				RelativePath="..\weapons\WeaponVelocity.cpp">
+			</File>
+			<File
 				RelativePath="..\weapons\WeaponMulti.cpp">
 			</File>
 			<File

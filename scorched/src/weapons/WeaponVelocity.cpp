@@ -18,36 +18,25 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <weapons/WeaponMirv.h>
+#include <weapons/WeaponVelocity.h>
 #include <weapons/AccessoryStore.h>
 
-REGISTER_ACCESSORY_SOURCE(WeaponMirv);
+REGISTER_ACCESSORY_SOURCE(WeaponVelocity);
 
-WeaponMirv::WeaponMirv() :
-	noWarheads_(0), spreadDist_(0.0f)
+WeaponVelocity::WeaponVelocity() :
+	velocityChange_(0.0f)
 {
 
 }
 
-WeaponMirv::~WeaponMirv()
+WeaponVelocity::~WeaponVelocity()
 {
 
 }
 
-bool WeaponMirv::parseXML(XMLNode *accessoryNode)
+bool WeaponVelocity::parseXML(XMLNode *accessoryNode)
 {
 	if (!Weapon::parseXML(accessoryNode)) return false;
-
-	// Get the accessory spread
-	XMLNode *spreadNode = accessoryNode->getNamedChild("spreaddist", false, true);
-	if (!spreadNode)
-	{
-		dialogMessage("Accessory",
-			"Failed to find spreaddist node in accessory \"%s\"",
-			name_.c_str());
-		return false;
-	}
-	spreadDist_ = (float) atof(spreadNode->getContent());
 
 	// Get the next weapon
 	XMLNode *subNode = accessoryNode->getNamedChild("aimedweapon", false, true);
@@ -70,61 +59,41 @@ bool WeaponMirv::parseXML(XMLNode *accessoryNode)
 	}
 	aimedWeapon_ = (Weapon*) accessory;
 
-	// Get the accessory warheads
-	XMLNode *warheadsNode = accessoryNode->getNamedChild("nowarheads", false, true);
-	if (!warheadsNode)
+	XMLNode *velocityNode = accessoryNode->getNamedChild("velocitychange", false, true);
+	if (!velocityNode)
 	{
 		dialogMessage("Accessory",
-			"Failed to find nowarheads node in accessory \"%s\"",
+			"Failed to find velocitychange node in accessory \"%s\"",
 			name_.c_str());
 		return false;
 	}
-	noWarheads_ = atoi(warheadsNode->getContent());
+	velocityChange_ = (float) atof(velocityNode->getContent());
 
 	return true;
 }
 
-bool WeaponMirv::writeAccessory(NetBuffer &buffer)
+bool WeaponVelocity::writeAccessory(NetBuffer &buffer)
 {
 	if (!Weapon::writeAccessory(buffer)) return false;
-	buffer.addToBuffer(spreadDist_);
 	if (!Weapon::write(buffer, aimedWeapon_)) return false;
-	buffer.addToBuffer(noWarheads_);
+	buffer.addToBuffer(velocityChange_);
 	return true;
 }
 
-bool WeaponMirv::readAccessory(NetBufferReader &reader)
+bool WeaponVelocity::readAccessory(NetBufferReader &reader)
 {
 	if (!Weapon::readAccessory(reader)) return false;
-	if (!reader.getFromBuffer(spreadDist_)) return false;
 	aimedWeapon_ = Weapon::read(reader); if (!aimedWeapon_) return false;
-	if (!reader.getFromBuffer(noWarheads_)) return false;
+	if (!reader.getFromBuffer(velocityChange_)) return false;
 	return true;
 }
 
-void WeaponMirv::fireWeapon(ScorchedContext &context,
+void WeaponVelocity::fireWeapon(ScorchedContext &context,
 	unsigned int playerId, Vector &position, Vector &velocity)
 {
 	// Add a shot that will fall where the original was aimed
-	aimedWeapon_->fireWeapon(context, playerId, position, velocity);
-
-	// Add all of the sub warheads that have a random spread
-	for (int i=0; i<noWarheads_ - 1; i++)
-	{
-		Vector newDiff = velocity;
-		newDiff[2] = 0.0f;
-		if (spreadDist_ != 0.0f)
-		{
-			Vector diff = newDiff;
-			diff[2] -= 1.0f;
-			Vector perp = newDiff * diff;
-
-			newDiff += (perp * ((RAND * spreadDist_) - (spreadDist_ * 0.5f)));
-		}
-		newDiff[2] += (float(i - (noWarheads_ / 2)) / 
-			float(noWarheads_ / 2)) * 5.0f;
-
-		aimedWeapon_->fireWeapon(context, playerId, position, newDiff);
-	}
+	// but with altered velocity
+	Vector newVelocity = velocity * velocityChange_;
+	aimedWeapon_->fireWeapon(context, playerId, position, newVelocity);
 }
 

@@ -27,7 +27,7 @@
 void TankController::explosion(ScorchedContext &context,
 							   Weapon *weapon, unsigned int firer, 
 							   Vector &position, float radius,
-							   bool noDamage)
+							   float damageAmount)
 {
 	std::map<unsigned int, Tank *>::iterator itor;
 	std::map<unsigned int, Tank *> &tanks = 
@@ -55,8 +55,7 @@ void TankController::explosion(ScorchedContext &context,
 				damage = 100.0f - damage;
 			}
 
-			if (noDamage) damageTank(context, current, weapon, firer, 0);
-			else damageTank(context, current, weapon, firer, damage);
+			damageTank(context, current, weapon, firer, damage * damageAmount);
 		}
 		else if (dist2d < radius + 5.0f)
 		{
