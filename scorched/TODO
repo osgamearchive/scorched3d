@@ -1,5 +1,8 @@
 -- Bugs Fixed and Ready For Release 
 Fixed: Player tooltips on plan dialog don't work
+Fixed: Auto defense dialog refreshing when other players use theirs
+Fixed: Compilation problems due to std namespace being global
+Fixed: Some MSVC 2003 compilation problems
 
 -- Bugs in current development release
 Dvorak keyboard support is broken
@@ -11,7 +14,6 @@ Shot cam does not get LOD correctly
 Make AIs better
 Single player saving
 Riot Blast (perhaps)
-Scrolling around at edge of landscape
 
 -- Server Stuff
 Chat filter (swear words)
