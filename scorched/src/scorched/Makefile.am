@@ -738,6 +738,8 @@ scorched3d_SOURCES = \
 	NetDialog.h \
 	ServerDialog.cpp \
 	ServerDialog.h \
+	ServerMsgDialog.cpp \
+	ServerMsgDialog.h \
 	ServerSDialog.cpp \
 	ServerSDialog.h \
 	SettingsDialog.cpp \
@@ -887,6 +889,8 @@ scorched3d_SOURCES = \
 	../server/ServerStateTooFewPlayersState.h \
 	../server/ServerTextHandler.cpp \
 	../server/ServerTextHandler.h \
+	../server/ServerTimedMessage.cpp \
+	../server/ServerTimedMessage.h \
 	../server/ServerTooFewPlayersStimulus.cpp \
 	../server/ServerTooFewPlayersStimulus.h \
 	../server/TurnController.cpp \

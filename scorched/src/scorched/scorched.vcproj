@@ -2463,6 +2463,12 @@
 				RelativePath="ServerDialog.h">
 			</File>
 			<File
+				RelativePath="ServerMsgDialog.cpp">
+			</File>
+			<File
+				RelativePath="ServerMsgDialog.h">
+			</File>
+			<File
 				RelativePath="ServerSDialog.cpp">
 			</File>
 			<File
@@ -2916,6 +2922,12 @@
 			</File>
 			<File
 				RelativePath="..\server\ServerTextHandler.h">
+			</File>
+			<File
+				RelativePath="..\server\ServerTimedMessage.cpp">
+			</File>
+			<File
+				RelativePath="..\server\ServerTimedMessage.h">
 			</File>
 			<File
 				RelativePath="..\server\ServerTooFewPlayersStimulus.cpp">

@@ -35,7 +35,7 @@ static void createMainControls(wxWindow *parent, wxSizer *sizer)
 	IDC_FULLSCREEN_CTRL = 
 		new wxCheckBox(parent, -1, "Full Screen");
 	IDC_MORERES_CTRL =
-		new wxCheckBox(parent, ID_MORERES, "More Resoultions");
+		new wxCheckBox(parent, ID_MORERES, "More Resolutions");
 	displaySizer2->Add(resText, 0, wxALIGN_CENTER_VERTICAL);
 	displaySizer2->Add(IDC_DISPLAY_CTRL, 0);
 	displaySizer2->Add(IDC_FULLSCREEN_CTRL, 0, wxALIGN_CENTRE_VERTICAL);

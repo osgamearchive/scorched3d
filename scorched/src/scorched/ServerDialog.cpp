@@ -21,6 +21,7 @@
 #include <scorched/ServerDialog.h>
 #include <scorched/MainDialog.h>
 #include <scorched/SettingsDialog.h>
+#include <scorched/ServerMsgDialog.h>
 #include <tankai/TankAIStore.h>
 #include <tankai/TankAIAdder.h>
 #include <common/OptionsGame.h>
@@ -50,6 +51,7 @@ enum
 	IDC_MENU_EDITOPTIONS,
 	IDC_MENU_SAVEOPTIONS,
 	IDC_MENU_LOADOPTIONS,
+	IDC_MENU_TIMEDMSG,
 	IDC_MENU_PLAYERTALK,
 	IDC_MENU_PLAYERTALKALL,
 	IDC_MENU_PLAYERKICK,
@@ -160,6 +162,7 @@ public:
 	void onSaveOptions();
 	void onPlayerTalk();
 	void onPlayerTalkAll();
+	void onTimedMsg();
 	void onPlayerKick();
 	void onKillAll();
 	void onStartNewGame();
@@ -198,6 +201,7 @@ BEGIN_EVENT_TABLE(ServerFrame, wxFrame)
 	EVT_MENU(IDC_MENU_EDITOPTIONS, ServerFrame::onEditOptions)
 	EVT_MENU(IDC_MENU_LOADOPTIONS, ServerFrame::onLoadOptions)
 	EVT_MENU(IDC_MENU_SAVEOPTIONS, ServerFrame::onSaveOptions)
+	EVT_MENU(IDC_MENU_TIMEDMSG, ServerFrame::onTimedMsg)
 	EVT_MENU(IDC_MENU_PLAYERTALK, ServerFrame::onPlayerTalk)
 	EVT_MENU(IDC_MENU_PLAYERTALKALL, ServerFrame::onPlayerTalkAll)
 	EVT_MENU(IDC_MENU_PLAYERKICK, ServerFrame::onPlayerKick)
@@ -311,6 +315,7 @@ ServerFrame::ServerFrame(const char *name) :
 	}
 
 	wxMenu *menuPlayer = new wxMenu;
+	menuPlayer->Append(IDC_MENU_TIMEDMSG, "Setup a timed message");
 	menuPlayer->Append(IDC_MENU_PLAYERTALK, "Talk to selected players");
 	menuPlayer->Append(IDC_MENU_PLAYERTALKALL, "Talk to all players");
 	menuPlayer->Append(IDC_MENU_PLAYERKICK, "Kick selected players");
@@ -386,6 +391,11 @@ void ServerFrame::OnSize(wxSizeEvent& event)
 	logList_->SetSize(0, 0, size.x, y);
 	playerList_->SetSize(0, y + 1, size.x, size.y - y);
 	event.Skip();
+}
+
+void ServerFrame::onTimedMsg()
+{
+	showServerMsgDialog();
 }
 
 void ServerFrame::onTimerMain()

@@ -40,6 +40,7 @@
 #include <tankai/TankAIAdder.h>
 #include <tankai/TankAIStore.h>
 #include <scorched/ServerDialog.h>
+#include <server/ServerTimedMessage.h>
 #include <server/ServerMessageHandler.h>
 #include <server/ServerPlayerReadyHandler.h>
 #include <server/ServerTextHandler.h>
@@ -161,6 +162,7 @@ void serverLoop()
 		float timeDifference = serverTimer.getTimeDifference();
 		ScorchedServer::instance()->getGameState().simulate(timeDifference);
 		ServerFileServer::instance()->simulate(timeDifference);
+		ServerTimedMessage::instance()->simulate();
 	}
 }
 
