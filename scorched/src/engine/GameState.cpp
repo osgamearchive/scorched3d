@@ -24,13 +24,14 @@
 #include <common/Keyboard.h>
 #include <common/Defines.h>
 #include <common/Logger.h>
+#include <limits.h>
 
 GameState::GameState(const char *name) :
 	name_(name),
 	fakeMiddleButton_(true),
 	currentMouseState_(0),
-	pendingStimulus_(-1),
-	currentState_(-1),
+	pendingStimulus_(UINT_MAX),
+	currentState_(UINT_MAX),
 	currentEntry_(0),
 	currentMouseX_(0),
 	currentMouseY_(0),
@@ -241,9 +242,6 @@ void GameState::simulate(float simTime)
 			itor != thisEntry->loopList.end();
 			itor++)
 		{
-			itor->current->simulate(thisState, simTime);
-			if (checkStimulate()) return;
-
 			StateIList::iterator subItor;
 			for (subItor = itor->subLoopList.begin();
 				subItor != itor->subLoopList.end();
@@ -252,6 +250,12 @@ void GameState::simulate(float simTime)
 				(*subItor)->simulate(thisState, simTime);
 				if (checkStimulate()) return;
 			}
+
+			// Draw after all other elements as the camera
+			// needs to up to date with respect to all other
+			// changes made in the simulate loop
+			itor->current->simulate(thisState, simTime);
+			if (checkStimulate()) return;
 		}
 
 		if (!thisEntry->subKeyList.empty())
@@ -338,7 +342,7 @@ void GameState::setState(const unsigned state)
 
 	currentState_ = state;
 	currentEntry_ = 0;
-	pendingStimulus_ = ((unsigned int) -1);
+	pendingStimulus_ = UINT_MAX;
 	std::map<unsigned, GameStateEntry>::iterator itor = stateList_.find(state);
 	if (itor != stateList_.end())
 	{
@@ -373,13 +377,13 @@ void GameState::setState(const unsigned state)
 
 bool GameState::checkStimulate()
 {
-	if (pendingStimulus_ != ((unsigned int) -1))
+	if (pendingStimulus_ != UINT_MAX)
 	{
 		std::map<unsigned, unsigned>::iterator itor = 
 			currentEntry_->stimList.find(pendingStimulus_);
 		if (itor != currentEntry_->stimList.end())
 		{
-			pendingStimulus_ = -1;
+			pendingStimulus_ = UINT_MAX;
 			setState(itor->second);
 			return true;
 		}

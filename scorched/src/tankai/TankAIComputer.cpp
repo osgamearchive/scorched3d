@@ -130,11 +130,11 @@ void TankAIComputer::autoDefense()
 
 void TankAIComputer::buyAccessories()
 {
+	tankBuyer_.buyAccessories(3);
+
 	ComsPlayedMoveMessage *message = 
 		new ComsPlayedMoveMessage(currentTank_->getPlayerId(), ComsPlayedMoveMessage::eFinishedBuy);
 	ServerShotHolder::instance()->addShot(currentTank_->getPlayerId(), message);
-
-	tankBuyer_.buyAccessories(3);
 }
 
 void TankAIComputer::selectFirstShield()

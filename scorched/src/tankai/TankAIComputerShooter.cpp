@@ -72,7 +72,6 @@ void TankAIComputerShooter::playMove(const unsigned state,
 	unsigned int keyState)
 {
 	// Choose weapons
-	autoDefense();
 	selectWeapons();
 
 	// Find the angle + power etc.. to use
@@ -129,6 +128,13 @@ void TankAIComputerShooter::selectWeapons()
 	// Make sure defenses are raised (if we don't have an autodefense)
 	autoDefense();
 
+	// Use batteries if we need to and have them
+	while (currentTank_->getState().getLife() < 100.0f &&
+		   currentTank_->getAccessories().getBatteries().getNoBatteries() > 0)
+	{
+		useBattery();
+	}
+
 	// Choose a weapon
 	// Chooses a random weapon
 	int weaponInc = int(RAND * 3.0f);
@@ -137,4 +143,3 @@ void TankAIComputerShooter::selectWeapons()
 		currentTank_->getAccessories().getWeapons().nextWeapon();
 	}
 }
-

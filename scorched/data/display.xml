@@ -251,6 +251,18 @@
     <value>1</value>
     <defaultvalue>1</defaultvalue>
   </option>
+  <!-- The tank details setting -->
+  <option>
+    <name>TankDetail</name>
+    <value>2</value>
+    <defaultvalue>2</defaultvalue>
+  </option>
+  <!-- The number of allowed on screen effects -->
+  <option>
+    <name>EffectsDetail</name>
+    <value>1</value>
+    <defaultvalue>1</defaultvalue>
+  </option>
   <!-- The window width to use (in pixels) -->
   <option>
     <name>ScreenWidth</name>
@@ -263,22 +275,10 @@
     <value>480</value>
     <defaultvalue>480</defaultvalue>
   </option>
-  <!-- The number of sprites to allow on screen -->
-  <option>
-    <name>NumberSprites</name>
-    <value>40</value>
-    <defaultvalue>40</defaultvalue>
-  </option>
-  <!-- The number of bilboards to allow on screen -->
-  <option>
-    <name>NumberBilboards</name>
-    <value>2000</value>
-    <defaultvalue>2000</defaultvalue>
-  </option>
   <!-- The unique string given to any servers to uniquely identify the client. -->
   <option>
     <name>UniqueUserId</name>
-    <value></value>
+    <value>6930-21571-12628</value>
     <defaultvalue></defaultvalue>
   </option>
 </options>

@@ -24,6 +24,7 @@
 #include <common/Defines.h>
 #include <wx/wx.h>
 #include <wx/image.h>
+#include <set>
 #include "Display.cpp"
 
 extern char scorched3dAppName[128];
@@ -82,6 +83,7 @@ bool DisplayFrame::TransferDataToWindow()
 	IDC_USERID_CTRL->SetValue(OptionsDisplay::instance()->getUniqueUserId());
 	IDC_NODETAILTEX_CTRL->SetValue(!OptionsDisplay::instance()->getDetailTexture());
 
+	std::set<std::string> displaySet;
 	char string[256];
 	SDL_Rect **modes = SDL_ListModes(NULL,SDL_FULLSCREEN|SDL_HWSURFACE);
 	if((modes != (SDL_Rect **)0) && (modes != (SDL_Rect **)-1))
@@ -90,7 +92,13 @@ bool DisplayFrame::TransferDataToWindow()
 		{
 			sprintf(string, "%i x %i", 
 				modes[i]->w, modes[i]->h);
-			IDC_DISPLAY_CTRL->Append(string);
+
+			std::string newDisplay(string);
+			if (displaySet.find(newDisplay) == displaySet.end())
+			{
+				IDC_DISPLAY_CTRL->Append(string);
+				displaySet.insert(newDisplay);
+			}
 		}
 	}
 	sprintf(string, "%i x %i", 
@@ -108,6 +116,19 @@ bool DisplayFrame::TransferDataToWindow()
 		break;
 	default:
 		IDC_LARGETEX_CTRL->SetValue(true);
+		break;
+	};
+
+	switch (OptionsDisplay::instance()->getEffectsDetail())
+	{
+	case 0:
+		IDC_LOWEFFECTS_CTRL->SetValue(true);
+		break;
+	case 1:
+		IDC_MEDIUMEFFECTS_CTRL->SetValue(true);
+		break;
+	default:
+		IDC_HIGHEFFECTS_CTRL->SetValue(true);
 		break;
 	};
 
@@ -167,6 +188,11 @@ bool DisplayFrame::TransferDataFromWindow()
 	if (IDC_SMALLTEX_CTRL->GetValue()) texSize = 0;
 	if (IDC_LARGETEX_CTRL->GetValue()) texSize = 2;
 	OptionsDisplay::instance()->setTexSize(texSize);
+
+	int effectsDetail = 1;
+	if (IDC_LOWEFFECTS_CTRL->GetValue()) effectsDetail = 0;
+	if (IDC_HIGHEFFECTS_CTRL->GetValue()) effectsDetail = 2;
+	OptionsDisplay::instance()->setEffectsDetail(effectsDetail);
 
 	int tankDetail = 1;
 	if (IDC_LOWTANK_CTRL->GetValue()) tankDetail = 0;

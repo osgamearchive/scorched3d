@@ -47,6 +47,7 @@ public:
 
 protected:
 	unsigned int okId_;
+	unsigned int cancelId_;
 	unsigned int messageCount_;
 	GLWVisiblePanel *topPanel_;
 	GLWDropDown *ddshields_;

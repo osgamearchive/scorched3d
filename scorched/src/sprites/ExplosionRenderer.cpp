@@ -187,8 +187,14 @@ void ExplosionRenderer::simulate(Action *action, float frameTime, bool &remove)
 				OptionsDisplay::instance()->getExplosionParticlesMult()) / 10.0f;
 			for (int a=0; a<int(width_ * mult); a++)
 			{
+				int numberOfSprites = 40;
+				if (OptionsDisplay::instance()->getEffectsDetail() == 0) 
+					numberOfSprites = 10;
+				else if (OptionsDisplay::instance()->getEffectsDetail() == 2) 
+					numberOfSprites = 100;
+
 				if ((int) SpriteProjectile::getNoSpriteProjectiles() <
-					OptionsDisplay::instance()->getNumberSprites())
+					numberOfSprites)
 				{
 					float direction = RAND * 3.14f * 2.0f;
 					float speed = RAND * 5.0f + 5.0f;

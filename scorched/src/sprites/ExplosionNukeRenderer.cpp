@@ -22,6 +22,7 @@
 #include <sprites/ExplosionTextures.h>
 #include <client/ScorchedClient.h>
 #include <common/Defines.h>
+#include <common/OptionsDisplay.h>
 #include <landscape/Landscape.h>
 #include <math.h>
 
@@ -143,8 +144,16 @@ void ExplosionNukeRenderer::draw(Action *action)
 
 void ExplosionNukeRenderer::simulate(Action *action, float frameTime, bool &remove)
 {
-	const float AddSmokeTime = 0.08f;
-	const int SmokesPerTime = 2;
+	float AddSmokeTime = 0.08f;
+	int SmokesPerTime = 2;
+	if (OptionsDisplay::instance()->getEffectsDetail() == 0) 
+	{
+		SmokesPerTime = 1;
+	}
+	else if (OptionsDisplay::instance()->getEffectsDetail() == 2) 
+	{
+		SmokesPerTime = 5;
+	}
 
 	totalTime_ += frameTime;
 	time_ += frameTime;

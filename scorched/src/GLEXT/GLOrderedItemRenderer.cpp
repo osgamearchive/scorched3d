@@ -98,8 +98,14 @@ void GLOrderedItemRenderer::draw(const unsigned state)
 	}
 
 	// Add entries that are NOT required
+	int numberOfBilboards = 2000;
+	if (OptionsDisplay::instance()->getEffectsDetail() == 0) 
+		numberOfBilboards = 500;
+	else if (OptionsDisplay::instance()->getEffectsDetail() == 2) 
+		numberOfBilboards = 5000;
+
 	float bilboardsAllowed = 
-		float(OptionsDisplay::instance()->getNumberBilboards()) /
+		float(numberOfBilboards) /
 		float(notRequiredEntries_.size());
 	float bilboardCount = 0.0f;
 	float bilboardDrawn = 0.0f;

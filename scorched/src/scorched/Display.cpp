@@ -51,7 +51,7 @@ static void createControls(wxWindow *parent, wxSizer *sizer)
 	// Texture sizes (small med large)
 	wxStaticBox *textureBox = new wxStaticBox(parent, -1, "Level of Detail settings");
 	wxStaticBoxSizer *textureSizer = new wxStaticBoxSizer(textureBox, wxHORIZONTAL);
-	wxGridSizer *textureSizer2 = new wxGridSizer(1, 4, 10, 10);
+	wxGridSizer *textureSizer2 = new wxGridSizer(3, 4, 10, 10);
 	wxStaticText *texSizeText = new wxStaticText(parent, -1, "Texture Sizes :");
 	textureSizer2->Add(texSizeText, 0, wxALIGN_CENTER_VERTICAL);
 	IDC_SMALLTEX_CTRL = new wxRadioButton(parent, -1, "Small (3dfx/faster)", wxDefaultPosition, wxDefaultSize, wxRB_GROUP);
@@ -66,8 +66,16 @@ static void createControls(wxWindow *parent, wxSizer *sizer)
 	textureSizer2->Add(IDC_LOWTANK_CTRL, 0);
 	IDC_MEDIUMTANK_CTRL = new wxRadioButton(parent, -1, "Medium");
 	textureSizer2->Add(IDC_MEDIUMTANK_CTRL, 0);
-	IDC_HIGHTANK_CTRL = new wxRadioButton(parent, -1, "High (slower)");
+	IDC_HIGHTANK_CTRL = new wxRadioButton(parent, -1, "Max (slower)");
 	textureSizer2->Add(IDC_HIGHTANK_CTRL, 0);
+	wxStaticText *effectSizeText = new wxStaticText(parent, -1, "Effects Detail :");
+	textureSizer2->Add(effectSizeText, 0, wxALIGN_CENTER_VERTICAL);
+	IDC_LOWEFFECTS_CTRL = new wxRadioButton(parent, -1, "Low (faster)", wxDefaultPosition, wxDefaultSize, wxRB_GROUP);
+	textureSizer2->Add(IDC_LOWEFFECTS_CTRL, 0);
+	IDC_MEDIUMEFFECTS_CTRL = new wxRadioButton(parent, -1, "Medium");
+	textureSizer2->Add(IDC_MEDIUMEFFECTS_CTRL, 0);
+	IDC_HIGHEFFECTS_CTRL = new wxRadioButton(parent, -1, "High (slower)");
+	textureSizer2->Add(IDC_HIGHEFFECTS_CTRL, 0);
 	textureSizer->Add(textureSizer2, 0, wxGROW);
 	sizer->Add(textureSizer, 0, wxGROW | wxLEFT | wxRIGHT | wxTOP, 5);
 
@@ -142,7 +150,6 @@ static void createControls(wxWindow *parent, wxSizer *sizer)
 	troubleSizer2->Add(IDC_FULLCLEAR_CTRL, 0);
 	troubleSizer->Add(troubleSizer2, 0, wxGROW);
 	sizer->Add(troubleSizer, 0, wxGROW | wxLEFT | wxRIGHT | wxTOP, 5);
-
 
 	// Misc switches 
 	wxStaticBox *miscBox = new wxStaticBox(parent, -1, 

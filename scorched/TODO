@@ -7,7 +7,11 @@ Fixed: Graphics for explosions do not cross into next round
 Fixed: Client stimulus 6 in state 4 bug
 Fixed: Clicking sound sometimes continues after move has been made
 Fixed: Fonts sometimes black-out or plan dialog goes all white (I think)
+Fixed: Auto defense dialog only changes settings when ok is pressed
+Fixed: AIs can only use an auto defense if they have bought one!
+Fixed: Display modes should be shown only once
 
+Added: AIs should be able to use batteries now
 Added: Player score added to the player dialog (bottom right)
 Added: Max player name length increased from 16->22
 Added: Kenny tank model (thanks Knochi)
@@ -35,16 +39,13 @@ All clients should use same ground textures.
 Make all peformance tuning stuff available in display dialog
 Options should be stored in users home directory.
 Option to reconnect when disconected from server.
-Remove multiple identicle resolution listings
 Return to the launcher after a game finishes.
 Camera looks jerky when following missiles
 In local mode when it's the next person's turn, re-center the view to where they last had it, and display who's turn it is on the screen.
 ability to re center view around other tanks
 keep track of money after you leave the server
 keep track of views 
-missile landing view
 Make a count down sound when timer runs out.
-Use wxGuides so the guis look better cross platform (and easier to add to)
 Add option for human players to say stuff when firing/killed
 
 -- Other Stuff

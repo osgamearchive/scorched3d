@@ -114,11 +114,8 @@ public:
 	int getTankDetail() { return tankDetail_.getValue(); }
 	void setTankDetail(int value) { tankDetail_.setValue(value); }
 
-	int getNumberSprites() { return numberSprites_.getValue(); }
-	void setNumberSprites(int value) { numberSprites_.setValue(value); }
-
-	int getNumberBilboards() { return numberBilboards_.getValue(); }
-	void setNumberBilboards(int value) { numberBilboards_.setValue(value); }
+	int getEffectsDetail() { return effectsDetail_.getValue(); }
+	void setEffectsDetail(int value) { effectsDetail_.setValue(value); }
 
 	bool getUseHexidecimal() { return useHex_.getValue(); }
 	void setUseHexidecimal(bool value) { useHex_.setValue(value); }
@@ -231,10 +228,9 @@ protected:
 	OptionEntryBool showContextHelp_;
 	OptionEntryBoundedInt texSize_;
 	OptionEntryBoundedInt tankDetail_;
+	OptionEntryBoundedInt effectsDetail_;
 	OptionEntryInt screenWidth_;
 	OptionEntryInt screenHeight_;
-	OptionEntryInt numberSprites_;
-	OptionEntryInt numberBilboards_;
 	OptionEntryString uniqueUserId_;
 
 private:

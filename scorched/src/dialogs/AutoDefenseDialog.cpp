@@ -37,7 +37,8 @@ AutoDefenseDialog::AutoDefenseDialog() :
 	needCentered_ = true;
 	okId_ = addWidget(
 		new GLWTextButton(" Ok", 375, 10, 55, this, true))->getId();
-
+	cancelId_ = addWidget(
+		new GLWTextButton(" Cancel ", 265, 10, 105, this, false, true))->getId();
 	topPanel_ = (GLWVisiblePanel *)
 		addWidget(new GLWVisiblePanel(10, 245, 420, 30));
 
@@ -85,9 +86,41 @@ void AutoDefenseDialog::windowInit(const unsigned state)
 	}
 }
 
-void AutoDefenseDialog::buttonDown(unsigned int id)
+void AutoDefenseDialog::buttonDown(unsigned int butid)
 {
-	if (id == okId_)
+	if (butid == okId_)
+	{
+		TankAIHumanCtrl::instance()->setTankAI();
+		Tank *tank = ScorchedClient::instance()->getTankContainer().getCurrentTank();
+		if (tank && tank->getTankAI())
+		{
+			// Set Parachutes on/off
+			((TankAIHuman *) tank->getTankAI())->parachutesUpDown(ddpara_->getCurrentPosition() != 0);
+
+			// Set shields on/off
+			if (ddshields_->getCurrentPosition() == 0)
+			{
+				((TankAIHuman *) tank->getTankAI())->shieldsUpDown(0);
+			}
+			else
+			{
+				std::map<Shield*, int> &shields = 
+					tank->getAccessories().getShields().getAllShields();
+				std::map<Shield*, int>::iterator shieldsItor = shields.begin();
+				for (int i=1; i<ddshields_->getCurrentPosition() && shieldsItor != shields.end(); i++) shieldsItor++;
+				
+				if (shieldsItor != shields.end())
+				{
+					((TankAIHuman *) tank->getTankAI())->shieldsUpDown(
+						(*shieldsItor).first->getAccessoryId());
+				}
+			}
+		}
+
+
+		finished();
+	}
+	else if (butid == cancelId_)
 	{
 		finished();
 	}
@@ -170,34 +203,8 @@ void AutoDefenseDialog::select(unsigned int id,
 							   const int pos, 
 							   const char *value)
 {
-	TankAIHumanCtrl::instance()->setTankAI();
-	Tank *tank = ScorchedClient::instance()->getTankContainer().getCurrentTank();
-	if (!tank || !tank->getTankAI()) return;
-
-	if (id == ddpara_->getId())
-	{
-		((TankAIHuman *) tank->getTankAI())->parachutesUpDown(pos != 0);
-	}
-	else if (id == ddshields_->getId())
-	{
-		if (pos == 0)
-		{
-			((TankAIHuman *) tank->getTankAI())->shieldsUpDown(0);
-		}
-		else
-		{
-			std::map<Shield*, int> &shields = 
-				tank->getAccessories().getShields().getAllShields();
-			std::map<Shield*, int>::iterator shieldsItor = shields.begin();
-			for (int i=1; i<pos && shieldsItor != shields.end(); i++) shieldsItor++;
-
-			if (shieldsItor != shields.end())
-			{
-				((TankAIHuman *) tank->getTankAI())->shieldsUpDown(
-					(*shieldsItor).first->getAccessoryId());
-			}
-		}
-	}
+	// Nothing to do as we don't actualy set the status
+	// until the ok button is pressed
 }
 
 void AutoDefenseDialog::finished()

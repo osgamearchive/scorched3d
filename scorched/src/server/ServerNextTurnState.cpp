@@ -68,7 +68,12 @@ void ServerNextTurnState::enterState(const unsigned state)
 				{
 					// Tell the computer ai to buy weapons
 					((TankAIComputer *) tank->getTankAI())->buyAccessories();
-					((TankAIComputer *) tank->getTankAI())->autoDefense();
+
+					// Tell the computer ai to use its autodefense (if it has one)
+					if (tank->getAccessories().getAutoDefense().haveDefense())
+					{
+						((TankAIComputer *) tank->getTankAI())->autoDefense();
+					}
 				}
 				else
 				{
