@@ -190,7 +190,7 @@ ServerFrame::ServerFrame(const char *name) :
 			{ "Player Id", 80 },
 			{ "Played Time", 100 },
 			{ "Player Score", 175 },
-			{ "Player State", 175 }
+			{ "Player State", 140 }
 		};
 	for (i=0; i<sizeof(playerListItems)/sizeof(ListItem); i++)
 	{

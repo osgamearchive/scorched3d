@@ -35,16 +35,18 @@ extern "C" {
 void ASEQuery_wantstatus(void)
 {
 	char *serverName = (char *) OptionsGame::instance()->getServerName();
+	char version[256];
+	sprintf(version, "%s (%s)", ScorchedVersion, ScorchedProtocolVersion);
 	
 	unsigned currentState = GameState::instance()->getState();
 	bool started = (currentState!=ServerState::ServerStateWaitingForPlayers);
 	ASEQuery_status(
 		serverName, 
 		"Scorched3D", (started?"Random":"NotStarted"), 
-		ScorchedProtocolVersion,
+		version,
 		0,
-		NetServer::instance()->getNoClients(),
-		NetServer::instance()->getMaxClients());
+		TankContainer::instance()->getNoOfTanks(),
+		OptionsGame::instance()->getNoMaxPlayers());
 }
 
 void ASEQuery_wantplayers(void)
@@ -77,8 +79,8 @@ void ASEQuery_wantrules(void)
 	static char buffer[256];
 	sprintf(buffer, "%i", OptionsTransient::instance()->getNoRoundsLeft());
 	ASEQuery_addrule("RoundsLeft", buffer);
-	ASEQuery_addrule("Version", ScorchedProtocolVersion);
-	ASEQuery_addrule("ActualVersion", ScorchedVersion);
+	ASEQuery_addrule("ProtocolVersion", ScorchedProtocolVersion);
+	ASEQuery_addrule("Version", ScorchedVersion);
 	
 	unsigned currentState = GameState::instance()->getState();
 	bool started = (currentState!=ServerState::ServerStateWaitingForPlayers);

@@ -26,7 +26,7 @@
 
 unsigned int ScorchedPort = 27270;
 char *ScorchedVersion = "35";
-char *ScorchedProtocolVersion = "35";
+char *ScorchedProtocolVersion = "aa";
 
 extern bool wxWindowInit;
 

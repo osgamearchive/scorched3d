@@ -51,10 +51,15 @@ public:
 
 	// Inherited from GameStateI
 	virtual void draw(const unsigned state);
+	virtual void simulate(const unsigned int state, float simTime);
 
 protected:
 	static GLBilboardRenderer *instance_;
 	std::multimap<float, Entry *> entries_;
+	float totalTime_;
+	bool showMessages_;
+	int totalSwitches_;
+	int totalBilboards_;
 
 private:
 	GLBilboardRenderer();

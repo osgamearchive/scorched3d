@@ -83,7 +83,7 @@ wxString NetListControl::OnGetItemText(long item, long column) const
 			case 1: name = "ping"; break;
 			case 2: name = "clients"; break;
 			case 3: name = "address"; break;
-			case 4: name = "Version"; break;
+			case 4: name = "version"; break;
 			}
 			return ASEBrowser_getinfo(item, name);
 		}
@@ -93,6 +93,7 @@ wxString NetListControl::OnGetItemText(long item, long column) const
 }
 
 static NetListControl *IDC_SERVER_LIST_CTRL = 0;
+static wxListCtrl *IDC_PLAYER_LIST_CTRL = 0;
 
 static bool invalidate = false;
 extern char scorched3dAppName[128];
@@ -102,6 +103,7 @@ void redrawListView()
 #ifndef _NO_SERVER_ASE_
 	invalidate = false;
 	IDC_SERVER_LIST_CTRL->SetItemCount(ASEBrowser_servers);
+	IDC_PLAYER_LIST_CTRL->DeleteAllItems();
 #endif
 }
 
@@ -193,13 +195,14 @@ BEGIN_EVENT_TABLE(NetLanFrame, wxDialog)
 	EVT_BUTTON(IDC_BUTTON_NET,  NetLanFrame::onRefreshNETButton)
 	EVT_BUTTON(IDC_CLEAR,  NetLanFrame::onClearButton)
 	EVT_BUTTON(IDC_BUTTON_EYE, NetLanFrame::onEyeClick)
+	EVT_BUTTON(IDC_BUTTON_EYE2, NetLanFrame::onEyeClick)
 	EVT_TIMER(1001, NetLanFrame::onTimer)
 	EVT_LIST_ITEM_SELECTED(IDC_SERVER_LIST, NetLanFrame::onSelectServer)
 	EVT_TEXT(IDC_EDIT_SERVER, NetLanFrame::onServerChanged)
 END_EVENT_TABLE()
 
 NetLanFrame::NetLanFrame() :
-	wxDialog(getMainDialog(), -1, scorched3dAppName, wxPoint(0,0), wxSize(545, 425))
+	wxDialog(getMainDialog(), -1, scorched3dAppName, wxPoint(0,0), wxSize(542, 465))
 {
 	CentreOnScreen();
 
@@ -211,7 +214,12 @@ NetLanFrame::NetLanFrame() :
 
 	IDC_SERVER_LIST_CTRL = 
 		new NetListControl(this, IDC_SERVER_LIST,
-		wxPoint((int) 10.5, (int) 109.5), wxSize((int) 516, (int) 211.5));
+		wxPoint((int) 10.5, (int) 109.5), wxSize((int) 516, (int) 170.5));
+
+	IDC_PLAYER_LIST_CTRL = 
+		new wxListCtrl(this, IDC_PLAYER_LIST,
+		wxPoint((int) 10.5, (int) 280.5), wxSize((int) 516, (int) 83),
+		wxLC_REPORT | wxLC_HRULES | wxLC_VRULES | wxLC_SINGLE_SEL );
 
 	// Create a timer
 	timer_.SetOwner(this, 1001);
@@ -219,6 +227,8 @@ NetLanFrame::NetLanFrame() :
 
 	// Create all the display controlls
 	createControls(this);
+
+	ID_EYEURL->SetForegroundColour(wxColour(0, 0, 255));
 }
 
 void NetLanFrame::onEyeClick()
@@ -237,6 +247,8 @@ void NetLanFrame::onClearButton()
 void NetLanFrame::onSelectServer()
 {
 #ifndef _NO_SERVER_ASE_
+	IDC_PLAYER_LIST_CTRL->DeleteAllItems();
+
     long item = -1;
     for ( ;; )
     {
@@ -247,15 +259,34 @@ void NetLanFrame::onSelectServer()
 		char *text = ASEBrowser_getinfo(item, "address");
 		if (text)
 		{
-			char *version = ASEBrowser_getinfo(item, "Version");
-			if (version && (stricmp(version, ScorchedProtocolVersion) != 0))
+			char *protocolVersion = ASEBrowser_getinfo(item, "ProtocolVersion");
+			char *version = ASEBrowser_getinfo(item, "version");
+			if (!protocolVersion || (stricmp(protocolVersion, ScorchedProtocolVersion) != 0))
 			{
 				dialogMessage("Scorched 3D", 
-					"Warning: This server is running a different version of Scorched3D\n"
-					"which may may not work with your version.\n\n"
-					"The latest version of Scorched3D can be downloaded from http://www.scorched3d.co.uk\n");						
+					"Warning: This server is running a incompatable version of Scorched3D.\n"
+					"You cannot connect to this server.\n\n"
+					"This server is running Scorched build %s.\n"
+					"You are running Scorched build %s (%s).\n\n"					
+					"The latest version of Scorched3D can be downloaded from http://www.scorched3d.co.uk\n",
+					version?version:"??",
+					ScorchedVersion, ScorchedProtocolVersion);
 			}
 			IDC_EDIT_SERVER_CTRL->SetValue(text);
+
+			if (ASEBrowser_getfirstplayer(item))
+			{
+				do
+				{
+					long index = IDC_PLAYER_LIST_CTRL->InsertItem(0, 
+						ASEBrowser_getplayerinfo("name"));
+					IDC_PLAYER_LIST_CTRL->
+						SetItem(index, 1, ASEBrowser_getplayerinfo("score"));
+					IDC_PLAYER_LIST_CTRL->
+						SetItem(index, 2, ASEBrowser_getplayerinfo("time"));
+				} while (ASEBrowser_getnextplayer());
+			}
+			
 			onServerChanged();
 		}
     }
@@ -306,17 +337,17 @@ bool NetLanFrame::TransferDataToWindow()
 	IDC_BUTTON_NET_CTRL->Disable();
 #endif
 
-	// Setup the list control
+	// Setup the server list control
 	struct ListItem
 	{
 		char *name;
 		int size;
 	} mainListItems[] =
 	{
-		{ "Server", 200 },
+		{ "Server Name", 200 },
 		{ "Ping", 40 },
 		{ "Plyrs", 50 },
-		{ "IP Address", 140 },
+		{ "Server IP Address", 140 },
 		{ "Version", 60 }
 	};
 	for (int i=0; i<sizeof(mainListItems)/sizeof(ListItem); i++)
@@ -326,6 +357,22 @@ bool NetLanFrame::TransferDataToWindow()
 			mainListItems[i].name,
 			wxLIST_FORMAT_LEFT,
 			mainListItems[i].size);
+	}
+
+	// Setup the player list control	
+	ListItem playerListItems[] =
+	{
+		{ "Player Name", 200 },
+		{ "Player Score", 200 },
+		{ "Player Time", 100 }
+	};
+	for (int i=0; i<sizeof(playerListItems)/sizeof(ListItem); i++)
+	{
+		IDC_PLAYER_LIST_CTRL->InsertColumn(
+			i,
+			playerListItems[i].name,
+			wxLIST_FORMAT_LEFT,
+			playerListItems[i].size);
 	}
 
 	onServerChanged();

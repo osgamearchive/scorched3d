@@ -26,22 +26,26 @@
 static void createControls(wxWindow *parent)
 {
 	new wxStaticText(parent, -1,
-		"Server browsing brought to you\nby The All-Seeing Eye :\nhttp://www.udpsoft.com/eye",
+		"Server browsing brought to you\nby The All-Seeing Eye :",
 		wxPoint((int) 315, (int) 20));
+	ID_EYEURL = 
+		new wxButton(parent, IDC_BUTTON_EYE2,
+		"http://www.udpsoft.com/eye",
+		wxPoint((int) 315, (int) 50));
 	IDC_BUTTON_LAN_CTRL = 
 		new wxButton(parent, IDC_BUTTON_LAN,
 		"Refresh LAN Games",
-		wxPoint((int) 265.5, (int) 328.5), wxSize((int) 133.5, (int) 21));
+		wxPoint((int) 265.5, (int) 370), wxSize((int) 133.5, (int) 21));
 	IDC_BUTTON_NET_CTRL = 
 		new wxButton(parent, IDC_BUTTON_NET,
 		"Refresh Internet Games",
-		wxPoint((int) 403.5, (int) 328.5), wxSize((int) 123, (int) 21));
+		wxPoint((int) 403.5, (int) 370), wxSize((int) 123, (int) 21));
 	new wxStaticText(parent, -1,
 		"Connect To Name/IP : ",
 		wxPoint((int) 37.5, (int) 88.5), wxSize((int) 111, (int) 12));
 	IDC_PROGRESS1_CTRL = 
 		new wxGauge(parent, IDC_PROGRESS1, 0,
-		wxPoint((int) 9, (int) 334.5), wxSize((int) 249, (int) 10.5));
+		wxPoint((int) 12, (int) 374.5), wxSize((int) 246, (int) 10.5));
 	IDC_EDIT_SERVER_CTRL = 
 		new wxTextCtrl(parent, IDC_EDIT_SERVER,
 		"",
@@ -63,10 +67,10 @@ static void createControls(wxWindow *parent)
 	IDOK_CTRL = 
 		new wxButton(parent, wxID_OK,
 		"Join Game",
-		wxPoint((int) 451.5, (int) 364.5), wxSize((int) 75, (int) 21));
+		wxPoint((int) 451.5, (int) 400.5), wxSize((int) 75, (int) 21));
 	IDCANCEL_CTRL = 
 		new wxButton(parent, wxID_CANCEL,
 		"Cancel",
-		wxPoint((int) 370.5, (int) 364.5), wxSize((int) 75, (int) 21));
+		wxPoint((int) 370.5, (int) 400.5), wxSize((int) 75, (int) 21));
 }
 

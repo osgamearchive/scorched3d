@@ -22,11 +22,13 @@
 enum
 {
 	IDC_SERVER_LIST = 1,
+	IDC_PLAYER_LIST,
 	IDC_BUTTON_LAN,
 	IDC_BUTTON_NET,
 	IDC_PROGRESS1,
 	IDC_EDIT_SERVER,
 	IDC_BUTTON_EYE,
+	IDC_BUTTON_EYE2,
 	IDC_CLEAR
 };
 
@@ -38,3 +40,4 @@ static wxBitmapButton *IDC_BUTTON_EYE_CTRL = 0;
 static wxButton *IDC_CLEAR_CTRL = 0;
 static wxButton *IDOK_CTRL = 0;
 static wxButton *IDCANCEL_CTRL = 0;
+static wxButton *ID_EYEURL = 0;

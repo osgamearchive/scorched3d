@@ -78,16 +78,17 @@ bool ServerConnectHandler::processMessage(NetPlayerID &id,
 		sendString(id, 			
 			"The version of Scorched you are running\n"
 			"does not match the server's version.\n"
-			"This server is running Scorched v %s.\n"
-			"You are running Scorched v %s.\n"
+			"This server is running Scorched build %s (%s).\n"
+			"You are running Scorched build %s (%s).\n"
 			"New versions can be downloaded from\n"
 			"http://www.scorched3d.co.uk", 
-			ScorchedVersion,
-			message.getVersion());
+			ScorchedVersion, ScorchedProtocolVersion,
+			message.getVersion(), message.getProtocolVersion());
 		Logger::log(0, 
-			"Player \"%s\" connected with out of date version \"%s\"",
+			"Player \"%s\" connected with out of date version \"%s(%s)\"",
 			message.getPlayerName(),
-			message.getVersion());
+			message.getVersion(),
+			message.getProtocolVersion());
 
 		kickPlayer(id);
 		return true;

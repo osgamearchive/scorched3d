@@ -36,6 +36,7 @@
 #include <landscape/HeightMapCollision.h>
 #include <landscape/GlobalHMap.h>
 #include <tankai/TankAIAdder.h>
+#include <tank/TankContainer.h>
 #include <scorched/ServerDialog.h>
 #include <server/ServerMessageHandler.h>
 #include <server/ServerPlayerReadyHandler.h>
@@ -104,18 +105,22 @@ bool serverMain()
 	ScorchedCollisionHandler::instance();
 	OptionsTransient::instance()->reset();
 
+	ServerState::setupStates();
+
+	// Add the server side bots
+	TankAIAdder::addTankAIs();
+
 	// Try to start the server
 	if (!NetServer::instance()->start(
 		OptionsGame::instance()->getPortNo(),
-		OptionsGame::instance()->getNoMaxPlayers()))
+		OptionsGame::instance()->getNoMaxPlayers() - 
+		TankContainer::instance()->getNoOfTanks()))
 	{
 		dialogMessage("Scorched3D Server", 
 			"Failed to start the server.\n\n"
 			"Ensure the specified port does not conflict with any other program.");
 		return false;
 	}
-
-	ServerState::setupStates();
 
 #ifndef _NO_SERVER_ASE_
 	char *publishAddress = 0;
@@ -134,9 +139,6 @@ bool serverMain()
 		return false;
 	}
 #endif
-
-	// Add the server side bots
-	TankAIAdder::addTankAIs();
 
 	Logger::log(0, "Server started");
 

@@ -21,7 +21,9 @@
 #include <GLEXT/GLBilboardRenderer.h>
 #include <GLEXT/GLCameraFrustum.h>
 #include <GLEXT/GLState.h>
+#include <GLEXT/GLConsoleRuleFnIAdapter.h>
 #include <client/MainCamera.h>
+#include <common/Logger.h>
 
 GLBilboardRenderer *GLBilboardRenderer::instance_ = 0;
 
@@ -34,12 +36,34 @@ GLBilboardRenderer *GLBilboardRenderer::instance()
 	return instance_;
 }
 
-GLBilboardRenderer::GLBilboardRenderer()
+GLBilboardRenderer::GLBilboardRenderer() : 
+	totalTime_(0.0f), totalSwitches_(0), totalBilboards_(0), showMessages_(false)
 {
+	new GLConsoleRuleFnIBooleanAdapter("BilboardStats", showMessages_);
 }
 
 GLBilboardRenderer::~GLBilboardRenderer()
 {
+}
+
+void GLBilboardRenderer::simulate(const unsigned int state, float simTime)
+{
+	const float printTime = 5.0f;
+	totalTime_ += simTime;
+
+	if (totalTime_ > printTime)
+	{
+		if (showMessages_)
+		{
+			Logger::log(0, "%.2f Bilboards Per Second, %.2f Textures Per Second)", 
+				float(totalBilboards_) / totalTime_,
+				float(totalSwitches_) / totalTime_);
+
+			totalSwitches_ = 0;
+			totalBilboards_ = 0;
+			totalTime_ = 0.0f;
+		}
+	}
 }
 
 void GLBilboardRenderer::addEntry(Entry *entry)
@@ -65,6 +89,7 @@ void GLBilboardRenderer::draw(const unsigned state)
 	// Setup the bilboard
 	Vector &bilX = GLCameraFrustum::instance()->getBilboardVectorX();
 	Vector &bilY = GLCameraFrustum::instance()->getBilboardVectorY();
+	GLTexture *lastTexture = 0;
 	
 	std::multimap<float, Entry *>::reverse_iterator itor;
 	std::multimap<float, Entry *>::reverse_iterator endItor = entries_.rend();
@@ -74,7 +99,13 @@ void GLBilboardRenderer::draw(const unsigned state)
 	{
 		Entry *entry = (*itor).second;
 
-		entry->texture->draw();
+		totalBilboards_++;
+		if (entry->texture != lastTexture)
+		{
+			entry->texture->draw();
+			totalSwitches_++;
+			lastTexture = entry->texture;
+		}
 		glColor4f(1.0f, 1.0f, 1.0f, entry->alpha);
 
 		float bilXX = bilX[0] * entry->width;

@@ -140,7 +140,7 @@
   <!-- Show the current number of frames per second (FPS) -->
   <option>
     <name>FrameTimer</name>
-    <value>on</value>
+    <value>off</value>
     <defaultvalue>off</defaultvalue>
   </option>
   <!-- Do not animate the water -->
