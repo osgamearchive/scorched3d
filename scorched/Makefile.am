@@ -19,8 +19,7 @@ WIN_DIST =				\
 		SDL_net.dll		\
 		MSVCP70.DLL		\
 		MSVCR70.dll		\
-		scorched.sln		\
-		stdout.txt	
+		scorched.sln		
 
 UNIX_DIST =				\
 		autogen.sh				
