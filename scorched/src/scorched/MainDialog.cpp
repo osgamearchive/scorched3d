@@ -67,7 +67,7 @@ void addTitleToWindow(
 			parent, ID_BUTTON_SCORCHED, scorchedBitmap);
 		wxBoxSizer *boxSizer = new wxBoxSizer(wxHORIZONTAL);
 		boxSizer->Add(button, 0, wxALL, 5);
-		sizer->Add(boxSizer, 0, wxALIGN_CENTER | wxALL, 10);
+		sizer->Add(boxSizer, 0, wxALIGN_CENTER | wxALL, 5);
 	}
 }
 
@@ -156,8 +156,8 @@ wxButton *addButtonToWindow(
 		parent, -1, 
 		text);
 
-	sizer->Add(button, 0, wxALL, 5);
-	sizer->Add(staticText, 0, wxALIGN_CENTER_VERTICAL | wxALL, 5);
+	sizer->Add(button, 0, wxRIGHT, 5);
+	sizer->Add(staticText, 0, wxALIGN_CENTER_VERTICAL | wxLEFT, 5);
 
 	return button;
 }
