@@ -1,4 +1,5 @@
 -- Bugs Fixed and Ready For Release 
+Fixed: Freezing due to SDL_GetTicks bug
 Fixed: Talk dialog is always ontop of other windows
 Fixed: Infinite weapons available in other single player modes
 Fixed: Migrated the game and transient options so version dependancies dont occur
@@ -18,6 +19,7 @@ Gun fires at same point for all tanks (ignores turret/gun position in model)
 Shot cam does not get LOD correctly
 
 -- Things I am currently looking at
+Fix crashing when people win
 Make AIs even better
 Riot Blast
 A way to allow tank spawn positions to be configured, bitmap landscapes only?
