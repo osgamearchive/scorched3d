@@ -120,7 +120,8 @@ void TankModelRenderer::drawSecond(bool currentTank)
 	if (OptionsDisplay::instance()->getDrawPlayerNames())
 	{
 		Vector &bilX = GLCameraFrustum::instance()->getBilboardVectorX(); 
-		bilX *= float(tank_->getNameLen()) * 0.35f;
+		bilX *= 0.5f * (float) GLWFont::instance()->getSmallPtFont()->getWidth(
+			1, tank_->getName());
 
 		glDepthMask(GL_FALSE);
 		GLWFont::instance()->getSmallPtFont()->drawBilboard(

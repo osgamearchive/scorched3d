@@ -51,7 +51,8 @@ void GLWTextBox::draw()
 		drawShadedRoundBox(x_, y_, w_, h_, 10.0f, false);
 	glEnd();
 
-	GLWFont::instance()->getLargePtFont()->draw(
+	GLWFont::instance()->getLargePtFont()->drawWidth(
+		(int) w_,
 		GLWFont::widgetFontColor, 14,
 		x_ + 5.0f, y_ + 5.0f, 0.0f, "%s%s", text_.c_str(), cursor_?"":"_");
 }
@@ -76,10 +77,7 @@ void GLWTextBox::keyDown(char *buffer, unsigned int keyState,
 		{
 			if ((maxTextLen_==0) || ((int) text_.size() < maxTextLen_))
 			{
-				if ((int) text_.size() < w_ / 12)
-				{
-					text_ += c;
-				}
+				text_ += c;
 			}
 			skipRest = true;
 		}

@@ -29,7 +29,7 @@
 #include <freetype/ftoutln.h>
 #include <freetype/fttrigon.h>
 
-GLFont2d::GLFont2d() : textures_(0), list_base_(0), widths_(0)
+GLFont2d::GLFont2d() : textures_(0), list_base_(0), characters_(0)
 {
 
 }
@@ -40,8 +40,8 @@ GLFont2d::~GLFont2d()
 	glDeleteTextures(128, textures_);
 	delete [] textures_;
 	textures_ = 0;
-	delete [] widths_;
-	widths_ = 0;
+	delete [] characters_;
+	characters_ = 0;
 }
 
 bool GLFont2d::getInit()
@@ -61,7 +61,7 @@ int GLFont2d::getWidth(float size, const char *fmt, ...)
 	float width = 0.0f;
 	for (char *a=text; *a; a++)
 	{
-		width += float(widths_[*a]) * size / height_;
+		width += float(characters_[*a].advances) * size / height_;
 	}
 	return (int) width;
 }
@@ -95,7 +95,7 @@ void GLFont2d::drawWidth(int len, Vector &color, float size,
 	float width = 0.0f;
 	for (char *a=text; *a; a++)
 	{
-		width += float(widths_[*a]) * size / height_;
+		width += float(characters_[*a].advances) * size / height_;
 		if (width < len) l++;
 	}
 
@@ -116,6 +116,37 @@ void GLFont2d::drawBilboard(Vector &color, float size,
 	drawString((GLsizei) strlen(text), color, size, x, y, z, text, true);
 }
 
+static void drawLetter(char ch, GLuint list_base, GLuint *tex_base, GLFont2d::CharEntry *characters)
+{
+	Vector &bilX = GLCameraFrustum::instance()->getBilboardVectorX();
+	Vector &bilY = GLCameraFrustum::instance()->getBilboardVectorY();
+
+	glBindTexture(GL_TEXTURE_2D,tex_base[ch]);
+	glPushMatrix();
+
+	Vector trans = bilX * (float) (characters+ch)->left + 
+		bilY * (float) (characters+ch)->rows;
+	glTranslatef(trans[0], trans[1], trans[2]);
+
+	glBegin(GL_QUADS);
+		glTexCoord2f(0.0f,0.0f); 
+		glVertex3fv(bilY * (characters+ch)->height);
+
+		glTexCoord2f(0.0f, (characters+ch)->y); 
+		glVertex2f(0.0f,0.0f);
+
+		glTexCoord2f((characters+ch)->x,(characters+ch)->y); 
+		glVertex3fv(bilX * (characters+ch)->width);
+
+		glTexCoord2f((characters+ch)->x,0.0f); 
+		glVertex3fv(bilX * (characters+ch)->width + bilY * (characters+ch)->height);
+	glEnd();
+	glPopMatrix();
+
+	bilX *= (float)((characters+ch)->advances);
+	glTranslatef(bilX[0], bilX[1], bilX[2]);
+}
+
 bool GLFont2d::drawString(unsigned length, Vector &color, float size, 
 						  float x, float y, float z, 
 						  const char *string,
@@ -129,15 +160,15 @@ bool GLFont2d::drawString(unsigned length, Vector &color, float size,
 
 		if (bilboard)
 		{
-			/*glPushMatrix();
+			glPushMatrix();
 				glTranslatef(x,y,z);
-				glScalef(size, size, size);
+				glScalef(size / height_, size / height_, size / height_);
 
 				for (const char *current = string; *current; current++)
 				{
-					drawLetter(int(*current) - 32, 0.65f, true);
+					drawLetter(*current, list_base_,textures_,characters_);
 				}
-			glPopMatrix();*/
+			glPopMatrix();
 		}
 		else
 		{
@@ -167,7 +198,7 @@ static inline int next_p2 (int a )
 	return rval;
 }
 
-static bool make_dlist(FT_Face face, char ch, GLuint list_base, GLuint *tex_base, int *widths) 
+static bool make_dlist(FT_Face face, char ch, GLuint list_base, GLuint *tex_base, GLFont2d::CharEntry *characters) 
 {
 	// The First Thing We Do Is Get FreeType To Render Our Character
 	// Into A Bitmap.  This Actually Requires A Couple Of FreeType Commands:
@@ -240,11 +271,13 @@ static bool make_dlist(FT_Face face, char ch, GLuint list_base, GLuint *tex_base
 	// The Character Has The Right Amount Of Space
 	// Between It And The One Before It.
 	glTranslatef((float) bitmap_glyph->left, 0.0f, 0.0f);
+	(characters+ch)->left = bitmap_glyph->left;
 
 	// Now We Move Down A Little In The Case That The
 	// Bitmap Extends Past The Bottom Of The Line 
 	// This Is Only True For Characters Like 'g' Or 'y'.
 	glTranslatef(0.0f,(float) bitmap_glyph->top-bitmap.rows,0.0f);
+	(characters+ch)->rows = bitmap_glyph->top-bitmap.rows;
 
 	// Now We Need To Account For The Fact That Many Of
 	// Our Textures Are Filled With Empty Padding Space.
@@ -253,14 +286,20 @@ static bool make_dlist(FT_Face face, char ch, GLuint list_base, GLuint *tex_base
 	// The x And y Variables, Then When We Draw The
 	// Quad, We Will Only Reference The Parts Of The Texture
 	// That Contains The Character Itself.
-	float   x=(float)bitmap.width / (float)width,
-	y=(float)bitmap.rows / (float)height;
+	
+	float x=(float)bitmap.width / (float)width;
+	float y=(float)bitmap.rows / (float)height;
+	(characters+ch)->x = x;
+	(characters+ch)->y = y;
 
 	// Here We Draw The Texturemapped Quads.
 	// The Bitmap That We Got From FreeType Was Not 
 	// Oriented Quite Like We Would Like It To Be,
 	// But We Link The Texture To The Quad
 	// In Such A Way That The Result Will Be Properly Aligned.
+	(characters+ch)->width = (float)bitmap.width;
+	(characters+ch)->height = (float)bitmap.rows;
+
 	glBegin(GL_QUADS);
 	glTexCoord2f(0.0f,0.0f); glVertex2f(0.0f,(float)bitmap.rows);
 	glTexCoord2f(0.0f,y); glVertex2f(0.0f,0.0f);
@@ -270,7 +309,7 @@ static bool make_dlist(FT_Face face, char ch, GLuint list_base, GLuint *tex_base
 	glPopMatrix();
 	glTranslatef((float)(face->glyph->advance.x >> 6) ,0.0f ,0.0f);
 
-	*(widths+ch) = (face->glyph->advance.x >> 6);
+	(characters+ch)->advances = (face->glyph->advance.x >> 6);
 
 	// Increment The Raster Position As If We Were A Bitmap Font.
 	// (Only Needed If You Want To Calculate Text Length)
@@ -285,7 +324,7 @@ bool GLFont2d::createFont(const char *typeFace, unsigned int h)
 {
 	// Allocate Some Memory To Store The Texture Ids.
 	textures_ = new GLuint[128];
-	widths_ = new int[128];
+	characters_ = new CharEntry[128];
 	height_ = float(h);
 
 	// Create And Initilize A FreeType Font Library.
@@ -324,7 +363,7 @@ bool GLFont2d::createFont(const char *typeFace, unsigned int h)
 
 	// This Is Where We Actually Create Each Of The Fonts Display Lists.
 	for(unsigned char i=0;i<128;i++)
-		make_dlist(face,i,list_base_,textures_,widths_);
+		make_dlist(face,i,list_base_,textures_,characters_);
 
 	// We Don't Need The Face Information Now That The Display
 	// Lists Have Been Created, So We Free The Assosiated Resources.
@@ -334,45 +373,3 @@ bool GLFont2d::createFont(const char *typeFace, unsigned int h)
 	FT_Done_FreeType(library);
 	return true;
 }
-
-/*
-void GLFont2d::drawLetter(int i, float moveWidth, bool bilboard)
-{
-	Vector &bilX = GLCameraFrustum::instance()->getBilboardVectorX();
-	Vector &bilY = GLCameraFrustum::instance()->getBilboardVectorY();
-
-	const int lettersPerSide = 16;
-	const float letterSize = 1.0f / float(lettersPerSide);
-	const float mapSize = letterSize - 0.005f;
-
-	float cx = (float) (i % lettersPerSide) / float(lettersPerSide);
-	float cy = (float) (i / lettersPerSide) / float(lettersPerSide);
-	cy = (1.0f - cy) - letterSize;
-
-	// Draw letter
-	glBegin(GL_QUADS);
-		glTexCoord2f(cx, cy);
-		glVertex2f(0.0f, 0.0f);
-
-		glTexCoord2f(cx + mapSize, cy);
-		if (bilboard) glVertex3fv(bilX);
-		else glVertex2f(1.0f, 0.0f);
-
-		glTexCoord2f(cx + mapSize, cy + mapSize);
-		if (bilboard) glVertex3fv(bilX + bilY);
-		else glVertex2f(1.0f, 1.0f);
-
-		glTexCoord2f(cx, cy + mapSize);
-		if (bilboard) glVertex3fv(bilY);
-		else glVertex2f(0.0f, 1.0f);
-	glEnd();
-
-	// move to left of char 
-	if (bilboard)
-	{
-		bilX *= moveWidth;
-		glTranslatef(bilX[0], bilX[1], bilX[2]);
-	}
-	else glTranslatef(moveWidth, 0.0f, 0.0f);
-}
-*/

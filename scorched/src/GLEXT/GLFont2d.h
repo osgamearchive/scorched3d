@@ -27,6 +27,14 @@
 class GLFont2d  
 {
 public:
+	struct CharEntry 
+	{
+		float x, y;
+		float width, height;
+		int advances;
+		int left, rows;
+	};
+
 	GLFont2d();
 	virtual ~GLFont2d();
 
@@ -48,8 +56,8 @@ public:
 protected:
 	GLuint *textures_;
 	GLuint list_base_;
-	int *widths_;
 	float height_;
+	CharEntry *characters_;
 
 	virtual bool drawString(unsigned len,
 							Vector &color, float size, 
