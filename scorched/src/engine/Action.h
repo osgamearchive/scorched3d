@@ -56,11 +56,14 @@ public:
 
 	void setActionStartTime(float time) { actionStartTime_ = time; }
 	float getActionStartTime() { return actionStartTime_; }
+	bool getActionEvent() { return actionEvent_; }
+	void setActionEvent(bool ae) { actionEvent_ = ae; }
 
 protected:
 	ActionRenderer *renderer_;
 	ScorchedContext *context_;
 	float actionStartTime_;
+	bool actionEvent_;
 
 };
 

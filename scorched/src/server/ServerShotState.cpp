@@ -122,14 +122,21 @@ void ServerShotState::stepActions(unsigned int state, float maxSingleSimTime)
 {
 	const float stepTime = 0.02f;
 	float currentTime = 0.0f;
-	while (!ScorchedServer::instance()->getActionController().noReferencedActions())
+
+	bool allowEvents = !ScorchedServer::instance()->getActionController().allEvents();
+	while (!ScorchedServer::instance()->getActionController().noReferencedActions() &&
+		currentTime <= maxSingleSimTime)
 	{
 		ScorchedServer::instance()->getActionController().simulate(state, stepTime);
-		events_.simulate(stepTime, ScorchedServer::instance()->getContext());
+		if (allowEvents)
+		{
+			ScorchedServer::instance()->getActionController().setActionEvent(true);
+			events_.simulate(stepTime, ScorchedServer::instance()->getContext());
+			ScorchedServer::instance()->getActionController().setActionEvent(false);
+		}
 
 		totalTime_ += stepTime;
 		currentTime += stepTime;
-		if (currentTime > maxSingleSimTime) break;
 	}
 }
 

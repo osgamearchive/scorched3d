@@ -37,6 +37,7 @@ public:
 	// Add an action to be simulated
 	void addAction(Action *action);
 	bool noReferencedActions();
+	bool allEvents();
 	void resetTime();
 	void clear(bool warn = false);
 
@@ -52,6 +53,7 @@ public:
 
 	// Set the simulation speed
 	void setScorchedContext(ScorchedContext *context);
+	void setActionEvent(bool ae) { actionEvents_ = ae; }
 	void setFast(float speedMult);
 	float getFast() { return speed_; }
 
@@ -72,6 +74,7 @@ protected:
 	float lastTraceTime_;
 	float totalTime_;
 	bool actionTracing_;
+	bool actionEvents_;
 
 	void logActions();
 	void stepActions(float frameTime);

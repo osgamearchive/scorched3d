@@ -27,7 +27,8 @@
 ActionController::ActionController() : 
 	speed_(1.0f), referenceCount_(0), time_(0.0f), 
 	context_(0), lastTraceTime_(0.0f),
-	actionTracing_(false), totalTime_(0.0f)
+	actionTracing_(false), totalTime_(0.0f),
+	actionEvents_(false)
 {
 
 }
@@ -76,6 +77,27 @@ void ActionController::clear(bool warn)
 
 	// Ref count
 	referenceCount_ = 0;
+}
+
+bool ActionController::allEvents()
+{
+	std::list<Action *>::iterator newItor;
+	for (newItor = newActions_.begin();
+		newItor != newActions_.end();
+		newItor++)
+	{
+		Action *act = *newItor;
+		if (!act->getActionEvent()) return false;
+	}
+	std::set<Action *>::iterator cItor;
+	for (cItor = actions_.begin();
+		cItor != actions_.end();
+		cItor++)
+	{
+		Action *act = *cItor;
+		if (!act->getActionEvent()) return false;
+	}
+	return true;
 }
 
 void ActionController::logActions()
@@ -135,6 +157,7 @@ void ActionController::addAction(Action *action)
 {
 	action->setScorchedContext(context_);
 	action->setActionStartTime(time_);
+	action->setActionEvent(actionEvents_);
 	newActions_.push_back(action);
 }
 
