@@ -154,9 +154,10 @@ int main(int argc, char *argv[])
 			scorched3dAppName,
 			"Error: This game requires the Scorched3D data directory to run.\n"
 			"Your machine does not appear to have the Scorched3D data directory in\n"
-			"the same directory as the scorched.exe file (set to \"%s\").\n\n"
+			"the required location.\n"
+			"The data directory is set to \"%s\" which does not exist.\n\n"
 			"If Scorched3D does not run please re-install Scorched3D.",
-			getDataFile("."));
+			getDataFile("data"));
 	}
 	else fclose(checkfile);
 

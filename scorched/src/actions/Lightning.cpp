@@ -33,7 +33,8 @@ REGISTER_ACTION_SOURCE(Lightning);
 
 Lightning::Lightning() :
 	totalTime_(0.0f), firstTime_(true),
-	weapon_(0), playerId_(0), data_(0)
+	weapon_(0), playerId_(0), data_(0),
+	generator_(0)
 {
 }
 
@@ -44,18 +45,21 @@ Lightning::Lightning(WeaponLightning *weapon,
 	totalTime_(0.0f),
 	weapon_(weapon),
 	playerId_(playerId), data_(data),
-	position_(position), velocity_(velocity)
+	position_(position), velocity_(velocity),
+	generator_(0)
 {
 	seed_ = (unsigned int) rand();
 }
 
 Lightning::~Lightning()
 {
+	delete generator_;
 }
 
 void Lightning::init()
 {
-	generator_.seed(seed_);
+	generator_ = new RandomGenerator();
+	generator_->seed(seed_);
 	Vector direction = velocity_.Normalize();
 	std::map<Tank *, float> hurtMap;
 
@@ -185,9 +189,9 @@ void Lightning::dispaceDirection(Vector &direction,
 	Vector newdir;
 	while (true)
 	{
-		newdir[0] = (generator_.getRandFloat() - 0.5f) * 2.0f;
-		newdir[1] = (generator_.getRandFloat() - 0.5f) * 2.0f;
-		newdir[2] = (generator_.getRandFloat() - 0.5f) * 2.0f;
+		newdir[0] = (generator_->getRandFloat() - 0.5f) * 2.0f;
+		newdir[1] = (generator_->getRandFloat() - 0.5f) * 2.0f;
+		newdir[2] = (generator_->getRandFloat() - 0.5f) * 2.0f;
 		newdir.StoreNormalize();
 
 		float a = newdir[0] * direction[0] + 
@@ -212,7 +216,7 @@ void Lightning::generateLightning(int id, int depth, float size,
 	std::map<Tank *, float> &hurtMap)
 {
 	float length = weapon_->getSegLength() + 
-		weapon_->getSegVar() * generator_.getRandFloat();
+		weapon_->getSegVar() * generator_->getRandFloat();
 	Vector end = start + direction * length;
 
 	// Add the new lightning segment
@@ -230,7 +234,7 @@ void Lightning::generateLightning(int id, int depth, float size,
 	damageTanks(segment.end, hurtMap);
 
 	// Rand posibility that we stop
-	if (depth > 1 && generator_.getRandFloat() < 
+	if (depth > 1 && generator_->getRandFloat() < 
 		weapon_->getDeathProb())
 	{
 		segment.endsegment = true;
@@ -257,7 +261,7 @@ void Lightning::generateLightning(int id, int depth, float size,
 	}
 
 	// Make a new strand
-	if (generator_.getRandFloat() <= 
+	if (generator_->getRandFloat() <= 
 		weapon_->getSplitProb() - (depth - 1) * weapon_->getSplitVar())
     {
 		float newsize = size + weapon_->getSizeVar();

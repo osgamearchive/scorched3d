@@ -31,6 +31,7 @@ rise in price and the less popular accessories fall.
 Thus making people choose different weapons from time to time
 (perhaps).
 */
+class Accessory;
 class EconomyFreeMarket : public Economy
 {
 public:
@@ -50,6 +51,8 @@ REGISTER_CLASS_HEADER(EconomyFreeMarket);
 
 protected:
 	std::map<unsigned int, int> newPrices_;
+
+	void setPrice(Accessory *accessory, int price);
 };
 
 #endif

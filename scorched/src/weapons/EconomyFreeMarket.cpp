@@ -72,9 +72,8 @@ bool EconomyFreeMarket::loadPrices()
 			itor++)
 		{
 			XMLNode *node = *itor;
-			XMLNode *nameNode, *sellNode, *buyNode;
+			XMLNode *nameNode, *buyNode;
 			if (!node->getNamedChild("name", nameNode)) return false;
-			if (!node->getNamedChild("sellprice", sellNode)) return false;
 			if (!node->getNamedChild("buyprice", buyNode)) return false;
 
 			Accessory *accessory = ScorchedServer::instance()->getAccessoryStore().
@@ -84,14 +83,18 @@ bool EconomyFreeMarket::loadPrices()
 				Logger::log(0,
 					"Warning: Economy free market failed to find accessory named \"%s\"",
 					nameNode->getContent());
-				return false;
 			}
 	
-			// Set the actual accessory price (based on the last used market prices)
-			int price = atoi(buyNode->getContent());
-			int sellPrice = atoi(sellNode->getContent());
-			accessory->setPrice(price);
-			accessory->setSellPrice(sellPrice);
+			// Check that this accessory is still valid
+			// (just in case the file has been changed)
+			if (accessory->getMaximumNumber() != 0 &&
+				accessory->getStartingNumber() != -1 && 
+				accessory->getType() == AccessoryPart::AccessoryWeapon)
+			{
+				// Set the actual accessory price (based on the last used market prices)
+				int price = atoi(buyNode->getContent());
+				setPrice(accessory, price);
+			}
 		}
 	}
 
@@ -113,12 +116,12 @@ bool EconomyFreeMarket::savePrices()
 		Accessory *accessory = *itor;
 
 		if (accessory->getMaximumNumber() != 0 &&
-			accessory->getStartingNumber() != -1)
+			accessory->getStartingNumber() != -1 && 
+			accessory->getType() == AccessoryPart::AccessoryWeapon)
 		{
 			file.addLine("  <accessory>");
 			file.addLine("    <name>%s</name>", accessory->getName());
 			file.addLine("    <buyprice>%i</buyprice>", accessory->getPrice());
-			file.addLine("    <sellprice>%i</sellprice>", accessory->getSellPrice());
 			file.addLine("  </accessory>");
 		}
 	}
@@ -144,21 +147,7 @@ void EconomyFreeMarket::calculatePrices()
 				findByAccessoryId((*itor).first);
 			
 			int price = accessory->getPrice() + diff;
-			price = (price / 10) * 10; // Round to 10
-
-			// Make suse price does not get greater than 1.5X the original price
-			if (price > int(float(accessory->getOriginalPrice()) * 1.5f))
-				price = int(float(accessory->getOriginalPrice()) * 1.5f);
-			// Make sure price does not get lower than 0.75X the original price
-			else if (price < int(float(accessory->getOriginalPrice()) * 0.75f))
-				price = int(float(accessory->getOriginalPrice()) * 0.75f);
-			accessory->setPrice(price);
-
-			// Sell price is 0.8X the buy price
-			int selPrice = int(float(accessory->getPrice()) /
-				float(accessory->getBundle()) * 0.8f);
-			selPrice = (selPrice / 10) * 10; // Round to 10
-			accessory->setSellPrice(selPrice);
+			setPrice(accessory, price);
 		}
 	}
 	newPrices_.clear();
@@ -247,6 +236,25 @@ void EconomyFreeMarket::accessoryBought(Tank *tank,
 			else newPrices_[accessory->getAccessoryId()] += priceDiff;
 		}
 	}
+}
+
+void EconomyFreeMarket::setPrice(Accessory *accessory, int price)
+{
+	price = (price / 10) * 10; // Round to 10
+
+	// Make suse price does not get greater than 1.5X the original price
+	if (price > int(float(accessory->getOriginalPrice()) * 1.5f))
+		price = int(float(accessory->getOriginalPrice()) * 1.5f);
+	// Make sure price does not get lower than 0.75X the original price
+	else if (price < int(float(accessory->getOriginalPrice()) * 0.75f))
+		price = int(float(accessory->getOriginalPrice()) * 0.75f);
+	accessory->setPrice(price);
+
+	// Sell price is 0.8X the buy price
+	int selPrice = int(float(accessory->getPrice()) /
+		float(accessory->getBundle()) * 0.8f);
+	selPrice = (selPrice / 10) * 10; // Round to 10
+	accessory->setSellPrice(selPrice);
 }
 
 void EconomyFreeMarket::accessorySold(Tank *tank, 

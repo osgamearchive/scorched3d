@@ -57,7 +57,7 @@ protected:
 	bool firstTime_;
 	float totalTime_;
 	std::list<Segment> segments_;
-	RandomGenerator generator_;
+	RandomGenerator *generator_;
 
 	WeaponLightning *weapon_;
 	Vector position_;
