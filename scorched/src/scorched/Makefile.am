@@ -275,6 +275,8 @@ scorched3d_SOURCES = \
 	../dialogs/HelpDialog.h \
 	../dialogs/KibitzingDialog.cpp \
 	../dialogs/KibitzingDialog.h \
+	../dialogs/KillDialog.cpp \
+	../dialogs/KillDialog.h \
 	../dialogs/LogDialog.cpp \
 	../dialogs/LogDialog.h \
 	../dialogs/MainMenuDialog.cpp \
@@ -289,6 +291,8 @@ scorched3d_SOURCES = \
 	../dialogs/ProgressDialog.h \
 	../dialogs/QuitDialog.cpp \
 	../dialogs/QuitDialog.h \
+	../dialogs/RulesDialog.cpp \
+	../dialogs/RulesDialog.h \
 	../dialogs/ScoreDialog.cpp \
 	../dialogs/ScoreDialog.h \
 	../dialogs/TalkDialog.cpp \
@@ -657,6 +661,8 @@ scorched3d_SOURCES = \
 	../sprites/RollerRenderer.h \
 	../sprites/SmokeActionRenderer.cpp \
 	../sprites/SmokeActionRenderer.h \
+	../sprites/SprayActionRenderer.cpp \
+	../sprites/SprayActionRenderer.h \
 	../sprites/TalkRenderer.cpp \
 	../sprites/TalkRenderer.h \
 	../sprites/TankDeadRenderer.cpp \
@@ -719,6 +725,8 @@ scorched3d_SOURCES = \
 	../client/ClientState.h \
 	../client/ClientTextHandler.cpp \
 	../client/ClientTextHandler.h \
+	../client/ClientWaitState.cpp \
+	../client/ClientWaitState.h \
 	../client/GLSetup.cpp \
 	../client/GLSetup.h \
 	../client/Main2DCamera.cpp \
