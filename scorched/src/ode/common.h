@@ -119,6 +119,10 @@ typedef dReal dQuaternion[4];
 
 /* precision dependent scalar math functions */
 
+#ifdef _WIN32
+#define copysign(x, y) (((y)<0)?(-fabs(x)):(fabs(x)))
+#endif
+
 #if defined(dSINGLE)
 
 #define REAL(x) (x ## f)					/* form a constant */
