@@ -35,6 +35,7 @@ install-exec-local:
 install-data-local:
 	$(INSTALL) -d -m 0755 $(pkgdir)/data 
 	cp -rp $(srcdir)/data $(pkgdir)
+	chmod 644 `find $(pkgdir)/data -type f`
 	cp -rp $(srcdir)/README $(pkgdir)
 	cp -rp $(srcdir)/documentation $(pkgdir)
 
