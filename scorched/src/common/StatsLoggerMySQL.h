@@ -47,6 +47,7 @@ public:
 	virtual char *tankRank(Tank *tank);
 	virtual void updateStats(Tank *tank);
 	virtual char *allocateId();
+	virtual char *getStatsId(Tank *tank);
 
 	virtual void tankConnected(Tank *tank);
 	virtual void tankDisconnected(Tank *tank);

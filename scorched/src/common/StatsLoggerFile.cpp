@@ -83,6 +83,11 @@ char *StatsLoggerFile::allocateId()
 	return buffer;
 }
 
+char *StatsLoggerFile::getStatsId(Tank *tank)
+{
+	return "";
+}
+
 std::list<std::string> StatsLoggerFile::getAliases(Tank *tank)
 {
 	std::list<std::string> result;

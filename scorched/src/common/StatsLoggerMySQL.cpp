@@ -518,6 +518,16 @@ int StatsLoggerMySQL::getPlayerId(const char *uniqueId)
 	return playerId;
 }
 
+char *StatsLoggerMySQL::getStatsId(Tank *tank)
+{
+	createLogger();
+	if (!success_) return "";
+	int id = getPlayerId(tank->getUniqueId());
+	static char buffer[10];
+	sprintf(buffer, "%i", id);
+	return buffer;
+}
+
 char *StatsLoggerMySQL::allocateId() 
 { 
 	static char buffer[128];

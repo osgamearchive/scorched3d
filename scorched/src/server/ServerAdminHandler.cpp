@@ -135,7 +135,7 @@ bool ServerAdminHandler::processMessage(unsigned int destinationId,
 						tank->getPlayerId(), 
 						tank->getName(),
 						NetInterface::getIpName(tank->getIpAddress()),
-						StatsLogger::instance()->tankRank(tank),
+						StatsLogger::instance()->getStatsId(tank),
 						(tank->getState().getMuted()?"Muted":"Not Muted"));
 			}
 			result +=
