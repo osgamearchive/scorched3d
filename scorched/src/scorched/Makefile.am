@@ -250,8 +250,6 @@ scorched3d_SOURCES = \
 	../common/RandomGenerator.h \
 	../common/ResourceFile.cpp \
 	../common/ResourceFile.h \
-	../common/Resources.cpp \
-	../common/Resources.h \
 	../common/Sound.cpp \
 	../common/Sound.h \
 	../common/SoundBuffer.cpp \
