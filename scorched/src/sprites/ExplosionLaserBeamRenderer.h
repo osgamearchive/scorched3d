@@ -23,7 +23,7 @@
 
 #include <engine/Action.h>
 #include <common/Vector.h>
-#include <sprites/explosionrenderer.h>
+#include <sprites/ExplosionRenderer.h>
 
 #define sides 8
 #define layers 4

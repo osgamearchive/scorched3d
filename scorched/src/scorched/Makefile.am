@@ -663,6 +663,8 @@ scorched3d_SOURCES = \
 	../actions/WallHit.h \
 	../sprites/DebrisActionRenderer.cpp \
 	../sprites/DebrisActionRenderer.h \
+	../sprites/ExplosionLaserBeamRenderer.cpp \
+	../sprites/ExplosionLaserBeamRenderer.h \
 	../sprites/ExplosionNukeRenderer.cpp \
 	../sprites/ExplosionNukeRenderer.h \
 	../sprites/ExplosionRenderer.cpp \
