@@ -107,7 +107,7 @@ typedef unsigned int intP;
  * amount of memory. NOTE: this number must be a power of two.
  */
 
-#define EFFICIENT_ALIGNMENT 16
+#define EFFICIENT_ALIGNMENT 16UL
 
 
 /* for unix, define this if your system supports anonymous memory maps

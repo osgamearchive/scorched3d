@@ -42,7 +42,7 @@ extern "C" {
  * a (very) small amount of memory. NOTE: this number must be a power of
  * two. this is set to 16 by default.
  */
-#define EFFICIENT_ALIGNMENT 16
+#define EFFICIENT_ALIGNMENT 16UL
 
 
 /* constants */
@@ -159,7 +159,7 @@ typedef dReal dQuaternion[4];
 
 /* round something up to be a multiple of the EFFICIENT_ALIGNMENT */
 
-#define dEFFICIENT_SIZE(x) ((((x)-1)|(EFFICIENT_ALIGNMENT-1))+1)
+#define dEFFICIENT_SIZE(x) ((((x)-1UL)|(EFFICIENT_ALIGNMENT-1UL))+1UL)
 
 
 /* alloca aligned to the EFFICIENT_ALIGNMENT. note that this can waste
@@ -167,7 +167,7 @@ typedef dReal dQuaternion[4];
  */
 
 #define dALLOCA16(n) \
-  ((char*)dEFFICIENT_SIZE(((size_t)(alloca((n)+(EFFICIENT_ALIGNMENT-1))))))
+  ((char*)dEFFICIENT_SIZE(((size_t)(alloca((n)+(EFFICIENT_ALIGNMENT-1UL))))))
 
 
 /* internal object types (all prefixed with `dx') */
