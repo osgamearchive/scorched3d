@@ -159,8 +159,8 @@ void WaterMap::draw()
 			glTexGenf(GL_R, GL_TEXTURE_GEN_MODE, GL_REFLECTION_MAP_EXT);
 
 			// Draw the water
-			drawWater();
 			surround_.draw();
+			drawWater();
 		}
 		else
 		{
@@ -172,8 +172,8 @@ void WaterMap::draw()
 			glTexGenf(GL_R, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
 
 			// Draw the water
-			drawWater();
 			surround_.draw();
+			drawWater();
 		}
 
 		if (GLStateExtension::glActiveTextureARB())
