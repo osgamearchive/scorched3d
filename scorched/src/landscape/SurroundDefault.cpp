@@ -57,16 +57,14 @@ SurroundDefault::~SurroundDefault()
 void SurroundDefault::draw()
 {
 	static GLuint listNo = 0;
-	if (listNo)
-	{
-		glCallList(listNo);
-	}
-	else
+	if (!listNo)
 	{
 		glNewList(listNo = glGenLists(1), GL_COMPILE);
 			generateList();
 		glEndList();
+
 	}
+	glCallList(listNo);
 }
 
 void SurroundDefault::generateList()
@@ -80,17 +78,6 @@ void SurroundDefault::generateList()
 		{2,14,6,10},
 		{13,1,9,5},
 		{12,0,1,13}
-	};
-
-	const float mapping[8][4][2] = { 
-		{{0,0}, {1,0}, {1,1}, {0,1}},
-		{{0,0}, {1,0}, {1,1}, {0,1}},
-		{{0,0}, {1,0}, {1,1}, {0,1}},
-		{{0,0}, {1,0}, {1,1}, {0,1}},
-		{{0,0}, {1,0}, {1,1}, {0,1}},
-		{{0,0}, {1,0}, {1,1}, {0,1}},
-		{{0,0}, {1,0}, {1,1}, {0,1}},
-		{{0,0}, {1,0}, {1,1}, {0,1}}
 	};
 
 	glColor3f(1.0f, 1.0f, 1.0f);
