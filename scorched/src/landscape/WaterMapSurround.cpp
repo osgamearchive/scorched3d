@@ -24,8 +24,8 @@
 #include <GLEXT/GLStateExtension.h>
 #include <landscape/WaterMapSurround.h>
 
-WaterMapSurround::WaterMapSurround(int width, int widthMult, float height) :
-	width_(width), widthMult_(widthMult), height_(height)
+WaterMapSurround::WaterMapSurround(int width, int widthMult) :
+	width_(width), widthMult_(widthMult)
 {
 
 }
@@ -38,16 +38,13 @@ WaterMapSurround::~WaterMapSurround()
 void WaterMapSurround::draw()
 {
 	static GLuint listNo = 0;
-	if (listNo)
-	{
-		glCallList(listNo);
-	}
-	else
+	if (listNo == 0)
 	{
 		glNewList(listNo = glGenLists(1), GL_COMPILE);
 			generateList();
 		glEndList();
 	}
+	glCallList(listNo);
 }
 
 void WaterMapSurround::drawPoint(Vector &start, Vector &diff, 
@@ -111,8 +108,8 @@ void WaterMapSurround::generateList()
 		int i;
 		for (i=0; i<width_-1; i++)
 		{
-			Vector start(pointX, pointY, height_);
-			Vector end(lpointX, lpointY, height_);
+			Vector start(pointX, pointY, 0.0f);
+			Vector end(lpointX, lpointY, 0.0f);
 			Vector diff = end - start;
 
 			drawPoint(start, diff, i, width_ - 1, j, maxSquares);
@@ -123,8 +120,8 @@ void WaterMapSurround::generateList()
 		}
 		for (i=0; i<width_ - 1; i++)
 		{
-			Vector start(pointX, pointY, height_);
-			Vector end(lpointX, lpointY, height_);
+			Vector start(pointX, pointY, 0.0f);
+			Vector end(lpointX, lpointY, 0.0f);
 			Vector diff = end - start;
 
 			drawPoint(start, diff, i, width_ - 1, j, maxSquares);
@@ -135,8 +132,8 @@ void WaterMapSurround::generateList()
 		}
 		for (i=0; i<width_ - 1; i++)
 		{
-			Vector start(pointX, pointY, height_);
-			Vector end(lpointX, lpointY, height_);
+			Vector start(pointX, pointY, 0.0f);
+			Vector end(lpointX, lpointY, 0.0f);
 			Vector diff = end - start;
 
 			drawPoint(start, diff, i, width_ - 1, j, maxSquares);
@@ -147,8 +144,8 @@ void WaterMapSurround::generateList()
 		}
 		for (i=0; i<width_; i++)
 		{
-			Vector start(pointX, pointY, height_);
-			Vector end(lpointX, lpointY, height_);
+			Vector start(pointX, pointY, 0.0f);
+			Vector end(lpointX, lpointY, 0.0f);
 			Vector diff = end - start;
 
 			drawPoint(start, diff, i, width_ - 1, j, maxSquares);
