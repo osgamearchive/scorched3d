@@ -18,29 +18,22 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_Skyh_INCLUDE__)
-#define __INCLUDE_Skyh_INCLUDE__
+#if !defined(__INCLUDE_SkyRoofh_INCLUDE__)
+#define __INCLUDE_SkyRoofh_INCLUDE__
 
-#include <landscape/SkyDome.h>
-#include <landscape/SkyRoof.h>
-#include <landscape/Sun.h>
-
-class Sky
+class SkyRoof
 {
 public:
-	Sky();
-	virtual ~Sky();
+	SkyRoof();
+	virtual ~SkyRoof();
 
 	void draw();
-	void simulate(float frameTime);
 	void generate();
 
-	Sun &getSun() { return sun_; }
-
 protected:
-	SkyDome dome_;
-	SkyRoof roof_;
-	Sun sun_;
+	unsigned int list_;
+
+	void makeList();
 };
 
-#endif // __INCLUDE_Skyh_INCLUDE__
+#endif // __INCLUDE_SkyRoofh_INCLUDE__

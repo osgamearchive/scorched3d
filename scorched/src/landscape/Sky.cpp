@@ -19,6 +19,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <landscape/Sky.h>
+#include <landscape/LandscapeMaps.h>
+#include <client/ScorchedClient.h>
 
 Sky::Sky()
 {
@@ -31,6 +33,10 @@ Sky::~Sky()
 void Sky::draw()
 {
 	sun_.draw();
+	if (ScorchedClient::instance()->getLandscapeMaps().getRoof())
+	{
+		roof_.draw();
+	}
 	dome_.draw();
 }
 
@@ -42,5 +48,6 @@ void Sky::simulate(float frameTime)
 void Sky::generate()
 {
 	dome_.generate();
+	roof_.generate();
 }
 

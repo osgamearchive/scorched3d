@@ -425,6 +425,8 @@ scorched3d_SOURCES = \
 	../landscape/Sky.h \
 	../landscape/SkyDome.cpp \
 	../landscape/SkyDome.h \
+	../landscape/SkyRoof.cpp \
+	../landscape/SkyRoof.h \
 	../landscape/Smoke.cpp \
 	../landscape/Smoke.h \
 	../landscape/Sun.cpp \

@@ -76,6 +76,16 @@ void LandscapeMaps::generateHMap(LandscapeDefinition *hdef,
 		{
 			dialogExit("Landscape", "Failed to generate roof");
 		}
+		
+		for (int j=0; j<=getRMap().getWidth(); j++)
+		{
+			for (int i=0; i<=getRMap().getWidth(); i++)
+			{
+				float height = getRMap().getHeight(i, j);
+				height = 125.0f - height;
+				getRMap().setHeight(i, j, height);
+			}
+		}
 		roof_ = true;
 	}
 	else roof_ = false;

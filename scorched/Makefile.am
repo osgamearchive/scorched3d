@@ -90,6 +90,7 @@ scorcheddata_DATA = data/landscapesdefn.xml \
 	data/autoexec.xml
 scorcheddatatexturesdir = ${datadir}/data/textures
 scorcheddatatextures_DATA = data/textures/glow1.bmp \
+	data/textures/ring.bmp2 \
 	data/textures/smoke01.bmp \
 	data/textures/smoke02.bmp \
 	data/textures/talk.bmp \
@@ -589,6 +590,8 @@ scorcheddatatankszsu57dir = ${datadir}/data/tanks/zsu57
 scorcheddatatankszsu57_DATA = data/tanks/zsu57/zsu57.bmp \
 	data/tanks/zsu57/zsu57.txt \
 	data/tanks/zsu57/black.bmp
+scorcheddatatanksCannonTowerdir = ${datadir}/data/tanks/CannonTower
+scorcheddatatanksCannonTower_DATA = 
 scorcheddatatankssa6dir = ${datadir}/data/tanks/sa6
 scorcheddatatankssa6_DATA = data/tanks/sa6/guncover.bmp \
 	data/tanks/sa6/chrome.bmp \
