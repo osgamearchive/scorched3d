@@ -97,7 +97,8 @@ void WeaponNapalm::fireWeapon(ScorchedContext &context,
 
 	if (!context.serverMode) 
 	{
-		if (getNapalmSound()[0])
+		if (getNapalmSound()[0] &&
+			0 != strcmp(getNapalmSound(), "none"))
 		{
 			SoundBuffer *expSound = 
 				SoundStore::instance()->fetchOrCreateBuffer((char *)
