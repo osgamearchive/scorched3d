@@ -56,12 +56,12 @@ void dCloseODE();
 /* standard classes */
 
 /* class numbers */
-extern  int dSphereClass;
-extern  int dBoxClass;
-extern  int dCCylinderClass;
-extern  int dPlaneClass;
-extern  int dGeomGroupClass;
-extern  int dGeomTransformClass;
+extern int dSphereClass;
+extern int dBoxClass;
+extern int dCCylinderClass;
+extern int dPlaneClass;
+extern int dGeomGroupClass;
+extern int dGeomTransformClass;
 
 /* constructors */
 dGeomID dCreateSphere (dSpaceID space, dReal radius);

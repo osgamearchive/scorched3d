@@ -25,10 +25,6 @@
 
 #include <ode/config.h>
 #include <ode/error.h>
-#ifndef WIN32
-#include <alloca.h>
-#endif
-#include <stdlib.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -161,6 +157,7 @@ typedef dReal dQuaternion[4];
 /* alloca aligned to the EFFICIENT_ALIGNMENT. note that this can waste
  * up to 15 bytes per allocation, depending on what alloca() returns.
  */
+
 #define dALLOCA16(n) \
   ((char*)dEFFICIENT_SIZE(((int)(alloca((n)+(EFFICIENT_ALIGNMENT-1))))))
 

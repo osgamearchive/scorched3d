@@ -171,7 +171,7 @@ static void setAnchors (dxJoint *j, dReal x, dReal y, dReal z,
 }
 
 
-// compute axes relative to bodies. axis2 can be 0
+// compute axes relative to bodies. either axis1 or axis2 can be 0.
 
 static void setAxes (dxJoint *j, dReal x, dReal y, dReal z,
 		     dVector3 axis1, dVector3 axis2)
@@ -183,7 +183,10 @@ static void setAxes (dxJoint *j, dReal x, dReal y, dReal z,
     q[2] = z;
     q[3] = 0;
     dNormalize3 (q);
-    dMULTIPLY1_331 (axis1,j->node[0].body->R,q);
+    if (axis1) {
+      dMULTIPLY1_331 (axis1,j->node[0].body->R,q);
+      axis1[3] = 0;
+    }
     if (axis2) {
       if (j->node[1].body) {
 	dMULTIPLY1_331 (axis2,j->node[1].body->R,q);
@@ -196,7 +199,6 @@ static void setAxes (dxJoint *j, dReal x, dReal y, dReal z,
       axis2[3] = 0;
     }
   }
-  axis1[3] = 0;
 }
 
 
@@ -211,6 +213,22 @@ static void getAnchor (dxJoint *j, dVector3 result, dVector3 anchor1)
 }
 
 
+static void getAnchor2 (dxJoint *j, dVector3 result, dVector3 anchor2)
+{
+  if (j->node[1].body) {
+    dMULTIPLY0_331 (result,j->node[1].body->R,anchor2);
+    result[0] += j->node[1].body->pos[0];
+    result[1] += j->node[1].body->pos[1];
+    result[2] += j->node[1].body->pos[2];
+  }
+  else {
+    result[0] = anchor2[0];
+    result[1] = anchor2[1];
+    result[2] = anchor2[2];
+  }
+}
+
+
 static void getAxis (dxJoint *j, dVector3 result, dVector3 axis1)
 {
   if (j->node[0].body) {
@@ -219,17 +237,20 @@ static void getAxis (dxJoint *j, dVector3 result, dVector3 axis1)
 }
 
 
-// given two bodies (body1,body2), the hinge axis that they are connected by
-// w.r.t. body1 (axis), and the initial relative orientation between them
-// (q_initial), return the relative rotation angle. the initial relative
-// orientation corresponds to an angle of zero. if body2 is 0 then measure the
-// angle between body1 and the static frame.
-//
-// this will not return the correct angle if the bodies rotate along any axis
-// other than the given hinge axis.
+static void getAxis2 (dxJoint *j, dVector3 result, dVector3 axis2)
+{
+  if (j->node[1].body) {
+    dMULTIPLY0_331 (result,j->node[1].body->R,axis2);
+  }
+  else {
+    result[0] = axis2[0];
+    result[1] = axis2[1];
+    result[2] = axis2[2];
+  }
+}
 
-static dReal getHingeAngle (dxBody *body1, dxBody *body2, dVector3 axis,
-			    dQuaternion q_initial)
+
+static dReal getHingeAngleFromRelativeQuat (dQuaternion qrel, dVector3 axis)
 {
   // the angle between the two bodies is extracted from the quaternion that
   // represents the relative rotation between them. recall that a quaternion
@@ -252,18 +273,6 @@ static dReal getHingeAngle (dxBody *body1, dxBody *body2, dVector3 axis,
   // than 90 degrees) then use -q instead of q. this represents the same
   // rotation, but results in the cos(theta/2) value being sign inverted.
 
-  // get qrel = relative rotation between the two bodies
-  dQuaternion qrel;
-  if (body2) {
-    dQuaternion qq;
-    dQMultiply1 (qq,body1->q,body2->q);
-    dQMultiply2 (qrel,qq,q_initial);
-  }
-  else {
-    // pretend body2->q is the identity
-    dQMultiply3 (qrel,body1->q,q_initial);
-  }
-
   // extract the angle from the quaternion. cost2 = cos(theta/2),
   // sint2 = |sin(theta/2)|
   dReal cost2 = qrel[0];
@@ -280,6 +289,34 @@ static dReal getHingeAngle (dxBody *body1, dxBody *body2, dVector3 axis,
   theta = -theta;
 
   return theta;
+}
+
+
+// given two bodies (body1,body2), the hinge axis that they are connected by
+// w.r.t. body1 (axis), and the initial relative orientation between them
+// (q_initial), return the relative rotation angle. the initial relative
+// orientation corresponds to an angle of zero. if body2 is 0 then measure the
+// angle between body1 and the static frame.
+//
+// this will not return the correct angle if the bodies rotate along any axis
+// other than the given hinge axis.
+
+static dReal getHingeAngle (dxBody *body1, dxBody *body2, dVector3 axis,
+			    dQuaternion q_initial)
+{
+  // get qrel = relative rotation between the two bodies
+  dQuaternion qrel;
+  if (body2) {
+    dQuaternion qq;
+    dQMultiply1 (qq,body1->q,body2->q);
+    dQMultiply2 (qrel,qq,q_initial);
+  }
+  else {
+    // pretend body2->q is the identity
+    dQMultiply3 (qrel,body1->q,q_initial);
+  }
+
+  return getHingeAngleFromRelativeQuat (qrel,axis);
 }
 
 //****************************************************************************
@@ -566,7 +603,22 @@ extern "C" void dJointGetBallAnchor (dxJointBall *joint, dVector3 result)
   dUASSERT(joint,"bad joint argument");
   dUASSERT(result,"bad result argument");
   dUASSERT(joint->vtable == &__dball_vtable,"joint is not a ball");
-  getAnchor (joint,result,joint->anchor1);
+  if (joint->flags & dJOINT_REVERSE)
+    getAnchor2 (joint,result,joint->anchor2);
+  else
+    getAnchor (joint,result,joint->anchor1);
+}
+
+
+extern "C" void dJointGetBallAnchor2 (dxJointBall *joint, dVector3 result)
+{
+  dUASSERT(joint,"bad joint argument");
+  dUASSERT(result,"bad result argument");
+  dUASSERT(joint->vtable == &__dball_vtable,"joint is not a ball");
+  if (joint->flags & dJOINT_REVERSE)
+    getAnchor (joint,result,joint->anchor1);
+  else
+    getAnchor2 (joint,result,joint->anchor2);
 }
 
 
@@ -726,7 +778,22 @@ extern "C" void dJointGetHingeAnchor (dxJointHinge *joint, dVector3 result)
   dUASSERT(joint,"bad joint argument");
   dUASSERT(result,"bad result argument");
   dUASSERT(joint->vtable == &__dhinge_vtable,"joint is not a hinge");
-  getAnchor (joint,result,joint->anchor1);
+  if (joint->flags & dJOINT_REVERSE)
+    getAnchor2 (joint,result,joint->anchor2);
+  else
+    getAnchor (joint,result,joint->anchor1);
+}
+
+
+extern "C" void dJointGetHingeAnchor2 (dxJointHinge *joint, dVector3 result)
+{
+  dUASSERT(joint,"bad joint argument");
+  dUASSERT(result,"bad result argument");
+  dUASSERT(joint->vtable == &__dhinge_vtable,"joint is not a hinge");
+  if (joint->flags & dJOINT_REVERSE)
+    getAnchor (joint,result,joint->anchor1);
+  else
+    getAnchor2 (joint,result,joint->anchor2);
 }
 
 
@@ -1092,14 +1159,14 @@ static void contactGetInfo2 (dxJointContact *j, dxJoint::Info2 *info)
   // get normal, with sign adjusted for body1/body2 polarity
   dVector3 normal;
   if (j->flags & dJOINT_REVERSE) {
-    normal[0] = j->contact.geom.normal[0];
-    normal[1] = j->contact.geom.normal[1];
-    normal[2] = j->contact.geom.normal[2];
-  }
-  else {
     normal[0] = - j->contact.geom.normal[0];
     normal[1] = - j->contact.geom.normal[1];
     normal[2] = - j->contact.geom.normal[2];
+  }
+  else {
+    normal[0] = j->contact.geom.normal[0];
+    normal[1] = j->contact.geom.normal[1];
+    normal[2] = j->contact.geom.normal[2];
   }
   normal[3] = 0;	// @@@ hmmm
 
@@ -1465,7 +1532,22 @@ extern "C" void dJointGetHinge2Anchor (dxJointHinge2 *joint, dVector3 result)
   dUASSERT(joint,"bad joint argument");
   dUASSERT(result,"bad result argument");
   dUASSERT(joint->vtable == &__dhinge2_vtable,"joint is not a hinge2");
-  getAnchor (joint,result,joint->anchor1);
+  if (joint->flags & dJOINT_REVERSE)
+    getAnchor2 (joint,result,joint->anchor2);
+  else
+    getAnchor (joint,result,joint->anchor1);
+}
+
+
+extern "C" void dJointGetHinge2Anchor2 (dxJointHinge2 *joint, dVector3 result)
+{
+  dUASSERT(joint,"bad joint argument");
+  dUASSERT(result,"bad result argument");
+  dUASSERT(joint->vtable == &__dhinge2_vtable,"joint is not a hinge2");
+  if (joint->flags & dJOINT_REVERSE)
+    getAnchor (joint,result,joint->anchor1);
+  else
+    getAnchor2 (joint,result,joint->anchor2);
 }
 
 
@@ -1563,6 +1645,108 @@ static void universalInit (dxJointUniversal *j)
   j->axis1[0] = 1;
   dSetZero (j->axis2,4);
   j->axis2[1] = 1;
+  dSetZero(j->qrel1,4);
+  dSetZero(j->qrel2,4);
+  j->limot1.init (j->world);
+  j->limot2.init (j->world);
+}
+
+
+static void getUniversalAxes(dxJointUniversal *joint, dVector3 ax1, dVector3 ax2)
+{
+  // This says "ax1 = joint->node[0].body->R * joint->axis1"
+  dMULTIPLY0_331 (ax1,joint->node[0].body->R,joint->axis1);
+
+  if (joint->node[1].body) {
+    dMULTIPLY0_331 (ax2,joint->node[1].body->R,joint->axis2);
+  }
+  else {
+    ax2[0] = joint->axis2[0];
+    ax2[1] = joint->axis2[1];
+    ax2[2] = joint->axis2[2];
+  }
+}
+
+
+static dReal getUniversalAngle1(dxJointUniversal *joint)
+{
+  if (joint->node[0].body) {
+    // length 1 joint axis in global coordinates, from each body
+    dVector3 ax1, ax2;
+    dMatrix3 R;
+    dQuaternion qcross, qq, qrel;
+
+    getUniversalAxes (joint,ax1,ax2);
+
+    // It should be possible to get both angles without explicitly
+    // constructing the rotation matrix of the cross.  Basically,
+    // orientation of the cross about axis1 comes from body 2, 
+    // about axis 2 comes from body 1, and the perpendicular
+    // axis can come from the two bodies somehow.  (We don't really
+    // want to assume it's 90 degrees, because in general the
+    // constraints won't be perfectly satisfied, or even very well
+    // satisfied.)
+    //
+    // However, we'd need a version of getHingeAngleFromRElativeQuat()
+    // that CAN handle when its relative quat is rotated along a direction
+    // other than the given axis.  What I have here works,
+    // although it's probably much slower than need be.
+
+    dRFrom2Axes(R, ax1[0], ax1[1], ax1[2], ax2[0], ax2[1], ax2[2]);
+    dRtoQ (R,qcross);
+
+    // This code is essential the same as getHingeAngle(), see the comments
+    // there for details.
+
+    // get qrel = relative rotation between node[0] and the cross
+    dQMultiply1 (qq,joint->node[0].body->q,qcross);
+    dQMultiply2 (qrel,qq,joint->qrel1);
+
+    return getHingeAngleFromRelativeQuat(qrel, joint->axis1);
+  }
+  return 0;
+}
+
+
+static dReal getUniversalAngle2(dxJointUniversal *joint)
+{
+  if (joint->node[0].body) {
+    // length 1 joint axis in global coordinates, from each body
+    dVector3 ax1, ax2;
+    dMatrix3 R;
+    dQuaternion qcross, qq, qrel;
+
+    getUniversalAxes (joint,ax1,ax2);
+
+    // It should be possible to get both angles without explicitly
+    // constructing the rotation matrix of the cross.  Basically,
+    // orientation of the cross about axis1 comes from body 2, 
+    // about axis 2 comes from body 1, and the perpendicular
+    // axis can come from the two bodies somehow.  (We don't really
+    // want to assume it's 90 degrees, because in general the
+    // constraints won't be perfectly satisfied, or even very well
+    // satisfied.)
+    //
+    // However, we'd need a version of getHingeAngleFromRElativeQuat()
+    // that CAN handle when its relative quat is rotated along a direction
+    // other than the given axis.  What I have here works,
+    // although it's probably much slower than need be.
+
+    dRFrom2Axes(R, ax2[0], ax2[1], ax2[2], ax1[0], ax1[1], ax1[2]);
+    dRtoQ(R, qcross);
+
+    if (joint->node[1].body) {
+      dQMultiply1 (qq, joint->node[1].body->q, qcross);
+      dQMultiply2 (qrel,qq,joint->qrel2);
+    }
+    else {
+      // pretend joint->node[1].body->q is the identity
+      dQMultiply2 (qrel,qcross, joint->qrel2);
+    }
+
+    return - getHingeAngleFromRelativeQuat(qrel, joint->axis2);
+  }
+  return 0;
 }
 
 
@@ -1570,6 +1754,29 @@ static void universalGetInfo1 (dxJointUniversal *j, dxJoint::Info1 *info)
 {
   info->nub = 4;
   info->m = 4;
+
+  // see if we're powered or at a joint limit.
+  bool constraint1 = j->limot1.fmax > 0;
+  bool constraint2 = j->limot2.fmax > 0;
+
+  bool limiting1 = (j->limot1.lostop >= -M_PI || j->limot1.histop <= M_PI) &&
+       j->limot1.lostop <= j->limot1.histop;
+  bool limiting2 = (j->limot2.lostop >= -M_PI || j->limot2.histop <= M_PI) &&
+       j->limot2.lostop <= j->limot2.histop;
+
+  // We need to call testRotationLimit() even if we're motored, since it
+  // records the result.
+  if (limiting1 || limiting2) {
+    dReal angle1, angle2;
+    angle1 = getUniversalAngle1(j);
+    angle2 = getUniversalAngle2(j);
+    if (limiting1 && j->limot1.testRotationalLimit (angle1)) constraint1 = true;
+    if (limiting2 && j->limot2.testRotationalLimit (angle2)) constraint2 = true;
+  }
+  if (constraint1)
+    info->m++;
+  if (constraint2)
+    info->m++;
 }
 
 
@@ -1584,27 +1791,21 @@ static void universalGetInfo2 (dxJointUniversal *joint, dxJoint::Info2 *info)
   //    p*w1 - p*w2 = 0
   // where p is a vector normal to both joint axes, and w1 and w2
   // are the angular velocity vectors of the two bodies.
-
+  
   // length 1 joint axis in global coordinates, from each body
   dVector3 ax1, ax2;
+  dVector3 ax2_temp;
   // length 1 vector perpendicular to ax1 and ax2. Neither body can rotate
   // about this.
   dVector3 p;
+  dReal k;
   
-  // This says "ax1 = joint->node[0].body->R * joint->axis1"
-  dMULTIPLY0_331 (ax1,joint->node[0].body->R,joint->axis1);
-  if (joint->node[1].body) {
-    dMULTIPLY0_331 (ax2,joint->node[1].body->R,joint->axis2);
-  }
-  else {
-    ax2[0] = joint->axis2[0];
-    ax2[1] = joint->axis2[1];
-    ax2[2] = joint->axis2[2];
-  }
-
-  // if ax1 and ax2 are almost parallel, p won't be perpendicular to them.
-  // Is there some more robust way to do this?
-  dCROSS(p, =, ax1, ax2);
+  getUniversalAxes(joint, ax1, ax2);
+  k = dDOT(ax1, ax2);
+  ax2_temp[0] = ax2[0] - k*ax1[0];
+  ax2_temp[1] = ax2[1] - k*ax1[1];
+  ax2_temp[2] = ax2[2] - k*ax1[2];
+  dCROSS(p, =, ax1, ax2_temp);
   dNormalize3(p);
  
   int s3=3*info->rowskip;
@@ -1631,9 +1832,43 @@ static void universalGetInfo2 (dxJointUniversal *joint, dxJoint::Info2 *info)
   //
   // if theta is close to Pi/2, 
   // theta - Pi/2 ~= cos(theta), so
-  //    |angular_velocity|  = (erp*fps) * (ax1 dot ax2)
+  //    |angular_velocity|  ~= (erp*fps) * (ax1 dot ax2)
 
   info->c[3] = info->fps * info->erp * - dDOT(ax1, ax2);
+
+  // if the first angle is powered, or has joint limits, add in the stuff
+  int row = 4 + joint->limot1.addLimot (joint,info,4,ax1,1);
+
+  // if the second angle is powered, or has joint limits, add in more stuff
+  joint->limot2.addLimot (joint,info,row,ax2,1);
+}
+
+
+static void universalComputeInitialRelativeRotations (dxJointUniversal *joint)
+{
+  if (joint->node[0].body) {
+    dVector3 ax1, ax2;
+    dMatrix3 R;
+    dQuaternion qcross;
+
+    getUniversalAxes(joint, ax1, ax2);
+
+    // Axis 1.
+    dRFrom2Axes(R, ax1[0], ax1[1], ax1[2], ax2[0], ax2[1], ax2[2]);
+    dRtoQ(R, qcross);
+    dQMultiply1 (joint->qrel1, joint->node[0].body->q, qcross);
+
+    // Axis 2.
+    dRFrom2Axes(R, ax2[0], ax2[1], ax2[2], ax1[0], ax1[1], ax1[2]);
+    dRtoQ(R, qcross);
+    if (joint->node[1].body) {
+      dQMultiply1 (joint->qrel2, joint->node[1].body->q, qcross);
+    }
+    else {
+      // set joint->qrel to qcross
+      for (int i=0; i<4; i++) joint->qrel2[i] = qcross[i];
+    }
+  }
 }
 
 
@@ -1643,6 +1878,7 @@ extern "C" void dJointSetUniversalAnchor (dxJointUniversal *joint,
   dUASSERT(joint,"bad joint argument");
   dUASSERT(joint->vtable == &__duniversal_vtable,"joint is not a universal");
   setAnchors (joint,x,y,z,joint->anchor1,joint->anchor2);
+  universalComputeInitialRelativeRotations(joint);
 }
 
 
@@ -1651,16 +1887,11 @@ extern "C" void dJointSetUniversalAxis1 (dxJointUniversal *joint,
 {
   dUASSERT(joint,"bad joint argument");
   dUASSERT(joint->vtable == &__duniversal_vtable,"joint is not a universal");
-  if (joint->node[0].body) {
-    dReal q[4];
-    q[0] = x;
-    q[1] = y;
-    q[2] = z;
-    q[3] = 0;
-    dNormalize3 (q);
-    dMULTIPLY1_331 (joint->axis1,joint->node[0].body->R,q);
-  }
-  joint->axis1[3] = 0;
+  if (joint->flags & dJOINT_REVERSE)
+    setAxes (joint,x,y,z,NULL,joint->axis2);
+  else
+    setAxes (joint,x,y,z,joint->axis1,NULL);
+  universalComputeInitialRelativeRotations(joint);
 }
 
 
@@ -1669,16 +1900,11 @@ extern "C" void dJointSetUniversalAxis2 (dxJointUniversal *joint,
 {
   dUASSERT(joint,"bad joint argument");
   dUASSERT(joint->vtable == &__duniversal_vtable,"joint is not a universal");
-  if (joint->node[1].body) {
-    dReal q[4];
-    q[0] = x;
-    q[1] = y;
-    q[2] = z;
-    q[3] = 0;
-    dNormalize3 (q);
-    dMULTIPLY1_331 (joint->axis2,joint->node[1].body->R,q);
-  }
-  joint->axis2[3] = 0;
+  if (joint->flags & dJOINT_REVERSE)
+    setAxes (joint,x,y,z,joint->axis1,NULL);
+  else
+    setAxes (joint,x,y,z,NULL,joint->axis2);
+  universalComputeInitialRelativeRotations(joint);
 }
 
 
@@ -1688,7 +1914,23 @@ extern "C" void dJointGetUniversalAnchor (dxJointUniversal *joint,
   dUASSERT(joint,"bad joint argument");
   dUASSERT(result,"bad result argument");
   dUASSERT(joint->vtable == &__duniversal_vtable,"joint is not a universal");
-  getAnchor (joint,result,joint->anchor1);
+  if (joint->flags & dJOINT_REVERSE)
+    getAnchor2 (joint,result,joint->anchor2);
+  else
+    getAnchor (joint,result,joint->anchor1);
+}
+
+
+extern "C" void dJointGetUniversalAnchor2 (dxJointUniversal *joint,
+					  dVector3 result)
+{
+  dUASSERT(joint,"bad joint argument");
+  dUASSERT(result,"bad result argument");
+  dUASSERT(joint->vtable == &__duniversal_vtable,"joint is not a universal");
+  if (joint->flags & dJOINT_REVERSE)
+    getAnchor (joint,result,joint->anchor1);
+  else
+    getAnchor2 (joint,result,joint->anchor2);
 }
 
 
@@ -1698,9 +1940,10 @@ extern "C" void dJointGetUniversalAxis1 (dxJointUniversal *joint,
   dUASSERT(joint,"bad joint argument");
   dUASSERT(result,"bad result argument");
   dUASSERT(joint->vtable == &__duniversal_vtable,"joint is not a universal");
-  if (joint->node[0].body) {
-    dMULTIPLY0_331 (result, joint->node[0].body->R, joint->axis1);
-  }
+  if (joint->flags & dJOINT_REVERSE)
+    getAxis2 (joint,result,joint->axis2);
+  else
+    getAxis (joint,result,joint->axis1);
 }
 
 
@@ -1710,9 +1953,101 @@ extern "C" void dJointGetUniversalAxis2 (dxJointUniversal *joint,
   dUASSERT(joint,"bad joint argument");
   dUASSERT(result,"bad result argument");
   dUASSERT(joint->vtable == &__duniversal_vtable,"joint is not a universal");
-  if (joint->node[1].body) {
-    dMULTIPLY0_331 (result, joint->node[1].body->R, joint->axis2);
+  if (joint->flags & dJOINT_REVERSE)
+    getAxis (joint,result,joint->axis1);
+  else
+    getAxis2 (joint,result,joint->axis2);
+}
+
+
+extern "C" void dJointSetUniversalParam (dxJointUniversal *joint,
+				     int parameter, dReal value)
+{
+  dUASSERT(joint,"bad joint argument");
+  dUASSERT(joint->vtable == &__duniversal_vtable,"joint is not a universal");
+  if ((parameter & 0xff00) == 0x100) {
+    joint->limot2.set (parameter & 0xff,value);
   }
+  else {
+    joint->limot1.set (parameter,value);
+  }
+}
+
+
+extern "C" dReal dJointGetUniversalParam (dxJointUniversal *joint, int parameter)
+{
+  dUASSERT(joint,"bad joint argument");
+  dUASSERT(joint->vtable == &__duniversal_vtable,"joint is not a universal");
+  if ((parameter & 0xff00) == 0x100) {
+    return joint->limot2.get (parameter & 0xff);
+  }
+  else {
+    return joint->limot1.get (parameter);
+  }
+}
+
+
+extern "C" dReal dJointGetUniversalAngle1 (dxJointUniversal *joint)
+{
+  dUASSERT(joint,"bad joint argument");
+  dUASSERT(joint->vtable == &__duniversal_vtable,"joint is not a universal");
+  if (joint->flags & dJOINT_REVERSE)
+    return getUniversalAngle2 (joint);
+  else
+    return getUniversalAngle1 (joint);
+}
+
+
+extern "C" dReal dJointGetUniversalAngle2 (dxJointUniversal *joint)
+{
+  dUASSERT(joint,"bad joint argument");
+  dUASSERT(joint->vtable == &__duniversal_vtable,"joint is not a universal");
+  if (joint->flags & dJOINT_REVERSE)
+    return getUniversalAngle1 (joint);
+  else
+    return getUniversalAngle2 (joint);
+}
+
+
+extern "C" dReal dJointGetUniversalAngle1Rate (dxJointUniversal *joint)
+{
+  dUASSERT(joint,"bad joint argument");
+  dUASSERT(joint->vtable == &__duniversal_vtable,"joint is not a universal");
+
+  if (joint->node[0].body) {
+    dVector3 axis;
+
+    if (joint->flags & dJOINT_REVERSE)
+      getAxis2 (joint,axis,joint->axis2);
+    else
+      getAxis (joint,axis,joint->axis1);
+
+    dReal rate = dDOT(axis, joint->node[0].body->avel);
+    if (joint->node[1].body) rate -= dDOT(axis, joint->node[1].body->avel);
+    return rate;
+  }
+  return 0;
+}
+
+
+extern "C" dReal dJointGetUniversalAngle2Rate (dxJointUniversal *joint)
+{
+  dUASSERT(joint,"bad joint argument");
+  dUASSERT(joint->vtable == &__duniversal_vtable,"joint is not a universal");
+
+  if (joint->node[0].body) {
+    dVector3 axis;
+
+    if (joint->flags & dJOINT_REVERSE)
+      getAxis (joint,axis,joint->axis1);
+    else
+      getAxis2 (joint,axis,joint->axis2);
+
+    dReal rate = dDOT(axis, joint->node[0].body->avel);
+    if (joint->node[1].body) rate -= dDOT(axis, joint->node[1].body->avel);
+    return rate;
+  }
+  return 0;
 }
 
 

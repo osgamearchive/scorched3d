@@ -242,6 +242,12 @@
 				RelativePath="..\GLEXT\GLVertexSet.h">
 			</File>
 			<File
+				RelativePath="..\GLEXT\GLVertexSetGroup.cpp">
+			</File>
+			<File
+				RelativePath="..\GLEXT\GLVertexSetGroup.h">
+			</File>
+			<File
 				RelativePath="..\GLEXT\GLVertexTexArray.cpp">
 			</File>
 			<File

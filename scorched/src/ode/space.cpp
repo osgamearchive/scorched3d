@@ -62,7 +62,7 @@ which is not too significant.
 #include <ode/geom.h>
 #include <ode/error.h>
 #include <ode/memory.h>
-#include "iobjects.h"
+#include "int-objects.h"
 #include "geom_internal.h"
 
 //****************************************************************************

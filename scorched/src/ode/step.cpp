@@ -20,7 +20,7 @@
  *                                                                       *
  *************************************************************************/
 
-#include "iobjects.h"
+#include "int-objects.h"
 #include "joint.h"
 #include <ode/config.h>
 #include <ode/odemath.h>

@@ -214,6 +214,7 @@ some small riot bombs.</description>
 		<nowarheads>3</nowarheads>
 		<explosiontexture>exp03</explosiontexture>
 		<firedsound>shoot/flare.wav</firedsound>
+		<explosionsound>explosions/crunch.wav</explosionsound>
 	</weapon>
 	<weapon type="WeaponDigger">
 		<name>Digger</name>
@@ -226,6 +227,7 @@ some riot bombs.</description>
 		<nowarheads>5</nowarheads>
 		<explosiontexture>exp03</explosiontexture>
 		<firedsound>shoot/flare.wav</firedsound>
+		<explosionsound>explosions/crunch.wav</explosionsound>
 	</weapon>
 	<weapon type="WeaponDigger">
 		<name>Heavy Digger</name>
@@ -238,6 +240,7 @@ many small riot bombs.</description>
 		<nowarheads>10</nowarheads>
 		<explosiontexture>exp03</explosiontexture>
 		<firedsound>shoot/flare.wav</firedsound>
+		<explosionsound>explosions/crunch.wav</explosionsound>
 	</weapon>
 	<weapon type="WeaponSandHog">
 		<name>Baby Sandhog</name>
@@ -251,6 +254,7 @@ target nearby tanks.</description>
 		<nowarheads>3</nowarheads>
 		<explosiontexture>exp03</explosiontexture>
 		<firedsound>shoot/flare.wav</firedsound>
+		<explosionsound>explosions/medium.wav</explosionsound>
 	</weapon>
 	<weapon type="WeaponSandHog">
 		<name>Sandhog</name>
@@ -263,6 +267,7 @@ burrowing missiles. These missiles target nearby tanks.</description>
 		<nowarheads>10</nowarheads>
 		<explosiontexture>exp03</explosiontexture>
 		<firedsound>shoot/flare.wav</firedsound>
+		<explosionsound>explosions/medium.wav</explosionsound>
 	</weapon>
 	<weapon type="WeaponSandHog">
 		<name>Heavy Sandhog</name>
@@ -275,6 +280,7 @@ burrowing missiles. These missiles target nearby tanks.</description>
 		<nowarheads>20</nowarheads>
 		<explosiontexture>exp03</explosiontexture>
 		<firedsound>shoot/flare.wav</firedsound>
+		<explosionsound>explosions/medium.wav</explosionsound>
 	</weapon>
 	<weapon type="WeaponMirv">
 		<name>MIRV</name>

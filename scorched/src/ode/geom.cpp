@@ -39,7 +39,7 @@ dContactGeom::g1 and dContactGeom::g2.
 #include <ode/misc.h>
 #include <ode/objects.h>
 #include <ode/matrix.h>
-#include "iobjects.h"
+#include "int-objects.h"
 #include "array.h"
 #include "geom_internal.h"
 
@@ -1910,9 +1910,7 @@ static void dGeomGroupAABB (dxGeom *geom, dReal aabb[6])
 static void dGeomGroupDtor (dxGeom *geom)
 {
   dxGeomGroup *gr = (dxGeomGroup*) CLASSDATA(geom);
-#ifndef __BIDE__
   gr->parts.~dArray();
-#endif
 }
 
 

@@ -22,7 +22,6 @@
 
 #include <ode/config.h>
 #include <ode/error.h>
-#include <stdlib.h>
 
 
 static dMessageFunction *error_function = 0;

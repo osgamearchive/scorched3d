@@ -46,6 +46,18 @@ void dWorldStep (dWorldID, dReal stepsize);
 void dWorldImpulseToForce (dWorldID, dReal stepsize,
 			   dReal ix, dReal iy, dReal iz, dVector3 force);
 
+/* StepFast1 functions */
+
+void dWorldStepFast1(dWorldID, dReal stepsize, int maxiterations);
+void dWorldSetAutoEnableDepthSF1(dWorldID, int autoEnableDepth);
+int dWorldGetAutoEnableDepthSF1(dWorldID);
+void dBodySetAutoDisableThresholdSF1(dBodyID, dReal autoDisableThreshold);
+dReal dBodyGetAutoDisableThresholdSF1(dBodyID);
+void dBodySetAutoDisableStepsSF1(dBodyID, int AutoDisableSteps);
+int dBodyGetAutoDisableStepsSF1(dBodyID);
+void dBodySetAutoDisableSF1(dBodyID, int doAutoDisable);
+int dBodyGetAutoDisableSF1(dBodyID);
+
 /* bodies */
 
 dBodyID dBodyCreate (dWorldID);
@@ -156,6 +168,7 @@ void dJointSetHinge2Param (dJointID, int parameter, dReal value);
 void dJointSetUniversalAnchor (dJointID, dReal x, dReal y, dReal z);
 void dJointSetUniversalAxis1 (dJointID, dReal x, dReal y, dReal z);
 void dJointSetUniversalAxis2 (dJointID, dReal x, dReal y, dReal z);
+void dJointSetUniversalParam (dJointID, int parameter, dReal value);
 void dJointSetFixed (dJointID);
 void dJointSetAMotorNumAxes (dJointID, int num);
 void dJointSetAMotorAxis (dJointID, int anum, int rel,
@@ -165,7 +178,9 @@ void dJointSetAMotorParam (dJointID, int parameter, dReal value);
 void dJointSetAMotorMode (dJointID, int mode);
 
 void dJointGetBallAnchor (dJointID, dVector3 result);
+void dJointGetBallAnchor2 (dJointID, dVector3 result);
 void dJointGetHingeAnchor (dJointID, dVector3 result);
+void dJointGetHingeAnchor2 (dJointID, dVector3 result);
 void dJointGetHingeAxis (dJointID, dVector3 result);
 dReal dJointGetHingeParam (dJointID, int parameter);
 dReal dJointGetHingeAngle (dJointID);
@@ -175,6 +190,7 @@ dReal dJointGetSliderPositionRate (dJointID);
 void dJointGetSliderAxis (dJointID, dVector3 result);
 dReal dJointGetSliderParam (dJointID, int parameter);
 void dJointGetHinge2Anchor (dJointID, dVector3 result);
+void dJointGetHinge2Anchor2 (dJointID, dVector3 result);
 void dJointGetHinge2Axis1 (dJointID, dVector3 result);
 void dJointGetHinge2Axis2 (dJointID, dVector3 result);
 dReal dJointGetHinge2Param (dJointID, int parameter);
@@ -182,8 +198,14 @@ dReal dJointGetHinge2Angle1 (dJointID);
 dReal dJointGetHinge2Angle1Rate (dJointID);
 dReal dJointGetHinge2Angle2Rate (dJointID);
 void dJointGetUniversalAnchor (dJointID, dVector3 result);
+void dJointGetUniversalAnchor2 (dJointID, dVector3 result);
 void dJointGetUniversalAxis1 (dJointID, dVector3 result);
 void dJointGetUniversalAxis2 (dJointID, dVector3 result);
+dReal dJointGetUniversalParam (dJointID, int parameter);
+dReal dJointGetUniversalAngle1 (dJointID);
+dReal dJointGetUniversalAngle2 (dJointID);
+dReal dJointGetUniversalAngle1Rate (dJointID);
+dReal dJointGetUniversalAngle2Rate (dJointID);
 int dJointGetAMotorNumAxes (dJointID);
 void dJointGetAMotorAxis (dJointID, int anum, dVector3 result);
 int dJointGetAMotorAxisRel (dJointID, int anum);
@@ -193,7 +215,7 @@ dReal dJointGetAMotorParam (dJointID, int parameter);
 int dJointGetAMotorMode (dJointID);
 
 int dAreConnected (dBodyID, dBodyID);
-int dAreConnectedExcluding (dBodyID b1, dBodyID b2, int joint_type);
+int dAreConnectedExcluding (dBodyID, dBodyID, int joint_type);
 
 
 #ifdef __cplusplus
