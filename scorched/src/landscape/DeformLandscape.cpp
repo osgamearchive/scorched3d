@@ -120,8 +120,6 @@ bool DeformLandscape::deformLandscape(
 
 	if (hits)
 	{
-		context.landscapeMaps->updateChangeCount();
-
 		// Recalcualte the normals
 		hmap.generateNormals(
 			MAX(0, (int) (pos[0] - radius)), MIN(hmap.getWidth(), (int) (pos[0] + radius)),
@@ -152,8 +150,6 @@ void DeformLandscape::flattenArea(ScorchedContext &context, Vector &tankPos)
 			}
 		}
 	}
-
-	context.landscapeMaps->updateChangeCount();
 
 	// Recalcualte the normals
 	hmap.generateNormals(
