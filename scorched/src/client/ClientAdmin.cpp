@@ -68,7 +68,9 @@ void ClientAdmin::admin(std::list<GLConsoleRuleSplit> split,
 		}
 		else if (0 == stricmp(firstsplit.rule.c_str(), "login") ||
 			0 == stricmp(firstsplit.rule.c_str(), "kick") ||
-			0 == stricmp(firstsplit.rule.c_str(), "ban"))
+			0 == stricmp(firstsplit.rule.c_str(), "ban") ||
+			0 == stricmp(firstsplit.rule.c_str(), "mute") ||
+			0 == stricmp(firstsplit.rule.c_str(), "unmute"))
 		{
 			if (split.empty()) failed = true;
 			else
@@ -84,6 +86,10 @@ void ClientAdmin::admin(std::list<GLConsoleRuleSplit> split,
 					type = ComsAdminMessage::AdminKick;
 				else if (0 == stricmp(firstsplit.rule.c_str(), "ban"))
 					type = ComsAdminMessage::AdminBan;
+				else if (0 == stricmp(firstsplit.rule.c_str(), "mute"))
+					type = ComsAdminMessage::AdminMute;
+				else if (0 == stricmp(firstsplit.rule.c_str(), "unmute"))
+					type = ComsAdminMessage::AdminUnMute;	
 				ComsAdminMessage message(type, secondsplit.rule.c_str());
 				ComsMessageSender::sendToServer(message);
 			}
@@ -136,6 +142,8 @@ void ClientAdmin::adminHelp(std::list<std::string> &result)
 	result.push_back("  killall - kills all current players");
 	result.push_back("  kick <player id> - Kicks specified player");
 	result.push_back("  ban <player id> - Bans and kicks specified player");
+	result.push_back("  mute <player id> - Mutes specified player");
+	result.push_back("  unmute <player id> - Un-mutes specified player");
 	result.push_back("  slap <player id> <health> - Removes health from specified player");
 }
 

@@ -75,6 +75,10 @@ bool ServerTextHandler::processMessage(unsigned int destinationId,
 	{
 		// Construct the message to send to all the clients
 		std::string newText(tank->getName());
+		if (tank->getState().getMuted())
+		{
+			newText += " **MUTED**";
+		}
 		if (tank->getState().getState() != TankState::sNormal)
 		{
 			newText += " (";
@@ -97,6 +101,9 @@ bool ServerTextHandler::processMessage(unsigned int destinationId,
 		// Update the server console with the say text
 		ServerCommon::serverLog(tankId, "Says \"%s\"", newText.c_str());
 
+		// Send to players
+		if (!tank->getState().getMuted())
+		{
 		ComsTextMessage newMessage(newText.c_str(), 
 			tank->getPlayerId(), false, message.getTeamOnlyMessage());
 		if (message.getTeamOnlyMessage())
@@ -109,7 +116,8 @@ bool ServerTextHandler::processMessage(unsigned int destinationId,
 				itor++)
 			{
 				Tank *currentTank = (*itor).second;
-				if (tank->getTeam() == currentTank->getTeam())
+				if (tank->getTeam() == currentTank->getTeam() ||
+					tank->getState().getAdmin())
 				{
 					ComsMessageSender::sendToSingleClient(newMessage,
 						currentTank->getDestinationId());
@@ -120,10 +128,7 @@ bool ServerTextHandler::processMessage(unsigned int destinationId,
 		{
 			ComsMessageSender::sendToAllConnectedClients(newMessage);
 		}
-	}
-	else
-	{
-		ServerCommon::serverLog(0, "Says \"%s\"", message.getText());
+		}
 	}
 
 	return true;

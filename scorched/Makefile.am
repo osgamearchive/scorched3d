@@ -88,6 +88,8 @@ scorcheddata_DATA = data/landscapesdefn.xml \
 	data/singlehard.xml \
 	data/singlenormal.xml \
 	data/autoexec.xml
+scorcheddataglobalmodsdir = ${datadir}/data/globalmods
+scorcheddataglobalmods_DATA = data/globalmods/globalmods.txt
 scorcheddatatexturesdir = ${datadir}/data/textures
 scorcheddatatextures_DATA = data/textures/glow1.bmp \
 	data/textures/ring.bmp2 \

@@ -64,6 +64,8 @@ enum
 	IDC_MENU_PLAYERSLAP25,
 	IDC_MENU_PLAYERKILLALL,
 	IDC_MENU_PLAYERBAN,
+	IDC_MENU_PLAYERMUTE,
+	IDC_MENU_PLAYERUNMUTE,
 	IDC_MENU_PLAYERADD,
 	IDC_MENU_PLAYERADD_1,
 	IDC_MENU_PLAYERADD_2,
@@ -182,6 +184,8 @@ public:
 	void onKillAll();
 	void onStartNewGame();
 	void onPlayerBan();
+	void onPlayerMute();
+	void onPlayerUnMute();
 	void onPlayerAdd(int i);
 	void onPlayerAdd1();
 	void onPlayerAdd2();
@@ -227,6 +231,8 @@ BEGIN_EVENT_TABLE(ServerFrame, wxFrame)
 	EVT_MENU(IDC_MENU_PLAYERTALK, ServerFrame::onPlayerTalk)
 	EVT_MENU(IDC_MENU_PLAYERTALKALL, ServerFrame::onPlayerTalkAll)
 	EVT_MENU(IDC_MENU_PLAYERKICK, ServerFrame::onPlayerKick)
+	EVT_MENU(IDC_MENU_PLAYERMUTE, ServerFrame::onPlayerMute)
+	EVT_MENU(IDC_MENU_PLAYERUNMUTE, ServerFrame::onPlayerUnMute)
 	EVT_MENU(IDC_MENU_PLAYERSLAP25, ServerFrame::onPlayerSlap25)
 	EVT_MENU(IDC_MENU_PLAYERADD_1, ServerFrame::onPlayerAdd1)
 	EVT_MENU(IDC_MENU_PLAYERADD_2, ServerFrame::onPlayerAdd2)
@@ -351,6 +357,8 @@ ServerFrame::ServerFrame(const char *name) :
 	menuPlayer->Append(IDC_MENU_PLAYERBAN, "Ban selected players");
 	menuPlayer->Append(IDC_MENU_PLAYERKILLALL, "Kill all players");
 	menuPlayer->Append(IDC_MENU_PLAYERSLAP25, "Slap selected players (25 pts)");
+	menuPlayer->Append(IDC_MENU_PLAYERMUTE, "Mute selected players");
+	menuPlayer->Append(IDC_MENU_PLAYERUNMUTE, "Unmute selected players");
 	menuPlayer->Append(IDC_MENU_PLAYERADD, "Add a new player", menuAddPlayer);
 
 	wxMenu *menuGame = new wxMenu;
@@ -559,6 +567,44 @@ void ServerFrame::onPlayerKick()
 				ScorchedServer::instance()->getTankContainer().
 				getTankByPos((unsigned int) item);
 			ServerCommon::kickPlayer(tank->getPlayerId());
+		}		
+    }
+}
+
+void ServerFrame::onPlayerMute()
+{
+	long item = -1;
+    while ((item = frame->playerList_->GetNextItem(
+		item,
+		wxLIST_NEXT_ALL,
+        wxLIST_STATE_SELECTED)) != -1)
+    {
+		if ((item != -1) && (item < 
+			ScorchedServer::instance()->getTankContainer().getNoOfTanks()))
+		{
+			Tank *tank = 
+				ScorchedServer::instance()->getTankContainer().
+				getTankByPos((unsigned int) item);
+			if (tank) tank->getState().setMuted(true);
+		}		
+    }
+}
+
+void ServerFrame::onPlayerUnMute()
+{
+	long item = -1;
+    while ((item = frame->playerList_->GetNextItem(
+		item,
+		wxLIST_NEXT_ALL,
+        wxLIST_STATE_SELECTED)) != -1)
+    {
+		if ((item != -1) && (item < 
+			ScorchedServer::instance()->getTankContainer().getNoOfTanks()))
+		{
+			Tank *tank = 
+				ScorchedServer::instance()->getTankContainer().
+				getTankByPos((unsigned int) item);
+			if (tank) tank->getState().setMuted(false);
 		}		
     }
 }

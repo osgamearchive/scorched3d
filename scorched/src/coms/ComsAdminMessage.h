@@ -33,7 +33,9 @@ public:
 		AdminKillAll,
 		AdminKick,
 		AdminSlap,
-		AdminBan
+		AdminBan,
+		AdminMute,
+		AdminUnMute
 	};
 
 	ComsAdminMessage(

@@ -75,7 +75,8 @@ void TankFired::simulate(float frameTime, bool &remove)
 				}
 
 				// play fired sound
-				if (weapon_->getFiredSound())
+				if (weapon_->getFiredSound() &&
+						0 != strcmp("none", weapon_->getFiredSound()))
 				{
 					SoundBuffer *firedSound = 
 						SoundStore::instance()->fetchOrCreateBuffer( (char*)

@@ -28,7 +28,7 @@ TankState::TankState(ScorchedContext &context, unsigned int playerId) :
 	state_(sPending), life_(100.0f), tank_(0),
 	readyState_(sReady), admin_(false),
 	context_(context), spectator_(false), loading_(false),
-	muted_(false)
+	muted_(false), adminTries_(0)
 {
 
 }
@@ -73,9 +73,10 @@ void TankState::setLife(float life)
 const char *TankState::getStateString()
 {
 	static char string[1024];
-	sprintf(string, "%s - %s (%i hp)",
-		((readyState_==sReady)?"Ready":"NotReady"),
+	sprintf(string, "%s - %s %s(%i hp)",
+		((readyState_==sReady)?"Rdy":"Wait"),
 		getSmallStateString(),
+		(muted_?"muted ":""),
 		(int) life_);
 	return string;
 }

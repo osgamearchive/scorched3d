@@ -83,8 +83,17 @@ bool ServerAdminHandler::processMessage(unsigned int destinationId,
 			}
 			else
 			{
+				adminTank->getState().setAdminTries(
+					adminTank->getState().getAdminTries() + 1);
+				
 				ServerCommon::sendString(destinationId,
-					"Incorrect admin password");
+					"Incorrect admin password (try %i)", 
+					adminTank->getState().getAdminTries());
+
+				if (adminTank->getState().getAdminTries() > 3)
+				{
+					ServerCommon::kickPlayer(adminTank->getPlayerId());
+				}
 			}
 		}
 		else
@@ -121,6 +130,16 @@ bool ServerAdminHandler::processMessage(unsigned int destinationId,
 			if (targetTank) ServerCommon::kickPlayer(
 				targetTank->getPlayerId());
 			else ServerCommon::sendString(destinationId, "Unknown player for kick");
+		}
+		break;
+	case ComsAdminMessage::AdminMute:
+	case ComsAdminMessage::AdminUnMute:
+		{
+			Tank *targetTank = ScorchedServer::instance()->
+				getTankContainer().getTankById(atoi(message.getParam1()));
+			if (targetTank) targetTank->getState().setMuted(
+					message.getType() == ComsAdminMessage::AdminMute); 
+			else ServerCommon::sendString(destinationId, "Unknown player for slap");
 		}
 		break;
 	case ComsAdminMessage::AdminKillAll:
