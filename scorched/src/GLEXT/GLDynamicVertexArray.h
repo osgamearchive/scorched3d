@@ -37,6 +37,7 @@ public:
 		DIALOG_ASSERT(used_ < capacity_);
 		if (used_ == 0 && vbo_ != 0)
 		{
+			GLStateExtension::glBindBufferARB()(GL_ARRAY_BUFFER_ARB, vbo_);
 			array_ = (GLfloat *)
 				GLStateExtension::glMapBufferARB()
 					(GL_ARRAY_BUFFER_ARB, GL_WRITE_ONLY_ARB);

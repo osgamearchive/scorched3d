@@ -28,7 +28,7 @@ GLVertexArray::GLVertexArray(GLenum prim, int noTris,
 	prim_(prim), noTris_(noTris), setup_(false),
 	verticesVBO_(0), colorsVBO_(0), textureVBO_(0),
 	texture_(texture), secondTexture_(false),
-	useVBO_(false), listNo_(0)
+	useVBO_(true), listNo_(0)
 {
 	if (type & typeVertex)
 	{
@@ -173,29 +173,55 @@ void GLVertexArray::makeList()
 		setup_ = true;
 	}
 
-	if (vertices_ && useVBO_) GLStateExtension::glBindBufferARB()(GL_ARRAY_BUFFER_ARB, verticesVBO_);
-	if (vertices_) glVertexPointer(3, GL_FLOAT, 0, vertices_);
-	if (colors_ && useVBO_) GLStateExtension::glBindBufferARB()(GL_ARRAY_BUFFER_ARB, colorsVBO_);
-	if (colors_) glColorPointer(3, GL_FLOAT, 0, colors_);
-	if (secondTexture_) GLStateExtension::glClientActiveTextureARB()(GL_TEXTURE1_ARB); 
-	if (texCoord_ && useVBO_) GLStateExtension::glBindBufferARB()(GL_ARRAY_BUFFER_ARB, textureVBO_);
-	if (texCoord_) glTexCoordPointer(2, GL_FLOAT, 0, texCoord_);
+	if (!useVBO_)
+	{
+		if (vertices_)
+		{
+			glEnableClientState(GL_VERTEX_ARRAY);
+			glVertexPointer(3, GL_FLOAT, 0, &vertices_[0].x);
+		}
+		if (colors_)
+		{
+			glEnableClientState(GL_COLOR_ARRAY);
+			glColorPointer(3, GL_FLOAT, 0, &colors_[0].r);
+		}
+		if (texCoord_)
+		{
+			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+			if (secondTexture_) GLStateExtension::glClientActiveTextureARB()(GL_TEXTURE1_ARB); 
+			glTexCoordPointer(2, GL_FLOAT, 0, &texCoord_[0].a);
+		}
+	}
+	else
+	{
+		if (vertices_)
+		{
+			glEnableClientState(GL_VERTEX_ARRAY);
+			GLStateExtension::glBindBufferARB()(GL_ARRAY_BUFFER_ARB, verticesVBO_);
+			glVertexPointer(3, GL_FLOAT, 0, 0);
+		}
+		if (colors_)
+		{
+			glEnableClientState(GL_COLOR_ARRAY);
+			GLStateExtension::glBindBufferARB()(GL_ARRAY_BUFFER_ARB, colorsVBO_);
+			glColorPointer(3, GL_FLOAT, 0, 0);
+		}
+		if (texCoord_)
+		{
+			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+			if (secondTexture_) GLStateExtension::glClientActiveTextureARB()(GL_TEXTURE1_ARB); 
+			GLStateExtension::glBindBufferARB()(GL_ARRAY_BUFFER_ARB, textureVBO_);
+			glTexCoordPointer(2, GL_FLOAT, 0, 0);
+		}
+	}
 
-	if (secondTexture_) GLStateExtension::glClientActiveTextureARB()(GL_TEXTURE1_ARB); 
-	if (vertices_) glEnableClientState(GL_VERTEX_ARRAY);
-	if (colors_) glEnableClientState(GL_COLOR_ARRAY);
-	if (texCoord_) glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-
-	glNewList(listNo_ = glGenLists(1), GL_COMPILE);
-		glDrawArrays(prim_, 0, noTris_);
-	glEndList();
+	glDrawArrays(prim_, 0, noTris_);
 
 	if (vertices_) glDisableClientState(GL_VERTEX_ARRAY);
 	if (colors_) glDisableClientState(GL_COLOR_ARRAY);
 	if (texCoord_)
 	{	
-		if (secondTexture_) GLStateExtension::glClientActiveTextureARB()(GL_TEXTURE1_ARB); 
-		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 		if (secondTexture_) GLStateExtension::glClientActiveTextureARB()(GL_TEXTURE0_ARB); 
+		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	}
 }
