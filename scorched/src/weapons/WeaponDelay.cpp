@@ -79,14 +79,16 @@ bool WeaponDelay::readAccessory(NetBufferReader &reader)
 }
 
 void WeaponDelay::fireWeapon(ScorchedContext &context,
-	unsigned int playerId, Vector &position, Vector &velocity)
+	unsigned int playerId, Vector &position, Vector &velocity,
+	unsigned int data)
 {
 	Action *action = new ShotDelay(
 		playerId,
 		delayedWeapon_,
 		velocity,
 		position,
-		delay_);
+		delay_,
+		data);
 	context.actionController->addAction(action);
 }
 

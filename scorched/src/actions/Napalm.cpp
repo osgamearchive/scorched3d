@@ -40,10 +40,11 @@ Napalm::Napalm() : hitWater_(false), totalTime_(0.0f), hurtTime_(0.0f),
 {
 }
 
-Napalm::Napalm(int x, int y, Weapon *weapon, unsigned int playerId) :
+Napalm::Napalm(int x, int y, Weapon *weapon, 
+	unsigned int playerId, unsigned int data) :
 	x_(x), y_(y), napalmTime_(0.0f), 
 	weapon_((WeaponNapalm *) weapon), 
-	playerId_(playerId), hitWater_(false),
+	playerId_(playerId), data_(data), hitWater_(false),
 	totalTime_(0.0f), hurtTime_(0.0f),
 	counter_(0.1f, 0.1f), set_(0)
 {
@@ -390,7 +391,7 @@ void Napalm::simulateDamage()
 
 			// Add damage to the tank
 			TankController::damageTank(*context_, tank, weapon_, 
-				playerId_, damage, true);
+				playerId_, damage, true, data_);
 		}
 		tankDamage.clear();
 	}
@@ -402,6 +403,7 @@ bool Napalm::writeAction(NetBuffer &buffer)
 	buffer.addToBuffer(y_);
 	Weapon::write(buffer, weapon_);
 	buffer.addToBuffer(playerId_);
+	buffer.addToBuffer(data_);
 	return true;
 }
 
@@ -411,5 +413,6 @@ bool Napalm::readAction(NetBufferReader &reader)
 	if (!reader.getFromBuffer(y_)) return false;
 	weapon_ = (WeaponNapalm *) Weapon::read(reader); if (!weapon_) return false;
 	if (!reader.getFromBuffer(playerId_)) return false;
+	if (!reader.getFromBuffer(data_)) return false;
 	return true;
 }

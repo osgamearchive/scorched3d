@@ -39,7 +39,7 @@ public:
 
 	// Inherited from Weapon
 	virtual void fireWeapon(ScorchedContext &context,
-		unsigned int playerId, Vector &position, Vector &velocity);
+		unsigned int playerId, Vector &position, Vector &velocity, unsigned int data);
 
 	REGISTER_ACCESSORY_HEADER(WeaponAnimation, Accessory::AccessoryWeapon);
 

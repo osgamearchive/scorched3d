@@ -51,7 +51,8 @@ public:
 
 	TankFalling();
 	TankFalling(Weapon *weapon, unsigned int fallingPlayerId,
-			unsigned int firedPlayerId);
+			unsigned int firedPlayerId,
+			unsigned int data);
 	virtual ~TankFalling();
 
 	virtual void init();
@@ -68,6 +69,7 @@ protected:
 	Weapon *weapon_;
 	unsigned int fallingPlayerId_;
 	unsigned int firedPlayerId_;
+	unsigned int data_;
 	Vector tankStartPosition_;
 	Vector lastPosition_;
 	bool remove_;

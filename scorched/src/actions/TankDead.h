@@ -30,7 +30,8 @@ class TankDead : public ActionMeta
 public:
 	TankDead();
 	TankDead(Weapon *weapon, unsigned int killedPlayerId,
-			unsigned int firedPlayerId);
+			unsigned int firedPlayerId,
+			unsigned int data);
 	virtual ~TankDead();
 
 	virtual void init();
@@ -44,6 +45,7 @@ protected:
 	bool firstTime_;
 	
 	Weapon *weapon_;
+	unsigned int data_;
 	unsigned int killedPlayerId_;
 	unsigned int firedPlayerId_;
 };

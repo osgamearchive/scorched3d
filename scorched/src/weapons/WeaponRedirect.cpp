@@ -91,7 +91,8 @@ bool WeaponRedirect::readAccessory(NetBufferReader &reader)
 }
 
 void WeaponRedirect::fireWeapon(ScorchedContext &context,
-	unsigned int playerId, Vector &position, Vector &velocity)
+	unsigned int playerId, Vector &position, Vector &velocity,
+	unsigned int data)
 {
 	float currentMag = velocity.Magnitude();
 	float currenth = (atan2f(velocity[1], velocity[0]) / 3.14f * 180.0f) - 90.0f;
@@ -107,6 +108,6 @@ void WeaponRedirect::fireWeapon(ScorchedContext &context,
 	newVelocity.StoreNormalize();
 	newVelocity *= currentMag;
 	
-	nextAction_->fireWeapon(context, playerId, position, newVelocity);
+	nextAction_->fireWeapon(context, playerId, position, newVelocity, data);
 }
 

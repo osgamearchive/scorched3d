@@ -77,11 +77,12 @@ bool WeaponTranslate::readAccessory(NetBufferReader &reader)
 }
 
 void WeaponTranslate::fireWeapon(ScorchedContext &context,
-	unsigned int playerId, Vector &position, Vector &velocity)
+	unsigned int playerId, Vector &position, Vector &velocity,
+	unsigned int data)
 {
 	Vector newVelocity = velocity.Normalize() * translateDist_;
 	Vector newPosition = position + newVelocity;
 	
-	nextAction_->fireWeapon(context, playerId, newPosition, velocity);
+	nextAction_->fireWeapon(context, playerId, newPosition, velocity, data);
 }
 

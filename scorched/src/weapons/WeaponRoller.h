@@ -38,7 +38,8 @@ public:
 
 	// Inherited from Weapon
 	virtual void fireWeapon(ScorchedContext &context,
-		unsigned int playerId, Vector &position, Vector &velocity);
+		unsigned int playerId, Vector &position, Vector &velocity,
+		unsigned int data = 0);
 
 	REGISTER_ACCESSORY_HEADER(WeaponRoller, Accessory::AccessoryWeapon);
 
@@ -48,7 +49,7 @@ protected:
 	ModelID rollerModelId_;
 
 	void addRoller(ScorchedContext &context, unsigned int playerId,
-		Vector &position);
+		Vector &position, unsigned int data);
 
 };
 

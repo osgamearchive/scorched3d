@@ -57,6 +57,9 @@ public:
 	virtual void tankWon(Tank *tank);
 	virtual void tankOverallWinner(Tank *tank);
 
+	virtual void weaponFired(Weapon *weapon, bool deathAni);
+	virtual void weaponKilled(Weapon *weapon, bool deathAni);
+
 protected:
 	MYSQL *mysql_;
 	std::string prefix_;

@@ -32,13 +32,15 @@ public:
 	static void explosion(ScorchedContext &context,
 		Weapon *weapon, unsigned int firer, 
 		Vector &position, float radius,
-		float damageAmount);
+		float damageAmount,
+		unsigned int data);
 	static void damageTank(ScorchedContext &context,
 		Tank *tank, 
 		Weapon *weapon,
 		unsigned int firer,
 		float damage,
-		bool useShieldDamage = true);
+		bool useShieldDamage,
+		unsigned int data);
 
 private:
 	TankController();

@@ -88,10 +88,11 @@ bool WeaponMirv::readAccessory(NetBufferReader &reader)
 }
 
 void WeaponMirv::fireWeapon(ScorchedContext &context,
-	unsigned int playerId, Vector &position, Vector &velocity)
+	unsigned int playerId, Vector &position, Vector &velocity,
+	unsigned int data)
 {
 	// Add a shot that will fall where the original was aimed
-	aimedWeapon_->fireWeapon(context, playerId, position, velocity);
+	aimedWeapon_->fireWeapon(context, playerId, position, velocity, data);
 
 	// Add all of the sub warheads that have a random spread
 	for (int i=0; i<noWarheads_ - 1; i++)
@@ -109,7 +110,7 @@ void WeaponMirv::fireWeapon(ScorchedContext &context,
 		newDiff[2] += (float(i - (noWarheads_ / 2)) / 
 			float(noWarheads_ / 2)) * vspreadDist_;
 
-		aimedWeapon_->fireWeapon(context, playerId, position, newDiff);
+		aimedWeapon_->fireWeapon(context, playerId, position, newDiff, data);
 	}
 }
 

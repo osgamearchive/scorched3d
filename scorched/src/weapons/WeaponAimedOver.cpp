@@ -98,7 +98,8 @@ bool WeaponAimedOver::readAccessory(NetBufferReader &reader)
 }
 
 void WeaponAimedOver::fireWeapon(ScorchedContext &context,
-	unsigned int playerId, Vector &sentPosition, Vector &oldvelocity)
+	unsigned int playerId, Vector &sentPosition, Vector &oldvelocity,
+	unsigned int data)
 {
 	Vector position = sentPosition;
 	position[2] += 0.2f;
@@ -194,6 +195,7 @@ void WeaponAimedOver::fireWeapon(ScorchedContext &context,
 
 		aimedWeapon_->fireWeapon(
 			context, 
-			playerId, position, velocity);	
+			playerId, position, velocity,
+			data);	
 	}
 }

@@ -94,7 +94,8 @@ bool WeaponMulti::readAccessory(NetBufferReader &reader)
 }
 
 void WeaponMulti::fireWeapon(ScorchedContext &context,
-	unsigned int playerId, Vector &position, Vector &velocity)
+	unsigned int playerId, Vector &position, Vector &velocity,
+	unsigned int data)
 {
 	std::list<Weapon *>::iterator itor;
 	for (itor = subWeapons_.begin();
@@ -102,6 +103,6 @@ void WeaponMulti::fireWeapon(ScorchedContext &context,
 		 itor++)
 	{
 		Weapon *weapon = *itor;
-		weapon->fireWeapon(context, playerId, position, velocity);
+		weapon->fireWeapon(context, playerId, position, velocity, data);
 	}
 }

@@ -101,7 +101,7 @@ void MissileActionRenderer::simulate(Action *action, float timepassed, bool &rem
 		{
 			Vector vel1 = shot->getCurrentVelocity();
 			Vector vel2;
-			vel1 *= -0.7f;
+			vel1 *= -0.4f;
 			vel2 = vel1 * 0.7f;
 
 			actualPos1 -= shot->getCurrentVelocity() * 0.2f;

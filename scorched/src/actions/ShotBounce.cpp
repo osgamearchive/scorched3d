@@ -33,18 +33,19 @@ REGISTER_ACTION_SOURCE(ShotBounce);
 ShotBounce::ShotBounce() : 
 	collisionInfo_(CollisionIdBounce),
 	totalTime_(0.0f), actionId_(0), actionVector_(0),
-	snapshotTime_(0.0f), vPoint_(0), model_(0)
+	snapshotTime_(0.0f), vPoint_(0), model_(0), data_(0)
 {
 	memset(rotMatrix_, 0, sizeof(float) * 16);
 	rotMatrix_[0] = rotMatrix_[5] = rotMatrix_[10] = rotMatrix_[15] = 1.0f;
 }
 
 ShotBounce::ShotBounce(Vector &startPosition, Vector &velocity,
-	WeaponRoller *weapon, unsigned int playerId) : 
+	WeaponRoller *weapon, unsigned int playerId,
+	unsigned int data) : 
 	collisionInfo_(CollisionIdBounce), startPosition_(startPosition),
 	velocity_(velocity), weapon_(weapon), playerId_(playerId),
 	totalTime_(0.0f), actionId_(0), actionVector_(0),
-	snapshotTime_(0.0f), vPoint_(0), model_(0)
+	snapshotTime_(0.0f), vPoint_(0), model_(0), data_(data)
 {
 	memset(rotMatrix_, 0, sizeof(float) * 16);
 	rotMatrix_[0] = rotMatrix_[5] = rotMatrix_[10] = rotMatrix_[15] = 1.0f;
@@ -187,13 +188,15 @@ void ShotBounce::doCollision()
 	WeaponRoller *proj = (WeaponRoller *) weapon_;
 	proj->getCollisionAction()->fireWeapon(
 		*context_,
-		playerId_, getCurrentPosition(), getCurrentVelocity());
+		playerId_, getCurrentPosition(), getCurrentVelocity(),
+		data_);
 }
 
 bool ShotBounce::writeAction(NetBuffer &buffer)
 {
 	buffer.addToBuffer(playerId_);
 	buffer.addToBuffer(actionId_);
+	buffer.addToBuffer(data_);
 	Weapon::write(buffer, weapon_);
 	return true;
 }
@@ -202,6 +205,7 @@ bool ShotBounce::readAction(NetBufferReader &reader)
 {
 	if (!reader.getFromBuffer(playerId_)) return false;
 	if (!reader.getFromBuffer(actionId_)) return false;
+	if (!reader.getFromBuffer(data_)) return false;
 	weapon_ = (WeaponRoller *) Weapon::read(reader); if (!weapon_) return false;
 	return true;
 }

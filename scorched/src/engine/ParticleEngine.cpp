@@ -104,7 +104,7 @@ static inline bool lt_distance(Particle *o1, Particle *o2)
 
 static inline float approx_distance(float  dx, float dy, float dz, float w)
 {
-	float approx = (dx * dx) + (dy * dy) + (dz * dz) - (w * w);
+	float approx = (dx * dx) + (dy * dy) + (dz * dz);
 	return approx;
 }
 
@@ -185,7 +185,7 @@ void ParticleEngine::normalizedSimulate(float time)
 		particlesOnScreen_ > 0)
 	{
 		// sort by distance
-		std::sort(usedParticles_, usedParticles_ + particlesOnScreen_);
+		std::sort(usedParticles_, usedParticles_ + particlesOnScreen_, lt_distance);
 	}
 }
 

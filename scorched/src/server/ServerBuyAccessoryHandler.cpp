@@ -72,7 +72,7 @@ bool ServerBuyAccessoryHandler::processMessage(unsigned int destinationId,
 	// Check we are in the correct round no to buy anything
 	if (ScorchedServer::instance()->getOptionsTransient().getCurrentGameNo() != 0)
 	{
-		Logger::log(playerId, "ERROR: Player attempted to but at incorrect time");
+		Logger::log(playerId, "ERROR: Player attempted to buy at incorrect time");
 		return true;
 	}
 

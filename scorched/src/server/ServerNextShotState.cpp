@@ -24,6 +24,7 @@
 #include <server/ServerState.h>
 #include <server/ServerTooFewPlayersStimulus.h>
 #include <server/ServerCommon.h>
+#include <server/ServerShotHolder.h>
 #include <common/OptionsGame.h>
 #include <common/OptionsTransient.h>
 #include <common/Logger.h>
@@ -36,7 +37,7 @@ ServerNextShotState::~ServerNextShotState()
 {
 }
 
-bool ServerNextShotState::getRoundFinished(bool log)
+bool ServerNextShotState::getRoundFinished()
 {
 	// Check why this round has finished
 	bool roundFinished = false;
@@ -50,18 +51,6 @@ bool ServerNextShotState::getRoundFinished(bool log)
 	{
 		// Only one person left
 		roundFinished = true;
-	}
-	else if (ScorchedServer::instance()->getOptionsTransient().getCurrentGameNo() >
-		ScorchedServer::instance()->getOptionsGame().getNoMaxRoundTurns() &&
-		ScorchedServer::instance()->getOptionsGame().getNoMaxRoundTurns() > 0)
-	{
-		roundFinished = true;
-
-		if (log)
-		{
-			ServerCommon::serverLog(0, "Skipping round due to turn limit");
-			ServerCommon::sendString(0, "Skipping round due to turn limit");
-		}
 	}
 	return roundFinished;
 }
@@ -77,7 +66,7 @@ void ServerNextShotState::enterState(const unsigned state)
 	}
 
 	// Check if this round has finished
-	if (getRoundFinished(true))
+	if (getRoundFinished())
 	{
 		// We have finished with this round
 		// check for all rounds completely finished
@@ -94,17 +83,32 @@ void ServerNextShotState::enterState(const unsigned state)
 	}
 	else
 	{
-		TurnController::instance()->nextShot();
-		if (TurnController::instance()->getPlayersThisShot().empty())
+		// Check if turn limit has been exceeded
+		if (ScorchedServer::instance()->getOptionsTransient().getCurrentGameNo() >
+			ScorchedServer::instance()->getOptionsGame().getNoMaxRoundTurns() &&
+			ScorchedServer::instance()->getOptionsGame().getNoMaxRoundTurns() > 0)
 		{
-			// There are no players still to have a shot
-			// The round must have finished
-			ScorchedServer::instance()->getGameState().stimulate(ServerState::ServerStimulusNextRound);
+			ServerCommon::serverLog(0, "Skipping round due to turn limit");
+			ServerCommon::sendString(0, "Skipping round due to turn limit");
+
+			// We have shots to make, lets make them
+			ServerShotHolder::instance()->clearShots();
+			ScorchedServer::instance()->getGameState().stimulate(ServerState::ServerStimulusNextTurn);
 		}
 		else
 		{
-			// We have shots to make, lets make them
-			ScorchedServer::instance()->getGameState().stimulate(ServerState::ServerStimulusNextTurn);
+			TurnController::instance()->nextShot();
+			if (TurnController::instance()->getPlayersThisShot().empty())
+			{
+				// There are no players still to have a shot
+				// The round must have finished
+				ScorchedServer::instance()->getGameState().stimulate(ServerState::ServerStimulusNextRound);
+			}
+			else
+			{
+				// We have shots to make, lets make them
+				ScorchedServer::instance()->getGameState().stimulate(ServerState::ServerStimulusNextTurn);
+			}
 		}
 	}
 }

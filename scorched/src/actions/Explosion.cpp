@@ -50,10 +50,11 @@ Explosion::Explosion() :
 }
 
 Explosion::Explosion(Vector &position,
-	WeaponExplosion *weapon, unsigned int fired) :
+	WeaponExplosion *weapon, unsigned int fired,
+	unsigned int data) :
 	firstTime_(true), totalTime_(0.0f),
 	weapon_(weapon), playerId_(fired), 
-	position_(position)
+	position_(position), data_(data)
 {
 
 }
@@ -271,7 +272,8 @@ void Explosion::simulate(float frameTime, bool &remove)
 			weapon_, playerId_, 
 			newPosition, 
 			weapon_->getSize() , 
-			weapon_->getHurtAmount());
+			weapon_->getHurtAmount(),
+			data_);
 	}
 
 	if (!renderer_) remove = true;
@@ -285,6 +287,7 @@ bool Explosion::writeAction(NetBuffer &buffer)
 	buffer.addToBuffer(position_[2]);
 	Weapon::write(buffer, weapon_);
 	buffer.addToBuffer(playerId_);
+	buffer.addToBuffer(data_);
 	return true;
 }
 
@@ -295,5 +298,6 @@ bool Explosion::readAction(NetBufferReader &reader)
 	if (!reader.getFromBuffer(position_[2])) return false;
 	weapon_ = (WeaponExplosion *) Weapon::read(reader); if (!weapon_) return false;
 	if (!reader.getFromBuffer(playerId_)) return false;
+	if (!reader.getFromBuffer(data_)) return false;
 	return true;
 }

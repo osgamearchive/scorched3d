@@ -27,7 +27,8 @@
 void TankController::explosion(ScorchedContext &context,
 							   Weapon *weapon, unsigned int firer, 
 							   Vector &position, float radius,
-							   float damageAmount)
+							   float damageAmount,
+							   unsigned int data)
 {
 	std::map<unsigned int, Tank *>::iterator itor;
 	std::map<unsigned int, Tank *> &tanks = 
@@ -55,12 +56,12 @@ void TankController::explosion(ScorchedContext &context,
 				damage = 100.0f - damage;
 			}
 
-			damageTank(context, current, weapon, firer, damage * damageAmount);
+			damageTank(context, current, weapon, firer, damage * damageAmount, true, data);
 		}
 		else if (dist2d < radius + 5.0f)
 		{
 			// explosion under tank
-			damageTank(context, current, weapon, firer, 0);
+			damageTank(context, current, weapon, firer, 0, true, data);
 		}
 	}
 }
@@ -68,11 +69,12 @@ void TankController::explosion(ScorchedContext &context,
 void TankController::damageTank(ScorchedContext &context,
 								Tank *tank, Weapon *weapon, 
 								unsigned int firer, float damage,
-								bool useShieldDamage)
+								bool useShieldDamage,
+								unsigned int data)
 {
 	// Remove the correct damage from the tanks
 	TankDamage *tankDamage = new TankDamage(
 		weapon, tank->getPlayerId(), firer, 
-		damage, useShieldDamage);
+		damage, useShieldDamage, data);
 	context.actionController->addAction(tankDamage);
 }

@@ -32,13 +32,15 @@ ShotDelay::ShotDelay(unsigned int playerId,
 	Weapon *weapon,
 	Vector &velocity,
 	Vector &position,
-	float delay) :
+	float delay,
+	unsigned int data) :
 	totalTime_(0.0f), 
 	playerId_(playerId),
 	weapon_(weapon),
 	velocity_(velocity),
 	position_(position),
-	delay_(delay)
+	delay_(delay),
+	data_(data)
 {
 
 }
@@ -57,7 +59,7 @@ void ShotDelay::simulate(float frameTime, bool &remove)
 	totalTime_ += frameTime;
 	if (totalTime_ > delay_)
 	{
-		weapon_->fireWeapon(*context_, playerId_, position_, velocity_);
+		weapon_->fireWeapon(*context_, playerId_, position_, velocity_, data_);
 		remove = true;
 	}
 	Action::simulate(frameTime, remove);
@@ -69,6 +71,7 @@ bool ShotDelay::writeAction(NetBuffer &buffer)
 	buffer.addToBuffer(delay_);
 	buffer.addToBuffer(velocity_);
 	buffer.addToBuffer(position_);
+	buffer.addToBuffer(data_);
 	Weapon::write(buffer, weapon_);
 	return true;
 }
@@ -79,6 +82,7 @@ bool ShotDelay::readAction(NetBufferReader &reader)
 	if (!reader.getFromBuffer(delay_)) return false;
 	if (!reader.getFromBuffer(velocity_)) return false;
 	if (!reader.getFromBuffer(position_)) return false;
+	if (!reader.getFromBuffer(data_)) return false;
 	weapon_ = Weapon::read(reader); if (!weapon_) return false;
 	return true;
 }

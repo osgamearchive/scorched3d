@@ -72,8 +72,9 @@ bool WeaponReference::readAccessory(NetBufferReader &reader)
 }
 
 void WeaponReference::fireWeapon(ScorchedContext &context,
-	unsigned int playerId, Vector &position, Vector &velocity)
+	unsigned int playerId, Vector &position, Vector &velocity,
+	unsigned int data)
 {
-	refWeapon_->fireWeapon(context, playerId, position, velocity);
+	refWeapon_->fireWeapon(context, playerId, position, velocity, data);
 }
 

@@ -149,6 +149,7 @@ void ScoreDialog::draw()
 		{
 			int movesLeft = ScorchedClient::instance()->getOptionsGame().getNoMaxRoundTurns() -
 				ScorchedClient::instance()->getOptionsTransient().getCurrentGameNo();
+			if (movesLeft < 0) movesLeft = 0;
 			sprintf(moves, ", %i Moves", movesLeft);
 		}
 

@@ -71,7 +71,8 @@ bool WeaponAnimation::readAccessory(NetBufferReader &reader)
 }
 
 void WeaponAnimation::fireWeapon(ScorchedContext &context,
-	unsigned int playerId, Vector &position, Vector &velocity)
+	unsigned int playerId, Vector &position, Vector &velocity,
+	unsigned int data)
 {
 	context.actionController->addAction(
 		new Animation(playerId, 

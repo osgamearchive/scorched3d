@@ -39,7 +39,7 @@ public:
 
 	Explosion();
 	Explosion(Vector &position, WeaponExplosion *weapon, 
-		unsigned int playerId);
+		unsigned int playerId, unsigned int data);
 	virtual ~Explosion();
 
 	virtual void init();
@@ -55,6 +55,7 @@ protected:
 	float totalTime_;
 	WeaponExplosion *weapon_;
 	unsigned int playerId_;
+	unsigned int data_;
 	
 };
 

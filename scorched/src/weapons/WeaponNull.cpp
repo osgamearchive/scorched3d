@@ -51,7 +51,8 @@ bool WeaponNull::readAccessory(NetBufferReader &reader)
 }
 
 void WeaponNull::fireWeapon(ScorchedContext &context, 
-	unsigned int playerId, Vector &position, Vector &velocity)
+	unsigned int playerId, Vector &position, Vector &velocity,
+	unsigned int data)
 {
 
 }

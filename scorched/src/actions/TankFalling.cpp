@@ -58,9 +58,11 @@ TankFalling::TankFalling() : remove_(false)
 }
 
 TankFalling::TankFalling(Weapon *weapon, unsigned int fallingPlayerId,
-				   unsigned int firedPlayerId) :
+				   unsigned int firedPlayerId,
+				   unsigned int data) :
 	weapon_(weapon), remove_(false),
-	fallingPlayerId_(fallingPlayerId), firedPlayerId_(firedPlayerId)
+	fallingPlayerId_(fallingPlayerId), firedPlayerId_(firedPlayerId),
+	data_(data)
 {
 }
 
@@ -153,6 +155,7 @@ bool TankFalling::writeAction(NetBuffer &buffer)
 {
 	buffer.addToBuffer(fallingPlayerId_);
 	buffer.addToBuffer(firedPlayerId_);
+	buffer.addToBuffer(data_);
 	Weapon::write(buffer, weapon_);
 	return true;
 }
@@ -161,6 +164,7 @@ bool TankFalling::readAction(NetBufferReader &reader)
 {
 	if (!reader.getFromBuffer(fallingPlayerId_)) return false;
 	if (!reader.getFromBuffer(firedPlayerId_)) return false;
+	if (!reader.getFromBuffer(data_)) return false;
 	weapon_ = Weapon::read(reader); if (!weapon_) return false;
 	return true;
 }
@@ -235,6 +239,6 @@ void TankFalling::collision()
 		// Add the damage to the tank
 		TankController::damageTank(
 			*context_,
-			current, weapon_, firedPlayerId_, damage, false);
+			current, weapon_, firedPlayerId_, damage, false, data_);
 	}
 }

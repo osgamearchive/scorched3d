@@ -77,11 +77,12 @@ bool WeaponVelocity::readAccessory(NetBufferReader &reader)
 }
 
 void WeaponVelocity::fireWeapon(ScorchedContext &context,
-	unsigned int playerId, Vector &position, Vector &velocity)
+	unsigned int playerId, Vector &position, Vector &velocity,
+	unsigned int data)
 {
 	// Add a shot that will fall where the original was aimed
 	// but with altered velocity
 	Vector newVelocity = velocity * velocityChange_;
-	aimedWeapon_->fireWeapon(context, playerId, position, newVelocity);
+	aimedWeapon_->fireWeapon(context, playerId, position, newVelocity, data);
 }
 

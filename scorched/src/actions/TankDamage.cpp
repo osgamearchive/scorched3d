@@ -37,10 +37,12 @@ TankDamage::TankDamage() : firstTime_(true)
 
 TankDamage::TankDamage(Weapon *weapon, 
 		unsigned int damagedPlayerId, unsigned int firedPlayerId,
-		float damage, bool useShieldDamage) :
+		float damage, bool useShieldDamage,
+		unsigned int data) :
 	weapon_(weapon), firstTime_(true),
 	damagedPlayerId_(damagedPlayerId), firedPlayerId_(firedPlayerId),
-	damage_(damage), useShieldDamage_(useShieldDamage)
+	damage_(damage), useShieldDamage_(useShieldDamage),
+	data_(data)
 {
 }
 
@@ -117,7 +119,7 @@ void TankDamage::simulate(float frameTime, bool &remove)
 					{
 						// The tank has died, make it blow up etc...
 						TankDead *deadTank = 
-							new TankDead(weapon_, damagedPlayerId_, firedPlayerId_);
+							new TankDead(weapon_, damagedPlayerId_, firedPlayerId_, data_);
 						context_->actionController->addAction(deadTank);
 
 						// The tank is now dead
@@ -189,7 +191,7 @@ void TankDamage::simulate(float frameTime, bool &remove)
 							
 							// Tank falling
 							context_->actionController->addAction(
-								new TankFalling(weapon_, damagedPlayerId_, firedPlayerId_));
+								new TankFalling(weapon_, damagedPlayerId_, firedPlayerId_, data_));
 						}
 					}
 				}
@@ -207,6 +209,7 @@ bool TankDamage::writeAction(NetBuffer &buffer)
 	buffer.addToBuffer(firedPlayerId_);
 	buffer.addToBuffer(damage_);
 	buffer.addToBuffer(useShieldDamage_);
+	buffer.addToBuffer(data_);
 	Weapon::write(buffer, weapon_);
 	return true;
 }
@@ -217,6 +220,7 @@ bool TankDamage::readAction(NetBufferReader &reader)
 	if (!reader.getFromBuffer(firedPlayerId_)) return false;
 	if (!reader.getFromBuffer(damage_)) return false;
 	if (!reader.getFromBuffer(useShieldDamage_)) return false;
+	if (!reader.getFromBuffer(data_)) return false;
 	weapon_ = Weapon::read(reader); if (!weapon_) return false;
 	return true;
 }

@@ -52,6 +52,9 @@ public:
 	virtual void tankWon(Tank *tank) = 0;
 	virtual void tankOverallWinner(Tank *tank) = 0;
 
+	virtual void weaponFired(Weapon *weapon, bool deathAni) = 0;
+	virtual void weaponKilled(Weapon *weapon, bool deathAni) = 0;
+
 protected:
 	static StatsLogger *instance_;
 
@@ -81,6 +84,9 @@ public:
 
 	virtual void tankWon(Tank *tank) {}
 	virtual void tankOverallWinner(Tank *tank) {}
+
+	virtual void weaponFired(Weapon *weapon, bool deathAni) {}
+	virtual void weaponKilled(Weapon *weapon, bool deathAni) {}
 };
 
 #endif

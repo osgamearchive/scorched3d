@@ -44,7 +44,8 @@ public:
 
 	// Inherited from Weapon
 	virtual void fireWeapon(ScorchedContext &context,
-		unsigned int playerId, Vector &position, Vector &velocity);
+		unsigned int playerId, Vector &position, Vector &velocity,
+		unsigned int data = 0);
 
 	REGISTER_ACCESSORY_HEADER(WeaponNapalm, Accessory::AccessoryWeapon);
 
@@ -58,7 +59,7 @@ protected:
 	int effectRadius_;   // How close do tanks take damage
 
 	void addNapalm(ScorchedContext &context, unsigned int playerId,
-		int x, int y);
+		int x, int y, unsigned int data);
 };
 
 #endif

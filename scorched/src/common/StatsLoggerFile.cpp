@@ -226,3 +226,33 @@ void StatsLoggerFile::tankOverallWinner(Tank *tank)
 		tank->getName(), tank->getUniqueId());
 	statsLogger_->logMessage(time, message, 0);
 }
+
+void StatsLoggerFile::weaponFired(Weapon *weapon, bool deathAni)
+{
+	createLogger();
+	if (!statsLogger_) return;
+
+	time_t theTime = time(0);
+	char *time = ctime(&theTime); 
+	char *nl = strchr(time, '\n'); 
+	if (nl) *nl = '\0';
+
+	char message[1024];
+	sprintf(message, "weaponfired \"%s\"", weapon->getName());
+	statsLogger_->logMessage(time, message, 0);
+}
+
+void StatsLoggerFile::weaponKilled(Weapon *weapon, bool deathAni)
+{
+	createLogger();
+	if (!statsLogger_) return;
+
+	time_t theTime = time(0);
+	char *time = ctime(&theTime); 
+	char *nl = strchr(time, '\n'); 
+	if (nl) *nl = '\0';
+
+	char message[1024];
+	sprintf(message, "weaponkilled \"%s\" [%s]", weapon->getName());
+	statsLogger_->logMessage(time, message, 0);
+}

@@ -78,10 +78,11 @@ bool WeaponLeapFrog::readAccessory(NetBufferReader &reader)
 }
 
 void WeaponLeapFrog::fireWeapon(ScorchedContext &context,
-	unsigned int playerId, Vector &position, Vector &velocity)
+	unsigned int playerId, Vector &position, Vector &velocity,
+	unsigned int data)
 {
 	Vector newVelocity = velocity * bounce_;
 	if (newVelocity[2] < 0.0f) newVelocity[2] *= -1.0f;
-	collisionAction_->fireWeapon(context, playerId, position, newVelocity);
+	collisionAction_->fireWeapon(context, playerId, position, newVelocity, data);
 }
 

@@ -79,14 +79,15 @@ bool WeaponNapalm::readAccessory(NetBufferReader &reader)
 }
 
 void WeaponNapalm::fireWeapon(ScorchedContext &context,
-	unsigned int playerId, Vector &position, Vector &velocity)
+	unsigned int playerId, Vector &position, Vector &velocity,
+	unsigned int data)
 {
 	bool playSound = false;
 	for (int i=0; i<numberStreams_; i++)
 	{
 		int x = int(position[0] + RAND * 4.0f - 2.0f);
 		int y = int(position[1] + RAND * 4.0f - 2.0f);
-		addNapalm(context, playerId, x, y);
+		addNapalm(context, playerId, x, y, data);
 	}
 
 	if (!context.serverMode) 
@@ -102,7 +103,7 @@ void WeaponNapalm::fireWeapon(ScorchedContext &context,
 }
 
 void WeaponNapalm::addNapalm(ScorchedContext &context, 
-	unsigned int playerId, int x, int y)
+	unsigned int playerId, int x, int y, unsigned int data)
 {
 	// Ensure that the napalm has not hit the walls
 	// or anything outside the landscape
@@ -111,6 +112,6 @@ void WeaponNapalm::addNapalm(ScorchedContext &context,
 		y < context.landscapeMaps->getHMap().getWidth() - 1)
 	{
 		context.actionController->addAction(
-			new Napalm(x, y, this, playerId));
+			new Napalm(x, y, this, playerId, data));
 	}
 }

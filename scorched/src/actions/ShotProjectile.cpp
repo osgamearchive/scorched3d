@@ -34,20 +34,21 @@ unsigned int ShotProjectile::lookatCount_ = 0;
 
 ShotProjectile::ShotProjectile() : 
 	collisionInfo_(CollisionIdShot), vPoint_(0), 
-	snapTime_(0.2f),  up_(false), landedCounter_(0)
+	snapTime_(0.2f),  up_(false), landedCounter_(0), data_(0)
 {
 
 }
 
 ShotProjectile::ShotProjectile(Vector &startPosition, Vector &velocity,
 							   WeaponProjectile *weapon, unsigned int playerId,
-							   unsigned int flareType) :
+							   unsigned int flareType,
+							   unsigned int data) :
 	collisionInfo_(CollisionIdShot), 
 	startPosition_(startPosition), velocity_(velocity), 
 	weapon_(weapon), playerId_(playerId), 
 	flareType_(flareType), vPoint_(0),
 	snapTime_(0.2f), up_(false),
-	landedCounter_(0)
+	landedCounter_(0), data_(data)
 {
 
 }
@@ -119,6 +120,7 @@ bool ShotProjectile::writeAction(NetBuffer &buffer)
 	Weapon::write(buffer, weapon_);
 	buffer.addToBuffer(playerId_);
 	buffer.addToBuffer(flareType_);
+	buffer.addToBuffer(data_);
 	return true;
 }
 
@@ -129,6 +131,7 @@ bool ShotProjectile::readAction(NetBufferReader &reader)
 	weapon_ = (WeaponProjectile *) Weapon::read(reader); if (!weapon_) return false;
 	if (!reader.getFromBuffer(playerId_)) return false;
 	if (!reader.getFromBuffer(flareType_)) return false;
+	if (!reader.getFromBuffer(data_)) return false;
 	return true;
 }
 
@@ -151,6 +154,6 @@ void ShotProjectile::doCollision(Vector &position)
 	Vector velocity;
 	getWeapon()->getCollisionAction()->fireWeapon(
 		*context_,
-		playerId_, position, getCurrentVelocity());
+		playerId_, position, getCurrentVelocity(), data_);
 }
 

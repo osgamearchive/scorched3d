@@ -39,9 +39,11 @@ TankDead::TankDead() : firstTime_(true)
 }
 
 TankDead::TankDead(Weapon *weapon, unsigned int killedPlayerId,
-				   unsigned int firedPlayerId) :
+				   unsigned int firedPlayerId,
+				   unsigned int data) :
 	weapon_(weapon), firstTime_(true),
-	killedPlayerId_(killedPlayerId), firedPlayerId_(firedPlayerId)
+	killedPlayerId_(killedPlayerId), firedPlayerId_(firedPlayerId),
+	data_(data)
 {
 }
 
@@ -90,6 +92,8 @@ void TankDead::simulate(float frameTime, bool &remove)
 					{
 						StatsLogger::instance()->
 							tankSelfKilled(firedTank, weapon_);
+						StatsLogger::instance()->
+							weaponKilled(weapon_, (data_ & Weapon::eDataDeathAnimation));
 						Logger::log(0,
 							"\"%s\" killed self with a \"%s\"",
 							killedTank->getName(),
@@ -100,6 +104,8 @@ void TankDead::simulate(float frameTime, bool &remove)
 					{
 						StatsLogger::instance()->
 							tankTeamKilled(firedTank, killedTank, weapon_);
+						StatsLogger::instance()->
+							weaponKilled(weapon_, (data_ & Weapon::eDataDeathAnimation));
 						Logger::log(0,
 								"\"%s\" team killed \"%s\" with a \"%s\"",
 								firedTank->getName(),
@@ -110,6 +116,8 @@ void TankDead::simulate(float frameTime, bool &remove)
 					{
 						StatsLogger::instance()->
 							tankKilled(firedTank, killedTank, weapon_);
+						StatsLogger::instance()->
+							weaponKilled(weapon_, (data_ & Weapon::eDataDeathAnimation));
 						Logger::log(0,
 								"\"%s\" killed \"%s\" with a \"%s\"",
 								firedTank->getName(),
@@ -134,7 +142,9 @@ void TankDead::simulate(float frameTime, bool &remove)
 			{
 				Vector position = killedTank->getPhysics().getTankPosition();
 				Vector velocity;
-				weapon->fireWeapon(*context_, firedPlayerId_, position, velocity);
+				weapon->fireWeapon(*context_, firedPlayerId_, 
+					position, velocity, Weapon::eDataDeathAnimation);
+				StatsLogger::instance()->weaponFired(weapon, true);
 			}
 		}
 	}
@@ -147,6 +157,7 @@ bool TankDead::writeAction(NetBuffer &buffer)
 {
 	buffer.addToBuffer(killedPlayerId_);
 	buffer.addToBuffer(firedPlayerId_);
+	buffer.addToBuffer(data_);
 	Weapon::write(buffer, weapon_);
 	return true;
 }
@@ -155,6 +166,7 @@ bool TankDead::readAction(NetBufferReader &reader)
 {
 	if (!reader.getFromBuffer(killedPlayerId_)) return false;
 	if (!reader.getFromBuffer(firedPlayerId_)) return false;
+	if (!reader.getFromBuffer(data_)) return false;
 	weapon_ = Weapon::read(reader); if (!weapon_) return false;
 	return true;
 }

@@ -35,7 +35,8 @@ public:
 	ShotProjectile(
 		Vector &startPosition, Vector &velocity,
 		WeaponProjectile *weapon, unsigned int playerId,
-		unsigned int flareType);
+		unsigned int flareType,
+		unsigned int data);
 	virtual ~ShotProjectile();
 
 	virtual void simulate(float frameTime, bool &remove);
@@ -61,6 +62,7 @@ protected:
 	ViewPoints::ViewPoint *vPoint_;
 	unsigned int playerId_;
 	unsigned int flareType_;
+	unsigned int data_;
 	bool up_;
 	float snapTime_;
 	std::list<Vector> positions_;

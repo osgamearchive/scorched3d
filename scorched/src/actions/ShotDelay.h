@@ -32,7 +32,8 @@ public:
 		Weapon *weapon,
 		Vector &velocity,
 		Vector &position,
-		float delay);
+		float delay,
+		unsigned int data);
 	virtual ~ShotDelay();
 
 	virtual void init();
@@ -47,6 +48,7 @@ protected:
 	float delay_;
 	Weapon *weapon_;
 	unsigned int playerId_;
+	unsigned int data_;
 	Vector velocity_;
 	Vector position_;
 

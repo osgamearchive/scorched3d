@@ -86,7 +86,8 @@ bool WeaponRoller::readAccessory(NetBufferReader &reader)
 }
 
 void WeaponRoller::fireWeapon(ScorchedContext &context,
-	unsigned int playerId, Vector &oldposition, Vector &velocity)
+	unsigned int playerId, Vector &oldposition, Vector &velocity,
+	unsigned int data)
 {
 	for (int i=0; i<numberRollers_; i++)
 	{
@@ -97,13 +98,13 @@ void WeaponRoller::fireWeapon(ScorchedContext &context,
 		position[1] += RAND * 2.0f - 1.0f;
 		position[2] = context.landscapeMaps->getHMap().getInterpHeight(
 			position[0], position[1]) + 1.0f;
-		addRoller(context, playerId, position);
+		addRoller(context, playerId, position, data);
 	}
 }
 
 void WeaponRoller::addRoller(ScorchedContext &context,
 	unsigned int playerId,
-	Vector &position)
+	Vector &position, unsigned int data)
 {
 	// Ensure that the Roller has not hit the walls
 	// or anything outside the landscape
@@ -113,6 +114,6 @@ void WeaponRoller::addRoller(ScorchedContext &context,
 	{
 		Vector velocity(RAND - 0.5f, RAND - 0.5f, 2.0f * RAND);
 		context.actionController->addAction(
-			new ShotBounce(position, velocity, this, playerId));
+			new ShotBounce(position, velocity, this, playerId, data));
 	}
 }

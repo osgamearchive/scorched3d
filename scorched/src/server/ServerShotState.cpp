@@ -82,7 +82,10 @@ bool ServerShotState::acceptStateChange(const unsigned state,
 			stepActions(state, 0.5f);
 
 			// Check if any player or team has won the round
-			if (ServerNextShotState::getRoundFinished())
+			if (ServerNextShotState::getRoundFinished() ||
+				ScorchedServer::instance()->getOptionsTransient().getCurrentGameNo() >
+				ScorchedServer::instance()->getOptionsGame().getNoMaxRoundTurns() &&
+				ScorchedServer::instance()->getOptionsGame().getNoMaxRoundTurns() > 0)
 			{
 				// The actual state transition for no tanks left is done
 				// in the next round state however
@@ -144,6 +147,8 @@ void ServerShotState::scoreWinners()
 		int addRounds = 0;
 		if (tank->getState().getState() == TankState::sNormal)
 		{
+			tank->getState().setState(TankState::sDead);
+
 			addMoney += ScorchedServer::instance()->
 				getOptionsGame().getMoneyWonForRound();
 			addRounds = 1;

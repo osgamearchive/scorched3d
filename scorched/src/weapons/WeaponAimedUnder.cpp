@@ -98,7 +98,8 @@ bool WeaponAimedUnder::readAccessory(NetBufferReader &reader)
 }
 
 void WeaponAimedUnder::fireWeapon(ScorchedContext &context,
-	unsigned int playerId, Vector &position, Vector &oldvelocity)
+	unsigned int playerId, Vector &position, Vector &oldvelocity,
+	unsigned int data)
 {
 	// NOTE: This code is very similar to the funky bomb code
 	// except it works under ground
@@ -190,6 +191,6 @@ void WeaponAimedUnder::fireWeapon(ScorchedContext &context,
 			angleXYDegs, angleYZDegs);
 		velocity *= power;
 
-		aimedWeapon_->fireWeapon(context, playerId, position, velocity);
+		aimedWeapon_->fireWeapon(context, playerId, position, velocity, data);
 	}
 }

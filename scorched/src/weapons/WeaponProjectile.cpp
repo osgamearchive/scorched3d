@@ -119,13 +119,15 @@ bool WeaponProjectile::readAccessory(NetBufferReader &reader)
 }
 
 void WeaponProjectile::fireWeapon(ScorchedContext &context,
-	unsigned int playerId, Vector &position, Vector &velocity)
+	unsigned int playerId, Vector &position, Vector &velocity,
+	unsigned int data)
 {
 	Action *action = new ShotProjectile(
 		position, 
 		velocity,
 		this, 
 		playerId, 
-		0); // FlareType
+		0, // FlareType
+		data); 
 	context.actionController->addAction(action);	
 }

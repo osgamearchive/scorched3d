@@ -181,8 +181,9 @@ void TankAILogic::processFiredMessage(ScorchedContext &context,
 						tank->getPhysics().getPower();
 					Vector position = tank->getPhysics().getTankGunPosition();
 
-					weapon->fireWeapon(context, tank->getPlayerId(), position, velocity);
+					weapon->fireWeapon(context, tank->getPlayerId(), position, velocity, 0);
 					StatsLogger::instance()->tankFired(tank, weapon);
+					StatsLogger::instance()->weaponFired(weapon, false);
 
 					// Does a computer tank want to say something?
 					if (tank->getDestinationId() == 0 && tank->getTankAI())

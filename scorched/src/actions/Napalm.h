@@ -40,7 +40,7 @@ public:
 	};
 
 	Napalm();
-	Napalm(int x, int y, Weapon *weapon, unsigned int playerId);
+	Napalm(int x, int y, Weapon *weapon, unsigned int playerId, unsigned int data);
 	virtual ~Napalm();
 
 	virtual void init();
@@ -56,6 +56,7 @@ REGISTER_ACTION_HEADER(Napalm);
 protected:
 	int x_, y_;
 	unsigned int playerId_;
+	unsigned int data_;
 	WeaponNapalm *weapon_;
 	SmokeCounter counter_;
 	GLTextureSet *set_;

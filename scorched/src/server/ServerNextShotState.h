@@ -32,7 +32,7 @@ public:
 	virtual ~ServerNextShotState();
 
 	virtual void enterState(const unsigned state);
-	static bool getRoundFinished(bool log = false);
+	static bool getRoundFinished();
 
 };
 

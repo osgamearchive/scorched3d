@@ -234,9 +234,6 @@ void StatsLoggerMySQL::tankFired(Tank *firedTank, Weapon *weapon)
 	createLogger();
 	if (!success_) return;
 
-	runQuery("UPDATE scorched3d%s_weapons SET shots=shots+1 "
-		"WHERE weaponid = \"%i\";", prefix_.c_str(), weaponId_[weapon->getName()]);
-
 	runQuery("UPDATE scorched3d%s_players SET shots=shots+1 "
 		"WHERE playerid = %i;", prefix_.c_str(), playerId_[firedTank->getUniqueId()]);
 }
@@ -396,9 +393,6 @@ void StatsLoggerMySQL::tankKilled(Tank *firedTank, Tank *deadTank, Weapon *weapo
 		playerId_[deadTank->getUniqueId()], 
 		weaponId_[weapon->getName()]);
 
-	runQuery("UPDATE scorched3d%s_weapons SET kills=kills+1 "
-		"WHERE weaponid = \"%i\";", prefix_.c_str(), weaponId_[weapon->getName()]);
-
 	runQuery("UPDATE scorched3d%s_players SET kills=kills+1 "
 		"WHERE playerid = %i;", prefix_.c_str(), playerId_[firedTank->getUniqueId()]);
 		
@@ -475,5 +469,32 @@ void StatsLoggerMySQL::tankOverallWinner(Tank *tank)
 		"WHERE playerid = %i;", prefix_.c_str(), playerId_[tank->getUniqueId()]);
 }
 
-#endif
+void StatsLoggerMySQL::weaponFired(Weapon *weapon, bool deathAni)
+{
+	if (deathAni)
+	{
+		runQuery("UPDATE scorched3d%s_weapons SET deathshots=deathshots+1 "
+			"WHERE weaponid = \"%i\";", prefix_.c_str(), weaponId_[weapon->getName()]);
+	}
+	else
+	{
+		runQuery("UPDATE scorched3d%s_weapons SET shots=shots+1 "
+			"WHERE weaponid = \"%i\";", prefix_.c_str(), weaponId_[weapon->getName()]);
+	}
+}
 
+void StatsLoggerMySQL::weaponKilled(Weapon *weapon, bool deathAni)
+{
+	if (deathAni)
+	{
+		runQuery("UPDATE scorched3d%s_weapons SET deathkills=deathkills+1 "
+			"WHERE weaponid = \"%i\";", prefix_.c_str(), weaponId_[weapon->getName()]);
+	}
+	else
+	{
+		runQuery("UPDATE scorched3d%s_weapons SET kills=kills+1 "
+			"WHERE weaponid = \"%i\";", prefix_.c_str(), weaponId_[weapon->getName()]);
+	}
+}
+
+#endif

@@ -34,6 +34,11 @@ class MissileMesh;
 class Weapon : public Accessory
 {
 public:
+	enum DataEnum
+	{
+		eDataDeathAnimation = 1
+	};
+
 	Weapon();
 	virtual ~Weapon();
 
@@ -43,7 +48,8 @@ public:
 	
 	virtual void fireWeapon(ScorchedContext &context,
 		unsigned int playerId, 
-		Vector &position, Vector &velocity) = 0;
+		Vector &position, Vector &velocity,
+		unsigned int data = 0) = 0;
 
 	virtual Vector &getExplosionColor();
 

@@ -35,7 +35,8 @@ public:
 	ShotBounce();
 	ShotBounce(
 		Vector &startPosition, Vector &velocity,
-		WeaponRoller *weapon, unsigned int playerId);
+		WeaponRoller *weapon, unsigned int playerId,
+		unsigned int data);
 	virtual ~ShotBounce();
 
 	virtual void simulate(float frameTime, bool &remove);
@@ -57,6 +58,7 @@ protected:
 	WeaponRoller *weapon_;
 	unsigned int playerId_;
 	unsigned int actionId_;
+	unsigned int data_;
 	float totalTime_;
 	float snapshotTime_;
 	ActionVector *actionVector_;
