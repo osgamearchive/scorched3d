@@ -21,7 +21,6 @@
 #include <math.h>
 #include <tankgraph/TankMesh.h>
 #include <3dsparse/ModelsFile.h>
-#include <3dsparse/ModelArrayFact.h>
 #include <common/Defines.h> // For porting
 
 //////////////////////////////////////////////////////////////////////

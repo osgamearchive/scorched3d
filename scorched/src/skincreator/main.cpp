@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <GLEXT\GLState.h>
 #include <GLEXT\GLBitmap.h>
+#include <GLEXT\GLVertexTexArray.h>
 #include <gl\glaux.h>
 #include <3dsparse\ASEFile.h>
-#include <3dsparse\ModelArrayFact.h>
 
 int main(int argc, char **argv)
 {

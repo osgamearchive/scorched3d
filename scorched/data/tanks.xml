@@ -385,14 +385,8 @@
 		</model>
 	</tank>
 	<tank>
-		<name>Test</name>
-		<catagory>TestCat</catagory>
-		<model type="MilkShape">test.txt</model>
-	</tank>
-	<tank>
 		<name>Gun Tower Test</name>
 		<catagory>TestCat</catagory>
-		<model type="MilkShape">guntower.txt</model>
+		<model type="MilkShape">guntower/guntower.txt</model>
 	</tank>
-
 </tanks>

@@ -21,7 +21,6 @@
 #include <GLEXT/GLBitmap.h>
 #include <3dsparse/ASEStore.h>
 #include <3dsparse/ASEFile.h>
-#include <3dsparse/ModelArrayFact.h>
 #include <common/OptionsDisplay.h>
 
 ASEStore *ASEStore::instance_ = 0;

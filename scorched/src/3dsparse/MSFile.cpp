@@ -56,14 +56,22 @@ bool MSFile::loadFile(const char *fileName)
 	FILE *in = fopen(fileName, "r");
 	if (!in) return false;
 
-	bool result = loadFile(in);
+	bool result = loadFile(in, fileName);
 
 	fclose(in);
 	return result;
 }
 
-bool MSFile::loadFile(FILE *in)
+bool MSFile::loadFile(FILE *in, const char *fileName)
 {
+	char filePath[256];
+	strcpy(filePath, fileName);
+
+	char *sep;
+	while (sep=strchr(filePath, '\\')) *sep = '/';
+	sep = strrchr(filePath, '/');
+	if (sep) *sep = '\0';
+
 	char buffer[256];
 	if (!getNextLine(buffer, in)) return false; // Read no frames
 	if (!getNextLine(buffer, in)) return false; // Read current frame
@@ -206,7 +214,7 @@ bool MSFile::loadFile(FILE *in)
 		if (!getNextLine(buffer, in)) return false; 
 		if (sscanf(buffer, "%s", textureName) != 1) return false;
 		textureName[strlen(textureName)-1] = '\0';
-		sprintf(fullTextureName, PKGDIR "data/tanks/%s", &textureName[1]);
+		sprintf(fullTextureName, PKGDIR "%s/%s", filePath, &textureName[1]);
 
 		// alphamap
 		char textureNameAlpha[256];
@@ -214,7 +222,7 @@ bool MSFile::loadFile(FILE *in)
 		if (!getNextLine(buffer, in)) return false; 
 		if (sscanf(buffer, "%s", textureNameAlpha) != 1) return false;
 		textureNameAlpha[strlen(textureNameAlpha)-1] = '\0';
-		sprintf(fullTextureAlphaName, PKGDIR "data/tanks/%s", &textureNameAlpha[1]);
+		sprintf(fullTextureAlphaName, "%s/%s", filePath, &textureNameAlpha[1]);
 
 		int modelIndex = 0;
 		std::list<Model *>::iterator mitor;
