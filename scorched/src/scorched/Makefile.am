@@ -169,16 +169,14 @@ scorched3d_SOURCES = \
 	../tankgraph/GLWTankTip.h \
 	../tankgraph/GLWTankViewer.cpp \
 	../tankgraph/GLWTankViewer.h \
+	../tankgraph/MissileMesh.cpp \
+	../tankgraph/MissileMesh.h \
 	../tankgraph/TankMenus.cpp \
 	../tankgraph/TankMenus.h \
 	../tankgraph/TankMesh.cpp \
 	../tankgraph/TankMesh.h \
 	../tankgraph/TankModel.cpp \
 	../tankgraph/TankModel.h \
-	../tankgraph/TankModelASE.cpp \
-	../tankgraph/TankModelASE.h \
-	../tankgraph/TankModelMS.cpp \
-	../tankgraph/TankModelMS.h \
 	../tankgraph/TankModelRenderer.cpp \
 	../tankgraph/TankModelRenderer.h \
 	../tankgraph/TankModelStore.cpp \
@@ -264,6 +262,8 @@ scorched3d_SOURCES = \
 	../3dsparse/MeshLODVector.h \
 	../3dsparse/Model.cpp \
 	../3dsparse/Model.h \
+	../3dsparse/ModelID.cpp \
+	../3dsparse/ModelID.h \
 	../3dsparse/ModelsFile.cpp \
 	../3dsparse/ModelsFile.h \
 	../3dsparse/aseFile.lex.cpp \
@@ -644,6 +644,8 @@ scorched3d_SOURCES = \
 	../sprites/ExplosionTextures.h \
 	../sprites/FlareActionRenderer.cpp \
 	../sprites/FlareActionRenderer.h \
+	../sprites/MissileActionRenderer.cpp \
+	../sprites/MissileActionRenderer.h \
 	../sprites/NapalmRenderer.cpp \
 	../sprites/NapalmRenderer.h \
 	../sprites/SmokeActionRenderer.cpp \
