@@ -83,14 +83,8 @@ void TankAIHuman::playMove(const unsigned state,
 	moveUpDown(buffer, mult);
 	movePower(buffer, mult);
 
-	bool fireShotKey = false;
-	KEYPRESS_START(buffer, SDLK_SPACE)
-		fireShotKey = true;
-	KEYPRESS_END
-	KEYPRESS_START(buffer, SDLK_f)
-		fireShotKey = true;
-	KEYPRESS_END
-	if (fireShotKey) 
+	KEYBOARDKEY("TANK_FIRE_WEAPON", fireKey);
+	if (fireKey->keyDown(buffer, false))
 	{
 		fireShot();
 	}

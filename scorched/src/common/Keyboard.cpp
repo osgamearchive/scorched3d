@@ -18,16 +18,9 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// Keyboard.cpp: implementation of the Keyboard class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <common/Keyboard.h>
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
+#include <common/Defines.h>
+#include <XML/XMLFile.h>
 
 bool Keyboard::dvorak_ = false;
 
@@ -102,4 +95,116 @@ void Keyboard::processKeyboardEvent(SDL_Event &event)
 bool &Keyboard::getDvorak()
 {
 	return dvorak_;
+}
+
+bool Keyboard::parseKeyFile(const char *fileName)
+{
+	// Load key definition file
+	XMLFile file;
+    if (!file.readFile(fileName))
+	{
+		dialogMessage("Keyboard", 
+					  "Failed to parse \"%s\"\n%s", 
+					  fileName,
+					  file.getParserError());
+		return false;
+	}
+
+	// Check file exists
+	if (!file.getRootNode())
+	{
+		dialogMessage("Keyboard",
+					  "Failed to find key definition file \"%s\"",
+					  fileName);
+		return false;		
+	}
+
+	// Itterate all of the keys in the file
+    std::list<XMLNode *>::iterator childrenItor;
+	std::list<XMLNode *> &children = file.getRootNode()->getChildren();
+    for (childrenItor = children.begin();
+		 childrenItor != children.end();
+		 childrenItor++)
+    {
+		// Parse the tank entry
+        XMLNode *currentNode = (*childrenItor);
+		if (strcmp(currentNode->getName(), "key"))
+		{
+			dialogMessage("Keyboard",
+						  "Failed to find key node");
+			return false;
+		}
+
+		// Get the name of the key
+		XMLNode *nameNode = currentNode->getNamedChild("name");
+		if (!nameNode)
+		{
+			dialogMessage("Keyboard",
+						  "Failed to find name node");
+			return false;
+		}
+		const char *keyName = nameNode->getContent();
+		
+		// Get the description for the key
+		XMLNode *descNode = currentNode->getNamedChild("description");
+		if (!descNode)
+		{
+			dialogMessage("Keyboard",
+						  "Failed to find description node");
+			return false;
+		}
+		const char *keyDesc = descNode->getContent();
+
+		// Create the key
+		KeyboardKey *newKey = new KeyboardKey(keyName, keyDesc);
+
+		// Add all the key names
+		std::list<std::string> keyNames;
+		std::list<XMLNode *>::iterator keyItor;
+		std::list<XMLNode *> &keys = currentNode->getChildren();
+		for (keyItor = keys.begin();
+			 keyItor != keys.end();
+			 keyItor++)
+		{
+			XMLNode *currentKey = (*keyItor);
+			if (strcmp(currentKey->getName(), "key")==0)
+			{
+				// Add a key
+				keyNames.push_back(currentKey->getContent());
+
+				// Check the key is not already in use
+				std::map<std::string, KeyboardKey *, less<std::string> >::iterator useditor =
+					usedKeyMap_.find(currentKey->getContent());
+				if (useditor != usedKeyMap_.end())
+				{
+					KeyboardKey *usedKey = (*useditor).second;
+					dialogMessage("Keyboard",
+								  "Key \"%s\" defined for \"%s\" was already defined for \"%s\"",
+								  currentKey->getContent(), keyName, usedKey->getName());
+					return false;					
+				}
+				usedKeyMap_[currentKey->getContent()] = newKey;
+			}
+		}
+
+		// Actually add the key
+		if (!newKey->addKeys(keyNames)) return false;
+		keyMap_[keyName] = newKey;
+	}
+
+	return true;
+}
+
+KeyboardKey *Keyboard::getKey(const char *name)
+{
+	static KeyboardKey defaultKey("None", "None");
+
+	std::map<std::string, KeyboardKey *, less<std::string> >::iterator itor =
+		keyMap_.find(name);
+	if (itor != keyMap_.end()) return (*itor).second;
+
+	dialogMessage("Keyboard",
+				  "Failed to find key for key name \"%s\"",
+				  name);	
+	return &defaultKey;
 }

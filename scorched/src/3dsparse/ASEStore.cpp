@@ -22,6 +22,7 @@
 #include <3dsparse/ASEStore.h>
 #include <3dsparse/ASEFile.h>
 #include <common/OptionsDisplay.h>
+#include <common/Defines.h>
 
 ASEStore *ASEStore::instance_ = 0;
 
@@ -62,12 +63,27 @@ GLTexture *ASEStore::loadTexture(const char *name, const char *aname)
 	if (aname[0])
 	{
 		map = new GLBitmap((char *) name, (char *) aname, false);
+		if (!map->getBits())
+		{
+			dialogMessage("Scorched3D load model texture", 
+						  "Failed to load texture file \"%s\",\n"
+						  "alpha file \"%s\"",
+						  name,
+						  aname);
+			return 0;
+		}
 	}
 	else
 	{
 		map = new GLBitmap((char *) name);
+		if (!map->getBits())
+		{
+			dialogMessage("Scorched3D load model texture", 
+						  "Failed to load texture file \"%s\"",
+						  name);
+			return 0;
+		}
 	}
-	if (!map->getBits()) return 0;
 
 	// HACK for skin creator
 #ifdef dDOUBLE

@@ -1,0 +1,9 @@
+<keys>
+	<key>
+		<name>TANK_FIRE_WEAPON</name>
+		<description>Fire current weapon</description>
+		<key>SPACE</key>
+		<key>f</key>
+	</key>
+</keys>
+

@@ -76,6 +76,12 @@ void setup()
 		);
 		exit(1);
 	}
+	if (!Keyboard::instance()->parseKeyFile(PKGDIR "data/keys.xml"))
+	{
+		dialogMessage("Scorched3D Keyboard", 
+			"Failed to process keyboard file \"data/keys.xml\"");
+		exit(1);		
+	}
 
 	if (!OptionsDisplay::instance()->getNoSound())
 	{

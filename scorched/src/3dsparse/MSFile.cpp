@@ -215,6 +215,7 @@ bool MSFile::loadFile(FILE *in, const char *fileName)
 		if (sscanf(buffer, "%s", textureName) != 1) return false;
 		textureName[strlen(textureName)-1] = '\0';
 		sprintf(fullTextureName, PKGDIR "%s/%s", filePath, &textureName[1]);
+		while (sep=strchr(fullTextureName, '\\')) *sep = '/';
 
 		// alphamap
 		char textureNameAlpha[256];
@@ -223,6 +224,7 @@ bool MSFile::loadFile(FILE *in, const char *fileName)
 		if (sscanf(buffer, "%s", textureNameAlpha) != 1) return false;
 		textureNameAlpha[strlen(textureNameAlpha)-1] = '\0';
 		sprintf(fullTextureAlphaName, "%s/%s", filePath, &textureNameAlpha[1]);
+		while (sep=strchr(fullTextureAlphaName, '\\')) *sep = '/';
 
 		int modelIndex = 0;
 		std::list<Model *>::iterator mitor;

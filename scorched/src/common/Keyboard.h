@@ -18,20 +18,20 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #ifndef _KEYBOARD_H_
 #define _KEYBOARD_H_
 
-// Keyboard.h: interface for the Keyboard class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <common/KeyboardHistory.h>
+#include <common/KeyboardKey.h>
+#include <string>
+#include <map>
 
 #define KEYDOWN(name,key) (name[key]) 
 #define KEYPRESS_START(name, key) { static bool toggle = false; if (KEYDOWN(name, key)) { if (!toggle) { toggle = true; 
 #define KEYPRESS_END  } } else { toggle = false; } }
 #define MAX_KEYBDHIST 1024
+
+#define KEYBOARDKEY(name, key) static KeyboardKey * key = Keyboard::instance()->getKey( name );
 
 class Keyboard
 {
@@ -45,12 +45,18 @@ public:
 
 	void processKeyboardEvent(SDL_Event &event);
 	static bool &getDvorak();
+
+	bool parseKeyFile(const char *fileName);
+	KeyboardKey *getKey(const char *name);
 			                       
 protected:
 	static Keyboard *instance_;
 	static bool dvorak_; // TODO // FIX ME NOT WORKING
 	KeyboardHistory::HistoryElement keybHist_[MAX_KEYBDHIST];
 	int keybHistCnt_;
+
+	std::map<std::string, KeyboardKey *, less<std::string> > keyMap_;
+	std::map<std::string, KeyboardKey *, less<std::string> > usedKeyMap_;
                        
 private:
 	Keyboard();

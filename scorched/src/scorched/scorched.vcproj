@@ -753,6 +753,12 @@
 				RelativePath="..\common\KeyboardHistory.h">
 			</File>
 			<File
+                             	RelativePath="..\common\KeyboardKey.cpp">
+			</File>
+			<File
+                            	RelativePath="..\common\KeyboardKey.h">
+			</File>
+			<File
 				RelativePath="..\common\Line.cpp">
 			</File>
 			<File

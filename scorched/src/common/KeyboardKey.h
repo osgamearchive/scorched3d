@@ -18,32 +18,39 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+#ifndef __keyboardKey_h__
+#define __keyboardKey_h__
 
-#if !defined(__INCLUDE_ASEStoreh_INCLUDE__)
-#define __INCLUDE_ASEStoreh_INCLUDE__
-
-#include <GLEXT/GLVertexArray.h>
-#include <GLEXT/GLTexture.h>
-#include <map>
 #include <string>
+#include <list>
 
-class ASEStore
+class KeyboardKey
 {
 public:
-	static ASEStore *instance();
+	KeyboardKey(const char *name,
+				const char *description);
+	virtual ~KeyboardKey();
 
-	GLVertexArray *loadOrGetArray(const char *fileName);
-	GLTexture *loadTexture(const char *name, const char *aname);
+	bool keyDown(char *buffer, bool repeat = true);
+	bool addKeys(std::list<std::string> &keyNames);
+
+	const char *getName() { return name_.c_str(); }
+	const char *getDescription() { return description_.c_str(); }
+
+	static unsigned int translateKeyName(const char *name);
 
 protected:
-	static ASEStore *instance_;
-	std::map<const char *, GLVertexArray *> fileMap_;
-	std::map<std::string, GLTexture *> skins_;
+	std::string name_;
+	std::string description_;
+	bool keyToogle_;
+	unsigned int noKeys_;
+	unsigned *keys_;
 
 private:
-	ASEStore();
-	virtual ~ASEStore();
+	KeyboardKey(const KeyboardKey &);
+	const KeyboardKey & operator=(const KeyboardKey &);
+
 };
 
+#endif // __keyboardKey_h__
 
-#endif
