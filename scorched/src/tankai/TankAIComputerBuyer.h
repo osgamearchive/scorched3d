@@ -25,6 +25,7 @@
 #include <weapons/AccessoryStore.h>
 #include <list>
 
+class Tank;
 class TankAIComputerBuyer
 {
 public:

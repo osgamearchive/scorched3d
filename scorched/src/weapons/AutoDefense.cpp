@@ -22,17 +22,14 @@
 #include <weapons/AutoDefense.h>
 #include <common/OptionsTransient.h>
 
+REGISTER_ACCESSORY_SOURCE(AutoDefense);
+
 AutoDefense::AutoDefense()
 {
 }
 
 AutoDefense::~AutoDefense()
 {
-}
-
-Accessory::AccessoryType AutoDefense::getType()
-{
-	return Accessory::AccessoryAutoDefense;
 }
 
 const int AutoDefense::getPrice()

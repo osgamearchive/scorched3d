@@ -32,7 +32,6 @@
 #include <vector>
 #include <weapons/Weapon.h>
 
-class Tank;
 class AccessoryStore
 {
 public:
@@ -52,7 +51,6 @@ protected:
 	std::list<Accessory *> accessories_;
 	std::vector<Weapon *> deathAnimations_;
 	bool parseFile();
-	Accessory *createAccessoryType(const char *type);
 
 private:
 	AccessoryStore();

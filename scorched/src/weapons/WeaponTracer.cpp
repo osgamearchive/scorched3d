@@ -22,6 +22,8 @@
 #include <tank/TankContainer.h>
 #include <actions/ShotProjectileTracer.h>
 
+REGISTER_ACCESSORY_SOURCE(WeaponTracer);
+
 WeaponTracer::WeaponTracer() : showShotPath_(false)
 {
 
@@ -47,6 +49,20 @@ bool WeaponTracer::parseXML(XMLNode *accessoryNode)
 	}
 	showShotPath_ = (strcmp(smokeNode->getContent(), "true") == 0);
 
+	return true;
+}
+
+bool WeaponTracer::writeAccessory(NetBuffer &buffer)
+{
+	if (!Weapon::writeAccessory(buffer)) return false;
+	buffer.addToBuffer(showShotPath_);
+	return true;
+}
+
+bool WeaponTracer::readAccessory(NetBufferReader &reader)
+{
+	if (!Weapon::readAccessory(reader)) return false;
+	if (!reader.getFromBuffer(showShotPath_)) return false;
 	return true;
 }
 

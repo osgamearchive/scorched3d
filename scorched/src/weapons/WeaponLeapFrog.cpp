@@ -22,6 +22,8 @@
 #include <actions/ShotProjectileLeapFrog.h>
 #include <tank/TankContainer.h>
 
+REGISTER_ACCESSORY_SOURCE(WeaponLeapFrog);
+
 WeaponLeapFrog::WeaponLeapFrog():  size_(0)
 {
 
@@ -47,6 +49,20 @@ bool WeaponLeapFrog::parseXML(XMLNode *accessoryNode)
 	}
 	size_ = atoi(sizeNode->getContent());
 
+	return true;
+}
+
+bool WeaponLeapFrog::writeAccessory(NetBuffer &buffer)
+{
+	if (!Weapon::writeAccessory(buffer)) return false;
+	buffer.addToBuffer(size_);
+	return true;
+}
+
+bool WeaponLeapFrog::readAccessory(NetBufferReader &reader)
+{
+	if (!Weapon::readAccessory(reader)) return false;
+	if (!reader.getFromBuffer(size_)) return false;
 	return true;
 }
 

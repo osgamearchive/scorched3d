@@ -29,6 +29,8 @@ public:
 	virtual ~ShieldReflectiveMag();
 
 	virtual ShieldType getShieldType();
+
+	REGISTER_ACCESSORY_HEADER(ShieldReflectiveMag, Accessory::AccessoryShield);
 };
 
 #endif

@@ -42,7 +42,7 @@
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile="$(OutDir)/scorched.pdb"
 				SubSystem="2"
-				StackReserveSize="26214400"
+				StackReserveSize="32000000"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCMIDLTool"/>
@@ -91,7 +91,7 @@
 				LinkIncremental="1"
 				GenerateDebugInformation="TRUE"
 				SubSystem="2"
-				StackReserveSize="26214400"
+				StackReserveSize="32000000"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				TargetMachine="1"/>
@@ -142,7 +142,7 @@
 				LinkIncremental="1"
 				GenerateDebugInformation="TRUE"
 				SubSystem="2"
-				StackReserveSize="26214400"
+				StackReserveSize="32000000"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				TargetMachine="1"/>

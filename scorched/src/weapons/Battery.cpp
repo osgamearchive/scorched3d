@@ -21,9 +21,7 @@
 #include <weapons/Battery.h>
 #include <common/Defines.h>
 
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
+REGISTER_ACCESSORY_SOURCE(Battery);
 
 Battery::Battery()
 {
@@ -33,11 +31,6 @@ Battery::Battery()
 Battery::~Battery()
 {
 
-}
-
-Accessory::AccessoryType Battery::getType()
-{
-	return Accessory::AccessoryBattery;
 }
 
 const char *Battery::getActivatedSound()

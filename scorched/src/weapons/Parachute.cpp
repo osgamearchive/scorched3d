@@ -22,6 +22,8 @@
 #include <weapons/Parachute.h>
 #include <common/Defines.h>
 
+REGISTER_ACCESSORY_SOURCE(Parachute);
+
 Parachute::Parachute()
 {
 
@@ -30,11 +32,6 @@ Parachute::Parachute()
 Parachute::~Parachute()
 {
 
-}
-
-Accessory::AccessoryType Parachute::getType()
-{
-	return Accessory::AccessoryParachute;
 }
 
 const char *Parachute::getActivatedSound()

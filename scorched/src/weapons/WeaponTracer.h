@@ -30,10 +30,14 @@ public:
 	virtual ~WeaponTracer();
 
 	virtual bool parseXML(XMLNode *accessoryNode);
+	virtual bool writeAccessory(NetBuffer &buffer);
+	virtual bool readAccessory(NetBufferReader &reader);
 
 	// Inherited from Weapon
 	Action *fireWeapon(unsigned int playerId, Vector &position, Vector &velocity);
 	virtual const char *getFiredSound();
+
+	REGISTER_ACCESSORY_HEADER(WeaponTracer, Accessory::AccessoryWeapon);
 
 protected:
 	bool showShotPath_;

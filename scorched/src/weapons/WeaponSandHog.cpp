@@ -22,6 +22,8 @@
 #include <tank/TankContainer.h>
 #include <actions/ShotProjectileHog.h>
 
+REGISTER_ACCESSORY_SOURCE(WeaponSandHog);
+
 WeaponSandHog::WeaponSandHog() : warHeads_(0)
 {
 
@@ -47,6 +49,20 @@ bool WeaponSandHog::parseXML(XMLNode *accessoryNode)
 	}
 	warHeads_ = atoi(warHeadsNode->getContent());
 
+	return true;
+}
+
+bool WeaponSandHog::writeAccessory(NetBuffer &buffer)
+{
+	if (!Weapon::writeAccessory(buffer)) return false;
+	buffer.addToBuffer(warHeads_);
+	return true;
+}
+
+bool WeaponSandHog::readAccessory(NetBufferReader &reader)
+{
+	if (!Weapon::readAccessory(reader)) return false;
+	if (!reader.getFromBuffer(warHeads_)) return false;
 	return true;
 }
 

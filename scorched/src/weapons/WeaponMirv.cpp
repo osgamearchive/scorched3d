@@ -22,6 +22,8 @@
 #include <tank/TankContainer.h>
 #include <actions/ShotProjectileMirv.h>
 
+REGISTER_ACCESSORY_SOURCE(WeaponMirv);
+
 WeaponMirv::WeaponMirv() :
 	noWarheads_(0), spread_(false)
 {
@@ -70,6 +72,24 @@ bool WeaponMirv::parseXML(XMLNode *accessoryNode)
 	}
 	noWarheads_ = atoi(warheadsNode->getContent());
 
+	return true;
+}
+
+bool WeaponMirv::writeAccessory(NetBuffer &buffer)
+{
+	if (!Weapon::writeAccessory(buffer)) return false;
+	buffer.addToBuffer(spread_);
+	buffer.addToBuffer(size_);
+	buffer.addToBuffer(noWarheads_);
+	return true;
+}
+
+bool WeaponMirv::readAccessory(NetBufferReader &reader)
+{
+	if (!Weapon::readAccessory(reader)) return false;
+	if (!reader.getFromBuffer(spread_)) return false;
+	if (!reader.getFromBuffer(size_)) return false;
+	if (!reader.getFromBuffer(noWarheads_)) return false;
 	return true;
 }
 

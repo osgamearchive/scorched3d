@@ -31,12 +31,16 @@ public:
 	virtual ~WeaponNapalm();
 
 	virtual bool parseXML(XMLNode *accessoryNode);
+	virtual bool writeAccessory(NetBuffer &buffer);
+	virtual bool readAccessory(NetBufferReader &reader);
 
 	int getHot() { return hot_; }
 
 	// Inherited from Weapon
 	virtual const char *getFiredSound();
 	virtual Action *fireWeapon(unsigned int playerId, Vector &position, Vector &velocity);
+
+	REGISTER_ACCESSORY_HEADER(WeaponNapalm, Accessory::AccessoryWeapon);
 
 protected:
 	bool hot_;

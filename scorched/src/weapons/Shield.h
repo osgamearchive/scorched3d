@@ -48,9 +48,8 @@ public:
 	virtual ~Shield();
 
 	virtual bool parseXML(XMLNode *accessoryNode);
-
-	// This is a shield
-	virtual AccessoryType getType();
+	virtual bool writeAccessory(NetBuffer &buffer);
+	virtual bool readAccessory(NetBufferReader &reader);
 
 	// Sounds to play on shield actions
 	virtual const char *getActivatedSound();
@@ -61,6 +60,8 @@ public:
 	ShieldSize getRadius() { return radius_; }
 	Vector &getColor() { return color_; }
 	virtual ShieldType getShieldType();
+
+	REGISTER_ACCESSORY_HEADER(Shield, Accessory::AccessoryShield);
 
 protected:
 	ShieldSize radius_;

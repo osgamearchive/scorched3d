@@ -30,6 +30,8 @@ public:
 	virtual ~WeaponProjectile();
 
 	virtual bool parseXML(XMLNode *accessoryNode);
+	virtual bool writeAccessory(NetBuffer &buffer);
+	virtual bool readAccessory(NetBufferReader &reader);
 
 	int getSize() { return size_; }
 
@@ -37,6 +39,8 @@ public:
 	virtual const char *getFiredSound();
 	virtual const char *getExplosionSound();
 	virtual Action *fireWeapon(unsigned int playerId, Vector &position, Vector &velocity);
+
+	REGISTER_ACCESSORY_HEADER(WeaponProjectile, Accessory::AccessoryWeapon);
 
 protected:
 	int size_;

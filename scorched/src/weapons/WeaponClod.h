@@ -31,6 +31,8 @@ public:
 	virtual ~WeaponClod();
 
 	virtual bool parseXML(XMLNode *accessoryNode);
+	virtual bool writeAccessory(NetBuffer &buffer);
+	virtual bool readAccessory(NetBufferReader &reader);
 
 	virtual const char *getExplosionTexture();
 	virtual const char *getFiredSound();
@@ -38,6 +40,8 @@ public:
 
 	// Inherited from Weapon
 	Action *fireWeapon(unsigned int playerId, Vector &position, Vector &velocity);
+
+	REGISTER_ACCESSORY_HEADER(WeaponClod, Accessory::AccessoryWeapon);
 
 protected:
 	int size_;

@@ -22,9 +22,7 @@
 #include <tank/TankContainer.h>
 #include <actions/ShotProjectileHog.h>
 
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
+REGISTER_ACCESSORY_SOURCE(WeaponDigger);
 
 WeaponDigger::WeaponDigger() : warHeads_(0)
 {
@@ -51,6 +49,20 @@ bool WeaponDigger::parseXML(XMLNode *accessoryNode)
 	}
 	warHeads_ = atoi(warheadsNode->getContent());
 
+	return true;
+}
+
+bool WeaponDigger::writeAccessory(NetBuffer &buffer)
+{
+	if (!Weapon::writeAccessory(buffer)) return false;
+	buffer.addToBuffer(warHeads_);
+	return true;
+}
+
+bool WeaponDigger::readAccessory(NetBufferReader &reader)
+{
+	if (!Weapon::readAccessory(reader)) return false;
+	if (!reader.getFromBuffer(warHeads_)) return false;
 	return true;
 }
 

@@ -21,6 +21,8 @@
 #include <weapons/Fuel.h>
 #include <common/Defines.h>
 
+REGISTER_ACCESSORY_SOURCE(Fuel);
+
 Fuel::Fuel()
 {
 
@@ -29,11 +31,6 @@ Fuel::Fuel()
 Fuel::~Fuel()
 {
 
-}
-
-Accessory::AccessoryType Fuel::getType()
-{
-	return Accessory::AccessoryFuel;
 }
 
 const char *Fuel::getActivatedSound()

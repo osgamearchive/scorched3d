@@ -30,10 +30,11 @@ public:
 	AutoDefense();
 	virtual ~AutoDefense();
 
-	virtual AccessoryType getType();
 	virtual const int getPrice();
 	virtual const int getSellPrice();
 	virtual bool singular();
+
+	REGISTER_ACCESSORY_HEADER(AutoDefense, Accessory::AccessoryAutoDefense);
 };
 
 

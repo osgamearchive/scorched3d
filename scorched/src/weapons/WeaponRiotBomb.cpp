@@ -18,10 +18,11 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <weapons/WeaponRiotBomb.h>
 #include <tank/TankContainer.h>
 #include <actions/ShotProjectileRiot.h>
+
+REGISTER_ACCESSORY_SOURCE(WeaponRiotBomb);
 
 WeaponRiotBomb::WeaponRiotBomb() : size_(0)
 {
@@ -46,6 +47,20 @@ bool WeaponRiotBomb::parseXML(XMLNode *accessoryNode)
 	}
 	size_ = atoi(sizeNode->getContent());
 
+	return true;
+}
+
+bool WeaponRiotBomb::writeAccessory(NetBuffer &buffer)
+{
+	if (!Weapon::writeAccessory(buffer)) return false;
+	buffer.addToBuffer(size_);
+	return true;
+}
+
+bool WeaponRiotBomb::readAccessory(NetBufferReader &reader)
+{
+	if (!Weapon::readAccessory(reader)) return false;
+	if (!reader.getFromBuffer(size_)) return false;
 	return true;
 }
 

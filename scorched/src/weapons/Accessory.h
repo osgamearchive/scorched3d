@@ -22,9 +22,19 @@
 #define AFX_ACCESSORY_H__21765D5B_DB45_4275_AB63_BAD1E84C1790__INCLUDED_
 
 #include <XML/XMLFile.h>
+#include <coms/NetBuffer.h>
+#include <GLW/GLWToolTip.h>
 #include <string>
 
-class GLWTip;
+#define REGISTER_ACCESSORY_HEADER(x, y) \
+	virtual const char *getAccessoryTypeName() { return #x ; } \
+	virtual AccessoryType getType() { return y ; } \
+	virtual Accessory *getAccessoryCopy() { return new x ; }
+
+#define REGISTER_ACCESSORY_SOURCE(x) \
+	struct META_##x { META_##x() { AccessoryMetaRegistration::addMap(#x , new x ); } }; \
+	static META_##x META_IMPL_##x ;
+
 class Accessory  
 {
 public:
@@ -42,6 +52,8 @@ public:
 	virtual ~Accessory();
 
 	virtual bool parseXML(XMLNode *accessoryNode);
+	virtual bool writeAccessory(NetBuffer &buffer);
+	virtual bool readAccessory(NetBufferReader &reader);
 
 	virtual const char *getName();
 	virtual const char *getDescription();
@@ -51,23 +63,28 @@ public:
 	virtual const int getArmsLevel();
 	GLWTip &getToolTip();
 
-	virtual void bought();
-	virtual void sold();
 	virtual bool singular();
 
 	virtual AccessoryType getType() = 0;
+	virtual const char *getAccessoryTypeName() = 0;
+	virtual Accessory *getAccessoryCopy() = 0;
 
 protected:
-	GLWTip *toolTip_;
+	GLWTip toolTip_;
 	std::string name_;
 	std::string description_;
 	int price_;
 	int bundle_;
 	int armsLevel_;
 	int sellPrice_;
+};
 
-	int noBought_;
-	int noSold_;
+class AccessoryMetaRegistration
+{
+public:
+	static void addMap(const char *name, Accessory *action);
+	static std::map<std::string, Accessory *> *accessoryMap;
+	static Accessory *getNewAccessory(const char *name);
 };
 
 #endif // !defined(AFX_ACCESSORY_H__21765D5B_DB45_4275_AB63_BAD1E84C1790__INCLUDED_)

@@ -31,6 +31,7 @@ public:
 
 	virtual ShieldType getShieldType();
 
+	REGISTER_ACCESSORY_HEADER(ShieldReflective, Accessory::AccessoryShield);
 };
 
 #endif

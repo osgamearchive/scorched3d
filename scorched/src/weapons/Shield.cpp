@@ -23,6 +23,8 @@
 #include <common/Defines.h>
 #include <math.h>
 
+REGISTER_ACCESSORY_SOURCE(Shield);
+
 Shield::Shield()
 {
 
@@ -74,9 +76,24 @@ bool Shield::parseXML(XMLNode *accessoryNode)
 	return true;
 }
 
-Accessory::AccessoryType Shield::getType()
+bool Shield::writeAccessory(NetBuffer &buffer)
 {
-	return Accessory::AccessoryShield;
+	if (!Accessory::writeAccessory(buffer)) return false;
+	buffer.addToBuffer((int) radius_);
+	buffer.addToBuffer(color_[0]);
+	buffer.addToBuffer(color_[1]);
+	buffer.addToBuffer(color_[2]);
+	return true;
+}
+
+bool Shield::readAccessory(NetBufferReader &reader)
+{
+	if (!Accessory::readAccessory(reader)) return false;
+	int r; if (!reader.getFromBuffer(r)) return false; radius_ = (ShieldSize) r;
+	if (!reader.getFromBuffer(color_[0])) return false;
+	if (!reader.getFromBuffer(color_[1])) return false;
+	if (!reader.getFromBuffer(color_[2])) return false;
+	return true;
 }
 
 const char *Shield::getActivatedSound()

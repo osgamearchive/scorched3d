@@ -35,8 +35,9 @@ public:
 	Weapon();
 	virtual ~Weapon();
 
-	virtual Accessory::AccessoryType getType();
 	virtual bool parseXML(XMLNode *accessoryNode);
+	virtual bool writeAccessory(NetBuffer &buffer);
+	virtual bool readAccessory(NetBufferReader &reader);
 	
 	virtual Action *fireWeapon(unsigned int playerId, 
 		Vector &position, Vector &velocity) = 0;
@@ -50,7 +51,7 @@ public:
 	static Weapon *read(NetBufferReader &reader);
 
 protected:
-	bool deathAnimationWeight_;
+	int deathAnimationWeight_;
 };
 
 #endif // !defined(AFX_WEAPON_H__65439E20_84A6_406A_8FD0_045A3E7555D3__INCLUDED_)

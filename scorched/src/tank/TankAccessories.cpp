@@ -165,7 +165,6 @@ void TankAccessories::add(Accessory *accessory)
 		tankFuel_.addFuel(accessory->getBundle());
 		break;
 	}
-	accessory->bought();
 }
 
 void TankAccessories::rm(Accessory *accessory)
@@ -191,7 +190,6 @@ void TankAccessories::rm(Accessory *accessory)
 		tankFuel_.rmFuel(1);
 		break;
 	}
-	accessory->sold();
 }
 
 bool TankAccessories::writeMessage(NetBuffer &buffer)

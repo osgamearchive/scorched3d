@@ -41,10 +41,6 @@
 #include <weapons/WeaponDigger.h>
 #include <math.h>
 
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
-
 AccessoryStore *AccessoryStore::instance_ = 0;
 
 AccessoryStore *AccessoryStore::instance()
@@ -65,30 +61,6 @@ AccessoryStore::AccessoryStore()
 AccessoryStore::~AccessoryStore()
 {
 
-}
-
-Accessory *AccessoryStore::createAccessoryType(const char *type)
-{
-	// Crude, but it works !! :)
-	if (stricmp(type, "Parachute") == 0) return new Parachute;
-	else if (stricmp(type, "Battery") == 0) return new Battery;
-	else if (stricmp(type, "Fuel") == 0) return new Fuel;
-	else if (stricmp(type, "AutoDefense") == 0) return new AutoDefense;
-	else if (stricmp(type, "WeaponNapalm") == 0) return new WeaponNapalm;
-	else if (stricmp(type, "WeaponProjectile") == 0) return new WeaponProjectile;
-	else if (stricmp(type, "WeaponLeapFrog") == 0) return new WeaponLeapFrog;
-	else if (stricmp(type, "WeaponClod") == 0) return new WeaponClod;
-	else if (stricmp(type, "WeaponRiotBomb") == 0) return new WeaponRiotBomb;
-	else if (stricmp(type, "WeaponDigger") == 0) return new WeaponDigger;
-	else if (stricmp(type, "WeaponSandHog") == 0) return new WeaponSandHog;
-	else if (stricmp(type, "WeaponMirv") == 0) return new WeaponMirv;
-	else if (stricmp(type, "WeaponFunky") == 0) return new WeaponFunky;
-	else if (stricmp(type, "WeaponTracer") == 0) return new WeaponTracer;
-	else if (stricmp(type, "Shield") == 0) return new Shield;
-	else if (stricmp(type, "ShieldReflective") == 0) return new ShieldReflective;
-	else if (stricmp(type, "ShieldReflectiveMag") == 0) return new ShieldReflectiveMag;
-
-	return 0;
 }
 
 bool AccessoryStore::parseFile()
@@ -134,7 +106,8 @@ bool AccessoryStore::parseFile()
 			return false;
 		}
 
-		Accessory *accessory = createAccessoryType(typeNode->getContent());
+		Accessory *accessory = 
+			AccessoryMetaRegistration::getNewAccessory(typeNode->getContent());
 		if (!accessory)
 		{
 			dialogMessage("AccessoryStore",

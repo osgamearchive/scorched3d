@@ -18,21 +18,14 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// WeaponFunky.cpp: implementation of the WeaponFunky class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <weapons/WeaponFunky.h>
 #include <tank/TankContainer.h>
 #include <actions/ShotProjectileFunky.h>
 
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
+REGISTER_ACCESSORY_SOURCE(WeaponFunky);
 
 WeaponFunky::WeaponFunky() :
-	size_(0), subsize_(0), warheads_(0)
+	size_(0), subsize_(0), warHeads_(0)
 {
 
 }
@@ -77,8 +70,26 @@ bool WeaponFunky::parseXML(XMLNode *accessoryNode)
 			name_.c_str());
 		return false;
 	}
-	warheads_ = atoi(warheadsNode->getContent());
+	warHeads_ = atoi(warheadsNode->getContent());
 
+	return true;
+}
+
+bool WeaponFunky::writeAccessory(NetBuffer &buffer)
+{
+	if (!Weapon::writeAccessory(buffer)) return false;
+	buffer.addToBuffer(size_);
+	buffer.addToBuffer(subsize_);
+	buffer.addToBuffer(warHeads_);
+	return true;
+}
+
+bool WeaponFunky::readAccessory(NetBufferReader &reader)
+{
+	if (!Weapon::readAccessory(reader)) return false;
+	if (!reader.getFromBuffer(size_)) return false;
+	if (!reader.getFromBuffer(subsize_)) return false;
+	if (!reader.getFromBuffer(warHeads_)) return false;
 	return true;
 }
 
@@ -90,7 +101,7 @@ Action *WeaponFunky::fireWeapon(unsigned int playerId, Vector &position, Vector 
 		Action *action = new ShotProjectileFunky(
 			position, 
 			velocity,
-			this, playerId, (float) size_, (float) subsize_, warheads_);
+			this, playerId, (float) size_, (float) subsize_, warHeads_);
 		return action;
 	}
 

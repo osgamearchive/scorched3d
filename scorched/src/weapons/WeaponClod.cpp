@@ -22,6 +22,8 @@
 #include <tank/TankContainer.h>
 #include <actions/ShotProjectileClod.h>
 
+REGISTER_ACCESSORY_SOURCE(WeaponClod);
+
 WeaponClod::WeaponClod() : size_(0)
 {
 
@@ -47,6 +49,20 @@ bool WeaponClod::parseXML(XMLNode *accessoryNode)
 	}
 	size_ = atoi(sizeNode->getContent());
 
+	return true;
+}
+
+bool WeaponClod::writeAccessory(NetBuffer &buffer)
+{
+	if (!Weapon::writeAccessory(buffer)) return false;
+	buffer.addToBuffer(size_);
+	return true;
+}
+
+bool WeaponClod::readAccessory(NetBufferReader &reader)
+{
+	if (!Weapon::readAccessory(reader)) return false;
+	if (!reader.getFromBuffer(size_)) return false;
 	return true;
 }
 

@@ -30,11 +30,15 @@ public:
 	virtual ~WeaponDigger();
 
 	virtual bool parseXML(XMLNode *accessoryNode);
+	virtual bool writeAccessory(NetBuffer &buffer);
+	virtual bool readAccessory(NetBufferReader &reader);
 
 	// Inherited from Weapon
 	Action *fireWeapon(unsigned int playerId, Vector &position, Vector &velocity);
 	virtual const char *getFiredSound();
 	virtual const char *getExplosionTexture();
+
+	REGISTER_ACCESSORY_HEADER(WeaponDigger, Accessory::AccessoryWeapon);
 
 protected:
 	int warHeads_;

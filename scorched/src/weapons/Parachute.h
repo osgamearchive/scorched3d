@@ -29,8 +29,9 @@ public:
 	Parachute();
 	virtual ~Parachute();
 
-	virtual AccessoryType getType();
     const char *getActivatedSound();
+
+	REGISTER_ACCESSORY_HEADER(Parachute, Accessory::AccessoryParachute);
 };
 
 #endif // !defined(AFX_PARACHUTE_H__F934B35F_3195_45F7_A6B4_D10CCDB296BD__INCLUDED_)

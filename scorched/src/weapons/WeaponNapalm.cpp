@@ -22,9 +22,7 @@
 #include <tank/TankContainer.h>
 #include <actions/ShotProjectileNapalm.h>
 
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
+REGISTER_ACCESSORY_SOURCE(WeaponNapalm);
 
 WeaponNapalm::WeaponNapalm() : hot_(false)
 {
@@ -51,6 +49,20 @@ bool WeaponNapalm::parseXML(XMLNode *accessoryNode)
 	}
 	hot_ = (strcmp(hotNode->getContent(), "true") == 0);
 
+	return true;
+}
+
+bool WeaponNapalm::writeAccessory(NetBuffer &buffer)
+{
+	if (!Weapon::writeAccessory(buffer)) return false;
+	buffer.addToBuffer(hot_);
+	return true;
+}
+
+bool WeaponNapalm::readAccessory(NetBufferReader &reader)
+{
+	if (!Weapon::readAccessory(reader)) return false;
+	if (!reader.getFromBuffer(hot_)) return false;
 	return true;
 }
 

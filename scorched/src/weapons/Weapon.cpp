@@ -31,11 +31,6 @@ Weapon::~Weapon()
 
 }
 
-Accessory::AccessoryType Weapon::getType()
-{
-	return Accessory::AccessoryWeapon;
-}
-
 bool Weapon::parseXML(XMLNode *accessoryNode)
 {
 	if (!Accessory::parseXML(accessoryNode)) return false;
@@ -47,6 +42,20 @@ bool Weapon::parseXML(XMLNode *accessoryNode)
 		deathAnimationWeight_ = atoi(deathWeight->getContent());
 	}
 
+	return true;
+}
+
+bool Weapon::writeAccessory(NetBuffer &buffer)
+{
+	if (!Accessory::writeAccessory(buffer)) return false;
+	buffer.addToBuffer(deathAnimationWeight_);
+	return true;
+}
+
+bool Weapon::readAccessory(NetBufferReader &reader)
+{
+	if (!Accessory::readAccessory(reader)) return false;
+	if (!reader.getFromBuffer(deathAnimationWeight_)) return false;
 	return true;
 }
 

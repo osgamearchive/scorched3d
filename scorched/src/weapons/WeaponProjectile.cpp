@@ -22,6 +22,8 @@
 #include <actions/ShotProjectileExplosion.h>
 #include <tank/TankContainer.h>
 
+REGISTER_ACCESSORY_SOURCE(WeaponProjectile);
+
 WeaponProjectile::WeaponProjectile() : size_(0)
 {
 
@@ -47,6 +49,20 @@ bool WeaponProjectile::parseXML(XMLNode *accessoryNode)
 	}
 	size_ = atoi(sizeNode->getContent());
 
+	return true;
+}
+
+bool WeaponProjectile::writeAccessory(NetBuffer &buffer)
+{
+	if (!Weapon::writeAccessory(buffer)) return false;
+	buffer.addToBuffer(size_);
+	return true;
+}
+
+bool WeaponProjectile::readAccessory(NetBufferReader &reader)
+{
+	if (!Weapon::readAccessory(reader)) return false;
+	if (!reader.getFromBuffer(size_)) return false;
 	return true;
 }
 

@@ -20,6 +20,8 @@
 
 #include <weapons/ShieldReflective.h>
 
+REGISTER_ACCESSORY_SOURCE(ShieldReflective);
+
 ShieldReflective::ShieldReflective()
 {
 }

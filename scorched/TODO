@@ -1,4 +1,4 @@
--- Bugs Fixed and Ready For Relase 35B
+-- Bugs Fixed and Ready For Relase 36
 Added: Tooltips over tanks
 Added: Decimal point on tank evelevation/rotation angles
 Added: Depth buffer size can be set in config
@@ -13,7 +13,11 @@ Added: Tanks placed into catagories to make for easier choosing
 Added: MilkShape model support (including alpha maps)
 Added: Keys are defined and can be configured via XML file (keys.xml)
 Added: Resouces can be enabled and disabled in the resource file (landscapes can be disabled)
+Added: Weapons are defined and can be configured via XML file (weapons.xml) (NOT FINISHED)
+Added: Bots (AIs) are defined and can be configured via XML file (tankai.xml)
+Added: Auto aim (A key), points tank to a position on the landscape
 
+Fixed: Random windows crashes, increased stack size to stop ODE from running out of stack
 Fixed: Tanks do not start right at the landscape edge
 Fixed: Applied http://wwwra.informatik.uni-rostock.de/~waschk/Scorched3D-35-gcc3.3.patch
 Fixed: Landscape explosions are much faster

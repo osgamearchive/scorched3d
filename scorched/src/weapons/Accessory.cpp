@@ -20,20 +20,18 @@
 
 #include <weapons/Accessory.h>
 #include <common/Defines.h>
-#include <GLW/GLWToolTip.h>
 #include <stdlib.h>
 
 Accessory::Accessory() :
-	name_("NONAME"), description_("NODESC"), price_(0), 
-	bundle_(0), armsLevel_(0),
-	noBought_(0), noSold_(0), toolTip_(0)
+	name_("NONAME"), description_("NODESC"), toolTip_("", ""),
+	price_(0), bundle_(0), armsLevel_(0)
 {
 
 }
 
 Accessory::~Accessory()
 {
-	delete toolTip_;
+
 }
 
 bool Accessory::parseXML(XMLNode *accessoryNode)
@@ -58,7 +56,7 @@ bool Accessory::parseXML(XMLNode *accessoryNode)
 		return false;
 	}
 	description_ = descriptionNode->getContent();
-	toolTip_ = new GLWTip(getName(), getDescription());
+	toolTip_.setText(getName(), getDescription());
 
 	// Get the accessory bundle
 	XMLNode *bundleNode = accessoryNode->getNamedChild("bundlesize");
@@ -99,6 +97,29 @@ bool Accessory::parseXML(XMLNode *accessoryNode)
 	return true;
 }
 
+bool Accessory::writeAccessory(NetBuffer &buffer)
+{
+	buffer.addToBuffer(name_);
+	buffer.addToBuffer(description_);
+	buffer.addToBuffer(price_);
+	buffer.addToBuffer(bundle_);
+	buffer.addToBuffer(armsLevel_);
+	buffer.addToBuffer(sellPrice_);
+	return true;
+}
+
+bool Accessory::readAccessory(NetBufferReader &reader)
+{
+	if (!reader.getFromBuffer(name_)) return false;
+	if (!reader.getFromBuffer(description_)) return false;
+	if (!reader.getFromBuffer(price_)) return false;
+	if (!reader.getFromBuffer(bundle_)) return false;
+	if (!reader.getFromBuffer(armsLevel_)) return false;
+	if (!reader.getFromBuffer(sellPrice_)) return false;
+	toolTip_.setText(getName(), getDescription());
+	return true;
+}
+
 const char *Accessory::getName()
 { 
 	return name_.c_str(); 
@@ -129,16 +150,6 @@ const int Accessory::getArmsLevel()
 	return armsLevel_; 
 }
 
-void Accessory::bought()
-{
-	noBought_++;
-}
-
-void Accessory::sold()
-{
-	noSold_++;
-}
-
 bool Accessory::singular()
 {
 	return false;
@@ -146,5 +157,27 @@ bool Accessory::singular()
 
 GLWTip &Accessory::getToolTip()
 { 
-	return *toolTip_; 
+	return toolTip_; 
 }
+
+std::map<std::string, Accessory *> *AccessoryMetaRegistration::accessoryMap = 0;
+
+void AccessoryMetaRegistration::addMap(const char *name, Accessory *accessory)
+{
+	if (!accessoryMap) accessoryMap = new std::map<std::string, Accessory *>;
+
+	std::map<std::string, Accessory *>::iterator itor = 
+		accessoryMap->find(name);
+	DIALOG_ASSERT(itor == accessoryMap->end());
+
+	(*accessoryMap)[name] = accessory;
+}
+
+Accessory *AccessoryMetaRegistration::getNewAccessory(const char *name)
+{
+	std::map<std::string, Accessory *>::iterator itor = 
+		accessoryMap->find(name);
+	if (itor == accessoryMap->end()) return 0;
+	return (*itor).second->getAccessoryCopy();
+}
+
