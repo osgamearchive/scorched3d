@@ -100,7 +100,10 @@ void TankAIHuman::playMove(const unsigned state,
 	KEYPRESS_END
 
 	KEYPRESS_START(buffer, SDLK_b)
-		useBattery();
+		if (currentTank_->getState().getLife() < 100.0f)
+		{
+			useBattery();
+		}
 	KEYPRESS_END
 
 	KEYPRESS_START(buffer, SDLK_u)
