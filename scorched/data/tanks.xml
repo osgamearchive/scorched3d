@@ -7,6 +7,16 @@
 		</model>
 	</tank>
 	<tank>
+		<name>Helder</name>
+		<catagory>Avitars</catagory>
+		<model type="MilkShape">helder/helder.txt</model>
+	</tank>
+	<tank>
+		<name>Helder2</name>
+		<catagory>Avitars</catagory>
+		<model type="MilkShape">helder/helder2.txt</model>
+	</tank>
+	<tank>
 		<name>Panzer III</name>
 		<model type="ase">
 			<mesh>panzer3.ase</mesh>
