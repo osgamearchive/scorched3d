@@ -116,6 +116,10 @@ bool LandscapeDefinition::readXML(XMLNode *node)
 
 	if ((weight = node->getNamedFloatChild("weight", 
 		"data/landscapes.xml")) == 0.0f) return false;
+	if ((tankStartCloseness = node->getNamedFloatChild(
+		"tankstartcloseness", "data/landscapes.xml")) == 0.0f) return false;
+	if (!readXMLMinMax(node, "tankstartheight", 
+		tankStartHeightMin, tankStartHeightMax)) return false;
 
 	XMLNode *heightmapNode = node->getNamedChild("heightmap");
 	if (!heightmapNode)
@@ -187,10 +191,6 @@ bool LandscapeDefinition::readHeightMap(XMLNode *heightmapNode,
 			landPeakHeightMin, landPeakHeightMax)) return false;
 		if ((landSmoothing = heightmapNode->getNamedFloatChild("landsmoothing", 
 			"data/landscapes.xml")) == 0.0f) return false;
-		if ((tankStartCloseness = heightmapNode->getNamedFloatChild(
-			"tankstartcloseness", "data/landscapes.xml")) == 0.0f) return false;
-		if (!readXMLMinMax(heightmapNode, "tankstartheight", 
-			tankStartHeightMin, tankStartHeightMax)) return false;
 	}
 	else if (0 == strcmp(typeNode->getContent(), "file"))
 	{

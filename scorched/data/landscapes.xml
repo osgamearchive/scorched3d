@@ -4,6 +4,10 @@
 		<description></description>
 		<picture>oldstyle.bmp</picture>
 		<weight>100</weight>
+		<tankstartcloseness>20</tankstartcloseness>
+		<tankstartheight>
+			<min>5.5</min><max>20</max>
+		</tankstartheight>
 		<heightmap type="generate">
 			<mask></mask>
 			<landhills>
@@ -24,10 +28,6 @@
 				<min>0.5</min><max>1.5</max>
 			</landpeakheight>
 			<landsmoothing>0.04</landsmoothing>
-			<tankstartcloseness>20</tankstartcloseness>
-			<tankstartheight>
-				<min>5.5</min><max>20</max>
-			</tankstartheight>
 		</heightmap>
 		<texturemap type="generate">
 			<resources>
@@ -46,6 +46,10 @@
 		<description></description>
 		<picture>lowlands.bmp</picture>
 		<weight>100</weight>
+		<tankstartcloseness>20</tankstartcloseness>
+		<tankstartheight>
+			<min>5.5</min><max>20</max>
+		</tankstartheight>
 		<heightmap type="generate">
 			<mask></mask>
 			<landhills>
@@ -66,10 +70,6 @@
 				<min>0.5</min><max>1.5</max>
 			</landpeakheight>
 			<landsmoothing>0.04</landsmoothing>
-			<tankstartcloseness>20</tankstartcloseness>
-			<tankstartheight>
-				<min>5.5</min><max>20</max>
-			</tankstartheight>
 		</heightmap>
 		<texturemap type="generate">
 			<resources>
@@ -85,6 +85,10 @@
 		<description></description>
 		<picture>hilly.bmp</picture>
 		<weight>100</weight>
+		<tankstartcloseness>20</tankstartcloseness>
+		<tankstartheight>
+			<min>5.5</min><max>50</max>
+		</tankstartheight>
 		<heightmap type="generate">
 			<mask></mask>
 			<landhills>
@@ -105,10 +109,6 @@
 				<min>0.5</min><max>1.5</max>
 			</landpeakheight>
 			<landsmoothing>0.04</landsmoothing>
-			<tankstartcloseness>20</tankstartcloseness>
-			<tankstartheight>
-				<min>5.5</min><max>50</max>
-			</tankstartheight>
 		</heightmap>
 		<texturemap type="generate">
 			<resources>
@@ -123,6 +123,10 @@
 		<description></description>
 		<picture>ridge.bmp</picture>
 		<weight>100</weight>
+		<tankstartcloseness>20</tankstartcloseness>
+		<tankstartheight>
+			<min>5.5</min><max>20</max>
+		</tankstartheight>
 		<heightmap type="generate">
 			<mask>ridge-mask.bmp</mask>
 			<landhills>
@@ -143,10 +147,6 @@
 				<min>0.5</min><max>1.5</max>
 			</landpeakheight>
 			<landsmoothing>0.04</landsmoothing>
-			<tankstartcloseness>20</tankstartcloseness>
-			<tankstartheight>
-				<min>5.5</min><max>20</max>
-			</tankstartheight>
 		</heightmap>
 		<texturemap type="generate">
 			<resources>
@@ -163,6 +163,10 @@
 		<description></description>
 		<picture>islands.bmp</picture>
 		<weight>33</weight>
+		<tankstartcloseness>20</tankstartcloseness>
+		<tankstartheight>
+			<min>5.5</min><max>20</max>
+		</tankstartheight>
 		<heightmap type="generate">
 			<mask></mask>
 			<landhills>
@@ -183,10 +187,6 @@
 				<min>1.0</min><max>1.5</max>
 			</landpeakheight>
 			<landsmoothing>0.04</landsmoothing>
-			<tankstartcloseness>20</tankstartcloseness>
-			<tankstartheight>
-				<min>5.5</min><max>20</max>
-			</tankstartheight>
 		</heightmap>
 		<texturemap type="generate">
 			<resources>
@@ -205,6 +205,10 @@
 		<description></description>
 		<picture>halved.bmp</picture>
 		<weight>100</weight>
+		<tankstartcloseness>20</tankstartcloseness>
+		<tankstartheight>
+			<min>5.5</min><max>20</max>
+		</tankstartheight>
 		<heightmap type="generate">
 			<mask>half-mask.bmp</mask>
 			<landhills>
@@ -225,10 +229,6 @@
 				<min>0.5</min><max>1.5</max>
 			</landpeakheight>
 			<landsmoothing>0.04</landsmoothing>
-			<tankstartcloseness>20</tankstartcloseness>
-			<tankstartheight>
-				<min>5.5</min><max>20</max>
-			</tankstartheight>
 		</heightmap>
 		<texturemap type="generate">
 			<resources>
@@ -247,6 +247,10 @@
 		<description></description>
 		<picture>valley.bmp</picture>
 		<weight>100</weight>
+		<tankstartcloseness>20</tankstartcloseness>
+		<tankstartheight>
+			<min>5.5</min><max>50</max>
+		</tankstartheight>
 		<heightmap type="generate">
 			<mask>valley-mask.bmp</mask>
 			<landhills>
@@ -267,10 +271,6 @@
 				<min>0.5</min><max>1.5</max>
 			</landpeakheight>
 			<landsmoothing>0.04</landsmoothing>
-			<tankstartcloseness>20</tankstartcloseness>
-			<tankstartheight>
-				<min>5.5</min><max>50</max>
-			</tankstartheight>
 		</heightmap>
 		<texturemap type="generate">
 			<resources>
@@ -284,35 +284,18 @@
 			</resources>
 		</texturemap>
 	</landscape>
+	<!-- 
 	<landscape>
-		<name>hole</name>
+		<name>testbmp</name>
 		<description></description>
 		<picture>hole.bmp</picture>
-		<weight>100</weight>
-		<heightmap type="generate">
-			<mask>hole-mask.bmp</mask>
-			<landhills>
-				<min>120</min><max>120</max>
-			</landhills>
-			<landheight>
-				<min>50</min><max>70</max>
-			</landheight>
-			<landwidthx>256</landwidthx>
-			<landwidthy>256</landwidthy>
-			<landpeakwidthx>
-				<min>10</min><max>50</max>
-			</landpeakwidthx>
-			<landpeakwidthy>
-				<min>-10</min><max>10</max>
-			</landpeakwidthy>
-			<landpeakheight>
-				<min>0.5</min><max>1.5</max>
-			</landpeakheight>
-			<landsmoothing>0.04</landsmoothing>
-			<tankstartcloseness>20</tankstartcloseness>
-			<tankstartheight>
-				<min>5.5</min><max>50</max>
-			</tankstartheight>
+		<weight>1000000</weight>
+		<tankstartcloseness>20</tankstartcloseness>
+		<tankstartheight>
+			<min>5.5</min><max>50</max>
+		</tankstartheight>
+		<heightmap type="file">
+			<file>hmap3.bmp</file>
 		</heightmap>
 		<texturemap type="generate">
 			<resources>
@@ -326,4 +309,5 @@
 			</resources>
 		</texturemap>
 	</landscape>
+	-->
 </landscape>
