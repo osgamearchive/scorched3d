@@ -18,13 +18,25 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+#if !defined(AFX_WEAPONSANDHOG_H__24F2D834_712D_4355_AC74_3571E2F4B14D__INCLUDED_)
+#define AFX_WEAPONSANDHOG_H__24F2D834_712D_4355_AC74_3571E2F4B14D__INCLUDED_
 
-#include <engine/ScorchedCollisionIds.h>
+#include <weapons/Weapon.h>
 
-ScorchedCollisionInfo::ScorchedCollisionInfo(
-	ScorchedCollisionId i, 
-	void *d) : 
-	id(i), data(d), collisionOnSurface(true)
+class WeaponSandHog : public Weapon
 {
+public:
+	WeaponSandHog(char *name, int price, int bundle, 
+		int armsLevel, int warHeads);
+	virtual ~WeaponSandHog();
 
-}
+	// Inherited from Weapon
+	Action *fireWeapon(unsigned int playerId);
+	virtual const char *getFiredSound();
+
+protected:
+	int warHeads_;
+
+};
+
+#endif // !defined(AFX_WEAPONSANDHOG_H__24F2D834_712D_4355_AC74_3571E2F4B14D__INCLUDED_)

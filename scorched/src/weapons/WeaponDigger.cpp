@@ -18,13 +18,47 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+#include <weapons/WeaponDigger.h>
+#include <tank/TankContainer.h>
+#include <actions/ShotProjectileHog.h>
 
-#include <engine/ScorchedCollisionIds.h>
+//////////////////////////////////////////////////////////////////////
+// Construction/Destruction
+//////////////////////////////////////////////////////////////////////
 
-ScorchedCollisionInfo::ScorchedCollisionInfo(
-	ScorchedCollisionId i, 
-	void *d) : 
-	id(i), data(d), collisionOnSurface(true)
+WeaponDigger::WeaponDigger(char *name, int price, int bundle, 
+						   int armsLevel, int warHeads) :
+	Weapon(name, price, bundle, armsLevel), 
+	warHeads_(warHeads)
 {
 
+}
+
+WeaponDigger::~WeaponDigger()
+{
+
+}
+
+
+Action *WeaponDigger::fireWeapon(unsigned int playerId)
+{
+	Tank *tank = TankContainer::instance()->getTankById(playerId);
+	if (tank)
+	{
+		Vector velocity = tank->getPhysics().getVelocityVector() *
+			tank->getState().getPower();
+		Action *action = new ShotProjectileHog(
+			tank->getPhysics().getTankGunPosition(), 
+			velocity,
+			this, playerId, warHeads_, false);
+		return action;
+	}
+
+	return 0;
+}
+
+const char *WeaponDigger::getFiredSound()
+{
+	// TODO
+	return PKGDIR "data/wav/shoot/flare.wav";
 }

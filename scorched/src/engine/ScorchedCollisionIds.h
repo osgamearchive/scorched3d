@@ -46,6 +46,7 @@ struct ScorchedCollisionInfo
 
 	ScorchedCollisionId id;
 	void *data;
+	bool collisionOnSurface;
 };
 
 #endif

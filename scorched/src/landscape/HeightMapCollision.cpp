@@ -202,7 +202,19 @@ int HeightMapCollision::dCollideLS (dGeomID o1, dGeomID o2, int flags,
 		float dist = sphereCentre[2] - 
 			instance_->hMap_->
 				getInterpHeight(sphereCentre[0], sphereCentre[1]);
-		if (dist < 0.0f)
+		
+		bool landscapeCollision = false;
+		if (info2->collisionOnSurface)
+		{
+			landscapeCollision = (dist < 0.0f);
+		}
+		else
+		{
+			landscapeCollision = (dist > 0.0f);
+		}
+
+
+		if (landscapeCollision)
 		{
 			Vector interN;
 			instance_->hMap_->

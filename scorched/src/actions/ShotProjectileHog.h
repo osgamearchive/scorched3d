@@ -19,12 +19,32 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 
-#include <engine/ScorchedCollisionIds.h>
+#if !defined(__INCLUDE_ShotProjectileHogh_INCLUDE__)
+#define __INCLUDE_ShotProjectileHogh_INCLUDE__
 
-ScorchedCollisionInfo::ScorchedCollisionInfo(
-	ScorchedCollisionId i, 
-	void *d) : 
-	id(i), data(d), collisionOnSurface(true)
+#include <actions/ShotProjectile.h>
+
+class ShotProjectileHog : public ShotProjectile
 {
+public:
+	ShotProjectileHog();
+	ShotProjectileHog(
+		Vector &startPosition, Vector &velocity,
+		Weapon *weapon, unsigned int playerId,
+		int warHeads, bool explosive);
+	virtual ~ShotProjectileHog();
 
-}
+	virtual bool writeAction(NetBuffer &buffer);
+	virtual bool readAction(NetBufferReader &reader);
+	virtual void collision(Vector &position);
+
+	REGISTER_ACTION_HEADER(ShotProjectileHog);
+
+protected:
+	int warHeads_;
+	bool explosive_;
+
+};
+
+
+#endif

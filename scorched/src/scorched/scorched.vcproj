@@ -1332,6 +1332,12 @@
 				RelativePath="..\weapons\WeaponClod.h">
 			</File>
 			<File
+				RelativePath="..\weapons\WeaponDigger.cpp">
+			</File>
+			<File
+				RelativePath="..\weapons\WeaponDigger.h">
+			</File>
+			<File
 				RelativePath="..\weapons\WeaponFunky.cpp">
 			</File>
 			<File
@@ -1366,6 +1372,12 @@
 			</File>
 			<File
 				RelativePath="..\weapons\WeaponRiotBomb.h">
+			</File>
+			<File
+				RelativePath="..\weapons\WeaponSandHog.cpp">
+			</File>
+			<File
+				RelativePath="..\weapons\WeaponSandHog.h">
 			</File>
 			<File
 				RelativePath="..\weapons\WeaponTracer.cpp">
@@ -1866,6 +1878,12 @@
 				RelativePath="..\actions\ShotProjectileFunky.h">
 			</File>
 			<File
+				RelativePath="..\actions\ShotProjectileHog.cpp">
+			</File>
+			<File
+				RelativePath="..\actions\ShotProjectileHog.h">
+			</File>
+			<File
 				RelativePath="..\actions\ShotProjectileLeapFrog.cpp">
 			</File>
 			<File
@@ -1894,6 +1912,12 @@
 			</File>
 			<File
 				RelativePath="..\actions\ShotProjectileTracer.h">
+			</File>
+			<File
+				RelativePath="..\actions\ShotProjectileUnder.cpp">
+			</File>
+			<File
+				RelativePath="..\actions\ShotProjectileUnder.h">
 			</File>
 			<File
 				RelativePath="..\actions\ShowScore.cpp">

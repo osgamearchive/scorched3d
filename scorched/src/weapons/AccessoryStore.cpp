@@ -35,6 +35,8 @@
 #include <weapons/WeaponRiotBomb.h>
 #include <weapons/WeaponNapalm.h>
 #include <weapons/WeaponLeapFrog.h>
+#include <weapons/WeaponSandHog.h>
+#include <weapons/WeaponDigger.h>
 
 #define ADD_NEW_ACCESSORY(x) { Accessory *acc = x; accessories_.push_back(acc); }
 
@@ -100,6 +102,16 @@ AccessoryStore::AccessoryStore()
 	// char *name, int price, int bundle, int armsLevel, int size
 	ADD_NEW_ACCESSORY(new WeaponRiotBomb("Riot Bomb", 5000, 5, 10, 6));
 	ADD_NEW_ACCESSORY(new WeaponRiotBomb("Lrg Riot Bomb", 4750, 2, 8, 12));
+
+	// Under earth removal weapons
+	// char *name, int price, int bundle, int armsLevel, int noWarheads
+	/*ADD_NEW_ACCESSORY(new WeaponDigger("Baby Digger", 3000, 10, 10, 3));	
+	ADD_NEW_ACCESSORY(new WeaponDigger("Digger", 2500, 5, 10, 5));	
+	ADD_NEW_ACCESSORY(new WeaponDigger("Heavy Digger", 6750, 2, 9, 10));
+
+	ADD_NEW_ACCESSORY(new WeaponSandHog("Baby Sandhog", 10000, 10, 10, 3));
+	ADD_NEW_ACCESSORY(new WeaponSandHog("Sandhog", 16750, 5, 10, 10));
+	ADD_NEW_ACCESSORY(new WeaponSandHog("Heavy Sandhog", 25000, 2, 9, 20));*/
 
 	// Multiple warhead weapons
 	// char *name, int price, int bundle, int armsLevel, int size, int numberWarheads, bool spread
