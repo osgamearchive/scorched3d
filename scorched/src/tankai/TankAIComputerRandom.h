@@ -30,6 +30,7 @@ public:
 	TankAIComputerRandom();
 	virtual ~TankAIComputerRandom();
 
+	virtual bool availableForRandom() { return false; }
 	virtual bool parseConfig(XMLNode *node);
 	virtual const char *getName() { return "Random"; }
 	virtual TankAIComputer *getCopy(Tank *tank, ScorchedContext *context);

@@ -18,11 +18,11 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #if !defined(__INCLUDE_ScorchedCollisionHandlerh_INCLUDE__)
 #define __INCLUDE_ScorchedCollisionHandlerh_INCLUDE__
 
 #include <engine/ScorchedContext.h>
+#include <engine/ScorchedCollisionIds.h>
 #include <common/Vector.h>
 #include <tank/Tank.h>
 
@@ -37,13 +37,6 @@ public:
 
 protected:
 	static ScorchedCollisionHandler *instance_;
-
-	enum ParticleAction
-	{
-		ParticleActionBounce,
-		ParticleActionFinished,
-		ParticleActionNone
-	};
 
 	ScorchedContext *context_;
 

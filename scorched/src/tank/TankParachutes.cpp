@@ -20,6 +20,7 @@
 
 #include <tank/TankParachutes.h>
 #include <weapons/AccessoryStore.h>
+#include <server/ScorchedServer.h>
 #include <stdio.h>
 
 TankParachutes::TankParachutes()
@@ -52,18 +53,21 @@ void TankParachutes::reset()
 	setParachutesEnabled(false);	
 
 	std::list<Accessory *> accessories = 
-		AccessoryStore::instance()->getAllWeapons();
+		AccessoryStore::instance()->getAllOthers();
 	std::list<Accessory *>::iterator itor;
 	for (itor = accessories.begin();
 		itor != accessories.end();
 		itor++)
 	{
 		Accessory *accessory = (*itor);
-		if (accessory->getType() == Accessory::AccessoryParachute &&
-			accessory->getPrice() == 0 && 
-			accessory->getBundle() == 0)
+		if (accessory->getType() == Accessory::AccessoryParachute)
 		{
-			addParachutes(-1);
+			if ((accessory->getPrice() == 0 && 
+				accessory->getBundle() == 0) ||
+				ScorchedServer::instance()->getOptionsGame().getGiveAllWeapons())
+			{
+				addParachutes(-1);
+			}
 		}
 	}
 }

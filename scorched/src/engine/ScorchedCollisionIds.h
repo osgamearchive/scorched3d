@@ -18,9 +18,16 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #if !defined(__INCLUDE_ScorchedCollisionIdsh_INCLUDE__)
 #define __INCLUDE_ScorchedCollisionIdsh_INCLUDE__
+
+enum ParticleAction
+{
+	ParticleActionBounce,
+	ParticleActionFinished,
+	ParticalActionWarp,
+	ParticleActionNone
+};
 
 enum ScorchedCollisionId
 {

@@ -25,6 +25,7 @@
 #include <tankai/TankAIComputerTosser.h>
 #include <tankai/TankAIComputerRandom.h>
 #include <tankai/TankAIComputerPShark.h>
+#include <tankai/TankAIComputerTarget.h>
 #include <stdlib.h>
 
 TankAIStore *TankAIStore::instance_ = 0;
@@ -100,7 +101,11 @@ bool TankAIStore::loadAIs()
 		const char *typeName = type->getContent();
 
 		TankAIComputer *computer = 0;
-		if (strcmp(typeName, "Moron") == 0)
+		if (strcmp(typeName, "Target") == 0)
+		{
+			computer = new TankAIComputerTarget;
+		}
+		else if (strcmp(typeName, "Moron") == 0)
 		{
 			computer = new TankAIComputerMoron;
 		} 

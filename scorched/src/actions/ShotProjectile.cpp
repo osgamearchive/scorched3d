@@ -76,27 +76,7 @@ ShotProjectile::~ShotProjectile()
 
 void ShotProjectile::collision(Vector &position)
 {
-	std::map<unsigned int, Tank *> &tanks = 
-		context_->tankContainer.getPlayingTanks();
-	std::map<unsigned int, Tank *>::iterator itor;
-	for (itor = tanks.begin();
-		itor != tanks.end();
-		itor++)
-	{
-		Tank *tank = (*itor).second;
-
-		TankAI *ai = tank->getTankAI();
-		if (ai)
-		{		
-			if (tank->getState().getState() == TankState::sNormal)
-			{
-				ai->shotLanded(weapon_, playerId_, position);
-			}
-		}
-	}
-
 	doCollision(position);
-
 	PhysicsParticleMeta::collision(position);
 }
 

@@ -18,14 +18,11 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <tank/TankFuel.h>
+#include <server/ScorchedServer.h>
+#include <weapons/AccessoryStore.h>
 #include <common/Defines.h>
 #include <stdio.h>
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 TankFuel::TankFuel()
 {
@@ -40,6 +37,25 @@ TankFuel::~TankFuel()
 void TankFuel::reset()
 {
 	fuelCount_ = 0;
+	std::list<Accessory *> accessories = 
+		AccessoryStore::instance()->getAllOthers();
+	std::list<Accessory *>::iterator itor;
+	for (itor = accessories.begin();
+		itor != accessories.end();
+		itor++)
+	{
+		Accessory *accessory = (*itor);
+		if (accessory->getType() == Accessory::AccessoryFuel)
+		{
+			if ((accessory->getPrice() == 0 && 
+				accessory->getBundle() == 0) ||
+				ScorchedServer::instance()->getOptionsGame().getGiveAllWeapons())
+			{
+				addFuel(ScorchedServer::instance()->getOptionsGame().
+					getMaxNumberWeapons());
+			}
+		}
+	}
 }
 
 void TankFuel::rmFuel(int no)

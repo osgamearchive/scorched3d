@@ -135,7 +135,7 @@ void MissileMesh::draw(Vector &position, Vector &direction, int flareType, float
 		newPos[1] = position[1] + newY2;
 		newPos[2] = position[2] + newZ2;
 
-		GLLenseFlare::instance()->draw(newPos, dir, flareType);
+		GLLenseFlare::instance()->draw(newPos, false, flareType);
 	}
 }
 

@@ -20,6 +20,7 @@
 
 #include <tank/TankShields.h>
 #include <weapons/AccessoryStore.h>
+#include <server/ScorchedServer.h>
 #include <stdio.h>
 #include <math.h>
 #include <set>
@@ -40,18 +41,21 @@ void TankShields::reset()
 	newGame();
 
 	std::list<Accessory *> accessories = 
-		AccessoryStore::instance()->getAllWeapons();
+		AccessoryStore::instance()->getAllOthers();
 	std::list<Accessory *>::iterator itor;
 	for (itor = accessories.begin();
 		itor != accessories.end();
 		itor++)
 	{
 		Accessory *accessory = (*itor);
-		if (accessory->getType() == Accessory::AccessoryShield &&
-			accessory->getPrice() == 0 && 
-			accessory->getBundle() == 0)
+		if (accessory->getType() == Accessory::AccessoryShield)
 		{
-			addShield((Shield*) accessory, -1);
+			if ((accessory->getPrice() == 0 && 
+				accessory->getBundle() == 0) ||
+				ScorchedServer::instance()->getOptionsGame().getGiveAllWeapons())
+			{
+				addShield((Shield*) accessory, -1);
+			}
 		}
 	}
 }

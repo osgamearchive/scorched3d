@@ -107,6 +107,8 @@ OptionsGame::OptionsGame() :
 		"IP address to publish to scorched net clients (auto-detected if not given).", 0, "AutoDetect"),
 	botNamePrefix_(options_, "BotNamePrefix", 
 		"Prepend and bot name with the specified text", 0, "(Bot) "),
+	giveAllWeapons_(options_, "GiveAllWeapons",
+		"Start the game will all the weapons", FlagDontSend, false),
 	randomizeBotNames_(options_, "RandomizeBotNames",
 		"Choose random bot names instread of sequential names", FlagDontSend, false),
 	computersDeathTalk_(options_, "ComputersDeathTalk",

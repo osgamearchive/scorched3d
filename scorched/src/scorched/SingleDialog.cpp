@@ -34,7 +34,8 @@ enum
 	ID_BUTTON_EASY = 1,
 	ID_BUTTON_NORMAL,
 	ID_BUTTON_HARD,
-	ID_BUTTON_CUSTOM
+	ID_BUTTON_CUSTOM,
+	ID_BUTTON_TARGET
 };
 
 class SingleFrame: public wxDialog
@@ -46,6 +47,7 @@ public:
 	void onNormalButton();
 	void onHardButton();
 	void onCustomButton();
+	void onTargetButton();
 
 private:
     DECLARE_EVENT_TABLE()
@@ -56,6 +58,7 @@ BEGIN_EVENT_TABLE(SingleFrame, wxDialog)
 	EVT_BUTTON(ID_BUTTON_NORMAL,  SingleFrame::onNormalButton)
 	EVT_BUTTON(ID_BUTTON_HARD,  SingleFrame::onHardButton)
 	EVT_BUTTON(ID_BUTTON_CUSTOM,  SingleFrame::onCustomButton)
+	EVT_BUTTON(ID_BUTTON_TARGET, SingleFrame::onTargetButton)
 END_EVENT_TABLE()
 
 SingleFrame::SingleFrame() :
@@ -71,6 +74,12 @@ SingleFrame::SingleFrame() :
 #endif
 
 	wxFlexGridSizer *gridsizer = new wxFlexGridSizer(4, 2, 5, 5);
+	{
+		addButtonToWindow(ID_BUTTON_TARGET, 
+			"Start an target practice game.\n"
+			"Play a practice level against targets that don't fire back.", 
+			"data/windows/target.bmp", this, gridsizer);
+	}
 	{
 		addButtonToWindow(ID_BUTTON_EASY, 
 			"Start an easy single player game.\n"
@@ -93,7 +102,7 @@ SingleFrame::SingleFrame() :
 		addButtonToWindow(ID_BUTTON_CUSTOM,
 			"Start an custom single or multi-player game.\n"
 			"Choose the opponents to play against.", 
-			"data/windows/tank2.bmp", this, gridsizer);
+			"data/windows/tank-cus.bmp", this, gridsizer);
 	}
 	topsizer->Add(gridsizer, 0, wxALIGN_CENTER | wxALL, 5);
 
@@ -107,6 +116,16 @@ SingleFrame::SingleFrame() :
 	topsizer->SetSizeHints(this); // set size hints to honour minimum size
 
 	CentreOnScreen();
+}
+
+void SingleFrame::onTargetButton()
+{
+	const char *targetFilePath = getDataFile("data/singletarget.xml");
+	ScorchedServer::instance()->getOptionsGame().readOptionsFromFile((char *) targetFilePath);
+	ScorchedServer::instance()->getOptionsGame().writeOptionsToFile((char *) targetFilePath);
+	EndModal(wxID_OK);
+
+	runScorched3D("-startclient \"%s\"", targetFilePath);
 }
 
 void SingleFrame::onEasyButton()

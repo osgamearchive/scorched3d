@@ -130,8 +130,8 @@ void GLLenseFlare::draw(Vector &flarePos,  bool fullFlare, int colorNo)
 		Vector dy = (dx * view_dir).Normalize();
 		dx = -(dy * view_dir).Normalize();
 
-		dx *= 10.0f;
-		dy *= 10.0f;
+		dx *= 2.0f;
+		dy *= 2.0f;
 
 		glDepthMask(GL_FALSE);
 		GLState currentState(GLState::BLEND_ON);

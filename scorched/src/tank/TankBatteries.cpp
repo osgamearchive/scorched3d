@@ -18,18 +18,11 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// TankBatteries.cpp: implementation of the TankBatteries class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <tank/TankBatteries.h>
+#include <weapons/AccessoryStore.h>
+#include <server/ScorchedServer.h>
 #include <common/Defines.h>
 #include <stdio.h>
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 TankBatteries::TankBatteries()
 {
@@ -44,6 +37,25 @@ TankBatteries::~TankBatteries()
 void TankBatteries::reset()
 {
 	batteryCount_ = 0;
+	std::list<Accessory *> accessories = 
+		AccessoryStore::instance()->getAllOthers();
+	std::list<Accessory *>::iterator itor;
+	for (itor = accessories.begin();
+		itor != accessories.end();
+		itor++)
+	{
+		Accessory *accessory = (*itor);
+		if (accessory->getType() == Accessory::AccessoryBattery)
+		{
+			if ((accessory->getPrice() == 0 && 
+				accessory->getBundle() == 0) ||
+				ScorchedServer::instance()->getOptionsGame().getGiveAllWeapons())
+			{
+				addBatteries(ScorchedServer::instance()->getOptionsGame().
+					getMaxNumberWeapons());
+			}
+		}
+	}
 }
 
 void TankBatteries::rmBatteries(int no)

@@ -22,6 +22,7 @@
 #define __INCLUDE_TankAIh_INCLUDE__
 
 #include <common/Vector.h>
+#include <engine/ScorchedCollisionIds.h>
 
 class Weapon;
 class ScorchedContext;
@@ -53,7 +54,10 @@ public:
 	// to gain information about what shots they have fired
 	// or who fired shots at them
 	virtual void tankHurt(Weapon *weapon, unsigned int firer) = 0;
-	virtual void shotLanded(Weapon *weapon, unsigned int firer, 
+	virtual void shotLanded(
+		ParticleAction action,
+		ScorchedCollisionInfo *collision,
+		Weapon *weapon, unsigned int firer, 
 		Vector &position) = 0;
 
 protected:

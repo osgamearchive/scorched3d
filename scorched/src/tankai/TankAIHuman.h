@@ -37,7 +37,9 @@ public:
 	virtual void endPlayMove();
 	virtual void newGame();
 	virtual void tankHurt(Weapon *weapon, unsigned int firer);
-	virtual void shotLanded(Weapon *weapon, unsigned int firer, 
+	virtual void shotLanded(ParticleAction action,
+		ScorchedCollisionInfo *collision,
+		Weapon *weapon, unsigned int firer, 
 		Vector &position);
 
 	// Tank move methods and tank defense methods

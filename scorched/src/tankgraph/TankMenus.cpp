@@ -23,7 +23,9 @@
 #include <client/ClientState.h>
 #include <client/ClientSave.h>
 #include <client/ScorchedClient.h>
+#include <server/ScorchedServer.h>
 #include <tankai/TankAIHuman.h>
+#include <tankai/TankAIComputer.h>
 #include <tankgraph/TankMenus.h>
 #include <tankgraph/TankModelRenderer.h>
 #include <GLW/GLWWindowManager.h>
@@ -98,13 +100,26 @@ void TankMenus::showTankDetails()
 		itor++)
 	{
 		Tank *tank = (*itor).second;
-		TankAI *tankai = tank->getTankAI();
+
 		TankModelId &modelId = tank->getModel();
+
+		const char *description = "Unknown";
+		Tank *otherTank = ScorchedServer::instance()->
+			getTankContainer().getTankById(tank->getPlayerId());
+		if (tank->getTankAI())
+		{
+			description = "Human";
+		}
+		else if (otherTank && otherTank->getTankAI())
+		{
+			description = 
+				((TankAIComputer *)otherTank->getTankAI())->getName();
+		}
 
 		char buffer[1024];
 		sprintf(buffer, "%c %8s - \"%10s\" (%s)", 
 			currentTank == tank?'>':' ',
-			(tankai?(tankai->isHuman()?"Human":"Bot"):"Unknown"),
+			description,
 			tank->getName(), modelId.getModelName());
 		GLConsole::instance()->addLine(false, buffer);
 	}

@@ -42,10 +42,16 @@ public:
 	virtual bool parseConfig(XMLNode *node);
 	virtual const char *getName() { return name_.c_str(); }
 	virtual void tankHurt(Weapon *weapon, unsigned int firer);
-	virtual void shotLanded(Weapon *weapon, unsigned int firer, 
+	virtual void shotLanded(ParticleAction action,
+		ScorchedCollisionInfo *collision,
+		Weapon *weapon, unsigned int firer, 
 		Vector &position);
 
 	virtual bool isHuman() { return false; }
+
+	// Indicates if this computer ai is available for choice by
+	// the random tank ai type
+	virtual bool availableForRandom() { return true; }
 
 	// Notificiation that the shot fired has landed
 	virtual void buyAccessories();

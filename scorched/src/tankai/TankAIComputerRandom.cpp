@@ -46,7 +46,7 @@ TankAIComputer *TankAIComputerRandom::getCopy(Tank *tank, ScorchedContext *conte
 	for (int i=0; i<tankNo; i++) itor++;
 
 	TankAIComputer *result = (*itor);
-	if (!strcmp(result->getName(), getName())) return getCopy(tank, context);
+	if (!result->availableForRandom()) return getCopy(tank, context);
 	return result->getCopy(tank, context);
 }
 

@@ -24,7 +24,6 @@
 #include <actions/WallHit.h>
 #include <actions/ShieldHit.h>
 #include <engine/ScorchedCollisionHandler.h>
-#include <engine/ScorchedCollisionIds.h>
 #include <engine/PhysicsParticle.h>
 #include <engine/ActionController.h>
 
@@ -202,6 +201,9 @@ void ScorchedCollisionHandler::shotCollision(dGeomID o1, dGeomID o2,
 		particleInfo = (ScorchedCollisionInfo *) dGeomGetData(o2);
 		otherInfo = (ScorchedCollisionInfo *) dGeomGetData(o1);
 	}
+
+	unsigned int id = (unsigned int) otherInfo->data;
+	ShotProjectile *shot = (ShotProjectile *) particleInfo->data;
 	Vector particlePositionV(
 		(float) particlePosition[0],
 		(float) particlePosition[1],
@@ -218,9 +220,6 @@ void ScorchedCollisionHandler::shotCollision(dGeomID o1, dGeomID o2,
 	case CollisionIdShieldSmall:
 		// May have collided with shield
 		{
-			ShotProjectile *shot = (ShotProjectile *) particleInfo->data;
-			unsigned int id = (unsigned int) otherInfo->data;
-
 			// Only collide with other peoples shields
 			if (shot->getPlayerId() != id)
 			{
@@ -237,9 +236,6 @@ void ScorchedCollisionHandler::shotCollision(dGeomID o1, dGeomID o2,
 	case CollisionIdTank:
 		// A shot collides with a tank
 		{
-			ShotProjectile *shot = (ShotProjectile *) particleInfo->data;
-			unsigned int id = (unsigned int) otherInfo->data;
-
 			// Only collide with other tanks
 			if (shot->getPlayerId() != id)
 			{
@@ -278,8 +274,7 @@ void ScorchedCollisionHandler::shotCollision(dGeomID o1, dGeomID o2,
 				break;
 			case OptionsTransient::wallWrapAround:
 				{
-					PhysicsParticleMeta *particle = (PhysicsParticleMeta *) particleInfo->data;
-					Vector currentPosition = particle->getCurrentPosition();
+					Vector currentPosition = shot->getCurrentPosition();
 					action = ParticleActionNone; // Not strictly true as
 					// we are about to move the particle
 					switch (otherInfo->id)
@@ -299,7 +294,8 @@ void ScorchedCollisionHandler::shotCollision(dGeomID o1, dGeomID o2,
 					default:
 						break;
 					}
-					particle->setCurrentPosition(currentPosition);
+					shot->setCurrentPosition(currentPosition);
+					action = ParticalActionWarp;
 				}
 				break;
 			default:
@@ -318,13 +314,37 @@ void ScorchedCollisionHandler::shotCollision(dGeomID o1, dGeomID o2,
 		break;
 	};
 
+	// Tell all TankAIs about this collision (if any)
+	if (action != ParticleActionNone)
+	{
+		std::map<unsigned int, Tank *> &tanks = 
+			context_->tankContainer.getPlayingTanks();
+		std::map<unsigned int, Tank *>::iterator itor;
+		for (itor = tanks.begin();
+			itor != tanks.end();
+			itor++)
+		{
+			Tank *tank = (*itor).second;
+			TankAI *ai = tank->getTankAI();
+			if (ai)
+			{		
+				if (tank->getState().getState() == TankState::sNormal &&
+					tank->getState().getSpectator() == false)
+				{
+					ai->shotLanded(action, otherInfo, 
+						shot->getWeapon(), shot->getPlayerId(), 
+						shot->getCurrentPosition());
+				}
+			}
+		}
+	}
+
+	// Perform the actual action that has been worked
+	// out by the collision handler
 	switch (action)
 	{
 	case ParticleActionFinished:
-		{
-			PhysicsParticleMeta *particle = (PhysicsParticleMeta *) particleInfo->data;
-			particle->collision(particlePositionV);
-		}
+		shot->collision(particlePositionV);
 		break;
 	case ParticleActionBounce:
 		collisionBounce(o1, o2, contacts, noContacts);
@@ -334,7 +354,7 @@ void ScorchedCollisionHandler::shotCollision(dGeomID o1, dGeomID o2,
 	}
 }
 
-ScorchedCollisionHandler::ParticleAction ScorchedCollisionHandler::collisionShield(
+ParticleAction ScorchedCollisionHandler::collisionShield(
 	unsigned int id,
 	Vector &collisionPos,
 	Shield::ShieldSize size)

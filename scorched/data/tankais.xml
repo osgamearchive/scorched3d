@@ -38,4 +38,8 @@
 		<name>Moron</name>
 		<weapon><name>Missile</name><level>2</level></weapon>
 	</ai>
+	
+	<ai type="Target">
+		<name>Target</name>
+	</ai>
 </ais>

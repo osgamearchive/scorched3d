@@ -2835,6 +2835,12 @@
 				RelativePath="..\tankai\TankAIComputerShooter.h">
 			</File>
 			<File
+				RelativePath="..\tankai\TankAIComputerTarget.cpp">
+			</File>
+			<File
+				RelativePath="..\tankai\TankAIComputerTarget.h">
+			</File>
+			<File
 				RelativePath="..\tankai\TankAIComputerTosser.cpp">
 			</File>
 			<File

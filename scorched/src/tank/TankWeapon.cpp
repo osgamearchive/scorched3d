@@ -22,6 +22,7 @@
 #include <weapons/AccessoryStore.h>
 #include <weapons/Weapon.h>
 #include <tank/TankWeapon.h>
+#include <server/ScorchedServer.h>
 #include <stdio.h>
 #include <set>
 
@@ -48,11 +49,14 @@ void TankWeapon::reset()
 		itor++)
 	{
 		Accessory *accessory = (*itor);
-		if (accessory->getType() == Accessory::AccessoryWeapon &&
-			accessory->getPrice() == 0 && 
-			accessory->getBundle() == 0)
+		if (accessory->getType() == Accessory::AccessoryWeapon)
 		{
-			addWeapon((Weapon*) accessory, -1);
+			if ((accessory->getPrice() == 0 && 
+					accessory->getBundle() == 0) ||
+					ScorchedServer::instance()->getOptionsGame().getGiveAllWeapons())
+			{
+				addWeapon((Weapon*) accessory, -1);
+			}
 		}
 	}
 }

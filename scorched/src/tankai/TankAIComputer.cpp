@@ -104,7 +104,10 @@ void TankAIComputer::tankHurt(Weapon *weapon, unsigned int firer)
 	}
 }
 
-void TankAIComputer::shotLanded(Weapon *weapon, unsigned int firer, Vector &position)
+void TankAIComputer::shotLanded(ParticleAction action,
+								ScorchedCollisionInfo *collision,
+								Weapon *weapon, unsigned int firer, 
+								Vector &position)
 {
 	if (primaryShot_ && firer == currentTank_->getPlayerId())
 	{
