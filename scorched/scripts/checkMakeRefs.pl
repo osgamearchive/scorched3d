@@ -2,8 +2,7 @@ use strict;
 
 my %usedFiles = ();
 
-addVCProj("..\\src\\client\\scorched.vcproj", "scorched", "client");
-addVCProj("..\\src\\server\\scorchedsvr.vcproj", "scorchedsvr", "server");
+addVCProj("..\\src\\scorched\\scorched.vcproj", "scorched", "scorched");
 
 sub addVCProj
 {
