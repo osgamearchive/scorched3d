@@ -11,12 +11,6 @@
     <value>15</value>
     <defaultvalue>15</defaultvalue>
   </option>
-  <!-- How close tanks are allowed to start the level -->
-  <option>
-    <name>TankStartCloseness</name>
-    <value>20</value>
-    <defaultvalue>20</defaultvalue>
-  </option>
   <!-- The amount of time each player has for each shot -->
   <option>
     <name>ShotTime</name>
@@ -142,30 +136,6 @@
     <name>TurnType</name>
     <value>1</value>
     <defaultvalue>1</defaultvalue>
-  </option>
-  <!-- The y width of the landscape -->
-  <option>
-    <name>LandWidthY</name>
-    <value>256</value>
-    <defaultvalue>256</defaultvalue>
-  </option>
-  <!-- The x width of the landscape -->
-  <option>
-    <name>LandWidthX</name>
-    <value>256</value>
-    <defaultvalue>256</defaultvalue>
-  </option>
-  <!-- The maximum number of hills -->
-  <option>
-    <name>LandHills</name>
-    <value>100</value>
-    <defaultvalue>100</defaultvalue>
-  </option>
-  <!-- The maximum land height -->
-  <option>
-    <name>LandHeight</name>
-    <value>30</value>
-    <defaultvalue>30</defaultvalue>
   </option>
   <!-- The force of the wind -->
   <option>
