@@ -52,6 +52,7 @@ public:
 	bool textureValid() { return texNum_ != 0; }
 	GLenum getTexType() { return texType_; }
 	GLenum getTexFormat() { return texFormat_; }
+	static GLTexture *getLastBind() { return lastBind_; }
 
 protected:
 	GLuint texNum_;

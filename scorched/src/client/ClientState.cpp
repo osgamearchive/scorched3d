@@ -37,7 +37,7 @@
 #include <landscape/Landscape.h>
 #include <GLW/GLWToolTip.h>
 #include <GLEXT/GLCameraFrustum.h>
-#include <GLEXT/GLBilboardRenderer.h>
+#include <GLEXT/GLOrderedItemRenderer.h>
 #include <GLEXT/GLConsole.h>
 
 void ClientState::addWindowManager(GameState &gameState, unsigned state)
@@ -80,7 +80,7 @@ void ClientState::addStandardComponents(GameState &gameState, unsigned state, bo
 	gameState.addStateLoop(state, MainCamera::instance(), 
 		&ScorchedClient::instance()->getActionController());
 	gameState.addStateLoop(state, MainCamera::instance(), 
-		GLBilboardRenderer::instance());
+		GLOrderedItemRenderer::instance());
 	addWindowManager(gameState, state);
 	gameState.addStateLoop(state, Main2DCamera::instance(), 
 		MainBanner::instance());

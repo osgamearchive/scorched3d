@@ -22,23 +22,25 @@
 #define __INCLUDE_GLBilboardRendererh_INCLUDE__
 
 #include <GLEXT/GLTexture.h>
-#include <engine/GameStateI.h>
+#include <GLEXT/GLOrderedItemRenderer.h>
 #include <map>
 
 // Renders bilboards using z-ordering
 // i.e. the furthest away are drawn first
 // and the nearest drawn last
-class GLBilboardRenderer : public GameStateI
+class GLBilboardRenderer : public GLOrderedItemRendererProvider,
+						   public GLOrderedItemRendererProviderSetup
 {
 public:
-	class Entry
+	static GLBilboardRenderer *instance();
+
+	class Entry : public GLOrderedItemRenderer::OrderedEntry
 	{
 	public:
 		Entry() : 
 			width(1.0f), height(1.0f), alpha(1.0f), 
 			texture(0), textureCoord(0) { }
 
-		float posX, posY, posZ;
 		float width, height;
 		float alpha;
 		GLTexture *texture;
@@ -46,20 +48,28 @@ public:
 	};
 
 	// Public Interface, use add entry to add bilboard
-	static GLBilboardRenderer *instance();
 	void addEntry(Entry *entry);
 
-	// Inherited from GameStateI
-	virtual void draw(const unsigned state);
-	virtual void simulate(const unsigned int state, float simTime);
+	// Inherited from Interfaces
+	virtual void itemsSetup();
+	virtual void itemsSimulate(float simTime);
+	virtual void drawItem(GLOrderedItemRenderer::OrderedEntry &entry);
 
 protected:
 	static GLBilboardRenderer *instance_;
-	std::multimap<float, Entry *> entries_;
+
+	// Stats
 	float totalTime_;
 	bool showMessages_;
 	int totalSwitches_;
 	int totalBilboards_;
+
+	// State
+	Vector bilX_;
+	Vector bilY_;
+	float bilboardsAllowed_;
+	float bilboardCount_;
+	float bilboardDrawn_;
 	int bilboardsThisFrame_;
 
 private:

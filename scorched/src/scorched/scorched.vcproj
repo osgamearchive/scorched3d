@@ -122,6 +122,12 @@
 				RelativePath="..\GLEXT\GLBilboardRenderer.h">
 			</File>
 			<File
+				RelativePath="..\GLEXT\GLOrderedItemRenderer.cpp">
+			</File>
+			<File
+				RelativePath="..\GLEXT\GLOrderedItemRenderer.h">
+			</File>
+			<File
 				RelativePath="..\GLEXT\GLBitmap.cpp">
 			</File>
 			<File

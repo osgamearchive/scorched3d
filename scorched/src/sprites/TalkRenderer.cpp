@@ -18,19 +18,10 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// TalkRenderer.cpp: implementation of the TalkRenderer class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <GLEXT/GLCameraFrustum.h>
 #include <GLEXT/GLState.h>
 #include <GLEXT/GLBitmap.h>
 #include <sprites/TalkRenderer.h>
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 GLTexture TalkRenderer::talkTex_;
 
@@ -43,6 +34,11 @@ TalkRenderer::TalkRenderer(Vector &position) :
 		GLBitmap talkBitmap( PKGDIR "data/textures/talk.bmp", true);
 		talkTex_.create(talkBitmap, GL_RGBA);
 	}
+
+	bilEntry_.texture = &talkTex_;
+	bilEntry_.alpha = 1.0f;
+	bilEntry_.width = 2.0f; bilEntry_.height = 2.0f;
+	bilEntry_.textureCoord = 0;
 }
 
 TalkRenderer::~TalkRenderer()
@@ -52,33 +48,13 @@ TalkRenderer::~TalkRenderer()
 
 void TalkRenderer::draw(Action *action)
 {
-	GLState currentState(GLState::DEPTH_ON | GLState::TEXTURE_ON | GLState::BLEND_ON);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glDepthMask(GL_FALSE);
-
-	talkTex_.draw(true);
 	Vector &bilX = GLCameraFrustum::instance()->getBilboardVectorX();
 	Vector &bilY = GLCameraFrustum::instance()->getBilboardVectorY();
 
-	glColor3f(1.0f, 1.0f, 1.0f);
-	glPushMatrix();
-		glTranslatef(
-			position_[0] + 4.0f * bilX[0], 
-			position_[1] + 4.0f * bilX[1], 
-			position_[2] + 5.0f);
-		glScalef(2.0f, 2.0f, 2.0f);
-		glBegin(GL_QUADS);
-			glTexCoord2d(1.0f, 0.0f);
-			glVertex3fv( bilX - bilY);
-			glTexCoord2d(1.0f, 1.0f);
-			glVertex3fv( bilX + bilY);
-			glTexCoord2d(0.0f, 1.0f);
-			glVertex3fv( -bilX + bilY);
-			glTexCoord2d(0.0f, 0.0f);
-			glVertex3fv( -bilX - bilY);
-		glEnd();
-	glPopMatrix();
-	glDepthMask(GL_TRUE);
+	bilEntry_.posX = position_[0] + 4.0f * bilX[0];
+	bilEntry_.posY = position_[1] + 4.0f * bilX[1];
+	bilEntry_.posZ = position_[2] + 5.0f;
+	GLBilboardRenderer::instance()->addEntry(&bilEntry_);
 }
 
 void TalkRenderer::simulate(Action *action, float timepassed, bool &remove)

@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
 //    Scorched3D (c) 2000-2003
 //
 //    This file is part of Scorched3D.
@@ -42,13 +42,14 @@ GLBilboardRenderer::GLBilboardRenderer() :
 	bilboardsThisFrame_(0)
 {
 	new GLConsoleRuleFnIBooleanAdapter("BilboardStats", showMessages_);
+	GLOrderedItemRenderer::instance()->addSetup(this);
 }
 
 GLBilboardRenderer::~GLBilboardRenderer()
 {
 }
 
-void GLBilboardRenderer::simulate(const unsigned int state, float simTime)
+void GLBilboardRenderer::itemsSimulate(float simTime)
 {
 	const float printTime = 5.0f;
 	totalTime_ += simTime;
@@ -68,115 +69,94 @@ void GLBilboardRenderer::simulate(const unsigned int state, float simTime)
 	}
 }
 
-void GLBilboardRenderer::addEntry(Entry *entry)
+void GLBilboardRenderer::itemsSetup()
 {
-	Vector &cameraPos = 
-		MainCamera::instance()->getCamera().getCurrentPos();
-
-	float dist = 0.0f;
-	dist += (cameraPos[0] - entry->posX) * (cameraPos[0] - entry->posX);
-	dist += (cameraPos[1] - entry->posY) * (cameraPos[1] - entry->posY);
-	dist += (cameraPos[2] - entry->posZ) * (cameraPos[2] - entry->posZ);
-
-	++bilboardsThisFrame_;
-	entries_.insert(std::pair<float, Entry *>(dist,entry));
-}
-
-void GLBilboardRenderer::draw(const unsigned state)
-{
-	float bilboardsAllowed = 
+	// Setup the bilboard items
+	bilX_ = GLCameraFrustum::instance()->getBilboardVectorX();
+	bilY_ = GLCameraFrustum::instance()->getBilboardVectorY();
+	bilboardsAllowed_ = 
 		float(OptionsDisplay::instance()->getNumberBilboards()) /
 		float(bilboardsThisFrame_);
 	bilboardsThisFrame_ = 0;
+	bilboardCount_ = 0.0f;
+	bilboardDrawn_ = 0.0f;
+}
 
-	// Setup the transparecy and textures
-	GLState drawState(GLState::TEXTURE_ON | GLState::BLEND_ON | GLState::DEPTH_ON);
-	glDepthMask(GL_FALSE);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	
-	// Setup the bilboard
-	Vector &bilX = GLCameraFrustum::instance()->getBilboardVectorX();
-	Vector &bilY = GLCameraFrustum::instance()->getBilboardVectorY();
-	GLTexture *lastTexture = 0;
-	
-	float bilboardCount = 0.0f;
-	float bilboardDrawn = 0.0f;
-	std::multimap<float, Entry *>::reverse_iterator itor;
-	std::multimap<float, Entry *>::reverse_iterator endItor = entries_.rend();
-	for (itor = entries_.rbegin();
-			itor != endItor;
-			itor++)
+void GLBilboardRenderer::addEntry(Entry *entry)
+{
+	++bilboardsThisFrame_;
+	entry->provider_ = this;
+	GLOrderedItemRenderer::instance()->addEntry(entry);
+}
+
+void GLBilboardRenderer::drawItem(GLOrderedItemRenderer::OrderedEntry &oentry)
+{
+	GLBilboardRenderer::Entry &entry =
+		(GLBilboardRenderer::Entry &) oentry;
+
+	bilboardCount_ += bilboardsAllowed_;
+	if (bilboardDrawn_ > bilboardCount_) return;	
+	bilboardDrawn_ += 1.0f;
+
+	totalBilboards_++;
+	if (entry.texture != GLTexture::getLastBind())
 	{
-		bilboardCount += bilboardsAllowed;
-		if (bilboardDrawn > bilboardCount) continue;
-		
-		bilboardDrawn += 1.0f;
-		Entry *entry = (*itor).second;
-
-		totalBilboards_++;
-		if (entry->texture != lastTexture)
-		{
-			entry->texture->draw();
-			totalSwitches_++;
-			lastTexture = entry->texture;
-		}
-		glColor4f(1.0f, 1.0f, 1.0f, entry->alpha);
-
-		float bilXX = bilX[0] * entry->width;
-		float bilXY = bilX[1] * entry->width;
-		float bilXZ = bilX[2] * entry->width;
-		float bilYX = bilY[0] * entry->height;
-		float bilYY = bilY[1] * entry->height;
-		float bilYZ = bilY[2] * entry->height;
-
-		glBegin(GL_QUADS);
-			switch(entry->textureCoord)
-			{
-				default: glTexCoord2d(1.0f, 1.0f); break;
-				case 1:  glTexCoord2d(0.0f, 1.0f); break;
-				case 2:  glTexCoord2d(0.0f, 0.0f); break;
-				case 3:  glTexCoord2d(1.0f, 0.0f); break;
-			}
-			glVertex3f(
-				entry->posX + bilXX + bilYX, 
-				entry->posY + bilXY + bilYY, 
-				entry->posZ + bilXZ + bilYZ);
-			switch(entry->textureCoord)
-			{
-				default: glTexCoord2d(0.0f, 1.0f); break;
-				case 1:  glTexCoord2d(0.0f, 0.0f); break;
-				case 2:  glTexCoord2d(1.0f, 0.0f); break;
-				case 3:  glTexCoord2d(1.0f, 1.0f); break;
-			}
-			glVertex3f(
-				entry->posX - bilXX + bilYX, 
-				entry->posY - bilXY + bilYY, 
-				entry->posZ - bilXZ + bilYZ);
-			switch(entry->textureCoord)
-			{
-				default: glTexCoord2d(0.0f, 0.0f); break;
-				case 1:  glTexCoord2d(1.0f, 0.0f); break;
-				case 2:  glTexCoord2d(1.0f, 1.0f); break;
-				case 3:  glTexCoord2d(0.0f, 1.0f); break;
-			}
-			glVertex3f(
-				entry->posX - bilXX - bilYX, 
-				entry->posY - bilXY - bilYY, 
-				entry->posZ - bilXZ - bilYZ);
-			switch(entry->textureCoord)
-			{
-				default: glTexCoord2d(1.0f, 0.0f); break;
-				case 1:  glTexCoord2d(1.0f, 1.0f); break;
-				case 2:  glTexCoord2d(0.0f, 1.0f); break;
-				case 3:  glTexCoord2d(0.0f, 0.0f); break;
-			}
-			glVertex3f(
-				entry->posX + bilXX - bilYX, 
-				entry->posY + bilXY - bilYY, 
-				entry->posZ + bilXZ - bilYZ);
-		glEnd();
+		entry.texture->draw();
+		totalSwitches_++;
 	}
-	glDepthMask(GL_TRUE);
+	glColor4f(1.0f, 1.0f, 1.0f, entry.alpha);
 
-	entries_.clear();
+	float bilXX = bilX_[0] * entry.width;
+	float bilXY = bilX_[1] * entry.width;
+	float bilXZ = bilX_[2] * entry.width;
+	float bilYX = bilY_[0] * entry.height;
+	float bilYY = bilY_[1] * entry.height;
+	float bilYZ = bilY_[2] * entry.height;
+
+	glBegin(GL_QUADS);
+	switch(entry.textureCoord)
+	{
+	default: glTexCoord2d(1.0f, 1.0f); break;
+	case 1:  glTexCoord2d(0.0f, 1.0f); break;
+	case 2:  glTexCoord2d(0.0f, 0.0f); break;
+	case 3:  glTexCoord2d(1.0f, 0.0f); break;
+	}
+	glVertex3f(
+		entry.posX + bilXX + bilYX, 
+		entry.posY + bilXY + bilYY, 
+		entry.posZ + bilXZ + bilYZ);
+	switch(entry.textureCoord)
+	{
+	default: glTexCoord2d(0.0f, 1.0f); break;
+	case 1:  glTexCoord2d(0.0f, 0.0f); break;
+	case 2:  glTexCoord2d(1.0f, 0.0f); break;
+	case 3:  glTexCoord2d(1.0f, 1.0f); break;
+	}
+	glVertex3f(
+		entry.posX - bilXX + bilYX, 
+		entry.posY - bilXY + bilYY, 
+		entry.posZ - bilXZ + bilYZ);
+	switch(entry.textureCoord)
+	{
+	default: glTexCoord2d(0.0f, 0.0f); break;
+	case 1:  glTexCoord2d(1.0f, 0.0f); break;
+	case 2:  glTexCoord2d(1.0f, 1.0f); break;
+	case 3:  glTexCoord2d(0.0f, 1.0f); break;
+	}
+	glVertex3f(
+		entry.posX - bilXX - bilYX, 
+		entry.posY - bilXY - bilYY, 
+		entry.posZ - bilXZ - bilYZ);
+	switch(entry.textureCoord)
+	{
+	default: glTexCoord2d(1.0f, 0.0f); break;
+	case 1:  glTexCoord2d(1.0f, 1.0f); break;
+	case 2:  glTexCoord2d(0.0f, 1.0f); break;
+	case 3:  glTexCoord2d(0.0f, 0.0f); break;
+	}
+	glVertex3f(
+		entry.posX + bilXX - bilYX, 
+		entry.posY + bilXY - bilYY, 
+		entry.posZ + bilXZ - bilYZ);
+	glEnd();
 }

@@ -18,19 +18,15 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// TalkRenderer.h: interface for the TalkRenderer class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_TalkRenderer_H__53C71D24_C1E9_41C2_8757_FF947E1B4425__INCLUDED_)
 #define AFX_TalkRenderer_H__53C71D24_C1E9_41C2_8757_FF947E1B4425__INCLUDED_
 
 #include <engine/Action.h>
 #include <common/Vector.h>
+#include <GLEXT/GLBilboardRenderer.h>
 #include <GLEXT/GLTexture.h>
 
-class TalkRenderer : public ActionRenderer 
+class TalkRenderer : public ActionRenderer
 {
 public:
 	TalkRenderer(Vector &position);
@@ -40,6 +36,7 @@ public:
 	virtual void draw(Action *action);
 
 protected:
+	GLBilboardRenderer::Entry bilEntry_;
 	float frameTime_;
 	Vector position_;
 	static GLTexture talkTex_;
