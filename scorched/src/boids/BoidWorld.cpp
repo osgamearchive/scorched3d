@@ -109,13 +109,13 @@ void BoidWorld::makeBoids(int boidCount, int maxZ, int minZ)
 
 void BoidWorld::makeObstacles(int maxZ, int minZ) 
 {
-	BoidVector ba(256, maxZ, 256);
+	/*BoidVector ba(256, maxZ, 256);
 	BoidVector bb(0, minZ, 0);
 	Box *b = new Box(ba, bb);
-	getObstacles().push_back(b);
+	getObstacles().push_back(b);*/
 
 	ScorchedBoidsObstacle *o = 
-		new ScorchedBoidsObstacle();
+		new ScorchedBoidsObstacle(maxZ, minZ);
 	getObstacles().push_back(o);
 }
 

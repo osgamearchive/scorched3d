@@ -24,7 +24,8 @@
 #include <landscape/LandscapeMaps.h>
 #include <landscape/HeightMap.h>
 
-ScorchedBoidsObstacle::ScorchedBoidsObstacle()
+ScorchedBoidsObstacle::ScorchedBoidsObstacle(int maxZ, int minZ) :
+	minZ_(minZ), maxZ_(maxZ)
 {
 }
 
@@ -48,12 +49,69 @@ ISectData ScorchedBoidsObstacle::IntersectionWithRay(const BoidVector & raydirec
 		(float) rayorigin.x, 
 		(float) rayorigin.z, 
 		(float) rayorigin.y);
+	result.normal.x = 0.0;
+	result.normal.y = 0.0;
+	result.normal.z = 0.0;
 
 	for (int i = 0; i < 12; i++)
 	{
 		position += direction;
-		if (position[0] < 0.0f || position[0] > 256.0 ||
-			position[1] < 0.0f || position[1] > 256.0) break;
+		if (position[0] < 0.0f)
+		{
+			result.intersectionflag = 1;
+			result.point.x = position[0];
+			result.point.y = position[2];
+			result.point.z = position[1];
+			result.normal.x = 1.0f;
+		}
+		else if (position[0] > 256.0)
+		{
+			result.intersectionflag = 1;
+			result.point.x = position[0];
+			result.point.y = position[2];
+			result.point.z = position[1];
+			result.normal.x = -1.0f;
+		}
+		if (position[1] < 0.0f)
+		{
+			result.intersectionflag = 1;
+			result.point.x = position[0];
+			result.point.y = position[2];
+			result.point.z = position[1];
+			result.normal.z = 1.0f;
+		}
+		else if (position[1] > 256.0)
+		{
+			result.intersectionflag = 1;
+			result.point.x = position[0];
+			result.point.y = position[2];
+			result.point.z = position[1];
+			result.normal.z = -1.0f;
+		}
+		if (position[2] < double(minZ_))
+		{
+			result.intersectionflag = 1;
+			result.point.x = position[0];
+			result.point.y = position[2];
+			result.point.z = position[1];
+			result.normal.y = 1.0f;
+		}
+		else if (position[2] > double(maxZ_))
+		{
+			result.intersectionflag = 1;
+			result.point.x = position[0];
+			result.point.y = position[2];
+			result.point.z = position[1];
+			result.normal.y = -1.0f;
+		}
+		if (result.intersectionflag == 1)
+		{
+			if (result.normal.x + result.normal.y + result.point.z > 1.0f)
+			{
+				result.normal.Normalize();
+			}
+			break;
+		}
 	
 		if (ScorchedClient::instance()->getLandscapeMaps().getHMap().
 			getHeight((int) position[0], (int) position[1]) >

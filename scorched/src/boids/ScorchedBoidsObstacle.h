@@ -26,15 +26,17 @@
 class ScorchedBoidsObstacle : public Obstacle
 {
 public:
-	ScorchedBoidsObstacle();
+	ScorchedBoidsObstacle(int maxZ, int minZ);
 	virtual ~ScorchedBoidsObstacle();
 
 	virtual Obstacle *Clone(void) const 
-		{ return new ScorchedBoidsObstacle; }
+		{ return new ScorchedBoidsObstacle(*this); }
 
 protected:
 	virtual ISectData IntersectionWithRay(const BoidVector & raydirection,
 		const BoidVector &rayorigin) const;
+
+	int maxZ_, minZ_;
 };
 
 #endif // __INCLUDE_ScorchedBoidsObstacleh_INCLUDE__
