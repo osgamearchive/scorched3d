@@ -75,7 +75,9 @@ void TankModelRenderer::draw(bool currentTank)
 	drawLife();
 
 	// Draw the tank model
-	model_->draw(currentTank, tank_->getPhysics().getTankPosition(), 
+	model_->draw(currentTank, 
+		tank_->getPhysics().getAngle(),
+		tank_->getPhysics().getTankPosition(), 
 		fireOffSet_, 
 		tank_->getPhysics().getRotationGunXY(), 
 		tank_->getPhysics().getRotationGunYZ());

@@ -29,7 +29,8 @@ TankPhysics::TankPhysics(unsigned int playerId) :
 	shieldSmallInfo_(CollisionIdShieldSmall),
 	shieldLargeInfo_(CollisionIdShieldLarge),
 	turretRotXY_(0.0f), turretRotYZ_(0.0f),
-	oldTurretRotXY_(0.0f), oldTurretRotYZ_(0.0f)
+	oldTurretRotXY_(0.0f), oldTurretRotYZ_(0.0f),
+	angle_(0.0f)
 {
 	// The tank collision object
 	tankGeom_ = 
@@ -63,6 +64,7 @@ void TankPhysics::newGame()
 
 void TankPhysics::nextRound()
 {
+	angle_ = 0.0f;
 	oldTurretRotXY_ = turretRotXY_;
 	oldTurretRotYZ_ = turretRotYZ_;
 }

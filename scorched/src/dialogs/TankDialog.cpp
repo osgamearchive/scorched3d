@@ -136,7 +136,7 @@ void TankDialog::drawTankModel(Tank *current)
 		glScalef(20.0f, 20.0f, 20.0f);
 		Vector position;
 		model->getModel()->draw(
-			false, position, 0.0f,
+			false, 0.0f, position, 0.0f,
 			current->getPhysics().getRotationGunXY(),
 			current->getPhysics().getRotationGunYZ());
 	glPopMatrix();

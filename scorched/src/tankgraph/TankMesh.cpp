@@ -151,10 +151,12 @@ void TankMesh::createArrays(ASEFile &aseTank, bool useTextures, float detail)
 	}
 }
 
-void TankMesh::draw(bool drawS, Vector &position, float fireOffset, float rotXY, float rotXZ)
+void TankMesh::draw(bool drawS, float angle, Vector &position, 
+					float fireOffset, float rotXY, float rotXZ)
 {
 	glPushMatrix();
 		glTranslatef(position[0], position[1], position[2]);
+		glRotatef(angle, 0.0f, 0.0f, 1.0f);
 		otherArray_->draw();
 
 		drawGun(drawS, fireOffset, rotXY, rotXZ);

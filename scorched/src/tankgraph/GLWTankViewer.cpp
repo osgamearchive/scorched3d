@@ -189,11 +189,11 @@ void GLWTankViewer::drawItem(int pos, bool selected)
 	Vector tankPos;
 	if (selected)
 	{
-		models[pos]->draw(false, tankPos, 0.0f, rotXY_, rotYZ_);
+		models[pos]->draw(false, 0.0f, tankPos, 0.0f, rotXY_, rotYZ_);
 	}
 	else
 	{
-		models[pos]->draw(false, tankPos, 0.0f, 45.0f, 45.0f);
+		models[pos]->draw(false, 0.0f, tankPos, 0.0f, 45.0f, 45.0f);
 	}
 
 	// Ground

@@ -36,7 +36,8 @@ public:
 	TankMesh(ASEFile &aseTank, bool useTextures, float detail);
 	virtual ~TankMesh();
 
-	void draw(bool drawS, Vector &position, float fireOffSet, float rotXY, float rotXZ);
+	void draw(bool drawS, float angle, Vector &position, 
+		float fireOffSet, float rotXY, float rotXZ);
 	float getTurretHeight() { return turretHeight_; }
 	int getNoTris();
 

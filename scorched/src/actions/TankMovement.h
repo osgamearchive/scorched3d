@@ -26,6 +26,7 @@
 #include <common/Vector.h>
 #include <list>
 
+class Tank;
 class TankMovement : public ActionMeta
 {
 public:
@@ -49,8 +50,25 @@ protected:
 	// Lower 32 bits = y position
 	// Upper 32 bits = x positions
 	std::list<unsigned int> positions_;
+
+	// A list containing smooth positions
+	struct PositionEntry
+	{
+		PositionEntry(float newx, float newy, float newa, bool useF,
+			float *ha, float *hb) :
+		x(newx), y(newy), ang(newa), useFuel(useF), heighta(ha), heightb(hb)
+		{}
+
+		float x, y;
+		float ang;
+		bool useFuel;
+		float *heighta, *heightb;
+	};
+	std::list<PositionEntry> expandedPositions_;
 	unsigned int playerId_;
 	float timePassed_;
+
+	void moveTank(Tank *tank);
 
 };
 

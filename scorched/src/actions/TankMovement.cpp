@@ -18,12 +18,14 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <actions/TankMovement.h>
 #include <actions/TankFalling.h>
+#include <actions/TankMove.h>
 #include <engine/ActionController.h>
 #include <tank/TankContainer.h>
 #include <landscape/GlobalHMap.h>
+
+static const int NoMovementTransitions = 4;
 
 REGISTER_ACTION_SOURCE(TankMovement);
 
@@ -42,73 +44,122 @@ TankMovement::~TankMovement()
 
 void TankMovement::init()
 {
+	std::list<unsigned int>::iterator itor;
+	for (itor = positions_.begin();
+		itor != positions_.end();)
+	{
+		unsigned int fistpt = (*itor);
+		itor++;
 
+		if (itor != positions_.end())
+		{
+			unsigned int secpt = (*itor);
+
+			float firstx = float(fistpt >> 16);
+			float firsty = float(fistpt & 0xffff);
+			float *firstHeight = 
+				&GlobalHMap::instance()->getHMap().getHeight(int(firstx), int(firsty));
+			float secx = float(secpt >> 16);
+			float secy = float(secpt & 0xffff);
+			float *secondHeight = 
+				&GlobalHMap::instance()->getHMap().getHeight(int(secx), int(secy));
+
+			float diffX = secx - firstx;
+			float diffY = secy - firsty;
+			float ang = (atan2f(diffY, diffX) / 3.14f * 180.0f) - 90.0f;
+
+			for (int i=0; i<NoMovementTransitions; i++)
+			{
+				float currentX = firstx + diffX/float(NoMovementTransitions)*float(i+1);
+				float currentY = firsty + diffY/float(NoMovementTransitions)*float(i+1);
+				expandedPositions_.push_back(
+					PositionEntry(
+						currentX, currentY, 
+						ang, (i==(NoMovementTransitions-1)),
+						firstHeight, secondHeight));
+			}
+		}
+	}
 }
 
 void TankMovement::simulate(float frameTime, bool &remove)
 {
 	Tank *tank = 
 		TankContainer::instance()->getTankById(playerId_);
-	if (tank && 
-		tank->getState().getState() == TankState::sNormal)
+	if (tank)
 	{
-		// Check to see if this tank is falling
-		// If it is then we end the move
-		std::set<unsigned int>::iterator findItor =
-			TankFalling::fallingTanks.find(playerId_);
-		if (findItor == TankFalling::fallingTanks.end())
+		if (tank->getState().getState() == TankState::sNormal)
 		{
-			// Move the tank one square every 0.25 seconds
-			// i.e. 4 squares a second
-			timePassed_ += frameTime;
-			const float stepsPerFrame = 0.25f;
-			while (timePassed_ >= stepsPerFrame)
+			// Check to see if this tank is falling
+			// If it is then we end the move
+			std::set<unsigned int>::iterator findItor =
+				TankFalling::fallingTanks.find(playerId_);
+			if (findItor == TankFalling::fallingTanks.end())
 			{
-				timePassed_ -= stepsPerFrame;
-				if (!positions_.empty())
+				// Move the tank one position every 0.1 seconds
+				// i.e. 10 positions a second
+				timePassed_ += frameTime;
+				const float stepsPerFrame = 0.1f;
+				while (timePassed_ >= stepsPerFrame)
 				{
-					unsigned int pt = positions_.front();
-					positions_.pop_front();
-
-					unsigned int x = pt >> 16;
-					unsigned int y = pt & 0xffff;
-					float z = GlobalHMap::instance()->getHMap().getHeight(
-						(int) x, (int) y);
-					
-					// Form the new tank position
-					Vector newPos((float) x, (float) y, (float) z);
-
-					// Check we are not trying to climb to high (this may be due
-					// to the landscape changing after we started move)
-					Vector &lastPosition = tank->getPhysics().getTankPosition();
-					if (newPos[2] - lastPosition[2] > MaxTankClimbHeight)
+					timePassed_ -= stepsPerFrame;
+					if (!expandedPositions_.empty())
 					{
-						positions_.clear();
+						moveTank(tank);
 					}
-					else
-					{
-						// Use up one unit of fuel
-						tank->getAccessories().getFuel().rmFuel(1);
-
-						// Actually move the tank
-						tank->getPhysics().setTankPosition(newPos);
-					}
+					else break;
 				}
-			}
 
-			if (positions_.empty()) remove = true;
+				if (expandedPositions_.empty()) remove = true;
+			}
+			else remove = true;
 		}
-		else
+		else remove = true;
+
+		// If this is the very last movement made
+		// Ensure all tanks always end in the same place
+		if (remove)
 		{
-			remove = true;
+			tank->getPhysics().rotateTank(0.0f);
+			ActionController::instance()->addAction(
+				new TankMove(tank->getPhysics().getTankPosition(),
+					tank->getPlayerId(), false));
 		}
+	}
+	else remove = true;
+	
+	ActionMeta::simulate(frameTime, remove);
+}
+
+void TankMovement::moveTank(Tank *tank)
+{
+	float x = expandedPositions_.front().x;
+	float y = expandedPositions_.front().y;
+	float a = expandedPositions_.front().ang;
+	bool useF = expandedPositions_.front().useFuel;
+	float *firstz = expandedPositions_.front().heighta;
+	float *secondz = expandedPositions_.front().heightb;
+	float z = GlobalHMap::instance()->getHMap().getInterpHeight(x, y);
+	expandedPositions_.pop_front();
+
+	// Form the new tank position
+	Vector newPos(x, y, z);
+
+	// Check we are not trying to climb to high (this may be due
+	// to the landscape changing after we started move)
+	if (*secondz - *firstz > MaxTankClimbHeight)
+	{
+		expandedPositions_.clear();
 	}
 	else
 	{
-		remove = true;
+		// Use up one unit of fuel
+		if (useF) tank->getAccessories().getFuel().rmFuel(1);
+
+		// Actually move the tank
+		tank->getPhysics().rotateTank(a);
+		tank->getPhysics().setTankPosition(newPos);
 	}
-	
-	ActionMeta::simulate(frameTime, remove);
 }
 
 bool TankMovement::writeAction(NetBuffer &buffer)

@@ -35,7 +35,7 @@ public:
 		const char *skinName = 0);
 	virtual ~TankModel();
 
-	void draw(bool drawS, Vector &position, 
+	void draw(bool drawS, float angle, Vector &position, 
 		float fireOffSet, float rotXY, float rotXZ);
 
 	float getTurretHeight();

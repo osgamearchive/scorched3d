@@ -68,6 +68,7 @@ static void addPoint(unsigned int x, unsigned int y,
 	float newHeight = GlobalHMap::instance()->getHMap().getHeight(
 		(int) x, (int) y);
 	if (newHeight - height > MaxTankClimbHeight) return;
+	if (newHeight < Landscape::instance()->getWater().getHeight()) return;
 
 	// Check if we can already reach this point
 	// Through a shorted already visited path

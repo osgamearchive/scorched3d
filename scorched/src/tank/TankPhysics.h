@@ -39,10 +39,12 @@ public:
 	// Rotation
 	float rotateGunXY(float angle, bool diff=true);
 	float rotateGunYZ(float angle, bool diff=true);
+	void rotateTank(float a) { angle_ = a; }
 	float getRotationGunXY() { return turretRotXY_; }
 	float getRotationGunYZ() { return turretRotYZ_; }
 	float getOldRotationGunXY() { return oldTurretRotXY_; }
 	float getOldRotationGunYZ() { return oldTurretRotYZ_; }
+	float getAngle() { return angle_; }
 
 	// Position
 	void setTankPosition(Vector &pos);
@@ -62,6 +64,7 @@ protected:
 	// Turret angles
 	float turretRotXY_, turretRotYZ_;
 	float oldTurretRotXY_, oldTurretRotYZ_;
+	float angle_;
 
 	// Physics engine stuff
 	dGeomID tankGeom_;
