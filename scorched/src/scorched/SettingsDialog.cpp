@@ -24,6 +24,7 @@
 #include <tankai/TankAIStore.h>
 #include <common/OptionsGame.h>
 #include <wx/wx.h>
+#include <wx/image.h>
 #include <wx/utils.h>
 #include <wx/notebook.h>
 
