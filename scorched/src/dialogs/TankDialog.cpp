@@ -138,6 +138,8 @@ void TankDialog::drawTankDetails(Tank *current)
 		current->getName());
 
 	// AutoDefense
+	GLWToolTip::instance()->addToolTip(&model->getTips()->autodTip, 
+		x_- 21.0f, y_ + 108.0f, 50.0f, 18.0f);
 	drawInfoBox(x_- 21.0f, y_ + 126.0f, 50.0f);
 	drawJoin(x_ + 28.0f, y_ + 112.0f);
 	GLWFont::instance()->getSmallPtFont()->draw(
@@ -146,22 +148,38 @@ void TankDialog::drawTankDetails(Tank *current)
 		x_ - 4.0f,
 		y_ + 111.0f,
 		0.0f,
-		"%i",
-		(current->getAccessories().getAutoDefense().haveDefense()?1:0));
+		(current->getAccessories().getAutoDefense().haveDefense()?"On":"Off"));
 
 	// Parachutes
+	GLWToolTip::instance()->addToolTip(&model->getTips()->paraTip, 
+		x_- 41.0f, y_ + 85.0f, 50.0f, 18.0f);
 	drawInfoBox(x_- 41.0f, y_ + 103.0f, 50.0f);
 	drawJoin(x_ + 8.0f, y_ + 92.0f);
-	GLWFont::instance()->getSmallPtFont()->draw(
-		yellow,
-		12.0f,
-		x_ - 24.0f,
-		y_ + 88.0f,
-		0.0f,
-		"%i",
-		current->getAccessories().getParachutes().getNoParachutes());
+	if (current->getAccessories().getParachutes().getNoParachutes() == 0)
+	{
+		GLWFont::instance()->getSmallPtFont()->draw(
+			yellow,
+			12.0f,
+			x_ - 24.0f,
+			y_ + 88.0f,
+			0.0f,
+			"Off");
+	}
+	else
+	{
+		GLWFont::instance()->getSmallPtFont()->draw(
+			yellow,
+			12.0f,
+			x_ - 24.0f,
+			y_ + 88.0f,
+			0.0f,
+			"%i",
+			current->getAccessories().getParachutes().getNoParachutes());
+	}
 
 	// Health
+	GLWToolTip::instance()->addToolTip(&model->getTips()->healthTip, 
+		x_- 49.0f, y_ + 62.0f, 50.0f, 18.0f);
 	drawInfoBox(x_- 49.0f, y_ + 80.0f, 50.0f);
 	drawJoin(x_ + 1.0f, y_ + 69.0f);
 	GLWFont::instance()->getSmallPtFont()->draw(
@@ -174,18 +192,35 @@ void TankDialog::drawTankDetails(Tank *current)
 		current->getState().getLife());
 
 	// Shield
+	GLWToolTip::instance()->addToolTip(&model->getTips()->shieldTip, 
+		x_- 49.0f, y_ + 39.0f, 50.0f, 18.0f);
 	drawInfoBox(x_- 49.0f, y_ + 57.0f, 50.0f);
 	drawJoin(x_ + 1.0f, y_ + 46.0f);
-	GLWFont::instance()->getSmallPtFont()->draw(
-		yellow,
-		12.0f,
-		x_ - 32.0f,
-		y_ + 42.0f,
-		0.0f,
-		"%.0f",
-		current->getAccessories().getShields().getShieldPower());
+	if (!current->getAccessories().getShields().getCurrentShield())
+	{
+		GLWFont::instance()->getSmallPtFont()->draw(
+			yellow,
+			12.0f,
+			x_ - 32.0f,
+			y_ + 42.0f,
+			0.0f,
+			"Off");
+	}
+	else
+	{
+		GLWFont::instance()->getSmallPtFont()->draw(
+			yellow,
+			12.0f,
+			x_ - 32.0f,
+			y_ + 42.0f,
+			0.0f,
+			"%.0f",
+			current->getAccessories().getShields().getShieldPower());
+	}
 
 	// Batteries
+	GLWToolTip::instance()->addToolTip(&model->getTips()->batteryTip, 
+		x_- 41.0f, y_ + 16.0f, 50.0f, 18.0f);
 	drawInfoBox(x_- 41.0f, y_ + 34.0f, 50.0f);
 	drawJoin(x_ + 8.0f, y_ + 29.0f);
 	GLWFont::instance()->getSmallPtFont()->draw(
@@ -198,6 +233,8 @@ void TankDialog::drawTankDetails(Tank *current)
 		current->getAccessories().getBatteries().getNoBatteries());
 
 	// Fuel
+	GLWToolTip::instance()->addToolTip(&model->getTips()->fuelTip, 
+		x_- 21.0f, y_ - 7.0f, 50.0f, 18.0f);
 	drawInfoBox(x_- 21.0f, y_ + 11.0f, 50.0f);
 	drawJoin(x_ + 28.0f, y_ + 9.0f);
 	GLWFont::instance()->getSmallPtFont()->draw(

@@ -21,35 +21,182 @@
 #include <tankgraph/GLWTankTip.h>
 #include <weapons/Weapon.h>
 
-GLWTankWeapon::GLWTankWeapon(Tank *tank) : 
+TankFuelTip::TankFuelTip(Tank *tank) : 
 	tank_(tank)
 {
 }
 
-GLWTankWeapon::~GLWTankWeapon()
+TankFuelTip::~TankFuelTip()
 {
 }
 
-void GLWTankWeapon::populate()
+void TankFuelTip::populate()
 {
-	setText("Weapon",
-		"The currently selected weapon.\n"
-		"Weapon : %s\n"
-		"%s",
-		tank_->getAccessories().getWeapons().getCurrent()->getName(),
-		tank_->getAccessories().getWeapons().getCurrent()->getDescription());
+	setText("Fuel",
+		"Allows the tank to move.\n"
+		"Fuel : %i",
+		tank_->getAccessories().getFuel().getNoFuel());
 }
 
-GLWTankPower::GLWTankPower(Tank *tank) : 
+TankBatteryTip::TankBatteryTip(Tank *tank) : 
 	tank_(tank)
 {
 }
 
-GLWTankPower::~GLWTankPower()
+TankBatteryTip::~TankBatteryTip()
 {
 }
 
-void GLWTankPower::populate()
+void TankBatteryTip::populate()
+{
+	setText("Batteries",
+		"Can be used to recharge life.\n"
+		"Each battery gives back 10 life.\n"
+		"Batteries : %i",
+		tank_->getAccessories().getBatteries().getNoBatteries());
+}
+
+TankShieldTip::TankShieldTip(Tank *tank) : 
+	tank_(tank)
+{
+}
+
+TankShieldTip::~TankShieldTip()
+{
+}
+
+void TankShieldTip::populate()
+{
+	if (tank_->getAccessories().getShields().getCurrentShield())
+	{
+		setText("Shields",
+			"Protect the tank from taking damage.\n"
+			"Shields must be enabled before they take\n"
+			"effect.\n"
+			"Current Shield : %s\n"
+			"Shield Power : %i",
+			tank_->getAccessories().getShields().getCurrentShield()->getName(),
+			tank_->getAccessories().getShields().getShieldCount(
+			tank_->getAccessories().getShields().getCurrentShield()));
+	}
+	else
+	{
+		setText("Shields",
+			"Protect the tank from taking damage.\n"
+			"Shields must be enabled before they take\n"
+			"effect.\n"
+			"Current Shield : %s\n",
+			"Disabled");
+	}
+}
+
+TankHealthTip::TankHealthTip(Tank *tank) : 
+	tank_(tank)
+{
+}
+
+TankHealthTip::~TankHealthTip()
+{
+}
+
+void TankHealthTip::populate()
+{
+	setText("Life",
+		"The amount of life this player has.\n"
+		"The tank explodes when life reaches 0.\n"
+		"Less weapon power is available with less life.\n"
+		"Life : %i/100",
+		(int) tank_->getState().getLife());
+}
+
+TankParachutesTip::TankParachutesTip(Tank *tank) : 
+	tank_(tank)
+{
+}
+
+TankParachutesTip::~TankParachutesTip()
+{
+}
+
+void TankParachutesTip::populate()
+{
+	setText("Parachutes",
+		"Prevents the tank from taking damage\n"
+		"when falling.  Must be enabled before\n"
+		"they take effect.\n"
+		"Number Parachutes : %i\n"
+		"Status : %s",
+		tank_->getAccessories().getParachutes().getNoParachutes(),
+		(tank_->getAccessories().getParachutes().parachutesEnabled()?
+		"Active":"Disabled"));
+}
+
+TankAutoDefenseTip::TankAutoDefenseTip(Tank *tank) : 
+	tank_(tank)
+{
+}
+
+TankAutoDefenseTip::~TankAutoDefenseTip()
+{
+}
+
+void TankAutoDefenseTip::populate()
+{
+	setText("Auto Defense",
+		"Allows the tank to raise shields and\n"
+		"activate parachutes before the round\n"
+		"starts.\n"
+		"Status : %s",
+		(tank_->getAccessories().getAutoDefense().haveDefense()?
+		"Active":"Disabled"));
+}
+
+TankWeaponTip::TankWeaponTip(Tank *tank) : 
+	tank_(tank)
+{
+}
+
+TankWeaponTip::~TankWeaponTip()
+{
+}
+
+void TankWeaponTip::populate()
+{
+	if (tank_->getAccessories().getWeapons().getWeaponCount(
+		tank_->getAccessories().getWeapons().getCurrent()) > 0)
+	{
+		setText("Weapon",
+			"The currently selected weapon.\n"
+			"Weapon : %s\n"
+			"Weapon Count : %s\n"
+			"Description :\n%s",
+			tank_->getAccessories().getWeapons().getCurrent()->getName(),
+			tank_->getAccessories().getWeapons().getWeaponCount(
+			tank_->getAccessories().getWeapons().getCurrent()),
+			tank_->getAccessories().getWeapons().getCurrent()->getDescription());
+	}
+	else
+	{
+		setText("Weapon",
+			"The currently selected weapon.\n"
+			"Weapon : %s\n"
+			"Weapon Count : Infinite\n"
+			"Description :\n%s",
+			tank_->getAccessories().getWeapons().getCurrent()->getName(),
+			tank_->getAccessories().getWeapons().getCurrent()->getDescription());
+	}
+}
+
+TankPowerTip::TankPowerTip(Tank *tank) : 
+	tank_(tank)
+{
+}
+
+TankPowerTip::~TankPowerTip()
+{
+}
+
+void TankPowerTip::populate()
 {
 	setText("Power",
 		"The power used to fire the %s.\n"
@@ -58,16 +205,16 @@ void GLWTankPower::populate()
 		tank_->getState().getPowerString());
 }
 
-GLWTankRotation::GLWTankRotation(Tank *tank) : 
+TankRotationTip::TankRotationTip(Tank *tank) : 
 	tank_(tank)
 {
 }
 
-GLWTankRotation::~GLWTankRotation()
+TankRotationTip::~TankRotationTip()
 {
 }
 
-void GLWTankRotation::populate()
+void TankRotationTip::populate()
 {
 	setText("Rotation",
 		"The rotation of the current player's tank turret.\n"
@@ -75,16 +222,16 @@ void GLWTankRotation::populate()
 		tank_->getPhysics().getRotationString());
 }
 
-GLWTankElevation::GLWTankElevation(Tank *tank) : 
+TankElevationTip::TankElevationTip(Tank *tank) : 
 	tank_(tank)
 {
 }
 
-GLWTankElevation::~GLWTankElevation()
+TankElevationTip::~TankElevationTip()
 {
 }
 
-void GLWTankElevation::populate()
+void TankElevationTip::populate()
 {
 	setText("Elevation",
 		"The elevation of the current player's gun.\n"
@@ -92,16 +239,16 @@ void GLWTankElevation::populate()
 		tank_->getPhysics().getElevationString());
 }
 
-GLWTankTip::GLWTankTip(Tank *tank) : 
+TankTip::TankTip(Tank *tank) : 
 	tank_(tank)
 {
 }
 
-GLWTankTip::~GLWTankTip()
+TankTip::~TankTip()
 {
 }
 
-void GLWTankTip::populate()
+void TankTip::populate()
 {
 	if (tank_->getAccessories().getShields().getCurrentShield())
 	{
@@ -133,6 +280,12 @@ GLWTankTips::GLWTankTips(Tank *tank) :
 	elevationTip(tank),
 	powerTip(tank),
 	weaponTip(tank),
+	autodTip(tank),
+	paraTip(tank),
+	healthTip(tank),
+	shieldTip(tank),
+	batteryTip(tank),
+	fuelTip(tank),
 	nameTip("Player Name",
 		"Shows the name of the player currently\n"
 		"making their move.")
