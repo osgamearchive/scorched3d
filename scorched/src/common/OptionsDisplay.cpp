@@ -113,6 +113,10 @@ OptionsDisplay::OptionsDisplay() :
 		"The number of bilboards to allow on screen", RWAccess, 2000),
 	depthBufferBits_(options_, "DepthBufferBits",
 		"The number of bits requested for the depth buffer", RAccess, 24),
+	doubleBuffer_(options_, "DoubleBuffer",
+		"Use double buffering", RAccess, true),
+	colorComponentSize_(options_, "ColorComponentSize",
+		"The number of bits to use for each of the RGBA components", RAccess, 5),
 	showContextHelp_(options_, "ShowContextHelp",
 		"Show help bubbles for items that have it", RWAccess, true)
 {

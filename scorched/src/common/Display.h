@@ -46,7 +46,6 @@ private:
 	virtual ~Display();
 
 	bool init_;
-	int videoFlags;
 	const SDL_VideoInfo *videoInfo;
 	SDL_Surface *surface;
 

@@ -58,6 +58,8 @@ Added: Team Play
 Added: Team auto ballancing
 Added: can change team, tank and name during game
 
+Fixed: Made funky bomb more expensive
+Fixed: Changed money won for sandhogs and diggers.
 Fixed: Tank bounding boxes can still cause collisions when tank is dead
 Fixed: Random windows crashes, increased stack size to stop ODE from running out of stack
 Fixed: Tanks do not start right at the landscape edge

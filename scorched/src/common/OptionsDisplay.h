@@ -153,6 +153,12 @@ public:
 	int getDepthBufferBits() { return depthBufferBits_.getValue(); }
 	void setDepthBufferBits(int value) { depthBufferBits_.setValue(value); }
 
+	int getColorComponentSize() { return colorComponentSize_.getValue(); }
+	void setColorComponentSize(int value) { colorComponentSize_.setValue(value); }
+
+	bool getDoubleBuffer() { return doubleBuffer_.getValue(); }
+	void setDoubleBuffer(bool value) { doubleBuffer_.setValue(value); }
+
 	const char *getUniqueUserId() { return uniqueUserId_.getValue(); }
 	void setUniqueUserId(const char *value) { uniqueUserId_.setValue(value); }
 
@@ -172,9 +178,11 @@ protected:
 	OptionEntryInt waterHeight_;
 	OptionEntryInt sunYZAng_;
 	OptionEntryInt sunXYAng_;
+	OptionEntryInt colorComponentSize_;
 	OptionEntryInt depthBufferBits_;
 	OptionEntryBool detailTexture_;
 	OptionEntryBool useHex_;
+	OptionEntryBool doubleBuffer_;
 	OptionEntryBool fullScreen_;
 	OptionEntryBool fullClear_;
 	OptionEntryBool noTexSubImage_;

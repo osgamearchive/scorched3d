@@ -108,10 +108,9 @@ bool createScorchedWindow()
 		!Display::instance()->changeSettings(width,height,fullscreen)) 
 	{
 		dialogMessage("Scorched 3D Display", 
-			"ERROR: Failed to set the display %s mode, %ix%i.\n"
+			"ERROR: Failed to set the display mode.\n"
 			"Ensure that no other application is exclusively using the graphics hardware.\n"
-			"Ensure that the current desktop mode has at least 24 bits colour depth.\n",
-			(fullscreen?"fullscreen":"windowed"), width, height);
+			"Ensure that the current desktop mode has at least 24 bits colour depth.\n");
 		return FALSE;
 	}
 

@@ -21,6 +21,7 @@
 #include <stdio.h>
 #include <common/Display.h>
 #include <common/OptionsDisplay.h>
+#include <common/Defines.h>
 
 Display *Display::instance_ = 0;
 
@@ -47,31 +48,39 @@ bool Display::init()
 {
 	init_ = false;
 	videoInfo = SDL_GetVideoInfo();
-	if (!videoInfo) return false;
+	if (!videoInfo)
+	{
+		dialogMessage("Display", "ERROR: Failed to get the video information");
+		return false;
+	}
          
-	/* opengl sdl mode  */
-	videoFlags  = SDL_OPENGL;  
-	videoFlags |= SDL_GL_DOUBLEBUFFER;
-	videoFlags |= SDL_HWPALETTE;      
-	//videoFlags |= SDL_RESIZABLE; // We cannot resize the window as we loose all texture
-
-	/* checks if surfaces can be stored in memory */
-	if ( videoInfo->hw_available ) videoFlags |= SDL_HWSURFACE;
-	else videoFlags |= SDL_SWSURFACE;
-
-	/* check if hardware blits can be done */
-	if ( videoInfo->blit_hw )
-		videoFlags |= SDL_HWACCEL;
-
 	/* set opengl double buffering */
-	SDL_GL_SetAttribute( SDL_GL_DOUBLEBUFFER, 1 );
-	SDL_GL_SetAttribute( SDL_GL_RED_SIZE, 5 );
-	SDL_GL_SetAttribute( SDL_GL_GREEN_SIZE, 5 );
-	SDL_GL_SetAttribute( SDL_GL_BLUE_SIZE, 5 );
+	int doubleBuffer = OptionsDisplay::instance()->getDoubleBuffer()?1:0;
+	if (SDL_GL_SetAttribute( SDL_GL_DOUBLEBUFFER, doubleBuffer ) == -1) 
+	{
+		dialogMessage("Display", "ERROR: Failed to set double buffer");
+		return false;
+	}
+
+	/* set opengl component size */
+	int componentSize = OptionsDisplay::instance()->getColorComponentSize();
+	if (SDL_GL_SetAttribute( SDL_GL_ALPHA_SIZE, componentSize) == -1 ||
+		SDL_GL_SetAttribute( SDL_GL_RED_SIZE, componentSize) == -1 ||
+		SDL_GL_SetAttribute( SDL_GL_GREEN_SIZE, componentSize) == -1 ||
+		SDL_GL_SetAttribute( SDL_GL_BLUE_SIZE, componentSize) == -1)
+	{
+		dialogMessage("Display", "ERROR: Failed to set 5 bits per pixel");
+		return false;
+	}
 
 	// At least 24 bits depth buffer
 	int depthBufferBits = OptionsDisplay::instance()->getDepthBufferBits();
-	if (SDL_GL_SetAttribute( SDL_GL_DEPTH_SIZE, depthBufferBits ) == -1) return false;
+	if (SDL_GL_SetAttribute( SDL_GL_DEPTH_SIZE, depthBufferBits ) == -1)
+	{
+		dialogMessage("Display", "ERROR: Failed to set the depth buffer to %i bits",
+			depthBufferBits);
+		return false;
+	}
         
 	init_ = true;
 	return init_;
@@ -100,9 +109,31 @@ bool Display::changeSettings(int width, int height, bool full)
 	if (init_)
 	{	
 		/* create display surface */
+		int videoFlags = SDL_OPENGL | SDL_ANYFORMAT;  
+		int flags = ( full ? videoFlags|SDL_FULLSCREEN : videoFlags);
 		surface = SDL_SetVideoMode( width, height, 
 			videoInfo->vfmt->BitsPerPixel, 
-			( full ? videoFlags|SDL_FULLSCREEN : videoFlags));
+			flags);
+		if (!surface)
+		{
+			char buffer[256];
+			SDL_VideoDriverName(buffer, 256);
+			dialogMessage("Display", "ERROR: Failed to set video mode.\n"
+				"Error Message: %s\n"
+				"----------------------------\n"
+				"Requested Display Mode:-\n"
+				"Driver:%s\n"
+				"Resolution: %s:%ix%ix%i (depth = %i)\n"
+				"DoubleBuffer=%s\n"
+				"ColorComponentSize=%i\n",
+				SDL_GetError(),
+				buffer, 
+				(full?"fullscreen":"windowed"), width, height, videoInfo->vfmt->BitsPerPixel, 
+				OptionsDisplay::instance()->getDepthBufferBits(),
+				OptionsDisplay::instance()->getDoubleBuffer()?"On":"Off",
+				OptionsDisplay::instance()->getColorComponentSize());
+			return false;
+		}
 
 		if (surface) return true;
 	}
