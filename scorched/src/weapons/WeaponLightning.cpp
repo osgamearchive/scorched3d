@@ -20,7 +20,6 @@
 
 #include <weapons/WeaponLightning.h>
 #include <weapons/AccessoryStore.h>
-#include <server/ScorchedServer.h>
 #include <engine/ActionController.h>
 #include <actions/Lightning.h>
 

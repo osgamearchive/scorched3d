@@ -24,7 +24,6 @@
 #include <common/Defines.h>
 #include <engine/ActionController.h>
 #include <landscape/LandscapeMaps.h>
-#include <server/ScorchedServer.h>
 #include <math.h>
 
 REGISTER_ACCESSORY_SOURCE(WeaponRoller);
@@ -50,8 +49,7 @@ bool WeaponRoller::parseXML(XMLNode *accessoryNode)
 	XMLNode *subNode = 0;
 	if (!accessoryNode->getNamedChild("collisionaction", subNode)) return false;
 
-	Accessory *accessory = 
-		ScorchedServer::instance()->getAccessoryStore().createAccessory(subNode);
+	Accessory *accessory = store_->createAccessory(subNode);
 	if (!accessory || accessory->getType() != Accessory::AccessoryWeapon)
 	{
 		dialogMessage("Accessory",
@@ -72,7 +70,7 @@ bool WeaponRoller::parseXML(XMLNode *accessoryNode)
 bool WeaponRoller::writeAccessory(NetBuffer &buffer)
 {
 	if (!Weapon::writeAccessory(buffer)) return false;
-	if (!Weapon::write(buffer, collisionAction_)) return false;
+	if (!store_->writeWeapon(buffer, collisionAction_)) return false;
 	buffer.addToBuffer(numberRollers_);
 	buffer.addToBuffer(time_);
 	if (!rollerModelId_.writeModelID(buffer)) return false;
@@ -82,7 +80,7 @@ bool WeaponRoller::writeAccessory(NetBuffer &buffer)
 bool WeaponRoller::readAccessory(NetBufferReader &reader)
 {
 	if (!Weapon::readAccessory(reader)) return false;
-	collisionAction_ = Weapon::read(reader); if (!collisionAction_) return false;
+	collisionAction_ = store_->readWeapon(reader); if (!collisionAction_) return false;
 	if (!reader.getFromBuffer(numberRollers_)) return false;
 	if (!reader.getFromBuffer(time_)) return false;
 	if (!rollerModelId_.readModelID(reader)) return false;

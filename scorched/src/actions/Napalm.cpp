@@ -30,6 +30,7 @@
 #include <GLEXT/GLStateExtension.h>
 #include <landscape/Landscape.h>
 #include <landscape/LandscapeMaps.h>
+#include <weapons/AccessoryStore.h>
 #include <common/OptionsParam.h>
 #include <client/ScorchedClient.h>
 
@@ -401,7 +402,7 @@ bool Napalm::writeAction(NetBuffer &buffer)
 {
 	buffer.addToBuffer(x_);
 	buffer.addToBuffer(y_);
-	Weapon::write(buffer, weapon_);
+	context_->accessoryStore->writeWeapon(buffer, weapon_);
 	buffer.addToBuffer(playerId_);
 	buffer.addToBuffer(data_);
 	return true;
@@ -411,7 +412,7 @@ bool Napalm::readAction(NetBufferReader &reader)
 {
 	if (!reader.getFromBuffer(x_)) return false;
 	if (!reader.getFromBuffer(y_)) return false;
-	weapon_ = (WeaponNapalm *) Weapon::read(reader); if (!weapon_) return false;
+	weapon_ = (WeaponNapalm *) context_->accessoryStore->readWeapon(reader); if (!weapon_) return false;
 	if (!reader.getFromBuffer(playerId_)) return false;
 	if (!reader.getFromBuffer(data_)) return false;
 	return true;

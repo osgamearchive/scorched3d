@@ -37,22 +37,18 @@ WeaponSkyFlash::~WeaponSkyFlash()
 bool WeaponSkyFlash::parseXML(XMLNode *accessoryNode)
 {
 	if (!Weapon::parseXML(accessoryNode)) return false;
-
-	//if (!accessoryNode->getNamedChild("translatedist", translateDist_)) return false;
 	return true;
 }
 
 bool WeaponSkyFlash::writeAccessory(NetBuffer &buffer)
 {
 	if (!Weapon::writeAccessory(buffer)) return false;
-	//if (!Weapon::write(buffer, nextAction_)) return false;
 	return true;
 }
 
 bool WeaponSkyFlash::readAccessory(NetBufferReader &reader)
 {
 	if (!Weapon::readAccessory(reader)) return false;
-	//if (!reader.getFromBuffer(translateDist_)) return false;
 	return true;
 }
 

@@ -287,7 +287,7 @@ bool Explosion::writeAction(NetBuffer &buffer)
 	buffer.addToBuffer(position_[0]);
 	buffer.addToBuffer(position_[1]);
 	buffer.addToBuffer(position_[2]);
-	Weapon::write(buffer, weapon_);
+	context_->accessoryStore->writeWeapon(buffer, weapon_);
 	buffer.addToBuffer(playerId_);
 	buffer.addToBuffer(data_);
 	return true;
@@ -298,7 +298,7 @@ bool Explosion::readAction(NetBufferReader &reader)
 	if (!reader.getFromBuffer(position_[0])) return false;
 	if (!reader.getFromBuffer(position_[1])) return false;
 	if (!reader.getFromBuffer(position_[2])) return false;
-	weapon_ = (WeaponExplosion *) Weapon::read(reader); if (!weapon_) return false;
+	weapon_ = (WeaponExplosion *) context_->accessoryStore->readWeapon(reader); if (!weapon_) return false;
 	if (!reader.getFromBuffer(playerId_)) return false;
 	if (!reader.getFromBuffer(data_)) return false;
 	return true;

@@ -58,9 +58,6 @@ public:
 	ModelID &getModelID();
 	MissileMesh *getWeaponMesh(Tank *currentPlayer);
 
-	static bool write(NetBuffer &buffer, Weapon *weapon);
-	static Weapon *read(NetBufferReader &reader);
-
 protected:
 	static std::map<std::string, MissileMesh *> loadedMeshes_;
 	int deathAnimationWeight_;

@@ -36,6 +36,7 @@
 	static META_##x META_IMPL_##x ;
 
 class GLTexture;
+class AccessoryStore;
 class Accessory  
 {
 public:
@@ -76,6 +77,7 @@ public:
 	virtual void setPrimary(bool p) { primary_ = p; }
 	virtual bool getPurchasable() { return purchasable_; }
 	virtual bool singular();
+	void setAccessoryStore(AccessoryStore *s) { store_ = s; }
 
 	virtual AccessoryType getType() = 0;
 	virtual const char *getAccessoryTypeName() = 0;
@@ -98,14 +100,17 @@ protected:
 	bool primary_;
 	bool purchasable_;
 	unsigned int accessoryId_;
+	AccessoryStore *store_;
 };
 
 class AccessoryMetaRegistration
 {
 public:
 	static void addMap(const char *name, Accessory *action);
+	static Accessory *getNewAccessory(const char *name, AccessoryStore *store);
+
+private:
 	static std::map<std::string, Accessory *> *accessoryMap;
-	static Accessory *getNewAccessory(const char *name);
 };
 
 #endif // !defined(AFX_ACCESSORY_H__21765D5B_DB45_4275_AB63_BAD1E84C1790__INCLUDED_)

@@ -23,6 +23,7 @@
 #include <engine/ScorchedContext.h>
 #include <engine/ActionController.h>
 #include <weapons/WeaponRoller.h>
+#include <weapons/AccessoryStore.h>
 #include <GLEXT/GLState.h>
 #include <3dsparse/ModelStore.h>
 #include <ode/ode.h>
@@ -197,7 +198,7 @@ bool ShotBounce::writeAction(NetBuffer &buffer)
 	buffer.addToBuffer(playerId_);
 	buffer.addToBuffer(actionId_);
 	buffer.addToBuffer(data_);
-	Weapon::write(buffer, weapon_);
+	context_->accessoryStore->writeWeapon(buffer, weapon_);
 	return true;
 }
 
@@ -205,7 +206,6 @@ bool ShotBounce::readAction(NetBufferReader &reader)
 {
 	if (!reader.getFromBuffer(playerId_)) return false;
 	if (!reader.getFromBuffer(actionId_)) return false;
-	if (!reader.getFromBuffer(data_)) return false;
-	weapon_ = (WeaponRoller *) Weapon::read(reader); if (!weapon_) return false;
+	weapon_ = (WeaponRoller *) context_->accessoryStore->readWeapon(reader); if (!weapon_) return false;
 	return true;
 }

@@ -25,6 +25,7 @@
 #include <common/Defines.h>
 #include <engine/ScorchedContext.h>
 #include <engine/ViewPoints.h>
+#include <weapons/AccessoryStore.h>
 #include <math.h>
 
 REGISTER_ACTION_SOURCE(ShotProjectile);
@@ -120,7 +121,7 @@ bool ShotProjectile::writeAction(NetBuffer &buffer)
 {
 	buffer.addToBuffer(startPosition_);
 	buffer.addToBuffer(velocity_);
-	Weapon::write(buffer, weapon_);
+	context_->accessoryStore->writeWeapon(buffer, weapon_);
 	buffer.addToBuffer(playerId_);
 	buffer.addToBuffer(flareType_);
 	buffer.addToBuffer(data_);
@@ -131,7 +132,7 @@ bool ShotProjectile::readAction(NetBufferReader &reader)
 {
 	if (!reader.getFromBuffer(startPosition_)) return false;
 	if (!reader.getFromBuffer(velocity_)) return false;
-	weapon_ = (WeaponProjectile *) Weapon::read(reader); if (!weapon_) return false;
+	weapon_ = (WeaponProjectile *) context_->accessoryStore->readWeapon(reader); if (!weapon_) return false;
 	if (!reader.getFromBuffer(playerId_)) return false;
 	if (!reader.getFromBuffer(flareType_)) return false;
 	if (!reader.getFromBuffer(data_)) return false;

@@ -63,7 +63,7 @@ bool AccessoryStore::parseFile()
 
 	// Itterate all of the accessories in the file
 	XMLNode *currentNode = 0;
-	while (file.getRootNode()->getNamedChild("accessory", currentNode))
+	while (file.getRootNode()->getNamedChild("accessory", currentNode, false))
 	{
 		// Parse the accessory
 		Accessory *accessory = createAccessory(currentNode);
@@ -71,8 +71,13 @@ bool AccessoryStore::parseFile()
 
 		// This is a searchable primary accessory
 		accessory->setPrimary(true);
+
+		// Add to the map so references can find it
+		parsingNodes_[accessory->getName()] = currentNode;
 	}
 
+	// Clear mapping as it now contains invalid pointers
+	parsingNodes_.clear();
 	return file.getRootNode()->failChildren();
 }
 
@@ -82,7 +87,7 @@ Accessory *AccessoryStore::createAccessory(XMLNode *currentNode)
 	if (!currentNode->getNamedParameter("type", typeNode)) return false;
 
 	Accessory *accessory = 
-		AccessoryMetaRegistration::getNewAccessory(typeNode->getContent());
+		AccessoryMetaRegistration::getNewAccessory(typeNode->getContent(), this);
 	if (!accessory)
 	{
 		dialogMessage("AccessoryStore",
@@ -287,6 +292,24 @@ void AccessoryStore::addAccessory(Accessory *accessory)
 	}	
 }
 
+bool AccessoryStore::writeWeapon(NetBuffer &buffer, Weapon *weapon)
+{
+	buffer.addToBuffer(weapon->getAccessoryId());
+	return true;
+}
+
+Weapon *AccessoryStore::readWeapon(NetBufferReader &reader)
+{
+	unsigned int weaponId;
+	if (!reader.getFromBuffer(weaponId)) return 0;
+	Accessory *accessory = findByAccessoryId(weaponId);
+	if (!accessory || (accessory->getType() != Accessory::AccessoryWeapon)) 
+	{
+		return 0;
+	}
+	return ((Weapon *) accessory);
+}
+
 bool AccessoryStore::writeEconomyToBuffer(NetBuffer &buffer)
 {
 	std::list<Accessory *> accessories = getAllAccessories();
@@ -360,7 +383,7 @@ bool AccessoryStore::readFromBuffer(NetBufferReader &reader)
 			return false;
 		}
 		Accessory *accessory = 
-			AccessoryMetaRegistration::getNewAccessory(accessoryTypeName.c_str());
+			AccessoryMetaRegistration::getNewAccessory(accessoryTypeName.c_str(), this);
 		if (!accessory)
 		{
 			Logger::log(0, "AccessoryStore failed to find accessory type \"%s\"",

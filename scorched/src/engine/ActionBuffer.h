@@ -23,9 +23,9 @@
 #define __INCLUDE_ActionBufferh_INCLUDE__
 
 #include <engine/ActionMeta.h>
-
 #include <list>
 
+class ScorchedContext;
 class ActionBuffer
 {
 public:
@@ -38,6 +38,7 @@ public:
 
 	void serverAdd(float time, ActionMeta *action);
 	ActionMeta *getActionForTime(float time);
+	void setContext(ScorchedContext *c) { context_ = c; }
 
 	bool writeMessage(NetBuffer &buffer);
 	bool readMessage(NetBufferReader &reader);
@@ -45,6 +46,7 @@ public:
 protected:
 	NetBuffer actionBuffer_;
 	std::list<std::pair<float, ActionMeta *> > actionList_;
+	ScorchedContext *context_;
 
 };
 

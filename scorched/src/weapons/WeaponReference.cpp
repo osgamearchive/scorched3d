@@ -20,7 +20,6 @@
 
 #include <weapons/WeaponReference.h>
 #include <weapons/AccessoryStore.h>
-#include <server/ScorchedServer.h>
 
 REGISTER_ACCESSORY_SOURCE(WeaponReference);
 
@@ -42,24 +41,25 @@ bool WeaponReference::parseXML(XMLNode *accessoryNode)
 	std::string subNode;
 	if (!accessoryNode->getNamedChild("weapon", subNode)) return false;
 
-	// Find the root node
-	XMLNode *parent = accessoryNode;
-	while (parent->getParent()) parent = (XMLNode *) parent->getParent();
-	
 	// Find the accessory name
-	XMLNode *weaponNode = 0;
-	if (!parent->getNamedRemovedChild(subNode.c_str(), weaponNode, false))
+	std::map<std::string, XMLNode *> &nodes = store_->getParsingNodes();
+	std::map<std::string, XMLNode *>::iterator finditor =
+		nodes.find(subNode.c_str());
+	if (finditor == nodes.end()) 
 	{
 		dialogMessage("WeaponReference",
 			"Failed to find weapon \"%s\"",
 			subNode.c_str());
 		return false;	
 	}
+	XMLNode *weaponNode = (*finditor).second;
 	weaponNode->resurrectRemovedChildren();
+	replaceValues(weaponNode, "name", getName());
+	replaceValues(weaponNode, "armslevel", 
+		formatString("%i", getArmsLevel()));
 	
 	// Create the new weapon
-	Accessory *accessory = 
-		ScorchedServer::instance()->getAccessoryStore().createAccessory(weaponNode);
+	Accessory *accessory = store_->createAccessory(weaponNode);
 	if (!accessory || accessory->getType() != Accessory::AccessoryWeapon)
 	{
 		dialogMessage("Accessory",
@@ -72,17 +72,36 @@ bool WeaponReference::parseXML(XMLNode *accessoryNode)
 	return true;
 }
 
+void WeaponReference::replaceValues(XMLNode *node, 
+	const char *name, 
+	const char *value)
+{
+	std::list<XMLNode *> &children = node->getChildren();
+	std::list<XMLNode *>::iterator itor;
+	for (itor = children.begin();
+		itor != children.end();
+		itor++)
+	{
+		XMLNode *current = (*itor);
+		if (0 == strcmp(current->getName(), name))
+		{
+			current->setContent(value);
+		}
+		replaceValues(current, name, value);
+	}
+}
+
 bool WeaponReference::writeAccessory(NetBuffer &buffer)
 {
 	if (!Weapon::writeAccessory(buffer)) return false;
-	if (!Weapon::write(buffer, refWeapon_)) return false;
+	if (!store_->writeWeapon(buffer, refWeapon_)) return false;
 	return true;
 }
 
 bool WeaponReference::readAccessory(NetBufferReader &reader)
 {
 	if (!Weapon::readAccessory(reader)) return false;
-	refWeapon_ = Weapon::read(reader); if (!refWeapon_) return false;
+	refWeapon_ = store_->readWeapon(reader); if (!refWeapon_) return false;
 	return true;
 }
 

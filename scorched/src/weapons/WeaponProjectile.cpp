@@ -22,7 +22,6 @@
 #include <weapons/WeaponProjectile.h>
 #include <actions/ShotProjectile.h>
 #include <engine/ActionController.h>
-#include <server/ScorchedServer.h>
 
 REGISTER_ACCESSORY_SOURCE(WeaponProjectile);
 
@@ -81,8 +80,7 @@ bool WeaponProjectile::parseXML(XMLNode *accessoryNode)
 	if (!accessoryNode->getNamedChild("collisionaction", subNode)) return false;
 
 	// Check next weapon is correct type
-	Accessory *accessory = 
-		ScorchedServer::instance()->getAccessoryStore().createAccessory(subNode);
+	Accessory *accessory = store_->createAccessory(subNode);
 	if (!accessory || accessory->getType() != Accessory::AccessoryWeapon)
 	{
 		dialogMessage("Accessory",
@@ -98,7 +96,7 @@ bool WeaponProjectile::parseXML(XMLNode *accessoryNode)
 bool WeaponProjectile::writeAccessory(NetBuffer &buffer)
 {
 	if (!Weapon::writeAccessory(buffer)) return false;
-	if (!Weapon::write(buffer, collisionAction_)) return false;
+	if (!store_->writeWeapon(buffer, collisionAction_)) return false;
 	buffer.addToBuffer(showShotPath_);
 	buffer.addToBuffer(showEndPoint_);
 	buffer.addToBuffer(apexCollision_);
@@ -112,7 +110,7 @@ bool WeaponProjectile::writeAccessory(NetBuffer &buffer)
 bool WeaponProjectile::readAccessory(NetBufferReader &reader)
 {
 	if (!Weapon::readAccessory(reader)) return false;
-	collisionAction_ = Weapon::read(reader); if (!collisionAction_) return false;
+	collisionAction_ = store_->readWeapon(reader); if (!collisionAction_) return false;
 	if (!reader.getFromBuffer(showShotPath_)) return false;
 	if (!reader.getFromBuffer(showEndPoint_)) return false;
 	if (!reader.getFromBuffer(apexCollision_)) return false;

@@ -24,6 +24,7 @@
 #include <actions/TankScored.h>
 #include <actions/CameraPositionAction.h>
 #include <common/OptionsGame.h>
+#include <weapons/AccessoryStore.h>
 #include <landscape/LandscapeMaps.h>
 #include <engine/ScorchedContext.h>
 #include <engine/ActionController.h>
@@ -210,7 +211,7 @@ bool TankDamage::writeAction(NetBuffer &buffer)
 	buffer.addToBuffer(damage_);
 	buffer.addToBuffer(useShieldDamage_);
 	buffer.addToBuffer(data_);
-	Weapon::write(buffer, weapon_);
+	context_->accessoryStore->writeWeapon(buffer, weapon_);
 	return true;
 }
 
@@ -221,6 +222,6 @@ bool TankDamage::readAction(NetBufferReader &reader)
 	if (!reader.getFromBuffer(damage_)) return false;
 	if (!reader.getFromBuffer(useShieldDamage_)) return false;
 	if (!reader.getFromBuffer(data_)) return false;
-	weapon_ = Weapon::read(reader); if (!weapon_) return false;
+	weapon_ = context_->accessoryStore->readWeapon(reader); if (!weapon_) return false;
 	return true;
 }

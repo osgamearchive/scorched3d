@@ -42,6 +42,8 @@ public:
 
 protected:
 	Weapon *refWeapon_;
+	
+	void replaceValues(XMLNode *node, const char *name, const char *value);
 
 };
 

@@ -29,7 +29,7 @@ unsigned int Accessory::nextAccessoryId_ = 0;
 Accessory::Accessory() :
 	name_("NONAME"), description_("NODESC"), toolTip_("", ""),
 	price_(0), bundle_(0), armsLevel_(0), accessoryId_(++nextAccessoryId_),
-	primary_(false), purchasable_(true), texture_(0)
+	primary_(false), purchasable_(true), texture_(0), store_(0)
 {
 
 }
@@ -184,12 +184,15 @@ void AccessoryMetaRegistration::addMap(const char *name, Accessory *accessory)
 	(*accessoryMap)[name] = accessory;
 }
 
-Accessory *AccessoryMetaRegistration::getNewAccessory(const char *name)
+Accessory *AccessoryMetaRegistration::getNewAccessory(const char *name, AccessoryStore *store)
 {
 	std::map<std::string, Accessory *>::iterator itor = 
 		accessoryMap->find(name);
 	if (itor == accessoryMap->end()) return 0;
-	return (*itor).second->getAccessoryCopy();
+
+	Accessory *newAccessory = (*itor).second->getAccessoryCopy();
+	newAccessory->setAccessoryStore(store);
+	return newAccessory;
 }
 
 GLTexture *Accessory::getTexture()

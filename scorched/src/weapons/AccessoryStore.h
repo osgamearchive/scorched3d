@@ -23,8 +23,10 @@
 
 #include <list>
 #include <vector>
+#include <map>
 #include <weapons/Weapon.h>
 
+class XMLNode;
 class AccessoryStore
 {
 public:
@@ -45,6 +47,10 @@ public:
 	std::list<Accessory *> getAllWeapons(bool sort=false);
 	std::list<Accessory *> getAllOthers(bool sort=false);	
 	std::list<Accessory *> getAllAccessories(bool sort=false);	
+	std::map<std::string, XMLNode *> &getParsingNodes() { return parsingNodes_; }
+
+	bool writeWeapon(NetBuffer &buffer, Weapon *weapon);
+	Weapon *readWeapon(NetBufferReader &reader);
 
 	bool writeEconomyToBuffer(NetBuffer &buffer);
 	bool readEconomyFromBuffer(NetBufferReader &reader);
@@ -57,6 +63,7 @@ public:
 protected:
 	std::list<Accessory *> accessories_;
 	std::vector<Weapon *> deathAnimations_;
+	std::map<std::string, XMLNode *> parsingNodes_;
 	Weapon *muzzleFlash_;
 
 	void addAccessory(Accessory *accessory);

@@ -24,7 +24,6 @@
 #include <tank/TankLib.h>
 #include <tank/TankContainer.h>
 #include <common/Defines.h>
-#include <server/ScorchedServer.h>
 #include <list>
 #include <math.h>
 
@@ -50,8 +49,7 @@ bool WeaponAimedOver::parseXML(XMLNode *accessoryNode)
 	if (!accessoryNode->getNamedChild("aimedweapon", subNode)) return false;
 
 	// Check next weapon is correct type
-	Accessory *accessory = 
-		ScorchedServer::instance()->getAccessoryStore().createAccessory(subNode);
+	Accessory *accessory = store_->createAccessory(subNode);
 	if (!accessory || accessory->getType() != Accessory::AccessoryWeapon)
 	{
 		dialogMessage("Accessory",
@@ -79,7 +77,7 @@ bool WeaponAimedOver::parseXML(XMLNode *accessoryNode)
 bool WeaponAimedOver::writeAccessory(NetBuffer &buffer)
 {
 	if (!Weapon::writeAccessory(buffer)) return false;
-	if (!Weapon::write(buffer, aimedWeapon_)) return false;
+	if (!store_->writeWeapon(buffer, aimedWeapon_)) return false;
 	buffer.addToBuffer(warHeads_);
 	buffer.addToBuffer(maxAimedDistance_);
 	buffer.addToBuffer(percentageMissChance_);
@@ -90,7 +88,7 @@ bool WeaponAimedOver::writeAccessory(NetBuffer &buffer)
 bool WeaponAimedOver::readAccessory(NetBufferReader &reader)
 {
 	if (!Weapon::readAccessory(reader)) return false;
-	aimedWeapon_ = Weapon::read(reader); if (!aimedWeapon_) return false;
+	aimedWeapon_ = store_->readWeapon(reader); if (!aimedWeapon_) return false;
 	if (!reader.getFromBuffer(warHeads_)) return false;
 	if (!reader.getFromBuffer(maxAimedDistance_)) return false;
 	if (!reader.getFromBuffer(percentageMissChance_)) return false;

@@ -20,7 +20,6 @@
 
 #include <weapons/WeaponMulti.h>
 #include <weapons/AccessoryStore.h>
-#include <server/ScorchedServer.h>
 
 REGISTER_ACCESSORY_SOURCE(WeaponMulti);
 
@@ -48,8 +47,7 @@ bool WeaponMulti::parseXML(XMLNode *accessoryNode)
 		if (!subNode) break;
 		
 		// Check next weapon is correct type
-		Accessory *accessory = 
-			ScorchedServer::instance()->getAccessoryStore().createAccessory(subNode);
+		Accessory *accessory = store_->createAccessory(subNode);
 		if (!accessory || accessory->getType() != Accessory::AccessoryWeapon)
 		{
 			dialogMessage("Accessory",
@@ -73,7 +71,7 @@ bool WeaponMulti::writeAccessory(NetBuffer &buffer)
 		 itor++)
 	{
 		Weapon *weapon = *itor;
-		if (!Weapon::write(buffer, weapon)) return false;
+		if (!store_->writeWeapon(buffer, weapon)) return false;
 	}
 	return true;
 }
@@ -85,7 +83,7 @@ bool WeaponMulti::readAccessory(NetBufferReader &reader)
 	if (!reader.getFromBuffer(size)) return false;
 	for (int i=0; i<size; i++)
 	{
-		Weapon *weapon = Weapon::read(reader); 
+		Weapon *weapon = store_->readWeapon(reader); 
 		if (!weapon) return false;
 		subWeapons_.push_back(weapon);
 	}

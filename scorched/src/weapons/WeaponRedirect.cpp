@@ -21,7 +21,6 @@
 #include <weapons/WeaponRedirect.h>
 #include <weapons/AccessoryStore.h>
 #include <engine/ActionController.h>
-#include <server/ScorchedServer.h>
 #include <common/Defines.h>
 #include <tank/TankLib.h>
 #include <math.h>
@@ -54,8 +53,7 @@ bool WeaponRedirect::parseXML(XMLNode *accessoryNode)
 	if (!accessoryNode->getNamedChild("nextaction", subNode)) return false;
 	
 	// Check next weapon is correct type
-	Accessory *accessory = 
-		ScorchedServer::instance()->getAccessoryStore().createAccessory(subNode);
+	Accessory *accessory = store_->createAccessory(subNode);
 	if (!accessory || accessory->getType() != Accessory::AccessoryWeapon)
 	{
 		dialogMessage("Accessory",
@@ -71,7 +69,7 @@ bool WeaponRedirect::parseXML(XMLNode *accessoryNode)
 bool WeaponRedirect::writeAccessory(NetBuffer &buffer)
 {
 	if (!Weapon::writeAccessory(buffer)) return false;
-	if (!Weapon::write(buffer, nextAction_)) return false;
+	if (!store_->writeWeapon(buffer, nextAction_)) return false;
 	buffer.addToBuffer(hredirect_);
 	buffer.addToBuffer(vredirect_);
 	buffer.addToBuffer(habs_);
@@ -82,7 +80,7 @@ bool WeaponRedirect::writeAccessory(NetBuffer &buffer)
 bool WeaponRedirect::readAccessory(NetBufferReader &reader)
 {
 	if (!Weapon::readAccessory(reader)) return false;
-	nextAction_ = Weapon::read(reader); if (!nextAction_) return false;
+	nextAction_ = store_->readWeapon(reader); if (!nextAction_) return false;
 	if (!reader.getFromBuffer(hredirect_)) return false;
 	if (!reader.getFromBuffer(vredirect_)) return false;
 	if (!reader.getFromBuffer(habs_)) return false;

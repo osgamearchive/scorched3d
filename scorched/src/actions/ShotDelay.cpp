@@ -20,6 +20,7 @@
 
 #include <actions/ShotDelay.h>
 #include <engine/ScorchedContext.h>
+#include <weapons/AccessoryStore.h>
 #include <weapons/Weapon.h>
 
 REGISTER_ACTION_SOURCE(ShotDelay);
@@ -72,7 +73,7 @@ bool ShotDelay::writeAction(NetBuffer &buffer)
 	buffer.addToBuffer(velocity_);
 	buffer.addToBuffer(position_);
 	buffer.addToBuffer(data_);
-	Weapon::write(buffer, weapon_);
+	context_->accessoryStore->writeWeapon(buffer, weapon_);
 	return true;
 }
 
@@ -83,7 +84,7 @@ bool ShotDelay::readAction(NetBufferReader &reader)
 	if (!reader.getFromBuffer(velocity_)) return false;
 	if (!reader.getFromBuffer(position_)) return false;
 	if (!reader.getFromBuffer(data_)) return false;
-	weapon_ = Weapon::read(reader); if (!weapon_) return false;
+	weapon_ = (Weapon *) context_->accessoryStore->readWeapon(reader); if (!weapon_) return false;
 	return true;
 }
 

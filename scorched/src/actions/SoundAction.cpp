@@ -20,6 +20,7 @@
 
 #include <actions/SoundAction.h>
 #include <weapons/WeaponSound.h>
+#include <weapons/AccessoryStore.h>
 #include <common/SoundStore.h>
 
 REGISTER_ACTION_SOURCE(SoundAction);
@@ -54,12 +55,12 @@ void SoundAction::simulate(float frameTime, bool &remove)
 
 bool SoundAction::writeAction(NetBuffer &buffer)
 {
-	Weapon::write(buffer, weapon_);
+	context_->accessoryStore->writeWeapon(buffer, weapon_);
 	return true;
 }
 
 bool SoundAction::readAction(NetBufferReader &reader)
 {
-	weapon_ = (WeaponSound *) Weapon::read(reader); if (!weapon_) return false;
+	weapon_ = (WeaponSound *) context_->accessoryStore->readWeapon(reader); if (!weapon_) return false;
 	return true;
 }

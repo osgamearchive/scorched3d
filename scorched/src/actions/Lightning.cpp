@@ -26,6 +26,7 @@
 #include <client/MainCamera.h>
 #include <tank/TankContainer.h>
 #include <tank/TankController.h>
+#include <weapons/AccessoryStore.h>
 #include <math.h>
 
 REGISTER_ACTION_SOURCE(Lightning);
@@ -163,7 +164,7 @@ bool Lightning::writeAction(NetBuffer &buffer)
 	buffer.addToBuffer(data_);
 	buffer.addToBuffer(position_);
 	buffer.addToBuffer(velocity_);
-	Weapon::write(buffer, weapon_);
+	context_->accessoryStore->writeWeapon(buffer, weapon_);
 	return true;
 }
 
@@ -174,7 +175,7 @@ bool Lightning::readAction(NetBufferReader &reader)
 	if (!reader.getFromBuffer(data_)) return false;
 	if (!reader.getFromBuffer(position_)) return false;
 	if (!reader.getFromBuffer(velocity_)) return false;
-	weapon_ = (WeaponLightning *) Weapon::read(reader); if (!weapon_) return false;
+	weapon_ = (WeaponLightning*) context_->accessoryStore->readWeapon(reader); if (!weapon_) return false;
 	return true;
 }
 

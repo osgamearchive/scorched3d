@@ -20,7 +20,6 @@
 
 #include <weapons/WeaponLeapFrog.h>
 #include <weapons/AccessoryStore.h>
-#include <server/ScorchedServer.h>
 
 REGISTER_ACCESSORY_SOURCE(WeaponLeapFrog);
 
@@ -44,8 +43,7 @@ bool WeaponLeapFrog::parseXML(XMLNode *accessoryNode)
 	if (!accessoryNode->getNamedChild("collisionaction", subNode)) return false;
 
 	// Check next weapon is correct type
-	Accessory *accessory = 
-		ScorchedServer::instance()->getAccessoryStore().createAccessory(subNode);
+	Accessory *accessory = store_->createAccessory(subNode);
 	if (!accessory || accessory->getType() != Accessory::AccessoryWeapon)
 	{
 		dialogMessage("Accessory",
@@ -64,7 +62,7 @@ bool WeaponLeapFrog::parseXML(XMLNode *accessoryNode)
 bool WeaponLeapFrog::writeAccessory(NetBuffer &buffer)
 {
 	if (!Weapon::writeAccessory(buffer)) return false;
-	if (!Weapon::write(buffer, collisionAction_)) return false;
+	if (!store_->writeWeapon(buffer, collisionAction_)) return false;
 	buffer.addToBuffer(bounce_);
 	return true;
 }
@@ -72,7 +70,7 @@ bool WeaponLeapFrog::writeAccessory(NetBuffer &buffer)
 bool WeaponLeapFrog::readAccessory(NetBufferReader &reader)
 {
 	if (!Weapon::readAccessory(reader)) return false;
-	collisionAction_ = Weapon::read(reader); if (!collisionAction_) return false;
+	collisionAction_ = store_->readWeapon(reader); if (!collisionAction_) return false;
 	if (!reader.getFromBuffer(bounce_)) return false;
 	return true;
 }

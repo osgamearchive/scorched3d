@@ -103,7 +103,7 @@ bool TankFired::writeAction(NetBuffer &buffer)
 	buffer.addToBuffer(playerId_);
 	buffer.addToBuffer(rotXY_);
 	buffer.addToBuffer(rotXZ_);
-	Weapon::write(buffer, weapon_);
+	context_->accessoryStore->writeWeapon(buffer, weapon_);
 	return true;
 }
 
@@ -112,6 +112,6 @@ bool TankFired::readAction(NetBufferReader &reader)
 	if (!reader.getFromBuffer(playerId_)) return false;
 	if (!reader.getFromBuffer(rotXY_)) return false;
 	if (!reader.getFromBuffer(rotXZ_)) return false;
-	weapon_ = Weapon::read(reader); if (!weapon_) return false;
+	weapon_ = context_->accessoryStore->readWeapon(reader); if (!weapon_) return false;
 	return true;
 }

@@ -22,7 +22,6 @@
 #include <weapons/AccessoryStore.h>
 #include <tankgraph/TankModelRenderer.h>
 #include <tankgraph/MissileMesh.h>
-#include <client/ScorchedClient.h>
 #include <common/OptionsDisplay.h>
 
 std::map<std::string, MissileMesh *> Weapon::loadedMeshes_;
@@ -91,26 +90,6 @@ bool Weapon::readAccessory(NetBufferReader &reader)
 ModelID &Weapon::getModelID()
 {
 	return modelId_;
-}
-
-bool Weapon::write(NetBuffer &buffer, Weapon *weapon)
-{
-	buffer.addToBuffer(weapon->getAccessoryId());
-	return true;
-}
-
-Weapon *Weapon::read(NetBufferReader &reader)
-{
-	unsigned int weaponId;
-	if (!reader.getFromBuffer(weaponId)) return 0;
-	Accessory *accessory = 
-		ScorchedClient::instance()->getAccessoryStore().
-		findByAccessoryId(weaponId);
-	if (!accessory || (accessory->getType() != Accessory::AccessoryWeapon)) 
-	{
-		return 0;
-	}
-	return ((Weapon *) accessory);
 }
 
 const char *Weapon::getFiredSound()

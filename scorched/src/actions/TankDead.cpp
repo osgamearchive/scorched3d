@@ -158,7 +158,7 @@ bool TankDead::writeAction(NetBuffer &buffer)
 	buffer.addToBuffer(killedPlayerId_);
 	buffer.addToBuffer(firedPlayerId_);
 	buffer.addToBuffer(data_);
-	Weapon::write(buffer, weapon_);
+	context_->accessoryStore->writeWeapon(buffer, weapon_);
 	return true;
 }
 
@@ -167,6 +167,6 @@ bool TankDead::readAction(NetBufferReader &reader)
 	if (!reader.getFromBuffer(killedPlayerId_)) return false;
 	if (!reader.getFromBuffer(firedPlayerId_)) return false;
 	if (!reader.getFromBuffer(data_)) return false;
-	weapon_ = Weapon::read(reader); if (!weapon_) return false;
+	weapon_ = context_->accessoryStore->readWeapon(reader); if (!weapon_) return false;
 	return true;
 }

@@ -43,6 +43,7 @@ Changed: Spread and hurts weapon primative options are now variable
 Changed: LeapFrog weapon primative bounce now variable
 Changed: Message of the day now defined in server.xml file
 
+Added: WeaponReference primative (now uses parents name and armslevel)
 Added: Lightning and meteor storms
 Added: Single player games are now specified in xml (for mod support)
 Added: A surround (islands) around the landscape can be drawn
@@ -118,7 +119,6 @@ AIs know how to dig
 Ambient sounds
 Boids?
 Fix large menus?
-Fix WeaponReference?
 Move placements to seperate file?
 
 -- Server Stuff

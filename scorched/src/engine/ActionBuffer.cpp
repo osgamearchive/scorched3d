@@ -22,7 +22,7 @@
 #include <engine/ActionBuffer.h>
 #include <common/Logger.h>
 
-ActionBuffer::ActionBuffer()
+ActionBuffer::ActionBuffer() : context_(0)
 {
 }
 
@@ -64,6 +64,7 @@ void ActionBuffer::serverAdd(float time, ActionMeta *action)
 	// the client
 	actionBuffer_.addToBuffer(time);
 	actionBuffer_.addToBuffer(action->getClassName());
+	action->setScorchedContext(context_);
 	action->writeAction(actionBuffer_);
 }
 
@@ -99,6 +100,7 @@ bool ActionBuffer::readMessage(NetBufferReader &reader)
 		ActionMeta *newAction = (ActionMeta *)
 			MetaClassRegistration::getNewClass(actionName.c_str());
 		if (!newAction) return false;
+		newAction->setScorchedContext(context_);
 		if (!newAction->readAction(reader)) return false;
 
 		// Put the action onto the list

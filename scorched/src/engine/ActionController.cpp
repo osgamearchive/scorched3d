@@ -145,6 +145,7 @@ void ActionController::resetTime()
 void ActionController::setScorchedContext(ScorchedContext *context)
 {
 	context_ = context;
+	buffer_.setContext(context);
 	physicsEngine_.setScorchedContext(context);
 }
 

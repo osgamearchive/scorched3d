@@ -21,7 +21,6 @@
 #include <weapons/WeaponSound.h>
 #include <engine/ActionController.h>
 #include <actions/SoundAction.h>
-#include <server/ScorchedServer.h>
 
 REGISTER_ACCESSORY_SOURCE(WeaponSound);
 

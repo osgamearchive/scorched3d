@@ -24,6 +24,7 @@
 #include <common/OptionsGame.h>
 #include <engine/ScorchedContext.h>
 #include <engine/ActionController.h>
+#include <weapons/AccessoryStore.h>
 #include <actions/TankMove.h>
 
 REGISTER_ACTION_SOURCE(TankFalling);
@@ -156,7 +157,7 @@ bool TankFalling::writeAction(NetBuffer &buffer)
 	buffer.addToBuffer(fallingPlayerId_);
 	buffer.addToBuffer(firedPlayerId_);
 	buffer.addToBuffer(data_);
-	Weapon::write(buffer, weapon_);
+	context_->accessoryStore->writeWeapon(buffer, weapon_);
 	return true;
 }
 
@@ -165,7 +166,7 @@ bool TankFalling::readAction(NetBufferReader &reader)
 	if (!reader.getFromBuffer(fallingPlayerId_)) return false;
 	if (!reader.getFromBuffer(firedPlayerId_)) return false;
 	if (!reader.getFromBuffer(data_)) return false;
-	weapon_ = Weapon::read(reader); if (!weapon_) return false;
+	weapon_ = context_->accessoryStore->readWeapon(reader); if (!weapon_) return false;
 	return true;
 }
 

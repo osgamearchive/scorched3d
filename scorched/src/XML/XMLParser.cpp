@@ -239,29 +239,6 @@ void XMLNode::resurrectRemovedChildren()
 	}
 }
 
-bool XMLNode::getNamedRemovedChild(const char *name, XMLNode *&value,
-	bool failOnError)
-{
-	std::list<XMLNode *>::iterator itor;
-	for (itor = removedChildren_.begin();
-		itor != removedChildren_.end();
-		itor++)
-	{
-		XMLNode *node = (*itor);
-		if (strcmp(name, node->getName()) == 0) 
-		{
-			value = node;
-			return true;
-		}
-	}
-
-	if (failOnError)
-	{
-		returnError(formatString("Failed to find \"%s\" node", name));
-	}
-	return false;	
-}
-
 bool XMLNode::getNamedChild(const char *name, XMLNode *&value,
 	bool failOnError, bool remove)
 {

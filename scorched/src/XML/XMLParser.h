@@ -80,11 +80,10 @@ public:
 
 	bool failChildren();
 	void resurrectRemovedChildren();
-	bool getNamedRemovedChild(const char *name, XMLNode *&node,
-		bool failOnError = true);
 
 	void setSource(const char *source);
 	void setLine(int line, int col);
+	void setContent(const char *content) { content_ = content; }
 
 	bool returnError(const char *error);
 	void addChild(XMLNode *node); 
