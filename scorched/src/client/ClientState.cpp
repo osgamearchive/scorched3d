@@ -20,6 +20,7 @@
 
 #include <engine/FrameTimer.h>
 #include <engine/ActionController.h>
+#include <engine/ParticleEngine.h>
 #include <client/Main2DCamera.h>
 #include <client/SpeedChange.h>
 #include <client/MainCamera.h>
@@ -37,8 +38,8 @@
 #include <tankgraph/TankRenderer.h>
 #include <tankai/TankAIHumanCtrl.h>
 #include <GLW/GLWWindowManager.h>
-#include <landscape/Landscape.h>
 #include <GLW/GLWToolTip.h>
+#include <landscape/Landscape.h>
 #include <GLEXT/GLCameraFrustum.h>
 #include <GLEXT/GLOrderedItemRenderer.h>
 #include <GLEXT/GLConsole.h>
@@ -75,6 +76,8 @@ void ClientState::addStandardComponents(GameState &gameState, unsigned state, bo
 		&ScorchedClient::instance()->getActionController());
 	gameState.addStateLoop(state, MainCamera::instance(), 
 		GLOrderedItemRenderer::instance());
+	gameState.addStateLoop(state, MainCamera::instance(), 
+		&ScorchedClient::instance()->getParticleEngine());
 	gameState.addStateLoop(state, 
 		MainCamera::instance(), &TankRenderer::instance()->render3DSecond);
 	gameState.addStateLoop(state, 

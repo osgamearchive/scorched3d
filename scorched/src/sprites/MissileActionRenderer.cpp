@@ -19,6 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <sprites/MissileActionRenderer.h>
+#include <sprites/ExplosionTextures.h>
 #include <GLEXT/GLCameraFrustum.h>
 #include <3dsparse/ModelsFile.h>
 #include <actions/ShotProjectile.h>
@@ -26,18 +27,41 @@
 #include <common/OptionsDisplay.h>
 #include <tankgraph/TankModelRenderer.h>
 #include <tank/TankContainer.h>
+#include <client/ScorchedClient.h>
 #include <engine/ScorchedContext.h>
+#include <engine/ParticleEngine.h>
 
 MissileActionRenderer::MissileActionRenderer(int flareType, float scale) : 
-	flareType_(flareType), counter_(0.1f, 0.1f), mesh_(0), scale_(scale), rotation_(0.0f)
+	flareType_(flareType), counter_(0.05f, 0.05f), 
+	mesh_(0), scale_(scale), rotation_(0.0f)
 {
+	flameemitter_.setAttributes(
+		0.5f, 1.0f, // Life
+		0.5f, 1.0f, // Mass
+		0.01f, 0.02f, // Friction
+		Vector(-0.05f, -0.1f, 0.3f), Vector(0.05f, 0.1f, 0.9f), // Velocity
+		Vector(0.9f, 0.0f, 0.0f), 0.9f, // StartColor1
+		Vector(1.0f, 0.2f, 0.2f), 1.0f, // StartColor2
+		Vector(0.95f, 0.9f, 0.2f), 0.0f, // EndColor1
+		Vector(1.0f, 1.0f, 0.3f), 0.1f, // EndColor2
+		0.2f, 0.2f, 0.5f, 0.5f, // Start Size
+		1.5f, 1.5f, 3.0f, 3.0f, // EndSize
+		Vector(0.0f, 0.0f, 10.0f) // Gravity
+		);
 
-}
-
-MissileActionRenderer::MissileActionRenderer(int flareType) : 
-	flareType_(flareType), counter_(0.1f, 0.1f), mesh_(0), scale_(1.0f), rotation_(0.0f)
-{
-
+	smokeemitter_.setAttributes(
+		2.5f, 4.0f, // Life
+		0.2f, 0.5f, // Mass
+		0.01f, 0.02f, // Friction
+		Vector(-0.05f, -0.1f, 0.3f), Vector(0.05f, 0.1f, 0.9f), // Velocity
+		Vector(0.7f, 0.7f, 0.7f), 0.3f, // StartColor1
+		Vector(0.7f, 0.7f, 0.7f), 0.3f, // StartColor2
+		Vector(0.7f, 0.7f, 0.7f), 0.0f, // EndColor1
+		Vector(0.8f, 0.8f, 0.8f), 0.1f, // EndColor2
+		0.2f, 0.2f, 0.5f, 0.5f, // Start Size
+		2.2f, 2.2f, 4.0f, 4.0f, // EndSize
+		Vector(0.0f, 0.0f, 100.0f) // Gravity
+		);
 }
 
 MissileActionRenderer::~MissileActionRenderer()
@@ -47,17 +71,43 @@ MissileActionRenderer::~MissileActionRenderer()
 void MissileActionRenderer::simulate(Action *action, float timepassed, bool &remove)
 {
 	ShotProjectile *shot = (ShotProjectile *) action;
+	Vector &actualPos = shot->getCurrentPosition();
+	Vector actualPos1;
+	actualPos1[0] = actualPos[0] - 0.25f;
+	actualPos1[1] = actualPos[1] - 0.25f;
+	actualPos1[2] = actualPos[2] - 0.25f;
+	Vector actualPos2;
+	actualPos2[0] = actualPos[0] + 0.25f;
+	actualPos2[1] = actualPos[1] + 0.25f;
+	actualPos2[2] = actualPos[2] + 0.25f;
+
+	// Rotate the shot
+	rotation_ += shot->getCurrentVelocity().Magnitude();
+
+	// Add flame trail
+	flameemitter_.emitLinear(3, actualPos1, actualPos2, 
+		ScorchedClient::instance()->getParticleEngine(), 
+		ParticleRendererQuadsParticle::getInstance());
+
+	// Add the smoke trail
 	if (shot->getWeapon()->getCreateSmoke())
 	{
 		if (counter_.nextDraw(timepassed))
 		{
-			Vector &actualPos = shot->getCurrentPosition();
-			Landscape::instance()->getSmoke().
-				addSmoke(actualPos[0], actualPos[1], actualPos[2], 
-					0.0f, 0.0f, 0.0f, 0.7f);
+			Vector vel1 = shot->getCurrentVelocity();
+			Vector vel2;
+			vel1 *= -0.7f;
+			vel2 = vel1 * 0.7f;
+
+			actualPos1 -= shot->getCurrentVelocity() * 0.2f;
+			actualPos2 -= shot->getCurrentVelocity() * 0.2f;
+
+			smokeemitter_.setVelocity(vel1, vel2);
+			smokeemitter_.emitLinear(3, actualPos1, actualPos2, 
+				ScorchedClient::instance()->getParticleEngine(), 
+				ParticleRendererQuadsSmoke::getInstance());
 		}
 	}
-	rotation_ += shot->getCurrentVelocity().Magnitude();
 }
 
 void MissileActionRenderer::draw(Action *action)

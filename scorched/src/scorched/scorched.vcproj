@@ -1235,6 +1235,30 @@
 				RelativePath="..\engine\ModFiles.h">
 			</File>
 			<File
+				RelativePath="..\engine\Particle.cpp">
+			</File>
+			<File
+				RelativePath="..\engine\Particle.h">
+			</File>
+			<File
+				RelativePath="..\engine\ParticleEmitter.cpp">
+			</File>
+			<File
+				RelativePath="..\engine\ParticleEmitter.h">
+			</File>
+			<File
+				RelativePath="..\engine\ParticleEngine.cpp">
+			</File>
+			<File
+				RelativePath="..\engine\ParticleEngine.h">
+			</File>
+			<File
+				RelativePath="..\engine\ParticleRenderer.cpp">
+			</File>
+			<File
+				RelativePath="..\engine\ParticleRenderer.h">
+			</File>
+			<File
 				RelativePath="..\engine\PhysicsEngine.cpp">
 			</File>
 			<File

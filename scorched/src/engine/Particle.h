@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,32 +18,38 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <client/ScorchedClient.h>
-#include <engine/MainLoop.h>
-#include <engine/ParticleEngine.h>
-#include <engine/GameState.h>
+#if !defined(__INCLUDE_Particleh_INCLUDE__)
+#define __INCLUDE_Particleh_INCLUDE__
 
-ScorchedClient *ScorchedClient::instance_ = 0;
+#include <common/Vector.h>
+#include <engine/ParticleRenderer.h>
 
-ScorchedClient *ScorchedClient::instance()
+class Particle
 {
-	if (!instance_)
-	{
-		instance_ = new ScorchedClient;
-	}
-	return instance_;
-}
+public:
+	Particle();
+	virtual ~Particle();
 
-ScorchedClient::ScorchedClient() : 
-	context_("Client")
-{
-	particleEngine_ = new ParticleEngine(2000);
-	mainLoop_ = new MainLoop();
-	mainLoop_->clear();
-	mainLoop_->addMainLoop(context_.gameState);
-	context_.serverMode = false;
-}
+	void setDead();
+	void setParticle(
+		float life, float mass, float friction,
+        Vector &velocity, Vector &gravity,
+		Vector &color, Vector &colorCounter,
+		Vector &size, Vector &sizeCounter,
+		float alpha, float alphaCounter);
 
-ScorchedClient::~ScorchedClient()
-{
-}
+	float life_;
+	float mass_;
+	float friction_;
+	Vector position_;
+	Vector velocity_;
+	Vector gravity_;
+
+	Vector color_, colorCounter_;
+	Vector size_, sizeCounter_;
+	float alpha_, alphaCounter_;
+
+	ParticleRenderer *renderer_;
+};
+
+#endif // __INCLUDE_Particleh_INCLUDE__

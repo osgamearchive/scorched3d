@@ -22,6 +22,7 @@
 #define __INCLUDE_MissileActionRendererh_INCLUDE__
 
 #include <engine/Action.h>
+#include <engine/ParticleEmitter.h>
 #include <tankgraph/MissileMesh.h>
 #include <landscape/Smoke.h>
 #include <string>
@@ -30,8 +31,7 @@
 class MissileActionRenderer : public ActionRenderer
 {
 public:
-	MissileActionRenderer(int flareType);
-	MissileActionRenderer(int flareType, float scale);
+	MissileActionRenderer(int flareType, float scale = 1.0f);
 	virtual ~MissileActionRenderer();
 
 	virtual void simulate(Action *action, float timepassed, bool &remove);
@@ -40,6 +40,8 @@ public:
 protected:
 	int flareType_;
 	SmokeCounter counter_;
+	ParticleEmitter flameemitter_;
+	ParticleEmitter smokeemitter_;
 	MissileMesh *mesh_;
 	float rotation_;
 	float scale_;

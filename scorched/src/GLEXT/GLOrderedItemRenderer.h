@@ -85,7 +85,6 @@ public:
 	virtual ~GLOrderedItemRendererProviderSetup();
 	
 	virtual void itemsSetup() = 0;
-	virtual void itemsSimulate(float frameTime) = 0;
 };
 
 #endif

@@ -314,6 +314,8 @@ void GLWWindowManager::keyboardCheck(const unsigned state, float frameTime,
 							   KeyboardHistory::HistoryElement *history, int hisCount, 
 							   bool &skipRest)
 {
+	if (currentStateEntry_->state_ != state) setCurrentEntry(state);
+
 	std::deque<GLWWindow *>::reverse_iterator itor;
 	for (itor = currentStateEntry_->windows_.rbegin();
 		itor != currentStateEntry_->windows_.rend();
@@ -362,6 +364,8 @@ void GLWWindowManager::keyboardCheck(const unsigned state, float frameTime,
 
 void GLWWindowManager::mouseDown(const unsigned state, GameState::MouseButton button, int x, int y, bool &skipRest)
 {
+	if (currentStateEntry_->state_ != state) setCurrentEntry(state);
+
 	std::deque<GLWWindow *>::reverse_iterator itor;
 	for (itor = currentStateEntry_->windows_.rbegin();
 		itor != currentStateEntry_->windows_.rend();
@@ -378,6 +382,8 @@ void GLWWindowManager::mouseDown(const unsigned state, GameState::MouseButton bu
 
 void GLWWindowManager::mouseUp(const unsigned state, GameState::MouseButton button, int x, int y, bool &skipRest)
 {
+	if (currentStateEntry_->state_ != state) setCurrentEntry(state);
+
 	std::deque<GLWWindow *>::reverse_iterator itor;
 	for (itor = currentStateEntry_->windows_.rbegin();
 		itor != currentStateEntry_->windows_.rend();
@@ -395,6 +401,8 @@ void GLWWindowManager::mouseUp(const unsigned state, GameState::MouseButton butt
 void GLWWindowManager::mouseDrag(const unsigned state, GameState::MouseButton button, 
 							  int mx, int my, int x, int y, bool &skipRest)
 {
+	if (currentStateEntry_->state_ != state) setCurrentEntry(state);
+
 	std::deque<GLWWindow *>::reverse_iterator itor;
 	for (itor = currentStateEntry_->windows_.rbegin();
 		itor != currentStateEntry_->windows_.rend();

@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,32 +18,33 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <client/ScorchedClient.h>
-#include <engine/MainLoop.h>
-#include <engine/ParticleEngine.h>
-#include <engine/GameState.h>
+#include <engine/Particle.h>
 
-ScorchedClient *ScorchedClient::instance_ = 0;
-
-ScorchedClient *ScorchedClient::instance()
+Particle::Particle()
 {
-	if (!instance_)
-	{
-		instance_ = new ScorchedClient;
-	}
-	return instance_;
+	setDead();
 }
 
-ScorchedClient::ScorchedClient() : 
-	context_("Client")
+Particle::~Particle()
 {
-	particleEngine_ = new ParticleEngine(2000);
-	mainLoop_ = new MainLoop();
-	mainLoop_->clear();
-	mainLoop_->addMainLoop(context_.gameState);
-	context_.serverMode = false;
 }
 
-ScorchedClient::~ScorchedClient()
+void Particle::setDead()
 {
+	life_ = -1.0f;
+	renderer_ = 0;
+}
+
+void Particle::setParticle(
+	float life, float mass, float friction,
+    Vector &velocity, Vector &gravity,
+	Vector &color, Vector &colorCounter,
+	Vector &size, Vector &sizeCounter,
+	float alpha, float alphaCounter)
+{
+	life_ = life; mass_ = mass; friction_ = friction;
+	velocity_ = velocity; gravity_ = gravity;
+	color_ = color; colorCounter_ = colorCounter;
+	size_ = size; sizeCounter_ = sizeCounter;
+	alpha_ = alpha; alphaCounter_ = alphaCounter;
 }

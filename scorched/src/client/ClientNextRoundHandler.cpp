@@ -21,8 +21,6 @@
 #include <client/ScorchedClient.h>
 #include <client/ClientNextRoundHandler.h>
 #include <client/ClientState.h>
-#include <tank/TankContainer.h>
-#include <landscape/Landscape.h>
 #include <coms/ComsNextRoundMessage.h>
 
 ClientNextRoundHandler *ClientNextRoundHandler::instance_ = 0;
@@ -54,28 +52,6 @@ bool ClientNextRoundHandler::processMessage(unsigned int id,
 	// Decode the connect message
 	ComsNextRoundMessage message;
 	if (!message.readMessage(reader)) return false;
-
-	// Remove trees around tanks
-	std::map<unsigned int, Tank *> &tanks = 
-		ScorchedClient::instance()->getTankContainer().getPlayingTanks();
-	std::map<unsigned int, Tank *>::iterator itor;
-	for (itor = tanks.begin();
-		 itor != tanks.end();
-		 itor++)
-	{
-		Tank *tank = (*itor).second;
-		if (tank->getState().getState() == TankState::sNormal)
-		{
-			Vector &tankPos = tank->getPhysics().getTankPosition();
-			for (int x=int(tankPos[0]) - 3; x<=int(tankPos[0])+3; x++)
-			{
-				for (int y=int(tankPos[1]) - 3; y<=int(tankPos[1])+3; y++)
-				{
-					Landscape::instance()->getObjects().removeTrees(x, y);
-				}
-			}
-		}
-	}
 
 	ScorchedClient::instance()->getGameState().stimulate(ClientState::StimWait);
 	ScorchedClient::instance()->getGameState().checkStimulate();

@@ -28,6 +28,9 @@
 
 void SmokeChainEntry::set(Vector &position, Vector &velocity, float ms, float mt)
 {
+	//r_color = 0.5f;
+	//g_color = 0.5f;
+	//b_color = 0.5f;
 	posX = position[0];
 	posY = position[1];
 	posZ = position[2];

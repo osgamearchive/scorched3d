@@ -208,6 +208,7 @@ void PatchGrid::draw(PatchSide::DrawType sides)
 	{
 		PatchVar::var = new GLVar(1000);
 	}
+	PatchVar::var->resetTriangles();
 
 	reset();
 

@@ -91,16 +91,6 @@ void GLOrderedItemRenderer::simulate(const unsigned int state, float simTime)
 			std::sort(requiredEntries_.begin(), requiredEntries_.end(), lt_distance); 
 		}
 	}
-
-	// Simulate all of the providers
-	std::list<GLOrderedItemRendererProviderSetup *>::iterator itor;
-	for (itor = setups_.begin();
-		 itor != setups_.end();
-		 itor++)
-	{
-		GLOrderedItemRendererProviderSetup *setup = (*itor);
-		setup->itemsSimulate(simTime);
-	}
 }
 
 void GLOrderedItemRenderer::addSetup(GLOrderedItemRendererProviderSetup *setup)
@@ -142,11 +132,11 @@ void GLOrderedItemRenderer::draw(const unsigned state)
 	GLState drawState(GLState::TEXTURE_ON | GLState::BLEND_ON | GLState::DEPTH_ON);
 	glDepthMask(GL_FALSE);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glEnable(GL_ALPHA_TEST);
+	glAlphaFunc(GL_GREATER, 0.05f);
 
 	// Remove previous entries
 	tmpRequiredEntries_.clear();
-
-	// Todo sort by depth (hmm)
 
 	// Draw entries 
 	int notDrawn = (int) requiredEntries_.size() - numberOfBilboards_;
@@ -188,6 +178,7 @@ void GLOrderedItemRenderer::draw(const unsigned state)
 
 	// Reset the depth mask
 	glDepthMask(GL_TRUE);
+	glDisable(GL_ALPHA_TEST);
 }
 
 GLOrderedItemRendererProvider::~GLOrderedItemRendererProvider()

@@ -63,10 +63,17 @@ bool ExplosionTextures::createTextures(ProgressCounter *counter)
 	std::string file1 = getDataFile("data/textures/smoke01.bmp");
 	GLBitmap bitmap(file1.c_str(), file1.c_str(), false);
 	smokeTexture.create(bitmap, GL_RGBA);
+	DIALOG_ASSERT(smokeTexture.textureValid());
 
 	std::string file2 = getDataFile("data/textures/smoke02.bmp");
 	GLBitmap bitmap2(file2.c_str(), file2.c_str(), false);
-	smokeTexture.create(bitmap2, GL_RGBA);
+	smokeTexture2.create(bitmap2, GL_RGBA);
+	DIALOG_ASSERT(smokeTexture2.textureValid());
+
+	std::string file3 = getDataFile("data/textures/particle.bmp");
+	GLBitmap bitmap3(file3.c_str(), file3.c_str(), false);
+	particleTexture.create(bitmap3, GL_RGBA);
+	DIALOG_ASSERT(particleTexture.textureValid());
 
 	XMLFile file;
 	if (!file.readFile(getDataFile("data/textureset.xml")))

@@ -307,7 +307,10 @@ void MainFrame::onTimer()
 			"This gives the best chance of working but "
 			"at the cost of graphical detail.\n"
 			"You can adjust this later in the Scorched3D "
-			"display settings dialog.");
+			"display settings dialog.\n"
+			"Note: Most problems can be fixed by using "
+			"the very latest drivers\n"
+			"for your graphics card.");
 		int answer = ::wxMessageBox(
 			newString,
 			"Scorched3D Abnormal Termination",

@@ -18,20 +18,14 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// FrameTimer.cpp: implementation of the FrameTimer class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <stdio.h>
 #include <landscape/PatchVar.h>
 #include <engine/FrameTimer.h>
 #include <common/Logger.h>
 #include <common/OptionsDisplay.h>
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
+#include <GLEXT/GLBilboardRenderer.h>
+#include <client/ScorchedClient.h>
+#include <engine/ParticleEngine.h>
 
 FrameTimer *FrameTimer::instance_ = 0;
 
@@ -62,12 +56,19 @@ void FrameTimer::simulate(const unsigned state, float frameTime)
 
 	if (totalTime_ > 5.0f)
 	{
+		unsigned int bils, texs;
+		GLBilboardRenderer::instance()->getStats(bils, texs);
+		unsigned int pOnScreen = 
+			ScorchedClient::instance()->getParticleEngine().getParticlesOnScreen();
+
 		unsigned int tris = (PatchVar::var?PatchVar::var->getNoTriangles():0);
 		if (OptionsDisplay::instance()->getFrameTimer())
 		{
-			Logger::log(0, "%.2f Frames Per Second (%.2f T/S)", 
+			Logger::log(0, "%.2f FPS (%iT %iB %iP)", 
 				float(totalCount_) / totalTime_,
-				float(tris) / totalTime_);
+				tris,
+				bils,
+				pOnScreen);
 		}
 		totalCount_ = 0;
 		totalTime_ = 0.0f;

@@ -37,6 +37,7 @@ public:
 	void generate(RandomGenerator &generator, ProgressCounter *counter = 0);
 	void drawItem(float distance, GLOrderedItemRenderer::OrderedEntry &entry);
 
+	void removeAroundTanks();
 	void removeAllTrees();
 	void removeTrees(unsigned int x, unsigned int y);
 	void burnTrees(unsigned int x, unsigned int y);

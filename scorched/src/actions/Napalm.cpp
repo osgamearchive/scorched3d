@@ -208,6 +208,9 @@ void Napalm::simulateAddStep()
 		newEntry->renderEntry1 = new GLBilboardRenderer::GLBilboardOrderedEntry;
 		newEntry->renderEntry2 = new GLBilboardRenderer::GLBilboardOrderedEntry;
 		newEntry->renderEntry3 = new GLBilboardRenderer::GLBilboardOrderedEntry;
+		newEntry->renderEntry1->alphatype = GL_ONE;
+		newEntry->renderEntry2->alphatype = GL_ONE;
+		newEntry->renderEntry3->alphatype = GL_ONE;
 		newEntry->renderEntry1->posX = float(x_) + 0.5f;
 		newEntry->renderEntry2->posX = float(x_) - 0.5f;
 		newEntry->renderEntry3->posX = float(x_);

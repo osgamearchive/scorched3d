@@ -94,6 +94,8 @@ ExplosionRenderer::ExplosionSubPart::ExplosionSubPart()
 	positionMove = move;
 	graphicEntry1_ = new GLBilboardRenderer::GLBilboardOrderedEntry;
 	graphicEntry2_ = new GLBilboardRenderer::GLBilboardOrderedEntry;
+	graphicEntry1_->alphatype = GL_ONE;
+	graphicEntry2_->alphatype = GL_ONE;
 
 	graphicEntry1_->textureCoord = 
 		graphicEntry2_->textureCoord = int(RAND * 4.0);

@@ -34,6 +34,7 @@ public:
 
 	GLTexture smokeTexture;
 	GLTexture smokeTexture2;
+	GLTexture particleTexture;
 
 	GLTextureSet *getTextureSetByName(const char *name);
 	std::map<std::string, GLTextureSet*> textureSets;

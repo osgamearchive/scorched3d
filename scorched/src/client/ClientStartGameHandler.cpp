@@ -87,6 +87,7 @@ bool ClientStartGameHandler::processMessage(unsigned int id,
 	}
 	else
 	{
+		Landscape::instance()->getObjects().removeAroundTanks();
 		ScorchedClient::instance()->getGameState().stimulate(
 			ClientState::StimPlaying);
 	}

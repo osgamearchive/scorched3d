@@ -21,7 +21,6 @@
 #include <GLEXT/GLBilboardRenderer.h>
 #include <GLEXT/GLCameraFrustum.h>
 #include <GLEXT/GLState.h>
-#include <GLEXT/GLConsoleRuleFnIAdapter.h>
 #include <client/MainCamera.h>
 #include <common/OptionsDisplay.h>
 #include <common/Logger.h>
@@ -38,9 +37,8 @@ GLBilboardRenderer *GLBilboardRenderer::instance()
 }
 
 GLBilboardRenderer::GLBilboardRenderer() : 
-	totalTime_(0.0f), totalSwitches_(0), totalBilboards_(0), showMessages_(false)
+	totalSwitches_(0), totalBilboards_(0)
 {
-	new GLConsoleRuleFnIBooleanAdapter("BilboardStats", showMessages_);
 	GLOrderedItemRenderer::instance()->addSetup(this);
 }
 
@@ -48,24 +46,10 @@ GLBilboardRenderer::~GLBilboardRenderer()
 {
 }
 
-void GLBilboardRenderer::itemsSimulate(float simTime)
+void GLBilboardRenderer::getStats(unsigned int &bils, unsigned int &texs)
 {
-	const float printTime = 5.0f;
-	totalTime_ += simTime;
-
-	if (totalTime_ > printTime)
-	{
-		if (showMessages_)
-		{
-			Logger::log(0, "%.2f Bilboards Per Second, %.2f Textures Per Second)", 
-				float(totalBilboards_) / totalTime_,
-				float(totalSwitches_) / totalTime_);
-
-			totalSwitches_ = 0;
-			totalBilboards_ = 0;
-			totalTime_ = 0.0f;
-		}
-	}
+	bils = totalBilboards_;
+	texs = totalSwitches_;
 }
 
 void GLBilboardRenderer::itemsSetup()
@@ -73,6 +57,10 @@ void GLBilboardRenderer::itemsSetup()
 	// Setup the bilboard items
 	bilX_ = GLCameraFrustum::instance()->getBilboardVectorX();
 	bilY_ = GLCameraFrustum::instance()->getBilboardVectorY();
+
+	// Reset stats
+	totalBilboards_ = 0;
+	totalSwitches_ = 0;
 }
 
 void GLBilboardRenderer::addEntry(GLBilboardOrderedEntry *entry)
@@ -92,6 +80,11 @@ void GLBilboardRenderer::drawItem(float distance, GLOrderedItemRenderer::Ordered
 	GLBilboardRenderer::GLBilboardOrderedEntry &entry =
 		(GLBilboardRenderer::GLBilboardOrderedEntry &) oentry;
 	if (!entry.texture) return;
+
+	if (entry.alphatype != GL_ONE_MINUS_SRC_ALPHA)
+	{
+		glBlendFunc(GL_SRC_ALPHA, entry.alphatype);
+	}
 
 	totalBilboards_++;
 	if (entry.texture != GLTexture::getLastBind())
@@ -157,4 +150,8 @@ void GLBilboardRenderer::drawItem(float distance, GLOrderedItemRenderer::Ordered
 	glEnd();
 	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 
+	if (entry.alphatype != GL_ONE_MINUS_SRC_ALPHA)
+	{
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	}
 }

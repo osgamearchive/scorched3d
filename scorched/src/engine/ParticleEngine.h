@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,32 +18,35 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <client/ScorchedClient.h>
-#include <engine/MainLoop.h>
-#include <engine/ParticleEngine.h>
-#include <engine/GameState.h>
+#if !defined(__INCLUDE_ParticleEngineh_INCLUDE__)
+#define __INCLUDE_ParticleEngineh_INCLUDE__
 
-ScorchedClient *ScorchedClient::instance_ = 0;
+#include <engine/Particle.h>
+#include <engine/GameStateI.h>
 
-ScorchedClient *ScorchedClient::instance()
+class ParticleEngine : public GameStateI
 {
-	if (!instance_)
-	{
-		instance_ = new ScorchedClient;
-	}
-	return instance_;
-}
+public:
+	ParticleEngine(unsigned int maxParticles);
+	virtual ~ParticleEngine();
 
-ScorchedClient::ScorchedClient() : 
-	context_("Client")
-{
-	particleEngine_ = new ParticleEngine(2000);
-	mainLoop_ = new MainLoop();
-	mainLoop_->clear();
-	mainLoop_->addMainLoop(context_.gameState);
-	context_.serverMode = false;
-}
+	void setMaxParticles(unsigned int maxParticles);
+	unsigned int getMaxParticles();
+	unsigned int getParticlesOnScreen();
 
-ScorchedClient::~ScorchedClient()
-{
-}
+	void killAll();
+
+	Particle *getNextAliveParticle();
+
+	// Inherited from GameStateI
+	virtual void draw(const unsigned state);
+	virtual void simulate(const unsigned int state, float simTime);
+
+protected:
+	Particle *particles_;
+	unsigned int maxParticles_;
+	unsigned int particlesOnScreen_;
+
+};
+
+#endif // __INCLUDE_ParticleEngineh_INCLUDE__

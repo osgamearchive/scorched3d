@@ -16,12 +16,15 @@ Fixed: Plan view is cropped so it does not extend out of dialog
 Fixed: XML Parser does not add extra LFs (Fixes enabled landscapes becoming disabled)
 Fixed: Sky dome incorrectly positioned
 Fixed: Tank cannot move when burried
+Fixed: Tank is not covered by trees on the first move
 
 Changed: Changed free market ecconmy so price decreases are slower
 Changed: Tank can move up and down bigger slopes (configurable)
 Changed: Spread and hurts weapon primative options are now variable
 Changed: LeapFrog weapon primative bounce now variable
 
+Added: Fire trails on missiles
+Added: Better looking fire + explosions
 Added: Way to choose mods for server and single player
 Added: WeaponAimedOver and WeaponAimedUnder weapon primatives can be configured
 Added: Admin commands can be accessed from a client
@@ -65,7 +68,6 @@ Allow objects other than trees to be used (as models)
 More dirt option for landscape (perhaps cannot go under water)
 Make rollers look better
 Stats prefix can be (pre/a)pended onto mysql stats tables
-Some kind of fire out the back of missiles
 Proper mag shield
 Guidance
 Add action replay type functionality

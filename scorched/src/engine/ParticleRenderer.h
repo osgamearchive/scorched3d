@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,32 +18,41 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <client/ScorchedClient.h>
-#include <engine/MainLoop.h>
-#include <engine/ParticleEngine.h>
-#include <engine/GameState.h>
+#if !defined(__INCLUDE_ParticleRendererh_INCLUDE__)
+#define __INCLUDE_ParticleRendererh_INCLUDE__
 
-ScorchedClient *ScorchedClient::instance_ = 0;
-
-ScorchedClient *ScorchedClient::instance()
+class Particle;
+class ParticleRenderer
 {
-	if (!instance_)
-	{
-		instance_ = new ScorchedClient;
-	}
-	return instance_;
-}
+public:
+	virtual void renderParticle(Particle &particle) = 0;
+};
 
-ScorchedClient::ScorchedClient() : 
-	context_("Client")
+class ParticleRendererPoints : public ParticleRenderer
 {
-	particleEngine_ = new ParticleEngine(2000);
-	mainLoop_ = new MainLoop();
-	mainLoop_->clear();
-	mainLoop_->addMainLoop(context_.gameState);
-	context_.serverMode = false;
-}
+public:
+	virtual void renderParticle(Particle &particle);
+};
 
-ScorchedClient::~ScorchedClient()
+class ParticleRendererQuads : public ParticleRenderer
 {
-}
+public:
+	virtual void renderParticle(Particle &particle);
+};
+
+class ParticleRendererQuadsParticle : public ParticleRendererQuads
+{
+public:
+	static ParticleRendererQuadsParticle *getInstance();
+	virtual void renderParticle(Particle &particle);
+};
+
+class ParticleRendererQuadsSmoke : public ParticleRendererQuads
+{
+public:
+	static ParticleRendererQuadsSmoke *getInstance();
+	virtual void renderParticle(Particle &particle);
+};
+
+
+#endif // __INCLUDE_ParticleRendererh_INCLUDE__

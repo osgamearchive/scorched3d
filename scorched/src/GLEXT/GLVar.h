@@ -39,8 +39,9 @@ public:
 						GLfloat txa3, GLfloat tya3,
 						GLfloat txb3, GLfloat tyb3);
 	void draw();
-	unsigned int getNoTriangles() 
-		{ unsigned int t = noTriangles_; noTriangles_ = 0; return t; }
+
+	void resetTriangles() { noTriangles_ = 0; }
+	unsigned int getNoTriangles() {return noTriangles_; }
 
 protected:
 	struct GLVarStruct

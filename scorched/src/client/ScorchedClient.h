@@ -24,6 +24,7 @@
 #include <engine/ScorchedContext.h>
 
 class MainLoop;
+class ParticleEngine;
 class ScorchedClient
 {
 public:
@@ -41,10 +42,12 @@ public:
 	OptionsTransient &getOptionsTransient() { return *context_.optionsTransient; }
 	ComsMessageHandler &getComsMessageHandler() { return *context_.comsMessageHandler; }
 	ModFiles &getModFiles() { return *context_.modFiles; }
+	ParticleEngine &getParticleEngine() { return *particleEngine_; }
 
 protected:
 	static ScorchedClient *instance_;
 	MainLoop *mainLoop_;
+	ParticleEngine* particleEngine_;
 	ScorchedContext context_;
 
 private:

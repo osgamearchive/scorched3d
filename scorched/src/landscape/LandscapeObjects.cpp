@@ -24,6 +24,7 @@
 #include <GLEXT/GLBitmap.h>
 #include <GLEXT/GLCameraFrustum.h>
 #include <GLEXT/GLBitmapModifier.h>
+#include <tank/TankContainer.h>
 #include <common/Defines.h>
 #include <common/OptionsDisplay.h>
 #include <client/ScorchedClient.h>
@@ -508,6 +509,31 @@ void LandscapeObjects::burnTrees(unsigned int x, unsigned int y)
 		{
 			entry->treeType = treePalmBurnt;
 			entry->smallTreeType = treePalmBurntSmall;
+		}
+	}
+}
+
+void LandscapeObjects::removeAroundTanks()
+{
+	// Remove trees around tanks
+	std::map<unsigned int, Tank *> &tanks = 
+		ScorchedClient::instance()->getTankContainer().getPlayingTanks();
+	std::map<unsigned int, Tank *>::iterator itor;
+	for (itor = tanks.begin();
+		 itor != tanks.end();
+		 itor++)
+	{
+		Tank *tank = (*itor).second;
+		if (tank->getState().getState() == TankState::sNormal)
+		{
+			Vector &tankPos = tank->getPhysics().getTankPosition();
+			for (int x=int(tankPos[0]) - 3; x<=int(tankPos[0])+3; x++)
+			{
+				for (int y=int(tankPos[1]) - 3; y<=int(tankPos[1])+3; y++)
+				{
+					removeTrees(x, y);
+				}
+			}
 		}
 	}
 }

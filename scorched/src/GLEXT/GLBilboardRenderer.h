@@ -54,8 +54,10 @@ public:
 		GLBilboardOrderedEntry() : 
 			width(1.0f), height(1.0f), alpha(1.0f), 
 			texture(0), textureCoord(0), 
-			r_color(1.0f), g_color(1.0f), b_color(1.0f) { }
+			r_color(1.0f), g_color(1.0f), b_color(1.0f),
+			alphatype(GL_ONE_MINUS_SRC_ALPHA) { }
 
+		GLuint alphatype;
 		float width, height;
 		float alpha;
 		GLTexture *texture;
@@ -80,19 +82,18 @@ public:
 	*/
 	void removeEntry(GLBilboardOrderedEntry *entry, bool deleteItem);
 
+	virtual void getStats(unsigned int &bils, unsigned int &texs);
+
 	// Inherited from Interfaces
 	virtual void itemsSetup();
-	virtual void itemsSimulate(float simTime);
 	virtual void drawItem(float distance, GLOrderedItemRenderer::OrderedEntry &entry);
 
 protected:
 	static GLBilboardRenderer *instance_;
 
 	// Stats
-	float totalTime_;
-	bool showMessages_;
-	int totalSwitches_;
-	int totalBilboards_;
+	unsigned int totalSwitches_;
+	unsigned int totalBilboards_;
 
 	// State
 	Vector bilX_;
