@@ -101,13 +101,41 @@ bool ServerTextHandler::processMessage(unsigned int destinationId,
 		// Update the server console with the say text
 		ServerCommon::serverLog(tankId, "Says \"%s\"", newText.c_str());
 
+		ComsTextMessage newMessage(newText.c_str(), 
+			tank->getPlayerId(), false, message.getTeamOnlyMessage());
+
 		// Send to players
 		if (!tank->getState().getMuted())
 		{
-		ComsTextMessage newMessage(newText.c_str(), 
-			tank->getPlayerId(), false, message.getTeamOnlyMessage());
-		if (message.getTeamOnlyMessage())
+			if (message.getTeamOnlyMessage())
+			{
+				// Send all team messages to everyone in the team
+				std::map<unsigned int, Tank *> &tanks =
+					ScorchedServer::instance()->getTankContainer().getPlayingTanks();
+				std::map<unsigned int, Tank *>::iterator itor;
+				for (itor = tanks.begin();
+					itor != tanks.end();
+					itor++)
+				{
+					Tank *currentTank = (*itor).second;
+					if (tank->getTeam() == currentTank->getTeam() ||
+						tank->getState().getAdmin())
+					{
+						ComsMessageSender::sendToSingleClient(newMessage,
+							currentTank->getDestinationId());
+					}
+				}
+			}
+			else
+			{
+				// Else send to everyone
+				ComsMessageSender::sendToAllConnectedClients(newMessage);
+			}
+		}
+		else
 		{
+			// Only send admin muted texts to the player that said it
+			// and all admins
 			std::map<unsigned int, Tank *> &tanks =
 				ScorchedServer::instance()->getTankContainer().getPlayingTanks();
 			std::map<unsigned int, Tank *>::iterator itor;
@@ -116,18 +144,13 @@ bool ServerTextHandler::processMessage(unsigned int destinationId,
 				itor++)
 			{
 				Tank *currentTank = (*itor).second;
-				if (tank->getTeam() == currentTank->getTeam() ||
+				if (tank->getDestinationId() == destinationId ||
 					tank->getState().getAdmin())
 				{
 					ComsMessageSender::sendToSingleClient(newMessage,
 						currentTank->getDestinationId());
 				}
-			}
-		}
-		else
-		{
-			ComsMessageSender::sendToAllConnectedClients(newMessage);
-		}
+			}			
 		}
 	}
 

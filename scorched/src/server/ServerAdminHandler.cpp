@@ -142,6 +142,17 @@ bool ServerAdminHandler::processMessage(unsigned int destinationId,
 			ServerCommon::sendString(destinationId, result.c_str());
 		}
 		break;
+	case ComsAdminMessage::AdminLogout:
+		{
+			ServerCommon::sendString(0,
+				"\"%s\" logged out as server admin",
+				adminTank->getName());
+			ServerCommon::serverLog(0,
+				"\"%s\" logged out as server admin",
+				adminTank->getName());
+			adminTank->getState().setAdmin(false);
+		}
+		break;
 	case ComsAdminMessage::AdminShowBanned:
 		{
 			std::string result;
@@ -196,6 +207,25 @@ bool ServerAdminHandler::processMessage(unsigned int destinationId,
 			else ServerCommon::sendString(destinationId, "Unknown player for ban");
 		}
 		break;
+	case ComsAdminMessage::AdminPoor:
+		{
+			Tank *targetTank = ScorchedServer::instance()->
+				getTankContainer().getTankById(atoi(message.getParam1()));
+			if (targetTank)
+			{
+				ServerCommon::serverLog(0,
+					"\"%s\" admin poor \"%s\"",
+					adminTank->getName(),
+					targetTank->getName());
+				ServerCommon::sendString(0,
+					"\"%s\" admin poor \"%s\"",
+					adminTank->getName(),
+					targetTank->getName());
+				targetTank->getScore().setMoney(0);
+			}
+			else ServerCommon::sendString(destinationId, "Unknown player for poor");
+		}
+		break;	
 	case ComsAdminMessage::AdminKick:
 		{
 			Tank *targetTank = ScorchedServer::instance()->

@@ -30,11 +30,13 @@ public:
 	{
 		AdminNone,
 		AdminLogin,
+		AdminLogout,
 		AdminShow,
 		AdminShowBanned,
 		AdminKillAll,
 		AdminKick,
 		AdminSlap,
+		AdminPoor,
 		AdminBan,
 		AdminMute,
 		AdminPermMute,

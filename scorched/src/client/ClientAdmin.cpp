@@ -61,7 +61,8 @@ void ClientAdmin::admin(std::list<GLConsoleRuleSplit> split,
 		if (0 == stricmp(firstsplit.rule.c_str(), "help")) adminHelp(result);
 		else if (0 == stricmp(firstsplit.rule.c_str(), "killall") ||
 			0 == stricmp(firstsplit.rule.c_str(), "showbanned") ||
-			0 == stricmp(firstsplit.rule.c_str(), "show"))
+			0 == stricmp(firstsplit.rule.c_str(), "show"),
+			0 == stricmp(firstsplit.rule.c_str(), "logout"))
 		{
 			result.push_back(formatString("  sending %s...", 
 				firstsplit.rule.c_str()));
@@ -74,6 +75,8 @@ void ClientAdmin::admin(std::list<GLConsoleRuleSplit> split,
 				type = ComsAdminMessage::AdminShowBanned;
 			else if (0 == stricmp(firstsplit.rule.c_str(), "killall"))
 				type = ComsAdminMessage::AdminKillAll;
+			else if (0 == stricmp(firstsplit.rule.c_str(), "logout"))
+				type = ComsAdminMessage::AdminLogout;
 
 			ComsAdminMessage message(type);
 			ComsMessageSender::sendToServer(message);
@@ -86,6 +89,7 @@ void ClientAdmin::admin(std::list<GLConsoleRuleSplit> split,
 			0 == stricmp(firstsplit.rule.c_str(), "unpermmute") ||
 			0 == stricmp(firstsplit.rule.c_str(), "unmute") ||
 			0 == stricmp(firstsplit.rule.c_str(), "talk") ||
+			0 == stricmp(firstsplit.rule.c_str(), "poor") ||
 			0 == stricmp(firstsplit.rule.c_str(), "admintalk") ||
 			0 == stricmp(firstsplit.rule.c_str(), "message"))
 		{
@@ -112,6 +116,8 @@ void ClientAdmin::admin(std::list<GLConsoleRuleSplit> split,
 				else if (0 == stricmp(firstsplit.rule.c_str(), "unmute"))
 					type = ComsAdminMessage::AdminUnMute;	
 				else if (0 == stricmp(firstsplit.rule.c_str(), "talk"))
+					type = ComsAdminMessage::AdminTalk;	
+				else if (0 == stricmp(firstsplit.rule.c_str(), "poor"))
 					type = ComsAdminMessage::AdminTalk;	
 				else if (0 == stricmp(firstsplit.rule.c_str(), "admintalk"))
 					type = ComsAdminMessage::AdminAdminTalk;	
@@ -169,11 +175,13 @@ void ClientAdmin::adminHelp(std::list<std::string> &result)
 {
 	result.push_back("  help - This help");
 	result.push_back("  login <username> <password> - Login as admin");
+	result.push_back("  logoff - Logoff as admin");
 	result.push_back("  show - Show ids for all current players");
 	result.push_back("  showbanned - Shows all banned/perm muted players");
 	result.push_back("  killall - Kills all current players and starts next round");
 	result.push_back("  kick <player id> - Kicks specified player");
 	result.push_back("  ban <player id> - Bans and kicks specified player");
+	result.push_back("  poor <player id> - Removes all money from player");
 	result.push_back("  mute <player id> - Mutes specified player for everyone");
 	result.push_back("  unmute <player id> - Un-mutes specified player for everyone");
 	result.push_back("  permmute <player id> - Mutes specified player for everyone perminantly");
