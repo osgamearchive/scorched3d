@@ -309,7 +309,7 @@ bool NetLanFrame::TransferDataToWindow()
 		{ "Player Name", 200 },
 		{ "Player Score", 100 },
 		{ "Player Time", 100 },
-		{ "Player Team", 100 }
+		{ "Player Team", 80 }
 	};
 	for (int i=0; i<sizeof(playerListItems)/sizeof(ListItem); i++)
 	{
