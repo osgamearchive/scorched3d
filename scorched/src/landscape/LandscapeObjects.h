@@ -22,9 +22,10 @@
 #define __INCLUDE_LandscapeObjectsh_INCLUDE__
 
 #include <common/ProgressCounter.h>
+#include <common/RandomGenerator.h>
 #include <GLEXT/GLTexture.h>
 #include <GLEXT/GLOrderedItemRenderer.h>
-#include <list>
+#include <map>
 
 class LandscapeObjects : public GLOrderedItemRendererProvider
 {
@@ -33,8 +34,12 @@ public:
 	virtual ~LandscapeObjects();
 
 	void draw();
-	void generate(ProgressCounter *counter = 0);
+	void generate(RandomGenerator &generator, ProgressCounter *counter = 0);
 	void drawItem(float distance, GLOrderedItemRenderer::OrderedEntry &entry);
+
+	void removeAllTrees();
+	void removeTrees(unsigned int x, unsigned int y);
+	void burnTrees(unsigned int x, unsigned int y);
 
 protected:
 	struct LandscapeObjectOrderedEntry : public GLOrderedItemRenderer::OrderedEntry
@@ -46,7 +51,7 @@ protected:
 
 	GLuint tree1, tree2, tree3;
 	GLuint treeBurnt, treeSnow;
-	std::list<LandscapeObjectOrderedEntry*> entries_;
+	std::multimap<unsigned int, LandscapeObjectOrderedEntry*> entries_;
 	GLTexture texture_;
 
 };

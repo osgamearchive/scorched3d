@@ -18,7 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #if !defined(__INCLUDE_Landscapeh_INCLUDE__)
 #define __INCLUDE_Landscapeh_INCLUDE__
 
@@ -58,6 +57,7 @@ public:
 	WaterMap &getWater() { return wMap_; }
 	Sun &getSun() { return sun_; }
 	Wall &getWall() { return wall_; }
+	LandscapeObjects &getObjects() { return objects_; }
 
 	// Textures created during landscape texturing
 	GLBitmap &getMainMap() { return mainMap_; }

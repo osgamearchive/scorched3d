@@ -72,8 +72,8 @@ void LandscapeMaps::generateHMap(LandscapeDefinition &hdef,
 	else
 	{
 		// Seed the generator and generate the landscape
-		static RandomGenerator generator;
-		static RandomGenerator offsetGenerator;
+		RandomGenerator generator;
+		RandomGenerator offsetGenerator;
 		generator.seed(hdef.landSeed);
 		offsetGenerator.seed(hdef.landSeed);
 

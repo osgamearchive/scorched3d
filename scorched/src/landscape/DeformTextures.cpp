@@ -34,6 +34,22 @@ void DeformTextures::deformLandscape(Vector &pos, float radius,
 	int iradius = (int) radius + 1;
 	if (iradius > 49) iradius = 49;
 
+	// Kill the trees
+	{
+		for (int i=-iradius; i<=iradius; i++)
+		{
+			for (int j=-iradius; j<=iradius; j++)
+			{
+				if (map.map[i+iradius][j+iradius] > 0.0f)
+				{
+					unsigned int x = (unsigned int) (pos[0] + i);
+					unsigned int y = (unsigned int) (pos[1] + j);
+					Landscape::instance()->getObjects().removeTrees(x, y);
+				}
+			}
+		}
+	}
+
 	// Recalculate landscape
 	Landscape::instance()->recalculate((int) pos[0], (int) pos[1], (int) radius);
 

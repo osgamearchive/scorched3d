@@ -217,6 +217,11 @@ void *ResourceFile::parseType(const char *type,
 			}
 		}
 		else 
+		if (0 == strcmp(type, "string"))
+		{
+			return new std::string(valueNode->getContent());
+		}
+		else
 		if (0 == strcmp(type, "file"))
 		{
 			static char string[1024];

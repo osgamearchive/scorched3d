@@ -102,7 +102,12 @@ static void drawTrunc(float width, float height, float lowheight )
 	glEnd();
 }
 
-void LandscapeObjects::generate(ProgressCounter *counter)
+static inline unsigned int pointToUInt(unsigned int x, unsigned int y)
+{
+	return (x << 16) | (y & 0xffff);
+}
+
+void LandscapeObjects::generate(RandomGenerator &generator, ProgressCounter *counter)
 {
 	if (counter) counter->setNewOp("Populating Landscape");
 
@@ -138,17 +143,16 @@ void LandscapeObjects::generate(ProgressCounter *counter)
 			drawLevel(0.375f, 0.625f, 0.5f, 0.7f, 0.2f);
 			drawLevel(0.125f, 0.625f, 0.3f, 1.1f, 0.5f);
 		glEndList();
+		glNewList(treeBurnt = glGenLists(1), GL_COMPILE);
+			drawTrunc(0.1f, 1.1f, 0.0f);
+			drawLevel(0.875f, 0.875f, 0.7f, 0.3f, 0.1f);
+			drawLevel(0.875f, 0.875f, 0.5f, 0.7f, 0.2f);
+			drawLevel(0.875f, 0.875f, 0.3f, 1.1f, 0.5f);
+		glEndList();
 	}
 
-	// Clear any current trees
-	std::list<LandscapeObjectOrderedEntry*>::iterator itor = entries_.begin();
-	std::list<LandscapeObjectOrderedEntry*>::iterator enditor = entries_.end();
-	for (; itor != enditor; itor++)
-	{
-		LandscapeObjectOrderedEntry *entry = *itor;
-		GLOrderedItemRenderer::instance()->rmEntry(entry);
-	}	
-	entries_.clear();
+	// Start with a clean slate
+	removeAllTrees();
 
 	// TODO allow turning of this off during game
 	if (OptionsDisplay::instance()->getNoTrees()) return;
@@ -161,8 +165,8 @@ void LandscapeObjects::generate(ProgressCounter *counter)
 	for (int i=0; i<25; i++)
 	{
 		// Get a random point
-		int x = int(RAND * 64.0f);
-		int y = int(RAND * 64.0f);
+		int x = int(generator.getRandFloat() * 64.0f);
+		int y = int(generator.getRandFloat() * 64.0f);
 
 		// Check point is in the correct height band
 		float height = 
@@ -175,12 +179,12 @@ void LandscapeObjects::generate(ProgressCounter *counter)
 		{
 			// Group other areas around this point that are likely to get trees
 			// Do a few groups
-			int n = int(RAND * 10) + 5;
+			int n = int(generator.getRandFloat() * 10) + 5;
 			for (int j=0; j<n; j++)
 			{
 				// Check groups is within bounds
-				int newX = x + int(RAND * 8.0f) - 4;
-				int newY = y + int(RAND * 8.0f) - 4;
+				int newX = x + int(generator.getRandFloat() * 8.0f) - 4;
+				int newY = y + int(generator.getRandFloat() * 8.0f) - 4;
 				if (newX >= 0 && newX < 64 &&
 					newY >= 0 && newY < 64)
 				{
@@ -289,7 +293,9 @@ void LandscapeObjects::generate(ProgressCounter *counter)
 
 				// Add the entry
 				GLOrderedItemRenderer::instance()->addEntry(entry);
-				entries_.push_back(entry);
+				unsigned int point = pointToUInt(unsigned int(lx), unsigned int (ly));
+				entries_.insert(
+					std::pair<unsigned int, LandscapeObjectOrderedEntry*>(point, entry));
 			}
 		}
 	}
@@ -314,4 +320,52 @@ void LandscapeObjects::generate(ProgressCounter *counter)
 		}
 	}
 	Landscape::instance()->getMainTexture().replace(newMap, GL_RGB, false);*/
+}
+
+void LandscapeObjects::removeAllTrees()
+{
+	// Clear any current trees
+	std::multimap<unsigned int, LandscapeObjectOrderedEntry*>::iterator 
+		itor = entries_.begin();
+	std::multimap<unsigned int, LandscapeObjectOrderedEntry*>::iterator 
+		enditor = entries_.end();
+	for (; itor != enditor; itor++)
+	{
+		LandscapeObjectOrderedEntry *entry = (*itor).second;
+		GLOrderedItemRenderer::instance()->rmEntry(entry);
+	}	
+	entries_.clear();
+}
+
+void LandscapeObjects::removeTrees(unsigned int x, unsigned int y)
+{
+	unsigned int point = pointToUInt(unsigned int(x), unsigned int (y));
+
+	std::multimap<unsigned int, LandscapeObjectOrderedEntry*>::iterator lower =
+		entries_.lower_bound(point);
+    std::multimap<unsigned int, LandscapeObjectOrderedEntry*>::iterator upper =
+		entries_.upper_bound(point);
+    std::multimap<unsigned int, LandscapeObjectOrderedEntry*>::iterator iter;
+	for (iter = lower; iter != upper; iter++)
+	{
+		LandscapeObjectOrderedEntry *entry = (*iter).second;
+		GLOrderedItemRenderer::instance()->rmEntry(entry);
+	}
+	entries_.erase(lower, upper);
+}
+
+void LandscapeObjects::burnTrees(unsigned int x, unsigned int y)
+{
+	unsigned int point = pointToUInt(unsigned int(x), unsigned int (y));
+
+	std::multimap<unsigned int, LandscapeObjectOrderedEntry*>::iterator lower =
+		entries_.lower_bound(point);
+    std::multimap<unsigned int, LandscapeObjectOrderedEntry*>::iterator upper =
+		entries_.upper_bound(point);
+    std::multimap<unsigned int, LandscapeObjectOrderedEntry*>::iterator iter;
+	for (iter = lower; iter != upper; iter++)
+	{
+		LandscapeObjectOrderedEntry *entry = (*iter).second;
+		entry->treeType = treeBurnt;
+	}
 }

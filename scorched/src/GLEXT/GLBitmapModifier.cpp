@@ -704,12 +704,9 @@ void GLBitmapModifier::addCircle(GLBitmap &destBitmap,
 		int x;
 		for (x=0; x<realXSize; x++, start+=3)
 		{
-			if (start[0] > 32) start[0]-=32;
-			else start[0] = 0;
-			if (start[1] > 32) start[1]-=32;
-			else start[1] = 0;
-			if (start[2] > 32) start[2]-=32;
-			else start[2] = 0;
+			start[0] = start[0] / 2;
+			start[1] = start[1] / 2;
+			start[2] = start[2] / 2;
 		}
 		start+=(xWidth - (halfSize + x)) * 3;
 	}

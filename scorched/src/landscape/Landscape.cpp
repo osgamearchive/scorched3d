@@ -284,7 +284,14 @@ void Landscape::generate(ProgressCounter *counter)
 		GL_UNSIGNED_BYTE, bitmapPlan_.getBits());
 
 	// Add objects to the landscape
-	objects_.generate(counter);
+	objects_.removeAllTrees();
+	if (Resources::stringResource("objects")[0])
+	{
+		RandomGenerator objectsGenerator;
+		objectsGenerator.seed(
+			ScorchedClient::instance()->getLandscapeMaps().getLandDfn().landSeed);
+		objects_.generate(objectsGenerator, counter);
+	}
 
 	// Create the magma texture
 	DIALOG_ASSERT(magTexture_.replace(bitmapMagma));

@@ -1,11 +1,9 @@
 <resources>
 	<default>
+		<objects type="string">trees</objects>
 		<color-fog type="color">
 			<r>0.8</r><g>0.8</g><b>0.8</b>
 		</color-fog>
-		<color-waves type="color">
-			<r>1.0</r><g>1.0</g><b>1.0</b>
-		</color-waves>
 		<bitmap-water type="file">
 			data/textures/landscape/default/water.bmp
 		</bitmap-water>
@@ -47,12 +45,10 @@
 		</bitmap-texture4>
 	</default>
 	<hell inherits="default">
+		<objects type="string"></objects>
 		<color-fog type="color">
 			<r>0.8</r><g>0.1</g><b>0.1</b>
 		</color-fog>
-		<color-waves type="color">
-			<r>1.0</r><g>0.1</g><b>0.1</b>
-		</color-waves>
 		<bitmap-cloud type="file">
 			data/textures/landscape/hell/cloud1.bmp
 		</bitmap-cloud>
@@ -181,6 +177,7 @@
 		</bitmap-texture4>
 	</tropical>
 	<vulcano inherits="default">
+		<objects type="string"></objects>
 		<bitmap-cloud type="file">
 			data/textures/landscape/vulcano/cloud1.bmp
 		</bitmap-cloud>

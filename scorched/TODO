@@ -15,6 +15,7 @@ Added: Landscapes can be loaded from saved files
 Added: Landscape types can be turned on and off from game settings.
 Added: Faster sprite depth sorting
 Added: Moving waves around the island shores
+Added: Trees
 
 Fixed: Problem with characters used during talk
 Fixed: New algorithm for bilboard culling (current one causes flickers)
@@ -30,7 +31,9 @@ The server can start multiple times on the same port (windows only)!
 Gun fires at same point for all tanks (ignores turret/gun position in model)
 
 -- Things I am currently looking at
-Trees/buildings
+Bilboards for far away trees
+Different tree types
+Console server
 Ability to adjust server options on the fly, so the next match will have the new options
 Make AIs better
 

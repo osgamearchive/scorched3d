@@ -22,6 +22,7 @@
 #include <tank/TankController.h>
 #include <actions/Napalm.h>
 #include <sprites/NapalmRenderer.h>
+#include <landscape/Landscape.h>
 #include <common/OptionsParam.h>
 
 REGISTER_ACTION_SOURCE(Napalm);
@@ -143,14 +144,14 @@ void Napalm::simulateRmStep()
 	// Remove the first napalm point from the list
 	// and remove the height from the landscape
 	NapalmEntry *entry = napalmPoints_.front();
+	int x = entry->posX;
+	int y = entry->posY;
 	if (!context_->serverMode)
 	{
 		GLBilboardRenderer::instance()->removeEntry(entry->renderEntry1);
 		GLBilboardRenderer::instance()->removeEntry(entry->renderEntry2);
 		GLBilboardRenderer::instance()->removeEntry(entry->renderEntry3);
 	}
-	int x = entry->posX;
-	int y = entry->posY;
 	delete entry;
 
 	context_->landscapeMaps.getNMap().getHeight(x, y) -= NapalmHeight;
@@ -203,6 +204,13 @@ void Napalm::simulateAddStep()
 		GLBilboardRenderer::instance()->addEntry(newEntry->renderEntry1);
 		GLBilboardRenderer::instance()->addEntry(newEntry->renderEntry2);
 		GLBilboardRenderer::instance()->addEntry(newEntry->renderEntry3);
+
+		Landscape::instance()->getObjects().burnTrees(
+			(unsigned int) x_, (unsigned int) y_);
+		Landscape::instance()->getObjects().burnTrees(
+			(unsigned int) x_ + 1, (unsigned int) y_ + 1);
+		Landscape::instance()->getObjects().burnTrees(
+			(unsigned int) x_ - 1, (unsigned int) y_ - 1);
 	}
 
 	context_->landscapeMaps.getNMap().getHeight(x_, y_) += NapalmHeight;

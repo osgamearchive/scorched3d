@@ -28,30 +28,36 @@
 // Yes you guessed it, a really sucky way to create cross platform
 // random numbers.  Store them in a file and read them in each system!
 
+unsigned long RandomGenerator::bufferSize_ = 0;
+unsigned long *RandomGenerator::buffer_ = 0;
+
 RandomGenerator::RandomGenerator() :
-	bufferSize_(100000),
-	buffer_(0),
 	position_(0)
 {
-	FILE *in = fopen(PKGDIR "data/random.no", "rb");
-	DIALOG_ASSERT(in);
-	unsigned long *tmpbuffer = new unsigned long[bufferSize_];
-	int size = fread(tmpbuffer, sizeof(unsigned long), bufferSize_, in);
-	fclose(in);	
-	DIALOG_ASSERT(size == bufferSize_);
-
-	buffer_ = new unsigned long[bufferSize_];
-	for (unsigned long i=0; i<bufferSize_; i++)
+	// Cache the buffer so we only read it once
+	// We can create many random generators easily now
+	if (!buffer_)
 	{
-		unsigned long value = tmpbuffer[i];
-		buffer_[i] = SDLNet_Read32(&value);
+		FILE *in = fopen(PKGDIR "data/random.no", "rb");
+		DIALOG_ASSERT(in);
+		bufferSize_= 100000;
+		unsigned long *tmpbuffer = new unsigned long[bufferSize_];
+		int size = fread(tmpbuffer, sizeof(unsigned long), bufferSize_, in);
+		fclose(in);	
+		DIALOG_ASSERT(size == bufferSize_);
+
+		buffer_ = new unsigned long[bufferSize_];
+		for (unsigned long i=0; i<bufferSize_; i++)
+		{
+			unsigned long value = tmpbuffer[i];
+			buffer_[i] = SDLNet_Read32(&value);
+		}
+		delete [] tmpbuffer;
 	}
-	delete [] tmpbuffer;
 }
 
 RandomGenerator::~RandomGenerator()
 {
-	delete [] buffer_;
 }
 
 void RandomGenerator::seed(unsigned long seed)

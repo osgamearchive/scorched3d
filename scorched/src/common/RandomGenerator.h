@@ -32,8 +32,8 @@ public:
 	float getRandFloat();
 
 protected:
-	unsigned long bufferSize_;
-	unsigned long *buffer_;
+	static unsigned long bufferSize_;
+	static unsigned long *buffer_;
 	unsigned long position_;
 
 };
