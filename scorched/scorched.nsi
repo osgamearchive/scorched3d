@@ -45,6 +45,15 @@ InstallDir "$PROGRAMFILES\Scorched3D"
 ShowInstDetails show
 ShowUnInstDetails show
 
+Function .onInit
+  ReadRegStr $R0 ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "UninstallString"
+  StrCmp $R0 "" done
+
+  MessageBox MB_OKCANCEL|MB_ICONEXCLAMATION "$(^Name) is already installed, do you wish to re-install?" IDOK done
+  Abort
+done:
+FunctionEnd
+
 Section "MainSection" SEC01
   SetOutPath "$INSTDIR"
   SetOverwrite try
@@ -81,20 +90,38 @@ Section -Post
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "Publisher" "${PRODUCT_PUBLISHER}"
 SectionEnd
 
-
 Function un.onUninstSuccess
   HideWindow
   MessageBox MB_ICONINFORMATION|MB_OK "$(^Name) was successfully removed from your computer."
 FunctionEnd
 
+Var DEL_USER
 Function un.onInit
-  MessageBox MB_ICONQUESTION|MB_YESNO|MB_DEFBUTTON2 "Are you sure you want to completely remove $(^Name) and all of its components?" IDYES +2
+  MessageBox MB_ICONQUESTION|MB_YESNO|MB_DEFBUTTON2 "Are you sure you want to completely remove $(^Name) and all of its components?" IDYES remove
   Abort
+remove:
+
+  StrCpy $DEL_USER "FALSE"
+  MessageBox MB_ICONQUESTION|MB_YESNO|MB_DEFBUTTON2 "Do you want to remove all $(^Name) user data.  Warning: this includes STATS, saved games, mods etc?" IDNO nodel
+  StrCpy $DEL_USER "TRUE";
+nodel:
 FunctionEnd
 
 Section Uninstall
-  RMDir /r "$INSTDIR"
+
+  RMDir /r "$INSTDIR\data"
+  RMDir /r "$INSTDIR\documentation"
   RMDir /r "$SMPROGRAMS\Scorched3D"
+
   DeleteRegKey ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}"
   SetAutoClose true
+  
+  StrCmp $DEL_USER "FALSE" nodel
+  RMDir /r "$INSTDIR\.scorched3d"
+  RMDir /r "$PROFILE\.scorched3d"
+nodel:
+
+  Delete "$INSTDIR\*.*"
+  RMDir "$INSTDIR"
+
 SectionEnd
