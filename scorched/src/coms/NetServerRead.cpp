@@ -31,21 +31,27 @@ NetServerRead::NetServerRead(TCPsocket socket,
 	socket_(socket), sockSet_(0), protocol_(protocol), 
 	outgoingMessagesMutex_(0), checkDeleted_(checkDeleted),
 	disconnect_(false), messageHandler_(messageHandler),
-	thread_(0), sentDisconnect_(false)
+	sentDisconnect_(false),
+	ctrlThread_(0), recvThread_(0), sendThread_(0)
 {
 	sockSet_ = SDLNet_AllocSocketSet(1);
 	SDLNet_TCP_AddSocket(sockSet_, socket);
 	outgoingMessagesMutex_ = SDL_CreateMutex();
 
 	NetMessage *message = NetMessagePool::instance()->
-		getFromPool(NetMessage::ConnectMessage, (unsigned int) socket);
+		getFromPool(NetMessage::ConnectMessage, 
+		(unsigned int) socket);
 	messageHandler_->addMessage(message);
 
-	thread_ = SDL_CreateThread(NetServerRead::threadFunc, (void *) this);
-	if (!thread_)
+	recvThread_ = SDL_CreateThread(
+		NetServerRead::recvThreadFunc, (void *) this);
+	sendThread_ = SDL_CreateThread(
+		NetServerRead::sendThreadFunc, (void *) this);
+	ctrlThread_ = SDL_CreateThread(
+		NetServerRead::ctrlThreadFunc, (void *) this);
+	if (!ctrlThread_ || !recvThread_ || !sendThread_)
 	{
-		disconnect_ = true;
-		*checkDeleted_ = true;
+		Logger::log(0, "ERROR: Run out of threads");
 	}
 }
 
@@ -93,42 +99,74 @@ bool NetServerRead::getDisconnect()
 	bool result = disconnect_;	
 	SDL_UnlockMutex(outgoingMessagesMutex_);
 
-	if (result && thread_)
+	if (result)
 	{
 		int status = 0;
-		SDL_WaitThread(thread_, &status);
+		SDL_WaitThread(ctrlThread_, &status);
 	}
 	return result; 
 }
 
-int NetServerRead::threadFunc(void *netServerRead)
+int NetServerRead::ctrlThreadFunc(void *netServerRead)
 {
 	NetServerRead *ns = (NetServerRead *) netServerRead;
-	ns->actualThreadFunc();
+	ns->actualCtrlThreadFunc();
 	return 0;
 }
 
-void NetServerRead::actualThreadFunc()
+int NetServerRead::sendThreadFunc(void *netServerRead)
+{
+	NetServerRead *ns = (NetServerRead *) netServerRead;
+	ns->actualSendRecvThreadFunc(true);
+	return 0;
+}
+
+int NetServerRead::recvThreadFunc(void *netServerRead)
+{
+	NetServerRead *ns = (NetServerRead *) netServerRead;
+	ns->actualSendRecvThreadFunc(false);
+	return 0;
+}
+
+void NetServerRead::actualCtrlThreadFunc()
+{
+	int status;
+	SDL_WaitThread(sendThread_, &status);
+	SDL_WaitThread(recvThread_, &status);
+
+	SDLNet_TCP_Close(socket_);
+
+	SDL_LockMutex(outgoingMessagesMutex_);
+	disconnect_ = true;
+	*checkDeleted_ = true;
+	SDL_UnlockMutex(outgoingMessagesMutex_);
+}
+
+void NetServerRead::actualSendRecvThreadFunc(bool send)
 {
 	Clock netClock;
-	for (;;)
+	while (!sentDisconnect_)
 	{
 		netClock.getTimeDifference();
 
-		if (!pollIncoming()) break;
-		if (!pollOutgoing()) break;
+		if (send)
+		{	
+			if (!pollOutgoing()) break;
+		}
+		else
+		{
+			if (!pollIncoming()) break;
+		}
 
 		float timeDiff = netClock.getTimeDifference();
 		if (timeDiff > 15.0f)
 		{
-			Logger::log(0, "Warning: Net loop took %.2f seconds, client %i", 
+			Logger::log(0, 
+				"Warning: %s net loop took %.2f seconds, client %i", 
+				(send?"Send":"Recv"),
 				timeDiff, (unsigned int) socket_);
 		}
-
-		SDL_Delay(10);
 	}
-
-	SDLNet_TCP_Close(socket_);
 
 	SDL_LockMutex(outgoingMessagesMutex_);
 	if (!sentDisconnect_)
@@ -138,14 +176,12 @@ void NetServerRead::actualThreadFunc()
 			getFromPool(NetMessage::DisconnectMessage, (unsigned int) socket_);
 		messageHandler_->addMessage(message);
 	}
-	disconnect_ = true;
-	*checkDeleted_ = true;
 	SDL_UnlockMutex(outgoingMessagesMutex_);
 }
 
 bool NetServerRead::pollIncoming()
 {
-	int numready = SDLNet_CheckSockets(sockSet_, 10);
+	int numready = SDLNet_CheckSockets(sockSet_, 100);
 	if (numready == -1) return false;
 	if (numready == 0) return true;
 
@@ -184,24 +220,22 @@ bool NetServerRead::pollOutgoing()
 	bool result = true;
 	if (message)
 	{
-		if (result)
+		if (message->getMessageType() == NetMessage::DisconnectMessage)
 		{
-			if (message->getMessageType() == NetMessage::DisconnectMessage)
+			result = false;
+		}
+		else
+		{
+			if (!protocol_->sendBuffer(message->getBuffer(), socket_))
 			{
+				Logger::log(0, "Failed to send message to client");
 				result = false;
-			}
-			else
-			{
-				if (!protocol_->sendBuffer(message->getBuffer(), socket_))
-				{
-					Logger::log(0, "Failed to send message to client");
-					result = false;
-				}
 			}
 		}
 
 		NetMessagePool::instance()->addToPool(message);
 	}
+	else SDL_Delay(100);
 
 	return result;
 }

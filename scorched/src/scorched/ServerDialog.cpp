@@ -71,7 +71,8 @@ enum
 	IDC_MENU_PLAYERADD_8,
 	IDC_MENU_PLAYERADD_9,
 	IDC_MENU_STARTNEWGAME,
-	IDC_MENU_COMSMESSAGELOGGING
+	IDC_MENU_COMSMESSAGELOGGING,
+	IDC_MENU_STATELOGGING
 };
 
 class ServerPlayerListControl : public wxListCtrl
@@ -184,6 +185,7 @@ public:
 	void onPlayerAdd8();
 	void onPlayerAdd9();
 	void onComsMessageLogging();
+	void onStateLogging();
 
 	ServerPlayerListControl *playerList_;
 	wxListCtrl *logList_;
@@ -227,6 +229,7 @@ BEGIN_EVENT_TABLE(ServerFrame, wxFrame)
 	EVT_MENU(IDC_MENU_PLAYERKILLALL, ServerFrame::onKillAll)
 	EVT_MENU(IDC_MENU_STARTNEWGAME, ServerFrame::onStartNewGame)
 	EVT_MENU(IDC_MENU_COMSMESSAGELOGGING, ServerFrame::onComsMessageLogging)
+	EVT_MENU(IDC_MENU_STATELOGGING, ServerFrame::onStateLogging)
 END_EVENT_TABLE()
 
 ServerFrame::ServerFrame(const char *name) :
@@ -308,7 +311,8 @@ ServerFrame::ServerFrame(const char *name) :
 	menuFile->AppendSeparator();
 	menuFile->Append(IDC_MENU_SHOWMODFILES, "Show &Mod Files");
 	menuFile->AppendSeparator();
-	menuFile->Append(IDC_MENU_COMSMESSAGELOGGING, "&Toggle Coms Message logging");
+	menuFile->Append(IDC_MENU_COMSMESSAGELOGGING, "Toggle Coms Messa&ge logging");
+	menuFile->Append(IDC_MENU_STATELOGGING, "Toggle S&tate Logging");
  	menuFile->AppendSeparator();
  	menuFile->Append(IDC_MENU_EXIT, "E&xit");
 
@@ -391,6 +395,14 @@ void ServerFrame::onComsMessageLogging()
 		!ScorchedServer::instance()->getComsMessageHandler().getMessageLogging();
 	Logger::log(0, "Server Coms Message Logging %s",
 		(ScorchedServer::instance()->getComsMessageHandler().getMessageLogging()?"On":"Off"));
+}
+
+void ServerFrame::onStateLogging()
+{
+	ScorchedServer::instance()->getGameState().getStateLogging() = 
+		!ScorchedServer::instance()->getGameState().getStateLogging();
+	Logger::log(0, "Server State Logging %s",
+		(ScorchedServer::instance()->getGameState().getStateLogging()?"On":"Off"));
 }
 
 void ServerFrame::onMenuExit()

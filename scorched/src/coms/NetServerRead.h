@@ -44,13 +44,18 @@ protected:
 	NetServerProtocol *protocol_;
 	NetMessageHandler *messageHandler_;
 	SDL_mutex *outgoingMessagesMutex_;
-	SDL_Thread *thread_;
+	SDL_Thread *sendThread_;
+	SDL_Thread *recvThread_;
+	SDL_Thread *ctrlThread_;
 	std::list<NetMessage *> newMessages_;
 
-	void actualThreadFunc();
+	void actualCtrlThreadFunc();
+	void actualSendRecvThreadFunc(bool send);
 	bool pollOutgoing();
 	bool pollIncoming();
-	static int threadFunc(void *);
+	static int ctrlThreadFunc(void *);
+	static int sendThreadFunc(void *);
+	static int recvThreadFunc(void *);
 
 };
 

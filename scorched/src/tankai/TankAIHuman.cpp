@@ -22,6 +22,7 @@
 #include <common/SoundStore.h>
 #include <common/OptionsDisplay.h>
 #include <weapons/Weapon.h>
+#include <GLEXT/GLConsole.h>
 #include <client/MainCamera.h>
 #include <client/ScorchedClient.h>
 #include <client/ClientState.h>
@@ -68,6 +69,15 @@ void TankAIHuman::playMove(const unsigned state,
 						   float frameTime, char *buffer, 
 						   unsigned int keyState)
 {
+	/*static float totalFrameTime = 0.0f;
+	totalFrameTime += frameTime;
+	while (totalFrameTime > 0.01f)
+	{
+		totalFrameTime-=0.01f;
+		GLConsole::instance()->addLine(true, 
+			"say \"Spam... 123123232131231232131321\"");
+	}*/
+
 	moveLeftRight(buffer, keyState, frameTime);
 	moveUpDown(buffer, keyState, frameTime);
 	movePower(buffer, keyState, frameTime);

@@ -264,6 +264,12 @@ void NetServer::sendMessage(TCPsocket client, NetMessage *message)
 		NetServerRead *serverRead = (*itor).second;
 		serverRead->addMessage(message);
 	}
+	else
+	{
+		NetMessagePool::instance()->addToPool(message);
+		Logger::log(0, "Unknown sendMessage destination %i",
+			(int) client);
+	}
 	SDL_UnlockMutex(setMutex_);
 }
 
