@@ -62,8 +62,8 @@ public:
 	bool getLoading() { return loading_; }
 	void setAdmin(bool admin) { admin_ = admin; }
 	bool getAdmin() { return admin_; }
-	bool setAdminTries(int adminTries) { adminTries_ = adminTries; }
-	bool getAdminTries() { return adminTries_; }
+	void setAdminTries(int adminTries) { adminTries_ = adminTries; }
+	int getAdminTries() { return adminTries_; }
 	void setMuted(bool muted) { muted_ = muted; }
 	bool getMuted() { return muted_; }
 	

@@ -142,6 +142,12 @@ bool ServerAdminHandler::processMessage(unsigned int destinationId,
 			else ServerCommon::sendString(destinationId, "Unknown player for slap");
 		}
 		break;
+	case ComsAdminMessage::AdminTalk:
+		ServerCommon::sendString(0, message.getParam1());
+		break;
+	case ComsAdminMessage::AdminMessage:
+		ServerCommon::sendStringMessage(0, message.getParam1());
+		break;
 	case ComsAdminMessage::AdminKillAll:
 		ServerCommon::killAll();
 		break;

@@ -35,7 +35,9 @@ public:
 		AdminSlap,
 		AdminBan,
 		AdminMute,
-		AdminUnMute
+		AdminUnMute,
+		AdminTalk,
+		AdminMessage
 	};
 
 	ComsAdminMessage(
