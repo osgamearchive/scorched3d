@@ -347,6 +347,8 @@ bool ModDirs::loadModDir(const char *dirName)
 
 bool ModDirs::loadModFile(const char *fileName)
 {
+	if (ModFiles::excludeFile(fileName)) return true;
+
 	std::string oldFileName(fileName);
 	_strlwr((char *) fileName);
 

@@ -152,7 +152,7 @@ bool ServerBrowserServerList::fetchLANList()
 		SDL_Delay(100);
 		if (SDLNet_UDP_Recv(udpsock, recvPacket_))
 		{
-			unsigned int addr = SDLNet_Read32(&recvPacket_->address.host);
+			unsigned int addr = recvPacket_->address.host;
 			unsigned int port = SDLNet_Read16(&recvPacket_->address.port);
 
 			// Get the name attribute

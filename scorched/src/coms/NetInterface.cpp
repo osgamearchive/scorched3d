@@ -36,10 +36,11 @@ NetInterface::~NetInterface()
 const char *NetInterface::getIpName(unsigned int ipAddress)
 {
 	static char result[128];
-	unsigned char address[4];
-	memcpy(address, &ipAddress, sizeof(address));
-	sprintf(result, "%i.%i.%i.%i", 
-		(int) address[3], (int) address[2], 
-		(int) address[1], (int) address[0]);
+	sprintf(result, "%u.%u.%u.%u", 
+		(ipAddress & 0xFF000000) >> 24,
+		(ipAddress & 0x00FF0000) >> 16,
+		(ipAddress & 0x0000FF00) >> 8,
+		(ipAddress & 0x000000FF) >> 0);
 	return result;
 }
+
