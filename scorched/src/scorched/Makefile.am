@@ -473,6 +473,25 @@ scorched3d_SOURCES = \
 	../coms/NetMessagePool.h \
 	../coms/NetServer.cpp \
 	../coms/NetServer.h \
+	../irc/ClientGameInfo.cpp \
+	../irc/ClientGameInfo.h \
+	../irc/GameInfoEntry.cpp \
+	../irc/GameInfoEntry.h \
+	../irc/GameInfoList.cpp \
+	../irc/GameInfoList.h \
+	../irc/GameInfoMessage.cpp \
+	../irc/GameInfoMessage.h \
+	../irc/IrcBot.cpp \
+	../irc/IrcBot.h \
+	../irc/IrcConnection.cpp \
+	../irc/IrcConnection.h \
+	../irc/IrcDefines.h \
+	../irc/ServerGameInfo.cpp \
+	../irc/ServerGameInfo.h \
+	../irc/UdpHandler.cpp \
+	../irc/UdpHandler.h \
+	../irc/IrcDialog.cpp \
+        ../irc/IrcDialog.h \
 	../ode/array.cpp \
 	../ode/array.h \
 	../ode/collision.h \
