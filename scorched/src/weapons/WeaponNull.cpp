@@ -18,58 +18,40 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <weapons/WeaponTracer.h>
-#include <actions/ShotProjectileTracer.h>
+#include <weapons/WeaponNull.h>
 
-REGISTER_ACCESSORY_SOURCE(WeaponTracer);
+REGISTER_ACCESSORY_SOURCE(WeaponNull);
 
-WeaponTracer::WeaponTracer() : showShotPath_(false)
+WeaponNull::WeaponNull()
 {
 
 }
 
-WeaponTracer::~WeaponTracer()
+WeaponNull::~WeaponNull()
 {
 
 }
 
-bool WeaponTracer::parseXML(XMLNode *accessoryNode)
+bool WeaponNull::parseXML(XMLNode *accessoryNode)
 {
 	if (!Weapon::parseXML(accessoryNode)) return false;
-
-	// Get the accessory smoke
-	XMLNode *smokeNode = accessoryNode->getNamedChild("smoke");
-	if (!smokeNode)
-	{
-		dialogMessage("Accessory",
-			"Failed to find smoke node in accessory \"%s\"",
-			name_.c_str());
-		return false;
-	}
-	showShotPath_ = (strcmp(smokeNode->getContent(), "true") == 0);
-
 	return true;
 }
 
-bool WeaponTracer::writeAccessory(NetBuffer &buffer)
+bool WeaponNull::writeAccessory(NetBuffer &buffer)
 {
 	if (!Weapon::writeAccessory(buffer)) return false;
-	buffer.addToBuffer(showShotPath_);
 	return true;
 }
 
-bool WeaponTracer::readAccessory(NetBufferReader &reader)
+bool WeaponNull::readAccessory(NetBufferReader &reader)
 {
 	if (!Weapon::readAccessory(reader)) return false;
-	if (!reader.getFromBuffer(showShotPath_)) return false;
 	return true;
 }
 
-Action *WeaponTracer::fireWeapon(unsigned int playerId, Vector &position, Vector &velocity)
+void WeaponNull::fireWeapon(ScorchedContext &context, 
+	unsigned int playerId, Vector &position, Vector &velocity)
 {
-	Action *action = new ShotProjectileTracer(
-		position, 
-		velocity,
-		this, playerId, showShotPath_);
-	return action;
+
 }

@@ -19,7 +19,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <weapons/WeaponRoller.h>
-#include <actions/ShotProjectileRoller.h>
+#include <actions/Roller.h>
+#include <common/Defines.h>
 
 REGISTER_ACCESSORY_SOURCE(WeaponRoller);
 
@@ -113,13 +114,28 @@ bool WeaponRoller::readAccessory(NetBufferReader &reader)
 	return true;
 }
 
-Action *WeaponRoller::fireWeapon(unsigned int playerId, Vector &position, Vector &velocity)
+void WeaponRoller::fireWeapon(ScorchedContext &context,
+	unsigned int playerId, Vector &position, Vector &velocity)
 {
-	Action *action = new ShotProjectileRoller(
-		position, 
-		velocity,
-		this, 
-		playerId);
+	for (int i=0; i<getNumberRollers(); i++)
+	{
+		int x = int(position[0] + RAND * 4.0f - 2.0f);
+		int y = int(position[1] + RAND * 4.0f - 2.0f);
+		addRoller(context, playerId, x, y);
+	}
+}
 
-	return action;
+void WeaponRoller::addRoller(ScorchedContext &context,
+	unsigned int playerId,
+	int x, int y)
+{
+	// Ensure that the Roller has not hit the walls
+	// or anything outside the landscape
+	if (x > 1 && y > 1 &&
+		x < context.landscapeMaps.getHMap().getWidth() - 1 &&
+		y < context.landscapeMaps.getHMap().getWidth() - 1)
+	{
+		context.actionController.addAction(
+			new Roller(x, y, this, playerId));
+	}
 }

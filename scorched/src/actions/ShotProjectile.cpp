@@ -20,6 +20,8 @@
 
 #include <actions/ShotProjectile.h>
 #include <sprites/MissileActionRenderer.h>
+#include <tankgraph/TankRenderer.h>
+#include <weapons/WeaponProjectile.h>
 #include <common/OptionsParam.h>
 #include <common/Defines.h>
 #include <engine/ScorchedContext.h>
@@ -31,7 +33,8 @@ Vector ShotProjectile::lookatPosition_;
 unsigned int ShotProjectile::lookatCount_ = 0;
 
 ShotProjectile::ShotProjectile() : 
-	collisionInfo_(CollisionIdShot), vPoint_(0)
+	collisionInfo_(CollisionIdShot), vPoint_(0), snapTime_(0.2f),
+	up_(false)
 {
 
 }
@@ -39,10 +42,15 @@ ShotProjectile::ShotProjectile() :
 ShotProjectile::ShotProjectile(Vector &startPosition, Vector &velocity,
 							   Weapon *weapon, unsigned int playerId,
 							   unsigned int flareType,
-							   bool under) : 
+							   bool under,
+							   bool tracer,
+							   bool smokeTracer,
+							   bool apexCollision) : 
 	collisionInfo_(CollisionIdShot), startPosition_(startPosition),
 	velocity_(velocity), weapon_(weapon), playerId_(playerId), 
-	flareType_(flareType), under_(under), vPoint_(0)
+	flareType_(flareType), under_(under), vPoint_(0),
+	smokeTracer_(smokeTracer), snapTime_(0.2f), 
+	apexCollision_(apexCollision), up_(false), tracer_(tracer)
 {
 
 }
@@ -86,6 +94,9 @@ void ShotProjectile::collision(Vector &position)
 			}
 		}
 	}
+
+	doCollision(position);
+
 	PhysicsParticleMeta::collision(position);
 }
 
@@ -99,6 +110,27 @@ void ShotProjectile::simulate(float frameTime, bool &remove)
 		velocity[2] = 4.0f;
 		vPoint_->setLookFrom(velocity);
 	}
+
+	if (smokeTracer_)
+	{
+		snapTime_ += frameTime;
+		if (snapTime_ > 0.1f)
+		{
+			positions_.push_back(getCurrentPosition());
+			snapTime_ = 0.0f;
+		}
+	}
+
+	if (apexCollision_)
+	{
+		if (getCurrentVelocity()[2] > 0.0f) up_ = true;
+		else if (up_)
+		{
+			doCollision(getCurrentPosition());
+			remove = true;
+		}
+	}
+
 	PhysicsParticleMeta::simulate(frameTime, remove);
 }
 
@@ -114,6 +146,9 @@ bool ShotProjectile::writeAction(NetBuffer &buffer)
 	buffer.addToBuffer(playerId_);
 	buffer.addToBuffer(flareType_);
 	buffer.addToBuffer(under_);
+	buffer.addToBuffer(tracer_);
+	buffer.addToBuffer(smokeTracer_);
+	buffer.addToBuffer(apexCollision_);
 	return true;
 }
 
@@ -129,5 +164,31 @@ bool ShotProjectile::readAction(NetBufferReader &reader)
 	if (!reader.getFromBuffer(playerId_)) return false;
 	if (!reader.getFromBuffer(flareType_)) return false;
 	if (!reader.getFromBuffer(under_)) return false;
+	if (!reader.getFromBuffer(tracer_)) return false;
+	if (!reader.getFromBuffer(smokeTracer_)) return false;
+	if (!reader.getFromBuffer(apexCollision_)) return false;
 	return true;
+}
+
+void ShotProjectile::doCollision(Vector &position)
+{	
+	if (!context_->serverMode)
+	{
+		if (smokeTracer_)
+		{
+			TankRenderer::instance()->getTracerStore().
+				addSmokeTracer(playerId_, position, positions_);
+		}
+		else if (tracer_)
+		{
+			TankRenderer::instance()->getTracerStore().
+				addTracer(playerId_, position);
+		}
+	}
+
+	WeaponProjectile *proj = (WeaponProjectile *) weapon_;
+	Vector velocity;
+	proj->getCollisionAction()->fireWeapon(
+		*context_,
+		playerId_, position, getCurrentVelocity());
 }

@@ -49,16 +49,23 @@ bool Accessory::parseXML(XMLNode *accessoryNode)
 	}
 	name_ = nameNode->getContent();
 
-	// Get the accessory description
-	XMLNode *descriptionNode = accessoryNode->getNamedChild("description");
-	if (!descriptionNode)
+	// Get the accessory armslevel
+	XMLNode *armsLevelNode = accessoryNode->getNamedChild("armslevel");
+	if (!armsLevelNode)
 	{
 		dialogMessage("Accessory",
-			"Failed to find description node in accessory \"%s\"",
+			"Failed to find armslevel node in accessory \"%s\"",
 			name_.c_str());
 		return false;
 	}
-	description_ = descriptionNode->getContent();
+	armsLevel_ = atoi(armsLevelNode->getContent());
+
+	// Get the accessory description
+	XMLNode *descriptionNode = accessoryNode->getNamedChild("description");
+	if (descriptionNode)
+	{
+		description_ = descriptionNode->getContent();
+	}
 	toolTip_.setText(getName(), getDescription());
 
 	// Get the accessory icon
@@ -77,36 +84,19 @@ bool Accessory::parseXML(XMLNode *accessoryNode)
 
 	// Get the accessory bundle
 	XMLNode *bundleNode = accessoryNode->getNamedChild("bundlesize");
-	if (!bundleNode)
+	if (bundleNode)
 	{
-		dialogMessage("Accessory",
-			"Failed to find bundlesize node in accessory \"%s\"",
-			name_.c_str());
-		return false;
+		bundle_ = atoi(bundleNode->getContent());
 	}
-	bundle_ = atoi(bundleNode->getContent());
+	else bundle_ = -1;
 
 	// Get the accessory cost
 	XMLNode *costNode = accessoryNode->getNamedChild("cost");
-	if (!costNode)
+	if (costNode)
 	{
-		dialogMessage("Accessory",
-			"Failed to find cost node in accessory \"%s\"",
-			name_.c_str());
-		return false;
+		price_ = atoi(costNode->getContent());
 	}
-	price_ = atoi(costNode->getContent());
-
-	// Get the accessory armslevel
-	XMLNode *armsLevelNode = accessoryNode->getNamedChild("armslevel");
-	if (!armsLevelNode)
-	{
-		dialogMessage("Accessory",
-			"Failed to find armslevel node in accessory \"%s\"",
-			name_.c_str());
-		return false;
-	}
-	armsLevel_ = atoi(armsLevelNode->getContent());
+	else price_ = -1;
 
 	sellPrice_ = 0;
 	if (price_ > 0 && bundle_ > 0) sellPrice_ = int((price_ / bundle_) * 0.8f);

@@ -18,6 +18,7 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+#include <weapons/Weapon.h>
 #include <engine/GameState.h>
 #include <client/ClientState.h>
 #include <client/ScorchedClient.h>

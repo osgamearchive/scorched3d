@@ -29,23 +29,19 @@ public:
 	WeaponAimedOver();
 	virtual ~WeaponAimedOver();
 
-	int getNoWarHeads() { return warHeads_; }
-	Weapon *getSubWeapon() { return subWeapon_; }
-	int getMainSize() { return size_; }
-
 	virtual bool parseXML(XMLNode *accessoryNode);
 	virtual bool writeAccessory(NetBuffer &buffer);
 	virtual bool readAccessory(NetBufferReader &reader);
 
 	// Inherited from Weapon
-	Action *fireWeapon(unsigned int playerId, Vector &position, Vector &velocity);
+	virtual void fireWeapon(ScorchedContext &context,
+		unsigned int playerId, Vector &position, Vector &velocity);
 
 	REGISTER_ACCESSORY_HEADER(WeaponAimedOver, Accessory::AccessoryWeapon);
 
 protected:
-	int size_;
 	int warHeads_;
-	Weapon *subWeapon_;
+	Weapon *aimedWeapon_;
 
 };
 

@@ -20,12 +20,15 @@
 
 #include <weapons/WeaponAimedOver.h>
 #include <weapons/AccessoryStore.h>
-#include <actions/ShotProjectileAimedOver.h>
+#include <tank/TankLib.h>
+#include <common/Defines.h>
+#include <list>
+#include <math.h>
 
 REGISTER_ACCESSORY_SOURCE(WeaponAimedOver);
 
 WeaponAimedOver::WeaponAimedOver() :
-	size_(0), warHeads_(0)
+	warHeads_(0)
 {
 
 }
@@ -39,37 +42,26 @@ bool WeaponAimedOver::parseXML(XMLNode *accessoryNode)
 {
 	if (!Weapon::parseXML(accessoryNode)) return false;
 
-	// Get the accessory size
-	XMLNode *sizeNode = accessoryNode->getNamedChild("size");
-	if (!sizeNode)
-	{
-		dialogMessage("Accessory",
-			"Failed to find size node in accessory \"%s\"",
-			name_.c_str());
-		return false;
-	}
-	size_ = atoi(sizeNode->getContent());
-
 	// Get the next weapon
-	XMLNode *subNode = accessoryNode->getNamedChild("subweapon");
+	XMLNode *subNode = accessoryNode->getNamedChild("aimedweapon");
 	if (!subNode)
 	{
 		dialogMessage("Accessory",
-			"Failed to find subweapon node in accessory \"%s\"",
+			"Failed to find aimedweapon node in accessory \"%s\"",
 			name_.c_str());
 		return false;
 	}
 
 	// Check next weapon is correct type
 	Accessory *accessory = AccessoryStore::instance()->createAccessory(subNode);
-	if (accessory->getType() != Accessory::AccessoryWeapon)
+	if (!accessory || accessory->getType() != Accessory::AccessoryWeapon)
 	{
 		dialogMessage("Accessory",
 			"Sub weapon of wrong type \"%s\"",
 			name_.c_str());
 		return false;
 	}
-	subWeapon_ = (Weapon*) accessory;
+	aimedWeapon_ = (Weapon*) accessory;
 
 	// Get the accessory warheads
 	XMLNode *warheadsNode = accessoryNode->getNamedChild("nowarheads");
@@ -88,8 +80,7 @@ bool WeaponAimedOver::parseXML(XMLNode *accessoryNode)
 bool WeaponAimedOver::writeAccessory(NetBuffer &buffer)
 {
 	if (!Weapon::writeAccessory(buffer)) return false;
-	buffer.addToBuffer(size_);
-	if (!Weapon::write(buffer, subWeapon_)) return false;
+	if (!Weapon::write(buffer, aimedWeapon_)) return false;
 	buffer.addToBuffer(warHeads_);
 	return true;
 }
@@ -97,18 +88,102 @@ bool WeaponAimedOver::writeAccessory(NetBuffer &buffer)
 bool WeaponAimedOver::readAccessory(NetBufferReader &reader)
 {
 	if (!Weapon::readAccessory(reader)) return false;
-	if (!reader.getFromBuffer(size_)) return false;
-	subWeapon_ = Weapon::read(reader); if (!subWeapon_) return false;
+	aimedWeapon_ = Weapon::read(reader); if (!aimedWeapon_) return false;
 	if (!reader.getFromBuffer(warHeads_)) return false;
 	return true;
 }
 
-Action *WeaponAimedOver::fireWeapon(unsigned int playerId, Vector &position, Vector &velocity)
+void WeaponAimedOver::fireWeapon(ScorchedContext &context,
+	unsigned int playerId, Vector &position, Vector &oldvelocity)
 {
-	Action *action = new ShotProjectileAimedOver(
+	position[2] += 0.2f;
+
+	// Get all of the distances of the tanks less than 50 away
+	std::list<std::pair<float, Tank *> > sortedTanks;
+	TankLib::getTanksSortedByDistance(
+		context,
 		position, 
-		velocity,
-		this, 
-		playerId);
-	return action;
+		sortedTanks,
+		0,
+		50.0f);
+
+	// Add all of these distances together
+	float totalDist = 0.0f;
+	std::list<std::pair<float, Tank *> >::iterator itor;
+	for (itor = sortedTanks.begin();
+		itor != sortedTanks.end();
+		itor++)
+	{
+		totalDist += (*itor).first;
+	}
+
+	// Turn distance into a probablity that we will fire a the tank
+	float maxDist = 0.0f;
+	if (sortedTanks.size() == 1)
+	{
+		maxDist = totalDist;
+	}
+	else
+	{
+		for (itor = sortedTanks.begin();
+			itor != sortedTanks.end();
+			itor++)
+		{
+			(*itor).first = totalDist - (*itor).first;
+			maxDist += (*itor).first;
+		}
+	}
+	
+	// Add a percetage that we will not fire at any tank
+	maxDist *= 1.20f; 
+
+	// For each war head
+	for (int i=0; i<warHeads_; i++)
+	{
+		// Random probablity
+		float dist = maxDist * RAND;
+
+		// Find which tank fits this probability
+		Tank *shootAt = 0;
+		float distC = 0.0f;
+		for (itor = sortedTanks.begin();
+			itor != sortedTanks.end();
+			itor++)
+		{
+			distC += (*itor).first;
+			if (dist < distC)
+			{
+				shootAt = (*itor).second;
+				break;
+			}
+		}			
+
+		// Calcuate the angle for the shot
+		float angleXYDegs = 360.0f * RAND;
+		float angleYZDegs = 30.0f * RAND + 50.0f;
+		float power = 300.0f * RAND + 150.0f;
+		if (shootAt)
+		{
+			// We have a tank to aim at
+			// Aim a shot towards it
+			TankLib::getShotTowardsPosition(
+				context,
+				position, 
+				shootAt->getPhysics().getTankPosition(), 20.0f, 
+				angleXYDegs, angleYZDegs, power);
+
+			angleXYDegs += (RAND * 10.0f) + -5.0f;
+			angleYZDegs += (RAND * 10.0f) + -5.0f;
+		}
+
+		// Create the shot
+		int flareType = int(RAND * 4.0f);
+		Vector &velocity = TankLib::getVelocityVector(
+			angleXYDegs, angleYZDegs);
+		velocity *= power;
+
+		aimedWeapon_->fireWeapon(
+			context, 
+			playerId, position, velocity);	
+	}
 }

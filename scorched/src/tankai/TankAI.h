@@ -21,9 +21,9 @@
 #if !defined(__INCLUDE_TankAIh_INCLUDE__)
 #define __INCLUDE_TankAIh_INCLUDE__
 
-#include <weapons/Weapon.h>
 #include <common/Vector.h>
 
+class Weapon;
 class ScorchedContext;
 class Tank;
 class ComsDefenseMessage;

@@ -63,6 +63,41 @@ void MissileActionRenderer::draw(Action *action)
 	Vector &actualPos = shot->getCurrentPosition();
 	Vector &actualdir = shot->getCurrentVelocity();
 
+	if (shot->getSmokeTracer())
+	{
+		Tank *current = 
+			action->getScorchedContext()->tankContainer.
+			getTankById(shot->getPlayerId());
+		if (current)
+		{
+			GLState state(GLState::TEXTURE_OFF | GLState::BLEND_OFF);
+
+			glColor3fv(current->getColor());
+			glBegin(GL_LINES);
+			std::list<Vector>::iterator itor;
+			for (itor = shot->getPositions().begin();
+				 itor != shot->getPositions().end();
+				 itor++)
+			{
+				Vector &startPos = *itor;
+				itor++;
+				if (itor != shot->getPositions().end())
+				{
+					Vector &endPos = *itor;
+
+					if (fabs(startPos[0] - endPos[0]) < 100.0f &&
+						fabs(startPos[1] - endPos[1]) < 100.0f)
+					{
+						glVertex3fv(startPos);
+						glVertex3fv(endPos);
+					}
+				}
+				else break;
+			}
+			glEnd();
+		}
+	}
+
 	// Check we can see the missile
 	if (!GLCameraFrustum::instance()->pointInFrustum(actualPos))
 	{

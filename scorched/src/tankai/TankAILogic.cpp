@@ -159,11 +159,7 @@ void TankAILogic::processFiredMessage(ScorchedContext &context,
 						tank->getState().getPower();
 					Vector position = tank->getPhysics().getTankGunPosition();
 
-					Action *action = weapon->fireWeapon(tank->getPlayerId(), position, velocity);
-					if (action)
-					{
-						context.actionController.addAction(action);
-					}
+					weapon->fireWeapon(context, tank->getPlayerId(), position, velocity);
 					StatsLogger::instance()->tankFired(tank, weapon);
 				}
 			}

@@ -43,7 +43,8 @@ public:
 	const int getNumberStreams() { return numberStreams_; }
 
 	// Inherited from Weapon
-	virtual Action *fireWeapon(unsigned int playerId, Vector &position, Vector &velocity);
+	virtual void fireWeapon(ScorchedContext &context,
+		unsigned int playerId, Vector &position, Vector &velocity);
 
 	REGISTER_ACCESSORY_HEADER(WeaponNapalm, Accessory::AccessoryWeapon);
 
@@ -56,7 +57,8 @@ protected:
 	int numberStreams_;  // The number of napalm paths
 	int effectRadius_;   // How close do tanks take damage
 
+	void addNapalm(ScorchedContext &context, unsigned int playerId,
+		int x, int y);
 };
-
 
 #endif

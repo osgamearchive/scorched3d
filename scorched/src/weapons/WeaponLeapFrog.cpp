@@ -20,11 +20,10 @@
 
 #include <weapons/WeaponLeapFrog.h>
 #include <weapons/AccessoryStore.h>
-#include <actions/ShotProjectileLeapFrog.h>
 
 REGISTER_ACCESSORY_SOURCE(WeaponLeapFrog);
 
-WeaponLeapFrog::WeaponLeapFrog():  size_(0)
+WeaponLeapFrog::WeaponLeapFrog():  collisionAction_(0)
 {
 
 }
@@ -38,37 +37,26 @@ bool WeaponLeapFrog::parseXML(XMLNode *accessoryNode)
 {
 	if (!Weapon::parseXML(accessoryNode)) return false;
 
-	// Get this weapon size
-	XMLNode *sizeNode = accessoryNode->getNamedChild("size");
-	if (!sizeNode)
-	{
-		dialogMessage("Accessory",
-			"Failed to find size node in accessory \"%s\"",
-			name_.c_str());
-		return false;
-	}
-	size_ = atoi(sizeNode->getContent());
-
 	// Get the next weapon
-	XMLNode *subNode = accessoryNode->getNamedChild("subweapon");
+	XMLNode *subNode = accessoryNode->getNamedChild("collisionaction");
 	if (!subNode)
 	{
 		dialogMessage("Accessory",
-			"Failed to find subweapon node in accessory \"%s\"",
+			"Failed to find collisionaction node in accessory \"%s\"",
 			name_.c_str());
 		return false;
 	}
 
 	// Check next weapon is correct type
 	Accessory *accessory = AccessoryStore::instance()->createAccessory(subNode);
-	if (accessory->getType() != Accessory::AccessoryWeapon)
+	if (!accessory || accessory->getType() != Accessory::AccessoryWeapon)
 	{
 		dialogMessage("Accessory",
 			"Sub weapon of wrong type \"%s\"",
 			name_.c_str());
 		return false;
 	}
-	subWeapon_ = (Weapon*) accessory;
+	collisionAction_ = (Weapon*) accessory;
 
 	return true;
 }
@@ -76,25 +64,21 @@ bool WeaponLeapFrog::parseXML(XMLNode *accessoryNode)
 bool WeaponLeapFrog::writeAccessory(NetBuffer &buffer)
 {
 	if (!Weapon::writeAccessory(buffer)) return false;
-	buffer.addToBuffer(size_);
-	if (!Weapon::write(buffer, subWeapon_)) return false;
+	if (!Weapon::write(buffer, collisionAction_)) return false;
 	return true;
 }
 
 bool WeaponLeapFrog::readAccessory(NetBufferReader &reader)
 {
 	if (!Weapon::readAccessory(reader)) return false;
-	if (!reader.getFromBuffer(size_)) return false;
-	subWeapon_ = Weapon::read(reader); if (!subWeapon_) return false;
+	collisionAction_ = Weapon::read(reader); if (!collisionAction_) return false;
 	return true;
 }
 
-Action *WeaponLeapFrog::fireWeapon(unsigned int playerId, Vector &position, Vector &velocity)
+void WeaponLeapFrog::fireWeapon(ScorchedContext &context,
+	unsigned int playerId, Vector &position, Vector &velocity)
 {
-	Action *action = new ShotProjectileLeapFrog(
-		position, 
-		velocity,
-		this, playerId, (float) size_);
-
-	return action;
+	Vector newVelocity = velocity * 0.8f;
+	if (newVelocity[2] < 0.0f) newVelocity[2] *= -1.0f;
+	collisionAction_->fireWeapon(context, playerId, position, newVelocity);
 }

@@ -21,6 +21,7 @@
 #include <dialogs/TankDialog.h>
 #include <client/MainCamera.h>
 #include <client/ScorchedClient.h>
+#include <weapons/Weapon.h>
 #include <tankgraph/TankModelRenderer.h>
 #include <GLW/GLWFont.h>
 

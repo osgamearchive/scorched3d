@@ -18,20 +18,37 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+#if !defined(AFX_WEAPONEXPLOSION_H__70119A64_2064_4066_8EE5_FD6A3E24D5FC__INCLUDED_)
+#define AFX_WEAPONPEXPLOSION_H__70119A64_2064_4066_8EE5_FD6A3E24D5FC__INCLUDED_
 
-#if !defined(__INCLUDE_TracerActionRendererh_INCLUDE__)
-#define __INCLUDE_TracerActionRendererh_INCLUDE__
+#include <weapons/Weapon.h>
+#include <actions/Explosion.h>
 
-#include <engine/Action.h>
-
-class TracerActionRenderer : public ActionRenderer
+class WeaponExplosion : public Weapon
 {
 public:
-	TracerActionRenderer();
-	virtual ~TracerActionRenderer();
+	WeaponExplosion();
+	virtual ~WeaponExplosion();
 
-	virtual void draw(Action *action);
+	virtual bool parseXML(XMLNode *accessoryNode);
+	virtual bool writeAccessory(NetBuffer &buffer);
+	virtual bool readAccessory(NetBufferReader &reader);
+
+	virtual Vector &getExplosionColor();
+	int getSize() { return size_; }
+
+	// Inherited from Weapon
+	virtual void fireWeapon(ScorchedContext &context,
+		unsigned int playerId, Vector &position, Vector &velocity);
+
+	REGISTER_ACCESSORY_HEADER(WeaponExplosion, Accessory::AccessoryWeapon);
+
+protected:
+	int size_;
+	bool multiColored_;
+	bool hurts_;
+	Explosion::DeformType deformType_;
+
 };
 
-
-#endif
+#endif // !defined(AFX_WEAPONPEXPLOSION_H__70119A64_2064_4066_8EE5_FD6A3E24D5FC__INCLUDED_)

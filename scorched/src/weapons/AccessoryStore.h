@@ -18,11 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// AccessoryStore.h: interface for the AccessoryStore class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_ACCESSORYSTORE_H__6A964E56_3784_42FA_A900_2AB4B98F99A8__INCLUDED_)
 #define AFX_ACCESSORYSTORE_H__6A964E56_3784_42FA_A900_2AB4B98F99A8__INCLUDED_
 

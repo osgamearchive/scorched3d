@@ -18,12 +18,15 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+#include <weapons/AccessoryStore.h>
 #include <weapons/WeaponProjectile.h>
-#include <actions/ShotProjectileExplosion.h>
+#include <actions/ShotProjectile.h>
 
 REGISTER_ACCESSORY_SOURCE(WeaponProjectile);
 
-WeaponProjectile::WeaponProjectile() : size_(0), under_(false), multiColored_(false)
+WeaponProjectile::WeaponProjectile() : 
+	under_(false), collisionAction_(0), apexCollision_(false),
+	showShotPath_(false), showEndPoint_(false)
 {
 
 }
@@ -37,24 +40,41 @@ bool WeaponProjectile::parseXML(XMLNode *accessoryNode)
 {
 	if (!Weapon::parseXML(accessoryNode)) return false;
 
-	// Get the accessory size
-	XMLNode *sizeNode = accessoryNode->getNamedChild("size");
-	if (!sizeNode)
-	{
-		dialogMessage("Accessory",
-			"Failed to find size node in accessory \"%s\"",
-			name_.c_str());
-		return false;
-	}
-	size_ = atoi(sizeNode->getContent());
-
 	// Get the accessory under
 	XMLNode *underNode = accessoryNode->getNamedChild("under");
 	if (underNode) under_ = true;
 
-	// Get the accessory colored
-	XMLNode *colorNode = accessoryNode->getNamedChild("multicolor");
-	if (colorNode) multiColored_ = true;
+	// Get the smoke trails
+	XMLNode *smokeNode = accessoryNode->getNamedChild("smoke");
+	if (smokeNode) showShotPath_ = true;
+
+	// Get the end point
+	XMLNode *endPointNode = accessoryNode->getNamedChild("showendpoint");
+	if (endPointNode) showEndPoint_ = true;
+	
+	// Get the apex point
+	XMLNode *apexNode = accessoryNode->getNamedChild("apexcollision");
+	if (apexNode) apexCollision_ = true;
+
+	// Get the next weapon
+	XMLNode *subNode = accessoryNode->getNamedChild("collisionaction");
+	if (!subNode)
+	{
+		dialogMessage("Accessory",
+			"Failed to find collisionaction node in accessory \"%s\"",
+			name_.c_str());
+		return false;
+	}
+	// Check next weapon is correct type
+	Accessory *accessory = AccessoryStore::instance()->createAccessory(subNode);
+	if (!accessory || accessory->getType() != Accessory::AccessoryWeapon)
+	{
+		dialogMessage("Accessory",
+			"Sub weapon of wrong type \"%s\"",
+			name_.c_str());
+		return false;
+	}
+	collisionAction_ = (Weapon*) accessory;
 
 	return true;
 }
@@ -62,7 +82,10 @@ bool WeaponProjectile::parseXML(XMLNode *accessoryNode)
 bool WeaponProjectile::writeAccessory(NetBuffer &buffer)
 {
 	if (!Weapon::writeAccessory(buffer)) return false;
-	buffer.addToBuffer(size_);
+	if (!Weapon::write(buffer, collisionAction_)) return false;
+	buffer.addToBuffer(showShotPath_);
+	buffer.addToBuffer(showEndPoint_);
+	buffer.addToBuffer(apexCollision_);
 	buffer.addToBuffer(under_);
 	return true;
 }
@@ -70,41 +93,21 @@ bool WeaponProjectile::writeAccessory(NetBuffer &buffer)
 bool WeaponProjectile::readAccessory(NetBufferReader &reader)
 {
 	if (!Weapon::readAccessory(reader)) return false;
-	if (!reader.getFromBuffer(size_)) return false;
+	collisionAction_ = Weapon::read(reader); if (!collisionAction_) return false;
+	if (!reader.getFromBuffer(showShotPath_)) return false;
+	if (!reader.getFromBuffer(showEndPoint_)) return false;
+	if (!reader.getFromBuffer(apexCollision_)) return false;
 	if (!reader.getFromBuffer(under_)) return false;
 	return true;
 }
 
-Vector &WeaponProjectile::getExplosionColor()
+void WeaponProjectile::fireWeapon(ScorchedContext &context,
+	unsigned int playerId, Vector &position, Vector &velocity)
 {
-	if (!multiColored_) return Weapon::getExplosionColor();
-
-	static Vector red(1.0f, 0.0f, 0.0f);
-	static Vector green(0.0f, 1.0f, 0.0f);
-	static Vector blue(0.0f, 0.0f, 1.0f);
-	static Vector yellow(1.0f, 1.0f, 0.0f);
-
-	int color = int(RAND * 4.0f);
-	switch (color)
-	{
-	case 0:
-		return red;
-	case 1:
-		return green;
-	case 2:
-		return blue;
-	case 3:
-		return yellow;
-	}
-	return Weapon::getExplosionColor();
-}
-
-Action *WeaponProjectile::fireWeapon(unsigned int playerId, Vector &position, Vector &velocity)
-{
-	Action *action = new ShotProjectileExplosion(
+	Action *action = new ShotProjectile(
 		position, 
 		velocity,
-		this, playerId, (float) size_, 0, under_);
-
-	return action;
+		this, playerId, 0, under_, 
+		showEndPoint_, showShotPath_, apexCollision_);
+	context.actionController.addAction(action);	
 }

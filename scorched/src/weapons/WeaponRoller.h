@@ -40,7 +40,8 @@ public:
 	const int getSize() { return size_; }
 
 	// Inherited from Weapon
-	virtual Action *fireWeapon(unsigned int playerId, Vector &position, Vector &velocity);
+	virtual void fireWeapon(ScorchedContext &context,
+		unsigned int playerId, Vector &position, Vector &velocity);
 
 	REGISTER_ACCESSORY_HEADER(WeaponRoller, Accessory::AccessoryWeapon);
 
@@ -50,6 +51,9 @@ protected:
 	float stepTime_;     // Move roller every StepTime secs
 	int numberRollers_;  // The number of rollers
 	int size_;           // Explosion size
+
+	void addRoller(ScorchedContext &context, unsigned int playerId,
+		int x, int y);
 
 };
 

@@ -21,6 +21,7 @@
 #include <common/Keyboard.h>
 #include <common/SoundStore.h>
 #include <common/OptionsDisplay.h>
+#include <weapons/Weapon.h>
 #include <client/MainCamera.h>
 #include <client/ScorchedClient.h>
 #include <client/ClientState.h>

@@ -106,7 +106,8 @@ void NetBuffer::addToBuffer(const int add)
 
 void NetBuffer::addToBuffer(const bool add)
 {
-	addToBuffer((int)(add?1:0));
+	char c = (add?'1':'0');
+	addDataToBuffer(&c, sizeof(char));
 }
 
 void NetBuffer::addToBuffer(const unsigned int add)
@@ -161,9 +162,9 @@ bool NetBufferReader::getFromBuffer(int &result)
 
 bool NetBufferReader::getFromBuffer(bool &result)
 {
-	int res;
-	if (!getFromBuffer(res)) return false;
-	result = (res==0?false:true);
+	char c = 0;
+	if (!getDataFromBuffer(&c, sizeof(c))) return false;
+	result = (c=='1'?true:false);
 	return true;
 }
 

@@ -439,8 +439,6 @@ scorched3d_SOURCES = \
 	../weapons/WeaponAimedOver.h \
 	../weapons/WeaponAimedUnder.cpp \
 	../weapons/WeaponAimedUnder.h \
-	../weapons/WeaponClod.cpp \
-	../weapons/WeaponClod.h \
 	../weapons/WeaponLeapFrog.cpp \
 	../weapons/WeaponLeapFrog.h \
 	../weapons/WeaponMirv.cpp \
@@ -449,12 +447,14 @@ scorched3d_SOURCES = \
 	../weapons/WeaponNapalm.h \
 	../weapons/WeaponProjectile.cpp \
 	../weapons/WeaponProjectile.h \
-	../weapons/WeaponRiotBomb.cpp \
-	../weapons/WeaponRiotBomb.h \
 	../weapons/WeaponRoller.cpp \
 	../weapons/WeaponRoller.h \
-	../weapons/WeaponTracer.cpp \
-	../weapons/WeaponTracer.h \
+	../weapons/WeaponMulti.cpp \
+	../weapons/WeaponMulti.h \
+	../weapons/WeaponNull.cpp \
+	../weapons/WeaponNull.h \
+	../weapons/WeaponExplosion.cpp \
+	../weapons/WeaponExplosion.h \
 	../coms/ComsTimerStartMessage.cpp \
 	../coms/ComsTimerStartMessage.h \
 	../coms/ComsPlayerStatusMessage.cpp \
@@ -621,26 +621,6 @@ scorched3d_SOURCES = \
 	../actions/ShieldHit.h \
 	../actions/ShotProjectile.cpp \
 	../actions/ShotProjectile.h \
-	../actions/ShotProjectileAimedOver.cpp \
-	../actions/ShotProjectileAimedOver.h \
-	../actions/ShotProjectileAimedUnder.cpp \
-	../actions/ShotProjectileAimedUnder.h \
-	../actions/ShotProjectileClod.cpp \
-	../actions/ShotProjectileClod.h \
-	../actions/ShotProjectileExplosion.cpp \
-	../actions/ShotProjectileExplosion.h \
-	../actions/ShotProjectileLeapFrog.cpp \
-	../actions/ShotProjectileLeapFrog.h \
-	../actions/ShotProjectileMirv.cpp \
-	../actions/ShotProjectileMirv.h \
-	../actions/ShotProjectileNapalm.cpp \
-	../actions/ShotProjectileNapalm.h \
-	../actions/ShotProjectileRiot.cpp \
-	../actions/ShotProjectileRiot.h \
-	../actions/ShotProjectileRoller.cpp \
-	../actions/ShotProjectileRoller.h \
-	../actions/ShotProjectileTracer.cpp \
-	../actions/ShotProjectileTracer.h \
 	../actions/ShowScore.cpp \
 	../actions/ShowScore.h \
 	../actions/SpriteProjectile.cpp \
@@ -693,8 +673,6 @@ scorched3d_SOURCES = \
 	../sprites/TankDeadRenderer.h \
 	../sprites/TextActionRenderer.cpp \
 	../sprites/TextActionRenderer.h \
-	../sprites/TracerActionRenderer.cpp \
-	../sprites/TracerActionRenderer.h \
 	../sprites/WallActionRenderer.cpp \
 	../sprites/WallActionRenderer.h \
 	CreateDialogs.cpp \

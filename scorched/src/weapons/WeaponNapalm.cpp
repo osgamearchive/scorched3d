@@ -19,7 +19,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <weapons/WeaponNapalm.h>
-#include <actions/ShotProjectileNapalm.h>
+#include <actions/Napalm.h>
+#include <common/Defines.h>
+#include <common/SoundStore.h>
 
 REGISTER_ACCESSORY_SOURCE(WeaponNapalm);
 
@@ -136,12 +138,39 @@ bool WeaponNapalm::readAccessory(NetBufferReader &reader)
 	return true;
 }
 
-Action *WeaponNapalm::fireWeapon(unsigned int playerId, Vector &position, Vector &velocity)
+void WeaponNapalm::fireWeapon(ScorchedContext &context,
+	unsigned int playerId, Vector &position, Vector &velocity)
 {
-	Action *action = new ShotProjectileNapalm(
-		position, 
-		velocity,
-		this, playerId);
+	for (int i=0; i<numberStreams_; i++)
+	{
+		int x = int(position[0] + RAND * 4.0f - 2.0f);
+		int y = int(position[1] + RAND * 4.0f - 2.0f);
+		addNapalm(context, playerId, x, y);
+	}
 
-	return action;
+	if (!context.serverMode) 
+	{
+		if (getExplosionSound())
+		{
+			static char soundBuffer[256];
+			sprintf(soundBuffer, PKGDIR "data/wav/%s", getExplosionSound());
+			SoundBuffer *expSound = 
+				SoundStore::instance()->fetchOrCreateBuffer(soundBuffer);
+			expSound->play();
+		}
+	}
+}
+
+void WeaponNapalm::addNapalm(ScorchedContext &context, 
+	unsigned int playerId, int x, int y)
+{
+	// Ensure that the napalm has not hit the walls
+	// or anything outside the landscape
+	if (x > 1 && y > 1 &&
+		x < context.landscapeMaps.getHMap().getWidth() - 1 &&
+		y < context.landscapeMaps.getHMap().getWidth() - 1)
+	{
+		context.actionController.addAction(
+			new Napalm(x, y, this, playerId));
+	}
 }

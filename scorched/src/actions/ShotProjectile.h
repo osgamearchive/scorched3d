@@ -25,6 +25,7 @@
 #include <engine/ScorchedCollisionIds.h>
 #include <engine/ViewPoints.h>
 #include <weapons/Weapon.h>
+#include <list>
 
 class ShotProjectile : 
 	public PhysicsParticleMeta
@@ -34,11 +35,12 @@ public:
 	ShotProjectile(
 		Vector &startPosition, Vector &velocity,
 		Weapon *weapon, unsigned int playerId,
-		unsigned int flareType = 0,
-		bool under = false);
+		unsigned int flareType,
+		bool under,
+		bool tracer,
+		bool smokeTracer,
+		bool apexCollision);
 	virtual ~ShotProjectile();
-
-	unsigned int getPlayerId() { return playerId_; }
 
 	virtual void simulate(float frameTime, bool &remove);
 	virtual void init();
@@ -48,7 +50,10 @@ public:
 
 	REGISTER_ACTION_HEADER(ShotProjectile);
 
+	unsigned int getPlayerId() { return playerId_; }
+	bool getSmokeTracer() { return smokeTracer_; }
 	Weapon *getWeapon() { return weapon_; }
+	std::list<Vector> &getPositions() { return positions_; }
 
 protected:
 	static Vector lookatPosition_;
@@ -59,7 +64,15 @@ protected:
 	ViewPoints::ViewPoint *vPoint_;
 	unsigned int playerId_;
 	unsigned int flareType_;
+	bool up_;
 	bool under_;
+	bool tracer_;
+	bool smokeTracer_;
+	bool apexCollision_;
+	float snapTime_;
+	std::list<Vector> positions_;
+
+	void doCollision(Vector &position);
 
 private:
 	ShotProjectile(const ShotProjectile &);

@@ -33,18 +33,20 @@ public:
 	virtual bool writeAccessory(NetBuffer &buffer);
 	virtual bool readAccessory(NetBufferReader &reader);
 
-	virtual Vector &getExplosionColor();
-	int getSize() { return size_; }
+	Weapon *getCollisionAction() { return collisionAction_; }
 
 	// Inherited from Weapon
-	virtual Action *fireWeapon(unsigned int playerId, Vector &position, Vector &velocity);
+	virtual void fireWeapon(ScorchedContext &context,
+		unsigned int playerId, Vector &position, Vector &velocity);
 
 	REGISTER_ACCESSORY_HEADER(WeaponProjectile, Accessory::AccessoryWeapon);
 
 protected:
-	int size_;
 	bool under_;
-	bool multiColored_;
+	bool showShotPath_;
+	bool showEndPoint_;
+	bool apexCollision_;
+	Weapon *collisionAction_;
 
 };
 

@@ -1454,12 +1454,6 @@
 				RelativePath="..\weapons\WeaponAimedUnder.h">
 			</File>
 			<File
-				RelativePath="..\weapons\WeaponClod.cpp">
-			</File>
-			<File
-				RelativePath="..\weapons\WeaponClod.h">
-			</File>
-			<File
 				RelativePath="..\weapons\WeaponLeapFrog.cpp">
 			</File>
 			<File
@@ -1484,22 +1478,28 @@
 				RelativePath="..\weapons\WeaponProjectile.h">
 			</File>
 			<File
-				RelativePath="..\weapons\WeaponRiotBomb.cpp">
-			</File>
-			<File
-				RelativePath="..\weapons\WeaponRiotBomb.h">
-			</File>
-			<File
 				RelativePath="..\weapons\WeaponRoller.cpp">
 			</File>
 			<File
 				RelativePath="..\weapons\WeaponRoller.h">
 			</File>
 			<File
-				RelativePath="..\weapons\WeaponTracer.cpp">
+				RelativePath="..\weapons\WeaponMulti.cpp">
 			</File>
 			<File
-				RelativePath="..\weapons\WeaponTracer.h">
+				RelativePath="..\weapons\WeaponMulti.h">
+			</File>
+			<File
+				RelativePath="..\weapons\WeaponNull.cpp">
+			</File>
+			<File
+				RelativePath="..\weapons\WeaponNull.h">
+			</File>
+			<File
+				RelativePath="..\weapons\WeaponExplosion.cpp">
+			</File>
+			<File
+				RelativePath="..\weapons\WeaponExplosion.h">
 			</File>
 		</Filter>
 		<Filter
@@ -2039,66 +2039,6 @@
 				RelativePath="..\actions\ShotProjectile.h">
 			</File>
 			<File
-				RelativePath="..\actions\ShotProjectileAimedOver.cpp">
-			</File>
-			<File
-				RelativePath="..\actions\ShotProjectileAimedOver.h">
-			</File>
-			<File
-				RelativePath="..\actions\ShotProjectileAimedUnder.cpp">
-			</File>
-			<File
-				RelativePath="..\actions\ShotProjectileAimedUnder.h">
-			</File>
-			<File
-				RelativePath="..\actions\ShotProjectileClod.cpp">
-			</File>
-			<File
-				RelativePath="..\actions\ShotProjectileClod.h">
-			</File>
-			<File
-				RelativePath="..\actions\ShotProjectileExplosion.cpp">
-			</File>
-			<File
-				RelativePath="..\actions\ShotProjectileExplosion.h">
-			</File>
-			<File
-				RelativePath="..\actions\ShotProjectileLeapFrog.cpp">
-			</File>
-			<File
-				RelativePath="..\actions\ShotProjectileLeapFrog.h">
-			</File>
-			<File
-				RelativePath="..\actions\ShotProjectileMirv.cpp">
-			</File>
-			<File
-				RelativePath="..\actions\ShotProjectileMirv.h">
-			</File>
-			<File
-				RelativePath="..\actions\ShotProjectileNapalm.cpp">
-			</File>
-			<File
-				RelativePath="..\actions\ShotProjectileNapalm.h">
-			</File>
-			<File
-				RelativePath="..\actions\ShotProjectileRiot.cpp">
-			</File>
-			<File
-				RelativePath="..\actions\ShotProjectileRiot.h">
-			</File>
-			<File
-				RelativePath="..\actions\ShotProjectileRoller.cpp">
-			</File>
-			<File
-				RelativePath="..\actions\ShotProjectileRoller.h">
-			</File>
-			<File
-				RelativePath="..\actions\ShotProjectileTracer.cpp">
-			</File>
-			<File
-				RelativePath="..\actions\ShotProjectileTracer.h">
-			</File>
-			<File
 				RelativePath="..\actions\ShowScore.cpp">
 			</File>
 			<File
@@ -2257,12 +2197,6 @@
 			</File>
 			<File
 				RelativePath="..\sprites\TextActionRenderer.h">
-			</File>
-			<File
-				RelativePath="..\sprites\TracerActionRenderer.cpp">
-			</File>
-			<File
-				RelativePath="..\sprites\TracerActionRenderer.h">
 			</File>
 			<File
 				RelativePath="..\sprites\WallActionRenderer.cpp">

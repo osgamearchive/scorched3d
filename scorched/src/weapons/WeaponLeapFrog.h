@@ -33,17 +33,16 @@ public:
 	virtual bool writeAccessory(NetBuffer &buffer);
 	virtual bool readAccessory(NetBufferReader &reader);
 
-	int getSize() { return size_; }
-	Weapon *getSubWeapon() { return subWeapon_; }
+	Weapon *getCollisionAction() { return collisionAction_; }
 
 	// Inherited from Weapon
-	virtual Action *fireWeapon(unsigned int playerId, Vector &position, Vector &velocity);
+	virtual void fireWeapon(ScorchedContext &context,
+		unsigned int playerId, Vector &position, Vector &velocity);
 
 	REGISTER_ACCESSORY_HEADER(WeaponLeapFrog, Accessory::AccessoryWeapon);
 
 protected:
-	int size_;
-	Weapon *subWeapon_;
+	Weapon *collisionAction_;
 
 };
 

@@ -21,6 +21,7 @@ Added: Server can be run in console (non-gui) mode
 Added: Client shows which players the game is waiting on
 Added: Stats and servers can tell what os clients and servers are on
 Added: Ability to adjust server options on the fly, so the next match will have the new options
+Added: More complex but more customizable accessories format (accessories.xml)
 
 Fixed: Menu items could only be clicked in left hand side
 Fixed: Shot cam goes back to player even when not their turn

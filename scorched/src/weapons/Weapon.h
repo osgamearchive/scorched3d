@@ -26,6 +26,7 @@
 #include <coms/NetBuffer.h>
 #include <common/Defines.h>
 #include <common/Vector.h>
+#include <engine/ScorchedContext.h>
 
 class Action;
 class Weapon : public Accessory
@@ -38,7 +39,8 @@ public:
 	virtual bool writeAccessory(NetBuffer &buffer);
 	virtual bool readAccessory(NetBufferReader &reader);
 	
-	virtual Action *fireWeapon(unsigned int playerId, 
+	virtual void fireWeapon(ScorchedContext &context,
+		unsigned int playerId, 
 		Vector &position, Vector &velocity) = 0;
 
 	virtual Vector &getExplosionColor();

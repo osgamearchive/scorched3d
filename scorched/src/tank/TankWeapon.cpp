@@ -20,6 +20,7 @@
 
 #include <common/Defines.h>
 #include <weapons/AccessoryStore.h>
+#include <weapons/Weapon.h>
 #include <tank/TankWeapon.h>
 #include <stdio.h>
 #include <set>

@@ -20,7 +20,6 @@
 
 #include <weapons/WeaponMirv.h>
 #include <weapons/AccessoryStore.h>
-#include <actions/ShotProjectileMirv.h>
 
 REGISTER_ACCESSORY_SOURCE(WeaponMirv);
 
@@ -51,25 +50,25 @@ bool WeaponMirv::parseXML(XMLNode *accessoryNode)
 	spread_ = (strcmp(spreadNode->getContent(), "true") == 0);
 
 	// Get the next weapon
-	XMLNode *subNode = accessoryNode->getNamedChild("subweapon");
+	XMLNode *subNode = accessoryNode->getNamedChild("aimedweapon");
 	if (!subNode)
 	{
 		dialogMessage("Accessory",
-			"Failed to find subweapon node in accessory \"%s\"",
+			"Failed to find aimedweapon node in accessory \"%s\"",
 			name_.c_str());
 		return false;
 	}
 
 	// Check next weapon is correct type
 	Accessory *accessory = AccessoryStore::instance()->createAccessory(subNode);
-	if (accessory->getType() != Accessory::AccessoryWeapon)
+	if (!accessory || accessory->getType() != Accessory::AccessoryWeapon)
 	{
 		dialogMessage("Accessory",
 			"Sub weapon of wrong type \"%s\"",
 			name_.c_str());
 		return false;
 	}
-	subWeapon_ = (Weapon*) accessory;
+	aimedWeapon_ = (Weapon*) accessory;
 
 	// Get the accessory warheads
 	XMLNode *warheadsNode = accessoryNode->getNamedChild("nowarheads");
@@ -89,7 +88,7 @@ bool WeaponMirv::writeAccessory(NetBuffer &buffer)
 {
 	if (!Weapon::writeAccessory(buffer)) return false;
 	buffer.addToBuffer(spread_);
-	if (!Weapon::write(buffer, subWeapon_)) return false;
+	if (!Weapon::write(buffer, aimedWeapon_)) return false;
 	buffer.addToBuffer(noWarheads_);
 	return true;
 }
@@ -98,18 +97,33 @@ bool WeaponMirv::readAccessory(NetBufferReader &reader)
 {
 	if (!Weapon::readAccessory(reader)) return false;
 	if (!reader.getFromBuffer(spread_)) return false;
-	subWeapon_ = Weapon::read(reader); if (!subWeapon_) return false;
+	aimedWeapon_ = Weapon::read(reader); if (!aimedWeapon_) return false;
 	if (!reader.getFromBuffer(noWarheads_)) return false;
 	return true;
 }
 
-Action *WeaponMirv::fireWeapon(unsigned int playerId, Vector &position, Vector &velocity)
+void WeaponMirv::fireWeapon(ScorchedContext &context,
+	unsigned int playerId, Vector &position, Vector &velocity)
 {
-	Action *action = new ShotProjectileMirv(
-		position, 
-		velocity,
-		this, 
-		playerId);
+	// Add a shot that will fall where the original was aimed
+	aimedWeapon_->fireWeapon(context, playerId, position, velocity);
 
-	return action;
+	// Add all of the sub warheads that have a random spread
+	for (int i=0; i<noWarheads_ - 1; i++)
+	{
+		Vector newDiff = velocity;
+		newDiff[2] = 0.0f;
+		if (spread_)
+		{
+			Vector diff = newDiff;
+			diff[2] -= 1.0f;
+			Vector perp = newDiff * diff;
+
+			newDiff += (perp * ((RAND * 1.0f) - 0.5f));
+		}
+		newDiff[2] += (float(i - (noWarheads_ / 2)) / 
+			float(noWarheads_ / 2)) * 5.0f;
+
+		aimedWeapon_->fireWeapon(context, playerId, position, newDiff);
+	}
 }

@@ -18,36 +18,31 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <actions/ShotProjectileLeapFrog.h>
-#include <actions/Explosion.h>
-#include <weapons/WeaponLeapFrog.h>
-#include <engine/ScorchedContext.h>
+#if !defined(AFX_WEAPONMULTI_H__B5C043F0_7DC6_4198_AE5B_E19002234FCE__INCLUDED_)
+#define AFX_WEAPONMULTI_H__B5C043F0_7DC6_4198_AE5B_E19002234FCE__INCLUDED_
 
-REGISTER_ACTION_SOURCE(ShotProjectileLeapFrog);
+#include <weapons/Weapon.h>
+#include <list>
 
-ShotProjectileLeapFrog::ShotProjectileLeapFrog()
+class WeaponMulti  : public Weapon
 {
+public:
+	WeaponMulti();
+	virtual ~WeaponMulti();
 
-}
+	virtual bool parseXML(XMLNode *accessoryNode);
+	virtual bool writeAccessory(NetBuffer &buffer);
+	virtual bool readAccessory(NetBufferReader &reader);
 
-ShotProjectileLeapFrog::ShotProjectileLeapFrog(
-	Vector &startPosition, Vector &velocity,
-	Weapon *weapon, unsigned int playerId,
-	float width) :
-	ShotProjectileExplosion(startPosition, velocity, weapon, playerId, width)
-{
-}
+	// Inherited from Weapon
+	void fireWeapon(ScorchedContext &context,
+		unsigned int playerId, Vector &position, Vector &velocity);
 
-ShotProjectileLeapFrog::~ShotProjectileLeapFrog()
-{
-}
+	REGISTER_ACCESSORY_HEADER(WeaponMulti, Accessory::AccessoryWeapon);
 
-void ShotProjectileLeapFrog::collision(Vector &position)
-{
-	ShotProjectileExplosion::collision(position);
+protected:
+	std::list<Weapon *> subWeapons_;
 
-	Vector newVelocity = velocity_ * 0.6f;
-	Weapon *subWeapon = ((WeaponLeapFrog *)weapon_)->getSubWeapon();
-	Action *action = subWeapon->fireWeapon(playerId_, position, newVelocity);
-	context_->actionController.addAction(action);
-}
+};
+
+#endif // !defined(AFX_WEAPONMULTI_H__B5C043F0_7DC6_4198_AE5B_E19002234FCE__INCLUDED_)

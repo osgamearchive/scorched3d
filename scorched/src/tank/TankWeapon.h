@@ -18,20 +18,15 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// TankWeapon.h: interface for the TankWeapon class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_TANKWEAPON_H__CC20069B_6E50_49E0_B735_D739BCBF58A9__INCLUDED_)
 #define AFX_TANKWEAPON_H__CC20069B_6E50_49E0_B735_D739BCBF58A9__INCLUDED_
 
 #include <map>
 #include <list>
 #include <string>
+#include <coms/NetBuffer.h>
 
-#include <weapons/Weapon.h>
-
+class Weapon;
 class TankWeapon  
 {
 public:

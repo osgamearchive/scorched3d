@@ -18,35 +18,27 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+#if !defined(AFX_WEAPONNULL_H__24F2D834_712D_4355_AC74_3571E2F4B14D__INCLUDED_)
+#define AFX_WEAPONNULL_H__24F2D834_712D_4355_AC74_3571E2F4B14D__INCLUDED_
 
-// ShotClod.h: interface for the ShotClod class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_SHOTCLOD_H__F4084AD2_0254_4D77_B43F_3C887111A46F__INCLUDED_)
-#define AFX_SHOTCLOD_H__F4084AD2_0254_4D77_B43F_3C887111A46F__INCLUDED_
-
-#include <actions/ShotProjectile.h>
 #include <weapons/Weapon.h>
 
-class ShotProjectileClod : public ShotProjectile 
+class WeaponNull : public Weapon
 {
 public:
-	ShotProjectileClod();
-	ShotProjectileClod(
-		Vector &startPosition, Vector &velocity,
-		Weapon *weapon, unsigned int playerId, float width);
-	virtual ~ShotProjectileClod();
+	WeaponNull();
+	virtual ~WeaponNull();
 
-	virtual bool writeAction(NetBuffer &buffer);
-	virtual bool readAction(NetBufferReader &reader);
-	virtual void collision(Vector &position);
+	virtual bool parseXML(XMLNode *accessoryNode);
+	virtual bool writeAccessory(NetBuffer &buffer);
+	virtual bool readAccessory(NetBufferReader &reader);
 
-	REGISTER_ACTION_HEADER(ShotProjectileClod);
+	// Inherited from Weapon
+	void fireWeapon(ScorchedContext &context, 
+		unsigned int playerId, Vector &position, Vector &velocity);
 
-protected:
-	float width_;
+	REGISTER_ACCESSORY_HEADER(WeaponNull, Accessory::AccessoryWeapon);
 
 };
 
-#endif // !defined(AFX_SHOTCLOD_H__F4084AD2_0254_4D77_B43F_3C887111A46F__INCLUDED_)
+#endif // !defined(AFX_WEAPONNULL_H__24F2D834_712D_4355_AC74_3571E2F4B14D__INCLUDED_)
