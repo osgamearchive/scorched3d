@@ -312,6 +312,10 @@ public:
 	void setOnlineTankModel(const char *value) { onlineTankModel_.setValue(value); }
 	const char *getOnlineTankModelToolTip() { return onlineTankModel_.getDescription(); }
 
+	const char *getOnlineUserIcon() { return onlineUserIcon_.getValue(); }
+	void setOnlineUserIcon(const char *value) { onlineUserIcon_.setValue(value); }
+	const char *getOnlineUserIconToolTip() { return onlineUserIcon_.getDescription(); }
+
 	const char *getHostDescription() { return hostDescription_.getValue(); }
 	void setHostDescription(const char *value) { hostDescription_.setValue(value); }
 	const char *getHostDescriptionToolTip() { return hostDescription_.getDescription(); }
@@ -400,6 +404,7 @@ protected:
 	OptionEntryString hostDescription_;
 	OptionEntryString onlineUserName_;
 	OptionEntryString onlineTankModel_;
+	OptionEntryString onlineUserIcon_;
 
 private:
 	OptionsDisplay();

@@ -47,6 +47,8 @@ OptionsDisplay::OptionsDisplay() :
 		"Used for server stats and logging (confidentially)", RAccess | OptionEntry::DataDepricated | NoRestore, ""),
 	hostDescription_(options_, "HostDescription",
 		"The description of this host given to any servers for stats.", RAccess | NoRestore, ""),
+	onlineUserIcon_(options_, "OnlineUserIcon",
+		"The players icon, must be GIF 32x32.", RAccess, ""),
 	onlineUserName_(options_, "OnlineUserName",
 		"The player name that will be used for all online games.", RAccess | NoRestore, "Player"),
 	onlineTankModel_(options_, "OnlineTankModel",

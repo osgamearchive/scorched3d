@@ -26,7 +26,7 @@
 static const float TankSquareSize = 60.0f;
 static const float TankHalfSquareSize = TankSquareSize / 2.0f;
 static const float TankPadding = 20.0f;
-static const float TankInfo = 150.0f;
+static const float TankInfo = 165.0f;
 
 GLWTankViewer::GLWTankViewer(float x, float y, int numH, int numV) :
 	GLWidget(x, y, 

@@ -328,6 +328,12 @@
 				RelativePath="..\GLEXT\GLFontBanner.h">
 			</File>
 			<File
+				RelativePath="..\GLEXT\GLGif.h">
+			</File>
+			<File
+				RelativePath="..\GLEXT\GLGif.cpp">
+			</File>
+			<File
 				RelativePath="..\GLEXT\GLImage.cpp">
 			</File>
 			<File

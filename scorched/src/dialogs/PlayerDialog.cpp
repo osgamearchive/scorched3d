@@ -47,7 +47,7 @@ PlayerDialog *PlayerDialog::instance()
 }
 
 PlayerDialog::PlayerDialog() : 
-	GLWWindow("Team", 10.0f, 10.0f, 440.0f, 300.0f, eSmallTitle,
+	GLWWindow("Team", 10.0f, 10.0f, 465.0f, 350.0f, eSmallTitle,
 		"Allows the player to make changes to their\n"
 		"name, their tank and to change teams."),
 	allocatedTeam_(0), cancelId_(0), viewer_(0)
@@ -55,22 +55,27 @@ PlayerDialog::PlayerDialog() :
 	needCentered_ = true;
 
 	// Add buttons
-	okId_ = addWidget(new GLWTextButton("Ok", 375, 10, 55, this, 
+	okId_ = addWidget(new GLWTextButton("Ok", 395, 10, 55, this, 
 		GLWButton::ButtonFlagOk | GLWButton::ButtonFlagCenterX))->getId();
 	if (OptionsParam::instance()->getConnectedToServer())
 	{
-		cancelId_ = addWidget(new GLWTextButton("Cancel", 280, 10, 85, this, 
+		cancelId_ = addWidget(new GLWTextButton("Cancel", 300, 10, 85, this, 
 			GLWButton::ButtonFlagCancel | GLWButton::ButtonFlagCenterX))->getId();
 	}
+
+	GLWPanel *infoPanel = new GLWPanel(10.0f, 270.0f, 445.0f, 70.0f);
+	addWidget(infoPanel);
 
 	// Create player name choice
 	GLWTip *nameTip = new GLWTip("Player Name",
 		"The name of this player.\n"
 		"Use the backspace or delete key to remove this name.\n"
 		"Type in a new player name via the keyboad to change.");
-	GLWLabel *nameLabel = (GLWLabel *) addWidget(new GLWLabel(10, 265, "Name:"));
+	GLWLabel *nameLabel = (GLWLabel *) 
+		infoPanel->addWidget(new GLWLabel(10, 40, "Name:"));
 	nameLabel->setToolTip(nameTip);
-	playerName_ = (GLWTextBox *) addWidget(new GLWTextBox(80, 265, 340, "Player"));
+	playerName_ = (GLWTextBox *) 
+		infoPanel->addWidget(new GLWTextBox(80, 40, 360, "Player"));
 	playerName_->setMaxTextLen(22);
 	playerName_->setToolTip(nameTip);
 	
@@ -78,9 +83,11 @@ PlayerDialog::PlayerDialog() :
 	GLWTip *teamTip = new GLWTip("Team Selection",
 		"Change the team this player will join.\n"
 		"This is only available when playing team games.");
-	GLWLabel *teamLabel = (GLWLabel *) addWidget(new GLWLabel(250, 235, "Team:"));
+	GLWLabel *teamLabel = (GLWLabel *) 
+		infoPanel->addWidget(new GLWLabel(250, 5, "Team:"));
 	teamLabel->setToolTip(teamTip);
-	teamDropDown_ = (GLWDropDown *) addWidget(new GLWDropDown(320, 235, 110));
+	teamDropDown_ = (GLWDropDown *) 
+		infoPanel->addWidget(new GLWDropDown(320, 5, 120));
 	teamDropDown_->setToolTip(teamTip);
 
 	// Create computer type choice
@@ -88,9 +95,11 @@ PlayerDialog::PlayerDialog() :
 		"Change between human and computer controlled\n"
 		"players.  This is only available when playing\n"
 		"single player games.");
-	GLWLabel *typeLabel = (GLWLabel *) addWidget(new GLWLabel(10, 235, "Type:"));
+	GLWLabel *typeLabel = (GLWLabel *) 
+		infoPanel->addWidget(new GLWLabel(10, 5, "Type:"));
 	typeLabel->setToolTip(typeTip);
-	typeDropDown_ = (GLWDropDown *) addWidget(new GLWDropDown(80, 235, 110));
+	typeDropDown_ = (GLWDropDown *) 
+		infoPanel->addWidget(new GLWDropDown(80, 5, 120));
 	typeDropDown_->setToolTip(typeTip);
 }
 
@@ -127,8 +136,10 @@ void PlayerDialog::windowDisplay()
 {	
 	if (!viewer_)
 	{
-		viewer_ = new GLWTankViewer(10.0f, 25.0f, 4, 3);
-		addWidget(viewer_);
+		GLWPanel *infoPanel = new GLWPanel(10.0f, 55.0f, 445.0f, 210.0f);
+		viewer_ = new GLWTankViewer(5.0f, 5.0f, 4, 3);
+		infoPanel->addWidget(viewer_);
+		addWidget(infoPanel);
 	}
 
 	// Add teams

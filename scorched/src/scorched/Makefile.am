@@ -39,6 +39,8 @@ scorched3d_SOURCES = \
 	../GLEXT/GLFont2d.h \
 	../GLEXT/GLFontBanner.cpp \
 	../GLEXT/GLFontBanner.h \
+	../GLEXT/GLGif.h \
+	../GLEXT/GLGif.cpp \
 	../GLEXT/GLImage.cpp \
 	../GLEXT/GLImage.h \
 	../GLEXT/GLInfo.cpp \
