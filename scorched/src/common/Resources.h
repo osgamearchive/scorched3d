@@ -29,6 +29,7 @@ class Resources
 public:
 	static Resources *instance();
 	
+	static Vector *vectorResource(const char *name);
 	static char *stringResource(const char *name);
 
 	ResourceFile main;

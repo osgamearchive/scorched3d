@@ -18,13 +18,14 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #ifndef _RESOURCEFILE_H_
 #define _RESOURCEFILE_H_
 
+#include <common/Vector.h>
 #include <string>
 #include <map>
 
+class XMLNode;
 class ResourceFile  
 {
 public:
@@ -35,6 +36,8 @@ public:
 
 	void setRandomModule();
 	bool setModule(const char *name);
+
+	Vector *getVectorResource(const char *name);
 	const char *getStringResource(const char *name);
 
 protected:
@@ -45,12 +48,16 @@ protected:
 
 		ResourceModule *inherits;
 		std::string moduleName;
-		std::map<std::string, std::string> moduleValues;
+		std::map<std::string, void *> moduleValues;
 	};
 
 	ResourceModule *currentModule_;
 	std::map<std::string, ResourceModule *> modules_;
-	const char *getResource(ResourceModule *module, const char *name);
+	void *getResource(ResourceModule *module, const char *name);
+	void *parseType(const char *type, 
+		const char *fileName,
+		 XMLNode *moduleNode,
+		 XMLNode *valueNode);
 
 };
 

@@ -24,6 +24,7 @@
 #include <GLEXT/GLBitmap.h>
 #include <landscape/HeightMap.h>
 #include <landscape/DeformLandscape.h>
+#include <common/Vector.h>
 
 namespace GLBitmapModifier  
 {
@@ -53,6 +54,7 @@ namespace GLBitmapModifier
 							GLBitmap &destBitmap,
 							float waterHeight,
 							float offSet,
+							Vector &color,
 							ProgressCounter *counter = 0);
 
 	void addWaterToBitmap(HeightMap &hMap,

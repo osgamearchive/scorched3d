@@ -68,15 +68,15 @@ bool ResourceFile::setModule(const char *name)
 	return true;
 }
 
-const char *ResourceFile::getResource(ResourceModule *module, const char *name)
+void *ResourceFile::getResource(ResourceModule *module, const char *name)
 {
 	if (module)
 	{
-		std::map<std::string, std::string>::iterator itor = 
+		std::map<std::string, void *>::iterator itor = 
 			module->moduleValues.find(name);
 		if (itor != module->moduleValues.end()) 
 		{
-			return (*itor).second.c_str();
+			return (*itor).second;
 		}
 		else
 		{
@@ -103,9 +103,16 @@ const char *ResourceFile::getResource(ResourceModule *module, const char *name)
 	return 0;	
 }
 
+Vector *ResourceFile::getVectorResource(const char *name)
+{
+	return (Vector *) getResource(currentModule_, name);
+}
+
 const char *ResourceFile::getStringResource(const char *name)
 {
-	return getResource(currentModule_, name);
+	std::string *str = (std::string *) getResource(currentModule_, name);
+	if (str) return str->c_str();
+	return 0;
 }
 
 bool ResourceFile::initFromFile(const char *xmlFileName)
@@ -197,7 +204,7 @@ bool ResourceFile::initFromFile(const char *xmlFileName)
 				XMLNode *valueNode = (*valueItor);
 
 				// Check the value does not already exist and add the value
-				std::map<std::string, std::string>::iterator valueFind =
+				std::map<std::string, void *>::iterator valueFind =
 					module->moduleValues.find(valueNode->getName());
 				if (valueFind != module->moduleValues.end())
 				{
@@ -207,61 +214,93 @@ bool ResourceFile::initFromFile(const char *xmlFileName)
 					return false;
 				}
 
-				// check files exist etc...
+				// Parse the node with respect the specified node type
 				XMLNode *type = valueNode->getNamedParameter("type");
-				if (type)
-				{
-					if (0 == strcmp(type->getContent(), "file"))
-					{
-						static char string[1024];
-						sprintf(string, "%s", valueNode->getContent());
+				void *result = parseType((type?type->getContent():0), 
+					xmlFileName, moduleNode, valueNode);
+				if (!result) return false;
 
-						// Remove front spaces etc...
-						char *spaceString = string;
-						while (*spaceString && *spaceString < 32) spaceString++;
-
-						// Remove end spaces etc...
-						for (int i=strlen(spaceString) - 1; i>=0; i--)
-						{
-							if (spaceString[i] < 32) spaceString[i] = '\0';
-							else break;
-						}
-
-						// Add directory component
-						static char fileName[1024];
-						sprintf(fileName, "%s%s", PKGDIR, spaceString);
-	                    
-						::wxDos2UnixFilename(fileName);
-						if (::wxFileExists(fileName))
-						{
-							module->moduleValues[valueNode->getName()] = fileName;
-						}
-						else
-						{
-							dialogMessage("Resource File", 
-								"Resource file \"%s\" value \"%s:%s\"\n"
-								"Cannot find file type defines filename \"%s\"",
-								xmlFileName, moduleNode->getName(), valueNode->getName(),
-								fileName);
-							return false;
-						}
-					}
-					else
-					{
-						dialogMessage("Resource File", 
-							"Resource file \"%s\" has unknown type \"%s\" value \"%s:%s\"",
-							xmlFileName, type->getContent(), moduleNode->getName(), valueNode->getName());
-						return false;
-					}
-				}
-				else
-				{
-					module->moduleValues[valueNode->getName()] =
-						valueNode->getContent();
-				}
+				module->moduleValues[valueNode->getName()] = result;
 			}
 		}
 	}
 
 	return true;
+}
+
+void *ResourceFile::parseType(const char *type, 
+							  const char *xmlFileName,
+							  XMLNode *moduleNode,
+							  XMLNode *valueNode)
+{
+	if (type)
+	{
+		if (0 == strcmp(type, "color"))
+		{
+			XMLNode *rcolorNode = valueNode->getNamedChild("r");
+			XMLNode *gcolorNode = valueNode->getNamedChild("g");
+			XMLNode *bcolorNode = valueNode->getNamedChild("b");
+			if (!rcolorNode || !gcolorNode || !bcolorNode)
+			{
+				dialogMessage("Resource File", 
+					"Resource file \"%s\" value \"%s:%s\"\n"
+					"Cannot find all required color nodes",
+					xmlFileName, moduleNode->getName(), valueNode->getName());
+			}
+			else
+			{
+				Vector *color = new Vector();
+				(*color)[0] = (float) atof(rcolorNode->getContent());
+				(*color)[1] = (float) atof(gcolorNode->getContent());
+				(*color)[2] = (float) atof(bcolorNode->getContent());
+				return color;
+			}
+		}
+		else 
+		if (0 == strcmp(type, "file"))
+		{
+			static char string[1024];
+			sprintf(string, "%s", valueNode->getContent());
+
+			// Remove front spaces etc...
+			char *spaceString = string;
+			while (*spaceString && *spaceString < 32) spaceString++;
+
+			// Remove end spaces etc...
+			for (int i=strlen(spaceString) - 1; i>=0; i--)
+			{
+				if (spaceString[i] < 32) spaceString[i] = '\0';
+				else break;
+			}
+
+			// Add directory component
+			static char fileName[1024];
+			sprintf(fileName, "%s%s", PKGDIR, spaceString);
+	        
+			::wxDos2UnixFilename(fileName);
+			if (::wxFileExists(fileName))
+			{
+				return new std::string(fileName);
+			}
+			else
+			{
+				dialogMessage("Resource File", 
+					"Resource file \"%s\" value \"%s:%s\"\n"
+					"Cannot find file type defines filename \"%s\"",
+					xmlFileName, moduleNode->getName(), valueNode->getName(),
+					fileName);
+			}
+		}
+		else
+		{
+			dialogMessage("Resource File", 
+				"Resource file \"%s\" has unknown type \"%s\" value \"%s:%s\"",
+				xmlFileName, type, moduleNode->getName(), valueNode->getName());
+		}
+	}
+	else
+	{
+		return new std::string(valueNode->getContent());
+	}
+	return 0;
 }

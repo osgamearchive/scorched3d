@@ -297,10 +297,21 @@ void Landscape::generate(ProgressCounter *counter)
 	// Create the cloud texture
 	DIALOG_ASSERT(cloudTexture_.create(bitmapCloud));
 
+	// Set the fog color
+	Vector *fogColor = Resources::vectorResource("color-fog");
+	GLfloat fogColorF[4];
+	fogColorF[0] = (*fogColor)[0];
+	fogColorF[1] = (*fogColor)[1];
+	fogColorF[2] = (*fogColor)[2];
+	fogColorF[3] = 1.0f;
+	glFogfv(GL_FOG_COLOR, fogColorF);
+
 	// Water waves texture
+	Vector *wavesColor = Resources::vectorResource("color-waves");
 	GLBitmapModifier::addWavesToBitmap(
 		ScorchedClient::instance()->getLandscapeMaps().getHMap(), 
-		wMap_.getBitmap(), wMap_.getHeight(), 0.6f, counter);
+		wMap_.getBitmap(), wMap_.getHeight(), 0.6f, *wavesColor, 
+		counter);
 	wMap_.refreshTexture();
 
 	// Load the water reflection bitmap

@@ -48,6 +48,11 @@ Resources::~Resources()
 {
 }
 
+Vector *Resources::vectorResource(const char *name)
+{
+	return (Vector *) instance_->main.getVectorResource(name);
+}
+
 char *Resources::stringResource(const char *name)
 {
 	return (char *) instance_->main.getStringResource(name);

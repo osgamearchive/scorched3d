@@ -462,6 +462,7 @@ void GLBitmapModifier::addWavesToBitmap(HeightMap &hMap,
 										GLBitmap &destBitmap,
 										float waterHeight,
 										float offSet,
+										Vector &color,
 										ProgressCounter *counter)
 {
 	if (counter) counter->setNewOp("Waves");
@@ -502,9 +503,9 @@ void GLBitmapModifier::addWavesToBitmap(HeightMap &hMap,
 	 
 			GLubyte alpha = GLubyte(inc/total);
 
-			destBits[0] = GLubyte(255);
-			destBits[1] = GLubyte(255);
-			destBits[2] = GLubyte(255);
+			destBits[0] = GLubyte(255.0f * color[0]);
+			destBits[1] = GLubyte(255.0f * color[1]);
+			destBits[2] = GLubyte(255.0f * color[2]);
 			destBits[3] = alpha;
 			destBits+=4;
 		}
