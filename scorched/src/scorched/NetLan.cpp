@@ -23,29 +23,34 @@
 
 static void createControlsPre(wxWindow *parent, wxSizer *sizer)
 {
+	wxBitmap maskBitmap;
+	maskBitmap.LoadFile(
+		getDataFile("data/windows/mask.bmp"),
+		wxBITMAP_TYPE_BMP);
+
 	wxBitmap questionBitmap;
 	questionBitmap.LoadFile(
-		getDataFile("data/windows/question.bmp"),
-		wxBITMAP_TYPE_BMP);
+		getDataFile("data/windows/question.gif"),
+		wxBITMAP_TYPE_GIF);
 	wxBitmap okBitmap;
 	okBitmap.LoadFile(
-		getDataFile("data/windows/ok.bmp"),
-		wxBITMAP_TYPE_BMP);
+		getDataFile("data/windows/ok.gif"),
+		wxBITMAP_TYPE_GIF);
 	wxBitmap warnBitmap;
 	warnBitmap.LoadFile(
-		getDataFile("data/windows/warn.bmp"),
-		wxBITMAP_TYPE_BMP);
+		getDataFile("data/windows/warn.gif"),
+		wxBITMAP_TYPE_GIF);
 	wxBitmap exlaimBitmap;
 	exlaimBitmap.LoadFile(
-		getDataFile("data/windows/exclaim.bmp"),
-		wxBITMAP_TYPE_BMP);
+		getDataFile("data/windows/exclaim.gif"),
+		wxBITMAP_TYPE_GIF);
 	if (!netLanImageList)
 	{
-		netLanImageList = new wxImageList(16, 16, FALSE);
-		netLanImageList->Add(questionBitmap);
-		netLanImageList->Add(okBitmap);
-		netLanImageList->Add(warnBitmap);
-		netLanImageList->Add(exlaimBitmap);
+		netLanImageList = new wxImageList(16, 16, TRUE);
+		netLanImageList->Add(questionBitmap, maskBitmap);
+		netLanImageList->Add(okBitmap, maskBitmap);
+		netLanImageList->Add(warnBitmap, maskBitmap);
+		netLanImageList->Add(exlaimBitmap, maskBitmap);
 	}
 
 	// Name/password
