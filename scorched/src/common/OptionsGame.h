@@ -72,6 +72,11 @@ public:
 		ScaleMedium = 1,
 		ScaleLarge = 2
 	};
+	enum ResignType
+	{
+		ResignStart = 0,
+		ResignEnd = 1
+	};
 
 	int getTeams() { return teams_.getValue(); }
 	void setTeams(int value) { teams_.setValue(value); }
@@ -261,9 +266,9 @@ public:
 	void setCycleMaps(bool value) { cycleMaps_.setValue(value); }
 	const char *getCycleMapsToolTip() { return cycleMaps_.getDescription(); }
 
-	bool getResignEndOfRound() { return resignEndOfRound_.getValue(); }
-	void setResignEndOfRound(bool value) { resignEndOfRound_.setValue(value); }
-	const char *getResignEndOfRoundToolTip() { return resignEndOfRound_.getDescription(); }
+	int getResignMode() { return resignMode_.getValue(); }
+	void setResignMode(int value) { resignMode_.setValue(value); }
+	const char *getResignModeToolTip() { return resignMode_.getDescription(); }
 
 	bool getRandomizeBotNames() { return randomizeBotNames_.getValue(); }
 	void setRandomizeBotNames(bool value) { randomizeBotNames_.setValue(value); }
@@ -360,7 +365,7 @@ protected:
 	OptionEntryBool limitPowerByHealth_;
 	OptionEntryBool autoBallanceTeams_;
 	OptionEntryBool cycleMaps_;
-	OptionEntryBool resignEndOfRound_;
+	OptionEntryBoundedInt resignMode_;
 	OptionEntryBoundedInt turnType_;
 	OptionEntryBoundedInt windForce_;
 	OptionEntryBoundedInt windType_;

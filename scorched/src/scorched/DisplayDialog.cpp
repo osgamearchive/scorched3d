@@ -319,6 +319,8 @@ void DisplayFrame::refreshScreen()
 	IDC_VOLUME_CTRL->SetToolTip(OptionsDisplay::instance()->getSoundVolumeToolTip());
 	IDC_USERNAME_CTRL->SetValue(OptionsDisplay::instance()->getOnlineUserName());
 	IDC_USERNAME_CTRL->SetToolTip(OptionsDisplay::instance()->getOnlineUserNameToolTip());
+	IDC_TANKMODEL_CTRL->SetValue(OptionsDisplay::instance()->getOnlineTankModel());
+	IDC_TANKMODEL_CTRL->SetToolTip(OptionsDisplay::instance()->getOnlineTankModelToolTip());
 	IDC_USERID_CTRL->SetValue(OptionsDisplay::instance()->getUniqueUserId());
 	IDC_USERID_CTRL->SetToolTip(OptionsDisplay::instance()->getUniqueUserIdToolTip());
 	IDC_HOSTDESC_CTRL->SetValue(OptionsDisplay::instance()->getHostDescription());
@@ -486,6 +488,7 @@ bool DisplayFrame::TransferDataFromWindow()
 	OptionsDisplay::instance()->setFrameTimer(IDC_TIMER_CTRL->GetValue());
 	OptionsDisplay::instance()->setSideScroll(IDC_SIDESCROLL_CTRL->GetValue());
 	OptionsDisplay::instance()->setOnlineUserName(IDC_USERNAME_CTRL->GetValue());
+	OptionsDisplay::instance()->setOnlineTankModel(IDC_TANKMODEL_CTRL->GetValue());
 	OptionsDisplay::instance()->setUniqueUserId(IDC_USERID_CTRL->GetValue());
 	OptionsDisplay::instance()->setHostDescription(IDC_HOSTDESC_CTRL->GetValue());
 	OptionsDisplay::instance()->setDetailTexture(!IDC_NODETAILTEX_CTRL->GetValue());

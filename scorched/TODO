@@ -43,6 +43,7 @@ Changed: Spread and hurts weapon primative options are now variable
 Changed: LeapFrog weapon primative bounce now variable
 Changed: Message of the day now defined in server.xml file
 
+Added: Player model remembered for multiplayer games
 Added: WeaponReference primative (now uses parents name and armslevel)
 Added: Lightning and meteor storms
 Added: Single player games are now specified in xml (for mod support)
@@ -120,6 +121,7 @@ Ambient sounds
 Boids?
 Fix large menus?
 Move placements to seperate file?
+Resigning position due to health left?
 
 -- Server Stuff
 Chat filter (swear words)

@@ -493,8 +493,14 @@ bool SettingsFrame::TransferDataToWindow()
 			context_.getGiveAllWeapons());
 		SettingsEnv::IDC_GIVEALLWEAPONS_CTRL->SetToolTip(
 			wxString("Gives everyone an infinite number of all the weapons."));
-		SettingsEnv::IDC_RESIGNENDROUND_CTRL->SetValue(
-			context_.getResignEndOfRound());
+
+		// Resign Mode
+		SettingsEnv::IDC_RESIGNENDROUND_CTRL->Append("Round Start", 
+			(void *) OptionsGame::ResignStart);
+		SettingsEnv::IDC_RESIGNENDROUND_CTRL->Append("Round End", 
+			(void *) OptionsGame::ResignEnd);
+		SettingsEnv::IDC_RESIGNENDROUND_CTRL->SetSelection(
+			context_.getResignMode());
 		SettingsEnv::IDC_RESIGNENDROUND_CTRL->SetToolTip(
 			wxString("Players resign at the end of the round."));	
 	}
@@ -722,8 +728,10 @@ bool SettingsFrame::TransferDataFromWindow()
 
 		context_.setGiveAllWeapons(
 			SettingsEnv::IDC_GIVEALLWEAPONS_CTRL->GetValue());
-		context_.setResignEndOfRound(
-			SettingsEnv::IDC_RESIGNENDROUND_CTRL->GetValue());
+
+		context_.setResignMode((OptionsGame::ResignType) (int)
+			SettingsEnv::IDC_RESIGNENDROUND_CTRL->GetClientData(
+				SettingsEnv::IDC_RESIGNENDROUND_CTRL->GetSelection()));
 	}
 
 	// MOTD

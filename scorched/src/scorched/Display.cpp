@@ -271,6 +271,7 @@ static void createTroubleControls(wxWindow *parent, wxSizer *sizer)
 
 static void createIdentControls(wxWindow *parent, wxSizer *sizer)
 {
+	{
 	// User name edit box
 	wxStaticBox *userNameBox = new wxStaticBox(parent, -1, 
 		"Online User Name");
@@ -278,6 +279,17 @@ static void createIdentControls(wxWindow *parent, wxSizer *sizer)
 	IDC_USERNAME_CTRL = new wxTextCtrl(parent, -1, wxString(), wxDefaultPosition, wxSize(300, -1));
 	userNameSizer->Add(IDC_USERNAME_CTRL, 0, wxALIGN_CENTER);
 	sizer->Add(userNameSizer, 0, wxGROW | wxLEFT | wxRIGHT | wxTOP, 5);
+	}
+
+	{
+	// TankModel edit box
+	wxStaticBox *tankModelBox = new wxStaticBox(parent, -1, 
+		"Online Tank Model");
+	wxStaticBoxSizer *tankModelSizer = new wxStaticBoxSizer(tankModelBox, wxVERTICAL);
+	IDC_TANKMODEL_CTRL = new wxTextCtrl(parent, -1, wxString(), wxDefaultPosition, wxSize(300, -1));
+	tankModelSizer->Add(IDC_TANKMODEL_CTRL, 0, wxALIGN_CENTER);
+	sizer->Add(tankModelSizer, 0, wxGROW | wxLEFT | wxRIGHT | wxTOP, 5);
+	}
 
 	// User id edit box
 	wxStaticBox *userBox = new wxStaticBox(parent, -1, 
@@ -285,7 +297,7 @@ static void createIdentControls(wxWindow *parent, wxSizer *sizer)
 	wxStaticBoxSizer *userSizer = new wxStaticBoxSizer(userBox, wxVERTICAL);
 	IDC_USERID_CTRL = new wxTextCtrl(parent, -1, wxString(), wxDefaultPosition, wxSize(300, -1));
 	userSizer->Add(IDC_USERID_CTRL, 0, wxALIGN_CENTER);
-	IDC_HOSTDESC_CTRL = new wxTextCtrl(parent, -1, wxString(), wxDefaultPosition, wxSize(300, -1));
+	IDC_HOSTDESC_CTRL = new wxTextCtrl(parent, -1, wxString(), wxDefaultPosition, wxSize(300, -1), wxTE_READONLY);
 	userSizer->Add(IDC_HOSTDESC_CTRL, 0, wxALIGN_CENTER);
 	sizer->Add(userSizer, 0, wxGROW | wxLEFT | wxRIGHT | wxTOP, 5);
 }

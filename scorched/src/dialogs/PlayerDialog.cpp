@@ -193,7 +193,10 @@ void PlayerDialog::nextPlayer()
 		if (OptionsParam::instance()->getConnectedToServer())
 		{
 			// If we are connected online then use the online name
-			playerName_->setText(OptionsDisplay::instance()->getOnlineUserName());
+			playerName_->setText(
+				OptionsDisplay::instance()->getOnlineUserName());
+			viewer_->selectModelByName(
+				OptionsDisplay::instance()->getOnlineTankModel());
 		}
 		else
 		{
@@ -237,7 +240,10 @@ void PlayerDialog::buttonDown(unsigned int id)
 			// If we are connected online save this players name
 			if (OptionsParam::instance()->getConnectedToServer())
 			{
-				OptionsDisplay::instance()->setOnlineUserName(playerName_->getText().c_str());
+				OptionsDisplay::instance()->setOnlineUserName(
+					playerName_->getText().c_str());
+				OptionsDisplay::instance()->setOnlineTankModel(
+					viewer_->getModelName());
 			}
 
 			// Get the model type (turns a "Random" choice into a proper name)

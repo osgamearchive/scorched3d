@@ -56,7 +56,7 @@ void TankAILogic::processPlayedMoveMessage(ScorchedContext &context,
 				// has finished buying, do nothing
 				break;
 			case ComsPlayedMoveMessage::eResign:
-				if (!context.optionsGame->getResignEndOfRound())
+				if (context.optionsGame->getResignMode() == OptionsGame::ResignStart)
 				{
 					processResignMessage(context, message, tank);
 				}
@@ -75,7 +75,7 @@ void TankAILogic::processPlayedMoveMessage(ScorchedContext &context,
 		switch (message.getType())
 		{
 			case ComsPlayedMoveMessage::eResign:
-				if (context.optionsGame->getResignEndOfRound())
+				if (context.optionsGame->getResignMode() == OptionsGame::ResignEnd)
 				{
 					processResignMessage(context, message, tank);
 				}

@@ -83,7 +83,7 @@ void TankDead::simulate(float frameTime, bool &remove)
 			}
 
 			// Print the banner on who killed who
-			if (killedTank && firedTank)
+			if (firedTank)
 			{
 				if (!context_->serverMode ||
 					OptionsParam::instance()->getDedicatedServer())
@@ -124,6 +124,24 @@ void TankDead::simulate(float frameTime, bool &remove)
 								killedTank->getName(),
 								weapon_->getName());
 					}
+				}
+			}
+			else if (firedPlayerId_ == 0)
+			{
+				if (!context_->serverMode ||
+					OptionsParam::instance()->getDedicatedServer())
+				{
+					Tank firedTank(*context_, 0, 0, "Environment", 
+						Vector::nullVector, killedTank->getModel());
+					StatsLogger::instance()->
+						tankKilled(&firedTank, killedTank, weapon_); 
+					StatsLogger::instance()->
+						weaponKilled(weapon_, (data_ & Weapon::eDataDeathAnimation));
+					Logger::log(0,
+							"\"%s\" killed \"%s\" with a \"%s\"",
+							firedTank.getName(),
+							killedTank->getName(),
+							weapon_->getName());
 				}
 			}
 

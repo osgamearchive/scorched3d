@@ -24,7 +24,7 @@
 
 TankModel::TankModel(TankModelId &id, ModelID &modelId) :
 	init_(false),
-	id_(id), modelId_(modelId)
+	id_(id), modelId_(modelId), tankMesh_(0)
 {
 	catagories_.push_back("All");
 }

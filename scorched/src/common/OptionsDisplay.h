@@ -288,6 +288,10 @@ public:
 	void setOnlineUserName(const char *value) { onlineUserName_.setValue(value); }
 	const char *getOnlineUserNameToolTip() { return onlineUserName_.getDescription(); }
 
+	const char *getOnlineTankModel() { return onlineTankModel_.getValue(); }
+	void setOnlineTankModel(const char *value) { onlineTankModel_.setValue(value); }
+	const char *getOnlineTankModelToolTip() { return onlineTankModel_.getDescription(); }
+
 	const char *getHostDescription() { return hostDescription_.getValue(); }
 	void setHostDescription(const char *value) { hostDescription_.setValue(value); }
 	const char *getHostDescriptionToolTip() { return hostDescription_.getDescription(); }
@@ -369,6 +373,7 @@ protected:
 	OptionEntryString uniqueUserId_;
 	OptionEntryString hostDescription_;
 	OptionEntryString onlineUserName_;
+	OptionEntryString onlineTankModel_;
 
 private:
 	OptionsDisplay();

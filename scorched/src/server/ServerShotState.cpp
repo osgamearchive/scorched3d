@@ -128,7 +128,7 @@ void ServerShotState::stepActions(unsigned int state, float maxSingleSimTime)
 		currentTime <= maxSingleSimTime)
 	{
 		ScorchedServer::instance()->getActionController().simulate(state, stepTime);
-		if (allowEvents)
+		if (allowEvents && totalTime_ < 10.0f)
 		{
 			ScorchedServer::instance()->getActionController().setActionEvent(true);
 			events_.simulate(stepTime, ScorchedServer::instance()->getContext());
