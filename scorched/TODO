@@ -9,7 +9,8 @@ Added: Can set the number of text rows shown at bottom of screen
 Added: Secondary camera view, that shows the shot cam when enabled
 Added: Pressing enter on the quit dialog quits the game
 Added: Same ground textures used across all clients
-Added: Server generates very different landscapes for the same game (landscape.xml)
+Added: Server generates very different landscapes types for the same game (landscapes.xml)
+Added: Landscape types can be turned on and off from game settings.
 
 Fixed: Coms wont pause during send from client when already sending/receiving
 Fixed: Screen mode is restored when quit is chosen from console
