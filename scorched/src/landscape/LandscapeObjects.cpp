@@ -223,7 +223,4 @@ void LandscapeObjects::generate(ProgressCounter *counter)
 		}
 	}
 	Landscape::instance()->getMainTexture().replace(newMap, GL_RGB, false);*/
-
-	delete [] objectMap;
-	delete [] objectMapCopy;
 }

@@ -23,12 +23,6 @@
     <value>0</value>
     <defaultvalue>0</defaultvalue>
   </option>
-  <!-- The amount of time to wait for new players to join -->
-  <option>
-    <name>WaitTime</name>
-    <value>0</value>
-    <defaultvalue>15</defaultvalue>
-  </option>
   <!-- The amount of time to show the end of game scores for -->
   <option>
     <name>ScoreTime</name>
