@@ -403,7 +403,7 @@ bool GLWScorchedInfo::initFromXML(XMLNode *node)
 	// Font Selected Size
 	if (!node->getNamedChild("selfontcolorr", selectedColor_[0], false))  selectedColor_[0] = fontColor_[0];
 	if (!node->getNamedChild("selfontcolorg", selectedColor_[1], false))  selectedColor_[1] = fontColor_[1];
-	if (!node->getNamedChild("selfontcolorb", selectedColor_[2], false))  selectedColor_[2] = fontColor_[22];
+	if (!node->getNamedChild("selfontcolorb", selectedColor_[2], false))  selectedColor_[2] = fontColor_[2];
 
 	// No Center
 	XMLNode *centerNode;

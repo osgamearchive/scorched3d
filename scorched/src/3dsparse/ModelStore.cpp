@@ -20,31 +20,31 @@
 
 #include <GLEXT/GLBitmap.h>
 #include <GLEXT/GLVertexSetGroup.h>
-#include <3dsparse/ASEStore.h>
+#include <3dsparse/ModelStore.h>
 #include <3dsparse/ASEFile.h>
 #include <common/OptionsDisplay.h>
 #include <common/Defines.h>
 
-ASEStore *ASEStore::instance_ = 0;
+ModelStore *ModelStore::instance_ = 0;
 
-ASEStore *ASEStore::instance()
+ModelStore *ModelStore::instance()
 {
 	if (!instance_)
 	{
-		instance_ = new ASEStore;
+		instance_ = new ModelStore;
 	}
 	return instance_;
 }
 
-ASEStore::ASEStore()
+ModelStore::ModelStore()
 {
 }
 
-ASEStore::~ASEStore()
+ModelStore::~ModelStore()
 {
 }
 
-GLTexture *ASEStore::loadTexture(const char *name, 
+GLTexture *ModelStore::loadTexture(const char *name, 
 								 const char *aname, bool invert)
 {
 	std::string wholeName;
@@ -109,27 +109,28 @@ GLTexture *ASEStore::loadTexture(const char *name,
 	return texture;
 }
 
-GLVertexSet *ASEStore::loadOrGetArray(const char *fileName)
+GLVertexSet *ModelStore::loadOrGetArray(ModelID &model, 
+	bool usetextures)
 {
 	std::map<std::string, GLVertexSet *>::iterator findItor =
-		fileMap_.find(fileName);
+		fileMap_.find(model.getStringHash());
 	if (findItor == fileMap_.end())
 	{
-		ASEFile file(fileName, "NOTEXTURE");
-		if (file.getSuccess())
+		ModelsFile *file = model.getModelsFile();
+		if (file)
 		{
-			file.centre();
+			file->centre();
 			GLVertexSetGroup *arraySet = new GLVertexSetGroup();
 			std::list<Model *>::iterator itor;
-			for (itor = file.getModels().begin();
-				 itor != file.getModels().end();
+			for (itor = file->getModels().begin();
+				 itor != file->getModels().end();
 				 itor++)
 			{
 				Model *currentModel = *itor;
-				GLVertexArray *array = currentModel->getArray(false);
+				GLVertexArray *array = currentModel->getArray(usetextures);
 				arraySet->addToGroup(*array);
 			}
-			fileMap_[fileName] = arraySet;
+			fileMap_[model.getStringHash()] = arraySet;
 			return arraySet;
 		}
 	}

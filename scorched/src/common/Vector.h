@@ -21,6 +21,8 @@
 #if !defined(AFX_VECTOR_H__AD959187_7A1C_11D2_957C_00A0C9A4CA3E__INCLUDED_)
 #define AFX_VECTOR_H__AD959187_7A1C_11D2_957C_00A0C9A4CA3E__INCLUDED_
 
+#include <common/Defines.h>
+
 class Vector  
 {
 public:
@@ -64,8 +66,8 @@ public:
 	bool operator==(const Vector &Vin1);
 	bool operator!=(const Vector &Vin1);
 
-	float &operator[](const int m) { return V[m]; }
-	float const &operator[](const int m) const { return V[m]; }
+	float &operator[](const int m) { DIALOG_ASSERT(m<=2); return V[m]; }
+	float const &operator[](const int m) const { DIALOG_ASSERT(m<=2); return V[m]; }
 
 	operator float*() { return V; }
 

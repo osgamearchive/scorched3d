@@ -50,7 +50,7 @@ void LandscapeObjects::draw()
 
 	GLState state(GLState::TEXTURE_ON | GLState::BLEND_ON | GLState::DEPTH_ON);
 	glEnable(GL_ALPHA_TEST);
-	glAlphaFunc(GL_GREATER, 0.02f);
+	glAlphaFunc(GL_GREATER, 0.00f);
 
 	Vector &cameraPos = 
 		MainCamera::instance()->getCamera().getCurrentPos();

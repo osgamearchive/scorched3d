@@ -18,33 +18,33 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+#if !defined(__INCLUDE_ModelStoreh_INCLUDE__)
+#define __INCLUDE_ModelStoreh_INCLUDE__
 
-#if !defined(__INCLUDE_ASEStoreh_INCLUDE__)
-#define __INCLUDE_ASEStoreh_INCLUDE__
-
+#include <3dsparse/ModelID.h>
 #include <GLEXT/GLVertexSet.h>
 #include <GLEXT/GLTexture.h>
 #include <map>
 #include <string>
 
-class ASEStore
+class ModelStore
 {
 public:
-	static ASEStore *instance();
+	static ModelStore *instance();
 
-	GLVertexSet *loadOrGetArray(const char *fileName);
+	GLVertexSet *loadOrGetArray(ModelID &model,
+		bool usetextures = false);
 	GLTexture *loadTexture(const char *name, 
 		const char *aname, bool invert = false);
 
 protected:
-	static ASEStore *instance_;
+	static ModelStore *instance_;
 	std::map<std::string, GLVertexSet *> fileMap_;
 	std::map<std::string, GLTexture *> skins_;
 
 private:
-	ASEStore();
-	virtual ~ASEStore();
+	ModelStore();
+	virtual ~ModelStore();
 };
-
 
 #endif

@@ -20,7 +20,7 @@
 
 
 #include <sprites/DebrisActionRenderer.h>
-#include <3dsparse/ASEStore.h>
+#include <3dsparse/ModelStore.h>
 #include <engine/PhysicsParticle.h>
 #include <common/Defines.h>
 #include <GLEXT/GLState.h>
@@ -36,13 +36,19 @@ DebrisActionRenderer::DebrisActionRenderer() :
 
 	if (RAND > 0.5f)
 	{
-		debris_ = ASEStore::instance()->
-			loadOrGetArray(getDataFile("data/meshes/rock1.ase"));
+		ModelID id;
+		id.initFromString("ase",
+			getDataFile("data/meshes/rock1.ase"), 
+			"none");
+		debris_ = ModelStore::instance()->loadOrGetArray(id);
 	}
 	else
 	{
-		debris_ = ASEStore::instance()->
-			loadOrGetArray(getDataFile("data/meshes/rock2.ase"));
+		ModelID id;
+		id.initFromString("ase",
+			getDataFile("data/meshes/rock2.ase"), 
+			"none");
+		debris_ = ModelStore::instance()->loadOrGetArray(id);
 	}
 	DIALOG_ASSERT(debris_);
 }

@@ -27,11 +27,11 @@
 #include <client/MainCamera.h>
 #include <client/ScorchedClient.h>
 #include <common/OptionsDisplay.h>
+#include <3dsparse/ModelStore.h>
 #include <GLEXT/GLCameraFrustum.h>
 #include <GLEXT/GLBitmap.h>
 #include <GLEXT/GLTexture.h>
 #include <GLEXT/GLViewPort.h>
-#include <3dsparse/ASEStore.h>
 #include <GLW/GLWFont.h>
 
 float TankModelRendererHUD::timeLeft_ = -1.0f;
@@ -44,8 +44,14 @@ float TankModelRendererAIM::timeLeft_ = -1.0f;
 
 GLVertexSet *TankModelRendererAIM::getAutoAimModel()
 {
-	static GLVertexSet *array = 
-		ASEStore::instance()->loadOrGetArray(getDataFile("data/meshes/autoaim.ase"));
+	static GLVertexSet *array = 0;
+	if (!array)
+	{
+		ModelID id;
+		id.initFromString("ase",
+			getDataFile("data/meshes/autoaim.ase"), "none");
+		array = ModelStore::instance()->loadOrGetArray(id);
+	}
 	return array;
 }
 

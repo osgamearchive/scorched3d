@@ -20,8 +20,8 @@
 
 #include <GLW/GLWIcon.h>
 #include <GLEXT/GLState.h>
-#include <3dsparse/ASEStore.h>
 #include <XML/XMLParser.h>
+#include <3dsparse/ModelStore.h>
 
 REGISTER_CLASS_SOURCE(GLWIcon);
 
@@ -77,7 +77,7 @@ bool GLWIcon::initFromXML(XMLNode *node)
 		std::string bitmapAName = 
 			getDataFile(bitmapANode->getContent());
 
-		texture_ = ASEStore::instance()->loadTexture(
+		texture_ = ModelStore::instance()->loadTexture(
 			bitmapName.c_str(), bitmapAName.c_str(), invert);
 		if (!texture_) return false;
 

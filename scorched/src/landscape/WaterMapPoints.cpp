@@ -19,7 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <landscape/WaterMapPoints.h>
-#include <3dsparse/ASEStore.h>
+#include <3dsparse/ModelStore.h>
 #include <client/ScorchedClient.h>
 #include <common/OptionsTransient.h>
 
@@ -43,12 +43,27 @@ WaterMapPoints::~WaterMapPoints()
 
 void WaterMapPoints::draw()
 {
-	if (!borderModelWrap_) borderModelWrap_ = ASEStore::instance()->
-		loadOrGetArray(getDataFile("data/meshes/wrap.ase"));
-	if (!borderModelBounce_) borderModelBounce_ = ASEStore::instance()->
-		loadOrGetArray(getDataFile("data/meshes/bounce.ase"));
-	if (!borderModelConcrete_) borderModelConcrete_ = ASEStore::instance()->
-		loadOrGetArray(getDataFile("data/meshes/concrete.ase"));
+	if (!borderModelWrap_)
+	{
+		ModelID id;
+		id.initFromString("ase",
+			getDataFile("data/meshes/wrap.ase"), "none");
+		borderModelWrap_ = ModelStore::instance()->loadOrGetArray(id);
+	}
+	if (!borderModelBounce_)
+	{
+		ModelID id;
+		id.initFromString("ase",
+			getDataFile("data/meshes/bounce.ase"), "none");
+		borderModelBounce_ = ModelStore::instance()->loadOrGetArray(id);
+	}
+	if (!borderModelConcrete_)
+	{	
+		ModelID id;
+		id.initFromString("ase",
+			getDataFile("data/meshes/concrete.ase"), "none");
+		borderModelConcrete_ = ModelStore::instance()->loadOrGetArray(id);
+	}
 
 	GLState currentState(GLState::TEXTURE_OFF);
 	Position *current = pts_;

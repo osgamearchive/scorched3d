@@ -24,7 +24,7 @@
 #include <engine/ActionController.h>
 #include <weapons/WeaponRoller.h>
 #include <GLEXT/GLState.h>
-#include <3dsparse/ASEStore.h>
+#include <3dsparse/ModelStore.h>
 
 REGISTER_ACTION_SOURCE(ShotBounce);
 
@@ -136,8 +136,14 @@ void ShotBounce::draw()
 {
 	if (!context_->serverMode) 
 	{
-		if (!model_) model_ = ASEStore::instance()->
-			loadOrGetArray(getDataFile("data/accessories/roller.ase"));
+		if (!model_)
+		{
+			ModelID id;
+			id.initFromString("ase", 
+				getDataFile("data/accessories/roller.ase"),
+				"none");
+			model_ = ModelStore::instance()->loadOrGetArray(id);
+		}
 
 		GLState state(GLState::TEXTURE_OFF);
 		glPushMatrix();

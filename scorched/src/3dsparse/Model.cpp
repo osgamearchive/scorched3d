@@ -21,12 +21,8 @@
 #include <common/Defines.h>
 #include <3dsparse/Model.h>
 #include <3dsparse/MeshLOD.h>
-#include <3dsparse/ASEStore.h>
+#include <3dsparse/ModelStore.h>
 #include <GLEXT/GLVertexTexArray.h>
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 Model::Model(char *name) : 
 	name_(name), computedCollapseCosts_(false), 
@@ -204,7 +200,7 @@ GLVertexArray *Model::getTexArray(float detail)
 	lightpos.Normalize();
 
 	GLTexture *texture = 
-		ASEStore::instance()->loadTexture(
+		ModelStore::instance()->loadTexture(
 			getTextureName(), getATextureName());
 	DIALOG_ASSERT(texture);
 	GLVertexTexArray *array = new GLVertexTexArray(texture, 

@@ -21,10 +21,10 @@
 #include <GLW/GLWWindView.h>
 #include <client/ScorchedClient.h>
 #include <client/MainCamera.h>
-#include <3dsparse/ASEStore.h>
 #include <GLEXT/GLViewPort.h>
 #include <common/OptionsTransient.h>
 #include <common/Defines.h>
+#include <3dsparse/ModelStore.h>
 #include <landscape/Landscape.h>
 #include <landscape/LandscapeMaps.h>
 #include <math.h>
@@ -77,8 +77,10 @@ void GLWWindView::draw()
 {
 	if (!windModel_)
 	{
-		windModel_ = ASEStore::instance()->
-			loadOrGetArray(getDataFile("data/meshes/wind.ase"));
+		ModelID id;
+		id.initFromString("ase",
+			getDataFile("data/meshes/wind.ase"), "none");
+		windModel_ = ModelStore::instance()->loadOrGetArray(id);
 	}
 
 	if (changeCount_ != Landscape::instance()->getChangeCount())
