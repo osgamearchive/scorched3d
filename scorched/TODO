@@ -32,7 +32,10 @@ Shot cam does not get LOD correctly
 -- Things I am currently looking at
 Make AIs better
 Single player saving
-Riot Blast (perhaps)
+Option to auto remove computer players when a certain number of humans in game
+Make shot cam zoom out for explosion
+Riot Blast
+A way to allow tank spawn positions to be configured, bitmap landscapes only?
 
 -- Server Stuff
 Chat filter (swear words)
