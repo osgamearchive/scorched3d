@@ -393,6 +393,7 @@ scorcheddataacessoriesdir = ${datadir}/data/acessories
 scorcheddataacessories_DATA = 
 scorcheddataaccessoriesdir = ${datadir}/data/accessories
 scorcheddataaccessories_DATA = data/accessories/clusterbomb2.ase \
+	data/accessories/magma.bmp \
 	data/accessories/default.ase \
 	data/accessories/flare.txt \
 	data/accessories/white.bmp \
@@ -769,6 +770,7 @@ scorcheddatawavmisc_DATA = data/wav/misc/laserdeath.wav \
 	data/wav/misc/play.wav \
 	data/wav/misc/para.wav \
 	data/wav/misc/camera.wav \
+	data/wav/misc/thunder.wav \
 	data/wav/misc/splash.wav \
 	data/wav/misc/text.wav
 scorcheddatawavexplosionsdir = ${datadir}/data/wav/explosions

@@ -1171,36 +1171,71 @@ trace of the shot path.</description>
 	</accessory>
 	<accessory type="WeaponMulti">	
 		<name>Lightning</name>
+		<nonpurchasable/>
 		<armslevel>10</armslevel>
-		<subweapon1 type="WeaponSkyFlash">
+		<subweapon1 type="WeaponSound">
 			<name>Lightning</name>
-			<armslevel>10</armslevel>		
-		</subweapon1>
-		<subweapon2 type="WeaponLightning">
-			<name>Lightning</name>
-			<description></description>
-			<icon>bmissile.bmp</icon>
-			<cost>0</cost>
-			<nonpurchasable/>
-			<nomuzzleflash/>
-			<bundlesize>0</bundlesize>
 			<armslevel>10</armslevel>
-			<conelength>190</conelength>
-			<seglength>6</seglength>
-			<segvar>12</segvar>
-			<size>4</size>
-			<sizevar>-1</sizevar>
-			<minsize>0.1</minsize>
-			<splitprob>0.2</splitprob>
-			<splitvar>0.03</splitvar>
-			<deathprob>0.03</deathprob>
-			<derivangle>0.5</derivangle>
-			<anglevar>0.94</anglevar>
-			<totaltime>1</totaltime>
-			<seghurt>0</seghurt>
-			<seghurtradius>0</seghurtradius>
-			<sound>none</sound>
+			<sound>data/wav/misc/thunder.wav</sound>
+		</subweapon1>
+		<subweapon2 type="WeaponDelay">
+			<name>Lightning</name>
+			<armslevel>10</armslevel>
+			<delay>0.5</delay>
+			<delayedweapon type="WeaponMulti">
+				<name>Lightning</name>
+				<armslevel>10</armslevel>
+				<subweapon1 type="WeaponSkyFlash">
+					<name>Lightning</name>
+					<armslevel>10</armslevel>		
+				</subweapon1>
+				<subweapon2 type="WeaponLightning">
+					<name>Lightning</name>
+					<armslevel>10</armslevel>
+					<conelength>190</conelength>
+					<seglength>6</seglength>
+					<segvar>12</segvar>
+					<size>4</size>
+					<sizevar>-1</sizevar>
+					<minsize>0.1</minsize>
+					<splitprob>0.2</splitprob>
+					<splitvar>0.03</splitvar>
+					<deathprob>0.03</deathprob>
+					<derivangle>0.5</derivangle>
+					<anglevar>0.94</anglevar>
+					<totaltime>1</totaltime>
+					<seghurt>0</seghurt>
+					<seghurtradius>0</seghurtradius>
+					<sound>none</sound>
+				</subweapon2>
+			</delayedweapon>
 		</subweapon2>
+	</accessory>
+	<accessory type="WeaponAimedOver">
+		<name>Meteor</name>
+		<nonpurchasable/>
+		<armslevel>10</armslevel>
+		<nowarheads>5</nowarheads>
+		<percentagemiss>20</percentagemiss>
+		<maxaimdistance>0</maxaimdistance>
+		<inaccuracy>10</inaccuracy>
+		<aimedweapon type="WeaponProjectile">
+			<name>Meteor</name>
+			<armslevel>10</armslevel>	
+			<projectilemodel type="ase">
+				<mesh>roller.ase</mesh>
+				<skin>magma.bmp</skin>
+			</projectilemodel>
+			<collisionaction type="WeaponExplosion">
+				<name>Meteor</name>
+				<armslevel>10</armslevel>
+				<hurtamount>0.0</hurtamount>
+				<deform>none</deform>
+				<size>4</size>
+				<explosionsound>explosions/small.wav</explosionsound>
+				<explosiontexture>exp04</explosiontexture>
+			</collisionaction>
+		</aimedweapon>
 	</accessory>
 	<!-- <accessory type="WeaponReference">
 		<name>Test Reference</name>
