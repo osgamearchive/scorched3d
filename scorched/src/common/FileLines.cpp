@@ -18,18 +18,9 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// FileLines.cpp: implementation of the FileLines class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <common/FileLines.h>
 #include <stdio.h>
 #include <stdarg.h>
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 FileLines::FileLines()
 {
@@ -57,8 +48,8 @@ bool FileLines::readFile(char *filename)
 	FILE *in = fopen(filename, "r");
 	if (in)
 	{
-		char buffer[2048];
-		while (fgets(buffer, 100, in))
+		char buffer[10048];
+		while (fgets(buffer, 10048, in))
 		{
 			char *nl = strchr(buffer, '\n');
 			if (nl) *nl = '\0';

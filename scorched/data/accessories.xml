@@ -913,4 +913,12 @@ trace of the shot path.</description>
 		<deathanimationweight>10</deathanimationweight>
 		<renderer>ExplosionLaserBeamRenderer</renderer>
 	</accessory>
+	<accessory type="WeaponWedge">
+		<name>TestWedge</name>
+		<description>A test of the wedge weapon</description>
+		<icon></icon>
+		<cost>0</cost>
+		<bundlesize>10</bundlesize>
+		<armslevel>1</armslevel>
+	</accessory>
 </accessories>

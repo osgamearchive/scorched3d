@@ -13,6 +13,7 @@ Fixed: Can see progress during connect retries
 Fixed: Don't need window focus while connecting
 Fixed: The server can start multiple times on the same port (windows only)!
 Fixed: Plan view is cropped so it does not extend out of dialog
+Fixed: XML Parser does not add extra LFs (Fixes enabled landscapes becoming disabled)
 
 Changed: Tank can move up and down bigger slopes (configurable)
 Changed: Spread and hurts weapon primative options are now variable

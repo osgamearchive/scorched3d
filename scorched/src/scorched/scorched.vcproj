@@ -1627,6 +1627,12 @@
 				RelativePath="..\weapons\WeaponMirv.h">
 			</File>
 			<File
+				RelativePath="..\weapons\WeaponWedge.cpp">
+			</File>
+			<File
+				RelativePath="..\weapons\WeaponWedge.h">
+			</File>
+			<File
 				RelativePath="..\weapons\WeaponVelocity.h">
 			</File>
 			<File
@@ -2242,6 +2248,12 @@
 				RelativePath="..\actions\ShotBounce.h">
 			</File>
 			<File
+				RelativePath="..\actions\ShotWedge.cpp">
+			</File>
+			<File
+				RelativePath="..\actions\ShotWedge.h">
+			</File>
+			<File
 				RelativePath="..\actions\ShotProjectile.cpp">
 			</File>
 			<File
@@ -2370,6 +2382,12 @@
 			</File>
 			<File
 				RelativePath="..\sprites\NapalmRenderer.h">
+			</File>
+			<File
+				RelativePath="..\sprites\SphereActionRenderer.cpp">
+			</File>
+			<File
+				RelativePath="..\sprites\SphereActionRenderer.h">
 			</File>
 			<File
 				RelativePath="..\sprites\SmokeActionRenderer.cpp">

@@ -477,6 +477,8 @@ scorched3d_SOURCES = \
 	../weapons/WeaponLeapFrog.h \
 	../weapons/WeaponMirv.cpp \
 	../weapons/WeaponMirv.h \
+	../weapons/WeaponWedge.cpp \
+	../weapons/WeaponWedge.h \
 	../weapons/WeaponVelocity.h \
 	../weapons/WeaponVelocity.cpp \
 	../weapons/WeaponMulti.cpp \
@@ -667,6 +669,8 @@ scorched3d_SOURCES = \
 	../actions/ShieldHit.h \
 	../actions/ShotBounce.cpp \
 	../actions/ShotBounce.h \
+	../actions/ShotWedge.cpp \
+	../actions/ShotWedge.h \
 	../actions/ShotProjectile.cpp \
 	../actions/ShotProjectile.h \
 	../actions/ShowScore.cpp \
@@ -709,6 +713,8 @@ scorched3d_SOURCES = \
 	../sprites/MissileActionRenderer.h \
 	../sprites/NapalmRenderer.cpp \
 	../sprites/NapalmRenderer.h \
+	../sprites/SphereActionRenderer.cpp \
+	../sprites/SphereActionRenderer.h \
 	../sprites/SmokeActionRenderer.cpp \
 	../sprites/SmokeActionRenderer.h \
 	../sprites/SprayActionRenderer.cpp \

@@ -22,6 +22,7 @@
 #define _NETBUFFER_H_
 
 #include <string>
+#include <common/Vector.h>
 #include <SDL/SDL.h>
 #include <SDL/SDL_net.h>
 
@@ -39,6 +40,7 @@ public:
 	void allocate(unsigned size);
 	void setBufferUsed(unsigned size) { usedSize_ = size; }
 
+	void addToBuffer(Vector &vector);
 	void addToBuffer(const char *add);
 	void addToBuffer(std::string &string);
 	void addToBuffer(const int add);
@@ -84,6 +86,7 @@ public:
 	char *getBuffer() { return buffer_; }
 	void setReadSize(unsigned size) { readSize_ = size; }
 
+	bool getFromBuffer(Vector &result);
 	bool getFromBuffer(int &result);
 	bool getFromBuffer(float &result);
 	bool getFromBuffer(bool &result);
