@@ -32,7 +32,7 @@
 
 GLTexture *GLTexture::lastBind_ = 0;
 
-GLTexture::GLTexture() : texNum_(0)
+GLTexture::GLTexture() : texNum_(0), texType_(GL_TEXTURE_2D)
 {
 
 }
@@ -116,14 +116,14 @@ bool GLTexture::create(const void * data,
 		if (height == 1 || width == 1) texType_ = GL_TEXTURE_1D;
 		else texType_ = GL_TEXTURE_2D;
 
-		if (!texNum_)
+		if (!textureValid())
 		{
 			GLfloat priority = 1.0f;
 			glGenTextures(1, &texNum_);
 			if (glGetError() == GL_INVALID_VALUE ||
 				glGetError() == GL_INVALID_OPERATION)
 			{
-				DIALOG_ASSERT("Failed to create texture" == 0);
+				//DIALOG_ASSERT("Failed to create texture" == 0);
 			}
 			glPrioritizeTextures(1, &texNum_, &priority);
 		}
@@ -131,7 +131,7 @@ bool GLTexture::create(const void * data,
 		if (glGetError() == GL_INVALID_VALUE ||
 			glGetError() == GL_INVALID_OPERATION)
 		{
-			DIALOG_ASSERT("Failed to bind create texture" == 0);
+			//DIALOG_ASSERT("Failed to bind create texture" == 0);
 		}
 
 		success = createTexture(data, width, height, components, alignment, format, mipMap);
@@ -212,4 +212,9 @@ bool GLTexture::createTexture(const void * data,
 	};
 
 	return true;
+}
+
+bool GLTexture::textureValid()
+{
+	return (glIsTexture(texNum_) == GL_TRUE);
 }

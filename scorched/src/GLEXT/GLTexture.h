@@ -49,7 +49,7 @@ public:
 						GLenum format = GL_RGB, 
 						bool mipMap = true);
 	virtual void draw(bool force = false);
-	bool textureValid() { return texNum_ != 0; }
+	bool textureValid();
 	GLenum getTexType() { return texType_; }
 	GLenum getTexFormat() { return texFormat_; }
 	static GLTexture *getLastBind() { return lastBind_; }
