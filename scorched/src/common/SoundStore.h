@@ -29,7 +29,7 @@
 #include <string>
 
 #define CACHE_SOUND(var, filename) 										\
-		static SoundBuffer* ##var = SoundStore::instance()->fetchOrCreateBuffer(##filename);
+		static SoundBuffer* var = SoundStore::instance()->fetchOrCreateBuffer(filename);
 
 class SoundStore
 {
