@@ -68,9 +68,9 @@ void setup()
 
 	if (!Keyboard::instance()->init())
 	{
-		dialogMessage("Direct Input Version 8.0", 
+		dialogMessage("Scorched3D Keyboard", 
 			"SDL failed to aquire keyboard.\n"
-			"Is DirectX 8.0 installed?");
+			"Win32: Is DirectX 5.0 installed?");
 		exit(1);
 	}
 
@@ -78,18 +78,18 @@ void setup()
 	{
 		if (SDL_InitSubSystem(SDL_INIT_AUDIO) < 0)
 		{
-			dialogMessage("Direct Sound Version 5.0", 
+			dialogMessage("Scorched3D Sound", 
 				"Failed to initialise sound.\n"
-				"Is DirectX 5.0 installed?\n"
-				"Is anything else currently using the sound card?\n");
+				"Win32: Is DirectX 5.0 installed?\n"
+				"All: Is anything else currently using the sound card?");
 			exit(1);
 		}
 		if (!Sound::instance()->init())
 		{
-			dialogMessage("Direct Sound Version 5.0", 
-				"DirectX 8.0 failed to aquire sound.\n"
-				"Is DirectX 5.0 installed?\n"
-				"Is anything else currently using the sound card?\n");
+			dialogMessage("Scorched3D Sound", 
+				"DirectX 5.0 failed to aquire sound.\n"
+				"Win32: Is DirectX 5.0 installed?\n"
+				"All: Is anything else currently using the sound card?");
 			exit(1);
 		}	
 	}
@@ -105,7 +105,7 @@ void setup()
 	std::string errorString;
 	if (!GLConsoleFileReader::loadFileIntoConsole(PKGDIR "data/autoexec.xml", errorString))
 	{
-		dialogMessage("Failed to parse autoexec.xml", errorString.c_str());
+		dialogMessage("Failed to parse data/autoexec.xml", errorString.c_str());
 		exit(1);
 	}
 }
@@ -128,7 +128,11 @@ bool createScorchedWindow()
 
 	if (!Display::instance()->changeSettings(width,height,fullscreen)) 
 	{
-		dialogMessage("Display", "ERROR: Failed to set the display mode");
+		dialogMessage("Scorched 3D Display", 
+			"ERROR: Failed to set the display %s mode, %ix%i.\n"
+			"Ensure that no other application is exclusively using the graphics hardware.\n"
+			"Ensure that the current desktop mode has at least 24 bits colour depth.\n",
+			(fullscreen?"fullscreen":"windowed"), width, height);
 		return FALSE;
 	}
 
