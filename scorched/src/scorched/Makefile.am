@@ -157,6 +157,8 @@ scorched3d_SOURCES = \
 	../tank/Tank.h \
 	../tank/TankAccessories.cpp \
 	../tank/TankAccessories.h \
+	../tank/TankAdmin.cpp \
+	../tank/TankAdmin.h \
 	../tank/TankAutoDefense.cpp \
 	../tank/TankAutoDefense.h \
 	../tank/TankAvatar.cpp \
@@ -327,12 +329,16 @@ scorched3d_SOURCES = \
 	../dialogs/ProgressDialog.h \
 	../dialogs/QuitDialog.cpp \
 	../dialogs/QuitDialog.h \
+	../dialogs/ResignDialog.cpp \
+	../dialogs/ResignDialog.h \
 	../dialogs/RulesDialog.cpp \
 	../dialogs/RulesDialog.h \
 	../dialogs/SaveDialog.cpp \
 	../dialogs/SaveDialog.h \
 	../dialogs/ScoreDialog.cpp \
 	../dialogs/ScoreDialog.h \
+	../dialogs/SkipDialog.cpp \
+	../dialogs/SkipDialog.h \
 	../dialogs/TalkDialog.cpp \
 	../dialogs/TalkDialog.h \
 	../dialogs/TalkSettingsDialog.cpp \
