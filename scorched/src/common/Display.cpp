@@ -48,7 +48,7 @@ bool Display::init()
 {
 	init_ = false;
          
-	/* set opengl double buffering */
+	// set opengl double buffering 
 	int doubleBuffer = OptionsDisplay::instance()->getDoubleBuffer()?1:0;
 	if (SDL_GL_SetAttribute( SDL_GL_DOUBLEBUFFER, doubleBuffer ) == -1) 
 	{
@@ -56,14 +56,15 @@ bool Display::init()
 		return false;
 	}
 
-	/* set opengl component size */
+	// set opengl component size 
 	int componentSize = OptionsDisplay::instance()->getColorComponentSize();
 	if (SDL_GL_SetAttribute( SDL_GL_ALPHA_SIZE, componentSize) == -1 ||
 		SDL_GL_SetAttribute( SDL_GL_RED_SIZE, componentSize) == -1 ||
 		SDL_GL_SetAttribute( SDL_GL_GREEN_SIZE, componentSize) == -1 ||
 		SDL_GL_SetAttribute( SDL_GL_BLUE_SIZE, componentSize) == -1)
 	{
-		dialogMessage("Display", "ERROR: Failed to set 5 bits per pixel");
+		dialogMessage("Display", "ERROR: Failed to set %i bits per pixel",
+			componentSize);
 		return false;
 	}
 
