@@ -22,6 +22,7 @@
 #include <scorched/MainDialog.h>
 #include <scorched/KeyDialog.h>
 #include <coms/NetInterface.h>
+#include <engine/ModFiles.h>
 #include <common/OptionsDisplay.h>
 #include <common/Defines.h>
 #include <common/Keyboard.h>
@@ -30,6 +31,7 @@
 #include <wx/image.h>
 #include <wx/notebook.h>
 #include <wx/grid.h>
+#include <wx/listbox.h>
 #include <set>
 #include "Display.cpp"
 
@@ -56,6 +58,7 @@ public:
 	wxPanel *troublePanel_;
 	wxPanel *identPanel_;
 	wxPanel *keysPanel_;
+	wxPanel *modsPanel_;
 
 protected:
 	DECLARE_EVENT_TABLE()
@@ -120,6 +123,14 @@ DisplayFrame::DisplayFrame() :
 	book_->AddPage(identPanel_, "Identity");
 	identPanel_->SetAutoLayout(TRUE);
 	identPanel_->SetSizer(identPanelSizer);
+
+	// Mods Panel
+	modsPanel_ = new wxPanel(book_, -1);
+    wxSizer *modsPanelSizer = new wxBoxSizer(wxVERTICAL);
+    createModsControls(modsPanel_, modsPanelSizer);
+    book_->AddPage(modsPanel_, "Mods");
+    modsPanel_->SetAutoLayout(TRUE);
+    modsPanel_->SetSizer(modsPanelSizer);
 
 	// Notebook
 	topsizer->Add(nbs, 0, wxALL, 10);

@@ -1304,6 +1304,12 @@
 				RelativePath="..\engine\ModFiles.h">
 			</File>
 			<File
+				RelativePath="..\engine\ModFileEntry.cpp">
+			</File>
+			<File
+				RelativePath="..\engine\ModFileEntry.h">
+			</File>
+			<File
 				RelativePath="..\engine\Particle.cpp">
 			</File>
 			<File

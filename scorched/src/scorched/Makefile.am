@@ -355,6 +355,8 @@ scorched3d_SOURCES = \
 	../engine/MetaClass.h \
 	../engine/ModFiles.cpp \
 	../engine/ModFiles.h \
+	../engine/ModFileEntry.cpp \
+	../engine/ModFileEntry.h \
 	../engine/Particle.cpp \
 	../engine/Particle.h \
 	../engine/ParticleEmitter.cpp \

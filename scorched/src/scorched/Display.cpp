@@ -429,4 +429,26 @@ static void createKeysControls(wxWindow *parent, wxSizer *topsizer)
 	topsizer->Add(IDC_LOADKEYDEFAULTS_CTRL, 0, wxCENTER | wxALL, 2);
 }
 
+static void createModsControls(wxWindow *parent, wxSizer *topsizer)
+{
+	wxStaticBox *modsBox = new wxStaticBox(parent, -1, "Mods");
+	wxStaticBoxSizer *modsSizer = new wxStaticBoxSizer(modsBox, wxVERTICAL);
+
+	wxListBox *box = new wxListBox(parent, -1, 
+		wxDefaultPosition, wxSize(150, 200), 0, 0, wxLB_SINGLE);
+	ModDirs dirs;
+	if (dirs.loadModDirs())
+	{
+		std::list<std::string>::iterator itor;
+		for (itor = dirs.getDirs().begin();
+			itor != dirs.getDirs().end();
+			itor++)
+		{
+			box->Append(wxString((*itor).c_str()));
+		}
+	}
+
+	modsSizer->Add(box, 0, wxALIGN_CENTER | wxALL, 5);
+	topsizer->Add(modsSizer, 0, wxGROW);
+}
 

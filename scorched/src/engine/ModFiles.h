@@ -21,56 +21,9 @@
 #if !defined(__INCLUDE_ModFilesh_INCLUDE__)
 #define __INCLUDE_ModFilesh_INCLUDE__
 
-#include <coms/NetBuffer.h>
+#include <engine/ModFileEntry.h>
 #include <map>
 #include <list>
-#include <string>
-
-struct ModIdentifierEntry
-{
-	ModIdentifierEntry(const char *f = "",
-		unsigned int l = 0,
-		unsigned int c = 0) :
-		fileName(f),
-		length(l),
-		crc(c)
-	{
-	};
-
-	std::string fileName;
-	unsigned int length;
-	unsigned int crc;
-};
-
-class ModFileEntry
-{
-public:
-	ModFileEntry();
-	virtual ~ModFileEntry();
-
-	bool loadModFile(const char *file);
-	bool writeModFile(const char *file);
-
-	void setFileName(const char *name) { fileName_ = name; }
-	const char *getFileName() { return fileName_.c_str(); }
-
-	unsigned int getCompressedCrc() { return compressedcrc_; }
-	void setCompressedCrc(unsigned int c) { compressedcrc_ = c; }
-
-	unsigned int getCompressedSize() { return compressedfile_.getBufferUsed(); }
-	char *getCompressedBytes() { return compressedfile_.getBuffer(); }
-
-	unsigned int getUncompressedSize() { return uncompressedSize_; }
-	void setUncompressedSize(unsigned int s) { uncompressedSize_ = s; }
-
-	NetBuffer &getCompressedBuffer() { return compressedfile_; }
-
-protected:
-	std::string fileName_;
-	NetBuffer compressedfile_;
-	unsigned int compressedcrc_;
-	unsigned int uncompressedSize_;
-};
 
 class ModFiles
 {

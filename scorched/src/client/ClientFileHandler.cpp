@@ -144,7 +144,8 @@ bool ClientFileHandler::processMessage(unsigned int id,
 			}
 
 			// Write file
-			if (!entry->writeModFile(fileName.c_str()))
+			if (!entry->writeModFile(fileName.c_str(),
+				ScorchedClient::instance()->getOptionsGame().getMod()))
 			{
 				Logger::log(0, "Failed to write mod file \"%s\"",
 					fileName.c_str());
