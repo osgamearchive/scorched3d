@@ -38,7 +38,7 @@ RulesDialog *RulesDialog::instance()
 }
 
 RulesDialog::RulesDialog() : 
-	GLWWindow("Rules", 0.0f, 0.0f, 300.0f, 295.0f, 0)
+	GLWWindow("Rules", 0.0f, 0.0f, 300.0f, 295.0f, eSmallTitle)
 {
 	needCentered_ = true;
 	okId_ = addWidget(new GLWTextButton(" Ok", 235, 10, 55, this, true))->getId();

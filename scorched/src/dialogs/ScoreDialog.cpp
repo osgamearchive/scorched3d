@@ -28,6 +28,8 @@
 #include <client/ScorchedClient.h>
 #include <stdio.h>
 
+static const float lineSpacer = 10.0f;
+
 ScoreDialog *ScoreDialog::instance_ = 0;
 ScoreDialog *ScoreDialog::instance2_ = 0;
 
@@ -52,7 +54,7 @@ ScoreDialog *ScoreDialog::instance2()
 }
 
 ScoreDialog::ScoreDialog() :
-	GLWWindow("Score", 10.0f, 10.0f, 417.0f, 310.0f, eTransparent | eNoTitle),
+	GLWWindow("Score", 10.0f, 10.0f, 417.0f, 310.0f, eTransparent | eSmallTitle),
 	lastScoreValue_(0), lastWinsValue_(0)
 {
 
@@ -95,8 +97,8 @@ void ScoreDialog::windowInit(const unsigned state)
 
 void ScoreDialog::draw()
 {
-	const float lineSpacer = 10.0f;
-	float h = sortedTanks_.size() * lineSpacer + 70.0f;
+	float h = sortedTanks_.size() * lineSpacer + 80.0f;
+	if (ScorchedClient::instance()->getOptionsGame().getTeams() > 1) h += lineSpacer * 4.0f;
 	setH(h);
 
 	static size_t noTanks = 0;
@@ -149,76 +151,181 @@ void ScoreDialog::draw()
 			"Wins");
 	y+= lineSpacer + lineSpacer;
 
-	int pos = 1;
 	int tmpLastScoreValue = 0;
 	int tmpLastWinsValue = 0;
+	if (ScorchedClient::instance()->getOptionsGame().getTeams() > 1)
+	{
+		int winningTeam = TankSort::getWinningTeam(
+			ScorchedClient::instance()->getContext());
+
+		bool teamOne = false;
+		bool teamTwo = false;
+		int winsOne = 0, killsOne = 0, moneyOne = 0;
+		int winsTwo = 0, killsTwo = 0, moneyTwo = 0;
+		std::list<unsigned int>::iterator itor;
+		// Team 1
+		for (itor = sortedTanks_.begin();
+			itor != sortedTanks_.end();
+			itor ++)
+		{
+			unsigned int playerId = (*itor);
+			Tank *current = ScorchedClient::instance()->getTankContainer().getTankById(playerId);
+			if (current && current->getTeam() == 1 && !current->getState().getSpectator()) 
+			{
+				teamOne = true;
+				addLine(current, y, (winningTeam==1?">>":" "));
+				winsOne += current->getScore().getWins();
+				killsOne += current->getScore().getKills();
+				moneyOne += current->getScore().getMoney();
+				tmpLastScoreValue += current->getScore().getMoney();
+				tmpLastWinsValue += current->getScore().getWins();
+				y+= lineSpacer;
+			}
+		}
+		if (teamOne)
+		{
+			addScoreLine(y, killsOne,moneyOne,winsOne);
+			y+= lineSpacer;
+			y+= lineSpacer;
+		}
+		// Team 2
+		for (itor = sortedTanks_.begin();
+			itor != sortedTanks_.end();
+			itor ++)
+		{
+			unsigned int playerId = (*itor);
+			Tank *current = ScorchedClient::instance()->getTankContainer().getTankById(playerId);
+			if (current && current->getTeam() == 2 && !current->getState().getSpectator()) 
+			{
+				teamTwo = true;
+				addLine(current, y, (winningTeam==2?">>":" "));
+				winsTwo += current->getScore().getWins();
+				killsTwo += current->getScore().getKills();
+				moneyTwo += current->getScore().getMoney();
+				tmpLastScoreValue += current->getScore().getMoney();
+				tmpLastWinsValue += current->getScore().getWins();
+				y+= lineSpacer;
+			}	
+		}
+		if (teamTwo)
+		{
+			addScoreLine(y, killsTwo,moneyTwo,winsTwo);
+			y+= lineSpacer;
+			y+= lineSpacer;
+		}
+	}
+	else
+	{
+		// No Team
+		int rank = 1;
+		char strrank[10];
+		std::list<unsigned int>::iterator itor;
+		for (itor = sortedTanks_.begin();
+			itor != sortedTanks_.end();
+			itor ++, rank++)
+		{
+			unsigned int playerId = (*itor);
+			Tank *current = ScorchedClient::instance()->getTankContainer().getTankById(playerId);
+			if (current && !current->getState().getSpectator()) 
+			{
+				if (rank != 1) sprintf(strrank, "%i", rank);
+				else strcpy(strrank, ">>");
+
+				addLine(current, y, strrank);
+				tmpLastScoreValue += current->getScore().getMoney();
+				tmpLastWinsValue += current->getScore().getWins();
+				y+= lineSpacer;
+			}
+		}	
+	}
+	y+= lineSpacer;
+	// Spectators
 	std::list<unsigned int>::iterator itor;
 	for (itor = sortedTanks_.begin();
 		itor != sortedTanks_.end();
-		itor ++, pos++)
+		itor ++)
 	{
 		unsigned int playerId = (*itor);
 		Tank *current = ScorchedClient::instance()->getTankContainer().getTankById(playerId);
-		if (current) 
+		if (current && current->getState().getSpectator()) 
 		{
-			float textX = x_ + 6.0f;
-			float textY  = y_ + h_ - y - lineSpacer - 25.0f;
-			bool currentPlayer = false;
-	        
-			// Print a highlight behind the current clients player
-			if (current->getDestinationId() == 
-				ScorchedClient::instance()->getTankContainer().getCurrentDestinationId())
-			{
-				GLState state(GLState::BLEND_ON); 
-				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-				glColor4f(0.0f, 0.0f, 0.0f, 0.4f);
-				glBegin(GL_QUADS);
-					glVertex2f(x_ + w_ - 3.0f, textY + lineSpacer - 0.0f);
-					glVertex2f(x_ + 3.0f, textY + lineSpacer - 0.0f);
-					glVertex2f(x_ + 3.0f, textY + 2.0f);
-					glVertex2f(x_ + w_ - 3.0f, textY + 2.0f);
-				glEnd();
-			}
-
-			// Form the name
-			static char name[256];
-			strcpy(name, current->getName());
-			if (current->getState().getState() != TankState::sNormal)
-			{
-				strcat(name, " (");
-				strcat(name, current->getState().getSmallStateString());
-				strcat(name, ")");
-			}
-			name[26] = '\0'; // Limit length
-
-			const char *format = "%-3i%-27s%2i%10i $%8i";
-			if (current->getState().getSpectator())
-			{
-				format = "%-3i%-27s";
-			}
-
-			// Print the name on the screen
-			GLWFont::instance()->getFont()->draw(
-				current->getColor(),
-				12,
-				textX, textY, 0.0f,
-				format,
-				pos,
-				name,
-				current->getScore().getKills(),
-				current->getScore().getMoney(),
-				current->getScore().getWins());
-			tmpLastScoreValue += current->getScore().getMoney();
-			tmpLastWinsValue += current->getScore().getWins();
+			addLine(current, y, " ");
+			y+= lineSpacer;
 		}
-		y+= lineSpacer;
-	}
-	y+= lineSpacer;
+	}	
 
 	if (tmpLastScoreValue != lastScoreValue_ ||
 		tmpLastWinsValue != lastWinsValue_)
 	{
 		calculateScores();
 	}
+}
+
+void ScoreDialog::addScoreLine(float y, int kills, int money, int wins)
+{
+	float textX = x_ + 6.0f;
+	float textY  = y_ + h_ - y - lineSpacer - 30.0f;
+	Vector white(0.8f, 0.8f, 0.8f);
+
+	char *format = "%32i%10i $%8i";
+
+	// Print the name on the screen
+	GLWFont::instance()->getFont()->draw(
+		white,
+		12,
+		textX, textY, 0.0f,
+		format,
+		kills, money, wins);	
+}
+
+void ScoreDialog::addLine(Tank *current, float y, char *rank)
+{
+	float textX = x_ + 6.0f;
+	float textY  = y_ + h_ - y - lineSpacer - 25.0f;
+	bool currentPlayer = false;
+	
+	// Print a highlight behind the current clients player
+	if (current->getDestinationId() == 
+		ScorchedClient::instance()->getTankContainer().getCurrentDestinationId())
+	{
+		GLState state(GLState::BLEND_ON); 
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+		glColor4f(0.0f, 0.0f, 0.0f, 0.4f);
+		glBegin(GL_QUADS);
+			glVertex2f(x_ + w_ - 3.0f, textY + lineSpacer - 0.0f);
+			glVertex2f(x_ + 3.0f, textY + lineSpacer - 0.0f);
+			glVertex2f(x_ + 3.0f, textY + 2.0f);
+			glVertex2f(x_ + w_ - 3.0f, textY + 2.0f);
+		glEnd();
+	}
+
+	// Form the name
+	static char name[256];
+	strcpy(name, current->getName());
+	if (current->getState().getState() != TankState::sNormal)
+	{
+		strcat(name, " (");
+		strcat(name, current->getState().getSmallStateString());
+		strcat(name, ")");
+	}
+	name[26] = '\0'; // Limit length
+
+	const char *format = "%-3s%-27s%2i%10i $%8i";
+	if (current->getState().getSpectator())
+	{
+		format = "%-3s%-27s";
+	}
+
+	// Print the name on the screen
+	GLWFont::instance()->getFont()->draw(
+		current->getColor(),
+		12,
+		textX, textY, 0.0f,
+		format,
+		rank,
+		name,
+		current->getScore().getKills(),
+		current->getScore().getMoney(),
+		current->getScore().getWins());
 }

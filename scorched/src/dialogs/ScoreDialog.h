@@ -23,6 +23,7 @@
 
 #include <GLW/GLWWindow.h>
 
+class Tank;
 class ScoreDialog : public GLWWindow
 {
 public:
@@ -42,6 +43,8 @@ protected:
 	int lastWinsValue_;
 
 	void calculateScores();
+	void addLine(Tank *current, float y, char *rank);
+	void addScoreLine(float y, int kills, int money, int wins);
 
 private:
 	ScoreDialog();

@@ -20,6 +20,55 @@
 
 #include <tank/TankSort.h>
 
+int TankSort::compare(ScorchedContext &context,
+		int kills1, int money1, int wins1, const char *name1,
+		int kills2, int money2, int wins2, const char *name2)
+{
+	switch (context.optionsGame.getScoreType())
+	{
+	case OptionsGame::ScoreWins:
+		if (wins1 > wins2) return 1;
+		if (wins1 == wins2)
+		{
+			if (kills1 > kills2) return 1;
+			if (kills1 == kills2)
+			{
+				if (money1 > money2) return 1;
+				if (money1 == money2)
+				{
+
+					return strcmp(name1, name2);
+				}
+			}
+		}
+		return -1;
+	case OptionsGame::ScoreKills:
+		if (kills1 > kills2) return 1;
+		if (kills1 == kills2)
+		{
+			if (money1 > money2) return 1;
+			if (money1 == money2)
+			{
+				return strcmp(name1, name2);
+			}
+		}
+		return -1;
+	case OptionsGame::ScoreMoney:
+		if (money1 > money2) return 1;
+		if (money1 == money2)
+		{
+			if (kills1 > kills2) return 1;
+			if (kills1 == kills2)
+			{
+				return strcmp(name1, name2);
+			}
+		}
+		return -1;
+	}
+	// Never get here
+	return strcmp(name1, name2);
+}
+
 bool TankSort::SortOnScore::operator()(const Tank *x, const Tank *y, ScorchedContext &context) const
 {
 	Tank &tankX = *((Tank *) x);
@@ -42,48 +91,51 @@ bool TankSort::SortOnScore::operator()(const Tank *x, const Tank *y, ScorchedCon
 		return true;
 	}
 
-	switch (context.optionsGame.getScoreType())
+	int compareResult = compare(context, 
+		scoreX.getKills(), scoreX.getMoney(), scoreX.getWins(), tankX.getName(),
+		scoreY.getKills(), scoreY.getMoney(), scoreY.getWins(), tankY.getName());
+
+	return (compareResult > 0);
+}
+
+int TankSort::getWinningTeam(ScorchedContext &context)
+{
+	int winsOne = 0, killsOne = 0, moneyOne = 0;
+	int winsTwo = 0, killsTwo = 0, moneyTwo = 0;
+	std::map<unsigned int, Tank *>::iterator itor;
+	std::map<unsigned int, Tank *> &tanks = 
+		context.tankContainer.getPlayingTanks();
+	for (itor = tanks.begin();
+		itor != tanks.end();
+		itor ++)
 	{
-	case OptionsGame::ScoreWins:
-		if (scoreX.getWins() > scoreY.getWins()) return true;
-		if (scoreX.getWins() == scoreY.getWins())
+		Tank *current = (*itor).second;
+		if (current->getTeam() == 1 && !current->getState().getSpectator()) 
 		{
-			if (scoreX.getMoney() > scoreY.getMoney()) return true;
-			if (scoreX.getMoney() == scoreY.getMoney())
-			{
-				if (scoreX.getKills() > scoreY.getKills()) return true;
-				if (scoreX.getKills() == scoreY.getKills())
-				{
-					if (strcmp(((Tank *)x)->getName(), ((Tank *)y)->getName()) < 0) return true;
-				}
-			}
+			winsOne += current->getScore().getWins();
+			killsOne += current->getScore().getKills();
+			moneyOne += current->getScore().getMoney();
 		}
-		break;
-	case OptionsGame::ScoreKills:
-		if (scoreX.getKills() > scoreY.getKills()) return true;
-		if (scoreX.getKills() == scoreY.getKills())
+	}
+	// Team 2
+	for (itor = tanks.begin();
+		itor != tanks.end();
+		itor ++)
+	{
+		Tank *current = (*itor).second;
+		if (current->getTeam() == 2 && !current->getState().getSpectator()) 
 		{
-			if (scoreX.getMoney() > scoreY.getMoney()) return true;
-			if (scoreX.getMoney() == scoreY.getMoney())
-			{
-				if (strcmp(((Tank *)x)->getName(), ((Tank *)y)->getName()) < 0) return true;
-			}
-		}
-		break;
-	case OptionsGame::ScoreMoney:
-		if (scoreX.getMoney() > scoreY.getMoney()) return true;
-		if (scoreX.getMoney() == scoreY.getMoney())
-		{
-			if (scoreX.getKills() > scoreY.getKills()) return true;
-			if (scoreX.getKills() == scoreY.getKills())
-			{
-				if (strcmp(((Tank *)x)->getName(), ((Tank *)y)->getName()) < 0) return true;
-			}
-		}
-		break;
+			winsTwo += current->getScore().getWins();
+			killsTwo += current->getScore().getKills();
+			moneyTwo += current->getScore().getMoney();
+		}	
 	}
 
-	return false;
+	int result = compare(context,
+		killsOne, moneyOne, winsOne, "",
+		killsTwo, moneyTwo, winsTwo, "");
+
+	return (result>=0?result:2);
 }
 
 void TankSort::getSortedTanks(std::list<Tank *> &list, ScorchedContext &context)

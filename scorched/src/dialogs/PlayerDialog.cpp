@@ -43,7 +43,7 @@ PlayerDialog *PlayerDialog::instance()
 }
 
 PlayerDialog::PlayerDialog() : 
-	GLWWindow("", 10.0f, 10.0f, 440.0f, 300.0f, 0),
+	GLWWindow("", 10.0f, 10.0f, 440.0f, 300.0f, eSmallTitle),
 	beenShown_(false), allocatedTeam_(0)
 {
 	needCentered_ = true;

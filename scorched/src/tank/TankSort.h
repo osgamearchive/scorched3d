@@ -36,6 +36,11 @@ namespace TankSort
 		bool operator()(const Tank *x, const Tank *y, ScorchedContext &context) const;
 	};
 
+	int compare(ScorchedContext &context,
+		int kills1, int money1, int wins1, const char *name1,
+		int kills2, int money2, int wins2, const char *name2);
+
+	int getWinningTeam(ScorchedContext &context);
 	void getSortedTanks(std::list<Tank *> &list, ScorchedContext &context);
 	void getSortedTanksIds(ScorchedContext &context, std::list<unsigned int> &list);
 };
