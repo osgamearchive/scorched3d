@@ -59,6 +59,8 @@ public:
 	bool writeMessage(NetBuffer &buffer);
 	bool readMessage(NetBufferReader &reader);
 	bool readXML(XMLNode *node);
+	bool readHeightMap(XMLNode *node, const char *name);
+	bool readTextureMap(XMLNode *node, const char *name);
 	bool readXMLMinMax(XMLNode *node, 
 		const char *name,
 		float &min, float &max);

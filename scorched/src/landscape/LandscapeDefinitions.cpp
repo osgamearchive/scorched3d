@@ -86,7 +86,8 @@ bool LandscapeDefinition::readXML(XMLNode *node)
 	if (!nameNode)
 	{
 		dialogMessage("Scorched Landscape", 
-					  "Failed to find name node in \"data/landscapes.xml\"");
+					  "Failed to find name node in "
+					  "\"data/landscapes.xml\"");
 		return false;
 	}
 	name = nameNode->getContent();
@@ -95,7 +96,8 @@ bool LandscapeDefinition::readXML(XMLNode *node)
 	if (!descNode)
 	{
 		dialogMessage("Scorched Landscape",
-					  "Failed to find description node in \"data/landscapes.xml\" %s",
+					  "Failed to find description node in "
+					  "\"data/landscapes.xml\" %s",
 					  nameNode->getContent());;
 		return false;
 	}
@@ -105,80 +107,165 @@ bool LandscapeDefinition::readXML(XMLNode *node)
 	if (!pictNode)
 	{
 		dialogMessage("Scorched Landscape",
-					  "Failed to find picture node in \"data/landscapes.xml\" %s",
+					  "Failed to find picture node in "
+					  "\"data/landscapes.xml\" %s",
 					  nameNode->getContent());
 		return false;
 	}
 	picture = pictNode->getContent();
 
-	if ((weight = node->getNamedFloatChild("weight", "data/landscapes.xml")) == 0.0f) return false;
+	if ((weight = node->getNamedFloatChild("weight", 
+		"data/landscapes.xml")) == 0.0f) return false;
 
 	XMLNode *heightmapNode = node->getNamedChild("heightmap");
 	if (!heightmapNode)
 	{
 		dialogMessage("Scorched Landscape", 
-					  "Failed to find heightmap node in \"data/landscapes.xml\" %s",
+					  "Failed to find heightmap node in "
+					  "\"data/landscapes.xml\" %s",
 					  nameNode->getContent());
 		return false;
 	}
 
-	XMLNode *maskNode = heightmapNode->getNamedChild("mask");
-	if (!maskNode)
-	{
-		dialogMessage("Scorched Landscape",
-			"Failed to find mask node in \"data/landscapes.xml\" %s",
-			nameNode->getContent());
-			return false;
-	}
-	heightMaskFile = maskNode->getContent();
-
-
-	if (!readXMLMinMax(heightmapNode, "landhills", landHillsMin, landHillsMax)) return false;
-	if (!readXMLMinMax(heightmapNode, "landheight", landHeightMin, landHeightMax)) return false;
-	if ((landWidthX=heightmapNode->getNamedFloatChild("landwidthx", "data/landscapes.xml")) == 0.0f) return false;
-	if ((landWidthY=heightmapNode->getNamedFloatChild("landwidthy", "data/landscapes.xml")) == 0.0f) return false;
-	if (!readXMLMinMax(heightmapNode, "landpeakwidthx", landPeakWidthXMin, landPeakWidthXMax)) return false;
-	if (!readXMLMinMax(heightmapNode, "landpeakwidthy", landPeakWidthYMin, landPeakWidthYMax)) return false;
-	if (!readXMLMinMax(heightmapNode, "landpeakheight", landPeakHeightMin, landPeakHeightMax)) return false;
-	if ((landSmoothing = heightmapNode->getNamedFloatChild("landsmoothing", "data/landscapes.xml")) == 0.0f) return false;
-	if ((tankStartCloseness = heightmapNode->getNamedFloatChild("tankstartcloseness", "data/landscapes.xml")) == 0.0f) return false;
-	if (!readXMLMinMax(heightmapNode, "tankstartheight", tankStartHeightMin, tankStartHeightMax)) return false;
+	if (!readHeightMap(heightmapNode,
+		nameNode->getContent())) return false;
 
 	XMLNode *texturemapNode = node->getNamedChild("texturemap");
 	if (!texturemapNode)
 	{
 		dialogMessage("Scorched Landscape", 
-					  "Failed to find texturemap node in \"data/landscapes.xml\" %s",
+					  "Failed to find texturemap node in "
+					  "\"data/landscapes.xml\" %s",
 					  nameNode->getContent());
 		return false;
 	}
 
-	XMLNode *resourcesNode = texturemapNode->getNamedChild("resources");
-	if (!resourcesNode)
+	if (!readTextureMap(texturemapNode,
+		nameNode->getContent())) return false;
+
+	return true;
+}
+
+bool LandscapeDefinition::readHeightMap(XMLNode *heightmapNode,
+										const char *name)
+{
+	XMLNode *typeNode = heightmapNode->getNamedParameter("type");
+	if (!typeNode)
 	{
-		dialogMessage("Scorched Landscape", 
-					  "Failed to find resources node in \"data/landscapes.xml\" %s",
-					  nameNode->getContent());
-		return false;
+		dialogMessage("Scorched Landscape",
+			"Failed to find height type attribute "
+			"in \"data/landscapes.xml\" %s",
+			name);
+		return false;		
 	}
 
-	std::list<XMLNode *>::iterator childrenItor;
+	if (0 == strcmp(typeNode->getContent(), "generate"))
+	{
+		XMLNode *maskNode = heightmapNode->getNamedChild("mask");
+		if (!maskNode)
+		{
+			dialogMessage("Scorched Landscape",
+				"Failed to find mask node in \"data/landscapes.xml\" %s",
+				name);
+			return false;
+		}
+		heightMaskFile = maskNode->getContent();
+		
+		if (!readXMLMinMax(heightmapNode, "landhills", 
+			landHillsMin, landHillsMax)) return false;
+		if (!readXMLMinMax(heightmapNode, "landheight", 
+			landHeightMin, landHeightMax)) return false;
+		if ((landWidthX=heightmapNode->getNamedFloatChild("landwidthx", 
+			"data/landscapes.xml")) == 0.0f) return false;
+		if ((landWidthY=heightmapNode->getNamedFloatChild("landwidthy", 
+			"data/landscapes.xml")) == 0.0f) return false;
+		if (!readXMLMinMax(heightmapNode, "landpeakwidthx", 
+			landPeakWidthXMin, landPeakWidthXMax)) return false;
+		if (!readXMLMinMax(heightmapNode, "landpeakwidthy", 
+			landPeakWidthYMin, landPeakWidthYMax)) return false;
+		if (!readXMLMinMax(heightmapNode, "landpeakheight", 
+			landPeakHeightMin, landPeakHeightMax)) return false;
+		if ((landSmoothing = heightmapNode->getNamedFloatChild("landsmoothing", 
+			"data/landscapes.xml")) == 0.0f) return false;
+		if ((tankStartCloseness = heightmapNode->getNamedFloatChild(
+			"tankstartcloseness", "data/landscapes.xml")) == 0.0f) return false;
+		if (!readXMLMinMax(heightmapNode, "tankstartheight", 
+			tankStartHeightMin, tankStartHeightMax)) return false;
+	}
+	else if (0 == strcmp(typeNode->getContent(), "file"))
+	{
+		XMLNode *fileNode = heightmapNode->getNamedChild("file");
+		if (!fileNode)
+		{
+			dialogMessage("Scorched Landscape",
+				"Failed to find file node in \"data/landscapes.xml\" %s",
+				name);
+			return false;
+		}
+		heightMapFile = fileNode->getContent();
+	}
+	else
+	{
+		dialogMessage("Scorched Landscape",
+			"Unknown height type in \"data/landscapes.xml\" %s",
+			name);
+		return false;		
+	}
+	return true;
+}
+
+bool LandscapeDefinition::readTextureMap(XMLNode *texturemapNode,
+										 const char *name)
+{
+	XMLNode *typeNode = texturemapNode->getNamedParameter("type");
+	if (!typeNode)
+	{
+		dialogMessage("Scorched Landscape",
+			"Failed to find texture type attribute in "
+			"\"data/landscapes.xml\" %s",
+			name);
+			return false;		
+	}
+
+	if (0 == strcmp(typeNode->getContent(), "generate"))
+	{
+		XMLNode *resourcesNode = texturemapNode->
+			getNamedChild("resources");
+		if (!resourcesNode)
+		{
+			dialogMessage("Scorched Landscape", 
+						  "Failed to find resources node in "
+						  "\"data/landscapes.xml\" %s",
+						  name);
+			return false;
+		}
+		
+		std::list<XMLNode *>::iterator childrenItor;
 		std::list<XMLNode *> &children = resourcesNode->getChildren();
-	for (childrenItor = children.begin();
-		childrenItor != children.end();
-		childrenItor++)
-	{
-		XMLNode *child = *childrenItor;
-		resourceFile = child->getContent();
-		resourceFiles.push_back(child->getContent());
+		for (childrenItor = children.begin();
+			 childrenItor != children.end();
+			 childrenItor++)
+		{
+			XMLNode *child = *childrenItor;
+			resourceFile = child->getContent();
+			resourceFiles.push_back(child->getContent());
+		}
+		if (resourceFiles.empty())
+		{
+			dialogMessage("Scorched Landscape", 
+						  "Failed to find any resource files in "
+						  "\"data/landscapes.xml\" %s",
+						  name);
+			return false;
+		}
 	}
-	if (resourceFiles.empty())
+	else
 	{
-		dialogMessage("Scorched Landscape", 
-					  "Failed to find any resource files in \"data/landscapes.xml\"");
-		return false;
+		dialogMessage("Scorched Landscape",
+			"Unknown texture type in \"data/landscapes.xml\" %s",
+			name);
+		return false;		
 	}
-
 	return true;
 }
 
@@ -226,6 +313,8 @@ LandscapeDefinitions::LandscapeDefinitions()
 {
 	if (!readLandscapeDefinitions())
 	{
+		dialogMessage("Scorched Landscape",
+			"Failed to parse \"data/landscapes.xml\"");
 		exit(1);
 	}
 }
@@ -283,7 +372,8 @@ bool LandscapeDefinitions::landscapeEnabled(OptionsGame &context,
 	return false;
 }
 
-LandscapeDefinition &LandscapeDefinitions::getRandomLandscapeDefn(OptionsGame &context)
+LandscapeDefinition &LandscapeDefinitions::getRandomLandscapeDefn(
+	OptionsGame &context)
 {
 	float totalWeight = 0.0f;
 	std::list<LandscapeDefinition *> passedLandscapes;
