@@ -20,6 +20,7 @@
 
 #include <scorched/ServerDialog.h>
 #include <scorched/MainDialog.h>
+#include <tankai/TankAIStore.h>
 #include <common/OptionsGame.h>
 #include <common/OptionsTransient.h>
 #include <common/Logger.h>
@@ -44,7 +45,17 @@ enum
 	IDC_MENU_SHOWOPTIONS,
 	IDC_MENU_PLAYERTALK,
 	IDC_MENU_PLAYERTALKALL,
-	IDC_MENU_PLAYERKICK
+	IDC_MENU_PLAYERKICK,
+	IDC_MENU_PLAYERADD,
+	IDC_MENU_PLAYERADD_1,
+	IDC_MENU_PLAYERADD_2,
+	IDC_MENU_PLAYERADD_3,
+	IDC_MENU_PLAYERADD_4,
+	IDC_MENU_PLAYERADD_5,
+	IDC_MENU_PLAYERADD_6,
+	IDC_MENU_PLAYERADD_7,
+	IDC_MENU_PLAYERADD_8,
+	IDC_MENU_PLAYERADD_9
 };
 
 class ServerPlayerListControl : public wxListCtrl
@@ -86,13 +97,13 @@ wxString ServerPlayerListControl::OnGetItemText(long item, long column) const
 			break;
 		case 1:
 			{
-				bool human = true;
+				const char *result = "Human";
 				if (tank->getTankAI())
 				{
-					human = tank->getTankAI()->isHuman();
+					result = ((TankAIComputer *) tank->getTankAI())->getName();
 				}
 
-				return (human?"Human":"Bot");
+				return result;
 			}
 			break;
 		case 2:
@@ -129,6 +140,16 @@ public:
 	void onPlayerTalk();
 	void onPlayerTalkAll();
 	void onPlayerKick();
+	void onPlayerAdd(int i);
+	void onPlayerAdd1();
+	void onPlayerAdd2();
+	void onPlayerAdd3();
+	void onPlayerAdd4();
+	void onPlayerAdd5();
+	void onPlayerAdd6();
+	void onPlayerAdd7();
+	void onPlayerAdd8();
+	void onPlayerAdd9();
 
 	ServerPlayerListControl *playerList_;
 	wxListCtrl *logList_;
@@ -153,6 +174,15 @@ BEGIN_EVENT_TABLE(ServerFrame, wxFrame)
 	EVT_MENU(IDC_MENU_PLAYERTALK, ServerFrame::onPlayerTalk)
 	EVT_MENU(IDC_MENU_PLAYERTALKALL, ServerFrame::onPlayerTalkAll)
 	EVT_MENU(IDC_MENU_PLAYERKICK, ServerFrame::onPlayerKick)
+	EVT_MENU(IDC_MENU_PLAYERADD_1, ServerFrame::onPlayerAdd1)
+	EVT_MENU(IDC_MENU_PLAYERADD_2, ServerFrame::onPlayerAdd2)
+	EVT_MENU(IDC_MENU_PLAYERADD_3, ServerFrame::onPlayerAdd3)
+	EVT_MENU(IDC_MENU_PLAYERADD_4, ServerFrame::onPlayerAdd4)
+	EVT_MENU(IDC_MENU_PLAYERADD_5, ServerFrame::onPlayerAdd5)
+	EVT_MENU(IDC_MENU_PLAYERADD_6, ServerFrame::onPlayerAdd6)
+	EVT_MENU(IDC_MENU_PLAYERADD_7, ServerFrame::onPlayerAdd7)
+	EVT_MENU(IDC_MENU_PLAYERADD_8, ServerFrame::onPlayerAdd8)
+	EVT_MENU(IDC_MENU_PLAYERADD_9, ServerFrame::onPlayerAdd9)
 END_EVENT_TABLE()
 
 ServerFrame::ServerFrame(const char *name) :
@@ -228,10 +258,27 @@ ServerFrame::ServerFrame(const char *name) :
     menuFile->Append(IDC_MENU_SHOWOPTIONS, "Display &Options");
     menuFile->AppendSeparator();
     menuFile->Append(IDC_MENU_EXIT, "E&xit");
+
+	wxMenu *menuAddPlayer = new wxMenu;
+	int aicount = 0;
+	std::list<TankAIComputer *> &ais = TankAIStore::instance()->getAis();
+	std::list<TankAIComputer *>::iterator aiitor;
+	for (aiitor = ais.begin();
+		aiitor != ais.end();
+		aiitor++, aicount++)
+	{
+		TankAIComputer *ai = (*aiitor);
+		char buffer[256];
+		sprintf(buffer, "Add %s", ai->getName());
+		menuAddPlayer->Append(IDC_MENU_PLAYERADD_1 + aicount, buffer);
+	}
+
 	wxMenu *menuPlayer = new wxMenu;
 	menuPlayer->Append(IDC_MENU_PLAYERTALK, "Talk to selected players");
 	menuPlayer->Append(IDC_MENU_PLAYERTALKALL, "Talk to all players");
 	menuPlayer->Append(IDC_MENU_PLAYERKICK, "Kick selected players");
+	menuPlayer->Append(IDC_MENU_PLAYERADD, "Add a new player", menuAddPlayer);
+
     wxMenuBar *menuBar = new wxMenuBar;
     menuBar->Append(menuFile, "&File");
 	menuBar->Append(menuPlayer, "&Players");
@@ -244,6 +291,37 @@ ServerFrame::ServerFrame(const char *name) :
 	// Create the bottom status bar
 	statusBar_ = CreateStatusBar(4);
 }
+
+void ServerFrame::onPlayerAdd(int i)
+{
+	if (ScorchedServer::instance()->getTankContainer().getNoOfTanks() <
+		ScorchedServer::instance()->getOptionsGame().getNoMaxPlayers())
+	{
+		int aicount = 1;
+		std::list<TankAIComputer *> &ais = TankAIStore::instance()->getAis();
+		std::list<TankAIComputer *>::iterator aiitor;
+		for (aiitor = ais.begin();
+			aiitor != ais.end();
+			aiitor++, aicount++)
+		{
+			TankAIComputer *ai = (*aiitor);
+			if (aicount == i)
+			{
+
+			}
+		}
+	}
+}
+
+void ServerFrame::onPlayerAdd1() { onPlayerAdd(1); }
+void ServerFrame::onPlayerAdd2() { onPlayerAdd(2); }
+void ServerFrame::onPlayerAdd3() { onPlayerAdd(3); }
+void ServerFrame::onPlayerAdd4() { onPlayerAdd(4); }
+void ServerFrame::onPlayerAdd5() { onPlayerAdd(5); }
+void ServerFrame::onPlayerAdd6() { onPlayerAdd(6); }
+void ServerFrame::onPlayerAdd7() { onPlayerAdd(7); }
+void ServerFrame::onPlayerAdd8() { onPlayerAdd(8); }
+void ServerFrame::onPlayerAdd9() { onPlayerAdd(9); }
 
 void ServerFrame::onMenuExit()
 {
@@ -296,6 +374,19 @@ void ServerFrame::onTimer()
 		NetInterface::getBytesIn(),
 		NetInterface::getBytesOut());
 	frame->statusBar_->SetStatusText(buffer, 3);
+}
+
+void sendStringMessage(const char *fmt, ...)
+{
+	static char text[1024];
+	va_list ap;
+
+	va_start(ap, fmt);
+	vsprintf(text, fmt, ap);
+	va_end(ap);	
+
+	ComsTextMessage message(text, 0, true);
+	ComsMessageSender::sendToAllConnectedClients(message);
 }
 
 void sendString(unsigned int dest, const char *fmt, ...)
