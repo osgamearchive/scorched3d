@@ -80,8 +80,8 @@
   <!-- The percentage chance the computers will say something when shooting -->
   <option>
     <name>ComputersAttackTalk</name>
-    <value>10</value>
-    <defaultvalue>10</defaultvalue>
+    <value>25</value>
+    <defaultvalue>25</defaultvalue>
   </option>
   <!-- The first round players are allowed to buy on -->
   <option>

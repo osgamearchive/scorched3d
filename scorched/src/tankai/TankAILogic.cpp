@@ -20,6 +20,8 @@
 
 #include <tank/Tank.h>
 #include <tankai/TankAILogic.h>
+#include <tankai/TankAIComputer.h>
+#include <tankai/TankAIStrings.h>
 #include <actions/TankMovement.h>
 #include <actions/TankResign.h>
 #include <actions/TankFired.h>
@@ -161,6 +163,16 @@ void TankAILogic::processFiredMessage(ScorchedContext &context,
 
 					weapon->fireWeapon(context, tank->getPlayerId(), position, velocity);
 					StatsLogger::instance()->tankFired(tank, weapon);
+
+					// Does a computer tank want to say something?
+					if (tank->getDestinationId() == 0 && tank->getTankAI())
+					{
+						const char *line = TankAIStrings::instance()->getAttackLine();
+						if (line)
+						{
+							((TankAIComputer*)tank->getTankAI())->say(line);
+						}
+					}
 				}
 			}
 		}

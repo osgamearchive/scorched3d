@@ -70,13 +70,13 @@ public:
 	virtual void parachutesUpDown(bool on);
 	virtual void shieldsUpDown(unsigned int name=0);
 	virtual void useBattery();
+	void say(const char *text);
 
 protected:
 	TankAIComputerBuyer tankBuyer_;
 	std::string name_;
 	bool primaryShot_;
 
-	void say(const char *text);
 	void selectFirstShield();
 
 };

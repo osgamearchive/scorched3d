@@ -103,7 +103,7 @@ OptionsGame::OptionsGame() :
 	computersDeathTalk_(options_, "ComputersDeathTalk",
 		"The percentage chance the computers will say something when killed", 0, 100, 0, 100),
 	computersAttackTalk_(options_, "ComputersAttackTalk",
-		"The percentage chance the computers will say something when shooting", 0, 10, 0, 100)
+		"The percentage chance the computers will say something when shooting", 0, 25, 0, 100)
 {
 	char buffer[128];
 	for (int i=0; i<24; i++)

@@ -22,6 +22,7 @@ Added: Client shows which players the game is waiting on
 Added: Stats and servers can tell what os clients and servers are on
 Added: Ability to adjust server options on the fly, so the next match will have the new options
 Added: More complex but more customizable accessories format (accessories.xml)
+Added: Computers talk when attacking
 
 Fixed: accessories.xml will only allow recognised tags for weapon types
 Fixed: Menu items could only be clicked in left hand side
@@ -66,7 +67,6 @@ Chat logger (for urls)
 Add the ability to customize the languages (for dialogs etc..) (localisation)
 Birds/seaguls
 Whales
-More weapons primitive types (like WeaponAimedOver only multiple unaimed warheads)
 Save game
 Teleport (to random position)
 Configurable camera views using ctrl-2 etc...
@@ -100,6 +100,5 @@ New landscape surrounds, desert etc...
 Some kind of fire out the back of missiles
 Clouds
 lightning
-Trees (done, just need LOD and remove them when ground is cleared)
 Napalm scorches ground
 
