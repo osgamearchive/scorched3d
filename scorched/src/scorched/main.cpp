@@ -38,6 +38,7 @@ extern bool wxWindowExit;
 char *displayOptions = PKGDIR "data/display.xml";
 char *resourceFile = PKGDIR "data/resource.xml";
 char scorched3dAppName[128];
+static bool allowExceptions = false;
 
 bool parseCommandLine(int argc, char *argv[])
 {
@@ -58,6 +59,8 @@ bool parseCommandLine(int argc, char *argv[])
 	ARGParser aParser;
 	if (!OptionEntryHelper::addToArgParser(
 		OptionsParam::instance()->getOptions(), aParser)) return false;
+	aParser.addEntry("-allowexceptions", &allowExceptions, 
+					 "Allows any program exceptions to be thrown (core dumps)");
 	if (!aParser.parse(argc, argv)) return FALSE;
 
 	// Check options
@@ -138,7 +141,9 @@ int main(int argc, char *argv[])
 	//for (;;)
 	{
 		// Init SDL
-		if (SDL_Init(SDL_INIT_VIDEO) < 0)
+		unsigned int initFlags = SDL_INIT_VIDEO;
+		if (allowExceptions) initFlags |= SDL_INIT_NOPARACHUTE;
+		if (SDL_Init(initFlags) < 0)
 		{
 			dialogMessage(
 				scorched3dAppName,
