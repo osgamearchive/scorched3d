@@ -24,6 +24,7 @@
 #include <scorched/ServerMsgDialog.h>
 #include <tankai/TankAIStore.h>
 #include <tankai/TankAIAdder.h>
+#include <engine/ModFiles.h>
 #include <common/OptionsGame.h>
 #include <common/OptionsTransient.h>
 #include <common/Logger.h>
@@ -47,6 +48,7 @@ enum
 	IDC_TIMER1,
 	IDC_TIMER2,
 	IDC_MENU_EXIT,
+	IDC_MENU_SHOWMODFILES,
 	IDC_MENU_SHOWOPTIONS,
 	IDC_MENU_EDITOPTIONS,
 	IDC_MENU_SAVEOPTIONS,
@@ -159,6 +161,7 @@ public:
 	void onTimerMain();
 	void onMenuExit();
 	void onShowOptions();
+	void onShowModFiles();
 	void onEditOptions();
 	void onLoadOptions();
 	void onSaveOptions();
@@ -201,6 +204,7 @@ BEGIN_EVENT_TABLE(ServerFrame, wxFrame)
 	EVT_TIMER(IDC_TIMER1, ServerFrame::onTimer)
 	EVT_TIMER(IDC_TIMER2, ServerFrame::onTimerMain)
 	EVT_MENU(IDC_MENU_EXIT, ServerFrame::onMenuExit)
+	EVT_MENU(IDC_MENU_SHOWMODFILES, ServerFrame::onShowModFiles)
 	EVT_MENU(IDC_MENU_SHOWOPTIONS, ServerFrame::onShowOptions)
 	EVT_MENU(IDC_MENU_EDITOPTIONS, ServerFrame::onEditOptions)
 	EVT_MENU(IDC_MENU_LOADOPTIONS, ServerFrame::onLoadOptions)
@@ -301,6 +305,8 @@ ServerFrame::ServerFrame(const char *name) :
 	menuFile->Append(IDC_MENU_EDITOPTIONS, "&Edit Options");
 	menuFile->Append(IDC_MENU_LOADOPTIONS, "&Load Options");
 	menuFile->Append(IDC_MENU_SAVEOPTIONS, "&Save Options");
+	menuFile->AppendSeparator();
+	menuFile->Append(IDC_MENU_SHOWMODFILES, "Show &Mod Files");
 	menuFile->AppendSeparator();
 	menuFile->Append(IDC_MENU_COMSMESSAGELOGGING, "&Toggle Coms Message logging");
  	menuFile->AppendSeparator();
@@ -566,7 +572,7 @@ void ServerFrame::onEditOptions()
 void ServerFrame::onLoadOptions()
 {
 	wxString file = ::wxFileSelector("Please choose the options file to open",
-									 getDataFile("data"), // default path
+									 getSettingsFile(""), // default path
 									 "server.xml", // default filename
 									 "", // default extension
 									 "*.xml",
@@ -586,7 +592,7 @@ void ServerFrame::onLoadOptions()
 void ServerFrame::onSaveOptions()
 {
 	wxString file = ::wxFileSelector("Please choose the options file to save",
-									 getDataFile("data"), // default path
+									 getSettingsFile(""), // default path
 									 "server.xml", // default filename
 									 "", // default extension
 									 "*.xml",
@@ -598,10 +604,29 @@ void ServerFrame::onSaveOptions()
 	}
 }
 
+void ServerFrame::onShowModFiles()
+{
+	int count = 0;
+	std::string allOptionsStr;
+	std::map<std::string, ModFileEntry *> &modFiles = 
+		ScorchedServer::instance()->getModFiles().getFiles();
+	std::map<std::string, ModFileEntry *>::iterator itor;
+	for (itor = modFiles.begin();
+		itor != modFiles.end();
+		itor++)
+	{
+		ModFileEntry *entry = (*itor).second;
+		allOptionsStr += entry->getFileName();
+		if (++count % 3 == 2) allOptionsStr += "\n";
+		else allOptionsStr += "       ";
+	}
+	dialogMessage("Scorched 3D Server Mod Files", allOptionsStr.c_str());
+}
+
 void ServerFrame::onShowOptions()
 {
-	char allOptionsStr[2048];
-	allOptionsStr[0] = '\0';
+	int count = 0;
+	std::string allOptionsStr;
 	std::list<OptionEntry *> &allOptions = 
 		ScorchedServer::instance()->getOptionsGame().getOptions();
 	std::list<OptionEntry *>::iterator itor;
@@ -610,12 +635,13 @@ void ServerFrame::onShowOptions()
 		itor++)
 	{
 		OptionEntry *entry = (*itor);
-		strcat(allOptionsStr, entry->getName());
-		strcat(allOptionsStr, " = ");
-		strcat(allOptionsStr, entry->getValueAsString());
-		strcat(allOptionsStr, "\n");
+		allOptionsStr += entry->getName();
+		allOptionsStr += " = ";
+		allOptionsStr += entry->getValueAsString();
+		if (++count % 4 == 3) allOptionsStr += "\n";
+		else allOptionsStr += "       ";
 	}
-	dialogMessage("Scorched 3D Server Options", allOptionsStr);
+	dialogMessage("Scorched 3D Server Options", allOptionsStr.c_str());
 }
 
 static class ServerLogger : public LoggerI

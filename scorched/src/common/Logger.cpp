@@ -54,6 +54,7 @@ Logger::~Logger()
 
 void Logger::addLogger(LoggerI *logger)
 {
+	Logger::instance();
 	SDL_LockMutex(logMutex_);
 	Logger::instance()->loggers_.push_back(logger);
 	SDL_UnlockMutex(logMutex_);
@@ -61,6 +62,7 @@ void Logger::addLogger(LoggerI *logger)
 
 void Logger::remLogger(LoggerI *logger)
 {
+	Logger::instance();
 	std::list<LoggerI *>::iterator itor;
 	SDL_LockMutex(logMutex_);
 	itor = Logger::instance()->loggers_.begin();
@@ -76,6 +78,8 @@ void Logger::remLogger(LoggerI *logger)
 
 void Logger::log(unsigned int playerId, const char *fmt, ...)
 {
+	Logger::instance();
+
 	SDL_LockMutex(logMutex_);
 	static char text[2048];
 
@@ -116,7 +120,7 @@ void Logger::log(unsigned int playerId, const char *fmt, ...)
 
 void Logger::addLog(char *time, char *text, unsigned int playerId)
 {
-	if (!instance_) return;
+	Logger::instance();
 
 	instance_->entries_.push_back(LogEntry());
 	LogEntry &lastEntry = instance_->entries_.back();
@@ -128,6 +132,8 @@ void Logger::addLog(char *time, char *text, unsigned int playerId)
 
 void Logger::processLogEntries()
 {
+	Logger::instance();
+
 	SDL_LockMutex(logMutex_);
 	std::list<LogEntry> &entries = Logger::instance()->entries_;
 	while (!entries.empty())

@@ -28,7 +28,6 @@
 #include <GLEXT/GLStateExtension.h>
 #include <GLEXT/GLConsoleRuleMethodIAdapter.h>
 #include <common/OptionsTransient.h>
-#include <common/Resources.h>
 #include <common/Defines.h>
 #include <common/OptionsDisplay.h>
 #include <client/ScorchedClient.h>
@@ -212,6 +211,18 @@ void Landscape::draw(const unsigned state)
 
 void Landscape::generate(ProgressCounter *counter)
 {
+	if (!resources_.initialized())
+	{
+		// Read the resources 
+		if (!resources_.initFromFile(
+			getDataFile("data/resource.xml")))
+		{
+			dialogMessage("Landscape",
+				"Failed to load resources data/resource.xml");
+			return;
+		}
+	}
+
 	textureType_ = eDefault;
 	InfoMap::instance();
 
@@ -247,36 +258,36 @@ void Landscape::generate(ProgressCounter *counter)
 	}
 
 	// Load the texture bitmaps from resources 
-	GLBitmap texture0(Resources::stringResource("bitmap-texture0"));
-	GLBitmap texture1(Resources::stringResource("bitmap-texture1"));
-	GLBitmap texture2(Resources::stringResource("bitmap-texture2"));
-	GLBitmap texture3(Resources::stringResource("bitmap-texture3"));
-	GLBitmap texture4(Resources::stringResource("bitmap-texture4"));
-	GLBitmap scorchMap(Resources::stringResource("bitmap-scorch"));
+	GLBitmap texture0(resources_.getStringResource("bitmap-texture0"));
+	GLBitmap texture1(resources_.getStringResource("bitmap-texture1"));
+	GLBitmap texture2(resources_.getStringResource("bitmap-texture2"));
+	GLBitmap texture3(resources_.getStringResource("bitmap-texture3"));
+	GLBitmap texture4(resources_.getStringResource("bitmap-texture4"));
+	GLBitmap scorchMap(resources_.getStringResource("bitmap-scorch"));
 	GLBitmap waves1Map(
-		Resources::stringResource("bitmap-waves1"), 
-		Resources::stringResource("bitmap-waves1"), false);
+		resources_.getStringResource("bitmap-waves1"), 
+		resources_.getStringResource("bitmap-waves1"), false);
 	GLBitmap waves2Map(
-		Resources::stringResource("bitmap-waves2"), 
-		Resources::stringResource("bitmap-waves2"), false);
+		resources_.getStringResource("bitmap-waves2"), 
+		resources_.getStringResource("bitmap-waves2"), false);
 	waves1Texture_.create(waves1Map, GL_RGBA);
 	waves2Texture_.create(waves2Map, GL_RGBA);
 	GLBitmapModifier::tileBitmap(scorchMap, scorchMap_);
-	GLBitmap bitmapShore(Resources::stringResource("bitmap-shore"));
-	GLBitmap bitmapRock(Resources::stringResource("bitmap-rockside"));
+	GLBitmap bitmapShore(resources_.getStringResource("bitmap-shore"));
+	GLBitmap bitmapRock(resources_.getStringResource("bitmap-rockside"));
 	GLBitmap *bitmaps[5];
 	bitmaps[0] = &texture0;
 	bitmaps[1] = &texture1;
 	bitmaps[2] = &texture2;
 	bitmaps[3] = &texture3;
 	bitmaps[4] = &texture4;
-	GLBitmap bitmapWater(Resources::stringResource("bitmap-cloudreflection"));
-	bitmapWater_.loadFromFile(Resources::stringResource("bitmap-cloudreflection"), false);
-	GLBitmap bitmapMagma(Resources::stringResource("bitmap-magmasmall"));
-	GLBitmap bitmapCloud(Resources::stringResource("bitmap-cloud"));
-	GLBitmap bitmapDetail(Resources::stringResource("bitmap-detail"));
-	GLBitmap bitmapWaterDetail(Resources::stringResource("bitmap-water"));
-	skyColorsMap_.loadFromFile(Resources::stringResource("bitmap-skycolors"));
+	GLBitmap bitmapWater(resources_.getStringResource("bitmap-cloudreflection"));
+	bitmapWater_.loadFromFile(resources_.getStringResource("bitmap-cloudreflection"), false);
+	GLBitmap bitmapMagma(resources_.getStringResource("bitmap-magmasmall"));
+	GLBitmap bitmapCloud(resources_.getStringResource("bitmap-cloud"));
+	GLBitmap bitmapDetail(resources_.getStringResource("bitmap-detail"));
+	GLBitmap bitmapWaterDetail(resources_.getStringResource("bitmap-water"));
+	skyColorsMap_.loadFromFile(resources_.getStringResource("bitmap-skycolors"));
 
 	// Generate landscape texture
 	surroundTexture_.replace(texture0);
@@ -300,7 +311,7 @@ void Landscape::generate(ProgressCounter *counter)
 
 	// Add objects to the landscape
 	objects_.removeAllTrees();
-	if (Resources::stringResource("objects")[0])
+	if (resources_.getStringResource("objects")[0])
 	{
 		RandomGenerator objectsGenerator;
 		objectsGenerator.seed(
@@ -338,7 +349,7 @@ void Landscape::generate(ProgressCounter *counter)
 	DIALOG_ASSERT(landTexWater_.replace(textureWaterNew, GL_RGBA));
 
 	// Set the fog color
-	Vector *fogColor = Resources::vectorResource("color-fog");
+	Vector *fogColor = resources_.getVectorResource("color-fog");
 	GLfloat fogColorF[4];
 	fogColorF[0] = (*fogColor)[0];
 	fogColorF[1] = (*fogColor)[1];

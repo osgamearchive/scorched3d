@@ -85,6 +85,8 @@ public:
 protected:
 	std::map<std::string, ModFileEntry *> files_;
 
+	bool excludeFile(const char *file);
+
 };
 
 #endif

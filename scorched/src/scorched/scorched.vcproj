@@ -926,12 +926,6 @@
 				RelativePath="..\common\ResourceFile.h">
 			</File>
 			<File
-				RelativePath="..\common\Resources.cpp">
-			</File>
-			<File
-				RelativePath="..\common\Resources.h">
-			</File>
-			<File
 				RelativePath="..\common\Sound.cpp">
 			</File>
 			<File

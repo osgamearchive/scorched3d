@@ -172,6 +172,12 @@ ModFiles::~ModFiles()
 {
 }
 
+bool ModFiles::excludeFile(const char *file)
+{
+	if (0 == strcmp(file, "Thumbs.db")) return true;
+	return false;
+}
+
 bool ModFiles::loadModFiles(const char *mod, bool createDir)
 {
 	if (!mod || !mod[0]) return true;
@@ -205,6 +211,9 @@ bool ModFiles::loadModFiles(const char *mod, bool createDir)
 		// Get the name of the current file
 		wxString &current = strings[i];
 		const char *fileName = current.c_str();
+
+		// Check to see if we ignore this file
+		if (excludeFile(fileName)) continue;
 
 		// Create the new mod file and load the file
 		ModFileEntry *file = new ModFileEntry();

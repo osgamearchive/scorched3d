@@ -73,6 +73,13 @@ bool ClientConnectionAcceptHandler::processMessage(unsigned int id,
 	// rules dialog
 	RulesDialog::instance()->addMOTD(message.getMotd());
 
+	// Set the mod
+	if (ScorchedClient::instance()->getOptionsGame().getMod()[0])
+	{
+		setDataFileMod(
+			ScorchedClient::instance()->getOptionsGame().getMod());
+	}
+
 	// Load any mod files we currently have for the mod
 	// the server is using.
 	if (!ScorchedClient::instance()->getModFiles().loadModFiles(

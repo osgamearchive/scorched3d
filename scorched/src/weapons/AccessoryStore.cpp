@@ -56,7 +56,7 @@ bool AccessoryStore::parseFile()
 	if (!file.getRootNode())
 	{
 		dialogMessage("AccessoryStore",
-					"Failed to find tank definition file \"%s\"",
+					"Failed to find accessory file \"%s\"",
 					  fileName);
 		return false;		
 	}

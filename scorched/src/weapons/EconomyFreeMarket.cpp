@@ -24,6 +24,7 @@
 #include <common/OptionsParam.h>
 #include <common/Defines.h>
 #include <common/OptionsGame.h>
+#include <common/Logger.h>
 #include <XML/XMLFile.h>
 #include <tank/Tank.h>
 #include <stdlib.h>
@@ -85,8 +86,8 @@ bool EconomyFreeMarket::loadPrices()
 				findByPrimaryAccessoryName(nameNode->getContent());
 			if (!accessory)
 			{
-				dialogMessage("EconomyFreeMarket",
-					"Failed to find accessory named \"%s\"",
+				Logger::log(0,
+					"Warning: Economy free market failed to find accessory named \"%s\"",
 					nameNode->getContent());
 				return false;
 			}

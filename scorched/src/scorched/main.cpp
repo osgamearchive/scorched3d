@@ -31,7 +31,6 @@
 #include <common/OptionsGame.h>
 #include <common/ARGParser.h>
 #include <common/Defines.h>
-#include <common/Resources.h>
 #include <common/OptionsTransient.h>
 #include <scorched/MainDialog.h>
 #include <locale.h>
@@ -48,10 +47,6 @@ static bool allowExceptions = false;
 
 bool parseCommandLine(int argc, char *argv[])
 {
-	// Read the resources 
-	if (!Resources::instance()->main.initFromFile(
-		getDataFile("data/resource.xml"))) return false;
-
 	// Read options from command line
 	ARGParser aParser;
 	if (!OptionEntryHelper::addToArgParser(

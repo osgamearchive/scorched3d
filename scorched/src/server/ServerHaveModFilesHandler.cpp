@@ -118,7 +118,9 @@ bool ServerHaveModFilesHandler::processMessage(unsigned int destinationId,
 		ServerCommon::sendString(destinationId, 
 			"This server requires the \"%s\" Scorched3D mod.\n"
 			"This will require downloading %u bytes at "
-			"%i bytes per second = %i seconds.",
+			"%i bytes per second = Minimum of %i seconds."
+			"Note: This will also depend on how many server\n"
+			"downloads and your link speed.",
 			ScorchedServer::instance()->getOptionsGame().getMod(),
 			neededLength,
 			ScorchedServer::instance()->getOptionsGame().getModDownloadSpeed(),

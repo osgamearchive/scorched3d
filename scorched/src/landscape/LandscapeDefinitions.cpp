@@ -341,7 +341,7 @@ bool LandscapeDefinitions::readLandscapeDefinitions()
 	if (!file.getRootNode())
 	{
 		dialogMessage("Scorched Landscape",
-					"Failed to find tank definition file \"data/landscapes.xml\"");
+					"Failed to find landscape definition file \"data/landscapes.xml\"");
 		return false;		
 	}
 

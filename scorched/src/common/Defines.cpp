@@ -24,10 +24,12 @@
 #include <wx/utils.h>
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
+#include <common/Defines.h>
 
 unsigned int ScorchedPort = 27270;
 char *ScorchedVersion = "38";
 char *ScorchedProtocolVersion = "ba";
+static char *dataModFile = 0;
 
 extern bool wxWindowInit;
 
@@ -86,6 +88,12 @@ const char *formatString(const char *file, ...)
 	return result;
 }
 
+void setDataFileMod(const char *mod)
+{
+	dataModFile = new char[strlen(mod) + 1];
+	strcpy(dataModFile, mod);
+}
+
 #ifndef S3D_DATADIR
 #define S3D_DATADIR "."
 #endif
@@ -104,10 +112,16 @@ const char *getDataFile(const char *file, ...)
 	va_start(ap, file);
 	vsprintf(filename, file, ap);
 	va_end(ap);
+
+	if (dataModFile && dataModFile[0])
+	{
+		sprintf(buffer, getModFile("%s/%s", dataModFile, filename));
+		::wxDos2UnixFilename(buffer);
+		if (::wxFileExists(buffer)) return buffer;
+	}
+
 	sprintf(buffer, S3D_DATADIR "/%s", filename);
 	::wxDos2UnixFilename(buffer);
-
-	printf("%s\n", buffer);
 
 	return buffer;
 }
@@ -134,7 +148,7 @@ const char *getHomeFile(const char *file, ...)
 	vsprintf(filename, file, ap);
 	va_end(ap);
 
-	const char *homeDirStr = getDataFile("");
+	const char *homeDirStr = S3D_DATADIR;
 	wxString homeDir = ::wxGetHomeDir();
 	if (::wxDirExists(homeDir)) homeDirStr = homeDir.c_str();
 

@@ -34,6 +34,7 @@ public:
 
 	bool initFromFile(const char *fileName);
 	bool setModule(const char *name);
+	bool initialized() { return (currentModule_ != 0); }
 
 	Vector *getVectorResource(const char *name);
 	const char *getStringResource(const char *name);

@@ -26,7 +26,6 @@
 #include <GLEXT/GLBitmapModifier.h>
 #include <common/Defines.h>
 #include <common/OptionsDisplay.h>
-#include <common/Resources.h>
 #include <client/ScorchedClient.h>
 #include <stdio.h>
 #include <math.h>
@@ -365,8 +364,10 @@ void LandscapeObjects::generate(RandomGenerator &generator, ProgressCounter *cou
 
 	// Add lots of trees, more chance of adding a tree where
 	// the map is stongest
-	pine_ = (strcmp(Resources::stringResource("objects"), "pine") == 0);
-	float snowHeight = Resources::floatResource("objectsnowheight");
+	pine_ = (strcmp(Landscape::instance()->getResources().
+		getStringResource("objects"), "pine") == 0);
+	float snowHeight = Landscape::instance()->getResources().
+		getFloatResource("objectsnowheight");
 	const int NoIterations = 1000000;
 	for (int i=0; i<NoIterations; i++)
 	{

@@ -43,6 +43,8 @@ extern void dialogMessage(const char *header, const char *fmt, ...);
 extern const char *formatString(const char *format, ...);
 extern const char *formatStringList(const char *format, va_list ap); 
 
+extern void setDataFileMod(const char *mod);
+
 extern const char *getDataFile(const char *file, ...);
 extern const char *getDocFile(const char *file, ...);
 extern const char *getLogFile(const char *file, ...);

@@ -27,7 +27,6 @@
 #include <common/OptionsDisplay.h>
 #include <common/OptionsTransient.h>
 #include <common/FileList.h>
-#include <common/Resources.h>
 
 Surround::Surround(SurroundDefs &defs) : xy_(0.0f), 
 	cloudSpeed_(500.0f), cloudDirection_(0.0f)
@@ -66,12 +65,6 @@ void Surround::draw()
 		// Rotate the scene so clouds blow the correct way
 		glTranslatef(128.0f, 128.0f, -15.0f);
 		glRotatef(cloudDirection_, 0.0f, 0.0f, 1.0f);
-
-		/*GLState mainState1(GLState::TEXTURE_OFF);
-		Vector *fogColor = Resources::vectorResource("color-fog");
-		glColor3fv(*fogColor);
-		Hemisphere::draw(2050, 200, 10, 10, 0, 0, 
-			false, true, 0.0f, xy_ + 0.3f);*/
 
 		GLState mainState2(GLState::TEXTURE_ON | GLState::BLEND_OFF);
 		Vector sunDir = 

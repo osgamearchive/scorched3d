@@ -24,12 +24,12 @@
 #include <GLW/GLWWindowManager.h>
 #include <server/ScorchedServer.h>
 #include <common/OptionsParam.h>
-#include <common/Resources.h>
 #include <coms/ComsNewGameMessage.h>
 #include <engine/ModFiles.h>
 #include <dialogs/PlayerDialog.h>
 #include <dialogs/ProgressDialog.h>
 #include <landscape/LandscapeMaps.h>
+#include <landscape/Landscape.h>
 #include <tank/TankContainer.h>
 #include <tankgraph/TankModelStore.h>
 
@@ -69,7 +69,6 @@ bool ClientNewGameHandler::processMessage(unsigned int id,
 	// have been downloaded
 	if (!initialized_)
 	{
-		printf("-----------------\n");
 		initialized_ = true;
 		if (!initialize()) return false;
 	}
@@ -119,7 +118,7 @@ bool ClientNewGameHandler::processMessage(unsigned int id,
 		}
 
 		// Set a random resource value
-		Resources::instance()->main.setModule(
+		Landscape::instance()->getResources().setModule(
 			message.getLevelMessage().getHmapDefn().resourceFile.c_str());
 
 		ScorchedClient::instance()->getGameState().stimulate(ClientState::StimWait);
