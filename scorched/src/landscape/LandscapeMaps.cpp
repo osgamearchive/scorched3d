@@ -30,6 +30,7 @@
 #include <common/Defines.h>
 #include <common/Logger.h>
 #include <zlib/zlib.h>
+#include <float.h>
 #include <stdlib.h>
 
 LandscapeMaps::LandscapeMaps() : 
@@ -198,8 +199,13 @@ bool LandscapeMaps::generateHMapDiff(
 	{
 		for (int i = 0; i<(256 + 1); i++, currentStored++)
 		{
-			float diff = (map_.getHeight(i, j) - (*currentStored));
-			if (diff != 0.0f) noDiffs ++;
+			float current = map_.getHeight(i, j);
+			float diff = (current - (*currentStored));
+			if (diff != 0.0f)
+			{
+				noDiffs ++;
+				if (current == 0.0f) diff = FLT_MAX;
+			}
 
 			Uint32 value = 0;
 			Uint32 add = 0;
@@ -280,7 +286,11 @@ bool LandscapeMaps::generateHMapFromDiff(
 				Uint32 result = SDLNet_Read32(&value);
 				memcpy(&diff, &result, sizeof(Uint32));
 
-				if (diff != 0.0f)
+				if (diff == FLT_MAX)
+				{
+					map_.setHeight(i, j, 0.0f);
+				}
+				else if (diff != 0.0f)
 				{
 					float current = map_.getHeight(i, j);
 					map_.setHeight(i, j, current + diff);

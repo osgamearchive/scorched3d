@@ -88,7 +88,6 @@ bool DeformLandscape::deformLandscape(
 									newHeight = lowestHeight;
 								}
 							}
-							hits = true;
 						}
 					}
 					else
@@ -109,8 +108,9 @@ bool DeformLandscape::deformLandscape(
 								newHeight = newPos[2] + explosionDepth;
 							}
 						}
-						hits = true;
 					}
+
+					if (newHeight != currentHeight)	hits = true;
 					hmap.setHeight((int) newPos[0], (int) newPos[1], newHeight);
 					map.map[x+iradius][y+iradius] = newMap;
 				}
@@ -120,6 +120,8 @@ bool DeformLandscape::deformLandscape(
 
 	if (hits)
 	{
+		context.landscapeMaps->updateChangeCount();
+
 		// Recalcualte the normals
 		hmap.generateNormals(
 			MAX(0, (int) (pos[0] - radius)), MIN(hmap.getWidth(), (int) (pos[0] + radius)),
@@ -150,6 +152,8 @@ void DeformLandscape::flattenArea(ScorchedContext &context, Vector &tankPos)
 			}
 		}
 	}
+
+	context.landscapeMaps->updateChangeCount();
 
 	// Recalcualte the normals
 	hmap.generateNormals(
