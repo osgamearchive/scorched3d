@@ -145,8 +145,8 @@ void ServerFileServer::sendBytes(Tank *tank, unsigned int size)
 	// Fill up the message with files, until it is full
 	while (size > 0)
 	{
-		unsigned int bytesSent = sendNextFile(message, tank, size);
-		if (bytesSent == 0) break; // Check that we have files to send
+		unsigned int bytesSent = 0;
+		if (!sendNextFile(message, tank, size, bytesSent)) break;
 		size -= bytesSent;
 	}
 	message.fileBuffer.addToBuffer("");
@@ -157,13 +157,14 @@ void ServerFileServer::sendBytes(Tank *tank, unsigned int size)
 
 }
 
-unsigned int ServerFileServer::sendNextFile(ComsFileMessage &message,
-											Tank *tank, unsigned int size)
+bool ServerFileServer::sendNextFile(ComsFileMessage &message,
+	Tank *tank, unsigned int size,
+	unsigned int &bytesSent)
 {
 	// Get the next file to send
 	std::list<ModIdentifierEntry> &files = 
 		tank->getMod().getFiles();
-	if (files.empty()) return 0;
+	if (files.empty()) return false;
 	ModIdentifierEntry &entry = files.front();
 
 	// Find the next file in the modfiles
@@ -205,5 +206,7 @@ unsigned int ServerFileServer::sendNextFile(ComsFileMessage &message,
 			tank->getMod().getFiles().size());
 	}
 
-	return sizeToSend;
+	bytesSent = sizeToSend;
+	return true;
 }
+

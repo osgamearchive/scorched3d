@@ -37,8 +37,8 @@ protected:
 	unsigned int bytesSent_;
 
 	void sendBytes(Tank *tank, unsigned int size);
-	unsigned int sendNextFile(ComsFileMessage &message,
-		Tank *tank, unsigned int size);
+	bool sendNextFile(ComsFileMessage &message,
+		Tank *tank, unsigned int size, unsigned int &sentSize);
 
 private:
 	ServerFileServer();
