@@ -92,13 +92,13 @@ void RulesDialog::draw()
 		yellow,
 		14,
 		x_ + 8.0f, y_ + h_ - 90.0f, 0.0f,
-		((options.getShotTime() > 0)?"Shot time : %i (s)":"No shot time"),
+		((options.getShotTime() > 0)?"Shot time : %i (s)":"No shot time limit"),
 		options.getShotTime());
 	GLWFont::instance()->getFont()->draw(
 		yellow,
 		14,
 		x_ + 8.0f, y_ + h_ - 105.0f, 0.0f,
-		((options.getBuyingTime() > 0)?"Buying time : %i (s)":"No buying time"),
+		((options.getBuyingTime() > 0)?"Buying time : %i (s)":"No buying time limit"),
 		options.getShotTime());
 }
 
