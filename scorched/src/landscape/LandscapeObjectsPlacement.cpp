@@ -298,8 +298,12 @@ void LandscapeObjectPlacementMask::generateObjects(
 		float height = 
 			ScorchedClient::instance()->getLandscapeMaps().
 				getHMap().getInterpHeight(lx, ly);
+		Vector normal;
+		ScorchedClient::instance()->getLandscapeMaps().
+			getHMap().getInterpNormal(lx, ly, normal);
 		if (height > placement.minheight && 
-			height < placement.maxheight)
+			height < placement.maxheight &&
+			normal[2] > placement.minslope)
 		{
 				
 			int mx = int(map.getWidth() * (lx / 255.0f));

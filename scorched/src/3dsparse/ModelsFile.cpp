@@ -105,8 +105,7 @@ void ModelsFile::centreBottom()
 	{
 		centre();
 
-		Vector newMin = min_;
-		newMin[2] = 0.0f;
+		Vector newMin(0.0f, 0.0f, min_[2]);
 
 		std::list<Model *>::iterator itor;
 		for (itor = models_.begin();
@@ -116,7 +115,7 @@ void ModelsFile::centreBottom()
 			(*itor)->centre(newMin);
 		}
 
-		max_[2] -= min_[2];
-		min_[2] = 0.0f;
+		max_ -= newMin;
+		min_ -= newMin;
 	}
 }

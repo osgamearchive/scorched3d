@@ -348,6 +348,7 @@
 				<minheight>0</minheight>
 				<maxheight>300</maxheight>
 				<mincloseness>0</mincloseness>
+				<minslope>0</minslope>
 				<xsnap>0</xsnap>
 				<ysnap>0</ysnap>
 				<angsnap>0</angsnap>

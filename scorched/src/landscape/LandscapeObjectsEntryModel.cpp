@@ -39,6 +39,16 @@ void LandscapeObjectsEntryModel::render(float distance)
 	point[2] = posZ;
 	if (!GLCameraFrustum::instance()->sphereInFrustum(point, 2.0f)) return;
 
+	/*{
+	GLState state(GLState::TEXTURE_OFF);
+	glColor3f(1.0f, 0.0f, 0.0f);
+	glPointSize(3.0f);
+	glBegin(GL_POINTS);
+		glVertex3f(posX, posY, posZ);
+	glEnd();
+	glPointSize(1.0f);
+	}*/
+
 	glPushMatrix();
 		glTranslatef(posX, posY, posZ);
 		glRotatef(rotation, 0.0f, 0.0f, 1.0f);

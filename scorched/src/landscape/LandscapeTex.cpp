@@ -154,6 +154,7 @@ bool LandscapeTexObjectsPlacementMask::writeMessage(NetBuffer &buffer)
 	buffer.addToBuffer(minheight);
 	buffer.addToBuffer(maxheight);
 	buffer.addToBuffer(mincloseness);
+	buffer.addToBuffer(minslope);
 	buffer.addToBuffer(xsnap);
 	buffer.addToBuffer(ysnap);
 	buffer.addToBuffer(angsnap);
@@ -167,6 +168,7 @@ bool LandscapeTexObjectsPlacementMask::readMessage(NetBufferReader &reader)
 	if (!reader.getFromBuffer(minheight)) return false;
 	if (!reader.getFromBuffer(maxheight)) return false;
 	if (!reader.getFromBuffer(mincloseness)) return false;
+	if (!reader.getFromBuffer(minslope)) return false;
 	if (!reader.getFromBuffer(xsnap)) return false;
 	if (!reader.getFromBuffer(ysnap)) return false;
 	if (!reader.getFromBuffer(angsnap)) return false;
@@ -180,6 +182,7 @@ bool LandscapeTexObjectsPlacementMask::readXML(XMLNode *node)
 	if (!node->getNamedChild("minheight", minheight)) return false;
 	if (!node->getNamedChild("maxheight", maxheight)) return false;
 	if (!node->getNamedChild("mincloseness", mincloseness)) return false;
+	if (!node->getNamedChild("minslope", minslope)) return false;
 	if (!node->getNamedChild("xsnap", xsnap)) return false;
 	if (!node->getNamedChild("ysnap", ysnap)) return false;
 	if (!node->getNamedChild("angsnap", angsnap)) return false;

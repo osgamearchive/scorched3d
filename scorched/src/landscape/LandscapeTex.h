@@ -96,7 +96,7 @@ public:
 	int numobjects;
 	std::string mask;
 	float minheight, maxheight;
-	float mincloseness;
+	float mincloseness, minslope;
 	float xsnap, ysnap, angsnap;
 
 	virtual bool writeMessage(NetBuffer &buffer);
