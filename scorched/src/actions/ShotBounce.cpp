@@ -123,14 +123,11 @@ void ShotBounce::simulate(float frameTime, bool &remove)
 		snapshotTime_ -= timeStep;
 	}
 
-	if (context_->serverMode) 
+	totalTime_ += frameTime;
+	if (totalTime_ > 8.0f)
 	{
-		totalTime_ += frameTime;
-		if (totalTime_ > 8.0f)
-		{
-			doCollision();
-			remove = true;
-		}
+		if (context_->serverMode) doCollision();
+		remove = true;
 	}
 
 	PhysicsParticleMeta::simulate(frameTime, remove);

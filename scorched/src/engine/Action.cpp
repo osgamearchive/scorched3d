@@ -21,7 +21,7 @@
 #include <engine/Action.h>
 
 Action::Action(ActionRenderer *renderer) : 
-	renderer_(renderer), context_(0)
+	renderer_(renderer), context_(0), actionStartTime_(0.0f)
 {
 
 }

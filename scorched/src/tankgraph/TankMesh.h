@@ -35,7 +35,7 @@ public:
 
 	void draw(bool drawS, float angle, Vector &position, 
 		float fireOffSet, float rotXY, float rotXZ,
-		bool absCenter = false);
+		bool absCenter = false, float scale = 1.0f);
 	float getTurretHeight() { return turretHeight_; }
 	int getNoTris();
 

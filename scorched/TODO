@@ -5,9 +5,14 @@ Fixed: Compilation problems due to std namespace being global
 Fixed: Some MSVC 2003 compilation problems
 Fixed: Buoys now shaded
 
+Added: Bot names can be randomly choosen by setting config option
+Added: All effects speed up with increased speed settings
+Added: Can change secondary camera windows view (by clicking on camera type)
+Added: Tank models can be made larger (does not effect other clients or damage radius)
 Added: Action camera now shows view from behind tank during turn
 Added: Server file logging is off by default
 Added: Tooltips to display settings and server dialogs
+Added: Fail safe for actions that time them out after 30 seconds
 
 -- Bugs in current development release
 Dvorak keyboard support is broken

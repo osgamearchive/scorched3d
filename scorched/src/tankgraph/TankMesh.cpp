@@ -178,7 +178,7 @@ void TankMesh::addToSet(GLVertexSetGroup &vset, std::list<Model*> &models, float
 
 void TankMesh::draw(bool drawS, float angle, Vector &position, 
 					float fireOffset, float rotXY, float rotXZ,
-					bool absCenter)
+					bool absCenter, float scale)
 {
 	GLState *texState = 0;
 	if (useTextures_) texState = new GLState(GLState::TEXTURE_ON);
@@ -196,6 +196,7 @@ void TankMesh::draw(bool drawS, float angle, Vector &position,
 	glPushMatrix();
 		glTranslatef(x, y, z);
 		glRotatef(angle, 0.0f, 0.0f, 1.0f);
+		glScalef(scale, scale, scale);
 		otherArrays_.draw();
 		drawGun(drawS, fireOffset, rotXY, rotXZ);
 	glPopMatrix();

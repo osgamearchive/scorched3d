@@ -54,6 +54,8 @@ OptionsDisplay::OptionsDisplay() :
 		"How many explosion sub clouds are drawn", RAccess, 4, 0, 5),
 	dialogSize_(options_, "DialogSize",
 		"How large the on screen dialogs and menus are.", RAccess, 3, 0, 4),
+	tankModelSize_(options_, "TankModelSize",
+		"The percentage size of the tank models", RWAccess, 100),
 	maxModelTriPercentage_(options_, "MaxModelTriPercentage",
 		"The maximum percentage of triangles each model will use.", RAccess, 100, 50, 100),
 	explosionParticleMult_(options_, "ExplosionParticleMult",

@@ -71,8 +71,6 @@ void TankModelRenderer::draw(bool currentTank)
 
 		glPushMatrix();
 			glTranslatef(pos[0], pos[1], pos[2]);
-			//glScalef(scale, scale, scale);
-
 			TankModelRendererAIM::getAutoAimModel()->draw();
 		glPopMatrix();
 	}
@@ -90,12 +88,14 @@ void TankModelRenderer::draw(bool currentTank)
 	// Store the position in which we should draw the players names
 	storeTank2DPos();
 
+	float modelSize = float(OptionsDisplay::instance()->getTankModelSize()) / 100.0f;
+
 	// Add the tank shadow
 	GLState currentState(GLState::TEXTURE_OFF);
 	Landscape::instance()->getShadowMap().addCircle(
 		tank_->getPhysics().getTankPosition()[0], 
 		tank_->getPhysics().getTankPosition()[1], 
-		2.0f);
+		2.0f * modelSize);
 
 	// Draw the tank model
 	model_->draw(currentTank, 
@@ -103,7 +103,8 @@ void TankModelRenderer::draw(bool currentTank)
 		tank_->getPhysics().getTankPosition(), 
 		fireOffSet_, 
 		tank_->getPhysics().getRotationGunXY(), 
-		tank_->getPhysics().getRotationGunYZ());
+		tank_->getPhysics().getRotationGunYZ(),
+		false, modelSize);
 }
 
 void TankModelRenderer::drawSecond(bool currentTank)

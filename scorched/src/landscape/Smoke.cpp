@@ -18,17 +18,8 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// Smoke.cpp: implementation of the Smoke class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <stdlib.h>
 #include <landscape/Smoke.h>
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 SmokeCounter::SmokeCounter(float minTime, float timeDiff) :
 	currentTime_(0.0f), minTime_(minTime), timeDiff_(timeDiff)
@@ -115,11 +106,6 @@ void Smoke::draw()
 	{
 		entry->draw();
 	}
-}
-
-bool Smoke::noSmoke()
-{
-	return (chain_.getNoEntries() == 0);
 }
 
 void Smoke::removeAllSmokes()

@@ -30,7 +30,9 @@ ActionVector *ActionVectorHolder::getActionVector(unsigned int id)
 	std::map<unsigned int, ActionVector *>::iterator itor =
 		actions_.find(id);
 	if (itor == actions_.end()) return 0;
-	return (*itor).second;
+	ActionVector *result = (*itor).second;
+	actions_.erase(itor);
+	return result;
 }
 
 void ActionVectorHolder::addActionVector(unsigned int id, ActionVector *action)

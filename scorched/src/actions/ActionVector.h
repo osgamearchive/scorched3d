@@ -37,6 +37,7 @@ public:
 	bool empty() { return points_.empty(); }
 	void remove() { remove_ = true; }
 
+	virtual bool getReferenced() { return false; }
 	virtual void simulate(float frameTime, bool &removeAction);
 	virtual void init();
 

@@ -18,11 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// Smoke.h: interface for the Smoke class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_SMOKE_H__6265A8BD_0FB0_4CB0_BDDC_6C706B2A2A07__INCLUDED_)
 #define AFX_SMOKE_H__6265A8BD_0FB0_4CB0_BDDC_6C706B2A2A07__INCLUDED_
 
@@ -54,7 +49,6 @@ public:
 			float dx = 0.0f, float dy = 0.0f, float dz = 0.0f,
 			float maxSize = 0.5f, float maxTime = 5.0f);
 
-	bool noSmoke();
 	void removeAllSmokes();
 
 	virtual void draw();

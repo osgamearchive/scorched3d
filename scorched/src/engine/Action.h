@@ -53,9 +53,13 @@ public:
 	virtual bool getReferenced() { return false; }
 	virtual bool getServerOnly() { return false; }
 
+	void setActionStartTime(float time) { actionStartTime_ = time; }
+	float getActionStartTime() { return actionStartTime_; }
+
 protected:
 	ActionRenderer *renderer_;
 	ScorchedContext *context_;
+	float actionStartTime_;
 
 };
 

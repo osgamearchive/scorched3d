@@ -40,6 +40,10 @@ public:
 	void setMaxModelTriPercentage(int value) { maxModelTriPercentage_.setValue(value); }
 	const char *getMaxModelTriPercentageToolTip() { return maxModelTriPercentage_.getDescription(); }
 
+	int getTankModelSize() { return tankModelSize_.getValue(); }
+	void setTankModelSize(int value) { tankModelSize_.setValue(value); }
+	const char *getTankModelSizeToolTip() { return tankModelSize_.getDescription(); }
+
 	int getNumberExplosionParts() { return explosionParts_.getValue(); }
 	void setNumberExplosionParts(int value) { explosionParts_.setValue(value); }
 	const char *getNumberExplosionPartsToolTip() { return explosionParts_.getDescription(); }
@@ -289,6 +293,7 @@ protected:
 	OptionEntryInt bitsPerPixel_;
 	OptionEntryInt depthBufferBits_;
 	OptionEntryInt bannerRows_;
+	OptionEntryInt tankModelSize_;
 	OptionEntryBool detailTexture_;
 	OptionEntryBool useHex_;
 	OptionEntryBool doubleBuffer_;

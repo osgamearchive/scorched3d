@@ -63,6 +63,10 @@ const char *TankAIStrings::getAIPlayerName()
 	static int counter = 0;
 	const char *playerName = 
 		aiPlayerNames_.getLines()[counter++ % aiPlayerNames_.getLines().size()].c_str();
+	if (ScorchedServer::instance()->getOptionsGame().getRandomizeBotNames())
+	{
+		playerName = aiPlayerNames_.getRandomLine();
+	}
 	return playerName;
 }
 

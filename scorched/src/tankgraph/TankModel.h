@@ -35,7 +35,8 @@ public:
 	virtual ~TankModel();
 
 	virtual void draw(bool drawS, float angle, Vector &position, 
-		float fireOffSet, float rotXY, float rotXZ, bool absCenter = false);
+		float fireOffSet, float rotXY, float rotXZ, 
+		bool absCenter = false, float scale = 1.0f);
 	virtual int getNoTris();
 
 	virtual bool lessThan(TankModel *other);

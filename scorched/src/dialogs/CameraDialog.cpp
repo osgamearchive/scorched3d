@@ -19,6 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <dialogs/CameraDialog.h>
+#include <GLW/GLWFont.h>
 #include <GLEXT/GLCameraFrustum.h>
 #include <GLEXT/GLOrderedItemRenderer.h>
 #include <client/MainCamera.h>
@@ -111,6 +112,14 @@ void CameraDialog::draw()
 	// Return the viewport to the original
 	Main2DCamera::instance()->draw(0);
 
+	// Draw the camera name
+	GLState newState(GLState::TEXTURE_OFF);
+	Vector col(0.7f, 0.7f, 0.7f);
+	GLWFont::instance()->getLargePtFont()->
+		draw(col, 10.0f, x_ + 15.0f, y_ + 15.0f, 0.0f, 
+		"%s Camera",
+		targetCam_.getCameraNames()[targetCam_.getCameraType()]);
+
 }
 
 void CameraDialog::simulate(float frameTime)
@@ -131,3 +140,15 @@ void CameraDialog::drawLandscape()
 	ScorchedClient::instance()->getActionController().draw(0);
 	GLOrderedItemRenderer::instance()->draw(0);
 }
+
+void CameraDialog::mouseDown(float x, float y, bool &skipRest)
+{
+	GLWWindow::mouseDown(x, y, skipRest);
+	if (x > x_ && x < x_ + 120 && y > y_ && y < y_ + 40)
+	{
+		int type = (int) targetCam_.getCameraType(); type++;
+		if (type >= (int) TargetCamera::CamFree) type = (int) TargetCamera::CamTop;
+		targetCam_.setCameraType((TargetCamera::CamType) type);
+	}
+}
+

@@ -87,6 +87,7 @@ void ActionController::setFast(float speedMult)
 void ActionController::addAction(Action *action)
 {
 	action->setScorchedContext(context_);
+	action->setActionStartTime(time_);
 	newActions_.push_back(action);
 }
 
@@ -100,6 +101,7 @@ void ActionController::addNewActions()
 		{
 			if (action->getReferenced()) referenceCount_ ++;
 			action->setScorchedContext(context_);
+			action->setActionStartTime(time_);
 			action->init();
 			actions_.insert(action);
 			action = buffer_.getActionForTime(time_);
@@ -109,6 +111,9 @@ void ActionController::addNewActions()
 	while (!newActions_.empty())
 	{
 		Action *action = newActions_.front(); 
+
+		action->setScorchedContext(context_);
+		action->setActionStartTime(time_);
 		if (context_->serverMode)
 		{
 			if (action->getReferenced()) referenceCount_ ++;
@@ -189,9 +194,17 @@ void ActionController::stepActions(float frameTime)
 	{
 		Action *act = *itor;
 
-		// If this action has finished add to list to be removed
 		bool remove = false;
 		act->simulate(frameTime, remove);
+
+		// Ensure that no referenced actions over do their time
+		if (act->getReferenced() &&
+			act->getActionStartTime() - time_ > 30.0f)
+		{
+			remove = true;
+		}
+
+		// If this action has finished add to list to be removed
 		if (remove) removeActions.push_back(act);
 	}
 
@@ -215,3 +228,4 @@ void ActionController::stepActions(float frameTime)
 		removeActions.clear();
 	}
 }
+

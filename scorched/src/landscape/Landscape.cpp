@@ -63,9 +63,10 @@ Landscape::~Landscape()
 
 void Landscape::simulate(const unsigned state, float frameTime)
 {
+	float speedMult = ScorchedClient::instance()->getActionController().getFast();
 	if (OptionsDisplay::instance()->getDrawWater())
 	{
-		wMap_.simulate(frameTime);
+		wMap_.simulate(frameTime * speedMult);
 		if (resetWater_)
 		{
 			resetWaterTimer_ -= frameTime;
@@ -86,10 +87,10 @@ void Landscape::simulate(const unsigned state, float frameTime)
 		}
 	}
 	patchGrid_.simulate(frameTime);
-	smoke_.simulate(frameTime);
-	surround_.simulate(frameTime);
-	wall_.simulate(frameTime);
-	wWaves_.simulate(frameTime);
+	smoke_.simulate(frameTime * speedMult);
+	surround_.simulate(frameTime * speedMult);
+	wall_.simulate(frameTime * speedMult);
+	wWaves_.simulate(frameTime * speedMult);
 }
 
 void Landscape::recalculate(int posX, int posY, int dist)

@@ -228,6 +228,10 @@ public:
 	void setBotNamePrefix(const char *value) { botNamePrefix_.setValue(value); }
 	const char *getBotNamePrefixToolTip() { return botNamePrefix_.getDescription(); }
 
+	bool getRandomizeBotNames() { return randomizeBotNames_.getValue(); }
+	void setRandomizeBotNames(bool value) { randomizeBotNames_.setValue(value); }
+	const char *getRandomizeBotNamesToolTip() { return randomizeBotNames_.getDescription(); }
+
 	int getPortNo() { return portNo_.getValue(); }
 	void setPortNo(int value) { portNo_.setValue(value); } 
 	const char *getPortNoToolTip() { return portNo_.getDescription(); }
@@ -302,6 +306,7 @@ protected:
 
 	// Server only options
 	OptionEntryString botNamePrefix_;
+	OptionEntryBool randomizeBotNames_;
 	OptionEntryString serverName_;
 	OptionEntryString *playerType_[24];
 	OptionEntryString serverPassword_;

@@ -21,7 +21,7 @@
 #include <engine/PhysicsParticle.h>
 #include <engine/ScorchedContext.h>
 
-PhysicsParticle::PhysicsParticle()  : collision_(false), totalTime_(0)
+PhysicsParticle::PhysicsParticle()  : collision_(false), totalActionTime_(0)
 {
 
 }
@@ -65,11 +65,11 @@ void PhysicsParticle::simulate(float frameTime, bool &remove)
 {
 	Action::simulate(frameTime, remove);
 	if (collision_) remove = true;
-	totalTime_ += frameTime;
-	if (totalTime_ > 30.0f) remove = true;
+	totalActionTime_ += frameTime;
+	if (totalActionTime_ > 30.0f) remove = true;
 }
 
-PhysicsParticleMeta::PhysicsParticleMeta()  : collision_(false), totalTime_(0)
+PhysicsParticleMeta::PhysicsParticleMeta()  : collision_(false), totalActionTime_(0)
 {
 
 }
@@ -116,6 +116,7 @@ void PhysicsParticleMeta::simulate(float frameTime, bool &remove)
 {
 	Action::simulate(frameTime, remove);
 	if (collision_) remove = true;
-	totalTime_ += frameTime;
-	if (totalTime_ > 30.0f) remove = true;
+	totalActionTime_ += frameTime;
+	if (totalActionTime_ > 30.0f) remove = true;
 }
+
