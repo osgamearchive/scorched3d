@@ -41,10 +41,10 @@ static void createControls(wxWindow *parent, wxSizer *topsizer)
 		wxBoxSizer *boxSizer = new wxBoxSizer(wxVERTICAL);
 
 		char fileName[256];
-		strcpy(fileName, PKGDIR "data/landscapes/picture-none.bmp");
-		if (::wxFileExists(dfn.picture.c_str()))
+		sprintf(fileName, PKGDIR "data/landscapes/%s", dfn.picture.c_str());
+		if (!::wxFileExists(fileName))
 		{
-			sprintf(fileName, PKGDIR "%s", dfn.picture.c_str());
+			strcpy(fileName, PKGDIR "data/landscapes/picture-none.bmp");
 		}
 
 		wxImage image;

@@ -27,7 +27,7 @@ static void createControls(wxWindow *parent, wxSizer *topsizer)
 
 	IDC_SERVER_PLAYERS_CTRL_TEXT = 
 		new wxStaticText(parent, -1,
-		"No Players :");
+		"Number Players :");
 	sizer->Add(IDC_SERVER_PLAYERS_CTRL_TEXT, 0, wxALIGN_CENTER);
 	IDC_SERVER_PLAYERS_CTRL = 
 		new wxComboBox(parent, IDC_SERVER_PLAYERS,
@@ -38,7 +38,7 @@ static void createControls(wxWindow *parent, wxSizer *topsizer)
 		
 	IDC_TEAMS_CTRL_TEXT = 
 		new wxStaticText(parent, -1,
-		"Num Teams :");
+		"Number Teams :");
 	sizer->Add(IDC_TEAMS_CTRL_TEXT, 0, wxALIGN_CENTER);
 	IDC_TEAMS_CTRL = 
 		new wxComboBox(parent, IDC_TEAMS,
@@ -60,7 +60,7 @@ static void createControls(wxWindow *parent, wxSizer *topsizer)
 		
 	IDC_SERVER_ROUNDS_CTRL_TEXT = 
 		new wxStaticText(parent, -1,
-		"No Rounds :");
+		"Number Rounds :");
 	sizer->Add(IDC_SERVER_ROUNDS_CTRL_TEXT, 0, wxALIGN_CENTER);
 	IDC_SERVER_ROUNDS_CTRL = 
 		new wxComboBox(parent, IDC_SERVER_ROUNDS,
@@ -71,7 +71,7 @@ static void createControls(wxWindow *parent, wxSizer *topsizer)
 		
 	IDC_NOSHOTS_CTRL_TEXT = 
 		new wxStaticText(parent, -1,
-		"No Turns :");
+		"Number Turns :");
 	sizer->Add(IDC_NOSHOTS_CTRL_TEXT, 0, wxALIGN_CENTER);
 	IDC_NOSHOTS_CTRL = 
 		new wxComboBox(parent, IDC_NOSHOTS,

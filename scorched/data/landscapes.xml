@@ -2,7 +2,7 @@
 	<landscape>
 		<name>oldstyle</name>
 		<description></description>
-		<picture></picture>
+		<picture>oldstyle.bmp</picture>
 		<weight>100</weight>
 		<heightmap type="generate">
 			<mask></mask>
@@ -44,7 +44,7 @@
 	<landscape>
 		<name>lowlands</name>
 		<description></description>
-		<picture></picture>
+		<picture>lowlands.bmp</picture>
 		<weight>100</weight>
 		<heightmap type="generate">
 			<mask></mask>
@@ -83,7 +83,7 @@
 	<landscape>
 		<name>hilly</name>
 		<description></description>
-		<picture></picture>
+		<picture>hilly.bmp</picture>
 		<weight>100</weight>
 		<heightmap type="generate">
 			<mask></mask>
@@ -121,7 +121,7 @@
 	<landscape>
 		<name>ridge</name>
 		<description></description>
-		<picture></picture>
+		<picture>ridge.bmp</picture>
 		<weight>100</weight>
 		<heightmap type="generate">
 			<mask>ridge-mask.bmp</mask>
@@ -161,7 +161,7 @@
 	<landscape>
 		<name>islands</name>
 		<description></description>
-		<picture></picture>
+		<picture>islands.bmp</picture>
 		<weight>33</weight>
 		<heightmap type="generate">
 			<mask></mask>
@@ -203,7 +203,7 @@
 	<landscape>
 		<name>halfed</name>
 		<description></description>
-		<picture></picture>
+		<picture>halved.bmp</picture>
 		<weight>100</weight>
 		<heightmap type="generate">
 			<mask>half-mask.bmp</mask>
@@ -245,7 +245,7 @@
 	<landscape>
 		<name>valley</name>
 		<description></description>
-		<picture></picture>
+		<picture>valley.bmp</picture>
 		<weight>100</weight>
 		<heightmap type="generate">
 			<mask>valley-mask.bmp</mask>
@@ -287,7 +287,7 @@
 	<landscape>
 		<name>hole</name>
 		<description></description>
-		<picture></picture>
+		<picture>hole.bmp</picture>
 		<weight>100</weight>
 		<heightmap type="generate">
 			<mask>hole-mask.bmp</mask>
