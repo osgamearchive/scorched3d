@@ -101,7 +101,6 @@ bool ServerAddPlayerHandler::processMessage(unsigned int destinationId,
 	if (name != tank->getName()) getUniqueName(name);
 
 	// Tell this computer that a new tank has connected
-	StatsLogger::instance()->tankJoined(tank);
 	sendString(0, "Player playing \"%s\"->\"%s\"",
 		tank->getName(), name.c_str());
 
@@ -109,6 +108,7 @@ bool ServerAddPlayerHandler::processMessage(unsigned int destinationId,
 	tank->setName(name.c_str());
 	tank->setModel(modelId);
 	tank->getState().setSpectator(false);
+	StatsLogger::instance()->tankJoined(tank);
 
 	// Choose a team (if applicable)
 	if (ScorchedServer::instance()->getOptionsGame().getTeams() > 1)

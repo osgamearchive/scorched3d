@@ -13,6 +13,8 @@ Fixed: Display modes should be shown only once
 Fixed: Targeting triangle is much thinner (seen from above)
 Fixed: Shot camera does not get left behind
 
+Added: Player stats generation and master stats site
+Added: MySql database support (primarily for stats)
 Added: Console commands can be bound to quick keys
 Added: Online player name remembered from one game to the next
 Added: Player gets warned if settings cannot be saved
@@ -34,8 +36,6 @@ The server can start multiple times on the same port (windows only)!
 Gun fires at same point for all tanks (ignores turret/gun position in model)
 
 -- Server Stuff
-Individual users stats (should be available now)
-master stats reporting site?
 ability to adjust server options on the fly, so the next match will have the new options
 ability to set higher average base height for land. If I get shot near the water, I basically just end up underwater
 Ban players 
@@ -55,7 +55,7 @@ Make a count down sound when timer runs out.
 Add option for human players to say stuff when firing/killed
 
 -- Other Stuff
-Add the ability to customize the languages (for dialogs etc..)
+Add the ability to customize the languages (for dialogs etc..) (localisation)
 Make AIs better
 Save game
 Teleport (to random position)
@@ -93,3 +93,4 @@ lightning
 Trees (done, just need LOD and remove them when ground is cleared)
 Water has waves as appose to ripples
 Napalm scorches ground
+
