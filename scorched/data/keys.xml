@@ -281,5 +281,10 @@
 		<description>Shows or hides the no kibitz dialog</description>
 		<key>k</key>
 	</keyentry>	
+	<keyentry>
+		<name>SHOW_KILL_DIALOG</name>
+		<description>Shows or hides the kill all players dialog</description>
+		<key>q</key>
+	</keyentry>	
 </keys>
 

@@ -136,6 +136,7 @@ void TankDialog::drawTankModel(Tank *current)
 
 		// Draw the tank model
 		glScalef(20.0f, 20.0f, 20.0f);
+		GLState tankState(GLState::TEXTURE_OFF); // For no tank skins
 		Vector position;
 		model->getModel()->draw(
 			false, 0.0f, position, 0.0f,

@@ -49,8 +49,9 @@ void WindowSetup::addCommonComponents(unsigned state)
 
 	if (!OptionsParam::instance()->getConnectedToServer())
 	{
+		KEYBOARDKEY("SHOW_KILL_DIALOG", killKey);
 		WindowManager::instance()->addWindow(state, 
- 			KillDialog::instance(), 0, false);
+ 			KillDialog::instance(), killKey, false);
 	}
 
 	KEYBOARDKEY("SHOW_HELP_DIALOG", helpKey);
