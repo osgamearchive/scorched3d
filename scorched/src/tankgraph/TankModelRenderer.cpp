@@ -36,7 +36,7 @@ std::string TankModelRendererHUD::textA_ = "";
 std::string TankModelRendererHUD::textB_ = "";
 
 TankModelRenderer::TankModelRenderer(Tank *tank) :
-	tank_(tank),
+	tank_(tank), tankTip_(tank),
 	model_(0), canSeeTank_(false),
 	smokeTime_(0.0f), smokeWaitForTime_(0.0f),
 	fireOffSet_(0.0f), posX_(0.0f), posY_(0.0f), posZ_(0.0f)
@@ -383,6 +383,10 @@ void TankModelRenderer::storeTank2DPos()
 void TankModelRenderer::draw2d(bool currentTank)
 {
 	if (!canSeeTank_) return;
+
+	// Add the tooltip that displays the tank info
+	GLWToolTip::instance()->addToolTip(&tankTip_,
+		float(posX_) - 10.0f, float(posY_) - 10.0f, 20.0f, 20.0f);
 
 	// Draw the hightlighted ring around the tank
 	if (currentTank)

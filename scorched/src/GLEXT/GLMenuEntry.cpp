@@ -191,11 +191,8 @@ void GLMenuEntry::drawDepressed(GLFont2d &font, float currentTop, float currentL
 
 			if (item.getToolTip())
 			{
-				item.getToolTip()->x = currentLeft;
-				item.getToolTip()->y = currentTop - 18.0f;
-				item.getToolTip()->w = 165.0f;
-				item.getToolTip()->h = 18.0f;
-				GLWToolTip::instance()->addToolTip(item.getToolTip());
+				GLWToolTip::instance()->addToolTip(item.getToolTip(),
+					currentLeft, currentTop - 18.0f, 165.0f, 18.0f);
 			}
 			font.draw(selected?selectedColor:color, 12, currentLeft + 5.0f, 
 				currentTop - 16.0f, 0.0f, (char *) item.getText());

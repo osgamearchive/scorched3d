@@ -25,16 +25,13 @@
 #include <string>
 #include <list>
 
+class GLWToolTip;
 class GLWTip
 {
 public:
+	friend class GLWToolTip;
 	GLWTip(const char *title, const char *text);
 	virtual ~GLWTip();
-
-	// Set by the widget to the location of the area
-	// that should activate the tooltip
-	float x, y;
-	float w, h;
 
 	// Used to set the title and text of the tooltip
 	void setText(const char *title, const char *text);
@@ -55,6 +52,9 @@ public:
 	unsigned int getId() { return id_; }
 
 protected:
+	float x, y;
+	float w, h;
+
 	unsigned int id_;
 	static unsigned int nextId_;
 	float textWidth_;
@@ -70,7 +70,7 @@ class GLWToolTip : public GameStateI
 public:
 	static GLWToolTip *instance();
 
-	void addToolTip(GLWTip *tip);
+	void addToolTip(GLWTip *tip, float x, float y, float w, float h);
 
 	// Inherited from GameStateI
 	virtual void simulate(const unsigned state, float frameTime);
@@ -80,7 +80,6 @@ protected:
 	static GLWToolTip *instance_;
 	GLWTip *currentTip_;
 	GLWTip *lastTip_;
-	GLWTip *tip_;
 	float timePasted_;
 
 private:

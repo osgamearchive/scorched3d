@@ -75,6 +75,9 @@ void TankDialog::drawTankModel(Tank *current)
 		current->getModel().getModelIdRenderer();
 
 	{
+		GLWToolTip::instance()->addToolTip(model->getTip(), 
+			x_ + 5.0f, y_ + 5.0f, 55.0f, 55.0f);
+
 		// Draw the round window containing the tank model
 		GLState newState(GLState::DEPTH_OFF | GLState::TEXTURE_OFF | GLState::BLEND_ON);
 		glColor4f(1.0f, 1.0f, 1.0f, 0.2f);

@@ -48,19 +48,19 @@ void GLWTip::setText(const char *title, const char *text)
 {
 	texts_.clear();
 	title_ = title; text_ = text;
-	textWidth_ = 0.0f; textHeight_ = 26.0f;
+	textWidth_ = 0.0f; textHeight_ = 24.0f;
 
 	char *token = strtok((char *) text_.c_str(), "\n");
 	while(token != NULL)
 	{
 		texts_.push_back(token);
-		float width = float(strlen(token)) * 8.0f + 10.0f;
+		float width = float(strlen(token)) * 6.0f + 10.0f;
 		if (width > textWidth_) textWidth_ = width;
-		textHeight_ += 16.0f;
+		textHeight_ += 10.0f;
 		token = strtok(NULL, "\n");
 	}
 
-	float width = float(strlen(title_.c_str())) * 8.0f + 10.0f;
+	float width = float(strlen(title_.c_str())) * 6.0f + 10.0f;
 	if (width > textWidth_) textWidth_ = width;
 }
 
@@ -96,7 +96,7 @@ GLWToolTip *GLWToolTip::instance()
 }
 
 GLWToolTip::GLWToolTip() : 
-	lastTip_(0), tip_(0), currentTip_(0),
+	lastTip_(0), currentTip_(0),
 	timePasted_(0.0f)
 {
 }
@@ -105,7 +105,7 @@ GLWToolTip::~GLWToolTip()
 {
 }
 
-void GLWToolTip::addToolTip(GLWTip *tip)
+void GLWToolTip::addToolTip(GLWTip *tip, float x, float y, float w, float h)
 {
 	if (!OptionsDisplay::instance()->getShowContextHelp()) return;
 
@@ -113,9 +113,13 @@ void GLWToolTip::addToolTip(GLWTip *tip)
 	int mouseX = GameState::instance()->getMouseX();
 	int mouseY = windowHeight - GameState::instance()->getMouseY();
 	
-	if (tip->getX() < mouseX && mouseX < tip->getX() + tip->getW() &&
-		tip->getY() < mouseY && mouseY < tip->getY() + tip->getH())
+	if (x < mouseX && mouseX < x + w &&
+		y < mouseY && mouseY < y + h)
 	{
+		tip->x = x;
+		tip->y = y;
+		tip->w = w;
+		tip->h = h;
 		currentTip_ = tip;
 	}
 }
@@ -132,9 +136,15 @@ void GLWToolTip::simulate(const unsigned state, float frameTime)
 
 void GLWToolTip::draw(const unsigned state)
 {
+	bool sameTip = (lastTip_ == currentTip_);
+	lastTip_ = currentTip_;
 	if (!currentTip_) return;
 
-	currentTip_->populate();
+	if (!sameTip)
+	{
+		currentTip_->populate();
+	}
+
 	GLState currentState(GLState::TEXTURE_OFF | GLState::DEPTH_OFF);
 
 	float posX = currentTip_->getX();
@@ -144,15 +154,19 @@ void GLWToolTip::draw(const unsigned state)
 
 	if (posX > MainCamera::instance()->getCamera().getWidth() / 2)
 	{
-		posX -= currentTip_->getW() + 5.0f;
+		posX -= posW + 5.0f;
 	}
 	else
 	{
-		posX += currentTip_->getW() + 5.0f;
+		posX += currentTip_->w + 5.0f;
 	}
 	if (posY > MainCamera::instance()->getCamera().getHeight() / 2)
 	{
 		posY -= posH;
+	}
+	else
+	{
+		posY += 5.0f;
 	}
 
 	{
@@ -176,8 +190,8 @@ void GLWToolTip::draw(const unsigned state)
 			posW, posH, false);
 	glEnd();
 
-	float pos = posY + posH - 19.0f;
-	GLWFont::instance()->getFont()->draw(selectedColor, 12, posX + 3.0f, 
+	float pos = posY + posH - 16.0f;
+	GLWFont::instance()->getFont()->draw(selectedColor, 9, posX + 3.0f, 
 		pos, 0.0f, currentTip_->getTitle());
 
 	std::list<char *> &texts = currentTip_->getTexts();
@@ -185,9 +199,9 @@ void GLWToolTip::draw(const unsigned state)
 	std::list<char *>::iterator enditor = texts.end();
 	for (itor = texts.begin(); itor != enditor; itor++)
 	{
-		pos -= 16.0f;
+		pos -= 10.0f;
 
-		GLWFont::instance()->getFont()->draw(color, 12, posX + 6.0f, 
+		GLWFont::instance()->getFont()->draw(color, 9, posX + 6.0f, 
 			pos, 0.0f, (*itor));
 	}
 

@@ -632,6 +632,12 @@
 			Name="tankgraph"
 			Filter="">
 			<File
+				RelativePath="..\tankgraph\GLWTankTip.cpp">
+			</File>
+			<File
+				RelativePath="..\tankgraph\GLWTankTip.h">
+			</File>
+			<File
 				RelativePath="..\tankgraph\GLWTankViewer.cpp">
 			</File>
 			<File

@@ -18,13 +18,9 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// PlanViewDialog.cpp: implementation of the PlanViewDialog class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <math.h>
 #include <GLEXT/GLState.h>
+#include <tankgraph/TankModelRenderer.h>
 #include <tank/TankContainer.h>
 #include <client/MainCamera.h>
 #include <dialogs/PlanViewDialog.h>
@@ -179,6 +175,15 @@ void PlanViewDialog::drawTanks()
 			position = tank->getPhysics().getTankPosition();
 			position /= width;
 			glVertex3fv(position);
+
+			TankModelRenderer *model = (TankModelRenderer *) 
+			tank->getModel().getModelIdRenderer();
+			if (model)
+			{
+				GLWToolTip::instance()->addToolTip(model->getTip(),
+					x_ + position[0] * w_ - 4.0f, y_ + position[1] * h_ - 4.0f, 
+					8.0f, 8.0f);
+			}
 		}
 	}
 	glEnd();

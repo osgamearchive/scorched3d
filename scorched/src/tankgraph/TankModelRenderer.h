@@ -24,6 +24,7 @@
 
 #include <tank/Tank.h>
 #include <tankgraph/TankModel.h>
+#include <tankgraph/GLWTankTip.h>
 
 class TankModelRendererHUD
 {
@@ -58,10 +59,12 @@ public:
 	virtual void simulate(float frameTime);
 
 	TankModel *getModel() { return model_; }
+	GLWTankTip *getTip() { return &tankTip_; }
 
 protected:
 	Tank *tank_;
 	TankModel *model_;
+	GLWTankTip tankTip_;
 	float fireOffSet_;
 	float smokeTime_, smokeWaitForTime_;
 	bool canSeeTank_;
