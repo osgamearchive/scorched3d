@@ -28,6 +28,7 @@
 bool GLStateExtension::hasCubeMap_ = false;
 bool GLStateExtension::hasHardwareMipmaps_ = false;
 bool GLStateExtension::envCombine_ = false;
+bool GLStateExtension::noTexSubImage_ = false;
 int GLStateExtension::textureUnits_ = 0;
 PFNGLACTIVETEXTUREARBPROC GLStateExtension::glActiveTextureARB_ =  0;
 PFNGLMULTITEXCOORD2FARBPROC GLStateExtension::glMultiTextCoord2fARB_ = 0;
@@ -110,6 +111,8 @@ void GLStateExtension::setup()
 		hasHardwareMipmaps_ = hasExtension("GL_SGIS_generate_mipmap");
 	}
 
+	noTexSubImage_ = OptionsDisplay::instance()->getNoGLTexSubImage();
+
 // HACK for skin creator
 #ifdef dDOUBLE
 	GLConsole::instance()->addLine(false, "GL_VENDOR:");
@@ -131,29 +134,4 @@ void GLStateExtension::setup()
 	GLConsole::instance()->addLine(false, "HW MIP MAPS:");
 	GLConsole::instance()->addLine(false, "%s", (hasHardwareMipmaps_?"On":"Off"));
 #endif
-}
-
-bool GLStateExtension::getNoTexSubImage()
-{
-	return OptionsDisplay::instance()->getNoGLTexSubImage();
-}
-
-bool GLStateExtension::hasCubeMap()
-{ 
-	return hasCubeMap_; 
-} 
-
-bool GLStateExtension::hasHardwareMipmaps()
-{ 
-	return hasHardwareMipmaps_; 
-}
-
-bool GLStateExtension::hasEnvCombine()
-{ 
-	return envCombine_;
-}
-
-int GLStateExtension::getTextureUnits()
-{ 
-	return textureUnits_; 
 }

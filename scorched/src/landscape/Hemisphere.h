@@ -21,21 +21,30 @@
 #if !defined(AFX_HEMISPHERE_H__3577D267_2B6C_4300_B0EE_61E1E50E57DD__INCLUDED_)
 #define AFX_HEMISPHERE_H__3577D267_2B6C_4300_B0EE_61E1E50E57DD__INCLUDED_
 
-#include <GLEXT/GLVertexArray.h>
+#include <list>
 
 class GLBitmap;
 class Vector;
 class Hemisphere  
 {
 public:
+	struct HemispherePoint
+	{
+		float x; float y; float z;
+		float tx; float ty;
+		float r; float g; float b;
+	};
+
 	static void draw(float radius, float radius2,
 		int heightSlices = 10, int rotationSlices = 20,
 		int startHeightSlice = 0, int startRotationSlice = 0,
 		bool inverse = false);
-	static GLVertexArray *createXY(float radius, float radius2,
+	static void createXY(std::list<HemispherePoint> &points,
+		float radius, float radius2,
 		int heightSlices = 10, int rotationSlices = 20,
 		int startHeightSlice = 0, int startRotationSlice = 0);
-	static GLVertexArray *createColored(float radius, float radius2, 
+	static void createColored(std::list<HemispherePoint> &points,
+		float radius, float radius2, 
 		int heightSlices, int rotationSlices,
 		GLBitmap &colors,
 		Vector &sunDir,

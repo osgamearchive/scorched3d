@@ -25,6 +25,7 @@
 #include <landscape/LandscapeDefinition.h>
 #include <landscape/Hemisphere.h>
 #include <GLEXT/GLState.h>
+#include <GLEXT/GLDynamicVertexArray.h>
 #include <client/MainCamera.h>
 #include <client/ScorchedClient.h>
 #include <common/OptionsDisplay.h>
@@ -32,8 +33,7 @@
 #include <common/FileList.h>
 
 Surround::Surround(SurroundDefs &defs) : xy_(0.0f), 
-	cloudSpeed_(500.0f), cloudDirection_(0.0f),
-	layer1_(0), layer2_(0)
+	cloudSpeed_(500.0f), cloudDirection_(0.0f)
 {
 }
 
@@ -43,10 +43,8 @@ Surround::~Surround()
 
 void Surround::clear()
 {
-	delete layer1_;
-	layer1_ = 0;
-	delete layer2_;
-	layer2_ = 0;
+	layer1_.clear();
+	layer2_.clear();
 }
 
 void Surround::simulate(float frameTime)
@@ -68,7 +66,6 @@ void Surround::simulate(float frameTime)
 void Surround::draw()
 {
 	Landscape::instance()->getCloudTexture().draw();
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	// Cannot use a display list for heimisphere as we change texture
 	// coordinates all the time
@@ -78,50 +75,81 @@ void Surround::draw()
 		glTranslatef(128.0f, 128.0f, -15.0f);
 		glRotatef(cloudDirection_, 0.0f, 0.0f, 1.0f);
 
-		GLState mainState2(GLState::TEXTURE_ON | GLState::BLEND_OFF);
-
-		if (!layer1_)
+		// Layer 1
+		if (layer1_.empty())
 		{
 			Vector sunDir = 
 				-Landscape::instance()->getSun().getPosition().Normalize();
 
-			layer1_ = Hemisphere::createColored(1800, 180, 10, 10,
+			Hemisphere::createColored(layer1_, 
+				1800, 180, 10, 10,
 				Landscape::instance()->getSkyColorsMap(),
 				sunDir,
 				ScorchedClient::instance()->getLandscapeMaps().
 				getLandDfn().getTex()->skytimeofday);
-			layer1_->setNoVBO();
 		}
-		calculateWind(layer1_, 1800, 180, slowXY, slowXY + 0.4f);
-		layer1_->draw();
+		GLState mainState2(GLState::TEXTURE_ON | GLState::BLEND_OFF);
+		drawLayer(layer1_, 1800, 180, slowXY, slowXY + 0.4f, true);
 
+		// Layer 2
 		if (!OptionsDisplay::instance()->getNoSkyLayers())
 		{
-			GLState currentState(GLState::BLEND_ON);
-			glColor4f(1.0f, 1.0f, 1.0f, 0.3f);
-
-			if (!layer2_)
+			if (layer2_.empty())
 			{
-				layer2_ = Hemisphere::createXY(2100, 120, 10, 20, 0, 0);
-				layer2_->setNoVBO();
+				Hemisphere::createXY(layer2_,
+					2100, 120, 10, 20, 0, 0);
 			}
-			calculateWind(layer2_, 2100, 120, 0.0f, xy_ + 0.3f);
-			layer2_->draw();
+
+			GLState currentState(GLState::BLEND_ON);
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+			glColor4f(1.0f, 1.0f, 1.0f, 0.3f);
+			drawLayer(layer2_, 2100, 120, 0.0f, xy_ + 0.3f, false);
 		}
 	glPopMatrix();
 }
 
-void Surround::calculateWind(GLVertexArray *array, 
-	float radius, float radius2, float xvalue, float yvalue)
+void Surround::drawLayer(
+	std::list<Hemisphere::HemispherePoint> &layer,
+	float radius, float radius2, float xvalue, float yvalue,
+	bool useColor)
 {
-	for (int i=0; i<array->getNoTris(); i++)
+	std::list<Hemisphere::HemispherePoint>::iterator itor;
+	for (itor = layer.begin();
+		itor != layer.end();
+		itor++)
 	{
-		GLVertexArray::GLVertexArrayTexCoord &tex = 
-			array->getTexCoordInfo(i);
-		GLVertexArray::GLVertexArrayVertex &ver = 
-			array->getVertexInfo(i);
+		Hemisphere::HemispherePoint &point = (*itor);
 
-		tex.a = (ver.x + radius) / (2 * radius) + xvalue;
-		tex.b = (ver.y + radius) / (2 * radius) + yvalue;
+		point.tx = (point.x + radius) / (2 * radius) + xvalue;
+		point.ty = (point.y + radius) / (2 * radius) + yvalue;
+
+		GLDynamicVertexArray::instance()->addFloat(point.x);
+		GLDynamicVertexArray::instance()->addFloat(point.y);
+		GLDynamicVertexArray::instance()->addFloat(point.z);
+		GLDynamicVertexArray::instance()->addFloat(point.tx);
+		GLDynamicVertexArray::instance()->addFloat(point.ty);
+		if (useColor)
+		{
+			GLDynamicVertexArray::instance()->addFloat(point.r);
+			GLDynamicVertexArray::instance()->addFloat(point.g);
+			GLDynamicVertexArray::instance()->addFloat(point.b);
+		}
+
+		if (GLDynamicVertexArray::instance()->getSpace() < 10)
+		{
+			GLDynamicVertexArray::instance()->drawQuadStrip(useColor);
+			GLDynamicVertexArray::instance()->addFloat(point.x);
+			GLDynamicVertexArray::instance()->addFloat(point.y);
+			GLDynamicVertexArray::instance()->addFloat(point.z);
+			GLDynamicVertexArray::instance()->addFloat(point.tx);
+			GLDynamicVertexArray::instance()->addFloat(point.ty);
+			if (useColor)
+			{
+				GLDynamicVertexArray::instance()->addFloat(point.r);
+				GLDynamicVertexArray::instance()->addFloat(point.g);
+				GLDynamicVertexArray::instance()->addFloat(point.b);
+			}
+		}
 	}
+	GLDynamicVertexArray::instance()->drawQuadStrip(useColor);
 }

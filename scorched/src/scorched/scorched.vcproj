@@ -316,6 +316,12 @@
 				RelativePath="..\GLEXT\GLConsoleRules.h">
 			</File>
 			<File
+				RelativePath="..\GLEXT\GLDynamicVertexArray.cpp">
+			</File>
+			<File
+				RelativePath="..\GLEXT\GLDynamicVertexArray.h">
+			</File>
+			<File
 				RelativePath="..\GLEXT\GLFont2d.cpp">
 			</File>
 			<File
@@ -332,6 +338,12 @@
 			</File>
 			<File
 				RelativePath="..\GLEXT\GLImage.h">
+			</File>
+			<File
+				RelativePath="..\GLEXT\GLInfo.cpp">
+			</File>
+			<File
+				RelativePath="..\GLEXT\GLInfo.h">
 			</File>
 			<File
 				RelativePath="..\GLEXT\GLLenseFlare.cpp">
@@ -404,12 +416,6 @@
 			</File>
 			<File
 				RelativePath="..\GLEXT\GLTextureSet.h">
-			</File>
-			<File
-				RelativePath="..\GLEXT\GLVar.cpp">
-			</File>
-			<File
-				RelativePath="..\GLEXT\GLVar.h">
 			</File>
 			<File
 				RelativePath="..\GLEXT\GLVertexArray.cpp">
@@ -1510,12 +1516,6 @@
 			</File>
 			<File
 				RelativePath="..\landscape\PatchSide.h">
-			</File>
-			<File
-				RelativePath="..\landscape\PatchVar.cpp">
-			</File>
-			<File
-				RelativePath="..\landscape\PatchVar.h">
 			</File>
 			<File
 				RelativePath="..\landscape\ShadowMap.cpp">

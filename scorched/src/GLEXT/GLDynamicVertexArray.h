@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,36 +18,37 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(AFX_SURROUND_H__E92604A2_6E7D_4810_9685_B699CE743B19__INCLUDED_)
-#define AFX_SURROUND_H__E92604A2_6E7D_4810_9685_B699CE743B19__INCLUDED_
+#if !defined(__INCLUDE_GLDynamicVertexArrayh_INCLUDE__)
+#define __INCLUDE_GLDynamicVertexArrayh_INCLUDE__
 
-#include <landscape/SurroundDefs.h>
-#include <landscape/Hemisphere.h>
+#include <GLEXT/GLState.h>
 
-class Surround
+class GLDynamicVertexArray
 {
 public:
-	Surround(SurroundDefs &defs);
-	virtual ~Surround();
+	static GLDynamicVertexArray *instance();
 
-	void simulate(float frameTime);
-	void draw();
+	int getSpace() { return capacity_ - used_; }
+	int getUsed() { return used_; }
 
-	void clear();
+	inline void addFloat(GLfloat floats)
+	{
+		DIALOG_ASSERT(used_ < capacity_);
+		array_[used_] = floats;
+		used_++;
+	}
+	void drawROAM();
+	void drawQuadStrip(bool useColor);
 
 protected:
-	static Surround *instance_;
-	float xy_;
-	float cloudSpeed_;
-	float cloudDirection_;
-	std::list<Hemisphere::HemispherePoint> layer1_;
-	std::list<Hemisphere::HemispherePoint> layer2_;
+	static GLDynamicVertexArray *instance_;
+	GLfloat *array_;
+	int used_;
+	int capacity_;
 
-	void drawLayer(
-		std::list<Hemisphere::HemispherePoint> &layer,
-		float radius, float radius2, float x, float y,
-		bool useColor);
-
+private:
+	GLDynamicVertexArray();
+	virtual ~GLDynamicVertexArray();
 };
 
-#endif // !defined(AFX_SURROUND_H__E92604A2_6E7D_4810_9685_B699CE743B19__INCLUDED_)
+#endif // __INCLUDE_GLDynamicVertexArrayh_INCLUDE__

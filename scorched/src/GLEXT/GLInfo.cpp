@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,21 +18,29 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+#include <GLEXT/GLInfo.h>
 
-// PatchVar.h: interface for the PatchVar class.
-//
-//////////////////////////////////////////////////////////////////////
+unsigned int GLInfo::noTriangles_ = 0;
 
-#if !defined(AFX_PATCHVAR_H__7E4B2E68_51EA_42C9_946E_16AB1B592E4D__INCLUDED_)
-#define AFX_PATCHVAR_H__7E4B2E68_51EA_42C9_946E_16AB1B592E4D__INCLUDED_
-
-#include <GLEXT/GLVar.h>
-
-class PatchVar  
+GLInfo::GLInfo()
 {
-public:
-	static GLVar *var;
+}
 
-};
+GLInfo::~GLInfo()
+{
+}
 
-#endif // !defined(AFX_PATCHVAR_H__7E4B2E68_51EA_42C9_946E_16AB1B592E4D__INCLUDED_)
+unsigned int GLInfo::getNoTriangles()
+{
+	return noTriangles_;
+}
+
+void GLInfo::addNoTriangles(unsigned int count)
+{
+	noTriangles_ += count;
+}
+
+void GLInfo::resetNoTriangles()
+{
+	noTriangles_ = 0;
+}

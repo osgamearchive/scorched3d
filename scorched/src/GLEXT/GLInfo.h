@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,15 +18,22 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+#if !defined(__INCLUDE_GLInfoh_INCLUDE__)
+#define __INCLUDE_GLInfoh_INCLUDE__
 
-// PatchVar.cpp: implementation of the PatchVar class.
-//
-//////////////////////////////////////////////////////////////////////
+class GLInfo
+{
+public:
+	static unsigned int getNoTriangles();
+	static void addNoTriangles(unsigned int count);
+	static void resetNoTriangles();
 
-#include <landscape/PatchVar.h>
+protected:
+	static unsigned int noTriangles_;
 
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
+private:
+	GLInfo();
+	virtual ~GLInfo();
+};
 
-GLVar *PatchVar::var = 0;
+#endif // __INCLUDE_GLInfoh_INCLUDE__

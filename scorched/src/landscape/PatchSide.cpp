@@ -18,20 +18,12 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// PatchSide.cpp: implementation of the PatchSide class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <math.h>
 #include <limits.h>
 #include <GLEXT/GLState.h>
-#include <landscape/PatchVar.h>
+#include <GLEXT/GLDynamicVertexArray.h>
+#include <GLEXT/GLStateExtension.h>
 #include <landscape/PatchSide.h>
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 PatchSide::PatchSide(HeightMap *hMap, int left, int top, int width, int totalWidth) : 
 	triNodePool_(*TriNodePool::instance()),
@@ -225,16 +217,49 @@ void PatchSide::recursRender( TriNode *tri,
 		switch (side)
 		{
 		case typeTop:
-			PatchVar::var->addTriangle(
-				(GLfloat) leftX, (GLfloat) leftY, (GLfloat) leftZ,
-				texArray[leftX].txa, texArray[leftY].txa,
-				texArray[leftX].txb, texArray[leftY].txb,
-				(GLfloat) rightX,(GLfloat) rightY,(GLfloat) rightZ,
-				texArray[rightX].txa, texArray[rightY].txa,
-				texArray[rightX].txb, texArray[rightY].txb,
-				(GLfloat) apexX, (GLfloat) apexY, (GLfloat) apexZ,
-				texArray[apexX].txa, texArray[apexY].txa,
-				texArray[apexX].txb, texArray[apexY].txb);
+			// Left
+			GLDynamicVertexArray::instance()->addFloat((GLfloat) leftX);
+			GLDynamicVertexArray::instance()->addFloat((GLfloat) leftY);
+			GLDynamicVertexArray::instance()->addFloat(leftZ);
+			GLDynamicVertexArray::instance()->addFloat(texArray[leftX].txa);
+			GLDynamicVertexArray::instance()->addFloat(texArray[leftY].txa);
+			if (GLStateExtension::glClientActiveTextureARB() &&
+				GLStateExtension::getTextureUnits() > 2)
+			{
+				GLDynamicVertexArray::instance()->addFloat(texArray[leftX].txb);
+				GLDynamicVertexArray::instance()->addFloat(texArray[leftY].txb);
+			}
+
+			// Right
+			GLDynamicVertexArray::instance()->addFloat((GLfloat) rightX);
+			GLDynamicVertexArray::instance()->addFloat((GLfloat) rightY);
+			GLDynamicVertexArray::instance()->addFloat(rightZ);
+			GLDynamicVertexArray::instance()->addFloat(texArray[rightX].txa);
+			GLDynamicVertexArray::instance()->addFloat(texArray[rightY].txa);
+			if (GLStateExtension::glClientActiveTextureARB() &&
+				GLStateExtension::getTextureUnits() > 2)
+			{
+				GLDynamicVertexArray::instance()->addFloat(texArray[rightX].txb);
+				GLDynamicVertexArray::instance()->addFloat(texArray[rightY].txb);
+			}
+
+			// Apex
+			GLDynamicVertexArray::instance()->addFloat((GLfloat) apexX);
+			GLDynamicVertexArray::instance()->addFloat((GLfloat) apexY);
+			GLDynamicVertexArray::instance()->addFloat(apexZ);
+			GLDynamicVertexArray::instance()->addFloat(texArray[apexX].txa);
+			GLDynamicVertexArray::instance()->addFloat(texArray[apexY].txa);
+			if (GLStateExtension::glClientActiveTextureARB() &&
+				GLStateExtension::getTextureUnits() > 2)
+			{
+				GLDynamicVertexArray::instance()->addFloat(texArray[apexX].txb);
+				GLDynamicVertexArray::instance()->addFloat(texArray[apexY].txb);
+			}
+
+			if (GLDynamicVertexArray::instance()->getSpace() < 100)
+			{
+				GLDynamicVertexArray::instance()->drawROAM();
+			}
 			break;
 		case typeNormals:
 		{

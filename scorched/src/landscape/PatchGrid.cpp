@@ -21,10 +21,11 @@
 #include <math.h>
 #include <GLEXT/GLState.h>
 #include <GLEXT/GLCameraFrustum.h>
+#include <GLEXT/GLDynamicVertexArray.h>
 #include <client/MainCamera.h>
 #include <client/ScorchedClient.h>
+#include <common/OptionsDisplay.h>
 #include <tank/TankContainer.h>
-#include <landscape/PatchVar.h>
 #include <landscape/PatchGrid.h>
 #include <landscape/TriNodePool.h>
 
@@ -99,11 +100,11 @@ void PatchGrid::recalculate(int posX, int posY, int dist)
 		int distX = abs(current->getX() - posX);
 		int distY = abs(current->getY() - posY);
 
+		current->getForceVariance() = false;
 		if (distX < dist + current->getWidth() &&
 			distY < dist + current->getWidth())
 		{
 			current->getRecalculate() = true;
-			current->getForceVariance() = false;
 		}
 
 		patch++;
@@ -142,6 +143,8 @@ void PatchGrid::recalculate(int posX, int posY, int dist)
 
 void PatchGrid::reset()
 {
+	if (OptionsDisplay::instance()->getNoTessalation()) return;
+
 	// Only need to recalculate patches if the viewing camera has changed
 	// position
 	Vector &pos = MainCamera::instance()->getCamera().getCurrentPos();
@@ -204,12 +207,6 @@ void PatchGrid::reset()
 
 void PatchGrid::draw(PatchSide::DrawType sides)
 {
-	if (!PatchVar::var)
-	{
-		PatchVar::var = new GLVar(1000);
-	}
-	PatchVar::var->resetTriangles();
-
 	reset();
 
 	GLCameraFrustum *frustum = GLCameraFrustum::instance();
@@ -244,7 +241,7 @@ void PatchGrid::draw(PatchSide::DrawType sides)
 
 			patch++;
 		}
-		PatchVar::var->draw();
+		GLDynamicVertexArray::instance()->drawROAM();
 	}
 	break;
 	case PatchSide::typeNormals:

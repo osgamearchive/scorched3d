@@ -59,17 +59,12 @@ public:
 	virtual ~GLVertexArray();
 
 	virtual void draw();
-	virtual int getNoTris() { return noTris_; }
+	virtual int getNoTris();
 	void setSecondTexture() { secondTexture_ = true; }
-	void setNoVBO() { useVBO_ = false; }
 
 	void setTexCoord(int offset, GLfloat a, GLfloat b);
 	void setVertex(int offset, GLfloat x, GLfloat y, GLfloat z);
 	void setColor(int offset, GLfloat r, GLfloat g, GLfloat b);
-
-	GLVertexArrayTexCoord &getTexCoordInfo(int x) { return texCoord_[x]; }
-	GLVertexArrayVertex &getVertexInfo(int x) { return vertices_[x]; }
-	GLVertexArrayColor &getColorInfo(int x) { return colors_[x]; }
 
 protected:
 	int noTris_;
@@ -79,6 +74,7 @@ protected:
 	unsigned int verticesVBO_;
 	unsigned int colorsVBO_;
 	unsigned int textureVBO_;
+	unsigned int listNo_;
 	GLTexture *texture_;
 	GLenum prim_;
 	GLVertexArrayTexCoord *texCoord_;
@@ -86,6 +82,7 @@ protected:
 	GLVertexArrayColor *colors_;
 
 	virtual void setup();
+	virtual void makeList();
 
 private:
 	GLVertexArray(const GLVertexArray &other);

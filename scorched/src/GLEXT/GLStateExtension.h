@@ -53,19 +53,25 @@ public:
 	static void setup(); // Setup and check for each extension
 
 	// Use VBO
-	static PFNGLGENBUFFERSARBPROC glGenBuffersARB() { return glGenBuffersARB_; }
-	static PFNGLBINDBUFFERARBPROC glBindBufferARB() { return glBindBufferARB_; }
-	static PFNGLBUFFERDATAARBPROC glBufferDataARB() { return glBufferDataARB_; }
-	static PFNGLDELETEBUFFERSARBPROC glDeleteBuffersARB() { return glDeleteBuffersARB_; }
+	inline static PFNGLGENBUFFERSARBPROC glGenBuffersARB() { return glGenBuffersARB_; }
+	inline static PFNGLBINDBUFFERARBPROC glBindBufferARB() { return glBindBufferARB_; }
+	inline static PFNGLBUFFERDATAARBPROC glBufferDataARB() { return glBufferDataARB_; }
+	inline static PFNGLDELETEBUFFERSARBPROC glDeleteBuffersARB() { return glDeleteBuffersARB_; }
 	// Use multi textureing?
-	static PFNGLACTIVETEXTUREARBPROC glActiveTextureARB() { return glActiveTextureARB_; }
-	static PFNGLMULTITEXCOORD2FARBPROC glMultiTextCoord2fARB() { return glMultiTextCoord2fARB_; }
-	static PFNGLCLIENTACTIVETEXTUREARBPROC glClientActiveTextureARB() { return glClientActiveTextureARB_; }
-	static bool getNoTexSubImage(); // Use tex sub image extension?
-	static bool hasCubeMap(); // Use cube map extension?
-	static bool hasHardwareMipmaps(); // Use hardware mipmap extension?
-	static bool hasEnvCombine(); // Use env combine
-	static int getTextureUnits(); // How many texture units
+	inline static PFNGLACTIVETEXTUREARBPROC glActiveTextureARB() { return glActiveTextureARB_; }
+	inline static PFNGLMULTITEXCOORD2FARBPROC glMultiTextCoord2fARB() { return glMultiTextCoord2fARB_; }
+	inline static PFNGLCLIENTACTIVETEXTUREARBPROC glClientActiveTextureARB() { return glClientActiveTextureARB_; }
+
+	// Use tex sub image extension?
+	inline static bool getNoTexSubImage() { return noTexSubImage_; }
+	// Use cube map extension?
+	inline static bool hasCubeMap() { return hasCubeMap_; }
+	// Use hardware mipmap extension?
+	inline static bool hasHardwareMipmaps() { return hasHardwareMipmaps_; }
+	// Use env combine
+	inline static bool hasEnvCombine() { return envCombine_; }
+	 // How many texture units
+	inline static int getTextureUnits() { return textureUnits_; }
 
 protected:
 	static bool hasExtension(char *name);
@@ -85,6 +91,7 @@ protected:
 	static int textureUnits_;
 	static bool hasCubeMap_;
 	static bool hasHardwareMipmaps_;
+	static bool noTexSubImage_;
 
 private:
 	GLStateExtension();

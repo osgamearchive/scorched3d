@@ -29,9 +29,6 @@ void Hemisphere::draw(float radius, float radius2,
 	int startHeightSlice, int startRotationSlice,
 	bool inverse)
 {
-	std::vector<Vector> coords;
-	std::vector<Vector> points;
-
 	glBegin(GL_QUAD_STRIP);
 	const float maxTexCoord = 1.0f;
 	for (int j=startHeightSlice; j<heightSlices; j++) 
@@ -79,14 +76,14 @@ void Hemisphere::draw(float radius, float radius2,
 	glEnd();
 }
 
-GLVertexArray *Hemisphere::createXY(float radius, float radius2, 
+void Hemisphere::createXY(
+	std::list<HemispherePoint> &points,
+	float radius, float radius2, 
 	int heightSlices, int rotationSlices,
 	int startHeightSlice, int startRotationSlice)
 {
-	std::vector<Vector> coords;
-	std::vector<Vector> points;
-
 	const float maxTexCoord = 1.0f;
+	HemispherePoint point;
 
 	for (int j=startHeightSlice; j<heightSlices; j++) 
 	{
@@ -114,36 +111,26 @@ GLVertexArray *Hemisphere::createXY(float radius, float radius2,
 			p2[2] = radius2 * e2[2];
 			p2[1] = radius * e2[1];
 			
-			coords.push_back(Vector((p1[0] + radius) / (2 * radius),
-				(p1[1] + radius) / (2 * radius)));
-			points.push_back(p1);
+			point.x = p1[0]; point.y = p1[1]; point.z = p1[2];
+			point.tx = (p1[0] + radius) / (2 * radius);
+			point.ty = (p1[1] + radius) / (2 * radius);
+			points.push_back(point);
 
-			coords.push_back(Vector((p2[0] + radius) / (2 * radius),
-				(p2[1] + radius) / (2 * radius)));
-			points.push_back(p2);	
+			point.x = p2[0]; point.y = p2[1]; point.z = p2[2];
+			point.tx = (p2[0] + radius) / (2 * radius);
+			point.ty = (p2[1] + radius) / (2 * radius);
+			points.push_back(point);
 		}
 	}
-
-	GLVertexArray *array = new GLVertexArray(
-		GL_QUAD_STRIP, (int) points.size(),
-		GLVertexArray::typeVertex | GLVertexArray::typeTexture);
-	for (int i=0; i<(int) points.size(); i++)
-	{
-		array->setVertex(i, points[i][0], points[i][1], points[i][2]);
-		array->setTexCoord(i, coords[i][0], coords[i][1]);
-	}
-	return array;
 }
 
-GLVertexArray *Hemisphere::createColored(float radius, float radius2, 
+void Hemisphere::createColored(std::list<HemispherePoint> &points,
+	float radius, float radius2, 
 	int heightSlices, int rotationSlices,
 	GLBitmap &colors, Vector &sunDir, int daytime)
 {
 	const float maxTexCoord = 1.0f;
-
-	std::vector<Vector> coords;
-	std::vector<Vector> points;
-	std::vector<Vector> cols;
+	HemispherePoint point;
 
 	GLubyte *bits = colors.getBits();
 	for (int j=0; j<heightSlices; j++) 
@@ -182,10 +169,11 @@ GLVertexArray *Hemisphere::createColored(float radius, float radius2,
 				float colorG = MIN(float(bits[bitmapIndexA + 1]) / 255.0f + dotP, 1.0f);
 				float colorB = MIN(float(bits[bitmapIndexA + 2]) / 255.0f + dotP, 1.0f);
 
-				cols.push_back(Vector(colorR, colorG, colorB));
-				coords.push_back(Vector((p1[0] + radius) / (2 * radius), 
-					(p1[1] + radius) / (2 * radius)));
-				points.push_back(p1);
+				point.x = p1[0]; point.y = p1[1]; point.z = p1[2];
+				point.tx = (p1[0] + radius) / (2 * radius);
+				point.ty = (p1[1] + radius) / (2 * radius);
+				point.r = colorR; point.g = colorG; point.b = colorB;
+				points.push_back(point);
 			}
 
 			{
@@ -203,22 +191,12 @@ GLVertexArray *Hemisphere::createColored(float radius, float radius2,
 				float colorG = MIN(float(bits[bitmapIndexB + 1]) / 255.0f + dotP, 1.0f);
 				float colorB = MIN(float(bits[bitmapIndexB + 2]) / 255.0f + dotP, 1.0f);
 
-				cols.push_back(Vector(colorR, colorG, colorB));
-				coords.push_back(Vector((p2[0] + radius) / (2 * radius),
-					(p2[1] + radius) / (2 * radius)));
-				points.push_back(p2);
+				point.x = p2[0]; point.y = p2[1]; point.z = p2[2];
+				point.tx = (p2[0] + radius) / (2 * radius);
+				point.ty = (p2[1] + radius) / (2 * radius);
+				point.r = colorR; point.g = colorG; point.b = colorB;
+				points.push_back(point);
 			}
 		}	
 	}
-
-	GLVertexArray *array = new GLVertexArray(
-		GL_QUAD_STRIP, (int) coords.size(), 
-		GLVertexArray::typeColor | GLVertexArray::typeVertex | GLVertexArray::typeTexture);
-	for (int i=0; i<(int) coords.size(); i++)
-	{
-		array->setVertex(i, points[i][0], points[i][1], points[i][2]);
-		array->setTexCoord(i, coords[i][0], coords[i][1]);
-		array->setColor(i, cols[i][0], cols[i][1], cols[i][2]);
-	}
-	return array;
 }

@@ -22,6 +22,7 @@
 #include <common/OptionsDisplay.h>
 #include <common/Defines.h>
 #include <GLEXT/GLState.h>
+#include <GLEXT/GLInfo.h>
 #include <SDL/SDL.h>
 
 MainLoop::MainLoop() :  exitLoop_(false), lastDrawTime_(0.0f), flip_(false)
@@ -95,6 +96,7 @@ void MainLoop::simulate(float frameTime)
 
 void MainLoop::draw()
 {
+	GLInfo::resetNoTriangles();
 	lastDrawTime_ = dTimer_.getTimeDifference();
 	static bool firstTime = true;
 	if (firstTime)

@@ -20,6 +20,7 @@
 
 #include <GLEXT/GLVertexArray.h>
 #include <GLEXT/GLStateExtension.h>
+#include <GLEXT/GLInfo.h>
 #include <stdlib.h>
 
 GLVertexArray::GLVertexArray(GLenum prim, int noTris, 
@@ -27,7 +28,7 @@ GLVertexArray::GLVertexArray(GLenum prim, int noTris,
 	prim_(prim), noTris_(noTris), setup_(false),
 	verticesVBO_(0), colorsVBO_(0), textureVBO_(0),
 	texture_(texture), secondTexture_(false),
-	useVBO_(false)
+	useVBO_(false), listNo_(0)
 {
 	if (type & typeVertex)
 	{
@@ -57,6 +58,7 @@ GLVertexArray::~GLVertexArray()
 	if (verticesVBO_) GLStateExtension::glDeleteBuffersARB()(1, &verticesVBO_);
 	if (colorsVBO_) GLStateExtension::glDeleteBuffersARB()(1, &colorsVBO_);
 	if (textureVBO_) GLStateExtension::glDeleteBuffersARB()(1, &textureVBO_);
+	if (glIsList(listNo_)) glDeleteLists(listNo_, 1);
 }
 
 void GLVertexArray::setVertex(int offset, GLfloat x, GLfloat y, GLfloat z)
@@ -127,14 +129,19 @@ void GLVertexArray::setup()
 	}
 }
 
+int GLVertexArray::getNoTris()
+{ 
+	if (prim_ == GL_TRIANGLES) return noTris_ / 3; 
+	if (prim_ == GL_TRIANGLE_STRIP) return noTris_ - 2;
+	if (prim_ == GL_QUAD_STRIP) return noTris_ - 2;
+	if (prim_ == GL_QUADS) return noTris_ / 4;
+
+	DIALOG_ASSERT(0);
+	return 0;
+}
+
 void GLVertexArray::draw()
 {
-	if (!setup_) 
-	{
-		setup();
-		setup_ = true;
-	}
-
 	unsigned int requiredState = 0;
 	if (texCoord_)
 	{
@@ -147,6 +154,24 @@ void GLVertexArray::draw()
 	}
 	GLState textureState(requiredState);
 	if (texCoord_ && texture_) texture_->draw();
+
+	if (listNo_ == 0)
+	{
+		makeList();
+	}
+
+	glCallList(listNo_);
+
+	GLInfo::addNoTriangles(getNoTris());
+}
+
+void GLVertexArray::makeList()
+{
+	if (!setup_) 
+	{
+		setup();
+		setup_ = true;
+	}
 
 	if (!useVBO_)
 	{
@@ -162,8 +187,8 @@ void GLVertexArray::draw()
 		}
 		if (texCoord_)
 		{
-			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 			if (secondTexture_) GLStateExtension::glClientActiveTextureARB()(GL_TEXTURE1_ARB); 
+			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 			glTexCoordPointer(2, GL_FLOAT, 0, &texCoord_[0].a);
 		}
 	}
@@ -183,20 +208,23 @@ void GLVertexArray::draw()
 		}
 		if (texCoord_)
 		{
-			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 			if (secondTexture_) GLStateExtension::glClientActiveTextureARB()(GL_TEXTURE1_ARB); 
+			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 			GLStateExtension::glBindBufferARB()(GL_ARRAY_BUFFER_ARB, textureVBO_);
 			glTexCoordPointer(2, GL_FLOAT, 0, 0);
 		}
 	}
 
-	glDrawArrays(prim_, 0, noTris_);
+	glNewList(listNo_ = glGenLists(1), GL_COMPILE);
+		glDrawArrays(prim_, 0, noTris_);
+	glEndList();
 
 	if (vertices_) glDisableClientState(GL_VERTEX_ARRAY);
 	if (colors_) glDisableClientState(GL_COLOR_ARRAY);
 	if (texCoord_)
 	{	
-		if (secondTexture_) GLStateExtension::glClientActiveTextureARB()(GL_TEXTURE0_ARB); 
+		if (secondTexture_) GLStateExtension::glClientActiveTextureARB()(GL_TEXTURE1_ARB); 
 		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+		if (secondTexture_) GLStateExtension::glClientActiveTextureARB()(GL_TEXTURE0_ARB); 
 	}
 }
