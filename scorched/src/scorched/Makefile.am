@@ -97,6 +97,8 @@ scorched3d_SOURCES = \
 	../GLW/GLWListView.h \
 	../GLW/GLWPanel.cpp \
 	../GLW/GLWPanel.h \
+	../GLW/GLWPlanView.cpp \
+	../GLW/GLWPlanView.h \
 	../GLW/GLWProgress.cpp \
 	../GLW/GLWProgress.h \
 	../GLW/GLWPushButton.cpp \
@@ -117,6 +119,8 @@ scorched3d_SOURCES = \
 	../GLW/GLWSpinBox.h \
 	../GLW/GLWTab.cpp \
 	../GLW/GLWTab.h \
+	../GLW/GLWTankModel.cpp \
+	../GLW/GLWTankModel.h \
 	../GLW/GLWTextBox.cpp \
 	../GLW/GLWTextBox.h \
 	../GLW/GLWTextButton.cpp \
@@ -131,8 +135,18 @@ scorched3d_SOURCES = \
 	../GLW/GLWVisiblePanel.h \
 	../GLW/GLWVisibleWidget.cpp \
 	../GLW/GLWVisibleWidget.h \
+	../GLW/GLWWeaponModel.cpp \
+	../GLW/GLWWeaponModel.h \
+	../GLW/GLWWindView.cpp \
+	../GLW/GLWWindView.h \
 	../GLW/GLWWindow.cpp \
 	../GLW/GLWWindow.h \
+	../GLW/GLWWindowManager.cpp \
+	../GLW/GLWWindowManager.h \
+	../GLW/GLWWindowSkin.cpp \
+	../GLW/GLWWindowSkin.h \
+	../GLW/GLWWindowSkinManager.cpp \
+	../GLW/GLWWindowSkinManager.h \
 	../GLW/GLWidget.cpp \
 	../GLW/GLWidget.h \
 	../tank/Tank.cpp \
@@ -252,8 +266,6 @@ scorched3d_SOURCES = \
 	../common/Vector.h \
 	../common/VectorLib.cpp \
 	../common/VectorLib.h \
-	../common/WindowManager.cpp \
-	../common/WindowManager.h \
 	../3dsparse/ASEFile.cpp \
 	../3dsparse/ASEFile.h \
 	../3dsparse/ASEModel.cpp \
@@ -299,8 +311,6 @@ scorched3d_SOURCES = \
 	../dialogs/LogDialog.h \
 	../dialogs/MainMenuDialog.cpp \
 	../dialogs/MainMenuDialog.h \
-	../dialogs/PlanViewDialog.cpp \
-	../dialogs/PlanViewDialog.h \
 	../dialogs/PlayerDialog.cpp \
 	../dialogs/PlayerDialog.h \
 	../dialogs/ProgressDialog.cpp \
@@ -313,12 +323,6 @@ scorched3d_SOURCES = \
 	../dialogs/ScoreDialog.h \
 	../dialogs/TalkDialog.cpp \
 	../dialogs/TalkDialog.h \
-	../dialogs/TankDialog.cpp \
-	../dialogs/TankDialog.h \
-	../dialogs/WeaponDialog.cpp \
-	../dialogs/WeaponDialog.h \
-	../dialogs/WindDialog.cpp \
-	../dialogs/WindDialog.h \
 	../engine/Action.cpp \
 	../engine/Action.h \
 	../engine/ActionBuffer.cpp \
