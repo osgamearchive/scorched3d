@@ -9,11 +9,11 @@ print OUT "RM = rm -f\n";
 print OUT "CC = /opt/gcc-3.3.2-bin/bin/gcc\n";
 print OUT "CPP = /opt/gcc-3.3.2-bin/bin/g++\n";
 print OUT "DEFINES = -DNO_FLOAT_MATH -DdDOUBLE\n";
-print OUT "DEFINESscorched = \$(DEFINES) -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES -D__WXGTK__ -D_REENTRANT -DGTK_NO_CHECK_CASTS\n";
+print OUT "DEFINESscorched = \$(DEFINES) -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES -D__WXGTK__ -D__WXDEBUG__ -D_REENTRANT -DGTK_NO_CHECK_CASTS\n";
 print OUT "INCLUDE = -I../src -I/opt/gcc-3.3.2-bin/include/c++/3.3.2/ -I../src/porting -I/opt/wxGTK-2.4.1/lib/wx/include/gtk-2.4 -I/opt/wxGTK-2.4.1/include -I/usr/openwin/include -I/opt/SDL/include -I/usr/cisco/packages/gtk+/gtk+-1.2.10/include/gtk-1.2 -I/usr/cisco/packages/glib/glib-1.2.10/include/glib-1.2 -I/opt/freetype/include/freetype2 -I/opt/freetype/include\n";
 print OUT "CCFLAGS = \$(INCLUDE) -g -O2 -c -pthreads\n";
 print OUT "LINKFLAGS = -g -O2 -v\n";
-print OUT "LINKLIBS = -pthreads -lGL -lGLU -lSDL -lXm -lXpm -lXmu -lXext -lXt -lSM -lICE -lX11 -ljpeg -lz -lposix4 -lnsl -lsocket -ldl -lm -lSDL_mixer -lSDL_net -lpthread -L/opt/gcc-3.3.2-bin/lib/ -L/lib/X11 -R/lib/X11 -L/opt/SDL/lib -R/opt/SDL/lib -L/opt/wxGTK-2.4.1/lib/ -lwx_gtk-2.4 -L/usr/cisco/packages/gtk+/gtk+-1.2.10/lib -L/usr/cisco/packages/glib/glib-1.2.10/lib -lglib -lgthread -lgtk -lgdk -L/opt/freetype/lib -lfreetype -lz\n";
+print OUT "LINKLIBS = -pthreads -lGL -lGLU -lSDL -lXm -lXpm -lXmu -lXext -lXt -lSM -lICE -lX11 -ljpeg -lz -lposix4 -lnsl -lsocket -ldl -lm -lSDL_mixer -lSDL_net -lpthread -L/opt/gcc-3.3.2-bin/lib/ -L/lib/X11 -R/lib/X11 -L/opt/SDL/lib -R/opt/SDL/lib -L/opt/wxGTK-2.4.1/lib/ -lwx_gtkd-2.4 -L/usr/cisco/packages/gtk+/gtk+-1.2.10/lib -L/usr/cisco/packages/glib/glib-1.2.10/lib -lglib -lgthread -lgtk -lgdk -L/opt/freetype/lib -lfreetype -lz\n";
 print OUT "\n";
 
 my %files = ();

@@ -44,6 +44,7 @@ Added: Camera and window menu items get tool tips
 Added: Free market economy
 Added: Window and font sizes can be set seperately from screen resolution
 
+Fixed: Linux server exiting due to "broken pipe"
 Fixed: SG characters being printed during init stages
 Fixed: Client does not start new game until all explosions have finished
 Fixed: accessories.xml will only allow recognised tags for weapon types

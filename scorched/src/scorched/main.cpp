@@ -34,6 +34,7 @@
 #include <scorched/MainDialog.h>
 #include <locale.h>
 #include <math.h>
+#include <signal.h>
 #include <float.h>
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
@@ -145,9 +146,15 @@ int main(int argc, char *argv[])
 	}
 	FreeLibrary(hD3D8DLL);
 
-	// Disable floating point exceptions. 
+	// For borland compilers disable floating point exceptions. 
 	_control87(MCW_EM,MCW_EM);
 
+#endif
+
+#ifndef _WIN32
+	// Tells Linux not to issue a sig pipe when writting to a closed socket
+	// Why does it have to be dificult!
+	signal(SIGPIPE, SIG_IGN);
 #endif
 
 	srand((unsigned)time(0));
