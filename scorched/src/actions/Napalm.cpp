@@ -25,6 +25,7 @@
 #include <actions/Napalm.h>
 #include <sprites/NapalmRenderer.h>
 #include <common/OptionsParam.h>
+#include <weapons/WeaponNapalm.h>
 #include <weapons/AccessoryStore.h>
 
 // TODO, should these be configurable in the OptionsGame file?
@@ -41,8 +42,8 @@ Napalm::Napalm() : hitWater_(false), totalTime_(0.0f), hurtTime_(0.0f)
 {
 }
 
-Napalm::Napalm(int x, int y, float napalmTime, bool hot, unsigned int playerId) :
-	x_(x), y_(y), napalmTime_(napalmTime), hot_(hot), playerId_(playerId), hitWater_(false),
+Napalm::Napalm(int x, int y, float napalmTime, Weapon *weapon, unsigned int playerId) :
+	x_(x), y_(y), napalmTime_(napalmTime), weapon_(weapon), playerId_(playerId), hitWater_(false),
 	totalTime_(0.0f), hurtTime_(0.0f)
 {
 
@@ -218,7 +219,7 @@ void Napalm::simulateAddStep()
 void Napalm::simulateDamage()
 {
 	float damagePerPointSecond = HurtPerSecond;
-	if (hot_) damagePerPointSecond = HurtPerSecondHot;
+	if (((WeaponNapalm *)weapon_)->getHot()) damagePerPointSecond = HurtPerSecondHot;
 
 	// Store how much each tank is damaged
 	// Keep in a map so we don't need to create multiple
@@ -276,11 +277,6 @@ void Napalm::simulateDamage()
 	// Add all the damage to the tanks (if any)
 	if (!tankDamage.empty())
 	{
-		Weapon *weapon = (Weapon *) 
-			AccessoryStore::instance()->findByName("Napalm");
-		if (hot_) weapon = (Weapon *) 
-			AccessoryStore::instance()->findByName("Hot Napalm");
-
 		std::map<Tank *, float>::iterator damageItor;
 		for (damageItor = tankDamage.begin();
 			damageItor != tankDamage.end();
@@ -290,7 +286,7 @@ void Napalm::simulateDamage()
 			float damage = (*damageItor).second;
 
 			// Add damage to the tank
-			TankController::damageTank(tank, weapon, playerId_, damage, true);
+			TankController::damageTank(tank, weapon_, playerId_, damage, true);
 		}
 		tankDamage.clear();
 	}
@@ -301,7 +297,7 @@ bool Napalm::writeAction(NetBuffer &buffer)
 	buffer.addToBuffer(x_);
 	buffer.addToBuffer(y_);
 	buffer.addToBuffer(napalmTime_);
-	buffer.addToBuffer(hot_);
+	Weapon::write(buffer, weapon_);
 	buffer.addToBuffer(playerId_);
 	return true;
 }
@@ -311,7 +307,7 @@ bool Napalm::readAction(NetBufferReader &reader)
 	if (!reader.getFromBuffer(x_)) return false;
 	if (!reader.getFromBuffer(y_)) return false;
 	if (!reader.getFromBuffer(napalmTime_)) return false;
-	if (!reader.getFromBuffer(hot_)) return false;
+	weapon_ = Weapon::read(reader); if (!weapon_) return false;
 	if (!reader.getFromBuffer(playerId_)) return false;
 	return true;
 }

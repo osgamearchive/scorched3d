@@ -18,17 +18,13 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// Accessory.h: interface for the Accessory class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_ACCESSORY_H__21765D5B_DB45_4275_AB63_BAD1E84C1790__INCLUDED_)
 #define AFX_ACCESSORY_H__21765D5B_DB45_4275_AB63_BAD1E84C1790__INCLUDED_
 
-
+#include <XML/XMLFile.h>
 #include <string>
 
+class GLWTip;
 class Accessory  
 {
 public:
@@ -42,15 +38,19 @@ public:
 		AccessoryFuel
 	};
 
-	Accessory(char *name, int price, 
-		int bundle, int armsLevel);
+	Accessory();
 	virtual ~Accessory();
 
+	virtual bool parseXML(XMLNode *accessoryNode);
+
 	virtual const char *getName();
+	virtual const char *getDescription();
 	virtual const int getPrice();
 	virtual const int getSellPrice();
 	virtual const int getBundle();
 	virtual const int getArmsLevel();
+	GLWTip &getToolTip();
+
 	virtual void bought();
 	virtual void sold();
 	virtual bool singular();
@@ -58,7 +58,9 @@ public:
 	virtual AccessoryType getType() = 0;
 
 protected:
+	GLWTip *toolTip_;
 	std::string name_;
+	std::string description_;
 	int price_;
 	int bundle_;
 	int armsLevel_;

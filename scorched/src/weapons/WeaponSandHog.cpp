@@ -22,14 +22,7 @@
 #include <tank/TankContainer.h>
 #include <actions/ShotProjectileHog.h>
 
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
-
-WeaponSandHog::WeaponSandHog(char *name, int price, int bundle, 
-						   int armsLevel, int warHeads) :
-	Weapon(name, price, bundle, armsLevel), 
-	warHeads_(warHeads)
+WeaponSandHog::WeaponSandHog() : warHeads_(0)
 {
 
 }
@@ -39,16 +32,31 @@ WeaponSandHog::~WeaponSandHog()
 
 }
 
+bool WeaponSandHog::parseXML(XMLNode *accessoryNode)
+{
+	if (!Weapon::parseXML(accessoryNode)) return false;
 
-Action *WeaponSandHog::fireWeapon(unsigned int playerId)
+	// Get the accessory size
+	XMLNode *warHeadsNode = accessoryNode->getNamedChild("nowarheads");
+	if (!warHeadsNode)
+	{
+		dialogMessage("Accessory",
+			"Failed to find nowarheads node in accessory \"%s\"",
+			name_.c_str());
+		return false;
+	}
+	warHeads_ = atoi(warHeadsNode->getContent());
+
+	return true;
+}
+
+Action *WeaponSandHog::fireWeapon(unsigned int playerId, Vector &position, Vector &velocity)
 {
 	Tank *tank = TankContainer::instance()->getTankById(playerId);
 	if (tank)
 	{
-		Vector velocity = tank->getPhysics().getVelocityVector() *
-			tank->getState().getPower();
 		Action *action = new ShotProjectileHog(
-			tank->getPhysics().getTankGunPosition(), 
+			position, 
 			velocity,
 			this, playerId, warHeads_, true);
 		return action;

@@ -27,12 +27,13 @@
 class WeaponRiotBomb : public Weapon
 {
 public:
-	WeaponRiotBomb(char *name, int price, int bundle, 
-		int armsLevel, int size);
+	WeaponRiotBomb();
 	virtual ~WeaponRiotBomb();
 
+	virtual bool parseXML(XMLNode *accessoryNode);
+
 	// Inherited from Weapon
-	Action *fireWeapon(unsigned int playerId);
+	Action *fireWeapon(unsigned int playerId, Vector &position, Vector &velocity);
 	virtual const char *getFiredSound();
 	virtual const char *getExplosionSound();
 	virtual const char *getExplosionTexture();

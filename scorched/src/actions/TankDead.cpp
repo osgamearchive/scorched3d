@@ -125,45 +125,14 @@ void TankDead::simulate(float frameTime, bool &remove)
 
 			// Add the tank death explosion
 			// Make the tank explode in one of many ways
-			float explosionType = RAND;
-			Action *firedAction = 0;
-			if (explosionType > 0.9)
+			Weapon *weapon = AccessoryStore::instance()->getDeathAnimation();
+			if (weapon)
 			{
-				Vector nullVelocity;
-				Weapon *newWeapon = (Weapon *)
-					AccessoryStore::instance()->findByName("Funky Bomb");
-				firedAction = new ShotProjectileFunky(
-					killedTank->getPhysics().getTankPosition(),
-					nullVelocity,
-					newWeapon,
-					firedPlayerId_, 10, 8, 12);
+				Vector position = killedTank->getPhysics().getTankPosition();
+				Vector velocity;
+				ActionController::instance()->addAction(
+					weapon->fireWeapon(firedPlayerId_, position, velocity));
 			}
-			else if (explosionType > 0.8) 
-			{
-				Weapon *newWeapon = (Weapon *)
-					AccessoryStore::instance()->findByName("Nuke");
-				firedAction = new Explosion(killedTank->getPhysics().getTankPosition(),
-					18, newWeapon, firedPlayerId_, 
-					true, Explosion::DeformDown);
-			}
-			else if (explosionType > 0.6)
-			{
-				Weapon *newWeapon = (Weapon *)
-					AccessoryStore::instance()->findByName("Ton Of Dirt");
-				firedAction = new Explosion(killedTank->getPhysics().getTankPosition(),
-					10, newWeapon, firedPlayerId_, 
-					false, Explosion::DeformUp);
-			}
-			else
-			{
-				Weapon *newWeapon = (Weapon *)
-					AccessoryStore::instance()->findByName("Baby Nuke");
-				firedAction = new Explosion(killedTank->getPhysics().getTankPosition(),
-					10, newWeapon, firedPlayerId_, 
-					true, Explosion::DeformDown);
-			}
-
-			ActionController::instance()->addAction(firedAction);
 		}
 	}
 

@@ -18,12 +18,8 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// GLWScrollPanel.cpp: implementation of the GLWScrollPanel class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <GLW/GLWScrollPanel.h>
+#include <GLW/GLWTranslate.h>
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
@@ -53,6 +49,8 @@ void GLWScrollPanel::draw()
 	drawScrollBar_ = false;
 	int canSee = 0;
 	glPushMatrix();
+	{
+		GLWTranslate trans(x_, y_);
 		glTranslatef(x_, y_, 0.0f);
 
 		GLState currentState(GLState::DEPTH_OFF | GLState::TEXTURE_OFF);
@@ -76,6 +74,7 @@ void GLWScrollPanel::draw()
 				}
 			glPopMatrix();
 		}
+	}
 	glPopMatrix();
 
 	// Draw scroll bar if not

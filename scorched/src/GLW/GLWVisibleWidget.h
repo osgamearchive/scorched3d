@@ -18,22 +18,19 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// GLWVisibleWidget.h: interface for the GLWVisibleWidget class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_GLWVISIBLEWIDGET_H__1EB53BAC_EE59_4434_805E_F9FAA72BEF37__INCLUDED_)
 #define AFX_GLWVISIBLEWIDGET_H__1EB53BAC_EE59_4434_805E_F9FAA72BEF37__INCLUDED_
 
-
 #include <GLW/GLWidget.h>
 
+class GLWTip;
 class GLWVisibleWidget : public GLWidget
 {
 public:
 	GLWVisibleWidget(float x, float y, float w, float h);
 	virtual ~GLWVisibleWidget();
+
+	virtual void draw();
 
 	virtual float getX() { return x_; }
 	virtual float getY() { return y_; }
@@ -47,6 +44,8 @@ public:
 
 METACLASSID
 
+	void setToolTip(GLWTip *tooltip) { tooltip_ = tooltip; }
+
 	static bool inBox(float posX, float posY, float x, float y, float w, float h);
 	static void drawRoundBox(float x, float y, float w, float h, bool large);
 	static void drawCircle(int startA, int endA, float posX, float posY, bool size);
@@ -54,7 +53,7 @@ METACLASSID
 
 protected:
 	float x_, y_, w_, h_;
-
+	GLWTip *tooltip_;
 };
 
 #endif // !defined(AFX_GLWVISIBLEWIDGET_H__1EB53BAC_EE59_4434_805E_F9FAA72BEF37__INCLUDED_)

@@ -263,7 +263,7 @@ void TankMenus::AccessoryMenu::getMenuItems(const char* menuName,
 				accessory->getName());
 		}
 		menuItems_.push_back(accessory);
-		result.push_back(buffer);
+		result.push_back(GLMenuItem(buffer, &accessory->getToolTip()));
 	}
 }
 

@@ -18,11 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// WeaponProjectile.h: interface for the WeaponProjectile class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_WEAPONPROJECTILE_H__70119A64_2064_4066_8EE5_FD6A3E24D5FC__INCLUDED_)
 #define AFX_WEAPONPROJECTILE_H__70119A64_2064_4066_8EE5_FD6A3E24D5FC__INCLUDED_
 
@@ -31,16 +26,17 @@
 class WeaponProjectile : public Weapon
 {
 public:
-	WeaponProjectile(char *name, int price, int bundle, 
-		int armsLevel, int size);
+	WeaponProjectile();
 	virtual ~WeaponProjectile();
+
+	virtual bool parseXML(XMLNode *accessoryNode);
 
 	int getSize() { return size_; }
 
 	// Inherited from Weapon
 	virtual const char *getFiredSound();
 	virtual const char *getExplosionSound();
-	virtual Action *fireWeapon(unsigned int playerId);
+	virtual Action *fireWeapon(unsigned int playerId, Vector &position, Vector &velocity);
 
 protected:
 	int size_;

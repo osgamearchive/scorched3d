@@ -27,15 +27,16 @@
 class WeaponNapalm : public Weapon
 {
 public:
-	WeaponNapalm(char *name, int price, int bundle, 
-		int armsLevel, bool hot);
+	WeaponNapalm();
 	virtual ~WeaponNapalm();
+
+	virtual bool parseXML(XMLNode *accessoryNode);
 
 	int getHot() { return hot_; }
 
 	// Inherited from Weapon
 	virtual const char *getFiredSound();
-	virtual Action *fireWeapon(unsigned int playerId);
+	virtual Action *fireWeapon(unsigned int playerId, Vector &position, Vector &velocity);
 
 protected:
 	bool hot_;

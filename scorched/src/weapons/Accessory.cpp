@@ -18,35 +18,95 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// Accessory.cpp: implementation of the Accessory class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <weapons/Accessory.h>
+#include <common/Defines.h>
+#include <GLW/GLWToolTip.h>
+#include <stdlib.h>
 
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
-
-Accessory::Accessory(char *name, int price, 
-					 int bundle, int armsLevel) :
-	name_(name), price_(price), 
-	bundle_(bundle), armsLevel_(armsLevel),
-	noBought_(0), noSold_(0)
+Accessory::Accessory() :
+	name_("NONAME"), description_("NODESC"), price_(0), 
+	bundle_(0), armsLevel_(0),
+	noBought_(0), noSold_(0), toolTip_(0)
 {
-	sellPrice_ = 0;
-	if (price_ > 0 && bundle_ > 0) sellPrice_ = int((price_ / bundle_) * 0.8f);
+
 }
 
 Accessory::~Accessory()
 {
+	delete toolTip_;
+}
 
+bool Accessory::parseXML(XMLNode *accessoryNode)
+{
+	// Get the accessory name
+	XMLNode *nameNode = accessoryNode->getNamedChild("name");
+	if (!nameNode)
+	{
+		dialogMessage("Accessory",
+			"Failed to find name node");
+		return false;
+	}
+	name_ = nameNode->getContent();
+
+	// Get the accessory description
+	XMLNode *descriptionNode = accessoryNode->getNamedChild("description");
+	if (!descriptionNode)
+	{
+		dialogMessage("Accessory",
+			"Failed to find description node in accessory \"%s\"",
+			name_.c_str());
+		return false;
+	}
+	description_ = descriptionNode->getContent();
+	toolTip_ = new GLWTip(getName(), getDescription());
+
+	// Get the accessory bundle
+	XMLNode *bundleNode = accessoryNode->getNamedChild("bundlesize");
+	if (!bundleNode)
+	{
+		dialogMessage("Accessory",
+			"Failed to find bundlesize node in accessory \"%s\"",
+			name_.c_str());
+		return false;
+	}
+	bundle_ = atoi(bundleNode->getContent());
+
+	// Get the accessory cost
+	XMLNode *costNode = accessoryNode->getNamedChild("cost");
+	if (!costNode)
+	{
+		dialogMessage("Accessory",
+			"Failed to find cost node in accessory \"%s\"",
+			name_.c_str());
+		return false;
+	}
+	price_ = atoi(costNode->getContent());
+
+	// Get the accessory armslevel
+	XMLNode *armsLevelNode = accessoryNode->getNamedChild("armslevel");
+	if (!armsLevelNode)
+	{
+		dialogMessage("Accessory",
+			"Failed to find armslevel node in accessory \"%s\"",
+			name_.c_str());
+		return false;
+	}
+	armsLevel_ = atoi(armsLevelNode->getContent());
+
+	sellPrice_ = 0;
+	if (price_ > 0 && bundle_ > 0) sellPrice_ = int((price_ / bundle_) * 0.8f);
+
+	return true;
 }
 
 const char *Accessory::getName()
 { 
 	return name_.c_str(); 
+}
+
+const char *Accessory::getDescription()
+{
+	return description_.c_str();
 }
 
 const int Accessory::getPrice() 
@@ -82,4 +142,9 @@ void Accessory::sold()
 bool Accessory::singular()
 {
 	return false;
+}
+
+GLWTip &Accessory::getToolTip()
+{ 
+	return *toolTip_; 
 }

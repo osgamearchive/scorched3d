@@ -87,7 +87,7 @@ bool ServerBuyAccessoryHandler::processMessage(NetPlayerID &id,
 
 	// Check that the accessory is valid
 	Accessory *accessory = 
-		AccessoryStore::instance()->findByName(message.getAccessoryName());
+		AccessoryStore::instance()->findByAccessoryName(message.getAccessoryName());
 	if (!accessory) return true;
 	if (10 - accessory->getArmsLevel() > 
 		OptionsGame::instance()->getMaxArmsLevel()) return true;

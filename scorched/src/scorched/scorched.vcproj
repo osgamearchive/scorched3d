@@ -480,6 +480,12 @@
 				RelativePath="..\GLW\GLWToolTip.h">
 			</File>
 			<File
+				RelativePath="..\GLW\GLWTranslate.cpp">
+			</File>
+			<File
+				RelativePath="..\GLW\GLWTranslate.h">
+			</File>
+			<File
 				RelativePath="..\GLW\GLWVisiblePanel.cpp">
 			</File>
 			<File

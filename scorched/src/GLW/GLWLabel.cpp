@@ -18,22 +18,13 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// GLWLabel.cpp: implementation of the GLWLabel class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <GLW/GLWLabel.h>
 #include <GLW/GLWFont.h>
 
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
-
 GLWLabel::GLWLabel(float x, float y, char *buttonText) : 
-	GLWVisibleWidget(x, y, 0.0f, 0.0f), buttonText_(buttonText?buttonText:"")
+	GLWVisibleWidget(x, y, 0.0f, 20.0f)
 {
-
+	if (buttonText) setText(buttonText);
 }
 
 GLWLabel::~GLWLabel()
@@ -41,8 +32,16 @@ GLWLabel::~GLWLabel()
 
 }
 
+void GLWLabel::setText(const char *text)
+{ 
+	buttonText_ = text; 
+	w_ = float(buttonText_.size()) * 9.0f;
+}
+
 void GLWLabel::draw()
 {
+	GLWVisibleWidget::draw();
+
 	glColor3f(1.0f, 0.0f, 0.0f);
 	GLWFont::instance()->getFont()->draw(
 		GLWFont::widgetFontColor, 16,

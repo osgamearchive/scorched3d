@@ -26,9 +26,7 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-WeaponNapalm::WeaponNapalm(char *name, int price, 
-								   int bundle, int armsLevel, bool hot)
-	: Weapon(name, price, bundle, armsLevel), hot_(hot)
+WeaponNapalm::WeaponNapalm() : hot_(false)
 {
 
 }
@@ -38,17 +36,33 @@ WeaponNapalm::~WeaponNapalm()
 
 }
 
-Action *WeaponNapalm::fireWeapon(unsigned int playerId)
+bool WeaponNapalm::parseXML(XMLNode *accessoryNode)
+{
+	if (!Weapon::parseXML(accessoryNode)) return false;
+
+	// Get the accessory hot
+	XMLNode *hotNode = accessoryNode->getNamedChild("hot");
+	if (!hotNode)
+	{
+		dialogMessage("Accessory",
+			"Failed to find hot node in accessory \"%s\"",
+			name_.c_str());
+		return false;
+	}
+	hot_ = (strcmp(hotNode->getContent(), "true") == 0);
+
+	return true;
+}
+
+Action *WeaponNapalm::fireWeapon(unsigned int playerId, Vector &position, Vector &velocity)
 {
 	Tank *tank = TankContainer::instance()->getTankById(playerId);
 	if (tank)
 	{
-		Vector velocity = tank->getPhysics().getVelocityVector() *
-			tank->getState().getPower();
 		Action *action = new ShotProjectileNapalm(
-			tank->getPhysics().getTankGunPosition(), 
+			position, 
 			velocity,
-			this, playerId, hot_);
+			this, playerId);
 
 		return action;
 	}

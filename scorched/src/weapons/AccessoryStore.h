@@ -29,7 +29,8 @@
 #pragma warning(disable: 4786)
 
 #include <list>
-#include <weapons/Accessory.h>
+#include <vector>
+#include <weapons/Weapon.h>
 
 class Tank;
 class AccessoryStore
@@ -37,7 +38,11 @@ class AccessoryStore
 public:
 	static AccessoryStore *instance();
 
-	Accessory *findByName(const char *name);
+	Accessory *findByAccessoryType(Accessory::AccessoryType type);
+	Accessory *findByAccessoryName(const char *name);
+
+	Weapon *getDeathAnimation();
+
 	std::list<Accessory *> getAllWeapons();
 	std::list<Accessory *> getAllOthers();
 	std::list<Accessory *> &getAllAccessories();
@@ -45,6 +50,9 @@ public:
 protected:
 	static AccessoryStore *instance_;
 	std::list<Accessory *> accessories_;
+	std::vector<Weapon *> deathAnimations_;
+	bool parseFile();
+	Accessory *createAccessoryType(const char *type);
 
 private:
 	AccessoryStore();

@@ -62,10 +62,11 @@ void TankAIComputerBuyer::clearAccessories()
 void TankAIComputerBuyer::addAccessory(const char *accessoryName,
 									int buyLevel)
 {
-	Accessory *accessory = AccessoryStore::instance()->findByName(accessoryName);
+	Accessory *accessory = AccessoryStore::instance()->findByAccessoryName(accessoryName);
 	if (!accessory)
 	{
-		dialogMessage(accessoryName, "ERROR: Failed to find accessory");
+		dialogMessage("TankAIComputerBuyer", 
+			"ERROR: Failed to find accessory \"%s\"", accessoryName);
 		exit(1);
 	}
 

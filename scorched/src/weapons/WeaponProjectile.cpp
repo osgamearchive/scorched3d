@@ -18,22 +18,11 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// WeaponProjectile.cpp: implementation of the WeaponProjectile class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <weapons/WeaponProjectile.h>
 #include <actions/ShotProjectileExplosion.h>
 #include <tank/TankContainer.h>
 
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
-
-WeaponProjectile::WeaponProjectile(char *name, int price, 
-								   int bundle, int armsLevel, int size)
-	: Weapon(name, price, bundle, armsLevel), size_(size)
+WeaponProjectile::WeaponProjectile() : size_(0)
 {
 
 }
@@ -43,15 +32,31 @@ WeaponProjectile::~WeaponProjectile()
 
 }
 
-Action *WeaponProjectile::fireWeapon(unsigned int playerId)
+bool WeaponProjectile::parseXML(XMLNode *accessoryNode)
+{
+	if (!Weapon::parseXML(accessoryNode)) return false;
+
+	// Get the accessory size
+	XMLNode *sizeNode = accessoryNode->getNamedChild("size");
+	if (!sizeNode)
+	{
+		dialogMessage("Accessory",
+			"Failed to find size node in accessory \"%s\"",
+			name_.c_str());
+		return false;
+	}
+	size_ = atoi(sizeNode->getContent());
+
+	return true;
+}
+
+Action *WeaponProjectile::fireWeapon(unsigned int playerId, Vector &position, Vector &velocity)
 {
 	Tank *tank = TankContainer::instance()->getTankById(playerId);
 	if (tank)
 	{
-		Vector velocity = tank->getPhysics().getVelocityVector() *
-			tank->getState().getPower();
 		Action *action = new ShotProjectileExplosion(
-			tank->getPhysics().getTankGunPosition(), 
+			position, 
 			velocity,
 			this, playerId, (float) size_);
 

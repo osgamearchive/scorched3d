@@ -18,11 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// Battery.h: interface for the Battery class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_BATTERY_H__F9BCDF39_FB62_4BB4_9D64_C70215669F9C__INCLUDED_)
 #define AFX_BATTERY_H__F9BCDF39_FB62_4BB4_9D64_C70215669F9C__INCLUDED_
 
@@ -31,8 +26,7 @@
 class Battery : public Accessory
 {
 public:
-	Battery(char *name, int price, 
-		int bundle, int armsLevel);
+	Battery();
 	virtual ~Battery();
 
 	virtual AccessoryType getType();

@@ -83,10 +83,8 @@ void TankFired::simulate(float frameTime, bool &remove)
 				}
 			}
 
-			Weapon *weapon = (Weapon *) 
-				AccessoryStore::instance()->findByName("Baby Missile");
 			Explosion *explosion = new Explosion(tank->getPhysics().getTankGunPosition(), 3.0f, 
-				weapon, playerId_, false, Explosion::DeformNone);
+				weapon_, playerId_, false, Explosion::DeformNone);
 			ActionController::instance()->addAction(explosion);
 		}
 	}

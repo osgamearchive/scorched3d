@@ -31,10 +31,8 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-WeaponFunky::WeaponFunky(char *name, int price, int bundle, int armsLevel, 
-						 int size, int subsize, int warheads) :
-	Weapon(name, price, bundle, armsLevel), 
-	size_(size), subsize_(subsize), warheads_(warheads)
+WeaponFunky::WeaponFunky() :
+	size_(0), subsize_(0), warheads_(0)
 {
 
 }
@@ -44,15 +42,53 @@ WeaponFunky::~WeaponFunky()
 
 }
 
-Action *WeaponFunky::fireWeapon(unsigned int playerId)
+bool WeaponFunky::parseXML(XMLNode *accessoryNode)
+{
+	if (!Weapon::parseXML(accessoryNode)) return false;
+
+	// Get the accessory size
+	XMLNode *sizeNode = accessoryNode->getNamedChild("size");
+	if (!sizeNode)
+	{
+		dialogMessage("Accessory",
+			"Failed to find size node in accessory \"%s\"",
+			name_.c_str());
+		return false;
+	}
+	size_ = atoi(sizeNode->getContent());
+
+	// Get the accessory size
+	XMLNode *subsizeNode = accessoryNode->getNamedChild("subsize");
+	if (!subsizeNode)
+	{
+		dialogMessage("Accessory",
+			"Failed to find subsizeNode node in accessory \"%s\"",
+			name_.c_str());
+		return false;
+	}
+	subsize_ = atoi(subsizeNode->getContent());
+
+	// Get the accessory warheads
+	XMLNode *warheadsNode = accessoryNode->getNamedChild("nowarheads");
+	if (!warheadsNode)
+	{
+		dialogMessage("Accessory",
+			"Failed to find nowarheads node in accessory \"%s\"",
+			name_.c_str());
+		return false;
+	}
+	warheads_ = atoi(warheadsNode->getContent());
+
+	return true;
+}
+
+Action *WeaponFunky::fireWeapon(unsigned int playerId, Vector &position, Vector &velocity)
 {
 	Tank *tank = TankContainer::instance()->getTankById(playerId);
 	if (tank)
 	{
-		Vector velocity = tank->getPhysics().getVelocityVector() *
-			tank->getState().getPower();
 		Action *action = new ShotProjectileFunky(
-			tank->getPhysics().getTankGunPosition(), 
+			position, 
 			velocity,
 			this, playerId, (float) size_, (float) subsize_, warheads_);
 		return action;

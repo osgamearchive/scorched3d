@@ -18,27 +18,22 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(AFX_WEAPONDIGGER_H__24F2D834_712D_4355_AC74_3571E2F4B14D__INCLUDED_)
-#define AFX_WEAPONDIGGER_H__24F2D834_712D_4355_AC74_3571E2F4B14D__INCLUDED_
+#if !defined(__INCLUDE_GLWTranslateh_INCLUDE__)
+#define __INCLUDE_GLWTranslateh_INCLUDE__
 
-#include <weapons/Weapon.h>
-
-class WeaponDigger : public Weapon
+class GLWTranslate
 {
 public:
-	WeaponDigger();
-	virtual ~WeaponDigger();
+	GLWTranslate(float x, float y);
+	virtual ~GLWTranslate();
 
-	virtual bool parseXML(XMLNode *accessoryNode);
-
-	// Inherited from Weapon
-	Action *fireWeapon(unsigned int playerId, Vector &position, Vector &velocity);
-	virtual const char *getFiredSound();
-	virtual const char *getExplosionTexture();
+	static float getPosX();
+	static float getPosY();
 
 protected:
-	int warHeads_;
-
+	static float posX_;
+	static float posY_;
+	float x_, y_;
 };
 
-#endif // !defined(AFX_WEAPONDIGGER_H__24F2D834_712D_4355_AC74_3571E2F4B14D__INCLUDED_)
+#endif

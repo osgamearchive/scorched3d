@@ -30,18 +30,14 @@ public:
 	ShotProjectileNapalm();
 	ShotProjectileNapalm(
 		Vector &startPosition, Vector &velocity,
-		Weapon *weapon, unsigned int playerId,
-		bool hot);
+		Weapon *weapon, unsigned int playerId);
 	virtual ~ShotProjectileNapalm();
 
-	virtual bool writeAction(NetBuffer &buffer);
-	virtual bool readAction(NetBufferReader &reader);
 	virtual void collision(Vector &position);
 
 	REGISTER_ACTION_HEADER(ShotProjectileNapalm);
 
 protected:
-	bool hot_;
 
 	void addNapalm(int x, int y);
 

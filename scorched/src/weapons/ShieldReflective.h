@@ -26,8 +26,7 @@
 class ShieldReflective : public Shield
 {
 public:
-	ShieldReflective(char *name, int price, int bundle, int armsLevel, 
-		ShieldSize radius, Vector color);
+	ShieldReflective();
 	virtual ~ShieldReflective();
 
 	virtual ShieldType getShieldType();

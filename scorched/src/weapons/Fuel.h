@@ -27,8 +27,7 @@
 class Fuel : public Accessory
 {
 public:
-	Fuel(char *name, int price, 
-		int bundle, int armsLevel);
+	Fuel();
 	virtual ~Fuel();
 
 	virtual AccessoryType getType();

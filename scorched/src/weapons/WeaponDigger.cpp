@@ -26,10 +26,7 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-WeaponDigger::WeaponDigger(char *name, int price, int bundle, 
-						   int armsLevel, int warHeads) :
-	Weapon(name, price, bundle, armsLevel), 
-	warHeads_(warHeads)
+WeaponDigger::WeaponDigger() : warHeads_(0)
 {
 
 }
@@ -39,16 +36,31 @@ WeaponDigger::~WeaponDigger()
 
 }
 
+bool WeaponDigger::parseXML(XMLNode *accessoryNode)
+{
+	if (!Weapon::parseXML(accessoryNode)) return false;
 
-Action *WeaponDigger::fireWeapon(unsigned int playerId)
+	// Get the accessory size
+	XMLNode *warheadsNode = accessoryNode->getNamedChild("nowarheads");
+	if (!warheadsNode)
+	{
+		dialogMessage("Accessory",
+			"Failed to find nowarheads node in accessory \"%s\"",
+			name_.c_str());
+		return false;
+	}
+	warHeads_ = atoi(warheadsNode->getContent());
+
+	return true;
+}
+
+Action *WeaponDigger::fireWeapon(unsigned int playerId, Vector &position, Vector &velocity)
 {
 	Tank *tank = TankContainer::instance()->getTankById(playerId);
 	if (tank)
 	{
-		Vector velocity = tank->getPhysics().getVelocityVector() *
-			tank->getState().getPower();
 		Action *action = new ShotProjectileHog(
-			tank->getPhysics().getTankGunPosition(), 
+			position, 
 			velocity,
 			this, playerId, warHeads_, false);
 		return action;

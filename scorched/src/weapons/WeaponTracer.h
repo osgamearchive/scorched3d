@@ -18,11 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// WeaponTracer.h: interface for the WeaponTracer class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_WEAPONTRACER_H__24F2D834_712D_4355_AC74_3571E2F4B14D__INCLUDED_)
 #define AFX_WEAPONTRACER_H__24F2D834_712D_4355_AC74_3571E2F4B14D__INCLUDED_
 
@@ -31,12 +26,13 @@
 class WeaponTracer : public Weapon
 {
 public:
-	WeaponTracer(char *name, int price, int bundle, 
-		int armsLevel, bool showShotPath);
+	WeaponTracer();
 	virtual ~WeaponTracer();
 
+	virtual bool parseXML(XMLNode *accessoryNode);
+
 	// Inherited from Weapon
-	Action *fireWeapon(unsigned int playerId);
+	Action *fireWeapon(unsigned int playerId, Vector &position, Vector &velocity);
 	virtual const char *getFiredSound();
 
 protected:

@@ -23,10 +23,7 @@
 #include <tank/TankContainer.h>
 #include <actions/ShotProjectileRiot.h>
 
-WeaponRiotBomb::WeaponRiotBomb(char *name, int price, 
-							   int bundle, int armsLevel, int size)
-	: Weapon(name, price, bundle, 
-	armsLevel), size_(size)
+WeaponRiotBomb::WeaponRiotBomb() : size_(0)
 {
 }
 
@@ -34,15 +31,31 @@ WeaponRiotBomb::~WeaponRiotBomb()
 {
 }
 
-Action *WeaponRiotBomb::fireWeapon(unsigned int playerId)
+bool WeaponRiotBomb::parseXML(XMLNode *accessoryNode)
+{
+	if (!Weapon::parseXML(accessoryNode)) return false;
+
+	// Get the accessory size
+	XMLNode *sizeNode = accessoryNode->getNamedChild("size");
+	if (!sizeNode)
+	{
+		dialogMessage("Accessory",
+			"Failed to find size node in accessory \"%s\"",
+			name_.c_str());
+		return false;
+	}
+	size_ = atoi(sizeNode->getContent());
+
+	return true;
+}
+
+Action *WeaponRiotBomb::fireWeapon(unsigned int playerId, Vector &position, Vector &velocity)
 {
 	Tank *tank = TankContainer::instance()->getTankById(playerId);
 	if (tank)
 	{
-		Vector velocity = tank->getPhysics().getVelocityVector() *
-			tank->getState().getPower();
 		Action *action = new ShotProjectileRiot(
-			tank->getPhysics().getTankGunPosition(), 
+			position, 
 			velocity,
 			this, playerId, (float) size_);
 

@@ -18,7 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #if !defined(__INCLUDE_ShieldReflectiveMagh_INCLUDE__)
 #define __INCLUDE_ShieldReflectiveMagh_INCLUDE__
 #include <weapons/ShieldReflective.h>
@@ -26,7 +25,7 @@
 class ShieldReflectiveMag : public ShieldReflective
 {
 public:
-	ShieldReflectiveMag(char *name, int price, int bundle, int armsLevel, ShieldSize radius, Vector color);
+	ShieldReflectiveMag();
 	virtual ~ShieldReflectiveMag();
 
 	virtual ShieldType getShieldType();

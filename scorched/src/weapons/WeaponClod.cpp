@@ -18,22 +18,11 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// WeaponClod.cpp: implementation of the WeaponClod class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <weapons/WeaponClod.h>
 #include <tank/TankContainer.h>
 #include <actions/ShotProjectileClod.h>
 
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
-
-WeaponClod::WeaponClod(char *name, int price,
-					   int bundle, int armsLevel, int size)
-	: Weapon(name, price, bundle, armsLevel), size_(size)
+WeaponClod::WeaponClod() : size_(0)
 {
 
 }
@@ -43,15 +32,31 @@ WeaponClod::~WeaponClod()
 
 }
 
-Action *WeaponClod::fireWeapon(unsigned int playerId)
+bool WeaponClod::parseXML(XMLNode *accessoryNode)
+{
+	if (!Weapon::parseXML(accessoryNode)) return false;
+
+	// Get the accessory size
+	XMLNode *sizeNode = accessoryNode->getNamedChild("size");
+	if (!sizeNode)
+	{
+		dialogMessage("Accessory",
+			"Failed to find bundle node in accessory \"%s\"",
+			name_.c_str());
+		return false;
+	}
+	size_ = atoi(sizeNode->getContent());
+
+	return true;
+}
+
+Action *WeaponClod::fireWeapon(unsigned int playerId, Vector &position, Vector &velocity)
 {
 	Tank *tank = TankContainer::instance()->getTankById(playerId);
 	if (tank)
 	{
-		Vector velocity = tank->getPhysics().getVelocityVector() *
-			tank->getState().getPower();
 		Action *action = new ShotProjectileClod(
-			tank->getPhysics().getTankGunPosition(), 
+			position, 
 			velocity,
 			this, playerId, (float) size_);
 

@@ -26,16 +26,17 @@
 class WeaponLeapFrog : public Weapon
 {
 public:
-	WeaponLeapFrog(char *name, int price, int bundle, 
-		int armsLevel, int size);
+	WeaponLeapFrog();
 	virtual ~WeaponLeapFrog();
+
+	virtual bool parseXML(XMLNode *accessoryNode);
 
 	int getSize() { return size_; }
 
 	// Inherited from Weapon
 	virtual const char *getFiredSound();
 	virtual const char *getExplosionSound();
-	virtual Action *fireWeapon(unsigned int playerId);
+	virtual Action *fireWeapon(unsigned int playerId, Vector &position, Vector &velocity);
 
 protected:
 	int size_;

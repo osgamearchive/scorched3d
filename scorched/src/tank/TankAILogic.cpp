@@ -114,7 +114,7 @@ void TankAILogic::processFiredMessage(ComsPlayedMoveMessage &message, Tank *tank
 	{
 		// Check the weapon name exists and is a weapon
 		Accessory *accessory = 
-			AccessoryStore::instance()->findByName(
+			AccessoryStore::instance()->findByAccessoryName(
 			message.getWeaponName());
 		if (accessory && accessory->getType() == Accessory::AccessoryWeapon)
 		{
@@ -146,7 +146,11 @@ void TankAILogic::processFiredMessage(ComsPlayedMoveMessage &message, Tank *tank
 
 					// Create the action for the weapon and
 					// add it to the action controller
-					Action *action = weapon->fireWeapon(tank->getPlayerId());
+					Vector velocity = tank->getPhysics().getVelocityVector() *
+						tank->getState().getPower();
+					Vector position = tank->getPhysics().getTankGunPosition();
+
+					Action *action = weapon->fireWeapon(tank->getPlayerId(), position, velocity);
 					if (action)
 					{
 						ActionController::instance()->addAction(action);
@@ -167,7 +171,7 @@ bool TankAILogic::processDefenseMessage(ComsDefenseMessage &message, Tank *tank)
 		{
 			if (!OptionsParam::instance()->getOnServer()) 
 			{
-				static Battery battery("-", 0, 0, 0);
+				static Battery battery;
 				SoundBuffer *batSound = 
 					SoundStore::instance()->fetchOrCreateBuffer(
 						(char *) battery.getActivatedSound());
@@ -181,19 +185,24 @@ bool TankAILogic::processDefenseMessage(ComsDefenseMessage &message, Tank *tank)
 		break;
 	case ComsDefenseMessage::eShieldUp:
 		{
-			Shield *shield = (Shield *) 
-				AccessoryStore::instance()->findByName(message.getInfo());
-			if (tank->getAccessories().getShields().getShieldCount(shield) > 0)
+			Accessory *accessory = 
+				AccessoryStore::instance()->findByAccessoryName(message.getInfo());
+			if (accessory->getType() == Accessory::AccessoryShield)
 			{
-				if (!OptionsParam::instance()->getOnServer()) 
+				Shield *shield = (Shield *) accessory;
+				if (tank->getAccessories().getShields().getShieldCount(shield) > 0)
 				{
-					SoundBuffer *activateSound = 
-						SoundStore::instance()->fetchOrCreateBuffer(
-							(char *) shield->getActivatedSound());
-					activateSound->play();
-				}
+					if (!OptionsParam::instance()->getOnServer()) 
+					{
+						SoundBuffer *activateSound = 
+							SoundStore::instance()->fetchOrCreateBuffer(
+								(char *) shield->getActivatedSound());
+						activateSound->play();
+					}
 
-				tank->getAccessories().getShields().setCurrentShield(shield);
+					tank->getAccessories().getShields().setCurrentShield(shield);
+				}
+				else return false;
 			}
 			else return false;
 		}
@@ -214,7 +223,7 @@ bool TankAILogic::processDefenseMessage(ComsDefenseMessage &message, Tank *tank)
 		{
 			if (!OptionsParam::instance()->getOnServer()) 
 			{
-				static Parachute para("-", 0, 0, 0);
+				static Parachute para;
 				SoundBuffer *activateSound = 
 					SoundStore::instance()->fetchOrCreateBuffer(
 						(char *) para.getActivatedSound());

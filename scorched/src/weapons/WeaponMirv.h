@@ -18,11 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// WeaponMirv.h: interface for the WeaponMirv class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_WEAPONMIRV_H__B5C043F0_7DC6_4198_AE5B_E19002234FCE__INCLUDED_)
 #define AFX_WEAPONMIRV_H__B5C043F0_7DC6_4198_AE5B_E19002234FCE__INCLUDED_
 
@@ -31,13 +26,13 @@
 class WeaponMirv  : public Weapon
 {
 public:
-	WeaponMirv(char *name, int price, int bundle, 
-		int armsLevel, int size, 
-		int numberWarheads, bool spread);
+	WeaponMirv();
 	virtual ~WeaponMirv();
 
+	virtual bool parseXML(XMLNode *accessoryNode);
+
 	// Inherited from Weapon
-	Action *fireWeapon(unsigned int playerId);
+	Action *fireWeapon(unsigned int playerId, Vector &position, Vector &velocity);
 	virtual const char *getFiredSound();
 	virtual const char *getExplosionSound();
 	virtual const char *getExplosionTexture();

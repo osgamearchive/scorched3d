@@ -26,12 +26,13 @@
 class WeaponSandHog : public Weapon
 {
 public:
-	WeaponSandHog(char *name, int price, int bundle, 
-		int armsLevel, int warHeads);
+	WeaponSandHog();
 	virtual ~WeaponSandHog();
 
+	virtual bool parseXML(XMLNode *accessoryNode);
+
 	// Inherited from Weapon
-	Action *fireWeapon(unsigned int playerId);
+	Action *fireWeapon(unsigned int playerId, Vector &position, Vector &velocity);
 	virtual const char *getFiredSound();
 
 protected:

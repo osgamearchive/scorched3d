@@ -18,21 +18,10 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// Weapon.cpp: implementation of the Weapon class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <weapons/Weapon.h>
 #include <weapons/AccessoryStore.h>
 
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
-
-Weapon::Weapon(char *name, int price, 
-			   int bundle, int armsLevel) :
-	Accessory(name, price, bundle, armsLevel)
+Weapon::Weapon()
 {
 
 }
@@ -58,7 +47,7 @@ Weapon *Weapon::read(NetBufferReader &reader)
 	std::string weapon;
 	if (!reader.getFromBuffer(weapon)) return 0;
 	Accessory *accessory = 
-		AccessoryStore::instance()->findByName(weapon.c_str());
+		AccessoryStore::instance()->findByAccessoryName(weapon.c_str());
 	if (!accessory || (accessory->getType() != Accessory::AccessoryWeapon)) 
 	{
 		return 0;

@@ -45,7 +45,7 @@ TankAIComputerDHTest::~TankAIComputerDHTest()
 
 void TankAIComputerDHTest::selectWeapons()
 {
-	Accessory *wp = AccessoryStore::instance()->findByName("Death's Head");
+	Accessory *wp = AccessoryStore::instance()->findByAccessoryName("Death's Head");
 	currentTank_->getAccessories().add(wp);
 
 	currentTank_->getAccessories().getWeapons().setWeapon((Weapon *) wp);

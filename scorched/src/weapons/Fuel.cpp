@@ -18,13 +18,10 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <weapons/Fuel.h>
 #include <common/Defines.h>
 
-Fuel::Fuel(char *name, int price, 
-				 int bundle, int armsLevel) :
-	Accessory(name, price, bundle, armsLevel)
+Fuel::Fuel()
 {
 
 }

@@ -67,7 +67,7 @@ bool ClientBuyAccessoryHandler::processMessage(NetPlayerID &id,
 
 	// Check accessory exists
 	Accessory *accessory = 
-		AccessoryStore::instance()->findByName(message.getAccessoryName());
+		AccessoryStore::instance()->findByAccessoryName(message.getAccessoryName());
 	if (!accessory) return true;
 
 	if (message.getBuy())

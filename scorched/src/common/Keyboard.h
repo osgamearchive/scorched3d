@@ -55,8 +55,8 @@ protected:
 	KeyboardHistory::HistoryElement keybHist_[MAX_KEYBDHIST];
 	int keybHistCnt_;
 
-	std::map<std::string, KeyboardKey *, less<std::string> > keyMap_;
-	std::map<std::string, KeyboardKey *, less<std::string> > usedKeyMap_;
+	std::map<std::string, KeyboardKey *, std::less<std::string> > keyMap_;
+	std::map<std::string, KeyboardKey *, std::less<std::string> > usedKeyMap_;
                        
 private:
 	Keyboard();

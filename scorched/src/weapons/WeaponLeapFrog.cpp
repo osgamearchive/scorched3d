@@ -22,13 +22,7 @@
 #include <actions/ShotProjectileLeapFrog.h>
 #include <tank/TankContainer.h>
 
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
-
-WeaponLeapFrog::WeaponLeapFrog(char *name, int price, 
-		int bundle, int armsLevel, int size)
-	: Weapon(name, price, bundle, armsLevel), size_(size)
+WeaponLeapFrog::WeaponLeapFrog():  size_(0)
 {
 
 }
@@ -38,15 +32,31 @@ WeaponLeapFrog::~WeaponLeapFrog()
 
 }
 
-Action *WeaponLeapFrog::fireWeapon(unsigned int playerId)
+bool WeaponLeapFrog::parseXML(XMLNode *accessoryNode)
+{
+	if (!Weapon::parseXML(accessoryNode)) return false;
+
+	// Get the accessory size
+	XMLNode *sizeNode = accessoryNode->getNamedChild("size");
+	if (!sizeNode)
+	{
+		dialogMessage("Accessory",
+			"Failed to find size node in accessory \"%s\"",
+			name_.c_str());
+		return false;
+	}
+	size_ = atoi(sizeNode->getContent());
+
+	return true;
+}
+
+Action *WeaponLeapFrog::fireWeapon(unsigned int playerId, Vector &position, Vector &velocity)
 {
 	Tank *tank = TankContainer::instance()->getTankById(playerId);
 	if (tank)
 	{
-		Vector velocity = tank->getPhysics().getVelocityVector() *
-			tank->getState().getPower();
 		Action *action = new ShotProjectileLeapFrog(
-			tank->getPhysics().getTankGunPosition(), 
+			position, 
 			velocity,
 			this, playerId, (float) size_, 2);
 

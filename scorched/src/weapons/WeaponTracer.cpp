@@ -18,23 +18,11 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// WeaponTracer.cpp: implementation of the WeaponTracer class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <weapons/WeaponTracer.h>
 #include <tank/TankContainer.h>
 #include <actions/ShotProjectileTracer.h>
 
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
-
-WeaponTracer::WeaponTracer(char *name, int price, int bundle, 
-						   int armsLevel, bool showShotPath) :
-	Weapon(name, price, bundle, armsLevel), 
-	showShotPath_(showShotPath)
+WeaponTracer::WeaponTracer() : showShotPath_(false)
 {
 
 }
@@ -44,16 +32,31 @@ WeaponTracer::~WeaponTracer()
 
 }
 
+bool WeaponTracer::parseXML(XMLNode *accessoryNode)
+{
+	if (!Weapon::parseXML(accessoryNode)) return false;
 
-Action *WeaponTracer::fireWeapon(unsigned int playerId)
+	// Get the accessory smoke
+	XMLNode *smokeNode = accessoryNode->getNamedChild("smoke");
+	if (!smokeNode)
+	{
+		dialogMessage("Accessory",
+			"Failed to find smoke node in accessory \"%s\"",
+			name_.c_str());
+		return false;
+	}
+	showShotPath_ = (strcmp(smokeNode->getContent(), "true") == 0);
+
+	return true;
+}
+
+Action *WeaponTracer::fireWeapon(unsigned int playerId, Vector &position, Vector &velocity)
 {
 	Tank *tank = TankContainer::instance()->getTankById(playerId);
 	if (tank)
 	{
-		Vector velocity = tank->getPhysics().getVelocityVector() *
-			tank->getState().getPower();
 		Action *action = new ShotProjectileTracer(
-			tank->getPhysics().getTankGunPosition(), 
+			position, 
 			velocity,
 			this, playerId, showShotPath_);
 		return action;

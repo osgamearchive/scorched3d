@@ -47,10 +47,22 @@ void TankWeapon::reset()
 {
 	weapons_.clear();
 	currentWeapon_ = 0;
-	Weapon *bm = (Weapon *) AccessoryStore::instance()->findByName("Baby Missile");
-	DIALOG_ASSERT(bm);
 
-	addWeapon(bm, -1);
+	std::list<Accessory *> &accessories = 
+		AccessoryStore::instance()->getAllWeapons();
+	std::list<Accessory *>::iterator itor;
+	for (itor = accessories.begin();
+		itor != accessories.end();
+		itor++)
+	{
+		Accessory *accessory = (*itor);
+		if (accessory->getType() == Accessory::AccessoryWeapon &&
+			accessory->getPrice() == 0 && 
+			accessory->getBundle() == 0)
+		{
+			addWeapon((Weapon*) accessory, -1);
+		}
+	}
 }
 
 void TankWeapon::addWeapon(Weapon *wp, int count)
@@ -186,7 +198,7 @@ bool TankWeapon::readMessage(NetBufferReader &reader)
 		if (!reader.getFromBuffer(weaponCount)) return false;
 
 		Weapon *weapon = (Weapon *) 
-			AccessoryStore::instance()->findByName(weaponName.c_str());
+			AccessoryStore::instance()->findByAccessoryName(weaponName.c_str());
 		if (!weapon) return false;
 		coveredWeapons.insert(weapon);
 

@@ -173,7 +173,7 @@ bool Keyboard::parseKeyFile(const char *fileName)
 				keyNames.push_back(currentKey->getContent());
 
 				// Check the key is not already in use
-				std::map<std::string, KeyboardKey *, less<std::string> >::iterator useditor =
+				std::map<std::string, KeyboardKey *, std::less<std::string> >::iterator useditor =
 					usedKeyMap_.find(currentKey->getContent());
 				if (useditor != usedKeyMap_.end())
 				{
@@ -199,7 +199,7 @@ KeyboardKey *Keyboard::getKey(const char *name)
 {
 	static KeyboardKey defaultKey("None", "None");
 
-	std::map<std::string, KeyboardKey *, less<std::string> >::iterator itor =
+	std::map<std::string, KeyboardKey *, std::less<std::string> >::iterator itor =
 		keyMap_.find(name);
 	if (itor != keyMap_.end()) return (*itor).second;
 

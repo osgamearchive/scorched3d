@@ -18,24 +18,17 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// GLWVisibleWidget.cpp: implementation of the GLWVisibleWidget class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <GLW/GLWVisibleWidget.h>
+#include <GLW/GLWToolTip.h>
+#include <GLW/GLWTranslate.h>
 #include <common/Vector.h>
 #include <math.h>
 
 static const float roundSize = 20.0f;
 static const float smallRoundSize = 10.0f;
 
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
-
 GLWVisibleWidget::GLWVisibleWidget(float x, float y, float w, float h) :
-	x_(x), y_(y), w_(w), h_(h)
+	x_(x), y_(y), w_(w), h_(h), tooltip_(0)
 {
 
 }
@@ -43,6 +36,17 @@ GLWVisibleWidget::GLWVisibleWidget(float x, float y, float w, float h) :
 GLWVisibleWidget::~GLWVisibleWidget()
 {
 
+}
+
+void GLWVisibleWidget::draw()
+{
+	if (tooltip_)
+	{
+		GLWToolTip::instance()->addToolTip(tooltip_, 
+			GLWTranslate::getPosX() + x_, 
+			GLWTranslate::getPosY() + y_, 
+			w_, h_);
+	}
 }
 
 void GLWVisibleWidget::drawCircle(int startA, int endA, float posX, float posY, bool size)

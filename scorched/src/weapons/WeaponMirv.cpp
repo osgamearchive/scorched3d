@@ -18,24 +18,12 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// WeaponMirv.cpp: implementation of the WeaponMirv class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <weapons/WeaponMirv.h>
 #include <tank/TankContainer.h>
 #include <actions/ShotProjectileMirv.h>
 
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
-
-WeaponMirv::WeaponMirv(char *name, int price, int bundle, 
-					   int armsLevel, int size, 
-					   int numberWarheads, bool spread)
-	: Weapon(name, price, bundle, armsLevel), size_(size), 
-	noWarheads_(numberWarheads), spread_(spread)
+WeaponMirv::WeaponMirv() :
+	noWarheads_(0), spread_(false)
 {
 
 }
@@ -45,15 +33,53 @@ WeaponMirv::~WeaponMirv()
 
 }
 
-Action *WeaponMirv::fireWeapon(unsigned int playerId)
+bool WeaponMirv::parseXML(XMLNode *accessoryNode)
+{
+	if (!Weapon::parseXML(accessoryNode)) return false;
+
+	// Get the accessory spread
+	XMLNode *spreadNode = accessoryNode->getNamedChild("spread");
+	if (!spreadNode)
+	{
+		dialogMessage("Accessory",
+			"Failed to find spread node in accessory \"%s\"",
+			name_.c_str());
+		return false;
+	}
+	spread_ = (strcmp(spreadNode->getContent(), "true") == 0);
+
+	// Get the accessory size
+	XMLNode *sizeNode = accessoryNode->getNamedChild("size");
+	if (!sizeNode)
+	{
+		dialogMessage("Accessory",
+			"Failed to find size node in accessory \"%s\"",
+			name_.c_str());
+		return false;
+	}
+	size_ = atoi(sizeNode->getContent());
+
+	// Get the accessory warheads
+	XMLNode *warheadsNode = accessoryNode->getNamedChild("nowarheads");
+	if (!warheadsNode)
+	{
+		dialogMessage("Accessory",
+			"Failed to find nowarheads node in accessory \"%s\"",
+			name_.c_str());
+		return false;
+	}
+	noWarheads_ = atoi(warheadsNode->getContent());
+
+	return true;
+}
+
+Action *WeaponMirv::fireWeapon(unsigned int playerId, Vector &position, Vector &velocity)
 {
 	Tank *tank = TankContainer::instance()->getTankById(playerId);
 	if (tank)
 	{
-		Vector velocity = tank->getPhysics().getVelocityVector() *
-			tank->getState().getPower();
 		Action *action = new ShotProjectileMirv(
-			tank->getPhysics().getTankGunPosition(), 
+			position, 
 			velocity,
 			this, playerId, (float) size_, noWarheads_, spread_);
 

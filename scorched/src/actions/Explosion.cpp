@@ -93,11 +93,10 @@ void Explosion::init()
 				position_, 
 				*texture,
 				explosionSize, explosionHurts_));
-		if (strstr(weapon_->getName(), "Nuke"))
+		if (width_ >=17 && deformType_==DeformDown)
 		{
-			int size = ((WeaponProjectile *) weapon_)->getSize();
 			ActionController::instance()->addAction(
-				new SpriteAction(new ExplosionNukeRenderer(position_, float(size - 2))));
+				new SpriteAction(new ExplosionNukeRenderer(position_, float(width_ - 2))));
 		}
 	}
 }

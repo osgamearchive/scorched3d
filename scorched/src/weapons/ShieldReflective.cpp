@@ -18,11 +18,9 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <weapons/ShieldReflective.h>
 
-ShieldReflective::ShieldReflective(char *name, int price, int bundle, int armsLevel, ShieldSize radius, Vector color) :
-	Shield(name, price, bundle, armsLevel, radius, color)
+ShieldReflective::ShieldReflective()
 {
 }
 

@@ -44,9 +44,10 @@ public:
 		ShieldTypeReflectiveMag
 	};
 
-	Shield(char *name, int price, int bundle, int armsLevel, 
-		ShieldSize radius, Vector color);
+	Shield();
 	virtual ~Shield();
+
+	virtual bool parseXML(XMLNode *accessoryNode);
 
 	// This is a shield
 	virtual AccessoryType getType();

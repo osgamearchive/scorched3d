@@ -18,11 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// Battery.cpp: implementation of the Battery class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <weapons/Battery.h>
 #include <common/Defines.h>
 
@@ -30,9 +25,7 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-Battery::Battery(char *name, int price, 
-				 int bundle, int armsLevel) :
-	Accessory(name, price, bundle, armsLevel)
+Battery::Battery()
 {
 
 }

@@ -134,6 +134,7 @@ void BuyAccessoryDialog::addPlayerWeaponsBuy(GLWTab *tab, bool showWeapons)
 
 		GLWVisiblePanel *newPanel = (GLWVisiblePanel *)
 			tab->addWidget(new GLWVisiblePanel(10.0f, (float) height, 300.0f, 20.0f, true));
+		newPanel->setToolTip(&current->getToolTip());
 		sprintf(buffer, "%i", (currentNumber>=0?currentNumber:99));
 		newPanel->addWidget(new GLWLabel(0, -2, buffer));
 		newPanel->addWidget(new GLWLabel(30, -2, (char *) current->getName()));
@@ -175,6 +176,7 @@ void BuyAccessoryDialog::addPlayerWeaponsSell()
 	{
 		GLWVisiblePanel *newPanel = (GLWVisiblePanel *)
 			sellTab_->addWidget(new GLWVisiblePanel(10.0f, (float) height, 300.0f, 20.0f, true));
+		newPanel->setToolTip(&(itor->first)->getToolTip());
 		sprintf(buffer, "%i", (itor->second>=0?itor->second:99));
 		newPanel->addWidget(new GLWLabel(0, -2, buffer));
 		newPanel->addWidget(new GLWLabel(30, -2, (char *) (itor->first)->getName()));

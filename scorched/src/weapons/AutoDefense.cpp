@@ -22,9 +22,7 @@
 #include <weapons/AutoDefense.h>
 #include <common/OptionsTransient.h>
 
-AutoDefense::AutoDefense(char *name, int price, 
-						 int bundle, int armsLevel) :
-	Accessory(name, price, bundle, armsLevel)
+AutoDefense::AutoDefense()
 {
 }
 

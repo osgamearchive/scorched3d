@@ -25,8 +25,8 @@
 #include <windows.h>
 
 unsigned int ScorchedPort = 27270;
-char *ScorchedVersion = "35B";
-char *ScorchedProtocolVersion = "aa";
+char *ScorchedVersion = "36";
+char *ScorchedProtocolVersion = "ab";
 
 extern bool wxWindowInit;
 

@@ -22,6 +22,7 @@
 #include <actions/ShotProjectileNapalm.h>
 #include <actions/Napalm.h>
 #include <engine/ActionController.h>
+#include <weapons/WeaponNapalm.h>
 
 static const float NapalmBurnTime = 8.0f;
 
@@ -34,29 +35,13 @@ ShotProjectileNapalm::ShotProjectileNapalm()
 
 ShotProjectileNapalm::ShotProjectileNapalm(
 	Vector &startPosition, Vector &velocity,
-	Weapon *weapon, unsigned int playerId,
-	bool hot) :
-	ShotProjectile(startPosition, velocity, weapon, playerId, 1),
-	hot_(hot)
+	Weapon *weapon, unsigned int playerId) :
+	ShotProjectile(startPosition, velocity, weapon, playerId, 1)
 {
 }
 
 ShotProjectileNapalm::~ShotProjectileNapalm()
 {
-}
-
-bool ShotProjectileNapalm::writeAction(NetBuffer &buffer)
-{
-	if (!ShotProjectile::writeAction(buffer)) return false;
-	buffer.addToBuffer(hot_);
-	return true;
-}
-
-bool ShotProjectileNapalm::readAction(NetBufferReader &reader)
-{
-	if (!ShotProjectile::readAction(reader)) return false;
-	if (!reader.getFromBuffer(hot_)) return false;
-	return true;
 }
 
 void ShotProjectileNapalm::collision(Vector &position)
@@ -65,7 +50,7 @@ void ShotProjectileNapalm::collision(Vector &position)
 
 	addNapalm((int) position[0], (int) position[1]);
 	addNapalm((int) position[0] + 2, (int) position[1] + 2);
-	if (hot_) addNapalm((int) position[0] - 2, (int) position[1] + 2);
+	if (((WeaponNapalm *) weapon_)->getHot()) addNapalm((int) position[0] - 2, (int) position[1] + 2);
 }
 
 void ShotProjectileNapalm::addNapalm(int x, int y)
@@ -77,6 +62,6 @@ void ShotProjectileNapalm::addNapalm(int x, int y)
 		y < GlobalHMap::instance()->getHMap().getWidth() - 1)
 	{
 		ActionController::instance()->addAction(
-			new Napalm(x, y, NapalmBurnTime, hot_, playerId_));
+			new Napalm(x, y, NapalmBurnTime, weapon_, playerId_));
 	}
 }

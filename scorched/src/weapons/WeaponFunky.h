@@ -18,11 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// WeaponFunky.h: interface for the WeaponFunky class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_WEAPONFUNKY_H__A96ADD10_0901_4E1D_A49B_9BE78AD33B9B__INCLUDED_)
 #define AFX_WEAPONFUNKY_H__A96ADD10_0901_4E1D_A49B_9BE78AD33B9B__INCLUDED_
 
@@ -31,12 +26,13 @@
 class WeaponFunky : public Weapon
 {
 public:
-	WeaponFunky(char *name, int price, int bundle, int armsLevel,
-		int size, int subsize, int warheads);
+	WeaponFunky();
 	virtual ~WeaponFunky();
 
+	virtual bool parseXML(XMLNode *accessoryNode);
+
 	// Inherited from Weapon
-	Action *fireWeapon(unsigned int playerId);
+	Action *fireWeapon(unsigned int playerId, Vector &position, Vector &velocity);
 	virtual const char *getFiredSound();
 	virtual const char *getExplosionSound();
 	virtual const char *getExplosionTexture();

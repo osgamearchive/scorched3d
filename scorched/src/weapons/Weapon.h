@@ -18,11 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// Weapon.h: interface for the Weapon class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_WEAPON_H__65439E20_84A6_406A_8FD0_045A3E7555D3__INCLUDED_)
 #define AFX_WEAPON_H__65439E20_84A6_406A_8FD0_045A3E7555D3__INCLUDED_
 
@@ -31,17 +26,18 @@
 #include <weapons/Accessory.h>
 #include <coms/NetBuffer.h>
 #include <common/Defines.h>
+#include <common/Vector.h>
 
 class Action;
 class Weapon : public Accessory
 {
 public:
-	Weapon(char *name, int price, 
-		int bundle, int armsLevel);
+	Weapon();
 	virtual ~Weapon();
 
 	virtual Accessory::AccessoryType getType();
-	virtual Action *fireWeapon(unsigned int playerId) = 0;
+	virtual Action *fireWeapon(unsigned int playerId, 
+		Vector &position, Vector &velocity) = 0;
 	virtual const char *getExplosionTexture();
 	virtual const char *getFiredSound();
 	virtual const char *getExplosionSound();

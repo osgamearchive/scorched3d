@@ -27,8 +27,7 @@
 class AutoDefense : public Accessory
 {
 public:
-	AutoDefense(char *name, int price, 
-		int bundle, int armsLevel);
+	AutoDefense();
 	virtual ~AutoDefense();
 
 	virtual AccessoryType getType();

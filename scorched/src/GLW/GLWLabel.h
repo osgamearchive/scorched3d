@@ -40,7 +40,7 @@ public:
 
 	virtual void draw();	
 	const char *getText() { return buttonText_.c_str(); }
-	void setText(const char *text) { buttonText_ = text; }
+	void setText(const char *text);
 
 METACLASSID
 

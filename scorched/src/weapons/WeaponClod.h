@@ -18,11 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// WeaponClod.h: interface for the WeaponClod class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_WEAPONCLOD_H__DEB02E19_7B0F_4ED6_96F7_1DF82E00088A__INCLUDED_)
 #define AFX_WEAPONCLOD_H__DEB02E19_7B0F_4ED6_96F7_1DF82E00088A__INCLUDED_
 
@@ -32,16 +27,17 @@
 class WeaponClod  : public Weapon
 {
 public:
-	WeaponClod(char *name, int price, int bundle, 
-		int armsLevel, int size);
+	WeaponClod();
 	virtual ~WeaponClod();
+
+	virtual bool parseXML(XMLNode *accessoryNode);
 
 	virtual const char *getExplosionTexture();
 	virtual const char *getFiredSound();
 	virtual const char *getExplosionSound();
 
 	// Inherited from Weapon
-	Action *fireWeapon(unsigned int playerId);
+	Action *fireWeapon(unsigned int playerId, Vector &position, Vector &velocity);
 
 protected:
 	int size_;

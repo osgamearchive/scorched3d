@@ -18,27 +18,29 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(AFX_WEAPONDIGGER_H__24F2D834_712D_4355_AC74_3571E2F4B14D__INCLUDED_)
-#define AFX_WEAPONDIGGER_H__24F2D834_712D_4355_AC74_3571E2F4B14D__INCLUDED_
+#include <GLW/GLWTranslate.h>
 
-#include <weapons/Weapon.h>
+float GLWTranslate::posX_(0.0f);
+float GLWTranslate::posY_(0.0f);
 
-class WeaponDigger : public Weapon
+GLWTranslate::GLWTranslate(float x, float y) : x_(x), y_(y)
 {
-public:
-	WeaponDigger();
-	virtual ~WeaponDigger();
+	posX_ += x_;
+	posY_ += y_;
+}
 
-	virtual bool parseXML(XMLNode *accessoryNode);
+GLWTranslate::~GLWTranslate()
+{
+	posX_ -= x_;
+	posY_ -= y_;
+}
 
-	// Inherited from Weapon
-	Action *fireWeapon(unsigned int playerId, Vector &position, Vector &velocity);
-	virtual const char *getFiredSound();
-	virtual const char *getExplosionTexture();
+float GLWTranslate::getPosX()
+{
+	return posX_;
+}
 
-protected:
-	int warHeads_;
-
-};
-
-#endif // !defined(AFX_WEAPONDIGGER_H__24F2D834_712D_4355_AC74_3571E2F4B14D__INCLUDED_)
+float GLWTranslate::getPosY()
+{
+	return posY_;
+}

@@ -18,25 +18,12 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// Shield.cpp: implementation of the Shield class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <weapons/Shield.h>
 #include <common/VectorLib.h>
 #include <common/Defines.h>
 #include <math.h>
 
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
-
-Shield::Shield(char *name, int price, int bundle, 
-			   int armsLevel, ShieldSize radius, 
-			   Vector color) :
-	Accessory(name, price, bundle, armsLevel), 
-		color_(color), radius_(radius)
+Shield::Shield()
 {
 
 }
@@ -44,6 +31,47 @@ Shield::Shield(char *name, int price, int bundle,
 Shield::~Shield()
 {
 
+}
+
+bool Shield::parseXML(XMLNode *accessoryNode)
+{
+	if (!Accessory::parseXML(accessoryNode)) return false;
+
+	// Get the accessory radius
+	XMLNode *radiusNode = accessoryNode->getNamedChild("radius");
+	if (!radiusNode)
+	{
+		dialogMessage("Accessory",
+			"Failed to find radius node in accessory \"%s\"",
+			name_.c_str());
+		return false;
+	}
+	radius_ = ((strcmp(radiusNode->getContent(), "large")==0)?ShieldSizeLarge:ShieldSizeSmall);
+
+	// Get the accessory color
+	XMLNode *colorNode = accessoryNode->getNamedChild("color");
+	if (!colorNode)
+	{
+		dialogMessage("Accessory",
+			"Failed to find color node in accessory \"%s\"",
+			name_.c_str());
+		return false;
+	}
+	XMLNode *rcolorNode = colorNode->getNamedChild("r");
+	XMLNode *gcolorNode = colorNode->getNamedChild("g");
+	XMLNode *bcolorNode = colorNode->getNamedChild("b");
+	if (!rcolorNode || !gcolorNode || !bcolorNode)
+	{
+		dialogMessage("Accessory",
+			"Failed to find color component node in accessory \"%s\"",
+			name_.c_str());
+		return false;
+	}
+	color_[0] = (float) atof(rcolorNode->getContent());
+	color_[1] = (float) atof(gcolorNode->getContent());
+	color_[2] = (float) atof(bcolorNode->getContent());
+
+	return true;
 }
 
 Accessory::AccessoryType Shield::getType()

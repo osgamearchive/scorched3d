@@ -18,13 +18,9 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// GLWVisiblePanel.cpp: implementation of the GLWVisiblePanel class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <GLEXT/GLState.h>
 #include <GLW/GLWVisiblePanel.h>
+#include <GLW/GLWTranslate.h>
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
@@ -48,6 +44,8 @@ void GLWVisiblePanel::simulate(float frameTime)
 
 void GLWVisiblePanel::draw()
 {
+	GLWVisibleWidget::draw();
+
 	glPushMatrix();
 		if (drawPanel_)
 		{
@@ -64,8 +62,11 @@ void GLWVisiblePanel::draw()
 			glEnd();
 		}
 
-		glTranslatef(x_, y_, 0.0f);
-		panel_.draw();
+		{
+			GLWTranslate trans(x_, y_);
+			glTranslatef(x_, y_, 0.0f);
+			panel_.draw();
+		}
 	glPopMatrix();
 }
 

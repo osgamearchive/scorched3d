@@ -21,9 +21,7 @@
 
 #include <weapons/ShieldReflectiveMag.h>
 
-ShieldReflectiveMag::ShieldReflectiveMag(char *name, int price, int bundle, 
-										 int armsLevel, ShieldSize radius, Vector color) : 
-	ShieldReflective(name, price, bundle, armsLevel, radius, color)
+ShieldReflectiveMag::ShieldReflectiveMag()
 {
 }
 

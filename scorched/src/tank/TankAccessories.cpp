@@ -81,29 +81,37 @@ void TankAccessories::getAllAccessories(std::list<std::pair<Accessory *, int> > 
 	// Add parachutes
 	if (tankPara_.getNoParachutes())
 	{
-		Accessory *accessory = AccessoryStore::instance()->findByName("Parachute");
-		result.push_back(std::pair<Accessory *, int>(accessory, tankPara_.getNoParachutes()));
+		Accessory *accessory = AccessoryStore::instance()->
+			findByAccessoryType(Accessory::AccessoryParachute);
+		result.push_back(std::pair<Accessory *, int>
+			(accessory, tankPara_.getNoParachutes()));
 	}
 
 	// Add auto defense
 	if (tankAuto_.haveDefense())
 	{
-		Accessory *accessory = AccessoryStore::instance()->findByName("Auto Defense");
-		result.push_back(std::pair<Accessory *, int>(accessory, 1));
+		Accessory *accessory = AccessoryStore::instance()->
+			findByAccessoryType(Accessory::AccessoryAutoDefense);
+		result.push_back(std::pair<Accessory *, int>
+			(accessory, 1));
 	}
 
 	// Add batteries
 	if (tankBatteries_.getNoBatteries())
 	{
-		Accessory *accessory = AccessoryStore::instance()->findByName("Battery");
-		result.push_back(std::pair<Accessory *, int>(accessory, tankBatteries_.getNoBatteries()));
+		Accessory *accessory = AccessoryStore::instance()->
+			findByAccessoryType(Accessory::AccessoryBattery);
+		result.push_back(std::pair<Accessory *, int>
+			(accessory, tankBatteries_.getNoBatteries()));
 	}
 
 	// Add fuel
 	if (tankFuel_.getNoFuel())
 	{
-		Accessory *accessory = AccessoryStore::instance()->findByName("Fuel");
-		result.push_back(std::pair<Accessory *, int>(accessory, tankFuel_.getNoFuel()));
+		Accessory *accessory = AccessoryStore::instance()->
+			findByAccessoryType(Accessory::AccessoryFuel);
+		result.push_back(std::pair<Accessory *, int>
+			(accessory, tankFuel_.getNoFuel()));
 	}
 }
 

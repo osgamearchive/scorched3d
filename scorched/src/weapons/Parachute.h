@@ -18,11 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// Parachute.h: interface for the Parachute class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_PARACHUTE_H__F934B35F_3195_45F7_A6B4_D10CCDB296BD__INCLUDED_)
 #define AFX_PARACHUTE_H__F934B35F_3195_45F7_A6B4_D10CCDB296BD__INCLUDED_
 
@@ -31,8 +26,7 @@
 class Parachute : public Accessory
 {
 public:
-	Parachute(char *name, int price, 
-		int bundle, int armsLevel);
+	Parachute();
 	virtual ~Parachute();
 
 	virtual AccessoryType getType();

@@ -18,6 +18,8 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+#include <XML/XMLFile.h>
+#include <common/Defines.h>
 #include <weapons/AccessoryStore.h>
 #include <weapons/Parachute.h>
 #include <weapons/Battery.h>
@@ -37,8 +39,7 @@
 #include <weapons/WeaponLeapFrog.h>
 #include <weapons/WeaponSandHog.h>
 #include <weapons/WeaponDigger.h>
-
-#define ADD_NEW_ACCESSORY(x) { Accessory *acc = x; accessories_.push_back(acc); }
+#include <math.h>
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
@@ -58,85 +59,105 @@ AccessoryStore *AccessoryStore::instance()
 
 AccessoryStore::AccessoryStore()
 {
-	// Add all accessories that can be bought and sold
-	// Parameters are usually
-
-	// Armslevel goes from 10->1 (actualy equals hit points)
-	// 10 = Small weapon (large hit points)
-	// 1  = Large weapon (small hit points)
-
-	// Parachutes
-	// char *name, int price, int bundle, int armsLevel
-	ADD_NEW_ACCESSORY(new Parachute("Parachute", 10000, 8, 7));
-
-	// Batteries
-	ADD_NEW_ACCESSORY(new Battery("Battery", 5000, 10, 7));
-
-	// Fuel
-	ADD_NEW_ACCESSORY(new Fuel("Fuel", 10000, 20, 7));
-
-	// Auto Defense
-	// char *name, int price, int bundle, int armsLevel
-	ADD_NEW_ACCESSORY(new AutoDefense("Auto Defense", 10000, 1, 7));
-
-	// Napalm
-	// char *name, int price, int bundle, int armsLevel, bool hot
-	ADD_NEW_ACCESSORY(new WeaponNapalm("Napalm", 10000, 10, 7, false));
-	ADD_NEW_ACCESSORY(new WeaponNapalm("Hot Napalm", 20000, 2, 5, true));
-
-	// Pojectile weapons
-	// char *name, int price, int bundle, int armsLevel, int size
-	ADD_NEW_ACCESSORY(new WeaponProjectile("Baby Missile", 0, 0, 10, 4));
-	ADD_NEW_ACCESSORY(new WeaponProjectile("Missile", 1875, 5, 9, 6));
-	ADD_NEW_ACCESSORY(new WeaponProjectile("Baby Nuke", 10000, 3, 6, 10));
-	ADD_NEW_ACCESSORY(new WeaponProjectile("Nuke", 12000, 1, 4, 18));
-	ADD_NEW_ACCESSORY(new WeaponLeapFrog("Leap Frog", 10000, 2, 7, 8));
-
-	// Earth clod weapons
-	// char *name, int price, int bundle, int armsLevel, int size
-	ADD_NEW_ACCESSORY(new WeaponClod("Dirt Clod", 5000, 10, 10, 6));
-	ADD_NEW_ACCESSORY(new WeaponClod("Dirt Ball", 5000, 5, 9, 10));
-	ADD_NEW_ACCESSORY(new WeaponClod("Ton Of Dirt", 6750, 2, 7, 18));
-
-	// Earth remove weapons
-	// char *name, int price, int bundle, int armsLevel, int size
-	ADD_NEW_ACCESSORY(new WeaponRiotBomb("Riot Bomb", 5000, 5, 10, 6));
-	ADD_NEW_ACCESSORY(new WeaponRiotBomb("Lrg Riot Bomb", 4750, 2, 8, 12));
-
-	// Under earth removal weapons
-	// char *name, int price, int bundle, int armsLevel, int noWarheads
-	ADD_NEW_ACCESSORY(new WeaponDigger("Baby Digger", 3000, 10, 10, 3));	
-	ADD_NEW_ACCESSORY(new WeaponDigger("Digger", 2500, 5, 10, 5));	
-	ADD_NEW_ACCESSORY(new WeaponDigger("Heavy Digger", 6750, 2, 9, 10));
-
-	ADD_NEW_ACCESSORY(new WeaponSandHog("Baby Sandhog", 10000, 10, 10, 3));
-	ADD_NEW_ACCESSORY(new WeaponSandHog("Sandhog", 16750, 5, 10, 10));
-	ADD_NEW_ACCESSORY(new WeaponSandHog("Heavy Sandhog", 25000, 2, 9, 20));
-
-	// Multiple warhead weapons
-	// char *name, int price, int bundle, int armsLevel, int size, int numberWarheads, bool spread
-	ADD_NEW_ACCESSORY(new WeaponMirv("MIRV", 10000, 3, 6, 6, 5, false));
-	ADD_NEW_ACCESSORY(new WeaponMirv("Spread MIRV", 10000, 2, 5, 6, 5, true));
-	ADD_NEW_ACCESSORY(new WeaponMirv("Death's Head", 20000, 1, 2, 18, 20, true));
-	ADD_NEW_ACCESSORY(new WeaponFunky("Funky Bomb", 7000, 2, 3, 10, 8, 12));
-
-	// Tracer
-	// char *name, int price, int bundle, int armsLevel, bool showShotPath
-	ADD_NEW_ACCESSORY(new WeaponTracer("Tracer", 10, 20, 10, false));
-	ADD_NEW_ACCESSORY(new WeaponTracer("Smoke Tracer", 500, 10, 9, true));
-
-	// Shields
-	// char *name, int price, int bundle, int armsLevel, float radius, Vector color
-	ADD_NEW_ACCESSORY(new Shield("Shield", 20000, 3, 8, Shield::ShieldSizeSmall, Vector(1.0f, 1.0f, 1.0f)));
-	ADD_NEW_ACCESSORY(new Shield("Heavy Shield", 30000, 2, 7, Shield::ShieldSizeLarge, Vector(1.0f, 1.0f, 1.0f)));
-	ADD_NEW_ACCESSORY(new ShieldReflective("Force Shield", 25000, 3, 6, Shield::ShieldSizeSmall, Vector(0.5f, 1.0f, 1.0f)));
-	ADD_NEW_ACCESSORY(new ShieldReflectiveMag("Mag Deflect", 10000, 2, 8, Shield::ShieldSizeSmall, Vector(0.5f, 1.0f, 1.0f)));
-	ADD_NEW_ACCESSORY(new ShieldReflectiveMag("Heavy Mag", 25000, 2, 6, Shield::ShieldSizeLarge, Vector(0.5f, 1.0f, 1.0f)));
+	parseFile();
 }
 
 AccessoryStore::~AccessoryStore()
 {
 
+}
+
+Accessory *AccessoryStore::createAccessoryType(const char *type)
+{
+	// Crude, but it works !! :)
+	if (stricmp(type, "Parachute") == 0) return new Parachute;
+	else if (stricmp(type, "Battery") == 0) return new Battery;
+	else if (stricmp(type, "Fuel") == 0) return new Fuel;
+	else if (stricmp(type, "AutoDefense") == 0) return new AutoDefense;
+	else if (stricmp(type, "WeaponNapalm") == 0) return new WeaponNapalm;
+	else if (stricmp(type, "WeaponProjectile") == 0) return new WeaponProjectile;
+	else if (stricmp(type, "WeaponLeapFrog") == 0) return new WeaponLeapFrog;
+	else if (stricmp(type, "WeaponClod") == 0) return new WeaponClod;
+	else if (stricmp(type, "WeaponRiotBomb") == 0) return new WeaponRiotBomb;
+	else if (stricmp(type, "WeaponDigger") == 0) return new WeaponDigger;
+	else if (stricmp(type, "WeaponSandHog") == 0) return new WeaponSandHog;
+	else if (stricmp(type, "WeaponMirv") == 0) return new WeaponMirv;
+	else if (stricmp(type, "WeaponFunky") == 0) return new WeaponFunky;
+	else if (stricmp(type, "WeaponTracer") == 0) return new WeaponTracer;
+	else if (stricmp(type, "Shield") == 0) return new Shield;
+	else if (stricmp(type, "ShieldReflective") == 0) return new ShieldReflective;
+	else if (stricmp(type, "ShieldReflectiveMag") == 0) return new ShieldReflectiveMag;
+
+	return 0;
+}
+
+bool AccessoryStore::parseFile()
+{
+	XMLFile file;
+	if (!file.readFile(PKGDIR "data/weapons.xml"))
+	{
+		dialogMessage("AccessoryStore", 
+					  "Failed to parse \"data/weapons.xml\"\n%s", 
+					  file.getParserError());
+		return false;
+	}
+
+	// Check file exists
+	if (!file.getRootNode())
+	{
+		dialogMessage("AccessoryStore",
+					"Failed to find tank definition file \"data/weapons.xml\"");
+		return false;		
+	}
+
+	// Itterate all of the tanks in the file
+    std::list<XMLNode *>::iterator childrenItor;
+	std::list<XMLNode *> &children = file.getRootNode()->getChildren();
+    for (childrenItor = children.begin();
+        childrenItor != children.end();
+        childrenItor++)
+    {
+		// Parse the tank entry
+        XMLNode *currentNode = (*childrenItor);
+		if (stricmp(currentNode->getName(), "weapon"))
+		{
+			dialogMessage("AccessoryStore",
+						  "Failed to find weapon node");
+			return false;
+		}
+
+		XMLNode *typeNode = currentNode->getNamedParameter("type");
+		if (!typeNode)
+		{
+			dialogMessage("AccessoryStore",
+						  "Failed to find type node");
+			return false;
+		}
+
+		Accessory *accessory = createAccessoryType(typeNode->getContent());
+		if (!accessory)
+		{
+			dialogMessage("AccessoryStore",
+						  "Failed to find a weapon type \"%s\"",
+						  typeNode->getContent());
+			return false;
+		}
+		
+		if (!accessory->parseXML(currentNode)) return false;
+		accessories_.push_back(accessory);
+
+		// Add weapons to death animations, weighted by arms level
+		if (accessory->getType() == Accessory::AccessoryWeapon)
+		{
+			Weapon *weapon = (Weapon *) accessory;
+			for (int i=0; i<weapon->getArmsLevel(); i++)
+			{
+				deathAnimations_.push_back(weapon);
+			}
+		}
+	}
+
+	return true;
 }
 
 std::list<Accessory *> AccessoryStore::getAllWeapons()
@@ -178,18 +199,35 @@ std::list<Accessory *> &AccessoryStore::getAllAccessories()
 	return accessories_;
 }
 
-Accessory *AccessoryStore::findByName(const char *name)
+Weapon *AccessoryStore::getDeathAnimation()
+{
+	int pos = int(float(deathAnimations_.size()) * RAND);
+	if (pos < (int) deathAnimations_.size()) return deathAnimations_[pos];
+	return 0;
+}
+
+Accessory *AccessoryStore::findByAccessoryType(Accessory::AccessoryType type)
 {
 	std::list<Accessory *>::iterator itor;
 	for (itor = accessories_.begin();
 		itor != accessories_.end();
 		itor++)
 	{
-		if (0 == stricmp((*itor)->getName(), name))
-		{
-			return *itor;
-		}
+		Accessory *accessory = (*itor);
+		if (accessory->getType() == type) return accessory;
 	}
+	return 0;
+}
 
+Accessory *AccessoryStore::findByAccessoryName(const char *name)
+{
+	std::list<Accessory *>::iterator itor;
+	for (itor = accessories_.begin();
+		itor != accessories_.end();
+		itor++)
+	{
+		Accessory *accessory = (*itor);
+		if (strcmp(accessory->getName(), name)==0) return accessory;
+	}
 	return 0;
 }
