@@ -19,11 +19,13 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <XML/XMLFile.h>
+#include <common/Defines.h>
 #include <tankai/TankAIStore.h>
 #include <tankai/TankAIComputerMoron.h>
 #include <tankai/TankAIComputerTosser.h>
 #include <tankai/TankAIComputerRandom.h>
 #include <tankai/TankAIComputerPShark.h>
+#include <stdlib.h>
 
 TankAIStore *TankAIStore::instance_ = 0;
 
@@ -38,7 +40,11 @@ TankAIStore *TankAIStore::instance()
 
 TankAIStore::TankAIStore()
 {
-
+	if (!loadAIs())
+	{
+		dialogMessage("Scorched 3D", "Failed to load all tank ais");		
+		exit(1);
+	}
 }
 
 TankAIStore::~TankAIStore()

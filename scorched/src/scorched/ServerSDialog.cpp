@@ -51,7 +51,7 @@ BEGIN_EVENT_TABLE(ServerSFrame, wxDialog)
 END_EVENT_TABLE()
 
 ServerSFrame::ServerSFrame() :
-	wxDialog(getMainDialog(), -1, scorched3dAppName, wxPoint(0,0), wxSize(365, 265))
+	wxDialog(getMainDialog(), -1, scorched3dAppName, wxPoint(0,0), wxSize(365, 289))
 {
 	CentreOnScreen();
 

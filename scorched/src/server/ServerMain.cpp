@@ -113,12 +113,7 @@ bool serverMain()
 	ServerState::setupStates();
 
 	// Add the server side bots
-	if (!TankAIStore::instance()->loadAIs())
-	{
-		dialogMessage("Scorched3D Server", 
-			"Failed to load all tank ais");
-		return false;
-	}
+	TankAIStore::instance();
 	TankAIAdder::addTankAIs();
 
 	// Try to start the server
