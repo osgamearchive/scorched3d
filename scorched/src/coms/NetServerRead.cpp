@@ -41,7 +41,11 @@ NetServerRead::NetServerRead(TCPsocket socket,
 	messageHandler_->addMessage(message);
 
 	thread_ = SDL_CreateThread(NetServerRead::threadFunc, (void *) this);
-	if (!thread_) disconnect_ = true;
+	if (!thread_)
+	{
+		disconnect_ = true;
+		*checkDeleted_ = true;
+	}
 }
 
 NetServerRead::~NetServerRead()
