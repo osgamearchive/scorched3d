@@ -125,6 +125,10 @@ static void createMainControls(wxWindow *parent, wxSizer *sizer)
 		new wxCheckBox(parent, -1, "Software Mouse",
 		wxDefaultPosition, wxSize((int) 150, (int) -1));
 	miscSizer2->Add(IDC_SMOUSE_CTRL, 0);
+	IDC_VALIDATESERVER_CTRL = 
+		new wxCheckBox(parent, -1, "Validate Server Ip",
+		wxDefaultPosition, wxSize((int) 150, (int) -1));
+	miscSizer2->Add(IDC_VALIDATESERVER_CTRL, 0);
 	IDC_SIDESCROLL_CTRL = 
 		new wxCheckBox(parent, -1, "Side Scrolling",
 		wxDefaultPosition, wxSize((int) 150, (int) -1));

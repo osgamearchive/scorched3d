@@ -123,6 +123,8 @@ OptionsDisplay::OptionsDisplay() :
 		"Do not depth sort sprites.", RWAccess, false),
 	clientLogToFile_(options_, "ClientLogToFile",
 		"Client logs to file", RAccess, false),
+	validateServerIp_(options_, "ValidateServerIp",
+		"Checks if the server ip address matches the published address", RAccess, true),
 	drawLines_(options_, "DrawLines", 
 		"Do not fill in the landscape", RWAccess, false),
 	drawNormals_(options_, "DrawNormals", 

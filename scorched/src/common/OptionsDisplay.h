@@ -260,6 +260,10 @@ public:
 	void setClientLogToFile(bool value) { clientLogToFile_.setValue(value); }
 	const char *getClientLogToFileToolTip() { return clientLogToFile_.getDescription(); }
 
+	bool getValidateServerIp() { return validateServerIp_.getValue(); }
+	void setValidateServerIp(bool value) { validateServerIp_.setValue(value); }
+	const char *getValidateServerIpToolTip() { return validateServerIp_.getDescription(); }
+
 	int getSoundVolume() { return soundVolume_.getValue(); }
 	void setSoundVolume(int value) { soundVolume_.setValue(value); }
 	const char *getSoundVolumeToolTip() { return soundVolume_.getDescription(); }
@@ -384,6 +388,7 @@ protected:
 	OptionEntryBool sideScroll_;
 	OptionEntryBool swapYAxis_;
 	OptionEntryBool clientLogToFile_;
+	OptionEntryBool validateServerIp_;
 	OptionEntryBoundedInt dialogSize_;
 	OptionEntryBoundedInt texSize_;
 	OptionEntryBoundedInt tankDetail_;

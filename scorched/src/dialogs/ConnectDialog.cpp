@@ -133,7 +133,7 @@ bool ConnectDialog::tryConnection()
 			return false;
 		}
 		IPaddress address;
-		if (SDLNet_ResolveHost(&address, hostPart.c_str(), 0) != 0)
+		if (SDLNet_ResolveHost(&address, (char *) hostPart.c_str(), 0) != 0)
 		{
 			LogDialog::instance()->logMessage("", 
 				formatString("Failed to resolve server name"), 0);

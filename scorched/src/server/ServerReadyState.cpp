@@ -184,12 +184,17 @@ bool ServerReadyState::acceptStateChange(const unsigned state,
 			Tank *tank = (*itor).second;
 			if (tank->getState().getReadyState() == TankState::SNotReady)
 			{
-				Logger::log(0, 
-					"Player \"%s\" not returned ready for %0.f seconds", 
-					tank->getName(),
-					idleTime_);
+				if (OptionsParam::instance()->getDedicatedServer())
+				{
+					Logger::log(0, 
+						"Player \"%s\" not returned ready for %0.f seconds", 
+						tank->getName(),
+						idleTime_);
+				}
 
-				ServerCommon::kickDestination(tank->getDestinationId());
+				ServerCommon::sendString(tank->getDestinationId(), 
+					"Kicked for not responding for %.0f seconds", idleTime_);
+				ServerCommon::kickDestination(tank->getDestinationId(), true);
 			}
 		}
 

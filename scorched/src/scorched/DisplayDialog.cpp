@@ -316,6 +316,8 @@ void DisplayFrame::refreshScreen()
 	IDC_TIMER_CTRL->SetToolTip(OptionsDisplay::instance()->getFrameTimerToolTip());
 	IDC_SIDESCROLL_CTRL->SetValue(OptionsDisplay::instance()->getSideScroll());
 	IDC_SIDESCROLL_CTRL->SetToolTip(OptionsDisplay::instance()->getSideScrollToolTip());
+	IDC_VALIDATESERVER_CTRL->SetValue(OptionsDisplay::instance()->getValidateServerIp());
+	IDC_VALIDATESERVER_CTRL->SetToolTip(OptionsDisplay::instance()->getValidateServerIpToolTip());	
 	IDC_SLIDER1_CTRL->SetRange(3, 40);
 	IDC_SLIDER1_CTRL->SetValue(OptionsDisplay::instance()->getBrightness());
 	IDC_SLIDER1_CTRL->SetToolTip(OptionsDisplay::instance()->getBrightnessToolTip());
@@ -501,6 +503,7 @@ bool DisplayFrame::TransferDataFromWindow()
 	OptionsDisplay::instance()->setShowContextHelp(IDC_TOOLTIP_CTRL->GetValue());
 	OptionsDisplay::instance()->setFrameTimer(IDC_TIMER_CTRL->GetValue());
 	OptionsDisplay::instance()->setSideScroll(IDC_SIDESCROLL_CTRL->GetValue());
+	OptionsDisplay::instance()->setValidateServerIp(IDC_VALIDATESERVER_CTRL->GetValue());
 	OptionsDisplay::instance()->setOnlineUserName(IDC_USERNAME_CTRL->GetValue());
 	OptionsDisplay::instance()->setOnlineTankModel(IDC_TANKMODEL_CTRL->GetValue());
 	OptionsDisplay::instance()->setHostDescription(IDC_HOSTDESC_CTRL->GetValue());

@@ -48,7 +48,7 @@ OptionsGame::OptionsGame() :
 	idleKickTime_(options_, "IdleKickTime",
 		"The amount of time to give clients to respond after level loading before kicking them", 0, 60),
 	idleShotKickTime_(options_, "IdleShotKickTime",
-		"The amount of time to give clients to respond after shots before kicking them", 0, 10),
+		"The amount of time to give clients to respond after shots before kicking them", 0, 45),
 	minFallingDistance_(options_, "MinFallingDistance",
 		"The minimum distance that can be made with no damage (value is divided by 10)", 0, 5),
 	maxClimbingDistance_(options_, "MaxClimbingDistance",

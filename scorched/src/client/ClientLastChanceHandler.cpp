@@ -22,6 +22,7 @@
 #include <client/ScorchedClient.h>
 #include <client/ClientReadyState.h>
 #include <client/ClientState.h>
+#include <common/Logger.h>
 #include <engine/ActionController.h>
 #include <coms/ComsMessageHandler.h>
 #include <coms/ComsLastChanceMessage.h>
@@ -54,6 +55,9 @@ bool ClientLastChanceHandler::processMessage(unsigned int destinationId,
 	// Decode the connect message
 	ComsLastChanceMessage message;
 	if (!message.readMessage(reader)) return false;
+
+	// Warn the user this is a last chance
+	Logger::log(0, "Server hurry up message received");
 
 	// We are lagging in a state we should not be in!
 	// This is the last chance so be drastic

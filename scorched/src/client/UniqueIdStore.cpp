@@ -21,6 +21,7 @@
 #include <client/UniqueIdStore.h>
 #include <common/Defines.h>
 #include <common/Logger.h>
+#include <common/OptionsDisplay.h>
 #include <coms/NetInterface.h>
 #include <XML/XMLFile.h>
 #include <SDL/SDL_net.h>
@@ -63,7 +64,7 @@ bool UniqueIdStore::loadStore()
 		if (!node->getNamedChild("published", entry.published)) return false;
 
 		IPaddress ipAddress;
-		if (SDLNet_ResolveHost(&ipAddress, entry.published.c_str(), 0) == 0)
+		if (SDLNet_ResolveHost(&ipAddress, (char *) entry.published.c_str(), 0) == 0)
 		{
 			entry.ip = SDLNet_Read32(&ipAddress.host);
 		}
@@ -125,7 +126,7 @@ bool UniqueIdStore::saveUniqueId(unsigned int ip, const char *id,
 
 	// Check the published ip matches the actual server ip
 	IPaddress address;
-	if (SDLNet_ResolveHost(&address, published, 0) != 0)
+	if (SDLNet_ResolveHost(&address, (char *) published, 0) != 0)
 	{
 		Logger::log(0, "Failed to resolve published server host \"%s\"", published);
 		return false;
@@ -138,7 +139,11 @@ bool UniqueIdStore::saveUniqueId(unsigned int ip, const char *id,
 		std::string pubIp = NetInterface::getIpName(ipAddress);
 		Logger::log(0, "Server ip does not match published ip\n%s != %s (%s)",
 			actualIp.c_str(), published, pubIp.c_str());
-		return false;
+
+		if (OptionsDisplay::instance()->getValidateServerIp())
+		{
+			return false;
+		}
 	}
 
 	// If it does, store this id against the published name
