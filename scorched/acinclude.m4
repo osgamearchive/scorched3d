@@ -12,6 +12,8 @@ AC_DEFUN(AM_PATH_SDL,
 [dnl 
 dnl Get the cflags and libraries from the sdl-config script
 dnl
+AC_ARG_WITH(sdl-static,[  --with-sdl-static       Link SDL staticaly (optional)],
+            sdl_static="$withval", sdl_static="")
 AC_ARG_WITH(sdl-prefix,[  --with-sdl-prefix=PFX   Prefix where SDL is installed (optional)],
             sdl_prefix="$withval", sdl_prefix="")
 AC_ARG_WITH(sdl-exec-prefix,[  --with-sdl-exec-prefix=PFX Exec prefix where SDL is installed (optional)],
@@ -42,7 +44,12 @@ AC_ARG_ENABLE(sdltest, [  --disable-sdltest       Do not try to compile and run 
     no_sdl=yes
   else
     SDL_CFLAGS=`$SDL_CONFIG $sdlconf_args --cflags`
+
+	if test x"$sdl_static" = x"yes"; then
+    SDL_LIBS=`$SDL_CONFIG $sdlconf_args --static-libs`
+	else
     SDL_LIBS=`$SDL_CONFIG $sdlconf_args --libs`
+	fi
 
     sdl_major_version=`$SDL_CONFIG $sdl_args --version | \
            sed 's/\([[0-9]]*\).\([[0-9]]*\).\([[0-9]]*\)/\1/'`

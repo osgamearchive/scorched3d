@@ -167,6 +167,12 @@ if test x"$use_mysql" = x"yes"; then
 	fi
 fi
 
+dnl Checks for static linking for wx windows
+AC_ARG_WITH([wx-static],
+            AC_HELP_STRING([--with-wx-static],
+                           [enable static linking for wxwindows (default no)]),
+            [use_static_wx=${withval}],,)
+
 dnl Check for wxwindows
 AM_OPTIONS_WXCONFIG
 AM_PATH_WXCONFIG(2.4.0, wxWin=1)
@@ -185,7 +191,11 @@ fi
 CPPFLAGS="$CPPFLAGS $WX_CPPFLAGS"
 CXXFLAGS="$CXXFLAGS $WX_CXXFLAGS_ONLY"
 CFLAGS="$CFLAGS $WX_CFLAGS_ONLY"
-LIBS="$LIBS $WX_LIBS"
+if test x"$use_static_wx" = x"yes"; then
+	LIBS="$LIBS $WX_LIBS_STATIC"
+else
+	LIBS="$LIBS $WX_LIBS"
+fi
 
 dnl Check for FreeType2
 AC_CHECK_FT2(7.0.1, ftype=1)

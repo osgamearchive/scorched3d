@@ -14,8 +14,10 @@ Fixed: Smoke disapears after a while
 Fixed: Server more responsive, slow clients don't affect other players
 Fixed: Server won't wait for dead clients to respond
 Fixed: Tooltips don't show through other dialogs
+Fixed: Looser->Loser spelling on dialogs
 Fixed: Shot cam does not jump around (back to v35 kind of)
 
+Added: Static compiling flags for wx-windows and SDL
 Added: Mysql compile options for windows (+ required libraries and headers)
 Added: Stats ranking message when player joins server
 Added: Icons on net browsing dialog showing game state

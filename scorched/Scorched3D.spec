@@ -22,7 +22,7 @@ Earth "The Mother Of All Games".
 %build
 # sh ./autogen.sh
 %configure --datadir=%{_datadir}/scorched3d \
-	--program-prefix=%{?_program_prefix:%{_program_prefix}}
+	--program-prefix=%{?_program_prefix:%{_program_prefix}} --with-wx-static
 make -j2 %{?_smp_mflags}
 
 %install

@@ -448,7 +448,7 @@ bool SettingsFrame::TransferDataToWindow()
 		// Type combo
 		SettingsMain::IDC_TYPE_CTRL->Append("Simultaneous", 
 			(void *) OptionsGame::TurnSimultaneous);
-		SettingsMain::IDC_TYPE_CTRL->Append("Sequential (Looser First)", 
+		SettingsMain::IDC_TYPE_CTRL->Append("Sequential (Loser First)", 
 			(void *) OptionsGame::TurnSequentialLooserFirst);
 		SettingsMain::IDC_TYPE_CTRL->Append("Sequential (Random Order)", 
 			(void *) OptionsGame::TurnSequentialRandom);

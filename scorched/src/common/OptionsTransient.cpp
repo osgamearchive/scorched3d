@@ -47,7 +47,7 @@ const char *OptionsTransient::getGameType()
 	switch (optionsGame_.getTurnType())
 	{
 	case OptionsGame::TurnSequentialLooserFirst:
-		gameType = "Sequential (Looser)";
+		gameType = "Sequential (Loser)";
 		break;
 	case OptionsGame::TurnSequentialRandom:
 		gameType = "Sequential (Random)";
