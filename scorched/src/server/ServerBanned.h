@@ -31,10 +31,17 @@ class ServerBanned
 {
 public:
 	static ServerBanned *instance();
+	enum BannedType
+	{
+		NotBanned,
+		Banned,
+		Muted
+	};
 	struct BannedEntry
 	{
 		time_t bantime;
 		std::string name;
+		BannedType type;
 	};
 	struct BannedRange
 	{
@@ -43,8 +50,10 @@ public:
 	};	
 	std::list<BannedRange> &getBannedIps() { return bannedIps_; }
 
-	bool isBanned(unsigned int ip);
-	void addBanned(unsigned int ip, const char *name);
+	BannedType getBanned(unsigned int ip);
+	void addBanned(unsigned int ip, const char *name, BannedType type = Banned);
+
+	static const char *getBannedTypeStr(BannedType type);
 
 	bool save();
 	bool load();
@@ -54,7 +63,8 @@ protected:
 	std::list<BannedRange> bannedIps_;	
 
 	void addBannedEntry(unsigned int ip, unsigned int mask,
-		const char *name, unsigned int bantime);
+		const char *name, unsigned int bantime,
+		BannedType type);
 
 private:
 	ServerBanned();

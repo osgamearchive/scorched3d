@@ -20,6 +20,7 @@
 
 #include <server/ServerConnectHandler.h>
 #include <server/ServerState.h>
+#include <server/ServerBanned.h>
 #include <server/ScorchedServer.h>
 #include <server/TurnController.h>
 #include <server/ServerCommon.h>
@@ -341,5 +342,14 @@ void ServerConnectHandler::addNextTank(unsigned int destinationId,
 
 		ServerCommon::sendString(0, "Player connected \"%s\"",
 			playerName);
+	}
+	
+	// Check if admin muted
+	if (ipAddress != 0 &&
+		ServerBanned::instance()->getBanned(ipAddress) == 
+		ServerBanned::Muted)
+	{
+		tank->getState().setMuted(true);
+		Logger::log(0, "Player admin muted");
 	}
 }

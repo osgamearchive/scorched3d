@@ -76,7 +76,7 @@ bool startServer(bool local)
 		ScorchedServer::instance()->getContext().netInterface = 
 			//new NetServer(new NetServerScorchedProtocol());
 			new NetServer(new NetServerCompressedProtocol());
-		ServerBanned::instance()->load();
+		if (!ServerBanned::instance()->load()) return false;
 	}
 
 	ScorchedServer::instance()->getOptionsGame().updateChangeSet();
