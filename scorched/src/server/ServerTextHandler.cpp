@@ -87,6 +87,12 @@ bool ServerTextHandler::processMessage(unsigned int destinationId,
 			newText += "(Team) ";
 		}
 		newText += message.getText();
+		
+		// Remove any bad characters
+		for (char *r = (char *) newText.c_str(); *r; r++)
+		{
+			if (*r == '%') *r = ' ';
+		}
 
 		// Update the server console with the say text
 		serverLog(tankId, "Says \"%s\"", newText.c_str());
@@ -122,3 +128,4 @@ bool ServerTextHandler::processMessage(unsigned int destinationId,
 
 	return true;
 }
+

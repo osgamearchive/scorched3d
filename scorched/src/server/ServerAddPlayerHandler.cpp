@@ -149,6 +149,7 @@ void ServerAddPlayerHandler::getUniqueName(std::string &sentname)
 		if (*nameMiddle == '\"') *nameMiddle = '\'';
 		else if (*nameMiddle == ']') *nameMiddle = ')';
 		else if (*nameMiddle == '[') *nameMiddle = '(';
+		else if (*nameMiddle == '%') *nameMiddle = ' '; // Save problems with special chars
 	}
 
 	// Check the client provides a name with a least 1 char in it

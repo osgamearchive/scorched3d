@@ -16,6 +16,7 @@ Added: Landscape types can be turned on and off from game settings.
 Added: Faster sprite depth sorting
 Added: Moving waves around the island shores
 
+Fixed: Problem with characters used during talk
 Fixed: New algorithm for bilboard culling (current one causes flickers)
 Fixed: Include path for some machines (thanks C. Thomas)
 Fixed: Coms wont pause during send from client when already sending/receiving
@@ -29,7 +30,6 @@ The server can start multiple times on the same port (windows only)!
 Gun fires at same point for all tanks (ignores turret/gun position in model)
 
 -- Things I am currently looking at
-Problem with certain buffer checks
 Trees/buildings
 Ability to adjust server options on the fly, so the next match will have the new options
 Make AIs better
