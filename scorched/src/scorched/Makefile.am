@@ -413,6 +413,8 @@ scorched3d_SOURCES = \
 	../landscape/WaterMapPoints.h \
 	../landscape/WaterMapSurround.cpp \
 	../landscape/WaterMapSurround.h \
+	../landscape/WaterWaves.cpp \
+	../landscape/WaterWaves.h \
 	../weapons/Accessory.cpp \
 	../weapons/Accessory.h \
 	../weapons/AccessoryStore.cpp \

@@ -1371,6 +1371,12 @@
 			<File
 				RelativePath="..\landscape\WaterMapSurround.h">
 			</File>
+			<File
+				RelativePath="..\landscape\WaterWaves.cpp">
+			</File>
+			<File
+				RelativePath="..\landscape\WaterWaves.h">
+			</File>
 		</Filter>
 		<Filter
 			Name="weapons"

@@ -24,6 +24,7 @@
 
 #include <engine/GameStateI.h>
 #include <landscape/WaterMap.h>
+#include <landscape/WaterWaves.h>
 #include <landscape/WaterMapPoints.h>
 #include <landscape/PatchGrid.h>
 #include <landscape/HeightMapSurround.h>
@@ -89,6 +90,7 @@ protected:
 	Wall wall_;
 	WaterMap wMap_;
 	WaterMapPoints wMapPoints_;
+	WaterWaves wWaves_;
 	PatchGrid patchGrid_;
 	HeightMapSurround hMapSurround_;
 	SurroundDefs surroundDefs_;
