@@ -22,9 +22,11 @@ the content that is in question.  I don't want to leave anyone out, and I am sor
 		Projectile Models (models and texturing):
 			- fusionbarrel, m7a3grenade, redhornet, remorcebomblet texture, shockbomblet, shockrocket
 		Object Models (including burnt versions and all texturing):
-			- church1, cityoffice, factory1, farm1, house1, logcabin1, officeplaza1, store1, trailorhouse1
+			- church1, cityoffice, factory1, farm1, house1, logcabin1, officeplaza1, store1, trailorhouse1, boulders, cactus, smalloak, deer
 		Landscapes:
 			- arizonaislands
+		Textures:
+			- acid00
 	
 	- Nexus6
 		- Landscapes:

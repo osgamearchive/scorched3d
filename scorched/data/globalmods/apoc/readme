@@ -4,6 +4,9 @@
 Apocalypse is a modification for Scorched 3D which adds many new weapons, items, and landscapes
 for use with this awesome game.
 
+Official Apocalypse Site:  http://apochq.handwired.net
+Official Scorched 3D Site:  http://scorched3d.co.uk
+
 Changes Since 1.6
 	New Accessories:
 		- Bottomless Pit - Creates a narrow but deep pit at the point of impact
@@ -13,15 +16,15 @@ Changes Since 1.6
 		- Hard Hat - Replacement for the old style heavy mag
 		- Hornet Swarm - Releases multiple Hornet's Nests
 		- Gas Grenade - Lands, bounces and releases a cloud of harmful gas.  Custom model by ShoCkwaVe
-		- Lightning Bolt - Explodes at the apex of the projectiles arc creating a small cloud and lightning bolt
+		- Lightning Strike - Explodes at the apex of the projectiles arc creating a small cloud and lightning bolt
 		- Lightning Storm - Explodes at the apex of the projectile's arc creating several lightning bolts over a few seconds
 		- Mega EMP - Larger version of the EMP grenade
 		- Mini Hard Hat - Replacement for the old style mag deflect shield
 		- Riot Drill - 3 heavy riot bombs are shot in rapid succession at the same point
 		
 	Other Accessory Changes:
-		- Acidic Napalm - Secondary, random splash when the bomblets impact
-		- Acid Splash - Bounces once releasing additional random bomblets.  New model by ShoCkwaVe
+		- Acidic Napalm - Secondary, random splash when the bomblets impact, new texture
+		- Acid Splash - Bounces once releasing additional random bomblets.  New model/texture by ShoCkwaVe
 		- Chain Lightning - Travels in straight lines from point to point instead of bouncing
 		- Fire Worms - More projectiles/cost, diggers are less accurate and slower
 		- Fork Lightning - Same new effect as chain lightning
@@ -40,19 +43,16 @@ Changes Since 1.6
 		- Arizona Islands - New island map by ShoCkwaVe
 		- Volcano - A single island with a volcano in the middle
 		- Maze - raised the entire map up some, lowered wall height and widened the lanes to make the map easier.  Also tweaked the map so napalm works better
-		- Cities added to some other maps as well
+		- Cities added to some other maps
+		- Moon maps have a new texture set and rocks added to the landscape
 	
 	Other:
 		- New elemental AI types based off of the new Cyborg AI type
 		- New default single player settings for the mod
 		- Mod Updated For Compatibility With Scorched3D version 38
 		- Most of the custom weapons have their own icons
-		- Some of the more redundant weapons have been removed
-		- Several weapons commented out for various reasons :P
-			- Acidic Napalm, Baby Funk, Fungal Bloom, Large Missile, Napalm Blast, Napalm Splash, Roller MIRV, Roller S-MIRV, Sandfish, Sandhog Blast, Shotgun, Small Meteor, Terraform, X-MIRV
-
-Official Apocalypse Site:  http://apochq.handwired.net
-Official Scorched 3D Site:  http://scorched3d.co.uk
+		- Several weapons commented out or removed for various reasons :P
+			- Acidic Napalm, Baby Funk, Fungal Bloom, Large Missile, Napalm Blast, Napalm Splash, Roller MIRV, Roller S-MIRV, Sandfish, Sandhog Blast, Shotgun, Terraform, X-MIRV
 
 ----------------------------------------------------
                   Install Notes
@@ -60,13 +60,13 @@ Official Scorched 3D Site:  http://scorched3d.co.uk
 To install the mod:
 
 Windows:
-Extract the archive into /documents and settings/current user/.scorched/mods
+Extract the mod into /documents and settings/current user/.scorched/mods
 
 Linux:
-???
+???  Install to the equivalent directory as above
 
 MacOS:
-???
+???  Install to the equivalent directory as above
 
 ----------------------------------------------------
                      Files
@@ -159,9 +159,7 @@ The Travolta	- Super-sized Funky Bomb
 ----------------------------------------------------
                      New Items
 ----------------------------------------------------
-Hard Hat        - Replacement for the old style heavy mag
 Hv Frc Shield   - Larger, more powerful version of the force shield
-Mini Hard Hat   - Replacement for the old style mag deflect shield
 Ultra Shield    - Most powerful standard defensive shield
 
 ----------------------------------------------------
@@ -180,6 +178,7 @@ Maps By Bobirov:
 	Colloseum	- Static:  Round "arena-like" map
 	Ruffles		- Static:  Map that looks pretty much like a ruffles potato chip
 	Maze		- Static:  A nice maze with players spawning only inside on the ground level
+	Volcano		- Static:  An volcanic tropical island.
 
 Maps By Nexus6:
 	Castle		- Static:  Sand castle looking map
@@ -197,7 +196,7 @@ Maps By Nexus6:
 	City Blocks	- Static:  Map with some building like structures
 	
 Maps By ShoCkwaVe:
-	ArizonaIslands	- Static:  Series of islands that resemble western rock formations in the western U.S.
+	ArizonaIslands	- Static:  Series of islands that resemble rock formations in the western U.S.
 
 ----------------------------------------------------
                      Legal Stuff
