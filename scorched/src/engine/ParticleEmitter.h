@@ -81,6 +81,12 @@ public:
 		Vector &position1, Vector &position2,
 		ParticleEngine &engine,
 		ParticleRenderer *renderer = 0);
+
+	void emitExplosionRing(int number,
+		Vector &position,
+		ParticleEngine &engine,
+		ParticleRenderer *renderer = 0);
 };
 
 #endif // __INCLUDE_ParticleEmitterh_INCLUDE__
+

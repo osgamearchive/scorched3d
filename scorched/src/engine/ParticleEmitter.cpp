@@ -193,3 +193,26 @@ void ParticleEmitter::emitLinear(int number,
 		particle->renderer_ = renderer;
 	}
 }
+
+void ParticleEmitter::emitExplosionRing(int number,
+	Vector &position,
+	ParticleEngine &engine,
+	ParticleRenderer *renderer)
+{
+	for (int i=0; i<number; i++)
+	{
+		Particle *particle = engine.getNextAliveParticle();
+		if (!particle) return;
+
+		Vector velocity;
+		float ang = RAND * 2.0f * 3.14f;
+		velocity[0] = sinf(ang) * 2.0f;
+		velocity[1] = cosf(ang) * 2.0f;
+		velocity[2] = RAND * 0.1f - 0.05f;
+
+		particle->velocity_ = velocity;
+		particle->position_ = position;
+		particle->renderer_ = renderer;
+	}
+}
+

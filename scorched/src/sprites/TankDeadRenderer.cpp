@@ -18,13 +18,17 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <sprites/TankDeadRenderer.h>
 #include <common/SoundStore.h>
+#include <tank/TankContainer.h>
+#include <client/ScorchedClient.h>
+#include <engine/ParticleEmitter.h>
+#include <engine/ScorchedContext.h>
+#include <engine/ParticleEngine.h>
 
-TankDeadRenderer::TankDeadRenderer(Weapon *weapon,
-		unsigned int killedPlayerId,
-		unsigned int firedPlayerId) :
+TankDeadRenderer::TankDeadRenderer(
+	Weapon *weapon,
+	unsigned int killedPlayerId, unsigned int firedPlayerId) :
 	weapon_(weapon), 
 	killedPlayerId_(killedPlayerId), firedPlayerId_(firedPlayerId)
 {
@@ -43,6 +47,32 @@ void TankDeadRenderer::simulate(Action *action, float frametime, bool &removeAct
 	// Play Dead Tank Sound
 	CACHE_SOUND(sound, (char *) getDataFile("data/wav/explosions/tank.wav"));
 	sound->play();
+	
+	Tank *killedTank = ScorchedClient::instance()->
+		getTankContainer().getTankById(killedPlayerId_);                                                                           
+        if (killedTank)
+        {
+		Vector position = 
+			killedTank->getPhysics().getTankPosition();
+		ParticleEmitter emmiter;
+		emmiter.setAttributes(
+			0.5f, 2.0f, // Life
+			0.5f, 1.0f, // Mass
+			0.01f, 0.02f, // Friction
+			Vector(), Vector(), // Velocity
+			Vector(0.0f, 0.0f, 0.8f), 0.9f, // StartColor1
+			Vector(0.2f, 0.2f, 0.9f), 1.0f, // StartColor2
+			Vector(0.6f, 0.6f, 0.95f), 0.0f, // EndColor1
+			Vector(0.8f, 0.8f, 1.0f), 0.1f, // EndColor2
+			0.2f, 0.2f, 0.5f, 0.5f, // Start Size
+			1.5f, 1.5f, 3.0f, 3.0f, // EndSize
+			Vector(0.0f, 0.0f, 0.0f) // Gravity
+			);
+		emmiter.emitExplosionRing(
+			200, position, 
+			ScorchedClient::instance()->getParticleEngine(), 
+			ParticleRendererQuadsParticle::getInstance());
+	}
 
 	// Remove this action on the first itteration
 	removeAction = true;
