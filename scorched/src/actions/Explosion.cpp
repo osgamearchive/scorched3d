@@ -154,20 +154,16 @@ void Explosion::init()
 		}
 
 		{
-			Vector expColor(1.0f, 1.0f, 1.0f);
 			GLTextureSet *texture = 0;
 			if (0 != strcmp(weapon_->getExplosionTexture(), "none"))
 			{
 				texture = ExplosionTextures::instance()->getTextureSetByName(
 					weapon_->getExplosionTexture());
-				expColor = weapon_->getExplosionColor();
 			}
 
 			if (texture)
 			{
-				GLTextureSet *set = 
-					ExplosionTextures::instance()->getTextureSetByName(
-					weapon_->getExplosionTexture());
+				Vector expColor = weapon_->getExplosionColor();
 
 				ParticleEmitter exploemitter;
 				exploemitter.setAttributes(
@@ -187,7 +183,8 @@ void Explosion::init()
 				exploemitter.emitExplosion(position_,
 					ScorchedClient::instance()->getParticleEngine(),
 					explosionSize,
-					set);
+					texture,
+					weapon_->getAnimate());
 			}
 		}
 

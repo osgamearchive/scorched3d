@@ -45,6 +45,7 @@ public:
 	bool getCreateSplash() { return createSplash_; }
 	bool getWindAffected() { return windAffected_; }
 	bool getLuminance() { return luminance_; }
+	bool getAnimate() { return animate_; }
 
 	// Inherited from Weapon
 	virtual void fireWeapon(ScorchedContext &context,
@@ -61,6 +62,7 @@ protected:
 	bool createDebris_;
 	bool createMushroom_;
 	bool createSplash_;
+	bool animate_;
 	float hurtAmount_;
 	Explosion::DeformType deformType_;
 

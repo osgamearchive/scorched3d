@@ -24,7 +24,7 @@ Particle::Particle() :
 	life_(-1.0f), renderer_(0), userData_(0),
 	distance_(0.0f), texture_(0), shadow_(false),
 	textureCoord_(0), simulated_(false),
-	windAffect_(true)
+	windAffect_(true), textureSet_(0)
 {
 }
 
@@ -42,6 +42,7 @@ void Particle::setParticle(
 	bool windAffect)
 {
 	life_ = life; mass_ = mass; friction_ = friction;
+	percent_ = 0.0f; percentCounter_ = 1.0f / life_;
 	velocity_ = velocity; gravity_ = gravity;
 	color_ = color; colorCounter_ = colorCounter;
 	size_ = size; sizeCounter_ = sizeCounter;
@@ -55,6 +56,8 @@ void Particle::unsetParticle()
 	delete userData_;
 	userData_ = 0;
 	texture_ = 0;
+	textureSet_ = 0;
 	shadow_ = false;
 	simulated_ = false;
 }
+

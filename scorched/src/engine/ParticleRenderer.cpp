@@ -60,8 +60,19 @@ void ParticleRendererQuads::simulateParticle(Particle &particle, float time)
 
 void ParticleRendererQuads::renderParticle(Particle &particle)
 {
-	if (!particle.texture_) return;
-	particle.texture_->draw();
+	if (!particle.texture_ && !particle.textureSet_) return;
+
+	if (particle.textureSet_)
+	{
+		int tex = int((particle.textureSet_->getNoTextures() - 1) * particle.percent_);
+		tex = MIN(MAX(tex, 0), particle.textureSet_->getNoTextures() - 1);
+		GLTexture *texture = particle.textureSet_->getTexture(tex);
+		texture->draw();
+	}
+	else
+	{
+		particle.texture_->draw();
+	}
 
 	GLCameraFrustum::instance()->drawBilboard(
 		particle.position_, particle.color_, particle.alpha_,

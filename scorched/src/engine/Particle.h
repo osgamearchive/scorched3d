@@ -23,7 +23,7 @@
 
 #include <common/Vector.h>
 #include <engine/ParticleRenderer.h>
-#include <GLEXT/GLTexture.h>
+#include <GLEXT/GLTextureSet.h>
 
 class Particle
 {
@@ -44,6 +44,7 @@ public:
 	float life_;
 	float mass_;
 	float friction_;
+	float percent_, percentCounter_;
 	Vector position_;
 	Vector velocity_;
 	Vector gravity_;
@@ -55,6 +56,7 @@ public:
 	// Used for texturing
 	bool additiveTexture_;
 	GLTexture *texture_;
+	GLTextureSet *textureSet_;
 	int textureCoord_;
 	bool shadow_;
 	bool simulated_;

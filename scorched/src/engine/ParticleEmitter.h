@@ -114,7 +114,8 @@ public:
 		Vector &position,
 		ParticleEngine &engine,
 		float width,
-		GLTextureSet *set);
+		GLTextureSet *set,
+		bool animate);
 	void emitMushroom(
 		Vector &position,
 		ParticleEngine &engine,

@@ -28,7 +28,7 @@ WeaponExplosion::WeaponExplosion() : size_(0.0f),
 	deformType_(Explosion::DeformNone),
 	createDebris_(true), createMushroom_(false),
 	createSplash_(true), windAffected_(true),
-	luminance_(true),
+	luminance_(true), animate_(false),
 	minLife_(0.5f), maxLife_(1.0f)
 {
 
@@ -79,6 +79,11 @@ bool WeaponExplosion::parseXML(XMLNode *accessoryNode)
 	accessoryNode->getNamedChild("noluminance", noLuminanceNode, false);
 	if (noLuminanceNode) luminance_ = false;
 
+	// Get the animate node
+	XMLNode *animateNode = 0;
+	accessoryNode->getNamedChild("animate", animateNode, false);
+	if (animateNode) animate_ = true;
+
 	// Get the optional explosion life nodes
 	accessoryNode->getNamedChild("minlife", minLife_, false);
 	accessoryNode->getNamedChild("maxlife", maxLife_, false);
@@ -114,6 +119,7 @@ bool WeaponExplosion::writeAccessory(NetBuffer &buffer)
 	buffer.addToBuffer(createSplash_);
 	buffer.addToBuffer(windAffected_);
 	buffer.addToBuffer(luminance_);
+	buffer.addToBuffer(animate_);
     return true;
 }
 
@@ -133,6 +139,7 @@ bool WeaponExplosion::readAccessory(NetBufferReader &reader)
 	if (!reader.getFromBuffer(createSplash_)) return false;
 	if (!reader.getFromBuffer(windAffected_)) return false;
 	if (!reader.getFromBuffer(luminance_)) return false;
+	if (!reader.getFromBuffer(animate_)) return false;
     return true;
 }
 

@@ -365,7 +365,8 @@ void ParticleEmitter::emitExplosion(
 	Vector &position,
 	ParticleEngine &engine,
 	float width,
-	GLTextureSet *set)
+	GLTextureSet *set,
+	bool animate)
 {
 	for (int i=0; i<int(width) * 4; i++)
 	{
@@ -391,7 +392,15 @@ void ParticleEmitter::emitExplosion(
 		particle->position_ = position;
 		particle->renderer_ = ParticleRendererQuads::getInstance();
 		particle->textureCoord_ = int(RAND * 4.0f);
-		particle->texture_ = set->getTexture(int(RAND * (set->getNoTextures() - 1)));
+		if (animate)
+		{
+			particle->textureSet_ = set;
+		}
+		else
+		{
+			int index = MIN(int(RAND * (set->getNoTextures() - 1)), set->getNoTextures() - 1);
+			particle->texture_ = set->getTexture(index);
+		}
 	}
 }
 

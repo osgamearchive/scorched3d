@@ -146,6 +146,7 @@ void ParticleEngine::normalizedSimulate(float time)
 			particle->color_ += particle->colorCounter_ * time;
 			particle->alpha_ += particle->alphaCounter_ * time;
 			particle->size_ += particle->sizeCounter_ * time;
+			particle->percent_ += particle->percentCounter_ * time;
 
 			// now its time for the external forces to take their toll
 			particle->velocity_ *= 1.0f - (particle->friction_ * time);
