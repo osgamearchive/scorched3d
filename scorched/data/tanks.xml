@@ -7,6 +7,55 @@
 		</model>
 	</tank>
 	<tank>
+		<name>SA-19 GRISON (2K22 Tunguska)</name>
+		<model type="ase">
+			<mesh>sa-19.ase</mesh>
+			<skin>sa-19.bmp</skin>
+		</model>
+	</tank>
+	<tank>
+		<name>ZSU-24-1 (SHILKA)</name>
+		<model type="ase">
+			<mesh>zsu-24-1.ase</mesh>
+			<skin>zsu-24-1.bmp</skin>
+		</model>
+	</tank>
+	<tank>
+		<name>Rapier</name>
+		<model type="ase">
+			<mesh>rapier.ase</mesh>
+			<skin>rapier.bmp</skin>
+		</model>
+	</tank>
+	<tank>
+		<name>Harpoon</name>
+		<model type="ase">
+			<mesh>harpoon.ase</mesh>
+			<skin>harpoon.bmp</skin>
+		</model>
+	</tank>
+	<tank>
+		<name>V2 Rocket</name>
+		<model type="ase">
+			<mesh>v2.ase</mesh>
+			<skin>v2.bmp</skin>
+		</model>
+	</tank>
+	<tank>
+		<name>Sea Sparrow</name>
+		<model type="ase">
+			<mesh>seasparrow.ase</mesh>
+			<skin>seasparrow.bmp</skin>
+		</model>
+	</tank>
+	<tank>
+		<name>RAM System</name>
+		<model type="ase">
+			<mesh>ram.ase</mesh>
+			<skin>ram.bmp</skin>
+		</model>
+	</tank>
+	<tank>
 		<name>STURMPANZERWAGEN A7V</name>
 		<model type="ase">
 			<mesh>a7v.ase</mesh>
