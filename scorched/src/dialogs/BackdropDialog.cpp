@@ -45,7 +45,8 @@ BackdropDialog::BackdropDialog() :
 		GLBitmap backMap( PKGDIR "data/windows/logotiled.bmp");
 		backTex_.create(backMap, GL_RGB, false);
 
-		GLBitmap topMap( PKGDIR "data/windows/scorched.bmp", true);
+		GLBitmap topMap( PKGDIR "data/windows/scorched.bmp", 
+			PKGDIR "data/windows/scorchedi.bmp", true);
 		titleTex_.create(topMap, GL_RGBA, false);
 
 		displayList_ = 1;
