@@ -31,13 +31,21 @@ MapPoints *MapPoints::instance()
 
 MapPoints::MapPoints() 
 {
-	ModelID id;
-	id.initFromString("ase", "data/meshes/wrap.ase", "none");
-	borderModelWrap_ = ModelStore::instance()->loadOrGetArray(id);
-	id.initFromString("ase", "data/meshes/bounce.ase", "none");
-	borderModelBounce_ = ModelStore::instance()->loadOrGetArray(id);
-	id.initFromString("ase", "data/meshes/concrete.ase", "none");
-	borderModelConcrete_ = ModelStore::instance()->loadOrGetArray(id);
+	{
+		ModelID id;
+		id.initFromString("ase", "data/meshes/wrap.ase", "none");
+		borderModelWrap_ = ModelStore::instance()->loadOrGetArray(id);
+	}
+	{
+		ModelID id;
+		id.initFromString("ase", "data/meshes/bounce.ase", "none");
+		borderModelBounce_ = ModelStore::instance()->loadOrGetArray(id);
+	}
+	{
+		ModelID id;
+		id.initFromString("ase", "data/meshes/concrete.ase", "none");
+		borderModelConcrete_ = ModelStore::instance()->loadOrGetArray(id);
+	}
 }
 
 MapPoints::~MapPoints()

@@ -24,7 +24,6 @@
 #include <landscape/LandscapeTex.h>
 #include <landscape/LandscapeDefinition.h>
 #include <common/OptionsDisplay.h>
-#include <common/OptionsTransient.h>
 #include <common/SoundStore.h>
 #include <client/ScorchedClient.h>
 #include <engine/ParticleEmitter.h>
@@ -52,7 +51,6 @@ void Water::draw()
 	glPushMatrix();
 		glTranslatef(0.0f, 0.0f, height_);
 		wWaves_.draw();
-		glColor3fv(ScorchedClient::instance()->getOptionsTransient().getWallColor());
 		wMapPoints_.draw();
 		wMap_.draw();
 	glPopMatrix();
