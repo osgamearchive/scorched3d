@@ -229,9 +229,8 @@ void StatsLoggerMySQL::tankJoined(Tank *tank)
 	// Try to determine this players sql playerid
 	int playerId = 0;
 	int kills = 0;
-	const char *name = 0;
-	if (runQuery("SELECT playerid, kills, name FROM scorched3d_players "
-			"WHERE uniqueid = \"%s\";", tank->getUniqueId()) == 0)
+	if (runQuery("SELECT playerid, kills FROM scorched3d_players "
+			"WHERE uniqueid = \"%s\";", tank->getUniqueId()))
 	{
 		MYSQL_RES *result = mysql_store_result(mysql_);
 		if (result)
@@ -242,7 +241,6 @@ void StatsLoggerMySQL::tankJoined(Tank *tank)
 				MYSQL_ROW row = mysql_fetch_row(result);
 				playerId = atoi(row[0]);
 				kills = atoi(row[1]);
-				name = row[2];
 
 				Logger::log(0, "Found stats user \"%i\"", playerId);
 			}
@@ -250,10 +248,10 @@ void StatsLoggerMySQL::tankJoined(Tank *tank)
 		}
 	}
 
-	if (name)
+	if (playerId != 0)
 	{
 		if (runQuery("SELECT count(*) FROM scorched3d_players "
-			"WHERE kills > \"%i\";", kills) == 0)
+			"WHERE kills > \"%i\";", kills))
 		{
 			MYSQL_RES *result = mysql_store_result(mysql_);
 			if (result)
@@ -264,8 +262,10 @@ void StatsLoggerMySQL::tankJoined(Tank *tank)
 					MYSQL_ROW row = mysql_fetch_row(result);
 					int rank = atoi(row[0]);
 
+					Logger::log(0, "Welcome back %s, you are ranked %i",
+						tank->getName(), rank + 1);
 					ServerCommon::sendString(0, "Welcome back %s, you are ranked %i",
-						name, rank + 1);
+						tank->getName(), rank + 1);
 				}
 				mysql_free_result(result);
 			}
