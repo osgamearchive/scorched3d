@@ -59,8 +59,9 @@ bool ClientPlayerStatusHandler::processMessage(unsigned int id,
 		 itor++)
 	{
 		Tank *tank = (*itor).second;
-		tank->getState().setServerWaitingOn(message.playerWaiting(
-			tank->getPlayerId()));
+		if (message.playerWaiting(tank->getPlayerId())) 
+			tank->getState().setNotReady();
+		else tank->getState().setReady();
 	}
 
 	return true;
