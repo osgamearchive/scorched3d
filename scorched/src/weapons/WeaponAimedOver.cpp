@@ -85,7 +85,13 @@ void WeaponAimedOver::fireWeapon(ScorchedContext &context,
 	if (position[1] < 6.0f) position[1] = 6.0f;
 	else if (position[1] > 249.0f) position[1] = 249.0f;
 
-	position[2] += 0.2f;
+	float minHeight = context.landscapeMaps->getHMap().getInterpHeight(
+		position[0], position[1]);
+	if (position[2] < minHeight + 0.5f)
+	{
+		position[2] = minHeight + 0.5f;
+	}
+
 	bool ceiling = false;
 	if (context.landscapeMaps->getRoof())
 	{
