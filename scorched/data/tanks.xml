@@ -7,6 +7,34 @@
 		</model>
 	</tank>
 	<tank>
+		<name>Hoth Gun</name>
+		<model type="ase">
+			<mesh>HothGun.ase</mesh>
+			<skin>HothGun.bmp</skin>
+		</model>
+	</tank>
+	<tank>
+		<name>Hoth Gun 2</name>
+		<model type="ase">
+			<mesh>HothGun2.ase</mesh>
+			<skin>HothGun2.bmp</skin>
+		</model>
+	</tank>
+	<tank>
+		<name>AAT</name>
+		<model type="ase">
+			<mesh>AAT.ase</mesh>
+			<skin>AAT.bmp</skin>
+		</model>
+	</tank>
+	<tank>
+		<name>Phalanx C.I.W.S.</name>
+		<model type="ase">
+			<mesh>phalanx.ase</mesh>
+			<skin>phalanx.bmp</skin>
+		</model>
+	</tank>
+	<tank>
 		<name>TowedArtilleryB</name>
 		<model type="ase">
 			<mesh>towedartillery.ase</mesh>
