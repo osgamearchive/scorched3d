@@ -111,7 +111,7 @@ void setup()
 		dialogMessage("Scorched 3D", "Failed to load all tank models");		
 		exit(1);
 	}
-	TankAIStore::instance()->loadAIs();
+	TankAIStore::instance();
 
 	WindowSetup::setup(useServer);
 
