@@ -35,6 +35,7 @@ public:
 	};
 
 	KeyboardKey(const char *name, 
+		const char *title,
 		const char *description,
 		bool command);
 	virtual ~KeyboardKey();
@@ -50,6 +51,7 @@ public:
 
 	std::vector<KeyEntry> &getKeys() { return keys_; }
 	const char *getName() { return name_.c_str(); }
+	const char *getTitle() { return title_.c_str(); }
 	const char *getDescription() { return description_.c_str(); }
 	bool getNameIsCommand() { return command_; }
 
@@ -61,6 +63,7 @@ public:
 
 protected:
 	std::string name_;
+	std::string title_;
 	std::string description_;
 	std::vector<KeyEntry> keys_;
 	bool keyToogle_;

@@ -109,7 +109,7 @@ bool &Keyboard::getDvorak()
 
 void Keyboard::clear()
 {
-	std::map<std::string, KeyboardKey *, std::less<std::string> >::iterator itor;
+	std::map<std::string, KeyboardKey *>::iterator itor;
 	for (itor = keyMap_.begin();
 		itor != keyMap_.end();
 		itor++)
@@ -117,26 +117,24 @@ void Keyboard::clear()
 		delete (*itor).second;
 	}
 	keyMap_.clear();
-	
-	while (!commandKeys_.empty())
-	{
-		KeyboardKey *key = commandKeys_.front();
-		commandKeys_.pop_front();
-		delete key;
-	}
+	keyList_.clear();
+	commandKeys_.clear();	
 }
 
 bool Keyboard::saveKeyFile()
 {
 	XMLNode keysNode("keys");
-	std::map<std::string, KeyboardKey *, std::less<std::string> >::iterator itor;
-	for (itor = keyMap_.begin();
-		itor != keyMap_.end();
+	std::list<KeyboardKey *>::iterator itor;
+	for (itor = keyList_.begin();
+		itor != keyList_.end();
 		itor++)
 	{
-		KeyboardKey *key = (*itor).second;
+		KeyboardKey *key = (*itor);
 		XMLNode *keyNode = new XMLNode("keyentry");
-		keyNode->addChild(new XMLNode("name", key->getName()));
+		if (key->getNameIsCommand())
+			keyNode->addChild(new XMLNode("command", key->getName()));
+		else keyNode->addChild(new XMLNode("name", key->getName()));
+		keyNode->addChild(new XMLNode("title", key->getTitle()));
 		keyNode->addChild(new XMLNode("description", key->getDescription()));
 
 		std::vector<KeyboardKey::KeyEntry> &keys = key->getKeys();
@@ -151,7 +149,8 @@ bool Keyboard::saveKeyFile()
 			KeyboardKey::translateKeyNameValue(subentry.key, name);
 			KeyboardKey::translateKeyStateValue(subentry.state, state);
 			XMLNode *subnode = new XMLNode("key", name);
-			if (strcmp(state, "NONE") != 0) subnode->addParameter(new XMLNode("state", state, XMLNode::XMLParameterType));
+			if (strcmp(state, "NONE") != 0) subnode->addParameter(
+				new XMLNode("state", state, XMLNode::XMLParameterType));
 			keyNode->addChild(subnode);
 		}
 
@@ -238,20 +237,19 @@ bool Keyboard::loadKeyFile()
 		if (!currentNode->getNamedChild("description", descNode)) return false;
 		const char *keyDesc = descNode->getContent();
 
+		// Get the title
+		XMLNode *titleNode;
+		if (!currentNode->getNamedChild("title", titleNode)) return false;
+		const char *keyTitle = titleNode->getContent();
+
 		// Create the key
-		KeyboardKey *newKey = new KeyboardKey(keyName, keyDesc, command);
+		KeyboardKey *newKey = new KeyboardKey(keyName, keyTitle, keyDesc, command);
 
 		// Add all the key names
+		XMLNode *currentKey = 0;
 		std::list<std::string> keyNames, keyStateNames;
-		std::list<XMLNode *>::iterator keyItor;
-		std::list<XMLNode *> &keys = currentNode->getChildren();
-		for (keyItor = keys.begin();
-			 keyItor != keys.end();
-			 keyItor++)
+		while (currentNode->getNamedChild("key", currentKey, false))
 		{
-			XMLNode *currentKey = (*keyItor);
-			if (strcmp(currentKey->getName(), "key")==0)
-			{
 				const char *state = "NONE";
 				XMLNode *stateNode;
 				if (currentKey->getNamedParameter("state", stateNode, false)) 
@@ -277,43 +275,27 @@ bool Keyboard::loadKeyFile()
 					return false;					
 				}
 				usedKeyMap_[wholeKey] = newKey;
-			}
 		}
 
 		// Actually add the key
 		if (!newKey->addKeys(keyNames, keyStateNames)) return false;
-
 		
-		if (command)
-		{
-			// Add to the list of commands
-			commandKeys_.push_back(newKey);
-		}
-		else
-		{
-			// Add to the list of pre-defined keys
-			keyMap_[keyName] = newKey;
-		}
+		// Add to the list of pre-defined keys
+		keyMap_[keyName] = newKey;
+		keyList_.push_back(newKey);
+		if (command) commandKeys_.push_back(newKey);
+
+		if (!currentNode->failChildren()) return false;
 	}
 
 	return true;
 }
 
-std::list<KeyboardKey *> &Keyboard::getCommandKeys()
-{
-	return commandKeys_;
-}
-
-std::map<std::string, KeyboardKey *, std::less<std::string> > &Keyboard::getKeyMap()
-{
-	return keyMap_;
-}
-
 KeyboardKey *Keyboard::getKey(const char *name)
 {
-	static KeyboardKey defaultKey("None", "None", false);
+	static KeyboardKey defaultKey("None", "None", "None", false);
 
-	std::map<std::string, KeyboardKey *, std::less<std::string> >::iterator itor =
+	std::map<std::string, KeyboardKey *>::iterator itor =
 		keyMap_.find(name);
 	if (itor != keyMap_.end()) return (*itor).second;
 
@@ -322,3 +304,4 @@ KeyboardKey *Keyboard::getKey(const char *name)
 				  name);	
 	return &defaultKey;
 }
+

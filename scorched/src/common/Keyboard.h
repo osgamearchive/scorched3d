@@ -47,8 +47,9 @@ public:
 	static bool &getDvorak();
 
 	KeyboardKey *getKey(const char *name);
-	std::list<KeyboardKey *> &getCommandKeys();
-	std::map<std::string, KeyboardKey *, std::less<std::string> > &getKeyMap();
+	std::list<KeyboardKey *> &getKeyList() { return keyList_; }
+	std::list<KeyboardKey *> &getCommandKeys() { return commandKeys_; }
+	std::map<std::string, KeyboardKey *> &getKeyMap() { return keyMap_; }
 			                       
 protected:
 	static Keyboard *instance_;
@@ -57,8 +58,9 @@ protected:
 	int keybHistCnt_;
 	void clear();
 
+	std::map<std::string, KeyboardKey *> keyMap_;
 	std::list<KeyboardKey *> commandKeys_;
-	std::map<std::string, KeyboardKey *, std::less<std::string> > keyMap_;
+	std::list<KeyboardKey *> keyList_;
                        
 private:
 	Keyboard();

@@ -30,8 +30,7 @@ static void createControls(wxWindow *parent, wxSizer *topsizer)
 	landscapes = new wxCheckBox*[
 		LandscapeDefinitions::instance()->getAllLandscapes().size()];
 
-	wxScrolledWindow *scrolledWindow = new wxScrolledWindow(parent, -1,
-		wxDefaultPosition, wxSize(340, 320));
+	wxScrolledWindow *scrolledWindow = new wxScrolledWindow(parent, -1);
 
 	wxSizer *sizer = new wxFlexGridSizer(3, 3);
 	int i = 0;
@@ -70,6 +69,6 @@ static void createControls(wxWindow *parent, wxSizer *topsizer)
 	scrolledWindow->SetSizer(sizer);
 	wxSize minSize = sizer->CalcMin();
 	scrolledWindow->SetScrollbars(0, 10, 50, minSize.GetHeight() / 10);
-	topsizer->Add(scrolledWindow, 0, wxALL | wxALIGN_CENTER, 10);
+	topsizer->Add(scrolledWindow, 1, wxGROW | wxALL, 10);
 }
 

@@ -310,8 +310,7 @@ static std::list<wxButton *> keyboardKeyList;
 
 static void createKeysControls(wxWindow *parent, wxSizer *topsizer)
 {
-	wxScrolledWindow *scrolledWindow = new wxScrolledWindow(parent, -1,
-		wxDefaultPosition, wxSize(470, 270));
+	wxScrolledWindow *scrolledWindow = new wxScrolledWindow(parent, -1);
 	wxSizer *sizer = new wxFlexGridSizer(5, 1);
 	
 	keyboardKeyList.clear();
@@ -320,21 +319,20 @@ static void createKeysControls(wxWindow *parent, wxSizer *topsizer)
 		dialogExit("Keyboad", "Failed to process keyboad file keys.xml");
 	}
 
-	std::map<std::string, KeyboardKey *, std::less<std::string> > &keys =
-		Keyboard::instance()->getKeyMap();
-	std::map<std::string, KeyboardKey *, std::less<std::string> >::iterator itor;
+	std::list<KeyboardKey *> &keys = Keyboard::instance()->getKeyList();
+	std::list<KeyboardKey *>::iterator itor;
 	for (itor = keys.begin();
 		itor != keys.end();
 		itor++)
 	{
-		KeyboardKey *key = (*itor).second;
+		KeyboardKey *key = (*itor);
 
-		wxStaticText *text = new wxStaticText(scrolledWindow, -1, key->getName());
+		wxStaticText *text = new wxStaticText(scrolledWindow, -1, key->getTitle());
 		text->SetToolTip(key->getDescription());
-		sizer->Add(text, 0, wxALIGN_CENTER);
+		sizer->Add(text, 0, wxALIGN_LEFT);
 		for (unsigned int i=0; i<4; i++)
 		{
-			wxButton *button = new wxButton(scrolledWindow, ID_KEY, "");
+			wxButton *button = new wxButton(scrolledWindow, ID_KEY, "", wxDefaultPosition, wxSize(120, -1));
 			button->SetRefData(new KeyButtonData(key, i));
 			button->SetToolTip(key->getDescription());
 			sizer->Add(button, 0, wxLEFT | wxALIGN_CENTER, 5);
@@ -347,7 +345,7 @@ static void createKeysControls(wxWindow *parent, wxSizer *topsizer)
 	wxSize minSize = sizer->CalcMin();
 	scrolledWindow->SetScrollbars(10, 10, 
 		(minSize.GetWidth() + 10) / 10, (minSize.GetHeight() + 10) / 10);
-	topsizer->Add(scrolledWindow, 0, wxALL | wxALIGN_CENTER, 2);
+	topsizer->Add(scrolledWindow, 1, wxGROW | wxALL, 2);
 }
 
 

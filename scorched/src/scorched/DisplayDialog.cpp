@@ -513,7 +513,7 @@ bool DisplayFrame::TransferDataFromWindow()
 	OptionsDisplay::instance()->writeOptionsToFile();
 
 	// Save keyboard keys to file
-	//Keyboard::instance()->saveKeyFile();
+	Keyboard::instance()->saveKeyFile();
 
 	return true;
 }
