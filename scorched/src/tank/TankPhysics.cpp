@@ -112,6 +112,8 @@ void TankPhysics::revertSettings(unsigned int index)
 		rotateGunXY(oldShots_[newIndex].rot, false);
 		rotateGunYZ(oldShots_[newIndex].ele, false);
 		changePower(oldShots_[newIndex].power, false);
+
+		madeShot(); // Store this as the newest chosen settings
 	}
 }
 
