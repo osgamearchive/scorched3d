@@ -35,13 +35,15 @@ ComsGameStateMessage::~ComsGameStateMessage()
 bool ComsGameStateMessage::writeMessage(NetBuffer &buffer)
 {
 	if (!stateMessage_.writeMessage(buffer)) return false;
-	if (!ScorchedServer::instance()->getOptionsTransient().writeToBuffer(buffer)) return false;
+	if (!ScorchedServer::instance()->getOptionsTransient().
+		writeToBuffer(buffer)) return false;
 	return true;
 }
 
 bool ComsGameStateMessage::readMessage(NetBufferReader &reader)
 {
 	if (!stateMessage_.readMessage(reader)) return false;
-	if (!ScorchedClient::instance()->getOptionsTransient().readFromBuffer(reader)) return false;
+	if (!ScorchedClient::instance()->getOptionsTransient().
+		readFromBuffer(reader)) return false;
 	return true;
 }

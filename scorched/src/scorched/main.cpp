@@ -201,6 +201,9 @@ int main(int argc, char *argv[])
 		}
 		ScorchedServer::instance()->getOptionsGame().readOptionsFromFile(
 			(char *) OptionsParam::instance()->getServerFile());
+		ScorchedServer::instance()->getChangedOptionsGame().readOptionsFromFile(
+			(char *) OptionsParam::instance()->getServerFile());
+
 		// Note: WE DO NOT BREAK
 	
 	case OptionsParam::ActionNone:
