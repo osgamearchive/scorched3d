@@ -717,8 +717,10 @@ void ServerFrame::onShowModFiles()
 	{
 		ModFileEntry *entry = (*itor).second;
 
-		listDialog.addItem(formatString("%s - %u bytes", 
-				entry->getFileName(), entry->getCompressedSize()));
+		listDialog.addItem(formatString("%s - %u bytes - %u", 
+			entry->getFileName(), 
+			entry->getCompressedSize(),
+			entry->getCompressedCrc()));
 	}
 	listDialog.ShowModal();
 }

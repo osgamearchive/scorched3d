@@ -21,6 +21,7 @@
 #include <client/ClientFileHandler.h>
 #include <client/ScorchedClient.h>
 #include <engine/ModFiles.h>
+#include <common/Logger.h>
 #include <common/Defines.h>
 #include <common/OptionsGame.h>
 #include <coms/ComsMessageSender.h>
