@@ -75,6 +75,7 @@ Stats prefix can be (pre/a)pended onto mysql stats tables
 Proper mag shield
 Guidance
 Add action replay type functionality
+When a player reconnects give back kills, money etc until the end of the round
 
 -- Server Stuff
 Chat filter (swear words)
