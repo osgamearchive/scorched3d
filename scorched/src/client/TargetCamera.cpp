@@ -276,7 +276,7 @@ bool TargetCamera::moveCamera(float frameTime, bool playing)
 		{
 			Vector at(128.0f, 128.0f, 0.0f);
 			mainCam_.setLookAt(at);
-			mainCam_.movePosition(HALFPI, 0.7f, 200.f);
+			mainCam_.movePosition(HALFPI, 1.1f, 200.f);
 		}
 		break;
 	default:

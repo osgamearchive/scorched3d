@@ -108,6 +108,10 @@ public:
 	void setInvertMouse(bool value) { invertMouse_.setValue(value); }
 	const char *getInvertMouseToolTip() { return invertMouse_.getDescription(); }
 
+	bool getSwapYAxis() { return swapYAxis_.getValue(); }
+	void setSwapYAxis(bool value) { swapYAxis_.setValue(value); }
+	const char *getSwapYAxisToolTip() { return swapYAxis_.getDescription(); }
+
 	bool getSideScroll() { return sideScroll_.getValue(); }
 	void setSideScroll(bool value) { sideScroll_.setValue(value); }
 	const char *getSideScrollToolTip() { return sideScroll_.getDescription(); }
@@ -337,6 +341,7 @@ protected:
 	OptionEntryBool lowTreeDetail_;
 	OptionEntryBool softwareMouse_;
 	OptionEntryBool sideScroll_;
+	OptionEntryBool swapYAxis_;
 	OptionEntryBoundedInt dialogSize_;
 	OptionEntryBoundedInt texSize_;
 	OptionEntryBoundedInt tankDetail_;

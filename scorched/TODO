@@ -20,6 +20,7 @@ Fixed: Scaled down all sand hogs power
 Fixed: Changed server browser to use new browsing server (scorched3d.sourceforge.net)
 Fixed: MOTD is put to logging console as well as rules dialog
 
+Added: Swap y-axis mode for mac OS X windowed mode
 Added: Screensaver mode
 Added: Option to auto remove computer players when a certain number of humans in game
 Added: Laser death sound from original game (thanks josh morris)

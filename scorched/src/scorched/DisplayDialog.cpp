@@ -203,6 +203,8 @@ void DisplayFrame::refreshScreen()
 	IDC_NODETAILTEX_CTRL->SetToolTip(OptionsDisplay::instance()->getDetailTextureToolTip());
 	IDC_MORERES_CTRL->SetValue(OptionsDisplay::instance()->getMoreRes());
 	IDC_MORERES_CTRL->SetToolTip(OptionsDisplay::instance()->getMoreResToolTip());
+	IDC_SWAPYAXIS_CTRL->SetValue(OptionsDisplay::instance()->getSwapYAxis());
+	IDC_SWAPYAXIS_CTRL->SetToolTip(OptionsDisplay::instance()->getSwapYAxisToolTip());
 
 	refreshResolutions();
 
@@ -356,6 +358,7 @@ bool DisplayFrame::TransferDataFromWindow()
 	OptionsDisplay::instance()->setHostDescription(IDC_HOSTDESC_CTRL->GetValue());
 	OptionsDisplay::instance()->setDetailTexture(!IDC_NODETAILTEX_CTRL->GetValue());
 	OptionsDisplay::instance()->setMoreRes(IDC_MORERES_CTRL->GetValue());
+	OptionsDisplay::instance()->setSwapYAxis(IDC_SWAPYAXIS_CTRL->GetValue());
 
 	wxString buffer = IDC_DISPLAY_CTRL->GetValue();
 	int windowWidth, windowHeight;

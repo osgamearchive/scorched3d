@@ -77,6 +77,8 @@ OptionsDisplay::OptionsDisplay() :
 		"Invert/reverse the tanks up/down elevation directions.", RWAccess, false),
 	invertMouse_(options_, "InvertMouse",
 		"Invert/reverse the mouses y-axis when rotating camera.", RWAccess, false),
+	swapYAxis_(options_, "SwapYAxis",
+		"Remaps mouse pointer from top of window to the bottom and vice-versa (MAC/OSX)", RWAccess, false),
 	sideScroll_(options_, "SideScroll",
 		"Allows the user to scroll the viewport using the mouse", RWAccess, true),
 	drawPlayerNames_(options_, "DrawPlayerNames",

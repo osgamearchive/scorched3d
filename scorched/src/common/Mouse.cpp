@@ -20,6 +20,7 @@
 
 #include <GLEXT/GLViewPort.h>
 #include <common/Mouse.h>
+#include <common/OptionsDisplay.h>
 #include <client/ScorchedClient.h>
 
 Mouse *Mouse::instance_ = 0;
@@ -47,24 +48,30 @@ Mouse::~Mouse()
 
 void Mouse::mouseDown(SDL_Event &event)
 {
+	int defaultY = (int) (event.button.y * GLViewPort::getHeightMult());
+	if (!OptionsDisplay::instance()->getSwapYAxis())
+	{
+		defaultY = GLViewPort::getHeight() - defaultY;
+	}
+
 	switch (event.button.button) {
 	case SDL_BUTTON_LEFT:
 		ScorchedClient::instance()->getGameState().
 		    mouseDown(GameState::MouseButtonLeft,
 				(int) (event.button.x * GLViewPort::getWidthMult()),
-				GLViewPort::getHeight() - (int) (event.button.y * GLViewPort::getHeightMult()));
+				defaultY);
 		break;
 	case SDL_BUTTON_MIDDLE:
 		ScorchedClient::instance()->getGameState().
 		    mouseDown(GameState::MouseButtonMiddle,
 			      (int) (event.button.x * GLViewPort::getWidthMult()),
-			      GLViewPort::getHeight() - (int) (event.button.y * GLViewPort::getHeightMult()));
+			      defaultY);
 		break;
 	case SDL_BUTTON_RIGHT:
 		ScorchedClient::instance()->getGameState().
 		    mouseDown(GameState::MouseButtonRight,
 			      (int) (event.button.x * GLViewPort::getWidthMult()),
-			      GLViewPort::getHeight() - (int) (event.button.y * GLViewPort::getHeightMult()));
+			      defaultY);
 		break;
 	case 4:
 		ScorchedClient::instance()->getGameState().
@@ -81,24 +88,30 @@ void Mouse::mouseDown(SDL_Event &event)
 
 void Mouse::mouseUp(SDL_Event &event)
 {
+	int defaultY = (int) (event.button.y * GLViewPort::getHeightMult());
+	if (!OptionsDisplay::instance()->getSwapYAxis())
+	{
+		defaultY = GLViewPort::getHeight() - defaultY;
+	}
+
 	switch (event.button.button) {
 	case SDL_BUTTON_LEFT:
 		ScorchedClient::instance()->getGameState().
 			mouseUp(GameState::MouseButtonLeft,
 				(int) (event.button.x * GLViewPort::getWidthMult()),
-				GLViewPort::getHeight() - (int) (event.button.y * GLViewPort::getHeightMult()));
+				defaultY);
 		break;
 	case SDL_BUTTON_MIDDLE:
 		ScorchedClient::instance()->getGameState().
 		    mouseUp(GameState::MouseButtonMiddle,
 			    (int) (event.button.x * GLViewPort::getWidthMult()),
-				GLViewPort::getHeight() - (int) (event.button.y * GLViewPort::getHeightMult()));
+				defaultY);
 		break;
 	case SDL_BUTTON_RIGHT:
 		ScorchedClient::instance()->getGameState().
 			mouseUp(GameState::MouseButtonRight,
 				(int) (event.button.x * GLViewPort::getWidthMult()),
-				GLViewPort::getHeight() - (int) (event.button.y * GLViewPort::getHeightMult()));
+				defaultY);
 		break;
 	default:
 		break;
@@ -107,10 +120,16 @@ void Mouse::mouseUp(SDL_Event &event)
 
 void Mouse::mouseMove(SDL_Event &event)
 {
+	int defaultY = (int) (event.button.y * GLViewPort::getHeightMult());
+	if (!OptionsDisplay::instance()->getSwapYAxis())
+	{
+		defaultY = GLViewPort::getHeight() - defaultY;
+	}
+
 	ScorchedClient::instance()->getGameState().
 		mouseMove(
 			(int) (event.button.x * GLViewPort::getWidthMult()),
-			GLViewPort::getHeight() - (int) (event.button.y * GLViewPort::getHeightMult()));
+			defaultY);
 }
 
 void Mouse::processMouseEvent(SDL_Event & event)

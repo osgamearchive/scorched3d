@@ -72,13 +72,17 @@ static void createMainControls(wxWindow *parent, wxSizer *sizer)
 	wxStaticBoxSizer *miscSizer = new wxStaticBoxSizer(miscBox, wxHORIZONTAL);
 	wxGridSizer *miscSizer2 = new wxGridSizer(3, 3, 10, 10);
 	IDC_INVERT_CTRL = 
-		new wxCheckBox(parent, -1, "Invert elevation direction",
+		new wxCheckBox(parent, -1, "Invert key elevation direction",
 		wxDefaultPosition, wxSize((int) 150, (int) -1));
 	miscSizer2->Add(IDC_INVERT_CTRL, 0);
 	IDC_INVERTMOUSE_CTRL = 
-		new wxCheckBox(parent, -1, "Invert mouse direction",
+		new wxCheckBox(parent, -1, "Invert mouse elevation direction",
 		wxDefaultPosition, wxSize((int) 150, (int) -1));
 	miscSizer2->Add(IDC_INVERTMOUSE_CTRL, 0);
+	IDC_SWAPYAXIS_CTRL = 
+		new wxCheckBox(parent, -1, "Invert mouse y axis direction (OS X)",
+		wxDefaultPosition, wxSize((int) 150, (int) -1));
+	miscSizer2->Add(IDC_SWAPYAXIS_CTRL, 0);
 	IDC_TIMER_CTRL = 
 		new wxCheckBox(parent, -1, "Show frames per second",
 		wxDefaultPosition, wxSize((int) 150, (int) -1));
