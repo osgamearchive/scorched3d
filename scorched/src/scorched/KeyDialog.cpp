@@ -26,23 +26,69 @@
 extern char scorched3dAppName[128];
 extern char *displayOptions;
 
-class KeyFrame: public wxDialog
+class KeyFrame;
+class TextWindow : public wxWindow
+{
+public:
+    TextWindow(wxDialog *parent)
+        : wxWindow(parent, -1, wxDefaultPosition, wxDefaultSize,
+                   wxRAISED_BORDER),
+		   frame_((KeyFrame *) parent)
+    {
+		wxBoxSizer *topsizer = new wxBoxSizer(wxVERTICAL);
+
+		topsizer->Add(
+			new wxStaticText(this, -1, "Press a key"), 0, 
+			wxGROW | wxALIGN_CENTER, 5);
+
+		SetSizer(topsizer); // use the sizer for layout
+		topsizer->SetSizeHints(this); // set size hints to honour minimum size
+    }
+
+protected:
+	KeyFrame *frame_;
+
+    void OnKeyDown(wxKeyEvent& event);
+
+private:
+    DECLARE_EVENT_TABLE()
+};
+
+BEGIN_EVENT_TABLE(TextWindow, wxWindow)
+    EVT_KEY_DOWN(TextWindow::OnKeyDown)
+END_EVENT_TABLE()
+
+class KeyFrame : public wxDialog
 {
 public:
 	KeyFrame(wxDialog *);
 
-	void onKeyDown(wxKeyEvent &event);
-
 protected:
+	TextWindow *winText_;
+
 	DECLARE_EVENT_TABLE()
 };
 
+void TextWindow::OnKeyDown(wxKeyEvent& event)
+{
+	switch (event.GetKeyCode())
+	{
+	case WXK_SHIFT:
+	case WXK_CONTROL:
+	case WXK_ALT:
+	case WXK_MENU:
+		break;
+	default:
+		frame_->EndModal(0);
+	}
+}
+
 BEGIN_EVENT_TABLE(KeyFrame, wxDialog)
-    EVT_KEY_DOWN(KeyFrame::onKeyDown)
 END_EVENT_TABLE()
 
 KeyFrame::KeyFrame(wxDialog *dialog) :
-	wxDialog(dialog, -1, wxString(scorched3dAppName))
+	wxDialog(dialog, -1, wxString(scorched3dAppName), 
+		wxDefaultPosition, wxSize(150, 75), wxSIMPLE_BORDER )
 {
 #ifdef _WIN32
 	// Set the frame's icon
@@ -50,19 +96,11 @@ KeyFrame::KeyFrame(wxDialog *dialog) :
 	SetIcon(icon);
 #endif
 
-	wxBoxSizer *topsizer = new wxBoxSizer(wxVERTICAL);
-
-	topsizer->Add(new wxStaticText(this, -1, "Press desired key"));
-
-	SetSizer(topsizer); // use the sizer for layout
-	topsizer->SetSizeHints(this); // set size hints to honour minimum size
+	wxSize size = GetClientSize();
+	winText_ = new TextWindow(this);
+	winText_->SetSize(0, 0, size.x, size.y);
 
 	CentreOnScreen();
-}
-
-void KeyFrame::onKeyDown(wxKeyEvent &event)
-{
-	EndModal(0);
 }
 
 void showKeyDialog(wxDialog *dialog)
@@ -70,4 +108,3 @@ void showKeyDialog(wxDialog *dialog)
 	KeyFrame frame(dialog);
 	frame.ShowModal();
 }
-

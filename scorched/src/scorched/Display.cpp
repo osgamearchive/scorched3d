@@ -289,7 +289,7 @@ void createIdentControls(wxWindow *parent, wxSizer *sizer)
 void createKeysControls(wxWindow *parent, wxSizer *topsizer)
 {
 	wxScrolledWindow *scrolledWindow = new wxScrolledWindow(parent, -1,
-		wxDefaultPosition, wxSize(520, 370));
+		wxDefaultPosition, wxSize(470, 270));
 	wxSizer *sizer = new wxFlexGridSizer(5, 1);
 	
 	Keyboard::instance()->parseKeyFile(getDataFile("data/keys.xml"));
@@ -304,7 +304,7 @@ void createKeysControls(wxWindow *parent, wxSizer *topsizer)
 
 		wxStaticText *text = new wxStaticText(scrolledWindow, -1, key->getName());
 		text->SetToolTip(key->getDescription());
-		sizer->Add(text);
+		sizer->Add(text, 0, wxALIGN_CENTER);
 		for (unsigned int i=0; i<MAX(key->getKeys().size(), 4); i++)
 		{
 			char buffer[256];
@@ -321,14 +321,15 @@ void createKeysControls(wxWindow *parent, wxSizer *topsizer)
 
 			wxButton *button = new wxButton(scrolledWindow, ID_KEY, buffer);
 			button->SetToolTip(key->getDescription());
-			sizer->Add(button, 0, wxLEFT, 5);
+			sizer->Add(button, 0, wxLEFT | wxALIGN_CENTER, 5);
 		}
 	}
 	
 	scrolledWindow->SetAutoLayout(TRUE);
 	scrolledWindow->SetSizer(sizer);
 	wxSize minSize = sizer->CalcMin();
-	scrolledWindow->SetScrollbars(0, 10, 50, minSize.GetHeight() / 10);
-	topsizer->Add(scrolledWindow, 0, wxALL | wxALIGN_CENTER, 10);
+	scrolledWindow->SetScrollbars(10, 10, 
+		(minSize.GetWidth() + 10) / 10, (minSize.GetHeight() + 10) / 10);
+	topsizer->Add(scrolledWindow, 0, wxALL | wxALIGN_CENTER, 2);
 }
 

@@ -108,12 +108,12 @@ DisplayFrame::DisplayFrame() :
 	identPanel_->SetSizer(identPanelSizer);
 
 	// Keys Panel
-	/*keysPanel_ = new wxPanel(book_, -1);
+	keysPanel_ = new wxPanel(book_, -1);
 	wxSizer *keysPanelSizer = new wxBoxSizer(wxVERTICAL);
 	createKeysControls(keysPanel_, keysPanelSizer);
 	book_->AddPage(keysPanel_, "Keys");
 	keysPanel_->SetAutoLayout(TRUE);
-	keysPanel_->SetSizer(keysPanelSizer);*/
+	keysPanel_->SetSizer(keysPanelSizer);
 
 	// Notebook
 	topsizer->Add(nbs, 0, wxALL, 10);
