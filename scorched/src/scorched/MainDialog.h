@@ -32,7 +32,7 @@ wxFrame *getMainDialog();
 void addTitleToWindow(
 	wxWindow *parent,
 	wxSizer *sizer);
-wxBitmapButton *addButtonToWindow(
+wxButton *addButtonToWindow(
 	int id,
 	char *text,
 	char *bitmapName,

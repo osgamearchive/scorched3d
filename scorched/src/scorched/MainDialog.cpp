@@ -56,10 +56,11 @@ void addTitleToWindow(
 	wxWindow *parent,
 	wxSizer *sizer)
 {
-	wxImage image;
-	if (image.LoadFile(getDataFile("data/windows/scorched.bmp"), wxBITMAP_TYPE_BMP))
+	wxBitmap scorchedBitmap;
+	if (scorchedBitmap.LoadFile(getDataFile("data/windows/scorched.bmp"), 
+		wxBITMAP_TYPE_BMP) &&
+		scorchedBitmap.Ok())
 	{
-		wxBitmap scorchedBitmap(image);
 		wxBitmapButton *button = new wxBitmapButton(
 			parent, ID_BUTTON_SCORCHED, scorchedBitmap);
 		wxBoxSizer *boxSizer = new wxBoxSizer(wxHORIZONTAL);
@@ -130,27 +131,32 @@ void runScorched3D(const char *fmt, ...)
 	}
 }
 
-wxBitmapButton *addButtonToWindow(
+wxButton *addButtonToWindow(
 	int id,
 	char *text,
 	char *bitmapName,
 	wxWindow *parent,
 	wxSizer *sizer)
 {
-	wxBitmapButton *button = 0;
-	wxImage image;
-	if (image.LoadFile(getDataFile(bitmapName), wxBITMAP_TYPE_BMP))
+	wxButton *button = 0;
+	wxBitmap bitmap;
+	if (bitmap.LoadFile(getDataFile(bitmapName), wxBITMAP_TYPE_BMP) &&
+		bitmap.Ok())
 	{
-		wxBitmap bitmap(image);
-		button = new wxBitmapButton(
-			parent, id, bitmap);
-		wxStaticText *staticText = new wxStaticText(
-			parent, -1, 
-			text);
-
-		sizer->Add(button, 0, wxALL, 5);
-		sizer->Add(staticText, 0, wxALIGN_CENTER_VERTICAL | wxALL, 5);
+		button = new wxBitmapButton(parent, id, bitmap);
 	}
+	else
+	{
+		button = new wxButton(parent, id, "Select");
+	}
+
+	wxStaticText *staticText = new wxStaticText(
+		parent, -1, 
+		text);
+
+	sizer->Add(button, 0, wxALL, 5);
+	sizer->Add(staticText, 0, wxALIGN_CENTER_VERTICAL | wxALL, 5);
+
 	return button;
 }
 
@@ -208,7 +214,7 @@ MainFrame::MainFrame() :
 	wxFlexGridSizer *gridsizer = new wxFlexGridSizer(4, 2, 5, 5);
 	// Single Player Bitmap
 	{
-		wxBitmapButton *button =
+		wxButton *button =
 			addButtonToWindow(ID_BUTTON_SINGLE,
 				"Start a single or multi-player game.\n"
 				"One or more people play against themselves or the computer.", 
@@ -221,7 +227,7 @@ MainFrame::MainFrame() :
 
 	// Client Player Bitmap
 	{
-		wxBitmapButton *button =
+		wxButton *button =
 			addButtonToWindow(ID_BUTTON_NETLAN,
 				"Join a game over the internet or LAN.\n"
 				"Connect to a server and play with others over the internet.", 
@@ -242,7 +248,7 @@ MainFrame::MainFrame() :
 
 	// Display Settings
 	{
-		wxBitmapButton *button =
+		wxButton *button =
 			addButtonToWindow(ID_BUTTON_DISPLAY,
 				"Change the display settings.\n"
 				"Change graphics and compatability options", 
