@@ -78,7 +78,8 @@ void ExplosionLaserBeamRenderer::init(unsigned int playerId,
 			0.0f, 0.0f, 0.5f, 0.5f, // Start Size
 			0.0f, 0.0f, 10.0f, 10.0f, // EndSize
 			Vector(0.0f, 0.0f, 10.0f), // Gravity
-			true);
+			true,
+			false);
 
 		Vector newPos1 = position_ + Vector(-4.0f, -4.0f, 0.0f);
 		Vector newPos2 = position_ + Vector(4.0f, 4.0f, 0.0f);

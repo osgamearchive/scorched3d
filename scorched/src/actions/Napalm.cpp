@@ -244,7 +244,8 @@ void Napalm::simulateAddStep()
 			1.5f, 1.5f, 1.5f, 1.5f, // Start Size
 			1.5f, 1.5f, 1.5f, 1.5f, // EndSize
 			Vector(0.0f, 0.0f, 0.0f), // Gravity
-			true);
+			true,
+			false);
 		Vector position1(float(x_) + 0.5f, float(y_) - 0.2f, 0.0f);
 		Vector position2(float(x_) - 0.5f, float(y_) - 0.2f, 0.0f);
 		Vector position3(float(x_) + 0.0f, float(y_) + 0.5f, 0.0f);

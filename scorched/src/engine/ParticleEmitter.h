@@ -43,6 +43,7 @@ public:
 	Vector endSize1_, endSize2_;
 	Vector gravity_;
 	bool additiveTexture_;
+	bool windAffect_;
 
 	void createDefaultParticle(Particle &particle);
 
@@ -60,7 +61,8 @@ public:
 		float endX1, float endY1,
 		float endX2, float endY2,
 		Vector gravity,
-		bool additiveTexture);
+		bool additiveTexture,
+		bool windAffect);
 
 	void setLife(float life1, float life2);
 	void setMass(float mass1, float mass2);
@@ -80,6 +82,7 @@ public:
 		float endX2, float endY2);
 	void setGravity(Vector gravity);
 	void setAdditiveTexture(bool additiveTexture);
+	void setWindAffect(bool windAffect);
 
 	void emitLinear(int number, 
 		Vector &position1, Vector &position2,

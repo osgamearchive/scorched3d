@@ -60,7 +60,8 @@ Smoke::Smoke()
 		0.2f, 0.2f, 0.5f, 0.5f, // Start Size
 		1.2f, 1.2f, 1.5f, 1.5f, // EndSize
 		Vector(0.0f, 0.0f, 400.0f), // Gravity
-		false);
+		false,
+		true);
 }
 
 void Smoke::addSmoke(float x, float y, float z)

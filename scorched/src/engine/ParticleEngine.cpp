@@ -152,8 +152,11 @@ void ParticleEngine::normalizedSimulate(float time)
 			particle->velocity_ += particle->gravity_ * time * time;
 
 			// Wind
-			particle->velocity_ += ScorchedClient::instance()->getOptionsTransient().getWindDirection() * 
-				ScorchedClient::instance()->getOptionsTransient().getWindSpeed() * 200.0f * time;
+			if (particle->windAffect_)
+			{
+				particle->velocity_ += ScorchedClient::instance()->getOptionsTransient().getWindDirection() * 
+					ScorchedClient::instance()->getOptionsTransient().getWindSpeed() * 80.0f * time * time;
+			}
 
 			// Simulate the particle
 			if (particle->renderer_)

@@ -37,7 +37,8 @@ public:
 		Vector &color, Vector &colorCounter,
 		Vector &size, Vector &sizeCounter,
 		float alpha, float alphaCounter,
-		bool additiveTexture);
+		bool additiveTexture,
+		bool windAffect);
 	void unsetParticle();
 
 	float life_;
@@ -49,6 +50,7 @@ public:
 	Vector color_, colorCounter_;
 	Vector size_, sizeCounter_;
 	float alpha_, alphaCounter_;
+	bool windAffect_;
 
 	// Used for texturing
 	bool additiveTexture_;

@@ -51,6 +51,7 @@ void TalkRenderer::simulate(Action *action, float timepassed, bool &remove)
 		2.0f, 2.0f, 2.0f, 2.0f, // Start Size
 		2.0f, 2.0f, 2.0f, 2.0f, // EndSize
 		Vector(0.0f, 0.0f, 0.0f), // Gravity
+		false,
 		false);
 
 	position_[2] += 10.0f;

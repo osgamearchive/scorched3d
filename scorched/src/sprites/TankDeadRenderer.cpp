@@ -67,7 +67,8 @@ void TankDeadRenderer::simulate(Action *action, float frametime, bool &removeAct
 			0.2f, 0.2f, 0.5f, 0.5f, // Start Size
 			1.5f, 1.5f, 3.0f, 3.0f, // EndSize
 			Vector(0.0f, 0.0f, 0.0f), // Gravity
-			true);
+			true,
+			false);
 		emmiter.emitExplosionRing(
 			400, position, 
 			ScorchedClient::instance()->getParticleEngine(), 

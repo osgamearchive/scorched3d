@@ -47,6 +47,7 @@ MissileActionRenderer::MissileActionRenderer(int flareType, float scale) :
 		0.2f, 0.2f, 0.5f, 0.5f, // Start Size
 		1.5f, 1.5f, 3.0f, 3.0f, // EndSize
 		Vector(0.0f, 0.0f, 10.0f), // Gravity
+		true,
 		true);
 
 	smokeemitter_.setAttributes(
@@ -61,7 +62,8 @@ MissileActionRenderer::MissileActionRenderer(int flareType, float scale) :
 		0.2f, 0.2f, 0.5f, 0.5f, // Start Size
 		2.2f, 2.2f, 4.0f, 4.0f, // EndSize
 		Vector(0.0f, 0.0f, 100.0f), // Gravity
-		false);
+		false,
+		true);
 }
 
 MissileActionRenderer::~MissileActionRenderer()

@@ -26,6 +26,7 @@
 #include <weapons/Weapon.h>
 #include <common/Vector.h>
 
+class WeaponExplosion;
 class Explosion : public ActionMeta
 {
 public:
@@ -37,7 +38,7 @@ public:
 	};
 
 	Explosion();
-	Explosion(Vector &position, Weapon *weapon, 
+	Explosion(Vector &position, WeaponExplosion *weapon, 
 		unsigned int playerId);
 	virtual ~Explosion();
 
@@ -52,7 +53,7 @@ protected:
 	bool firstTime_;
 	Vector position_;
 	float totalTime_;
-	Weapon *weapon_;
+	WeaponExplosion *weapon_;
 	unsigned int playerId_;
 	
 };

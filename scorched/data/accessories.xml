@@ -345,6 +345,8 @@ with any tank.</description>
 			<deform>down</deform>
 			<size>18</size>
 			<createmushroom/>
+			<minlife>0.5</minlife>
+			<maxlife>1.5</maxlife>
 			<explosionshake>4.0</explosionshake>
 			<explosiontexture>exp00</explosiontexture>
 			<explosionsound>explosions/xlarge.wav</explosionsound>

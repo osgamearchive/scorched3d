@@ -112,6 +112,7 @@ ExplosionNukeRenderer::ExplosionNukeRenderer(Vector &position, float size)
 		2.0f, 2.0f, 3.0f, 3.0f, // Start Size
 		4.0f, 4.0f, 6.0f, 6.0f, // EndSize
 		Vector(0.0f, 0.0f, 100.0f), // Gravity
+		false,
 		false);
 }
 

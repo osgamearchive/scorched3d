@@ -35,7 +35,9 @@ public:
 	virtual bool readAccessory(NetBufferReader &reader);
 
 	virtual Vector &getExplosionColor();
-	float  getSize() { return size_; }
+	float getSize() { return size_; }
+	float getMaxLife() { return maxLife_; }
+	float getMinLife() { return minLife_; }
 	Explosion::DeformType getDeformType() { return deformType_; }
 	float getHurtAmount() { return hurtAmount_; }
 	bool getCreateDebris() { return createDebris_; }
@@ -50,6 +52,7 @@ public:
 
 protected:
 	float size_;
+	float minLife_, maxLife_;
 	bool multiColored_;
 	bool createDebris_;
 	bool createMushroom_;

@@ -132,6 +132,11 @@ void ParticleEmitter::setAdditiveTexture(bool additiveTexture)
 	additiveTexture_ = additiveTexture;
 }
 
+void ParticleEmitter::setWindAffect(bool windAffect)
+{
+	windAffect_ = windAffect;
+}
+
 void ParticleEmitter::setAttributes(
 	float life1, float life2,
 	float mass1, float mass2,
@@ -146,7 +151,8 @@ void ParticleEmitter::setAttributes(
 	float endX1, float endY1,
 	float endX2, float endY2,
 	Vector gravity,
-	bool additiveTexture)
+	bool additiveTexture,
+	bool windAffect)
 {
 	setLife(life1, life2);
 	setMass(mass1, mass2);
@@ -162,6 +168,7 @@ void ParticleEmitter::setAttributes(
 		endX2, endY2);
 	setGravity(gravity);
 	setAdditiveTexture(additiveTexture);
+	setWindAffect(windAffect);
 }
 
 void ParticleEmitter::createDefaultParticle(Particle &particle)
@@ -186,7 +193,8 @@ void ParticleEmitter::createDefaultParticle(Particle &particle)
 		color, colorc, 
 		size, sizec, 
 		alpha, alphac,
-		additiveTexture_);
+		additiveTexture_,
+		windAffect_);
 }
 
 void ParticleEmitter::emitLinear(int number, 
@@ -285,7 +293,7 @@ void ParticleEmitter::emitSmoke(int number,
 		particle->position_ = position;
 		particle->renderer_ = ParticleRendererQuads::getInstance();
 		particle->texture_ = &ExplosionTextures::instance()->smokeTexture;
-		particle->shadow_ = (RAND > 0.75f);
+		particle->shadow_ = (RAND > 0.25f);
 		particle->textureCoord_ = (int) (RAND * 4.0f);
 	}
 }

@@ -27,7 +27,8 @@ WeaponExplosion::WeaponExplosion() : size_(0.0f),
 	multiColored_(false), hurtAmount_(0.0f),
 	deformType_(Explosion::DeformNone),
 	createDebris_(true), createMushroom_(false),
-	createSplash_(true)
+	createSplash_(true),
+	minLife_(0.5f), maxLife_(1.0f)
 {
 
 }
@@ -67,6 +68,10 @@ bool WeaponExplosion::parseXML(XMLNode *accessoryNode)
 	accessoryNode->getNamedChild("createmushroom", createMushroomNode, false);
 	if (createMushroomNode) createMushroom_ = true;
 
+	// Get the optional explosion life nodes
+	accessoryNode->getNamedChild("minlife", minLife_, false);
+	accessoryNode->getNamedChild("maxlife", maxLife_, false);
+
 	// Get the deform
 	XMLNode *deformNode = 0;
 	if (!accessoryNode->getNamedChild("deform", deformNode)) return false;
@@ -88,6 +93,8 @@ bool WeaponExplosion::writeAccessory(NetBuffer &buffer)
 {
     if (!Weapon::writeAccessory(buffer)) return false;
     buffer.addToBuffer(size_);
+	buffer.addToBuffer(minLife_);
+	buffer.addToBuffer(maxLife_);
 	buffer.addToBuffer(hurtAmount_);
 	buffer.addToBuffer((int) deformType_);
 	buffer.addToBuffer(multiColored_);
@@ -101,6 +108,8 @@ bool WeaponExplosion::readAccessory(NetBufferReader &reader)
 {
     if (!Weapon::readAccessory(reader)) return false;
     if (!reader.getFromBuffer(size_)) return false;
+	if (!reader.getFromBuffer(minLife_)) return false;
+	if (!reader.getFromBuffer(maxLife_)) return false;
 	if (!reader.getFromBuffer(hurtAmount_)) return false;
 	int def = 0;
 	if (!reader.getFromBuffer(def)) return false;
