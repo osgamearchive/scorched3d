@@ -253,6 +253,13 @@ bool SettingsFrame::TransferDataToWindow()
 		SettingsEco::IDC_BUYONROUND_CTRL->SetToolTip(
 			wxString("Players will be allowed to buy more weapons on this round."));
 
+		// Economy
+		SettingsEco::IDC_ECONOMY_CTRL->Append("EconomyFreeMarket");
+		SettingsEco::IDC_ECONOMY_CTRL->Append("EconomyNone");
+		SettingsEco::IDC_ECONOMY_CTRL->SetValue(context_.getEconomy());
+		SettingsEco::IDC_ECONOMY_CTRL->SetToolTip(
+			wxString("Economic factors for weapon prices"));
+
 		// Money per hit
 		for (i=2000; i>=0; i-=100)
 		{	
@@ -537,6 +544,7 @@ bool SettingsFrame::TransferDataFromWindow()
 		context_.setMoneyWonPerHitPoint(moneyperhit);
 		context_.setMoneyWonPerKillPoint(moneyperkill);
 		context_.setMoneyPerHealthPoint(SettingsEco::IDC_MONEYPERHEALTH_CTRL->GetValue());
+		context_.setEconomy(SettingsEco::IDC_ECONOMY_CTRL->GetValue());
 	}
 
 	// Env

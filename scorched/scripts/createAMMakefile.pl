@@ -56,7 +56,7 @@ sub locatefiles
 	}
 }
 
-open (CLIENT, ">../Makefile.am") || die;
+open (CLIENT, ">../Makefile.am") || die "ERROR: Failed to write to ../Makefile.am";
 print CLIENT "SUBDIRS = src\n\n";
 print CLIENT "docdir = \@docdir\@\n\n";
 locatefiles("documentation", "\$\{docdir\}");

@@ -32,17 +32,8 @@ AutoDefense::~AutoDefense()
 {
 }
 
-const int AutoDefense::getPrice()
-{
-	return 3000; //(OptionsTransient::instance()->getNoRoundsLeft() + 1) * 1000; // FIXME
-}
-
-const int AutoDefense::getSellPrice()
-{
-	return int(float(getPrice()) * 0.8f);
-}
-
 bool AutoDefense::singular()
 {
 	return true;
 }
+

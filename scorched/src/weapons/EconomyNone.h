@@ -44,11 +44,6 @@ public:
 	virtual void accessorySold(Tank *tank, 
 		const char *accessoryName);
 
-	virtual int getAccessoryBuyPrice(
-		const char *accessoryName);
-	virtual int getAccessorySellPrice(
-		const char *accessoryName);
-
 REGISTER_CLASS_HEADER(EconomyNone);
 };
 

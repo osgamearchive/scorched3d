@@ -1438,6 +1438,12 @@
 				RelativePath="..\weapons\Economy.h">
 			</File>
 			<File
+				RelativePath="..\weapons\EconomyStore.cpp">
+			</File>
+			<File
+				RelativePath="..\weapons\EconomyStore.h">
+			</File>
+			<File
 				RelativePath="..\weapons\EconomyFreeMarket.cpp">
 			</File>
 			<File

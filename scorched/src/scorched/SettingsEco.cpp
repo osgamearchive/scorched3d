@@ -30,7 +30,7 @@ static void createControls(wxWindow *parent, wxSizer *topsizer)
 	sizer->Add(IDC_STARTMONEY_CTRL = 
 		new wxComboBox(parent, IDC_STARTMONEY,
 		"",
-		wxDefaultPosition, wxSize((int) 72, (int) 124.5),
+		wxDefaultPosition, wxSize((int) 100, (int) 124.5),
 		0, 0, wxCB_READONLY), 0, wxALIGN_CENTER);
 		
 	sizer->Add(new wxStaticText(parent, -1,
@@ -38,7 +38,7 @@ static void createControls(wxWindow *parent, wxSizer *topsizer)
 	sizer->Add(IDC_INTEREST_CTRL = 
 		new wxComboBox(parent, IDC_INTEREST,
 		"",
-		wxDefaultPosition, wxSize((int) 72, (int) 148.5),
+		wxDefaultPosition, wxSize((int) 100, (int) 148.5),
 		0, 0, wxCB_READONLY), 0, wxALIGN_CENTER);
 		
 	sizer->Add(new wxStaticText(parent, -1,
@@ -46,7 +46,7 @@ static void createControls(wxWindow *parent, wxSizer *topsizer)
 	sizer->Add(IDC_BUYONROUND_CTRL = 
 		new wxComboBox(parent, IDC_BUYONROUND,
 		"",
-		wxDefaultPosition, wxSize((int) 72, (int) 124.5),
+		wxDefaultPosition, wxSize((int) 100, (int) 124.5),
 		0, 0, wxCB_READONLY), 0, wxALIGN_CENTER);
 		
 	sizer->Add(new wxStaticText(parent, -1,
@@ -54,7 +54,7 @@ static void createControls(wxWindow *parent, wxSizer *topsizer)
 	sizer->Add(IDC_MONEYPERHIT_CTRL = 
 		new wxComboBox(parent, IDC_MONEYPERHIT,
 		"",
-		wxDefaultPosition, wxSize((int) 72, (int) 124.5),
+		wxDefaultPosition, wxSize((int) 100, (int) 124.5),
 		0, 0, wxCB_READONLY), 0, wxALIGN_CENTER);
 		
 	sizer->Add(new wxStaticText(parent, -1,
@@ -62,7 +62,7 @@ static void createControls(wxWindow *parent, wxSizer *topsizer)
 	sizer->Add(IDC_MONEYPERKILL_CTRL = 
 		new wxComboBox(parent, IDC_MONEYPERKILL,
 		"",
-		wxDefaultPosition, wxSize((int) 72, (int) 124.5),
+		wxDefaultPosition, wxSize((int) 100, (int) 124.5),
 		0, 0, wxCB_READONLY), 0, wxALIGN_CENTER);
 		
 	sizer->Add(new wxStaticText(parent, -1,
@@ -70,7 +70,7 @@ static void createControls(wxWindow *parent, wxSizer *topsizer)
 	sizer->Add(IDC_MONEYPERROUND_CTRL = 
 		new wxComboBox(parent, IDC_MONEYPERROUND,
 		"",
-		wxDefaultPosition, wxSize((int) 72, (int) 124.5),
+		wxDefaultPosition, wxSize((int) 100, (int) 124.5),
 		0, 0, wxCB_READONLY), 0, wxALIGN_CENTER);
 		
 	sizer->Add(new wxStaticText(parent, -1,
@@ -78,8 +78,16 @@ static void createControls(wxWindow *parent, wxSizer *topsizer)
 	sizer->Add(IDC_SCOREMODE_CTRL = 
 		new wxComboBox(parent, IDC_SCOREMODE,
 		"",
-		wxDefaultPosition, wxSize((int) 72, (int) 124.5),
+		wxDefaultPosition, wxSize((int) 100, (int) 124.5),
 		0, 0, wxCB_READONLY), 0, wxALIGN_CENTER);
+
+        sizer->Add(new wxStaticText(parent, -1,
+                "Economy :"), 0, wxALIGN_CENTER);
+        sizer->Add(IDC_ECONOMY_CTRL = 
+                new wxComboBox(parent, IDC_ECONOMY,
+                "", 
+                wxDefaultPosition, wxSize((int) 100, (int) 124.5),
+                0, 0, wxCB_READONLY), 0, wxALIGN_CENTER); 
 		
 	topsizer->Add(IDC_MONEYPERHEALTH_CTRL = 
 		new wxCheckBox(parent, IDC_MONEYPERHEALTH,

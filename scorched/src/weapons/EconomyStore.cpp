@@ -18,20 +18,36 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_AutoDefenseh_INCLUDE__)
-#define __INCLUDE_AutoDefenseh_INCLUDE__
+#include <weapons/EconomyStore.h>
+#include <server/ScorchedServer.h>
+#include <common/Defines.h>
+#include <stdlib.h>
 
-#include <weapons/Accessory.h>
+EconomyStore *EconomyStore::instance_ = 0;
 
-class AutoDefense : public Accessory
+EconomyStore *EconomyStore::instance()
 {
-public:
-	AutoDefense();
-	virtual ~AutoDefense();
+	if (!instance_)
+	{
+		instance_ = new EconomyStore();
+	}
+	return instance_;
+}
 
-	virtual bool singular();
+EconomyStore::EconomyStore() : economy_(0)
+{
+	economy_ = (Economy *) MetaClassRegistration::getNewClass(
+		ScorchedServer::instance()->getOptionsGame().getEconomy());
+	if (!economy_)
+	{
+		dialogMessage("Failed to find an economy called \"%s\"",
+			ScorchedServer::instance()->getOptionsGame().getEconomy());
+		exit(1);
+	}
+	economy_->loadPrices();
+}
 
-	REGISTER_ACCESSORY_HEADER(AutoDefense, Accessory::AccessoryAutoDefense);
-};
+EconomyStore::~EconomyStore()
+{
+}
 
-#endif

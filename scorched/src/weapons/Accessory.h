@@ -68,6 +68,8 @@ public:
 
 	GLTexture *getTexture();
 	unsigned int getAccessoryId() { return accessoryId_; }
+	virtual void setPrice(int p) { if (p>0) price_ = p; }
+	virtual void setSellPrice(int p) { if (p>0) sellPrice_ = p; }
 	virtual bool getPrimary() { return primary_; }
 	virtual void setPrimary(bool p) { primary_ = p; }
 	virtual bool singular();

@@ -41,6 +41,10 @@ public:
 
 	std::list<Accessory *> getAllWeapons();
 	std::list<Accessory *> getAllOthers();	
+	std::list<Accessory *> getAllAccessories();	
+
+	bool writeEconomyToBuffer(NetBuffer &buffer);
+	bool readEconomyFromBuffer(NetBufferReader &reader);
 
 	bool writeToBuffer(NetBuffer &buffer);
 	bool readFromBuffer(NetBufferReader &reader);

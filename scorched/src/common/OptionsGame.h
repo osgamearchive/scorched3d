@@ -165,6 +165,9 @@ public:
 	int getComputersAttackTalk() { return computersAttackTalk_.getValue(); }
 	void setComputersAttackTalk(int value) { computersAttackTalk_.setValue(value); }
 
+	const char *getEconomy() { return economy_.getValue(); }
+	void setEconomy(const char *value) { economy_.setValue(value); }
+
 	const char *getLandscapes() { return landscapes_.getValue(); }
 	void setLandscapes(const char *value) { landscapes_.setValue(value); }
 
@@ -240,6 +243,7 @@ protected:
 	OptionEntryBoundedInt windType_;
 	OptionEntryBoundedInt wallType_;
 	OptionEntryBoundedInt weapScale_;
+	OptionEntryString economy_;
 	OptionEntryString landscapes_;
 	OptionEntryString masterListServer_;
 	OptionEntryString masterListServerURI_;

@@ -91,6 +91,8 @@ OptionsGame::OptionsGame() :
 		"The port to start the server on", 0, ScorchedPort),
 	serverName_(options_, "ServerName", 
 		"The name of the server to start", 0, "No Name"),
+	economy_(options_, "Economy", 
+		"Speicifies the name of the economy to use", 0, "EconomyFreeMarket"),
 	landscapes_(options_, "Landscapes", 
 		"Colon seperated list of landscape names", 0, ""),
 	serverPassword_(options_, "ServerPassword", 

@@ -40,7 +40,7 @@ AccessoryStore *AccessoryStore::instance()
 	return instance_;
 }
 
-AccessoryStore::AccessoryStore()
+AccessoryStore::AccessoryStore() 
 {
 
 }
@@ -178,6 +178,23 @@ std::list<Accessory *> AccessoryStore::getAllOthers()
 	return result;
 }
 
+std::list<Accessory *> AccessoryStore::getAllAccessories()
+{
+	std::list<Accessory *> result;
+	std::list<Accessory *>::iterator itor;
+	for (itor = accessories_.begin();
+		itor != accessories_.end();
+		itor++)
+	{
+		if ((*itor)->getPrimary())
+		{
+			result.push_back(*itor);
+		}
+	}
+
+	return result;
+}
+
 Weapon *AccessoryStore::getDeathAnimation()
 {
 	int pos = int(float(deathAnimations_.size()) * RAND);
@@ -252,6 +269,44 @@ void AccessoryStore::addAccessory(Accessory *accessory)
 			deathAnimations_.push_back(weapon);
 		}
 	}	
+}
+
+bool AccessoryStore::writeEconomyToBuffer(NetBuffer &buffer)
+{
+	std::list<Accessory *> accessories = getAllAccessories();
+	buffer.addToBuffer((int) accessories.size());
+
+	std::list<Accessory *>::iterator itor;
+	for (itor = accessories.begin();
+		itor != accessories.end();
+		itor++)
+	{
+		Accessory *accessory = (*itor);
+		buffer.addToBuffer(accessory->getAccessoryId());
+		buffer.addToBuffer(accessory->getPrice());
+		buffer.addToBuffer(accessory->getSellPrice());
+	}
+	return true;
+}
+
+bool AccessoryStore::readEconomyFromBuffer(NetBufferReader &reader)
+{
+	int noAccessories = 0;
+	if (!reader.getFromBuffer(noAccessories)) return false;
+	for (int a=0; a<noAccessories; a++)
+	{
+		unsigned int accessoryId = 0;
+		int price = 0, sellPrice = 0;
+		if (!reader.getFromBuffer(accessoryId)) return false;
+		if (!reader.getFromBuffer(price)) return false;
+		if (!reader.getFromBuffer(sellPrice)) return false;
+
+		Accessory *accessory = findByAccessoryId(accessoryId);
+		if (!accessory) return false;
+		accessory->setPrice(price);
+		accessory->setSellPrice(sellPrice);
+	}
+	return true;
 }
 
 bool AccessoryStore::writeToBuffer(NetBuffer &buffer)

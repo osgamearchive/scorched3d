@@ -27,6 +27,7 @@
 #include <common/Clock.h>
 #include <common/StatsLogger.h>
 #include <common/Logger.h>
+#include <weapons/EconomyStore.h>
 #include <coms/ComsNextRoundMessage.h>
 #include <coms/ComsGameStateMessage.h>
 #include <coms/ComsNewGameMessage.h>
@@ -48,6 +49,10 @@ void ServerNewGameState::enterState(const unsigned state)
 
 	// Tell clients a new game is starting
 	ServerCommon::sendString(0, "Next Round");
+
+	// Make any enconomic changes
+	EconomyStore::instance()->getEconomy()->calculatePrices();
+	EconomyStore::instance()->getEconomy()->savePrices();
 
 	// Make sure the most uptodate options have been used
 	bool optionsChanged = 

@@ -29,6 +29,7 @@
 #include <common/OptionsGame.h>
 #include <common/Logger.h>
 #include <weapons/AccessoryStore.h>
+#include <weapons/EconomyStore.h>
 
 ServerBuyAccessoryHandler *ServerBuyAccessoryHandler::instance_ = 0;
 
@@ -140,6 +141,9 @@ bool ServerBuyAccessoryHandler::processMessage(unsigned int destinationId,
 	{
 		if (tank->getScore().getMoney() < accessory->getPrice()) return true;
 
+		EconomyStore::instance()->getEconomy()->accessoryBought(
+			tank, accessory->getName());
+
 		// Add the accessory
 		tank->getAccessories().add(accessory);
 		tank->getScore().setMoney(
@@ -148,6 +152,9 @@ bool ServerBuyAccessoryHandler::processMessage(unsigned int destinationId,
 	else
 	{
 		if (tank->getAccessories().getAccessoryCount(accessory) <= 0) return true;
+
+		EconomyStore::instance()->getEconomy()->accessorySold(
+			tank, accessory->getName());
 
 		// Remove the accessory
 		tank->getAccessories().rm(accessory);

@@ -23,7 +23,6 @@
 
 #include <weapons/Economy.h>
 #include <map>
-#include <string>
 
 /**
 This economy changes the prices of the weapons depending
@@ -47,22 +46,10 @@ public:
 	virtual void accessorySold(Tank *tank, 
 		const char *accessoryName);
 
-	virtual int getAccessoryBuyPrice(
-		const char *accessoryName);
-	virtual int getAccessorySellPrice(
-		const char *accessoryName);
-
 REGISTER_CLASS_HEADER(EconomyFreeMarket);
 
 protected:
-	struct PriceEntry
-	{
-		PriceEntry(int b=0, int s=0) : buyPrice(b), sellPrice(s) {}
-
-		int buyPrice;
-		int sellPrice;
-	};
-	std::map<std::string, PriceEntry> prices_;
+	std::map<unsigned int, int> newPrices_;
 };
 
 #endif

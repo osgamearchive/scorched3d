@@ -431,6 +431,8 @@ scorched3d_SOURCES = \
 	../weapons/Battery.h \
 	../weapons/Economy.cpp \
 	../weapons/Economy.h \
+	../weapons/EconomyStore.cpp \
+	../weapons/EconomyStore.h \
 	../weapons/EconomyFreeMarket.cpp \
 	../weapons/EconomyFreeMarket.h \
 	../weapons/EconomyNone.cpp \

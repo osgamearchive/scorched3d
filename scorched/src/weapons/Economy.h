@@ -38,12 +38,6 @@ public:
 		const char *accessoryName) = 0;
 	virtual void accessorySold(Tank *tank, 
 		const char *accessoryName) = 0;
-
-	virtual int getAccessoryBuyPrice(
-		const char *accessoryName) = 0;
-	virtual int getAccessorySellPrice(
-		const char *accessoryName) = 0;
-
 };
 
 #endif

@@ -19,6 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <coms/ComsNewGameMessage.h>
+#include <weapons/AccessoryStore.h>
 #include <client/ScorchedClient.h>
 #include <server/ScorchedServer.h>
 
@@ -47,6 +48,8 @@ bool ComsNewGameMessage::writeMessage(NetBuffer &buffer)
 		if (!ScorchedServer::instance()->getOptionsGame().writeToBuffer(buffer)) return false;
 	}
 	if (!levelMessage_.writeMessage(buffer)) return false;
+	if (!AccessoryStore::instance()->writeEconomyToBuffer(buffer)) return false;
+
 	return true;
 }
 
@@ -58,5 +61,7 @@ bool ComsNewGameMessage::readMessage(NetBufferReader &reader)
 		if (!ScorchedClient::instance()->getOptionsGame().readFromBuffer(reader)) return false;
 	}
 	if (!levelMessage_.readMessage(reader)) return false;
+	if (!AccessoryStore::instance()->readEconomyFromBuffer(reader)) return false;
+
 	return true;
 }

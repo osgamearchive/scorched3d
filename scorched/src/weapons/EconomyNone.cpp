@@ -60,20 +60,3 @@ void EconomyNone::accessorySold(Tank *tank,
 	// Don't need to do anything
 }
 
-int EconomyNone::getAccessoryBuyPrice(
-		const char *accessoryName)
-{
-	Accessory *accessory = AccessoryStore::instance()->
-		findByPrimaryAccessoryName(accessoryName);
-	DIALOG_ASSERT(accessory);
-	return accessory->getPrice();
-}
-
-int EconomyNone::getAccessorySellPrice(
-		const char *accessoryName)
-{
-	Accessory *accessory = AccessoryStore::instance()->
-		findByPrimaryAccessoryName(accessoryName);
-	DIALOG_ASSERT(accessory);
-	return accessory->getSellPrice();
-}

@@ -22,6 +22,7 @@
 #include <windows.h>
 #include <stdlib.h>
 #include <weapons/AccessoryStore.h>
+#include <weapons/EconomyStore.h>
 #include <coms/NetLoopBack.h>
 #include <common/Defines.h>
 #include <common/Clock.h>
@@ -92,6 +93,10 @@ bool startServer(bool local)
 	LandscapeDefinitions::instance();
 
 	ServerState::setupStates(ScorchedServer::instance()->getGameState());
+
+	// Economy
+	AccessoryStore::instance();
+	EconomyStore::instance();
 
 	// Add the server side bots
 	// Add any new AIs

@@ -121,7 +121,7 @@ activated before they work.</description>
 activate parachutes before the tanks 
 main move.</description>
 		<icon>autod.bmp</icon>
-		<cost>10000</cost>
+		<cost>3000</cost>
 		<bundlesize>1</bundlesize>
 		<armslevel>7</armslevel>
 	</accessory>

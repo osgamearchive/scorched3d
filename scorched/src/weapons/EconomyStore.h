@@ -18,20 +18,25 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_AutoDefenseh_INCLUDE__)
-#define __INCLUDE_AutoDefenseh_INCLUDE__
+#if !defined(__INCLUDE_EconomyStoreh_INCLUDE__)
+#define __INCLUDE_EconomyStoreh_INCLUDE__
 
-#include <weapons/Accessory.h>
+#include <weapons/Economy.h>
 
-class AutoDefense : public Accessory
+class EconomyStore
 {
 public:
-	AutoDefense();
-	virtual ~AutoDefense();
+	static EconomyStore *instance();
 
-	virtual bool singular();
+	Economy *getEconomy() { return economy_; }
 
-	REGISTER_ACCESSORY_HEADER(AutoDefense, Accessory::AccessoryAutoDefense);
+protected:
+	static EconomyStore *instance_;
+	Economy *economy_;
+
+private:
+	EconomyStore();
+	virtual ~EconomyStore();
 };
 
 #endif

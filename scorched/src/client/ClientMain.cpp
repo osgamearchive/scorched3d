@@ -47,7 +47,6 @@
 #include <landscape/HeightMapCollision.h>
 #include <tankgraph/TankModelStore.h>
 #include <engine/ScorchedCollisionHandler.h>
-#include <weapons/AccessoryStore.h>
 #include <dialogs/ProgressDialog.h>
 #include <coms/NetServer.h>
 #include <coms/NetLoopBack.h>

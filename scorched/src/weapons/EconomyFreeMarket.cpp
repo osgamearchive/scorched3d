@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
 //    Scorched3D (c) 2000-2003
 //
 //    This file is part of Scorched3D.
@@ -20,12 +20,24 @@
 
 #include <weapons/EconomyFreeMarket.h>
 #include <weapons/AccessoryStore.h>
+#include <server/ScorchedServer.h>
+#include <common/OptionsParam.h>
 #include <common/Defines.h>
 #include <XML/XMLFile.h>
 #include <tank/Tank.h>
 #include <stdlib.h>
 
 REGISTER_CLASS_SOURCE(EconomyFreeMarket);
+
+static const char *getEconomyFileName()
+{
+	if (OptionsParam::instance()->getDedicatedServer())
+	{
+		return getSettingsFile("freemarket-server-%i.xml",
+			ScorchedServer::instance()->getOptionsGame().getPortNo());
+	}
+	return getSettingsFile("freemarket-single.xml");
+}
 
 EconomyFreeMarket::EconomyFreeMarket()
 {
@@ -39,7 +51,7 @@ bool EconomyFreeMarket::loadPrices()
 {
 	// Parse the file containing the last used prices
 	XMLFile file;
-	if (!file.readFile(getSettingsFile("freemarket.xml")))
+	if (!file.readFile(getEconomyFileName()))
 	{
 		dialogMessage("EconomyFreeMarket",
 			"Failed to parse freemarket.xml file : %s",
@@ -68,28 +80,21 @@ bool EconomyFreeMarket::loadPrices()
 				return false;
 			}
 
-			prices_[nameNode->getContent()] = 
-				PriceEntry(atoi(buyNode->getContent()),
-					atoi(sellNode->getContent()));
-		}
-	}
-
-	// Make sure all accessories are catered for
-	std::list<Accessory *> otherList = AccessoryStore::instance()->getAllOthers();
-	std::list<Accessory *> weaponList = AccessoryStore::instance()->getAllWeapons();
-	otherList.insert(otherList.end(), weaponList.begin(), weaponList.end());
-	std::list<Accessory *>::iterator itor;
-	for (itor = otherList.begin();
-		itor != otherList.end();
-		itor++)
-	{
-		Accessory *current = *itor;
-		std::map<std::string, PriceEntry>::iterator findItor = 
-			prices_.find(current->getName());
-		if (findItor == prices_.end())
-		{
-			prices_[current->getName()] = 
-				PriceEntry(current->getPrice(), current->getSellPrice());
+			Accessory *accessory = AccessoryStore::instance()->
+				findByPrimaryAccessoryName(nameNode->getContent());
+			if (!accessory)
+			{
+				dialogMessage("EconomyFreeMarket",
+					"Failed to find accessory named \"%s\"",
+					nameNode->getContent());
+				return false;
+			}
+	
+			// Set the actual accessory price (based on the last used market prices)
+			int price = atoi(buyNode->getContent());
+			int sellPrice = atoi(sellNode->getContent());
+			accessory->setPrice(price);
+			accessory->setSellPrice(sellPrice);
 		}
 	}
 
@@ -100,59 +105,114 @@ bool EconomyFreeMarket::savePrices()
 {
 	FileLines file;
 	file.addLine("<prices source=\"Scorched3D\">");
-	std::map<std::string, PriceEntry>::iterator itor;
-	for (itor = prices_.begin();
-		itor != prices_.end();
+
+	std::list<Accessory *> weapons = AccessoryStore::instance()->
+		getAllAccessories();
+	std::list<Accessory *>::iterator itor;
+	for (itor = weapons.begin();
+		itor != weapons.end();
 		itor++)
 	{
-		std::string name = (*itor).first;
-		PriceEntry &price = (*itor).second;
+		Accessory *accessory = *itor;
 
 		file.addLine("  <accessory>");
-		file.addLine("    <name>%s</name>", name.c_str());
-		file.addLine("    <buyprice>%i</buyprice>", price.buyPrice);
-		file.addLine("    <sellprice>%i</sellprice>", price.sellPrice);
+		file.addLine("    <name>%s</name>", accessory->getName());
+		file.addLine("    <buyprice>%i</buyprice>", accessory->getPrice());
+		file.addLine("    <sellprice>%i</sellprice>", accessory->getSellPrice());
 		file.addLine("  </accessory>");
 	}
 	file.addLine("</prices>");
 
-	if (!file.writeFile((char *) getSettingsFile("freemarket.xml"))) return false;
+	if (!file.writeFile((char *) getEconomyFileName())) return false;
 
 	return true;
 }
 
 void EconomyFreeMarket::calculatePrices()
 {
-
+	std::map<unsigned int, int>::iterator itor;
+	for (itor = newPrices_.begin();
+		itor != newPrices_.end();
+		itor++)
+	{
+		int diff = (*itor).second;
+		Accessory *accessory = AccessoryStore::instance()->
+			findByAccessoryId((*itor).first);
+		accessory->setPrice(accessory->getPrice() + diff);
+		accessory->setSellPrice(int(accessory->getPrice() * 0.8f));
+	}
+	newPrices_.clear();
 }
 
 void EconomyFreeMarket::accessoryBought(Tank *tank, 
 		const char *accessoryName)
 {
+	// Find the bought accessory
+	Accessory *boughtAccessory = AccessoryStore::instance()->
+		findByPrimaryAccessoryName(accessoryName);
+	DIALOG_ASSERT(boughtAccessory);
 
+	// Find the list of accessories that this player could have bought
+	std::list<Accessory *> possibleAccessories;
+	{
+		std::list<Accessory *> weapons = AccessoryStore::instance()->
+			getAllAccessories();
+		std::list<Accessory *>::iterator itor;
+		for (itor = weapons.begin();
+			itor != weapons.end();
+			itor++)
+		{
+			Accessory *accessory = *itor;
+	
+			if (accessory->getPrice() < tank->getScore().getMoney() &&
+				accessory->getPrice() > boughtAccessory->getPrice() / 2 &&
+				accessory->getPrice() < boughtAccessory->getPrice() * 1.5 &&
+				accessory->getPrice() != 0)
+			{
+				possibleAccessories.push_back(accessory);
+			}
+		}
+	}
+
+	// Nothing to do if we can only buy 1 item
+	if (possibleAccessories.size() <= 1) return;
+
+	// How much should each accessory get (on average)
+	int moneyShouldAquire = boughtAccessory->getPrice() / possibleAccessories.size();
+	
+	// Alter prices
+	{
+		std::list<Accessory *>::iterator itor;
+		for (itor = possibleAccessories.begin();
+			itor != possibleAccessories.end();
+			itor++)
+		{
+			Accessory *accessory = (*itor);
+			int moneyDidAquire = 0;
+			if (accessory == boughtAccessory) moneyDidAquire = 
+				boughtAccessory->getPrice();
+
+			int priceDiff = 0;
+			if (moneyDidAquire < moneyShouldAquire)
+			{
+				int priceDiff = -500 / possibleAccessories.size();
+			}
+			else if (moneyDidAquire >= moneyShouldAquire)
+			{
+				int priceDiff = 500 / possibleAccessories.size();
+			}
+			std::map<unsigned int, int>::iterator findItor = newPrices_.
+				find(accessory->getAccessoryId());
+			if (findItor == newPrices_.end()) 
+				newPrices_[accessory->getAccessoryId()] = priceDiff;
+			else newPrices_[accessory->getAccessoryId()] += priceDiff;
+		}
+	}
 }
 
 void EconomyFreeMarket::accessorySold(Tank *tank, 
 		const char *accessoryName)
 {
-
-}
-
-int EconomyFreeMarket::getAccessoryBuyPrice(
-		const char *accessoryName)
-{
-	Accessory *accessory = AccessoryStore::instance()->
-		findByPrimaryAccessoryName(accessoryName);
-	DIALOG_ASSERT(accessory);
-	return accessory->getPrice();
-}
-
-int EconomyFreeMarket::getAccessorySellPrice(
-		const char *accessoryName)
-{
-	Accessory *accessory = AccessoryStore::instance()->
-		findByPrimaryAccessoryName(accessoryName);
-	DIALOG_ASSERT(accessory);
-	return accessory->getSellPrice();
+	// Do nothing (yet) on a sold item
 }
 
