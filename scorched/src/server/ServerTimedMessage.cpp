@@ -51,8 +51,8 @@ void ServerTimedMessage::simulate()
 	if (currentTime > lastTime_ + timeStep_)
 	{
 		lastTime_ = currentTime;
-		ServerCommon::sendString(0, message_.c_str());
 		time_t theTime = time(0);
+		ServerCommon::sendString(0, message_.c_str(), ctime(&theTime));
 		Logger::log(0, message_.c_str(), ctime(&theTime));
 	}
 }
