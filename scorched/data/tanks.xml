@@ -589,6 +589,10 @@
 		<name>Turret 2</name>
 		<model type="MilkShape">turret2/turret2.txt</model>
 	</tank>
+	<tank>
+		<name>Cannon Tower</name>
+		<model type="MilkShape">cannontower/cannontower.txt</model>
+	</tank>
 	<!--<tank>
 		<name>R2D2</name>
 		<catagory>Starwars</catagory>
