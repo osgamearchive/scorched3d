@@ -271,6 +271,22 @@ bool ServerAdminHandler::processMessage(unsigned int destinationId,
 			else ServerCommon::sendString(destinationId, "Unknown player for ban");
 		}
 		break;
+	case ComsAdminMessage::AdminFlag:
+		{
+			Tank *targetTank = ScorchedServer::instance()->
+				getTankContainer().getTankById(atoi(message.getParam1()));
+			if (targetTank)
+			{
+				ServerCommon::serverLog(0,
+					"\"%s\" admin flag \"%s\"",
+					adminTank->getName(),
+					targetTank->getName());
+				ServerCommon::banPlayer(
+					targetTank->getPlayerId(), ServerBanned::Flagged);
+			}
+			else ServerCommon::sendString(destinationId, "Unknown player for flag");
+		}
+		break;
 	case ComsAdminMessage::AdminPoor:
 		{
 			Tank *targetTank = ScorchedServer::instance()->
@@ -378,29 +394,11 @@ bool ServerAdminHandler::processMessage(unsigned int destinationId,
 		ServerCommon::sendString(0, message.getParam1());
 		break;
 	case ComsAdminMessage::AdminAdminTalk:
-		{
-			ServerCommon::serverLog(0,
-				"\"%s\" admin admintalk \"%s\"",
-				adminTank->getName(),
-				message.getParam1());
-
-			std::map<unsigned int, Tank *> &tanks = 
-				ScorchedServer::instance()->
-					getTankContainer().getPlayingTanks();
-			for (itor = tanks.begin();
-				itor != tanks.end();
-				itor++)
-			{
-				Tank *tank = (*itor).second;
-				if (tank->getState().getAdmin())
-				{
-					ServerCommon::sendString(
-						tank->getDestinationId(), 
-						"(Admin) %s", 
-						message.getParam1());
-				}
-			}
-		}
+		ServerCommon::serverLog(0,
+			"\"%s\" admin admintalk \"%s\"",
+			adminTank->getName(),
+			message.getParam1());
+		ServerCommon::sendStringAdmin(message.getParam1());
 		break;
 	case ComsAdminMessage::AdminMessage:
 		ServerCommon::serverLog(0,

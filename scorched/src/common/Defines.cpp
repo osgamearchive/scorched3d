@@ -29,8 +29,8 @@
 #include <string>
 
 unsigned int ScorchedPort = 27270;
-char *ScorchedVersion = "38.1b";
-char *ScorchedProtocolVersion = "bc";
+char *ScorchedVersion = "39";
+char *ScorchedProtocolVersion = "bd";
 static char *dataModFile = 0;
 
 extern bool wxWindowInit;

@@ -53,6 +53,7 @@ bool WeaponNapalm::parseXML(OptionsGame &context,
 	if (!accessoryNode->getNamedChild("effectradius", effectRadius_)) return false;
 	if (!accessoryNode->getNamedChild("napalmsound", napalmSound_)) return false;
 	if (!accessoryNode->getNamedChild("napalmtexture", napalmTexture_)) return false;
+	if (!accessoryNode->getNamedChild("allowunderwater", allowUnderWater_)) return false;
 	if (!checkDataFile("data/wav/%s", getNapalmSound())) return false;
 
 	// Optional Attributes

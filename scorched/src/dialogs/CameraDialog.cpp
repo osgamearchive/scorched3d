@@ -135,7 +135,6 @@ void CameraDialog::drawLandscape()
 	GLCameraFrustum::instance()->draw(0);
 	TankRenderer::instance()->render3D.draw(0);
 	Landscape::instance()->draw(0);
-	TankRenderer::instance()->render3DSecond.draw(0);
 	ScorchedClient::instance()->getActionController().draw(0);
 	ScorchedClient::instance()->getParticleEngine().draw(0);
 	targetCam_.drawPrecipitation();

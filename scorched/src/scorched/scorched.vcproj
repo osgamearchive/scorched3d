@@ -850,6 +850,12 @@
 				RelativePath="..\tankgraph\TankModelRenderer.h">
 			</File>
 			<File
+				RelativePath="..\tankgraph\TankParticleRenderer.h">
+			</File>
+			<File
+				RelativePath="..\tankgraph\TankParticleRenderer.cpp">
+			</File>
+			<File
 				RelativePath="..\tankgraph\TankModelStore.cpp">
 			</File>
 			<File

@@ -76,8 +76,6 @@ void ClientState::addStandardComponents(GameState &gameState, unsigned state, bo
 	gameState.addStateLoop(state, MainCamera::instance(), 
 		&ScorchedClient::instance()->getParticleEngine());
 	gameState.addStateLoop(state, 
-		MainCamera::instance(), &TankRenderer::instance()->render3DSecond);
-	gameState.addStateLoop(state, 
 		MainCamera::instance(), &MainCamera::instance()->precipitation_);
 	gameState.addStateLoop(state, 
 		Main2DCamera::instance(), &TankRenderer::instance()->render2D);

@@ -63,7 +63,8 @@ TankModelRenderer::TankModelRenderer(Tank *tank) :
 	smokeTime_(0.0f), smokeWaitForTime_(0.0f),
 	fireOffSet_(0.0f), shieldHit_(0.0f),
 	posX_(0.0f), posY_(0.0f), posZ_(0.0f), 
-	totalTime_(0.0f), totalTime2_(1.5f)
+	totalTime_(0.0f), totalTime2_(1.5f),
+	particleMade_(false)
 {
 	model_ = TankModelStore::instance()->getModelByName(
 		tank->getModel().getModelName());
@@ -126,7 +127,7 @@ void TankModelRenderer::draw(bool currentTank)
 	}
 }
 
-void TankModelRenderer::drawSecond(bool currentTank)
+void TankModelRenderer::drawSecond()
 {
 	if (!canSeeTank_) return;
 

@@ -360,11 +360,22 @@ void ServerConnectHandler::addNextTank(unsigned int destinationId,
 	StatsLogger::instance()->tankConnected(tank);
 	
 	// Check if admin muted
-	if (ipAddress != 0 &&
-		ServerBanned::instance()->getBanned(ipAddress) == 
-		ServerBanned::Muted)
+	if (ipAddress != 0)
 	{
-		tank->getState().setMuted(true);
-		Logger::log(0, "Player admin muted");
+		ServerBanned::BannedType type = 
+			ServerBanned::instance()->getBanned(ipAddress);
+		if (type == ServerBanned::Muted)	
+		{
+			tank->getState().setMuted(true);
+			Logger::log(0, "Player admin muted");
+			ServerCommon::sendStringAdmin("Player admin muted \"%s\"",
+				tank->getName());
+		}
+		else if (type == ServerBanned::Flagged)
+		{
+			Logger::log(0, "Player admin flagged");
+			ServerCommon::sendStringAdmin("Player admin flagged \"%s\"",
+				tank->getName());
+		}
 	}
 }

@@ -933,6 +933,7 @@ opponents.  The cloud does less damage as it spreads out.</description>
 											<hurtpersecond>0.1</hurtpersecond>
 											<numberstreams>1</numberstreams>
 											<effectradius>5</effectradius>
+											<allowunderwater>off</allowunderwater>
 											<napalmtexture>exp03</napalmtexture>
 											<napalmsound>none</napalmsound>
 										</subweapon4>
@@ -2097,6 +2098,7 @@ near the flames will lose life.</description>
 				<hurtpersecond>1.0</hurtpersecond>
 				<numberstreams>1</numberstreams>
 				<effectradius>5</effectradius>
+				<allowunderwater>off</allowunderwater>
 				<napalmtexture>flames</napalmtexture>
 				<napalmsound>explosions/napalm.wav</napalmsound>
 			</collisionaction>
@@ -2123,6 +2125,7 @@ near the flames will lose life.</description>
 				<hurtpersecond>1.0</hurtpersecond>
 				<numberstreams>2</numberstreams>
 				<effectradius>5</effectradius>
+				<allowunderwater>off</allowunderwater>
 				<napalmtexture>flames</napalmtexture>
 				<napalmsound>explosions/napalm.wav</napalmsound>
 			</collisionaction>
@@ -2149,6 +2152,7 @@ near the flames will lose life.</description>
 				<hurtpersecond>2.0</hurtpersecond>
 				<numberstreams>4</numberstreams>
 				<effectradius>6</effectradius>
+				<allowunderwater>off</allowunderwater>
 				<napalmtexture>flames</napalmtexture>
 				<napalmsound>explosions/napalm.wav</napalmsound>
 			</collisionaction>
@@ -2183,6 +2187,7 @@ napalm warheads. </description>
 						<hurtpersecond>1.0</hurtpersecond>
 						<numberstreams>1</numberstreams>
 						<effectradius>5</effectradius>
+						<allowunderwater>off</allowunderwater>
 						<napalmtexture>flames</napalmtexture>
 						<napalmsound>explosions/napalm.wav</napalmsound>
 					</collisionaction>
@@ -2220,6 +2225,7 @@ random direction. </description>
 						<hurtpersecond>1.0</hurtpersecond>
 						<numberstreams>1</numberstreams>
 						<effectradius>5</effectradius>
+						<allowunderwater>off</allowunderwater>
 						<napalmtexture>flames</napalmtexture>
 						<napalmsound>explosions/napalm.wav</napalmsound>
 					</collisionaction>
@@ -2268,6 +2274,7 @@ the ground and explodes/burns on contact.</description>
 								<hurtpersecond>1</hurtpersecond>
 								<numberstreams>1</numberstreams>
 								<effectradius>5</effectradius>
+								<allowunderwater>off</allowunderwater>
 								<napalmtexture>flames</napalmtexture>
 								<napalmsound>explosions/napalm.wav</napalmsound>
 							</subweapon2>
@@ -2305,6 +2312,7 @@ the ground and explodes/burns on contact.</description>
 													<hurtpersecond>1</hurtpersecond>
 													<numberstreams>1</numberstreams>
 													<effectradius>5</effectradius>
+													<allowunderwater>off</allowunderwater>
 													<napalmtexture>flames</napalmtexture>
 													<napalmsound>explosions/napalm.wav</napalmsound>
 												</subweapon2>
@@ -2368,6 +2376,7 @@ releases rolling napalm warheads.</description>
 								<hurtpersecond>1.5</hurtpersecond>
 								<numberstreams>1</numberstreams>
 								<effectradius>5</effectradius>
+								<allowunderwater>off</allowunderwater>
 								<napalmtexture>flames</napalmtexture>
 								<napalmsound>explosions/napalm.wav</napalmsound>
 							</subweapon2>
@@ -2422,6 +2431,7 @@ point releases many explosive napalm warheads.</description>
 									<hurtpersecond>1.2</hurtpersecond>
 									<numberstreams>2</numberstreams>
 									<effectradius>6</effectradius>
+									<allowunderwater>off</allowunderwater>
 									<napalmtexture>flames</napalmtexture>
 									<napalmsound>explosions/napalm.wav</napalmsound>
 								</collisionaction>
@@ -2450,6 +2460,7 @@ point releases many explosive napalm warheads.</description>
 											<hurtpersecond>1.0</hurtpersecond>
 											<numberstreams>1</numberstreams>
 											<effectradius>5.5</effectradius>
+											<allowunderwater>off</allowunderwater>
 											<napalmtexture>flames</napalmtexture>
 											<napalmsound>explosions/napalm.wav</napalmsound>
 										</subweapon2>
@@ -2480,6 +2491,7 @@ point releases many explosive napalm warheads.</description>
 											<hurtpersecond>1.0</hurtpersecond>
 											<numberstreams>1</numberstreams>
 											<effectradius>5</effectradius>
+											<allowunderwater>off</allowunderwater>
 											<napalmtexture>flames</napalmtexture>
 											<napalmsound>explosions/napalm.wav</napalmsound>
 										</subweapon2>
@@ -3640,6 +3652,7 @@ burning chunks of earth about the area.</description>
 																<hurtpersecond>1.0</hurtpersecond>
 																<numberstreams>2</numberstreams>
 																<effectradius>6.5</effectradius>
+																<allowunderwater>off</allowunderwater>
 																<napalmtexture>flames</napalmtexture>
 																<napalmsound>explosions/napalm.wav</napalmsound>
 															</subweapon2>
@@ -3751,6 +3764,7 @@ burning chunks of earth about the area.</description>
 															<hurtpersecond>1.0</hurtpersecond>
 															<numberstreams>2</numberstreams>
 															<effectradius>8</effectradius>
+															<allowunderwater>off</allowunderwater>
 															<napalmtexture>flames</napalmtexture>
 															<napalmsound>explosions/napalm.wav</napalmsound>
 														</subweapon2>
@@ -4076,6 +4090,7 @@ The meteors explode and scatter flaming earth on impact.</description>
 																						<hurtpersecond>1.0</hurtpersecond>
 																						<numberstreams>1</numberstreams>
 																						<effectradius>5</effectradius>
+																						<allowunderwater>off</allowunderwater>
 																						<napalmtexture>flames</napalmtexture>
 																						<napalmsound>explosions/napalm.wav</napalmsound>
 																					</subweapon2>
@@ -4130,6 +4145,7 @@ The meteors explode and scatter flaming earth on impact.</description>
 																				<hurtpersecond>1.0</hurtpersecond>
 																				<numberstreams>2</numberstreams>
 																				<effectradius>5</effectradius>
+																				<allowunderwater>off</allowunderwater>
 																				<napalmtexture>flames</napalmtexture>
 																				<napalmsound>explosions/napalm.wav</napalmsound>
 																			</subweapon2>
@@ -4197,6 +4213,7 @@ The meteors explode and scatter flaming earth on impact.</description>
 																<hurtpersecond>1.0</hurtpersecond>
 																<numberstreams>2</numberstreams>
 																<effectradius>6</effectradius>
+																<allowunderwater>off</allowunderwater>
 																<napalmtexture>flames</napalmtexture>
 																<napalmsound>explosions/napalm.wav</napalmsound>
 															</subweapon2>

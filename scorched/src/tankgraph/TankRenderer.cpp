@@ -20,6 +20,7 @@
 
 #include <tankgraph/TankRenderer.h>
 #include <tankgraph/TankModelRenderer.h>
+#include <tankgraph/TankParticleRenderer.h>
 #include <tank/TankContainer.h>
 #include <client/ClientState.h>
 #include <client/ScorchedClient.h>
@@ -54,11 +55,6 @@ void TankRenderer::Renderer3D::draw(const unsigned state)
 {
 	TankRenderer::instance()->tracerStore_.draw(state);
 	TankRenderer::instance()->draw(TankRenderer::Type3D, state);
-}
-
-void TankRenderer::Renderer3DSecond::draw(const unsigned state)
-{
-	TankRenderer::instance()->draw(TankRenderer::Type3DSecond, state);
 }
 
 void TankRenderer::Renderer3D::simulate(const unsigned state, float simTime)
@@ -150,6 +146,26 @@ void TankRenderer::draw(DrawType dt, const unsigned state)
 			model = new TankModelRenderer(tank);
 			tank->getModel().setModelIdRenderer(model);
 		}
+		
+		// Check if we have made the particle
+		// We may not have if there were not enough to create the 
+		// tank in the first place
+		if (!model->getMadeParticle())
+		{
+			// Pretent the tank is actually a particle, this is so
+			// it gets rendered during the particle renderering phase
+			// and using the correct z ordering
+			Particle *particle = 
+				ScorchedClient::instance()->getParticleEngine().
+					getNextAliveParticle();
+			if (particle)
+			{
+				model->setMadeParticle();
+				particle->life_ = 1000.0f;
+				particle->renderer_ = TankParticleRenderer::getInstance();
+				particle->userData_ = new unsigned(tank->getPlayerId());
+			}
+		}
 
 		// draw tanks
 		bool current = false;
@@ -162,9 +178,6 @@ void TankRenderer::draw(DrawType dt, const unsigned state)
 		{
 		case Type3D:
 			model->draw(current);
-			break;
-		case Type3DSecond:
-			model->drawSecond(current);
 			break;
 		case Type2D:
 			model->draw2d(current);

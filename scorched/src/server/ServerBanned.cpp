@@ -108,6 +108,7 @@ bool ServerBanned::load()
 		{
 			if (0 == strcmp("banned", typeNode->getContent())) type = Banned;
 			else if (0 == strcmp("muted", typeNode->getContent())) type = Muted;
+			else if (0 == strcmp("flagged", typeNode->getContent())) type = Flagged;
 			else
 			{
 				dialogMessage("ServerBanned", 
@@ -198,17 +199,20 @@ void ServerBanned::addBannedEntry(unsigned int ip, unsigned int mask,
 const char *ServerBanned::getBannedTypeStr(BannedType type)
 {
 	const char *str = "error";
-	if (type == Muted)
+	switch (type)
 	{
-		str = "muted";
-	}
-	else if (type == Banned)
-	{
-		str = "banned";
-	}
-	else if (type == NotBanned)
-	{
-		str = "notbanned";
+		case Muted:
+			str = "muted";
+			break;
+		case Banned:
+			str = "banned";
+			break;
+		case NotBanned:
+			str = "notbanned";
+			break;	
+		case Flagged:
+			str = "flagged";
+			break;		
 	}
 	return str;
 }

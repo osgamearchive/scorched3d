@@ -10,7 +10,10 @@ Fixed: Fonts changed to be totaly open source
 Fixed: Wind indicator missing one face (thanks Funkinator)
 Fixed: Window ordering in window menu does not change due to z order
 Fixed: Invisible window removed from connect dialog
+Fixed: Shields and player names showing through smoke
 
+Added: Admin alerts for players (ip addresses) that have been flagged
+Added: WeaponNapalm option to allow napalm type weapons underwater
 Added: Admin newgame command
 Added: Error message for single player team game with incorrect teams
 Added: BotsVs team ballance mode, for player vs bots action
@@ -20,7 +23,7 @@ Added: New resign option to make tanks resign at end of round depending on how m
 Added: Movement restriction option to stop tanks from moving under water
 Added: Better mysql stats format that allows stats history
 Added: Error reporting to MS file loading
-Added: Rounds left show in game browsing dialog
+Added: Rounds left shown in the game browsing dialog
 Added: Bender tank model (thanks antivert)
 
 -- Bugs in current development release
@@ -32,12 +35,10 @@ Shot cam does not get LOD correctly
 Fix crashing when people win (Graphics card drivers??)
 
 -- Things for next release
-Add napalm option to allow napalm type weapons underwater
 Being able to register peoples nicknames
 Movement sounds
 Animated GIFs for avitars
 Distance fogging
-Admin alerts for ip addresses that have been tagged
 Ambient sounds
 Boids
 Move placements to seperate file
@@ -48,7 +49,6 @@ Show buy/choose accessories in groups (rather than one long list)
 Allow same ip addresses to connect but don't collect stats
 Undo should not put duplicate entries in the undo log
 Bobirovs list of stuff (http://apochq.handwired.net/ideas.txt)
-Shields show through smoke
 
 -- Server Stuff
 Chat filter (swear words)

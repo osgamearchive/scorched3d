@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,23 +18,18 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_ServerCommonh_INCLUDE__)
-#define __INCLUDE_ServerCommonh_INCLUDE__
+#if !defined(__INCLUDE_TankParticleRendererh_INCLUDE__)
+#define __INCLUDE_TankParticleRendererh_INCLUDE__
 
-#include <server/ServerBanned.h>
+#include <engine/ParticleRenderer.h>
 
-namespace ServerCommon
+class TankParticleRenderer : public ParticleRenderer
 {
-	void startFileLogger();
-	void sendString(unsigned int destinationId, const char *fmt, ...);
-	void sendStringMessage(unsigned int destinationId, const char *fmt, ...);
-	void sendStringAdmin(const char *fmt, ...);
-	void serverLog(unsigned int playerId, const char *fmt, ...);
-	void kickDestination(unsigned int destinationId, bool delayed = false);
-	void kickPlayer(unsigned int playerId, bool delayed = false);
-	void banPlayer(unsigned int playerId, ServerBanned::BannedType type = ServerBanned::Banned);
-	void slapPlayer(unsigned int playerId, float slap);
-	void killAll();
-}
+public:
+	static TankParticleRenderer *getInstance();
+	virtual void renderParticle(Particle &particle);
+	virtual void simulateParticle(Particle &particle, float time);
+};
 
 #endif
+

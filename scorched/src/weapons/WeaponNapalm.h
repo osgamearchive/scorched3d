@@ -44,6 +44,7 @@ public:
 	const char *getNapalmTexture() { return napalmTexture_.c_str(); }
 	const bool getNoSmoke() { return noSmoke_; }
 	const bool getNoObjectDamage() { return noObjectDamage_; }
+	const bool getAllowUnderWater() { return allowUnderWater_; }
 
 	// Inherited from Weapon
 	virtual void fireWeapon(ScorchedContext &context,
@@ -62,6 +63,7 @@ protected:
 	int effectRadius_;   // How close do tanks take damage
 	bool noSmoke_;       // Turns off smoke emitted by napalm
 	bool noObjectDamage_;// Turns off burning damage to landscape objects
+	bool allowUnderWater_;// Turns on/off napalm working under water
 	std::string napalmSound_;
 	std::string napalmTexture_;
 

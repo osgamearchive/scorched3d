@@ -200,29 +200,32 @@ void Napalm::simulateAddStep()
 	// Get the height of this point
 	float height = getHeight(x_, y_);
 
-	// Napalm does not go under water (for now)
-	// Perhaps we could add a boiling water sound at some point
-	float waterHeight = -10.0f;
-	LandscapeTex &tex = context_->landscapeMaps->getTex(*context_);
-	if (0 == strcmp(tex.bordertype.c_str(), "water"))
+	if (!weapon_->getAllowUnderWater())
 	{
-		LandscapeTexBorderWater *water = 
-			(LandscapeTexBorderWater *) tex.border;
-        	waterHeight = water->height;
-	}
-
-	if (height < waterHeight) // Water height
-	{
-		if (!hitWater_)
+		// Napalm does not go under water (for now)
+		// Perhaps we could add a boiling water sound at some point
+		float waterHeight = -10.0f;
+		LandscapeTex &tex = context_->landscapeMaps->getTex(*context_);
+		if (0 == strcmp(tex.bordertype.c_str(), "water"))
 		{
-			// This is the first time we have hit the water
-			hitWater_ = true;
-			if (!context_->serverMode) 
-			{
-				// TODO: Play hit water sound
-			}
+			LandscapeTexBorderWater *water = 
+				(LandscapeTexBorderWater *) tex.border;
+       	 	waterHeight = water->height;
 		}
-		return;
+
+		if (height < waterHeight) // Water height
+		{
+			if (!hitWater_)
+			{
+				// This is the first time we have hit the water
+				hitWater_ = true;
+				if (!context_->serverMode) 
+				{
+					// TODO: Play hit water sound
+				}
+			}
+			return;
+		}
 	} 
 
 	// Add this current point to the napalm map

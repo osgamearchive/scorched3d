@@ -94,6 +94,34 @@ void ServerCommon::sendString(unsigned int dest, const char *fmt, ...)
 	}
 }
 
+void ServerCommon::sendStringAdmin(const char *fmt, ...)
+{
+	static char text[1024];
+	va_list ap;
+
+	va_start(ap, fmt);
+	vsprintf(text, fmt, ap);
+	va_end(ap);	
+
+	std::map<unsigned int, Tank *> &tanks = 
+		ScorchedServer::instance()->	
+			getTankContainer().getPlayingTanks();
+	std::map<unsigned int, Tank *>::iterator itor;
+	for (itor = tanks.begin();
+		itor != tanks.end();
+		itor++)
+	{
+		Tank *tank = (*itor).second;
+		if (tank->getState().getAdmin())
+		{
+			ServerCommon::sendString(
+				tank->getDestinationId(), 
+				"(Admin) %s", 
+				text);
+		}
+	}
+}
+
 void ServerCommon::slapPlayer(unsigned int playerId, float slap)
 {
 	Logger::log(0, "Slapping player \"%i\" %.0f", 
@@ -194,6 +222,9 @@ void ServerCommon::banPlayer(unsigned int playerId,
 			case ServerBanned::NotBanned:
 				Logger::log(0, "Unbanning player %i", playerId);
 				break;
+			case ServerBanned::Flagged:
+				Logger::log(0, "Flagging player %i", playerId);
+				break;				
 			}
 		
 			ServerBanned::instance()->

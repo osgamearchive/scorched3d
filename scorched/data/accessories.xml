@@ -194,6 +194,7 @@ near the flames will loose life.</description>
 				<numberstreams>2</numberstreams>
 				<effectradius>5</effectradius>
 				<napalmtexture>flames</napalmtexture>
+				<allowunderwater>off</allowunderwater>
 				<napalmsound>explosions/napalm.wav</napalmsound>
 			</collisionaction>
 		</accessoryaction>
@@ -220,6 +221,7 @@ will loose life.</description>
 				<hurtpersecond>2.0</hurtpersecond>
 				<numberstreams>3</numberstreams>
 				<effectradius>5</effectradius>
+				<allowunderwater>off</allowunderwater>
 				<napalmtexture>flames</napalmtexture>
 				<napalmsound>explosions/napalm.wav</napalmsound>
 			</collisionaction>

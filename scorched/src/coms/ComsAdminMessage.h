@@ -40,6 +40,7 @@ public:
 		AdminSlap,
 		AdminPoor,
 		AdminBan,
+		AdminFlag,
 		AdminMute,
 		AdminPermMute,
 		AdminUnPermMute,

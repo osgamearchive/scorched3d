@@ -89,6 +89,7 @@ void ClientAdmin::admin(std::list<GLConsoleRuleSplit> split,
 			0 == stricmp(firstsplit.rule.c_str(), "showaliases") ||
 			0 == stricmp(firstsplit.rule.c_str(), "showipaliases") ||
 			0 == stricmp(firstsplit.rule.c_str(), "ban") ||
+			0 == stricmp(firstsplit.rule.c_str(), "flag") ||
 			0 == stricmp(firstsplit.rule.c_str(), "mute") ||
 			0 == stricmp(firstsplit.rule.c_str(), "permmute") ||
 			0 == stricmp(firstsplit.rule.c_str(), "unpermmute") ||
@@ -112,6 +113,8 @@ void ClientAdmin::admin(std::list<GLConsoleRuleSplit> split,
 					type = ComsAdminMessage::AdminKick;
 				else if (0 == stricmp(firstsplit.rule.c_str(), "ban"))
 					type = ComsAdminMessage::AdminBan;
+				else if (0 == stricmp(firstsplit.rule.c_str(), "flag"))
+					type = ComsAdminMessage::AdminFlag;
 				else if (0 == stricmp(firstsplit.rule.c_str(), "mute"))
 					type = ComsAdminMessage::AdminMute;
 				else if (0 == stricmp(firstsplit.rule.c_str(), "permmute"))
@@ -195,6 +198,7 @@ void ClientAdmin::adminHelp(std::list<std::string> &result)
 	result.push_back("  ban <player id> - Bans and kicks specified player");
 	result.push_back("  poor <player id> - Removes all money from player");
 	result.push_back("  mute <player id> - Mutes specified player for everyone");
+	result.push_back("  flag <player id> - Flags specified player for all admins");
 	result.push_back("  unmute <player id> - Un-mutes specified player for everyone");
 	result.push_back("  permmute <player id> - Mutes specified player for everyone perminantly");
 	result.push_back("  unpermmute <player id> - Un-Mutes specified player for everyone perminantly");

@@ -209,6 +209,8 @@ scorched3d_SOURCES = \
 	../tankgraph/TankModel.h \
 	../tankgraph/TankModelRenderer.cpp \
 	../tankgraph/TankModelRenderer.h \
+	../tankgraph/TankParticleRenderer.h \
+	../tankgraph/TankParticleRenderer.cpp \
 	../tankgraph/TankModelStore.cpp \
 	../tankgraph/TankModelStore.h \
 	../tankgraph/TankRenderer.cpp \

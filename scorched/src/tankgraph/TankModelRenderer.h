@@ -69,7 +69,7 @@ public:
 	virtual ~TankModelRenderer();
 
 	virtual void draw(bool currentTank);
-	virtual void drawSecond(bool currentTank);
+	virtual void drawSecond();
 	virtual void draw2d(bool currentTank);
 	virtual void fired();
 	virtual void shieldHit();
@@ -77,11 +77,14 @@ public:
 
 	TankModel *getModel() { return model_; }
 	GLWTankTips *getTips() { return &tankTips_; }
+	bool getMadeParticle() { return particleMade_; }
+	void setMadeParticle() { particleMade_ = true; }
 
 protected:
 	Tank *tank_;
 	TankModel *model_;
 	GLWTankTips tankTips_;
+	bool particleMade_;
 	float fireOffSet_;
 	float shieldHit_;
 	float smokeTime_, smokeWaitForTime_;

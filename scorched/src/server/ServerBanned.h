@@ -35,7 +35,8 @@ public:
 	{
 		NotBanned,
 		Banned,
-		Muted
+		Muted,
+		Flagged
 	};
 	struct BannedEntry
 	{
