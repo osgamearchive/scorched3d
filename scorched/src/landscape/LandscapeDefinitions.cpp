@@ -409,7 +409,10 @@ LandscapeDefinition &LandscapeDefinitions::getRandomLandscapeDefn(
 		}
 
 	}
-	DIALOG_ASSERT(0);
+
+	dialogMessage("Landscape",
+		"No landscapes marked as active");
+	exit(0);
 	static LandscapeDefinition null;
 	return null;
 }

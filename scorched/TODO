@@ -21,6 +21,7 @@ Changed: Tank can move up and down bigger slopes (configurable)
 Changed: Spread and hurts weapon primative options are now variable
 Changed: LeapFrog weapon primative bounce now variable
 
+Added: Way to choose mods for server and single player
 Added: WeaponAimedOver and WeaponAimedUnder weapon primatives can be configured
 Added: Admin commands can be accessed from a client
 Added: Admin slap and ban
@@ -61,7 +62,6 @@ Lightning, rain and meteors
 New surrounds instead of the water
 Allow objects other than trees to be used (as models)
 More dirt option for landscape (perhaps cannot go under water)
-Move resources into landscape definitons file
 Make rollers look better
 Stats prefix can be (pre/a)pended onto mysql stats tables
 Some kind of fire out the back of missiles

@@ -86,7 +86,7 @@ bool WeaponAimedOver::parseXML(XMLNode *accessoryNode)
 			name_.c_str());
 		return false;
 	}
-	maxAimedDistance_ = atof(aimNode->getContent());
+	maxAimedDistance_ = (float) atof(aimNode->getContent());
 	
 	// Get the accessory percentage miss chance
 	XMLNode *percentageNode = accessoryNode->getNamedChild("percentagemiss", false, true);
@@ -97,7 +97,7 @@ bool WeaponAimedOver::parseXML(XMLNode *accessoryNode)
 			name_.c_str());
 		return false;
 	}
-	percentageMissChance_ = atof(percentageNode->getContent());
+	percentageMissChance_ = (float) atof(percentageNode->getContent());
 
 	// Get the accessory percentage miss chance
 	XMLNode *inaccuracyNode = accessoryNode->getNamedChild("inaccuracy", false, true);
@@ -108,7 +108,7 @@ bool WeaponAimedOver::parseXML(XMLNode *accessoryNode)
 			name_.c_str());
 		return false;
 	}
-	maxInacuracy_ = atof(inaccuracyNode->getContent());
+	maxInacuracy_ = (float) atof(inaccuracyNode->getContent());
 
 	return true;
 }

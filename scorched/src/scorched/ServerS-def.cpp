@@ -18,7 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 enum
 {
 	IDC_SERVER_NAME = 1,
@@ -28,6 +27,7 @@ enum
 	IDC_BUTTON_SETTINGS
 };
 
+static wxComboBox *IDC_SERVER_MOD_CTRL = 0;
 static wxTextCtrl *IDC_SERVER_NAME_CTRL = 0;
 static wxTextCtrl *IDC_SERVER_PORT_CTRL = 0;
 static wxCheckBox *IDC_PUBLISH_CTRL = 0;

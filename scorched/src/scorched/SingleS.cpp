@@ -28,7 +28,6 @@ static void createControls(wxWindow *parent,
 	wxStaticBoxSizer *clientnameSizer = 
 		new wxStaticBoxSizer(clientnameBox, wxVERTICAL);
 	wxFlexGridSizer *clientnameSizer2 = new wxFlexGridSizer(4, 2, 5, 5);
-
 	IDC_CLIENT_PLAYERS_CTRL_TEXT = 
 		new wxStaticText(parent, -1,
 		"Number Players :");
@@ -39,10 +38,23 @@ static void createControls(wxWindow *parent,
 		wxDefaultPosition, wxSize((int) 100, (int) 124.5),
 		0, 0, wxCB_READONLY);
 	clientnameSizer2->Add(IDC_CLIENT_PLAYERS_CTRL, 0, wxALIGN_CENTER);
-
 	clientnameSizer->Add(clientnameSizer2);
 	sizer->Add(clientnameSizer, 0, wxALL, 5);
-	
+
+	wxStaticBox *modBox = 
+		new wxStaticBox(parent, -1, "Mod Settings");
+	wxStaticBoxSizer *modSizer = 
+		new wxStaticBoxSizer(modBox, wxHORIZONTAL);
+	modSizer->Add(new wxStaticText(parent, -1,
+		"Use Mod :"), 0, wxALL, 5);
+	IDC_CLIENT_MOD_CTRL = 
+		new wxComboBox(parent, -1,
+		"",
+		wxDefaultPosition, wxSize((int) 100, (int) 124.5),
+		0, 0, wxCB_READONLY);
+	modSizer->Add(IDC_CLIENT_MOD_CTRL, 0, wxALL, 5);
+	sizer->Add(modSizer, 0, wxGROW | wxALIGN_RIGHT | wxALL, 5);
+
 	wxStaticBox *advBox = 
 		new wxStaticBox(parent, -1, "Advanced Settings");
 	wxStaticBoxSizer *advSizer = 

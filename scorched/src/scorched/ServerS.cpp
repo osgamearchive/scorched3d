@@ -57,6 +57,20 @@ static void createControls(wxWindow *parent,
 	servernameSizer->Add(IDC_PUBLISH_CTRL);
 	sizer->Add(servernameSizer, 0, wxALL, 5);
 	
+	wxStaticBox *modBox = 
+		new wxStaticBox(parent, -1, "Mod Settings");
+	wxStaticBoxSizer *modSizer = 
+		new wxStaticBoxSizer(modBox, wxHORIZONTAL);
+	modSizer->Add(new wxStaticText(parent, -1,
+		"Use Mod :"), 0, wxALL, 5);
+	IDC_SERVER_MOD_CTRL = 
+		new wxComboBox(parent, -1,
+		"",
+		wxDefaultPosition, wxSize((int) 100, (int) 124.5),
+		0, 0, wxCB_READONLY);
+	modSizer->Add(IDC_SERVER_MOD_CTRL, 0, wxALL, 5);
+	sizer->Add(modSizer, 0, wxGROW | wxALIGN_RIGHT | wxALL, 5);
+
 	wxStaticBox *advBox = 
 		new wxStaticBox(parent, -1, "Advanced Settings");
 	wxStaticBoxSizer *advSizer = 

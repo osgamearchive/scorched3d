@@ -25,6 +25,7 @@
 #include <common/OptionsParam.h>
 #include <wx/wx.h>
 #include <wx/utils.h>
+#include <wx/dir.h>
 #include "SingleS.cpp"
 
 extern char scorched3dAppName[128];
@@ -76,6 +77,7 @@ SingleSFrame::SingleSFrame(OptionsGame &options) :
 
 void SingleSFrame::onSettingsButton()
 {
+	TransferDataFromWindow();
 	// Don't save until the whole options have been choosen
 	showSettingsDialog(false, options_);
 }
@@ -96,6 +98,25 @@ bool SingleSFrame::TransferDataToWindow()
 		wxString("The number of players that will play in this game.\n"
 			"This number should include computer players"));
 
+	IDC_CLIENT_MOD_CTRL->Append("None");
+    wxDir dir(getModFile(""));
+    if (dir.IsOpened())
+    {
+		wxString filename;
+		bool cont = dir.GetFirst(&filename, "", wxDIR_DIRS);
+		while (cont)
+		{
+			IDC_CLIENT_MOD_CTRL->Append(filename);
+			cont = dir.GetNext(&filename);
+		}
+    }
+	if (IDC_CLIENT_MOD_CTRL->FindString(options_.getMod()) != -1)
+		IDC_CLIENT_MOD_CTRL->SetValue(options_.getMod());
+	else 
+		IDC_CLIENT_MOD_CTRL->SetValue("None");
+	IDC_CLIENT_MOD_CTRL->SetToolTip(
+		wxString("The Scorched3D mod to use for this game."));
+
 	return true;
 }
 
@@ -105,6 +126,11 @@ bool SingleSFrame::TransferDataFromWindow()
 	sscanf(IDC_CLIENT_PLAYERS_CTRL->GetValue(), "%i", &noPlayers);
 	options_.setNoMaxPlayers(noPlayers);
 	options_.setNoMinPlayers(noPlayers);
+	wxString value = IDC_CLIENT_MOD_CTRL->GetValue();
+	if (strcmp(value.c_str(), "None"))
+		options_.setMod(IDC_CLIENT_MOD_CTRL->GetValue());
+	else
+		options_.setMod("");
 
 	return true;
 }

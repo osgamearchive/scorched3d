@@ -25,6 +25,7 @@
 #include <common/OptionsParam.h>
 #include <wx/wx.h>
 #include <wx/utils.h>
+#include <wx/dir.h>
 #include "ServerS.cpp"
 
 extern char scorched3dAppName[128];
@@ -76,6 +77,7 @@ ServerSFrame::ServerSFrame(OptionsGame &options) :
 
 void ServerSFrame::onSettingsButton()
 {
+	TransferDataFromWindow();
 	// Don't save until the whole options have been choosen
 	showSettingsDialog(true, options_);
 }
@@ -92,6 +94,26 @@ bool ServerSFrame::TransferDataToWindow()
 	IDC_PUBLISH_CTRL->SetToolTip(options_.getPublishServerToolTip());
 	IDC_PUBLISHIP_CTRL->SetValue(options_.getPublishAddress());
 	IDC_PUBLISHIP_CTRL->SetToolTip(options_.getPublishAddressToolTip());
+
+	IDC_SERVER_MOD_CTRL->Append("None");
+    wxDir dir(getModFile(""));
+    if (dir.IsOpened())
+    {
+		wxString filename;
+		bool cont = dir.GetFirst(&filename, "", wxDIR_DIRS);
+		while (cont)
+		{
+			IDC_SERVER_MOD_CTRL->Append(filename);
+			cont = dir.GetNext(&filename);
+		}
+    }
+	if (IDC_SERVER_MOD_CTRL->FindString(options_.getMod()) != -1)
+		IDC_SERVER_MOD_CTRL->SetValue(options_.getMod());
+	else 
+		IDC_SERVER_MOD_CTRL->SetValue("None");
+	IDC_SERVER_MOD_CTRL->SetToolTip(
+		wxString("The Scorched3D mod to use for this game."));
+
 	return true;
 }
 
@@ -101,6 +123,11 @@ bool ServerSFrame::TransferDataFromWindow()
 	options_.setServerName(IDC_SERVER_NAME_CTRL->GetValue());
 	options_.setPublishServer(IDC_PUBLISH_CTRL->GetValue());
 	options_.setPublishAddress(IDC_PUBLISHIP_CTRL->GetValue());
+	wxString value = IDC_SERVER_MOD_CTRL->GetValue();
+	if (strcmp(value.c_str(), "None"))
+		options_.setMod(IDC_SERVER_MOD_CTRL->GetValue());
+	else
+		options_.setMod("");
 
 	return true;
 }

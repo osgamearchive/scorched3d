@@ -24,6 +24,7 @@ enum
 };
 
 static wxComboBox *IDC_CLIENT_PLAYERS_CTRL = 0;
+static wxComboBox *IDC_CLIENT_MOD_CTRL = 0;
 static wxButton *IDOK_CTRL = 0;
 static wxButton *IDC_BUTTON_SETTINGS_CTRL = 0;
 static wxButton *IDCANCEL_CTRL = 0;
