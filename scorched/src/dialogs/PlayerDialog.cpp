@@ -109,6 +109,7 @@ PlayerDialog::PlayerDialog() :
 	typeLabel->setToolTip(typeTip);
 	typeDropDown_ = (GLWDropDown *) 
 		infoPanel->addWidget(new GLWDropDown(120, 5, 120));
+	typeDropDown_->setHandler(this);
 	typeDropDown_->setToolTip(typeTip);
 }
 
@@ -131,6 +132,19 @@ void PlayerDialog::draw()
 		}
 	}
 	GLWWindow::draw();
+}
+
+void PlayerDialog::select(unsigned int id, const int pos, 
+	GLWSelectorEntry value)
+{
+	if (0 == strcmp("Human", value.getText()))
+	{
+		imageList_->setCurrent("player.gif");
+	}
+	else
+	{
+		imageList_->setCurrent("computer.gif");
+	}
 }
 
 void PlayerDialog::keyDown(char *buffer, unsigned int keyState, 
@@ -218,11 +232,8 @@ void PlayerDialog::nextPlayer()
 				OptionsDisplay::instance()->getOnlineUserName());
 			viewer_->selectModelByName(
 				OptionsDisplay::instance()->getOnlineTankModel());
-			if (!imageList_->setCurrent(
-				OptionsDisplay::instance()->getOnlineUserIcon()))
-			{
-				imageList_->setCurrent("player.gif");
-			}
+			imageList_->setCurrent(
+				OptionsDisplay::instance()->getOnlineUserIcon());
 		}
 		else
 		{
@@ -290,6 +301,19 @@ void PlayerDialog::buttonDown(unsigned int id)
 				((ScorchedClient::instance()->getOptionsGame().getTeams() > 1)?
 				teamDropDown_->getCurrentPosition() + 1:0),
 				playerType);
+			// Add avatar (if not one)
+			Tank *tank = ScorchedClient::instance()->getTankContainer().
+				getTankById(currentPlayerId_);
+			if (tank && !tank->getAvatar().getName()[0])
+			{
+				if (tank->getAvatar().loadFromFile(imageList_->getCurrent()))
+				{
+					message.setPlayerIconName(imageList_->getCurrent());
+					message.getPlayerIcon().addDataToBuffer(
+						tank->getAvatar().getFile().getBuffer(),
+						tank->getAvatar().getFile().getBufferUsed());
+				}
+			}
 			ComsMessageSender::sendToServer(message);
 
 			nextPlayer();

@@ -696,6 +696,12 @@
 				RelativePath="..\tank\TankAutoDefense.h">
 			</File>
 			<File
+				RelativePath="..\tank\TankAvatar.cpp">
+			</File>
+			<File
+				RelativePath="..\tank\TankAvatar.h">
+			</File>
+			<File
 				RelativePath="..\tank\TankBatteries.cpp">
 			</File>
 			<File

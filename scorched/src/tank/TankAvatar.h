@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,37 +18,33 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_HUDDialogh_INCLUDE__)
-#define __INCLUDE_HUDDialogh_INCLUDE__
+#if !defined(__INCLUDE_TankAvatarh_INCLUDE__)
+#define __INCLUDE_TankAvatarh_INCLUDE__
 
-#include <GLW/GLWWindow.h>
-#include <GLW/GLWButton.h>
-#include <GLW/GLWCheckBoxText.h>
+#include <string>
 
-class HUDDialog : public GLWWindow ,
-	public GLWButtonI
+class NetBuffer;
+class GLTexture;
+class TankAvatar
 {
 public:
-	static HUDDialog *instance();
+	TankAvatar();
+	virtual ~TankAvatar();
 
-	// Inherited from GLWButtonI
-	virtual void buttonDown(unsigned int id);
+	bool loadFromFile(const char *fileName);
+	bool setFromBuffer(const char *fileName,
+		NetBuffer &buffer,
+		bool createTexture = false);
 
-	// Inherited from GLWWindow
-	virtual void windowDisplay();
-
+	GLTexture &getTexture();
+	const char *getName() { return name_.c_str(); }
+	NetBuffer &getFile() { return *file_; }
+	
 protected:
-	static HUDDialog *instance_;
-	unsigned int okId_, cancelId_;
-	GLWCheckBoxText *nameBox_;
-	GLWCheckBoxText *sightBox_;
-	GLWCheckBoxText *colorBox_;
-	GLWCheckBoxText *healthBox_;
-	GLWCheckBoxText *iconBox_;
-
-private:
-	HUDDialog();
-	virtual ~HUDDialog();
+	static GLTexture *defaultTexture_;
+	GLTexture *texture_;
+	NetBuffer *file_;
+	std::string name_;
 };
 
-#endif
+#endif // __INCLUDE_TankAvatarh_INCLUDE__

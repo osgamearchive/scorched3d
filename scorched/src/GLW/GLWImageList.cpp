@@ -19,6 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <GLW/GLWImageList.h>
+#include <GLW/GLWTranslate.h>
 #include <GLEXT/GLGif.h>
 #include <GLEXT/GLState.h>
 #include <common/FileList.h>
@@ -76,6 +77,11 @@ void GLWImageList::draw()
 	if (!current_) return;
 	current_->texture.draw();
 
+	glTexParameteri(GL_TEXTURE_2D,
+		GL_TEXTURE_WRAP_S, GL_CLAMP);
+	glTexParameteri(GL_TEXTURE_2D,
+		GL_TEXTURE_WRAP_T, GL_CLAMP);
+
 	GLState currentStateOff(GLState::TEXTURE_OFF);
 	glColor3f(0.4f, 0.4f, 0.6f);
 	glBegin(GL_LINE_LOOP);
@@ -88,13 +94,13 @@ void GLWImageList::draw()
 	GLState currentStateOn(GLState::TEXTURE_ON);
 	glColor3f(1.0f, 1.0f, 1.0f);
 	glBegin(GL_QUADS);
-		glTexCoord2f(0.0f, 1.0f);
-		glVertex2f(x_, y_);
-		glTexCoord2f(1.0f, 1.0f);
-		glVertex2f(x_ + w_, y_);
-		glTexCoord2f(1.0f, 0.0f);
-		glVertex2f(x_ + w_, y_ + h_);
 		glTexCoord2f(0.0f, 0.0f);
+		glVertex2f(x_, y_);
+		glTexCoord2f(1.0f, 0.0f);
+		glVertex2f(x_ + w_, y_);
+		glTexCoord2f(1.0f, 1.0f);
+		glVertex2f(x_ + w_, y_ + h_);
+		glTexCoord2f(0.0f, 1.0f);
 		glVertex2f(x_, y_ + h_);
 	glEnd();
 }
@@ -136,6 +142,28 @@ void GLWImageList::mouseDown(float x, float y,
 							 bool &skipRest)
 {
 	GLWidget::mouseDown(x, y, skipRest);
+
+	if (inBox(x, y, x_, y_, w_, h_))
+	{
+		skipRest = true;
+		std::list<GLWSelectorEntry> entries;
+		std::list<GLWImageListEntry*>::iterator itor;
+		for (itor = entries_.begin();
+			itor != entries_.end();
+			itor++)
+		{
+			GLWImageListEntry *entry = (*itor);
+			entries.push_back(
+				GLWSelectorEntry(entry->shortFileName.c_str(), 
+				0, 0, &entry->texture));
+		}
+
+		GLWSelector::instance()->showSelector(
+			this, 
+			GLWTranslate::getPosX() + x, 
+			GLWTranslate::getPosY() + y, 
+			entries, 0, false);
+	}
 }
 
 void GLWImageList::mouseUp(float x, float y, 
@@ -149,3 +177,9 @@ void GLWImageList::mouseDrag(float mx, float my,
 {
 	GLWidget::mouseDrag(mx, my, x, y, skipRest);
 }
+
+void GLWImageList::itemSelected(GLWSelectorEntry *entry, int position)
+{
+	setCurrent(entry->getText());
+}
+

@@ -35,16 +35,12 @@ ComsAddPlayerMessage::ComsAddPlayerMessage(
 	playerColor_(playerColor),
 	modelName_(modelName),
 	destinationId_(destinationId),
-	playerTeam_(playerTeam),
-	playerIcon_(0), 
-	playerIconSize_(0)
+	playerTeam_(playerTeam)
 {
-
 }
 
 ComsAddPlayerMessage::~ComsAddPlayerMessage()
 {
-	delete [] playerIcon_;
 }
 
 bool ComsAddPlayerMessage::writeMessage(NetBuffer &buffer)
@@ -58,10 +54,12 @@ bool ComsAddPlayerMessage::writeMessage(NetBuffer &buffer)
 	buffer.addToBuffer(playerColor_[0]);
 	buffer.addToBuffer(playerColor_[1]);
 	buffer.addToBuffer(playerColor_[2]);
-	buffer.addToBuffer(playerIconSize_);
-	if (playerIconSize_ > 0)
+	buffer.addToBuffer(playerIcon_.getBufferUsed());
+	if (playerIcon_.getBufferUsed() > 0)
 	{
-		buffer.addDataToBuffer(playerIcon_, playerIconSize_);
+		buffer.addToBuffer(playerIconName_);
+		buffer.addDataToBuffer(playerIcon_.getBuffer(), 
+			playerIcon_.getBufferUsed());
 	}
 	return true;
 }
@@ -77,10 +75,15 @@ bool ComsAddPlayerMessage::readMessage(NetBufferReader &reader)
 	if (!reader.getFromBuffer(playerColor_[0])) return false;
 	if (!reader.getFromBuffer(playerColor_[1])) return false;
 	if (!reader.getFromBuffer(playerColor_[2])) return false;
-	if (!reader.getFromBuffer(playerIconSize_)) return false;
-	if (playerIconSize_ > 0)
+	unsigned int used = 0;
+	if (!reader.getFromBuffer(used)) return false;
+	if (used > 0)
 	{
-		if (!reader.getDataFromBuffer(playerIcon_, playerIconSize_)) return false;
+		if (!reader.getFromBuffer(playerIconName_)) return false;
+		playerIcon_.allocate(used);
+		playerIcon_.setBufferUsed(used);
+		if (!reader.getDataFromBuffer(playerIcon_.getBuffer(), 
+			used)) return false;
 	}
 	return true;
 }

@@ -28,7 +28,7 @@
 #include <tankgraph/GLWTankViewer.h>
 
 class PlayerDialog : public GLWWindow,
-						  public GLWButtonI
+	public GLWButtonI, public GLWDropDownI
 {
 public:
 	static PlayerDialog *instance();
@@ -43,6 +43,10 @@ public:
 
 	// Inherited from GLWButtonI
 	virtual void buttonDown(unsigned int id);
+
+	// GLWDropDownI
+	virtual void select(unsigned int id, const int pos, 
+		GLWSelectorEntry value);
 
 protected:
 	PlayerDialog();

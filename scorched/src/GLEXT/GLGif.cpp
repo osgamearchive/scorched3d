@@ -26,6 +26,7 @@
 #include <wx/utils.h>
 #include <wx/gifdecod.h>
 #include <wx/wfstream.h>
+#include <wx/mstream.h>
 
 GLGif::GLGif() :
 	width_(0), height_(0), bits_(0)
@@ -48,26 +49,45 @@ bool GLGif::loadFromFile(const char * filename)
 {
 	wxFileInputStream ifStream(filename);
 	if (!ifStream.Ok()) return false;
+	return loadFromStream(&ifStream);
+}
 
-	wxGIFDecoder decoder(&ifStream);
+bool GLGif::loadFromBuffer(NetBuffer &buffer)
+{
+	wxMemoryInputStream memStream(buffer.getBuffer(),
+		buffer.getBufferUsed());
+	return loadFromStream(&memStream);
+}
+
+bool GLGif::loadFromStream(wxInputStream *ifStream)
+{
+	wxGIFDecoder decoder(ifStream);
 	if (decoder.ReadGIF() != wxGIF_OK) return false;
 
 	bits_ = new unsigned char[decoder.GetWidth() * decoder.GetHeight() * 3];
 	width_ = (int) decoder.GetWidth();
 	height_ = (int) decoder.GetHeight();
 	unsigned char* pal = decoder.GetPalette();
-	unsigned char* src = decoder.GetData();
+	unsigned char* src = decoder.GetData() + 
+		(decoder.GetHeight() * decoder.GetWidth()) - decoder.GetWidth();
 	unsigned char* dst = bits_;
 
-    for (unsigned int i = 0; 
-		i < (decoder.GetWidth() * decoder.GetHeight()); 
-		i++, src++)
+    for (unsigned int y = 0; 
+		y < decoder.GetHeight();
+		y++, src-=decoder.GetWidth()*2)
     {
-		*(dst++) = pal[3 * (*src) + 0];
-		*(dst++) = pal[3 * (*src) + 1];
-		*(dst++) = pal[3 * (*src) + 2];
+		for (unsigned int x = 0;
+			x < decoder.GetWidth();
+			x++, src++)
+		{
+			DIALOG_ASSERT(src >= decoder.GetData() &&
+				src < decoder.GetData() + decoder.GetWidth() * decoder.GetHeight());
+
+			*(dst++) = pal[3 * (*src) + 0];
+			*(dst++) = pal[3 * (*src) + 1];
+			*(dst++) = pal[3 * (*src) + 2];
+		}
     }
 
 	return true;
 }
-

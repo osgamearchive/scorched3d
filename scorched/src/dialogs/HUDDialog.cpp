@@ -48,6 +48,8 @@ HUDDialog::HUDDialog() :
 	addWidget(colorBox_, 0, SpaceLeft | SpaceRight | SpaceTop, 10.0f);
 	healthBox_ = new GLWCheckBoxText(0.0f, 0.0f, "Show Health");
 	addWidget(healthBox_, 0, SpaceLeft | SpaceRight | SpaceTop, 10.0f);
+	iconBox_ = new GLWCheckBoxText(0.0f, 0.0f, "Show Icon");
+	addWidget(iconBox_, 0, SpaceLeft | SpaceRight | SpaceTop, 10.0f);
 
 	GLWPanel *buttonPanel = new GLWPanel(0.0f, 0.0f, 0.0f, 0.0f, false, false);
 	GLWButton *cancelButton = new GLWTextButton("Cancel", 95, 10, 105, this, 
@@ -79,6 +81,8 @@ void HUDDialog::windowDisplay()
 		OptionsDisplay::instance()->getDrawPlayerColor());
 	healthBox_->getCheckBox().setState(
 		OptionsDisplay::instance()->getDrawPlayerHealth());
+	iconBox_->getCheckBox().setState(
+		OptionsDisplay::instance()->getDrawPlayerIcons());
 }
 
 void HUDDialog::buttonDown(unsigned int id)
@@ -93,6 +97,8 @@ void HUDDialog::buttonDown(unsigned int id)
 			colorBox_->getCheckBox().getState());
 		OptionsDisplay::instance()->setDrawPlayerHealth(
 			healthBox_->getCheckBox().getState());
+		OptionsDisplay::instance()->setDrawPlayerIcons(
+			iconBox_->getCheckBox().getState());
 	}
 	GLWWindowManager::instance()->hideWindow(getId());
 }

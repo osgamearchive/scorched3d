@@ -115,6 +115,7 @@ void TankAIAdder::addTankAI(ScorchedServer &context,
 			color,
 			modelId);
 
+		tank->getAvatar().loadFromFile("computer.gif");
 		tank->setUniqueId(uniqueId);
 		tank->setTankAI(ai->getCopy(tank));
 		context.getTankContainer().addTank(tank);
@@ -146,6 +147,10 @@ void TankAIAdder::addTankAI(ScorchedServer &context,
 				tank->getModel().getModelName(),
 				tank->getDestinationId(),
 				tank->getTeam()); 
+			addPlayerMessage.setPlayerIconName(tank->getAvatar().getName());
+			addPlayerMessage.getPlayerIcon().addDataToBuffer(
+				tank->getAvatar().getFile().getBuffer(),
+				tank->getAvatar().getFile().getBufferUsed());
 			ComsMessageSender::sendToAllConnectedClients(addPlayerMessage);
 		}
 	}

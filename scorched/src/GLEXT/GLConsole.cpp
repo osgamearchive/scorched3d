@@ -160,7 +160,7 @@ void GLConsole::keyboardCheck(const unsigned state, float frameTime,
 		for (; keyItor != keyEndItor; keyItor++)
 		{
 			KeyboardKey *key = (*keyItor);
-			if (key->keyDown(buffer, keyState))
+			if (key->keyDown(buffer, keyState, false))
 			{
 				addLine(true, key->getName());
 			}

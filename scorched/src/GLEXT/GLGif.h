@@ -22,7 +22,9 @@
 #define AFX_GLGIF_H__315BF771_5E56_4C78_9D9F_51608D8CB3F0__INCLUDED_
 
 #include <GLEXT/GLImage.h>
+#include <coms/NetBuffer.h>
 
+class wxInputStream;
 class GLGif : public GLImage
 {
 public:
@@ -37,11 +39,14 @@ public:
 	virtual int getComponents() { return 3; }
 
 	bool loadFromFile(const char *filename);
+	bool loadFromBuffer(NetBuffer &buffer);
 
 protected:
 	GLubyte *bits_;
 	int width_;
 	int height_;
+
+	bool loadFromStream(wxInputStream *ifStream);
 
 private:
 	GLGif(GLGif &other);

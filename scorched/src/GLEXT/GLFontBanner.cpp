@@ -169,17 +169,17 @@ void GLFontBanner::draw()
 				{
 					entry.getTexture()->draw();
 					glPushMatrix();
-						glTranslatef(x - fontWidth - 5.0f, y, 0.0f);
+						glTranslatef(x - fontWidth - 8.0f, y - 3.0f, 0.0f);
 						glColor3f(1.0f, 1.0f, 1.0f);
 						glBegin(GL_QUADS);
 							glTexCoord2f(0.0f, 0.0f);
 							glVertex2f(0.0f, 0.0f);
 							glTexCoord2f(1.0f, 0.0f);
-							glVertex2f(outlineFontWidth, 0.0f);
+							glVertex2f(outlineFontWidth - 2, 0.0f);
 							glTexCoord2f(1.0f, 1.0f);
-							glVertex2f(outlineFontWidth, outlineFontWidth);
+							glVertex2f(outlineFontWidth - 2, outlineFontWidth - 2);
 							glTexCoord2f(0.0f, 1.0f);
-							glVertex2f(0.0f, outlineFontWidth);
+							glVertex2f(0.0f, outlineFontWidth - 2);
 						glEnd();
 					glPopMatrix();
 				}

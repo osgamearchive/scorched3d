@@ -188,6 +188,10 @@ public:
 	void setDrawPlayerNames(bool value) { drawPlayerNames_.setValue(value); }
 	const char *getDrawPlayerNamesToolTip() { return drawPlayerNames_.getDescription(); }
 
+	bool getDrawPlayerIcons() { return drawPlayerIcons_.getValue(); }
+	void setDrawPlayerIcons(bool value) { drawPlayerIcons_.setValue(value); }
+	const char *getDrawPlayerIconsToolTip() { return drawPlayerIcons_.getDescription(); }
+
 	bool getDrawPlayerSight() { return drawPlayerSight_.getValue(); }
 	void setDrawPlayerSight(bool value) { drawPlayerSight_.setValue(value); }
 	const char *getDrawPlayerSightToolTip() { return drawPlayerSight_.getDescription(); }
@@ -371,6 +375,7 @@ protected:
 	OptionEntryBool drawLandscape_;
 	OptionEntryBool drawSurround_;
 	OptionEntryBool drawPlayerNames_;
+	OptionEntryBool drawPlayerIcons_;
 	OptionEntryBool drawPlayerSight_;
 	OptionEntryBool drawPlayerColor_;
 	OptionEntryBool drawPlayerHealth_;

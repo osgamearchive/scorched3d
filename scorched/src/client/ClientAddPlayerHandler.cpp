@@ -65,6 +65,10 @@ bool ClientAddPlayerHandler::processMessage(unsigned int id,
 		message.getPlayerColor(),
 		modelId);
 	tank->setTeam(message.getPlayerTeam());
+	tank->getAvatar().setFromBuffer(
+		message.getPlayerIconName(),
+		message.getPlayerIcon(),
+		true);
 	ScorchedClient::instance()->getTankContainer().addTank(tank);
 
 	return true;

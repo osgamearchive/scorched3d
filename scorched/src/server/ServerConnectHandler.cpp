@@ -205,6 +205,10 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 			tank->getModel().getModelName(),
 			tank->getDestinationId(),
 			tank->getTeam()); 
+		oldPlayerMessage.setPlayerIconName(tank->getAvatar().getName());
+		oldPlayerMessage.getPlayerIcon().addDataToBuffer(
+			tank->getAvatar().getFile().getBuffer(),
+			tank->getAvatar().getFile().getBufferUsed());
 		ComsMessageSender::sendToSingleClient(oldPlayerMessage, destinationId);
 	}
 

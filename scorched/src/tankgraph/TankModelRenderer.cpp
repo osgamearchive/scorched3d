@@ -145,6 +145,30 @@ void TankModelRenderer::drawSecond(bool currentTank)
 		glDepthMask(GL_TRUE);
 	}
 
+	if (OptionsDisplay::instance()->getDrawPlayerIcons())
+	{
+		Vector &bilX = GLCameraFrustum::instance()->getBilboardVectorX(); 
+		if (OptionsDisplay::instance()->getDrawPlayerNames())
+		{
+			bilX *= 0.5f * (float) GLWFont::instance()->getSmallPtFont()->getWidth(
+				1, tank_->getName());
+			bilX += bilX.Normalize() * 1.0f;
+		}
+		else
+		{
+			bilX *= 0.0f;
+		}
+
+		Vector position = 
+			tank_->getPhysics().getTankPosition() - bilX;
+		position[2] += 8.7f;
+
+		tank_->getAvatar().getTexture().draw();
+		static Vector white(1.0f, 1.0f, 1.0f);
+		GLCameraFrustum::instance()->drawBilboard(
+			position, white, 0.8f, 0.6f, 0.5f, false, 0);
+	}
+
 	// Draw the parachutes (if any)
 	if (tank_->getAccessories().getParachutes().parachutesEnabled())
 	{

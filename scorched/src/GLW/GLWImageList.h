@@ -22,10 +22,13 @@
 #define __INCLUDE_GLWImageListh_INCLUDE__
 
 #include <GLW/GLWButton.h>
+#include <GLW/GLWSelector.h>
 #include <GLEXT/GLTexture.h>
 #include <list>
 
-class GLWImageList : public GLWidget
+class GLWImageList : 
+	public GLWidget,
+	public GLWSelectorI
 {
 public:
 	GLWImageList(float x = 0.0f, float y = 0.0f, 
@@ -35,11 +38,15 @@ public:
 	const char *getCurrent();
 	bool setCurrent(const char *current);
 
+	// GLWidget
 	virtual void draw();
 	virtual void simulate(float frameTime);
 	virtual void mouseDown(float x, float y, bool &skipRest);
 	virtual void mouseUp(float x, float y, bool &skipRest);
 	virtual void mouseDrag(float mx, float my, float x, float y, bool &skipRest);
+
+	// GLWSelectorI
+	virtual void itemSelected(GLWSelectorEntry *entry, int position);
 
 	REGISTER_CLASS_HEADER(GLWImageList);
 
@@ -52,7 +59,6 @@ protected:
 	};
 	std::list<GLWImageListEntry*> entries_;
 	GLWImageListEntry *current_;
-	GLWButton button_;
 		
 };
 

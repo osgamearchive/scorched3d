@@ -7,6 +7,7 @@ Fixed: Fix camera presets
 Fixed: CTRL LF in mod files linux hosts causing mod file downloads
 Fixed: New games or rounds do not cause mod disconnection
 Fixed: Reduced the server to client payload size considerably (lag??)
+Fixed: Key repeat for console commands bound to keys
 
 Added: Users can turn IP authentication off
 Added: Weapon and talk icons to the speach lines

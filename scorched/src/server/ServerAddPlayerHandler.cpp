@@ -121,6 +121,9 @@ bool ServerAddPlayerHandler::processMessage(unsigned int destinationId,
 	TankModelId modelId(message.getModelName());
 	tank->setName(name.c_str());
 	tank->setModel(modelId);
+	tank->getAvatar().setFromBuffer(
+		message.getPlayerIconName(),
+		message.getPlayerIcon());
 	if (tank->getState().getSpectator())
 	{
 		StatsLogger::instance()->tankJoined(tank);

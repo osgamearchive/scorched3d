@@ -45,10 +45,9 @@ public:
 	unsigned int getDestinationId() { return destinationId_; }
 	unsigned int getPlayerTeam() { return playerTeam_; }
 
-	unsigned int getPlayerIconSize() { return playerIconSize_; }
-	unsigned char *getPlayerIcon() { return playerIcon_; }
-	void setPlayerIcon(unsigned char *icon,
-		unsigned int size) { playerIcon_ = icon; playerIconSize_ = size; }
+	void setPlayerIconName(const char *name) { playerIconName_ = name; }
+	const char *getPlayerIconName() { return playerIconName_.c_str(); }
+	NetBuffer &getPlayerIcon() { return playerIcon_; }
 
 	// Inherited from ComsMessage
 	virtual bool writeMessage(NetBuffer &buffer);
@@ -61,9 +60,9 @@ protected:
 	std::string playerName_;
 	std::string modelName_;
 	std::string playerType_;
+	std::string playerIconName_;
 	Vector playerColor_;
-	unsigned int playerIconSize_;
-	unsigned char *playerIcon_;
+	NetBuffer playerIcon_;
 
 private:
 	ComsAddPlayerMessage(const ComsAddPlayerMessage &);

@@ -65,8 +65,7 @@ bool ClientTextHandler::processMessage(unsigned int id,
 		MessageDisplay::instance()->addMessage(message.getText());
 
 		Logger::log(
-			LoggerInfo(0,
-				&ExplosionTextures::instance()->talkTexture), 
+			LoggerInfo(0, &ExplosionTextures::instance()->talkTexture), 
 			message.getText());
 	}
 	else
@@ -78,10 +77,7 @@ bool ClientTextHandler::processMessage(unsigned int id,
 			if (ScorchedClient::instance()->getGameState().getState() == 
 				ClientState::StateConnect)
 			{
-				Logger::log(
-					LoggerInfo(0,
-						&ExplosionTextures::instance()->talkTexture), 
-					message.getText());
+				Logger::log(message.getPlayerId(), message.getText());
 			}
 			else
 			{
@@ -98,10 +94,20 @@ bool ClientTextHandler::processMessage(unsigned int id,
 					ScorchedClient::instance()->getActionController().addAction(new SpriteAction(talk));
 				}
 
-				Logger::log(
-					LoggerInfo(message.getPlayerId(),
-						&ExplosionTextures::instance()->talkTexture), 
-					message.getText());
+				if (tank)
+				{
+					Logger::log(
+						LoggerInfo(message.getPlayerId(),
+							&tank->getAvatar().getTexture()), 
+						message.getText());
+				}
+				else
+				{
+					Logger::log(
+						LoggerInfo(message.getPlayerId(),
+							&ExplosionTextures::instance()->talkTexture), 
+						message.getText());
+				}
 			}
 		}
 	}

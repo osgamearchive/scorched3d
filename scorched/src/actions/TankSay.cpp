@@ -61,13 +61,16 @@ void TankSay::init()
 			context_->actionController->addAction(new SpriteAction(talk));
 		}
 
-		if (!context_->serverMode ||
-			OptionsParam::instance()->getDedicatedServer())
+		if (!context_->serverMode)
 		{
 			Logger::log(
 				LoggerInfo(tank->getPlayerId(),
-					&ExplosionTextures::instance()->talkTexture), 
+					&tank->getAvatar().getTexture()), 
 				text_.c_str());
+		}
+		else if (OptionsParam::instance()->getDedicatedServer())
+		{
+			Logger::log(tank->getPlayerId(), text_.c_str());
 		}
 	}
 }

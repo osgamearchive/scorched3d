@@ -1,0 +1,100 @@
+////////////////////////////////////////////////////////////////////////////////
+//    Scorched3D (c) 2000-2004
+//
+//    This file is part of Scorched3D.
+//
+//    Scorched3D is free software; you can redistribute it and/or modify
+//    it under the terms of the GNU General Public License as published by
+//    the Free Software Foundation; either version 2 of the License, or
+//    (at your option) any later version.
+//
+//    Scorched3D is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//    GNU General Public License for more details.
+//
+//    You should have received a copy of the GNU General Public License
+//    along with Scorched3D; if not, write to the Free Software
+//    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+////////////////////////////////////////////////////////////////////////////////
+
+#include <tank/TankAvatar.h>
+#include <GLEXT/GLTexture.h>
+#include <GLEXT/GLGif.h>
+#include <coms/NetBuffer.h>
+#include <common/Defines.h>
+#include <stdio.h>
+
+GLTexture *TankAvatar::defaultTexture_ = 0;
+
+TankAvatar::TankAvatar() : texture_(0)
+{
+	file_ = new NetBuffer();
+}
+
+TankAvatar::~TankAvatar()
+{
+	delete texture_;
+	delete file_;
+}
+
+bool TankAvatar::loadFromFile(const char *fileName)
+{
+	FILE *in = fopen(
+		getDataFile("data/avatars/%s", fileName),
+		"rb");
+	if (in)
+	{
+		name_ = fileName;
+		file_->reset();
+		unsigned char readBuf[512];
+		while (unsigned int size = fread(readBuf, sizeof(unsigned char), 512, in))
+		{
+			file_->addDataToBuffer(readBuf, size);
+		}
+		fclose(in);
+		return true;
+	}
+	return false;
+}
+
+bool TankAvatar::setFromBuffer(const char *fileName,
+	NetBuffer &buffer, bool createTexture)
+{
+	GLGif gif;
+	if (!gif.loadFromBuffer(buffer)) return false;
+	if (gif.getWidth() != 32 || 
+		gif.getHeight() != 32) return false;
+
+	name_ = fileName;
+	file_->reset();
+	file_->addDataToBuffer(buffer.getBuffer(), 
+		buffer.getBufferUsed());
+
+	if (createTexture)
+	{
+		delete texture_;
+		texture_ = new GLTexture;
+		texture_->create(gif);
+	}
+
+	return true;
+}
+
+GLTexture &TankAvatar::getTexture()
+{
+	if (!texture_)
+	{
+		if (!defaultTexture_)
+		{
+			defaultTexture_ = new GLTexture();
+			GLGif gif;
+			gif.loadFromFile(
+				getDataFile("data/avatars/player.gif"));
+			defaultTexture_->create(gif);
+		}
+		return *defaultTexture_;
+	}
+
+	return *texture_; 
+}
