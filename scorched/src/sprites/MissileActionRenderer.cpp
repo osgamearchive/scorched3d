@@ -26,7 +26,7 @@
 std::map<std::string, MissileMesh *> MissileActionRenderer::loadedMeshes_;
 
 MissileActionRenderer::MissileActionRenderer(int flareType) : 
-	flareType_(flareType), counter_(0.1f, 0.1f)
+	flareType_(flareType), counter_(0.1f, 0.1f), mesh_(0)
 {
 
 }
