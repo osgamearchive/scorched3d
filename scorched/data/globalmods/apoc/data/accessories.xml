@@ -209,9 +209,9 @@ determine range without wasting
 other weapons.  Leaves a marker at the 
 final position.</description>
 		<icon>tracer.bmp</icon>
-		<cost>0</cost>
+		<cost>100</cost>
 		<nocreateflame/>
-		<bundlesize>0</bundlesize>
+		<bundlesize>10</bundlesize>
 		<armslevel>10</armslevel>
 		<firedsound>shoot/flare.wav</firedsound>
 		<showendpoint></showendpoint>
@@ -308,41 +308,150 @@ trace of the shot path.</description>
 			</collisionaction>
 		</aimedweapon>
 	</accessory>
-	<accessory type="WeaponAimedOver">
+	<accessory type="WeaponMulti">
 		<name>Spark Burst</name>
 		<nonpurchasable/>
 		<armslevel>10</armslevel>
-		<nowarheads>10</nowarheads>
-		<percentagemiss>20</percentagemiss>
-		<maxaimdistance>0</maxaimdistance>
-		<inaccuracy>10</inaccuracy>
-		<aimedweapon type="WeaponRedirect">
+		<subweapon1 type="WeaponAimedOver">
 			<name>Spark Burst</name>
 			<armslevel>10</armslevel>
-			<habs>false</habs>
-			<vabs>false</vabs>
-			<hredirect>0</hredirect>
-			<vredirect>-75</vredirect>
-			<nextaction type="WeaponLightning">
+			<nowarheads>8</nowarheads>
+			<percentagemiss>20</percentagemiss>
+			<maxaimdistance>0</maxaimdistance>
+			<inaccuracy>10</inaccuracy>
+			<aimedweapon type="WeaponRedirect">
 				<name>Spark Burst</name>
 				<armslevel>10</armslevel>
-				<conelength>15</conelength>
-				<seglength>1</seglength>
-				<segvar>12</segvar>
-				<size>4</size>
-				<sizevar>-1</sizevar>
-				<minsize>0.1</minsize>
-				<splitprob>0.2</splitprob>
-				<splitvar>0.03</splitvar>
-				<deathprob>0.03</deathprob>
-				<derivangle>0.5</derivangle>
-				<anglevar>0.94</anglevar>
-				<totaltime>1</totaltime>
-				<seghurt>0</seghurt>
-				<seghurtradius>0</seghurtradius>
-				<sound>none</sound>
-			</nextaction>
-		</aimedweapon>
+				<habs>false</habs>
+				<vabs>false</vabs>
+				<hredirect>0</hredirect>
+				<vredirect>45</vredirect>
+				<nextaction type="WeaponLightning">
+					<name>Spark Burst</name>
+					<armslevel>10</armslevel>
+					<conelength>15</conelength>
+					<seglength>1</seglength>
+					<segvar>12</segvar>
+					<size>4</size>
+					<sizevar>-1</sizevar>
+					<minsize>0.1</minsize>
+					<splitprob>0.2</splitprob>
+					<splitvar>0.03</splitvar>
+					<deathprob>0.03</deathprob>
+					<derivangle>0.5</derivangle>
+					<anglevar>0.94</anglevar>
+					<totaltime>1</totaltime>
+					<seghurt>0</seghurt>
+					<seghurtradius>0</seghurtradius>
+					<sound>none</sound>
+				</nextaction>
+			</aimedweapon>
+		</subweapon1>
+		<subweapon2 type="WeaponAimedOver">
+			<name>Spark Burst</name>
+			<armslevel>10</armslevel>
+			<nowarheads>8</nowarheads>
+			<percentagemiss>20</percentagemiss>
+			<maxaimdistance>0</maxaimdistance>
+			<inaccuracy>10</inaccuracy>
+			<aimedweapon type="WeaponRedirect">
+				<name>Spark Burst</name>
+				<armslevel>10</armslevel>
+				<habs>false</habs>
+				<vabs>false</vabs>
+				<hredirect>0</hredirect>
+				<vredirect>75</vredirect>
+				<nextaction type="WeaponLightning">
+					<name>Spark Burst</name>
+					<armslevel>10</armslevel>
+					<conelength>15</conelength>
+					<seglength>1</seglength>
+					<segvar>12</segvar>
+					<size>4</size>
+					<sizevar>-1</sizevar>
+					<minsize>0.1</minsize>
+					<splitprob>0.2</splitprob>
+					<splitvar>0.03</splitvar>
+					<deathprob>0.03</deathprob>
+					<derivangle>0.5</derivangle>
+					<anglevar>0.94</anglevar>
+					<totaltime>1</totaltime>
+					<seghurt>0</seghurt>
+					<seghurtradius>0</seghurtradius>
+					<sound>none</sound>
+				</nextaction>
+			</aimedweapon>
+		</subweapon2>
+		<subweapon3 type="WeaponAimedOver">
+			<name>Spark Burst</name>
+			<armslevel>10</armslevel>
+			<nowarheads>4</nowarheads>
+			<percentagemiss>20</percentagemiss>
+			<maxaimdistance>0</maxaimdistance>
+			<inaccuracy>10</inaccuracy>
+			<aimedweapon type="WeaponRedirect">
+				<name>Spark Burst</name>
+				<armslevel>10</armslevel>
+				<habs>false</habs>
+				<vabs>false</vabs>
+				<hredirect>0</hredirect>
+				<vredirect>120</vredirect>
+				<nextaction type="WeaponLightning">
+					<name>Spark Burst</name>
+					<armslevel>10</armslevel>
+					<conelength>15</conelength>
+					<seglength>1</seglength>
+					<segvar>12</segvar>
+					<size>4</size>
+					<sizevar>-1</sizevar>
+					<minsize>0.1</minsize>
+					<splitprob>0.2</splitprob>
+					<splitvar>0.03</splitvar>
+					<deathprob>0.03</deathprob>
+					<derivangle>0.5</derivangle>
+					<anglevar>0.94</anglevar>
+					<totaltime>1</totaltime>
+					<seghurt>0</seghurt>
+					<seghurtradius>0</seghurtradius>
+					<sound>none</sound>
+				</nextaction>
+			</aimedweapon>
+		</subweapon3>
+		<subweapon4 type="WeaponAimedOver">
+			<name>Spark Burst</name>
+			<armslevel>10</armslevel>
+			<nowarheads>4</nowarheads>
+			<percentagemiss>20</percentagemiss>
+			<maxaimdistance>0</maxaimdistance>
+			<inaccuracy>10</inaccuracy>
+			<aimedweapon type="WeaponRedirect">
+				<name>Spark Burst</name>
+				<armslevel>10</armslevel>
+				<habs>false</habs>
+				<vabs>false</vabs>
+				<hredirect>0</hredirect>
+				<vredirect>0</vredirect>
+				<nextaction type="WeaponLightning">
+					<name>Spark Burst</name>
+					<armslevel>10</armslevel>
+					<conelength>15</conelength>
+					<seglength>1</seglength>
+					<segvar>12</segvar>
+					<size>4</size>
+					<sizevar>-1</sizevar>
+					<minsize>0.1</minsize>
+					<splitprob>0.2</splitprob>
+					<splitvar>0.03</splitvar>
+					<deathprob>0.03</deathprob>
+					<derivangle>0.5</derivangle>
+					<anglevar>0.94</anglevar>
+					<totaltime>1</totaltime>
+					<seghurt>0</seghurt>
+					<seghurtradius>0</seghurtradius>
+					<sound>none</sound>
+				</nextaction>
+			</aimedweapon>
+		</subweapon4>
 	</accessory>
 	<accessory type="WeaponProjectile">
 		<name>Baby Missile</name>
@@ -505,48 +614,108 @@ trace of the shot path.</description>
 		</collisionaction> 
 	</accessory>
 	<accessory type="WeaponProjectile">
-		<name>Grenade</name>
-		<description>Tosses a grenade which bounces once and explodes</description>
+		<name>Frag Grenade</name>
+		<description>Tosses a grenade which bounces once
+and explodes creating some shrapnel</description>
 		<icon>grenade.bmp</icon>
-		<cost>1000</cost>
+		<cost>2000</cost>
 		<bundlesize>1</bundlesize>
 		<armslevel>7</armslevel>
 		<nocreateflame/>
 		<nocreatesmoke/>
 		<firedsound>shoot/large.wav</firedsound>
-		<deathanimationweight>4</deathanimationweight>
+		<projectilescale>0.8</projectilescale>
 		<projectilemodel type="MilkShape">grenade/grenade.txt</projectilemodel>
 		<collisionaction type="WeaponMulti">
-			<name>Grenade</name>
+			<name>Frag Grenade</name>
 			<armslevel>7</armslevel>
 			<subweapon1 type="WeaponLeapFrog">
-				<name>Grenade</name>
+				<name>Frag Grenade</name>
 				<armslevel>7</armslevel>
 				<bounce>0.5</bounce>
 				<collisionaction type="WeaponVelocity">
-					<name>Grenade</name>
+					<name>Frag Grenade</name>
 					<armslevel>7</armslevel>
 					<velocitychange>0.8</velocitychange>
 					<aimedweapon type="WeaponProjectile">
-						<name>Grenade</name>
+						<name>Frag Grenade</name>
 						<armslevel>7</armslevel>
 						<nocreateflame/>
 						<nocreatesmoke/>
 						<projectilemodel type="MilkShape">grenade/grenade.txt</projectilemodel>
-						<collisionaction type="WeaponExplosion">
-							<name>Grenade</name>
+						<collisionaction type="WeaponMulti">
+							<name>Frag Grenade</name>
 							<armslevel>7</armslevel>
-							<hurtamount>1.0</hurtamount>
-							<deform>down</deform>
-							<size>8</size>
-							<explosiontexture>exp00</explosiontexture>
-							<explosionsound>explosions/medium.wav</explosionsound>
+							<subweapon1 type="WeaponDelay">
+								<name>Frag Grenade</name>
+								<armslevel>7</armslevel>
+								<delay>0.25</delay>
+								<delayedweapon type="WeaponAimedOver">
+									<name>Frag Grenade</name>
+									<armslevel>7</armslevel>
+									<nowarheads>8</nowarheads>
+									<percentagemiss>15</percentagemiss>
+									<maxaimdistance>0</maxaimdistance>
+									<inaccuracy>10</inaccuracy>
+									<aimedweapon type="WeaponRedirect">
+										<name>Frag Grenade</name>
+										<armslevel>7</armslevel>
+										<habs>false</habs>
+										<vabs>false</vabs>
+										<hredirect>0</hredirect>
+										<vredirect>45</vredirect>
+										<nextaction type="WeaponVelocity">
+											<name>Frag Grenade</name>
+											<armslevel>7</armslevel>
+											<velocitychange>1.0</velocitychange>
+											<aimedweapon type="WeaponProjectile">
+												<name>Frag Grenade</name>
+												<armslevel>7</armslevel>
+												<nocreateflame/>
+												<projectilescale>0.33</projectilescale>
+												<projectilemodel type="ase">
+													<mesh>roller.ase</mesh>
+													<skin>black.bmp</skin>
+												</projectilemodel>
+												<collisionaction type="WeaponExplosion">
+													<name>Frag Grenade</name>
+													<armslevel>7</armslevel>
+													<hurtamount>0.8</hurtamount>
+													<deform>none</deform>
+													<size>6</size>
+													<explosiontexture>none</explosiontexture>
+													<explosionsound>explosions/thud.wav</explosionsound>
+												</collisionaction>
+											</aimedweapon>
+										</nextaction>
+									</aimedweapon>
+								</delayedweapon>
+							</subweapon1>
+							<subweapon2 type="WeaponExplosion">
+								<name>Frag Grenade</name>
+								<armslevel>7</armslevel>
+								<hurtamount>0</hurtamount>
+								<deform>down</deform>
+								<size>4</size>
+								<explosiontexture>none</explosiontexture>
+								<explosionsound>none</explosionsound>
+							</subweapon2>
+							<subweapon3 type="WeaponExplosion">
+								<name>Frag Grenade</name>
+								<armslevel>7</armslevel>
+								<nocreatedebris/>
+								<hurtamount>1.0</hurtamount>
+								<deform>none</deform>
+								<size>8</size>
+								<explosiontexture>exp00</explosiontexture>
+								<explosionsound>explosions/medium.wav</explosionsound>
+							</subweapon3>
 						</collisionaction>
 					</aimedweapon>
 				</collisionaction>
 			</subweapon1>
 			<subweapon2 type="WeaponExplosion">
-				<name>Grenade</name>
+				<name>Frag Grenade</name>
 				<armslevel>7</armslevel>
 				<noluminance/>
 				<nocreatedebris/>
@@ -593,7 +762,7 @@ damages opponents without destroying the landscape.</description>
 							<nocreatedebris/>
 							<hurtamount>1.0</hurtamount>
 							<deform>none</deform>
-							<size>13</size>
+							<size>12</size>
 							<explosiontexture>exp05</explosiontexture>
 							<explosionsound>explosions/empsmall.wav</explosionsound>
 						</collisionaction>
@@ -618,7 +787,7 @@ damages opponents without destroying the landscape.</description>
 		<description>A large grenade that bounces once then explodes and
 damages opponents without destroying the landscape.</description>
 		<icon>emp.bmp</icon>
-		<cost>8000</cost>
+		<cost>5000</cost>
 		<bundlesize>1</bundlesize>
 		<armslevel>3</armslevel>
 		<nocreateflame/>
@@ -650,7 +819,7 @@ damages opponents without destroying the landscape.</description>
 							<nocreatedebris/>
 							<hurtamount>1.0</hurtamount>
 							<deform>none</deform>
-							<size>28</size>
+							<size>24</size>
 							<minlife>0.5</minlife>
 							<maxlife>1.5</maxlife>
 							<explosiontexture>exp05</explosiontexture>
@@ -677,12 +846,12 @@ damages opponents without destroying the landscape.</description>
 		<description>Grenade that releases a cloud of gas which damages
 opponents.  The cloud does less damage as it spreads out.</description>
 		<icon>gas.bmp</icon>
-		<cost>12000</cost>
+		<cost>10000</cost>
 		<bundlesize>1</bundlesize>
 		<armslevel>3</armslevel>
 		<nocreateflame/>
 		<firedsound>shoot/large.wav</firedsound>
-		<deathanimationweight>4</deathanimationweight>
+		<deathanimationweight>2</deathanimationweight>
 		<projectilescale>2.0</projectilescale>
 		<projectilemodel type="MilkShape">m7a3grenade/m7a3grenade.txt</projectilemodel>
 		<collisionaction type="WeaponMulti">
@@ -3312,7 +3481,7 @@ many riot bomblets on impact.</description>
 							<deform>down</deform>
 							<size>6</size>
 							<explosionsound>explosions/acid.wav</explosionsound>
-							<explosiontexture>acid00</explosiontexture>
+							<explosiontexture>gas00</explosiontexture>
 						</collisionaction>
 					</aimedweapon>
 				</aimedweapon>
@@ -3325,7 +3494,7 @@ many riot bomblets on impact.</description>
 				<deform>down</deform>
 				<size>8</size>
 				<explosionsound>explosions/crunch.wav</explosionsound>
-				<explosiontexture>acid00</explosiontexture>
+				<explosiontexture>gas00</explosiontexture>
 			</subweapon2>
 		</collisionaction>
 	</accessory>
@@ -3571,7 +3740,7 @@ physical damage.</description>
 									<deform>down</deform>
 									<hurtamount>0</hurtamount>
 									<size>10</size>
-									<explosiontexture>exp03</explosiontexture>
+									<explosiontexture>gas00</explosiontexture>
 									<explosionsound>explosions/acid.wav</explosionsound>
 								</collisionaction>
 							</subweapon1>
@@ -3604,7 +3773,7 @@ physical damage.</description>
 											<deform>down</deform>
 											<hurtamount>0</hurtamount>
 											<size>10</size>
-											<explosiontexture>exp03</explosiontexture>
+											<explosiontexture>gas00</explosiontexture>
 											<explosionsound>explosions/acid.wav</explosionsound>
 										</collisionaction>
 									</aimedweapon>
@@ -3720,7 +3889,7 @@ that continue bouncing outward.</description>
 											<deform>down</deform>
 											<size>8</size>
 											<explosionsound>explosions/acid.wav</explosionsound>
-											<explosiontexture>acid00</explosiontexture>
+											<explosiontexture>gas00</explosiontexture>
 										</collisionaction>
 									</aimedweapon>
 								</aimedweapon>
@@ -3773,7 +3942,7 @@ that continue bouncing outward.</description>
 														<deform>down</deform>
 														<size>6</size>
 														<explosionsound>explosions/acid.wav</explosionsound>
-														<explosiontexture>acid00</explosiontexture>
+														<explosiontexture>gas00</explosiontexture>
 													</collisionaction>
 												</aimedweapon>
 											</aimedweapon>
@@ -3791,7 +3960,7 @@ that continue bouncing outward.</description>
 											<hurtamount>0.0</hurtamount>
 											<deform>down</deform>
 											<size>8</size>
-											<explosiontexture>acid00</explosiontexture>
+											<explosiontexture>gas00</explosiontexture>
 											<explosionsound>explosions/acid.wav</explosionsound>			
 										</subweapon2>
 									</collisionaction>
@@ -3811,7 +3980,7 @@ that continue bouncing outward.</description>
 								<deform>down</deform>
 								<size>10</size>
 								<explosionsound>explosions/acid.wav</explosionsound>
-								<explosiontexture>acid00</explosiontexture>
+								<explosiontexture>gas00</explosiontexture>
 							</subweapon3>
 						</collisionaction>
 					</aimedweapon>
@@ -3831,7 +4000,7 @@ that continue bouncing outward.</description>
 				<deform>down</deform>
 				<size>12</size>
 				<explosionsound>explosions/acid.wav</explosionsound>
-				<explosiontexture>acid00</explosiontexture>
+				<explosiontexture>gas00</explosiontexture>
 			</subweapon2>
 		</collisionaction>
 	</accessory>
@@ -4101,8 +4270,8 @@ creating some riot bombs.</description>
 		<description>A projectile weapon that explodes 
 creating many large riot bombs.</description>
 		<icon>hdigger.bmp</icon>
-		<cost>4000</cost>
-		<bundlesize>1</bundlesize>
+		<cost>8000</cost>
+		<bundlesize>2</bundlesize>
 		<armslevel>6</armslevel>
 		<firedsound>shoot/flare.wav</firedsound>
 		<projectilescale>2</projectilescale>
@@ -5241,7 +5410,7 @@ The meteors explode and scatter flaming earth on impact.</description>
 						<name>Meteor Shower</name>
 						<armslevel>1</armslevel>
 						<nowarheads>6</nowarheads>
-						<percentagemiss>20</percentagemiss>
+						<percentagemiss>15</percentagemiss>
 						<maxaimdistance>75</maxaimdistance>
 						<inaccuracy>10</inaccuracy> 
 						<aimedweapon type="WeaponProjectile">
@@ -7459,12 +7628,18 @@ energy wave that ripples outward horizontally</description>
 					</delayedweapon>
 				</aimedweapon>
 			</subweapon1>
-			<subweapon2 type="WeaponReference">
+			<subweapon2 type="WeaponAnimation">
+				<name>Shockwave</name>
+				<armslevel>2</armslevel>
+				<animation>ExplosionLaserBeamRenderer</animation>
+				<data>none</data>
+			</subweapon2>
+			<subweapon3 type="WeaponReference">
 				<name>Shockwave</name>
 				<armslevel>2</armslevel>
 				<weapon>Spark Burst</weapon>
-			</subweapon2>
-			<subweapon3 type="WeaponDelay">
+			</subweapon3>
+			<subweapon4 type="WeaponDelay">
 				<name>Shockwave</name>
 				<armslevel>2</armslevel>
 				<delay>1.0</delay>
@@ -7473,8 +7648,8 @@ energy wave that ripples outward horizontally</description>
 					<armslevel>2</armslevel>
 					<weapon>Spark Burst</weapon>
 				</delayedweapon>
-			</subweapon3>
-			<subweapon4 type="WeaponDelay">
+			</subweapon4>
+			<subweapon5 type="WeaponDelay">
 				<name>Shockwave</name>
 				<armslevel>2</armslevel>
 				<delay>2.0</delay>
@@ -7483,13 +7658,17 @@ energy wave that ripples outward horizontally</description>
 					<armslevel>2</armslevel>
 					<weapon>Spark Burst</weapon>
 				</delayedweapon>
-			</subweapon4>
-			<subweapon5 type="WeaponAnimation">
+			</subweapon5>
+			<subweapon6 type="WeaponDelay">
 				<name>Shockwave</name>
 				<armslevel>2</armslevel>
-				<animation>ExplosionLaserBeamRenderer</animation>
-				<data>none</data>
-			</subweapon5>
+				<delay>3.0</delay>
+				<delayedweapon type="WeaponReference">
+					<name>Shockwave</name>
+					<armslevel>2</armslevel>
+					<weapon>Spark Burst</weapon>
+				</delayedweapon>
+			</subweapon6>
 		</collisionaction>
 	</accessory>
 	<accessory type="WeaponProjectile">

@@ -35,7 +35,7 @@
 		</texture>
 		<placements>
 			<placement type="trees">
-				<numobjects>750000</numobjects>
+				<numobjects>600000</numobjects>
 				<numclusters>25</numclusters>
 				<minheight>8</minheight>
 				<maxheight>30</maxheight>
@@ -134,7 +134,7 @@
 		</texture>
 		<placements>
 			<placement type="trees">
-				<numobjects>750000</numobjects>
+				<numobjects>600000</numobjects>
 				<numclusters>25</numclusters>
 				<minheight>8</minheight>
 				<maxheight>30</maxheight>
@@ -182,7 +182,7 @@
 		</texture>
 		<placements>
 			<placement type="trees">
-				<numobjects>750000</numobjects>
+				<numobjects>600000</numobjects>
 				<numclusters>25</numclusters>
 				<minheight>8</minheight>
 				<maxheight>30</maxheight>
@@ -232,7 +232,7 @@
 		</texture>
 		<placements>
 			<placement type="trees">
-				<numobjects>750000</numobjects>
+				<numobjects>600000</numobjects>
 				<numclusters>25</numclusters>
 				<minheight>8</minheight>
 				<maxheight>30</maxheight>
@@ -317,7 +317,7 @@
 		</texture>
 		<placements>
 			<placement type="trees">
-				<numobjects>750000</numobjects>
+				<numobjects>600000</numobjects>
 				<numclusters>25</numclusters>
 				<minheight>8</minheight>
 				<maxheight>30</maxheight>
@@ -381,7 +381,7 @@
 		</texture>
 		<placements>
 			<placement type="trees">
-				<numobjects>750000</numobjects>
+				<numobjects>600000</numobjects>
 				<numclusters>25</numclusters>
 				<minheight>8</minheight>
 				<maxheight>30</maxheight>
