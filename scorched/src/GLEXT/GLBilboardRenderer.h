@@ -18,24 +18,47 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+#if !defined(__INCLUDE_GLBilboardRendererh_INCLUDE__)
+#define __INCLUDE_GLBilboardRendererh_INCLUDE__
 
-#if !defined(__INCLUDE_SmokeActionRendererh_INCLUDE__)
-#define __INCLUDE_SmokeActionRendererh_INCLUDE__
+#include <GLEXT/GLTexture.h>
+#include <engine/GameStateI.h>
+#include <map>
 
-#include <engine/Action.h>
-#include <landscape/Smoke.h>
-
-class SmokeActionRenderer : public ActionRenderer
+// Renders bilboards using z-ordering
+// i.e. the furthest away are drawn first
+// and the nearest drawn last
+class GLBilboardRenderer : public GameStateI
 {
 public:
-	SmokeActionRenderer();
-	virtual ~SmokeActionRenderer();
+	class Entry
+	{
+	public:
+		Entry() : 
+			width(1.0f), height(1.0f), alpha(1.0f), 
+			texture(0), textureCoord(0) { }
 
-	virtual void simulate(Action *action, float timepassed, bool &remove);
-	virtual void draw(Action *action);
+		float posX, posY, posZ;
+		float width, height;
+		float alpha;
+		GLTexture *texture;
+		int textureCoord;
+	};
 
-public:
-	SmokeCounter counter_;
+	// Public Interface, use add entry to add bilboard
+	static GLBilboardRenderer *instance();
+	void addEntry(Entry *entry);
+
+	// Inherited from GameStateI
+	virtual void draw(const unsigned state);
+
+protected:
+	static GLBilboardRenderer *instance_;
+	std::multimap<float, Entry *> entries_;
+
+private:
+	GLBilboardRenderer();
+	virtual ~GLBilboardRenderer();
 };
 
 #endif

@@ -28,17 +28,17 @@ class WeaponNapalm : public Weapon
 {
 public:
 	WeaponNapalm(char *name, int price, int bundle, 
-		int armsLevel, int size);
+		int armsLevel, bool hot);
 	virtual ~WeaponNapalm();
 
-	int getSize() { return size_; }
+	int getHot() { return hot_; }
 
 	// Inherited from Weapon
 	virtual const char *getFiredSound();
 	virtual Action *fireWeapon(unsigned int playerId);
 
 protected:
-	int size_;
+	bool hot_;
 
 };
 

@@ -46,7 +46,7 @@ MainLoop *MainLoop::instance()
 	return instance_;
 }
 
-MainLoop::MainLoop() :  exitLoop_(false)
+MainLoop::MainLoop() :  exitLoop_(false), lastDrawTime_(0.0f)
 {
 
 }
@@ -105,6 +105,7 @@ void MainLoop::simulate(float frameTime)
 
 void MainLoop::draw()
 {
+	lastDrawTime_ = dTimer_.getTimeDifference();
 	static bool firstTime = true;
 	if (firstTime)
 	{

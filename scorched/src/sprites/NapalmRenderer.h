@@ -19,23 +19,26 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 
-#if !defined(__INCLUDE_SmokeActionRendererh_INCLUDE__)
-#define __INCLUDE_SmokeActionRendererh_INCLUDE__
+#if !defined(__INCLUDE_NapalmRendererh_INCLUDE__)
+#define __INCLUDE_NapalmRendererh_INCLUDE__
 
 #include <engine/Action.h>
 #include <landscape/Smoke.h>
 
-class SmokeActionRenderer : public ActionRenderer
+class NapalmRenderer : public ActionRenderer
 {
 public:
-	SmokeActionRenderer();
-	virtual ~SmokeActionRenderer();
+	NapalmRenderer();
+	virtual ~NapalmRenderer();
 
 	virtual void simulate(Action *action, float timepassed, bool &remove);
 	virtual void draw(Action *action);
 
-public:
+protected:
+	int textureNo_;
+	float totalTime_;
 	SmokeCounter counter_;
 };
+
 
 #endif

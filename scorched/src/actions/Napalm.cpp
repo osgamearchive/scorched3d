@@ -23,20 +23,21 @@
 #include <tank/TankContainer.h>
 #include <tank/TankController.h>
 #include <actions/Napalm.h>
+#include <sprites/NapalmRenderer.h>
 #include <common/OptionsParam.h>
 #include <weapons/AccessoryStore.h>
-#include <GLEXT/GLState.h>
 
 static const float NapalmHeight = 2.0f;
 
 REGISTER_ACTION_SOURCE(Napalm);
 
-Napalm::Napalm() : hitWater_(false)
+Napalm::Napalm() : hitWater_(false), totalTime_(0.0f), hurtTime_(0.0f)
 {
 }
 
 Napalm::Napalm(int x, int y, float napalmTime, bool hot, unsigned int playerId) :
-	x_(x), y_(y), napalmTime_(napalmTime), hot_(hot), playerId_(playerId), hitWater_(false)
+	x_(x), y_(y), napalmTime_(napalmTime), hot_(hot), playerId_(playerId), hitWater_(false),
+	totalTime_(0.0f), hurtTime_(0.0f)
 {
 
 }
@@ -48,35 +49,9 @@ Napalm::~Napalm()
 
 void Napalm::init()
 {
-
-}
-
-void Napalm::draw()
-{
 	if (!OptionsParam::instance()->getOnServer()) 
 	{
-		// This should proably be done in an ActionRenderer
-		// oh well, when I get time
-		glBegin(GL_LINES);
-		std::list<std::pair<int, int> >::iterator itor;
-		std::list<std::pair<int, int> >::iterator endItor = 
-			napalmPoints_.end();
-		for (itor = napalmPoints_.begin();
-			 itor != endItor;
-			 itor++)
-		{
-			int x = (*itor).first;
-			int y = (*itor).second;
-			float z = GlobalHMap::instance()->getHMap().getHeight(x, y);
-			
-			// Check that this point is still above the water
-			if (z >= Landscape::instance()->getWater().getHeight())
-			{
-				glVertex3f((float) x, (float) y, z);
-				glVertex3f((float) x, (float) y, z + 10.0f);
-			}
-		}
-		glEnd();
+		setActionRender(new NapalmRenderer);
 	}
 }
 
@@ -86,11 +61,10 @@ void Napalm::simulate(float frameTime, bool &remove)
 	// once the time interval has expired then start taking it away
 	// Once all napalm has disapeared the simulation is over
 	const float StepTime = 0.25f; // Add/rm napalm every StepTime secs
-	static float totalTime = 0.0f;
-	totalTime += frameTime;
-	while (totalTime > StepTime)
+	totalTime_ += frameTime;
+	while (totalTime_ > StepTime)
 	{
-		totalTime -= StepTime;
+		totalTime_ -= StepTime;
 		napalmTime_ -= StepTime;
 		if (napalmTime_ > 0.0f)
 		{
@@ -120,12 +94,11 @@ void Napalm::simulate(float frameTime, bool &remove)
 	}
 
 	// Calculate how much damage to make to the tanks
-	static float hurtTime = 0.0f;
 	const float HurtStepTime = 2.0f; // Calculate damage every HurtStepTime secs
-	hurtTime += frameTime;
-	while (hurtTime > HurtStepTime)
+	hurtTime_ += frameTime;
+	while (hurtTime_ > HurtStepTime)
 	{
-		hurtTime -= HurtStepTime;
+		hurtTime_ -= HurtStepTime;
 
 		simulateDamage();
 	}
@@ -157,8 +130,11 @@ void Napalm::simulateRmStep()
 {
 	// Remove the first napalm point from the list
 	// and remove the height from the landscape
-	int x = napalmPoints_.front().first;
-	int y = napalmPoints_.front().second;
+	NapalmEntry *entry = napalmPoints_.front();
+	int x = entry->posX;
+	int y = entry->posY;
+	delete entry;
+
 	GlobalHMap::instance()->getNMap().getHeight(x, y) -= NapalmHeight;
 	napalmPoints_.pop_front();
 }
@@ -185,7 +161,7 @@ void Napalm::simulateAddStep()
 	}
 
 	// Add this current point to the napalm map
-	napalmPoints_.push_back(std::pair<int, int>(x_, y_));
+	napalmPoints_.push_back(new NapalmEntry(x_, y_, int(RAND * 31)));
 	GlobalHMap::instance()->getNMap().getHeight(x_, y_) += NapalmHeight;
 	height += NapalmHeight;
 
@@ -254,15 +230,16 @@ void Napalm::simulateDamage()
 
 	// Add damage into the damage map for each napalm point that is near to
 	// the tanks
-	std::list<std::pair<int, int> >::iterator itor;
-	std::list<std::pair<int, int> >::iterator endItor = 
+	std::list<NapalmEntry *>::iterator itor;
+	std::list<NapalmEntry *>::iterator endItor = 
 		napalmPoints_.end();
 	for (itor = napalmPoints_.begin();
 		itor != endItor;
 		itor++)
 	{
-		int napalmX = (*itor).first;
-		int napalmY = (*itor).second;
+		NapalmEntry *entry = (*itor);
+		int napalmX = entry->posX;
+		int napalmY = entry->posY;
 
 		for (tankItor = tanks.begin();
 			tankItor != endTankItor;

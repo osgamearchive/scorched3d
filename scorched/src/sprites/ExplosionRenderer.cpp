@@ -71,20 +71,16 @@ void ExplosionRenderer::ExplosionMainPart::simulate(float frameTime)
 	}
 }
 
-void ExplosionRenderer::ExplosionMainPart::draw(Vector &center, Vector &bilX, Vector &bilY)
+void ExplosionRenderer::ExplosionMainPart::draw(
+	Vector &center, float w, float opacity1, 
+	float opacity2, GLTexture *t1, GLTexture *t2)
 {
-	glPushMatrix();
-		glTranslatef(center[0] + position[0],
-			center[1] + position[1],
-			center[2] + position[2]);
+	Vector newposition = center + position;
 
-		glBegin(GL_QUADS);
-		for (int j=0; j<OptionsDisplay::instance()->getNoExplosionSubParts(); j++)
-		{
-			subParts[j].draw(bilX, bilY);
-		}
-		glEnd();
-	glPopMatrix();
+	for (int j=0; j<OptionsDisplay::instance()->getNoExplosionSubParts(); j++)
+	{
+		subParts[j].draw(newposition, w, opacity1, opacity2, t1, t2);
+	}
 }
 
 ExplosionRenderer::ExplosionSubPart::ExplosionSubPart()
@@ -102,7 +98,8 @@ ExplosionRenderer::ExplosionSubPart::ExplosionSubPart()
 	rotation[2] = RAND * 1.0f - 0.5f;
 	position = Vector();
 	positionMove = move;
-	type = ExplosionTypeEnum(int(RAND * 4.0));
+	graphicEntry1_.textureCoord = 
+		graphicEntry2_.textureCoord = int(RAND * 4.0);
 }
 
 void ExplosionRenderer::ExplosionSubPart::simulate(float frameTime)
@@ -130,83 +127,22 @@ void ExplosionRenderer::ExplosionSubPart::simulate(float frameTime)
 	}
 }
 
-void ExplosionRenderer::ExplosionSubPart::draw(Vector &bilX, Vector &bilY)
+void ExplosionRenderer::ExplosionSubPart::draw(
+	Vector &center, float w, float opacity1, 
+	float opacity2, GLTexture *t1, GLTexture *t2)
 {	
-	switch(type)
-	{
-	default:
-		glTexCoord2d(1.0f, 1.0f);
-		break;
-	case texOne:
-		glTexCoord2d(1.0f, 0.0f);
-		break;
-	case texTwo:
-		glTexCoord2d(0.0f, 0.0f);
-		break;
-	case texThree:
-		glTexCoord2d(0.0f, 1.0f);
-		break;
-	}
-	glVertex3f(position[0] + bilX[0] + bilY[0], 
-		position[1] + bilX[1] + bilY[1], 
-		position[2] + bilX[2] + bilY[2]);
-
-	switch(type)
-	{
-	default:
-		glTexCoord2d(1.0f, 0.0f);
-		break;
-	case texOne:
-		glTexCoord2d(0.0f, 0.0f);
-		break;
-	case texTwo:
-		glTexCoord2d(0.0f, 1.0f);
-		break;
-	case texThree:
-		glTexCoord2d(1.0f, 1.0f);
-		break;
-	}
-	glVertex3f(position[0] - bilX[0] + bilY[0], 
-		position[1] - bilX[1] + bilY[1], 
-		position[2] - bilX[2] + bilY[2]);
-
-	switch(type)
-	{
-	default:
-		glTexCoord2d(0.0f, 0.0f);
-		break;
-	case texOne:
-		glTexCoord2d(0.0f, 1.0f);
-		break;
-	case texTwo:
-		glTexCoord2d(1.0f, 1.0f);
-		break;
-	case texThree:
-		glTexCoord2d(1.0f, 0.0f);
-		break;
-	}
-	glVertex3f(position[0] - bilX[0] - bilY[0], 
-		position[1] - bilX[1] - bilY[1], 
-		position[2] - bilX[2] - bilY[2]);
-
-	switch(type)
-	{
-	default:
-		glTexCoord2d(0.0f, 1.0f);
-		break;
-	case texOne:
-		glTexCoord2d(1.0f, 1.0f);
-		break;
-	case texTwo:
-		glTexCoord2d(1.0f, 0.0f);
-		break;
-	case texThree:
-		glTexCoord2d(0.0f, 0.0f);
-		break;
-	}
-	glVertex3f(position[0] + bilX[0] - bilY[0], 
-		position[1] + bilX[1] - bilY[1], 
-		position[2] + bilX[2] - bilY[2]);
+	// Set the bilboard parameters and add it the renderer
+	graphicEntry1_.posX = graphicEntry2_.posX = center[0] + position[0];
+	graphicEntry1_.posY = graphicEntry2_.posY = center[1] + position[1];
+	graphicEntry1_.posZ = graphicEntry2_.posZ = center[2] + position[2];
+	graphicEntry1_.width = graphicEntry2_.width = w;
+	graphicEntry1_.height = graphicEntry2_.height = w;
+	graphicEntry1_.texture = t1;
+	graphicEntry2_.texture = t2;
+	graphicEntry1_.alpha = opacity1;
+	graphicEntry2_.alpha = opacity2;
+	GLBilboardRenderer::instance()->addEntry(&graphicEntry1_);
+	if (t2)	GLBilboardRenderer::instance()->addEntry(&graphicEntry2_);
 }
 
 ExplosionRenderer::ExplosionRenderer(Vector &position, GLTextureSet &textureSet, 
@@ -315,51 +251,39 @@ void ExplosionRenderer::draw(Action *action)
 
 void ExplosionRenderer::drawExplosion()
 {
-	Vector &bilX = GLCameraFrustum::instance()->getBilboardVectorX();
-	Vector &bilY = GLCameraFrustum::instance()->getBilboardVectorY();
-	bilX *= currentWidth_ / 1.5f;
-	bilY *= currentWidth_ / 1.5f;
-
-	float opacity = 0.4f;
+	float width = currentWidth_ / 1.5f;
+	float opacity = 0.5f;
 	if (currentWidth_ > width_ - 1.0f)
 	{
 		float left = width_ - currentWidth_;
-		opacity = left * 0.4f;
+		opacity = left * 0.5f;
 	}
 
-	int i;
+	// Calculate which texture to render
 	float textureNumf = (currentWidth_ / width_) * float(textureSet_.getNoTextures()-1);
 	int firstTextureNum = int(textureNumf);
 	int secondTextureNum = firstTextureNum + 1;
-	float textureDiff = textureNumf - firstTextureNum;//sinf((textureNumf - firstTextureNum) * 3.14f / 2.0f);
+	float textureDiff = textureNumf - firstTextureNum;
 
-	glDepthMask(GL_FALSE);
-	GLState currentState(GLState::BLEND_ON);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-	// Draw explosions (texture n)
-	textureSet_.getTexture(firstTextureNum)->draw();
-	glColor4f(1.0f, 1.0f, 1.0f, opacity * (1.0f - textureDiff));	
+	int i;
+	// Draw explosions
 	for (i=1; i<OptionsDisplay::instance()->getNoExplosionSubParts(); i++)
 	{
-		mainParts[i].draw(centrePosition_, bilX, bilY);
-	}
-	
-	// Draw explosions (texture n+1)
-	textureSet_.getTexture(secondTextureNum)->draw();
-	glColor4f(1.0f, 1.0f, 1.0f, opacity * (textureDiff));
-	for (i=1; i<OptionsDisplay::instance()->getNoExplosionSubParts(); i++)
-	{
-		mainParts[i].draw(centrePosition_, bilX, bilY);
+		mainParts[i].draw(centrePosition_, 
+			width,
+			opacity * (1.0f - textureDiff), 
+			opacity * (textureDiff), 
+			textureSet_.getTexture(firstTextureNum),
+			textureSet_.getTexture(secondTextureNum));
 	}
 
 	// Draw smoke clouds
-	ExplosionTextures::instance()->smokeTexture.draw();
-	glColor4f(1.0f, 1.0f, 1.0f, 0.1f);
 	for (i=0; i<1; i++)
 	{
-		mainParts[i].draw(centrePosition_, bilX, bilY);
+		mainParts[i].draw(centrePosition_, 
+			0.3f, 0.3f,
+			width, 
+			&ExplosionTextures::instance()->smokeTexture,
+			0);
 	}
-
-	glDepthMask(GL_TRUE);
 }

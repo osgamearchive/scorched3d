@@ -24,8 +24,8 @@
 //////////////////////////////////////////////////////////////////////
 
 #include <math.h>
-#include <GLEXT/GLState.h>
 #include <common/OptionsTransient.h>
+#include <sprites/ExplosionTextures.h>
 #include <landscape/GlobalHMap.h>
 #include <landscape/SmokeChain.h>
 #include <landscape/Landscape.h>
@@ -36,116 +36,51 @@
 
 void SmokeChainEntry::set(Vector &position, Vector &velocity, float ms, float mt)
 {
-	position_ = position;
+	posX = position[0];
+	posY = position[1];
+	posZ = position[2];
 	velocity_ = velocity;
 	maxSize = ms;
 	maxTime = mt;
 	a = 0; t = 0;
-	texCoordType = (int) (RAND * 4.0f);
+	texture = &ExplosionTextures::instance()->smokeTexture;
+	textureCoord = (int) (RAND * 4.0f);
 }
 
-void SmokeChainEntry::draw(Vector &bilX, Vector &bilY)
+void SmokeChainEntry::draw()
 {
 	if (t < maxTime &&
-		position_[0] < GlobalHMap::instance()->getHMap().getWidth() &&
-		position_[0] > 0.0f &&
-		position_[1] < GlobalHMap::instance()->getHMap().getWidth() &&
-		position_[1] > 0.0f)
+		posX < GlobalHMap::instance()->getHMap().getWidth() &&
+		posX > 0.0f &&
+		posY < GlobalHMap::instance()->getHMap().getWidth() &&
+		posY > 0.0f)
 	{
-	float f = a * 5.0f;
-	if (a > maxSize) f = maxSize * 5.0f;
-	float alpha = (1.0f - a) * 0.1f;
-	float aboveGround =
-		position_[2] - GlobalHMap::instance()->getHMap().getHeight((int) position_[0], (int) position_[1]);
+		// Calculate the size of the smoke
+		width = height = a * 5.0f;
+		if (a > maxSize) width = height = maxSize * 5.0f;
 
-	float smokeAlpha = alpha + .2f; if (smokeAlpha > 1.0f) smokeAlpha = 1.0f;
-	Landscape::instance()->getShadowMap().
-		addCircle(position_[0], position_[1], (f * aboveGround) / 10.0f, smokeAlpha);
+		// Calculate the actual transparency of the smoke
+		alpha = (1.0f - a) * 0.4f;
 
-		glPushMatrix();
-			glTranslatef(position_[0], position_[1], position_[2]);
-			glColor4f(1.0f, 1.0f, 1.0f, alpha);
+		// Add a shadow of the smoke on the ground
+		float aboveGround =
+			posZ - GlobalHMap::instance()->getHMap().getHeight(
+			int (posX), int(posY));
+		float smokeAlpha = alpha + .2f; if (smokeAlpha > 1.0f) smokeAlpha = 1.0f;
+		Landscape::instance()->getShadowMap().
+			addCircle(posX, posY, (height * aboveGround) / 10.0f, smokeAlpha);
 
-			glBegin(GL_QUADS);
-				
-				switch(texCoordType)
-				{
-				default:
-					glTexCoord2d(1.0f, 1.0f);
-					break;
-				case 1:
-					glTexCoord2d(1.0f, 0.0f);
-					break;
-				case 2:
-					glTexCoord2d(0.0f, 0.0f);
-					break;
-				case 3:
-					glTexCoord2d(0.0f, 1.0f);
-					break;
-				}
-				glVertex3fv(( bilX - bilY) * f);
-
-				switch(texCoordType)
-				{
-				default:
-					glTexCoord2d(1.0f, 0.0f);
-					break;
-				case 1:
-					glTexCoord2d(0.0f, 0.0f);
-					break;
-				case 2:
-					glTexCoord2d(0.0f, 1.0f);
-					break;
-				case 3:
-					glTexCoord2d(1.0f, 1.0f);
-					break;
-				}
-				glVertex3fv(( bilX + bilY) * f);
-
-				switch(texCoordType)
-				{
-				default:
-					glTexCoord2d(0.0f, 0.0f);
-					break;
-				case 1:
-					glTexCoord2d(0.0f, 1.0f);
-					break;
-				case 2:
-					glTexCoord2d(1.0f, 1.0f);
-					break;
-				case 3:
-					glTexCoord2d(1.0f, 0.0f);
-					break;
-				}
-				glVertex3fv((-bilX + bilY) * f);
-
-			switch(texCoordType)
-				{
-				default:
-					glTexCoord2d(0.0f, 1.0f);
-					break;
-				case 1:
-					glTexCoord2d(1.0f, 1.0f);
-					break;
-				case 2:
-					glTexCoord2d(1.0f, 0.0f);
-					break;
-				case 3:
-					glTexCoord2d(0.0f, 0.0f);
-					break;
-				}
-				glVertex3fv((-bilX - bilY) * f);
-
-			glEnd();
-		glPopMatrix();		
-
+		// Actually add the smoke to the renderer to be drawn
+		GLBilboardRenderer::instance()->addEntry(this);
 	}
 }
 
 bool SmokeChainEntry::move(float frameTime)
 {
-	position_[2] += 5.0f * frameTime;
-	position_ += velocity_ * frameTime;
+	posZ += 5.0f * frameTime;
+	posX += velocity_[0] * frameTime;
+	posY += velocity_[1] * frameTime;
+	posZ += velocity_[2] * frameTime;
 	velocity_ += OptionsTransient::instance()->getWindDirection() * 
 		OptionsTransient::instance()->getWindSpeed() / 100.0f;
 	velocity_ *= (float ) pow(0.9, frameTime);

@@ -31,7 +31,7 @@ public:
 	TankDamage();
 	TankDamage(Weapon *weapon, 
 		unsigned int damagedPlayerId, unsigned int firedPlayerId,
-		float life, float shieldLevel);
+		float damage, bool useShieldDamage);
 	virtual ~TankDamage();
 
 	virtual void init();
@@ -47,7 +47,8 @@ protected:
 	Weapon *weapon_;
 	unsigned int damagedPlayerId_;
 	unsigned int firedPlayerId_;
-	float life_, shieldLevel_;
+	float damage_;
+	bool useShieldDamage_;
 };
 
 

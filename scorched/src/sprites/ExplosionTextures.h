@@ -43,6 +43,8 @@ public:
 	GLTextureSet exp04;
 	GLTextureSet exp05;
 
+	GLTextureSet flames;
+
 	GLTexture smokeTexture;
 
 	std::map<const char *, GLTextureSet*> textureSets;
@@ -52,7 +54,10 @@ protected:
 
 	void addTextureToSet(GLTextureSet &set,
 						const char *texPath);
-
+	void createTextureSet(GLTextureSet &set,
+						int number, 
+						const char *baseName,
+						bool zeros = false);
 private:
 	ExplosionTextures();
 	virtual ~ExplosionTextures();

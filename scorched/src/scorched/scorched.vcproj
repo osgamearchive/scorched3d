@@ -114,6 +114,12 @@
 			Name="GLEXT"
 			Filter="">
 			<File
+				RelativePath="..\GLEXT\GLBilboardRenderer.cpp">
+			</File>
+			<File
+				RelativePath="..\GLEXT\GLBilboardRenderer.h">
+			</File>
+			<File
 				RelativePath="..\GLEXT\GLBitmap.cpp">
 			</File>
 			<File
@@ -1982,6 +1988,12 @@
 			</File>
 			<File
 				RelativePath="..\sprites\FlareActionRenderer.h">
+			</File>
+			<File
+				RelativePath="..\sprites\NapalmRenderer.cpp">
+			</File>
+			<File
+				RelativePath="..\sprites\NapalmRenderer.h">
 			</File>
 			<File
 				RelativePath="..\sprites\SmokeActionRenderer.cpp">

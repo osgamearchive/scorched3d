@@ -23,6 +23,7 @@
 #define __INCLUDE_FlareActionRendererh_INCLUDE__
 
 #include <engine/Action.h>
+#include <landscape/Smoke.h>
 
 class FlareActionRenderer : public ActionRenderer
 {
@@ -35,6 +36,7 @@ public:
 
 protected:
 	int flareType_;
+	SmokeCounter counter_;
 };
 
 #endif

@@ -23,6 +23,7 @@
 #define __INCLUDE_ExplosionRendererh_INCLUDE__
 
 #include <GLEXT/GLTextureSet.h>
+#include <GLEXT/GLBilboardRenderer.h>
 #include <common/Vector.h>
 #include <engine/Action.h>
 
@@ -43,21 +44,15 @@ protected:
 		ExplosionSubPart();
 
 		void simulate(float frametime);
-		void draw(Vector &bilX, Vector &bilY);
+		void draw(	Vector &center, float w, float opacity1, 
+			float opacity2, GLTexture *t1, GLTexture *t2);
 
+		GLBilboardRenderer::Entry graphicEntry1_;
+		GLBilboardRenderer::Entry graphicEntry2_;
 	protected:
-		enum ExplosionTypeEnum
-		{
-			texOne = 0,
-			texTwo = 1,
-			texThree = 2,
-			texFour = 3
-		};
-
 		Vector rotation;
 		Vector position;
 		Vector positionMove;
-		ExplosionTypeEnum type;
 	};
 
 	class ExplosionMainPart
@@ -67,7 +62,8 @@ protected:
 		~ExplosionMainPart();
 
 		void simulate(float frametime);
-		void draw(Vector &center, Vector &bilX, Vector &bilY);
+		void draw(Vector &center, float w, float opacity1, 
+			float opacity2, GLTexture *t1, GLTexture *t2);
 
 	protected:
 		Vector position;

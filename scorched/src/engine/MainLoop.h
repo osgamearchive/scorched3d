@@ -47,6 +47,7 @@ public:
 
 	void swapBuffers();
 	Timer &getTimer() { return fTimer_; }
+	float getDrawTime() { return lastDrawTime_; } // Time taken to draw last frame
 
 	void exitLoop() { exitLoop_ = true; }
 
@@ -54,8 +55,10 @@ protected:
 	static MainLoop *instance_;
 	std::list<MainLoopI *> newMainLoops_;
 	std::set<MainLoopI *> mainLoops_;
-	Timer fTimer_;
+	Timer fTimer_; // Frame/simulation timer
+	Timer dTimer_; // Draw timer
 	bool exitLoop_;
+	float lastDrawTime_;
 
 	void simulate(float frameTime);
 	void addNew();

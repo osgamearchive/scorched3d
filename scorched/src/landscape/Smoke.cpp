@@ -24,9 +24,6 @@
 //////////////////////////////////////////////////////////////////////
 
 #include <stdlib.h>
-#include <GLEXT/GLState.h>
-#include <GLEXT/GLCameraFrustum.h>
-#include <GLEXT/GLBitmap.h>
 #include <landscape/Smoke.h>
 
 //////////////////////////////////////////////////////////////////////
@@ -59,8 +56,7 @@ void SmokeCounter::genNextTime()
 
 Smoke::Smoke() : chain_(1500)
 {
-	GLBitmap bitmap(PKGDIR "data/textures/smoke01.bmp", true);
-	smokeTexture_.create(bitmap, GL_RGBA);
+
 }
 
 Smoke::~Smoke()
@@ -115,20 +111,10 @@ void Smoke::draw()
 	SmokeChainEntry *entry = chain_.getFirst();
 	if (!entry) return;
 
-	GLState currentState(GLState::DEPTH_ON | GLState::TEXTURE_ON | GLState::BLEND_ON);
-	glDepthMask(GL_FALSE);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-	smokeTexture_.draw();
-	Vector &bilX = GLCameraFrustum::instance()->getBilboardVectorX();
-	Vector &bilY = GLCameraFrustum::instance()->getBilboardVectorY();
-
 	for (;entry; entry = chain_.getNext())
 	{
-		entry->draw(bilX, bilY);
+		entry->draw();
 	}
-
-	glDepthMask(GL_TRUE);
 }
 
 bool Smoke::noSmoke()

@@ -39,20 +39,20 @@ void ExplosionNukeRenderer::draw(Action *action)
 
 void ExplosionNukeRenderer::simulate(Action *action, float frameTime, bool &remove)
 {
-	time_ += frameTime;
+	totalTime_ += frameTime;
+	if (totalTime_ < 3.0f) return;
 
 	const float stepSize = 0.25f;
 	const float halfSize = size_ / 2.0f;
+	time_ += frameTime;
 	while (time_ > stepSize)
 	{
 		time_ -= stepSize;
-		totalTime_ += stepSize;
-
 		for (int i=0; i<30; i++)
 		{
 			float posXY = (RAND * size_) - halfSize;
 			float posYZ = (RAND * size_) - halfSize;
-			float posZ = - 5.0f;
+			float posZ = - halfSize;
 
 			Landscape::instance()->getSmoke().addSmoke(
 				position_[0] + posXY, position_[1] + posYZ, position_[2] + posZ,
@@ -61,5 +61,5 @@ void ExplosionNukeRenderer::simulate(Action *action, float frameTime, bool &remo
 		}
 	}
 
-	remove = (totalTime_ > 7.0f);
+	remove = (totalTime_ > 9.0f);
 }

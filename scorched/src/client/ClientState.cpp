@@ -39,6 +39,7 @@
 #include <common/WindowManager.h>
 #include <landscape/Landscape.h>
 #include <GLEXT/GLCameraFrustum.h>
+#include <GLEXT/GLBilboardRenderer.h>
 #include <GLEXT/GLConsole.h>
 
 //////////////////////////////////////////////////////////////////////
@@ -84,6 +85,8 @@ void ClientState::addStandardComponents(unsigned state, bool network)
 	}
 	GameState::instance()->addStateLoop(state, MainCamera::instance(), 
 		ActionController::instance());
+	GameState::instance()->addStateLoop(state, MainCamera::instance(), 
+		GLBilboardRenderer::instance());
 	addWindowManager(state);
 	GameState::instance()->addStateLoop(state, Main2DCamera::instance(), 
 		MainBanner::instance());

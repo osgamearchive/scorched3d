@@ -62,7 +62,6 @@ public:
 
 protected:
 	static Smoke *instance_;
-	GLTexture smokeTexture_;
 	SmokeChain chain_;
 
 };

@@ -78,41 +78,9 @@ void TankController::damageTank(Tank *tank, Weapon *weapon,
 								unsigned int firer, float damage,
 								bool useShieldDamage)
 {
-	// TODO: Need to think more about this.
-	// We actually remove the life in this method
-	// where as we probably should just leave it up to the damage action.
-	// The only problem is calling this method twice before the previous actions
-	// have fired could result in wrong life being assigned to the tanks
-	//
-	// Remove any damage from shield first
-	float shieldDamage = 0.0f;
-	Shield *sh = tank->getAccessories().getShields().getCurrentShield();
-	if (sh && useShieldDamage)
-	{
-		// TODO: Hmm should different shield types and sizes take damage
-		// at different rates
-		float power = tank->getAccessories().getShields().getShieldPower();
-		if (power < damage)
-		{
-			power = 0.0f;
-			damage -= power;
-		}
-		else
-		{
-			power -= damage;
-			damage = 0.0f;
-		}
-
-		tank->getAccessories().getShields().setShieldPower(power);
-	}
-
-	// Remove the remaining damage from the tank
-	tank->getState().setLife(tank->getState().getLife() - damage);
-
 	// Remove the correct damage from the tanks
 	TankDamage *tankDamage = new TankDamage(
 		weapon, tank->getPlayerId(), firer, 
-		tank->getState().getLife(),
-		tank->getAccessories().getShields().getShieldPower());
+		damage, useShieldDamage);
 	ActionController::instance()->addAction(tankDamage);
 }

@@ -56,57 +56,56 @@ ExplosionTextures::~ExplosionTextures()
 void ExplosionTextures::addTextureToSet(GLTextureSet &set,
 										const char *texPath)
 {
-	GLBitmap bitmap((char *) texPath, true);
+	GLBitmap bitmap((char *) texPath, (char *) texPath, false);
 	GLTexture *texture = new GLTexture;
-	if (!texture->create(bitmap, GL_RGBA)) abort();
+
+	if (!texture->create(bitmap, GL_RGBA))
+	{
+		dialogMessage("ExplosionTextures", "Failed to load texture \"%s\"",
+			texPath);
+		exit(1);
+	}
 	set.addTexture(texture);
+}
+
+void ExplosionTextures::createTextureSet(GLTextureSet &set,
+										 int number, 
+										 const char *baseName,
+										 bool zeros)
+{
+	char name[256];
+	for (int i=1; i<=number; i++)
+	{
+		if (!zeros) sprintf(name, "%s%i.bmp", baseName, i);
+		else sprintf(name, "%s%02i.bmp", baseName, i);
+		addTextureToSet(set, name);
+	}
 }
 
 void ExplosionTextures::createTextures(ProgressCounter *counter)
 {
 	if (counter) counter->setNewOp("Explosion Textures");
 
-	GLBitmap bitmap( PKGDIR "data/textures/smoke01.bmp", true);
+	GLBitmap bitmap( PKGDIR "data/textures/smoke01.bmp", PKGDIR "data/textures/smoke01.bmp", false);
 	smokeTexture.create(bitmap, GL_RGBA);
 
-	addTextureToSet(exp00,  PKGDIR "data/textures/explode/exp00_1.bmp");
-	addTextureToSet(exp00,  PKGDIR "data/textures/explode/exp00_2.bmp");
-	addTextureToSet(exp00,  PKGDIR "data/textures/explode/exp00_3.bmp");
-	addTextureToSet(exp00,  PKGDIR "data/textures/explode/exp00_4.bmp");
-	addTextureToSet(exp00,  PKGDIR "data/textures/explode/exp00_5.bmp");
-	addTextureToSet(exp00,  PKGDIR "data/textures/explode/exp00_6.bmp");
-	addTextureToSet(exp00,  PKGDIR "data/textures/explode/exp00_7.bmp");
-	addTextureToSet(exp00,  PKGDIR "data/textures/explode/exp00_8.bmp");
-	addTextureToSet(exp00,  PKGDIR "data/textures/explode/exp00_9.bmp");
-	addTextureToSet(exp00,  PKGDIR "data/textures/explode/exp00_10.bmp");
+	createTextureSet(exp00, 10, PKGDIR "data/textures/explode/exp00_");
 	textureSets["exp00"] = &exp00;
 
-	addTextureToSet(exp01,  PKGDIR "data/textures/explode/exp01_1.bmp");
-	addTextureToSet(exp01,  PKGDIR "data/textures/explode/exp01_2.bmp");
-	addTextureToSet(exp01,  PKGDIR "data/textures/explode/exp01_3.bmp");
+	createTextureSet(exp01, 3, PKGDIR "data/textures/explode/exp01_");
 	textureSets["exp01"] = &exp01;
 
-	addTextureToSet(exp02,  PKGDIR "data/textures/explode/exp02_1.bmp");
-	addTextureToSet(exp02,  PKGDIR "data/textures/explode/exp02_2.bmp");
-	addTextureToSet(exp02,  PKGDIR "data/textures/explode/exp02_3.bmp");
+	createTextureSet(exp02, 3, PKGDIR "data/textures/explode/exp02_");
 	textureSets["exp02"] = &exp02;
 
-	addTextureToSet(exp03,  PKGDIR "data/textures/explode/exp03_1.bmp");
-	addTextureToSet(exp03,  PKGDIR "data/textures/explode/exp03_2.bmp");
-	addTextureToSet(exp03,  PKGDIR "data/textures/explode/exp03_3.bmp");
+	createTextureSet(exp03, 3, PKGDIR "data/textures/explode/exp03_");
 	textureSets["exp03"] = &exp03;
 
-	addTextureToSet(exp04,  PKGDIR "data/textures/explode/exp04_1.bmp");
-	addTextureToSet(exp04,  PKGDIR "data/textures/explode/exp04_2.bmp");
-	addTextureToSet(exp04,  PKGDIR "data/textures/explode/exp04_3.bmp");
+	createTextureSet(exp04, 3, PKGDIR "data/textures/explode/exp04_");
 	textureSets["exp04"] = &exp04;
 
-	addTextureToSet(exp05,  PKGDIR "data/textures/explode/exp05_1.bmp");
-	addTextureToSet(exp05,  PKGDIR "data/textures/explode/exp05_2.bmp");
-	addTextureToSet(exp05,  PKGDIR "data/textures/explode/exp05_3.bmp");
-	addTextureToSet(exp05,  PKGDIR "data/textures/explode/exp05_4.bmp");
-	addTextureToSet(exp05,  PKGDIR "data/textures/explode/exp05_5.bmp");
-	addTextureToSet(exp05,  PKGDIR "data/textures/explode/exp05_6.bmp");
-	addTextureToSet(exp05,  PKGDIR "data/textures/explode/exp05_7.bmp");
+	createTextureSet(exp05, 7, PKGDIR "data/textures/explode/exp05_");
 	textureSets["exp05"] = &exp05;
+
+	createTextureSet(flames, 33, PKGDIR "data/textures/flame/flame", true);
 }

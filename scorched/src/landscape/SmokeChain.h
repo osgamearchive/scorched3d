@@ -27,20 +27,18 @@
 #define AFX_SMOKECHAIN_H__23478194_10E3_48AB_A956_ED2B21618665__INCLUDED_
 
 #include <common/Vector.h>
+#include <GLEXT/GLBilboardRenderer.h>
 
-class SmokeChainEntry
+class SmokeChainEntry : public GLBilboardRenderer::Entry
 {
 public:
 	void set(Vector &position, Vector &velocity, float maxS, float maxT);
-	void draw(Vector &bilX, Vector &bilY);
+	void draw();
 	bool move(float frameTime);
 
-	Vector position_; // Smoke position
 	Vector velocity_; // Smoke velocity
 	float a, t; // Alpha and time
 	float maxTime, maxSize; // Max time, max size
-	int texCoordType; // Which orientation of tex coord to use
-
 };
 
 class SmokeChain  

@@ -27,8 +27,8 @@
 //////////////////////////////////////////////////////////////////////
 
 WeaponNapalm::WeaponNapalm(char *name, int price, 
-								   int bundle, int armsLevel, int size)
-	: Weapon(name, price, bundle, armsLevel), size_(size)
+								   int bundle, int armsLevel, bool hot)
+	: Weapon(name, price, bundle, armsLevel), hot_(hot)
 {
 
 }
@@ -48,7 +48,7 @@ Action *WeaponNapalm::fireWeapon(unsigned int playerId)
 		Action *action = new ShotProjectileNapalm(
 			tank->getPhysics().getTankGunPosition(), 
 			velocity,
-			this, playerId, (float) size_);
+			this, playerId, hot_);
 
 		return action;
 	}

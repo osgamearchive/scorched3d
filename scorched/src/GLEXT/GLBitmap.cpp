@@ -55,7 +55,7 @@ GLBitmap::GLBitmap(char * filename, bool alpha) :
 	}
 }
 
-GLBitmap::GLBitmap(char * filename, char * alphafilename, bool invert) : 
+GLBitmap::GLBitmap(char * filename, char *alphafilename, bool invert) : 
 	newbits_(NULL), width_(0), height_(0), alpha_(false)
 {
 	GLBitmap bitmap(filename, false);
@@ -76,13 +76,15 @@ GLBitmap::GLBitmap(char * filename, char * alphafilename, bool invert) :
 				bits[0] = bbits[0];
 				bits[1] = bbits[1];
 				bits[2] = bbits[2];
+
+				GLubyte avg = GLubyte(int(abits[0] + abits[1] + abits[2]) / 3);
 				if (invert)
 				{
-					bits[3] = GLubyte(255 - abits[0]);
+					bits[3] = GLubyte(255 - avg);
 				}
 				else
 				{
-					bits[3] = abits[0];
+					bits[3] = avg;
 				}
 
 				bbits += 3;

@@ -27,7 +27,7 @@
 #include <landscape/GlobalHMap.h>
 
 FlareActionRenderer::FlareActionRenderer(int flareType) : 
-	flareType_(flareType)
+	flareType_(flareType), counter_(0.1f, 0.1f)
 {
 }
 
@@ -37,8 +37,7 @@ FlareActionRenderer::~FlareActionRenderer()
 
 void FlareActionRenderer::simulate(Action *action, float timepassed, bool &remove)
 {
-	static SmokeCounter counter(0.05f, 0.05f);
-	if (counter.nextDraw(timepassed))
+	if (counter_.nextDraw(timepassed))
 	{
 		Vector &actualPos = ((PhysicsParticle *)action)->getCurrentPosition();
 		Landscape::instance()->getSmoke().

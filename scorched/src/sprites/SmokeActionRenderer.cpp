@@ -23,7 +23,7 @@
 #include <engine/PhysicsParticle.h>
 #include <landscape/Landscape.h>
 
-SmokeActionRenderer::SmokeActionRenderer()
+SmokeActionRenderer::SmokeActionRenderer() : counter_(0.1f, 0.1f)
 {
 
 }
@@ -34,8 +34,7 @@ SmokeActionRenderer::~SmokeActionRenderer()
 
 void SmokeActionRenderer::simulate(Action *action, float timepassed, bool &remove)
 {
-	static SmokeCounter counter(0.05f, 0.05f);
-	if (counter.nextDraw(timepassed))
+	if (counter_.nextDraw(timepassed))
 	{
 		Vector &actualPos = ((PhysicsParticle *)action)->getCurrentPosition();
 		Landscape::instance()->getSmoke().
