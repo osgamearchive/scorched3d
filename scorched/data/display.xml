@@ -278,7 +278,7 @@
   <!-- The unique string given to any servers to uniquely identify the client. -->
   <option>
     <name>UniqueUserId</name>
-    <value>6930-21571-12628</value>
+    <value></value>
     <defaultvalue></defaultvalue>
   </option>
 </options>
