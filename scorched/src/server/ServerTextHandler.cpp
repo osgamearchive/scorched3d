@@ -75,15 +75,12 @@ bool ServerTextHandler::processMessage(unsigned int destinationId,
 	{
 		// Construct the message to send to all the clients
 		std::string newText(tank->getName());
-		if (tank->getState().getState() == TankState::sDead)
+		if (tank->getState().getState() != TankState::sNormal)
 		{
-			newText += " (DEAD)";
+			newText += " (";
+			newText += tank->getState().getSmallStateString();
+			newText += ")";
 		}
-		else if (tank->getState().getState() == TankState::sPending)
-		{
-			newText += " (PENDING)";
-		}
-
 		newText += ": ";
 		newText += message.getText();
 

@@ -40,7 +40,8 @@ protected:
 	void addNextTank(unsigned int destinationId,
 		const char *playerName,
 		const char *playerModel,
-		const char *uniqueId);
+		const char *uniqueId,
+		bool spectator);
 
 private:
 	ServerConnectHandler();

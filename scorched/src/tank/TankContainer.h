@@ -52,6 +52,7 @@ public:
 	int aliveCount();
 
 	int getNoOfTanks() { return (int) playingTanks_.size(); }
+	int getNoOfNonSpectatorTanks();
 	std::map<unsigned int, Tank *> &getPlayingTanks() { return playingTanks_; }
 
 protected:

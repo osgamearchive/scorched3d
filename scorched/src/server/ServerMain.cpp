@@ -103,9 +103,7 @@ bool serverMain()
 	NetServer *netServer = (NetServer *) 
 		ScorchedServer::instance()->getContext().netInterface;
 	if (!netServer->start(
-		ScorchedServer::instance()->getOptionsGame().getPortNo(),
-		ScorchedServer::instance()->getOptionsGame().getNoMaxPlayers() - 
-		ScorchedServer::instance()->getTankContainer().getNoOfTanks()))
+		ScorchedServer::instance()->getOptionsGame().getPortNo()))
 	{
 		dialogMessage("Scorched3D Server", 
 			"Failed to start the server.\n\n"

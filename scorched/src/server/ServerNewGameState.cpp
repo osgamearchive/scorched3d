@@ -136,7 +136,13 @@ void ServerNewGameState::addTanksToGame(const unsigned state)
 		// Check to see if any tanks are pending being added
 		if (tank->getState().getState() == TankState::sPending)
 		{
-			if (state == ServerState::ServerStateNewGame)
+			if (tank->getState().getSpectator())
+			{
+				// This tank is now playing (but dead)
+				tank->getState().setState(TankState::sDead);
+				tank->getScore().setWins(-1);
+			}
+			else if (state == ServerState::ServerStateNewGame)
 			{
 				// This tank is now playing
 				tank->getState().setState(TankState::sNormal);

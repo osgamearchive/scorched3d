@@ -20,6 +20,7 @@
 
 #include <common/WindowManager.h>
 #include <common/Keyboard.h>
+#include <common/OptionsParam.h>
 #include <client/ClientState.h>
 #include <client/WindowSetup.h>
 #include <dialogs/AutoDefenseDialog.h>
@@ -37,6 +38,7 @@
 #include <dialogs/TalkDialog.h>
 #include <dialogs/TankDialog.h>
 #include <dialogs/ScoreDialog.h>
+#include <dialogs/KillDialog.h>
 #include <dialogs/KibitzingDialog.h>
 
 void WindowSetup::addCommonComponents(unsigned state)
@@ -44,6 +46,12 @@ void WindowSetup::addCommonComponents(unsigned state)
 	KEYBOARDKEY("SHOW_QUIT_DIALOG", quitKey);
 	WindowManager::instance()->addWindow(state, 
  		QuitDialog::instance(), quitKey, false);
+
+	if (!OptionsParam::instance()->getConnectedToServer())
+	{
+		WindowManager::instance()->addWindow(state, 
+ 			KillDialog::instance(), 0, false);
+	}
 
 	KEYBOARDKEY("SHOW_HELP_DIALOG", helpKey);
 	WindowManager::instance()->addWindow(state, 

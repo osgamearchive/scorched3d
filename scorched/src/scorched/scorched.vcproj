@@ -992,6 +992,12 @@
 				RelativePath="..\dialogs\QuitDialog.h">
 			</File>
 			<File
+				RelativePath="..\dialogs\KillDialog.cpp">
+			</File>
+			<File
+				RelativePath="..\dialogs\KillDialog.h">
+			</File>
+			<File
 				RelativePath="..\dialogs\ScoreDialog.cpp">
 			</File>
 			<File

@@ -35,8 +35,10 @@ class ComsConnectMessage : public ComsMessage
 public:
 	struct PlayerEntry
 	{
+		PlayerEntry() : spectator(false) {}
 		std::string name;
 		std::string model;
+		bool spectator;
 	};
 
 	ComsConnectMessage(const char *version = "",

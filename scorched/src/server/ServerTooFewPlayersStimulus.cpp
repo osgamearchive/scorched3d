@@ -40,7 +40,7 @@ bool ServerTooFewPlayersStimulus::acceptStateChange(const unsigned state,
 													const unsigned nextState,
 													float frameTime)
 {
-	if (ScorchedServer::instance()->getTankContainer().getNoOfTanks() <
+	if (ScorchedServer::instance()->getTankContainer().getNoOfNonSpectatorTanks() <
 		ScorchedServer::instance()->getOptionsGame().getNoMinPlayers())
 	{
 		// Move all dead + alive tanks to pending
@@ -62,11 +62,11 @@ bool ServerTooFewPlayersStimulus::acceptStateChange(const unsigned state,
 			"game will start.\n"
 			"Waiting for more players to join...\n"
 			"--------------------------------------\n",
-			ScorchedServer::instance()->getTankContainer().getNoOfTanks(),
+			ScorchedServer::instance()->getTankContainer().getNoOfNonSpectatorTanks(),
 			ScorchedServer::instance()->getOptionsGame().getNoMaxPlayers(),
 			ScorchedServer::instance()->getOptionsGame().getNoMinPlayers(),
 			ScorchedServer::instance()->getOptionsGame().getNoMinPlayers() - 
-			ScorchedServer::instance()->getTankContainer().getNoOfTanks());
+			ScorchedServer::instance()->getTankContainer().getNoOfNonSpectatorTanks());
 
 		return true;
 	}

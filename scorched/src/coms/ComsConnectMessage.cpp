@@ -53,6 +53,7 @@ bool ComsConnectMessage::writeMessage(NetBuffer &buffer)
 		PlayerEntry &entry = (*itor);
 		buffer.addToBuffer(entry.name);
 		buffer.addToBuffer(entry.model);
+		buffer.addToBuffer(entry.spectator);
 	}
 
 	return true;
@@ -71,6 +72,7 @@ bool ComsConnectMessage::readMessage(NetBufferReader &reader)
 		PlayerEntry entry;
 		if (!reader.getFromBuffer(entry.name)) return false;
 		if (!reader.getFromBuffer(entry.model)) return false;
+		if (!reader.getFromBuffer(entry.spectator)) return false;
 		players_.push_back(entry);
 	}
 

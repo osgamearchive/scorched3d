@@ -35,7 +35,7 @@ public:
 
 protected:
 	static KillDialog *instance_;
-	unsigned int okId_, quitId_, killId_;
+	unsigned int okId_, killId_;
 
 private:
 	KillDialog();

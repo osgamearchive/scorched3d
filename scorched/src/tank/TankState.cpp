@@ -27,7 +27,7 @@
 TankState::TankState(ScorchedContext &context) : 
 	state_(sPending), life_(100.0f), power_(1000.0f),
 	readyState_(SNotReady), oldPower_(1000.0f),
-	context_(context)
+	context_(context), spectator_(false)
 {
 }
 
@@ -89,9 +89,15 @@ const char *TankState::getStateString()
 	static char string[1024];
 	sprintf(string, "%s - %s (%i hp)",
 		((readyState_==sReady)?"Ready":"NotReady"),
-		((state_==sDead)?"Dead":((state_==sNormal)?"Alive":"Pending")),
+		getSmallStateString(),
 		(int) life_);
 	return string;
+}
+
+const char *TankState::getSmallStateString()
+{
+	if (spectator_) return "Spectator";
+	return ((state_==sDead)?"Dead":((state_==sNormal)?"Alive":"Pending"));
 }
 
 const char *TankState::getPowerString()
@@ -121,6 +127,7 @@ bool TankState::writeMessage(NetBuffer &buffer)
 	buffer.addToBuffer(life_);
 	buffer.addToBuffer(power_);
 	buffer.addToBuffer(oldPower_);
+	buffer.addToBuffer(spectator_);
 	return true;
 }
 
@@ -132,5 +139,6 @@ bool TankState::readMessage(NetBufferReader &reader)
 	if (!reader.getFromBuffer(life_)) return false;
 	if (!reader.getFromBuffer(power_)) return false;
 	if (!reader.getFromBuffer(oldPower_)) return false;
+	if (!reader.getFromBuffer(spectator_)) return false;
 	return true;
 }

@@ -53,6 +53,7 @@ public:
 	State getState() { return state_; }
 	ReadyState getReadyState() { return readyState_; }
 	const char *getStateString();
+	const char *getSmallStateString();
 
 	// Tank Life / Health
 	float getLife() { return life_; }
@@ -62,6 +63,9 @@ public:
 	float getPower() { return power_; }
 	float getOldPower() { return oldPower_; }
 	float changePower(float power, bool diff=true);
+
+	void setSpectator(bool s) { spectator_ = s; }
+	bool getSpectator() { return spectator_; }
 
 	const char *getPowerString();
 
@@ -75,6 +79,7 @@ protected:
 	ReadyState readyState_;
 	float life_;
 	float power_, oldPower_;
+	bool spectator_;
 
 };
 

@@ -183,22 +183,26 @@ void ScoreDialog::draw()
 			// Form the name
 			static char name[256];
 			strcpy(name, current->getName());
-			if (current->getState().getState() == TankState::sDead)
+			if (current->getState().getState() != TankState::sNormal)
 			{
-				strcat(name, " (DEAD)");
-			}
-			else if (current->getState().getState() == TankState::sPending)
-			{
-				strcat(name, " (PENDING)");
+				strcat(name, " (");
+				strcat(name, current->getState().getSmallStateString());
+				strcat(name, ")");
 			}
 			name[26] = '\0'; // Limit length
+
+			const char *format = "%-3i%-27s%2i%10i $%8i";
+			if (current->getState().getSpectator())
+			{
+				format = "%-3i%-27s";
+			}
 
 			// Print the name on the screen
 			GLWFont::instance()->getFont()->draw(
 				current->getColor(),
 				12,
 				textX, textY, 0.0f,
-				"%-3i%-27s%2i%10i $%8i",
+				format,
 				pos,
 				name,
 				current->getScore().getKills(),

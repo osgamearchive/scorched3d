@@ -48,6 +48,7 @@ enum
 	IDC_MENU_PLAYERTALK,
 	IDC_MENU_PLAYERTALKALL,
 	IDC_MENU_PLAYERKICK,
+	IDC_MENU_PLAYERKILLALL,
 	IDC_MENU_PLAYERADD,
 	IDC_MENU_PLAYERADD_1,
 	IDC_MENU_PLAYERADD_2,
@@ -59,6 +60,20 @@ enum
 	IDC_MENU_PLAYERADD_8,
 	IDC_MENU_PLAYERADD_9
 };
+
+void killAll()
+{
+	std::map<unsigned int, Tank *>::iterator itor;
+	std::map<unsigned int, Tank *> &tanks = 
+		ScorchedServer::instance()->getTankContainer().getPlayingTanks();
+	for (itor = tanks.begin();
+		 itor != tanks.end();
+		 itor++)
+	{
+		Tank *current = (*itor).second;
+		current->getState().setState(TankState::sDead);
+	}
+}
 
 void serverLog(unsigned int playerId, const char *fmt, ...)
 {
@@ -158,6 +173,7 @@ public:
 	void onPlayerTalk();
 	void onPlayerTalkAll();
 	void onPlayerKick();
+	void onKillAll();
 	void onPlayerAdd(int i);
 	void onPlayerAdd1();
 	void onPlayerAdd2();
@@ -201,6 +217,7 @@ BEGIN_EVENT_TABLE(ServerFrame, wxFrame)
 	EVT_MENU(IDC_MENU_PLAYERADD_7, ServerFrame::onPlayerAdd7)
 	EVT_MENU(IDC_MENU_PLAYERADD_8, ServerFrame::onPlayerAdd8)
 	EVT_MENU(IDC_MENU_PLAYERADD_9, ServerFrame::onPlayerAdd9)
+	EVT_MENU(IDC_MENU_PLAYERKILLALL, ServerFrame::onKillAll)
 END_EVENT_TABLE()
 
 ServerFrame::ServerFrame(const char *name) :
@@ -295,6 +312,7 @@ ServerFrame::ServerFrame(const char *name) :
 	menuPlayer->Append(IDC_MENU_PLAYERTALK, "Talk to selected players");
 	menuPlayer->Append(IDC_MENU_PLAYERTALKALL, "Talk to all players");
 	menuPlayer->Append(IDC_MENU_PLAYERKICK, "Kick selected players");
+	menuPlayer->Append(IDC_MENU_PLAYERKILLALL, "Kill all players");
 	menuPlayer->Append(IDC_MENU_PLAYERADD, "Add a new player", menuAddPlayer);
 
     wxMenuBar *menuBar = new wxMenuBar;
@@ -456,6 +474,11 @@ void kickDestination(unsigned int destinationId)
 	}
 
 	ScorchedServer::instance()->getNetInterface().disconnectClient(destinationId);
+}
+
+void ServerFrame::onKillAll()
+{
+	killAll();
 }
 
 void ServerFrame::onPlayerTalkAll()

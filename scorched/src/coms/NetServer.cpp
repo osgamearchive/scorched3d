@@ -26,7 +26,7 @@
 #include <common/Logger.h>
 
 NetServer::NetServer(NetServerProtocol *protocol) : 
-	sockSet_(0), maxClients_(-1), 
+	sockSet_(0), 
 	server_(0), outgoingMessagesMutex_(0),
 	protocol_(protocol)
 {
@@ -51,9 +51,8 @@ int NetServer::processMessages()
 	return messageHandler_.processMessages(); 
 }
 
-unsigned int NetServer::start(int port, int maxClients)
+unsigned int NetServer::start(int port)
 {
-	maxClients_ = maxClients;
 	if(SDLNet_Init()==-1)
 	{
 		return 0;
@@ -152,21 +151,12 @@ bool NetServer::pollIncoming()
 				TCPsocket sock = SDLNet_TCP_Accept(server_);
 				if (sock)
 				{
-					if ((maxClients_ == -1) ||
-						((int) connections_.size() != maxClients_ + 1))
-					{
-						addClient(sock);
+					addClient(sock);
 
-						NetMessage *message = NetMessagePool::instance()->
-							getFromPool(NetMessage::ConnectMessage, (unsigned int) sock);
-						messageHandler_.addMessage(message);
-						return true;
-					}
-					else
-					{
-						// Dont accept at present
-						SDLNet_TCP_Close(sock);
-					}
+					NetMessage *message = NetMessagePool::instance()->
+						getFromPool(NetMessage::ConnectMessage, (unsigned int) sock);
+					messageHandler_.addMessage(message);
+					return true;
 				}
 			}
 			else

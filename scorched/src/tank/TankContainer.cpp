@@ -195,3 +195,17 @@ bool TankContainer::allReady()
 	}
 	return true;
 }
+
+int TankContainer::getNoOfNonSpectatorTanks()
+{
+	int count = 0;
+	std::map<unsigned int, Tank *>::iterator mainitor;
+	for (mainitor = playingTanks_.begin();
+		 mainitor != playingTanks_.end();
+		 mainitor++)
+	{
+		Tank *current = (*mainitor).second;
+		if (!current->getState().getSpectator()) count++;
+	}
+	return count;
+}

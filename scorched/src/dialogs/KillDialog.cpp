@@ -22,7 +22,7 @@
 #include <GLW/GLWTextButton.h>
 #include <GLW/GLWLabel.h>
 #include <common/WindowManager.h>
-#include <client/ScorchedClient.h>
+#include <scorched/ServerDialog.h>
 
 KillDialog *KillDialog::instance_ = 0;
 
@@ -35,10 +35,9 @@ KillDialog *KillDialog::instance()
 	return instance_;
 }
 
-KillDialog::KillDialog() : GLWWindow("Kill Tanks", 210.0f, 110.0f, 0)
+KillDialog::KillDialog() : GLWWindow("Kill Tanks", 210.0f, 75.0f, 0)
 {
 	killId_ = addWidget(new GLWTextButton("Mass tank kill", 10, 45, 190, this, false))->getId();
-	quitId_ = addWidget(new GLWTextButton("Quit Game", 10, 80, 190, this, false))->getId();
 	okId_ = addWidget(new GLWTextButton(" Cancel ", 95, 10, 105, this, true))->getId();
 }
 
@@ -52,22 +51,9 @@ void KillDialog::buttonDown(unsigned int id)
 	{
 		WindowManager::instance()->hideWindow(id_);
 	}
-	else if (id == quitId_)
-	{
-		ScorchedClient::instance()->getMainLoop().exitLoop();
-	}
 	else if (id == killId_)
 	{
-		std::map<unsigned int, Tank *>::iterator itor;
-		std::map<unsigned int, Tank *> &tanks = 
-			ScorchedClient::instance()->getTankContainer().getPlayingTanks();
-		for (itor = tanks.begin();
-			itor != tanks.end();
-			itor++)
-		{
-			Tank *current = (*itor).second;
-			current->getState().setState(TankState::sDead);
-		}
+		killAll();
 		WindowManager::instance()->hideWindow(id_);
 	}
 }

@@ -114,6 +114,7 @@ bool ConnectDialog::tryConnection()
 	ComsConnectMessage::PlayerEntry playerEntry;
 	playerEntry.name = PlayerDialog::instance()->getPlayerName();
 	playerEntry.model = PlayerDialog::instance()->getModelName();
+	playerEntry.spectator = false;
 	connectMessage.getPlayers().push_back(playerEntry);
 
 	if (!ComsMessageSender::sendToServer(connectMessage))

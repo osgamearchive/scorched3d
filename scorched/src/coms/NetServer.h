@@ -33,7 +33,7 @@ public:
 	virtual ~NetServer();
 
 	unsigned int connect(const char *hostName, int portNo);
-	unsigned int start(int portNo, int maxClients = -1);
+	unsigned int start(int portNo);
 	virtual bool started();
 
 	virtual int processMessages();
@@ -45,7 +45,6 @@ public:
 	virtual void sendMessage(NetBuffer &buffer, unsigned int destination);
 
 protected:
-	int maxClients_;
 	NetServerProtocol *protocol_;
 	TCPsocket server_;
 	SDLNet_SocketSet sockSet_;
