@@ -44,7 +44,9 @@ PlayerDialog *PlayerDialog::instance()
 }
 
 PlayerDialog::PlayerDialog() : 
-	GLWWindow("Team", 10.0f, 10.0f, 440.0f, 300.0f, eSmallTitle),
+	GLWWindow("Team", 10.0f, 10.0f, 440.0f, 300.0f, eSmallTitle,
+		"Allows the player to make changes to their\n"
+		"name, their tank and to change teams."),
 	allocatedTeam_(0), cancelId_(0)
 {
 	needCentered_ = true;

@@ -22,6 +22,7 @@
 #include <stdlib.h>
 #include <wx/wx.h>
 #include <wx/utils.h>
+#define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
 unsigned int ScorchedPort = 27270;

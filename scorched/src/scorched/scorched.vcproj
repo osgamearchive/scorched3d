@@ -797,12 +797,6 @@
 				RelativePath="..\common\RandomGenerator.h">
 			</File>
 			<File
-				RelativePath="..\common\Registry.cpp">
-			</File>
-			<File
-				RelativePath="..\common\Registry.h">
-			</File>
-			<File
 				RelativePath="..\common\ResourceFile.cpp">
 			</File>
 			<File

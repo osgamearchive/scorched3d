@@ -20,6 +20,7 @@
 
 #include <scorched/NetDialog.h>
 #include <scorched/MainDialog.h>
+#define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <wx/wx.h>
 #include <wx/listctrl.h>

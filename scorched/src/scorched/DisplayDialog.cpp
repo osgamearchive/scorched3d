@@ -40,15 +40,19 @@ public:
 
 	void onLoadDefaultsButton();
 	void onLoadSafeButton();
+	void onMoreRes();
 
 protected:
 	DECLARE_EVENT_TABLE()
+
 	void refreshScreen();
+	void refreshResolutions();
 };
 
 BEGIN_EVENT_TABLE(DisplayFrame, wxDialog)
     EVT_BUTTON(ID_LOADDEFAULTS,  DisplayFrame::onLoadDefaultsButton)
     EVT_BUTTON(ID_LOADSAFE,  DisplayFrame::onLoadSafeButton)
+	EVT_CHECKBOX(ID_MORERES, DisplayFrame::onMoreRes) 
 END_EVENT_TABLE()
 
 DisplayFrame::DisplayFrame() :
@@ -82,6 +86,11 @@ void DisplayFrame::onLoadSafeButton()
 {
 	OptionsDisplay::instance()->loadSafeValues();
 	refreshScreen();
+}
+
+void DisplayFrame::onMoreRes()
+{
+	refreshResolutions();
 }
 
 bool DisplayFrame::TransferDataToWindow()
@@ -120,29 +129,9 @@ void DisplayFrame::refreshScreen()
 	IDC_USERID_CTRL->SetValue(OptionsDisplay::instance()->getUniqueUserId());
 	IDC_HOSTDESC_CTRL->SetValue(OptionsDisplay::instance()->getHostDescription());
 	IDC_NODETAILTEX_CTRL->SetValue(!OptionsDisplay::instance()->getDetailTexture());
+	IDC_MORERES_CTRL->SetValue(OptionsDisplay::instance()->getMoreRes());
 
-	std::set<std::string> displaySet;
-	char string[256];
-	SDL_Rect **modes = SDL_ListModes(NULL,SDL_FULLSCREEN|SDL_HWSURFACE);
-	if((modes != (SDL_Rect **)0) && (modes != (SDL_Rect **)-1))
-	{
-		for(int i=0;modes[i];++i)
-		{
-			sprintf(string, "%i x %i", 
-				modes[i]->w, modes[i]->h);
-
-			std::string newDisplay(string);
-			if (displaySet.find(newDisplay) == displaySet.end())
-			{
-				IDC_DISPLAY_CTRL->Append(string);
-				displaySet.insert(newDisplay);
-			}
-		}
-	}
-	sprintf(string, "%i x %i", 
-		OptionsDisplay::instance()->getScreenWidth(),
-		OptionsDisplay::instance()->getScreenHeight());
-	IDC_DISPLAY_CTRL->SetValue(string);
+	refreshResolutions();
 
 	switch (OptionsDisplay::instance()->getTexSize())
 	{
@@ -186,6 +175,50 @@ void DisplayFrame::refreshScreen()
 	IDOK_CTRL->SetDefault();
 }
 
+void DisplayFrame::refreshResolutions()
+{
+	IDC_DISPLAY_CTRL->Clear();
+
+	std::set<std::string> displaySet;
+	char string[256];
+	SDL_Rect **modes = SDL_ListModes(NULL,SDL_FULLSCREEN|SDL_HWSURFACE);
+	if((modes != (SDL_Rect **)0) && (modes != (SDL_Rect **)-1))
+	{
+		for(int i=0;modes[i];++i)
+		{
+			sprintf(string, "%i x %i", 
+				modes[i]->w, modes[i]->h);
+
+			std::string newDisplay(string);
+			if (displaySet.find(newDisplay) == displaySet.end())
+			{
+				IDC_DISPLAY_CTRL->Append(string);
+				displaySet.insert(newDisplay);
+			}
+		}
+	}
+
+	if (IDC_MORERES_CTRL->GetValue())
+	{
+		const char *extraModes[] = 
+			{ "640 x 480", "800 x 600", "1024 x 768" };
+		for (int i=0; i<sizeof(extraModes)/sizeof(const char *); i++)
+		{
+			std::string newDisplay(extraModes[i]);
+			if (displaySet.find(newDisplay) == displaySet.end())
+			{
+				IDC_DISPLAY_CTRL->Append(newDisplay.c_str());
+				displaySet.insert(newDisplay);
+			}
+		}
+	}
+
+	sprintf(string, "%i x %i", 
+		OptionsDisplay::instance()->getScreenWidth(),
+		OptionsDisplay::instance()->getScreenHeight());
+	IDC_DISPLAY_CTRL->SetValue(string);
+}
+
 bool DisplayFrame::TransferDataFromWindow()
 {
 	OptionsDisplay::instance()->setFullClear(IDC_FULLCLEAR_CTRL->GetValue());
@@ -212,6 +245,7 @@ bool DisplayFrame::TransferDataFromWindow()
 	OptionsDisplay::instance()->setUniqueUserId(IDC_USERID_CTRL->GetValue());
 	OptionsDisplay::instance()->setHostDescription(IDC_HOSTDESC_CTRL->GetValue());
 	OptionsDisplay::instance()->setDetailTexture(!IDC_NODETAILTEX_CTRL->GetValue());
+	OptionsDisplay::instance()->setMoreRes(IDC_MORERES_CTRL->GetValue());
 
 	wxString buffer = IDC_DISPLAY_CTRL->GetValue();
 	int windowWidth, windowHeight;

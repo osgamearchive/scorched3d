@@ -32,7 +32,9 @@
 #include <client/ScorchedClient.h>
 
 AutoDefenseDialog::AutoDefenseDialog() :
-	GLWWindow("Auto Defense", 10.0f, 10.0f, 440.0f, 280.0f, 0)
+	GLWWindow("Auto Defense", 10.0f, 10.0f, 440.0f, 280.0f, 0,
+		"Allows the current player to raise and\n"
+		"lower defenses before the round starts")
 {
 	needCentered_ = true;
 	okId_ = addWidget(

@@ -60,7 +60,8 @@ ScoreDialog *ScoreDialog::instance2()
 }
 
 ScoreDialog::ScoreDialog() :
-	GLWWindow("Score", 10.0f, 10.0f, 417.0f, 310.0f, eTransparent |eSmallTitle),
+	GLWWindow("Score", 10.0f, 10.0f, 417.0f, 310.0f, eTransparent |eSmallTitle,
+		"Shows the current score for all players."),
 	lastScoreValue_(0), lastWinsValue_(0)
 {
 

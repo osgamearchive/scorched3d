@@ -75,6 +75,9 @@ public:
 	bool getFullScreen() { return fullScreen_.getValue(); }
 	void setFullScreen(bool value) { fullScreen_.setValue(value); }	
 
+	bool getMoreRes() { return moreRes_.getValue(); }
+	void setMoreRes(bool value) { moreRes_.setValue(value); }	
+
 	bool getFullClear() { return fullClear_.getValue(); }
 	void setFullClear(bool value) { fullClear_.setValue(value); }
 
@@ -219,6 +222,7 @@ protected:
 	OptionEntryBool detailTexture_;
 	OptionEntryBool useHex_;
 	OptionEntryBool doubleBuffer_;
+	OptionEntryBool moreRes_;
 	OptionEntryBool fullScreen_;
 	OptionEntryBool fullClear_;
 	OptionEntryBool noGLTexSubImage_;

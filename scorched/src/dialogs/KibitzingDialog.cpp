@@ -24,7 +24,9 @@
 #include <GLW/GLWLabel.h>
 #include <common/WindowManager.h>
 
-KibitzingDialog::KibitzingDialog() : GLWWindow("Kibitzing", 280.0f, 80.0f, 0)
+KibitzingDialog::KibitzingDialog() : 
+	GLWWindow("Kibitzing", 280.0f, 80.0f, 0,
+		"Shows a message saying\n\"No kibitzing, please.\"")
 {
 	addWidget(new GLWLabel(10, 40, "No kibitzing, please."));
 

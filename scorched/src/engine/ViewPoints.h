@@ -51,6 +51,7 @@ public:
 	ViewPoints();
 	virtual ~ViewPoints();
 
+	void simulate(float frameTime);
 	void getValues(Vector &lookAt, 
 				   Vector &lookFrom);
 	int getLookAtCount();
@@ -63,6 +64,8 @@ public:
 protected:
 	std::list<ViewPoint *> points_;
 	ScorchedContext *context_;
+	Vector lookAt_, lookFrom_;
+	float totalTime_;
 
 };
 

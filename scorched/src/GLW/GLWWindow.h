@@ -23,6 +23,7 @@
 
 #include <string>
 #include <GLW/GLWVisiblePanel.h>
+#include <GLW/GLWToolTip.h>
 #include <GLEXT/GLTexture.h>
 
 class GLWWindow : public GLWVisiblePanel
@@ -39,9 +40,11 @@ public:
 
 	GLWWindow(const char *name, float x, float y, 
 		float w, float h,
-		unsigned int states);
+		unsigned int states, 
+		const char *description);
 	GLWWindow(const char *name, float w, float h,
-		unsigned int states);
+		unsigned int states,
+		const char *description);
 	virtual ~GLWWindow();
 
 	virtual void windowDisplay();
@@ -56,6 +59,8 @@ public:
 		bool &skipRest);
 
 	const char *getName() { return name_.c_str(); }
+	const char *getDescription() { return description_.c_str(); }
+	GLWTip &getToolTip() { return toolTip_; }
 	void needsCentered() { needCentered_ = true; }
 
 METACLASSID
@@ -68,6 +73,7 @@ protected:
 		SizeDrag
 	} dragging_;
 
+	GLWTip toolTip_;
 	GLTexture moveTexture_;
 	bool showTitle_;
 	bool needCentered_;
@@ -75,6 +81,7 @@ protected:
 	unsigned int windowState_;
 	float maxWindowSize_;
 	std::string name_;
+	std::string description_;
 
 	virtual void drawWindowCircle(float x, float y, float w, float h);
 	virtual void drawOutlinePoints(float x, float y, float w, float h);

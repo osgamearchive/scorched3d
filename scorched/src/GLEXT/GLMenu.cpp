@@ -24,7 +24,7 @@
 #include <client/ScorchedClient.h>
 #include <common/WindowManager.h>
 
-GLMenu::GLMenu() : GLWWindow("", 0.0f, 10.0f, 10000.0f, 25.0f, 0)
+GLMenu::GLMenu() : GLWWindow("", 0.0f, 10.0f, 10000.0f, 25.0f, 0, "")
 {
 	menuFont_ = GLWFont::instance()->getLargePtFont();
 }

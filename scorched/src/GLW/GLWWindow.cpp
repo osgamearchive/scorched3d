@@ -35,19 +35,23 @@ static const float shadowWidth = 10.0f;
 
 GLWWindow::GLWWindow(const char *name, float x, float y, 
 					 float w, float h,
-					 unsigned int states) : 
+					 unsigned int states,
+					 const char *description) : 
 	GLWVisiblePanel(x, y, w, h), dragging_(NoDrag), 
 	needCentered_(false), showTitle_(false), name_(name),
-	disabled_(false), windowState_(states), maxWindowSize_(0.0f)
+	disabled_(false), windowState_(states), maxWindowSize_(0.0f),
+	description_(description), toolTip_(name, description)
 {
 	getDrawPanel() = false;
 }
 
 GLWWindow::GLWWindow(const char *name, float w, float h,
-					 unsigned int states) :
+					 unsigned int states,
+					 const char *description) :
 	GLWVisiblePanel(0.0f, 0.0f, w, h), dragging_(NoDrag), 
 	needCentered_(true), showTitle_(false), name_(name),
-	disabled_(false), windowState_(states)
+	disabled_(false), windowState_(states),
+	description_(description), toolTip_(name, description)
 {
 	getDrawPanel() = false;
 }

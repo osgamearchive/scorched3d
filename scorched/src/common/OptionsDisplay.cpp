@@ -61,6 +61,8 @@ OptionsDisplay::OptionsDisplay() :
 		"The screen brightness", RAccess, 10, 3, 40),
 	fullScreen_(options_, "FullScreen", 
 		"Whether to use full screen mode or not", RAccess, false),
+	moreRes_(options_, "MoreRes",
+		"Show more screen resolutions in the drop down", RAccess, false),
 	fullClear_(options_, "FullClear", 
 		"Completely clear the screen on each frame", RWAccess, false),
 	invertUpDownKey_(options_, "InvertUpDownKeys",

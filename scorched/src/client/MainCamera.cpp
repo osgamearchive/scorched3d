@@ -20,6 +20,7 @@
 
 #include <client/MainCamera.h>
 #include <client/ClientState.h>
+#include <client/ScorchedClient.h>
 #include <GLEXT/GLBitmap.h>
 #include <GLEXT/GLConsole.h>
 #include <dialogs/MainMenuDialog.h>
@@ -57,10 +58,9 @@ void MainCamera::getMenuItems(const char* menuName,
 {
 	for (int i=0; i<TargetCamera::getNoCameraNames(); i++)
 	{
-		static char buffer[128];
-		sprintf(buffer, "%s",
-			TargetCamera::getCameraNames()[i]);
-		result.push_back(GLMenuItem(buffer, 0, (targetCam_.getCameraType() == 
+		result.push_back(GLMenuItem(TargetCamera::getCameraNames()[i], 
+			&TargetCamera::getCameraToolTips()[i],
+			(targetCam_.getCameraType() == 
 			(TargetCamera::CamType) i)));
 	}
 }
@@ -73,6 +73,7 @@ void MainCamera::menuSelection(const char* menuName,
 
 void MainCamera::simulate(const unsigned state, float frameTime)
 {
+	ScorchedClient::instance()->getContext().viewPoints.simulate(frameTime);
 	targetCam_.simulate(frameTime, (state == ClientState::StatePlaying));
 }
 

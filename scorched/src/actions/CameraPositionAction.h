@@ -23,6 +23,7 @@
 
 #include <engine/ActionMeta.h>
 #include <common/Vector.h>
+#include <set>
 
 class CameraPositionAction : public ActionMeta
 {
@@ -40,18 +41,33 @@ public:
 
 	REGISTER_ACTION_HEADER(CameraPositionAction);
 
-	static Vector &getPosition() { return position_; }
-	static unsigned int &getPriority() { return priority_; }
+	float getShowTime() { return showTime_; }
+	float getStartTime() { return startTime_; }
+	Vector &getShowPosition() { return showPosition_; }
+	unsigned int &getShowPriority() { return showPriority_; }
 
 protected:
 	float totalTime_;
-	static Vector position_;
-	static unsigned int priority_;
 
+	float startTime_;
 	float showTime_;
 	unsigned int showPriority_;
 	Vector showPosition_;
 };
 
+class CameraPositionActionRegistry
+{
+public:
+	static void addCameraPositionAction(CameraPositionAction *action);
+	static void rmCameraPositionAction(CameraPositionAction *action);
+
+	static CameraPositionAction *getCurrentAction();
+
+protected:
+	static std::set<CameraPositionAction *> actions_;
+	static CameraPositionAction *currentAction_;
+
+	static CameraPositionAction *getCurrentBest();
+};
 
 #endif

@@ -21,6 +21,7 @@
 #include <engine/ScorchedContext.h>
 #include <tank/TankController.h>
 #include <actions/Napalm.h>
+#include <actions/CameraPositionAction.h>
 #include <sprites/NapalmRenderer.h>
 #include <landscape/Landscape.h>
 #include <common/OptionsParam.h>
@@ -62,6 +63,20 @@ void Napalm::init()
 	if (!context_->serverMode) 
 	{
 		setActionRender(new NapalmRenderer);
+	}
+
+	// Point the action camera at this event
+	if (context_->serverMode)
+	{
+		const float ShowTime = 5.0f;
+		Vector position((float) x_, (float) y_, getHeight(x_, y_));
+		ActionMeta *pos = new CameraPositionAction(
+			position, ShowTime,
+			5);
+		context_->actionController.getBuffer().serverAdd(
+			context_->actionController.getActionTime() - 4.0f,
+			pos);
+		delete pos;
 	}
 }
 

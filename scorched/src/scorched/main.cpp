@@ -28,7 +28,6 @@
 #include <common/OptionsParam.h>
 #include <common/OptionsGame.h>
 #include <common/ARGParser.h>
-#include <common/Registry.h>
 #include <common/Defines.h>
 #include <common/Resources.h>
 #include <common/OptionsTransient.h>
@@ -36,6 +35,8 @@
 #include <locale.h>
 #include <math.h>
 #include <float.h>
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
 
 extern bool wxWindowInit;
 extern bool wxWindowExit;
@@ -146,14 +147,6 @@ int main(int argc, char *argv[])
 
 	// Disable floating point exceptions. 
 	_control87(MCW_EM,MCW_EM);
-
-	// Set directory location for ASE
-	{
-		Registry baseRegistry("Software\\Scorched");
-		CHAR directoryName[1024];
-		GetCurrentDirectory(1024, directoryName);
-		baseRegistry.setString("", "Location", directoryName);
-	}
 
 #endif
 

@@ -19,6 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <actions/ShotBounce.h>
+#include <actions/CameraPositionAction.h>
 #include <sprites/MissileActionRenderer.h>
 #include <engine/ScorchedContext.h>
 #include <weapons/WeaponRoller.h>
@@ -55,6 +56,16 @@ void ShotBounce::init()
 		physicsObject_.setData(&collisionInfo_);
 
 		actionVector_ = new ActionVector(actionId_);	
+
+		// Point the action camera at this event
+		const float ShowTime = 5.0f;
+		ActionMeta *pos = new CameraPositionAction(
+			startPosition_, ShowTime,
+			5);
+		context_->actionController.getBuffer().serverAdd(
+			context_->actionController.getActionTime() - 4.0f,
+			pos);
+		delete pos;
 	}
 	else
 	{

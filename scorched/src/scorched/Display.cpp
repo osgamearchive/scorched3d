@@ -34,6 +34,8 @@ static void createControls(wxWindow *parent, wxSizer *sizer)
 		0, 0, wxCB_READONLY);
 	IDC_FULLSCREEN_CTRL = 
 		new wxCheckBox(parent, -1, "Full Screen");
+	IDC_MORERES_CTRL =
+		new wxCheckBox(parent, ID_MORERES, "More Resoultions");
 	displaySizer2->Add(resText, 0, wxALIGN_CENTER_VERTICAL);
 	displaySizer2->Add(IDC_DISPLAY_CTRL, 0);
 	displaySizer2->Add(IDC_FULLSCREEN_CTRL, 0, wxALIGN_CENTRE_VERTICAL);
@@ -45,6 +47,7 @@ static void createControls(wxWindow *parent, wxSizer *sizer)
 		wxSL_HORIZONTAL | wxSL_AUTOTICKS);
 	displaySizer2->Add(brightText, 0, wxALIGN_CENTER_VERTICAL);
 	displaySizer2->Add(IDC_SLIDER1_CTRL, 0);
+	displaySizer2->Add(IDC_MORERES_CTRL, 0, wxALIGN_CENTRE_VERTICAL);
 	displaySizer->Add(displaySizer2, 0);
 	sizer->Add(displaySizer, 0, wxGROW | wxLEFT | wxRIGHT | wxTOP, 5);
 

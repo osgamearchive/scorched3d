@@ -44,7 +44,8 @@ ConnectDialog *ConnectDialog::instance()
 }
 
 ConnectDialog::ConnectDialog() : 
-	GLWWindow("Connect", 10.0f, 10.0f, 300.0f, 240.0f, 0),
+	GLWWindow("Connect", 10.0f, 10.0f, 300.0f, 240.0f, 0,
+		"Connection dialog"),
 	tryConnection_(true)
 {
 }

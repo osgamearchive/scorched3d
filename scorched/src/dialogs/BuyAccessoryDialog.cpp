@@ -33,7 +33,9 @@
 #include <stdio.h>
 
 BuyAccessoryDialog::BuyAccessoryDialog() : 
-	GLWWindow("", 10.0f, 10.0f, 440.0f, 280.0f, 0)
+	GLWWindow("", 10.0f, 10.0f, 440.0f, 280.0f, 0,
+		"Allows the current player to buy and sell\n"
+		"weapons and other accessories.")
 {
 	okId_ = addWidget(new GLWTextButton("Ok", 375, 10, 55, this, 
 		GLWButton::ButtonFlagOk | GLWButton::ButtonFlagCenterX))->getId();

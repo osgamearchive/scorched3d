@@ -36,7 +36,8 @@ LogDialog *LogDialog::instance()
 }
 
 LogDialog::LogDialog() : 
-	GLWWindow("Log", 10.0f, 10.0f, 300.0f, 240.0f, 0)
+	GLWWindow("Log", 10.0f, 10.0f, 300.0f, 240.0f, 0,
+		"Log Window")
 {
 	needCentered_ = true;
 	quit_ = (GLWTextButton *) 

@@ -33,7 +33,9 @@ AimDialog *AimDialog::instance()
 }
 
 AimDialog::AimDialog() : 
-	GLWWindow("Aim", 10, 100, 120, 120, eCircle | eSmallTitle)
+	GLWWindow("Aim", 10, 100, 120, 120, eCircle | eSmallTitle,
+		"Allows the current player to aim without\n"
+		"having to use the keyboard.")
 {
 	pwrSlider_ = (GLWSlider *) 
 		addWidget(new GLWSlider(140, 10, 100, 0.0f, 100.0f));

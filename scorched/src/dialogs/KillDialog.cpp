@@ -35,7 +35,10 @@ KillDialog *KillDialog::instance()
 	return instance_;
 }
 
-KillDialog::KillDialog() : GLWWindow("Kill Tanks", 210.0f, 75.0f, 0)
+KillDialog::KillDialog() : 
+	GLWWindow("Kill Tanks", 210.0f, 75.0f, 0,
+		"Allows the current player to kill all\n"
+		"players to end the current round.")
 {
 	killId_ = addWidget(new GLWTextButton("Mass tank kill", 10, 45, 190, this, 
 		GLWButton::ButtonFlagCancel | GLWButton::ButtonFlagCenterX))->getId();

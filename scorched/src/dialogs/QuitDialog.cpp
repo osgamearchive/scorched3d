@@ -36,7 +36,9 @@ QuitDialog *QuitDialog::instance()
 	return instance_;
 }
 
-QuitDialog::QuitDialog() : GLWWindow("Quit", 210.0f, 80.0f, 0)
+QuitDialog::QuitDialog() : 
+	GLWWindow("Quit", 210.0f, 80.0f, 0,
+		"Allows the player to quit the game.")
 {
 	quitId_ = addWidget(new GLWTextButton("Quit Game", 10, 45, 190, this, 
 		GLWButton::ButtonFlagOk | GLWButton::ButtonFlagCenterX))->getId();

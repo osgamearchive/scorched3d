@@ -38,7 +38,8 @@ ProgressDialog *ProgressDialog::instance()
 }
 
 ProgressDialog::ProgressDialog() : 
-	GLWWindow("Progress", 10.0f, 10.0f, 340.0f, 200.0f, eNoTitle)
+	GLWWindow("Progress", 10.0f, 10.0f, 340.0f, 200.0f, eNoTitle,
+		"Shows loading progress")
 {
 	setUser(this);
 	progress_ = (GLWProgress *) new GLWProgress(10, 10, 260);

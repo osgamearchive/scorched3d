@@ -42,8 +42,9 @@ WindDialog *WindDialog::instance()
 }
 
 WindDialog::WindDialog() : 
-	GLWWindow("Wind", 10, 15, 100, 100, 
-		eCircle),
+	GLWWindow("Wind", 10, 15, 100, 100, eCircle,
+		"Displays indicators for the current wind\n"
+		"strength and direction."),
 	listNo_(0)
 {
 	windModel_ = ASEStore::instance()->

@@ -24,9 +24,6 @@
 #include <common/OptionsParam.h>
 #include <dialogs/ScoreDialog.h>
 
-Vector CameraPositionAction::position_(122.0f, 122.0f, 10.0f);
-unsigned int CameraPositionAction::priority_ = 0;
-
 REGISTER_ACTION_SOURCE(CameraPositionAction);
 
 CameraPositionAction::CameraPositionAction() : totalTime_(0.0f)
@@ -44,24 +41,17 @@ CameraPositionAction::CameraPositionAction(Vector &showPosition,
 
 CameraPositionAction::~CameraPositionAction()
 {
+	CameraPositionActionRegistry::rmCameraPositionAction(this);
 }
 
 void CameraPositionAction::init()
 {
-
+	CameraPositionActionRegistry::addCameraPositionAction(this);
+	startTime_ = context_->actionController.getActionTime();
 }
 
 void CameraPositionAction::simulate(float frameTime, bool &remove)
 {
-	if (!context_->serverMode)
-	{
-		if (showPriority_ > priority_)
-		{
-			priority_ = showPriority_;
-			position_ = showPosition_;
-		}
-	}
-
 	totalTime_ += frameTime;
 	if (totalTime_ > showTime_)
 	{
@@ -89,4 +79,76 @@ bool CameraPositionAction::readAction(NetBufferReader &reader)
 	if (!reader.getFromBuffer(showPosition_[2])) return false;
 	if (!reader.getFromBuffer(showPriority_)) return false;
 	return true;
+}
+
+std::set<CameraPositionAction *> CameraPositionActionRegistry::actions_;
+CameraPositionAction *CameraPositionActionRegistry::currentAction_ = 0;
+
+void CameraPositionActionRegistry::addCameraPositionAction(CameraPositionAction *action)
+{
+	actions_.insert(action);
+}
+
+void CameraPositionActionRegistry::rmCameraPositionAction(CameraPositionAction *action)
+{
+	actions_.erase(action);
+}
+
+CameraPositionAction *CameraPositionActionRegistry::getCurrentAction()
+{
+	// Check if the current action is still active
+	if (actions_.find(currentAction_) == actions_.end())
+	{
+		// If the current action is not still going get another one
+		currentAction_ = getCurrentBest();
+	}
+	else 
+	{
+		// If it is check that it is the best action
+		CameraPositionAction *bestAction = getCurrentBest();
+		if (bestAction)
+		{
+			if (bestAction->getShowPriority() > currentAction_->getShowPriority())
+			{
+				currentAction_ = bestAction;
+			}
+		}
+	}
+
+	return currentAction_;
+}
+
+CameraPositionAction *CameraPositionActionRegistry::getCurrentBest()
+{
+	CameraPositionAction *currentBest = 0;
+	if (!actions_.empty())
+	{
+		std::set<CameraPositionAction *>::iterator itor;
+		for (itor = actions_.begin();
+			itor != actions_.end();
+			itor++)
+		{
+			CameraPositionAction *action = (*itor);
+			
+			// Check that this action is near the beginning
+			float currentTime = action->getScorchedContext()->
+				actionController.getActionTime();
+			float actionTime = action->getStartTime();
+			if (currentTime - actionTime < 1.0f)
+			{
+				// Is there an action to beat
+				if (!currentBest) currentBest = action;
+				else
+				{
+					// Yes, so check if it beats it
+					if (currentBest->getShowPriority() < action->getShowPriority())
+					{
+						// There is a new current best
+						currentBest = action;
+					}
+				}
+			}
+		}
+	}
+	return currentBest;
 }

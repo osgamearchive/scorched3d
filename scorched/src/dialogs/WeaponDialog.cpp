@@ -38,8 +38,9 @@ WeaponDialog *WeaponDialog::instance()
 }
 
 WeaponDialog::WeaponDialog() : 
-	GLWWindow("Weapons", 10, 30, 120, 120, 
-		eCircle | eSmallTitle),
+	GLWWindow("Weapons", 10, 30, 120, 120, eCircle | eSmallTitle,
+		"Displays indicators for the current weapon,\n"
+		"including its power and direction."),
 	totalTime_(0.0f)
 {
 

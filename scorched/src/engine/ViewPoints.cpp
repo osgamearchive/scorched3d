@@ -22,7 +22,7 @@
 #include <engine/ScorchedContext.h>
 #include <common/Defines.h>
 
-ViewPoints::ViewPoints() : context_(0)
+ViewPoints::ViewPoints() : context_(0), totalTime_(0)
 {
 }
 
@@ -33,10 +33,20 @@ ViewPoints::~ViewPoints()
 void ViewPoints::getValues(Vector &lookAt, 
 						   Vector &lookFrom)
 {
+	lookAt = lookAt_;
+	lookFrom = lookFrom_;
+}
+
+void ViewPoints::simulate(float frameTime)
+{
+	if (getLookAtCount() == 0) return;
+
 	Vector max, min;
 	bool firstItor = true;
 	float count = 0.0f;
 
+	static Vector lookAt;
+	static Vector lookFrom;
 	lookAt.zero();
 	lookFrom.zero();
 
@@ -79,6 +89,32 @@ void ViewPoints::getValues(Vector &lookAt,
 
 	lookAt /= count;
 	lookFrom *= dist;
+
+	// Make some constant changes, regardless of framerate
+	if (count == 1)
+	{
+		lookAt_ = lookAt;
+		lookFrom_ = lookFrom;
+	}
+	else
+	{
+		const float SecondsToReachTarget = 0.05f;
+		totalTime_ += frameTime;
+		while (totalTime_ > 0.05f)
+		{
+			totalTime_ -= 0.05f;
+
+			// Calculate the new look at value
+			Vector directionLookAt = lookAt - lookAt_;
+			directionLookAt	*= SecondsToReachTarget;
+			lookAt_ += directionLookAt;
+
+			// Calculate the new look from value
+			Vector directionPosition = lookFrom - lookFrom_;
+			directionPosition *= SecondsToReachTarget;
+			lookFrom_ += directionPosition;
+		}
+	}
 }
 
 int ViewPoints::getLookAtCount()

@@ -402,10 +402,11 @@ void WindowManager::getMenuItems(const char* menuName,
 
 			if (window->getName()[0] != '\0')
 			{
-				static char buffer[128];
-				sprintf(buffer, "%s",
-					window->getName());
-				items.push_back(GLMenuItem(buffer, 0, windowVisible(window->getId())));
+				items.push_back(
+					GLMenuItem(
+						window->getName(), 
+						&window->getToolTip(), 
+						windowVisible(window->getId())));
 			}
 		}
 	}

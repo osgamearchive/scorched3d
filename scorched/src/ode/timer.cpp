@@ -40,7 +40,7 @@ TODO
 // implementation for windows based on the multimedia performance counter.
 
 #ifdef WIN32
-
+#define WIN32_LEAN_AND_MEAN
 #include "windows.h"
 
 static inline void getClockCount (unsigned long cc[2])

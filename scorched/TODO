@@ -37,6 +37,10 @@ Added: Laser beam death animation (thanks Cameron Smith)
 Added: More cool tank models (thanks Cameron Smith)
 Added: Customizable arrow over tanks (instead of triangle)
 Added: Progress dialog shown during client init
+Added: More resoultions can be shown for non-fullscreen modes
+Added: Damped the shot camera stop stop it from jumping around
+Added: Action camera does not jump around so much (it stays with the best action)
+Added: Camera and window menu items get tool tips
 
 Fixed: SG characters being printed during init stages
 Fixed: Client does not start new game until all explosions have finished

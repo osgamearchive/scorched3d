@@ -124,7 +124,7 @@ extern "C" void dMessage (int num, const char *msg, ...)
 #define _vsnprintf vsnprintf
 #endif
 
-
+#define WIN32_LEAN_AND_MEAN
 #include "windows.h"
 
 

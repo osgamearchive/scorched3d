@@ -44,8 +44,9 @@ PlanViewDialog *PlanViewDialog::instance()
 
 PlanViewDialog::PlanViewDialog() : 
 	animationTime_(0.0f), flashTime_(0.0f),
-	GLWWindow("Plan", 10, 15, 100, 100, 
-		eCircle),
+	GLWWindow("Plan", 10, 15, 100, 100, eCircle,
+		"Shows the position of the the tanks\n"
+		"on a overhead map."),
 	flash_(true)
 {
 

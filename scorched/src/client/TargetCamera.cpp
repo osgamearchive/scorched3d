@@ -43,10 +43,40 @@ static const char *cameraNames[] =
 };
 static const int noCameraNames = sizeof(cameraNames) / sizeof(char *);
 
+static GLWTip *cameraToolTips = 0;
+static const char *cameraDescriptions[] = 
+{
+	"Look directly down on the current tank.\n"
+	"Tracks the current tanks rotation.",
+	"Look from above and behind the current tank.\n"
+	"Tracks the current tanks rotation.",
+	"Look from directly behind the current tank.\n"
+	"Tracks the current tanks rotation.",
+	"Look from the current tanks gun turret.\n"
+	"Follows any shots the current tank makes.\n"
+	"Tracks the current tanks rotation.",
+	"Automaticaly tracks any action around the\n"
+	"island by moving to view any explosions\n"
+	"and deaths.",
+	"Look from at the left of the current tank.\n"
+	"Tracks the current tanks rotation.",
+	"Look from at the right of the current tank.\n"
+	"Tracks the current tanks rotation.",
+	"Look from at the left of the current tank.\n"
+	"Tracks the current tanks rotation.",
+	"Look from at the right of the current tank.\n"
+	"Tracks the current tanks rotation.",
+	"Look from at the island from afar.",
+	"A custom camera position has been made by the\n"
+	"user."
+};
+static const int noCameraDescriptions = sizeof(cameraDescriptions) / sizeof(char *);
+
 TargetCamera::TargetCamera() : mainCam_(300, 300), cameraPos_(CamSpectator)
 {
 	resetCam();
 	mainCam_.setHeightFunc(heightFunc, this);
+	DIALOG_ASSERT(noCameraDescriptions == noCameraNames);
 }
 
 TargetCamera::~TargetCamera()
@@ -64,6 +94,20 @@ void TargetCamera::resetCam()
 const char **TargetCamera::getCameraNames()
 {
 	return cameraNames;
+}
+
+GLWTip *TargetCamera::getCameraToolTips()
+{
+	if (cameraToolTips == 0)
+	{
+		cameraToolTips = new GLWTip[noCameraDescriptions];
+		for (int i=0; i<noCameraDescriptions; i++)
+		{
+			cameraToolTips[i].setText(getCameraNames()[i],
+				cameraDescriptions[i]);
+		}
+	}
+	return cameraToolTips;
 }
 
 int TargetCamera::getNoCameraNames()
@@ -126,11 +170,14 @@ bool TargetCamera::moveCamera(float frameTime, bool playing)
 	switch (cameraPos_)
 	{
 	case CamAction:
-		if (CameraPositionAction::getPriority() != 0)
 		{
-			mainCam_.setLookAt(CameraPositionAction::getPosition());
-			mainCam_.movePosition(currentRotation + 0.3f, 0.7f, 80.0f);
-			CameraPositionAction::getPriority() = 0;
+			CameraPositionAction *action = 
+				CameraPositionActionRegistry::getCurrentAction();
+			if (action)
+			{
+				mainCam_.setLookAt(action->getShowPosition());
+				mainCam_.movePosition(currentRotation + 0.3f, 0.7f, 80.0f);
+			}
 		}
 		break;
 	case CamTop:

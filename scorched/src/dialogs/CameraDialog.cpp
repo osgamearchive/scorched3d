@@ -42,7 +42,9 @@ CameraDialog *CameraDialog::instance()
 
 CameraDialog::CameraDialog() : 
 	GLWWindow("Camera", 100, 15, 200, 200, eTransparent | 
-	eResizeable | eSmallTitle)
+	eResizeable | eSmallTitle,
+	"Shows a view from behind the current tank\n"
+	"or its shots in a different window")
 {
 	targetCam_.setCameraType(TargetCamera::CamGun);
 }

@@ -23,9 +23,10 @@
 #include <wx/process.h>
 #include <wx/txtstrm.h>
 #include <wx/msgdlg.h>
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
 #include <SDL/SDL.h>
 #include <SDL/SDL_net.h>
-#include <windows.h>
 #include <scorched/MainDialog.h>
 #include <scorched/NetDialog.h>
 #include <scorched/SingleDialog.h>

@@ -38,7 +38,9 @@ TankDialog *TankDialog::instance()
 }
 
 TankDialog::TankDialog() :
-	GLWWindow("Player", 130, 30, 120, 120, eCircle | eSmallTitle)
+	GLWWindow("Player", 130, 30, 120, 120, eCircle | eSmallTitle,
+		"Displays indicators for the current player,\n"
+		"including its health, and defense status.")
 {
 }
 

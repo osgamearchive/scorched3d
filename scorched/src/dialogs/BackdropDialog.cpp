@@ -38,7 +38,8 @@ BackdropDialog *BackdropDialog::instance()
 }
 
 BackdropDialog::BackdropDialog() : 
-	GLWWindow("", 0.0f, 0.0f, 0.0f, 0.0f, 0), offset_(0)
+	GLWWindow("", 0.0f, 0.0f, 0.0f, 0.0f, 0,
+		"The backdrop dialog"), offset_(0)
 {
 	if (!displayList_)
 	{

@@ -145,13 +145,15 @@ static void drawPalmTrunc(float width, float height, float count)
 }
 
 static void drawPalmLevel(float centerX, float centerY,
-		float width1, float width2, float height, float height2,
+		float width1, float w2, float height, float height2,
 		float count)
 {
 	glBegin(GL_QUADS);
 		glTexCoord2f(centerX, centerY);
 		for (float i=360.0f; i>=0.0f;)
 		{
+			float diff = 0.5f * RAND - 0.25f;
+			float width2 = (w2 * RAND * 0.3f) + (0.7f * w2);
 			glTexCoord2f(0.0f, 0.365f);
 			glVertex3f(
 				sinf(i/180.0f * PI) * width1, 
@@ -161,33 +163,33 @@ static void drawPalmLevel(float centerX, float centerY,
 			glVertex3f(
 				sinf(i/180.0f * PI) * width1, 
 				cosf(i/180.0f * PI) * width1, 
-				height2 + RAND * 0.1f - 0.05f);
+				height2);
 			glTexCoord2f(0.37f, 0.488f);
 			glVertex3f(
 				sinf(i/180.0f * PI) * width2, 
 				cosf(i/180.0f * PI) * width2, 
-				height2 + RAND * 0.1f - 0.05f);
+				height2 + diff);
 			glTexCoord2f(0.37f,  0.365f);
 			glVertex3f(
 				sinf(i/180.0f * PI) * width2, 
 				cosf(i/180.0f * PI) * width2, 
-				height);
+				height + diff);
 
 			glTexCoord2f(0.37f, 0.365f);
 			glVertex3f(
 				sinf(i/180.0f * PI) * width2, 
 				cosf(i/180.0f * PI) * width2, 
-				height);
+				height + diff);
 			glTexCoord2f(0.37f, 0.488f);
 			glVertex3f(
 				sinf(i/180.0f * PI) * width2, 
 				cosf(i/180.0f * PI) * width2, 
-				height2 + RAND * 0.1f - 0.05f);
+				height2 + diff);
 			glTexCoord2f(0.0f, 0.488f);
 			glVertex3f(
 				sinf(i/180.0f * PI) * width1, 
 				cosf(i/180.0f * PI) * width1, 
-				height2 + RAND * 0.1f - 0.05f);
+				height2);
 			glTexCoord2f(0.0f, 0.365f);
 			glVertex3f(
 				sinf(i/180.0f * PI) * width1, 
@@ -236,14 +238,14 @@ void LandscapeObjects::generate(RandomGenerator &generator, ProgressCounter *cou
 			drawPineLevel(0.625f, 0.625f, 0.7f, 1.1f, 0.1f);
 		glEndList();
 		glNewList(treePineBurnt = glGenLists(1), GL_COMPILE);
-			glColor3f(0.6f, 0.6f, 0.6f);
+			glColor3f(0.3f, 0.3f, 0.3f);
 			drawPineTrunc(0.1f, 1.1f, 0.0f);
 			drawPineLevel(0.875f, 0.875f, 0.7f, 0.3f, 0.1f);
 			drawPineLevel(0.875f, 0.875f, 0.5f, 0.7f, 0.2f);
 			drawPineLevel(0.875f, 0.875f, 0.3f, 1.1f, 0.5f);
 		glEndList();
 		glNewList(treePineBurntSmall = glGenLists(1), GL_COMPILE);
-			glColor3f(0.6f, 0.6f, 0.6f);
+			glColor3f(0.3f, 0.3f, 0.3f);
 			drawPineTrunc(0.1f, 1.1f, 0.0f);
 			drawPineLevel(0.875f, 0.875f, 0.7f, 1.1f, 0.1f);
 		glEndList();
@@ -256,11 +258,11 @@ void LandscapeObjects::generate(RandomGenerator &generator, ProgressCounter *cou
 			drawPalmLevel(0.0f, 0.0f, 0.0f, 0.6f, 0.6f, 0.8f, 3.0f);
 		glEndList();
 		glNewList(treePalmBurnt = glGenLists(1), GL_COMPILE);
-			glColor3f(0.6f, 0.6f, 0.6f);
+			glColor3f(0.3f, 0.3f, 0.3f);
 			drawPalmTrunc(0.07f, 0.7f, 5.0f);
 		glEndList();
 		glNewList(treePalmBurntSmall = glGenLists(1), GL_COMPILE);
-			glColor3f(0.6f, 0.6f, 0.6f);
+			glColor3f(0.3f, 0.3f, 0.3f);
 			drawPalmTrunc(0.07f, 0.7f, 3.0f);
 		glEndList();
 	}

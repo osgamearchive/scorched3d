@@ -36,7 +36,8 @@ HelpDialog *HelpDialog::instance()
 }
 
 HelpDialog::HelpDialog() : 
-	GLWWindow("Help", 0.0f, 0.0f, 340.0f, 230.0f, 0)
+	GLWWindow("Help", 0.0f, 0.0f, 340.0f, 230.0f, 0,
+		"Shows the default keys for Scorched3D")
 {
 	needCentered_ = true;
 	addWidget(new GLWFileView((char *) getDocFile("documentation/readme.txt"), 

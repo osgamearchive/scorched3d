@@ -22,6 +22,7 @@
 #define AFX_TARGETCAMERA_H__97593EBB_5901_4D81_BAEB_8ADC76CFB627__INCLUDED_
 
 #include <GLEXT/GLCamera.h>
+#include <GLW/GLWToolTip.h>
 #include <engine/GameState.h>
 #include <common/Keyboard.h>
 
@@ -65,6 +66,7 @@ public:
 		bool &skipRest);
 
 	static const char **getCameraNames();
+	static GLWTip *getCameraToolTips();
 	static int getNoCameraNames();
 	static float heightFunc(int x, int y, void *heightData);
 
