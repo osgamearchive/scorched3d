@@ -14,6 +14,7 @@ create table if not exists scorched3d_players (
 	osdesc varchar(32) NOT NULL DEFAULT '',
 	lastconnected DATETIME,
         kills INTEGER NOT NULL DEFAULT 0,
+        deaths INTEGER NOT NULL DEFAULT 0,
         selfkills INTEGER NOT NULL DEFAULT 0,
         teamkills INTEGER NOT NULL DEFAULT 0,
         connects INTEGER NOT NULL DEFAULT 0,

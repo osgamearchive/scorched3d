@@ -41,7 +41,7 @@ extern "C" {
 #include <string.h>
 #include <math.h>
 
-#if !defined(WIN32) && !defined(__FreeBSD__)
+#if !defined(WIN32) && !defined(__FreeBSD__) && !defined(__DARWIN__)
 #include <alloca.h>
 #endif
 
@@ -66,7 +66,7 @@ static union { unsigned char __c[8]; double __d; } __ode_huge_val =
 #define SHAREDLIBIMPORT __declspec (dllimport)
 #define SHAREDLIBEXPORT __declspec (dllexport)
 
-/* some types. assume `int' >= 32 bits */
+/* some types. assume `int' >= 32 bits 
 typedef unsigned int    uint;
 typedef int             int32;
 typedef unsigned int    uint32;
@@ -74,12 +74,13 @@ typedef short           int16;
 typedef unsigned short  uint16;
 typedef char            int8;
 typedef unsigned char   uint8;
+*/
 
 
 /* an integer type that we can safely cast a pointer to and from without
  * loss of bits.
  */
-typedef uint32 intP;
+typedef unsigned int intP;
 
 
 /* if we're compiling on a pentium, we may need to know the clock rate so

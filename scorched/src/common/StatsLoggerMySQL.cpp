@@ -302,6 +302,9 @@ void StatsLoggerMySQL::tankKilled(Tank *firedTank, Tank *deadTank, Weapon *weapo
 
 	runQuery("UPDATE scorched3d_players SET kills=kills+1 "
 		"WHERE playerid = %i;", playerId_[firedTank->getUniqueId()]);
+		
+	runQuery("UPDATE scorched3d_players SET deaths=deaths+1 "
+		"WHERE playerid = %i;", playerId_[deadTank->getUniqueId()]);
 }
 
 void StatsLoggerMySQL::tankTeamKilled(Tank *firedTank, Tank *deadTank, Weapon *weapon)
@@ -318,6 +321,9 @@ void StatsLoggerMySQL::tankTeamKilled(Tank *firedTank, Tank *deadTank, Weapon *w
 
 	runQuery("UPDATE scorched3d_players SET teamkills=teamkills+1 "
 		"WHERE playerid = %i;", playerId_[firedTank->getUniqueId()]);
+		
+	runQuery("UPDATE scorched3d_players SET deaths=deaths+1 "
+		"WHERE playerid = %i;", playerId_[deadTank->getUniqueId()]);
 }
 
 void StatsLoggerMySQL::tankSelfKilled(Tank *firedTank, Weapon *weapon)
@@ -332,6 +338,9 @@ void StatsLoggerMySQL::tankSelfKilled(Tank *firedTank, Weapon *weapon)
                 weaponId_[weapon->getName()]);
 
 	runQuery("UPDATE scorched3d_players SET selfkills=selfkills+1 "
+		"WHERE playerid = %i;", playerId_[firedTank->getUniqueId()]);
+		
+	runQuery("UPDATE scorched3d_players SET deaths=deaths+1 "
 		"WHERE playerid = %i;", playerId_[firedTank->getUniqueId()]);
 }
 

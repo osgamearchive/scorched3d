@@ -20,7 +20,8 @@ LDFLAGS="$LDFLAGS -lmx"
 CPPFLAGS="$CPPFLAGS -D__DARWIN__"
 fi
 
-dnl Check for SDL
+dnl Checking for SDL
+AC_MSG_CHECKING(for SDL)
 SDL_VERSION=1.2.5
 AM_PATH_SDL($SDL_VERSION,
             :,
@@ -31,59 +32,82 @@ CFLAGS="$CFLAGS $SDL_CFLAGS"
 CXXFLAGS="$CXXFLAGS $SDL_CFLAGS"
 LIBS="$LIBS $SDL_LIBS"
 
-dnl Check for SDL_mixer lib
-have_SDLmixer=no
-AC_TRY_COMPILE([
-   	#include <SDL/SDL.h>
-	#include <SDL/SDL_mixer.h>
+dnl Checking for SDL_mixer
+AC_MSG_CHECKING(for SDL_mixer lib)
+have_SDLmixer=yes
+if test "x$enable_sdltest" = "xyes" ; then
+	AC_TRY_COMPILE([
+		#include <SDL/SDL.h>
+		#include <SDL/SDL_mixer.h>
 
-int main(int argc, char *argv[])
-{ return 0; }
+		int main(int argc, char *argv[])
+		{ return 0; }
 #undef  main
 #define main K_and_R_C_main
-],[
-],[
-have_SDLmixer=yes
-])
+		],[
+		],[
+		have_SDLmixer=yes
+		],[
+		have_SDLmixer=no
+		]
+	)
+fi
 
+AC_MSG_RESULT($have_SDLmixer)
 if test x$have_SDLmixer != xyes; then
     AC_MSG_ERROR([*** Can't find the SDL_mixer library. Try: http://www.libsdl.org/projects/SDL_mixer])
 fi
 LIBS="$LIBS -lSDL_mixer"
 
-dnl Check for SDL_net lib
-have_SDLnet=no
-AC_TRY_COMPILE([
-   	#include <SDL/SDL.h>
-	#include <SDL/SDL_net.h>
+dnl checking for SDL_net
+AC_MSG_CHECKING(for SDL_net lib)
+have_SDLnet=yes
+if test "x$enable_sdltest" = "xyes" ; then
+	AC_TRY_COMPILE([
+		#include <SDL/SDL.h>
+		#include <SDL/SDL_net.h>
 
-int main(int argc, char *argv[])
-{ return 0; }
+		int main(int argc, char *argv[])
+		{ return 0; }
 #undef  main
 #define main K_and_R_C_main
-],[
-],[
-have_SDLnet=yes
-])
+		],[
+		],[
+		have_SDLnet=yes
+		],[
+		have_SDLnet=no
+		])
+fi
 
+AC_MSG_RESULT($have_SDLnet)
 if test x$have_SDLnet != xyes; then
     AC_MSG_ERROR([*** Can't find the SDL_net library Try: http://www.libsdl.org/projects/SDL_net])
 fi
 LIBS="$LIBS -lSDL_net"
 
-AC_CHECK_LIB(fridge, beer, echo "Hmm?!", echo "Warning: No beer found in fridge!";echo "We highly suggest that you rectify this situation immediately.")
+AC_CHECK_LIB(fridge, beer, echo "Hmm?!",[
+	echo "Warning: No beer found in fridge!";
+	echo "We highly suggest that you rectify this situation immediately."
+])
 
 dnl Checks for OpenGL
+AC_ARG_ENABLE(opengltest, 
+	[  --disable-opengltest    Do not try to compile and run a test opengl program],
+		    , enable_opengltest=yes)
 AC_MSG_CHECKING(for OpenGL support)
-have_opengl=no  
-AC_TRY_COMPILE([
-   	#include <GL/gl.h>
-	#include <GL/glu.h>
-	
-],[
-],[
 have_opengl=yes
-])
+if test "x$enable_sdltest" = "xyes" ; then
+	AC_TRY_COMPILE([
+		#include <GL/gl.h>
+		#include <GL/glu.h>
+		],[
+		],[
+		have_opengl=yes
+		],[
+		have_opengl=no
+	])
+fi
+
 AC_MSG_RESULT($have_opengl)
 if test x$have_opengl != xyes; then
     AC_MSG_ERROR([*** Can't find the OpenGL library Try: http://www.opengl.org])
@@ -96,6 +120,26 @@ else
 fi 
 LIBS="$LIBS $OPENGL_LIBS"
 
+dnl Floating point math
+AC_MSG_CHECKING(for floating point math support)
+have_fp=yes
+AC_TRY_COMPILE([
+	#include <math.h>
+	],[
+	float a = sinf(0.1f);
+	],[
+	have_fp=yes
+	],[
+	have_fp=no
+])
+AC_MSG_RESULT($have_fp)
+
+if test x$have_fp != xyes; then
+	CFLAGS="$CPPFLAGS -DNO_FLOAT_MATH"
+	CPPFLAGS="$CPPFLAGS -DNO_FLOAT_MATH"
+	CXXFLAGS="$CXXFLAGS -DNO_FLOAT_MATH"
+fi
+
 dnl Checks for mysql
 AC_ARG_WITH([mysql],
             AC_HELP_STRING([--with-mysql],
@@ -104,22 +148,23 @@ AC_ARG_WITH([mysql],
 AH_TEMPLATE(HAVE_MYSQL,[Define if you have libmysql])
 
 if test x"$use_mysql" = x"yes"; then
-AC_MSG_CHECKING(for MySql support)
-have_mysql=no
-AC_TRY_COMPILE([
-        #include <mysql/mysql.h>
-],[
-],[
-have_mysql=yes
-])
-AC_MSG_RESULT($have_mysql)
-if test x$have_mysql != xyes; then
-    AC_MSG_ERROR([*** Can't find the MySql library Try: http://www.mysql.com])
-else
-AC_DEFINE(HAVE_MYSQL)
-MYSQLLIBS=`mysql_config --libs`
-LIBS="$LIBS $MYSQLLIBS"
-fi
+	AC_MSG_CHECKING(for MySql support)
+	have_mysql=no
+	AC_TRY_COMPILE([
+		#include <mysql/mysql.h>
+		],[
+		],[
+		have_mysql=yes
+	])
+	AC_MSG_RESULT($have_mysql)
+
+	if test x$have_mysql != xyes; then
+		AC_MSG_ERROR([*** Can't find the MySql library Try: http://www.mysql.com])
+	else
+		AC_DEFINE(HAVE_MYSQL)
+		MYSQLLIBS=`mysql_config --libs`
+		LIBS="$LIBS $MYSQLLIBS"
+	fi
 fi
 
 dnl Check for wxwindows

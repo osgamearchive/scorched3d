@@ -25,6 +25,7 @@
 
 #ifndef WIN32
 #include <fnmatch.h>
+#include <sys/types.h>
 #include <dirent.h>
 #else
 #define WIN32_LEAN_AND_MEAN	

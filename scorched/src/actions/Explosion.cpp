@@ -73,7 +73,7 @@ void Explosion::init()
 
 	if (deformType_ != DeformNone)
 	{
-		vPoint_ = context_->viewPoints.getNewViewPoint(playerId_);
+		//vPoint_ = context_->viewPoints.getNewViewPoint(playerId_);
 	}
 
 	if (!context_->serverMode) 

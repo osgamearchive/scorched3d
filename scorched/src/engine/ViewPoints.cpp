@@ -79,11 +79,11 @@ void ViewPoints::simulate(float frameTime)
 		count += 1.0f;
 	}
 
-	float dist = 10.0f;
+	float dist = 15.0f;
 	float maxMin = (max - min).Magnitude();
 	if (maxMin > 0.0f)
 	{
-		dist = 10.0f + maxMin;
+		dist = 15.0f + maxMin;
 	}
 	lookFrom.StoreNormalize();
 
