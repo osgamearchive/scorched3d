@@ -33,6 +33,7 @@ Changed: Tank can move up and down bigger slopes (configurable)
 Changed: Spread and hurts weapon primative options are now variable
 Changed: LeapFrog weapon primative bounce now variable
 
+Added: Stats prefix can be (pre/a)pended onto mysql stats tables
 Added: When a player reconnects give back kills, money etc until the end of the game
 Added: Allow objects other than trees to be used (as models)
 Added: Players say and team say commands echoed to console (for repeat)
@@ -54,7 +55,7 @@ Added: Server can broadcast a message every x seconds
 Added: More resolutions when "More Resolutions" chosen
 Added: "none" sound available for weapon primative explosions
 Added: "none" texture available for weapon primative explosions
-Added: New weapon primatives WeaponVelocity, WeaponDelay and WeaponTranslate
+Added: New weapon primatives WeaponVelocity, WeaponDelay, WeaponRedirect and WeaponTranslate
 Added: Simplistic water option (no movement, shading and only uses one quad)
 Added: No sphere mapping option for water
 Added: Custom maps (and other mods) can be auto-downloaded from server
@@ -80,7 +81,6 @@ Lightning, rain and meteors
 New surrounds instead of the water
 More dirt option for landscape (perhaps cannot go under water)
 Make rollers look better
-Stats prefix can be (pre/a)pended onto mysql stats tables
 Proper mag shield
 Guidance
 Add action replay type functionality

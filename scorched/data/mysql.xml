@@ -3,4 +3,5 @@
 	<user></user>
 	<passwd>scorched3d</passwd>
 	<db>scorched3d</db>
+	<prefix></prefix>
 </mysql>

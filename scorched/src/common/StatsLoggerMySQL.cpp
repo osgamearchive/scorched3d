@@ -75,7 +75,8 @@ void StatsLoggerMySQL::createLogger()
 			if (file.getRootNode()->getNamedChild("host", host) &&
 				file.getRootNode()->getNamedChild("user", user) &&
 				file.getRootNode()->getNamedChild("passwd", passwd) &&
-				file.getRootNode()->getNamedChild("db", db)) 
+				file.getRootNode()->getNamedChild("db", db) &&
+				file.getRootNode()->getNamedChild("prefix", prefix_)) 
 			{
 				if (mysql_real_connect(
 					mysql_,
@@ -115,12 +116,13 @@ void StatsLoggerMySQL::createLogger()
 		{
 			// Add this server to the list of servers
 			runQuery("INSERT INTO scorched3d_main "
-				"(name) VALUES(\"%s\");",
+				"(name, prefix) VALUES(\"%s\", \"%s\");",
 				ScorchedServer::instance()->getOptionsGame().
-				getServerName());
+				getServerName(),
+				prefix_.c_str());
 
 			// Add event types
-			runQuery("INSERT INTO scorched3d_eventtypes "
+			runQuery("INSERT INTO scorched3d%s_eventtypes "
 				"(eventtype, name) VALUES "
 				"(%i, \"KILL\"), "
 				"(%i, \"TEAMKILL\"), "
@@ -128,6 +130,7 @@ void StatsLoggerMySQL::createLogger()
 				"(%i, \"WON\"), "
 				"(%i, \"OVERALLWINNER\"), "
 				"(%i, \"RESIGNED\"); ",
+				prefix_.c_str(),
 				EventKill, EventTeamKill, EventSelfKill,
 				EventWon, EventOverallWinner, EventResigned);
 
@@ -143,8 +146,8 @@ void StatsLoggerMySQL::createLogger()
 
 				// Try to determine this players sql playerid
 				int weaponId = 0;
-				if (runQuery("SELECT weaponid FROM scorched3d_weapons "
-					"WHERE name = \"%s\";", weapon->getName()))
+				if (runQuery("SELECT weaponid FROM scorched3d%s_weapons "
+					"WHERE name = \"%s\";", prefix_.c_str(), weapon->getName()))
 				{
 					MYSQL_RES *result = mysql_store_result(mysql_);
 					if (result)
@@ -161,8 +164,9 @@ void StatsLoggerMySQL::createLogger()
 
 				if (weaponId == 0)
 				{
-					runQuery("INSERT INTO scorched3d_weapons (name, description, armslevel) "
+					runQuery("INSERT INTO scorched3d%s_weapons (name, description, armslevel) "
 						"VALUES(\"%s\", \"%s\", %i);", 
+						prefix_.c_str(),
 						weapon->getName(), 
 						weapon->getDescription(),
 						weapon->getArmsLevel());
@@ -202,8 +206,8 @@ void StatsLoggerMySQL::roundStart(std::list<Tank *> &tanks)
 	{
 		Tank *tank = *itor;
 		
-		runQuery("UPDATE scorched3d_players SET roundsplayed=roundsplayed+1 "
-			"WHERE playerid = %i;", playerId_[tank->getUniqueId()]);
+		runQuery("UPDATE scorched3d%s_players SET roundsplayed=roundsplayed+1 "
+			"WHERE playerid = %i;", prefix_.c_str(), playerId_[tank->getUniqueId()]);
 	}
 }
 
@@ -212,8 +216,8 @@ void StatsLoggerMySQL::tankFired(Tank *firedTank, Weapon *weapon)
 	createLogger();
 	if (!success_) return;
 
-	runQuery("UPDATE scorched3d_players SET shots=shots+1 "
-		"WHERE playerid = %i;", playerId_[firedTank->getUniqueId()]);
+	runQuery("UPDATE scorched3d%s_players SET shots=shots+1 "
+		"WHERE playerid = %i;", prefix_.c_str(), playerId_[firedTank->getUniqueId()]);
 }
 
 void StatsLoggerMySQL::tankResigned(Tank *tank)
@@ -221,13 +225,14 @@ void StatsLoggerMySQL::tankResigned(Tank *tank)
 	createLogger();
 	if (!success_) return;
 
-        runQuery("INSERT INTO scorched3d_events (eventtype, playerid, otherplayerid, weaponid, eventtime) "
+        runQuery("INSERT INTO scorched3d%s_events (eventtype, playerid, otherplayerid, weaponid, eventtime) "
                 "VALUES(%i, %i, 0, 0, NOW());",
+		prefix_.c_str(),
 		EventResigned,
                 playerId_[tank->getUniqueId()]);
 
-	runQuery("UPDATE scorched3d_players SET resigns=resigns+1 "
-		"WHERE playerid = %i;", playerId_[tank->getUniqueId()]);
+	runQuery("UPDATE scorched3d%s_players SET resigns=resigns+1 "
+		"WHERE playerid = %i;", prefix_.c_str(), playerId_[tank->getUniqueId()]);
 }
 
 void StatsLoggerMySQL::tankRank(Tank *tank)
@@ -237,8 +242,8 @@ void StatsLoggerMySQL::tankRank(Tank *tank)
 
 	// Try to determine this players sql playerid
 	int kills = 0;
-	if (runQuery("SELECT kills FROM scorched3d_players "
-			"WHERE playerid = %i;", playerId_[tank->getUniqueId()]))
+	if (runQuery("SELECT kills FROM scorched3d%s_players "
+			"WHERE playerid = %i;", prefix_.c_str(), playerId_[tank->getUniqueId()]))
 	{
 		MYSQL_RES *result = mysql_store_result(mysql_);
 		if (result)
@@ -253,8 +258,8 @@ void StatsLoggerMySQL::tankRank(Tank *tank)
 		}
 	}
 
-	if (runQuery("SELECT count(*) FROM scorched3d_players "
-		"WHERE kills > \"%i\";", kills))
+	if (runQuery("SELECT count(*) FROM scorched3d%s_players "
+		"WHERE kills > \"%i\";", prefix_.c_str(), kills))
 	{
 		MYSQL_RES *result = mysql_store_result(mysql_);
 		if (result)
@@ -282,8 +287,8 @@ void StatsLoggerMySQL::tankJoined(Tank *tank)
 
 	// Try to determine this players sql playerid
 	int playerId = 0;
-	if (runQuery("SELECT playerid FROM scorched3d_players "
-			"WHERE uniqueid = \"%s\";", tank->getUniqueId()))
+	if (runQuery("SELECT playerid FROM scorched3d%s_players "
+			"WHERE uniqueid = \"%s\";", prefix_.c_str(), tank->getUniqueId()))
 	{
 		MYSQL_RES *result = mysql_store_result(mysql_);
 		if (result)
@@ -303,8 +308,8 @@ void StatsLoggerMySQL::tankJoined(Tank *tank)
 	// We don't have a player id, create one
 	if (playerId == 0)
 	{
-		runQuery("INSERT INTO scorched3d_players (uniqueid) "
-			"VALUES(\"%s\");",
+		runQuery("INSERT INTO scorched3d%s_players (uniqueid) "
+			"VALUES(\"%s\");", prefix_.c_str(),
 			tank->getUniqueId());
 		playerId = mysql_insert_id(mysql_);
 		Logger::log(0, "Add new stats user \"%i\"", playerId);
@@ -314,15 +319,15 @@ void StatsLoggerMySQL::tankJoined(Tank *tank)
 	playerId_[tank->getUniqueId()] = playerId;
 
 	// Add the players name (may fail if duplicates)
-	runQuery("INSERT INTO scorched3d_names (playerid, name, count) VALUES "
-		"(%i, \"%s\", 0);", playerId, tank->getName());
-	runQuery("UPDATE scorched3d_names SET count=count+1 WHERE "
-		"playerid=%i AND name=\"%s\";", playerId, tank->getName());
+	runQuery("INSERT INTO scorched3d%s_names (playerid, name, count) VALUES "
+		"(%i, \"%s\", 0);", prefix_.c_str(), playerId, tank->getName());
+	runQuery("UPDATE scorched3d%s_names SET count=count+1 WHERE "
+		"playerid=%i AND name=\"%s\";", prefix_.c_str(), playerId, tank->getName());
 	
 	// Joining stats
-	runQuery("UPDATE scorched3d_players SET connects=connects+1, "
+	runQuery("UPDATE scorched3d%s_players SET connects=connects+1, "
 		"lastconnected=NOW(), name=\"%s\", osdesc=\"%s\" "
-		"WHERE playerid = %i;", tank->getName(), tank->getHostDesc(), playerId);
+		"WHERE playerid = %i;", prefix_.c_str(), tank->getName(), tank->getHostDesc(), playerId);
 }
 
 void StatsLoggerMySQL::tankLeft(Tank *tank)
@@ -330,8 +335,9 @@ void StatsLoggerMySQL::tankLeft(Tank *tank)
 	createLogger();
 	if (!success_) return;
 
-	runQuery("UPDATE scorched3d_players SET timeplayed=timeplayed+%i moneyearned=moneyearned+%i "
+	runQuery("UPDATE scorched3d%s_players SET timeplayed=timeplayed+%i moneyearned=moneyearned+%i "
 		"WHERE playerid = %i;", 
+		prefix_.c_str(),
 		tank->getScore().getTimePlayed(), 
 		tank->getScore().getTotalMoneyEarned(), 
 		playerId_[tank->getUniqueId()]);
@@ -345,21 +351,22 @@ void StatsLoggerMySQL::tankKilled(Tank *firedTank, Tank *deadTank, Weapon *weapo
 	createLogger();
 	if (!success_) return;
 
-	runQuery("INSERT INTO scorched3d_events (eventtype, playerid, otherplayerid, weaponid, eventtime) "
+	runQuery("INSERT INTO scorched3d%s_events (eventtype, playerid, otherplayerid, weaponid, eventtime) "
 		"VALUES(%i, %i, %i, %i, NOW());",
+		prefix_.c_str(),
 		EventKill,
 		playerId_[firedTank->getUniqueId()], 
 		playerId_[deadTank->getUniqueId()], 
 		weaponId_[weapon->getName()]);
 
-	runQuery("UPDATE scorched3d_weapons SET kills=kills+1 "
-		"WHERE weaponid = \"%i\";", weaponId_[weapon->getName()]);
+	runQuery("UPDATE scorched3d%s_weapons SET kills=kills+1 "
+		"WHERE weaponid = \"%i\";", prefix_.c_str(), weaponId_[weapon->getName()]);
 
-	runQuery("UPDATE scorched3d_players SET kills=kills+1 "
-		"WHERE playerid = %i;", playerId_[firedTank->getUniqueId()]);
+	runQuery("UPDATE scorched3d%s_players SET kills=kills+1 "
+		"WHERE playerid = %i;", prefix_.c_str(), playerId_[firedTank->getUniqueId()]);
 		
-	runQuery("UPDATE scorched3d_players SET deaths=deaths+1 "
-		"WHERE playerid = %i;", playerId_[deadTank->getUniqueId()]);
+	runQuery("UPDATE scorched3d%s_players SET deaths=deaths+1 "
+		"WHERE playerid = %i;", prefix_.c_str(), playerId_[deadTank->getUniqueId()]);
 }
 
 void StatsLoggerMySQL::tankTeamKilled(Tank *firedTank, Tank *deadTank, Weapon *weapon)
@@ -367,18 +374,19 @@ void StatsLoggerMySQL::tankTeamKilled(Tank *firedTank, Tank *deadTank, Weapon *w
 	createLogger();
 	if (!success_) return;
 
-	runQuery("INSERT INTO scorched3d_events (eventtype, playerid, otherplayerid, weaponid, eventtime) "
+	runQuery("INSERT INTO scorched3d%s_events (eventtype, playerid, otherplayerid, weaponid, eventtime) "
 		"VALUES(%i, %i, %i, %i, NOW());",
+		prefix_.c_str(),
 		EventTeamKill,
 		playerId_[firedTank->getUniqueId()],
 		playerId_[deadTank->getUniqueId()], 
 		weaponId_[weapon->getName()]);
 
-	runQuery("UPDATE scorched3d_players SET teamkills=teamkills+1 "
-		"WHERE playerid = %i;", playerId_[firedTank->getUniqueId()]);
+	runQuery("UPDATE scorched3d%s_players SET teamkills=teamkills+1 "
+		"WHERE playerid = %i;", prefix_.c_str(), playerId_[firedTank->getUniqueId()]);
 		
-	runQuery("UPDATE scorched3d_players SET deaths=deaths+1 "
-		"WHERE playerid = %i;", playerId_[deadTank->getUniqueId()]);
+	runQuery("UPDATE scorched3d%s_players SET deaths=deaths+1 "
+		"WHERE playerid = %i;", prefix_.c_str(), playerId_[deadTank->getUniqueId()]);
 }
 
 void StatsLoggerMySQL::tankSelfKilled(Tank *firedTank, Weapon *weapon)
@@ -386,17 +394,18 @@ void StatsLoggerMySQL::tankSelfKilled(Tank *firedTank, Weapon *weapon)
 	createLogger();
 	if (!success_) return;
 
-	runQuery("INSERT INTO scorched3d_events (eventtype, playerid, otherplayerid, weaponid, eventtime) "
+	runQuery("INSERT INTO scorched3d%s_events (eventtype, playerid, otherplayerid, weaponid, eventtime) "
 		"VALUES(%i, %i, 0, %i, NOW());",
+		prefix_.c_str(),
 		EventSelfKill,
 		playerId_[firedTank->getUniqueId()],
 		weaponId_[weapon->getName()]);
 
-	runQuery("UPDATE scorched3d_players SET selfkills=selfkills+1 "
-		"WHERE playerid = %i;", playerId_[firedTank->getUniqueId()]);
+	runQuery("UPDATE scorched3d%s_players SET selfkills=selfkills+1 "
+		"WHERE playerid = %i;", prefix_.c_str(), playerId_[firedTank->getUniqueId()]);
 		
-	runQuery("UPDATE scorched3d_players SET deaths=deaths+1 "
-		"WHERE playerid = %i;", playerId_[firedTank->getUniqueId()]);
+	runQuery("UPDATE scorched3d%s_players SET deaths=deaths+1 "
+		"WHERE playerid = %i;", prefix_.c_str(), playerId_[firedTank->getUniqueId()]);
 }
 
 void StatsLoggerMySQL::tankWon(Tank *tank)
@@ -404,13 +413,14 @@ void StatsLoggerMySQL::tankWon(Tank *tank)
 	createLogger();
 	if (!success_) return;
 
-	runQuery("INSERT INTO scorched3d_events (eventtype, playerid, otherplayerid, weaponid, eventtime) "
+	runQuery("INSERT INTO scorched3d%s_events (eventtype, playerid, otherplayerid, weaponid, eventtime) "
 		"VALUES(%i, %i, 0, 0, NOW());",
+		prefix_.c_str(),
 		EventWon,
 		playerId_[tank->getUniqueId()]);
 
-	runQuery("UPDATE scorched3d_players SET wins=wins+1 "
-		"WHERE playerid = %i;", playerId_[tank->getUniqueId()]);
+	runQuery("UPDATE scorched3d%s_players SET wins=wins+1 "
+		"WHERE playerid = %i;", prefix_.c_str(), playerId_[tank->getUniqueId()]);
 }
 
 void StatsLoggerMySQL::tankOverallWinner(Tank *tank)
@@ -418,13 +428,14 @@ void StatsLoggerMySQL::tankOverallWinner(Tank *tank)
 	createLogger();
 	if (!success_) return;
 
-	runQuery("INSERT INTO scorched3d_events (eventtype, playerid, otherplayerid, weaponid, eventtime) "
+	runQuery("INSERT INTO scorched3d%s_events (eventtype, playerid, otherplayerid, weaponid, eventtime) "
 		"VALUES(%i, %i, 0, 0, NOW());",
+		prefix_.c_str(),
 		EventOverallWinner,
 		playerId_[tank->getUniqueId()]);
 
-	runQuery("UPDATE scorched3d_players SET overallwinner=overallwinner+1 "
-		"WHERE playerid = %i;", playerId_[tank->getUniqueId()]);
+	runQuery("UPDATE scorched3d%s_players SET overallwinner=overallwinner+1 "
+		"WHERE playerid = %i;", prefix_.c_str(), playerId_[tank->getUniqueId()]);
 }
 
 #endif

@@ -2,6 +2,7 @@ drop table scorched3d_main, scorched3d_events, scorched3d_eventtypes, scorched3d
 
 create table if not exists scorched3d_main (
 	name varchar(64),
+	prefix varchar(64),
 	games INTEGER NOT NULL DEFAULT 0,
 	rounds INTEGER NOT NULL DEFAULT 0,
 	PRIMARY KEY (name)
