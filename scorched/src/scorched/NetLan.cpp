@@ -41,7 +41,7 @@ static void createControlsPre(wxWindow *parent, wxSizer *sizer)
 		wxBITMAP_TYPE_BMP);
 	if (!netLanImageList)
 	{
-		netLanImageList = new wxImageList();
+		netLanImageList = new wxImageList(16, 16, FALSE);
 		netLanImageList->Add(questionBitmap);
 		netLanImageList->Add(okBitmap);
 		netLanImageList->Add(warnBitmap);
