@@ -94,57 +94,57 @@ Note: Server settings are not required but are provided as an example
 Note: Any weapon with an "x" in front is included in the mod but has been commented out in the official release
 If you would like to add any of these weapons to your server, simply remove the <!-- and --> symbols surrounding them
 
-Acid Blast	- Explodes releasing some small, earth eating bomblets
-Acid Rain	- Non damaging, earth eating rain
-Acid Splash	- Explodes on impact and splashes dirt eating bomblets all over the area
+Acid Blast		- Explodes releasing some small, earth eating bomblets
+Acid Rain		- Non damaging, earth eating rain
+Acid Splash		- Explodes on impact and splashes dirt eating bomblets all over the area
 Acidic Napalm	x Explodes on impact releasing dirt eating/burning bomblets 
-Apocalypse	- Warhead that splits a few times in the air realeasing many medium sized nuclear warheads
+Apocalypse		- Warhead that splits a few times in the air realeasing many medium sized nuclear warheads
 Atlantis Bomb	- Explodes in the air and releases many dirt eating bombs that destroy most of the map without doing physical damage to tanks
-Baby Funk	x Small Funky Bomb
-Baby Napalm	- Free, weak version of napalm
+Baby Funk		x Small Funky Bomb
+Baby Napalm		- Free, weak version of napalm
 Bottomless Pit  - Creates a narrow but deep pit at the point of impact
 BouncingBetty	- Bomb that bounces and releases multiple explosive warheads
-Bunny Bomb	- MIRV with leaping warheads
+Bunny Bomb		- MIRV with leaping warheads
 Chain Lightning - Explodes and releases an aimed arc of electricity with courses through the ground aimed at nearby tanks
 Digger Blast	x Explodes on contact and releases many baby diggers
-Disco Bunny	- Releases an initial salvo of aimed warheads which bounce outwards creating more warheads as they bounce
+Disco Bunny		- Releases an initial salvo of aimed warheads which bounce outwards creating more warheads as they bounce
 Dmsday Device	- Larger, more destructive version of Apocalypse
 Earthquake      - shakes the earth and does damage over a large area
 EMP Grenade     - Explodes on impact causing damage to opponents without deforming the earth.
-Fatman		- In between a nuke and a MOAB
-Fire Ants	- MIRV that releases multiple rolling, explosive napalm warheads
-Fire Worms	- Creates a series of slow-moving, explosive napalm diggers
+Fatman			- In between a nuke and a MOAB
+Fire Ants		- MIRV that releases multiple rolling, explosive napalm warheads
+Fire Worms		- Creates a series of slow-moving, explosive napalm diggers
 Fork Lightning	- Larger version of chain lightning which splits up into several arcs as it progresses
 Fungal Bloom	x Bomb that explodes and spreads dirt everywhere
 Gas Grenade     - Lands, bounces and releases a cloud of harmful gas.  Custom model by ShoCkwaVe
-Haymaker	- MIRV with Bouncing Betty warheads
-Hellstorm	- Firey/explosive rain
+Haymaker		- MIRV with Bouncing Betty warheads
+Hellstorm		- Firey/explosive rain
 Hornet's Nest	- Creates an angry cloud of hornets which fly out and attack nearby tanks
 Hornet Swarm    - Releases multiple Hornet's Nests
 Instamountain	- Creates a mountain of dirt upon impacting the ground
 Lightning Bolt  - Explodes at the apex of the projectile's arc creating a small cloud and lightning bolt
 Lightning Storm - Explodes at the apex of the projectile's arc creating several lightning bolts over a few seconds
 Mega EMP        - Larger, more powerful version of the EMP grenade
-Mega Meteor	- Larger, more powerful version of meteor
-Mega MIRV	- Larger, more powerful version of the standard MIRV
-Mega S-MIRV	- Larger, more powerful version of the spread MIRV
-Meteor		- Meteor appears at the peak of flight and lands scattering flaming earth
+Mega Meteor		- Larger, more powerful version of meteor
+Mega MIRV		- Larger, more powerful version of the standard MIRV
+Mega S-MIRV		- Larger, more powerful version of the spread MIRV
+Meteor			- Meteor appears at the peak of flight and lands scattering flaming earth
 Meteor Shower	- Creates many meteors that rain down upon everyone
-MOAB		- Super-sized Nuke
+MOAB			- Super-sized Nuke
 Napalm Blast	x Explodes on impact and releases many small napalm bomblets
-Napalm MIRV	- MIRV with napalm warheads
+Napalm MIRV		- MIRV with napalm warheads
 Napalm S-MIRV	- Spread MIRV with napalm warheads
-Quicksand	- Explodes on impact releasing a series of slow-moving, poorly aimed diggers
+Quicksand		- Explodes on impact releasing a series of slow-moving, poorly aimed diggers
 Ring of Dirt    - Raises multiple dirt walls that form a ring around you
 Riot Drill      - 3 heavy riot bombs are shot in rapid succession at the same point
-Roller MIRV	x MIRV with rolling warheads
+Roller MIRV		x MIRV with rolling warheads
 Roller S-MIRV	x Rolling Spread MIRV
-Sandfish	x Explodes on impact releasing several leaping sandhogs
+Sandfish		x Explodes on impact releasing several leaping sandhogs
 Sandhog Blast	x Explodes on contact and releases many baby sandhogs
-Shockwave	- Creates a massive energy wave which ripples outwards without destroying the landscape
-Strangelove	- The end game weapon
+Shockwave		- Creates a massive energy wave which ripples outwards without destroying the landscape
+Strangelove		- The end game weapon
 Suicide Bomb	- Detonates yourself causing a huge, powerful explosion
-Terraform	x Raises dirt over a huge area when fired high into the air
+Terraform		x Raises dirt over a huge area when fired high into the air
 The Travolta	- Super-sized Funky Bomb
 Wall of Dirt    - Raises a small wall of dirt a short distance from your tank in the direction you aim
 
@@ -163,7 +163,7 @@ Maps By Bobirov:
 	Ring		- Random:  Small valley or pond always in the middle
 	Apoc City	- Static:  Island map that comes complete with a sprawling city to destroy
 	World Map	- Static:  Map of the entire planet
-	USA		- Static:  Map of the continental U.S.
+	USA			- Static:  Map of the continental U.S.
 	Bullseye	- Static:  Round medium-height map with a few elevation levels, city-enabled
 	Mesa City	- Static:  Square map with a high, flat surface, city-enabled
 	Pillars		- Static:  Series of steep outcroppings of various heights
@@ -178,11 +178,11 @@ Maps By Nexus6:
 	Pyramids	- Static:  Moderate height map with some nice pyramids to blow up
 	Weathered	- Static:  Another nice hilly map
 	Hex World	- Static:  Cool map made up of hexagonal shapes of varying heights
-	Two Towers  	- Static:  Nice map with two large round towers
+	Two Towers  - Static:  Nice map with two large round towers
 	Craters		- Static:  Craterous map with a nice moonlike feel
 	Pyramids 2	- Static:  Hand remake of the original Pyramids map
-	Desert Mesa 	- Static:  Southwestern US style map
-	Terraces    	- Static:  Landscape made up of various height levels
+	Desert Mesa - Static:  Southwestern US style map
+	Terraces    - Static:  Landscape made up of various height levels
 	Steppes		- Static:  Similar to terraces but with a different shape
 	Canyon		- Static:  Deep canyon to annihilate eachother in
 	City Blocks	- Static:  Map with some building like structures

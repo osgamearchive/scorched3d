@@ -66,15 +66,15 @@ the tank from moderate amounts of damage.
 Shields must be activated before they 
 work.</description>
 		<icon>hshield.bmp</icon>
-		<cost>6000</cost>
+		<cost>8000</cost>
 		<bundlesize>1</bundlesize>
-		<armslevel>7</armslevel>
+		<armslevel>6</armslevel>
 		<radius>large</radius>
 		<halfshield>false</halfshield>
 		<color><r>1.0</r><g>1.0</g><b>1.0</b></color>
 		<activationsound>shield/activate.wav</activationsound>
 		<collisionsound>shield/hit.wav</collisionsound>
-		<removepower>12</removepower>
+		<removepower>8</removepower>
 	</accessory>
 	<accessory type="Shield">
 		<name>Ultra Shield</name>
@@ -149,23 +149,23 @@ be activated before they work.</description>
 		<removepower>4</removepower>
 	</accessory>
 	<accessory type="ShieldMag">
-		<name>Ultra Mag</name>
-		<description>An ultra reflective shield that protects
+		<name>Heavy Mag</name>
+		<description>A large reflective shield that protects
 the tank from small amounts of damage.
 Mag shields reflect any shots that hit
 them but only from above. Shields must be 
 activated before they work.</description>
 		<icon>smag.bmp</icon>
-		<cost>12000</cost>
+		<cost>10000</cost>
 		<bundlesize>1</bundlesize>
-		<armslevel>4</armslevel>
+		<armslevel>6</armslevel>
 		<radius>large</radius>
 		<halfshield>true</halfshield>
-		<deflectpower>200</deflectpower>
-		<color><r>0.5</r><g>1.0</g><b>1.0</b></color>
+		<deflectpower>100</deflectpower>
+		<color><r>1.0</r><g>0.0</g><b>0.0</b></color>
 		<activationsound>shield/activate.wav</activationsound>
 		<collisionsound>shield/hit2.wav</collisionsound>
-		<removepower>2</removepower>
+		<removepower>4</removepower>
 	</accessory>
 	<!--<accessory type="ShieldReflective">
 		<name>Mini Hard Hat</name>
@@ -405,8 +405,8 @@ trace of the shot path.</description>
 		<name>Nuke</name>
 		<description>A very large explosive projectile weapon</description>
 		<icon>nuke.bmp</icon>
-		<cost>10000</cost>
-		<bundlesize>2</bundlesize>
+		<cost>5000</cost>
+		<bundlesize>1</bundlesize>
 		<armslevel>4</armslevel>
 		<projectilemodel type="MilkShape">fatman/fatman.txt</projectilemodel>
 		<firedsound>shoot/xlarge.wav</firedsound>
@@ -912,8 +912,8 @@ its highest point releases several
 small warheads. These warheads fan out 
 in a random direction.</description>
 		<icon>mirv.bmp</icon>
-		<cost>5000</cost>
-		<bundlesize>2</bundlesize>
+		<cost>2500</cost>
+		<bundlesize>1</bundlesize>
 		<armslevel>6</armslevel>
 		<apexcollision></apexcollision>
 		<firedsound>shoot/large.wav</firedsound>
@@ -952,8 +952,8 @@ several small warheads. These warheads
 fan out in a straight line from the 
 direction of the firer.</description>
 		<icon>mirv.bmp</icon>
-		<cost>5000</cost>
-		<bundlesize>2</bundlesize>
+		<cost>2500</cost>
+		<bundlesize>1</bundlesize>
 		<armslevel>6</armslevel>
 		<apexcollision></apexcollision>
 		<firedsound>shoot/large.wav</firedsound>
@@ -3334,8 +3334,8 @@ many riot bomblets on impact.</description>
 		<description>Creates a narrow, but very deep pit at the 
 point of impact, from which no opponent can escape</description>
 		<icon>pit.bmp</icon>
-		<cost>3000</cost>
-		<bundlesize>2</bundlesize>
+		<cost>1500</cost>
+		<bundlesize>1</bundlesize>
 		<armslevel>7</armslevel>
 		<firedsound>shoot/large.wav</firedsound>
 		<collisionaction type="WeaponRedirect">
@@ -4378,192 +4378,6 @@ cover them.</description>
 			<explosionsound>none</explosionsound>
 		</collisionaction>
 	</accessory>
-	<accessory type="WeaponDelay">
-		<name>Wall Of Dirt</name>
-		<description>Raises a small wall Of Dirt a short 
-distance from your tank in the direction you aim</description>
-		<icon>dshield.bmp</icon>
-		<cost>4000</cost>
-		<bundlesize>1</bundlesize>
-		<armslevel>4</armslevel>
-		<delay>0.5</delay>
-		<firedsound>shoot/large.wav</firedsound>
-		<delayedweapon type="WeaponMulti">
-			<name>Wall Of Dirt</name>
-			<armslevel>4</armslevel>
-			<subweapon1 type="WeaponRedirect">
-				<name>Wall Of Dirt</name>
-				<armslevel>4</armslevel>
-				<habs>false</habs>
-				<vabs>true</vabs>
-				<hredirect>0</hredirect>
-				<vredirect>90</vredirect>
-				<nextaction type="WeaponTranslate">
-					<name>Wall Of Dirt</name>
-					<armslevel>4</armslevel>
-					<translatedist>35</translatedist>
-					<nextaction type="WeaponMulti">
-						<name>Wall Of Dirt</name>
-						<armslevel>4</armslevel>
-						<subweapon1 type="WeaponExplosion">
-							<name>Wall Of Dirt</name>
-							<armslevel>4</armslevel>
-							<deform>up</deform>
-							<hurtamount>0.0</hurtamount>
-							<nocreatedebris/>
-							<size>10</size>
-							<explosiontexture>exp03</explosiontexture>
-							<explosionsound>explosions/gloop.wav</explosionsound>
-						</subweapon1>
-						<subweapon2 type="WeaponDelay">
-							<name>Wall Of Dirt</name>
-							<armslevel>4</armslevel>
-							<delay>0.5</delay>
-							<delayedweapon type="WeaponExplosion">
-								<name>Wall Of Dirt</name>
-								<armslevel>4</armslevel>
-								<deform>up</deform>
-								<hurtamount>0.0</hurtamount>
-								<nocreatedebris/>
-								<size>10</size>
-								<explosiontexture>exp03</explosiontexture>
-								<explosionsound>explosions/gloop.wav</explosionsound>
-							</delayedweapon>
-						</subweapon2>
-						<subweapon3 type="WeaponDelay">
-							<name>Wall Of Dirt</name>
-							<armslevel>4</armslevel>
-							<delay>1.0</delay>
-							<delayedweapon type="WeaponExplosion">
-								<name>Wall Of Dirt</name>
-								<armslevel>4</armslevel>
-								<deform>up</deform>
-								<hurtamount>0.0</hurtamount>
-								<nocreatedebris/>
-								<size>10</size>
-								<explosiontexture>exp03</explosiontexture>
-								<explosionsound>explosions/gloop.wav</explosionsound>
-							</delayedweapon>
-						</subweapon3>
-					</nextaction>
-				</nextaction>
-			</subweapon1>
-			<subweapon2 type="WeaponRedirect">
-				<name>Wall Of Dirt</name>
-				<armslevel>4</armslevel>
-				<habs>false</habs>
-				<vabs>true</vabs>
-				<hredirect>22.5</hredirect>
-				<vredirect>90</vredirect>
-				<nextaction type="WeaponTranslate">
-					<name>Wall Of Dirt</name>
-					<armslevel>4</armslevel>
-					<translatedist>35</translatedist>
-					<nextaction type="WeaponMulti">
-						<name>Wall Of Dirt</name>
-						<armslevel>4</armslevel>
-						<subweapon1 type="WeaponExplosion">
-							<name>Wall Of Dirt</name>
-							<armslevel>4</armslevel>
-							<deform>up</deform>
-							<hurtamount>0.0</hurtamount>
-							<nocreatedebris/>
-							<size>10</size>
-							<explosiontexture>exp03</explosiontexture>
-							<explosionsound>none</explosionsound>
-						</subweapon1>
-						<subweapon2 type="WeaponDelay">
-							<name>Wall Of Dirt</name>
-							<armslevel>4</armslevel>
-							<delay>0.5</delay>
-							<delayedweapon type="WeaponExplosion">
-								<name>Wall Of Dirt</name>
-								<armslevel>4</armslevel>
-								<deform>up</deform>
-								<hurtamount>0.0</hurtamount>
-								<nocreatedebris/>
-								<size>10</size>
-								<explosiontexture>exp03</explosiontexture>
-								<explosionsound>none</explosionsound>
-							</delayedweapon>
-						</subweapon2>
-						<subweapon3 type="WeaponDelay">
-							<name>Wall Of Dirt</name>
-							<armslevel>4</armslevel>
-							<delay>1.0</delay>
-							<delayedweapon type="WeaponExplosion">
-								<name>Wall Of Dirt</name>
-								<armslevel>4</armslevel>
-								<deform>up</deform>
-								<hurtamount>0.0</hurtamount>
-								<nocreatedebris/>
-								<size>10</size>
-								<explosiontexture>exp03</explosiontexture>
-								<explosionsound>none</explosionsound>
-							</delayedweapon>
-						</subweapon3>
-					</nextaction>
-				</nextaction>
-			</subweapon2>
-			<subweapon3 type="WeaponRedirect">
-				<name>Wall Of Dirt</name>
-				<armslevel>4</armslevel>
-				<habs>false</habs>
-				<vabs>true</vabs>
-				<hredirect>-22.5</hredirect>
-				<vredirect>90</vredirect>
-				<nextaction type="WeaponTranslate">
-					<name>Wall Of Dirt</name>
-					<armslevel>4</armslevel>
-					<translatedist>35</translatedist>
-					<nextaction type="WeaponMulti">
-						<name>Wall Of Dirt</name>
-						<armslevel>4</armslevel>
-						<subweapon1 type="WeaponExplosion">
-							<name>Wall Of Dirt</name>
-							<armslevel>4</armslevel>
-							<deform>up</deform>
-							<hurtamount>0.0</hurtamount>
-							<nocreatedebris/>
-							<size>10</size>
-							<explosiontexture>exp03</explosiontexture>
-							<explosionsound>none</explosionsound>
-						</subweapon1>
-						<subweapon2 type="WeaponDelay">
-							<name>Wall Of Dirt</name>
-							<armslevel>4</armslevel>
-							<delay>0.5</delay>
-							<delayedweapon type="WeaponExplosion">
-								<name>Wall Of Dirt</name>
-								<armslevel>4</armslevel>
-								<deform>up</deform>
-								<hurtamount>0.0</hurtamount>
-								<nocreatedebris/>
-								<size>10</size>
-								<explosiontexture>exp03</explosiontexture>
-								<explosionsound>none</explosionsound>
-							</delayedweapon>
-						</subweapon2>
-						<subweapon3 type="WeaponDelay">
-							<name>Wall Of Dirt</name>
-							<armslevel>4</armslevel>
-							<delay>1.0</delay>
-							<delayedweapon type="WeaponExplosion">
-								<name>Wall Of Dirt</name>
-								<armslevel>4</armslevel>
-								<deform>up</deform>
-								<hurtamount>0.0</hurtamount>
-								<nocreatedebris/>
-								<size>10</size>
-								<explosiontexture>exp03</explosiontexture>
-								<explosionsound>none</explosionsound>
-							</delayedweapon>
-						</subweapon3>
-					</nextaction>
-				</nextaction>
-			</subweapon3>
-		</delayedweapon>
-	</accessory>
 	<!--<accessory type="WeaponProjectile">
 		<name>Fungal Bloom</name> 
 		<description>Multiple dirt pile blooms</description> 
@@ -4912,68 +4726,254 @@ burning chunks of earth about the area.</description>
 			</subweapon2>
 		</collisionaction>
 	</accessory>
+	<accessory type="WeaponDelay">
+		<name>Wall Of Dirt</name>
+		<description>Raises a small wall Of Dirt a short 
+distance from your tank in the direction you aim</description>
+		<icon>dshield.bmp</icon>
+		<cost>4000</cost>
+		<bundlesize>1</bundlesize>
+		<armslevel>4</armslevel>
+		<delay>0.5</delay>
+		<firedsound>shoot/large.wav</firedsound>
+		<delayedweapon type="WeaponMulti">
+			<name>Wall Of Dirt</name>
+			<armslevel>4</armslevel>
+			<subweapon1 type="WeaponRedirect">
+				<name>Wall Of Dirt</name>
+				<armslevel>4</armslevel>
+				<habs>false</habs>
+				<vabs>true</vabs>
+				<hredirect>0</hredirect>
+				<vredirect>90</vredirect>
+				<nextaction type="WeaponTranslate">
+					<name>Wall Of Dirt</name>
+					<armslevel>4</armslevel>
+					<translatedist>30</translatedist>
+					<nextaction type="WeaponMulti">
+						<name>Wall Of Dirt</name>
+						<armslevel>4</armslevel>
+						<subweapon1 type="WeaponExplosion">
+							<name>Wall Of Dirt</name>
+							<armslevel>4</armslevel>
+							<deform>up</deform>
+							<hurtamount>0.0</hurtamount>
+							<nocreatedebris/>
+							<size>10</size>
+							<explosiontexture>exp03</explosiontexture>
+							<explosionsound>explosions/gloop.wav</explosionsound>
+						</subweapon1>
+						<subweapon2 type="WeaponDelay">
+							<name>Wall Of Dirt</name>
+							<armslevel>4</armslevel>
+							<delay>0.5</delay>
+							<delayedweapon type="WeaponExplosion">
+								<name>Wall Of Dirt</name>
+								<armslevel>4</armslevel>
+								<deform>up</deform>
+								<hurtamount>0.0</hurtamount>
+								<nocreatedebris/>
+								<size>10</size>
+								<explosiontexture>exp03</explosiontexture>
+								<explosionsound>explosions/gloop.wav</explosionsound>
+							</delayedweapon>
+						</subweapon2>
+						<subweapon3 type="WeaponDelay">
+							<name>Wall Of Dirt</name>
+							<armslevel>4</armslevel>
+							<delay>1.0</delay>
+							<delayedweapon type="WeaponExplosion">
+								<name>Wall Of Dirt</name>
+								<armslevel>4</armslevel>
+								<deform>up</deform>
+								<hurtamount>0.0</hurtamount>
+								<nocreatedebris/>
+								<size>10</size>
+								<explosiontexture>exp03</explosiontexture>
+								<explosionsound>explosions/gloop.wav</explosionsound>
+							</delayedweapon>
+						</subweapon3>
+					</nextaction>
+				</nextaction>
+			</subweapon1>
+			<subweapon2 type="WeaponRedirect">
+				<name>Wall Of Dirt</name>
+				<armslevel>4</armslevel>
+				<habs>false</habs>
+				<vabs>true</vabs>
+				<hredirect>22.5</hredirect>
+				<vredirect>90</vredirect>
+				<nextaction type="WeaponTranslate">
+					<name>Wall Of Dirt</name>
+					<armslevel>4</armslevel>
+					<translatedist>30</translatedist>
+					<nextaction type="WeaponMulti">
+						<name>Wall Of Dirt</name>
+						<armslevel>4</armslevel>
+						<subweapon1 type="WeaponExplosion">
+							<name>Wall Of Dirt</name>
+							<armslevel>4</armslevel>
+							<deform>up</deform>
+							<hurtamount>0.0</hurtamount>
+							<nocreatedebris/>
+							<size>10</size>
+							<explosiontexture>exp03</explosiontexture>
+							<explosionsound>none</explosionsound>
+						</subweapon1>
+						<subweapon2 type="WeaponDelay">
+							<name>Wall Of Dirt</name>
+							<armslevel>4</armslevel>
+							<delay>0.5</delay>
+							<delayedweapon type="WeaponExplosion">
+								<name>Wall Of Dirt</name>
+								<armslevel>4</armslevel>
+								<deform>up</deform>
+								<hurtamount>0.0</hurtamount>
+								<nocreatedebris/>
+								<size>10</size>
+								<explosiontexture>exp03</explosiontexture>
+								<explosionsound>none</explosionsound>
+							</delayedweapon>
+						</subweapon2>
+						<subweapon3 type="WeaponDelay">
+							<name>Wall Of Dirt</name>
+							<armslevel>4</armslevel>
+							<delay>1.0</delay>
+							<delayedweapon type="WeaponExplosion">
+								<name>Wall Of Dirt</name>
+								<armslevel>4</armslevel>
+								<deform>up</deform>
+								<hurtamount>0.0</hurtamount>
+								<nocreatedebris/>
+								<size>10</size>
+								<explosiontexture>exp03</explosiontexture>
+								<explosionsound>none</explosionsound>
+							</delayedweapon>
+						</subweapon3>
+					</nextaction>
+				</nextaction>
+			</subweapon2>
+			<subweapon3 type="WeaponRedirect">
+				<name>Wall Of Dirt</name>
+				<armslevel>4</armslevel>
+				<habs>false</habs>
+				<vabs>true</vabs>
+				<hredirect>-22.5</hredirect>
+				<vredirect>90</vredirect>
+				<nextaction type="WeaponTranslate">
+					<name>Wall Of Dirt</name>
+					<armslevel>4</armslevel>
+					<translatedist>30</translatedist>
+					<nextaction type="WeaponMulti">
+						<name>Wall Of Dirt</name>
+						<armslevel>4</armslevel>
+						<subweapon1 type="WeaponExplosion">
+							<name>Wall Of Dirt</name>
+							<armslevel>4</armslevel>
+							<deform>up</deform>
+							<hurtamount>0.0</hurtamount>
+							<nocreatedebris/>
+							<size>10</size>
+							<explosiontexture>exp03</explosiontexture>
+							<explosionsound>none</explosionsound>
+						</subweapon1>
+						<subweapon2 type="WeaponDelay">
+							<name>Wall Of Dirt</name>
+							<armslevel>4</armslevel>
+							<delay>0.5</delay>
+							<delayedweapon type="WeaponExplosion">
+								<name>Wall Of Dirt</name>
+								<armslevel>4</armslevel>
+								<deform>up</deform>
+								<hurtamount>0.0</hurtamount>
+								<nocreatedebris/>
+								<size>10</size>
+								<explosiontexture>exp03</explosiontexture>
+								<explosionsound>none</explosionsound>
+							</delayedweapon>
+						</subweapon2>
+						<subweapon3 type="WeaponDelay">
+							<name>Wall Of Dirt</name>
+							<armslevel>4</armslevel>
+							<delay>1.0</delay>
+							<delayedweapon type="WeaponExplosion">
+								<name>Wall Of Dirt</name>
+								<armslevel>4</armslevel>
+								<deform>up</deform>
+								<hurtamount>0.0</hurtamount>
+								<nocreatedebris/>
+								<size>10</size>
+								<explosiontexture>exp03</explosiontexture>
+								<explosionsound>none</explosionsound>
+							</delayedweapon>
+						</subweapon3>
+					</nextaction>
+				</nextaction>
+			</subweapon3>
+		</delayedweapon>
+	</accessory>
 	<accessory type="WeaponMulti">
 		<name>Ring Of Dirt</name>
 		<description>Raises a ring of dirt around your tank</description>
 		<icon>dring.bmp</icon>
-		<cost>16000</cost>
+		<cost>12000</cost>
 		<bundlesize>1</bundlesize>
-		<armslevel>2</armslevel>
+		<armslevel>4</armslevel>
 		<firedsound>shoot/large.wav</firedsound>
 		<subweapon1 type="WeaponReference">
 			<name>Ring Of Dirt</name>
-			<armslevel>2</armslevel>
+			<armslevel>4</armslevel>
 			<weapon>Wall Of Dirt</weapon>
 		</subweapon1>
 		<subweapon2 type="WeaponRedirect">
 			<name>Ring Of Dirt</name>
-			<armslevel>2</armslevel>
+			<armslevel>4</armslevel>
 			<habs>false</habs>
 			<vabs>true</vabs>
 			<hredirect>72</hredirect>
 			<vredirect>90</vredirect>
 			<nextaction type="WeaponReference">
 				<name>Ring Of Dirt</name>
-				<armslevel>2</armslevel>
+				<armslevel>4</armslevel>
 				<weapon>Wall Of Dirt</weapon>
 			</nextaction>
 		</subweapon2>
 		<subweapon3 type="WeaponRedirect">
 			<name>Ring Of Dirt</name>
-			<armslevel>2</armslevel>
+			<armslevel>4</armslevel>
 			<habs>false</habs>
 			<vabs>true</vabs>
 			<hredirect>144</hredirect>
 			<vredirect>90</vredirect>
 			<nextaction type="WeaponReference">
 				<name>Ring Of Dirt</name>
-				<armslevel>2</armslevel>
+				<armslevel>4</armslevel>
 				<weapon>Wall Of Dirt</weapon>
 			</nextaction>
 		</subweapon3>
 		<subweapon4 type="WeaponRedirect">
 			<name>Ring Of Dirt</name>
-			<armslevel>2</armslevel>
+			<armslevel>4</armslevel>
 			<habs>false</habs>
 			<vabs>true</vabs>
 			<hredirect>212</hredirect>
 			<vredirect>90</vredirect>
 			<nextaction type="WeaponReference">
 				<name>Ring Of Dirt</name>
-				<armslevel>2</armslevel>
+				<armslevel>4</armslevel>
 				<weapon>Wall Of Dirt</weapon>
 			</nextaction>
 		</subweapon4>
 		<subweapon5 type="WeaponRedirect">
 			<name>Ring Of Dirt</name>
-			<armslevel>2</armslevel>
+			<armslevel>4</armslevel>
 			<habs>false</habs>
 			<vabs>true</vabs>
 			<hredirect>284</hredirect>
 			<vredirect>90</vredirect>
 			<nextaction type="WeaponReference">
 				<name>Ring Of Dirt</name>
-				<armslevel>2</armslevel>
+				<armslevel>4</armslevel>
 				<weapon>Wall Of Dirt</weapon>
 			</nextaction>
 		</subweapon5>
@@ -5662,7 +5662,7 @@ a few times and releases small explosive warheads</description>
 				<aimedweapon type="WeaponVelocity">
 					<name>Bouncing Betty</name>
 					<armslevel>3</armslevel>
-					<velocitychange>0.8</velocitychange>
+					<velocitychange>1.0</velocitychange>
 					<aimedweapon type="WeaponProjectile">
 						<name>Bouncing Betty</name>
 						<armslevel>3</armslevel>
@@ -5712,7 +5712,7 @@ a few times and releases small explosive warheads</description>
 							<aimedweapon type="WeaponVelocity">
 								<name>Bouncing Betty</name>
 								<armslevel>3</armslevel>
-								<velocitychange>0.7</velocitychange>
+								<velocitychange>0.8</velocitychange>
 								<aimedweapon type="WeaponProjectile">
 									<name>Bouncing Betty</name>
 									<armslevel>3</armslevel>
@@ -8190,25 +8190,73 @@ at nearby targets</description>
 			</subweapon2>
 		</collisionaction>
 	</accessory>
-	<!--<accessory type="WeaponProjectile">
-		<name>Reference Test</name>
-		<description>A projectile weapon that on 
-courses through the ground and splits
-into multiple streams that are aimed
-at nearby targets</description>
-		<icon>dshield.bmp</icon>
-		<cost>10000</cost>
-		<bundlesize>1</bundlesize>
+	<!--<accessory type="WeaponMulti">
+		<name>Bunker Down</name>
+		<description>This weapon digs you into the earth
+and generates a mountain on top of you
+surrounded by a wall of earth.
+WARNING: you need parachutes</description>
+		<icon>tdirt.bmp</icon>
+		<cost>20000</cost>
+		<bundlesize>10</bundlesize>
 		<armslevel>2</armslevel>
-		<nocreatesmoke/>
-		<nocreateflame/>
-		<projectilescale>8</projectilescale>
-		<projectilemodel type="MilkShape">flare.txt</projectilemodel>
-		<firedsound>explosions/thunder.wav</firedsound>
-		<collisionaction type="WeaponReference">
-			<name>Reference Test</name>
+		<firedsound>shoot/small.wav</firedsound>
+		<subweapon1 type="WeaponVelocity">
+			<name>Bunker Down</name>
 			<armslevel>2</armslevel>
-			<weapon>Riot Drill</weapon>
-		</collisionaction>
+			<velocitychange>0.0</velocitychange>
+			<aimedweapon type="WeaponReference">
+				<name>Bunker Down</name>
+				<armslevel>2</armslevel>
+				<weapon>Bottomless Pit</weapon>
+			</aimedweapon>
+		</subweapon1>
+		<subweapon2 type="WeaponReference">
+			<name>Bunker Down</name>
+			<armslevel>2</armslevel>
+			<weapon>Ring Of Dirt</weapon>
+		</subweapon2>
+		<subweapon3 type="WeaponDelay">
+			<name>Bunker Down</name>
+			<armslevel>2</armslevel>
+			<delay>3.0</delay>
+			<delayedweapon type="WeaponMulti">
+				<name>Bunker Down</name>
+				<armslevel>2</armslevel>
+				<subweapon1 type="WeaponRedirect">
+					<name>Bunker Down</name>
+					<armslevel>2</armslevel>
+					<habs>false</habs>
+					<vabs>true</vabs>
+					<hredirect>0</hredirect>
+					<vredirect>0</vredirect>
+					<nextaction type="WeaponTranslate">
+						<name>Bunker Down</name>
+						<armslevel>2</armslevel>
+						<translatedist>24</translatedist>
+						<nextaction type="WeaponExplosion">
+							<name>Bunker Down</name>
+							<armslevel>2</armslevel>
+							<deform>up</deform>
+							<hurtamount>0.0</hurtamount>
+							<nocreatedebris/>
+							<size>24</size>
+							<explosiontexture>none</explosiontexture>
+							<explosionsound>explosions/thud.wav</explosionsound>
+						</nextaction>
+					</nextaction>
+				</subweapon1>
+				<subweapon2 type="WeaponExplosion">
+					<name>Bunker Down</name>
+					<armslevel>2</armslevel>
+					<deform>up</deform>
+					<hurtamount>0.0</hurtamount>
+					<nocreatedebris/>
+					<size>24</size>
+					<explosiontexture>none</explosiontexture>
+					<explosionsound>explosions/thud.wav</explosionsound>
+				</subweapon2>
+			</delayedweapon>
+		</subweapon3>
 	</accessory>-->
 </accessories>

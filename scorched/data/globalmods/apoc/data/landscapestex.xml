@@ -603,7 +603,7 @@
 		</texture>
 		<placements>
 			<placement type="mask">
-				<numobjects>150</numobjects>
+				<numobjects>75</numobjects>
 				<mask>data/landscapes/masks/anywhere.bmp</mask>
 				<minheight>0</minheight>
 				<maxheight>40</maxheight>
@@ -618,7 +618,7 @@
 				</object>
 			</placement>
 			<placement type="mask">
-				<numobjects>150</numobjects>
+				<numobjects>75</numobjects>
 				<mask>data/landscapes/masks/anywhere.bmp</mask>
 				<minheight>0</minheight>
 				<maxheight>40</maxheight>
@@ -633,7 +633,7 @@
 				</object>
 			</placement>
 			<placement type="mask">
-				<numobjects>200</numobjects>
+				<numobjects>75</numobjects>
 				<mask>data/landscapes/masks/anywhere.bmp</mask>
 				<minheight>0</minheight>
 				<maxheight>40</maxheight>
@@ -648,7 +648,7 @@
 				</object>
 			</placement>
 			<placement type="mask">
-				<numobjects>150</numobjects>
+				<numobjects>75</numobjects>
 				<mask>data/landscapes/masks/anywhere.bmp</mask>
 				<minheight>0</minheight>
 				<maxheight>40</maxheight>
@@ -708,10 +708,10 @@
 		</texture>
 		<placements>
 			<placement type="mask">
-				<numobjects>200</numobjects>
+				<numobjects>150</numobjects>
 				<mask>data/landscapes/masks/anywhere.bmp</mask>
-				<minheight>4</minheight>
-				<maxheight>70</maxheight>
+				<minheight>5</minheight>
+				<maxheight>50</maxheight>
 				<mincloseness>3</mincloseness>
 				<minslope>0.75</minslope>
 				<xsnap>0</xsnap>
@@ -723,78 +723,63 @@
 				</object>
 			</placement>
 			<placement type="mask">
-				<numobjects>50</numobjects>
-				<mask>data/landscapes/masks/anywhere.bmp</mask>
-				<minheight>-2</minheight>
-				<maxheight>6.8</maxheight>
-				<mincloseness>0.6</mincloseness>
-				<minslope>0.75</minslope>
-				<xsnap>0</xsnap>
-				<ysnap>0</ysnap>
-				<angsnap>0</angsnap>
-				<object type="model">
-					<model type="MilkShape">data/accessories/boulders/boulder1.txt</model>
-					<modelburnt type="MilkShape">data/accessories/boulders/boulder1.txt</modelburnt>
-				</object>
-			</placement>
-			<placement type="mask">
-				<numobjects>50</numobjects>
-				<mask>data/landscapes/masks/anywhere.bmp</mask>
-				<minheight>-2</minheight>
-				<maxheight>8</maxheight>
-				<mincloseness>0.6</mincloseness>
-				<minslope>0.75</minslope>
-				<xsnap>0</xsnap>
-				<ysnap>0</ysnap>
-				<angsnap>0</angsnap>
-				<object type="model">
-					<model type="MilkShape">data/accessories/boulders/boulder2.txt</model>
-					<modelburnt type="MilkShape">data/accessories/boulders/boulder2.txt</modelburnt>
-				</object>
-			</placement>
-			<placement type="mask">
-				<numobjects>50</numobjects>
-				<mask>data/landscapes/masks/anywhere.bmp</mask>
-				<minheight>-2</minheight>
-				<maxheight>7.5</maxheight>
-				<mincloseness>0.6</mincloseness>
-				<minslope>0.75</minslope>
-				<xsnap>0</xsnap>
-				<ysnap>0</ysnap>
-				<angsnap>0</angsnap>
-				<object type="model">
-					<model type="MilkShape">data/accessories/boulders/boulder3.txt</model>
-					<modelburnt type="MilkShape">data/accessories/boulders/boulder3.txt</modelburnt>
-				</object>
-			</placement>
-			<placement type="mask">
-				<numobjects>50</numobjects>
-				<mask>data/landscapes/masks/anywhere.bmp</mask>
-				<minheight>-2</minheight>
-				<maxheight>9</maxheight>
-				<mincloseness>0.6</mincloseness>
-				<minslope>0.75</minslope>
-				<xsnap>0</xsnap>
-				<ysnap>0</ysnap>
-				<angsnap>0</angsnap>
-				<object type="model">
-					<model type="MilkShape">data/accessories/boulders/boulder4.txt</model>
-					<modelburnt type="MilkShape">data/accessories/boulders/boulder4.txt</modelburnt>
-				</object>
-			</placement>
-			<placement type="mask">
-				<numobjects>50</numobjects>
+				<numobjects>30</numobjects>
 				<mask>data/landscapes/masks/anywhere.bmp</mask>
 				<minheight>0</minheight>
-				<maxheight>15</maxheight>
-				<mincloseness>0.6</mincloseness>
+				<maxheight>50</maxheight>
+				<mincloseness>1</mincloseness>
 				<minslope>0.75</minslope>
 				<xsnap>0</xsnap>
 				<ysnap>0</ysnap>
 				<angsnap>0</angsnap>
 				<object type="model">
-					<model type="MilkShape">data/accessories/boulders/boulder5.txt</model>
-					<modelburnt type="MilkShape">data/accessories/boulders/boulder5.txt</modelburnt>
+					<model type="MilkShape">data/accessories/brownboulders/boulder1.txt</model>
+					<modelburnt type="MilkShape">data/accessories/brownboulders/boulder1.txt</modelburnt>
+				</object>
+			</placement>
+			<placement type="mask">
+				<numobjects>30</numobjects>
+				<mask>data/landscapes/masks/anywhere.bmp</mask>
+				<minheight>0</minheight>
+				<maxheight>50</maxheight>
+				<mincloseness>1</mincloseness>
+				<minslope>0.75</minslope>
+				<xsnap>0</xsnap>
+				<ysnap>0</ysnap>
+				<angsnap>0</angsnap>
+				<object type="model">
+					<model type="MilkShape">data/accessories/brownboulders/boulder2.txt</model>
+					<modelburnt type="MilkShape">data/accessories/brownboulders/boulder2.txt</modelburnt>
+				</object>
+			</placement>
+			<placement type="mask">
+				<numobjects>30</numobjects>
+				<mask>data/landscapes/masks/anywhere.bmp</mask>
+				<minheight>0</minheight>
+				<maxheight>50</maxheight>
+				<mincloseness>1</mincloseness>
+				<minslope>0.75</minslope>
+				<xsnap>0</xsnap>
+				<ysnap>0</ysnap>
+				<angsnap>0</angsnap>
+				<object type="model">
+					<model type="MilkShape">data/accessories/brownboulders/boulder3.txt</model>
+					<modelburnt type="MilkShape">data/accessories/brownboulders/boulder3.txt</modelburnt>
+				</object>
+			</placement>
+			<placement type="mask">
+				<numobjects>30</numobjects>
+				<mask>data/landscapes/masks/anywhere.bmp</mask>
+				<minheight>10</minheight>
+				<maxheight>50</maxheight>
+				<mincloseness>1</mincloseness>
+				<minslope>0.75</minslope>
+				<xsnap>0</xsnap>
+				<ysnap>0</ysnap>
+				<angsnap>0</angsnap>
+				<object type="model">
+					<model type="MilkShape">data/accessories/brownboulders/boulder4.txt</model>
+					<modelburnt type="MilkShape">data/accessories/brownboulders/boulder4.txt</modelburnt>
 				</object>
 			</placement>
 		</placements>
