@@ -224,8 +224,6 @@ scorched3d_SOURCES = \
 	../common/ProgressCounter.h \
 	../common/RandomGenerator.cpp \
 	../common/RandomGenerator.h \
-	../common/Registry.cpp \
-	../common/Registry.h \
 	../common/ResourceFile.cpp \
 	../common/ResourceFile.h \
 	../common/Resources.cpp \
@@ -431,6 +429,12 @@ scorched3d_SOURCES = \
 	../weapons/AutoDefense.h \
 	../weapons/Battery.cpp \
 	../weapons/Battery.h \
+	../weapons/Economy.cpp \
+	../weapons/Economy.h \
+	../weapons/EconomyFreeMarket.cpp \
+	../weapons/EconomyFreeMarket.h \
+	../weapons/EconomyNone.cpp \
+	../weapons/EconomyNone.h \
 	../weapons/Fuel.cpp \
 	../weapons/Fuel.h \
 	../weapons/Parachute.cpp \
