@@ -41,6 +41,7 @@ Update ODE version and use StepFast
 Dvorak keyboard support is broken
 The server can start multiple times on the same port!
 Solaris client cannot choose weapons (Ok button does not work) gcc version??
+Texturing of Milkshape models
 
 -- Server Stuff
 Provide remote access to server (web server)
