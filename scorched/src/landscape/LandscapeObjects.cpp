@@ -60,6 +60,8 @@ void LandscapeObjects::draw()
 
 void LandscapeObjects::drawItem(float distance, GLOrderedItemRenderer::OrderedEntry &oentry)
 {
+	if (OptionsDisplay::instance()->getNoTrees()) return;
+
 	LandscapeObjects::LandscapeObjectOrderedEntry &entry = 
 		(LandscapeObjects::LandscapeObjectOrderedEntry &) oentry;
 

@@ -49,16 +49,18 @@ protected:
 		Vector ptD;
 	};
 
-	GLTexture texture_;
+	GLTexture texture1_, texture2_;
 	bool wavePoints_[256 * 256];
-	std::vector<WaterWaveEntry> paths_;
+	std::vector<WaterWaveEntry> paths1_;
+	std::vector<WaterWaveEntry> paths2_;
 	float totalTime_;
 
 	void findPoints(ProgressCounter *counter);
 	bool findNextPath(ProgressCounter *counter);
 	void findPath(std::vector<Vector> &points, int x, int y);
 	void constructLines(std::vector<Vector> &points);
-	void drawBoxes(float totalTime);
+	void drawBoxes(float totalTime, Vector &windDir, 
+		std::vector<WaterWaveEntry> &paths);
 
 };
 
