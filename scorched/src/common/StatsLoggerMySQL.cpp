@@ -38,7 +38,9 @@ enum EventType
 	EventSelfKill = 3,
 	EventResigned = 4,
 	EventWon = 5,
-	EventOverallWinner = 6
+	EventOverallWinner = 6,
+	EventConnected = 7,
+	EventDisconnected = 8
 };
 
 StatsLoggerMySQL::StatsLoggerMySQL() : mysql_(0), success_(true)
@@ -130,10 +132,13 @@ void StatsLoggerMySQL::createLogger()
 				"(%i, \"SELFKILL\"), "
 				"(%i, \"WON\"), "
 				"(%i, \"OVERALLWINNER\"), "
+				"(%i, \"CONNECTED\"), "
+				"(%i, \"DISCONNECTED\"), "
 				"(%i, \"RESIGNED\"); ",
 				prefix_.c_str(),
 				EventKill, EventTeamKill, EventSelfKill,
-				EventWon, EventOverallWinner, EventResigned);
+				EventWon, EventOverallWinner, 
+				EventConnected, EventDisconnected, EventResigned);
 
 			// Add all the weapons
 			std::list<Accessory *> weapons = 
@@ -357,6 +362,13 @@ void StatsLoggerMySQL::tankJoined(Tank *tank)
 	runQuery("UPDATE scorched3d%s_names SET count=count+1 WHERE "
 		"playerid=%i AND name=\"%s\";", prefix_.c_str(), playerId, tank->getName());
 
+	// Joining events
+	runQuery("INSERT INTO scorched3d%s_events (eventtype, playerid, otherplayerid, weaponid, eventtime) "
+		"VALUES(%i, %i, 0, 0, NOW());",
+		prefix_.c_str(),
+		EventConnected,
+		playerId_[tank->getUniqueId()]);
+
 	// Joining stats
 	runQuery("UPDATE scorched3d%s_players SET connects=connects+1, "
 		"lastconnected=NOW(), name=\"%s\", osdesc=\"%s\", ipaddress=\"%s\" "
@@ -370,6 +382,13 @@ void StatsLoggerMySQL::tankLeft(Tank *tank)
 {
 	createLogger();
 	if (!success_) return;
+
+	// Leaving events
+	runQuery("INSERT INTO scorched3d%s_events (eventtype, playerid, otherplayerid, weaponid, eventtime) "
+		"VALUES(%i, %i, 0, 0, NOW());",
+		prefix_.c_str(),
+		EventDisconnected,
+		playerId_[tank->getUniqueId()]);
 
 	updateStats(tank);
 }

@@ -121,17 +121,22 @@ Shot cam does not get LOD correctly
 
 -- Things I am currently looking at
 Fix crashing when people win (Graphics card drivers??)
+Fix large menus
+Option to disallow people from the same ip address
+
+-- Things for next release
 Ambient sounds
-Boids?
-Fix large menus?
-Move placements to seperate file?
-Resigning position due to health left?
+Boids
+Move placements to seperate file
+Resigning position due to health left
+Allow players to choose players without joining first
+Add start timer to server for joining players
+Add player decals for in game and stats
 
 -- Server Stuff
 Chat filter (swear words)
-A way to set the maximum and minimum players for a map
+A way to set the maximum and minimum players for a map (half done)
 Web interface for server to change settings
-Option to disallow people from the same ip address
 
 -- Client Stuff
 Option to reconnect when disconected from server.
@@ -168,5 +173,5 @@ communism
 -- Graphics Stuff
 Add action replay type functionality
 Napalm scorches ground (half done)
-Proper sun drawn
+Properly sun drawn
 Fog shader effects
