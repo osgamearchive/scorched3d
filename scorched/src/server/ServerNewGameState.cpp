@@ -66,7 +66,8 @@ void ServerNewGameState::enterState(const unsigned state)
 	// Check if we can load/save a game
 	if (OptionsParam::instance()->getConnectedToServer() == false)
 	{
-		if (ScorchedServer::instance()->getTankContainer().getNoOfTanks() -
+		if (ScorchedServer::instance()->getTankContainer().getNoOfTanks() == 0 ||
+			ScorchedServer::instance()->getTankContainer().getNoOfTanks() -
 			ScorchedServer::instance()->getTankContainer().getNoOfNonSpectatorTanks() > 1)
 		{
 			// We have not loaded players yet

@@ -23,6 +23,7 @@
 #include <tank/Tank.h>
 #include <tank/TankColorGenerator.h>
 #include <tankai/TankAIStore.h>
+#include <engine/ScorchedContext.h>
 
 Tank::Tank(ScorchedContext &context, 
 		   unsigned int playerId, 
@@ -110,7 +111,10 @@ bool Tank::readMessage(NetBufferReader &reader)
 	if (!accessories_.readMessage(reader)) return false;
 	if (!score_.readMessage(reader)) return false;
 
-	// If any humans turn into computers remove the HumanAI
-	if (destinationId_ == 0) setTankAI(0);
+	if (!context_.serverMode)
+	{
+		// If any humans turn into computers remove the HumanAI
+		if (destinationId_ == 0) setTankAI(0);
+	}
 	return true;
 }

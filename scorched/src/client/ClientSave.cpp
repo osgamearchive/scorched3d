@@ -146,12 +146,12 @@ bool ClientSave::restoreClient(bool loadGameState, bool loadPlayers)
 			ScorchedServer::instance()->getTankContainer().getTankById(playerId);
 		if (!specTanks)
 		{
-			/*if (tank)
+			if (tank)
 			{
 				if (!tank->readMessage(reader)) return false;
 				std::string tankAIStr;
 				if (!reader.getFromBuffer(tankAIStr)) return false;
-			}*/
+			}
 		}
 		else
 		{
