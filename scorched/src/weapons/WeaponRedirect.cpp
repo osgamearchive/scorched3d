@@ -94,7 +94,7 @@ void WeaponRedirect::fireWeapon(ScorchedContext &context,
 	unsigned int playerId, Vector &position, Vector &velocity)
 {
 	float currentMag = velocity.Magnitude();
-	float currenth = (atan2f(velocity[1], velocity[0]) / 3.14f * 180.0f) + 90.0f;
+	float currenth = (atan2f(velocity[1], velocity[0]) / 3.14f * 180.0f) - 90.0f;
 	float dist = (float) sqrt(velocity[0] * velocity[0] + velocity[1] * velocity[1]);
 	float currentv = atan2f(dist, velocity[2]) / 3.14f * 180.0f;
 
@@ -103,7 +103,7 @@ void WeaponRedirect::fireWeapon(ScorchedContext &context,
 	if (vabs_) currentv = vredirect_;
 	else currentv += vredirect_;
 	
-	Vector newVelocity = TankLib::getVelocityVector(currenth, currentv);
+	Vector newVelocity = TankLib::getVelocityVector(currenth, 90.0f - currentv);
 	newVelocity.StoreNormalize();
 	newVelocity *= currentMag;
 	

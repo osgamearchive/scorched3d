@@ -1172,4 +1172,95 @@ the air in a wedge shape.
 			...
 		</aimedweapon>
 	</accessory>-->
+	<!-- <accessory type="WeaponMulti">
+		<name>Redirect Test</name>
+		<description>Shoots 3 projectiles at different 
+vertical angles</description>
+		<icon>mirv.bmp</icon> 
+		<cost>1000</cost>
+		<bundlesize>1</bundlesize>
+		<armslevel>7</armslevel>
+		<subweapon1 type="WeaponProjectile">
+			<name>Redirect Test</name>
+			<armslevel>7</armslevel>
+			<projectilescale>5</projectilescale>
+			<collisionaction type="WeaponExplosion">
+				<name>Redirect Test</name>
+				<armslevel>7</armslevel>
+				<hurtamount>1.0</hurtamount>
+				<deform>down</deform>
+				<size>3</size><explosiontexture>exp00</explosiontexture>
+				<explosionsound>explosions/small.wav</explosionsound>
+			</collisionaction>
+		</subweapon1>
+		<subweapon2 type="WeaponRedirect">
+			<name>Redirect Test</name>
+			<armslevel>7</armslevel>
+			<habs>false</habs>
+			<vabs>false</vabs>
+			<hredirect>0</hredirect>
+			<vredirect>15</vredirect>
+			<nextaction type="WeaponProjectile">
+				<name>Redirect Test</name>
+				<armslevel>7</armslevel>
+				<projectilescale>2.5</projectilescale>
+				<projectilemodel type="MilkShape">fatman/fatman.txt</projectilemodel>
+				<collisionaction type="WeaponExplosion">
+					<name>Redirect Test</name>
+					<armslevel>7</armslevel>
+					<hurtamount>1.0</hurtamount>
+					<deform>down</deform>
+					<size>3</size>
+					<explosiontexture>exp00</explosiontexture>
+					<explosionsound>explosions/small.wav</explosionsound>
+				</collisionaction>
+			</nextaction>
+		</subweapon2>
+		<subweapon3 type="WeaponRedirect">
+			<name>Redirect Test</name>
+			<armslevel>7</armslevel>
+			<habs>false</habs>
+			<vabs>false</vabs>
+			<hredirect>0</hredirect>
+			<vredirect>-15</vredirect>
+			<nextaction type="WeaponProjectile">
+				<name>Redirect Test</name>
+				<armslevel>7</armslevel>
+				<projectilescale>2.5</projectilescale>
+				<projectilemodel type="MilkShape">littleboy/littleboy.txt</projectilemodel>
+				<collisionaction type="WeaponExplosion">
+					<name>Redirect Test</name>
+					<armslevel>7</armslevel>
+					<hurtamount>1.0</hurtamount>
+					<deform>down</deform>
+					<size>3</size>
+					<explosiontexture>exp00</explosiontexture>
+					<explosionsound>explosions/small.wav</explosionsound>
+				</collisionaction>
+			</nextaction>
+		</subweapon3>
+		<subweapon4 type="WeaponRedirect">
+			<name>Redirect Test</name>
+			<armslevel>7</armslevel>
+			<habs>false</habs>
+			<vabs>false</vabs>
+			<hredirect>0</hredirect>
+			<vredirect>0</vredirect>
+			<nextaction type="WeaponProjectile">
+				<name>Redirect Test</name>
+				<armslevel>7</armslevel>
+				<projectilescale>2.5</projectilescale>
+				<projectilemodel type="MilkShape">fatman/fatman.txt</projectilemodel>
+				<collisionaction type="WeaponExplosion">
+					<name>Redirect Test</name>
+					<armslevel>7</armslevel>
+					<hurtamount>1.0</hurtamount>
+					<deform>down</deform>
+					<size>3</size>
+					<explosiontexture>exp00</explosiontexture>
+					<explosionsound>explosions/small.wav</explosionsound>
+				</collisionaction>
+			</nextaction>
+		</subweapon4>
+	</accessory>-->
 </accessories>
