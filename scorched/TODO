@@ -2,9 +2,10 @@
 Fixed: Some display problems on Unix and 16bit mode display
 Fixed: Some cross compatability compilation problems
 Fixed: Invert/swap keys now works
-Fixed: Gaphics for explosions do not cross into next round
+Fixed: Graphics for explosions do not cross into next round
+Fixed: Client stimulus 6 in state 4 bug
 
-Added: Player score to the player dialog (bottom right)
+Added: Player score added to the player dialog (bottom right)
 Added: Max player name length increased from 16->22
 Added: Kenny tank model (thanks Knochi)
 Added: Max OS X compatability patch (thanks C. Thomas)

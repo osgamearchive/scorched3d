@@ -151,6 +151,8 @@ void ClientState::setupGameState(bool network)
 	gameState.addStateStimulus(StateWait, 
 		StimDisconnected, StateConnect);
 	gameState.addStateStimulus(StateWait, 
+		StimAutoDefense, StateWait);
+	gameState.addStateStimulus(StateWait, 
 		StimBuyWeapons, StateBuyWeapons);
 	gameState.addStateStimulus(StateWait, 
 		StimPlaying, StatePlaying);
