@@ -416,6 +416,11 @@ bool SettingsFrame::TransferDataToWindow()
 			context_.getStartArmsLevel());
 		SettingsEnv::IDC_COMBO_ENDARMSLEVEL_CTRL->SetToolTip(
 			wxString("Specifies the most powerful weapon that will be available to buy in the final round."));
+
+		SettingsEnv::IDC_GIVEALLWEAPONS_CTRL->SetValue(
+			context_.getGiveAllWeapons());
+		SettingsEnv::IDC_GIVEALLWEAPONS_CTRL->SetToolTip(
+			wxString("Gives everyone an infinite number of all the weapons."));
 	}
 
 	// Main
@@ -616,6 +621,9 @@ bool SettingsFrame::TransferDataFromWindow()
 		context_.setEndArmsLevel((int) 
 			SettingsEnv::IDC_COMBO_ENDARMSLEVEL_CTRL->GetClientData(
 				SettingsEnv::IDC_COMBO_ENDARMSLEVEL_CTRL->GetSelection()));
+
+		context_.setGiveAllWeapons(
+			SettingsEnv::IDC_GIVEALLWEAPONS_CTRL->GetValue());
 	}
 
 	// Main

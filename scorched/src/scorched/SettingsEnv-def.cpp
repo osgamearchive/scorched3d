@@ -35,3 +35,5 @@ static wxComboBox *IDC_COMBO_WALLTYPE_CTRL = 0;
 static wxComboBox *IDC_COMBO_WEAPONSCALE_CTRL = 0;
 static wxComboBox *IDC_COMBO_STARTARMSLEVEL_CTRL = 0;
 static wxComboBox *IDC_COMBO_ENDARMSLEVEL_CTRL = 0;
+static wxCheckBox *IDC_GIVEALLWEAPONS_CTRL = 0;
+

@@ -439,6 +439,8 @@ scorched3d_SOURCES = \
 	../landscape/Variance.h \
 	../landscape/Wall.cpp \
 	../landscape/Wall.h \
+	../landscape/Water.cpp \
+	../landscape/Water.h \
 	../landscape/WaterMap.cpp \
 	../landscape/WaterMap.h \
 	../landscape/WaterMapModifier.cpp \
@@ -503,14 +505,14 @@ scorched3d_SOURCES = \
 	../weapons/WeaponProjectile.h \
 	../weapons/WeaponRedirect.cpp \
 	../weapons/WeaponRedirect.h \
+	../weapons/WeaponReference.cpp \
+	../weapons/WeaponReference.h \
 	../weapons/WeaponRoller.cpp \
 	../weapons/WeaponRoller.h \
 	../weapons/WeaponTranslate.cpp \
 	../weapons/WeaponTranslate.h \
 	../weapons/WeaponVelocity.cpp \
 	../weapons/WeaponVelocity.h \
-	../weapons/WeaponReference.cpp \
-	../weapons/WeaponReference.h \
 	../coms/ComsActionsMessage.cpp \
 	../coms/ComsActionsMessage.h \
 	../coms/ComsAddPlayerMessage.cpp \

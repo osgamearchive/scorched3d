@@ -588,6 +588,13 @@ scorcheddatatankszsu57dir = ${datadir}/data/tanks/zsu57
 scorcheddatatankszsu57_DATA = data/tanks/zsu57/zsu57.bmp \
 	data/tanks/zsu57/zsu57.txt \
 	data/tanks/zsu57/black.bmp
+scorcheddatatanksCannonTowerdir = ${datadir}/data/tanks/CannonTower
+scorcheddatatanksCannonTower_DATA = data/tanks/CannonTower/side2.bmp \
+	data/tanks/CannonTower/top.bmp \
+	data/tanks/CannonTower/cannontower.txt \
+	data/tanks/CannonTower/side.bmp \
+	data/tanks/CannonTower/base.bmp \
+	data/tanks/CannonTower/gun.bmp
 scorcheddatatankssa6dir = ${datadir}/data/tanks/sa6
 scorcheddatatankssa6_DATA = data/tanks/sa6/guncover.bmp \
 	data/tanks/sa6/chrome.bmp \

@@ -71,5 +71,11 @@ static void createControls(wxWindow *parent, wxSizer *topsizer)
 		"",
 		wxDefaultPosition, wxSize((int) 132, (int) 91.5),
 		0, 0, wxCB_READONLY), 0, wxALIGN_CENTER);
+
+	topsizer->Add(IDC_GIVEALLWEAPONS_CTRL = 
+		new wxCheckBox(parent, -1,
+			"Give all weapons",
+			wxDefaultPosition, wxDefaultSize),
+			0, wxALIGN_CENTER);
 }
 
