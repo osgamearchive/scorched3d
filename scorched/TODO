@@ -25,6 +25,7 @@ Added: More complex but more customizable accessories format (accessories.xml)
 Added: Computers talk when attacking
 Added: Say command added to console.  This allows custom taunts to be bound to keys.
 Added: Different on screen gui
+Added: New better looking fonts and FreeType2 support
 Added: Rollers
 
 Fixed: Client does not start new game until all explosions have finished
