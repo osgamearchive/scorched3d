@@ -5,6 +5,7 @@ Added: Depth buffer size can be set in config
 Added: Menu items change color when available (mouse over)
 Added: Can now kick computer players (from server dialog)
 Added: Can set number of sprites and bilboards
+Added: Talk text now has tank state appended to it (dead, pending)
 
 Fixed: Text drawn outside dialogs (help and connect dialogs)
 Fixed: Player name will always fit on score dialog

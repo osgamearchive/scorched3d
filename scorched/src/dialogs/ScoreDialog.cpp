@@ -208,7 +208,7 @@ void ScoreDialog::draw()
 			{
 				strcat(name, " (PENDING)");
 			}
-			if (strlen(name) > 26) name[26] = '\0';
+			name[26] = '\0'; // Limit length
 
 			// Print the name on the screen
 			GLWFont::instance()->getFont()->draw(

@@ -56,7 +56,16 @@ bool ServerTextHandler::processMessage(NetPlayerID &id,
 	{
 		// Construct the message to send to all the clients
 		std::string newText(tank->getName());
-		newText += ":";
+		if (tank->getState().getState() == TankState::sDead)
+		{
+			newText += " (DEAD)";
+		}
+		else if (tank->getState().getState() == TankState::sPending)
+		{
+			newText += " (PENDING)";
+		}
+
+		newText += ": ";
 		newText += message.getText();
 
 		// Update the server console with the say text
