@@ -123,6 +123,9 @@ public:
 	int  getScreenHeight() { return screenHeight_.getValue(); }
 	void setScreenHeight(int value) { screenHeight_.setValue(value); }
 
+	int getDepthBufferBits() { return depthBufferBits_.getValue(); }
+	void setDepthBufferBits(int value) { depthBufferBits_.setValue(value); }
+
 	const char *getUniqueUserId() { return uniqueUserId_.getValue(); }
 	void setUniqueUserId(const char *value) { uniqueUserId_.setValue(value); }
 
@@ -142,6 +145,7 @@ protected:
 	OptionEntryInt waterHeight_;
 	OptionEntryInt sunYZAng_;
 	OptionEntryInt sunXYAng_;
+	OptionEntryInt depthBufferBits_;
 	OptionEntryBool fullScreen_;
 	OptionEntryBool fullClear_;
 	OptionEntryBool noExt_;

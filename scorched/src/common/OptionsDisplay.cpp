@@ -94,7 +94,9 @@ OptionsDisplay::OptionsDisplay() :
 	screenWidth_(options_, "ScreenWidth", 
 		"The window width to use (in pixels)", RAccess, 640),
 	screenHeight_(options_, "ScreenHeight",
-		"The window height to use (in pixels)", RAccess, 480)
+		"The window height to use (in pixels)", RAccess, 480),
+	depthBufferBits_(options_, "DepthBufferBits",
+		"The number of bits requested for the depth buffer", RAccess, 24)
 {
 
 }

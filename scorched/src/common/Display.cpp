@@ -25,6 +25,7 @@
 
 #include <stdio.h>
 #include <common/Display.h>
+#include <common/OptionsDisplay.h>
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
@@ -64,13 +65,13 @@ Display::Display() : init_(false)
 
 	/* set opengl double buffering */
 	SDL_GL_SetAttribute( SDL_GL_DOUBLEBUFFER, 1 );
-
-    SDL_GL_SetAttribute( SDL_GL_RED_SIZE, 5 );
-    SDL_GL_SetAttribute( SDL_GL_GREEN_SIZE, 5 );
-    SDL_GL_SetAttribute( SDL_GL_BLUE_SIZE, 5 );
+	SDL_GL_SetAttribute( SDL_GL_RED_SIZE, 5 );
+	SDL_GL_SetAttribute( SDL_GL_GREEN_SIZE, 5 );
+	SDL_GL_SetAttribute( SDL_GL_BLUE_SIZE, 5 );
 
 	// At least 24 bits depth buffer
-	if (SDL_GL_SetAttribute( SDL_GL_DEPTH_SIZE, 24 ) == -1) return;
+	int depthBufferBits = OptionsDisplay::instance()->getDepthBufferBits();
+	if (SDL_GL_SetAttribute( SDL_GL_DEPTH_SIZE, depthBufferBits ) == -1) return;
         
 	init_ = true;
 }
