@@ -26,9 +26,10 @@
 KeyboardKey::KeyboardKey(const char *name,
 	const char *title,
 	const char *description,
+	int group,
 	bool command) :
 	name_(name), title_(title), description_(description), 
-	keyToogle_(false), command_(command)
+	keyToogle_(false), command_(command), group_(group)
 {
 }
 

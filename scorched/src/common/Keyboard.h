@@ -35,7 +35,7 @@ class Keyboard
 public:
 	static Keyboard *instance();
 
-	bool loadKeyFile();
+	bool loadKeyFile(bool loadDefaults = false);
 	bool saveKeyFile();
 	bool init();
 

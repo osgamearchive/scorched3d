@@ -289,16 +289,16 @@ static void createIdentControls(wxWindow *parent, wxSizer *sizer)
 class KeyButtonData : public wxObjectRefData
 {
 public:
-	KeyButtonData(KeyboardKey *key, unsigned int position);
+	KeyButtonData();
 	virtual ~KeyButtonData();
 
 	KeyboardKey *key_;
 	unsigned int position_;
 };
 
-KeyButtonData::KeyButtonData(KeyboardKey *key, unsigned int position) :
+KeyButtonData::KeyButtonData() :
 	wxObjectRefData(),
-	key_(key), position_(position)
+	key_(0), position_(0)
 {
 }
 
@@ -316,10 +316,12 @@ static void createKeysControls(wxWindow *parent, wxSizer *topsizer)
 	keyboardKeyList.clear();
 	if (!Keyboard::instance()->loadKeyFile())
 	{
-		dialogExit("Keyboad", "Failed to process keyboad file keys.xml");
+		dialogExit("Keyboard", "Failed to process keyboad file keys.xml");
 	}
 
-	std::list<KeyboardKey *> &keys = Keyboard::instance()->getKeyList();
+	int lastGroup = 0;
+	std::list<KeyboardKey *> &keys = 
+		Keyboard::instance()->getKeyList();
 	std::list<KeyboardKey *>::iterator itor;
 	for (itor = keys.begin();
 		itor != keys.end();
@@ -327,25 +329,44 @@ static void createKeysControls(wxWindow *parent, wxSizer *topsizer)
 	{
 		KeyboardKey *key = (*itor);
 
+		// Add a spacer line
+		if (key->getGroup() != lastGroup)
+		{
+			lastGroup = key->getGroup();
+			for (unsigned int i=0; i<5; i++)
+			{
+				sizer->Add(new wxStaticText(scrolledWindow, -1, ""), 0, wxALIGN_LEFT);
+			}
+		}
+
+		// Add the key name
 		wxStaticText *text = new wxStaticText(scrolledWindow, -1, key->getTitle());
 		text->SetToolTip(key->getDescription());
 		sizer->Add(text, 0, wxALIGN_LEFT);
+
+		// Add the keys
 		for (unsigned int i=0; i<4; i++)
 		{
-			wxButton *button = new wxButton(scrolledWindow, ID_KEY, "", wxDefaultPosition, wxSize(120, -1));
-			button->SetRefData(new KeyButtonData(key, i));
+			wxButton *button = new wxButton(scrolledWindow, ID_KEY, "", 
+				wxDefaultPosition, wxSize(120, -1));
+			button->SetRefData(new KeyButtonData);
 			button->SetToolTip(key->getDescription());
 			sizer->Add(button, 0, wxLEFT | wxALIGN_CENTER, 5);
 			keyboardKeyList.push_back(button);
 		}
 	}
 	
+	// Setup the scrolled area size
 	scrolledWindow->SetAutoLayout(TRUE);
 	scrolledWindow->SetSizer(sizer);
 	wxSize minSize = sizer->CalcMin();
 	scrolledWindow->SetScrollbars(10, 10, 
 		(minSize.GetWidth() + 10) / 10, (minSize.GetHeight() + 10) / 10);
 	topsizer->Add(scrolledWindow, 1, wxGROW | wxALL, 2);
+
+	// Add the load default keys button
+	IDC_LOADKEYDEFAULTS_CTRL = new wxButton(parent, ID_KEYDEFAULTS, "Load Default Keys");
+	topsizer->Add(IDC_LOADKEYDEFAULTS_CTRL, 0, wxCENTER | wxALL, 2);
 }
 
 

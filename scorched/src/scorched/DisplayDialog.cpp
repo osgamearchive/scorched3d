@@ -43,6 +43,7 @@ public:
 
 	void onLoadDefaultsButton(wxCommandEvent &event);
 	void onLoadSafeButton(wxCommandEvent &event);
+	void onLoadDefaultKeysButton(wxCommandEvent &event);
 	void onKeyButton(wxCommandEvent &event);
 	void onMoreRes(wxCommandEvent &event);
 	void onKey();
@@ -63,6 +64,7 @@ protected:
 
 BEGIN_EVENT_TABLE(DisplayFrame, wxDialog)
     EVT_BUTTON(ID_LOADDEFAULTS,  DisplayFrame::onLoadDefaultsButton)
+	EVT_BUTTON(ID_KEYDEFAULTS,  DisplayFrame::onLoadDefaultKeysButton)
     EVT_BUTTON(ID_LOADSAFE,  DisplayFrame::onLoadSafeButton)
     EVT_BUTTON(ID_KEY,  DisplayFrame::onKeyButton)
 	EVT_CHECKBOX(ID_MORERES, DisplayFrame::onMoreRes) 
@@ -100,14 +102,6 @@ DisplayFrame::DisplayFrame() :
 	troublePanel_->SetAutoLayout(TRUE);
 	troublePanel_->SetSizer(troublePanelSizer);
 
-	// Ident Panel
-	identPanel_ = new wxPanel(book_, -1);
-	wxSizer *identPanelSizer = new wxBoxSizer(wxVERTICAL);
-	createIdentControls(identPanel_, identPanelSizer);
-	book_->AddPage(identPanel_, "Identity");
-	identPanel_->SetAutoLayout(TRUE);
-	identPanel_->SetSizer(identPanelSizer);
-
 	// Keys Panel
 	keysPanel_ = new wxPanel(book_, -1);
 	wxSizer *keysPanelSizer = new wxBoxSizer(wxVERTICAL);
@@ -115,6 +109,14 @@ DisplayFrame::DisplayFrame() :
 	book_->AddPage(keysPanel_, "Keys");
 	keysPanel_->SetAutoLayout(TRUE);
 	keysPanel_->SetSizer(keysPanelSizer);
+
+	// Ident Panel
+	identPanel_ = new wxPanel(book_, -1);
+	wxSizer *identPanelSizer = new wxBoxSizer(wxVERTICAL);
+	createIdentControls(identPanel_, identPanelSizer);
+	book_->AddPage(identPanel_, "Identity");
+	identPanel_->SetAutoLayout(TRUE);
+	identPanel_->SetSizer(identPanelSizer);
 
 	// Notebook
 	topsizer->Add(nbs, 0, wxALL, 10);
@@ -143,6 +145,12 @@ void DisplayFrame::onLoadSafeButton(wxCommandEvent &event)
 {
 	OptionsDisplay::instance()->loadSafeValues();
 	refreshScreen();
+}
+
+void DisplayFrame::onLoadDefaultKeysButton(wxCommandEvent &event)
+{
+	Keyboard::instance()->loadKeyFile(true);
+	refreshKeysControls();
 }
 
 void DisplayFrame::onMoreRes(wxCommandEvent &event)
@@ -208,28 +216,39 @@ void DisplayFrame::onKeyButton(wxCommandEvent &event)
 
 void DisplayFrame::refreshKeysControls()
 {
-	std::list<wxButton *>::iterator itor;
-	for (itor = keyboardKeyList.begin();
-		itor != keyboardKeyList.end();
-		itor++)
+	std::list<wxButton *>::iterator buttonitor =
+		keyboardKeyList.begin();
+	std::list<KeyboardKey *> &keys = 
+		Keyboard::instance()->getKeyList();
+	std::list<KeyboardKey *>::iterator keyitor;
+	for (keyitor = keys.begin();
+		keyitor != keys.end();
+		keyitor++)
 	{
-		wxButton *button = (*itor);
-		KeyButtonData *data = (KeyButtonData *) button->GetRefData();
-		KeyboardKey *key = data->key_;
-		unsigned int position = data->position_;
-
-		char buffer[256];
-		buffer[0] = '\0';
-		if (position < key->getKeys().size())
+		KeyboardKey *key = (*keyitor);
+		for (unsigned int position = 0; position < 4; 
+			position ++, buttonitor++)
 		{
-			const char *keyName = "";
-			const char *stateName = "";
-			KeyboardKey::translateKeyNameValue(key->getKeys()[position].key, keyName);
-			KeyboardKey::translateKeyStateValue(key->getKeys()[position].state, stateName);
-			if (strcmp(stateName, "NONE") == 0) sprintf(buffer, "%s", keyName);
-			else sprintf(buffer, "<%s> %s", stateName, keyName);
+			if (buttonitor == keyboardKeyList.end()) return;
+			wxButton *button = (*buttonitor);			
+
+			KeyButtonData *data = (KeyButtonData *) button->GetRefData();
+			data->key_ = key;
+			data->position_ = position;
+
+			char buffer[256];
+			buffer[0] = '\0';
+			if (position < key->getKeys().size())
+			{
+				const char *keyName = "";
+				const char *stateName = "";
+				KeyboardKey::translateKeyNameValue(key->getKeys()[position].key, keyName);
+				KeyboardKey::translateKeyStateValue(key->getKeys()[position].state, stateName);
+				if (strcmp(stateName, "NONE") == 0) sprintf(buffer, "%s", keyName);
+				else sprintf(buffer, "<%s> %s", stateName, keyName);
+			}
+			button->SetLabel(buffer);
 		}
-		button->SetLabel(buffer);
 	}
 }
 

@@ -136,6 +136,7 @@ bool Keyboard::saveKeyFile()
 		else keyNode->addChild(new XMLNode("name", key->getName()));
 		keyNode->addChild(new XMLNode("title", key->getTitle()));
 		keyNode->addChild(new XMLNode("description", key->getDescription()));
+		keyNode->addChild(new XMLNode("group", formatString("%i", key->getGroup())));
 
 		std::vector<KeyboardKey::KeyEntry> &keys = key->getKeys();
 		std::vector<KeyboardKey::KeyEntry>::iterator subitor;
@@ -163,10 +164,10 @@ bool Keyboard::saveKeyFile()
 	return true;
 }
 
-bool Keyboard::loadKeyFile()
+bool Keyboard::loadKeyFile(bool loadDefaults)
 {
 	const char *fileName = getSettingsFile("keys.xml");
-	if (!::wxFileExists(fileName))
+	if (!::wxFileExists(fileName) || loadDefaults)
 	{
 		fileName = getDataFile("data/keys.xml");
 	}
@@ -237,13 +238,17 @@ bool Keyboard::loadKeyFile()
 		if (!currentNode->getNamedChild("description", descNode)) return false;
 		const char *keyDesc = descNode->getContent();
 
+		// Get the group
+		int group = 0;
+		if (!currentNode->getNamedChild("group", group)) return false;
+
 		// Get the title
 		XMLNode *titleNode;
 		if (!currentNode->getNamedChild("title", titleNode)) return false;
 		const char *keyTitle = titleNode->getContent();
 
 		// Create the key
-		KeyboardKey *newKey = new KeyboardKey(keyName, keyTitle, keyDesc, command);
+		KeyboardKey *newKey = new KeyboardKey(keyName, keyTitle, keyDesc, group, command);
 
 		// Add all the key names
 		XMLNode *currentKey = 0;
@@ -293,7 +298,7 @@ bool Keyboard::loadKeyFile()
 
 KeyboardKey *Keyboard::getKey(const char *name)
 {
-	static KeyboardKey defaultKey("None", "None", "None", false);
+	static KeyboardKey defaultKey("None", "None", "None", 0, false);
 
 	std::map<std::string, KeyboardKey *>::iterator itor =
 		keyMap_.find(name);

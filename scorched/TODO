@@ -42,6 +42,7 @@ Changed: Spread and hurts weapon primative options are now variable
 Changed: LeapFrog weapon primative bounce now variable
 Changed: Message of the day now defined in server.xml file
 
+Added: Keys can be set via the scorched3d settings dialog
 Added: Cavern environment (comments please!!)
 Added: Trees and models can be placed using a mask and/or height range
 Added: First person style camera mode (WSAD keys with LALT held down)
@@ -50,6 +51,7 @@ Added: More dirt option for landscape (perhaps cannot go under water)
 Added: Arms level can be progressive (changed) during the lifetime of a match
 Added: Water height can be adjusted in landscape definition
 Added: Water can be turned off in landscape definition
+Added: Better roller model
 Added: Smoothed roller movement, added roller rotation
 Added: Ability to use a different kick time when loading a level to when waiting after a shot
 Added: Vertex Array support for models and surrounds/sky
@@ -106,11 +108,12 @@ Shot cam does not get LOD correctly
 Fix crashing when people win (Graphics card drivers??)
 Lightning, rain and meteors
 New surrounds instead of the water
-Make rollers look better
-Guidance
-Add action replay type functionality
 AIs know how to dig
-Proper sun drawn
+Ambient sounds
+Boids?
+Gag people capability
+Fix large menus?
+Move placements to seperate file?
 
 -- Server Stuff
 Chat filter (swear words)
@@ -145,9 +148,12 @@ fire control
 lazy boy
 
 -- Game Play
+Guidance
 resignation penalty (there already is, you can't win round!)
 communism
 
 -- Graphics Stuff
+Add action replay type functionality
 Napalm scorches ground (half done)
-
+Proper sun drawn
+Fog shader effects
