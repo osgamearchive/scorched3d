@@ -56,7 +56,7 @@ TalkDialog::TalkDialog() :
 		addWidget(new GLWTextButton("Cancel ", 120, 10, 105, this, 
 		GLWButton::ButtonFlagCancel | GLWButton::ButtonFlagCenterX));
 	mute_ = (GLWTextButton *) 
-		addWidget(new GLWTextButton("Mute", 150, 10, 65, this, 
+		addWidget(new GLWTextButton("Mute Player", 150, 10, 130, this, 
 		GLWButton::ButtonFlagCenterX));
 
 	addWidget(new GLWLabel(30, 7, "Team Say"));
@@ -100,6 +100,7 @@ void TalkDialog::draw()
 	talkText_->setW(width - 40);
 	ok_->setX(width - 85);
 	cancel_->setX(width - 200);
+	mute_->setX(width - 340);
 
 	GLWWindow::draw();
 }

@@ -41,7 +41,7 @@ public:
 	void stateChange(bool state, unsigned int id);
 
 	// Inherited from GLWWindow
-	virtual void windowInit(const unsigned state);
+	virtual void windowDisplay();
 
 protected:
 	static TalkSettingsDialog *instance_;

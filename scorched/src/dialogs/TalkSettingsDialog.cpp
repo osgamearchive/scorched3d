@@ -40,7 +40,8 @@ TalkSettingsDialog::TalkSettingsDialog() :
 {
 	windowLevel_ = 45000;
 	okId_ = addWidget(new GLWTextButton("Ok", 375, 10, 55, this, 
-		GLWButton::ButtonFlagOk | GLWButton::ButtonFlagCenterX))->getId();
+		GLWButton::ButtonFlagOk | GLWButton::ButtonFlagCancel | 
+		GLWButton::ButtonFlagCenterX))->getId();
 
 	muteTab_ = (GLWTab *)
 		addWidget(new GLWTab("Mute", 0, 10, 40, 420, 410, 100));
@@ -68,18 +69,18 @@ void TalkSettingsDialog::addPlayers()
 
 		GLWPanel *newPanel = (GLWPanel *)
 			muteTab_->addWidget(new GLWPanel(10.0f, (float) height, 295.0f, 20.0f, true));
-		newPanel->addWidget(new GLWLabel(0, -2, (char *) tank->getName()));
+		newPanel->addWidget(new GLWLabel(5, -2, (char *) tank->getName()));
 		GLWCheckBoxText *box = (GLWCheckBoxText*)
 			newPanel->addWidget(new GLWCheckBoxText(305, 1, "Mute", 
 			tank->getState().getMuted()));
-		muteMap_[box->getId()] = tank->getPlayerId();
+		muteMap_[box->getCheckBox().getId()] = tank->getPlayerId();
 		box->getCheckBox().setHandler(this);
 
 		height += 24;
 	}
 }
 
-void TalkSettingsDialog::windowInit(const unsigned state)
+void TalkSettingsDialog::windowDisplay()
 {
 	needCentered_ = true;
 	addPlayers();
