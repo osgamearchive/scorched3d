@@ -116,29 +116,47 @@ bool ModFileEntry::writeModFile(const char *fileName)
 
 bool ModFileEntry::loadModFile(const char *filename)
 {
-	NetBuffer fileContents;
+	static NetBuffer fileContents;
+	fileContents.reset();
 	{
 		// Do translation on ASCII files to prevent CVS
 		// from being a biatch
-		const char *fileMode = "rb";
+		bool translate = false;
 		if (strstr(filename, ".txt") != 0 ||
 			strstr(filename, ".xml") != 0)
 		{
-			fileMode = "ra";
+			translate = true;
 		}
 
 		// Load the file into a coms buffer
-		FILE *file = fopen(filename, fileMode);
+		FILE *file = fopen(filename, "rb");
 		if (!file) return false;
 		int newSize = 0;
 		unsigned char buffer[256];
+		static NetBuffer tmpBuffer;
+		tmpBuffer.reset();
 		do
 		{
-			newSize = fread(buffer, sizeof(unsigned char), sizeof(buffer), file);
-			fileContents.addDataToBuffer(buffer, newSize);
+			newSize = fread(buffer, 
+				sizeof(unsigned char), 
+				sizeof(buffer), 
+				file);
+			tmpBuffer.addDataToBuffer(buffer, newSize);
 		}
 		while (newSize > 0);
 		fclose(file);
+
+		for (unsigned i=0; i<tmpBuffer.getBufferUsed(); i++)
+		{
+			if (!translate ||
+				i >= tmpBuffer.getBufferUsed() - 1 ||
+				tmpBuffer.getBuffer()[i] != 13 ||
+				tmpBuffer.getBuffer()[i+1] != 10)
+			{	
+				fileContents.addDataToBuffer(
+					&tmpBuffer.getBuffer()[i] , 1);
+			}
+		}
 	}
 
 	uncompressedSize_ = fileContents.getBufferUsed();
