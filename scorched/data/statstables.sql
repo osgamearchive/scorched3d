@@ -11,6 +11,7 @@ create table if not exists scorched3d_players (
         playerid INTEGER auto_increment,
         uniqueid varchar(64),
         name varchar(32),
+	osdesc varchar(32) NOT NULL DEFAULT '',
 	lastconnected DATETIME,
         kills INTEGER NOT NULL DEFAULT 0,
         selfkills INTEGER NOT NULL DEFAULT 0,

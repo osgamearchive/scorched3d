@@ -20,6 +20,7 @@ Added: Display options are stored in users home directory (if available)
 Added: Server can be run in console (non-gui) mode
 Added: Client shows which players the game is waiting on
 Added: Stats and servers can tell what os clients and servers are on
+Added: Ability to adjust server options on the fly, so the next match will have the new options
 
 Fixed: Menu items could only be clicked in left hand side
 Fixed: Shot cam goes back to player even when not their turn
@@ -37,18 +38,18 @@ The server can start multiple times on the same port (windows only)!
 Gun fires at same point for all tanks (ignores turret/gun position in model)
 
 -- Things I am currently looking at
-Bilboards for far away trees
+Bilboards/reduced LOD for far away trees
 Remove trees from around tanks
-Allow os logging for players
-Ability to adjust server options on the fly, so the next match will have the new options
 Make AIs better
+Better windows options (docking, minimized, fade in/out)
+Rollers
+Free market economy
 
 -- Server Stuff
 Chat filter (swear words)
 Ban players 
 
 -- Client Stuff
-Better windows options (docking, minimized, fade in/out)
 A safe mode option for when scorched crashed last time
 Option to reconnect when disconected from server.
 In local mode when it's the next person's turn, re-center the view to where they last had it, and display who's turn it is on the screen.
@@ -61,7 +62,6 @@ Chat logger (for urls)
 
 -- Other Stuff
 Add the ability to customize the languages (for dialogs etc..) (localisation)
-Make AIs better
 Birds/seaguls
 Whales
 More weapons primitive types (like WeaponAimedOver only multiple unaimed warheads)
@@ -76,7 +76,6 @@ Bouncing debris
 Cloaking device for tanks
 Low level cloud or fog
 Patriot missile type defense
-rollers.
 lasers
 plasma blast
 different hp / weapons capabilities for different tanks?
@@ -86,7 +85,6 @@ lazy boy
 
 -- Game Play
 resignation penalty (there already is, you can't win round!)
-free market
 communism
 
 # i don't think this is possible - Dave

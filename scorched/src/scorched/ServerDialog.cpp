@@ -20,6 +20,7 @@
 
 #include <scorched/ServerDialog.h>
 #include <scorched/MainDialog.h>
+#include <scorched/SettingsDialog.h>
 #include <tankai/TankAIStore.h>
 #include <tankai/TankAIAdder.h>
 #include <common/OptionsGame.h>
@@ -44,6 +45,7 @@ enum
 	IDC_TIMER2,
 	IDC_MENU_EXIT,
 	IDC_MENU_SHOWOPTIONS,
+	IDC_MENU_EDITOPTIONS,
 	IDC_MENU_PLAYERTALK,
 	IDC_MENU_PLAYERTALKALL,
 	IDC_MENU_PLAYERKICK,
@@ -148,6 +150,7 @@ public:
 	void onTimerMain();
 	void onMenuExit();
 	void onShowOptions();
+	void onEditOptions();
 	void onPlayerTalk();
 	void onPlayerTalkAll();
 	void onPlayerKick();
@@ -184,6 +187,7 @@ BEGIN_EVENT_TABLE(ServerFrame, wxFrame)
 	EVT_TIMER(IDC_TIMER2, ServerFrame::onTimerMain)
 	EVT_MENU(IDC_MENU_EXIT, ServerFrame::onMenuExit)
 	EVT_MENU(IDC_MENU_SHOWOPTIONS, ServerFrame::onShowOptions)
+	EVT_MENU(IDC_MENU_EDITOPTIONS, ServerFrame::onEditOptions)
 	EVT_MENU(IDC_MENU_PLAYERTALK, ServerFrame::onPlayerTalk)
 	EVT_MENU(IDC_MENU_PLAYERTALKALL, ServerFrame::onPlayerTalkAll)
 	EVT_MENU(IDC_MENU_PLAYERKICK, ServerFrame::onPlayerKick)
@@ -272,7 +276,8 @@ ServerFrame::ServerFrame(const char *name) :
 
 	// Add menu items
 	wxMenu *menuFile = new wxMenu;
-    menuFile->Append(IDC_MENU_SHOWOPTIONS, "Display &Options");
+    menuFile->Append(IDC_MENU_SHOWOPTIONS, "&Display Options");
+	menuFile->Append(IDC_MENU_EDITOPTIONS, "Edit &Options");
     menuFile->AppendSeparator();
     menuFile->Append(IDC_MENU_EXIT, "E&xit");
 
@@ -475,6 +480,17 @@ void ServerFrame::onPlayerKick()
 			}
 		}		
     }
+}
+
+void ServerFrame::onEditOptions()
+{
+	if(showSettingsDialog(true, ScorchedServer::instance()->
+		getOptionsGame().getChangedOptions()))
+	{
+		dialogMessage("Server",
+			"These changes will only take place at the start of the next round (map).\n"
+			"Some changes may not work in game :).");
+	}
 }
 
 void ServerFrame::onShowOptions()

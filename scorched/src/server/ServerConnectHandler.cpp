@@ -240,6 +240,9 @@ void ServerConnectHandler::addNextTank(unsigned int destinationId,
 			tankId = TankAIAdder::getNextTankId();
 		}
 	}
+
+	// Make sure host desc does not contain \"
+	for (char *h=(char *)sentHostDesc; *h; h++) if (*h == '\"') *h=' ';
 	
 	// Create the new tank and add it to the tank container
 	// Collections

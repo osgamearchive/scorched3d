@@ -199,6 +199,13 @@ public:
 	bool getPublishServer() { return publishServer_.getValue(); }
 	void setPublishServer(bool value) { publishServer_.setValue(value); }	
 
+	// Fns used to save or restore the state of the options
+	std::list<OptionEntry *> &getOptions();
+	virtual bool writeOptionsToFile(char *filePath);
+	virtual bool readOptionsFromFile(char *filePath);
+	virtual bool writeToBuffer(NetBuffer &buffer);
+	virtual bool readFromBuffer(NetBufferReader &reader);
+
 protected:
 	std::list<OptionEntry *> options_;
 	std::list<OptionEntry *> playerTypeOptions_;
@@ -246,7 +253,6 @@ protected:
 	OptionEntryInt portNo_;
 	OptionEntryString publishAddress_;
 	OptionEntryBool publishServer_;
-
 };
 
 class OptionsGameWrapper : public OptionsGame
@@ -255,18 +261,11 @@ public:
 	OptionsGameWrapper();
 	virtual ~OptionsGameWrapper();
 
-	// Fns used to save or restore the state of the options
-	bool writeOptionsToFile(char *filePath);
-	bool readOptionsFromFile(char *filePath);
-	bool writeToBuffer(NetBuffer &buffer);
-	bool readFromBuffer(NetBufferReader &reader);
-
-	std::list<OptionEntry *> &getOptions();
-
 	// Options that can be changed on the fly
 	// These options then replace the main options at set times
 	OptionsGame &getChangedOptions() { return changedOptions_; }
-	void commitChanges();
+	void updateChangeSet();
+	bool commitChanges();
 
 protected:
 	OptionsGame changedOptions_;

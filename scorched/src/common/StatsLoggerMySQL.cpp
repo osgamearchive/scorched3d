@@ -272,8 +272,8 @@ void StatsLoggerMySQL::tankJoined(Tank *tank)
 	
 	// Joining stats
 	runQuery("UPDATE scorched3d_players SET connects=connects+1, "
-		"lastconnected=NOW(), name=\"%s\" "
-		"WHERE playerid = %i;", tank->getName(), playerId);
+		"lastconnected=NOW(), name=\"%s\", osdesc=\"%s\" "
+		"WHERE playerid = %i;", tank->getName(), tank->getHostDesc(), playerId);
 }
 
 void StatsLoggerMySQL::tankLeft(Tank *tank)

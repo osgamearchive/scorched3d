@@ -19,6 +19,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <coms/ComsNewGameMessage.h>
+#include <client/ScorchedClient.h>
+#include <server/ScorchedServer.h>
 
 ComsNewGameMessage::ComsNewGameMessage() :
 	ComsMessage("ComsNewGameMessage")
@@ -31,14 +33,30 @@ ComsNewGameMessage::~ComsNewGameMessage()
 
 }
 
+void ComsNewGameMessage::addGameState()
+{
+	gameStateEnclosed_ = true;
+}
+
+
 bool ComsNewGameMessage::writeMessage(NetBuffer &buffer)
 {
+	buffer.addToBuffer(gameStateEnclosed_);
+	if (gameStateEnclosed_)
+	{
+		if (!ScorchedServer::instance()->getOptionsGame().writeToBuffer(buffer)) return false;
+	}
 	if (!levelMessage_.writeMessage(buffer)) return false;
 	return true;
 }
 
 bool ComsNewGameMessage::readMessage(NetBufferReader &reader)
 {
+	if (!reader.getFromBuffer(gameStateEnclosed_)) return false;
+	if (gameStateEnclosed_)
+	{
+		if (!ScorchedClient::instance()->getOptionsGame().readFromBuffer(reader)) return false;
+	}
 	if (!levelMessage_.readMessage(reader)) return false;
 	return true;
 }

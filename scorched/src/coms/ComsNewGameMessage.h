@@ -31,6 +31,7 @@ public:
 	virtual ~ComsNewGameMessage();
 
 	ComsLevelMessage &getLevelMessage() { return levelMessage_; }
+	void addGameState();
 
 	// Inherited from ComsMessage
 	virtual bool writeMessage(NetBuffer &buffer);
@@ -38,6 +39,7 @@ public:
 
 protected:
 	ComsLevelMessage levelMessage_;
+	bool gameStateEnclosed_;
 
 private:
 	ComsNewGameMessage(const ComsNewGameMessage &);
@@ -46,4 +48,3 @@ private:
 };
 
 #endif // _comsNewGameMessage_h
-

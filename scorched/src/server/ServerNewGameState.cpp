@@ -49,12 +49,15 @@ void ServerNewGameState::enterState(const unsigned state)
 	// Tell clients a new game is starting
 	ServerCommon::sendString(0, "Next Round");
 
-	// Setup landscape and tank start pos
-	ServerCommon::serverLog(0, "Generating landscape");
+	// Make sure the most uptodate options have been used
+	bool optionsChanged = 
+		ScorchedServer::instance()->getOptionsGame().commitChanges();
 
 	// Set all options (wind etc..)
 	ScorchedServer::instance()->getContext().optionsTransient.newGame();
 
+	// Setup landscape and tank start pos
+	ServerCommon::serverLog(0, "Generating landscape");
 	// Move all pending and dead tanks into the fray
 	// Set them all to not ready
 	ScorchedServer::instance()->getContext().tankContainer.newGame();
@@ -73,7 +76,7 @@ void ServerNewGameState::enterState(const unsigned state)
 	calculateStartPosition(ScorchedServer::instance()->getContext());
 
 	// Add pending tanks (all tanks should be pending) into the game
-	addTanksToGame(state);
+	addTanksToGame(state, optionsChanged);
 
 	// Create the player order for this game
 	TurnController::instance()->newGame();
@@ -87,7 +90,8 @@ void ServerNewGameState::enterState(const unsigned state)
 	ScorchedServer::instance()->getGameState().stimulate(ServerState::ServerStimulusNextRound);
 }
 
-int ServerNewGameState::addTanksToGame(const unsigned state)
+int ServerNewGameState::addTanksToGame(const unsigned state,
+									   bool addState)
 {
 	// Check if there are any pending tanks
 	// An optimization that is only for the
@@ -112,6 +116,12 @@ int ServerNewGameState::addTanksToGame(const unsigned state)
 
 	// Generate the level message
 	ComsNewGameMessage newGameMessage;
+	if (addState)
+	{
+		// Tell client(s) of game settings changes
+		Logger::log(0, "Sending a new game state");
+		newGameMessage.addGameState(); 
+	}
 	if (!ScorchedServer::instance()->getLandscapeMaps().generateHMapDiff(
 		newGameMessage.getLevelMessage()))
 	{
@@ -278,14 +288,33 @@ void ServerNewGameState::calculateStartPosition(ScorchedContext &context)
 
 void ServerNewGameState::checkTeams()
 {
-	if (ScorchedServer::instance()->getOptionsGame().getTeams() == 1) return;
-	if (!ScorchedServer::instance()->getOptionsGame().getAutoBallanceTeams()) return;
-
-	std::list<Tank *> team1;
-	std::list<Tank *> team2;
+	// Make sure everyone is in a team if they should be
 	std::map<unsigned int, Tank *> &playingTanks = 
 		ScorchedServer::instance()->getTankContainer().getPlayingTanks();
 	std::map<unsigned int, Tank *>::iterator mainitor;
+	for (mainitor = playingTanks.begin();
+		 mainitor != playingTanks.end();
+		 mainitor++)
+	{
+		Tank *current = (*mainitor).second;
+		if (!current->getState().getSpectator())
+		{
+			if (ScorchedServer::instance()->getOptionsGame().getTeams() > 1 &&
+				current->getTeam() == 0) current->setTeam(1); 
+			if (ScorchedServer::instance()->getOptionsGame().getTeams() == 1 &&
+				current->getTeam() > 0) current->setTeam(0); 
+		}
+	}
+
+	// Do we check teams
+	if (ScorchedServer::instance()->getOptionsGame().getTeams() == 1) return;
+
+	// Do we auto ballance
+	if (!ScorchedServer::instance()->getOptionsGame().getAutoBallanceTeams()) return;
+
+	// Count players in each team
+	std::list<Tank *> team1;
+	std::list<Tank *> team2;
 	for (mainitor = playingTanks.begin();
 		 mainitor != playingTanks.end();
 		 mainitor++)
@@ -298,12 +327,14 @@ void ServerNewGameState::checkTeams()
 		}
 	}
 
+	// Check if teams are ballanced
 	int offSet = int(team1.size()) - int(team2.size());
 	if (abs(offSet) < 2) return;
 
 	ServerCommon::sendString(0, "Auto ballancing teams");
 	ServerCommon::serverLog(0, "Auto ballancing teams");
 
+	// Ballance the teams
 	offSet /= 2;
 	if (offSet < 0)
 	{

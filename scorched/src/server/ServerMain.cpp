@@ -66,6 +66,7 @@ bool startServer(bool local)
 			new NetServer(new NetServerCompressedProtocol());
 	}
 
+	ScorchedServer::instance()->getOptionsGame().updateChangeSet();
 	ScorchedServer::instance()->getNetInterface().setMessageHandler(
 		&ScorchedServer::instance()->getComsMessageHandler());
 	ScorchedServer::instance()->getComsMessageHandler().setConnectionHandler(

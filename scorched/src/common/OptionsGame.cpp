@@ -21,6 +21,7 @@
 #include <common/OptionsGame.h>
 #include <common/OptionsTransient.h>
 #include <common/Defines.h>
+#include <string.h>
 
 OptionsGame::OptionsGame() :
 	teams_(options_, "Teams",
@@ -120,20 +121,7 @@ OptionsGame::~OptionsGame()
 	
 }
 
-std::list<OptionEntry *> &OptionsGameWrapper::getOptions()
-{
-	return options_;
-}
-
-OptionsGameWrapper::OptionsGameWrapper()
-{
-}
-
-OptionsGameWrapper::~OptionsGameWrapper()
-{
-}
-
-bool OptionsGameWrapper::writeToBuffer(NetBuffer &buffer)
+bool OptionsGame::writeToBuffer(NetBuffer &buffer)
 {
         std::list<OptionEntry *> saveOptions;
         std::list<OptionEntry *>::iterator itor;
@@ -152,7 +140,7 @@ bool OptionsGameWrapper::writeToBuffer(NetBuffer &buffer)
 	return true;
 }
 
-bool OptionsGameWrapper::readFromBuffer(NetBufferReader &reader)
+bool OptionsGame::readFromBuffer(NetBufferReader &reader)
 {
         std::list<OptionEntry *> saveOptions;
         std::list<OptionEntry *>::iterator itor;
@@ -171,7 +159,7 @@ bool OptionsGameWrapper::readFromBuffer(NetBufferReader &reader)
 	return true;
 }
 
-bool OptionsGameWrapper::writeOptionsToFile(char *filePath)
+bool OptionsGame::writeOptionsToFile(char *filePath)
 {
 	std::list<OptionEntry *> saveOptions = 
 		playerTypeOptions_; // Note: The players are also saved
@@ -188,7 +176,7 @@ bool OptionsGameWrapper::writeOptionsToFile(char *filePath)
 	return true;
 }
 
-bool OptionsGameWrapper::readOptionsFromFile(char *filePath)
+bool OptionsGame::readOptionsFromFile(char *filePath)
 {
 	std::list<OptionEntry *> saveOptions = 
 		playerTypeOptions_; // Note: The players are also saved
@@ -205,6 +193,48 @@ bool OptionsGameWrapper::readOptionsFromFile(char *filePath)
 	return true;
 }
 
-void OptionsGameWrapper::commitChanges()
+std::list<OptionEntry *> &OptionsGame::getOptions()
 {
+	return options_;
+}
+
+OptionsGameWrapper::OptionsGameWrapper()
+{
+}
+
+OptionsGameWrapper::~OptionsGameWrapper()
+{
+}
+
+void OptionsGameWrapper::updateChangeSet()
+{
+	NetBufferDefault::defaultBuffer.reset();
+	writeToBuffer(NetBufferDefault::defaultBuffer);
+	NetBufferReader reader(NetBufferDefault::defaultBuffer);
+	changedOptions_.readFromBuffer(reader);
+}
+
+bool OptionsGameWrapper::commitChanges()
+{
+	// Setup buffers
+	static NetBuffer testBuffer;
+	testBuffer.reset();
+	NetBufferDefault::defaultBuffer.reset();
+
+	// Write to buffers
+	writeToBuffer(NetBufferDefault::defaultBuffer);
+	changedOptions_.writeToBuffer(testBuffer);
+
+	// Compare buffers
+	if (memcmp(testBuffer.getBuffer(), 
+		NetBufferDefault::defaultBuffer.getBuffer(),
+		MIN(testBuffer.getBufferUsed(),
+		NetBufferDefault::defaultBuffer.getBufferUsed())) != 0)
+	{
+		NetBufferReader reader(testBuffer);
+		readFromBuffer(reader);
+		return true;
+	}
+
+	return false;
 }
