@@ -549,6 +549,8 @@ scorched3d_SOURCES = \
 	../coms/NetServer.h \
 	../coms/NetServerProtocol.cpp \
 	../coms/NetServerProtocol.h \
+	../coms/NetServerRead.cpp \
+	../coms/NetServerRead.h \
 	../ode/array.cpp \
 	../ode/array.h \
 	../ode/collision.h \
