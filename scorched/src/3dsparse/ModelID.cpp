@@ -45,6 +45,7 @@ bool ModelID::initFromString(
 	return true;
 }
 
+
 bool ModelID::initFromNode(const char *directory, XMLNode *modelNode)
 {
 	XMLNode *typeNode = modelNode->getNamedParameter("type");

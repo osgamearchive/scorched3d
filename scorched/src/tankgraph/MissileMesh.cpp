@@ -27,7 +27,7 @@
 #include <common/Defines.h> // For porting
 
 MissileMesh::MissileMesh(ModelsFile &missile, bool useTextures, float detail) 
-	: useTextures_(useTextures)
+	: useTextures_(useTextures), rotation_(0), scale_(1.0f)
 {
 	createArrays(missile, useTextures, detail);
 }
@@ -102,11 +102,16 @@ void MissileMesh::draw(Vector &position, Vector &direction)
 	float angXYDeg = angXYRad * radToDeg;
 	float angYZDeg = angYZRad * radToDeg;
 
+	rotation_+=5;
 	// Apply the matrix and render the missile
 	glPushMatrix();
 		glTranslatef(position[0], position[1], position[2]);
+		
 		glRotatef(angXYDeg, 0.0f, 0.0f, 1.0f);
 		glRotatef(angYZDeg, 1.0f, 0.0f, 0.0f);
+
+		glRotatef(rotation_, 0.0f, 0.0f, 1.0f);
+		glScalef(scale_, scale_, scale_);
 		missileArrays_.draw();
 	glPopMatrix();
 
@@ -133,4 +138,9 @@ void MissileMesh::draw(Vector &position, Vector &direction)
 
 		GLLenseFlare::instance()->draw(newPos, dir, 3);
 	}
+}
+
+void MissileMesh::setScale(float scale)
+{
+	scale_=scale;
 }

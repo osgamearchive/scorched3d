@@ -31,6 +31,7 @@ class MissileActionRenderer : public ActionRenderer
 {
 public:
 	MissileActionRenderer(int flareType);
+	MissileActionRenderer(int flareType, float scale);
 	virtual ~MissileActionRenderer();
 
 	virtual void simulate(Action *action, float timepassed, bool &remove);
@@ -40,6 +41,7 @@ protected:
 	int flareType_;
 	SmokeCounter counter_;
 	MissileMesh *mesh_;
+	float scale_;
 
 	static std::map<std::string, MissileMesh *> loadedMeshes_;
 

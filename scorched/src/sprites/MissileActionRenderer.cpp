@@ -26,6 +26,12 @@
 
 std::map<std::string, MissileMesh *> MissileActionRenderer::loadedMeshes_;
 
+MissileActionRenderer::MissileActionRenderer(int flareType, float scale) : 
+	flareType_(flareType), counter_(0.1f, 0.1f), mesh_(0), scale_(scale)
+{
+
+}
+
 MissileActionRenderer::MissileActionRenderer(int flareType) : 
 	flareType_(flareType), counter_(0.1f, 0.1f), mesh_(0)
 {
@@ -77,5 +83,6 @@ void MissileActionRenderer::draw(Action *action)
 
 	Vector &actualPos = shot->getCurrentPosition();
 	Vector &actualdir = shot->getCurrentVelocity();
+	mesh_->setScale(scale_);
 	mesh_->draw(actualPos, actualdir);
 }

@@ -48,7 +48,7 @@ void ShotProjectile::init()
 {
 	if (!OptionsParam::instance()->getOnServer()) 
 	{
-		setActionRender(new MissileActionRenderer(flareType_));
+		setActionRender(new MissileActionRenderer(flareType_, weapon_->getScale()));
 	}
 
 	setPhysics(startPosition_, velocity_);

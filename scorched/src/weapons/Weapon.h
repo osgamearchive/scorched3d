@@ -45,6 +45,7 @@ public:
 	const char *getExplosionTexture();
 	const char *getFiredSound();
 	const char *getExplosionSound();
+	float getScale();
 	ModelID &getModelID();
 
 	static bool write(NetBuffer &buffer, Weapon *weapon);
@@ -52,6 +53,7 @@ public:
 
 protected:
 	int deathAnimationWeight_;
+	float scale_;
 	std::string explosionTexture_;
 	std::string firedSound_;
 	std::string explosionSound_;
