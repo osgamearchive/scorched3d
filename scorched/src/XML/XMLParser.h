@@ -27,6 +27,22 @@
 #include <common/FileLines.h>
 #include <common/Vector.h>
 
+#define XML_PARSE_FLOAT(node, x, y) \
+	if ((x = node->getNamedFloatChild(y, true, true)) \
+	== XMLNode::ErrorFloat) return false;
+#define XML_PARSE_INT(node, x, y) \
+	if ((x = node->getNamedIntChild(y, true, true)) \
+	== XMLNode::ErrorInt) return false;
+#define XML_PARSE_UINT(node, x, y) \
+	if ((x = node->getNamedUIntChild(y, true, true)) \
+	== XMLNode::ErrorUInt) return false;
+#define XML_PARSE_VECTOR(node, x, y) \
+	if ((x = node->getNamedVectorChild(y, true, true)) \
+	== XMLNode::ErrorVector) return false;
+#define XML_PARSE_STRING(node, x, y) \
+	if ((x = node->getNamedStringChild(y, true, true)) \
+	== XMLNode::ErrorString) return false;
+
 class XMLNode
 {
 public:
@@ -34,6 +50,7 @@ public:
 	static int ErrorInt;
 	static unsigned int ErrorUInt;
 	static Vector ErrorVector;
+	static const char *ErrorString;
 	enum NodeType
 	{
 		XMLNodeType,
@@ -66,6 +83,8 @@ public:
 	XMLNode *getNamedParameter(const char *name, 
 		bool failOnError = false, bool remove = false);
 	XMLNode *getNamedChild(const char *name, 
+		bool failOnError = false, bool remove = false);
+	const char *getNamedStringChild(const char *name,
 		bool failOnError = false, bool remove = false);
 	float getNamedFloatChild(const char *name, 
 		bool failOnError = false, bool remove = false);

@@ -70,10 +70,28 @@ static const char *getSpacer(int space)
 	return spacestr.c_str();
 }
 
+static bool testMacro()
+{
+	XMLNode *node;
+	float testFloat;
+	Vector testVector;
+	int testInt;
+	unsigned int testUInt;
+	const char *testString;
+
+	XML_PARSE_FLOAT(node, testFloat, "test");
+	XML_PARSE_VECTOR(node, testVector, "test");
+	XML_PARSE_INT(node, testInt, "test");
+	XML_PARSE_UINT(node, testUInt, "test");
+	XML_PARSE_STRING(node, testString, "test");
+	return true;
+}
+
 float XMLNode::ErrorFloat = FLT_MAX;
 int XMLNode::ErrorInt = INT_MAX;
 unsigned int XMLNode::ErrorUInt = UINT_MAX;
 Vector XMLNode::ErrorVector = Vector(FLT_MAX, FLT_MAX, FLT_MAX);
+const char *XMLNode::ErrorString = "Error"; 
 
 XMLNode::XMLNode(const char *name, const char *content, NodeType type) : 
 	name_(name), parent_(0), type_(type),
@@ -253,6 +271,13 @@ XMLNode *XMLNode::getNamedParameter(const char *name, bool failOnError, bool rem
 			(parent_->getName()?parent_->getName():"Root"));
 	}
 	return 0;
+}
+
+const char *XMLNode::getNamedStringChild(const char *name, bool failOnError, bool remove)
+{
+	XMLNode *node = getNamedChild(name, failOnError, remove);
+	if (!node) return ErrorString;
+	return node->getContent();
 }
 
 float XMLNode::getNamedFloatChild(const char *name, bool failOnError, bool remove)

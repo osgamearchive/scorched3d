@@ -395,6 +395,8 @@ scorched3d_SOURCES = \
 	../landscape/InfoMap.h \
 	../landscape/Landscape.cpp \
 	../landscape/Landscape.h \
+	../landscape/LandscapeDefinition.cpp \
+	../landscape/LandscapeDefinition.h \
 	../landscape/LandscapeDefinitions.cpp \
 	../landscape/LandscapeDefinitions.h \
 	../landscape/LandscapeMaps.cpp \

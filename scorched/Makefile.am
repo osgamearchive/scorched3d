@@ -62,7 +62,8 @@ scorcheddocumentationhtmlscreenshots_DATA = documentation/html/screenshots/quick
 	documentation/html/screenshots/online1.gif \
 	documentation/html/screenshots/tooltip1.gif
 scorcheddatadir = ${datadir}/data
-scorcheddata_DATA = data/playernames.txt \
+scorcheddata_DATA = data/landscapesdefn.xml \
+	data/playernames.txt \
 	data/tankais.xml \
 	data/tanks.xml \
 	data/ssdisplay.xml \
@@ -79,6 +80,7 @@ scorcheddata_DATA = data/playernames.txt \
 	data/accessories.xml \
 	data/landscapes.xml \
 	data/textureset.xml \
+	data/landscapestex.xml \
 	data/mysql.xml \
 	data/singletarget.xml \
 	data/motd.txt \

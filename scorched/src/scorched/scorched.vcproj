@@ -1377,6 +1377,12 @@
 				RelativePath="..\landscape\Landscape.h">
 			</File>
 			<File
+				RelativePath="..\landscape\LandscapeDefinition.cpp">
+			</File>
+			<File
+				RelativePath="..\landscape\LandscapeDefinition.h">
+			</File>
+			<File
 				RelativePath="..\landscape\LandscapeDefinitions.cpp">
 			</File>
 			<File
