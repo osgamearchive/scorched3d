@@ -41,4 +41,10 @@
     <value>0</value>
     <defaultvalue>1</defaultvalue>
   </option>
+  <!-- Do not use Vertex Buffer Objects (if avaialable) -->
+  <!-- (default value : "on") -->
+  <option>
+  	<name>NoVBO</name>
+  	<value>on</value>
+  </option>
 </options>
