@@ -117,7 +117,9 @@ public:
 void showURL(const char *url)
 {
 #ifdef _WIN32
-		WinExec(formatString("explorer %s", url) ,SW_SHOWDEFAULT);
+	WinExec(formatString("explorer %s", url) ,SW_SHOWDEFAULT);
+#else
+	dialogMessage("Web site location", "%s", url);
 #endif
 }
 
