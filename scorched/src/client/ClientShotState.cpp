@@ -23,7 +23,6 @@
 #include <engine/ActionController.h>
 #include <common/OptionsParam.h>
 #include <landscape/Landscape.h>
-#include <tank/TankStart.h>
 
 ClientShotState *ClientShotState::instance_ = 0;
 

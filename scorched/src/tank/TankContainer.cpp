@@ -159,6 +159,25 @@ void TankContainer::removeAllTanks()
 	playingTanks_.clear();
 }
 
+int TankContainer::teamCount()
+{
+	int team1 = 0;
+	int team2 = 0;
+	std::map<unsigned int, Tank *>::iterator mainitor;
+	for (mainitor = playingTanks_.begin();
+		 mainitor != playingTanks_.end();
+		 mainitor++)
+	{
+		Tank *current = (*mainitor).second;
+		if (current->getState().getState() == TankState::sNormal)
+		{
+			if (current->getTeam() == 1) team1=1;
+			if (current->getTeam() == 2) team2=1;
+		}
+	}
+	return team1 + team2;
+}
+
 int TankContainer::aliveCount()
 {
 	int alive = 0;

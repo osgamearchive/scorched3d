@@ -46,8 +46,10 @@ void ServerNextShotState::enterState(const unsigned state)
 
 	// Check if this round has finished
 	if (ScorchedServer::instance()->getTankContainer().aliveCount() < 2 ||
-		ScorchedServer::instance()->getOptionsTransient().getCurrentGameNo() > 
-		ScorchedServer::instance()->getOptionsGame().getNoMaxRoundTurns())
+		(ScorchedServer::instance()->getOptionsTransient().getCurrentGameNo() > 
+		 ScorchedServer::instance()->getOptionsGame().getNoMaxRoundTurns()) ||
+		(ScorchedServer::instance()->getTankContainer().teamCount() == 1 &&
+		 ScorchedServer::instance()->getOptionsGame().getTeams() == 2))
 	{
 		if (ScorchedServer::instance()->getTankContainer().aliveCount() >= 2)
 		{

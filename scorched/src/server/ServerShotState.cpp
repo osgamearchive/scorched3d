@@ -22,8 +22,9 @@
 #include <server/ServerShotState.h>
 #include <server/ServerState.h>
 #include <server/ServerShotHolder.h>
+#include <actions/TankScored.h>
+#include <actions/ShowScore.h>
 #include <scorched/ServerDialog.h>
-#include <tank/TankStart.h>
 #include <coms/ComsActionsMessage.h>
 #include <coms/ComsMessageSender.h>
 #include <common/OptionsGame.h>
@@ -63,17 +64,21 @@ bool ServerShotState::acceptStateChange(const unsigned state,
 		stepActions(state, maxSingleSimTime);
 
 		// All the actions have finished
-		if (ScorchedServer::instance()->getActionController().noReferencedActions() &&
-			ScorchedServer::instance()->getTankContainer().aliveCount() < 2)
-		{
-			// The actual state transition for no tanks left is done
-			// in the next round state however
-			// score the last remaining tanks here as it is an action
-			TankStart::scoreWinners(
-				ScorchedServer::instance()->getContext());
+		if (ScorchedServer::instance()->getActionController().noReferencedActions())
+		{ 
+			// Check if any player or team has won the round
+			if (ScorchedServer::instance()->getTankContainer().aliveCount() < 2 ||
+				(ScorchedServer::instance()->getTankContainer().teamCount() == 1 &&
+				ScorchedServer::instance()->getOptionsGame().getTeams() == 2))
+			{
+				// The actual state transition for no tanks left is done
+				// in the next round state however
+				// score the last remaining tanks here as it is an action
+				scoreWinners();
 
-			// Make sure all actions have been executed
-			stepActions(state, 120.0f);
+				// Make sure all actions have been executed
+				stepActions(state, 120.0f);
+			}
 		}
 	}
 	else
@@ -103,4 +108,45 @@ void ServerShotState::stepActions(unsigned int state, float maxSingleSimTime)
 		currentTime += stepTime;
 		if (currentTime > maxSingleSimTime) break;
 	}
+}
+
+void ServerShotState::scoreWinners()
+{
+	// Calculate all the tanks interest
+	float interest = float(ScorchedServer::instance()->
+		getOptionsGame().getInterest()) / 100.0f;
+
+	std::map<unsigned int, Tank *> &tanks = 
+		ScorchedServer::instance()->getTankContainer().getPlayingTanks();
+	std::map<unsigned int, Tank *>::iterator itor;
+	for (itor = tanks.begin();
+		itor != tanks.end();
+		itor++)
+	{
+		Tank *tank = (*itor).second;
+
+		// Calculate how much money each tank should get
+		int addMoney = int(float(tank->getScore().getMoney()) * interest);
+		int addRounds = 0;
+		if (tank->getState().getState() == TankState::sNormal)
+		{
+			addMoney += ScorchedServer::instance()->
+				getOptionsGame().getMoneyWonForRound();
+			addRounds = 1;
+		}
+
+		// Add the money to the tanks
+		if (addRounds != 0 || addMoney != 0)
+		{
+			TankScored *scored = new TankScored(tank->getPlayerId(), 
+				addMoney,
+				0,
+				addRounds);
+			ScorchedServer::instance()->getActionController().addAction(scored);
+		}
+	}
+
+	// Add an action to make all clients show the current
+	// rankings
+	ScorchedServer::instance()->getActionController().addAction(new ShowScore);
 }

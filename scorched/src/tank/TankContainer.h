@@ -52,6 +52,7 @@ public:
 	void setAllNotReady();
 	bool allReady();
 	int aliveCount();
+	int teamCount();
 
 	int getNoOfTanks() { return (int) playingTanks_.size(); }
 	int getNoOfNonSpectatorTanks();

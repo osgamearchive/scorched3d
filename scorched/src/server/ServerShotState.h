@@ -45,6 +45,7 @@ protected:
 	float totalTime_;
 
 	void stepActions(unsigned int state, float maxSingleSimTime);
+	void scoreWinners();
 
 };
 

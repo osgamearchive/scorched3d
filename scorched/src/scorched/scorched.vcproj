@@ -574,12 +574,6 @@
 				RelativePath="..\tank\TankSort.h">
 			</File>
 			<File
-				RelativePath="..\tank\TankStart.cpp">
-			</File>
-			<File
-				RelativePath="..\tank\TankStart.h">
-			</File>
-			<File
 				RelativePath="..\tank\TankState.cpp">
 			</File>
 			<File
