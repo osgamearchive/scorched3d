@@ -120,6 +120,16 @@ public:
 	virtual bool readXML(XMLNode *node);
 };
 
+class LandscapeTexRain : public LandscapeTexType
+{
+public:
+	int particles;
+
+	virtual bool writeMessage(NetBuffer &buffer);
+	virtual bool readMessage(NetBufferReader &reader);
+	virtual bool readXML(XMLNode *node);
+};
+
 class LandscapeTexObjectsPlacement : public LandscapeTexType
 {
 public:

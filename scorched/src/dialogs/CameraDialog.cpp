@@ -138,6 +138,7 @@ void CameraDialog::drawLandscape()
 	TankRenderer::instance()->render3DSecond.draw(0);
 	ScorchedClient::instance()->getActionController().draw(0);
 	ScorchedClient::instance()->getParticleEngine().draw(0);
+	targetCam_.drawPrecipitation();
 }
 
 void CameraDialog::mouseDown(float x, float y, bool &skipRest)

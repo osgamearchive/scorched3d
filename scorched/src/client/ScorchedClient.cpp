@@ -19,6 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <client/ScorchedClient.h>
+#include <client/MainCamera.h>
 #include <engine/MainLoop.h>
 #include <engine/ParticleEngine.h>
 #include <engine/GameState.h>
@@ -49,7 +50,9 @@ ScorchedClient::ScorchedClient() :
 		numberOfBilboards = 100;
 	else if (OptionsDisplay::instance()->getEffectsDetail() == 2) 
 		numberOfBilboards = 10000;
-	particleEngine_ = new ParticleEngine(numberOfBilboards);
+	particleEngine_ = new ParticleEngine(
+		&MainCamera::instance()->getCamera(), 
+		numberOfBilboards);
 }
 
 ScorchedClient::~ScorchedClient()

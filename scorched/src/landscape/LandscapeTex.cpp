@@ -60,6 +60,7 @@ static LandscapeTexType *fetchObjectTexType(const char *type)
 static LandscapeTexType *fetchPrecipitationTexType(const char *type)
 {
 	if (0 == strcmp(type, "none")) return new LandscapeTexTypeNone;
+	if (0 == strcmp(type, "rain")) return new LandscapeTexRain;
 	dialogMessage("LandscapeTexType", "Unknown precipitation type %s", type);
 	return 0;
 }
@@ -272,6 +273,25 @@ bool LandscapeTexObjectsTree::readXML(XMLNode *node)
 {
 	if (!node->getNamedChild("tree", tree)) return false;
 	if (!node->getNamedChild("snow", snow)) return false;
+	return node->failChildren();
+}
+
+// LandscapeTexRain
+bool LandscapeTexRain::writeMessage(NetBuffer &buffer)
+{
+	buffer.addToBuffer(particles);
+	return true;
+}
+
+bool LandscapeTexRain::readMessage(NetBufferReader &reader)
+{
+	if (!reader.getFromBuffer(particles)) return false;
+	return true;
+}
+
+bool LandscapeTexRain::readXML(XMLNode *node)
+{
+	if (!node->getNamedChild("particles", particles)) return false;
 	return node->failChildren();
 }
 

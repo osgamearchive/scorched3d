@@ -305,7 +305,10 @@ void GLWWindowManager::simulate(const unsigned state, float simTime)
 		itor++)
 	{
 		GLWWindow *window = (*itor);
-		window->simulate(simTime);
+		if (windowVisible(window->getId()))
+		{
+			window->simulate(simTime);
+		}
 	}	
 }
 

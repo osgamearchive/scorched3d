@@ -139,20 +139,23 @@ void Landscape::draw(const unsigned state)
 		textureState = new GLState(GLState::TEXTURE_OFF);
 	}
 	
-	if (OptionsDisplay::instance()->getNoROAM())
+	if (OptionsDisplay::instance()->getDrawLandscape())
 	{
-		HeightMapRenderer::drawHeightMap(
-			ScorchedClient::instance()->getLandscapeMaps().getHMap());
-	}
-	else
-	{
-		glColor3f(1.0f, 1.0f, 1.0f);
-		patchGrid_.draw(PatchSide::typeTop);
-
-		if (OptionsDisplay::instance()->getDrawNormals())
+		if (OptionsDisplay::instance()->getNoROAM())
 		{
-			GLState currentState(GLState::TEXTURE_OFF);
-			patchGrid_.draw(PatchSide::typeNormals);
+			HeightMapRenderer::drawHeightMap(
+				ScorchedClient::instance()->getLandscapeMaps().getHMap());
+		}
+		else
+		{
+			glColor3f(1.0f, 1.0f, 1.0f);
+			patchGrid_.draw(PatchSide::typeTop);
+
+			if (OptionsDisplay::instance()->getDrawNormals())
+			{
+				GLState currentState(GLState::TEXTURE_OFF);
+				patchGrid_.draw(PatchSide::typeNormals);
+			}
 		}
 	}
 

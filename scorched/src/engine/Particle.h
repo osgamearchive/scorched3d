@@ -25,6 +25,7 @@
 #include <engine/ParticleRenderer.h>
 #include <GLEXT/GLTextureSet.h>
 
+class ParticleEngine;
 class Particle
 {
 public:
@@ -52,6 +53,7 @@ public:
 	Vector size_, sizeCounter_;
 	float alpha_, alphaCounter_;
 	bool windAffect_;
+	ParticleEngine *engine_;
 
 	// Used for texturing
 	bool additiveTexture_;

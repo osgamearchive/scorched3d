@@ -24,22 +24,24 @@
 #include <engine/Particle.h>
 #include <engine/GameStateI.h>
 
+class GLCamera;
 class ParticleEngine : public GameStateI
 {
 public:
-	ParticleEngine(unsigned int maxParticles);
+	ParticleEngine(GLCamera *camera, unsigned int maxParticles);
 	virtual ~ParticleEngine();
 
 	void setMaxParticles(unsigned int maxParticles);
 	unsigned int getMaxParticles();
 	unsigned int getParticlesOnScreen();
+	GLCamera *getCamera() { return camera_; }
 
 	void killAll();
 
 	Particle *getNextAliveParticle();
 
-	void setFast(float speedMult) { speed_ = speedMult; }
-	float getFast() { return speed_; }
+	static void setFast(float speedMult) { speed_ = speedMult; }
+	static float getFast() { return speed_; }
 
 	// Inherited from GameStateI
 	virtual void draw(const unsigned state);
@@ -49,11 +51,13 @@ protected:
 	Particle *particles_;
 	Particle **usedParticles_;
 	Particle **freeParticles_;
+	GLCamera *camera_;
 
 	float totalTime_;
-	float speed_;
 	unsigned int maxParticles_;
 	unsigned int particlesOnScreen_;
+
+	static float speed_;
 
 	void normalizedSimulate(float time);
 

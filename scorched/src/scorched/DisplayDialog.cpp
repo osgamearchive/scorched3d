@@ -295,6 +295,8 @@ void DisplayFrame::refreshScreen()
 	IDC_NOSURROUND_CTRL->SetToolTip(OptionsDisplay::instance()->getDrawSurroundToolTip());
 	IDC_NOTREES_CTRL->SetValue(OptionsDisplay::instance()->getNoTrees());
 	IDC_NOTREES_CTRL->SetToolTip(OptionsDisplay::instance()->getNoTreesToolTip());
+	IDC_NOPRECIPITATION_CTRL->SetValue(OptionsDisplay::instance()->getNoPrecipitation());
+	IDC_NOPRECIPITATION_CTRL->SetToolTip(OptionsDisplay::instance()->getNoPrecipitationToolTip());
 	IDC_NOWAVES_CTRL->SetValue(OptionsDisplay::instance()->getNoWaves());
 	IDC_NOWAVES_CTRL->SetToolTip(OptionsDisplay::instance()->getNoWavesToolTip());
 	IDC_NODEPTHSORT_CTRL->SetValue(OptionsDisplay::instance()->getNoDepthSorting());
@@ -471,6 +473,7 @@ bool DisplayFrame::TransferDataFromWindow()
 	OptionsDisplay::instance()->setNoSound(IDC_NOSOUND_CTRL->GetValue());
 	OptionsDisplay::instance()->setNoSkins(IDC_NOSKINS_CTRL->GetValue());
 	OptionsDisplay::instance()->setNoTrees(IDC_NOTREES_CTRL->GetValue());
+	OptionsDisplay::instance()->setNoPrecipitation(IDC_NOPRECIPITATION_CTRL->GetValue());
 	OptionsDisplay::instance()->setNoWaves(IDC_NOWAVES_CTRL->GetValue());
 	OptionsDisplay::instance()->setNoDepthSorting(IDC_NODEPTHSORT_CTRL->GetValue());
 	OptionsDisplay::instance()->setFullScreen(IDC_FULLSCREEN_CTRL->GetValue());

@@ -24,6 +24,7 @@
 #include <GLEXT/GLCamera.h>
 #include <GLW/GLWToolTip.h>
 #include <engine/GameState.h>
+#include <engine/ParticleEmitter.h>
 #include <common/Keyboard.h>
 
 class TargetCamera 
@@ -49,11 +50,13 @@ public:
 
 	GLCamera &getCamera() { return mainCam_; }
 	CamType getCameraType() { return cameraPos_; }
+	ParticleEngine &getPrecipitationEngine() { return particleEngine_; }
 	void setCameraType(CamType type) { cameraPos_ = type; }
 	void resetCam();
 
 	void simulate(float frameTime, bool playing);
 	void draw();
+	void drawPrecipitation();
 	void mouseWheel(short z, bool &skipRest);
 	void mouseDown(GameState::MouseButton button, 
 		int x, int y, bool &skipRest);
@@ -74,6 +77,9 @@ public:
 protected:
 	GLCamera mainCam_;
 	CamType cameraPos_;
+	ParticleEmitter precipitationEmitter_;
+	ParticleEngine particleEngine_;
+	float totalTime_;
 
 	bool moveCamera(float frameTime, bool playing);
 

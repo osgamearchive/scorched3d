@@ -425,3 +425,24 @@ void ParticleEmitter::emitMushroom(
 		particle->userData_ = new ExplosionNukeRendererEntry(position, width);
 	}
 }
+
+void ParticleEmitter::emitPrecipitation(
+	Vector &position,
+	ParticleEngine &engine,
+	int number)
+{
+	for (int i=0; i<number; i++)
+	{
+		Particle *particle = engine.getNextAliveParticle();
+		if (!particle) return;
+
+		createDefaultParticle(*particle);
+
+		particle->texture_ = &ExplosionTextures::instance()->rainTexture;
+		particle->position_[0] = position[0] + RAND * 400.0f - 200.0f;
+		particle->position_[1] = position[1] + RAND * 400.0f - 200.0f;
+		particle->position_[2] = 180.0f;
+		particle->renderer_ = ParticleRendererRain::getInstance();
+		particle->shadow_ = false;
+	}
+}

@@ -43,6 +43,7 @@ Changed: Spread and hurts weapon primative options are now variable
 Changed: LeapFrog weapon primative bounce now variable
 Changed: Message of the day now defined in server.xml file
 
+Added: Rain
 Added: Player model remembered for multiplayer games
 Added: WeaponReference primative (now uses parents name and armslevel)
 Added: Lightning and meteor storms
@@ -115,7 +116,7 @@ Shot cam does not get LOD correctly
 
 -- Things I am currently looking at
 Fix crashing when people win (Graphics card drivers??)
-Rain and snow
+Snow
 AIs know how to dig
 Ambient sounds
 Boids?
@@ -127,6 +128,7 @@ Resigning position due to health left?
 Chat filter (swear words)
 A way to set the maximum and minimum players for a map
 Web interface for server to change settings
+Option to disallow people from the same ip address
 
 -- Client Stuff
 Option to reconnect when disconected from server.

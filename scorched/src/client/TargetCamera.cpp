@@ -24,6 +24,8 @@
 #include <common/OptionsDisplay.h>
 #include <landscape/Landscape.h>
 #include <landscape/LandscapeMaps.h>
+#include <landscape/LandscapeDefinition.h>
+#include <landscape/LandscapeTex.h>
 #include <engine/ViewPoints.h>
 #include <tankai/TankAIHuman.h>
 #include <tank/TankContainer.h>
@@ -77,12 +79,31 @@ static const char *cameraDescriptions[] =
 };
 static const int noCameraDescriptions = sizeof(cameraDescriptions) / sizeof(char *);
 
-TargetCamera::TargetCamera() : mainCam_(300, 300), cameraPos_(CamSpectator)
+TargetCamera::TargetCamera() : 
+	mainCam_(300, 300), 
+	cameraPos_(CamSpectator), 
+	totalTime_(0.0f),
+	particleEngine_(&mainCam_, 6000)
 {
 	resetCam();
 	mainCam_.setMinHeightFunc(minHeightFunc, this);
 	mainCam_.setMaxHeightFunc(maxHeightFunc, this);
 	DIALOG_ASSERT(noCameraDescriptions == noCameraNames);
+
+	precipitationEmitter_.setAttributes(
+		3.0f, 3.0f, // Life
+		0.5f, 0.5f, // Mass
+		0.01f, 0.02f, // Friction
+		Vector(0.0f, 0.0f, 0.0f), Vector(0.0f, 0.0f, 0.0f), // Velocity
+		Vector(1.0f, 1.0f, 1.0f), 0.6f, // StartColor1
+		Vector(1.0f, 1.0f, 1.0f), 0.6f, // StartColor2
+		Vector(1.0f, 1.0f, 1.0f), 0.6f, // EndColor1
+		Vector(1.0f, 1.0f, 1.0f), 0.6f, // EndColor2
+		0.2f, 0.2f, 0.2f, 0.2f, // Start Size
+		0.2f, 0.2f, 0.2f, 0.2f, // EndSize
+		Vector(0.0f, 0.0f, -1600.0f), // Gravity
+		false,
+		true);
 }
 
 TargetCamera::~TargetCamera()
@@ -182,6 +203,27 @@ float TargetCamera::maxHeightFunc(int x, int y, void *data)
 
 void TargetCamera::simulate(float frameTime, bool playing)
 {
+	totalTime_ += frameTime;
+	while (totalTime_ > 0.05f)
+	{
+		if (!OptionsDisplay::instance()->getNoPrecipitation())
+		{
+			if (0 == strcmp("rain", 
+				ScorchedClient::instance()->getLandscapeMaps().
+				getLandDfn().getTex()->precipitationtype.c_str()))
+			{
+				LandscapeTexRain *rain = (LandscapeTexRain *)
+					ScorchedClient::instance()->getLandscapeMaps().
+					getLandDfn().getTex()->precipitation;
+				precipitationEmitter_.emitPrecipitation(mainCam_.getCurrentPos(),
+					particleEngine_,
+					rain->particles);
+			}
+		}
+		totalTime_ -= 0.1f;
+	}
+
+	particleEngine_.simulate(0, frameTime);
 	if (moveCamera(frameTime, playing))
 	{
 		mainCam_.simulate(frameTime);
@@ -191,6 +233,11 @@ void TargetCamera::simulate(float frameTime, bool playing)
 void TargetCamera::draw()
 {
 	mainCam_.draw();
+}
+
+void TargetCamera::drawPrecipitation()
+{
+	particleEngine_.draw(0);
 }
 
 bool TargetCamera::moveCamera(float frameTime, bool playing)

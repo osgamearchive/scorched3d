@@ -121,6 +121,10 @@ public:
 		ParticleEngine &engine,
 		int number,
 		float width);
+	void emitPrecipitation(
+		Vector &position,
+		ParticleEngine &engine,
+		int number);
 };
 
 #endif // __INCLUDE_ParticleEmitterh_INCLUDE__

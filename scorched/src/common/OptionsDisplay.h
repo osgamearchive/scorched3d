@@ -196,6 +196,10 @@ public:
 	void setDrawWater(bool value) { drawWater_.setValue(value); }
 	const char *getDrawWaterToolTip() { return drawWater_.getDescription(); }
 
+	bool getDrawLandscape() { return drawLandscape_.getValue(); }
+	void setDrawLandscape(bool value) { drawLandscape_.setValue(value); }
+	const char *getDrawLandscapeToolTip() { return drawLandscape_.getDescription(); }
+
 	bool getDrawSurround() { return drawSurround_.getValue(); }
 	void setDrawSurround(bool value) { drawSurround_.setValue(value); }
 	const char *getDrawSurroundToolTip() { return drawSurround_.getDescription(); }
@@ -215,6 +219,10 @@ public:
 	bool getNoTrees() { return noTrees_.getValue(); }
 	void setNoTrees(bool value) { noTrees_.setValue(value); }
 	const char *getNoTreesToolTip() { return noTrees_.getDescription(); }
+
+	bool getNoPrecipitation() { return noPrecipitation_.getValue(); }
+	void setNoPrecipitation(bool value) { noPrecipitation_.setValue(value); }
+	const char *getNoPrecipitationToolTip() { return noPrecipitation_.getDescription(); }
 
 	bool getLowTreeDetail() { return lowTreeDetail_.getValue(); }
 	void setLowTreeDetail(bool value) { lowTreeDetail_.setValue(value); }
@@ -342,6 +350,7 @@ protected:
 	OptionEntryBool noSkins_;
 	OptionEntryBool sortAccessories_;
 	OptionEntryBool drawWater_;
+	OptionEntryBool drawLandscape_;
 	OptionEntryBool drawSurround_;
 	OptionEntryBool drawPlayerNames_;
 	OptionEntryBool drawPlayerSight_;
@@ -355,6 +364,7 @@ protected:
 	OptionEntryBool useLandscapeTexture_;
 	OptionEntryBool noSkyLayers_;
 	OptionEntryBool noSkyMovement_;
+	OptionEntryBool noPrecipitation_;
 	OptionEntryBool frameTimer_;
 	OptionEntryBool noWaterMovement_;
 	OptionEntryBool noWaves_;

@@ -38,6 +38,7 @@ public:
 	void generate(ProgressCounter *counter = 0);
 	void simulate(float frameTime);
 	bool explosion(Vector position, float size);
+	void addWave(Vector position, float height);
 
 	bool getWaterOn() { return waterOn_; }
 	float getWaterHeight() { return height_; }

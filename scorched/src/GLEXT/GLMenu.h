@@ -46,7 +46,6 @@ public:
 		bool &skipRest);
 
 protected:
-	GLFont2d *menuFont_;
 	std::map<std::string, GLMenuEntry *> menuList_;
 
 	GLMenuEntry *getMenu(char *menuItem);

@@ -85,6 +85,12 @@ bool ExplosionTextures::createTextures(ProgressCounter *counter)
 	lightningTexture.create(bitmap4, GL_RGBA);
 	DIALOG_ASSERT(lightningTexture.textureValid());
 
+	std::string file5 = getDataFile("data/textures/rain.bmp");
+	std::string file5m = getDataFile("data/textures/rainm.bmp");
+	GLBitmap bitmap5(file5m.c_str(), file5.c_str(), false);
+	rainTexture.create(bitmap5, GL_RGBA);
+	DIALOG_ASSERT(rainTexture.textureValid());
+
 	XMLFile file;
 	if (!file.readFile(getDataFile("data/textureset.xml")))
 	{

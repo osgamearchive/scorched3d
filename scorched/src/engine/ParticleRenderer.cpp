@@ -29,8 +29,17 @@
 #include <landscape/LandscapeMaps.h>
 #include <client/ScorchedClient.h>
 #include <GLEXT/GLState.h>
+#include <GLEXT/GLCamera.h>
 #include <GLEXT/GLCameraFrustum.h>
 #include <GLEXT/GLInfo.h>
+#include <common/Defines.h>
+#include <math.h>
+
+ParticleRendererPoints *ParticleRendererPoints::getInstance()
+{
+	static ParticleRendererPoints instance_;
+	return &instance_;
+}
 
 void ParticleRendererPoints::simulateParticle(Particle &particle, float time)
 {
@@ -38,6 +47,8 @@ void ParticleRendererPoints::simulateParticle(Particle &particle, float time)
 
 void ParticleRendererPoints::renderParticle(Particle &particle)
 {
+	GLState state(GLState::TEXTURE_OFF);
+	glPointSize(4.0f);
 	glColor4f(
 		particle.color_[0],
 		particle.color_[1],
@@ -46,6 +57,7 @@ void ParticleRendererPoints::renderParticle(Particle &particle)
 	glBegin(GL_POINTS);
 		glVertex3fv(particle.position_);
 	glEnd();
+	glPointSize(1.0f);
 }
 
 ParticleRendererQuads *ParticleRendererQuads::getInstance()
@@ -178,3 +190,60 @@ void ParticleRendererMushroom::simulateParticle(Particle &particle, float time)
 	renderer->simulate(&particle, time);
 }
 
+ParticleRendererRain *ParticleRendererRain::getInstance()
+{
+	static ParticleRendererRain instance_;
+	return &instance_;
+}
+
+void ParticleRendererRain::renderParticle(Particle &particle)
+{
+	ParticleRendererQuads::getInstance()->renderParticle(particle);
+}
+
+void ParticleRendererRain::simulateParticle(Particle &particle, float time)
+{
+	if (particle.position_[2] < 0.0f)
+	{
+		particle.life_ = 0.0f;
+		return;
+	}
+
+	Vector &cameraPos = particle.engine_->getCamera()->getCurrentPos();
+	Vector &cameraTarget = particle.engine_->getCamera()->getLookAt();
+	Vector cameraDirection = (cameraTarget - cameraPos).Normalize();
+
+	// Size
+	particle.size_[0] = 0.1f;
+	particle.size_[1] = 1.0f - fabsf(cameraDirection[2]) + 0.1f;
+
+	// Alpha
+	const float MaxDist = 200.0f * 200.0f;
+	float alpha = 0.0f;
+	if (particle.distance_ < MaxDist)
+	{
+		alpha = 0.7f * (1.0f - (particle.distance_ / MaxDist));
+	}
+	particle.alpha_ = alpha;
+
+	// Distance
+	float distanceX = cameraPos[0] - particle.position_[0];
+	float distanceY = cameraPos[1] - particle.position_[1];
+	/*if (distanceX > 100.0f)
+	{
+		particle.position_[0] = -100.0f + distanceX - 100.0f;
+	}
+	else if (distanceX < -100.0f)
+	{
+		particle.position_[0] = 100.0f + distanceX + 100.0f;
+	} 
+
+	if (distanceY > 100.0f)
+	{
+		particle.position_[1] = -100.0f + distanceY - 100.0f;
+	}
+	else if (distanceY < -100.0f)
+	{
+		particle.position_[1] = 100.0f + distanceY + 100.0f;
+	}*/
+}

@@ -38,6 +38,7 @@ public:
 	GLTexture particleTexture;
 	GLTexture talkTexture;
 	GLTexture lightningTexture;
+	GLTexture rainTexture;
 
 	GLBitmap &getScorchBitmap(const char *name);
 

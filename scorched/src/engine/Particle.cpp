@@ -24,7 +24,8 @@ Particle::Particle() :
 	life_(-1.0f), renderer_(0), userData_(0),
 	distance_(0.0f), texture_(0), shadow_(false),
 	textureCoord_(0), simulated_(false),
-	windAffect_(true), textureSet_(0)
+	windAffect_(true), textureSet_(0),
+	engine_(0)
 {
 }
 

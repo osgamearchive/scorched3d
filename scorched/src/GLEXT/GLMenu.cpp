@@ -28,7 +28,6 @@
 GLMenu::GLMenu() : GLWWindow("", 0.0f, 10.0f, 10000.0f, 25.0f, 0, "")
 {
 	windowLevel_ = 20000;
-	menuFont_ = GLWFont::instance()->getLargePtFont();
 }
 
 GLMenu::~GLMenu()
@@ -107,7 +106,8 @@ void GLMenu::draw()
 			GLMenuEntry *entry = itor->second;
 			if (entry->getEnabled())
 			{
-				entry->draw(*menuFont_, currentTop - 1.0f, currentWidth);
+				entry->draw(*GLWFont::instance()->getLargePtFont(), 
+					currentTop - 1.0f, currentWidth);
 				currentWidth += entry->getWidth() + 1.0f;
 			}
 		}		

@@ -282,3 +282,7 @@ void MainCamera::SaveScreen::draw(const unsigned state)
 	sound->play();
 }
 
+void MainCamera::Precipitation::draw(const unsigned state)
+{
+	MainCamera::instance()->getTarget().drawPrecipitation();
+}

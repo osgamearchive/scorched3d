@@ -57,7 +57,7 @@ void ActionBuffer::serverAdd(float time, ActionMeta *action)
 {
 	if (time > 60.0f)
 	{
-		Logger::log(0, "Warning: Action added for long time %i", time);
+		Logger::log(0, "Warning: Action added for long time %.2f", time);
 	}
 
 	// Add this action into the buffer to be sent to 

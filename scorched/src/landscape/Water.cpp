@@ -168,6 +168,15 @@ void Water::generate(ProgressCounter *counter)
 	}
 }
 
+void Water::addWave(Vector position, float height)
+{
+	float mult = wMap_.getWidthMult();
+	int posX = int((position[0] + 64.0f) / mult);
+	int posY = int((position[1] + 64.0f) / mult);
+
+	wMap_.addWave(posX, posY, height);
+}
+
 bool Water::explosion(Vector position, float size)
 {
 	if (!waterOn_ ||
@@ -175,11 +184,7 @@ bool Water::explosion(Vector position, float size)
 
 	if (position[2] < height_)
 	{
-		float mult = wMap_.getWidthMult();
-		int posX = int((position[0] + 64.0f) / mult);
-		int posY = int((position[1] + 64.0f) / mult);
-
-		wMap_.addWave(posX, posY, height_);
+		addWave(position, 5.0f);
 
 		CACHE_SOUND(sound, (char *) getDataFile("data/wav/misc/splash.wav"));
 		sound->play();

@@ -24,6 +24,7 @@
 #include <common/OptionsDisplay.h>
 #include <GLEXT/GLInfo.h>
 #include <client/ScorchedClient.h>
+#include <client/MainCamera.h>
 #include <engine/ActionController.h>
 #include <engine/ParticleEngine.h>
 
@@ -57,7 +58,10 @@ void FrameTimer::simulate(const unsigned state, float frameTime)
 	if (totalTime_ > 5.0f)
 	{
 		unsigned int pOnScreen = 
-			ScorchedClient::instance()->getParticleEngine().getParticlesOnScreen();
+			ScorchedClient::instance()->
+				getParticleEngine().getParticlesOnScreen() +
+			MainCamera::instance()->getTarget().
+				getPrecipitationEngine().getParticlesOnScreen();
 
 		unsigned int tris = GLInfo::getNoTriangles();
 		if (OptionsDisplay::instance()->getFrameTimer())

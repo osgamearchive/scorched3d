@@ -32,6 +32,7 @@ public:
 class ParticleRendererPoints : public ParticleRenderer
 {
 public:
+	static ParticleRendererPoints *getInstance();
 	virtual void renderParticle(Particle &particle);
 	virtual void simulateParticle(Particle &particle, float time);
 };
@@ -72,6 +73,14 @@ class ParticleRendererMushroom : public ParticleRenderer
 {
 public:
 	static ParticleRendererMushroom *getInstance();
+	virtual void renderParticle(Particle &particle);
+	virtual void simulateParticle(Particle &particle, float time);
+};
+
+class ParticleRendererRain : public ParticleRenderer
+{
+public:
+	static ParticleRendererRain *getInstance();
 	virtual void renderParticle(Particle &particle);
 	virtual void simulateParticle(Particle &particle, float time);
 };

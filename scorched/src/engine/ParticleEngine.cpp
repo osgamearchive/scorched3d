@@ -23,13 +23,17 @@
 #include <common/OptionsTransient.h>
 #include <client/ScorchedClient.h>
 #include <GLEXT/GLState.h>
-#include <client/MainCamera.h>
+#include <GLEXT/GLCamera.h>
 #include <algorithm>
 
-ParticleEngine::ParticleEngine(unsigned int maxParticles) :
+float ParticleEngine::speed_ = 1.0f;
+
+ParticleEngine::ParticleEngine(GLCamera *camera, 
+	unsigned int maxParticles) :
+	camera_(camera),
 	particlesOnScreen_(0), particles_(0), 
 	freeParticles_(0), usedParticles_(0),
-	speed_(1.0f), totalTime_(0.0f)
+	totalTime_(0.0f)
 {
 	setMaxParticles(maxParticles);
 }
@@ -72,6 +76,7 @@ void ParticleEngine::killAll()
 	for (unsigned int i=0; i<maxParticles_; i++)
 	{
 		Particle &particle = particles_[i];
+		particle.engine_ = this;
 		if (particle.life_ > 0.0f) particle.life_ = -1.0f;
 
 		freeParticles_[i] = &particles_[i];
@@ -124,8 +129,7 @@ void ParticleEngine::simulate(const unsigned state, float time)
 void ParticleEngine::normalizedSimulate(float time)
 {
 	Vector momentum;
-	Vector &cameraPos = 
-		MainCamera::instance()->getCamera().getCurrentPos();
+	Vector &cameraPos = camera_->getCurrentPos();
 
 	unsigned int currentParticles = particlesOnScreen_;
 	unsigned int putPos = 0;

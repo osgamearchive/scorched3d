@@ -325,7 +325,9 @@
 				</object>
 			</placement>
 		</placements>
-		<precipitation type="none"></precipitation>
+		<precipitation type="rain">
+			<particles>60</particles>
+		</precipitation>
 		<events>
 			<event>
 				<condition type="time">

@@ -208,6 +208,10 @@ static void createTroubleControls(wxWindow *parent, wxSizer *sizer)
 		new wxCheckBox(parent, -1, "No trees",
 		wxDefaultPosition, wxSize((int) 150, (int) -1));
 	detailSizer2->Add(IDC_NOTREES_CTRL, 0);
+	IDC_NOPRECIPITATION_CTRL = 
+		new wxCheckBox(parent, -1, "No precipitation",
+		wxDefaultPosition, wxSize((int) 150, (int) -1));
+	detailSizer2->Add(IDC_NOPRECIPITATION_CTRL, 0);
 	IDC_NODEPTHSORT_CTRL = 
 		new wxCheckBox(parent, -1, "No sprite depth sorting",
 		wxDefaultPosition, wxSize((int) 150, (int) -1));

@@ -48,7 +48,7 @@ SpeedChange::~SpeedChange()
 void SpeedChange::resetSpeed()
 {
 	ScorchedClient::instance()->getActionController().setFast(1.0f);
-	ScorchedClient::instance()->getParticleEngine().setFast(1.0f);
+	ParticleEngine::setFast(1.0f);
 }
 
 void SpeedChange::draw(const unsigned state)
@@ -85,32 +85,32 @@ void SpeedChange::keyboardCheck(const unsigned state, float frameTime,
 	else if (x2Key->keyDown(buffer, keyState))
 	{
 		ScorchedClient::instance()->getActionController().setFast(2.0f);
-		ScorchedClient::instance()->getParticleEngine().setFast(2.0f);
+		ParticleEngine::setFast(2.0f);
 	}
 	else if (x3Key->keyDown(buffer, keyState))
 	{
 		ScorchedClient::instance()->getActionController().setFast(4.0f);
-		ScorchedClient::instance()->getParticleEngine().setFast(4.0f);
+		ParticleEngine::setFast(4.0f);
 	}
 	else if (x4Key->keyDown(buffer, keyState))
 	{
 		ScorchedClient::instance()->getActionController().setFast(8.0f);
-		ScorchedClient::instance()->getParticleEngine().setFast(8.0f);
+		ParticleEngine::setFast(8.0f);
 	}
 	else if (xHalfKey->keyDown(buffer, keyState))
 	{
 		ScorchedClient::instance()->getActionController().setFast(1.0f / 2.0f);
-		ScorchedClient::instance()->getParticleEngine().setFast(1.0f / 2.0f);
+		ParticleEngine::setFast(1.0f / 2.0f);
 	}
 	else if (xQuarterKey->keyDown(buffer, keyState))
 	{
 		ScorchedClient::instance()->getActionController().setFast(1.0f / 4.0f);
-		ScorchedClient::instance()->getParticleEngine().setFast(1.0f / 4.0f);
+		ParticleEngine::setFast(1.0f / 4.0f);
 	}
 	else if (xEighthKey->keyDown(buffer, keyState))
 	{
 		ScorchedClient::instance()->getActionController().setFast(1.0f / 8.0f);
-		ScorchedClient::instance()->getParticleEngine().setFast(1.0f / 8.0f);
+		ParticleEngine::setFast(1.0f / 8.0f);
 	}
 }
 

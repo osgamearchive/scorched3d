@@ -68,6 +68,13 @@ public:
 		bool saveScreen_;
 	} saveScreen_;
 
+	class Precipitation : public GameStateI
+	{
+	public:
+		Precipitation() {}
+		virtual void draw(const unsigned state);
+	} precipitation_;
+
 protected:
 	static MainCamera *instance_;
 	TargetCamera targetCam_;
