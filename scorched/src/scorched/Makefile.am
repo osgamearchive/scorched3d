@@ -333,14 +333,14 @@ scorched3d_SOURCES = \
 	../engine/ScorchedCollisionHandler.h \
 	../engine/ScorchedCollisionIds.cpp \
 	../engine/ScorchedCollisionIds.h \
+	../engine/ScorchedContext.cpp \
+	../engine/ScorchedContext.h \
 	../landscape/CloudSim.cpp \
 	../landscape/CloudSim.h \
 	../landscape/DeformLandscape.cpp \
 	../landscape/DeformLandscape.h \
 	../landscape/DeformTextures.cpp \
 	../landscape/DeformTextures.h \
-	../landscape/GlobalHMap.cpp \
-	../landscape/GlobalHMap.h \
 	../landscape/HeightMap.cpp \
 	../landscape/HeightMap.h \
 	../landscape/HeightMapCollision.cpp \
@@ -359,6 +359,8 @@ scorched3d_SOURCES = \
 	../landscape/InfoMap.h \
 	../landscape/Landscape.cpp \
 	../landscape/Landscape.h \
+	../landscape/LandscapeMaps.cpp \
+	../landscape/LandscapeMaps.h \
 	../landscape/MovementMap.cpp \
 	../landscape/MovementMap.h \
 	../landscape/NapalmMap.cpp \
@@ -453,8 +455,6 @@ scorched3d_SOURCES = \
 	../coms/ComsDefenseMessage.h \
 	../coms/ComsGameStoppedMessage.cpp \
 	../coms/ComsGameStoppedMessage.h \
-	../coms/ComsGateway.cpp \
-	../coms/ComsGateway.h \
 	../coms/ComsLevelMessage.cpp \
 	../coms/ComsLevelMessage.h \
 	../coms/ComsMessage.cpp \
@@ -483,6 +483,8 @@ scorched3d_SOURCES = \
 	../coms/NetBuffer.h \
 	../coms/NetBufferUtil.cpp \
 	../coms/NetBufferUtil.h \
+	../coms/NetInterface.cpp \
+	../coms/NetInterface.h \
 	../coms/NetMessage.cpp \
 	../coms/NetMessage.h \
 	../coms/NetMessageHandler.cpp \
@@ -538,8 +540,8 @@ scorched3d_SOURCES = \
 	../ode/space.h \
 	../ode/stack.h \
 	../ode/step.cpp \
-	../ode/stepfast.cpp \
 	../ode/step.h \
+	../ode/stepfast.cpp \
 	../ode/testing.cpp \
 	../ode/testing.h \
 	../ode/timer.cpp \
