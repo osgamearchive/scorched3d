@@ -34,6 +34,8 @@ create table if not exists scorched3d_players (
 create table if not exists scorched3d_weapons (
         weaponid INTEGER auto_increment,
 	kills INTEGER NOT NULL DEFAULT 0,
+	cost INTEGER NOT NULL DEFAULT 0,
+	bundlesize INTEGER NOT NULL DEFAULT 0,
         name varchar(64),
 	armslevel INTEGER NOT NULL DEFAULT 0,
 	shots INTEGER NOT NULL DEFAULT 0,

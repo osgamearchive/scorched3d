@@ -164,12 +164,14 @@ void StatsLoggerMySQL::createLogger()
 
 				if (weaponId == 0)
 				{
-					runQuery("INSERT INTO scorched3d%s_weapons (name, description, armslevel) "
+					runQuery("INSERT INTO scorched3d%s_weapons (name, description, armslevel, cost, bundlesize) "
 						"VALUES(\"%s\", \"%s\", %i);", 
 						prefix_.c_str(),
 						weapon->getName(), 
 						weapon->getDescription(),
-						weapon->getArmsLevel());
+						weapon->getArmsLevel(),
+						weapon->getOriginalPrice(),
+						weapon->getBundle());
 					weaponId = (int) mysql_insert_id(mysql_);		
 				}
 
