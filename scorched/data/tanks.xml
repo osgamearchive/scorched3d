@@ -7,6 +7,21 @@
 		</model>
 	</tank>
 	<tank>
+		<name>ZSU-57 High Def</name>
+		<catagory>High Def</catagory>
+		<model type="MilkShape">zsu57/zsu57.txt</model>
+	</tank>
+	<tank>
+		<name>ZSU-23 High Def</name>
+		<catagory>High Def</catagory>
+		<model type="MilkShape">zsu23/zsu23.txt</model>
+	</tank>
+	<tank>
+		<name>M-48 Chaparral High Def</name>
+		<catagory>High Def</catagory>
+		<model type="MilkShape">m48/m48.txt</model>
+	</tank>
+	<tank>
 		<name>Lav-25 HighDef</name>
 		<catagory>High Def</catagory>
 		<model type="MilkShape">lav-25/lav-25.txt</model>
