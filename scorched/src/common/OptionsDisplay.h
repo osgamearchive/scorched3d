@@ -149,6 +149,9 @@ public:
 	bool getNoTrees() { return noTrees_.getValue(); }
 	void setNoTrees(bool value) { noTrees_.setValue(value); }
 
+	bool getLowTreeDetail() { return lowTreeDetail_.getValue(); }
+	void setLowTreeDetail(bool value) { lowTreeDetail_.setValue(value); }
+
 	bool getNoDepthSorting() { return noDepthSorting_.getValue(); }
 	void setNoDepthSorting(bool value) { noDepthSorting_.setValue(value); }
 
@@ -243,6 +246,7 @@ protected:
 	OptionEntryBool noWaterMovement_;
 	OptionEntryBool noWaves_;
 	OptionEntryBool showContextHelp_;
+	OptionEntryBool lowTreeDetail_;
 	OptionEntryBoundedInt texSize_;
 	OptionEntryBoundedInt tankDetail_;
 	OptionEntryBoundedInt effectsDetail_;

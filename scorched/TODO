@@ -42,8 +42,6 @@ The server can start multiple times on the same port (windows only)!
 Gun fires at same point for all tanks (ignores turret/gun position in model)
 
 -- Things I am currently looking at
-Bilboards/reduced LOD for far away trees
-Remove trees from around tanks
 Make AIs better
 Better windows options (docking, minimized, fade in/out)
 Rollers

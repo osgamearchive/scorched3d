@@ -45,13 +45,16 @@ protected:
 	struct LandscapeObjectOrderedEntry : public GLOrderedItemRenderer::OrderedEntry
 	{
 		GLuint treeType;
+		GLuint smallTreeType;
 		float treeRotation;
 		float treeColor;
 		float treeSize;
 	};
 
 	GLuint treePine, treePineBurnt, treePineSnow;
+	GLuint treePineSmall, treePineBurntSmall, treePineSnowSmall;
 	GLuint treePalm, treePalmBurnt;
+	GLuint treePalmSmall, treePalmBurntSmall;
 	std::multimap<unsigned int, LandscapeObjectOrderedEntry*> entries_;
 	GLTexture texture_;
 	bool pine_;
