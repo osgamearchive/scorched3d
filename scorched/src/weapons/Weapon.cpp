@@ -25,7 +25,7 @@ Weapon::Weapon() : deathAnimationWeight_(0), explosionTexture_("exp00"), scale_(
 {
 	modelId_.initFromString(
 		"MilkShape",
-		PKGDIR "data/accessories/v2missile/v2missile.txt",
+		"data/accessories/v2missile/v2missile.txt",
 		"");
 }
 
@@ -84,7 +84,7 @@ bool Weapon::parseXML(XMLNode *accessoryNode)
 	XMLNode *modelNode = accessoryNode->getNamedChild("projectilemodel");
 	if (modelNode)
 	{
-		if (!modelId_.initFromNode(PKGDIR "data/accessories", modelNode)) return false;
+		if (!modelId_.initFromNode("data/accessories", modelNode)) return false;
 	}
 
 	return true;

@@ -146,8 +146,13 @@ ModelsFile *ModelID::getNewFile()
 	ModelsFile *newFile = 0;
 	if (0 == strcmp(getType(), "ase"))
 	{
+		char newMeshName[256];
+		char newSkinName[256];
+		sprintf(newMeshName, PKGDIR "%s", getMeshName());
+		sprintf(newSkinName, PKGDIR "%s", getSkinName());
+
 		// Load the ASEFile containing the tank definitions
-		newFile = new ASEFile(getMeshName(), getSkinName());
+		newFile = new ASEFile(newMeshName, newSkinName);
 		if (!newFile->getSuccess())
 		{
 			dialogMessage("ASE File", "Failed to load ASE file \"%s\"", getMeshName());
@@ -156,8 +161,11 @@ ModelsFile *ModelID::getNewFile()
 	}
 	else
 	{
+		char newMeshName[256];
+		sprintf(newMeshName, PKGDIR "%s", getMeshName());
+
 		// Load the Milkshape containing the tank definitions
-		newFile = new MSFile(getMeshName());
+		newFile = new MSFile(newMeshName);
 		if (!newFile->getSuccess())
 		{
 			dialogMessage("MS File", "Failed to load MS file \"%s\"", getMeshName());

@@ -22,8 +22,25 @@
 
 bool TankSort::SortOnScore::operator()(const Tank *x, const Tank *y) const
 {
-	TankScore &scoreX = ((Tank *)x)->getScore();
-	TankScore &scoreY = ((Tank *)y)->getScore();
+	Tank &tankX = *((Tank *) x);
+	Tank &tankY = *((Tank *) y);
+	TankScore &scoreX = tankX.getScore();
+	TankScore &scoreY = tankY.getScore();
+
+	if (tankX.getState().getSpectator() &&
+		tankY.getState().getSpectator())
+	{
+		if (strcmp(((Tank *)x)->getName(), ((Tank *)y)->getName()) < 0) return true;
+		return false;
+	}
+	else if (tankX.getState().getSpectator())
+	{
+		return false;
+	}
+	else if (tankY.getState().getSpectator())
+	{
+		return true;
+	}
 
 	if (scoreX.getWins() > scoreY.getWins()) return true;
 	if (scoreX.getWins() == scoreY.getWins())

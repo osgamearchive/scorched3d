@@ -20,11 +20,12 @@
 
 #include <server/ServerBrowserInfo.h>
 #include <server/ScorchedServer.h>
+#include <server/TurnController.h>
+#include <server/ServerState.h>
+#include <server/ServerTooFewPlayersStimulus.h>
 #include <common/OptionsGame.h>
 #include <common/OptionsTransient.h>
 #include <common/Defines.h>
-#include <server/ServerState.h>
-#include <server/ServerTooFewPlayersStimulus.h>
 
 ServerBrowserInfo *ServerBrowserInfo::instance_ = 0;
 
@@ -106,6 +107,8 @@ void ServerBrowserInfo::processStatusMessage(char *buffer)
 	sprintf(maxplayers, "%i", ScorchedServer::instance()->getOptionsGame().getNoMaxPlayers());
 
 	strcpy(buffer, "<status ");
+	addTag(buffer, "gametype", TurnController::instance()->getGameType(
+		ScorchedServer::instance()->getOptionsGame().getTurnType()));
 	addTag(buffer, "state", (started?"Started":"Waiting"));
 	addTag(buffer, "servername", serverName);
 	addTag(buffer, "fullversion", version);

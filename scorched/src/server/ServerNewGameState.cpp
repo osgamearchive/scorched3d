@@ -145,7 +145,6 @@ int ServerNewGameState::addTanksToGame(const unsigned state)
 			{
 				// This tank is now playing (but dead)
 				tank->getState().setState(TankState::sDead);
-				tank->getScore().setWins(-1);
 			}
 			else if (state == ServerState::ServerStateNewGame)
 			{
