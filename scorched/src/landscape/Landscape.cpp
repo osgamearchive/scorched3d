@@ -297,6 +297,18 @@ void Landscape::generate(ProgressCounter *counter)
 	// Create the cloud texture
 	DIALOG_ASSERT(cloudTexture_.create(bitmapCloud));
 
+	// Generate small landscape textures
+	GLBitmap smokeBitmap(PKGDIR "data/textures/smoke01.bmp",
+		PKGDIR "data/textures/smoke01.bmp", false);
+	texture1.resize(smokeBitmap.getWidth(), smokeBitmap.getHeight());
+	texture2.resize(smokeBitmap.getWidth(), smokeBitmap.getHeight());
+	GLBitmap texture1New(smokeBitmap.getWidth(), smokeBitmap.getHeight(), true);
+	GLBitmap texture2New(smokeBitmap.getWidth(), smokeBitmap.getHeight(), true);
+	GLBitmapModifier::makeBitmapTransparent(texture1New, texture1, smokeBitmap);
+	GLBitmapModifier::makeBitmapTransparent(texture2New, texture2, smokeBitmap);
+	DIALOG_ASSERT(landTex1_.replace(texture1New, GL_RGBA));
+	DIALOG_ASSERT(landTex2_.replace(texture2New, GL_RGBA));
+
 	// Set the fog color
 	Vector *fogColor = Resources::vectorResource("color-fog");
 	GLfloat fogColorF[4];

@@ -22,8 +22,12 @@
 #if !defined(__INCLUDE_ExplosionNukeRendererh_INCLUDE__)
 #define __INCLUDE_ExplosionNukeRendererh_INCLUDE__
 
+#include <GLEXT/GLBilboardRenderer.h>
 #include <engine/Action.h>
 #include <common/Vector.h>
+#include <list>
+
+#define ExplosionNukeRenderer_STEPS 100
 
 class ExplosionNukeRenderer : public ActionRenderer
 {
@@ -35,11 +39,18 @@ public:
 	virtual void simulate(Action *action, float frameTime, bool &remove);
 
 protected:
+	static Vector *positions_;
+	struct Entry : public GLBilboardRenderer::Entry
+	{
+		float rotation_;
+		int position_;
+	};
+
+	std::list<Entry> entries_;
 	Vector position_;
 	float size_;
 	float time_;
 	float totalTime_;
 };
-
 
 #endif

@@ -18,38 +18,38 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+#if !defined(__INCLUDE_SprayActionRendererh_INCLUDE__)
+#define __INCLUDE_SprayActionRendererh_INCLUDE__
 
-#if !defined(__INCLUDE_MessageDisplayh_INCLUDE__)
-#define __INCLUDE_MessageDisplayh_INCLUDE__
-
-#include <engine/GameStateI.h>
-#include <string>
+#include <engine/Action.h>
+#include <common/Vector.h>
+#include <GLEXT/GLBilboardRenderer.h>
 #include <list>
+#include <vector>
 
-class MessageDisplay : 
-	public GameStateI
+class SprayActionRenderer : public ActionRenderer
 {
 public:
-	static MessageDisplay *instance();
+	SprayActionRenderer(Vector &position, float width);
+	virtual ~SprayActionRenderer();
 
-	void addMessage(const char *text);
-	void clear() { texts_.clear(); showTime_ = 0.0f; }
-
-	//Inherited from GameStateI
-	virtual void simulate(const unsigned state, float simTime);
-	virtual void draw(const unsigned state);
+	// Inherited from SimulatorAction
+	virtual void simulate(Action *action, float frameTime, bool &remove);
+	virtual void draw(Action *action);
 
 protected:
-	static MessageDisplay *instance_;
-	float showTime_;
+	std::vector<GLBilboardRenderer::Entry*> bilboardEntries_;
+	struct Entry
+	{
+		Vector offset;
+		Vector position;
+		GLTexture *texture;
+	};
 
-	std::string currentText_;
-	std::list<std::string> texts_;
-
-private:
-	MessageDisplay();
-	virtual ~MessageDisplay ();
-
+	std::list<Entry> entries_;
+	float totalTime_;
+	float time_;
+	int iteration_;
 
 };
 

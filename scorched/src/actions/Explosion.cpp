@@ -18,6 +18,7 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+#include <client/MainCamera.h>
 #include <tank/TankController.h>
 #include <common/OptionsGame.h>
 #include <common/SoundStore.h>
@@ -31,6 +32,7 @@
 #include <landscape/DeformTextures.h>
 #include <sprites/ExplosionRenderer.h>
 #include <sprites/ExplosionNukeRenderer.h>
+#include <sprites/SprayActionRenderer.h>
 #include <sprites/ExplosionTextures.h>
 
 REGISTER_ACTION_SOURCE(Explosion);
@@ -88,10 +90,21 @@ void Explosion::init()
 				position_, 
 				*texture,
 				explosionSize, explosionHurts_));
-		if (width_ >=17 && deformType_==DeformDown)
+		if (width_ >=11 && deformType_==DeformDown && explosionHurts_)
 		{
 			context_->actionController.addAction(
 				new SpriteAction(new ExplosionNukeRenderer(position_, float(width_ - 2))));
+		}
+		if (deformType_==DeformDown && explosionHurts_)
+		{
+			//context_->actionController.addAction(
+			//	new SpriteAction(new SprayActionRenderer(position_, width_ - 2)));
+		}
+
+		if (weapon_ && explosionHurts_)
+		{
+			// Make the camera shake
+			MainCamera::instance()->getCamera().addShake(weapon_->getShake());
 		}
 	}
 }

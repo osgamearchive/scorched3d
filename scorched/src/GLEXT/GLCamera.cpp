@@ -105,14 +105,14 @@ void GLCamera::moveViewport(Vector &lookFrom, Vector &lookAt)
 
 void GLCamera::simulate(float frameTime)
 {
-	const float SecondsToReachTarget = 0.3f;
+	const float SecondsToReachTarget = 0.15f;
 	const float ShakeDecrease = 0.1f;
 
 	// Make some constant changes, regardless of framerate
 	totalTime_ += frameTime;
-	while (totalTime_ > 0.1f)
+	while (totalTime_ > 0.05f)
 	{
-		totalTime_ -= 0.1f;
+		totalTime_ -= 0.05f;
 
 		// Calculate any camera shake
 		shake_ -= ShakeDecrease;

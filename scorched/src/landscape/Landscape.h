@@ -67,6 +67,8 @@ public:
 	GLTexture &getCloudTexture() { return cloudTexture_; }
 	GLTexture &getWaterTexture() { return *waterTexture_; }
 	GLTexture &getWaterDetail() { return waterDetail_; }
+	GLTexture &getLandscapeTexture1() { return landTex1_; }
+	GLTexture &getLandscapeTexture2() { return landTex2_; }
 
 	LandscapeTextureType getTextureType() { return textureType_; }
 	void setTextureType(LandscapeTextureType type) { textureType_ = type; }
@@ -104,6 +106,8 @@ protected:
 	GLTexture detailTexture_;
 	GLTexture *waterTexture_;
 	GLTexture waterDetail_;
+	GLTexture landTex1_;
+	GLTexture landTex2_;
 	GLBitmap mainMap_;
 	GLBitmap scorchMap_;
 	GLBitmap bitmapPlanAlpha_;

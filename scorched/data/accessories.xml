@@ -126,7 +126,8 @@ Any flames near tanks will remove life.</description>
 		<cost>10000</cost>
 		<bundlesize>3</bundlesize>
 		<armslevel>6</armslevel>
-		<size>10</size>
+		<size>11</size>
+		<explosionshake>2.0</explosionshake>
 		<deathanimationweight>60</deathanimationweight>
 		<explosiontexture>exp03</explosiontexture>
 		<firedsound>shoot/large.wav</firedsound>
@@ -141,6 +142,7 @@ Any flames near tanks will remove life.</description>
 		<bundlesize>1</bundlesize>
 		<armslevel>4</armslevel>
 		<size>18</size>
+		<explosionshake>4.0</explosionshake>
 		<deathanimationweight>10</deathanimationweight>
 		<explosiontexture>exp03</explosiontexture>
 		<firedsound>shoot/xlarge.wav</firedsound>

@@ -640,3 +640,24 @@ void GLBitmapModifier::addBorderToBitmap(GLBitmap &destBitmap,
 		}
 	}
 }
+
+void GLBitmapModifier::makeBitmapTransparent(GLBitmap &output,
+		GLBitmap &input,
+		GLBitmap &mask)
+{
+	GLubyte *outputBits = output.getBits();
+	GLubyte *maskBits = mask.getBits();
+	GLubyte *inputBits = input.getBits();
+
+	for (int i=0; i<output.getWidth() * output.getHeight(); i++)
+	{
+		outputBits[0] = inputBits[0];
+		outputBits[1] = inputBits[1];
+		outputBits[2] = inputBits[2];
+		outputBits[3] = maskBits[3];
+
+		inputBits += 3;
+		outputBits += 4;
+		maskBits += 4;
+	}
+}

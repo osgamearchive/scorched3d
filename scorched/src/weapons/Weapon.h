@@ -45,6 +45,7 @@ public:
 	const char *getExplosionTexture();
 	const char *getFiredSound();
 	const char *getExplosionSound();
+	float getShake();
 	float getScale();
 	ModelID &getModelID();
 
@@ -54,6 +55,7 @@ public:
 protected:
 	int deathAnimationWeight_;
 	float scale_;
+	float shake_;
 	std::string explosionTexture_;
 	std::string firedSound_;
 	std::string explosionSound_;

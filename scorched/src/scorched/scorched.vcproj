@@ -2175,6 +2175,12 @@
 				RelativePath="..\sprites\SmokeActionRenderer.h">
 			</File>
 			<File
+				RelativePath="..\sprites\SprayActionRenderer.cpp">
+			</File>
+			<File
+				RelativePath="..\sprites\SprayActionRenderer.h">
+			</File>
+			<File
 				RelativePath="..\sprites\TalkRenderer.cpp">
 			</File>
 			<File

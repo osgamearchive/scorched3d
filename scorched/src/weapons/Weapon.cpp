@@ -21,7 +21,7 @@
 #include <weapons/Weapon.h>
 #include <weapons/AccessoryStore.h>
 
-Weapon::Weapon() : deathAnimationWeight_(0), explosionTexture_("exp00"), scale_(1.0f)
+Weapon::Weapon() : deathAnimationWeight_(0), explosionTexture_("exp00"), scale_(1.0f), shake_(0.0f)
 {
 	modelId_.initFromString(
 		"MilkShape",
@@ -73,6 +73,13 @@ bool Weapon::parseXML(XMLNode *accessoryNode)
 		scale_= (float) atof(modelScaleNode->getContent());
 	}
 
+	// Get the weapon model explosion shake
+	XMLNode *modelShakeNode = accessoryNode->getNamedChild("explosionshake");
+	if (modelShakeNode)
+	{
+		shake_ = (float) atof(modelShakeNode->getContent());
+	}
+
 	// Get the weapon model
 	XMLNode *modelNode = accessoryNode->getNamedChild("projectilemodel");
 	if (modelNode)
@@ -91,6 +98,7 @@ bool Weapon::writeAccessory(NetBuffer &buffer)
 	buffer.addToBuffer(firedSound_);
 	buffer.addToBuffer(explosionSound_);
 	buffer.addToBuffer(scale_);
+	buffer.addToBuffer(shake_);
 	if (!modelId_.writeModelID(buffer)) return false;
 	return true;
 }
@@ -103,6 +111,7 @@ bool Weapon::readAccessory(NetBufferReader &reader)
 	if (!reader.getFromBuffer(firedSound_)) return false;
 	if (!reader.getFromBuffer(explosionSound_)) return false;
 	if (!reader.getFromBuffer(scale_)) return false;
+	if (!reader.getFromBuffer(shake_)) return false;
 	if (!modelId_.readModelID(reader)) return false;
 	return true;
 }
@@ -151,4 +160,9 @@ const char *Weapon::getExplosionSound()
 float Weapon::getScale()
 {
 	return scale_;
+}
+
+float Weapon::getShake()
+{
+	return shake_;
 }

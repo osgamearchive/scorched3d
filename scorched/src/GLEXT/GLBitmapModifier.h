@@ -71,6 +71,9 @@ namespace GLBitmapModifier
 							int borderWidth,
 							float colors[3]);
 
+	void makeBitmapTransparent(GLBitmap &output,
+		GLBitmap &input,
+		GLBitmap &mask);
 };
 
 #endif // !defined(AFX_GLBITMAPMODIFIER_H__3C6E8BBF_1AB2_4847_BEB1_934C97C76F05__INCLUDED_)
