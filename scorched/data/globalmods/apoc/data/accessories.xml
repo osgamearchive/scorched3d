@@ -127,7 +127,7 @@ they work.</description>
 		<color><r>0.25</r><g>1.0</g><b>1.0</b></color>
 		<activationsound>shield/activateforce.wav</activationsound>
 		<collisionsound>shield/hit2.wav</collisionsound>
-		<removepower>10</removepower>
+		<removepower>15</removepower>
 	</accessory>
 	<accessory type="ShieldMag">
 		<name>Mag Deflect</name>
@@ -540,7 +540,7 @@ trace of the shot path.</description>
 		<icon>nuke.bmp</icon>
 		<cost>8000</cost>
 		<bundlesize>1</bundlesize>
-		<armslevel>2</armslevel>
+		<armslevel>3</armslevel>
 		<projectilescale>2</projectilescale>
 		<projectilemodel type="MilkShape">fatman/fatman.txt</projectilemodel>
 		<firedsound>shoot/xlarge.wav</firedsound>
@@ -548,6 +548,7 @@ trace of the shot path.</description>
 		<collisionaction type="WeaponExplosion">
 			<name>Fatman</name>
 			<armslevel>2</armslevel>
+			<createmushroom/>
 			<hurtamount>1.1</hurtamount>
 			<deform>down</deform>
 			<size>24</size>
@@ -562,7 +563,7 @@ trace of the shot path.</description>
 		<icon>skull.bmp</icon>
 		<cost>16000</cost>
 		<bundlesize>1</bundlesize>
-		<armslevel>1</armslevel>
+		<armslevel>2</armslevel>
 		<delay>0.5</delay>
 		<delayedweapon type="WeaponMulti">
 			<name>Suicide Bomb</name>
@@ -618,9 +619,9 @@ trace of the shot path.</description>
 		<description>Tosses a grenade which bounces once
 and explodes creating some shrapnel</description>
 		<icon>grenade.bmp</icon>
-		<cost>2000</cost>
+		<cost>3000</cost>
 		<bundlesize>1</bundlesize>
-		<armslevel>7</armslevel>
+		<armslevel>6</armslevel>
 		<nocreateflame/>
 		<nocreatesmoke/>
 		<firedsound>shoot/large.wav</firedsound>
@@ -628,49 +629,49 @@ and explodes creating some shrapnel</description>
 		<projectilemodel type="MilkShape">grenade/grenade.txt</projectilemodel>
 		<collisionaction type="WeaponMulti">
 			<name>Frag Grenade</name>
-			<armslevel>7</armslevel>
+			<armslevel>6</armslevel>
 			<subweapon1 type="WeaponLeapFrog">
 				<name>Frag Grenade</name>
-				<armslevel>7</armslevel>
+				<armslevel>6</armslevel>
 				<bounce>0.5</bounce>
 				<collisionaction type="WeaponVelocity">
 					<name>Frag Grenade</name>
-					<armslevel>7</armslevel>
+					<armslevel>6</armslevel>
 					<velocitychange>0.8</velocitychange>
 					<aimedweapon type="WeaponProjectile">
 						<name>Frag Grenade</name>
-						<armslevel>7</armslevel>
+						<armslevel>6</armslevel>
 						<nocreateflame/>
 						<nocreatesmoke/>
 						<projectilemodel type="MilkShape">grenade/grenade.txt</projectilemodel>
 						<collisionaction type="WeaponMulti">
 							<name>Frag Grenade</name>
-							<armslevel>7</armslevel>
+							<armslevel>6</armslevel>
 							<subweapon1 type="WeaponDelay">
 								<name>Frag Grenade</name>
-								<armslevel>7</armslevel>
+								<armslevel>6</armslevel>
 								<delay>0.25</delay>
 								<delayedweapon type="WeaponAimedOver">
 									<name>Frag Grenade</name>
-									<armslevel>7</armslevel>
+									<armslevel>6</armslevel>
 									<nowarheads>8</nowarheads>
 									<percentagemiss>15</percentagemiss>
 									<maxaimdistance>0</maxaimdistance>
 									<inaccuracy>10</inaccuracy>
 									<aimedweapon type="WeaponRedirect">
 										<name>Frag Grenade</name>
-										<armslevel>7</armslevel>
+										<armslevel>6</armslevel>
 										<habs>false</habs>
 										<vabs>false</vabs>
 										<hredirect>0</hredirect>
 										<vredirect>45</vredirect>
 										<nextaction type="WeaponVelocity">
 											<name>Frag Grenade</name>
-											<armslevel>7</armslevel>
+											<armslevel>6</armslevel>
 											<velocitychange>1.0</velocitychange>
 											<aimedweapon type="WeaponProjectile">
 												<name>Frag Grenade</name>
-												<armslevel>7</armslevel>
+												<armslevel>6</armslevel>
 												<nocreateflame/>
 												<projectilescale>0.33</projectilescale>
 												<projectilemodel type="ase">
@@ -679,7 +680,7 @@ and explodes creating some shrapnel</description>
 												</projectilemodel>
 												<collisionaction type="WeaponExplosion">
 													<name>Frag Grenade</name>
-													<armslevel>7</armslevel>
+													<armslevel>6</armslevel>
 													<hurtamount>0.8</hurtamount>
 													<deform>none</deform>
 													<size>6</size>
@@ -693,7 +694,7 @@ and explodes creating some shrapnel</description>
 							</subweapon1>
 							<subweapon2 type="WeaponExplosion">
 								<name>Frag Grenade</name>
-								<armslevel>7</armslevel>
+								<armslevel>6</armslevel>
 								<hurtamount>0</hurtamount>
 								<deform>down</deform>
 								<size>4</size>
@@ -702,11 +703,11 @@ and explodes creating some shrapnel</description>
 							</subweapon2>
 							<subweapon3 type="WeaponExplosion">
 								<name>Frag Grenade</name>
-								<armslevel>7</armslevel>
+								<armslevel>6</armslevel>
 								<nocreatedebris/>
 								<hurtamount>1.0</hurtamount>
 								<deform>none</deform>
-								<size>8</size>
+								<size>12</size>
 								<explosiontexture>exp00</explosiontexture>
 								<explosionsound>explosions/medium.wav</explosionsound>
 							</subweapon3>
@@ -716,10 +717,10 @@ and explodes creating some shrapnel</description>
 			</subweapon1>
 			<subweapon2 type="WeaponExplosion">
 				<name>Frag Grenade</name>
-				<armslevel>7</armslevel>
+				<armslevel>6</armslevel>
 				<noluminance/>
 				<nocreatedebris/>
-				<hurtamount>0.2</hurtamount>
+				<hurtamount>0</hurtamount>
 				<deform>down</deform>
 				<size>4</size>
 				<explosiontexture>cloud00</explosiontexture>
@@ -1793,7 +1794,7 @@ target nearby tanks.</description>
 				<nowarheads>12</nowarheads>
 				<percentagemiss>20</percentagemiss>
 				<maxaimdistance>50</maxaimdistance>
-				<inaccuracy>10</inaccuracy>
+				<inaccuracy>20</inaccuracy>
 				<aimedweapon type="WeaponProjectile">
 					<name>Funky Bomb</name>
 					<armslevel>3</armslevel>
@@ -1801,7 +1802,7 @@ target nearby tanks.</description>
 					<projectilemodel type="MilkShape">bomb/bomb.txt</projectilemodel>
 					<collisionaction type="WeaponExplosion">
 						<name>Funky Bomb</name>
-						<armslevel>3</armslevel>
+						<armslevel>2</armslevel>
 						<hurtamount>1.0</hurtamount>
 						<multicolor/>
 						<deform>down</deform>
@@ -1813,7 +1814,7 @@ target nearby tanks.</description>
 			</subweapon1>
 			<subweapon2 type="WeaponExplosion">
 				<name>Funky Bomb</name>
-				<armslevel>3</armslevel>
+				<armslevel>2</armslevel>
 				<hurtamount>1.0</hurtamount>
 				<multicolor/>	
 				<deform>down</deform>
@@ -1829,7 +1830,7 @@ target nearby tanks.</description>
 		<description>Creates an angry cloud of hornets which fly
 around attack nearby opponents twice</description> 
 		<icon>hornet.bmp</icon> 
-		<cost>30000</cost> 
+		<cost>30000</cost>
 		<bundlesize>1</bundlesize> 
 		<armslevel>2</armslevel>
 		<nocreateflame/>
@@ -1880,7 +1881,7 @@ around attack nearby opponents twice</description>
 										<projectilemodel type="MilkShape">redhornet/redhornet.txt</projectilemodel> 
 										<collisionaction type="WeaponExplosion"> 
 											<name>Hornet Nest</name> 
-											<armslevel>2</armslevel> 
+											<armslevel>1</armslevel> 
 											<nocreatedebris/>
 											<noluminance/>
 											<hurtamount>1.0</hurtamount> 
@@ -1893,7 +1894,7 @@ around attack nearby opponents twice</description>
 								</subweapon1>
 								<subweapon2 type="WeaponExplosion"> 
 									<name>Hornet Nest</name> 
-									<armslevel>2</armslevel> 
+									<armslevel>1</armslevel> 
 									<nocreatedebris/>
 									<noluminance/>
 									<hurtamount>1.0</hurtamount> 
@@ -1907,7 +1908,7 @@ around attack nearby opponents twice</description>
 					</subweapon1>
 					<subweapon2 type="WeaponExplosion">
 						<name>Hornet Nest</name> 
-						<armslevel>2</armslevel>
+						<armslevel>1</armslevel>
 						<nocreatedebris/>
 						<noluminance/>
 						<nocreatesplash/>
@@ -1963,7 +1964,7 @@ around attack nearby opponents twice</description>
 										<projectilemodel type="MilkShape">redhornet/redhornet.txt</projectilemodel> 
 										<collisionaction type="WeaponExplosion"> 
 											<name>Hornet Nest</name> 
-											<armslevel>2</armslevel> 
+											<armslevel>1</armslevel> 
 											<nocreatedebris/>
 											<noluminance/>
 											<hurtamount>1.0</hurtamount> 
@@ -1976,7 +1977,7 @@ around attack nearby opponents twice</description>
 								</subweapon1>
 								<subweapon2 type="WeaponExplosion"> 
 									<name>Hornet Nest</name> 
-									<armslevel>2</armslevel> 
+									<armslevel>1</armslevel> 
 									<nocreatedebris/>
 									<noluminance/>
 									<hurtamount>1.0</hurtamount> 
@@ -1990,7 +1991,7 @@ around attack nearby opponents twice</description>
 					</subweapon1>
 					<subweapon2 type="WeaponExplosion">
 						<name>Hornet Nest</name> 
-						<armslevel>2</armslevel>
+						<armslevel>1</armslevel>
 						<nocreatedebris/>
 						<noluminance/>
 						<nocreatesplash/>
@@ -2046,7 +2047,7 @@ around attack nearby opponents twice</description>
 										<projectilemodel type="MilkShape">redhornet/redhornet.txt</projectilemodel> 
 										<collisionaction type="WeaponExplosion"> 
 											<name>Hornet Nest</name> 
-											<armslevel>2</armslevel> 
+											<armslevel>1</armslevel> 
 											<nocreatedebris/>
 											<noluminance/>
 											<hurtamount>1.0</hurtamount> 
@@ -2059,7 +2060,7 @@ around attack nearby opponents twice</description>
 								</subweapon1>
 								<subweapon2 type="WeaponExplosion"> 
 									<name>Hornet Nest</name> 
-									<armslevel>2</armslevel> 
+									<armslevel>1</armslevel> 
 									<nocreatedebris/>
 									<noluminance/>
 									<hurtamount>1.0</hurtamount> 
@@ -2073,7 +2074,7 @@ around attack nearby opponents twice</description>
 					</subweapon1>
 					<subweapon2 type="WeaponExplosion">
 						<name>Hornet Nest</name> 
-						<armslevel>2</armslevel>
+						<armslevel>1</armslevel>
 						<nocreatedebris/>
 						<noluminance/>
 						<nocreatesplash/>
@@ -2091,7 +2092,7 @@ around attack nearby opponents twice</description>
 			</subweapon3>
 			<subweapon4 type="WeaponExplosion"> 
 				<name>Hornet Nest</name> 
-				<armslevel>2</armslevel>
+				<armslevel>1</armslevel>
 				<nocreatedebris/>
 				<noluminance/>
 				<nocreatesplash/>
@@ -2107,7 +2108,7 @@ around attack nearby opponents twice</description>
 			</subweapon4>
 			<subweapon5 type="WeaponExplosion">
 				<name>Hornet Nest</name> 
-				<armslevel>2</armslevel>
+				<armslevel>1</armslevel>
 				<nocreatedebris/>
 				<nocreatesplash/>
 				<hurtamount>0</hurtamount> 
@@ -2283,7 +2284,7 @@ around attack nearby opponents twice</description>
 		<description>Explodes creating other smaller warheads that
 continue bouncing outward and releasing more warheads</description>
 		<icon>fbomb.bmp</icon>
-		<cost>60000</cost>
+		<cost>50000</cost>
 		<bundlesize>1</bundlesize>
 		<armslevel>1</armslevel>
 		<firedsound>shoot/medium.wav</firedsound>
@@ -2759,7 +2760,7 @@ releases rolling napalm warheads.</description>
 					<name>Fire Ants</name> 
 					<armslevel>3</armslevel>
 					<numberrollers>2</numberrollers> 
-					<time>12</time>
+					<time>8</time>
 					<rollermodel type="ase">
 						<mesh>roller.ase</mesh>
 						<skin>none</skin>
@@ -5475,7 +5476,7 @@ The meteors explode and scatter flaming earth on impact.</description>
 																<subweapon2 type="WeaponAimedOver">
 																	<name>Meteor Shower</name>
 																	<armslevel>1</armslevel>
-																	<nowarheads>4</nowarheads>
+																	<nowarheads>3</nowarheads>
 																	<percentagemiss>20</percentagemiss>
 																	<maxaimdistance>0</maxaimdistance>
 																	<inaccuracy>10</inaccuracy>
@@ -5547,7 +5548,7 @@ The meteors explode and scatter flaming earth on impact.</description>
 														<subweapon2 type="WeaponAimedOver">
 															<name>Meteor Shower</name>
 															<armslevel>1</armslevel>
-															<nowarheads>6</nowarheads>
+															<nowarheads>5</nowarheads>
 															<percentagemiss>20</percentagemiss>
 															<maxaimdistance>0</maxaimdistance>
 															<inaccuracy>10</inaccuracy>
@@ -6415,7 +6416,7 @@ releases several baby roller warheads.</description>
 some small burrowing missiles. These 
 missiles target nearby tanks.</description>
 		<icon>bshog.bmp</icon>
-		<cost>3000</cost>
+		<cost>6000</cost>
 		<bundlesize>2</bundlesize>
 		<armslevel>6</armslevel>
 		<firedsound>shoot/flare.wav</firedsound>
@@ -6425,9 +6426,9 @@ missiles target nearby tanks.</description>
 			<name>Baby Sandhog</name>
 			<armslevel>6</armslevel>
 			<nowarheads>2</nowarheads>
-			<inaccuracy>20</inaccuracy>
+			<inaccuracy>40</inaccuracy>
 			<percentagemiss>20</percentagemiss>
-			<maxaimdistance>30</maxaimdistance>
+			<maxaimdistance>40</maxaimdistance>
 			<aimedweapon type="WeaponProjectile">
 				<name>Baby Sandhog</name>
 				<armslevel>6</armslevel>
@@ -6437,7 +6438,7 @@ missiles target nearby tanks.</description>
 				<projectilemodel type="MilkShape">digger/digger.txt</projectilemodel>
 				<collisionaction type="WeaponExplosion">
 					<name>Baby Sandhog</name>
-					<armslevel>6</armslevel>
+					<armslevel>4</armslevel>
 					<hurtamount>1.0</hurtamount>
 					<deform>down</deform>
 					<size>4</size>
@@ -6453,7 +6454,7 @@ missiles target nearby tanks.</description>
 creating some burrowing missiles. These 
 missiles target nearby tanks.</description>
 		<icon>shog.bmp</icon>
-		<cost>10000</cost>
+		<cost>12000</cost>
 		<bundlesize>2</bundlesize>
 		<armslevel>3</armslevel>
 		<firedsound>shoot/flare.wav</firedsound>
@@ -6462,9 +6463,9 @@ missiles target nearby tanks.</description>
 			<name>Sandhog</name>
 			<armslevel>3</armslevel>
 			<nowarheads>5</nowarheads>
-			<inaccuracy>20</inaccuracy>
+			<inaccuracy>40</inaccuracy>
 			<percentagemiss>20</percentagemiss>
-			<maxaimdistance>35</maxaimdistance>
+			<maxaimdistance>45</maxaimdistance>
 			<aimedweapon type="WeaponProjectile">
 				<name>Sandhog</name>
 				<armslevel>3</armslevel>
@@ -6473,7 +6474,7 @@ missiles target nearby tanks.</description>
 				<projectilemodel type="MilkShape">digger/digger.txt</projectilemodel>
 				<collisionaction type="WeaponExplosion">
 					<name>Sandhog</name>
-					<armslevel>3</armslevel>
+					<armslevel>2</armslevel>
 					<hurtamount>1.0</hurtamount>
 					<deform>down</deform>
 					<size>4</size>
@@ -6489,7 +6490,7 @@ missiles target nearby tanks.</description>
 creating many burrowing missiles. These 
 missiles target nearby tanks.</description>
 		<icon>hshog.bmp</icon>
-		<cost>16000</cost>
+		<cost>20000</cost>
 		<bundlesize>2</bundlesize>
 		<armslevel>2</armslevel>
 		<firedsound>shoot/flare.wav</firedsound>
@@ -6499,9 +6500,9 @@ missiles target nearby tanks.</description>
 			<name>Heavy Sandhog</name>
 			<armslevel>2</armslevel>
 			<nowarheads>10</nowarheads>
-			<inaccuracy>20</inaccuracy>
+			<inaccuracy>40</inaccuracy>
 			<percentagemiss>20</percentagemiss>
-			<maxaimdistance>40</maxaimdistance>
+			<maxaimdistance>50</maxaimdistance>
 			<aimedweapon type="WeaponProjectile">
 				<name>Heavy Sandhog</name>
 				<armslevel>2</armslevel>
@@ -6511,7 +6512,7 @@ missiles target nearby tanks.</description>
 				<projectilemodel type="MilkShape">digger/digger.txt</projectilemodel>
 				<collisionaction type="WeaponExplosion">
 					<name>Heavy Sandhog</name>
-					<armslevel>2</armslevel>
+					<armslevel>1</armslevel>
 					<hurtamount>1.0</hurtamount>
 					<deform>down</deform>
 					<size>4</size>
@@ -6526,9 +6527,9 @@ missiles target nearby tanks.</description>
 		<description>A bolt of lightning that streaks
 down from the apex of the projectiles arc</description>
 		<icon>light.bmp</icon>
-		<cost>10000</cost>
+		<cost>16000</cost>
 		<bundlesize>1</bundlesize>
-		<armslevel>2</armslevel>
+		<armslevel>3</armslevel>
 		<nocreatesmoke/>
 		<nocreateflame/>
 		<apexcollision></apexcollision>
@@ -6537,163 +6538,163 @@ down from the apex of the projectiles arc</description>
 		<firedsound>shoot/flare.wav</firedsound>
 		<collisionaction type="WeaponMulti">
 			<name>Lightning Strike</name>
-			<armslevel>2</armslevel>
+			<armslevel>1</armslevel>
 			<subweapon1 type="WeaponDelay">
 				<name>Lightning Strike</name>
-				<armslevel>2</armslevel>
+				<armslevel>1</armslevel>
 				<delay>2.0</delay>
 				<delayedweapon type="WeaponAimedOver">
 					<name>Lightning Strike</name>
-					<armslevel>2</armslevel>
+					<armslevel>1</armslevel>
 					<nowarheads>2</nowarheads>
 					<percentagemiss>0</percentagemiss>
 					<maxaimdistance>40</maxaimdistance>
 					<inaccuracy>0</inaccuracy>
 					<aimedweapon type="WeaponRedirect">
 						<name>Lightning Strike</name>
-						<armslevel>2</armslevel>
+						<armslevel>1</armslevel>
 						<habs>false</habs>
 						<vabs>true</vabs>
 						<hredirect>0</hredirect>
 						<vredirect>135</vredirect>
 						<nextaction type="WeaponMulti">
 							<name>Lightning Strike</name>
-							<armslevel>2</armslevel>
+							<armslevel>1</armslevel>
 							<subweapon1 type="WeaponTranslate">
 								<name>Lightning Strike</name>
-								<armslevel>2</armslevel>
+								<armslevel>1</armslevel>
 								<translatedist>10</translatedist>
 								<nextaction type="WeaponMulti">
 									<name>Lightning Strike</name>
-									<armslevel>2</armslevel>
+									<armslevel>1</armslevel>
 									<subweapon1 type="WeaponTranslate">
 										<name>Lightning Strike</name>
-										<armslevel>2</armslevel>
+										<armslevel>1</armslevel>
 										<translatedist>10</translatedist>
 										<nextaction type="WeaponMulti">
 											<name>Lightning Strike</name>
-											<armslevel>2</armslevel>
+											<armslevel>1</armslevel>
 											<subweapon1 type="WeaponAimedOver">
 												<name>Lightning Strike</name>
-												<armslevel>2</armslevel>
+												<armslevel>1</armslevel>
 												<nowarheads>1</nowarheads>
 												<percentagemiss>0</percentagemiss>
 												<maxaimdistance>30</maxaimdistance>
 												<inaccuracy>0</inaccuracy>
 												<aimedweapon type="WeaponRedirect">
 													<name>Lightning Strike</name>
-													<armslevel>2</armslevel>
+													<armslevel>1</armslevel>
 													<habs>false</habs>
 													<vabs>true</vabs>
 													<hredirect>0</hredirect>
 													<vredirect>150</vredirect>
 													<nextaction type="WeaponMulti">
 														<name>Lightning Strike</name>
-														<armslevel>2</armslevel>
+														<armslevel>1</armslevel>
 														<subweapon1 type="WeaponTranslate">
 															<name>Lightning Strike</name>
-															<armslevel>2</armslevel>
+															<armslevel>1</armslevel>
 															<translatedist>10</translatedist>
 															<nextaction type="WeaponMulti">
 																<name>Lightning Strike</name>
-																<armslevel>2</armslevel>
+																<armslevel>1</armslevel>
 																<subweapon1 type="WeaponTranslate">
 																	<name>Lightning Strike</name>
-																	<armslevel>2</armslevel>
+																	<armslevel>1</armslevel>
 																	<translatedist>10</translatedist>
 																	<nextaction type="WeaponMulti">
 																		<name>Lightning Strike</name>
 																		<armslevel>2</armslevel>
 																		<subweapon1 type="WeaponAimedOver">
 																			<name>Lightning Strike</name>
-																			<armslevel>2</armslevel>
+																			<armslevel>1</armslevel>
 																			<nowarheads>1</nowarheads>
 																			<percentagemiss>0</percentagemiss>
 																			<maxaimdistance>20</maxaimdistance>
 																			<inaccuracy>0</inaccuracy>
 																			<aimedweapon type="WeaponRedirect">
 																				<name>Lightning Strike</name>
-																				<armslevel>2</armslevel>
+																				<armslevel>1</armslevel>
 																				<habs>false</habs>
 																				<vabs>true</vabs>
 																				<hredirect>0</hredirect>
 																				<vredirect>165</vredirect>
 																				<nextaction type="WeaponMulti">
 																					<name>Lightning Strike</name>
-																					<armslevel>2</armslevel>
+																					<armslevel>1</armslevel>
 																					<subweapon1 type="WeaponTranslate">
 																						<name>Lightning Strike</name>
-																						<armslevel>2</armslevel>
+																						<armslevel>1</armslevel>
 																						<translatedist>10</translatedist>
 																						<nextaction type="WeaponMulti">
 																							<name>Lightning Strike</name>
-																							<armslevel>2</armslevel>
+																							<armslevel>1</armslevel>
 																							<subweapon1 type="WeaponTranslate">
 																								<name>Lightning Strike</name>
-																								<armslevel>2</armslevel>
+																								<armslevel>1</armslevel>
 																								<translatedist>10</translatedist>
 																								<nextaction type="WeaponMulti">
 																									<name>Lightning Strike</name>
-																									<armslevel>2</armslevel>
+																									<armslevel>1</armslevel>
 																									<subweapon1 type="WeaponAimedOver">
 																										<name>Lightning Strike</name>
-																										<armslevel>2</armslevel>
+																										<armslevel>1</armslevel>
 																										<nowarheads>1</nowarheads>
 																										<percentagemiss>0</percentagemiss>
 																										<maxaimdistance>10</maxaimdistance>
 																										<inaccuracy>0</inaccuracy>
 																										<aimedweapon type="WeaponRedirect">
 																											<name>Lightning Strike</name>
-																											<armslevel>2</armslevel>
+																											<armslevel>1</armslevel>
 																											<habs>false</habs>
 																											<vabs>true</vabs>
 																											<hredirect>0</hredirect>
 																											<vredirect>180</vredirect>
 																											<nextaction type="WeaponMulti">
 																												<name>Lightning Strike</name>
-																												<armslevel>2</armslevel>
+																												<armslevel>1</armslevel>
 																												<subweapon1 type="WeaponTranslate">
 																													<name>Lightning Strike</name>
-																													<armslevel>2</armslevel>
+																													<armslevel>1</armslevel>
 																													<translatedist>10</translatedist>
 																													<nextaction type="WeaponMulti">
 																														<name>Lightning Strike</name>
-																														<armslevel>2</armslevel>
+																														<armslevel>1</armslevel>
 																														<subweapon1 type="WeaponTranslate">
 																															<name>Lightning Strike</name>
-																															<armslevel>2</armslevel>
+																															<armslevel>1</armslevel>
 																															<translatedist>10</translatedist>
 																															<nextaction type="WeaponMulti">
 																																<name>Lightning Strike</name>
-																																<armslevel>2</armslevel>
+																																<armslevel>1</armslevel>
 																																<subweapon1 type="WeaponTranslate">
 																																	<name>Lightning Strike</name>
-																																	<armslevel>2</armslevel>
+																																	<armslevel>1</armslevel>
 																																	<translatedist>10</translatedist>
 																																	<nextaction type="WeaponMulti">
 																																		<name>Lightning Strike</name>
-																																		<armslevel>2</armslevel>
+																																		<armslevel>1</armslevel>
 																																		<subweapon1 type="WeaponTranslate">
 																																			<name>Lightning Strike</name>
-																																			<armslevel>2</armslevel>
+																																			<armslevel>1</armslevel>
 																																			<translatedist>10</translatedist>
 																																			<nextaction type="WeaponMulti">
 																																				<name>Lightning Strike</name>
-																																				<armslevel>2</armslevel>
+																																				<armslevel>1</armslevel>
 																																				<subweapon1 type="WeaponTranslate">
 																																					<name>Lightning Strike</name>
-																																					<armslevel>2</armslevel>
+																																					<armslevel>1</armslevel>
 																																					<translatedist>10</translatedist>
 																																					<nextaction type="WeaponMulti">
 																																						<name>Lightning Strike</name>
-																																						<armslevel>2</armslevel>
+																																						<armslevel>1</armslevel>
 																																						<subweapon1 type="WeaponNull">
 																																							<name>Lightning Strike</name>
-																																							<armslevel>2</armslevel>
+																																							<armslevel>1</armslevel>
 																																						</subweapon1>
 																																						<subweapon2 type="WeaponExplosion">
 																																							<name>Lightning Strike</name>
-																																							<armslevel>2</armslevel>
+																																							<armslevel>1</armslevel>
 																																							<nocreatedebris/>
 																																							<nocreatesplash/>
 																																							<minlife>0.25</minlife>
@@ -6708,7 +6709,7 @@ down from the apex of the projectiles arc</description>
 																																				</subweapon1>
 																																				<subweapon2 type="WeaponExplosion">
 																																					<name>Lightning Strike</name>
-																																					<armslevel>2</armslevel>
+																																					<armslevel>1</armslevel>
 																																					<nocreatedebris/>
 																																					<nocreatesplash/>
 																																					<minlife>0.25</minlife>
@@ -6723,7 +6724,7 @@ down from the apex of the projectiles arc</description>
 																																		</subweapon1>
 																																		<subweapon2 type="WeaponExplosion">
 																																			<name>Lightning Strike</name>
-																																			<armslevel>2</armslevel>
+																																			<armslevel>1</armslevel>
 																																			<nocreatedebris/>
 																																			<nocreatesplash/>
 																																			<minlife>0.25</minlife>
@@ -6738,7 +6739,7 @@ down from the apex of the projectiles arc</description>
 																																</subweapon1>
 																																<subweapon2 type="WeaponExplosion">
 																																	<name>Lightning Strike</name>
-																																	<armslevel>2</armslevel>
+																																	<armslevel>1</armslevel>
 																																	<nocreatedebris/>
 																																	<nocreatesplash/>
 																																	<minlife>0.25</minlife>
@@ -6753,7 +6754,7 @@ down from the apex of the projectiles arc</description>
 																														</subweapon1>
 																														<subweapon2 type="WeaponExplosion">
 																															<name>Lightning Strike</name>
-																															<armslevel>2</armslevel>
+																															<armslevel>1</armslevel>
 																															<nocreatedebris/>
 																															<nocreatesplash/>
 																															<minlife>0.25</minlife>
@@ -6768,14 +6769,14 @@ down from the apex of the projectiles arc</description>
 																												</subweapon1>
 																												<subweapon2 type="WeaponLightning">
 																													<name>Lightning Strike</name>
-																													<armslevel>2</armslevel>
+																													<armslevel>1</armslevel>
 																													<conelength>30</conelength>
 																													<seglength>1</seglength>
 																													<segvar>2</segvar>
 																													<size>4</size>
 																													<sizevar>-1</sizevar>
 																													<minsize>0.1</minsize>
-																													<splitprob>0.12</splitprob>
+																													<splitprob>0.10</splitprob>
 																													<splitvar>0.02</splitvar>
 																													<deathprob>0.03</deathprob>
 																													<derivangle>0.5</derivangle>
@@ -6790,7 +6791,7 @@ down from the apex of the projectiles arc</description>
 																									</subweapon1>
 																									<subweapon2 type="WeaponExplosion">
 																										<name>Lightning Strike</name>
-																										<armslevel>2</armslevel>
+																										<armslevel>1</armslevel>
 																										<nocreatedebris/>
 																										<nocreatesplash/>
 																										<minlife>0.25</minlife>
@@ -6805,7 +6806,7 @@ down from the apex of the projectiles arc</description>
 																							</subweapon1>
 																							<subweapon2 type="WeaponExplosion">
 																								<name>Lightning Strike</name>
-																								<armslevel>2</armslevel>
+																								<armslevel>1</armslevel>
 																								<nocreatedebris/>
 																								<nocreatesplash/>
 																								<minlife>0.25</minlife>
@@ -6820,14 +6821,14 @@ down from the apex of the projectiles arc</description>
 																					</subweapon1>
 																					<subweapon2 type="WeaponLightning">
 																						<name>Lightning Strike</name>
-																						<armslevel>2</armslevel>
+																						<armslevel>1</armslevel>
 																						<conelength>30</conelength>
 																						<seglength>1</seglength>
 																						<segvar>2</segvar>
 																						<size>4</size>
 																						<sizevar>-1</sizevar>
 																						<minsize>0.1</minsize>
-																						<splitprob>0.12</splitprob>
+																						<splitprob>0.10</splitprob>
 																						<splitvar>0.02</splitvar>
 																						<deathprob>0.03</deathprob>
 																						<derivangle>0.5</derivangle>
@@ -6842,7 +6843,7 @@ down from the apex of the projectiles arc</description>
 																		</subweapon1>
 																		<subweapon2 type="WeaponExplosion">
 																			<name>Lightning Strike</name>
-																			<armslevel>2</armslevel>
+																			<armslevel>1</armslevel>
 																			<nocreatedebris/>
 																			<nocreatesplash/>
 																			<minlife>0.25</minlife>
@@ -6857,7 +6858,7 @@ down from the apex of the projectiles arc</description>
 																</subweapon1>
 																<subweapon2 type="WeaponExplosion">
 																	<name>Lightning Strike</name>
-																	<armslevel>2</armslevel>
+																	<armslevel>1</armslevel>
 																	<nocreatedebris/>
 																	<nocreatesplash/>
 																	<minlife>0.25</minlife>
@@ -6872,14 +6873,14 @@ down from the apex of the projectiles arc</description>
 														</subweapon1>
 														<subweapon2 type="WeaponLightning">
 															<name>Lightning Strike</name>
-															<armslevel>2</armslevel>
+															<armslevel>1</armslevel>
 															<conelength>30</conelength>
 															<seglength>1</seglength>
 															<segvar>2</segvar>
 															<size>4</size>
 															<sizevar>-1</sizevar>
 															<minsize>0.1</minsize>
-															<splitprob>0.12</splitprob>
+															<splitprob>0.10</splitprob>
 															<splitvar>0.02</splitvar>
 															<deathprob>0.03</deathprob>
 															<derivangle>0.5</derivangle>
@@ -6894,7 +6895,7 @@ down from the apex of the projectiles arc</description>
 											</subweapon1>
 											<subweapon2 type="WeaponExplosion">
 												<name>Lightning Strike</name>
-												<armslevel>2</armslevel>
+												<armslevel>1</armslevel>
 												<nocreatedebris/>
 												<nocreatesplash/>
 												<minlife>0.25</minlife>
@@ -6909,7 +6910,7 @@ down from the apex of the projectiles arc</description>
 									</subweapon1>
 									<subweapon2 type="WeaponExplosion">
 										<name>Lightning Strike</name>
-										<armslevel>2</armslevel>
+										<armslevel>1</armslevel>
 										<nocreatedebris/>
 										<nocreatesplash/>
 										<minlife>0.25</minlife>
@@ -6924,14 +6925,14 @@ down from the apex of the projectiles arc</description>
 							</subweapon1>
 							<subweapon2 type="WeaponLightning">
 								<name>Lightning Strike</name>
-								<armslevel>2</armslevel>
+								<armslevel>1</armslevel>
 								<conelength>30</conelength>
 								<seglength>1</seglength>
 								<segvar>2</segvar>
 								<size>4</size>
 								<sizevar>-1</sizevar>
 								<minsize>0.1</minsize>
-								<splitprob>0.12</splitprob>
+								<splitprob>0.10</splitprob>
 								<splitvar>0.02</splitvar>
 								<deathprob>0.03</deathprob>
 								<derivangle>0.5</derivangle>
@@ -6948,7 +6949,7 @@ down from the apex of the projectiles arc</description>
 			<!-- Clouds -->
 			<subweapon2 type="WeaponExplosion">
 				<name>Lightning Strike</name>
-				<armslevel>2</armslevel>
+				<armslevel>1</armslevel>
 				<nocreatedebris/>
 				<nocreatesplash/>
 				<noluminance/>
@@ -6963,25 +6964,25 @@ down from the apex of the projectiles arc</description>
 			</subweapon2>
 			<subweapon3 type="WeaponDelay">
 				<name>Lightning Strike</name>
-				<armslevel>2</armslevel>
+				<armslevel>1</armslevel>
 				<delay>1.0</delay>
 				<delayedweapon type="WeaponMulti">
 					<name>Lightning Strike</name>
-					<armslevel>2</armslevel>
+					<armslevel>1</armslevel>
 					<subweapon1 type="WeaponRedirect">
 						<name>Lightning Strike</name>
-						<armslevel>2</armslevel>
+						<armslevel>1</armslevel>
 						<habs>false</habs>
 						<vabs>true</vabs>
 						<hredirect>0</hredirect>
 						<vredirect>90</vredirect>
 						<nextaction type="WeaponTranslate">
 							<name>Lightning Strike</name>
-							<armslevel>2</armslevel>
+							<armslevel>1</armslevel>
 							<translatedist>10</translatedist>
 							<nextaction type="WeaponExplosion">
 								<name>Lightning Strike</name>
-								<armslevel>2</armslevel>
+								<armslevel>1</armslevel>
 								<nocreatedebris/>
 								<nocreatesplash/>
 								<noluminance/>
@@ -6998,18 +6999,18 @@ down from the apex of the projectiles arc</description>
 					</subweapon1>
 					<subweapon2 type="WeaponRedirect">
 						<name>Lightning Strike</name>
-						<armslevel>2</armslevel>
+						<armslevel>1</armslevel>
 						<habs>false</habs>
 						<vabs>true</vabs>
 						<hredirect>90</hredirect>
 						<vredirect>90</vredirect>
 						<nextaction type="WeaponTranslate">
 							<name>Lightning Strike</name>
-							<armslevel>2</armslevel>
+							<armslevel>1</armslevel>
 							<translatedist>10</translatedist>
 							<nextaction type="WeaponExplosion">
 								<name>Lightning Strike</name>
-								<armslevel>2</armslevel>
+								<armslevel>1</armslevel>
 								<nocreatedebris/>
 								<nocreatesplash/>
 								<noluminance/>
@@ -7026,18 +7027,18 @@ down from the apex of the projectiles arc</description>
 					</subweapon2>
 					<subweapon3 type="WeaponRedirect">
 						<name>Lightning Strike</name>
-						<armslevel>2</armslevel>
+						<armslevel>1</armslevel>
 						<habs>false</habs>
 						<vabs>true</vabs>
 						<hredirect>180</hredirect>
 						<vredirect>90</vredirect>
 						<nextaction type="WeaponTranslate">
 							<name>Lightning Strike</name>
-							<armslevel>2</armslevel>
+							<armslevel>1</armslevel>
 							<translatedist>10</translatedist>
 							<nextaction type="WeaponExplosion">
 								<name>Lightning Strike</name>
-								<armslevel>2</armslevel>
+								<armslevel>1</armslevel>
 								<nocreatedebris/>
 								<nocreatesplash/>
 								<noluminance/>
@@ -7054,18 +7055,18 @@ down from the apex of the projectiles arc</description>
 					</subweapon3>
 					<subweapon4 type="WeaponRedirect">
 						<name>Lightning Strike</name>
-						<armslevel>2</armslevel>
+						<armslevel>1</armslevel>
 						<habs>false</habs>
 						<vabs>true</vabs>
 						<hredirect>270</hredirect>
 						<vredirect>90</vredirect>
 						<nextaction type="WeaponTranslate">
 							<name>Lightning Strike</name>
-							<armslevel>2</armslevel>
+							<armslevel>1</armslevel>
 							<translatedist>10</translatedist>
 							<nextaction type="WeaponExplosion">
 								<name>Lightning Strike</name>
-								<armslevel>2</armslevel>
+								<armslevel>1</armslevel>
 								<nocreatedebris/>
 								<nocreatesplash/>
 								<noluminance/>
@@ -7089,153 +7090,153 @@ down from the apex of the projectiles arc</description>
 		<description>A projectile weapon that courses
 through the ground aimed at nearby tanks</description>
 		<icon>light.bmp</icon>
-		<cost>12000</cost>
+		<cost>20000</cost>
 		<bundlesize>1</bundlesize>
-		<armslevel>3</armslevel>
+		<armslevel>2</armslevel>
 		<nocreatesmoke/>
 		<nocreateflame/>
 		<projectilescale>4</projectilescale>
 		<projectilemodel type="MilkShape">flare.txt</projectilemodel>
 		<firedsound>explosions/thunder.wav</firedsound>
-		<deathanimationweight>4</deathanimationweight>
+		<deathanimationweight>2</deathanimationweight>
 		<collisionaction type="WeaponMulti">
 			<name>Chain Lightning</name>
-			<armslevel>3</armslevel>
+			<armslevel>1</armslevel>
 			<subweapon1 type="WeaponAimedUnder">
 				<name>Chain Lightning</name>
-				<armslevel>3</armslevel>
+				<armslevel>1</armslevel>
 				<nowarheads>1</nowarheads>
 				<percentagemiss>0</percentagemiss>
-				<maxaimdistance>40</maxaimdistance>
+				<maxaimdistance>30</maxaimdistance>
 				<inaccuracy>0</inaccuracy>
 				<aimedweapon type="WeaponDelay">
 					<name>Chain Lightning</name>
-					<armslevel>3</armslevel>
+					<armslevel>1</armslevel>
 					<delay>0.4</delay>
 					<delayedweapon type="WeaponTranslate">
 						<name>Chain Lightning</name>
-						<armslevel>3</armslevel>
+						<armslevel>1</armslevel>
 						<translatedist>10</translatedist>
-						<nextaction type="WeaponMulti">Projectile">
+						<nextaction type="WeaponMulti">
 							<name>Chain Lightning</name>
-							<armslevel>3</armslevel>
+							<armslevel>1</armslevel>
 							<subweapon1 type="WeaponDelay">
 								<name>Chain Lightning</name>
-								<armslevel>3</armslevel>
+								<armslevel>1</armslevel>
 								<delay>0.175</delay>
 								<delayedweapon type="WeaponTranslate">
 									<name>Chain Lightning</name>
-									<armslevel>3</armslevel>
+									<armslevel>1</armslevel>
 									<translatedist>10</translatedist>
-									<nextaction type="WeaponMulti">Projectile">
+									<nextaction type="WeaponMulti">
 										<name>Chain Lightning</name>
-										<armslevel>3</armslevel>
+										<armslevel>1</armslevel>
 										<subweapon1 type="WeaponDelay">
 											<name>Chain Lightning</name>
-											<armslevel>3</armslevel>
+											<armslevel>1</armslevel>
 											<delay>0.175</delay>
 											<delayedweapon type="WeaponTranslate">
 												<name>Chain Lightning</name>
-												<armslevel>3</armslevel>
+												<armslevel>1</armslevel>
 												<translatedist>10</translatedist>
 												<nextaction type="WeaponMulti">
 													<name>Chain Lightning</name>
-													<armslevel>3</armslevel>
+													<armslevel>1</armslevel>
 													<subweapon1 type="WeaponDelay">
 														<name>Chain Lightning</name>
-														<armslevel>3</armslevel>
+														<armslevel>1</armslevel>
 														<delay>0.175</delay>
 														<delayedweapon type="WeaponAimedUnder">
 															<name>Chain Lightning</name>
-															<armslevel>3</armslevel>
+															<armslevel>1</armslevel>
 															<nowarheads>1</nowarheads>
 															<percentagemiss>0</percentagemiss>
 															<maxaimdistance>40</maxaimdistance>
 															<inaccuracy>0</inaccuracy>
 															<aimedweapon type="WeaponDelay">
 																<name>Chain Lightning</name>
-																<armslevel>3</armslevel>
+																<armslevel>1</armslevel>
 																<delay>0.2</delay>
 																<delayedweapon type="WeaponTranslate">
 																	<name>Chain Lightning</name>
-																	<armslevel>3</armslevel>
+																	<armslevel>1</armslevel>
 																	<translatedist>10</translatedist>
-																	<nextaction type="WeaponMulti">Projectile">
+																	<nextaction type="WeaponMulti">
 																		<name>Chain Lightning</name>
-																		<armslevel>3</armslevel>
+																		<armslevel>1</armslevel>
 																		<subweapon1 type="WeaponDelay">
 																			<name>Chain Lightning</name>
-																			<armslevel>3</armslevel>
+																			<armslevel>1</armslevel>
 																			<delay>0.175</delay>
 																			<delayedweapon type="WeaponTranslate">
 																				<name>Chain Lightning</name>
-																				<armslevel>3</armslevel>
+																				<armslevel>1</armslevel>
 																				<translatedist>10</translatedist>
-																				<nextaction type="WeaponMulti">Projectile">
+																				<nextaction type="WeaponMulti">
 																					<name>Chain Lightning</name>
-																					<armslevel>3</armslevel>
+																					<armslevel>1</armslevel>
 																					<subweapon1 type="WeaponDelay">
 																						<name>Chain Lightning</name>
-																						<armslevel>3</armslevel>
+																						<armslevel>1</armslevel>
 																						<delay>0.175</delay>
 																						<delayedweapon type="WeaponTranslate">
 																							<name>Chain Lightning</name>
-																							<armslevel>3</armslevel>
+																							<armslevel>1</armslevel>
 																							<translatedist>10</translatedist>
 																							<nextaction type="WeaponMulti">
 																								<name>Chain Lightning</name>
-																								<armslevel>3</armslevel>
+																								<armslevel>1</armslevel>
 																								<subweapon1 type="WeaponDelay">
 																									<name>Chain Lightning</name>
-																									<armslevel>3</armslevel>
+																									<armslevel>1</armslevel>
 																									<delay>0.175</delay>
 																									<delayedweapon type="WeaponAimedUnder">
 																										<name>Chain Lightning</name>
-																										<armslevel>3</armslevel>
+																										<armslevel>1</armslevel>
 																										<nowarheads>1</nowarheads>
 																										<percentagemiss>0</percentagemiss>
-																										<maxaimdistance>40</maxaimdistance>
+																										<maxaimdistance>50</maxaimdistance>
 																										<inaccuracy>0</inaccuracy>
 																										<aimedweapon type="WeaponDelay">
 																											<name>Chain Lightning</name>
-																											<armslevel>3</armslevel>
+																											<armslevel>1</armslevel>
 																											<delay>0.2</delay>
 																											<delayedweapon type="WeaponTranslate">
 																												<name>Chain Lightning</name>
-																												<armslevel>3</armslevel>
+																												<armslevel>1</armslevel>
 																												<translatedist>10</translatedist>
-																												<nextaction type="WeaponMulti">Projectile">
+																												<nextaction type="WeaponMulti">
 																													<name>Chain Lightning</name>
-																													<armslevel>3</armslevel>
+																													<armslevel>1</armslevel>
 																													<subweapon1 type="WeaponDelay">
 																														<name>Chain Lightning</name>
-																														<armslevel>3</armslevel>
+																														<armslevel>1</armslevel>
 																														<delay>0.175</delay>
 																														<delayedweapon type="WeaponTranslate">
 																															<name>Chain Lightning</name>
-																															<armslevel>3</armslevel>
+																															<armslevel>1</armslevel>
 																															<translatedist>10</translatedist>
-																															<nextaction type="WeaponMulti">Projectile">
+																															<nextaction type="WeaponMulti">
 																																<name>Chain Lightning</name>
-																																<armslevel>3</armslevel>
+																																<armslevel>1</armslevel>
 																																<subweapon1 type="WeaponDelay">
 																																	<name>Chain Lightning</name>
-																																	<armslevel>3</armslevel>
+																																	<armslevel>1</armslevel>
 																																	<delay>0.175</delay>
 																																	<delayedweapon type="WeaponTranslate">
 																																		<name>Chain Lightning</name>
-																																		<armslevel>3</armslevel>
+																																		<armslevel>1</armslevel>
 																																		<translatedist>10</translatedist>
 																																		<nextaction type="WeaponMulti">
 																																			<name>Chain Lightning</name>
-																																			<armslevel>3</armslevel>
+																																			<armslevel>1</armslevel>
 																																			<subweapon1 type="WeaponDelay">
 																																				<name>Chain Lightning</name>
-																																				<armslevel>3</armslevel>
+																																				<armslevel>1</armslevel>
 																																				<delay>0.175</delay>
 																																				<delayedweapon type="WeaponAimedUnder">
 																																					<name>Chain Lightning</name>
-																																					<armslevel>3</armslevel>
+																																					<armslevel>1</armslevel>
 																																					<nowarheads>1</nowarheads>
 																																					<percentagemiss>0</percentagemiss>
 																																					<maxaimdistance>40</maxaimdistance>
@@ -7248,7 +7249,7 @@ through the ground aimed at nearby tanks</description>
 																																			</subweapon1>
 																																			<subweapon2 type="WeaponExplosion">
 																																				<name>Chain Lightning</name>
-																																				<armslevel>3</armslevel>
+																																				<armslevel>1</armslevel>
 																																				<nocreatedebris/>
 																																				<nocreatesplash/>
 																																				<hurtamount>0.7</hurtamount>
@@ -7262,7 +7263,7 @@ through the ground aimed at nearby tanks</description>
 																																</subweapon1>
 																																<subweapon2 type="WeaponExplosion">
 																																	<name>Chain Lightning</name>
-																																	<armslevel>3</armslevel>
+																																	<armslevel>1</armslevel>
 																																	<nocreatedebris/>
 																																	<nocreatesplash/>
 																																	<hurtamount>0.7</hurtamount>
@@ -7276,7 +7277,7 @@ through the ground aimed at nearby tanks</description>
 																													</subweapon1>
 																													<subweapon2 type="WeaponExplosion">
 																														<name>Chain Lightning</name>
-																														<armslevel>3</armslevel>
+																														<armslevel>1</armslevel>
 																														<nocreatedebris/>
 																														<nocreatesplash/>
 																														<hurtamount>0.7</hurtamount>
@@ -7292,7 +7293,7 @@ through the ground aimed at nearby tanks</description>
 																								</subweapon1>
 																								<subweapon2 type="WeaponExplosion">
 																									<name>Chain Lightning</name>
-																									<armslevel>3</armslevel>
+																									<armslevel>1</armslevel>
 																									<nocreatedebris/>
 																									<nocreatesplash/>
 																									<hurtamount>0.85</hurtamount>
@@ -7306,7 +7307,7 @@ through the ground aimed at nearby tanks</description>
 																					</subweapon1>
 																					<subweapon2 type="WeaponExplosion">
 																						<name>Chain Lightning</name>
-																						<armslevel>3</armslevel>
+																						<armslevel>1</armslevel>
 																						<nocreatedebris/>
 																						<nocreatesplash/>
 																						<hurtamount>0.85</hurtamount>
@@ -7320,7 +7321,7 @@ through the ground aimed at nearby tanks</description>
 																		</subweapon1>
 																		<subweapon2 type="WeaponExplosion">
 																			<name>Chain Lightning</name>
-																			<armslevel>3</armslevel>
+																			<armslevel>1</armslevel>
 																			<nocreatedebris/>
 																			<nocreatesplash/>
 																			<hurtamount>0.85</hurtamount>
@@ -7336,7 +7337,7 @@ through the ground aimed at nearby tanks</description>
 													</subweapon1>
 													<subweapon2 type="WeaponExplosion">
 														<name>Chain Lightning</name>
-														<armslevel>3</armslevel>
+														<armslevel>1</armslevel>
 														<nocreatedebris/>
 														<nocreatesplash/>
 														<hurtamount>1.0</hurtamount>
@@ -7350,7 +7351,7 @@ through the ground aimed at nearby tanks</description>
 										</subweapon1>
 										<subweapon2 type="WeaponExplosion">
 											<name>Chain Lightning</name>
-											<armslevel>3</armslevel>
+											<armslevel>1</armslevel>
 											<nocreatedebris/>
 											<nocreatesplash/>
 											<hurtamount>1.0</hurtamount>
@@ -7364,7 +7365,7 @@ through the ground aimed at nearby tanks</description>
 							</subweapon1>
 							<subweapon2 type="WeaponExplosion">
 								<name>Chain Lightning</name>
-								<armslevel>3</armslevel>
+								<armslevel>1</armslevel>
 								<nocreatedebris/>
 								<nocreatesplash/>
 								<hurtamount>1.0</hurtamount>
@@ -7379,7 +7380,7 @@ through the ground aimed at nearby tanks</description>
 			</subweapon1>
 			<subweapon2 type="WeaponExplosion">
 				<name>Chain Lightning</name>
-				<armslevel>3</armslevel>
+				<armslevel>1</armslevel>
 				<nocreatedebris/>
 				<nocreatesplash/>
 				<hurtamount>1.2</hurtamount>
@@ -7676,7 +7677,7 @@ energy wave that ripples outward horizontally</description>
 		<description>Projectile explodes at the height of its
 arc creating several lightning bolts over a few seconds</description>
 		<icon>flight.bmp</icon>
-		<cost>40000</cost>
+		<cost>50000</cost>
 		<bundlesize>1</bundlesize>
 		<armslevel>1</armslevel>
 		<nocreatesmoke/>

@@ -549,7 +549,7 @@
 		<roof type="sky"></roof>
     	<tankstart type="height">
     		<startcloseness>20</startcloseness>
-    		<height><min>11.5</min><max>65</max></height>
+    		<height><min>15</min><max>48</max></height>
     		<startmask></startmask>
     	</tankstart>
     	<heightmap type="file">
