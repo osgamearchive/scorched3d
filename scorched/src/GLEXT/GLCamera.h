@@ -24,37 +24,129 @@
 #include <GLEXT/GLState.h>
 #include <common/Line.h>
 
+/**
+A class that wraps setting and moving the current viewport.
+It sets the projection matrix and the modelview matrix such
+that any OpenGL calls will be "looking" at the given position.
+*/
 class GLCamera
 {
 public:
 	typedef float (*HeightFunc)(int, int, void *);
 
+	/**
+	Create the camera.
+	The camera has a width and height that it will use for its
+	viewport.
+	*/
 	GLCamera(GLsizei windowWidth, GLsizei windowHeight);
 	virtual ~GLCamera();
 
+	/**
+	Sets a function that can be used to limit the cameras minimum
+	height at a specified position.  This can be used for example
+	to prevent the camera from entering the landscape.
+	*/
 	void setHeightFunc(HeightFunc func, void *heightData = 0);
+	/** 
+	Turns the user of the height function on or off.
+	See setHeightFunc.
+	*/
 	void setUseHeightFunc(bool toggle);
+	/**
+	Sets the position that the camera will point at.
+	The camera will gradualy move to look at this position unless
+	the instant flag is given in which case the camera will
+	move instantly.
+	*/
 	void setLookAt(Vector &lookAt, bool instant = false);
+	/**
+	Sets the position that the camera will look from.
+	This position is relative to the current look at position.
+	The camera will gradualy move to look from this position unless
+	the instant flag is given in which case the camera will
+	move instantly.
+	*/
 	void setOffSet(Vector &offSet, bool instant = false);
+	/**
+	Changes the current viewport size (w, h dimension) of the viewport.
+	The viewport is the area of the window that is drawn to.
+	*/
 	void setWindowSize(GLsizei windowWidth, GLsizei windowHeight);
+	/**
+	Sets the current viewport location (x, y position) of the viewport.
+	The viewport is the area of the window that is drawn to.
+	*/
 	void setWindowOffset(GLsizei windowLeft, GLsizei windowTop);
 
+	/**
+	Causes the current model and projection matrixs to be replaced
+	so they are "looking" from the from position to the to position.
+	*/
 	void draw();
+	/**
+	Causes the camera to move if gradual movements are being made.
+	*/
 	void simulate(float frameTime = 0.02f);
+	/**
+	Causes the camera to shake the viewport randomly.
+	This can be used to simulate ground shake.
+	e.g. during large explosions.
+	The larger the shake the longer the camera will shake.
+	*/
 	void addShake(float shake);
 
+	/**
+	Moves the current look from position to a new location.
+	The current look from position in overwritten.
+	The look from position is relative to the look at position.
+	XY = horizontal rotation for the new point from the old
+	YZ = vertical rotation for the new point from the old
+	Z = Zoom closeness 
+	*/
 	void movePosition(float XY, float YZ, float Z);
+	/**
+	Moves the current look from position to a new location.
+	This position is relative to the current look from position.
+	The look from position is relative to the look at position.
+	XY = horizontal rotation for the new point from the old
+	YZ = vertical rotation for the new point from the old
+	Z = Zoom closeness 
+	*/
 	void movePositionDelta(float XY, float YZ, float Z);
-
+	/**
+	Uses the current matrixs to turn a two 2D points into
+	a 3D line.
+	*/
 	bool getDirectionFromPt(GLfloat ptX, GLfloat ptY, Line &direction);
 
+	/**
+	Returns the current viewport (and usualy window) size
+	*/
 	GLsizei getWidth() { return windowW_; }
+	/**
+	Returns the current viewport (and usualy window) size
+	*/
 	GLsizei getHeight() { return windowH_; }
 
+	/**
+	Get the point the camera is currently looking from
+	*/
 	Vector &getCurrentPos() { return currentPosition_; }
+	/**
+	Get the point the camera is currently looking at (observing)
+	*/
 	Vector &getLookAt() { return lookAt_; }
 
+	/**
+	Returns the current camera horizontal rotation.
+	As set by the move position methods.
+	*/
 	float getRotationXY() { return rotationXY_; }
+	/**
+	Returns the current camera vertical rotation.
+	As set by the move position methods.
+	*/
 	float getRotationYZ() { return rotationYZ_; }
 
 protected:

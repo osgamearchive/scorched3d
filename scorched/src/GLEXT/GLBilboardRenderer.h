@@ -25,15 +25,29 @@
 #include <GLEXT/GLOrderedItemRenderer.h>
 #include <map>
 
-// Renders bilboards using z-ordering
-// i.e. the furthest away are drawn first
-// and the nearest drawn last
+/** 
+Renders bilboards using z-ordering (painters algorithm)
+i.e. the furthest away are drawn first and the nearest drawn last
+This prevents problems with transparent objects not being drawn
+correctly.
+
+This class makes use of the GLOrderedItemRenderer to perform
+the sorting and scheduling of the bilboards.
+*/
 class GLBilboardRenderer : public GLOrderedItemRendererProvider,
 						   public GLOrderedItemRendererProviderSetup
 {
 public:
+	/** Return an instance to the only GLBilboarRenderer. */
 	static GLBilboardRenderer *instance();
 
+	/**
+	Bilboards are represented using this class.
+	The class defines all attributes associated with the bilboard.
+	Its width, height, texture etc..
+	The user should make sure all required attributes are defines
+	before adding a bilboard to the renderer.
+	*/
 	class GLBilboardOrderedEntry : public GLOrderedItemRenderer::OrderedEntry
 	{
 	public:
@@ -49,8 +63,21 @@ public:
 		float r_color, g_color, b_color;
 	};
 
-	// Public Interface, use add entry to add bilboard
+	/**
+	Add a new bilboard to the renderer.
+	Bilboards will be rendered every frame until removed by a 
+	call to removeEntry.  Bilboards should be global
+	objects or allocated on the heap.
+	*/
 	void addEntry(GLBilboardOrderedEntry *entry);
+	/**
+	Remove a bilboard from the renderer.
+	DeleteItem specifies if the bilboard object should be deleted
+	by the bilboard renderer when it is removed.
+	Items that are not deleted by the renderer should NOT be deleted 
+	by the caller (ever) as the renderer may still have a reference to them.
+	These bilboards must be global objects that are never deleted.
+	*/
 	void removeEntry(GLBilboardOrderedEntry *entry, bool deleteItem = false);
 
 	// Inherited from Interfaces
