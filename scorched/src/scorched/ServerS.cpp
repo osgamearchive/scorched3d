@@ -52,7 +52,7 @@ static void createControls(wxWindow *parent)
 		wxPoint((int) 19.5, (int) 78));
 	IDC_PUBLISH_CTRL = 
 		new wxCheckBox(parent, IDC_PUBLISH,
-		"Allow other internet and LAN users to see this server",
+		"Allow ALL other internet users to see and use this server",
 		wxPoint((int) 21, (int) 100));
 	IDC_PUBLISHIP_CTRL = 
 		new wxTextCtrl(parent, IDC_PUBLISHIP,
