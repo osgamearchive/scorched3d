@@ -39,6 +39,7 @@ More dirt option for landscape (perhaps cannot go under water)
 Move resources into landscape definitons file
 Make rollers look better
 More weapons options as seen in http://scorched3d.sourceforge.net/phpBB2/viewtopic.php?t=875
+Stats prefix can be (pre/a)pended onto mysql stats tables
 
 -- Server Stuff
 Chat filter (swear words)
