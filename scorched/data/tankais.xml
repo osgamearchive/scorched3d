@@ -7,6 +7,7 @@ grudges against players that are
 shooting at them.</description>
 		<aimsniper>50</aimsniper>
 		<aimtype>refined</aimtype>
+		<nodefenses>false</nodefenses>
 		<availableforrandom>true</availableforrandom>
 		<weapon><name>Parachute</name><level>10</level></weapon>
 		<weapon><name>Baby Nuke</name><level>20</level></weapon>	
@@ -24,6 +25,7 @@ also fire in straight line when close
 enough.</description>
 		<aimsniper>50</aimsniper>
 		<aimtype>refined</aimtype>
+		<nodefenses>false</nodefenses>
 		<availableforrandom>true</availableforrandom>
 		<weapon><name>Parachute</name><level>10</level></weapon>
 		<weapon><name>Baby Nuke</name><level>20</level></weapon>	
@@ -41,6 +43,7 @@ shot isn't too close, you have some
 time to kill them.</description>
 		<aimsniper>0</aimsniper>
 		<aimtype>refined</aimtype>
+		<nodefenses>false</nodefenses>
 		<availableforrandom>true</availableforrandom>
 		<weapon><name>Missile</name><level>20</level></weapon>
 		<weapon><name>Baby Nuke</name><level>20</level></weapon>	
@@ -56,6 +59,7 @@ Morons, but they don't ever learn,
 not refining subsiquent shots.</description>
 		<aimsniper>0</aimsniper>
 		<aimtype>guess</aimtype>
+		<nodefenses>false</nodefenses>
 		<availableforrandom>true</availableforrandom>
 		<weapon><name>Missile</name><level>20</level></weapon>
 		<weapon><name>Baby Nuke</name><level>20</level></weapon>		
@@ -70,6 +74,7 @@ and shoot. Definitely for beginners
 only.</description>
 		<aimsniper>0</aimsniper>
 		<aimtype>random</aimtype>
+		<nodefenses>false</nodefenses>
 		<availableforrandom>true</availableforrandom>
 		<weapon><name>Missile</name><level>2</level></weapon>
 	</ai>
@@ -81,6 +86,7 @@ These tanks act as static targets.  They
 will NEVER fire back.</description>
 		<aimsniper>0</aimsniper>
 		<aimtype>none</aimtype>
+		<nodefenses>true</nodefenses>
 		<availableforrandom>false</availableforrandom>
 	</ai>
 </ais>

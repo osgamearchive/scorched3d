@@ -32,14 +32,14 @@
 
 TankAIComputer::TankAIComputer() : 
 	primaryShot_(true), 
-	availableForRandom_(true)
+	availableForRandom_(true),
+	useShields_(true),
+	useParachutes_(true)
 {
-	
 }
 
 TankAIComputer::~TankAIComputer()
 {
-
 }
 
 void TankAIComputer::setTank(Tank *tank)
@@ -62,6 +62,15 @@ bool TankAIComputer::parseConfig(XMLNode *node)
 	description_.setText(
 		name.c_str(),
 		description.c_str());
+
+	// Defenses
+	bool noDefenses;
+	if (!node->getNamedChild("nodefenses", noDefenses)) return false;
+	if (noDefenses)
+	{
+		useShields_ = false;
+		useParachutes_ = false;
+	}
 
 	// Available when random is chosen
 	if (!node->getNamedChild("availableforrandom", 
@@ -113,23 +122,7 @@ void TankAIComputer::shotLanded(ParticleAction action,
 
 void TankAIComputer::autoDefense()
 {
-	// Try to enable parachutes (fails if we don't have any)
-	if (currentTank_->getAccessories().getParachutes().getNoParachutes() != 0)
-	{
-		if (!currentTank_->getAccessories().getParachutes().parachutesEnabled())
-		{
-			parachutesUpDown(true);
-		}
-	}
-
-	// Try to raise shields (fails if we don't have any)
-	if (!currentTank_->getAccessories().getShields().getCurrentShield())
-	{
-		if (currentTank_->getAccessories().getShields().getAllShields().size())
-		{
-			selectFirstShield();
-		}
-	}
+	raiseDefenses();
 }
 
 void TankAIComputer::buyAccessories()
@@ -158,6 +151,29 @@ void TankAIComputer::selectFirstShield()
 	}
 }
 
+void TankAIComputer::raiseDefenses()
+{
+	// Try to enable parachutes (fails if we don't have any)
+	if (currentTank_->getAccessories().getParachutes().getNoParachutes() != 0 &&
+		useParachutes_)
+	{
+		if (!currentTank_->getAccessories().getParachutes().parachutesEnabled())
+		{
+			parachutesUpDown(true);
+		}
+	}
+
+	// Try to raise shields (fails if we don't have any)
+	if (!currentTank_->getAccessories().getShields().getCurrentShield() &&
+		useShields_)
+	{
+		if (currentTank_->getAccessories().getShields().getAllShields().size())
+		{
+			selectFirstShield();
+		}
+	}
+}
+
 void TankAIComputer::say(const char *text)
 {
 	std::string newText(currentTank_->getName());
@@ -180,7 +196,7 @@ void TankAIComputer::playMove(const unsigned state, float frameTime,
 	}
 
 	// Make sure defenses are raised (if we don't have an autodefense)
-	autoDefense();
+	raiseDefenses();
 
 	// Use batteries if we need to and have them
 	while (currentTank_->getState().getLife() < 100.0f &&

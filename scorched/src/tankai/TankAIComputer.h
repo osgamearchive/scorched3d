@@ -81,8 +81,11 @@ protected:
 	TankAIComputerAim tankAim_;
 	bool primaryShot_;
 	bool availableForRandom_;
+	bool useParachutes_;
+	bool useShields_;
 
 	void selectFirstShield();
+	void raiseDefenses();
 
 };
 
