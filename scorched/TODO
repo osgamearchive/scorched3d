@@ -1,5 +1,6 @@
 -- Bugs Fixed and Ready For Release 
-Fixed: Failing to load display.xml because of user name containing invalid chars
+Fixed: Failing to load display.xml because of user name containing "forgien" chars
+Fixed: Selling items in the free market gives too much money
 
 -- Bugs in current development release
 Dvorak keyboard support is broken

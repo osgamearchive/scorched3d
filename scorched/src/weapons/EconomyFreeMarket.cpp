@@ -142,7 +142,8 @@ void EconomyFreeMarket::calculatePrices()
 				findByAccessoryId((*itor).first);
 			diff = (diff / 25) * 25; // Round to 25
 			accessory->setPrice(accessory->getPrice() + diff);
-			accessory->setSellPrice(int(accessory->getPrice() * 0.8f));
+			accessory->setSellPrice(int((accessory->getPrice() /
+				accessory->getBundle()) * 0.8f));
 		}
 	}
 	newPrices_.clear();
