@@ -23,6 +23,8 @@
 #include <actions/Napalm.h>
 #include <engine/ActionController.h>
 #include <weapons/WeaponNapalm.h>
+#include <common/OptionsParam.h>
+#include <common/SoundStore.h>
 
 static const float NapalmBurnTime = 8.0f;
 
@@ -63,5 +65,17 @@ void ShotProjectileNapalm::addNapalm(int x, int y)
 	{
 		ActionController::instance()->addAction(
 			new Napalm(x, y, NapalmBurnTime, weapon_, playerId_));
+	}
+
+	if (!OptionsParam::instance()->getOnServer()) 
+	{
+		if (weapon_->getExplosionSound())
+		{
+			static char soundBuffer[256];
+			sprintf(soundBuffer, PKGDIR "data/wav/%s", weapon_->getExplosionSound());
+			SoundBuffer *expSound = 
+				SoundStore::instance()->fetchOrCreateBuffer(soundBuffer);
+			expSound->play();
+		}
 	}
 }
