@@ -92,6 +92,8 @@ More dirt option for landscape (perhaps cannot go under water)
 Make rollers look better
 Guidance
 Add action replay type functionality
+Use VBOs for vertex arrays and most geometry (hemispheres)
+Use a different timeout when loading a level to when waiting after a shot
 AIs know how to dig
 
 -- Server Stuff
