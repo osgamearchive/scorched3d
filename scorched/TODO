@@ -20,6 +20,8 @@ Gun fires at same point for all tanks (ignores turret/gun position in model)
 Shot cam does not get LOD correctly
 
 -- Things I am currently looking at
+Allow gravity to be set
+Allow sound buffer options to be set
 Fix crashing when people win
 Make AIs even better
 Riot Blast
