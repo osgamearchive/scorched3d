@@ -76,9 +76,10 @@ bool ClientConnectionAcceptHandler::processMessage(unsigned int id,
 	// Load any mod files we currently have for the mod
 	// the server is using.
 	if (!ScorchedClient::instance()->getModFiles().loadModFiles(
-		ScorchedClient::instance()->getOptionsGame().getMod()))
+		ScorchedClient::instance()->getOptionsGame().getMod(), true))
 	{
-		dialogMessage("Failed to load mod \"%s\"",
+		dialogMessage("ModFiles", 
+			"Failed to load mod \"%s\"",
 			ScorchedClient::instance()->getOptionsGame().getMod());
 		return false;
 	}

@@ -91,7 +91,7 @@ bool startServer(bool local)
 
 	// Load mod
 	if (!ScorchedServer::instance()->getModFiles().loadModFiles(
-		ScorchedServer::instance()->getOptionsGame().getMod())) return false;
+		ScorchedServer::instance()->getOptionsGame().getMod(), false)) return false;
 
 	// Init physics
 	HeightMapCollision *hmcol = 

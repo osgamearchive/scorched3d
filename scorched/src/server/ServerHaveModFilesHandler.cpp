@@ -96,7 +96,7 @@ bool ServerHaveModFilesHandler::processMessage(unsigned int destinationId,
 		// should be using the same mod directory.
 		dialogMessage("ModFiles",
 			"ERROR: Single player client required mod files");
-		//exit(1);
+		exit(1);
 	}
 	else if (ScorchedServer::instance()->getOptionsGame().getModDownloadSpeed() == 0)
 	{

@@ -85,7 +85,8 @@ bool ConnectDialog::tryConnection()
 	LogDialog::instance()->logMessage("", 
 		"Atempting connection", 0);
 	LogDialog::instance()->logMessage("", 
-		formatString("  Trying \"%s\"....", serverName), 0);
+		formatString("  Trying \"%s\"....", 
+		serverName[0]?serverName:"Loopback"), 0);
 
 	ScorchedClient::instance()->getMainLoop().draw();
 	ScorchedClient::instance()->getMainLoop().swapBuffers();

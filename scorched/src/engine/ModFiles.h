@@ -77,7 +77,7 @@ public:
 	ModFiles();
 	virtual ~ModFiles();
 
-	bool loadModFiles(const char *mod);
+	bool loadModFiles(const char *mod, bool createDir);
 	void clearData();
 
 	std::map<std::string, ModFileEntry *> &getFiles() { return files_; }

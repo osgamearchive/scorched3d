@@ -172,7 +172,7 @@ ModFiles::~ModFiles()
 {
 }
 
-bool ModFiles::loadModFiles(const char *mod)
+bool ModFiles::loadModFiles(const char *mod, bool createDir)
 {
 	if (!mod || !mod[0]) return true;
 
@@ -181,11 +181,18 @@ bool ModFiles::loadModFiles(const char *mod)
 	int modDirLen = strlen(modDir);
 	if (!::wxDirExists(modDir))
 	{
-		dialogMessage("Mod",
-			"Error: Failed to find \"%s\" mod directory \"%s\"",
-			mod,
-			modDir);
-		return false;
+		if (createDir)
+		{
+			::wxMkdir(modDir);
+		}
+		else
+		{
+			dialogMessage("Mod",
+				"Failed to find \"%s\" mod directory \"%s\"",
+				mod,
+				modDir);
+			return false;
+		}
 	}
 
 	// Load all files contained in this directory

@@ -20,6 +20,7 @@
 
 #include <server/ServerFileServer.h>
 #include <server/ScorchedServer.h>
+#include <server/ServerCommon.h>
 #include <tank/TankContainer.h>
 #include <common/OptionsGame.h>
 #include <coms/ComsMessageSender.h>
@@ -196,6 +197,12 @@ unsigned int ServerFileServer::sendNextFile(ComsFileMessage &message,
 		// If so remove the file from the list that
 		// still needs to be sent
 		tank->getMod().rmFile(modentry->getFileName());
+
+		// Tell client of progress
+		ServerCommon::sendString(tank->getDestinationId(),
+			"  Finished downloading \"%s\", %i left",
+			modentry->getFileName(),
+			tank->getMod().getFiles().size());
 	}
 
 	return sizeToSend;
