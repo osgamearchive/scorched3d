@@ -365,10 +365,10 @@ void StatsLoggerMySQL::tankJoined(Tank *tank)
 
 	// Joining stats
 	runQuery("UPDATE scorched3d%s_players SET connects=connects+1, "
-		"lastconnected=NOW(), name=\"%s\", osdesc=\"%s\", ipaddress=\"%i.%i.%i.%i\" "
+		"lastconnected=NOW(), name=\"%s\", osdesc=\"%s\", ipaddress=\"%s\" "
 		"WHERE playerid = %i;", 
 		prefix_.c_str(), tank->getName(), tank->getHostDesc(), 
-		(int) address[0], (int) address[1], (int) address[2], (int) address[3],
+		NetInterface::getIpName(ip),
 		playerId);
 }
 

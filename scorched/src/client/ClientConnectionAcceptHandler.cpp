@@ -21,10 +21,12 @@
 #include <client/ClientConnectionAcceptHandler.h>
 #include <client/ScorchedClient.h>
 #include <dialogs/RulesDialog.h>
+#include <dialogs/ConnectDialog.h>
 #include <engine/ModFiles.h>
 #include <coms/ComsConnectAcceptMessage.h>
 #include <coms/ComsHaveModFilesMessage.h>
 #include <coms/ComsMessageSender.h>
+#include <coms/NetInterface.h>
 #include <common/Logger.h>
 #include <common/OptionsGame.h>
 #include <common/OptionsParam.h>
@@ -59,6 +61,18 @@ bool ClientConnectionAcceptHandler::processMessage(unsigned int id,
 {
 	ComsConnectAcceptMessage message;
 	if (!message.readMessage(reader)) return false;
+
+	if (OptionsParam::instance()->getConnectedToServer())
+	{
+		unsigned int ip =
+			ScorchedClient::instance()->getNetInterface().getIpAddress(0);
+		if (!ConnectDialog::instance()->getIdStore().saveUniqueId(
+			ip, message.getUniqueId(), message.getPublishAddress()))
+		{
+			Logger::log(0, "Server failed ip security check!");
+			return false;
+		}
+	}
 
 	// The server tells us what our id is.
 	// Set this id so we know what our players are

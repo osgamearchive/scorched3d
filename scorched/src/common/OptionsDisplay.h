@@ -288,10 +288,6 @@ public:
 	void setDoubleBuffer(bool value) { doubleBuffer_.setValue(value); }
 	const char *getDoubleBufferToolTip() { return doubleBuffer_.getDescription(); }
 
-	const char *getUniqueUserId() { return uniqueUserId_.getValue(); }
-	void setUniqueUserId(const char *value) { uniqueUserId_.setValue(value); }
-	const char *getUniqueUserIdToolTip() { return uniqueUserId_.getDescription(); }
-
 	const char *getOnlineUserName() { return onlineUserName_.getValue(); }
 	void setOnlineUserName(const char *value) { onlineUserName_.setValue(value); }
 	const char *getOnlineUserNameToolTip() { return onlineUserName_.getDescription(); }
@@ -380,7 +376,7 @@ protected:
 	OptionEntryBoundedInt soundVolume_;
 	OptionEntryInt screenWidth_;
 	OptionEntryInt screenHeight_;
-	OptionEntryString uniqueUserId_;
+	OptionEntryString depricatedUniqueUserId_;
 	OptionEntryString hostDescription_;
 	OptionEntryString onlineUserName_;
 	OptionEntryString onlineTankModel_;

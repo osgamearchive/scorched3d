@@ -33,7 +33,6 @@
 #include <coms/ComsMessageSender.h>
 #include <coms/ComsConnectMessage.h>
 
-
 ConnectDialog *ConnectDialog::instance_ = 0;
 
 ConnectDialog *ConnectDialog::instance()
@@ -94,6 +93,7 @@ bool ConnectDialog::tryConnection()
 	ScorchedClient::instance()->getMainLoop().draw();
 	ScorchedClient::instance()->getMainLoop().swapBuffers();
 
+	const char *uniqueId = "";
 	if (OptionsParam::instance()->getConnectedToServer())
 	{
 		std::string hostPart;
@@ -124,6 +124,22 @@ bool ConnectDialog::tryConnection()
 			SDL_Delay(3 * 1000);
 			return false;
 		}
+
+		// Get the unique id
+		if (!idStore_.loadStore())
+		{
+			LogDialog::instance()->logMessage("", 
+				formatString("Failed to load id store"), 0);
+			return false;
+		}
+		IPaddress ipAddress;
+		if (SDLNet_ResolveHost(&ipAddress, hostPart.c_str(), 0) != 0)
+		{
+			LogDialog::instance()->logMessage("", 
+				formatString("Failed to resolve server name"), 0);
+			return false;
+		}
+		uniqueId = idStore_.getUniqueId(ipAddress.host);
 	}
 	else
 	{
@@ -136,7 +152,7 @@ bool ConnectDialog::tryConnection()
 	connectMessage.setVersion(ScorchedVersion);
 	connectMessage.setProtocolVersion(ScorchedProtocolVersion);
 	connectMessage.setPassword(OptionsParam::instance()->getPassword());
-	connectMessage.setUniqueId(OptionsDisplay::instance()->getUniqueUserId());
+	connectMessage.setUniqueId(uniqueId);
 	connectMessage.setHostDesc(OptionsDisplay::instance()->getHostDescription());
 	connectMessage.setNoPlayers(noPlayers);
 	if (!ComsMessageSender::sendToServer(connectMessage))

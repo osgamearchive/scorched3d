@@ -54,27 +54,21 @@ void ServerMessageHandler::clientConnected(NetMessage &message)
 	unsigned int ipAddress = 
 		ScorchedServer::instance()->getNetInterface().getIpAddress(
 	message.getDestinationId());
-	unsigned char address[4];
-	memcpy(address, &ipAddress, sizeof(address));
 
 	if (ipAddress != 0 &&
 		ServerBanned::instance()->isBanned(ipAddress))
 	{
-		Logger::log(0, "Banned client connected dest=\"%i\" ip=\"%i.%i.%i.%i\"", 
+		Logger::log(0, "Banned client connected dest=\"%i\" ip=\"%s\"", 
 			message.getDestinationId(),
-			(int) address[0], (int) address[1], 
-			(int) address[2], (int) address[3],
-			ipAddress);
+			NetInterface::getIpName(ipAddress));
 		ScorchedServer::instance()->getNetInterface().
 			disconnectClient(message.getDestinationId());
 	}
 	else
 	{
-		Logger::log(0, "Client connected dest=\"%i\" ip=\"%i.%i.%i.%i\"", 
+		Logger::log(0, "Client connected dest=\"%i\" ip=\"%s\"", 
 			message.getDestinationId(),
-			(int) address[0], (int) address[1],
-			(int) address[2], (int) address[3],
-			ipAddress);
+			NetInterface::getIpName(ipAddress));
 	}
 }
 
@@ -83,14 +77,10 @@ void ServerMessageHandler::clientDisconnected(NetMessage &message)
 	unsigned int ipAddress = 
 		ScorchedServer::instance()->getNetInterface().getIpAddress(
 	message.getDestinationId());
-	unsigned char address[4];
-	memcpy(address, &ipAddress, sizeof(address));
 
-	Logger::log(0, "Client disconnected dest=\"%i\" ip=\"%i.%i.%i.%i\"", 
+	Logger::log(0, "Client disconnected dest=\"%i\" ip=\"%s\"", 
 		message.getDestinationId(),
-		(int) address[0], (int) address[1],
-		(int) address[2], (int) address[3],
-		ipAddress);
+		NetInterface::getIpName(ipAddress));
 
 	// Build up a list of players at this destination
 	std::list<unsigned int> removePlayers;

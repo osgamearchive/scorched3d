@@ -25,10 +25,14 @@
 #include <common/OptionsGame.h>
 
 ComsConnectAcceptMessage::ComsConnectAcceptMessage(unsigned int destinationId,
-												   const char *serverName) :
+	const char *serverName,
+	const char *publishAddress,
+	const char *uniqueId) :
 	ComsMessage("ComsConnectAcceptMessage"),
 	destinationId_(destinationId),
-	serverName_(serverName)
+	serverName_(serverName),
+	publishAddress_(publishAddress),
+	uniqueId_(uniqueId)
 {
 
 }
@@ -41,7 +45,9 @@ ComsConnectAcceptMessage::~ComsConnectAcceptMessage()
 bool ComsConnectAcceptMessage::writeMessage(NetBuffer &buffer)
 {
 	buffer.addToBuffer(destinationId_);
-	buffer.addToBuffer(serverName_.c_str());
+	buffer.addToBuffer(serverName_);
+	buffer.addToBuffer(publishAddress_);
+	buffer.addToBuffer(uniqueId_);
 	if (!ScorchedServer::instance()->getOptionsGame().
 		writeToBuffer(buffer, false)) return false;
 	if (!ScorchedServer::instance()->getAccessoryStore().
@@ -54,6 +60,8 @@ bool ComsConnectAcceptMessage::readMessage(NetBufferReader &reader)
 {
 	if (!reader.getFromBuffer(destinationId_)) return false;
 	if (!reader.getFromBuffer(serverName_)) return false;
+	if (!reader.getFromBuffer(publishAddress_)) return false;
+	if (!reader.getFromBuffer(uniqueId_)) return false;
 	if (!ScorchedClient::instance()->getOptionsGame().
 		readFromBuffer(reader, false)) return false;
 	if (!ScorchedClient::instance()->getAccessoryStore().

@@ -295,15 +295,41 @@ static void createIdentControls(wxWindow *parent, wxSizer *sizer)
 	sizer->Add(tankModelSizer, 0, wxGROW | wxLEFT | wxRIGHT | wxTOP, 5);
 	}
 
+	UniqueIdStore idStore;
+	idStore.loadStore();
+
 	// User id edit box
 	wxStaticBox *userBox = new wxStaticBox(parent, -1, 
 		"User ID (Uniquely identifies this player for stats, not generated from any user information.)");
 	wxStaticBoxSizer *userSizer = new wxStaticBoxSizer(userBox, wxVERTICAL);
-	IDC_USERID_CTRL = new wxTextCtrl(parent, -1, wxString(), wxDefaultPosition, wxSize(300, -1));
-	userSizer->Add(IDC_USERID_CTRL, 0, wxALIGN_CENTER);
+	IDC_USERID_CTRL = new wxGrid(parent, -1, wxDefaultPosition, wxDefaultSize);
+	IDC_USERID_CTRL->CreateGrid(idStore.getIds().size(), 3);
+	IDC_USERID_CTRL->SetColLabelValue(0,"Published Ip");
+	IDC_USERID_CTRL->SetColLabelValue(1, "Current Ip");
+	IDC_USERID_CTRL->SetColLabelValue(2, "Unique Id");
+	IDC_USERID_CTRL->SetColSize(0, 200);
+	IDC_USERID_CTRL->SetColSize(1, 100);
+	IDC_USERID_CTRL->SetColSize(2, 130);
+	IDC_USERID_CTRL->SetColLabelSize(20);
+	IDC_USERID_CTRL->SetRowLabelSize(0);
+	int pos = 0;
+	std::list<UniqueIdStore::Entry>::iterator itor;
+	for (itor = idStore.getIds().begin();
+		itor != idStore.getIds().end();
+		itor++, pos++)
+	{
+		UniqueIdStore::Entry &entry = *itor;
+		IDC_USERID_CTRL->SetCellValue(pos, 0, entry.published.c_str());
+		IDC_USERID_CTRL->SetCellValue(pos, 1, NetInterface::getIpName(entry.ip));
+		IDC_USERID_CTRL->SetCellValue(pos, 2, entry.id.c_str());
+	}
+	IDC_USERID_CTRL->EnableEditing(false);
+	IDC_USERID_CTRL->ForceRefresh();
+
+	userSizer->Add(IDC_USERID_CTRL, 1, wxALIGN_CENTER | wxGROW);
 	IDC_HOSTDESC_CTRL = new wxTextCtrl(parent, -1, wxString(), wxDefaultPosition, wxSize(300, -1), wxTE_READONLY);
 	userSizer->Add(IDC_HOSTDESC_CTRL, 0, wxALIGN_CENTER);
-	sizer->Add(userSizer, 0, wxGROW | wxLEFT | wxRIGHT | wxTOP, 5);
+	sizer->Add(userSizer, 1, wxGROW | wxLEFT | wxRIGHT | wxTOP, 5);
 }
 
 class KeyButtonData : public wxObjectRefData

@@ -159,11 +159,8 @@ bool ServerBrowserServerList::fetchLANList()
 			ServerBrowserEntry newEntry;
 			char hostName[256];
 			sprintf(hostName,
-					"%i.%i.%i.%i:%i",
-					(addr&0xFF000000)>>24,
-					(addr&0xFF0000)>>16,
-					(addr&0xFF00)>>8,
-					(addr&0xFF),
+					"%s:%i",
+					NetInterface::getIpName(addr),
 					(port - 1));
 			newEntry.addAttribute("address", hostName);
 			

@@ -77,7 +77,7 @@ static wxCheckBox *IDC_INVERTMOUSE_CTRL = 0;
 static wxCheckBox *IDC_SMOUSE_CTRL = 0;
 static wxTextCtrl *IDC_USERNAME_CTRL = 0;
 static wxTextCtrl *IDC_TANKMODEL_CTRL = 0;
-static wxTextCtrl *IDC_USERID_CTRL = 0;
+static wxGrid *IDC_USERID_CTRL = 0;
 static wxTextCtrl *IDC_HOSTDESC_CTRL = 0;
 
 static wxButton *IDC_LOADDEFAULTS_CTRL = 0;

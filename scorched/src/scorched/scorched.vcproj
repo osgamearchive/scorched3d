@@ -3040,6 +3040,12 @@
 				RelativePath="..\client\TargetCamera.h">
 			</File>
 			<File
+				RelativePath="..\client\UniqueIdStore.cpp">
+			</File>
+			<File
+				RelativePath="..\client\UniqueIdStore.h">
+			</File>
+			<File
 				RelativePath="..\client\WindowSetup.cpp">
 			</File>
 			<File

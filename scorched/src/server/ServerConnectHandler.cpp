@@ -155,7 +155,9 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 	// Send the connection accepted message to the client
 	ComsConnectAcceptMessage acceptMessage(
 		destinationId,
-		ScorchedServer::instance()->getOptionsGame().getServerName());
+		ScorchedServer::instance()->getOptionsGame().getServerName(),
+		ScorchedServer::instance()->getOptionsGame().getPublishAddress(),
+		message.getUniqueId());
 	if (!ComsMessageSender::sendToSingleClient(acceptMessage, destinationId))
 	{
 		Logger::log(0,

@@ -62,14 +62,6 @@ bool parseCommandLine(int argc, char *argv[])
 		return false;
 	}
 
-	// Create a unique userid (if one has not already been created)
-	if (!OptionsDisplay::instance()->getUniqueUserId()[0])
-	{
-		char buffer[128];
-		sprintf(buffer, "%i-%i-%i", rand(), rand(), rand());
-		OptionsDisplay::instance()->setUniqueUserId(buffer);
-	}
-
 	// Get this host's description and username
 	if (!OptionsDisplay::instance()->getHostDescription()[0])
 	{

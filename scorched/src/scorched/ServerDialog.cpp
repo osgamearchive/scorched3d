@@ -730,15 +730,16 @@ void ServerFrame::onShowBanned()
 {
 	int count = 0;
 	std::string bannedStr;
-	std::list<ServerBanned::BannedRange> &bannedIps = ServerBanned::instance()->getBannedIps();
+	std::list<ServerBanned::BannedRange> &bannedIps = 
+		ServerBanned::instance()->getBannedIps();
 	std::list<ServerBanned::BannedRange>::iterator itor;
 	for (itor = bannedIps.begin();
 		itor != bannedIps.end();
 		itor++)
 	{
 		ServerBanned::BannedRange &range = (*itor);
-		unsigned char mask[4];
-		memcpy(mask, &range.mask, sizeof(mask));
+
+		std::string mask = NetInterface::getIpName(range.mask);
 
 		std::set<unsigned int>::iterator ipitor;
 		for (ipitor = range.ips.begin();
@@ -746,12 +747,10 @@ void ServerFrame::onShowBanned()
 			ipitor++)
 		{
 			unsigned int ip = *ipitor;
-			unsigned char address[4];
-			memcpy(address, &ip, sizeof(address));
+			std::string ipName = NetInterface::getIpName(ip);
 
-			bannedStr += formatString("%i.%i.%i.%i (%i.%i.%i.%i)",
-				address[0], address[1], address[2], address[3],
-				mask[0], mask[1], mask[2], mask[3]);
+			bannedStr += formatString("%s (%s)",
+				ipName.c_str(), mask.c_str());
 			if (++count % 3 == 2) bannedStr += "\n";
 			else bannedStr += "       ";
 		}

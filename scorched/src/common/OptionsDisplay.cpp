@@ -42,9 +42,9 @@ OptionsDisplay::OptionsDisplay() :
 		"Use detail textures on the landscape."
 		"Adds the texture seen when very close to the landscape."
 		"Requires multi-texturing", RWAccess, true),
-	uniqueUserId_(options_, "UniqueUserId",
+	depricatedUniqueUserId_(options_, "UniqueUserId",
 		"The unique string given by this client to any servers to uniquely identify itself."
-		"Used for server stats and logging (confidentially)", RAccess | NoRestore, ""),
+		"Used for server stats and logging (confidentially)", RAccess | OptionEntry::DataDepricated | NoRestore, ""),
 	hostDescription_(options_, "HostDescription",
 		"The description of this host given to any servers for stats.", RAccess | NoRestore, ""),
 	onlineUserName_(options_, "OnlineUserName",

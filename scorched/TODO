@@ -44,6 +44,7 @@ Changed: Spread and hurts weapon primative options are now variable
 Changed: LeapFrog weapon primative bounce now variable
 Changed: Message of the day now defined in server.xml file
 
+Added: Unique ids are different for each stats server (to stop spoofing)
 Added: Scorched textures can be specified on a per weapon basis
 Added: Rain and Snow
 Added: Player model remembered for multiplayer games

@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,32 +18,36 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_ConnectDialogh_INCLUDE__)
-#define __INCLUDE_ConnectDialogh_INCLUDE__
+#if !defined(__INCLUDE_UniqueIdStoreh_INCLUDE__)
+#define __INCLUDE_UniqueIdStoreh_INCLUDE__
 
-#include <GLW/GLWWindow.h>
-#include <client/UniqueIdStore.h>
+#include <list>
 
-class ConnectDialog : public GLWWindow
+class UniqueIdStore
 {
 public:
-	static ConnectDialog *instance();
+	class Entry
+	{
+	public:
+		unsigned int ip;
+		std::string id;
+		std::string published;
+	};
 
-	// Inherited from GLWWindow
-	virtual void simulate(float frameTime);
+	UniqueIdStore();
+	virtual ~UniqueIdStore();
 
-	UniqueIdStore &getIdStore() { return idStore_; }
+	bool loadStore();
+	bool saveStore();
+
+	const char *getUniqueId(unsigned int ip);
+	bool saveUniqueId(unsigned int ip, const char *id,
+		const char *published);
+
+	std::list<Entry> &getIds() { return ids_; }
 
 protected:
-	static ConnectDialog *instance_;
-	UniqueIdStore idStore_;
-	bool tryConnection_;
-
-	bool tryConnection();
-
-private:
-	ConnectDialog();
-	virtual ~ConnectDialog();
+	std::list<Entry> ids_;
 };
 
-#endif
+#endif // __INCLUDE_UniqueIdStoreh_INCLUDE__

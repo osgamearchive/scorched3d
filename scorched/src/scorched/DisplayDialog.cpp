@@ -21,12 +21,15 @@
 #include <scorched/DisplayDialog.h>
 #include <scorched/MainDialog.h>
 #include <scorched/KeyDialog.h>
+#include <coms/NetInterface.h>
 #include <common/OptionsDisplay.h>
 #include <common/Defines.h>
 #include <common/Keyboard.h>
+#include <client/UniqueIdStore.h>
 #include <wx/wx.h>
 #include <wx/image.h>
 #include <wx/notebook.h>
+#include <wx/grid.h>
 #include <set>
 #include "Display.cpp"
 
@@ -323,8 +326,6 @@ void DisplayFrame::refreshScreen()
 	IDC_USERNAME_CTRL->SetToolTip(OptionsDisplay::instance()->getOnlineUserNameToolTip());
 	IDC_TANKMODEL_CTRL->SetValue(OptionsDisplay::instance()->getOnlineTankModel());
 	IDC_TANKMODEL_CTRL->SetToolTip(OptionsDisplay::instance()->getOnlineTankModelToolTip());
-	IDC_USERID_CTRL->SetValue(OptionsDisplay::instance()->getUniqueUserId());
-	IDC_USERID_CTRL->SetToolTip(OptionsDisplay::instance()->getUniqueUserIdToolTip());
 	IDC_HOSTDESC_CTRL->SetValue(OptionsDisplay::instance()->getHostDescription());
 	IDC_HOSTDESC_CTRL->SetToolTip(OptionsDisplay::instance()->getHostDescriptionToolTip());
 	IDC_NODETAILTEX_CTRL->SetValue(!OptionsDisplay::instance()->getDetailTexture());
@@ -492,7 +493,6 @@ bool DisplayFrame::TransferDataFromWindow()
 	OptionsDisplay::instance()->setSideScroll(IDC_SIDESCROLL_CTRL->GetValue());
 	OptionsDisplay::instance()->setOnlineUserName(IDC_USERNAME_CTRL->GetValue());
 	OptionsDisplay::instance()->setOnlineTankModel(IDC_TANKMODEL_CTRL->GetValue());
-	OptionsDisplay::instance()->setUniqueUserId(IDC_USERID_CTRL->GetValue());
 	OptionsDisplay::instance()->setHostDescription(IDC_HOSTDESC_CTRL->GetValue());
 	OptionsDisplay::instance()->setDetailTexture(!IDC_NODETAILTEX_CTRL->GetValue());
 	OptionsDisplay::instance()->setMoreRes(IDC_MORERES_CTRL->GetValue());

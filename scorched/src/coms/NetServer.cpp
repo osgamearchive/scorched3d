@@ -280,7 +280,16 @@ void NetServer::sendMessage(TCPsocket client, NetMessage *message)
 
 unsigned int NetServer::getIpAddress(unsigned int dest)
 {
-	if (dest == 0) return 0;
+	if (dest == 0)
+	{
+		if (firstDestination_)
+		{
+			IPaddress *address = SDLNet_TCP_GetPeerAddress(firstDestination_);
+			if (!address) return 0;
+			return address->host;
+		}
+		return 0;
+	}
 	TCPsocket destination = (TCPsocket) dest;
 	IPaddress *address = SDLNet_TCP_GetPeerAddress(destination);
 	if (!address) return 0;

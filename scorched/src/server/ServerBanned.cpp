@@ -22,6 +22,7 @@
 #include <server/ScorchedServer.h>
 #include <common/OptionsGame.h>
 #include <common/Defines.h>
+#include <coms/NetInterface.h>
 #include <XML/XMLFile.h>
 #include <limits.h>
 
@@ -168,28 +169,20 @@ bool ServerBanned::save()
 	{
 		BannedRange &range = *itor;
 		unsigned int m = range.mask;
-		unsigned char mask[4];
-		memcpy(mask, &m, sizeof(mask));
-
 		std::set<unsigned int>::iterator ipitor;
 		for (ipitor = range.ips.begin();
 			ipitor != range.ips.end();
 			ipitor++)
 		{
-			unsigned int ip = *ipitor;
-			unsigned char address[4];
-			memcpy(address, &ip, sizeof(address));
-
 			// Add ip address
+			unsigned int ip = (*ipitor);
 			XMLNode *optionNode = 
-				new XMLNode("ipaddress", formatString("%i.%i.%i.%i", 
-					(int) address[0], (int) address[1], (int) address[2], (int) address[3]));
+				new XMLNode("ipaddress", NetInterface::getIpName(ip));
 
 			// Add the mask
 			if (m != UINT_MAX)
 			{
-				optionNode->addParameter(new XMLNode("mask", formatString("%i.%i.%i.%i",
-						(int) mask[0], (int) mask[1], (int) mask[2], (int) mask[3]),
+				optionNode->addParameter(new XMLNode("mask", NetInterface::getIpName(m),
 						XMLNode::XMLParameterType));
 			}
 
