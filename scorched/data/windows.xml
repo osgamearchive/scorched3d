@@ -4,10 +4,10 @@
 		<states>all</states>
 		<visible>true</visible>
 		<key>SHOW_PLAN_DIALOG</key>
-		<width>128</width>
-		<height>128</height>
-		<positionx>-138</positionx>
-		<positiony>-168</positiony>
+		<w>128</w>
+		<h>128</h>
+		<x>-138</x>
+		<y>-168</y>
 		<description>Shows the position of the the tanks
 on a overhead map of the island.</description>
 		<items>
@@ -29,10 +29,10 @@ on a overhead map of the island.</description>
 		<states>all</states>
 		<visible>true</visible>
 		<key>SHOW_WIND_DIALOG</key>
-		<width>128</width>
-		<height>128</height>
-		<positionx>10</positionx>
-		<positiony>-168</positiony>
+		<w>128</w>
+		<h>128</h>
+		<x>10</x>
+		<y>-168</y>
 		<description>Displays indicators for the current wind
 strength and direction.</description>
 		<items>
@@ -70,10 +70,10 @@ strength and direction.</description>
 		<states>player</states>
 		<visible>true</visible>
 		<key>SHOW_PLAYER_DIALOG</key>
-		<width>190</width>
-		<height>128</height>
-		<positionx>-200</positionx>
-		<positiony>10</positiony>
+		<w>190</w>
+		<h>128</h>
+		<x>-200</x>
+		<y>10</y>
 		<description>Displays indicators for the current player,
 including its health, and defense status</description>
 		<items>
@@ -165,10 +165,10 @@ including its health, and defense status</description>
 		<states>player</states>
 		<visible>true</visible>
 		<key>SHOW_WEAPON_DIALOG</key>
-		<width>159</width>
-		<height>128</height>
-		<positionx>10</positionx>
-		<positiony>10</positiony>
+		<w>159</w>
+		<h>128</h>
+		<x>10</x>
+		<y>10</y>
 		<description>Displays indicators for the current weapon,
 including its power and direction.</description>
 		<items>
@@ -233,10 +233,10 @@ including its power and direction.</description>
 		<states>player</states>
 		<visible>false</visible>
 		<key>SHOW_AIM_DIALOG</key>
-		<width>145</width>
-		<height>128</height>
-		<positionx>200</positionx>
-		<positiony>-168</positiony>
+		<w>145</w>
+		<h>128</h>
+		<x>200</x>
+		<y>-168</y>
 		<description>Allows the current player to aim without
 having to use the keyboard.</description>
 		<items>

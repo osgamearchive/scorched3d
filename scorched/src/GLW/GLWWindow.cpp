@@ -41,7 +41,8 @@ GLWWindow::GLWWindow(const char *name, float x, float y,
 	GLWVisiblePanel(x, y, w, h), dragging_(NoDrag), 
 	needCentered_(false), showTitle_(false), name_(name),
 	disabled_(false), windowState_(states), maxWindowSize_(0.0f),
-	description_(description), toolTip_(name, description)
+	description_(description), toolTip_(name, description),
+	initPosition_(false)
 {
 	getDrawPanel() = false;
 }
@@ -171,7 +172,8 @@ void GLWWindow::drawWindowCircle(float x, float y, float w, float h)
 
 void GLWWindow::drawMaximizedWindow()
 {
-	if (windowState_ & eCircle)
+	if (windowState_ & eCircle ||
+		windowState_ & eNoDraw)
 	{
 		if (!moveTexture_.textureValid())
 		{
@@ -179,24 +181,35 @@ void GLWWindow::drawMaximizedWindow()
 			moveTexture_.create(moveMap, GL_RGBA, false);
 		}
 
-		GLState state(GLState::TEXTURE_OFF | GLState::BLEND_ON | GLState::DEPTH_OFF);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	
-		drawWindowCircle(x_, y_, w_, h_);
+		if (windowState_ & eCircle)
+		{
+			GLState state(GLState::BLEND_ON);
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	
+			drawWindowCircle(x_, y_, w_, h_);
+		}
+
+		glPushMatrix();
+			GLWVisiblePanel::draw();
+		glPopMatrix();
 
 		int x = ScorchedClient::instance()->getGameState().getMouseX();
 		int y = ScorchedClient::instance()->getGameState().getMouseY();
 		if (GLWWindowManager::instance()->getFocus(x, y) == getId())
 		{
-			if (windowState_ & eResizeable)
+			if (windowState_ & eResizeable &&
+				windowState_ & eCircle)
 			{
 				drawWindowCircle(x_ + w_ - 12.0f, y_, 12.0f, 12.0f);
 			}
 			if (!(windowState_ & eNoTitle))
 			{
-				float sizeX = w_ / 5.6f;
-				float sizeY = w_ / 5.6f;
-				drawWindowCircle(x_, y_ + h_ - sizeY, sizeX, sizeY);
-				drawJoin(x_ + sizeX * 0.85f, y_ + h_ - sizeY * 0.85f);
+				float sizeX = 20.0f;
+				float sizeY = 20.0f;
+
+				static GLWTip moveTip("Move",
+					"Left click and drag to move the window.");
+				GLWToolTip::instance()->addToolTip(&moveTip, 
+					x_, y_ + h_ - sizeY, sizeX, sizeY);
 
 				GLState currentStateBlend(GLState::BLEND_ON | GLState::TEXTURE_ON);
 				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	
@@ -223,7 +236,6 @@ void GLWWindow::drawMaximizedWindow()
 			//GLint func;
 			//glGetIntegerv(GL_DEPTH_FUNC, &func);
 			//glDepthFunc(GL_ALWAYS);
-			GLState newState(GLState::DEPTH_OFF);
 			glPushMatrix();
 				glTranslatef(0.0f, 0.0f, 0.0f);
 				{
@@ -267,6 +279,13 @@ void GLWWindow::drawMaximizedWindow()
 void GLWWindow::draw()
 {
 	GLState currentState(GLState::DEPTH_OFF | GLState::TEXTURE_OFF);
+
+	if (!initPosition_)
+	{
+		if (x_ < 0.0f) setX(GLViewPort::getWidth() + x_);
+		if (y_ < 0.0f) setY(GLViewPort::getHeight() + y_);
+		initPosition_ = true;
+	}
 	if (needCentered_)
 	{
 		int wWidth = GLViewPort::getWidth();
@@ -285,7 +304,8 @@ void GLWWindow::mouseDown(float x, float y, bool &skipRest)
 
 	if (x > x_ && x < x_ + w_)
 	{
-		if (windowState_ & eCircle)
+		if (windowState_ & eCircle ||
+			windowState_ & eNoDraw)
 		{
 			float sizeX = w_ / 5.6f;
 			float sizeY = w_ / 5.6f;
@@ -425,4 +445,20 @@ void GLWWindow::drawIconBox(float x, float y)
 		glTexCoord2f(0.0f, 1.0f);
 		glVertex2f(x, y + 16.0f);
 	glEnd();
+}
+
+bool GLWWindow::initFromXML(XMLNode *node)
+{
+	if (!GLWVisiblePanel::initFromXML(node)) return false;
+	
+	// Name
+	XMLNode *nameNode = node->removeNamedChild("name", true);
+	if (!nameNode) return false; name_ = nameNode->getContent();
+
+	// Desc
+	XMLNode *descNode = node->removeNamedChild("description", true);
+	if (!descNode) return false; description_ = descNode->getContent();
+	toolTip_.setText(name_.c_str(), description_.c_str());
+
+	return true;
 }

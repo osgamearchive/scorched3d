@@ -136,26 +136,26 @@ bool HeightMap::getIntersect(Line &direction, Vector &intersect)
 	const int searchSquareWidth_ = 4;
 
 	float maxdist = maxFloat;
-	for (int x=0; x<width_ - searchSquareWidth_; x+=searchSquareWidth_)
+	for (int x=0; x<width_ - searchSquareWidth_; x+=searchSquareWidth_-1)
 	{
-		for (int y=0; y<width_ - searchSquareWidth_; y+=searchSquareWidth_)
+		for (int y=0; y<width_ - searchSquareWidth_; y+=searchSquareWidth_-1)
 		{
 			static Triangle triA;
 			triA.setPointComponents(
-				float(x), float(y), getHeight(x, y),
+				float(x) - 0.5f, float(y), getHeight(x, y),
 				getNormal(x, y),
 				float(x + searchSquareWidth_), float(y), getHeight(x + searchSquareWidth_, y),
 				getNormal(x + searchSquareWidth_, y),
-				float(x + searchSquareWidth_), float(y + searchSquareWidth_), getHeight(x + searchSquareWidth_, y + searchSquareWidth_),
+				float(x + searchSquareWidth_), float(y + searchSquareWidth_) + 0.5f, getHeight(x + searchSquareWidth_, y + searchSquareWidth_),
 				getNormal(x + searchSquareWidth_, y + searchSquareWidth_));
 
 			static Triangle triB;
 			triB.setPointComponents(
-				float(x + searchSquareWidth_), float(y + searchSquareWidth_), getHeight(x + searchSquareWidth_, y + searchSquareWidth_),
+				float(x + searchSquareWidth_) + 0.5f, float(y + searchSquareWidth_), getHeight(x + searchSquareWidth_, y + searchSquareWidth_),
 				getNormal(x + searchSquareWidth_, y+  searchSquareWidth_),
 				float(x), float(y + searchSquareWidth_), getHeight(x, y + searchSquareWidth_),
 				getNormal(x, y+  searchSquareWidth_),
-				float(x), float(y), getHeight(x, y),
+				float(x), float(y) - 0.5f, getHeight(x, y),
 				getNormal(x, y));
 
 			static Vector newInter, interN;

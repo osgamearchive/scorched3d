@@ -66,7 +66,7 @@ bool GLWWindowSkinManager::loadWindows()
         XMLNode *currentNode = (*childrenItor);
 
 		GLWWindowSkin *window = new GLWWindowSkin;
-		if (!window->loadWindow(currentNode))
+		if (!window->initFromXML(currentNode))
 		{
 			return false;
 		}

@@ -1,71 +1,5 @@
 -- Bugs Fixed and Ready For Release 
-Added: Count down timer is visible even after shots are made
-Added: Number of shots left in this round is visible in score dialog
-Added: Number of shots left can be turned off in options
-Added: Return to the launcher after a game finishes.
-Added: All dialogs now use wxSizers
-Added: The first round ordering for sequential mode games is always random
-Added: Can set the number of text rows shown at bottom of screen
-Added: Secondary camera view, that shows the shot cam when enabled
-Added: Pressing enter on the quit dialog quits the game
-Added: Same ground textures used across all clients
-Added: Lots more talk/death lines (thanks Maxim Genis)
-Added: Server generates very different landscapes types for the same game (landscapes.xml)
-Added: Landscapes can be loaded from saved files
-Added: Landscape types can be turned on and off from game settings.
-Added: Faster sprite depth sorting
-Added: Moving waves around the island shores
-Added: Trees (+ tree LOD)
-Added: Display options are stored in users home directory (if available)
-Added: Server and custom game settings are stored in users home directory (if available)
-Added: Logs are stored in users home directory (if available)
-Added: Server can be run in console (non-gui) mode
-Added: Client shows which players the game is waiting on
-Added: Stats and servers can tell what os clients and servers are on
-Added: Ability to adjust server options on the fly, so the next match will have the new options
-Added: More complex but more customizable accessories format (accessories.xml)
-Added: Computers talk when attacking
-Added: Say command added to console.  This allows custom taunts to be bound to keys.
-Added: Different on screen gui (can be skinned)
-Added: New better looking fonts and FreeType2 support
-Added: Rollers 
-Added: Unix directory structure for people that like that sort of thing
-Added: Any error output to stdout is also displayed in a popup window
-Added: A safe settings option is displayed if scorched3d fails to start
-Added: Safe and default options can be loaded from Display dialog
-Added: Laser beam death animation (thanks Cameron Smith)
-Added: More cool tank models (thanks Cameron Smith)
-Added: Customizable arrow over tanks (instead of triangle)
-Added: Progress dialog shown during client init
-Added: More resoultions can be shown for non-fullscreen modes
-Added: Damped the shot camera stop stop it from jumping around
-Added: Action camera does not jump around so much (it stays with the best action)
-Added: Camera and window menu items get tool tips
-Added: Free market economy
-Added: Window and font sizes can be set seperately from screen resolution
-Added: Can choose to revert back to any previous shot setting made in the round
-Added: Aiming dialog so users can aim using the mouse
-Added: Bot type shown at the end of a single player game
-
-Fixed: Sound crash on various on board sound cards
-Fixed: Intel 8xxG graphics card cubemap and compiled vertex array problems
-Fixed: Players gun does not go back to original position if turn missed
-Fixed: Files installed with correct permissions on Unix
-Fixed: Radeon 9x00 series card problems under Linux and Windows
-Fixed: Can quit game during player choice (single player)
-Fixed: Linux server exiting due to "broken pipe"
-Fixed: SG characters being printed during init stages
-Fixed: Client does not start new game until all explosions have finished
-Fixed: accessories.xml will only allow recognised tags for weapon types
-Fixed: Menu items could only be clicked in left hand side
-Fixed: Shot cam goes back to player even when not their turn
-Fixed: Problem with characters used during talk
-Fixed: New algorithm for bilboard culling (current one causes flickers)
-Fixed: Include path for some machines (thanks C. Thomas)
-Fixed: Coms wont pause during send from client when already sending/receiving
-Fixed: Screen mode is restored when quit is chosen from console
-Fixed: Random ordering mode only worked for non-buy rounds
-Fixed: Camera shake lasting far too long
+Fixed: Failing to load display.xml because of user name containing invalid chars
 
 -- Bugs in current development release
 Dvorak keyboard support is broken
@@ -77,6 +11,7 @@ Shot cam does not get LOD correctly
 Make AIs better
 Single player saving
 Riot Blast (perhaps)
+Scrolling around at edge of landscape
 
 -- Server Stuff
 Chat filter (swear words)

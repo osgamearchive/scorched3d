@@ -42,6 +42,7 @@ public:
 		bool &skipRest);
 
 	virtual void clear() { panel_.clear(); }
+	virtual bool initFromXML(XMLNode *node);
 
 	GLWidget *addWidget(GLWVisibleWidget *widget) { return panel_.addWidget(widget); }
 	std::list<GLWidget *> &getWidgets() { return panel_.getWidgets(); }

@@ -30,9 +30,7 @@ public:
 	GLWWindowSkin();
 	virtual ~GLWWindowSkin();
 
-	bool loadWindow(XMLNode *node);
-
-	virtual void draw();
+	virtual bool initFromXML(XMLNode *node);
 
 	const char *getStates() { return states_.c_str(); }
 	const char *getKey() { return key_.c_str(); }
@@ -42,7 +40,6 @@ protected:
 	std::string states_;
 	std::string key_;
 	bool visible_;
-	bool init_;
 
 };
 

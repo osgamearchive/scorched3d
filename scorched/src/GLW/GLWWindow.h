@@ -35,7 +35,8 @@ public:
 		eSmallTitle = 2,
 		eTransparent = 4,
 		eResizeable = 8,
-		eCircle = 16
+		eCircle = 16,
+		eNoDraw = 32
 	};
 
 	GLWWindow(const char *name = "None", 
@@ -48,6 +49,7 @@ public:
 		const char *description);
 	virtual ~GLWWindow();
 
+	virtual bool initFromXML(XMLNode *node);
 	virtual void windowDisplay();
 	virtual void windowHide();
 	virtual void windowInit(const unsigned state);
@@ -79,6 +81,7 @@ protected:
 	bool showTitle_;
 	bool needCentered_;
 	bool disabled_;
+	bool initPosition_;
 	unsigned int windowState_;
 	float maxWindowSize_;
 	std::string name_;
