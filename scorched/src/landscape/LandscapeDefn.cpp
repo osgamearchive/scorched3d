@@ -34,6 +34,7 @@ static LandscapeDefnType *fetchTankStartDefnType(const char *type)
 static LandscapeDefnType *fetchHeightMapDefnType(const char *type)
 {
 	if (0 == strcmp(type, "generate")) return new LandscapeDefnHeightMapGenerate;
+	if (0 == strcmp(type, "file")) return new LandscapeDefnHeightMapFile;
 	dialogMessage("LandscapeDefnType", "Unknown heightmap type %s", type);
 	return 0;
 }
@@ -70,6 +71,24 @@ bool LandscapeDefnStartHeight::readXML(XMLNode *node)
 		startcloseness)) return false;
 	if (!parseMinMax(node, "height", 
 		heightmin, heightmax)) return false;
+	return node->failChildren();
+}
+
+bool LandscapeDefnHeightMapFile::writeMessage(NetBuffer &buffer)
+{
+	buffer.addToBuffer(file);
+	return true;
+}
+
+bool LandscapeDefnHeightMapFile::readMessage(NetBufferReader &reader)
+{
+	if (!reader.getFromBuffer(file)) return false;
+	return true;
+}
+
+bool LandscapeDefnHeightMapFile::readXML(XMLNode *node)
+{
+	if (!node->getNamedChild("file", file)) return false;
 	return node->failChildren();
 }
 

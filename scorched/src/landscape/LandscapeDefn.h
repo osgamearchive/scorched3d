@@ -45,6 +45,16 @@ public:
 	virtual bool readMessage(NetBufferReader &reader);
 };
 
+class LandscapeDefnHeightMapFile : public LandscapeDefnType
+{
+public:
+	std::string file;
+
+	virtual bool writeMessage(NetBuffer &buffer);
+	virtual bool readMessage(NetBufferReader &reader);
+	virtual bool readXML(XMLNode *node);
+};
+
 class LandscapeDefnHeightMapGenerate : public LandscapeDefnType
 {
 public:

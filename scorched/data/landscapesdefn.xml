@@ -209,5 +209,8 @@
 			</landpeakheight>
 			<landsmoothing>0.04</landsmoothing>
 		</heightmap>
+		<!--<heightmap type="file">
+			<file>data/landscapes/valley-mask.bmp</file>
+		</heightmap>-->
 	</defn>
 </defns>
