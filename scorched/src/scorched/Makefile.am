@@ -221,6 +221,8 @@ scorched3d_SOURCES = \
 	../common/FileList.h \
 	../common/Gamma.cpp \
 	../common/Gamma.h \
+	../common/KeyStateTranslate.h \
+	../common/KeyTranslate.h \
 	../common/Keyboard.cpp \
 	../common/Keyboard.h \
 	../common/KeyboardHistory.h \
@@ -407,12 +409,12 @@ scorched3d_SOURCES = \
 	../landscape/LandscapeObjectsEntryTree.h \
 	../landscape/LandscapeObjectsPlacement.cpp \
 	../landscape/LandscapeObjectsPlacement.h \
-	../landscape/LandscapePoints.h \
 	../landscape/LandscapePoints.cpp \
+	../landscape/LandscapePoints.h \
 	../landscape/LandscapeTex.cpp \
 	../landscape/LandscapeTex.h \
-	../landscape/MapPoints.h \
 	../landscape/MapPoints.cpp \
+	../landscape/MapPoints.h \
 	../landscape/MovementMap.cpp \
 	../landscape/MovementMap.h \
 	../landscape/NapalmMap.cpp \
