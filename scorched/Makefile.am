@@ -22,7 +22,8 @@ WIN_DIST =				\
 		scorched.sln		
 
 UNIX_DIST =				\
-		autogen.sh				
+		autogen.sh		\
+		COMPILING
 
 
 EXTRA_DIST = $(WIN_DIST) $(UNIX_DIST) $(OTH_SUBDIRS) 
