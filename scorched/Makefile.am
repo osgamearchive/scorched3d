@@ -100,7 +100,6 @@ scorcheddataglobalmodsapoc_DATA = data/globalmods/apoc/readme-nexus \
 scorcheddataglobalmodsapocdatadir = ${datadir}/data/globalmods/apoc/data
 scorcheddataglobalmodsapocdata_DATA = data/globalmods/apoc/data/landscapesdefn.xml \
 	data/globalmods/apoc/data/tankais.xml \
-	data/globalmods/apoc/data/singlecustom.xml \
 	data/globalmods/apoc/data/singleeasy.xml \
 	data/globalmods/apoc/data/accessories.xml \
 	data/globalmods/apoc/data/landscapes.xml \
@@ -109,6 +108,7 @@ scorcheddataglobalmodsapocdata_DATA = data/globalmods/apoc/data/landscapesdefn.x
 	data/globalmods/apoc/data/server.xml \
 	data/globalmods/apoc/data/ainames.txt \
 	data/globalmods/apoc/data/singlehard.xml \
+	data/globalmods/apoc/data/singlegames.xml \
 	data/globalmods/apoc/data/singlenormal.xml
 scorcheddataglobalmodsapocdatatexturesdir = ${datadir}/data/globalmods/apoc/data/textures
 scorcheddataglobalmodsapocdatatextures_DATA = 
@@ -169,6 +169,12 @@ scorcheddataglobalmodsapocdatatexturesexplode_DATA = data/globalmods/apoc/data/t
 	data/globalmods/apoc/data/textures/explode/gas00_3.bmp \
 	data/globalmods/apoc/data/textures/explode/cloud00_3.bmp \
 	data/globalmods/apoc/data/textures/explode/light01_1.bmp
+scorcheddataglobalmodsapocdatawindowsdir = ${datadir}/data/globalmods/apoc/data/windows
+scorcheddataglobalmodsapocdatawindows_DATA = data/globalmods/apoc/data/windows/nuke.bmp \
+	data/globalmods/apoc/data/windows/nuke-med.bmp \
+	data/globalmods/apoc/data/windows/scorched.bmp \
+	data/globalmods/apoc/data/windows/nuke-easy.bmp \
+	data/globalmods/apoc/data/windows/nuke-hard.bmp
 scorcheddataglobalmodsapocdatalandscapesdir = ${datadir}/data/globalmods/apoc/data/landscapes
 scorcheddataglobalmodsapocdatalandscapes_DATA = data/globalmods/apoc/data/landscapes/bighill-pic.bmp \
 	data/globalmods/apoc/data/landscapes/pyramids-v2.bmp \
