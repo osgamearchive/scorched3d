@@ -87,7 +87,12 @@ void LandscapeMaps::generateHMap(LandscapeDefinition *hdef,
 			getHMap(), 
 			*generate, generator, offsetGenerator, counter);
 	}
-	else DIALOG_ASSERT(0);
+	else 
+	{
+		dialogExit("LandscapeMaps", 
+			"Error: Unkown generate type %s",
+			hdef->getDefn()->heightmaptype.c_str());
+	}
 
 	// Save this height map for later
 	memcpy(storedMap_, map_.getData(), 

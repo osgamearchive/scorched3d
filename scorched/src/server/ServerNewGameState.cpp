@@ -123,9 +123,8 @@ void ServerNewGameState::enterState(const unsigned state)
 		*ScorchedServer::instance()->getContext().optionsGame);
 	if (!defn)
 	{
-		dialogMessage("ServerNewGameState", 
-			"Failed to find any defined landscapes");
-		DIALOG_ASSERT(0);
+		dialogExit("ServerNewGameState", 
+			"No available landscapes are configured for the server.");
 	}
 	ScorchedServer::instance()->getContext().landscapeMaps->generateHMap(defn);
 
@@ -140,10 +139,9 @@ void ServerNewGameState::enterState(const unsigned state)
 	}
 	else
 	{
-		dialogMessage("ServerNewGameState",
+		dialogExit("ServerNewGameState",
 			"Failed to find tank start type \"%s\"",
 			defn->getDefn()->tankstarttype.c_str());
-		DIALOG_ASSERT(0);
 	}
 
 	// Add pending tanks (all tanks should be pending) into the game

@@ -88,6 +88,17 @@ const char *formatString(const char *file, ...)
 	return result;
 }
 
+void dialogExit(const char *header, const char *file, ...)
+{
+	va_list ap; 
+	va_start(ap, file); 
+	const char *result = formatStringList(file, ap);
+	va_end(ap); 
+
+	dialogMessage(header, result);
+	exit(0);
+}
+
 void setDataFileMod(const char *mod)
 {
 	delete [] dataModFile;
@@ -125,6 +136,19 @@ const char *getDataFile(const char *file, ...)
 	::wxDos2UnixFilename(buffer);
 
 	return buffer;
+}
+
+extern bool checkDataFile(const char *file)
+{
+	const char *fileName = getDataFile(file);
+	if (!::wxFileExists(fileName))
+	{
+		dialogMessage("Scorched3D",
+			"The file \"%s\" does not exist",
+			fileName);
+		return false;
+	}
+	return true;
 }
 
 const char *getDocFile(const char *file, ...)

@@ -183,8 +183,7 @@ void HeightMapModifier::generateTerrain(HeightMap &hmap,
 	// Check if we need to load a new mask
 	if (!defn.mask.empty())
 	{
-		const char *fileName = 
-			getDataFile("data/landscapes/%s",defn.mask.c_str());
+		const char *fileName = getDataFile(defn.mask.c_str());
 		if (!maskMap.loadFromFile(fileName, false))
 		{
 			dialogMessage("Landscape",

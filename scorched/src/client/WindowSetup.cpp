@@ -102,9 +102,9 @@ void WindowSetup::addCommonComponents(unsigned state)
 	{
 		GLWWindowManager::instance()->addWindow(state, 
 			MainMenuDialog::instance(), 0, true);
-		GLWWindowManager::instance()->addWindow(state,
-			GLWSelector::instance(), 0, true);
 	}
+	GLWWindowManager::instance()->addWindow(state,
+		GLWSelector::instance(), 0, true);
 
 	if (OptionsParam::instance()->getConnectedToServer())
 	{

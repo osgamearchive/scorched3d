@@ -281,10 +281,9 @@ void Landscape::generate(ProgressCounter *counter)
 	}
 	else
 	{
-		dialogMessage("Landscape",
+		dialogExit("Landscape",
 			"Failed to find heightmap type %s",
 			tex->texturetype.c_str());
-		DIALOG_ASSERT(0);
 	}
 
 	// Create the main landscape texture
@@ -347,10 +346,9 @@ void Landscape::generate(ProgressCounter *counter)
 	}
 	else
 	{
-		dialogMessage("Landscape",
+		dialogExit("Landscape",
 			"Failed to find border type %s",
 			tex->bordertype.c_str());
-		DIALOG_ASSERT(0);
 	}
 
 	// Add lighting to the landscape texture

@@ -62,6 +62,10 @@ bool LandscapeTexBorderWater::readXML(XMLNode *node)
 	if (!node->getNamedChild("texture", texture)) return false;
 	if (!node->getNamedChild("wavetexture1", wavetexture1)) return false;
 	if (!node->getNamedChild("wavetexture2", wavetexture2)) return false;
+	if (!checkDataFile(reflection.c_str())) return false;
+	if (!checkDataFile(texture.c_str())) return false;
+	if (!checkDataFile(wavetexture1.c_str())) return false;
+	if (!checkDataFile(wavetexture2.c_str())) return false;
 	return node->failChildren();
 }
 
@@ -98,6 +102,13 @@ bool LandscapeTexTextureGenerate::readXML(XMLNode *node)
 	if (!node->getNamedChild("texture2", texture2)) return false;
 	if (!node->getNamedChild("texture3", texture3)) return false;
 	if (!node->getNamedChild("texture4", texture4)) return false;
+	if (!checkDataFile(rockside.c_str())) return false;
+	if (!checkDataFile(shore.c_str())) return false;
+	if (!checkDataFile(texture0.c_str())) return false;
+	if (!checkDataFile(texture1.c_str())) return false;
+	if (!checkDataFile(texture2.c_str())) return false;
+	if (!checkDataFile(texture3.c_str())) return false;
+	if (!checkDataFile(texture4.c_str())) return false;
 	return node->failChildren();
 }
 
@@ -166,6 +177,12 @@ bool LandscapeTex::readXML(XMLNode *node)
 	if (!node->getNamedChild("skytimeofday", skytimeofday)) return false;
 	if (!node->getNamedChild("skysunxy", skysunxy)) return false;
 	if (!node->getNamedChild("skysunyz", skysunyz)) return false;
+
+	if (!checkDataFile(detail.c_str())) return false;
+	if (!checkDataFile(magmasmall.c_str())) return false;
+	if (!checkDataFile(scorch.c_str())) return false;
+	if (!checkDataFile(skytexture.c_str())) return false;
+	if (!checkDataFile(skycolormap.c_str())) return false;
 
 	{
 		XMLNode *borderNode;

@@ -127,6 +127,11 @@ bool LandscapeDefnHeightMapGenerate::readXML(XMLNode *node)
 	if (!parseMinMax(node, "landpeakheight", 
 		landpeakheightmin, landpeakheightmax)) return false;
 	if (!node->getNamedChild("landsmoothing", landsmoothing)) return false;
+
+	if (!mask.empty())
+	{
+		if (!checkDataFile(mask.c_str())) return false;
+	}
 	return node->failChildren();
 }
 

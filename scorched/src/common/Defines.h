@@ -39,11 +39,13 @@ extern void dialogAssert(const char *lineText, const int line, const char *file)
 #define DIALOG_ASSERT(x) if(!(x)) dialogAssert(#x, __LINE__, __FILE__);
 
 extern void dialogMessage(const char *header, const char *fmt, ...);
+extern void dialogExit(const char *header, const char *fmt, ...);
 
 extern const char *formatString(const char *format, ...);
 extern const char *formatStringList(const char *format, va_list ap); 
 
 extern void setDataFileMod(const char *mod);
+extern bool checkDataFile(const char *file);
 
 extern const char *getDataFile(const char *file, ...);
 extern const char *getDocFile(const char *file, ...);
