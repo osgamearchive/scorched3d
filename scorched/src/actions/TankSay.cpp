@@ -48,7 +48,7 @@ void TankSay::init()
 		context_->tankContainer.getTankById(playerId_);
 	if (tank)
 	{
-		if (!OptionsParam::instance()->getOnServer()) 
+		if (!context_->serverMode) 
 		{
 			// put a speach bubble over the talking tank
 			TalkRenderer *talk = new TalkRenderer(
@@ -56,7 +56,11 @@ void TankSay::init()
 			context_->actionController.addAction(new SpriteAction(talk));
 		}
 
-		Logger::log(tank->getPlayerId(), text_.c_str());
+		if (!context_->serverMode ||
+			OptionsParam::instance()->getDedicatedServer())
+		{
+			Logger::log(tank->getPlayerId(), text_.c_str());
+		}
 	}
 }
 

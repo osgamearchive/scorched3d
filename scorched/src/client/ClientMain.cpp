@@ -18,9 +18,32 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+#include <server/ServerMain.h>
 #include <client/ClientDialog.h>
 #include <client/MainCamera.h>
 #include <client/ScorchedClient.h>
+#include <client/ClientGameStoppedHandler.h>
+#include <client/ClientMessageHandler.h>
+#include <client/ClientTextHandler.h>
+#include <client/ClientStartGameHandler.h>
+#include <client/ClientScoreHandler.h>
+#include <client/ClientAddPlayerHandler.h>
+#include <client/ClientNewGameHandler.h>
+#include <client/ClientBuyAccessoryHandler.h>
+#include <client/ClientConnectionAcceptHandler.h>
+#include <client/ClientRmPlayerHandler.h>
+#include <client/ClientActionsHandler.h>
+#include <client/ClientDefenseHandler.h>
+#include <client/ClientState.h>
+#include <client/WindowSetup.h>
+#include <server/ScorchedServer.h>
+#include <GLEXT/GLConsoleFileReader.h>
+#include <tankai/TankAIStore.h>
+#include <landscape/HeightMapCollision.h>
+#include <tankgraph/TankModelStore.h>
+#include <engine/ScorchedCollisionHandler.h>
+#include <coms/NetServer.h>
+#include <coms/NetLoopBack.h>
 #include <common/OptionsDisplay.h>
 #include <common/ARGParser.h>
 #include <common/Keyboard.h>
@@ -33,10 +56,79 @@
 #include <common/Sound.h>
 #include <SDL/SDL.h>
 
+void startClient()
+{
+	ScorchedClient::instance();
+
+	bool useServer = (OptionsParam::instance()->getConnectedToServer());
+	ClientState::setupGameState(useServer);
+	if (useServer)
+	{
+		ScorchedClient::instance()->getContext().netInterface = 
+			new NetServer(new NetServerScorchedProtocol());
+	}
+	else
+	{
+		NetLoopBack *serverLoopBack = new NetLoopBack(NetLoopBack::ServerLoopBackID);
+		ScorchedServer::instance()->getContext().netInterface = serverLoopBack;
+		NetLoopBack *clientLoopBack = new NetLoopBack(NetLoopBack::ClientLoopBackID);
+		ScorchedClient::instance()->getContext().netInterface = clientLoopBack;
+		serverLoopBack->setLoopBack(clientLoopBack);
+		clientLoopBack->setLoopBack(serverLoopBack);
+	}
+
+	// Setup the coms handlers
+	ScorchedClient::instance()->getNetInterface().setMessageHandler(
+		&ScorchedClient::instance()->getComsMessageHandler());
+	ScorchedClient::instance()->getComsMessageHandler().setConnectionHandler(
+		ClientMessageHandler::instance());
+	ClientTextHandler::instance();
+	ClientConnectionAcceptHandler::instance();
+	ClientAddPlayerHandler::instance();
+	ClientNewGameHandler::instance();
+	ClientRmPlayerHandler::instance();
+	ClientGameStoppedHandler::instance();
+	ClientStartGameHandler::instance();
+	ClientDefenseHandler::instance();
+	ClientActionsHandler::instance();
+	ClientBuyAccessoryHandler::instance();
+	ClientScoreHandler::instance();
+
+	HeightMapCollision *hmcol = 
+		new HeightMapCollision(&ScorchedClient::instance()->getContext());
+	ScorchedClient::instance()->getActionController().getPhysics().setCollisionHandler(
+		new ScorchedCollisionHandler(&ScorchedClient::instance()->getContext()));
+
+	if (!TankModelStore::instance()->loadTankMeshes())
+	{
+		dialogMessage("Scorched 3D", "Failed to load all tank models");		
+		exit(1);
+	}
+	TankAIStore::instance();
+
+	WindowSetup::setup();
+
+	std::string errorString;
+	if (!GLConsoleFileReader::loadFileIntoConsole(PKGDIR "data/autoexec.xml", errorString))
+	{
+		dialogMessage("Failed to parse data/autoexec.xml", errorString.c_str());
+		exit(1);
+	}
+}
+
 void clientMain()
 {
-	// Try to create the main scorched3d game window
+	srand((unsigned) time(NULL));
+
 	if (!createScorchedWindow()) return;
+
+	startClient();
+	if (!OptionsParam::instance()->getConnectedToServer())
+	{
+		startServer(true);
+	}
+
+	// Try to create the main scorched3d game window
 	OptionsDisplay::instance()->addToConsole();
 
 	// Enter the SDL main loop to process SDL events
@@ -85,6 +177,11 @@ void clientMain()
 		if (!ScorchedClient::instance()->getMainLoop().mainLoop()) break;
 		if ((!paused) && (idle) ) ScorchedClient::instance()->getMainLoop().draw();
 		if (paused) SDL_Delay(100);  // Otherwise when not drawing graphics its an infinite loop
+
+		if (!OptionsParam::instance()->getConnectedToServer())
+		{
+			serverLoop();
+		}
 
 		Logger::processLogEntries();
 		if (ScorchedClient::instance()->getContext().netInterface)

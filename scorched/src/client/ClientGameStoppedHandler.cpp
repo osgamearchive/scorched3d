@@ -23,7 +23,6 @@
 #include <client/ClientState.h>
 #include <client/ScorchedClient.h>
 #include <coms/ComsGameStoppedMessage.h>
-#include <tank/TankContainer.h>
 
 ClientGameStoppedHandler *ClientGameStoppedHandler::instance_ = 0;
 

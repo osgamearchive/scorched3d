@@ -70,24 +70,28 @@ void TankDead::simulate(float frameTime, bool &remove)
 			// Print the banner on who killed who
 			if (killedTank && firedTank)
 			{
-				if (killedPlayerId_ == firedPlayerId_)
+				if (!context_->serverMode ||
+					OptionsParam::instance()->getDedicatedServer())
 				{
-					Logger::log(firedPlayerId_,
-						"\"%s\" killed self with a \"%s\"",
-						killedTank->getName(),
-						weapon_->getName());
-				}
-				else 
-				{
-					Logger::log(firedPlayerId_,
-							"\"%s\" killed \"%s\" with a \"%s\"",
-							firedTank->getName(),
+					if (killedPlayerId_ == firedPlayerId_)
+					{
+						Logger::log(firedPlayerId_,
+							"\"%s\" killed self with a \"%s\"",
 							killedTank->getName(),
 							weapon_->getName());
+					}
+					else 
+					{
+						Logger::log(firedPlayerId_,
+								"\"%s\" killed \"%s\" with a \"%s\"",
+								firedTank->getName(),
+								killedTank->getName(),
+								weapon_->getName());
+					}
 				}
 			}
 
-			if (!OptionsParam::instance()->getOnServer()) 
+			if (!context_->serverMode) 
 			{
 				setActionRender(
 					new TankDeadRenderer(

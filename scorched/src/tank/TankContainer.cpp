@@ -20,7 +20,7 @@
 
 #include <tank/TankContainer.h>
 
-TankContainer::TankContainer() : playerId_(0)
+TankContainer::TankContainer() : playerId_(0), destinationId_(0)
 {
 
 }
@@ -106,7 +106,7 @@ Tank *TankContainer::getCurrentTank()
 	return 0;
 }
 
-void TankContainer::nextRound()
+void TankContainer::nextShot()
 {
 	// Tell each tank a new round is starting
 	std::map<unsigned int, Tank *>::iterator mainitor;
@@ -115,7 +115,7 @@ void TankContainer::nextRound()
 		 mainitor++)
 	{
 		Tank *current = (*mainitor).second;
-		current->nextRound();
+		current->nextShot();
 	}
 }
 

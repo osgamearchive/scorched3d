@@ -18,7 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <common/WindowManager.h>
 #include <common/Keyboard.h>
 #include <client/ClientState.h>
@@ -30,7 +29,7 @@
 #include <dialogs/PlayersDialog.h>
 #include <dialogs/PlanViewDialog.h>
 #include <dialogs/QuitDialog.h>
-#include <dialogs/KillDialog.h>
+#include <dialogs/LogDialog.h>
 #include <dialogs/ConnectDialog.h>
 #include <dialogs/BackdropDialog.h>
 #include <dialogs/HelpDialog.h>
@@ -40,19 +39,11 @@
 #include <dialogs/ScoreDialog.h>
 #include <dialogs/KibitzingDialog.h>
 
-void WindowSetup::addCommonComponents(unsigned state, bool server)
+void WindowSetup::addCommonComponents(unsigned state)
 {
 	KEYBOARDKEY("SHOW_QUIT_DIALOG", quitKey);
-	if (server || state == ClientState::StateScore)
-	{
-		WindowManager::instance()->addWindow(state, 
- 			QuitDialog::instance(), quitKey, false);
-	}
-	else
-	{
-		WindowManager::instance()->addWindow(state, 
-			KillDialog::instance(), quitKey, false);
-	}
+	WindowManager::instance()->addWindow(state, 
+ 		QuitDialog::instance(), quitKey, false);
 
 	KEYBOARDKEY("SHOW_HELP_DIALOG", helpKey);
 	WindowManager::instance()->addWindow(state, 
@@ -63,12 +54,10 @@ void WindowSetup::addCommonComponents(unsigned state, bool server)
 		WindowManager::instance()->addWindow(state, 
 			ScoreDialog::instance(), scoreKey, false);
 	}
-	if (server)
-	{
-		KEYBOARDKEY("SHOW_TALK_DIALOG", talkKey);
-		WindowManager::instance()->addWindow(state, 
-			TalkDialog::instance(), talkKey, false);
-	}
+	KEYBOARDKEY("SHOW_TALK_DIALOG", talkKey);
+	WindowManager::instance()->addWindow(state, 
+		TalkDialog::instance(), talkKey, false);
+
 	if (state != ClientState::StateScore)
 	{
 		WindowManager::instance()->addWindow(state, 
@@ -76,7 +65,7 @@ void WindowSetup::addCommonComponents(unsigned state, bool server)
 	}
 }
 
-void WindowSetup::setup(bool server)
+void WindowSetup::setup()
 {
 	KEYBOARDKEY("SHOW_TALK_DIALOG", talkKey);
 	KEYBOARDKEY("SHOW_QUIT_DIALOG", quitKey);
@@ -87,65 +76,67 @@ void WindowSetup::setup(bool server)
 	
 	GLWWindow *planView = new PlanViewDialog;
 
-	// StatePlayerOptions
-	WindowManager::instance()->addWindow(ClientState::StatePlayerOptions, 
+	// StateSinglePlayer
+	WindowManager::instance()->addWindow(ClientState::StateSinglePlayer, 
 		BackdropDialog::instance(), 0, true);
-	WindowManager::instance()->addWindow(ClientState::StatePlayerOptions, 
-		PlayersDialog::instance(), 0, true);
-	WindowManager::instance()->addWindow(ClientState::StatePlayerOptions, 
+	WindowManager::instance()->addWindow(ClientState::StateSinglePlayer, 
+		PlayersDialog::players_instance(), 0, true);
+	WindowManager::instance()->addWindow(ClientState::StateSinglePlayer, 
 		QuitDialog::instance(), quitKey, false);
 
-	// StateClientConnectPlayer
-	WindowManager::instance()->addWindow(ClientState::StateClientConnectPlayer, 
+	// StateConnectPlayer
+	WindowManager::instance()->addWindow(ClientState::StateConnectPlayer, 
 		BackdropDialog::instance(), 0, true);
-	WindowManager::instance()->addWindow(ClientState::StateClientConnectPlayer, 
+	WindowManager::instance()->addWindow(ClientState::StateConnectPlayer, 
 		QuitDialog::instance(), quitKey, false);
-	WindowManager::instance()->addWindow(ClientState::StateClientConnectPlayer, 
+	WindowManager::instance()->addWindow(ClientState::StateConnectPlayer, 
 		PlayerDialog::instance(), 0, true);
 
-	// StateClientConnect
-	WindowManager::instance()->addWindow(ClientState::StateClientConnect, 
+	// StateConnect
+	WindowManager::instance()->addWindow(ClientState::StateConnect, 
 		TalkDialog::instance(), talkKey, false);
-	WindowManager::instance()->addWindow(ClientState::StateClientConnect, 
+	WindowManager::instance()->addWindow(ClientState::StateConnect, 
 		BackdropDialog::instance(), 0, true);
-	WindowManager::instance()->addWindow(ClientState::StateClientConnect, 
+	WindowManager::instance()->addWindow(ClientState::StateConnect, 
 		QuitDialog::instance(), quitKey, false);
-	WindowManager::instance()->addWindow(ClientState::StateClientConnect, 
+	WindowManager::instance()->addWindow(ClientState::StateConnect, 
+		LogDialog::instance(), 0, true);
+	WindowManager::instance()->addWindow(ClientState::StateConnect, 
 		ConnectDialog::instance(), 0, true);
 
 	// StateNextRound
-	addCommonComponents(ClientState::StateNextRound, server);
+	addCommonComponents(ClientState::StateReady);
 
 	// StateBuyWeapons
-	addCommonComponents(ClientState::StateBuyWeapons, server);
+	addCommonComponents(ClientState::StateBuyWeapons);
 	WindowManager::instance()->addWindow(ClientState::StateBuyWeapons, 
-		new BuyAccessoryDialog, 0, false);
+		new BuyAccessoryDialog, 0, true);
 
 	// StateAutoDefense
-	addCommonComponents(ClientState::StateAutoDefense, server);
+	addCommonComponents(ClientState::StateAutoDefense);
 	WindowManager::instance()->addWindow(ClientState::StateAutoDefense, 
 		new AutoDefenseDialog, 0, false);
 
 	// StateMain
-	WindowManager::instance()->addWindow(ClientState::StateMain, 
+	WindowManager::instance()->addWindow(ClientState::StatePlaying, 
 		planView, planKey, true);
-	WindowManager::instance()->addWindow(ClientState::StateMain, 
+	WindowManager::instance()->addWindow(ClientState::StatePlaying, 
 		WindDialog::instance(), windKey, true);
-	WindowManager::instance()->addWindow(ClientState::StateMain, 
+	WindowManager::instance()->addWindow(ClientState::StatePlaying, 
 		TankDialog::instance(), playerKey, true);
-	WindowManager::instance()->addWindow(ClientState::StateMain, 
+	WindowManager::instance()->addWindow(ClientState::StatePlaying, 
 		new KibitzingDialog, kibitzKey, false);
-	addCommonComponents(ClientState::StateMain, server);
+	addCommonComponents(ClientState::StatePlaying);
 	
 	// StateShot
 	WindowManager::instance()->addWindow(ClientState::StateShot, 
 		planView, planKey, true);
 	WindowManager::instance()->addWindow(ClientState::StateShot, 
 		WindDialog::instance(), windKey, true);
-	addCommonComponents(ClientState::StateShot, server);
+	addCommonComponents(ClientState::StateShot);
 
 	// StateScore
-	addCommonComponents(ClientState::StateScore, server);
+	addCommonComponents(ClientState::StateScore);
 	WindowManager::instance()->addWindow(ClientState::StateScore,
 		ScoreDialog::instance2(), 0, true);
 }

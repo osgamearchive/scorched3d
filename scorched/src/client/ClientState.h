@@ -28,12 +28,12 @@ namespace ClientState
 {
 	enum Stimulus
 	{
-		StimClientConnect = 1,
-		StimPlayerOptions,
-		StimNextRound,
+		StimNextPlayerDialog = 1,
+		StimNewGame,
+		StimReady,
 		StimBuyWeapons,
 		StimAutoDefense,
-		StimMain,
+		StimPlaying,
 		StimDisconnected,
 		StimShot,
 		StimScore
@@ -41,14 +41,14 @@ namespace ClientState
 
 	enum State
 	{
-		StateClientConnectPlayer = 1,
-		StateClientConnect,
-		StatePlayerOptions,
+		StateConnectPlayer = 1,
+		StateConnect,
+		StateSinglePlayer,
 		StateNewGame,
-		StateNextRound,
+		StateReady,
 		StateBuyWeapons,
 		StateAutoDefense,
-		StateMain,
+		StatePlaying,
 		StateShot,
 		StateScore
 	};

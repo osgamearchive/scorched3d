@@ -56,7 +56,7 @@ void ShotProjectileNapalm::collision(Vector &position)
 		addNapalm(x, y);
 	}
 
-	if (!OptionsParam::instance()->getOnServer()) 
+	if (!context_->serverMode) 
 	{
 		if (weapon_->getExplosionSound())
 		{

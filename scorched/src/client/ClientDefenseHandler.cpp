@@ -20,7 +20,7 @@
 
 #include <client/ScorchedClient.h>
 #include <client/ClientDefenseHandler.h>
-#include <tank/TankAILogic.h>
+#include <tankai/TankAILogic.h>
 #include <coms/ComsDefenseMessage.h>
 
 ClientDefenseHandler *ClientDefenseHandler::instance_ = 0;
@@ -55,7 +55,7 @@ bool ClientDefenseHandler::processMessage(unsigned int id,
 
 	// Check tank exists and is alive
 	Tank *tank = ScorchedClient::instance()->getTankContainer().getTankById(message.getPlayerId());
-	if (tank && tank->getState().getState() != TankState::sNormal)
+	if (!tank || tank->getState().getState() != TankState::sNormal)
 	{
 		return true;
 	}

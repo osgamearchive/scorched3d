@@ -18,13 +18,13 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #if !defined(__INCLUDE_ServerNewGameStateh_INCLUDE__)
 #define __INCLUDE_ServerNewGameStateh_INCLUDE__
 
 #include <engine/GameStateI.h>
 
 // Sends out the new game message
+class ScorchedContext;
 class ServerNewGameState : 
 	public GameStateI
 {
@@ -35,6 +35,10 @@ public:
 	virtual void enterState(const unsigned state);
 
 	static void addTanksToGame(const unsigned state);
+
+protected:
+	void calculateStartPosition(ScorchedContext &contex);
+	void flattenArea(ScorchedContext &contex, Vector &pos);
 };
 
 #endif

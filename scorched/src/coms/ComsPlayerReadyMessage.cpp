@@ -21,8 +21,8 @@
 
 #include <coms/ComsPlayerReadyMessage.h>
 
-ComsPlayerReadyMessage::ComsPlayerReadyMessage() :
-	ComsMessage("ComsPlayerReadyMessage")
+ComsPlayerReadyMessage::ComsPlayerReadyMessage(unsigned int playerId) :
+	ComsMessage("ComsPlayerReadyMessage"), playerId_(playerId)
 {
 }
 
@@ -32,10 +32,12 @@ ComsPlayerReadyMessage::~ComsPlayerReadyMessage()
 
 bool ComsPlayerReadyMessage::writeMessage(NetBuffer &buffer)
 {
+	buffer.addToBuffer(playerId_);
 	return true;
 }
 
 bool ComsPlayerReadyMessage::readMessage(NetBufferReader &reader)
 {
+	if (!reader.getFromBuffer(playerId_)) return false;
 	return true;
 }

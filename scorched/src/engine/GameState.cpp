@@ -71,6 +71,7 @@ void GameState::mouseWheel(short z)
 				subItor++)
 			{
 				(*subItor)->mouseWheel(thisState, z, skipRest);
+				if (checkStimulate()) return;
 				if (skipRest) break;
 			}
 		}
@@ -144,6 +145,7 @@ void GameState::mouseMoveCall(const unsigned state, MouseButton button,
 			subItor++)
 		{
 			(*subItor)->mouseDrag(state, button, mx, my, dx, dy, skipRest);
+			if (checkStimulate()) return;
 			if (skipRest) break;
 		}
 	}
@@ -219,6 +221,7 @@ void GameState::mouseUpDown(MouseButton button, bool down, int x, int y)
 				{
 					(*subItor)->mouseUp(thisState, button, x, y, skipRest);
 				}
+				if (checkStimulate()) return;
 				if (skipRest) break;
 			}
 		}
@@ -319,6 +322,7 @@ void GameState::draw()
 				subItor++)
 			{
 				(*subItor)->draw(thisState);
+				if (checkStimulate()) return;
 			}
 		}
 	}
@@ -377,7 +381,8 @@ bool GameState::checkStimulate()
 		else
 		{
 			dialogMessage("Scorched3D", 
-				"Failed to find stimulus %i in state %i", 
+				"%s: Failed to find stimulus %i in state %i", 
+				name_.c_str(),
 				pendingStimulus_, currentState_);
 			exit(1);
 		}

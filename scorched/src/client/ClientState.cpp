@@ -26,8 +26,9 @@
 #include <client/ClientState.h>
 #include <client/ShotTimer.h>
 #include <client/MessageDisplay.h>
-#include <client/ClientNextRoundState.h>
+#include <client/ClientReadyState.h>
 #include <client/ClientShotState.h>
+#include <client/ClientNewGameState.h>
 #include <client/ScorchedClient.h>
 #include <tankgraph/TankRenderer.h>
 #include <tankai/TankAIHumanCtrl.h>
@@ -105,40 +106,52 @@ void ClientState::setupGameState(bool network)
 	GameState &gameState = ScorchedClient::instance()->getGameState();
 	gameState.clear();
 
-	// StatePlayerOptions (Single player only)
-	addWindowManager(gameState, StatePlayerOptions);
-	gameState.addStateLoop(StatePlayerOptions, Main2DCamera::instance(), 
+	// StateSinglePlayer (Single player only, start state)
+	addWindowManager(gameState, StateSinglePlayer);
+	gameState.addStateLoop(StateSinglePlayer, Main2DCamera::instance(), 
 		GLWToolTip::instance());
-	gameState.addStateStimulus(StatePlayerOptions, 
-		StimNextRound, 
-		StateNextRound);
+	gameState.addStateStimulus(StateSinglePlayer, 
+		StimNextPlayerDialog, StateConnect);
 
-	// StateClientConnectPlayer (Multi player only, start state)
-	addWindowManager(gameState, StateClientConnectPlayer);
-	gameState.addStateStimulus(StateClientConnectPlayer, 
-		StimClientConnect, StateClientConnect);
+	// StateConnectPlayer (Multi player only, start state)
+	addWindowManager(gameState, StateConnectPlayer);
+	gameState.addStateLoop(StateConnectPlayer, Main2DCamera::instance(), 
+		GLWToolTip::instance());
+	gameState.addStateStimulus(StateConnectPlayer, 
+		StimNextPlayerDialog, StateConnect);
 
-	// StateClientConnect (Multi player only)
-	addWindowManager(gameState, StateClientConnect);
-	gameState.addStateStimulus(StateClientConnect, 
-		StimNextRound, StateNextRound);
-	gameState.addStateStimulus(StateClientConnect, 
-		StimDisconnected, StateClientConnect);
+	// StateConnect
+	addWindowManager(gameState, StateConnect);
+	gameState.addStateStimulus(StateConnect, 
+		StimDisconnected, StateConnect);
+	gameState.addStateStimulus(StateConnect, 
+		StimNewGame, StateNewGame);
 
-	// StateNextRound
-	addStandardComponents(gameState, StateNextRound, network);
-	gameState.addStateEntry(StateNextRound,
-		ClientNextRoundState::instance());
-	gameState.addStateStimulus(StateNextRound, 
+	// StateNewGame
+	addWindowManager(gameState, StateNewGame);
+	gameState.addStateEntry(StateNewGame,
+		ClientNewGameState::instance());
+	gameState.addStateStimulus(StateNewGame, 
+		StimDisconnected, StateConnect);
+	gameState.addStateStimulus(StateNewGame, 
+		StimReady, StateReady);
+
+	// StateReady
+	addStandardComponents(gameState, StateReady, network);
+	gameState.addStateEntry(StateReady,
+		ClientReadyState::instance());
+	gameState.addStateStimulus(StateReady, 
+		StimDisconnected, StateConnect);
+	gameState.addStateStimulus(StateReady, 
 		StimBuyWeapons, StateBuyWeapons);
-	gameState.addStateStimulus(StateNextRound, 
+	gameState.addStateStimulus(StateReady, 
+		StimPlaying, StatePlaying);
+	gameState.addStateStimulus(StateReady, 
 		StimShot, StateShot);
-	gameState.addStateStimulus(StateNextRound, 
+	gameState.addStateStimulus(StateReady, 
 		StimScore, StateScore);
-	gameState.addStateStimulus(StateNextRound, 
-		StimNextRound, StateNextRound);
-	gameState.addStateStimulus(StateNextRound, 
-		StimDisconnected, StateClientConnect);
+	gameState.addStateStimulus(StateReady, 
+		StimNewGame, StateNewGame);
 
 	// StateBuyWeapons
 	addStandardComponents(gameState, StateBuyWeapons, network);
@@ -147,39 +160,39 @@ void ClientState::setupGameState(bool network)
 	gameState.addStateLoop(StateBuyWeapons,
 		Main2DCamera::instance(), ShotTimer::instance());
 	gameState.addStateStimulus(StateBuyWeapons, 
+		StimDisconnected, StateConnect);
+	gameState.addStateStimulus(StateBuyWeapons, 
 		StimAutoDefense, StateAutoDefense);
 	gameState.addStateStimulus(StateBuyWeapons, 
 		StimShot, StateShot);
 	gameState.addStateStimulus(StateBuyWeapons, 
 		ShotTimer::instance(), StateShot);
-	gameState.addStateStimulus(StateBuyWeapons, 
-		StimDisconnected, StateClientConnect);
 
 	// StateAutoDefense
 	addStandardComponents(gameState, StateAutoDefense, network);
 	gameState.addStateLoop(StateAutoDefense,
 		Main2DCamera::instance(), ShotTimer::instance());
 	gameState.addStateStimulus(StateAutoDefense, 
-		StimMain, StateMain);
+		StimDisconnected, StateConnect);
 	gameState.addStateStimulus(StateAutoDefense, 
 		StimShot, StateShot);
 	gameState.addStateStimulus(StateAutoDefense, 
 		ShotTimer::instance(), StateShot);
-	gameState.addStateStimulus(StateAutoDefense, 
-		StimDisconnected, StateClientConnect);
 
-	// StateMain
-	addStandardComponents(gameState, StateMain, network);
-	gameState.addStateKeyEntry(StateMain, 
+	// StatePlaying
+	addStandardComponents(gameState, StatePlaying, network);
+	gameState.addStateEntry(StatePlaying,
+		ShotTimer::instance());
+	gameState.addStateKeyEntry(StatePlaying, 
 		TankAIHumanCtrl::instance());
-	gameState.addStateLoop(StateMain,
+	gameState.addStateLoop(StatePlaying,
 		Main2DCamera::instance(), ShotTimer::instance());
-	gameState.addStateStimulus(StateMain, 
+	gameState.addStateStimulus(StatePlaying, 
+		StimDisconnected, StateConnect);
+	gameState.addStateStimulus(StatePlaying, 
 		StimShot, StateShot);
-	gameState.addStateStimulus(StateMain, 
+	gameState.addStateStimulus(StatePlaying, 
 		ShotTimer::instance(), StateShot);
-	gameState.addStateStimulus(StateMain, 
-		StimDisconnected, StateClientConnect);
 
 	// StateShot
 	addStandardComponents(gameState, StateShot, network);
@@ -188,19 +201,21 @@ void ClientState::setupGameState(bool network)
 	gameState.addStateEntry(StateShot,
 		ClientShotState::instance());
 	gameState.addStateStimulus(StateShot, 
+		StimDisconnected, StateConnect);
+	gameState.addStateStimulus(StateShot, 
 		StimShot, StateShot);
 	gameState.addStateStimulus(StateShot, 
-		ClientShotState::instance(), StateNextRound);
+		ClientShotState::instance(), StateReady);
 	gameState.addStateStimulus(StateShot, 
-		StimDisconnected, StateClientConnect);
+		StimBuyWeapons, StateBuyWeapons);
 
 	// StateScore
 	addStandardComponents(gameState, StateScore, network);
 	gameState.addStateStimulus(StateScore, 
-		StimDisconnected, StateClientConnect);
+		StimDisconnected, StateConnect);
 	gameState.addStateStimulus(StateScore, 
-		StimNextRound, StateNextRound);
+		StimNewGame, StateNewGame);
 
-	if (network) gameState.setState(StateClientConnectPlayer);
-	else gameState.setState(StatePlayerOptions);
+	if (network) gameState.setState(StateConnectPlayer);
+	else gameState.setState(StateSinglePlayer);
 }

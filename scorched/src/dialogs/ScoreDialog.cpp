@@ -71,7 +71,6 @@ void ScoreDialog::windowDisplay()
 void ScoreDialog::calculateScores()
 {
 	lastScoreValue_ = lastWinsValue_ = 0;
-	std::list<Tank *> sortedTanks;
 	std::map<unsigned int, Tank *> &tanks = 
 		ScorchedClient::instance()->getTankContainer().getPlayingTanks();
 	std::map<unsigned int, Tank *>::iterator itor;
@@ -82,18 +81,11 @@ void ScoreDialog::calculateScores()
 		Tank *tank = (*itor).second;
 		lastScoreValue_ += tank->getScore().getMoney();
 		lastWinsValue_ += tank->getScore().getWins();
-		sortedTanks.push_back(tank);
 	}
 
-	TankSort::getSortedTanks(sortedTanks);
 	sortedTanks_.clear();
-	std::list<Tank *>::iterator resultitor;
-	for (resultitor = sortedTanks.begin();
-		resultitor != sortedTanks.end();
-		resultitor++)
-	{
-		sortedTanks_.push_back((*resultitor)->getPlayerId());
-	}
+	TankSort::getSortedTanksIds(
+		ScorchedClient::instance()->getTankContainer(), sortedTanks_);
 }
 
 void ScoreDialog::windowInit(const unsigned state)
@@ -174,22 +166,18 @@ void ScoreDialog::draw()
 			bool currentPlayer = false;
 	        
 			// Print a highlight behind the current clients player
-			if (server)
+			if (current->getTankAI())
 			{
-				if (current->getPlayerId() == 
-					ScorchedClient::instance()->getTankContainer().getCurrentPlayerId())
-				{
-					GLState state(GLState::BLEND_ON); 
-					glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+				GLState state(GLState::BLEND_ON); 
+				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-					glColor4f(0.0f, 0.0f, 0.0f, 0.4f);
-					glBegin(GL_QUADS);
-						glVertex2f(x_ + w_ - 3.0f, textY + lineSpacer - 0.0f);
-						glVertex2f(x_ + 3.0f, textY + lineSpacer - 0.0f);
-						glVertex2f(x_ + 3.0f, textY + 2.0f);
-						glVertex2f(x_ + w_ - 3.0f, textY + 2.0f);
-					glEnd();
-				}
+				glColor4f(0.0f, 0.0f, 0.0f, 0.4f);
+				glBegin(GL_QUADS);
+					glVertex2f(x_ + w_ - 3.0f, textY + lineSpacer - 0.0f);
+					glVertex2f(x_ + 3.0f, textY + lineSpacer - 0.0f);
+					glVertex2f(x_ + 3.0f, textY + 2.0f);
+					glVertex2f(x_ + w_ - 3.0f, textY + 2.0f);
+				glEnd();
 			}
 
 			// Form the name

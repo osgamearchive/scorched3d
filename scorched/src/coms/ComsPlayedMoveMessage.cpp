@@ -21,11 +21,11 @@
 
 #include <coms/ComsPlayedMoveMessage.h>
 
-ComsPlayedMoveMessage::ComsPlayedMoveMessage(MoveType type) :
+ComsPlayedMoveMessage::ComsPlayedMoveMessage(unsigned int playerId, MoveType type) :
 	ComsMessage("ComsPlayedMoveMessage"),
 	moveType_(type),
 	weaponName_(""),
-	rotationXY_(0.0f), rotationYZ_(0.0f), power_(0.0f)
+	rotationXY_(0.0f), rotationYZ_(0.0f), power_(0.0f), playerId_(playerId)
 {
 }
 
@@ -52,6 +52,7 @@ void ComsPlayedMoveMessage::setShot(const char *weaponName,
 
 bool ComsPlayedMoveMessage::writeMessage(NetBuffer &buffer)
 {
+	buffer.addToBuffer(playerId_);
 	buffer.addToBuffer((int) moveType_);
 	if (moveType_ == eMove)
 	{
@@ -70,6 +71,7 @@ bool ComsPlayedMoveMessage::writeMessage(NetBuffer &buffer)
 
 bool ComsPlayedMoveMessage::readMessage(NetBufferReader &reader)
 {
+	if (!reader.getFromBuffer(playerId_)) return false;
 	int mt;
 	if (!reader.getFromBuffer(mt)) return false;
 	moveType_ = (MoveType) mt;

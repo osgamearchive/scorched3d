@@ -63,7 +63,7 @@ bool parseCommandLine(int argc, char *argv[])
 
 	// Check options
 	if (OptionsParam::instance()->getConnectedToServer() &&
-		OptionsParam::instance()->getOnServer())
+		OptionsParam::instance()->getDedicatedServer())
 	{
 		dialogMessage(
 			scorched3dAppName,

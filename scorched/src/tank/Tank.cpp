@@ -24,12 +24,14 @@
 #include <tank/TankColorGenerator.h>
 
 Tank::Tank(ScorchedContext &context, 
-		   unsigned int playerId, const char *name, 
+		   unsigned int playerId, 
+		   unsigned int destinationId,
+		   const char *name, 
 		   Vector &color, TankModelId &modelId)
-	: playerId_(playerId),
+	: playerId_(playerId), destinationId_(destinationId),
 	  color_(color), 
 	  physics_(context, playerId), model_(modelId), tankAI_(0),
-	  score_(context)
+	  score_(context), state_(context)
 {
 	setTankName(name);
 }
@@ -55,11 +57,11 @@ void Tank::newGame()
 	if (tankAI_) tankAI_->newGame();
 }
 
-void Tank::nextRound()
+void Tank::nextShot()
 {
-	physics_.nextRound();
-	state_.nextRound();
-	if (tankAI_) tankAI_->nextRound();
+	physics_.nextShot();
+	state_.nextShot();
+	if (tankAI_) tankAI_->nextShot();
 }
 
 void Tank::setUnqiueId(const char *id)

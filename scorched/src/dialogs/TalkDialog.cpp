@@ -18,9 +18,9 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <dialogs/TalkDialog.h>
 #include <common/WindowManager.h>
+#include <client/ScorchedClient.h>
 #include <coms/ComsTextMessage.h>
 #include <coms/ComsMessageSender.h>
 
@@ -85,7 +85,8 @@ void TalkDialog::buttonDown(unsigned int id)
 	{
 		if (!talkText_->getText().empty())
 		{
-			ComsTextMessage message(talkText_->getText().c_str());
+			ComsTextMessage message(talkText_->getText().c_str(),
+				ScorchedClient::instance()->getTankContainer().getCurrentPlayerId());
 			ComsMessageSender::sendToServer(message);
 		}
 

@@ -18,12 +18,11 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <coms/NetMessage.h>
 
 NetMessage::NetMessage(MessageType type,
-					   unsigned int playerId) :
-	type_(type), playerId_(playerId)
+					   unsigned int destinationId) :
+	type_(type), destinationId_(destinationId)
 {
 
 }

@@ -61,3 +61,27 @@ void TankSort::getSortedTanks(std::list<Tank *> &list)
 
 	list.swap(newList);
 }
+
+void TankSort::getSortedTanksIds(TankContainer &container, std::list<unsigned int> &list)
+{
+	std::list<Tank *> sortedTanks;
+	std::map<unsigned int, Tank *> &tanks = 
+		container.getPlayingTanks();
+	std::map<unsigned int, Tank *>::iterator itor;
+	for (itor = tanks.begin();
+		itor != tanks.end();
+		itor++)
+	{
+		Tank *tank = (*itor).second;
+		sortedTanks.push_back(tank);
+	}
+
+	getSortedTanks(sortedTanks);
+	std::list<Tank *>::iterator resultitor;
+	for (resultitor = sortedTanks.begin();
+		resultitor != sortedTanks.end();
+		resultitor++)
+	{
+		list.push_back((*resultitor)->getPlayerId());
+	}
+}

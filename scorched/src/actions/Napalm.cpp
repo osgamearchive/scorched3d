@@ -48,7 +48,7 @@ Napalm::~Napalm()
 
 void Napalm::init()
 {
-	if (!OptionsParam::instance()->getOnServer()) 
+	if (!context_->serverMode) 
 	{
 		setActionRender(new NapalmRenderer);
 	}
@@ -156,7 +156,7 @@ void Napalm::simulateAddStep()
 		{
 			// This is the first time we have hit the water
 			hitWater_ = true;
-			if (!OptionsParam::instance()->getOnServer()) 
+			if (!context_->serverMode) 
 			{
 				// TODO: Play hit water sound
 			}
@@ -218,7 +218,7 @@ void Napalm::simulateAddStep()
 void Napalm::simulateDamage()
 {
 	float damagePerPointSecond = weapon_->getHurtPerSecond();
-	const float EffectRadius = weapon_->getEffectRadius();
+	const int EffectRadius = weapon_->getEffectRadius();
 
 	// Store how much each tank is damaged
 	// Keep in a map so we don't need to create multiple

@@ -21,15 +21,16 @@
 #include <dialogs/AutoDefenseDialog.h>
 #include <GLW/GLWFlag.h>
 #include <GLW/GLWTextButton.h>
+#include <tankai/TankAIHuman.h>
 #include <common/WindowManager.h>
-#include <common/OptionsParam.h>
 #include <common/OptionsTransient.h>
+#include <coms/ComsPlayedMoveMessage.h>
+#include <coms/ComsMessageSender.h>
 #include <client/ClientState.h>
 #include <client/ScorchedClient.h>
 
 AutoDefenseDialog::AutoDefenseDialog() :
-	GLWWindow("Auto Defense", 10.0f, 10.0f, 440.0f, 280.0f, 0),
-	currentPlayer_(-1), actualPlayer_(0)
+	GLWWindow("Auto Defense", 10.0f, 10.0f, 440.0f, 280.0f, 0)
 {
 	needCentered_ = true;
 	okId_ = addWidget(
@@ -46,22 +47,7 @@ AutoDefenseDialog::~AutoDefenseDialog()
 
 void AutoDefenseDialog::windowInit(const unsigned state)
 {
-	currentPlayer_ = -1;
-	if (ScorchedClient::instance()->getOptionsTransient().getCurrentGameNo() != 1)
-	{
-		finished();
-	}
-	else
-	{
-		nextPlayer();
-	}
-}
-
-void AutoDefenseDialog::nextPlayer()
-{
-	currentPlayer_++;
-	Tank *current = ScorchedClient::instance()->getTankContainer().getTankByPos(
-		(unsigned int) currentPlayer_);
+	Tank *current = ScorchedClient::instance()->getTankContainer().getCurrentTank();
 	if (!current) 
 	{
 		finished();
@@ -71,12 +57,11 @@ void AutoDefenseDialog::nextPlayer()
 		if (current->getTankAI() && current->getTankAI()->isHuman() &&
 			current->getAccessories().getAutoDefense().haveDefense())
 		{
-			actualPlayer_ = current->getPlayerId();
 			displayCurrent();
 		}
 		else
 		{
-			nextPlayer();
+			finished();
 		}
 	}
 }
@@ -85,21 +70,14 @@ void AutoDefenseDialog::buttonDown(unsigned int id)
 {
 	if (id == okId_)
 	{
-		if (OptionsParam::instance()->getConnectedToServer())
-		{
-			finished();
-		}
-		else
-		{
-			nextPlayer();
-		}
+		finished();
 	}
 }
 
 void AutoDefenseDialog::displayCurrent()
 {
 	WindowManager::instance()->showWindow(getId());
-	Tank *tank = ScorchedClient::instance()->getTankContainer().getTankById(actualPlayer_);
+	Tank *tank = ScorchedClient::instance()->getTankContainer().getCurrentTank();
 	if (!tank) return;
 
 	topPanel_->clear();
@@ -164,23 +142,23 @@ void AutoDefenseDialog::select(unsigned int id,
 							   const int pos, 
 							   const char *value)
 {
-	Tank *tank = ScorchedClient::instance()->getTankContainer().getTankById(actualPlayer_);
+	Tank *tank = ScorchedClient::instance()->getTankContainer().getCurrentTank();
 	if (!tank) return;
 
 	if (id == paraId_)
 	{
-		tank->getTankAI()->parachutesUpDown(pos != 0);
+		((TankAIHuman *) tank->getTankAI())->parachutesUpDown(pos != 0);
 		displayCurrent();
 	}
 	else if (id == shieldId_)
 	{
 		if (pos == 0)
 		{
-			tank->getTankAI()->shieldsUpDown(0);
+			((TankAIHuman *) tank->getTankAI())->shieldsUpDown(0);
 		}
 		else
 		{
-			tank->getTankAI()->shieldsUpDown(value);
+			((TankAIHuman *) tank->getTankAI())->shieldsUpDown(value);
 		}
 		displayCurrent();
 	}
@@ -188,6 +166,15 @@ void AutoDefenseDialog::select(unsigned int id,
 
 void AutoDefenseDialog::finished()
 {
+	// send message saying we are finished with shot
+	ComsPlayedMoveMessage comsMessage(
+		ScorchedClient::instance()->getTankContainer().getCurrentPlayerId(), 
+		ComsPlayedMoveMessage::eFinishedBuy);
+
+	// Check if we are running in a NET/LAN environment
+	// If so we send this move to the server
+	ComsMessageSender::sendToServer(comsMessage);
+
 	WindowManager::instance()->hideWindow(getId());
-	ScorchedClient::instance()->getGameState().stimulate(ClientState::StimMain);
+	ScorchedClient::instance()->getGameState().stimulate(ClientState::StimShot);
 }

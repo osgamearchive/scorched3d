@@ -35,7 +35,7 @@ TankAIComputerBuyer::Entry::Entry(const Entry &other)
 TankAIComputerBuyer::Entry &TankAIComputerBuyer::Entry::operator=(const Entry &other)
 {
 	level = other.level;
-	std::list<Accessory *>::const_iterator aitor;
+	std::list<std::string>::const_iterator aitor;
 	for (aitor = other.buyAccessories.begin();
 			aitor != other.buyAccessories.end();
 			aitor++)
@@ -83,14 +83,14 @@ bool TankAIComputerBuyer::addAccessory(const char *accessoryName,
 
 		if (current.level == buyLevel)
 		{
-			current.buyAccessories.push_back(accessory);
+			current.buyAccessories.push_back(accessoryName);
 			return true;
 		}
 	}
 
 	Entry newEntry;
 	newEntry.level = buyLevel;
-	newEntry.buyAccessories.push_back(accessory);
+	newEntry.buyAccessories.push_back(accessoryName);
 
 	if (itor == buyEntries_.end())
 	{
@@ -127,16 +127,19 @@ void TankAIComputerBuyer::buyAccessory()
 		itor != buyEntries_.end();
 		itor++)
 	{
-		std::list<Accessory *>::iterator aitor;
+		std::list<std::string>::iterator aitor;
 		for (aitor = (*itor).buyAccessories.begin();
 			aitor != (*itor).buyAccessories.end();
 			aitor++)
 		{
+			Accessory *current = AccessoryStore::instance()->findByAccessoryName((*aitor).c_str());
+			DIALOG_ASSERT(current);
+
 			// Check if the tank has each accessory
-			if (!currentTank_->getAccessories().getAccessoryCount(*aitor))
+			if (!currentTank_->getAccessories().getAccessoryCount(current))
 			{
 				// It does not have this one yet
-				buyList.push_back(*aitor);
+				buyList.push_back(current);
 			}
 		}
 

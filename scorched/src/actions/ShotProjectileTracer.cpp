@@ -18,19 +18,11 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// ShotProjectileTracer.cpp: implementation of the ShotProjectileTracer class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <actions/ShotProjectileTracer.h>
 #include <sprites/TracerActionRenderer.h>
 #include <common/OptionsParam.h>
+#include <engine/ScorchedContext.h>
 #include <tankgraph/TankRenderer.h>
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 REGISTER_ACTION_SOURCE(ShotProjectileTracer);
 
@@ -57,7 +49,7 @@ void ShotProjectileTracer::init()
 {
 	ShotProjectile::init();
 
-	if (!OptionsParam::instance()->getOnServer())
+	if (!context_->serverMode)
 	{
 		setActionRender(new TracerActionRenderer);
 	}
@@ -93,7 +85,7 @@ void ShotProjectileTracer::simulate(float frametime, bool &remove)
 
 void ShotProjectileTracer::collision(Vector &position)
 {
-	if (!OptionsParam::instance()->getOnServer()) 
+	if (!context_->serverMode)
 	{
 		if (smokeTracer_)
 		{

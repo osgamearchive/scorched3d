@@ -23,6 +23,7 @@ enum
 {
 	IDC_SERVER_ROUNDS = 200,
 	IDC_SERVER_PLAYERS,
+	IDC_GAME_TYPE,
 	IDC_WAIT_TIME,
 	IDC_SHOT_TIME,
 	IDC_IDLE_TIME
@@ -33,6 +34,8 @@ static wxComboBox *IDC_SERVER_PLAYERS_CTRL = 0;
 static wxComboBox *IDC_WAIT_TIME_CTRL = 0;
 static wxComboBox *IDC_SHOT_TIME_CTRL = 0;
 static wxComboBox *IDC_IDLE_TIME_CTRL = 0;
+static wxComboBox *IDC_TYPE_CTRL = 0;
+static wxStaticText *IDC_TYPE_CTRL_TEXT = 0;
 static wxStaticText *IDC_WAIT_TIME_CTRL_TEXT = 0;
 static wxStaticText *IDC_SHOT_TIME_CTRL_TEXT = 0;
 static wxStaticText *IDC_IDLE_TIME_CTRL_TEXT = 0;

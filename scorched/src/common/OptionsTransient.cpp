@@ -31,7 +31,7 @@ OptionsTransient::Settings::Settings()  :
 }
 
 OptionsTransient::OptionsTransient(OptionsGame &optionsGame) :
-	optionsGame_(optionsGame)
+	optionsGame_(optionsGame), newGame_(false)
 {
 	
 }
@@ -79,7 +79,18 @@ void OptionsTransient::reset()
 void OptionsTransient::newGame()
 {
 	srand(time(0));
-	settings_.currentGameNo_ = 0;
+
+	newGame_ = true;
+	int roundsPlayed = optionsGame_.getNoRounds() - getNoRoundsLeft();
+	if (optionsGame_.getBuyOnRound() - 1 <= roundsPlayed)
+	{
+		settings_.currentGameNo_ = 0;	
+	}
+	else
+	{
+		settings_.currentGameNo_ = 1;
+	}
+	
 	settings_.noRoundsLeft_ --;
 	newGameWind();
 	newGameWall();
@@ -87,7 +98,8 @@ void OptionsTransient::newGame()
 
 void OptionsTransient::nextRound()
 {
-	settings_.currentGameNo_++;
+	if (!newGame_) settings_.currentGameNo_++;
+	newGame_ = false;
 	nextRoundWind();
 }
 

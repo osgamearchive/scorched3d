@@ -35,11 +35,13 @@ ComsNewGameMessage::~ComsNewGameMessage()
 bool ComsNewGameMessage::writeMessage(NetBuffer &buffer)
 {
 	if (!levelMessage_.writeMessage(buffer)) return false;
+	if (!stateMessage_.writeMessage(buffer)) return false;
 	return true;
 }
 
 bool ComsNewGameMessage::readMessage(NetBufferReader &reader)
 {
 	if (!levelMessage_.readMessage(reader)) return false;
+	if (!stateMessage_.readMessage(reader)) return false;
 	return true;
 }

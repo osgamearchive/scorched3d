@@ -24,6 +24,7 @@
 
 #include <coms/ComsMessage.h>
 #include <coms/ComsLevelMessage.h>
+#include <coms/ComsPlayerStateMessage.h>
 
 class ComsNewGameMessage : public ComsMessage
 {
@@ -39,6 +40,7 @@ public:
 
 protected:
 	ComsLevelMessage levelMessage_;
+	ComsPlayerStateMessage stateMessage_;
 
 private:
 	ComsNewGameMessage(const ComsNewGameMessage &);

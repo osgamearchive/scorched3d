@@ -24,11 +24,11 @@
 #include <weapons/AccessoryStore.h>
 #include <common/OptionsGame.h>
 
-ComsConnectAcceptMessage::ComsConnectAcceptMessage(unsigned int clientId,
+ComsConnectAcceptMessage::ComsConnectAcceptMessage(unsigned int destinationId,
 												   const char *serverName,
 												   const char *motd) :
 	ComsMessage("ComsConnectAcceptMessage"),
-	clientId_(clientId),
+	destinationId_(destinationId),
 	serverName_(serverName),
 	motd_(motd)
 {
@@ -42,9 +42,9 @@ ComsConnectAcceptMessage::~ComsConnectAcceptMessage()
 
 bool ComsConnectAcceptMessage::writeMessage(NetBuffer &buffer)
 {
+	buffer.addToBuffer(destinationId_);
 	buffer.addToBuffer(serverName_.c_str());
 	buffer.addToBuffer(motd_.c_str());
-	buffer.addToBuffer(clientId_);
 	if (!ScorchedServer::instance()->getOptionsGame().writeToBuffer(buffer)) return false;
 	if (!AccessoryStore::instance()->writeToBuffer(buffer)) return false;
 	
@@ -53,9 +53,9 @@ bool ComsConnectAcceptMessage::writeMessage(NetBuffer &buffer)
 
 bool ComsConnectAcceptMessage::readMessage(NetBufferReader &reader)
 {
+	if (!reader.getFromBuffer(destinationId_)) return false;
 	if (!reader.getFromBuffer(serverName_)) return false;
 	if (!reader.getFromBuffer(motd_)) return false;
-	if (!reader.getFromBuffer(clientId_)) return false;
 	if (!ScorchedClient::instance()->getOptionsGame().readFromBuffer(reader)) return false;
 	if (!AccessoryStore::instance()->readFromBuffer(reader)) return false;
 

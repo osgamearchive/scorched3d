@@ -22,6 +22,7 @@
 #include <engine/ScorchedContext.h>
 #include <common/Defines.h>
 #include <common/Logger.h>
+#include <common/OptionsParam.h>
 
 REGISTER_ACTION_SOURCE(TankResign);
 
@@ -55,7 +56,11 @@ void TankResign::simulate(float frameTime, bool &remove)
 		{
 			tank->getState().setState(TankState::sDead);
 
-			Logger::log(playerId_, "\"%s\" resigned from round", tank->getName());
+			if (!context_->serverMode ||
+				OptionsParam::instance()->getDedicatedServer())
+			{
+				Logger::log(playerId_, "\"%s\" resigned from round", tank->getName());
+			}
 		}
 	}
 

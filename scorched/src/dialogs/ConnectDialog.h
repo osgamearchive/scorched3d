@@ -18,21 +18,12 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #if !defined(__INCLUDE_ConnectDialogh_INCLUDE__)
 #define __INCLUDE_ConnectDialogh_INCLUDE__
 
 #include <GLW/GLWWindow.h>
-#include <GLW/GLWTextButton.h>
-#include <GLW/GLWListView.h>
-#include <GLW/GLWTextBox.h>
-#include <GLW/GLWLabel.h>
-#include <common/Logger.h>
 
-class ConnectDialog : 
-	public GLWWindow,
-	public GLWButtonI,
-	public LoggerI
+class ConnectDialog : public GLWWindow
 {
 public:
 	static ConnectDialog *instance();
@@ -40,21 +31,9 @@ public:
 	// Inherited from GLWWindow
 	virtual void draw();
 
-	// Inherited from GLWButtonI
-	virtual void buttonDown(unsigned int id);
-
-	// LoggerI
-	virtual void logMessage(
-		const char *time,
-		const char *message,
-		unsigned int playerId);
-
 protected:
 	static ConnectDialog *instance_;
 	bool tryConnection_;
-	GLWTextButton *quit_;
-	GLWLabel *serverName_;
-	GLWListView *listView_;
 
 	bool tryConnection();
 
@@ -62,6 +41,5 @@ private:
 	ConnectDialog();
 	virtual ~ConnectDialog();
 };
-
 
 #endif

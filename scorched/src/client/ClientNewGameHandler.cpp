@@ -21,17 +21,8 @@
 #include <client/ScorchedClient.h>
 #include <client/ClientNewGameHandler.h>
 #include <client/ClientState.h>
-#include <client/SpeedChange.h>
-#include <client/MainBanner.h>
-#include <client/ScorchedClient.h>
-#include <dialogs/ConnectDialog.h>
-#include <dialogs/ProgressDialog.h>
-#include <landscape/Landscape.h>
-#include <tank/TankStart.h>
-#include <tankgraph/TankRenderer.h>
 #include <coms/ComsNewGameMessage.h>
-#include <GLEXT/GLLenseFlare.h>
-#include <sprites/ExplosionTextures.h>
+#include <dialogs/ProgressDialog.h>
 
 ClientNewGameHandler *ClientNewGameHandler::instance_ = 0;
 
@@ -74,65 +65,6 @@ bool ClientNewGameHandler::processMessage(unsigned int id,
 		return false;
 	}
 
-	// Generate all the graphics
-	newGame();
-
-	// Make sure the landscape has been optimized
-	Landscape::instance()->recalculate(0, 0, 10000);
+	ScorchedClient::instance()->getGameState().stimulate(ClientState::StimNewGame);
 	return true;
-}
-
-void ClientNewGameHandler::clientNewGame()
-{
-	// Reset all tanks and generate landscape
-	TankStart::newGame(ScorchedClient::instance()->getContext());
-
-	// Generate all the graphics
-	newGame();
-
-	// Move all dead tanks into the game
-	// (the server does through the tank sync messages)
-	std::map<unsigned, Tank *> &tankList = 
-		ScorchedClient::instance()->getTankContainer().getPlayingTanks();
-	std::map<unsigned, Tank *>::iterator itor;
-	for (itor = tankList.begin();
-		itor != tankList.end();
-		itor++)
-	{
-		Tank *tank = (*itor).second;
-		tank->getState().setState(TankState::sNormal);
-	}
-
-	// Reset the current player id
-	ScorchedClient::instance()->getTankContainer().setCurrentPlayerId(0);
-
-	// Make sure the landscape has been optimized
-	Landscape::instance()->recalculate(0, 0, 10000);
-}
-
-void ClientNewGameHandler::newGame()
-{
-	// Calculate all the new landscape settings (graphics)
-	Landscape::instance()->generate(ProgressDialog::instance());
-
-	// Calculate other graphics that need to be built, only once
-	static bool initOnce = false;
-	if (!initOnce)
-	{
-		ExplosionTextures::instance()->createTextures(
-			ProgressDialog::instance());
-		GLLenseFlare::instance()->init(
-			ProgressDialog::instance());
-		initOnce = true;
-	}
-	TankRenderer::instance()->newGame();
-	SpeedChange::instance()->resetSpeed();
-
-	// As we have not returned to the main loop for ages the
-	// timer will have a lot of time in it
-	// Get rid of this time so we don't screw things up
-	ScorchedClient::instance()->getMainLoop().getTimer().getTimeDifference();
-
-	// Stimulate into the next round state
-	ScorchedClient::instance()->getGameState().stimulate(ClientState::StimNextRound);
 }

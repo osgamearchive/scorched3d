@@ -1,5 +1,11 @@
 <resources>
 	<default enabled="true">
+		<bitmap-water type="file">
+			data/textures/landscape/default/water.bmp
+		</bitmap-water>
+		<bitmap-detail type="file">
+			data/textures/landscape/default/detail.bmp
+		</bitmap-detail>
 		<bitmap-cloud type="file">
 			data/textures/landscape/default/cloud1.bmp
 		</bitmap-cloud>

@@ -26,7 +26,7 @@
   <!-- The amount of time to wait for new players to join -->
   <option>
     <name>WaitTime</name>
-    <value>15</value>
+    <value>0</value>
     <defaultvalue>15</defaultvalue>
   </option>
   <!-- The amount of time to show the end of game scores for -->
@@ -44,13 +44,13 @@
   <!-- The maximum number of players to allow -->
   <option>
     <name>NumberOfPlayers</name>
-    <value>1</value>
+    <value>5</value>
     <defaultvalue>2</defaultvalue>
   </option>
   <!-- The minimum number of players to allow -->
   <option>
     <name>NumberOfMinPlayers</name>
-    <value>2</value>
+    <value>5</value>
     <defaultvalue>2</defaultvalue>
   </option>
   <!-- The first round players are allowed to buy on -->
@@ -94,12 +94,6 @@
     <name>MoneyInterest</name>
     <value>15</value>
     <defaultvalue>15</defaultvalue>
-  </option>
-  <!-- All players shoot at the same time -->
-  <option>
-    <name>SimultaneousPlay</name>
-    <value>off</value>
-    <defaultvalue>off</defaultvalue>
   </option>
   <!-- The maximum number of hill -->
   <option>

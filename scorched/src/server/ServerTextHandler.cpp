@@ -20,6 +20,7 @@
 
 #include <server/ServerTextHandler.h>
 #include <server/ScorchedServer.h>
+#include <scorched/ServerDialog.h>
 #include <tank/TankContainer.h>
 #include <coms/ComsTextMessage.h>
 #include <coms/ComsMessageSender.h>
@@ -43,16 +44,34 @@ ServerTextHandler::~ServerTextHandler()
 {
 }
 
-bool ServerTextHandler::processMessage(unsigned int id,
+bool ServerTextHandler::processMessage(unsigned int destinationId,
 	const char *messageType,
 									NetBufferReader &reader)
 {
 	ComsTextMessage message;
 	if (!message.readMessage(reader)) return false;
 
-	unsigned int tankId = (unsigned int) id;
+	// If the client does not supply a tank id then
+	// get one from the destination
+	unsigned int tankId = message.getPlayerId();
+	if (tankId == 0)
+	{
+		std::map<unsigned int, Tank *> &tanks =
+			ScorchedServer::instance()->getTankContainer().getPlayingTanks();
+		std::map<unsigned int, Tank *>::iterator itor;
+		for (itor = tanks.begin();
+			itor != tanks.end();
+			itor++)
+		{
+			Tank *tank = (*itor).second;
+			if (tank->getDestinationId() == destinationId) 
+				tankId = tank->getPlayerId();
+		}
+	}
+
+	// Check this is a tank, and comes from the correct destination
 	Tank *tank = ScorchedServer::instance()->getTankContainer().getTankById(tankId);
-	if (tank)
+	if (tank && tank->getDestinationId() == destinationId)
 	{
 		// Construct the message to send to all the clients
 		std::string newText(tank->getName());
@@ -69,15 +88,15 @@ bool ServerTextHandler::processMessage(unsigned int id,
 		newText += message.getText();
 
 		// Update the server console with the say text
-		Logger::log(tankId, "Says \"%s\"", newText.c_str());
+		serverLog(tankId, "Says \"%s\"", newText.c_str());
 
 		ComsTextMessage newMessage(newText.c_str(), 
-			tank->getPlayerId(), tank->getColor());
+			tank->getPlayerId());
 		ComsMessageSender::sendToAllConnectedClients(newMessage);
 	}
 	else
 	{
-		Logger::log(0, "Says \"%s\"",	message.getText());
+		serverLog(0, "Says \"%s\"",	message.getText());
 	}
 
 	return true;

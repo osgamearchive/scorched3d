@@ -36,7 +36,7 @@ ServerBrowserInfo *ServerBrowserInfo::instance()
 	return instance_;
 }
 
-ServerBrowserInfo::ServerBrowserInfo()
+ServerBrowserInfo::ServerBrowserInfo() : udpsock_(0)
 {
 	packetV_ = SDLNet_AllocPacketV(20, 10000);
 }
@@ -59,6 +59,8 @@ void ServerBrowserInfo::start()
 
 void ServerBrowserInfo::processMessages()
 { 
+	if (!udpsock_) return;
+
 	int numrecv = SDLNet_UDP_RecvV(udpsock_, packetV_);
 	if(numrecv <=0) return;
 	

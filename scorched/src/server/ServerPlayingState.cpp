@@ -21,11 +21,10 @@
 #include <server/ServerPlayingState.h>
 #include <server/ServerShotHolder.h>
 #include <server/ScorchedServer.h>
+#include <server/TurnController.h>
 #include <scorched/ServerDialog.h>
 #include <common/OptionsGame.h>
 #include <common/Logger.h>
-#include <coms/ComsStartGameMessage.h>
-#include <coms/ComsMessageSender.h>
 
 ServerPlayingState::ServerPlayingState() : time_(0.0f)
 {
@@ -37,14 +36,7 @@ ServerPlayingState::~ServerPlayingState()
 
 void ServerPlayingState::enterState(const unsigned state)
 {
-	Logger::log(0, "Players playing game");
-
-	// Make sure that there are no shots from the last rounds
-	ServerShotHolder::instance()->clearShots();
-
-	// Tell the clients to start the game
-	ComsStartGameMessage startMessage;
-	ComsMessageSender::sendToAllPlayingClients(startMessage);
+	serverLog(0, "Players playing game");
 
 	// Set the wait timer to the current time
 	time_ = 0.0f;
@@ -60,19 +52,19 @@ bool ServerPlayingState::acceptStateChange(const unsigned state,
 	{
 		if (time_ > ScorchedServer::instance()->getOptionsGame().getShotTime())
 		{
-			// For each alive tank
+			// For each alive tank that should have made a move
 			// Check if the tank has missed its go
 			// If so increment the missed counter
 			// Once missed counter exceeds it threshold then kick the player
-			std::map<unsigned int, Tank *> &tanks =
-				ScorchedServer::instance()->getTankContainer().getPlayingTanks();
-			std::map<unsigned int, Tank *>::iterator itor;
+			std::list<unsigned int> &tanks = 
+				TurnController::instance()->getPlayersThisTurn();
+			std::list<unsigned int>::iterator itor;
 			for (itor = tanks.begin();
 				itor != tanks.end();
 				itor++)
 			{
-				Tank *tank = (*itor).second;
-				if (tank->getState().getState() == TankState::sNormal)
+				Tank *tank = ScorchedServer::instance()->getTankContainer().getTankById(*itor);
+				if (tank && tank->getState().getState() == TankState::sNormal)
 				{
 					if (!ServerShotHolder::instance()->haveShot(
 						tank->getPlayerId()))
@@ -82,14 +74,14 @@ bool ServerPlayingState::acceptStateChange(const unsigned state,
 
 						if (movesMissed == 1)
 						{
-							Logger::log(tank->getPlayerId(), "Player \"%s\" failed to make a move",
+							serverLog(tank->getPlayerId(), "Player \"%s\" failed to make a move",
 								tank->getName());
 							sendString(0, "Player \"%s\" failed to make a move",
 								tank->getName());
 						}
 						else
 						{
-							Logger::log(tank->getPlayerId(), "Player \"%s\" failed to make %i moves in a row",
+							serverLog(tank->getPlayerId(), "Player \"%s\" failed to make %i moves in a row",
 								tank->getName(), movesMissed);
 							sendString(0, "Player \"%s\" failed to make %i moves in a row",
 								tank->getName(), movesMissed);
@@ -102,7 +94,7 @@ bool ServerPlayingState::acceptStateChange(const unsigned state,
 							if (movesMissed >= ScorchedServer::instance()->getOptionsGame().getAllowedMissedMoves())
 							{
 								// Then kick this player
-								kickPlayer(tank->getPlayerId());
+								kickDestination(tank->getDestinationId());
 							}
 						}
 					}
@@ -114,7 +106,7 @@ bool ServerPlayingState::acceptStateChange(const unsigned state,
 	}
 
 	// Or we already have all shots
-	if (ServerShotHolder::instance()->haveAllShots())
+	if (ServerShotHolder::instance()->haveAllTurnShots())
 	{
 		return true;
 	}

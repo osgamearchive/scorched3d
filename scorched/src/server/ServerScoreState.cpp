@@ -53,8 +53,8 @@ void ServerScoreState::enterState(const unsigned state)
 
 	std::list<Tank *>::iterator scoreitor = sortedTanks.begin();
 
-	Logger::log(0, "Showing Score");
-	Logger::log((*scoreitor)->getPlayerId(), "\"%s\" is the overall winner!", (*scoreitor)->getName());
+	serverLog(0, "Showing Score");
+	serverLog((*scoreitor)->getPlayerId(), "\"%s\" is the overall winner!", (*scoreitor)->getName());
 	sendString(0, "\"%s\" is the overall winner!", (*scoreitor)->getName());
 	sendString(0, "This game has finished.");
 	sendString(0, "The next game will start soon...");

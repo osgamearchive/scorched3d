@@ -62,7 +62,7 @@ void TankPhysics::newGame()
 	oldTurretRotYZ_ = turretRotYZ_ = RAND * 90;
 }
 
-void TankPhysics::nextRound()
+void TankPhysics::nextShot()
 {
 	angle_ = 0.0f;
 	oldTurretRotXY_ = turretRotXY_;

@@ -32,13 +32,15 @@ public:
 		unsigned int playerId = 0,
 		const char *playerName = "",
 		Vector playerColor = Vector(),
-		const char *modelName = "");
+		const char *modelName = "",
+		unsigned int destinationId = 0);
 	virtual ~ComsAddPlayerMessage();
 
 	const char *getPlayerName() { return playerName_.c_str(); }
 	const char *getModelName() { return modelName_.c_str(); }
 	unsigned int getPlayerId() { return playerId_; }
 	Vector &getPlayerColor() { return playerColor_; }
+	unsigned int getDestinationId() { return destinationId_; }
 
 	// Inherited from ComsMessage
 	virtual bool writeMessage(NetBuffer &buffer);
@@ -49,6 +51,7 @@ protected:
 	std::string playerName_;
 	std::string modelName_;
 	Vector playerColor_;
+	unsigned int destinationId_;
 
 private:
 	ComsAddPlayerMessage(const ComsAddPlayerMessage &);

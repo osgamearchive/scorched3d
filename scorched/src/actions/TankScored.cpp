@@ -52,7 +52,7 @@ void TankScored::init()
 		context_->tankContainer.getTankById(playerId_);
 	if (tank)
 	{
-		if (!OptionsParam::instance()->getOnServer()) 
+		if (!context_->serverMode) 
 		{
 			Vector position = tank->getPhysics().getTankPosition();
 			position[0] += RAND * 5.0f - 2.5f;
@@ -74,9 +74,13 @@ void TankScored::init()
 
 		if (roundDiff_ != 0)
 		{
-			Logger::log(tank->getPlayerId(),
-				"\"%s\" wins this round.",
-				tank->getName());
+			if (!context_->serverMode ||
+				OptionsParam::instance()->getDedicatedServer())
+			{
+				Logger::log(tank->getPlayerId(),
+					"\"%s\" wins this round.",
+					tank->getName());
+			}
 		}
 	}
 }

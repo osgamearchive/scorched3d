@@ -27,12 +27,17 @@
 class ComsPlayerReadyMessage : public ComsMessage
 {
 public:
-	ComsPlayerReadyMessage();
+	ComsPlayerReadyMessage(unsigned int playerId = 0);
 	virtual ~ComsPlayerReadyMessage();
+
+	unsigned int getPlayerId() { return playerId_; }
 
 	// Inherited from ComsMessage
     virtual bool writeMessage(NetBuffer &buffer);
     virtual bool readMessage(NetBufferReader &reader);
+
+protected:
+	unsigned int playerId_;
 };
 
 

@@ -30,6 +30,12 @@ public:
 	OptionsGame();
 	virtual ~OptionsGame();
 
+	enum TurnType
+	{
+		TurnSimultaneous = 0,
+		TurnSequentialLooserFirst = 1,
+		TurnSequentialRandom = 2
+	};
 	enum WindForce
 	{
 		WindRandom = 0,
@@ -103,6 +109,9 @@ public:
 	int getShotTime() { return shotTime_.getValue(); }
 	void setShotTime(int value) { shotTime_.setValue(value); }
 
+	int getBuyingTime() { return buyingTime_.getValue(); }
+	void setBuyingTime(int value) { buyingTime_.setValue(value); }
+
 	int getWaitTime() { return waitTime_.getValue(); }
 	void setWaitTime(int value) { waitTime_.setValue(value); }
 
@@ -127,6 +136,9 @@ public:
 	WeapScale getWeapScale() { return (WeapScale) weapScale_.getValue(); }
 	void setWeapScale(WeapScale value) { weapScale_.setValue((int) value); }	
 
+	TurnType getTurnType() { return (TurnType) turnType_.getValue(); }
+	void setTurnType(TurnType value) { turnType_.setValue((int) value); }	
+	 
 	int getBuyOnRound() { return moneyBuyOnRound_.getValue(); }
 	void setBuyOnRound(int value) { moneyBuyOnRound_.setValue(value); }
 
@@ -136,8 +148,8 @@ public:
 	int getMoneyWonPerHitPoint() { return moneyPerHitPoint_.getValue(); }
 	void setMoneyWonPerHitPoint(int value) { moneyPerHitPoint_.setValue(value); }
 
-	bool getSimultaneous() { return simultaneous_.getValue(); }
-	void setSimultaneous(bool value) { simultaneous_.setValue(value); }
+	bool getLimitPowerByHealth() { return limitPowerByHealth_.getValue(); }
+	void setLimitPowerByHealth(bool value) { limitPowerByHealth_.setValue(value); }
 
 	int getComputersDeathTalk() { return computersDeathTalk_.getValue(); }
 	void setComputersDeathTalk(int value) { computersDeathTalk_.setValue(value); }
@@ -189,6 +201,7 @@ protected:
 	OptionEntryInt maxRoundTurns_;
 	OptionEntryInt tankStartCloseness_;
 	OptionEntryInt shotTime_;
+	OptionEntryInt buyingTime_;
 	OptionEntryInt waitTime_;
 	OptionEntryInt scoreTime_;
 	OptionEntryInt allowedMissedMoves_;
@@ -205,7 +218,8 @@ protected:
 	OptionEntryBoundedInt moneyStarting_;
 	OptionEntryInt idleKickTime_;
 	OptionEntryBoundedInt moneyInterest_;
-	OptionEntryBool simultaneous_;
+	OptionEntryBool limitPowerByHealth_;
+	OptionEntryBoundedInt turnType_;
 	OptionEntryBoundedInt landWidthY_;
 	OptionEntryBoundedInt landWidthX_;
 	OptionEntryBoundedInt landHills_;

@@ -33,12 +33,9 @@ public:
 	virtual bool processMessage(unsigned int id,
 		const char *message,
 		NetBufferReader &reader);
-	void startClientGame();
 
 protected:
 	static ClientStartGameHandler* instance_;
-
-	void startGame();
 
 private:
 	ClientStartGameHandler();

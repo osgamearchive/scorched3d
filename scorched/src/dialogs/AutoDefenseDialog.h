@@ -48,11 +48,8 @@ protected:
 	unsigned int okId_;
 	unsigned int paraId_;
 	unsigned int shieldId_;
-	unsigned int actualPlayer_;
-	int currentPlayer_;
 	GLWVisiblePanel *topPanel_;
 
-	void nextPlayer();
 	void finished();
 	void displayCurrent();
 

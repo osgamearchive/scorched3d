@@ -29,18 +29,27 @@ namespace ServerState
 	enum ServerStateEnum
 	{
 		ServerStateWaitingForPlayers = 1,
+		ServerStateReset,
 		ServerStateNewGame,
 		ServerStateNextRound,
+		ServerStateReady,
+		ServerStateNextShot,
+		ServerStateNextTurn,
 		ServerStatePlaying,
+		ServerStateBuying,
 		ServerStateShot,
 		ServerStateScore
 	};
 
 	enum ServerStimulusEnum
 	{
-		ServerStimulusNewPlayer = 1,
-		ServerStimulusNewGame,
+		ServerStimulusNewGame = 1,
 		ServerStimulusNextRound,
+		ServerStimulusReady,
+		ServerStimulusNextTurn,
+		ServerStimulusPlaying,
+		ServerStimulusBuying,
+		ServerStimulusShot,
 		ServerStimulusScore
 	};
 

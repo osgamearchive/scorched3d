@@ -23,8 +23,11 @@
 #include <coms/ComsStartGameMessage.h>
 #include <common/OptionsTransient.h>
 
-ComsStartGameMessage::ComsStartGameMessage() :
-	ComsMessage("ComsStartGameMessage")
+ComsStartGameMessage::ComsStartGameMessage(unsigned int currentPlayerId,
+										   bool buyWeapons) :
+	ComsMessage("ComsStartGameMessage"),
+	currentPlayerId_(currentPlayerId),
+	buyWeapons_(buyWeapons)
 {
 }
 
@@ -34,6 +37,8 @@ ComsStartGameMessage::~ComsStartGameMessage()
 
 bool ComsStartGameMessage::writeMessage(NetBuffer &buffer)
 {
+	buffer.addToBuffer(currentPlayerId_);
+	buffer.addToBuffer(buyWeapons_);
 	if (!stateMessage_.writeMessage(buffer)) return false;
 	if (!ScorchedServer::instance()->getOptionsTransient().writeToBuffer(buffer)) return false;
 	return true;
@@ -41,6 +46,8 @@ bool ComsStartGameMessage::writeMessage(NetBuffer &buffer)
 
 bool ComsStartGameMessage::readMessage(NetBufferReader &reader)
 {
+	if (!reader.getFromBuffer(currentPlayerId_)) return false;
+	if (!reader.getFromBuffer(buyWeapons_)) return false;
 	if (!stateMessage_.readMessage(reader)) return false;
 	if (!ScorchedClient::instance()->getOptionsTransient().readFromBuffer(reader)) return false;
 	return true;

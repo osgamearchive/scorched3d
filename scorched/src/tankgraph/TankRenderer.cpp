@@ -86,21 +86,6 @@ void TankRenderer::Renderer3D::simulate(const unsigned state, float simTime)
 void TankRenderer::newGame()
 {
 	tracerStore_.newGame();
-
-	// Make sure we don't draw any dead tanks
-	std::map<unsigned int, Tank *> &tanks = 
-		ScorchedClient::instance()->getTankContainer().getPlayingTanks();
-	std::map<unsigned int, Tank *>::iterator itor;
-	for (itor = tanks.begin();
-		itor != tanks.end();
-		itor++)
-	{
-		Tank *tank = (*itor).second;
-		if (tank->getState().getState() == TankState::sNormal)
-		{
-			tank->getState().setState(TankState::sDead);
-		}
-	}
 }
 
 void TankRenderer::draw(DrawType dt, const unsigned state)
@@ -130,7 +115,7 @@ void TankRenderer::draw(DrawType dt, const unsigned state)
 
 		// draw tanks
 		bool current = false;
-		if (state == ClientState::StateMain)
+		if (state == ClientState::StatePlaying)
 		{
 			current = (tank == currentTank);
 		}

@@ -35,6 +35,8 @@ OptionsDisplay *OptionsDisplay::instance()
 }
 
 OptionsDisplay::OptionsDisplay() :
+	detailTexture_(options_, "DetailTexture",
+		"Use the detail texture on the landscape", RWAccess, true),
 	uniqueUserId_(options_, "UniqueUserId",
 		"The unique string given to any servers to uniquely identify the client.", RAccess, ""),
 	explosionParts_(options_, "ExplosionParts",

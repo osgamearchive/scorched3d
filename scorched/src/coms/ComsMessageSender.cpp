@@ -39,14 +39,12 @@ bool ComsMessageSender::sendToServer(ComsMessage &message)
 	NetBufferDefault::defaultBuffer.reset();
 	if (!message.writeTypeMessage(NetBufferDefault::defaultBuffer))
 	{
-		dialogMessage("ComsMessageSender::sendToServer",
-			"Failed to write message type");
+		Logger::log(0, "ERROR: ComsMessageSender::sendToServer - Failed to write message type");
 		return false;
 	}
 	if (!message.writeMessage(NetBufferDefault::defaultBuffer))
 	{
-		dialogMessage("ComsMessageSender::sendToServer",
-			"Failed to write message");
+		Logger::log(0, "ERROR: ComsMessageSender::sendToServer - Failed to write message");
 		return false;
 	}
 	ScorchedClient::instance()->getNetInterface().sendMessage(NetBufferDefault::defaultBuffer);
@@ -57,6 +55,7 @@ bool ComsMessageSender::sendToSingleClient(ComsMessage &message,
 						unsigned int destination)
 {
 	if (!ScorchedServer::instance()->getNetInterface().started()) return false;
+	if (destination == 0) return true;
 
 	if (ScorchedServer::instance()->getComsMessageHandler().getMessageLogging())
 	{
@@ -65,22 +64,15 @@ bool ComsMessageSender::sendToSingleClient(ComsMessage &message,
 					(int) destination);
 	}
 
-	unsigned int playerId = (unsigned int) destination;
-	Tank *tank = 
-		ScorchedServer::instance()->getTankContainer().getTankById(playerId);
-	if (tank && tank->getTankAI()) return true;
-
 	NetBufferDefault::defaultBuffer.reset();
 	if (!message.writeTypeMessage(NetBufferDefault::defaultBuffer))
 	{
-		dialogMessage("ComsMessageSender::sendToSingleClient",
-			"Failed to write message");
+		Logger::log(0, "ERROR: ComsMessageSender::sendToSingleClient - Failed to write message");
 		return false;
 	}
 	if (!message.writeMessage(NetBufferDefault::defaultBuffer))
 	{
-		dialogMessage("ComsMessageSender::sendToSingleClient",
-			"Failed to write message");
+		Logger::log(0, "ERROR: ComsMessageSender::sendToSingleClient - Failed to write message");
 		return false;
 	}
 	ScorchedServer::instance()->getNetInterface().sendMessage(NetBufferDefault::defaultBuffer,
@@ -92,6 +84,11 @@ bool ComsMessageSender::sendToAllConnectedClients(ComsMessage &message)
 {
 	bool result = true;
 
+	// Used to ensure we only send messages to each
+	// destination once
+	std::set<unsigned int> destinations;
+	std::set<unsigned int>::iterator findItor;
+
 	std::map<unsigned int, Tank *>::iterator itor;
 	std::map<unsigned int, Tank *> &tanks = 
 		ScorchedServer::instance()->getTankContainer().getPlayingTanks();
@@ -100,9 +97,16 @@ bool ComsMessageSender::sendToAllConnectedClients(ComsMessage &message)
 		itor++)
 	{
 		Tank *tank = (*itor).second;
-		if (!sendToSingleClient(message, tank->getPlayerId()))
+
+		unsigned int destination = tank->getDestinationId();
+		findItor = destinations.find(destination);
+		if (findItor == destinations.end())
 		{
-			result = false;
+			destinations.insert(destination);
+			if (!sendToSingleClient(message, destination))
+			{
+				result = false;
+			}
 		}
 	}
 
@@ -112,6 +116,11 @@ bool ComsMessageSender::sendToAllConnectedClients(ComsMessage &message)
 bool ComsMessageSender::sendToAllPlayingClients(ComsMessage &message)
 {
 	bool result = true;
+
+	// Used to ensure we only send messages to each
+	// destination once
+	std::set<unsigned int> destinations;
+	std::set<unsigned int>::iterator findItor;
 
 	std::map<unsigned int, Tank *>::iterator itor;
 	std::map<unsigned int, Tank *> &tanks = 
@@ -123,9 +132,15 @@ bool ComsMessageSender::sendToAllPlayingClients(ComsMessage &message)
 		Tank *tank = (*itor).second;
 		if (tank->getState().getState() != TankState::sPending)
 		{
-			if (!sendToSingleClient(message, tank->getPlayerId()))
+			unsigned int destination = tank->getDestinationId();
+			findItor = destinations.find(destination);
+			if (findItor == destinations.end())
 			{
-				result = false;
+				destinations.insert(destination);
+				if (!sendToSingleClient(message, destination))
+				{
+					result = false;
+				}
 			}
 		}
 	}

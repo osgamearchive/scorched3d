@@ -33,10 +33,12 @@ public:
 		eShot,
 		eResign,
 		eMove,
-		eSkip
+		eSkip,
+		eFinishedBuy
 	};
 
-	ComsPlayedMoveMessage(MoveType type = eNone);
+	ComsPlayedMoveMessage(unsigned int playerId = 0,
+		MoveType type = eNone);
 	virtual ~ComsPlayedMoveMessage();
 
 	void setPosition(int x, int y);
@@ -45,6 +47,7 @@ public:
 		float rotationYZ,
 		float power);
 
+	unsigned int getPlayerId() { return playerId_; }
 	const char *getWeaponName() { return weaponName_.c_str(); }
 	float getRotationXY() { return rotationXY_; }
 	float getRotationYZ() { return rotationYZ_; }
@@ -58,6 +61,7 @@ public:
     virtual bool readMessage(NetBufferReader &reader);
 
 protected:
+	unsigned int playerId_;
 	MoveType moveType_;
 	std::string weaponName_;
 	float rotationXY_;

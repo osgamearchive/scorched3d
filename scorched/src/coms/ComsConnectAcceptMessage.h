@@ -18,7 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #ifndef _comsConnectAcceptMessage_h
 #define _comsConnectAcceptMessage_h
 
@@ -27,12 +26,12 @@
 class ComsConnectAcceptMessage : public ComsMessage
 {
 public:
-	ComsConnectAcceptMessage(unsigned int clientId = 0,
-							 const char *serverName = "",
-							 const char *motd = "");
+	ComsConnectAcceptMessage(unsigned int destinationId = 0,
+		const char *serverName = "",
+		const char *motd = "");
 	virtual ~ComsConnectAcceptMessage();
 
-	unsigned int getClientId() { return clientId_; }
+	unsigned int getDestinationId() { return destinationId_; }
 	const char *getServerName() { return serverName_.c_str(); }
 	const char *getMotd() { return motd_.c_str(); }
 
@@ -41,7 +40,7 @@ public:
     virtual bool readMessage(NetBufferReader &reader);
 
 protected:
-	unsigned int clientId_;
+	unsigned int destinationId_;
 	std::string serverName_;
 	std::string motd_;
 

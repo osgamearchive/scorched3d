@@ -37,6 +37,11 @@ public:
 protected:
 	static ServerConnectHandler *instance_;
 
+	void addNextTank(unsigned int destinationId,
+		const char *playerName,
+		const char *playerModel,
+		const char *uniqueId);
+
 private:
 	ServerConnectHandler();
 	virtual ~ServerConnectHandler();

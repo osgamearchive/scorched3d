@@ -22,7 +22,7 @@
 #define AFX_TANKAICOMPUTER_H__5F21C9C7_0F71_4CCC_ABB9_976CF0A5C5EC__INCLUDED_
 
 #include <tank/Tank.h>
-#include <tank/TankAI.h>
+#include <tankai/TankAI.h>
 #include <tankai/TankAIComputerBuyer.h>
 
 #define TANKAI_DEFINE(y) \
@@ -39,7 +39,7 @@ public:
 
 	// Inherited from TankAI
 	virtual void newGame();
-	virtual void nextRound();
+	virtual void nextShot();
 	virtual bool parseConfig(XMLNode *node);
 	virtual const char *getName() { return name_.c_str(); }
 	virtual void tankHurt(Weapon *weapon, unsigned int firer);
@@ -50,10 +50,26 @@ public:
 
 	// Notificiation that the shot fired has landed
 	virtual void buyAccessories();
+	virtual void autoDefense();
 	virtual void ourShotLanded(Weapon *weapon, Vector &position);
 
+	// Set the tank and context this ai is for
 	void setTank(Tank *tank);
 	void setContext(ScorchedContext *context);
+
+	// Tank move methods and tank defense methods
+	//
+	// The tankAI and its derived classes call these methods to perform
+	// the actions associated with the method name.
+	// Computer AIs can only run in the server context now
+	// so no need to check if we are on the server etc.
+	virtual void fireShot();
+	virtual void skipShot();
+	virtual void resign();
+	virtual void move(int x, int y);
+	virtual void parachutesUpDown(bool on);
+	virtual void shieldsUpDown(const char *name=0);
+	virtual void useBattery();
 
 protected:
 	TankAIComputerBuyer tankBuyer_;
@@ -61,7 +77,6 @@ protected:
 	bool primaryShot_;
 
 	void say(const char *text);
-	void fireShot();
 	void selectFirstShield();
 
 };

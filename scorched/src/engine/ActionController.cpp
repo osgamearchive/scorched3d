@@ -20,7 +20,6 @@
 
 #include <engine/ActionController.h>
 #include <landscape/HeightMapCollision.h>
-#include <common/OptionsParam.h>
 #include <list>
 
 ActionController::ActionController() : 
@@ -93,7 +92,7 @@ void ActionController::addAction(Action *action)
 
 void ActionController::addNewActions()
 {
-	if (!OptionsParam::instance()->getOnServer())
+	if (!context_->serverMode)
 	{
 		ActionMeta *action = 
 			buffer_.getActionForTime(time_);
@@ -110,19 +109,7 @@ void ActionController::addNewActions()
 	while (!newActions_.empty())
 	{
 		Action *action = newActions_.front(); 
-
-		bool useReferencedAction = false;
-		if (OptionsParam::instance()->getOnServer()) 
-		{
-			useReferencedAction = true;
-		}
-		else
-		{
-			useReferencedAction = 
-				!(OptionsParam::instance()->getConnectedToServer());
-		}
-
-		if (useReferencedAction)
+		if (context_->serverMode)
 		{
 			if (action->getReferenced())
 			{

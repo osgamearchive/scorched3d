@@ -63,7 +63,7 @@ void TankFired::simulate(float frameTime, bool &remove)
 			tank->getPhysics().rotateGunXY(rotXY_, false);
 			tank->getPhysics().rotateGunYZ(rotXZ_, false);
 
-			if (!OptionsParam::instance()->getOnServer()) 
+			if (!context_->serverMode) 
 			{
 				TankModelRenderer *model = (TankModelRenderer *) 
 					tank->getModel().getModelIdRenderer();

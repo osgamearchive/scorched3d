@@ -24,8 +24,8 @@
 
 namespace WindowSetup
 {
-	void addCommonComponents(unsigned state, bool server);
-	void setup(bool server);
+	void addCommonComponents(unsigned state);
+	void setup();
 };
 
 

@@ -20,6 +20,7 @@
 
 #include <windows.h>
 #include <stdlib.h>
+#include <coms/NetLoopBack.h>
 #include <common/Defines.h>
 #include <common/Timer.h>
 #include <common/ARGParser.h>
@@ -49,14 +50,18 @@
 
 Timer serverTimer;
 
-bool serverMain()
+bool startServer(bool local)
 {
-	// Set the options so we are a server
-	OptionsParam::instance()->setServerFile("Hmm");
-
 	// Setup the message handling classes
-	NetServer *netServer = new NetServer(new NetServerScorchedProtocol());
-	ScorchedServer::instance()->getContext().netInterface = netServer;
+
+	if (!local)
+	{
+		// Only create a net server for the actual multiplayer case
+		// A loopback is created by the client for a single player game 
+		ScorchedServer::instance()->getContext().netInterface = 
+			new NetServer(new NetServerScorchedProtocol());
+	}
+
 	ScorchedServer::instance()->getNetInterface().setMessageHandler(
 		&ScorchedServer::instance()->getComsMessageHandler());
 	ScorchedServer::instance()->getComsMessageHandler().setConnectionHandler(
@@ -79,10 +84,24 @@ bool serverMain()
 	ServerState::setupStates(ScorchedServer::instance()->getGameState());
 
 	// Add the server side bots
+	// Add any new AIs
 	TankAIStore::instance();
 	TankAIAdder::addTankAIs(ScorchedServer::instance()->getContext());
 
+	return true;
+}
+
+bool serverMain()
+{
+	// Set the options so we are a server
+	OptionsParam::instance()->setServerFile("Hmm");
+
+	// Create the server states
+	startServer(false);
+
 	// Try to start the server
+	NetServer *netServer = (NetServer *) 
+		ScorchedServer::instance()->getContext().netInterface;
 	if (!netServer->start(
 		ScorchedServer::instance()->getOptionsGame().getPortNo(),
 		ScorchedServer::instance()->getOptionsGame().getNoMaxPlayers() - 
@@ -107,7 +126,7 @@ bool serverMain()
 void serverLoop()
 {
 	// Main server loop:
-	if (ScorchedServer::instance()->getNetInterface().started())
+	if (ScorchedServer::instance()->getContext().netInterface)
 	{
 		Logger::processLogEntries();
 		ScorchedServer::instance()->getNetInterface().processMessages();

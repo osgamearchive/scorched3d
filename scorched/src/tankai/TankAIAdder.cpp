@@ -24,52 +24,76 @@
 #include <tank/TankColorGenerator.h>
 #include <common/OptionsGame.h>
 #include <common/OptionsParam.h>
+#include <coms/ComsAddPlayerMessage.h>
+#include <coms/ComsMessageSender.h>
+
+static unsigned int tankId_ = 2;
+
+unsigned int TankAIAdder::getNextTankId()
+{
+	return ++tankId_;
+}
 
 void TankAIAdder::addTankAIs(ScorchedContext &context)
 {
 	// On the server
 	// Ensure that we cannot add more ais than the server is setup for
 	int maxComputerAIs = context.optionsGame.getNoMaxPlayers();
-
-	// On a client however add all ais that are in the options file
-	// On the client the OptionsGame::instance()->getNoMaxPlayers()
-	// Specified the max number of clients that the user will be asked
-	// to define in the PlayersDialog
-	if (!OptionsParam::instance()->getOnServer())
-	{
-		maxComputerAIs = 24;
-	}
-
 	for (int i=0; i<maxComputerAIs; i++)
 	{
 		const char *playerType = 
 			context.optionsGame.getPlayerType(i);
 		if (0 != stricmp(playerType, "Human"))
 		{
-			TankAIComputer *ai = 
-				TankAIStore::instance()->getAIByName(playerType);
-			if (ai)
-			{
-				Vector color = TankColorGenerator::instance()->getNextColor();
-				// Computer AIs start at 1000
-				static unsigned int tankId = 2;
-				// Do not give a model, this will actualy get a random
-				// tank model assigned to the tank
-				TankModelId modelId("Random");
-				++tankId;
+			std::string botName = 
+				context.optionsGame.getBotNamePrefix();
+			botName += TankAIStrings::instance()->getPlayerName();
 
-				std::string botName = 
-					context.optionsGame.getBotNamePrefix();
-				botName += TankAIStrings::instance()->getPlayerName();
-				Tank *tank = new Tank(
-					context,
-					tankId,
-					botName.c_str(),
-					color,
-					modelId);
-				tank->setTankAI(ai->getCopy(tank, &context));
-				context.tankContainer.addTank(tank);
-			}
+			addTankAI(context, playerType, "Random", botName.c_str());
+		}
+	}
+}
+
+void TankAIAdder::addTankAI(ScorchedContext &context,
+							const char *aiName,
+							const char *modelName,
+							const char *name,
+							bool raiseEvent)
+{
+	TankAIComputer *ai = 
+		TankAIStore::instance()->getAIByName(aiName);
+	if (ai)
+	{
+		std::string newname = name;
+		if (newname.size() == 0)
+		{
+			newname = 
+				context.optionsGame.getBotNamePrefix();
+			newname += TankAIStrings::instance()->getPlayerName();
+		}
+
+		Vector color = TankColorGenerator::instance()->getNextColor();
+		TankModelId modelId(modelName);	
+		Tank *tank = new Tank(
+			context,
+			getNextTankId(),
+			0,
+			newname.c_str(),
+			color,
+			modelId);
+		tank->setTankAI(ai->getCopy(tank, &context));
+		context.tankContainer.addTank(tank);
+
+		if (raiseEvent)
+		{
+			// Tell the clients to create this tank
+			ComsAddPlayerMessage addPlayerMessage(
+				tank->getPlayerId(),
+				tank->getName(),
+				tank->getColor(),
+				tank->getModel().getModelName(),
+				tank->getDestinationId()); 
+			ComsMessageSender::sendToAllConnectedClients(addPlayerMessage);
 		}
 	}
 }

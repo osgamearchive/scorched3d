@@ -69,6 +69,9 @@ public:
 	bool getNoROAM() { return noROAM_.getValue(); }
 	void setNoROAM(bool value) { noROAM_.setValue(value); }	
 
+	bool getDetailTexture() { return detailTexture_.getValue(); }
+	void setDetailTexture(bool value) { detailTexture_.setValue(value); }	
+
 	bool getUseLandscapeTexture() { return useLandscapeTexture_.getValue(); }
 	void setUseLandscapeTexture(bool value) { useLandscapeTexture_.setValue(value); }	
 
@@ -167,6 +170,7 @@ protected:
 	OptionEntryInt sunYZAng_;
 	OptionEntryInt sunXYAng_;
 	OptionEntryInt depthBufferBits_;
+	OptionEntryBool detailTexture_;
 	OptionEntryBool useHex_;
 	OptionEntryBool fullScreen_;
 	OptionEntryBool fullClear_;

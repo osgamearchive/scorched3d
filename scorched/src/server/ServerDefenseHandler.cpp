@@ -24,7 +24,8 @@
 #include <server/ServerShotHolder.h>
 #include <server/ScorchedServer.h>
 #include <tank/TankContainer.h>
-#include <tank/TankAILogic.h>
+#include <tankai/TankAILogic.h>
+#include <common/Logger.h>
 #include <coms/ComsDefenseMessage.h>
 #include <coms/ComsMessageSender.h>
 #include <weapons/AccessoryStore.h>
@@ -51,7 +52,7 @@ ServerDefenseHandler::~ServerDefenseHandler()
 {
 }
 
-bool ServerDefenseHandler::processMessage(unsigned int id,
+bool ServerDefenseHandler::processMessage(unsigned int destinationId,
 	const char *messageType,
 	NetBufferReader &reader)
 {
@@ -59,26 +60,34 @@ bool ServerDefenseHandler::processMessage(unsigned int id,
 	ComsDefenseMessage message;
 	if (!message.readMessage(reader)) return false;
 
+	// Get the correct player id from the message
+	unsigned int playerId = message.getPlayerId();
+
 	// Check we are in the correct state
 	if (ScorchedServer::instance()->getGameState().getState() != ServerState::ServerStatePlaying)
 	{
+		Logger::log(playerId, "ERROR: Player attempted to but in incorrect state");
 		return false;
 	}
 
-	// Ensure the correct player id is in the message
-	unsigned int playerId = (unsigned int) id;
-	message.setPlayerId(playerId);
-
 	// Check tank exists and is alive
 	Tank *tank = ScorchedServer::instance()->getTankContainer().getTankById(playerId);
-	if (tank && tank->getState().getState() != TankState::sNormal)
+	if (!tank || tank->getState().getState() != TankState::sNormal)
 	{
+		Logger::log(playerId, "ERROR: Player buying does not exist");
+		return true;
+	}
+
+	if (tank->getDestinationId() != destinationId)
+	{
+		Logger::log(playerId, "ERROR: Player buying does not exist at this destination");
 		return true;
 	}
 
 	// Check tank has not made move yet
 	if (ServerShotHolder::instance()->haveShot(playerId))
 	{
+		Logger::log(playerId, "ERROR: Player has already made move");
 		return true;
 	}
 

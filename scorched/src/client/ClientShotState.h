@@ -38,7 +38,6 @@ public:
 
 protected:
 	static ClientShotState *instance_;
-	bool endOfState_;
 
 private:
 	ClientShotState();

@@ -43,6 +43,7 @@ public:
 	NetInterface *netInterface;
 	OptionsGame optionsGame;
 	OptionsTransient optionsTransient;
+	bool serverMode;
 };
 
 #endif

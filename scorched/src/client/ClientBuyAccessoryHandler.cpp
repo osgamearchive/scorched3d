@@ -58,8 +58,10 @@ bool ClientBuyAccessoryHandler::processMessage(unsigned int id,
 	Tank *tank = ScorchedClient::instance()->getTankContainer().getTankById(message.getPlayerId());
 	if (!tank) return true;
 	
-	// Check this is not the current clients player
-	if (tank->getPlayerId() == ScorchedClient::instance()->getTankContainer().getCurrentPlayerId())
+	// Check this is not a player running on this client
+	// As this message will have already been processed
+	// as the stuff is actuall bought
+	if (tank->getTankAI() != 0)
 	{
 		return true;
 	}

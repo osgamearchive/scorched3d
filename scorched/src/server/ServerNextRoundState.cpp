@@ -19,17 +19,13 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <server/ServerNextRoundState.h>
-#include <server/ServerNewGameState.h>
 #include <server/ServerState.h>
 #include <server/ScorchedServer.h>
+#include <server/TurnController.h>
 #include <scorched/ServerDialog.h>
-#include <common/OptionsGame.h>
 #include <common/Logger.h>
-#include <common/OptionsTransient.h>
-#include <tank/TankContainer.h>
-#include <tank/TankStart.h>
 
-ServerNextRoundState::ServerNextRoundState() : time_(0.0f)
+ServerNextRoundState::ServerNextRoundState()
 {
 }
 
@@ -39,13 +35,11 @@ ServerNextRoundState::~ServerNextRoundState()
 
 void ServerNextRoundState::enterState(const unsigned state)
 {
-	Logger::log(0, "Next round");
-
-	// Add any pending tanks into the game
-	ServerNewGameState::addTanksToGame(state);
+	serverLog(0, "NextRound");
 
 	// Move all tanks into the next round
-	TankStart::nextRound(ScorchedServer::instance()->getContext());
+	// Load the set of options for this next player
+	ScorchedServer::instance()->getContext().optionsTransient.nextRound();
 
 	// Set the wind for the next shot
 	Vector wind;
@@ -56,72 +50,9 @@ void ServerNextRoundState::enterState(const unsigned state)
 	}
 	ScorchedServer::instance()->getActionController().getPhysics().setWind(wind);
 
-	// Set the wait timer to the current time
-	time_ = 0.0f;
-}
+	// Setup this list of players that need to move before this round is over
+	TurnController::instance()->nextRound();
 
-bool ServerNextRoundState::acceptStateChange(const unsigned state, 
-		const unsigned nextState,
-		float frameTime)
-{
-	// Check all players returned ready
-	if (ScorchedServer::instance()->getTankContainer().allReady())
-	{
-		if (ScorchedServer::instance()->getTankContainer().aliveCount() < 2 ||
-			ScorchedServer::instance()->getOptionsTransient().getCurrentGameNo() > 
-			ScorchedServer::instance()->getOptionsGame().getNoMaxRoundTurns())
-		{
-			// We have finished with this round
-			roundFinished();
-		}
-		else
-		{
-			// Stimulate into the next state
-			return true;
-		}
-	}
-
-	// Check if any players have timed out
-	time_ += frameTime;
-	if ((ScorchedServer::instance()->getOptionsGame().getIdleKickTime() > 0) &&
-		(time_ > ScorchedServer::instance()->getOptionsGame().getIdleKickTime()))
-	{
-		// Kick all not returned players
-		std::map<unsigned int, Tank *> &tanks = 
-			ScorchedServer::instance()->getTankContainer().getPlayingTanks();
-		std::map<unsigned int, Tank *>::iterator itor;
-		for (itor = tanks.begin();
-			itor != tanks.end();
-			itor++)
-		{
-			Tank *tank = (*itor).second;
-			if (tank->getState().getReadyState() == TankState::SNotReady)
-			{
-				Logger::log(tank->getPlayerId(), "Player \"%s\" not returned ready for %i seconds", 
-					tank->getName(),
-					ScorchedServer::instance()->getOptionsGame().getIdleKickTime());
-
-				kickPlayer(tank->getPlayerId());
-			}
-		}
-
-		// Stimulate into the next state
-		return true;
-	}
-	return false;
-}
-
-void ServerNextRoundState::roundFinished()
-{
-	// check for all rounds completely finished
-	if (ScorchedServer::instance()->getOptionsTransient().getNoRoundsLeft() <= 0)
-	{
-		// We have finished with all rounds show the score
-		ScorchedServer::instance()->getGameState().stimulate(ServerState::ServerStimulusScore);
-	}
-	else
-	{
-		// We have finished with this round, go onto the next round
-		ScorchedServer::instance()->getGameState().stimulate(ServerState::ServerStimulusNewGame);
-	}
+	// Move into the ready state
+	ScorchedServer::instance()->getGameState().stimulate(ServerState::ServerStimulusReady);
 }

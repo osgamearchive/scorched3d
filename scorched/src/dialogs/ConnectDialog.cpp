@@ -20,22 +20,9 @@
 
 #include <dialogs/ConnectDialog.h>
 #include <dialogs/PlayerDialog.h>
-#include <dialogs/QuitDialog.h>
-#include <GLW/GLWTextButton.h>
+#include <dialogs/LogDialog.h>
 #include <client/ScorchedClient.h>
 #include <client/MainBanner.h>
-#include <client/ClientGameStoppedHandler.h>
-#include <client/ClientMessageHandler.h>
-#include <client/ClientTextHandler.h>
-#include <client/ClientStartGameHandler.h>
-#include <client/ClientScoreHandler.h>
-#include <client/ClientAddPlayerHandler.h>
-#include <client/ClientNewGameHandler.h>
-#include <client/ClientBuyAccessoryHandler.h>
-#include <client/ClientConnectionAcceptHandler.h>
-#include <client/ClientRmPlayerHandler.h>
-#include <client/ClientActionsHandler.h>
-#include <client/ClientDefenseHandler.h>
 #include <common/OptionsDisplay.h>
 #include <coms/NetServer.h>
 #include <coms/ComsMessageHandler.h>
@@ -59,49 +46,16 @@ ConnectDialog::ConnectDialog() :
 	GLWWindow("Connect", 10.0f, 10.0f, 300.0f, 240.0f, 0),
 	tryConnection_(true)
 {
-	needCentered_ = true;
-	quit_ = (GLWTextButton *) 
-		addWidget(new GLWTextButton(" Quit", 205, 10, 85, this, false));
-	listView_ = (GLWListView *) addWidget(new GLWListView(10, 40, 280, 140, 100));
-	serverName_ = (GLWLabel *) addWidget(new GLWLabel(5, 195));
-
-	// Add this class as a log handler
-	Logger::addLogger(this);
 }
 
 ConnectDialog::~ConnectDialog()
 {
 }
 
-void ConnectDialog::logMessage(
-		const char *time,
-		const char *message,
-		unsigned int playerId)
-{
-	listView_->addLine(message);
-}
-
 void ConnectDialog::draw()
 {
-	static float fVPort[4];
-	glGetFloatv(GL_VIEWPORT, fVPort);
-	float width = fVPort[2] - 40.0f;
-	if (width < 320) width = 320;
-	if (width > 640) width = 640;
-	setW(width - 20);
-	listView_->setW(width - 40);
-	quit_->setX(width - 115);
-
-	float height = fVPort[3] - 40.0f;
-	if (height < 200) height = 200;
-	if (height > 300) height = 300;
-	serverName_->setY(height - 50);
-	listView_->setH(height - 90);
-	setH(height - 20);
-
-	GLWWindow::draw();
-
-	if (tryConnection_ )
+	if (tryConnection_ && 
+		OptionsParam::instance()->getConnectedToServer())
 	{
 		tryConnection_ = false;
 
@@ -122,7 +76,7 @@ bool ConnectDialog::tryConnection()
 	std::string hostPart;
 	const char *serverName = 
 		OptionsParam::instance()->getConnect();
-	serverName_->setText(serverName);
+	LogDialog::instance()->setServerName(serverName);
 	hostPart = serverName;
 	char *colon = strchr((char *)serverName, ':');
 	DWORD port = ScorchedPort;
@@ -141,23 +95,6 @@ bool ConnectDialog::tryConnection()
 	Logger::log(0, "  Trying \"%s\"....", serverName);
 	ScorchedClient::instance()->getMainLoop().draw();
 
-	// Setup the coms handlers
-	ScorchedClient::instance()->getNetInterface().setMessageHandler(
-		&ScorchedClient::instance()->getComsMessageHandler());
-	ScorchedClient::instance()->getComsMessageHandler().setConnectionHandler(
-		ClientMessageHandler::instance());
-	ClientTextHandler::instance();
-	ClientConnectionAcceptHandler::instance();
-	ClientAddPlayerHandler::instance();
-	ClientNewGameHandler::instance();
-	ClientRmPlayerHandler::instance();
-	ClientGameStoppedHandler::instance();
-	ClientStartGameHandler::instance();
-	ClientDefenseHandler::instance();
-	ClientActionsHandler::instance();
-	ClientBuyAccessoryHandler::instance();
-	ClientScoreHandler::instance();
-
 	// Try to connect to the server
 	NetServer &netServer = (NetServer &) ScorchedClient::instance()->getNetInterface();
 	if (!netServer.connect((char *) hostPart.c_str(), port))
@@ -173,9 +110,12 @@ bool ConnectDialog::tryConnection()
 		ScorchedVersion,
 		ScorchedProtocolVersion,
 		OptionsParam::instance()->getPassword(),
-		OptionsDisplay::instance()->getUniqueUserId(),
-		PlayerDialog::instance()->getPlayerName(),
-		PlayerDialog::instance()->getModelName());
+		OptionsDisplay::instance()->getUniqueUserId());
+	ComsConnectMessage::PlayerEntry playerEntry;
+	playerEntry.name = PlayerDialog::instance()->getPlayerName();
+	playerEntry.model = PlayerDialog::instance()->getModelName();
+	connectMessage.getPlayers().push_back(playerEntry);
+
 	if (!ComsMessageSender::sendToServer(connectMessage))
 	{
 		Logger::log(0, "  Connection Send Failed!");
@@ -186,10 +126,3 @@ bool ConnectDialog::tryConnection()
 	return true;
 }
 
-void ConnectDialog::buttonDown(unsigned int id)
-{
-	if (id == quit_->getId())
-	{
-		WindowManager::instance()->showWindow(QuitDialog::instance()->getId());
-	}
-}

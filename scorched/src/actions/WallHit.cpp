@@ -18,10 +18,10 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <actions/WallHit.h>
 #include <sprites/WallActionRenderer.h>
 #include <common/OptionsParam.h>
+#include <engine/ScorchedContext.h>
 
 REGISTER_ACTION_SOURCE(WallHit);
 
@@ -43,7 +43,7 @@ WallHit::~WallHit()
 
 void WallHit::init()
 {
-	if (!OptionsParam::instance()->getOnServer()) 
+	if (!context_->serverMode)
 	{
 		setActionRender(new WallActionRenderer(position_, type_));
 	}

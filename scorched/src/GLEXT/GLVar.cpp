@@ -147,10 +147,9 @@ void GLVar::GLVarBuffer::draw()
 
 			if (GLStateExtension::getTextureUnits() > 2)
 			{
-				// Disabled until we can test
-				//GLStateExtension::glClientActiveTextureARB()(GL_TEXTURE2_ARB); 
-				//glTexCoordPointer(2, GL_FLOAT, Stride, &buffer_[0].txb1);
-				//glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+				GLStateExtension::glClientActiveTextureARB()(GL_TEXTURE2_ARB); 
+				glTexCoordPointer(2, GL_FLOAT, Stride, &buffer_[0].txb1);
+				glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 			}
 		}
 		else

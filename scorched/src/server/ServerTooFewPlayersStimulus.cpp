@@ -50,7 +50,7 @@ bool ServerTooFewPlayersStimulus::acceptStateChange(const unsigned state,
 		ComsGameStoppedMessage gameStopped;
 		ComsMessageSender::sendToAllConnectedClients(gameStopped);
 
-		Logger::log(0, "Too few players, stopping play");
+		serverLog(0, "Too few players, stopping play");
 		sendString(0, "Too few players, stopping play");
 		sendString(0,
 			"--------------------------------------\n"

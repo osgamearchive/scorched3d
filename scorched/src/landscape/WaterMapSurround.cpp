@@ -18,19 +18,11 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// WaterMapSurround.cpp: implementation of the WaterMapSurround class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <math.h>
 #include <common/Vector.h>
 #include <GLEXT/GLState.h>
+#include <GLEXT/GLStateExtension.h>
 #include <landscape/WaterMapSurround.h>
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 WaterMapSurround::WaterMapSurround(int width, int widthMult, float height) :
 	width_(width), widthMult_(widthMult), height_(height)
@@ -88,6 +80,12 @@ void WaterMapSurround::drawPoint(Vector &start, Vector &diff,
 	}*/
 	//pos[2] -= height_ * (numberYf / maxYf);
 
+	if (GLStateExtension::getTextureUnits() > 2)
+	{
+		GLStateExtension::glMultiTextCoord2fARB()
+			(GL_TEXTURE2_ARB, pos[0] / 32.0f, pos[1] / 32.0f); 
+	}
+
 	glVertex3fv(pos);
 }
 
@@ -99,7 +97,7 @@ void WaterMapSurround::generateList()
 	const float largeMult = largeLen / width_;
 	
 	glNormal3f(0.0f, 1.0f, 0.0f);
-	glColor4f(0.5f, 0.5f, 0.5f, 0.9f);
+	glColor4f(0.7f, 0.7f, 0.7f, 0.9f);
 
 	int maxSquares = 10;
 	for (int j=0; j<maxSquares; j++)

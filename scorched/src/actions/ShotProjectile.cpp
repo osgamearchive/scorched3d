@@ -45,7 +45,7 @@ ShotProjectile::ShotProjectile(Vector &startPosition, Vector &velocity,
 
 void ShotProjectile::init()
 {
-	if (!OptionsParam::instance()->getOnServer()) 
+	if (!context_->serverMode) 
 	{
 		setActionRender(new MissileActionRenderer(flareType_, weapon_->getScale()));
 	}

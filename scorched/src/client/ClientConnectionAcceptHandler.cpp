@@ -54,8 +54,8 @@ bool ClientConnectionAcceptHandler::processMessage(unsigned int id,
 	ComsConnectAcceptMessage message;
 	if (!message.readMessage(reader)) return false;
 
-	// need to store this client id somewhere
-	ScorchedClient::instance()->getTankContainer().setCurrentPlayerId(message.getClientId());
+	ScorchedClient::instance()->getTankContainer().
+		setCurrentDestinationId(message.getDestinationId());
 
 	// Add connection info to the dialogs
 	Logger::log(0,

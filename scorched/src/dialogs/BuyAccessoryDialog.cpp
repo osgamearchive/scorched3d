@@ -25,7 +25,6 @@
 #include <client/ClientState.h>
 #include <client/ScorchedClient.h>
 #include <common/WindowManager.h>
-#include <common/OptionsParam.h>
 #include <common/OptionsGame.h>
 #include <common/OptionsTransient.h>
 #include <coms/ComsMessageSender.h>
@@ -35,8 +34,7 @@
 #include <stdio.h>
 
 BuyAccessoryDialog::BuyAccessoryDialog() : 
-	GLWWindow("", 10.0f, 10.0f, 440.0f, 280.0f, 0),
-	currentPlayer_(-1), actualPlayer_(0)
+	GLWWindow("", 10.0f, 10.0f, 440.0f, 280.0f, 0)
 {
 	okId_ = addWidget(new GLWTextButton(" Ok", 375, 10, 55, this, true))->getId();
 
@@ -77,7 +75,7 @@ void BuyAccessoryDialog::addPlayerName()
 {
 	topPanel_->clear();
 
-	Tank *tank = ScorchedClient::instance()->getTankContainer().getTankById(actualPlayer_);
+	Tank *tank = ScorchedClient::instance()->getTankContainer().getCurrentTank();
 	if (!tank) return;
 
 	char buffer[256];
@@ -99,7 +97,7 @@ void BuyAccessoryDialog::addPlayerWeapons()
 void BuyAccessoryDialog::addPlayerWeaponsBuy(GLWTab *tab, bool showWeapons)
 {
 	tab->clear();
-	Tank *tank = ScorchedClient::instance()->getTankContainer().getTankById(actualPlayer_);
+	Tank *tank = ScorchedClient::instance()->getTankContainer().getCurrentTank();
 	if (!tank) return;
 
 	std::list<Accessory *> weapons;
@@ -177,7 +175,7 @@ void BuyAccessoryDialog::addPlayerWeaponsSell()
 	std::list<std::pair<Accessory *, int> > tankAccessories;
 	std::list<std::pair<Accessory *, int> >::iterator itor;
 
-	Tank *tank = ScorchedClient::instance()->getTankContainer().getTankById(actualPlayer_);
+	Tank *tank = ScorchedClient::instance()->getTankContainer().getCurrentTank();
 	if (!tank) return;
 
 	tank->getAccessories().getAllAccessories(tankAccessories);
@@ -224,68 +222,23 @@ void BuyAccessoryDialog::playerRefresh()
 
 void BuyAccessoryDialog::windowInit(const unsigned state)
 {
-	int roundsPlayed = ScorchedClient::instance()->getOptionsGame().getNoRounds() -
-		ScorchedClient::instance()->getOptionsTransient().getNoRoundsLeft();
-	if (ScorchedClient::instance()->getOptionsGame().getBuyOnRound() - 1 >= roundsPlayed ||
-		ScorchedClient::instance()->getOptionsTransient().getCurrentGameNo() != 1)
+	Tank *tank = ScorchedClient::instance()->getTankContainer().getCurrentTank();
+	if (tank)
 	{
-		finished();
+		buyWeaponTab_->setDepressed();
+		playerRefresh();
 	}
-	else
-	{
-		currentPlayer_ = -1;
-		nextPlayer();
-	}
-}
-
-void BuyAccessoryDialog::nextPlayer()
-{
-	++currentPlayer_;
-	Tank *tank = ScorchedClient::instance()->getTankContainer().
-		getTankByPos((unsigned int) currentPlayer_);
-
-	if (!tank)
-	{
-		finished();
-	}
-	else
-	{
-		if (tank->getTankAI() && tank->getTankAI()->isHuman())
-		{
-			actualPlayer_ = tank->getPlayerId();
-			buyWeaponTab_->setDepressed();
-			playerRefresh();
-			WindowManager::instance()->showWindow(getId());
-		}
-		else
-		{
-			nextPlayer();
-		}
-	}
-}
-
-void BuyAccessoryDialog::finished()
-{
-	WindowManager::instance()->hideWindow(getId());
-	ScorchedClient::instance()->getGameState().stimulate(ClientState::StimAutoDefense);
 }
 
 void BuyAccessoryDialog::buttonDown(unsigned int id)
 {
 	if (id == okId_)
 	{
-		if (OptionsParam::instance()->getConnectedToServer())
-		{
-			finished();
-		}
-		else
-		{
-			nextPlayer();
-		}
+		ScorchedClient::instance()->getGameState().stimulate(ClientState::StimAutoDefense);
 	}
 	else
 	{
-		Tank *tank = ScorchedClient::instance()->getTankContainer().getTankById(actualPlayer_);
+		Tank *tank = ScorchedClient::instance()->getTankContainer().getCurrentTank();
 		if (!tank) return;
 
 		std::map<unsigned int, Accessory *>::iterator itor;
@@ -294,11 +247,8 @@ void BuyAccessoryDialog::buttonDown(unsigned int id)
 		{
 			// Tell the server to add the accessory
 			Accessory *acc = itor->second;
-			if (OptionsParam::instance()->getConnectedToServer())
-			{
-				ComsBuyAccessoryMessage buyMessage(tank->getPlayerId(), acc->getName());
-				ComsMessageSender::sendToServer(buyMessage);
-			}
+			ComsBuyAccessoryMessage buyMessage(tank->getPlayerId(), acc->getName());
+			ComsMessageSender::sendToServer(buyMessage);
 
 			// Add the accessory
 			tank->getAccessories().add(acc);
@@ -318,11 +268,8 @@ void BuyAccessoryDialog::buttonDown(unsigned int id)
 			{
 				// Tell the server to add the accessory
 				Accessory *acc = itor->second;
-				if (OptionsParam::instance()->getConnectedToServer())
-				{
-					ComsBuyAccessoryMessage buyMessage(tank->getPlayerId(), acc->getName(), false);
-					ComsMessageSender::sendToServer(buyMessage);
-				}
+				ComsBuyAccessoryMessage buyMessage(tank->getPlayerId(), acc->getName(), false);
+				ComsMessageSender::sendToServer(buyMessage);
 
 				// Add the accessory
 				tank->getAccessories().rm(acc);

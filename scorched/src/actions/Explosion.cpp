@@ -76,7 +76,7 @@ void Explosion::init()
 	multiplier += 1.0f;
 	float explosionSize = width_ * multiplier;	
 
-	if (!OptionsParam::instance()->getOnServer()) 
+	if (!context_->serverMode) 
 	{
 		GLTextureSet *texture = &ExplosionTextures::instance()->exp00;
 		std::map<const char *, GLTextureSet*>::iterator itor =
@@ -105,7 +105,7 @@ void Explosion::simulate(float frameTime, bool &remove)
 	{
 		firstTime_ = false;
 
-		if (!OptionsParam::instance()->getOnServer()) 
+		if (!context_->serverMode) 
 		{
 			if (deformType_ != DeformNone)
 			{
@@ -137,7 +137,7 @@ void Explosion::simulate(float frameTime, bool &remove)
 				position_, explosionSize, 
 				(deformType_ == DeformDown), map))
 			{
-				if (!OptionsParam::instance()->getOnServer()) 
+				if (!context_->serverMode) 
 				{
 					DeformTextures::deformLandscape(position_, explosionSize, 
 						(deformType_ == DeformDown), map);

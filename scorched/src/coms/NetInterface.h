@@ -31,9 +31,6 @@ public:
 
 	virtual bool started() = 0;
 
-	virtual int getMaxClients() = 0;
-	virtual int getNoClients() = 0;
-
 	virtual int processMessages() = 0;
 	virtual void setMessageHandler(NetMessageHandlerI *handler) = 0;
 

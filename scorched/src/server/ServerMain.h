@@ -22,6 +22,7 @@
 #if !defined(__INCLUDE_ServerMainh_INCLUDE__)
 #define __INCLUDE_ServerMainh_INCLUDE__
 
+bool startServer(bool local);
 bool serverMain();
 void serverLoop();
 

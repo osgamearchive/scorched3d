@@ -18,7 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #ifndef _comsConnectMessage_h
 #define _comsConnectMessage_h
 
@@ -26,28 +25,33 @@
 // requesting a connection.
 // NOTE: Do not change the serialization format of this
 // message as it will cause problems for earlier versioned
-// servers.
+// servers. Ooops i have had to change it, oh well
 
 #include <coms/ComsMessage.h>
+#include <list>
 
 class ComsConnectMessage : public ComsMessage
 {
 public:
+	struct PlayerEntry
+	{
+		std::string name;
+		std::string model;
+	};
+
 	ComsConnectMessage(const char *version = "",
 		const char *protocolVersion = "",
 		const char *password = "",
-		const char *unqiueId = "",
-		const char *playerName = "",
-		const char *playerTank = "");
+		const char *unqiueId = "");
 	virtual ~ComsConnectMessage();
 
 	const char *getVersion() { return version_.c_str(); }
 	const char *getProtocolVersion() { return protocolVersion_.c_str(); }
 	const char *getPassword() { return password_.c_str(); }
-
-	const char *getPlayerName() { return playerName_.c_str(); }
-	const char *getModelName() { return playerModel_.c_str(); }
 	const char *getUniqueId() { return uniqueId_.c_str(); }
+	std::list<PlayerEntry> &getPlayers() { return players_; }
+
+	void addPlayers(std::list<PlayerEntry> &players) { players_.swap(players); }
 
 	// Inherited from ComsMessage
     virtual bool writeMessage(NetBuffer &buffer);
@@ -56,10 +60,9 @@ public:
 protected:
 	std::string version_;
 	std::string protocolVersion_;
-	std::string playerName_;
-	std::string playerModel_;
 	std::string password_;
 	std::string uniqueId_;
+	std::list<PlayerEntry> players_;
 
 private:
 	ComsConnectMessage(const ComsConnectMessage &);

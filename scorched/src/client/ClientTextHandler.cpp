@@ -24,6 +24,7 @@
 #include <client/MessageDisplay.h>
 #include <sprites/TalkRenderer.h>
 #include <coms/ComsTextMessage.h>
+#include <common/SoundStore.h>
 #include <common/Logger.h>
 
 ClientTextHandler *ClientTextHandler::instance_ = 0;
@@ -56,12 +57,15 @@ bool ClientTextHandler::processMessage(unsigned int id,
 	if (!message.readMessage(reader)) return false;
 
 	if (ScorchedClient::instance()->getGameState().getState() == 
-		ClientState::StateClientConnect)
+		ClientState::StateConnect)
 	{
 		Logger::log(0, message.getText());
 	}
 	else
 	{
+		CACHE_SOUND(sound,  PKGDIR "data/wav/misc/text.wav");
+		sound->play();
+
 		if (message.getShowAsMessage())
 		{
 			MessageDisplay::instance()->addMessage(message.getText());

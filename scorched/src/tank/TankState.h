@@ -24,6 +24,7 @@
 
 #include <coms/NetBuffer.h>
 
+class ScorchedContext;
 class TankState
 {
 public:
@@ -40,11 +41,11 @@ public:
 		SNotReady
 	};
 
-	TankState();
+	TankState(ScorchedContext &context);
 	virtual ~TankState();
 
 	// State
-	void nextRound();
+	void nextShot();
 	void newGame();
 	void reset();
 	void setReady() { readyState_ = sReady; }
@@ -69,6 +70,7 @@ public:
     bool readMessage(NetBufferReader &reader);
 
 protected:
+	ScorchedContext &context_;
 	State state_;
 	ReadyState readyState_;
 	float life_;

@@ -18,7 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <wx/wx.h>
@@ -26,7 +25,7 @@
 
 unsigned int ScorchedPort = 27270;
 char *ScorchedVersion = "36";
-char *ScorchedProtocolVersion = "ab";
+char *ScorchedProtocolVersion = "ac";
 
 extern bool wxWindowInit;
 

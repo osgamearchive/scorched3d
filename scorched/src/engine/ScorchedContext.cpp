@@ -21,7 +21,8 @@
 #include <engine/ScorchedContext.h>
 
 ScorchedContext::ScorchedContext(const char *name) : 
-	gameState(name), netInterface(0), optionsGame(), optionsTransient(optionsGame)
+	gameState(name), netInterface(0), optionsGame(), optionsTransient(optionsGame),
+	serverMode(false)
 {
 }
 

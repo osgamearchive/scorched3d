@@ -35,8 +35,8 @@ int GameInfoMessage::setQueryReply(char *reply,char *query,char *host,char *port
 		ScorchedProtocolVersion,
 		(host == NULL ? "unknown" : host  ),
 		(port == NULL ? -1 : atoi(port) ),
-		ScorchedServer::instance()->getNetInterface().getNoClients(),
-		ScorchedServer::instance()->getNetInterface().getMaxClients(),
+		ScorchedServer::instance()->getTankContainer().getNoOfTanks(),
+		ScorchedServer::instance()->getOptionsGame().getNoMaxPlayers(),
 		ScorchedServer::instance()->getOptionsGame().getServerName());
 
 	return strlen(reply);

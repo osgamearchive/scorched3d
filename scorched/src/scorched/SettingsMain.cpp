@@ -32,6 +32,15 @@ static void createControls(wxWindow *parent)
 		"",
 		wxPoint((int) 97.5, (int) 52.5), wxSize((int) 72, (int) 124.5),
 		0, 0, wxCB_READONLY);
+	IDC_TYPE_CTRL_TEXT = 
+		new wxStaticText(parent, -1,
+		"Game Type :",
+		wxPoint((int) 28.5, (int) 78));
+	IDC_TYPE_CTRL = 
+		new wxComboBox(parent, IDC_GAME_TYPE,
+		"",
+		wxPoint((int) 97.5, (int) 78), wxSize((int) 100, (int) 124.5),
+		0, 0, wxCB_READONLY);
 	new wxStaticText(parent, -1,
 		"No Rounds :",
 		wxPoint((int) 28.5, (int) 30));

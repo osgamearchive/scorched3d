@@ -22,6 +22,7 @@
 #include <server/ServerShotState.h>
 #include <server/ServerState.h>
 #include <server/ServerShotHolder.h>
+#include <scorched/ServerDialog.h>
 #include <tank/TankStart.h>
 #include <coms/ComsActionsMessage.h>
 #include <coms/ComsMessageSender.h>
@@ -38,7 +39,12 @@ ServerShotState::~ServerShotState()
 
 void ServerShotState::enterState(const unsigned state)
 {
-	Logger::log(0, "Playing Shots");
+	serverLog(0, "Playing Shots");
+
+	// Tell all tanks it is the next shot
+	// Set the all the tanks to wait state
+	// Once all tanks are ready the next state will be chosen
+	ScorchedServer::instance()->getContext().tankContainer.nextShot();	
 
 	// Reset the counts in the action controller
 	ScorchedServer::instance()->getActionController().resetTime();
@@ -85,12 +91,12 @@ bool ServerShotState::acceptStateChange(const unsigned state,
 			sentMessage_ = true;
 
 			// We have finished all shots
-			Logger::log(0, "Finished playing Shots (%.2f seconds)", totalTime_);
+			serverLog(0, "Finished playing Shots (%.2f seconds)", totalTime_);
 
 			// tell the clients of the shot outcomes
 			ComsActionsMessage actionsMessage;
 			ComsMessageSender::sendToAllPlayingClients(actionsMessage);
-			Logger::log(0, "Sending actions message (%i bytes)", 
+			serverLog(0, "Sending actions message (%i bytes)", 
 				NetBufferDefault::defaultBuffer.getBufferUsed());
 
 			// Remove a few seconds from the wait time just to be sure

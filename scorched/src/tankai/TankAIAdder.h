@@ -26,7 +26,14 @@
 namespace TankAIAdder
 {
 	void addTankAIs(ScorchedContext &context);
-};
 
+	void addTankAI(ScorchedContext &context,
+		const char *aiName,
+		const char *modelName,
+		const char *name = "",
+		bool raiseEvent = false);
+
+	unsigned int getNextTankId();
+};
 
 #endif

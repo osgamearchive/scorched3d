@@ -36,9 +36,6 @@ public:
 	unsigned int start(int portNo, int maxClients = -1);
 	virtual bool started();
 
-	virtual int getMaxClients();
-	virtual int getNoClients();
-
 	virtual int processMessages();
 	virtual void setMessageHandler(NetMessageHandlerI *handler);
 

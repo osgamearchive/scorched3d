@@ -20,7 +20,7 @@
 
 #include <wx/wx.h>
 #include <wx/image.h>
-#include <client/ScorchedClient.h>
+#include <server/ScorchedServer.h>
 #include <scorched/MainDialog.h>
 #include <scorched/SettingsDialog.h>
 #include <common/Defines.h>
@@ -104,35 +104,35 @@ SingleFrame::SingleFrame() :
 
 void SingleFrame::onEasyButton()
 {
-	ScorchedClient::instance()->getOptionsGame().readOptionsFromFile(easyFilePath);
-	ScorchedClient::instance()->getOptionsGame().writeOptionsToFile(easyFilePath);
+	ScorchedServer::instance()->getOptionsGame().readOptionsFromFile(easyFilePath);
+	ScorchedServer::instance()->getOptionsGame().writeOptionsToFile(easyFilePath);
 	OptionsParam::instance()->getSinglePlayer() = true;
 	EndModal(wxID_OK);
 }
 
 void SingleFrame::onNormalButton()
 {
-	ScorchedClient::instance()->getOptionsGame().readOptionsFromFile(normalFilePath);
-	ScorchedClient::instance()->getOptionsGame().writeOptionsToFile(normalFilePath);
+	ScorchedServer::instance()->getOptionsGame().readOptionsFromFile(normalFilePath);
+	ScorchedServer::instance()->getOptionsGame().writeOptionsToFile(normalFilePath);
 	OptionsParam::instance()->getSinglePlayer() = true;
 	EndModal(wxID_OK);
 }
 
 void SingleFrame::onHardButton()
 {
-	ScorchedClient::instance()->getOptionsGame().readOptionsFromFile(hardFilePath);
-	ScorchedClient::instance()->getOptionsGame().writeOptionsToFile(hardFilePath);
+	ScorchedServer::instance()->getOptionsGame().readOptionsFromFile(hardFilePath);
+	ScorchedServer::instance()->getOptionsGame().writeOptionsToFile(hardFilePath);
 	OptionsParam::instance()->getSinglePlayer() = true;
 	EndModal(wxID_OK);
 }
 
 void SingleFrame::onCustomButton()
 {
-	ScorchedClient::instance()->getOptionsGame().readOptionsFromFile(customFilePath);
+	ScorchedServer::instance()->getOptionsGame().readOptionsFromFile(customFilePath);
 
-	if (showSettingsDialog(false, ScorchedClient::instance()->getContext()))
+	if (showSettingsDialog(false, ScorchedServer::instance()->getContext()))
 	{
-		ScorchedClient::instance()->getOptionsGame().writeOptionsToFile(customFilePath);
+		ScorchedServer::instance()->getOptionsGame().writeOptionsToFile(customFilePath);
 		OptionsParam::instance()->getSinglePlayer() = true;
 		EndModal(wxID_OK);
 	}

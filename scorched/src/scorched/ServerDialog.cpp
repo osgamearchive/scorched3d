@@ -21,8 +21,10 @@
 #include <scorched/ServerDialog.h>
 #include <scorched/MainDialog.h>
 #include <tankai/TankAIStore.h>
+#include <tankai/TankAIAdder.h>
 #include <common/OptionsGame.h>
 #include <common/OptionsTransient.h>
+#include <common/OptionsParam.h>
 #include <common/Logger.h>
 #include <coms/NetBufferUtil.h>
 #include <coms/ComsTextMessage.h>
@@ -57,6 +59,22 @@ enum
 	IDC_MENU_PLAYERADD_8,
 	IDC_MENU_PLAYERADD_9
 };
+
+void serverLog(unsigned int playerId, const char *fmt, ...)
+{
+	if (OptionsParam::instance()->getDedicatedServer())
+	{
+		static char text[2048];
+
+		// Add the actual log message
+		va_list ap;
+		va_start(ap, fmt);
+		vsprintf(text, fmt, ap);
+		va_end(ap);
+
+		Logger::log(playerId, text);
+	}
+}
 
 class ServerPlayerListControl : public wxListCtrl
 {
@@ -307,7 +325,8 @@ void ServerFrame::onPlayerAdd(int i)
 			TankAIComputer *ai = (*aiitor);
 			if (aicount == i)
 			{
-
+				TankAIAdder::addTankAI(ScorchedServer::instance()->getContext(),
+					ai->getName(), "Random", "", true);
 			}
 		}
 	}
@@ -409,40 +428,34 @@ void sendString(unsigned int dest, const char *fmt, ...)
 	}
 }
 
-void kickPlayer(unsigned int id)
+void kickDestination(unsigned int destinationId)
 {
-	bool human = true;
-	unsigned int tankId = (unsigned int) id;
-	Tank *tank = ScorchedServer::instance()->getTankContainer().getTankById(tankId);
-	if (tank)
+	if (destinationId == 0)
 	{
-		sendString(0,
-			"Player \"%s\" has been kicked from the server",
-			tank->getName(), id);
-		Logger::log(tank->getPlayerId(), "Kicking client \"%s\" \"%i\"", 
-			tank->getName(), id);
+		Logger::log(0, "Cannot kick local destination");
+		return;
+	}
+	Logger::log(0, "Kicking destination \"%i\"", destinationId);
 
-		if (tank->getTankAI() && !tank->getTankAI()->isHuman())
+	std::map<unsigned int, Tank *>::iterator itor;
+	std::map<unsigned int, Tank *> &tanks = 
+		ScorchedServer::instance()->getTankContainer().getPlayingTanks();
+	for (itor = tanks.begin();
+		itor != tanks.end();
+		itor++)
+	{
+		Tank *tank = (*itor).second;
+		if (tank->getDestinationId() == destinationId)
 		{
-			human = false;
+			sendString(0,
+				"Player \"%s\" has been kicked from the server",
+				tank->getName(), tank->getPlayerId());
+			Logger::log(tank->getPlayerId(), "Kicking client \"%s\" \"%i\"", 
+				tank->getName(), tank->getPlayerId());
 		}
 	}
-	else
-	{
-		sendString(0,
-			"%i has been kicked from the server",
-			id);
-		Logger::log(0, "Kicking client \"%i\"", id);
-	}
 
-	if (human)
-	{
-		ScorchedServer::instance()->getNetInterface().disconnectClient(id);
-	}
-	else
-	{
-		ServerMessageHandler::instance()->destroyPlayer(tankId);
-	}
+	ScorchedServer::instance()->getNetInterface().disconnectClient(destinationId);
 }
 
 void ServerFrame::onPlayerTalkAll()
@@ -479,7 +492,7 @@ void ServerFrame::onPlayerTalk()
 					ScorchedServer::instance()->getTankContainer().getTankByPos((unsigned int) item);
 				if (!tank->getTankAI())
 				{
-					sendString(tank->getPlayerId(), entryDialog.GetValue());
+					sendString(tank->getDestinationId(), entryDialog.GetValue());
 				}
 			}
 		}
@@ -499,7 +512,14 @@ void ServerFrame::onPlayerKick()
 		{
 			Tank *tank = 
 				ScorchedServer::instance()->getTankContainer().getTankByPos((unsigned int) item);
-			kickPlayer(tank->getPlayerId());
+			if (tank->getDestinationId() == 0)
+			{
+				ServerMessageHandler::instance()->destroyPlayer(tank->getPlayerId());
+			}
+			else
+			{
+				kickDestination(tank->getDestinationId());
+			}
 		}		
     }
 }

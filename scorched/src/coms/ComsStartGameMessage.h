@@ -28,10 +28,12 @@
 class ComsStartGameMessage : public ComsMessage
 {
 public:
-	ComsStartGameMessage();
+	ComsStartGameMessage(unsigned int currentPlayerId = 0,
+		bool buyWeapons = false);
 	virtual ~ComsStartGameMessage();
 
-	ComsPlayerStateMessage &getStateMessage() { return stateMessage_; }
+	unsigned int getCurrentPlayerId() { return currentPlayerId_; }
+	bool getBuyWeapons() { return buyWeapons_; }
 
 	// Inherited from ComsMessage
     virtual bool writeMessage(NetBuffer &buffer);
@@ -39,6 +41,8 @@ public:
 
 protected:
 	ComsPlayerStateMessage stateMessage_;
+	unsigned int currentPlayerId_;
+	bool buyWeapons_;
 };
 
 

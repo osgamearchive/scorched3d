@@ -63,12 +63,14 @@ bool ClientAddPlayerHandler::processMessage(unsigned int id,
 	Tank *tank = new Tank(
 		ScorchedClient::instance()->getContext(),
 		message.getPlayerId(),
+		0,
 		message.getPlayerName(),
 		message.getPlayerColor(),
 		modelId);
-	if (message.getPlayerId() == 
-		ScorchedClient::instance()->getTankContainer().getCurrentPlayerId())
+	if (message.getDestinationId() == 
+		ScorchedClient::instance()->getTankContainer().getCurrentDestinationId()) 
 	{
+		// If this is a player local to this destination then add the human ai
 		TankAI *ai = new TankAIHuman(&ScorchedClient::instance()->getContext(), tank);
 		tank->setTankAI(ai);
 	}
@@ -78,8 +80,7 @@ bool ClientAddPlayerHandler::processMessage(unsigned int id,
 	Logger::log(message.getPlayerId(),
 			"New player connected \"%s\" %s",
 			message.getPlayerName(),
-			(tank->getPlayerId() == ScorchedClient::instance()->getTankContainer().getCurrentPlayerId()?
-			"<- Local":""));
+			(tank->getTankAI()?"<- Local":""));
 
 	return true;
 }

@@ -18,19 +18,20 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <coms/ComsAddPlayerMessage.h>
 
 ComsAddPlayerMessage::ComsAddPlayerMessage(
 		unsigned int playerId,
 		const char *playerName,
 		Vector playerColor,
-		const char *modelName) :
+		const char *modelName,
+		unsigned int destinationId) :
 	ComsMessage("ComsAddPlayerMessage"),
 	playerId_(playerId),
 	playerName_(playerName),
 	playerColor_(playerColor),
-	modelName_(modelName)
+	modelName_(modelName),
+	destinationId_(destinationId)
 {
 
 }
@@ -45,6 +46,7 @@ bool ComsAddPlayerMessage::writeMessage(NetBuffer &buffer)
 	buffer.addToBuffer(playerName_.c_str());
 	buffer.addToBuffer(modelName_.c_str());
 	buffer.addToBuffer(playerId_);
+	buffer.addToBuffer(destinationId_);
 	buffer.addToBuffer(playerColor_[0]);
 	buffer.addToBuffer(playerColor_[1]);
 	buffer.addToBuffer(playerColor_[2]);
@@ -56,6 +58,7 @@ bool ComsAddPlayerMessage::readMessage(NetBufferReader &reader)
 	if (!reader.getFromBuffer(playerName_)) return false;
 	if (!reader.getFromBuffer(modelName_)) return false;
 	if (!reader.getFromBuffer(playerId_)) return false;
+	if (!reader.getFromBuffer(destinationId_)) return false;
 	if (!reader.getFromBuffer(playerColor_[0])) return false;
 	if (!reader.getFromBuffer(playerColor_[1])) return false;
 	if (!reader.getFromBuffer(playerColor_[2])) return false;

@@ -27,7 +27,7 @@
 #define AFX_TANKSORT_H__21F68DAD_9352_4673_9E24_B869AD5645AE__INCLUDED_
 
 #include <list>
-#include <tank/Tank.h>
+#include <tank/TankContainer.h>
 
 namespace TankSort
 {
@@ -37,6 +37,7 @@ namespace TankSort
 	};
 
 	void getSortedTanks(std::list<Tank *> &list);
+	void getSortedTanksIds(TankContainer &container, std::list<unsigned int> &list);
 };
 
 #endif // !defined(AFX_TANKSORT_H__21F68DAD_9352_4673_9E24_B869AD5645AE__INCLUDED_)

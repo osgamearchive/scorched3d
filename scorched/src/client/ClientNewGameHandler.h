@@ -34,12 +34,8 @@ public:
 		const char *message,
 		NetBufferReader &reader);
 
-	void clientNewGame();
-
 protected:
 	static ClientNewGameHandler* instance_;
-
-	void newGame();
 
 private:
 	ClientNewGameHandler();

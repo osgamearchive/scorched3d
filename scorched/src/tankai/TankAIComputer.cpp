@@ -20,11 +20,14 @@
 
 #include <tankai/TankAIComputer.h>
 #include <tankai/TankAIStrings.h>
+#include <tankai/TankAILogic.h>
 #include <server/ServerShotHolder.h>
+#include <server/ScorchedServer.h>
 #include <common/OptionsGame.h>
 #include <common/OptionsTransient.h>
 #include <actions/TankSay.h>
 #include <engine/ScorchedContext.h>
+#include <coms/ComsMessageSender.h>
 
 TankAIComputer::TankAIComputer() : 
 	TankAI(0, 0), primaryShot_(true), name_("<NoName>")
@@ -89,15 +92,10 @@ bool TankAIComputer::parseConfig(XMLNode *node)
 
 void TankAIComputer::newGame()
 {
-	int roundsPlayed = context_->optionsGame.getNoRounds() -
-		context_->optionsTransient.getNoRoundsLeft();
-	if (context_->optionsGame.getBuyOnRound() - 1 < roundsPlayed)
-	{
-		buyAccessories();
-	}
+
 }
 
-void TankAIComputer::nextRound()
+void TankAIComputer::nextShot()
 {
 
 }
@@ -126,15 +124,18 @@ void TankAIComputer::ourShotLanded(Weapon *weapon, Vector &position)
 
 }
 
-void TankAIComputer::buyAccessories()
+void TankAIComputer::autoDefense()
 {
-	tankBuyer_.buyAccessories(3);
+
 }
 
-void TankAIComputer::fireShot()
+void TankAIComputer::buyAccessories()
 {
-	primaryShot_ = true;
-	TankAI::fireShot();
+	ComsPlayedMoveMessage *message = 
+		new ComsPlayedMoveMessage(currentTank_->getPlayerId(), ComsPlayedMoveMessage::eFinishedBuy);
+	ServerShotHolder::instance()->addShot(currentTank_->getPlayerId(), message);
+
+	tankBuyer_.buyAccessories(3);
 }
 
 void TankAIComputer::selectFirstShield()
@@ -160,4 +161,85 @@ void TankAIComputer::say(const char *text)
 
 	context_->actionController.addAction(
 		new TankSay(currentTank_->getPlayerId(), newText.c_str()));
+}
+
+void TankAIComputer::fireShot()
+{
+	primaryShot_ = true;
+	Weapon *currentWeapon = 
+		currentTank_->getAccessories().getWeapons().getCurrent();
+	if (currentWeapon)
+	{
+		ComsPlayedMoveMessage *message = 
+			new ComsPlayedMoveMessage(currentTank_->getPlayerId(), ComsPlayedMoveMessage::eShot);
+		message->setShot(
+			currentTank_->getAccessories().getWeapons().getCurrent()->getName(),
+			currentTank_->getPhysics().getRotationGunXY(),
+			currentTank_->getPhysics().getRotationGunYZ(),
+			currentTank_->getState().getPower());
+	
+		ServerShotHolder::instance()->addShot(currentTank_->getPlayerId(), message);
+	}
+}
+
+void TankAIComputer::skipShot()
+{
+	ComsPlayedMoveMessage *message = 
+		new ComsPlayedMoveMessage(currentTank_->getPlayerId(), ComsPlayedMoveMessage::eSkip);
+	ServerShotHolder::instance()->addShot(currentTank_->getPlayerId(), message);
+}
+
+void TankAIComputer::resign()
+{
+	ComsPlayedMoveMessage *message = 
+		new ComsPlayedMoveMessage(currentTank_->getPlayerId(), ComsPlayedMoveMessage::eResign);
+	ServerShotHolder::instance()->addShot(currentTank_->getPlayerId(), message);
+}
+
+void TankAIComputer::move(int x, int y)
+{
+	ComsPlayedMoveMessage *message = 
+		new ComsPlayedMoveMessage(currentTank_->getPlayerId(), ComsPlayedMoveMessage::eMove);
+	message->setPosition(x, y);
+	ServerShotHolder::instance()->addShot(currentTank_->getPlayerId(), message);
+}
+
+void TankAIComputer::parachutesUpDown(bool on)
+{
+	ComsDefenseMessage defenseMessage(
+		currentTank_->getPlayerId(),
+		on?ComsDefenseMessage::eParachutesUp:ComsDefenseMessage::eParachutesDown);
+
+	if (TankAILogic::processDefenseMessage(
+		ScorchedServer::instance()->getContext(), defenseMessage, currentTank_))
+	{
+		ComsMessageSender::sendToAllPlayingClients(defenseMessage);
+	}
+}
+
+void TankAIComputer::shieldsUpDown(const char *name)
+{
+	ComsDefenseMessage defenseMessage(
+		currentTank_->getPlayerId(),
+		name?ComsDefenseMessage::eShieldUp:ComsDefenseMessage::eShieldDown,
+		name?name:"");
+
+	if (TankAILogic::processDefenseMessage(
+		ScorchedServer::instance()->getContext(), defenseMessage, currentTank_))
+	{
+		ComsMessageSender::sendToAllPlayingClients(defenseMessage);
+	}
+}
+
+void TankAIComputer::useBattery()
+{
+	ComsDefenseMessage defenseMessage(
+		currentTank_->getPlayerId(),
+		ComsDefenseMessage::eBatteryUse);
+
+	if (TankAILogic::processDefenseMessage(
+		ScorchedServer::instance()->getContext(), defenseMessage, currentTank_))
+	{
+		ComsMessageSender::sendToAllPlayingClients(defenseMessage);
+	}
 }

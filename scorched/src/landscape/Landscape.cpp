@@ -43,7 +43,7 @@ Landscape *Landscape::instance()
 }
 
 Landscape::Landscape() : 
-	wMap_(64, 8, 512), patchGrid_(&ScorchedClient::instance()->getLandscapeMaps().getHMap(), 16), 
+	wMap_(64, 8, 256), patchGrid_(&ScorchedClient::instance()->getLandscapeMaps().getHMap(), 16), 
 	wMapPoints_(wMap_, 256, 4),
 	surroundDefs_(ScorchedClient::instance()->getLandscapeMaps().getHMap(), 1524, 256), 
 	surround_(surroundDefs_),
@@ -110,6 +110,14 @@ void Landscape::draw(const unsigned state)
 	{
 		if (GLStateExtension::glActiveTextureARB())
 		{
+			if (GLStateExtension::getTextureUnits() > 2 &&
+				OptionsDisplay::instance()->getDetailTexture())
+			{
+				GLStateExtension::glActiveTextureARB()(GL_TEXTURE2_ARB);
+				glEnable(GL_TEXTURE_2D);
+				detailTexture_.draw(true);
+			}
+
 			GLStateExtension::glActiveTextureARB()(GL_TEXTURE1_ARB);
 			glEnable(GL_TEXTURE_2D);
 			shadowMap_.setTexture();
@@ -145,6 +153,13 @@ void Landscape::draw(const unsigned state)
 	{
 		if (GLStateExtension::glActiveTextureARB())
 		{
+			if (GLStateExtension::getTextureUnits() > 2 &&
+				OptionsDisplay::instance()->getDetailTexture())
+			{
+				GLStateExtension::glActiveTextureARB()(GL_TEXTURE2_ARB);
+				glDisable(GL_TEXTURE_2D);
+			}
+
 			GLStateExtension::glActiveTextureARB()(GL_TEXTURE1_ARB);
 			glDisable(GL_TEXTURE_2D);
 
@@ -237,6 +252,8 @@ void Landscape::generate(ProgressCounter *counter)
 	bitmapWater_.loadFromFile(Resources::stringResource("bitmap-cloudreflection"), false);
 	GLBitmap bitmapMagma(Resources::stringResource("bitmap-magmasmall"));
 	GLBitmap bitmapCloud(Resources::stringResource("bitmap-cloud"));
+	GLBitmap bitmapDetail(Resources::stringResource("bitmap-detail"));
+	GLBitmap bitmapWaterDetail(Resources::stringResource("bitmap-water"));
 
 	// Generate landscape texture
 	surroundTexture_.replace(texture0);
@@ -264,6 +281,10 @@ void Landscape::generate(ProgressCounter *counter)
 	// Create the main landscape texture
 	DIALOG_ASSERT(texture_.replace(mainMap_, GL_RGB, false));
 
+	// Create the detail textures
+	DIALOG_ASSERT(detailTexture_.replace(bitmapDetail, GL_RGB, true));
+	DIALOG_ASSERT(waterDetail_.replace(bitmapWaterDetail, GL_RGB, true));
+	
 	// Create the plan textures (for the plan and wind dialogs)
 	updatePlanTexture();
 	updatePlanATexture();
@@ -274,7 +295,7 @@ void Landscape::generate(ProgressCounter *counter)
 	// Water waves texture
 	GLBitmapModifier::addWavesToBitmap(
 		ScorchedClient::instance()->getLandscapeMaps().getHMap(), 
-		wMap_.getBitmap(), wMap_.getHeight(), 0.3f, counter);
+		wMap_.getBitmap(), wMap_.getHeight(), 0.6f, counter);
 	wMap_.refreshTexture();
 
 	// Load the water reflection bitmap

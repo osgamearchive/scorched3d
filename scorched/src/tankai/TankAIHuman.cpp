@@ -23,8 +23,11 @@
 #include <common/OptionsDisplay.h>
 #include <client/MainCamera.h>
 #include <client/ScorchedClient.h>
+#include <client/ClientState.h>
 #include <tankai/TankAIHuman.h>
+#include <tankai/TankAILogic.h>
 #include <tankgraph/TankModelRenderer.h>
+#include <coms/ComsMessageSender.h>
 #include <tank/Tank.h>
 #include <stdio.h>
 
@@ -47,7 +50,7 @@ void TankAIHuman::newGame()
 {
 }
 
-void TankAIHuman::nextRound()
+void TankAIHuman::nextShot()
 {
 }
 
@@ -368,4 +371,100 @@ void TankAIHuman::powerHUD()
 	float power = currentTank_->getState().getPower() / 1000.0f;
 	TankModelRendererHUD::setText("Pwr:", 
 		currentTank_->getState().getPowerString(), power * 100.0f);
+}
+
+
+void TankAIHuman::fireShot()
+{
+	Weapon *currentWeapon = 
+		currentTank_->getAccessories().getWeapons().getCurrent();
+	if (currentWeapon)
+	{
+		// send message saying we are finished with shot
+		ComsPlayedMoveMessage comsMessage(currentTank_->getPlayerId(), ComsPlayedMoveMessage::eShot);
+		comsMessage.setShot(
+			currentWeapon->getName(),
+			currentTank_->getPhysics().getRotationGunXY(),
+			currentTank_->getPhysics().getRotationGunYZ(),
+			currentTank_->getState().getPower());
+
+		// If so we send this move to the server
+		ComsMessageSender::sendToServer(comsMessage);
+
+		// Stimulate into the next state waiting for all the shots
+		ScorchedClient::instance()->getGameState().stimulate(ClientState::StimShot);
+	}
+}
+
+void TankAIHuman::skipShot()
+{
+	// send message saying we are finished with shot
+	ComsPlayedMoveMessage comsMessage(currentTank_->getPlayerId(), ComsPlayedMoveMessage::eSkip);
+
+	// Check if we are running in a NET/LAN environment
+	// If so we send this move to the server
+	ComsMessageSender::sendToServer(comsMessage);
+
+	// Stimulate into the next state waiting for all the shots
+	ScorchedClient::instance()->getGameState().stimulate(ClientState::StimShot);
+}
+
+void TankAIHuman::resign()
+{
+	// send message saying we are finished with shot
+	ComsPlayedMoveMessage comsMessage(currentTank_->getPlayerId(), ComsPlayedMoveMessage::eResign);
+
+	// Check if we are running in a NET/LAN environment
+	// If so we send this move to the server
+	ComsMessageSender::sendToServer(comsMessage);
+	
+	// Stimulate into the next state waiting for all the shots
+	ScorchedClient::instance()->getGameState().stimulate(ClientState::StimShot);
+}
+
+void TankAIHuman::move(int x, int y)
+{
+	// send message saying we are finished with shot
+	ComsPlayedMoveMessage comsMessage(currentTank_->getPlayerId(), ComsPlayedMoveMessage::eMove);
+	comsMessage.setPosition(x, y);
+
+	// If so we send this move to the server
+	ComsMessageSender::sendToServer(comsMessage);
+	
+	// Stimulate into the next state waiting for all the shots
+	ScorchedClient::instance()->getGameState().stimulate(ClientState::StimShot);
+}
+
+void TankAIHuman::parachutesUpDown(bool on)
+{
+	ComsDefenseMessage defenseMessage(
+		currentTank_->getPlayerId(),
+		on?ComsDefenseMessage::eParachutesUp:ComsDefenseMessage::eParachutesDown);
+
+	// Check if we are running in a NET/LAN environment
+	// If so we send this defense action to the server
+	ComsMessageSender::sendToServer(defenseMessage);
+}
+
+void TankAIHuman::shieldsUpDown(const char *name)
+{
+	ComsDefenseMessage defenseMessage(
+		currentTank_->getPlayerId(),
+		name?ComsDefenseMessage::eShieldUp:ComsDefenseMessage::eShieldDown,
+		name?name:"");
+	
+	// Check if we are running in a NET/LAN environment
+	// If so we send this defense action to the server
+	ComsMessageSender::sendToServer(defenseMessage);
+}
+
+void TankAIHuman::useBattery()
+{
+	ComsDefenseMessage defenseMessage(
+		currentTank_->getPlayerId(),
+		ComsDefenseMessage::eBatteryUse);
+
+	// Check if we are running in a NET/LAN environment
+	// If so we send this defense action to the server
+	ComsMessageSender::sendToServer(defenseMessage);
 }

@@ -24,7 +24,6 @@
 #include <client/ClientNewGameHandler.h>
 #include <client/ScorchedClient.h>
 #include <landscape/Landscape.h>
-#include <tank/TankStart.h>
 #include <engine/ActionController.h>
 #include <common/OptionsTransient.h>
 #include <common/OptionsGame.h>
@@ -63,78 +62,9 @@ bool ClientStartGameHandler::processMessage(unsigned int id,
 	ComsStartGameMessage message;
 	if (!message.readMessage(reader)) return false;
 
-	startGame();
-	return true;
-}
+	ScorchedClient::instance()->getTankContainer().setCurrentPlayerId(
+		message.getCurrentPlayerId());
 
-void ClientStartGameHandler::startClientGame()
-{
-	if (ScorchedClient::instance()->getTankContainer().aliveCount() < 2)
-	{
-		// check for all rounds completely finished
-		if (ScorchedClient::instance()->getOptionsTransient().getNoRoundsLeft() <= 0)
-		{
-			// We have finished with all rounds show the score
-			ScorchedClient::instance()->getGameState().stimulate(ClientState::StimScore);
-		}
-		else
-		{
-			// We have finished with this round, go onto the next round
-			ClientNewGameHandler::instance()->clientNewGame();
-		}
-
-		return;
-	}
-
-	TankStart::nextRound(ScorchedClient::instance()->getContext());
-
-	// Find who the next player is
-	if (ScorchedClient::instance()->getTankContainer().getCurrentPlayerId() == 0)
-	{
-		// This is the beginning of a new round,
-		// Use the first player in the map as the starting player
-		std::map<unsigned, Tank *>::iterator itor =
-			ScorchedClient::instance()->getTankContainer().getPlayingTanks().begin();
-		ScorchedClient::instance()->getTankContainer().setCurrentPlayerId(
-			(*itor).second->getPlayerId());
-	}
-	else
-	{
-		// This is not the beginning of a new round
-		// So find the first alive player after the currently
-		// playing player and make this the current player
-		bool found = false;
-		bool useNext = false;
-		while (!found)
-		{
-			std::map<unsigned, Tank *>::iterator itor;
-			for (itor = ScorchedClient::instance()->getTankContainer().getPlayingTanks().begin();
-				(itor != ScorchedClient::instance()->getTankContainer().getPlayingTanks().end()) && !found;
-				itor++)
-			{
-				Tank *current = (*itor).second;
-
-				if (useNext && current->getState().getState() == 
-					TankState::sNormal)
-				{
-					found = true;
-					ScorchedClient::instance()->getTankContainer().
-						setCurrentPlayerId(current->getPlayerId());
-				}
-				if (current->getPlayerId() == 
-					ScorchedClient::instance()->getTankContainer().getCurrentPlayerId())
-				{
-					useNext = true;
-				}
-			}
-		}
-	}
-
-	startGame();
-}
-
-void ClientStartGameHandler::startGame()
-{
 	// Ensure that the landscape is set to the "proper" texture
 	Landscape::instance()->restoreLandscapeTexture();
 
@@ -159,5 +89,13 @@ void ClientStartGameHandler::startGame()
 	}
 
 	// Stimulate into the new game state
-	ScorchedClient::instance()->getGameState().stimulate(ClientState::StimBuyWeapons);
+	if (message.getBuyWeapons())
+	{
+		ScorchedClient::instance()->getGameState().stimulate(ClientState::StimBuyWeapons);
+	}
+	else
+	{
+		ScorchedClient::instance()->getGameState().stimulate(ClientState::StimPlaying);
+	}
+	return true;
 }

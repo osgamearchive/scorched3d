@@ -48,7 +48,7 @@ Roller::~Roller()
 
 void Roller::init()
 {
-	if (!OptionsParam::instance()->getOnServer()) 
+	if (!context_->serverMode) 
 	{
 		setActionRender(new RollerRenderer);
 	}

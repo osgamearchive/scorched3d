@@ -27,6 +27,7 @@
 #include <client/ScorchedClient.h>
 #include <dialogs/MainMenuDialog.h>
 #include <landscape/Landscape.h>
+#include <tankai/TankAIHuman.h>
 #include <common/Keyboard.h>
 #include <common/SoundStore.h>
 #include <common/Defines.h>
@@ -316,7 +317,7 @@ void MainCamera::mouseDown(const unsigned state, GameState::MouseButton button, 
 						if (entry.type == MovementMap::eMovement &&
 							entry.dist < currentTank->getAccessories().getFuel().getNoFuel())
 						{
-							TankAI *ai = currentTank->getTankAI();
+							TankAIHuman *ai = (TankAIHuman *) currentTank->getTankAI();
 							if (ai) ai->move(posX, posY);
 						}
 					}

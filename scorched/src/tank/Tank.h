@@ -26,7 +26,7 @@
 #include <tank/TankState.h>
 #include <tank/TankPhysics.h>
 #include <tank/TankModelId.h>
-#include <tank/TankAI.h>
+#include <tankai/TankAI.h>
 
 class Tank  
 {
@@ -34,21 +34,24 @@ public:
 	// Constructor for tank
 	// The name and color are copied
 	Tank(ScorchedContext &context, 
-		unsigned int playerId, const char *name, 
+		unsigned int playerId, 
+		unsigned int destinationId,
+		const char *name, 
 		Vector &color, TankModelId &modelId);
 	virtual ~Tank();
 
 	// Called when the state changes
 	void reset();
 	void newGame();
-	void nextRound();
+	void nextShot();
 
 	// Serialize the tank
     bool writeMessage(NetBuffer &buffer);
     bool readMessage(NetBufferReader &reader);
 
 	// The base attributes of the tank
-	unsigned int &getPlayerId() { return playerId_; }
+	unsigned int getPlayerId() { return playerId_; }
+	unsigned int getDestinationId() { return destinationId_; }
 	const char *getName() { return name_.c_str(); }
 	const char *getUniqueId() { return uniqueId_.c_str(); }
 	unsigned int getNameLen() { return name_.size(); }
@@ -76,6 +79,7 @@ protected:
 	std::string name_;
 	std::string uniqueId_;
 	unsigned int playerId_;
+	unsigned int destinationId_;
 
 };
 

@@ -20,7 +20,8 @@
 
 #include <server/ScorchedServer.h>
 #include <server/ServerShotHolder.h>
-#include <tank/TankAILogic.h>
+#include <server/TurnController.h>
+#include <tankai/TankAILogic.h>
 
 ServerShotHolder *ServerShotHolder::instance_ = 0;
 
@@ -70,17 +71,19 @@ bool ServerShotHolder::haveShot(unsigned int playerId)
 	return (itor != messages_.end());
 }
 
-bool ServerShotHolder::haveAllShots()
+bool ServerShotHolder::haveAllTurnShots()
 {
-	std::map<unsigned int, Tank *> &tanks = 
-		ScorchedServer::instance()->getTankContainer().getPlayingTanks();
-	std::map<unsigned int, Tank *>::iterator itor;
+	std::list<unsigned int> &tanks = 
+		TurnController::instance()->getPlayersThisTurn();
+	std::list<unsigned int>::iterator itor;
 	for (itor = tanks.begin();
 		itor != tanks.end();
 		itor++)
 	{
-		Tank *tank = (*itor).second;
-		if (tank->getState().getState() == TankState::sNormal)
+		unsigned int playerId = (*itor);
+		Tank *tank = 
+			ScorchedServer::instance()->getTankContainer().getTankById(playerId);
+		if (tank && tank->getState().getState() == TankState::sNormal)
 		{
 			if (!haveShot(tank->getPlayerId())) return false;
 		}

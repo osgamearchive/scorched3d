@@ -49,8 +49,8 @@ PlayerDialog::PlayerDialog() :
 	okId_ = addWidget(new GLWTextButton(" Ok", 365, 10, 55, this, true))->getId();
 
 	// Create player name choice
-	playerName_ = (GLWTextBox *) addWidget(new GLWTextBox(120, 235, 240, "Player"));
-	addWidget(new GLWLabel(10, 235, "Player:"));
+	playerName_ = (GLWTextBox *) addWidget(new GLWTextBox(70, 235, 240, "Player"));
+	addWidget(new GLWLabel(10, 235, "Name:"));
 }
 
 PlayerDialog::~PlayerDialog()
@@ -90,7 +90,7 @@ void PlayerDialog::buttonDown(unsigned int id)
 			TankModel *model = 
 				TankModelStore::instance()->getModelByName(getModelName());
 			viewer_->selectModelByName(model->getId().getModelName());
-			ScorchedClient::instance()->getGameState().stimulate(ClientState::StimClientConnect);
+			ScorchedClient::instance()->getGameState().stimulate(ClientState::StimNextPlayerDialog);
 		}
 	}
 }

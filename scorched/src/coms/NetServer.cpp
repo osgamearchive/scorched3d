@@ -51,11 +51,6 @@ int NetServer::processMessages()
 	return messageHandler_.processMessages(); 
 }
 
-int NetServer::getMaxClients()
-{ 
-	return maxClients_; 
-}
-
 unsigned int NetServer::start(int port, int maxClients)
 {
 	maxClients_ = maxClients;
@@ -210,18 +205,17 @@ void NetServer::pollOutgoing()
 		newMessages.pop_front();
 
 		std::set<TCPsocket>::iterator itor = 
-			connections_.find((TCPsocket) message->getPlayerId());
+			connections_.find((TCPsocket) message->getDestinationId());
 		if (itor != connections_.end())
 		{	
 			if (message->getMessageType() == NetMessage::DisconnectMessage)
 			{
-				destroyClient((TCPsocket) message->getPlayerId());
+				destroyClient((TCPsocket) message->getDestinationId());
 			}
 			else
 			{
-				
 				if (!protocol_->sendBuffer(
-					message->getBuffer(), (TCPsocket) message->getPlayerId()))
+					message->getBuffer(), (TCPsocket) message->getDestinationId()))
 				{
 					Logger::log(0, "Failed to send message to client");
 				}
@@ -230,14 +224,6 @@ void NetServer::pollOutgoing()
 
 		NetMessagePool::instance()->addToPool(message);
 	}
-}
-
-int NetServer::getNoClients()
-{ 
-	SDL_LockMutex(setMutex_);
-	int result = (int) connections_.size() - 1; 
-	SDL_UnlockMutex(setMutex_);
-	return result;
 }
 
 void NetServer::addClient(TCPsocket client)

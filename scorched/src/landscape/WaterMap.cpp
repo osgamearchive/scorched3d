@@ -154,6 +154,14 @@ void WaterMap::draw()
 
 		if (GLStateExtension::glActiveTextureARB())
 		{
+			if (GLStateExtension::getTextureUnits() > 2 &&
+				OptionsDisplay::instance()->getDetailTexture())
+			{
+				GLStateExtension::glActiveTextureARB()(GL_TEXTURE2_ARB);
+				glEnable(GL_TEXTURE_2D);
+				Landscape::instance()->getWaterDetail().draw(true);
+			}
+
 			GLStateExtension::glActiveTextureARB()(GL_TEXTURE1_ARB);
 			glEnable(GL_TEXTURE_2D);
 
@@ -183,6 +191,17 @@ void WaterMap::draw()
 			}
 
 			surround_.draw();
+
+			if (GLStateExtension::glActiveTextureARB())
+			{
+				if (GLStateExtension::getTextureUnits() > 2 &&
+					OptionsDisplay::instance()->getDetailTexture())
+				{
+					GLStateExtension::glActiveTextureARB()(GL_TEXTURE2_ARB);
+					glDisable(GL_TEXTURE_2D);
+				}
+				GLStateExtension::glActiveTextureARB()(GL_TEXTURE0_ARB);
+			}
 		}
 		else
 		{
@@ -204,6 +223,17 @@ void WaterMap::draw()
 			}
 
 			surround_.draw();
+
+			if (GLStateExtension::glActiveTextureARB())
+			{
+				if (GLStateExtension::getTextureUnits() > 2 &&
+					OptionsDisplay::instance()->getDetailTexture())
+				{
+					GLStateExtension::glActiveTextureARB()(GL_TEXTURE2_ARB);
+					glDisable(GL_TEXTURE_2D);
+				}
+				GLStateExtension::glActiveTextureARB()(GL_TEXTURE0_ARB);
+			}
 		}
 
 	glPopAttrib();
@@ -304,32 +334,48 @@ void WaterMap::drawWater()
 					if (j==width_ -2) otherHeight = height_;
 
 
-					float otherColor = 0.5f;
+					float otherColor = 0.7f;
 					float otherAlpha = 0.9f;
 					if (otherEntry->depth < 1.0f)
 					{
-						otherColor = 1.0f - (otherEntry->depth * 0.5f);
+						otherColor = 1.0f;
 						otherAlpha = otherEntry->depth * 0.4f + 0.5f;
 					}
 					glColor4f(otherColor, otherColor, otherColor, otherAlpha);
 
 					glNormal3f(otherEntry->normal[0], otherEntry->normal[1], otherEntry->normal[2]);
 					if (GLStateExtension::glMultiTextCoord2fARB()) 
-						GLStateExtension::glMultiTextCoord2fARB()(GL_TEXTURE1_ARB, otherEntry->texX, otherEntry->texY); 
+					{
+						GLStateExtension::glMultiTextCoord2fARB()
+							(GL_TEXTURE1_ARB, otherEntry->texX, otherEntry->texY); 
+						if (GLStateExtension::getTextureUnits() > 2)
+						{
+							GLStateExtension::glMultiTextCoord2fARB()
+								(GL_TEXTURE2_ARB, otherEntry->texX * 16.0f, otherEntry->texY * 16.0f); 
+						}
+					}
 					glVertex3f(pointX, pointY + widthMult_, otherHeight);
 
-					float currentColor = 0.5f;
+					float currentColor = 0.7f;
 					float currentAlpha = 0.9f;
 					if (currentEntry->depth < 1.0f)
 					{
-						currentColor = 1.0f - (currentEntry->depth * 0.5f);
+						currentColor = 1.0f;
 						currentAlpha = currentEntry->depth * 0.4f + 0.5f;
 					}
 					glColor4f(currentColor, currentColor, currentColor, currentAlpha);
 
 					glNormal3f(currentEntry->normal[0], currentEntry->normal[1], currentEntry->normal[2]);
 					if (GLStateExtension::glMultiTextCoord2fARB()) 
-						GLStateExtension::glMultiTextCoord2fARB()(GL_TEXTURE1_ARB, currentEntry->texX, currentEntry->texY); 
+					{
+						GLStateExtension::glMultiTextCoord2fARB()
+							(GL_TEXTURE1_ARB, currentEntry->texX, currentEntry->texY); 
+						if (GLStateExtension::getTextureUnits() > 2)
+						{
+							GLStateExtension::glMultiTextCoord2fARB()
+								(GL_TEXTURE2_ARB, currentEntry->texX * 16.0f, currentEntry->texY * 16.0f); 
+						}
+					}
 					glVertex3f(pointX, pointY, height);
 				}
 

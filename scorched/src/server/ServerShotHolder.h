@@ -36,7 +36,7 @@ public:
 	void addShot(unsigned int playerId,
 		ComsPlayedMoveMessage *message);
 	bool haveShot(unsigned int playerId);
-	bool haveAllShots();
+	bool haveAllTurnShots();
 
 protected:
 	static ServerShotHolder *instance_;

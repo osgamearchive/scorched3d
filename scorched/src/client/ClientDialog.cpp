@@ -18,13 +18,9 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <client/ClientDialog.h>
 #include <client/GLSetup.h>
-#include <client/ClientState.h>
-#include <client/WindowSetup.h>
 #include <client/MainCamera.h>
-#include <client/ScorchedClient.h>
 #include <common/OptionsDisplay.h>
 #include <common/OptionsParam.h>
 #include <common/Keyboard.h>
@@ -33,13 +29,7 @@
 #include <common/OptionsTransient.h>
 #include <common/OptionsGame.h>
 #include <common/Gamma.h>
-#include <coms/NetServer.h>
-#include <tankai/TankAIStore.h>
-#include <landscape/HeightMapCollision.h>
-#include <tankgraph/TankModelStore.h>
-#include <engine/ScorchedCollisionHandler.h>
 #include <GLEXT/GLStateExtension.h>
-#include <GLEXT/GLConsoleFileReader.h>
 #include <stdio.h>
 #include <time.h>
 
@@ -47,8 +37,6 @@ extern char scorched3dAppName[128];
 
 void setup()
 {
-	srand((unsigned) time(NULL));
-
 	GLStateExtension::getNoExtensions() = 
 		OptionsDisplay::instance()->getNoExt();
 	GLStateExtension::getNoMultiTex() = 
@@ -57,20 +45,6 @@ void setup()
 		float(OptionsDisplay::instance()->getBrightness()) / 10.0f);
 
 	GLSetup::setup();
-	ScorchedClient::instance();
-
-	bool useServer = (OptionsParam::instance()->getConnectedToServer());
-	ClientState::setupGameState(useServer);
-	if (useServer)
-	{
-		ScorchedClient::instance()->getContext().netInterface = 
-			new NetServer(new NetServerScorchedProtocol());
-	}
-
-	HeightMapCollision *hmcol = 
-		new HeightMapCollision(&ScorchedClient::instance()->getContext());
-	ScorchedClient::instance()->getActionController().getPhysics().setCollisionHandler(
-		new ScorchedCollisionHandler(&ScorchedClient::instance()->getContext()));
 
 	if (!Keyboard::instance()->init())
 	{
@@ -109,22 +83,6 @@ void setup()
 #endif
 				"Is anything else currently using the sound card?");
 		}	
-	}
-
-	if (!TankModelStore::instance()->loadTankMeshes())
-	{
-		dialogMessage("Scorched 3D", "Failed to load all tank models");		
-		exit(1);
-	}
-	TankAIStore::instance();
-
-	WindowSetup::setup(useServer);
-
-	std::string errorString;
-	if (!GLConsoleFileReader::loadFileIntoConsole(PKGDIR "data/autoexec.xml", errorString))
-	{
-		dialogMessage("Failed to parse data/autoexec.xml", errorString.c_str());
-		exit(1);
 	}
 }
 

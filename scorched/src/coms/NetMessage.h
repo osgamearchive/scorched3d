@@ -38,20 +38,20 @@ public:
 		BufferMessage
 	};
 
-	unsigned int &getPlayerId() { return playerId_; }
+	unsigned int &getDestinationId() { return destinationId_; }
 	MessageType getMessageType() { return type_; }
 	NetBuffer &getBuffer() { return messageBuffer_; }
 
 protected:
 	NetBuffer messageBuffer_;
 	MessageType type_;
-	unsigned int playerId_;
+	unsigned int destinationId_;
 
-	void setPlayerId(unsigned int &playerId) { playerId_ = playerId; }
+	void setDestinationId(unsigned int destinationId) { destinationId_ = destinationId; }
 	void setType(MessageType type) { type_ = type; }
 
 	NetMessage(MessageType type = NetMessage::NoMessage,
-			   unsigned int playerId = 0);
+			   unsigned int destinationId = 0);
 	virtual ~NetMessage();
 };
 

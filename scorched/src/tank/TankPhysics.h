@@ -35,7 +35,7 @@ public:
 
 	// State change
 	void newGame();
-	void nextRound();
+	void nextShot();
 
 	// Rotation
 	float rotateGunXY(float angle, bool diff=true);

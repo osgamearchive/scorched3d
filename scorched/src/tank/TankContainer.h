@@ -32,6 +32,9 @@ public:
 
 	void addTank(Tank *tank);
 	Tank *getCurrentTank();
+
+	unsigned int getCurrentDestinationId() { return destinationId_; }
+	void setCurrentDestinationId(unsigned int did) { destinationId_ = did; }
 	unsigned int getCurrentPlayerId() { return playerId_; }
 	void setCurrentPlayerId(unsigned int pid) { playerId_ = pid; }
 
@@ -40,7 +43,7 @@ public:
 	Tank *getTankByPos(unsigned int pos);
 	Tank *getTankByName(const char *name);
 	
-	void nextRound();
+	void nextShot();
 	void newGame();
 
 	void resetTanks();
@@ -54,6 +57,7 @@ public:
 protected:
 	static TankContainer *instance_;
 	unsigned int playerId_;
+	unsigned int destinationId_;
 	std::map<unsigned int, Tank *> playingTanks_;
 
 };

@@ -18,7 +18,7 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
+#include <engine/ScorchedContext.h>
 #include <actions/ShowScore.h>
 #include <common/WindowManager.h>
 #include <common/OptionsParam.h>
@@ -36,7 +36,7 @@ ShowScore::~ShowScore()
 
 void ShowScore::init()
 {
-	if (!OptionsParam::instance()->getOnServer()) 
+	if (!context_->serverMode)
 	{
 		WindowManager::instance()->showWindow(
 			ScoreDialog::instance()->getId());
@@ -50,7 +50,7 @@ void ShowScore::simulate(float frameTime, bool &remove)
 	if (totalTime_ > 5.0f)
 	{
 		remove = true;
-		if (!OptionsParam::instance()->getOnServer()) 
+		if (!context_->serverMode)
 		{
 			WindowManager::instance()->hideWindow(
 				ScoreDialog::instance()->getId());

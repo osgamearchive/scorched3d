@@ -54,7 +54,7 @@ public:
 	void clearAction();
 
 	bool getConnectedToServer() { return (getConnect()[0] != '\0'); }
-	bool getOnServer() { return (getServerFile()[0] != '\0'); }
+	bool getDedicatedServer() { return (getServerFile()[0] != '\0'); }
 	bool &getSinglePlayer() { return singlePlayer_; }
 	bool &getSDLInitVideo() { return SDLInitVideo_; }
 

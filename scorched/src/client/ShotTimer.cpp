@@ -20,6 +20,7 @@
 
 #include <client/ShotTimer.h>
 #include <client/ScorchedClient.h>
+#include <client/ClientState.h>
 #include <common/OptionsGame.h>
 #include <GLW/GLWFont.h>
 
@@ -58,6 +59,11 @@ void ShotTimer::simulate(const unsigned state, float simTime)
 void ShotTimer::draw(const unsigned currentstate)
 {
 	int shotTime = ScorchedClient::instance()->getOptionsGame().getShotTime();
+	if (currentstate == ClientState::StateBuyWeapons ||
+		currentstate == ClientState::StateAutoDefense)
+	{
+		shotTime = ScorchedClient::instance()->getOptionsGame().getBuyingTime();
+	}
 	if (shotTime == 0) return;
 
 	// The remaining time for this shot
@@ -95,11 +101,16 @@ void ShotTimer::draw(const unsigned currentstate)
 	}
 }
 
-bool ShotTimer::acceptStateChange(const unsigned state, 
+bool ShotTimer::acceptStateChange(const unsigned currentstate, 
 		const unsigned nextState,
 		float frameTime)
 {
 	int shotTime = ScorchedClient::instance()->getOptionsGame().getShotTime();
+	if (currentstate == ClientState::StateBuyWeapons ||
+		currentstate == ClientState::StateAutoDefense)
+	{
+		shotTime = ScorchedClient::instance()->getOptionsGame().getBuyingTime();
+	}
 	if (shotTime == 0) return false; // ShotTime == 0 is infinite time
 
 	int timeLeft = (shotTime - int(counter_));

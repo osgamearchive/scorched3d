@@ -48,25 +48,32 @@ ServerPlayerReadyHandler::~ServerPlayerReadyHandler()
 {
 }
 
-bool ServerPlayerReadyHandler::processMessage(unsigned int id,
-	const char *messageType,
-										  NetBufferReader &reader)
+bool ServerPlayerReadyHandler::processMessage(unsigned int destinationId,
+	const char *messageType, NetBufferReader &reader)
 {
 	// Decode the connect message
 	ComsPlayerReadyMessage message;
 	if (!message.readMessage(reader)) return false;
 
 	// Check this client has not tried to add a tank before
-	unsigned int tankId = (unsigned int) id;
+	unsigned int tankId = message.getPlayerId();
 	Tank *tank = ScorchedServer::instance()->getTankContainer().getTankById(tankId);
 	if (!tank)
 	{
-		Logger::log(0, "Message from unknown tank \"%i\"", tankId);
+		Logger::log(0, "ERROR: Message from unknown tank \"%i\"", tankId);
+		return false;
+	}
+
+	if (tank->getDestinationId() != destinationId)
+	{
+		Logger::log(0, "ERROR: ServerPlayerReadyHandler - "
+			"Message from tank at wrong destination \"%i != %i\"", 
+			tank->getDestinationId(), destinationId);
 		return false;
 	}
 
 	// Check the message is sent in the correct state
-	if (ScorchedServer::instance()->getGameState().getState() != ServerState::ServerStateNextRound)
+	if (ScorchedServer::instance()->getGameState().getState() != ServerState::ServerStateReady)
 	{
 		return true;
 	}

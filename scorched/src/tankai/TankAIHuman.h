@@ -21,7 +21,7 @@
 #if !defined(AFX_TANKAIHUMAN_H__F71C91A5_B74D_4109_8F7B_ACD471025C28__INCLUDED_)
 #define AFX_TANKAIHUMAN_H__F71C91A5_B74D_4109_8F7B_ACD471025C28__INCLUDED_
 
-#include <tank/TankAI.h>
+#include <tankai/TankAI.h>
 
 class TankAIHuman : public TankAI
 {
@@ -36,10 +36,24 @@ public:
 		float frameTime, char *buffer, unsigned int keyState);
 	virtual void endPlayMove();
 	virtual void newGame();
-	virtual void nextRound();
+	virtual void nextShot();
 	virtual void tankHurt(Weapon *weapon, unsigned int firer);
 	virtual void shotLanded(Weapon *weapon, unsigned int firer, 
 		Vector &position);
+
+	// Tank move methods and tank defense methods
+	//
+	// The tankAI and its derived classes call these methods to perform
+	// the actions associated with the method name.
+	// Humans can only be on a client machine so we
+	// don't need to check if we are on the server etc..
+	virtual void fireShot();
+	virtual void skipShot();
+	virtual void resign();
+	virtual void move(int x, int y);
+	virtual void parachutesUpDown(bool on);
+	virtual void shieldsUpDown(const char *name=0);
+	virtual void useBattery();
 
 protected:
 	void movePower(char *buffer, unsigned int keyState, float frameTime);

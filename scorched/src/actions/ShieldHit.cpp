@@ -58,7 +58,7 @@ void ShieldHit::simulate(float frameTime, bool &remove)
 				tank->getAccessories().getShields().getCurrentShield();
 			if (shield)
 			{
-				if (!OptionsParam::instance()->getOnServer()) 
+				if (!context_->serverMode) 
 				{
 					char buffer[256];
 					sprintf(buffer, PKGDIR "data/wav/%s", shield->getCollisionSound());

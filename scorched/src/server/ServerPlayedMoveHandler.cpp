@@ -22,6 +22,7 @@
 #include <server/ServerShotHolder.h>
 #include <server/ServerState.h>
 #include <server/ScorchedServer.h>
+#include <server/TurnController.h>
 #include <engine/GameState.h>
 #include <coms/ComsPlayedMoveMessage.h>
 
@@ -58,13 +59,25 @@ bool ServerPlayedMoveHandler::processMessage(unsigned int id,
 		return false;
 	}
 
-	if (ScorchedServer::instance()->getGameState().getState() == ServerState::ServerStatePlaying)
-	{
-		unsigned int playerId = (unsigned int) id;
-		Tank *tank = ScorchedServer::instance()->getTankContainer().getTankById(playerId);
-		if (tank && tank->getState().getState() == TankState::sNormal)
-		{	
-			ServerShotHolder::instance()->addShot(playerId, message);
+	unsigned int playerId = message->getPlayerId();
+	Tank *tank = ScorchedServer::instance()->getTankContainer().getTankById(playerId);
+	if (tank && tank->getState().getState() == TankState::sNormal)
+	{	
+		if (tank->getDestinationId() == id)
+		{
+			if (TurnController::instance()->playerThisTurn(playerId))
+			{
+				if ((ScorchedServer::instance()->getGameState().getState() == 
+					ServerState::ServerStatePlaying) || ((
+					ScorchedServer::instance()->getGameState().getState() == 
+					ServerState::ServerStateBuying) && 
+					message->getType() == ComsPlayedMoveMessage::eFinishedBuy))
+				{
+					ServerShotHolder::instance()->addShot(playerId, message);
+				}
+				else delete message;
+			}
+			else delete message;
 		}
 		else delete message;
 	}

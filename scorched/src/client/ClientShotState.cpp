@@ -46,7 +46,6 @@ ClientShotState::~ClientShotState()
 
 void ClientShotState::enterState(const unsigned state)
 {
-	endOfState_ = true;
 	Landscape::instance()->restoreLandscapeTexture();
 }
 
@@ -57,21 +56,7 @@ bool ClientShotState::acceptStateChange(const unsigned state,
 	// All the shots have finished, move to finished
 	if (ScorchedClient::instance()->getActionController().noReferencedActions())
 	{
-		if (endOfState_ && 
-			!OptionsParam::instance()->getConnectedToServer())
-		{
-			endOfState_ = false;
-			if (ScorchedClient::instance()->getTankContainer().aliveCount() < 2)
-			{
-				// Finished with the round 
-				// Next game
-				TankStart::scoreWinners(ScorchedClient::instance()->getContext());
-			}
-		}
-		else
-		{
-			return true;
-		}
+		return true;
 	}
 
 	return false;

@@ -42,5 +42,4 @@ protected:
 	float time_;
 };
 
-
 #endif

@@ -22,10 +22,12 @@
 #include <server/ServerShotHolder.h>
 #include <server/ServerState.h>
 #include <server/ScorchedServer.h>
+#include <server/TurnController.h>
 #include <coms/ComsBuyAccessoryMessage.h>
 #include <coms/ComsMessageSender.h>
 #include <common/OptionsTransient.h>
 #include <common/OptionsGame.h>
+#include <common/Logger.h>
 #include <weapons/AccessoryStore.h>
 
 ServerBuyAccessoryHandler *ServerBuyAccessoryHandler::instance_ = 0;
@@ -50,45 +52,79 @@ ServerBuyAccessoryHandler::~ServerBuyAccessoryHandler()
 {
 }
 
-bool ServerBuyAccessoryHandler::processMessage(unsigned int id,
+bool ServerBuyAccessoryHandler::processMessage(unsigned int destinationId,
 	const char *messageType,
 										  NetBufferReader &reader)
 {
 	ComsBuyAccessoryMessage message;
 	if (!message.readMessage(reader)) return false;
+	unsigned int playerId = message.getPlayerId();
 
 	// Check we are at the correct time to buy anything
-	if (ScorchedServer::instance()->getGameState().getState() != ServerState::ServerStatePlaying ||
-		ScorchedServer::instance()->getOptionsTransient().getCurrentGameNo() != 1)
+	if (ScorchedServer::instance()->getGameState().getState() != ServerState::ServerStateBuying)
 	{
+		Logger::log(playerId, "ERROR: Player attempted to but in incorrect state");
 		return true;
 	}
 
 	// Check we are in the correct round no to buy anything
-	int roundsPlayed = ScorchedServer::instance()->getOptionsGame().getNoRounds() -
-		ScorchedServer::instance()->getOptionsTransient().getNoRoundsLeft();
-	if (ScorchedServer::instance()->getOptionsGame().getBuyOnRound() - 1 >= roundsPlayed)
+	if (ScorchedServer::instance()->getOptionsTransient().getCurrentGameNo() != 0)
 	{
+		Logger::log(playerId, "ERROR: Player attempted to but at incorrect time");
 		return true;
 	}
 
 	// Check that is player still exists
-	unsigned int playerId = (unsigned int) id;
 	Tank *tank = ScorchedServer::instance()->getTankContainer().getTankById(playerId);
-	if (!tank) return true;
+	if (!tank)
+	{
+		Logger::log(playerId, "ERROR: Player buying does not exist");
+		return true;
+	}
+
+	if (tank->getDestinationId() != destinationId)
+	{
+		Logger::log(playerId, "ERROR: Player buying does not exist at this destination");
+		return true;
+	}
 
 	// Check this player is alive
-	if (tank->getState().getState() != TankState::sNormal) return true;
+	if (tank->getState().getState() != TankState::sNormal)
+	{
+		Logger::log(playerId, "ERROR: Player buying is not alive");
+		return true;
+	}
 
 	// Check this player has not already given a move
-	if (ServerShotHolder::instance()->haveShot(playerId)) return true;
+	if (ServerShotHolder::instance()->haveShot(playerId))
+	{
+		Logger::log(playerId, "ERROR: Player buying has made move");
+		return true;
+	}
+
+	if (!TurnController::instance()->playerThisTurn(playerId))
+	{
+		Logger::log(playerId, "ERROR: Player buying should not be buying");
+		return true;		
+	}
 
 	// Check that the accessory is valid
 	Accessory *accessory = 
 		AccessoryStore::instance()->findByAccessoryName(message.getAccessoryName());
-	if (!accessory) return true;
+	if (!accessory)
+	{
+		Logger::log(playerId, "ERROR: Player buying not-existant weapon \"%s\"", 
+			message.getAccessoryName());
+		return true;
+	}
+
 	if (10 - accessory->getArmsLevel() > 
-		ScorchedServer::instance()->getOptionsGame().getMaxArmsLevel()) return true;
+		ScorchedServer::instance()->getOptionsGame().getMaxArmsLevel())
+	{
+		Logger::log(playerId, "ERROR: Player atempting to buy weapon \"%s\" in wrong arms level", 
+			message.getAccessoryName());
+		return true;
+	}
 
 	// The game state and everything is correct
 	// Perform the actual add or remove of accessory

@@ -4,6 +4,7 @@ Added: Decimal point on tank evelevation/rotation angles
 Added: Depth buffer size can be set in config
 Added: Menu items change color when available (mouse over)
 Added: Can now kick computer players (from server dialog)
+Added: Can now add computer players (from server dialog)
 Added: Can set number of sprites and bilboards
 Added: Talk text now has tank state appended to it (dead, pending)
 Added: Buy dialog shows all available weapons
@@ -36,9 +37,12 @@ Added: Detail texture added to landscape (for cards that support it)
 Added: Waves around island is blended and does not look so pixelated
 Added: The water around the island is lighter and looks shallow
 Added: Water texture added to water (on top of the existing reflection) (for cards that support it)
+Added: Simultaneous and sequential game modes are available for both online and single player
+Added: Player ordering can be specified for sequential game modes
 Added: Landscape width can be set (smaller landscapes only)
 Added: Better scroll bar
 Added: Widgets are all now rounded
+
 
 Fixed: Tank bounding boxes can still cause collisions when tank is dead
 Fixed: Random windows crashes, increased stack size to stop ODE from running out of stack
@@ -59,6 +63,8 @@ Fixed: Moved timer, so talk text is not in the way
 Fixed: Texturing of Milkshape models (Each texture must be a 256x256 bmp)
 
 -- Bugs in current development release
+Kill all tanks dialog is broken
+Must have at least one human player in single player mode
 Fonts sometimes black-out
 Dvorak keyboard support is broken
 The server can start multiple times on the same port!

@@ -122,7 +122,7 @@ void ComsMessageHandler::processReceiveMessage(NetMessage &message)
 	}
 
 	ComsMessageHandlerI *handler = (*itor).second;
-	if (!handler->processMessage(message.getPlayerId(), 
+	if (!handler->processMessage(message.getDestinationId(), 
 		messageType.c_str(), reader))
 	{
 		char buffer[1024];

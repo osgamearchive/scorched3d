@@ -18,7 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #if !defined(__INCLUDE_PlayerDialogh_INCLUDE__)
 #define __INCLUDE_PlayerDialogh_INCLUDE__
 
@@ -45,15 +44,14 @@ public:
 	virtual void buttonDown(unsigned int id);
 
 protected:
+	PlayerDialog();
+	virtual ~PlayerDialog();
+
 	static PlayerDialog *instance_;
 	GLWTankViewer *viewer_;
 	GLWTextBox *playerName_;
 	unsigned int okId_;
 	bool skipInit_;
-
-private:
-	PlayerDialog();
-	virtual ~PlayerDialog();
 
 };
 

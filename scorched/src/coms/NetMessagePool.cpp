@@ -50,7 +50,7 @@ void NetMessagePool::addToPool(NetMessage *message)
 }
 
 NetMessage *NetMessagePool::getFromPool(NetMessage::MessageType type,
-							unsigned int playerId)
+							unsigned int destinationId)
 {
 	SDL_LockMutex(messagePoolMutex_);
 
@@ -64,7 +64,7 @@ NetMessage *NetMessagePool::getFromPool(NetMessage::MessageType type,
 		result = messagePool_.front();
 		messagePool_.pop_front();
 	}
-	result->setPlayerId(playerId);
+	result->setDestinationId(destinationId);
 	result->setType(type);
 
 	SDL_UnlockMutex(messagePoolMutex_);

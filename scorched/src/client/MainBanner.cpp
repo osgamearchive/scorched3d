@@ -22,7 +22,6 @@
 #include <client/MainCamera.h>
 #include <client/ScorchedClient.h>
 #include <tank/TankContainer.h>
-#include <common/SoundStore.h>
 
 MainBanner* MainBanner::instance_ = 0;
 
@@ -53,9 +52,6 @@ void MainBanner::logMessage(
 {
 	Tank *source = ScorchedClient::instance()->getTankContainer().getTankById(playerId);
 	banner_.addLine(source?source->getColor():GLFontBanner::defaultColor, message);
-
-	CACHE_SOUND(sound,  PKGDIR "data/wav/misc/text.wav");
-	sound->play();
 }
 
 void MainBanner::simulate(const unsigned state, float frameTime)

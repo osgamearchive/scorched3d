@@ -21,11 +21,13 @@
 
 #include <tank/TankState.h>
 #include <common/OptionsDisplay.h>
+#include <engine/ScorchedContext.h>
 #include <stdio.h>
 
-TankState::TankState() : 
+TankState::TankState(ScorchedContext &context) : 
 	state_(sPending), life_(100.0f), power_(1000.0f),
-	readyState_(SNotReady), oldPower_(1000.0f)
+	readyState_(SNotReady), oldPower_(1000.0f),
+	context_(context)
 {
 }
 
@@ -41,7 +43,7 @@ void TankState::reset()
 	power_ = 1000.0f;
 }
 
-void TankState::nextRound()
+void TankState::nextShot()
 {
 	readyState_ = SNotReady;
 	oldPower_ = power_;
@@ -70,7 +72,14 @@ float TankState::changePower(float power, bool diff)
 	else power_ = power;
 
 	if (power_ < 0.0f) power_ = 0.0f;
-	else if (power_ > life_ * 10.0f) power_ = life_ * 10.0f;
+	if (context_.optionsGame.getLimitPowerByHealth())
+	{
+		if (power_ > life_ * 10.0f) power_ = life_ * 10.0f;
+	}
+	else
+	{
+		if (power_ > 1000.0f) power_ = 1000.0f;
+	}
 
 	return power_;
 }

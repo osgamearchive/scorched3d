@@ -21,13 +21,13 @@
 #include <engine/GameState.h>
 #include <client/ClientState.h>
 #include <client/ScorchedClient.h>
+#include <tankai/TankAIHuman.h>
 #include <tankgraph/TankMenus.h>
 #include <tankgraph/TankModelRenderer.h>
 #include <common/WindowManager.h>
 #include <landscape/Landscape.h>
 #include <dialogs/MainMenuDialog.h>
 #include <dialogs/QuitDialog.h>
-#include <dialogs/KillDialog.h>
 #include <GLEXT/GLConsoleRuleMethodIAdapter.h>
 #include <GLEXT/GLConsoleRuleFnIAdapter.h>
 
@@ -122,7 +122,7 @@ void TankMenus::PlayerMenu::menuSelection(const char* menuName,
 	Tank *firstTank = ScorchedClient::instance()->getTankContainer().getCurrentTank();
 	if (firstTank)
 	{
-		TankAI *tankAI = firstTank->getTankAI();
+		TankAIHuman *tankAI = (TankAIHuman *) firstTank->getTankAI();
 		if (tankAI)
 		{
 			switch (position)
@@ -134,17 +134,8 @@ void TankMenus::PlayerMenu::menuSelection(const char* menuName,
 				tankAI->resign();
 				break;
 			case 2:
-				if (WindowManager::instance()->windowInCurrentState(
-					QuitDialog::instance()->getId()))
-				{
-					WindowManager::instance()->showWindow(
-						QuitDialog::instance()->getId());
-				}
-				else
-					WindowManager::instance()->showWindow(
-						KillDialog::instance()->getId());				{
-
-				}
+				WindowManager::instance()->showWindow(
+					QuitDialog::instance()->getId());
 				break;
 			}
 		}
@@ -154,7 +145,7 @@ void TankMenus::PlayerMenu::menuSelection(const char* menuName,
 bool TankMenus::PlayerMenu::getEnabled(const char* menuName)
 {
 	if (ScorchedClient::instance()->getGameState().getState() 
-		!= ClientState::StateMain) return false;
+		!= ClientState::StatePlaying) return false;
 
 	Tank *firstTank = ScorchedClient::instance()->getTankContainer().getCurrentTank();
 	if (firstTank)
@@ -175,7 +166,7 @@ void TankMenus::AccessoryMenu::menuSelection(const char* menuName,
 											 const int position, const char *menuItem)
 {
 	Tank *firstTank = ScorchedClient::instance()->getTankContainer().getCurrentTank();
-	TankAI *tankAI = firstTank->getTankAI();
+	TankAIHuman *tankAI = (TankAIHuman *) firstTank->getTankAI();
 	if (firstTank && tankAI)
 	{
 		if (position < (int) menuItems_.size())
@@ -292,7 +283,7 @@ void TankMenus::AccessoryMenu::getMenuItems(const char* menuName,
 bool TankMenus::AccessoryMenu::getEnabled(const char* menuName)
 {
 	if (ScorchedClient::instance()->getGameState().getState() != 
-		ClientState::StateMain) return false;
+		ClientState::StatePlaying) return false;
 
 	Tank *firstTank = ScorchedClient::instance()->getTankContainer().getCurrentTank();
 	if (firstTank)

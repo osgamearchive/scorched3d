@@ -23,28 +23,16 @@
 #define __INCLUDE_ServerNextRoundStateh_INCLUDE__
 
 #include <engine/GameStateI.h>
-#include <engine/GameStateStimulusI.h>
 
-// waits until all players have started the game
-// or a maximum time limit 
-// and then starts the game
 class ServerNextRoundState : 
-	public GameStateI,
-	public GameStateStimulusI
+	public GameStateI
 {
 public:
 	ServerNextRoundState();
 	virtual ~ServerNextRoundState();
 
 	virtual void enterState(const unsigned state);
-	virtual bool acceptStateChange(const unsigned state, 
-		const unsigned nextState,
-		float frameTime);
 
-protected:
-	float time_;
-
-	void roundFinished();
 };
 
 

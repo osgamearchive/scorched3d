@@ -175,7 +175,6 @@ bool SettingsFrame::TransferDataToWindow()
 		SettingsPlayers::IDC_SERVER_MIN_PLAYERS_CTRL->SetToolTip(
 			wxString("The number of players that must be on the server before a game starts."));
 
-
 		sprintf(buffer, "%i", context_.optionsGame.getNoMaxPlayers());
 		SettingsPlayers::IDC_SERVER_MAX_PLAYERS_CTRL->SetValue(buffer);
 		SettingsPlayers::IDC_SERVER_MAX_PLAYERS_CTRL->SetToolTip(
@@ -392,6 +391,17 @@ bool SettingsFrame::TransferDataToWindow()
 		SettingsMain::IDC_SERVER_ROUNDS_CTRL->SetToolTip(
 			wxString("The number of rounds that will be played in this game."));
 
+		// Type combo
+		SettingsMain::IDC_TYPE_CTRL->Append("Simultaneous", 
+			(void *) OptionsGame::TurnSimultaneous);
+		SettingsMain::IDC_TYPE_CTRL->Append("Sequential (Looser First)", 
+			(void *) OptionsGame::TurnSequentialLooserFirst);
+		SettingsMain::IDC_TYPE_CTRL->Append("Sequential (Random Order)", 
+			(void *) OptionsGame::TurnSequentialRandom);
+		SettingsMain::IDC_TYPE_CTRL->SetSelection(
+			context_.optionsGame.getTurnType());
+		SettingsMain::IDC_TYPE_CTRL->SetToolTip(
+			wxString("Specifies the order of play."));	
 
 		// The waiting time
 		for (i=0; i<=90; i+=5)
@@ -521,6 +531,10 @@ bool SettingsFrame::TransferDataFromWindow()
 		int idleTime = 30;
 		int noPlayers = 2;
 
+		context_.optionsGame.setTurnType((OptionsGame::TurnType) (int) 
+			SettingsMain::IDC_TYPE_CTRL->GetClientData(
+				SettingsMain::IDC_TYPE_CTRL->GetSelection()));
+
 		sscanf(SettingsMain::IDC_SERVER_PLAYERS_CTRL->GetValue(), "%i", &noPlayers);
 		sscanf(SettingsMain::IDC_SERVER_ROUNDS_CTRL->GetValue(), "%i", &noRounds);
 		sscanf(SettingsMain::IDC_SHOT_TIME_CTRL->GetValue(), "%i", &shotTime);
@@ -534,6 +548,7 @@ bool SettingsFrame::TransferDataFromWindow()
 		if (playersPanel_ == 0)
 		{
 			context_.optionsGame.setNoMaxPlayers(noPlayers);
+			context_.optionsGame.setNoMinPlayers(noPlayers);
 		}
 	}
 

@@ -20,6 +20,7 @@
 
 #include <XML/XMLFile.h>
 #include <common/Defines.h>
+#include <common/OptionsParam.h>
 #include <weapons/AccessoryStore.h>
 #include <weapons/Parachute.h>
 #include <weapons/Battery.h>
@@ -243,6 +244,10 @@ bool AccessoryStore::writeToBuffer(NetBuffer &buffer)
 
 bool AccessoryStore::readFromBuffer(NetBufferReader &reader)
 {
+	// Only use the sent accessories if we are actually remote from the
+	// server
+	if (!OptionsParam::instance()->getConnectedToServer()) return true;
+
 	clearAccessories();
 
 	int noAccessories = 0;

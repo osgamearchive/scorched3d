@@ -18,11 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// BuyAccessoryDialog.h: interface for the BuyAccessoryDialog class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_BuyAccessoryDialog_H__4B5E93CF_1DE2_4979_A629_AEBD725ABE65__INCLUDED_)
 #define AFX_BuyAccessoryDialog_H__4B5E93CF_1DE2_4979_A629_AEBD725ABE65__INCLUDED_
 
@@ -51,13 +46,8 @@ protected:
 	GLWTab *buyOtherTab_;
 	GLWTab *sellTab_;
 	GLWVisiblePanel *topPanel_;
-	int currentPlayer_;
-	unsigned int actualPlayer_;
 	std::map<unsigned int, Accessory *> sellMap_;
 	std::map<unsigned int, Accessory *> buyMap_;
-
-	void finished();
-	void nextPlayer();
 
 	void setupWindow();
 	void playerRefresh();
