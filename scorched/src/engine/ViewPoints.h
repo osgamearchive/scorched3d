@@ -31,17 +31,28 @@ public:
 	class ViewPoint 
 	{
 	public:
+		ViewPoint() : radius_(0.0f), from_(1.0f, 0.0f, 0.0f) { }
+
+		void setLookFrom(Vector &from) { from_ = from; }
+		Vector &getLookFrom() { return from_; }
+		
 		void setPosition(Vector &pos) { position_ = pos; }
 		Vector &getPosition() { return position_; }
 
+		void setRadius(float radius) { radius_ = radius; }
+		float getRadius() { return radius_; }
+
 	protected:
+		float radius_;
 		Vector position_;
+		Vector from_;
 	};
 
 	ViewPoints();
 	virtual ~ViewPoints();
 
-	Vector &getLookAt();
+	void getValues(Vector &lookAt, 
+				   Vector &lookFrom);
 	int getLookAtCount();
 
 	ViewPoints::ViewPoint *getNewViewPoint(unsigned int playerId);

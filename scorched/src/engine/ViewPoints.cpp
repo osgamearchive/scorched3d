@@ -20,6 +20,7 @@
 
 #include <engine/ViewPoints.h>
 #include <engine/ScorchedContext.h>
+#include <common/Defines.h>
 
 ViewPoints::ViewPoints() : context_(0)
 {
@@ -29,11 +30,15 @@ ViewPoints::~ViewPoints()
 {
 }
 
-Vector &ViewPoints::getLookAt()
+void ViewPoints::getValues(Vector &lookAt, 
+						   Vector &lookFrom)
 {
-	static Vector position;
-	position.zero();
+	Vector max, min;
+	bool firstItor = true;
 	float count = 0.0f;
+
+	lookAt.zero();
+	lookFrom.zero();
 
 	std::list<ViewPoint *>::iterator itor =
 		points_.begin();
@@ -41,12 +46,36 @@ Vector &ViewPoints::getLookAt()
 		points_.end();
 	for (; itor != enditor; itor++)
 	{
-		position += (*itor)->getPosition();
+		Vector &itorPosition = (*itor)->getPosition();
+		Vector &itorLookAt = (*itor)->getLookFrom();
+		float itorRadius = (*itor)->getRadius();
+
+		if (firstItor)
+		{
+			firstItor = false;
+			min = itorPosition;
+			max = itorPosition;
+		}
+
+		min[0] = MIN(min[0], itorPosition[0] - itorRadius);
+		min[1] = MIN(min[1], itorPosition[1] - itorRadius);
+		min[2] = MIN(min[2], itorPosition[2] - itorRadius);
+		max[0] = MAX(max[0], itorPosition[0] + itorRadius);
+		max[1] = MAX(max[1], itorPosition[1] + itorRadius);
+		max[2] = MAX(max[2], itorPosition[2] + itorRadius);		
+
+		lookAt += itorPosition;
+		lookFrom += itorLookAt;
 		count += 1.0f;
 	}
 
-	position /= count;
-	return position;
+	float dist = 10.0f;
+	float maxMin = (max - min).Magnitude();
+	if (maxMin > 0.0f) dist = 10.0f + maxMin;
+	lookFrom.StoreNormalize();
+
+	lookAt /= count;
+	lookFrom *= dist / count;
 }
 
 int ViewPoints::getLookAtCount()

@@ -177,11 +177,10 @@ bool MainCamera::moveCamera(float frameTime)
 	case CamGun:
 		if (ScorchedClient::instance()->getContext().viewPoints.getLookAtCount() > 0)
 		{
-			Vector lookatPos = ScorchedClient::instance()->getContext().viewPoints.getLookAt();
+			Vector lookatPos, lookfromPos;
+			ScorchedClient::instance()->getContext().viewPoints.getValues(lookatPos, lookfromPos);
 			mainCam_.setLookAt(lookatPos, true);
-			lookatPos[2] += 8.0f;
-			lookatPos[1] += 8.0f;
-			mainCam_.getCurrentPos() = lookatPos;
+			mainCam_.getCurrentPos() = lookatPos + lookfromPos;
 			//mainCam_.movePosition(currentRotation + 0.3f, 1.0f, 10.0f);
 			simulateCamera = false;
 		}

@@ -39,13 +39,11 @@ Loadable maps?
 All clients should use same ground textures.
 
 -- Client Stuff
-Make all peformance tuning stuff available in display dialog
 Options should be stored in users home directory.
 Option to reconnect when disconected from server.
 Return to the launcher after a game finishes.
-Camera looks jerky when following missiles
 In local mode when it's the next person's turn, re-center the view to where they last had it, and display who's turn it is on the screen.
-ability to re center view around other tanks
+Ability to re center view around other tanks
 keep track of money after you leave the server
 keep track of views 
 Make a count down sound when timer runs out.

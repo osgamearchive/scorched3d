@@ -21,7 +21,9 @@
 #include <actions/ShotProjectile.h>
 #include <sprites/MissileActionRenderer.h>
 #include <common/OptionsParam.h>
+#include <common/Defines.h>
 #include <engine/ScorchedContext.h>
+#include <math.h>
 
 REGISTER_ACTION_SOURCE(ShotProjectile);
 
@@ -89,7 +91,14 @@ void ShotProjectile::collision(Vector &position)
 
 void ShotProjectile::simulate(float frameTime, bool &remove)
 {
-	if (vPoint_) vPoint_->setPosition(getCurrentPosition());
+	if (vPoint_)
+	{
+		vPoint_->setPosition(getCurrentPosition());
+
+		Vector velocity = -getCurrentVelocity();
+		velocity[2] = fabs(velocity[2]) + 4.0f;
+		vPoint_->setLookFrom(velocity);
+	}
 	PhysicsParticleMeta::simulate(frameTime, remove);
 }
 
