@@ -21,36 +21,32 @@
 #include <engine/GameState.h>
 #include <client/ClientState.h>
 #include <client/ScorchedClient.h>
-#include <tank/TankContainer.h>
 #include <tankgraph/TankMenus.h>
 #include <tankgraph/TankModelRenderer.h>
 #include <common/WindowManager.h>
-#include <common/Logger.h>
-#include <coms/ComsMessageHandler.h>
 #include <landscape/Landscape.h>
-#include <landscape/GlobalHMap.h>
 #include <dialogs/MainMenuDialog.h>
 #include <dialogs/QuitDialog.h>
 #include <dialogs/KillDialog.h>
 #include <GLEXT/GLConsoleRuleMethodIAdapter.h>
 #include <GLEXT/GLConsoleRuleFnIAdapter.h>
 
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
-
-static FileLogger clientFileLogger("ClientLog");
-
-TankMenus::TankMenus()
+TankMenus::TankMenus() : logger_(0)
 {
+	logger_ = new FileLogger
+		(ScorchedClient::instance()->getTankContainer(),
+		"ClientLog");
+
 	new GLConsoleRuleMethodIAdapter<TankMenus>(
 		this, &TankMenus::showTankDetails, "TankDetails");
 	new GLConsoleRuleMethodIAdapter<TankMenus>(
 		this, &TankMenus::logToFile, "LogToFile");
 	new GLConsoleRuleFnIBooleanAdapter(
-		"ComsMessageLogging", ComsMessageHandler::instance()->getMessageLogging());
+		"ComsMessageLogging", 
+		ScorchedClient::instance()->getComsMessageHandler().getMessageLogging());
 	new GLConsoleRuleFnIBooleanAdapter(
-		"StateLogging", ScorchedClient::instance()->getGameState().getStateLogging());
+		"StateLogging", 
+		ScorchedClient::instance()->getGameState().getStateLogging());
 }
 
 TankMenus::~TankMenus()
@@ -60,15 +56,15 @@ TankMenus::~TankMenus()
 
 void TankMenus::logToFile()
 {
-	Logger::addLogger(&clientFileLogger);
+	Logger::addLogger(logger_);
 }
 
 void TankMenus::showTankDetails()
 {
 	std::map<unsigned int, Tank *> &tanks = 
-		TankContainer::instance()->getPlayingTanks();
+		ScorchedClient::instance()->getTankContainer().getPlayingTanks();
 	Tank *currentTank = 
-		TankContainer::instance()->getCurrentTank();
+		ScorchedClient::instance()->getTankContainer().getCurrentTank();
 
 	GLConsole::instance()->addLine(false,
 		"--Tank Dump-----------------------------------------");
@@ -115,7 +111,7 @@ TankMenus::PlayerMenu::PlayerMenu()
 void TankMenus::PlayerMenu::menuSelection(const char* menuName, 
 										  const int position, const char *menuItem)
 {
-	Tank *firstTank = TankContainer::instance()->getCurrentTank();
+	Tank *firstTank = ScorchedClient::instance()->getTankContainer().getCurrentTank();
 	if (firstTank)
 	{
 		TankAI *tankAI = firstTank->getTankAI();
@@ -152,7 +148,7 @@ bool TankMenus::PlayerMenu::getEnabled(const char* menuName)
 	if (ScorchedClient::instance()->getGameState().getState() 
 		!= ClientState::StateMain) return false;
 
-	Tank *firstTank = TankContainer::instance()->getCurrentTank();
+	Tank *firstTank = ScorchedClient::instance()->getTankContainer().getCurrentTank();
 	if (firstTank)
 	{
 		return (firstTank->getState().getState() == TankState::sNormal);
@@ -170,7 +166,7 @@ TankMenus::AccessoryMenu::AccessoryMenu()
 void TankMenus::AccessoryMenu::menuSelection(const char* menuName, 
 											 const int position, const char *menuItem)
 {
-	Tank *firstTank = TankContainer::instance()->getCurrentTank();
+	Tank *firstTank = ScorchedClient::instance()->getTankContainer().getCurrentTank();
 	TankAI *tankAI = firstTank->getTankAI();
 	if (firstTank && tankAI)
 	{
@@ -205,8 +201,8 @@ void TankMenus::AccessoryMenu::menuSelection(const char* menuName,
 				}
 				else
 				{
-					GlobalHMap::instance()->getMMap().calculateForTank(firstTank);
-					GlobalHMap::instance()->getMMap().movementTexture();
+					ScorchedClient::instance()->getLandscapeMaps().getMMap().calculateForTank(firstTank);
+					ScorchedClient::instance()->getLandscapeMaps().getMMap().movementTexture();
 				}
 				break;
 			default:
@@ -221,7 +217,7 @@ void TankMenus::AccessoryMenu::getMenuItems(const char* menuName,
 											std::list<GLMenuItem> &result)
 {
 	menuItems_.clear();
-	Tank *firstTank = TankContainer::instance()->getCurrentTank();
+	Tank *firstTank = ScorchedClient::instance()->getTankContainer().getCurrentTank();
 	if (!firstTank) return;
 
 	std::list<std::pair<Accessory *, int> > tankAccessories;
@@ -290,7 +286,7 @@ bool TankMenus::AccessoryMenu::getEnabled(const char* menuName)
 	if (ScorchedClient::instance()->getGameState().getState() != 
 		ClientState::StateMain) return false;
 
-	Tank *firstTank = TankContainer::instance()->getCurrentTank();
+	Tank *firstTank = ScorchedClient::instance()->getTankContainer().getCurrentTank();
 	if (firstTank)
 	{
 		return (firstTank->getState().getState() == TankState::sNormal);

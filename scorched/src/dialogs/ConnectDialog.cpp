@@ -37,10 +37,10 @@
 #include <client/ClientActionsHandler.h>
 #include <client/ClientDefenseHandler.h>
 #include <common/OptionsDisplay.h>
+#include <coms/NetServer.h>
 #include <coms/ComsMessageHandler.h>
 #include <coms/ComsMessageSender.h>
 #include <coms/ComsConnectMessage.h>
-#include <coms/ComsGateway.h>
 #include <common/WindowManager.h>
 #include <common/OptionsParam.h>
 
@@ -142,9 +142,9 @@ bool ConnectDialog::tryConnection()
 	ScorchedClient::instance()->getMainLoop().draw();
 
 	// Setup the coms handlers
-	ComsGateway::instance()->setMessageHandler(
-		ComsMessageHandler::instance());
-	ComsMessageHandler::instance()->setConnectionHandler(
+	ScorchedClient::instance()->getNetInterface().setMessageHandler(
+		&ScorchedClient::instance()->getComsMessageHandler());
+	ScorchedClient::instance()->getComsMessageHandler().setConnectionHandler(
 		ClientMessageHandler::instance());
 	ClientTextHandler::instance();
 	ClientConnectionAcceptHandler::instance();
@@ -159,7 +159,8 @@ bool ConnectDialog::tryConnection()
 	ClientScoreHandler::instance();
 
 	// Try to connect to the server
-	if (!ComsGateway::instance()->connect((char *) hostPart.c_str(), port))
+	NetServer &netServer = (NetServer &) ScorchedClient::instance()->getNetInterface();
+	if (!netServer.connect((char *) hostPart.c_str(), port))
 	{
 		Logger::log(0, "  Connection Failed.");
 		ScorchedClient::instance()->getMainLoop().draw();

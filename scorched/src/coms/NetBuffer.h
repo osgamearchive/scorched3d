@@ -18,15 +18,12 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #ifndef _NETBUFFER_H_
 #define _NETBUFFER_H_
 
 #include <string>
 #include <SDL/SDL.h>
 #include <SDL/SDL_net.h>
-
-typedef TCPsocket NetPlayerID;
 
 class NetBuffer
 {

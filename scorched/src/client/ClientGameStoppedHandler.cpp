@@ -38,7 +38,7 @@ ClientGameStoppedHandler *ClientGameStoppedHandler::instance()
 
 ClientGameStoppedHandler::ClientGameStoppedHandler()
 {
-	ComsMessageHandler::instance()->addHandler(
+	ScorchedClient::instance()->getComsMessageHandler().addHandler(
 		"ComsGameStoppedMessage",
 		this);
 }
@@ -47,7 +47,7 @@ ClientGameStoppedHandler::~ClientGameStoppedHandler()
 {
 }
 
-bool ClientGameStoppedHandler::processMessage(NetPlayerID &id,
+bool ClientGameStoppedHandler::processMessage(unsigned int id,
 	const char *messageType,
 	NetBufferReader &reader)
 {

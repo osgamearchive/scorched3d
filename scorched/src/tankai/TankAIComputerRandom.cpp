@@ -22,7 +22,7 @@
 #include <tankai/TankAIComputerRandom.h>
 #include <tankai/TankAIStore.h>
 
-TankAIComputerRandom::TankAIComputerRandom()
+TankAIComputerRandom::TankAIComputerRandom() 
 {
 	name_ = "Random";
 }
@@ -36,7 +36,7 @@ bool TankAIComputerRandom::parseConfig(XMLNode *node)
 	return true;
 }
 
-TankAIComputer *TankAIComputerRandom::getCopy(Tank *tank)
+TankAIComputer *TankAIComputerRandom::getCopy(Tank *tank, ScorchedContext *context)
 {
 	DIALOG_ASSERT(TankAIStore::instance()->getAis().size());
 
@@ -46,7 +46,7 @@ TankAIComputer *TankAIComputerRandom::getCopy(Tank *tank)
 	for (int i=0; i<tankNo; i++) itor++;
 
 	TankAIComputer *result = (*itor);
-	if (!strcmp(result->getName(), getName())) return getCopy(tank);
-	return result->getCopy(tank);
+	if (!strcmp(result->getName(), getName())) return getCopy(tank, context);
+	return result->getCopy(tank, context);
 }
 

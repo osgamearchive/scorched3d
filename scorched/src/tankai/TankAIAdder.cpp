@@ -18,20 +18,18 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <tankai/TankAIAdder.h>
 #include <tankai/TankAIStore.h>
 #include <tankai/TankAIStrings.h>
 #include <tank/TankColorGenerator.h>
-#include <tank/TankContainer.h>
 #include <common/OptionsGame.h>
 #include <common/OptionsParam.h>
 
-void TankAIAdder::addTankAIs()
+void TankAIAdder::addTankAIs(ScorchedContext &context)
 {
 	// On the server
 	// Ensure that we cannot add more ais than the server is setup for
-	int maxComputerAIs = OptionsGame::instance()->getNoMaxPlayers();
+	int maxComputerAIs = context.optionsGame.getNoMaxPlayers();
 
 	// On a client however add all ais that are in the options file
 	// On the client the OptionsGame::instance()->getNoMaxPlayers()
@@ -45,7 +43,7 @@ void TankAIAdder::addTankAIs()
 	for (int i=0; i<maxComputerAIs; i++)
 	{
 		const char *playerType = 
-			OptionsGame::instance()->getPlayerType(i);
+			context.optionsGame.getPlayerType(i);
 		if (0 != stricmp(playerType, "Human"))
 		{
 			TankAIComputer *ai = 
@@ -61,15 +59,16 @@ void TankAIAdder::addTankAIs()
 				++tankId;
 
 				std::string botName = 
-					OptionsGame::instance()->getBotNamePrefix();
+					context.optionsGame.getBotNamePrefix();
 				botName += TankAIStrings::instance()->getPlayerName();
 				Tank *tank = new Tank(
+					context,
 					tankId,
 					botName.c_str(),
 					color,
 					modelId);
-				tank->setTankAI(ai->getCopy(tank));
-				TankContainer::instance()->addTank(tank);
+				tank->setTankAI(ai->getCopy(tank, &context));
+				context.tankContainer.addTank(tank);
 			}
 		}
 	}

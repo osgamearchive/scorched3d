@@ -18,22 +18,15 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// DeformCircular.cpp: implementation of the DeformCircular class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <landscape/DeformLandscape.h>
-#include <landscape/GlobalHMap.h>
+#include <engine/ScorchedContext.h>
 #include <math.h>
 
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
-
-bool DeformLandscape::deformLandscape(Vector &pos, float radius, bool down, DeformPoints &map)
+bool DeformLandscape::deformLandscape(
+	ScorchedContext &context,
+	Vector &pos, float radius, bool down, DeformPoints &map)
 {
-	HeightMap &hmap = GlobalHMap::instance()->getHMap();
+	HeightMap &hmap = context.landscapeMaps.getHMap();
 
 	bool hits = false;
 	int iradius = (int) radius + 1;
@@ -110,9 +103,9 @@ bool DeformLandscape::deformLandscape(Vector &pos, float radius, bool down, Defo
 	if (hits)
 	{
 		// Recalcualte the normals
-		GlobalHMap::instance()->getHMap().generateNormals(
-			MAX(0, (int) (pos[0] - radius)), MIN(GlobalHMap::instance()->getHMap().getWidth(), (int) (pos[0] + radius)),
-			MAX(0, (int) (pos[1] - radius)), MIN(GlobalHMap::instance()->getHMap().getWidth(), (int) (pos[1] + radius)));
+		hmap.generateNormals(
+			MAX(0, (int) (pos[0] - radius)), MIN(hmap.getWidth(), (int) (pos[0] + radius)),
+			MAX(0, (int) (pos[1] - radius)), MIN(hmap.getWidth(), (int) (pos[1] + radius)));
 	}
 
 	return hits;

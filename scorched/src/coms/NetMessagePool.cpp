@@ -50,7 +50,7 @@ void NetMessagePool::addToPool(NetMessage *message)
 }
 
 NetMessage *NetMessagePool::getFromPool(NetMessage::MessageType type,
-							NetPlayerID playerId)
+							unsigned int playerId)
 {
 	SDL_LockMutex(messagePoolMutex_);
 

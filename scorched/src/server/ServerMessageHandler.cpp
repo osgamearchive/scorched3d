@@ -18,13 +18,12 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <server/ServerMessageHandler.h>
+#include <server/ScorchedServer.h>
 #include <scorched/ServerDialog.h>
 #include <coms/ComsRmPlayerMessage.h>
 #include <coms/ComsMessageSender.h>
 #include <common/Logger.h>
-#include <tank/TankContainer.h>
 
 ServerMessageHandler *ServerMessageHandler::instance_ = 0;
 
@@ -58,7 +57,7 @@ void ServerMessageHandler::clientDisconnected(NetMessage &message)
 
 void ServerMessageHandler::destroyPlayer(unsigned int tankId)
 {
-	Tank *tank = TankContainer::instance()->removeTank(tankId);
+	Tank *tank = ScorchedServer::instance()->getTankContainer().removeTank(tankId);
 	if (tank)
 	{
 		Logger::log(tankId, "Client disconnected \"%i\" \"%s\"", 
@@ -81,7 +80,7 @@ void ServerMessageHandler::destroyPlayer(unsigned int tankId)
 void ServerMessageHandler::clientError(NetMessage &message,
 		const char *errorString)
 {
-	Logger::log(0, "Client \"%i\", ***Error*** \"%s\"", 
+	Logger::log(0, "Client \"%i\", ***Server Error*** \"%s\"", 
 		message.getPlayerId(),
 		errorString);
 	kickPlayer(message.getPlayerId());

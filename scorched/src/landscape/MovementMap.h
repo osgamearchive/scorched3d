@@ -23,6 +23,8 @@
 #define __INCLUDE_MovementMaph_INCLUDE__
 
 #include <common/Defines.h>
+#include <landscape/HeightMap.h>
+#include <map>
 
 const float MaxTankClimbHeight = 0.4f;
 
@@ -48,7 +50,7 @@ public:
 		unsigned int srcEntry;
 	};
 
-	MovementMap(int width);
+	MovementMap(HeightMap &hMap, int width);
 	virtual ~MovementMap();
 
 	void clear();
@@ -62,6 +64,14 @@ public:
 protected:
 	int width_;
 	MovementMapEntry *entries_;
+	HeightMap &hMap_;
+
+	unsigned int MovementMap::POINT_TO_UINT(unsigned int x, unsigned int y);
+	void addPoint(unsigned int x, unsigned int y, 
+					 float height, float dist,
+					 std::map<unsigned int, MovementMap::MovementMapEntry> &edgeMap,
+					 std::map<unsigned int, MovementMap::MovementMapEntry> &pointsMap,
+					 unsigned int sourcePt);
 
 };
 

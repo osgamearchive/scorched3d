@@ -33,9 +33,9 @@
 #include <common/OptionsTransient.h>
 #include <common/OptionsGame.h>
 #include <common/Gamma.h>
+#include <coms/NetServer.h>
 #include <tankai/TankAIStore.h>
 #include <landscape/HeightMapCollision.h>
-#include <landscape/GlobalHMap.h>
 #include <tankgraph/TankModelStore.h>
 #include <engine/ScorchedCollisionHandler.h>
 #include <GLEXT/GLStateExtension.h>
@@ -60,12 +60,17 @@ void setup()
 	ScorchedClient::instance();
 
 	bool useServer = (OptionsParam::instance()->getConnectedToServer());
-	ClientState::setupGameState(ScorchedClient::instance()->getGameState(), useServer);
+	ClientState::setupGameState(useServer);
+	if (useServer)
+	{
+		ScorchedClient::instance()->getContext().netInterface = 
+			new NetServer(new NetServerScorchedProtocol());
+	}
 
-	ActionController::instance();
-	HeightMapCollision::instance()->create(
-		GlobalHMap::instance()->getHMap());
-	ScorchedCollisionHandler::instance();
+	HeightMapCollision *hmcol = 
+		new HeightMapCollision(&ScorchedClient::instance()->getContext());
+	ScorchedClient::instance()->getActionController().getPhysics().setCollisionHandler(
+		new ScorchedCollisionHandler(&ScorchedClient::instance()->getContext()));
 
 	if (!Keyboard::instance()->init())
 	{

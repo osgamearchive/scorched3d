@@ -18,7 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #if !defined(__INCLUDE_ComsMessageHandlerh_INCLUDE__)
 #define __INCLUDE_ComsMessageHandlerh_INCLUDE__
 
@@ -41,7 +40,8 @@ class ComsMessageHandlerI
 public:
 	virtual ~ComsMessageHandlerI();
 
-	virtual bool processMessage(NetPlayerID &id,
+	virtual bool processMessage(
+		unsigned int id,
 		const char *message,
 		NetBufferReader &reader) = 0;
 };
@@ -49,7 +49,8 @@ public:
 class ComsMessageHandler : public NetMessageHandlerI
 {
 public:
-	static ComsMessageHandler *instance();
+	ComsMessageHandler();
+	virtual ~ComsMessageHandler();
 
 	// Used to add a handler for a specific message type
 	void setConnectionHandler(
@@ -63,16 +64,12 @@ public:
 	bool &getMessageLogging() { return comsMessageLogging_; }
 
 protected:
-	static ComsMessageHandler *instance_;
 	std::map<std::string, ComsMessageHandlerI *> handlerMap_;
 	ComsMessageConnectionHandlerI *connectionHandler_;
 
 	bool comsMessageLogging_;
 	void processReceiveMessage(NetMessage &message);
 
-private:
-	ComsMessageHandler();
-	virtual ~ComsMessageHandler();
 };
 
 

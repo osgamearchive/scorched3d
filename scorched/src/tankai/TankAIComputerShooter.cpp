@@ -20,6 +20,7 @@
 
 #include <weapons/AccessoryStore.h>
 #include <tankai/TankAIComputerShooter.h>
+#include <engine/ScorchedContext.h>
 #include <tank/Tank.h>
 #include <tank/TankLib.h>
 
@@ -38,9 +39,10 @@ Tank *TankAIComputerShooter::findTankToShootAt()
 	// Get the list of all tanks left in the game
 	// Sorted by distance
 	std::list<std::pair<float, Tank *> > sortedTanks;
-	TankLib::getTanksSortedByDistance(currentTank_->getPhysics().getTankPosition(), 
-									 sortedTanks);
-	
+	TankLib::getTanksSortedByDistance(
+		*context_,
+		currentTank_->getPhysics().getTankPosition(), 
+		sortedTanks);
 
 	// Choose a tank based on a probablity
 	// The nearest tanks are more likely to be choosen
@@ -79,7 +81,9 @@ void TankAIComputerShooter::playMove(const unsigned state,
 	Tank *targetTank = findTankToShootAt();
 	if (!targetTank) return;
 
-	TankLib::getShotTowardsPosition(currentTank_->getPhysics().getTankPosition(), 
+	TankLib::getShotTowardsPosition(
+		*context_,
+		currentTank_->getPhysics().getTankPosition(), 
 		targetTank->getPhysics().getTankPosition(), 0.0f, 
 		angleXYDegs, angleYZDegs, power);
 

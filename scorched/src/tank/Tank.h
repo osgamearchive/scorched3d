@@ -18,11 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// Tank.h: interface for the Tank class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_TANK_H__52F37177_46EA_49C8_9B58_E6C57ABDB78A__INCLUDED_)
 #define AFX_TANK_H__52F37177_46EA_49C8_9B58_E6C57ABDB78A__INCLUDED_
 
@@ -38,8 +33,9 @@ class Tank
 public:
 	// Constructor for tank
 	// The name and color are copied
-	Tank(unsigned int playerId, const char *name, 
-		 Vector &color, TankModelId &modelId);
+	Tank(ScorchedContext &context, 
+		unsigned int playerId, const char *name, 
+		Vector &color, TankModelId &modelId);
 	virtual ~Tank();
 
 	// Called when the state changes

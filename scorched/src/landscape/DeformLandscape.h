@@ -18,15 +18,11 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// DeformLandscape.h: interface for the DeformLandscape class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_DEFORMCIRCULAR_H__7E191509_3CD0_4EA5_A6B2_7C96C081C1AD__INCLUDED_)
 #define AFX_DEFORMCIRCULAR_H__7E191509_3CD0_4EA5_A6B2_7C96C081C1AD__INCLUDED_
 
-#include <common/Vector.h>
+class Vector;
+class ScorchedContext;
 
 namespace DeformLandscape
 {
@@ -35,7 +31,9 @@ namespace DeformLandscape
 		float map[100][100];
 	};
 
-	bool deformLandscape(Vector &pos, float radius, 
+	bool deformLandscape(
+		ScorchedContext &context,
+		Vector &pos, float radius, 
 		bool down, DeformPoints &map);
 
 };

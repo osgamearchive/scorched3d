@@ -42,7 +42,7 @@ ServerDefenseHandler *ServerDefenseHandler::instance()
 
 ServerDefenseHandler::ServerDefenseHandler()
 {
-	ComsMessageHandler::instance()->addHandler(
+	ScorchedServer::instance()->getComsMessageHandler().addHandler(
 		"ComsDefenseMessage",
 		this);
 }
@@ -51,7 +51,7 @@ ServerDefenseHandler::~ServerDefenseHandler()
 {
 }
 
-bool ServerDefenseHandler::processMessage(NetPlayerID &id,
+bool ServerDefenseHandler::processMessage(unsigned int id,
 	const char *messageType,
 	NetBufferReader &reader)
 {
@@ -70,7 +70,7 @@ bool ServerDefenseHandler::processMessage(NetPlayerID &id,
 	message.setPlayerId(playerId);
 
 	// Check tank exists and is alive
-	Tank *tank = TankContainer::instance()->getTankById(playerId);
+	Tank *tank = ScorchedServer::instance()->getTankContainer().getTankById(playerId);
 	if (tank && tank->getState().getState() != TankState::sNormal)
 	{
 		return true;
@@ -84,7 +84,8 @@ bool ServerDefenseHandler::processMessage(NetPlayerID &id,
 
 	// Check tank can perform this defense 
 	// And if so actually perform the defense
-	if (!TankAILogic::processDefenseMessage(message, tank))
+	if (!TankAILogic::processDefenseMessage(
+		ScorchedServer::instance()->getContext(), message, tank))
 	{
 		return true;
 	}

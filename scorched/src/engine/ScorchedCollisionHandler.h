@@ -22,14 +22,15 @@
 #if !defined(__INCLUDE_ScorchedCollisionHandlerh_INCLUDE__)
 #define __INCLUDE_ScorchedCollisionHandlerh_INCLUDE__
 
-#include <engine/PhysicsEngine.h>
+#include <engine/ScorchedContext.h>
 #include <common/Vector.h>
 #include <tank/Tank.h>
 
 class ScorchedCollisionHandler : public PhysicsEngineCollision
 {
 public:
-	static ScorchedCollisionHandler *instance();
+	ScorchedCollisionHandler(ScorchedContext *context);
+	virtual ~ScorchedCollisionHandler();
 
 	virtual void collision(dGeomID o1, dGeomID o2, 
 		dContactGeom *contacts, int noContacts);
@@ -44,6 +45,8 @@ protected:
 		ParticleActionNone
 	};
 
+	ScorchedContext *context_;
+
 	void groundCollision(dGeomID o1, dGeomID o2, 
 		dContactGeom *contacts, int noContacts,
 		bool metaAction);
@@ -56,9 +59,6 @@ protected:
 		Vector &collisionPos,
 		Shield::ShieldSize size);
 
-private:
-	ScorchedCollisionHandler();
-	virtual ~ScorchedCollisionHandler();
 };
 
 

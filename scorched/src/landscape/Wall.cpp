@@ -18,7 +18,7 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
+#include <client/ScorchedClient.h>
 #include <landscape/Wall.h>
 #include <common/SoundStore.h>
 #include <GLEXT/GLBitmap.h>
@@ -75,7 +75,7 @@ void Wall::drawWall(Vector &cornerA, Vector &cornerB,
 	int rot = 0;//int(fade * 75) % 2;
 	float pos = float(int(fade * 75) % 2) * 5.0f;
 
-	Vector &wallColor = OptionsTransient::instance()->getWallColor();
+	Vector &wallColor = ScorchedClient::instance()->getOptionsTransient().getWallColor();
 	glColor4f(wallColor[0], wallColor[1], wallColor[2], fade);
 	glBegin(GL_QUADS);
 		// Don't draw the wall if we are behind it

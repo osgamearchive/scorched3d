@@ -28,14 +28,11 @@
 #include <common/OptionsGame.h>
 #include <common/OptionsParam.h>
 #include <common/OptionsTransient.h>
-#include <coms/ComsGateway.h>
 #include <engine/ActionController.h>
 #include <engine/ScorchedCollisionHandler.h>
 #include <landscape/HeightMapCollision.h>
-#include <landscape/GlobalHMap.h>
 #include <tankai/TankAIAdder.h>
 #include <tankai/TankAIStore.h>
-#include <tank/TankContainer.h>
 #include <scorched/ServerDialog.h>
 #include <server/ServerMessageHandler.h>
 #include <server/ServerPlayerReadyHandler.h>
@@ -58,9 +55,11 @@ bool serverMain()
 	OptionsParam::instance()->setServerFile("Hmm");
 
 	// Setup the message handling classes
-	ComsGateway::instance()->setMessageHandler(
-		ComsMessageHandler::instance());
-	ComsMessageHandler::instance()->setConnectionHandler(
+	NetServer *netServer = new NetServer(new NetServerScorchedProtocol());
+	ScorchedServer::instance()->getContext().netInterface = netServer;
+	ScorchedServer::instance()->getNetInterface().setMessageHandler(
+		&ScorchedServer::instance()->getComsMessageHandler());
+	ScorchedServer::instance()->getComsMessageHandler().setConnectionHandler(
 		ServerMessageHandler::instance());
 	ServerConnectHandler::instance();
 	ServerTextHandler::instance();
@@ -70,23 +69,24 @@ bool serverMain()
 	ServerDefenseHandler::instance();
 
 	// Init physics
-	ActionController::instance();
-	HeightMapCollision::instance()->create(
-		GlobalHMap::instance()->getHMap());
-	ScorchedCollisionHandler::instance();
-	OptionsTransient::instance()->reset();
+	HeightMapCollision *hmcol = 
+		new HeightMapCollision(&ScorchedServer::instance()->getContext());
+	ScorchedServer::instance()->getActionController().getPhysics().setCollisionHandler(
+		new ScorchedCollisionHandler(&ScorchedServer::instance()->getContext()));
+
+	ScorchedServer::instance()->getOptionsTransient().reset();
 
 	ServerState::setupStates(ScorchedServer::instance()->getGameState());
 
 	// Add the server side bots
 	TankAIStore::instance();
-	TankAIAdder::addTankAIs();
+	TankAIAdder::addTankAIs(ScorchedServer::instance()->getContext());
 
 	// Try to start the server
-	if (!ComsGateway::instance()->start(
-		OptionsGame::instance()->getPortNo(),
-		OptionsGame::instance()->getNoMaxPlayers() - 
-		TankContainer::instance()->getNoOfTanks()))
+	if (!netServer->start(
+		ScorchedServer::instance()->getOptionsGame().getPortNo(),
+		ScorchedServer::instance()->getOptionsGame().getNoMaxPlayers() - 
+		ScorchedServer::instance()->getTankContainer().getNoOfTanks()))
 	{
 		dialogMessage("Scorched3D Server", 
 			"Failed to start the server.\n\n"
@@ -95,7 +95,7 @@ bool serverMain()
 	}
 
 	ServerBrowserInfo::instance()->start();
- 	if (OptionsGame::instance()->getPublishServer()) 
+ 	if (ScorchedServer::instance()->getOptionsGame().getPublishServer()) 
 	{
 		ServerRegistration::instance()->start();
 	}
@@ -107,10 +107,10 @@ bool serverMain()
 void serverLoop()
 {
 	// Main server loop:
-	if (ComsGateway::instance()->started())
+	if (ScorchedServer::instance()->getNetInterface().started())
 	{
 		Logger::processLogEntries();
-		ComsGateway::instance()->processMessages();
+		ScorchedServer::instance()->getNetInterface().processMessages();
 		ServerBrowserInfo::instance()->processMessages();
 		ScorchedServer::instance()->getGameState().simulate(serverTimer.getTimeDifference());
 	}

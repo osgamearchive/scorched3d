@@ -18,9 +18,8 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
+#include <client/ScorchedClient.h>
 #include <client/ClientBuyAccessoryHandler.h>
-#include <tank/TankContainer.h>
 #include <coms/ComsBuyAccessoryMessage.h>
 #include <weapons/AccessoryStore.h>
 #include <common/SoundStore.h>
@@ -38,7 +37,7 @@ ClientBuyAccessoryHandler *ClientBuyAccessoryHandler::instance()
 
 ClientBuyAccessoryHandler::ClientBuyAccessoryHandler()
 {
-	ComsMessageHandler::instance()->addHandler(
+	ScorchedClient::instance()->getComsMessageHandler().addHandler(
 		"ComsBuyAccessoryMessage",
 		this);
 }
@@ -47,7 +46,7 @@ ClientBuyAccessoryHandler::~ClientBuyAccessoryHandler()
 {
 }
 
-bool ClientBuyAccessoryHandler::processMessage(NetPlayerID &id,
+bool ClientBuyAccessoryHandler::processMessage(unsigned int id,
 	const char *messageType,
 	NetBufferReader &reader)
 {
@@ -56,11 +55,11 @@ bool ClientBuyAccessoryHandler::processMessage(NetPlayerID &id,
 	if (!message.readMessage(reader)) return false;
 
 	// Check tank exists and is alive
-	Tank *tank = TankContainer::instance()->getTankById(message.getPlayerId());
+	Tank *tank = ScorchedClient::instance()->getTankContainer().getTankById(message.getPlayerId());
 	if (!tank) return true;
 	
 	// Check this is not the current clients player
-	if (tank->getPlayerId() == TankContainer::instance()->getCurrentPlayerId())
+	if (tank->getPlayerId() == ScorchedClient::instance()->getTankContainer().getCurrentPlayerId())
 	{
 		return true;
 	}

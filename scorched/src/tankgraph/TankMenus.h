@@ -23,6 +23,7 @@
 
 #include <GLEXT/GLMenuI.h>
 #include <weapons/Accessory.h>
+#include <common/Logger.h>
 #include <vector>
 
 class TankMenus
@@ -32,6 +33,8 @@ public:
 	virtual ~TankMenus();
 
 protected:
+	FileLogger *logger_;
+
 	struct PlayerMenu : public GLMenuI
 	{
 		PlayerMenu();

@@ -21,6 +21,7 @@
 #if !defined(AFX_GAMESTATE_H__00A5F6B7_02B2_45B3_9D9B_F8B0AC9F5614__INCLUDED_)
 #define AFX_GAMESTATE_H__00A5F6B7_02B2_45B3_9D9B_F8B0AC9F5614__INCLUDED_
 
+#include <string>
 #include <map>
 #include <list>
 #include <engine/MainLoopI.h>
@@ -38,7 +39,7 @@ public:
 		MouseButtonRight = 0x4
 	};
 
-	GameState();
+	GameState(const char *name);
 	virtual ~GameState();
 
 	// Called by the simulator
@@ -138,6 +139,7 @@ protected:
 	unsigned currentState_; 
 	GameStateEntry *currentEntry_; 
 	std::map<unsigned, GameStateEntry> stateList_;
+	std::string name_;
 	unsigned pendingStimulus_;
 	bool fakeMiddleButton_;
 	bool stateLogging_;

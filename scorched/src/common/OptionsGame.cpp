@@ -18,22 +18,9 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <common/OptionsGame.h>
 #include <common/OptionsTransient.h>
 #include <common/Defines.h>
-
-OptionsGame *OptionsGame::instance_ = 0;
-
-OptionsGame *OptionsGame::instance()
-{
-	if (!instance_)
-	{
-		instance_ = new OptionsGame;
-	}
-
-	return instance_;
-}
 
 OptionsGame::OptionsGame() :
 	maxArmsLevel_(options_, "MaxArmsLevel",

@@ -18,11 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// ActionController.h: interface for the ActionController class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_ACTIONCONTROLLER_H__86995B4A_478E_4CFE_BD4C_79128DE51904__INCLUDED_)
 #define AFX_ACTIONCONTROLLER_H__86995B4A_478E_4CFE_BD4C_79128DE51904__INCLUDED_
 
@@ -32,10 +27,12 @@
 #include <engine/PhysicsEngine.h>
 #include <engine/GameStateI.h>
 
+class ScorchedContext;
 class ActionController : public GameStateI
 {
 public:
-	static ActionController* instance();
+	ActionController();
+	virtual ~ActionController();
 
     // Add an action to be simulated
 	void addAction(Action *action);
@@ -48,6 +45,7 @@ public:
 	ActionBuffer &getBuffer() { return buffer_; }
 
 	// Set the simulation speed
+	void setScorchedContext(ScorchedContext *context);
 	void setFast(float speedMult);
 	float getFast() { return speed_; }
 
@@ -57,6 +55,7 @@ public:
 
 protected:
 	static ActionController* instance_;
+	ScorchedContext *context_;
 	std::list<Action *> newActions_;
 	std::set<Action *> actions_;
 	PhysicsEngine physicsEngine_;
@@ -67,10 +66,6 @@ protected:
 
 	void stepActions(float frameTime);
 	void addNewActions();
-
-private:
-	ActionController();
-	virtual ~ActionController();
 
 };
 

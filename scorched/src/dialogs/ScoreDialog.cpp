@@ -19,7 +19,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <dialogs/ScoreDialog.h>
-#include <tank/TankContainer.h>
 #include <tank/TankSort.h>
 #include <GLW/GLWFont.h>
 #include <common/OptionsParam.h>
@@ -28,10 +27,6 @@
 #include <client/ClientState.h>
 #include <client/ScorchedClient.h>
 #include <stdio.h>
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 ScoreDialog *ScoreDialog::instance_ = 0;
 ScoreDialog *ScoreDialog::instance2_ = 0;
@@ -78,7 +73,7 @@ void ScoreDialog::calculateScores()
 	lastScoreValue_ = lastWinsValue_ = 0;
 	std::list<Tank *> sortedTanks;
 	std::map<unsigned int, Tank *> &tanks = 
-		TankContainer::instance()->getPlayingTanks();
+		ScorchedClient::instance()->getTankContainer().getPlayingTanks();
 	std::map<unsigned int, Tank *>::iterator itor;
 	for (itor = tanks.begin();
 		itor != tanks.end();
@@ -137,7 +132,7 @@ void ScoreDialog::draw()
 				white,
 				18,
 				x_ + 8.0f, y_ + h_ - 41.0f, 0.0f,
-				OptionsGame::instance()->getServerName());
+				ScorchedClient::instance()->getOptionsGame().getServerName());
 	}
 
 	if (!finished)
@@ -147,7 +142,7 @@ void ScoreDialog::draw()
 				12,
 				x_ + 305.0f, y_ + h_ - 35.0f, 0.0f,
 				"%i Rounds Left",
-				OptionsTransient::instance()->getNoRoundsLeft());
+				ScorchedClient::instance()->getOptionsTransient().getNoRoundsLeft());
 	}
 
 	float y = lineSpacer + 10.0f;
@@ -171,7 +166,7 @@ void ScoreDialog::draw()
 		itor ++, pos++)
 	{
 		unsigned int playerId = (*itor);
-		Tank *current = TankContainer::instance()->getTankById(playerId);
+		Tank *current = ScorchedClient::instance()->getTankContainer().getTankById(playerId);
 		if (current) 
 		{
 			float textX = x_ + 6.0f;
@@ -182,7 +177,7 @@ void ScoreDialog::draw()
 			if (server)
 			{
 				if (current->getPlayerId() == 
-					TankContainer::instance()->getCurrentPlayerId())
+					ScorchedClient::instance()->getTankContainer().getCurrentPlayerId())
 				{
 					GLState state(GLState::BLEND_ON); 
 					glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

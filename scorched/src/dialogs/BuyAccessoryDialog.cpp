@@ -22,7 +22,6 @@
 #include <GLW/GLWTextButton.h>
 #include <GLW/GLWIcon.h>
 #include <GLW/GLWFlag.h>
-#include <tank/TankContainer.h>
 #include <client/ClientState.h>
 #include <client/ScorchedClient.h>
 #include <common/WindowManager.h>
@@ -78,7 +77,7 @@ void BuyAccessoryDialog::addPlayerName()
 {
 	topPanel_->clear();
 
-	Tank *tank = TankContainer::instance()->getTankById(actualPlayer_);
+	Tank *tank = ScorchedClient::instance()->getTankContainer().getTankById(actualPlayer_);
 	if (!tank) return;
 
 	char buffer[256];
@@ -100,7 +99,7 @@ void BuyAccessoryDialog::addPlayerWeapons()
 void BuyAccessoryDialog::addPlayerWeaponsBuy(GLWTab *tab, bool showWeapons)
 {
 	tab->clear();
-	Tank *tank = TankContainer::instance()->getTankById(actualPlayer_);
+	Tank *tank = ScorchedClient::instance()->getTankContainer().getTankById(actualPlayer_);
 	if (!tank) return;
 
 	std::list<Accessory *> weapons;
@@ -117,7 +116,8 @@ void BuyAccessoryDialog::addPlayerWeaponsBuy(GLWTab *tab, bool showWeapons)
 		itor++)
 	{	
 		Accessory *current = (*itor);
-		if (10-current->getArmsLevel() <= OptionsGame::instance()->getMaxArmsLevel())
+		if (10-current->getArmsLevel() <= 
+			ScorchedClient::instance()->getOptionsGame().getMaxArmsLevel())
 		{
 			accVector.push_back(current);
 		}
@@ -154,7 +154,7 @@ void BuyAccessoryDialog::addPlayerWeaponsBuy(GLWTab *tab, bool showWeapons)
 
 		if ((!current->singular() && currentNumber >= 0) || (current->singular() && currentNumber==0))
 		{
-			if (currentNumber < OptionsGame::instance()->getMaxNumberWeapons() &&
+			if (currentNumber < ScorchedClient::instance()->getOptionsGame().getMaxNumberWeapons() &&
 				current->getPrice() <= tank->getScore().getMoney())
 			{
 				GLWidget *button = 
@@ -177,7 +177,7 @@ void BuyAccessoryDialog::addPlayerWeaponsSell()
 	std::list<std::pair<Accessory *, int> > tankAccessories;
 	std::list<std::pair<Accessory *, int> >::iterator itor;
 
-	Tank *tank = TankContainer::instance()->getTankById(actualPlayer_);
+	Tank *tank = ScorchedClient::instance()->getTankContainer().getTankById(actualPlayer_);
 	if (!tank) return;
 
 	tank->getAccessories().getAllAccessories(tankAccessories);
@@ -224,10 +224,10 @@ void BuyAccessoryDialog::playerRefresh()
 
 void BuyAccessoryDialog::windowInit(const unsigned state)
 {
-	int roundsPlayed = OptionsGame::instance()->getNoRounds() -
-		OptionsTransient::instance()->getNoRoundsLeft();
-	if (OptionsGame::instance()->getBuyOnRound() - 1 >= roundsPlayed ||
-		OptionsTransient::instance()->getCurrentGameNo() != 1)
+	int roundsPlayed = ScorchedClient::instance()->getOptionsGame().getNoRounds() -
+		ScorchedClient::instance()->getOptionsTransient().getNoRoundsLeft();
+	if (ScorchedClient::instance()->getOptionsGame().getBuyOnRound() - 1 >= roundsPlayed ||
+		ScorchedClient::instance()->getOptionsTransient().getCurrentGameNo() != 1)
 	{
 		finished();
 	}
@@ -241,7 +241,7 @@ void BuyAccessoryDialog::windowInit(const unsigned state)
 void BuyAccessoryDialog::nextPlayer()
 {
 	++currentPlayer_;
-	Tank *tank = TankContainer::instance()->
+	Tank *tank = ScorchedClient::instance()->getTankContainer().
 		getTankByPos((unsigned int) currentPlayer_);
 
 	if (!tank)
@@ -285,7 +285,7 @@ void BuyAccessoryDialog::buttonDown(unsigned int id)
 	}
 	else
 	{
-		Tank *tank = TankContainer::instance()->getTankById(actualPlayer_);
+		Tank *tank = ScorchedClient::instance()->getTankContainer().getTankById(actualPlayer_);
 		if (!tank) return;
 
 		std::map<unsigned int, Accessory *>::iterator itor;

@@ -33,7 +33,7 @@ public:
 
 	void addToPool(NetMessage *message);
 	NetMessage *getFromPool(NetMessage::MessageType type,
-							NetPlayerID playerId);
+							unsigned int playerId);
 
 protected:
 	static NetMessagePool *instance_;

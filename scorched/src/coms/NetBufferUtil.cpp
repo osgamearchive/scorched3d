@@ -18,11 +18,7 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <coms/NetBufferUtil.h>
-
-unsigned int NetBufferUtil::bytesIn_ = 0;
-unsigned int NetBufferUtil::bytesOut_ = 0;
 
 // HACK HACK HACK
 // This code has been ripped from the SDL_net library

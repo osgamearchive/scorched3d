@@ -28,8 +28,7 @@ class ComsMessageSender
 {
 public:
 	static bool sendToServer(ComsMessage &message);
-	static bool sendToSingleClient(ComsMessage &message,
-		TCPsocket destination);
+	static bool sendToSingleClient(ComsMessage &message, unsigned int desitination);
 	static bool sendToAllPlayingClients(ComsMessage &message);
 	static bool sendToAllConnectedClients(ComsMessage &message);
 

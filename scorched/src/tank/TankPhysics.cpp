@@ -18,14 +18,13 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <tank/TankPhysics.h>
 #include <tank/TankLib.h>
-#include <engine/ActionController.h>
+#include <engine/ScorchedContext.h>
 #include <common/Defines.h>
 #include <common/OptionsDisplay.h>
 
-TankPhysics::TankPhysics(unsigned int playerId) :
+TankPhysics::TankPhysics(ScorchedContext &context, unsigned int playerId) :
 	tankInfo_(CollisionIdTank),
 	shieldSmallInfo_(CollisionIdShieldSmall),
 	shieldLargeInfo_(CollisionIdShieldLarge),
@@ -35,15 +34,15 @@ TankPhysics::TankPhysics(unsigned int playerId) :
 {
 	// The tank collision object
 	tankGeom_ = 
-		dCreateSphere(ActionController::instance()->getPhysics().getSpace(), 1.0f);
+		dCreateSphere(context.actionController.getPhysics().getSpace(), 1.0f);
 	tankInfo_.data = (void *) playerId;
 	dGeomSetData(tankGeom_, &tankInfo_);
 
 	// The tank shield collision object
 	shieldSmallGeom_ =
-		dCreateSphere(ActionController::instance()->getPhysics().getSpace(), 3.0f);
+		dCreateSphere(context.actionController.getPhysics().getSpace(), 3.0f);
 	shieldLargeGeom_ =
-		dCreateSphere(ActionController::instance()->getPhysics().getSpace(), 6.0f);
+		dCreateSphere(context.actionController.getPhysics().getSpace(), 6.0f);
 	shieldSmallInfo_.data = (void *) playerId;
 	shieldLargeInfo_.data = (void *) playerId;
 	dGeomSetData(shieldSmallGeom_, &shieldSmallInfo_);

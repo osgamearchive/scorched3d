@@ -18,14 +18,13 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <tankgraph/TankModelRenderer.h>
 #include <tankgraph/TankModelStore.h>
-#include <landscape/GlobalHMap.h>
 #include <landscape/Landscape.h>
 #include <landscape/Hemisphere.h>
 #include <actions/TankFalling.h>
 #include <client/MainCamera.h>
+#include <client/ScorchedClient.h>
 #include <common/OptionsDisplay.h>
 #include <GLEXT/GLCameraFrustum.h>
 #include <3dsparse/ASEStore.h>
@@ -292,7 +291,7 @@ void TankModelRenderer::drawLife()
 
 	Vector &position = tank_->getPhysics().getTankPosition();
 	float height = position[2];
-	float groundHeight = GlobalHMap::instance()->getHMap().
+	float groundHeight = ScorchedClient::instance()->getLandscapeMaps().getHMap().
 		getHeight((int) position[0], (int) position[1]);
 	if (height < groundHeight)
 	{

@@ -18,15 +18,11 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// Action.h: interface for the Action class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_ACTION_H__2C00E711_B337_4665_AB54_C6661FD67E5D__INCLUDED_)
 #define AFX_ACTION_H__2C00E711_B337_4665_AB54_C6661FD67E5D__INCLUDED_
 
 class Action;
+class ScorchedContext;
 class ActionRenderer
 {
 public:
@@ -52,10 +48,13 @@ public:
 	virtual void simulate(float frameTime, bool &removeAction);
 
 	virtual void setActionRender(ActionRenderer *renderer);
+	virtual void setScorchedContext(ScorchedContext *context);
+	virtual ScorchedContext *getScorchedContext();
 	virtual bool getReferenced() { return false; }
 
 protected:
 	ActionRenderer *renderer_;
+	ScorchedContext *context_;
 
 };
 

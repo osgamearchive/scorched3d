@@ -18,19 +18,10 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// Action.cpp: implementation of the Action class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <engine/Action.h>
 
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
-
 Action::Action(ActionRenderer *renderer) : 
-	renderer_(renderer)
+	renderer_(renderer), context_(0)
 {
 
 }
@@ -49,6 +40,16 @@ void Action::setActionRender(ActionRenderer *renderer)
 {
 	if (renderer_) delete renderer_;
 	renderer_ = renderer;
+}
+
+void Action::setScorchedContext(ScorchedContext *context)
+{
+	context_ = context;
+}
+
+ScorchedContext *Action::getScorchedContext()
+{
+	return context_;
 }
 
 void Action::simulate(float frameTime, bool &removeAction)

@@ -18,11 +18,10 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
+#include <client/ScorchedClient.h>
 #include <client/ClientAddPlayerHandler.h>
 #include <client/ClientConnectionAcceptHandler.h>
 #include <client/ClientState.h>
-#include <tank/TankContainer.h>
 #include <tankai/TankAIHuman.h>
 #include <common/Logger.h>
 #include <coms/ComsAddPlayerMessage.h>
@@ -41,7 +40,7 @@ ClientAddPlayerHandler *ClientAddPlayerHandler::instance()
 
 ClientAddPlayerHandler::ClientAddPlayerHandler()
 {
-	ComsMessageHandler::instance()->addHandler(
+	ScorchedClient::instance()->getComsMessageHandler().addHandler(
 		"ComsAddPlayerMessage",
 		this);
 }
@@ -51,7 +50,7 @@ ClientAddPlayerHandler::~ClientAddPlayerHandler()
 
 }
 
-bool ClientAddPlayerHandler::processMessage(NetPlayerID &id,
+bool ClientAddPlayerHandler::processMessage(unsigned int id,
 		const char *messageType,
 		NetBufferReader &reader)
 {
@@ -62,23 +61,24 @@ bool ClientAddPlayerHandler::processMessage(NetPlayerID &id,
 	// Collections
 	TankModelId modelId(message.getModelName());
 	Tank *tank = new Tank(
+		ScorchedClient::instance()->getContext(),
 		message.getPlayerId(),
 		message.getPlayerName(),
 		message.getPlayerColor(),
 		modelId);
 	if (message.getPlayerId() == 
-		TankContainer::instance()->getCurrentPlayerId())
+		ScorchedClient::instance()->getTankContainer().getCurrentPlayerId())
 	{
-		TankAI *ai = new TankAIHuman(tank);
+		TankAI *ai = new TankAIHuman(&ScorchedClient::instance()->getContext(), tank);
 		tank->setTankAI(ai);
 	}
-	TankContainer::instance()->addTank(tank);
+	ScorchedClient::instance()->getTankContainer().addTank(tank);
 
 	// Tell this computer that a new tank has connected
 	Logger::log(message.getPlayerId(),
 			"New player connected \"%s\" %s",
 			message.getPlayerName(),
-			(tank->getPlayerId() == TankContainer::instance()->getCurrentPlayerId()?
+			(tank->getPlayerId() == ScorchedClient::instance()->getTankContainer().getCurrentPlayerId()?
 			"<- Local":""));
 
 	return true;

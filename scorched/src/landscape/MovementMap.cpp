@@ -18,14 +18,12 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <landscape/MovementMap.h>
-#include <landscape/GlobalHMap.h>
 #include <landscape/Landscape.h>
 #include <tank/Tank.h>
 #include <memory.h>
 
-MovementMap::MovementMap(int width) : width_(width)
+MovementMap::MovementMap(HeightMap &hMap, int width) : hMap_(hMap), width_(width)
 {
 	entries_ = new MovementMapEntry[(width_ + 1) * (width_ + 1)];
 	clear();
@@ -42,14 +40,12 @@ void MovementMap::clear()
 	memset(entries_, 0, sizeof(MovementMapEntry) * (width_ + 1) * (width_ + 1));
 }
 
-// Why are these static fns rather them member fns
-// Who knows, just a whim....
-static unsigned int POINT_TO_UINT(unsigned int x, unsigned int y)
+unsigned int MovementMap::POINT_TO_UINT(unsigned int x, unsigned int y)
 {
 	return (x << 16) | (y & 0xffff);
 }
 
-static void addPoint(unsigned int x, unsigned int y, 
+void MovementMap::addPoint(unsigned int x, unsigned int y, 
 					 float height, float dist,
 					 std::map<unsigned int, MovementMap::MovementMapEntry> &edgeMap,
 					 std::map<unsigned int, MovementMap::MovementMapEntry> &pointsMap,
@@ -57,15 +53,15 @@ static void addPoint(unsigned int x, unsigned int y,
 {
 	// Check that we are not going outside the arena
 	if (x < 0 || y < 0 ||
-		y > (unsigned int) GlobalHMap::instance()->getHMap().getWidth() ||
-		x > (unsigned int) GlobalHMap::instance()->getHMap().getWidth()) return;
+		y > (unsigned int) hMap_.getWidth() ||
+		x > (unsigned int) hMap_.getWidth()) return;
 
 	// Form this point
 	unsigned int pt = POINT_TO_UINT(x, y);
 
 	// Find how much the tank has to climb to reach this new point
 	// check that this is acceptable
-	float newHeight = GlobalHMap::instance()->getHMap().getHeight(
+	float newHeight = hMap_.getHeight(
 		(int) x, (int) y);
 	if (newHeight - height > MaxTankClimbHeight) return;
 	if (newHeight < Landscape::instance()->getWater().getHeight()) return;
@@ -139,7 +135,7 @@ void MovementMap::calculateForTank(Tank *tank)
 				unsigned int y = pt & 0xffff;
 
 				float height = 
-					GlobalHMap::instance()->getHMap().getHeight(
+					hMap_.getHeight(
 					(int) x, (int) y);
 
 				addPoint(x+1, y, height, dist + 1, edgeMap, pointsMap, pt);

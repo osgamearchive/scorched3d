@@ -18,18 +18,9 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// ShotClod.cpp: implementation of the ShotClod class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <actions/ShotProjectileClod.h>
 #include <actions/Explosion.h>
-#include <engine/ActionController.h>
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
+#include <engine/ScorchedContext.h>
 
 REGISTER_ACTION_SOURCE(ShotProjectileClod);
 
@@ -70,7 +61,7 @@ void ShotProjectileClod::collision(Vector &position)
 {
 	ShotProjectile::collision(position);
 
-	ActionController::instance()->addAction(
+	context_->actionController.addAction(
 		new Explosion(position, width_, weapon_, playerId_, 
 		false, Explosion::DeformUp));
 }

@@ -18,23 +18,15 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// TankScore.cpp: implementation of the TankScore class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <common/OptionsGame.h>
 #include <tank/TankScore.h>
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
+#include <engine/ScorchedContext.h>
 
 // The maximum amount of money allowed by anyone
 // Range limited to 0 -> maxMoney
 static const int maxMoney = 500000;
 
-TankScore::TankScore() 
+TankScore::TankScore(ScorchedContext &context) : context_(context)
 	
 {
 	startTime_ = time(0);
@@ -48,7 +40,7 @@ TankScore::~TankScore()
 
 void TankScore::reset()
 {
-	money_ = OptionsGame::instance()->getStartMoney();
+	money_ = context_.optionsGame.getStartMoney();
 	wins_ = 0;
 	kills_ = 0;
 	missedMoves_ = 0;

@@ -18,9 +18,8 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <tankgraph/TracerStore.h>
-#include <tank/TankContainer.h>
+#include <client/ScorchedClient.h>
 
 TracerStore::TracerStore() : current_(0), listNo_(0)
 {
@@ -43,7 +42,7 @@ void TracerStore::clearTracers()
 
 void TracerStore::draw(const unsigned state)
 {
-	Tank *current = TankContainer::instance()->getCurrentTank();
+	Tank *current = ScorchedClient::instance()->getTankContainer().getCurrentTank();
 	if (!current) return;
 
 	if (!current_ || 

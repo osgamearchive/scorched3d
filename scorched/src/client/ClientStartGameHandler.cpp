@@ -25,7 +25,6 @@
 #include <client/ScorchedClient.h>
 #include <landscape/Landscape.h>
 #include <tank/TankStart.h>
-#include <tank/TankContainer.h>
 #include <engine/ActionController.h>
 #include <common/OptionsTransient.h>
 #include <common/OptionsGame.h>
@@ -47,7 +46,7 @@ ClientStartGameHandler *ClientStartGameHandler::instance()
 
 ClientStartGameHandler::ClientStartGameHandler()
 {
-	ComsMessageHandler::instance()->addHandler(
+	ScorchedClient::instance()->getComsMessageHandler().addHandler(
 		"ComsStartGameMessage",
 		this);
 }
@@ -57,7 +56,7 @@ ClientStartGameHandler::~ClientStartGameHandler()
 
 }
 
-bool ClientStartGameHandler::processMessage(NetPlayerID &id,
+bool ClientStartGameHandler::processMessage(unsigned int id,
 		const char *messageType,
 		NetBufferReader &reader)
 {
@@ -70,10 +69,10 @@ bool ClientStartGameHandler::processMessage(NetPlayerID &id,
 
 void ClientStartGameHandler::startClientGame()
 {
-	if (TankContainer::instance()->aliveCount() < 2)
+	if (ScorchedClient::instance()->getTankContainer().aliveCount() < 2)
 	{
 		// check for all rounds completely finished
-		if (OptionsTransient::instance()->getNoRoundsLeft() <= 0)
+		if (ScorchedClient::instance()->getOptionsTransient().getNoRoundsLeft() <= 0)
 		{
 			// We have finished with all rounds show the score
 			ScorchedClient::instance()->getGameState().stimulate(ClientState::StimScore);
@@ -87,16 +86,16 @@ void ClientStartGameHandler::startClientGame()
 		return;
 	}
 
-	TankStart::nextRound();
+	TankStart::nextRound(ScorchedClient::instance()->getContext());
 
 	// Find who the next player is
-	if (TankContainer::instance()->getCurrentPlayerId() == 0)
+	if (ScorchedClient::instance()->getTankContainer().getCurrentPlayerId() == 0)
 	{
 		// This is the beginning of a new round,
 		// Use the first player in the map as the starting player
 		std::map<unsigned, Tank *>::iterator itor =
-			TankContainer::instance()->getPlayingTanks().begin();
-		TankContainer::instance()->setCurrentPlayerId(
+			ScorchedClient::instance()->getTankContainer().getPlayingTanks().begin();
+		ScorchedClient::instance()->getTankContainer().setCurrentPlayerId(
 			(*itor).second->getPlayerId());
 	}
 	else
@@ -109,8 +108,8 @@ void ClientStartGameHandler::startClientGame()
 		while (!found)
 		{
 			std::map<unsigned, Tank *>::iterator itor;
-			for (itor = TankContainer::instance()->getPlayingTanks().begin();
-				(itor != TankContainer::instance()->getPlayingTanks().end()) && !found;
+			for (itor = ScorchedClient::instance()->getTankContainer().getPlayingTanks().begin();
+				(itor != ScorchedClient::instance()->getTankContainer().getPlayingTanks().end()) && !found;
 				itor++)
 			{
 				Tank *current = (*itor).second;
@@ -119,11 +118,11 @@ void ClientStartGameHandler::startClientGame()
 					TankState::sNormal)
 				{
 					found = true;
-					TankContainer::instance()->
+					ScorchedClient::instance()->getTankContainer().
 						setCurrentPlayerId(current->getPlayerId());
 				}
 				if (current->getPlayerId() == 
-					TankContainer::instance()->getCurrentPlayerId())
+					ScorchedClient::instance()->getTankContainer().getCurrentPlayerId())
 				{
 					useNext = true;
 				}
@@ -141,15 +140,15 @@ void ClientStartGameHandler::startGame()
 
 	// Set the wind for the next shot
 	Vector wind;
-	if (OptionsTransient::instance()->getWindOn())
+	if (ScorchedClient::instance()->getOptionsTransient().getWindOn())
 	{
-		wind = OptionsTransient::instance()->getWindDirection();
-		wind *= OptionsTransient::instance()->getWindSpeed() / 2.0f;
+		wind = ScorchedClient::instance()->getOptionsTransient().getWindDirection();
+		wind *= ScorchedClient::instance()->getOptionsTransient().getWindSpeed() / 2.0f;
 	}
-	ActionController::instance()->getPhysics().setWind(wind);
+	ScorchedClient::instance()->getActionController().getPhysics().setWind(wind);
 
 	// make sound to tell client a new game is commencing
-	Tank *current = TankContainer::instance()->getCurrentTank();
+	Tank *current = ScorchedClient::instance()->getTankContainer().getCurrentTank();
 	if (current && current->getTankAI())
 	{
 		if (current->getTankAI()->isHuman())

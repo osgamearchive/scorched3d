@@ -18,7 +18,7 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
+#include <client/ScorchedClient.h>
 #include <client/ClientNewGameHandler.h>
 #include <client/ClientState.h>
 #include <client/SpeedChange.h>
@@ -27,8 +27,6 @@
 #include <dialogs/ConnectDialog.h>
 #include <dialogs/ProgressDialog.h>
 #include <landscape/Landscape.h>
-#include <landscape/GlobalHMap.h>
-#include <tank/TankContainer.h>
 #include <tank/TankStart.h>
 #include <tankgraph/TankRenderer.h>
 #include <coms/ComsNewGameMessage.h>
@@ -49,7 +47,7 @@ ClientNewGameHandler *ClientNewGameHandler::instance()
 
 ClientNewGameHandler::ClientNewGameHandler()
 {
-	ComsMessageHandler::instance()->addHandler(
+	ScorchedClient::instance()->getComsMessageHandler().addHandler(
 		"ComsNewGameMessage",
 		this);
 }
@@ -59,7 +57,7 @@ ClientNewGameHandler::~ClientNewGameHandler()
 
 }
 
-bool ClientNewGameHandler::processMessage(NetPlayerID &id,
+bool ClientNewGameHandler::processMessage(unsigned int id,
 		const char *messageType,
 		NetBufferReader &reader)
 {
@@ -67,7 +65,8 @@ bool ClientNewGameHandler::processMessage(NetPlayerID &id,
 	if (!message.readMessage(reader)) return false;
 
 	// Generate new landscape
-	if (!GlobalHMap::instance()->generateHMapFromDiff(
+	if (!ScorchedClient::instance()->getLandscapeMaps().generateHMapFromDiff(
+		ScorchedClient::instance()->getContext(),
 		message.getLevelMessage(),
 		ProgressDialog::instance()))
 	{
@@ -86,7 +85,7 @@ bool ClientNewGameHandler::processMessage(NetPlayerID &id,
 void ClientNewGameHandler::clientNewGame()
 {
 	// Reset all tanks and generate landscape
-	TankStart::newGame();
+	TankStart::newGame(ScorchedClient::instance()->getContext());
 
 	// Generate all the graphics
 	newGame();
@@ -94,7 +93,7 @@ void ClientNewGameHandler::clientNewGame()
 	// Move all dead tanks into the game
 	// (the server does through the tank sync messages)
 	std::map<unsigned, Tank *> &tankList = 
-		TankContainer::instance()->getPlayingTanks();
+		ScorchedClient::instance()->getTankContainer().getPlayingTanks();
 	std::map<unsigned, Tank *>::iterator itor;
 	for (itor = tankList.begin();
 		itor != tankList.end();
@@ -105,7 +104,7 @@ void ClientNewGameHandler::clientNewGame()
 	}
 
 	// Reset the current player id
-	TankContainer::instance()->setCurrentPlayerId(0);
+	ScorchedClient::instance()->getTankContainer().setCurrentPlayerId(0);
 
 	// Make sure the landscape has been optimized
 	Landscape::instance()->recalculate(0, 0, 10000);

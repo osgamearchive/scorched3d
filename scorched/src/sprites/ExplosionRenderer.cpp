@@ -18,7 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <math.h>
 #include <common/OptionsDisplay.h>
 #include <GLEXT/GLState.h>
@@ -29,15 +28,10 @@
 #include <sprites/SmokeActionRenderer.h>
 #include <sprites/DebrisActionRenderer.h>
 #include <actions/SpriteProjectile.h>
-#include <engine/ActionController.h>
+#include <engine/ScorchedContext.h>
 #include <engine/PhysicsParticle.h>
 #include <common/SoundStore.h>
 #include <common/Defines.h>
-#include <tank/TankController.h>
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 ExplosionRenderer::ExplosionMainPart::ExplosionMainPart()
 {
@@ -197,6 +191,7 @@ void ExplosionRenderer::simulate(Action *action, float frameTime, bool &remove)
 						cosf(direction) * speed, height);
 
 					SpriteProjectile *particle = new SpriteProjectile;
+					particle->setScorchedContext(action->getScorchedContext());
 					particle->setPhysics(centrePosition_, velocity);
 					particle->setData(&particle->collisionInfo);
 
@@ -211,7 +206,7 @@ void ExplosionRenderer::simulate(Action *action, float frameTime, bool &remove)
 						particle->setActionRender(render);
 					}
 
-					ActionController::instance()->addAction(particle);
+					action->getScorchedContext()->actionController.addAction(particle);
 				}
 			}
 		}

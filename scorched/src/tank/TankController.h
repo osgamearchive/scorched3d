@@ -18,23 +18,20 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// TankController.h: interface for the TankController class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_TANKCONTROLLER_H__3B055B6D_C8E7_42C7_9D29_FBBFD88457D1__INCLUDED_)
 #define AFX_TANKCONTROLLER_H__3B055B6D_C8E7_42C7_9D29_FBBFD88457D1__INCLUDED_
 
-#include <tank/Tank.h>
+#include <engine/ScorchedContext.h>
 
 class TankController
 {
 public:
-	static void explosion(Weapon *weapon, unsigned int firer, 
+	static void explosion(ScorchedContext &context,
+		Weapon *weapon, unsigned int firer, 
 		Vector &position, float radius,
 		bool noDamage);
-	static void damageTank(Tank *tank, 
+	static void damageTank(ScorchedContext &context,
+		Tank *tank, 
 		Weapon *weapon,
 		unsigned int firer,
 		float damage,

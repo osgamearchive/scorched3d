@@ -18,7 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <server/ScorchedServer.h>
 
 ScorchedServer *ScorchedServer::instance_ = 0;
@@ -32,8 +31,9 @@ ScorchedServer *ScorchedServer::instance()
 	return instance_;
 }
 
-ScorchedServer::ScorchedServer()
+ScorchedServer::ScorchedServer()  : context_("Server")
 {
+	context_.actionController.setScorchedContext(&context_);
 }
 
 ScorchedServer::~ScorchedServer()

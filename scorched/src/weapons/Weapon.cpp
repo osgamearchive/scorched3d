@@ -70,7 +70,7 @@ bool Weapon::parseXML(XMLNode *accessoryNode)
 	XMLNode *modelScaleNode = accessoryNode->getNamedChild("projectilescale");
 	if (modelScaleNode)
 	{
-		scale_=atof(modelScaleNode->getContent());
+		scale_= (float) atof(modelScaleNode->getContent());
 	}
 
 	// Get the weapon model

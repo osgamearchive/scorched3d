@@ -20,7 +20,7 @@
 
 #include <actions/ShotProjectileLeapFrog.h>
 #include <actions/Explosion.h>
-#include <engine/ActionController.h>
+#include <engine/ScorchedContext.h>
 
 REGISTER_ACTION_SOURCE(ShotProjectileLeapFrog);
 
@@ -67,6 +67,6 @@ void ShotProjectileLeapFrog::collision(Vector &position)
 			position, 
 			newVelocity,
 			weapon_, playerId_, width_ - 1, hopsLeft_ - 1);
-		ActionController::instance()->addAction(action);
+		context_->actionController.addAction(action);
 	}
 }

@@ -25,7 +25,8 @@
 #include <common/Defines.h>
 #include <common/Logger.h>
 
-GameState::GameState() :
+GameState::GameState(const char *name) :
+	name_(name),
 	fakeMiddleButton_(true),
 	currentMouseState_(0),
 	pendingStimulus_(-1),
@@ -287,7 +288,8 @@ void GameState::simulate(float simTime)
 				{
 					if (stateLogging_)
 					{
-						Logger::log(0, "acceptStateChange(%i, %i)", thisState, p.second);
+						Logger::log(0, "%s::acceptStateChange(%i, %i)", 
+							name_.c_str(), thisState, p.second);
 					}
 					setState(itor->second);
 					return;
@@ -326,7 +328,7 @@ void GameState::setState(const unsigned state)
 {
 	if (stateLogging_)
 	{
-		Logger::log(0, "setState(%i)", state);
+		Logger::log(0, "%s::setState(%i)", name_.c_str(), state);
 	}
 
 	currentState_ = state;
@@ -388,7 +390,7 @@ void GameState::stimulate(const unsigned stimulus)
 {
 	if (stateLogging_)
 	{
-		Logger::log(0, "stimulate(%i)", stimulus);
+		Logger::log(0, "%s::stimulate(%i)", name_.c_str(), stimulus);
 	}
 
 	pendingStimulus_ = stimulus;

@@ -41,7 +41,22 @@ NetServer::~NetServer()
 	SDL_DestroyMutex(setMutex_);
 }
 
-TCPsocket NetServer::start(int port, int maxClients)
+void NetServer::setMessageHandler(NetMessageHandlerI *handler) 
+{ 
+	messageHandler_.setMessageHandler(handler); 
+}
+
+int NetServer::processMessages()
+{ 
+	return messageHandler_.processMessages(); 
+}
+
+int NetServer::getMaxClients()
+{ 
+	return maxClients_; 
+}
+
+unsigned int NetServer::start(int port, int maxClients)
 {
 	maxClients_ = maxClients;
 	if(SDLNet_Init()==-1)
@@ -65,10 +80,10 @@ TCPsocket NetServer::start(int port, int maxClients)
 	NetBufferUtil::setBlockingIO(server_);
 
 	addClient(server_);
-	return server_;
+	return (unsigned int) server_;
 }
 
-TCPsocket NetServer::connect(const char *hostName, int portNo)
+unsigned int NetServer::connect(const char *hostName, int portNo)
 {
 	if(SDLNet_Init()==-1)
 	{
@@ -89,7 +104,7 @@ TCPsocket NetServer::connect(const char *hostName, int portNo)
 	NetBufferUtil::setBlockingIO(client);
 
 	addClient(client);
-	return client;
+	return (unsigned int) client;
 }
 
 bool NetServer::started()
@@ -148,7 +163,7 @@ bool NetServer::pollIncoming()
 						addClient(sock);
 
 						NetMessage *message = NetMessagePool::instance()->
-							getFromPool(NetMessage::ConnectMessage, sock);
+							getFromPool(NetMessage::ConnectMessage, (unsigned int) sock);
 						messageHandler_.addMessage(message);
 						return true;
 					}
@@ -167,7 +182,7 @@ bool NetServer::pollIncoming()
 					Logger::log(0, "Client socket has been closed.");
 
 					// Socket has been closed
-					disconnectClient(currentSock);
+					disconnectClient((unsigned int) currentSock);
 					return true;
 				}
 				else
@@ -195,18 +210,18 @@ void NetServer::pollOutgoing()
 		newMessages.pop_front();
 
 		std::set<TCPsocket>::iterator itor = 
-			connections_.find(message->getPlayerId());
+			connections_.find((TCPsocket) message->getPlayerId());
 		if (itor != connections_.end())
 		{	
 			if (message->getMessageType() == NetMessage::DisconnectMessage)
 			{
-				destroyClient(message->getPlayerId());
+				destroyClient((TCPsocket) message->getPlayerId());
 			}
 			else
 			{
 				
 				if (!protocol_->sendBuffer(
-					message->getBuffer(), message->getPlayerId()))
+					message->getBuffer(), (TCPsocket) message->getPlayerId()))
 				{
 					Logger::log(0, "Failed to send message to client");
 				}
@@ -225,7 +240,7 @@ int NetServer::getNoClients()
 	return result;
 }
 
-void NetServer::addClient(TCPsocket &client)
+void NetServer::addClient(TCPsocket client)
 {
 	SDL_LockMutex(setMutex_);
 	connections_.insert(client);
@@ -233,7 +248,7 @@ void NetServer::addClient(TCPsocket &client)
 	SDL_UnlockMutex(setMutex_);
 }
 
-void NetServer::rmClient(TCPsocket &client)
+void NetServer::rmClient(TCPsocket client)
 {
 	SDL_LockMutex(setMutex_);
 	std::set<TCPsocket>::iterator itor = 
@@ -273,7 +288,7 @@ void NetServer::destroyClient(TCPsocket client)
 	if (itor != connections_.end())
 	{
 		NetMessage *message = NetMessagePool::instance()->
-			getFromPool(NetMessage::DisconnectMessage, client);
+			getFromPool(NetMessage::DisconnectMessage, (unsigned int) client);
 		messageHandler_.addMessage(message);
 
 		SDLNet_TCP_Close(client);
@@ -291,17 +306,18 @@ void NetServer::disconnectAllClients()
 		itor++)
 	{
 		TCPsocket sock = *itor;
-		disconnectClient(sock);
+		disconnectClient((unsigned int) sock);
 	}
 	SDL_UnlockMutex(setMutex_);
 }
 
-void NetServer::disconnectClient(TCPsocket &client)
+void NetServer::disconnectClient(unsigned int dest)
 {
+	TCPsocket client = (TCPsocket) dest;
 	DIALOG_ASSERT(client);
 
 	NetMessage *message = NetMessagePool::instance()->
-		getFromPool(NetMessage::DisconnectMessage, client);	
+		getFromPool(NetMessage::DisconnectMessage, (unsigned int) client);	
 
 	// Add the message to the list of out going
 	SDL_LockMutex(outgoingMessagesMutex_);
@@ -316,17 +332,18 @@ void NetServer::sendMessage(NetBuffer &buffer)
 	TCPsocket destination = *connections_.begin();
 	SDL_UnlockMutex(setMutex_);
 
-	sendMessage(buffer, destination);
+	sendMessage(buffer, (unsigned int) destination);
 }
 
-void NetServer::sendMessage(NetBuffer &buffer,
-							TCPsocket destination)
+void NetServer::sendMessage(NetBuffer &buffer, unsigned int dest)
+							
 {
+	TCPsocket destination = (TCPsocket) dest;
 	DIALOG_ASSERT(destination);
 
 	// Get a new buffer from the pool
 	NetMessage *message = NetMessagePool::instance()->
-		getFromPool(NetMessage::NoMessage, destination);
+		getFromPool(NetMessage::NoMessage, (unsigned int) destination);
 
 	// Add message to new buffer
 	message->getBuffer().allocate(buffer.getBufferUsed());

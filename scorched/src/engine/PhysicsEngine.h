@@ -18,7 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #if !defined(__INCLUDE_PhysicsEngineh_INCLUDE__)
 #define __INCLUDE_PhysicsEngineh_INCLUDE__
 
@@ -48,7 +47,7 @@ public:
 	virtual void stepSimulation(float frameTime);
 
 protected:
-	static PhysicsEngineCollision *handler_;
+	PhysicsEngineCollision *handler_;
 	dWorldID world_;
 	dSpaceID space_;
 	dJointGroupID contactgroup_;

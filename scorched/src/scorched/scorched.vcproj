@@ -1127,6 +1127,12 @@
 			<File
 				RelativePath="..\engine\ScorchedCollisionIds.h">
 			</File>
+			<File
+				RelativePath="..\engine\ScorchedContext.cpp">
+			</File>
+			<File
+				RelativePath="..\engine\ScorchedContext.h">
+			</File>
 		</Filter>
 		<Filter
 			Name="landscape"
@@ -1148,12 +1154,6 @@
 			</File>
 			<File
 				RelativePath="..\landscape\DeformTextures.h">
-			</File>
-			<File
-				RelativePath="..\landscape\GlobalHMap.cpp">
-			</File>
-			<File
-				RelativePath="..\landscape\GlobalHMap.h">
 			</File>
 			<File
 				RelativePath="..\landscape\HeightMap.cpp">
@@ -1208,6 +1208,12 @@
 			</File>
 			<File
 				RelativePath="..\landscape\Landscape.h">
+			</File>
+			<File
+				RelativePath="..\landscape\LandscapeMaps.cpp">
+			</File>
+			<File
+				RelativePath="..\landscape\LandscapeMaps.h">
 			</File>
 			<File
 				RelativePath="..\landscape\MovementMap.cpp">
@@ -1500,12 +1506,6 @@
 				RelativePath="..\coms\ComsGameStoppedMessage.h">
 			</File>
 			<File
-				RelativePath="..\coms\ComsGateway.cpp">
-			</File>
-			<File
-				RelativePath="..\coms\ComsGateway.h">
-			</File>
-			<File
 				RelativePath="..\coms\ComsLevelMessage.cpp">
 			</File>
 			<File
@@ -1588,6 +1588,12 @@
 			</File>
 			<File
 				RelativePath="..\coms\NetBufferUtil.h">
+			</File>
+			<File
+				RelativePath="..\coms\NetInterface.cpp">
+			</File>
+			<File
+				RelativePath="..\coms\NetInterface.h">
 			</File>
 			<File
 				RelativePath="..\coms\NetMessage.cpp">
@@ -1759,10 +1765,10 @@
 				RelativePath="..\ode\step.cpp">
 			</File>
 			<File
-				RelativePath="..\ode\stepfast.cpp">
+				RelativePath="..\ode\step.h">
 			</File>
 			<File
-				RelativePath="..\ode\step.h">
+				RelativePath="..\ode\stepfast.cpp">
 			</File>
 			<File
 				RelativePath="..\ode\testing.cpp">

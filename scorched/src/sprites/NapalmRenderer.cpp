@@ -19,7 +19,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <tank/TankContainer.h>
-#include <landscape/GlobalHMap.h>
 #include <landscape/Landscape.h>
 #include <actions/Napalm.h>
 #include <actions/ShotProjectile.h>
@@ -60,7 +59,7 @@ void NapalmRenderer::simulate(Action *action, float timepassed, bool &remove)
 				Napalm::NapalmEntry *entry = (*itor);
 
 				float posZ = 
-					GlobalHMap::instance()->getHMap().getHeight(
+					ScorchedClient::instance()->getLandscapeMaps().getHMap().getHeight(
 					entry->posX, entry->posY);
 				Landscape::instance()->getSmoke().
 					addSmoke(float(entry->posX), float(entry->posY), posZ, 
@@ -97,7 +96,7 @@ void NapalmRenderer::draw(Action *action)
 		Napalm::NapalmEntry *entry = (*itor);
 		int ix = entry->posX;
 		int iy = entry->posY;
-		float fz = GlobalHMap::instance()->getHMap().getHeight(ix, iy);
+		float fz = ScorchedClient::instance()->getLandscapeMaps().getHMap().getHeight(ix, iy);
 		
 		// Check that this point is still above the water
 		if (fz >= Landscape::instance()->getWater().getHeight())
@@ -124,7 +123,7 @@ void NapalmRenderer::draw(Action *action)
 			GLBilboardRenderer::instance()->addEntry(&entry->renderEntry3);
 		}
 
-		if (TankContainer::instance()->getCurrentPlayerId() == napalm->getPlayerId())
+		if (action->getScorchedContext()->tankContainer.getCurrentPlayerId() == napalm->getPlayerId())
 		{
 			Vector position(
 				entry->renderEntry1.posX, 

@@ -20,11 +20,11 @@
 
 #include <dialogs/WindDialog.h>
 #include <client/MainCamera.h>
+#include <client/ScorchedClient.h>
 #include <GLW/GLWFont.h>
 #include <common/OptionsTransient.h>
 #include <common/Defines.h>
 #include <landscape/Landscape.h>
-#include <landscape/GlobalHMap.h>
 #include <3dsparse/ASEStore.h>
 #include <math.h>
 
@@ -111,12 +111,12 @@ void WindDialog::drawDisplay()
 
 			// Draw the wind arrow for direction
 			GLState texState(GLState::TEXTURE_OFF);
-			if (OptionsTransient::instance()->getWindOn())
+			if (ScorchedClient::instance()->getOptionsTransient().getWindOn())
 			{
 				glTranslatef(0.0f, 0.0f, 30.0f);
 				glScalef(scale, scale, scale);
 
-				glRotatef(-OptionsTransient::instance()->getWindAngle(), 0.0f, 0.0f, 1.0f);
+				glRotatef(-ScorchedClient::instance()->getOptionsTransient().getWindAngle(), 0.0f, 0.0f, 1.0f);
 				drawArrow();
 			}
 
@@ -124,11 +124,11 @@ void WindDialog::drawDisplay()
 
 		// Draw the wind speed indicator
 		static Vector fontColor(0.6f, 0.6f, 0.0f);
-		if (OptionsTransient::instance()->getWindOn())
+		if (ScorchedClient::instance()->getOptionsTransient().getWindOn())
 		{
 			GLWFont::instance()->getFont()->draw(fontColor, 14,
 				-33, -h_ / 2.0f + 2.0f, 0.0f, "Force %i", (int) 
-				OptionsTransient::instance()->getWindSpeed());
+				ScorchedClient::instance()->getOptionsTransient().getWindSpeed());
 		}
 		else
 		{
@@ -143,7 +143,7 @@ void WindDialog::drawScene()
 	Landscape::instance()->getPlanTexture().draw(true);
 	glColor3f(1.0f, 1.0f, 1.0f);
 
-	HeightMap &hmp = GlobalHMap::instance()->getHMap();
+	HeightMap &hmp = ScorchedClient::instance()->getLandscapeMaps().getHMap();
 	int sqSize = hmp.getWidth() / 16;
 	const float squareSize = 30.0f;
 	float heightPer = squareSize / float(hmp.getWidth()) * 2.0f;

@@ -18,25 +18,18 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// Tank.cpp: implementation of the Tank class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <math.h>
 #include <common/Defines.h>
 #include <tank/Tank.h>
 #include <tank/TankColorGenerator.h>
 
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
-
-Tank::Tank(unsigned int playerId, const char *name, 
+Tank::Tank(ScorchedContext &context, 
+		   unsigned int playerId, const char *name, 
 		   Vector &color, TankModelId &modelId)
 	: playerId_(playerId),
 	  color_(color), 
-	  physics_(playerId), model_(modelId), tankAI_(0)
+	  physics_(context, playerId), model_(modelId), tankAI_(0),
+	  score_(context)
 {
 	setTankName(name);
 }

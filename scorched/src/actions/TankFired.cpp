@@ -21,9 +21,8 @@
 
 #include <actions/TankFired.h>
 #include <actions/Explosion.h>
-#include <engine/ActionController.h>
 #include <weapons/AccessoryStore.h>
-#include <tank/TankContainer.h>
+#include <engine/ScorchedContext.h>
 #include <common/SoundStore.h>
 #include <common/OptionsParam.h>
 #include <tankgraph/TankModelRenderer.h>
@@ -58,7 +57,7 @@ void TankFired::simulate(float frameTime, bool &remove)
 	{
 		firstTime_ = false;
 		Tank *tank = 
-			TankContainer::instance()->getTankById(playerId_);
+			context_->tankContainer.getTankById(playerId_);
 		if (tank)
 		{
 			tank->getPhysics().rotateGunXY(rotXY_, false);
@@ -87,7 +86,7 @@ void TankFired::simulate(float frameTime, bool &remove)
 
 			Explosion *explosion = new Explosion(tank->getPhysics().getTankGunPosition(), 3.0f, 
 				weapon_, playerId_, false, Explosion::DeformNone);
-			ActionController::instance()->addAction(explosion);
+			context_->actionController.addAction(explosion);
 		}
 	}
 

@@ -20,7 +20,7 @@
 
 #include <coms/NetServerProtocol.h>
 #include <coms/NetMessagePool.h>
-#include <coms/NetBufferUtil.h>
+#include <coms/NetInterface.h>
 #include <common/Logger.h>
 
 NetServerProtocol::NetServerProtocol()
@@ -39,7 +39,7 @@ NetServerScorchedProtocol::~NetServerScorchedProtocol()
 {
 }
 
-bool NetServerScorchedProtocol::sendBuffer(NetBuffer &buffer, TCPsocket &socket)
+bool NetServerScorchedProtocol::sendBuffer(NetBuffer &buffer, TCPsocket socket)
 {
 	Uint32 len = buffer.getBufferUsed();
 	Uint32 netlen=0;
@@ -62,13 +62,13 @@ bool NetServerScorchedProtocol::sendBuffer(NetBuffer &buffer, TCPsocket &socket)
 			result, int(len));
 		return false;
 	}
-	NetBufferUtil::getBytesOut() += len;
+	NetInterface::getBytesOut() += len;
 	
 	// return the length sent
 	return true;
 }
 
-NetMessage *NetServerScorchedProtocol::readBuffer(TCPsocket &socket)
+NetMessage *NetServerScorchedProtocol::readBuffer(TCPsocket socket)
 {
 	// receive the length of the string message
 	Uint32 netlen;
@@ -102,7 +102,7 @@ NetMessage *NetServerScorchedProtocol::readBuffer(TCPsocket &socket)
 
 	// allocate the buffer memory
 	NetMessage *buffer = NetMessagePool::instance()->
-		getFromPool(NetMessage::BufferMessage, socket);
+		getFromPool(NetMessage::BufferMessage, (unsigned int) socket);
 	buffer->getBuffer().allocate(len);
 	buffer->getBuffer().setBufferUsed(len);
 
@@ -122,7 +122,7 @@ NetMessage *NetServerScorchedProtocol::readBuffer(TCPsocket &socket)
 		result += recv;
 		len -= recv;
 	}
-	NetBufferUtil::getBytesIn() += result;
+	NetInterface::getBytesIn() += result;
 
 	// return the new buffer
 	return buffer;
@@ -136,7 +136,7 @@ NetServerHTTPProtocol::~NetServerHTTPProtocol()
 {
 }
 
-bool NetServerHTTPProtocol::sendBuffer(NetBuffer &buffer, TCPsocket &socket)
+bool NetServerHTTPProtocol::sendBuffer(NetBuffer &buffer, TCPsocket socket)
 {
 	Uint32 len = buffer.getBufferUsed();
 	
@@ -148,17 +148,17 @@ bool NetServerHTTPProtocol::sendBuffer(NetBuffer &buffer, TCPsocket &socket)
 			result, int(len));
 		return false;
 	}
-	NetBufferUtil::getBytesOut() += len;
+	NetInterface::getBytesOut() += len;
 	
 	// return the length sent
 	return true;
 }
 
-NetMessage *NetServerHTTPProtocol::readBuffer(TCPsocket &socket)
+NetMessage *NetServerHTTPProtocol::readBuffer(TCPsocket socket)
 {
 	// allocate the buffer memory
 	NetMessage *netBuffer = NetMessagePool::instance()->
-		getFromPool(NetMessage::BufferMessage, socket);
+		getFromPool(NetMessage::BufferMessage, (unsigned int) socket);
 	netBuffer->getBuffer().reset();
 
 	// get the string buffer over the socket
@@ -183,7 +183,7 @@ NetMessage *NetServerHTTPProtocol::readBuffer(TCPsocket &socket)
 		netBuffer->getBuffer().addDataToBuffer(buffer, 1);
 		len += 1;
 	}
-	NetBufferUtil::getBytesIn() += len;
+	NetInterface::getBytesIn() += len;
 
 	// return the new buffer
 	return netBuffer;

@@ -18,12 +18,11 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <server/ServerScoreState.h>
+#include <server/ScorchedServer.h>
 #include <scorched/ServerDialog.h>
 #include <common/OptionsGame.h>
 #include <common/Logger.h>
-#include <tank/TankContainer.h>
 #include <tank/TankSort.h>
 #include <coms/ComsScoreMessage.h>
 #include <coms/ComsMessageSender.h>
@@ -41,7 +40,7 @@ void ServerScoreState::enterState(const unsigned state)
 	// Score order
 	std::list<Tank *> sortedTanks;
 	std::map<unsigned int, Tank *> &tanks = 
-		TankContainer::instance()->getPlayingTanks();
+		ScorchedServer::instance()->getTankContainer().getPlayingTanks();
 	std::map<unsigned int, Tank *>::iterator itor;
 	for (itor = tanks.begin();
 		itor != tanks.end();
@@ -72,5 +71,5 @@ bool ServerScoreState::acceptStateChange(const unsigned state,
 		float frameTime)
 {
 	totalTime_ += frameTime;
-	return (totalTime_ > OptionsGame::instance()->getScoreTime());
+	return (totalTime_ > ScorchedServer::instance()->getOptionsGame().getScoreTime());
 }

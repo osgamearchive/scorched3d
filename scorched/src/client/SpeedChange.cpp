@@ -18,10 +18,9 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <client/SpeedChange.h>
+#include <client/ScorchedClient.h>
 #include <common/Keyboard.h>
-#include <engine/ActionController.h>
 #include <GLW/GLWFont.h>
 #include <stdio.h>
 
@@ -46,12 +45,12 @@ SpeedChange::~SpeedChange()
 
 void SpeedChange::resetSpeed()
 {
-	ActionController::instance()->setFast(1.0f);
+	ScorchedClient::instance()->getActionController().setFast(1.0f);
 }
 
 void SpeedChange::draw(const unsigned state)
 {
-	float speed = ActionController::instance()->getFast();
+	float speed = ScorchedClient::instance()->getActionController().getFast();
 	if (speed > 1.0f)
 	{
 		GLState state(GLState::BLEND_ON | GLState::TEXTURE_OFF); 
@@ -80,14 +79,14 @@ void SpeedChange::keyboardCheck(const unsigned state, float frameTime,
 	}
 	else if (x2Key->keyDown(buffer, keyState))
 	{
-		ActionController::instance()->setFast(2.0f);
+		ScorchedClient::instance()->getActionController().setFast(2.0f);
 	}
 	else if (x3Key->keyDown(buffer, keyState))
 	{
-		ActionController::instance()->setFast(3.0f);
+		ScorchedClient::instance()->getActionController().setFast(3.0f);
 	}
 	else if (x4Key->keyDown(buffer, keyState))
 	{
-		ActionController::instance()->setFast(4.0f);
+		ScorchedClient::instance()->getActionController().setFast(4.0f);
 	}
 }

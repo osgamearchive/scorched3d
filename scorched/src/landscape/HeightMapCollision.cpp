@@ -18,13 +18,7 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// HeightMapCollision.cpp: implementation of the HeightMapCollision class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <landscape/HeightMapCollision.h>
-#include <engine/ScorchedCollisionIds.h>
 #include <common/Triangle.h>
 
 #ifdef __cplusplus
@@ -35,66 +29,59 @@ extern int dSphereClass;
 }
 #endif
 
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
+static ScorchedContext *staticContext_ = 0;
 
-HeightMapCollision *HeightMapCollision::instance_ = 0;
-
-HeightMapCollision *HeightMapCollision::instance()
+HeightMapCollision::HeightMapCollision(ScorchedContext *context) : 
+	landscapeClass_(0), context_(context),
+	groundInfo_(CollisionIdGround),
+	wallInfoTop_(CollisionIdWallTop),
+	wallInfoBottom_(CollisionIdWallBottom),
+	wallInfoLeft_(CollisionIdWallLeft),
+	wallInfoRight_(CollisionIdWallRight),
+	info_(CollisionIdLandscape)
 {
-	if (!instance_)
-	{
-		instance_ = new HeightMapCollision;
-	}
-	return instance_;
-}
-
-HeightMapCollision::HeightMapCollision() : landscapeClass_(0), hMap_(0)
-{
- 
+	create();
 }
 
 HeightMapCollision::~HeightMapCollision()
 {
 }
 
-void HeightMapCollision::create(HeightMap &map)
+void HeightMapCollision::setContext(ScorchedContext *context)
 {
-	PhysicsEngine &engine = ActionController::instance()->getPhysics();
+	staticContext_ = context;
+}
+
+void HeightMapCollision::create()
+{
+	PhysicsEngine &engine = context_->actionController.getPhysics();
 
 	// Create the walls and ground
 	// Create the ground 
 	{
-		static ScorchedCollisionInfo groundInfo(CollisionIdGround);
 		dGeomID ground = dCreatePlane(engine.getSpace(),0,0,1,0);
-		dGeomSetData(ground, (void *) &groundInfo);
+		dGeomSetData(ground, (void *) &groundInfo_);
 	}
 
 	// Create the side walls
 	{
-		static ScorchedCollisionInfo wallInfoTop(CollisionIdWallTop);
 		dGeomID sidea = dCreatePlane(engine.getSpace(),0,1,0,5);
-		dGeomSetData(sidea, (void *) &wallInfoTop);
+		dGeomSetData(sidea, (void *) &wallInfoTop_);
 	}
 	{
-		static ScorchedCollisionInfo wallInfoBottom(CollisionIdWallBottom);
 		dGeomID sideb = dCreatePlane(engine.getSpace(),0,-1,0,-250);
-		dGeomSetData(sideb, (void *) &wallInfoBottom);
+		dGeomSetData(sideb, (void *) &wallInfoBottom_);
 	}
 	{
-		static ScorchedCollisionInfo wallInfoLeft(CollisionIdWallLeft);
 		dGeomID sidec = dCreatePlane(engine.getSpace(),1,0,0,5);
-		dGeomSetData(sidec, (void *) &wallInfoLeft);
+		dGeomSetData(sidec, (void *) &wallInfoLeft_);
 	}
 	{
-		static ScorchedCollisionInfo wallInfoRight(CollisionIdWallRight);
 		dGeomID sided = dCreatePlane(engine.getSpace(),-1,0,0,-250);
-		dGeomSetData(sided, (void *) &wallInfoRight);
+		dGeomSetData(sided, (void *) &wallInfoRight_);
 	}
 
 	// Create the land scape stuff
-	hMap_ = &map;
 	dGeomClass c;
 
 	c.bytes = 0;
@@ -105,8 +92,7 @@ void HeightMapCollision::create(HeightMap &map)
 	landscapeClass_ = dCreateGeomClass(&c);
 
 	dGeomID geom = dCreateGeom(landscapeClass_);
-	static ScorchedCollisionInfo info(CollisionIdLandscape);
-	dGeomSetData(geom, (void *) &info);
+	dGeomSetData(geom, (void *) &info_);
 	dSpaceAdd(engine.getSpace(), geom);
 }
 
@@ -152,9 +138,11 @@ int HeightMapCollision::dCollideLAABB(dGeomID o1, dGeomID o2, dReal aabb2[6])
 	int minY = (int)floor(aabb2[2]);
 	int maxY = (int)ceil(aabb2[3]);
 
-	if (maxX >= instance_->hMap_->getWidth()) maxX = instance_->hMap_->getWidth() - 1;
+	if (maxX >= staticContext_->landscapeMaps.getHMap().getWidth()) 
+		maxX = staticContext_->landscapeMaps.getHMap().getWidth() - 1;
 	if (minX < 0) minX = 0;
-	if (maxY >= instance_->hMap_->getWidth()) maxY = instance_->hMap_->getWidth() - 1;
+	if (maxY >= staticContext_->landscapeMaps.getHMap().getWidth()) 
+		maxY = staticContext_->landscapeMaps.getHMap().getWidth() - 1;
 	if (minY < 0) minY = 0;
 
 	// See if any heights in this area are in the bounding box
@@ -164,11 +152,11 @@ int HeightMapCollision::dCollideLAABB(dGeomID o1, dGeomID o2, dReal aabb2[6])
 		{
 			if (info2->collisionOnSurface && info1->collisionOnSurface)
 			{
-				if (instance_->hMap_->getHeight(x, y) > aabb2[4]) return 1;
+				if (staticContext_->landscapeMaps.getHMap().getHeight(x, y) > aabb2[4]) return 1;
 			}
 			else
 			{
-				if (instance_->hMap_->getHeight(x, y) < aabb2[5]) return 1;
+				if (staticContext_->landscapeMaps.getHMap().getHeight(x, y) < aabb2[5]) return 1;
 			}
 		}
 	}
@@ -207,7 +195,7 @@ int HeightMapCollision::dCollideLS (dGeomID o1, dGeomID o2, int flags,
 
 		// Check if the center of the spehere is in the landscape
 		float dist = sphereCentre[2] - 
-			instance_->hMap_->
+			staticContext_->landscapeMaps.getHMap().
 				getInterpHeight(sphereCentre[0], sphereCentre[1]);
 		
 		bool landscapeCollision = false;
@@ -224,7 +212,7 @@ int HeightMapCollision::dCollideLS (dGeomID o1, dGeomID o2, int flags,
 		if (landscapeCollision)
 		{
 			Vector interN;
-			instance_->hMap_->
+			staticContext_->landscapeMaps.getHMap().
 				getInterpNormal(sphereCentre[0], sphereCentre[1], interN);
 
 			char *ptr = (char *) basecontact;
@@ -269,9 +257,11 @@ int HeightMapCollision::dCollideLSSphere (dGeomID o1, dGeomID o2, int flags,
     int minY = (int)floor(aabb2[2]);
     int maxY = (int)ceil(aabb2[3]);
 
-	if (maxX >= instance_->hMap_->getWidth()) maxX = instance_->hMap_->getWidth() - 1;
+	if (maxX >= staticContext_->landscapeMaps.getHMap().getWidth()) 
+		maxX = staticContext_->landscapeMaps.getHMap().getWidth() - 1;
 	if (minX < 0) minX = 0;
-	if (maxY >= instance_->hMap_->getWidth()) maxY = instance_->hMap_->getWidth() - 1;
+	if (maxY >= staticContext_->landscapeMaps.getHMap().getWidth()) 
+		maxY = staticContext_->landscapeMaps.getHMap().getWidth() - 1;
 	if (minY < 0) minY = 0;
 
 	// Check all squares for contacts
@@ -282,21 +272,21 @@ int HeightMapCollision::dCollideLSSphere (dGeomID o1, dGeomID o2, int flags,
 		{
 			static Triangle triA;
 			triA.setPointComponents(
-				float(x), float(y), instance_->hMap_->getHeight(x, y),
-				instance_->hMap_->getNormal(x, y),
-				float(x + 1), float(y), instance_->hMap_->getHeight(x + 1, y),
-				instance_->hMap_->getNormal(x+1, y),
-				float(x + 1), float(y + 1), instance_->hMap_->getHeight(x + 1, y + 1),
-				instance_->hMap_->getNormal(x+1, y+1));
+				float(x), float(y), staticContext_->landscapeMaps.getHMap().getHeight(x, y),
+				staticContext_->landscapeMaps.getHMap().getNormal(x, y),
+				float(x + 1), float(y), staticContext_->landscapeMaps.getHMap().getHeight(x + 1, y),
+				staticContext_->landscapeMaps.getHMap().getNormal(x+1, y),
+				float(x + 1), float(y + 1), staticContext_->landscapeMaps.getHMap().getHeight(x + 1, y + 1),
+				staticContext_->landscapeMaps.getHMap().getNormal(x+1, y+1));
 
 			static Triangle triB;
 			triB.setPointComponents(
-				float(x + 1), float(y + 1), instance_->hMap_->getHeight(x + 1, y + 1),
-				instance_->hMap_->getNormal(x+1, y+1),
-				float(x), float(y + 1), instance_->hMap_->getHeight(x, y + 1),
-				instance_->hMap_->getNormal(x, y+1),
-				float(x), float(y), instance_->hMap_->getHeight(x, y),
-				instance_->hMap_->getNormal(x, y));
+				float(x + 1), float(y + 1), staticContext_->landscapeMaps.getHMap().getHeight(x + 1, y + 1),
+				staticContext_->landscapeMaps.getHMap().getNormal(x+1, y+1),
+				float(x), float(y + 1), staticContext_->landscapeMaps.getHMap().getHeight(x, y + 1),
+				staticContext_->landscapeMaps.getHMap().getNormal(x, y+1),
+				float(x), float(y), staticContext_->landscapeMaps.getHMap().getHeight(x, y),
+				staticContext_->landscapeMaps.getHMap().getNormal(x, y));
 
 			static Vector newInter, interN;
 			float dist;

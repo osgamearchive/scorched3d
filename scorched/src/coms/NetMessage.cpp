@@ -22,7 +22,7 @@
 #include <coms/NetMessage.h>
 
 NetMessage::NetMessage(MessageType type,
-					   NetPlayerID playerId) :
+					   unsigned int playerId) :
 	type_(type), playerId_(playerId)
 {
 

@@ -18,8 +18,8 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <client/ShotTimer.h>
+#include <client/ScorchedClient.h>
 #include <common/OptionsGame.h>
 #include <GLW/GLWFont.h>
 
@@ -57,7 +57,7 @@ void ShotTimer::simulate(const unsigned state, float simTime)
 
 void ShotTimer::draw(const unsigned currentstate)
 {
-	int shotTime = OptionsGame::instance()->getShotTime();
+	int shotTime = ScorchedClient::instance()->getOptionsGame().getShotTime();
 	if (shotTime == 0) return;
 
 	// The remaining time for this shot
@@ -99,7 +99,7 @@ bool ShotTimer::acceptStateChange(const unsigned state,
 		const unsigned nextState,
 		float frameTime)
 {
-	int shotTime = OptionsGame::instance()->getShotTime();
+	int shotTime = ScorchedClient::instance()->getOptionsGame().getShotTime();
 	if (shotTime == 0) return false; // ShotTime == 0 is infinite time
 
 	int timeLeft = (shotTime - int(counter_));

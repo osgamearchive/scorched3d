@@ -18,12 +18,10 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <server/ServerBuyAccessoryHandler.h>
 #include <server/ServerShotHolder.h>
 #include <server/ServerState.h>
 #include <server/ScorchedServer.h>
-#include <tank/TankContainer.h>
 #include <coms/ComsBuyAccessoryMessage.h>
 #include <coms/ComsMessageSender.h>
 #include <common/OptionsTransient.h>
@@ -43,7 +41,7 @@ ServerBuyAccessoryHandler *ServerBuyAccessoryHandler::instance()
 
 ServerBuyAccessoryHandler::ServerBuyAccessoryHandler()
 {
-	ComsMessageHandler::instance()->addHandler(
+	ScorchedServer::instance()->getComsMessageHandler().addHandler(
 		"ComsBuyAccessoryMessage",
 		this);
 }
@@ -52,7 +50,7 @@ ServerBuyAccessoryHandler::~ServerBuyAccessoryHandler()
 {
 }
 
-bool ServerBuyAccessoryHandler::processMessage(NetPlayerID &id,
+bool ServerBuyAccessoryHandler::processMessage(unsigned int id,
 	const char *messageType,
 										  NetBufferReader &reader)
 {
@@ -61,22 +59,22 @@ bool ServerBuyAccessoryHandler::processMessage(NetPlayerID &id,
 
 	// Check we are at the correct time to buy anything
 	if (ScorchedServer::instance()->getGameState().getState() != ServerState::ServerStatePlaying ||
-		OptionsTransient::instance()->getCurrentGameNo() != 1)
+		ScorchedServer::instance()->getOptionsTransient().getCurrentGameNo() != 1)
 	{
 		return true;
 	}
 
 	// Check we are in the correct round no to buy anything
-	int roundsPlayed = OptionsGame::instance()->getNoRounds() -
-		OptionsTransient::instance()->getNoRoundsLeft();
-	if (OptionsGame::instance()->getBuyOnRound() - 1 >= roundsPlayed)
+	int roundsPlayed = ScorchedServer::instance()->getOptionsGame().getNoRounds() -
+		ScorchedServer::instance()->getOptionsTransient().getNoRoundsLeft();
+	if (ScorchedServer::instance()->getOptionsGame().getBuyOnRound() - 1 >= roundsPlayed)
 	{
 		return true;
 	}
 
 	// Check that is player still exists
 	unsigned int playerId = (unsigned int) id;
-	Tank *tank = TankContainer::instance()->getTankById(playerId);
+	Tank *tank = ScorchedServer::instance()->getTankContainer().getTankById(playerId);
 	if (!tank) return true;
 
 	// Check this player is alive
@@ -90,7 +88,7 @@ bool ServerBuyAccessoryHandler::processMessage(NetPlayerID &id,
 		AccessoryStore::instance()->findByAccessoryName(message.getAccessoryName());
 	if (!accessory) return true;
 	if (10 - accessory->getArmsLevel() > 
-		OptionsGame::instance()->getMaxArmsLevel()) return true;
+		ScorchedServer::instance()->getOptionsGame().getMaxArmsLevel()) return true;
 
 	// The game state and everything is correct
 	// Perform the actual add or remove of accessory

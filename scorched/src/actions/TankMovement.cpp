@@ -22,9 +22,7 @@
 #include <actions/TankFalling.h>
 #include <actions/TankMove.h>
 #include <actions/ShotProjectile.h>
-#include <engine/ActionController.h>
-#include <tank/TankContainer.h>
-#include <landscape/GlobalHMap.h>
+#include <engine/ScorchedContext.h>
 
 static const int NoMovementTransitions = 4;
 
@@ -45,9 +43,9 @@ TankMovement::~TankMovement()
 
 void TankMovement::draw()
 {
-	if (TankContainer::instance()->getCurrentPlayerId() == playerId_)
+	if (context_->tankContainer.getCurrentPlayerId() == playerId_)
 	{
-		Tank *tank = TankContainer::instance()->getTankById(playerId_);
+		Tank *tank = context_->tankContainer.getTankById(playerId_);
 		if (tank)
 		{
 			ShotProjectile::getLookAtPosition() += 
@@ -73,11 +71,11 @@ void TankMovement::init()
 			float firstx = float(fistpt >> 16);
 			float firsty = float(fistpt & 0xffff);
 			float *firstHeight = 
-				&GlobalHMap::instance()->getHMap().getHeight(int(firstx), int(firsty));
+				&context_->landscapeMaps.getHMap().getHeight(int(firstx), int(firsty));
 			float secx = float(secpt >> 16);
 			float secy = float(secpt & 0xffff);
 			float *secondHeight = 
-				&GlobalHMap::instance()->getHMap().getHeight(int(secx), int(secy));
+				&context_->landscapeMaps.getHMap().getHeight(int(secx), int(secy));
 
 			float diffX = secx - firstx;
 			float diffY = secy - firsty;
@@ -100,7 +98,7 @@ void TankMovement::init()
 void TankMovement::simulate(float frameTime, bool &remove)
 {
 	Tank *tank = 
-		TankContainer::instance()->getTankById(playerId_);
+		context_->tankContainer.getTankById(playerId_);
 	if (tank)
 	{
 		if (tank->getState().getState() == TankState::sNormal)
@@ -136,7 +134,7 @@ void TankMovement::simulate(float frameTime, bool &remove)
 		if (remove)
 		{
 			tank->getPhysics().rotateTank(0.0f);
-			ActionController::instance()->addAction(
+			context_->actionController.addAction(
 				new TankMove(tank->getPhysics().getTankPosition(),
 					tank->getPlayerId(), false));
 		}
@@ -154,7 +152,7 @@ void TankMovement::moveTank(Tank *tank)
 	bool useF = expandedPositions_.front().useFuel;
 	float *firstz = expandedPositions_.front().heighta;
 	float *secondz = expandedPositions_.front().heightb;
-	float z = GlobalHMap::instance()->getHMap().getInterpHeight(x, y);
+	float z = context_->landscapeMaps.getHMap().getInterpHeight(x, y);
 	expandedPositions_.pop_front();
 
 	// Form the new tank position

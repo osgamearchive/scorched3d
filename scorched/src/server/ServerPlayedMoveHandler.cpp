@@ -18,12 +18,10 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <server/ServerPlayedMoveHandler.h>
 #include <server/ServerShotHolder.h>
 #include <server/ServerState.h>
 #include <server/ScorchedServer.h>
-#include <tank/TankContainer.h>
 #include <engine/GameState.h>
 #include <coms/ComsPlayedMoveMessage.h>
 
@@ -40,7 +38,7 @@ ServerPlayedMoveHandler *ServerPlayedMoveHandler::instance()
 
 ServerPlayedMoveHandler::ServerPlayedMoveHandler()
 {
-	ComsMessageHandler::instance()->addHandler(
+	ScorchedServer::instance()->getComsMessageHandler().addHandler(
 		"ComsPlayedMoveMessage",
 		this);
 }
@@ -49,7 +47,7 @@ ServerPlayedMoveHandler::~ServerPlayedMoveHandler()
 {
 }
 
-bool ServerPlayedMoveHandler::processMessage(NetPlayerID &id,
+bool ServerPlayedMoveHandler::processMessage(unsigned int id,
 	const char *messageType,
 									NetBufferReader &reader)
 {
@@ -63,7 +61,7 @@ bool ServerPlayedMoveHandler::processMessage(NetPlayerID &id,
 	if (ScorchedServer::instance()->getGameState().getState() == ServerState::ServerStatePlaying)
 	{
 		unsigned int playerId = (unsigned int) id;
-		Tank *tank = TankContainer::instance()->getTankById(playerId);
+		Tank *tank = ScorchedServer::instance()->getTankContainer().getTankById(playerId);
 		if (tank && tank->getState().getState() == TankState::sNormal)
 		{	
 			ServerShotHolder::instance()->addShot(playerId, message);

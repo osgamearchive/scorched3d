@@ -18,11 +18,10 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #if !defined(__INCLUDE_TankLibh_INCLUDE__)
 #define __INCLUDE_TankLibh_INCLUDE__
 
-#include <tank/Tank.h>
+#include <engine/ScorchedContext.h>
 #include <common/Vector.h>
 #include <list>
 
@@ -30,10 +29,13 @@ namespace TankLib
 {
 	float getDistanceToTank(Vector &position, Tank *targetTank);
 	void getTanksSortedByDistance(
+		ScorchedContext &context,
 		Vector &position, 
 		std::list<std::pair<float, Tank *> > &result,
 		float maxDistance = -1);
-	void getShotTowardsPosition(Vector &position, Vector &shootAt, float distForSniper, 
+	void getShotTowardsPosition(
+		ScorchedContext &context,
+		Vector &position, Vector &shootAt, float distForSniper, 
 		float &angleXYDegs, float &angleYZDegs, float &power);
 	Vector &getVelocityVector(float xy, float yz);
 };

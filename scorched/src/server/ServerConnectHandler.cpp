@@ -18,12 +18,10 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <server/ServerConnectHandler.h>
 #include <server/ServerState.h>
 #include <server/ScorchedServer.h>
 #include <scorched/ServerDialog.h>
-#include <tank/TankContainer.h>
 #include <tank/TankColorGenerator.h>
 #include <common/Defines.h>
 #include <common/FileLines.h>
@@ -47,7 +45,7 @@ ServerConnectHandler *ServerConnectHandler::instance()
 
 ServerConnectHandler::ServerConnectHandler()
 {
-	ComsMessageHandler::instance()->addHandler(
+	ScorchedServer::instance()->getComsMessageHandler().addHandler(
 		"ComsConnectMessage",
 		this);
 }
@@ -56,7 +54,7 @@ ServerConnectHandler::~ServerConnectHandler()
 {
 }
 
-bool ServerConnectHandler::processMessage(NetPlayerID &id,
+bool ServerConnectHandler::processMessage(unsigned int id,
 	const char *messageType,
 										  NetBufferReader &reader)
 {
@@ -66,7 +64,7 @@ bool ServerConnectHandler::processMessage(NetPlayerID &id,
 
 	// Check this client has not tried to add a tank before
 	unsigned int tankId = (unsigned int) id;
-	if (TankContainer::instance()->getTankById(tankId))
+	if (ScorchedServer::instance()->getTankContainer().getTankById(tankId))
 	{
 		Logger::log(0, "Duplicate tank creation attempted \"%i\"", tankId);
 		return true;
@@ -123,10 +121,10 @@ bool ServerConnectHandler::processMessage(NetPlayerID &id,
 	}
 
 	// Check for a password (if any)
-	if (OptionsGame::instance()->getServerPassword()[0])
+	if (ScorchedServer::instance()->getOptionsGame().getServerPassword()[0])
 	{
 		if (0 != strcmp(message.getPassword(),
-						OptionsGame::instance()->getServerPassword()))
+						ScorchedServer::instance()->getOptionsGame().getServerPassword()))
 		{
 			sendString(id, 			
 					   "This server is running a password protected game.\n"
@@ -142,7 +140,7 @@ bool ServerConnectHandler::processMessage(NetPlayerID &id,
 	}
 
 	// Make sure no-one has the same name
-	while (TankContainer::instance()->getTankByName(playerName.c_str()))
+	while (ScorchedServer::instance()->getTankContainer().getTankByName(playerName.c_str()))
 	{
 		playerName += "(2)";
 	}
@@ -156,7 +154,7 @@ bool ServerConnectHandler::processMessage(NetPlayerID &id,
 	// Send the connection accepted message to the client
 	ComsConnectAcceptMessage acceptMessage(
 		tankId,
-		OptionsGame::instance()->getServerName(),
+		ScorchedServer::instance()->getOptionsGame().getServerName(),
 		motd.c_str());
 	if (!ComsMessageSender::sendToSingleClient(acceptMessage, id))
 	{
@@ -169,8 +167,10 @@ bool ServerConnectHandler::processMessage(NetPlayerID &id,
 
 	// Tell the client about the current state of play
 	// (e.g.) how many players how long to wait etc...
-	if (ScorchedServer::instance()->getGameState().getState() == ServerState::ServerStateWaitingForPlayers &&
-		(OptionsGame::instance()->getNoMinPlayers() > TankContainer::instance()->getNoOfTanks() + 1))
+	if (ScorchedServer::instance()->getGameState().getState() == 
+		ServerState::ServerStateWaitingForPlayers &&
+		(ScorchedServer::instance()->getOptionsGame().getNoMinPlayers() > 
+		ScorchedServer::instance()->getTankContainer().getNoOfTanks() + 1))
 	{
 		sendString(id,
 			"--------------------------------------\n"
@@ -182,11 +182,11 @@ bool ServerConnectHandler::processMessage(NetPlayerID &id,
 			"game will start.\n"
 			"Waiting for more players to join...\n"
 			"--------------------------------------\n",
-			TankContainer::instance()->getNoOfTanks() + 1,
-			OptionsGame::instance()->getNoMaxPlayers(),
-			OptionsGame::instance()->getNoMinPlayers(),
-			OptionsGame::instance()->getNoMinPlayers() - 
-			TankContainer::instance()->getNoOfTanks() - 1);
+			ScorchedServer::instance()->getTankContainer().getNoOfTanks() + 1,
+			ScorchedServer::instance()->getOptionsGame().getNoMaxPlayers(),
+			ScorchedServer::instance()->getOptionsGame().getNoMinPlayers(),
+			ScorchedServer::instance()->getOptionsGame().getNoMinPlayers() - 
+			ScorchedServer::instance()->getTankContainer().getNoOfTanks() - 1);
 	}
 	else
 	{
@@ -196,9 +196,9 @@ bool ServerConnectHandler::processMessage(NetPlayerID &id,
 			"of a maximum of %i players.\n"
 			"You will join the game within %i seconds...\n"
 			"--------------------------------------\n",
-			TankContainer::instance()->getNoOfTanks() + 1,
-			OptionsGame::instance()->getNoMaxPlayers(),
-			OptionsGame::instance()->getShotTime());
+			ScorchedServer::instance()->getTankContainer().getNoOfTanks() + 1,
+			ScorchedServer::instance()->getOptionsGame().getNoMaxPlayers(),
+			ScorchedServer::instance()->getOptionsGame().getShotTime());
 	}
 
 	// The player has connected
@@ -208,7 +208,7 @@ bool ServerConnectHandler::processMessage(NetPlayerID &id,
 	// Send all current tanks to the new client
 	std::map<unsigned int, Tank *>::iterator itor;
 	std::map<unsigned int, Tank *> &tankList = 
-		TankContainer::instance()->getPlayingTanks();
+		ScorchedServer::instance()->getTankContainer().getPlayingTanks();
 	for (itor = tankList.begin();
 		itor != tankList.end();
 		itor++)
@@ -226,12 +226,13 @@ bool ServerConnectHandler::processMessage(NetPlayerID &id,
 	// Create the new tank and add it to the tank container
 	// Collections
 	Tank *tank = new Tank(
+		ScorchedServer::instance()->getContext(),
 		tankId,
 		playerName.c_str(),
 		color,
 		modelId);
 	tank->setUnqiueId(message.getUniqueId());
-	TankContainer::instance()->addTank(tank);
+	ScorchedServer::instance()->getTankContainer().addTank(tank);
 
 	// Add to dialog
 	Logger::log(tankId, "Player connected \"%i\" \"%s\"",

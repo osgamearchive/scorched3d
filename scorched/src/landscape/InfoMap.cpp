@@ -18,11 +18,10 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <landscape/InfoMap.h>
 #include <landscape/Landscape.h>
-#include <landscape/GlobalHMap.h>
 #include <GLEXT/GLConsoleRuleMethodIAdapter.h>
+#include <client/ScorchedClient.h>
 
 InfoMap *InfoMap::instance_ = 0;
 
@@ -71,7 +70,7 @@ void InfoMap::showHeightBands()
 			float posX = float(x) * sqSize;
 
 			heights[x + y * newMap.getWidth()] = 
-				GlobalHMap::instance()->getHMap().getInterpHeight(posX, posY);
+				ScorchedClient::instance()->getLandscapeMaps().getHMap().getInterpHeight(posX, posY);
 		}
 	}
 

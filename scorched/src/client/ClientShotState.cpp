@@ -18,13 +18,11 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <client/ClientShotState.h>
+#include <client/ScorchedClient.h>
 #include <engine/ActionController.h>
 #include <common/OptionsParam.h>
 #include <landscape/Landscape.h>
-#include <landscape/GlobalHMap.h>
-#include <tank/TankContainer.h>
 #include <tank/TankStart.h>
 
 ClientShotState *ClientShotState::instance_ = 0;
@@ -57,17 +55,17 @@ bool ClientShotState::acceptStateChange(const unsigned state,
 		float frameTime)
 {
 	// All the shots have finished, move to finished
-	if (ActionController::instance()->noReferencedActions())
+	if (ScorchedClient::instance()->getActionController().noReferencedActions())
 	{
 		if (endOfState_ && 
 			!OptionsParam::instance()->getConnectedToServer())
 		{
 			endOfState_ = false;
-			if (TankContainer::instance()->aliveCount() < 2)
+			if (ScorchedClient::instance()->getTankContainer().aliveCount() < 2)
 			{
 				// Finished with the round 
 				// Next game
-				TankStart::scoreWinners();
+				TankStart::scoreWinners(ScorchedClient::instance()->getContext());
 			}
 		}
 		else

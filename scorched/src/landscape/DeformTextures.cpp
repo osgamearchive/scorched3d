@@ -18,10 +18,9 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <landscape/DeformTextures.h>
 #include <landscape/Landscape.h>
-#include <landscape/GlobalHMap.h>
+#include <client/ScorchedClient.h>
 #include <GLEXT/GLBitmapModifier.h>
 #include <GLEXT/GLState.h>
 #include <common/Defines.h>
@@ -30,7 +29,7 @@
 void DeformTextures::deformLandscape(Vector &pos, float radius, 
 									 bool down, DeformLandscape::DeformPoints &map)
 {
-	HeightMap &hmap = GlobalHMap::instance()->getHMap();
+	HeightMap &hmap = ScorchedClient::instance()->getLandscapeMaps().getHMap();
 	int iradius = (int) radius + 1;
 	if (iradius > 49) iradius = 49;
 

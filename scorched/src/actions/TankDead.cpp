@@ -24,9 +24,8 @@
 #include <actions/Explosion.h>
 #include <actions/ShotProjectileFunky.h>
 #include <sprites/TankDeadRenderer.h>
-#include <tank/TankContainer.h>
 #include <weapons/AccessoryStore.h>
-#include <engine/ActionController.h>
+#include <engine/ScorchedContext.h>
 #include <common/OptionsGame.h>
 #include <common/OptionsParam.h>
 #include <common/Defines.h>
@@ -61,9 +60,9 @@ void TankDead::simulate(float frameTime, bool &remove)
 		firstTime_ = false;
 
 		Tank *killedTank = 
-			TankContainer::instance()->getTankById(killedPlayerId_);
+			context_->tankContainer.getTankById(killedPlayerId_);
 		Tank *firedTank = 
-			TankContainer::instance()->getTankById(firedPlayerId_);
+			context_->tankContainer.getTankById(firedPlayerId_);
 
 		if (killedTank && 
 			killedTank->getState().getState() == TankState::sNormal)
@@ -105,21 +104,21 @@ void TankDead::simulate(float frameTime, bool &remove)
 				{
 					// Kiled self
 					TankScored *scored = new TankScored(firedPlayerId_, 
-						-OptionsGame::instance()->getMoneyWonPerHitPoint() *
+						-context_->optionsGame.getMoneyWonPerHitPoint() *
 						weapon_->getArmsLevel(),
 						-1,
 						0);
-					ActionController::instance()->addAction(scored);
+					context_->actionController.addAction(scored);
 				}
 				else
 				{
 					// Kiled other
 					TankScored *scored = new TankScored(firedPlayerId_, 
-						+OptionsGame::instance()->getMoneyWonPerHitPoint() *
+						+context_->optionsGame.getMoneyWonPerHitPoint() *
 						weapon_->getArmsLevel(),
 						+1,
 						0);
-					ActionController::instance()->addAction(scored);
+					context_->actionController.addAction(scored);
 				}
 			}
 
@@ -130,7 +129,7 @@ void TankDead::simulate(float frameTime, bool &remove)
 			{
 				Vector position = killedTank->getPhysics().getTankPosition();
 				Vector velocity;
-				ActionController::instance()->addAction(
+				context_->actionController.addAction(
 					weapon->fireWeapon(firedPlayerId_, position, velocity));
 			}
 		}

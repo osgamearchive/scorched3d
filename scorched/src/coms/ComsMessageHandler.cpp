@@ -18,7 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <coms/ComsMessageHandler.h>
 #include <common/Defines.h>
 #include <common/Logger.h>
@@ -29,17 +28,6 @@ ComsMessageConnectionHandlerI::~ComsMessageConnectionHandlerI()
 
 ComsMessageHandlerI::~ComsMessageHandlerI()
 {
-}
-
-ComsMessageHandler *ComsMessageHandler::instance_ = 0;
-
-ComsMessageHandler *ComsMessageHandler::instance()
-{
-	if (!instance_)
-	{
-		instance_ = new ComsMessageHandler;
-	}
-	return instance_;
 }
 
 ComsMessageHandler::ComsMessageHandler() : 

@@ -18,9 +18,7 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <tank/TankLib.h>
-#include <tank/TankContainer.h>
 #include <common/OptionsTransient.h>
 #include <common/Defines.h>
 #include <math.h>
@@ -34,13 +32,14 @@ float TankLib::getDistanceToTank(Vector &position, Tank *targetTank)
 	return maxdistance2D;
 }
 
-void TankLib::getTanksSortedByDistance(Vector &position, 
+void TankLib::getTanksSortedByDistance(ScorchedContext &context,
+									   Vector &position, 
 									  std::list<std::pair<float, Tank *> > &result,
 									  float maxDistance)
 {
 	std::list<std::pair<float, Tank *> > tankDistList;
 	std::map<unsigned int, Tank *> &allCurrentTanks = 
-		TankContainer::instance()->getPlayingTanks();
+		context.tankContainer.getPlayingTanks();
 	std::map<unsigned int, Tank *>::iterator itor;
 	for (itor = allCurrentTanks.begin();
 		itor != allCurrentTanks.end();
@@ -71,7 +70,8 @@ void TankLib::getTanksSortedByDistance(Vector &position,
 	}
 }
 
-void TankLib::getShotTowardsPosition(Vector &position, Vector &shootAt, float distForSniper, 
+void TankLib::getShotTowardsPosition(ScorchedContext &context,
+									 Vector &position, Vector &shootAt, float distForSniper, 
 									float &angleXYDegs, float &angleYZDegs, float &power)
 {
 	// Calculate direction
@@ -113,20 +113,20 @@ void TankLib::getShotTowardsPosition(Vector &position, Vector &shootAt, float di
 		power += (RAND * 200.0f) - 100.0f;
 		if (power < 100) power = 100;
 
-		if (OptionsTransient::instance()->getWindOn())
+		if (context.optionsTransient.getWindOn())
 		{
 			// Make less adjustments for less wind
-			float windMag = OptionsTransient::instance()->getWindSpeed() / 5.0f;
+			float windMag = context.optionsTransient.getWindSpeed() / 5.0f;
 
 			// Try to account for the wind direction
 			Vector ndirection = direction;
 			ndirection[2] = 0.0f;
 			ndirection = ndirection.Normalize();
 			ndirection = ndirection.get2DPerp();
-			float windoffsetLR = OptionsTransient::instance()->getWindDirection().dotP(ndirection);
+			float windoffsetLR = context.optionsTransient.getWindDirection().dotP(ndirection);
 			angleXYDegs += windoffsetLR * distance2D * (0.12f + RAND * 0.04f) * windMag;
 
-			float windoffsetFB = OptionsTransient::instance()->getWindDirection().dotP(direction.Normalize());
+			float windoffsetFB = context.optionsTransient.getWindDirection().dotP(direction.Normalize());
 			windoffsetFB /= 10.0f;
 			windoffsetFB *= windMag;
 			windoffsetFB += 1.0f; // windowoffset FB 0.9 > 1.1

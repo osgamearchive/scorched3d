@@ -18,27 +18,7 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// TankContainer.cpp: implementation of the TankContainer class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <tank/TankContainer.h>
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
-
-TankContainer *TankContainer::instance_ = 0;
-
-TankContainer *TankContainer::instance()
-{
-	if (!instance_)
-	{
-		instance_ = new TankContainer;
-	}
-	return instance_;
-}
 
 TankContainer::TankContainer() : playerId_(0)
 {

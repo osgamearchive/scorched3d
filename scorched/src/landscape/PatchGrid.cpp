@@ -18,25 +18,14 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// PatchGrid.cpp: implementation of the PatchGrid class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#pragma warning(disable: 4786)
-
 #include <math.h>
 #include <GLEXT/GLState.h>
 #include <GLEXT/GLCameraFrustum.h>
 #include <client/MainCamera.h>
-#include <tank/TankContainer.h>
+#include <client/ScorchedClient.h>
 #include <landscape/PatchVar.h>
 #include <landscape/PatchGrid.h>
 #include <landscape/TriNodePool.h>
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 PatchGrid::PatchGrid(HeightMap *hMap, int patchSize) :
 	hMap_(hMap), lastPos_(-1, -2, -3), patchSize_(patchSize),
@@ -122,7 +111,7 @@ void PatchGrid::recalculate(int posX, int posY, int dist)
 	// Ensure that any patches with tanks on them are drawn with
 	// a very low varaince
 	std::map<unsigned int, Tank *> &tanks = 
-		TankContainer::instance()->getPlayingTanks();
+		ScorchedClient::instance()->getTankContainer().getPlayingTanks();
 	std::map<unsigned int, Tank *>::iterator itor;
 	for (itor = tanks.begin();
 		itor != tanks.end();

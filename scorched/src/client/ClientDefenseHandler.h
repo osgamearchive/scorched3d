@@ -30,7 +30,7 @@ class ClientDefenseHandler :
 public:
 	static ClientDefenseHandler *instance();
 
-	virtual bool processMessage(NetPlayerID &id,
+	virtual bool processMessage(unsigned int id,
 		const char *messageType,
 		NetBufferReader &reader);
 

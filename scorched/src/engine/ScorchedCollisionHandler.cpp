@@ -18,10 +18,8 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <common/OptionsTransient.h>
 #include <common/Defines.h>
-#include <tank/TankContainer.h>
 #include <actions/ShotProjectile.h>
 #include <actions/WallHit.h>
 #include <actions/ShieldHit.h>
@@ -30,20 +28,10 @@
 #include <engine/PhysicsParticle.h>
 #include <engine/ActionController.h>
 
-ScorchedCollisionHandler *ScorchedCollisionHandler::instance_ = 0;
-
-ScorchedCollisionHandler *ScorchedCollisionHandler::instance()
+ScorchedCollisionHandler::ScorchedCollisionHandler(ScorchedContext *context) :
+	context_(context)
 {
-	if (!instance_)
-	{
-		instance_ = new ScorchedCollisionHandler;
-	}
-	return instance_;
-}
 
-ScorchedCollisionHandler::ScorchedCollisionHandler()
-{
-	ActionController::instance()->getPhysics().setCollisionHandler(this);
 }
 
 ScorchedCollisionHandler::~ScorchedCollisionHandler()
@@ -201,10 +189,10 @@ void ScorchedCollisionHandler::shotCollision(dGeomID o1, dGeomID o2,
 			OptionsTransient::WallSide wallSide = (OptionsTransient::WallSide)
 				(otherInfo->id - CollisionIdWallLeft);
 
-			ActionController::instance()->addAction(
+			context_->actionController.addAction(
 				new WallHit(particlePositionV, wallSide));
 
-			action = ((OptionsTransient::instance()->getWallType() == 
+			action = ((context_->optionsTransient.getWallType() == 
 				OptionsTransient::wallBouncy)?ParticleActionBounce:ParticleActionFinished);
 		}
 		break;
@@ -239,7 +227,7 @@ ScorchedCollisionHandler::ParticleAction ScorchedCollisionHandler::collisionShie
 	Vector &collisionPos,
 	Shield::ShieldSize size)
 {
-	Tank *tank = TankContainer::instance()->getTankById(id);
+	Tank *tank = context_->tankContainer.getTankById(id);
 	if (tank)
 	{
 		Shield *shield = tank->getAccessories().getShields().getCurrentShield();
@@ -250,11 +238,11 @@ ScorchedCollisionHandler::ParticleAction ScorchedCollisionHandler::collisionShie
 				switch (shield->getShieldType())
 				{
 				case Shield::ShieldTypeNormal:
-					ActionController::instance()->addAction(
+					context_->actionController.addAction(
 						new ShieldHit(tank->getPlayerId()));
 					return ParticleActionFinished;
 				case Shield::ShieldTypeReflective:
-					ActionController::instance()->addAction(
+					context_->actionController.addAction(
 						new ShieldHit(tank->getPlayerId()));
 					return ParticleActionBounce;
 				case Shield::ShieldTypeReflectiveMag:
@@ -264,7 +252,7 @@ ScorchedCollisionHandler::ParticleAction ScorchedCollisionHandler::collisionShie
 					Vector up(0.0f, 0.0f, 1.0f);
 					if (normal.dotP(up) > 0.8f)
 					{
-						ActionController::instance()->addAction(
+						context_->actionController.addAction(
 							new ShieldHit(tank->getPlayerId()));
 						return ParticleActionBounce;
 					}
@@ -294,6 +282,6 @@ void ScorchedCollisionHandler::collisionBounce(dGeomID o1, dGeomID o2,
 	{
 		// Create the contact joints for this collision
 		contact.geom = contacts[i];
-		ActionController::instance()->getPhysics().addCollision(o1, o2, contact);
+		context_->actionController.getPhysics().addCollision(o1, o2, contact);
 	}
 }

@@ -18,9 +18,7 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <engine/PhysicsParticleObject.h>
-#include <engine/ActionController.h>
 
 PhysicsParticleObject::PhysicsParticleObject() : body_(0), geom_(0)
 {
@@ -33,7 +31,7 @@ PhysicsParticleObject::~PhysicsParticleObject()
 	if (geom_) dGeomDestroy(geom_);
 }
 
-void PhysicsParticleObject::setPhysics(Vector &position, Vector &velocity)
+void PhysicsParticleObject::setPhysics(PhysicsEngine &engine, Vector &position, Vector &velocity)
 {
 	const dReal DENSITY = 5.0;
 	const dReal size = 0.25f;
@@ -43,7 +41,7 @@ void PhysicsParticleObject::setPhysics(Vector &position, Vector &velocity)
 	dMassSetSphere(&m,DENSITY,size);
 
 	// Create the body for the object
-	body_ = dBodyCreate(ActionController::instance()->getPhysics().getWorld());
+	body_ = dBodyCreate(engine.getWorld());
 	dBodySetPosition(body_,
 		(dReal) position[0], (dReal) position[1], (dReal) position[2]);
 	dBodySetLinearVel(body_,
@@ -56,7 +54,7 @@ void PhysicsParticleObject::setPhysics(Vector &position, Vector &velocity)
     //dBodySetData (obj[i].body,(void*) i);
 
 	// Create the geom representing the object
-	geom_ = dCreateSphere(ActionController::instance()->getPhysics().getSpace(), size);
+	geom_ = dCreateSphere(engine.getSpace(), size);
 	dGeomSetBody(geom_, body_);	
 }
 

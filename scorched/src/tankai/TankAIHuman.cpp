@@ -23,7 +23,6 @@
 #include <common/OptionsDisplay.h>
 #include <client/MainCamera.h>
 #include <client/ScorchedClient.h>
-#include <landscape/GlobalHMap.h>
 #include <tankai/TankAIHuman.h>
 #include <tankgraph/TankModelRenderer.h>
 #include <tank/Tank.h>
@@ -36,7 +35,7 @@ static void swapKeys(KeyboardKey *&key1, KeyboardKey *&key2)
 	key2 = key1;
 }
 
-TankAIHuman::TankAIHuman(Tank *tank) : TankAI(tank)
+TankAIHuman::TankAIHuman(ScorchedContext *context, Tank *tank) : TankAI(context, tank)
 {
 }
 
@@ -147,7 +146,7 @@ void TankAIHuman::autoAim()
 	if (MainCamera::instance()->getCamera().
 		getDirectionFromPt((GLfloat) x, (GLfloat) y, direction))
 	{
-        if (GlobalHMap::instance()->getHMap().getIntersect(direction, intersect))
+		if (context_->landscapeMaps.getHMap().getIntersect(direction, intersect))
         {
 			Vector &position = currentTank_->getPhysics().getTankPosition();
 

@@ -24,10 +24,10 @@
 #include <common/OptionsGame.h>
 #include <common/OptionsTransient.h>
 #include <actions/TankSay.h>
-#include <engine/ActionController.h>
+#include <engine/ScorchedContext.h>
 
 TankAIComputer::TankAIComputer() : 
-	TankAI(0), primaryShot_(true), name_("<NoName>")
+	TankAI(0, 0), primaryShot_(true), name_("<NoName>")
 {
 	
 }
@@ -35,6 +35,11 @@ TankAIComputer::TankAIComputer() :
 TankAIComputer::~TankAIComputer()
 {
 
+}
+
+void TankAIComputer::setContext(ScorchedContext *context)
+{
+	context_ = context;
 }
 
 void TankAIComputer::setTank(Tank *tank)
@@ -84,9 +89,9 @@ bool TankAIComputer::parseConfig(XMLNode *node)
 
 void TankAIComputer::newGame()
 {
-	int roundsPlayed = OptionsGame::instance()->getNoRounds() -
-		OptionsTransient::instance()->getNoRoundsLeft();
-	if (OptionsGame::instance()->getBuyOnRound() - 1 < roundsPlayed)
+	int roundsPlayed = context_->optionsGame.getNoRounds() -
+		context_->optionsTransient.getNoRoundsLeft();
+	if (context_->optionsGame.getBuyOnRound() - 1 < roundsPlayed)
 	{
 		buyAccessories();
 	}
@@ -153,6 +158,6 @@ void TankAIComputer::say(const char *text)
 	newText += ":";
 	newText += text;
 
-	ActionController::instance()->addAction(
+	context_->actionController.addAction(
 		new TankSay(currentTank_->getPlayerId(), newText.c_str()));
 }

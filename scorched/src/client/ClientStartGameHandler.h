@@ -30,7 +30,7 @@ class ClientStartGameHandler :
 public:
 	static ClientStartGameHandler* instance();
 
-	virtual bool processMessage(NetPlayerID &id,
+	virtual bool processMessage(unsigned int id,
 		const char *message,
 		NetBufferReader &reader);
 	void startClientGame();

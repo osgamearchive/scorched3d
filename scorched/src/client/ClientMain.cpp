@@ -18,7 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <client/ClientDialog.h>
 #include <client/MainCamera.h>
 #include <client/ScorchedClient.h>
@@ -32,7 +31,6 @@
 #include <common/Display.h>
 #include <common/Gamma.h>
 #include <common/Sound.h>
-#include <coms/ComsGateway.h>
 #include <SDL/SDL.h>
 
 void clientMain()
@@ -89,10 +87,9 @@ void clientMain()
 		if (paused) SDL_Delay(100);  // Otherwise when not drawing graphics its an infinite loop
 
 		Logger::processLogEntries();
-		if (OptionsParam::instance()->getConnectedToServer() &&
-			ComsGateway::instance()->started())
+		if (ScorchedClient::instance()->getContext().netInterface)
 		{
-			ComsGateway::instance()->processMessages();
+			ScorchedClient::instance()->getNetInterface().processMessages();
 		}
 	}
 

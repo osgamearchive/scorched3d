@@ -18,20 +18,16 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// TankScore.h: interface for the TankScore class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_TANKSCORE_H__ED963414_2B77_4027_B35A_D69960165470__INCLUDED_)
 #define AFX_TANKSCORE_H__ED963414_2B77_4027_B35A_D69960165470__INCLUDED_
 
 #include <time.h>
 
+class ScorchedContext;
 class TankScore  
 {
 public:
-	TankScore();
+	TankScore(ScorchedContext &context);
 	virtual ~TankScore();
 
 	void reset();
@@ -57,6 +53,7 @@ public:
     bool readMessage(NetBufferReader &reader);
 
 protected:
+	ScorchedContext &context_;
 	int kills_;
 	int money_;
 	int wins_;

@@ -18,21 +18,12 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// SmokeChain.cpp: implementation of the SmokeChain class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <math.h>
 #include <common/OptionsTransient.h>
 #include <sprites/ExplosionTextures.h>
-#include <landscape/GlobalHMap.h>
+#include <client/ScorchedClient.h>
 #include <landscape/SmokeChain.h>
 #include <landscape/Landscape.h>
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 void SmokeChainEntry::set(Vector &position, Vector &velocity, float ms, float mt)
 {
@@ -50,9 +41,9 @@ void SmokeChainEntry::set(Vector &position, Vector &velocity, float ms, float mt
 void SmokeChainEntry::draw()
 {
 	if (t < maxTime &&
-		posX < GlobalHMap::instance()->getHMap().getWidth() &&
+		posX < ScorchedClient::instance()->getLandscapeMaps().getHMap().getWidth() &&
 		posX > 0.0f &&
-		posY < GlobalHMap::instance()->getHMap().getWidth() &&
+		posY < ScorchedClient::instance()->getLandscapeMaps().getHMap().getWidth() &&
 		posY > 0.0f)
 	{
 		// Calculate the size of the smoke
@@ -64,7 +55,7 @@ void SmokeChainEntry::draw()
 
 		// Add a shadow of the smoke on the ground
 		float aboveGround =
-			posZ - GlobalHMap::instance()->getHMap().getHeight(
+			posZ - ScorchedClient::instance()->getLandscapeMaps().getHMap().getHeight(
 			int (posX), int(posY));
 		float smokeAlpha = alpha + .2f; if (smokeAlpha > 1.0f) smokeAlpha = 1.0f;
 		Landscape::instance()->getShadowMap().
@@ -81,8 +72,8 @@ bool SmokeChainEntry::move(float frameTime)
 	posX += velocity_[0] * frameTime;
 	posY += velocity_[1] * frameTime;
 	posZ += velocity_[2] * frameTime;
-	velocity_ += OptionsTransient::instance()->getWindDirection() * 
-		OptionsTransient::instance()->getWindSpeed() / 100.0f;
+	velocity_ += ScorchedClient::instance()->getOptionsTransient().getWindDirection() * 
+		ScorchedClient::instance()->getOptionsTransient().getWindSpeed() / 100.0f;
 	velocity_ *= (float ) pow(0.9, frameTime);
 	
 	a += frameTime / 5.0f;

@@ -19,7 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <tankai/TankAIComputerPShark.h>
-#include <tank/TankContainer.h>
+#include <engine/ScorchedContext.h>
 #include <math.h>
 
 TankAIComputerPShark::TankAIComputerPShark()
@@ -55,7 +55,7 @@ Tank *TankAIComputerPShark::findTankToShootAt()
 		unsigned int hit = hitlist_.front();
 		hitlist_.pop_front();
 
-		Tank *t = TankContainer::instance()->getTankById(hit);
+		Tank *t = context_->tankContainer.getTankById(hit);
 		if (t && t->getState().getLife() > 0)
 		{
 			hitlist_.push_back(hit);

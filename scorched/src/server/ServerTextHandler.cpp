@@ -18,12 +18,12 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <server/ServerTextHandler.h>
-#include <common/Logger.h>
+#include <server/ScorchedServer.h>
 #include <tank/TankContainer.h>
 #include <coms/ComsTextMessage.h>
 #include <coms/ComsMessageSender.h>
+#include <common/Logger.h>
 
 ServerTextHandler *ServerTextHandler::instance()
 {
@@ -34,7 +34,7 @@ ServerTextHandler *ServerTextHandler::instance()
 
 ServerTextHandler::ServerTextHandler()
 {
-	ComsMessageHandler::instance()->addHandler(
+	ScorchedServer::instance()->getComsMessageHandler().addHandler(
 		"ComsTextMessage",
 		this);
 }
@@ -43,7 +43,7 @@ ServerTextHandler::~ServerTextHandler()
 {
 }
 
-bool ServerTextHandler::processMessage(NetPlayerID &id,
+bool ServerTextHandler::processMessage(unsigned int id,
 	const char *messageType,
 									NetBufferReader &reader)
 {
@@ -51,7 +51,7 @@ bool ServerTextHandler::processMessage(NetPlayerID &id,
 	if (!message.readMessage(reader)) return false;
 
 	unsigned int tankId = (unsigned int) id;
-	Tank *tank = TankContainer::instance()->getTankById(tankId);
+	Tank *tank = ScorchedServer::instance()->getTankContainer().getTankById(tankId);
 	if (tank)
 	{
 		// Construct the message to send to all the clients

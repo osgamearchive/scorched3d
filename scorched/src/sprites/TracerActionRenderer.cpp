@@ -18,12 +18,11 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <sprites/TracerActionRenderer.h>
 #include <GLEXT/GLLenseFlare.h>
 #include <actions/ShotProjectileTracer.h>
 #include <common/OptionsDisplay.h>
-#include <tank/TankContainer.h>
+#include <engine/ScorchedContext.h>
 #include <GLEXT/GLState.h>
 
 TracerActionRenderer::TracerActionRenderer()
@@ -40,7 +39,8 @@ void TracerActionRenderer::draw(Action *action)
 	if (shot->getSmokeTracer())
 	{
 		Tank *current = 
-			TankContainer::instance()->getTankById(shot->getPlayerId());
+			action->getScorchedContext()->tankContainer.
+			getTankById(shot->getPlayerId());
 		if (current)
 		{
 			GLState state(GLState::TEXTURE_OFF | GLState::BLEND_OFF);

@@ -23,7 +23,6 @@
 #include <common/OptionsGame.h>
 #include <common/OptionsTransient.h>
 #include <common/Defines.h>
-#include <tank/TankContainer.h>
 #include <server/ServerState.h>
 
 ServerBrowserInfo *ServerBrowserInfo::instance_ = 0;
@@ -48,12 +47,12 @@ ServerBrowserInfo::~ServerBrowserInfo()
 
 void ServerBrowserInfo::start()
 {
-	udpsock_ = SDLNet_UDP_Open(OptionsGame::instance()->getPortNo() + 1);
+	udpsock_ = SDLNet_UDP_Open(ScorchedServer::instance()->getOptionsGame().getPortNo() + 1);
 	if(!udpsock_)
 	{
 		dialogMessage("ServerBrowserInfo",
 			"Failed to open port \"%i\"",
-			OptionsGame::instance()->getPortNo() + 1);
+			ScorchedServer::instance()->getOptionsGame().getPortNo() + 1);
 		return;
 	}
 }
@@ -93,15 +92,15 @@ void ServerBrowserInfo::processPingMessage(char *buffer)
 
 void ServerBrowserInfo::processStatusMessage(char *buffer)
 {
-	char *serverName = (char *) OptionsGame::instance()->getServerName();
+	char *serverName = (char *) ScorchedServer::instance()->getOptionsGame().getServerName();
 	char version[256];
 	sprintf(version, "%s (%s)", ScorchedVersion, ScorchedProtocolVersion);
 	unsigned currentState = ScorchedServer::instance()->getGameState().getState();
 	bool started = (currentState!=ServerState::ServerStateWaitingForPlayers);
 	char players[25];
-	sprintf(players, "%i", TankContainer::instance()->getNoOfTanks());
+	sprintf(players, "%i", ScorchedServer::instance()->getTankContainer().getNoOfTanks());
 	char maxplayers[25];
-	sprintf(maxplayers, "%i", OptionsGame::instance()->getNoMaxPlayers());
+	sprintf(maxplayers, "%i", ScorchedServer::instance()->getOptionsGame().getNoMaxPlayers());
 
 	strcpy(buffer, "<status ");
 	addTag(buffer, "state", (started?"Started":"Waiting"));
@@ -109,7 +108,7 @@ void ServerBrowserInfo::processStatusMessage(char *buffer)
 	addTag(buffer, "fullversion", version);
 	addTag(buffer, "version", ScorchedVersion);
 	addTag(buffer, "protocolversion", ScorchedProtocolVersion);
-	addTag(buffer, "password", OptionsGame::instance()->getServerPassword()[0]?"On":"Off");
+	addTag(buffer, "password", ScorchedServer::instance()->getOptionsGame().getServerPassword()[0]?"On":"Off");
 	addTag(buffer, "noplayers", players);
 	addTag(buffer, "maxplayers", maxplayers);
 	strcat(buffer, "/>");
@@ -121,7 +120,7 @@ void ServerBrowserInfo::processInfoMessage(char *buffer)
 	// Add all of the other tank options
 	// Currently nothing on the client uses this info
 	strcpy(buffer, "<info ");
-	std::list<OptionEntry *> &options = OptionsGame::instance()->getOptions();
+	std::list<OptionEntry *> &options = ScorchedServer::instance()->getOptionsGame().getOptions();
 	std::list<OptionEntry *>::iterator optionItor;
 	for (optionItor = options.begin();
 		optionItor != options.end();
@@ -140,7 +139,7 @@ void ServerBrowserInfo::processPlayerMessage(char *buffer)
 {
 	// Add all of the player information
 	std::map<unsigned int, Tank *> &tanks =
-		TankContainer::instance()->getPlayingTanks();
+		ScorchedServer::instance()->getTankContainer().getPlayingTanks();
 	std::map<unsigned int, Tank *>::iterator tankItor;
 	int i=0;
 
@@ -173,4 +172,3 @@ void ServerBrowserInfo::addTag(char *buffer, const char *name, const char *value
 	strcat(buffer, name); strcat(buffer, "='");
 	strcat(buffer, newvalue); strcat(buffer, "' ");
 }
-

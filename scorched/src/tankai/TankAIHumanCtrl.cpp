@@ -18,9 +18,7 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <tankai/TankAIHumanCtrl.h>
-#include <tank/TankContainer.h>
 #include <client/ScorchedClient.h>
 #include <client/ClientState.h>
 
@@ -51,7 +49,7 @@ void TankAIHumanCtrl::enterState(const unsigned state)
 	if (state == ClientState::StateShot)
 	{
 		Tank *currentTank =
-			TankContainer::instance()->getCurrentTank();
+			ScorchedClient::instance()->getTankContainer().getCurrentTank();
 		if (currentTank)
 		{
 			if (currentTank->getState().getState() == TankState::sNormal)
@@ -72,7 +70,7 @@ void TankAIHumanCtrl::keyboardCheck(const unsigned state, float frameTime,
 							bool &skipRest)
 {
 	Tank *currentTank =
-		TankContainer::instance()->getCurrentTank();
+		ScorchedClient::instance()->getTankContainer().getCurrentTank();
 	if (currentTank)
 	{
 		if (currentTank->getState().getState() == TankState::sNormal)

@@ -18,9 +18,8 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <actions/TankResign.h>
-#include <tank/TankContainer.h>
+#include <engine/ScorchedContext.h>
 #include <common/Defines.h>
 #include <common/Logger.h>
 
@@ -51,7 +50,7 @@ void TankResign::simulate(float frameTime, bool &remove)
 	{
 		firstTime_ = false;
 		Tank *tank = 
-			TankContainer::instance()->getTankById(playerId_);
+			context_->tankContainer.getTankById(playerId_);
 		if (tank)
 		{
 			tank->getState().setState(TankState::sDead);

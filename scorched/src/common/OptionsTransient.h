@@ -23,12 +23,14 @@
 #define __INCLUDE_OptionsTransienth_INCLUDE__
 
 #include <common/Vector.h>
+#include <common/OptionsGame.h>
 #include <coms/NetBuffer.h>
 
 class OptionsTransient
 {
 public:
-	static OptionsTransient *instance();
+	OptionsTransient(OptionsGame &optionsGame);
+	virtual ~OptionsTransient();
 
 	enum WallType
 	{
@@ -66,8 +68,7 @@ public:
 	bool readFromBuffer(NetBufferReader &reader);
 
 protected:
-	static OptionsTransient *instance_;
-
+	OptionsGame &optionsGame_;
 	struct Settings
 	{
 		Settings();
@@ -84,9 +85,6 @@ protected:
 	void newGameWall();
 	void nextRoundWind();
 
-private:
-	OptionsTransient();
-	virtual ~OptionsTransient();
 };
 
 

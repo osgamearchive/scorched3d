@@ -23,7 +23,7 @@
 #include <3dsparse/ModelsFile.h>
 #include <GLEXT/GLLenseFlare.h>
 #include <landscape/Landscape.h>
-#include <landscape/GlobalHMap.h>
+#include <client/ScorchedClient.h>
 #include <common/Defines.h> // For porting
 
 MissileMesh::MissileMesh(ModelsFile &missile, bool useTextures, float detail) 
@@ -85,7 +85,7 @@ void MissileMesh::draw(Vector &position, Vector &direction)
 {
 	// Draw the missile shadow
 	float aboveGround =
-		position[2] - GlobalHMap::instance()->getHMap().
+		position[2] - ScorchedClient::instance()->getLandscapeMaps().getHMap().
 		getHeight((int) position[0], (int) position[1]);
 	Landscape::instance()->getShadowMap().
 		addCircle(position[0], position[1], aboveGround / 10.0f);

@@ -19,6 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <tankai/TankAIStrings.h>
+#include <server/ScorchedServer.h>
 #include <common/Defines.h>
 #include <common/OptionsGame.h>
 
@@ -59,7 +60,8 @@ const char *TankAIStrings::getPlayerName()
 const char *TankAIStrings::getDeathLine()
 {
 	const char *deathLine = 0;
-	float percentage = float(OptionsGame::instance()->getComputersDeathTalk());
+	float percentage = 
+		float(ScorchedServer::instance()->getOptionsGame().getComputersDeathTalk());
 	float talkPer = RAND * 100.0f;
 	if (talkPer < percentage) deathLine = deathLines_.getRandomLine();
 
@@ -69,7 +71,8 @@ const char *TankAIStrings::getDeathLine()
 const char *TankAIStrings::getAttackLine()
 {
 	const char *attackLine = 0;
-	float percentage = float(OptionsGame::instance()->getComputersAttackTalk());
+	float percentage = 
+		float(ScorchedServer::instance()->getOptionsGame().getComputersAttackTalk());
 	float talkPer = RAND * 100.0f;
 	if (talkPer < percentage) attackLine = attackLines_.getRandomLine();
 	

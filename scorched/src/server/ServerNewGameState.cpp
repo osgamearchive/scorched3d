@@ -18,7 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <server/ServerNewGameState.h>
 #include <server/ServerState.h>
 #include <server/ScorchedServer.h>
@@ -28,9 +27,7 @@
 #include <common/Logger.h>
 #include <coms/ComsNewGameMessage.h>
 #include <coms/ComsMessageSender.h>
-#include <tank/TankContainer.h>
 #include <tank/TankStart.h>
-#include <landscape/GlobalHMap.h>
 
 extern Timer serverTimer;
 
@@ -50,7 +47,7 @@ void ServerNewGameState::enterState(const unsigned state)
 
 	// Setup landscape and tank start pos
 	Logger::log(0, "Generating landscape");
-	TankStart::newGame();
+	TankStart::newGame(ScorchedServer::instance()->getContext());
 
 	// Add pending tanks (all tanks should be pending) into the game
 	addTanksToGame(state);
@@ -71,7 +68,7 @@ void ServerNewGameState::addTanksToGame(const unsigned state)
 	// next round state case
 	bool pending = false;
 	std::map<unsigned int, Tank *> &tanks = 
-		TankContainer::instance()->getPlayingTanks();
+		ScorchedServer::instance()->getTankContainer().getPlayingTanks();
 	std::map<unsigned int, Tank *>::iterator itor;
 	for (itor = tanks.begin();
 		itor != tanks.end();
@@ -88,7 +85,7 @@ void ServerNewGameState::addTanksToGame(const unsigned state)
 
 	// Generate the level message
 	ComsNewGameMessage newGameMessage;
-	if (!GlobalHMap::instance()->generateHMapDiff(
+	if (!ScorchedServer::instance()->getLandscapeMaps().generateHMapDiff(
 		newGameMessage.getLevelMessage()))
 	{
 		Logger::log(0, "ERROR: Failed to generate diff");
@@ -98,7 +95,7 @@ void ServerNewGameState::addTanksToGame(const unsigned state)
 
 	// Check if the generated landscape is too large to send to the clients
 	if (newGameMessage.getLevelMessage().getLevelLen() >
-		(unsigned int) OptionsGame::instance()->getMaxLandscapeSize())
+		(unsigned int) ScorchedServer::instance()->getOptionsGame().getMaxLandscapeSize())
 	{
 		Logger::log(0, "Landscape too large to send to waiting clients.");
 		sendString(0, "Landscape too large to send to waiting clients (%i bytes).", 
@@ -128,7 +125,7 @@ void ServerNewGameState::addTanksToGame(const unsigned state)
 
 			// Send new game message to clients
 			ComsMessageSender::sendToSingleClient(newGameMessage,
-				(NetPlayerID) tank->getPlayerId());
+				tank->getPlayerId());
 		}
 	}
 }

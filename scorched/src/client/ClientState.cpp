@@ -18,9 +18,7 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <engine/ActionController.h>
 #include <engine/FrameTimer.h>
-#include <engine/MainLoop.h>
 #include <client/Main2DCamera.h>
 #include <client/SpeedChange.h>
 #include <client/MainCamera.h>
@@ -29,6 +27,7 @@
 #include <client/ShotTimer.h>
 #include <client/ClientNextRoundState.h>
 #include <client/ClientShotState.h>
+#include <client/ScorchedClient.h>
 #include <tankgraph/TankRenderer.h>
 #include <tankai/TankAIHumanCtrl.h>
 #include <common/WindowManager.h>
@@ -37,10 +36,6 @@
 #include <GLEXT/GLCameraFrustum.h>
 #include <GLEXT/GLBilboardRenderer.h>
 #include <GLEXT/GLConsole.h>
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 void ClientState::addWindowManager(GameState &gameState, unsigned state)
 {
@@ -80,7 +75,7 @@ void ClientState::addStandardComponents(GameState &gameState, unsigned state, bo
 			Main2DCamera::instance(), SpeedChange::instance());
 	}
 	gameState.addStateLoop(state, MainCamera::instance(), 
-		ActionController::instance());
+		&ScorchedClient::instance()->getActionController());
 	gameState.addStateLoop(state, MainCamera::instance(), 
 		GLBilboardRenderer::instance());
 	addWindowManager(gameState, state);
@@ -102,8 +97,9 @@ void ClientState::addStandardComponents(GameState &gameState, unsigned state, bo
 		Main2DCamera::instance(), &MainCamera::instance()->saveScreen_);
 }
 
-void ClientState::setupGameState(GameState &gameState, bool network)
+void ClientState::setupGameState(bool network)
 {
+	GameState &gameState = ScorchedClient::instance()->getGameState();
 	gameState.clear();
 
 	// StatePlayerOptions (Single player only)

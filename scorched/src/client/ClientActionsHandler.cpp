@@ -18,12 +18,10 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <client/ClientActionsHandler.h>
 #include <client/ClientState.h>
 #include <client/ScorchedClient.h>
 #include <coms/ComsActionsMessage.h>
-#include <engine/ActionController.h>
 
 ClientActionsHandler *ClientActionsHandler::instance_ = 0;
 
@@ -38,7 +36,7 @@ ClientActionsHandler *ClientActionsHandler::instance()
 
 ClientActionsHandler::ClientActionsHandler()
 {
-	ComsMessageHandler::instance()->addHandler(
+	ScorchedClient::instance()->getComsMessageHandler().addHandler(
 		"ComsActionsMessage",
 		this);
 }
@@ -47,13 +45,13 @@ ClientActionsHandler::~ClientActionsHandler()
 {
 }
 
-bool ClientActionsHandler::processMessage(NetPlayerID &id,
+bool ClientActionsHandler::processMessage(unsigned int id,
 	const char *messageType,
 	NetBufferReader &reader)
 {
 	// Reset the action controller in anticipation of the new shots
-	ActionController::instance()->resetTime();
-	ActionController::instance()->getBuffer().clear();
+	ScorchedClient::instance()->getActionController().resetTime();
+	ScorchedClient::instance()->getActionController().getBuffer().clear();
 
 	// Read the new shots into the action controller
 	ComsActionsMessage actionsMessage;

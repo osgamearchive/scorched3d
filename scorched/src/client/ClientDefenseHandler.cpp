@@ -18,9 +18,8 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
+#include <client/ScorchedClient.h>
 #include <client/ClientDefenseHandler.h>
-#include <tank/TankContainer.h>
 #include <tank/TankAILogic.h>
 #include <coms/ComsDefenseMessage.h>
 
@@ -37,7 +36,7 @@ ClientDefenseHandler *ClientDefenseHandler::instance()
 
 ClientDefenseHandler::ClientDefenseHandler()
 {
-	ComsMessageHandler::instance()->addHandler(
+	ScorchedClient::instance()->getComsMessageHandler().addHandler(
 		"ComsDefenseMessage",
 		this);
 }
@@ -46,7 +45,7 @@ ClientDefenseHandler::~ClientDefenseHandler()
 {
 }
 
-bool ClientDefenseHandler::processMessage(NetPlayerID &id,
+bool ClientDefenseHandler::processMessage(unsigned int id,
 	const char *messageType,
 	NetBufferReader &reader)
 {
@@ -55,13 +54,15 @@ bool ClientDefenseHandler::processMessage(NetPlayerID &id,
 	if (!message.readMessage(reader)) return false;
 
 	// Check tank exists and is alive
-	Tank *tank = TankContainer::instance()->getTankById(message.getPlayerId());
+	Tank *tank = ScorchedClient::instance()->getTankContainer().getTankById(message.getPlayerId());
 	if (tank && tank->getState().getState() != TankState::sNormal)
 	{
 		return true;
 	}
 
 	// Actually perform the action in the message
-	TankAILogic::processDefenseMessage(message, tank);
+	TankAILogic::processDefenseMessage(
+		ScorchedClient::instance()->getContext(), 
+		message, tank);
 	return true;
 }

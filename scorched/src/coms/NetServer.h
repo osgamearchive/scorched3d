@@ -18,37 +18,34 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #ifndef __INCLUDE_netServer_h_INCLUDE__
 #define __INCLUDE_netServer_h_INCLUDE__
 
-#include <coms/NetMessageHandler.h>
+#include <coms/NetInterface.h>
 #include <coms/NetServerProtocol.h>
 #include <list>
 #include <set>
 
-class NetServer
+class NetServer : public NetInterface
 {
 public:
 	NetServer(NetServerProtocol *protocol);
 	virtual ~NetServer();
 
-	TCPsocket connect(const char *hostName, int portNo);
-	TCPsocket start(int portNo, int maxClients = -1);
-	bool started();
+	unsigned int connect(const char *hostName, int portNo);
+	unsigned int start(int portNo, int maxClients = -1);
+	virtual bool started();
 
-	int getMaxClients() { return maxClients_; }
-	int getNoClients();
+	virtual int getMaxClients();
+	virtual int getNoClients();
 
-	int processMessages() { return messageHandler_.processMessages(); }
-	void setMessageHandler(NetMessageHandlerI *handler) 
-		{ messageHandler_.setMessageHandler(handler); }
+	virtual int processMessages();
+	virtual void setMessageHandler(NetMessageHandlerI *handler);
 
-	void disconnectAllClients();
-	void disconnectClient(TCPsocket &client);
-	void sendMessage(NetBuffer &buffer);
-	void sendMessage(NetBuffer &buffer,
-					 TCPsocket destination);
+	virtual void disconnectAllClients();
+	virtual void disconnectClient(unsigned int client);
+	virtual void sendMessage(NetBuffer &buffer);
+	virtual void sendMessage(NetBuffer &buffer, unsigned int destination);
 
 protected:
 	int maxClients_;
@@ -65,8 +62,8 @@ protected:
 
 	bool pollIncoming();
 	void pollOutgoing();
-	void addClient(TCPsocket &client);
-	void rmClient(TCPsocket &client);
+	void addClient(TCPsocket client);
+	void rmClient(TCPsocket client);
 	void destroyClient(TCPsocket client);
 	void updateSockSet();
 

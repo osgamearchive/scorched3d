@@ -18,9 +18,7 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <landscape/Landscape.h>
-#include <landscape/GlobalHMap.h>
 #include <landscape/ShadowMap.h>
 #include <landscape/InfoMap.h>
 #include <landscape/WaterMapModifier.h>
@@ -31,6 +29,7 @@
 #include <common/Resources.h>
 #include <common/OptionsDisplay.h>
 #include <dialogs/WindDialog.h>
+#include <client/ScorchedClient.h>
 
 Landscape *Landscape::instance_ = 0;
 
@@ -44,9 +43,10 @@ Landscape *Landscape::instance()
 }
 
 Landscape::Landscape() : 
-	wMap_(64, 8, 512), patchGrid_(&GlobalHMap::instance()->getHMap(), 16), 
+	wMap_(64, 8, 512), patchGrid_(&ScorchedClient::instance()->getLandscapeMaps().getHMap(), 16), 
 	wMapPoints_(wMap_, 256, 4),
-	surroundDefs_(GlobalHMap::instance()->getHMap(), 1524, 256), surround_(surroundDefs_),
+	surroundDefs_(ScorchedClient::instance()->getLandscapeMaps().getHMap(), 1524, 256), 
+	surround_(surroundDefs_),
 	hMapSurround_(surroundDefs_),
 	resetWater_(false), resetWaterTimer_(0.0f), waterTexture_(0),
 	textureType_(eDefault)
@@ -70,7 +70,7 @@ void Landscape::simulate(const unsigned state, float frameTime)
 			{
 				// Re-calculate the water (what water is visible)
 				WaterMapModifier::addWaterVisibility(
-					GlobalHMap::instance()->getHMap(), wMap_);
+					ScorchedClient::instance()->getLandscapeMaps().getHMap(), wMap_);
 
 				// Re-calculate the landsacpe on the wind indicator
 				WindDialog::instance()->buildMap();
@@ -122,7 +122,7 @@ void Landscape::draw(const unsigned state)
 	
 	if (OptionsDisplay::instance()->getNoROAM())
 	{
-		HeightMapRenderer::drawHeightMap(GlobalHMap::instance()->getHMap());
+		HeightMapRenderer::drawHeightMap(ScorchedClient::instance()->getLandscapeMaps().getHMap());
 	}
 	else
 	{
@@ -162,7 +162,7 @@ void Landscape::draw(const unsigned state)
 	surround_.draw();
 	if (OptionsDisplay::instance()->getDrawWater())
 	{
-		glColor3fv(OptionsTransient::instance()->getWallColor());
+		glColor3fv(ScorchedClient::instance()->getOptionsTransient().getWallColor());
 		wMapPoints_.draw();
 		wMap_.draw();
 	}
@@ -229,13 +229,15 @@ void Landscape::generate(ProgressCounter *counter)
 	bitmaps[4] = &texture4;
 
 	// Generate landscape texture
-	GLBitmapModifier::addHeightToBitmap(GlobalHMap::instance()->getHMap(), 
+	GLBitmapModifier::addHeightToBitmap(
+		ScorchedClient::instance()->getLandscapeMaps().getHMap(), 
 		mainMap_, 
 		bitmapRock, bitmapShore, bitmaps, 5, 1024, counter);
 
 	// Add lighting to the landscape texture
 	GLBitmapModifier::addLightMapToBitmap(mainMap_, 
-		GlobalHMap::instance()->getHMap(), sun_.getPosition(), counter);
+		ScorchedClient::instance()->getLandscapeMaps().getHMap(), 
+		sun_.getPosition(), counter);
 
 	// Create the landscape texture used for the small plan window
 	GLBitmap bitmapPlan(planTexSize, planTexSize);
@@ -249,9 +251,11 @@ void Landscape::generate(ProgressCounter *counter)
 	GLBitmap bitmapPlanAlpha(planTexSize, planTexSize, true);
 	GLBitmap bitmapWater(Resources::stringResource("bitmap-cloudreflection"));
 	GLBitmapModifier::addWaterToBitmap(
-		GlobalHMap::instance()->getHMap(), bitmapPlan, bitmapWater, wMap_.getHeight());
+		ScorchedClient::instance()->getLandscapeMaps().getHMap(), 
+		bitmapPlan, bitmapWater, wMap_.getHeight());
 	GLBitmapModifier::removeWaterFromBitmap(
-		GlobalHMap::instance()->getHMap(), bitmapPlan, bitmapPlanAlpha, wMap_.getHeight());
+		ScorchedClient::instance()->getLandscapeMaps().getHMap(), 
+		bitmapPlan, bitmapPlanAlpha, wMap_.getHeight());
 
 	// Load the bitmaps into the textures
 	GLBitmap bitmapMagma(Resources::stringResource("bitmap-magmasmall"));
@@ -275,7 +279,8 @@ void Landscape::generate(ProgressCounter *counter)
 	planAlphaTexture_.create(bitmapPlanAlpha, GL_RGBA, true);
 
 	GLBitmapModifier::addWavesToBitmap(
-		GlobalHMap::instance()->getHMap(), wMap_.getBitmap(), wMap_.getHeight(), 0.3f);
+		ScorchedClient::instance()->getLandscapeMaps().getHMap(), 
+		wMap_.getBitmap(), wMap_.getHeight(), 0.3f);
 	wMap_.refreshTexture();
 
 	// Load the cloud layer bitmap
@@ -310,7 +315,7 @@ void Landscape::reset()
 	patchGrid_.forceCalculate(256);
 	WindDialog::instance()->buildMap();
 	WaterMapModifier::addWaterVisibility(
-		GlobalHMap::instance()->getHMap(), 
+		ScorchedClient::instance()->getLandscapeMaps().getHMap(), 
 		wMap_);
 	smoke_.removeAllSmokes();
 	wMap_.reset();

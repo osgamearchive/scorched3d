@@ -18,9 +18,7 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <dialogs/AutoDefenseDialog.h>
-#include <tank/TankContainer.h>
 #include <GLW/GLWFlag.h>
 #include <GLW/GLWTextButton.h>
 #include <common/WindowManager.h>
@@ -49,7 +47,7 @@ AutoDefenseDialog::~AutoDefenseDialog()
 void AutoDefenseDialog::windowInit(const unsigned state)
 {
 	currentPlayer_ = -1;
-	if (OptionsTransient::instance()->getCurrentGameNo() != 1)
+	if (ScorchedClient::instance()->getOptionsTransient().getCurrentGameNo() != 1)
 	{
 		finished();
 	}
@@ -62,7 +60,7 @@ void AutoDefenseDialog::windowInit(const unsigned state)
 void AutoDefenseDialog::nextPlayer()
 {
 	currentPlayer_++;
-	Tank *current = TankContainer::instance()->getTankByPos(
+	Tank *current = ScorchedClient::instance()->getTankContainer().getTankByPos(
 		(unsigned int) currentPlayer_);
 	if (!current) 
 	{
@@ -101,7 +99,7 @@ void AutoDefenseDialog::buttonDown(unsigned int id)
 void AutoDefenseDialog::displayCurrent()
 {
 	WindowManager::instance()->showWindow(getId());
-	Tank *tank = TankContainer::instance()->getTankById(actualPlayer_);
+	Tank *tank = ScorchedClient::instance()->getTankContainer().getTankById(actualPlayer_);
 	if (!tank) return;
 
 	topPanel_->clear();
@@ -166,7 +164,7 @@ void AutoDefenseDialog::select(unsigned int id,
 							   const int pos, 
 							   const char *value)
 {
-	Tank *tank = TankContainer::instance()->getTankById(actualPlayer_);
+	Tank *tank = ScorchedClient::instance()->getTankContainer().getTankById(actualPlayer_);
 	if (!tank) return;
 
 	if (id == paraId_)

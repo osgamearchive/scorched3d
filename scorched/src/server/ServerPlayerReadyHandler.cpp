@@ -39,7 +39,7 @@ ServerPlayerReadyHandler *ServerPlayerReadyHandler::instance()
 
 ServerPlayerReadyHandler::ServerPlayerReadyHandler()
 {
-	ComsMessageHandler::instance()->addHandler(
+	ScorchedServer::instance()->getComsMessageHandler().addHandler(
 		"ComsPlayerReadyMessage",
 		this);
 }
@@ -48,7 +48,7 @@ ServerPlayerReadyHandler::~ServerPlayerReadyHandler()
 {
 }
 
-bool ServerPlayerReadyHandler::processMessage(NetPlayerID &id,
+bool ServerPlayerReadyHandler::processMessage(unsigned int id,
 	const char *messageType,
 										  NetBufferReader &reader)
 {
@@ -58,7 +58,7 @@ bool ServerPlayerReadyHandler::processMessage(NetPlayerID &id,
 
 	// Check this client has not tried to add a tank before
 	unsigned int tankId = (unsigned int) id;
-	Tank *tank = TankContainer::instance()->getTankById(tankId);
+	Tank *tank = ScorchedServer::instance()->getTankContainer().getTankById(tankId);
 	if (!tank)
 	{
 		Logger::log(0, "Message from unknown tank \"%i\"", tankId);

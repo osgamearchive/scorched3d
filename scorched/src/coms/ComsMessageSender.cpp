@@ -18,20 +18,20 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <coms/ComsMessageSender.h>
 #include <coms/ComsMessageHandler.h>
 #include <coms/NetBuffer.h>
-#include <coms/ComsGateway.h>
 #include <coms/NetServer.h>
+#include <common/Defines.h>
 #include <common/Logger.h>
-#include <tank/TankContainer.h>
+#include <client/ScorchedClient.h>
+#include <server/ScorchedServer.h>
 
 bool ComsMessageSender::sendToServer(ComsMessage &message)
 {
-	if (!ComsGateway::instance()->started()) return false;
+	if (!ScorchedClient::instance()->getNetInterface().started()) return false;
 
-	if (ComsMessageHandler::instance()->getMessageLogging())
+	if (ScorchedClient::instance()->getComsMessageHandler().getMessageLogging())
 	{
 		Logger::log(0, "sendToServer(%s)", message.getMessageType());
 	}
@@ -39,22 +39,26 @@ bool ComsMessageSender::sendToServer(ComsMessage &message)
 	NetBufferDefault::defaultBuffer.reset();
 	if (!message.writeTypeMessage(NetBufferDefault::defaultBuffer))
 	{
+		dialogMessage("ComsMessageSender::sendToServer",
+			"Failed to write message type");
 		return false;
 	}
 	if (!message.writeMessage(NetBufferDefault::defaultBuffer))
 	{
+		dialogMessage("ComsMessageSender::sendToServer",
+			"Failed to write message");
 		return false;
 	}
-	ComsGateway::instance()->sendMessage(NetBufferDefault::defaultBuffer);
+	ScorchedClient::instance()->getNetInterface().sendMessage(NetBufferDefault::defaultBuffer);
 	return true;
 }
 
 bool ComsMessageSender::sendToSingleClient(ComsMessage &message,
-						TCPsocket destination)
+						unsigned int destination)
 {
-	if (!ComsGateway::instance()->started()) return false;
+	if (!ScorchedServer::instance()->getNetInterface().started()) return false;
 
-	if (ComsMessageHandler::instance()->getMessageLogging())
+	if (ScorchedServer::instance()->getComsMessageHandler().getMessageLogging())
 	{
 		Logger::log(0, "sendToSingleClient(%s, %i)", 
 					message.getMessageType(),
@@ -62,19 +66,24 @@ bool ComsMessageSender::sendToSingleClient(ComsMessage &message,
 	}
 
 	unsigned int playerId = (unsigned int) destination;
-	Tank *tank = TankContainer::instance()->getTankById(playerId);
+	Tank *tank = 
+		ScorchedServer::instance()->getTankContainer().getTankById(playerId);
 	if (tank && tank->getTankAI()) return true;
 
 	NetBufferDefault::defaultBuffer.reset();
 	if (!message.writeTypeMessage(NetBufferDefault::defaultBuffer))
 	{
+		dialogMessage("ComsMessageSender::sendToSingleClient",
+			"Failed to write message");
 		return false;
 	}
 	if (!message.writeMessage(NetBufferDefault::defaultBuffer))
 	{
+		dialogMessage("ComsMessageSender::sendToSingleClient",
+			"Failed to write message");
 		return false;
 	}
-	ComsGateway::instance()->sendMessage(NetBufferDefault::defaultBuffer,
+	ScorchedServer::instance()->getNetInterface().sendMessage(NetBufferDefault::defaultBuffer,
 		destination);
 	return true;
 }
@@ -85,14 +94,13 @@ bool ComsMessageSender::sendToAllConnectedClients(ComsMessage &message)
 
 	std::map<unsigned int, Tank *>::iterator itor;
 	std::map<unsigned int, Tank *> &tanks = 
-		TankContainer::instance()->getPlayingTanks();
+		ScorchedServer::instance()->getTankContainer().getPlayingTanks();
 	for (itor = tanks.begin();
 		itor != tanks.end();
 		itor++)
 	{
 		Tank *tank = (*itor).second;
-		TCPsocket socket = (TCPsocket) tank->getPlayerId();
-		if (!sendToSingleClient(message, socket))
+		if (!sendToSingleClient(message, tank->getPlayerId()))
 		{
 			result = false;
 		}
@@ -107,7 +115,7 @@ bool ComsMessageSender::sendToAllPlayingClients(ComsMessage &message)
 
 	std::map<unsigned int, Tank *>::iterator itor;
 	std::map<unsigned int, Tank *> &tanks = 
-		TankContainer::instance()->getPlayingTanks();
+		ScorchedServer::instance()->getTankContainer().getPlayingTanks();
 	for (itor = tanks.begin();
 		itor != tanks.end();
 		itor++)
@@ -115,8 +123,7 @@ bool ComsMessageSender::sendToAllPlayingClients(ComsMessage &message)
 		Tank *tank = (*itor).second;
 		if (tank->getState().getState() != TankState::sPending)
 		{
-			TCPsocket socket = (TCPsocket) tank->getPlayerId();
-			if (!sendToSingleClient(message, socket))
+			if (!sendToSingleClient(message, tank->getPlayerId()))
 			{
 				result = false;
 			}

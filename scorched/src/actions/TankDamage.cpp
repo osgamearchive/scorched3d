@@ -18,13 +18,10 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <actions/TankDamage.h>
 #include <actions/TankDead.h>
 #include <actions/TankFalling.h>
-#include <tank/TankContainer.h>
-#include <engine/ActionController.h>
-#include <landscape/GlobalHMap.h>
+#include <engine/ScorchedContext.h>
 
 REGISTER_ACTION_SOURCE(TankDamage);
 
@@ -57,7 +54,7 @@ void TankDamage::simulate(float frameTime, bool &remove)
 
 		// Find the tank that has been damaged
 		Tank *damagedTank = 
-			TankContainer::instance()->getTankById(damagedPlayerId_);
+			context_->tankContainer.getTankById(damagedPlayerId_);
 		if (damagedTank)
 		{
 			if (damagedTank->getState().getState() == TankState::sNormal)
@@ -98,7 +95,7 @@ void TankDamage::simulate(float frameTime, bool &remove)
 						// The tank has died, make it blow up etc...
 						TankDead *deadTank = 
 							new TankDead(weapon_, damagedPlayerId_, firedPlayerId_);
-						ActionController::instance()->addAction(deadTank);
+						context_->actionController.addAction(deadTank);
 					}
 				}
 
@@ -108,7 +105,7 @@ void TankDamage::simulate(float frameTime, bool &remove)
 
 				// The tank is not dead check if it needs to fall
 				Vector &position = damagedTank->getPhysics().getTankPosition();
-				if (GlobalHMap::instance()->getHMap().
+				if (context_->landscapeMaps.getHMap().
 					getInterpHeight(position[0], position[1]) < position[2])
 				{
 					// Check this tank is not already falling
@@ -119,7 +116,7 @@ void TankDamage::simulate(float frameTime, bool &remove)
 						TankFalling::fallingTanks.insert(damagedPlayerId_);
 
 						// Tank falling
-						ActionController::instance()->addAction(
+						context_->actionController.addAction(
 							new TankFalling(weapon_, damagedPlayerId_, firedPlayerId_));
 					}
 				}

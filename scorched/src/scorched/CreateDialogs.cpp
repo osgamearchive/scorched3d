@@ -18,10 +18,10 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <scorched/MainDialog.h>
 #include <scorched/ServerDialog.h>
 #include <server/ServerMain.h>
+#include <server/ScorchedServer.h>
 #include <common/OptionsParam.h>
 #include <common/OptionsGame.h>
 #include <wx/wx.h>
@@ -46,7 +46,7 @@ bool ScorchedApp::OnInit()
 			return false;
 		}
 
-		OptionsGame::instance()->readOptionsFromFile(
+		ScorchedServer::instance()->getOptionsGame().readOptionsFromFile(
 			(char *) OptionsParam::instance()->getServerFile());
 
   		// Run the server

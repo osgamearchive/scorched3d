@@ -20,7 +20,7 @@
 
 #include <XML/XMLStringBuffer.h>
 #include <client/ServerBrowserServerList.h>
-#include <common/OptionsGame.h>
+#include <client/ScorchedClient.h>
 #include <common/Logger.h>
 #include <time.h>
 
@@ -58,7 +58,7 @@ ServerBrowserServerList::ServerBrowserServerList() :
 		"User-Agent: Scorched3D\r\n"
 		"\r\n"
 		"\r\n",
-		OptionsGame::instance()->getMasterListServerURI());
+		ScorchedClient::instance()->getOptionsGame().getMasterListServerURI());
 	sendNetBuffer_.addDataToBuffer(buffer, strlen(buffer)); // Note no null
 
 	// All messages will come to this class
@@ -86,7 +86,7 @@ bool ServerBrowserServerList::fetchServerList()
 	SDL_UnlockMutex(vectorMutex_);
 
 	// Connect to the master server
-	if (!netServer_.connect(OptionsGame::instance()->getMasterListServer(), 80))
+	if (!netServer_.connect(ScorchedClient::instance()->getOptionsGame().getMasterListServer(), 80))
 	{
 		Logger::log(0, "Failed to contact registration server");
 		return false;

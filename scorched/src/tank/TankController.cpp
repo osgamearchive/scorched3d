@@ -18,28 +18,19 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// TankController.cpp: implementation of the TankController class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <tank/TankController.h>
-#include <tank/TankContainer.h>
 #include <common/Vector.h>
 #include <engine/ActionController.h>
 #include <actions/TankDamage.h>
 
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
-
-void TankController::explosion(Weapon *weapon, unsigned int firer, 
+void TankController::explosion(ScorchedContext &context,
+							   Weapon *weapon, unsigned int firer, 
 							   Vector &position, float radius,
 							   bool noDamage)
 {
 	std::map<unsigned int, Tank *>::iterator itor;
 	std::map<unsigned int, Tank *> &tanks = 
-		TankContainer::instance()->getPlayingTanks();
+		context.tankContainer.getPlayingTanks();
 	for (itor = tanks.begin();
 		itor != tanks.end();
 		itor++)
@@ -63,18 +54,19 @@ void TankController::explosion(Weapon *weapon, unsigned int firer,
 				damage = 100.0f - damage;
 			}
 
-			if (noDamage) damageTank(current, weapon, firer, 0);
-			else damageTank(current, weapon, firer, damage);
+			if (noDamage) damageTank(context, current, weapon, firer, 0);
+			else damageTank(context, current, weapon, firer, damage);
 		}
 		else if (dist2d < radius + 5.0f)
 		{
 			// explosion under tank
-			damageTank(current, weapon, firer, 0);
+			damageTank(context, current, weapon, firer, 0);
 		}
 	}
 }
 
-void TankController::damageTank(Tank *tank, Weapon *weapon, 
+void TankController::damageTank(ScorchedContext &context,
+								Tank *tank, Weapon *weapon, 
 								unsigned int firer, float damage,
 								bool useShieldDamage)
 {
@@ -82,5 +74,5 @@ void TankController::damageTank(Tank *tank, Weapon *weapon,
 	TankDamage *tankDamage = new TankDamage(
 		weapon, tank->getPlayerId(), firer, 
 		damage, useShieldDamage);
-	ActionController::instance()->addAction(tankDamage);
+	context.actionController.addAction(tankDamage);
 }

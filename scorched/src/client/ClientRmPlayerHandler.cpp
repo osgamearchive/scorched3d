@@ -18,10 +18,9 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
+#include <client/ScorchedClient.h>
 #include <client/ClientRmPlayerHandler.h>
 #include <client/ClientState.h>
-#include <tank/TankContainer.h>
 #include <common/Logger.h>
 #include <coms/ComsRmPlayerMessage.h>
 
@@ -38,7 +37,7 @@ ClientRmPlayerHandler *ClientRmPlayerHandler::instance()
 
 ClientRmPlayerHandler::ClientRmPlayerHandler()
 {
-	ComsMessageHandler::instance()->addHandler(
+	ScorchedClient::instance()->getComsMessageHandler().addHandler(
 		"ComsRmPlayerMessage",
 		this);
 }
@@ -47,7 +46,7 @@ ClientRmPlayerHandler::~ClientRmPlayerHandler()
 {
 }
 
-bool ClientRmPlayerHandler::processMessage(NetPlayerID &id,
+bool ClientRmPlayerHandler::processMessage(unsigned int id,
 		const char *messageType,
 		NetBufferReader &reader)
 {
@@ -55,7 +54,7 @@ bool ClientRmPlayerHandler::processMessage(NetPlayerID &id,
 	if (!message.readMessage(reader)) return false;
 
 	// Find and remove this tank from tank collections
-	Tank *tank = TankContainer::instance()->
+	Tank *tank = ScorchedClient::instance()->getTankContainer().
 		removeTank(message.getPlayerId());
 	if (!tank)
 	{

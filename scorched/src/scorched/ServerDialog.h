@@ -27,7 +27,7 @@ class Tank;
 
 void showServerDialog();
 
-void sendString(NetPlayerID dest, const char *fmt, ...);
-void kickPlayer(NetPlayerID id);
+void sendString(unsigned int dest, const char *fmt, ...);
+void kickPlayer(unsigned int id);
 
 #endif

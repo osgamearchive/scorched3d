@@ -57,5 +57,5 @@ void ClientMessageHandler::clientDisconnected(NetMessage &message)
 void ClientMessageHandler::clientError(NetMessage &message,
 		const char *errorString)
 {
-	Logger::log(0, "***Error*** \"%s\"", errorString);
+	Logger::log(0, "***Client Error*** \"%s\"", errorString);
 }

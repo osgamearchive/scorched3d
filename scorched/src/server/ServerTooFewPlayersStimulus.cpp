@@ -18,12 +18,11 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <server/ServerTooFewPlayersStimulus.h>
+#include <server/ScorchedServer.h>
 #include <scorched/ServerDialog.h>
 #include <coms/ComsGameStoppedMessage.h>
 #include <coms/ComsMessageSender.h>
-#include <tank/TankContainer.h>
 #include <common/OptionsGame.h>
 #include <common/Logger.h>
 
@@ -41,11 +40,11 @@ bool ServerTooFewPlayersStimulus::acceptStateChange(const unsigned state,
 													const unsigned nextState,
 													float frameTime)
 {
-	if (TankContainer::instance()->getNoOfTanks() <
-		OptionsGame::instance()->getNoMinPlayers())
+	if (ScorchedServer::instance()->getTankContainer().getNoOfTanks() <
+		ScorchedServer::instance()->getOptionsGame().getNoMinPlayers())
 	{
 		// Move all dead + alive tanks to pending
-		TankContainer::instance()->resetTanks();
+		ScorchedServer::instance()->getTankContainer().resetTanks();
 
 		// Tell any clients why the game has been abandonded
 		ComsGameStoppedMessage gameStopped;
@@ -63,11 +62,11 @@ bool ServerTooFewPlayersStimulus::acceptStateChange(const unsigned state,
 			"game will start.\n"
 			"Waiting for more players to join...\n"
 			"--------------------------------------\n",
-			TankContainer::instance()->getNoOfTanks(),
-			OptionsGame::instance()->getNoMaxPlayers(),
-			OptionsGame::instance()->getNoMinPlayers(),
-			OptionsGame::instance()->getNoMinPlayers() - 
-			TankContainer::instance()->getNoOfTanks());
+			ScorchedServer::instance()->getTankContainer().getNoOfTanks(),
+			ScorchedServer::instance()->getOptionsGame().getNoMaxPlayers(),
+			ScorchedServer::instance()->getOptionsGame().getNoMinPlayers(),
+			ScorchedServer::instance()->getOptionsGame().getNoMinPlayers() - 
+			ScorchedServer::instance()->getTankContainer().getNoOfTanks());
 
 		return true;
 	}

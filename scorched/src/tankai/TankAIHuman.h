@@ -26,7 +26,7 @@
 class TankAIHuman : public TankAI
 {
 public:
-	TankAIHuman(Tank *tank);
+	TankAIHuman(ScorchedContext *context, Tank *tank);
 	virtual ~TankAIHuman();
 
 	virtual bool isHuman() { return true; }

@@ -24,6 +24,7 @@
 #include <stdio.h>
 #include <string>
 #include <list>
+#include <tank/TankContainer.h>
 
 class LoggerI
 {
@@ -71,7 +72,7 @@ private:
 class FileLogger : public LoggerI
 {
 public:
-	FileLogger(const char *fileName);
+	FileLogger(TankContainer &tankContainer, const char *fileName);
 	virtual ~FileLogger();
 
 	virtual void logMessage(
@@ -82,6 +83,7 @@ public:
 protected:
 	std::string fileName_;
 	FILE *logFile_;
+	TankContainer &tankContainer_;
 	unsigned int lines_;
 
 	void openFile(const char *fileName);

@@ -29,8 +29,8 @@ public:
 	NetServerProtocol();
 	virtual ~NetServerProtocol();
 
-	virtual bool sendBuffer(NetBuffer &buffer, TCPsocket &socket) = 0;
-	virtual NetMessage *readBuffer(TCPsocket &socket) = 0;
+	virtual bool sendBuffer(NetBuffer &buffer, TCPsocket socket) = 0;
+	virtual NetMessage *readBuffer(TCPsocket socket) = 0;
 };
 
 class NetServerScorchedProtocol : public NetServerProtocol
@@ -39,8 +39,8 @@ public:
 	NetServerScorchedProtocol();
 	virtual ~NetServerScorchedProtocol();
 
-	virtual bool sendBuffer(NetBuffer &buffer, TCPsocket &socket);
-	virtual NetMessage *readBuffer(TCPsocket &socket);
+	virtual bool sendBuffer(NetBuffer &buffer, TCPsocket socket);
+	virtual NetMessage *readBuffer(TCPsocket socket);
 };
 
 class NetServerHTTPProtocol : public NetServerProtocol
@@ -49,8 +49,8 @@ public:
 	NetServerHTTPProtocol();
 	virtual ~NetServerHTTPProtocol();
 
-	virtual bool sendBuffer(NetBuffer &buffer, TCPsocket &socket);
-	virtual NetMessage *readBuffer(TCPsocket &socket);
+	virtual bool sendBuffer(NetBuffer &buffer, TCPsocket socket);
+	virtual NetMessage *readBuffer(TCPsocket socket);
 };
 
 #endif

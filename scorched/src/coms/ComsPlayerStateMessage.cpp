@@ -18,7 +18,8 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
+#include <client/ScorchedClient.h>
+#include <server/ScorchedServer.h>
 #include <coms/ComsPlayerStateMessage.h>
 #include <tank/TankContainer.h>
 
@@ -36,7 +37,7 @@ ComsPlayerStateMessage::~ComsPlayerStateMessage()
 bool ComsPlayerStateMessage::writeMessage(NetBuffer &buffer)
 {
 	std::map<unsigned int, Tank *> &tanks = 
-		TankContainer::instance()->getPlayingTanks();
+		ScorchedServer::instance()->getTankContainer().getPlayingTanks();
 	std::map<unsigned int, Tank *>::iterator itor;
 
 	// Add count
@@ -63,7 +64,7 @@ bool ComsPlayerStateMessage::readMessage(NetBufferReader &reader)
 	{
 		unsigned int playerId;
 		if (!reader.getFromBuffer(playerId)) return false;
-		Tank *tank = TankContainer::instance()->
+		Tank *tank = ScorchedClient::instance()->getTankContainer().
 			getTankById(playerId);
 		if (tank)
 		{

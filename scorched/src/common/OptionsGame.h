@@ -18,7 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #if !defined(__INCLUDE_OptionsGameh_INCLUDE__)
 #define __INCLUDE_OptionsGameh_INCLUDE__
 
@@ -28,7 +27,8 @@
 class OptionsGame
 {
 public:
-	static OptionsGame *instance();
+	OptionsGame();
+	virtual ~OptionsGame();
 
 	enum WindForce
 	{
@@ -176,7 +176,6 @@ public:
 	std::list<OptionEntry *> &getOptions();
 
 protected:
-	static OptionsGame *instance_;
 	std::list<OptionEntry *> options_;
 	std::list<OptionEntry *> playerTypeOptions_;
 
@@ -218,10 +217,6 @@ protected:
 	OptionEntryInt portNo_;
 	OptionEntryString publishAddress_;
 	OptionEntryBool publishServer_;
-
-private:
-	OptionsGame();
-	virtual ~OptionsGame();
 
 };
 

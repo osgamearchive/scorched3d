@@ -37,7 +37,7 @@ ClientScoreHandler *ClientScoreHandler::instance()
 
 ClientScoreHandler::ClientScoreHandler()
 {
-	ComsMessageHandler::instance()->addHandler(
+	ScorchedClient::instance()->getComsMessageHandler().addHandler(
 		"ComsScoreMessage",
 		this);
 }
@@ -46,7 +46,7 @@ ClientScoreHandler::~ClientScoreHandler()
 {
 }
 
-bool ClientScoreHandler::processMessage(NetPlayerID &id,
+bool ClientScoreHandler::processMessage(unsigned int id,
 	const char *messageType,
 	NetBufferReader &reader)
 {

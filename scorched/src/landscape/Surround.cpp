@@ -18,24 +18,16 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// Surround.cpp: implementation of the Surround class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <landscape/Surround.h>
 #include <landscape/Hemisphere.h>
 #include <GLEXT/GLBitmap.h>
 #include <GLEXT/GLState.h>
 #include <client/MainCamera.h>
+#include <client/ScorchedClient.h>
 #include <common/OptionsDisplay.h>
 #include <common/OptionsTransient.h>
 #include <common/FileList.h>
 #include <common/Resources.h>
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 Surround::Surround(SurroundDefs &defs) : xy_(0.0f), 
 	cloudSpeed_(500.0f), cloudDirection_(0.0f)
@@ -54,8 +46,8 @@ void Surround::simulate(float frameTime)
 
 	float fastSpeed = 100;
 	float slowSpeed = 500;
-	float currentSpeed = OptionsTransient::instance()->getWindSpeed();
-	float wantedAngle = 180.0f-OptionsTransient::instance()->getWindAngle();
+	float currentSpeed = ScorchedClient::instance()->getOptionsTransient().getWindSpeed();
+	float wantedAngle = 180.0f-ScorchedClient::instance()->getOptionsTransient().getWindAngle();
 	float wantedSpeed = (((5.0f - currentSpeed) / 5.0f) * (slowSpeed - fastSpeed)) + fastSpeed;
 
 	// Move the cloud layer

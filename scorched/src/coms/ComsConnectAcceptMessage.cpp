@@ -18,7 +18,8 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
+#include <client/ScorchedClient.h>
+#include <server/ScorchedServer.h>
 #include <coms/ComsConnectAcceptMessage.h>
 #include <weapons/AccessoryStore.h>
 #include <common/OptionsGame.h>
@@ -44,7 +45,7 @@ bool ComsConnectAcceptMessage::writeMessage(NetBuffer &buffer)
 	buffer.addToBuffer(serverName_.c_str());
 	buffer.addToBuffer(motd_.c_str());
 	buffer.addToBuffer(clientId_);
-	if (!OptionsGame::instance()->writeToBuffer(buffer)) return false;
+	if (!ScorchedServer::instance()->getOptionsGame().writeToBuffer(buffer)) return false;
 	if (!AccessoryStore::instance()->writeToBuffer(buffer)) return false;
 	
 	return true;
@@ -55,7 +56,7 @@ bool ComsConnectAcceptMessage::readMessage(NetBufferReader &reader)
 	if (!reader.getFromBuffer(serverName_)) return false;
 	if (!reader.getFromBuffer(motd_)) return false;
 	if (!reader.getFromBuffer(clientId_)) return false;
-	if (!OptionsGame::instance()->readFromBuffer(reader)) return false;
+	if (!ScorchedClient::instance()->getOptionsGame().readFromBuffer(reader)) return false;
 	if (!AccessoryStore::instance()->readFromBuffer(reader)) return false;
 
 	return true;

@@ -18,18 +18,15 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
+#include <server/ScorchedServer.h>
 #include <server/ServerShotState.h>
 #include <server/ServerState.h>
 #include <server/ServerShotHolder.h>
-#include <tank/TankContainer.h>
 #include <tank/TankStart.h>
 #include <coms/ComsActionsMessage.h>
 #include <coms/ComsMessageSender.h>
 #include <common/OptionsGame.h>
 #include <common/Logger.h>
-#include <landscape/GlobalHMap.h>
-#include <engine/ActionController.h>
 
 ServerShotState::ServerShotState()
 {
@@ -44,8 +41,8 @@ void ServerShotState::enterState(const unsigned state)
 	Logger::log(0, "Playing Shots");
 
 	// Reset the counts in the action controller
-	ActionController::instance()->resetTime();
-	ActionController::instance()->clear();
+	ScorchedServer::instance()->getActionController().resetTime();
+	ScorchedServer::instance()->getActionController().clear();
 
 	// Add all shots to the action controller
 	ServerShotHolder::instance()->playShots();
@@ -59,7 +56,7 @@ bool ServerShotState::acceptStateChange(const unsigned state,
 		const unsigned nextState,
 		float frameTime)
 {
-	if (!ActionController::instance()->noReferencedActions())
+	if (!ScorchedServer::instance()->getActionController().noReferencedActions())
 	{
 		// The action controller will now have shots to simulate
 		// We continue simulation until there are no actions left
@@ -68,13 +65,14 @@ bool ServerShotState::acceptStateChange(const unsigned state,
 		stepActions(state, maxSingleSimTime);
 
 		// All the actions have finished
-		if (ActionController::instance()->noReferencedActions() &&
-			TankContainer::instance()->aliveCount() < 2)
+		if (ScorchedServer::instance()->getActionController().noReferencedActions() &&
+			ScorchedServer::instance()->getTankContainer().aliveCount() < 2)
 		{
 			// The actual state transition for no tanks left is done
 			// in the next round state however
 			// score the last remaining tanks here as it is an action
-			TankStart::scoreWinners();
+			TankStart::scoreWinners(
+				ScorchedServer::instance()->getContext());
 
 			// Make sure all actions have been executed
 			stepActions(state, 120.0f);
@@ -119,9 +117,9 @@ void ServerShotState::stepActions(unsigned int state, float maxSingleSimTime)
 {
 	const float stepTime = 0.02f;
 	float currentTime = 0.0f;
-	while (!ActionController::instance()->noReferencedActions())
+	while (!ScorchedServer::instance()->getActionController().noReferencedActions())
 	{
-		ActionController::instance()->simulate(state, stepTime);
+		ScorchedServer::instance()->getActionController().simulate(state, stepTime);
 		totalTime_ += stepTime;
 		currentTime += stepTime;
 		if (currentTime > maxSingleSimTime) break;

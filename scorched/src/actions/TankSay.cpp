@@ -18,11 +18,9 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <actions/TankSay.h>
-#include <tank/TankContainer.h>
 #include <sprites/TalkRenderer.h>
-#include <engine/ActionController.h>
+#include <engine/ScorchedContext.h>
 #include <common/Defines.h>
 #include <common/OptionsParam.h>
 #include <common/Logger.h>
@@ -47,7 +45,7 @@ TankSay::~TankSay()
 void TankSay::init()
 {
 	Tank *tank = 
-		TankContainer::instance()->getTankById(playerId_);
+		context_->tankContainer.getTankById(playerId_);
 	if (tank)
 	{
 		if (!OptionsParam::instance()->getOnServer()) 
@@ -55,7 +53,7 @@ void TankSay::init()
 			// put a speach bubble over the talking tank
 			TalkRenderer *talk = new TalkRenderer(
 				tank->getPhysics().getTankTurretPosition());
-			ActionController::instance()->addAction(new SpriteAction(talk));
+			context_->actionController.addAction(new SpriteAction(talk));
 		}
 
 		Logger::log(tank->getPlayerId(), text_.c_str());

@@ -18,11 +18,10 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <client/ClientConnectionAcceptHandler.h>
+#include <client/ScorchedClient.h>
 #include <coms/ComsConnectAcceptMessage.h>
 #include <common/Logger.h>
-#include <tank/TankContainer.h>
 
 ClientConnectionAcceptHandler *ClientConnectionAcceptHandler::instance_ = 0;
 
@@ -38,7 +37,7 @@ ClientConnectionAcceptHandler *ClientConnectionAcceptHandler::instance()
 
 ClientConnectionAcceptHandler::ClientConnectionAcceptHandler()
 {
-	ComsMessageHandler::instance()->addHandler(
+	ScorchedClient::instance()->getComsMessageHandler().addHandler(
 		"ComsConnectAcceptMessage",
 		this);
 }
@@ -48,7 +47,7 @@ ClientConnectionAcceptHandler::~ClientConnectionAcceptHandler()
 
 }
 
-bool ClientConnectionAcceptHandler::processMessage(NetPlayerID &id,
+bool ClientConnectionAcceptHandler::processMessage(unsigned int id,
 												   const char *messageType,
 												   NetBufferReader &reader)
 {
@@ -56,7 +55,7 @@ bool ClientConnectionAcceptHandler::processMessage(NetPlayerID &id,
 	if (!message.readMessage(reader)) return false;
 
 	// need to store this client id somewhere
-	TankContainer::instance()->setCurrentPlayerId(message.getClientId());
+	ScorchedClient::instance()->getTankContainer().setCurrentPlayerId(message.getClientId());
 
 	// Add connection info to the dialogs
 	Logger::log(0,

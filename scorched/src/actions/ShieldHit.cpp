@@ -18,11 +18,10 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <actions/ShieldHit.h>
 #include <common/SoundStore.h>
 #include <common/OptionsParam.h>
-#include <tank/TankContainer.h>
+#include <engine/ScorchedContext.h>
 
 REGISTER_ACTION_SOURCE(ShieldHit);
 
@@ -52,7 +51,7 @@ void ShieldHit::simulate(float frameTime, bool &remove)
 		firstTime_ = false;
 
 		Tank *tank = 
-			TankContainer::instance()->getTankById(playerId_);
+			context_->tankContainer.getTankById(playerId_);
 		if (tank)
 		{
 			Shield *shield = 

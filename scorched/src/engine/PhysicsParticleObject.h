@@ -31,7 +31,7 @@ public:
 	PhysicsParticleObject();
 	virtual ~PhysicsParticleObject();
 
-	void setPhysics(Vector &position, Vector &velocity);
+	void setPhysics(PhysicsEngine &engine, Vector &position, Vector &velocity);
 
 	Vector &getPosition();
 	Vector &getVelocity();

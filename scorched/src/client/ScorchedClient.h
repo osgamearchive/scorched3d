@@ -18,12 +18,11 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #if !defined(__INCLUDE_ScorchedClienth_INCLUDE__)
 #define __INCLUDE_ScorchedClienth_INCLUDE__
 
-#include <engine/GameState.h>
 #include <engine/MainLoop.h>
+#include <engine/ScorchedContext.h>
 
 class ScorchedClient
 {
@@ -31,12 +30,20 @@ public:
 	static ScorchedClient *instance();
 
 	MainLoop &getMainLoop() { return mainLoop_; }
-	GameState &getGameState() { return gameState_; }
+	GameState &getGameState() { return context_.gameState; }
+	TankContainer &getTankContainer() { return context_.tankContainer; }
+	ActionController &getActionController() { return context_.actionController; }
+	LandscapeMaps &getLandscapeMaps() { return context_.landscapeMaps; }
+	ScorchedContext &getContext() { return context_; }
+	NetInterface &getNetInterface() { return *context_.netInterface; }
+	OptionsGame &getOptionsGame() { return context_.optionsGame; }
+	OptionsTransient &getOptionsTransient() { return context_.optionsTransient; }
+	ComsMessageHandler &getComsMessageHandler() { return context_.comsMessageHandler; }
 
 protected:
 	static ScorchedClient *instance_;
 	MainLoop mainLoop_;
-	GameState gameState_;
+	ScorchedContext context_;
 
 private:
 	ScorchedClient();

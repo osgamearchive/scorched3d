@@ -18,13 +18,11 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <dialogs/KillDialog.h>
 #include <GLW/GLWTextButton.h>
 #include <GLW/GLWLabel.h>
 #include <common/WindowManager.h>
 #include <client/ScorchedClient.h>
-#include <tank/TankContainer.h>
 
 KillDialog *KillDialog::instance_ = 0;
 
@@ -62,7 +60,7 @@ void KillDialog::buttonDown(unsigned int id)
 	{
 		std::map<unsigned int, Tank *>::iterator itor;
 		std::map<unsigned int, Tank *> &tanks = 
-			TankContainer::instance()->getPlayingTanks();
+			ScorchedClient::instance()->getTankContainer().getPlayingTanks();
 		for (itor = tanks.begin();
 			itor != tanks.end();
 			itor++)

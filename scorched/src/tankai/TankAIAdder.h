@@ -18,13 +18,14 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #if !defined(__INCLUDE_TankAIAdderh_INCLUDE__)
 #define __INCLUDE_TankAIAdderh_INCLUDE__
 
+#include <engine/ScorchedContext.h>
+
 namespace TankAIAdder
 {
-	void addTankAIs();
+	void addTankAIs(ScorchedContext &context);
 };
 
 

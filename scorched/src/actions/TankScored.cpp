@@ -18,10 +18,9 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <actions/TankScored.h>
 #include <sprites/TextActionRenderer.h>
-#include <tank/TankContainer.h>
+#include <engine/ScorchedContext.h>
 #include <common/Defines.h>
 #include <common/OptionsParam.h>
 #include <common/Logger.h>
@@ -50,7 +49,7 @@ TankScored::~TankScored()
 void TankScored::init()
 {
 	Tank *tank = 
-		TankContainer::instance()->getTankById(playerId_);
+		context_->tankContainer.getTankById(playerId_);
 	if (tank)
 	{
 		if (!OptionsParam::instance()->getOnServer()) 
@@ -88,7 +87,7 @@ void TankScored::simulate(float frameTime, bool &remove)
 	{
 		firstTime_ = false;
 		Tank *tank = 
-			TankContainer::instance()->getTankById(playerId_);
+			context_->tankContainer.getTankById(playerId_);
 		if (tank)
 		{
 			tank->getScore().setMoney(tank->getScore().getMoney() + moneyDiff_);

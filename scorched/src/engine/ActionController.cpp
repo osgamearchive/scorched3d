@@ -18,33 +18,13 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// ActionController.cpp: implementation of the ActionController class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <engine/ActionController.h>
+#include <landscape/HeightMapCollision.h>
 #include <common/OptionsParam.h>
 #include <list>
 
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
-
-ActionController *ActionController::instance_ = 0;
-
-ActionController *ActionController::instance()
-{
-	if (!instance_)
-	{
-		instance_ = new ActionController;
-	}
-
-	return instance_;
-}
-
 ActionController::ActionController() : 
-	speed_(1.0f), referenceCount_(0), time_(0.0f)
+	speed_(1.0f), referenceCount_(0), time_(0.0f), context_(0)
 {
 
 }
@@ -95,6 +75,11 @@ void ActionController::resetTime()
 	time_ = 0.0f;
 }
 
+void ActionController::setScorchedContext(ScorchedContext *context)
+{
+	context_ = context;
+}
+
 void ActionController::setFast(float speedMult)
 {
 	speed_ = speedMult;
@@ -102,6 +87,7 @@ void ActionController::setFast(float speedMult)
 
 void ActionController::addAction(Action *action)
 {
+	action->setScorchedContext(context_);
 	newActions_.push_back(action);
 }
 
@@ -114,6 +100,7 @@ void ActionController::addNewActions()
 		while (action)
 		{
 			referenceCount_++;
+			action->setScorchedContext(context_);
 			action->init();
 			actions_.insert(action);
 			action = buffer_.getActionForTime(time_);
@@ -188,6 +175,7 @@ void ActionController::simulate(const unsigned state, float frameTime)
 	// step size = 33 fps
 	const float stepSize = 0.033f;
 
+	HeightMapCollision::setContext(context_);
 	while (timePassed >= stepSize)
 	{
 		time_ += stepSize;

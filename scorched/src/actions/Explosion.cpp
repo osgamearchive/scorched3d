@@ -18,9 +18,7 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <tank/TankController.h>
-#include <tank/TankContainer.h>
 #include <common/OptionsGame.h>
 #include <common/SoundStore.h>
 #include <common/OptionsParam.h>
@@ -28,7 +26,7 @@
 #include <weapons/WeaponProjectile.h>
 #include <actions/Explosion.h>
 #include <actions/ShotProjectile.h>
-#include <engine/ActionController.h>
+#include <engine/ScorchedContext.h>
 #include <landscape/DeformLandscape.h>
 #include <landscape/DeformTextures.h>
 #include <sprites/ExplosionRenderer.h>
@@ -61,7 +59,7 @@ Explosion::~Explosion()
 
 void Explosion::draw()
 {
-	if (TankContainer::instance()->getCurrentPlayerId() == playerId_)
+	if (context_->tankContainer.getCurrentPlayerId() == playerId_)
 	{
 		ShotProjectile::getLookAtPosition() += position_;
 		ShotProjectile::getLookAtCount()++;
@@ -72,7 +70,7 @@ void Explosion::draw()
 
 void Explosion::init()
 {
-	float multiplier = float(((int) OptionsGame::instance()->getWeapScale()) - 
+	float multiplier = float(((int) context_->optionsGame.getWeapScale()) - 
 							 OptionsGame::ScaleMedium);
 	multiplier *= 0.5f;
 	multiplier += 1.0f;
@@ -95,7 +93,7 @@ void Explosion::init()
 				explosionSize, explosionHurts_));
 		if (width_ >=17 && deformType_==DeformDown)
 		{
-			ActionController::instance()->addAction(
+			context_->actionController.addAction(
 				new SpriteAction(new ExplosionNukeRenderer(position_, float(width_ - 2))));
 		}
 	}
@@ -126,7 +124,7 @@ void Explosion::simulate(float frameTime, bool &remove)
 		{
 			// Get the actual explosion size
 			float multiplier = 
-				float(((int) OptionsGame::instance()->getWeapScale()) - 
+				float(((int) context_->optionsGame.getWeapScale()) - 
 					OptionsGame::ScaleMedium);
 			multiplier *= 0.5f;
 			multiplier += 1.0f;
@@ -134,7 +132,9 @@ void Explosion::simulate(float frameTime, bool &remove)
 
 			// Remove areas from the height map
 			static DeformLandscape::DeformPoints map;
-			if (DeformLandscape::deformLandscape(position_, explosionSize, 
+			if (DeformLandscape::deformLandscape(
+				*context_,
+				position_, explosionSize, 
 				(deformType_ == DeformDown), map))
 			{
 				if (!OptionsParam::instance()->getOnServer()) 
@@ -146,7 +146,9 @@ void Explosion::simulate(float frameTime, bool &remove)
 		}
 
 		// Check the tanks for damage
-		TankController::explosion(weapon_, playerId_, 
+		TankController::explosion(
+			*context_,
+			weapon_, playerId_, 
 			position_, width_ , !explosionHurts_);
 	}
 

@@ -18,14 +18,13 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
+#include <wx/wx.h>
+#include <wx/image.h>
+#include <client/ScorchedClient.h>
 #include <scorched/MainDialog.h>
 #include <scorched/SettingsDialog.h>
 #include <common/Defines.h>
-#include <common/OptionsGame.h>
 #include <common/OptionsParam.h>
-#include <wx/wx.h>
-#include <wx/image.h>
 
 extern char scorched3dAppName[128];
 static char *easyFilePath = PKGDIR "data/singleeasy.xml";
@@ -105,35 +104,35 @@ SingleFrame::SingleFrame() :
 
 void SingleFrame::onEasyButton()
 {
-	OptionsGame::instance()->readOptionsFromFile(easyFilePath);
-	OptionsGame::instance()->writeOptionsToFile(easyFilePath);
+	ScorchedClient::instance()->getOptionsGame().readOptionsFromFile(easyFilePath);
+	ScorchedClient::instance()->getOptionsGame().writeOptionsToFile(easyFilePath);
 	OptionsParam::instance()->getSinglePlayer() = true;
 	EndModal(wxID_OK);
 }
 
 void SingleFrame::onNormalButton()
 {
-	OptionsGame::instance()->readOptionsFromFile(normalFilePath);
-	OptionsGame::instance()->writeOptionsToFile(normalFilePath);
+	ScorchedClient::instance()->getOptionsGame().readOptionsFromFile(normalFilePath);
+	ScorchedClient::instance()->getOptionsGame().writeOptionsToFile(normalFilePath);
 	OptionsParam::instance()->getSinglePlayer() = true;
 	EndModal(wxID_OK);
 }
 
 void SingleFrame::onHardButton()
 {
-	OptionsGame::instance()->readOptionsFromFile(hardFilePath);
-	OptionsGame::instance()->writeOptionsToFile(hardFilePath);
+	ScorchedClient::instance()->getOptionsGame().readOptionsFromFile(hardFilePath);
+	ScorchedClient::instance()->getOptionsGame().writeOptionsToFile(hardFilePath);
 	OptionsParam::instance()->getSinglePlayer() = true;
 	EndModal(wxID_OK);
 }
 
 void SingleFrame::onCustomButton()
 {
-	OptionsGame::instance()->readOptionsFromFile(customFilePath);
+	ScorchedClient::instance()->getOptionsGame().readOptionsFromFile(customFilePath);
 
-	if (showSettingsDialog(false))
+	if (showSettingsDialog(false, ScorchedClient::instance()->getContext()))
 	{
-		OptionsGame::instance()->writeOptionsToFile(customFilePath);
+		ScorchedClient::instance()->getOptionsGame().writeOptionsToFile(customFilePath);
 		OptionsParam::instance()->getSinglePlayer() = true;
 		EndModal(wxID_OK);
 	}

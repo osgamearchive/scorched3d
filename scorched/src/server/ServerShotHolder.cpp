@@ -18,9 +18,8 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
+#include <server/ScorchedServer.h>
 #include <server/ServerShotHolder.h>
-#include <tank/TankContainer.h>
 #include <tank/TankAILogic.h>
 
 ServerShotHolder *ServerShotHolder::instance_ = 0;
@@ -74,7 +73,7 @@ bool ServerShotHolder::haveShot(unsigned int playerId)
 bool ServerShotHolder::haveAllShots()
 {
 	std::map<unsigned int, Tank *> &tanks = 
-		TankContainer::instance()->getPlayingTanks();
+		ScorchedServer::instance()->getTankContainer().getPlayingTanks();
 	std::map<unsigned int, Tank *>::iterator itor;
 	for (itor = tanks.begin();
 		itor != tanks.end();
@@ -101,14 +100,16 @@ void ServerShotHolder::playShots()
 
 		// Check the tank exists for this player
 		// It may not if the player has left the game after firing.
-		Tank *tank = TankContainer::instance()->getTankById(playerId);
+		Tank *tank = ScorchedServer::instance()->getTankContainer().getTankById(playerId);
 		if (tank)
 		{
 			// This tank has now made a move, reset its missed move counter
 			tank->getScore().setMissedMoves(0);
 
 			// Actually play the move
-			TankAILogic::processPlayedMoveMessage(*message, tank);
+			TankAILogic::processPlayedMoveMessage(
+				ScorchedServer::instance()->getContext(),
+				*message, tank);
 		}
 	}
 	clearShots();

@@ -18,19 +18,10 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// ShotProjectileMirv.cpp: implementation of the ShotProjectileMirv class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <actions/ShotProjectileMirv.h>
 #include <actions/ShotProjectileExplosion.h>
-#include <engine/ActionController.h>
+#include <engine/ScorchedContext.h>
 #include <common/Defines.h>
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 REGISTER_ACTION_SOURCE(ShotProjectileMirv);
 
@@ -93,7 +84,7 @@ void ShotProjectileMirv::apex(Vector &position, Vector &currentVelocity)
 		new ShotProjectileExplosion(
 			position, currentVelocity, 
 			weapon_, playerId_, width_);
-	ActionController::instance()->addAction(newShot);
+	context_->actionController.addAction(newShot);
 
 	// Add all of the sub warheads that have a random spread
 	for (int i=0; i<noWarheads_ - 1; i++)
@@ -114,7 +105,7 @@ void ShotProjectileMirv::apex(Vector &position, Vector &currentVelocity)
 			new ShotProjectileExplosion(position, newDiff, 
 			weapon_, playerId_, width_);
 
-		ActionController::instance()->addAction(newShot);
+		context_->actionController.addAction(newShot);
 	}
 
 	ShotProjectile::collision(position);

@@ -26,10 +26,11 @@
 #include <engine/PhysicsEngine.h>
 #include <coms/NetBuffer.h>
 
+class ScorchedContext;
 class TankPhysics
 {
 public:
-	TankPhysics(unsigned int playerId);
+	TankPhysics(ScorchedContext &context, unsigned int playerId);
 	virtual ~TankPhysics();
 
 	// State change

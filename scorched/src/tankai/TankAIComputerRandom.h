@@ -32,7 +32,7 @@ public:
 
 	virtual bool parseConfig(XMLNode *node);
 	virtual const char *getName() { return "Random"; }
-	virtual TankAIComputer *getCopy(Tank *tank);
+	virtual TankAIComputer *getCopy(Tank *tank, ScorchedContext *context);
 	virtual void playMove(const unsigned state, float frameTime, 
 		char *buffer, unsigned int keyState) {};
 };

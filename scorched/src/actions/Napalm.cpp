@@ -18,9 +18,8 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <landscape/GlobalHMap.h>
 #include <landscape/Landscape.h>
-#include <tank/TankContainer.h>
+#include <engine/ScorchedContext.h>
 #include <tank/TankController.h>
 #include <actions/Napalm.h>
 #include <sprites/NapalmRenderer.h>
@@ -113,7 +112,7 @@ void Napalm::simulate(float frameTime, bool &remove)
 
 float Napalm::getHeight(int x, int y)
 {
-	GlobalHMap *hmap = GlobalHMap::instance();
+	LandscapeMaps *hmap = &context_->landscapeMaps;
 	if (x < 0 || y < 0 ||
 		x > hmap->getHMap().getWidth() ||
 		y > hmap->getHMap().getWidth())
@@ -140,7 +139,7 @@ void Napalm::simulateRmStep()
 	int y = entry->posY;
 	delete entry;
 
-	GlobalHMap::instance()->getNMap().getHeight(x, y) -= NapalmHeight;
+	context_->landscapeMaps.getNMap().getHeight(x, y) -= NapalmHeight;
 	napalmPoints_.pop_front();
 }
 
@@ -167,7 +166,7 @@ void Napalm::simulateAddStep()
 
 	// Add this current point to the napalm map
 	napalmPoints_.push_back(new NapalmEntry(x_, y_, int(RAND * 31)));
-	GlobalHMap::instance()->getNMap().getHeight(x_, y_) += NapalmHeight;
+	context_->landscapeMaps.getNMap().getHeight(x_, y_) += NapalmHeight;
 	height += NapalmHeight;
 
 	// Calculate every time as the landscape may change
@@ -228,7 +227,7 @@ void Napalm::simulateDamage()
 
 	// Get the tanks
 	std::map<unsigned int, Tank *> &tanks = 
-		TankContainer::instance()->getPlayingTanks();
+		context_->tankContainer.getPlayingTanks();
 	std::map<unsigned int, Tank *>::iterator tankItor;
 	std::map<unsigned int, Tank *>::iterator endTankItor = tanks.end();
 
@@ -286,7 +285,8 @@ void Napalm::simulateDamage()
 			float damage = (*damageItor).second;
 
 			// Add damage to the tank
-			TankController::damageTank(tank, weapon_, playerId_, damage, true);
+			TankController::damageTank(*context_, tank, weapon_, 
+				playerId_, damage, true);
 		}
 		tankDamage.clear();
 	}

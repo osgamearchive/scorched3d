@@ -18,7 +18,8 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
+#include <client/ScorchedClient.h>
+#include <server/ScorchedServer.h>
 #include <coms/ComsStartGameMessage.h>
 #include <common/OptionsTransient.h>
 
@@ -34,13 +35,13 @@ ComsStartGameMessage::~ComsStartGameMessage()
 bool ComsStartGameMessage::writeMessage(NetBuffer &buffer)
 {
 	if (!stateMessage_.writeMessage(buffer)) return false;
-	if (!OptionsTransient::instance()->writeToBuffer(buffer)) return false;
+	if (!ScorchedServer::instance()->getOptionsTransient().writeToBuffer(buffer)) return false;
 	return true;
 }
 
 bool ComsStartGameMessage::readMessage(NetBufferReader &reader)
 {
 	if (!stateMessage_.readMessage(reader)) return false;
-	if (!OptionsTransient::instance()->readFromBuffer(reader)) return false;
+	if (!ScorchedClient::instance()->getOptionsTransient().readFromBuffer(reader)) return false;
 	return true;
 }

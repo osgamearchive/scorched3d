@@ -18,10 +18,9 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <landscape/GlobalHMap.h>
 #include <actions/ShotProjectileNapalm.h>
 #include <actions/Napalm.h>
-#include <engine/ActionController.h>
+#include <engine/ScorchedContext.h>
 #include <weapons/WeaponNapalm.h>
 #include <common/OptionsParam.h>
 #include <common/SoundStore.h>
@@ -60,10 +59,10 @@ void ShotProjectileNapalm::addNapalm(int x, int y)
 	// Ensure that the napalm has not hit the walls
 	// or anything outside the landscape
 	if (x > 1 && y > 1 &&
-		x < GlobalHMap::instance()->getHMap().getWidth() - 1 &&
-		y < GlobalHMap::instance()->getHMap().getWidth() - 1)
+		x < context_->landscapeMaps.getHMap().getWidth() - 1 &&
+		y < context_->landscapeMaps.getHMap().getWidth() - 1)
 	{
-		ActionController::instance()->addAction(
+		context_->actionController.addAction(
 			new Napalm(x, y, NapalmBurnTime, weapon_, playerId_));
 	}
 

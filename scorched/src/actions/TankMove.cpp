@@ -18,9 +18,8 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <actions/TankMove.h>
-#include <tank/TankContainer.h>
+#include <engine/ScorchedContext.h>
 
 REGISTER_ACTION_SOURCE(TankMove);
 
@@ -47,7 +46,7 @@ void TankMove::init()
 void TankMove::simulate(float frameTime, bool &remove)
 {
 	Tank *tank = 
-		TankContainer::instance()->getTankById(playerId_);
+		context_->tankContainer.getTankById(playerId_);
 	if (tank && 
 		tank->getState().getState() == TankState::sNormal)
 	{

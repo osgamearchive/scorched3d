@@ -35,11 +35,23 @@
     <value>15</value>
     <defaultvalue>15</defaultvalue>
   </option>
+  <!-- The number of moves a player is allowed to miss (due to the shot timer) -->
+  <option>
+    <name>AllowedMissedMoves</name>
+    <value>3</value>
+    <defaultvalue>3</defaultvalue>
+  </option>
   <!-- The number of rounds to play in each game -->
   <option>
     <name>NumberOfRounds</name>
     <value>5</value>
     <defaultvalue>5</defaultvalue>
+  </option>
+  <!-- The number of each weapon the player is allowed -->
+  <option>
+    <name>MaxNumberWeapons</name>
+    <value>90</value>
+    <defaultvalue>90</defaultvalue>
   </option>
   <!-- The maximum number of players to allow -->
   <option>
@@ -52,6 +64,18 @@
     <name>NumberOfMinPlayers</name>
     <value>2</value>
     <defaultvalue>2</defaultvalue>
+  </option>
+  <!-- The percentage chance the computers will say something when killed -->
+  <option>
+    <name>ComputersDeathTalk</name>
+    <value>100</value>
+    <defaultvalue>100</defaultvalue>
+  </option>
+  <!-- The percentage chance the computers will say something when shooting -->
+  <option>
+    <name>ComputersAttackTalk</name>
+    <value>10</value>
+    <defaultvalue>10</defaultvalue>
   </option>
   <!-- The first round players are allowed to buy on -->
   <option>
@@ -137,6 +161,18 @@
     <value>1</value>
     <defaultvalue>1</defaultvalue>
   </option>
+  <!-- The master list server for scorched3d -->
+  <option>
+    <name>MasterListServer</name>
+    <value>www.employees.org</value>
+    <defaultvalue>www.employees.org</defaultvalue>
+  </option>
+  <!-- The URI on the master list server for scorched3d -->
+  <option>
+    <name>MasterListServerURI</name>
+    <value>/~gcamp/scorched</value>
+    <defaultvalue>/~gcamp/scorched</defaultvalue>
+  </option>
   <!-- Prepend and bot name with the specified text -->
   <option>
     <name>BotNamePrefix</name>
@@ -148,6 +184,12 @@
     <name>ServerName</name>
     <value>No Name</value>
     <defaultvalue>No Name</defaultvalue>
+  </option>
+  <!-- The password for this server (empty password = no password) -->
+  <option>
+    <name>ServerPassword</name>
+    <value></value>
+    <defaultvalue></defaultvalue>
   </option>
   <!-- The port to start the server on -->
   <option>

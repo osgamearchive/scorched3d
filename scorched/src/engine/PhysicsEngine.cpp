@@ -18,12 +18,9 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <engine/PhysicsEngine.h>
 
-PhysicsEngineCollision *PhysicsEngine::handler_ = 0;
-
-PhysicsEngine::PhysicsEngine() : world_(0), space_(0), contactgroup_(0)
+PhysicsEngine::PhysicsEngine() : world_(0), space_(0), contactgroup_(0), handler_(0)
 {
 	create();
 }
@@ -68,6 +65,8 @@ void PhysicsEngine::nearCallback(void *data, dGeomID o1, dGeomID o2)
 {
 	const int maxContacts = 100;
 
+	PhysicsEngine *engine = (PhysicsEngine *) data;
+
 	// exit without doing anything if the two bodies are connected by a joint
 	dBodyID b1 = dGeomGetBody(o1);
 	dBodyID b2 = dGeomGetBody(o2);
@@ -76,10 +75,10 @@ void PhysicsEngine::nearCallback(void *data, dGeomID o1, dGeomID o2)
 	// Get the contacts for these two objects
 	static dContactGeom contacts[maxContacts];
 	int numc = dCollide(o1, o2, maxContacts, contacts, sizeof(dContactGeom));
-	if (numc && handler_)
+	if (numc && engine->handler_)
 	{
 		// We have collisions, ask the user to process them
-		handler_->collision(o1, o2, contacts, numc);
+		engine->handler_->collision(o1, o2, contacts, numc);
 	}
 }
 
@@ -95,7 +94,7 @@ void PhysicsEngine::addCollision(dGeomID o1, dGeomID o2, dContact &contact)
 void PhysicsEngine::stepSimulation(float stepSize)
 {
 	// Simulate the world
-	dSpaceCollide(space_, 0, &nearCallback);
+	dSpaceCollide(space_, this, &nearCallback);
 	//dWorldStep(world_, stepSize);
 	dWorldStepFast1(world_, stepSize, 5);
 

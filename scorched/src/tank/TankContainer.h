@@ -18,11 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// TankContainer.h: interface for the TankContainer class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_TANKCONTAINER_H__56AF98E2_E188_45EC_AA25_1865ADBBA3F1__INCLUDED_)
 #define AFX_TANKCONTAINER_H__56AF98E2_E188_45EC_AA25_1865ADBBA3F1__INCLUDED_
 
@@ -32,7 +27,8 @@
 class TankContainer  
 {
 public:
-	static TankContainer *instance();
+	TankContainer();
+	virtual ~TankContainer();
 
 	void addTank(Tank *tank);
 	Tank *getCurrentTank();
@@ -59,10 +55,6 @@ protected:
 	static TankContainer *instance_;
 	unsigned int playerId_;
 	std::map<unsigned int, Tank *> playingTanks_;
-
-private:
-	TankContainer();
-	virtual ~TankContainer();
 
 };
 

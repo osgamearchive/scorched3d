@@ -18,11 +18,10 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <actions/ShotProjectile.h>
 #include <sprites/MissileActionRenderer.h>
 #include <common/OptionsParam.h>
-#include <tank/TankContainer.h>
+#include <engine/ScorchedContext.h>
 
 REGISTER_ACTION_SOURCE(ShotProjectile);
 
@@ -63,7 +62,7 @@ ShotProjectile::~ShotProjectile()
 void ShotProjectile::collision(Vector &position)
 {
 	std::map<unsigned int, Tank *> &tanks = 
-		TankContainer::instance()->getPlayingTanks();
+		context_->tankContainer.getPlayingTanks();
 	std::map<unsigned int, Tank *>::iterator itor;
 	for (itor = tanks.begin();
 		itor != tanks.end();
@@ -85,7 +84,7 @@ void ShotProjectile::collision(Vector &position)
 
 void ShotProjectile::draw()
 {
-	if (TankContainer::instance()->getCurrentPlayerId() == playerId_)
+	if (context_->tankContainer.getCurrentPlayerId() == playerId_)
 	{
 		lookatPosition_ += getCurrentPosition();
 		lookatCount_++;

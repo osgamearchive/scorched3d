@@ -20,12 +20,12 @@
 
 #include <server/ServerPlayingState.h>
 #include <server/ServerShotHolder.h>
+#include <server/ScorchedServer.h>
 #include <scorched/ServerDialog.h>
 #include <common/OptionsGame.h>
 #include <common/Logger.h>
 #include <coms/ComsStartGameMessage.h>
 #include <coms/ComsMessageSender.h>
-#include <tank/TankContainer.h>
 
 ServerPlayingState::ServerPlayingState() : time_(0.0f)
 {
@@ -56,16 +56,16 @@ bool ServerPlayingState::acceptStateChange(const unsigned state,
 {
 	// Check if the time to make the shots has expired
 	time_ += frameTime;
-	if (OptionsGame::instance()->getShotTime() > 0)
+	if (ScorchedServer::instance()->getOptionsGame().getShotTime() > 0)
 	{
-		if (time_ > OptionsGame::instance()->getShotTime())
+		if (time_ > ScorchedServer::instance()->getOptionsGame().getShotTime())
 		{
 			// For each alive tank
 			// Check if the tank has missed its go
 			// If so increment the missed counter
 			// Once missed counter exceeds it threshold then kick the player
 			std::map<unsigned int, Tank *> &tanks =
-				TankContainer::instance()->getPlayingTanks();
+				ScorchedServer::instance()->getTankContainer().getPlayingTanks();
 			std::map<unsigned int, Tank *>::iterator itor;
 			for (itor = tanks.begin();
 				itor != tanks.end();
@@ -96,14 +96,13 @@ bool ServerPlayingState::acceptStateChange(const unsigned state,
 						}
 
 						// If the allowed missed moves has been specified
-						if (OptionsGame::instance()->getAllowedMissedMoves() > 0)
+						if (ScorchedServer::instance()->getOptionsGame().getAllowedMissedMoves() > 0)
 						{
 							// And this player has exceeded them
-							if (movesMissed >= OptionsGame::instance()->getAllowedMissedMoves())
+							if (movesMissed >= ScorchedServer::instance()->getOptionsGame().getAllowedMissedMoves())
 							{
 								// Then kick this player
-								NetPlayerID id = (NetPlayerID) tank->getPlayerId();
-								kickPlayer(id);
+								kickPlayer(tank->getPlayerId());
 							}
 						}
 					}

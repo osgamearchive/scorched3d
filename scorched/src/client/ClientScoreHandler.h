@@ -30,7 +30,7 @@ class ClientScoreHandler :
 public:
 	static ClientScoreHandler *instance();
 
-	virtual bool processMessage(NetPlayerID &id,
+	virtual bool processMessage(unsigned int id,
 		const char *message,
 		NetBufferReader &reader);
 

@@ -53,7 +53,7 @@ namespace ClientState
 		StateScore
 	};
 
-	void setupGameState(GameState &gameState, bool network);
+	void setupGameState(bool network);
 	void addWindowManager(GameState &gameState, unsigned state);
 	void addStandardComponents(GameState &gameState, unsigned state, bool network);
 };

@@ -18,10 +18,9 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <actions/ShotProjectileExplosion.h>
 #include <actions/Explosion.h>
-#include <engine/ActionController.h>
+#include <engine/ScorchedContext.h>
 
 REGISTER_ACTION_SOURCE(ShotProjectileExplosion);
 
@@ -61,6 +60,6 @@ void ShotProjectileExplosion::collision(Vector &position)
 {
 	ShotProjectile::collision(position);
 
-	ActionController::instance()->addAction(
+	context_->actionController.addAction(
 		new Explosion(position, width_, weapon_, playerId_));
 }

@@ -18,11 +18,11 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <scorched/MainDialog.h>
 #include <scorched/ServerDialog.h>
 #include <scorched/SettingsDialog.h>
 #include <server/ServerMain.h>
+#include <server/ScorchedServer.h>
 #include <common/Defines.h>
 #include <common/OptionsGame.h>
 #include <common/OptionsParam.h>
@@ -68,37 +68,37 @@ ServerSFrame::ServerSFrame() :
 
 void ServerSFrame::onSettingsButton()
 {
-	if (showSettingsDialog(true))
+	if (showSettingsDialog(true, ScorchedServer::instance()->getContext()))
 	{
-		OptionsGame::instance()->writeOptionsToFile(serverFilePath);
+		ScorchedServer::instance()->getOptionsGame().writeOptionsToFile(serverFilePath);
 	}
 }
 
 bool ServerSFrame::TransferDataToWindow()
 {
 	// Load the server settings
-	OptionsGame::instance()->readOptionsFromFile(serverFilePath);
+	ScorchedServer::instance()->getOptionsGame().readOptionsFromFile(serverFilePath);
 
 	char buffer[256];
-	sprintf(buffer, "%i", OptionsGame::instance()->getPortNo());
+	sprintf(buffer, "%i", ScorchedServer::instance()->getOptionsGame().getPortNo());
 	IDC_SERVER_PORT_CTRL->SetValue(buffer);
-	IDC_SERVER_NAME_CTRL->SetValue(OptionsGame::instance()->getServerName());
-	IDC_SERVER_PASSWORD_CTRL->SetValue(OptionsGame::instance()->getServerPassword());
-	IDC_PUBLISH_CTRL->SetValue(OptionsGame::instance()->getPublishServer());
-	IDC_PUBLISHIP_CTRL->SetValue(OptionsGame::instance()->getPublishAddress());
+	IDC_SERVER_NAME_CTRL->SetValue(ScorchedServer::instance()->getOptionsGame().getServerName());
+	IDC_SERVER_PASSWORD_CTRL->SetValue(ScorchedServer::instance()->getOptionsGame().getServerPassword());
+	IDC_PUBLISH_CTRL->SetValue(ScorchedServer::instance()->getOptionsGame().getPublishServer());
+	IDC_PUBLISHIP_CTRL->SetValue(ScorchedServer::instance()->getOptionsGame().getPublishAddress());
 	return true;
 }
 
 bool ServerSFrame::TransferDataFromWindow()
 {
-	OptionsGame::instance()->setPortNo(atoi(IDC_SERVER_PORT_CTRL->GetValue()));
-	OptionsGame::instance()->setServerName(IDC_SERVER_NAME_CTRL->GetValue());
-	OptionsGame::instance()->setServerPassword(IDC_SERVER_PASSWORD_CTRL->GetValue());
-	OptionsGame::instance()->setPublishServer(IDC_PUBLISH_CTRL->GetValue());
-	OptionsGame::instance()->setPublishAddress(IDC_PUBLISHIP_CTRL->GetValue());
+	ScorchedServer::instance()->getOptionsGame().setPortNo(atoi(IDC_SERVER_PORT_CTRL->GetValue()));
+	ScorchedServer::instance()->getOptionsGame().setServerName(IDC_SERVER_NAME_CTRL->GetValue());
+	ScorchedServer::instance()->getOptionsGame().setServerPassword(IDC_SERVER_PASSWORD_CTRL->GetValue());
+	ScorchedServer::instance()->getOptionsGame().setPublishServer(IDC_PUBLISH_CTRL->GetValue());
+	ScorchedServer::instance()->getOptionsGame().setPublishAddress(IDC_PUBLISHIP_CTRL->GetValue());
 
 	// Save the server settings
-	OptionsGame::instance()->writeOptionsToFile(serverFilePath);
+	ScorchedServer::instance()->getOptionsGame().writeOptionsToFile(serverFilePath);
 
 	// Start up the server
 	showServerDialog();

@@ -24,10 +24,6 @@
 #include <tankai/TankAIComputerTosser.h>
 #include <common/OptionsTransient.h>
 
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
-
 TankAIComputerTosser::TankAIComputerTosser() : 
 	lastShot_(0), sniperDist_(0.0f)
 {
@@ -168,7 +164,7 @@ bool TankAIComputerTosser::refineLastShot(Tank *tank, float &angleXYDegs, float 
 			power = closestLessPower + ((closestMorePower - closestLessPower) * percentage);
 
 			// Make adjustments for the wind
-			if(OptionsTransient::instance()->getWindOn())
+			if(context_->optionsTransient.getWindOn())
 			{
 				Vector dirToTank = tank->getPhysics().getTankPosition() - 
 					currentTank_->getPhysics().getTankPosition();
@@ -255,7 +251,9 @@ void TankAIComputerTosser::playMove(const unsigned state, float frameTime,
 	{
 		// Else make a new shot up
 		// Makes a randow powered shot towards the target
-		TankLib::getShotTowardsPosition(currentTank_->getPhysics().getTankPosition(), 
+		TankLib::getShotTowardsPosition(
+			*context_,
+			currentTank_->getPhysics().getTankPosition(), 
 			targetTank->getPhysics().getTankPosition(), sniperDist_, 
 			angleXYDegs, angleYZDegs, power);
 	}

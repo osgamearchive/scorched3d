@@ -18,7 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <scorched/ServerDialog.h>
 #include <scorched/MainDialog.h>
 #include <common/OptionsGame.h>
@@ -27,8 +26,6 @@
 #include <coms/NetBufferUtil.h>
 #include <coms/ComsTextMessage.h>
 #include <coms/ComsMessageSender.h>
-#include <coms/ComsGateway.h>
-#include <tank/TankContainer.h>
 #include <server/ServerState.h>
 #include <server/ServerMain.h>
 #include <server/ServerMessageHandler.h>
@@ -78,10 +75,10 @@ int ServerPlayerListControl::OnGetItemImage(long item) const
 
 wxString ServerPlayerListControl::OnGetItemText(long item, long column) const
 {
-	if ((item != -1) && (item < TankContainer::instance()->getNoOfTanks()))
+	if ((item != -1) && (item < ScorchedServer::instance()->getTankContainer().getNoOfTanks()))
 	{
 		Tank *tank = 
-			TankContainer::instance()->getTankByPos((unsigned int) item);
+			ScorchedServer::instance()->getTankContainer().getTankByPos((unsigned int) item);
 		switch (column)
 		{
 		case 0:
@@ -271,36 +268,37 @@ void ServerFrame::onTimer()
 {
 	// Update the player list
 	if (frame->playerList_->GetItemCount() !=
-		TankContainer::instance()->getNoOfTanks())
+		ScorchedServer::instance()->getTankContainer().getNoOfTanks())
 	{
 		frame->playerList_->SetItemCount(
-			TankContainer::instance()->getNoOfTanks());
+			ScorchedServer::instance()->getTankContainer().getNoOfTanks());
 	}
 	frame->playerList_->Refresh();
 
 	// Update the status bar
 	char buffer[256];
 	std::map<unsigned int, Tank *> &tanks = 
-		TankContainer::instance()->getPlayingTanks();
+		ScorchedServer::instance()->getTankContainer().getPlayingTanks();
 	sprintf(buffer, "%i/%i Players", tanks.size(), 
-		OptionsGame::instance()->getNoMaxPlayers());
+		ScorchedServer::instance()->getOptionsGame().getNoMaxPlayers());
 	frame->statusBar_->SetStatusText(buffer, 0);
 	frame->statusBar_->SetStatusText(
 		(ScorchedServer::instance()->getGameState().getState() == 
 		ServerState::ServerStateWaitingForPlayers?"Not Playing":"Playing"), 1);
 	sprintf(buffer, "Round %i/%i, %i/%i Moves",
-		OptionsGame::instance()->getNoRounds() - OptionsTransient::instance()->getNoRoundsLeft(),
-		OptionsGame::instance()->getNoRounds(),
-		OptionsTransient::instance()->getCurrentGameNo(),
-		OptionsGame::instance()->getNoMaxRoundTurns());
+		ScorchedServer::instance()->getOptionsGame().getNoRounds() - 
+		ScorchedServer::instance()->getOptionsTransient().getNoRoundsLeft(),
+		ScorchedServer::instance()->getOptionsGame().getNoRounds(),
+		ScorchedServer::instance()->getOptionsTransient().getCurrentGameNo(),
+		ScorchedServer::instance()->getOptionsGame().getNoMaxRoundTurns());
 	frame->statusBar_->SetStatusText(buffer, 2);
 	sprintf(buffer, "%i Bytes in, %i Bytes out",
-		NetBufferUtil::getBytesIn(),
-		NetBufferUtil::getBytesOut());
+		NetInterface::getBytesIn(),
+		NetInterface::getBytesOut());
 	frame->statusBar_->SetStatusText(buffer, 3);
 }
 
-void sendString(NetPlayerID dest, const char *fmt, ...)
+void sendString(unsigned int dest, const char *fmt, ...)
 {
 	static char text[1024];
 	va_list ap;
@@ -320,11 +318,11 @@ void sendString(NetPlayerID dest, const char *fmt, ...)
 	}
 }
 
-void kickPlayer(NetPlayerID id)
+void kickPlayer(unsigned int id)
 {
 	bool human = true;
 	unsigned int tankId = (unsigned int) id;
-	Tank *tank = TankContainer::instance()->getTankById(tankId);
+	Tank *tank = ScorchedServer::instance()->getTankContainer().getTankById(tankId);
 	if (tank)
 	{
 		sendString(0,
@@ -348,7 +346,7 @@ void kickPlayer(NetPlayerID id)
 
 	if (human)
 	{
-		ComsGateway::instance()->disconnectClient(id);
+		ScorchedServer::instance()->getNetInterface().disconnectClient(id);
 	}
 	else
 	{
@@ -383,13 +381,14 @@ void ServerFrame::onPlayerTalk()
 			wxLIST_NEXT_ALL,
 			wxLIST_STATE_SELECTED)) != -1)
 		{
-			if ((item != -1) && (item < TankContainer::instance()->getNoOfTanks()))
+			if ((item != -1) && 
+				(item < ScorchedServer::instance()->getTankContainer().getNoOfTanks()))
 			{
 				Tank *tank = 
-					TankContainer::instance()->getTankByPos((unsigned int) item);
+					ScorchedServer::instance()->getTankContainer().getTankByPos((unsigned int) item);
 				if (!tank->getTankAI())
 				{
-					sendString((NetPlayerID)tank->getPlayerId(), entryDialog.GetValue());
+					sendString(tank->getPlayerId(), entryDialog.GetValue());
 				}
 			}
 		}
@@ -404,11 +403,12 @@ void ServerFrame::onPlayerKick()
 		wxLIST_NEXT_ALL,
         wxLIST_STATE_SELECTED)) != -1)
     {
-		if ((item != -1) && (item < TankContainer::instance()->getNoOfTanks()))
+		if ((item != -1) && (item < 
+			ScorchedServer::instance()->getTankContainer().getNoOfTanks()))
 		{
 			Tank *tank = 
-				TankContainer::instance()->getTankByPos((unsigned int) item);
-			kickPlayer((NetPlayerID)tank->getPlayerId());
+				ScorchedServer::instance()->getTankContainer().getTankByPos((unsigned int) item);
+			kickPlayer(tank->getPlayerId());
 		}		
     }
 }
@@ -417,7 +417,8 @@ void ServerFrame::onShowOptions()
 {
 	char allOptionsStr[2048];
 	allOptionsStr[0] = '\0';
-	std::list<OptionEntry *> &allOptions = OptionsGame::instance()->getOptions();
+	std::list<OptionEntry *> &allOptions = 
+		ScorchedServer::instance()->getOptionsGame().getOptions();
 	std::list<OptionEntry *>::iterator itor;
 	for (itor = allOptions.begin();
 		itor != allOptions.end();
@@ -432,7 +433,7 @@ void ServerFrame::onShowOptions()
 	dialogMessage("Scorched 3D Server Options", allOptionsStr);
 }
 
-static FileLogger serverFileLogger("ServerLog");
+static FileLogger *serverFileLogger = 0;
 static class ServerLogger : public LoggerI
 {
 public:
@@ -461,13 +462,15 @@ void showServerDialog()
 {
 	char serverName[1024];
 	sprintf(serverName, "Scorched 3D Dedicated Server [ %s : %i ] [%s]",
-			OptionsGame::instance()->getServerName(), 
-			OptionsGame::instance()->getPortNo(), 
-			(OptionsGame::instance()->getPublishServer()?"Published":"Not Published"));
+			ScorchedServer::instance()->getOptionsGame().getServerName(), 
+			ScorchedServer::instance()->getOptionsGame().getPortNo(), 
+			(ScorchedServer::instance()->getOptionsGame().getPublishServer()?"Published":"Not Published"));
 
 	frame = new ServerFrame(serverName);
 	frame->Show();
 
-	Logger::addLogger(&serverFileLogger);
+	if (!serverFileLogger) serverFileLogger = new FileLogger(
+		ScorchedServer::instance()->getTankContainer(), ("ServerLog"));
+	Logger::addLogger(serverFileLogger);
 	Logger::addLogger(&serverLogger);
 }

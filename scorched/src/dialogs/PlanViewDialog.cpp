@@ -21,10 +21,9 @@
 #include <math.h>
 #include <GLEXT/GLState.h>
 #include <tankgraph/TankModelRenderer.h>
-#include <tank/TankContainer.h>
 #include <client/MainCamera.h>
+#include <client/ScorchedClient.h>
 #include <dialogs/PlanViewDialog.h>
-#include <landscape/GlobalHMap.h>
 #include <landscape/Landscape.h>
 #include <common/Vector.h>
 
@@ -127,7 +126,7 @@ void PlanViewDialog::drawCameraPointer()
 {
 	// Draw the camera pointer
 	glColor3f(1.0f, 1.0f, 0.0f);
-	float mapWidth = (float) GlobalHMap::instance()->getHMap().getWidth();
+	float mapWidth = (float) ScorchedClient::instance()->getLandscapeMaps().getHMap().getWidth();
 	Vector &currentPos = MainCamera::instance()->getCamera().getCurrentPos();
 	Vector lookAt = MainCamera::instance()->getCamera().getLookAt();
 	Vector direction = (currentPos - lookAt).Normalize2D() * 0.2f;
@@ -150,11 +149,12 @@ void PlanViewDialog::drawCameraPointer()
 void PlanViewDialog::drawTanks()
 {
 	std::map<unsigned int, Tank *> &currentTanks = 
-		TankContainer::instance()->getPlayingTanks();
+		ScorchedClient::instance()->getTankContainer().getPlayingTanks();
 	if (currentTanks.empty()) return;
 
 	// Draw the current tank bolder
-	float width = (float) GlobalHMap::instance()->getHMap().getWidth();
+	float width = (float) 
+		ScorchedClient::instance()->getLandscapeMaps().getHMap().getWidth();
 	Vector position;
 	drawCurrentTank();
 
@@ -195,12 +195,13 @@ void PlanViewDialog::drawCurrentTank()
 	// on the plan view
 
 	// Check that the current player should be shown on the plan
-	Tank *currentTank = TankContainer::instance()->getCurrentTank();
+	Tank *currentTank = ScorchedClient::instance()->getTankContainer().getCurrentTank();
 	if (!currentTank || 
 		currentTank->getState().getState() != TankState::sNormal) return;
 
 	// Calculate the constants
-	float width = (float) GlobalHMap::instance()->getHMap().getWidth();
+	float width = (float) 
+		ScorchedClient::instance()->getLandscapeMaps().getHMap().getWidth();
 	float scale = animationTime_ / maxAnimationTime;
 	Vector position;
 	float rot = -currentTank->getPhysics().getRotationGunXY() * degToRad;
@@ -254,12 +255,12 @@ void PlanViewDialog::mouseDown(float x, float y, bool &skipRest)
 	{
 		skipRest = true;
 
-		float mapWidth = (float) GlobalHMap::instance()->getHMap().getWidth();
+		float mapWidth = (float) ScorchedClient::instance()->getLandscapeMaps().getHMap().getWidth();
 
 		float mapX = ((x - x_) / w_) * mapWidth;
 		float mapY = ((y - y_) / h_) * mapWidth;
 
-		Vector lookAt(mapX, mapY, GlobalHMap::instance()->getHMap().getInterpHeight(mapX, mapY) + 5.0f);
+		Vector lookAt(mapX, mapY, ScorchedClient::instance()->getLandscapeMaps().getHMap().getInterpHeight(mapX, mapY) + 5.0f);
 		MainCamera::instance()->getCamera().setLookAt(lookAt);
 	}
 }

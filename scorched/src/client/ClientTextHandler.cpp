@@ -18,13 +18,10 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <client/ClientTextHandler.h>
 #include <client/ClientState.h>
 #include <client/ScorchedClient.h>
-#include <engine/ActionController.h>
 #include <sprites/TalkRenderer.h>
-#include <tank/TankContainer.h>
 #include <coms/ComsTextMessage.h>
 #include <common/Logger.h>
 
@@ -41,7 +38,7 @@ ClientTextHandler *ClientTextHandler::instance()
 
 ClientTextHandler::ClientTextHandler()
 {
-	ComsMessageHandler::instance()->addHandler(
+	ScorchedClient::instance()->getComsMessageHandler().addHandler(
 		"ComsTextMessage",
 		this);
 }
@@ -50,7 +47,7 @@ ClientTextHandler::~ClientTextHandler()
 {
 }
 
-bool ClientTextHandler::processMessage(NetPlayerID &id,
+bool ClientTextHandler::processMessage(unsigned int id,
 	const char *messageType,
 	NetBufferReader &reader)
 {
@@ -65,13 +62,13 @@ bool ClientTextHandler::processMessage(NetPlayerID &id,
 	else
 	{
 		Tank *tank = 
-			TankContainer::instance()->getTankById(message.getPlayerId());
+			ScorchedClient::instance()->getTankContainer().getTankById(message.getPlayerId());
 		if (tank && tank->getState().getState() == TankState::sNormal)
 		{
 			// put a speach bubble over the talking tank
 			TalkRenderer *talk = new TalkRenderer(
 				tank->getPhysics().getTankTurretPosition());
-			ActionController::instance()->addAction(new SpriteAction(talk));
+			ScorchedClient::instance()->getActionController().addAction(new SpriteAction(talk));
 		}
 
 		Logger::log(message.getPlayerId(), message.getText());

@@ -30,7 +30,7 @@ class ClientAddPlayerHandler  :
 public:
 	static ClientAddPlayerHandler* instance();
 
-	virtual bool processMessage(NetPlayerID &id,
+	virtual bool processMessage(unsigned int id,
 		const char *message,
 		NetBufferReader &reader);
 

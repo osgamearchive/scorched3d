@@ -19,27 +19,17 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 
-// MainCamera.cpp: implementation of the MainCamera class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <math.h>
 #include <GLEXT/GLBitmap.h>
 #include <GLEXT/GLConsole.h>
-#include <engine/ActionController.h>
 #include <actions/ShotProjectile.h>
 #include <client/MainCamera.h>
+#include <client/ScorchedClient.h>
 #include <dialogs/MainMenuDialog.h>
-#include <tank/TankContainer.h>
-#include <landscape/GlobalHMap.h>
 #include <landscape/Landscape.h>
 #include <common/Keyboard.h>
 #include <common/SoundStore.h>
 #include <common/Defines.h>
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 static const char *menuItems[] = 
 {
@@ -101,10 +91,10 @@ float MainCamera::heightFunc(int x, int y)
 	float addition = 5.0f;
 
 	float h = 0;
-	if (x >= 0 && x < GlobalHMap::instance()->getHMap().getWidth() &&
-		y >= 0 && y < GlobalHMap::instance()->getHMap().getWidth())
+	if (x >= 0 && x < ScorchedClient::instance()->getLandscapeMaps().getHMap().getWidth() &&
+		y >= 0 && y < ScorchedClient::instance()->getLandscapeMaps().getHMap().getWidth())
 	{
-		h = GlobalHMap::instance()->getHMap().getHeight(x, y) + addition;
+		h = ScorchedClient::instance()->getLandscapeMaps().getHMap().getHeight(x, y) + addition;
 	}
 
 	return (h>heightMin + addition?h:heightMin + addition);
@@ -143,7 +133,7 @@ void MainCamera::moveCamera(float frameTime)
 	Vector position(128.0f, 128.0f, 0.0f);
 	float currentRotation = 0.0f;
 
-	Tank *currentTank = TankContainer::instance()->getCurrentTank();
+	Tank *currentTank = ScorchedClient::instance()->getTankContainer().getCurrentTank();
 	if (currentTank && 
 		currentTank->getState().getState() == TankState::sNormal)
 	{
@@ -170,7 +160,7 @@ void MainCamera::moveCamera(float frameTime)
 		}
 		break;
 	case CamGun:
-		if (!ActionController::instance()->noReferencedActions() &&
+		if (!ScorchedClient::instance()->getActionController().noReferencedActions() &&
 			ShotProjectile::getLookAtCount() > 0)
 		{
 			ShotProjectile::getLookAtPosition() /= (float) ShotProjectile::getLookAtCount();
@@ -303,7 +293,7 @@ void MainCamera::mouseDown(const unsigned state, GameState::MouseButton button, 
 	Line direction;
 	if (mainCam_.getDirectionFromPt((GLfloat) x, (GLfloat) y, direction))
 	{
-		if (GlobalHMap::instance()->getHMap().getIntersect(direction, intersect))
+		if (ScorchedClient::instance()->getLandscapeMaps().getHMap().getIntersect(direction, intersect))
 		{
 			skipRest = true;
 
@@ -313,16 +303,16 @@ void MainCamera::mouseDown(const unsigned state, GameState::MouseButton button, 
 			if (Landscape::instance()->getTextureType() == Landscape::eMovement)
 			{
 				// Try to move the tank to the position on the landscape
-				Tank *currentTank = TankContainer::instance()->getCurrentTank();
+				Tank *currentTank = ScorchedClient::instance()->getTankContainer().getCurrentTank();
 				if (currentTank && currentTank->getState().getState() == TankState::sNormal)
 				{
 					int posX = (int) intersect[0];
 					int posY = (int) intersect[1];
-					if (posX > 0 && posX < GlobalHMap::instance()->getHMap().getWidth() &&
-						posY > 0 && posY < GlobalHMap::instance()->getHMap().getWidth())
+					if (posX > 0 && posX < ScorchedClient::instance()->getLandscapeMaps().getHMap().getWidth() &&
+						posY > 0 && posY < ScorchedClient::instance()->getLandscapeMaps().getHMap().getWidth())
 					{
 						MovementMap::MovementMapEntry &entry =
-							GlobalHMap::instance()->getMMap().getEntry(posX, posY);
+							ScorchedClient::instance()->getLandscapeMaps().getMMap().getEntry(posX, posY);
 						if (entry.type == MovementMap::eMovement &&
 							entry.dist < currentTank->getAccessories().getFuel().getNoFuel())
 						{

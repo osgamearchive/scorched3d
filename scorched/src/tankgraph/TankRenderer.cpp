@@ -18,11 +18,10 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <tankgraph/TankRenderer.h>
 #include <tankgraph/TankModelRenderer.h>
-#include <tank/TankContainer.h>
 #include <client/ClientState.h>
+#include <client/ScorchedClient.h>
 
 TankRenderer *TankRenderer::instance_ = 0;
 
@@ -67,7 +66,7 @@ void TankRenderer::Renderer3D::simulate(const unsigned state, float simTime)
 
 	// Draw all of the tanks
 	std::map<unsigned int, Tank *> &tanks = 
-		TankContainer::instance()->getPlayingTanks();
+		ScorchedClient::instance()->getTankContainer().getPlayingTanks();
 	std::map<unsigned int, Tank *>::iterator itor;
 	for (itor = tanks.begin();
 		itor != tanks.end();
@@ -90,7 +89,7 @@ void TankRenderer::newGame()
 
 	// Make sure we don't draw any dead tanks
 	std::map<unsigned int, Tank *> &tanks = 
-		TankContainer::instance()->getPlayingTanks();
+		ScorchedClient::instance()->getTankContainer().getPlayingTanks();
 	std::map<unsigned int, Tank *>::iterator itor;
 	for (itor = tanks.begin();
 		itor != tanks.end();
@@ -107,11 +106,11 @@ void TankRenderer::newGame()
 void TankRenderer::draw(DrawType dt, const unsigned state)
 {
 	Tank *currentTank =
-		TankContainer::instance()->getCurrentTank();
+		ScorchedClient::instance()->getTankContainer().getCurrentTank();
 	
 	// Draw all of the tanks
 	std::map<unsigned int, Tank *> &tanks = 
-		TankContainer::instance()->getPlayingTanks();
+		ScorchedClient::instance()->getTankContainer().getPlayingTanks();
 	std::map<unsigned int, Tank *>::iterator itor;
 	for (itor = tanks.begin();
 		itor != tanks.end();

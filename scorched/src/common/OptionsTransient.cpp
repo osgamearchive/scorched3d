@@ -18,7 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <common/OptionsTransient.h>
 #include <common/OptionsGame.h>
 #include <common/Defines.h>
@@ -31,18 +30,8 @@ OptionsTransient::Settings::Settings()  :
 
 }
 
-OptionsTransient *OptionsTransient::instance_ = 0;
-
-OptionsTransient *OptionsTransient::instance()
-{
-	if (!instance_)
-	{
-		instance_ = new OptionsTransient;
-	}
-	return instance_;
-}
-
-OptionsTransient::OptionsTransient()
+OptionsTransient::OptionsTransient(OptionsGame &optionsGame) :
+	optionsGame_(optionsGame)
 {
 	
 }
@@ -84,7 +73,7 @@ bool OptionsTransient::readFromBuffer(NetBufferReader &reader)
 void OptionsTransient::reset()
 {
 	settings_.currentGameNo_ = 0;
-	settings_.noRoundsLeft_ = OptionsGame::instance()->getNoRounds();
+	settings_.noRoundsLeft_ = optionsGame_.getNoRounds();
 }
 
 void OptionsTransient::newGame()
@@ -104,7 +93,7 @@ void OptionsTransient::nextRound()
 
 void OptionsTransient::newGameWind()
 {
-	switch(OptionsGame::instance()->getWindForce())
+	switch(optionsGame_.getWindForce())
 	{
 		case OptionsGame::WindRandom:
 			settings_.windSpeed_ = float((int)(RAND * 5.9f)); // ie range 0->5
@@ -114,7 +103,7 @@ void OptionsTransient::newGameWind()
 		case OptionsGame::Wind3:
 		case OptionsGame::Wind4:
 		case OptionsGame::Wind5:
-			settings_.windSpeed_ = float(int(OptionsGame::instance()->getWindForce()) - 1);
+			settings_.windSpeed_ = float(int(optionsGame_.getWindForce()) - 1);
 			break;
 		case OptionsGame::WindNone:
 		default:
@@ -137,7 +126,7 @@ void OptionsTransient::newGameWind()
 
 void OptionsTransient::nextRoundWind()
 {
-	if (OptionsGame::instance()->getWindType() != OptionsGame::WindOnMove)
+	if (optionsGame_.getWindType() != OptionsGame::WindOnMove)
 	{
 		return;
 	}
@@ -168,7 +157,7 @@ Vector &OptionsTransient::getWallColor()
 
 void OptionsTransient::newGameWall()
 {
-	switch (OptionsGame::instance()->getWallType())
+	switch (optionsGame_.getWallType())
 	{
 	case OptionsGame::WallConcrete:
 		settings_.wallType_ = wallConcrete;

@@ -18,16 +18,8 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// PhysicsParticle.cpp: implementation of the PhysicsParticle class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <engine/PhysicsParticle.h>
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
+#include <engine/ScorchedContext.h>
 
 PhysicsParticle::PhysicsParticle()  : collision_(false)
 {
@@ -41,7 +33,7 @@ PhysicsParticle::~PhysicsParticle()
 
 void PhysicsParticle::setPhysics(Vector &position, Vector &velocity)
 {
-	physicsObject_.setPhysics(position, velocity);
+	physicsObject_.setPhysics(context_->actionController.getPhysics(), position, velocity);
 }
 
 void PhysicsParticle::collision(Vector &position)
@@ -82,7 +74,7 @@ PhysicsParticleMeta::~PhysicsParticleMeta()
 
 void PhysicsParticleMeta::setPhysics(Vector &position, Vector &velocity)
 {
-	physicsObject_.setPhysics(position, velocity);
+	physicsObject_.setPhysics(context_->actionController.getPhysics(), position, velocity);
 }
 
 void PhysicsParticleMeta::collision(Vector &position)

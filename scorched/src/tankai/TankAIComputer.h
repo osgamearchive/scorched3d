@@ -26,7 +26,7 @@
 #include <tankai/TankAIComputerBuyer.h>
 
 #define TANKAI_DEFINE(y) \
-	virtual TankAIComputer *getCopy(Tank *tank) { TankAIComputer *comp = new y(*this); comp->setTank(tank); return comp; }
+	virtual TankAIComputer *getCopy(Tank *tank, ScorchedContext *context) { TankAIComputer *comp = new y(*this); comp->setTank(tank); comp->setContext(context); return comp; }
 
 class XMLNode;
 class TankAIComputer : public TankAI
@@ -35,7 +35,7 @@ public:
 	TankAIComputer();
 	virtual ~TankAIComputer();
 
-	virtual TankAIComputer *getCopy(Tank *tank) = 0;
+	virtual TankAIComputer *getCopy(Tank *tank, ScorchedContext *context) = 0;
 
 	// Inherited from TankAI
 	virtual void newGame();
@@ -53,6 +53,7 @@ public:
 	virtual void ourShotLanded(Weapon *weapon, Vector &position);
 
 	void setTank(Tank *tank);
+	void setContext(ScorchedContext *context);
 
 protected:
 	TankAIComputerBuyer tankBuyer_;

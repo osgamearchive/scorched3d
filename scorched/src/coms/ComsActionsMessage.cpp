@@ -18,9 +18,9 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <coms/ComsActionsMessage.h>
-#include <engine/ActionController.h>
+#include <server/ScorchedServer.h>
+#include <client/ScorchedClient.h>
 
 ComsActionsMessage::ComsActionsMessage() :
 	ComsMessage("ComsActionsMessage")
@@ -33,14 +33,14 @@ ComsActionsMessage::~ComsActionsMessage()
 
 bool ComsActionsMessage::writeMessage(NetBuffer &buffer)
 {
-	if (!ActionController::instance()->getBuffer().
+	if (!ScorchedServer::instance()->getActionController().getBuffer().
 		writeMessage(buffer)) return false;
 	return true;
 }
 
 bool ComsActionsMessage::readMessage(NetBufferReader &reader)
 {
-	if (!ActionController::instance()->getBuffer().
+	if (!ScorchedClient::instance()->getActionController().getBuffer().
 		readMessage(reader)) return false;
 	return true;
 }

@@ -18,7 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <client/ScorchedClient.h>
 
 ScorchedClient *ScorchedClient::instance_ = 0;
@@ -32,10 +31,11 @@ ScorchedClient *ScorchedClient::instance()
 	return instance_;
 }
 
-ScorchedClient::ScorchedClient()
+ScorchedClient::ScorchedClient() : context_("Client")
 {
 	mainLoop_.clear();
-	mainLoop_.addMainLoop(&gameState_);
+	mainLoop_.addMainLoop(&context_.gameState);
+	context_.actionController.setScorchedContext(&context_);
 }
 
 ScorchedClient::~ScorchedClient()

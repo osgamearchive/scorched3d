@@ -19,8 +19,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <server/ServerRegistration.h>
+#include <server/ScorchedServer.h>
 #include <common/Logger.h>
-#include <common/OptionsGame.h>
 #include <time.h>
 
 ServerRegistration *ServerRegistration::instance_ = 0;
@@ -43,9 +43,9 @@ ServerRegistration::ServerRegistration() :
 		"User-Agent: Scorched3D\r\n"
 		"\r\n"
 		"\r\n",
-		OptionsGame::instance()->getMasterListServerURI(),
-		OptionsGame::instance()->getPublishAddress(),
-		OptionsGame::instance()->getPortNo());
+		ScorchedServer::instance()->getOptionsGame().getMasterListServerURI(),
+		ScorchedServer::instance()->getOptionsGame().getPublishAddress(),
+		ScorchedServer::instance()->getOptionsGame().getPortNo());
 	sendNetBuffer_.addDataToBuffer(buffer, strlen(buffer)); // Note no null
 
 	netServer_.setMessageHandler(this);
@@ -94,7 +94,7 @@ void ServerRegistration::registerGame()
 {
 	// Connect to the web server
 	Logger::log(0, "Contacting registration server...");
-	if (!instance_->netServer_.connect(OptionsGame::instance()->getMasterListServer(), 80))
+	if (!instance_->netServer_.connect(ScorchedServer::instance()->getOptionsGame().getMasterListServer(), 80))
 	{
 		Logger::log(0, "Failed to contact registration server");
 		return;

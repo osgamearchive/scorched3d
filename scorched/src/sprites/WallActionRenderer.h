@@ -18,11 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// SceneWallAction.h: interface for the SceneWallAction class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_SCENEWALLACTION_H__8D1048A1_FFC6_4950_9C56_8163F8FB2F07__INCLUDED_)
 #define AFX_SCENEWALLACTION_H__8D1048A1_FFC6_4950_9C56_8163F8FB2F07__INCLUDED_
 
@@ -43,11 +38,16 @@ public:
 
 protected:
 	static GLTexture texture_;
+	Vector position_;
+	OptionsTransient::WallSide type_;
+	bool init_;
 	float fade_;
 	float xOff_, yOff_;
 	Vector color_;
 	Vector cornerA_, cornerB_;
 	Vector cornerC_, cornerD_;
+
+	void init(Action *action);
 
 };
 

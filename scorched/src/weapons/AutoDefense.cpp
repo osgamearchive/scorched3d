@@ -34,7 +34,7 @@ AutoDefense::~AutoDefense()
 
 const int AutoDefense::getPrice()
 {
-	return (OptionsTransient::instance()->getNoRoundsLeft() + 1) * 1000;
+	return 3000; //(OptionsTransient::instance()->getNoRoundsLeft() + 1) * 1000; // FIXME
 }
 
 const int AutoDefense::getSellPrice()

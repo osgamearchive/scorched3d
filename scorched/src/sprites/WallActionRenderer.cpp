@@ -18,28 +18,30 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// WallActionRenderer.cpp: implementation of the WallActionRenderer class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <GLEXT/GLState.h>
 #include <GLEXT/GLBitmap.h>
 #include <sprites/WallActionRenderer.h>
+#include <engine/ScorchedContext.h>
 #include <landscape/Landscape.h>
-#include <landscape/GlobalHMap.h>
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 GLTexture WallActionRenderer::texture_ = GLTexture();
 
 WallActionRenderer::WallActionRenderer(
-	Vector &position,
-	OptionsTransient::WallSide type) :
-	fade_(1.0f)
+	Vector &position, OptionsTransient::WallSide type) :
+	position_(position), type_(type), fade_(1.0f), init_(false)
 {
+
+}
+
+WallActionRenderer::~WallActionRenderer()
+{
+
+}
+
+void WallActionRenderer::init(Action *action)
+{
+	init_ = true;
+
 	if (!texture_.textureValid())
 	{
 		GLBitmap map( PKGDIR "data/textures/bordershield/hit.bmp", 
@@ -47,8 +49,8 @@ WallActionRenderer::WallActionRenderer(
 		texture_.create(map, GL_RGBA, true);
 	}
 
-	Landscape::instance()->getWall().wallHit(type);
-	Vector pos = position;
+	Landscape::instance()->getWall().wallHit(type_);
+	Vector pos = position_;
 	Vector offSet1, offSet2, offSet3 ,offSet4;
 
 	static float offsetAmount = 0.1f;
@@ -56,7 +58,7 @@ WallActionRenderer::WallActionRenderer(
 	offsetAmount += 0.02f;
 	if (offsetAmount > 0.4f) offsetAmount = 0.1f;
 
-	switch (type)
+	switch (type_)
 	{
 	case OptionsTransient::LeftSide:
 		pos[0] = 0.0f;
@@ -67,7 +69,8 @@ WallActionRenderer::WallActionRenderer(
 		offSet4 = Vector(0.0f, -1.0f, 1.0f);
 		break;
 	case OptionsTransient::RightSide:
-		pos[0] = (float) GlobalHMap::instance()->getHMap().getWidth();
+		pos[0] = (float) 
+			action->getScorchedContext()->landscapeMaps.getHMap().getWidth();
 		xOff_ = -offset; yOff_ = 0.0f;
 		offSet1 = Vector(0.0f, 1.0f, 1.0f);
 		offSet2 = Vector(0.0f, 1.0f, -1.0f);
@@ -83,7 +86,8 @@ WallActionRenderer::WallActionRenderer(
 		offSet4 = Vector(-1.0f, 0.0f, 1.0f);
 		break;
 	case OptionsTransient::BotSide:
-		pos[1] = (float) GlobalHMap::instance()->getHMap().getWidth();
+		pos[1] = (float) 
+			action->getScorchedContext()->landscapeMaps.getHMap().getWidth();
 		xOff_ = 0.0f; yOff_ = offset;
 		offSet1 = Vector(1.0f, 0.0f, 1.0f);
 		offSet2 = Vector(1.0f, 0.0f, -1.0f);
@@ -100,12 +104,7 @@ WallActionRenderer::WallActionRenderer(
 	cornerC_ = pos + offSet3 * size;
 	cornerD_ = pos + offSet4 * size;
 
-	color_ = OptionsTransient::instance()->getWallColor();
-}
-
-WallActionRenderer::~WallActionRenderer()
-{
-
+	color_ = action->getScorchedContext()->optionsTransient.getWallColor();
 }
 
 void WallActionRenderer::simulate(Action *action, float frameTime, bool &remove)
@@ -116,6 +115,8 @@ void WallActionRenderer::simulate(Action *action, float frameTime, bool &remove)
 
 void WallActionRenderer::draw(Action *action)
 {
+	if (!init_) init(action);
+
 	GLState currentState(GLState::BLEND_ON | GLState::TEXTURE_ON);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);		
 

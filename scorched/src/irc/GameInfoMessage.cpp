@@ -2,8 +2,8 @@
 #include "irc/GameInfoMessage.h"
 #include "irc/ServerGameInfo.h"
 #include "common/OptionsGame.h"
-#include "coms/ComsGateway.h"
 #include "server/ServerState.h"
+#include "server/ScorchedServer.h"
 #include <stdlib.h>
 #include <string.h>
 
@@ -35,9 +35,9 @@ int GameInfoMessage::setQueryReply(char *reply,char *query,char *host,char *port
 		ScorchedProtocolVersion,
 		(host == NULL ? "unknown" : host  ),
 		(port == NULL ? -1 : atoi(port) ),
-		ComsGateway::instance()->getNoClients(),
-		ComsGateway::instance()->getMaxClients(),
-		OptionsGame::instance()->getServerName());
+		ScorchedServer::instance()->getNetInterface().getNoClients(),
+		ScorchedServer::instance()->getNetInterface().getMaxClients(),
+		ScorchedServer::instance()->getOptionsGame().getServerName());
 
 	return strlen(reply);
 }
