@@ -25,16 +25,6 @@ To compile using Visual Studio .NET compiler :-
 2) Choose build from the build menu.  No extra libraries are required
 as they are all bundled in the source distribution.
 
-To compile using the borland compiler.
-NOTE: The borland versions of the wxWindows, SDL, SDL_net and SDL_mixer 
-libraries are required for compilation.
-1) cd into the borland sub-directory.
-2) Run the createMakefile.pl perl script (Note: Perl is required for this
-step http://www.activestate.com/ActivePerl/download.htm).
-3) Edit the generated makefile and make.cmd file to point to your installed
-borland compiler.
-4) Run the make.cmd file in the borland directory.
-
 Linux
 -----
 Compiling requirements  : 
@@ -72,9 +62,14 @@ Run the following commands to compile scorched :-
 1) chmod +x autogen.sh
 2) ./autogen.sh
 3) make 
-(on some systems build times can be reduced by using the -j4
+(on some systems build times can be reduced by using the -j2
 flag for make)
 4) make install (may need to be done as root)
+
+If you are compiling from CVS or a development version and the
+compiler complains of missing files at link time you may need to 
+run the createAMMakefile.pl script in the scripts directory.
+Do this before step 1.
 
 By default Scorched3D will be installed in /usr/local/games/scorched3d.
 The Scorched3D executable is called scorched3d and is located
