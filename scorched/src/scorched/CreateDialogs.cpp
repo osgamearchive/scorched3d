@@ -26,6 +26,7 @@
 #include <common/OptionsGame.h>
 #include <wx/wx.h>
 #include <wx/image.h>
+#include <locale.h>
 
 bool wxWindowInit = false;
 class ScorchedApp: public wxApp
@@ -35,6 +36,13 @@ class ScorchedApp: public wxApp
 
 bool ScorchedApp::OnInit()
 {
+	if (setlocale(LC_ALL, "C") == 0)
+	{
+		dialogMessage(
+			"ScorchedApp",
+			"Warning: Failed to set wx locale");
+	}
+
 	wxImage::AddHandler(new wxICOHandler);
 	if (OptionsParam::instance()->getAction() == OptionsParam::RunServer)
 	{

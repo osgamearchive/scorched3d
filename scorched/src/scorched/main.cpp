@@ -30,6 +30,7 @@
 #include <common/Defines.h>
 #include <common/Resources.h>
 #include <common/OptionsTransient.h>
+#include <locale.h>
 #include <math.h>
 #include <float.h>
 
@@ -174,6 +175,13 @@ int main(int argc, char *argv[])
 		if (OptionsParam::instance()->getSDLInitVideo() &&
 			OptionsParam::instance()->getAction() == OptionsParam::RunClient)
 		{
+			if (setlocale(LC_ALL, "C") == 0)
+			{
+				dialogMessage(
+					scorched3dAppName,
+					"Warning: Failed to set client locale");
+			}
+
 			clientMain();
 		}
 

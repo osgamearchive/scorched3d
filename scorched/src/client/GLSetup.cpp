@@ -25,7 +25,6 @@
 
 #include <client/GLSetup.h>
 #include <GLEXT/GLStateExtension.h>
-#include <malloc.h>
 
 void GLSetup::setup()
 {

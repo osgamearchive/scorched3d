@@ -24,7 +24,6 @@
 //////////////////////////////////////////////////////////////////////
 
 #include <stdio.h>
-#include <malloc.h>
 #include <math.h>
 #include <GLEXT/GLState.h>
 #include <GLEXT/GLBitmap.h>
