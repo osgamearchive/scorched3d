@@ -349,6 +349,14 @@ scorched3d_SOURCES = \
 	../engine/MetaClass.h \
 	../engine/ModFiles.cpp \
 	../engine/ModFiles.h \
+	../engine/Particle.cpp \
+	../engine/Particle.h \
+	../engine/ParticleEmitter.cpp \
+	../engine/ParticleEmitter.h \
+	../engine/ParticleEngine.cpp \
+	../engine/ParticleEngine.h \
+	../engine/ParticleRenderer.cpp \
+	../engine/ParticleRenderer.h \
 	../engine/PhysicsEngine.cpp \
 	../engine/PhysicsEngine.h \
 	../engine/PhysicsParticle.cpp \
@@ -393,6 +401,12 @@ scorched3d_SOURCES = \
 	../landscape/LandscapeMaps.h \
 	../landscape/LandscapeObjects.cpp \
 	../landscape/LandscapeObjects.h \
+	../landscape/LandscapeObjectsEntry.cpp \
+	../landscape/LandscapeObjectsEntry.h \
+	../landscape/LandscapeObjectsEntryTree.cpp \
+	../landscape/LandscapeObjectsEntryTree.h \
+	../landscape/LandscapeObjectsPlacement.cpp \
+	../landscape/LandscapeObjectsPlacement.h \
 	../landscape/MovementMap.cpp \
 	../landscape/MovementMap.h \
 	../landscape/NapalmMap.cpp \
