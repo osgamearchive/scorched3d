@@ -122,12 +122,6 @@
 				RelativePath="..\GLEXT\GLBilboardRenderer.h">
 			</File>
 			<File
-				RelativePath="..\GLEXT\GLOrderedItemRenderer.cpp">
-			</File>
-			<File
-				RelativePath="..\GLEXT\GLOrderedItemRenderer.h">
-			</File>
-			<File
 				RelativePath="..\GLEXT\GLBitmap.cpp">
 			</File>
 			<File
@@ -264,6 +258,12 @@
 			</File>
 			<File
 				RelativePath="..\GLEXT\GLMenuI.h">
+			</File>
+			<File
+				RelativePath="..\GLEXT\GLOrderedItemRenderer.cpp">
+			</File>
+			<File
+				RelativePath="..\GLEXT\GLOrderedItemRenderer.h">
 			</File>
 			<File
 				RelativePath="..\GLEXT\GLState.cpp">
@@ -1214,6 +1214,12 @@
 			</File>
 			<File
 				RelativePath="..\landscape\LandscapeMaps.h">
+			</File>
+			<File
+				RelativePath="..\landscape\LandscapeObjects.cpp">
+			</File>
+			<File
+				RelativePath="..\landscape\LandscapeObjects.h">
 			</File>
 			<File
 				RelativePath="..\landscape\MovementMap.cpp">

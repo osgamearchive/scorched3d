@@ -194,6 +194,7 @@ void Landscape::draw(const unsigned state)
 	}
 	glDisable(GL_FOG); // NOTE: Fog off
 
+	objects_.draw();
 	wall_.draw();
 	sun_.draw();
 	smoke_.draw();
@@ -271,6 +272,9 @@ void Landscape::generate(ProgressCounter *counter)
 	GLBitmapModifier::addLightMapToBitmap(mainMap_, 
 		ScorchedClient::instance()->getLandscapeMaps().getHMap(), 
 		sun_.getPosition(), counter);
+
+	// Add objects to the landscape
+	objects_.generate(counter);
 
 	// Create the landscape texture used for the small plan window
 	gluScaleImage(

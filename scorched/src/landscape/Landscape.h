@@ -27,6 +27,7 @@
 #include <landscape/WaterMapPoints.h>
 #include <landscape/PatchGrid.h>
 #include <landscape/HeightMapSurround.h>
+#include <landscape/LandscapeObjects.h>
 #include <landscape/Surround.h>
 #include <landscape/Smoke.h>
 #include <landscape/Wall.h>
@@ -96,6 +97,7 @@ protected:
 	ShadowMap shadowMap_;
 	Smoke smoke_;
 	Sun sun_;
+	LandscapeObjects objects_;
 	LandscapeTextureType textureType_;
 
 	// Textures used for landscape
