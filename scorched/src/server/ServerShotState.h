@@ -39,9 +39,10 @@ public:
 		const unsigned nextState,
 		float frameTime);
 
+	float &getShotTime() { return totalTime_; }
+
 protected:
 	float totalTime_;
-	bool sentMessage_;
 
 	void stepActions(unsigned int state, float maxSingleSimTime);
 

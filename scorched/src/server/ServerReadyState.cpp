@@ -31,7 +31,8 @@
 #include <coms/ComsMessageSender.h>
 #include <tank/TankContainer.h>
 
-ServerReadyState::ServerReadyState() : time_(0.0f)
+ServerReadyState::ServerReadyState(ServerShotState *shotState) : 
+	time_(0.0f), shotState_(shotState)
 {
 }
 
@@ -68,6 +69,11 @@ void ServerReadyState::enterState(const unsigned state)
 
 	// Set the wait timer to the current time
 	time_ = 0.0f;
+
+	// Add on the time the shots took to simulate
+	// So we don't time clients out too quickly
+	time_ -= shotState_->getShotTime();
+	shotState_->getShotTime() = 0.0f;
 }
 
 bool ServerReadyState::acceptStateChange(const unsigned state, 

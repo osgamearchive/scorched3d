@@ -29,7 +29,7 @@
 #include <common/OptionsGame.h>
 #include <common/Logger.h>
 
-ServerShotState::ServerShotState()
+ServerShotState::ServerShotState() : totalTime_(0.0f)
 {
 }
 
@@ -48,7 +48,6 @@ void ServerShotState::enterState(const unsigned state)
 
 	// Reset the amount of time taken
 	totalTime_ = 0.0f;
-	sentMessage_ = false;
 }
 
 bool ServerShotState::acceptStateChange(const unsigned state, 
@@ -79,35 +78,16 @@ bool ServerShotState::acceptStateChange(const unsigned state,
 	}
 	else
 	{
-		if (!sentMessage_)
-		{
-			sentMessage_ = true;
+		// We have finished all shots
+		serverLog(0, "Finished playing Shots (%.2f seconds)", totalTime_);
 
-			// We have finished all shots
-			serverLog(0, "Finished playing Shots (%.2f seconds)", totalTime_);
+		// tell the clients of the shot outcomes
+		ComsActionsMessage actionsMessage;
+		ComsMessageSender::sendToAllPlayingClients(actionsMessage);
+		serverLog(0, "Sending actions message (%i bytes)", 
+			NetBufferDefault::defaultBuffer.getBufferUsed());
 
-			// tell the clients of the shot outcomes
-			ComsActionsMessage actionsMessage;
-			ComsMessageSender::sendToAllPlayingClients(actionsMessage);
-			serverLog(0, "Sending actions message (%i bytes)", 
-				NetBufferDefault::defaultBuffer.getBufferUsed());
-
-			// Remove a few seconds from the wait time just to be sure
-			totalTime_ -= 2.5f;
-			if (totalTime_ <= 0.0f) 
-			{
-				return true;
-			}
-		}
-		else
-		{
-			// Wait for the clients to finish the shot
-			totalTime_ -= frameTime;
-			if (totalTime_ <= 0.0f) 
-			{
-				return true;
-			}
-		}
+		return true;
 	}
 	return false;
 }

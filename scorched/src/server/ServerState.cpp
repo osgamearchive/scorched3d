@@ -67,7 +67,8 @@ void ServerState::setupStates(GameState &gameState)
 		ServerStimulusReady, ServerStateReady);
 
 	// ServerStateReady
-	ServerReadyState *serverReady = new ServerReadyState;
+	ServerShotState *serverShot = new ServerShotState;
+	ServerReadyState *serverReady = new ServerReadyState(serverShot);
 	gameState.addStateEntry(ServerStateReady,
 		serverReady);
 	gameState.addStateStimulus(ServerStateReady, 
@@ -120,7 +121,6 @@ void ServerState::setupStates(GameState &gameState)
 		serverBuying, ServerStateNextTurn);
 
 	// ServerStateShot
-	ServerShotState *serverShot = new ServerShotState;
 	gameState.addStateEntry(ServerStateShot,
 		serverShot);
 	gameState.addStateStimulus(ServerStateShot,

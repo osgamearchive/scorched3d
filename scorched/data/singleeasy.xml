@@ -53,6 +53,18 @@
     <value>90</value>
     <defaultvalue>90</defaultvalue>
   </option>
+  <!-- How the winnder is choosen -->
+  <option>
+    <name>ScoreType</name>
+    <value>0</value>
+    <defaultvalue>0</defaultvalue>
+  </option>
+  <!-- The number of teams (1 == no teams) -->
+  <option>
+    <name>Teams</name>
+    <value>1</value>
+    <defaultvalue>1</defaultvalue>
+  </option>
   <!-- The maximum number of players to allow -->
   <option>
     <name>NumberOfPlayers</name>

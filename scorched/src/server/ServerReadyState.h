@@ -23,6 +23,7 @@
 
 #include <engine/GameStateI.h>
 #include <engine/GameStateStimulusI.h>
+#include <server/ServerShotState.h>
 
 // waits until all players have started the game
 // or a maximum time limit 
@@ -32,7 +33,7 @@ class ServerReadyState :
 	public GameStateStimulusI
 {
 public:
-	ServerReadyState();
+	ServerReadyState(ServerShotState *shotState);
 	virtual ~ServerReadyState();
 
 	virtual void enterState(const unsigned state);
@@ -42,6 +43,7 @@ public:
 
 protected:
 	float time_;
+	ServerShotState *shotState_;
 };
 
 #endif
