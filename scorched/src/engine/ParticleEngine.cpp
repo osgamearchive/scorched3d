@@ -85,7 +85,8 @@ void ParticleEngine::draw(const unsigned state)
 	for (unsigned int i=0; i<particlesOnScreen_; i++)
 	{
 		Particle *particle = usedParticles_[i];
-		if (particle->renderer_)
+		if (particle->renderer_ &&
+			particle->simulated_)
 		{
 			particle->renderer_->renderParticle(*particle);
 		}
@@ -99,10 +100,10 @@ static inline bool lt_distance(Particle *o1, Particle *o2)
 	return o1->distance_ > o2->distance_;
 }
 
-static inline float approx_distance(float  dx, float dy)
+static inline float approx_distance(float  dx, float dy, float dz, float w)
 {
-   float approx = (dx * dx) + (dy * dy);
-   return approx;
+	float approx = (dx * dx) + (dy * dy) + (dz * dz) - (w * w);
+	return approx;
 }
 
 void ParticleEngine::simulate(const unsigned state, float time)
@@ -133,6 +134,7 @@ void ParticleEngine::normalizedSimulate(float time)
 		particle->life_ -= time;
 		if (particle->life_ > 0.0f)
 		{
+			particle->simulated_ = true;
 			momentum = particle->velocity_ * particle->mass_;
 
 			//update the particle's position
@@ -158,7 +160,9 @@ void ParticleEngine::normalizedSimulate(float time)
 			}
 			particle->distance_ = approx_distance(
 				cameraPos[0] - particle->position_[0],
-				cameraPos[1] - particle->position_[1]);
+				cameraPos[1] - particle->position_[1],
+				cameraPos[2] - particle->position_[2],
+				particle->size_[0]);
 
 			usedParticles_[putPos] = particle;
 			putPos++;

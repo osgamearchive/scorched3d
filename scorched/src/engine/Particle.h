@@ -55,6 +55,7 @@ public:
 	GLTexture *texture_;
 	int textureCoord_;
 	bool shadow_;
+	bool simulated_;
 
 	float distance_; // Dist from camera
 	void *userData_;

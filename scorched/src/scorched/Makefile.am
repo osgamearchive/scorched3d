@@ -3,8 +3,6 @@
 bin_PROGRAMS = scorched3d
 
 scorched3d_SOURCES = \
-	../GLEXT/GLBilboardRenderer.cpp \
-	../GLEXT/GLBilboardRenderer.h \
 	../GLEXT/GLBitmap.cpp \
 	../GLEXT/GLBitmap.h \
 	../GLEXT/GLBitmapItterator.cpp \
@@ -55,8 +53,6 @@ scorched3d_SOURCES = \
 	../GLEXT/GLMenuEntry.h \
 	../GLEXT/GLMenuI.cpp \
 	../GLEXT/GLMenuI.h \
-	../GLEXT/GLOrderedItemRenderer.cpp \
-	../GLEXT/GLOrderedItemRenderer.h \
 	../GLEXT/GLState.cpp \
 	../GLEXT/GLState.h \
 	../GLEXT/GLStateExtension.cpp \
@@ -429,8 +425,6 @@ scorched3d_SOURCES = \
 	../landscape/ShadowMap.h \
 	../landscape/Smoke.cpp \
 	../landscape/Smoke.h \
-	../landscape/SmokeChain.cpp \
-	../landscape/SmokeChain.h \
 	../landscape/Sun.cpp \
 	../landscape/Sun.h \
 	../landscape/Surround.cpp \
@@ -731,8 +725,6 @@ scorched3d_SOURCES = \
 	../sprites/ExplosionLaserBeamRenderer.h \
 	../sprites/ExplosionNukeRenderer.cpp \
 	../sprites/ExplosionNukeRenderer.h \
-	../sprites/ExplosionRenderer.cpp \
-	../sprites/ExplosionRenderer.h \
 	../sprites/ExplosionTextures.cpp \
 	../sprites/ExplosionTextures.h \
 	../sprites/FlareActionRenderer.cpp \
@@ -747,8 +739,6 @@ scorched3d_SOURCES = \
 	../sprites/SmokeActionRenderer.h \
 	../sprites/SphereActionRenderer.cpp \
 	../sprites/SphereActionRenderer.h \
-	../sprites/SprayActionRenderer.cpp \
-	../sprites/SprayActionRenderer.h \
 	../sprites/TalkRenderer.cpp \
 	../sprites/TalkRenderer.h \
 	../sprites/TankDeadRenderer.cpp \

@@ -23,7 +23,7 @@
 Particle::Particle() : 
 	life_(-1.0f), renderer_(0), userData_(0),
 	distance_(0.0f), texture_(0), shadow_(false),
-	textureCoord_(0)
+	textureCoord_(0), simulated_(false)
 {
 }
 
@@ -53,4 +53,5 @@ void Particle::unsetParticle()
 	userData_ = 0;
 	texture_ = 0;
 	shadow_ = false;
+	simulated_ = false;
 }
