@@ -23,6 +23,7 @@ Added: Stats and servers can tell what os clients and servers are on
 Added: Ability to adjust server options on the fly, so the next match will have the new options
 Added: More complex but more customizable accessories format (accessories.xml)
 Added: Computers talk when attacking
+Added: Say command added to console.  This allows custom taunts to be bound to keys.
 
 Fixed: accessories.xml will only allow recognised tags for weapon types
 Fixed: Menu items could only be clicked in left hand side

@@ -18,7 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #if !defined(__INCLUDE_GLConsoleRuleMethodIAdapterh_INCLUDE__)
 #define __INCLUDE_GLConsoleRuleMethodIAdapterh_INCLUDE__
 
@@ -58,5 +57,31 @@ protected:
 	void (T::*call_)();
 };
 
+// Same as above but passed params to method
+template<class T>
+class GLConsoleRuleMethodIAdapterEx : public GLConsoleRuleMethodI
+{
+public:
+	GLConsoleRuleMethodIAdapterEx(T *inst, void (T::*call)(std::list<GLConsoleRuleSplit>), const char *name) 
+		: inst_(inst), call_(call)
+	{
+		GLConsole::instance()->addMethod(name, this);
+	};
+	virtual ~GLConsoleRuleMethodIAdapterEx()
+	{
+	};
+
+	virtual void runMethod(const char *name, 
+						   std::list<GLConsoleRuleSplit> split,
+						   std::string &result,
+						   std::list<std::string> &resultList)
+	{
+		(inst_->*call_)(split);
+	};
+
+protected:
+	T *inst_;
+	void (T::*call_)(std::list<GLConsoleRuleSplit>);
+};
 
 #endif

@@ -26,10 +26,11 @@
 #include <tankgraph/TankMenus.h>
 #include <tankgraph/TankModelRenderer.h>
 #include <common/WindowManager.h>
+#include <coms/ComsMessageSender.h>
+#include <coms/ComsTextMessage.h>
 #include <landscape/Landscape.h>
 #include <dialogs/MainMenuDialog.h>
 #include <dialogs/QuitDialog.h>
-#include <GLEXT/GLConsoleRuleMethodIAdapter.h>
 #include <GLEXT/GLConsoleRuleFnIAdapter.h>
 
 TankMenus::TankMenus() : logger_("ClientLog")
@@ -46,6 +47,8 @@ TankMenus::TankMenus() : logger_("ClientLog")
 		this, &TankMenus::showTankDetails, "TankDetails");
 	new GLConsoleRuleMethodIAdapter<TankMenus>(
 		this, &TankMenus::logToFile, "LogToFile");
+	new GLConsoleRuleMethodIAdapterEx<TankMenus>(
+		this, &TankMenus::say, "Say");
 	new GLConsoleRuleFnIBooleanAdapter(
 		"ComsMessageLogging", 
 		ScorchedClient::instance()->getComsMessageHandler().getMessageLogging());
@@ -57,6 +60,19 @@ TankMenus::TankMenus() : logger_("ClientLog")
 TankMenus::~TankMenus()
 {
 
+}
+
+void TankMenus::say(std::list<GLConsoleRuleSplit> list)
+{
+	list.pop_front();
+	if (!list.empty())
+	{
+		ComsTextMessage message(list.begin()->rule.c_str(),
+			ScorchedClient::instance()->getTankContainer().getCurrentPlayerId(),
+			false,
+			false);
+		ComsMessageSender::sendToServer(message);
+	}
 }
 
 void TankMenus::logToFile()

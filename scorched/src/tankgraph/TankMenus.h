@@ -22,9 +22,11 @@
 #define AFX_TankMenus_H__571BC1CA_BDBC_4F2B_9F83_4AA083520198__INCLUDED_
 
 #include <GLEXT/GLMenuI.h>
+#include <GLEXT/GLConsoleRuleMethodIAdapter.h>
 #include <weapons/Accessory.h>
 #include <common/Logger.h>
 #include <vector>
+#include <list>
 
 class TankMenus
 {
@@ -61,6 +63,7 @@ protected:
 
 	void showTankDetails();
 	void logToFile();
+	void say(std::list<GLConsoleRuleSplit>);
 
 };
 
