@@ -293,7 +293,7 @@ void LandscapeObjects::generate(RandomGenerator &generator, ProgressCounter *cou
 
 				// Add the entry
 				GLOrderedItemRenderer::instance()->addEntry(entry);
-				unsigned int point = pointToUInt(unsigned int(lx), unsigned int (ly));
+				unsigned int point = pointToUInt((unsigned int)lx, (unsigned int) ly);
 				entries_.insert(
 					std::pair<unsigned int, LandscapeObjectOrderedEntry*>(point, entry));
 			}
@@ -339,7 +339,7 @@ void LandscapeObjects::removeAllTrees()
 
 void LandscapeObjects::removeTrees(unsigned int x, unsigned int y)
 {
-	unsigned int point = pointToUInt(unsigned int(x), unsigned int (y));
+	unsigned int point = pointToUInt((unsigned int)x, (unsigned int)y);
 
 	std::multimap<unsigned int, LandscapeObjectOrderedEntry*>::iterator lower =
 		entries_.lower_bound(point);
@@ -356,7 +356,7 @@ void LandscapeObjects::removeTrees(unsigned int x, unsigned int y)
 
 void LandscapeObjects::burnTrees(unsigned int x, unsigned int y)
 {
-	unsigned int point = pointToUInt(unsigned int(x), unsigned int (y));
+	unsigned int point = pointToUInt((unsigned int)x, (unsigned int)y);
 
 	std::multimap<unsigned int, LandscapeObjectOrderedEntry*>::iterator lower =
 		entries_.lower_bound(point);
