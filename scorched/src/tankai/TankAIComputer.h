@@ -24,6 +24,8 @@
 #include <tank/Tank.h>
 #include <tankai/TankAI.h>
 #include <tankai/TankAIComputerBuyer.h>
+#include <tankai/TankAIComputerTarget.h>
+#include <tankai/TankAIComputerAim.h>
 
 class XMLNode;
 class TankAIComputer : public TankAI
@@ -33,26 +35,28 @@ public:
 	virtual ~TankAIComputer();
 
 	// Inherited from TankAI
+	virtual void reset();
 	virtual void newGame();
 	virtual bool parseConfig(XMLNode *node);
 	virtual void tankHurt(Weapon *weapon, unsigned int firer);
 	virtual void shotLanded(ParticleAction action,
 		ScorchedCollisionInfo *collision,
 		Weapon *weapon, unsigned int firer, 
-		Vector &position);
+		Vector &position,
+		unsigned int landedCounter);
+	virtual void playMove(const unsigned state, float frameTime, 
+		char *buffer, unsigned int keyState);
 
-	virtual const char *getName() { return name_.c_str(); }
 	virtual bool isHuman() { return false; }
 	virtual void setTank(Tank *tank);
 
-	// Indicates if this computer ai is available for choice by
-	// the random tank ai type
-	virtual bool availableForRandom() { return true; }
-
-	// Notificiation that the shot fired has landed
+	// Computer only fns
 	virtual void buyAccessories();
 	virtual void autoDefense();
-	virtual void ourShotLanded(Weapon *weapon, Vector &position);
+
+	// Indicates if this computer ai is available for choice by
+	// the random tank ai type
+	virtual bool availableForRandom() { return availableForRandom_; }
 
 	// Tank move methods and tank defense methods
 	//
@@ -69,10 +73,14 @@ public:
 	virtual void useBattery();
 	void say(const char *text);
 
+TANKAI_DEFINE(TankAIComputer);
+
 protected:
+	TankAIComputerTarget tankTarget_;
 	TankAIComputerBuyer tankBuyer_;
-	std::string name_;
+	TankAIComputerAim tankAim_;
 	bool primaryShot_;
+	bool availableForRandom_;
 
 	void selectFirstShield();
 

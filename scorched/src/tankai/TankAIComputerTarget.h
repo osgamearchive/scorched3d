@@ -18,26 +18,34 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #if !defined(__INCLUDE_TankAIComputerTargeth_INCLUDE__)
 #define __INCLUDE_TankAIComputerTargeth_INCLUDE__
 
-#include <tankai/TankAIComputer.h>
+#include <tank/Tank.h>
 
-class TankAIComputerTarget : public TankAIComputer
+class TankAIComputerTarget
 {
 public:
 	TankAIComputerTarget();
 	virtual ~TankAIComputerTarget();
 
-	virtual bool availableForRandom() { return false; }
-	virtual void playMove(const unsigned state, float frameTime, 
-		char *buffer, unsigned int keyState);
+	void setTank(Tank *tank);
+	void shotLanded(
+		ParticleAction action,
+		ScorchedCollisionInfo *collision,
+		Weapon *weapon, unsigned int firer, 
+		Vector &position,
+		unsigned int landedCounter);
+	void reset();
+	void tankHurt(Weapon *weapon, unsigned int firer);
 
-TANKAI_DEFINE(TankAIComputerTarget);
+	Tank *findTankToShootAt();
 
 protected:
+	Tank *currentTank_;
+	std::map<unsigned int, unsigned int> hitlist_;
 
+	void addTankToHitList(unsigned int firer);
 };
 
 #endif

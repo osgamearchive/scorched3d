@@ -31,7 +31,8 @@
 #include <coms/ComsMessageSender.h>
 
 TankAIComputer::TankAIComputer() : 
-	primaryShot_(true), name_("<NoName>")
+	primaryShot_(true), 
+	availableForRandom_(true)
 {
 	
 }
@@ -44,48 +45,50 @@ TankAIComputer::~TankAIComputer()
 void TankAIComputer::setTank(Tank *tank)
 {
 	tankBuyer_.setTank(tank);
+	tankTarget_.setTank(tank);
+	tankAim_.setTank(tank);
 	TankAI::setTank(tank);
 }
 
 bool TankAIComputer::parseConfig(XMLNode *node)
 {
-	if (!node->getNamedChild("name", name_)) return false;
+	// Name
+	std::string name;
+	if (!node->getNamedChild("name", name)) return false;
 
-	XMLNode *descNode = 0;
-	if (!node->getNamedChild("description", descNode)) return false;
+	// Description
+	std::string description;
+	if (!node->getNamedChild("description", description)) return false;
 	description_.setText(
-		name_.c_str(),
-		descNode->getContent());
+		name.c_str(),
+		description.c_str());
 
-	std::list<XMLNode *>::iterator childrenItor;
-	std::list<XMLNode *> &children = node->getChildren();
-    for (childrenItor = children.begin();
-		 childrenItor != children.end();
-		 childrenItor++)
-    {
-		XMLNode *child = (*childrenItor);
-		if (strcmp(child->getName(), "weapon")==0)
-		{
-			XMLNode *wname, *wlevel;
-			if (!child->getNamedChild("name", wname)) return false;
-			if (!child->getNamedChild("level", wlevel)) return false;
+	// Available when random is chosen
+	if (!node->getNamedChild("availableforrandom", 
+		availableForRandom_)) return false;
 
-			if (!tankBuyer_.addAccessory(
-				wname->getContent(), 
-				atoi(wlevel->getContent()))) return false;
-		}
-	}
+	// Aiming info
+	if (!tankAim_.parseConfig(node)) return false;
+
+	// Weapons
+	if (!tankBuyer_.parseConfig(node)) return false;
 
 	return true;
 }
 
+void TankAIComputer::reset()
+{
+	tankTarget_.reset();
+}
+
 void TankAIComputer::newGame()
 {
-
+	tankAim_.newGame();
 }
 
 void TankAIComputer::tankHurt(Weapon *weapon, unsigned int firer)
 {
+	tankTarget_.tankHurt(weapon, firer);
 	if (currentTank_->getState().getState() == TankState::sDead)
 	{
 		const char *line = TankAIStrings::instance()->getDeathLine();
@@ -96,23 +99,37 @@ void TankAIComputer::tankHurt(Weapon *weapon, unsigned int firer)
 void TankAIComputer::shotLanded(ParticleAction action,
 								ScorchedCollisionInfo *collision,
 								Weapon *weapon, unsigned int firer, 
-								Vector &position)
+								Vector &position,
+								unsigned int landedCounter)
 {
+	tankTarget_.shotLanded(action, collision, weapon, firer,
+		position, landedCounter);
 	if (primaryShot_ && firer == currentTank_->getPlayerId())
 	{
-		ourShotLanded(weapon, position);
+		tankAim_.ourShotLanded(weapon, position);
 		primaryShot_ = false;
 	}
 }
 
-void TankAIComputer::ourShotLanded(Weapon *weapon, Vector &position)
-{
-
-}
-
 void TankAIComputer::autoDefense()
 {
+	// Try to enable parachutes (fails if we don't have any)
+	if (currentTank_->getAccessories().getParachutes().getNoParachutes() != 0)
+	{
+		if (!currentTank_->getAccessories().getParachutes().parachutesEnabled())
+		{
+			parachutesUpDown(true);
+		}
+	}
 
+	// Try to raise shields (fails if we don't have any)
+	if (!currentTank_->getAccessories().getShields().getCurrentShield())
+	{
+		if (currentTank_->getAccessories().getShields().getAllShields().size())
+		{
+			selectFirstShield();
+		}
+	}
 }
 
 void TankAIComputer::buyAccessories()
@@ -147,8 +164,47 @@ void TankAIComputer::say(const char *text)
 	newText += ":";
 	newText += text;
 
-	context_->actionController->addAction(
+	ScorchedServer::instance()->getActionController().addAction(
 		new TankSay(currentTank_->getPlayerId(), newText.c_str()));
+}
+
+void TankAIComputer::playMove(const unsigned state, float frameTime, 
+									char *buffer, unsigned int keyState)
+{
+	// Play move is called when the computer opponent must make there move
+	// Chooses a random weapon
+	int weaponInc = int(RAND * 3.0f);
+	for (int i=0; i<weaponInc; i++)
+	{
+		currentTank_->getAccessories().getWeapons().nextWeapon();
+	}
+
+	// Make sure defenses are raised (if we don't have an autodefense)
+	autoDefense();
+
+	// Use batteries if we need to and have them
+	while (currentTank_->getState().getLife() < 100.0f &&
+		   currentTank_->getAccessories().getBatteries().getNoBatteries() > 0)
+	{
+		useBattery();
+	}
+
+	// Is there any point in making a move
+	// Done after select weapons to allow batteries to be used
+	if (currentTank_->getState().getLife() < 10) 
+	{
+		resign();
+		return;
+	}
+
+	Tank *target = tankTarget_.findTankToShootAt();
+	if (tankAim_.aimAtTank(target))
+	{
+		fireShot();
+		return;
+	}
+
+	skipShot();
 }
 
 void TankAIComputer::fireShot()

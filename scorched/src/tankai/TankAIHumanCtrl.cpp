@@ -106,8 +106,7 @@ void TankAIHumanCtrl::setTankAI()
 			// If this is a player local to this destination then add the human ai
 			TankAI *ai =
 				TankAIStore::instance()->getAIByName("Human")->getCopy(
-					currentTank,
-					&ScorchedClient::instance()->getContext());
+					currentTank);
 			currentTank->setTankAI(ai);
 		}
 	}

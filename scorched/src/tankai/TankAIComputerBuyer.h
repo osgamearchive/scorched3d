@@ -32,6 +32,7 @@ public:
 	TankAIComputerBuyer();
 	virtual ~TankAIComputerBuyer();
 
+	bool parseConfig(XMLNode *node);
 	bool addAccessory(const char *accessoryName, int buyLevel);
 	void buyAccessories(int maxNoBought);
 	void clearAccessories();

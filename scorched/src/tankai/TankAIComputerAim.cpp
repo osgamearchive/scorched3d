@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,43 +18,45 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <math.h>
-#include <weapons/AccessoryStore.h>
-#include <tank/TankLib.h>
-#include <tankai/TankAIComputerTosser.h>
+#include <tankai/TankAIComputerAim.h>
+#include <server/ScorchedServer.h>
 #include <common/OptionsTransient.h>
+#include <tank/TankLib.h>
 
-TankAIComputerTosser::TankAIComputerTosser() : 
-	lastShot_(0), sniperDist_(0.0f)
+TankAIComputerAim::TankAIComputerAim()
 {
-
+	newGame();
 }
 
-TankAIComputerTosser::~TankAIComputerTosser()
+TankAIComputerAim::~TankAIComputerAim()
 {
-
 }
 
-bool TankAIComputerTosser::parseConfig(XMLNode *node)
-{
-	if (!TankAIComputerShooter::parseConfig(node)) return false;
-	if (!node->getNamedChild("sniper", sniperDist_)) return false;
-
-	return true;
-}
-
-void TankAIComputerTosser::newGame()
+void TankAIComputerAim::newGame()
 {
 	// Called for each new round
 	// We have been told that a new round has been started so we will clear
 	// the list of shots and there distances
 	lastShot_ = 0;
 	madeShots_.clear();
-
-	TankAIComputerShooter::newGame();
 }
 
-void TankAIComputerTosser::ourShotLanded(Weapon *weapon, Vector &position)
+bool TankAIComputerAim::parseConfig(XMLNode *node)
+{
+	if (!node->getNamedChild("aimsniper", sniperDist_)) return false;
+	if (!node->getNamedChild("aimtype", aimType_)) return false;
+	if (0 != strcmp(aimType_.c_str(), "none") &&
+		0 != strcmp(aimType_.c_str(), "refined") &&
+		0 != strcmp(aimType_.c_str(), "guess") &&
+		0 != strcmp(aimType_.c_str(), "random"))
+	{
+		return node->returnError("Unknown aimtype. "
+			"Should be one of none, refined, guess, random");
+	}
+	return true;
+}
+
+void TankAIComputerAim::ourShotLanded(Weapon *weapon, Vector &position)
 {
 	// Called when the shot we have fired has landed
 	// Store the last position of this shot in the cache
@@ -65,7 +67,38 @@ void TankAIComputerTosser::ourShotLanded(Weapon *weapon, Vector &position)
 	}
 }
 
-bool TankAIComputerTosser::refineLastShot(Tank *tank, float &angleXYDegs, float &angleYZDegs, float &power)
+void TankAIComputerAim::setTank(Tank *tank)
+{
+	currentTank_ = tank;
+}
+
+bool TankAIComputerAim::aimAtTank(Tank *tank)
+{
+	if (!tank) return false;
+
+	if (0 == strcmp(aimType_.c_str(), "none"))
+	{
+		return false;
+	}
+	else if (0 == strcmp(aimType_.c_str(), "refined"))
+	{
+		refinedAim(tank, true);
+	}
+	else if (0 == strcmp(aimType_.c_str(), "guess"))
+	{
+		refinedAim(tank, false);
+	}
+	else if (0 == strcmp(aimType_.c_str(), "random"))
+	{
+		randomAim();
+	}
+	else DIALOG_ASSERT(0);
+
+	return true;
+}
+
+bool TankAIComputerAim::refineLastShot(Tank *tank, 
+	float &angleXYDegs, float &angleYZDegs, float &power)
 {
 	// Find any previous shots made at this tank
 	std::map<unsigned int, std::list<MadeShot> >::iterator finditor = 
@@ -155,7 +188,7 @@ bool TankAIComputerTosser::refineLastShot(Tank *tank, float &angleXYDegs, float 
 			power = closestLessPower + ((closestMorePower - closestLessPower) * percentage);
 
 			// Make adjustments for the wind
-			if(context_->optionsTransient->getWindOn())
+			if(ScorchedServer::instance()->getOptionsTransient().getWindOn())
 			{
 				Vector dirToTank = tank->getPhysics().getTankPosition() - 
 					currentTank_->getPhysics().getTankPosition();
@@ -211,30 +244,8 @@ bool TankAIComputerTosser::refineLastShot(Tank *tank, float &angleXYDegs, float 
 	return false;
 }
 
-void TankAIComputerTosser::playMove(const unsigned state, float frameTime, 
-									char *buffer, unsigned int keyState)
+void TankAIComputerAim::refinedAim(Tank *targetTank, bool refine)
 {
-	// Play move is called when the computer opponent must make there move
-
-	// Choose weapons
-	selectWeapons();
-
-	// Is there any point in making a move
-	// Done after select weapons to allow batteries to be used
-	if (currentTank_->getState().getLife() < 10) 
-	{
-		resign();
-		return;
-	}
-
-	// Find the tank to shoot at
-	Tank *targetTank = findTankToShootAt();
-	if (!targetTank) 
-	{
-		skipShot();
-		return;
-	}
-
 	// Find the angle + power etc.. to use
 	float angleXYDegs = 0.0f; 
 	float angleYZDegs = 0.0f;
@@ -248,7 +259,7 @@ void TankAIComputerTosser::playMove(const unsigned state, float frameTime,
 		// Else make a new shot up
 		// Makes a randow powered shot towards the target
 		TankLib::getShotTowardsPosition(
-			*context_,
+			ScorchedServer::instance()->getContext(),
 			currentTank_->getPhysics().getTankPosition(), 
 			targetTank->getPhysics().getTankPosition(), sniperDist_, 
 			angleXYDegs, angleYZDegs, power);
@@ -260,17 +271,31 @@ void TankAIComputerTosser::playMove(const unsigned state, float frameTime,
 	currentTank_->getPhysics().rotateGunYZ(angleYZDegs, false);
 	currentTank_->getPhysics().changePower(power, false);
 
-	// Save the shot made in the list of shots
-	// Cache all shots made at the targets
-	// This will be used later to make a more educated shot next time
-	MadeShot newMadeShot;
-	newMadeShot.angleXYDegs = angleXYDegs;
-	newMadeShot.angleYZDegs = angleYZDegs;
-	newMadeShot.power = power;
-	madeShots_[targetTank->getPlayerId()].push_back(newMadeShot);
-	lastShot_ = &madeShots_[targetTank->getPlayerId()].back();
+	// Only save the shot if this ai refines
+	if (refine)
+	{
+		// Save the shot made in the list of shots
+		// Cache all shots made at the targets
+		// This will be used later to make a more educated shot next time
+		MadeShot newMadeShot;
+		newMadeShot.angleXYDegs = angleXYDegs;
+		newMadeShot.angleYZDegs = angleYZDegs;
+		newMadeShot.power = power;
+		madeShots_[targetTank->getPlayerId()].push_back(newMadeShot);
+		lastShot_ = &madeShots_[targetTank->getPlayerId()].back();
+	}
+}
 
-	// Actualy fire the shot
-	// Fires the shot and ends the turn
-	fireShot();
+void TankAIComputerAim::randomAim()
+{
+	// Find the angle + power etc.. to use
+	float angleXYDegs = RAND * 360.0f;
+	float angleYZDegs = RAND * 70.0f + 10.0f;
+	float power = RAND * 900.0f + 100.0f;
+
+	// Set the parameters
+	// Sets the angle of the gun and the power
+	currentTank_->getPhysics().rotateGunXY(angleXYDegs, false);
+	currentTank_->getPhysics().rotateGunYZ(angleYZDegs, false);
+	currentTank_->getPhysics().changePower(power, false);
 }

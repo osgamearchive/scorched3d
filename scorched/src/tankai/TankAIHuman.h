@@ -30,18 +30,19 @@ public:
 	virtual ~TankAIHuman();
 
 	virtual bool isHuman() { return true; }
-	virtual const char *getName() { return "Human"; }
 
 	// Inherited from TankAI
 	virtual void playMove(const unsigned state, 
 		float frameTime, char *buffer, unsigned int keyState);
 	virtual void endPlayMove();
 	virtual void newGame();
+	virtual void reset();
 	virtual void tankHurt(Weapon *weapon, unsigned int firer);
 	virtual void shotLanded(ParticleAction action,
 		ScorchedCollisionInfo *collision,
 		Weapon *weapon, unsigned int firer, 
-		Vector &position);
+		Vector &position,
+		unsigned int landedCounter);
 
 	// Tank move methods and tank defense methods
 	//

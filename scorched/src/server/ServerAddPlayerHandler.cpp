@@ -90,7 +90,7 @@ bool ServerAddPlayerHandler::processMessage(unsigned int destinationId,
 		if (!ai) return true;
 
 		// Set the tank to have the ai
-		tank->setTankAI(ai->getCopy(tank, &ScorchedServer::instance()->getContext()));
+		tank->setTankAI(ai->getCopy(tank));
 		tank->setDestinationId(0);
 	}
 	else

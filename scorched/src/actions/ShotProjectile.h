@@ -46,6 +46,8 @@ public:
 
 	REGISTER_ACTION_HEADER(ShotProjectile);
 
+	void incLandedCounter() { landedCounter_++; }
+	unsigned int getLandedCounter() { return landedCounter_; }
 	unsigned int getPlayerId() { return playerId_; }
 	WeaponProjectile *getWeapon() { return (WeaponProjectile *) weapon_; }
 	std::list<Vector> &getPositions() { return positions_; }
@@ -62,6 +64,7 @@ protected:
 	bool up_;
 	float snapTime_;
 	std::list<Vector> positions_;
+	unsigned int landedCounter_;
 
 	void doCollision(Vector &position);
 

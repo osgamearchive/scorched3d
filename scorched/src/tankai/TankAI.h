@@ -26,13 +26,12 @@
 #include <GLW/GLWToolTip.h>
 
 class Weapon;
-class ScorchedContext;
 class Tank;
 class ComsDefenseMessage;
 class ComsPlayedMoveMessage;
 
 #define TANKAI_DEFINE(y) \
-	virtual TankAI *getCopy(Tank *tank, ScorchedContext *context) { TankAI *comp = new y(*this); comp->setTank(tank); comp->setContext(context); return comp; }
+	virtual TankAI *getCopy(Tank *tank) { TankAI *comp = new y(*this); comp->setTank(tank); return comp; }
 
 class TankAI
 {
@@ -40,10 +39,11 @@ public:
 	TankAI();
 	virtual ~TankAI();
 
+	const char *getName() { return description_.getTitle(); }
+	GLWTip &getDescription() { return description_; }
+
 	virtual bool isHuman() = 0;
-	virtual const char *getName() = 0;
-	virtual GLWTip &getDescription() { return description_; }
-	virtual TankAI *getCopy(Tank *tank, ScorchedContext *context) = 0;
+	virtual TankAI *getCopy(Tank *tank) = 0;
 	virtual bool availableForRandom() { return false; }
 
 	// State information about when the ai should act
@@ -55,10 +55,10 @@ public:
 		float frameTime, char *buffer, unsigned int keyState) = 0;
 	virtual void endPlayMove();
 	virtual void newGame() = 0;
+	virtual void reset() = 0;
 	
 	// Set the tank and context this ai is for
 	virtual void setTank(Tank *tank);
-	virtual void setContext(ScorchedContext *context);
 
 	// Information about shots landing
 	//
@@ -70,12 +70,12 @@ public:
 		ParticleAction action,
 		ScorchedCollisionInfo *collision,
 		Weapon *weapon, unsigned int firer, 
-		Vector &position) = 0;
+		Vector &position,
+		unsigned int landedCounter) = 0;
 
 protected:
 	GLWTip description_;
 	Tank *currentTank_;
-	ScorchedContext *context_;
 
 };
 

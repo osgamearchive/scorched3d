@@ -57,6 +57,7 @@ void Tank::reset()
 	accessories_.reset();
 	score_.reset();
 	state_.reset();
+	if (tankAI_) tankAI_->reset();
 }
 
 void Tank::newGame()

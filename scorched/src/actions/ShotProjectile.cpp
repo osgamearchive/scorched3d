@@ -34,7 +34,7 @@ unsigned int ShotProjectile::lookatCount_ = 0;
 
 ShotProjectile::ShotProjectile() : 
 	collisionInfo_(CollisionIdShot), vPoint_(0), 
-	snapTime_(0.2f),  up_(false)
+	snapTime_(0.2f),  up_(false), landedCounter_(0)
 {
 
 }
@@ -46,7 +46,8 @@ ShotProjectile::ShotProjectile(Vector &startPosition, Vector &velocity,
 	startPosition_(startPosition), velocity_(velocity), 
 	weapon_(weapon), playerId_(playerId), 
 	flareType_(flareType), vPoint_(0),
-	snapTime_(0.2f), up_(false)
+	snapTime_(0.2f), up_(false),
+	landedCounter_(0)
 {
 
 }

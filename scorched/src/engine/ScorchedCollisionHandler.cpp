@@ -205,6 +205,7 @@ void ScorchedCollisionHandler::shotCollision(dGeomID o1, dGeomID o2,
 
 	unsigned int id = (unsigned int) otherInfo->data;
 	ShotProjectile *shot = (ShotProjectile *) particleInfo->data;
+	shot->incLandedCounter();
 	Vector particlePositionV(
 		(float) particlePosition[0],
 		(float) particlePosition[1],
@@ -334,7 +335,8 @@ void ScorchedCollisionHandler::shotCollision(dGeomID o1, dGeomID o2,
 				{
 					ai->shotLanded(action, otherInfo, 
 						shot->getWeapon(), shot->getPlayerId(), 
-						shot->getCurrentPosition());
+						shot->getCurrentPosition(),
+						shot->getLandedCounter());
 				}
 			}
 		}

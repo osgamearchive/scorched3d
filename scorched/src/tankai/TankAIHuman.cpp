@@ -48,6 +48,10 @@ void TankAIHuman::newGame()
 {
 }
 
+void TankAIHuman::reset()
+{
+}
+
 void TankAIHuman::tankHurt(Weapon *weapon, unsigned int firer)
 {
 }
@@ -55,7 +59,8 @@ void TankAIHuman::tankHurt(Weapon *weapon, unsigned int firer)
 void TankAIHuman::shotLanded(ParticleAction action,
 							 ScorchedCollisionInfo *collision,
 							 Weapon *weapon, unsigned int firer, 
-							 Vector &position)
+							 Vector &position,
+							 unsigned int landedCounter)
 {
 }
 
@@ -140,7 +145,7 @@ void TankAIHuman::autoAim()
 	if (MainCamera::instance()->getCamera().
 		getDirectionFromPt((GLfloat) x, (GLfloat) y, direction))
 	{
-		if (context_->landscapeMaps->getHMap().getIntersect(direction, intersect))
+		if (ScorchedClient::instance()->getLandscapeMaps().getHMap().getIntersect(direction, intersect))
         {
 			Vector &position = currentTank_->getPhysics().getTankPosition();
 

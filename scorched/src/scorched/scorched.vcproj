@@ -3072,46 +3072,22 @@
 				RelativePath="..\tankai\TankAIComputer.h">
 			</File>
 			<File
+				RelativePath="..\tankai\TankAIComputerAim.cpp">
+			</File>
+			<File
+				RelativePath="..\tankai\TankAIComputerAim.h">
+			</File>
+			<File
 				RelativePath="..\tankai\TankAIComputerBuyer.cpp">
 			</File>
 			<File
 				RelativePath="..\tankai\TankAIComputerBuyer.h">
 			</File>
 			<File
-				RelativePath="..\tankai\TankAIComputerMoron.cpp">
-			</File>
-			<File
-				RelativePath="..\tankai\TankAIComputerMoron.h">
-			</File>
-			<File
-				RelativePath="..\tankai\TankAIComputerPShark.cpp">
-			</File>
-			<File
-				RelativePath="..\tankai\TankAIComputerPShark.h">
-			</File>
-			<File
-				RelativePath="..\tankai\TankAIComputerRandom.cpp">
-			</File>
-			<File
-				RelativePath="..\tankai\TankAIComputerRandom.h">
-			</File>
-			<File
-				RelativePath="..\tankai\TankAIComputerShooter.cpp">
-			</File>
-			<File
-				RelativePath="..\tankai\TankAIComputerShooter.h">
-			</File>
-			<File
 				RelativePath="..\tankai\TankAIComputerTarget.cpp">
 			</File>
 			<File
 				RelativePath="..\tankai\TankAIComputerTarget.h">
-			</File>
-			<File
-				RelativePath="..\tankai\TankAIComputerTosser.cpp">
-			</File>
-			<File
-				RelativePath="..\tankai\TankAIComputerTosser.h">
 			</File>
 			<File
 				RelativePath="..\tankai\TankAIHuman.cpp">

@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,27 +18,22 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(AFX_TankAIComputerTosser_H__2D4FA3B6_4C3B_48ED_9C04_0D8EC257C32D__INCLUDED_)
-#define AFX_TankAIComputerTosser_H__2D4FA3B6_4C3B_48ED_9C04_0D8EC257C32D__INCLUDED_
+#if !defined(__INCLUDE_TankAIComputerAimh_INCLUDE__)
+#define __INCLUDE_TankAIComputerAimh_INCLUDE__
 
-#include <map>
-#include <list>
-#include <common/Vector.h>
-#include <tankai/TankAIComputerShooter.h>
+#include <tank/Tank.h>
 
-class TankAIComputerTosser : public TankAIComputerShooter
+class TankAIComputerAim
 {
 public:
-	TankAIComputerTosser();
-	virtual ~TankAIComputerTosser();
+	TankAIComputerAim();
+	virtual ~TankAIComputerAim();
 
-	virtual void newGame();
-	virtual bool parseConfig(XMLNode *node);
-	virtual void ourShotLanded(Weapon *weapon, Vector &position);
-	virtual void playMove(const unsigned state, float frameTime, 
-		char *buffer, unsigned int keyState);
-
-TANKAI_DEFINE(TankAIComputerTosser);
+	void setTank(Tank *tank);
+	bool parseConfig(XMLNode *node);
+	void newGame();
+	void ourShotLanded(Weapon *weapon, Vector &position);
+	bool aimAtTank(Tank *tank);
 
 protected:
 	struct MadeShot
@@ -49,9 +44,15 @@ protected:
 		Vector finalpos;
 	} *lastShot_;
 
-	std::map<unsigned int, std::list<MadeShot> > madeShots_;
-	bool refineLastShot(Tank *tank, float &angleXYDegs, float &angleYZDegs, float &power);
+	Tank *currentTank_;
 	float sniperDist_;
+	std::map<unsigned int, std::list<MadeShot> > madeShots_;
+	std::string aimType_;
+
+	void randomAim();
+	void refinedAim(Tank *tank, bool refine);
+	bool refineLastShot(Tank *tank, float &angleXYDegs, 
+		float &angleYZDegs, float &power);
 };
 
-#endif // !defined(AFX_TankAIComputerTosser_H__2D4FA3B6_4C3B_48ED_9C04_0D8EC257C32D__INCLUDED_)
+#endif // __INCLUDE_TankAIComputerAimh_INCLUDE__

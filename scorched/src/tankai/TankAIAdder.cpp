@@ -87,7 +87,7 @@ void TankAIAdder::addTankAI(ScorchedContext &context,
 		char uniqueId[256];
 		sprintf(uniqueId, "%s - computer", aiName);
 		tank->setUnqiueId(uniqueId);
-		tank->setTankAI(ai->getCopy(tank, &context));
+		tank->setTankAI(ai->getCopy(tank));
 		context.tankContainer->addTank(tank);
 
 		if (context.optionsGame->getTeams() > 1)

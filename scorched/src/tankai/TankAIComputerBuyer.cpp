@@ -53,6 +53,24 @@ TankAIComputerBuyer::~TankAIComputerBuyer()
 {
 }
 
+bool TankAIComputerBuyer::parseConfig(XMLNode *node)
+{
+	// Weapons
+	XMLNode *weaponNode = 0;
+	while (node->getNamedChild("weapon", weaponNode, false))
+	{
+		XMLNode *wname, *wlevel;
+		if (!weaponNode->getNamedChild("name", wname)) return false;
+		if (!weaponNode->getNamedChild("level", wlevel)) return false;
+
+		if (!addAccessory(
+			wname->getContent(), 
+			atoi(wlevel->getContent()))) return false;
+	}
+
+	return true;
+}
+
 void TankAIComputerBuyer::clearAccessories()
 {
 	buyEntries_.clear();
