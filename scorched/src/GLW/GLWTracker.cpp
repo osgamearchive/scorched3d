@@ -65,10 +65,6 @@ void GLWTracker::mouseDown(float x, float y, bool &skipRest)
 	{
 		skipRest = true;
 		dragging_ = true;
-		startX_ = x;
-		startY_ = y;
-		startCurrentX_ = currentX_;
-		startCurrentY_ = currentY_;
 	}
 }
 
@@ -86,12 +82,12 @@ void GLWTracker::mouseDrag(float mx, float my, float x, float y, bool &skipRest)
 			Keyboard::instance()->getKeyboardState();
 		if (keyState & KMOD_LSHIFT) rangeMult = 0.5f;
 
-		currentX_ = startCurrentX_ - ((mx - startX_)/w_ * range_ * rangeMult);
+		currentX_ -= x / w_ * range_ * rangeMult;
 		if (OptionsDisplay::instance()->getInvertUpDownKey())
 		{
 			rangeMult = -rangeMult;
 		}
-		currentY_ = startCurrentY_ - ((my - startY_)/w_ * range_ * rangeMult);
+		currentY_ -= y /w_ * range_ * rangeMult;
 		if (handler_) handler_->currentChanged(getId(), currentX_, currentY_);
 
 		skipRest = true;

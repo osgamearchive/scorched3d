@@ -53,7 +53,6 @@ protected:
 	bool dragging_;
 	float current_;
 	float range_;
-	float startX_, startCurrent_;
 
 };
 

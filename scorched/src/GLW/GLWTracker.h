@@ -55,7 +55,6 @@ protected:
 	bool dragging_;
 	float currentX_, currentY_;
 	float range_;
-	float startX_, startY_, startCurrentX_, startCurrentY_;
 
 };
 

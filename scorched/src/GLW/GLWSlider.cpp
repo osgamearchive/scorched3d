@@ -27,7 +27,7 @@ REGISTER_CLASS_SOURCE(GLWSlider);
 
 GLWSlider::GLWSlider(float x, float y, float w,  float current, float range) :
 	GLWVisibleWidget(x, y, w, 20.0f), 
-	current_(current), range_(range), startX_(0.0f), startCurrent_(current),
+	current_(current), range_(range),
 	dragging_(false), handler_(0)
 {
 
@@ -64,8 +64,6 @@ void GLWSlider::mouseDown(float x, float y, bool &skipRest)
 	{
 		skipRest = true;
 		dragging_ = true;
-		startX_ = y;
-		startCurrent_ = current_;
 	}
 }
 
@@ -83,7 +81,7 @@ void GLWSlider::mouseDrag(float mx, float my, float x, float y, bool &skipRest)
 			Keyboard::instance()->getKeyboardState();
 		if (keyState & KMOD_LSHIFT) rangeMult = 0.5f;
 
-		current_ = startCurrent_ + ((my - startX_)/w_ * range_ * rangeMult);
+		current_ += y /w_ * range_ * rangeMult;
 		if (handler_) handler_->currentChanged(getId(), current_);
 
 		skipRest = true;
