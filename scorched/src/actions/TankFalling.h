@@ -18,7 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #if !defined(__INCLUDE_TankFallingh_INCLUDE__)
 #define __INCLUDE_TankFallingh_INCLUDE__
 
@@ -26,7 +25,7 @@
 #include <engine/ScorchedCollisionIds.h>
 #include <weapons/Weapon.h>
 
-#include <set>
+#include <map>
 #include <list>
 
 class TankFalling;
@@ -47,7 +46,7 @@ protected:
 class TankFalling : public ActionMeta
 {
 public:
-	static std::set<unsigned int> fallingTanks;
+	static std::map<unsigned int, TankFalling*> fallingTanks;
 
 	TankFalling();
 	TankFalling(Weapon *weapon, unsigned int fallingPlayerId,
@@ -61,6 +60,7 @@ public:
 	virtual bool readAction(NetBufferReader &reader);
 
 	void collision();
+	void remove();
 
 	REGISTER_ACTION_HEADER(TankFalling);
 
@@ -76,6 +76,5 @@ protected:
 	void getAllPositions(Vector &spherePositions);
 
 };
-
 
 #endif

@@ -27,7 +27,7 @@
 void TankController::explosion(ScorchedContext &context,
 							   Weapon *weapon, unsigned int firer, 
 							   Vector &position, float radius,
-							   float damageAmount,
+							   float damageAmount, bool checkFall,
 							   unsigned int data)
 {
 	std::map<unsigned int, Tank *>::iterator itor;
@@ -41,9 +41,11 @@ void TankController::explosion(ScorchedContext &context,
 		if (current->getState().getState() != TankState::sNormal) continue;
 
 		// Get how close the exposion was
-		Vector direction = position - current->getPhysics().getTankPosition();
+		Vector direction = position - 
+			current->getPhysics().getTankPosition();
 		float dist = direction.Magnitude();
-		float dist2d = sqrtf(direction[0] * direction[0] + direction[1] * direction[1]);
+		float dist2d = sqrtf(direction[0] * direction[0] + 
+			direction[1] * direction[1]);
 
 		// Check if the explosion causes damage
 		if (dist < radius)
@@ -56,12 +58,14 @@ void TankController::explosion(ScorchedContext &context,
 				damage = 100.0f - damage;
 			}
 
-			damageTank(context, current, weapon, firer, damage * damageAmount, true, data);
+			damageTank(context, current, weapon, firer, 
+				damage * damageAmount, true, checkFall, data);
 		}
 		else if (dist2d < radius + 5.0f)
 		{
 			// explosion under tank
-			damageTank(context, current, weapon, firer, 0, true, data);
+			damageTank(context, current, weapon, firer, 
+				0, true, checkFall, data);
 		}
 	}
 }
@@ -69,12 +73,12 @@ void TankController::explosion(ScorchedContext &context,
 void TankController::damageTank(ScorchedContext &context,
 								Tank *tank, Weapon *weapon, 
 								unsigned int firer, float damage,
-								bool useShieldDamage,
+								bool useShieldDamage, bool checkFall,
 								unsigned int data)
 {
 	// Remove the correct damage from the tanks
 	TankDamage *tankDamage = new TankDamage(
 		weapon, tank->getPlayerId(), firer, 
-		damage, useShieldDamage, data);
+		damage, useShieldDamage, checkFall, data);
 	context.actionController->addAction(tankDamage);
 }

@@ -2608,22 +2608,28 @@
 				RelativePath="..\actions\TankFalling.h">
 			</File>
 			<File
+				RelativePath="..\actions\TankFallingEnd.cpp">
+			</File>
+			<File
+				RelativePath="..\actions\TankFallingEnd.h">
+			</File>
+			<File
 				RelativePath="..\actions\TankFired.cpp">
 			</File>
 			<File
 				RelativePath="..\actions\TankFired.h">
 			</File>
 			<File
-				RelativePath="..\actions\TankMove.cpp">
-			</File>
-			<File
-				RelativePath="..\actions\TankMove.h">
-			</File>
-			<File
 				RelativePath="..\actions\TankMovement.cpp">
 			</File>
 			<File
 				RelativePath="..\actions\TankMovement.h">
+			</File>
+			<File
+				RelativePath="..\actions\TankMovementEnd.cpp">
+			</File>
+			<File
+				RelativePath="..\actions\TankMovementEnd.h">
 			</File>
 			<File
 				RelativePath="..\actions\TankResign.cpp">

@@ -202,7 +202,7 @@ void TankModelRenderer::drawSecond(bool currentTank)
 	// Draw the parachutes (if any)
 	if (tank_->getAccessories().getParachutes().parachutesEnabled())
 	{
-		std::set<unsigned int>::iterator findItor = 
+		std::map<unsigned int, TankFalling *>::iterator findItor = 
 			TankFalling::fallingTanks.find(tank_->getPlayerId());
 		if (findItor != TankFalling::fallingTanks.end())
 		{

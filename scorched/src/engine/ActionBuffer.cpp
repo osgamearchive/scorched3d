@@ -115,12 +115,27 @@ bool ActionBuffer::readMessage(NetBufferReader &reader)
 
 		// Create and read the action
 		std::string actionName;
-		if (!reader.getFromBuffer(actionName)) return false;
+		if (!reader.getFromBuffer(actionName))
+		{
+			Logger::log(0, "ActionController - "
+				"Failed to deserailize action name");
+			return false;
+		}
 		ActionMeta *newAction = (ActionMeta *)
 			MetaClassRegistration::getNewClass(actionName.c_str());
-		if (!newAction) return false;
+		if (!newAction)
+		{
+			Logger::log(0, "ActionController - "
+				"Failed to find action %s", actionName.c_str());
+			return false;
+		}
 		newAction->setScorchedContext(context_);
-		if (!newAction->readAction(reader)) return false;
+		if (!newAction->readAction(reader))
+		{
+			Logger::log(0, "ActionController - "
+				"Failed to read action %s", actionName.c_str());
+			return false;
+		}
 
 		// Put the action onto the list
 		clientAdd(0.0f, newAction);

@@ -394,7 +394,7 @@ void Napalm::simulateDamage()
 
 			// Add damage to the tank
 			TankController::damageTank(*context_, tank, weapon_, 
-				playerId_, damage, true, data_);
+				playerId_, damage, true, false, data_);
 		}
 		tankDamage.clear();
 	}

@@ -72,7 +72,7 @@ void Lightning::init()
 		float damage = (*hurtItor).second;
 		TankController::damageTank(
 			*context_, tank, weapon_, playerId_, 
-			damage, false, data_);
+			damage, true, false, data_);
 	}
 }
 

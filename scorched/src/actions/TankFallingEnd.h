@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,60 +18,38 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_TankMovementh_INCLUDE__)
-#define __INCLUDE_TankMovementh_INCLUDE__
+#if !defined(__INCLUDE_TankFallingEndh_INCLUDE__)
+#define __INCLUDE_TankFallingEndh_INCLUDE__
 
-#include <engine/ActionMeta.h>
-#include <engine/ViewPoints.h>
-#include <common/Vector.h>
-#include <list>
-#include <map>
+#include <engine/PhysicsParticle.h>
+#include <engine/ScorchedCollisionIds.h>
+#include <weapons/Weapon.h>
 
-class Tank;
-class TankMovement : public ActionMeta
+class TankFallingEnd : public ActionMeta
 {
 public:
-	static std::map<unsigned int, TankMovement*> movingTanks;
-
-	TankMovement();
-	TankMovement(unsigned int playerId,
-		int positionX, int positionY);
-	virtual ~TankMovement();
+	TankFallingEnd();
+	TankFallingEnd(Weapon *weapon, 
+		Vector &startPosition,
+		Vector &endPosition,
+		unsigned int fallingPlayerId,
+		unsigned int firedPlayerId,
+		unsigned int data);
+	virtual ~TankFallingEnd();
 
 	virtual void init();
 	virtual void simulate(float frameTime, bool &remove);
 	virtual bool writeAction(NetBuffer &buffer);
 	virtual bool readAction(NetBufferReader &reader);
 
-	void remove();
-
-	REGISTER_ACTION_HEADER(TankMovement);
+	REGISTER_ACTION_HEADER(TankFallingEnd);
 
 protected:
-	// A list containing smooth positions
-	struct PositionEntry
-	{
-		PositionEntry(float newx, float newy, float newa, bool useF,
-			float *ha, float *hb) :
-		x(newx), y(newy), ang(newa), useFuel(useF), heighta(ha), heightb(hb)
-		{}
-
-		float x, y;
-		float ang;
-		bool useFuel;
-		float *heighta, *heightb;
-	};
-	std::list<PositionEntry> expandedPositions_;
-	float timePassed_;
-	ViewPoints::ViewPoint *vPoint_;
-
-	unsigned int playerId_;
-	int positionX_, positionY_;
-	bool remove_, moving_;
-
-	void moveTank(Tank *tank);
-	void simulationMove(float frameTime);
-
+	Weapon *weapon_;
+	unsigned int fallingPlayerId_;
+	unsigned int firedPlayerId_;
+	unsigned int data_;
+	Vector startPosition_, endPosition_;
 };
 
-#endif
+#endif // __INCLUDE_TankFallingEndh_INCLUDE__

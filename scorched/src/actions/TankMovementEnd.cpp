@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,60 +18,68 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <actions/TankMove.h>
-#include <engine/ScorchedContext.h>
+#include <actions/TankMovementEnd.h>
+#include <actions/TankMovement.h>
+#include <common/OptionsGame.h>
+#include <weapons/AccessoryStore.h>
 #include <tank/TankContainer.h>
 
-REGISTER_ACTION_SOURCE(TankMove);
+REGISTER_ACTION_SOURCE(TankMovementEnd);
 
-TankMove::TankMove()
+TankMovementEnd::TankMovementEnd() :
+	playerId_(0)
 {
 }
 
-TankMove::TankMove(Vector &position, 
-		unsigned int playerId) :
-	position_(position), playerId_(playerId)
+TankMovementEnd::TankMovementEnd(
+	Vector &position,
+	unsigned int playerId) :
+	position_(position),
+	playerId_(playerId)
 {
 }
 
-TankMove::~TankMove()
+TankMovementEnd::~TankMovementEnd()
 {
 }
 
-void TankMove::init()
+void TankMovementEnd::init()
 {
-
 }
 
-void TankMove::simulate(float frameTime, bool &remove)
+void TankMovementEnd::simulate(float frameTime, bool &remove)
 {
-	Tank *tank = 
+	Tank *current = 
 		context_->tankContainer->getTankById(playerId_);
-	if (tank && 
-		tank->getState().getState() == TankState::sNormal)
+	if (current)
 	{
-		// Set the new tank position
-		tank->getPhysics().setTankPosition(position_);
+		current->getPhysics().rotateTank(0.0f);
+		if (current->getState().getState() == TankState::sNormal)
+		{
+			// Move the tank to the final position
+			current->getPhysics().setTankPosition(position_);
+		}
 	}
 
-	remove = true;
-	ActionMeta::simulate(frameTime, remove);
+	std::map<unsigned int, TankMovement *>::iterator findItor =
+		TankMovement::movingTanks.find(playerId_);
+	if (findItor != TankMovement::movingTanks.end())
+	{
+		(*findItor).second->remove();
+	}
+	remove=true;
 }
 
-bool TankMove::writeAction(NetBuffer &buffer)
+bool TankMovementEnd::writeAction(NetBuffer &buffer)
 {
+	buffer.addToBuffer(position_);
 	buffer.addToBuffer(playerId_);
-	buffer.addToBuffer(position_[0]);
-	buffer.addToBuffer(position_[1]);
-	buffer.addToBuffer(position_[2]);
 	return true;
 }
 
-bool TankMove::readAction(NetBufferReader &reader)
+bool TankMovementEnd::readAction(NetBufferReader &reader)
 {
+	if (!reader.getFromBuffer(position_)) return false;
 	if (!reader.getFromBuffer(playerId_)) return false;
-	if (!reader.getFromBuffer(position_[0])) return false;
-	if (!reader.getFromBuffer(position_[1])) return false;
-	if (!reader.getFromBuffer(position_[2])) return false;
 	return true;
 }

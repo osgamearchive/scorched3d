@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,31 +18,31 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-#if !defined(__INCLUDE_TankMoveh_INCLUDE__)
-#define __INCLUDE_TankMoveh_INCLUDE__
+#if !defined(__INCLUDE_TankMovementEndh_INCLUDE__)
+#define __INCLUDE_TankMovementEndh_INCLUDE__
 
 #include <engine/ActionMeta.h>
-#include <common/Vector.h>
 
-class TankMove : public ActionMeta
+class TankMovementEnd : public ActionMeta
 {
 public:
-	TankMove();
-	TankMove(Vector &position, 
+	TankMovementEnd();
+	TankMovementEnd(
+		Vector &position,
 		unsigned int playerId);
-	virtual ~TankMove();
+	virtual ~TankMovementEnd();
 
 	virtual void init();
 	virtual void simulate(float frameTime, bool &remove);
 	virtual bool writeAction(NetBuffer &buffer);
 	virtual bool readAction(NetBufferReader &reader);
 
-	REGISTER_ACTION_HEADER(TankMove);
+	REGISTER_ACTION_HEADER(TankMovementEnd);
 
 protected:
-	Vector position_;
 	unsigned int playerId_;
+	unsigned int data_;
+	Vector position_;
 };
 
-#endif
+#endif // __INCLUDE_TankMovementEndh_INCLUDE__

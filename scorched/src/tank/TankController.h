@@ -33,13 +33,14 @@ public:
 		Weapon *weapon, unsigned int firer, 
 		Vector &position, float radius,
 		float damageAmount,
+		bool checkFall,
 		unsigned int data);
 	static void damageTank(ScorchedContext &context,
 		Tank *tank, 
 		Weapon *weapon,
 		unsigned int firer,
 		float damage,
-		bool useShieldDamage,
+		bool useShieldDamage, bool checkFall,
 		unsigned int data);
 
 private:

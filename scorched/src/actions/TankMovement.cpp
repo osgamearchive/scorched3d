@@ -19,8 +19,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <actions/TankMovement.h>
+#include <actions/TankMovementEnd.h>
 #include <actions/TankFalling.h>
-#include <actions/TankMove.h>
 #include <actions/ShotProjectile.h>
 #include <engine/ScorchedContext.h>
 #include <engine/ActionController.h>
@@ -29,10 +29,13 @@
 #include <common/OptionsGame.h>
 
 static const int NoMovementTransitions = 4;
+std::map<unsigned int, TankMovement*> TankMovement::movingTanks;
 
 REGISTER_ACTION_SOURCE(TankMovement);
 
-TankMovement::TankMovement() : timePassed_(0.0f), vPoint_(0)
+TankMovement::TankMovement() : 
+	timePassed_(0.0f), vPoint_(0), 
+	remove_(false), moving_(true)
 {
 }
 
@@ -40,7 +43,8 @@ TankMovement::TankMovement(unsigned int playerId,
 	int positionX, int positionY) : 
 	playerId_(playerId), 
 	positionX_(positionX), positionY_(positionY),
-	timePassed_(0.0f), vPoint_(0)
+	timePassed_(0.0f), vPoint_(0), 
+	remove_(false), moving_(true)
 {
 }
 
@@ -51,6 +55,8 @@ TankMovement::~TankMovement()
 
 void TankMovement::init()
 {
+	movingTanks[playerId_] = this;
+
 	Tank *tank = context_->tankContainer->getTankById(playerId_);
 	if (!tank) return;	
 
@@ -127,6 +133,30 @@ void TankMovement::init()
 
 void TankMovement::simulate(float frameTime, bool &remove)
 {
+	if (!remove_)
+	{
+		if (moving_)
+		{
+			simulationMove(frameTime);
+		}
+	}
+	else
+	{
+		remove = true;
+	}
+	
+	ActionMeta::simulate(frameTime, remove);
+}
+
+void TankMovement::remove()
+{
+	remove_ = true;
+
+	TankMovement::movingTanks.erase(playerId_);
+}
+
+void TankMovement::simulationMove(float frameTime)
+{
 	Tank *tank = 
 		context_->tankContainer->getTankById(playerId_);
 	if (tank)
@@ -138,12 +168,12 @@ void TankMovement::simulate(float frameTime, bool &remove)
 		{
 			// Check to see if this tank is falling
 			// If it is then we wait until the fall is over
-			std::set<unsigned int>::iterator findItor =
+			std::map<unsigned int, TankFalling *>::iterator findItor =
 				TankFalling::fallingTanks.find(playerId_);
 			if (findItor == TankFalling::fallingTanks.end())
 			{
-				// Move the tank one position every 0.1 seconds
-				// i.e. 10 positions a second
+				// Move the tank one position every stepsPerFrame seconds
+				// i.e. 1/stepsPerFrame positions a second
 				timePassed_ += frameTime;
 				const float stepsPerFrame = 0.05f;
 				while (timePassed_ >= stepsPerFrame)
@@ -156,24 +186,21 @@ void TankMovement::simulate(float frameTime, bool &remove)
 					else break;
 				}
 
-				if (expandedPositions_.empty()) remove = true;
+				if (expandedPositions_.empty()) moving_ = false;
 			}
 		}
-		else remove = true;
+		else moving_ = false;
+	}
+	else moving_ = false;
 
+	if (moving_ == false)
+	{
 		// If this is the very last movement made
 		// Ensure all tanks always end in the same place
-		if (remove)
-		{
-			tank->getPhysics().rotateTank(0.0f);
-			context_->actionController->addAction(
-				new TankMove(tank->getPhysics().getTankPosition(),
-					tank->getPlayerId()));
-		}
+		context_->actionController->addAction(
+			new TankMovementEnd(tank->getPhysics().getTankPosition(),
+				tank->getPlayerId()));
 	}
-	else remove = true;
-	
-	ActionMeta::simulate(frameTime, remove);
 }
 
 void TankMovement::moveTank(Tank *tank)

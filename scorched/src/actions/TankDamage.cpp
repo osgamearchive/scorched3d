@@ -38,11 +38,11 @@ TankDamage::TankDamage() : firstTime_(true)
 
 TankDamage::TankDamage(Weapon *weapon, 
 		unsigned int damagedPlayerId, unsigned int firedPlayerId,
-		float damage, bool useShieldDamage,
+		float damage, bool useShieldDamage, bool checkFall,
 		unsigned int data) :
 	weapon_(weapon), firstTime_(true),
 	damagedPlayerId_(damagedPlayerId), firedPlayerId_(firedPlayerId),
-	damage_(damage), useShieldDamage_(useShieldDamage),
+	damage_(damage), useShieldDamage_(useShieldDamage), checkFall_(checkFall),
 	data_(data)
 {
 }
@@ -163,7 +163,8 @@ void TankDamage::simulate(float frameTime, bool &remove)
 				if (ai) ai->tankHurt(weapon_, firedPlayerId_);
 
 				// Check if the tank needs to fall
-				if (damagedTank->getState().getState() != TankState::sDead)
+				if (checkFall_ &&
+					damagedTank->getState().getState() != TankState::sDead)
 				{
 					// The tank is not dead check if it needs to fall
 					Vector &position = damagedTank->getPhysics().getTankPosition();
@@ -171,12 +172,10 @@ void TankDamage::simulate(float frameTime, bool &remove)
 						getInterpHeight(position[0], position[1]) < position[2])
 					{
 						// Check this tank is not already falling
-						std::set<unsigned int>::iterator findItor =
+						std::map<unsigned int, TankFalling *>::iterator findItor =
 							TankFalling::fallingTanks.find(damagedPlayerId_);
 						if (findItor == TankFalling::fallingTanks.end())
 						{
-							TankFalling::fallingTanks.insert(damagedPlayerId_);
-							
 							// Tank falling
 							context_->actionController->addAction(
 								new TankFalling(weapon_, damagedPlayerId_, firedPlayerId_, data_));
@@ -197,6 +196,7 @@ bool TankDamage::writeAction(NetBuffer &buffer)
 	buffer.addToBuffer(firedPlayerId_);
 	buffer.addToBuffer(damage_);
 	buffer.addToBuffer(useShieldDamage_);
+	buffer.addToBuffer(checkFall_);
 	buffer.addToBuffer(data_);
 	context_->accessoryStore->writeWeapon(buffer, weapon_);
 	return true;
@@ -208,6 +208,7 @@ bool TankDamage::readAction(NetBufferReader &reader)
 	if (!reader.getFromBuffer(firedPlayerId_)) return false;
 	if (!reader.getFromBuffer(damage_)) return false;
 	if (!reader.getFromBuffer(useShieldDamage_)) return false;
+	if (!reader.getFromBuffer(checkFall_)) return false;
 	if (!reader.getFromBuffer(data_)) return false;
 	weapon_ = context_->accessoryStore->readWeapon(reader); if (!weapon_) return false;
 
