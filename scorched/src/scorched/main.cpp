@@ -86,7 +86,7 @@ int _matherr(struct _exception  *e)
 int main(int argc, char *argv[])
 {
 	// Generate the version
-	sprintf(scorched3dAppName, "Scorched3D - Version %s", ScorchedVersion);
+	sprintf(scorched3dAppName, "Scorched3D - Version %s (%s)", ScorchedVersion, ScorchedProtocolVersion);
 
 	// Check we are in the correct directory
 	FILE *checkfile = fopen(PKGDIR "data/autoexec.xml", "r");
