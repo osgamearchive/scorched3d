@@ -213,18 +213,25 @@ void NetLanFrame::onSelectServer()
 			}
 			IDC_EDIT_SERVER_CTRL->SetValue(text.c_str());
 
-			/*if (ASEBrowser_getfirstplayer(item))
+			int noplayers =
+				atoi(ServerBrowser::instance()->getServerList().getEntryValue(item, "noplayers"));
+			for (int i=0; i<noplayers; i++)
 			{
-				do
-				{
-					long index = IDC_PLAYER_LIST_CTRL->InsertItem(0, 
-						ASEBrowser_getplayerinfo("name"));
-					IDC_PLAYER_LIST_CTRL->
-						SetItem(index, 1, ASEBrowser_getplayerinfo("score"));
-					IDC_PLAYER_LIST_CTRL->
-						SetItem(index, 2, ASEBrowser_getplayerinfo("time"));
-				} while (ASEBrowser_getnextplayer());
-			}*/
+				static char tmp[128];
+				sprintf(tmp, "playername_%i", i);
+				long index = IDC_PLAYER_LIST_CTRL->InsertItem(0, 
+					ServerBrowser::instance()->getServerList().getEntryValue(item, tmp));
+
+				sprintf(tmp, "playerscore_%i", i);
+				IDC_PLAYER_LIST_CTRL->
+					SetItem(index, 1, 
+					ServerBrowser::instance()->getServerList().getEntryValue(item, tmp));
+
+				sprintf(tmp, "playertime_%i", i);
+				IDC_PLAYER_LIST_CTRL->
+					SetItem(index, 2, 
+					ServerBrowser::instance()->getServerList().getEntryValue(item, tmp));
+			}
 			
 			onServerChanged();
 		}

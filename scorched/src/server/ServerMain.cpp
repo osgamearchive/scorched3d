@@ -93,9 +93,9 @@ bool serverMain()
 		return false;
 	}
 
+	ServerBrowserInfo::instance()->start();
  	if (OptionsGame::instance()->getPublishServer()) 
 	{
-		ServerBrowserInfo::instance()->start();
 		ServerRegistration::instance()->start();
 	}
 

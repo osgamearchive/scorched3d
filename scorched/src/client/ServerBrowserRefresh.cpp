@@ -26,7 +26,7 @@
 ServerBrowserRefresh::ServerBrowserRefresh(ServerBrowserServerList &list) :
 	list_(list)
 {
-	recvPacket_ = SDLNet_AllocPacket(1024);
+	recvPacket_ = SDLNet_AllocPacket(10000);
 	sendPacket_ = SDLNet_AllocPacket(20);
 	sendPacket_->len = 7;
 	memcpy(sendPacket_->data, "status", 7);

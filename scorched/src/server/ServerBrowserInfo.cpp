@@ -39,7 +39,7 @@ ServerBrowserInfo *ServerBrowserInfo::instance()
 
 ServerBrowserInfo::ServerBrowserInfo()
 {
-	packetV_ = SDLNet_AllocPacketV(20, 1024);
+	packetV_ = SDLNet_AllocPacketV(20, 10000);
 }
 
 ServerBrowserInfo::~ServerBrowserInfo()
@@ -71,7 +71,7 @@ void ServerBrowserInfo::processMessages()
 
 	// Create the server info buffer that will be sent back to the 
 	// client
-	static char buffer[2048];
+	static char buffer[10000];
 	sprintf(buffer,
 		"<serverinfo>\n"
 		"\t<state>%s</state>\n"
@@ -81,8 +81,7 @@ void ServerBrowserInfo::processMessages()
 		"\t<protocolversion>%s</protocolversion>\n"
 		"\t<password>%s</password>\n"
 		"\t<noplayers>%i</noplayers>\n"
-		"\t<maxplayers>%i</maxplayers>\n"
-		"</serverinfo>",
+		"\t<maxplayers>%i</maxplayers>\n",
 			(started?"Started":"Waiting"),
 			serverName,
 			version,
@@ -91,8 +90,46 @@ void ServerBrowserInfo::processMessages()
 			OptionsGame::instance()->getServerPassword()[0]?"On":"Off",
 			TankContainer::instance()->getNoOfTanks(),
 			OptionsGame::instance()->getNoMaxPlayers());
-	int len = (int) strlen(buffer)+1;
 
+	// Add all of the other tank options
+	// Currently nothing on the client uses this info
+	std::list<OptionEntry *> &options = OptionsGame::instance()->getOptions();
+	std::list<OptionEntry *>::iterator optionItor;
+	for (optionItor = options.begin();
+		optionItor != options.end();
+		optionItor ++)
+	{
+		OptionEntry *entry = (*optionItor);
+		if (strcmp(entry->getName(), "ServerPassword"))
+		{
+			addTag(buffer, entry->getName(), entry->getValueAsString());
+		}
+	}
+
+	// Add all of the player information
+	std::map<unsigned int, Tank *> &tanks =
+		TankContainer::instance()->getPlayingTanks();
+	std::map<unsigned int, Tank *>::iterator tankItor;
+	int i=0;
+	for (tankItor =  tanks.begin();
+		tankItor != tanks.end();
+		tankItor++, i++)
+	{
+		Tank *tank = (*tankItor).second;
+		static char tmp[128];
+
+		sprintf(tmp, "playername_%i", i);
+		addTag(buffer, tmp, tank->getName());
+
+		sprintf(tmp, "playerscore_%i", i);
+		addTag(buffer, tmp, tank->getScore().getScoreString());
+
+		sprintf(tmp, "playertime_%i", i);
+		addTag(buffer, tmp, tank->getScore().getTimePlayedString());
+	}
+	strcat(buffer, "</serverinfo>");
+
+	int len = (int) strlen(buffer)+1;
 	for(int i=0; i<numrecv; i++) 
 	{
 		memcpy(packetV_[i]->data, buffer, len);
@@ -101,3 +138,11 @@ void ServerBrowserInfo::processMessages()
 	
 	SDLNet_UDP_SendV(udpsock_, packetV_, numrecv);
 }
+
+void ServerBrowserInfo::addTag(char *buffer, const char *name, const char *value)
+{
+	strcat(buffer, "\t<"); strcat(buffer, name); strcat(buffer, ">");
+	strcat(buffer, value);
+	strcat(buffer, "</"); strcat(buffer, name); strcat(buffer, ">\n");
+}
+
