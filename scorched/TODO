@@ -8,6 +8,9 @@ Added: Can set number of sprites and bilboards
 Added: Talk text now has tank state appended to it (dead, pending)
 Added: Buy dialog shows all available weapons
 Added: Buy dialog order and position don't change after buy
+Added: Tank choice dialog shows many more tanks
+Added: Tanks placed into catagories to make for easier choosing
+Added: MilkShape model support (including alpha maps)
 
 Fixed: Applied http://wwwra.informatik.uni-rostock.de/~waschk/Scorched3D-35-gcc3.3.patch
 Fixed: Landscape explosions are much faster
