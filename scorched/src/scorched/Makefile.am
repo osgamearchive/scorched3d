@@ -105,6 +105,10 @@ scorched3d_SOURCES = \
 	../GLW/GLWScrollButton.h \
 	../GLW/GLWScrollPanel.cpp \
 	../GLW/GLWScrollPanel.h \
+	../GLW/GLWTracker.cpp \
+	../GLW/GLWTracker.h \
+	../GLW/GLWSlider.cpp \
+	../GLW/GLWSlider.h \
 	../GLW/GLWScrollW.cpp \
 	../GLW/GLWScrollW.h \
 	../GLW/GLWSpinBox.cpp \
@@ -271,6 +275,8 @@ scorched3d_SOURCES = \
 	../3dsparse/aseFile.lex.cpp \
 	../3dsparse/aseFile.tab.cpp \
 	../3dsparse/aseFile.tab.cpp.h \
+	../dialogs/AimDialog.cpp \
+	../dialogs/AimDialog.h \
 	../dialogs/AutoDefenseDialog.cpp \
 	../dialogs/AutoDefenseDialog.h \
 	../dialogs/BackdropDialog.cpp \
@@ -327,6 +333,8 @@ scorched3d_SOURCES = \
 	../engine/GameStateStimulusI.h \
 	../engine/MainLoop.cpp \
 	../engine/MainLoop.h \
+	../engine/MetaClass.cpp \
+	../engine/MetaClass.h \
 	../engine/MainLoopI.cpp \
 	../engine/MainLoopI.h \
 	../engine/PhysicsEngine.cpp \
@@ -455,6 +463,8 @@ scorched3d_SOURCES = \
 	../weapons/WeaponNull.h \
 	../weapons/WeaponExplosion.cpp \
 	../weapons/WeaponExplosion.h \
+	../coms/ComsPlayerAimMessage.cpp \
+	../coms/ComsPlayerAimMessage.h \
 	../coms/ComsTimerStartMessage.cpp \
 	../coms/ComsTimerStartMessage.h \
 	../coms/ComsPlayerStatusMessage.cpp \
@@ -691,6 +701,8 @@ scorched3d_SOURCES = \
 	SingleDialog.cpp \
 	SingleDialog.h \
 	main.cpp \
+	../client/ClientPlayerAimHandler.cpp \
+	../client/ClientPlayerAimHandler.h \
 	../client/ClientPlayerStatusHandler.cpp \
 	../client/ClientPlayerStatusHandler.h \
 	../client/ClientStartTimerHandler.cpp \
@@ -767,6 +779,8 @@ scorched3d_SOURCES = \
 	../server/ServerCommon.h \
 	../server/ScorchedServer.cpp \
 	../server/ScorchedServer.h \
+	../server/ServerPlayerAimHandler.cpp \
+	../server/ServerPlayerAimHandler.h \
 	../server/ServerAddPlayerHandler.cpp \
 	../server/ServerAddPlayerHandler.h \
 	../server/ServerBrowserInfo.cpp \

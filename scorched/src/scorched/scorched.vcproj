@@ -1128,6 +1128,12 @@
 				RelativePath="..\engine\MainLoop.h">
 			</File>
 			<File
+				RelativePath="..\engine\MetaClass.cpp">
+			</File>
+			<File
+				RelativePath="..\engine\MetaClass.h">
+			</File>
+			<File
 				RelativePath="..\engine\MainLoopI.cpp">
 			</File>
 			<File

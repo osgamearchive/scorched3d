@@ -18,44 +18,34 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_ActionMetah_INCLUDE__)
-#define __INCLUDE_ActionMetah_INCLUDE__
-
-#include <coms/NetBuffer.h>
-#include <engine/Action.h>
 #include <engine/MetaClass.h>
-#include <string>
-#include <map>
+#include <common/Defines.h>
 
-#define REGISTER_ACTION_HEADER(x) REGISTER_CLASS_HEADER(x)
-#define REGISTER_ACTION_SOURCE(x) REGISTER_CLASS_SOURCE(x)
-
-class ActionMeta : public Action, public MetaClass
+MetaClass::MetaClass()
 {
-public:
-	ActionMeta();
-	virtual ~ActionMeta();
+}
 
-	virtual bool getReferenced() { return true; }
-	virtual bool getServerOnly() { return true; }
-
-	// Needs to be implemented by inherited actions
-	virtual bool writeAction(NetBuffer &buffer) = 0;
-	virtual bool readAction(NetBufferReader &reader) = 0;
-
-	// Automatically given by the 
-	// REGISTER_ACTION_HEADER and
-	// REGISTER_ACTION_SOURCE macros
-	//virtual const char *getClassName() = 0;
-	//virtual MetaClass *getClassCopy() = 0;
-};
-
-class ActionRendererMeta : public ActionRenderer, public MetaClass
+MetaClass::~MetaClass()
 {
-public:
-	ActionRendererMeta();
-	virtual ~ActionRendererMeta();
+}
 
-};
+std::map<std::string, MetaClass *> *MetaClassRegistration::classMap = 0;
 
-#endif
+void MetaClassRegistration::addMap(const char *name, MetaClass *mclass)
+{
+	if (!classMap) classMap = new std::map<std::string, MetaClass *>;
+
+	std::map<std::string, MetaClass *>::iterator itor = 
+		classMap->find(name);
+	DIALOG_ASSERT(itor == classMap->end());
+
+	(*classMap)[name] = mclass;
+}
+
+MetaClass *MetaClassRegistration::getNewClass(const char *name)
+{
+	std::map<std::string, MetaClass *>::iterator itor = 
+		classMap->find(name);
+	if (itor == classMap->end()) return 0;
+	return (*itor).second->getClassCopy();
+}

@@ -51,6 +51,7 @@ public:
 	virtual void setScorchedContext(ScorchedContext *context);
 	virtual ScorchedContext *getScorchedContext();
 	virtual bool getReferenced() { return false; }
+	virtual bool getServerOnly() { return false; }
 
 protected:
 	ActionRenderer *renderer_;
@@ -61,10 +62,23 @@ protected:
 class SpriteAction : public Action
 {
 public:
-	SpriteAction(ActionRenderer *render);
+	SpriteAction(ActionRenderer *render = 0);
 	virtual ~SpriteAction();
 
 	virtual void init();
+};
+
+class SpriteActionReferenced : public Action
+{
+public:
+	SpriteActionReferenced(ActionRenderer *render = 0);
+	virtual ~SpriteActionReferenced();
+
+	virtual bool getServerOnly() { return false; }
+	virtual bool getReferenced() { return true; }
+
+	virtual void init();
+
 };
 
 #endif // !defined(AFX_ACTION_H__2C00E711_B337_4665_AB54_C6661FD67E5D__INCLUDED_)

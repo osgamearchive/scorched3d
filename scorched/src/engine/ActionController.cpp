@@ -111,9 +111,9 @@ void ActionController::addNewActions()
 		Action *action = newActions_.front(); 
 		if (context_->serverMode)
 		{
-			if (action->getReferenced())
+			if (action->getReferenced()) referenceCount_ ++;
+			if (action->getServerOnly()) 
 			{
-				referenceCount_++;
 				buffer_.serverAdd(time_, (ActionMeta*) action);
 			}
 			action->init();
@@ -121,7 +121,7 @@ void ActionController::addNewActions()
 		}
 		else
 		{
-			if (action->getReferenced())
+			if (action->getServerOnly())
 			{	
 				delete action;
 			}

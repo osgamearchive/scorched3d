@@ -61,6 +61,8 @@ keep track of views
 Make a count down sound when timer runs out.
 Add option for human players to say stuff when firing/killed
 Chat logger (for urls)
+Only show sprites/pictures for the tanks in the chooser dialog (use 3d model for selected tanks)
+
 
 -- Other Stuff
 Add the ability to customize the languages (for dialogs etc..) (localisation)

@@ -18,44 +18,39 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_ActionMetah_INCLUDE__)
-#define __INCLUDE_ActionMetah_INCLUDE__
+#if !defined(__INCLUDE_MetaClassh_INCLUDE__)
+#define __INCLUDE_MetaClassh_INCLUDE__
 
-#include <coms/NetBuffer.h>
-#include <engine/Action.h>
-#include <engine/MetaClass.h>
 #include <string>
 #include <map>
 
-#define REGISTER_ACTION_HEADER(x) REGISTER_CLASS_HEADER(x)
-#define REGISTER_ACTION_SOURCE(x) REGISTER_CLASS_SOURCE(x)
+#define REGISTER_CLASS_HEADER(x) \
+	virtual const char *getClassName() { return #x ; } \
+	virtual MetaClass *getClassCopy() { return new x ; } 
+#define REGISTER_CLASS_SOURCE(x) \
+	struct META_##x { META_##x() { MetaClassRegistration::addMap(#x , new x ); } }; \
+	static META_##x META_IMPL_##x ;
 
-class ActionMeta : public Action, public MetaClass
+class MetaClass
 {
 public:
-	ActionMeta();
-	virtual ~ActionMeta();
-
-	virtual bool getReferenced() { return true; }
-	virtual bool getServerOnly() { return true; }
-
-	// Needs to be implemented by inherited actions
-	virtual bool writeAction(NetBuffer &buffer) = 0;
-	virtual bool readAction(NetBufferReader &reader) = 0;
+	MetaClass();
+	virtual ~MetaClass();
 
 	// Automatically given by the 
 	// REGISTER_ACTION_HEADER and
 	// REGISTER_ACTION_SOURCE macros
-	//virtual const char *getClassName() = 0;
-	//virtual MetaClass *getClassCopy() = 0;
+	virtual const char *getClassName() = 0;
+	virtual MetaClass *getClassCopy() = 0;
 };
 
-class ActionRendererMeta : public ActionRenderer, public MetaClass
+class MetaClassRegistration
 {
 public:
-	ActionRendererMeta();
-	virtual ~ActionRendererMeta();
-
+	static void addMap(const char *name, MetaClass *mclass);
+	static std::map<std::string, MetaClass *> *classMap;
+	static MetaClass *getNewClass(const char *name);
 };
 
-#endif
+#endif // __INCLUDE_MetaClassh_INCLUDE__
+

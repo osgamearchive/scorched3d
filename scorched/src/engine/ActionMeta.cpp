@@ -18,9 +18,7 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <engine/ActionMeta.h>
-#include <common/Defines.h>
 
 ActionMeta::ActionMeta()
 {
@@ -30,24 +28,10 @@ ActionMeta::~ActionMeta()
 {
 }
 
-std::map<std::string, ActionMeta *> *ActionMetaRegistration::actionMap = 0;
-
-void ActionMetaRegistration::addMap(const char *name, ActionMeta *action)
+ActionRendererMeta::ActionRendererMeta()
 {
-	if (!actionMap) actionMap = new std::map<std::string, ActionMeta *>;
-
-	std::map<std::string, ActionMeta *>::iterator itor = 
-		actionMap->find(name);
-	DIALOG_ASSERT(itor == actionMap->end());
-
-	(*actionMap)[name] = action;
 }
 
-ActionMeta *ActionMetaRegistration::getNewAction(const char *name)
+ActionRendererMeta::~ActionRendererMeta()
 {
-	std::map<std::string, ActionMeta *>::iterator itor = 
-		actionMap->find(name);
-	if (itor == actionMap->end()) return 0;
-	return (*itor).second->getActionCopy();
 }
-

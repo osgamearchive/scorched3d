@@ -52,7 +52,7 @@ void ActionBuffer::serverAdd(float time, ActionMeta *action)
 	// Add this action into the buffer to be sent to 
 	// the client
 	actionBuffer_.addToBuffer(time);
-	actionBuffer_.addToBuffer(action->getActionName());
+	actionBuffer_.addToBuffer(action->getClassName());
 	action->writeAction(actionBuffer_);
 }
 
@@ -85,8 +85,8 @@ bool ActionBuffer::readMessage(NetBufferReader &reader)
 		// Create and read the action
 		std::string actionName;
 		if (!reader.getFromBuffer(actionName)) return false;
-		ActionMeta *newAction = 
-			ActionMetaRegistration::getNewAction(actionName.c_str());
+		ActionMeta *newAction = (ActionMeta *)
+			MetaClassRegistration::getNewClass(actionName.c_str());
 		if (!newAction) return false;
 		if (!newAction->readAction(reader)) return false;
 
