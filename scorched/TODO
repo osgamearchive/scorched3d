@@ -24,8 +24,8 @@ Added: Start of Hexidecimal support
 Added: Cross platform server browsing
 Added: Aiming cross hair can be seen from above
 Added: Can turn off player triangles, sight, names and health bars
-Added: Tank models can have different turret and gun pivot points (untested)
-Added: Tank models can contain multiple gun and turret objects (untested)
+Added: Tank models can have different turret and gun pivot points
+Added: Tank models can contain multiple gun and turret objects
 Added: New version of ODE physics engine used
 Added: Missiles now have a model and not just a photon torpedo
 
@@ -53,6 +53,7 @@ Dvorak keyboard support is broken
 The server can start multiple times on the same port!
 Solaris client cannot choose weapons (Ok button does not work) gcc version??
 Gun fires at same point for all tanks (ignores turret/gun position in model)
+LAN server browsing under web service browsing mode
 
 -- Server Stuff
 Provide remote access to server (web server)
