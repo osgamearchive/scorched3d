@@ -429,13 +429,10 @@ static void createKeysControls(wxWindow *parent, wxSizer *topsizer)
 	topsizer->Add(IDC_LOADKEYDEFAULTS_CTRL, 0, wxCENTER | wxALL, 2);
 }
 
-static void createModsControls(wxWindow *parent, wxSizer *topsizer)
+static wxListBox *modbox = 0;
+static void updateModList()
 {
-	wxStaticBox *modsBox = new wxStaticBox(parent, -1, "Mods");
-	wxStaticBoxSizer *modsSizer = new wxStaticBoxSizer(modsBox, wxVERTICAL);
-
-	wxListBox *box = new wxListBox(parent, -1, 
-		wxDefaultPosition, wxSize(150, 200), 0, 0, wxLB_SINGLE);
+	modbox->Clear();
 	ModDirs dirs;
 	if (dirs.loadModDirs())
 	{
@@ -444,11 +441,25 @@ static void createModsControls(wxWindow *parent, wxSizer *topsizer)
 			itor != dirs.getDirs().end();
 			itor++)
 		{
-			box->Append(wxString((*itor).c_str()));
+			modbox->Append(wxString((*itor).c_str()));
 		}
 	}
+}
 
-	modsSizer->Add(box, 0, wxALIGN_CENTER | wxALL, 5);
-	topsizer->Add(modsSizer, 0, wxGROW);
+static void createModsControls(wxWindow *parent, wxSizer *topsizer)
+{
+	wxStaticBox *modsBox = new wxStaticBox(parent, -1, "Mods");
+	wxStaticBoxSizer *modsSizer = new wxStaticBoxSizer(modsBox, wxVERTICAL);
+
+	modbox = new wxListBox(parent, -1, 
+		wxDefaultPosition, wxSize(150, 200), 0, 0, wxLB_SINGLE);
+	updateModList();
+	
+	wxBoxSizer *buttonSizer = new wxBoxSizer(wxHORIZONTAL);
+	
+	mpdsSizer->Add(buttonSizer);
+	
+	modsSizer->Add(modbox, 0, wxALIGN_CENTER | wxALL, 5);
+	topsizer->Add(modsSizer, 0, wxGROW);	
 }
 
