@@ -1,6 +1,6 @@
 Name: scorched3d
 Version: 37.1
-Release: 2
+Release: 1
 License: GPL
 Group: Amusements/Games
 Summary: A 3D version of the classic DOS game Scorched Earth
