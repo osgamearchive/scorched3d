@@ -168,7 +168,7 @@ void TankDialog::drawTankDetails(Tank *current)
 		x_ + 65.0f,
 		y_ + h_ - 32.0f,
 		0.0f,
-		"Rot:%.0f (%+.0f)",
+		"Rot:%.1f (%+.1f)",
 		360.0f - current->getPhysics().getRotationGunXY(),
 		rotDiff);
 	GLWFont::instance()->getFont()->draw(
@@ -177,7 +177,7 @@ void TankDialog::drawTankDetails(Tank *current)
 		x_ + 65.0f,
 		y_ + h_ - 42.0f,
 		0.0f,
-		"Ele:%.0f (%+.0f)",
+		"Ele:%.1f (%+.1f)",
 		current->getPhysics().getRotationGunYZ(),
 		current->getPhysics().getRotationGunYZ() - 
 		current->getPhysics().getOldRotationGunYZ());
@@ -187,7 +187,7 @@ void TankDialog::drawTankDetails(Tank *current)
 		x_ + 65.0f,
 		y_ + h_ - 52.0f,
 		0.0f,
-		"Pwr:%.0f (%+.0f)",
+		"Pwr:%.1f (%+.1f)",
 		current->getState().getPower(),
 		current->getState().getPower() - 
 		current->getState().getOldPower());
