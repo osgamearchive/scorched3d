@@ -85,7 +85,8 @@ GLWTankTracker::GLWTankTracker() :
 		"Change the rotation and elevation of the\n"
 		"current tank by clicking with the left\n"
 		"mouse button and dragging up and down,\n"
-		"left and right."));
+		"left and right.\n"
+		"Shift key decreases sensitivity."));
 }
 
 GLWTankTracker::~GLWTankTracker()

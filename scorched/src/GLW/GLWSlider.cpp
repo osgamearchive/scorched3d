@@ -78,7 +78,8 @@ GLWTankSlider::GLWTankSlider() :
 	setToolTip(new GLWTip("Power",
 		"Change the power of the current tank\n"
 		"by clicking with the left mouse button\n"
-		"and dragging up and down."));
+		"and dragging up and down.\n"
+		"Shift key decreases sensitivity."));
 }
 
 GLWTankSlider::~GLWTankSlider()

@@ -20,7 +20,12 @@
 
 #include <GLW/GLWWindowSkin.h>
 #include <GLW/GLWVisibleWidget.h>
+#include <GLW/GLWWindowManager.h>
+#include <GLW/GLWToolTip.h>
+#include <GLEXT/GLState.h>
 #include <GLEXT/GLViewPort.h>
+#include <GLEXT/GLBitmap.h>
+#include <client/ScorchedClient.h>
 
 GLWWindowSkin::GLWWindowSkin() : 
 	GLWWindow("None", 0.0f, 0.0f,
@@ -112,6 +117,12 @@ bool GLWWindowSkin::loadWindow(XMLNode *node)
 
 void GLWWindowSkin::draw()
 {
+	if (!moveTexture_.textureValid())
+	{
+		GLBitmap moveMap(getDataFile("data/windows/move.bmp"), true);
+		moveTexture_.create(moveMap, GL_RGBA, false);
+	}
+
 	if (!init_)
 	{
 		if (x_ < 0.0f) setX(GLViewPort::getWidth() + x_);
@@ -123,4 +134,27 @@ void GLWWindowSkin::draw()
 	glPushMatrix();
 		GLWVisiblePanel::draw();
 	glPopMatrix();
+	
+	int x = ScorchedClient::instance()->getGameState().getMouseX();
+	int y = ScorchedClient::instance()->getGameState().getMouseY();
+	if (GLWWindowManager::instance()->getFocus(x, y) == getId())
+	{
+		float sizeX = 20.0f;
+		float sizeY = 20.0f;
+
+		static GLWTip moveTip("Move",
+			"Left click and drag to move the window.");
+		GLWToolTip::instance()->addToolTip(&moveTip, 
+			x_, y_ + h_ - sizeY, sizeX, sizeY);
+
+		GLState currentStateBlend(GLState::BLEND_ON | GLState::TEXTURE_ON);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	
+		moveTexture_.draw();
+		glColor4f(0.8f, 0.0f, 0.0f, 0.8f);
+		glPushMatrix();
+			glTranslatef(x_, y_ + h_ - sizeY, 0.0f);
+			glScalef(sizeX / 16.0f, sizeY / 16.0f, 1.0f);
+			drawIconBox(0.0f, 0.0f);
+		glPopMatrix();
+	}
 }

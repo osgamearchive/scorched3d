@@ -255,6 +255,10 @@ having to use the keyboard.</description>
 				<x>128</x><y>0</y>
 				<w>17</w><h>128</h>				
 			</item>
+			<item type="GLWTankFire">
+				<x>2</x><y>5</y>
+				<w>30</w><h>27</h>
+			</item>
 		</items>
 	</window>
 </windows>

@@ -119,6 +119,8 @@ scorched3d_SOURCES = \
 	../GLW/GLWSpinBox.h \
 	../GLW/GLWTab.cpp \
 	../GLW/GLWTab.h \
+	../GLW/GLWTankFire.cpp \
+	../GLW/GLWTankFire.h \
 	../GLW/GLWTankModel.cpp \
 	../GLW/GLWTankModel.h \
 	../GLW/GLWTextBox.cpp \
