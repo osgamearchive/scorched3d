@@ -6,6 +6,7 @@ Fixed: Clicking on menu titles doesn't move viewport
 Fixed: Action camera not working correctly
 Fixed: Avatars with more than 32 characters not being stored correctly
 Fixed: Player colors are allocated so no duplicates occur
+Fixed: Fonts changed to be totaly open source
 
 Added: New resign option to make tanks resign at end of round depending on how much health they have
 Added: Movement restriction option to stop tanks from moving under water
@@ -38,6 +39,7 @@ Shadows for other models
 Teleport (to random position)
 Show buy/choose accessories in groups (rather than one long list)
 Allow same ip addresses to connect but don't collect stats
+Undo should not put duplicate entries in the undo log
 
 -- Server Stuff
 Chat filter (swear words)

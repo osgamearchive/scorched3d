@@ -43,7 +43,7 @@ GLWFont::GLWFont()
 		16);
 	courierFont_ = new GLFont2d;
 	courierFont_->createFont(
-		getDataFile("data/fonts/courier.ttf"),
+		getDataFile("data/fonts/veramobd.ttf"),
 		16);
 	courier16OutlineFont_ = new GLFont2d;
 	courier16OutlineFont_->createFont(
