@@ -36,8 +36,6 @@ ServerNextShotState::~ServerNextShotState()
 
 void ServerNextShotState::enterState(const unsigned state)
 {
-	serverLog(0, "Choosing Shots");
-
 	// Check there are enough players for this shot
 	if (ServerTooFewPlayersStimulus::instance()->acceptStateChange(state, 
 		ServerState::ServerStateTooFewPlayers, 0.0f))

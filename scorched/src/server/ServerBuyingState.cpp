@@ -35,8 +35,6 @@ ServerBuyingState::~ServerBuyingState()
 
 void ServerBuyingState::enterState(const unsigned state)
 {
-	serverLog(0, "Players buying");
-
 	// Set the wait timer to the current time
 	time_ = 0.0f;
 }

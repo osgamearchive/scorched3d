@@ -23,6 +23,7 @@
 #include <dialogs/LogDialog.h>
 #include <client/ScorchedClient.h>
 #include <client/MainBanner.h>
+#include <server/ScorchedServer.h>
 #include <common/OptionsDisplay.h>
 #include <coms/NetServer.h>
 #include <coms/ComsMessageHandler.h>
@@ -54,8 +55,7 @@ ConnectDialog::~ConnectDialog()
 
 void ConnectDialog::draw()
 {
-	if (tryConnection_ && 
-		OptionsParam::instance()->getConnectedToServer())
+	if (tryConnection_)
 	{
 		tryConnection_ = false;
 
@@ -73,36 +73,46 @@ void ConnectDialog::draw()
 
 bool ConnectDialog::tryConnection()
 {
-	std::string hostPart;
 	const char *serverName = 
 		OptionsParam::instance()->getConnect();
+	unsigned int noPlayers = 1;
 	LogDialog::instance()->setServerName(serverName);
-	hostPart = serverName;
-	char *colon = strchr((char *)serverName, ':');
-	DWORD port = ScorchedPort;
-	if (colon) 
-	{
-		char *stop;
-		*colon = '\0';
-		colon++;
-		port = strtol(colon, &stop, 10);
-		hostPart = serverName;
-		colon--;
-		*colon = ':';
-	}
 
 	Logger::log(0, "Atempting connection");
 	Logger::log(0, "  Trying \"%s\"....", serverName);
 	ScorchedClient::instance()->getMainLoop().draw();
 
-	// Try to connect to the server
-	NetServer &netServer = (NetServer &) ScorchedClient::instance()->getNetInterface();
-	if (!netServer.connect((char *) hostPart.c_str(), port))
+	if (OptionsParam::instance()->getConnectedToServer())
 	{
-		Logger::log(0, "  Connection Failed.");
-		ScorchedClient::instance()->getMainLoop().draw();
-		SDL_Delay(3 * 1000);
-		return false;
+		std::string hostPart;
+		hostPart = serverName;
+		char *colon = strchr((char *)serverName, ':');
+		DWORD port = ScorchedPort;
+		if (colon) 
+		{
+			char *stop;
+			*colon = '\0';
+			colon++;
+			port = strtol(colon, &stop, 10);
+			hostPart = serverName;
+			colon--;
+			*colon = ':';
+		}
+
+		// Try to connect to the server
+		NetServer &netServer = (NetServer &) ScorchedClient::instance()->getNetInterface();
+		if (!netServer.connect((char *) hostPart.c_str(), port))
+		{
+			Logger::log(0, "  Connection Failed.");
+			ScorchedClient::instance()->getMainLoop().draw();
+			SDL_Delay(3 * 1000);
+			return false;
+		}
+	}
+	else
+	{
+		noPlayers = ScorchedServer::instance()->getOptionsGame().getNoMaxPlayers() -
+			ScorchedServer::instance()->getTankContainer().getNoOfTanks();
 	}
 
 	// If we connected then send our details to the server
@@ -110,13 +120,8 @@ bool ConnectDialog::tryConnection()
 		ScorchedVersion,
 		ScorchedProtocolVersion,
 		OptionsParam::instance()->getPassword(),
-		OptionsDisplay::instance()->getUniqueUserId());
-	ComsConnectMessage::PlayerEntry playerEntry;
-	playerEntry.name = PlayerDialog::instance()->getPlayerName();
-	playerEntry.model = PlayerDialog::instance()->getModelName();
-	playerEntry.spectator = false;
-	connectMessage.getPlayers().push_back(playerEntry);
-
+		OptionsDisplay::instance()->getUniqueUserId(),
+		noPlayers);
 	if (!ComsMessageSender::sendToServer(connectMessage))
 	{
 		Logger::log(0, "  Connection Send Failed!");

@@ -53,14 +53,7 @@ SprayActionRenderer::SprayActionRenderer(Vector &position, float width) :
 		}
 		else
 		{
-			if (RAND * 2.0f > 1.0f)
-			{
-				entry.texture = &Landscape::instance()->getLandscapeTexture1();
-			}
-			else
-			{
-				entry.texture = &Landscape::instance()->getLandscapeTexture2();
-			}
+			entry.texture = &Landscape::instance()->getLandscapeTexture1();
 		}
 		entries_.push_back(entry);
 	}

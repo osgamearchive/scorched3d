@@ -23,12 +23,14 @@
 ComsConnectMessage::ComsConnectMessage(const char *version,
 		const char *protocolVersion,
 		const char *password,
-		const char *unqiueId)
+		const char *unqiueId,
+		unsigned int noPlayers)
 	: ComsMessage("ComsConnectMessage"),
 	  version_(version),
 	  protocolVersion_(protocolVersion),
 	  password_(password),
-	  uniqueId_(unqiueId)
+	  uniqueId_(unqiueId),
+	  noPlayers_(noPlayers)
 {
 
 }
@@ -44,17 +46,7 @@ bool ComsConnectMessage::writeMessage(NetBuffer &buffer)
 	buffer.addToBuffer(protocolVersion_);
 	buffer.addToBuffer(password_);
 	buffer.addToBuffer(uniqueId_);
-	buffer.addToBuffer((unsigned int) players_.size());
-	std::list<PlayerEntry>::iterator itor;
-	for (itor = players_.begin();
-		itor != players_.end();
-		itor++)
-	{
-		PlayerEntry &entry = (*itor);
-		buffer.addToBuffer(entry.name);
-		buffer.addToBuffer(entry.model);
-		buffer.addToBuffer(entry.spectator);
-	}
+	buffer.addToBuffer(noPlayers_);
 
 	return true;
 }
@@ -65,16 +57,7 @@ bool ComsConnectMessage::readMessage(NetBufferReader &reader)
 	if (!reader.getFromBuffer(protocolVersion_)) return false;
 	if (!reader.getFromBuffer(password_)) return false;
 	if (!reader.getFromBuffer(uniqueId_)) return false;
-	unsigned int noPlayers = 0;
-	if (!reader.getFromBuffer(noPlayers)) return false;
-	for (unsigned int i=0; i<noPlayers; i++)
-	{
-		PlayerEntry entry;
-		if (!reader.getFromBuffer(entry.name)) return false;
-		if (!reader.getFromBuffer(entry.model)) return false;
-		if (!reader.getFromBuffer(entry.spectator)) return false;
-		players_.push_back(entry);
-	}
+	if (!reader.getFromBuffer(noPlayers_)) return false;
 
 	return true;
 }

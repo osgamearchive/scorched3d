@@ -18,7 +18,7 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
+#include <map>
 #include <engine/ActionBuffer.h>
 
 ActionBuffer::ActionBuffer()
@@ -60,7 +60,7 @@ ActionMeta *ActionBuffer::getActionForTime(float time)
 {
 	if (actionList_.empty()) return 0;
 	std::pair<float, ActionMeta *> front = actionList_.front();
-	if (front.first == time)
+	if (front.first <= time)
 	{
 		actionList_.pop_front();
 		return front.second;
@@ -77,6 +77,8 @@ bool ActionBuffer::writeMessage(NetBuffer &buffer)
 
 bool ActionBuffer::readMessage(NetBufferReader &reader)
 {
+	std::multimap<float, ActionMeta *> orderedList;
+
 	float time;
 	while (reader.getFromBuffer(time))
 	{
@@ -89,8 +91,21 @@ bool ActionBuffer::readMessage(NetBufferReader &reader)
 		if (!newAction->readAction(reader)) return false;
 
 		// Put the action onto the list
-		actionList_.push_back(
+		orderedList.insert(
 			std::pair<float, ActionMeta *>(time, newAction));
 	}
+
+	// Now order the list (This is so you can add actions for any
+	// time interval
+	std::multimap<float, ActionMeta *>::iterator itor;
+	std::multimap<float, ActionMeta *>::iterator endItor = orderedList.end();
+	for (itor = orderedList.begin();
+			itor != endItor;
+			itor++)
+	{
+		std::pair<float, ActionMeta *> pair = (*itor);
+		actionList_.push_back(pair);
+	}
+
 	return true;
 }

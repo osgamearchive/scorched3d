@@ -21,6 +21,7 @@
 #include <actions/TankDamage.h>
 #include <actions/TankDead.h>
 #include <actions/TankFalling.h>
+#include <actions/CameraPositionAction.h>
 #include <engine/ScorchedContext.h>
 
 REGISTER_ACTION_SOURCE(TankDamage);
@@ -59,6 +60,18 @@ void TankDamage::simulate(float frameTime, bool &remove)
 		{
 			if (damagedTank->getState().getState() == TankState::sNormal)
 			{
+				if (context_->serverMode)
+				{
+					const float ShowTime = 4.0f;
+					ActionMeta *pos = new CameraPositionAction(
+						damagedTank->getPhysics().getTankPosition(), ShowTime,
+						15);
+					context_->actionController.getBuffer().serverAdd(
+						context_->actionController.getActionTime() - 3.0f,
+						pos);
+					delete pos;
+				}
+
 				// Remove any damage from shield first
 				if (damage_ > 0.0f)
 				{

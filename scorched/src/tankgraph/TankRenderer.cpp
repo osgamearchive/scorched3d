@@ -103,6 +103,9 @@ void TankRenderer::draw(DrawType dt, const unsigned state)
 	{
 		Tank *tank = (*itor).second;
 
+		// Only ever try to draw alive tanks
+		if (tank->getState().getState() != TankState::sNormal) continue;
+
 		// Check we have the tank model for each tank
 		// If not load the model from the store
 		TankModelRenderer *model = (TankModelRenderer *) 

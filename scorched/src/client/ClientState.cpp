@@ -107,20 +107,6 @@ void ClientState::setupGameState(bool network)
 	GameState &gameState = ScorchedClient::instance()->getGameState();
 	gameState.clear();
 
-	// StateSinglePlayer (Single player only, start state)
-	addWindowManager(gameState, StateSinglePlayer);
-	gameState.addStateLoop(StateSinglePlayer, Main2DCamera::instance(), 
-		GLWToolTip::instance());
-	gameState.addStateStimulus(StateSinglePlayer, 
-		StimNextPlayerDialog, StateConnect);
-
-	// StateConnectPlayer (Multi player only, start state)
-	addWindowManager(gameState, StateConnectPlayer);
-	gameState.addStateLoop(StateConnectPlayer, Main2DCamera::instance(), 
-		GLWToolTip::instance());
-	gameState.addStateStimulus(StateConnectPlayer, 
-		StimNextPlayerDialog, StateConnect);
-
 	// StateConnect
 	addWindowManager(gameState, StateConnect);
 	gameState.addStateStimulus(StateConnect, 
@@ -148,6 +134,8 @@ void ClientState::setupGameState(bool network)
 
 	// StateWait
 	addStandardComponents(gameState, StateWait, network);
+	gameState.addStateEntry(StateWait, 
+		TankAIHumanCtrl::instance());
 	gameState.addStateEntry(StateWait,
 		ClientWaitState::instance());
 	gameState.addStateStimulus(StateWait, 
@@ -224,6 +212,5 @@ void ClientState::setupGameState(bool network)
 	gameState.addStateStimulus(StateScore, 
 		StimWait, StateWait);
 
-	if (network) gameState.setState(StateConnectPlayer);
-	else gameState.setState(StateSinglePlayer);
+	gameState.setState(StateConnect);
 }

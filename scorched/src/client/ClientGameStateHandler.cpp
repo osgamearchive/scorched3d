@@ -18,52 +18,49 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+#include <client/ClientGameStateHandler.h>
 #include <client/ScorchedClient.h>
-#include <client/ClientAddPlayerHandler.h>
-#include <coms/ComsAddPlayerMessage.h>
+#include <coms/ComsGameStateMessage.h>
 
-ClientAddPlayerHandler *ClientAddPlayerHandler::instance_ = 0;
+ClientGameStateHandler *ClientGameStateHandler::instance_ = 0;
 
-ClientAddPlayerHandler *ClientAddPlayerHandler::instance()
+ClientGameStateHandler *ClientGameStateHandler::instance()
 {
 	if (!instance_)
 	{
-	  instance_ = new ClientAddPlayerHandler();
+	  instance_ = new ClientGameStateHandler();
 	}
 
 	return instance_;
 }
 
-ClientAddPlayerHandler::ClientAddPlayerHandler()
+ClientGameStateHandler::ClientGameStateHandler()
 {
 	ScorchedClient::instance()->getComsMessageHandler().addHandler(
-		"ComsAddPlayerMessage",
+		"ComsGameStateMessage",
 		this);
 }
 
-ClientAddPlayerHandler::~ClientAddPlayerHandler()
+ClientGameStateHandler::~ClientGameStateHandler()
 {
 
 }
 
-bool ClientAddPlayerHandler::processMessage(unsigned int id,
+bool ClientGameStateHandler::processMessage(unsigned int id,
 		const char *messageType,
 		NetBufferReader &reader)
 {
-	ComsAddPlayerMessage message;
+	ComsGameStateMessage message;
 	if (!message.readMessage(reader)) return false;
 
-	// Create the new tank and add it to the tank container
-	// Collections
-	TankModelId modelId(message.getModelName());
-	Tank *tank = new Tank(
-		ScorchedClient::instance()->getContext(),
-		message.getPlayerId(),
-		message.getDestinationId(),
-		message.getPlayerName(),
-		message.getPlayerColor(),
-		modelId);
-	ScorchedClient::instance()->getTankContainer().addTank(tank);
+	// Set the wind for the next shot
+	Vector wind;
+	if (ScorchedClient::instance()->getOptionsTransient().getWindOn())
+	{
+		wind = ScorchedClient::instance()->getOptionsTransient().getWindDirection();
+		wind *= ScorchedClient::instance()->getOptionsTransient().getWindSpeed() / 2.0f;
+	}
+	ScorchedClient::instance()->getActionController().getPhysics().setWind(wind);
 
 	return true;
 }

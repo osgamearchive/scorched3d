@@ -39,8 +39,6 @@ ServerShotState::~ServerShotState()
 
 void ServerShotState::enterState(const unsigned state)
 {
-	serverLog(0, "Playing Shots");
-
 	// Reset the counts in the action controller
 	ScorchedServer::instance()->getActionController().resetTime();
 	ScorchedServer::instance()->getActionController().clear();

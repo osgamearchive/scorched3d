@@ -103,7 +103,10 @@ void TankAIComputerShooter::autoDefense()
 	// Try to enable parachutes (fails if we don't have any)
 	if (currentTank_->getAccessories().getParachutes().getNoParachutes() > 0)
 	{
-		parachutesUpDown(true);
+		if (!currentTank_->getAccessories().getParachutes().parachutesEnabled())
+		{
+			parachutesUpDown(true);
+		}
 	}
 
 	// Try to raise shields (fails if we don't have any)

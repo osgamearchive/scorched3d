@@ -18,44 +18,30 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_PlayerDialogh_INCLUDE__)
-#define __INCLUDE_PlayerDialogh_INCLUDE__
+#if !defined(__INCLUDE_ClientGameStateHandlerh_INCLUDE__)
+#define __INCLUDE_ClientGameStateHandlerh_INCLUDE__
 
-#include <GLW/GLWWindow.h>
-#include <GLW/GLWButton.h>
-#include <GLW/GLWTextBox.h>
-#include <tankgraph/GLWTankViewer.h>
+#include <coms/ComsMessageHandler.h>
 
-class PlayerDialog : public GLWWindow,
-						  public GLWButtonI
+class ClientGameStateHandler : 
+	public ComsMessageHandlerI
 {
 public:
-	static PlayerDialog *instance();
+	static ClientGameStateHandler* instance();
 
-	virtual void addPlayers();
-
-	// Inherited from GLWWindow
-	virtual void keyDown(char *buffer, unsigned int keyState, 
-		KeyboardHistory::HistoryElement *history, int hisCount, 
-		bool &skipRest);
-
-	// Inherited from GLWButtonI
-	virtual void buttonDown(unsigned int id);
+	virtual bool processMessage(unsigned int id,
+		const char *message,
+		NetBufferReader &reader);
 
 protected:
-	PlayerDialog();
-	virtual ~PlayerDialog();
+	static ClientGameStateHandler* instance_;
 
-	static PlayerDialog *instance_;
-	GLWDropDown *dropDown_;
-	GLWTankViewer *viewer_;
-	GLWTextBox *playerName_;
-	unsigned int okId_;
-	unsigned int currentPlayerId_;
-	bool beenShown_;
+private:
+	ClientGameStateHandler();
+	virtual ~ClientGameStateHandler();
 
-	void nextPlayer();
-	unsigned int getNextPlayer(unsigned int current);
+	ClientGameStateHandler(const ClientGameStateHandler &);
+	const ClientGameStateHandler & operator=(const ClientGameStateHandler &);
 
 };
 

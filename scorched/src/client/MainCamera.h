@@ -42,6 +42,7 @@ public:
 		CamBehind,
 		CamTank,
 		CamGun,
+		CamAction,
 		CamLeft,
 		CamRight,
 		CamLeftFar,

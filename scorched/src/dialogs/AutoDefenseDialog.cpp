@@ -54,7 +54,8 @@ void AutoDefenseDialog::windowInit(const unsigned state)
 	}
 	else
 	{
-		if (current->getTankAI() && current->getTankAI()->isHuman() &&
+		if (current->getDestinationId() == 
+			ScorchedClient::instance()->getTankContainer().getCurrentDestinationId() &&
 			current->getAccessories().getAutoDefense().haveDefense())
 		{
 			displayCurrent();

@@ -19,6 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <dialogs/RulesDialog.h>
+#include <dialogs/PlayerDialog.h>
 #include <GLW/GLWTextButton.h>
 #include <GLW/GLWFont.h>
 #include <common/WindowManager.h>
@@ -38,7 +39,7 @@ RulesDialog *RulesDialog::instance()
 }
 
 RulesDialog::RulesDialog() : 
-	GLWWindow("Rules", 0.0f, 0.0f, 300.0f, 280.0f, 0), firstShow_(true)
+	GLWWindow("Rules", 0.0f, 0.0f, 300.0f, 280.0f, 0)
 {
 	needCentered_ = true;
 	okId_ = addWidget(new GLWTextButton(" Ok", 235, 10, 55, this, true))->getId();
@@ -72,15 +73,6 @@ void RulesDialog::addMOTD(const char *text)
 	else
 	{
 		listView_->addLine(text);
-	}
-}
-
-void RulesDialog::windowInit(const unsigned state)
-{
-	if (firstShow_)
-	{
-		firstShow_ = false;
-		WindowManager::instance()->showWindow(id_);
 	}
 }
 
@@ -151,6 +143,11 @@ void RulesDialog::buttonDown(unsigned int id)
 {
 	if (id == okId_)
 	{
-		WindowManager::instance()->hideWindow(id_);
+		WindowManager::instance()->hideWindow(id_);	
 	}
+}
+
+void RulesDialog::windowHide()
+{
+	PlayerDialog::instance()->addPlayers();
 }

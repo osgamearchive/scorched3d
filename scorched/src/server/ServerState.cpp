@@ -20,7 +20,6 @@
 
 #include <engine/GameState.h>
 #include <server/ServerState.h>
-#include <server/ServerWaitingForPlayersState.h>
 #include <server/ServerNewGameState.h>
 #include <server/ServerNextRoundState.h>
 #include <server/ServerNextTurnState.h>

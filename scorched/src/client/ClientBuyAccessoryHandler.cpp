@@ -22,7 +22,6 @@
 #include <client/ClientBuyAccessoryHandler.h>
 #include <coms/ComsBuyAccessoryMessage.h>
 #include <weapons/AccessoryStore.h>
-#include <common/SoundStore.h>
 
 ClientBuyAccessoryHandler *ClientBuyAccessoryHandler::instance_ = 0;
 
@@ -61,7 +60,8 @@ bool ClientBuyAccessoryHandler::processMessage(unsigned int id,
 	// Check this is not a player running on this client
 	// As this message will have already been processed
 	// as the stuff is actuall bought
-	if (tank->getTankAI() != 0)
+	if (tank->getDestinationId() == 
+		ScorchedClient::instance()->getTankContainer().getCurrentDestinationId())
 	{
 		return true;
 	}

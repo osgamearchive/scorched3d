@@ -33,7 +33,7 @@ public:
 	static MessageDisplay *instance();
 
 	void addMessage(const char *text);
-	void clear() { texts_.clear(); showTime_ = 0.0f; }
+	void clear();
 
 	//Inherited from GameStateI
 	virtual void simulate(const unsigned state, float simTime);

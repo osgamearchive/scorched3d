@@ -42,9 +42,7 @@ namespace ClientState
 
 	enum State
 	{
-		StateConnectPlayer = 1,
-		StateConnect,
-		StateSinglePlayer,
+		StateConnect = 1,
 		StateNewGame,
 		StateReady,
 		StateWait,

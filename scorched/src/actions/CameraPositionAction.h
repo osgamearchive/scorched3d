@@ -18,45 +18,40 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_PlayerDialogh_INCLUDE__)
-#define __INCLUDE_PlayerDialogh_INCLUDE__
+#if !defined(__INCLUDE_CameraPositionActionh_INCLUDE__)
+#define __INCLUDE_CameraPositionActionh_INCLUDE__
 
-#include <GLW/GLWWindow.h>
-#include <GLW/GLWButton.h>
-#include <GLW/GLWTextBox.h>
-#include <tankgraph/GLWTankViewer.h>
+#include <engine/ActionMeta.h>
+#include <common/Vector.h>
 
-class PlayerDialog : public GLWWindow,
-						  public GLWButtonI
+class CameraPositionAction : public ActionMeta
 {
 public:
-	static PlayerDialog *instance();
+	CameraPositionAction();
+	CameraPositionAction(Vector &showPosition,
+		float showTime,
+		unsigned int priority);
+	virtual ~CameraPositionAction();
 
-	virtual void addPlayers();
+	virtual void init();
+	virtual void simulate(float frameTime, bool &remove);
+	virtual bool writeAction(NetBuffer &buffer);
+	virtual bool readAction(NetBufferReader &reader);
 
-	// Inherited from GLWWindow
-	virtual void keyDown(char *buffer, unsigned int keyState, 
-		KeyboardHistory::HistoryElement *history, int hisCount, 
-		bool &skipRest);
+	REGISTER_ACTION_HEADER(CameraPositionAction);
 
-	// Inherited from GLWButtonI
-	virtual void buttonDown(unsigned int id);
+	static Vector &getPosition() { return position_; }
+	static unsigned int &getPriority() { return priority_; }
 
 protected:
-	PlayerDialog();
-	virtual ~PlayerDialog();
+	float totalTime_;
+	static Vector position_;
+	static unsigned int priority_;
 
-	static PlayerDialog *instance_;
-	GLWDropDown *dropDown_;
-	GLWTankViewer *viewer_;
-	GLWTextBox *playerName_;
-	unsigned int okId_;
-	unsigned int currentPlayerId_;
-	bool beenShown_;
-
-	void nextPlayer();
-	unsigned int getNextPlayer(unsigned int current);
-
+	float showTime_;
+	unsigned int showPriority_;
+	Vector showPosition_;
 };
+
 
 #endif

@@ -38,8 +38,6 @@ ServerNextTurnState::~ServerNextTurnState()
 
 void ServerNextTurnState::enterState(const unsigned state)
 {
-	serverLog(0, "NextTurn");
-
 	TurnController::instance()->nextTurn();
 	if (TurnController::instance()->getPlayersThisTurn().empty())
 	{

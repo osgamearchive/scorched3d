@@ -21,6 +21,7 @@
 #include <client/MessageDisplay.h>
 #include <client/ScorchedClient.h>
 #include <common/OptionsGame.h>
+#include <GLEXT/GLConsole.h>
 #include <GLW/GLWFont.h>
 
 MessageDisplay *MessageDisplay::instance_ = 0;
@@ -54,11 +55,22 @@ void MessageDisplay::simulate(const unsigned state, float simTime)
 	{
 		if (!texts_.empty())
 		{
+			if (currentText_.size())
+			{
+				GLConsole::instance()->addLine(
+					false, currentText_.c_str());
+			}
 			currentText_ = texts_.front();
 			texts_.pop_front();
 			showTime_ = 5.0f;
 		}
 	}
+}
+
+void MessageDisplay::clear()
+{
+	texts_.clear(); 
+	showTime_ = 0.0f;
 }
 
 void MessageDisplay::draw(const unsigned currentstate)

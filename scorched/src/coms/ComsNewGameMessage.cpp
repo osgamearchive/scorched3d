@@ -18,7 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <coms/ComsNewGameMessage.h>
 
 ComsNewGameMessage::ComsNewGameMessage() :
@@ -35,13 +34,11 @@ ComsNewGameMessage::~ComsNewGameMessage()
 bool ComsNewGameMessage::writeMessage(NetBuffer &buffer)
 {
 	if (!levelMessage_.writeMessage(buffer)) return false;
-	if (!stateMessage_.writeMessage(buffer)) return false;
 	return true;
 }
 
 bool ComsNewGameMessage::readMessage(NetBufferReader &reader)
 {
 	if (!levelMessage_.readMessage(reader)) return false;
-	if (!stateMessage_.readMessage(reader)) return false;
 	return true;
 }

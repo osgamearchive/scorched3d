@@ -407,8 +407,6 @@ bool SettingsFrame::TransferDataToWindow()
 		for (i=0; i<=90; i+=5)
 		{
 			sprintf(string, "%i Seconds", i);
-			SettingsMain::IDC_WAIT_TIME_CTRL->Append(string);
-
 			if (i==0) sprintf(string, "%i (Infinite)", i);	
 			SettingsMain::IDC_SHOT_TIME_CTRL->Append(string);
 			SettingsMain::IDC_IDLE_TIME_CTRL->Append(string);
@@ -417,20 +415,14 @@ bool SettingsFrame::TransferDataToWindow()
 			context_.optionsGame.getShotTime()/5);
 		SettingsMain::IDC_SHOT_TIME_CTRL->SetToolTip(
 			wxString("The maximum amount of time allowed for each player to make a move."));
-		SettingsMain::IDC_WAIT_TIME_CTRL->SetSelection(
-			context_.optionsGame.getWaitTime()/5);
-		SettingsMain::IDC_WAIT_TIME_CTRL->SetToolTip(
-			wxString("The amount of time to wait for more players before the game starts."));
 		SettingsMain::IDC_IDLE_TIME_CTRL->SetSelection(
 			context_.optionsGame.getIdleKickTime()/5);
 		SettingsMain::IDC_IDLE_TIME_CTRL->SetToolTip(
 			wxString("The amount of time to wait for a client to respond before kicking it."));
 
 		SettingsMain::IDC_SHOT_TIME_CTRL->Show(playersPanel_ != 0);
-		SettingsMain::IDC_WAIT_TIME_CTRL->Show(playersPanel_ != 0);
 		SettingsMain::IDC_IDLE_TIME_CTRL->Show(playersPanel_ != 0);
 		SettingsMain::IDC_SHOT_TIME_CTRL_TEXT->Show(playersPanel_ != 0);
-		SettingsMain::IDC_WAIT_TIME_CTRL_TEXT->Show(playersPanel_ != 0);
 		SettingsMain::IDC_IDLE_TIME_CTRL_TEXT->Show(playersPanel_ != 0);
 	}
 
@@ -538,12 +530,10 @@ bool SettingsFrame::TransferDataFromWindow()
 		sscanf(SettingsMain::IDC_SERVER_PLAYERS_CTRL->GetValue(), "%i", &noPlayers);
 		sscanf(SettingsMain::IDC_SERVER_ROUNDS_CTRL->GetValue(), "%i", &noRounds);
 		sscanf(SettingsMain::IDC_SHOT_TIME_CTRL->GetValue(), "%i", &shotTime);
-		sscanf(SettingsMain::IDC_WAIT_TIME_CTRL->GetValue(), "%i", &waitTime);
 		sscanf(SettingsMain::IDC_IDLE_TIME_CTRL->GetValue(), "%i", &idleTime);
 		
 		context_.optionsGame.setNoRounds(noRounds);
 		context_.optionsGame.setShotTime(shotTime);
-		context_.optionsGame.setWaitTime(waitTime);
 		context_.optionsGame.setIdleKickTime(idleTime);
 		if (playersPanel_ == 0)
 		{

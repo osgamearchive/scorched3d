@@ -18,11 +18,10 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #ifndef _tankModelId_h
 #define _tankModelId_h
 
-#include <string>
+#include <coms/NetBuffer.h>
 
 // An abstract class that can be used to derive from
 // to define an object that will render the tank
@@ -41,6 +40,8 @@ public:
 	TankModelId(const TankModelId &);
 	virtual ~TankModelId();
 
+	const TankModelId & operator=(const TankModelId &);
+
 	// The name of the model that should be used for this tank
 	const char *getModelName() { return modelName_.c_str(); }
 
@@ -49,12 +50,13 @@ public:
 	TankModelIdRenderer *getModelIdRenderer() { return modelIdRenderer_; }
 	void setModelIdRenderer(TankModelIdRenderer *ptr) { modelIdRenderer_ = ptr; }
 
+	// Serialize the modelid
+    bool writeMessage(NetBuffer &buffer);
+    bool readMessage(NetBufferReader &reader);
+
 protected:
 	std::string modelName_;
 	TankModelIdRenderer *modelIdRenderer_;
-
-private:
-	const TankModelId & operator=(const TankModelId &);
 
 };
 

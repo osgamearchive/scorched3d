@@ -18,10 +18,7 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <client/ScorchedClient.h>
-#include <server/ScorchedServer.h>
 #include <coms/ComsStartGameMessage.h>
-#include <common/OptionsTransient.h>
 
 ComsStartGameMessage::ComsStartGameMessage(unsigned int currentPlayerId,
 										   bool buyWeapons) :
@@ -39,8 +36,6 @@ bool ComsStartGameMessage::writeMessage(NetBuffer &buffer)
 {
 	buffer.addToBuffer(currentPlayerId_);
 	buffer.addToBuffer(buyWeapons_);
-	if (!stateMessage_.writeMessage(buffer)) return false;
-	if (!ScorchedServer::instance()->getOptionsTransient().writeToBuffer(buffer)) return false;
 	return true;
 }
 
@@ -48,7 +43,5 @@ bool ComsStartGameMessage::readMessage(NetBufferReader &reader)
 {
 	if (!reader.getFromBuffer(currentPlayerId_)) return false;
 	if (!reader.getFromBuffer(buyWeapons_)) return false;
-	if (!stateMessage_.readMessage(reader)) return false;
-	if (!ScorchedClient::instance()->getOptionsTransient().readFromBuffer(reader)) return false;
 	return true;
 }

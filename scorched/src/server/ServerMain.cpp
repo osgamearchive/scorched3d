@@ -40,6 +40,7 @@
 #include <server/ServerTextHandler.h>
 #include <server/ServerDefenseHandler.h>
 #include <server/ServerPlayedMoveHandler.h>
+#include <server/ServerAddPlayerHandler.h>
 #include <server/ServerBuyAccessoryHandler.h>
 #include <server/ServerConnectHandler.h>
 #include <server/ServerRegistration.h>
@@ -71,6 +72,7 @@ bool startServer(bool local)
 	ServerPlayerReadyHandler::instance();
 	ServerPlayedMoveHandler::instance();
 	ServerBuyAccessoryHandler::instance();
+	ServerAddPlayerHandler::instance();
 	ServerDefenseHandler::instance();
 
 	// Init physics

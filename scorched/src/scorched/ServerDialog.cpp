@@ -583,8 +583,8 @@ public:
 		const char *message,
 		unsigned int playerId)
 	{
-		// Make sure the list does not exceed 100 entries
-		if (frame->logList_->GetItemCount() > 99)
+		// Make sure the list does not exceed 500 entries
+		if (frame->logList_->GetItemCount() > 499)
 		{
 			// Remove the top 20 entries
 			for (int j=0; j<20; j++) frame->logList_->DeleteItem(0);

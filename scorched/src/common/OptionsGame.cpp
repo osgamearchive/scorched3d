@@ -35,8 +35,6 @@ OptionsGame::OptionsGame() :
 		"The amount of time each player has for each shot", 0, 0),
 	buyingTime_(options_, "BuyingTime", 
 		"The amount of time each player has to buy weapons and use auto defense", 0, 0),
-	waitTime_(options_, "WaitTime", 
-		"The amount of time to wait for new players to join", 0, 15),
 	allowedMissedMoves_(options_, "AllowedMissedMoves",
 		"The number of moves a player is allowed to miss (due to the shot timer)", 0, 3),
 	scoreTime_(options_, "ScoreTime", 

@@ -178,6 +178,7 @@ void GLWDropDown::mouseDown(float x, float y, bool &skipRest)
 						if (handler_)
 						{
 							handler_->select(id_, pos, text_.c_str());
+							return;
 						}
 					}
 

@@ -56,7 +56,7 @@ Tank *TankAIComputerPShark::findTankToShootAt()
 		hitlist_.pop_front();
 
 		Tank *t = context_->tankContainer.getTankById(hit);
-		if (t && t->getState().getLife() > 0)
+		if (t && t->getState().getState() == TankState::sNormal)
 		{
 			hitlist_.push_back(hit);
 			return t;

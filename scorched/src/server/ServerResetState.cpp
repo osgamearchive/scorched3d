@@ -35,8 +35,6 @@ ServerResetState::~ServerResetState()
 
 void ServerResetState::enterState(const unsigned state)
 {
-	serverLog(0, "Reset");
-
 	// Reset all the tanks back to their original scores etc...
 	ScorchedServer::instance()->getTankContainer().resetTanks();
 	ScorchedServer::instance()->getOptionsTransient().reset();

@@ -986,12 +986,6 @@
 				RelativePath="..\dialogs\PlayerDialog.h">
 			</File>
 			<File
-				RelativePath="..\dialogs\PlayersDialog.cpp">
-			</File>
-			<File
-				RelativePath="..\dialogs\PlayersDialog.h">
-			</File>
-			<File
 				RelativePath="..\dialogs\ProgressDialog.cpp">
 			</File>
 			<File
@@ -1512,6 +1506,12 @@
 				RelativePath="..\coms\ComsDefenseMessage.h">
 			</File>
 			<File
+				RelativePath="..\coms\ComsGameStateMessage.cpp">
+			</File>
+			<File
+				RelativePath="..\coms\ComsGameStateMessage.h">
+			</File>
+			<File
 				RelativePath="..\coms\ComsGameStoppedMessage.cpp">
 			</File>
 			<File
@@ -1961,6 +1961,12 @@
 			Name="actions"
 			Filter="">
 			<File
+				RelativePath="..\actions\CameraPositionAction.cpp">
+			</File>
+			<File
+				RelativePath="..\actions\CameraPositionAction.h">
+			</File>
+			<File
 				RelativePath="..\actions\Explosion.cpp">
 			</File>
 			<File
@@ -2327,6 +2333,12 @@
 				RelativePath="..\client\ClientDialog.h">
 			</File>
 			<File
+				RelativePath="..\client\ClientGameStateHandler.cpp">
+			</File>
+			<File
+				RelativePath="..\client\ClientGameStateHandler.h">
+			</File>
+			<File
 				RelativePath="..\client\ClientGameStoppedHandler.cpp">
 			</File>
 			<File
@@ -2487,6 +2499,12 @@
 				RelativePath="..\server\ScorchedServer.h">
 			</File>
 			<File
+				RelativePath="..\server\ServerAddPlayerHandler.cpp">
+			</File>
+			<File
+				RelativePath="..\server\ServerAddPlayerHandler.h">
+			</File>
+			<File
 				RelativePath="..\server\ServerBrowserInfo.cpp">
 			</File>
 			<File
@@ -2629,12 +2647,6 @@
 			</File>
 			<File
 				RelativePath="..\server\ServerTooFewPlayersStimulus.h">
-			</File>
-			<File
-				RelativePath="..\server\ServerWaitingForPlayersState.cpp">
-			</File>
-			<File
-				RelativePath="..\server\ServerWaitingForPlayersState.h">
 			</File>
 			<File
 				RelativePath="..\server\TurnController.cpp">

@@ -297,6 +297,7 @@ void GameState::simulate(float simTime)
 					setState(itor->second);
 					return;
 				}
+				if (checkStimulate()) return;
 			}
 		}
 	}

@@ -166,7 +166,8 @@ void ScoreDialog::draw()
 			bool currentPlayer = false;
 	        
 			// Print a highlight behind the current clients player
-			if (current->getTankAI())
+			if (current->getDestinationId() == 
+				ScorchedClient::instance()->getTankContainer().getCurrentDestinationId())
 			{
 				GLState state(GLState::BLEND_ON); 
 				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

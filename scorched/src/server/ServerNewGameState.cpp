@@ -26,6 +26,7 @@
 #include <common/OptionsGame.h>
 #include <common/Timer.h>
 #include <common/Logger.h>
+#include <coms/ComsGameStateMessage.h>
 #include <coms/ComsNewGameMessage.h>
 #include <coms/ComsMessageSender.h>
 
@@ -42,7 +43,6 @@ ServerNewGameState::~ServerNewGameState()
 void ServerNewGameState::enterState(const unsigned state)
 {
 	// Tell clients a new game is starting
-	serverLog(0, "Starting new game");
 	sendString(0, "Next Round");
 
 	// Setup landscape and tank start pos
@@ -75,6 +75,10 @@ void ServerNewGameState::enterState(const unsigned state)
 	// timer will have a lot of time in it
 	// Get rid of this time so we don't screw things up
 	serverTimer.getTimeDifference();
+
+	// Make sure all clients have the correct state
+	ComsGameStateMessage message;
+	ComsMessageSender::sendToAllPlayingClients(message);	
 
 	// Move into the state that waits for players to become ready
 	ScorchedServer::instance()->getGameState().stimulate(ServerState::ServerStimulusNextRound);

@@ -43,6 +43,7 @@ public:
 	// Get the current physics engine
 	PhysicsEngine &getPhysics() { return physicsEngine_; }
 	ActionBuffer &getBuffer() { return buffer_; }
+	float getActionTime() { return time_; }
 
 	// Set the simulation speed
 	void setScorchedContext(ScorchedContext *context);

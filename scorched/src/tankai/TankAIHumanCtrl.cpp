@@ -19,6 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <tankai/TankAIHumanCtrl.h>
+#include <tankai/TankAIHuman.h>
 #include <client/ScorchedClient.h>
 #include <client/ClientState.h>
 
@@ -75,6 +76,15 @@ void TankAIHumanCtrl::keyboardCheck(const unsigned state, float frameTime,
 	{
 		if (currentTank->getState().getState() == TankState::sNormal)
 		{
+			if (currentTank->getDestinationId() == 
+				ScorchedClient::instance()->getTankContainer().getCurrentDestinationId() &&
+				!currentTank->getTankAI()) 
+			{
+				// If this is a player local to this destination then add the human ai
+				TankAI *ai = new TankAIHuman(&ScorchedClient::instance()->getContext(), currentTank);
+				currentTank->setTankAI(ai);
+			}
+
 			TankAI *ai = currentTank->getTankAI();
 			if (ai)
 			{

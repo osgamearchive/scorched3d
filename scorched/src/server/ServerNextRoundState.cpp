@@ -35,8 +35,6 @@ ServerNextRoundState::~ServerNextRoundState()
 
 void ServerNextRoundState::enterState(const unsigned state)
 {
-	serverLog(0, "NextRound");
-
 	// Move all tanks into the next round
 	// Load the set of options for this next player
 	ScorchedServer::instance()->getContext().optionsTransient.nextRound();

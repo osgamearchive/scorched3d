@@ -23,7 +23,6 @@
 #define __INCLUDE_ComsStartGameMessageh_INCLUDE__
 
 #include <coms/ComsMessage.h>
-#include <coms/ComsPlayerStateMessage.h>
 
 class ComsStartGameMessage : public ComsMessage
 {
@@ -40,10 +39,8 @@ public:
     virtual bool readMessage(NetBufferReader &reader);
 
 protected:
-	ComsPlayerStateMessage stateMessage_;
 	unsigned int currentPlayerId_;
 	bool buyWeapons_;
 };
-
 
 #endif

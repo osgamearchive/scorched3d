@@ -160,6 +160,9 @@ bool WindowManager::hideWindow(unsigned id)
 	{
 		if ((*itor).second)
 		{
+			GLWWindow *window = idToWindow_[id];
+			window->windowHide();
+
 			(*itor).second = false;
 			return true;
 		}

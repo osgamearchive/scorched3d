@@ -68,24 +68,13 @@ bool ClientStartGameHandler::processMessage(unsigned int id,
 	// Ensure that the landscape is set to the "proper" texture
 	Landscape::instance()->restoreLandscapeTexture();
 
-	// Set the wind for the next shot
-	Vector wind;
-	if (ScorchedClient::instance()->getOptionsTransient().getWindOn())
-	{
-		wind = ScorchedClient::instance()->getOptionsTransient().getWindDirection();
-		wind *= ScorchedClient::instance()->getOptionsTransient().getWindSpeed() / 2.0f;
-	}
-	ScorchedClient::instance()->getActionController().getPhysics().setWind(wind);
-
 	// make sound to tell client a new game is commencing
 	Tank *current = ScorchedClient::instance()->getTankContainer().getCurrentTank();
-	if (current && current->getTankAI())
+	if (current->getDestinationId() == 
+		ScorchedClient::instance()->getTankContainer().getCurrentDestinationId())
 	{
-		if (current->getTankAI()->isHuman())
-		{
-			CACHE_SOUND(playSound, PKGDIR "data/wav/misc/play.wav");
-			playSound->play();
-		}
+		CACHE_SOUND(playSound, PKGDIR "data/wav/misc/play.wav");
+		playSound->play();
 	}
 
 	// Stimulate into the new game state

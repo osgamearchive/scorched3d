@@ -36,8 +36,6 @@ ServerPlayingState::~ServerPlayingState()
 
 void ServerPlayingState::enterState(const unsigned state)
 {
-	serverLog(0, "Players playing game");
-
 	// Set the wait timer to the current time
 	time_ = 0.0f;
 }

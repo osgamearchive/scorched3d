@@ -27,6 +27,8 @@
 #include <common/OptionsGame.h>
 #include <common/Logger.h>
 #include <common/OptionsTransient.h>
+#include <coms/ComsGameStateMessage.h>
+#include <coms/ComsMessageSender.h>
 #include <tank/TankContainer.h>
 
 ServerReadyState::ServerReadyState() : time_(0.0f)
@@ -39,8 +41,6 @@ ServerReadyState::~ServerReadyState()
 
 void ServerReadyState::enterState(const unsigned state)
 {
-	serverLog(0, "Ready");
-
 	// Make sure that there are no shots from the last turns
 	ServerShotHolder::instance()->clearShots();
 
@@ -74,6 +74,10 @@ bool ServerReadyState::acceptStateChange(const unsigned state,
 	// Check all players returned ready
 	if (ScorchedServer::instance()->getTankContainer().allReady())
 	{
+		// Make sure all clients have the correct game settings
+		ComsGameStateMessage message;
+		ComsMessageSender::sendToAllPlayingClients(message);	
+
 		return true;
 	}
 
@@ -100,6 +104,10 @@ bool ServerReadyState::acceptStateChange(const unsigned state,
 				kickDestination(tank->getDestinationId());
 			}
 		}
+
+		// Make sure all clients have the correct game settings
+		ComsGameStateMessage message;
+		ComsMessageSender::sendToAllPlayingClients(message);	
 
 		// Stimulate into the next state
 		return true;

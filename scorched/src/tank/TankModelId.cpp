@@ -47,3 +47,30 @@ TankModelId::~TankModelId()
 {
 	delete modelIdRenderer_;
 }
+
+const TankModelId & TankModelId::operator=(const TankModelId &other)
+{
+	modelName_ = other.modelName_;
+	modelIdRenderer_ = 0;
+	return *this;
+}
+
+bool TankModelId::writeMessage(NetBuffer &buffer)
+{
+	buffer.addToBuffer(modelName_);
+	return true;
+}
+
+bool TankModelId::readMessage(NetBufferReader &reader)
+{
+	std::string newName;
+	if (!reader.getFromBuffer(newName)) return false;
+	if (0 != strcmp(newName.c_str(), modelName_.c_str()))
+	{
+		modelName_ = newName;
+		delete modelIdRenderer_;
+		modelIdRenderer_ = 0;
+	}
+
+	return true;
+}

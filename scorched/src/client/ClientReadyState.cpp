@@ -59,7 +59,8 @@ void ClientReadyState::enterState(const unsigned state)
 	{
 		Tank *current = (*itor).second;
 
-		if (current->getTankAI())
+		if (current->getDestinationId() == 
+			ScorchedClient::instance()->getTankContainer().getCurrentDestinationId())
 		{
 			ComsPlayerReadyMessage readyMessage(current->getPlayerId());
 			ComsMessageSender::sendToServer(readyMessage);

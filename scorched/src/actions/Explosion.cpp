@@ -27,6 +27,7 @@
 #include <weapons/WeaponProjectile.h>
 #include <actions/Explosion.h>
 #include <actions/ShotProjectile.h>
+#include <actions/CameraPositionAction.h>
 #include <engine/ScorchedContext.h>
 #include <landscape/DeformLandscape.h>
 #include <landscape/DeformTextures.h>
@@ -105,6 +106,19 @@ void Explosion::init()
 		{
 			// Make the camera shake
 			MainCamera::instance()->getCamera().addShake(weapon_->getShake());
+		}
+	}
+	else 
+	{
+		if (explosionHurts_)
+		{
+			const float ShowTime = 4.0f;
+			ActionMeta *pos = new CameraPositionAction(
+				position_, ShowTime, 10);
+			context_->actionController.getBuffer().serverAdd(
+				context_->actionController.getActionTime() - 3.0f,
+				pos);
+			delete pos;
 		}
 	}
 }

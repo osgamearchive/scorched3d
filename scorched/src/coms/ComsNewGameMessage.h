@@ -18,13 +18,11 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #ifndef _comsNewGameMessage_h
 #define _comsNewGameMessage_h
 
 #include <coms/ComsMessage.h>
 #include <coms/ComsLevelMessage.h>
-#include <coms/ComsPlayerStateMessage.h>
 
 class ComsNewGameMessage : public ComsMessage
 {
@@ -40,7 +38,6 @@ public:
 
 protected:
 	ComsLevelMessage levelMessage_;
-	ComsPlayerStateMessage stateMessage_;
 
 private:
 	ComsNewGameMessage(const ComsNewGameMessage &);

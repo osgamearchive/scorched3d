@@ -18,11 +18,11 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <math.h>
 #include <GLEXT/GLBitmap.h>
 #include <GLEXT/GLConsole.h>
 #include <actions/ShotProjectile.h>
+#include <actions/CameraPositionAction.h>
 #include <client/MainCamera.h>
 #include <client/ScorchedClient.h>
 #include <dialogs/MainMenuDialog.h>
@@ -39,6 +39,7 @@ static const char *menuItems[] =
 	"AboveTank",
 	"Tank",
 	"Shot",
+	"Action",
 	"Left",
 	"Right",
 	"LeftFar",
@@ -145,6 +146,14 @@ void MainCamera::moveCamera(float frameTime)
 
 	switch (cameraPos_)
 	{
+	case CamAction:
+		if (CameraPositionAction::getPriority() != 0)
+		{
+			mainCam_.setLookAt(CameraPositionAction::getPosition());
+			mainCam_.movePosition(currentRotation + 0.3f, 1.0f, 40.0f);
+			CameraPositionAction::getPriority() = 0;
+		}
+		break;
 	case CamTop:
 		mainCam_.setLookAt(position);
 		mainCam_.movePosition(currentRotation, 0.174f, 50.f);
@@ -341,6 +350,7 @@ void MainCamera::keyboardCheck(const unsigned state, float frameTime,
 	KEYBOARDKEY("CAMERA_BEHIND_VIEW", behindViewKey);
 	KEYBOARDKEY("CAMERA_TANK_VIEW", tankViewKey);
 	KEYBOARDKEY("CAMERA_GUN_VIEW", gunViewKey);
+	KEYBOARDKEY("CAMERA_ACTION_VIEW", actionViewKey);
 	KEYBOARDKEY("CAMERA_LEFT_VIEW", leftViewKey);
 	KEYBOARDKEY("CAMERA_RIGHT_VIEW", rightViewKey);
 	KEYBOARDKEY("CAMERA_LEFTFAR_VIEW", leftFarViewKey);
@@ -356,6 +366,7 @@ void MainCamera::keyboardCheck(const unsigned state, float frameTime,
 	else if (leftFarViewKey->keyDown(buffer, keyState)) cameraPos_ = CamLeftFar;
 	else if (rightFarViewKey->keyDown(buffer, keyState)) cameraPos_ = CamRightFar;
 	else if (spectatorViewKey->keyDown(buffer, keyState)) cameraPos_ = CamSpectator;
+	else if (actionViewKey->keyDown(buffer, keyState)) cameraPos_ = CamAction;
 
 	const float QPI = 3.14f / 4.0f;
 	KEYBOARDKEY("CAMERA_ROTATE_LEFT", leftKey);

@@ -32,6 +32,7 @@
 #include <client/ClientBuyAccessoryHandler.h>
 #include <client/ClientConnectionAcceptHandler.h>
 #include <client/ClientRmPlayerHandler.h>
+#include <client/ClientGameStateHandler.h>
 #include <client/ClientActionsHandler.h>
 #include <client/ClientDefenseHandler.h>
 #include <client/ClientState.h>
@@ -89,6 +90,7 @@ void startClient()
 	ClientRmPlayerHandler::instance();
 	ClientGameStoppedHandler::instance();
 	ClientStartGameHandler::instance();
+	ClientGameStateHandler::instance();
 	ClientDefenseHandler::instance();
 	ClientActionsHandler::instance();
 	ClientBuyAccessoryHandler::instance();

@@ -67,7 +67,7 @@ bool ServerStateTooFewPlayersState::acceptStateChange(const unsigned state,
 	}
 	else
 	{
-		// Just to make obvious we do one thing or the other
+		// Just to make it more obvious we do one thing or the other
 		return true;
 	}
 

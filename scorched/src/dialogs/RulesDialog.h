@@ -31,7 +31,7 @@ class RulesDialog : public GLWWindow ,
 public:
 	static RulesDialog *instance();
 
-	virtual void windowInit(const unsigned state);
+	virtual void windowHide();
 	virtual void buttonDown(unsigned int id);
 	virtual void draw();
 
@@ -41,7 +41,6 @@ protected:
 	static RulesDialog *instance_;
 	GLWListView *listView_;
 	unsigned int okId_;
-	bool firstShow_;
 
 private:
 	RulesDialog();

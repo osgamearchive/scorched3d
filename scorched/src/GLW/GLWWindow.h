@@ -48,6 +48,7 @@ public:
 	virtual ~GLWWindow();
 
 	virtual void windowDisplay();
+	virtual void windowHide();
 	virtual void windowInit(const unsigned state);
 	virtual void draw();
 	virtual void mouseDown(float x, float y, bool &skipRest);

@@ -28,32 +28,22 @@
 // servers. Ooops i have had to change it, oh well
 
 #include <coms/ComsMessage.h>
-#include <list>
 
 class ComsConnectMessage : public ComsMessage
 {
 public:
-	struct PlayerEntry
-	{
-		PlayerEntry() : spectator(false) {}
-		std::string name;
-		std::string model;
-		bool spectator;
-	};
-
 	ComsConnectMessage(const char *version = "",
 		const char *protocolVersion = "",
 		const char *password = "",
-		const char *unqiueId = "");
+		const char *unqiueId = "",
+		unsigned int noPlayers = 0);
 	virtual ~ComsConnectMessage();
 
 	const char *getVersion() { return version_.c_str(); }
 	const char *getProtocolVersion() { return protocolVersion_.c_str(); }
 	const char *getPassword() { return password_.c_str(); }
 	const char *getUniqueId() { return uniqueId_.c_str(); }
-	std::list<PlayerEntry> &getPlayers() { return players_; }
-
-	void addPlayers(std::list<PlayerEntry> &players) { players_.swap(players); }
+	unsigned int getNoPlayers() { return noPlayers_; }
 
 	// Inherited from ComsMessage
     virtual bool writeMessage(NetBuffer &buffer);
@@ -64,7 +54,7 @@ protected:
 	std::string protocolVersion_;
 	std::string password_;
 	std::string uniqueId_;
-	std::list<PlayerEntry> players_;
+	unsigned int noPlayers_;
 
 private:
 	ComsConnectMessage(const ComsConnectMessage &);

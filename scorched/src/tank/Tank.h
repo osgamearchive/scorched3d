@@ -52,21 +52,24 @@ public:
 	// The base attributes of the tank
 	unsigned int getPlayerId() { return playerId_; }
 	unsigned int getDestinationId() { return destinationId_; }
+	void setDestinationId(unsigned int id) { destinationId_ = id; }
 	const char *getName() { return name_.c_str(); }
-	const char *getUniqueId() { return uniqueId_.c_str(); }
+	void setName(const char *name) { name_ = name; }
 	unsigned int getNameLen() { return name_.size(); }
+	const char *getUniqueId() { return uniqueId_.c_str(); }
+	void setUnqiueId(const char *id) { uniqueId_ = id; }
+	TankAI *getTankAI() { return tankAI_; }
+	void setTankAI(TankAI *ai) { tankAI_ = ai; }
+	TankModelId &getModel() { return model_; }
+	void setModel(TankModelId &model) { model_ = model; }
 	Vector &getColor() { return color_; }
+	void setColor(Vector &color) { color_ = color; }
 
 	// Other attributes
 	TankAccessories& getAccessories() { return accessories_; }
 	TankScore &getScore() { return score_; }
 	TankPhysics &getPhysics() { return physics_; }
 	TankState &getState() { return state_; }
-	TankModelId &getModel() { return model_; }
-	TankAI *getTankAI() { return tankAI_; }
-	void setTankAI(TankAI *ai) { tankAI_ = ai; }
-	void setTankName(const char *name);
-	void setUnqiueId(const char *id);
 
 protected:
 	TankModelId model_;

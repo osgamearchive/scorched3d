@@ -95,16 +95,8 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 		return true;
 	}
 
-	// Check for player numbers 
-	if (message.getPlayers().empty())
-	{
-		sendString(destinationId, "Too little players");
-		kickDestination(destinationId);
-		return true;
-	}
-
 	// Check player availability
-	if ((int) message.getPlayers().size() > 
+	if ((int) message.getNoPlayers() > 
 		ScorchedServer::instance()->getOptionsGame().getNoMaxPlayers() -
 		ScorchedServer::instance()->getTankContainer().getNoOfTanks())
 	{
@@ -193,19 +185,13 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 	}
 
 	// Add all the new tanks
-	std::list<ComsConnectMessage::PlayerEntry> &newPlayers = 
-		message.getPlayers();
-	std::list<ComsConnectMessage::PlayerEntry>::iterator newPlayerItor;
-	for (newPlayerItor = newPlayers.begin();
-		newPlayerItor != newPlayers.end();
-		newPlayerItor++)
+	for (unsigned int i=0; i<message.getNoPlayers(); i++)
 	{
-		ComsConnectMessage::PlayerEntry &newPlayer = (*newPlayerItor);
 		addNextTank(destinationId,
-			newPlayer.name.c_str(),
-			newPlayer.model.c_str(),
+			"Spectator",
+			"Random",
 			message.getUniqueId(),
-			newPlayer.spectator);
+			true);
 	}
 
 	return true;
@@ -224,34 +210,7 @@ void ServerConnectHandler::addNextTank(unsigned int destinationId,
 		tankId = TankAIAdder::getNextTankId();
 	}
 
-	// Form the correct player name
-	// Remove spaces from the front of the name and
-	// unwanted characters from middle
-	char *nameBeginning = (char *) sentPlayerName;
-	while (*nameBeginning == ' ') nameBeginning++;
-	char *nameMiddle = nameBeginning;
-	for (;*nameMiddle; nameMiddle++)
-	{
-		if (*nameMiddle == '\"') *nameMiddle = '\'';
-		else if (*nameMiddle == ']') *nameMiddle = ')';
-		else if (*nameMiddle == '[') *nameMiddle = '(';
-	}
-
-	// Check the client provides a name with a least 1 char in it
-	// and the name is less than 16 chars
-	std::string playerName;
-	int nameLen = strlen(nameBeginning);
-	if (nameLen == 0) playerName = "NoName";
-	else if (nameLen < 16) playerName = nameBeginning;
-	else playerName.append(nameBeginning, 16);
-
-	// Make sure no-one has the same name
-	while (ScorchedServer::instance()->getTankContainer().getTankByName(playerName.c_str()))
-	{
-		playerName += "(2)";
-	}
-
-		// The player has connected
+	// The player has connected
 	Vector color = TankColorGenerator::instance()->getNextColor();
 	TankModelId modelId(sentPlayerModel);
 
@@ -261,17 +220,12 @@ void ServerConnectHandler::addNextTank(unsigned int destinationId,
 		ScorchedServer::instance()->getContext(),
 		tankId,
 		destinationId,
-		playerName.c_str(),
+		sentPlayerName,
 		color,
 		modelId);
 	tank->setUnqiueId(sentUniqueId);
 	tank->getState().setSpectator(spectator);
 	ScorchedServer::instance()->getTankContainer().addTank(tank);
-
-	// Add to dialog
-	Logger::log(tankId, "Player connected \"%i\" \"%s\"",
-		tankId,
-		playerName.c_str());
 
 	// Tell the clients to create this tank
 	ComsAddPlayerMessage addPlayerMessage(
@@ -281,4 +235,13 @@ void ServerConnectHandler::addNextTank(unsigned int destinationId,
 		tank->getModel().getModelName(),
 		tank->getDestinationId()); 
 	ComsMessageSender::sendToAllConnectedClients(addPlayerMessage);
+
+	// Add to dialog
+	Logger::log(tankId, "Player connected \"%i\" \"%s\"",
+		tankId,
+		sentPlayerName);
+
+	// Tell this computer that a new tank has connected
+	sendString(0, "Player connected \"%s\"",
+		sentPlayerName);
 }

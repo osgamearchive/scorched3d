@@ -27,7 +27,6 @@
 #include <dialogs/MainMenuDialog.h>
 #include <dialogs/WindDialog.h>
 #include <dialogs/PlayerDialog.h>
-#include <dialogs/PlayersDialog.h>
 #include <dialogs/PlanViewDialog.h>
 #include <dialogs/QuitDialog.h>
 #include <dialogs/LogDialog.h>
@@ -74,9 +73,12 @@ void WindowSetup::addCommonComponents(unsigned state)
 			MainMenuDialog::instance(), 0, true);
 	}
 
+	WindowManager::instance()->addWindow(state,
+		PlayerDialog::instance(), 0, false);
+
 	KEYBOARDKEY("SHOW_RULES_DIALOG", rulesKey);
 	WindowManager::instance()->addWindow(state, 
-		RulesDialog::instance(), rulesKey, false);
+		RulesDialog::instance(), rulesKey, true);
 }
 
 void WindowSetup::setup()
@@ -89,22 +91,6 @@ void WindowSetup::setup()
 	KEYBOARDKEY("SHOW_KIBITZ_DIALOG", kibitzKey);
 	
 	GLWWindow *planView = new PlanViewDialog;
-
-	// StateSinglePlayer
-	WindowManager::instance()->addWindow(ClientState::StateSinglePlayer, 
-		BackdropDialog::instance(), 0, true);
-	WindowManager::instance()->addWindow(ClientState::StateSinglePlayer, 
-		PlayersDialog::players_instance(), 0, true);
-	WindowManager::instance()->addWindow(ClientState::StateSinglePlayer, 
-		QuitDialog::instance(), quitKey, false);
-
-	// StateConnectPlayer
-	WindowManager::instance()->addWindow(ClientState::StateConnectPlayer, 
-		BackdropDialog::instance(), 0, true);
-	WindowManager::instance()->addWindow(ClientState::StateConnectPlayer, 
-		QuitDialog::instance(), quitKey, false);
-	WindowManager::instance()->addWindow(ClientState::StateConnectPlayer, 
-		PlayerDialog::instance(), 0, true);
 
 	// StateConnect
 	WindowManager::instance()->addWindow(ClientState::StateConnect, 

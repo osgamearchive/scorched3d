@@ -31,9 +31,9 @@ Tank::Tank(ScorchedContext &context,
 	: playerId_(playerId), destinationId_(destinationId),
 	  color_(color), 
 	  physics_(context, playerId), model_(modelId), tankAI_(0),
-	  score_(context), state_(context)
+	  score_(context), state_(context), name_(name)
 {
-	setTankName(name);
+	
 }
 
 Tank::~Tank()
@@ -64,31 +64,39 @@ void Tank::nextShot()
 	if (tankAI_) tankAI_->nextShot();
 }
 
-void Tank::setUnqiueId(const char *id)
-{
-	uniqueId_ = id;
-}
-
-void Tank::setTankName(const char *name)
-{
-	name_ = name;
-}
-
 bool Tank::writeMessage(NetBuffer &buffer)
 {
+	buffer.addToBuffer(name_);
+	buffer.addToBuffer(destinationId_);
+	buffer.addToBuffer(color_[0]);
+	buffer.addToBuffer(color_[1]);
+	buffer.addToBuffer(color_[2]);
+	if (!model_.writeMessage(buffer)) return false;
 	if (!physics_.writeMessage(buffer)) return false;
 	if (!state_.writeMessage(buffer)) return false;
 	if (!accessories_.writeMessage(buffer)) return false;
 	if (!score_.writeMessage(buffer)) return false;
-
 	return true;
 }
 
 bool Tank::readMessage(NetBufferReader &reader)
 {
+	if (!reader.getFromBuffer(name_)) return false;
+	if (!reader.getFromBuffer(destinationId_)) return false;
+	if (!reader.getFromBuffer(color_[0])) return false;
+	if (!reader.getFromBuffer(color_[1])) return false;
+	if (!reader.getFromBuffer(color_[2])) return false;
+	if (!model_.readMessage(reader)) return false;
 	if (!physics_.readMessage(reader)) return false;
 	if (!state_.readMessage(reader)) return false;
 	if (!accessories_.readMessage(reader)) return false;
 	if (!score_.readMessage(reader)) return false;
+
+	// If any humans turn into computers remove the HumanAI
+	if (destinationId_ == 0) 
+	{
+		delete tankAI_; 
+		tankAI_ = 0;
+	}
 	return true;
 }

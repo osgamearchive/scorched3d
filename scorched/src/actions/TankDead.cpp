@@ -18,8 +18,8 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <actions/TankDead.h>
+#include <actions/CameraPositionAction.h>
 #include <actions/TankScored.h>
 #include <actions/Explosion.h>
 #include <actions/ShotProjectileFunky.h>
@@ -67,6 +67,18 @@ void TankDead::simulate(float frameTime, bool &remove)
 		if (killedTank && 
 			killedTank->getState().getState() == TankState::sNormal)
 		{
+			if (context_->serverMode)
+			{
+				const float ShowTime = 5.0f;
+				ActionMeta *pos = new CameraPositionAction(
+					killedTank->getPhysics().getTankPosition(), ShowTime,
+					20);
+				context_->actionController.getBuffer().serverAdd(
+					context_->actionController.getActionTime() - 4.0f,
+					pos);
+				delete pos;
+			}
+
 			// Print the banner on who killed who
 			if (killedTank && firedTank)
 			{

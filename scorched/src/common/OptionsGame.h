@@ -112,9 +112,6 @@ public:
 	int getBuyingTime() { return buyingTime_.getValue(); }
 	void setBuyingTime(int value) { buyingTime_.setValue(value); }
 
-	int getWaitTime() { return waitTime_.getValue(); }
-	void setWaitTime(int value) { waitTime_.setValue(value); }
-
 	int getScoreTime() { return scoreTime_.getValue(); }
 	void setScoreTime(int value) { scoreTime_.setValue(value); }
 
@@ -202,7 +199,6 @@ protected:
 	OptionEntryInt tankStartCloseness_;
 	OptionEntryInt shotTime_;
 	OptionEntryInt buyingTime_;
-	OptionEntryInt waitTime_;
 	OptionEntryInt scoreTime_;
 	OptionEntryInt allowedMissedMoves_;
 	OptionEntryInt numberOfRounds_;

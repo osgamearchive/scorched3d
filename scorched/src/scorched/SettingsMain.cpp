@@ -52,15 +52,6 @@ static void createControls(wxWindow *parent)
 	new wxStaticBox(parent, -1,
 		"Game Options",
 		wxPoint((int) 10.5, (int) 10.5), wxSize((int) 339, (int) 99));
-	IDC_WAIT_TIME_CTRL = 
-		new wxComboBox(parent, IDC_WAIT_TIME,
-		"",
-		wxPoint((int) 250.5, (int) 27), wxSize((int) 87, (int) 124.5),
-		0, 0, wxCB_READONLY);
-	IDC_WAIT_TIME_CTRL_TEXT = 
-		new wxStaticText(parent, -1,
-		"Wait Time :",
-		wxPoint((int) 195, (int) 30));
 	IDC_SHOT_TIME_CTRL = 
 		new wxComboBox(parent, IDC_SHOT_TIME,
 		"",

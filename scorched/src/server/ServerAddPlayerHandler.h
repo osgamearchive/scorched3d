@@ -18,45 +18,29 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_PlayerDialogh_INCLUDE__)
-#define __INCLUDE_PlayerDialogh_INCLUDE__
+#if !defined(__INCLUDE_ServerAddPlayerHandlerh_INCLUDE__)
+#define __INCLUDE_ServerAddPlayerHandlerh_INCLUDE__
 
-#include <GLW/GLWWindow.h>
-#include <GLW/GLWButton.h>
-#include <GLW/GLWTextBox.h>
-#include <tankgraph/GLWTankViewer.h>
+#include <coms/ComsMessageHandler.h>
 
-class PlayerDialog : public GLWWindow,
-						  public GLWButtonI
+class ServerAddPlayerHandler : 
+	public ComsMessageHandlerI
 {
 public:
-	static PlayerDialog *instance();
+	static ServerAddPlayerHandler *instance();
 
-	virtual void addPlayers();
-
-	// Inherited from GLWWindow
-	virtual void keyDown(char *buffer, unsigned int keyState, 
-		KeyboardHistory::HistoryElement *history, int hisCount, 
-		bool &skipRest);
-
-	// Inherited from GLWButtonI
-	virtual void buttonDown(unsigned int id);
+	virtual bool processMessage(unsigned int id,
+		const char *messageType,
+		NetBufferReader &reader);
 
 protected:
-	PlayerDialog();
-	virtual ~PlayerDialog();
+	static ServerAddPlayerHandler *instance_;
 
-	static PlayerDialog *instance_;
-	GLWDropDown *dropDown_;
-	GLWTankViewer *viewer_;
-	GLWTextBox *playerName_;
-	unsigned int okId_;
-	unsigned int currentPlayerId_;
-	bool beenShown_;
+	void getUniqueName(std::string &sentname);
 
-	void nextPlayer();
-	unsigned int getNextPlayer(unsigned int current);
-
+private:
+	ServerAddPlayerHandler();
+	virtual ~ServerAddPlayerHandler();
 };
 
 #endif

@@ -71,7 +71,6 @@ public:
 
 	GLTexture &getLandscapeTextureWater() { return landTexWater_; }
 	GLTexture &getLandscapeTexture1() { return landTex1_; }
-	GLTexture &getLandscapeTexture2() { return landTex2_; }
 
 	LandscapeTextureType getTextureType() { return textureType_; }
 	void setTextureType(LandscapeTextureType type) { textureType_ = type; }
@@ -111,7 +110,6 @@ protected:
 	GLTexture *waterTexture_;
 	GLTexture waterDetail_;
 	GLTexture landTex1_;
-	GLTexture landTex2_;
 	GLTexture landTexWater_;
 	GLBitmap mainMap_;
 	GLBitmap scorchMap_;

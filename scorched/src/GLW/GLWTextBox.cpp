@@ -70,6 +70,7 @@ void GLWTextBox::keyDown(char *buffer, unsigned int keyState,
 			{
 				text_ += c;
 			}
+			skipRest = true;
 		}
 		else if (dik == SDLK_BACKSPACE || dik == SDLK_DELETE)
 		{
@@ -77,6 +78,7 @@ void GLWTextBox::keyDown(char *buffer, unsigned int keyState,
 			{
 				text_ = text_.substr(0, text_.length() - 1);
 			}
+			skipRest = true;
 		}
 	}
 }
