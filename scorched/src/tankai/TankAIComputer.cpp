@@ -82,6 +82,9 @@ bool TankAIComputer::parseConfig(XMLNode *node)
 	// Weapons
 	if (!tankBuyer_.parseConfig(node)) return false;
 
+	// Targeting
+	if (!tankTarget_.parseConfig(node)) return false;
+
 	return true;
 }
 

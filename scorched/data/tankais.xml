@@ -1,5 +1,24 @@
 <ais>
 	<ai>
+		<name>Cyborg</name>
+		<description>A computer controlled player.
+Cyborgs are like Sharks, except they can 
+use batteries.</description>
+		<aimsniper>50</aimsniper>
+		<aimtype>refined</aimtype>
+		<targettype>agressor</targettype>
+		<nodefenses>false</nodefenses>
+		<availableforrandom>true</availableforrandom>
+		<weapon><name>Parachute</name><level>10</level></weapon>
+		<weapon><name>Baby Nuke</name><level>20</level></weapon>	
+		<weapon><name>MIRV</name><level>20</level></weapon>
+		<weapon><name>Battery</name><level>20</level></weapon>
+		<weapon><name>Shield</name><level>20</level></weapon>
+		<weapon><name>Auto Defense</name><level>30</level></weapon>
+		<weapon><name>Nuke</name><level>30</level></weapon>
+	</ai>
+
+	<ai>
 		<name>Shark</name>
 		<description>A computer controlled player.
 Sharks are like Choosers, except they take 
@@ -7,6 +26,7 @@ grudges against players that are
 shooting at them.</description>
 		<aimsniper>50</aimsniper>
 		<aimtype>refined</aimtype>
+		<targettype>agressor</targettype>
 		<nodefenses>false</nodefenses>
 		<availableforrandom>true</availableforrandom>
 		<weapon><name>Parachute</name><level>10</level></weapon>
@@ -25,6 +45,7 @@ also fire in straight line when close
 enough.</description>
 		<aimsniper>50</aimsniper>
 		<aimtype>refined</aimtype>
+		<targettype>nearest</targettype>
 		<nodefenses>false</nodefenses>
 		<availableforrandom>true</availableforrandom>
 		<weapon><name>Parachute</name><level>10</level></weapon>
@@ -43,6 +64,7 @@ shot isn't too close, you have some
 time to kill them.</description>
 		<aimsniper>0</aimsniper>
 		<aimtype>refined</aimtype>
+		<targettype>nearest</targettype>
 		<nodefenses>false</nodefenses>
 		<availableforrandom>true</availableforrandom>
 		<weapon><name>Missile</name><level>20</level></weapon>
@@ -59,6 +81,7 @@ Morons, but they don't ever learn,
 not refining subsiquent shots.</description>
 		<aimsniper>0</aimsniper>
 		<aimtype>guess</aimtype>
+		<targettype>nearest</targettype>
 		<nodefenses>false</nodefenses>
 		<availableforrandom>true</availableforrandom>
 		<weapon><name>Missile</name><level>20</level></weapon>
@@ -74,6 +97,7 @@ and shoot. Definitely for beginners
 only.</description>
 		<aimsniper>0</aimsniper>
 		<aimtype>random</aimtype>
+		<targettype>nearest</targettype>
 		<nodefenses>false</nodefenses>
 		<availableforrandom>true</availableforrandom>
 		<weapon><name>Missile</name><level>2</level></weapon>
@@ -86,6 +110,7 @@ These tanks act as static targets.  They
 will NEVER fire back.</description>
 		<aimsniper>0</aimsniper>
 		<aimtype>none</aimtype>
+		<targettype>nearest</targettype>
 		<nodefenses>true</nodefenses>
 		<availableforrandom>false</availableforrandom>
 	</ai>

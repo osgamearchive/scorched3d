@@ -33,12 +33,35 @@ TankAIComputerTarget::~TankAIComputerTarget()
 
 }
 
+bool TankAIComputerTarget::parseConfig(XMLNode *node)
+{
+	if (!node->getNamedChild("targettype", targetType_)) return false;
+	if (0 != strcmp(targetType_.c_str(), "nearest") &&
+		0 != strcmp(targetType_.c_str(), "agressor"))
+	{
+		return node->returnError("Unknown targettype. "
+			"Should be one of nearest, agressor");
+	}
+
+	return true;
+}
+
 void TankAIComputerTarget::setTank(Tank *tank)
 {
 	currentTank_ = tank;
 }
 
 Tank *TankAIComputerTarget::findTankToShootAt()
+{
+	if (0 == strcmp(targetType_.c_str(), "nearest")) 
+		return findNearTankToShootAt();
+	if (0 == strcmp(targetType_.c_str(), "agressor"))
+		return findShotAtTankToShootAt();
+
+	return findNearTankToShootAt();
+}
+
+Tank *TankAIComputerTarget::findNearTankToShootAt()
 {
 	// Get the list of all tanks left in the game
 	// Sorted by distance
@@ -69,6 +92,62 @@ Tank *TankAIComputerTarget::findTankToShootAt()
 	}
 
 	return returnTank;
+}
+
+Tank *TankAIComputerTarget::findShotAtTankToShootAt()
+{
+	// For each tank build a probability of choosing based
+	// on the number of shots it fires at us
+	int count = 0;
+	std::list<std::pair<Tank *, int> > passed;
+	{
+		std::map<unsigned int, int>::iterator itor;
+		for (itor = hitlist_.begin();
+			itor != hitlist_.end();
+			itor++)
+		{
+			unsigned int tankId = (*itor).first;
+			unsigned int tankCount = (*itor).second;
+			Tank *tank = ScorchedServer::instance()->
+				getTankContainer().getTankById(tankId);
+
+			// Check the tank is alive
+			if (tank && 
+				tank->getState().getState() == TankState::sNormal)
+			{
+				// Check the tank is not in the same team
+				if (currentTank_->getTeam() == 0 ||
+					currentTank_->getTeam() != tank->getTeam())
+				{
+					count += tankCount;
+					passed.push_back(
+						std::pair<Tank *, int>(tank, tankCount));
+				}
+			}
+		}
+	}
+
+	// Did we find any tanks
+	if (passed.empty()) return findNearTankToShootAt();
+
+	// Choose a tank based on the number of times they 
+	// have shot at us
+	Tank *tank = 0;
+	{
+		int randCount = int(RAND * float(count));
+		std::list<std::pair<Tank *, int> >::iterator itor;
+		for (itor = passed.begin();
+			itor != passed.end();
+			itor++)
+		{
+			tank = (*itor).first;
+			unsigned int tankCount = (*itor).second;
+
+			randCount -= tankCount;
+			if (randCount < 0) break;
+		}
+	}
+	return tank;
 }
 
 void TankAIComputerTarget::shotLanded(
@@ -108,10 +187,10 @@ void TankAIComputerTarget::shotLanded(
 	if (currentDist > 75) return;
 
 	// Are we the closest tank
-	if (currentTank != currentTank) return;
+	if (currentTank != currentTank_) return;
 
 	// We now hate this tank :)
-	addTankToHitList(firer);
+	addTankToHitList(firer, 1);
 }
 
 void TankAIComputerTarget::tankHurt(Weapon *weapon, unsigned int firer)
@@ -120,21 +199,21 @@ void TankAIComputerTarget::tankHurt(Weapon *weapon, unsigned int firer)
 	if (firer != currentTank_->getPlayerId())
 	{
 		// Add tanks we take a grudge against
-		addTankToHitList(firer);
+		addTankToHitList(firer, 2);
 	}
 }
 
-void TankAIComputerTarget::addTankToHitList(unsigned int firer)
+void TankAIComputerTarget::addTankToHitList(unsigned int firer, int count)
 {
-	std::map<unsigned int, unsigned int>::iterator findItor = 
+	std::map<unsigned int, int>::iterator findItor = 
 		hitlist_.find(firer);
 	if (findItor == hitlist_.end())
 	{
-		hitlist_[firer] = 1;
+		hitlist_[firer] = count;
 	}
 	else
 	{
-		hitlist_[firer] ++;
+		hitlist_[firer] += count;
 	}
 }
 

@@ -29,6 +29,7 @@ public:
 	TankAIComputerTarget();
 	virtual ~TankAIComputerTarget();
 
+	bool parseConfig(XMLNode *node);
 	void setTank(Tank *tank);
 	void shotLanded(
 		ParticleAction action,
@@ -43,9 +44,12 @@ public:
 
 protected:
 	Tank *currentTank_;
-	std::map<unsigned int, unsigned int> hitlist_;
+	std::map<unsigned int, int> hitlist_;
+	std::string targetType_;
 
-	void addTankToHitList(unsigned int firer);
+	Tank *findShotAtTankToShootAt();
+	Tank *findNearTankToShootAt();
+	void addTankToHitList(unsigned int firer, int count);
 };
 
 #endif
