@@ -5,7 +5,7 @@ License: GPL
 Group: Amusements/Games
 Summary: A 3D version of the classic DOS game Scorched Earth
 URL: http://www.scorched3d.co.uk
-Source0: http://unc.dl.sourceforge.net/sourceforge/scorched3d/Scorched3D-36.1-src.tar.gz
+Source0: http://unc.dl.sourceforge.net/sourceforge/scorched3d/Scorched3D-36.2-src.tar.gz
 BuildRoot: /var/tmp/%{name}-buildroot
 
 BuildRequires:  perl, automake, autoconf, SDL-devel, wxGTK-devel
