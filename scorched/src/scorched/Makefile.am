@@ -77,10 +77,10 @@ scorched3d_SOURCES = \
 	../GLEXT/GLVertexTexArray.h \
 	../GLEXT/GLViewPort.cpp \
 	../GLEXT/GLViewPort.h \
-	../GLW/GLWButton.cpp \
-	../GLW/GLWButton.h \
 	../GLW/GLWBitmap.cpp \
 	../GLW/GLWBitmap.h \
+	../GLW/GLWButton.cpp \
+	../GLW/GLWButton.h \
 	../GLW/GLWCheckBox.cpp \
 	../GLW/GLWCheckBox.h \
 	../GLW/GLWDropDown.cpp \
@@ -303,8 +303,8 @@ scorched3d_SOURCES = \
 	../dialogs/CameraDialog.h \
 	../dialogs/ConnectDialog.cpp \
 	../dialogs/ConnectDialog.h \
-	../dialogs/HelpDialog.cpp \
-	../dialogs/HelpDialog.h \
+	../dialogs/HelpButtonDialog.cpp \
+	../dialogs/HelpButtonDialog.h \
 	../dialogs/KibitzingDialog.cpp \
 	../dialogs/KibitzingDialog.h \
 	../dialogs/KillDialog.cpp \
@@ -710,12 +710,12 @@ scorched3d_SOURCES = \
 	CreateDialogs.cpp \
 	DisplayDialog.cpp \
 	DisplayDialog.h \
+	HtmlHelpDialog.cpp \
+	HtmlHelpDialog.h \
 	MainDialog.cpp \
 	MainDialog.h \
 	NetDialog.cpp \
 	NetDialog.h \
-	HtmlHelpDialog.cpp \
-	HtmlHelpDialog.h \
 	ServerDialog.cpp \
 	ServerDialog.h \
 	ServerSDialog.cpp \

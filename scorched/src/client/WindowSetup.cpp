@@ -33,7 +33,6 @@
 #include <dialogs/LogDialog.h>
 #include <dialogs/ConnectDialog.h>
 #include <dialogs/BackdropDialog.h>
-#include <dialogs/HelpDialog.h>
 #include <dialogs/BuyAccessoryDialog.h>
 #include <dialogs/RulesDialog.h>
 #include <dialogs/TalkDialog.h>
@@ -78,9 +77,6 @@ void WindowSetup::addCommonComponents(unsigned state)
 	GLWWindowManager::instance()->addWindow(state, 
 		CameraDialog::instance(), cameraKey, false);
 
-	KEYBOARDKEY("SHOW_HELP_DIALOG", helpKey);
-	GLWWindowManager::instance()->addWindow(state, 
-		HelpDialog::instance(), helpKey, false);
 	if (state != ClientState::StateScore)
 	{
 		KEYBOARDKEY("SHOW_SCORE_DIALOG", scoreKey);
