@@ -469,6 +469,8 @@ scorched3d_SOURCES = \
 	../coms/ComsMessageSender.h \
 	../coms/ComsNewGameMessage.cpp \
 	../coms/ComsNewGameMessage.h \
+	../coms/ComsNextRoundMessage.cpp \
+	../coms/ComsNextRoundMessage.h \
 	../coms/ComsPlayedMoveMessage.cpp \
 	../coms/ComsPlayedMoveMessage.h \
 	../coms/ComsPlayerReadyMessage.cpp \
@@ -719,6 +721,8 @@ scorched3d_SOURCES = \
 	../client/ClientNewGameHandler.h \
 	../client/ClientNewGameState.cpp \
 	../client/ClientNewGameState.h \
+	../client/ClientNextRoundHandler.cpp \
+	../client/ClientNextRoundHandler.h \
 	../client/ClientReadyState.cpp \
 	../client/ClientReadyState.h \
 	../client/ClientRmPlayerHandler.cpp \
