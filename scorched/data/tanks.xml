@@ -56,6 +56,7 @@
 		<name>Patriot HighDef</name>
 		<catagory>High Def</catagory>
 		<model type="MilkShape">patriot/patriot.txt</model>
+		<projectilemodel type="MilkShape">patriot/patriot.txt</projectilemodel>
 	</tank>
 	<tank>
 		<name>MLRS HighDef</name>
