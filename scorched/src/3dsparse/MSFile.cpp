@@ -110,7 +110,7 @@ bool MSFile::loadFile(FILE *in, const char *fileName)
 			if (!getNextLine(buffer, in)) return false; 
 			if (sscanf(buffer, "%i %f %f %f %f %f %i",
 				&vertexFlags,
-				&vertexPos[0], &vertexPos[1], &vertexPos[2], 
+				&vertexPos[0], &vertexPos[2], &vertexPos[1], 
 				&texCoord[0], &texCoord[1], &vertexBIndex) != 7) return false;
 
 			tcoords.push_back(texCoord);
@@ -128,7 +128,7 @@ bool MSFile::loadFile(FILE *in, const char *fileName)
 			Vector normal;
 			if (!getNextLine(buffer, in)) return false; 
 			if (sscanf(buffer, "%f %f %f",
-				&normal[0], &normal[1], &normal[2]) != 3) return false;
+				&normal[0], &normal[2], &normal[1]) != 3) return false;
 
 			normals.push_back(normal.Normalize());
 		}
@@ -146,8 +146,8 @@ bool MSFile::loadFile(FILE *in, const char *fileName)
 			if (!getNextLine(buffer, in)) return false; 
 			if (sscanf(buffer, "%i %i %i %i %i %i %i %i",
 				&faceFlags,
-				&face.v[0], &face.v[1], &face.v[2],
-				&nIndex1, &nIndex2, &nIndex3,
+				&face.v[0], &face.v[2], &face.v[1],
+				&nIndex1, &nIndex3, &nIndex2,
 				&sGroup) != 8) return false;
 
 			model->insertFace(face);

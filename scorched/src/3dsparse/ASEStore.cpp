@@ -61,7 +61,7 @@ GLTexture *ASEStore::loadTexture(const char *name, const char *aname)
 	GLBitmap *map = 0;
 	if (aname[0])
 	{
-		map = new GLBitmap((char *) name, (char *) aname);
+		map = new GLBitmap((char *) name, (char *) aname, false);
 	}
 	else
 	{
