@@ -68,6 +68,7 @@ void TankSay::init()
 void TankSay::simulate(float frameTime, bool &remove)
 {
 	remove = true;
+	Action::simulate(frameTime, remove);
 }
 
 bool TankSay::writeAction(NetBuffer &buffer)

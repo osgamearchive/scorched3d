@@ -101,7 +101,7 @@ bool ServerShotState::acceptStateChange(const unsigned state,
 		ServerCommon::serverLog(0, "Finished playing Shots (%.2f seconds)", totalTime_);
 
 		// tell the clients of the shot outcomes
-		ComsActionsMessage actionsMessage;
+		ComsActionsMessage actionsMessage(totalTime_);
 		ComsMessageSender::sendToAllPlayingClients(actionsMessage);
 		ServerCommon::serverLog(0, "Sending actions message (%i bytes)", 
 			NetBufferDefault::defaultBuffer.getBufferUsed());

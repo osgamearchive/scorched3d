@@ -119,6 +119,10 @@ void TankFalling::init()
 			context_->actionController->addAction(particle);
 		}
 	}
+	else
+	{
+		remove_ = true;
+	}
 }
 
 void TankFalling::simulate(float frameTime, bool &remove)

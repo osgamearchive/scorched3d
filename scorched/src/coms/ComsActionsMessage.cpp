@@ -23,8 +23,9 @@
 #include <client/ScorchedClient.h>
 #include <engine/ActionController.h>
 
-ComsActionsMessage::ComsActionsMessage() :
-	ComsMessage("ComsActionsMessage")
+ComsActionsMessage::ComsActionsMessage(float totalTime) :
+	ComsMessage("ComsActionsMessage"),
+	totalTime_(totalTime)
 {
 }
 
@@ -34,6 +35,7 @@ ComsActionsMessage::~ComsActionsMessage()
 
 bool ComsActionsMessage::writeMessage(NetBuffer &buffer)
 {
+	buffer.addToBuffer(totalTime_);
 	if (!ScorchedServer::instance()->getActionController().getBuffer().
 		writeMessage(buffer)) return false;
 	return true;
@@ -41,6 +43,7 @@ bool ComsActionsMessage::writeMessage(NetBuffer &buffer)
 
 bool ComsActionsMessage::readMessage(NetBufferReader &reader)
 {
+	if (!reader.getFromBuffer(totalTime_)) return false;
 	if (!ScorchedClient::instance()->getActionController().getBuffer().
 		readMessage(reader)) return false;
 	return true;

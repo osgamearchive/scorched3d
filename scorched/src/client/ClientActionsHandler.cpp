@@ -58,9 +58,14 @@ bool ClientActionsHandler::processMessage(unsigned int id,
 	ComsActionsMessage actionsMessage;
 	if (!actionsMessage.readMessage(reader)) return false;
 
+	// Set the maximum amount of time to allow for these shots
+	ScorchedClient::instance()->getActionController().setTotalTime(
+		actionsMessage.getTotalTime());
+
 	// Ensure we are in the shot state
 	ScorchedClient::instance()->getGameState().stimulate(ClientState::StimWait);
 	ScorchedClient::instance()->getGameState().checkStimulate();
 	ScorchedClient::instance()->getGameState().stimulate(ClientState::StimShot);
 	return true;
 }
+

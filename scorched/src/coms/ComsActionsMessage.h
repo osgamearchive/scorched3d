@@ -18,7 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #if !defined(__INCLUDE_ComsActionsMessageh_INCLUDE__)
 #define __INCLUDE_ComsActionsMessageh_INCLUDE__
 
@@ -27,17 +26,21 @@
 class ComsActionsMessage : public ComsMessage
 {
 public:
-	ComsActionsMessage();
+	ComsActionsMessage(float totalTime = 0.0f);
 	virtual ~ComsActionsMessage();
+
+	float getTotalTime() { return totalTime_; }
 
 	// Inherited from ComsMessage
 	virtual bool writeMessage(NetBuffer &buffer);
 	virtual bool readMessage(NetBufferReader &reader);
 
+protected:
+	float totalTime_;
+
 private:
 	ComsActionsMessage(const ComsActionsMessage &);
 	const ComsActionsMessage & operator=(const ComsActionsMessage &);
 };
-
 
 #endif

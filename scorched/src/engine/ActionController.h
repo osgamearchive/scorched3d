@@ -40,6 +40,8 @@ public:
 	void resetTime();
 	void clear();
 
+	void setTotalTime(float t) { totalTime_ = t; }
+
 	// Turn on action tracing
 	bool &getActionLogging() { return actionTracing_; }
 
@@ -68,6 +70,7 @@ protected:
 	float speed_;
 	float time_;
 	float lastTraceTime_;
+	float totalTime_;
 	bool actionTracing_;
 
 	void logActions();

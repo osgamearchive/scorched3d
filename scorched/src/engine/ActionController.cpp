@@ -26,7 +26,7 @@
 ActionController::ActionController() : 
 	speed_(1.0f), referenceCount_(0), time_(0.0f), 
 	context_(0), lastTraceTime_(0.0f),
-	actionTracing_(false)
+	actionTracing_(false), totalTime_(0.0f)
 {
 
 }
@@ -104,6 +104,7 @@ void ActionController::resetTime()
 {
 	time_ = 0.0f;
 	lastTraceTime_ = 0.0f;
+	totalTime_ = 0.0f;
 }
 
 void ActionController::setScorchedContext(ScorchedContext *context)
@@ -190,7 +191,6 @@ void ActionController::draw(const unsigned state)
 
 void ActionController::simulate(const unsigned state, float frameTime)
 {
-	if (frameTime > 1.0f) return;
 	frameTime *= speed_;
 
 	// As this simulator gives differing results dependant on
@@ -231,12 +231,15 @@ void ActionController::stepActions(float frameTime)
 		act->simulate(frameTime, remove);
 
 		// Ensure that no referenced actions over do their time
-		if (act->getReferenced() &&
-			act->getActionStartTime() - time_ > 30.0f)
+		if (act->getReferenced())
 		{
-			Logger::log(0, "Warning: removing timed out action %s",
-				act->getActionType());
-			remove = true;
+			if ((time_ - act->getActionStartTime() > 30.0f) ||
+				(totalTime_ > 0.0f && time_ > totalTime_ + 15.0f))
+			{
+				Logger::log(0, "Warning: removing timed out action %s",
+					act->getActionType());
+				remove = true;
+			}
 		}
 
 		// If this action has finished add to list to be removed

@@ -293,7 +293,8 @@ bool XMLNode::getNamedChild(const char *name, float &value,
 {
 	XMLNode *node;
 	if (!getNamedChild(name, node, failOnError, remove)) return false;
-	value = (float) atof(node->getContent());
+	if (!sscanf(node->getContent(), "%f", &value) == 1) 
+		return returnError("Failed to parse float value");
 	return true;
 }
 
@@ -302,7 +303,8 @@ bool XMLNode::getNamedChild(const char *name, int &value,
 {
 	XMLNode *node;
 	if (!getNamedChild(name, node, failOnError, remove)) return false;
-	value = (int) atoi(node->getContent());
+	if (!sscanf(node->getContent(), "%i", &value) == 1)
+		return returnError("Failed to parse int value");
 	return true;
 }
 
@@ -311,7 +313,8 @@ bool XMLNode::getNamedChild(const char *name, unsigned int &value,
 {
 	XMLNode *node;
 	if (!getNamedChild(name, node, failOnError, remove)) return false;
-	value = (unsigned int) atoi(node->getContent());
+	if (!sscanf(node->getContent(), "%u", &value) == 1)
+		return returnError("Failed to parse unsigned int value");
 	return true;
 }
 
