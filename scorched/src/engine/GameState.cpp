@@ -53,6 +53,11 @@ GameState::~GameState()
 
 }
 
+void GameState::clear()
+{
+	stateList_.clear();
+}
+
 void GameState::setFakeMiddleButton(bool fake)
 {
 	fakeMiddleButton_ = fake;

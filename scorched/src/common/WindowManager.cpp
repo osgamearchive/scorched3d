@@ -48,6 +48,15 @@ WindowManager::~WindowManager()
 
 }
 
+void WindowManager::clear()
+{
+	currentStateEntry_ = 0;
+	setCurrentEntry(-1);
+	stateEntrys_.clear();
+	idToWindow_.clear();
+	windowVisibility_.clear();
+}
+
 void WindowManager::setCurrentEntry(const unsigned state)
 {
 	static StateEntry defaultStateEntry;

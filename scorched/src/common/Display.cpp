@@ -18,18 +18,9 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// Display.cpp: implementation of the Display class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <stdio.h>
 #include <common/Display.h>
 #include <common/OptionsDisplay.h>
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 Display *Display::instance_ = 0;
 
@@ -45,9 +36,18 @@ Display *Display::instance()
 
 Display::Display() : init_(false)
 {
+
+}
+
+Display::~Display()
+{
+}
+
+bool Display::init()
+{
 	init_ = false;
 	videoInfo = SDL_GetVideoInfo();
-	if (!videoInfo) return;
+	if (!videoInfo) return false;
          
 	/* opengl sdl mode  */
 	videoFlags  = SDL_OPENGL;  
@@ -71,13 +71,10 @@ Display::Display() : init_(false)
 
 	// At least 24 bits depth buffer
 	int depthBufferBits = OptionsDisplay::instance()->getDepthBufferBits();
-	if (SDL_GL_SetAttribute( SDL_GL_DEPTH_SIZE, depthBufferBits ) == -1) return;
+	if (SDL_GL_SetAttribute( SDL_GL_DEPTH_SIZE, depthBufferBits ) == -1) return false;
         
 	init_ = true;
-}
-
-Display::~Display()
-{
+	return init_;
 }
 
 void Display::autoSettings(int &width, int &height, bool &full)
@@ -102,7 +99,6 @@ bool Display::changeSettings(int width, int height, bool full)
 {
 	if (init_)
 	{	
-
 		/* create display surface */
 		surface = SDL_SetVideoMode( width, height, 
 			videoInfo->vfmt->BitsPerPixel, 

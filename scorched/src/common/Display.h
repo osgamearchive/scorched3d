@@ -34,6 +34,7 @@ class Display
 public:
 	static Display *instance();
 
+	bool init();
 	bool changeSettings(int width,int height, bool fullscreen);
 	void autoSettings(int &width, int &height, bool &full);
 

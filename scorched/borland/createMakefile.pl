@@ -17,8 +17,7 @@ print OUT "LINKLIBS = import32.lib + cw32mt.lib + dxguid.lib + sdl.lib + sdlmain
 print OUT "CC = \$(BORLANDDIR)\\Bin\\bcc32.exe\n";
 print OUT "INCLUDE = -I..\\src -I\$(BORLANDDIR)\\Include\n";
 print OUT "LIBS = -L\$(BORLANDDIR)\\lib -L\$(BORLANDDIR)\\dxlib -L\$(BORLANDDIR)\\sdllib -L\$(BORLANDDIR)\\wxlib\n";
-print OUT "DEFINES = -D__WXWIN__ -D__WXMSW__ -D__WINDOWS__ -DWIN32 -DWXDEBUG=1 -D__WXDEBUG__ -DUSE_DEFINE -D__WIN95__ -D__WINDOWS__ -DNO_FLOAT_MATH -DCOMPILED_FROM_DSP -D_NO_SERVER_ASE_ -D__MSC;INC_OLE2;__WIN95__;__WINDOWS__;WIN32;__BIDE__;dDOUBLE\n";
-print OUT "DEFINESscorchedsvr = \$(DEFINES) -DSCORCHED_SERVER\n";
+print OUT "DEFINES = -D__BORLAND__ -D__WXWIN__ -D__WXMSW__ -D__WINDOWS__ -DWIN32 -DWXDEBUG=1 -D__WXDEBUG__ -DUSE_DEFINE -D__WIN95__ -D__WINDOWS__ -DNO_FLOAT_MATH -DCOMPILED_FROM_DSP -D_NO_SERVER_ASE_ -D__MSC;INC_OLE2;__WIN95__;__WINDOWS__;WIN32;__BIDE__;dDOUBLE\n";
 print OUT "DEFINESscorched = \$(DEFINES)\n";
 print OUT "CCFLAGS = \$(INCLUDE) -Od -a8 -5 -tWM -W -w -w! -w-inl -w-8022 -w-8008 -w-8071 -w-8080 -w-8084 -w-8017 -w-8001 -w-8060 -w-rch -w-aus -w-par -v \n";
 print OUT "LINKFLAGS = -I..\\release -x -Gn -Tpe -aa -c -v -V4.0\n";

@@ -51,6 +51,7 @@ public:
 		NoAction
 	};
 	Action getAction();
+	void clearAction();
 
 	bool getConnectedToServer() { return (getConnect()[0] != '\0'); }
 	bool getOnServer() { return (getServerFile()[0] != '\0'); }

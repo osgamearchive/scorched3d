@@ -34,6 +34,7 @@
 #include <float.h>
 
 extern bool wxWindowInit;
+extern bool wxWindowExit;
 char *displayOptions = PKGDIR "data/display.xml";
 char *resourceFile = PKGDIR "data/resource.xml";
 char scorched3dAppName[128];
@@ -101,20 +102,6 @@ int main(int argc, char *argv[])
 	}
 	fclose(checkfile);
 
-	// Init SDL
-	if (SDL_Init(SDL_INIT_VIDEO) < 0)
-	{
-		dialogMessage(
-			scorched3dAppName,
-			"Warning: This game uses the SDL library to provide graphics.\n"
-			"The graphics section of this library failed to initialize.\n"
-			"You will only be able to run a server for this game.");
-	}
-	else
-	{
-		OptionsParam::instance()->getSDLInitVideo() = true;
-	}
-
 #ifdef _WIN32
 	// Do a check for directX 8.0
 	HINSTANCE hD3D8DLL = LoadLibrary( "D3D8.DLL" );
@@ -148,25 +135,46 @@ int main(int argc, char *argv[])
 		return false;
 	}
 
-	if (OptionsParam::instance()->getAction() == OptionsParam::NoAction ||
-		OptionsParam::instance()->getAction() == OptionsParam::RunServer)
+	//for (;;)
 	{
-	// Run the wxWindows main loop
-	// Dialogs are created int CreateDialogs.cpp
-#ifdef _WIN32
-	wxEntry((WXHINSTANCE) (HINSTANCE) GetModuleHandle(NULL),
-		(WXHINSTANCE) NULL, "", SW_SHOWNORMAL);
-#else
-	wxEntry(argc, argv);
-#endif
-	}
-	wxWindowInit = false;
+		// Init SDL
+		if (SDL_Init(SDL_INIT_VIDEO) < 0)
+		{
+			dialogMessage(
+				scorched3dAppName,
+				"Warning: This game uses the SDL library to provide graphics.\n"
+				"The graphics section of this library failed to initialize.\n"
+				"You will only be able to run a server for this game.");
+		}
+		else
+		{
+			OptionsParam::instance()->getSDLInitVideo() = true;
+		}
 
-	// Actually start the client game if that is desired
-	if (OptionsParam::instance()->getSDLInitVideo() &&
-		OptionsParam::instance()->getAction() == OptionsParam::RunClient)
-	{
-		clientMain();
+		if (OptionsParam::instance()->getAction() == OptionsParam::NoAction ||
+			OptionsParam::instance()->getAction() == OptionsParam::RunServer)
+		{
+		// Run the wxWindows main loop
+		// Dialogs are created int CreateDialogs.cpp
+#ifdef _WIN32
+		wxEntry((WXHINSTANCE) (HINSTANCE) GetModuleHandle(NULL),
+			(WXHINSTANCE) NULL, "", SW_SHOWNORMAL);
+#else
+		wxEntry(argc, argv);
+#endif
+		}
+		wxWindowInit = false;
+
+		// Actually start the client game if that is desired
+		if (OptionsParam::instance()->getSDLInitVideo() &&
+			OptionsParam::instance()->getAction() == OptionsParam::RunClient)
+		{
+			clientMain();
+		}
+
+		OptionsParam::instance()->clearAction();
+
+		//if (wxWindowExit) break;
 	}
 
 	// Write display options back to the file

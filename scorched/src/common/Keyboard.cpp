@@ -106,8 +106,22 @@ bool &Keyboard::getDvorak()
 	return dvorak_;
 }
 
+void Keyboard::clear()
+{
+	std::map<std::string, KeyboardKey *, std::less<std::string> >::iterator itor;
+	for (itor = keyMap_.begin();
+		itor != keyMap_.end();
+		itor++)
+	{
+		delete (*itor).second;
+	}
+	keyMap_.clear();
+}
+
 bool Keyboard::parseKeyFile(const char *fileName)
 {
+	clear();
+
 	// Load key definition file
 	XMLFile file;
     if (!file.readFile(fileName))
@@ -127,6 +141,8 @@ bool Keyboard::parseKeyFile(const char *fileName)
 					  fileName);
 		return false;		
 	}
+
+	std::map<std::string, KeyboardKey *, std::less<std::string> > usedKeyMap_;
 
 	// Itterate all of the keys in the file
     std::list<XMLNode *>::iterator childrenItor;

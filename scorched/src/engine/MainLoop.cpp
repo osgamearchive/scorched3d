@@ -56,6 +56,13 @@ MainLoop::~MainLoop()
 
 }
 
+void MainLoop::clear()
+{
+	newMainLoops_.clear();
+	mainLoops_.clear();
+	exitLoop_ = false;
+}
+
 void MainLoop::addMainLoop(MainLoopI *MainLoop)
 {
 	newMainLoops_.push_back(MainLoop);

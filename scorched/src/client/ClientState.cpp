@@ -106,6 +106,9 @@ void ClientState::addStandardComponents(unsigned state, bool network)
 
 void ClientState::setupGameState(bool network)
 {
+	GameState::instance()->clear();
+	MainLoop::instance()->clear();
+
 	MainLoop::instance()->addMainLoop(GameState::instance());
 
 	// StatePlayerOptions (Single player only)

@@ -51,6 +51,8 @@ public:
 	virtual void simulate(float simTime);
 	virtual void draw();
 
+	void clear();
+
 	// Called by SDL subsystem 
 	void mouseDown(MouseButton button, int x, int y);
 	void mouseUp(MouseButton button, int x, int y);

@@ -43,7 +43,7 @@
 #include <stdio.h>
 #include <time.h>
 
-LPCTSTR lpszAppName = "Scorched3D";
+extern char scorched3dAppName[128];
 
 void setup()
 {
@@ -136,10 +136,11 @@ bool createScorchedWindow()
 		OptionsDisplay::instance()->setFullScreen(fullscreen);
 	}
 
-	SDL_WM_SetCaption("Scorched3D", "tank2");
+	SDL_WM_SetCaption(scorched3dAppName, "tank2");
 	SDL_WM_SetIcon(SDL_LoadBMP(PKGDIR "data/windows/tank2.bmp"), NULL);
 
-	if (!Display::instance()->changeSettings(width,height,fullscreen)) 
+	if (!Display::instance()->init() || 
+		!Display::instance()->changeSettings(width,height,fullscreen)) 
 	{
 		dialogMessage("Scorched 3D Display", 
 			"ERROR: Failed to set the display %s mode, %ix%i.\n"

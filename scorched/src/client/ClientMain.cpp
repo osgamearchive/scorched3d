@@ -37,17 +37,8 @@
 #include <engine/GameState.h>
 #include <SDL/SDL.h>
 
-void clientCleanup()
-{
-	Gamma::instance()->reset();
-	Sound::instance()->destroy();
-}
-
 void clientMain()
 {
-	// Create an exit handler to free all used resources
-	atexit(clientCleanup);
-
 	// Try to create the main scorched3d game window
 	if (!createScorchedWindow()) return;
 	OptionsDisplay::instance()->addToConsole();
@@ -105,5 +96,9 @@ void clientMain()
 			NetMessageHandler::instance()->processMessages();
 		}
 	}
+
+	Gamma::instance()->reset();
+	Sound::instance()->destroy();
+	SDL_Quit();
 }
 

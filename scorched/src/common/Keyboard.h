@@ -35,6 +35,7 @@ public:
 	static Keyboard *instance();
 
 	bool init();
+	void clear();
 
 	char *getkeyboardbuffer(unsigned int &bufCnt);
 	unsigned int getKeyboardState();
@@ -53,7 +54,6 @@ protected:
 	int keybHistCnt_;
 
 	std::map<std::string, KeyboardKey *, std::less<std::string> > keyMap_;
-	std::map<std::string, KeyboardKey *, std::less<std::string> > usedKeyMap_;
                        
 private:
 	Keyboard();

@@ -34,6 +34,7 @@
 
 extern char scorched3dAppName[128];
 static wxFrame *mainDialog = 0;
+bool wxWindowExit = false;
 
 wxBitmapButton *addButtonToWindow(
 	int id, int X, int Y,
@@ -91,7 +92,7 @@ END_EVENT_TABLE()
 
 MainFrame::MainFrame() :
 	wxFrame((wxFrame *)NULL, -1, scorched3dAppName, wxPoint(0,0), wxSize(418, 345), 
-		wxMINIMIZE_BOX | wxSYSTEM_MENU | wxCAPTION)
+		wxMINIMIZE_BOX | wxCAPTION)
 {
 	CentreOnScreen();
 
@@ -207,6 +208,7 @@ void MainFrame::onServerButton()
 
 void MainFrame::onQuitButton()
 {
+	wxWindowExit = true;
 	Close();
 }
 

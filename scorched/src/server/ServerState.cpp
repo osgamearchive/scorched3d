@@ -32,6 +32,8 @@
 
 void ServerState::setupStates()
 {
+	GameState::instance()->clear();
+
 	ServerTooFewPlayersStimulus *tooFewPlayersStim =
 		new ServerTooFewPlayersStimulus;
 

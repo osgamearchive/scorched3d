@@ -18,18 +18,10 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// MainBanner.cpp: implementation of the MainBanner class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <client/MainBanner.h>
 #include <client/MainCamera.h>
 #include <tank/TankContainer.h>
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
+#include <common/SoundStore.h>
 
 MainBanner* MainBanner::instance_ = 0;
 
@@ -60,6 +52,9 @@ void MainBanner::logMessage(
 {
 	Tank *source = TankContainer::instance()->getTankById(playerId);
 	banner_.addLine(source?source->getColor():GLFontBanner::defaultColor, message);
+
+	CACHE_SOUND(sound,  PKGDIR "data/wav/misc/text.wav");
+	sound->play();
 }
 
 void MainBanner::simulate(const unsigned state, float frameTime)

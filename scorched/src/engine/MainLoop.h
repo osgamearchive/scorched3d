@@ -44,6 +44,7 @@ public:
 
 	bool mainLoop();
 	void draw();
+	void clear();
 
 	void swapBuffers();
 	Timer &getTimer() { return fTimer_; }

@@ -44,6 +44,8 @@ public:
 	bool moveToFront(unsigned id);
 	bool windowInCurrentState(unsigned id);
 
+	void clear();
+
 	// All inherited from GameStateI
 	virtual void draw(const unsigned state);
 	virtual void simulate(const unsigned state, float simTime);

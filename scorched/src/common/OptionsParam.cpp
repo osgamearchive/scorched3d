@@ -78,3 +78,10 @@ OptionsParam::Action OptionsParam::getAction()
 
 	return NoAction;
 }
+
+void OptionsParam::clearAction()
+{
+	singlePlayer_ = false;
+	setConnect("");
+	setServerFile("");
+}
