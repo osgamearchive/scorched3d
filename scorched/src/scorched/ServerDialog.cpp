@@ -32,6 +32,7 @@
 #include <coms/NetBufferUtil.h>
 #include <coms/NetInterface.h>
 #include <server/ServerState.h>
+#include <server/ServerBanned.h>
 #include <server/ServerMain.h>
 #include <server/ServerMessageHandler.h>
 #include <server/ScorchedServer.h>
@@ -50,6 +51,7 @@ enum
 	IDC_TIMER2,
 	IDC_MENU_EXIT,
 	IDC_MENU_SHOWMODFILES,
+	IDC_MENU_SHOWBANNED,
 	IDC_MENU_SHOWOPTIONS,
 	IDC_MENU_EDITOPTIONS,
 	IDC_MENU_SAVEOPTIONS,
@@ -166,6 +168,7 @@ public:
 	void onMenuExit();
 	void onShowOptions();
 	void onShowModFiles();
+	void onShowBanned();
 	void onEditOptions();
 	void onLoadOptions();
 	void onSaveOptions();
@@ -211,6 +214,7 @@ BEGIN_EVENT_TABLE(ServerFrame, wxFrame)
 	EVT_TIMER(IDC_TIMER2, ServerFrame::onTimerMain)
 	EVT_MENU(IDC_MENU_EXIT, ServerFrame::onMenuExit)
 	EVT_MENU(IDC_MENU_SHOWMODFILES, ServerFrame::onShowModFiles)
+	EVT_MENU(IDC_MENU_SHOWBANNED, ServerFrame::onShowBanned)
 	EVT_MENU(IDC_MENU_SHOWOPTIONS, ServerFrame::onShowOptions)
 	EVT_MENU(IDC_MENU_EDITOPTIONS, ServerFrame::onEditOptions)
 	EVT_MENU(IDC_MENU_LOADOPTIONS, ServerFrame::onLoadOptions)
@@ -314,6 +318,7 @@ ServerFrame::ServerFrame(const char *name) :
 	menuFile->Append(IDC_MENU_SAVEOPTIONS, "&Save Options");
 	menuFile->AppendSeparator();
 	menuFile->Append(IDC_MENU_SHOWMODFILES, "Show &Mod Files");
+	menuFile->Append(IDC_MENU_SHOWBANNED, "Show &Banned Users");
 	menuFile->AppendSeparator();
 	menuFile->Append(IDC_MENU_COMSMESSAGELOGGING, "Toggle Coms Messa&ge logging");
 	menuFile->Append(IDC_MENU_STATELOGGING, "Toggle S&tate Logging");
@@ -655,6 +660,39 @@ void ServerFrame::onShowModFiles()
 		else allOptionsStr += "       ";
 	}
 	dialogMessage("Scorched 3D Server Mod Files", allOptionsStr.c_str());
+}
+
+void ServerFrame::onShowBanned()
+{
+	int count = 0;
+	std::string bannedStr;
+	std::list<ServerBanned::BannedRange> &bannedIps = ServerBanned::instance()->getBannedIps();
+	std::list<ServerBanned::BannedRange>::iterator itor;
+	for (itor = bannedIps.begin();
+		itor != bannedIps.end();
+		itor++)
+	{
+		ServerBanned::BannedRange &range = (*itor);
+		unsigned char mask[4];
+		memcpy(mask, &range.mask, sizeof(mask));
+
+		std::set<unsigned int>::iterator ipitor;
+		for (ipitor = range.ips.begin();
+			ipitor != range.ips.end();
+			ipitor++)
+		{
+			unsigned int ip = *ipitor;
+			unsigned char address[4];
+			memcpy(address, &ip, sizeof(address));
+
+			bannedStr += formatString("%i.%i.%i.%i (%i.%i.%i.%i)",
+				address[0], address[1], address[2], address[3],
+				mask[0], mask[1], mask[2], mask[3]);
+			if (++count % 3 == 2) bannedStr += "\n";
+			else bannedStr += "       ";
+		}
+	}
+	dialogMessage("Scorched 3D Banned Users", bannedStr.c_str());
 }
 
 void ServerFrame::onShowOptions()

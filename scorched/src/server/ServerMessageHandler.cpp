@@ -60,7 +60,7 @@ void ServerMessageHandler::clientConnected(NetMessage &message)
 	if (ipAddress != 0 &&
 		ServerBanned::instance()->isBanned(ipAddress))
 	{
-		Logger::log(0, "Banned client connected dest=\"%i\" ip=\"%i.%i.%i.%i(%i)\"", 
+		Logger::log(0, "Banned client connected dest=\"%i\" ip=\"%i.%i.%i.%i\"", 
 			message.getDestinationId(),
 			(int) address[0], (int) address[1], 
 			(int) address[2], (int) address[3],
@@ -70,7 +70,7 @@ void ServerMessageHandler::clientConnected(NetMessage &message)
 	}
 	else
 	{
-		Logger::log(0, "Client connected dest=\"%i\" ip=\"%i.%i.%i.%i(%i)\"", 
+		Logger::log(0, "Client connected dest=\"%i\" ip=\"%i.%i.%i.%i\"", 
 			message.getDestinationId(),
 			(int) address[0], (int) address[1],
 			(int) address[2], (int) address[3],
@@ -86,7 +86,7 @@ void ServerMessageHandler::clientDisconnected(NetMessage &message)
 	unsigned char address[4];
 	memcpy(address, &ipAddress, sizeof(address));
 
-	Logger::log(0, "Client disconnected dest=\"%i\" ip=\"%i.%i.%i.%i(%i)\"", 
+	Logger::log(0, "Client disconnected dest=\"%i\" ip=\"%i.%i.%i.%i\"", 
 		message.getDestinationId(),
 		(int) address[0], (int) address[1],
 		(int) address[2], (int) address[3],

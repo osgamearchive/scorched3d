@@ -22,11 +22,18 @@
 #define __INCLUDE_ServerBannedh_INCLUDE__
 
 #include <set>
+#include <list>
 
 class ServerBanned
 {
 public:
 	static ServerBanned *instance();
+	struct BannedRange
+	{
+		unsigned int mask;
+		std::set<unsigned int> ips;
+	};	
+	std::list<BannedRange> &getBannedIps() { return bannedIps_; }
 
 	bool isBanned(unsigned int ip);
 	void addBanned(unsigned int ip);
@@ -36,7 +43,9 @@ public:
 
 protected:
 	static ServerBanned *instance_;
-	std::set<unsigned int> bannedIps_;	
+	std::list<BannedRange> bannedIps_;	
+
+	void addBannedEntry(unsigned int ip, unsigned int mask);
 
 private:
 	ServerBanned();
@@ -44,3 +53,4 @@ private:
 };
 
 #endif // __INCLUDE_ServerBannedh_INCLUDE__
+
