@@ -18,20 +18,11 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// GameState.cpp: implementation of the GameState class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <engine/GameState.h>
 #include <engine/GameStateI.h>
 #include <engine/GameStateStimulusI.h>
 #include <common/Keyboard.h>
 #include <common/Defines.h>
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 GameState *GameState::instance_ = 0;
 
@@ -50,7 +41,9 @@ GameState::GameState() :
 	currentMouseState_(0),
 	pendingStimulus_(-1),
 	currentState_(-1),
-	currentEntry_(0)
+	currentEntry_(0),
+	currentMouseX_(0),
+	currentMouseY_(0)
 {
 	
 }
@@ -90,6 +83,8 @@ void GameState::mouseWheel(short z)
 
 void GameState::mouseMove(int x, int y)
 {
+	currentMouseX_ = x;
+	currentMouseY_ = y;
 	if (currentEntry_)
 	{
 		GameStateEntry *thisEntry = currentEntry_;

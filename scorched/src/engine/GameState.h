@@ -62,6 +62,8 @@ public:
 	void stimulate(const unsigned stimulus);
 	void setFakeMiddleButton(bool fake);
 	const unsigned getState() { return currentState_; }
+	int getMouseX() { return currentMouseX_; }
+	int getMouseY() { return currentMouseY_; }
 
 	// User fns to add classes to state management
 	void addStateStimulus(const unsigned state, 
@@ -149,6 +151,7 @@ protected:
 	int mouseLDragX_, mouseLDragY_;
 	int mouseMDragX_, mouseMDragY_;
 	int mouseRDragX_, mouseRDragY_;
+	int currentMouseX_, currentMouseY_;
 
 	bool checkStimulate();
 	void mouseMoveCall(const unsigned state, MouseButton button, 

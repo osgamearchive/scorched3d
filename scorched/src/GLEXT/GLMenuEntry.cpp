@@ -18,20 +18,14 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// GLMenuEntry.cpp: implementation of the GLMenuEntry class.
-//
-//////////////////////////////////////////////////////////////////////
-
+#include <engine/GameState.h>
 #include <GLEXT/GLState.h>
 #include <GLEXT/GLMenuEntry.h>
 #include <GLW/GLWVisibleWidget.h>
 
+static Vector color(0.7f, 0.7f, 0.0f);
+static Vector selectedColor(1.0f, 1.0f, 0.0f);
 static const float menuItemHeight = 20.0f;
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 GLMenuEntry::GLMenuEntry(char *name, float width, 
 						 GLMenuI *selectFn, GLMenuI *textFn, 
@@ -84,8 +78,7 @@ void GLMenuEntry::draw(GLFont2d &font, float currentTop, float currentLeft)
 		menuTitle = (char *) menuName_.c_str();
 	}
 
-	static Vector color(0.7f, 0.7f, 0.0f);
-	font.draw(color, 14, currentLeft + 5.0f, 
+	font.draw(depressed_?selectedColor:color, 14, currentLeft + 5.0f, 
 		currentTop - 18.0f, 0.0f, menuTitle);
 }
 
@@ -163,9 +156,15 @@ void GLMenuEntry::drawDepressed(GLFont2d &font, float currentTop, float currentL
 			width_, 165.0f, lowerHeight);
 	glEnd();
 
+	static int iVPort[4];
+	glGetIntegerv(GL_VIEWPORT, iVPort);
+	int windowHeight = iVPort[3];
+
+	int mouseX = GameState::instance()->getMouseX();
+	int mouseY = windowHeight - GameState::instance()->getMouseY();
+
 	// Draw the menu items
 	currentTop -= menuItemHeight + 7.0f;
-	static Vector color(0.7f, 0.7f, 0.0f);
 	for (itor = menuItems_.begin();
 		itor != menuItems_.end();
 		itor++)
@@ -181,7 +180,14 @@ void GLMenuEntry::drawDepressed(GLFont2d &font, float currentTop, float currentL
 		}
 		else
 		{
-			font.draw(color, 12, currentLeft + 5.0f, 
+			bool selected = false;
+			if (currentLeft < mouseX && mouseX < currentLeft + width_ &&
+				currentTop - 18.0f < mouseY && mouseY < currentTop)
+			{
+				selected = true;
+			}
+
+			font.draw(selected?selectedColor:color, 12, currentLeft + 5.0f, 
 				currentTop - 16.0f, 0.0f, (char *) itor->c_str());
 			currentTop -= 18.0f;
 		}

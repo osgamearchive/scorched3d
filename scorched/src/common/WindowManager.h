@@ -41,6 +41,7 @@ public:
 	bool hideWindow(unsigned id);
 	bool windowVisible(unsigned id);
 	bool moveToFront(unsigned id);
+	bool windowInCurrentState(unsigned id);
 
 	// All inherited from GameStateI
 	virtual void draw(const unsigned state);

@@ -28,6 +28,7 @@
 #include <landscape/GlobalHMap.h>
 #include <dialogs/MainMenuDialog.h>
 #include <dialogs/QuitDialog.h>
+#include <dialogs/KillDialog.h>
 #include <GLEXT/GLConsoleRuleMethodIAdapter.h>
 
 //////////////////////////////////////////////////////////////////////
@@ -115,8 +116,17 @@ void TankMenus::PlayerMenu::menuSelection(const char* menuName,
 				tankAI->resign();
 				break;
 			case 2:
-				WindowManager::instance()->showWindow(
-					QuitDialog::instance()->getId());
+				if (WindowManager::instance()->windowInCurrentState(
+					QuitDialog::instance()->getId()))
+				{
+					WindowManager::instance()->showWindow(
+						QuitDialog::instance()->getId());
+				}
+				else
+					WindowManager::instance()->showWindow(
+						KillDialog::instance()->getId());				{
+
+				}
 				break;
 			}
 		}

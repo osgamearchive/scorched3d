@@ -158,6 +158,24 @@ bool WindowManager::hideWindow(unsigned id)
 	return false;
 }
 
+bool WindowManager::windowInCurrentState(unsigned id)
+{
+	if (!currentStateEntry_) return false;
+
+	std::deque<GLWWindow *>::iterator itor;
+	for (itor = currentStateEntry_->windows_.begin();
+		itor != currentStateEntry_->windows_.end();
+		itor++)
+	{
+		GLWWindow *window = (*itor);
+		if (window->getId() == id)
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
 void WindowManager::draw(const unsigned state)
 {
 	if (currentStateEntry_->state_ != state) setCurrentEntry(state);
