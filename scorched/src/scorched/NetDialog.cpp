@@ -142,8 +142,6 @@ NetLanFrame::NetLanFrame() :
 	// Create the positioning sizer
 	wxBoxSizer *topsizer = new wxBoxSizer(wxVERTICAL);
 
-	addTitleToWindow(this, topsizer);
-
 	// Create all the display controls
 	createControlsPre(this, topsizer);
 

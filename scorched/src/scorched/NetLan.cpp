@@ -47,7 +47,7 @@ static void createControlsPre(wxWindow *parent, wxSizer *sizer)
 	nameSizer->Add(passText, 0, 0);
 	nameSizer->Add(IDC_EDIT_PASSWORD_CTRL, 0, 0);
 	nameSizer->Add(IDC_CLEAR_PASSWORD_CTRL, 0, 0);
-	sizer->Add(nameSizer, 0, wxALIGN_CENTER);
+	sizer->Add(nameSizer, 0, wxALIGN_CENTER | wxALL, 5);
 }
 
 

@@ -72,17 +72,14 @@ wxBitmapButton *addButtonToWindow(
 	if (image.LoadFile(_T(bitmapName), wxBITMAP_TYPE_BMP))
 	{
 		wxBitmap bitmap(image);
-
-		wxBoxSizer *boxSizer = new wxBoxSizer(wxHORIZONTAL);
 		button = new wxBitmapButton(
 			parent, id, bitmap);
 		wxStaticText *staticText = new wxStaticText(
 			parent, -1, 
 			text);
 
-		boxSizer->Add(button, 0, wxALL, 5);
-		boxSizer->Add(staticText, 0, wxALL, 5);
-		sizer->Add(boxSizer, 0, wxALIGN_LEFT | wxALL, 5);
+		sizer->Add(button, 0, wxALL, 5);
+		sizer->Add(staticText, 0, wxALL, 5);
 	}
 	return button;
 }
@@ -133,13 +130,14 @@ MainFrame::MainFrame() :
 		addTitleToWindow(this, topsizer);
 	}	
 
+	wxFlexGridSizer *gridsizer = new wxFlexGridSizer(4, 2, 5, 5);
 	// Single Player Bitmap
 	{
 		wxBitmapButton *button =
 			addButtonToWindow(ID_BUTTON_SINGLE,
 				"Start a single or multi-player player game.\n"
 				"One or more people play against themselves or the computer.", 
-				PKGDIR "data/windows/tank2.bmp", this, topsizer);
+				PKGDIR "data/windows/tank2.bmp", this, gridsizer);
 		if (button && !OptionsParam::instance()->getSDLInitVideo())
 		{
 			button->Disable();
@@ -152,7 +150,7 @@ MainFrame::MainFrame() :
 			addButtonToWindow(ID_BUTTON_NETLAN,
 				"Join a game over the internet or LAN.\n"
 				"Connect to a server and play with others over the internet.", 
-				PKGDIR "data/windows/client.bmp", this, topsizer);
+				PKGDIR "data/windows/client.bmp", this, gridsizer);
 		if (button && !OptionsParam::instance()->getSDLInitVideo())
 		{
 			button->Disable();
@@ -164,7 +162,7 @@ MainFrame::MainFrame() :
 		addButtonToWindow(ID_BUTTON_SERVER,
 			"Start a multiplayer LAN or internet server.\n"
 			"Allow other people to connect to your computer to play.", 
-			PKGDIR "data/windows/server.bmp", this, topsizer);
+			PKGDIR "data/windows/server.bmp", this, gridsizer);
 	}
 
 	// Display Settings
@@ -173,12 +171,13 @@ MainFrame::MainFrame() :
 			addButtonToWindow(ID_BUTTON_DISPLAY,
 				"Change the display settings.\n"
 				"Change graphics and compatability options", 
-				PKGDIR "data/windows/display.bmp", this, topsizer);
+				PKGDIR "data/windows/display.bmp", this, gridsizer);
 		if (button && !OptionsParam::instance()->getSDLInitVideo())
 		{
 			button->Disable();
 		}
 	}
+	topsizer->Add(gridsizer, 0, wxALIGN_CENTER);
 
 	// Quit button
 	wxBoxSizer *buttonSizer = new wxBoxSizer(wxHORIZONTAL);

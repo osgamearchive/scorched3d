@@ -73,34 +73,32 @@ SingleFrame::SingleFrame() :
 	SetIcon(icon);
 #endif
 
-	{
-		addTitleToWindow(this, topsizer);
-	}
-
+	wxFlexGridSizer *gridsizer = new wxFlexGridSizer(4, 2, 5, 5);
 	{
 		addButtonToWindow(ID_BUTTON_EASY, 
 			"Start an easy single player game.\n"
 			"Play a quick game against easy computer players.", 
-			PKGDIR "data/windows/tank-easy.bmp", this, topsizer);
+			PKGDIR "data/windows/tank-easy.bmp", this, gridsizer);
 	}
 	{
 		addButtonToWindow(ID_BUTTON_NORMAL, 
 			"Start an normal single player game.\n"
 			"Play a quick game against normal strength computer players.", 
-			PKGDIR "data/windows/tank-med.bmp", this, topsizer);
+			PKGDIR "data/windows/tank-med.bmp", this, gridsizer);
 	}
 	{
 		addButtonToWindow(ID_BUTTON_HARD,
 			"Start an hard single player game.\n"
 			"Play a quick game against hard computer players.", 
-			PKGDIR "data/windows/tank-hard.bmp", this, topsizer);
+			PKGDIR "data/windows/tank-hard.bmp", this, gridsizer);
 	}
 	{
 		addButtonToWindow(ID_BUTTON_CUSTOM,
 			"Start an custom single or multi-player game.\n"
 			"Choose the opponents to play against.", 
-			PKGDIR "data/windows/tank2.bmp", this, topsizer);
+			PKGDIR "data/windows/tank2.bmp", this, gridsizer);
 	}
+	topsizer->Add(gridsizer, 0, wxALIGN_CENTER);
 
 	// Quit button
 	wxBoxSizer *buttonSizer = new wxBoxSizer(wxHORIZONTAL);
