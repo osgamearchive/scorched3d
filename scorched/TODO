@@ -73,6 +73,7 @@ Fixed: Ragged edges to water on some geForce4 cards
 Fixed: Tank prints death message more than 1x
 Fixed: Explosions very dark
 Fixed: White outlined box around lens flares
+Fixed: Tank movement sound plays and does not stop until next human move
 
 -- Bugs in current development release
 Dvorak keyboard support is broken

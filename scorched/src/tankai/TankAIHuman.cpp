@@ -143,6 +143,15 @@ void TankAIHuman::playMove(const unsigned state,
 	KEYPRESS_END
 }
 
+void TankAIHuman::endPlayMove()
+{
+	CACHE_SOUND(turn,  PKGDIR "data/wav/movement/turn.wav");
+	CACHE_SOUND(elevate,  PKGDIR "data/wav/movement/elevate.wav");
+
+	turn->stop();
+	elevate->stop();
+}
+
 void TankAIHuman::moveLeftRight(char *buffer, float mult)
 {
 	static bool LRMoving = false;

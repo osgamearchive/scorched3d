@@ -44,6 +44,7 @@ public:
 	// game state
 	virtual void playMove(const unsigned state, 
 		float frameTime, char *buffer) = 0;
+	virtual void endPlayMove();
 	virtual void newGame() = 0;
 	virtual void nextRound() = 0;
 

@@ -36,6 +36,10 @@ TankAI::~TankAI()
 {
 }
 
+void TankAI::endPlayMove()
+{
+}
+
 void TankAI::fireShot()
 {
 	if (!OptionsParam::instance()->getOnServer())

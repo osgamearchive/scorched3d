@@ -45,6 +45,26 @@ TankAIHumanCtrl::~TankAIHumanCtrl()
 
 }
 
+void TankAIHumanCtrl::enterState(const unsigned state)
+{
+	if (state == ClientState::StateShot)
+	{
+		Tank *currentTank =
+			TankContainer::instance()->getCurrentTank();
+		if (currentTank)
+		{
+			if (currentTank->getState().getState() == TankState::sNormal)
+			{
+				TankAI *ai = currentTank->getTankAI();
+				if (ai)
+				{
+					ai->endPlayMove();
+				}
+			}
+		}
+	}
+}
+
 void TankAIHumanCtrl::keyboardCheck(const unsigned state, float frameTime, 
 							char *buffer, int bufCount,
 							KeyboardHistory::HistoryElement *history, int hisCount, 

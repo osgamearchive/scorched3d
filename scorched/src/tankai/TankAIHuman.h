@@ -39,6 +39,7 @@ public:
 	// Inherited from TankAI
 	virtual void playMove(const unsigned state, 
 		float frameTime, char *buffer);
+	virtual void endPlayMove();
 	virtual void newGame();
 	virtual void nextRound();
 	virtual void tankHurt(Weapon *weapon, unsigned int firer);

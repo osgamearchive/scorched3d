@@ -184,6 +184,8 @@ void ClientState::setupGameState(bool network)
 
 	// StateShot
 	addStandardComponents(StateShot, network);
+	GameState::instance()->addStateEntry(StateShot, 
+		TankAIHumanCtrl::instance());
 	GameState::instance()->addStateEntry(StateShot,
 		ClientShotState::instance());
 	GameState::instance()->addStateStimulus(StateShot, 
