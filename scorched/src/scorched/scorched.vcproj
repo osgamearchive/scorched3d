@@ -420,6 +420,18 @@
 				RelativePath="..\GLW\GLWScrollPanel.h">
 			</File>
 			<File
+				RelativePath="..\GLW\GLWTracker.cpp">
+			</File>
+			<File
+				RelativePath="..\GLW\GLWTracker.h">
+			</File>
+			<File
+				RelativePath="..\GLW\GLWSlider.cpp">
+			</File>
+			<File
+				RelativePath="..\GLW\GLWSlider.h">
+			</File>
+			<File
 				RelativePath="..\GLW\GLWScrollW.cpp">
 			</File>
 			<File
@@ -937,6 +949,12 @@
 		<Filter
 			Name="dialogs"
 			Filter="">
+			<File
+				RelativePath="..\dialogs\AimDialog.cpp">
+			</File>
+			<File
+				RelativePath="..\dialogs\AimDialog.h">
+			</File>
 			<File
 				RelativePath="..\dialogs\AutoDefenseDialog.cpp">
 			</File>
@@ -1505,6 +1523,12 @@
 		<Filter
 			Name="coms"
 			Filter="">
+			<File
+				RelativePath="..\coms\ComsPlayerAimMessage.cpp">
+			</File>
+			<File
+				RelativePath="..\coms\ComsPlayerAimMessage.h">
+			</File>
 			<File
 				RelativePath="..\coms\ComsTimerStartMessage.cpp">
 			</File>
@@ -2261,6 +2285,12 @@
 			Name="client"
 			Filter="">
 			<File
+				RelativePath="..\client\ClientPlayerAimHandler.cpp">
+			</File>
+			<File
+				RelativePath="..\client\ClientPlayerAimHandler.h">
+			</File>
+			<File
 				RelativePath="..\client\ClientPlayerStatusHandler.cpp">
 			</File>
 			<File
@@ -2491,6 +2521,12 @@
 			</File>
 			<File
 				RelativePath="..\server\ScorchedServer.h">
+			</File>
+			<File
+				RelativePath="..\server\ServerPlayerAimHandler.cpp">
+			</File>
+			<File
+				RelativePath="..\server\ServerPlayerAimHandler.h">
 			</File>
 			<File
 				RelativePath="..\server\ServerAddPlayerHandler.cpp">

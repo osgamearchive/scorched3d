@@ -96,38 +96,42 @@
 		<key>EQUALS</key>
 		<key>PLUS</key>
 		<key>KP_PLUS</key>
+		<key>PAGEUP</key>
 	</keyentry>
 	<keyentry>
 		<name>INCREASE_POWER_SLOW</name>
 		<description>Increase the tank's shot power slowly</description>
 		<key state="LSHIFT">EQUALS</key>
 		<key state="LSHIFT">KP_PLUS</key>
+		<key state="LSHIFT">PAGEUP</key>
 	</keyentry>
 	<keyentry>
 		<name>INCREASE_POWER_FAST</name>
 		<description>Increase the tank's shot power quickly</description>
 		<key state="LCTRL">EQUALS</key>
 		<key state="LCTRL">KP_PLUS</key>
-		<key>PAGEUP</key>
+		<key state="LCTRL">PAGEUP</key>
 	</keyentry>
 	<keyentry>
 		<name>DECREASE_POWER</name>
 		<description>Decrease the tank's shot power</description>
 		<key>MINUS</key>
 		<key>KP_MINUS</key>
+		<key>PAGEDOWN</key>
 	</keyentry>
 	<keyentry>
 		<name>DECREASE_POWER_SLOW</name>
 		<description>Decrease the tank's shot power slowly</description>
 		<key state="LSHIFT">MINUS</key>
 		<key state="LSHIFT">KP_MINUS</key>
+		<key state="LSHIFT">PAGEDOWN</key>
 	</keyentry>
 	<keyentry>
 		<name>DECREASE_POWER_FAST</name>
 		<description>Decrease the tank's shot power quickly</description>
 		<key state="LCTRL">MINUS</key>
 		<key state="LCTRL">KP_MINUS</key>
-		<key>PAGEDOWN</key>
+		<key state="LCTRL">PAGEDOWN</key>
 	</keyentry>
 	<keyentry>
 		<name>CHANGE_UP_WEAPON</name>
@@ -296,6 +300,10 @@
 	<keyentry>
 		<name>SHOW_PLAN_DIALOG</name>
 		<description>Shows or hides the plan dialog</description>
+	</keyentry>	
+	<keyentry>
+		<name>SHOW_AIM_DIALOG</name>
+		<description>Shows or hides the aiming dialog</description>
 	</keyentry>	
 	<keyentry>
 		<name>SHOW_TEAM_DIALOG</name>

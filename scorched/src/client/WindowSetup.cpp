@@ -27,6 +27,7 @@
 #include <dialogs/MainMenuDialog.h>
 #include <dialogs/WindDialog.h>
 #include <dialogs/CameraDialog.h>
+#include <dialogs/AimDialog.h>
 #include <dialogs/PlayerDialog.h>
 #include <dialogs/PlanViewDialog.h>
 #include <dialogs/QuitDialog.h>
@@ -149,6 +150,9 @@ void WindowSetup::setup()
 	// StatePlaying
 	WindowManager::instance()->addWindow(ClientState::StatePlaying, 
 		TankDialog::instance(), playerKey, true);
+	KEYBOARDKEY("SHOW_AIM_DIALOG", aimKey);
+	WindowManager::instance()->addWindow(ClientState::StatePlaying, 
+		AimDialog::instance(), aimKey, false);
 	addCommonComponents(ClientState::StatePlaying);
 
 	// StateShot

@@ -1,0 +1,89 @@
+////////////////////////////////////////////////////////////////////////////////
+//    Scorched3D (c) 2000-2003
+//
+//    This file is part of Scorched3D.
+//
+//    Scorched3D is free software; you can redistribute it and/or modify
+//    it under the terms of the GNU General Public License as published by
+//    the Free Software Foundation; either version 2 of the License, or
+//    (at your option) any later version.
+//
+//    Scorched3D is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//    GNU General Public License for more details.
+//
+//    You should have received a copy of the GNU General Public License
+//    along with Scorched3D; if not, write to the Free Software
+//    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+////////////////////////////////////////////////////////////////////////////////
+
+#include <GLW/GLWSlider.h>
+#include <GLW/GLWFont.h>
+#include <GLEXT/GLState.h>
+#include <common/Keyboard.h>
+
+GLWSlider::GLWSlider(float x, float y, float w,  float current, float range) :
+	GLWVisibleWidget(x, y, w, 20.0f), 
+	current_(current), range_(range), startX_(0.0f), startCurrent_(current),
+	dragging_(false), handler_(0)
+{
+
+}
+
+GLWSlider::~GLWSlider()
+{
+
+}
+
+void GLWSlider::draw()
+{
+	glColor3f(0.7f, 0.7f, 0.7f);
+	glBegin(GL_LINE_LOOP);
+		drawRoundBox(x_ + 7.0f, y_, 6.0f, w_, 2.0f);
+	glEnd();
+	glBegin(GL_LINES);
+	float size = 0;
+	while (size < w_ / 2.0f)
+	{
+		glVertex2f(x_ + 7.0f, size + y_ + w_ / 2.0f);
+		glVertex2f(x_ + 13.0f, size + y_ + w_ / 2.0f);
+
+		glVertex2f(x_ + 7.0f, -size + y_ + w_ / 2.0f);
+		glVertex2f(x_ + 13.0f, -size + y_ + w_ / 2.0f);
+		size += 10.0f;
+	}
+	glEnd();
+}
+
+void GLWSlider::mouseDown(float x, float y, bool &skipRest)
+{
+	if (inBox(x, y, x_, y_, w_, h_))
+	{
+		skipRest = true;
+		dragging_ = true;
+		startX_ = y;
+		startCurrent_ = current_;
+	}
+}
+
+void GLWSlider::mouseUp(float x, float y, bool &skipRest)
+{
+	dragging_ = false;
+}
+
+void GLWSlider::mouseDrag(float mx, float my, float x, float y, bool &skipRest)
+{
+	if (dragging_)
+	{
+		float rangeMult = 1.0f;
+		unsigned int keyState = 
+			Keyboard::instance()->getKeyboardState();
+		if (keyState & KMOD_LSHIFT) rangeMult = 0.5f;
+
+		current_ = startCurrent_ + ((my - startX_)/w_ * range_ * rangeMult);
+		if (handler_) handler_->currentChanged(getId(), current_);
+
+		skipRest = true;
+	}
+}

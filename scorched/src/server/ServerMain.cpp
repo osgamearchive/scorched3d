@@ -43,6 +43,7 @@
 #include <server/ServerDefenseHandler.h>
 #include <server/ServerPlayedMoveHandler.h>
 #include <server/ServerAddPlayerHandler.h>
+#include <server/ServerPlayerAimHandler.h>
 #include <server/ServerBuyAccessoryHandler.h>
 #include <server/ServerConnectHandler.h>
 #include <server/ServerRegistration.h>
@@ -74,6 +75,7 @@ bool startServer(bool local)
 	ServerConnectHandler::instance();
 	ServerTextHandler::instance();
 	ServerPlayerReadyHandler::instance();
+	ServerPlayerAimHandler::instance();
 	ServerPlayedMoveHandler::instance();
 	ServerBuyAccessoryHandler::instance();
 	ServerAddPlayerHandler::instance();
