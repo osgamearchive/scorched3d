@@ -165,7 +165,7 @@ void StatsLoggerMySQL::createLogger()
 				if (weaponId == 0)
 				{
 					runQuery("INSERT INTO scorched3d%s_weapons (name, description, armslevel, cost, bundlesize) "
-						"VALUES(\"%s\", \"%s\", %i);", 
+						"VALUES(\"%s\", \"%s\", %i, %i, %i);", 
 						prefix_.c_str(),
 						weapon->getName(), 
 						weapon->getDescription(),

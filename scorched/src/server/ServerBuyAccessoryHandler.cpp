@@ -129,7 +129,7 @@ bool ServerBuyAccessoryHandler::processMessage(unsigned int destinationId,
 	}
 
 	if (10 - accessory->getArmsLevel() > 
-		ScorchedServer::instance()->getOptionsGame().getMaxArmsLevel())
+		ScorchedServer::instance()->getOptionsTransient().getArmsLevel())
 	{
 		Logger::log(playerId, "ERROR: Player atempting to buy weapon \"%s\" in wrong arms level", 
 			accessory->getName());

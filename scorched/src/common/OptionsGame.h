@@ -77,9 +77,13 @@ public:
 	void setTeams(int value) { teams_.setValue(value); }
 	const char *getTeamsToolTip() { return teams_.getDescription(); }
 
-	int getMaxArmsLevel() { return maxArmsLevel_.getValue(); }
-	void setMaxArmsLevel(int value) { maxArmsLevel_.setValue(value); }
-	const char *getMaxArmsLevelToolTip() { return maxArmsLevel_.getDescription(); }
+	int getStartArmsLevel() { return startArmsLevel_.getValue(); }
+	void setStartArmsLevel(int value) { startArmsLevel_.setValue(value); }
+	const char *getStartArmsLevelToolTip() { return startArmsLevel_.getDescription(); }
+
+	int getEndArmsLevel() { return endArmsLevel_.getValue(); }
+	void setEndArmsLevel(int value) { endArmsLevel_.setValue(value); }
+	const char *getEndArmsLevelToolTip() { return endArmsLevel_.getDescription(); }
 
 	int getMaxNumberWeapons() { return maxNumberWeapons_.getValue(); }
 	void setMaxNumberWeapons(int value) { maxNumberWeapons_.setValue(value); }
@@ -309,7 +313,9 @@ protected:
 	std::list<OptionEntry *> options_;
 	std::list<OptionEntry *> playerTypeOptions_;
 
-	OptionEntryBoundedInt maxArmsLevel_;
+	OptionEntryBoundedInt depricatedMaxArmsLevel_;
+	OptionEntryBoundedInt startArmsLevel_;
+	OptionEntryBoundedInt endArmsLevel_;
 	OptionEntryInt maxRoundTurns_;
 	OptionEntryInt shotTime_;
 	OptionEntryInt buyingTime_;

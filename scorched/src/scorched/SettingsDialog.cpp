@@ -404,13 +404,18 @@ bool SettingsFrame::TransferDataToWindow()
 		{
 			char buffer[25];
 			sprintf(buffer, "%i", i, i);
-			SettingsEnv::IDC_COMBO_ARMSLEVEL_CTRL->Append(buffer, (void *) i);
+			SettingsEnv::IDC_COMBO_STARTARMSLEVEL_CTRL->Append(buffer, (void *) i);
+			SettingsEnv::IDC_COMBO_ENDARMSLEVEL_CTRL->Append(buffer, (void *) i);
 
 		}
-		SettingsEnv::IDC_COMBO_ARMSLEVEL_CTRL->SetSelection(
-			context_.getMaxArmsLevel());
-		SettingsEnv::IDC_COMBO_ARMSLEVEL_CTRL->SetToolTip(
-			wxString("Specifies the most powerful weapon that will be available to buy."));
+		SettingsEnv::IDC_COMBO_STARTARMSLEVEL_CTRL->SetSelection(
+			context_.getStartArmsLevel());
+		SettingsEnv::IDC_COMBO_STARTARMSLEVEL_CTRL->SetToolTip(
+			wxString("Specifies the most powerful weapon that will be available to buy from round 0."));
+		SettingsEnv::IDC_COMBO_ENDARMSLEVEL_CTRL->SetSelection(
+			context_.getStartArmsLevel());
+		SettingsEnv::IDC_COMBO_ENDARMSLEVEL_CTRL->SetToolTip(
+			wxString("Specifies the most powerful weapon that will be available to buy in the final round."));
 	}
 
 	// Main
@@ -604,9 +609,13 @@ bool SettingsFrame::TransferDataFromWindow()
 			SettingsEnv::IDC_COMBO_WEAPONSCALE_CTRL->GetClientData(
 				SettingsEnv::IDC_COMBO_WEAPONSCALE_CTRL->GetSelection()));
 
-		context_.setMaxArmsLevel((int) 
-			SettingsEnv::IDC_COMBO_ARMSLEVEL_CTRL->GetClientData(
-				SettingsEnv::IDC_COMBO_ARMSLEVEL_CTRL->GetSelection()));
+		context_.setStartArmsLevel((int) 
+			SettingsEnv::IDC_COMBO_STARTARMSLEVEL_CTRL->GetClientData(
+				SettingsEnv::IDC_COMBO_STARTARMSLEVEL_CTRL->GetSelection()));
+
+		context_.setEndArmsLevel((int) 
+			SettingsEnv::IDC_COMBO_ENDARMSLEVEL_CTRL->GetClientData(
+				SettingsEnv::IDC_COMBO_ENDARMSLEVEL_CTRL->GetSelection()));
 	}
 
 	// Main

@@ -235,6 +235,14 @@ void Explosion::simulate(float frameTime, bool &remove)
 			}
 		}
 
+		// Dirt should only form along the ground
+		Vector newPosition = position_;
+		if (weapon_->getDeformType() == DeformUp)
+		{
+			newPosition[2] = context_->landscapeMaps->getHMap().
+				getInterpHeight(newPosition[0], newPosition[1]);			
+		}
+
 		if (weapon_->getDeformType() != DeformNone)
 		{
 			// Get the actual explosion size
@@ -249,12 +257,12 @@ void Explosion::simulate(float frameTime, bool &remove)
 			static DeformLandscape::DeformPoints map;
 			if (DeformLandscape::deformLandscape(
 				*context_,
-				position_, explosionSize, 
+				newPosition, explosionSize, 
 				(weapon_->getDeformType() == DeformDown), map))
 			{
 				if (!context_->serverMode) 
 				{
-					DeformTextures::deformLandscape(position_, explosionSize, 
+					DeformTextures::deformLandscape(newPosition, explosionSize, 
 						(weapon_->getDeformType() == DeformDown), map);
 				}
 			}
@@ -264,7 +272,7 @@ void Explosion::simulate(float frameTime, bool &remove)
 		TankController::explosion(
 			*context_,
 			weapon_, playerId_, 
-			position_, 
+			newPosition, 
 			weapon_->getSize() , 
 			weapon_->getHurtAmount());
 	}

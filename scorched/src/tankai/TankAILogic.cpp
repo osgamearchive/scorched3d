@@ -29,6 +29,7 @@
 #include <weapons/Battery.h>
 #include <weapons/Parachute.h>
 #include <common/OptionsGame.h>
+#include <common/OptionsTransient.h>
 #include <common/OptionsParam.h>
 #include <common/StatsLogger.h>
 #include <common/SoundStore.h>
@@ -155,7 +156,7 @@ void TankAILogic::processFiredMessage(ScorchedContext &context,
 			if (count > 0 || count == -1)
 			{
 				if ((10 - weapon->getArmsLevel()) <=
-					context.optionsGame->getMaxArmsLevel())
+					context.optionsTransient->getArmsLevel())
 				{
 					// Actually use up one of the weapons
 					tank->getAccessories().getWeapons().rmWeapon(weapon, 1);

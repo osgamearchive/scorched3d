@@ -29,7 +29,8 @@ Fixed: Server coms should be more responsive
 Fixed: Client failed to read 3/4 message
 Fixed: Clients timing out after players disconnect
 Fixed: All bots of same type (e.g. shark) share the same stats
-Fixed: Spectator does not earn interest
+Fixed: Spectators do not earn interest
+Fixed: Funky bomb and dirt interaction with concrete walls
 
 Changed: Changed free market ecconmy so price decreases are slower
 Changed: Tank can move up and down bigger slopes (configurable)
@@ -37,6 +38,7 @@ Changed: Spread and hurts weapon primative options are now variable
 Changed: LeapFrog weapon primative bounce now variable
 Changed: Message of the day now defined in server.xml file
 
+Added: Arms level can be progressive (changed) during the lifetime of a match
 Added: Water height can be adjusted in landscape definition
 Added: Water can be turned off in landscape definition
 Added: Smoothed roller movement, added roller rotation

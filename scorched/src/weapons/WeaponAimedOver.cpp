@@ -98,9 +98,14 @@ bool WeaponAimedOver::readAccessory(NetBufferReader &reader)
 }
 
 void WeaponAimedOver::fireWeapon(ScorchedContext &context,
-	unsigned int playerId, Vector &position, Vector &oldvelocity)
+	unsigned int playerId, Vector &sentPosition, Vector &oldvelocity)
 {
+	Vector position = sentPosition;
 	position[2] += 0.2f;
+	if (position[0] < 6.0f) position[0] = 6.0f;
+	else if (position[0] > 249.0f) position[0] = 249.0f;
+	if (position[1] < 6.0f) position[1] = 6.0f;
+	else if (position[1] > 249.0f) position[1] = 249.0f;
 
 	// Get all of the distances of the tanks less than maxAimedDistance_ away
 	std::list<std::pair<float, Tank *> > sortedTanks;

@@ -69,6 +69,9 @@ public:
 	Vector &getWindDirection() { return windDirection_.getValue(); }
 	bool getWindOn() { return (windSpeed_.getValue() > 0.0f); }
 
+	// Arms Level
+	int getArmsLevel();
+
 	// Used to send this structure over coms
 	bool writeToBuffer(NetBuffer &buffer);
 	bool readFromBuffer(NetBufferReader &reader);

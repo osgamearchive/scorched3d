@@ -260,3 +260,15 @@ void OptionsTransient::newGameWall()
 		break;
 	}
 }
+
+int OptionsTransient::getArmsLevel()
+{
+	float start = (float) optionsGame_.getStartArmsLevel();
+	float end = (float) optionsGame_.getEndArmsLevel();
+
+	float roundsPlayed = float(optionsGame_.getNoRounds() - getNoRoundsLeft());
+	float totalRounds = float(optionsGame_.getNoRounds());
+
+	float armsLevel = start + ((end - start) * (roundsPlayed / totalRounds));
+	return (int) armsLevel;
+}

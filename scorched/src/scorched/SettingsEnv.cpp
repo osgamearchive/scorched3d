@@ -58,9 +58,16 @@ static void createControls(wxWindow *parent, wxSizer *topsizer)
 		0, 0, wxCB_READONLY), 0, wxALIGN_CENTER);
 
 	sizer->Add(new wxStaticText(parent, -1,
-		"Arms Level :"), 0, wxALIGN_CENTER);
-	sizer->Add(IDC_COMBO_ARMSLEVEL_CTRL = 
-		new wxComboBox(parent, IDC_COMBO_ARMSLEVEL,
+		"Arms Level (Start Round):"), 0, wxALIGN_CENTER);
+	sizer->Add(IDC_COMBO_STARTARMSLEVEL_CTRL = 
+		new wxComboBox(parent, IDC_COMBO_STARTARMSLEVEL,
+		"",
+		wxDefaultPosition, wxSize((int) 132, (int) 91.5),
+		0, 0, wxCB_READONLY), 0, wxALIGN_CENTER);
+	sizer->Add(new wxStaticText(parent, -1,
+		"Arms Level (End Round):"), 0, wxALIGN_CENTER);
+	sizer->Add(IDC_COMBO_ENDARMSLEVEL_CTRL = 
+		new wxComboBox(parent, IDC_COMBO_ENDARMSLEVEL,
 		"",
 		wxDefaultPosition, wxSize((int) 132, (int) 91.5),
 		0, 0, wxCB_READONLY), 0, wxALIGN_CENTER);
