@@ -44,6 +44,7 @@ bool ScorchedApp::OnInit()
 	}
 
 	wxImage::AddHandler(new wxICOHandler);
+	wxImage::AddHandler(new wxGIFHandler);
 	if (OptionsParam::instance()->getAction() == OptionsParam::ActionRunServer)
 	{
   		// Run the server

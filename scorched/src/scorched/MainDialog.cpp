@@ -264,11 +264,11 @@ MainFrame::MainFrame() :
 	}
 
 	// Help Dialog
-	/*{
+	{
 		addButtonToWindow(ID_BUTTON_HELP,
 			"Show help for Scorched3D",
-			"data/windows/display.bmp", this, gridsizer);
-	}*/
+			"data/windows/help.bmp", this, gridsizer);
+	}
 
 	topsizer->Add(gridsizer, 0, wxALIGN_CENTER | wxLEFT | wxRIGHT, 20);
 
