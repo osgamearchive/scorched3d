@@ -33,8 +33,8 @@ class GLBitmap : public GLImage
 public:
 	GLBitmap();
 	GLBitmap(int width, int height, bool alpha = false);
-	GLBitmap(char * filename, bool alpha = false);
-	GLBitmap(char * filename, char * alphafilename, bool invert = true);
+	GLBitmap(const char *filename, bool alpha = false);
+	GLBitmap(const char *filename, const char *alphafilename, bool invert = true);
 	virtual ~GLBitmap();
 
 	void createBlank(int width, int height, bool alpha = false);
@@ -49,8 +49,8 @@ public:
 	virtual int getComponents();
 	virtual bool getAlpha();
 
-	bool loadFromFile(char * filename, bool alpha);
-	bool writeToFile(char * filename);
+	bool loadFromFile(const char *filename, bool alpha);
+	bool writeToFile(const char *filename);
 	void grabScreen();
 
 protected:

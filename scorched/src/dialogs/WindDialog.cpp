@@ -47,7 +47,7 @@ WindDialog::WindDialog() :
 	listNo_(0)
 {
 	windModel_ = ASEStore::instance()->
-		loadOrGetArray(PKGDIR "data/meshes/wind.ase");
+		loadOrGetArray(getDataFile("data/meshes/wind.ase"));
 }
 
 WindDialog::~WindDialog()
@@ -94,7 +94,7 @@ void WindDialog::drawDisplay()
 
 	if (!windTexture_.textureValid())
 	{
-		GLBitmap windMap(PKGDIR "data/windows/wind.bmp", true);
+		GLBitmap windMap(getDataFile("data/windows/wind.bmp"), true);
 		windTexture_.create(windMap, GL_RGBA, false);
 	}
 

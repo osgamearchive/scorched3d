@@ -24,13 +24,6 @@
 #include <common/Defines.h>
 #include <wx/utils.h>
 
-static const char *getDirectoryPath(const char *file)
-{
-	static char buffer[256];
-	sprintf(buffer, PKGDIR "%s", file);
-	return buffer;
-}
-
 ModelID::ModelID() : cachedFile_(0)
 {
 }
@@ -108,14 +101,14 @@ bool ModelID::initFromNode(const char *directory, XMLNode *modelNode)
 		static char meshName[1024];
 		sprintf(meshName, "%s/%s", directory, meshNameContent);
 
-		if (!::wxFileExists(getDirectoryPath(skinName)))
+		if (!::wxFileExists(getDataFile(skinName)))
 		{
 			dialogMessage("Scorched Models",
 						"Skin file \"%s\" does not exist",
 						skinName);
 			return false;
 		}
-		if (!::wxFileExists(getDirectoryPath(meshName)))
+		if (!::wxFileExists(getDataFile(meshName)))
 		{
 			dialogMessage("Scorched Models",
 						"Mesh file \"%s\"does not exist",
@@ -132,7 +125,7 @@ bool ModelID::initFromNode(const char *directory, XMLNode *modelNode)
 		static char meshName[1024];
 		sprintf(meshName, "%s/%s", directory, meshNameContent);
 
-		if (!::wxFileExists(getDirectoryPath(meshName)))
+		if (!::wxFileExists(getDataFile(meshName)))
 		{
 			dialogMessage("Scorched Models",
 						"Mesh file \"%s\"does not exist",
@@ -177,8 +170,8 @@ ModelsFile *ModelID::getModelsFile()
 		if (0 == strcmp(getType(), "ase"))
 		{
 			// Load the ASEFile containing the tank definitions
-			std::string meshName(getDirectoryPath(getMeshName()));
-			newFile = new ASEFile(meshName.c_str(), getDirectoryPath(getSkinName()));
+			std::string meshName(getDataFile(getMeshName()));
+			newFile = new ASEFile(meshName.c_str(), getDataFile(getSkinName()));
 			if (!newFile->getSuccess())
 			{
 				dialogMessage("ASE File", "Failed to load ASE file \"%s\"", getMeshName());
@@ -188,7 +181,7 @@ ModelsFile *ModelID::getModelsFile()
 		else
 		{
 			// Load the Milkshape containing the tank definitions
-			newFile = new MSFile(getDirectoryPath(getMeshName()));
+			newFile = new MSFile(getDataFile(getMeshName()));
 			if (!newFile->getSuccess())
 			{
 				dialogMessage("MS File", "Failed to load MS file \"%s\"", getMeshName());

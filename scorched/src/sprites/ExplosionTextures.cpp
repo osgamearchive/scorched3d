@@ -77,31 +77,33 @@ void ExplosionTextures::createTextures(ProgressCounter *counter)
 {
 	if (counter) counter->setNewOp("Explosion Textures");
 
-	GLBitmap bitmap( PKGDIR "data/textures/smoke01.bmp", PKGDIR "data/textures/smoke01.bmp", false);
+	std::string file1 = getDataFile("data/textures/smoke01.bmp");
+	GLBitmap bitmap(file1.c_str(), file1.c_str(), false);
 	smokeTexture.create(bitmap, GL_RGBA);
 
-	GLBitmap bitmap2( PKGDIR "data/textures/smoke02.bmp", PKGDIR "data/textures/smoke02.bmp", false);
+	std::string file2 = getDataFile("data/textures/smoke02.bmp");
+	GLBitmap bitmap2(file2.c_str(), file2.c_str(), false);
 	smokeTexture.create(bitmap2, GL_RGBA);
 
-	createTextureSet(exp00, 10, PKGDIR "data/textures/explode/exp00_");
+	createTextureSet(exp00, 10, getDataFile("data/textures/explode/exp00_"));
 	textureSets["exp00"] = &exp00;
 
-	createTextureSet(exp01, 3, PKGDIR "data/textures/explode/exp01_");
+	createTextureSet(exp01, 3, getDataFile("data/textures/explode/exp01_"));
 	textureSets["exp01"] = &exp01;
 
-	createTextureSet(exp02, 3, PKGDIR "data/textures/explode/exp02_");
+	createTextureSet(exp02, 3, getDataFile("data/textures/explode/exp02_"));
 	textureSets["exp02"] = &exp02;
 
-	createTextureSet(exp03, 3, PKGDIR "data/textures/explode/exp03_");
+	createTextureSet(exp03, 3, getDataFile("data/textures/explode/exp03_"));
 	textureSets["exp03"] = &exp03;
 
-	createTextureSet(exp04, 3, PKGDIR "data/textures/explode/exp04_");
+	createTextureSet(exp04, 3, getDataFile("data/textures/explode/exp04_"));
 	textureSets["exp04"] = &exp04;
 
-	createTextureSet(exp05, 7, PKGDIR "data/textures/explode/exp05_");
+	createTextureSet(exp05, 7, getDataFile("data/textures/explode/exp05_"));
 	textureSets["exp05"] = &exp05;
 
-	createTextureSet(flames, 33, PKGDIR "data/textures/flame/flame", true);
+	createTextureSet(flames, 33, getDataFile("data/textures/flame/flame"), true);
 }
 
 GLTextureSet *ExplosionTextures::getTextureSetByName(const char *name)

@@ -122,7 +122,7 @@ void startClient()
 	WindowSetup::setup();
 
 	std::string errorString;
-	if (!GLConsoleFileReader::loadFileIntoConsole(PKGDIR "data/autoexec.xml", errorString))
+	if (!GLConsoleFileReader::loadFileIntoConsole(getDataFile("data/autoexec.xml"), errorString))
 	{
 		dialogMessage("Failed to parse data/autoexec.xml", errorString.c_str());
 		exit(1);

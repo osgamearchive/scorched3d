@@ -110,7 +110,7 @@ GLTexture *ASEStore::loadTexture(const char *name, const char *aname)
 
 GLVertexSet *ASEStore::loadOrGetArray(const char *fileName)
 {
-	std::map<const char *, GLVertexSet *>::iterator findItor =
+	std::map<std::string, GLVertexSet *>::iterator findItor =
 		fileMap_.find(fileName);
 	if (findItor == fileMap_.end())
 	{
@@ -138,3 +138,4 @@ GLVertexSet *ASEStore::loadOrGetArray(const char *fileName)
 	}
 	return 0;
 }
+

@@ -125,8 +125,8 @@ void TankAIHuman::playMove(const unsigned state,
 
 void TankAIHuman::endPlayMove()
 {
-	CACHE_SOUND(turn,  PKGDIR "data/wav/movement/turn.wav");
-	CACHE_SOUND(elevate,  PKGDIR "data/wav/movement/elevate.wav");
+	CACHE_SOUND(turn,  (char *) getDataFile("data/wav/movement/turn.wav"));
+	CACHE_SOUND(elevate,  (char *) getDataFile("data/wav/movement/elevate.wav"));
 
 	turn->stop();
 	elevate->stop();
@@ -204,8 +204,8 @@ void TankAIHuman::moveLeftRight(char *buffer, unsigned int keyState, float frame
 
 	if (LRMoving != currentLRMoving)
 	{
-		CACHE_SOUND(sound,  PKGDIR "data/wav/movement/movement.wav");
-		CACHE_SOUND(turn,  PKGDIR "data/wav/movement/turn.wav");
+		CACHE_SOUND(sound, (char *) getDataFile("data/wav/movement/movement.wav"));
+		CACHE_SOUND(turn, (char *) getDataFile("data/wav/movement/turn.wav"));
 		if (currentLRMoving)
 		{
 			sound->play();
@@ -288,8 +288,8 @@ void TankAIHuman::moveUpDown(char *buffer, unsigned int keyState, float frameTim
 
 	if (UDMoving != currentUDMoving)
 	{
-		CACHE_SOUND(sound,  PKGDIR "data/wav/movement/movement.wav");
-		CACHE_SOUND(elevate,  PKGDIR "data/wav/movement/elevate.wav");
+		CACHE_SOUND(sound, (char *) getDataFile("data/wav/movement/movement.wav"));
+		CACHE_SOUND(elevate, (char *) getDataFile("data/wav/movement/elevate.wav"));
 		if (currentUDMoving)
 		{
 			sound->play();
@@ -355,7 +355,7 @@ void TankAIHuman::movePower(char *buffer, unsigned int keyState, float frameTime
 
 	if (PMoving != currentPMoving)
 	{
-		CACHE_SOUND(elevate,  PKGDIR "data/wav/movement/elevate.wav");
+		CACHE_SOUND(elevate, (char *) getDataFile("data/wav/movement/elevate.wav"));
 		if (currentPMoving)
 		{
 			elevate->setRepeats();

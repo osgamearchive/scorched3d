@@ -32,7 +32,7 @@
 class GLLuminance : public GLImage
 {
 public:
-	GLLuminance(char *filename);
+	GLLuminance(const char *filename);
 	virtual ~GLLuminance();
 
 	virtual GLubyte *getBits();
@@ -58,7 +58,7 @@ protected:
 	void convertUint(unsigned *array, unsigned int length);
 
 	void imageGetRow(FILE *file, GLubyte *buf, int y, int z, unsigned int *rowStart, int *rowSize);
-	bool loadFromFile(char *filename);
+	bool loadFromFile(const char *filename);
 };
 
 #endif // !defined(AFX_GLLUMINANCE_H__15020260_678A_40DF_B49C_AB1796BB3EED__INCLUDED_)

@@ -229,7 +229,7 @@ ServerFrame::ServerFrame(const char *name) :
 
 #ifdef _WIN32
 	// Set the frame's icon
-	wxIcon icon(PKGDIR "data/windows/tank2.ico", wxBITMAP_TYPE_ICO);
+	wxIcon icon(getDataFile("data/windows/tank2.ico"), wxBITMAP_TYPE_ICO);
 	SetIcon(icon);
 #endif
 
@@ -505,7 +505,7 @@ void ServerFrame::onEditOptions()
 void ServerFrame::onLoadOptions()
 {
 	wxString file = ::wxFileSelector("Please choose the options file to open",
-									 PKGDIR "data", // default path
+									 getDataFile("data"), // default path
 									 "server.xml", // default filename
 									 "", // default extension
 									 "*.xml",
@@ -525,7 +525,7 @@ void ServerFrame::onLoadOptions()
 void ServerFrame::onSaveOptions()
 {
 	wxString file = ::wxFileSelector("Please choose the options file to save",
-									 PKGDIR "data", // default path
+									 getDataFile("data"), // default path
 									 "server.xml", // default filename
 									 "", // default extension
 									 "*.xml",

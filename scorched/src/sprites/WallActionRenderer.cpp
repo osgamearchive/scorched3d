@@ -44,8 +44,8 @@ void WallActionRenderer::init(Action *action)
 
 	if (!texture_.textureValid())
 	{
-		GLBitmap map( PKGDIR "data/textures/bordershield/hit.bmp", 
-			 PKGDIR "data/textures/bordershield/hit.bmp", false);
+		std::string file = getDataFile("data/textures/bordershield/hit.bmp");
+		GLBitmap map(file.c_str(), file.c_str(), false);
 		texture_.create(map, GL_RGBA, true);
 	}
 

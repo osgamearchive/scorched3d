@@ -150,7 +150,7 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 	// Form the MOTD (Message of the day)
 	std::string motd;
 	FileLines motdFile;
-	motdFile.readFile(PKGDIR "data/motd.txt");
+	motdFile.readFile((char *) getDataFile("data/motd.txt"));
 	motdFile.getAsOneLine(motd);
 
 	// Send the connection accepted message to the client
@@ -271,10 +271,9 @@ void ServerConnectHandler::addNextTank(unsigned int destinationId,
 	ComsMessageSender::sendToAllConnectedClients(addPlayerMessage);
 
 	// Add to dialog
-	Logger::log(tankId, "Player connected \"%i\" \"%s\" [%s]",
+	Logger::log(tankId, "Player connected \"%i\" \"%s\"",
 		tankId,
-		playerName,
-		sentUniqueId);
+		playerName);
 
 	// Tell this computer that a new tank has connected
 	ServerCommon::sendString(0, "Player connected \"%s\"",

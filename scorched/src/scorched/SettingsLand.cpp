@@ -40,15 +40,14 @@ static void createControls(wxWindow *parent, wxSizer *topsizer)
 		LandscapeDefinition &dfn = *itor;
 		wxBoxSizer *boxSizer = new wxBoxSizer(wxVERTICAL);
 
-		char fileName[256];
-		sprintf(fileName, PKGDIR "data/landscapes/%s", dfn.picture.c_str());
+		const char *fileName = getDataFile("data/landscapes/%s", dfn.picture.c_str());
 		if (!::wxFileExists(fileName))
 		{
-			strcpy(fileName, PKGDIR "data/landscapes/picture-none.bmp");
+			fileName = getDataFile("data/landscapes/picture-none.bmp");
 		}
 
 		wxImage image;
-		if (image.LoadFile(_T(fileName), wxBITMAP_TYPE_BMP))
+		if (image.LoadFile(fileName, wxBITMAP_TYPE_BMP))
 		{
 			wxBitmap bitmap(image);
 			wxStaticBitmap *staticBmp = new wxStaticBitmap(parent, -1, bitmap);

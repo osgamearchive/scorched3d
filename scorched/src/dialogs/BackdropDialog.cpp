@@ -42,11 +42,13 @@ BackdropDialog::BackdropDialog() :
 {
 	if (!displayList_)
 	{
-		GLBitmap backMap( PKGDIR "data/windows/logotiled.bmp");
+		GLBitmap backMap(getDataFile("data/windows/logotiled.bmp"));
 		backTex_.create(backMap, GL_RGB, false);
 
-		GLBitmap topMap( PKGDIR "data/windows/scorched.bmp", 
-			PKGDIR "data/windows/scorchedi.bmp", true);
+		// Use string temporaries to get around use of statics in getDataFile
+		std::string file1 = getDataFile("data/windows/scorched.bmp");
+		std::string file2 = getDataFile("data/windows/scorchedi.bmp");
+		GLBitmap topMap( file1.c_str(), file2.c_str(), true);
 		titleTex_.create(topMap, GL_RGBA, false);
 
 		displayList_ = 1;

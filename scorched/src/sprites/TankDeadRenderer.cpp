@@ -41,7 +41,7 @@ void TankDeadRenderer::draw(Action *action)
 void TankDeadRenderer::simulate(Action *action, float frametime, bool &removeAction)
 {
 	// Play Dead Tank Sound
-	CACHE_SOUND(sound,  PKGDIR "data/wav/explosions/tank.wav");
+	CACHE_SOUND(sound, (char *) getDataFile("data/wav/explosions/tank.wav"));
 	sound->play();
 
 	// Remove this action on the first itteration

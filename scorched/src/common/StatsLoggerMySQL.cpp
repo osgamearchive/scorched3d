@@ -65,7 +65,7 @@ void StatsLoggerMySQL::createLogger()
 	{
 		mysql_ = mysql_init(0);
 		XMLFile file;
-		if (file.readFile(PKGDIR "data/mysql.xml") &&
+		if (file.readFile(getDataFile("data/mysql.xml")) &&
 			file.getRootNode())
 		{
 			XMLNode *hostNode = 

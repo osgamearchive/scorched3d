@@ -327,7 +327,7 @@ bool LandscapeDefinitions::readLandscapeDefinitions()
 {
 	// Load landscape definition file
 	XMLFile file;
-	if (!file.readFile(PKGDIR "data/landscapes.xml"))
+	if (!file.readFile(getDataFile("data/landscapes.xml")))
 	{
 		dialogMessage("Scorched Landscape", 
 					  "Failed to parse \"data/landscapes.xml\"\n%s", 

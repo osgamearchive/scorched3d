@@ -43,7 +43,10 @@ ProgressDialog::ProgressDialog() :
 	setUser(this);
 	progress_ = (GLWProgress *) new GLWProgress(10, 10, 260);
 	progressLabel_ = (GLWLabel *) new GLWLabel(10, 30);
-	GLBitmap map(PKGDIR "data/windows/wait.bmp", PKGDIR "data/windows/waita.bmp");
+
+	std::string file1 = getDataFile("data/windows/wait.bmp");
+	std::string file2 = getDataFile("data/windows/waita.bmp");
+	GLBitmap map(file1.c_str(), file2.c_str());
 	DIALOG_ASSERT(wait_.create(map, GL_RGBA, false));
 
 	needsCentered();

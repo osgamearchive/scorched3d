@@ -203,22 +203,22 @@ void TankDialog::drawTankDetails(Tank *current)
 	// Load textures
 	if (!healthTexture_.textureValid())
 	{
-		GLBitmap healthMap(PKGDIR "data/windows/health.bmp", true);
+		GLBitmap healthMap(getDataFile("data/windows/health.bmp"), true);
 		healthTexture_.create(healthMap, GL_RGBA, false);
 
-		GLBitmap sheildMap(PKGDIR "data/textures/wicons/shield.bmp", true);
+		GLBitmap sheildMap(getDataFile("data/textures/wicons/shield.bmp"), true);
 		shieldTexture_.create(sheildMap, GL_RGBA, false);
 
-		GLBitmap batteryMap(PKGDIR "data/textures/wicons/battery.bmp", true);
+		GLBitmap batteryMap(getDataFile("data/textures/wicons/battery.bmp"), true);
 		batteryTexture_.create(batteryMap, GL_RGBA, false);
 
-		GLBitmap parachuteMap(PKGDIR "data/textures/wicons/para.bmp", true);
+		GLBitmap parachuteMap(getDataFile("data/textures/wicons/para.bmp"), true);
 		parachuteTexture_.create(parachuteMap, GL_RGBA, false);
 
-		GLBitmap autoaMap(PKGDIR "data/textures/wicons/autod.bmp", true);
+		GLBitmap autoaMap(getDataFile("data/textures/wicons/autod.bmp"), true);
 		autodefenseTexture_.create(autoaMap, GL_RGBA, false);
 		
-		GLBitmap fuelMap(PKGDIR "data/textures/wicons/fuel.bmp", true);
+		GLBitmap fuelMap(getDataFile("data/textures/wicons/fuel.bmp"), true);
 		fuelTexture_.create(fuelMap, GL_RGBA, false);
 	}
 

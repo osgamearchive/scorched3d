@@ -184,8 +184,6 @@ void FileLogger::openFile(const char *fileName)
 {
 	lines_ = 0;
 	if (logFile_) fclose(logFile_);
-	char buffer[128];
-	sprintf(buffer, PKGDIR "logs/%s-%i.log", fileName, time(0));
-
-	logFile_ = fopen(buffer, "w");
+	logFile_ = fopen(getDataFile("logs/%s-%i.log", fileName, time(0)), "w");
 }
+

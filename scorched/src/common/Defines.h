@@ -18,13 +18,8 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #ifndef __DEFINES__
 #define __DEFINES__
-
-#ifndef PKGDIR
-#define PKGDIR ""
-#endif
 
 #ifndef _WIN32
 #include "porting.h"
@@ -42,6 +37,9 @@ extern void dialogAssert(const char *lineText, const int line, const char *file)
 #define DIALOG_ASSERT(x) if(!(x)) dialogAssert(#x, __LINE__, __FILE__);
 
 extern void dialogMessage(const char *header, const char *fmt, ...);
+
+extern const char *getDataFile(const char *file, ...);
+extern const char *getHomeFile(const char *file, ...);
 
 #define RAND ((float) rand() / (float) RAND_MAX)
 #define MAX(x,y) ((x)>(y)?(x):(y))

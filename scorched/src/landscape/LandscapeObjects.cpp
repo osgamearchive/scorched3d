@@ -211,8 +211,9 @@ void LandscapeObjects::generate(RandomGenerator &generator, ProgressCounter *cou
 	// Create the tree textures and models
 	if (!texture_.textureValid())
 	{
-		GLBitmap map( PKGDIR "data/textures/pine.bmp", 
-				PKGDIR "data/textures/pinea.bmp", false);
+		std::string file1 = getDataFile("data/textures/pine.bmp");
+		std::string file2 = getDataFile("data/textures/pinea.bmp");
+		GLBitmap map(file1.c_str(), file2.c_str(), false);
 		DIALOG_ASSERT(map.getBits());
 		texture_.create(map, GL_RGBA, true);
 

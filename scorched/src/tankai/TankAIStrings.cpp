@@ -38,11 +38,11 @@ TankAIStrings *TankAIStrings::instance()
 TankAIStrings::TankAIStrings()
 {
 	// Check we have init correctly
-	DIALOG_ASSERT(
-		deathLines_.readFile(PKGDIR "data/talk/talk2.txt") &&
-		attackLines_.readFile(PKGDIR "data/talk/talk1.txt") &&
-		aiPlayerNames_.readFile(PKGDIR "data/ainames.txt") &&
-		playerNames_.readFile(PKGDIR "data/playernames.txt"));
+	bool s1 = deathLines_.readFile((char *) getDataFile("data/talk/talk2.txt"));
+	bool s2 = attackLines_.readFile((char *) getDataFile("data/talk/talk1.txt"));
+	bool s3 = aiPlayerNames_.readFile((char *) getDataFile("data/ainames.txt"));
+	bool s4 = playerNames_.readFile((char *) getDataFile("data/playernames.txt"));
+	DIALOG_ASSERT(s1 && s2 && s3 && s4);
 }
 
 TankAIStrings::~TankAIStrings()

@@ -250,10 +250,7 @@ void *ResourceFile::parseType(const char *type,
 			}
 
 			// Add directory component
-			static char fileName[1024];
-			sprintf(fileName, "%s%s", PKGDIR, spaceString);
-	        
-			::wxDos2UnixFilename(fileName);
+			const char *fileName = getDataFile(spaceString);
 			if (::wxFileExists(fileName))
 			{
 				return new std::string(fileName);

@@ -194,10 +194,9 @@ bool TankAILogic::processDefenseMessage(ScorchedContext &context,
 					AccessoryStore::instance()->findByAccessoryType(Accessory::AccessoryBattery);
 				if (battery)
 				{
-					char buffer[256];
-					sprintf(buffer, PKGDIR "data/wav/%s", battery->getActivationSound());
 					SoundBuffer *batSound = 
-						SoundStore::instance()->fetchOrCreateBuffer(buffer);
+						SoundStore::instance()->fetchOrCreateBuffer((char *)
+							getDataFile("data/wav/%s", battery->getActivationSound()));
 					batSound->play();
 				}
 			}
@@ -218,10 +217,9 @@ bool TankAILogic::processDefenseMessage(ScorchedContext &context,
 				{
 					if (!context.serverMode) 
 					{
-						char buffer[256];
-						sprintf(buffer, PKGDIR "data/wav/%s", accessory->getActivationSound());
 						SoundBuffer *activateSound = 
-							SoundStore::instance()->fetchOrCreateBuffer(buffer);
+							SoundStore::instance()->fetchOrCreateBuffer((char *)
+								getDataFile("data/wav/%s", accessory->getActivationSound()));
 						activateSound->play();
 					}
 
@@ -250,10 +248,9 @@ bool TankAILogic::processDefenseMessage(ScorchedContext &context,
 				AccessoryStore::instance()->findByAccessoryType(Accessory::AccessoryParachute);
 			if (parachute)
 			{
-				char buffer[256];
-				sprintf(buffer, PKGDIR "data/wav/%s", parachute->getActivationSound());
 				SoundBuffer *paraSound = 
-					SoundStore::instance()->fetchOrCreateBuffer(buffer);
+					SoundStore::instance()->fetchOrCreateBuffer((char *)
+						getDataFile("data/wav/%s", parachute->getActivationSound()));
 				paraSound->play();
 			}
 
@@ -272,3 +269,4 @@ bool TankAILogic::processDefenseMessage(ScorchedContext &context,
 
 	return true;
 }
+

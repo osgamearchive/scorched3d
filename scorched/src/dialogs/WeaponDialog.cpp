@@ -104,13 +104,13 @@ void WeaponDialog::drawWeapon(Tank *current)
 
 	if (!xyTexture_.textureValid())
 	{
-		GLBitmap xyMap(PKGDIR "data/windows/xy.bmp", true);
+		GLBitmap xyMap(getDataFile("data/windows/xy.bmp"), true);
 		xyTexture_.create(xyMap, GL_RGBA, false);
 
-		GLBitmap yzMap(PKGDIR "data/windows/yz.bmp", true);
+		GLBitmap yzMap(getDataFile("data/windows/yz.bmp"), true);
 		yzTexture_.create(yzMap, GL_RGBA, false);
 
-		GLBitmap powerMap(PKGDIR "data/windows/power.bmp", true);
+		GLBitmap powerMap(getDataFile("data/windows/power.bmp"), true);
 		powerTexture_.create(powerMap, GL_RGBA, false);
 	}
 

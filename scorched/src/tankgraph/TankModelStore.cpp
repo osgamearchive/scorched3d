@@ -51,7 +51,7 @@ bool TankModelStore::loadTankMeshes()
 {
 	// Load tank definition file
 	XMLFile file;
-    if (!file.readFile(PKGDIR "data/tanks.xml"))
+	if (!file.readFile(getDataFile("data/tanks.xml")))
 	{
 		dialogMessage("Scorched Models", 
 					  "Failed to parse tanks.xml\n%s", 

@@ -34,7 +34,7 @@ AccessoryStore *AccessoryStore::instance()
 	if (!instance_)
 	{
 		instance_ = new AccessoryStore;
-		if (!instance_->parseFile(PKGDIR "data/accessories.xml")) exit(1);
+		if (!instance_->parseFile(getDataFile("data/accessories.xml"))) exit(1);
 	}
 
 	return instance_;

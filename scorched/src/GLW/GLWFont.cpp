@@ -38,7 +38,7 @@ GLWFont::GLWFont()
 {
 	courier16Font_ = new GLFont2d;
 	courier16Font_->createFont(
-		PKGDIR "data/fonts/test.ttf",
+		getDataFile("data/fonts/test.ttf"),
 		16);
 }
 

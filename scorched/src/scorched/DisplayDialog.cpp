@@ -44,7 +44,7 @@ DisplayFrame::DisplayFrame() :
 {
 #ifdef _WIN32
 	// Set the frame's icon
-	wxIcon icon(PKGDIR "data/windows/tank2.ico", wxBITMAP_TYPE_ICO);
+	wxIcon icon(getDataFile("data/windows/tank2.ico"), wxBITMAP_TYPE_ICO);
 	SetIcon(icon);
 #endif
 

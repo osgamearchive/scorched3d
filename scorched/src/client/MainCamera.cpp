@@ -148,8 +148,8 @@ void MainCamera::SaveScreen::draw(const unsigned state)
 
 	static unsigned counter = 0;
 	time_t currentTime = time(0);
-	char fileName[256];
-	sprintf(fileName, PKGDIR "ScreenShot-%i-%i.bmp", currentTime, counter++);
+	char *fileName = (char *) 
+		getDataFile("ScreenShot-%i-%i.bmp", currentTime, counter++);
 
 	GLBitmap screenMap;
 	screenMap.grabScreen();
@@ -161,7 +161,7 @@ void MainCamera::SaveScreen::draw(const unsigned state)
 		"Screen shot saved as file \"%s\"", fileName);
 
 	// snapshot sound
-	CACHE_SOUND(sound,  PKGDIR "data/wav/misc/camera.wav");
+	CACHE_SOUND(sound,  (char *) getDataFile("data/wav/misc/camera.wav"));
 	sound->play();
 }
 

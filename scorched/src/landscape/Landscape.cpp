@@ -311,8 +311,8 @@ void Landscape::generate(ProgressCounter *counter)
 	DIALOG_ASSERT(cloudTexture_.create(bitmapCloud));
 
 	// Generate small landscape textures
-	GLBitmap smokeBitmap(PKGDIR "data/textures/smoke01.bmp",
-		PKGDIR "data/textures/smoke01.bmp", false);
+	std::string file1 = getDataFile("data/textures/smoke01.bmp");
+	GLBitmap smokeBitmap(file1.c_str(), file1.c_str(), false);
 	scorchMap.resize(smokeBitmap.getWidth(), smokeBitmap.getHeight());
 	bitmapWater.resize(smokeBitmap.getWidth(), smokeBitmap.getHeight());
 	GLBitmap texture1New(smokeBitmap.getWidth(), smokeBitmap.getHeight(), true);
@@ -398,7 +398,6 @@ void Landscape::savePlan()
 {
 	static unsigned counter = 0;
 	time_t currentTime = time(0);
-	char fileName[256];
-	sprintf(fileName, PKGDIR "PlanShot-%i-%i.bmp", currentTime, counter++);
-	bitmapPlan_.writeToFile(fileName);
+	bitmapPlan_.writeToFile(getDataFile("PlanShot-%i-%i.bmp", currentTime, counter++));
 }
+

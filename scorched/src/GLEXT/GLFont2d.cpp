@@ -281,7 +281,7 @@ static bool make_dlist(FT_Face face, char ch, GLuint list_base, GLuint *tex_base
 	return true;
 }
 
-bool GLFont2d::createFont(char *typeFace, unsigned int h)
+bool GLFont2d::createFont(const char *typeFace, unsigned int h)
 {
 	// Allocate Some Memory To Store The Texture Ids.
 	textures_ = new GLuint[128];

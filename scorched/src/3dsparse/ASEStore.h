@@ -37,7 +37,7 @@ public:
 
 protected:
 	static ASEStore *instance_;
-	std::map<const char *, GLVertexSet *> fileMap_;
+	std::map<std::string, GLVertexSet *> fileMap_;
 	std::map<std::string, GLTexture *> skins_;
 
 private:

@@ -186,7 +186,7 @@ void ExplosionRenderer::simulate(Action *action, float frameTime, bool &remove)
 
 				Landscape::instance()->getWater().addWave(posX, posY, 5.0f);
 
-				CACHE_SOUND(sound,  PKGDIR "data/wav/misc/splash.wav");
+				CACHE_SOUND(sound, (char *) getDataFile("data/wav/misc/splash.wav"));
 				sound->play();
 			}
 

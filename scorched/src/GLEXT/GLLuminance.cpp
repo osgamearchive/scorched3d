@@ -30,7 +30,7 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-GLLuminance::GLLuminance(char *filename) : base_(NULL)
+GLLuminance::GLLuminance(const char *filename) : base_(NULL)
 {
 	loadFromFile(filename);
 }
@@ -132,7 +132,7 @@ void GLLuminance::imageGetRow(FILE *file, GLubyte *buf, int y, int z, unsigned i
 	}
 }
 
-bool GLLuminance::loadFromFile(char *fileName)
+bool GLLuminance::loadFromFile(const char *fileName)
 {
 	union 
 	{

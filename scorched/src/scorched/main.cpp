@@ -39,14 +39,14 @@
 
 extern bool wxWindowInit;
 extern bool wxWindowExit;
-char *resourceFile = PKGDIR "data/resource.xml";
 char scorched3dAppName[128];
 static bool allowExceptions = false;
 
 bool parseCommandLine(int argc, char *argv[])
 {
 	// Read the resources 
-	if (!Resources::instance()->main.initFromFile(resourceFile)) return false;
+	if (!Resources::instance()->main.initFromFile(
+		getDataFile("data/resource.xml"))) return false;
 
 	// Read display options from a file
 	if (!OptionsDisplay::instance()->readOptionsFromFile())
@@ -116,7 +116,7 @@ int main(int argc, char *argv[])
 		ScorchedVersion, ScorchedProtocolVersion);
 
 	// Check we are in the correct directory
-	FILE *checkfile = fopen(PKGDIR "data/autoexec.xml", "r");
+	FILE *checkfile = fopen(getDataFile("data/autoexec.xml"), "r");
 	if (!checkfile)
 	{
 		dialogMessage(
@@ -125,7 +125,7 @@ int main(int argc, char *argv[])
 			"Your machine does not appear to have the Scorched3D data directory in\n"
 			"the same directory as the scorched.exe file (set to \"%s\").\n\n"
 			"If Scorched3D does not run please re-install Scorched3D.",
-			PKGDIR[0]?PKGDIR:".");
+			getDataFile("."));
 		exit(1);
 	}
 	else fclose(checkfile);

@@ -183,10 +183,9 @@ void HeightMapModifier::generateTerrain(HeightMap &hmap,
 	// Check if we need to load a new mask
 	if (!defn.heightMaskFile.empty())
 	{
-		char fileName[256];
-		sprintf(fileName, PKGDIR "data/landscapes/%s", 
-			defn.heightMaskFile.c_str());
-		if (!maskMap.loadFromFile(fileName , false))
+		const char *fileName = 
+			getDataFile("data/landscapes/%s",defn.heightMaskFile.c_str());
+		if (!maskMap.loadFromFile(fileName, false))
 		{
 			dialogMessage("Landscape",
 						  "Error: Failed to find mask map \"%s\"",

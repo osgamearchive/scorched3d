@@ -37,9 +37,11 @@ totalTime_(0), time_(0), size_(size), position_(position), angle_(0)
 		}
 	}
 	_texture = 0;
+
+	std::string file1 = getDataFile("data/textures/bordershield/grid22.bmp");
+	std::string file2 = getDataFile("data/textures/bordershield/grid.bmp");
 	
-	GLBitmap map( PKGDIR "data/textures/bordershield/grid22.bmp", 
-			 PKGDIR "data/textures/bordershield/grid.bmp", true);
+	GLBitmap map(file1.c_str(), file2.c_str(), true);
 	_texture = new GLTexture;
 	_texture->create(map, GL_RGBA, true);
 	//GLConsole::instance()->addLine(false, "Size=%f", size_);

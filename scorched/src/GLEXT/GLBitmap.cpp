@@ -36,7 +36,7 @@ GLBitmap::GLBitmap(int startWidth, int startHeight, bool alpha) :
 	createBlank(startWidth, startHeight, alpha);
 }
 
-GLBitmap::GLBitmap(char * filename, bool alpha) :
+GLBitmap::GLBitmap(const char * filename, bool alpha) :
 	newbits_(NULL), width_(0), height_(0), alpha_(alpha)
 {
 	if (filename)
@@ -45,7 +45,7 @@ GLBitmap::GLBitmap(char * filename, bool alpha) :
 	}
 }
 
-GLBitmap::GLBitmap(char * filename, char *alphafilename, bool invert) : 
+GLBitmap::GLBitmap(const char * filename, const char *alphafilename, bool invert) : 
 	newbits_(NULL), width_(0), height_(0), alpha_(false)
 {
 	GLBitmap bitmap(filename, false);
@@ -166,7 +166,7 @@ bool GLBitmap::getAlpha()
 	return alpha_;
 }
 
-bool GLBitmap::loadFromFile(char * filename, bool alpha)
+bool GLBitmap::loadFromFile(const char * filename, bool alpha)
 {
 	SDL_Surface *image = SDL_LoadBMP(filename);
 	if (!image) return false;
@@ -200,7 +200,7 @@ bool GLBitmap::loadFromFile(char * filename, bool alpha)
 	return true;
 }
 
-bool GLBitmap::writeToFile(char * filename)
+bool GLBitmap::writeToFile(const char * filename)
 {
 	if (!newbits_) return false;
 

@@ -27,10 +27,6 @@
 #include <common/OptionsParam.h>
 
 extern char scorched3dAppName[128];
-static char *easyFilePath = PKGDIR "data/singleeasy.xml";
-static char *normalFilePath = PKGDIR "data/singlenormal.xml";
-static char *hardFilePath = PKGDIR "data/singlehard.xml";
-static char *customFilePath = PKGDIR "data/singlecustom.xml";
 
 enum
 {
@@ -69,7 +65,7 @@ SingleFrame::SingleFrame() :
 
 #ifdef _WIN32
 	// Set the frame's icon
-	wxIcon icon(PKGDIR "data/windows/tank2.ico", wxBITMAP_TYPE_ICO);
+	wxIcon icon(getDataFile("data/windows/tank2.ico"), wxBITMAP_TYPE_ICO);
 	SetIcon(icon);
 #endif
 
@@ -78,25 +74,25 @@ SingleFrame::SingleFrame() :
 		addButtonToWindow(ID_BUTTON_EASY, 
 			"Start an easy single player game.\n"
 			"Play a quick game against easy computer players.", 
-			PKGDIR "data/windows/tank-easy.bmp", this, gridsizer);
+			"data/windows/tank-easy.bmp", this, gridsizer);
 	}
 	{
 		addButtonToWindow(ID_BUTTON_NORMAL, 
 			"Start an normal single player game.\n"
 			"Play a quick game against normal strength computer players.", 
-			PKGDIR "data/windows/tank-med.bmp", this, gridsizer);
+			"data/windows/tank-med.bmp", this, gridsizer);
 	}
 	{
 		addButtonToWindow(ID_BUTTON_HARD,
 			"Start an hard single player game.\n"
 			"Play a quick game against hard computer players.", 
-			PKGDIR "data/windows/tank-hard.bmp", this, gridsizer);
+			"data/windows/tank-hard.bmp", this, gridsizer);
 	}
 	{
 		addButtonToWindow(ID_BUTTON_CUSTOM,
 			"Start an custom single or multi-player game.\n"
 			"Choose the opponents to play against.", 
-			PKGDIR "data/windows/tank2.bmp", this, gridsizer);
+			"data/windows/tank2.bmp", this, gridsizer);
 	}
 	topsizer->Add(gridsizer, 0, wxALIGN_CENTER);
 
@@ -114,8 +110,9 @@ SingleFrame::SingleFrame() :
 
 void SingleFrame::onEasyButton()
 {
-	ScorchedServer::instance()->getOptionsGame().readOptionsFromFile(easyFilePath);
-	ScorchedServer::instance()->getOptionsGame().writeOptionsToFile(easyFilePath);
+	const char *easyFilePath = getDataFile("data/singleeasy.xml");
+	ScorchedServer::instance()->getOptionsGame().readOptionsFromFile((char *) easyFilePath);
+	ScorchedServer::instance()->getOptionsGame().writeOptionsToFile((char *) easyFilePath);
 	EndModal(wxID_OK);
 
 	runScorched3D("-startclient %s", easyFilePath);
@@ -123,8 +120,9 @@ void SingleFrame::onEasyButton()
 
 void SingleFrame::onNormalButton()
 {
-	ScorchedServer::instance()->getOptionsGame().readOptionsFromFile(normalFilePath);
-	ScorchedServer::instance()->getOptionsGame().writeOptionsToFile(normalFilePath);
+	const char *normalFilePath = getDataFile("data/singlenormal.xml");
+	ScorchedServer::instance()->getOptionsGame().readOptionsFromFile((char *) normalFilePath);
+	ScorchedServer::instance()->getOptionsGame().writeOptionsToFile((char *) normalFilePath);
 	EndModal(wxID_OK);
 
 	runScorched3D("-startclient %s", normalFilePath);
@@ -132,8 +130,9 @@ void SingleFrame::onNormalButton()
 
 void SingleFrame::onHardButton()
 {
-	ScorchedServer::instance()->getOptionsGame().readOptionsFromFile(hardFilePath);
-	ScorchedServer::instance()->getOptionsGame().writeOptionsToFile(hardFilePath);
+	const char *hardFilePath = getDataFile("data/singlehard.xml");
+	ScorchedServer::instance()->getOptionsGame().readOptionsFromFile((char *) hardFilePath);
+	ScorchedServer::instance()->getOptionsGame().writeOptionsToFile((char *) hardFilePath);
 	EndModal(wxID_OK);
 
 	runScorched3D("-startclient %s", hardFilePath);
@@ -141,11 +140,12 @@ void SingleFrame::onHardButton()
 
 void SingleFrame::onCustomButton()
 {
-	ScorchedServer::instance()->getOptionsGame().readOptionsFromFile(customFilePath);
+	const char *customFilePath = getDataFile("data/singlecustom.xml");
+	ScorchedServer::instance()->getOptionsGame().readOptionsFromFile((char *) customFilePath);
 
 	if (showSettingsDialog(false, ScorchedServer::instance()->getContext().optionsGame))
 	{
-		ScorchedServer::instance()->getOptionsGame().writeOptionsToFile(customFilePath);
+		ScorchedServer::instance()->getOptionsGame().writeOptionsToFile((char *) customFilePath);
 		EndModal(wxID_OK);
 
 		runScorched3D("-startclient %s", customFilePath);

@@ -41,7 +41,7 @@ float TankModelRendererAIM::timeLeft_ = -1.0f;
 GLVertexSet *TankModelRendererAIM::getAutoAimModel()
 {
 	static GLVertexSet *array = 
-		ASEStore::instance()->loadOrGetArray(PKGDIR "data/meshes/autoaim.ase");
+		ASEStore::instance()->loadOrGetArray(getDataFile("data/meshes/autoaim.ase"));
 	return array;
 }
 
@@ -152,13 +152,14 @@ void TankModelRenderer::drawShield()
 	static GLUquadric *obj = 0;
 	if (!texture)
 	{
-		GLBitmap map( PKGDIR "data/textures/bordershield/grid2.bmp", 
-			 PKGDIR "data/textures/bordershield/grid2.bmp", false);
+		std::string file1 = getDataFile("data/textures/bordershield/grid2.bmp");
+		GLBitmap map(file1.c_str(), file1.c_str(), false);
 		texture = new GLTexture;
 		texture->create(map, GL_RGBA, true);
 
-		GLBitmap map2( PKGDIR "data/textures/bordershield/grid22.bmp", 
-			 PKGDIR "data/textures/bordershield/grid22.bmp", false);
+		std::string file2 = getDataFile("data/textures/bordershield/grid22.bmp");
+		GLBitmap map2(file2.c_str(), file2.c_str(), false);
+
 		texture2 = new GLTexture;
 		texture2->create(map2, GL_RGBA, true);
 

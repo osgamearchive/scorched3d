@@ -38,7 +38,7 @@ RandomGenerator::RandomGenerator() :
 	// We can create many random generators easily now
 	if (!buffer_)
 	{
-		FILE *in = fopen(PKGDIR "data/random.no", "rb");
+		FILE *in = fopen(getDataFile("data/random.no"), "rb");
 		DIALOG_ASSERT(in);
 		bufferSize_= 100000;
 		unsigned long *tmpbuffer = new unsigned long[bufferSize_];

@@ -70,7 +70,7 @@ bool ClientTextHandler::processMessage(unsigned int id,
 		}
 		else
 		{
-			CACHE_SOUND(sound,  PKGDIR "data/wav/misc/text.wav");
+			CACHE_SOUND(sound,  (char *) getDataFile("data/wav/misc/text.wav"));
 			sound->play();
 
 			Tank *tank = 

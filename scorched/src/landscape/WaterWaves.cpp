@@ -27,13 +27,13 @@
 
 WaterWaves::WaterWaves() : totalTime_(0.0f), pointCount_(0), removedCount_(0)
 {
-	GLBitmap bitmap1(PKGDIR "data/textures/waves.bmp", 
-		PKGDIR "data/textures/waves.bmp", false);
+	std::string file1 = getDataFile("data/textures/waves.bmp");
+	GLBitmap bitmap1(file1.c_str(), file1.c_str(), false);
 	DIALOG_ASSERT(bitmap1.getBits());
 	texture1_.create(bitmap1, GL_RGBA);
 
-	GLBitmap bitmap2(PKGDIR "data/textures/waves2.bmp", 
-		PKGDIR "data/textures/waves2.bmp", false);
+	std::string file2 = getDataFile("data/textures/waves2.bmp");
+	GLBitmap bitmap2(file2.c_str(), file2.c_str(), false);
 	DIALOG_ASSERT(bitmap2.getBits());
 	texture2_.create(bitmap2, GL_RGBA);
 }

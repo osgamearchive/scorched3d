@@ -31,7 +31,7 @@ TalkRenderer::TalkRenderer(Vector &position) :
 	// Load the speach bubble talk texture
 	if (!talkTex_.textureValid())
 	{
-		GLBitmap talkBitmap( PKGDIR "data/textures/talk.bmp", true);
+		GLBitmap talkBitmap(getDataFile("data/textures/talk.bmp"), true);
 		talkTex_.create(talkBitmap, GL_RGBA);
 	}
 

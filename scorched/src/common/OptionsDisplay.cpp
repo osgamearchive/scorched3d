@@ -154,12 +154,7 @@ OptionsDisplay::~OptionsDisplay()
 
 bool OptionsDisplay::writeOptionsToFile()
 {
-	wxString homeDir = ::wxGetHomeDir();
-	const char *homeDirStr = homeDir.c_str();
-	if (!::wxDirExists(homeDir)) homeDirStr = PKGDIR "";
-
-	char path[256];
-	sprintf(path, "%s/%s", homeDirStr, ".scorched3d.display.xml");
+	const char *path = getHomeFile(".scorched3d.display.xml");
 
 	// Check the options files are writeable
 	FILE *checkfile = fopen(path, "a");
@@ -169,25 +164,20 @@ bool OptionsDisplay::writeOptionsToFile()
 			"Scorched3D",
 			"Warning: Your display settings file (%s) cannot be\n"
 			"written to.  Your settings will not be saved from one game to the next.\n\n"
-			"To fix this problem correct the permissions for all the files in the\n"
-			PKGDIR"data directory.",
+			"To fix this problem correct the permissions for this file.",
 			path);
 	}
 	else fclose(checkfile);
 
-	if (!OptionEntryHelper::writeToFile(options_, path)) return false;
+	if (!OptionEntryHelper::writeToFile(options_, (char *) path)) return false;
 	return true;
 }
 
 bool OptionsDisplay::readOptionsFromFile()
 {
-	wxString homeDir = ::wxGetHomeDir();
-	const char *homeDirStr = homeDir.c_str();
-	if (!::wxDirExists(homeDir)) homeDirStr = PKGDIR "";
+	const char *path = getHomeFile(".scorched3d.display.xml");
 
-	char path[256];
-	sprintf(path, "%s/%s", homeDirStr, ".scorched3d.display.xml");
-	if (!OptionEntryHelper::readFromFile(options_, path))
+	if (!OptionEntryHelper::readFromFile(options_, (char *) path))
 	{
 		dialogMessage(
 			"Scorched3D",

@@ -56,11 +56,11 @@ bool TankAIStore::loadAIs()
 {
 	// Load key definition file
 	XMLFile file;
-    if (!file.readFile(PKGDIR "data/tankais.xml"))
+	if (!file.readFile(getDataFile("data/tankais.xml")))
 	{
 		dialogMessage("TankAIStore", 
 					  "Failed to parse \"%s\"\n%s", 
-					  PKGDIR "data/tankais.xml",
+					  "data/tankais.xml",
 					  file.getParserError());
 		return false;
 	}
@@ -70,7 +70,7 @@ bool TankAIStore::loadAIs()
 	{
 		dialogMessage("TankAIStore",
 					  "Failed to find tank ai definition file \"%s\"",
-					  PKGDIR "data/tankais.xml");
+					  "data/tankais.xml");
 		return false;		
 	}
 

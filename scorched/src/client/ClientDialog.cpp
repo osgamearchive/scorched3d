@@ -52,7 +52,7 @@ void setup()
 		);
 		exit(1);
 	}
-	if (!Keyboard::instance()->parseKeyFile(PKGDIR "data/keys.xml"))
+	if (!Keyboard::instance()->parseKeyFile(getDataFile("data/keys.xml")))
 	{
 		dialogMessage("Scorched3D Keyboard", 
 			"Failed to process keyboard file \"data/keys.xml\"");
@@ -96,7 +96,7 @@ bool createScorchedWindow()
 	}
 
 	SDL_WM_SetCaption(scorched3dAppName, "tank2");
-	SDL_WM_SetIcon(SDL_LoadBMP(PKGDIR "data/windows/tank2.bmp"), NULL);
+	SDL_WM_SetIcon(SDL_LoadBMP(getDataFile("data/windows/tank2.bmp")), NULL);
 
 	if (!Display::instance()->init() || 
 		!Display::instance()->changeSettings(width,height,fullscreen)) 

@@ -30,7 +30,7 @@
 #include "ServerS.cpp"
 
 extern char scorched3dAppName[128];
-static char *serverFilePath = PKGDIR "data/server.xml";
+static char *serverFilePath = "data/server.xml";
 
 class ServerSFrame: public wxDialog
 {
@@ -56,7 +56,7 @@ ServerSFrame::ServerSFrame() :
 {
 #ifdef _WIN32
 	// Set the frame's icon
-	wxIcon icon(PKGDIR "data/windows/tank2.ico", wxBITMAP_TYPE_ICO);
+	wxIcon icon(getDataFile("data/windows/tank2.ico"), wxBITMAP_TYPE_ICO);
 	SetIcon(icon);
 #endif
 
@@ -78,14 +78,16 @@ void ServerSFrame::onSettingsButton()
 {
 	if (showSettingsDialog(true, ScorchedServer::instance()->getContext().optionsGame))
 	{
-		ScorchedServer::instance()->getOptionsGame().writeOptionsToFile(serverFilePath);
+		ScorchedServer::instance()->getOptionsGame().writeOptionsToFile(
+			(char *) getDataFile(serverFilePath));
 	}
 }
 
 bool ServerSFrame::TransferDataToWindow()
 {
 	// Load the server settings
-	ScorchedServer::instance()->getOptionsGame().readOptionsFromFile(serverFilePath);
+	ScorchedServer::instance()->getOptionsGame().readOptionsFromFile(
+		(char *) getDataFile(serverFilePath));
 
 	char buffer[256];
 	sprintf(buffer, "%i", ScorchedServer::instance()->getOptionsGame().getPortNo());
@@ -106,7 +108,8 @@ bool ServerSFrame::TransferDataFromWindow()
 	ScorchedServer::instance()->getOptionsGame().setPublishAddress(IDC_PUBLISHIP_CTRL->GetValue());
 
 	// Save the server settings
-	ScorchedServer::instance()->getOptionsGame().writeOptionsToFile(serverFilePath);
+	ScorchedServer::instance()->getOptionsGame().writeOptionsToFile(
+		(char *) getDataFile(serverFilePath));
 	return true;
 }
 
@@ -115,7 +118,7 @@ bool showServerSDialog()
 	ServerSFrame frame;
 	if (frame.ShowModal() == wxID_OK)
 	{
-		runScorched3D("-startserver %s", serverFilePath);
+		runScorched3D("-startserver %s", getDataFile(serverFilePath));
 		return true;
 	}
 	return false;

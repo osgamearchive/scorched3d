@@ -211,9 +211,7 @@ GLTexture *Accessory::getTexture()
 	GLTexture *texture = 0;
 	if (getIconName()[0])
 	{
-		char fileBuffer[256];
-		sprintf(fileBuffer, PKGDIR "data/textures/wicons/%s", getIconName());
-		GLBitmap bmap(fileBuffer, true);
+		GLBitmap bmap(getDataFile("data/textures/wicons/%s", getIconName()), true);
 		texture = new GLTexture();
 		texture->create(bmap, GL_RGBA, false);
 	}

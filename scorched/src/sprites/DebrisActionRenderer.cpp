@@ -37,12 +37,12 @@ DebrisActionRenderer::DebrisActionRenderer() :
 	if (RAND > 0.5f)
 	{
 		debris_ = ASEStore::instance()->
-			loadOrGetArray(PKGDIR "data/meshes/rock1.ase");
+			loadOrGetArray(getDataFile("data/meshes/rock1.ase"));
 	}
 	else
 	{
 		debris_ = ASEStore::instance()->
-			loadOrGetArray(PKGDIR "data/meshes/rock2.ase");
+			loadOrGetArray(getDataFile("data/meshes/rock2.ase"));
 	}
 	DIALOG_ASSERT(debris_);
 }

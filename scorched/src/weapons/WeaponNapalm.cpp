@@ -152,10 +152,9 @@ void WeaponNapalm::fireWeapon(ScorchedContext &context,
 	{
 		if (getExplosionSound())
 		{
-			static char soundBuffer[256];
-			sprintf(soundBuffer, PKGDIR "data/wav/%s", getExplosionSound());
 			SoundBuffer *expSound = 
-				SoundStore::instance()->fetchOrCreateBuffer(soundBuffer);
+				SoundStore::instance()->fetchOrCreateBuffer((char *)
+					getDataFile("data/wav/%s", getExplosionSound()));
 			expSound->play();
 		}
 	}

@@ -36,8 +36,9 @@ void Wall::draw()
 {
 	if (!texture_.textureValid())
 	{
-		GLBitmap map( PKGDIR "data/textures/bordershield/grid.bmp", 
-			 PKGDIR "data/textures/bordershield/grid.bmp", false);
+		std::string file1 = getDataFile("data/textures/bordershield/grid.bmp");
+		std::string file2 = getDataFile("data/textures/bordershield/grid.bmp");
+		GLBitmap map(file1.c_str(), file2.c_str(), false);
 		texture_.create(map, GL_RGBA, true);
 	}
 
@@ -135,7 +136,7 @@ void Wall::drawWall(Vector &cornerA, Vector &cornerB,
 void Wall::wallHit(OptionsTransient::WallSide side)
 {
 	fadeTime_[side] = 1.0f;
-	CACHE_SOUND(sound,  PKGDIR "data/wav/shield/hit2.wav");
+	CACHE_SOUND(sound, (char *) getDataFile("data/wav/shield/hit2.wav"));
 	sound->play();
 }
 

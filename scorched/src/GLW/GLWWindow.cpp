@@ -170,7 +170,7 @@ void GLWWindow::drawMaximizedWindow()
 	{
 		if (!moveTexture_.textureValid())
 		{
-			GLBitmap moveMap(PKGDIR "data/windows/move.bmp", true);
+			GLBitmap moveMap(getDataFile("data/windows/move.bmp"), true);
 			moveTexture_.create(moveMap, GL_RGBA, false);
 		}
 

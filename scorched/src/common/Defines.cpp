@@ -21,6 +21,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <wx/wx.h>
+#include <wx/utils.h>
 #include <windows.h>
 
 unsigned int ScorchedPort = 27270;
@@ -61,3 +62,39 @@ void dialogAssert(const char *lineText, const int line, const char *file)
 	dialogMessage("Program Assert", buffer);
 	exit(1);
 }
+
+#ifndef PKGDIR
+#define PKGDIR ""
+#endif
+
+const char *getDataFile(const char *file, ...)
+{
+	static char filename[1024];
+	static char buffer[1024];
+        va_list ap;
+        va_start(ap, file);
+        vsprintf(filename, file, ap);
+        va_end(ap);
+	sprintf(buffer, PKGDIR "%s", filename);
+	::wxDos2UnixFilename(buffer);
+	return buffer;
+}
+
+const char *getHomeFile(const char *file, ...)
+{
+        static char filename[1024];
+        static char buffer[1024];
+        va_list ap;
+        va_start(ap, file);
+        vsprintf(filename, file, ap);
+        va_end(ap);
+
+        wxString homeDir = ::wxGetHomeDir();
+        const char *homeDirStr = homeDir.c_str();
+        if (!::wxDirExists(homeDir)) homeDirStr = getDataFile("");
+
+        sprintf(buffer, "%s/%s", homeDirStr, filename);
+	::wxDos2UnixFilename(buffer);
+        return buffer;
+}
+
