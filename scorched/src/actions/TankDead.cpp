@@ -132,7 +132,7 @@ void TankDead::simulate(float frameTime, bool &remove)
 			{
 				Vector position = killedTank->getPhysics().getTankPosition();
 				Vector velocity;
-				Action *action = weapon->fireWeapon(firedPlayerId_, position, velocity)
+				Action *action = weapon->fireWeapon(firedPlayerId_, position, velocity);
 
 				//ExplosionLaserBeamRenderer *sprite = new ExplosionLaserBeamRenderer(position, 5.0f);
 				//Action *action = new SpriteAction(sprite);
