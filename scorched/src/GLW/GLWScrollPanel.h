@@ -38,6 +38,7 @@ public:
 	virtual ~GLWScrollPanel();
 
 	virtual void draw();
+	virtual void simulate(float frameTime);
 	virtual void mouseDown(float x, float y, bool &skipRest);
 	virtual void mouseUp(float x, float y, bool &skipRest);
 	virtual void mouseDrag(float mx, float my, float x, float y, bool &skipRest);

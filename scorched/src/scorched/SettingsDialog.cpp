@@ -210,6 +210,8 @@ bool SettingsFrame::TransferDataToWindow()
 			sprintf(buffer, "%i", i);
 			SettingsLand::IDC_LANDCOVERAGE_CTRL->Append(buffer);
 		}
+		SettingsLand::IDC_LANDCOVERAGE_CTRL->Append("5");
+		SettingsLand::IDC_LANDCOVERAGE_CTRL->Append("1");
 		sprintf(buffer, "%i", context_.optionsGame.getNoHills());
 		SettingsLand::IDC_LANDCOVERAGE_CTRL->SetValue(buffer);
 		SettingsLand::IDC_LANDCOVERAGE_CTRL->SetToolTip(
@@ -225,6 +227,21 @@ bool SettingsFrame::TransferDataToWindow()
 		SettingsLand::IDC_LANDHEIGHT_CTRL->SetValue(buffer);
 		SettingsLand::IDC_LANDHEIGHT_CTRL->SetToolTip(
 			wxString("Specifies how hilly the landscape is."));
+
+		for (i=256; i>=64; i-=64)
+		{	
+			sprintf(buffer, "%i", i);
+			SettingsLand::IDC_LANDWIDTHX_CTRL->Append(buffer);
+			SettingsLand::IDC_LANDWIDTHY_CTRL->Append(buffer);
+		}
+		sprintf(buffer, "%i", context_.optionsGame.getLandWidthX());
+		SettingsLand::IDC_LANDWIDTHX_CTRL->SetValue(buffer);
+		SettingsLand::IDC_LANDWIDTHX_CTRL->SetToolTip(
+			wxString("Specifies how wide the island can be."));
+		sprintf(buffer, "%i", context_.optionsGame.getLandWidthY());
+		SettingsLand::IDC_LANDWIDTHY_CTRL->SetValue(buffer);
+		SettingsLand::IDC_LANDWIDTHY_CTRL->SetToolTip(
+			wxString("Specifies how wide the island can be."));
 	}
 
 	// Eco
@@ -441,9 +458,15 @@ bool SettingsFrame::TransferDataFromWindow()
 		sscanf(SettingsLand::IDC_LANDCOVERAGE_CTRL->GetValue(), "%i", &ilandCover);
 		int ilandHeight = 2;
 		sscanf(SettingsLand::IDC_LANDHEIGHT_CTRL->GetValue(), "%i", &ilandHeight);
+		int ilandWidthX = 256;
+		sscanf(SettingsLand::IDC_LANDWIDTHX_CTRL->GetValue(), "%i", &ilandWidthX);
+		int ilandWidthY = 256;
+		sscanf(SettingsLand::IDC_LANDWIDTHY_CTRL->GetValue(), "%i", &ilandWidthY);
 
 		context_.optionsGame.setMaxHeight(ilandHeight);
 		context_.optionsGame.setNoHills(ilandCover);
+		context_.optionsGame.setLandWidthX(ilandWidthX);
+		context_.optionsGame.setLandWidthY(ilandWidthY);
 	}
 
 	// Eco

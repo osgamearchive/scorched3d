@@ -62,6 +62,11 @@ void GLWListView::draw()
 	scroll_.draw();
 }
 
+void GLWListView::simulate(float frameTime)
+{
+	scroll_.simulate(frameTime);
+}
+
 void GLWListView::mouseDown(float x, float y, bool &skipRest)
 {
 	scroll_.mouseDown(x, y, skipRest);

@@ -204,8 +204,8 @@ void HeightMapModifier::generateTerrain(HeightMap &hmap,
 
 		// NOTE: This has been changed as I386/SPARC have different calling ordering
 		// symantics (see CVS diff for changes)
-		float sx = (generator.getRandFloat() * (useWidthX - (bordersizex * 2))) + bordersizex;
-		float sy = (generator.getRandFloat() * (useWidthY - (bordersizey * 2))) + bordersizey;
+		float sx = (generator.getRandFloat() * (float(hmap.getWidth()) - (bordersizex * 2))) + bordersizex;
+		float sy = (generator.getRandFloat() * (float(hmap.getWidth()) - (bordersizey * 2))) + bordersizey;
 		Vector start(sx, sy);
 
 		addCirclePeak(hmap, start, sizew, sizew2, sizeh, offsetGenerator);

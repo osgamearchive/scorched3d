@@ -31,7 +31,8 @@ GLWButton::GLWButton(float x, float y, float w, float h, GLWButtonI *handler,
 					 bool ok, bool cancel) : 
 	handler_(handler),
 	GLWVisibleWidget(x, y, w, h),
-	ok_(ok), cancel_(cancel), pressed_(false), startdrag_(false)
+	ok_(ok), cancel_(cancel), pressed_(false), startdrag_(false),
+	repeatMode_(false), repeatTime_(0.0f)
 {
 
 }
@@ -59,13 +60,33 @@ void GLWButton::draw()
 	glLineWidth(1.0f);
 }
 
+void GLWButton::simulate(float frameTime)
+{
+	repeatTime_ += frameTime;
+	if (repeatMode_)
+	{
+		const float RepeatTimeInterval = 0.15f;
+		while (repeatTime_ > RepeatTimeInterval)
+		{
+			repeatTime_ -= RepeatTimeInterval;
+			if (pressed_ && handler_) handler_->buttonDown(getId());
+		}
+	}
+}
+
 void GLWButton::mouseDown(float x, float y, bool &skipRest)
 {
 	if (inBox(x, y, x_, y_, w_, h_))
 	{
+		skipRest = true;
 		startdrag_ = true;
 		pressed_ = true;
-		skipRest = true;
+
+		if (repeatMode_)
+		{
+			repeatTime_ = -0.85f;
+			if (handler_) handler_->buttonDown(getId());
+		}
 	}
 }
 
@@ -93,7 +114,10 @@ void GLWButton::mouseUp(float x, float y, bool &skipRest)
 		pressed_ = false;	
 		skipRest = true;
 
-		if (handler_) handler_->buttonDown(getId());
+		if (!repeatMode_)
+		{
+			if (handler_) handler_->buttonDown(getId());
+		}
 	}
 }
 
@@ -126,5 +150,4 @@ void GLWButton::keyDown(char *buffer, unsigned int keyState,
 			}
 		}
 	}
-
 }

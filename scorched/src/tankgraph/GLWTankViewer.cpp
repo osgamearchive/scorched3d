@@ -154,6 +154,8 @@ void GLWTankViewer::simulate(float frameTime)
 	{
 		rotYZD_ *= -1.0f;
 	}
+
+	scrollBar_.simulate(frameTime);
 }
 
 void GLWTankViewer::draw()

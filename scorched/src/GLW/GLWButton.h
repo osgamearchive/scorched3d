@@ -45,6 +45,7 @@ public:
 	virtual ~GLWButton();
 
 	virtual void draw();	
+	virtual void simulate(float frameTime);
 	virtual void mouseDown(float x, float y, bool &skipRest);
 	virtual void mouseDrag(float mx, float my, float x, float y, bool &skipRest);
 	virtual void mouseUp(float x, float y, bool &skipRest);
@@ -54,6 +55,7 @@ public:
 	bool &getPressed() { return pressed_; }
 
 	virtual void setHandler(GLWButtonI *handler);
+	void setRepeatMode() { repeatMode_ = true; }
 
 METACLASSID
 
@@ -61,6 +63,8 @@ protected:
 	GLWButtonI *handler_;
 	bool cancel_, ok_;
 	bool startdrag_, pressed_;
+	bool repeatMode_;
+	float repeatTime_;
 
 };
 

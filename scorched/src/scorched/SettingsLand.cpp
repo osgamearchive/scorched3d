@@ -28,7 +28,7 @@ static void createControls(wxWindow *parent)
 {
 	new wxStaticText(parent, -1,
 		"Land Coverage :",
-		wxPoint((int) 93, (int) 54), wxSize((int) 81, (int) 12));
+		wxPoint((int) 93, (int) 54));
 	IDC_LANDCOVERAGE_CTRL = 
 		new wxComboBox(parent, IDC_LANDCOVERAGE,
 		"",
@@ -36,14 +36,31 @@ static void createControls(wxWindow *parent)
 		0, 0, wxCB_READONLY);
 	new wxStaticText(parent, -1,
 		"Land Height :",
-		wxPoint((int) 108, (int) 75), wxSize((int) 66, (int) 12));
+		wxPoint((int) 108, (int) 75));
 	IDC_LANDHEIGHT_CTRL = 
 		new wxComboBox(parent, IDC_LANDHEIGHT,
 		"",
-		wxPoint((int) 181.5, (int) 73.5), wxSize((int) 72, (int) 124.5),
+		wxPoint((int) 181.5, (int) 74), wxSize((int) 72, (int) 124.5),
+		0, 0, wxCB_READONLY);
+	new wxStaticText(parent, -1,
+		"Land Width X :",
+		wxPoint((int) 108, (int) 96));
+	IDC_LANDWIDTHX_CTRL = 
+		new wxComboBox(parent, IDC_LANDWIDTHX,
+		"",
+		wxPoint((int) 181.5, (int) 97), wxSize((int) 72, (int) 124.5),
+		0, 0, wxCB_READONLY);
+	new wxStaticText(parent, -1,
+		"Land Width Y :",
+		wxPoint((int) 108, (int) 117));
+	IDC_LANDWIDTHY_CTRL = 
+		new wxComboBox(parent, IDC_LANDWIDTHY,
+		"",
+		wxPoint((int) 181.5, (int) 120), wxSize((int) 72, (int) 124.5),
 		0, 0, wxCB_READONLY);
 	new wxStaticBox(parent, -1,
 		"Land",
-		wxPoint((int) 10.5, (int) 10.5), wxSize((int) 339, (int) 112.5));
+		wxPoint((int) 10.5, (int) 10.5), wxSize((int) 339, (int) 140.5));
+
 }
 

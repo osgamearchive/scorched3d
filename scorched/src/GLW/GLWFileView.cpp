@@ -36,6 +36,11 @@ GLWFileView::~GLWFileView()
 {
 }
 
+void GLWFileView::simulate(float frameTime)
+{
+	scroll_.simulate(frameTime);
+}
+
 void GLWFileView::draw()
 {
 	glBegin(GL_LINE_LOOP);

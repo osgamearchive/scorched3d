@@ -44,6 +44,11 @@ void GLWScrollPanel::setH(float h)
 	scrollW_.setH(h_ - 10);
 }
 
+void GLWScrollPanel::simulate(float frameTime)
+{
+	scrollW_.simulate(frameTime);
+}
+
 void GLWScrollPanel::draw()
 {
 	drawScrollBar_ = false;

@@ -40,6 +40,8 @@ GLWScrollW::GLWScrollW(float x, float y, float h, int min, int max, int see, GLW
 	backButtonTop_.setHandler(this);
 	backButtonBot_.setHandler(this);
 	middleButton_.setScrollHandler(this);
+	bottomButton_.setRepeatMode();
+	topButton_.setRepeatMode();
 }
 
 GLWScrollW::~GLWScrollW()
@@ -122,6 +124,12 @@ void GLWScrollW::draw()
 		glVertex2f(x_ + (buttonWidth / 2.0f) + 2.0f + topOffset, y_ - 4.0f + h_ - topOffset);
 		glVertex2f(x_ + 4 + topOffset, y_ + 2.0f + h_ - buttonWidth - topOffset);
 	glEnd();
+}
+
+void GLWScrollW::simulate(float frameTime)
+{
+	topButton_.simulate(frameTime);
+	bottomButton_.simulate(frameTime);
 }
 
 void GLWScrollW::mouseDown(float x, float y, bool &skipRest)
