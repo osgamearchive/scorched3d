@@ -40,16 +40,16 @@ AutoDefenseDialog::AutoDefenseDialog() :
 	needCentered_ = true;
 
 	topPanel_ = (GLWPanel *)
-		addWidget(new GLWPanel(10, 245, 300, 30),
+		addWidget(new GLWPanel(10, 245, 420, 50),
 		0, SpaceLeft | SpaceRight | SpaceTop, 10.0f);
 
-	ddpara_ = (GLWDropDown *) addWidget(new GLWDropDown(120, 170, 300),
+	ddpara_ = (GLWDropDown *) addWidget(new GLWDropDown(120, 170, 420),
 		0, SpaceLeft | SpaceRight | SpaceTop, 10.0f);
 	ddpara_->setHandler(this);
 	ddpara_->setToolTip(new GLWTip("Enable Parachutes",
 		"Choose to enable parachutes before the\n"
 		"beginning of the next round."));
-	ddshields_ = (GLWDropDown *) addWidget(new GLWDropDown(120, 200, 300),
+	ddshields_ = (GLWDropDown *) addWidget(new GLWDropDown(120, 200, 420),
 		0, SpaceLeft | SpaceRight | SpaceTop, 10.0f);
 	ddshields_->setToolTip(new GLWTip("Choose Shields",
 		"Choose the shield to use at the beginning\n"
@@ -157,8 +157,12 @@ void AutoDefenseDialog::displayCurrent()
 
 	// Put information at the top of the dialog
 	topPanel_->clear();
-	topPanel_->addWidget(new GLWFlag(tank->getColor(), 5, 5, 60));
-	topPanel_->addWidget(new GLWLabel(70, 0, (char *) tank->getName()));
+	topPanel_->addWidget(new GLWFlag(tank->getColor(), 5, 15, 60));
+	topPanel_->addWidget(new GLWLabel(75, 10, (char *) tank->getName()));
+	topPanel_->addWidget(new GLWLabel(280, 20, (char *)
+		formatString("$%i", tank->getScore().getMoney())));
+	topPanel_->addWidget(new GLWLabel(280, 0, (char *)
+		formatString("%i Rounds", ScorchedClient::instance()->getOptionsTransient().getNoRoundsLeft())));
 
 	// Put shields info
 	static GLWTip shieldsOffTip("Shields Off",

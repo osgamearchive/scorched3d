@@ -35,7 +35,7 @@
 #include <stdio.h>
 
 BuyAccessoryDialog::BuyAccessoryDialog() : 
-	GLWWindow("", 10.0f, 10.0f, 440.0f, 280.0f, 0,
+	GLWWindow("", 10.0f, 10.0f, 440.0f, 300.0f, 0,
 		"Allows the current player to buy and sell\n"
 		"weapons and other accessories.")
 {
@@ -49,7 +49,7 @@ BuyAccessoryDialog::BuyAccessoryDialog() :
 	sellTab_ = (GLWTab *)
 		addWidget(new GLWTab("Sell", 240, 10, 40, 420, 160, 80));
 	topPanel_ = (GLWPanel *)
-		addWidget(new GLWPanel(10, 245, 420, 30));
+		addWidget(new GLWPanel(10, 265, 420, 50));
 	sortBox_ = (GLWCheckBox *) addWidget(new GLWCheckBox(10, 10));
 	sortBox_->setHandler(this);
 	addWidget(new GLWLabel(35, 7, "Sort accessories by name"));
@@ -73,7 +73,7 @@ void BuyAccessoryDialog::setupWindow()
 	if (screenHeight > 340) addition = screenHeight - 340;
 	if (addition > 200) addition = 200;
 
-	setH(280 + addition);
+	setH(300 + addition);
 	buyWeaponTab_->setH(160 + addition);
 	sellTab_->setH(160 + addition);
 	buyOtherTab_->setH(160 + addition);
@@ -91,11 +91,12 @@ void BuyAccessoryDialog::addPlayerName()
 	Tank *tank = ScorchedClient::instance()->getTankContainer().getCurrentTank();
 	if (!tank) return;
 
-	char buffer[256];
-	sprintf(buffer, "$%i", tank->getScore().getMoney());
-	topPanel_->addWidget(new GLWFlag(tank->getColor(), 5, 5, 60));
-	topPanel_->addWidget(new GLWLabel(75, 0, (char *) tank->getName()));
-	topPanel_->addWidget(new GLWLabel(280, 0, buffer));
+	topPanel_->addWidget(new GLWFlag(tank->getColor(), 5, 15, 60));
+	topPanel_->addWidget(new GLWLabel(75, 10, (char *) tank->getName()));
+	topPanel_->addWidget(new GLWLabel(280, 20, (char *)
+		formatString("$%i", tank->getScore().getMoney())));
+	topPanel_->addWidget(new GLWLabel(280, 0, (char *)
+		formatString("%i Rounds", ScorchedClient::instance()->getOptionsTransient().getNoRoundsLeft())));
 }
 
 void BuyAccessoryDialog::addPlayerWeapons()
