@@ -7,6 +7,21 @@
 		</model>
 	</tank>
 	<tank>
+		<name>Bradley</name>
+		<catagory>High Def</catagory>
+		<model type="MilkShape">bradley2/bradley2.txt</model>
+	</tank>
+	<tank>
+		<name>BM-13 HighDef</name>
+		<catagory>High Def</catagory>
+		<model type="MilkShape">bm13/bm13-2.txt</model>
+	</tank>
+	<tank>
+		<name>Towed Artillery HighDef</name>
+		<catagory>High Def</catagory>
+		<model type="MilkShape">towedartillery2/towedartillery2.txt</model>
+	</tank>
+	<tank>
 		<name>Helder</name>
 		<catagory>Avitars</catagory>
 		<model type="MilkShape">helder/helder.txt</model>
