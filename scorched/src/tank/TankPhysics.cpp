@@ -81,12 +81,13 @@ void TankPhysics::setTankPosition(Vector &pos)
 Vector &TankPhysics::getTankGunPosition()
 {
 	const float gunLength = 1.0f;
+	const float degToRad = 180.0f * 3.14f;
 	static Vector tankGunPosition;
-	tankGunPosition[0] = gunLength * sinf(-turretRotXY_ / 180.0f * 3.14f) * 
-		sinf((90.0f -turretRotYZ_) / 180.0f * 3.14f);
-	tankGunPosition[1] = gunLength * cosf(-turretRotXY_ / 180.0f * 3.14f) * 
-		sinf((90.0f -turretRotYZ_) / 180.0f * 3.14f);
-	tankGunPosition[2] = gunLength * cosf((90.0f -turretRotYZ_) / 180.0f * 3.14f);
+	tankGunPosition[0] = gunLength * sinf(-turretRotXY_ / degToRad) * 
+		sinf((90.0f -turretRotYZ_) / degToRad);
+	tankGunPosition[1] = gunLength * cosf(-turretRotXY_ / degToRad) * 
+		sinf((90.0f -turretRotYZ_) / degToRad);
+	tankGunPosition[2] = gunLength * cosf((90.0f -turretRotYZ_) / degToRad);
 	tankGunPosition += getTankTurretPosition();
 
 	return tankGunPosition;

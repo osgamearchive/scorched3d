@@ -22,6 +22,8 @@
 #include <tankgraph/MissileMesh.h>
 #include <3dsparse/ModelsFile.h>
 #include <GLEXT/GLLenseFlare.h>
+#include <landscape/Landscape.h>
+#include <landscape/GlobalHMap.h>
 #include <common/Defines.h> // For porting
 
 MissileMesh::MissileMesh(ModelsFile &missile, bool useTextures, float detail) 
@@ -35,23 +37,31 @@ MissileMesh::~MissileMesh()
 	missileArrays_.destroyGroup();
 }
 
-void MissileMesh::createArrays(ModelsFile &aseTank, bool useTextures, float detail)
+void MissileMesh::createArrays(ModelsFile &aseMissile, bool useTextures, float detail)
 {
 	// Check we have a valid tank model
-	if (aseTank.getModels().empty())
+	if (aseMissile.getModels().empty())
 	{
 		dialogMessage("MissileMesh", 
 					  "ERROR: Failed to find any objects in missile mesh");
 		exit(1);
 	}
 
-	aseTank.centre();
-	float dist = (aseTank.getMax() - aseTank.getMin()).Magnitude();
-	if (dist > 1.0f) aseTank.scale(1.0f/dist);
+	// Make sure model is not too large
+	aseMissile.centre();
+
+	// Make sure the missile is not too large
+	const float maxSize = 2.0f;
+	float size = (aseMissile.getMax() - aseMissile.getMin()).Magnitude();
+	if (size > maxSize)
+	{
+		const float sfactor = 2.2f / size;
+		aseMissile.scale(sfactor);
+	}
 
 	std::list<Model *>::iterator itor;
-	for (itor = aseTank.getModels().begin();
-		itor != aseTank.getModels().end();
+	for (itor = aseMissile.getModels().begin();
+		itor != aseMissile.getModels().end();
 		itor++)
 	{
 		const char *name = (*itor)->getName();
@@ -73,24 +83,54 @@ void MissileMesh::createArrays(ModelsFile &aseTank, bool useTextures, float deta
 
 void MissileMesh::draw(Vector &position, Vector &direction)
 {
-	GLState *texState = 0;
-	if (useTextures_) texState = new GLState(GLState::TEXTURE_ON);
+	// Draw the missile shadow
+	float aboveGround =
+		position[2] - GlobalHMap::instance()->getHMap().
+		getHeight((int) position[0], (int) position[1]);
+	Landscape::instance()->getShadowMap().
+		addCircle(position[0], position[1], aboveGround / 10.0f);
 
+	unsigned state = useTextures_?GLState::TEXTURE_ON:GLState::TEXTURE_OFF;
+	GLState currentState(state);
+
+	// Firgure out the opengl roation matrix from the direction
+	// of the fired missile
+	Vector dir = direction.Normalize();
+	const float radToDeg = 180.0f / 3.14f;
+	float angXYRad = 3.14f - atan2f(dir[0], dir[1]);
+	float angYZRad = acosf(dir[2]);
+	float angXYDeg = angXYRad * radToDeg;
+	float angYZDeg = angYZRad * radToDeg;
+
+	// Apply the matrix and render the missile
 	glPushMatrix();
 		glTranslatef(position[0], position[1], position[2]);
-		//glRotatef(angle, 0.0f, 0.0f, 1.0f);
+		glRotatef(angXYDeg, 0.0f, 0.0f, 1.0f);
+		glRotatef(angYZDeg, 1.0f, 0.0f, 0.0f);
 		missileArrays_.draw();
 	glPopMatrix();
 
-	delete texState;
-
+	// Draw any lense flares associated with the missile
 	std::list<Vector>::iterator flareItor;
 	for (flareItor =  flarePos_.begin();
 		 flareItor != flarePos_.end();
 		 flareItor++)
 	{
 		Vector &fpos = (*flareItor);
-		Vector newPos = position + fpos;
-		GLLenseFlare::instance()->draw(newPos, true);
+
+        float newX = fpos[0];
+		float newY = (fpos[1] * cosf(angYZRad)) - (fpos[2] * sinf(angYZRad));
+		float newZ = (fpos[1] * sinf(angYZRad)) + (fpos[2] * cosf(angYZRad)); 
+
+		float newX2 = (newX * cosf(angXYRad)) - (newY * sinf(angXYRad));
+		float newY2 = (newX * sinf(angXYRad)) + (newY * cosf(angXYRad)); 
+		float newZ2 = newZ;
+
+		Vector newPos;
+		newPos[0] = position[0] + newX2;
+		newPos[1] = position[1] + newY2;
+		newPos[2] = position[2] + newZ2;
+
+		GLLenseFlare::instance()->draw(newPos, dir, 3);
 	}
 }

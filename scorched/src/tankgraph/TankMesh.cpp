@@ -49,6 +49,15 @@ int TankMesh::getNoTris()
 
 void TankMesh::createArrays(ModelsFile &aseTank, bool useTextures, float detail)
 {
+	// Make sure the tank is not too large
+	const float maxSize = 3.0f;
+	float size = (aseTank.getMax() - aseTank.getMin()).Magnitude();
+	if (size > maxSize)
+	{
+		const float sfactor = 2.2f / size;
+		aseTank.scale(sfactor);
+	}
+
 	std::list<Model*> otherModels;
 	std::list<Model*> turretModels;
 	std::list<Model*> gunModels;

@@ -20,7 +20,7 @@
 
 
 #include <actions/ShotProjectile.h>
-#include <sprites/FlareActionRenderer.h>
+#include <sprites/MissileActionRenderer.h>
 #include <common/OptionsParam.h>
 #include <tank/TankContainer.h>
 
@@ -48,7 +48,7 @@ void ShotProjectile::init()
 {
 	if (!OptionsParam::instance()->getOnServer()) 
 	{
-		setActionRender(new FlareActionRenderer(flareType_));
+		setActionRender(new MissileActionRenderer(flareType_));
 	}
 
 	setPhysics(startPosition_, velocity_);

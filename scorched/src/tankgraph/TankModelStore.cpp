@@ -19,12 +19,10 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <tankgraph/TankModelStore.h>
-#include <tankgraph/TankModelASE.h>
-#include <tankgraph/TankModelMS.h>
+#include <tankgraph/TankModel.h>
 #include <common/Defines.h>
 #include <common/OptionsDisplay.h>
 #include <XML/XMLFile.h>
-#include <wx/utils.h>
 
 TankModelStore *TankModelStore::instance_ = 0;
 
@@ -104,85 +102,20 @@ bool TankModelStore::loadTankMeshes()
 			return false;
 		}
 
-		XMLNode *typeNode = modelNode->getNamedParameter("type");
-		if (!typeNode)
+		// Parse the modelId which tells us which files and
+		// 3d type the model actuall is
+		// The model files are not parsed until later
+		ModelID modelId;
+		if (!modelId.initFromNode(modelNode))
 		{
 			dialogMessage("Scorched Models",
-						  "Failed to find type node");
-			return false;
-		}
-
-		// Create the correct tank model depending on the model type
-		TankModel *model = 0;
-		if (strcmp(typeNode->getContent(), "ase") == 0)
-		{
-			// 3DS Studio ASCII Files
-			XMLNode *meshNode = modelNode->getNamedChild("mesh");
-			XMLNode *skinNode = modelNode->getNamedChild("skin");
-			if (!meshNode || !skinNode)
-			{
-				dialogMessage("Scorched Models",
-							"Failed to find mesh or skin node for tank \"%s\"",
-							modelName);
-				return false;
-			}
-
-			const char *skinNameContent = skinNode->getContent();
-			static char skinName[1024];
-			sprintf(skinName, PKGDIR "data/tanks/%s", skinNameContent);
-
-			const char *meshNameContent = meshNode->getContent();
-			static char meshName[1024];
-			sprintf(meshName, PKGDIR "data/tanks/%s", meshNameContent);
-
-			if (!::wxFileExists(skinName))
-			{
-				dialogMessage("Scorched Models",
-							"Skin file \"%s\" does not exist for tank \"%s\"",
-							skinName, modelName);
-				return false;
-			}
-			if (!::wxFileExists(meshName))
-			{
-				dialogMessage("Scorched Models",
-							"Mesh file \"%s\"does not exist  for tank \"%s\"",
-							meshName, modelName);
-				return false;
-			}
-
-			// Create the new model
-			model = new TankModelASE(
-				id,
-				meshName,
-				skinName);
-		}
-		else if (strcmp(typeNode->getContent(), "MilkShape") == 0)
-		{
-			const char *meshNameContent = modelNode->getContent();
-			static char meshName[1024];
-			sprintf(meshName, PKGDIR "data/tanks/%s", meshNameContent);
-
-			if (!::wxFileExists(meshName))
-			{
-				dialogMessage("Scorched Models",
-							"Mesh file \"%s\"does not exist  for tank \"%s\"",
-							meshName, modelName);
-				return false;
-			}
-
-			// Create the new model
-			model = new TankModelMS(
-				id,
-				meshName);
-		}
-		else
-		{
-			dialogMessage("Scorched Models",
-						"Unknown mesh type \"%s\" for tank \"%s\"",
-						typeNode->getContent(),
+						"Failed to load mesh for tank \"%s\"",
 						modelName);
 			return false;
 		}
+
+		// Create the tank model
+		TankModel *model = new TankModel(id, modelId);
 
 		// Read all of the tank display catagories
 		std::list<XMLNode *>::iterator catItor;

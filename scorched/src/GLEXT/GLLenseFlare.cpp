@@ -18,21 +18,12 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// GLLenseFlare.cpp: implementation of the GLLenseFlare class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <math.h>
 #include <GLEXT/GLState.h>
 #include <client/MainCamera.h>
 #include <GLEXT/GLLuminance.h>
 #include <GLEXT/GLLenseFlare.h>
 #include <GLEXT/GLCameraFrustum.h>
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 GLLenseFlare *GLLenseFlare::instance_ = 0;
 
@@ -210,4 +201,74 @@ void GLLenseFlare::draw(Vector &flarePos,  bool fullFlare, int colorNo)
 		glDepthMask(GL_TRUE);
 		delete afterThreeState;
 	}
+}
+
+void GLLenseFlare::draw(Vector &flarePos,  Vector &flareDir, int colorNo)
+{
+	if (!GLCameraFrustum::instance()->sphereInFrustum(flarePos, 5))
+	{
+		return;
+	}
+
+	Vector &cameraPos = MainCamera::instance()->getCamera().getCurrentPos();
+	Vector &cameraAt = MainCamera::instance()->getCamera().getLookAt();
+
+	Vector flare_dir = flareDir;// .Normalize(); // Should already be normalized
+	Vector view_dir = (flarePos - cameraPos).Normalize();
+
+	float dotP = (float) flare_dir.dotP(view_dir);
+	if (dotP <= 0.2f) return;
+
+	Vector centre = cameraPos + view_dir * 20.0f;
+	Vector axis = (cameraAt - flarePos).Normalize();
+
+	Vector dx = axis.Normalize();
+	Vector dy = (dx * view_dir).Normalize();
+	dx = -(dy * view_dir).Normalize();
+
+	dx *= 8.0f * (dotP - 0.2f);
+	dy *= 8.0f * (dotP - 0.2f);
+
+	glDepthMask(GL_FALSE);
+	GLState currentState(GLState::BLEND_ON | GLState::TEXTURE_ON);
+	glBlendFunc(GL_ONE, GL_ONE);
+
+	for (int i=0; i<3; i++) 
+	{
+		switch(colorNo)
+		{
+			case 0: glColor3fv(flare_[i].color1); break;
+			case 1: glColor3fv(flare_[i].color2); break;
+			case 2: glColor3fv(flare_[i].color3); break;
+			case 3: glColor3fv(flare_[i].color4); break;
+		}
+	
+		shines_[shineTic_].draw();
+		shineTic_ = (shineTic_ + 1) % 10;
+
+		Vector position = flarePos + (axis * flare_[i].loc);
+		Vector sx = dx * flare_[i].scale;
+		Vector sy = dy * flare_[i].scale;
+
+		glBegin(GL_QUADS);
+			static Vector tmp;
+			tmp = position + sx + sy;
+			glTexCoord2f(0.0, 0.0);
+			glVertex3fv(tmp);
+
+			tmp = (position - sx) + sy;
+			glTexCoord2f(1.0, 0.0);
+			glVertex3fv(tmp);
+
+			tmp = (position - sx) - sy;
+			glTexCoord2f(1.0, 1.0);
+			glVertex3fv(tmp);
+
+			tmp = (position + sx) - sy;
+			glTexCoord2f(0.0, 1.0);
+			glVertex3fv(tmp);
+
+		glEnd();
+	}
+	glDepthMask(GL_TRUE);
 }

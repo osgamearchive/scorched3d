@@ -620,6 +620,12 @@
 				RelativePath="..\tankgraph\GLWTankViewer.h">
 			</File>
 			<File
+				RelativePath="..\tankgraph\MissileMesh.cpp">
+			</File>
+			<File
+				RelativePath="..\tankgraph\MissileMesh.h">
+			</File>
+			<File
 				RelativePath="..\tankgraph\TankMenus.cpp">
 			</File>
 			<File
@@ -632,28 +638,10 @@
 				RelativePath="..\tankgraph\TankMesh.h">
 			</File>
 			<File
-				RelativePath="..\tankgraph\MissileMesh.cpp">
-			</File>
-			<File
-				RelativePath="..\tankgraph\MissileMesh.h">
-			</File>
-			<File
 				RelativePath="..\tankgraph\TankModel.cpp">
 			</File>
 			<File
 				RelativePath="..\tankgraph\TankModel.h">
-			</File>
-			<File
-				RelativePath="..\tankgraph\TankModelASE.cpp">
-			</File>
-			<File
-				RelativePath="..\tankgraph\TankModelASE.h">
-			</File>
-			<File
-				RelativePath="..\tankgraph\TankModelMS.cpp">
-			</File>
-			<File
-				RelativePath="..\tankgraph\TankModelMS.h">
 			</File>
 			<File
 				RelativePath="..\tankgraph\TankModelRenderer.cpp">
@@ -917,6 +905,12 @@
 			</File>
 			<File
 				RelativePath="..\3dsparse\Model.h">
+			</File>
+			<File
+				RelativePath="..\3dsparse\ModelID.cpp">
+			</File>
+			<File
+				RelativePath="..\3dsparse\ModelID.h">
 			</File>
 			<File
 				RelativePath="..\3dsparse\ModelsFile.cpp">
@@ -2128,6 +2122,12 @@
 			</File>
 			<File
 				RelativePath="..\sprites\FlareActionRenderer.h">
+			</File>
+			<File
+				RelativePath="..\sprites\MissileActionRenderer.cpp">
+			</File>
+			<File
+				RelativePath="..\sprites\MissileActionRenderer.h">
 			</File>
 			<File
 				RelativePath="..\sprites\NapalmRenderer.cpp">

@@ -19,9 +19,12 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <tankgraph/TankModel.h>
+#include <common/OptionsDisplay.h>
+#include <3dsparse/ModelsFile.h>
 
-TankModel::TankModel(TankModelId &id) :
-	id_(id)
+TankModel::TankModel(TankModelId &id, ModelID &modelId) :
+	init_(false),
+	id_(id), modelId_(modelId)
 {
 	catagories_.push_back("All");
 }
@@ -30,10 +33,42 @@ TankModel::~TankModel()
 {
 }
 
-
 TankModelId &TankModel::getId() 
 { 
 	return id_; 
+}
+
+void TankModel::draw(bool drawS, float angle, 
+	Vector &position, float fireOffSet, 
+	float rotXY, float rotXZ)
+{
+	if (!init_)
+	{
+		init_ = true;
+
+		ModelsFile *newFile = modelId_.getNewFile();
+		if (!newFile) return;
+
+		// Get the model detail
+		float detail = 
+			float(OptionsDisplay::instance()->getMaxModelTriPercentage()) / 100.0f;
+
+		// Create tank mesh
+		tankMesh_ = new TankMesh(
+			*newFile, !OptionsDisplay::instance()->getNoSkins(), detail);
+		delete newFile;
+	}
+
+	if (tankMesh_)
+	{
+		tankMesh_->draw(drawS, angle, position, fireOffSet, rotXY, rotXZ);
+	}
+}
+
+int TankModel::getNoTris()
+{ 
+	if (!tankMesh_) return 0;
+	return tankMesh_->getNoTris(); 
 }
 
 bool TankModel::lessThan(TankModel *other)

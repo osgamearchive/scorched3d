@@ -47,6 +47,8 @@ public:
 
 	REGISTER_ACTION_HEADER(ShotProjectile);
 
+	Weapon *getWeapon() { return weapon_; }
+
 	static Vector &getLookAtPosition() { return lookatPosition_; }
 	static unsigned int &getLookAtCount() { return lookatCount_; }
 

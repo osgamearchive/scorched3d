@@ -22,6 +22,7 @@
 #define AFX_WEAPON_H__65439E20_84A6_406A_8FD0_045A3E7555D3__INCLUDED_
 
 #include <weapons/Accessory.h>
+#include <3dsparse/ModelID.h>
 #include <coms/NetBuffer.h>
 #include <common/Defines.h>
 #include <common/Vector.h>
@@ -44,6 +45,7 @@ public:
 	const char *getExplosionTexture();
 	const char *getFiredSound();
 	const char *getExplosionSound();
+	ModelID &getModelID();
 
 	static bool write(NetBuffer &buffer, Weapon *weapon);
 	static Weapon *read(NetBufferReader &reader);
@@ -53,6 +55,7 @@ protected:
 	std::string explosionTexture_;
 	std::string firedSound_;
 	std::string explosionSound_;
+	ModelID modelId_;
 
 };
 

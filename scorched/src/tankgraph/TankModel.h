@@ -18,11 +18,12 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #if !defined(__INCLUDE_TankModelh_INCLUDE__)
 #define __INCLUDE_TankModelh_INCLUDE__
 
 #include <tank/TankModelId.h>
+#include <3dsparse/ModelID.h>
+#include <tankgraph/TankMesh.h>
 #include <common/Vector.h>
 #include <list>
 #include <string>
@@ -30,12 +31,12 @@
 class TankModel
 {
 public:
-	TankModel(TankModelId &id);
+	TankModel(TankModelId &id, ModelID &modelId);
 	virtual ~TankModel();
 
 	virtual void draw(bool drawS, float angle, Vector &position, 
-		float fireOffSet, float rotXY, float rotXZ) = 0;
-	virtual int getNoTris() = 0;
+		float fireOffSet, float rotXY, float rotXZ);
+	virtual int getNoTris();
 
 	virtual bool lessThan(TankModel *other);
 
@@ -45,7 +46,10 @@ public:
 	std::list<std::string> &getCatagories() { return catagories_; }
 
 protected:
+	bool init_;
 	TankModelId id_;
+	ModelID modelId_;
+	TankMesh *tankMesh_;
 	std::list<std::string> catagories_;
 
 };

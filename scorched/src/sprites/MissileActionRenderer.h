@@ -18,35 +18,31 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+#if !defined(__INCLUDE_MissileActionRendererh_INCLUDE__)
+#define __INCLUDE_MissileActionRendererh_INCLUDE__
 
-#if !defined(__INCLUDE_TankModelASEh_INCLUDE__)
-#define __INCLUDE_TankModelASEh_INCLUDE__
-
-#include <tankgraph/TankMesh.h>
-#include <tankgraph/TankModel.h>
+#include <engine/Action.h>
+#include <tankgraph/MissileMesh.h>
+#include <landscape/Smoke.h>
 #include <string>
+#include <map>
 
-class TankModelASE : public TankModel
+class MissileActionRenderer : public ActionRenderer
 {
 public:
-	TankModelASE(TankModelId &id,
-		const char *meshName, 
-		const char *skinName);
-	virtual ~TankModelASE();
+	MissileActionRenderer(int flareType);
+	virtual ~MissileActionRenderer();
 
-	void draw(bool drawS, float angle, Vector &position, 
-		float fireOffSet, float rotXY, float rotXZ);
-
-	int getNoTris();
+	virtual void simulate(Action *action, float timepassed, bool &remove);
+	virtual void draw(Action *action);
 
 protected:
-	std::string meshName_;
-	std::string skinName_;
+	int flareType_;
+	SmokeCounter counter_;
+	MissileMesh *mesh_;
 
-	bool init_;
-	TankMesh *tankMesh_;
+	static std::map<std::string, MissileMesh *> loadedMeshes_;
 
 };
-
 
 #endif
