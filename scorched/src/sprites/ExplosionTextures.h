@@ -39,6 +39,7 @@ public:
 	GLTexture talkTexture;
 	GLTexture lightningTexture;
 	GLTexture rainTexture;
+	GLTexture snowTexture;
 
 	GLBitmap &getScorchBitmap(const char *name);
 

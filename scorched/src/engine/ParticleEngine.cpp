@@ -33,7 +33,7 @@ ParticleEngine::ParticleEngine(GLCamera *camera,
 	camera_(camera),
 	particlesOnScreen_(0), particles_(0), 
 	freeParticles_(0), usedParticles_(0),
-	totalTime_(0.0f)
+	totalTime_(0.0f), allowSorting_(true)
 {
 	setMaxParticles(maxParticles);
 }
@@ -185,7 +185,8 @@ void ParticleEngine::normalizedSimulate(float time)
 		}
 	}
 
-	if (!OptionsDisplay::instance()->getNoDepthSorting() &&
+	if (allowSorting_ &&
+		!OptionsDisplay::instance()->getNoDepthSorting() &&
 		particlesOnScreen_ > 0)
 	{
 		// sort by distance

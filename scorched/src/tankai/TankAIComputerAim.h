@@ -29,11 +29,18 @@ public:
 	TankAIComputerAim();
 	virtual ~TankAIComputerAim();
 
+	enum AimResult
+	{
+		AimFailed = 0,
+		AimOk,
+		AimBurried
+	};
+
 	void setTank(Tank *tank);
 	bool parseConfig(XMLNode *node);
 	void newGame();
 	void ourShotLanded(Weapon *weapon, Vector &position);
-	bool aimAtTank(Tank *tank);
+	AimResult aimAtTank(Tank *tank);
 
 protected:
 	struct MadeShot
@@ -50,8 +57,8 @@ protected:
 	std::string aimType_;
 	bool checkNearCollision_;
 
-	bool randomAim();
-	bool refinedAim(Tank *tank, bool refine);
+	AimResult randomAim();
+	AimResult refinedAim(Tank *tank, bool refine);
 	bool refineLastShot(Tank *tank, float &angleXYDegs, 
 		float &angleYZDegs, float &power);
 };

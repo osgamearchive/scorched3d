@@ -85,4 +85,12 @@ public:
 	virtual void simulateParticle(Particle &particle, float time);
 };
 
+class ParticleRendererSnow : public ParticleRenderer
+{
+public:
+	static ParticleRendererSnow *getInstance();
+	virtual void renderParticle(Particle &particle);
+	virtual void simulateParticle(Particle &particle, float time);
+};
+
 #endif // __INCLUDE_ParticleRendererh_INCLUDE__

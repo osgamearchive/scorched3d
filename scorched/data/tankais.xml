@@ -10,13 +10,14 @@ use batteries.</description>
 		<nodefenses>false</nodefenses>
 		<availableforrandom>true</availableforrandom>
 		<checknearcollision>true</checknearcollision>
-		<weapon><name>Parachute</name><level>10</level></weapon>
-		<weapon><name>Baby Nuke</name><level>20</level></weapon>	
-		<weapon><name>MIRV</name><level>20</level></weapon>
-		<weapon><name>Battery</name><level>20</level></weapon>
-		<weapon><name>Shield</name><level>20</level></weapon>
-		<weapon><name>Auto Defense</name><level>30</level></weapon>
-		<weapon><name>Nuke</name><level>30</level></weapon>
+		<weapon><name>Parachute</name><level>10</level><type>defense</type></weapon>
+		<weapon><name>Baby Nuke</name><level>20</level><type>explosion</type></weapon>	
+		<weapon><name>MIRV</name><level>20</level><type>explosion</type></weapon>
+		<weapon><name>Battery</name><level>20</level><type>defense</type></weapon>
+		<weapon><name>Shield</name><level>20</level><type>defense</type></weapon>
+		<weapon><name>Auto Defense</name><level>30</level><type>defense</type></weapon>
+		<weapon><name>Nuke</name><level>30</level><type>explosion</type></weapon>
+		<weapon><name>Riot Blast</name><level>20</level><type>dig</type></weapon>
 	</ai>
 
 	<ai>
@@ -31,12 +32,12 @@ shooting at them.</description>
 		<nodefenses>false</nodefenses>
 		<availableforrandom>true</availableforrandom>
 		<checknearcollision>true</checknearcollision>
-		<weapon><name>Parachute</name><level>10</level></weapon>
-		<weapon><name>Baby Nuke</name><level>20</level></weapon>	
-		<weapon><name>MIRV</name><level>20</level></weapon>
-		<weapon><name>Shield</name><level>20</level></weapon>
-		<weapon><name>Auto Defense</name><level>30</level></weapon>
-		<weapon><name>Nuke</name><level>30</level></weapon>
+		<weapon><name>Parachute</name><level>10</level><type>defense</type></weapon>
+		<weapon><name>Baby Nuke</name><level>20</level><type>explosion</type></weapon>	
+		<weapon><name>MIRV</name><level>20</level><type>explosion</type></weapon>
+		<weapon><name>Shield</name><level>20</level><type>defense</type></weapon>
+		<weapon><name>Auto Defense</name><level>30</level><type>defense</type></weapon>
+		<weapon><name>Nuke</name><level>30</level><type>explosion</type></weapon>
 	</ai>
 
 	<ai>
@@ -51,10 +52,10 @@ enough.</description>
 		<nodefenses>false</nodefenses>
 		<availableforrandom>true</availableforrandom>
 		<checknearcollision>true</checknearcollision>
-		<weapon><name>Parachute</name><level>10</level></weapon>
-		<weapon><name>Baby Nuke</name><level>20</level></weapon>	
-		<weapon><name>MIRV</name><level>20</level></weapon>
-		<weapon><name>Nuke</name><level>30</level></weapon>
+		<weapon><name>Parachute</name><level>10</level><type>defense</type></weapon>
+		<weapon><name>Baby Nuke</name><level>20</level><type>explosion</type></weapon>	
+		<weapon><name>MIRV</name><level>20</level><type>explosion</type></weapon>
+		<weapon><name>Nuke</name><level>30</level><type>explosion</type></weapon>
 	</ai>
 	
 	<ai>
@@ -71,10 +72,10 @@ time to kill them.</description>
 		<nodefenses>false</nodefenses>
 		<availableforrandom>true</availableforrandom>
 		<checknearcollision>false</checknearcollision>
-		<weapon><name>Missile</name><level>20</level></weapon>
-		<weapon><name>Baby Nuke</name><level>20</level></weapon>	
-		<weapon><name>MIRV</name><level>20</level></weapon>
-		<weapon><name>Nuke</name><level>30</level></weapon>		
+		<weapon><name>Missile</name><level>20</level><type>explosion</type></weapon>
+		<weapon><name>Baby Nuke</name><level>20</level><type>explosion</type></weapon>	
+		<weapon><name>MIRV</name><level>20</level><type>explosion</type></weapon>
+		<weapon><name>Nuke</name><level>30</level><type>explosion</type></weapon>		
 	</ai>
 	
 	<ai>
@@ -89,8 +90,8 @@ not refining subsiquent shots.</description>
 		<nodefenses>false</nodefenses>
 		<availableforrandom>true</availableforrandom>
 		<checknearcollision>false</checknearcollision>
-		<weapon><name>Missile</name><level>20</level></weapon>
-		<weapon><name>Baby Nuke</name><level>20</level></weapon>		
+		<weapon><name>Missile</name><level>20</level><type>explosion</type></weapon>
+		<weapon><name>Baby Nuke</name><level>20</level><type>explosion</type></weapon>		
 	</ai>
 	
 	<ai>
@@ -106,7 +107,7 @@ only.</description>
 		<nodefenses>false</nodefenses>
 		<checknearcollision>false</checknearcollision>
 		<availableforrandom>true</availableforrandom>
-		<weapon><name>Missile</name><level>2</level></weapon>
+		<weapon><name>Missile</name><level>2</level><type>explosion</type></weapon>
 	</ai>
 	
 	<ai>

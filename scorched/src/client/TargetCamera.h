@@ -77,7 +77,7 @@ public:
 protected:
 	GLCamera mainCam_;
 	CamType cameraPos_;
-	ParticleEmitter precipitationEmitter_;
+	ParticleEmitter rainEmitter_, snowEmitter_;
 	ParticleEngine particleEngine_;
 	float totalTime_;
 

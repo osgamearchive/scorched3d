@@ -429,7 +429,8 @@ void ParticleEmitter::emitMushroom(
 void ParticleEmitter::emitPrecipitation(
 	Vector &position,
 	ParticleEngine &engine,
-	int number)
+	int number,
+	bool rain)
 {
 	for (int i=0; i<number; i++)
 	{
@@ -438,11 +439,19 @@ void ParticleEmitter::emitPrecipitation(
 
 		createDefaultParticle(*particle);
 
-		particle->texture_ = &ExplosionTextures::instance()->rainTexture;
+		if (rain)
+		{
+			particle->texture_ = &ExplosionTextures::instance()->rainTexture;
+			particle->renderer_ = ParticleRendererRain::getInstance();
+		}
+		else
+		{
+			particle->texture_ = &ExplosionTextures::instance()->snowTexture;
+			particle->renderer_ = ParticleRendererSnow::getInstance();
+		}
 		particle->position_[0] = position[0] + RAND * 400.0f - 200.0f;
 		particle->position_[1] = position[1] + RAND * 400.0f - 200.0f;
 		particle->position_[2] = 180.0f;
-		particle->renderer_ = ParticleRendererRain::getInstance();
 		particle->shadow_ = false;
 	}
 }

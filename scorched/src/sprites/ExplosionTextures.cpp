@@ -91,6 +91,12 @@ bool ExplosionTextures::createTextures(ProgressCounter *counter)
 	rainTexture.create(bitmap5, GL_RGBA);
 	DIALOG_ASSERT(rainTexture.textureValid());
 
+	std::string file6 = getDataFile("data/textures/snow.bmp");
+	std::string file6m = getDataFile("data/textures/snowm.bmp");
+	GLBitmap bitmap6(file6.c_str(), file6m.c_str(), false);
+	snowTexture.create(bitmap6, GL_RGBA);
+	DIALOG_ASSERT(snowTexture.textureValid());
+
 	XMLFile file;
 	if (!file.readFile(getDataFile("data/textureset.xml")))
 	{

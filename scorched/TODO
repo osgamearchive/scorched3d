@@ -43,7 +43,7 @@ Changed: Spread and hurts weapon primative options are now variable
 Changed: LeapFrog weapon primative bounce now variable
 Changed: Message of the day now defined in server.xml file
 
-Added: Rain
+Added: Rain and Snow
 Added: Player model remembered for multiplayer games
 Added: WeaponReference primative (now uses parents name and armslevel)
 Added: Lightning and meteor storms
@@ -65,7 +65,7 @@ Added: Better roller model
 Added: Smoothed roller movement, added roller rotation
 Added: Ability to use a different kick time when loading a level to when waiting after a shot
 Added: Vertex Array support for models and surrounds/sky
-Added: AIs can check to see if they will suicide
+Added: AIs can check to see if they will suicide and can dig
 Added: New cyborg AI that uses batteries
 Added: A way to allow tank spawn positions to be configured
 Added: Proper mag shield
@@ -116,8 +116,6 @@ Shot cam does not get LOD correctly
 
 -- Things I am currently looking at
 Fix crashing when people win (Graphics card drivers??)
-Snow
-AIs know how to dig
 Ambient sounds
 Boids?
 Fix large menus?

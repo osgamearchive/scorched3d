@@ -120,7 +120,7 @@ public:
 	virtual bool readXML(XMLNode *node);
 };
 
-class LandscapeTexRain : public LandscapeTexType
+class LandscapeTexPrecipitation : public LandscapeTexType
 {
 public:
 	int particles;

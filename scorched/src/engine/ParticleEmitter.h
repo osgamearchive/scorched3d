@@ -124,7 +124,8 @@ public:
 	void emitPrecipitation(
 		Vector &position,
 		ParticleEngine &engine,
-		int number);
+		int number,
+		bool rain);
 };
 
 #endif // __INCLUDE_ParticleEmitterh_INCLUDE__

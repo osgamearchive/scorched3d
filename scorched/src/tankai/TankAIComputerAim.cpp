@@ -73,9 +73,9 @@ void TankAIComputerAim::setTank(Tank *tank)
 	currentTank_ = tank;
 }
 
-bool TankAIComputerAim::aimAtTank(Tank *tank)
+TankAIComputerAim::AimResult TankAIComputerAim::aimAtTank(Tank *tank)
 {
-	if (!tank) return false;
+	if (!tank) return AimFailed;
 
 	if (0 == strcmp(aimType_.c_str(), "refined"))
 	{
@@ -87,11 +87,11 @@ bool TankAIComputerAim::aimAtTank(Tank *tank)
 	}
 	else if (0 == strcmp(aimType_.c_str(), "random"))
 	{
-		randomAim();
+		return randomAim();
 	}
 	else DIALOG_ASSERT(0);
 
-	return true;
+	return AimFailed;
 }
 
 bool TankAIComputerAim::refineLastShot(Tank *tank, 
@@ -241,7 +241,7 @@ bool TankAIComputerAim::refineLastShot(Tank *tank,
 	return false;
 }
 
-bool TankAIComputerAim::refinedAim(Tank *targetTank, bool refine)
+TankAIComputerAim::AimResult TankAIComputerAim::refinedAim(Tank *targetTank, bool refine)
 {
 	// Find the angle + power etc.. to use
 	float angleXYDegs = 0.0f; 
@@ -277,7 +277,7 @@ bool TankAIComputerAim::refinedAim(Tank *targetTank, bool refine)
 		{
 			angleYZDegs += 10.0f;
 			power *= 1.1f; if (power > 1000.0f) power = 1000.0f;
-			if (angleYZDegs > 90.0f) return false;
+			if (angleYZDegs > 90.0f) return AimBurried;
 		}
 	}
 
@@ -301,10 +301,10 @@ bool TankAIComputerAim::refinedAim(Tank *targetTank, bool refine)
 		lastShot_ = &madeShots_[targetTank->getPlayerId()].back();
 	}
 
-	return true;
+	return AimOk;
 }
 
-bool TankAIComputerAim::randomAim()
+TankAIComputerAim::AimResult TankAIComputerAim::randomAim()
 {
 	// Find the angle + power etc.. to use
 	float angleXYDegs = RAND * 360.0f;
@@ -317,5 +317,5 @@ bool TankAIComputerAim::randomAim()
 	currentTank_->getPhysics().rotateGunYZ(angleYZDegs, false);
 	currentTank_->getPhysics().changePower(power, false);
 
-	return true;
+	return AimOk;
 }

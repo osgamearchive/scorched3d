@@ -90,8 +90,9 @@ TargetCamera::TargetCamera() :
 	mainCam_.setMaxHeightFunc(maxHeightFunc, this);
 	DIALOG_ASSERT(noCameraDescriptions == noCameraNames);
 
-	precipitationEmitter_.setAttributes(
-		3.0f, 3.0f, // Life
+	particleEngine_.setAllowSorting(false);
+	rainEmitter_.setAttributes(
+		4.0f, 4.0f, // Life
 		0.5f, 0.5f, // Mass
 		0.01f, 0.02f, // Friction
 		Vector(0.0f, 0.0f, 0.0f), Vector(0.0f, 0.0f, 0.0f), // Velocity
@@ -102,6 +103,20 @@ TargetCamera::TargetCamera() :
 		0.2f, 0.2f, 0.2f, 0.2f, // Start Size
 		0.2f, 0.2f, 0.2f, 0.2f, // EndSize
 		Vector(0.0f, 0.0f, -1600.0f), // Gravity
+		false,
+		true);
+	snowEmitter_.setAttributes(
+		16.0f, 16.0f, // Life
+		0.5f, 0.5f, // Mass
+		0.01f, 0.02f, // Friction
+		Vector(-10.0f, -10.0f, 0.0f), Vector(10.0f, 10.0f, 0.0f), // Velocity
+		Vector(1.0f, 1.0f, 1.0f), 0.6f, // StartColor1
+		Vector(1.0f, 1.0f, 1.0f), 0.6f, // StartColor2
+		Vector(1.0f, 1.0f, 1.0f), 0.6f, // EndColor1
+		Vector(1.0f, 1.0f, 1.0f), 0.6f, // EndColor2
+		0.2f, 0.2f, 0.2f, 0.2f, // Start Size
+		0.2f, 0.2f, 0.2f, 0.2f, // EndSize
+		Vector(0.0f, 0.0f, -600.0f), // Gravity
 		false,
 		true);
 }
@@ -203,7 +218,7 @@ float TargetCamera::maxHeightFunc(int x, int y, void *data)
 
 void TargetCamera::simulate(float frameTime, bool playing)
 {
-	totalTime_ += frameTime;
+	totalTime_ += frameTime * ParticleEngine::getFast();
 	while (totalTime_ > 0.05f)
 	{
 		if (!OptionsDisplay::instance()->getNoPrecipitation())
@@ -212,12 +227,25 @@ void TargetCamera::simulate(float frameTime, bool playing)
 				ScorchedClient::instance()->getLandscapeMaps().
 				getLandDfn().getTex()->precipitationtype.c_str()))
 			{
-				LandscapeTexRain *rain = (LandscapeTexRain *)
+				LandscapeTexPrecipitation *rain = (LandscapeTexPrecipitation *)
 					ScorchedClient::instance()->getLandscapeMaps().
 					getLandDfn().getTex()->precipitation;
-				precipitationEmitter_.emitPrecipitation(mainCam_.getCurrentPos(),
+				rainEmitter_.emitPrecipitation(mainCam_.getCurrentPos(),
 					particleEngine_,
-					rain->particles);
+					rain->particles,
+					true);
+			}
+			else if (0 == strcmp("snow", 
+				ScorchedClient::instance()->getLandscapeMaps().
+				getLandDfn().getTex()->precipitationtype.c_str()))
+			{
+				LandscapeTexPrecipitation *snow = (LandscapeTexPrecipitation *)
+					ScorchedClient::instance()->getLandscapeMaps().
+					getLandDfn().getTex()->precipitation;
+				snowEmitter_.emitPrecipitation(mainCam_.getCurrentPos(),
+					particleEngine_,
+					snow->particles,
+					false);
 			}
 		}
 		totalTime_ -= 0.1f;

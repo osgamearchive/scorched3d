@@ -35,6 +35,7 @@ public:
 	unsigned int getMaxParticles();
 	unsigned int getParticlesOnScreen();
 	GLCamera *getCamera() { return camera_; }
+	void setAllowSorting(bool sorting) { allowSorting_ = sorting; }
 
 	void killAll();
 
@@ -56,6 +57,7 @@ protected:
 	float totalTime_;
 	unsigned int maxParticles_;
 	unsigned int particlesOnScreen_;
+	bool allowSorting_;
 
 	static float speed_;
 

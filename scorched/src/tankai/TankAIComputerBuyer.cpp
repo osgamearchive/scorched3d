@@ -58,14 +58,15 @@ bool TankAIComputerBuyer::parseConfig(AccessoryStore &store, XMLNode *node)
 	XMLNode *weaponNode = 0;
 	while (node->getNamedChild("weapon", weaponNode, false))
 	{
-		XMLNode *wname, *wlevel;
+		std::string wtype, wname;
+		int wlevel;
 		if (!weaponNode->getNamedChild("name", wname)) return false;
 		if (!weaponNode->getNamedChild("level", wlevel)) return false;
+		if (!weaponNode->getNamedChild("type", wtype)) return false;
 
-		if (!addAccessory(
-			store,
-			wname->getContent(), 
-			atoi(wlevel->getContent()))) return false;
+		if (!addAccessory(store, wname.c_str(),  wlevel)) return false;
+		buyTypes_.insert(
+			std::pair<std::string, std::string>(wtype, wname));
 	}
 
 	return true;

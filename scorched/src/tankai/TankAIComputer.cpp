@@ -222,10 +222,35 @@ void TankAIComputer::playMove(const unsigned state, float frameTime,
 	Tank *target = tankTarget_.findTankToShootAt();
 	if (target)
 	{
-		if (tankAim_.aimAtTank(target))
+		TankAIComputerAim::AimResult 
+			aimResult = tankAim_.aimAtTank(target);
+
+		if (aimResult == TankAIComputerAim::AimOk)
 		{
 			fireShot();
 			return;
+		}
+		else if (aimResult == TankAIComputerAim::AimBurried)
+		{
+			std::multimap<std::string, std::string>::iterator findItor = 
+				tankBuyer_.getTypes().find("dig");
+			if (findItor != tankBuyer_.getTypes().end())
+			{
+				Weapon *current = (Weapon *) ScorchedServer::instance()->
+					getAccessoryStore().findByPrimaryAccessoryName(
+						(*findItor).second.c_str());
+				if (current)
+				{
+					if (currentTank_->getAccessories().getWeapons().
+						getWeaponCount(current) != 0)
+					{
+						currentTank_->getAccessories().getWeapons().
+							setWeapon(current);
+						fireShot();
+						return;
+					}
+				}
+			}
 		}
 	}
 

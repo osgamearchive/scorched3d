@@ -18,12 +18,12 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #if !defined(__INCLUDE_TankAIComputerBuyerh_INCLUDE__)
 #define __INCLUDE_TankAIComputerBuyerh_INCLUDE__
 
 #include <weapons/AccessoryStore.h>
 #include <list>
+#include <map>
 
 class Tank;
 class TankAIComputerBuyer
@@ -38,6 +38,7 @@ public:
 	void buyAccessories(int maxNoBought);
 	void clearAccessories();
 
+	std::multimap<std::string, std::string> &getTypes() { return buyTypes_; }
 	void setTank(Tank *tank) { currentTank_ = tank; }
 
 protected:
@@ -52,6 +53,7 @@ protected:
 		int level;
 	};
 	std::list<Entry> buyEntries_;
+	std::multimap<std::string, std::string> buyTypes_;
 
 	Tank *currentTank_;
 	void buyAccessory();

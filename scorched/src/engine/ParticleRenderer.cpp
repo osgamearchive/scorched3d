@@ -247,3 +247,32 @@ void ParticleRendererRain::simulateParticle(Particle &particle, float time)
 		particle.position_[1] = 100.0f + distanceY + 100.0f;
 	}*/
 }
+
+ParticleRendererSnow *ParticleRendererSnow::getInstance()
+{
+	static ParticleRendererSnow instance_;
+	return &instance_;
+}
+
+void ParticleRendererSnow::renderParticle(Particle &particle)
+{
+	ParticleRendererQuads::getInstance()->renderParticle(particle);
+}
+
+void ParticleRendererSnow::simulateParticle(Particle &particle, float time)
+{
+	if (particle.position_[2] < 0.0f)
+	{
+		particle.life_ = 0.0f;
+		return;
+	}
+
+	// Alpha
+	const float MaxDist = 200.0f * 200.0f;
+	float alpha = 0.0f;
+	if (particle.distance_ < MaxDist)
+	{
+		alpha = 0.7f * (1.0f - (particle.distance_ / MaxDist));
+	}
+	particle.alpha_ = alpha;
+}

@@ -192,7 +192,9 @@
 				</object>
 			</placement>
 		</placements>
-		<precipitation type="none"></precipitation>
+		<precipitation type="snow">
+			<particles>60</particles>
+		</precipitation>
 		<events></events>
 	</tex>
 	<tex>
