@@ -708,7 +708,7 @@
 		</texture>
 		<placements>
 			<placement type="mask">
-				<numobjects>250</numobjects>
+				<numobjects>200</numobjects>
 				<mask>data/landscapes/masks/anywhere.bmp</mask>
 				<minheight>4</minheight>
 				<maxheight>70</maxheight>
@@ -723,7 +723,7 @@
 				</object>
 			</placement>
 			<placement type="mask">
-				<numobjects>75</numobjects>
+				<numobjects>50</numobjects>
 				<mask>data/landscapes/masks/anywhere.bmp</mask>
 				<minheight>-2</minheight>
 				<maxheight>6.8</maxheight>
@@ -738,7 +738,7 @@
 				</object>
 			</placement>
 			<placement type="mask">
-				<numobjects>75</numobjects>
+				<numobjects>50</numobjects>
 				<mask>data/landscapes/masks/anywhere.bmp</mask>
 				<minheight>-2</minheight>
 				<maxheight>8</maxheight>
@@ -753,7 +753,7 @@
 				</object>
 			</placement>
 			<placement type="mask">
-				<numobjects>75</numobjects>
+				<numobjects>50</numobjects>
 				<mask>data/landscapes/masks/anywhere.bmp</mask>
 				<minheight>-2</minheight>
 				<maxheight>7.5</maxheight>
@@ -768,7 +768,7 @@
 				</object>
 			</placement>
 			<placement type="mask">
-				<numobjects>75</numobjects>
+				<numobjects>50</numobjects>
 				<mask>data/landscapes/masks/anywhere.bmp</mask>
 				<minheight>-2</minheight>
 				<maxheight>9</maxheight>
@@ -783,7 +783,7 @@
 				</object>
 			</placement>
 			<placement type="mask">
-				<numobjects>75</numobjects>
+				<numobjects>50</numobjects>
 				<mask>data/landscapes/masks/anywhere.bmp</mask>
 				<minheight>0</minheight>
 				<maxheight>15</maxheight>

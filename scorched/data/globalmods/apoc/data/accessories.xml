@@ -429,16 +429,16 @@ trace of the shot path.</description>
 		<name>Fatman</name>
 		<description>An extra large nuke</description>
 		<icon>nuke.bmp</icon>
-		<cost>16000</cost>
+		<cost>8000</cost>
 		<bundlesize>1</bundlesize>
-		<armslevel>3</armslevel>
+		<armslevel>2</armslevel>
 		<projectilescale>2</projectilescale>
 		<projectilemodel type="MilkShape">fatman/fatman.txt</projectilemodel>
 		<firedsound>shoot/xlarge.wav</firedsound>
 		<deathanimationweight>4</deathanimationweight>
 		<collisionaction type="WeaponExplosion">
 			<name>Fatman</name>
-			<armslevel>3</armslevel>
+			<armslevel>2</armslevel>
 			<hurtamount>1.1</hurtamount>
 			<deform>down</deform>
 			<size>24</size>
@@ -1665,6 +1665,7 @@ around attack nearby opponents twice</description>
 		<armslevel>2</armslevel>
 		<nocreateflame/>
 		<firedsound>shoot/flare.wav</firedsound> 
+		<spinspeed>0</spinspeed>
 		<projectilescale>3</projectilescale>
 		<projectilemodel type="MilkShape">redhornet/redhornet.txt</projectilemodel> 
 		<collisionaction type="WeaponMulti"> 
@@ -1688,6 +1689,7 @@ around attack nearby opponents twice</description>
 							<name>Hornet Nest</name> 
 							<armslevel>2</armslevel> 
 							<nocreateflame/>
+							<spinspeed>0</spinspeed>
 							<projectilescale>2.0</projectilescale>
 							<projectilemodel type="MilkShape">redhornet/redhornet.txt</projectilemodel> 
 							<collisionaction type="WeaponMulti"> 
@@ -1704,6 +1706,7 @@ around attack nearby opponents twice</description>
 										<name>Hornet Nest</name> 
 										<armslevel>2</armslevel> 
 										<nocreateflame/>
+										<spinspeed>0</spinspeed>
 										<projectilescale>2.0</projectilescale>
 										<projectilemodel type="MilkShape">redhornet/redhornet.txt</projectilemodel> 
 										<collisionaction type="WeaponExplosion"> 
@@ -1769,6 +1772,7 @@ around attack nearby opponents twice</description>
 							<name>Hornet Nest</name> 
 							<armslevel>2</armslevel> 
 							<nocreateflame/>
+							<spinspeed>0</spinspeed>
 							<projectilescale>2.0</projectilescale>
 							<projectilemodel type="MilkShape">redhornet/redhornet.txt</projectilemodel> 
 							<collisionaction type="WeaponMulti"> 
@@ -1785,6 +1789,7 @@ around attack nearby opponents twice</description>
 										<name>Hornet Nest</name> 
 										<armslevel>2</armslevel> 
 										<nocreateflame/>
+										<spinspeed>0</spinspeed>
 										<projectilescale>2.0</projectilescale>
 										<projectilemodel type="MilkShape">redhornet/redhornet.txt</projectilemodel> 
 										<collisionaction type="WeaponExplosion"> 
@@ -1850,6 +1855,7 @@ around attack nearby opponents twice</description>
 							<name>Hornet Nest</name> 
 							<armslevel>2</armslevel> 
 							<nocreateflame/>
+							<spinspeed>0</spinspeed>
 							<projectilescale>2.0</projectilescale>
 							<projectilemodel type="MilkShape">redhornet/redhornet.txt</projectilemodel> 
 							<collisionaction type="WeaponMulti"> 
@@ -1866,6 +1872,7 @@ around attack nearby opponents twice</description>
 										<name>Hornet Nest</name> 
 										<armslevel>2</armslevel> 
 										<nocreateflame/>
+										<spinspeed>0</spinspeed>
 										<projectilescale>2.0</projectilescale>
 										<projectilemodel type="MilkShape">redhornet/redhornet.txt</projectilemodel> 
 										<collisionaction type="WeaponExplosion"> 
@@ -1951,7 +1958,8 @@ around attack nearby opponents twice</description>
 		<bundlesize>1</bundlesize> 
 		<armslevel>0</armslevel>
 		<nocreateflame/>
-		<firedsound>shoot/flare.wav</firedsound> 
+		<firedsound>shoot/flare.wav</firedsound>
+		<spinspeed>0</spinspeed>
 		<projectilescale>6</projectilescale>
 		<projectilemodel type="MilkShape">redhornet/redhornet.txt</projectilemodel> 
 		<collisionaction type="WeaponMulti"> 
@@ -1978,6 +1986,7 @@ around attack nearby opponents twice</description>
 						<armslevel>0</armslevel>
 						<nocreatesmoke/>
 						<nocreateflame/>
+						<spinspeed>0</spinspeed>
 						<projectilescale>4</projectilescale>
 						<projectilemodel type="MilkShape">redhornet/redhornet.txt</projectilemodel>
 						<collisionaction type="WeaponMulti">
@@ -2004,6 +2013,7 @@ around attack nearby opponents twice</description>
 										<armslevel>0</armslevel>
 										<nocreatesmoke/>
 										<nocreateflame/>
+										<spinspeed>0</spinspeed>
 										<projectilescale>3</projectilescale>
 										<projectilemodel type="MilkShape">redhornet/redhornet.txt</projectilemodel>
 										<collisionaction type="WeaponReference">
@@ -2027,6 +2037,7 @@ around attack nearby opponents twice</description>
 		<cost>40000</cost> 
 		<bundlesize>1</bundlesize> 
 		<armslevel>1</armslevel> 
+		<spinspeed>0</spinspeed>
 		<projectilescale>4</projectilescale>
 		<projectilemodel type="MilkShape">icbm/icbm.txt</projectilemodel> 
 		<firedsound>shoot/launch.wav</firedsound> 
@@ -2043,6 +2054,7 @@ around attack nearby opponents twice</description>
 				<aimedweapon type="WeaponProjectile"> 
 					<name>The Travolta</name> 
 					<armslevel>1</armslevel> 
+					<spinspeed>0</spinspeed>
 					<projectilemodel type="MilkShape">bomb/bomb.txt</projectilemodel> 
 					<collisionaction type="WeaponMulti"> 
 						<name>The Travolta</name> 
@@ -2057,6 +2069,7 @@ around attack nearby opponents twice</description>
 							<aimedweapon type="WeaponProjectile"> 
 								<name>The Travolta</name> 
 								<armslevel>1</armslevel> 
+								<spinspeed>0</spinspeed>
 								<projectilemodel type="MilkShape">bomb/bomb.txt</projectilemodel> 
 								<collisionaction type="WeaponExplosion"> 
 									<name>The Travolta</name> 
@@ -4367,10 +4380,10 @@ cover them.</description>
 	</accessory>
 	<accessory type="WeaponDelay">
 		<name>Wall Of Dirt</name>
-		<description>Raises a small Ring Of Dirt a short 
+		<description>Raises a small wall Of Dirt a short 
 distance from your tank in the direction you aim</description>
 		<icon>dshield.bmp</icon>
-		<cost>5000</cost>
+		<cost>4000</cost>
 		<bundlesize>1</bundlesize>
 		<armslevel>4</armslevel>
 		<delay>0.5</delay>
@@ -4902,8 +4915,8 @@ burning chunks of earth about the area.</description>
 	<accessory type="WeaponMulti">
 		<name>Ring Of Dirt</name>
 		<description>Raises a ring of dirt around your tank</description>
-		<icon>dshield.bmp</icon>
-		<cost>20000</cost>
+		<icon>dring.bmp</icon>
+		<cost>16000</cost>
 		<bundlesize>1</bundlesize>
 		<armslevel>2</armslevel>
 		<firedsound>shoot/large.wav</firedsound>
@@ -5205,7 +5218,7 @@ high into the air.</description>
 		<description>Projectile that explodes on reaching its highest
 point, raining down a shower of various size meteors.
 The meteors explode and scatter flaming earth on impact.</description>
-		<icon>meteor.bmp</icon>
+		<icon>mshower.bmp</icon>
 		<cost>50000</cost>
 		<bundlesize>1</bundlesize>
 		<armslevel>1</armslevel>
