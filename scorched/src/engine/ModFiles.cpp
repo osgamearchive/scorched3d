@@ -23,6 +23,7 @@
 #include <common/Logger.h>
 #include <wx/dir.h>
 #include <wx/utils.h>
+#include <stdio.h>
 
 ModFiles::ModFiles()
 {
@@ -30,6 +31,14 @@ ModFiles::ModFiles()
 
 ModFiles::~ModFiles()
 {
+	std::map<std::string, ModFileEntry *>::iterator itor;
+	for (itor = files_.begin();
+		itor != files_.end();
+		itor++)
+	{
+		delete (*itor).second;
+	}
+	files_.clear();
 }
 
 bool ModFiles::excludeFile(const char *file)
@@ -153,6 +162,25 @@ bool ModFiles::loadModDir(const char *modDir, const char *mod)
 	return true;
 }
 
+bool ModFiles::writeModFiles(const char *mod)
+{
+	const char *modDir = getModFile(mod);
+	if (!::wxDirExists(modDir))
+	{
+		::wxMkdir(modDir);
+	}
+
+	std::map<std::string, ModFileEntry *>::iterator itor;
+	for (itor = files_.begin();
+		itor != files_.end();
+		itor++)
+	{
+		ModFileEntry *entry = (*itor).second;
+		if (!entry->writeModFile(entry->getFileName(), mod)) return false;
+	}
+	return true;
+}
+
 void ModFiles::clearData()
 {
 	 std::map<std::string, ModFileEntry *>::iterator itor;
@@ -163,6 +191,105 @@ void ModFiles::clearData()
 		 ModFileEntry *entry = (*itor).second;
 		 entry->getCompressedBuffer().clear();
 	}
+}
+
+bool ModFiles::exportModFiles(const char *mod, const char *fileName)
+{
+	FILE *out = fopen(fileName, "wb");
+	if (!out) return false;
+
+	// Mod Name
+	NetBuffer tmpBuffer;
+	tmpBuffer.reset();
+	tmpBuffer.addToBuffer(mod);
+	fwrite(tmpBuffer.getBuffer(),
+		sizeof(unsigned char),
+		tmpBuffer.getBufferUsed(), 
+		out);	
+
+	// Mod Files
+	std::map<std::string, ModFileEntry *>::iterator itor;
+	for (itor = files_.begin();
+		itor != files_.end();
+		itor++)
+	{
+		ModFileEntry *entry = (*itor).second;
+	
+		tmpBuffer.reset();
+		tmpBuffer.addToBuffer(entry->getFileName());
+		tmpBuffer.addToBuffer(entry->getUncompressedSize());
+		tmpBuffer.addToBuffer(entry->getCompressedBuffer().getBufferUsed());
+		tmpBuffer.addToBuffer(entry->getCompressedCrc());
+		tmpBuffer.addDataToBuffer(entry->getCompressedBuffer().getBuffer(),
+			entry->getCompressedBuffer().getBufferUsed());
+
+		fwrite(tmpBuffer.getBuffer(),
+			sizeof(unsigned char),
+			tmpBuffer.getBufferUsed(), 
+			out);
+	}
+
+	// End of Mod Files
+	tmpBuffer.reset();
+	tmpBuffer.addToBuffer("*");
+	fwrite(tmpBuffer.getBuffer(),
+		sizeof(unsigned char),
+		tmpBuffer.getBufferUsed(), 
+		out);
+
+	fclose(out);
+	return true;
+}
+
+bool ModFiles::importModFiles(const char **mod, const char *fileName)
+{
+	FILE *in = fopen(fileName, "rb");
+	if (!in) return false;
+
+	// Read Buffer
+	NetBuffer tmpBuffer;
+	unsigned char readBuf[512];
+	while (unsigned int size = fread(readBuf, sizeof(unsigned char), 512, in))
+	{
+		tmpBuffer.addDataToBuffer(readBuf, size);
+	}
+
+	// Mod Name
+	static std::string modName;
+	NetBufferReader tmpReader(tmpBuffer);
+	if (!tmpReader.getFromBuffer(modName)) return false;
+	*mod = modName.c_str();
+
+	for (;;)
+	{
+		// File Name
+		std::string name;
+		if (!tmpReader.getFromBuffer(name)) return false;
+		if (0 == strcmp(name.c_str(), "*")) break;
+
+		// File Header
+		unsigned int unCompressedSize;
+		unsigned int compressedSize;
+		unsigned int compressedCrc;
+		tmpReader.getFromBuffer(unCompressedSize);
+		tmpReader.getFromBuffer(compressedSize);
+		tmpReader.getFromBuffer(compressedCrc);
+
+		// File
+		ModFileEntry *entry = new ModFileEntry;
+		entry->setFileName(name.c_str());
+		entry->setCompressedCrc(compressedCrc);
+		entry->setUncompressedSize(unCompressedSize);
+		entry->getCompressedBuffer().allocate(compressedSize);
+		entry->getCompressedBuffer().setBufferUsed(compressedSize);
+		tmpReader.getDataFromBuffer(
+			entry->getCompressedBuffer().getBuffer(), 
+			compressedSize);
+		files_[name] = entry;
+	}
+
+	fclose(in);
+	return true;
 }
 
 ModDirs::ModDirs()
@@ -224,4 +351,3 @@ bool ModDirs::loadModFile(const char *fileName)
 	
 	return true;
 }
-

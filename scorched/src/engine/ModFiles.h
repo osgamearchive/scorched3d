@@ -31,7 +31,11 @@ public:
 	ModFiles();
 	virtual ~ModFiles();
 
+	bool exportModFiles(const char *mod, const char *fileName);
+	bool importModFiles(const char **mod, const char *fileName);
+
 	bool loadModFiles(const char *mod, bool createDir);
+	bool writeModFiles(const char *mod);
 	void clearData();
 
 	std::map<std::string, ModFileEntry *> &getFiles() { return files_; }
@@ -41,6 +45,10 @@ protected:
 	std::map<std::string, ModFileEntry *> files_;
 
 	bool loadModDir(const char *moddir, const char *mod);
+
+private:
+	ModFiles(const ModFiles&other);
+	ModFiles &operator=(ModFiles &other);
 
 };
 

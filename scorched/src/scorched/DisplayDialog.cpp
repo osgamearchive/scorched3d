@@ -33,6 +33,7 @@
 #include <wx/grid.h>
 #include <wx/listbox.h>
 #include <set>
+#include <stdio.h>
 #include "Display.cpp"
 
 extern char scorched3dAppName[128];
@@ -50,6 +51,8 @@ public:
 	void onLoadSafeButton(wxCommandEvent &event);
 	void onLoadDefaultKeysButton(wxCommandEvent &event);
 	void onKeyButton(wxCommandEvent &event);
+	void onImportMod(wxCommandEvent &event);
+	void onExportMod(wxCommandEvent &event);
 	void onMoreRes(wxCommandEvent &event);
 	void onKey();
 
@@ -73,6 +76,8 @@ BEGIN_EVENT_TABLE(DisplayFrame, wxDialog)
 	EVT_BUTTON(ID_KEYDEFAULTS,  DisplayFrame::onLoadDefaultKeysButton)
     EVT_BUTTON(ID_LOADSAFE,  DisplayFrame::onLoadSafeButton)
     EVT_BUTTON(ID_KEY,  DisplayFrame::onKeyButton)
+	EVT_BUTTON(ID_IMPORT,  DisplayFrame::onImportMod)
+	EVT_BUTTON(ID_EXPORT,  DisplayFrame::onExportMod)
 	EVT_CHECKBOX(ID_MORERES, DisplayFrame::onMoreRes) 
 END_EVENT_TABLE()
 
@@ -563,6 +568,57 @@ bool DisplayFrame::TransferDataFromWindow()
 	Keyboard::instance()->saveKeyFile();
 
 	return true;
+}
+
+void DisplayFrame::onExportMod(wxCommandEvent &event)
+{
+	int selectionNo = modbox->GetSelection();
+	if (selectionNo < 0) return;
+	wxString selection = modbox->GetString(selectionNo);
+	if (!selection.c_str()[0]) return;
+
+	wxString file = ::wxFileSelector("Please choose the export file to save",
+									 getSettingsFile(""), // default path
+									 formatString("%s.s3m", selection.c_str()), // default filename
+									 "", // default extension
+									 "*.s3m",
+									 wxSAVE);
+	if (file.empty()) return;
+	ModFiles files;
+	if (!files.loadModFiles(selection.c_str(), false))
+	{
+		dialogMessage("Import Mod", "Failed to load mod");
+		return;
+	}
+	if (!files.exportModFiles(selection.c_str(), file.c_str()))
+	{
+		dialogMessage("Import Mod", "Failed to write mod");
+		return;
+	}
+}
+
+void DisplayFrame::onImportMod(wxCommandEvent &event)
+{
+	wxString file = ::wxFileSelector("Please choose the import file to open",
+									 getSettingsFile(""), // default path
+									 "", // default filename
+									 "", // default extension
+									 "*.s3m",
+									 wxOPEN | wxFILE_MUST_EXIST);
+	if (file.empty()) return;
+	ModFiles files;
+	const char *mod = 0;
+	if (!files.importModFiles(&mod, file.c_str()))
+	{
+		dialogMessage("Export Mod", "Failed to read mod");
+		return;
+	}
+	if (!files.writeModFiles(mod))
+	{
+		dialogMessage("Export Mod", "Failed to save mod");
+		return;
+	}
+	updateModList();
 }
 
 void showDisplayDialog()

@@ -85,6 +85,7 @@ public:
 	unsigned getReadSize() { return readSize_; }
 	char *getBuffer() { return buffer_; }
 	void setReadSize(unsigned size) { readSize_ = size; }
+	void setBufferSize(unsigned size) { bufferSize_ = size; }
 
 	bool getFromBuffer(Vector &result);
 	bool getFromBuffer(int &result);

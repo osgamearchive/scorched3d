@@ -52,7 +52,8 @@ void ServerTimedMessage::simulate()
 	{
 		lastTime_ = currentTime;
 		ServerCommon::sendString(0, message_.c_str());
-		Logger::log(0, message_.c_str());
+		time_t theTime = time(0);
+		Logger::log(0, message_.c_str(), ctime(&theTime));
 	}
 }
 
