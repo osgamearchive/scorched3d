@@ -73,8 +73,6 @@ scorched3d_SOURCES = \
 	../GLEXT/GLVertexSet.h \
 	../GLEXT/GLVertexSetGroup.cpp \
 	../GLEXT/GLVertexSetGroup.h \
-	../GLEXT/GLVertexTexArray.cpp \
-	../GLEXT/GLVertexTexArray.h \
 	../GLEXT/GLViewPort.cpp \
 	../GLEXT/GLViewPort.h \
 	../GLW/GLWBitmap.cpp \
