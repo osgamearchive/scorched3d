@@ -18,7 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #if !defined(__INCLUDE_OptionsDisplayh_INCLUDE__)
 #define __INCLUDE_OptionsDisplayh_INCLUDE__
 
@@ -47,9 +46,6 @@ public:
 
 	int getNumberExplosionSubParts() { return explosionSubParts_.getValue(); }
 	void setNumberExplosionSubParts(int value) { explosionSubParts_.setValue(value); }
-
-	int getWaterHeight() { return waterHeight_.getValue(); }
-	void setWaterHeight(int value) { waterHeight_.setValue(value); }
 
 	int getSunXYAng() { return sunXYAng_.getValue(); }
 	void setSunXYAng(int value) { sunXYAng_.setValue(value); }
@@ -156,6 +152,9 @@ public:
 	bool getNoDepthSorting() { return noDepthSorting_.getValue(); }
 	void setNoDepthSorting(bool value) { noDepthSorting_.setValue(value); }
 
+	bool getNoWaves() { return noWaves_.getValue(); }
+	void setNoWaves(bool value) { noWaves_.setValue(value); }
+
 	bool getShowContextHelp() { return showContextHelp_.getValue(); }
 	void setShowContextHelp(bool value) { showContextHelp_.setValue(value); }
 
@@ -205,7 +204,6 @@ protected:
 	OptionEntryBoundedInt explosionSubParts_;
 	OptionEntryBoundedInt maxModelTriPercentage_;
 	OptionEntryBoundedInt explosionParticleMult_;
-	OptionEntryInt waterHeight_;
 	OptionEntryInt sunYZAng_;
 	OptionEntryInt sunXYAng_;
 	OptionEntryInt colorComponentSize_;
@@ -243,6 +241,7 @@ protected:
 	OptionEntryBool noSkyMovement_;
 	OptionEntryBool frameTimer_;
 	OptionEntryBool noWaterMovement_;
+	OptionEntryBool noWaves_;
 	OptionEntryBool showContextHelp_;
 	OptionEntryBoundedInt texSize_;
 	OptionEntryBoundedInt tankDetail_;

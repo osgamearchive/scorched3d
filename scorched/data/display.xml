@@ -29,12 +29,6 @@
     <value>20</value>
     <defaultvalue>20</defaultvalue>
   </option>
-  <!-- The height of the sea water level -->
-  <option>
-    <name>WaterHeight</name>
-    <value>5</value>
-    <defaultvalue>5</defaultvalue>
-  </option>
   <!-- The YZ Rotation of the sun (degrees) -->
   <option>
     <name>SunYZAng</name>

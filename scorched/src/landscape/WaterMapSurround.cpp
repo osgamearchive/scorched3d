@@ -80,10 +80,10 @@ void WaterMapSurround::drawPoint(Vector &start, Vector &diff,
 	}*/
 	//pos[2] -= height_ * (numberYf / maxYf);
 
-	if (GLStateExtension::getTextureUnits() > 2)
+	if (GLStateExtension::glMultiTextCoord2fARB()) 
 	{
 		GLStateExtension::glMultiTextCoord2fARB()
-			(GL_TEXTURE2_ARB, pos[0] / 32.0f, pos[1] / 32.0f); 
+			(GL_TEXTURE1_ARB, pos[0] / 32.0f, pos[1] / 32.0f); 
 	}
 
 	glVertex3fv(pos);

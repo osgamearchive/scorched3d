@@ -18,16 +18,7 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// WaterMapModifier.cpp: implementation of the WaterMapModifier class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <landscape/WaterMapModifier.h>
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 void WaterMapModifier::addWaterVisibility(HeightMap &hMap,
 										WaterMap &wMap,
@@ -48,7 +39,7 @@ void WaterMapModifier::addWaterVisibility(HeightMap &hMap,
 				posX < hMap.getWidth() && posY < hMap.getWidth())
 			{
 				float height = hMap.getHeight(posX, posY);
-				if (height > wMap.getHeight() + 2.0f)
+				if (height > wMap.getHeight() + 3.0f)
 				{
 					currentEntry->dontDraw = true;
 				}

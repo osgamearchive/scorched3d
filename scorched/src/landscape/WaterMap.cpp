@@ -18,11 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// WaterMap.cpp: implementation of the WaterMap class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <memory.h>
 #include <math.h>
 #include <common/OptionsDisplay.h>
@@ -39,18 +34,12 @@
 #define CALC_FORCE_ENTRY_SQ(x) f = (currentEntry->height - x.height) \
 	* SQRT_OF_TWO_INV; currentEntry->force -= f; x.force += f;
 
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
-
 WaterMap::WaterMap(int width, int squareSize, int texSize) : 
 	width_(width), squareSize_(squareSize),
 	heights_(0), widthMult_(6),
-	height_((float) OptionsDisplay::instance()->getWaterHeight()),
+	height_(5.0f),
 	drawNormals_(false), drawVisiblePoints_(false),
-	surround_(width, (int) widthMult_, 
-	(float) OptionsDisplay::instance()->getWaterHeight()),
-	bitmap2_(texSize, texSize, true)
+	surround_(width, (int) widthMult_, 5.0f)
 {
 	// Create water entry structs
 	heights_ = new WaterEntry[width_ * width_];
@@ -133,8 +122,6 @@ WaterMap::WaterEntry &WaterMap::getNearestWaterPoint(Vector &point)
 
 void WaterMap::draw()
 {	
-	if (!texture2_.textureValid()) texture2_.create(bitmap2_, GL_RGBA, false);
-
 	glColor3f(1.0f, 1.0f, 1.0f);
 	if (drawNormals_)
 	{
@@ -154,19 +141,10 @@ void WaterMap::draw()
 
 		if (GLStateExtension::glActiveTextureARB())
 		{
-			if (GLStateExtension::getTextureUnits() > 2 &&
-				OptionsDisplay::instance()->getDetailTexture())
-			{
-				GLStateExtension::glActiveTextureARB()(GL_TEXTURE2_ARB);
-				glEnable(GL_TEXTURE_2D);
-				Landscape::instance()->getWaterDetail().draw(true);
-			}
-
 			GLStateExtension::glActiveTextureARB()(GL_TEXTURE1_ARB);
 			glEnable(GL_TEXTURE_2D);
 
-			texture2_.draw(true);
-			glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
+			Landscape::instance()->getWaterDetail().draw(true);
 
 			GLStateExtension::glActiveTextureARB()(GL_TEXTURE0_ARB);
 		}
@@ -182,26 +160,7 @@ void WaterMap::draw()
 
 			// Draw the water
 			drawWater();
-			if (GLStateExtension::glActiveTextureARB())
-			{
-				GLStateExtension::glActiveTextureARB()(GL_TEXTURE1_ARB);
-				glDisable(GL_TEXTURE_2D);
-
-				GLStateExtension::glActiveTextureARB()(GL_TEXTURE0_ARB);
-			}
-
 			surround_.draw();
-
-			if (GLStateExtension::glActiveTextureARB())
-			{
-				if (GLStateExtension::getTextureUnits() > 2 &&
-					OptionsDisplay::instance()->getDetailTexture())
-				{
-					GLStateExtension::glActiveTextureARB()(GL_TEXTURE2_ARB);
-					glDisable(GL_TEXTURE_2D);
-				}
-				GLStateExtension::glActiveTextureARB()(GL_TEXTURE0_ARB);
-			}
 		}
 		else
 		{
@@ -214,26 +173,15 @@ void WaterMap::draw()
 
 			// Draw the water
 			drawWater();
-			if (GLStateExtension::glActiveTextureARB())
-			{
-				GLStateExtension::glActiveTextureARB()(GL_TEXTURE1_ARB);
-				glDisable(GL_TEXTURE_2D);
-
-				GLStateExtension::glActiveTextureARB()(GL_TEXTURE0_ARB);
-			}
-
 			surround_.draw();
+		}
 
-			if (GLStateExtension::glActiveTextureARB())
-			{
-				if (GLStateExtension::getTextureUnits() > 2 &&
-					OptionsDisplay::instance()->getDetailTexture())
-				{
-					GLStateExtension::glActiveTextureARB()(GL_TEXTURE2_ARB);
-					glDisable(GL_TEXTURE_2D);
-				}
-				GLStateExtension::glActiveTextureARB()(GL_TEXTURE0_ARB);
-			}
+		if (GLStateExtension::glActiveTextureARB())
+		{
+			GLStateExtension::glActiveTextureARB()(GL_TEXTURE1_ARB);
+			glDisable(GL_TEXTURE_2D);
+
+			GLStateExtension::glActiveTextureARB()(GL_TEXTURE0_ARB);
 		}
 
 	glPopAttrib();
@@ -361,12 +309,7 @@ void WaterMap::drawWater()
 					if (GLStateExtension::glMultiTextCoord2fARB()) 
 					{
 						GLStateExtension::glMultiTextCoord2fARB()
-							(GL_TEXTURE1_ARB, otherEntry->texX, otherEntry->texY); 
-						if (GLStateExtension::getTextureUnits() > 2)
-						{
-							GLStateExtension::glMultiTextCoord2fARB()
-								(GL_TEXTURE2_ARB, otherEntry->texX * 16.0f, otherEntry->texY * 16.0f); 
-						}
+							(GL_TEXTURE1_ARB, otherEntry->texX * 16.0f, otherEntry->texY * 16.0f); 
 					}
 					// Draw pt
 					glVertex3f(pointX, pointY + widthMult_, otherHeight);
@@ -387,12 +330,7 @@ void WaterMap::drawWater()
 					if (GLStateExtension::glMultiTextCoord2fARB()) 
 					{
 						GLStateExtension::glMultiTextCoord2fARB()
-							(GL_TEXTURE1_ARB, currentEntry->texX, currentEntry->texY); 
-						if (GLStateExtension::getTextureUnits() > 2)
-						{
-							GLStateExtension::glMultiTextCoord2fARB()
-								(GL_TEXTURE2_ARB, currentEntry->texX * 16.0f, currentEntry->texY * 16.0f); 
-						}
+							(GL_TEXTURE1_ARB, currentEntry->texX * 16.0f, currentEntry->texY * 16.0f); 
 					}
 					// Draw pt
 					glVertex3f(pointX, pointY, height);
@@ -518,14 +456,6 @@ void WaterMap::calculateRipples()
 		currentEntry->force = 0.0f;
 
 		currentEntry++;
-	}
-}
-
-void WaterMap::refreshTexture()
-{
-	if (texture2_.textureValid())
-	{
-		texture2_.replace(bitmap2_, GL_RGBA, false);
 	}
 }
 

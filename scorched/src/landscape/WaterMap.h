@@ -18,11 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// WaterMap.h: interface for the WaterMap class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_WATERMAP_H__19A193C1_7DDC_42A8_8D15_7837DCC1DC46__INCLUDED_)
 #define AFX_WATERMAP_H__19A193C1_7DDC_42A8_8D15_7837DCC1DC46__INCLUDED_
 
@@ -63,8 +58,6 @@ public:
 	float getHeight() { return height_; }
 	bool &getDrawNormals() { return drawNormals_; }
 	bool &getDrawVisiblePoints() { return drawVisiblePoints_; }
-	GLBitmap &getBitmap() { return bitmap2_; }
-	void refreshTexture();
 	void reset();
 
 protected:
@@ -73,8 +66,6 @@ protected:
 	int noVisiblesWidth_;
 	float height_;
 	float widthMult_;
-	GLTexture texture2_;
-	GLBitmap bitmap2_;
 	WaterMapSurround surround_;
 	struct VisibleEntry
 	{

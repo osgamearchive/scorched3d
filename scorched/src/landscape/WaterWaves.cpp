@@ -21,10 +21,15 @@
 #include <landscape/WaterWaves.h>
 #include <landscape/Landscape.h>
 #include <client/ScorchedClient.h>
+#include <common/OptionsDisplay.h>
+#include <GLEXT/GLStateExtension.h>
 
-WaterWaves::WaterWaves()
+WaterWaves::WaterWaves() : totalTime_(0.0f)
 {
-
+	GLBitmap bitmap(PKGDIR "data/textures/waves.bmp", 
+		PKGDIR "data/textures/waves.bmp", false);
+	DIALOG_ASSERT(bitmap.getBits());
+	texture_.create(bitmap, GL_RGBA);
 }
 
 WaterWaves::~WaterWaves()
@@ -35,6 +40,8 @@ void WaterWaves::generateWaves(ProgressCounter *counter)
 {
 	memset(wavePoints_, 0, 256 * 256 * sizeof(bool));
 	paths_.clear();
+
+	if (OptionsDisplay::instance()->getNoWaves()) return;
 
 	// Find all of the points that are equal to a certain height (the water height)
 	findPoints(counter);
@@ -87,7 +94,7 @@ bool WaterWaves::findNextPath(ProgressCounter *counter)
 			if (wavePoints_[x + y * 256]) 
 			{
 				findPath(points, x, y);
-				constructLines(points);
+				constructLines(points, 4);
 				return true;			
 			}
 		}
@@ -111,8 +118,10 @@ void WaterWaves::findPath(std::vector<Vector> &points, int x, int y)
 	else if (wavePoints_[(x+1) + (y-1) * 256]) findPath(points, x+1, y-1);
 }
 
-void WaterWaves::constructLines(std::vector<Vector> &points)
+void WaterWaves::constructLines(std::vector<Vector> &points, int dist)
 {
+	Vector ptA;
+	Vector ptB;
 	const float waterHeight = 5.0f;
 	Vector point = points.front();
 	for (int i=5; i<(int)points.size(); i+=5)
@@ -120,49 +129,120 @@ void WaterWaves::constructLines(std::vector<Vector> &points)
 		Vector &current = points[i];
 		int diffX = int(current[0]) - int(point[0]);
 		int diffY = int(current[1]) - int(point[1]);
-		if (diffX * diffX + diffY * diffY > 5)
+		if (diffX * diffX + diffY * diffY > dist)
 		{
 			WaterWaveEntry entry;
 			Vector grad = point-current;
 			Vector perp = grad.get2DPerp().Normalize2D();
-			perp *= 3.0f;
-			if (ScorchedClient::instance()->getLandscapeMaps().getHMap().getHeight(
-				int(current[0] + perp[0]), int(current[1] + perp[1])) > waterHeight)
-			{
-				perp *= -1.0f;
-			}
-			entry.ptA = point - perp;
-			entry.ptB = current - perp;
-			entry.ptC = current + perp;
-			entry.ptD = point + perp;
 
-			paths_.push_back(entry);
+			int newx = int(current[0] + perp[0] * 3.0f);
+			int newy = int(current[1] + perp[1] * 3.0f);
+			if (newx <= 0 || newy <= 0 ||
+				newx >= 256 || newy >= 256)
+			{
+			}
+			else
+			{
+				if (ScorchedClient::instance()->getLandscapeMaps().getHMap().getHeight(
+					newx, newy) > waterHeight)
+				{
+					perp =- perp;
+					ptA = current - perp;
+					ptB = point - perp;
+					entry.perp = perp;
+					entry.ptC = point + perp * 3.0f;
+					entry.ptD = current + perp * 3.0f;
+				}
+				else
+				{
+					ptA = point - perp;
+					ptB = current - perp;
+					entry.perp = perp;
+					entry.ptC = current + perp * 3.0f;
+					entry.ptD = point + perp * 3.0f;
+				}
+
+				entry.ptAEntry = &Landscape::instance()->getWater().getNearestWaterPoint(ptA);
+				entry.ptBEntry = &Landscape::instance()->getWater().getNearestWaterPoint(ptB);
+				entry.ptCEntry = &Landscape::instance()->getWater().getNearestWaterPoint(entry.ptC);
+				entry.ptDEntry = &Landscape::instance()->getWater().getNearestWaterPoint(entry.ptD);
+
+				paths_.push_back(entry);
+			}
 
 			point = current;
 		}
 	}
 }
 
+void WaterWaves::simulate(float frameTime)
+{
+	totalTime_ += frameTime / 2.0f;
+	if (totalTime_ > 6.0f) totalTime_ = 0.0f;
+}
+
 void WaterWaves::draw()
 {
-	GLState state(GLState::BLEND_OFF | GLState::TEXTURE_OFF); 
-	glColor3f(1.0f, 0.0f, 0.0f);
-	glBegin(GL_LINES);
-	std::vector<WaterWaveEntry>::iterator itor =
-		paths_.begin();
-	std::vector<WaterWaveEntry>::iterator enditor = 
-		paths_.end();
-	for (; itor != enditor; itor++)
+	if (OptionsDisplay::instance()->getNoWaves()) return;
+
+	GLState state(GLState::BLEND_OFF | GLState::TEXTURE_ON | GLState::BLEND_ON); 
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glDepthMask(GL_FALSE);
+	texture_.draw(true);
+
+	drawBoxes(totalTime_);
+	drawBoxes(totalTime_ + 2.0f);
+	drawBoxes(totalTime_ + 4.0f);
+
+	glDepthMask(GL_TRUE);
+}
+
+void WaterWaves::drawBoxes(float totalTime)
+{
+	float newTime = totalTime;
+	if (newTime > 6.0f) newTime -= 6.0f;
+
+	// First set of boxes
+	float alpha = 1.0f;
+	float frontlen = newTime + 0.2f;
+	float endlen = newTime / 2.0f;
+	if (newTime < 1.0f)
 	{
-		WaterWaveEntry &p = *itor;
-		glVertex3fv(p.ptA);
-		glVertex3fv(p.ptB);
-		glVertex3fv(p.ptB);
-		glVertex3fv(p.ptC);
-		glVertex3fv(p.ptC);
-		glVertex3fv(p.ptD);
-		glVertex3fv(p.ptD);
-		glVertex3fv(p.ptA);
+		alpha = newTime;
 	}
+	if (newTime > 4.0f)
+	{
+		frontlen = 4.2f;
+		endlen = 2.0f;
+		alpha = (2.0f - (newTime - 4.0f)) / 2.0f;
+	}
+	glColor4f(1.0f, 1.0f, 1.0f, alpha);
+	glBegin(GL_QUADS);
+		Vector ptA, ptB, ptC, ptD;
+		std::vector<WaterWaveEntry>::iterator itor = paths_.begin();
+		std::vector<WaterWaveEntry>::iterator enditor = paths_.end();
+		for (; itor != enditor; itor++)
+		{
+			WaterWaveEntry &p = *itor;
+				
+			ptA = p.ptD - p.perp * frontlen;
+			ptA[2] = p.ptAEntry->height + 5.0f;
+			ptB = p.ptC - p.perp * frontlen;
+			ptB[2] = p.ptBEntry->height + 5.0f;
+
+			ptC = p.ptC - p.perp * endlen;
+			ptC[2] = p.ptCEntry->height + 5.0f;
+			ptD = p.ptD - p.perp * endlen;
+			ptD[2] = p.ptCEntry->height + 5.0f;
+			
+			glTexCoord2f(1.0f, 1.0f);
+			glVertex3fv(ptA);
+			glTexCoord2f(0.0f, 1.0f);
+			glVertex3fv(ptB);
+			glTexCoord2f(0.0f, 0.0f);
+			glVertex3fv(ptC);
+			glTexCoord2f(1.0f, 0.0f);
+			glVertex3fv(ptD);
+		}
 	glEnd();
 }

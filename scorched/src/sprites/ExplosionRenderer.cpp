@@ -179,7 +179,7 @@ void ExplosionRenderer::simulate(Action *action, float frameTime, bool &remove)
 		if (weapon_)
 		{
 			// If there is a weapon play a splash sound when in water
-			if (centrePosition_[2] < OptionsDisplay::instance()->getWaterHeight())
+			if (centrePosition_[2] < 5.0f)
 			{
 				float mult = Landscape::instance()->getWater().getWidthMult();
 				int posX = int((centrePosition_[0] + 64.0f) / mult);

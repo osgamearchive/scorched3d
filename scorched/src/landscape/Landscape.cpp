@@ -89,6 +89,7 @@ void Landscape::simulate(const unsigned state, float frameTime)
 	smoke_.simulate(frameTime);
 	surround_.simulate(frameTime);
 	wall_.simulate(frameTime);
+	wWaves_.simulate(frameTime);
 }
 
 void Landscape::recalculate(int posX, int posY, int dist)
@@ -189,7 +190,7 @@ void Landscape::draw(const unsigned state)
 	hMapSurround_.draw();
 	cloudTexture_.draw();
 	surround_.draw();
-	//wWaves_.draw();
+	wWaves_.draw();
 	if (OptionsDisplay::instance()->getDrawWater())
 	{
 		glColor3fv(ScorchedClient::instance()->getOptionsTransient().getWallColor());
@@ -323,14 +324,6 @@ void Landscape::generate(ProgressCounter *counter)
 	fogColorF[3] = 1.0f;
 	glFogfv(GL_FOG_COLOR, fogColorF);
 
-	// Water waves texture
-	Vector *wavesColor = Resources::vectorResource("color-waves");
-	GLBitmapModifier::addWavesToBitmap(
-		ScorchedClient::instance()->getLandscapeMaps().getHMap(), 
-		wMap_.getBitmap(), wMap_.getHeight() - 1.2f, 0.6f, *wavesColor, 
-		counter);
-	wMap_.refreshTexture();
-
 	// Load the water reflection bitmap
 	// Create water cubemap texture
 	bitmapWater.resize(256, 256);
@@ -349,6 +342,7 @@ void Landscape::generate(ProgressCounter *counter)
 		waterTexture_ = waterNormalMap;
 	}
 
+	// Find the waves around this island
 	wWaves_.generateWaves(counter);
 	
 	// Ensure that all components use new landscape

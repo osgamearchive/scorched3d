@@ -18,14 +18,8 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// WaterMapSurround.h: interface for the WaterMapSurround class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_WATERMAPSURROUND_H__625E6F81_8391_48B7_9477_77E2EDC9C73E__INCLUDED_)
 #define AFX_WATERMAPSURROUND_H__625E6F81_8391_48B7_9477_77E2EDC9C73E__INCLUDED_
-
 
 class WaterMapSurround  
 {

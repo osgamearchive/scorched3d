@@ -23,6 +23,8 @@
 
 #include <common/Vector.h>
 #include <common/ProgressCounter.h>
+#include <landscape/WaterMap.h>
+#include <GLEXT/GLTexture.h>
 #include <vector>
 
 class WaterWaves
@@ -33,23 +35,30 @@ public:
 
 	void generateWaves(ProgressCounter *counter);
 	void draw();
+	void simulate(float frameTime);
 
 protected:
 	struct WaterWaveEntry 
 	{
-		Vector ptA;
-		Vector ptB;
+		Vector perp;
+		WaterMap::WaterEntry *ptAEntry;
+		WaterMap::WaterEntry *ptBEntry;
+		WaterMap::WaterEntry *ptCEntry;
+		WaterMap::WaterEntry *ptDEntry;
 		Vector ptC;
 		Vector ptD;
 	};
 
+	GLTexture texture_;
 	bool wavePoints_[256 * 256];
 	std::vector<WaterWaveEntry> paths_;
+	float totalTime_;
 
 	void findPoints(ProgressCounter *counter);
 	bool findNextPath(ProgressCounter *counter);
 	void findPath(std::vector<Vector> &points, int x, int y);
-	void constructLines(std::vector<Vector> &points);
+	void constructLines(std::vector<Vector> &points, int dist);
+	void drawBoxes(float totalTime);
 
 };
 
