@@ -118,16 +118,17 @@ void GLFontBanner::simulate(float frameTime)
 
 void GLFontBanner::draw()
 {
-	const int lineDepth = 15;
+	const int lineDepth = 18;
 
 	if (usedLines_ > 0)
 	{
-		GLState currentStateBlend(GLState::TEXTURE_OFF | 
+		GLState currentStateBlend(GLState::TEXTURE_ON | 
 			GLState::BLEND_ON | GLState::DEPTH_OFF);
 
 		Vector black(0.0f, 0.0f, 0.0f);
 		const float fontWidth = 12;
-		const float outlineFontWidth = 16;
+		const float outlineFontWidth = 14;
+		const float outlineFontWidth2 = 8;
 
 		float start = y_ + lineDepth * usedLines_;
 		{
@@ -139,28 +140,34 @@ void GLFontBanner::draw()
 
 				float minus = GLWFont::instance()->getLargePtFont()->
 					getWidth(fontWidth, entry.getText()) / 2.0f;
-				float left = minus;
+ 				GLWFont::instance()->getSmallPtFontOutline()->
+ 					drawOutline(black, outlineFontWidth, fontWidth,
+ 						x_ - minus - 1, start - i * lineDepth - 1, 0.0f, 
+ 						textLines_[pos].getText());
+ 				GLWFont::instance()->getSmallPtFontOutline()->
+ 					drawOutline(black, outlineFontWidth2, fontWidth,
+ 						x_ - minus + 3, start - i * lineDepth - 0.0f, 0.0f, 
+ 						textLines_[pos].getText());
+
+				/*float left = minus;
+				GLState currentStateBlend(GLState::TEXTURE_OFF);
 				if (entry.getTexture())
 				{
 					left = minus + fontWidth + 8.0f;
 				}
-
 				glColor4f(0.0f, 0.0f, 0.0f, 0.7f);
 				glBegin(GL_QUADS);
 					glVertex2f(x_ + minus + 5, start - i * lineDepth + lineDepth - 2.0f);
 					glVertex2f(x_ - left - 3, start - i * lineDepth + lineDepth - 2.0f);
 					glVertex2f(x_ - left - 3, start - i * lineDepth - 5.0f);
 					glVertex2f(x_ + minus + 5, start - i * lineDepth - 5.0f);
-				glEnd();
+				glEnd();*/
 
 				if (++pos >= totalLines_) pos = 0;
 			}
 		}
 
 		{
-			GLState currentStateBlend(GLState::TEXTURE_ON | 
-				GLState::BLEND_ON | GLState::DEPTH_OFF);
-
 			int pos = startLine_;
 			int used = usedLines_;
 			for (int i=0; i<used; i++)
@@ -184,11 +191,11 @@ void GLFontBanner::draw()
 							glTexCoord2f(0.0f, 0.0f);
 							glVertex2f(0.0f, 0.0f);
 							glTexCoord2f(1.0f, 0.0f);
-							glVertex2f(outlineFontWidth - 2, 0.0f);
+							glVertex2f(outlineFontWidth, 0.0f);
 							glTexCoord2f(1.0f, 1.0f);
-							glVertex2f(outlineFontWidth - 2, outlineFontWidth - 2);
+							glVertex2f(outlineFontWidth, outlineFontWidth);
 							glTexCoord2f(0.0f, 1.0f);
-							glVertex2f(0.0f, outlineFontWidth - 2);
+							glVertex2f(0.0f, outlineFontWidth);
 						glEnd();
 					glPopMatrix();
 				}
