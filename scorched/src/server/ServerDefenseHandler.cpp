@@ -22,11 +22,11 @@
 #include <server/ServerDefenseHandler.h>
 #include <server/ServerState.h>
 #include <server/ServerShotHolder.h>
+#include <server/ScorchedServer.h>
 #include <tank/TankContainer.h>
 #include <tank/TankAILogic.h>
 #include <coms/ComsDefenseMessage.h>
 #include <coms/ComsMessageSender.h>
-#include <engine/GameState.h>
 #include <weapons/AccessoryStore.h>
 
 ServerDefenseHandler *ServerDefenseHandler::instance_ = 0;
@@ -60,7 +60,7 @@ bool ServerDefenseHandler::processMessage(NetPlayerID &id,
 	if (!message.readMessage(reader)) return false;
 
 	// Check we are in the correct state
-	if (GameState::instance()->getState() != ServerState::ServerStatePlaying)
+	if (ScorchedServer::instance()->getGameState().getState() != ServerState::ServerStatePlaying)
 	{
 		return false;
 	}

@@ -18,7 +18,7 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <engine/GameState.h>
+#include <client/ScorchedClient.h>
 #include <GLEXT/GLState.h>
 #include <GLEXT/GLMenuEntry.h>
 #include <GLW/GLWVisibleWidget.h>
@@ -161,8 +161,8 @@ void GLMenuEntry::drawDepressed(GLFont2d &font, float currentTop, float currentL
 	glGetIntegerv(GL_VIEWPORT, iVPort);
 	int windowHeight = iVPort[3];
 
-	int mouseX = GameState::instance()->getMouseX();
-	int mouseY = windowHeight - GameState::instance()->getMouseY();
+	int mouseX = ScorchedClient::instance()->getGameState().getMouseX();
+	int mouseY = windowHeight - ScorchedClient::instance()->getGameState().getMouseY();
 
 	// Draw the menu items
 	currentTop -= menuItemHeight + 7.0f;

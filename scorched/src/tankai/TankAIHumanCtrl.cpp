@@ -21,6 +21,7 @@
 
 #include <tankai/TankAIHumanCtrl.h>
 #include <tank/TankContainer.h>
+#include <client/ScorchedClient.h>
 #include <client/ClientState.h>
 
 TankAIHumanCtrl * TankAIHumanCtrl::instance_ = 0;
@@ -85,7 +86,7 @@ void TankAIHumanCtrl::keyboardCheck(const unsigned state, float frameTime,
 		else
 		{
 			// Stimulate into the shot state
-			GameState::instance()->stimulate(ClientState::StimShot);
+			ScorchedClient::instance()->getGameState().stimulate(ClientState::StimShot);
 		}
 	}
 }

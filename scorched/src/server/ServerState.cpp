@@ -30,9 +30,9 @@
 #include <server/ServerScoreState.h>
 #include <server/ServerShotState.h>
 
-void ServerState::setupStates()
+void ServerState::setupStates(GameState &gameState)
 {
-	GameState::instance()->clear();
+	gameState.clear();
 
 	ServerTooFewPlayersStimulus *tooFewPlayersStim =
 		new ServerTooFewPlayersStimulus;
@@ -40,62 +40,62 @@ void ServerState::setupStates()
 	// ServerStateWaitingForPlayers (start state)
 	ServerWaitingForPlayersState *serverWaiting = 
 		new ServerWaitingForPlayersState;
-	GameState::instance()->addStateEntry(ServerStateWaitingForPlayers,
+	gameState.addStateEntry(ServerStateWaitingForPlayers,
 		serverWaiting);
-	GameState::instance()->addStateStimulus(ServerStateWaitingForPlayers,
+	gameState.addStateStimulus(ServerStateWaitingForPlayers,
 		serverWaiting, ServerStateNewGame);	
-	GameState::instance()->setState(ServerStateWaitingForPlayers);
+	gameState.setState(ServerStateWaitingForPlayers);
 
 	// ServerStateNewGame
 	ServerNewGameState *serverNewGame = new ServerNewGameState;
-	GameState::instance()->addStateEntry(ServerStateNewGame,
+	gameState.addStateEntry(ServerStateNewGame,
 		serverNewGame);
-	GameState::instance()->addStateStimulus(ServerStateNewGame, 
+	gameState.addStateStimulus(ServerStateNewGame, 
 		ServerStimulusNextRound, ServerStateNextRound);
-	GameState::instance()->addStateStimulus(ServerStateNewGame,
+	gameState.addStateStimulus(ServerStateNewGame,
 		tooFewPlayersStim, ServerStateWaitingForPlayers);	
 
 	// ServerStateNextRound
 	ServerNextRoundState *serverNextRound = new ServerNextRoundState;
-	GameState::instance()->addStateEntry(ServerStateNextRound,
+	gameState.addStateEntry(ServerStateNextRound,
 		serverNextRound);
-	GameState::instance()->addStateEntry(ServerStateNextRound,
+	gameState.addStateEntry(ServerStateNextRound,
 		TankAIComputerCtrl::instance());
-	GameState::instance()->addStateStimulus(ServerStateNextRound,
+	gameState.addStateStimulus(ServerStateNextRound,
 		tooFewPlayersStim, ServerStateWaitingForPlayers);	
-	GameState::instance()->addStateStimulus(ServerStateNextRound,
+	gameState.addStateStimulus(ServerStateNextRound,
 		ServerStimulusNewGame, ServerStateNewGame);	
-	GameState::instance()->addStateStimulus(ServerStateNextRound,
+	gameState.addStateStimulus(ServerStateNextRound,
 		ServerStimulusScore, ServerStateScore);	
-	GameState::instance()->addStateStimulus(ServerStateNextRound, 
+	gameState.addStateStimulus(ServerStateNextRound, 
 		serverNextRound, ServerStatePlaying);
 
 	// ServerStatePlaying
 	ServerPlayingState *serverPlaying = new ServerPlayingState;
-	GameState::instance()->addStateEntry(ServerStatePlaying,
+	gameState.addStateEntry(ServerStatePlaying,
 		serverPlaying);
-	GameState::instance()->addStateEntry(ServerStatePlaying,
+	gameState.addStateEntry(ServerStatePlaying,
 		TankAIComputerCtrl::instance());
-	GameState::instance()->addStateStimulus(ServerStatePlaying,
+	gameState.addStateStimulus(ServerStatePlaying,
 		tooFewPlayersStim, ServerStateWaitingForPlayers);	
-	GameState::instance()->addStateStimulus(ServerStatePlaying,
+	gameState.addStateStimulus(ServerStatePlaying,
 		serverPlaying, ServerStateShot);
 
 	// ServerStateShot
 	ServerShotState *serverShot = new ServerShotState;
-	GameState::instance()->addStateEntry(ServerStateShot,
+	gameState.addStateEntry(ServerStateShot,
 		serverShot);
-	GameState::instance()->addStateStimulus(ServerStateShot,
+	gameState.addStateStimulus(ServerStateShot,
 		tooFewPlayersStim, ServerStateWaitingForPlayers);	
-	GameState::instance()->addStateStimulus(ServerStateShot,
+	gameState.addStateStimulus(ServerStateShot,
 		serverShot, ServerStateNextRound);	
 
 	// ServerStateScore
 	ServerScoreState *serverScore = new ServerScoreState;
-	GameState::instance()->addStateEntry(ServerStateScore,
+	gameState.addStateEntry(ServerStateScore,
 		serverScore);
-	GameState::instance()->addStateStimulus(ServerStateScore,
+	gameState.addStateStimulus(ServerStateScore,
 		tooFewPlayersStim, ServerStateWaitingForPlayers);	
-	GameState::instance()->addStateStimulus(ServerStateScore,
+	gameState.addStateStimulus(ServerStateScore,
 		serverScore, ServerStateWaitingForPlayers);	
 }

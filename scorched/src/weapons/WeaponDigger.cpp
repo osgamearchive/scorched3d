@@ -19,7 +19,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <weapons/WeaponDigger.h>
-#include <tank/TankContainer.h>
 #include <actions/ShotProjectileHog.h>
 
 REGISTER_ACCESSORY_SOURCE(WeaponDigger);
@@ -68,15 +67,9 @@ bool WeaponDigger::readAccessory(NetBufferReader &reader)
 
 Action *WeaponDigger::fireWeapon(unsigned int playerId, Vector &position, Vector &velocity)
 {
-	Tank *tank = TankContainer::instance()->getTankById(playerId);
-	if (tank)
-	{
-		Action *action = new ShotProjectileHog(
-			position, 
-			velocity,
-			this, playerId, warHeads_, false);
-		return action;
-	}
-
-	return 0;
+	Action *action = new ShotProjectileHog(
+		position, 
+		velocity,
+		this, playerId, warHeads_, false);
+	return action;
 }

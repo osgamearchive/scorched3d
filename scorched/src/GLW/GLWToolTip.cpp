@@ -23,6 +23,7 @@
 #include <GLW/GLWVisibleWidget.h>
 #include <GLW/GLWFont.h>
 #include <client/MainCamera.h>
+#include <client/ScorchedClient.h>
 #include <common/OptionsDisplay.h>
 #include <string.h>
 
@@ -110,8 +111,8 @@ void GLWToolTip::addToolTip(GLWTip *tip, float x, float y, float w, float h)
 	if (!OptionsDisplay::instance()->getShowContextHelp()) return;
 
 	int windowHeight = MainCamera::instance()->getCamera().getHeight();
-	int mouseX = GameState::instance()->getMouseX();
-	int mouseY = windowHeight - GameState::instance()->getMouseY();
+	int mouseX = ScorchedClient::instance()->getGameState().getMouseX();
+	int mouseY = windowHeight - ScorchedClient::instance()->getGameState().getMouseY();
 	
 	if (x < mouseX && mouseX < x + w &&
 		y < mouseY && mouseY < y + h)

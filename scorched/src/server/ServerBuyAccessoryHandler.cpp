@@ -22,12 +22,12 @@
 #include <server/ServerBuyAccessoryHandler.h>
 #include <server/ServerShotHolder.h>
 #include <server/ServerState.h>
+#include <server/ScorchedServer.h>
 #include <tank/TankContainer.h>
 #include <coms/ComsBuyAccessoryMessage.h>
 #include <coms/ComsMessageSender.h>
 #include <common/OptionsTransient.h>
 #include <common/OptionsGame.h>
-#include <engine/GameState.h>
 #include <weapons/AccessoryStore.h>
 
 ServerBuyAccessoryHandler *ServerBuyAccessoryHandler::instance_ = 0;
@@ -60,7 +60,7 @@ bool ServerBuyAccessoryHandler::processMessage(NetPlayerID &id,
 	if (!message.readMessage(reader)) return false;
 
 	// Check we are at the correct time to buy anything
-	if (GameState::instance()->getState() != ServerState::ServerStatePlaying ||
+	if (ScorchedServer::instance()->getGameState().getState() != ServerState::ServerStatePlaying ||
 		OptionsTransient::instance()->getCurrentGameNo() != 1)
 	{
 		return true;

@@ -25,18 +25,6 @@
 #include <common/Defines.h>
 #include <common/Logger.h>
 
-GameState *GameState::instance_ = 0;
-
-GameState *GameState::instance()
-{
-	if (!instance_)
-	{
-		instance_ = new GameState;
-	}
-
-	return instance_;
-}
-
 GameState::GameState() :
 	fakeMiddleButton_(true),
 	currentMouseState_(0),

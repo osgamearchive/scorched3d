@@ -21,9 +21,9 @@
 
 #include <client/ClientGameStoppedHandler.h>
 #include <client/ClientState.h>
+#include <client/ScorchedClient.h>
 #include <coms/ComsGameStoppedMessage.h>
 #include <tank/TankContainer.h>
-#include <engine/GameState.h>
 
 ClientGameStoppedHandler *ClientGameStoppedHandler::instance_ = 0;
 
@@ -54,6 +54,6 @@ bool ClientGameStoppedHandler::processMessage(NetPlayerID &id,
 	ComsGameStoppedMessage message;
 	if (!message.readMessage(reader)) return false;
 
-	GameState::instance()->stimulate(ClientState::StimDisconnected);
+	ScorchedClient::instance()->getGameState().stimulate(ClientState::StimDisconnected);
 	return true;
 }

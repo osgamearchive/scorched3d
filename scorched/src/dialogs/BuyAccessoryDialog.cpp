@@ -24,6 +24,7 @@
 #include <GLW/GLWFlag.h>
 #include <tank/TankContainer.h>
 #include <client/ClientState.h>
+#include <client/ScorchedClient.h>
 #include <common/WindowManager.h>
 #include <common/OptionsParam.h>
 #include <common/OptionsGame.h>
@@ -266,7 +267,7 @@ void BuyAccessoryDialog::nextPlayer()
 void BuyAccessoryDialog::finished()
 {
 	WindowManager::instance()->hideWindow(getId());
-	GameState::instance()->stimulate(ClientState::StimAutoDefense);
+	ScorchedClient::instance()->getGameState().stimulate(ClientState::StimAutoDefense);
 }
 
 void BuyAccessoryDialog::buttonDown(unsigned int id)

@@ -20,7 +20,6 @@
 
 
 #include <coms/ComsDefenseMessage.h>
-#include <tank/TankContainer.h>
 #include <weapons/AccessoryStore.h>
 
 ComsDefenseMessage::ComsDefenseMessage(unsigned int playerId,

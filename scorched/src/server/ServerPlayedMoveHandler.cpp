@@ -22,6 +22,7 @@
 #include <server/ServerPlayedMoveHandler.h>
 #include <server/ServerShotHolder.h>
 #include <server/ServerState.h>
+#include <server/ScorchedServer.h>
 #include <tank/TankContainer.h>
 #include <engine/GameState.h>
 #include <coms/ComsPlayedMoveMessage.h>
@@ -59,7 +60,7 @@ bool ServerPlayedMoveHandler::processMessage(NetPlayerID &id,
 		return false;
 	}
 
-	if (GameState::instance()->getState() == ServerState::ServerStatePlaying)
+	if (ScorchedServer::instance()->getGameState().getState() == ServerState::ServerStatePlaying)
 	{
 		unsigned int playerId = (unsigned int) id;
 		Tank *tank = TankContainer::instance()->getTankById(playerId);

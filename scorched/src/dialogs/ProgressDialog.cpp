@@ -21,7 +21,7 @@
 
 #include <dialogs/ProgressDialog.h>
 #include <dialogs/BackdropDialog.h>
-#include <engine/MainLoop.h>
+#include <client/ScorchedClient.h>
 #include <math.h>
 
 ProgressDialog *ProgressDialog::instance_ = 0;
@@ -67,6 +67,6 @@ void ProgressDialog::progressChange(const char *op, const float percentage)
 	
 		BackdropDialog::instance()->draw();
 		GLWWindow::draw();
-		MainLoop::instance()->swapBuffers();
+		ScorchedClient::instance()->getMainLoop().swapBuffers();
 	}
 }

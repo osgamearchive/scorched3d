@@ -21,6 +21,7 @@
 
 #include <client/ClientDialog.h>
 #include <client/MainCamera.h>
+#include <client/ScorchedClient.h>
 #include <common/OptionsDisplay.h>
 #include <common/ARGParser.h>
 #include <common/Keyboard.h>
@@ -32,8 +33,6 @@
 #include <common/Gamma.h>
 #include <common/Sound.h>
 #include <coms/ComsGateway.h>
-#include <engine/MainLoop.h>
-#include <engine/GameState.h>
 #include <SDL/SDL.h>
 
 void clientMain()
@@ -78,15 +77,15 @@ void clientMain()
 					event.resize.w, event.resize.h);*/
 				break;
 			case SDL_QUIT:
-				MainLoop::instance()->exitLoop();
+				ScorchedClient::instance()->getMainLoop().exitLoop();
 				break;
 			}
 		} else {
 			idle = true;
 		}
 
-		if (!MainLoop::instance()->mainLoop()) break;
-		if ((!paused) && (idle) ) MainLoop::instance()->draw();
+		if (!ScorchedClient::instance()->getMainLoop().mainLoop()) break;
+		if ((!paused) && (idle) ) ScorchedClient::instance()->getMainLoop().draw();
 		if (paused) SDL_Delay(100);  // Otherwise when not drawing graphics its an infinite loop
 
 		Logger::processLogEntries();

@@ -53,6 +53,12 @@
     <value>24</value>
     <defaultvalue>24</defaultvalue>
   </option>
+  <!-- Show the tank angles and amounts in hex -->
+  <option>
+    <name>UseHexidecimal</name>
+    <value>off</value>
+    <defaultvalue>off</defaultvalue>
+  </option>
   <!-- Whether to use full screen mode or not -->
   <option>
     <name>FullScreen</name>
@@ -122,6 +128,24 @@
   <!-- Draw the names above the tanks -->
   <option>
     <name>DrawPlayerNames</name>
+    <value>on</value>
+    <defaultvalue>on</defaultvalue>
+  </option>
+  <!-- Draw the aiming sight infront of the tanks -->
+  <option>
+    <name>DrawPlayerSight</name>
+    <value>on</value>
+    <defaultvalue>on</defaultvalue>
+  </option>
+  <!-- Draw the player color triangle over the tank -->
+  <option>
+    <name>DrawPlayerColor</name>
+    <value>on</value>
+    <defaultvalue>on</defaultvalue>
+  </option>
+  <!-- Draw the health bars above the tank -->
+  <option>
+    <name>DrawPlayerHealth</name>
     <value>on</value>
     <defaultvalue>on</defaultvalue>
   </option>

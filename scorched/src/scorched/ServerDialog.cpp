@@ -29,10 +29,10 @@
 #include <coms/ComsMessageSender.h>
 #include <coms/ComsGateway.h>
 #include <tank/TankContainer.h>
-#include <engine/GameState.h>
 #include <server/ServerState.h>
 #include <server/ServerMain.h>
 #include <server/ServerMessageHandler.h>
+#include <server/ScorchedServer.h>
 #include <wx/wx.h>
 #include <wx/image.h>
 #include <wx/listctrl.h>
@@ -286,7 +286,8 @@ void ServerFrame::onTimer()
 		OptionsGame::instance()->getNoMaxPlayers());
 	frame->statusBar_->SetStatusText(buffer, 0);
 	frame->statusBar_->SetStatusText(
-		(GameState::instance()->getState() == ServerState::ServerStateWaitingForPlayers?"Not Playing":"Playing"), 1);
+		(ScorchedServer::instance()->getGameState().getState() == 
+		ServerState::ServerStateWaitingForPlayers?"Not Playing":"Playing"), 1);
 	sprintf(buffer, "Round %i/%i, %i/%i Moves",
 		OptionsGame::instance()->getNoRounds() - OptionsTransient::instance()->getNoRoundsLeft(),
 		OptionsGame::instance()->getNoRounds(),

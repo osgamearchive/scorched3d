@@ -19,7 +19,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <weapons/WeaponMirv.h>
-#include <tank/TankContainer.h>
 #include <actions/ShotProjectileMirv.h>
 
 REGISTER_ACCESSORY_SOURCE(WeaponMirv);
@@ -95,16 +94,10 @@ bool WeaponMirv::readAccessory(NetBufferReader &reader)
 
 Action *WeaponMirv::fireWeapon(unsigned int playerId, Vector &position, Vector &velocity)
 {
-	Tank *tank = TankContainer::instance()->getTankById(playerId);
-	if (tank)
-	{
-		Action *action = new ShotProjectileMirv(
-			position, 
-			velocity,
-			this, playerId, (float) size_, noWarheads_, spread_);
+	Action *action = new ShotProjectileMirv(
+		position, 
+		velocity,
+		this, playerId, (float) size_, noWarheads_, spread_);
 
-		return action;
-	}
-
-	return 0;
+	return action;
 }

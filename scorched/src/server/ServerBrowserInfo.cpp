@@ -19,10 +19,10 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <server/ServerBrowserInfo.h>
+#include <server/ScorchedServer.h>
 #include <common/OptionsGame.h>
 #include <common/OptionsTransient.h>
 #include <common/Defines.h>
-#include <engine/GameState.h>
 #include <tank/TankContainer.h>
 #include <server/ServerState.h>
 
@@ -66,7 +66,7 @@ void ServerBrowserInfo::processMessages()
 	char *serverName = (char *) OptionsGame::instance()->getServerName();
 	char version[256];
 	sprintf(version, "%s (%s)", ScorchedVersion, ScorchedProtocolVersion);
-	unsigned currentState = GameState::instance()->getState();
+	unsigned currentState = ScorchedServer::instance()->getGameState().getState();
 	bool started = (currentState!=ServerState::ServerStateWaitingForPlayers);
 
 	// Create the server info buffer that will be sent back to the 

@@ -19,7 +19,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <weapons/WeaponRiotBomb.h>
-#include <tank/TankContainer.h>
 #include <actions/ShotProjectileRiot.h>
 
 REGISTER_ACCESSORY_SOURCE(WeaponRiotBomb);
@@ -66,16 +65,10 @@ bool WeaponRiotBomb::readAccessory(NetBufferReader &reader)
 
 Action *WeaponRiotBomb::fireWeapon(unsigned int playerId, Vector &position, Vector &velocity)
 {
-	Tank *tank = TankContainer::instance()->getTankById(playerId);
-	if (tank)
-	{
-		Action *action = new ShotProjectileRiot(
-			position, 
-			velocity,
-			this, playerId, (float) size_);
+	Action *action = new ShotProjectileRiot(
+		position, 
+		velocity,
+		this, playerId, (float) size_);
 
-		return action;
-	}
-
-	return 0;
+	return action;
 }

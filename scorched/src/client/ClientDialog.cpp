@@ -24,6 +24,7 @@
 #include <client/ClientState.h>
 #include <client/WindowSetup.h>
 #include <client/MainCamera.h>
+#include <client/ScorchedClient.h>
 #include <common/OptionsDisplay.h>
 #include <common/OptionsParam.h>
 #include <common/Keyboard.h>
@@ -37,7 +38,6 @@
 #include <landscape/GlobalHMap.h>
 #include <tankgraph/TankModelStore.h>
 #include <engine/ScorchedCollisionHandler.h>
-#include <engine/MainLoop.h>
 #include <GLEXT/GLStateExtension.h>
 #include <GLEXT/GLConsoleFileReader.h>
 #include <stdio.h>
@@ -57,10 +57,10 @@ void setup()
 		float(OptionsDisplay::instance()->getBrightness()) / 10.0f);
 
 	GLSetup::setup();
-	MainLoop::instance();
+	ScorchedClient::instance();
 
 	bool useServer = (OptionsParam::instance()->getConnectedToServer());
-	ClientState::setupGameState(useServer);
+	ClientState::setupGameState(ScorchedClient::instance()->getGameState(), useServer);
 
 	ActionController::instance();
 	HeightMapCollision::instance()->create(

@@ -22,10 +22,10 @@
 #include <tank/TankAI.h>
 #include <tank/Tank.h>
 #include <tank/TankAILogic.h>
-#include <engine/GameState.h>
 #include <common/OptionsParam.h>
 #include <coms/ComsMessageSender.h>
 #include <client/ClientState.h>
+#include <client/ScorchedClient.h>
 #include <server/ServerShotHolder.h>
 
 TankAI::TankAI(Tank *tank) : currentTank_(tank)
@@ -69,7 +69,7 @@ void TankAI::fireShot()
 			}
 
 			// Stimulate into the next state waiting for all the shots
-			GameState::instance()->stimulate(ClientState::StimShot);
+			ScorchedClient::instance()->getGameState().stimulate(ClientState::StimShot);
 		}
 	}
 	else
@@ -111,7 +111,7 @@ void TankAI::skipShot()
 		}
 
 		// Stimulate into the next state waiting for all the shots
-		GameState::instance()->stimulate(ClientState::StimShot);
+		ScorchedClient::instance()->getGameState().stimulate(ClientState::StimShot);
 	}
 	else
 	{
@@ -141,7 +141,7 @@ void TankAI::resign()
 		}
 
 		// Stimulate into the next state waiting for all the shots
-		GameState::instance()->stimulate(ClientState::StimShot);
+		ScorchedClient::instance()->getGameState().stimulate(ClientState::StimShot);
 	}
 	else
 	{
@@ -172,7 +172,7 @@ void TankAI::move(int x, int y)
 		}
 
 		// Stimulate into the next state waiting for all the shots
-		GameState::instance()->stimulate(ClientState::StimShot);
+		ScorchedClient::instance()->getGameState().stimulate(ClientState::StimShot);
 	}
 	else
 	{

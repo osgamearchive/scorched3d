@@ -19,7 +19,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <weapons/WeaponNapalm.h>
-#include <tank/TankContainer.h>
 #include <actions/ShotProjectileNapalm.h>
 
 REGISTER_ACCESSORY_SOURCE(WeaponNapalm);
@@ -68,16 +67,10 @@ bool WeaponNapalm::readAccessory(NetBufferReader &reader)
 
 Action *WeaponNapalm::fireWeapon(unsigned int playerId, Vector &position, Vector &velocity)
 {
-	Tank *tank = TankContainer::instance()->getTankById(playerId);
-	if (tank)
-	{
-		Action *action = new ShotProjectileNapalm(
-			position, 
-			velocity,
-			this, playerId);
+	Action *action = new ShotProjectileNapalm(
+		position, 
+		velocity,
+		this, playerId);
 
-		return action;
-	}
-
-	return 0;
+	return action;
 }

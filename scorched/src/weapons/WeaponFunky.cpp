@@ -19,7 +19,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <weapons/WeaponFunky.h>
-#include <tank/TankContainer.h>
 #include <actions/ShotProjectileFunky.h>
 
 REGISTER_ACCESSORY_SOURCE(WeaponFunky);
@@ -95,15 +94,9 @@ bool WeaponFunky::readAccessory(NetBufferReader &reader)
 
 Action *WeaponFunky::fireWeapon(unsigned int playerId, Vector &position, Vector &velocity)
 {
-	Tank *tank = TankContainer::instance()->getTankById(playerId);
-	if (tank)
-	{
-		Action *action = new ShotProjectileFunky(
-			position, 
-			velocity,
-			this, playerId, (float) size_, (float) subsize_, warHeads_);
-		return action;
-	}
-
-	return 0;
+	Action *action = new ShotProjectileFunky(
+		position, 
+		velocity,
+		this, playerId, (float) size_, (float) subsize_, warHeads_);
+	return action;
 }

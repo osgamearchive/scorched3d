@@ -21,8 +21,8 @@
 
 #include <server/ServerPlayerReadyHandler.h>
 #include <server/ServerState.h>
+#include <server/ScorchedServer.h>
 #include <common/Logger.h>
-#include <engine/GameState.h>
 #include <tank/TankContainer.h>
 #include <coms/ComsPlayerReadyMessage.h>
 
@@ -66,7 +66,7 @@ bool ServerPlayerReadyHandler::processMessage(NetPlayerID &id,
 	}
 
 	// Check the message is sent in the correct state
-	if (GameState::instance()->getState() != ServerState::ServerStateNextRound)
+	if (ScorchedServer::instance()->getGameState().getState() != ServerState::ServerStateNextRound)
 	{
 		return true;
 	}

@@ -21,8 +21,8 @@
 
 #include <client/ClientScoreHandler.h>
 #include <client/ClientState.h>
+#include <client/ScorchedClient.h>
 #include <coms/ComsScoreMessage.h>
-#include <engine/GameState.h>
 
 ClientScoreHandler *ClientScoreHandler::instance_ = 0;
 
@@ -53,7 +53,7 @@ bool ClientScoreHandler::processMessage(NetPlayerID &id,
 	ComsScoreMessage message;
 	if (!message.readMessage(reader)) return false;
 
-	GameState::instance()->stimulate(ClientState::StimScore);
+	ScorchedClient::instance()->getGameState().stimulate(ClientState::StimScore);
 
 	return true;
 }

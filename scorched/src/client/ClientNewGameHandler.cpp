@@ -23,8 +23,7 @@
 #include <client/ClientState.h>
 #include <client/SpeedChange.h>
 #include <client/MainBanner.h>
-#include <engine/GameState.h>
-#include <engine/MainLoop.h>
+#include <client/ScorchedClient.h>
 #include <dialogs/ConnectDialog.h>
 #include <dialogs/ProgressDialog.h>
 #include <landscape/Landscape.h>
@@ -133,8 +132,8 @@ void ClientNewGameHandler::newGame()
 	// As we have not returned to the main loop for ages the
 	// timer will have a lot of time in it
 	// Get rid of this time so we don't screw things up
-	MainLoop::instance()->getTimer().getTimeDifference();
+	ScorchedClient::instance()->getMainLoop().getTimer().getTimeDifference();
 
 	// Stimulate into the next round state
-	GameState::instance()->stimulate(ClientState::StimNextRound);
+	ScorchedClient::instance()->getGameState().stimulate(ClientState::StimNextRound);
 }

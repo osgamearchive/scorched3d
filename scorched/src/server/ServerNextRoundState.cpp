@@ -18,16 +18,15 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <server/ServerNextRoundState.h>
 #include <server/ServerNewGameState.h>
 #include <server/ServerState.h>
+#include <server/ScorchedServer.h>
 #include <scorched/ServerDialog.h>
 #include <common/OptionsGame.h>
 #include <common/Logger.h>
 #include <common/OptionsTransient.h>
 #include <engine/ActionController.h>
-#include <engine/GameState.h>
 #include <tank/TankContainer.h>
 #include <tank/TankStart.h>
 
@@ -119,11 +118,11 @@ void ServerNextRoundState::roundFinished()
 	if (OptionsTransient::instance()->getNoRoundsLeft() <= 0)
 	{
 		// We have finished with all rounds show the score
-		GameState::instance()->stimulate(ServerState::ServerStimulusScore);
+		ScorchedServer::instance()->getGameState().stimulate(ServerState::ServerStimulusScore);
 	}
 	else
 	{
 		// We have finished with this round, go onto the next round
-		GameState::instance()->stimulate(ServerState::ServerStimulusNewGame);
+		ScorchedServer::instance()->getGameState().stimulate(ServerState::ServerStimulusNewGame);
 	}
 }

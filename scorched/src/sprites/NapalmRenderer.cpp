@@ -25,7 +25,7 @@
 #include <actions/ShotProjectile.h>
 #include <sprites/NapalmRenderer.h>
 #include <sprites/ExplosionTextures.h>
-#include <engine/MainLoop.h>
+#include <client/ScorchedClient.h>
 
 NapalmRenderer::NapalmRenderer() : 
 	textureNo_(0), totalTime_(0.0f), counter_(0.1f, 0.1f)
@@ -75,7 +75,7 @@ void NapalmRenderer::draw(Action *action)
 {
 	const float StepTime = 0.05f; // 20 fps
 
-	totalTime_ += MainLoop::instance()->getDrawTime();
+	totalTime_ += ScorchedClient::instance()->getMainLoop().getDrawTime();
 	while (totalTime_ > StepTime)
 	{
 		totalTime_ -= StepTime;

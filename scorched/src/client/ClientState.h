@@ -22,6 +22,8 @@
 #if !defined(__INCLUDE_ClientStateh_INCLUDE__)
 #define __INCLUDE_ClientStateh_INCLUDE__
 
+#include <engine/GameState.h>
+
 namespace ClientState  
 {
 	enum Stimulus
@@ -51,9 +53,9 @@ namespace ClientState
 		StateScore
 	};
 
-	void setupGameState(bool network);
-	void addWindowManager(unsigned state);
-	void addStandardComponents(unsigned state, bool network);
+	void setupGameState(GameState &gameState, bool network);
+	void addWindowManager(GameState &gameState, unsigned state);
+	void addStandardComponents(GameState &gameState, unsigned state, bool network);
 };
 
 #endif

@@ -29,7 +29,6 @@
 #include <common/OptionsParam.h>
 #include <common/OptionsTransient.h>
 #include <coms/ComsGateway.h>
-#include <engine/GameState.h>
 #include <engine/ActionController.h>
 #include <engine/ScorchedCollisionHandler.h>
 #include <landscape/HeightMapCollision.h>
@@ -48,6 +47,7 @@
 #include <server/ServerRegistration.h>
 #include <server/ServerBrowserInfo.h>
 #include <server/ServerState.h>
+#include <server/ScorchedServer.h>
 #include <SDL/SDL.h>
 
 Timer serverTimer;
@@ -76,7 +76,7 @@ bool serverMain()
 	ScorchedCollisionHandler::instance();
 	OptionsTransient::instance()->reset();
 
-	ServerState::setupStates();
+	ServerState::setupStates(ScorchedServer::instance()->getGameState());
 
 	// Add the server side bots
 	TankAIStore::instance();
@@ -112,6 +112,6 @@ void serverLoop()
 		Logger::processLogEntries();
 		ComsGateway::instance()->processMessages();
 		ServerBrowserInfo::instance()->processMessages();
-		GameState::instance()->simulate(serverTimer.getTimeDifference());
+		ScorchedServer::instance()->getGameState().simulate(serverTimer.getTimeDifference());
 	}
 }

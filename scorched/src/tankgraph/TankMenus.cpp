@@ -20,13 +20,13 @@
 
 #include <engine/GameState.h>
 #include <client/ClientState.h>
+#include <client/ScorchedClient.h>
 #include <tank/TankContainer.h>
 #include <tankgraph/TankMenus.h>
 #include <tankgraph/TankModelRenderer.h>
 #include <common/WindowManager.h>
 #include <common/Logger.h>
 #include <coms/ComsMessageHandler.h>
-#include <engine/GameState.h>
 #include <landscape/Landscape.h>
 #include <landscape/GlobalHMap.h>
 #include <dialogs/MainMenuDialog.h>
@@ -50,7 +50,7 @@ TankMenus::TankMenus()
 	new GLConsoleRuleFnIBooleanAdapter(
 		"ComsMessageLogging", ComsMessageHandler::instance()->getMessageLogging());
 	new GLConsoleRuleFnIBooleanAdapter(
-		"StateLogging", GameState::instance()->getStateLogging());
+		"StateLogging", ScorchedClient::instance()->getGameState().getStateLogging());
 }
 
 TankMenus::~TankMenus()
@@ -149,7 +149,8 @@ void TankMenus::PlayerMenu::menuSelection(const char* menuName,
 
 bool TankMenus::PlayerMenu::getEnabled(const char* menuName)
 {
-	if (GameState::instance()->getState() != ClientState::StateMain) return false;
+	if (ScorchedClient::instance()->getGameState().getState() 
+		!= ClientState::StateMain) return false;
 
 	Tank *firstTank = TankContainer::instance()->getCurrentTank();
 	if (firstTank)
@@ -286,7 +287,8 @@ void TankMenus::AccessoryMenu::getMenuItems(const char* menuName,
 
 bool TankMenus::AccessoryMenu::getEnabled(const char* menuName)
 {
-	if (GameState::instance()->getState() != ClientState::StateMain) return false;
+	if (ScorchedClient::instance()->getGameState().getState() != 
+		ClientState::StateMain) return false;
 
 	Tank *firstTank = TankContainer::instance()->getCurrentTank();
 	if (firstTank)

@@ -21,7 +21,7 @@
 
 #include <client/ClientMessageHandler.h>
 #include <client/ClientState.h>
-#include <engine/GameState.h>
+#include <client/ScorchedClient.h>
 #include <common/Logger.h>
 
 ClientMessageHandler *ClientMessageHandler::instance_ = 0;
@@ -51,7 +51,7 @@ void ClientMessageHandler::clientConnected(NetMessage &message)
 void ClientMessageHandler::clientDisconnected(NetMessage &message)
 {
 	Logger::log(0, "Disconnected");
-	GameState::instance()->stimulate(ClientState::StimDisconnected);
+	ScorchedClient::instance()->getGameState().stimulate(ClientState::StimDisconnected);
 }
 
 void ClientMessageHandler::clientError(NetMessage &message,

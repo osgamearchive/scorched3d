@@ -23,7 +23,7 @@
 #include <GLW/GLWTextButton.h>
 #include <GLW/GLWLabel.h>
 #include <common/WindowManager.h>
-#include <engine/MainLoop.h>
+#include <client/ScorchedClient.h>
 #include <tank/TankContainer.h>
 
 KillDialog *KillDialog::instance_ = 0;
@@ -56,7 +56,7 @@ void KillDialog::buttonDown(unsigned int id)
 	}
 	else if (id == quitId_)
 	{
-		MainLoop::instance()->exitLoop();
+		ScorchedClient::instance()->getMainLoop().exitLoop();
 	}
 	else if (id == killId_)
 	{

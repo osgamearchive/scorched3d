@@ -22,10 +22,10 @@
 #include <client/ClientStartGameHandler.h>
 #include <client/ClientState.h>
 #include <client/ClientNewGameHandler.h>
+#include <client/ScorchedClient.h>
 #include <landscape/Landscape.h>
 #include <tank/TankStart.h>
 #include <tank/TankContainer.h>
-#include <engine/GameState.h>
 #include <engine/ActionController.h>
 #include <common/OptionsTransient.h>
 #include <common/OptionsGame.h>
@@ -76,7 +76,7 @@ void ClientStartGameHandler::startClientGame()
 		if (OptionsTransient::instance()->getNoRoundsLeft() <= 0)
 		{
 			// We have finished with all rounds show the score
-			GameState::instance()->stimulate(ClientState::StimScore);
+			ScorchedClient::instance()->getGameState().stimulate(ClientState::StimScore);
 		}
 		else
 		{
@@ -160,5 +160,5 @@ void ClientStartGameHandler::startGame()
 	}
 
 	// Stimulate into the new game state
-	GameState::instance()->stimulate(ClientState::StimBuyWeapons);
+	ScorchedClient::instance()->getGameState().stimulate(ClientState::StimBuyWeapons);
 }

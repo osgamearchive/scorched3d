@@ -18,12 +18,11 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <dialogs/ConnectDialog.h>
 #include <dialogs/PlayerDialog.h>
 #include <dialogs/QuitDialog.h>
-#include <engine/MainLoop.h>
 #include <GLW/GLWTextButton.h>
+#include <client/ScorchedClient.h>
 #include <client/MainBanner.h>
 #include <client/ClientGameStoppedHandler.h>
 #include <client/ClientMessageHandler.h>
@@ -140,7 +139,7 @@ bool ConnectDialog::tryConnection()
 
 	Logger::log(0, "Atempting connection");
 	Logger::log(0, "  Trying \"%s\"....", serverName);
-	MainLoop::instance()->draw();
+	ScorchedClient::instance()->getMainLoop().draw();
 
 	// Setup the coms handlers
 	ComsGateway::instance()->setMessageHandler(
@@ -163,7 +162,7 @@ bool ConnectDialog::tryConnection()
 	if (!ComsGateway::instance()->connect((char *) hostPart.c_str(), port))
 	{
 		Logger::log(0, "  Connection Failed.");
-		MainLoop::instance()->draw();
+		ScorchedClient::instance()->getMainLoop().draw();
 		SDL_Delay(3 * 1000);
 		return false;
 	}

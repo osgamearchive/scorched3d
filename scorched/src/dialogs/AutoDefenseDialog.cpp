@@ -27,6 +27,7 @@
 #include <common/OptionsParam.h>
 #include <common/OptionsTransient.h>
 #include <client/ClientState.h>
+#include <client/ScorchedClient.h>
 
 AutoDefenseDialog::AutoDefenseDialog() :
 	GLWWindow("Auto Defense", 10.0f, 10.0f, 440.0f, 280.0f, 0),
@@ -190,5 +191,5 @@ void AutoDefenseDialog::select(unsigned int id,
 void AutoDefenseDialog::finished()
 {
 	WindowManager::instance()->hideWindow(getId());
-	GameState::instance()->stimulate(ClientState::StimMain);
+	ScorchedClient::instance()->getGameState().stimulate(ClientState::StimMain);
 }

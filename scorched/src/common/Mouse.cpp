@@ -18,18 +18,8 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// Mouse.cpp: implementation of the Mouse class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <common/Mouse.h>
-#include <engine/GameState.h>
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
-
+#include <client/ScorchedClient.h>
 
 Mouse *Mouse::instance_ = 0;
 
@@ -58,28 +48,30 @@ void Mouse::mouseDown(SDL_Event &event)
 {
 	switch (event.button.button) {
 	case SDL_BUTTON_LEFT:
-		GameState::instance()->
+		ScorchedClient::instance()->getGameState().
 		    mouseDown(GameState::MouseButtonLeft,
 			      (int) event.button.x,
 			      (int) event.button.y);
 		break;
 	case SDL_BUTTON_MIDDLE:
-		GameState::instance()->
+		ScorchedClient::instance()->getGameState().
 		    mouseDown(GameState::MouseButtonMiddle,
 			      (int) event.button.x,
 			      (int) event.button.y);
 		break;
 	case SDL_BUTTON_RIGHT:
-		GameState::instance()->
+		ScorchedClient::instance()->getGameState().
 		    mouseDown(GameState::MouseButtonRight,
 			      (int) event.button.x,
 			      (int) event.button.y);
 		break;
 	case 4:
-		GameState::instance()->mouseWheel(-mouse_sensitivity_);
+		ScorchedClient::instance()->getGameState().
+			mouseWheel(-mouse_sensitivity_);
 		break;
 	case 5:
-		GameState::instance()->mouseWheel(mouse_sensitivity_);
+		ScorchedClient::instance()->getGameState().
+			mouseWheel(mouse_sensitivity_);
 		break;
 	default:
 		break;
@@ -90,17 +82,19 @@ void Mouse::mouseUp(SDL_Event &event)
 {
 	switch (event.button.button) {
 	case SDL_BUTTON_LEFT:
-		GameState::instance()->mouseUp(GameState::MouseButtonLeft,
+		ScorchedClient::instance()->getGameState().
+			mouseUp(GameState::MouseButtonLeft,
 					       (int) event.button.x,
 					       (int) event.button.y);
 		break;
 	case SDL_BUTTON_MIDDLE:
-		GameState::instance()->
+		ScorchedClient::instance()->getGameState().
 		    mouseUp(GameState::MouseButtonMiddle,
 			    (int) event.button.x, (int) event.button.y);
 		break;
 	case SDL_BUTTON_RIGHT:
-		GameState::instance()->mouseUp(GameState::MouseButtonRight,
+		ScorchedClient::instance()->getGameState().
+			mouseUp(GameState::MouseButtonRight,
 					       (int) event.button.x,
 					       (int) event.button.y);
 		break;
@@ -111,10 +105,10 @@ void Mouse::mouseUp(SDL_Event &event)
 
 void Mouse::mouseMove(SDL_Event &event)
 {
-	GameState::instance()->mouseMove(
+	ScorchedClient::instance()->getGameState().
+		mouseMove(
         	(int) event.motion.x,
-                (int) event.motion.y);
-
+            (int) event.motion.y);
 }
 
 void Mouse::processMouseEvent(SDL_Event & event)

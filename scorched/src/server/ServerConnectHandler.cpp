@@ -20,9 +20,9 @@
 
 
 #include <server/ServerConnectHandler.h>
-#include <scorched/ServerDialog.h>
 #include <server/ServerState.h>
-#include <engine/GameState.h>
+#include <server/ScorchedServer.h>
+#include <scorched/ServerDialog.h>
 #include <tank/TankContainer.h>
 #include <tank/TankColorGenerator.h>
 #include <common/Defines.h>
@@ -169,7 +169,7 @@ bool ServerConnectHandler::processMessage(NetPlayerID &id,
 
 	// Tell the client about the current state of play
 	// (e.g.) how many players how long to wait etc...
-	if (GameState::instance()->getState() == ServerState::ServerStateWaitingForPlayers &&
+	if (ScorchedServer::instance()->getGameState().getState() == ServerState::ServerStateWaitingForPlayers &&
 		(OptionsGame::instance()->getNoMinPlayers() > TankContainer::instance()->getNoOfTanks() + 1))
 	{
 		sendString(id,

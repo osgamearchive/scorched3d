@@ -20,8 +20,9 @@
 
 
 #include <server/ServerNewGameState.h>
-#include <scorched/ServerDialog.h>
 #include <server/ServerState.h>
+#include <server/ScorchedServer.h>
+#include <scorched/ServerDialog.h>
 #include <common/OptionsGame.h>
 #include <common/Timer.h>
 #include <common/Logger.h>
@@ -60,7 +61,7 @@ void ServerNewGameState::enterState(const unsigned state)
 	serverTimer.getTimeDifference();
 
 	// Move into the state that waits for players to become ready
-	GameState::instance()->stimulate(ServerState::ServerStimulusNextRound);
+	ScorchedServer::instance()->getGameState().stimulate(ServerState::ServerStimulusNextRound);
 }
 
 void ServerNewGameState::addTanksToGame(const unsigned state)

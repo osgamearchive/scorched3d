@@ -22,6 +22,8 @@
 #if !defined(__INCLUDE_ServerStateh_INCLUDE__)
 #define __INCLUDE_ServerStateh_INCLUDE__
 
+#include <engine/GameState.h>
+
 namespace ServerState
 {
 	enum ServerStateEnum
@@ -42,7 +44,7 @@ namespace ServerState
 		ServerStimulusScore
 	};
 
-	void setupStates();
+	void setupStates(GameState &gameState);
 };
 
 #endif

@@ -21,6 +21,7 @@
 
 #include <client/ClientTextHandler.h>
 #include <client/ClientState.h>
+#include <client/ScorchedClient.h>
 #include <engine/ActionController.h>
 #include <sprites/TalkRenderer.h>
 #include <tank/TankContainer.h>
@@ -56,7 +57,7 @@ bool ClientTextHandler::processMessage(NetPlayerID &id,
 	ComsTextMessage message;
 	if (!message.readMessage(reader)) return false;
 
-	if (GameState::instance()->getState() == 
+	if (ScorchedClient::instance()->getGameState().getState() == 
 		ClientState::StateClientConnect)
 	{
 		Logger::log(0, message.getText());

@@ -20,8 +20,8 @@
 
 #include <tankgraph/TankModelStore.h>
 #include <dialogs/PlayerDialog.h>
-#include <engine/GameState.h>
 #include <client/ClientState.h>
+#include <client/ScorchedClient.h>
 #include <common/OptionsParam.h>
 #include <GLW/GLWTextButton.h>
 #include <stdio.h>
@@ -90,7 +90,7 @@ void PlayerDialog::buttonDown(unsigned int id)
 			TankModel *model = 
 				TankModelStore::instance()->getModelByName(getModelName());
 			viewer_->selectModelByName(model->getId().getModelName());
-			GameState::instance()->stimulate(ClientState::StimClientConnect);
+			ScorchedClient::instance()->getGameState().stimulate(ClientState::StimClientConnect);
 		}
 	}
 }

@@ -19,7 +19,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <weapons/WeaponClod.h>
-#include <tank/TankContainer.h>
 #include <actions/ShotProjectileClod.h>
 
 REGISTER_ACCESSORY_SOURCE(WeaponClod);
@@ -68,16 +67,10 @@ bool WeaponClod::readAccessory(NetBufferReader &reader)
 
 Action *WeaponClod::fireWeapon(unsigned int playerId, Vector &position, Vector &velocity)
 {
-	Tank *tank = TankContainer::instance()->getTankById(playerId);
-	if (tank)
-	{
-		Action *action = new ShotProjectileClod(
-			position, 
-			velocity,
-			this, playerId, (float) size_);
+	Action *action = new ShotProjectileClod(
+		position, 
+		velocity,
+		this, playerId, (float) size_);
 
-		return action;
-	}
-
-	return 0;
+	return action;
 }

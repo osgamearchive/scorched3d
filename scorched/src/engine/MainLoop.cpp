@@ -18,33 +18,12 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// Simulator.cpp: implementation of the MainLoop class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <engine/MainLoop.h>
 #include <common/OptionsDisplay.h>
 #include <common/Defines.h>
 #include <common/Timer.h>
 #include <GLEXT/GLState.h>
 #include <SDL/SDL.h>
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
-
-MainLoop *MainLoop::instance_ = 0;
-
-MainLoop *MainLoop::instance()
-{
-	if (!instance_)
-	{
-		instance_ = new MainLoop;
-	}
-
-	return instance_;
-}
 
 MainLoop::MainLoop() :  exitLoop_(false), lastDrawTime_(0.0f)
 {

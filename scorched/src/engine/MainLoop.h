@@ -35,7 +35,8 @@
 class MainLoop
 {
 public:
-	static MainLoop *instance();
+	MainLoop();
+	virtual ~MainLoop();
 
 	void addMainLoop(MainLoopI *MainLoop);
 
@@ -50,7 +51,6 @@ public:
 	void exitLoop() { exitLoop_ = true; }
 
 protected:
-	static MainLoop *instance_;
 	std::list<MainLoopI *> newMainLoops_;
 	std::set<MainLoopI *> mainLoops_;
 	Timer fTimer_; // Frame/simulation timer
@@ -60,11 +60,6 @@ protected:
 
 	void simulate(float frameTime);
 	void addNew();
-
-private:
-	MainLoop();
-	virtual ~MainLoop();
-
 
 };
 

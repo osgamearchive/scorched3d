@@ -25,8 +25,8 @@
 #include <common/OptionsParam.h>
 #include <common/OptionsTransient.h>
 #include <common/OptionsGame.h>
-#include <engine/GameState.h>
 #include <client/ClientState.h>
+#include <client/ScorchedClient.h>
 #include <stdio.h>
 
 //////////////////////////////////////////////////////////////////////
@@ -123,7 +123,7 @@ void ScoreDialog::draw()
 	GLState newState(GLState::TEXTURE_OFF | GLState::DEPTH_OFF);
 
 	Vector white(0.8f, 0.8f, 0.8f);
-	bool finished = (GameState::instance()->getState() == ClientState::StateScore);
+	bool finished = (ScorchedClient::instance()->getGameState().getState() == ClientState::StateScore);
 	GLWFont::instance()->getFont()->draw(
 			white,
 			20,

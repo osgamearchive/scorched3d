@@ -18,11 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// GameState.h: interface for the GameState class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_GAMESTATE_H__00A5F6B7_02B2_45B3_9D9B_F8B0AC9F5614__INCLUDED_)
 #define AFX_GAMESTATE_H__00A5F6B7_02B2_45B3_9D9B_F8B0AC9F5614__INCLUDED_
 
@@ -43,7 +38,8 @@ public:
 		MouseButtonRight = 0x4
 	};
 
-	static GameState *instance();
+	GameState();
+	virtual ~GameState();
 
 	// Called by the simulator
 	virtual void simulate(float simTime);
@@ -93,7 +89,6 @@ public:
 								 GameStateI *subEntry);
 
 protected:
-	static GameState *instance_;
 	typedef std::list<GameStateI *> StateIList;
 	typedef std::pair<GameStateStimulusI *, unsigned> SimulusIPair;
 	typedef std::list<SimulusIPair> StiulusIList;
@@ -165,10 +160,6 @@ protected:
 		getEntry(const unsigned state);
 	GameState::GameStateSubEntry* 
 		getSubEntry(const unsigned state, GameStateI *entry);
-
-private:
-	GameState();
-	virtual ~GameState();
 
 };
 

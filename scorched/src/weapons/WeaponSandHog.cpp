@@ -19,7 +19,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <weapons/WeaponSandHog.h>
-#include <tank/TankContainer.h>
 #include <actions/ShotProjectileHog.h>
 
 REGISTER_ACCESSORY_SOURCE(WeaponSandHog);
@@ -68,15 +67,9 @@ bool WeaponSandHog::readAccessory(NetBufferReader &reader)
 
 Action *WeaponSandHog::fireWeapon(unsigned int playerId, Vector &position, Vector &velocity)
 {
-	Tank *tank = TankContainer::instance()->getTankById(playerId);
-	if (tank)
-	{
-		Action *action = new ShotProjectileHog(
-			position, 
-			velocity,
-			this, playerId, warHeads_, true);
-		return action;
-	}
-
-	return 0;
+	Action *action = new ShotProjectileHog(
+		position, 
+		velocity,
+		this, playerId, warHeads_, true);
+	return action;
 }

@@ -22,8 +22,8 @@
 #include <common/SoundStore.h>
 #include <common/OptionsDisplay.h>
 #include <client/MainCamera.h>
+#include <client/ScorchedClient.h>
 #include <landscape/GlobalHMap.h>
-#include <engine/GameState.h>
 #include <tankai/TankAIHuman.h>
 #include <tankgraph/TankModelRenderer.h>
 #include <tank/Tank.h>
@@ -138,8 +138,8 @@ void TankAIHuman::endPlayMove()
 
 void TankAIHuman::autoAim()
 {
-	int x = GameState::instance()->getMouseX();
-	int y = GameState::instance()->getMouseY();
+	int x = ScorchedClient::instance()->getGameState().getMouseX();
+	int y = ScorchedClient::instance()->getGameState().getMouseY();
 	Line direction;
 	Vector intersect;
 

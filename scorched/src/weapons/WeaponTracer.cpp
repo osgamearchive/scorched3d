@@ -19,7 +19,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <weapons/WeaponTracer.h>
-#include <tank/TankContainer.h>
 #include <actions/ShotProjectileTracer.h>
 
 REGISTER_ACCESSORY_SOURCE(WeaponTracer);
@@ -68,15 +67,9 @@ bool WeaponTracer::readAccessory(NetBufferReader &reader)
 
 Action *WeaponTracer::fireWeapon(unsigned int playerId, Vector &position, Vector &velocity)
 {
-	Tank *tank = TankContainer::instance()->getTankById(playerId);
-	if (tank)
-	{
-		Action *action = new ShotProjectileTracer(
-			position, 
-			velocity,
-			this, playerId, showShotPath_);
-		return action;
-	}
-
-	return 0;
+	Action *action = new ShotProjectileTracer(
+		position, 
+		velocity,
+		this, playerId, showShotPath_);
+	return action;
 }

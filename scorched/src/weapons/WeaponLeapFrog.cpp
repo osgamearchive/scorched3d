@@ -20,7 +20,6 @@
 
 #include <weapons/WeaponLeapFrog.h>
 #include <actions/ShotProjectileLeapFrog.h>
-#include <tank/TankContainer.h>
 
 REGISTER_ACCESSORY_SOURCE(WeaponLeapFrog);
 
@@ -68,16 +67,10 @@ bool WeaponLeapFrog::readAccessory(NetBufferReader &reader)
 
 Action *WeaponLeapFrog::fireWeapon(unsigned int playerId, Vector &position, Vector &velocity)
 {
-	Tank *tank = TankContainer::instance()->getTankById(playerId);
-	if (tank)
-	{
-		Action *action = new ShotProjectileLeapFrog(
-			position, 
-			velocity,
-			this, playerId, (float) size_, 2);
+	Action *action = new ShotProjectileLeapFrog(
+		position, 
+		velocity,
+		this, playerId, (float) size_, 2);
 
-		return action;
-	}
-
-	return 0;
+	return action;
 }

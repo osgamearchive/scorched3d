@@ -21,8 +21,8 @@
 
 #include <client/ClientActionsHandler.h>
 #include <client/ClientState.h>
+#include <client/ScorchedClient.h>
 #include <coms/ComsActionsMessage.h>
-#include <engine/GameState.h>
 #include <engine/ActionController.h>
 
 ClientActionsHandler *ClientActionsHandler::instance_ = 0;
@@ -60,6 +60,6 @@ bool ClientActionsHandler::processMessage(NetPlayerID &id,
 	if (!actionsMessage.readMessage(reader)) return false;
 
 	// Ensure we are in the shot state
-	GameState::instance()->stimulate(ClientState::StimShot);
+	ScorchedClient::instance()->getGameState().stimulate(ClientState::StimShot);
 	return true;
 }

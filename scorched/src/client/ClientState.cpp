@@ -42,167 +42,164 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-void ClientState::addWindowManager(unsigned state)
+void ClientState::addWindowManager(GameState &gameState, unsigned state)
 {
-	GameState::instance()->addStateLoop(state, Main2DCamera::instance(), 
+	gameState.addStateLoop(state, Main2DCamera::instance(), 
 		WindowManager::instance());
-	GameState::instance()->addStateMouseDownEntry(state, GameState::MouseButtonLeft, 
+	gameState.addStateMouseDownEntry(state, GameState::MouseButtonLeft, 
 		WindowManager::instance());
-	GameState::instance()->addStateMouseDragEntry(state, GameState::MouseButtonLeft, 
+	gameState.addStateMouseDragEntry(state, GameState::MouseButtonLeft, 
 		WindowManager::instance());
-	GameState::instance()->addStateMouseUpEntry(state, GameState::MouseButtonLeft, 
+	gameState.addStateMouseUpEntry(state, GameState::MouseButtonLeft, 
 		WindowManager::instance());
-	GameState::instance()->addStateKeyEntry(state, WindowManager::instance());
+	gameState.addStateKeyEntry(state, WindowManager::instance());
 }
 
-void ClientState::addStandardComponents(unsigned state, bool network)
+void ClientState::addStandardComponents(GameState &gameState, unsigned state, bool network)
 {
-	GameState::instance()->addStateKeyEntry(state, 
-		GLConsole::instance());
+	gameState.addStateKeyEntry(state, GLConsole::instance());
 	if (!network)
 	{
-		GameState::instance()->addStateKeyEntry(state, 
-			SpeedChange::instance());
+		gameState.addStateKeyEntry(state, SpeedChange::instance());
 	}
-	GameState::instance()->addStateLoop(state, 
+	gameState.addStateLoop(state, 
 		MainCamera::instance(), GLCameraFrustum::instance());
-	GameState::instance()->addStateLoop(state, 
+	gameState.addStateLoop(state, 
 		MainCamera::instance(), FrameTimer::instance());
-	GameState::instance()->addStateLoop(state, 
+	gameState.addStateLoop(state, 
 		MainCamera::instance(), &TankRenderer::instance()->render3D);
-	GameState::instance()->addStateLoop(state, 
+	gameState.addStateLoop(state, 
 		MainCamera::instance(), Landscape::instance());
-	GameState::instance()->addStateLoop(state, 
+	gameState.addStateLoop(state, 
 		MainCamera::instance(), &TankRenderer::instance()->render3DSecond);
-	GameState::instance()->addStateLoop(state, 
+	gameState.addStateLoop(state, 
 		Main2DCamera::instance(), &TankRenderer::instance()->render2D);
 	if (!network)
 	{
-		GameState::instance()->addStateLoop(state, 
+		gameState.addStateLoop(state, 
 			Main2DCamera::instance(), SpeedChange::instance());
 	}
-	GameState::instance()->addStateLoop(state, MainCamera::instance(), 
+	gameState.addStateLoop(state, MainCamera::instance(), 
 		ActionController::instance());
-	GameState::instance()->addStateLoop(state, MainCamera::instance(), 
+	gameState.addStateLoop(state, MainCamera::instance(), 
 		GLBilboardRenderer::instance());
-	addWindowManager(state);
-	GameState::instance()->addStateLoop(state, Main2DCamera::instance(), 
+	addWindowManager(gameState, state);
+	gameState.addStateLoop(state, Main2DCamera::instance(), 
 		MainBanner::instance());
-	GameState::instance()->addStateLoop(state, Main2DCamera::instance(), 
+	gameState.addStateLoop(state, Main2DCamera::instance(), 
 		GLWToolTip::instance());
-	GameState::instance()->addStateLoop(state, Main2DCamera::instance(), 
+	gameState.addStateLoop(state, Main2DCamera::instance(), 
 		GLConsole::instance());
-	GameState::instance()->addStateMouseDownEntry(state,
+	gameState.addStateMouseDownEntry(state,
 		GameState::MouseButtonLeft, MainCamera::instance());
-	GameState::instance()->addStateMouseDragEntry(state, 
+	gameState.addStateMouseDragEntry(state, 
 		GameState::MouseButtonRight| GameState::MouseButtonMiddle, MainCamera::instance());
-	GameState::instance()->addStateMouseWheelEntry(state, 
+	gameState.addStateMouseWheelEntry(state, 
 		MainCamera::instance());
-	GameState::instance()->addStateKeyEntry(state, 
+	gameState.addStateKeyEntry(state, 
 		MainCamera::instance());
-	GameState::instance()->addStateLoop(state, 
+	gameState.addStateLoop(state, 
 		Main2DCamera::instance(), &MainCamera::instance()->saveScreen_);
 }
 
-void ClientState::setupGameState(bool network)
+void ClientState::setupGameState(GameState &gameState, bool network)
 {
-	GameState::instance()->clear();
-	MainLoop::instance()->clear();
-
-	MainLoop::instance()->addMainLoop(GameState::instance());
+	gameState.clear();
 
 	// StatePlayerOptions (Single player only)
-	addWindowManager(StatePlayerOptions);
-	GameState::instance()->addStateStimulus(StatePlayerOptions, 
+	addWindowManager(gameState, StatePlayerOptions);
+	gameState.addStateStimulus(StatePlayerOptions, 
 		StimNextRound, 
 		StateNextRound);
 
 	// StateClientConnectPlayer (Multi player only, start state)
-	addWindowManager(StateClientConnectPlayer);
-	GameState::instance()->addStateStimulus(StateClientConnectPlayer, 
+	addWindowManager(gameState, StateClientConnectPlayer);
+	gameState.addStateStimulus(StateClientConnectPlayer, 
 		StimClientConnect, StateClientConnect);
 
 	// StateClientConnect (Multi player only)
-	addWindowManager(StateClientConnect);
-	GameState::instance()->addStateStimulus(StateClientConnect, 
+	addWindowManager(gameState, StateClientConnect);
+	gameState.addStateStimulus(StateClientConnect, 
 		StimNextRound, StateNextRound);
-	GameState::instance()->addStateStimulus(StateClientConnect, 
+	gameState.addStateStimulus(StateClientConnect, 
 		StimDisconnected, StateClientConnect);
 
 	// StateNextRound
-	addStandardComponents(StateNextRound, network);
-	GameState::instance()->addStateEntry(StateNextRound,
+	addStandardComponents(gameState, StateNextRound, network);
+	gameState.addStateEntry(StateNextRound,
 		ClientNextRoundState::instance());
-	GameState::instance()->addStateStimulus(StateNextRound, 
+	gameState.addStateStimulus(StateNextRound, 
 		StimBuyWeapons, StateBuyWeapons);
-	GameState::instance()->addStateStimulus(StateNextRound, 
+	gameState.addStateStimulus(StateNextRound, 
+		StimShot, StateShot);
+	gameState.addStateStimulus(StateNextRound, 
 		StimScore, StateScore);
-	GameState::instance()->addStateStimulus(StateNextRound, 
+	gameState.addStateStimulus(StateNextRound, 
 		StimNextRound, StateNextRound);
-	GameState::instance()->addStateStimulus(StateNextRound, 
+	gameState.addStateStimulus(StateNextRound, 
 		StimDisconnected, StateClientConnect);
 
 	// StateBuyWeapons
-	addStandardComponents(StateBuyWeapons, network);
-	GameState::instance()->addStateEntry(StateBuyWeapons,
+	addStandardComponents(gameState, StateBuyWeapons, network);
+	gameState.addStateEntry(StateBuyWeapons,
 		ShotTimer::instance());
-	GameState::instance()->addStateLoop(StateBuyWeapons,
+	gameState.addStateLoop(StateBuyWeapons,
 		Main2DCamera::instance(), ShotTimer::instance());
-	GameState::instance()->addStateStimulus(StateBuyWeapons, 
+	gameState.addStateStimulus(StateBuyWeapons, 
 		StimAutoDefense, StateAutoDefense);
-	GameState::instance()->addStateStimulus(StateBuyWeapons, 
+	gameState.addStateStimulus(StateBuyWeapons, 
 		StimShot, StateShot);
-	GameState::instance()->addStateStimulus(StateBuyWeapons, 
+	gameState.addStateStimulus(StateBuyWeapons, 
 		ShotTimer::instance(), StateShot);
-	GameState::instance()->addStateStimulus(StateBuyWeapons, 
+	gameState.addStateStimulus(StateBuyWeapons, 
 		StimDisconnected, StateClientConnect);
 
 	// StateAutoDefense
-	addStandardComponents(StateAutoDefense, network);
-	GameState::instance()->addStateLoop(StateAutoDefense,
+	addStandardComponents(gameState, StateAutoDefense, network);
+	gameState.addStateLoop(StateAutoDefense,
 		Main2DCamera::instance(), ShotTimer::instance());
-	GameState::instance()->addStateStimulus(StateAutoDefense, 
+	gameState.addStateStimulus(StateAutoDefense, 
 		StimMain, StateMain);
-	GameState::instance()->addStateStimulus(StateAutoDefense, 
+	gameState.addStateStimulus(StateAutoDefense, 
 		StimShot, StateShot);
-	GameState::instance()->addStateStimulus(StateAutoDefense, 
+	gameState.addStateStimulus(StateAutoDefense, 
 		ShotTimer::instance(), StateShot);
-	GameState::instance()->addStateStimulus(StateAutoDefense, 
+	gameState.addStateStimulus(StateAutoDefense, 
 		StimDisconnected, StateClientConnect);
 
 	// StateMain
-	addStandardComponents(StateMain, network);
-	GameState::instance()->addStateKeyEntry(StateMain, 
+	addStandardComponents(gameState, StateMain, network);
+	gameState.addStateKeyEntry(StateMain, 
 		TankAIHumanCtrl::instance());
-	GameState::instance()->addStateLoop(StateMain,
+	gameState.addStateLoop(StateMain,
 		Main2DCamera::instance(), ShotTimer::instance());
-	GameState::instance()->addStateStimulus(StateMain, 
+	gameState.addStateStimulus(StateMain, 
 		StimShot, StateShot);
-	GameState::instance()->addStateStimulus(StateMain, 
+	gameState.addStateStimulus(StateMain, 
 		ShotTimer::instance(), StateShot);
-	GameState::instance()->addStateStimulus(StateMain, 
+	gameState.addStateStimulus(StateMain, 
 		StimDisconnected, StateClientConnect);
 
 	// StateShot
-	addStandardComponents(StateShot, network);
-	GameState::instance()->addStateEntry(StateShot, 
+	addStandardComponents(gameState, StateShot, network);
+	gameState.addStateEntry(StateShot, 
 		TankAIHumanCtrl::instance());
-	GameState::instance()->addStateEntry(StateShot,
+	gameState.addStateEntry(StateShot,
 		ClientShotState::instance());
-	GameState::instance()->addStateStimulus(StateShot, 
+	gameState.addStateStimulus(StateShot, 
 		StimShot, StateShot);
-	GameState::instance()->addStateStimulus(StateShot, 
+	gameState.addStateStimulus(StateShot, 
 		ClientShotState::instance(), StateNextRound);
-	GameState::instance()->addStateStimulus(StateShot, 
+	gameState.addStateStimulus(StateShot, 
 		StimDisconnected, StateClientConnect);
 
 	// StateScore
-	addStandardComponents(StateScore, network);
-	GameState::instance()->addStateStimulus(StateScore, 
+	addStandardComponents(gameState, StateScore, network);
+	gameState.addStateStimulus(StateScore, 
 		StimDisconnected, StateClientConnect);
-	GameState::instance()->addStateStimulus(StateScore, 
+	gameState.addStateStimulus(StateScore, 
 		StimNextRound, StateNextRound);
 
-	if (network) GameState::instance()->setState(StateClientConnectPlayer);
-	else GameState::instance()->setState(StatePlayerOptions);
+	if (network) gameState.setState(StateClientConnectPlayer);
+	else gameState.setState(StatePlayerOptions);
 }

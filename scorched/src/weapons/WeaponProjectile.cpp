@@ -20,7 +20,6 @@
 
 #include <weapons/WeaponProjectile.h>
 #include <actions/ShotProjectileExplosion.h>
-#include <tank/TankContainer.h>
 
 REGISTER_ACCESSORY_SOURCE(WeaponProjectile);
 
@@ -68,16 +67,10 @@ bool WeaponProjectile::readAccessory(NetBufferReader &reader)
 
 Action *WeaponProjectile::fireWeapon(unsigned int playerId, Vector &position, Vector &velocity)
 {
-	Tank *tank = TankContainer::instance()->getTankById(playerId);
-	if (tank)
-	{
-		Action *action = new ShotProjectileExplosion(
-			position, 
-			velocity,
-			this, playerId, (float) size_);
+	Action *action = new ShotProjectileExplosion(
+		position, 
+		velocity,
+		this, playerId, (float) size_);
 
-		return action;
-	}
-
-	return 0;
+	return action;
 }
