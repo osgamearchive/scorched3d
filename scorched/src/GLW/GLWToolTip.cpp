@@ -27,8 +27,8 @@
 #include <string.h>
 
 unsigned int GLWTip::nextId_ = 0;
-static Vector color(0.7f, 0.7f, 0.0f);
-static Vector selectedColor(1.0f, 1.0f, 0.0f);
+static Vector color(0.2f, 0.2f, 0.2f);
+static Vector selectedColor(0.0f, 0.0f, 0.0f);
 
 GLWTip::GLWTip(const char *tit, const char *tex) 
 	: id_(++nextId_), x(0), y(0), w(0), h(0)
@@ -172,7 +172,7 @@ void GLWToolTip::draw(const unsigned state)
 	{
 		GLState currentStateBlend(GLState::BLEND_ON);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	
-		glColor4f(0.0f, 0.0, 0.0f, 0.5f);
+		glColor4f(1.0f, 1.0, 0.0f, 0.5f);
 		glBegin(GL_TRIANGLE_FAN);
 			glVertex2f(posX + 10.0f, posY + 2.0f);
 			glVertex2f(posX + 10.0f, posY);
