@@ -128,12 +128,12 @@ AM_PATH_WXCONFIG(2.4.0, wxWin=1)
 if test "$wxWin" != 1; then
         AC_MSG_ERROR([
                 wxWindows must be installed on your system
-                but wx-config script couldn't be found.
+                but the wx-config script couldn't be found.
                 Please check that wx-config is in path, the directory
                 where wxWindows libraries are installed (returned by
                 'wx-config --libs' command) is in LD_LIBRARY_PATH or
                 equivalent variable and wxWindows version is 2.4.0 or above
-		Try http://www.wxwindows.org
+		Try http://www.wxwindows.org to download wxwindows.
         ])
 fi
      
@@ -141,6 +141,24 @@ CPPFLAGS="$CPPFLAGS $WX_CPPFLAGS"
 CXXFLAGS="$CXXFLAGS $WX_CXXFLAGS_ONLY"
 CFLAGS="$CFLAGS $WX_CFLAGS_ONLY"
 LIBS="$LIBS $WX_LIBS"
+
+dnl Check for FreeType2
+AC_CHECK_FT2(7.0.1, ftype=1)
+if test "$ftype" != 1; then
+	AC_MSG_ERROR([
+		FreeType2 must be installed on your system
+		but freetype-config couldn't be found.
+		Please check that freetype-config is in the path, the directory
+		where the freetype libraries are installed (returned by
+		'wx-config --libs' command) is in LD_LIBRARY_PATH or
+                equivalent variable and wxWindows version is 7.0.1 or above
+                Try http://www.freetype.org to download freetype.
+	])
+fi
+
+CFLAGS="$CFLAGS $FT2_CFLAGS"
+CXXFLAGS="$CXXFLAGS $FT2_CFLAGS"
+LIBS="$LIBS $FT2_LIBS"
 
 dnl Define install prefix 
 if test x$prefix = xNONE; then
