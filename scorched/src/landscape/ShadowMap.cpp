@@ -114,10 +114,6 @@ void ShadowMap::addCircle(float sx, float sy, float sw, float opacity)
 	float minY = sy - halfW;
 	float maxX = sx + halfW;
 	float maxY = sy + halfW;
-	/*minX /= 2.0f;
-	minY /= 2.0f;
-	maxX /= 2.0f;
-	maxY /= 2.0f;*/
 
 	minX = MAX(minX, 0.0f);
 	minY = MAX(minY, 0.0f);
@@ -132,13 +128,25 @@ void ShadowMap::addCircle(float sx, float sy, float sw, float opacity)
 	int yInc = size_ - xWidth;
 
 	if (xWidth <= 0 || yWidth <= 0) return;
-	double degMult = (1 / double(yWidth)) * 3.14;
+
+	static float sintable[100];
+	static bool sintablemade = false;
+	if (!sintablemade)
+	{
+		sintablemade = true;
+		float degMult = 0.0314f;
+		for (int i=0; i<100; i++)
+		{
+			float deg = float(i) * degMult;
+			sintable[i] = sinf(deg);
+		}
+	}
 
 	GLubyte *start = &shadowBytes_[(yStart * iSize) + xStart];
 	for (int y=0; y<yWidth; y++, start += yInc)
 	{
-		double deg = double(y) * degMult;
-		int realXSize = int(sin(deg) * double(xWidth));
+		int deg = (y * 100) / yWidth;
+		int realXSize = int(sintable[deg] * xWidth);
 		int halfSize = (xWidth - realXSize) / 2;
 
 		start+=halfSize;
@@ -151,3 +159,4 @@ void ShadowMap::addCircle(float sx, float sy, float sw, float opacity)
 		start+=xWidth - (halfSize + x);
 	}
 }
+

@@ -485,7 +485,9 @@ void WaterMap::calculateRipples()
 				crossB[2] = 0.0f;
 
 				// Calculate the normal
-				currentEntry->normal = (crossA * crossB).Normalize();
+				crossA *= crossB;
+				crossA.StoreNormalize();
+				currentEntry->normal = crossA;
 			}
 			else
 			{

@@ -58,14 +58,15 @@ void ExplosionNukeRenderer::Entry::draw(Vector startPosition, float size)
 	}
 	
 	// Add a shadow of the smoke on the ground
-	if (posX > 0.0f && posY > 0.0f && 
+	if (smoke_ &&
+		posX > 0.0f && posY > 0.0f && 
 		posX < 255.0f && posY < 255.0f)
 	{
 		float aboveGround =	posZ - 
 			ScorchedClient::instance()->getLandscapeMaps().getHMap().
 			getHeight(int (posX), int(posY));
 		Landscape::instance()->getShadowMap().
-			addCircle(posX, posY, (height * aboveGround) / 10.0f, 0.2f);
+			addCircle(posX, posY, (height * aboveGround) / 10.0f, 0.4f * alpha);
 	}
 }
 
@@ -174,6 +175,7 @@ void ExplosionNukeRenderer::simulate(Action *action, float frameTime, bool &remo
 				entry->rotation_ = RAND * (3.14f * 2.0f);
 				entry->texture = &ExplosionTextures::instance()->smokeTexture;
 				entry->textureCoord = (int) (RAND * 3.0f);
+				entry->smoke_ = (RAND > 0.75f);
 
 				float red = RAND * 0.2f + 0.8f;
 				float other = RAND * 0.2f + 0.8f;
