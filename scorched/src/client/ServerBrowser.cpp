@@ -40,17 +40,21 @@ ServerBrowser::~ServerBrowser()
 {
 }
 
-void ServerBrowser::refresh()
+void ServerBrowser::refresh(bool lan)
 {
 	if (refreshing_) return;
 
 	refreshing_ = true;
-	SDL_CreateThread(ServerBrowser::threadFunc, (void *) this);
+	SDL_CreateThread(ServerBrowser::threadFunc, (void *) lan);
 }
 
-int ServerBrowser::threadFunc(void *)
+int ServerBrowser::threadFunc(void *var)
 {
-	if (instance_->serverList_.fetchServerList())
+	bool lan = (bool) var;
+	bool result = false;
+	if (lan) result = instance_->serverList_.fetchLANList();
+	else result = instance_->serverList_.fetchServerList();
+	if (result)
 	{
 		instance_->serverRefresh_.refreshList();
 	}

@@ -50,6 +50,7 @@ public:
 
 	// Fetch the new list from the server
 	bool fetchServerList();
+	bool fetchLANList();
 	unsigned int &getRefreshId() { return refreshId_; }
 
 	// Accessors onto the list
@@ -64,6 +65,8 @@ protected:
 	bool complete_;
 	unsigned int refreshId_;
 	SDL_mutex *vectorMutex_;
+	UDPpacket *sendPacket_;
+	UDPpacket *recvPacket_;
 	NetServer netServer_;
 	NetBuffer sendNetBuffer_;
 	std::vector<ServerBrowserEntry> servers_;

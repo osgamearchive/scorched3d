@@ -47,14 +47,14 @@ my $text = "////////////////////////////////////////////////////////////////////
 my $dir;
 foreach $dir (@dirs)
 {
-	opendir(IN, "..\\src\\$dir") || die "ERROR: DIR \"$dir\"";
+	opendir(IN, "../src/$dir") || die "ERROR: DIR \"$dir\"";
 	my @files = grep { /\.h/ or /\.cpp/ } readdir(IN);
 	closedir(IN);
 
 	my $file;
 	foreach $file (@files)
 	{
-		open (INFILE, "..\\src\\$dir\\$file") || die "ERROR: File \"..\\$dir/$file\"";
+		open (INFILE, "../src/$dir/$file") || die "ERROR: File \"../$dir/$file\"";
 		my @filelines = <INFILE>;
 		close (INFILE);
 
@@ -63,8 +63,8 @@ foreach $dir (@dirs)
 		{
 			$lines = $text.$lines;
 
-			print "..\\src\\$dir\\$file\n";
-			open (OUTFILE, ">..\\src\\$dir\\$file") || die "ERROR: Out File \"..\\$dir/$file\"";
+			print "../src/$dir/$file\n";
+			open (OUTFILE, ">../src/$dir/$file") || die "ERROR: Out File \"../$dir/$file\"";
 			print OUTFILE $lines;
 			close (OUTFILE);
 		}

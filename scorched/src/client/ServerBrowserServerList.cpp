@@ -64,6 +64,11 @@ ServerBrowserServerList::ServerBrowserServerList() :
 	// All messages will come to this class
 	netServer_.setMessageHandler(this);
 	vectorMutex_ = SDL_CreateMutex();
+
+	recvPacket_ = SDLNet_AllocPacket(10000);
+	sendPacket_ = SDLNet_AllocPacket(20);
+	sendPacket_->len = 7;
+	memcpy(sendPacket_->data, "status", 7);
 }
 
 
@@ -112,7 +117,67 @@ bool ServerBrowserServerList::fetchServerList()
 
 	// Ensure that we only have one open connection to the server
 	netServer_.disconnectAllClients();
+
+	complete_ = true;
 	return false;
+}
+
+bool ServerBrowserServerList::fetchLANList()
+{
+	complete_ = false;
+
+	SDL_LockMutex(vectorMutex_);
+	servers_.clear();
+	SDL_UnlockMutex(vectorMutex_);
+	
+	IPaddress address;
+	address.host = INADDR_BROADCAST;
+	address.port = ScorchedPort + 1;
+	
+	// Connect to the client
+	UDPsocket udpsock = SDLNet_UDP_Open(0);
+	if (!udpsock) return false;
+	int chan = SDLNet_UDP_Bind(udpsock, -1, &address);
+	if (chan == -1) return false;
+	
+	// Send the request for info
+	SDLNet_UDP_Send(udpsock, chan, sendPacket_);
+
+	// Accept the results
+	time_t startTime = time(0);
+	for (;;)
+	{
+		SDL_Delay(1000);
+		if (SDLNet_UDP_Recv(udpsock, recvPacket_))
+		{
+			// Get the name attribute
+			ServerBrowserEntry newEntry;
+			char hostName[256];
+			sprintf(hostName,
+					"%i.%i.%i.%i:%i",
+					(recvPacket_->address.host&0xFF000000)>>24,
+					(recvPacket_->address.host&0xFF0000)>>16,
+					(recvPacket_->address.host&0xFF00)>>8,
+					(recvPacket_->address.host&0xFF),
+					(recvPacket_->address.port - 1));
+			newEntry.addAttribute("address", hostName);
+			
+			// Add the new and its attributes
+			SDL_LockMutex(vectorMutex_);
+			servers_.push_back(newEntry);
+			SDL_UnlockMutex(vectorMutex_);
+			
+			refreshId_++;
+		}
+		
+		time_t theTime = time(0);
+		if (theTime - startTime > 5) break;
+	}
+	
+	SDLNet_UDP_Close(udpsock);
+	complete_ = true;
+
+	return true;
 }
 
 void ServerBrowserServerList::processMessage(NetMessage &message)

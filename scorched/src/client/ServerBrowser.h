@@ -28,7 +28,7 @@ class ServerBrowser
 public:
 	static ServerBrowser *instance();
 
-	void refresh();
+	void refresh(bool lan);
 	bool getRefreshing() { return refreshing_; }
 	
 	ServerBrowserServerList &getServerList() { return serverList_; }

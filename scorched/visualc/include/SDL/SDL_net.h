@@ -59,19 +59,22 @@ typedef struct {
    If 'host' is NULL, the resolved host will be set to INADDR_ANY.
  */
 #ifndef INADDR_ANY
-#define INADDR_ANY	0x00000000
+#define INADDR_ANY		0x00000000
 #endif
 #ifndef INADDR_NONE
-#define INADDR_NONE	0xFFFFFFFF
+#define INADDR_NONE		0xFFFFFFFF
 #endif
-extern DECLSPEC int SDLCALL SDLNet_ResolveHost(IPaddress *address, char *host, Uint16 port);
+#ifndef INADDR_BROADCAST
+#define INADDR_BROADCAST	0xFFFFFFFF
+#endif
+extern DECLSPEC int SDLCALL SDLNet_ResolveHost(IPaddress *address, const char *host, Uint16 port);
 
 /* Resolve an ip address to a host name in canonical form.
    If the ip couldn't be resolved, this function returns NULL,
    otherwise a pointer to a static buffer containing the hostname
    is returned.  Note that this function is not thread-safe.
 */
-extern DECLSPEC char * SDLCALL SDLNet_ResolveIP(IPaddress *ip);
+extern DECLSPEC const char * SDLCALL SDLNet_ResolveIP(IPaddress *ip);
 
 
 /***********************************************************************/
@@ -199,6 +202,11 @@ extern DECLSPEC int SDLCALL SDLNet_UDP_SendV(UDPsocket sock, UDPpacket **packets
    The packet will be updated with the status of the packet after it has
    been sent.
    This function returns 1 if the packet was sent, or 0 on error.
+
+   NOTE:
+   The maximum size of the packet is limited by the MTU (Maximum Transfer Unit)
+   of the transport medium.  It can be as low as 250 bytes for some PPP links,
+   and as high as 1500 bytes for ethernet.
 */
 extern DECLSPEC int SDLCALL SDLNet_UDP_Send(UDPsocket sock, int channel, UDPpacket *packet);
 

@@ -92,19 +92,7 @@ extern char scorched3dAppName[128];
 
 void refreshLANWindow(bool lanRefresh)
 {
-	if (lanRefresh)
-	{
-		//if (ASEBrowser_refreshlan(ScorchedPort) == 0)
-		//{
-			dialogMessage("Scorched 3D LAN/NET", 
-				"LAN refresh not implemented!");
-			return;
-		//}
-	}
-	else
-	{
-		ServerBrowser::instance()->refresh();
-	}
+	ServerBrowser::instance()->refresh(lanRefresh);
 
 	IDC_BUTTON_LAN_CTRL->Disable();
 	IDC_BUTTON_NET_CTRL->Disable();

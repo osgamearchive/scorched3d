@@ -25,14 +25,14 @@ my @dirs =
 my $dir;
 foreach $dir (@dirs)
 {
-	opendir(IN, "..\\src\\$dir") || die "ERROR: DIR \"$dir\"";
+	opendir(IN, "../src/$dir") || die "ERROR: DIR \"$dir\"";
 	my @files = grep { /\.h/ } readdir(IN);
 	closedir(IN);
 
 	my $file;
 	foreach $file (@files)
 	{
-		open (INFILE, "..\\src\\$dir\\$file") || die "ERROR: File \"..\\$dir/$file\"";
+		open (INFILE, "../src/$dir/$file") || die "ERROR: File \"../$dir/$file\"";
 		my @filelines = <INFILE>;
 		close (INFILE);
 
@@ -55,7 +55,7 @@ foreach $dir (@dirs)
 			$filelines[$index] = "#if !defined($incline)\n#define $incline\n";
 			push @filelines, "\n\n#endif\n";
 
-			open(OUTFILE, ">..\\src\\$dir\\$file") || die "ERROR: Out";
+			open(OUTFILE, ">../src/$dir/$file") || die "ERROR: Out";
 			print OUTFILE @filelines;
 			close (OUTFILE);
 		}

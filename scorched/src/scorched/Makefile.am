@@ -538,6 +538,7 @@ scorched3d_SOURCES = \
 	../ode/space.h \
 	../ode/stack.h \
 	../ode/step.cpp \
+	../ode/stepfast.cpp \
 	../ode/step.h \
 	../ode/testing.cpp \
 	../ode/testing.h \
