@@ -50,6 +50,7 @@ enum
 	ID_BUTTON_SINGLE,
 	ID_BUTTON_SERVER,
 	ID_BUTTON_SCORCHED,
+	ID_BUTTON_DONATE,
 	ID_BUTTON_HELP,
 	ID_MAIN_TIMER
 };
@@ -181,6 +182,7 @@ public:
 	void onSingleButton();
 	void onServerButton();
 	void onScorchedClick();
+	void onDonateClick();
 	void onHelpButton();
 
 private:
@@ -196,6 +198,7 @@ BEGIN_EVENT_TABLE(MainFrame, wxFrame)
 	EVT_BUTTON(ID_BUTTON_SERVER,  MainFrame::onServerButton)
 	EVT_BUTTON(wxID_CANCEL,  MainFrame::onQuitButton)
 	EVT_BUTTON(ID_BUTTON_SCORCHED,  MainFrame::onScorchedClick)
+	EVT_BUTTON(ID_BUTTON_DONATE, MainFrame::onDonateClick)
 	EVT_BUTTON(ID_BUTTON_HELP,  MainFrame::onHelpButton)
 END_EVENT_TABLE()
 
@@ -280,15 +283,29 @@ MainFrame::MainFrame() :
 	}
 
 	topsizer->Add(gridsizer, 0, wxALIGN_CENTER | wxLEFT | wxRIGHT, 20);
+	
+	// Donatations
+	// Quit button
+	wxBoxSizer *buttonSizer = new wxBoxSizer(wxHORIZONTAL);
+	{
+		wxBitmap scorchedBitmap;
+		if (scorchedBitmap.LoadFile(getDataFile("data/windows/donate.bmp"), 
+			wxBITMAP_TYPE_BMP) &&
+			scorchedBitmap.Ok())
+		{
+			wxBitmapButton *button = new wxBitmapButton(
+				this, ID_BUTTON_DONATE, scorchedBitmap);
+			buttonSizer->Add(button, 0, wxALIGN_LEFT | wxALL, 10);
+		}
+	}
+	buttonSizer->Add(new wxBoxSizer(wxHORIZONTAL), 1, wxGROW);
+	buttonSizer->Add(new wxButton(this, wxID_CANCEL, "Quit"), 0, 
+		wxALIGN_RIGHT | wxALIGN_BOTTOM | wxALL, 10);
+	topsizer->Add(buttonSizer, 1, wxGROW);
 
 	// Setup timer
 	timer_.SetOwner(this, ID_MAIN_TIMER);
 	timer_.Start(1000, false);
-
-	// Quit button
-	wxBoxSizer *buttonSizer = new wxBoxSizer(wxHORIZONTAL);
-	buttonSizer->Add(new wxButton(this, wxID_CANCEL, "Quit"), 0, wxALL, 5);
-	topsizer->Add(buttonSizer, 0, wxALIGN_RIGHT);
 
 	// use the sizer for layout
 	SetSizer(topsizer); 
@@ -346,6 +363,14 @@ void MainFrame::onScorchedClick()
 {
 #ifdef _WIN32
 	WinExec("explorer http://www.scorched3d.co.uk", SW_SHOWDEFAULT);
+#endif
+}
+
+void MainFrame::onDonateClick()
+{
+#ifdef _WIN32
+	WinExec("https://www.paypal.com/xclick/business=donations%40"
+		"scorched3d.co.uk&item_name=Scorched3D&no_note=1&tax=0&currency_code=GBP",SW_SHOWDEFAULT);
 #endif
 }
 
