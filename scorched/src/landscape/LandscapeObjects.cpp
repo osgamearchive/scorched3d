@@ -24,6 +24,7 @@
 #include <GLEXT/GLVertexSetGroup.h>
 #include <GLEXT/GLBitmap.h>
 #include <common/Defines.h>
+#include <common/OptionsDisplay.h>
 #include <client/ScorchedClient.h>
 #include <stdio.h>
 
@@ -54,6 +55,8 @@ LandscapeObjects::~LandscapeObjects()
 
 void LandscapeObjects::draw()
 {
+	if (OptionsDisplay::instance()->getNoTrees()) return;
+
 	std::list<Entry*>::iterator itor = entries_.begin();
 	std::list<Entry*>::iterator enditor = entries_.end();
 	for (; itor != enditor; itor++)
@@ -68,8 +71,8 @@ void LandscapeObjects::drawItem(float distance, GLOrderedItemRenderer::OrderedEn
 	LandscapeObjects::Entry &entry = (LandscapeObjects::Entry &) oentry;
 
 	// Add shadow
-	Landscape::instance()->getShadowMap().
-		addCircle(entry.posX, entry.posY, 5.0f, 1.0f);
+	//Landscape::instance()->getShadowMap().
+	//	addCircle(entry.posX, entry.posY, 5.0f, 1.0f);
 
 	// Draw Trees
 	glDepthMask(GL_TRUE);
@@ -82,9 +85,11 @@ void LandscapeObjects::drawItem(float distance, GLOrderedItemRenderer::OrderedEn
 
 void LandscapeObjects::generate(ProgressCounter *counter)
 {
-	return; // No trees for now ;)
+	//return; // No trees for now ;)
 
 	if (counter) counter->setNewOp("Populating Landscape");
+
+	// TODO we need to add the shadow to the texture map
 
 	// Clear any current trees
 	entries_.clear();

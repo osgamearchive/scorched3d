@@ -19,6 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <sprites/MissileActionRenderer.h>
+#include <GLEXT/GLCameraFrustum.h>
 #include <3dsparse/ModelsFile.h>
 #include <actions/ShotProjectile.h>
 #include <landscape/Landscape.h>
@@ -59,6 +60,14 @@ void MissileActionRenderer::simulate(Action *action, float timepassed, bool &rem
 void MissileActionRenderer::draw(Action *action)
 {
 	ShotProjectile *shot = (ShotProjectile *) action;
+	Vector &actualPos = shot->getCurrentPosition();
+	Vector &actualdir = shot->getCurrentVelocity();
+
+	// Check we can see the missile
+	if (!GLCameraFrustum::instance()->pointInFrustum(actualPos))
+	{
+		return;
+	}
 
 	// Do we have a loaded mesh
 	if (!mesh_)
@@ -119,9 +128,6 @@ void MissileActionRenderer::draw(Action *action)
 			mesh_ = (*itor).second;
 		}
 	}
-
-	Vector &actualPos = shot->getCurrentPosition();
-	Vector &actualdir = shot->getCurrentVelocity();
 
 	mesh_->setScale(scale_);
 	mesh_->draw(actualPos, actualdir, flareType_, rotation_);

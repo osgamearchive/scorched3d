@@ -18,9 +18,9 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <sprites/TextActionRenderer.h>
 #include <GLW/GLWFont.h>
+#include <GLEXT/GLCameraFrustum.h>
 #include <GLEXT/GLState.h>
 
 TextActionRenderer::TextActionRenderer(
@@ -47,6 +47,11 @@ void TextActionRenderer::simulate(Action *action, float timepassed, bool &remove
 
 void TextActionRenderer::draw(Action *action)
 {
+	if (!GLCameraFrustum::instance()->pointInFrustum(position_))
+	{
+		return;
+	}
+
 	GLState currentState(GLState::DEPTH_ON | GLState::TEXTURE_ON);
 	glDepthMask(GL_FALSE);
 	GLWFont::instance()->getFont()->drawBilboard(color_, 1.0f, 

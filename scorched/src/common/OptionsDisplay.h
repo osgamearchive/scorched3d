@@ -150,6 +150,9 @@ public:
 	bool getNoSkyLayers() { return noSkyLayers_.getValue(); }
 	void setNoSkyLayers(bool value) { noSkyLayers_.setValue(value); }
 
+	bool getNoTrees() { return noTrees_.getValue(); }
+	void setNoTrees(bool value) { noTrees_.setValue(value); }
+
 	bool getShowContextHelp() { return showContextHelp_.getValue(); }
 	void setShowContextHelp(bool value) { showContextHelp_.setValue(value); }
 
@@ -229,6 +232,7 @@ protected:
 	OptionEntryBool drawPlayerSight_;
 	OptionEntryBool drawPlayerColor_;
 	OptionEntryBool drawPlayerHealth_;
+	OptionEntryBool noTrees_;
 	OptionEntryBool noROAM_;
 	OptionEntryBool useLandscapeTexture_;
 	OptionEntryBool noSkyLayers_;

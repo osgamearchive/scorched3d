@@ -20,6 +20,7 @@
 
 #include <GLEXT/GLOrderedItemRenderer.h>
 #include <GLEXT/GLState.h>
+#include <GLEXT/GLCameraFrustum.h>
 #include <client/MainCamera.h>
 #include <common/OptionsDisplay.h>
 
@@ -84,17 +85,24 @@ void GLOrderedItemRenderer::draw(const unsigned state)
 	std::vector<OrderedEntry *>::iterator addItor;
 
 	// Add entries that are required
+	Vector point;
 	for (addItor = requiredEntries_.begin();
 		addItor != requiredEntries_.end();
 		addItor++)
 	{
 		OrderedEntry *entry = *addItor;
-		float dist = 0.0f;
-		dist += (cameraPos[0] - entry->posX) * (cameraPos[0] - entry->posX);
-		dist += (cameraPos[1] - entry->posY) * (cameraPos[1] - entry->posY);
-		dist += (cameraPos[2] - entry->posZ) * (cameraPos[2] - entry->posZ);
+		point[0] = entry->posX;
+		point[1] = entry->posY;
+		point[2] = entry->posZ;
+		if (GLCameraFrustum::instance()->pointInFrustum(point))
+		{
+			float dist = 0.0f;
+			dist += (cameraPos[0] - entry->posX) * (cameraPos[0] - entry->posX);
+			dist += (cameraPos[1] - entry->posY) * (cameraPos[1] - entry->posY);
+			dist += (cameraPos[2] - entry->posZ) * (cameraPos[2] - entry->posZ);
 
-		entries.insert(std::pair<float, OrderedEntry *>(dist,entry));
+			entries.insert(std::pair<float, OrderedEntry *>(dist,entry));
+		}
 	}
 
 	// Add entries that are NOT required

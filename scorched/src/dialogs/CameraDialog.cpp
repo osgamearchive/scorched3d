@@ -103,6 +103,7 @@ void CameraDialog::draw()
 	
 	// Return the viewport to the original
 	Main2DCamera::instance()->draw(0);
+	GLCameraFrustum::instance()->draw(0);
 }
 
 void CameraDialog::simulate(float frameTime)
