@@ -21,6 +21,7 @@
 #include <actions/TankFalling.h>
 #include <tank/TankController.h>
 #include <tank/TankContainer.h>
+#include <common/OptionsGame.h>
 #include <engine/ScorchedContext.h>
 #include <engine/ActionController.h>
 #include <actions/TankMove.h>
@@ -204,7 +205,10 @@ void TankFalling::collision()
 
 		// Check we need to cancel the damage
 		bool useParachute = false;
-		if (dist < 0.5f)
+
+		float minDist = float(context_->optionsGame->
+			getMinFallingDistance()) / 10.0f;
+		if (dist < minDist)
 		{
 			// No damage (or parachutes used for tiny falls)
 			damage = 0.0f;

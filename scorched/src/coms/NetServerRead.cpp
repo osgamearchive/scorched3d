@@ -22,6 +22,7 @@
 #include <coms/NetMessagePool.h>
 #include <common/Clock.h>
 #include <common/Logger.h>
+#include <common/Defines.h>
 
 NetServerRead::NetServerRead(TCPsocket socket,
 							 NetServerProtocol *protocol,
@@ -67,6 +68,12 @@ NetServerRead::~NetServerRead()
 
 void NetServerRead::addMessage(NetMessage *message)
 {
+	if (message->getMessageType() != NetMessage::DisconnectMessage && 
+		message->getBuffer().getBuffer() == 0) 
+	{ 
+		DIALOG_ASSERT(0); 
+	}
+
 	SDL_LockMutex(outgoingMessagesMutex_);
 	newMessages_.push_back(message);
 	if (message->getMessageType() == NetMessage::DisconnectMessage &&

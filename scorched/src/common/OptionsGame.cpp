@@ -43,6 +43,8 @@ OptionsGame::OptionsGame() :
 		"The amount of time to show the end of game scores for", 0, 15),
 	idleKickTime_(options_, "IdleKickTime",
 		"The amount of time to give clients to respond before kicking them", 0, 30),
+	minFallingDistance_(options_, "MinFallingDistance",
+		"The minimum distance that can be made with no damage (value is divided by 10)", 0, 5),
 	gravity_(options_, "Gravity",
 		"The gravity used by the physics engine", 0, -10),
 	maxRoundTurns_(options_, "MaxNumberOfRoundTurns",
