@@ -2,8 +2,8 @@
 Added: Rotation, elevation and power differences to weapon dialog
 Added: Clickable areas lighten on mouseover in HUD
 
-Fixed: testing code being producing in console
-Fixed: Failing to load display.xml because of user name containing "forgien" chars
+Fixed: testing code being produced in console
+Fixed: Failing to load display.xml because of user name containing "foreign" chars
 Fixed: Selling items in the free market gives too much money
 
 -- Bugs in current development release
@@ -30,8 +30,7 @@ keep track of money after you leave the server
 keep track of views 
 Make a count down sound when timer runs out.
 Add option for human players to say stuff when firing/killed
-Chat logger (for urls) (you can do this using client logging)
-Only show sprites/pictures for the tanks in the chooser dialog (use 3d model for selected tanks) (kind of fixed by using progress bar)
+Chat logger (for urls) (you can do this using client logging) Only show sprites/pictures for the tanks in the chooser dialog (use 3d model for selected tanks) (kind of fixed by using progress bar)
 
 -- Other Stuff
 Add the ability to customize the languages (for dialogs etc..) (localisation)

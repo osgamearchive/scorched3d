@@ -1,5 +1,5 @@
 Name: scorched3d
-Version: 37
+Version: 37.1
 Release: 2
 License: GPL
 Group: Amusements/Games
@@ -52,6 +52,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/scorched3d
 
 %changelog
+* Fri Apr 2 2004 Edward Rudd 
+- Fixed data dir location and permissions
 * Sun Dec 7 2003 Gavin Camp gcamp@scorched3d.co.uk
 - First build.
 

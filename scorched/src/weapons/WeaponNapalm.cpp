@@ -141,16 +141,21 @@ bool WeaponNapalm::readAccessory(NetBufferReader &reader)
 void WeaponNapalm::fireWeapon(ScorchedContext &context,
 	unsigned int playerId, Vector &position, Vector &velocity)
 {
+	bool playSound = false;
 	for (int i=0; i<numberStreams_; i++)
 	{
 		int x = int(position[0] + RAND * 4.0f - 2.0f);
 		int y = int(position[1] + RAND * 4.0f - 2.0f);
+		if (context.landscapeMaps.getHMap().getHeight(x, y) > 5.0f)
+		{
+			playSound = true;
+		}
 		addNapalm(context, playerId, x, y);
 	}
 
 	if (!context.serverMode) 
 	{
-		if (getExplosionSound())
+		if (getExplosionSound() && playSound)
 		{
 			SoundBuffer *expSound = 
 				SoundStore::instance()->fetchOrCreateBuffer((char *)
