@@ -45,13 +45,18 @@ TankRenderer::~TankRenderer()
 
 void TankRenderer::Renderer2D::draw(const unsigned state)
 {
-	TankRenderer::instance()->draw(false, state);
+	TankRenderer::instance()->draw(TankRenderer::Type2D, state);
 }
 
 void TankRenderer::Renderer3D::draw(const unsigned state)
 {
 	TankRenderer::instance()->tracerStore_.draw(state);
-	TankRenderer::instance()->draw(true, state);
+	TankRenderer::instance()->draw(TankRenderer::Type3D, state);
+}
+
+void TankRenderer::Renderer3DSecond::draw(const unsigned state)
+{
+	TankRenderer::instance()->draw(TankRenderer::Type3DSecond, state);
 }
 
 void TankRenderer::Renderer3D::simulate(const unsigned state, float simTime)
@@ -98,7 +103,7 @@ void TankRenderer::newGame()
 	}
 }
 
-void TankRenderer::draw(bool d, const unsigned state)
+void TankRenderer::draw(DrawType dt, const unsigned state)
 {
 	Tank *currentTank =
 		TankContainer::instance()->getCurrentTank();
@@ -129,8 +134,18 @@ void TankRenderer::draw(bool d, const unsigned state)
 		{
 			current = (tank == currentTank);
 		}
-
-		if (d) model->draw(current);
-		else model->draw2d(current);
+	
+		switch (dt)
+		{
+		case Type3D:
+			model->draw(current);
+			break;
+		case Type3DSecond:
+			model->drawSecond(current);
+			break;
+		case Type2D:
+			model->draw2d(current);
+			break;
+		}
 	}
 }

@@ -18,11 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// ClientState.cpp: implementation of the ClientState class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <engine/ActionController.h>
 #include <engine/FrameTimer.h>
 #include <engine/MainLoop.h>
@@ -73,9 +68,11 @@ void ClientState::addStandardComponents(unsigned state, bool network)
 	GameState::instance()->addStateLoop(state, 
 		MainCamera::instance(), FrameTimer::instance());
 	GameState::instance()->addStateLoop(state, 
+		MainCamera::instance(), &TankRenderer::instance()->render3D);
+	GameState::instance()->addStateLoop(state, 
 		MainCamera::instance(), Landscape::instance());
 	GameState::instance()->addStateLoop(state, 
-		MainCamera::instance(), &TankRenderer::instance()->render3D);
+		MainCamera::instance(), &TankRenderer::instance()->render3DSecond);
 	GameState::instance()->addStateLoop(state, 
 		Main2DCamera::instance(), &TankRenderer::instance()->render2D);
 	if (!network)

@@ -61,42 +61,6 @@ void TankModelRenderer::draw(bool currentTank)
 		return;
 	}
 
-
-
-
-
-	// TODO test stuff
-	/*static std::list<Vector> pts;
-	static bool ptInit = false;
-	if (!ptInit)
-	{
-		ptInit = true;
-		Fuel::calculateAvailable(
-			(unsigned int) tank_->getPhysics().getTankPosition()[0],
-			(unsigned int) tank_->getPhysics().getTankPosition()[1],
-			10,
-			pts);
-	}
-	glBegin(GL_LINES);
-	glColor3f(1.0f, 0.0f, 0.0f);
-	std::list<Vector>::iterator itor;
-	for (itor = pts.begin();
-		itor != pts.end();
-		itor++)
-	{
-		Vector &pos = (*itor);
-		if (pos[0] > 0 && pos[0] < 256 &&
-			pos[1] > 0 && pos[1] < 256)
-		{
-			pos[2] = GlobalHMap::instance()->getHMap().getHeight(
-				(int) pos[0], (int) pos[1]);
-			glVertex3fv(pos);
-			glVertex3f(pos[0], pos[1], pos[2] + 10.0f);
-		}
-	}
-	glEnd();*/
-
-
 	// Store the position in which we should draw the players names
 	storeTank2DPos();
 
@@ -115,7 +79,10 @@ void TankModelRenderer::draw(bool currentTank)
 		fireOffSet_, 
 		tank_->getPhysics().getRotationGunXY(), 
 		tank_->getPhysics().getRotationGunYZ());
+}
 
+void TankModelRenderer::drawSecond(bool currentTank)
+{
 	// Draw the current shield (if any)
 	if (tank_->getAccessories().getShields().getCurrentShield())
 	{
@@ -128,14 +95,12 @@ void TankModelRenderer::draw(bool currentTank)
 		Vector &bilX = GLCameraFrustum::instance()->getBilboardVectorX(); 
 		bilX *= float(tank_->getNameLen()) * 0.35f;
 
-		glDepthMask(GL_FALSE);
 		GLWFont::instance()->getFont()->drawBilboard(
 			tank_->getColor(), 1,
 			(float) tank_->getPhysics().getTankPosition()[0] - bilX[0], 
 			(float) tank_->getPhysics().getTankPosition()[1] - bilX[1], 
 			(float) tank_->getPhysics().getTankPosition()[2] + 8.0f,
 			tank_->getName());
-		glDepthMask(GL_TRUE);
 	}
 
 	// Draw the parachutes (if any)

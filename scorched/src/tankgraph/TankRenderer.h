@@ -39,6 +39,11 @@ public:
 		virtual void draw(const unsigned state);
 		virtual void simulate(const unsigned state, float simTime);
 	} render3D;
+	struct Renderer3DSecond : public GameStateI
+	{
+		// Inherited from GameStateI
+		virtual void draw(const unsigned state);
+	} render3DSecond;
 	struct Renderer2D : public GameStateI
 	{
 		// Inherited from GameStateI
@@ -48,13 +53,20 @@ public:
 	void newGame();
 
 	friend struct Renderer3D;
+	friend struct Renderer3DSecond;
 	friend struct Renderer2D;
 protected:
 	static TankRenderer *instance_;
+	enum DrawType
+	{
+		Type3D,
+		Type3DSecond,
+		Type2D
+	};
 	TankMenus menus_;
 	TracerStore tracerStore_;
 
-	void draw(bool d, const unsigned state);
+	void draw(DrawType dt, const unsigned state);
 
 private:
 	TankRenderer();

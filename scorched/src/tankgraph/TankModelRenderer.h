@@ -52,6 +52,7 @@ public:
 	virtual ~TankModelRenderer();
 
 	virtual void draw(bool currentTank);
+	virtual void drawSecond(bool currentTank);
 	virtual void draw2d(bool currentTank);
 	virtual void fired();
 	virtual void simulate(float frameTime);
