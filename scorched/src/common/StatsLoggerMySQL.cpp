@@ -21,6 +21,7 @@
 #ifdef HAVE_MYSQL
 
 #include <common/StatsLoggerMySQL.h>
+#include <common/OptionsGame.h>
 #include <common/Logger.h>
 #include <server/ServerCommon.h>
 #include <weapons/AccessoryStore.h>
