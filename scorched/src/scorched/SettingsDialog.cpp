@@ -154,6 +154,8 @@ bool SettingsFrame::TransferDataToWindow()
 	{
 		SettingsPlayers::IDC_EDIT3_CTRL->
 			SetValue(OptionsGame::instance()->getBotNamePrefix());
+		SettingsPlayers::IDC_EDIT3_CTRL->SetToolTip(
+			wxString("The text prefixed onto any player that is a bot."));
 
 		// Min max players are rounds combos
 		char buffer[25];
@@ -168,8 +170,14 @@ bool SettingsFrame::TransferDataToWindow()
 		}
 		sprintf(buffer, "%i", OptionsGame::instance()->getNoMinPlayers());
 		SettingsPlayers::IDC_SERVER_MIN_PLAYERS_CTRL->SetValue(buffer);
+		SettingsPlayers::IDC_SERVER_MIN_PLAYERS_CTRL->SetToolTip(
+			wxString("The number of players that must be on the server before a game starts."));
+
+
 		sprintf(buffer, "%i", OptionsGame::instance()->getNoMaxPlayers());
 		SettingsPlayers::IDC_SERVER_MAX_PLAYERS_CTRL->SetValue(buffer);
+		SettingsPlayers::IDC_SERVER_MAX_PLAYERS_CTRL->SetToolTip(
+			wxString("The maximum number of players that can be on the server."));
 
 		std::list<TankAIComputer *> &ais = 
 			TankAIStore::instance()->getAis();
@@ -202,6 +210,8 @@ bool SettingsFrame::TransferDataToWindow()
 		}
 		sprintf(buffer, "%i", OptionsGame::instance()->getNoHills());
 		SettingsLand::IDC_LANDCOVERAGE_CTRL->SetValue(buffer);
+		SettingsLand::IDC_LANDCOVERAGE_CTRL->SetToolTip(
+			wxString("Specifies how large the island is."));
 
 		// Land Height
 		for (i=100; i>=0; i-=10)
@@ -211,6 +221,8 @@ bool SettingsFrame::TransferDataToWindow()
 		}
 		sprintf(buffer, "%i", OptionsGame::instance()->getMaxHeight());
 		SettingsLand::IDC_LANDHEIGHT_CTRL->SetValue(buffer);
+		SettingsLand::IDC_LANDHEIGHT_CTRL->SetToolTip(
+			wxString("Specifies how hilly the landscape is."));
 	}
 
 	// Eco
@@ -225,6 +237,8 @@ bool SettingsFrame::TransferDataToWindow()
 		}
 		sprintf(buffer, "%i", OptionsGame::instance()->getBuyOnRound());
 		SettingsEco::IDC_BUYONROUND_CTRL->SetValue(buffer);
+		SettingsEco::IDC_BUYONROUND_CTRL->SetToolTip(
+			wxString("Players will be allowed to buy more weapons on this round."));
 
 		// Money per hit
 		for (i=2000; i>=0; i-=100)
@@ -234,6 +248,9 @@ bool SettingsFrame::TransferDataToWindow()
 		}
 		sprintf(buffer, "%i", OptionsGame::instance()->getMoneyWonPerHitPoint());
 		SettingsEco::IDC_MONEYPERHIT_CTRL->SetValue(buffer);
+		SettingsEco::IDC_MONEYPERHIT_CTRL->SetToolTip(
+			wxString("The money awarded for killing another tank.\n"
+				"This is multiplied by the weapons arms level"));
 
 		// Start Money
 		for (i=250000; i>=0; i-=5000)
@@ -244,8 +261,12 @@ bool SettingsFrame::TransferDataToWindow()
 		}
 		sprintf(buffer, "%i", OptionsGame::instance()->getStartMoney());
 		SettingsEco::IDC_STARTMONEY_CTRL->SetValue(buffer);
+		SettingsEco::IDC_STARTMONEY_CTRL->SetToolTip(
+			wxString("The money each tank will start the game with."));
 		sprintf(buffer, "%i", OptionsGame::instance()->getMoneyWonForRound());
 		SettingsEco::IDC_MONEYPERROUND_CTRL->SetValue(buffer);
+		SettingsEco::IDC_MONEYPERROUND_CTRL->SetToolTip(
+			wxString("The money awarded to the last tank surviving a round."));
 
 		// Interest
 		for (i=100; i>=0; i-=5)
@@ -255,6 +276,8 @@ bool SettingsFrame::TransferDataToWindow()
 		}
 		sprintf(buffer, "%i", OptionsGame::instance()->getInterest());
 		SettingsEco::IDC_INTEREST_CTRL->SetValue(buffer);
+		SettingsEco::IDC_INTEREST_CTRL->SetToolTip(
+			wxString("The amount of monetary interest gained at the end of each round."));
 	}
 
 	// Env
@@ -270,6 +293,8 @@ bool SettingsFrame::TransferDataToWindow()
 		}
 		SettingsEnv::IDC_COMBO_FORCE_CTRL->SetSelection(
 			OptionsGame::instance()->getWindForce());
+		SettingsEnv::IDC_COMBO_FORCE_CTRL->SetToolTip(
+			wxString("The force of the wind."));
 
 		// Wind changes
 		SettingsEnv::IDC_COMBO_WINDCHANGES_CTRL->Append("On Round", 
@@ -278,6 +303,8 @@ bool SettingsFrame::TransferDataToWindow()
 			(void *) OptionsGame::WindOnMove);
 		SettingsEnv::IDC_COMBO_WINDCHANGES_CTRL->SetSelection(
 			OptionsGame::instance()->getWindType());
+		SettingsEnv::IDC_COMBO_WINDCHANGES_CTRL->SetToolTip(
+			wxString("Specifies when the wind is allowed to change direction."));
 
 		// Wall type
 		SettingsEnv::IDC_COMBO_WALLTYPE_CTRL->Append("Random", 
@@ -288,6 +315,8 @@ bool SettingsFrame::TransferDataToWindow()
 			(void *) OptionsGame::WallBouncy);
 		SettingsEnv::IDC_COMBO_WALLTYPE_CTRL->SetSelection(
 			OptionsGame::instance()->getWallType());
+		SettingsEnv::IDC_COMBO_WALLTYPE_CTRL->SetToolTip(
+			wxString("Specifies the behaviour of the walls that surround the island."));
 
 		// Weapon Scale
 		SettingsEnv::IDC_COMBO_WEAPONSCALE_CTRL->Append("Small", 
@@ -298,6 +327,8 @@ bool SettingsFrame::TransferDataToWindow()
 			(void *) OptionsGame::ScaleLarge);
 		SettingsEnv::IDC_COMBO_WEAPONSCALE_CTRL->SetSelection(
 			OptionsGame::instance()->getWeapScale());
+		SettingsEnv::IDC_COMBO_WEAPONSCALE_CTRL->SetToolTip(
+			wxString("Specifies the size of the blast radius for explosive weapons."));
 
 		// Weapon Scale
 		for (int i=0; i<=10; i++)
@@ -309,6 +340,8 @@ bool SettingsFrame::TransferDataToWindow()
 		}
 		SettingsEnv::IDC_COMBO_ARMSLEVEL_CTRL->SetSelection(
 			OptionsGame::instance()->getMaxArmsLevel());
+		SettingsEnv::IDC_COMBO_ARMSLEVEL_CTRL->SetToolTip(
+			wxString("Specifies the most powerful weapon that will be available to buy."));
 	}
 
 	// Main
@@ -325,6 +358,9 @@ bool SettingsFrame::TransferDataToWindow()
 		SettingsMain::IDC_SERVER_PLAYERS_CTRL->SetValue(string);
 		SettingsMain::IDC_SERVER_PLAYERS_CTRL->Show(playersPanel_ == 0);
 		SettingsMain::IDC_SERVER_PLAYERS_CTRL_TEXT->Show(playersPanel_ == 0);
+		SettingsMain::IDC_SERVER_PLAYERS_CTRL->SetToolTip(
+			wxString("The number of players that will play in this game.\n"
+				"This number should include computer players"));
 
 		// Rounds combo
 		for (i=1; i<25; i++)
@@ -334,6 +370,9 @@ bool SettingsFrame::TransferDataToWindow()
 		}
 		SettingsMain::IDC_SERVER_ROUNDS_CTRL->SetSelection(
 			OptionsGame::instance()->getNoRounds() - 1);
+		SettingsMain::IDC_SERVER_ROUNDS_CTRL->SetToolTip(
+			wxString("The number of rounds that will be played in this game."));
+
 
 		// The waiting time
 		for (i=0; i<=90; i+=5)
@@ -347,10 +386,16 @@ bool SettingsFrame::TransferDataToWindow()
 		}
 		SettingsMain::IDC_SHOT_TIME_CTRL->SetSelection(
 			OptionsGame::instance()->getShotTime()/5);
+		SettingsMain::IDC_SHOT_TIME_CTRL->SetToolTip(
+			wxString("The maximum amount of time allowed for each player to make a move."));
 		SettingsMain::IDC_WAIT_TIME_CTRL->SetSelection(
 			OptionsGame::instance()->getWaitTime()/5);
+		SettingsMain::IDC_WAIT_TIME_CTRL->SetToolTip(
+			wxString("The amount of time to wait for more players before the game starts."));
 		SettingsMain::IDC_IDLE_TIME_CTRL->SetSelection(
 			OptionsGame::instance()->getIdleKickTime()/5);
+		SettingsMain::IDC_IDLE_TIME_CTRL->SetToolTip(
+			wxString("The amount of time to wait for a client to respond before kicking it."));
 
 		SettingsMain::IDC_SHOT_TIME_CTRL->Show(playersPanel_ != 0);
 		SettingsMain::IDC_WAIT_TIME_CTRL->Show(playersPanel_ != 0);
