@@ -35,7 +35,8 @@ public:
 	enum WallType
 	{
 		wallConcrete = 0,
-		wallBouncy = 1
+		wallBouncy = 1,
+		wallWrapAround = 2
 	};
 	enum WallSide
 	{

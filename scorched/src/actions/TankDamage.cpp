@@ -21,6 +21,7 @@
 #include <actions/TankDamage.h>
 #include <actions/TankDead.h>
 #include <actions/TankFalling.h>
+#include <actions/TankScored.h>
 #include <actions/CameraPositionAction.h>
 #include <engine/ScorchedContext.h>
 
@@ -60,7 +61,7 @@ void TankDamage::simulate(float frameTime, bool &remove)
 		{
 			if (damagedTank->getState().getState() == TankState::sNormal)
 			{
-				if (context_->serverMode)
+				if (context_->serverMode && damage_ > 0.0f)
 				{
 					const float ShowTime = 4.0f;
 					ActionMeta *pos = new CameraPositionAction(
@@ -100,15 +101,54 @@ void TankDamage::simulate(float frameTime, bool &remove)
 				// Remove the remaining damage from the tank
 				if (damage_ > 0.0f)
 				{
+					// Remove the life
+					if (damage_ > damagedTank->getState().getLife()) damage_ = 
+						damagedTank->getState().getLife();
 					damagedTank->getState().setLife(damagedTank->getState().getLife() - damage_);
 
 					// Check if the tank is dead
+					bool killedTank = false;
 					if (damagedTank->getState().getLife() == 0.0f)
 					{
 						// The tank has died, make it blow up etc...
 						TankDead *deadTank = 
 							new TankDead(weapon_, damagedPlayerId_, firedPlayerId_);
 						context_->actionController.addAction(deadTank);
+						killedTank = true;
+					}
+
+					// Add any score got from this endevour
+					Tank *firedTank = 
+						context_->tankContainer.getTankById(firedPlayerId_);
+					if (firedTank)
+					{	
+						// Calculate the score (more for more damage and the most if you kill them)
+						int score = 0;
+						if (killedTank) score = context_->optionsGame.getMoneyWonPerKillPoint() *
+								weapon_->getArmsLevel();
+						else score = context_->optionsGame.getMoneyWonPerHitPoint() *
+								weapon_->getArmsLevel();
+
+						// Make this a percentage if you want
+						if (context_->optionsGame.getMoneyPerHealthPoint()) 
+							score = (score * int(damage_)) / 100;
+
+						// Remove score for self kills
+						if (damagedPlayerId_ ==  firedPlayerId_) score *= -1;
+
+						// Calculate the wins
+						int wins = 0;
+						if (killedTank) wins = (damagedPlayerId_ ==  firedPlayerId_)?-1:1;
+
+						// Add the new score (if any)
+						if (wins != 0 || score > 0)
+						{
+							TankScored *scored = new TankScored(firedPlayerId_, 
+								score,
+								wins,
+								0);
+							context_->actionController.addAction(scored);
+						}
 					}
 				}
 

@@ -56,6 +56,11 @@ Vector &PhysicsParticle::getCurrentVelocity()
 	return physicsObject_.getVelocity();
 }
 
+void PhysicsParticle::setCurrentPosition(Vector &position)
+{
+	physicsObject_.setPosition(position);
+}
+
 void PhysicsParticle::simulate(float frameTime, bool &remove)
 {
 	Action::simulate(frameTime, remove);
@@ -97,6 +102,11 @@ Vector &PhysicsParticleMeta::getCurrentPosition()
 Vector &PhysicsParticleMeta::getCurrentVelocity()
 {
 	return physicsObject_.getVelocity();
+}
+
+void PhysicsParticleMeta::setCurrentPosition(Vector &position)
+{
+	physicsObject_.setPosition(position);
 }
 
 void PhysicsParticleMeta::simulate(float frameTime, bool &remove)

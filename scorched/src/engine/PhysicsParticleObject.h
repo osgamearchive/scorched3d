@@ -35,6 +35,7 @@ public:
 
 	Vector &getPosition();
 	Vector &getVelocity();
+	void setPosition(Vector &position);
 	void setData(void *data);
 
 protected:

@@ -219,6 +219,8 @@ void ClientState::setupGameState(bool network)
 	gameState.addStateStimulus(StateShot, 
 		StimDisconnected, StateConnect);
 	gameState.addStateStimulus(StateShot, 
+		StimWait, StateWait);
+	gameState.addStateStimulus(StateShot, 
 		StimGameStopped, StateWait);
 	gameState.addStateStimulus(StateShot, 
 		ClientShotState::instance(), StateReady);

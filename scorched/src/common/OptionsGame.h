@@ -55,7 +55,8 @@ public:
 	{
 		WallRandom = 0,
 		WallConcrete = 1,
-		WallBouncy = 2
+		WallBouncy = 2,
+		WallWrapAround = 3
 	};
 	enum WeapScale
 	{
@@ -145,6 +146,12 @@ public:
 	int getMoneyWonPerHitPoint() { return moneyPerHitPoint_.getValue(); }
 	void setMoneyWonPerHitPoint(int value) { moneyPerHitPoint_.setValue(value); }
 
+	int getMoneyWonPerKillPoint() { return moneyPerKillPoint_.getValue(); }
+	void setMoneyWonPerKillPoint(int value) { moneyPerKillPoint_.setValue(value); }
+
+	bool getMoneyPerHealthPoint() { return moneyPerHealthPoint_.getValue(); }
+	void setMoneyPerHealthPoint(bool value) { moneyPerHealthPoint_.setValue(value); }
+
 	bool getLimitPowerByHealth() { return limitPowerByHealth_.getValue(); }
 	void setLimitPowerByHealth(bool value) { limitPowerByHealth_.setValue(value); }
 
@@ -211,6 +218,8 @@ protected:
 	OptionEntryInt moneyWonForRound_;
 	OptionEntryInt maxLandscapeSize_;
 	OptionEntryInt moneyPerHitPoint_;
+	OptionEntryInt moneyPerKillPoint_;
+	OptionEntryBool moneyPerHealthPoint_;
 	OptionEntryBoundedInt moneyStarting_;
 	OptionEntryInt idleKickTime_;
 	OptionEntryBoundedInt moneyInterest_;

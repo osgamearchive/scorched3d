@@ -28,7 +28,7 @@ static void createControls(wxWindow *parent)
 {
 	new wxStaticText(parent, -1,
 		"Start Money :",
-		wxPoint((int) 112.5, (int) 33), wxSize((int) 67.5, (int) 12));
+		wxPoint((int) 112.5, (int) 33));
 	IDC_STARTMONEY_CTRL = 
 		new wxComboBox(parent, IDC_STARTMONEY,
 		"",
@@ -36,7 +36,7 @@ static void createControls(wxWindow *parent)
 		0, 0, wxCB_READONLY);
 	new wxStaticText(parent, -1,
 		"Percentage Interest :",
-		wxPoint((int) 75, (int) 54), wxSize((int) 105, (int) 12));
+		wxPoint((int) 75, (int) 54));
 	IDC_INTEREST_CTRL = 
 		new wxComboBox(parent, IDC_INTEREST,
 		"",
@@ -44,30 +44,38 @@ static void createControls(wxWindow *parent)
 		0, 0, wxCB_READONLY);
 	new wxStaticBox(parent, -1,
 		"Eco",
-		wxPoint((int) 10.5, (int) 10.5), wxSize((int) 339, (int) 148.5));
+		wxPoint((int) 10.5, (int) 10.5), wxSize((int) 339, (int) 162.5));
 	new wxStaticText(parent, -1,
 		"Buy On Round :",
-		wxPoint((int) 102, (int) 78), wxSize((int) 78, (int) 12));
+		wxPoint((int) 102, (int) 78));
 	IDC_BUYONROUND_CTRL = 
 		new wxComboBox(parent, IDC_BUYONROUND,
 		"",
 		wxPoint((int) 184.5, (int) 78), wxSize((int) 72, (int) 124.5),
 		0, 0, wxCB_READONLY);
 	new wxStaticText(parent, -1,
-		"Money Per Hit Point :",
-		wxPoint((int) 78, (int) 102), wxSize((int) 102, (int) 12));
+		"Money Per hit Point :",
+		wxPoint((int) 76, (int) 102));
 	IDC_MONEYPERHIT_CTRL = 
 		new wxComboBox(parent, IDC_MONEYPERHIT,
 		"",
 		wxPoint((int) 184.5, (int) 102), wxSize((int) 72, (int) 124.5),
 		0, 0, wxCB_READONLY);
 	new wxStaticText(parent, -1,
+		"Money Per kill Point :",
+		wxPoint((int) 74, (int) 126));
+	IDC_MONEYPERKILL_CTRL = 
+		new wxComboBox(parent, IDC_MONEYPERKILL,
+		"",
+		wxPoint((int) 184.5, (int) 126), wxSize((int) 72, (int) 124.5),
+		0, 0, wxCB_READONLY);
+	new wxStaticText(parent, -1,
 		"Money Per Round Won :",
-		wxPoint((int) 61.5, (int) 126), wxSize((int) 118.5, (int) 12));
+		wxPoint((int) 61.5, (int) 150));
 	IDC_MONEYPERROUND_CTRL = 
 		new wxComboBox(parent, IDC_MONEYPERROUND,
 		"",
-		wxPoint((int) 184.5, (int) 126), wxSize((int) 72, (int) 124.5),
+		wxPoint((int) 184.5, (int) 150), wxSize((int) 72, (int) 124.5),
 		0, 0, wxCB_READONLY);
 }
 

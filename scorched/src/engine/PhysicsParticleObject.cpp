@@ -58,6 +58,12 @@ void PhysicsParticleObject::setPhysics(PhysicsEngine &engine, Vector &position, 
 	dGeomSetBody(geom_, body_);	
 }
 
+void PhysicsParticleObject::setPosition(Vector &position)
+{
+	dBodySetPosition(body_,
+		(dReal) position[0], (dReal) position[1], (dReal) position[2]);
+}
+
 Vector &PhysicsParticleObject::getPosition()
 {
 	static Vector position;

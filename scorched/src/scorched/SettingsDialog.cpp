@@ -263,11 +263,17 @@ bool SettingsFrame::TransferDataToWindow()
 		{	
 			sprintf(buffer, "%i", i);
 			SettingsEco::IDC_MONEYPERHIT_CTRL->Append(buffer);
+			SettingsEco::IDC_MONEYPERKILL_CTRL->Append(buffer);
 		}
 		sprintf(buffer, "%i", context_.optionsGame.getMoneyWonPerHitPoint());
 		SettingsEco::IDC_MONEYPERHIT_CTRL->SetValue(buffer);
 		SettingsEco::IDC_MONEYPERHIT_CTRL->SetToolTip(
-			wxString("The money awarded for killing another tank.\n"
+			wxString("The money awarded for HITTING another tank.\n"
+				"This is multiplied by the weapons arms level"));
+		sprintf(buffer, "%i", context_.optionsGame.getMoneyWonPerKillPoint());
+		SettingsEco::IDC_MONEYPERKILL_CTRL->SetValue(buffer);
+		SettingsEco::IDC_MONEYPERKILL_CTRL->SetToolTip(
+			wxString("The money awarded for KILLING another tank.\n"
 				"This is multiplied by the weapons arms level"));
 
 		// Start Money
@@ -331,6 +337,8 @@ bool SettingsFrame::TransferDataToWindow()
 			(void *) OptionsGame::WallConcrete);
 		SettingsEnv::IDC_COMBO_WALLTYPE_CTRL->Append("Bouncy", 
 			(void *) OptionsGame::WallBouncy);
+		SettingsEnv::IDC_COMBO_WALLTYPE_CTRL->Append("Wrap", 
+			(void *) OptionsGame::WallWrapAround);
 		SettingsEnv::IDC_COMBO_WALLTYPE_CTRL->SetSelection(
 			context_.optionsGame.getWallType());
 		SettingsEnv::IDC_COMBO_WALLTYPE_CTRL->SetToolTip(
@@ -475,12 +483,14 @@ bool SettingsFrame::TransferDataFromWindow()
 	{
 		int buyonround = 2;
 		int moneyperhit = 2;
+		int moneyperkill = 2;
 		int moneyperround = 2;
 		int startMoney = 2;
 		int interest = 2;
 
 		sscanf(SettingsEco::IDC_BUYONROUND_CTRL->GetValue(), "%i", &buyonround);
 		sscanf(SettingsEco::IDC_MONEYPERHIT_CTRL->GetValue(), "%i", &moneyperhit);
+		sscanf(SettingsEco::IDC_MONEYPERKILL_CTRL->GetValue(), "%i", &moneyperkill);
 		sscanf(SettingsEco::IDC_MONEYPERROUND_CTRL->GetValue(), "%i", &moneyperround);
 		sscanf(SettingsEco::IDC_STARTMONEY_CTRL->GetValue(), "%i", &startMoney);
 		sscanf(SettingsEco::IDC_INTEREST_CTRL->GetValue(), "%i", &interest);
@@ -490,6 +500,7 @@ bool SettingsFrame::TransferDataFromWindow()
 		context_.optionsGame.setBuyOnRound(buyonround);
 		context_.optionsGame.setMoneyWonForRound(moneyperround);
 		context_.optionsGame.setMoneyWonPerHitPoint(moneyperhit);
+		context_.optionsGame.setMoneyWonPerKillPoint(moneyperkill);
 	}
 
 	// Env

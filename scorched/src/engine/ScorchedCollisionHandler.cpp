@@ -197,8 +197,42 @@ void ScorchedCollisionHandler::shotCollision(dGeomID o1, dGeomID o2,
 			context_->actionController.addAction(
 				new WallHit(particlePositionV, wallSide));
 
-			action = ((context_->optionsTransient.getWallType() == 
-				OptionsTransient::wallBouncy)?ParticleActionBounce:ParticleActionFinished);
+			// Choose what to do depending on the wall
+			switch(context_->optionsTransient.getWallType())
+			{
+			case OptionsTransient::wallBouncy:
+				action = ParticleActionBounce;
+				break;
+			case OptionsTransient::wallWrapAround:
+				{
+					PhysicsParticleMeta *particle = (PhysicsParticleMeta *) particleInfo->data;
+					Vector currentPosition = particle->getCurrentPosition();
+					action = ParticleActionNone; // Not strictly true as
+					// we are about to move the particle
+					switch (otherInfo->id)
+					{
+					case CollisionIdWallLeft:
+						currentPosition[0] = 245.0f;
+						break;
+					case CollisionIdWallRight:
+						currentPosition[0] = 10.0f;
+						break;
+					case CollisionIdWallTop:
+						currentPosition[1] = 245.0f;
+						break;
+					case CollisionIdWallBottom:
+						currentPosition[1] = 10.0f;
+						break;
+					default:
+						break;
+					}
+					particle->setCurrentPosition(currentPosition);
+				}
+				break;
+			default:
+				action = ParticleActionFinished;
+				break;
+			}
 		}
 		break;
 	case CollisionIdGround:

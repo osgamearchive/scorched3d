@@ -154,6 +154,9 @@ Vector &OptionsTransient::getWallColor()
 	static Vector wallColor;
 	switch (getWallType())
 	{
+	case wallWrapAround:
+		wallColor = Vector(0.5f, 0.5f, 0.0f);
+		break;
 	case wallBouncy:
 		wallColor = Vector(0.0f, 0.0f, 0.5f);
 		break;
@@ -175,8 +178,10 @@ void OptionsTransient::newGameWall()
 	case OptionsGame::WallBouncy:
 		settings_.wallType_ = wallBouncy;
 		break;
+	case OptionsGame::WallWrapAround:
+		settings_.wallType_ = wallWrapAround;
 	default:
-		float r = RAND * 2.0f;
+		float r = RAND * 3.0f;
 		settings_.wallType_ = WallType(int(r));
 		break;
 	}

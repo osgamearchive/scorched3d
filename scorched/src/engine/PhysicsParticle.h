@@ -45,6 +45,7 @@ public:
 	Vector &getCurrentPosition();
 	Vector &getCurrentVelocity();
 	void setData(void *data);
+	void setCurrentPosition(Vector &position);
 
 	// Inherited from action
 	virtual void simulate(float timepassed, bool &remove);
@@ -68,6 +69,7 @@ public:
 	Vector &getCurrentPosition();
 	Vector &getCurrentVelocity();
 	void setData(void *data);
+	void setCurrentPosition(Vector &position);
 
 	// Inherited from action
 	virtual void simulate(float timepassed, bool &remove);

@@ -20,7 +20,6 @@
 
 #include <actions/TankDead.h>
 #include <actions/CameraPositionAction.h>
-#include <actions/TankScored.h>
 #include <actions/Explosion.h>
 #include <actions/ShotProjectileFunky.h>
 #include <sprites/TankDeadRenderer.h>
@@ -116,31 +115,6 @@ void TankDead::simulate(float frameTime, bool &remove)
 			// Inform the tank it is dead
 			TankAI *ai = killedTank->getTankAI();
 			if (ai) ai->tankHurt(weapon_, firedPlayerId_);
-
-			// Add / Remove the scores
-			if (firedTank)
-			{
-				if (killedPlayerId_ ==  firedPlayerId_)
-				{
-					// Kiled self
-					TankScored *scored = new TankScored(firedPlayerId_, 
-						-context_->optionsGame.getMoneyWonPerHitPoint() *
-						weapon_->getArmsLevel(),
-						-1,
-						0);
-					context_->actionController.addAction(scored);
-				}
-				else
-				{
-					// Kiled other
-					TankScored *scored = new TankScored(firedPlayerId_, 
-						+context_->optionsGame.getMoneyWonPerHitPoint() *
-						weapon_->getArmsLevel(),
-						+1,
-						0);
-					context_->actionController.addAction(scored);
-				}
-			}
 
 			// Add the tank death explosion
 			// Make the tank explode in one of many ways

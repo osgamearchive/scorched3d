@@ -25,6 +25,7 @@ enum
 	IDC_INTEREST,
 	IDC_BUYONROUND,
 	IDC_MONEYPERHIT,
+	IDC_MONEYPERKILL,
 	IDC_MONEYPERROUND
 };
 
@@ -32,4 +33,5 @@ static wxComboBox *IDC_STARTMONEY_CTRL = 0;
 static wxComboBox *IDC_INTEREST_CTRL = 0;
 static wxComboBox *IDC_BUYONROUND_CTRL = 0;
 static wxComboBox *IDC_MONEYPERHIT_CTRL = 0;
+static wxComboBox *IDC_MONEYPERKILL_CTRL = 0;
 static wxComboBox *IDC_MONEYPERROUND_CTRL = 0;
