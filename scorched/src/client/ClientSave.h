@@ -21,6 +21,11 @@
 #if !defined(__INCLUDE_ClientSaveh_INCLUDE__)
 #define __INCLUDE_ClientSaveh_INCLUDE__
 
-void saveClient();
+bool storeClient();
+bool saveClient(const char *fileName);
+
+bool stateRestored();
+bool restoreClient(bool stateOnly);
+bool loadClient(const char *fileName);
 
 #endif

@@ -22,6 +22,7 @@
 #include <wx/utils.h>
 #include <SDL/SDL.h>
 #include <client/ClientMain.h>
+#include <client/ClientSave.h>
 #include <server/ScorchedServer.h>
 #include <server/ServerMain.h>
 #include <common/OptionsDisplay.h>
@@ -225,16 +226,38 @@ int main(int argc, char *argv[])
 			// Check if we are connecting to a server
 			if (!OptionsParam::instance()->getConnect()[0])
 			{
-				// If not load the client settings file
-				if (!::wxFileExists(OptionsParam::instance()->getClientFile()))
+				if (OptionsParam::instance()->getClientFile()[0])
 				{
-					dialogMessage(scorched3dAppName,
-						"Client file \"%s\" does not exist.",
-						OptionsParam::instance()->getClientFile());
-					exit(1);
+					// If not load the client settings file
+					if (!::wxFileExists(OptionsParam::instance()->getClientFile()))
+					{
+						dialogMessage(scorched3dAppName,
+							"Client file \"%s\" does not exist.",
+							OptionsParam::instance()->getClientFile());
+						exit(1);
+					}
+					ScorchedServer::instance()->getOptionsGame().readOptionsFromFile(
+						(char *) OptionsParam::instance()->getClientFile());
 				}
-				ScorchedServer::instance()->getOptionsGame().readOptionsFromFile(
-					(char *) OptionsParam::instance()->getClientFile());
+				else
+				{
+					// Or the client saved game
+					if (!::wxFileExists(OptionsParam::instance()->getSaveFile()))
+					{
+						dialogMessage(scorched3dAppName,
+							"Client save file \"%s\" does not exist.",
+							OptionsParam::instance()->getSaveFile());
+						exit(1);
+					}
+					if (!loadClient(OptionsParam::instance()->getSaveFile()) ||
+						!restoreClient(true))
+					{
+						dialogMessage(scorched3dAppName,
+							"Cannot load client save file \"%s\".",
+							OptionsParam::instance()->getSaveFile());
+						exit(1);
+					}
+				}
 			}
 
 			if (!clientMain()) exit(1);

@@ -57,7 +57,7 @@ void ClientNewGameState::enterState(const unsigned state)
 	Landscape::instance()->generate(ProgressDialog::instance());
 
 	// Save the client state
-	saveClient();
+	storeClient();
 
 	// Calculate other graphics that need to be built, only once
 	static bool initOnce = false;

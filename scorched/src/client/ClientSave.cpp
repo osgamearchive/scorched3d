@@ -20,52 +20,180 @@
 
 #include <client/ClientSave.h>
 #include <server/ScorchedServer.h>
-#include <tankai/TankAIComputer.h>
+#include <tankai/TankAIStore.h>
+#include <coms/NetBuffer.h>
 #include <common/Defines.h>
-#include <XML/XMLParser.h>
-#include <time.h>
+#include <common/Logger.h>
+#include <stdio.h>
 
-void saveClient()
+static NetBuffer saveBuffer;
+static bool stateRestoredFromFile = false;
+
+bool storeClient()
 {
-	// Root Node
-	XMLNode rootnode("scorchedsave");
-	time_t currentTime = time(0);
-	rootnode.addParameter(new XMLNode("version", ScorchedVersion, 
-		XMLNode::XMLParameterType));
-	rootnode.addChild(new XMLNode("date", ctime(&currentTime)));
+	NetBuffer &buffer = saveBuffer;
+	buffer.reset();
 
+	// Add Version
+	buffer.addToBuffer(ScorchedProtocolVersion);
+	
 	// GameState
-	XMLNode *gameStateNode = new XMLNode("gamestate");
-	//ScorchedServer::instance()->getOptionsGame().writeOptionsToXML(
-	//	gameStateNode);
-	rootnode.addChild(gameStateNode);
+	if (!ScorchedServer::instance()->getOptionsGame().writeToBuffer(
+		buffer)) return false;
 	
 	// Transient State
-	XMLNode *transientStateNode = new XMLNode("transientstate");
-	//ScorchedServer::instance()->getOptionsTransient().writeToXML(
-	//	transientStateNode);
-	rootnode.addChild(transientStateNode);
+	if (!ScorchedServer::instance()->getOptionsTransient().writeToBuffer(
+		buffer)) return false;
 	
 	// Players
-	XMLNode *playersNode = new XMLNode("players");
-	rootnode.addChild(playersNode);
-
 	std::map<unsigned int, Tank *> &tanks = 
-		ScorchedServer::instance()->getTankContainer().getPlayingTanks();
+		ScorchedServer::instance()->getTankContainer().
+			getPlayingTanks();
+	buffer.addToBuffer((int) tanks.size());
  	std::map<unsigned int, Tank *>::iterator itor;
 	for (itor = tanks.begin();
 		itor != tanks.end();
 		itor++)
 	{
-		XMLNode *playerNode = new XMLNode("player");
-		playersNode->addChild(playerNode);
-
 		// Add each tank
 		Tank *tank = (*itor).second;
-		//if (!tank->writeXML(playerNode)) return;
+		buffer.addToBuffer(tank->getPlayerId());
+		if (!tank->writeMessage(buffer)) return false;
+
+		TankAI *tankAI = tank->getTankAI();
+		if (tankAI) 
+		{
+			buffer.addToBuffer(tankAI->getName());
+		}
+		else
+		{
+			buffer.addToBuffer("");
+		}
 	}
 
-	// Write XML
-	//rootnode.writeToFile("/tmp/a.xml");	
+	return true;
+}
+
+bool saveClient(const char *fileName)
+{
+	FILE *file = fopen(fileName, "wb");
+	if (!file) return false;
+
+	int size = fwrite(saveBuffer.getBuffer(),	
+		sizeof(char),
+		saveBuffer.getBufferUsed(),
+		file);
+	fclose(file);
+	return (size == saveBuffer.getBufferUsed());
+}
+
+bool restoreClient(bool stateOnly)
+{
+	NetBufferReader reader(saveBuffer);
+
+	// Add Version
+	std::string version;
+	if (!reader.getFromBuffer(version)) return false;
+	if (0 != strcmp(version.c_str(), ScorchedProtocolVersion))
+	{
+		Logger::log(0, "ERROR: Saved file version does not match game version");
+		return false;
+	}
+	
+	// GameState
+	if (!ScorchedServer::instance()->getOptionsGame().readFromBuffer(
+		reader)) return false;
+	
+	// Transient State
+	if (!ScorchedServer::instance()->getOptionsTransient().readFromBuffer(
+		reader)) return false;
+	
+	if (stateOnly) return true;
+	
+	// Players
+	int noTanks = 0;
+	if (!reader.getFromBuffer(noTanks)) return false;
+	for (int i=0; i<noTanks; i++)
+	{
+		unsigned int playerId = 0;
+		if (!reader.getFromBuffer(playerId)) return false;
+	
+		Tank *tank = 
+			ScorchedServer::instance()->getTankContainer().getTankById(
+				playerId);
+		if (tank)
+		{
+			if (!tank->readMessage(reader)) return false;
+			std::string tankAIStr;
+			if (!reader.getFromBuffer(tankAIStr)) return false;
+		}
+		else
+		{
+			Vector color;
+			TankModelId model("");
+			Tank *tank = new Tank(
+				ScorchedServer::instance()->getContext(),
+				playerId, // PlayerId
+				0, // DestinationId
+				"", // Name
+				color,
+				model);
+			if (!tank->readMessage(reader)) return false;
+		
+			std::string tankAIStr;
+			if (!reader.getFromBuffer(tankAIStr)) return false;
+		
+			if (tankAIStr.c_str()[0])
+			{
+				TankAI *tankai = TankAIStore::instance()->
+					getAIByName(tankAIStr.c_str());
+				if (!tankai)
+				{
+					Logger::log(0, "Unabled to find saved tank ai \"%s\"",
+						tankAIStr.c_str());
+					return false;
+				}
+				tank->setTankAI(tankai);
+			}
+		
+			if (tank->getState().getSpectator())
+			{
+				delete tank;
+			}
+			else
+			{
+				ScorchedServer::instance()->getTankContainer().addTank(tank);
+			}
+		}
+	}
+
+	return true;
+}
+
+bool stateRestored()
+{
+	return stateRestoredFromFile;
+}
+
+bool loadClient(const char *fileName)
+{
+	FILE *file = fopen(fileName, "rb");
+	if (!file) 
+	{
+		Logger::log(0, "ERROR: File \"%s\" cannot be found.",
+			fileName);
+		return false;
+	}
+
+	saveBuffer.reset();
+	char buffer[2];
+	while (0 != fread(buffer, 1, 1, file))
+	{
+		saveBuffer.addDataToBuffer(buffer, 1);
+	}
+
+	fclose(file);
+	stateRestoredFromFile = true;
+	return true;
 }
 

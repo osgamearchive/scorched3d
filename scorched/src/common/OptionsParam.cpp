@@ -41,6 +41,8 @@ OptionsParam::OptionsParam() :
 		"Starts a scorched 3d server, requires the name of the server settings file e.g. data/server.xml", 0, ""),
 	client_(options_, "startclient",
 		"Starts a scorched 3d client, requires the name of the client settings file e.g. data/singlecustom.xml", 0, ""),
+	save_(options_, "loadsave",
+		"Continues a scorched 3d client game, requires the name of the saved game.", 0, ""),
 	password_(options_, "password",
 		"The password of the NET/LAN server", 0, ""),
 	help_(options_, "starthelp",
@@ -65,8 +67,13 @@ std::list<OptionEntry *> &OptionsParam::getOptions()
 
 OptionsParam::Action OptionsParam::getAction()
 {
-	if (getConnect()[0] || getClientFile()[0])
+	if (getConnect()[0] || getClientFile()[0] || getSaveFile()[0])
 	{
+		if (getServerFile()[0]) return ActionError;
+		if (getConnect()[0] && getClientFile()[0]) return ActionError;
+		if (getSaveFile()[0] && getClientFile()[0]) return ActionError;
+		if (getSaveFile()[0] && getConnect()[0]) return ActionError;
+
 		server_.setValue("");
 		return ActionRunClient;
 	}
@@ -75,13 +82,7 @@ OptionsParam::Action OptionsParam::getAction()
 		return ActionRunServer;
 	}
 
-	if ((getConnect()[0] || getClientFile()[0]) &&
-		getServerFile()[0])
-	{
-		return ActionError;
-	}
 	if (help_.getValue()) return ActionHelp;
-
 	return ActionNone;
 }
 
