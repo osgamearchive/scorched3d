@@ -38,6 +38,7 @@ bool WeaponSound::parseXML(XMLNode *accessoryNode)
 {
 	if (!Weapon::parseXML(accessoryNode)) return false;
 	if (!accessoryNode->getNamedChild("sound", sound_)) return false;
+	if (!checkDataFile("%s", getSound())) return false;
 	return true;
 }
 

@@ -52,10 +52,16 @@ bool Accessory::parseXML(XMLNode *accessoryNode)
 	toolTip_.setText(getName(), getDescription());
 
 	// Get the accessory icon
-	accessoryNode->getNamedChild("icon", iconName_, false);
+	if (accessoryNode->getNamedChild("icon", iconName_, false))
+	{
+		if (!checkDataFile("data/textures/wicons/%s", getIconName())) return false;
+	}
 
 	// Get the accessory sound 
-	accessoryNode->getNamedChild("activationsound", activationSound_, false);
+	if (accessoryNode->getNamedChild("activationsound", activationSound_, false))
+	{
+		if (!checkDataFile("data/wav/%s", getActivationSound())) return false;
+	}
 
 	// Get the accessory bundle
 	bundle_ = -1;

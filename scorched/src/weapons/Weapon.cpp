@@ -45,7 +45,10 @@ bool Weapon::parseXML(XMLNode *accessoryNode)
 	accessoryNode->getNamedChild("deathanimationweight", deathAnimationWeight_, false);
 
 	// Get the explosion texture
-	accessoryNode->getNamedChild("firedsound", firedSound_, false);
+	if (accessoryNode->getNamedChild("firedsound", firedSound_, false))
+	{
+		if (!checkDataFile("data/wav/%s", getFiredSound())) return false;
+	}
 
 	// Get the weapon model scale
 	accessoryNode->getNamedChild("projectilescale", scale_, false);

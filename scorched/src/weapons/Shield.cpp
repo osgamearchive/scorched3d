@@ -49,6 +49,7 @@ bool Shield::parseXML(XMLNode *accessoryNode)
 
 	// Get the collision sound
 	if (!accessoryNode->getNamedChild("collisionsound", collisionSound_)) return false;
+	if (!checkDataFile("data/wav/%s", getCollisionSound())) return false;
 
 	// Get the accessory color
 	XMLNode *colorNode = 0;

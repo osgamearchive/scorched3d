@@ -36,6 +36,7 @@ Fixed: Better mag deflect shield graphics
 Fixed: Interest and wins awarded when maximum moves exceeded
 Fixed: Apex collision weapons explode on contact with ground before apex
 Fixed: Loading after saving freezing bug
+Fixed: Players cannot have blank names
 
 Changed: Changed free market ecconmy so price decreases are slower
 Changed: Tank can move up and down bigger slopes (configurable)
@@ -43,6 +44,7 @@ Changed: Spread and hurts weapon primative options are now variable
 Changed: LeapFrog weapon primative bounce now variable
 Changed: Message of the day now defined in server.xml file
 
+Added: Scorched textures can be specified on a per weapon basis
 Added: Rain and Snow
 Added: Player model remembered for multiplayer games
 Added: WeaponReference primative (now uses parents name and armslevel)

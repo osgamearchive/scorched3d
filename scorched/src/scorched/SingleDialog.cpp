@@ -98,6 +98,9 @@ SingleFrame::SingleFrame() :
 
 	wxFlexGridSizer *gridsizer = new wxFlexGridSizer(4, 2, 5, 5);
 
+	addTitleToWindow(this, topsizer, 
+		getDataFile("data/windows/scorched.bmp"));
+
 	int count = ID_BUTTON_GAME;
 	addModButton(count, "", gridsizer);
 	std::string noModGamesFile = getDataFile("data/singlegames.xml");

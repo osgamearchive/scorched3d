@@ -170,13 +170,17 @@ void ServerAddPlayerHandler::getUniqueName(std::string &sentname)
 	// unwanted characters from middle
 	char *nameBeginning = (char *) sentname.c_str();
 	while (*nameBeginning == ' ') nameBeginning++;
+
+	char *nameEnding = nameBeginning + strlen(nameBeginning);
+	while (*nameEnding == ' ' || *nameEnding == '\0') { *nameEnding = '\0'; nameEnding--; }
+
 	char *nameMiddle = nameBeginning;
 	for (;*nameMiddle; nameMiddle++)
 	{
 		if (*nameMiddle == '\"') *nameMiddle = '\'';
 		else if (*nameMiddle == ']') *nameMiddle = ')';
 		else if (*nameMiddle == '[') *nameMiddle = '(';
-		else if (*nameMiddle == '%') *nameMiddle = ' '; // Save problems with special chars
+		else if (*nameMiddle == '%') *nameMiddle = '$'; // Save problems with special chars
 	}
 
 	// Check the client provides a name with a least 1 char in it

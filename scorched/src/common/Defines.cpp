@@ -152,15 +152,24 @@ const char *getDataFile(const char *file, ...)
 	return buffer;
 }
 
-extern bool checkDataFile(const char *file)
+extern bool checkDataFile(const char *file, ...)
 {
-	const char *fileName = getDataFile(file);
-	if (!::wxFileExists(fileName))
+	static char filename[1024];
+	va_list ap;
+	va_start(ap, file);
+	vsprintf(filename, file, ap);
+	va_end(ap);
+
+	const char *dataFileName = getDataFile(filename);
+	if (!::fileExists(dataFileName))
 	{
-		dialogMessage("Scorched3D",
-			"The file \"%s\" does not exist",
-			fileName);
-		return false;
+		if (0 == strstr(filename, "none"))
+		{
+			dialogMessage("Scorched3D",
+				"The file \"%s\" does not exist",
+				dataFileName);
+			return false;
+		}
 	}
 	return true;
 }

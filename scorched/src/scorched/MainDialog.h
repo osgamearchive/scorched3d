@@ -31,7 +31,9 @@ void runScorched3D(const char *flags, ...);
 wxFrame *getMainDialog();
 void addTitleToWindow(
 	wxWindow *parent,
-	wxSizer *sizer);
+	wxSizer *sizer,
+	const char *fileName,
+	int buttonId = -1);
 wxButton *addButtonToWindow(
 	int id,
 	char *text,

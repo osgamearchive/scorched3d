@@ -80,11 +80,13 @@ SingleChoiceFrame::SingleChoiceFrame(const char *mod) :
 	wxIcon icon(getDataFile("data/windows/tank2.ico"), wxBITMAP_TYPE_ICO);
 	SetIcon(icon);
 #endif
+	setDataFileMod(mod);
 
-	wxFlexGridSizer *gridsizer = new wxFlexGridSizer(4, 2, 5, 5);
+	addTitleToWindow(this, topsizer, 
+		getDataFile("data/windows/scorched.bmp"));
 
 	int useId = ID_BUTTON_CHOICE;
-	setDataFileMod(mod);
+	wxFlexGridSizer *gridsizer = new wxFlexGridSizer(4, 2, 5, 5);
 	SingleGames games;
 	if (!games.parse(getDataFile("data/singlegames.xml"))) 
 		dialogExit("SingleChoiceFrame", "Failed to load games");

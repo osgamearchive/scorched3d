@@ -56,15 +56,17 @@ enum
 
 void addTitleToWindow(
 	wxWindow *parent,
-	wxSizer *sizer)
+	wxSizer *sizer,
+	const char *fileName,
+	int buttonId)
 {
 	wxBitmap scorchedBitmap;
-	if (scorchedBitmap.LoadFile(getDataFile("data/windows/scorched.bmp"), 
+	if (scorchedBitmap.LoadFile(fileName, 
 		wxBITMAP_TYPE_BMP) &&
 		scorchedBitmap.Ok())
 	{
 		wxBitmapButton *button = new wxBitmapButton(
-			parent, ID_BUTTON_SCORCHED, scorchedBitmap);
+			parent, buttonId, scorchedBitmap);
 		wxBoxSizer *boxSizer = new wxBoxSizer(wxHORIZONTAL);
 		boxSizer->Add(button, 0, wxALL, 5);
 		sizer->Add(boxSizer, 0, wxALIGN_CENTER | wxALL, 5);
@@ -217,7 +219,9 @@ MainFrame::MainFrame() :
 
 	// Top Scorched Bitmap
 	{
-		addTitleToWindow(this, topsizer);
+		addTitleToWindow(this, topsizer, 
+			getDataFile("data/windows/scorched.bmp"),
+			ID_BUTTON_SCORCHED);
 	}	
 
 	wxFlexGridSizer *gridsizer = new wxFlexGridSizer(4, 2, 5, 5);

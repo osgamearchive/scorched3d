@@ -1,0 +1,25 @@
+<games>
+	<main>
+		<description>Start a single or multi-player Apocalypse mod game.
+One or more people play against themselves or the computer.</description>
+		<icon>data/windows/tank2.bmp</icon>
+	</main>
+	<game>
+		<description>Start an easy single player Apocalypse game.
+Play a quick game against easy computer players.</description>
+		<icon>data/windows/tank-easy.bmp</icon>
+		<gamefile>data/singleeasy.xml</gamefile>
+	</game>
+	<game>
+		<description>Start an normal single player Apocalypse game.
+Play a quick game against normal strength computer players.</description>
+		<icon>data/windows/tank-med.bmp</icon>
+		<gamefile>data/singlenormal.xml</gamefile>
+	</game>
+	<game>
+		<description>Start an hard single player Apocalypse game.
+Play a quick game against hard computer players.</description>
+		<icon>data/windows/tank-hard.bmp</icon>
+		<gamefile>data/singlehard.xml</gamefile>
+	</game>
+</games>

@@ -93,13 +93,19 @@ bool WeaponExplosion::parseXML(XMLNode *accessoryNode)
 	accessoryNode->getNamedChild("maxlife", maxLife_, false);
 
 	// Get tje deform texture
-	accessoryNode->getNamedChild("deformtexture", deformTexture_, false);
+	if (accessoryNode->getNamedChild("deformtexture", deformTexture_, false))
+	{
+		if (!checkDataFile("%s", getDeformTexture())) return false;
+	}
 
 	// Get the explosion texture
 	accessoryNode->getNamedChild("explosiontexture", explosionTexture_, false);
 
 	// Get the explosion sound
-	accessoryNode->getNamedChild("explosionsound", explosionSound_, false);
+	if (!accessoryNode->getNamedChild("explosionsound", explosionSound_, false))
+	{
+		if (!checkDataFile("data/wav/%s", getExplosionSound())) return false;
+	}
 
 	// Get the deform
 	XMLNode *deformNode = 0;
