@@ -51,7 +51,7 @@ public:
 	void setCameraType(CamType type) { cameraPos_ = type; }
 	void resetCam();
 
-	void simulate(float frameTime);
+	void simulate(float frameTime, bool playing);
 	void draw();
 	void mouseWheel(short z, bool &skipRest);
 	void mouseDown(GameState::MouseButton button, 
@@ -72,7 +72,7 @@ protected:
 	GLCamera mainCam_;
 	CamType cameraPos_;
 
-	bool moveCamera(float frameTime);
+	bool moveCamera(float frameTime, bool playing);
 
 };
 

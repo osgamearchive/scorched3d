@@ -19,6 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <client/MainCamera.h>
+#include <client/ClientState.h>
 #include <GLEXT/GLBitmap.h>
 #include <GLEXT/GLConsole.h>
 #include <dialogs/MainMenuDialog.h>
@@ -73,7 +74,7 @@ void MainCamera::menuSelection(const char* menuName,
 
 void MainCamera::simulate(const unsigned state, float frameTime)
 {
-	targetCam_.simulate(frameTime);
+	targetCam_.simulate(frameTime, (state == ClientState::StatePlaying));
 }
 
 void MainCamera::draw(const unsigned state)

@@ -24,6 +24,7 @@
 #include <client/MainCamera.h>
 #include <client/Main2DCamera.h>
 #include <client/ScorchedClient.h>
+#include <client/ClientState.h>
 #include <landscape/Landscape.h>
 #include <tankgraph/TankRenderer.h>
 
@@ -108,8 +109,11 @@ void CameraDialog::draw()
 
 void CameraDialog::simulate(float frameTime)
 {
+	bool playing = (ScorchedClient::instance()->getGameState().getState() ==
+					ClientState::StatePlaying);
+
 	// Simulate this viewport
-	targetCam_.simulate(frameTime);
+	targetCam_.simulate(frameTime, playing);
 }
 
 void CameraDialog::drawLandscape()

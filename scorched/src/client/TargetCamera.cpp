@@ -96,9 +96,9 @@ float TargetCamera::heightFunc(int x, int y, void *data)
 	return (h>heightMin + addition?h:heightMin + addition);
 }
 
-void TargetCamera::simulate(float frameTime)
+void TargetCamera::simulate(float frameTime, bool playing)
 {
-	if (moveCamera(frameTime))
+	if (moveCamera(frameTime, playing))
 	{
 		mainCam_.simulate(frameTime);
 	}
@@ -109,7 +109,7 @@ void TargetCamera::draw()
 	mainCam_.draw();
 }
 
-bool TargetCamera::moveCamera(float frameTime)
+bool TargetCamera::moveCamera(float frameTime, bool playing)
 {
 	bool simulateCamera = true;
 	Vector position(128.0f, 128.0f, 0.0f);
@@ -160,7 +160,8 @@ bool TargetCamera::moveCamera(float frameTime)
 		}
 		else
 		{
-			if (currentTank && currentTank->getState().getState() == TankState::sNormal)
+			if (playing &&
+				currentTank && currentTank->getState().getState() == TankState::sNormal)
 			{
 				float currentElevation = (currentTank->getPhysics().getRotationGunYZ()) / 160.0f;
 				Vector newPos = currentTank->getPhysics().getTankGunPosition();

@@ -18,6 +18,8 @@ Added: Moving waves around the island shores
 Added: Trees
 Added: Display options are stored in users home directory (if available)
 
+Fixed: Menu items could only be clicked in left hand side
+Fixed: Shot cam goes back to player even when not their turn
 Fixed: Problem with characters used during talk
 Fixed: New algorithm for bilboard culling (current one causes flickers)
 Fixed: Include path for some machines (thanks C. Thomas)

@@ -234,7 +234,7 @@ bool GLMenuEntry::clickMenu(float currentTop, int x, int y)
 {
 	if (!depressed_) return false;
 
-	bool thisMenu = (x>left_ && x<left_ + width_ && y>height_);
+	bool thisMenu = (x>left_ && x<left_ + 165.0f && y>height_);
 	if (thisMenu)
 	{
 		GLfloat lowerHeight = currentTop - menuItemHeight - 7.0f;
