@@ -26,11 +26,19 @@
 #include <list>
 
 class GLWToolTip;
+class GLWTipI
+{
+public:
+	virtual ~GLWTipI();
+
+	virtual void populateCalled(unsigned int id) = 0;
+};
+
 class GLWTip
 {
 public:
 	friend class GLWToolTip;
-	GLWTip(const char *title, const char *text);
+	GLWTip(const char *title = "", const char *text = "");
 	virtual ~GLWTip();
 
 	// Used to set the title and text of the tooltip
@@ -39,6 +47,8 @@ public:
 	// Called just before the tooltip is shown
 	// can be used to dynamically populate the title and text fields
 	virtual void populate();
+
+	void setHandler(GLWTipI *handler) { handler_ = handler; }
 
 	// Accessors
 	const char *getTitle() { return title_.c_str(); }
@@ -52,6 +62,7 @@ public:
 	unsigned int getId() { return id_; }
 
 protected:
+	GLWTipI *handler_;
 	float x, y;
 	float w, h;
 
@@ -70,7 +81,7 @@ class GLWToolTip : public GameStateI
 public:
 	static GLWToolTip *instance();
 
-	void addToolTip(GLWTip *tip, float x, float y, float w, float h);
+	bool addToolTip(GLWTip *tip, float x, float y, float w, float h);
 
 	// Inherited from GameStateI
 	virtual void simulate(const unsigned state, float frameTime);

@@ -21,6 +21,7 @@
 #include <tankgraph/GLWTankViewer.h>
 #include <tankgraph/TankModelStore.h>
 #include <GLW/GLWFont.h>
+#include <GLW/GLWTranslate.h>
 
 static const float TankSquareSize = 60.0f;
 static const float TankHalfSquareSize = TankSquareSize / 2.0f;
@@ -31,7 +32,7 @@ GLWTankViewer::GLWTankViewer(float x, float y, int numH, int numV) :
 	GLWVisibleWidget(x, y, 
 					 TankSquareSize * numH + TankPadding, 
 					 TankSquareSize * numV + TankPadding),
-	scrollBar_(w_ - 6.0f, y + 2.0f, h_ - 4.0f, 0, 0, numV),
+	scrollBar_(w_ + 2.0f, y + 2.0f, h_ - 4.0f, 0, 0, numV),
 	infoWindow_(x + TankSquareSize * numH + TankPadding + 10.0f, 
 				y + TankSquareSize * numV + TankPadding - TankInfo - 35.0f, 
 				TankInfo, TankInfo, true),
@@ -157,8 +158,8 @@ void GLWTankViewer::simulate(float frameTime)
 
 void GLWTankViewer::draw()
 {
-	glBegin(GL_LINES);
-		drawBox(x_, y_, w_, h_, false);
+	glBegin(GL_LINE_LOOP);
+		drawShadedRoundBox(x_, y_, w_, h_, 6.0f, false);
 	glEnd();
 
 	infoWindow_.draw();
@@ -191,6 +192,17 @@ void GLWTankViewer::draw()
 						glVertex2f(posX + SelectSize, posY + SelectSize);
 						glVertex2f(posX - SelectSize, posY + SelectSize);
 					glEnd();
+				}
+
+				if (GLWToolTip::instance()->addToolTip(&toolTip_, 
+					GLWTranslate::getPosX() + posX - TankHalfSquareSize, 
+					GLWTranslate::getPosY() + posY - TankHalfSquareSize, 
+					TankSquareSize,
+					TankSquareSize))
+				{
+					toolTip_.setText(
+						"Model",
+						models_[vectorPos]->getId().getModelName());			
 				}
 
 				float scale = 22.0f / 60.0f * TankSquareSize;

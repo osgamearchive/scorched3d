@@ -107,6 +107,8 @@ void ClientState::setupGameState(bool network)
 
 	// StatePlayerOptions (Single player only)
 	addWindowManager(gameState, StatePlayerOptions);
+	gameState.addStateLoop(StatePlayerOptions, Main2DCamera::instance(), 
+		GLWToolTip::instance());
 	gameState.addStateStimulus(StatePlayerOptions, 
 		StimNextRound, 
 		StateNextRound);

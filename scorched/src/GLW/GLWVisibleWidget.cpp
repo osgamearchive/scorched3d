@@ -24,9 +24,6 @@
 #include <common/Vector.h>
 #include <math.h>
 
-static const float roundSize = 20.0f;
-static const float smallRoundSize = 10.0f;
-
 GLWVisibleWidget::GLWVisibleWidget(float x, float y, float w, float h) :
 	x_(x), y_(y), w_(w), h_(h), tooltip_(0)
 {
@@ -49,10 +46,9 @@ void GLWVisibleWidget::draw()
 	}
 }
 
-void GLWVisibleWidget::drawCircle(int startA, int endA, float posX, float posY, bool size)
+void GLWVisibleWidget::drawCircle(int startA, int endA, float posX, float posY, float size)
 {
-	static Vector smallPositions[16];
-	static Vector largePositions[16];
+	static Vector positions[16];
 	static bool init = false;
 	if (!init)
 	{
@@ -61,10 +57,8 @@ void GLWVisibleWidget::drawCircle(int startA, int endA, float posX, float posY, 
 		{
 			const float angDeg = 22.5f;
 			float ang = i * angDeg;
-			largePositions[i][0] = sinf(ang / 180.0f * PI) * roundSize;
-			largePositions[i][1] = cosf(ang / 180.0f * PI) * roundSize;
-			smallPositions[i][0] = sinf(ang / 180.0f * PI) * smallRoundSize;
-			smallPositions[i][1] = cosf(ang / 180.0f * PI) * smallRoundSize;
+			positions[i][0] = sinf(ang / 180.0f * PI);
+			positions[i][1] = cosf(ang / 180.0f * PI);
 		}
 	}
 
@@ -73,8 +67,7 @@ void GLWVisibleWidget::drawCircle(int startA, int endA, float posX, float posY, 
 		for (int b=startA; b<=endA; b++)
 		{
 			int a=b; if (a>15) a=a-16;
-			if (size) glVertex2f(posX + largePositions[a][0], posY + largePositions[a][1]);
-			else glVertex2f(posX + smallPositions[a][0], posY + smallPositions[a][1]);
+			glVertex2f(posX + positions[a][0] * size, posY + positions[a][1] * size);
 		}
 	}
 	else
@@ -82,21 +75,34 @@ void GLWVisibleWidget::drawCircle(int startA, int endA, float posX, float posY, 
 		for (int b=startA; b>=endA; b--)
 		{
 			int a=b; if (a<0) a=16+a;
-			if (size) glVertex2f(posX + largePositions[a][0], posY + largePositions[a][1]);
-			else glVertex2f(posX + smallPositions[a][0], posY + smallPositions[a][1]);
+			glVertex2f(posX + positions[a][0] * size, posY + positions[a][1] * size);
 		}
 	}
 }
 
-void GLWVisibleWidget::drawRoundBox(float x, float y, float w, float h, bool large)
+void GLWVisibleWidget::drawRoundBox(float x, float y, float w, float h, float size)
 {
-	float size = roundSize;
-	if (!large) size = smallRoundSize;
+	drawCircle(8, 4, x + w - size, y + size, size);
+	drawCircle(4, 0, x + w - size, y + h - size, size);
+	drawCircle(0, -4, x + size, y + h - size, size);
+	drawCircle(-4, -8, x + size, y + size, size);
+}
 
-	drawCircle(8, 4, x + w - size, y + size, large);
-	drawCircle(4, 0, x + w - size, y + h - size, large);
-	drawCircle(0, -4, x + size, y + h - size, large);
-	drawCircle(-4, -8, x + size, y + size, large);
+void GLWVisibleWidget::drawShadedRoundBox(float x, float y, float w, float h, float size, bool depressed)
+{
+	if (depressed) glColor3f(0.4f, 0.4f, 0.6f);
+	else glColor3f(1.0f, 1.0f, 1.0f);
+
+	drawCircle(-6, -8, x + size, y + size, size);
+	drawCircle(8, 4, x + w - size, y + size, size);
+	drawCircle(4, 2, x + w - size, y + h - size, size);
+
+	if (depressed) glColor3f(1.0f, 1.0f, 1.0f); 
+	else glColor3f(0.4f, 0.4f, 0.6f);
+
+	drawCircle(2, 0, x + w - size, y + h - size, size);
+	drawCircle(0, -4, x + size, y + h - size, size);
+	drawCircle(-4, -6, x + size, y + size, size);
 }
 
 void GLWVisibleWidget::drawBox(float x, float y, float w, float h, bool depressed)

@@ -92,26 +92,26 @@ void GLMenuEntry::drawNonDepressed(float currentTop, float currentLeft)
 			glVertex2f(currentLeft + 10.0f, currentTop - 10.0f);
 			glVertex2f(currentLeft + 10.0f, currentTop - menuItemHeight);
 			GLWVisibleWidget::drawRoundBox(currentLeft, currentTop - menuItemHeight, 
-				width_, menuItemHeight, false);
+				width_, menuItemHeight, 10.0f);
 			glVertex2f(currentLeft + 10.0f, currentTop - menuItemHeight);
 		glEnd();
 	}
 	glColor3f(0.0f, 0.0f, 0.0f);
 	glBegin(GL_LINE_LOOP);
 		GLWVisibleWidget::drawRoundBox(currentLeft, currentTop - menuItemHeight, 
-			width_, menuItemHeight, false);
+			width_, menuItemHeight, 10.0f);
 	glEnd();
 }
 
 void GLMenuEntry::drawBackdrop(float x, float y, float w, float w2, float h)
 {
 	static const float size = 10.0f;
-	GLWVisibleWidget::drawCircle(8, 4, x + w2 - size, y + size, false);
-	GLWVisibleWidget::drawCircle(4, 0, x + w2 - size, y + h - menuItemHeight - 5 - size, false);
-	GLWVisibleWidget::drawCircle(8, 12, x + w + size, y + h - menuItemHeight - 5 + size, false);
-	GLWVisibleWidget::drawCircle(4, 0, x + w - size, y + h - size, false);
-	GLWVisibleWidget::drawCircle(0, -4, x + size, y + h - size, false);
-	GLWVisibleWidget::drawCircle(-4, -8, x + size, y + size, false);
+	GLWVisibleWidget::drawCircle(8, 4, x + w2 - size, y + size, 10.0f);
+	GLWVisibleWidget::drawCircle(4, 0, x + w2 - size, y + h - menuItemHeight - 5 - size, 10.0f);
+	GLWVisibleWidget::drawCircle(8, 12, x + w + size, y + h - menuItemHeight - 5 + size, 10.0f);
+	GLWVisibleWidget::drawCircle(4, 0, x + w - size, y + h - size, 10.0f);
+	GLWVisibleWidget::drawCircle(0, -4, x + size, y + h - size, 10.0f);
+	GLWVisibleWidget::drawCircle(-4, -8, x + size, y + size, 10.0f);
 }
 
 void GLMenuEntry::drawDepressed(GLFont2d &font, float currentTop, float currentLeft)

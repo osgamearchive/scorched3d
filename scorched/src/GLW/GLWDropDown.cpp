@@ -91,8 +91,8 @@ void GLWDropDown::addText(const char *text)
 
 void GLWDropDown::draw()
 {
-	glBegin(GL_LINES);
-		drawBox(x_, y_, w_, h_, false);
+	glBegin(GL_LINE_LOOP);
+		drawShadedRoundBox(x_, y_, w_, h_, 10.0f, false);
 	glEnd();
 
 	button_.draw();
@@ -120,8 +120,8 @@ void GLWDropDown::draw()
 			glVertex2f(x_ + w_, y_ - 1);
 			glVertex2f(x_, y_ - 1);
 		glEnd();
-		glBegin(GL_LINES);
-			drawBox(x_, y_ - dropSize - 1, w_, dropSize, true);
+		glBegin(GL_LINE_LOOP);
+			drawShadedRoundBox(x_, y_ - dropSize - 1, w_, dropSize, 10.0f, true);
 		glEnd();
 
 		float top = y_ - 24.0f;

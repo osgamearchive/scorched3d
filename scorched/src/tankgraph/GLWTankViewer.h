@@ -18,13 +18,13 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #ifndef _gLWTankViewer_h
 #define _gLWTankViewer_h
 
 #include <GLW/GLWScrollW.h>
 #include <GLW/GLWVisiblePanel.h>
 #include <GLW/GLWDropDown.h>
+#include <GLW/GLWToolTip.h>
 #include <tankgraph/TankModel.h>
 #include <vector>
 
@@ -56,6 +56,7 @@ protected:
 	GLWDropDown catagoryChoice_;
 	GLWScrollW scrollBar_;
 	GLWVisiblePanel infoWindow_;
+	GLWTip toolTip_;
 	std::vector<TankModel *> models_;
 	int numH_, numV_;
 	float rot_;

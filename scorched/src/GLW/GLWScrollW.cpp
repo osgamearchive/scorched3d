@@ -93,9 +93,9 @@ void GLWScrollW::draw()
 	topButton_.draw();
 	middleButton_.draw();
 
-	glBegin(GL_LINES);
+	glBegin(GL_LINE_LOOP);
 		// Draw surround
-		drawBox(x_, y_, w_, h_, false);
+		drawShadedRoundBox(x_, y_, w_, h_, 4.0f, false);
 	glEnd();
 
 	glColor3f(0.2f, 0.2f, 0.2f);

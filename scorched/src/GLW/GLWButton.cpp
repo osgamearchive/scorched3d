@@ -18,18 +18,9 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// GLWButton.cpp: implementation of the GLWButton class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <GLEXT/GLState.h>
 #include <common/Keyboard.h>
 #include <GLW/GLWButton.h>
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 GLWButtonI::~GLWButtonI()
 {
@@ -57,9 +48,13 @@ void GLWButton::setHandler(GLWButtonI *handler)
 
 void GLWButton::draw()
 {
+	float size = 10.0f;
+	if (w_ < 16 || h_ < 16) size = 6.0f;
+	else if (w_ < 12 || h_ < 12) size = 4.0f;
+
 	glLineWidth(ok_?2.0f:1.0f);
-	glBegin(GL_LINES);
-		drawBox(x_, y_, w_, h_, !pressed_);
+	glBegin(GL_LINE_LOOP);
+		drawShadedRoundBox(x_, y_, w_, h_, size, !pressed_);
 	glEnd();
 	glLineWidth(1.0f);
 }

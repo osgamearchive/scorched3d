@@ -31,8 +31,13 @@ unsigned int GLWTip::nextId_ = 0;
 static Vector color(0.2f, 0.2f, 0.2f);
 static Vector selectedColor(0.0f, 0.0f, 0.0f);
 
+GLWTipI::~GLWTipI()
+{
+
+}
+
 GLWTip::GLWTip(const char *tit, const char *tex) 
-	: id_(++nextId_), x(0), y(0), w(0), h(0)
+	: id_(++nextId_), x(0), y(0), w(0), h(0), handler_(0)
 {
 	setText(tit, tex);
 }
@@ -43,6 +48,7 @@ GLWTip::~GLWTip()
 
 void GLWTip::populate()
 {
+	if (handler_) handler_->populateCalled(id_);
 }
 
 void GLWTip::setText(const char *title, const char *text)
@@ -106,14 +112,15 @@ GLWToolTip::~GLWToolTip()
 {
 }
 
-void GLWToolTip::addToolTip(GLWTip *tip, float x, float y, float w, float h)
+bool GLWToolTip::addToolTip(GLWTip *tip, float x, float y, float w, float h)
 {
-	if (!OptionsDisplay::instance()->getShowContextHelp()) return;
+	if (!OptionsDisplay::instance()->getShowContextHelp()) return false;
 
 	int windowHeight = MainCamera::instance()->getCamera().getHeight();
 	int mouseX = ScorchedClient::instance()->getGameState().getMouseX();
 	int mouseY = windowHeight - ScorchedClient::instance()->getGameState().getMouseY();
 	
+	bool result = false;
 	if (x < mouseX && mouseX < x + w &&
 		y < mouseY && mouseY < y + h)
 	{
@@ -122,7 +129,9 @@ void GLWToolTip::addToolTip(GLWTip *tip, float x, float y, float w, float h)
 		tip->w = w;
 		tip->h = h;
 		currentTip_ = tip;
+		result = true;
 	}
+	return result;
 }
 
 void GLWToolTip::simulate(const unsigned state, float frameTime)
@@ -179,7 +188,7 @@ void GLWToolTip::draw(const unsigned state)
 			glVertex2f(posX + 10.0f, posY);
 			GLWVisibleWidget::drawRoundBox(
 				posX, posY,
-				posW, posH, false);
+				posW, posH, 10.0f);
 			glVertex2f(posX + 10.0f, posY);
 		glEnd();
 	}
@@ -188,7 +197,7 @@ void GLWToolTip::draw(const unsigned state)
 
 		GLWVisibleWidget::drawRoundBox(
 			posX, posY,
-			posW, posH, false);
+			posW, posH, 10.0f);
 	glEnd();
 
 	float pos = posY + posH - 16.0f;

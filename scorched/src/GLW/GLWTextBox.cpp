@@ -18,19 +18,10 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// GLWTextBox.cpp: implementation of the GLWTextBox class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <GLEXT/GLState.h>
 #include <GLW/GLWFont.h>
 #include <GLW/GLWTextBox.h>
 #include <common/Keyboard.h>
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 GLWTextBox::GLWTextBox(float x, float y, float w, char *startText) :
 	GLWVisibleWidget(x, y, w, 25.0f), ctime_(0.0f), text_(startText?startText:""), 
@@ -56,8 +47,8 @@ void GLWTextBox::simulate(float frameTime)
 
 void GLWTextBox::draw()
 {
-	glBegin(GL_LINES);
-		drawBox(x_, y_, w_, h_, false);
+	glBegin(GL_LINE_LOOP);
+		drawShadedRoundBox(x_, y_, w_, h_, 10.0f, false);
 	glEnd();
 
 	GLWFont::instance()->getFont()->draw(

@@ -38,8 +38,8 @@ GLWFileView::~GLWFileView()
 
 void GLWFileView::draw()
 {
-	glBegin(GL_LINES);
-		drawBox(x_, y_, w_, h_, false);
+	glBegin(GL_LINE_LOOP);
+		drawShadedRoundBox(x_, y_, w_, h_, 6.0f, false);
 	glEnd();
 
 	float posY = y_ + h_ - 10.0f;

@@ -57,8 +57,8 @@ void GLWVisiblePanel::draw()
 				glVertex2f(x_, y_ + h_);
 			glEnd();
 
-			glBegin(GL_LINES);
-				drawBox(x_, y_, w_, h_, !depressed_);
+			glBegin(GL_LINE_LOOP);
+				drawShadedRoundBox(x_, y_, w_, h_, 10.0f, !depressed_);
 			glEnd();
 		}
 

@@ -49,8 +49,8 @@ GLWSpinBox::~GLWSpinBox()
 
 void GLWSpinBox::draw()
 {
-	glBegin(GL_LINES);
-		drawBox(x_, y_, w_, h_, false);
+	glBegin(GL_LINE_LOOP);
+		drawShadedRoundBox(x_, y_, w_, h_, 10.0f, false);
 	glEnd();
 
 	top_.draw();

@@ -47,8 +47,9 @@ METACLASSID
 	void setToolTip(GLWTip *tooltip) { tooltip_ = tooltip; }
 
 	static bool inBox(float posX, float posY, float x, float y, float w, float h);
-	static void drawRoundBox(float x, float y, float w, float h, bool large);
-	static void drawCircle(int startA, int endA, float posX, float posY, bool size);
+	static void drawRoundBox(float x, float y, float w, float h, float size);
+	static void drawShadedRoundBox(float x, float y, float w, float h, float size, bool depressed);
+	static void drawCircle(int startA, int endA, float posX, float posY, float size);
 	static void drawBox(float x, float y, float w, float h, bool depressed);
 
 protected:

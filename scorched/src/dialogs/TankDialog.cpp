@@ -83,14 +83,14 @@ void TankDialog::drawTankModel(Tank *current)
 		glBegin(GL_TRIANGLE_FAN);
 			glVertex2f(x_ + 25.0f, y_ + 25.0f);
 			glVertex2f(x_ + 25.0f, y_ + 5.0f);
-			drawRoundBox(x_ + 5.0f, y_ + 5.0f, 55.0f, 55.0f, false);
+			drawRoundBox(x_ + 5.0f, y_ + 5.0f, 55.0f, 55.0f, 10.0f);
 			glVertex2f(x_ + 25.0f, y_ + 5.0f);
 		glEnd();
 
 		glColor3f(0.0f, 0.0f, 0.0f);
 		GLState neState(GLState::BLEND_OFF);
 		glBegin(GL_LINE_LOOP);
-			drawRoundBox(x_ + 5.0f, y_ + 5.0f, 55.0f, 55.0f, false);
+			drawRoundBox(x_ + 5.0f, y_ + 5.0f, 55.0f, 55.0f, 10.0f);
 		glEnd();
 
 		// Draw the life bar

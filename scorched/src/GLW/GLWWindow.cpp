@@ -81,32 +81,32 @@ void GLWWindow::drawOutlinePoints(float x, float y, float w, float h)
 
 	float th = titleHeight;
 	float sr = roundSize;
-	bool sz = true;
+	float sz = 20.0f;
 	if (windowState_ & eSmallTitle)
 	{
 		th = smallTitleHeight;
 		sr = smallRoundSize;
-		sz = false;
+		sz = 10.0f;
 	}
 
 	if (windowState_ & eResizeable)
-		drawCircle(8, 4, x + w - smallRoundSize, y + smallRoundSize, false);
+		drawCircle(8, 4, x + w - smallRoundSize, y + smallRoundSize, 10.0f);
 	else
-		drawCircle(8, 4, x + w - roundSize, y + roundSize, true);
-	drawCircle(4, 0, x + w - roundSize, y + h - roundSize, true);
+		drawCircle(8, 4, x + w - roundSize, y + roundSize, 20.0f);
+	drawCircle(4, 0, x + w - roundSize, y + h - roundSize, 20.0f);
 	if (((tw > 70.0f) || (tw > 50.0f && windowState_ & eSmallTitle)) && !(windowState_ & eNoTitle))
 	{
 		showTitle_ = true;
 		drawCircle(8, 10, x + tw, y + h + sr, sz);
 		drawCircle(2, 0, x + tw - sr - sr, y + h + th - sr, sz);
-		drawCircle(0, -4, x + roundSize, y + h + th - roundSize, true);
+		drawCircle(0, -4, x + roundSize, y + h + th - roundSize, 20.0f);
 	}
 	else
 	{
 		showTitle_ = false;
-		drawCircle(0, -4, x + roundSize, y + h - roundSize, true);
+		drawCircle(0, -4, x + roundSize, y + h - roundSize, 20.0f);
 	}
-	drawCircle(-4, -8, x + roundSize, y + roundSize, true);
+	drawCircle(-4, -8, x + roundSize, y + roundSize, 20.0f);
 }
 
 void GLWWindow::drawBackSurface(float x, float y, float w, float h)

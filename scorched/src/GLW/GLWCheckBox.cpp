@@ -43,8 +43,8 @@ void GLWCheckBox::setHandler(GLWCheckBoxI *handler)
 void GLWCheckBox::draw()
 {
 	glLineWidth(1.0f);
-	glBegin(GL_LINES);
-		drawBox(x_, y_, w_, h_, false);
+	glBegin(GL_LINE_LOOP);
+		drawShadedRoundBox(x_, y_, w_, h_, 10.0f, false);
 	glEnd();
 
 	if (state_)
