@@ -18,16 +18,7 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// GLWScrollW.cpp: implementation of the GLWScrollW class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <GLW/GLWScrollW.h>
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 GLWScrollWI::~GLWScrollWI()
 {
@@ -40,10 +31,14 @@ GLWScrollW::GLWScrollW(float x, float y, float h, int min, int max, int see, GLW
 	handler_(handler), dragCurrent_(0),
 	bottomButton_(x_ + 2.0f, y_ + 2.0f, w_ - 4.0f, w_ - 4.0f),
 	topButton_(x_ + 2.0f, y_ + h_ - w_ + 2.0f, w_ - 4.0f, w_ - 4.0f),
-	middleButton_(x_ + 2.0f, 0.0f, w_ - 4.0f, 0.0f)
+	middleButton_(x_ + 2.0f, 0.0f, w_ - 4.0f, 0.0f),
+	backButtonTop_(x_ + 2.0f, y_ + 2.0f, w_ - 4.0f, h_ - 4.0f),
+	backButtonBot_(x_ + 2.0f, y_ + 2.0f, w_ - 4.0f, h_ - 4.0f)
 {
 	bottomButton_.setHandler(this);
 	topButton_.setHandler(this);
+	backButtonTop_.setHandler(this);
+	backButtonBot_.setHandler(this);
 	middleButton_.setScrollHandler(this);
 }
 
@@ -58,6 +53,8 @@ void GLWScrollW::setX(float x)
 	topButton_.setX(x_+2.0f);
 	bottomButton_.setX(x_+2.0f);
 	middleButton_.setX(x_+2.0f);
+	backButtonTop_.setX(x_+2.0f);
+	backButtonBot_.setX(x_+2.0f);
 }
 
 void GLWScrollW::setH(float h)
@@ -77,6 +74,9 @@ void GLWScrollW::draw()
 		// Can see all possibilites
 		middleButton_.setY(y_ + buttonWidth + 4.0f);
 		middleButton_.setH(h_ - buttonWidth - buttonWidth - 8.0f);
+
+		backButtonTop_.setH(0);
+		backButtonBot_.setH(0);
 	}
 	else
 	{
@@ -85,13 +85,21 @@ void GLWScrollW::draw()
 		float percentage = float(current_) / float(possibilites);
 		float pos = bottom * percentage;
 
-		middleButton_.setY(y_ + buttonWidth + 4.0f + pos);
-		middleButton_.setH(see_ * eachwidth);
+		float midY = y_ + buttonWidth + 4.0f + pos;
+		float midH = see_ * eachwidth;
+		middleButton_.setY(midY);
+		middleButton_.setH(midH);
+
+		backButtonTop_.setY(midY);
+		backButtonTop_.setH(y_ + h_ - midY);
+		backButtonBot_.setY(y_);
+		backButtonBot_.setH(midY - y_);
 	}
 
 	bottomButton_.draw();
 	topButton_.draw();
 	middleButton_.draw();
+	// backButton_.draw(); // Should be hidden
 
 	glBegin(GL_LINE_LOOP);
 		// Draw surround
@@ -125,6 +133,12 @@ void GLWScrollW::mouseDown(float x, float y, bool &skipRest)
 	if (skipRest) return;
 
 	middleButton_.mouseDown(x, y, skipRest);
+	if (skipRest) return;
+
+	backButtonTop_.mouseDown(x, y, skipRest);
+	if (skipRest) return;
+
+	backButtonBot_.mouseDown(x, y, skipRest);
 }
 
 void GLWScrollW::mouseUp(float x, float y, bool &skipRest)
@@ -136,6 +150,12 @@ void GLWScrollW::mouseUp(float x, float y, bool &skipRest)
 	if (skipRest) return;
 
 	middleButton_.mouseUp(x, y, skipRest);
+	if (skipRest) return;
+
+	backButtonTop_.mouseUp(x, y, skipRest);
+	if (skipRest) return;
+
+	backButtonBot_.mouseUp(x, y, skipRest);
 }
 
 void GLWScrollW::mouseDrag(float mx, float my, float x, float y, bool &skipRest)
@@ -147,6 +167,12 @@ void GLWScrollW::mouseDrag(float mx, float my, float x, float y, bool &skipRest)
 	if (skipRest) return;
 
 	middleButton_.mouseDrag(mx, my, x, y, skipRest);
+	if (skipRest) return;
+
+	backButtonTop_.mouseDrag(mx, my, x, y, skipRest);
+	if (skipRest) return;
+
+	backButtonBot_.mouseDrag(mx, my, x, y, skipRest);
 }
 
 void GLWScrollW::startDrag(unsigned int id)
@@ -202,6 +228,36 @@ void GLWScrollW::buttonDown(unsigned int id)
 			{
 				current_++;
 				if (handler_) handler_->positionChange(getId(), current_, +1);
+			}
+		}
+	}
+	else if (id == backButtonTop_.getId())
+	{
+		const int possibilites = max_ - min_;
+		if (see_ < possibilites)
+		{
+			int oldcurrent = current_;
+			if (current_ < max_)
+			{
+				current_ += see_;
+				if (current_ > max_) current_ = max_;
+				if (handler_) handler_->
+					positionChange(getId(), current_, current_ - oldcurrent);
+			}
+		}
+	}
+	else if (id == backButtonBot_.getId())
+	{
+		const int possibilites = max_ - min_;
+		if (see_ < possibilites)
+		{
+			int oldcurrent = current_;
+			if (current_ > min_)
+			{
+				current_ -= see_;
+				if (current_ < min_) current_ = min_;
+				if (handler_) handler_->
+					positionChange(getId(), current_, current_ - oldcurrent);
 			}
 		}
 	}

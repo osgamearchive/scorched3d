@@ -402,12 +402,6 @@
 				RelativePath="..\GLW\GLWScrollButton.h">
 			</File>
 			<File
-				RelativePath="..\GLW\GLWScrollH.cpp">
-			</File>
-			<File
-				RelativePath="..\GLW\GLWScrollH.h">
-			</File>
-			<File
 				RelativePath="..\GLW\GLWScrollPanel.cpp">
 			</File>
 			<File
@@ -2457,6 +2451,12 @@
 				RelativePath="..\client\MainCamera.h">
 			</File>
 			<File
+				RelativePath="..\client\MessageDisplay.cpp">
+			</File>
+			<File
+				RelativePath="..\client\MessageDisplay.h">
+			</File>
+			<File
 				RelativePath="..\client\ScorchedClient.cpp">
 			</File>
 			<File
@@ -2479,12 +2479,6 @@
 			</File>
 			<File
 				RelativePath="..\client\ServerBrowserServerList.h">
-			</File>
-			<File
-				RelativePath="..\client\MessageDisplay.cpp">
-			</File>
-			<File
-				RelativePath="..\client\MessageDisplay.h">
 			</File>
 			<File
 				RelativePath="..\client\ShotTimer.cpp">

@@ -18,14 +18,8 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// GLWScrollW.h: interface for the GLWScrollW class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_GLWSCROLLW_H__DCD17624_BF31_45DD_8766_2710AB9FFC6D__INCLUDED_)
 #define AFX_GLWSCROLLW_H__DCD17624_BF31_45DD_8766_2710AB9FFC6D__INCLUDED_
-
 
 #include <GLW/GLWScrollButton.h>
 
@@ -73,6 +67,8 @@ protected:
 	GLWScrollWI *handler_;
 	GLWButton topButton_;
 	GLWButton bottomButton_;
+	GLWButton backButtonTop_; // Hidden
+	GLWButton backButtonBot_; // Hidden
 	GLWScrollButton middleButton_;
 	int min_, max_, see_;
 	int current_;
