@@ -87,7 +87,7 @@ void PatchGrid::forceCalculate(int threshold)
 			(*patch)->getRecalculate() = false;
 			(*patch)->computeVariance();
 		}
-		if (tessCount >= threshold) return;
+		if (tessCount >= (unsigned) threshold) return;
 
 		patch++;
 	}

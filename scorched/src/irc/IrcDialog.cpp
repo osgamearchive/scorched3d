@@ -4,6 +4,12 @@
 #include <irc/ClientGameInfo.h>
 #include <scorched/MainDialog.h>
 #include <common/OptionsParam.h>
+#include <common/Defines.h>
+#include <common/Logger.h>
+#include <wx/wx.h>
+#include <wx/listctrl.h>
+#include <wx/image.h>
+#include <windows.h>
 
 enum
 {
@@ -16,6 +22,17 @@ enum
 
 extern char scorched3dAppName[128];
 
+class NetListControl : public wxListCtrl
+{
+public:
+	NetListControl(wxWindow* parent, wxWindowID id, 
+		const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize);
+	virtual ~NetListControl();
+
+	virtual wxString OnGetItemText(long WXUNUSED(item), long WXUNUSED(col)) const;
+	virtual int OnGetItemImage(long WXUNUSED(item)) const;
+};
+
 static wxTextCtrl *IDC_EDIT_SERVER_CTRL = 0;
 static wxListCtrl *IDC_LOG_CTRL=0;
 static wxButton *IDC_BUTTON_LAN_CTRL = 0;
@@ -24,6 +41,36 @@ static wxButton *IDC_CLEAR_CTRL = 0;
 static wxButton *IDOK_CTRL = 0;
 static wxButton *IDCANCEL_CTRL = 0;
 static NetListControl *IDC_SERVER_LIST_CTRL = 0;
+
+class NetLanFrame: public wxDialog
+{
+public:
+	NetLanFrame();
+	virtual ~NetLanFrame();
+
+	virtual bool TransferDataToWindow();
+	virtual bool TransferDataFromWindow();
+
+	void onRefreshLanButton();
+	void onRefreshNETButton();
+	void onClearButton();
+	void onSelectServer();
+	void onTimer();
+	void onServerChanged();
+
+private:
+	class NetLanFrameLogger : public LoggerI
+	{
+	public:
+		virtual void logMessage(const char *time, const char *message,
+					unsigned int playerId);
+	} logger_;
+
+	DECLARE_EVENT_TABLE()
+	wxTimer timer_;
+	int entries_;
+
+};
 
 BEGIN_EVENT_TABLE(NetLanFrame, wxDialog)
     EVT_BUTTON(IDC_BUTTON_LAN,  NetLanFrame::onRefreshLanButton)
@@ -56,9 +103,9 @@ wxString NetListControl::OnGetItemText(long item, long column) const
 	entry = ClientGameInfo::instance()->GetEntry(item);
 	switch(column) {
 	case 0:	return entry.getDescription();
-	case 1: return string( 
-			string(entry.getNoClients()) + "/" + 
-			string(entry.getMaxClients())
+	case 1: return std::string( 
+				std::string(entry.getNoClients()) + "/" + 
+				std::string(entry.getMaxClients())
 		).c_str(); 
 	case 2: return entry.getHost();
 	case 3: return entry.getPort();
@@ -120,12 +167,12 @@ NetLanFrame::NetLanFrame() :
 	timer_.SetOwner(this, 1001);
 	timer_.Start(3000, false);
 
-	Logger::addLogger(this);
+	Logger::addLogger(&logger_);
 }
 
 NetLanFrame::~NetLanFrame()
 {
-	Logger::remLogger(this);
+	Logger::remLogger(&logger_);
 }
 
 void NetLanFrame::onClearButton()
@@ -233,7 +280,7 @@ bool NetLanFrame::TransferDataFromWindow()
 	return true;
 }
 
-void NetLanFrame::logMessage(
+void NetLanFrame::NetLanFrameLogger::logMessage(
 		const char *time,
 		const char *message,
 		unsigned int playerId)

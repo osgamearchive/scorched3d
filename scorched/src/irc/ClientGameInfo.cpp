@@ -81,25 +81,23 @@ void ClientGameInfo::irc_reply()
 		return;
 	}
 
-        if (strcmp(cmd, "PRIVMSG") == 0) {
-		GameInfoEntry _info;
-                char *_nick,*_user,*_ip;
-                char reply[MAX_IRC_CMD];
- 
-                // extract info and do sanity checks
-                CHK_FIRST_TOKEN(_nick,prefix);
-                CHK_NEXT_TOKEN(_user);
-                CHK_LAST_TOKEN(_ip);
+	if (strcmp(cmd, "PRIVMSG") == 0) {
+	GameInfoEntry _info;
+	char *_nick,*_user,*_ip;
 
-		// accept reserved nicks only
-		if (*_nick != '\\') return;
-		if (strcmp(_user,"~" GAME_SERVER_BOT_USER)) return;
-		
-		if ( getQueryReplyInfo(_info,params,NULL,NULL) )
-			AddEntry(_info);
-                return;
-        }
+	// extract info and do sanity checks
+	CHK_FIRST_TOKEN(_nick,prefix);
+	CHK_NEXT_TOKEN(_user);
+	CHK_LAST_TOKEN(_ip);
 
+	// accept reserved nicks only
+	if (*_nick != '\\') return;
+	if (strcmp(_user,"~" GAME_SERVER_BOT_USER)) return;
+
+	if ( getQueryReplyInfo(_info,params,NULL,NULL) )
+		AddEntry(_info);
+			return;
+	}
 
 	// must be at end 
 	IrcBot::irc_reply();

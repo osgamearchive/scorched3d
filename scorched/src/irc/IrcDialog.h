@@ -23,50 +23,6 @@
 #if !defined(__INCLUDE_NetDialogh_INCLUDE__)
 #define __INCLUDE_NetDialogh_INCLUDE__
 
-#include <common/Defines.h>
-#include <common/Logger.h>
-#include <wx/wx.h>
-#include <wx/listctrl.h>
-#include <wx/image.h>
-#include <windows.h>
-
-class NetListControl : public wxListCtrl
-{
-public:
-	NetListControl(wxWindow* parent, wxWindowID id, 
-		const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize);
-	virtual ~NetListControl();
-
-	virtual wxString OnGetItemText(long WXUNUSED(item), long WXUNUSED(col)) const;
-	virtual int OnGetItemImage(long WXUNUSED(item)) const;
-};
-
-
-class NetLanFrame: public wxDialog , public LoggerI
-{
-public:
-	NetLanFrame();
-	~NetLanFrame();
-
-	virtual bool TransferDataToWindow();
-	virtual bool TransferDataFromWindow();
-	virtual void logMessage(const char *time, const char *message,
-				unsigned int playerId);
-
-	void onRefreshLanButton();
-	void onRefreshNETButton();
-	void onClearButton();
-	void onSelectServer();
-	void onTimer();
-	void onServerChanged();
-
-private:
-	DECLARE_EVENT_TABLE()
-	wxTimer timer_;
-	int entries_;
-
-};
-
 bool showNetLanDialog();
 
 #endif

@@ -62,7 +62,6 @@ std::string GameInfoMessage::getField(char *data,char *field)
 { 
 	static char cmd[MAX_IRC_CMD+1];
 	char *s,*d;
-	int i;
 	if (data==NULL) 
 		return "";
 	strncpy(cmd,data,MAX_IRC_CMD);
