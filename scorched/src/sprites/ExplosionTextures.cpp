@@ -89,6 +89,9 @@ void ExplosionTextures::createTextures(ProgressCounter *counter)
 	GLBitmap bitmap( PKGDIR "data/textures/smoke01.bmp", PKGDIR "data/textures/smoke01.bmp", false);
 	smokeTexture.create(bitmap, GL_RGBA);
 
+	GLBitmap bitmap2( PKGDIR "data/textures/smoke02.bmp", PKGDIR "data/textures/smoke02.bmp", false);
+	smokeTexture.create(bitmap2, GL_RGBA);
+
 	createTextureSet(exp00, 10, PKGDIR "data/textures/explode/exp00_");
 	textureSets["exp00"] = &exp00;
 

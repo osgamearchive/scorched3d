@@ -46,6 +46,7 @@ public:
 	GLTextureSet flames;
 
 	GLTexture smokeTexture;
+	GLTexture smokeTexture2;
 
 	std::map<const char *, GLTextureSet*> textureSets;
 

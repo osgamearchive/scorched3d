@@ -39,12 +39,13 @@ public:
 	public:
 		Entry() : 
 			width(1.0f), height(1.0f), alpha(1.0f), 
-			texture(0), textureCoord(0) { }
+			texture(0), textureCoord(0), style(0) { }
 
 		float width, height;
 		float alpha;
 		GLTexture *texture;
 		int textureCoord;
+		int style;
 	};
 
 	// Public Interface, use add entry to add bilboard
