@@ -93,7 +93,8 @@ float MainCamera::heightFunc(int x, int y)
 {
 	if (instance_->cameraPos_ == CamGun)
 	{
-		return 0.0f;
+		if ((instance_->mainCam_.getCurrentPos() - 
+			instance_->mainCam_.getLookAt()).Magnitude() < 5.0f) return 0.0f;
 	}
 
 	const float heightMin = 5.0f;
