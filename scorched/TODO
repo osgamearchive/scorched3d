@@ -26,7 +26,7 @@ Added: Computers talk when attacking
 Added: Say command added to console.  This allows custom taunts to be bound to keys.
 Added: Different on screen gui
 Added: New better looking fonts and FreeType2 support
-Added: Rollers
+Added: Rollers 
 
 Fixed: Client does not start new game until all explosions have finished
 Fixed: accessories.xml will only allow recognised tags for weapon types
