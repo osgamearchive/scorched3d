@@ -24,8 +24,8 @@
 #include <GLEXT/GLBitmapModifier.h>
 #include <common/Defines.h>
 
-static const float ambientLightConst = 0.2f;
-static const float directLightConst = 0.8f;
+static const float ambientLightConst = 0.3f;
+static const float directLightConst = 0.7f;
 
 bool GLBitmapModifier::findIntersection(HeightMap &hMap,
 										Vector start,
@@ -115,7 +115,7 @@ void GLBitmapModifier::addLightMapToBitmap(GLBitmap &destBitmap,
 			Vector sunDirection = (sunPos - testPosition).Normalize();
 
 			// Calculate lighting
-			float diffuseLight = directLightConst * (testNormal.dotP(sunDirection));
+			float diffuseLight = directLightConst * (((testNormal.dotP(sunDirection)) / 2.0f) + 0.5f);
 			float ambientLight = ambientLightConst;
 
 			// Calculate light based on whether obejcts in path

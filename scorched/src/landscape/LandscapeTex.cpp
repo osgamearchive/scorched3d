@@ -270,7 +270,7 @@ bool LandscapeTex::writeMessage(NetBuffer &buffer)
 	buffer.addToBuffer(skycolormap);
 	buffer.addToBuffer(skytimeofday);
 	buffer.addToBuffer(skysunxy);
-	buffer.addToBuffer(skysunxy);
+	buffer.addToBuffer(skysunyz);
 	buffer.addToBuffer(bordertype);
 	if (!border->writeMessage(buffer)) return false;
 	buffer.addToBuffer(texturetype);

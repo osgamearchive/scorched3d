@@ -268,9 +268,6 @@ void Landscape::generate(ProgressCounter *counter)
 			tex->texturetype.c_str());
 	}
 
-	// Create the main landscape texture
-	DIALOG_ASSERT(texture_.replace(mainMap_, GL_RGB, false));
-
 	// Create the water (if any)
 	water_.generate();
 
@@ -279,6 +276,9 @@ void Landscape::generate(ProgressCounter *counter)
 	GLBitmapModifier::addLightMapToBitmap(mainMap_,
 		ScorchedClient::instance()->getLandscapeMaps().getHMap(),
 		sky_.getSun().getPosition(), counter);
+
+	// Create the main landscape texture
+	DIALOG_ASSERT(texture_.replace(mainMap_, GL_RGB, false));
 
     // Create the landscape texture used for the small plan window
 	gluScaleImage(
