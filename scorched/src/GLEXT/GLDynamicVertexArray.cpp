@@ -20,6 +20,7 @@
 
 #include <GLEXT/GLDynamicVertexArray.h>
 #include <GLEXT/GLInfo.h>
+#include <common/OptionsDisplay.h>
 
 GLDynamicVertexArray *GLDynamicVertexArray::instance_ = 0;
 
@@ -33,45 +34,18 @@ GLDynamicVertexArray *GLDynamicVertexArray::instance()
 }
 
 GLDynamicVertexArray::GLDynamicVertexArray() : 
-	capacity_(3000), used_(0), vbo_(0), array_(0)
+	capacity_(3000), used_(0), array_(0)
 {
-	if (GLStateExtension::glGenBuffersARB())
-	{
-		GLStateExtension::glGenBuffersARB()(1, &vbo_);
-		GLStateExtension::glBindBufferARB()(GL_ARRAY_BUFFER_ARB, vbo_);
-		GLStateExtension::glBufferDataARB()
-			(GL_ARRAY_BUFFER_ARB, sizeof(GLfloat) * capacity_, 
-			0, GL_DYNAMIC_DRAW_ARB);
-		if (glGetError() == GL_OUT_OF_MEMORY) vbo_ = 0;
-	}
-
-	if (!vbo_)
-	{
-		array_ = new GLfloat[capacity_];
-	}
+	array_ = new GLfloat[capacity_];
 }
 
 GLDynamicVertexArray::~GLDynamicVertexArray()
 {
-	if (vbo_)
-	{
-		GLStateExtension::glDeleteBuffersARB()(1, &vbo_);
-	}
-	else
-	{
-		delete [] array_;
-	}
+	delete [] array_;
 }
 
 void GLDynamicVertexArray::drawROAM()
 {
-	if (vbo_)
-	{
-		array_ = 0;
-		GLStateExtension::glBindBufferARB()(GL_ARRAY_BUFFER_ARB, vbo_);
-		GLStateExtension::glUnmapBufferARB()(GL_ARRAY_BUFFER_ARB);
-	}
-
 	int stride = 5;
 	if (GLStateExtension::glClientActiveTextureARB())
 	{
@@ -86,62 +60,80 @@ void GLDynamicVertexArray::drawROAM()
 		return;
 	}
 
-	glEnableClientState(GL_VERTEX_ARRAY);
-	if (GLStateExtension::glClientActiveTextureARB())
+	if (OptionsDisplay::instance()->getNoVBO())
 	{
-		GLStateExtension::glClientActiveTextureARB()(GL_TEXTURE1_ARB);
-		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-		if (GLStateExtension::getTextureUnits() > 2)
+		GLfloat *start = array_;
+		glBegin(GL_TRIANGLES);
+		for (int i=0; i<used_; i+=stride)
 		{
-			GLStateExtension::glClientActiveTextureARB()(GL_TEXTURE2_ARB);
+			glTexCoord2f(start[3], start[4]); 
+			if (GLStateExtension::glClientActiveTextureARB())
+			{
+				GLStateExtension::glMultiTextCoord2fARB()
+					(GL_TEXTURE1_ARB, start[3], start[4]);
+				if (GLStateExtension::getTextureUnits() > 2)
+				{
+					GLStateExtension::glMultiTextCoord2fARB()
+						(GL_TEXTURE2_ARB, start[5], start[6]);
+				}
+			}
+
+			glVertex3fv(start); 
+			start += stride;
+		}
+		glEnd();
+	}
+	else
+	{
+		glEnableClientState(GL_VERTEX_ARRAY);
+		if (GLStateExtension::glClientActiveTextureARB())
+		{
+			GLStateExtension::glClientActiveTextureARB()(GL_TEXTURE1_ARB);
 			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+			if (GLStateExtension::getTextureUnits() > 2)
+			{
+				GLStateExtension::glClientActiveTextureARB()(GL_TEXTURE2_ARB);
+				glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+			}
 		}
-	}
-	GLStateExtension::glClientActiveTextureARB()(GL_TEXTURE0_ARB);
-	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-	GLStateExtension::glBindBufferARB()(GL_ARRAY_BUFFER_ARB, vbo_);
-	glVertexPointer(3, GL_FLOAT, stride * sizeof(GL_FLOAT), array_);
-	glTexCoordPointer(2, GL_FLOAT, stride * sizeof(GL_FLOAT), array_ + 3);
-	if (GLStateExtension::glClientActiveTextureARB())
-	{
-		GLStateExtension::glClientActiveTextureARB()(GL_TEXTURE1_ARB);
+		GLStateExtension::glClientActiveTextureARB()(GL_TEXTURE0_ARB);
+		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+		glVertexPointer(3, GL_FLOAT, stride * sizeof(GL_FLOAT), array_);
 		glTexCoordPointer(2, GL_FLOAT, stride * sizeof(GL_FLOAT), array_ + 3);
-		if (GLStateExtension::getTextureUnits() > 2)
+		if (GLStateExtension::glClientActiveTextureARB())
 		{
-			GLStateExtension::glClientActiveTextureARB()(GL_TEXTURE2_ARB);
-			glTexCoordPointer(2, GL_FLOAT, stride * sizeof(GL_FLOAT), array_ + 5);
+			GLStateExtension::glClientActiveTextureARB()(GL_TEXTURE1_ARB);
+			glTexCoordPointer(2, GL_FLOAT, stride * sizeof(GL_FLOAT), array_ + 3);
+			if (GLStateExtension::getTextureUnits() > 2)
+			{
+				GLStateExtension::glClientActiveTextureARB()(GL_TEXTURE2_ARB);
+				glTexCoordPointer(2, GL_FLOAT, stride * sizeof(GL_FLOAT), array_ + 5);
+			}
 		}
-	}
 
-	glDrawArrays(GL_TRIANGLES, 0, used_ / stride);
-	GLInfo::addNoTriangles((used_ / stride) / 3);
+		glDrawArrays(GL_TRIANGLES, 0, used_ / stride);
+		GLInfo::addNoTriangles((used_ / stride) / 3);
 
-	glDisableClientState(GL_VERTEX_ARRAY);
-	if (GLStateExtension::glClientActiveTextureARB())
-	{
-		GLStateExtension::glClientActiveTextureARB()(GL_TEXTURE1_ARB);
-		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-		if (GLStateExtension::getTextureUnits() > 2)
+		glDisableClientState(GL_VERTEX_ARRAY);
+		if (GLStateExtension::glClientActiveTextureARB())
 		{
-			GLStateExtension::glClientActiveTextureARB()(GL_TEXTURE2_ARB);
+			GLStateExtension::glClientActiveTextureARB()(GL_TEXTURE1_ARB);
 			glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+			if (GLStateExtension::getTextureUnits() > 2)
+			{
+				GLStateExtension::glClientActiveTextureARB()(GL_TEXTURE2_ARB);
+				glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+			}
 		}
+		GLStateExtension::glClientActiveTextureARB()(GL_TEXTURE0_ARB);
+		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	}
-	GLStateExtension::glClientActiveTextureARB()(GL_TEXTURE0_ARB);
-	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 
 	used_ = 0;
 }
 
 void GLDynamicVertexArray::drawQuadStrip(bool useColor)
 {
-	if (vbo_)
-	{
-		array_ = 0;
-		GLStateExtension::glBindBufferARB()(GL_ARRAY_BUFFER_ARB, vbo_);
-		GLStateExtension::glUnmapBufferARB()(GL_ARRAY_BUFFER_ARB);
-	}
-
 	int stride = 5;
 	if (useColor) stride = 8;
 	if (used_ < 4 * stride)
@@ -150,26 +142,38 @@ void GLDynamicVertexArray::drawQuadStrip(bool useColor)
 		return;	
 	}
 
-	// TODO *** Half of this information is actually static and could be held
-	// in non-dynamic memory.
+	if (OptionsDisplay::instance()->getNoVBO())
+	{
+		GLfloat *start = array_;
+		glBegin(GL_QUAD_STRIP);
+		for (int i=0; i<used_; i+=stride)
+		{
+			glTexCoord2fv(start + 3);
+			if (useColor) glColor3fv(start + 5);
+			glVertex3fv(start);
+			start += stride;
+		}
+		glEnd();
+	}
+	else
+	{
+		// Define	
+		glEnableClientState(GL_VERTEX_ARRAY);
+		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+		if (useColor) glEnableClientState(GL_COLOR_ARRAY);
+		glVertexPointer(3, GL_FLOAT, stride * sizeof(GL_FLOAT), array_);
+		glTexCoordPointer(2, GL_FLOAT, stride * sizeof(GL_FLOAT), array_ + 3);
+		if (useColor) glColorPointer(3, GL_FLOAT, stride * sizeof(GL_FLOAT), array_ + 5);
 
-	// Define	
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-	if (useColor) glEnableClientState(GL_COLOR_ARRAY);
-	GLStateExtension::glBindBufferARB()(GL_ARRAY_BUFFER_ARB, vbo_);
-	glVertexPointer(3, GL_FLOAT, stride * sizeof(GL_FLOAT), array_);
-	glTexCoordPointer(2, GL_FLOAT, stride * sizeof(GL_FLOAT), array_ + 3);
-	if (useColor) glColorPointer(3, GL_FLOAT, stride * sizeof(GL_FLOAT), array_ + 5);
+		// Draw
+		glDrawArrays(GL_QUAD_STRIP, 0, used_ / stride);
+		GLInfo::addNoTriangles((used_ / stride) - 2);
 
-	// Draw
-	glDrawArrays(GL_QUAD_STRIP, 0, used_ / stride);
-	GLInfo::addNoTriangles((used_ / stride) - 2);
-
-	// Undefine
-	glDisableClientState(GL_VERTEX_ARRAY);
-	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-	if (useColor) glDisableClientState(GL_COLOR_ARRAY);
+		// Undefine
+		glDisableClientState(GL_VERTEX_ARRAY);
+		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+		if (useColor) glDisableClientState(GL_COLOR_ARRAY);
+	}
 
 	used_ = 0;
 }

@@ -35,15 +35,6 @@ public:
 	inline void addFloat(GLfloat floats)
 	{
 		DIALOG_ASSERT(used_ < capacity_);
-		if (used_ == 0 && vbo_ != 0)
-		{
-			GLStateExtension::glBindBufferARB()(GL_ARRAY_BUFFER_ARB, vbo_);
-			array_ = (GLfloat *)
-				GLStateExtension::glMapBufferARB()
-					(GL_ARRAY_BUFFER_ARB, GL_WRITE_ONLY_ARB);
-			DIALOG_ASSERT(array_);
-		}
-
 		array_[used_] = floats;
 		used_++;
 	}
@@ -53,7 +44,6 @@ public:
 protected:
 	static GLDynamicVertexArray *instance_;
 	GLfloat *array_;
-	unsigned int vbo_;
 	int used_;
 	int capacity_;
 

@@ -23,6 +23,7 @@
 #include <GLEXT/GLInfo.h>
 #include <stdlib.h>
 
+// ************ NOTE VBO TURNED OFF FOR NOW ************** //
 GLVertexArray::GLVertexArray(GLenum prim, int noTris, 
 	unsigned int type, GLTexture *texture) : 
 	prim_(prim), noTris_(noTris), setup_(false),
@@ -87,6 +88,9 @@ void GLVertexArray::setTexCoord(int offset, GLfloat a, GLfloat b)
 
 void GLVertexArray::setup()
 {
+	// ************ NOTE VBO TURNED OFF FOR NOW ************** //
+	useVBO_ = false;
+
 	if (useVBO_ && GLStateExtension::glGenBuffersARB())
 	{
 		useVBO_ = true;
@@ -159,8 +163,10 @@ void GLVertexArray::draw()
 	{
 		makeList();
 	}
-
-	glCallList(listNo_);
+	if (listNo_ != 0)
+	{
+		glCallList(listNo_);
+	}
 
 	GLInfo::addNoTriangles(getNoTris());
 }
@@ -215,9 +221,9 @@ void GLVertexArray::makeList()
 		}
 	}
 
-	glNewList(listNo_ = glGenLists(1), GL_COMPILE);
-	glDrawArrays(prim_, 0, noTris_);
-	glEndList();
+	if (!useVBO_) glNewList(listNo_ = glGenLists(1), GL_COMPILE);
+		glDrawArrays(prim_, 0, noTris_);
+	if (!useVBO_) glEndList();
 
 	if (vertices_) glDisableClientState(GL_VERTEX_ARRAY);
 	if (colors_) glDisableClientState(GL_COLOR_ARRAY);
