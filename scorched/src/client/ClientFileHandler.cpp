@@ -70,6 +70,12 @@ bool ClientFileHandler::processMessage(unsigned int id,
 		reader.getFromBuffer(fileName);
 		if (fileName.size() == 0) break;
 
+		// Read flags
+		bool firstChunk = false;
+		bool lastChunk = false;
+		reader.getFromBuffer(firstChunk);
+		reader.getFromBuffer(lastChunk);
+
 		// Read the size
 		unsigned int maxsize = 0;
 		unsigned int uncompressedsize = 0;
@@ -80,25 +86,35 @@ bool ClientFileHandler::processMessage(unsigned int id,
 		reader.getFromBuffer(crc);
 		reader.getFromBuffer(size);
 		
-		// Locate the file
-		ModFileEntry *entry = 0;
-		std::map<std::string, ModFileEntry *>::iterator findItor = 
-			files.find(fileName);
-		if (findItor == files.end())
+		// The first part
+		if (firstChunk)
 		{
+			// Remove the file if it already exists
+			std::map<std::string, ModFileEntry *>::iterator findItor = 
+				files.find(fileName);
+			if (findItor != files.end())
+			{
+				delete (*findItor).second;
+				files.erase(findItor);
+			}
+
 			// Create a new file
 			ModFileEntry *fileEntry = new ModFileEntry;
 			fileEntry->setFileName(fileName.c_str());
 			fileEntry->setCompressedCrc(crc);
 			fileEntry->setUncompressedSize(uncompressedsize);
 			files[fileName] = fileEntry;
-			entry = fileEntry;
 		}
-		else
+
+		// Locate the file
+		std::map<std::string, ModFileEntry *>::iterator findItor = 
+			files.find(fileName);
+		if (findItor == files.end())
 		{
-			// Use an existing file
-			entry = (*findItor).second;
+			Logger::log(0, "Failed to find partial mod file \"%s\"", fileName);
+			return false;
 		}
+		ModFileEntry *entry = (*findItor).second;
 
 		// Add the bytes to the file
 		entry->getCompressedBuffer().addDataToBuffer(
@@ -106,9 +122,28 @@ bool ClientFileHandler::processMessage(unsigned int id,
 		reader.setReadSize(reader.getReadSize() + size);
 
 		// Check if we have finished this file
-		if (entry->getCompressedSize() == maxsize)
+		if (lastChunk)
 		{
-			entry->writeModFile(fileName.c_str());
+			// Finished
+			Logger::log(0, "  %s - %i bytes",
+				fileName,
+				entry->getCompressedSize());
+
+			// Wrong size
+			if (entry->getCompressedSize() != maxsize)
+			{
+				Logger::log(0, "Downloaded mod file incorrect size \"%s\"",
+					fileName);
+				return false;
+			}
+
+			// Write file
+			if (!entry->writeModFile(fileName.c_str()))
+			{
+				Logger::log(0, "Failed to write mod file \"%s\"",
+					fileName);
+				return false;
+			}
 		}
 	}
 

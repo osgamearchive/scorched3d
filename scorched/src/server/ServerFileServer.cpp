@@ -149,6 +149,7 @@ void ServerFileServer::sendBytes(Tank *tank, unsigned int size)
 		if (!sendNextFile(message, tank, size, bytesSent)) break;
 		size -= bytesSent;
 	}
+	// Add any empty file name to signal end of files for this message
 	message.fileBuffer.addToBuffer("");
 
 	// Send the message to the client
@@ -179,9 +180,13 @@ bool ServerFileServer::sendNextFile(ComsFileMessage &message,
 	unsigned int sizeSent = entry.length;
 	unsigned int sizeLeftToSend = modentry->getCompressedSize() - sizeSent;
 	unsigned int sizeToSend = MIN(sizeLeftToSend, size);
+	bool firstChunk = (sizeSent == 0);
+	bool lastChunk = (sizeToSend == sizeLeftToSend);
 
 	// Add the bytes to the buffer
 	message.fileBuffer.addToBuffer(modentry->getFileName());
+	message.fileBuffer.addToBuffer(firstChunk);
+	message.fileBuffer.addToBuffer(lastChunk);
 	message.fileBuffer.addToBuffer(modentry->getCompressedSize());
 	message.fileBuffer.addToBuffer(modentry->getUncompressedSize());
 	message.fileBuffer.addToBuffer(modentry->getCompressedCrc());
@@ -198,13 +203,6 @@ bool ServerFileServer::sendNextFile(ComsFileMessage &message,
 		// If so remove the file from the list that
 		// still needs to be sent
 		tank->getMod().rmFile(modentry->getFileName());
-
-		// Tell client of progress
-		ServerCommon::sendString(tank->getDestinationId(),
-			"  %i left - \"%s\" %i bytes",
-			tank->getMod().getFiles().size(),
-			modentry->getFileName(),
-			modentry->getCompressedSize());
 	}
 
 	bytesSent = sizeToSend;
