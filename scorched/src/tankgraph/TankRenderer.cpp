@@ -160,7 +160,7 @@ void TankRenderer::draw(DrawType dt, const unsigned state)
 					getNextAliveParticle();
 			if (particle)
 			{
-				model->setMadeParticle();
+				model->setMadeParticle(true);
 				particle->life_ = 1000.0f;
 				particle->renderer_ = TankParticleRenderer::getInstance();
 				particle->userData_ = new unsigned(tank->getPlayerId());

@@ -78,7 +78,7 @@ public:
 	TankModel *getModel() { return model_; }
 	GLWTankTips *getTips() { return &tankTips_; }
 	bool getMadeParticle() { return particleMade_; }
-	void setMadeParticle() { particleMade_ = true; }
+	void setMadeParticle(bool p) { particleMade_ = p; }
 
 protected:
 	Tank *tank_;

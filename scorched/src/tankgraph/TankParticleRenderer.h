@@ -29,6 +29,7 @@ public:
 	static TankParticleRenderer *getInstance();
 	virtual void renderParticle(Particle &particle);
 	virtual void simulateParticle(Particle &particle, float time);
+	virtual void recycleParticle(Particle &particle);
 };
 
 #endif

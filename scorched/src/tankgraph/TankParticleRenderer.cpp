@@ -37,11 +37,13 @@ void TankParticleRenderer::simulateParticle(Particle &particle, float time)
 			*((unsigned*) particle.userData_));
 	if (tank)
 	{
+		// Tank and particle alive
 		particle.life_ = 1000.0f; // Alive
 		particle.position_ = tank->getPhysics().getTankPosition();
 	}
 	else
 	{
+		// Tank expired but particle has not
 		particle.life_ = 0.0f; // Dead
 	}
 }
@@ -57,9 +59,28 @@ void TankParticleRenderer::renderParticle(Particle &particle)
 		{
 			TankModelRenderer *model = (TankModelRenderer *) 
 				tank->getModel().getModelIdRenderer();
-			model->drawSecond();
-			glDepthMask(GL_FALSE);
+			if (model)
+			{
+				model->drawSecond();
+				glDepthMask(GL_FALSE);
+			}
 		}
 	}
 }
 
+void TankParticleRenderer::recycleParticle(Particle &particle)
+{
+	Tank *tank =
+		ScorchedClient::instance()->getTankContainer().getTankById(
+			*((unsigned*) particle.userData_));
+	if (tank)
+	{
+		TankModelRenderer *model = (TankModelRenderer *) 
+			tank->getModel().getModelIdRenderer();
+		if (model)
+		{
+			// Particle expired but tank has not
+			model->setMadeParticle(false);
+		}
+	}
+}

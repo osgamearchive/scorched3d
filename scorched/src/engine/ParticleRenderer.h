@@ -27,6 +27,7 @@ class ParticleRenderer
 public:
 	virtual void renderParticle(Particle &particle) = 0;
 	virtual void simulateParticle(Particle &particle, float time) = 0;
+	virtual void recycleParticle(Particle &particle) { }
 };
 
 class ParticleRendererPoints : public ParticleRenderer

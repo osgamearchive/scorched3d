@@ -77,7 +77,16 @@ void ParticleEngine::killAll()
 	{
 		Particle &particle = particles_[i];
 		particle.engine_ = this;
-		if (particle.life_ > 0.0f) particle.life_ = -1.0f;
+		if (particle.life_ > 0.0f)
+		{
+			if (particle.renderer_)
+			{
+				particle.renderer_->recycleParticle(particle);
+			}
+
+			particle.unsetParticle();
+			particle.life_ = -1.0f;
+		}
 
 		freeParticles_[i] = &particles_[i];
 	}
@@ -179,6 +188,11 @@ void ParticleEngine::normalizedSimulate(float time)
 		}
 		else
 		{
+			if (particle->renderer_)
+			{
+				particle->renderer_->recycleParticle(*particle);
+			}
+
 			particlesOnScreen_--;
 			freeParticles_[particlesOnScreen_] = particle;
 			particle->unsetParticle();
