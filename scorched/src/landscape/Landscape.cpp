@@ -256,13 +256,13 @@ void Landscape::generate(ProgressCounter *counter)
 		LandscapeTexTextureGenerate *generate = 
 			(LandscapeTexTextureGenerate *) tex->texture;
 
-		GLBitmap texture0(generate->texture0.c_str());
-		GLBitmap texture1(generate->texture1.c_str());
-		GLBitmap texture2(generate->texture2.c_str());
-		GLBitmap texture3(generate->texture3.c_str());
-		GLBitmap texture4(generate->texture4.c_str());
-		GLBitmap bitmapShore(generate->shore.c_str());
-		GLBitmap bitmapRock(generate->rockside.c_str());
+		GLBitmap texture0(getDataFile(generate->texture0.c_str()));
+		GLBitmap texture1(getDataFile(generate->texture1.c_str()));
+		GLBitmap texture2(getDataFile(generate->texture2.c_str()));
+		GLBitmap texture3(getDataFile(generate->texture3.c_str()));
+		GLBitmap texture4(getDataFile(generate->texture4.c_str()));
+		GLBitmap bitmapShore(getDataFile(generate->shore.c_str()));
+		GLBitmap bitmapRock(getDataFile(generate->rockside.c_str()));
 		GLBitmap *bitmaps[5];
 		bitmaps[0] = &texture0;
 		bitmaps[1] = &texture1;
@@ -298,22 +298,20 @@ void Landscape::generate(ProgressCounter *counter)
 		LandscapeTexBorderWater *water = 
 			(LandscapeTexBorderWater *) tex->border;
 
-		GLBitmap waves1Map(
-			water->wavetexture1.c_str(),
-			water->wavetexture1.c_str(),
-			false);
-		GLBitmap waves2Map(
-			water->wavetexture2.c_str(),
-			water->wavetexture2.c_str(),
-			false);
+		const char *wave1 = getDataFile(
+			water->wavetexture1.c_str());
+		GLBitmap waves1Map(wave1, wave1, false);
+		const char *wave2 = getDataFile(
+			water->wavetexture2.c_str());
+		GLBitmap waves2Map(wave2, wave2, false);
 		waves1Texture_.replace(waves1Map, GL_RGBA);
 		waves2Texture_.replace(waves2Map, GL_RGBA);
-		bitmapWater_.loadFromFile(water->reflection.c_str(), false);
-		GLBitmap bitmapWaterDetail(water->texture.c_str());
+		bitmapWater_.loadFromFile(getDataFile(water->reflection.c_str()), false);
+		GLBitmap bitmapWaterDetail(getDataFile(water->texture.c_str()));
 		waterDetail_.replace(bitmapWaterDetail, GL_RGB, true);
 
 		// Generate the water texture for the spray sprite
-		GLBitmap bitmapWater(water->reflection.c_str());
+		GLBitmap bitmapWater(getDataFile(water->reflection.c_str()));
 		bitmapWater.resize(
 			sprayMaskBitmap.getWidth(), sprayMaskBitmap.getHeight());
 		GLBitmap textureWaterNew(
@@ -366,7 +364,7 @@ void Landscape::generate(ProgressCounter *counter)
 		GL_UNSIGNED_BYTE, bitmapPlan_.getBits());
 
 	// Generate the scorch map for the landscape
-	GLBitmap scorchMap(tex->scorch.c_str());
+	GLBitmap scorchMap(getDataFile(tex->scorch.c_str()));
 	GLBitmapModifier::tileBitmap(scorchMap, scorchMap_);
 	scorchMap.resize(sprayMaskBitmap.getWidth(), sprayMaskBitmap.getHeight());
 	GLBitmap texture1New(sprayMaskBitmap.getWidth(), sprayMaskBitmap.getHeight(), true);
@@ -374,16 +372,16 @@ void Landscape::generate(ProgressCounter *counter)
 	landTex1_.replace(texture1New, GL_RGBA);
 
 	// Magma
-	GLBitmap bitmapMagma(tex->magmasmall.c_str());
+	GLBitmap bitmapMagma(getDataFile(tex->magmasmall.c_str()));
 	DIALOG_ASSERT(magTexture_.replace(bitmapMagma));
 
 	// Sky
-	GLBitmap bitmapCloud(tex->skytexture.c_str());
+	GLBitmap bitmapCloud(getDataFile(tex->skytexture.c_str()));
 	DIALOG_ASSERT(cloudTexture_.replace(bitmapCloud));
-	skyColorsMap_.loadFromFile(tex->skycolormap.c_str());
+	skyColorsMap_.loadFromFile(getDataFile(tex->skycolormap.c_str()));
 
 	// Detail
-	GLBitmap bitmapDetail(tex->detail.c_str());
+	GLBitmap bitmapDetail(getDataFile(tex->detail.c_str()));
 	DIALOG_ASSERT(detailTexture_.replace(bitmapDetail, GL_RGB, true));
 
 	// Add objects to the landscape (if any)

@@ -64,6 +64,7 @@ protected:
 	void showTankDetails();
 	void logToFile();
 	void say(std::list<GLConsoleRuleSplit>);
+	void teamsay(std::list<GLConsoleRuleSplit>);
 
 };
 

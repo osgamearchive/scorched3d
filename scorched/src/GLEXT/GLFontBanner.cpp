@@ -20,7 +20,6 @@
 
 #include <stdio.h> 
 #include <GLEXT/GLFontBanner.h>
-#include <GLEXT/GLConsole.h>
 #include <GLW/GLWFont.h>
 
 static const float visibleTimeLimit = 10.0f;
@@ -94,12 +93,6 @@ void GLFontBanner::addLine(Vector &color, const char *fmt, ...)
 	vsprintf(text, fmt, ap);
 	va_end(ap);	
 
-	if (textRemoved)
-	{
-		GLConsole::instance()->addLine(
-			false, textLines_[pos].getText());		
-	}
-
 	textLines_[pos].setText(text);
 	textLines_[pos].setColor(color);
 }
@@ -112,11 +105,6 @@ void GLFontBanner::simulate(float frameTime)
 	{
 		if (!textLines_[pos].decrementTime(frameTime)) 
 		{
-			// Any lines that expire from the banner
-			// get added to the glconsole
-			GLConsole::instance()->addLine(
-				false, textLines_[pos].getText());
-
 			if (++startLine_ >= totalLines_) startLine_ = 0;
 			--usedLines_;
 		}

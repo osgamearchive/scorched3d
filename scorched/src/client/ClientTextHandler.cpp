@@ -61,6 +61,8 @@ bool ClientTextHandler::processMessage(unsigned int id,
 	{
 		MessageDisplay::instance()->clear();
 		MessageDisplay::instance()->addMessage(message.getText());
+
+		Logger::log(0, message.getText());
 	}
 	else
 	{

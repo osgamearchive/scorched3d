@@ -41,12 +41,21 @@ GLConsole::GLConsole() :
 	height_(0.0f), opening_(false), lines_(1000), 
 	methods_(rules_, lines_), showCursor_(true)
 {
+	Logger::addLogger(this);
 	font_ = GLWFont::instance()->getSmallPtFont();
 }
 
 GLConsole::~GLConsole()
 {
 
+}
+
+void GLConsole::logMessage(
+	const char *time,
+	const char *message,
+	unsigned int playerId)
+{
+	addLine(false, message);
 }
 
 void GLConsole::keyboardCheck(const unsigned state, float frameTime, 
@@ -62,6 +71,7 @@ void GLConsole::keyboardCheck(const unsigned state, float frameTime,
 		unsigned int dik = history[i].sdlKey;
 		if (consoleKey->keyMatch(dik))
 		{
+			lines_.reset();
 			if (currentLine_.empty()) opening_ = !opening_;
 			else currentLine_ = "";
 			skipRest = true;
@@ -86,6 +96,10 @@ void GLConsole::keyboardCheck(const unsigned state, float frameTime,
 			{
 				switch (dik)
 				{
+				case SDLK_ESCAPE:
+					if (currentLine_.empty()) opening_ = false;
+					else currentLine_ = "";
+					break;
 				case SDLK_TAB:
 					{
 						std::list<GLConsoleRule *> matches;
@@ -126,7 +140,13 @@ void GLConsole::keyboardCheck(const unsigned state, float frameTime,
 					break;
 				case SDLK_PAGEDOWN:
 					lines_.scroll(+5);
-					break;				
+					break;	
+				case SDLK_HOME:
+					lines_.scroll(-((int)lines_.getMaxLines()));
+					break;
+				case SDLK_END:
+					lines_.scroll(int(lines_.getMaxLines()));
+					break;
 				}
 			}
 		}

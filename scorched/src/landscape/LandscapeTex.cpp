@@ -48,8 +48,33 @@ static LandscapeTexType *fetchPlacementTexType(const char *type)
 static LandscapeTexType *fetchObjectTexType(const char *type)
 {
 	if (0 == strcmp(type, "tree")) return new LandscapeTexObjectsTree;
+	if (0 == strcmp(type, "model")) return new LandscapeTexObjectsModel;
 	dialogMessage("LandscapeTexType", "Unknown object type %s", type);
 	return 0;
+}
+
+bool LandscapeTexObjectsModel::writeMessage(NetBuffer &buffer)
+{
+	if (!model.writeModelID(buffer)) return false;
+	if (!modelburnt.writeModelID(buffer)) return false;
+	return true;
+}
+
+bool LandscapeTexObjectsModel::readMessage(NetBufferReader &reader)
+{
+	if (!model.readModelID(reader)) return false;
+	if (!modelburnt.readModelID(reader)) return false;
+	return true;
+}
+
+bool LandscapeTexObjectsModel::readXML(XMLNode *node)
+{
+	XMLNode *modelnode, *burntmodelnode;
+	if (!node->getNamedChild("model", modelnode)) return false;
+	if (!model.initFromNode(".", modelnode)) return false;
+	if (!node->getNamedChild("modelburnt", burntmodelnode)) return false;
+	if (!modelburnt.initFromNode(".", burntmodelnode)) return false;
+	return node->failChildren();
 }
 
 bool LandscapeTexObjectsTree::writeMessage(NetBuffer &buffer)

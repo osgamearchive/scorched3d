@@ -657,16 +657,16 @@
 				RelativePath="..\tank\TankContainer.h">
 			</File>
 			<File
-				RelativePath="..\tank\TankDeadContainer.cpp">
-			</File>
-			<File
-				RelativePath="..\tank\TankDeadContainer.h">
-			</File>
-			<File
 				RelativePath="..\tank\TankController.cpp">
 			</File>
 			<File
 				RelativePath="..\tank\TankController.h">
+			</File>
+			<File
+				RelativePath="..\tank\TankDeadContainer.cpp">
+			</File>
+			<File
+				RelativePath="..\tank\TankDeadContainer.h">
 			</File>
 			<File
 				RelativePath="..\tank\TankFuel.cpp">
@@ -1411,6 +1411,12 @@
 			</File>
 			<File
 				RelativePath="..\landscape\LandscapeObjectsEntry.h">
+			</File>
+			<File
+				RelativePath="..\landscape\LandscapeObjectsEntryModel.cpp">
+			</File>
+			<File
+				RelativePath="..\landscape\LandscapeObjectsEntryModel.h">
 			</File>
 			<File
 				RelativePath="..\landscape\LandscapeObjectsEntryTree.cpp">

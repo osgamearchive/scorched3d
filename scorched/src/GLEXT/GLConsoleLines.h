@@ -18,16 +18,11 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// GLConsoleLines.h: interface for the GLConsoleLines class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_GLCONSOLELINES_H__2DA65C94_3E52_43C6_B75B_D0CEDBF6A9DE__INCLUDED_)
 #define AFX_GLCONSOLELINES_H__2DA65C94_3E52_43C6_B75B_D0CEDBF6A9DE__INCLUDED_
 
 #include <GLEXT/GLFont2d.h>
-#include <list>
+#include <deque>
 #include <string>
 
 class GLConsoleLine
@@ -53,7 +48,7 @@ protected:
 class GLConsoleLines  
 {
 public:
-	GLConsoleLines(unsigned maxLines);
+	GLConsoleLines(int maxLines);
 	virtual ~GLConsoleLines();
 
 	void addLine(const char *line, bool showPointer);
@@ -61,20 +56,19 @@ public:
 
 	void clear();
 
+	void reset() { currentLine_ = 0; }
 	void scroll(int lines);
 	const char *getItem(int lines);
 
-	std::list<GLConsoleLine *> &getLines() { return lines_; }
+	int getMaxLines() { return maxLines_; }
+	std::deque<GLConsoleLine *> &getLines() { return lines_; }
 
 protected:
-	std::list<GLConsoleLine *> lines_;
-	std::list<GLConsoleLine *>::reverse_iterator linesIter_;
-	std::list<GLConsoleLine *>::reverse_iterator selectIter_;
-	unsigned maxLines_;
+	std::deque<GLConsoleLine *> lines_;
+	int maxLines_;
+	int currentLine_;
 
 	void addSmallLine(const char *line, bool showPointer);
-	bool getNextLine(std::list<GLConsoleLine *>::reverse_iterator &pos);
-	bool getPrevLine(std::list<GLConsoleLine *>::reverse_iterator &pos);
 
 };
 

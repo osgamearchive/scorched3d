@@ -54,8 +54,10 @@ void MainBanner::logMessage(
 		const char *message,
 		unsigned int playerId)
 {
-	Tank *source = ScorchedClient::instance()->getTankContainer().getTankById(playerId);
-	banner_->addLine(source?source->getColor():GLFontBanner::defaultColor, message);
+	Tank *source = ScorchedClient::instance()->
+		getTankContainer().getTankById(playerId);
+	banner_->addLine(source?source->getColor():GLFontBanner::defaultColor, 
+		message);
 }
 
 void MainBanner::simulate(const unsigned state, float frameTime)

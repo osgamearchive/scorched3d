@@ -22,6 +22,7 @@
 #define __INCLUDE_LandscapeTexh_INCLUDE__
 
 #include <coms/ComsMessage.h>
+#include <3dsparse/ModelID.h>
 #include <XML/XMLFile.h>
 #include <string>
 #include <vector>
@@ -32,6 +33,17 @@ public:
 	virtual bool writeMessage(NetBuffer &buffer) = 0;
 	virtual bool readMessage(NetBufferReader &reader) = 0;
 	virtual bool readXML(XMLNode *node) = 0;
+};
+
+class LandscapeTexObjectsModel : public LandscapeTexType
+{
+public:
+	ModelID model;
+	ModelID modelburnt;
+
+	virtual bool writeMessage(NetBuffer &buffer);
+	virtual bool readMessage(NetBufferReader &reader);
+	virtual bool readXML(XMLNode *node);
 };
 
 class LandscapeTexObjectsTree : public LandscapeTexType

@@ -18,21 +18,12 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// GLConsoleFileReader.cpp: implementation of the GLConsoleFileReader class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <GLEXT/GLConsole.h>
 #include <GLEXT/GLConsoleFileReader.h>
 #include <GLEXT/GLConsole.h>
 #include <common/FileLines.h>
 #include <XML/XMLFile.h>
 #include <stdio.h>
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 bool GLConsoleFileReader::loadFileIntoConsole(const char *fileName,
 											  std::string &errorMessage)
@@ -65,8 +56,8 @@ void GLConsoleFileReader::saveConsoleIntoFile(const char *filename)
 	FileLines filelines;
 	filelines.addLine("<commands source=\"Scorched3D\">");
 
-	std::list<GLConsoleLine *> &lines = GLConsole::instance()->getLines();
-	std::list<GLConsoleLine *>::iterator itor;
+	std::deque<GLConsoleLine *> &lines = GLConsole::instance()->getLines();
+	std::deque<GLConsoleLine *>::iterator itor;
 	for (itor = lines.begin();
 		itor != lines.end();
 		itor++)

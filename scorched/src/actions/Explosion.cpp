@@ -110,13 +110,13 @@ void Explosion::init()
 			aboveGround < 2.0f)
 		{
 			context_->actionController->addAction(
-				new SpriteActionReferenced(
+				new SpriteAction(
 					new ExplosionNukeRenderer(position_, float(width_ - 2))));
 		}
 		if (deformType_==DeformDown && (explosionLevel_ > 0.0f))
 		{
 			context_->actionController->addAction(
-				new SpriteActionReferenced(
+				new SpriteAction(
 					new SprayActionRenderer(position_, width_ - 2)));
 		}
 

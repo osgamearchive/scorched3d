@@ -33,7 +33,7 @@ public:
 	static ModelStore *instance();
 
 	GLVertexSet *loadOrGetArray(ModelID &model,
-		bool usetextures = false);
+		bool usetextures = false, bool centreBottom = false);
 	GLTexture *loadTexture(const char *name, 
 		const char *aname, bool invert = false);
 

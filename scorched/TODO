@@ -20,12 +20,18 @@ Fixed: Tank is not covered by trees on the first move
 Fixed: Shot timer won't expire prematurely
 Fixed: 16bit color support for naughty unix graphics card drivers
 Fixed: Better XML error reporting
+Fixed: Console does not jump to end when new text added
+Fixed: Remove waiting for non-crucial items like nukes + debris
 
 Changed: Changed free market ecconmy so price decreases are slower
 Changed: Tank can move up and down bigger slopes (configurable)
 Changed: Spread and hurts weapon primative options are now variable
 Changed: LeapFrog weapon primative bounce now variable
 
+Added: When a player reconnects give back kills, money etc until the end of the game
+Added: Allow objects other than trees to be used (as models)
+Added: Players say and team say commands echoed to console (for repeat)
+Added: Banner messages are written to console
 Added: New more expressive landscape definition format
 Added: Add sun pos + ambient light to landscape def
 Added: Fire trails on missiles
@@ -64,22 +70,20 @@ Shot cam does not get LOD correctly
 Fix crashing when people win (Graphics card drivers??)
 Make AIs even better
 A way to allow tank spawn positions to be configured, bitmap landscapes only?
-Web interface for server to change settings
 A way to set the maximum and minimum players for a map
 Lightning, rain and meteors
 New surrounds instead of the water
-Allow objects other than trees to be used (as models)
 More dirt option for landscape (perhaps cannot go under water)
 Make rollers look better
 Stats prefix can be (pre/a)pended onto mysql stats tables
 Proper mag shield
 Guidance
 Add action replay type functionality
-When a player reconnects give back kills, money etc until the end of the round
 
 -- Server Stuff
 Chat filter (swear words)
 Ban players 
+Web interface for server to change settings
 
 -- Client Stuff
 Option to reconnect when disconected from server.

@@ -20,11 +20,13 @@
 
 #include <landscape/LandscapeObjectsPlacement.h>
 #include <landscape/LandscapeObjectsEntryTree.h>
+#include <landscape/LandscapeObjectsEntryModel.h>
 #include <landscape/LandscapeMaps.h>
 #include <landscape/LandscapeTex.h>
 #include <landscape/Landscape.h>
 #include <client/ScorchedClient.h>
 #include <GLEXT/GLBitmapModifier.h>
+#include <3dsparse/ModelStore.h>
 
 void LandscapeObjectPlacementTrees::generateObjects(
 	RandomGenerator &generator, 
@@ -121,12 +123,29 @@ void LandscapeObjectPlacementTrees::generateObjects(
 
 	bool pine = true;
 	float snowHeight = 20.0f;
+	GLVertexSet *model = 0;
+	GLVertexSet *modelburnt = 0;
 	if (0 == strcmp(placement.objecttype.c_str(), "tree"))
 	{
 		LandscapeTexObjectsTree *treeObjects = 
 			(LandscapeTexObjectsTree *) placement.object;
 		pine = (0 == strcmp(treeObjects->tree.c_str(), "pine"));
 		snowHeight = treeObjects->snow;
+	}
+	else if (0 == strcmp(placement.objecttype.c_str(), "model"))
+	{
+		LandscapeTexObjectsModel *modelObjects = 
+			(LandscapeTexObjectsModel *) placement.object;
+		
+		model = ModelStore::instance()->loadOrGetArray(
+			modelObjects->model, true, true);
+		modelburnt = ModelStore::instance()->loadOrGetArray(
+			modelObjects->modelburnt, true, true);
+		if (!model || !modelburnt)
+		{
+			dialogExit("LandscapeObjectPlacementTrees",
+				"Failed to find models");
+		}
 	}
 	else
 	{
@@ -164,18 +183,32 @@ void LandscapeObjectPlacementTrees::generateObjects(
 				GLBitmapModifier::addCircle(Landscape::instance()->getMainMap(),
 					lx * mult, ly * mult, 2.5f * mult, 1.0f);
 
-				LandscapeObjectsEntryTree *entry = 
-					new LandscapeObjectsEntryTree;
-
-				entry->snow = (pine && 
-					(height > snowHeight + (RAND * 10.0f) - 5.0f));
-				entry->pine = pine;
-				entry->posX = lx;
-				entry->posY = ly;
-				entry->posZ = height;
-				entry->rotation = RAND * 360.0f;
-				entry->color = RAND * 0.5f + 0.5f;
-				entry->size =  RAND * 2.0f + 1.0f;
+				LandscapeObjectsEntry *entry = 0;
+				if (model)
+				{
+					entry = new LandscapeObjectsEntryModel;
+					((LandscapeObjectsEntryModel *) entry)->model = model;
+					((LandscapeObjectsEntryModel *) entry)->modelburnt = modelburnt;				
+					entry->color = 1.0f;
+					entry->size = 0.05f;
+					entry->posX = lx;
+					entry->posY = ly;
+					entry->posZ = height;
+					entry->rotation = RAND * 360.0f;
+				}
+				else
+				{
+					entry = new LandscapeObjectsEntryTree;
+					((LandscapeObjectsEntryTree *) entry)->snow = (pine && 
+						(height > snowHeight + (RAND * 10.0f) - 5.0f));
+					((LandscapeObjectsEntryTree *) entry)->pine = pine;
+					entry->color = RAND * 0.5f + 0.5f;
+					entry->size =  RAND * 2.0f + 1.0f;
+					entry->posX = lx;
+					entry->posY = ly;
+					entry->posZ = height;
+					entry->rotation = RAND * 360.0f;
+				}
 
 				Landscape::instance()->getObjects().addObject(
 					(unsigned int) lx,

@@ -39,6 +39,4 @@ private:
 	const ComsScoreMessage & operator=(const ComsScoreMessage &);
 };
 
-
-
 #endif

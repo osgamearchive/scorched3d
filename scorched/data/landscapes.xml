@@ -117,4 +117,16 @@
 			<item>storm</item>
 		</tex>
 	</landscape>
+	<landscape>
+		<name>test</name>
+		<description></description>
+		<picture>valley.bmp</picture>
+		<weight>100</weight>
+		<defn>
+			<item>oldstyle</item>
+		</defn>
+		<tex>
+			<item>test</item>
+		</tex>
+	</landscape>
 </landscapes>

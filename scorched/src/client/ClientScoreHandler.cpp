@@ -18,10 +18,12 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
+#include <common/Logger.h>
+#include <GLEXT/GLConsole.h>
 #include <client/ClientScoreHandler.h>
 #include <client/ClientState.h>
 #include <client/ScorchedClient.h>
+#include <tank/TankContainer.h>
 #include <coms/ComsScoreMessage.h>
 
 ClientScoreHandler *ClientScoreHandler::instance_ = 0;
@@ -52,6 +54,21 @@ bool ClientScoreHandler::processMessage(unsigned int id,
 {
 	ComsScoreMessage message;
 	if (!message.readMessage(reader)) return false;
+
+	GLConsole::instance()->addLine(false, "Final scores -------");
+	std::map<unsigned int, Tank *> &tanks =
+		ScorchedClient::instance()->getTankContainer().getPlayingTanks();
+	std::map<unsigned int, Tank *>::iterator itor;
+	for (itor = tanks.begin();
+		itor != tanks.end();
+		itor++)
+	{
+		Tank *tank = (*itor).second;
+		GLConsole::instance()->addLine(false, "%s - %s",
+			tank->getName(),
+			tank->getScore().getScoreString());
+	}
+	GLConsole::instance()->addLine(false, "--------------------");
 
 	ScorchedClient::instance()->getGameState().stimulate(ClientState::StimWait);
 	ScorchedClient::instance()->getGameState().checkStimulate();

@@ -98,3 +98,25 @@ void ModelsFile::centre()
 		max_ -= centre;
 	}
 }
+
+void ModelsFile::centreBottom()
+{
+	if (!models_.empty())
+	{
+		centre();
+
+		Vector newMin = min_;
+		newMin[2] = 0.0f;
+
+		std::list<Model *>::iterator itor;
+		for (itor = models_.begin();
+			itor != models_.end();
+			itor++)
+		{
+			(*itor)->centre(newMin);
+		}
+
+		max_[2] -= min_[2];
+		min_[2] = 0.0f;
+	}
+}

@@ -38,6 +38,10 @@ ServerScoreState::~ServerScoreState()
 
 void ServerScoreState::enterState(const unsigned state)
 {
+	ServerCommon::sendString(0, "Please wait for the next game...");
+	ComsScoreMessage scoreMessage;
+	ComsMessageSender::sendToAllPlayingClients(scoreMessage);
+
 	// Findout who is the winner
 	if (ScorchedServer::instance()->getOptionsGame().getTeams() == 1)
 	{
@@ -79,10 +83,6 @@ void ServerScoreState::enterState(const unsigned state)
 			ServerCommon::sendStringMessage(0, "Green team is the overall winner!");
 		}
 	}
-
-	ServerCommon::sendString(0, "Please wait for the next game...");
-	ComsScoreMessage scoreMessage;
-	ComsMessageSender::sendToAllPlayingClients(scoreMessage);
 
 	// Reset the amount of time taken
 	totalTime_ = 0.0f;

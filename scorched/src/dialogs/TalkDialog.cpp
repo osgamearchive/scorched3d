@@ -25,6 +25,7 @@
 #include <coms/ComsMessageSender.h>
 #include <GLW/GLWWindowManager.h>
 #include <GLW/GLWLabel.h>
+#include <GLEXT/GLConsole.h>
 #include <GLEXT/GLViewPort.h>
 
 TalkDialog *TalkDialog::instance_ = 0;
@@ -105,11 +106,15 @@ void TalkDialog::buttonDown(unsigned int id)
 	{
 		if (!talkText_->getText().empty())
 		{
-			ComsTextMessage message(talkText_->getText().c_str(),
-				ScorchedClient::instance()->getTankContainer().getCurrentPlayerId(),
-				false,
-				teamBox_->getState());
-			ComsMessageSender::sendToServer(message);
+			char *text = (char *) talkText_->getText().c_str();
+			while (char *c = strchr(text, '"'))
+			{
+				*c = '\'';
+			}
+
+			GLConsole::instance()->addLine(true, "%s \"%s\"",
+				(teamBox_->getState()?"Teamsay":"Say"),
+				text);
 		}
 
 		talkText_->setText("");

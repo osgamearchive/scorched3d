@@ -18,16 +18,7 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// GLConsoleLines.cpp: implementation of the GLConsoleLines class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <GLEXT/GLConsoleLines.h>
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 unsigned GLConsoleLine::nextLineNumber_ = 0;
 
@@ -67,107 +58,77 @@ void GLConsoleLine::drawLine(float x, float y, GLFont2d *font)
 	}
 }
 
-GLConsoleLines::GLConsoleLines(unsigned maxLines) :
-	maxLines_(maxLines)
+GLConsoleLines::GLConsoleLines(int maxLines) :
+	maxLines_(maxLines), currentLine_(0)
 {
-	linesIter_ = lines_.rbegin();
-	selectIter_ = lines_.rbegin();
 }
 
 GLConsoleLines::~GLConsoleLines()
 {
-
 }
 
 void GLConsoleLines::clear()
 {
-	lines_.clear();
-	linesIter_ = lines_.rbegin();
-	selectIter_ = lines_.rbegin();
+	currentLine_ = 0;
+	while (!lines_.empty())
+	{
+		GLConsoleLine *line = lines_.front();
+		lines_.pop_front();
+		delete line;
+	}
 }
 
 void GLConsoleLines::scroll(int lines)
 {
-	// Move the lookat by the direction and number of lines
-	while (lines < 0)
-	{		
-		if (linesIter_ != lines_.rend())
-		{
-			linesIter_++;
-		}
-		lines++;
-	}
-	while (lines > 0)
-	{
-		if (linesIter_ != lines_.rbegin())
-		{
-			linesIter_--;
-		}
-		lines--;
-	}
+	currentLine_ -= lines;
+	if (currentLine_ < 0) currentLine_ = 0;
+	else if (currentLine_ >= (int) lines_.size()) 
+		currentLine_ = (int) lines_.size();
 }
 
-bool GLConsoleLines::getNextLine(std::list<GLConsoleLine *>::reverse_iterator &pos)
+const char *GLConsoleLines::getItem(int linecount)
 {
-	// Find the next line with an actual command on it
-	while (pos != lines_.rend())
+	int linesSize = (int) lines_.size();
+	if (linecount < 0)
 	{
-		pos ++;
-		if (pos == lines_.rend()) return false;
-		if ((*pos)->getShowPointer()) return true;
-	}
-
-	return false;
-}
-
-bool GLConsoleLines::getPrevLine(std::list<GLConsoleLine *>::reverse_iterator &pos)
-{
-	// Find the prev line with an actual command on it
-	while (pos != lines_.rbegin())
-	{
-		pos --;
-		if (pos == lines_.rbegin()) return false;
-		if ((*pos)->getShowPointer()) return true;
-	}
-
-	return false;
-}
-
-const char *GLConsoleLines::getItem(int lines)
-{
-	// Find the next or previous line with a command on it
-	while (lines < 0)
-	{		
-		std::list<GLConsoleLine *>::reverse_iterator pos = selectIter_;
-		if (getNextLine(pos))
+		for (int line = currentLine_ + 1; line < linesSize; line++)
 		{
-			selectIter_ = pos;
+			GLConsoleLine *consoleline = lines_[line];
+			if (consoleline->getShowPointer())
+			{
+				linecount++;
+				currentLine_ = line;
+				if (linecount == 0) break;
+			}
 		}
-		lines++;
 	}
-	while (lines > 0)
+	else
 	{
-		std::list<GLConsoleLine *>::reverse_iterator pos = selectIter_;
-		if (getPrevLine(pos))
+		for (int line = currentLine_ - 1; line >= 0 && line < linesSize; line--)
 		{
-			selectIter_ = pos;
+			GLConsoleLine *consoleline = lines_[line];
+			if (consoleline->getShowPointer())
+			{
+				linecount--;
+				currentLine_ = line;
+				if (linecount == 0) break;
+			}
 		}
-		lines--;
 	}
-
-	// Set the lookat to lookat the command
-	linesIter_ = selectIter_;
 
 	// Check the command is valid and return the line
-	if (selectIter_ == lines_.rbegin())
+	if (currentLine_ >= 0 && currentLine_ < linesSize)
 	{
-		return "";
+		GLConsoleLine *line = lines_[currentLine_];
+		if (line->getShowPointer()) return line->getLine();
 	}
-	return (*selectIter_)->getLine();
+	return "";
 }
 
 void GLConsoleLines::addLine(const char *text, bool showPointer)
 {
+	if (showPointer) reset();
+
 	const int bufferSize = 80;
 	int len = (int) strlen(text);
 	if (len < bufferSize)
@@ -203,29 +164,33 @@ void GLConsoleLines::addSmallLine(const char *text, bool showPointer)
 	{
 		// We need to reuse the lines
 		// reuse the first line
-		GLConsoleLine *line = lines_.front();
-		lines_.pop_front();
+		GLConsoleLine *line = lines_.back();
+		lines_.pop_back();
 		line->set(text, showPointer);
-		lines_.push_back(line);
+		lines_.push_front(line);
 	}
 	else
 	{
 		// Add a new line
 		GLConsoleLine *line = new GLConsoleLine;
 		line->set(text, showPointer);
-		lines_.push_back(line);
+		lines_.push_front(line);
 	}
 
 	// Set the lookat and cursor to point at the new line
-	linesIter_ = lines_.rbegin();
-	selectIter_ = lines_.rbegin();
+	if (currentLine_ != 0)
+	{
+		currentLine_ ++;
+		if (currentLine_ > (int) lines_.size()) 
+			currentLine_ = (int) lines_.size();
+	}
 }
 
 void GLConsoleLines::drawLines(GLFont2d *font, float startHeight, float totalHeight, float totalWidth)
 {
-	if (linesIter_ != lines_.rbegin())
+	if (currentLine_ != 0)
 	{
-		// Draw arrows at top of screen if stuff off top
+		// Draw arrows at the bottom of the screen if stuff off bottom
 		glColor3f(0.7f, 0.7f, 0.7f);
 		glBegin(GL_TRIANGLES);
 			for (float a=100.0f; a<totalWidth - 100.0f; a+=totalWidth / 25.0f)
@@ -237,27 +202,30 @@ void GLConsoleLines::drawLines(GLFont2d *font, float startHeight, float totalHei
 		glEnd();
 	}
 
-	// Draw all of the text
-	startHeight += 10.0f;
-	std::list<GLConsoleLine *>::reverse_iterator iter;
+	bool offTop = false;
 	{
+		// Draw all of the text
 		// Stops each drawLine() from changing state
 		GLState currentState(GLState::TEXTURE_ON | GLState::BLEND_ON);
 
-		for (iter = linesIter_;
-			iter != lines_.rend();
-			iter++)
+		float position = startHeight + 20.0f;
+		for (int i=currentLine_; i<(int) lines_.size(); i++)
 		{
-			startHeight += 15.0f;
-			if (startHeight > totalHeight - 20) break;
+			GLConsoleLine *line = lines_[i];
+			line->drawLine(20.0f, position, font);
 
-			(*iter)->drawLine(20.0f, startHeight, font);
+			position += 15.0f;
+			if (position > totalHeight - 20.0f)
+			{
+				offTop = true;
+				break;
+			}
 		}
 	}
 
-	if (iter != lines_.rend())
+	if (offTop)
 	{
-		// Draw arrows at the bottom of the screen if stuff off bottom
+		// Draw arrows at top of screen if stuff off top
 		glColor3f(0.7f, 0.7f, 0.7f);
 		glBegin(GL_TRIANGLES);
 			for (float a=100.0f; a<totalWidth - 100.0f; a+=totalWidth / 25.0f)

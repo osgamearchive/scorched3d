@@ -40,6 +40,7 @@ public:
 	std::list<Model *> &getModels() { return models_; }
 
 	void centre();
+	void centreBottom();
 	void scale(float scalef);
 
 protected:

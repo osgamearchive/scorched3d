@@ -21,14 +21,14 @@
 #if !defined(AFX_GLCONSOLE_H__516D85F7_420B_43EB_B0BE_563DCBE1B143__INCLUDED_)
 #define AFX_GLCONSOLE_H__516D85F7_420B_43EB_B0BE_563DCBE1B143__INCLUDED_
 
-
+#include <common/Logger.h>
 #include <engine/GameStateI.h>
 #include <GLEXT/GLFont2d.h>
 #include <GLEXT/GLConsoleMethods.h>
 #include <GLEXT/GLConsoleRuleFn.h>
 #include <GLEXT/GLConsoleRuleMethod.h>
 
-class GLConsole : public GameStateI
+class GLConsole : public GameStateI, public LoggerI
 {
 public:
 	static GLConsole *instance();
@@ -43,7 +43,7 @@ public:
 
 	void addLine(bool parse, const char *fmt, ...);
 
-	std::list<GLConsoleLine *> &getLines() { return lines_.getLines(); }
+	std::deque<GLConsoleLine *> &getLines() { return lines_.getLines(); }
 
 	// Inherited from GameStateI
 	virtual void simulate(const unsigned state, float frameTime);
@@ -52,6 +52,13 @@ public:
 							   char *buffer, unsigned int keyState,
 							   KeyboardHistory::HistoryElement *history, int hisCount, 
 							   bool &skipRest);
+
+	// Inherited from LoggerI
+	virtual void logMessage(
+		const char *time,
+		const char *message,
+		unsigned int playerId);
+
 protected:
 	static GLConsole *instance_;
 	float height_;
