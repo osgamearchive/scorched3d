@@ -45,7 +45,7 @@ void ServerStateTooFewPlayersState::enterState(const unsigned state)
 
 	// Tell any clients why the game has been abandonded
 	ComsGameStoppedMessage gameStopped;
-	ComsMessageSender::sendToAllConnectedClients(gameStopped);
+	ComsMessageSender::sendToAllPlayingClients(gameStopped);
 
 	ServerCommon::serverLog(0, "Too few players, stopping play");
 	ServerCommon::sendString(0, "Too few players, stopping play");

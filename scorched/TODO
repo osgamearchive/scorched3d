@@ -5,6 +5,7 @@ Fixed: Camera does not follow meteors or other environment actions
 Fixed: Talk text appears under other windows (text now smaller too)
 Fixed: Fix camera presets
 Fixed: CTRL LF in mod files linux hosts causing mod file downloads
+Fixed: New games or rounds do not cause mod disconnection
 
 Added: Users can turn IP authentication off
 
@@ -24,7 +25,7 @@ Resigning position due to health left
 Allow players to choose players without joining first
 Add start timer to server for joining players
 Add player decals for in game and stats
-Player skill for stats
+Shadows for other models
 
 -- Server Stuff
 Chat filter (swear words)

@@ -52,6 +52,8 @@ void TankState::newGame()
 
 void TankState::setState(State s)
 {
+	if (loading_) return;
+
 	state_ = s;
 	if (state_ == sNormal) tank_->getPhysics().enablePhysics();
 	else tank_->getPhysics().disablePhysics();

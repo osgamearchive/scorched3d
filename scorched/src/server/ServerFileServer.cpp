@@ -186,7 +186,7 @@ bool ServerFileServer::sendNextFile(ComsFileMessage &message,
 	unsigned int sizeSent = entry.length;
 	unsigned int sizeLeftToSend = modentry->getCompressedSize() - sizeSent;
 	unsigned int sizeToSend = MIN(sizeLeftToSend, size);
-	unsigned int filesLeft = (unsigned int) modfiles.size();
+	unsigned int filesLeft = (unsigned int) files.size();
 	bool firstChunk = (sizeSent == 0);
 	bool lastChunk = (sizeToSend == sizeLeftToSend);
 
