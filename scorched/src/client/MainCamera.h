@@ -24,6 +24,8 @@
 #include <GLEXT/GLMenuI.h>
 #include <engine/GameStateI.h>
 #include <client/TargetCamera.h>
+#include <common/Vector.h>
+#include <map>
 
 class MainCamera : public GameStateI, public GLMenuI
 {
@@ -69,6 +71,11 @@ protected:
 	static MainCamera *instance_;
 	TargetCamera targetCam_;
 	float scrollTime_;
+	// Quick key settings
+	std::map<int, std::pair<Vector, Vector> > quickKeys_;
+
+	void setQuick(int key);
+	void useQuick(int key);
 
 private:
 	MainCamera();

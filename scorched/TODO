@@ -35,6 +35,7 @@ Changed: Tank can move up and down bigger slopes (configurable)
 Changed: Spread and hurts weapon primative options are now variable
 Changed: LeapFrog weapon primative bounce now variable
 
+Added: Configurable camera views using ctrl-2 etc...
 Added: Stats ranking is show in the score dialog
 Added: Stats prefix can be (pre/a)pended onto mysql stats tables
 Added: When a player reconnects give back kills, money etc until the end of the game
@@ -106,7 +107,6 @@ Add the ability to customize the languages (for dialogs etc..) (localisation)
 Birds/seaguls
 Whales
 Teleport (to random position)
-Configurable camera views using ctrl-2 etc...
 First person style camera mode
 Towers can't move
 More weapons, always more weapons

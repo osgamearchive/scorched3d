@@ -244,6 +244,56 @@
 		<key state="LALT">LALT</key>
 	</keyentry>
 	<keyentry>
+		<name>CAMERA_SET_QUICK_SLOT_1</name>
+		<description>Assigns camera quick slot</description>
+		<key state="LCTRL">1</key>
+	</keyentry>
+	<keyentry>
+		<name>CAMERA_USE_QUICK_SLOT_1</name>
+		<description>Uses camera quick slot</description>
+		<key state="LSHIFT">1</key>
+	</keyentry>
+	<keyentry>
+		<name>CAMERA_SET_QUICK_SLOT_2</name>
+		<description>Assigns camera quick slot</description>
+		<key state="LCTRL">2</key>
+	</keyentry>
+	<keyentry>
+		<name>CAMERA_USE_QUICK_SLOT_2</name>
+		<description>Uses camera quick slot</description>
+		<key state="LSHIFT">2</key>
+	</keyentry>
+	<keyentry>
+		<name>CAMERA_SET_QUICK_SLOT_3</name>
+		<description>Assigns camera quick slot</description>
+		<key state="LCTRL">3</key>
+	</keyentry>
+	<keyentry>
+		<name>CAMERA_USE_QUICK_SLOT_3</name>
+		<description>Uses camera quick slot</description>
+		<key state="LSHIFT">3</key>
+	</keyentry>
+	<keyentry>
+		<name>CAMERA_SET_QUICK_SLOT_4</name>
+		<description>Assigns camera quick slot</description>
+		<key state="LCTRL">4</key>
+	</keyentry>
+	<keyentry>
+		<name>CAMERA_USE_QUICK_SLOT_4</name>
+		<description>Uses camera quick slot</description>
+		<key state="LSHIFT">4</key>
+	</keyentry>
+	<keyentry>
+		<name>CAMERA_SET_QUICK_SLOT_5</name>
+		<description>Assigns camera quick slot</description>
+		<key state="LCTRL">5</key>
+	</keyentry>
+	<keyentry>
+		<name>CAMERA_USE_QUICK_SLOT_5</name>
+		<description>Uses camera quick slot</description>
+		<key state="LSHIFT">5</key>
+	</keyentry>
+	<keyentry>
 		<name>SIMULATION_SPEED_X1</name>
 		<description>Changes the simulator to simulate in normal time</description>
 		<key>F1</key>

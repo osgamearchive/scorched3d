@@ -189,6 +189,60 @@ void MainCamera::keyboardCheck(const unsigned state, float frameTime,
 	{
 		saveScreen_.saveScreen_ = true;
 	}
+
+	KEYBOARDKEY("CAMERA_SET_QUICK_SLOT_1", setQuick1);
+	KEYBOARDKEY("CAMERA_SET_QUICK_SLOT_2", setQuick2);
+	KEYBOARDKEY("CAMERA_SET_QUICK_SLOT_3", setQuick3);
+	KEYBOARDKEY("CAMERA_SET_QUICK_SLOT_4", setQuick4);
+	KEYBOARDKEY("CAMERA_SET_QUICK_SLOT_5", setQuick5);
+	KEYBOARDKEY("CAMERA_USE_QUICK_SLOT_1", useQuick1);
+	KEYBOARDKEY("CAMERA_USE_QUICK_SLOT_2", useQuick2);
+	KEYBOARDKEY("CAMERA_USE_QUICK_SLOT_3", useQuick3);
+	KEYBOARDKEY("CAMERA_USE_QUICK_SLOT_4", useQuick4);
+	KEYBOARDKEY("CAMERA_USE_QUICK_SLOT_5", useQuick5);
+	if (setQuick1->keyDown(buffer, keyState, false)) 
+		setQuick(1);
+	else if (setQuick2->keyDown(buffer, keyState, false)) 
+		setQuick(2);
+	else if (setQuick3->keyDown(buffer, keyState, false)) 
+		setQuick(4);
+	else if (setQuick4->keyDown(buffer, keyState, false)) 
+		setQuick(4);
+	else if (setQuick5->keyDown(buffer, keyState, false)) 
+		setQuick(5);
+	else if (useQuick1->keyDown(buffer, keyState, false)) 
+		useQuick(1);
+	else if (useQuick2->keyDown(buffer, keyState, false)) 
+		useQuick(2);
+	else if (useQuick3->keyDown(buffer, keyState, false)) 
+		useQuick(4);
+	else if (useQuick4->keyDown(buffer, keyState, false)) 
+		useQuick(4);
+	else if (useQuick5->keyDown(buffer, keyState, false)) 
+		useQuick(5);
+}
+
+void MainCamera::setQuick(int key)
+{
+	std::pair<Vector, Vector> value(
+		targetCam_.getCamera().getLookAt(),
+		targetCam_.getCamera().getOffSet());
+	quickKeys_[key] = value;
+	Logger::log(0, "Saved camera preset %i", key);
+}
+
+void MainCamera::useQuick(int key)
+{
+	std::map<int, std::pair<Vector, Vector> >::iterator 
+		findItor = quickKeys_.find(key);
+	if (findItor != quickKeys_.end())
+	{
+		std::pair<Vector, Vector> value = (*findItor).second;
+		targetCam_.setCameraType(TargetCamera::CamFree);
+		targetCam_.getCamera().setLookAt(value.first);
+		targetCam_.getCamera().setOffSet(value.second);
+		Logger::log(0, "Using camera preset %i", key);
+	}
 }
 
 void MainCamera::SaveScreen::draw(const unsigned state)
