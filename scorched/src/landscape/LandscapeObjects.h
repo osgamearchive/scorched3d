@@ -46,7 +46,8 @@ protected:
 	{
 		GLuint treeType;
 		float treeRotation;
-		float color;
+		float treeColor;
+		float treeSize;
 	};
 
 	GLuint tree1, tree2, tree3;
