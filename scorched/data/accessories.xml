@@ -300,6 +300,7 @@ direction of the firer.</description>
 		<explosiontexture>exp05</explosiontexture>
 		<firedsound>shoot/large.wav</firedsound>
 		<explosionsound>explosions/large.wav</explosionsound>
+		<projectilemodel type="MilkShape">icbm/icbm.txt</projectilemodel>
 	</weapon>
 	<weapon type="WeaponMirv">
 		<name>Spread MIRV</name>
@@ -317,6 +318,7 @@ warheads fan out in a random direction.</description>
 		<explosiontexture>exp05</explosiontexture>
 		<firedsound>shoot/large.wav</firedsound>
 		<explosionsound>explosions/large.wav</explosionsound>
+		<projectilemodel type="MilkShape">icbm/icbm.txt</projectilemodel>
 	</weapon>
 	<weapon type="WeaponMirv">
 		<name>Death's Head</name>
@@ -331,8 +333,10 @@ warheads fan out in a random direction.</description>
 		<nowarheads>20</nowarheads>
 		<spread>true</spread>
 		<explosiontexture>exp05</explosiontexture>
-		<firedsound>shoot/xlarge.wav</firedsound>
+		<firedsound>shoot/launch.wav</firedsound>
 		<explosionsound>explosions/xlarge.wav</explosionsound>
+		<projectilescale>5</projectilescale>
+		<projectilemodel type="MilkShape">icbm/icbm.txt</projectilemodel>
 	</weapon>
 	<weapon type="WeaponFunky">
 		<name>Funky Bomb</name>
@@ -349,6 +353,7 @@ missiles.  These missiles automatically target nearby tanks.</description>
 		<explosiontexture>exp04</explosiontexture>
 		<firedsound>shoot/large.wav</firedsound>
 		<explosionsound>explosions/large.wav</explosionsound>
+		<projectilemodel type="MilkShape">icbm/icbm.txt</projectilemodel>
 	</weapon>
 	<weapon type="WeaponTracer">
 		<name>Tracer</name>
