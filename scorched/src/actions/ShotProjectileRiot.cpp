@@ -30,8 +30,8 @@ ShotProjectileRiot::ShotProjectileRiot()
 
 ShotProjectileRiot::ShotProjectileRiot(
 	Vector &startPosition, Vector &velocity,
-	Weapon *weapon, unsigned int playerId, float width) :
-		ShotProjectile(startPosition, velocity, weapon, playerId), 
+	Weapon *weapon, unsigned int playerId, float width, bool under) :
+		ShotProjectile(startPosition, velocity, weapon, playerId, 0, under), 
 		width_(width)
 {
 

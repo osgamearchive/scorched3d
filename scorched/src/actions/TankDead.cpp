@@ -21,7 +21,6 @@
 #include <actions/TankDead.h>
 #include <actions/CameraPositionAction.h>
 #include <actions/Explosion.h>
-#include <actions/ShotProjectileFunky.h>
 #include <sprites/TankDeadRenderer.h>
 #include <weapons/AccessoryStore.h>
 #include <engine/ScorchedContext.h>
@@ -91,7 +90,16 @@ void TankDead::simulate(float frameTime, bool &remove)
 							killedTank->getName(),
 							weapon_->getName());
 					}
-					else 
+					else if ((context_->optionsGame.getTeams() > 1) &&
+							(firedTank->getTeam() == killedTank->getTeam())) 
+					{
+						Logger::log(firedPlayerId_,
+								"\"%s\" team killed \"%s\" with a \"%s\"",
+								firedTank->getName(),
+								killedTank->getName(),
+								weapon_->getName());
+					}
+					else
 					{
 						Logger::log(firedPlayerId_,
 								"\"%s\" killed \"%s\" with a \"%s\"",

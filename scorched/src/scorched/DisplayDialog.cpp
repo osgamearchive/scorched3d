@@ -57,6 +57,7 @@ bool DisplayFrame::TransferDataToWindow()
 {
 	IDC_FULLCLEAR_CTRL->SetValue(OptionsDisplay::instance()->getFullClear());
 	IDC_NOEXT_CTRL->SetValue(OptionsDisplay::instance()->getNoExt());
+	IDC_NOLANDSCAPESCORCH_CTRL->SetValue(OptionsDisplay::instance()->getNoTexSubImage());
 	IDC_NOSOUND_CTRL->SetValue(OptionsDisplay::instance()->getNoSound());
 	IDC_NOMULTITEX_CTRL->SetValue(OptionsDisplay::instance()->getNoMultiTex());
 	IDC_NOMULTITEX_CTRL->SetValue(OptionsDisplay::instance()->getNoMultiTex());
@@ -111,6 +112,7 @@ bool DisplayFrame::TransferDataToWindow()
 bool DisplayFrame::TransferDataFromWindow()
 {
 	OptionsDisplay::instance()->setFullClear(IDC_FULLCLEAR_CTRL->GetValue());
+	OptionsDisplay::instance()->setNoTexSubImage(IDC_NOLANDSCAPESCORCH_CTRL->GetValue());
 	OptionsDisplay::instance()->setNoExt(IDC_NOEXT_CTRL->GetValue());
 	OptionsDisplay::instance()->setNoSound(IDC_NOSOUND_CTRL->GetValue());
 	OptionsDisplay::instance()->setNoMultiTex(IDC_NOMULTITEX_CTRL->GetValue());

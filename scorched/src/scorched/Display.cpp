@@ -57,10 +57,6 @@ static void createControls(wxWindow *parent)
 		new wxRadioButton(parent, IDC_RADIO_LARGE,
 		"Large (slowest)",
 		wxPoint((int) 387, (int) 105));
-	IDC_NOSKINS_CTRL = 
-		new wxCheckBox(parent, IDC_NOSKINS,
-		"No tank skins - Don't use texture for tanks (faster)",
-		wxPoint((int) 27, (int) 308));
 	new wxStaticBox(parent, -1,
 		"Display",
 		wxPoint((int) 10.5, (int) 4.5), wxSize((int) 519, (int) 76.5));
@@ -119,6 +115,14 @@ static void createControls(wxWindow *parent)
 		new wxCheckBox(parent, IDC_NODETAILTEX,
 		"Don't use detail textures",
 		wxPoint((int) 370, (int) 167));
+	IDC_NOSKINS_CTRL = 
+		new wxCheckBox(parent, IDC_NOSKINS,
+		"No tank skins",
+		wxPoint((int) 370, (int) 187));
+	IDC_NOLANDSCAPESCORCH_CTRL = 
+		new wxCheckBox(parent, IDC_NOLANDSCAPESCORCH,
+		"Don't use TexSubImaging",
+		wxPoint((int) 27, (int) 308));
 	new wxStaticBox(parent, -1,
 		"User ID (Uniquely identifies this player for stats, not generated from any user information.)",
 		wxPoint((int) 10.5, (int) 332), wxSize((int) 519, (int) 43.5));

@@ -135,6 +135,14 @@ void TankDamage::simulate(float frameTime, bool &remove)
 
 						// Remove score for self kills
 						if (damagedPlayerId_ ==  firedPlayerId_) score *= -1;
+						else
+						{
+							if ((context_->optionsGame.getTeams() > 1) &&
+								(firedTank->getTeam() == damagedTank->getTeam()))
+							{
+								score *= -1;
+							}
+						}
 
 						// Calculate the wins
 						int wins = 0;

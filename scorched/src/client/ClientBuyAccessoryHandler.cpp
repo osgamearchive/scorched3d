@@ -68,7 +68,7 @@ bool ClientBuyAccessoryHandler::processMessage(unsigned int id,
 
 	// Check accessory exists
 	Accessory *accessory = 
-		AccessoryStore::instance()->findByAccessoryName(message.getAccessoryName());
+		AccessoryStore::instance()->findByAccessoryId(message.getAccessoryId());
 	if (!accessory) return true;
 
 	if (message.getBuy())

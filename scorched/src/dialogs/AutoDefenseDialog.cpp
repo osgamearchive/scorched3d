@@ -159,7 +159,16 @@ void AutoDefenseDialog::select(unsigned int id,
 		}
 		else
 		{
-			((TankAIHuman *) tank->getTankAI())->shieldsUpDown(value);
+			std::map<Shield*, int> &shields = 
+				tank->getAccessories().getShields().getAllShields();
+			std::map<Shield*, int>::iterator shieldsItor = shields.begin();
+			for (int i=1; i<pos && shieldsItor != shields.end(); i++) shieldsItor++;
+
+			if (shieldsItor != shields.end())
+			{
+				((TankAIHuman *) tank->getTankAI())->shieldsUpDown(
+					(*shieldsItor).first->getAccessoryId());
+			}
 		}
 		displayCurrent();
 	}

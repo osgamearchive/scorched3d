@@ -69,6 +69,8 @@ OptionsDisplay::OptionsDisplay() :
 		"Draw the player color triangle over the tank", RWAccess, true),
 	drawPlayerHealth_(options_, "DrawPlayerHealth",
 		"Draw the health bars above the tank", RWAccess, true),
+	noTexSubImage_(options_, "NoTexSubImage",
+		"Do not use texture area replacing", RWAccess, false),
 	noExt_(options_, "NoGLExt", 
 		"Do not use any OpenGL extensions", RWAccess, false),
 	noSound_(options_, "NoSound", 

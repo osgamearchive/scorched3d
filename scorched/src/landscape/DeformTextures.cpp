@@ -23,6 +23,7 @@
 #include <client/ScorchedClient.h>
 #include <GLEXT/GLBitmapModifier.h>
 #include <GLEXT/GLState.h>
+#include <GLEXT/GLStateExtension.h>
 #include <common/Defines.h>
 #include <math.h>
 
@@ -49,7 +50,8 @@ void DeformTextures::deformLandscape(Vector &pos, float radius,
 	w = MIN(w, Landscape::instance()->getMainMap().getWidth() - x);
 	h = MIN(h, Landscape::instance()->getMainMap().getHeight() - y);
 
-	if (x < Landscape::instance()->getMainMap().getWidth() &&
+	if (!GLStateExtension::getNoTexSubImage() &&
+		x < Landscape::instance()->getMainMap().getWidth() &&
 		y < Landscape::instance()->getMainMap().getHeight() && 
 		x + w < Landscape::instance()->getMainMap().getWidth() &&
 		y + h < Landscape::instance()->getMainMap().getHeight())

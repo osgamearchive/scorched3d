@@ -18,37 +18,36 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <weapons/WeaponMirv.h>
+#include <weapons/WeaponAimedUnder.h>
 #include <weapons/AccessoryStore.h>
-#include <actions/ShotProjectileMirv.h>
+#include <actions/ShotProjectileAimedUnder.h>
 
-REGISTER_ACCESSORY_SOURCE(WeaponMirv);
+REGISTER_ACCESSORY_SOURCE(WeaponAimedUnder);
 
-WeaponMirv::WeaponMirv() :
-	noWarheads_(0), spread_(false)
+WeaponAimedUnder::WeaponAimedUnder() : warHeads_(0)
 {
 
 }
 
-WeaponMirv::~WeaponMirv()
+WeaponAimedUnder::~WeaponAimedUnder()
 {
 
 }
 
-bool WeaponMirv::parseXML(XMLNode *accessoryNode)
+bool WeaponAimedUnder::parseXML(XMLNode *accessoryNode)
 {
 	if (!Weapon::parseXML(accessoryNode)) return false;
 
-	// Get the accessory spread
-	XMLNode *spreadNode = accessoryNode->getNamedChild("spread");
-	if (!spreadNode)
+	// Get the accessory size
+	XMLNode *warHeadsNode = accessoryNode->getNamedChild("nowarheads");
+	if (!warHeadsNode)
 	{
 		dialogMessage("Accessory",
-			"Failed to find spread node in accessory \"%s\"",
+			"Failed to find nowarheads node in accessory \"%s\"",
 			name_.c_str());
 		return false;
 	}
-	spread_ = (strcmp(spreadNode->getContent(), "true") == 0);
+	warHeads_ = atoi(warHeadsNode->getContent());
 
 	// Get the next weapon
 	XMLNode *subNode = accessoryNode->getNamedChild("subweapon");
@@ -71,45 +70,31 @@ bool WeaponMirv::parseXML(XMLNode *accessoryNode)
 	}
 	subWeapon_ = (Weapon*) accessory;
 
-	// Get the accessory warheads
-	XMLNode *warheadsNode = accessoryNode->getNamedChild("nowarheads");
-	if (!warheadsNode)
-	{
-		dialogMessage("Accessory",
-			"Failed to find nowarheads node in accessory \"%s\"",
-			name_.c_str());
-		return false;
-	}
-	noWarheads_ = atoi(warheadsNode->getContent());
-
 	return true;
 }
 
-bool WeaponMirv::writeAccessory(NetBuffer &buffer)
+bool WeaponAimedUnder::writeAccessory(NetBuffer &buffer)
 {
 	if (!Weapon::writeAccessory(buffer)) return false;
-	buffer.addToBuffer(spread_);
+	buffer.addToBuffer(warHeads_);
 	if (!Weapon::write(buffer, subWeapon_)) return false;
-	buffer.addToBuffer(noWarheads_);
 	return true;
 }
 
-bool WeaponMirv::readAccessory(NetBufferReader &reader)
+bool WeaponAimedUnder::readAccessory(NetBufferReader &reader)
 {
 	if (!Weapon::readAccessory(reader)) return false;
-	if (!reader.getFromBuffer(spread_)) return false;
+	if (!reader.getFromBuffer(warHeads_)) return false;
 	subWeapon_ = Weapon::read(reader); if (!subWeapon_) return false;
-	if (!reader.getFromBuffer(noWarheads_)) return false;
 	return true;
 }
 
-Action *WeaponMirv::fireWeapon(unsigned int playerId, Vector &position, Vector &velocity)
+Action *WeaponAimedUnder::fireWeapon(unsigned int playerId, Vector &position, Vector &velocity)
 {
-	Action *action = new ShotProjectileMirv(
+	Action *action = new ShotProjectileAimedUnder(
 		position, 
 		velocity,
 		this, 
 		playerId);
-
 	return action;
 }

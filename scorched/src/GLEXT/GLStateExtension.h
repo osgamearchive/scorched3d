@@ -44,6 +44,7 @@ class GLStateExtension
 public:
 	static bool &getNoExtensions() { return noExtensions_; }
 	static bool &getNoMultiTex() { return multiTexDisabled_; }
+	static bool &getNoTexSubImage() { return noTexSubImage_; }
 
 	static PFNGLACTIVETEXTUREARBPROC glActiveTextureARB() { return glActiveTextureARB_; }
 	static PFNGLMULTITEXCOORD2FARBPROC glMultiTextCoord2fARB() { return glMultiTextCoord2fARB_; }
@@ -61,6 +62,7 @@ public:
 protected:
 	static bool hasExtension(char *name);
 
+	static bool noTexSubImage_;
 	static bool envCombine_;
 	static bool noExtensions_;
 	static bool multiTexDisabled_;

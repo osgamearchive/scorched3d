@@ -31,7 +31,8 @@ public:
 	ShotProjectileExplosion(
 		Vector &startPosition, Vector &velocity,
 		Weapon *weapon, unsigned int playerId,
-		float width, unsigned int flareType = 0);
+		float width, unsigned int flareType = 0,
+		bool under = false);
 	virtual ~ShotProjectileExplosion();
 
 	virtual bool writeAction(NetBuffer &buffer);

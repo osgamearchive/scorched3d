@@ -18,36 +18,33 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <actions/ShotProjectileLeapFrog.h>
-#include <actions/Explosion.h>
-#include <weapons/WeaponLeapFrog.h>
-#include <engine/ScorchedContext.h>
+#if !defined(AFX_WeaponAimedUnder_H__24F2D834_712D_4355_AC74_3571E2F4B14D__INCLUDED_)
+#define AFX_WeaponAimedUnder_H__24F2D834_712D_4355_AC74_3571E2F4B14D__INCLUDED_
 
-REGISTER_ACTION_SOURCE(ShotProjectileLeapFrog);
+#include <weapons/Weapon.h>
 
-ShotProjectileLeapFrog::ShotProjectileLeapFrog()
+class WeaponAimedUnder : public Weapon
 {
+public:
+	WeaponAimedUnder();
+	virtual ~WeaponAimedUnder();
 
-}
+	int getNoWarHeads() { return warHeads_; }
+	Weapon *getSubWeapon() { return subWeapon_; }
 
-ShotProjectileLeapFrog::ShotProjectileLeapFrog(
-	Vector &startPosition, Vector &velocity,
-	Weapon *weapon, unsigned int playerId,
-	float width) :
-	ShotProjectileExplosion(startPosition, velocity, weapon, playerId, width)
-{
-}
+	virtual bool parseXML(XMLNode *accessoryNode);
+	virtual bool writeAccessory(NetBuffer &buffer);
+	virtual bool readAccessory(NetBufferReader &reader);
 
-ShotProjectileLeapFrog::~ShotProjectileLeapFrog()
-{
-}
+	// Inherited from Weapon
+	Action *fireWeapon(unsigned int playerId, Vector &position, Vector &velocity);
 
-void ShotProjectileLeapFrog::collision(Vector &position)
-{
-	ShotProjectileExplosion::collision(position);
+	REGISTER_ACCESSORY_HEADER(WeaponAimedUnder, Accessory::AccessoryWeapon);
 
-	Vector newVelocity = velocity_ * 0.6f;
-	Weapon *subWeapon = ((WeaponLeapFrog *)weapon_)->getSubWeapon();
-	Action *action = subWeapon->fireWeapon(playerId_, position, newVelocity);
-	context_->actionController.addAction(action);
-}
+protected:
+	int warHeads_;
+	Weapon *subWeapon_;
+
+};
+
+#endif // !defined(AFX_WeaponAimedUnder_H__24F2D834_712D_4355_AC74_3571E2F4B14D__INCLUDED_)

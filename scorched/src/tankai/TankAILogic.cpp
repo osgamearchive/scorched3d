@@ -120,8 +120,8 @@ void TankAILogic::processFiredMessage(ScorchedContext &context,
 	{
 		// Check the weapon name exists and is a weapon
 		Accessory *accessory = 
-			AccessoryStore::instance()->findByAccessoryName(
-			message.getWeaponName());
+			AccessoryStore::instance()->findByAccessoryId(
+			message.getWeaponId());
 		if (accessory && accessory->getType() == Accessory::AccessoryWeapon)
 		{
 			// Check this tank has these weapons
@@ -198,7 +198,7 @@ bool TankAILogic::processDefenseMessage(ScorchedContext &context,
 	case ComsDefenseMessage::eShieldUp:
 		{
 			Accessory *accessory = 
-				AccessoryStore::instance()->findByAccessoryName(message.getInfo());
+				AccessoryStore::instance()->findByAccessoryId(message.getInfoId());
 			if (accessory->getType() == Accessory::AccessoryShield)
 			{
 				Shield *shield = (Shield *) accessory;

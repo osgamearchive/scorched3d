@@ -9,6 +9,7 @@
 	<tank>
 		<name>battleship turret</name>
 		<model type="MilkShape">battleship/battleship.txt</model>
+		<projectilemodel type="MilkShape">icbm/icbm.txt</projectilemodel>
 	</tank>
 	<tank>
 		<name>T-90</name>

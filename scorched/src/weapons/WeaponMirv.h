@@ -29,6 +29,10 @@ public:
 	WeaponMirv();
 	virtual ~WeaponMirv();
 
+	Weapon *getSubWeapon() { return subWeapon_; }
+	int getNoWarHeads() { return noWarheads_; }
+	bool getSpread() { return spread_; }
+
 	virtual bool parseXML(XMLNode *accessoryNode);
 	virtual bool writeAccessory(NetBuffer &buffer);
 	virtual bool readAccessory(NetBufferReader &reader);
@@ -40,8 +44,8 @@ public:
 
 protected:
 	int noWarheads_;
-	int size_;
 	bool spread_;
+	Weapon *subWeapon_;
 
 };
 

@@ -38,6 +38,11 @@ TankModelId &TankModel::getId()
 	return id_; 
 }
 
+ModelID &TankModel::getProjectileModelID()
+{
+	return projectileModelId_;
+}
+
 void TankModel::draw(bool drawS, float angle, 
 	Vector &position, float fireOffSet, 
 	float rotXY, float rotXZ)

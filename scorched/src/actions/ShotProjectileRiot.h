@@ -30,7 +30,8 @@ class ShotProjectileRiot : public ShotProjectile
 public:
 	ShotProjectileRiot();
 	ShotProjectileRiot(Vector &startPosition, Vector &velocity,
-		Weapon *weapon, unsigned int playerId, float width);
+		Weapon *weapon, unsigned int playerId, float width,
+		bool under);
 	virtual ~ShotProjectileRiot();
 
 	virtual bool writeAction(NetBuffer &buffer);

@@ -67,7 +67,7 @@ bool ComsMessageSender::sendToSingleClient(ComsMessage &message,
 	NetBufferDefault::defaultBuffer.reset();
 	if (!message.writeTypeMessage(NetBufferDefault::defaultBuffer))
 	{
-		Logger::log(0, "ERROR: ComsMessageSender::sendToSingleClient - Failed to write message");
+		Logger::log(0, "ERROR: ComsMessageSender::sendToSingleClient - Failed to write message type");
 		return false;
 	}
 	if (!message.writeMessage(NetBufferDefault::defaultBuffer))

@@ -44,6 +44,7 @@
 #include <landscape/HeightMapCollision.h>
 #include <tankgraph/TankModelStore.h>
 #include <engine/ScorchedCollisionHandler.h>
+#include <weapons/AccessoryStore.h>
 #include <coms/NetServer.h>
 #include <coms/NetLoopBack.h>
 #include <common/OptionsDisplay.h>
@@ -109,6 +110,8 @@ void startClient()
 		dialogMessage("Scorched 3D", "Failed to load all tank models");		
 		exit(1);
 	}
+
+	if (!AccessoryStore::instance()->parseFile(PKGDIR "data/accessories.xml")) exit(1);
 	TankAIStore::instance();
 
 	WindowSetup::setup();

@@ -59,6 +59,12 @@ bool GLTexture::replace(GLImage &bitmap,
 						GLenum format, 
 						bool mipMap)
 {
+	if (textureValid() && GLStateExtension::getNoTexSubImage())
+	{
+		glDeleteTextures(1, &texNum_);
+		texNum_ = 0;
+	}
+
 	if (textureValid())
 	{
 		glBindTexture(texType_, texNum_);

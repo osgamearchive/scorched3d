@@ -65,6 +65,8 @@ public:
 	GLWTip &getToolTip();
 	const char *getIconName() { return iconName_.c_str(); }
 
+	unsigned int getAccessoryId() { return accessoryId_; }
+	bool &getPrimary() { return primary_; }
 	virtual bool singular();
 
 	virtual AccessoryType getType() = 0;
@@ -72,6 +74,7 @@ public:
 	virtual Accessory *getAccessoryCopy() = 0;
 
 protected:
+	static unsigned int nextAccessoryId_;
 	GLWTip toolTip_;
 	std::string iconName_;
 	std::string name_;
@@ -81,6 +84,8 @@ protected:
 	int bundle_;
 	int armsLevel_;
 	int sellPrice_;
+	bool primary_;
+	unsigned int accessoryId_;
 };
 
 class AccessoryMetaRegistration

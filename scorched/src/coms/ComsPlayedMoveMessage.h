@@ -42,13 +42,13 @@ public:
 	virtual ~ComsPlayedMoveMessage();
 
 	void setPosition(int x, int y);
-	void setShot(const char *weaponName,
+	void setShot(unsigned int weaponId_,
 		float rotationXY,
 		float rotationYZ,
 		float power);
 
 	unsigned int getPlayerId() { return playerId_; }
-	const char *getWeaponName() { return weaponName_.c_str(); }
+	unsigned int getWeaponId() { return weaponId_; }
 	float getRotationXY() { return rotationXY_; }
 	float getRotationYZ() { return rotationYZ_; }
 	int getPositionX() { return (int) rotationXY_; }
@@ -62,8 +62,8 @@ public:
 
 protected:
 	unsigned int playerId_;
+	unsigned int weaponId_;
 	MoveType moveType_;
-	std::string weaponName_;
 	float rotationXY_;
 	float rotationYZ_;
 	float power_;

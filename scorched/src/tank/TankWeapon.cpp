@@ -186,7 +186,7 @@ bool TankWeapon::writeMessage(NetBuffer &buffer)
 		itor != weapons_.end();
 		itor++)
 	{
-		buffer.addToBuffer((*itor).first->getName());
+		buffer.addToBuffer((*itor).first->getAccessoryId());
 		buffer.addToBuffer((*itor).second);
 	}
 
@@ -201,13 +201,13 @@ bool TankWeapon::readMessage(NetBufferReader &reader)
 	if (!reader.getFromBuffer(totalWeapons)) return false;
 	for (int w=0; w<totalWeapons; w++)
 	{
-		std::string weaponName;
+		unsigned int accessoryId = 0;
 		int weaponCount = 0;
-		if (!reader.getFromBuffer(weaponName)) return false;
+		if (!reader.getFromBuffer(accessoryId)) return false;
 		if (!reader.getFromBuffer(weaponCount)) return false;
 
 		Weapon *weapon = (Weapon *) 
-			AccessoryStore::instance()->findByAccessoryName(weaponName.c_str());
+			AccessoryStore::instance()->findByAccessoryId(accessoryId);
 		if (!weapon) return false;
 		coveredWeapons.insert(weapon);
 

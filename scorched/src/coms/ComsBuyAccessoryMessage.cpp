@@ -23,11 +23,10 @@
 
 ComsBuyAccessoryMessage::ComsBuyAccessoryMessage(
 	unsigned int playerId,
-	const char *accessoryName,
+	unsigned int accessoryId,
 	bool buy) :
 	ComsMessage("ComsBuyAccessoryMessage"),
-	playerId_(playerId),
-	accessoryName_(accessoryName),
+	playerId_(playerId), accessoryId_(accessoryId),
 	buy_(buy)
 {
 }
@@ -39,7 +38,7 @@ ComsBuyAccessoryMessage::~ComsBuyAccessoryMessage()
 bool ComsBuyAccessoryMessage::writeMessage(NetBuffer &buffer)
 {
 	buffer.addToBuffer(playerId_);
-	buffer.addToBuffer(accessoryName_.c_str());
+	buffer.addToBuffer(accessoryId_);
 	buffer.addToBuffer(buy_);
 	return true;
 }
@@ -47,7 +46,7 @@ bool ComsBuyAccessoryMessage::writeMessage(NetBuffer &buffer)
 bool ComsBuyAccessoryMessage::readMessage(NetBufferReader &reader)
 {
 	if (!reader.getFromBuffer(playerId_)) return false;
-	if (!reader.getFromBuffer(accessoryName_)) return false;
+	if (!reader.getFromBuffer(accessoryId_)) return false;
 	if (!reader.getFromBuffer(buy_)) return false;
 	return true;
 }

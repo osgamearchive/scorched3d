@@ -383,7 +383,7 @@ void TankAIHuman::fireShot()
 		// send message saying we are finished with shot
 		ComsPlayedMoveMessage comsMessage(currentTank_->getPlayerId(), ComsPlayedMoveMessage::eShot);
 		comsMessage.setShot(
-			currentWeapon->getName(),
+			currentWeapon->getAccessoryId(),
 			currentTank_->getPhysics().getRotationGunXY(),
 			currentTank_->getPhysics().getRotationGunYZ(),
 			currentTank_->getState().getPower());
@@ -446,12 +446,12 @@ void TankAIHuman::parachutesUpDown(bool on)
 	ComsMessageSender::sendToServer(defenseMessage);
 }
 
-void TankAIHuman::shieldsUpDown(const char *name)
+void TankAIHuman::shieldsUpDown(unsigned int shieldId)
 {
 	ComsDefenseMessage defenseMessage(
 		currentTank_->getPlayerId(),
-		name?ComsDefenseMessage::eShieldUp:ComsDefenseMessage::eShieldDown,
-		name?name:"");
+		(shieldId!=0)?ComsDefenseMessage::eShieldUp:ComsDefenseMessage::eShieldDown,
+		shieldId);
 	
 	// Check if we are running in a NET/LAN environment
 	// If so we send this defense action to the server

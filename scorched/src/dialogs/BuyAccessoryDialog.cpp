@@ -247,7 +247,7 @@ void BuyAccessoryDialog::buttonDown(unsigned int id)
 		{
 			// Tell the server to add the accessory
 			Accessory *acc = itor->second;
-			ComsBuyAccessoryMessage buyMessage(tank->getPlayerId(), acc->getName());
+			ComsBuyAccessoryMessage buyMessage(tank->getPlayerId(), acc->getAccessoryId());
 			ComsMessageSender::sendToServer(buyMessage);
 
 			// Add the accessory
@@ -268,7 +268,7 @@ void BuyAccessoryDialog::buttonDown(unsigned int id)
 			{
 				// Tell the server to add the accessory
 				Accessory *acc = itor->second;
-				ComsBuyAccessoryMessage buyMessage(tank->getPlayerId(), acc->getName(), false);
+				ComsBuyAccessoryMessage buyMessage(tank->getPlayerId(), acc->getAccessoryId(), false);
 				ComsMessageSender::sendToServer(buyMessage);
 
 				// Add the accessory

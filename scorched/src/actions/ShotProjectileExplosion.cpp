@@ -32,8 +32,9 @@ ShotProjectileExplosion::ShotProjectileExplosion()
 ShotProjectileExplosion::ShotProjectileExplosion(
 	Vector &startPosition, Vector &velocity,
 	Weapon *weapon, unsigned int playerId,
-	float width, unsigned int flareType) :
-	ShotProjectile(startPosition, velocity, weapon, playerId, flareType),
+	float width, unsigned int flareType,
+	bool under) :
+	ShotProjectile(startPosition, velocity, weapon, playerId, flareType, under),
 	width_(width)
 {
 }

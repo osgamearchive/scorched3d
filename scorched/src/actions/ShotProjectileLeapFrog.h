@@ -30,18 +30,12 @@ public:
 	ShotProjectileLeapFrog();
 	ShotProjectileLeapFrog(
 		Vector &startPosition, Vector &velocity,
-		Weapon *weapon, unsigned int playerId,
-		float width, int hopsLeft);
+		Weapon *weapon, unsigned int playerId, float width);
 	virtual ~ShotProjectileLeapFrog();
 
-	virtual bool writeAction(NetBuffer &buffer);
-	virtual bool readAction(NetBufferReader &reader);
 	virtual void collision(Vector &position);
 
 	REGISTER_ACTION_HEADER(ShotProjectileLeapFrog);
-
-protected:
-	int hopsLeft_;
 
 };
 

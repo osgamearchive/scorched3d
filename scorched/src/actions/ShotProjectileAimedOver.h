@@ -18,36 +18,28 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <actions/ShotProjectileLeapFrog.h>
-#include <actions/Explosion.h>
-#include <weapons/WeaponLeapFrog.h>
-#include <engine/ScorchedContext.h>
 
-REGISTER_ACTION_SOURCE(ShotProjectileLeapFrog);
+// ShotFunky.h: interface for the ShotFunky class.
+//
+//////////////////////////////////////////////////////////////////////
 
-ShotProjectileLeapFrog::ShotProjectileLeapFrog()
+#if !defined(AFX_SHOTFUNKY_H__B3E18145_BFA2_469C_85D5_73C0E03445FC__INCLUDED_)
+#define AFX_SHOTFUNKY_H__B3E18145_BFA2_469C_85D5_73C0E03445FC__INCLUDED_
+
+#include <actions/ShotProjectile.h>
+
+class ShotProjectileAimedOver : public ShotProjectile
 {
+public:
+	ShotProjectileAimedOver();
+	ShotProjectileAimedOver(
+		Vector &startPosition, Vector &velocity,
+		Weapon *weapon, unsigned int playerId);
+	virtual ~ShotProjectileAimedOver();
 
-}
+	virtual void collision(Vector &position);
 
-ShotProjectileLeapFrog::ShotProjectileLeapFrog(
-	Vector &startPosition, Vector &velocity,
-	Weapon *weapon, unsigned int playerId,
-	float width) :
-	ShotProjectileExplosion(startPosition, velocity, weapon, playerId, width)
-{
-}
+	REGISTER_ACTION_HEADER(ShotProjectileAimedOver);
+};
 
-ShotProjectileLeapFrog::~ShotProjectileLeapFrog()
-{
-}
-
-void ShotProjectileLeapFrog::collision(Vector &position)
-{
-	ShotProjectileExplosion::collision(position);
-
-	Vector newVelocity = velocity_ * 0.6f;
-	Weapon *subWeapon = ((WeaponLeapFrog *)weapon_)->getSubWeapon();
-	Action *action = subWeapon->fireWeapon(playerId_, position, newVelocity);
-	context_->actionController.addAction(action);
-}
+#endif // !defined(AFX_SHOTFUNKY_H__B3E18145_BFA2_469C_85D5_73C0E03445FC__INCLUDED_)

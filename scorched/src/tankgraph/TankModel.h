@@ -41,6 +41,7 @@ public:
 	virtual bool lessThan(TankModel *other);
 
 	TankModelId &getId();
+	ModelID &getProjectileModelID();
 
 	bool isOfCatagory(const char *catagory);
 	std::list<std::string> &getCatagories() { return catagories_; }
@@ -49,6 +50,7 @@ protected:
 	bool init_;
 	TankModelId id_;
 	ModelID modelId_;
+	ModelID projectileModelId_;
 	TankMesh *tankMesh_;
 	std::list<std::string> catagories_;
 

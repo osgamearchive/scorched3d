@@ -23,10 +23,7 @@
 
 Weapon::Weapon() : deathAnimationWeight_(0), explosionTexture_("exp00"), scale_(1.0f), shake_(0.0f)
 {
-	modelId_.initFromString(
-		"MilkShape",
-		"data/accessories/v2missile/v2missile.txt",
-		"");
+
 }
 
 Weapon::~Weapon()
@@ -123,16 +120,16 @@ ModelID &Weapon::getModelID()
 
 bool Weapon::write(NetBuffer &buffer, Weapon *weapon)
 {
-	buffer.addToBuffer(weapon->getName());
+	buffer.addToBuffer(weapon->getAccessoryId());
 	return true;
 }
 
 Weapon *Weapon::read(NetBufferReader &reader)
 {
-	std::string weapon;
-	if (!reader.getFromBuffer(weapon)) return 0;
+	unsigned int weaponId;
+	if (!reader.getFromBuffer(weaponId)) return 0;
 	Accessory *accessory = 
-		AccessoryStore::instance()->findByAccessoryName(weapon.c_str());
+		AccessoryStore::instance()->findByAccessoryId(weaponId);
 	if (!accessory || (accessory->getType() != Accessory::AccessoryWeapon)) 
 	{
 		return 0;

@@ -23,7 +23,7 @@
 
 REGISTER_ACCESSORY_SOURCE(WeaponProjectile);
 
-WeaponProjectile::WeaponProjectile() : size_(0)
+WeaponProjectile::WeaponProjectile() : size_(0), under_(false)
 {
 
 }
@@ -48,6 +48,10 @@ bool WeaponProjectile::parseXML(XMLNode *accessoryNode)
 	}
 	size_ = atoi(sizeNode->getContent());
 
+	// Get the accessory under
+	XMLNode *underNode = accessoryNode->getNamedChild("under");
+	if (underNode) under_ = true;
+
 	return true;
 }
 
@@ -55,6 +59,7 @@ bool WeaponProjectile::writeAccessory(NetBuffer &buffer)
 {
 	if (!Weapon::writeAccessory(buffer)) return false;
 	buffer.addToBuffer(size_);
+	buffer.addToBuffer(under_);
 	return true;
 }
 
@@ -62,6 +67,7 @@ bool WeaponProjectile::readAccessory(NetBufferReader &reader)
 {
 	if (!Weapon::readAccessory(reader)) return false;
 	if (!reader.getFromBuffer(size_)) return false;
+	if (!reader.getFromBuffer(under_)) return false;
 	return true;
 }
 
@@ -70,7 +76,7 @@ Action *WeaponProjectile::fireWeapon(unsigned int playerId, Vector &position, Ve
 	Action *action = new ShotProjectileExplosion(
 		position, 
 		velocity,
-		this, playerId, (float) size_);
+		this, playerId, (float) size_, 0, under_);
 
 	return action;
 }

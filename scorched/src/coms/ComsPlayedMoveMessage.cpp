@@ -24,7 +24,7 @@
 ComsPlayedMoveMessage::ComsPlayedMoveMessage(unsigned int playerId, MoveType type) :
 	ComsMessage("ComsPlayedMoveMessage"),
 	moveType_(type),
-	weaponName_(""),
+	weaponId_(0),
 	rotationXY_(0.0f), rotationYZ_(0.0f), power_(0.0f), playerId_(playerId)
 {
 }
@@ -39,12 +39,12 @@ void ComsPlayedMoveMessage::setPosition(int x, int y)
 	rotationYZ_ = (float)y;
 }
 
-void ComsPlayedMoveMessage::setShot(const char *weaponName,
+void ComsPlayedMoveMessage::setShot(unsigned int weaponId,
 		float rotationXY,
 		float rotationYZ,
 		float power)
 {
-	weaponName_ = weaponName;
+	weaponId_ = weaponId;
 	rotationXY_ = rotationXY;
 	rotationYZ_ = rotationYZ;
 	power_ = power;
@@ -61,7 +61,7 @@ bool ComsPlayedMoveMessage::writeMessage(NetBuffer &buffer)
 	}
 	else if (moveType_ == eShot)
 	{
-		buffer.addToBuffer(weaponName_);
+		buffer.addToBuffer(weaponId_);
 		buffer.addToBuffer(rotationXY_);
 		buffer.addToBuffer(rotationYZ_);
 		buffer.addToBuffer(power_);
@@ -82,7 +82,7 @@ bool ComsPlayedMoveMessage::readMessage(NetBufferReader &reader)
 	}
 	else if (moveType_ == eShot)
 	{
-		if (!reader.getFromBuffer(weaponName_)) return false;
+		if (!reader.getFromBuffer(weaponId_)) return false;
 		if (!reader.getFromBuffer(rotationXY_)) return false;
 		if (!reader.getFromBuffer(rotationYZ_)) return false;
 		if (!reader.getFromBuffer(power_)) return false;

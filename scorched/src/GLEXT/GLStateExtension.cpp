@@ -24,6 +24,7 @@
 #include <string.h>
 #include <string>
 
+bool GLStateExtension::noTexSubImage_ = false;
 bool GLStateExtension::noExtensions_ = false;
 bool GLStateExtension::multiTexDisabled_ = false;
 bool GLStateExtension::hasCubeMap_ = false;

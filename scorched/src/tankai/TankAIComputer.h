@@ -68,7 +68,7 @@ public:
 	virtual void resign();
 	virtual void move(int x, int y);
 	virtual void parachutesUpDown(bool on);
-	virtual void shieldsUpDown(const char *name=0);
+	virtual void shieldsUpDown(unsigned int name=0);
 	virtual void useBattery();
 
 protected:

@@ -18,36 +18,23 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <actions/ShotProjectileLeapFrog.h>
-#include <actions/Explosion.h>
-#include <weapons/WeaponLeapFrog.h>
-#include <engine/ScorchedContext.h>
+#if !defined(__INCLUDE_ShotProjectileAimedUnderh_INCLUDE__)
+#define __INCLUDE_ShotProjectileAimedUnderh_INCLUDE__
 
-REGISTER_ACTION_SOURCE(ShotProjectileLeapFrog);
+#include <actions/ShotProjectile.h>
 
-ShotProjectileLeapFrog::ShotProjectileLeapFrog()
+class ShotProjectileAimedUnder : public ShotProjectile
 {
+public:
+	ShotProjectileAimedUnder();
+	ShotProjectileAimedUnder(
+		Vector &startPosition, Vector &velocity,
+		Weapon *weapon, unsigned int playerId);
+	virtual ~ShotProjectileAimedUnder();
 
-}
+	virtual void collision(Vector &position);
 
-ShotProjectileLeapFrog::ShotProjectileLeapFrog(
-	Vector &startPosition, Vector &velocity,
-	Weapon *weapon, unsigned int playerId,
-	float width) :
-	ShotProjectileExplosion(startPosition, velocity, weapon, playerId, width)
-{
-}
+	REGISTER_ACTION_HEADER(ShotProjectileAimedUnder);
+};
 
-ShotProjectileLeapFrog::~ShotProjectileLeapFrog()
-{
-}
-
-void ShotProjectileLeapFrog::collision(Vector &position)
-{
-	ShotProjectileExplosion::collision(position);
-
-	Vector newVelocity = velocity_ * 0.6f;
-	Weapon *subWeapon = ((WeaponLeapFrog *)weapon_)->getSubWeapon();
-	Action *action = subWeapon->fireWeapon(playerId_, position, newVelocity);
-	context_->actionController.addAction(action);
-}
+#endif

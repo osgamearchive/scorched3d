@@ -40,7 +40,8 @@ enum
 	IDC_INVERT,
 	IDC_TIMER,
 	IDC_USERID,
-	IDC_NODETAILTEX
+	IDC_NODETAILTEX,
+	IDC_NOLANDSCAPESCORCH
 };
 
 static wxCheckBox *IDC_FULLCLEAR_CTRL = 0;
@@ -52,6 +53,7 @@ static wxCheckBox *IDC_NOMULTITEX_CTRL = 0;
 static wxCheckBox *IDC_INVERT_CTRL = 0;
 static wxCheckBox *IDC_TIMER_CTRL = 0;
 static wxCheckBox *IDC_NODETAILTEX_CTRL = 0;
+static wxCheckBox *IDC_NOLANDSCAPESCORCH_CTRL = 0;
 static wxRadioButton *IDC_RADIO_SMALL_CTRL = 0;
 static wxRadioButton *IDC_RADIO_MEDIUM_CTRL = 0;
 static wxRadioButton *IDC_RADIO_LARGE_CTRL = 0;

@@ -181,7 +181,7 @@ void TankMenus::AccessoryMenu::menuSelection(const char* menuName,
 				break;
 			case Accessory::AccessoryShield:
 				// TODO No way of putting the shield off!
-				tankAI->shieldsUpDown(accessory->getName());
+				tankAI->shieldsUpDown(accessory->getAccessoryId());
 				break;
 			case Accessory::AccessoryWeapon:
 				firstTank->getAccessories().getWeapons().setWeapon(

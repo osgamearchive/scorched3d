@@ -39,13 +39,13 @@ public:
 
 	ComsDefenseMessage(unsigned int playerId = 0,
 		DefenseChange change = eNoChange,
-		const char *info = "");
+		unsigned int infoId = 0);
 	virtual ~ComsDefenseMessage();
 
 	void setPlayerId(unsigned int id) { playerId_ = id; }
 	unsigned int getPlayerId() { return playerId_; }
 	DefenseChange getChange() { return change_; }
-	const char *getInfo() { return info_.c_str(); }
+	unsigned int getInfoId() { return infoId_; }
 
 	// Inherited from ComsMessage
     virtual bool writeMessage(NetBuffer &buffer);
@@ -53,7 +53,7 @@ public:
 
 protected:
 	unsigned int playerId_;
-	std::string info_;
+	unsigned int infoId_;
 	DefenseChange change_;
 
 private:

@@ -34,6 +34,7 @@ public:
 	virtual bool readAccessory(NetBufferReader &reader);
 
 	int getSize() { return size_; }
+	Weapon *getSubWeapon() { return subWeapon_; }
 
 	// Inherited from Weapon
 	virtual Action *fireWeapon(unsigned int playerId, Vector &position, Vector &velocity);
@@ -42,6 +43,7 @@ public:
 
 protected:
 	int size_;
+	Weapon *subWeapon_;
 
 };
 

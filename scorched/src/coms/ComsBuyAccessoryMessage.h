@@ -30,12 +30,12 @@ class ComsBuyAccessoryMessage : public ComsMessage
 public:
 	ComsBuyAccessoryMessage(
 		unsigned int playerId = 0,
-		const char *accessoryName = "",
+		unsigned int accessoryId = 0,
 		bool buy = true);
 	virtual ~ComsBuyAccessoryMessage();
 
 	unsigned int getPlayerId() { return playerId_; }
-	const char *getAccessoryName() { return accessoryName_.c_str(); }
+	unsigned int getAccessoryId() { return accessoryId_; }
 	bool &getBuy() { return buy_; }
 
 	// Inherited from ComsMessage
@@ -44,7 +44,7 @@ public:
 
 protected:
 	unsigned int playerId_;
-	std::string accessoryName_;
+	unsigned int accessoryId_;
 	bool buy_;
 };
 

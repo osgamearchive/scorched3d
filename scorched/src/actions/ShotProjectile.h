@@ -34,7 +34,8 @@ public:
 	ShotProjectile(
 		Vector &startPosition, Vector &velocity,
 		Weapon *weapon, unsigned int playerId,
-		unsigned int flareType = 0);
+		unsigned int flareType = 0,
+		bool under = false);
 	virtual ~ShotProjectile();
 
 	unsigned int getPlayerId() { return playerId_; }
@@ -63,6 +64,7 @@ protected:
 	Weapon *weapon_;
 	unsigned int playerId_;
 	unsigned int flareType_;
+	bool under_;
 
 private:
 	ShotProjectile(const ShotProjectile &);

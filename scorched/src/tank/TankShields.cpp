@@ -119,7 +119,7 @@ int TankShields::getShieldCount(Shield *shield)
 bool TankShields::writeMessage(NetBuffer &buffer)
 {
 	buffer.addToBuffer(power_);
-	buffer.addToBuffer(currentShield_?currentShield_->getName():"");
+	buffer.addToBuffer((unsigned int)(currentShield_?currentShield_->getAccessoryId():0));
 
 	std::map<Shield *, int>::iterator itor;
 	buffer.addToBuffer(shields_.size());
@@ -127,7 +127,7 @@ bool TankShields::writeMessage(NetBuffer &buffer)
 		itor != shields_.end();
 		itor++)
 	{
-		buffer.addToBuffer((*itor).first->getName());
+		buffer.addToBuffer((*itor).first->getAccessoryId());
 		buffer.addToBuffer((*itor).second);
 	}
 
@@ -136,11 +136,12 @@ bool TankShields::writeMessage(NetBuffer &buffer)
 
 bool TankShields::readMessage(NetBufferReader &reader)
 {
-	std::string shieldName;
+	unsigned int shieldId;
 	if (!reader.getFromBuffer(power_)) return false;
-	if (!reader.getFromBuffer(shieldName)) return false;
-	currentShield_ = (Shield *)
-		AccessoryStore::instance()->findByAccessoryName(shieldName.c_str());
+	if (!reader.getFromBuffer(shieldId)) return false;
+	if (shieldId == 0) currentShield_ = 0;
+	else currentShield_ = (Shield *)
+		AccessoryStore::instance()->findByAccessoryId(shieldId);
 
 	std::set<Shield *> coveredShields;
 
@@ -148,13 +149,12 @@ bool TankShields::readMessage(NetBufferReader &reader)
 	if (!reader.getFromBuffer(totalShields)) return false;
 	for (int w=0; w<totalShields; w++)
 	{
-		std::string shieldName;
 		int shieldCount = 0;
-		if (!reader.getFromBuffer(shieldName)) return false;
+		if (!reader.getFromBuffer(shieldId)) return false;
 		if (!reader.getFromBuffer(shieldCount)) return false;
 
 		Shield *shield = (Shield *) 
-			AccessoryStore::instance()->findByAccessoryName(shieldName.c_str());
+			AccessoryStore::instance()->findByAccessoryId(shieldId);
 		if (!shield) return false;
 		coveredShields.insert(shield);
 

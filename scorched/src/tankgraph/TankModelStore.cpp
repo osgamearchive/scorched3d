@@ -117,6 +117,21 @@ bool TankModelStore::loadTankMeshes()
 		// Create the tank model
 		TankModel *model = new TankModel(id, modelId);
 
+		// Get the projectile model node (if any)
+		XMLNode *projectileModelNode = currentNode->getNamedChild("projectilemodel");
+		if (projectileModelNode)
+		{
+			ModelID projModelId;
+			if (!projModelId.initFromNode("data/accessories", projectileModelNode))
+			{
+				dialogMessage("Scorched Models",
+							"Failed to load projectile mesh for tank \"%s\"",
+							modelName);
+				return false;
+			}
+			model->getProjectileModelID() = projModelId;
+		}
+
 		// Read all of the tank display catagories
 		std::list<XMLNode *>::iterator catItor;
 		for (catItor = currentNode->getChildren().begin();

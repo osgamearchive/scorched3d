@@ -147,7 +147,7 @@ void TankAIComputer::selectFirstShield()
 
 		if (!currentTank_->getAccessories().getShields().getCurrentShield())
 		{
-			shieldsUpDown(shield->getName());
+			shieldsUpDown(shield->getAccessoryId());
 		}
 	}
 }
@@ -172,7 +172,7 @@ void TankAIComputer::fireShot()
 		ComsPlayedMoveMessage *message = 
 			new ComsPlayedMoveMessage(currentTank_->getPlayerId(), ComsPlayedMoveMessage::eShot);
 		message->setShot(
-			currentTank_->getAccessories().getWeapons().getCurrent()->getName(),
+			currentTank_->getAccessories().getWeapons().getCurrent()->getAccessoryId(),
 			currentTank_->getPhysics().getRotationGunXY(),
 			currentTank_->getPhysics().getRotationGunYZ(),
 			currentTank_->getState().getPower());
@@ -216,12 +216,12 @@ void TankAIComputer::parachutesUpDown(bool on)
 	}
 }
 
-void TankAIComputer::shieldsUpDown(const char *name)
+void TankAIComputer::shieldsUpDown(unsigned int shieldId)
 {
 	ComsDefenseMessage defenseMessage(
 		currentTank_->getPlayerId(),
-		name?ComsDefenseMessage::eShieldUp:ComsDefenseMessage::eShieldDown,
-		name?name:"");
+		(shieldId!=0)?ComsDefenseMessage::eShieldUp:ComsDefenseMessage::eShieldDown,
+		shieldId);
 
 	if (TankAILogic::processDefenseMessage(
 		ScorchedServer::instance()->getContext(), defenseMessage, currentTank_))

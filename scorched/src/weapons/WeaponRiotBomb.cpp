@@ -23,7 +23,7 @@
 
 REGISTER_ACCESSORY_SOURCE(WeaponRiotBomb);
 
-WeaponRiotBomb::WeaponRiotBomb() : size_(0)
+WeaponRiotBomb::WeaponRiotBomb() : size_(0), under_(false)
 {
 }
 
@@ -46,6 +46,10 @@ bool WeaponRiotBomb::parseXML(XMLNode *accessoryNode)
 	}
 	size_ = atoi(sizeNode->getContent());
 
+	// Get the accessory under
+	XMLNode *underNode = accessoryNode->getNamedChild("under");
+	if (underNode) under_ = true;
+
 	return true;
 }
 
@@ -53,6 +57,7 @@ bool WeaponRiotBomb::writeAccessory(NetBuffer &buffer)
 {
 	if (!Weapon::writeAccessory(buffer)) return false;
 	buffer.addToBuffer(size_);
+	buffer.addToBuffer(under_);
 	return true;
 }
 
@@ -60,6 +65,7 @@ bool WeaponRiotBomb::readAccessory(NetBufferReader &reader)
 {
 	if (!Weapon::readAccessory(reader)) return false;
 	if (!reader.getFromBuffer(size_)) return false;
+	if (!reader.getFromBuffer(under_)) return false;
 	return true;
 }
 
@@ -68,7 +74,7 @@ Action *WeaponRiotBomb::fireWeapon(unsigned int playerId, Vector &position, Vect
 	Action *action = new ShotProjectileRiot(
 		position, 
 		velocity,
-		this, playerId, (float) size_);
+		this, playerId, (float) size_, under_);
 
 	return action;
 }

@@ -87,6 +87,9 @@ public:
 	bool getNoExt() { return noExt_.getValue(); }
 	void setNoExt(bool value) { noExt_.setValue(value); }
 
+	bool getNoTexSubImage() { return noTexSubImage_.getValue(); }
+	void setNoTexSubImage(bool value) { noTexSubImage_.setValue(value); }
+
 	bool getNoSound() { return noSound_.getValue(); }
 	void setNoSound(bool value) { noSound_.setValue(value); }
 
@@ -174,6 +177,7 @@ protected:
 	OptionEntryBool useHex_;
 	OptionEntryBool fullScreen_;
 	OptionEntryBool fullClear_;
+	OptionEntryBool noTexSubImage_;
 	OptionEntryBool noExt_;
 	OptionEntryBool invertUpDownKey_;
 	OptionEntryBool noSound_;

@@ -105,9 +105,9 @@ void GLBilboardRenderer::drawItem(GLOrderedItemRenderer::OrderedEntry &oentry)
 		totalSwitches_++;
 	}
 	if (entry.style==1){
-		float r;
-		float g;
-		float b;
+		float r = 0;
+		float g = 0;
+		float b = 0;
 		r=1.0f;
 		if (entry.alpha>=0.5f){
 			b=(1.0f - (entry.alpha * 2.0f));

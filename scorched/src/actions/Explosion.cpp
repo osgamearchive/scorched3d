@@ -110,7 +110,7 @@ void Explosion::init()
 	}
 	else 
 	{
-		if (explosionHurts_)
+		if (deformType_ != DeformNone)
 		{
 			const float ShowTime = 4.0f;
 			ActionMeta *pos = new CameraPositionAction(

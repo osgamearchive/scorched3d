@@ -35,7 +35,7 @@ TankAIComputerBuyer::Entry::Entry(const Entry &other)
 TankAIComputerBuyer::Entry &TankAIComputerBuyer::Entry::operator=(const Entry &other)
 {
 	level = other.level;
-	std::list<std::string>::const_iterator aitor;
+	std::list<unsigned int>::const_iterator aitor;
 	for (aitor = other.buyAccessories.begin();
 			aitor != other.buyAccessories.end();
 			aitor++)
@@ -62,7 +62,8 @@ void TankAIComputerBuyer::clearAccessories()
 bool TankAIComputerBuyer::addAccessory(const char *accessoryName,
 									int buyLevel)
 {
-	Accessory *accessory = AccessoryStore::instance()->findByAccessoryName(accessoryName);
+	Accessory *accessory = AccessoryStore::instance()->
+		findByPrimaryAccessoryName(accessoryName);
 	if (!accessory)
 	{
 		dialogMessage("TankAIComputerBuyer", 
@@ -83,14 +84,14 @@ bool TankAIComputerBuyer::addAccessory(const char *accessoryName,
 
 		if (current.level == buyLevel)
 		{
-			current.buyAccessories.push_back(accessoryName);
+			current.buyAccessories.push_back(accessory->getAccessoryId());
 			return true;
 		}
 	}
 
 	Entry newEntry;
 	newEntry.level = buyLevel;
-	newEntry.buyAccessories.push_back(accessoryName);
+	newEntry.buyAccessories.push_back(accessory->getAccessoryId());
 
 	if (itor == buyEntries_.end())
 	{
@@ -127,12 +128,12 @@ void TankAIComputerBuyer::buyAccessory()
 		itor != buyEntries_.end();
 		itor++)
 	{
-		std::list<std::string>::iterator aitor;
+		std::list<unsigned int>::iterator aitor;
 		for (aitor = (*itor).buyAccessories.begin();
 			aitor != (*itor).buyAccessories.end();
 			aitor++)
 		{
-			Accessory *current = AccessoryStore::instance()->findByAccessoryName((*aitor).c_str());
+			Accessory *current = AccessoryStore::instance()->findByAccessoryId((*aitor));
 			DIALOG_ASSERT(current);
 
 			// Check if the tank has each accessory

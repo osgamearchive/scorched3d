@@ -50,12 +50,15 @@ void ShadowMap::setTexture()
 	// Set the shadow map texture
 	shadowTexture_.draw(true);
 
-	// Update with the contents from the stored bytes
-	glTexSubImage2D(GL_TEXTURE_2D, 0, 
-					0, 0, 
-					size_, size_, 
-					GL_LUMINANCE, GL_UNSIGNED_BYTE, 
-					shadowBytes_);
+	if (!GLStateExtension::getNoTexSubImage())
+	{
+		// Update with the contents from the stored bytes
+		glTexSubImage2D(GL_TEXTURE_2D, 0, 
+						0, 0, 
+						size_, size_, 
+						GL_LUMINANCE, GL_UNSIGNED_BYTE, 
+						shadowBytes_);
+	}
 
 	// Reset the stored bytes
 	memset(shadowBytes_, 255, sizeSq_);

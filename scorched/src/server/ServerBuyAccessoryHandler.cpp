@@ -110,11 +110,11 @@ bool ServerBuyAccessoryHandler::processMessage(unsigned int destinationId,
 
 	// Check that the accessory is valid
 	Accessory *accessory = 
-		AccessoryStore::instance()->findByAccessoryName(message.getAccessoryName());
+		AccessoryStore::instance()->findByAccessoryId(message.getAccessoryId());
 	if (!accessory)
 	{
-		Logger::log(playerId, "ERROR: Player buying not-existant weapon \"%s\"", 
-			message.getAccessoryName());
+		Logger::log(playerId, "ERROR: Player buying not-existant weapon \"%i\"", 
+			message.getAccessoryId());
 		return true;
 	}
 
@@ -122,7 +122,7 @@ bool ServerBuyAccessoryHandler::processMessage(unsigned int destinationId,
 		ScorchedServer::instance()->getOptionsGame().getMaxArmsLevel())
 	{
 		Logger::log(playerId, "ERROR: Player atempting to buy weapon \"%s\" in wrong arms level", 
-			message.getAccessoryName());
+			accessory->getName());
 		return true;
 	}
 

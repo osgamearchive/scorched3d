@@ -45,6 +45,7 @@ public:
 	const char *getSkinName() { return skinName_.c_str(); }
 	const char *getMeshName() { return meshName_.c_str(); }
 	const char *getType() { return type_.c_str(); }
+	bool modelValid() { return !type_.empty(); }
 
 	// Serialize
 	virtual bool writeModelID(NetBuffer &buffer);

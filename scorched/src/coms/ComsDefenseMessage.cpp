@@ -24,10 +24,10 @@
 
 ComsDefenseMessage::ComsDefenseMessage(unsigned int playerId,
 									   DefenseChange change,
-									   const char *info) :
+									   unsigned int infoId) :
 	ComsMessage("ComsDefenseMessage"),
 	playerId_(playerId),
-	change_(change), info_(info)
+	change_(change), infoId_(infoId)
 {
 }
 
@@ -39,7 +39,7 @@ bool ComsDefenseMessage::writeMessage(NetBuffer &buffer)
 {
 	buffer.addToBuffer(playerId_);
 	buffer.addToBuffer((int) change_);
-	buffer.addToBuffer(info_);
+	buffer.addToBuffer(infoId_);
 	return true;
 }
 
@@ -49,6 +49,6 @@ bool ComsDefenseMessage::readMessage(NetBufferReader &reader)
 	int c = 0;
 	if (!reader.getFromBuffer(c)) return false;
 	change_ = (DefenseChange) c;
-	if (!reader.getFromBuffer(info_)) return false;
+	if (!reader.getFromBuffer(infoId_)) return false;
 	return true;
 }

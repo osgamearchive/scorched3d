@@ -41,6 +41,7 @@ public:
 
 protected:
 	int size_;
+	bool under_;
 
 };
 

@@ -22,9 +22,12 @@
 #include <common/Defines.h>
 #include <stdlib.h>
 
+unsigned int Accessory::nextAccessoryId_ = 0;
+
 Accessory::Accessory() :
 	name_("NONAME"), description_("NODESC"), toolTip_("", ""),
-	price_(0), bundle_(0), armsLevel_(0)
+	price_(0), bundle_(0), armsLevel_(0), accessoryId_(++nextAccessoryId_),
+	primary_(false)
 {
 
 }
@@ -121,6 +124,8 @@ bool Accessory::writeAccessory(NetBuffer &buffer)
 	buffer.addToBuffer(bundle_);
 	buffer.addToBuffer(armsLevel_);
 	buffer.addToBuffer(sellPrice_);
+	buffer.addToBuffer(accessoryId_);
+	buffer.addToBuffer(primary_);
 	return true;
 }
 
@@ -134,6 +139,8 @@ bool Accessory::readAccessory(NetBufferReader &reader)
 	if (!reader.getFromBuffer(bundle_)) return false;
 	if (!reader.getFromBuffer(armsLevel_)) return false;
 	if (!reader.getFromBuffer(sellPrice_)) return false;
+	if (!reader.getFromBuffer(accessoryId_)) return false;
+	if (!reader.getFromBuffer(primary_)) return false;
 	toolTip_.setText(getName(), getDescription());
 	return true;
 }

@@ -36,9 +36,11 @@ ShotProjectile::ShotProjectile() :
 
 ShotProjectile::ShotProjectile(Vector &startPosition, Vector &velocity,
 							   Weapon *weapon, unsigned int playerId,
-							   unsigned int flareType) : 
+							   unsigned int flareType,
+							   bool under) : 
 	collisionInfo_(CollisionIdShot), startPosition_(startPosition),
-	velocity_(velocity), weapon_(weapon), playerId_(playerId), flareType_(flareType)
+	velocity_(velocity), weapon_(weapon), playerId_(playerId), 
+	flareType_(flareType), under_(under)
 {
 
 }
@@ -52,6 +54,7 @@ void ShotProjectile::init()
 
 	setPhysics(startPosition_, velocity_);
 	collisionInfo_.data = this;
+	collisionInfo_.collisionOnSurface = !under_;
 	physicsObject_.setData(&collisionInfo_);
 }
 
@@ -99,6 +102,7 @@ bool ShotProjectile::writeAction(NetBuffer &buffer)
 	Weapon::write(buffer, weapon_);
 	buffer.addToBuffer(playerId_);
 	buffer.addToBuffer(flareType_);
+	buffer.addToBuffer(under_);
 	return true;
 }
 
@@ -113,6 +117,7 @@ bool ShotProjectile::readAction(NetBufferReader &reader)
 	weapon_ = Weapon::read(reader); if (!weapon_) return false;
 	if (!reader.getFromBuffer(playerId_)) return false;
 	if (!reader.getFromBuffer(flareType_)) return false;
+	if (!reader.getFromBuffer(under_)) return false;
 	return true;
 }
 

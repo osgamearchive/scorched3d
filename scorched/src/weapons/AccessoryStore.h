@@ -35,14 +35,17 @@ class AccessoryStore
 public:
 	static AccessoryStore *instance();
 
+	bool parseFile(const char *fileName);
+
 	Accessory *findByAccessoryType(Accessory::AccessoryType type);
-	Accessory *findByAccessoryName(const char *name);
+	Accessory *findByAccessoryId(unsigned int id);
+	Accessory *findByPrimaryAccessoryName(const char *name); // **careful there**
+	Accessory *createAccessory(XMLNode *currentNode);
 
 	Weapon *getDeathAnimation();
 
 	std::list<Accessory *> getAllWeapons();
-	std::list<Accessory *> getAllOthers();
-	std::list<Accessory *> &getAllAccessories();	
+	std::list<Accessory *> getAllOthers();	
 
 	bool writeToBuffer(NetBuffer &buffer);
 	bool readFromBuffer(NetBufferReader &reader);
@@ -52,7 +55,6 @@ protected:
 	std::list<Accessory *> accessories_;
 	std::vector<Weapon *> deathAnimations_;
 
-	bool parseFile(const char *fileName);
 	void clearAccessories();
 	void addAccessory(Accessory *accessory);
 

@@ -18,11 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// ShotProjectileMirv.h: interface for the ShotProjectileMirv class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_SHOTPROJECTILEMIRV_H__50E48B70_E646_4265_8D88_8BFBBDEDD848__INCLUDED_)
 #define AFX_SHOTPROJECTILEMIRV_H__50E48B70_E646_4265_8D88_8BFBBDEDD848__INCLUDED_
 
@@ -35,20 +30,14 @@ public:
 	ShotProjectileMirv();
 	ShotProjectileMirv(
 		Vector &startPosition, Vector &velocity,
-		Weapon *weapon, unsigned int playerId, float width, 
-		int noWarheads, bool spread = false);
+		Weapon *weapon, unsigned int playerId);
 	virtual ~ShotProjectileMirv();
 
 	virtual void simulate(float timepassed, bool &remove);
-	virtual bool writeAction(NetBuffer &buffer);
-	virtual bool readAction(NetBufferReader &reader);
 
 	REGISTER_ACTION_HEADER(ShotProjectileMirv);
 
 protected:
-	float width_;
-	int noWarheads_;
-	bool spread_;
 	bool up_;
 
 	void apex(Vector &position, Vector &currentVelocity);

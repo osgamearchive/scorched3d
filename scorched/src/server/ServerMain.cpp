@@ -20,6 +20,7 @@
 
 #include <windows.h>
 #include <stdlib.h>
+#include <weapons/AccessoryStore.h>
 #include <coms/NetLoopBack.h>
 #include <common/Defines.h>
 #include <common/Timer.h>
@@ -75,6 +76,8 @@ bool startServer(bool local)
 	ServerBuyAccessoryHandler::instance();
 	ServerAddPlayerHandler::instance();
 	ServerDefenseHandler::instance();
+
+	if (!AccessoryStore::instance()->parseFile(PKGDIR "data/accessories.xml")) return false;
 
 	// Init physics
 	HeightMapCollision *hmcol = 

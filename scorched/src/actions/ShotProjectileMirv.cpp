@@ -19,7 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <actions/ShotProjectileMirv.h>
-#include <actions/ShotProjectileExplosion.h>
+#include <weapons/WeaponMirv.h>
 #include <engine/ScorchedContext.h>
 #include <common/Defines.h>
 
@@ -32,10 +32,8 @@ ShotProjectileMirv::ShotProjectileMirv() : up_(false)
 
 ShotProjectileMirv::ShotProjectileMirv(
 		Vector &startPosition, Vector &velocity,
-		Weapon *weapon, unsigned int playerId, float width, 
-		int noWarheads, bool spread) :
+		Weapon *weapon, unsigned int playerId) :
 	ShotProjectile(startPosition, velocity, weapon, playerId),
-	width_(width), noWarheads_(noWarheads), spread_(spread),
 	up_(false)
 {
 
@@ -44,24 +42,6 @@ ShotProjectileMirv::ShotProjectileMirv(
 ShotProjectileMirv::~ShotProjectileMirv()
 {
 
-}
-
-bool ShotProjectileMirv::writeAction(NetBuffer &buffer)
-{
-	if (!ShotProjectile::writeAction(buffer)) return false;
-	buffer.addToBuffer(width_);
-	buffer.addToBuffer(noWarheads_);
-	buffer.addToBuffer(spread_);
-	return true;
-}
-
-bool ShotProjectileMirv::readAction(NetBufferReader &reader)
-{
-	if (!ShotProjectile::readAction(reader)) return false;
-	if (!reader.getFromBuffer(width_)) return false;
-	if (!reader.getFromBuffer(noWarheads_)) return false;
-	if (!reader.getFromBuffer(spread_)) return false;
-	return true;
 }
 
 void ShotProjectileMirv::simulate(float timepassed, bool &remove)
@@ -79,19 +59,19 @@ void ShotProjectileMirv::simulate(float timepassed, bool &remove)
 
 void ShotProjectileMirv::apex(Vector &position, Vector &currentVelocity)
 {
+	WeaponMirv *weaponM = (WeaponMirv *) weapon_;
+
 	// Add a shot that will fall where the original was aimed
-	ShotProjectileExplosion *newShot = 
-		new ShotProjectileExplosion(
-			position, currentVelocity, 
-			weapon_, playerId_, width_);
-	context_->actionController.addAction(newShot);
+	Action *newShot = weaponM->getSubWeapon()->fireWeapon(
+		playerId_, position, currentVelocity);
+	context_->actionController.addAction(newShot);	
 
 	// Add all of the sub warheads that have a random spread
-	for (int i=0; i<noWarheads_ - 1; i++)
+	for (int i=0; i<weaponM->getNoWarHeads() - 1; i++)
 	{
 		Vector newDiff = currentVelocity;
 		newDiff[2] = 0.0f;
-		if (spread_)
+		if (weaponM->getSpread())
 		{
 			Vector diff = newDiff;
 			diff[2] -= 1.0f;
@@ -99,13 +79,12 @@ void ShotProjectileMirv::apex(Vector &position, Vector &currentVelocity)
 
 			newDiff += (perp * ((RAND * 1.0f) - 0.5f));
 		}
-		newDiff[2] += (float(i - (noWarheads_ / 2)) / float(noWarheads_ / 2)) * 5.0f;
+		newDiff[2] += (float(i - (weaponM->getNoWarHeads() / 2)) / 
+			float(weaponM->getNoWarHeads() / 2)) * 5.0f;
 
-		ShotProjectileExplosion *newShot = 
-			new ShotProjectileExplosion(position, newDiff, 
-			weapon_, playerId_, width_);
-
-		context_->actionController.addAction(newShot);
+		Action *newShot = weaponM->getSubWeapon()->fireWeapon(
+			playerId_, position, newDiff);
+		context_->actionController.addAction(newShot);	
 	}
 
 	ShotProjectile::collision(position);
