@@ -22,6 +22,11 @@
 #define __INCLUDE_KeyDialogh_INCLUDE__
 
 class wxDialog;
+
+unsigned int getKeyDialogKey();
+bool getKeyDialogShift();
+bool getKeyDialogControl();
+bool getKeyDialogAlt();
 void showKeyDialog(wxDialog *dialog);
 
 #endif

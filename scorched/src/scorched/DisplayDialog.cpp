@@ -58,6 +58,7 @@ protected:
 
 	void refreshScreen();
 	void refreshResolutions();
+	void refreshKeysControls();
 };
 
 BEGIN_EVENT_TABLE(DisplayFrame, wxDialog)
@@ -151,7 +152,85 @@ void DisplayFrame::onMoreRes(wxCommandEvent &event)
 
 void DisplayFrame::onKeyButton(wxCommandEvent &event)
 {
+	// Find which button was pressed
+	wxButton *chosenButton = (wxButton *) event.GetEventObject();
+	KeyButtonData *chosenData = (KeyButtonData *) chosenButton->GetRefData();
+	KeyboardKey *chosenKey = chosenData->key_;
+	unsigned int chosenPosition = chosenData->position_;
+
+	// Ask the user for a key
 	showKeyDialog(this);
+	
+	// Translate the key code from wx to SDL	
+	unsigned int resultKey = getKeyDialogKey();
+	unsigned int wxKey = (unsigned int) resultKey;
+	unsigned int sdlKey = 0;
+	if (!KeyboardKey::translateKeyNameWX(wxKey, sdlKey)) return;
+	unsigned int sdlState = 0;
+	if (getKeyDialogAlt()) sdlState = KMOD_LALT;
+	else if (getKeyDialogControl()) sdlState = KMOD_LCTRL;
+	else if (getKeyDialogShift()) sdlState = KMOD_LSHIFT;
+
+	// Remove any existing occurances of this key 
+	// (except when it exists on the chosen key)
+	bool found = false;
+	std::list<wxButton *>::iterator itor;
+	for (itor = keyboardKeyList.begin();
+		itor != keyboardKeyList.end();
+		itor++)
+	{
+		wxButton *button = (*itor);
+		KeyButtonData *data = (KeyButtonData *) button->GetRefData();
+		KeyboardKey *key = data->key_;
+		unsigned int position = data->position_;
+
+		std::vector<KeyboardKey::KeyEntry> &keyEntries = key->getKeys();
+		if (position < keyEntries.size())
+		{
+			if (keyEntries[position].key == sdlKey &&
+				keyEntries[position].state == sdlState)
+			{
+				if (key == chosenKey) found = true;
+				else key->removeKey(position);
+			}
+		}
+	}
+
+	// Add this key to the chosen item (unless it already exists)
+	if (!found)
+	{
+		chosenKey->addKey(chosenPosition, sdlKey, sdlState);
+	}
+
+	// Rerfresh the key view
+	refreshKeysControls();
+}
+
+void DisplayFrame::refreshKeysControls()
+{
+	std::list<wxButton *>::iterator itor;
+	for (itor = keyboardKeyList.begin();
+		itor != keyboardKeyList.end();
+		itor++)
+	{
+		wxButton *button = (*itor);
+		KeyButtonData *data = (KeyButtonData *) button->GetRefData();
+		KeyboardKey *key = data->key_;
+		unsigned int position = data->position_;
+
+		char buffer[256];
+		buffer[0] = '\0';
+		if (position < key->getKeys().size())
+		{
+			const char *keyName = "";
+			const char *stateName = "";
+			KeyboardKey::translateKeyNameValue(key->getKeys()[position].key, keyName);
+			KeyboardKey::translateKeyStateValue(key->getKeys()[position].state, stateName);
+			if (strcmp(stateName, "NONE") == 0) sprintf(buffer, "%s", keyName);
+			else sprintf(buffer, "<%s> %s", stateName, keyName);
+		}
+		button->SetLabel(buffer);
+	}
 }
 
 bool DisplayFrame::TransferDataToWindow()
@@ -310,6 +389,8 @@ void DisplayFrame::refreshScreen()
 		break;
 	};
 
+	refreshKeysControls();
+
 	IDOK_CTRL->SetDefault();
 }
 
@@ -430,6 +511,9 @@ bool DisplayFrame::TransferDataFromWindow()
 
 	// Save display options to file
 	OptionsDisplay::instance()->writeOptionsToFile();
+
+	// Save keyboard keys to file
+	//Keyboard::instance()->saveKeyFile();
 
 	return true;
 }

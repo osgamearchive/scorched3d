@@ -890,6 +890,12 @@
 				RelativePath="..\common\Gamma.h">
 			</File>
 			<File
+				RelativePath="..\common\KeyStateTranslate.h">
+			</File>
+			<File
+				RelativePath="..\common\KeyTranslate.h">
+			</File>
+			<File
 				RelativePath="..\common\Keyboard.cpp">
 			</File>
 			<File

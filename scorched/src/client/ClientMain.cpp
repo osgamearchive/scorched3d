@@ -91,7 +91,7 @@ bool initHardware(ProgressCounter *progressCounter)
 	if (!Keyboard::instance()->loadKeyFile())
 	{
 		dialogMessage("Scorched3D Keyboard", 
-			"Failed to process keyboard file.");
+			"Failed to process keyboard file keys.xml");
 		return false;
 	}
 

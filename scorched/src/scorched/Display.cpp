@@ -138,7 +138,7 @@ static void createMainControls(wxWindow *parent, wxSizer *sizer)
 	}
 }
 
-void createTroubleControls(wxWindow *parent, wxSizer *sizer)
+static void createTroubleControls(wxWindow *parent, wxSizer *sizer)
 {
 	// Texture sizes (small med large)
 	wxStaticBox *textureBox = new wxStaticBox(parent, -1, "Level of Detail settings");
@@ -265,7 +265,7 @@ void createTroubleControls(wxWindow *parent, wxSizer *sizer)
 	sizer->Add(troubleSizer, 0, wxGROW | wxLEFT | wxRIGHT | wxTOP, 5);
 }
 
-void createIdentControls(wxWindow *parent, wxSizer *sizer)
+static void createIdentControls(wxWindow *parent, wxSizer *sizer)
 {
 	// User name edit box
 	wxStaticBox *userNameBox = new wxStaticBox(parent, -1, 
@@ -286,13 +286,40 @@ void createIdentControls(wxWindow *parent, wxSizer *sizer)
 	sizer->Add(userSizer, 0, wxGROW | wxLEFT | wxRIGHT | wxTOP, 5);
 }
 
-void createKeysControls(wxWindow *parent, wxSizer *topsizer)
+class KeyButtonData : public wxObjectRefData
+{
+public:
+	KeyButtonData(KeyboardKey *key, unsigned int position);
+	virtual ~KeyButtonData();
+
+	KeyboardKey *key_;
+	unsigned int position_;
+};
+
+KeyButtonData::KeyButtonData(KeyboardKey *key, unsigned int position) :
+	wxObjectRefData(),
+	key_(key), position_(position)
+{
+}
+
+KeyButtonData::~KeyButtonData()
+{
+}
+
+static std::list<wxButton *> keyboardKeyList;
+
+static void createKeysControls(wxWindow *parent, wxSizer *topsizer)
 {
 	wxScrolledWindow *scrolledWindow = new wxScrolledWindow(parent, -1,
 		wxDefaultPosition, wxSize(470, 270));
 	wxSizer *sizer = new wxFlexGridSizer(5, 1);
 	
-	Keyboard::instance()->loadKeyFile();
+	keyboardKeyList.clear();
+	if (!Keyboard::instance()->loadKeyFile())
+	{
+		dialogExit("Keyboad", "Failed to process keyboad file keys.xml");
+	}
+
 	std::map<std::string, KeyboardKey *, std::less<std::string> > &keys =
 		Keyboard::instance()->getKeyMap();
 	std::map<std::string, KeyboardKey *, std::less<std::string> >::iterator itor;
@@ -305,23 +332,13 @@ void createKeysControls(wxWindow *parent, wxSizer *topsizer)
 		wxStaticText *text = new wxStaticText(scrolledWindow, -1, key->getName());
 		text->SetToolTip(key->getDescription());
 		sizer->Add(text, 0, wxALIGN_CENTER);
-		for (unsigned int i=0; i<MAX(key->getKeys().size(), 4); i++)
+		for (unsigned int i=0; i<4; i++)
 		{
-			char buffer[256];
-			buffer[0] = '\0';
-			if (i < key->getKeys().size())
-			{
-				const char *keyName = "";
-				const char *stateName = "";
-				KeyboardKey::translateKeyNameValue(key->getKeys()[i].key, keyName);
-				KeyboardKey::translateKeyStateValue(key->getKeys()[i].state, stateName);
-				if (strcmp(stateName, "NONE") == 0) sprintf(buffer, "%s", keyName);
-				else sprintf(buffer, "<%s> %s", stateName, keyName);
-			}
-
-			wxButton *button = new wxButton(scrolledWindow, ID_KEY, buffer);
+			wxButton *button = new wxButton(scrolledWindow, ID_KEY, "");
+			button->SetRefData(new KeyButtonData(key, i));
 			button->SetToolTip(key->getDescription());
 			sizer->Add(button, 0, wxLEFT | wxALIGN_CENTER, 5);
+			keyboardKeyList.push_back(button);
 		}
 	}
 	
@@ -332,4 +349,5 @@ void createKeysControls(wxWindow *parent, wxSizer *topsizer)
 		(minSize.GetWidth() + 10) / 10, (minSize.GetHeight() + 10) / 10);
 	topsizer->Add(scrolledWindow, 0, wxALL | wxALIGN_CENTER, 2);
 }
+
 

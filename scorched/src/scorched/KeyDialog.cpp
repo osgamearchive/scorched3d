@@ -25,6 +25,10 @@
 
 extern char scorched3dAppName[128];
 extern char *displayOptions;
+static bool keyDialogShiftDown = false;
+static bool keyDialogControlDown = false;
+static bool keyDialogAltDown = false;
+static unsigned int keyDialogKeyCode = 0;
 
 class KeyFrame;
 class TextWindow : public wxWindow
@@ -37,9 +41,8 @@ public:
     {
 		wxBoxSizer *topsizer = new wxBoxSizer(wxVERTICAL);
 
-		topsizer->Add(
-			new wxStaticText(this, -1, "Press a key"), 0, 
-			wxGROW | wxALIGN_CENTER, 5);
+		wxStaticText *text = new wxStaticText(this, -1, "Press a key to bind to this function");
+		topsizer->Add(text, 0, wxALIGN_CENTER | wxALL, 5);
 
 		SetSizer(topsizer); // use the sizer for layout
 		topsizer->SetSizeHints(this); // set size hints to honour minimum size
@@ -69,6 +72,26 @@ protected:
 	DECLARE_EVENT_TABLE()
 };
 
+unsigned int getKeyDialogKey()
+{
+	return keyDialogKeyCode;
+}
+
+bool getKeyDialogShift()
+{
+	return keyDialogShiftDown;
+}
+
+bool getKeyDialogControl()
+{
+	return keyDialogControlDown;
+}
+
+bool getKeyDialogAlt()
+{
+	return keyDialogAltDown;
+}
+
 void TextWindow::OnKeyDown(wxKeyEvent& event)
 {
 	switch (event.GetKeyCode())
@@ -79,6 +102,10 @@ void TextWindow::OnKeyDown(wxKeyEvent& event)
 	case WXK_MENU:
 		break;
 	default:
+		keyDialogControlDown = event.ControlDown();
+		keyDialogShiftDown = event.ShiftDown();
+		keyDialogAltDown = event.AltDown();
+		keyDialogKeyCode = event.KeyCode();
 		frame_->EndModal(0);
 	}
 }
@@ -88,7 +115,7 @@ END_EVENT_TABLE()
 
 KeyFrame::KeyFrame(wxDialog *dialog) :
 	wxDialog(dialog, -1, wxString(scorched3dAppName), 
-		wxDefaultPosition, wxSize(150, 75), wxSIMPLE_BORDER )
+		wxDefaultPosition, wxSize(190, 50), wxSIMPLE_BORDER )
 {
 #ifdef _WIN32
 	// Set the frame's icon

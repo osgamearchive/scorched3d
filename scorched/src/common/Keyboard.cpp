@@ -151,7 +151,7 @@ bool Keyboard::saveKeyFile()
 			KeyboardKey::translateKeyNameValue(subentry.key, name);
 			KeyboardKey::translateKeyStateValue(subentry.state, state);
 			XMLNode *subnode = new XMLNode("key", name);
-			if (state[0]) subnode->addParameter(new XMLNode("state", state, XMLNode::XMLParameterType));
+			if (strcmp(state, "NONE") != 0) subnode->addParameter(new XMLNode("state", state, XMLNode::XMLParameterType));
 			keyNode->addChild(subnode);
 		}
 
