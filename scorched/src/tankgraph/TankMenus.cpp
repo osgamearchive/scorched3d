@@ -56,7 +56,7 @@ TankMenus::TankMenus() : logger_("ClientLog")
 	new GLConsoleRuleMethodIAdapterEx<TankMenus>(
 		this, &TankMenus::say, "Say");
 	new GLConsoleRuleMethodIAdapterEx<TankMenus>(
-		this, &TankMenus::say, "Teamsay");
+		this, &TankMenus::teamsay, "Teamsay");
 	new GLConsoleRuleFnIBooleanAdapter(
 		"ComsMessageLogging", 
 		ScorchedClient::instance()->getComsMessageHandler().getMessageLogging());

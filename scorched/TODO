@@ -25,6 +25,8 @@ Fixed: Remove waiting for non-crucial items like nukes + debris
 Fixed: Idle counter for player increases when buy time exceeded
 Fixed: Player resigns only take place at the end of the round
 Fixed: Load fail safe settings dialog is only displayed after a sigsegv 
+Fixed: Server coms should be more responsive
+Fixed: Client failed to read 3/4 message
 
 Changed: Changed free market ecconmy so price decreases are slower
 Changed: Tank can move up and down bigger slopes (configurable)
