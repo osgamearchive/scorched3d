@@ -131,11 +131,12 @@ void ScoreDialog::draw()
 	bool server = (OptionsParam::instance()->getConnectedToServer());
 	if (server)
 	{
-		GLWFont::instance()->getLargePtFont()->draw(
-				white,
-				18,
-				x_ + 8.0f, y_ + h_ - 41.0f, 0.0f,
-				ScorchedClient::instance()->getOptionsGame().getServerName());
+		GLWFont::instance()->getLargePtFont()->drawWidth(
+			405,
+			white,
+			18,
+			x_ + 8.0f, y_ + h_ - 41.0f, 0.0f,
+			ScorchedClient::instance()->getOptionsGame().getServerName());
 	}
 
 	if (!finished)
