@@ -43,7 +43,7 @@ protected:
 	int lastWinsValue_;
 
 	void calculateScores();
-	void addLine(Tank *current, float y, char *rank);
+	void addLine(Tank *current, float y, char *rank, bool finished);
 	void addScoreLine(float y, int kills, int money, int wins);
 
 private:

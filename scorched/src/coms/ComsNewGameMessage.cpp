@@ -24,7 +24,8 @@
 #include <server/ScorchedServer.h>
 
 ComsNewGameMessage::ComsNewGameMessage() :
-	ComsMessage("ComsNewGameMessage")
+	ComsMessage("ComsNewGameMessage"),
+	gameStateEnclosed_(false)
 {
 
 }
@@ -38,7 +39,6 @@ void ComsNewGameMessage::addGameState()
 {
 	gameStateEnclosed_ = true;
 }
-
 
 bool ComsNewGameMessage::writeMessage(NetBuffer &buffer)
 {

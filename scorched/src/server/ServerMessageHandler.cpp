@@ -88,7 +88,8 @@ void ServerMessageHandler::destroyPlayer(unsigned int tankId)
 	Tank *tank = ScorchedServer::instance()->getTankContainer().removeTank(tankId);
 	if (tank)
 	{
-		Logger::log(tankId, "Player disconnected \"%i\" \"%s\"", 
+		Logger::log(0, 
+			"Player disconnected \"%i\" \"%s\"", 
 			tankId, tank->getName());
 
 		StatsLogger::instance()->tankLeft(tank);

@@ -186,9 +186,13 @@ static void createControls(wxWindow *parent, wxSizer *sizer)
 	wxStaticBoxSizer *miscSizer = new wxStaticBoxSizer(miscBox, wxHORIZONTAL);
 	wxGridSizer *miscSizer2 = new wxGridSizer(3, 3, 10, 10);
 	IDC_INVERT_CTRL = 
-		new wxCheckBox(parent, -1, "Invert up/down keys",
+		new wxCheckBox(parent, -1, "Invert elevation direction",
 		wxDefaultPosition, wxSize((int) 150, (int) -1));
 	miscSizer2->Add(IDC_INVERT_CTRL, 0);
+	IDC_INVERTMOUSE_CTRL = 
+		new wxCheckBox(parent, -1, "Invert mouse direction",
+		wxDefaultPosition, wxSize((int) 150, (int) -1));
+	miscSizer2->Add(IDC_INVERTMOUSE_CTRL, 0);
 	IDC_TIMER_CTRL = 
 		new wxCheckBox(parent, -1, "Show frames per second",
 		wxDefaultPosition, wxSize((int) 150, (int) -1));
@@ -197,6 +201,10 @@ static void createControls(wxWindow *parent, wxSizer *sizer)
 		new wxCheckBox(parent, -1, "No Sound",
 		wxDefaultPosition, wxSize((int) 150, (int) -1));
 	miscSizer2->Add(IDC_NOSOUND_CTRL, 0);
+	IDC_TOOLTIP_CTRL = 
+		new wxCheckBox(parent, -1, "Show ToolTips",
+		wxDefaultPosition, wxSize((int) 150, (int) -1));
+	miscSizer2->Add(IDC_TOOLTIP_CTRL, 0);
 	miscSizer->Add(miscSizer2, 0, wxGROW);
 	sizer->Add(miscSizer, 0, wxGROW | wxLEFT | wxRIGHT | wxTOP, 5);
 

@@ -78,7 +78,7 @@ public:
 	by the caller (ever) as the renderer may still have a reference to them.
 	These bilboards must be global objects that are never deleted.
 	*/
-	void removeEntry(GLBilboardOrderedEntry *entry, bool deleteItem = false);
+	void removeEntry(GLBilboardOrderedEntry *entry, bool deleteItem);
 
 	// Inherited from Interfaces
 	virtual void itemsSetup();

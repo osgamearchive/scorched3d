@@ -52,9 +52,9 @@ Napalm::~Napalm()
 		itor++)
 	{
 		NapalmEntry *entry = (*itor);
-		GLBilboardRenderer::instance()->removeEntry(entry->renderEntry1);
-		GLBilboardRenderer::instance()->removeEntry(entry->renderEntry2);
-		GLBilboardRenderer::instance()->removeEntry(entry->renderEntry3);		
+		GLBilboardRenderer::instance()->removeEntry(entry->renderEntry1, true);
+		GLBilboardRenderer::instance()->removeEntry(entry->renderEntry2, true);
+		GLBilboardRenderer::instance()->removeEntry(entry->renderEntry3, true);		
 	}
 }
 
@@ -163,9 +163,9 @@ void Napalm::simulateRmStep()
 	int y = entry->posY;
 	if (!context_->serverMode)
 	{
-		GLBilboardRenderer::instance()->removeEntry(entry->renderEntry1);
-		GLBilboardRenderer::instance()->removeEntry(entry->renderEntry2);
-		GLBilboardRenderer::instance()->removeEntry(entry->renderEntry3);
+		GLBilboardRenderer::instance()->removeEntry(entry->renderEntry1, true);
+		GLBilboardRenderer::instance()->removeEntry(entry->renderEntry2, true);
+		GLBilboardRenderer::instance()->removeEntry(entry->renderEntry3, true);
 	}
 	delete entry;
 

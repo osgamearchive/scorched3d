@@ -81,8 +81,11 @@ public:
 	bool getFullClear() { return fullClear_.getValue(); }
 	void setFullClear(bool value) { fullClear_.setValue(value); }
 
-	bool getInvertUpDownKey() { return invertUpDownKey_.getValue(); }
-	void setInvertUpDownKey(bool value) { invertUpDownKey_.setValue(value); }
+	bool getInvertElevation() { return invertElevation_.getValue(); }
+	void setInvertElevation(bool value) { invertElevation_.setValue(value); }
+
+	bool getInvertMouse() { return invertMouse_.getValue(); }
+	void setInvertMouse(bool value) { invertMouse_.setValue(value); }
 
 	bool getNoGLExt() { return noGLExt_.getValue(); }
 	void setNoGLExt(bool value) { noGLExt_.setValue(value); }
@@ -235,7 +238,8 @@ protected:
 	OptionEntryBool noGLEnvCombine_;
 	OptionEntryBool noGLCubeMap_;
 	OptionEntryBool noGLHardwareMipmaps_;
-	OptionEntryBool invertUpDownKey_;
+	OptionEntryBool invertElevation_;
+	OptionEntryBool invertMouse_;
 	OptionEntryBool noSound_;
 	OptionEntryBool drawNormals_;
 	OptionEntryBool drawLines_;

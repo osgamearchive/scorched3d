@@ -45,7 +45,7 @@ TalkRenderer::TalkRenderer(Vector &position) :
 
 TalkRenderer::~TalkRenderer()
 {
-	GLBilboardRenderer::instance()->removeEntry(bilEntry_);
+	GLBilboardRenderer::instance()->removeEntry(bilEntry_, true);
 }
 
 void TalkRenderer::draw(Action *action)

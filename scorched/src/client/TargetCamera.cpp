@@ -21,6 +21,7 @@
 #include <client/TargetCamera.h>
 #include <client/ScorchedClient.h>
 #include <actions/CameraPositionAction.h>
+#include <common/OptionsDisplay.h>
 #include <landscape/Landscape.h>
 #include <tankai/TankAIHuman.h>
 #include <common/Keyboard.h>
@@ -301,6 +302,11 @@ void TargetCamera::mouseDrag(GameState::MouseButton button,
 	cameraPos_ = CamFree;
 	if (button == GameState::MouseButtonRight)
 	{
+		if (OptionsDisplay::instance()->getInvertMouse())
+		{
+			y = -y;
+		}
+
 		const float QPI = 3.14f / 180.0f;
 		mainCam_.movePositionDelta(
 			(GLfloat) (x) * QPI,

@@ -63,7 +63,7 @@ bool ClientRmPlayerHandler::processMessage(unsigned int id,
 	else
 	{
 		// Print out info about removed tank
-		Logger::log(message.getPlayerId(), "Player disconnected \"%s\"",
+		Logger::log(0, "Player disconnected \"%s\"",
 					tank->getName());	
 	}
 

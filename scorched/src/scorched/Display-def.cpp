@@ -63,6 +63,8 @@ static wxSlider *IDC_SLIDER1_CTRL = 0;
 static wxCheckBox *IDC_SINGLESKYLAYER_CTRL = 0;
 static wxCheckBox *IDC_NOSKYANI_CTRL = 0;
 static wxCheckBox *IDC_NOWATERANI_CTRL = 0;
+static wxCheckBox *IDC_TOOLTIP_CTRL = 0;
+static wxCheckBox *IDC_INVERTMOUSE_CTRL = 0;
 static wxTextCtrl *IDC_USERID_CTRL = 0;
 static wxTextCtrl *IDC_HOSTDESC_CTRL = 0;
 

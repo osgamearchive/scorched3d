@@ -64,7 +64,7 @@ void GLWTracker::mouseDrag(float mx, float my, float x, float y, bool &skipRest)
 		if (keyState & KMOD_LSHIFT) rangeMult = 0.5f;
 
 		currentX_ -= x / w_ * range_ * rangeMult;
-		if (OptionsDisplay::instance()->getInvertUpDownKey())
+		if (OptionsDisplay::instance()->getInvertElevation())
 		{
 			rangeMult = -rangeMult;
 		}

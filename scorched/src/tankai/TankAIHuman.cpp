@@ -237,7 +237,7 @@ void TankAIHuman::moveUpDown(char *buffer, unsigned int keyState, float frameTim
 	KeyboardKey *downKey = staticDownKey;
 	KeyboardKey *downSlowKey = staticDownSlowKey;
 	KeyboardKey *downFastKey = staticDownFastKey;
-	if (OptionsDisplay::instance()->getInvertUpDownKey())
+	if (OptionsDisplay::instance()->getInvertElevation())
 	{
 		upKey = staticDownKey;
 		upSlowKey = staticDownSlowKey;

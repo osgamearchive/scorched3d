@@ -43,6 +43,7 @@
 #include <client/WindowSetup.h>
 #include <server/ScorchedServer.h>
 #include <GLEXT/GLConsoleFileReader.h>
+#include <GLEXT/GLConsole.h>
 #include <GLW/GLWWindowSkinManager.h>
 #include <tankai/TankAIStore.h>
 #include <landscape/HeightMapCollision.h>
@@ -64,6 +65,7 @@
 #include <common/Display.h>
 #include <common/Gamma.h>
 #include <common/Sound.h>
+#include <common/Clock.h>
 #include <SDL/SDL.h>
 
 bool initHardware(ProgressCounter *progressCounter)
@@ -206,6 +208,7 @@ bool clientMain()
 	OptionsDisplay::instance()->addToConsole();
 
 	// Enter the SDL main loop to process SDL events
+	Clock loopClock;
 	bool paused = false;
 	SDL_Event event;
 	for (;;)
@@ -250,21 +253,38 @@ bool clientMain()
 		} else {
 			idle = true;
 		}
+		if (loopClock.getTimeDifference() > 0.1f) 
+			GLConsole::instance()->addLine(false, "Clock clientMain 1");
 
 		if (!ScorchedClient::instance()->getMainLoop().mainLoop()) break;
+		if (loopClock.getTimeDifference() > 0.1f) 
+			GLConsole::instance()->addLine(false, "Clock clientMain 2");
+
 		if ((!paused) && (idle) ) ScorchedClient::instance()->getMainLoop().draw();
+		if (loopClock.getTimeDifference() > 0.1f) 
+			GLConsole::instance()->addLine(false, "Clock clientMain 3");
+
 		if (paused) SDL_Delay(100);  // Otherwise when not drawing graphics its an infinite loop
+		if (loopClock.getTimeDifference() > 0.1f) 
+			GLConsole::instance()->addLine(false, "Clock clientMain 4");
 
 		if (!OptionsParam::instance()->getConnectedToServer())
 		{
 			serverLoop();
 		}
+		if (loopClock.getTimeDifference() > 0.1f) 
+			GLConsole::instance()->addLine(false, "Clock clientMain 5");
 
 		Logger::processLogEntries();
+		if (loopClock.getTimeDifference() > 0.1f) 
+			GLConsole::instance()->addLine(false, "Clock clientMain 6");
+
 		if (ScorchedClient::instance()->getContext().netInterface)
 		{
 			ScorchedClient::instance()->getNetInterface().processMessages();
 		}
+		if (loopClock.getTimeDifference() > 0.1f) 
+			GLConsole::instance()->addLine(false, "Clock clientMain 7");
 	}
 
 	Gamma::instance()->reset();

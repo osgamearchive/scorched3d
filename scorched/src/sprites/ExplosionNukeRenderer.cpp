@@ -131,7 +131,7 @@ ExplosionNukeRenderer::~ExplosionNukeRenderer()
 	for (;itor != enditor; itor++)
 	{
 		Entry *entry = *itor;
-		GLBilboardRenderer::instance()->removeEntry(entry);
+		GLBilboardRenderer::instance()->removeEntry(entry, true);
 	}
 }
 
@@ -179,7 +179,7 @@ void ExplosionNukeRenderer::simulate(Action *action, float frameTime, bool &remo
 			entries_.back()->position_ >= ExplosionNukeRenderer_STEPS)
 		{
 			Entry *entry = entries_.back();
-			GLBilboardRenderer::instance()->removeEntry(entry);
+			GLBilboardRenderer::instance()->removeEntry(entry, true);
 			entries_.pop_back();
 		}
 

@@ -45,6 +45,7 @@ Added: Free market economy
 Added: Window and font sizes can be set seperately from screen resolution
 Added: Can choose to revert back to any previous shot setting made in the round
 Added: Aiming dialog so users can aim using the mouse
+Added: Bot type shown at the end of a single player game
 
 Fixed: Sound crash on various on board sound cards
 Fixed: Intel 8xxG graphics card cubemap and compiled vertex array problems

@@ -462,7 +462,7 @@ void LandscapeObjects::removeAllTrees()
 	for (; itor != enditor; itor++)
 	{
 		LandscapeObjectOrderedEntry *entry = (*itor).second;
-		GLOrderedItemRenderer::instance()->rmEntry(entry);
+		GLOrderedItemRenderer::instance()->rmEntry(entry, true);
 	}	
 	entries_.clear();
 }
@@ -479,7 +479,7 @@ void LandscapeObjects::removeTrees(unsigned int x, unsigned int y)
 	for (iter = lower; iter != upper; iter++)
 	{
 		LandscapeObjectOrderedEntry *entry = (*iter).second;
-		GLOrderedItemRenderer::instance()->rmEntry(entry);
+		GLOrderedItemRenderer::instance()->rmEntry(entry, true);
 	}
 	entries_.erase(lower, upper);
 }

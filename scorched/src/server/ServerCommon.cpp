@@ -104,7 +104,7 @@ void ServerCommon::kickDestination(unsigned int destinationId)
 			sendString(0,
 				"Player \"%s\" has been kicked from the server",
 				tank->getName(), tank->getPlayerId());
-			Logger::log(tank->getPlayerId(), "Kicking client \"%s\" \"%i\"", 
+			Logger::log(0, "Kicking client \"%s\" \"%i\"", 
 				tank->getName(), tank->getPlayerId());
 		}
 	}

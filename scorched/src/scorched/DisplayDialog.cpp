@@ -122,7 +122,10 @@ void DisplayFrame::refreshScreen()
 	IDC_NOTREES_CTRL->SetValue(OptionsDisplay::instance()->getNoTrees());
 	IDC_NOWAVES_CTRL->SetValue(OptionsDisplay::instance()->getNoWaves());
 	IDC_NODEPTHSORT_CTRL->SetValue(OptionsDisplay::instance()->getNoDepthSorting());
-	IDC_INVERT_CTRL->SetValue(OptionsDisplay::instance()->getInvertUpDownKey());
+	IDC_INVERT_CTRL->SetValue(OptionsDisplay::instance()->getInvertElevation());
+	IDC_INVERTMOUSE_CTRL->SetValue(OptionsDisplay::instance()->getInvertMouse());
+	IDC_INVERTMOUSE_CTRL->SetValue(OptionsDisplay::instance()->getInvertMouse());
+	IDC_TOOLTIP_CTRL->SetValue(OptionsDisplay::instance()->getShowContextHelp());
 	IDC_TIMER_CTRL->SetValue(OptionsDisplay::instance()->getFrameTimer());
 	IDC_SLIDER1_CTRL->SetRange(3, 40);
 	IDC_SLIDER1_CTRL->SetValue(OptionsDisplay::instance()->getBrightness());
@@ -259,7 +262,9 @@ bool DisplayFrame::TransferDataFromWindow()
 	OptionsDisplay::instance()->setNoWaterMovement(IDC_NOWATERANI_CTRL->GetValue());
 	OptionsDisplay::instance()->setBrightness(IDC_SLIDER1_CTRL->GetValue());
 	OptionsDisplay::instance()->setDrawWater(!IDC_NOWATER_CTRL->GetValue());
-	OptionsDisplay::instance()->setInvertUpDownKey(IDC_INVERT_CTRL->GetValue());
+	OptionsDisplay::instance()->setInvertElevation(IDC_INVERT_CTRL->GetValue());
+	OptionsDisplay::instance()->setInvertMouse(IDC_INVERTMOUSE_CTRL->GetValue());
+	OptionsDisplay::instance()->setShowContextHelp(IDC_TOOLTIP_CTRL->GetValue());
 	OptionsDisplay::instance()->setFrameTimer(IDC_TIMER_CTRL->GetValue());
 	OptionsDisplay::instance()->setUniqueUserId(IDC_USERID_CTRL->GetValue());
 	OptionsDisplay::instance()->setHostDescription(IDC_HOSTDESC_CTRL->GetValue());

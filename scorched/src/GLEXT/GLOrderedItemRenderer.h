@@ -50,7 +50,7 @@ public:
 	// Public Interface, use add entry to add bilboard
 	static GLOrderedItemRenderer *instance();
 	void addEntry(OrderedEntry *entry);
-	void rmEntry(OrderedEntry *entry, bool deleteItem = true);
+	void rmEntry(OrderedEntry *entry, bool deleteItem);
 	void addSetup(GLOrderedItemRendererProviderSetup *setup);
 
 	// Inherited from GameStateI

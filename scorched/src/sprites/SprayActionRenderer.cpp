@@ -68,7 +68,7 @@ SprayActionRenderer::~SprayActionRenderer()
 	for (;itor != enditor; itor++)
 	{
 		Entry *entry = *itor;
-		GLBilboardRenderer::instance()->removeEntry(entry);		
+		GLBilboardRenderer::instance()->removeEntry(entry, true);		
 	}
 	entries_.clear();
 }

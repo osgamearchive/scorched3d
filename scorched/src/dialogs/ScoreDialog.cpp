@@ -26,10 +26,12 @@
 #include <common/OptionsGame.h>
 #include <client/ClientState.h>
 #include <client/ScorchedClient.h>
+#include <server/ScorchedServer.h>
+#include <tankai/TankAIComputer.h>
 #include <stdio.h>
 
 static const float rankLeft = 5.0f;
-static const float nameLeft = 20.0f;
+static const float nameLeft = 25.0f;
 static const float killsLeft = 205.0f;
 static const float moneyLeft = 260.0f;
 static const float winsLeft = 360.0f;
@@ -119,7 +121,8 @@ void ScoreDialog::draw()
 	GLState newState(GLState::TEXTURE_OFF | GLState::DEPTH_OFF);
 
 	Vector white(0.9f, 0.9f, 1.0f);
-	bool finished = (ScorchedClient::instance()->getGameState().getState() == ClientState::StateScore);
+	bool finished = (ScorchedClient::instance()->getGameState().getState() == 
+		ClientState::StateScore);
 	GLWFont::instance()->getLargePtFont()->draw(
 			white,
 			20,
@@ -201,7 +204,7 @@ void ScoreDialog::draw()
 			if (current && current->getTeam() == 1 && !current->getState().getSpectator()) 
 			{
 				teamOne = true;
-				addLine(current, y, (char *)(winningTeam!=2?"1":"2"));
+				addLine(current, y, (char *)(winningTeam!=2?"1":"2"), finished);
 				winsOne += current->getScore().getWins();
 				killsOne += current->getScore().getKills();
 				moneyOne += current->getScore().getMoney();
@@ -226,7 +229,7 @@ void ScoreDialog::draw()
 			if (current && current->getTeam() == 2 && !current->getState().getSpectator()) 
 			{
 				teamTwo = true;
-				addLine(current, y, (char *)(winningTeam!=1?"1":"2"));
+				addLine(current, y, (char *)(winningTeam!=1?"1":"2"), finished);
 				winsTwo += current->getScore().getWins();
 				killsTwo += current->getScore().getKills();
 				moneyTwo += current->getScore().getMoney();
@@ -258,7 +261,7 @@ void ScoreDialog::draw()
 			{
 				sprintf(strrank, "%i", rank);
 
-				addLine(current, y, strrank);
+				addLine(current, y, strrank, finished);
 				tmpLastScoreValue += current->getScore().getMoney();
 				tmpLastWinsValue += current->getScore().getWins();
 				y+= lineSpacer;
@@ -273,10 +276,11 @@ void ScoreDialog::draw()
 		itor ++)
 	{
 		unsigned int playerId = (*itor);
-		Tank *current = ScorchedClient::instance()->getTankContainer().getTankById(playerId);
+		Tank *current = ScorchedClient::instance()->
+			getTankContainer().getTankById(playerId);
 		if (current && current->getState().getSpectator()) 
 		{
-			addLine(current, y, " ");
+			addLine(current, y, " ", false);
 			y+= lineSpacer;
 		}
 	}	
@@ -315,7 +319,7 @@ void ScoreDialog::addScoreLine(float y, int kills, int money, int wins)
 		wins);	
 }
 
-void ScoreDialog::addLine(Tank *current, float y, char *rank)
+void ScoreDialog::addLine(Tank *current, float y, char *rank, bool finished)
 {
 	float textX = x_;
 	float textY  = y_ + h_ - y - lineSpacer - 25.0f;
@@ -340,7 +344,18 @@ void ScoreDialog::addLine(Tank *current, float y, char *rank)
 	// Form the name
 	static char name[256];
 	strcpy(name, current->getName());
-	if (current->getState().getState() != TankState::sNormal)
+	if (finished && ! OptionsParam::instance()->getConnectedToServer())
+	{
+		strcat(name, " (");
+		Tank *serverTank = 
+			ScorchedServer::instance()->getTankContainer().getTankById(
+			current->getPlayerId());
+		TankAI *tankAI = serverTank->getTankAI();
+		if (tankAI) strcat(name, ((TankAIComputer *) tankAI)->getName());
+		else strcat(name, "Human");
+		strcat(name, ")");
+	}
+	else if (current->getState().getState() != TankState::sNormal)
 	{
 		strcat(name, " (");
 		strcat(name, current->getState().getSmallStateString());

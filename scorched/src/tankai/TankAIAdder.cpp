@@ -95,7 +95,8 @@ void TankAIAdder::addTankAI(ScorchedContext &context,
 				context.tankContainer));
 		}
 
-		Logger::log(tank->getPlayerId(), "Player connected \"%i\" \"%s\"",
+		Logger::log(0, 
+			"Player connected \"%i\" \"%s\"",
 			tank->getPlayerId(),
 			tank->getName());
 

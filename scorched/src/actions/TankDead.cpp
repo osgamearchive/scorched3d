@@ -88,7 +88,7 @@ void TankDead::simulate(float frameTime, bool &remove)
 					{
 						StatsLogger::instance()->
 							tankSelfKilled(firedTank, weapon_);
-						Logger::log(firedPlayerId_,
+						Logger::log(0,
 							"\"%s\" killed self with a \"%s\"",
 							killedTank->getName(),
 							weapon_->getName());
@@ -98,7 +98,7 @@ void TankDead::simulate(float frameTime, bool &remove)
 					{
 						StatsLogger::instance()->
 							tankTeamKilled(firedTank, killedTank, weapon_);
-						Logger::log(firedPlayerId_,
+						Logger::log(0,
 								"\"%s\" team killed \"%s\" with a \"%s\"",
 								firedTank->getName(),
 								killedTank->getName(),
@@ -108,7 +108,7 @@ void TankDead::simulate(float frameTime, bool &remove)
 					{
 						StatsLogger::instance()->
 							tankKilled(firedTank, killedTank, weapon_);
-						Logger::log(firedPlayerId_,
+						Logger::log(0,
 								"\"%s\" killed \"%s\" with a \"%s\"",
 								firedTank->getName(),
 								killedTank->getName(),

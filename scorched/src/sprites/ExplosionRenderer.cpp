@@ -103,8 +103,8 @@ ExplosionRenderer::ExplosionSubPart::ExplosionSubPart()
 
 ExplosionRenderer::ExplosionSubPart::~ExplosionSubPart()
 {
-	GLBilboardRenderer::instance()->removeEntry(graphicEntry1_);
-	GLBilboardRenderer::instance()->removeEntry(graphicEntry2_);	
+	GLBilboardRenderer::instance()->removeEntry(graphicEntry1_, true);
+	GLBilboardRenderer::instance()->removeEntry(graphicEntry2_, true);	
 }
 
 void ExplosionRenderer::ExplosionSubPart::simulate(float frameTime)
