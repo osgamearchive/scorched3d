@@ -41,6 +41,7 @@
 #include <landscape/LandscapeMaps.h>
 #include <landscape/LandscapeDefn.h>
 #include <landscape/LandscapeDefinitions.h>
+#include <GLEXT/GLBitmap.h>
 #include <set>
 
 extern Clock serverTimer;
@@ -132,18 +133,9 @@ void ServerNewGameState::enterState(const unsigned state)
 	// Set the start positions for the tanks
 	// Must be generated after the level as it alters the
 	// level
-	if (0 == strcmp(defn->getDefn()->tankstarttype.c_str(), "height"))
-	{
-		LandscapeDefnStartHeight *height = (LandscapeDefnStartHeight *)
-			defn->getDefn()->tankstart;
-		calculateHeightStartPosition(height, ScorchedServer::instance()->getContext());
-	}
-	else
-	{
-		dialogExit("ServerNewGameState",
-			"Failed to find tank start type \"%s\"",
-			defn->getDefn()->tankstarttype.c_str());
-	}
+	calculateStartPosition(defn->getDefn()->tankstart, 
+		defn->getDefn()->tankstarttype.c_str(), 
+		ScorchedServer::instance()->getContext());
 
 	// Add pending tanks (all tanks should be pending) into the game
 	addTanksToGame(state, optionsChanged);
@@ -298,9 +290,37 @@ void ServerNewGameState::flattenArea(ScorchedContext &context, Vector &tankPos)
 	}
 }
 
-void ServerNewGameState::calculateHeightStartPosition(
-	LandscapeDefnStartHeight *defn, ScorchedContext &context)
+void ServerNewGameState::calculateStartPosition(
+	LandscapeDefnType *defn,
+	const char *type,
+	ScorchedContext &context)
 {
+	Vector tankPos;
+	float minHeight = -1000.0f;
+	float maxHeight = 1000.0f;
+	float tankCloseness = 0.0f;
+	GLBitmap tankMask(256, 256, false);
+
+	if (0 == strcmp(type, "height"))
+	{
+		LandscapeDefnStartHeight *height = 
+			(LandscapeDefnStartHeight *) defn;
+		minHeight = height->heightmin;
+		maxHeight = height->heightmax;
+		tankCloseness = height->startcloseness;
+		if (!height->startmask.empty())
+		{
+			tankMask.loadFromFile(getDataFile(height->startmask.c_str()));
+			DIALOG_ASSERT(tankMask.getBits());
+		}
+	}
+	else
+	{
+		dialogExit("ServerNewGameState",
+			"Failed to find tank start type \"%s\"",
+			type);
+	}
+
 	std::map<unsigned int, Tank *> &tanks = 
 		context.tankContainer->getPlayingTanks();
 	std::map<unsigned int, Tank *>::iterator mainitor;
@@ -309,13 +329,15 @@ void ServerNewGameState::calculateHeightStartPosition(
 		 mainitor != tanks.end();
 		 mainitor++)
 	{
-		Vector tankPos;
+		Tank *tank = (*mainitor).second;
+
 		bool tooClose = true;
-		float closeness = defn->startcloseness;
+		float closeness = tankCloseness;
 		while (tooClose)
 		{
-			// Find a new position for the tank
 			tooClose = false;
+
+			// Find a new position for the tank
 			float posX = float (context.landscapeMaps->getHMap().getWidth() - tankBorder * 2) * 
 				RAND + float(tankBorder);
 			float posY = float (context.landscapeMaps->getHMap().getWidth() - tankBorder * 2) * 
@@ -325,14 +347,52 @@ void ServerNewGameState::calculateHeightStartPosition(
 			tankPos = Vector(posX, posY, height);
 
 			// Make sure not lower than water line
-			// And that the tank is not too close to other tanks
-			if (tankPos[2] < defn->heightmin ||
-				tankPos[2] > defn->heightmax) 
+			if (tankPos[2] < minHeight ||
+				tankPos[2] > maxHeight) 
 			{
 				tooClose = true;
 				closeness -= 0.1f;
 			}
-			else
+			
+			// Make sure the mask allows the tank
+			if (!tooClose)
+			{
+				// Find the mask position
+				int maskX = int(posX * float(tankMask.getWidth())) / 
+					context.landscapeMaps->getHMap().getWidth();
+				int maskY = int(posY * float(tankMask.getHeight())) / 
+					context.landscapeMaps->getHMap().getWidth();
+				unsigned char *maskPos = tankMask.getBits() +
+					maskY * 3 + maskX * tankMask.getWidth() * 3;
+
+				switch(tank->getTeam())
+				{
+				case 0:
+					if (maskPos[0] == 0 && maskPos[2] == 0)
+					{
+						tooClose = true;
+						closeness -= 0.1f;
+					}
+					break;
+				case 1:
+					if (maskPos[0] == 0)
+					{
+						tooClose = true;
+						closeness -= 0.1f;
+					}
+					break;
+				case 2:
+					if (maskPos[2] == 0)
+					{
+						tooClose = true;
+						closeness -= 0.1f;
+					}
+					break;
+				}
+			}
+
+			// Make sure the tank is not too close to other tanks
+			if (!tooClose)
 			{
 				std::map<unsigned int, Tank *>::iterator itor;
 				for (itor = tanks.begin();
@@ -359,7 +419,7 @@ void ServerNewGameState::calculateHeightStartPosition(
 	
 		// Set the starting position of the tank
 		flattenArea(context, tankPos);
-		(*mainitor).second->getPhysics().setTankPosition(tankPos);
+		tank->getPhysics().setTankPosition(tankPos);
 	}
 }
 

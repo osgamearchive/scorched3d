@@ -29,6 +29,7 @@
 #include <tank/TankContainer.h>
 #include <wx/wx.h>
 #include <wx/utils.h>
+#include <string.h>
 
 ServerBrowserInfo *ServerBrowserInfo::instance_ = 0;
 
@@ -73,9 +74,10 @@ void ServerBrowserInfo::processMessages()
 		NetInterface::getBytesIn() += packetV_[i]->len;
 		NetInterface::getPings() ++;
 
-		if (0 == strcmp((char *) packetV_[i]->data, "status")) processStatusMessage(buffer);
-		else if (0 == strcmp((char *) packetV_[i]->data, "info")) processInfoMessage(buffer);
-		else if (0 == strcmp((char *) packetV_[i]->data, "players")) processPlayerMessage(buffer);
+		// Only compare the first few characters so a NULL is not needed
+		if (0 == strncmp((char *) packetV_[i]->data, "status", 6)) processStatusMessage(buffer);
+		else if (0 == strncmp((char *) packetV_[i]->data, "info", 4)) processInfoMessage(buffer);
+		else if (0 == strncmp((char *) packetV_[i]->data, "players", 7)) processPlayerMessage(buffer);
 		else processPingMessage(buffer);
 		
 		int len = (int) strlen(buffer)+1;
@@ -144,7 +146,10 @@ void ServerBrowserInfo::processInfoMessage(char *buffer)
 		OptionEntry *entry = (*optionItor);
 		if (!(entry->getData() & OptionEntry::DataProtected))
 		{
-			addTag(buffer, entry->getName(), entry->getValueAsString());
+			if (strlen(entry->getValueAsString()) < 50)
+			{
+				addTag(buffer, entry->getName(), entry->getValueAsString());
+			}
 		}
 	}	
 	strcat(buffer, "/>");

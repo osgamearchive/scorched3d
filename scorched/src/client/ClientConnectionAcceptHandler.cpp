@@ -71,7 +71,8 @@ bool ClientConnectionAcceptHandler::processMessage(unsigned int id,
 
 	// Show the MOTD (Message of the Day) on the screen and
 	// rules dialog
-	RulesDialog::instance()->addMOTD(message.getMotd());
+	RulesDialog::instance()->addMOTD(
+		ScorchedClient::instance()->getOptionsGame().getMOTD());
 
 	// Set the mod
 	if (ScorchedClient::instance()->getOptionsGame().getMod()[0])

@@ -27,13 +27,11 @@ class ComsConnectAcceptMessage : public ComsMessage
 {
 public:
 	ComsConnectAcceptMessage(unsigned int destinationId = 0,
-		const char *serverName = "",
-		const char *motd = "");
+		const char *serverName = "");
 	virtual ~ComsConnectAcceptMessage();
 
 	unsigned int getDestinationId() { return destinationId_; }
 	const char *getServerName() { return serverName_.c_str(); }
-	const char *getMotd() { return motd_.c_str(); }
 
 	// Inherited from ComsMessage
     virtual bool writeMessage(NetBuffer &buffer);
@@ -42,7 +40,6 @@ public:
 protected:
 	unsigned int destinationId_;
 	std::string serverName_;
-	std::string motd_;
 
 private:
 	ComsConnectAcceptMessage(const ComsConnectAcceptMessage &);

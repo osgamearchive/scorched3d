@@ -25,12 +25,10 @@
 #include <common/OptionsGame.h>
 
 ComsConnectAcceptMessage::ComsConnectAcceptMessage(unsigned int destinationId,
-												   const char *serverName,
-												   const char *motd) :
+												   const char *serverName) :
 	ComsMessage("ComsConnectAcceptMessage"),
 	destinationId_(destinationId),
-	serverName_(serverName),
-	motd_(motd)
+	serverName_(serverName)
 {
 
 }
@@ -44,7 +42,6 @@ bool ComsConnectAcceptMessage::writeMessage(NetBuffer &buffer)
 {
 	buffer.addToBuffer(destinationId_);
 	buffer.addToBuffer(serverName_.c_str());
-	buffer.addToBuffer(motd_.c_str());
 	if (!ScorchedServer::instance()->getOptionsGame().
 		writeToBuffer(buffer, false)) return false;
 	if (!ScorchedServer::instance()->getAccessoryStore().
@@ -57,7 +54,6 @@ bool ComsConnectAcceptMessage::readMessage(NetBufferReader &reader)
 {
 	if (!reader.getFromBuffer(destinationId_)) return false;
 	if (!reader.getFromBuffer(serverName_)) return false;
-	if (!reader.getFromBuffer(motd_)) return false;
 	if (!ScorchedClient::instance()->getOptionsGame().
 		readFromBuffer(reader, false)) return false;
 	if (!ScorchedClient::instance()->getAccessoryStore().

@@ -29,7 +29,7 @@ GLWListView::GLWListView(float x, float y, float w, float h, int maxLen) :
 	scroll_(x + w - 17, y, h, 0, 1), maxLen_(maxLen)
 {
 	scroll_.setMax((int) lines_.size());
-	scroll_.setSee((int) (h_ / 9));
+	scroll_.setSee((int) (h_ / 12.0f));
 	scroll_.setCurrent(scroll_.getMax());
 }
 
@@ -52,9 +52,9 @@ void GLWListView::draw()
 		{
 			GLWFont::instance()->getSmallPtFont()->drawWidth(
 				(int) w_,
-				GLWFont::widgetFontColor, 8,
+				GLWFont::widgetFontColor, 10,
 				x_ + 5.0f, posY, 0.0f, "%s", lines_[i].c_str());
-			posY -= 9.0f;
+			posY -= 12.0f;
 
 			if (posY < y_) break;
 		}
@@ -108,7 +108,7 @@ void GLWListView::addLine(const char *fmt, ...)
 	lines_.push_back(text);
 
 	// Setup the current scroll position
-	int view = (int) (h_ / 8);
+	int view = (int) (h_ / 12.0f);
 
 	scroll_.setMax((int) lines_.size());
 	scroll_.setSee(view);

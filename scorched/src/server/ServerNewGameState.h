@@ -25,7 +25,7 @@
 
 // Sends out the new game message
 class ScorchedContext;
-class LandscapeDefnStartHeight;
+class LandscapeDefnType;
 class ServerNewGameState : 
 	public GameStateI
 {
@@ -41,7 +41,9 @@ public:
 	static void checkBots();
 
 protected:
-	void calculateHeightStartPosition(LandscapeDefnStartHeight *defn,
+	void calculateStartPosition(
+		LandscapeDefnType *defn,
+		const char *type,
 		ScorchedContext &contex);
 	void flattenArea(ScorchedContext &contex, Vector &pos);
 };

@@ -34,11 +34,12 @@ public:
 	virtual bool readMessage(NetBufferReader &reader) = 0;
 };
 
-class LandscapeDefnStartHeight: public LandscapeDefnType
+class LandscapeDefnStartHeight : public LandscapeDefnType
 {
 public:
 	float startcloseness;
 	float heightmin, heightmax;
+	std::string startmask;
 
 	virtual bool readXML(XMLNode *node);
 	virtual bool writeMessage(NetBuffer &buffer);

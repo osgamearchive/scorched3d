@@ -107,6 +107,11 @@ OptionsGame::OptionsGame() :
 		"The name of the server to start", 0, "No Name"),
 	mod_(options_, "Mod", 
 		"The name of currently running Scorched3D mod", 0, ""),
+	motd_(options_, "MOTD",
+		"The message of the day", 0, 
+		"Scorched3D : Copyright 2004 Gavin Camp\n"
+		"For updates and news visit:\n"
+		"http://www.scorched3d.co.uk"),
 	modDownloadSpeed_(options_, "ModDownloadSpeed",
 		"Max download speed of mods in bytes per second (0 == no mod download)", 0, 10000),
 	economy_(options_, "Economy", 

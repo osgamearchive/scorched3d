@@ -35,7 +35,11 @@ Changed: Changed free market ecconmy so price decreases are slower
 Changed: Tank can move up and down bigger slopes (configurable)
 Changed: Spread and hurts weapon primative options are now variable
 Changed: LeapFrog weapon primative bounce now variable
+Changed: Message of the day now defined in server.xml file
 
+Added: AIs can check to see if they will suicide
+Added: New cyborg AI that uses batteries
+Added: A way to allow tank spawn positions to be configured
 Added: Proper mag shield
 Added: Gale and breezy wind settings (for smaller random wind ranges)
 Added: Clever bots do not commit suicide
@@ -82,24 +86,22 @@ Shot cam does not get LOD correctly
 
 -- Things I am currently looking at
 Fix crashing when people win (Graphics card drivers??)
-Make AIs even better
-A way to allow tank spawn positions to be configured, bitmap landscapes only?
-A way to set the maximum and minimum players for a map
 Lightning, rain and meteors
 New surrounds instead of the water
 More dirt option for landscape (perhaps cannot go under water)
 Make rollers look better
 Guidance
 Add action replay type functionality
+AIs know how to dig
 
 -- Server Stuff
 Chat filter (swear words)
-Ban players 
+A way to set the maximum and minimum players for a map
 Web interface for server to change settings
 
 -- Client Stuff
 Option to reconnect when disconected from server.
-In local mode when it's the next person's turn, re-center the view to where they last had it, and display who's turn it is on the screen.
+In local mode when it's the next person's turn, re-center the view to where they last had it.
 Ability to re center view around other tanks
 keep track of views 
 Make a count down sound when timer runs out.

@@ -54,6 +54,7 @@ bool LandscapeDefnStartHeight::writeMessage(NetBuffer &buffer)
 	buffer.addToBuffer(startcloseness);
 	buffer.addToBuffer(heightmin);
 	buffer.addToBuffer(heightmax);
+	buffer.addToBuffer(startmask);
 	return true;
 }
 
@@ -62,6 +63,7 @@ bool LandscapeDefnStartHeight::readMessage(NetBufferReader &reader)
 	if (!reader.getFromBuffer(startcloseness)) return false;
 	if (!reader.getFromBuffer(heightmin)) return false;
 	if (!reader.getFromBuffer(heightmax)) return false;
+	if (!reader.getFromBuffer(startmask)) return false;
 	return true;
 }
 
@@ -71,6 +73,12 @@ bool LandscapeDefnStartHeight::readXML(XMLNode *node)
 		startcloseness)) return false;
 	if (!parseMinMax(node, "height", 
 		heightmin, heightmax)) return false;
+	if (!node->getNamedChild("startmask", 
+		startmask)) return false;
+	if (!startmask.empty())
+	{
+		if (!checkDataFile(startmask.c_str())) return false;
+	}
 	return node->failChildren();
 }
 

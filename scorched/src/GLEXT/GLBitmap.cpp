@@ -30,10 +30,10 @@ GLBitmap::GLBitmap() :
 
 }
 
-GLBitmap::GLBitmap(int startWidth, int startHeight, bool alpha) : 
+GLBitmap::GLBitmap(int startWidth, int startHeight, bool alpha, unsigned char fill) : 
 	width_(startWidth), height_(startHeight), alpha_(alpha), newbits_(0)
 {
-	createBlank(startWidth, startHeight, alpha);
+	createBlank(startWidth, startHeight, alpha, fill);
 }
 
 GLBitmap::GLBitmap(const char * filename, bool alpha) :
@@ -116,7 +116,7 @@ void GLBitmap::resize(int newWidth, int newHeight)
 	delete [] oldbits;
 }
 
-void GLBitmap::createBlank(int width, int height, bool alpha)
+void GLBitmap::createBlank(int width, int height, bool alpha, unsigned char fill)
 {
 	clear();
 	width_ = width;
@@ -125,7 +125,7 @@ void GLBitmap::createBlank(int width, int height, bool alpha)
 	int bitsize = getComponents() * width * height;
 
 	newbits_ = new GLubyte[bitsize];
-	memset(newbits_, 255, bitsize);
+	memset(newbits_, fill, bitsize);
 }
 
 void GLBitmap::clear()

@@ -78,9 +78,12 @@ void ConnectDialog::simulate(float frameTime)
 bool ConnectDialog::tryConnection()
 {
 	const char *serverName = 
-		OptionsParam::instance()->getConnect();
+		(OptionsParam::instance()->getConnect()[0]?
+		OptionsParam::instance()->getConnect():
+		"Localhost");
 	unsigned int noPlayers = 1;
-	LogDialog::instance()->setServerName(serverName);
+	LogDialog::instance()->setServerName(
+		formatString("Connecting to : %s", serverName));
 
 	LogDialog::instance()->logMessage("", 
 		"Atempting connection", 0);

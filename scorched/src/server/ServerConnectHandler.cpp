@@ -152,17 +152,10 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 		return true;
 	}
 
-	// Form the MOTD (Message of the day)
-	std::string motd;
-	FileLines motdFile;
-	motdFile.readFile((char *) getDataFile("data/motd.txt"));
-	motdFile.getAsOneLine(motd);
-
 	// Send the connection accepted message to the client
 	ComsConnectAcceptMessage acceptMessage(
 		destinationId,
-		ScorchedServer::instance()->getOptionsGame().getServerName(),
-		motd.c_str());
+		ScorchedServer::instance()->getOptionsGame().getServerName());
 	if (!ComsMessageSender::sendToSingleClient(acceptMessage, destinationId))
 	{
 		Logger::log(0,

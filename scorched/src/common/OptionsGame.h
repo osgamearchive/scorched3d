@@ -257,6 +257,10 @@ public:
 	void setMod(const char *value) { mod_.setValue(value); }
 	const char *getModToolTip() { return mod_.getDescription(); }
 
+	const char *getMOTD() { return motd_.getValue(); }
+	void setMOTD(const char *value) { motd_.setValue(value); }
+	const char *getMOTDToolTip() { return motd_.getDescription(); }
+
 	int getModDownloadSpeed() { return modDownloadSpeed_.getValue(); }
 	void setModDownloadSpeed(int value) { modDownloadSpeed_.setValue(value); }
 	const char *getModDownloadSpeedToolTip() { return modDownloadSpeed_.getDescription(); }
@@ -338,6 +342,7 @@ protected:
 	OptionEntryBoundedInt weapScale_;
 	OptionEntryInt modDownloadSpeed_;
 	OptionEntryString mod_;
+	OptionEntryString motd_;
 	OptionEntryString economy_;
 	OptionEntryString landscapes_;
 	OptionEntryString masterListServer_;

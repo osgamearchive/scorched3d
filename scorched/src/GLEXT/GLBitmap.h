@@ -46,7 +46,7 @@ public:
 	If alpha is true then the bitmap will have color 4 components (RGBA)
 	otherwise 3 (RGB).
     */
-	GLBitmap(int width, int height, bool alpha = false);
+	GLBitmap(int width, int height, bool alpha = false, unsigned char fill = 255);
 	/**
 	See: loadFromFile.
 	*/
@@ -69,7 +69,7 @@ public:
 	If alpha is true then the bitmap will have color 4 components (RGBA)
 	otherwise 3 (RGB).
     */
-	void createBlank(int width, int height, bool alpha = false);
+	void createBlank(int width, int height, bool alpha = false, unsigned char fill = 255);
 	/** 
 	Resets any component values to zero in the current bitmap.
 	Does not delete the internal storage.

@@ -7,6 +7,7 @@
 		<tankstart type="height">
 			<startcloseness>20</startcloseness>
 			<height><min>5.5</min><max>20</max></height>
+			<startmask></startmask>
 		</tankstart>
 		<heightmap type="generate">
 			<mask></mask>
@@ -37,6 +38,7 @@
 		<tankstart type="height">
 			<startcloseness>20</startcloseness>
 			<height><min>5.5</min><max>20</max></height>
+			<startmask></startmask>
 		</tankstart>
 		<heightmap type="generate">
 			<mask></mask>
@@ -65,8 +67,9 @@
 		<minplayers>0</minplayers>
 		<maxplayers>24</maxplayers>
 		<tankstart type="height">
-		<startcloseness>20</startcloseness>
+			<startcloseness>20</startcloseness>
 			<height><min>5.5</min><max>20</max></height>
+			<startmask></startmask>
 		</tankstart>
 		<heightmap type="generate">
 			<mask></mask>
@@ -95,8 +98,9 @@
 		<minplayers>0</minplayers>
 		<maxplayers>24</maxplayers>
 		<tankstart type="height">
-		<startcloseness>20</startcloseness>
+			<startcloseness>20</startcloseness>
 			<height><min>5.5</min><max>20</max></height>
+			<startmask></startmask>
 		</tankstart>
 		<heightmap type="generate">
 			<mask>data/landscapes/ridge-mask.bmp</mask>
@@ -125,8 +129,9 @@
 		<minplayers>0</minplayers>
 		<maxplayers>24</maxplayers>
 		<tankstart type="height">
-		<startcloseness>20</startcloseness>
+			<startcloseness>20</startcloseness>
 			<height><min>5.5</min><max>20</max></height>
+			<startmask></startmask>
 		</tankstart>
 		<heightmap type="generate">
 			<mask></mask>
@@ -155,8 +160,9 @@
 		<minplayers>0</minplayers>
 		<maxplayers>24</maxplayers>
 		<tankstart type="height">
-		<startcloseness>20</startcloseness>
+			<startcloseness>20</startcloseness>
 			<height><min>5.5</min><max>20</max></height>
+			<startmask>data/landscapes/half-mask-start.bmp</startmask>
 		</tankstart>
 		<heightmap type="generate">
 			<mask>data/landscapes/half-mask.bmp</mask>
@@ -185,8 +191,9 @@
 		<minplayers>0</minplayers>
 		<maxplayers>24</maxplayers>
 		<tankstart type="height">
-		<startcloseness>20</startcloseness>
+			<startcloseness>20</startcloseness>
 			<height><min>5.5</min><max>20</max></height>
+			<startmask></startmask>
 		</tankstart>
 		<heightmap type="generate">
 			<mask>data/landscapes/valley-mask.bmp</mask>

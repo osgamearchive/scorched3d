@@ -31,7 +31,8 @@ static void removeSpecialChars(std::string &content, std::string &result)
 	for (char *c=(char *) content.c_str(); *c; c++)
 	{
 		char newchar = *c;
-		if (*c < 32 || *c > 126) result += ' ';
+		if (*c == '\n') result += "&#10;";
+		else if (*c < 32 || *c > 126) result += " ";
 		else if (*c == '>') result += "&gt;";
 		else if (*c == '<') result += "&lt;";
 		else if (*c == '\'') result += "&apos;";
@@ -54,7 +55,17 @@ static void addSpecialChars(std::string &content, std::string &result)
 			else if (strstr(c, "&apos;") == c) { result += '\''; c+=5; }
 			else if (strstr(c, "&quot;") == c) { result += '"'; c+=5; }
 			else if (strstr(c, "&amp;") == c) { result += '&'; c+=4; }
-			else if (strstr(c, "&#37;") == c) { result += '%'; c+=4; }
+			else if (strstr(c, "&#") == c)
+			{
+				char *pos = strchr(c, ';');
+				if (pos <= c + 3)
+				{
+					c+=2;
+					result += formatString("%c", atoi(c));
+					*pos = '\0';
+					c = pos + 1;
+				}
+			}
 			else result += *c;
 		}
 		else result += *c;
