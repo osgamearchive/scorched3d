@@ -9,10 +9,13 @@ Added: Can set the number of text rows shown at bottom of screen
 Added: Secondary camera view, that shows the shot cam when enabled
 Added: Pressing enter on the quit dialog quits the game
 
+Fixed: Coms wont pause during send from client when already sending/receiving
 Fixed: Screen mode is restored when quit is chosen from console
 Fixed: Random ordering mode only worked for non-buy rounds
+Fixed: Camera shake lasting far too long
 
 -- Bugs in current development release
+Problem with certain buffer checks
 Dvorak keyboard support is broken
 The server can start multiple times on the same port (windows only)!
 Gun fires at same point for all tanks (ignores turret/gun position in model)

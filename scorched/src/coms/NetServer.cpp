@@ -26,7 +26,7 @@
 #include <common/Logger.h>
 
 NetServer::NetServer(NetServerProtocol *protocol) : 
-	sockSet_(0), 
+	sockSet_(0), firstDestination_(0),
 	server_(0), outgoingMessagesMutex_(0),
 	protocol_(protocol)
 {
@@ -222,6 +222,7 @@ void NetServer::addClient(TCPsocket client)
 	SDL_LockMutex(setMutex_);
 	connections_.insert(client);
 	updateSockSet();
+	firstDestination_ = (unsigned int) (*connections_.begin());
 	SDL_UnlockMutex(setMutex_);
 }
 
@@ -304,12 +305,7 @@ void NetServer::disconnectClient(unsigned int dest)
 
 void NetServer::sendMessage(NetBuffer &buffer)
 {
-	SDL_LockMutex(setMutex_);
-	DIALOG_ASSERT(!connections_.empty());
-	TCPsocket destination = *connections_.begin();
-	SDL_UnlockMutex(setMutex_);
-
-	sendMessage(buffer, (unsigned int) destination);
+	sendMessage(buffer, firstDestination_);
 }
 
 void NetServer::sendMessage(NetBuffer &buffer, unsigned int dest)

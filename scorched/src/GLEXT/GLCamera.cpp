@@ -158,6 +158,7 @@ void GLCamera::draw()
 void GLCamera::addShake(float shake)
 {
 	shake_ += shake;
+	if (shake_ > 5.0f) shake_ = 5.0f;
 }
 
 void GLCamera::movePosition(float XY, float YZ, float Z)

@@ -48,6 +48,7 @@ protected:
 	NetServerProtocol *protocol_;
 	TCPsocket server_;
 	SDLNet_SocketSet sockSet_;
+	unsigned int firstDestination_;
 	std::set<TCPsocket> connections_;
 	std::list<NetMessage *> outgoing_;
 	SDL_mutex *outgoingMessagesMutex_;
