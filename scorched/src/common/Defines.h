@@ -73,6 +73,7 @@ extern const char *getGlobalModFile(const char *file, ...);
 #define acosf(x) ((float)acos(x))
 #define atan2f(x,y) ((float)atan2(x,y))
 #define powf(x,y) ((float)pow(x,y))
+#define floorf(x) ((float)floor(x))
 
 #endif
 
