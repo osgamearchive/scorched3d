@@ -29,6 +29,8 @@ class CameraDialog : public GLWWindow
 public:
 	static CameraDialog *instance();
 
+	TargetCamera &getCamera() { return targetCam_; }
+
 	// Inherited from GLWWindow
 	virtual void draw();
 	virtual void simulate(float frameTime);

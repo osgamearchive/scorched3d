@@ -34,6 +34,8 @@
 #include <common/Defines.h>
 #include <common/OptionsDisplay.h>
 #include <client/ScorchedClient.h>
+#include <client/MainCamera.h>
+#include <dialogs/CameraDialog.h>
 #include <engine/ActionController.h>
 #include <time.h>
 
@@ -402,6 +404,10 @@ void Landscape::reset()
 	changeCount_++;
 	water_.reset();
 	ScorchedClient::instance()->getParticleEngine().killAll();
+	MainCamera::instance()->getTarget().
+		getPrecipitationEngine().killAll();
+	CameraDialog::instance()->getCamera().
+		getPrecipitationEngine().killAll();
 }
 
 void Landscape::restoreLandscapeTexture()
