@@ -1,8 +1,4 @@
--- Bugs Fixed and Ready For Relase 36.1
-FIXED: Small changes to allow compilation under FreeBSD
-FIXED: Dedicated server crashes when using napalm and fuel
-FIXED: Client crashes on machines with large number of GL extensions
-FIXED: Client crashes due to different locales causing number format differences
+-- Bugs Fixed and Ready For Release 
 
 -- Bugs in current development release
 Fonts sometimes black-out (not seen for a while, fixed??)
@@ -19,6 +15,7 @@ Ban players
 Loadable maps?
 
 -- Client Stuff
+Camera looks jerky when following missiles
 In local mode when it's the next person's turn, re-center the view to where they last had it, and display who's turn it is on the screen.
 ability to re center view around other tanks
 keep track of money after you leave the server
@@ -29,6 +26,7 @@ Use wxGuides so the guis look better cross platform (and easier to add to)
 Add option for human players to say stuff when firing/killed
 
 -- Other Stuff
+Add the ability to customize the languages (for dialogs etc..)
 Make AIs better
 Save game
 Teleport (to random position)
@@ -54,6 +52,7 @@ communism
 # real-time mode - everyone shoots as fast as they can?
 
 -- Graphics Stuff
+Try to find out what GL extension is causing people so much hastle
 New algorithm for bilboard culling (current one causes flickers)
 anti-gravity dirt (doesn't fall) Needed for cavern environment 
 New animations for weapons
