@@ -457,10 +457,10 @@ static void createModsControls(wxWindow *parent, wxSizer *topsizer)
 	modsSizer->Add(modbox, 0, wxALIGN_CENTER | wxALL, 5);
 
 	wxBoxSizer *buttonSizer = new wxBoxSizer(wxHORIZONTAL);
-	wxButton *export = new wxButton(parent, ID_EXPORT, "Export");
-	wxButton *import = new wxButton(parent, ID_IMPORT, "Import");
-	buttonSizer->Add(export, 0, wxRIGHT, 5);
-	buttonSizer->Add(import, 0, wxLEFT, 5);
+	wxButton *exportBut = new wxButton(parent, ID_EXPORT, "Export");
+	wxButton *importBut = new wxButton(parent, ID_IMPORT, "Import");
+	buttonSizer->Add(exportBut, 0, wxRIGHT, 5);
+	buttonSizer->Add(importBut, 0, wxLEFT, 5);
 	modsSizer->Add(buttonSizer, 0, wxALIGN_CENTER);
 	
 	topsizer->Add(modsSizer, 0, wxGROW);	
