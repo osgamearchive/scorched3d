@@ -67,6 +67,8 @@ public:
 	GLTexture &getCloudTexture() { return cloudTexture_; }
 	GLTexture &getWaterTexture() { return *waterTexture_; }
 	GLTexture &getWaterDetail() { return waterDetail_; }
+
+	GLTexture &getLandscapeTextureWater() { return landTexWater_; }
 	GLTexture &getLandscapeTexture1() { return landTex1_; }
 	GLTexture &getLandscapeTexture2() { return landTex2_; }
 
@@ -108,6 +110,7 @@ protected:
 	GLTexture waterDetail_;
 	GLTexture landTex1_;
 	GLTexture landTex2_;
+	GLTexture landTexWater_;
 	GLBitmap mainMap_;
 	GLBitmap scorchMap_;
 	GLBitmap bitmapPlanAlpha_;

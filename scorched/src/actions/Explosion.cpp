@@ -97,8 +97,8 @@ void Explosion::init()
 		}
 		if (deformType_==DeformDown && explosionHurts_)
 		{
-			//context_->actionController.addAction(
-			//	new SpriteAction(new SprayActionRenderer(position_, width_ - 2)));
+			context_->actionController.addAction(
+				new SpriteAction(new SprayActionRenderer(position_, width_ - 2)));
 		}
 
 		if (weapon_ && explosionHurts_)

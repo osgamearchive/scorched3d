@@ -58,6 +58,7 @@ bool ClientTextHandler::processMessage(unsigned int id,
 
 	if (message.getShowAsMessage())
 	{
+		MessageDisplay::instance()->clear();
 		MessageDisplay::instance()->addMessage(message.getText());
 	}
 	else

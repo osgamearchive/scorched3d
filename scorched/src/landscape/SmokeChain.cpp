@@ -54,12 +54,16 @@ void SmokeChainEntry::draw()
 		alpha = (1.0f - a) * 0.4f;
 
 		// Add a shadow of the smoke on the ground
-		float aboveGround =
-			posZ - ScorchedClient::instance()->getLandscapeMaps().getHMap().getHeight(
-			int (posX), int(posY));
-		float smokeAlpha = alpha + .2f; if (smokeAlpha > 1.0f) smokeAlpha = 1.0f;
-		Landscape::instance()->getShadowMap().
-			addCircle(posX, posY, (height * aboveGround) / 10.0f, smokeAlpha);
+		if (posX > 0.0f && posY > 0.0f && 
+			posX < 255.0f && posY < 255.0f)
+		{
+			float aboveGround =
+				posZ - ScorchedClient::instance()->getLandscapeMaps().getHMap().getHeight(
+				int (posX), int(posY));
+			float smokeAlpha = alpha + .2f; if (smokeAlpha > 1.0f) smokeAlpha = 1.0f;
+			Landscape::instance()->getShadowMap().
+				addCircle(posX, posY, (height * aboveGround) / 10.0f, smokeAlpha);
+		}
 
 		// Actually add the smoke to the renderer to be drawn
 		GLBilboardRenderer::instance()->addEntry(this);

@@ -2387,6 +2387,12 @@
 				RelativePath="..\client\ClientTextHandler.h">
 			</File>
 			<File
+				RelativePath="..\client\ClientWaitState.cpp">
+			</File>
+			<File
+				RelativePath="..\client\ClientWaitState.h">
+			</File>
+			<File
 				RelativePath="..\client\GLSetup.cpp">
 			</File>
 			<File

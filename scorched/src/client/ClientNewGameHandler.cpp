@@ -21,7 +21,6 @@
 #include <client/ScorchedClient.h>
 #include <client/ClientNewGameHandler.h>
 #include <client/ClientState.h>
-#include <client/MessageDisplay.h>
 #include <coms/ComsNewGameMessage.h>
 #include <dialogs/ProgressDialog.h>
 
@@ -55,8 +54,6 @@ bool ClientNewGameHandler::processMessage(unsigned int id,
 {
 	ComsNewGameMessage message;
 	if (!message.readMessage(reader)) return false;
-
-	MessageDisplay::instance()->clear();
 
 	// Generate new landscape
 	if (!ScorchedClient::instance()->getLandscapeMaps().generateHMapFromDiff(

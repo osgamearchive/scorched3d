@@ -73,11 +73,15 @@ void ExplosionNukeRenderer::draw(Action *action)
 		entry.posZ = position_[2] + z;
 
 		// Add a shadow of the smoke on the ground
-		float aboveGround =
-			entry.posZ - ScorchedClient::instance()->getLandscapeMaps().getHMap().getHeight(
-				int (entry.posX), int(entry.posY));
-		Landscape::instance()->getShadowMap().
-			addCircle(entry.posX, entry.posY, (entry.height * aboveGround) / 10.0f, 0.2f);
+		if (entry.posX > 0.0f && entry.posY > 0.0f && 
+			entry.posX < 255.0f && entry.posY < 255.0f)
+		{
+			float aboveGround =
+				entry.posZ - ScorchedClient::instance()->getLandscapeMaps().getHMap().getHeight(
+					int (entry.posX), int(entry.posY));
+			Landscape::instance()->getShadowMap().
+				addCircle(entry.posX, entry.posY, (entry.height * aboveGround) / 10.0f, 0.2f);
+		}
 
 		// add the actual smoke cloud
 		GLBilboardRenderer::instance()->addEntry(&entry);
@@ -87,12 +91,12 @@ void ExplosionNukeRenderer::draw(Action *action)
 void ExplosionNukeRenderer::simulate(Action *action, float frameTime, bool &remove)
 {
 	const float AddSmokeTime = 0.08f;
-	const int SmokesPerTime = 4;
+	const int SmokesPerTime = 2;
 
 	totalTime_ += frameTime;
 	time_ += frameTime;
 	
-	if (time_ > AddSmokeTime)
+	while (time_ > AddSmokeTime)
 	{
 		time_ -= AddSmokeTime;
 
@@ -102,7 +106,8 @@ void ExplosionNukeRenderer::simulate(Action *action, float frameTime, bool &remo
 		{
 			(*itor).position_ ++;
 		}
-		while (entries_.back().position_ >= ExplosionNukeRenderer_STEPS) entries_.pop_back();
+			while (!entries_.empty() && 
+				entries_.back().position_ >= ExplosionNukeRenderer_STEPS) entries_.pop_back();
 
 		if (totalTime_ < size_ / 2.0f)
 		{

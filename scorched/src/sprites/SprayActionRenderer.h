@@ -38,18 +38,14 @@ public:
 	virtual void draw(Action *action);
 
 protected:
-	std::vector<GLBilboardRenderer::Entry*> bilboardEntries_;
-	struct Entry
+	struct Entry : public GLBilboardRenderer::Entry
 	{
 		Vector offset;
-		Vector position;
-		GLTexture *texture;
 	};
 
 	std::list<Entry> entries_;
 	float totalTime_;
 	float time_;
-	int iteration_;
 
 };
 

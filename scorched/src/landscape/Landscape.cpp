@@ -302,12 +302,16 @@ void Landscape::generate(ProgressCounter *counter)
 		PKGDIR "data/textures/smoke01.bmp", false);
 	texture1.resize(smokeBitmap.getWidth(), smokeBitmap.getHeight());
 	texture2.resize(smokeBitmap.getWidth(), smokeBitmap.getHeight());
+	bitmapWaterDetail.resize(smokeBitmap.getWidth(), smokeBitmap.getHeight());
 	GLBitmap texture1New(smokeBitmap.getWidth(), smokeBitmap.getHeight(), true);
 	GLBitmap texture2New(smokeBitmap.getWidth(), smokeBitmap.getHeight(), true);
+	GLBitmap textureWaterNew(smokeBitmap.getWidth(), smokeBitmap.getHeight(), true);
 	GLBitmapModifier::makeBitmapTransparent(texture1New, texture1, smokeBitmap);
 	GLBitmapModifier::makeBitmapTransparent(texture2New, texture2, smokeBitmap);
+	GLBitmapModifier::makeBitmapTransparent(textureWaterNew, bitmapWaterDetail, smokeBitmap);
 	DIALOG_ASSERT(landTex1_.replace(texture1New, GL_RGBA));
 	DIALOG_ASSERT(landTex2_.replace(texture2New, GL_RGBA));
+	DIALOG_ASSERT(landTexWater_.replace(textureWaterNew, GL_RGBA));
 
 	// Set the fog color
 	Vector *fogColor = Resources::vectorResource("color-fog");

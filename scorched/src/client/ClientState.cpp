@@ -28,6 +28,7 @@
 #include <client/MessageDisplay.h>
 #include <client/ClientReadyState.h>
 #include <client/ClientShotState.h>
+#include <client/ClientWaitState.h>
 #include <client/ClientNewGameState.h>
 #include <client/ScorchedClient.h>
 #include <tankgraph/TankRenderer.h>
@@ -147,6 +148,8 @@ void ClientState::setupGameState(bool network)
 
 	// StateWait
 	addStandardComponents(gameState, StateWait, network);
+	gameState.addStateEntry(StateWait,
+		ClientWaitState::instance());
 	gameState.addStateStimulus(StateWait, 
 		StimDisconnected, StateConnect);
 	gameState.addStateStimulus(StateWait, 
