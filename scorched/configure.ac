@@ -72,7 +72,11 @@ if test x$have_opengl != xyes; then
     AC_MSG_ERROR([*** Can't find the OpenGL library Try: http://www.opengl.org])
 fi
 
-OPENGL_LIBS="-lGL -lGLU -lpthread"
+if test `uname -s` != FreeBSD; then 
+    OPENGL_LIBS="-lGL -lGLU -lpthread" 
+else 
+    OPENGL_LIBS="-lGL -lGLU" 
+fi 
 LIBS="$LIBS $OPENGL_LIBS"
 
 dnl Check for wxwindows

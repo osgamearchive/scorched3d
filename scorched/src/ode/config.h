@@ -35,7 +35,7 @@ extern "C" {
 #include <string.h>
 #include <math.h>
 
-#if !defined(WIN32)
+#if !defined(WIN32) && !defined(__FreeBSD__)
 #include <alloca.h>
 #endif
 

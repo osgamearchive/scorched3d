@@ -70,13 +70,16 @@ Run the following commands to compile scorched :-
 
 1) chmod +x autogen.sh
 2) ./autogen.sh
-3) make
+3) make 
+(on some systems build times can be reduced by using the -j4
+flag for make)
 4) make install (may need to be done as root)
 
 Scorched3D will be installed in /usr/local/games/scorched3d.
 The Scorched3D executable is called scorched3d and is located
-directly in this directory.
-
+directly in this directory.  Ensure that the .xml files in the
+scorched3d/data directory are writable to allow settings to be
+saved.
 
 Generic
 -------

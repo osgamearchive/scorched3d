@@ -24,6 +24,7 @@
 #include <client/ServerBrowserServerList.h>
 #include <coms/NetServer.h>
 #include <map>
+#include <time.h>
 
 class ServerBrowserRefresh
 {

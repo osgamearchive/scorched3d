@@ -1,82 +1,8 @@
--- Bugs Fixed and Ready For Relase 36
-Added: Tooltips over tanks
-Added: Decimal point on tank evelevation/rotation angles
-Added: Depth buffer size can be set in config
-Added: Menu items + drop down lists change color when available (mouse over)
-Added: Can now kick computer players (from server dialog)
-Added: Can now add computer players (from server dialog)
-Added: Can set number of sprites and bilboards
-Added: Talk text now has tank state appended to it (dead, pending)
-Added: Buy dialog shows all available weapons
-Added: Buy dialog order and position don't change after buy
-Added: Tank choice dialog shows many more tanks
-Added: Tanks placed into catagories to make for easier choosing
-Added: MilkShape model support (including alpha maps)
-Added: Keys are defined and can be configured via XML file (keys.xml)
-Added: Resouces can be enabled and disabled in the resource file 
-Added: Specified landscape textures to be disabled
-Added: Weapons are defined and can be configured via XML file (accessories.xml)
-Added: Bots (AIs) are defined and can be configured via XML file (tankai.xml)
-Added: Auto aim (A key), points tank to a position on the landscape
-Added: Server password functionality
-Added: Tank has multiple falling contact points (stops tank being burried when falling)
-Added: Weapon icons in the buy/sell dialogs
-Added: Start of Hexidecimal support
-Added: Cross platform server browsing
-Added: Aiming cross hair can be seen from above
-Added: Can turn off player triangles, sight, names and health bars
-Added: Tank models can have different turret and gun pivot points
-Added: Tank models can contain multiple gun and turret objects
-Added: New version of ODE physics engine used
-Added: Missiles now have a model and not just a photon torpedo
-Added: Missile models can be configured on a per weapon basis
-Added: Coms message and state logging
-Added: Client can log to file
-Added: Plan dialogs now updated when landscape removed
-Added: Detail texture added to landscape (for cards that support it)
-Added: Waves around island is blended and does not look so pixelated
-Added: The water around the island is lighter and looks shallow
-Added: Water texture added to water (on top of the existing reflection) (for cards that support it)
-Added: Simultaneous and sequential game modes are available for both online and single player
-Added: Player ordering can be specified for sequential game modes
-Added: Landscape width can be set (smaller landscapes only)
-Added: Better scroll bar controls
-Added: Widgets are all now rounded
-Added: Mushroom clouds for nukes
-Added: MOTD and rules displayed when player connects
-Added: Dirt or water cloud for explosions
-Added: Start of trees for landscape
-Added: All server<->client coms message are compressed
-Added: Player connects before choosing tank + name
-Added: Network players now wait for more players in the game (not the connection dialog)
-Added: Option to not limit the shot power according to health
-Added: Wrap around wall option
-Added: Money can be awarded for hits as well as kills
-Added: New camera angle shows the final position of shots and killed tanks
-Added: Different scoring modes (winner chosen in different ways)
-Added: Team Play
-Added: Team auto ballancing
-Added: can change team, tank and name during game
-
-Fixed: Made funky bomb more expensive
-Fixed: Changed money won for sandhogs and diggers.
-Fixed: Tank bounding boxes can still cause collisions when tank is dead
-Fixed: Random windows crashes, increased stack size to stop ODE from running out of stack
-Fixed: Tanks do not start right at the landscape edge
-Fixed: Applied http://wwwra.informatik.uni-rostock.de/~waschk/Scorched3D-35-gcc3.3.patch
-Fixed: Landscape explosions are much faster
-Fixed: Text drawn outside dialogs (help and connect dialogs)
-Fixed: Player name will always fit on score dialog
-Fixed: can set number arguments via the console
-Fixed: Reduced bilboards and sprites used
-Fixed: SHFT/CTRL keys wrong way round in README
-Fixed: Auto defense dialog shown for other players
-Fixed: +/- keys do not work on key pad
-Fixed: Auto defense dialog+bug dialog can be shown multiple times for same player
-Fixed: Computer players say stuff when killed
-Fixed: Player/Quit menu option does not work in single player mode
-Fixed: Moved timer, so talk text is not in the way
-Fixed: Texturing of Milkshape models (Each texture must be a 256x256 bmp)
+-- Bugs Fixed and Ready For Relase 36.1
+FIXED: Small changes to allow compilation under FreeBSD
+FIXED: Dedicated server crashes when using napalm and fuel
+FIXED: Client crashes on machines with large number of GL extensions
+FIXED: Client crashes due to different locales causing number format differences
 
 -- Bugs in current development release
 Fonts sometimes black-out (not seen for a while, fixed??)
@@ -100,12 +26,14 @@ keep track of views
 missile landing view
 Make a count down sound when timer runs out.
 Use wxGuides so the guis look better cross platform (and easier to add to)
+Add option for human players to say stuff when firing/killed
 
 -- Other Stuff
 Make AIs better
 Save game
 Teleport (to random position)
 Configurable camera views using ctrl-2 etc...
+Have split screen etc. camera views
 Towers can't move
 More weapons, always more weapons
 Patriot missile type defense
