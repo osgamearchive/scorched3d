@@ -108,7 +108,7 @@ void ServerRegistration::registerGame()
 void ServerRegistration::processMessage(NetMessage &message)
 {
 	// We have received a reply from the web server
-	if (message.getMessageType() != NetMessage::DisconnectMessage)
+	if (message.getMessageType() == NetMessage::BufferMessage)
 	{
 		Logger::log(0, "Registration complete.");
 	}

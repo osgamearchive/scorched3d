@@ -37,7 +37,10 @@ NetServer::NetServer(NetServerProtocol *protocol) :
 
 NetServer::~NetServer()
 {
-	SDL_DestroyMutex(setMutex_);
+	SDL_DestroyMutex(setMutex_); 
+	setMutex_ = 0;
+	SDLNet_FreeSocketSet(sockSet_);
+	sockSet_ = 0;
 }
 
 void NetServer::setMessageHandler(NetMessageHandlerI *handler) 
@@ -139,6 +142,7 @@ int NetServer::threadFunc(void *param)
 
 bool NetServer::pollIncoming()
 {
+	DIALOG_ASSERT(sockSet_ && server_);
 	int numready = SDLNet_CheckSockets(sockSet_, 10);
 	if (numready == -1) return false;
 	if (numready == 0) return true;

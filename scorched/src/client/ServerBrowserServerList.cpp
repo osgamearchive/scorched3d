@@ -188,14 +188,14 @@ void ServerBrowserServerList::processMessage(NetMessage &message)
 	{
 		complete_ = true;
 	}
-	else
+	else if (message.getMessageType() == NetMessage::BufferMessage)
 	{
 		// Add the null to the message
 		message.getBuffer().addDataToBuffer("\0", 1);
 		const char *buffer = message.getBuffer().getBuffer();
 
 		// Find the start of the XML
-		while (*buffer != '<' && &buffer != '\0') buffer++;
+		while (*buffer != '<' && *buffer != '\0') buffer++;
 		unsigned int len = strlen(buffer);
 
 		// Parse the buffer

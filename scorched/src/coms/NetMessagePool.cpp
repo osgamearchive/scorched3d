@@ -66,6 +66,7 @@ NetMessage *NetMessagePool::getFromPool(NetMessage::MessageType type,
 	}
 	result->setDestinationId(destinationId);
 	result->setType(type);
+	result->getBuffer().reset();
 
 	SDL_UnlockMutex(messagePoolMutex_);
 

@@ -33,7 +33,7 @@ public:
 		bool *checkDeleted);
 	virtual ~NetServerRead();
 
-	bool getDisconnect() { return disconnect_; }
+	bool getDisconnect();
 	void addMessage(NetMessage *message);
 
 protected:

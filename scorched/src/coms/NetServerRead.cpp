@@ -34,18 +34,16 @@ NetServerRead::NetServerRead(TCPsocket socket,
 	sockSet_ = SDLNet_AllocSocketSet(1);
 	SDLNet_TCP_AddSocket(sockSet_, socket);
 	outgoingMessagesMutex_ = SDL_CreateMutex();
-	SDL_CreateThread(NetServerRead::threadFunc, (void *) this);
 
 	NetMessage *message = NetMessagePool::instance()->
 		getFromPool(NetMessage::ConnectMessage, (unsigned int) socket);
 	messageHandler_->addMessage(message);
+
+	SDL_CreateThread(NetServerRead::threadFunc, (void *) this);
 }
 
 NetServerRead::~NetServerRead()
 {
-	SDL_DestroyMutex(outgoingMessagesMutex_);
-	SDLNet_FreeSocketSet(sockSet_);
-
 	SDL_LockMutex(outgoingMessagesMutex_);
 	while (!newMessages_.empty())
 	{
@@ -54,6 +52,11 @@ NetServerRead::~NetServerRead()
 		NetMessagePool::instance()->addToPool(message);
 	}
 	SDL_UnlockMutex(outgoingMessagesMutex_);
+
+	SDL_DestroyMutex(outgoingMessagesMutex_);
+	outgoingMessagesMutex_ = 0;
+	SDLNet_FreeSocketSet(sockSet_);
+	sockSet_ = 0;
 }
 
 void NetServerRead::addMessage(NetMessage *message)
@@ -63,12 +66,23 @@ void NetServerRead::addMessage(NetMessage *message)
 	SDL_UnlockMutex(outgoingMessagesMutex_);
 }
 
+bool NetServerRead::getDisconnect()
+{ 
+	SDL_LockMutex(outgoingMessagesMutex_);
+	bool result = disconnect_;	
+	SDL_UnlockMutex(outgoingMessagesMutex_);
+	return result; 
+}
+
 int NetServerRead::threadFunc(void *netServerRead)
 {
 	NetServerRead *ns = (NetServerRead *) netServerRead;
 	ns->actualThreadFunc();
+
+	SDL_LockMutex(ns->outgoingMessagesMutex_);
 	ns->disconnect_ = true;
 	(*ns->checkDeleted_) = true;
+	SDL_UnlockMutex(ns->outgoingMessagesMutex_);
 	return 0;
 }
 
