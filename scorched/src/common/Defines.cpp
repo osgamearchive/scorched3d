@@ -135,6 +135,10 @@ const char *getDataFile(const char *file, ...)
 		sprintf(buffer, getModFile("%s/%s", dataModFile, filename));
 		::wxDos2UnixFilename(buffer);
 		if (::wxFileExists(buffer)) return buffer;
+
+		sprintf(buffer, getGlobalModFile("%s/%s", dataModFile, filename));
+		::wxDos2UnixFilename(buffer);
+		if (::wxFileExists(buffer)) return buffer;
 	}
 
 	sprintf(buffer, S3D_DATADIR "/%s", filename);
@@ -259,6 +263,20 @@ const char *getModFile(const char *file ...)
 	else if (::wxMkdir(newDir, 0755)) homeDirStr = newDir.c_str();
 	                                                                                                    
 	sprintf(buffer, "%s/%s", homeDirStr, filename);
+	::wxDos2UnixFilename(buffer);
+	return buffer;
+}
+
+const char *getGlobalModFile(const char *file, ...)
+{
+	static char filename[1024];
+	va_list ap;
+	va_start(ap, file);
+	vsprintf(filename, file, ap);
+	va_end(ap);
+
+	static char buffer[1024];
+	sprintf(buffer, S3D_DATADIR "/data/globalmods/%s", filename);
 	::wxDos2UnixFilename(buffer);
 	return buffer;
 }

@@ -99,17 +99,34 @@ bool SingleSFrame::TransferDataToWindow()
 			"This number should include computer players"));
 
 	IDC_CLIENT_MOD_CTRL->Append("None");
-    wxDir dir(getModFile(""));
-    if (dir.IsOpened())
-    {
-		wxString filename;
-		bool cont = dir.GetFirst(&filename, "", wxDIR_DIRS);
-		while (cont)
+	{
+		wxDir dir(getModFile(""));
+		if (dir.IsOpened())
 		{
-			IDC_CLIENT_MOD_CTRL->Append(filename);
-			cont = dir.GetNext(&filename);
+			wxString filename;
+			bool cont = dir.GetFirst(&filename, "", wxDIR_DIRS);
+			while (cont)
+			{
+				if (IDC_CLIENT_MOD_CTRL->FindString(filename) == -1)
+					IDC_CLIENT_MOD_CTRL->Append(filename);
+				cont = dir.GetNext(&filename);
+			}
 		}
-    }
+	}
+	{
+		wxDir dir(getGlobalModFile(""));
+		if (dir.IsOpened())
+		{
+			wxString filename;
+			bool cont = dir.GetFirst(&filename, "", wxDIR_DIRS);
+			while (cont)
+			{
+				if (IDC_CLIENT_MOD_CTRL->FindString(filename) == -1)
+					IDC_CLIENT_MOD_CTRL->Append(filename);
+				cont = dir.GetNext(&filename);
+			}
+		}
+	}
 	if (IDC_CLIENT_MOD_CTRL->FindString(options_.getMod()) != -1)
 		IDC_CLIENT_MOD_CTRL->SetValue(options_.getMod());
 	else 

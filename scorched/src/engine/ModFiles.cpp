@@ -182,27 +182,60 @@ bool ModFiles::loadModFiles(const char *mod, bool createDir)
 {
 	if (!mod || !mod[0]) return true;
 
-	// Get and check the mod directory exists
-	const char *modDir = getModFile(mod);
-	int modDirLen = strlen(modDir);
-	if (!::wxDirExists(modDir))
 	{
-		if (createDir)
+		// Get and check the user mod directory exists
+		const char *modDir = getModFile(mod);
+		if (::wxDirExists(modDir))
 		{
-			::wxMkdir(modDir);
+			if (!loadModDir(modDir, mod)) return false;
 		}
 		else
 		{
-			dialogMessage("Mod",
-				"Failed to find \"%s\" mod directory \"%s\"",
-				mod,
-				modDir);
-			return false;
+			if (createDir) ::wxMkdir(modDir);
 		}
 	}
 
+	{
+		// Get and check global mod directory
+		const char *modDir = getGlobalModFile(mod);
+		if (::wxDirExists(modDir))
+		{
+			if (!loadModDir(modDir, mod)) return false;
+		}
+	}
+	
+	{
+		unsigned int totalCompSize = 0, totalSize = 0;
+		std::map<std::string, ModFileEntry *>::iterator itor;
+		for (itor = files_.begin();
+			itor != files_.end();
+			itor++)
+		{
+			ModFileEntry *entry = (*itor).second;
+			totalCompSize += entry->getCompressedSize();
+			totalSize += entry->getUncompressedSize();
+		}
+
+		Logger::log(0, "Loaded mod \"%s\", space required %u (%u) bytes", 
+			mod, totalCompSize, totalSize);
+
+		if (!createDir && files_.empty())
+		{
+			dialogMessage("Mod",
+				"Failed to find \"%s\" mod files in directories \"%s\" \"%s\"",
+				mod,
+				getModFile(mod),
+				getGlobalModFile(mod));
+			return false;
+		}
+	}
+	return true;
+}
+
+bool ModFiles::loadModDir(const char *modDir, const char *mod)
+{
 	// Load all files contained in this directory
-	unsigned int totalSize = 0;
+	int modDirLen = strlen(modDir);
 	wxArrayString files;
 	wxDir::GetAllFiles(modDir, &files);
 	wxString *strings = files.GetStringArray();
@@ -210,33 +243,23 @@ bool ModFiles::loadModFiles(const char *mod, bool createDir)
 	{
 		// Get the name of the current file
 		wxString &current = strings[i];
-		const char *fileName = current.c_str();
+		const char *fullFileName = current.c_str();
+		std::string shortFileNameStr(fullFileName);
+		const char *shortFileName = shortFileNameStr.c_str();
 
 		// Check to see if we ignore this file
-		if (excludeFile(fileName)) continue;
-
-		// Create the new mod file and load the file
-		ModFileEntry *file = new ModFileEntry();
-		if (!file->loadModFile(fileName))
-		{
-			dialogMessage("Mod",
-				"Error: Failed to load file \"%s\" mod directory \"%s\" in the \"%s\" mod",
-				fileName,
-				modDir,
-				mod);
-			return false;
-		}
+		if (excludeFile(fullFileName)) continue;
 
 		// Turn it into a unix style path and remove the 
 		// name of the directory that contains it
-		fileName += modDirLen;
-		::wxDos2UnixFilename((char *) fileName);
-		while (fileName[0] == '/') fileName++;
+		shortFileName += modDirLen;
+		::wxDos2UnixFilename((char *) shortFileName);
+		while (shortFileName[0] == '/') shortFileName++;
 
 		// Check that all files are lower case
-		std::string oldFileName = fileName;
-		_strlwr((char *) fileName);
-		if (strcmp(oldFileName.c_str(), fileName) != 0)
+		std::string oldFileName = shortFileName;
+		_strlwr((char *) shortFileName);
+		if (strcmp(oldFileName.c_str(), shortFileName) != 0)
 		{
 			dialogMessage("ERROR: All mod files must have lower case filenames.\n"
 				"File \"%s\" has upper case charaters in it",
@@ -244,14 +267,25 @@ bool ModFiles::loadModFiles(const char *mod, bool createDir)
 			return false;
 		}
 
-		// Store for future
-		file->setFileName(fileName);
-		files_[fileName] = file;
-		totalSize += file->getCompressedSize();
-	}
+		// Check we don't have this file already
+		if (files_.find(shortFileName) != files_.end()) continue;
 
-	Logger::log(0, "Loaded mod \"%s\", space required %u bytes", 
-		mod, totalSize);
+		// Create the new mod file and load the file
+		ModFileEntry *file = new ModFileEntry();
+		if (!file->loadModFile(fullFileName))
+		{
+			dialogMessage("Mod",
+				"Error: Failed to load file \"%s\" mod directory \"%s\" in the \"%s\" mod",
+				fullFileName,
+				modDir,
+				mod);
+			return false;
+		}
+
+		// Store for future
+		file->setFileName(shortFileName);
+		files_[shortFileName] = file;
+	}
 
 	return true;
 }
