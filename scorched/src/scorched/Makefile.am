@@ -75,6 +75,8 @@ scorched3d_SOURCES = \
 	../GLEXT/GLVertexSetGroup.h \
 	../GLEXT/GLVertexTexArray.cpp \
 	../GLEXT/GLVertexTexArray.h \
+	../GLEXT/GLViewPort.cpp \
+	../GLEXT/GLViewPort.h \
 	../GLW/GLWButton.cpp \
 	../GLW/GLWButton.h \
 	../GLW/GLWCheckBox.cpp \
@@ -431,12 +433,12 @@ scorched3d_SOURCES = \
 	../weapons/Battery.h \
 	../weapons/Economy.cpp \
 	../weapons/Economy.h \
-	../weapons/EconomyStore.cpp \
-	../weapons/EconomyStore.h \
 	../weapons/EconomyFreeMarket.cpp \
 	../weapons/EconomyFreeMarket.h \
 	../weapons/EconomyNone.cpp \
 	../weapons/EconomyNone.h \
+	../weapons/EconomyStore.cpp \
+	../weapons/EconomyStore.h \
 	../weapons/Fuel.cpp \
 	../weapons/Fuel.h \
 	../weapons/Parachute.cpp \
