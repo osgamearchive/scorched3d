@@ -156,8 +156,7 @@ void StatsLoggerMySQL::createLogger()
 				itor != weapons.end();
 				itor++)
 			{
-				Weapon *weapon = (Weapon *) *itor;
-				Accessory *accessory = weapon->getParent();
+				Accessory *accessory = *itor;
 
 				// Try to determine this players sql playerid
 				int weaponId = 0;
@@ -179,15 +178,34 @@ void StatsLoggerMySQL::createLogger()
 
 				if (weaponId == 0)
 				{
-					runQuery("INSERT INTO scorched3d%s_weapons (name, description, armslevel, cost, bundlesize) "
-						"VALUES(\"%s\", \"%s\", %i, %i, %i);", 
+					runQuery("INSERT INTO scorched3d%s_weapons "
+						"(name, description, armslevel, cost, bundlesize, icon) "
+						"VALUES(\"%s\", \"%s\", %i, %i, %i, \"%s\");", 
 						prefix_.c_str(),
 						accessory->getName(), 
 						accessory->getDescription(),
 						accessory->getArmsLevel(),
 						accessory->getOriginalPrice(),
-						accessory->getBundle());
+						accessory->getBundle(),
+						accessory->getIconName());
 					weaponId = (int) mysql_insert_id(mysql_);		
+				}
+				else
+				{
+					runQuery("UPDATE scorched3d%s_weapons SET "
+						"description = \"%s\", "
+						"armslevel = %i, "
+						"cost = %i, "
+						"bundlesize = %i, "
+						"icon = \"%s\" "
+						"WHERE name = \"%s\"", 
+						prefix_.c_str(),
+						accessory->getDescription(),
+						accessory->getArmsLevel(),
+						accessory->getOriginalPrice(),
+						accessory->getBundle(),
+						accessory->getIconName(),
+						accessory->getName());
 				}
 
 				weaponId_[accessory->getName()] = weaponId;
@@ -403,6 +421,53 @@ void StatsLoggerMySQL::tankJoined(Tank *tank)
 		prefix_.c_str(), tank->getName(), tank->getHostDesc(), 
 		NetInterface::getIpName(tank->getIpAddress()),
 		playerId);
+
+	// Add the avatar
+	if (tank->getAvatar().getName()[0])
+	{
+		int binaryid = 0;
+		unsigned int crc = tank->getAvatar().getCrc();
+		if (runQuery("SELECT binaryid FROM scorched3d_binary "
+			"WHERE name = \"%s\" AND crc = %u;", 
+			tank->getAvatar().getName(),
+			crc))
+		{
+			MYSQL_RES *result = mysql_store_result(mysql_);
+			if (result)
+			{
+				int rows = (int) mysql_num_rows(result);
+				for (int r=0; r<rows; r++)
+				{
+					MYSQL_ROW row = mysql_fetch_row(result);
+					binaryid = atoi(row[0]);
+				}
+				mysql_free_result(result);
+			}
+		}
+
+		if (binaryid == 0)
+		{
+			char *to = new char[tank->getAvatar().getFile().getBufferUsed() * 2];
+            mysql_real_escape_string(mysql_, to, 
+				tank->getAvatar().getFile().getBuffer(),
+				tank->getAvatar().getFile().getBufferUsed());
+			runQuery("INSERT INTO scorched3d_binary "
+				"(name, crc, length, data) "
+				"VALUES(\"%s\", %u, %u, \"%s\");", 
+				tank->getAvatar().getName(),
+				crc,
+				tank->getAvatar().getFile().getBufferUsed(),
+				to);
+			delete [] to;
+			binaryid = (int) mysql_insert_id(mysql_);	
+		}
+
+		// Set the avatar id
+		runQuery("UPDATE scorched3d%s_players SET avatarid = %i "
+			"WHERE playerid = %i;", 
+			prefix_.c_str(), binaryid,
+			playerId);
+	}
 }
 
 void StatsLoggerMySQL::tankLeft(Tank *tank)
@@ -451,7 +516,7 @@ void StatsLoggerMySQL::tankKilled(Tank *firedTank, Tank *deadTank, Weapon *weapo
 				int firedSkill = atoi(row[0]);
 				int deadSkill = atoi(row[1]);
 
-				float weaponMult = (float(weapon->getParent()->getArmsLevel()) / 10.0f) + 1.0f;
+				float weaponMult = (float(weapon->getArmsLevel()) / 10.0f) + 1.0f;
 
 				int skillDiff = 
 					int((20.0f * weaponMult) / (1.0f + powf(10.0f, (float(firedSkill - deadSkill) / 1000.0f))));

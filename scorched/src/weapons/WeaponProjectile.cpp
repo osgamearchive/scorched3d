@@ -28,7 +28,11 @@ REGISTER_ACCESSORY_SOURCE(WeaponProjectile);
 WeaponProjectile::WeaponProjectile() : 
 	under_(false), collisionAction_(0), apexCollision_(false),
 	showShotPath_(false), showEndPoint_(false), 
-	createSmoke_(true),	createFlame_(true), spinSpeed_(1.0f)
+	createSmoke_(true),	createFlame_(true), 
+	spinSpeed_(1.0f),
+	flameLife_(1.0f), smokeLife_(4.0f),
+	flameStartColor1_(0.9f, 0.0f, 0.0f), flameStartColor2_(1.0f, 0.2f, 0.2f),
+	flameEndColor1_(0.95f, 0.9f, 0.2f), flameEndColor2_(1.0f, 1.0f, 0.3f)
 {
 
 }
@@ -50,6 +54,10 @@ bool WeaponProjectile::parseXML(OptionsGame &context,
 
 	// Get the spin
 	accessoryNode->getNamedChild("spinspeed", spinSpeed_, false);
+
+	// Get smoke life
+	accessoryNode->getNamedChild("smokelife", smokeLife_, false);
+	accessoryNode->getNamedChild("flamelife", flameLife_, false);
 
 	// Get the smoke trails
 	XMLNode *smokeNode = 0;

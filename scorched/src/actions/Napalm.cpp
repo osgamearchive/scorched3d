@@ -70,7 +70,8 @@ void Napalm::simulate(float frameTime, bool &remove)
 {
 	if (!context_->serverMode)
 	{
-		if (counter_.nextDraw(frameTime))
+		if (!weapon_->getNoSmoke() &&
+			counter_.nextDraw(frameTime))
 		{
 			int count = int(RAND * float(napalmPoints_.size()));
 
@@ -262,12 +263,15 @@ void Napalm::simulateAddStep()
 			ScorchedClient::instance()->getParticleEngine(),
 			set_);
 
-		Landscape::instance()->getObjects().burnObjects(
-			(unsigned int) x_, (unsigned int) y_);
-		Landscape::instance()->getObjects().burnObjects(
-			(unsigned int) x_ + 1, (unsigned int) y_ + 1);
-		Landscape::instance()->getObjects().burnObjects(
-			(unsigned int) x_ - 1, (unsigned int) y_ - 1);
+		if (!weapon_->getNoObjectDamage())
+		{
+			Landscape::instance()->getObjects().burnObjects(
+				(unsigned int) x_, (unsigned int) y_);
+			Landscape::instance()->getObjects().burnObjects(
+				(unsigned int) x_ + 1, (unsigned int) y_ + 1);
+			Landscape::instance()->getObjects().burnObjects(
+				(unsigned int) x_ - 1, (unsigned int) y_ - 1);
+		}
 	}
 
 	context_->landscapeMaps->getNMap().getHeight(x_, y_) += NapalmHeight;

@@ -40,8 +40,8 @@ public:
 protected:
 	int flareType_;
 	SmokeCounter counter_;
-	ParticleEmitter flameemitter_;
-	ParticleEmitter smokeemitter_;
+	ParticleEmitter *flameemitter_;
+	ParticleEmitter *smokeemitter_;
 	MissileMesh *mesh_;
 	float rotation_;
 	float scale_;

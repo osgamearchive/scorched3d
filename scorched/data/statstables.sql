@@ -1,4 +1,6 @@
-drop table scorched3d_main, scorched3d_events, scorched3d_eventtypes, scorched3d_names, scorched3d_players, scorched3d_weapons;
+drop table scorched3d_main, scorched3d_events, scorched3d_eventtypes;
+drop table scorched3d_names, scorched3d_players, scorched3d_weapons;
+drop table scorched3d_binary;
 
 create table if not exists scorched3d_main (
 	name varchar(64),
@@ -30,6 +32,7 @@ create table if not exists scorched3d_players (
 	roundsplayed INTEGER NOT NULL DEFAULT 0,
 	moneyearned INTEGER NOT NULL DEFAULT 0,
 	skill INTEGER NOT NULL DEFAULT 1000,
+	avatarid INTEGER NOT NULL DEFAULT 0,
 	PRIMARY KEY (playerid),
 	UNIQUE (uniqueid)
 );
@@ -37,6 +40,7 @@ create table if not exists scorched3d_players (
 create table if not exists scorched3d_weapons (
 	weaponid INTEGER auto_increment,
 	name varchar(64),
+	icon varchar(64),
 	description varchar(255) NOT NULL DEFAULT 'No Desc',
 	cost INTEGER NOT NULL DEFAULT 0,
 	bundlesize INTEGER NOT NULL DEFAULT 0,
@@ -74,3 +78,11 @@ create table if not exists scorched3d_names (
 	FOREIGN KEY (playerid) REFERENCES scorched3d_players(playerid)
 );
 
+create table if not exists scorched3d_binary (
+	binaryid INTEGER auto_increment, 
+	name varchar(32) BINARY NOT NULL DEFAULT "",
+	crc INTEGER UNSIGNED NOT NULL DEFAULT 0,
+	length INTEGER UNSIGNED NOT NULL DEFAULT 0,
+	data BLOB,
+	PRIMARY KEY(binaryid)
+);

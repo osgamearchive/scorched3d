@@ -48,11 +48,13 @@ public:
 		Vector &position, Vector &velocity,
 		unsigned int data = 0) = 0;
 
+	int getArmsLevel();
 	float getScale() { return scale_; }
 	bool getMuzzleFlash() { return muzzleFlash_; }
 	ModelID &getModelID();
 
 protected:
+	int armsLevel_;
 	float scale_;
 	bool muzzleFlash_;
 	ModelID modelId_;

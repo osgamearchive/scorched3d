@@ -123,9 +123,9 @@ void TankDamage::simulate(float frameTime, bool &remove)
 						// Calculate the score (more for more damage and the most if you kill them)
 						int score = 0;
 						if (killedTank) score = context_->optionsGame->getMoneyWonPerKillPoint() *
-								weapon_->getParent()->getArmsLevel();
+								weapon_->getArmsLevel();
 						else score = context_->optionsGame->getMoneyWonPerHitPoint() *
-								weapon_->getParent()->getArmsLevel();
+								weapon_->getArmsLevel();
 
 						// Make this a percentage if you want
 						if (context_->optionsGame->getMoneyPerHealthPoint()) 

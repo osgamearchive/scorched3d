@@ -48,6 +48,12 @@ public:
 	bool getCreateSmoke() { return createSmoke_; }
 	bool getCreateFlame() { return createFlame_; }
 	float getSpinSpeed() { return spinSpeed_; }
+	float getFlameLife() { return flameLife_; }
+	float getSmokeLife() { return smokeLife_; }
+	Vector &getFlameStartColor1() { return flameStartColor1_; }
+	Vector &getFlameStartColor2() { return flameStartColor2_; }
+	Vector &getFlameEndColor1() { return flameEndColor1_; }
+	Vector &getFlameEndColor2() { return flameEndColor2_; }
 
 protected:
 	bool under_;
@@ -57,6 +63,12 @@ protected:
 	bool createSmoke_;
 	bool createFlame_;
 	float spinSpeed_;
+	float flameLife_;
+	float smokeLife_;
+	Vector flameStartColor1_;
+	Vector flameStartColor2_;
+	Vector flameEndColor1_;
+	Vector flameEndColor2_;
 	Weapon *collisionAction_;
 
 };

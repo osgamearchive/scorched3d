@@ -13,7 +13,13 @@ Fixed: Tank name is above ground when tank burried
 Fixed: Accessories.xml file format to remove duplication
 Fixed: Computer AIs becoming confused when shots hit off walls
 Fixed: Aming sight is correctly positioned for all tanks
+Fixed: Bug where a player is assigned black as their color
 
+Added: flame color attributes to WeaponProjectile to control the trail color
+Added: smokelife and flamelife attributes to WeaponProjectile to control trail length
+Added: nosmoke and noobjectdamage attributes to WeaponNapalm to control smoke and tree damage
+Added: Player decals stored in database for stats usage
+Added: Optional Armslevel attribute to weapons (if missing parents armslevel is used)
 Added: Player and weapon icons to game gui
 Added: Mods in the users mod directory are moved out the way when a new version is installed
 Added: Each computer AI can now have multiple different buying stratagies

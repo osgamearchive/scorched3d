@@ -42,6 +42,7 @@ public:
 	GLTexture &getTexture();
 	const char *getName() { return name_.c_str(); }
 	NetBuffer &getFile() { return *file_; }
+	unsigned int getCrc();
 	
 protected:
 	static GLTexture *defaultTexture_;

@@ -27,7 +27,8 @@
 
 REGISTER_ACCESSORY_SOURCE(WeaponNapalm);
 
-WeaponNapalm::WeaponNapalm()
+WeaponNapalm::WeaponNapalm() : 
+	noSmoke_(false), noObjectDamage_(false)
 {
 
 }
@@ -42,6 +43,7 @@ bool WeaponNapalm::parseXML(OptionsGame &context,
 {
 	if (!Weapon::parseXML(context, store, accessoryNode)) return false;
 
+	// Mandatory Attributes
 	if (!accessoryNode->getNamedChild("napalmtime", napalmTime_)) return false;
 	if (!accessoryNode->getNamedChild("napalmheight", napalmHeight_)) return false;
 	if (!accessoryNode->getNamedChild("steptime", stepTime_)) return false;
@@ -52,6 +54,13 @@ bool WeaponNapalm::parseXML(OptionsGame &context,
 	if (!accessoryNode->getNamedChild("napalmsound", napalmSound_)) return false;
 	if (!accessoryNode->getNamedChild("napalmtexture", napalmTexture_)) return false;
 	if (!checkDataFile("data/wav/%s", getNapalmSound())) return false;
+
+	// Optional Attributes
+	XMLNode *noSmokeNode = 0, *noObjectDamageNode = 0;
+	accessoryNode->getNamedChild("nosmoke", noSmokeNode, false);
+	accessoryNode->getNamedChild("noobjectdamage", noObjectDamageNode, false);
+	if (noSmokeNode) noSmoke_ = true;
+	if (noObjectDamageNode) noObjectDamage_ = true;
 
 	return true;
 }

@@ -42,6 +42,8 @@ public:
 	const int getNumberStreams() { return numberStreams_; }
 	const char *getNapalmSound() { return napalmSound_.c_str(); }
 	const char *getNapalmTexture() { return napalmTexture_.c_str(); }
+	const bool getNoSmoke() { return noSmoke_; }
+	const bool getNoObjectDamage() { return noObjectDamage_; }
 
 	// Inherited from Weapon
 	virtual void fireWeapon(ScorchedContext &context,
@@ -58,6 +60,8 @@ protected:
 	float hurtPerSecond_;// Damage per second
 	int numberStreams_;  // The number of napalm paths
 	int effectRadius_;   // How close do tanks take damage
+	bool noSmoke_;       // Turns off smoke emitted by napalm
+	bool noObjectDamage_;// Turns off burning damage to landscape objects
 	std::string napalmSound_;
 	std::string napalmTexture_;
 

@@ -22,6 +22,7 @@
 #include <GLEXT/GLTexture.h>
 #include <GLEXT/GLGif.h>
 #include <common/Defines.h>
+#include <zlib/zlib.h>
 #include <stdio.h>
 
 GLTexture *TankAvatar::defaultTexture_ = 0;
@@ -124,4 +125,12 @@ GLTexture &TankAvatar::getTexture()
 	}
 
 	return *texture_; 
+}
+
+unsigned int TankAvatar::getCrc()
+{
+	unsigned int crc =  crc32(0L, Z_NULL, 0);
+	crc = crc32(crc, (unsigned char *) 
+		file_->getBuffer(), file_->getBufferUsed());	
+	return crc;
 }

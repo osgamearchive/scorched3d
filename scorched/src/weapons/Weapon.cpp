@@ -25,7 +25,8 @@
 #include <common/OptionsDisplay.h>
 
 Weapon::Weapon() : 
-	scale_(1.0f), muzzleFlash_(true)
+	scale_(1.0f), muzzleFlash_(true),
+	armsLevel_(-1)
 {
 
 }
@@ -37,15 +38,18 @@ Weapon::~Weapon()
 
 bool Weapon::parseXML(OptionsGame &context, AccessoryStore *store, XMLNode *accessoryNode)
 {
-	// Get the muzzleflash
+	// Get the optional muzzleflash
 	XMLNode *muzzleFlashNode = 0;
 	accessoryNode->getNamedChild("nomuzzleflash", muzzleFlashNode, false);
 	if (muzzleFlashNode) muzzleFlash_ = false;
 
-	// Get the weapon model scale
+	// Get the optional weapon model scale
 	accessoryNode->getNamedChild("projectilescale", scale_, false);
 
-	// Get the weapon model
+	// Get the optional weapon armslevel
+	accessoryNode->getNamedChild("armslevel", armsLevel_, false);
+
+	// Get the optional weapon model
 	XMLNode *modelNode = 0;
 	if (accessoryNode->getNamedChild("projectilemodel", modelNode, false))
 	{
@@ -53,6 +57,12 @@ bool Weapon::parseXML(OptionsGame &context, AccessoryStore *store, XMLNode *acce
 	}
 
 	return true;
+}
+
+int Weapon::getArmsLevel()
+{
+	if (armsLevel_ == -1) return parent_->getArmsLevel();
+	return armsLevel_;
 }
 
 ModelID &Weapon::getModelID()

@@ -34,46 +34,57 @@
 
 MissileActionRenderer::MissileActionRenderer(int flareType, float scale) : 
 	flareType_(flareType), counter_(0.05f, 0.05f), 
-	mesh_(0), scale_(scale), rotation_(180.0f)
+	mesh_(0), scale_(scale), rotation_(180.0f),
+	flameemitter_(0), smokeemitter_(0)
 {
-	flameemitter_.setAttributes(
-		0.5f, 1.0f, // Life
-		0.5f, 1.0f, // Mass
-		0.01f, 0.02f, // Friction
-		Vector(-0.05f, -0.1f, 0.3f), Vector(0.05f, 0.1f, 0.9f), // Velocity
-		Vector(0.9f, 0.0f, 0.0f), 0.9f, // StartColor1
-		Vector(1.0f, 0.2f, 0.2f), 1.0f, // StartColor2
-		Vector(0.95f, 0.9f, 0.2f), 0.0f, // EndColor1
-		Vector(1.0f, 1.0f, 0.3f), 0.1f, // EndColor2
-		0.2f, 0.2f, 0.5f, 0.5f, // Start Size
-		1.5f, 1.5f, 3.0f, 3.0f, // EndSize
-		Vector(0.0f, 0.0f, 10.0f), // Gravity
-		true,
-		true);
-
-	smokeemitter_.setAttributes(
-		2.5f, 4.0f, // Life
-		0.2f, 0.5f, // Mass
-		0.01f, 0.02f, // Friction
-		Vector(-0.05f, -0.1f, 0.3f), Vector(0.05f, 0.1f, 0.9f), // Velocity
-		Vector(0.7f, 0.7f, 0.7f), 0.3f, // StartColor1
-		Vector(0.7f, 0.7f, 0.7f), 0.3f, // StartColor2
-		Vector(0.7f, 0.7f, 0.7f), 0.0f, // EndColor1
-		Vector(0.8f, 0.8f, 0.8f), 0.1f, // EndColor2
-		0.2f, 0.2f, 0.5f, 0.5f, // Start Size
-		2.2f, 2.2f, 4.0f, 4.0f, // EndSize
-		Vector(0.0f, 0.0f, 100.0f), // Gravity
-		false,
-		true);
 }
 
 MissileActionRenderer::~MissileActionRenderer()
 {
+	delete flameemitter_;
+	delete smokeemitter_;
 }
 
 void MissileActionRenderer::simulate(Action *action, float timepassed, bool &remove)
 {
 	ShotProjectile *shot = (ShotProjectile *) action;
+	if (!flameemitter_)
+	{
+		flameemitter_ = new ParticleEmitter;
+		flameemitter_->setAttributes(
+			shot->getWeapon()->getFlameLife() / 2.0f, shot->getWeapon()->getFlameLife(), // Life
+			0.5f, 1.0f, // Mass
+			0.01f, 0.02f, // Friction
+			Vector(-0.05f, -0.1f, 0.3f), Vector(0.05f, 0.1f, 0.9f), // Velocity
+			shot->getWeapon()->getFlameStartColor1(), 0.9f, // StartColor1
+			shot->getWeapon()->getFlameStartColor2(), 1.0f, // StartColor2
+			shot->getWeapon()->getFlameEndColor1(), 0.0f, // EndColor1
+			shot->getWeapon()->getFlameEndColor2(), 0.1f, // EndColor2
+			0.2f, 0.2f, 0.5f, 0.5f, // Start Size
+			1.5f, 1.5f, 3.0f, 3.0f, // EndSize
+			Vector(0.0f, 0.0f, 10.0f), // Gravity
+			true,
+			true);
+	}
+	if (!smokeemitter_)
+	{
+		smokeemitter_ = new ParticleEmitter;
+		smokeemitter_->setAttributes(
+			shot->getWeapon()->getSmokeLife() / 2.0f, shot->getWeapon()->getSmokeLife(), // Life
+			0.2f, 0.5f, // Mass
+			0.01f, 0.02f, // Friction
+			Vector(-0.05f, -0.1f, 0.3f), Vector(0.05f, 0.1f, 0.9f), // Velocity
+			Vector(0.7f, 0.7f, 0.7f), 0.3f, // StartColor1
+			Vector(0.7f, 0.7f, 0.7f), 0.3f, // StartColor2
+			Vector(0.7f, 0.7f, 0.7f), 0.0f, // EndColor1
+			Vector(0.8f, 0.8f, 0.8f), 0.1f, // EndColor2
+			0.2f, 0.2f, 0.5f, 0.5f, // Start Size
+			2.2f, 2.2f, 4.0f, 4.0f, // EndSize
+			Vector(0.0f, 0.0f, 100.0f), // Gravity
+			false,
+			true);
+	}
+
 	Vector &actualPos = shot->getCurrentPosition();
 	Vector actualPos1;
 	actualPos1[0] = actualPos[0] - 0.25f;
@@ -91,7 +102,7 @@ void MissileActionRenderer::simulate(Action *action, float timepassed, bool &rem
 	// Add flame trail
 	if (shot->getWeapon()->getCreateFlame())
 	{
-		flameemitter_.emitLinear(2, actualPos1, actualPos2, 
+		flameemitter_->emitLinear(2, actualPos1, actualPos2, 
 			ScorchedClient::instance()->getParticleEngine(), 
 			ParticleRendererQuads::getInstance());
 	}
@@ -109,8 +120,8 @@ void MissileActionRenderer::simulate(Action *action, float timepassed, bool &rem
 			actualPos1 -= shot->getCurrentVelocity() * 0.2f;
 			actualPos2 -= shot->getCurrentVelocity() * 0.2f;
 
-			smokeemitter_.setVelocity(vel1, vel2);
-			smokeemitter_.emitLinear(3, actualPos1, actualPos2, 
+			smokeemitter_->setVelocity(vel1, vel2);
+			smokeemitter_->emitLinear(3, actualPos1, actualPos2, 
 				ScorchedClient::instance()->getParticleEngine(), 
 				ParticleRendererQuads::getInstance());
 		}
