@@ -33,7 +33,7 @@ else
 <table width="790" border="0" align="center">
 <tr align=center>
 <td>
-<font size=+2><b>Starts for <?=$seriesrow->name?></b></font><br>
+<font size=+2><b>Stats for <?=$seriesrow->name?></b></font><br>
 <font size=-1><?=$seriesrow->started?> to <?=$seriesrow->ended?></font>
 </td>
 </tr>
