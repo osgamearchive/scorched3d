@@ -30,6 +30,7 @@
 #include <dialogs/CameraDialog.h>
 #include <dialogs/PlayerDialog.h>
 #include <dialogs/QuitDialog.h>
+#include <dialogs/SaveDialog.h>
 #include <dialogs/LogDialog.h>
 #include <dialogs/ConnectDialog.h>
 #include <dialogs/BackdropDialog.h>
@@ -37,7 +38,6 @@
 #include <dialogs/RulesDialog.h>
 #include <dialogs/TalkDialog.h>
 #include <dialogs/ScoreDialog.h>
-#include <dialogs/KillDialog.h>
 #include <dialogs/KibitzingDialog.h>
 #include <dialogs/HelpButtonDialog.h>
 
@@ -68,9 +68,12 @@ void WindowSetup::addCommonComponents(unsigned state)
 
 	if (!OptionsParam::instance()->getConnectedToServer())
 	{
+		KEYBOARDKEY("SHOW_SAVE_DIALOG", saveKey);
+		GLWWindowManager::instance()->addWindow(state, 
+ 			SaveDialog::instance(), saveKey, false);
 		KEYBOARDKEY("SHOW_KILL_DIALOG", killKey);
 		GLWWindowManager::instance()->addWindow(state, 
- 			KillDialog::instance(), killKey, false);
+ 			QuitDialog::instance(), killKey, false);
 	}
 
 	KEYBOARDKEY("SHOW_CAMERA_DIALOG", cameraKey);
@@ -141,6 +144,10 @@ void WindowSetup::setup()
 		QuitDialog::instance(), quitKey, false);
 	GLWWindowManager::instance()->addWindow(ClientState::StateGetPlayers, 
 		HelpButtonDialog::instance(), 0, true);
+
+	// StateLoadPlayers
+	GLWWindowManager::instance()->addWindow(ClientState::StateGetPlayers,
+		BackdropDialog::instance(), 0, true);
 
 	// StateWait
 	addCommonComponents(ClientState::StateWait);

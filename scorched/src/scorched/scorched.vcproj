@@ -1054,10 +1054,10 @@
 				RelativePath="..\dialogs\KibitzingDialog.h">
 			</File>
 			<File
-				RelativePath="..\dialogs\KillDialog.cpp">
+				RelativePath="..\dialogs\SaveDialog.cpp">
 			</File>
 			<File
-				RelativePath="..\dialogs\KillDialog.h">
+				RelativePath="..\dialogs\SaveDialog.h">
 			</File>
 			<File
 				RelativePath="..\dialogs\LogDialog.cpp">
@@ -2441,6 +2441,12 @@
 			</File>
 			<File
 				RelativePath="..\client\ClientNewGameHandler.h">
+			</File>
+			<File
+				RelativePath="..\client\ClientLoadPlayersState.cpp">
+			</File>
+			<File
+				RelativePath="..\client\ClientLoadPlayersState.h">
 			</File>
 			<File
 				RelativePath="..\client\ClientNewGameState.cpp">

@@ -18,68 +18,56 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <dialogs/QuitDialog.h>
 #include <dialogs/SaveDialog.h>
 #include <GLW/GLWTextButton.h>
 #include <GLW/GLWLabel.h>
 #include <GLW/GLWWindowManager.h>
-#include <common/OptionsParam.h>
-#include <server/ServerCommon.h>
 #include <client/ScorchedClient.h>
+#include <client/ClientSave.h>
+#include <common/Logger.h>
+#include <common/Defines.h>
+#include <time.h>
 
-QuitDialog *QuitDialog::instance_ = 0;
+SaveDialog *SaveDialog::instance_ = 0;
 
-QuitDialog *QuitDialog::instance()
+SaveDialog *SaveDialog::instance()
 {
 	if (!instance_)
 	{
-		instance_ = new QuitDialog;
+		instance_ = new SaveDialog;
 	}
 	return instance_;
 }
 
-QuitDialog::QuitDialog() : 
-	GLWWindow("Quit", 210.0f, 80.0f, 0,
-		"Allows the player to quit the game.")
+SaveDialog::SaveDialog() : 
+	GLWWindow("Save", 210.0f, 80.0f, 0,
+		"Allows the player to save the game.")
 {
-	if (!OptionsParam::instance()->getConnectedToServer())
-	{
-		killId_ = addWidget(new GLWTextButton("Mass tank kill", 10, 115, 190, this, 
-			GLWButton::ButtonFlagCenterX))->getId();
-		saveId_ = addWidget(new GLWTextButton("Save Game", 10, 80, 190, this,
-			GLWButton::ButtonFlagCenterX))->getId();
-		setH(150.0f);
-	}
-	quitId_ = addWidget(new GLWTextButton("Quit Game", 10, 45, 190, this, 
+	okId_ = addWidget(new GLWTextButton("Save", 95, 10, 105, this, 
 		GLWButton::ButtonFlagOk | GLWButton::ButtonFlagCenterX))->getId();
-	okId_ = addWidget(new GLWTextButton("Cancel", 95, 10, 105, this, 
+	cancelId_ = addWidget(new GLWTextButton("Cancel", 10, 45, 190, this, 
 		GLWButton::ButtonFlagCancel | GLWButton::ButtonFlagCenterX))->getId();
 }
 
-QuitDialog::~QuitDialog()
+SaveDialog::~SaveDialog()
 {
 
 }
 
-void QuitDialog::buttonDown(unsigned int id)
+void SaveDialog::buttonDown(unsigned int id)
 {
 	if (id == okId_)
 	{
+		const char *saveFile = getSaveFile("saved-%i", time(0));
+		if (saveClient(saveFile))
+		{
+			Logger::log(0, "Game saved as %s.", saveFile);
+		}
 		GLWWindowManager::instance()->hideWindow(id_);
 	}
-	else if (id == saveId_)
+	else if (id == cancelId_)
 	{
-		GLWWindowManager::instance()->showWindow(
-			SaveDialog::instance()->getId());
 		GLWWindowManager::instance()->hideWindow(id_);
-	}
-	else if (id == killId_)
-	{
-		ServerCommon::killAll();
-		GLWWindowManager::instance()->hideWindow(id_);
-	}
-	else if (id == quitId_)
-	{
-		ScorchedClient::instance()->getMainLoop().exitLoop();
 	}
 }
+

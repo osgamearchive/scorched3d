@@ -18,47 +18,30 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <dialogs/KillDialog.h>
-#include <GLW/GLWTextButton.h>
-#include <GLW/GLWLabel.h>
-#include <GLW/GLWWindowManager.h>
-#include <server/ServerCommon.h>
+#include <client/ClientLoadPlayersState.h>
+#include <client/ClientSave.h>
 
-KillDialog *KillDialog::instance_ = 0;
+ClientLoadPlayersState *ClientLoadPlayersState::instance_ = 0;
 
-KillDialog *KillDialog::instance()
+ClientLoadPlayersState *ClientLoadPlayersState::instance()
 {
 	if (!instance_)
 	{
-		instance_ = new KillDialog;
+		instance_ = new ClientLoadPlayersState;
 	}
 	return instance_;
 }
 
-KillDialog::KillDialog() : 
-	GLWWindow("Kill Tanks", 210.0f, 75.0f, 0,
-		"Allows the current player to kill all\n"
-		"players to end the current round.")
-{
-	killId_ = addWidget(new GLWTextButton("Mass tank kill", 10, 45, 190, this, 
-		GLWButton::ButtonFlagOk | GLWButton::ButtonFlagCenterX))->getId();
-	okId_ = addWidget(new GLWTextButton("Cancel", 95, 10, 105, this, 
-		GLWButton::ButtonFlagCancel | GLWButton::ButtonFlagCenterX))->getId();
-}
-
-KillDialog::~KillDialog()
+ClientLoadPlayersState::ClientLoadPlayersState()
 {
 }
 
-void KillDialog::buttonDown(unsigned int id)
+ClientLoadPlayersState::~ClientLoadPlayersState()
 {
-	if (id == okId_)
-	{
-		GLWWindowManager::instance()->hideWindow(id_);
-	}
-	else if (id == killId_)
-	{
-		ServerCommon::killAll();
-		GLWWindowManager::instance()->hideWindow(id_);
-	}
 }
+
+void ClientLoadPlayersState::enterState(const unsigned state)
+{
+	restoreClient(false);
+}
+

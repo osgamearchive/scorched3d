@@ -18,49 +18,24 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+#if !defined(__INCLUDE_ClientLoadPlayersStateh_INCLUDE__)
+#define __INCLUDE_ClientLoadPlayersStateh_INCLUDE__
 
-#if !defined(__INCLUDE_ClientStateh_INCLUDE__)
-#define __INCLUDE_ClientStateh_INCLUDE__
+#include <engine/GameStateI.h>
 
-#include <engine/GameState.h>
-
-namespace ClientState  
+class ClientLoadPlayersState : public GameStateI
 {
-	enum Stimulus
-	{
-		StimNextPlayerDialog = 1,
-		StimGetPlayers,
-		StimLoadPlayers,
-		StimNewGame,
-		StimReady,
-		StimWait,
-		StimBuyWeapons,
-		StimAutoDefense,
-		StimPlaying,
-		StimDisconnected,
-		StimGameStopped,
-		StimShot,
-		StimScore
-	};
+public:
+	static ClientLoadPlayersState *instance();
 
-	enum State
-	{
-		StateConnect = 1,
-		StateNewGame,
-		StateGetPlayers,
-		StateLoadPlayers,
-		StateReady,
-		StateWait,
-		StateBuyWeapons,
-		StateAutoDefense,
-		StatePlaying,
-		StateShot,
-		StateScore
-	};
+	virtual void enterState(const unsigned state);
 
-	void setupGameState(bool network);
-	void addWindowManager(GameState &gameState, unsigned state);
-	void addStandardComponents(GameState &gameState, unsigned state, bool network);
+protected:
+	static ClientLoadPlayersState *instance_;
+
+private:
+	ClientLoadPlayersState();
+	virtual ~ClientLoadPlayersState();
 };
 
 #endif

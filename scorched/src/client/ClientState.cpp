@@ -31,6 +31,7 @@
 #include <client/ClientShotState.h>
 #include <client/ClientWaitState.h>
 #include <client/ClientNewGameState.h>
+#include <client/ClientLoadPlayersState.h>
 #include <client/ScorchedClient.h>
 #include <tankgraph/TankRenderer.h>
 #include <tankai/TankAIHumanCtrl.h>
@@ -132,6 +133,15 @@ void ClientState::setupGameState(bool network)
 	gameState.addStateStimulus(StateGetPlayers, 
 		StimWait, StateWait);
 
+	// StateLoadPlayers (Single Player Only)
+	addWindowManager(gameState, StateLoadPlayers);
+	gameState.addStateEntry(StateLoadPlayers,
+		ClientLoadPlayersState::instance());
+	gameState.addStateStimulus(StateLoadPlayers,
+		StimDisconnected, StateConnect);
+	gameState.addStateStimulus(StateLoadPlayers,
+		StimWait, StateWait);
+
 	// StateNewGame
 	addWindowManager(gameState, StateNewGame);
 	gameState.addStateLoop(StateNewGame, 
@@ -184,6 +194,8 @@ void ClientState::setupGameState(bool network)
 		StimScore, StateScore);
 	gameState.addStateStimulus(StateWait, 
 		StimGetPlayers, StateGetPlayers);
+	gameState.addStateStimulus(StateWait, 
+		StimLoadPlayers, StateLoadPlayers);
 	gameState.addStateStimulus(StateWait, 
 		StimNewGame, StateNewGame);
 

@@ -19,9 +19,12 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <client/ClientSave.h>
+#include <client/ScorchedClient.h>
 #include <server/ScorchedServer.h>
 #include <tankai/TankAIStore.h>
 #include <coms/NetBuffer.h>
+#include <coms/ComsAddPlayerMessage.h>
+#include <coms/ComsMessageSender.h>
 #include <common/Defines.h>
 #include <common/Logger.h>
 #include <stdio.h>
@@ -67,7 +70,7 @@ bool storeClient()
 		}
 		else
 		{
-			buffer.addToBuffer("");
+			buffer.addToBuffer("Human");
 		}
 	}
 
@@ -143,26 +146,21 @@ bool restoreClient(bool stateOnly)
 			std::string tankAIStr;
 			if (!reader.getFromBuffer(tankAIStr)) return false;
 		
-			if (tankAIStr.c_str()[0])
-			{
-				TankAI *tankai = TankAIStore::instance()->
-					getAIByName(tankAIStr.c_str());
-				if (!tankai)
-				{
-					Logger::log(0, "Unabled to find saved tank ai \"%s\"",
-						tankAIStr.c_str());
-					return false;
-				}
-				tank->setTankAI(tankai);
-			}
-		
 			if (tank->getState().getSpectator())
 			{
 				delete tank;
 			}
 			else
 			{
-				ScorchedServer::instance()->getTankContainer().addTank(tank);
+				ComsAddPlayerMessage message(
+					tank->getPlayerId(),
+					tank->getName(),
+					tank->getColor(),
+					tank->getModel().getModelName(),
+					ScorchedClient::instance()->getTankContainer().getCurrentDestinationId(),
+					tank->getTeam(),
+					tankAIStr.c_str());
+			        ComsMessageSender::sendToServer(message);
 			}
 		}
 	}

@@ -132,7 +132,7 @@ void SingleFrame::onLoadButton()
 	EndModal(wxID_OK);
 
 	wxString file = ::wxFileSelector("Please choose the saved game to load",
-									 getSaveFileDir(), // default path
+									 getSaveFile(""), // default path
 									 "", // default filename
 									 "", // default extension
 									 "*.s3d",

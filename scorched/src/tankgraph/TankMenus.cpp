@@ -34,7 +34,7 @@
 #include <landscape/Landscape.h>
 #include <dialogs/MainMenuDialog.h>
 #include <dialogs/QuitDialog.h>
-#include <dialogs/KillDialog.h>
+#include <dialogs/SaveDialog.h>
 #include <GLEXT/GLConsoleRuleFnIAdapter.h>
 
 TankMenus::TankMenus() : logger_("ClientLog")
@@ -152,6 +152,9 @@ TankMenus::PlayerMenu::PlayerMenu()
 			GLMenuItem("Mass Tank Kill",
 			new GLWTip("Mass Tank Kill",
 				"Kill all tanks.\nStarts the next round.")));
+		MainMenuDialog::instance()->addMenuItem("Player",
+			GLMenuItem("Save",
+			new GLWTip("Save", "Save this game.")));
 	}
 }
 
@@ -178,7 +181,11 @@ void TankMenus::PlayerMenu::menuSelection(const char* menuName,
 				break;
 			case 3:
 				GLWWindowManager::instance()->showWindow(
-					KillDialog::instance()->getId());
+					QuitDialog::instance()->getId());
+				break;
+			case 4:
+				GLWWindowManager::instance()->showWindow(
+					SaveDialog::instance()->getId());
 				break;
 			}
 		}

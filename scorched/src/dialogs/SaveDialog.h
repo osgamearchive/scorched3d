@@ -18,28 +18,26 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-#if !defined(__INCLUDE_KillDialogh_INCLUDE__)
-#define __INCLUDE_KillDialogh_INCLUDE__
+#if !defined(__INCLUDE_SaveDialogh_INCLUDE__)
+#define __INCLUDE_SaveDialogh_INCLUDE__
 
 #include <GLW/GLWWindow.h>
 #include <GLW/GLWButton.h>
 
-class KillDialog : public GLWWindow, 
-					public GLWButtonI
+class SaveDialog : public GLWWindow,
+				public GLWButtonI
 {
 public:
-	static KillDialog *instance();
+	static SaveDialog *instance();
 
 	virtual void buttonDown(unsigned int id);
-
 protected:
-	static KillDialog *instance_;
-	unsigned int okId_, killId_;
+	unsigned int okId_, cancelId_;
+	static SaveDialog *instance_;
 
 private:
-	KillDialog();
-	virtual ~KillDialog();
+	SaveDialog();
+	virtual ~SaveDialog();
 
 };
 

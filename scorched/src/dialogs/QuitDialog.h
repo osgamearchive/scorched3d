@@ -18,9 +18,9 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #if !defined(__INCLUDE_QuitDialogh_INCLUDE__)
 #define __INCLUDE_QuitDialogh_INCLUDE__
+
 #include <GLW/GLWWindow.h>
 #include <GLW/GLWButton.h>
 
@@ -33,6 +33,7 @@ public:
 	virtual void buttonDown(unsigned int id);
 protected:
 	unsigned int okId_, quitId_;
+	unsigned int killId_, saveId_;
 	static QuitDialog *instance_;
 
 private:
@@ -41,5 +42,5 @@ private:
 
 };
 
-
 #endif
+

@@ -79,7 +79,14 @@ bool ClientNewGameHandler::processMessage(unsigned int id,
 		// Stimulate into the next round state
 		ScorchedClient::instance()->getGameState().stimulate(ClientState::StimWait);
 		ScorchedClient::instance()->getGameState().checkStimulate();
-		ScorchedClient::instance()->getGameState().stimulate(ClientState::StimGetPlayers);
+		if (OptionsParam::instance()->getSaveFile()[0])
+		{
+			ScorchedClient::instance()->getGameState().stimulate(ClientState::StimLoadPlayers);
+		}
+		else
+		{
+			ScorchedClient::instance()->getGameState().stimulate(ClientState::StimGetPlayers);
+		}
 		ScorchedClient::instance()->getGameState().checkStimulate();
 
 		// Show player dialog

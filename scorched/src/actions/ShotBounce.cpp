@@ -70,7 +70,6 @@ void ShotBounce::init()
 	else
 	{
 		actionVector_ = ActionVectorHolder::getActionVector(actionId_);
-		DIALOG_ASSERT(actionVector_);
 	}
 	vPoint_ = context_->viewPoints.getNewViewPoint(playerId_);
 }
@@ -103,7 +102,7 @@ void ShotBounce::simulate(float frameTime, bool &remove)
 		}
 		else
 		{
-			if (actionVector_->empty()) remove = true;
+			if (!actionVector_ || actionVector_->empty()) remove = true;
 			else
 			{
 				unsigned int pointx = actionVector_->getPoint();

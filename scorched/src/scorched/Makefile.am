@@ -307,8 +307,8 @@ scorched3d_SOURCES = \
 	../dialogs/HelpButtonDialog.h \
 	../dialogs/KibitzingDialog.cpp \
 	../dialogs/KibitzingDialog.h \
-	../dialogs/KillDialog.cpp \
-	../dialogs/KillDialog.h \
+	../dialogs/SaveDialog.cpp \
+	../dialogs/SaveDialog.h \
 	../dialogs/LogDialog.cpp \
 	../dialogs/LogDialog.h \
 	../dialogs/MainMenuDialog.cpp \
@@ -749,6 +749,8 @@ scorched3d_SOURCES = \
 	../client/ClientMessageHandler.h \
 	../client/ClientNewGameHandler.cpp \
 	../client/ClientNewGameHandler.h \
+	../client/ClientLoadPlayersState.cpp \
+	../client/ClientLoadPlayersState.h \
 	../client/ClientNewGameState.cpp \
 	../client/ClientNewGameState.h \
 	../client/ClientNextRoundHandler.cpp \
