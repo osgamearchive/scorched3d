@@ -59,8 +59,7 @@ void LandscapeMaps::generateHMap(LandscapeDefinition *hdef,
 
 		// Load the landscape
 		GLBitmap bitmap;
-		const char *fileName = file->file.c_str();
-			//getDataFile("data/landscapes/%s",hdef.heightMapFile.c_str());
+		const char *fileName = getDataFile(file->file.c_str());
 		if (!bitmap.loadFromFile(fileName, false))
 		{
 			dialogMessage("Landscape",
