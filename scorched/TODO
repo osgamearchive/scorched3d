@@ -36,6 +36,9 @@ Added: Detail texture added to landscape (for cards that support it)
 Added: Waves around island is blended and does not look so pixelated
 Added: The water around the island is lighter and looks shallow
 Added: Water texture added to water (on top of the existing reflection) (for cards that support it)
+Added: Landscape width can be set (smaller landscapes only)
+Added: Better scroll bar
+Added: Widgets are all now rounded
 
 Fixed: Tank bounding boxes can still cause collisions when tank is dead
 Fixed: Random windows crashes, increased stack size to stop ODE from running out of stack

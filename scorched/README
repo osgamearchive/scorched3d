@@ -30,6 +30,8 @@ TANK
 <LCTRL>         - Speed up rotation + power.
 <ALT>           - Allow camera through ground.
 
+<A>             - Aim at the mouse pointer
+  (Only sets rotation, not power or elevation).
 <P>             - Turn on/off parachutes.
 <B>             - Use a Battery.
 
