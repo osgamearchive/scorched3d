@@ -650,7 +650,7 @@
     		<startmask></startmask>
     	</tankstart>
     	<heightmap type="file">
-    		<file>data/landscapes/hexisle.bmp</file>
+    		<file>data/landscapes/hexIsle.bmp</file>
     		<levelsurround>true</levelsurround>
     	</heightmap>
     </defn>

@@ -401,7 +401,7 @@
 	<landscape>
 		<name>Hex Isle</name>
 		<description></description>
-		<picture>hexisle-pic.bmp</picture>
+		<picture>hexIsle-pic.bmp</picture>
 		<weight>100</weight>
 		<defn>
 			<item>hex isle</item>

@@ -1,5 +1,4 @@
 <accessories>
-
 	<accessory type="AutoDefense">
 		<name>Auto Defense</name>
 		<description>Allows the tank to raise shields and 
@@ -39,7 +38,7 @@ When it is the players turn the tank may choose
 to move rather than fire.</description>
 		<icon>fuel.bmp</icon>
 		<cost>1000</cost>
-		<bundlesize>20</bundlesize>
+		<bundlesize>10</bundlesize>
 		<armslevel>7</armslevel>
 		<activationsound>battery/battery.wav</activationsound>
 	</accessory>
@@ -168,7 +167,7 @@ activated before they work.</description>
 		<collisionsound>shield/hit2.wav</collisionsound>
 		<removepower>2</removepower>
 	</accessory>
-	<accessory type="ShieldReflective">
+	<!--<accessory type="ShieldReflective">
 		<name>Mini Hard Hat</name>
 		<description>Deflects projectiles and prevents physical
 damage but only from above.
@@ -201,7 +200,7 @@ work.</description>
 		<activationsound>shield/activate.wav</activationsound>
 		<collisionsound>shield/hit.wav</collisionsound>
 		<removepower>4</removepower>
-	</accessory>
+	</accessory>-->
 	<accessory type="WeaponProjectile">
 		<name>Tracer</name>
 		<description>A projectile weapon that 
@@ -928,9 +927,9 @@ the world as you know it come to and end.</description>
 									<subweapon2 type="WeaponAimedOver">
 										<name>Strangelove</name> 
 										<armslevel>0</armslevel> 
-										<percentagemiss>20</percentagemiss>
-										<maxaimdistance>30</maxaimdistance>
-										<inaccuracy>10</inaccuracy>
+										<percentagemiss>10</percentagemiss>
+										<maxaimdistance>50</maxaimdistance>
+										<inaccuracy>5</inaccuracy>
 										<nowarheads>1</nowarheads>
 										<aimedweapon type="WeaponProjectile">
 											<name>Strangelove</name> 
@@ -1152,7 +1151,7 @@ target nearby tanks.</description>
 		</collisionaction>
 	</accessory>
 	<accessory type="WeaponProjectile"> 
-		<name>Hornet's Nest</name> 
+		<name>Hornet Nest</name> 
 		<description>Creates an angry cloud of hornets which fly
 around attack nearby opponents twice</description> 
 		<icon>hornet.bmp</icon> 
@@ -1164,46 +1163,46 @@ around attack nearby opponents twice</description>
 		<projectilescale>3</projectilescale>
 		<projectilemodel type="MilkShape">redhornet/redhornet.txt</projectilemodel> 
 		<collisionaction type="WeaponMulti"> 
-			<name>Hornet's Nest</name> 
+			<name>Hornet Nest</name> 
 			<armslevel>2</armslevel>
 			<subweapon1 type="WeaponDelay">
-				<name>Hornet's Nest</name> 
+				<name>Hornet Nest</name> 
 				<armslevel>2</armslevel>
 				<delay>5.0</delay>
 				<delayedweapon type="WeaponMulti">
-					<name>Hornet's Nest</name> 
+					<name>Hornet Nest</name> 
 					<armslevel>2</armslevel> 
 					<subweapon1 type="WeaponAimedOver"> 
-						<name>Hornet's Nest</name> 
+						<name>Hornet Nest</name> 
 						<armslevel>2</armslevel> 
 						<nowarheads>6</nowarheads>
 						<percentagemiss>20</percentagemiss>
 						<maxaimdistance>50</maxaimdistance>
 						<inaccuracy>10</inaccuracy> 
 						<aimedweapon type="WeaponProjectile"> 
-							<name>Hornet's Nest</name> 
+							<name>Hornet Nest</name> 
 							<armslevel>2</armslevel> 
 							<nocreateflame/>
 							<projectilescale>2.0</projectilescale>
 							<projectilemodel type="MilkShape">redhornet/redhornet.txt</projectilemodel> 
 							<collisionaction type="WeaponMulti"> 
-								<name>Hornet's Nest</name> 
+								<name>Hornet Nest</name> 
 								<armslevel>2</armslevel> 
 								<subweapon1 type="WeaponAimedOver"> 
-									<name>Hornet's Nest</name> 
+									<name>Hornet Nest</name> 
 									<armslevel>2</armslevel> 
 									<nowarheads>1</nowarheads>
 									<percentagemiss>20</percentagemiss>
 									<maxaimdistance>40</maxaimdistance>
 									<inaccuracy>10</inaccuracy> 
 									<aimedweapon type="WeaponProjectile"> 
-										<name>Hornet's Nest</name> 
+										<name>Hornet Nest</name> 
 										<armslevel>2</armslevel> 
 										<nocreateflame/>
 										<projectilescale>2.0</projectilescale>
 										<projectilemodel type="MilkShape">redhornet/redhornet.txt</projectilemodel> 
 										<collisionaction type="WeaponExplosion"> 
-											<name>Hornet's Nest</name> 
+											<name>Hornet Nest</name> 
 											<armslevel>2</armslevel> 
 											<nocreatedebris/>
 											<noluminance/>
@@ -1216,7 +1215,7 @@ around attack nearby opponents twice</description>
 									</aimedweapon> 
 								</subweapon1>
 								<subweapon2 type="WeaponExplosion"> 
-									<name>Hornet's Nest</name> 
+									<name>Hornet Nest</name> 
 									<armslevel>2</armslevel> 
 									<nocreatedebris/>
 									<noluminance/>
@@ -1230,7 +1229,7 @@ around attack nearby opponents twice</description>
 						</aimedweapon>
 					</subweapon1>
 					<subweapon2 type="WeaponExplosion">
-						<name>Hornet's Nest</name> 
+						<name>Hornet Nest</name> 
 						<armslevel>2</armslevel>
 						<nocreatedebris/>
 						<noluminance/>
@@ -1248,43 +1247,43 @@ around attack nearby opponents twice</description>
 				</delayedweapon>
 			</subweapon1>
 			<subweapon2 type="WeaponDelay">
-				<name>Hornet's Nest</name> 
+				<name>Hornet Nest</name> 
 				<armslevel>2</armslevel>
 				<delay>3.0</delay>
 				<delayedweapon type="WeaponMulti">
-					<name>Hornet's Nest</name> 
+					<name>Hornet Nest</name> 
 					<armslevel>2</armslevel> 
 					<subweapon1 type="WeaponAimedOver"> 
-						<name>Hornet's Nest</name> 
+						<name>Hornet Nest</name> 
 						<armslevel>2</armslevel> 
 						<nowarheads>5</nowarheads>
 						<percentagemiss>20</percentagemiss>
 						<maxaimdistance>50</maxaimdistance>
 						<inaccuracy>10</inaccuracy> 
 						<aimedweapon type="WeaponProjectile"> 
-							<name>Hornet's Nest</name> 
+							<name>Hornet Nest</name> 
 							<armslevel>2</armslevel> 
 							<nocreateflame/>
 							<projectilescale>2.0</projectilescale>
 							<projectilemodel type="MilkShape">redhornet/redhornet.txt</projectilemodel> 
 							<collisionaction type="WeaponMulti"> 
-								<name>Hornet's Nest</name> 
+								<name>Hornet Nest</name> 
 								<armslevel>2</armslevel> 
 								<subweapon1 type="WeaponAimedOver"> 
-									<name>Hornet's Nest</name> 
+									<name>Hornet Nest</name> 
 									<armslevel>2</armslevel> 
 									<nowarheads>1</nowarheads>
 									<percentagemiss>20</percentagemiss>
 									<maxaimdistance>40</maxaimdistance>
 									<inaccuracy>10</inaccuracy> 
 									<aimedweapon type="WeaponProjectile"> 
-										<name>Hornet's Nest</name> 
+										<name>Hornet Nest</name> 
 										<armslevel>2</armslevel> 
 										<nocreateflame/>
 										<projectilescale>2.0</projectilescale>
 										<projectilemodel type="MilkShape">redhornet/redhornet.txt</projectilemodel> 
 										<collisionaction type="WeaponExplosion"> 
-											<name>Hornet's Nest</name> 
+											<name>Hornet Nest</name> 
 											<armslevel>2</armslevel> 
 											<nocreatedebris/>
 											<noluminance/>
@@ -1297,7 +1296,7 @@ around attack nearby opponents twice</description>
 									</aimedweapon> 
 								</subweapon1>
 								<subweapon2 type="WeaponExplosion"> 
-									<name>Hornet's Nest</name> 
+									<name>Hornet Nest</name> 
 									<armslevel>2</armslevel> 
 									<nocreatedebris/>
 									<noluminance/>
@@ -1311,7 +1310,7 @@ around attack nearby opponents twice</description>
 						</aimedweapon>
 					</subweapon1>
 					<subweapon2 type="WeaponExplosion">
-						<name>Hornet's Nest</name> 
+						<name>Hornet Nest</name> 
 						<armslevel>2</armslevel>
 						<nocreatedebris/>
 						<noluminance/>
@@ -1329,43 +1328,43 @@ around attack nearby opponents twice</description>
 				</delayedweapon>
 			</subweapon2>
 			<subweapon3 type="WeaponDelay">
-				<name>Hornet's Nest</name> 
+				<name>Hornet Nest</name> 
 				<armslevel>2</armslevel>
 				<delay>1.0</delay>
 				<delayedweapon type="WeaponMulti">
-					<name>Hornet's Nest</name> 
+					<name>Hornet Nest</name> 
 					<armslevel>2</armslevel> 
 					<subweapon1 type="WeaponAimedOver"> 
-						<name>Hornet's Nest</name> 
+						<name>Hornet Nest</name> 
 						<armslevel>2</armslevel> 
 						<nowarheads>4</nowarheads>
 						<percentagemiss>10</percentagemiss>
 						<maxaimdistance>40</maxaimdistance>
 						<inaccuracy>0</inaccuracy> 
 						<aimedweapon type="WeaponProjectile"> 
-							<name>Hornet's Nest</name> 
+							<name>Hornet Nest</name> 
 							<armslevel>2</armslevel> 
 							<nocreateflame/>
 							<projectilescale>2.0</projectilescale>
 							<projectilemodel type="MilkShape">redhornet/redhornet.txt</projectilemodel> 
 							<collisionaction type="WeaponMulti"> 
-								<name>Hornet's Nest</name> 
+								<name>Hornet Nest</name> 
 								<armslevel>2</armslevel> 
 								<subweapon1 type="WeaponAimedOver"> 
-									<name>Hornet's Nest</name> 
+									<name>Hornet Nest</name> 
 									<armslevel>2</armslevel> 
 									<nowarheads>1</nowarheads>
 									<percentagemiss>10</percentagemiss>
 									<maxaimdistance>35</maxaimdistance>
 									<inaccuracy>0</inaccuracy> 
 									<aimedweapon type="WeaponProjectile"> 
-										<name>Hornet's Nest</name> 
+										<name>Hornet Nest</name> 
 										<armslevel>2</armslevel> 
 										<nocreateflame/>
 										<projectilescale>2.0</projectilescale>
 										<projectilemodel type="MilkShape">redhornet/redhornet.txt</projectilemodel> 
 										<collisionaction type="WeaponExplosion"> 
-											<name>Hornet's Nest</name> 
+											<name>Hornet Nest</name> 
 											<armslevel>2</armslevel> 
 											<nocreatedebris/>
 											<noluminance/>
@@ -1378,7 +1377,7 @@ around attack nearby opponents twice</description>
 									</aimedweapon> 
 								</subweapon1>
 								<subweapon2 type="WeaponExplosion"> 
-									<name>Hornet's Nest</name> 
+									<name>Hornet Nest</name> 
 									<armslevel>2</armslevel> 
 									<nocreatedebris/>
 									<noluminance/>
@@ -1392,7 +1391,7 @@ around attack nearby opponents twice</description>
 						</aimedweapon>
 					</subweapon1>
 					<subweapon2 type="WeaponExplosion">
-						<name>Hornet's Nest</name> 
+						<name>Hornet Nest</name> 
 						<armslevel>2</armslevel>
 						<nocreatedebris/>
 						<noluminance/>
@@ -1410,7 +1409,7 @@ around attack nearby opponents twice</description>
 				</delayedweapon>
 			</subweapon3>
 			<subweapon4 type="WeaponExplosion"> 
-				<name>Hornet's Nest</name> 
+				<name>Hornet Nest</name> 
 				<armslevel>2</armslevel>
 				<nocreatedebris/>
 				<noluminance/>
@@ -1426,7 +1425,7 @@ around attack nearby opponents twice</description>
 				<explosionsound>explosions/bees.wav</explosionsound> 
 			</subweapon4>
 			<subweapon5 type="WeaponExplosion">
-				<name>Hornet's Nest</name> 
+				<name>Hornet Nest</name> 
 				<armslevel>2</armslevel>
 				<nocreatedebris/>
 				<nocreatesplash/>
@@ -1456,7 +1455,7 @@ around attack nearby opponents twice</description>
 			<subweapon1 type="WeaponReference">
 				<name>Hornet Swarm</name>
 				<armslevel>0</armslevel>
-				<weapon>Hornet's Nest</weapon>
+				<weapon>Hornet Nest</weapon>
 			</subweapon1>
 			<subweapon2 type="WeaponDelay">
 				<name>Hornet Swarm</name>
@@ -1482,7 +1481,7 @@ around attack nearby opponents twice</description>
 							<subweapon1 type="WeaponReference">
 								<name>Hornet Swarm</name>
 								<armslevel>0</armslevel>
-								<weapon>Hornet's Nest</weapon>
+								<weapon>Hornet Nest</weapon>
 							</subweapon1>
 							<subweapon2 type="WeaponDelay">
 								<name>Hornet Swarm</name>
@@ -1505,7 +1504,7 @@ around attack nearby opponents twice</description>
 										<collisionaction type="WeaponReference">
 											<name>Hornet Swarm</name>
 											<armslevel>0</armslevel>
-											<weapon>Hornet's Nest</weapon>
+											<weapon>Hornet Nest</weapon>
 										</collisionaction>
 									</aimedweapon>
 								</delayedweapon>
@@ -1669,7 +1668,7 @@ continue bouncing outward and releasing more warheads</description>
 						<subweapon3 type="WeaponLeapFrog">
 							<name>Disco Bunny</name>
 							<armslevel>1</armslevel>
-							<bounce>0.6</bounce>
+							<bounce>0.8</bounce>
 							<collisionaction type="WeaponProjectile">
 								<name>Disco Bunny</name>
 								<armslevel>1</armslevel>
@@ -1717,7 +1716,7 @@ continue bouncing outward and releasing more warheads</description>
 									<subweapon3 type="WeaponLeapFrog">
 										<name>Disco Bunny</name>
 										<armslevel>1</armslevel>
-										<bounce>0.6</bounce>
+										<bounce>0.8</bounce>
 										<collisionaction type="WeaponProjectile">
 											<name>Disco Bunny</name>
 											<armslevel>1</armslevel>
@@ -2071,9 +2070,9 @@ releases rolling napalm warheads.</description>
 				</projectilemodel>
 				<collisionaction type="WeaponRoller"> 
 					<name>Fire Ants</name> 
-					<armslevel>3</armslevel> 
+					<armslevel>3</armslevel>
 					<numberrollers>2</numberrollers> 
-					<time>8</time>
+					<time>12</time>
 					<rollermodel type="ase">
 						<mesh>roller.ase</mesh>
 						<skin>none</skin>
@@ -2854,7 +2853,7 @@ point of impact, from which no opponent can escape</description>
 		<description>A projectile weapon that scatters 
 many riot bomblets on impact.</description>
 		<icon>ablast.bmp</icon>
-		<cost>1500</cost>
+		<cost>1000</cost>
 		<bundlesize>1</bundlesize>
 		<armslevel>8</armslevel>
 		<projectilemodel type="MilkShape">icbm/icbm.txt</projectilemodel>
@@ -2888,11 +2887,12 @@ many riot bomblets on impact.</description>
 							<armslevel>8</armslevel>
 							<nocreatedebris/>
 							<noluminance/>
+							<animate/>
 							<hurtamount>0.0</hurtamount>
 							<deform>down</deform>
 							<size>6</size>
 							<explosionsound>explosions/acid.wav</explosionsound>
-							<explosiontexture>exp03</explosiontexture>
+							<explosiontexture>acid00</explosiontexture>
 						</collisionaction>
 					</aimedweapon>
 				</aimedweapon>
@@ -2900,11 +2900,12 @@ many riot bomblets on impact.</description>
 			<subweapon2 type="WeaponExplosion">
 				<name>Acid Blast</name>
 				<armslevel>8</armslevel>
+				<animate/>
 				<hurtamount>0</hurtamount>
 				<deform>down</deform>
 				<size>8</size>
 				<explosionsound>explosions/crunch.wav</explosionsound>
-				<explosiontexture>exp03</explosiontexture>
+				<explosiontexture>acid00</explosiontexture>
 			</subweapon2>
 		</collisionaction>
 	</accessory>
@@ -2936,7 +2937,7 @@ This weapon does no physical damage</description>
 		<name>Riot Drill</name>
 		<description>Shoots 3 heavy riot bombs in rapid succession</description>
 		<icon>rblast.bmp</icon>
-		<cost>6000</cost>
+		<cost>4000</cost>
 		<bundlesize>1</bundlesize>
 		<armslevel>4</armslevel>
 		<firedsound>shoot/tripleshot.wav</firedsound>
@@ -3194,13 +3195,14 @@ that continue bouncing outward.</description>
 											<noluminance/>
 											<nowindaffected/>
 											<nocreatesplash/>
+											<animate/>
 											<minlife>2</minlife>
 											<maxlife>3</maxlife>
 											<hurtamount>0.0</hurtamount>
 											<deform>down</deform>
 											<size>8</size>
 											<explosionsound>explosions/acid.wav</explosionsound>
-											<explosiontexture>exp03</explosiontexture>
+											<explosiontexture>acid00</explosiontexture>
 										</collisionaction>
 									</aimedweapon>
 								</aimedweapon>
@@ -3248,11 +3250,12 @@ that continue bouncing outward.</description>
 														<noluminance/>
 														<nowindaffected/>
 														<nocreatesplash/>
+														<animate/>
 														<hurtamount>0.0</hurtamount>
 														<deform>down</deform>
 														<size>6</size>
 														<explosionsound>explosions/acid.wav</explosionsound>
-														<explosiontexture>exp03</explosiontexture>
+														<explosiontexture>acid00</explosiontexture>
 													</collisionaction>
 												</aimedweapon>
 											</aimedweapon>
@@ -3264,12 +3267,13 @@ that continue bouncing outward.</description>
 											<noluminance/>
 											<nowindaffected/>
 											<nocreatesplash/>
+											<animate/>
 											<minlife>2</minlife>
 											<maxlife>3</maxlife>
 											<hurtamount>0.0</hurtamount>
 											<deform>down</deform>
 											<size>8</size>
-											<explosiontexture>exp03</explosiontexture>
+											<explosiontexture>acid00</explosiontexture>
 											<explosionsound>explosions/acid.wav</explosionsound>			
 										</subweapon2>
 									</collisionaction>
@@ -3282,13 +3286,14 @@ that continue bouncing outward.</description>
 								<noluminance/>
 								<nowindaffected/>
 								<nocreatesplash/>
+								<animate/>
 								<minlife>3</minlife>
 								<maxlife>4</maxlife>
 								<hurtamount>0</hurtamount>
 								<deform>down</deform>
 								<size>10</size>
 								<explosionsound>explosions/acid.wav</explosionsound>
-								<explosiontexture>exp03</explosiontexture>
+								<explosiontexture>acid00</explosiontexture>
 							</subweapon3>
 						</collisionaction>
 					</aimedweapon>
@@ -3301,13 +3306,14 @@ that continue bouncing outward.</description>
 				<noluminance/>
 				<nowindaffected/>
 				<nocreatesplash/>
+				<animate/>
 				<minlife>3</minlife>
 				<maxlife>4</maxlife>
 				<hurtamount>0</hurtamount>
 				<deform>down</deform>
 				<size>12</size>
 				<explosionsound>explosions/acid.wav</explosionsound>
-				<explosiontexture>exp03</explosiontexture>
+				<explosiontexture>acid00</explosiontexture>
 			</subweapon2>
 		</collisionaction>
 	</accessory>
@@ -3613,7 +3619,7 @@ creating many large riot bombs.</description>
 	<accessory type="WeaponProjectile">
 		<name>Quicksand</name>
 		<description>A projectile weapon digs under 
-the ground and explodes/burns on contact.</description>
+the ground eats away the surrounding earth.</description>
 		<icon>hdigger.bmp</icon>
 		<cost>6000</cost>
 		<bundlesize>1</bundlesize>
@@ -3926,7 +3932,7 @@ cover them.</description>
 		</collisionaction>
 	</accessory>-->
 	<accessory type="WeaponProjectile">
-		<name>Meteor Missile</name>
+		<name>Small Meteor</name>
 		<description>A meteor that explodes on impact, scattering
 burning chunks of earth about the area.</description>
 		<icon>meteor.bmp</icon>
@@ -3939,24 +3945,24 @@ burning chunks of earth about the area.</description>
 		<firedsound>shoot/xlarge.wav</firedsound>
 		<projectilemodel type="MilkShape">flare.txt</projectilemodel>
 		<collisionaction type="WeaponMulti">
-			<name>Meteor Missile</name>
+			<name>Small Meteor</name>
 			<armslevel>4</armslevel>
 			<subweapon1 type="WeaponDelay">
-				<name>Meteor Missile</name>
+				<name>Small Meteor</name>
 				<armslevel>4</armslevel>
 				<delay>1.5</delay>
 				<delayedweapon type="WeaponMulti">
-					<name>Meteor Missile</name>
+					<name>Small Meteor</name>
 					<armslevel>4</armslevel>
 					<subweapon1 type="WeaponDelay">
-						<name>Meteor Missile</name>
+						<name>Small Meteor</name>
 						<armslevel>4</armslevel>
 						<delay>.5</delay>
 						<delayedweapon type="WeaponMulti">
-							<name>Meteor Missile</name>
+							<name>Small Meteor</name>
 							<armslevel>4</armslevel>
 							<subweapon1 type="WeaponProjectile">
-								<name>Meteor Missile</name>
+								<name>Small Meteor</name>
 								<armslevel>4</armslevel>
 								<projectilescale>2</projectilescale>
 								<projectilemodel type="ase">
@@ -3964,35 +3970,35 @@ burning chunks of earth about the area.</description>
 									<skin>molten.bmp</skin>
 								</projectilemodel>
 								<collisionaction type="WeaponMulti">
-									<name>Meteor Missile</name>
+									<name>Small Meteor</name>
 									<armslevel>4</armslevel>
 									<subweapon1 type="WeaponDelay">
-										<name>Meteor Missile</name>
+										<name>Small Meteor</name>
 										<armslevel>4</armslevel>
 										<delay>0.25</delay>
 										<delayedweapon type="WeaponAimedOver">
-											<name>Meteor Missile</name>
+											<name>Small Meteor</name>
 											<armslevel>4</armslevel>
 											<nowarheads>12</nowarheads>
 											<percentagemiss>100</percentagemiss>
 											<maxaimdistance>0</maxaimdistance>
 											<inaccuracy>100</inaccuracy>
 											<aimedweapon type="WeaponTranslate">
-												<name>Meteor Missile</name>
+												<name>Small Meteor</name>
 												<armslevel>2</armslevel>
 												<translatedist>10</translatedist>
 												<nextaction type="WeaponProjectile">
-													<name>Meteor Missile</name>
+													<name>Small Meteor</name>
 													<armslevel>4</armslevel>	
 													<projectilemodel type="ase">
 														<mesh>roller.ase</mesh>
 														<skin>molten.bmp</skin>
 													</projectilemodel>
 													<collisionaction type="WeaponMulti">
-														<name>Meteor Missile</name>
+														<name>Small Meteor</name>
 														<armslevel>4</armslevel>
 														<subweapon1 type="WeaponExplosion">
-															<name>Meteor Missile</name>
+															<name>Small Meteor</name>
 															<armslevel>4</armslevel>
 															<hurtamount>0.0</hurtamount>
 															<deform>up</deform>
@@ -4001,7 +4007,7 @@ burning chunks of earth about the area.</description>
 															<explosiontexture>exp02</explosiontexture>
 														</subweapon1>
 														<subweapon2 type="WeaponNapalm">
-															<name>Meteor Missile</name>
+															<name>Small Meteor</name>
 															<armslevel>4</armslevel>
 															<napalmtime>8.0</napalmtime>
 															<napalmheight>1.75</napalmheight>
@@ -4019,7 +4025,7 @@ burning chunks of earth about the area.</description>
 										</delayedweapon>
 									</subweapon1>
 									<subweapon2 type="WeaponExplosion">
-										<name>Meteor Missile</name>
+										<name>Small Meteor</name>
 										<armslevel>4</armslevel>
 										<hurtamount>1.2</hurtamount>
 										<deform>down</deform>
@@ -4031,7 +4037,7 @@ burning chunks of earth about the area.</description>
 								</collisionaction>
 							</subweapon1>
 							<subweapon2 type="WeaponExplosion">
-								<name>Meteor Missile</name>
+								<name>Small Meteor</name>
 								<armslevel>4</armslevel>
 								<nocreatedebris/>
 								<hurtamount>0</hurtamount>
@@ -4043,7 +4049,7 @@ burning chunks of earth about the area.</description>
 						</delayedweapon>
 					</subweapon1>
 					<subweapon2 type="WeaponExplosion">
-						<name>Meteor Missile</name>
+						<name>Small Meteor</name>
 						<armslevel>4</armslevel>
 						<nocreatedebris/>
 						<animate/>
@@ -4058,7 +4064,7 @@ burning chunks of earth about the area.</description>
 				</delayedweapon>
 			</subweapon1>
 			<subweapon2 type="WeaponExplosion">
-				<name>Meteor Missile</name>
+				<name>Small Meteor</name>
 				<armslevel>4</armslevel>
 				<nocreatedebris/>
 				<animate/>
@@ -5627,7 +5633,7 @@ destroying the landscape.</description>
 		</collisionaction>
 	</accessory>
 	<accessory type="WeaponProjectile">
-		<name>Lightning Bolt</name>
+		<name>Lightning Strike</name>
 		<description>A bolt of lightning that streaks
 down from the apex of the projectiles arc</description>
 		<icon>light.bmp</icon>
@@ -5641,151 +5647,193 @@ down from the apex of the projectiles arc</description>
 		<projectilemodel type="MilkShape">shockrocket/shockrocket.txt</projectilemodel>
 		<firedsound>shoot/flare.wav</firedsound>
 		<collisionaction type="WeaponMulti">
-			<name>Lightning Bolt</name>
+			<name>Lightning Strike</name>
 			<armslevel>2</armslevel>
 			<subweapon1 type="WeaponDelay">
-				<name>Lightning Bolt</name>
+				<name>Lightning Strike</name>
 				<armslevel>2</armslevel>
 				<delay>2.0</delay>
 				<delayedweapon type="WeaponAimedOver">
-					<name>Lightning Bolt</name>
+					<name>Lightning Strike</name>
 					<armslevel>2</armslevel>
 					<nowarheads>2</nowarheads>
 					<percentagemiss>0</percentagemiss>
 					<maxaimdistance>40</maxaimdistance>
 					<inaccuracy>0</inaccuracy>
 					<aimedweapon type="WeaponRedirect">
-						<name>Lightning Bolt</name>
+						<name>Lightning Strike</name>
 						<armslevel>2</armslevel>
 						<habs>false</habs>
 						<vabs>true</vabs>
 						<hredirect>0</hredirect>
 						<vredirect>135</vredirect>
-						<nextaction type="WeaponTranslate">
-							<name>Lightning Bolt</name>
+						<nextaction type="WeaponMulti">
+							<name>Lightning Strike</name>
 							<armslevel>2</armslevel>
-							<translatedist>10</translatedist>
-							<nextaction type="WeaponMulti">
-								<name>Lightning Bolt</name>
+							<subweapon1 type="WeaponTranslate">
+								<name>Lightning Strike</name>
 								<armslevel>2</armslevel>
-								<subweapon1 type="WeaponTranslate">
-									<name>Lightning Bolt</name>
+								<translatedist>10</translatedist>
+								<nextaction type="WeaponMulti">
+									<name>Lightning Strike</name>
 									<armslevel>2</armslevel>
-									<translatedist>10</translatedist>
-									<nextaction type="WeaponMulti">
-										<name>Lightning Bolt</name>
+									<subweapon1 type="WeaponTranslate">
+										<name>Lightning Strike</name>
 										<armslevel>2</armslevel>
-										<subweapon1 type="WeaponAimedOver">
-											<name>Lightning Bolt</name>
+										<translatedist>10</translatedist>
+										<nextaction type="WeaponMulti">
+											<name>Lightning Strike</name>
 											<armslevel>2</armslevel>
-											<nowarheads>1</nowarheads>
-											<percentagemiss>0</percentagemiss>
-											<maxaimdistance>30</maxaimdistance>
-											<inaccuracy>0</inaccuracy>
-											<aimedweapon type="WeaponRedirect">
-												<name>Lightning Bolt</name>
+											<subweapon1 type="WeaponAimedOver">
+												<name>Lightning Strike</name>
 												<armslevel>2</armslevel>
-												<habs>false</habs>
-												<vabs>true</vabs>
-												<hredirect>0</hredirect>
-												<vredirect>150</vredirect>
-												<nextaction type="WeaponTranslate">
-													<name>Lightning Bolt</name>
+												<nowarheads>1</nowarheads>
+												<percentagemiss>0</percentagemiss>
+												<maxaimdistance>30</maxaimdistance>
+												<inaccuracy>0</inaccuracy>
+												<aimedweapon type="WeaponRedirect">
+													<name>Lightning Strike</name>
 													<armslevel>2</armslevel>
-													<translatedist>10</translatedist>
+													<habs>false</habs>
+													<vabs>true</vabs>
+													<hredirect>0</hredirect>
+													<vredirect>150</vredirect>
 													<nextaction type="WeaponMulti">
-														<name>Lightning Bolt</name>
+														<name>Lightning Strike</name>
 														<armslevel>2</armslevel>
 														<subweapon1 type="WeaponTranslate">
-															<name>Lightning Bolt</name>
+															<name>Lightning Strike</name>
 															<armslevel>2</armslevel>
 															<translatedist>10</translatedist>
 															<nextaction type="WeaponMulti">
-																<name>Lightning Bolt</name>
+																<name>Lightning Strike</name>
 																<armslevel>2</armslevel>
-																<subweapon1 type="WeaponAimedOver">
-																	<name>Lightning Bolt</name>
+																<subweapon1 type="WeaponTranslate">
+																	<name>Lightning Strike</name>
 																	<armslevel>2</armslevel>
-																	<nowarheads>1</nowarheads>
-																	<percentagemiss>0</percentagemiss>
-																	<maxaimdistance>20</maxaimdistance>
-																	<inaccuracy>0</inaccuracy>
-																	<aimedweapon type="WeaponRedirect">
-																		<name>Lightning Bolt</name>
+																	<translatedist>10</translatedist>
+																	<nextaction type="WeaponMulti">
+																		<name>Lightning Strike</name>
 																		<armslevel>2</armslevel>
-																		<habs>false</habs>
-																		<vabs>true</vabs>
-																		<hredirect>0</hredirect>
-																		<vredirect>165</vredirect>
-																		<nextaction type="WeaponTranslate">
-																			<name>Lightning Bolt</name>
+																		<subweapon1 type="WeaponAimedOver">
+																			<name>Lightning Strike</name>
 																			<armslevel>2</armslevel>
-																			<translatedist>10</translatedist>
-																			<nextaction type="WeaponMulti">
-																				<name>Lightning Bolt</name>
+																			<nowarheads>1</nowarheads>
+																			<percentagemiss>0</percentagemiss>
+																			<maxaimdistance>20</maxaimdistance>
+																			<inaccuracy>0</inaccuracy>
+																			<aimedweapon type="WeaponRedirect">
+																				<name>Lightning Strike</name>
 																				<armslevel>2</armslevel>
-																				<subweapon1 type="WeaponTranslate">
-																					<name>Lightning Bolt</name>
+																				<habs>false</habs>
+																				<vabs>true</vabs>
+																				<hredirect>0</hredirect>
+																				<vredirect>165</vredirect>
+																				<nextaction type="WeaponMulti">
+																					<name>Lightning Strike</name>
 																					<armslevel>2</armslevel>
-																					<translatedist>10</translatedist>
-																					<nextaction type="WeaponMulti">
-																						<name>Lightning Bolt</name>
+																					<subweapon1 type="WeaponTranslate">
+																						<name>Lightning Strike</name>
 																						<armslevel>2</armslevel>
-																						<subweapon1 type="WeaponAimedOver">
-																							<name>Lightning Bolt</name>
+																						<translatedist>10</translatedist>
+																						<nextaction type="WeaponMulti">
+																							<name>Lightning Strike</name>
 																							<armslevel>2</armslevel>
-																							<nowarheads>1</nowarheads>
-																							<percentagemiss>0</percentagemiss>
-																							<maxaimdistance>10</maxaimdistance>
-																							<inaccuracy>0</inaccuracy>
-																							<aimedweapon type="WeaponRedirect">
-																								<name>Lightning Bolt</name>
+																							<subweapon1 type="WeaponTranslate">
+																								<name>Lightning Strike</name>
 																								<armslevel>2</armslevel>
-																								<habs>false</habs>
-																								<vabs>true</vabs>
-																								<hredirect>0</hredirect>
-																								<vredirect>180</vredirect>
-																								<nextaction type="WeaponTranslate">
-																									<name>Lightning Bolt</name>
+																								<translatedist>10</translatedist>
+																								<nextaction type="WeaponMulti">
+																									<name>Lightning Strike</name>
 																									<armslevel>2</armslevel>
-																									<translatedist>10</translatedist>
-																									<nextaction type="WeaponMulti">
-																										<name>Lightning Bolt</name>
+																									<subweapon1 type="WeaponAimedOver">
+																										<name>Lightning Strike</name>
 																										<armslevel>2</armslevel>
-																										<subweapon1 type="WeaponTranslate">
-																											<name>Lightning Bolt</name>
+																										<nowarheads>1</nowarheads>
+																										<percentagemiss>0</percentagemiss>
+																										<maxaimdistance>10</maxaimdistance>
+																										<inaccuracy>0</inaccuracy>
+																										<aimedweapon type="WeaponRedirect">
+																											<name>Lightning Strike</name>
 																											<armslevel>2</armslevel>
-																											<translatedist>10</translatedist>
+																											<habs>false</habs>
+																											<vabs>true</vabs>
+																											<hredirect>0</hredirect>
+																											<vredirect>180</vredirect>
 																											<nextaction type="WeaponMulti">
-																												<name>Lightning Bolt</name>
+																												<name>Lightning Strike</name>
 																												<armslevel>2</armslevel>
 																												<subweapon1 type="WeaponTranslate">
-																													<name>Lightning Bolt</name>
+																													<name>Lightning Strike</name>
 																													<armslevel>2</armslevel>
 																													<translatedist>10</translatedist>
 																													<nextaction type="WeaponMulti">
-																														<name>Lightning Bolt</name>
+																														<name>Lightning Strike</name>
 																														<armslevel>2</armslevel>
 																														<subweapon1 type="WeaponTranslate">
-																															<name>Lightning Bolt</name>
+																															<name>Lightning Strike</name>
 																															<armslevel>2</armslevel>
 																															<translatedist>10</translatedist>
 																															<nextaction type="WeaponMulti">
-																																<name>Lightning Bolt</name>
+																																<name>Lightning Strike</name>
 																																<armslevel>2</armslevel>
 																																<subweapon1 type="WeaponTranslate">
-																																	<name>Lightning Bolt</name>
+																																	<name>Lightning Strike</name>
 																																	<armslevel>2</armslevel>
 																																	<translatedist>10</translatedist>
 																																	<nextaction type="WeaponMulti">
-																																		<name>Lightning Bolt</name>
+																																		<name>Lightning Strike</name>
 																																		<armslevel>2</armslevel>
-																																		<subweapon1 type="WeaponNull">
-																																			<name>Lightning Bolt</name>
+																																		<subweapon1 type="WeaponTranslate">
+																																			<name>Lightning Strike</name>
 																																			<armslevel>2</armslevel>
+																																			<translatedist>10</translatedist>
+																																			<nextaction type="WeaponMulti">
+																																				<name>Lightning Strike</name>
+																																				<armslevel>2</armslevel>
+																																				<subweapon1 type="WeaponTranslate">
+																																					<name>Lightning Strike</name>
+																																					<armslevel>2</armslevel>
+																																					<translatedist>10</translatedist>
+																																					<nextaction type="WeaponMulti">
+																																						<name>Lightning Strike</name>
+																																						<armslevel>2</armslevel>
+																																						<subweapon1 type="WeaponNull">
+																																							<name>Lightning Strike</name>
+																																							<armslevel>2</armslevel>
+																																						</subweapon1>
+																																						<subweapon2 type="WeaponExplosion">
+																																							<name>Lightning Strike</name>
+																																							<armslevel>2</armslevel>
+																																							<nocreatedebris/>
+																																							<nocreatesplash/>
+																																							<minlife>0.25</minlife>
+																																							<maxlife>0.5</maxlife>
+																																							<hurtamount>1.25</hurtamount>
+																																							<deform>none</deform>
+																																							<size>10</size>
+																																							<explosionsound>none</explosionsound>
+																																							<explosiontexture>none</explosiontexture>
+																																						</subweapon2>
+																																					</nextaction>
+																																				</subweapon1>
+																																				<subweapon2 type="WeaponExplosion">
+																																					<name>Lightning Strike</name>
+																																					<armslevel>2</armslevel>
+																																					<nocreatedebris/>
+																																					<nocreatesplash/>
+																																					<minlife>0.25</minlife>
+																																					<maxlife>0.5</maxlife>
+																																					<hurtamount>1.25</hurtamount>
+																																					<deform>none</deform>
+																																					<size>10</size>
+																																					<explosionsound>none</explosionsound>
+																																					<explosiontexture>none</explosiontexture>
+																																				</subweapon2>
+																																			</nextaction>
 																																		</subweapon1>
 																																		<subweapon2 type="WeaponExplosion">
-																																			<name>Lightning Bolt</name>
+																																			<name>Lightning Strike</name>
 																																			<armslevel>2</armslevel>
 																																			<nocreatedebris/>
 																																			<nocreatesplash/>
@@ -5795,12 +5843,12 @@ down from the apex of the projectiles arc</description>
 																																			<deform>none</deform>
 																																			<size>10</size>
 																																			<explosionsound>none</explosionsound>
-																																			<explosiontexture>light00</explosiontexture>
+																																			<explosiontexture>none</explosiontexture>
 																																		</subweapon2>
 																																	</nextaction>
 																																</subweapon1>
 																																<subweapon2 type="WeaponExplosion">
-																																	<name>Lightning Bolt</name>
+																																	<name>Lightning Strike</name>
 																																	<armslevel>2</armslevel>
 																																	<nocreatedebris/>
 																																	<nocreatesplash/>
@@ -5810,12 +5858,12 @@ down from the apex of the projectiles arc</description>
 																																	<deform>none</deform>
 																																	<size>10</size>
 																																	<explosionsound>none</explosionsound>
-																																	<explosiontexture>light00</explosiontexture>
+																																	<explosiontexture>none</explosiontexture>
 																																</subweapon2>
 																															</nextaction>
 																														</subweapon1>
 																														<subweapon2 type="WeaponExplosion">
-																															<name>Lightning Bolt</name>
+																															<name>Lightning Strike</name>
 																															<armslevel>2</armslevel>
 																															<nocreatedebris/>
 																															<nocreatesplash/>
@@ -5825,76 +5873,101 @@ down from the apex of the projectiles arc</description>
 																															<deform>none</deform>
 																															<size>10</size>
 																															<explosionsound>none</explosionsound>
-																															<explosiontexture>light00</explosiontexture>
+																															<explosiontexture>none</explosiontexture>
 																														</subweapon2>
 																													</nextaction>
 																												</subweapon1>
-																												<subweapon2 type="WeaponExplosion">
-																													<name>Lightning Bolt</name>
+																												<subweapon2 type="WeaponLightning">
+																													<name>Lightning Strike</name>
 																													<armslevel>2</armslevel>
-																													<nocreatedebris/>
-																													<nocreatesplash/>
-																													<minlife>0.25</minlife>
-																													<maxlife>0.5</maxlife>
-																													<hurtamount>1.25</hurtamount>
-																													<deform>none</deform>
-																													<size>10</size>
-																													<explosionsound>none</explosionsound>
-																													<explosiontexture>light00</explosiontexture>
+																													<conelength>30</conelength>
+																													<seglength>1</seglength>
+																													<segvar>2</segvar>
+																													<size>4</size>
+																													<sizevar>-1</sizevar>
+																													<minsize>0.1</minsize>
+																													<splitprob>0.12</splitprob>
+																													<splitvar>0.02</splitvar>
+																													<deathprob>0.03</deathprob>
+																													<derivangle>0.5</derivangle>
+																													<anglevar>0.94</anglevar>
+																													<totaltime>1</totaltime>
+																													<seghurt>10</seghurt>
+																													<seghurtradius>2</seghurtradius>
+																													<sound>none</sound>
 																												</subweapon2>
 																											</nextaction>
-																										</subweapon1>
-																										<subweapon2 type="WeaponExplosion">
-																											<name>Lightning Bolt</name>
-																											<armslevel>2</armslevel>
-																											<nocreatedebris/>
-																											<nocreatesplash/>
-																											<minlife>0.25</minlife>
-																											<maxlife>0.5</maxlife>
-																											<hurtamount>1.25</hurtamount>
-																											<deform>none</deform>
-																											<size>10</size>
-																											<explosionsound>none</explosionsound>
-																											<explosiontexture>light00</explosiontexture>
-																										</subweapon2>
-																									</nextaction>
+																										</aimedweapon>
+																									</subweapon1>
+																									<subweapon2 type="WeaponExplosion">
+																										<name>Lightning Strike</name>
+																										<armslevel>2</armslevel>
+																										<nocreatedebris/>
+																										<nocreatesplash/>
+																										<minlife>0.25</minlife>
+																										<maxlife>0.5</maxlife>
+																										<hurtamount>1.25</hurtamount>
+																										<deform>none</deform>
+																										<size>10</size>
+																										<explosionsound>none</explosionsound>
+																										<explosiontexture>none</explosiontexture>
+																									</subweapon2>
 																								</nextaction>
-																							</aimedweapon>
-																						</subweapon1>
-																						<subweapon2 type="WeaponExplosion">
-																							<name>Lightning Bolt</name>
-																							<armslevel>2</armslevel>
-																							<nocreatedebris/>
-																							<nocreatesplash/>
-																							<minlife>0.25</minlife>
-																							<maxlife>0.5</maxlife>
-																							<hurtamount>1.25</hurtamount>
-																							<deform>none</deform>
-																							<size>10</size>
-																							<explosionsound>none</explosionsound>
-																							<explosiontexture>light00</explosiontexture>
-																						</subweapon2>
-																					</nextaction>
-																				</subweapon1>
-																				<subweapon2 type="WeaponExplosion">
-																					<name>Lightning Bolt</name>
-																					<armslevel>2</armslevel>
-																					<nocreatedebris/>
-																					<nocreatesplash/>
-																					<minlife>0.25</minlife>
-																					<maxlife>0.5</maxlife>
-																					<hurtamount>1.25</hurtamount>
-																					<deform>none</deform>
-																					<size>10</size>
-																					<explosionsound>none</explosionsound>
-																					<explosiontexture>light00</explosiontexture>
-																				</subweapon2>
-																			</nextaction>
-																		</nextaction>
-																	</aimedweapon>
+																							</subweapon1>
+																							<subweapon2 type="WeaponExplosion">
+																								<name>Lightning Strike</name>
+																								<armslevel>2</armslevel>
+																								<nocreatedebris/>
+																								<nocreatesplash/>
+																								<minlife>0.25</minlife>
+																								<maxlife>0.5</maxlife>
+																								<hurtamount>1.25</hurtamount>
+																								<deform>none</deform>
+																								<size>10</size>
+																								<explosionsound>none</explosionsound>
+																								<explosiontexture>none</explosiontexture>
+																							</subweapon2>
+																						</nextaction>
+																					</subweapon1>
+																					<subweapon2 type="WeaponLightning">
+																						<name>Lightning Strike</name>
+																						<armslevel>2</armslevel>
+																						<conelength>30</conelength>
+																						<seglength>1</seglength>
+																						<segvar>2</segvar>
+																						<size>4</size>
+																						<sizevar>-1</sizevar>
+																						<minsize>0.1</minsize>
+																						<splitprob>0.12</splitprob>
+																						<splitvar>0.02</splitvar>
+																						<deathprob>0.03</deathprob>
+																						<derivangle>0.5</derivangle>
+																						<anglevar>0.94</anglevar>
+																						<totaltime>1</totaltime>
+																						<seghurt>10</seghurt>
+																						<seghurtradius>2</seghurtradius>
+																						<sound>none</sound>
+																					</subweapon2>
+																				</nextaction>
+																			</aimedweapon>
+																		</subweapon1>
+																		<subweapon2 type="WeaponExplosion">
+																			<name>Lightning Strike</name>
+																			<armslevel>2</armslevel>
+																			<nocreatedebris/>
+																			<nocreatesplash/>
+																			<minlife>0.25</minlife>
+																			<maxlife>0.5</maxlife>
+																			<hurtamount>1.25</hurtamount>
+																			<deform>none</deform>
+																			<size>10</size>
+																			<explosionsound>none</explosionsound>
+																			<explosiontexture>none</explosiontexture>
+																		</subweapon2>
+																	</nextaction>
 																</subweapon1>
 																<subweapon2 type="WeaponExplosion">
-																	<name>Lightning Bolt</name>
+																	<name>Lightning Strike</name>
 																	<armslevel>2</armslevel>
 																	<nocreatedebris/>
 																	<nocreatesplash/>
@@ -5904,63 +5977,88 @@ down from the apex of the projectiles arc</description>
 																	<deform>none</deform>
 																	<size>10</size>
 																	<explosionsound>none</explosionsound>
-																	<explosiontexture>light00</explosiontexture>
+																	<explosiontexture>none</explosiontexture>
 																</subweapon2>
 															</nextaction>
 														</subweapon1>
-														<subweapon2 type="WeaponExplosion">
-															<name>Lightning Bolt</name>
+														<subweapon2 type="WeaponLightning">
+															<name>Lightning Strike</name>
 															<armslevel>2</armslevel>
-															<nocreatedebris/>
-															<nocreatesplash/>
-															<minlife>0.25</minlife>
-															<maxlife>0.5</maxlife>
-															<hurtamount>1.25</hurtamount>
-															<deform>none</deform>
-															<size>10</size>
-															<explosionsound>none</explosionsound>
-															<explosiontexture>light00</explosiontexture>
+															<conelength>30</conelength>
+															<seglength>1</seglength>
+															<segvar>2</segvar>
+															<size>4</size>
+															<sizevar>-1</sizevar>
+															<minsize>0.1</minsize>
+															<splitprob>0.12</splitprob>
+															<splitvar>0.02</splitvar>
+															<deathprob>0.03</deathprob>
+															<derivangle>0.5</derivangle>
+															<anglevar>0.94</anglevar>
+															<totaltime>1</totaltime>
+															<seghurt>10</seghurt>
+															<seghurtradius>2</seghurtradius>
+															<sound>none</sound>
 														</subweapon2>
 													</nextaction>
-												</nextaction>
-											</aimedweapon>
-										</subweapon1>
-										<subweapon2 type="WeaponExplosion">
-											<name>Lightning Bolt</name>
-											<armslevel>2</armslevel>
-											<nocreatedebris/>
-											<nocreatesplash/>
-											<minlife>0.25</minlife>
-											<maxlife>0.5</maxlife>
-											<hurtamount>1.25</hurtamount>
-											<deform>none</deform>
-											<size>10</size>
-											<explosionsound>none</explosionsound>
-											<explosiontexture>light00</explosiontexture>
-										</subweapon2>
-									</nextaction>
-								</subweapon1>
-								<subweapon2 type="WeaponExplosion">
-									<name>Lightning Bolt</name>
-									<armslevel>2</armslevel>
-									<nocreatedebris/>
-									<nocreatesplash/>
-									<minlife>0.25</minlife>
-									<maxlife>0.5</maxlife>
-									<hurtamount>1.25</hurtamount>
-									<deform>none</deform>
-									<size>10</size>
-									<explosionsound>explosions/lightningbolt.wav</explosionsound>
-									<explosiontexture>light00-3</explosiontexture>
-								</subweapon2>
-							</nextaction>
+												</aimedweapon>
+											</subweapon1>
+											<subweapon2 type="WeaponExplosion">
+												<name>Lightning Strike</name>
+												<armslevel>2</armslevel>
+												<nocreatedebris/>
+												<nocreatesplash/>
+												<minlife>0.25</minlife>
+												<maxlife>0.5</maxlife>
+												<hurtamount>1.25</hurtamount>
+												<deform>none</deform>
+												<size>10</size>
+												<explosionsound>none</explosionsound>
+												<explosiontexture>none</explosiontexture>
+											</subweapon2>
+										</nextaction>
+									</subweapon1>
+									<subweapon2 type="WeaponExplosion">
+										<name>Lightning Strike</name>
+										<armslevel>2</armslevel>
+										<nocreatedebris/>
+										<nocreatesplash/>
+										<minlife>0.25</minlife>
+										<maxlife>0.5</maxlife>
+										<hurtamount>1.25</hurtamount>
+										<deform>none</deform>
+										<size>10</size>
+										<explosionsound>explosions/lightningbolt.wav</explosionsound>
+										<explosiontexture>none</explosiontexture>
+									</subweapon2>
+								</nextaction>
+							</subweapon1>
+							<subweapon2 type="WeaponLightning">
+								<name>Lightning Strike</name>
+								<armslevel>2</armslevel>
+								<conelength>30</conelength>
+								<seglength>1</seglength>
+								<segvar>2</segvar>
+								<size>4</size>
+								<sizevar>-1</sizevar>
+								<minsize>0.1</minsize>
+								<splitprob>0.12</splitprob>
+								<splitvar>0.02</splitvar>
+								<deathprob>0.03</deathprob>
+								<derivangle>0.5</derivangle>
+								<anglevar>0.94</anglevar>
+								<totaltime>1</totaltime>
+								<seghurt>10</seghurt>
+								<seghurtradius>2</seghurtradius>
+								<sound>none</sound>
+							</subweapon2>
 						</nextaction>
 					</aimedweapon>
 				</delayedweapon>
 			</subweapon1>
 			<!-- Clouds -->
 			<subweapon2 type="WeaponExplosion">
-				<name>Lightning Bolt</name>
+				<name>Lightning Strike</name>
 				<armslevel>2</armslevel>
 				<nocreatedebris/>
 				<nocreatesplash/>
@@ -5975,25 +6073,25 @@ down from the apex of the projectiles arc</description>
 				<explosiontexture>cloud00-5</explosiontexture>
 			</subweapon2>
 			<subweapon3 type="WeaponDelay">
-				<name>Lightning Bolt</name>
+				<name>Lightning Strike</name>
 				<armslevel>2</armslevel>
 				<delay>1.0</delay>
 				<delayedweapon type="WeaponMulti">
-					<name>Lightning Bolt</name>
+					<name>Lightning Strike</name>
 					<armslevel>2</armslevel>
 					<subweapon1 type="WeaponRedirect">
-						<name>Lightning Bolt</name>
+						<name>Lightning Strike</name>
 						<armslevel>2</armslevel>
 						<habs>false</habs>
 						<vabs>true</vabs>
 						<hredirect>0</hredirect>
 						<vredirect>90</vredirect>
 						<nextaction type="WeaponTranslate">
-							<name>Lightning Bolt</name>
+							<name>Lightning Strike</name>
 							<armslevel>2</armslevel>
 							<translatedist>10</translatedist>
 							<nextaction type="WeaponExplosion">
-								<name>Lightning Bolt</name>
+								<name>Lightning Strike</name>
 								<armslevel>2</armslevel>
 								<nocreatedebris/>
 								<nocreatesplash/>
@@ -6010,18 +6108,18 @@ down from the apex of the projectiles arc</description>
 						</nextaction>
 					</subweapon1>
 					<subweapon2 type="WeaponRedirect">
-						<name>Lightning Bolt</name>
+						<name>Lightning Strike</name>
 						<armslevel>2</armslevel>
 						<habs>false</habs>
 						<vabs>true</vabs>
 						<hredirect>90</hredirect>
 						<vredirect>90</vredirect>
 						<nextaction type="WeaponTranslate">
-							<name>Lightning Bolt</name>
+							<name>Lightning Strike</name>
 							<armslevel>2</armslevel>
 							<translatedist>10</translatedist>
 							<nextaction type="WeaponExplosion">
-								<name>Lightning Bolt</name>
+								<name>Lightning Strike</name>
 								<armslevel>2</armslevel>
 								<nocreatedebris/>
 								<nocreatesplash/>
@@ -6038,18 +6136,18 @@ down from the apex of the projectiles arc</description>
 						</nextaction>
 					</subweapon2>
 					<subweapon3 type="WeaponRedirect">
-						<name>Lightning Bolt</name>
+						<name>Lightning Strike</name>
 						<armslevel>2</armslevel>
 						<habs>false</habs>
 						<vabs>true</vabs>
 						<hredirect>180</hredirect>
 						<vredirect>90</vredirect>
 						<nextaction type="WeaponTranslate">
-							<name>Lightning Bolt</name>
+							<name>Lightning Strike</name>
 							<armslevel>2</armslevel>
 							<translatedist>10</translatedist>
 							<nextaction type="WeaponExplosion">
-								<name>Lightning Bolt</name>
+								<name>Lightning Strike</name>
 								<armslevel>2</armslevel>
 								<nocreatedebris/>
 								<nocreatesplash/>
@@ -6066,18 +6164,18 @@ down from the apex of the projectiles arc</description>
 						</nextaction>
 					</subweapon3>
 					<subweapon4 type="WeaponRedirect">
-						<name>Lightning Bolt</name>
+						<name>Lightning Strike</name>
 						<armslevel>2</armslevel>
 						<habs>false</habs>
 						<vabs>true</vabs>
 						<hredirect>270</hredirect>
 						<vredirect>90</vredirect>
 						<nextaction type="WeaponTranslate">
-							<name>Lightning Bolt</name>
+							<name>Lightning Strike</name>
 							<armslevel>2</armslevel>
 							<translatedist>10</translatedist>
 							<nextaction type="WeaponExplosion">
-								<name>Lightning Bolt</name>
+								<name>Lightning Strike</name>
 								<armslevel>2</armslevel>
 								<nocreatedebris/>
 								<nocreatesplash/>
@@ -6370,21 +6468,21 @@ through the ground aimed at nearby tanks</description>
 											<deform>none</deform>
 											<size>10</size>
 											<explosionsound>none</explosionsound>
-										<explosiontexture>light00</explosiontexture>
-									</subweapon2>
-								</nextaction>
-							</delayedweapon>
-						</subweapon1>
-						<subweapon2 type="WeaponExplosion">
-							<name>Chain Lightning</name>
-							<armslevel>3</armslevel>
-							<nocreatedebris/>
-							<nocreatesplash/>
-							<hurtamount>1.0</hurtamount>
-							<deform>none</deform>
-							<size>10</size>
-							<explosionsound>none</explosionsound>
-							<explosiontexture>light00</explosiontexture>
+											<explosiontexture>light00</explosiontexture>
+										</subweapon2>
+									</nextaction>
+								</delayedweapon>
+							</subweapon1>
+							<subweapon2 type="WeaponExplosion">
+								<name>Chain Lightning</name>
+								<armslevel>3</armslevel>
+								<nocreatedebris/>
+								<nocreatesplash/>
+								<hurtamount>1.0</hurtamount>
+								<deform>none</deform>
+								<size>10</size>
+								<explosionsound>none</explosionsound>
+								<explosiontexture>light00</explosiontexture>
 							</subweapon2>
 						</nextaction>
 					</delayedweapon>
@@ -6680,7 +6778,7 @@ arc creating several lightning bolts over a few seconds</description>
 					<nextaction type="WeaponReference">
 						<name>Lightning Storm</name>
 						<armslevel>1</armslevel>
-						<weapon>Lightning Bolt</weapon>
+						<weapon>Lightning Strike</weapon>
 					</nextaction>
 				</subweapon1>
 				<subweapon2 type="WeaponDelay">
@@ -6708,7 +6806,7 @@ arc creating several lightning bolts over a few seconds</description>
 								<nextaction type="WeaponReference">
 									<name>Lightning Storm</name>
 									<armslevel>1</armslevel>
-									<weapon>Lightning Bolt</weapon>
+									<weapon>Lightning Strike</weapon>
 								</nextaction>
 							</nextaction>
 						</nextaction>
@@ -6739,7 +6837,7 @@ arc creating several lightning bolts over a few seconds</description>
 								<nextaction type="WeaponReference">
 									<name>Lightning Storm</name>
 									<armslevel>1</armslevel>
-									<weapon>Lightning Bolt</weapon>
+									<weapon>Lightning Strike</weapon>
 								</nextaction>
 							</nextaction>
 						</nextaction>
@@ -6770,7 +6868,7 @@ arc creating several lightning bolts over a few seconds</description>
 								<nextaction type="WeaponReference">
 									<name>Lightning Storm</name>
 									<armslevel>1</armslevel>
-									<weapon>Lightning Bolt</weapon>
+									<weapon>Lightning Strike</weapon>
 								</nextaction>
 							</nextaction>
 						</nextaction>
@@ -6801,7 +6899,7 @@ arc creating several lightning bolts over a few seconds</description>
 								<nextaction type="WeaponReference">
 									<name>Lightning Storm</name>
 									<armslevel>1</armslevel>
-									<weapon>Lightning Bolt</weapon>
+									<weapon>Lightning Strike</weapon>
 								</nextaction>
 							</nextaction>
 						</nextaction>
@@ -6843,7 +6941,7 @@ at nearby targets</description>
 						<name>Fork Lightning</name>
 						<armslevel>1</armslevel>
 						<translatedist>10</translatedist>
-						<nextaction type="WeaponMulti">Projectile">
+						<nextaction type="WeaponMulti">
 							<name>Fork Lightning</name>
 							<armslevel>1</armslevel>
 							<subweapon1 type="WeaponDelay">
@@ -6854,7 +6952,7 @@ at nearby targets</description>
 									<name>Fork Lightning</name>
 									<armslevel>1</armslevel>
 									<translatedist>10</translatedist>
-									<nextaction type="WeaponMulti">Projectile">
+									<nextaction type="WeaponMulti">
 										<name>Fork Lightning</name>
 										<armslevel>1</armslevel>
 										<subweapon1 type="WeaponDelay">
@@ -6887,7 +6985,7 @@ at nearby targets</description>
 																	<name>Fork Lightning</name>
 																	<armslevel>1</armslevel>
 																	<translatedist>10</translatedist>
-																	<nextaction type="WeaponMulti">Projectile">
+																	<nextaction type="WeaponMulti">
 																		<name>Fork Lightning</name>
 																		<armslevel>1</armslevel>
 																		<subweapon1 type="WeaponDelay">
@@ -6898,7 +6996,7 @@ at nearby targets</description>
 																				<name>Fork Lightning</name>
 																				<armslevel>1</armslevel>
 																				<translatedist>10</translatedist>
-																				<nextaction type="WeaponMulti">Projectile">
+																				<nextaction type="WeaponMulti">
 																					<name>Fork Lightning</name>
 																					<armslevel>1</armslevel>
 																					<subweapon1 type="WeaponDelay">
@@ -6931,7 +7029,7 @@ at nearby targets</description>
 																												<name>Fork Lightning</name>
 																												<armslevel>1</armslevel>
 																												<translatedist>10</translatedist>
-																												<nextaction type="WeaponMulti">Projectile">
+																												<nextaction type="WeaponMulti">
 																													<name>Fork Lightning</name>
 																													<armslevel>1</armslevel>
 																													<subweapon1 type="WeaponDelay">
@@ -6942,7 +7040,7 @@ at nearby targets</description>
 																															<name>Fork Lightning</name>
 																															<armslevel>1</armslevel>
 																															<translatedist>10</translatedist>
-																															<nextaction type="WeaponMulti">Projectile">
+																															<nextaction type="WeaponMulti">
 																																<name>Fork Lightning</name>
 																																<armslevel>1</armslevel>
 																																<subweapon1 type="WeaponDelay">
@@ -6975,7 +7073,7 @@ at nearby targets</description>
 																																							<name>Fork Lightning</name>
 																																							<armslevel>1</armslevel>
 																																							<translatedist>10</translatedist>
-																																							<nextaction type="WeaponMulti">Projectile">
+																																							<nextaction type="WeaponMulti">
 																																								<name>Fork Lightning</name>
 																																								<armslevel>1</armslevel>
 																																								<subweapon1 type="WeaponDelay">
@@ -6986,7 +7084,7 @@ at nearby targets</description>
 																																										<name>Fork Lightning</name>
 																																										<armslevel>1</armslevel>
 																																										<translatedist>10</translatedist>
-																																										<nextaction type="WeaponMulti">Projectile">
+																																										<nextaction type="WeaponMulti">
 																																											<name>Fork Lightning</name>
 																																											<armslevel>1</armslevel>
 																																											<subweapon1 type="WeaponDelay">
@@ -7240,74 +7338,6 @@ at nearby targets</description>
 		<size>2</size>
 		<explosiontexture>default</explosiontexture>
 		<explosionsound>none</explosionsound>			
-	</accessory>
-	<accessory type="WeaponMulti">	
-		<name>Lightning</name>
-		<nonpurchasable/>
-		<armslevel>10</armslevel>
-		<subweapon1 type="WeaponSound">
-			<name>Lightning</name>
-			<armslevel>10</armslevel>
-			<sound>data/wav/misc/thunder.wav</sound>
-		</subweapon1>
-		<subweapon2 type="WeaponDelay">
-			<name>Lightning</name>
-			<armslevel>10</armslevel>
-			<delay>0.5</delay>
-			<delayedweapon type="WeaponMulti">
-				<name>Lightning</name>
-				<armslevel>10</armslevel>
-				<subweapon1 type="WeaponSkyFlash">
-					<name>Lightning</name>
-					<armslevel>10</armslevel>		
-				</subweapon1>
-				<subweapon2 type="WeaponLightning">
-					<name>Lightning</name>
-					<armslevel>10</armslevel>
-					<conelength>190</conelength>
-					<seglength>6</seglength>
-					<segvar>12</segvar>
-					<size>4</size>
-					<sizevar>-1</sizevar>
-					<minsize>0.1</minsize>
-					<splitprob>0.2</splitprob>
-					<splitvar>0.03</splitvar>
-					<deathprob>0.03</deathprob>
-					<derivangle>0.5</derivangle>
-					<anglevar>0.94</anglevar>
-					<totaltime>1</totaltime>
-					<seghurt>0</seghurt>
-					<seghurtradius>0</seghurtradius>
-					<sound>none</sound>
-				</subweapon2>
-			</delayedweapon>
-		</subweapon2>
-	</accessory>
-	<accessory type="WeaponAimedOver">
-		<name>Meteor</name>
-		<nonpurchasable/>
-		<armslevel>10</armslevel>
-		<nowarheads>5</nowarheads>
-		<percentagemiss>20</percentagemiss>
-		<maxaimdistance>0</maxaimdistance>
-		<inaccuracy>10</inaccuracy>
-		<aimedweapon type="WeaponProjectile">
-			<name>Meteor</name>
-			<armslevel>10</armslevel>	
-			<projectilemodel type="ase">
-				<mesh>roller.ase</mesh>
-				<skin>magma.bmp</skin>
-			</projectilemodel>
-			<collisionaction type="WeaponExplosion">
-				<name>Meteor</name>
-				<armslevel>10</armslevel>
-				<hurtamount>0.0</hurtamount>
-				<deform>none</deform>
-				<size>4</size>
-				<explosionsound>explosions/small.wav</explosionsound>
-				<explosiontexture>exp04</explosiontexture>
-			</collisionaction>
-		</aimedweapon>
 	</accessory>
 	<accessory type="WeaponProjectile">
 		<name>Earthquake</name>
@@ -7566,20 +7596,7 @@ The cloud does less damage as it spreads out.</description>
 											</subweapon3>
 										</delayedweapon>
 									</subweapon1>
-									<subweapon2 type="WeaponNapalm">
-										<name>Gas Grenade</name>
-										<armslevel>3</armslevel>
-										<napalmtime>4.0</napalmtime>
-										<napalmheight>2.0</napalmheight>
-										<steptime>4</steptime>
-										<hurtsteptime>2.0</hurtsteptime>
-										<hurtpersecond>0.1</hurtpersecond>
-										<numberstreams>1</numberstreams>
-										<effectradius>5</effectradius>
-										<napalmtexture>gas00</napalmtexture>		
-										<napalmsound>none</napalmsound>
-									</subweapon2>
-									<subweapon3 type="WeaponExplosion">
+									<subweapon2 type="WeaponExplosion">
 										<name>Gas Grenade</name>
 										<armslevel>3</armslevel>
 										<nocreatedebris/>
@@ -7591,8 +7608,8 @@ The cloud does less damage as it spreads out.</description>
 										<size>24</size>
 										<explosiontexture>none</explosiontexture>		
 										<explosionsound>none</explosionsound>
-									</subweapon3>
-									<subweapon4 type="WeaponExplosion">
+									</subweapon2>
+									<subweapon3 type="WeaponExplosion">
 										<name>Gas Grenade</name>
 										<armslevel>3</armslevel>
 										<nocreatedebris/>
@@ -7607,7 +7624,20 @@ The cloud does less damage as it spreads out.</description>
 										<size>12</size>
 										<explosiontexture>gas00</explosiontexture>		
 										<explosionsound>none</explosionsound>
-									</subweapon4>
+									</subweapon3>
+									<!--<subweapon4 type="WeaponNapalm">
+										<name>Gas Grenade</name>
+										<armslevel>3</armslevel>
+										<napalmtime>4.0</napalmtime>
+										<napalmheight>2.0</napalmheight>
+										<steptime>4</steptime>
+										<hurtsteptime>2.0</hurtsteptime>
+										<hurtpersecond>0.1</hurtpersecond>
+										<numberstreams>1</numberstreams>
+										<effectradius>5</effectradius>
+										<napalmtexture>exp03</napalmtexture>		
+										<napalmsound>none</napalmsound>
+									</subweapon4>-->
 								</collisionaction>
 							</subweapon1>
 							<subweapon2 type="WeaponExplosion">
@@ -7834,4 +7864,93 @@ distance from your tank in the direction you aim</description>
 			</subweapon3>
 		</delayedweapon>
 	</accessory>
+	<accessory type="WeaponMulti">	
+		<name>Lightning</name>
+		<nonpurchasable/>
+		<armslevel>10</armslevel>
+		<subweapon1 type="WeaponSound">
+			<name>Lightning</name>
+			<armslevel>10</armslevel>
+			<sound>data/wav/misc/thunder.wav</sound>
+		</subweapon1>
+		<subweapon2 type="WeaponDelay">
+			<name>Lightning</name>
+			<armslevel>10</armslevel>
+			<delay>0.5</delay>
+			<delayedweapon type="WeaponMulti">
+				<name>Lightning</name>
+				<armslevel>10</armslevel>
+				<subweapon1 type="WeaponSkyFlash">
+					<name>Lightning</name>
+					<armslevel>10</armslevel>		
+				</subweapon1>
+				<subweapon2 type="WeaponLightning">
+					<name>Lightning</name>
+					<armslevel>10</armslevel>
+					<conelength>190</conelength>
+					<seglength>6</seglength>
+					<segvar>12</segvar>
+					<size>4</size>
+					<sizevar>-1</sizevar>
+					<minsize>0.1</minsize>
+					<splitprob>0.2</splitprob>
+					<splitvar>0.03</splitvar>
+					<deathprob>0.03</deathprob>
+					<derivangle>0.5</derivangle>
+					<anglevar>0.94</anglevar>
+					<totaltime>1</totaltime>
+					<seghurt>0</seghurt>
+					<seghurtradius>0</seghurtradius>
+					<sound>none</sound>
+				</subweapon2>
+			</delayedweapon>
+		</subweapon2>
+	</accessory>
+	<accessory type="WeaponAimedOver">
+		<name>Meteor</name>
+		<nonpurchasable/>
+		<armslevel>10</armslevel>
+		<nowarheads>5</nowarheads>
+		<percentagemiss>20</percentagemiss>
+		<maxaimdistance>0</maxaimdistance>
+		<inaccuracy>10</inaccuracy>
+		<aimedweapon type="WeaponProjectile">
+			<name>Meteor</name>
+			<armslevel>10</armslevel>	
+			<projectilemodel type="ase">
+				<mesh>roller.ase</mesh>
+				<skin>magma.bmp</skin>
+			</projectilemodel>
+			<collisionaction type="WeaponExplosion">
+				<name>Meteor</name>
+				<armslevel>10</armslevel>
+				<hurtamount>0.0</hurtamount>
+				<deform>none</deform>
+				<size>4</size>
+				<explosionsound>explosions/small.wav</explosionsound>
+				<explosiontexture>exp04</explosiontexture>
+			</collisionaction>
+		</aimedweapon>
+	</accessory>
+	<!--<accessory type="WeaponProjectile">
+		<name>Reference Test</name>
+		<description>A projectile weapon that on 
+courses through the ground and splits
+into multiple streams that are aimed
+at nearby targets</description>
+		<icon>dshield.bmp</icon>
+		<cost>10000</cost>
+		<bundlesize>1</bundlesize>
+		<armslevel>2</armslevel>
+		<nocreatesmoke/>
+		<nocreateflame/>
+		<projectilescale>8</projectilescale>
+		<projectilemodel type="MilkShape">flare.txt</projectilemodel>
+		<firedsound>explosions/thunder.wav</firedsound>
+		<collisionaction type="WeaponReference">
+			<name>Reference Test</name>
+			<armslevel>2</armslevel>
+			<weapon>Riot Drill</weapon>
+		</collisionaction>
+	</accessory>-->
 </accessories>

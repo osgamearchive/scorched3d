@@ -5,6 +5,12 @@ One or more people play against themselves or the computer.</description>
 		<icon>data/windows/nuke.bmp</icon>
 	</main>
 	<game>
+		<description>Start a target practice game.
+Play a practice level against targets that don't fire back.</description>
+		<icon>data/windows/target.bmp</icon>
+		<gamefile>data/singletarget.xml</gamefile>
+	</game>
+	<game>
 		<description>Start an easy single player Apocalypse game.
 Play a quick game against easy computer players.</description>
 		<icon>data/windows/nuke-easy.bmp</icon>

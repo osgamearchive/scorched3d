@@ -107,4 +107,18 @@
 	<textureset name="light00-3">
 		<texture>textures/explode/light00_3.bmp</texture>
 	</textureset>
+	<textureset name="acid00">
+		<texture>textures/explode/acid00_1.bmp</texture>
+		<texture>textures/explode/acid00_2.bmp</texture>
+		<texture>textures/explode/acid00_3.bmp</texture>
+		<texture>textures/explode/acid00_4.bmp</texture>
+		<texture>textures/explode/acid00_5.bmp</texture>
+		<texture>textures/explode/acid00_6.bmp</texture>
+		<texture>textures/explode/acid00_7.bmp</texture>
+		<texture>textures/explode/acid00_8.bmp</texture>
+		<texture>textures/explode/acid00_9.bmp</texture>
+		<texture>textures/explode/acid00_10.bmp</texture>
+		<texture>textures/explode/acid00_11.bmp</texture>
+		<texture>textures/explode/acid00_12.bmp</texture>
+	</textureset>
 </texturesets>

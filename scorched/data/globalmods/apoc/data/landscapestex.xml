@@ -35,7 +35,7 @@
 		</texture>
 		<placements>
 			<placement type="trees">
-				<numobjects>1000000</numobjects>
+				<numobjects>750000</numobjects>
 				<numclusters>25</numclusters>
 				<minheight>8</minheight>
 				<maxheight>30</maxheight>
@@ -134,7 +134,7 @@
 		</texture>
 		<placements>
 			<placement type="trees">
-				<numobjects>1000000</numobjects>
+				<numobjects>750000</numobjects>
 				<numclusters>25</numclusters>
 				<minheight>8</minheight>
 				<maxheight>30</maxheight>
@@ -182,7 +182,7 @@
 		</texture>
 		<placements>
 			<placement type="trees">
-				<numobjects>1000000</numobjects>
+				<numobjects>750000</numobjects>
 				<numclusters>25</numclusters>
 				<minheight>8</minheight>
 				<maxheight>30</maxheight>
@@ -192,9 +192,7 @@
 				</object>
 			</placement>
 		</placements>
-		<precipitation type="snow">
-			<particles>60</particles>
-		</precipitation>
+		<precipitation type="none"></precipitation>
 		<events></events>
 	</tex>
 	<tex>
@@ -232,7 +230,7 @@
 		</texture>
 		<placements>
 			<placement type="trees">
-				<numobjects>1000000</numobjects>
+				<numobjects>750000</numobjects>
 				<numclusters>25</numclusters>
 				<minheight>8</minheight>
 				<maxheight>30</maxheight>
@@ -317,7 +315,7 @@
 		</texture>
 		<placements>
 			<placement type="trees">
-				<numobjects>1000000</numobjects>
+				<numobjects>750000</numobjects>
 				<numclusters>25</numclusters>
 				<minheight>8</minheight>
 				<maxheight>30</maxheight>
@@ -381,7 +379,7 @@
 		</texture>
 		<placements>
 			<placement type="trees">
-				<numobjects>1000000</numobjects>
+				<numobjects>750000</numobjects>
 				<numclusters>25</numclusters>
 				<minheight>8</minheight>
 				<maxheight>30</maxheight>
@@ -471,27 +469,101 @@
 		<lowestlandheight>0.0</lowestlandheight>
 		<skytexture>data/textures/landscape/storm/cloud1.bmp</skytexture>
 		<skycolormap>data/textures/clearsky.bmp</skycolormap>
-		<skytimeofday>45</skytimeofday>
+		<skytimeofday>0</skytimeofday>
 		<skysunxy>90</skysunxy>
-		<skysunyz>25</skysunyz>
+		<skysunyz>45</skysunyz>
 		<skyambience><A>0.3</A><B>0.3</B><C>0.3</C></skyambience>
 		<skydiffuse><A>0.7</A><B>0.7</B><C>0.7</C></skydiffuse>
 		<border type="none"></border>
 		<texture type="generate">
-			<rockside>data/textures/landscape/moon/rockside.bmp</rockside>
-			<shore>data/textures/landscape/moon/texture0.bmp</shore>
+			<rockside>data/textures/landscape/moon/texture0.bmp</rockside>
+			<shore>data/textures/landscape/moon/surround.bmp</shore>
 			<roof>data/textures/landscape/moon/texture0.bmp</roof>
-			<surround>data/textures/landscape/moon/texture2.bmp</surround>
-			<texture0>data/textures/landscape/moon/texture0.bmp</texture0>
-			<texture1>data/textures/landscape/moon/texture1.bmp</texture1>
-			<texture2>data/textures/landscape/moon/texture2.bmp</texture2>
-			<texture3>data/textures/landscape/moon/texture3.bmp</texture3>
-			<texture4>data/textures/landscape/snow/texture3.bmp</texture4>
+			<surround>data/textures/landscape/moon/surround.bmp</surround>
+			<texture0>data/textures/landscape/moon/surround.bmp</texture0>
+			<texture1>data/textures/landscape/moon/surround.bmp</texture1>
+			<texture2>data/textures/landscape/moon/texture0.bmp</texture2>
+			<texture3>data/textures/landscape/moon/texture1.bmp</texture3>
+			<texture4>data/textures/landscape/moon/texture3.bmp</texture4>
 		</texture>
 		<placements>
+			<placement type="mask">
+				<numobjects>200</numobjects>
+				<mask>data/landscapes/masks/bouldermask.bmp</mask>
+				<minheight>-2</minheight>
+				<maxheight>50</maxheight>
+				<mincloseness>1</mincloseness>
+				<minslope>0.75</minslope>
+				<xsnap>0</xsnap>
+				<ysnap>0</ysnap>
+				<angsnap>90</angsnap>
+				<object type="model">
+					<model type="MilkShape">data/accessories/boulders/boulder1.txt</model>
+					<modelburnt type="MilkShape">data/accessories/boulders/boulder1.txt</modelburnt>
+				</object>
+			</placement>
+			<placement type="mask">
+				<numobjects>200</numobjects>
+				<mask>data/landscapes/masks/bouldermask.bmp</mask>
+				<minheight>-2</minheight>
+				<maxheight>50</maxheight>
+				<mincloseness>0.6</mincloseness>
+				<minslope>0.75</minslope>
+				<xsnap>0</xsnap>
+				<ysnap>0</ysnap>
+				<angsnap>90</angsnap>
+				<object type="model">
+					<model type="MilkShape">data/accessories/boulders/boulder2.txt</model>
+					<modelburnt type="MilkShape">data/accessories/boulders/boulder2.txt</modelburnt>
+				</object>
+			</placement>
+			<placement type="mask">
+				<numobjects>300</numobjects>
+				<mask>data/landscapes/masks/bouldermask.bmp</mask>
+				<minheight>-2</minheight>
+				<maxheight>50</maxheight>
+				<mincloseness>4</mincloseness>
+				<minslope>0.75</minslope>
+				<xsnap>0</xsnap>
+				<ysnap>0</ysnap>
+				<angsnap>90</angsnap>
+				<object type="model">
+					<model type="MilkShape">data/accessories/boulders/boulder3.txt</model>
+					<modelburnt type="MilkShape">data/accessories/boulders/boulder3.txt</modelburnt>
+				</object>
+			</placement>
+			<placement type="mask">
+				<numobjects>200</numobjects>
+				<mask>data/landscapes/masks/bouldermask.bmp</mask>
+				<minheight>-2</minheight>
+				<maxheight>50</maxheight>
+				<mincloseness>0.6</mincloseness>
+				<minslope>0.75</minslope>
+				<xsnap>0</xsnap>
+				<ysnap>0</ysnap>
+				<angsnap>90</angsnap>
+				<object type="model">
+					<model type="MilkShape">data/accessories/boulders/boulder4.txt</model>
+					<modelburnt type="MilkShape">data/accessories/boulders/boulder4.txt</modelburnt>
+				</object>
+			</placement>
 		</placements>
 		<precipitation type="none"></precipitation>
-		<events></events>
+		<events>
+			<event>
+				<condition type="time">
+					<mintime>5.0</mintime>
+					<maxtime>5.0</maxtime>
+				</condition>
+				<action type="fireweapon">
+					<position><A>128</A><B>128</B><C>200</C></position>
+					<positionoffset><A>60</A><B>60</B><C>0</C></positionoffset>
+					<direction><A>0</A><B>0</B><C>-1</C></direction>
+					<directionoffset><A>0</A><B>0</B><C>0</C></directionoffset>
+					<weapon>Meteor</weapon>
+				</action>
+			</event>
+		</events>
 	</tex>
 	<tex>
 		<name>desert</name>
@@ -512,7 +584,7 @@
 			<rockside>data/textures/landscape/sand/rockside.bmp</rockside>
 			<shore>data/textures/landscape/sand/shore.bmp</shore>
 			<roof>data/textures/landscape/sand/texture0.bmp</roof>
-			<surround>data/textures/landscape/moon/texture2.bmp</surround>
+			<surround>data/textures/landscape/sand/texture0.bmp</surround>
 			<texture0>data/textures/landscape/sand/shore.bmp</texture0>
 			<texture1>data/textures/landscape/sand/texture1.bmp</texture1>
 			<texture2>data/textures/landscape/sand/texture2.bmp</texture2>
@@ -520,14 +592,94 @@
 			<texture4>data/textures/landscape/sand/texture4.bmp</texture4>
 		</texture>
 		<placements>
-			<placement type="trees">
-				<numobjects>500000</numobjects>
-				<numclusters>10</numclusters>
+			<placement type="mask">
+				<numobjects>800</numobjects>
+				<mask>data/landscapes/masks/cactusmask.bmp</mask>
 				<minheight>4</minheight>
-				<maxheight>16</maxheight>
-				<object type="tree">
-					<tree>palm</tree>
-					<snow>100</snow>
+				<maxheight>70</maxheight>
+				<mincloseness>3</mincloseness>
+				<minslope>0.75</minslope>
+				<xsnap>0</xsnap>
+				<ysnap>0</ysnap>
+				<angsnap>90</angsnap>
+				<object type="model">
+					<model type="MilkShape">data/accessories/cactus/cactus.txt</model>
+					<modelburnt type="MilkShape">data/accessories/cactus/cactusburnt.txt</modelburnt>
+				</object>
+			</placement>
+			<placement type="mask">
+				<numobjects>800</numobjects>
+				<mask>data/landscapes/masks/bouldermask.bmp</mask>
+				<minheight>-2</minheight>
+				<maxheight>6.8</maxheight>
+				<mincloseness>0.6</mincloseness>
+				<minslope>0.75</minslope>
+				<xsnap>0</xsnap>
+				<ysnap>0</ysnap>
+				<angsnap>90</angsnap>
+				<object type="model">
+					<model type="MilkShape">data/accessories/boulders/boulder1.txt</model>
+					<modelburnt type="MilkShape">data/accessories/boulders/boulder1.txt</modelburnt>
+				</object>
+			</placement>
+			<placement type="mask">
+				<numobjects>800</numobjects>
+				<mask>data/landscapes/masks/bouldermask.bmp</mask>
+				<minheight>-2</minheight>
+				<maxheight>8</maxheight>
+				<mincloseness>0.6</mincloseness>
+				<minslope>0.75</minslope>
+				<xsnap>0</xsnap>
+				<ysnap>0</ysnap>
+				<angsnap>90</angsnap>
+				<object type="model">
+					<model type="MilkShape">data/accessories/boulders/boulder2.txt</model>
+					<modelburnt type="MilkShape">data/accessories/boulders/boulder2.txt</modelburnt>
+				</object>
+			</placement>
+			<placement type="mask">
+				<numobjects>800</numobjects>
+				<mask>data/landscapes/masks/bouldermask.bmp</mask>
+				<minheight>-2</minheight>
+				<maxheight>7.5</maxheight>
+				<mincloseness>0.6</mincloseness>
+				<minslope>0.75</minslope>
+				<xsnap>0</xsnap>
+				<ysnap>0</ysnap>
+				<angsnap>90</angsnap>
+				<object type="model">
+					<model type="MilkShape">data/accessories/boulders/boulder3.txt</model>
+					<modelburnt type="MilkShape">data/accessories/boulders/boulder3.txt</modelburnt>
+				</object>
+			</placement>
+			<placement type="mask">
+				<numobjects>800</numobjects>
+				<mask>data/landscapes/masks/bouldermask.bmp</mask>
+				<minheight>-2</minheight>
+				<maxheight>9</maxheight>
+				<mincloseness>0.6</mincloseness>
+				<minslope>0.75</minslope>
+				<xsnap>0</xsnap>
+				<ysnap>0</ysnap>
+				<angsnap>90</angsnap>
+				<object type="model">
+					<model type="MilkShape">data/accessories/boulders/boulder4.txt</model>
+					<modelburnt type="MilkShape">data/accessories/boulders/boulder4.txt</modelburnt>
+				</object>
+			</placement>
+			<placement type="mask">
+				<numobjects>800</numobjects>
+				<mask>data/landscapes/masks/bouldermask.bmp</mask>
+				<minheight>0</minheight>
+				<maxheight>15</maxheight>
+				<mincloseness>0.6</mincloseness>
+				<minslope>0.75</minslope>
+				<xsnap>0</xsnap>
+				<ysnap>0</ysnap>
+				<angsnap>90</angsnap>
+				<object type="model">
+					<model type="MilkShape">data/accessories/boulders/boulder5.txt</model>
+					<modelburnt type="MilkShape">data/accessories/boulders/boulder5.txt</modelburnt>
 				</object>
 			</placement>
 		</placements>
@@ -560,7 +712,7 @@
 			<rockside>data/textures/landscape/snow/rockside.bmp</rockside>
 			<roof>data/textures/landscape/snow/texture0.bmp</roof>
 			<shore>data/textures/landscape/snow/shore.bmp</shore>
-			<surround>data/textures/landscape/snow/texture2.bmp</surround>
+			<surround>data/textures/landscape/snow/texture0.bmp</surround>
 			<texture0>data/textures/landscape/snow/texture0.bmp</texture0>
 			<texture1>data/textures/landscape/snow/texture1.bmp</texture1>
 			<texture2>data/textures/landscape/snow/texture2.bmp</texture2>
@@ -768,7 +920,7 @@
 			<rockside>data/textures/landscape/tropical/rockside.bmp</rockside>
 			<roof>data/textures/landscape/tropical/texture0.bmp</roof>
 			<shore>data/textures/landscape/tropical/shore.bmp</shore>
-			<surround>data/textures/landscape/tropical/texture2.bmp</surround>
+			<surround>data/textures/landscape/tropical/texture0.bmp</surround>
 			<texture0>data/textures/landscape/tropical/texture0.bmp</texture0>
 			<texture1>data/textures/landscape/tropical/texture1.bmp</texture1>
 			<texture2>data/textures/landscape/tropical/texture2.bmp</texture2>
@@ -976,7 +1128,7 @@
 			<rockside>data/textures/landscape/snow/rockside.bmp</rockside>
 			<roof>data/textures/landscape/snow/texture0.bmp</roof>
 			<shore>data/textures/landscape/snow/shore.bmp</shore>
-			<surround>data/textures/landscape/snow/texture2.bmp</surround>
+			<surround>data/textures/landscape/snow/texture0.bmp</surround>
 			<texture0>data/textures/landscape/snow/texture0.bmp</texture0>
 			<texture1>data/textures/landscape/snow/texture1.bmp</texture1>
 			<texture2>data/textures/landscape/snow/texture2.bmp</texture2>
@@ -1184,7 +1336,7 @@
 			<rockside>data/textures/landscape/tropical/rockside.bmp</rockside>
 			<roof>data/textures/landscape/tropical/texture0.bmp</roof>
 			<shore>data/textures/landscape/tropical/shore.bmp</shore>
-			<surround>data/textures/landscape/tropical/texture2.bmp</surround>
+			<surround>data/textures/landscape/tropical/texture0.bmp</surround>
 			<texture0>data/textures/landscape/tropical/texture0.bmp</texture0>
 			<texture1>data/textures/landscape/tropical/texture1.bmp</texture1>
 			<texture2>data/textures/landscape/tropical/texture2.bmp</texture2>
@@ -1392,7 +1544,7 @@
 			<rockside>data/textures/landscape/snow/rockside.bmp</rockside>
 			<roof>data/textures/landscape/snow/texture0.bmp</roof>
 			<shore>data/textures/landscape/snow/shore.bmp</shore>
-			<surround>data/textures/landscape/snow/texture2.bmp</surround>
+			<surround>data/textures/landscape/snow/texture0.bmp</surround>
 			<texture0>data/textures/landscape/snow/texture0.bmp</texture0>
 			<texture1>data/textures/landscape/snow/texture1.bmp</texture1>
 			<texture2>data/textures/landscape/snow/texture2.bmp</texture2>
@@ -1585,7 +1737,7 @@
 			<rockside>data/textures/landscape/tropical/rockside.bmp</rockside>
 			<roof>data/textures/landscape/tropical/texture0.bmp</roof>
 			<shore>data/textures/landscape/tropical/shore.bmp</shore>
-			<surround>data/textures/landscape/tropical/texture2.bmp</surround>
+			<surround>data/textures/landscape/tropical/texture0.bmp</surround>
 			<texture0>data/textures/landscape/tropical/texture0.bmp</texture0>
 			<texture1>data/textures/landscape/tropical/texture1.bmp</texture1>
 			<texture2>data/textures/landscape/tropical/texture2.bmp</texture2>
