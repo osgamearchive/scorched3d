@@ -1,5 +1,7 @@
 <?
 include('statsheader.php');
+$prefix=$_GET['Prefix'];
+if ($prefix==Null)	$prefix="";
 ?>
 
 <table width=600 border="0" align="center">
@@ -12,7 +14,7 @@ include('search.php');
 
 <?
 $playername=$_GET['playername'] or die ("No player name specified");
-$query = " select wins, overallwinner, playerid, kills, name from scorched3d_players where name rlike \"$playername\" order by kills desc";
+$query = " select wins, overallwinner, playerid, kills, name from scorched3d".$prefix."_players where name rlike \"$playername\" order by kills desc";
 $result = mysql_query($query) or die("Query failed : " . mysql_error());
 ?>
 <table width=600 border="0" align="center">
@@ -29,7 +31,7 @@ $result = mysql_query($query) or die("Query failed : " . mysql_error());
 while ($row = mysql_fetch_object($result))
 {
         echo "<tr>";
-        echo "<td><a href=\"playerstats.php?PlayerID=$row->playerid\">$row->name</a></td>";
+        echo "<td><a href=\"playerstats.php?Prefix=$prefix&PlayerID=$row->playerid\">$row->name</a></td>";
         echo "<td>$row->kills</td>";
         echo "<td>$row->wins</td>";
         echo "<td>$row->overallwinner</td>";

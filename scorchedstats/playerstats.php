@@ -1,13 +1,29 @@
 <?
 $playerid=$_GET['PlayerID'] or die ("No player specified");
+$prefix=$_GET['Prefix'];
+if ($prefix==Null)	$prefix="";
 include('statsheader.php');
-?>
+include('conversionfunctions.php');
 
-<?
 // General Player Stats
-$query = "SELECT * FROM scorched3d_players WHERE playerid=$playerid";
+
+$query = "SELECT * FROM scorched3d".$prefix."_players WHERE playerid=$playerid GROUP BY playerid ORDER BY kills";
 $result = mysql_query($query) or die("Query failed : " . mysql_error());
 $row = mysql_fetch_object($result);
+if ($row->shots==0)	$killratio="No Shots Recorded";
+else $killratio=prependnumber(((($row->kills-$row->teamkills-$row->selfkills)/$row->shots)*100), "%", 2);
+if ($row->kills==0){
+	$shotsperkill=0;
+	$cashperkill=0;
+}
+else{
+	$shotsperkill=round($row->shots/$row->kills, 2);
+	$cashperkill=round($row->moneyearned/$row->kills, 2);
+}
+if ($row->gamesplayed==0)
+	$killsperround="No Rounds Recorded";
+else
+	$killsperround = round((($row->kills-$row->teamkills-$row->selfkills)/$row->gamesplayed), 2);	
 ?>
 <table width=640 border="0" align="center">
 <tr><td align=center><b>Player Stats</b></td></tr>
@@ -18,40 +34,31 @@ $row = mysql_fetch_object($result);
 <tr><td bgcolor=#111111><b>OS</b></td><td><?=$row->osdesc?></td></tr>
 <tr><td bgcolor=#111111><b>Player ID</b></td><td><?=$row->playerid?></td></tr>
 <tr><td bgcolor=#111111><b>Times Connected</b></td><td><?=$row->connects?></td></tr>
+<tr><td bgcolor=#111111><b>Time Played</b></td><td><? echo secondstotext($row->timeplayed)."  (".number_format($row->timeplayed, 0)." seconds)";?></td></tr>
 <tr><td bgcolor=#111111><b>Games Won</b></td><td><?=$row->overallwinner?></td></tr>
+<tr><td bgcolor=#111111><b>Rounds Played</b></td><td><?=$row->gamesplayed?></td></tr>
 <tr><td bgcolor=#111111><b>Rounds Won</b></td><td><?=$row->wins?></td></tr>
 <tr><td bgcolor=#111111><b>Rounds Resigned</b></td><td><?=$row->resigns?></td></tr>
+<tr><td bgcolor=#111111><b>Total Turns</b></td><td><?=$row->roundsplayed?></td></tr>
 <tr><td bgcolor=#111111><b>Total Shots</b></td><td><?=$row->shots?></td></tr>
 <tr><td bgcolor=#111111><b>Opponent Kills</b></td><td><?=$row->kills?></td></tr>
-<?
-if ($row->shots==0)
-	$calc=0.0;
-else
-	$calc=round((($row->kills-($row->selfkills+$row->teamkills))/$row->shots)*100, 1);
-if ($row->kills==0)
-	$calc2=0;
-else
-	$calc2=round($row->shots/$row->kills, 2);
-echo "<tr><td bgcolor=#111111><b>Kill Ratio</b></td><td>$calc% ($calc2 shots/kill)</td></tr>";
-if ($row->deaths==0)
-	$calc="No Deaths Recorded";
-else
-	$calc = round((($row->kills-$row->teamkills)/$row->deaths), 2);
-echo "<tr><td bgcolor=#111111><b>Kills/Death</b></td><td>$calc</td></tr>";
-?>
+<tr><td bgcolor=#111111><b>Kill Ratio</b></td><td><?echo $killratio."  (".$shotsperkill;?> shots/kill)</td></tr>
+<tr><td bgcolor=#111111><b>Kills Per Round</b></td><td><?=$killsperround?></td></tr>
+<tr><td bgcolor=#111111><b>Money Earned</b></td><td><?=prependnumber($row->moneyearned, "$", 0)?></td></tr>
+<tr><td bgcolor=#111111><b>Money Per Kill</b></td><td><?=prependnumber($cashperkill, "$", 2)?></td></tr>
 <tr><td bgcolor=#111111><b>Self Kills</b></td><td><?=$row->selfkills?></td></tr>
 <tr><td bgcolor=#111111><b>Team Kills</b></td><td><?=$row->teamkills?></td></tr>
 <tr><td bgcolor=#111111><b>Deaths</b></td><td><?=$row->deaths?></td></tr>
 </table>
 <table width="600" border="0" align="center">
-<tr><td><a href="playerevents.php?PlayerID=<?=$playerid?>">
+<tr><td><a href="playerevents.php?Prefix=<?=$prefix?>&PlayerID=<?=$playerid?>">
 View all this players events.</a></td></tr>
 </table>
 <br>
 
 <?
 // Player Aliases
-$query = "SELECT * FROM scorched3d_names where playerid=$playerid";
+$query = "SELECT * FROM scorched3d".$prefix."_names where playerid=$playerid";
 $result = mysql_query($query) or die("Query failed : " . mysql_error());
 ?>
 <table width="600" border="0" align="center">
@@ -73,7 +80,7 @@ $result = mysql_query($query) or die("Query failed : " . mysql_error());
 
 <?
 // Query player's stats for today
-$query = "select (scorched3d_events.playerid) as playerid, (scorched3d_players.name) as name, (scorched3d_players.lastconnected) as lastcon, SUM(IF(scorched3d_events.eventtype='1',1,0)) AS killcount, SUM(IF(scorched3d_events.eventtype='5',1,0)) AS wincount, SUM(IF(scorched3d_events.eventtype='6',1,0)) AS gamewins FROM scorched3d_events LEFT JOIN scorched3d_players ON (scorched3d_events.playerid=scorched3d_players.playerid) WHERE (scorched3d_events.playerid=$playerid) and TO_DAYS(NOW()) - TO_DAYS(scorched3d_events.eventtime) < 1 group by playerid desc limit 1";
+$query = "select (scorched3d".$prefix."_events.playerid) as playerid, (scorched3d".$prefix."_players.name) as name, (scorched3d".$prefix."_players.lastconnected) as lastcon, SUM(IF(scorched3d".$prefix."_events.eventtype='1',1,0)) AS kills, SUM(IF(scorched3d".$prefix."_events.eventtype='2',1,0)) AS teamkills, SUM(IF(scorched3d".$prefix."_events.eventtype='3',1,0)) AS selfkills, SUM(IF(scorched3d".$prefix."_events.eventtype='4',1,0)) AS resigns, SUM(IF(scorched3d".$prefix."_events.eventtype='5',1,0)) AS wins, SUM(IF(scorched3d".$prefix."_events.eventtype='6',1,0)) AS gamewins FROM scorched3d".$prefix."_events LEFT JOIN scorched3d".$prefix."_players ON (scorched3d".$prefix."_events.playerid=scorched3d".$prefix."_players.playerid) WHERE (scorched3d".$prefix."_events.playerid=$playerid) and (TO_DAYS(NOW()) - TO_DAYS(scorched3d".$prefix."_events.eventtime) < 1) group by playerid limit 1";
 $result = mysql_query($query) or die("Query failed : " . mysql_error());
 ?>
 <table width=600 border="0" align="center">
@@ -82,11 +89,13 @@ $result = mysql_query($query) or die("Query failed : " . mysql_error());
 <table width=600 bordercolor=#333333 cellspacing="0" cellpadding="0" border="1" align="center">
 <tr>
 <td bgcolor=#111111 width=50></td>
-<td bgcolor=#111111><center><b>Player Name</b></center></td>
-<td bgcolor=#111111><center><b>Kills</b></center></td>
-<td bgcolor=#111111><center><b>Rnd Wins</b></center></td>
-<td bgcolor=#111111><center><b>Game Wins</b></center></td>
-<td bgcolor=#111111><center><b>Last Connect</b></center></td>
+<td bgcolor=#111111 align=center><b>Player Name</b></td>
+<td bgcolor=#111111 align=center><b>Kills</b></td>
+<td bgcolor=#111111 align=center><b>Rnd Wins</b></td>
+<td bgcolor=#111111 align=center><b>Game Wins</b></td>
+<td bgcolor=#111111 align=center><b>Resigns</b></td>
+<td bgcolor=#111111 align=center><b>Suicides</b></td>
+<td bgcolor=#111111 align=center><b>Teamkills</b></td>
 </tr>
 <?
 $rownum=0;
@@ -96,23 +105,25 @@ while ($row = mysql_fetch_object($result))
         ++$rownum;
         echo "<tr>";
 		echo "<td><center>$rownum</center></td></center>";
-        echo "<td><a href=\"playerstats.php?PlayerID=$row->playerid\">$row->name</a></td>";
-        echo "<td><center>$row->killcount</td></center>";
-        echo "<td><center>$row->wincount</td></center>";
+        echo "<td><a href=\"playerstats.php?Prefix=$prefix&PlayerID=$row->playerid\">$row->name</a></td>";
+        echo "<td><center>$row->kills</td></center>";
+        echo "<td><center>$row->wins</td></center>";
         echo "<td><center>$row->gamewins</td></center>";
-        echo "<td><center>$row->lastcon</td></center>";
+        echo "<td><center>$row->resigns</td></center>";
+        echo "<td><center>$row->selfkills</td></center>";
+        echo "<td><center>$row->teamkills</td></center>";
 		echo "<td>$tmp</td>";
         echo "</tr>";
 }
 ?>
 </table>
 <?
-$query = "select count(playerid) from scorched3d_players;";
+$query = "select count(playerid) from scorched3d".$prefix."_players;";
 $result = mysql_query($query) or die("Query failed : " . mysql_error());
 $row = mysql_fetch_array($result);
 ?>
 <table width=600 border =0 align=center>
-<tr><td><a href="allplayers.php?PlayerID=0">
+<tr><td><a href="allplayers.php?Prefix=<?=$prefix?>&PlayerID=0">
 View all players (<? print $row[0]; ?>). 
 </a>
 </tr></td>
@@ -121,7 +132,7 @@ View all players (<? print $row[0]; ?>).
 
 <?
 // Query player's stats for the last week
-$query = "select (scorched3d_events.playerid) as playerid, (scorched3d_players.name) as name, (scorched3d_players.lastconnected) as lastcon, SUM(IF(scorched3d_events.eventtype='1',1,0)) AS killcount, SUM(IF(scorched3d_events.eventtype='5',1,0)) AS wincount, SUM(IF(scorched3d_events.eventtype='6',1,0)) AS gamewins FROM scorched3d_events LEFT JOIN scorched3d_players ON (scorched3d_events.playerid=scorched3d_players.playerid) WHERE (scorched3d_events.playerid=$playerid) and TO_DAYS(NOW()) - TO_DAYS(scorched3d_events.eventtime) <= 6 group by playerid desc limit 1";
+$query = "select (scorched3d".$prefix."_events.playerid) as playerid, (scorched3d".$prefix."_players.name) as name, SUM(IF(scorched3d".$prefix."_events.eventtype='1',1,0)) AS kills, SUM(IF(scorched3d".$prefix."_events.eventtype='2',1,0)) AS teamkills, SUM(IF(scorched3d".$prefix."_events.eventtype='3',1,0)) AS selfkills, SUM(IF(scorched3d".$prefix."_events.eventtype='4',1,0)) AS resigns, SUM(IF(scorched3d".$prefix."_events.eventtype='5',1,0)) AS wins, SUM(IF(scorched3d".$prefix."_events.eventtype='6',1,0)) AS gamewins FROM scorched3d".$prefix."_events LEFT JOIN scorched3d".$prefix."_players ON (scorched3d".$prefix."_events.playerid=scorched3d".$prefix."_players.playerid) WHERE (scorched3d".$prefix."_events.playerid=$playerid) and (TO_DAYS(NOW()) - TO_DAYS(scorched3d".$prefix."_events.eventtime) < 7) group by playerid limit 1";
 $result = mysql_query($query) or die("Query failed : " . mysql_error());
 ?>
 <table width=600 border="0" align="center">
@@ -130,11 +141,13 @@ $result = mysql_query($query) or die("Query failed : " . mysql_error());
 <table width=600 bordercolor=#333333 cellspacing="0" cellpadding="0" border="1" align="center">
 <tr>
 <td bgcolor=#111111 width=50></td>
-<td bgcolor=#111111><center><b>Player Name</b></center></td>
-<td bgcolor=#111111><center><b>Kills</b></center></td>
-<td bgcolor=#111111><center><b>Rnd Wins</b></center></td>
-<td bgcolor=#111111><center><b>Game Wins</b></center></td>
-<td bgcolor=#111111><center><b>Last Connect</b></center></td>
+<td bgcolor=#111111 align=center><b>Player Name</b></td>
+<td bgcolor=#111111 align=center><b>Kills</b></td>
+<td bgcolor=#111111 align=center><b>Rnd Wins</b></td>
+<td bgcolor=#111111 align=center><b>Game Wins</b></td>
+<td bgcolor=#111111 align=center><b>Resigns</b></td>
+<td bgcolor=#111111 align=center><b>Suicides</b></td>
+<td bgcolor=#111111 align=center><b>Teamkills</b></td>
 </tr>
 <?
 $rownum=0;
@@ -144,23 +157,25 @@ while ($row = mysql_fetch_object($result))
         ++$rownum;
         echo "<tr>";
 		echo "<td><center>$rownum</center></td></center>";
-        echo "<td><a href=\"playerstats.php?PlayerID=$row->playerid\">$row->name</a></td>";
-        echo "<td><center>$row->killcount</td></center>";
-        echo "<td><center>$row->wincount</td></center>";
+        echo "<td><a href=\"playerstats.php?Prefix=$prefix&PlayerID=$row->playerid\">$row->name</a></td>";
+        echo "<td><center>$row->kills</td></center>";
+        echo "<td><center>$row->wins</td></center>";
         echo "<td><center>$row->gamewins</td></center>";
-        echo "<td><center>$row->lastcon</td></center>";
+        echo "<td><center>$row->resigns</td></center>";
+        echo "<td><center>$row->selfkills</td></center>";
+        echo "<td><center>$row->teamkills</td></center>";
 		echo "<td>$tmp</td>";
         echo "</tr>";
 }
 ?>
 </table>
 <?
-$query = "select count(playerid) from scorched3d_players;";
+$query = "select count(playerid) from scorched3d".$prefix."_players;";
 $result = mysql_query($query) or die("Query failed : " . mysql_error());
 $row = mysql_fetch_array($result);
 ?>
 <table width=600 border =0 align=center>
-<tr><td><a href="allplayers.php?PlayerID=0">
+<tr><td><a href="allplayers.php?Prefix=<?=$prefix?>&PlayerID=0">
 View all players (<? print $row[0]; ?>). 
 </a>
 </tr></td>
@@ -169,7 +184,7 @@ View all players (<? print $row[0]; ?>).
 	
 <?
 // List top targets
-$query="select (scorched3d_events.otherplayerid) as killedid, (scorched3d_players.name) as name, (count(*)) AS tally from scorched3d_events LEFT JOIN scorched3d_players ON (scorched3d_events.otherplayerid=scorched3d_players.playerid) where scorched3d_events.playerid=$playerid and eventtype=1 group by scorched3d_events.otherplayerid order by tally desc limit 25";
+$query="select (scorched3d".$prefix."_events.otherplayerid) as killedid, (scorched3d".$prefix."_players.name) as name, (count(*)) AS tally from scorched3d".$prefix."_events LEFT JOIN scorched3d".$prefix."_players ON (scorched3d".$prefix."_events.otherplayerid=scorched3d".$prefix."_players.playerid) where scorched3d".$prefix."_events.playerid=$playerid and eventtype=1 group by scorched3d".$prefix."_events.otherplayerid order by tally desc limit 25";
 $result = mysql_query($query) or die("Query failed : " . mysql_error(). "<BR>query=$query");
 ?>
 <table width="600" border="0" align="center">
@@ -188,7 +203,7 @@ while ($row = mysql_fetch_object($result))
 	++$rownumber;
 	echo "<tr>";
 	echo "<td>$rownumber</td>";
-	echo "<td><a href=\"playerstats.php?PlayerID=$row->killedid\">$row->name</a></td>";
+	echo "<td><a href=\"playerstats.php?Prefix=$prefix&PlayerID=$row->killedid\">$row->name</a></td>";
 	echo "<td>$row->tally</td>";
 	echo "</tr>";
 }
@@ -198,7 +213,7 @@ while ($row = mysql_fetch_object($result))
 
 <?
 // Top Killers
-$query=" select (scorched3d_events.playerid) as killedid, (scorched3d_players.name) as name, (count(*)) AS tally from scorched3d_events LEFT JOIN scorched3d_players ON (scorched3d_events.playerid=scorched3d_players.playerid) where otherplayerid=$playerid and eventtype=1 group by scorched3d_events.playerid order by tally desc limit 25";
+$query=" select (scorched3d".$prefix."_events.playerid) as killedid, (scorched3d".$prefix."_players.name) as name, (count(*)) AS tally from scorched3d".$prefix."_events LEFT JOIN scorched3d".$prefix."_players ON (scorched3d".$prefix."_events.playerid=scorched3d".$prefix."_players.playerid) where otherplayerid=$playerid and eventtype=1 group by scorched3d".$prefix."_events.playerid order by tally desc limit 25";
 $result = mysql_query($query) or die("Query failed : " . mysql_error(). "<BR>query=$query");
 ?>
 <table width="600" border="0" align="center">
@@ -217,7 +232,7 @@ while ($row = mysql_fetch_object($result))
 	++$rownumber;
         echo "<tr>";
         echo "<td>$rownumber</td>";
-        echo "<td><a href=\"playerstats.php?PlayerID=$row->killedid\">$row->name</a></td>";
+        echo "<td><a href=\"playerstats.php?Prefix=$prefix&PlayerID=$row->killedid\">$row->name</a></td>";
         echo "<td>$row->tally</td>";
 	echo "</tr>";
 }
@@ -227,7 +242,7 @@ while ($row = mysql_fetch_object($result))
 
 <?	
 // Top Weapons
-$query="select (scorched3d_events.weaponid) as weaponid, (count(*)) as tally, (scorched3d_weapons.name) as name from scorched3d_events LEFT JOIN scorched3d_weapons ON (scorched3d_events.weaponid=scorched3d_weapons.weaponid) where playerid=$playerid and eventtype=1 group by weaponid order by tally desc";
+$query="select (scorched3d".$prefix."_events.weaponid) as weaponid, (count(*)) as tally, (scorched3d".$prefix."_weapons.name) as name from scorched3d".$prefix."_events LEFT JOIN scorched3d".$prefix."_weapons ON (scorched3d".$prefix."_events.weaponid=scorched3d".$prefix."_weapons.weaponid) where playerid=$playerid and eventtype=1 group by weaponid order by tally desc";
 $result = mysql_query($query) or die("Query failed : " . mysql_error(). "<BR>query=$query");
 ?>
 <table width="600" border="0" align="center">
@@ -246,7 +261,7 @@ while ($row = mysql_fetch_object($result))
 	++$rownumber;
 	echo "<tr>";
 	echo "<td>$rownumber<br></td>";
-	echo "<td><a href=\"weaponstats.php?WeaponID=$row->weaponid\">$row->name</a></td>";
+	echo "<td><a href=\"weaponstats.php?Prefix=$prefix&WeaponID=$row->weaponid\">$row->name</a></td>";
 	echo "<td>$row->tally<br></td>";
 	echo "</tr>";
 }
