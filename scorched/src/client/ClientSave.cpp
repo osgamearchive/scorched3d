@@ -27,6 +27,8 @@
 #include <coms/ComsMessageSender.h>
 #include <common/Defines.h>
 #include <common/Logger.h>
+#include <common/OptionsGame.h>
+#include <common/OptionsTransient.h>
 #include <stdio.h>
 
 static NetBuffer saveBuffer;

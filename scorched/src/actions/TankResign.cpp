@@ -51,7 +51,7 @@ void TankResign::simulate(float frameTime, bool &remove)
 	{
 		firstTime_ = false;
 		Tank *tank = 
-			context_->tankContainer.getTankById(playerId_);
+			context_->tankContainer->getTankById(playerId_);
 		if (tank)
 		{
 			tank->getState().setState(TankState::sDead);

@@ -21,6 +21,7 @@
 #include <client/ScorchedClient.h>
 #include <client/ClientNextRoundHandler.h>
 #include <client/ClientState.h>
+#include <tank/TankContainer.h>
 #include <landscape/Landscape.h>
 #include <coms/ComsNextRoundMessage.h>
 

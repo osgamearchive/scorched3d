@@ -21,6 +21,8 @@
 #include <client/Main2DCamera.h>
 #include <client/ScorchedClient.h>
 #include <common/OptionsDisplay.h>
+#include <engine/MainLoop.h>
+#include <GLEXT/GLState.h>
 
 Main2DCamera *Main2DCamera::instance_ = 0;
 

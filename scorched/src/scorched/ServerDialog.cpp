@@ -27,6 +27,7 @@
 #include <common/OptionsTransient.h>
 #include <common/Logger.h>
 #include <coms/NetBufferUtil.h>
+#include <coms/NetInterface.h>
 #include <server/ServerState.h>
 #include <server/ServerMain.h>
 #include <server/ServerMessageHandler.h>

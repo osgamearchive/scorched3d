@@ -20,6 +20,7 @@
 
 #include <landscape/LandscapeObjects.h>
 #include <landscape/Landscape.h>
+#include <landscape/LandscapeMaps.h>
 #include <GLEXT/GLBitmap.h>
 #include <GLEXT/GLCameraFrustum.h>
 #include <GLEXT/GLBitmapModifier.h>
@@ -28,6 +29,7 @@
 #include <common/Resources.h>
 #include <client/ScorchedClient.h>
 #include <stdio.h>
+#include <math.h>
 
 LandscapeObjects::LandscapeObjects() : pine_(false)
 {

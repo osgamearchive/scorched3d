@@ -24,6 +24,7 @@
 #include <common/Defines.h>
 #include <common/OptionsDisplay.h>
 #include <landscape/Landscape.h>
+#include <landscape/LandscapeMaps.h>
 #include <math.h>
 
 void ExplosionNukeRenderer::Entry::simulate()

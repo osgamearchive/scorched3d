@@ -20,6 +20,7 @@
 
 #include <landscape/InfoMap.h>
 #include <landscape/Landscape.h>
+#include <landscape/LandscapeMaps.h>
 #include <GLEXT/GLConsoleRuleMethodIAdapter.h>
 #include <client/ScorchedClient.h>
 

@@ -23,9 +23,12 @@
 #include <server/ScorchedServer.h>
 #include <server/TurnController.h>
 #include <scorched/ServerDialog.h>
+#include <engine/ActionController.h>
 #include <coms/ComsNextRoundMessage.h>
 #include <coms/ComsMessageSender.h>
 #include <common/Logger.h>
+#include <common/OptionsGame.h>
+#include <common/OptionsTransient.h>
 #include <common/StatsLogger.h>
 
 ServerNextRoundState::ServerNextRoundState()
@@ -42,7 +45,7 @@ void ServerNextRoundState::enterState(const unsigned state)
 
 	// Move all tanks into the next round
 	// Load the set of options for this next player
-	ScorchedServer::instance()->getContext().optionsTransient.nextRound();
+	ScorchedServer::instance()->getContext().optionsTransient->nextRound();
 
 	// Set the wind for the next shot
 	Vector wind;

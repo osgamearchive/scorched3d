@@ -24,6 +24,7 @@
 #include <client/ClientState.h>
 #include <tankgraph/TankModelRenderer.h>
 #include <tankgraph/MissileMesh.h>
+#include <tank/TankContainer.h>
 #include <GLW/GLWTranslate.h>
 #include <weapons/AccessoryStore.h>
 

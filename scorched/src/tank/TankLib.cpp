@@ -19,6 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <tank/TankLib.h>
+#include <tank/TankContainer.h>
 #include <common/OptionsTransient.h>
 #include <common/Defines.h>
 #include <math.h>
@@ -40,7 +41,7 @@ void TankLib::getTanksSortedByDistance(ScorchedContext &context,
 {
 	std::list<std::pair<float, Tank *> > tankDistList;
 	std::map<unsigned int, Tank *> &allCurrentTanks = 
-		context.tankContainer.getPlayingTanks();
+		context.tankContainer->getPlayingTanks();
 	std::map<unsigned int, Tank *>::iterator itor;
 	for (itor = allCurrentTanks.begin();
 		itor != allCurrentTanks.end();
@@ -116,20 +117,20 @@ void TankLib::getShotTowardsPosition(ScorchedContext &context,
 		power += (RAND * 200.0f) - 100.0f;
 		if (power < 100) power = 100;
 
-		if (context.optionsTransient.getWindOn())
+		if (context.optionsTransient->getWindOn())
 		{
 			// Make less adjustments for less wind
-			float windMag = context.optionsTransient.getWindSpeed() / 5.0f;
+			float windMag = context.optionsTransient->getWindSpeed() / 5.0f;
 
 			// Try to account for the wind direction
 			Vector ndirection = direction;
 			ndirection[2] = 0.0f;
 			ndirection = ndirection.Normalize();
 			ndirection = ndirection.get2DPerp();
-			float windoffsetLR = context.optionsTransient.getWindDirection().dotP(ndirection);
+			float windoffsetLR = context.optionsTransient->getWindDirection().dotP(ndirection);
 			angleXYDegs += windoffsetLR * distance2D * (0.12f + RAND * 0.04f) * windMag;
 
-			float windoffsetFB = context.optionsTransient.getWindDirection().dotP(direction.Normalize());
+			float windoffsetFB = context.optionsTransient->getWindDirection().dotP(direction.Normalize());
 			windoffsetFB /= 10.0f;
 			windoffsetFB *= windMag;
 			windoffsetFB += 1.0f; // windowoffset FB 0.9 > 1.1

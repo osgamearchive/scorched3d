@@ -25,6 +25,7 @@
 #include <common/Vector.h>
 #include <list>
 
+class Tank;
 namespace TankLib
 {
 	float getDistanceToTank(Vector &position, Tank *targetTank);

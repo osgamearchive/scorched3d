@@ -25,6 +25,7 @@
 #include <landscape/Landscape.h>
 #include <common/OptionsDisplay.h>
 #include <tankgraph/TankModelRenderer.h>
+#include <tank/TankContainer.h>
 #include <engine/ScorchedContext.h>
 
 MissileActionRenderer::MissileActionRenderer(int flareType, float scale) : 
@@ -65,7 +66,7 @@ void MissileActionRenderer::draw(Action *action)
 	if (shot->getSmokeTracer())
 	{
 		Tank *current = 
-			action->getScorchedContext()->tankContainer.
+			action->getScorchedContext()->tankContainer->
 			getTankById(shot->getPlayerId());
 		if (current)
 		{
@@ -106,7 +107,8 @@ void MissileActionRenderer::draw(Action *action)
 	// Do we have a loaded mesh
 	if (!mesh_)
 	{
-		Tank *currentPlayer = action->getScorchedContext()->tankContainer.getTankById(
+		Tank *currentPlayer = action->
+			getScorchedContext()->tankContainer->getTankById(
 			shot->getPlayerId());
 		mesh_ = shot->getWeapon()->getWeaponMesh(currentPlayer);
 	}

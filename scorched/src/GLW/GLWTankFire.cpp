@@ -21,6 +21,7 @@
 #include <GLW/GLWTankFire.h>
 #include <client/ScorchedClient.h>
 #include <tankai/TankAIHuman.h>
+#include <tank/TankContainer.h>
 
 REGISTER_CLASS_SOURCE(GLWTankFire);
 

@@ -20,6 +20,7 @@
 
 #include <dialogs/ScoreDialog.h>
 #include <tank/TankSort.h>
+#include <tank/TankContainer.h>
 #include <GLW/GLWFont.h>
 #include <common/OptionsParam.h>
 #include <common/OptionsTransient.h>

@@ -22,6 +22,8 @@
 #include <actions/Napalm.h>
 #include <common/Defines.h>
 #include <common/SoundStore.h>
+#include <engine/ActionController.h>
+#include <landscape/LandscapeMaps.h>
 
 REGISTER_ACCESSORY_SOURCE(WeaponNapalm);
 
@@ -146,7 +148,7 @@ void WeaponNapalm::fireWeapon(ScorchedContext &context,
 	{
 		int x = int(position[0] + RAND * 4.0f - 2.0f);
 		int y = int(position[1] + RAND * 4.0f - 2.0f);
-		if (context.landscapeMaps.getHMap().getHeight(x, y) > 5.0f)
+		if (context.landscapeMaps->getHMap().getHeight(x, y) > 5.0f)
 		{
 			playSound = true;
 		}
@@ -171,10 +173,10 @@ void WeaponNapalm::addNapalm(ScorchedContext &context,
 	// Ensure that the napalm has not hit the walls
 	// or anything outside the landscape
 	if (x > 1 && y > 1 &&
-		x < context.landscapeMaps.getHMap().getWidth() - 1 &&
-		y < context.landscapeMaps.getHMap().getWidth() - 1)
+		x < context.landscapeMaps->getHMap().getWidth() - 1 &&
+		y < context.landscapeMaps->getHMap().getWidth() - 1)
 	{
-		context.actionController.addAction(
+		context.actionController->addAction(
 			new Napalm(x, y, this, playerId));
 	}
 }

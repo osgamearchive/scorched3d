@@ -23,6 +23,7 @@
 #include <client/MainCamera.h>
 #include <client/ClientState.h>
 #include <tankgraph/TankModelRenderer.h>
+#include <tank/TankContainer.h>
 #include <GLW/GLWTranslate.h>
 
 REGISTER_CLASS_SOURCE(GLWTankModel);

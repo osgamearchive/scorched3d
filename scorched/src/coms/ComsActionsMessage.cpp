@@ -21,6 +21,7 @@
 #include <coms/ComsActionsMessage.h>
 #include <server/ScorchedServer.h>
 #include <client/ScorchedClient.h>
+#include <engine/ActionController.h>
 
 ComsActionsMessage::ComsActionsMessage() :
 	ComsMessage("ComsActionsMessage")

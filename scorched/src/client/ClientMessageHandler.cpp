@@ -22,6 +22,7 @@
 #include <client/ClientState.h>
 #include <client/ScorchedClient.h>
 #include <common/Logger.h>
+#include <coms/NetInterface.h>
 
 ClientMessageHandler *ClientMessageHandler::instance_ = 0;
 

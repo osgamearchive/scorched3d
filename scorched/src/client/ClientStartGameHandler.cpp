@@ -18,13 +18,13 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <client/ClientStartGameHandler.h>
 #include <client/ClientState.h>
 #include <client/ClientNewGameHandler.h>
 #include <client/ScorchedClient.h>
 #include <landscape/Landscape.h>
 #include <engine/ActionController.h>
+#include <tank/TankContainer.h>
 #include <common/OptionsTransient.h>
 #include <common/OptionsGame.h>
 #include <common/Defines.h>

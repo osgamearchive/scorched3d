@@ -31,6 +31,7 @@
 #include <coms/ComsMessageSender.h>
 #include <coms/ComsBuyAccessoryMessage.h>
 #include <weapons/AccessoryStore.h>
+#include <tank/TankContainer.h>
 #include <stdio.h>
 
 BuyAccessoryDialog::BuyAccessoryDialog() : 

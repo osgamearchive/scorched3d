@@ -21,34 +21,33 @@
 #if !defined(__INCLUDE_ScorchedClienth_INCLUDE__)
 #define __INCLUDE_ScorchedClienth_INCLUDE__
 
-#include <engine/MainLoop.h>
 #include <engine/ScorchedContext.h>
 
+class MainLoop;
 class ScorchedClient
 {
 public:
 	static ScorchedClient *instance();
 
-	MainLoop &getMainLoop() { return mainLoop_; }
-	GameState &getGameState() { return context_.gameState; }
-	TankContainer &getTankContainer() { return context_.tankContainer; }
-	ActionController &getActionController() { return context_.actionController; }
-	LandscapeMaps &getLandscapeMaps() { return context_.landscapeMaps; }
+	MainLoop &getMainLoop() { return *mainLoop_; }
+	GameState &getGameState() { return *context_.gameState; }
+	TankContainer &getTankContainer() { return *context_.tankContainer; }
+	ActionController &getActionController() { return *context_.actionController; }
+	LandscapeMaps &getLandscapeMaps() { return *context_.landscapeMaps; }
 	ScorchedContext &getContext() { return context_; }
 	NetInterface &getNetInterface() { return *context_.netInterface; }
-	OptionsGameWrapper &getOptionsGame() { return context_.optionsGame; }
-	OptionsTransient &getOptionsTransient() { return context_.optionsTransient; }
-	ComsMessageHandler &getComsMessageHandler() { return context_.comsMessageHandler; }
+	OptionsGameWrapper &getOptionsGame() { return *context_.optionsGame; }
+	OptionsTransient &getOptionsTransient() { return *context_.optionsTransient; }
+	ComsMessageHandler &getComsMessageHandler() { return *context_.comsMessageHandler; }
 
 protected:
 	static ScorchedClient *instance_;
-	MainLoop mainLoop_;
+	MainLoop *mainLoop_;
 	ScorchedContext context_;
 
 private:
 	ScorchedClient();
 	virtual ~ScorchedClient();
 };
-
 
 #endif

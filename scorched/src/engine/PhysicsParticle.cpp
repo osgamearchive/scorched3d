@@ -20,6 +20,7 @@
 
 #include <engine/PhysicsParticle.h>
 #include <engine/ScorchedContext.h>
+#include <engine/ActionController.h>
 
 PhysicsParticle::PhysicsParticle()  : collision_(false), totalActionTime_(0)
 {
@@ -33,7 +34,7 @@ PhysicsParticle::~PhysicsParticle()
 
 void PhysicsParticle::setPhysics(Vector &position, Vector &velocity)
 {
-	physicsObject_.setPhysics(context_->actionController.getPhysics(), position, velocity);
+	physicsObject_.setPhysics(context_->actionController->getPhysics(), position, velocity);
 }
 
 void PhysicsParticle::collision(Vector &position)
@@ -82,7 +83,7 @@ PhysicsParticleMeta::~PhysicsParticleMeta()
 void PhysicsParticleMeta::setPhysics(Vector &position, Vector &velocity,
 									 float sphereSize, float sphereDensity)
 {
-	physicsObject_.setPhysics(context_->actionController.getPhysics(), 
+	physicsObject_.setPhysics(context_->actionController->getPhysics(), 
 		position, velocity,
 		sphereSize, sphereDensity);
 }

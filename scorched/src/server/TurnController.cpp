@@ -20,8 +20,11 @@
 
 #include <server/TurnController.h>
 #include <server/ScorchedServer.h>
+#include <tank/TankContainer.h>
 #include <tank/TankSort.h>
+#include <common/OptionsTransient.h>
 #include <vector>
+#include <set>
 
 TurnController *TurnController::instance_ = 0;
 

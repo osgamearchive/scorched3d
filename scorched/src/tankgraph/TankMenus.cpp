@@ -20,6 +20,7 @@
 
 #include <weapons/Weapon.h>
 #include <engine/GameState.h>
+#include <engine/ActionController.h>
 #include <client/ClientState.h>
 #include <client/ScorchedClient.h>
 #include <server/ScorchedServer.h>
@@ -30,8 +31,10 @@
 #include <GLW/GLWWindowManager.h>
 #include <common/OptionsParam.h>
 #include <coms/ComsMessageSender.h>
+#include <coms/ComsMessageHandler.h>
 #include <coms/ComsTextMessage.h>
 #include <landscape/Landscape.h>
+#include <landscape/LandscapeMaps.h>
 #include <dialogs/MainMenuDialog.h>
 #include <dialogs/QuitDialog.h>
 #include <dialogs/SaveDialog.h>

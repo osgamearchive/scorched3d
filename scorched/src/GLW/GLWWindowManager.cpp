@@ -197,7 +197,7 @@ void GLWWindowManager::sortWindowLevels()
 		{
 			GLWWindow *first = windows[i];
 			GLWWindow *second = windows[i+1];
-			if (first->getWindowLevel() > second->getWindowLevel())
+			if (first->getWindowLevel() < second->getWindowLevel())
 			{
 				windows[i] = second;
 				windows[i+1] = first;

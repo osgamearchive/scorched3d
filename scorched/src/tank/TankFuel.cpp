@@ -22,6 +22,7 @@
 #include <server/ScorchedServer.h>
 #include <weapons/AccessoryStore.h>
 #include <common/Defines.h>
+#include <common/OptionsGame.h>
 #include <stdio.h>
 
 TankFuel::TankFuel()

@@ -20,6 +20,7 @@
 
 #include <common/StatsLoggerFile.h>
 #include <server/ScorchedServer.h>
+#include <common/OptionsGame.h>
 
 StatsLoggerFile::StatsLoggerFile() : statsLogger_(0)
 {

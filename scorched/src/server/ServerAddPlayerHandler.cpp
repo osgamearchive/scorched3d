@@ -24,12 +24,15 @@
 #include <server/ServerState.h>
 #include <server/ServerCommon.h>
 #include <common/OptionsParam.h>
+#include <common/OptionsGame.h>
+#include <common/OptionsTransient.h>
 #include <common/StatsLogger.h>
 #include <coms/ComsAddPlayerMessage.h>
 #include <coms/ComsGameStateMessage.h>
 #include <coms/ComsMessageSender.h>
 #include <coms/NetLoopBack.h>
 #include <tankai/TankAIStore.h>
+#include <tank/TankContainer.h>
 
 ServerAddPlayerHandler *ServerAddPlayerHandler::instance_ = 0;
 

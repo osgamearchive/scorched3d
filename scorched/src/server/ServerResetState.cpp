@@ -23,6 +23,7 @@
 #include <server/ServerState.h>
 #include <server/ScorchedServer.h>
 #include <scorched/ServerDialog.h>
+#include <common/OptionsTransient.h>
 #include <common/Logger.h>
 
 ServerResetState::ServerResetState()

@@ -20,6 +20,7 @@
 
 #include <tank/Tank.h>
 #include <common/OptionsDisplay.h>
+#include <common/OptionsGame.h>
 #include <engine/ScorchedContext.h>
 #include <stdio.h>
 
@@ -53,7 +54,7 @@ void TankState::setLife(float life)
 
 	if (life_ >= 100) life_ = 100;
 	if (life_ <= 0) life_ = 0;
-	if (context_.optionsGame.getLimitPowerByHealth())
+	if (context_.optionsGame->getLimitPowerByHealth())
 	{
 		if (tank_->getPhysics().getPower() > life_ * 10.0f) 
 			tank_->getPhysics().changePower(life_ * 10.0f, false);

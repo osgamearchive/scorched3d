@@ -19,6 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <tank/TankController.h>
+#include <tank/TankContainer.h>
 #include <common/Vector.h>
 #include <engine/ActionController.h>
 #include <actions/TankDamage.h>
@@ -30,7 +31,7 @@ void TankController::explosion(ScorchedContext &context,
 {
 	std::map<unsigned int, Tank *>::iterator itor;
 	std::map<unsigned int, Tank *> &tanks = 
-		context.tankContainer.getPlayingTanks();
+		context.tankContainer->getPlayingTanks();
 	for (itor = tanks.begin();
 		itor != tanks.end();
 		itor++)
@@ -74,5 +75,5 @@ void TankController::damageTank(ScorchedContext &context,
 	TankDamage *tankDamage = new TankDamage(
 		weapon, tank->getPlayerId(), firer, 
 		damage, useShieldDamage);
-	context.actionController.addAction(tankDamage);
+	context.actionController->addAction(tankDamage);
 }

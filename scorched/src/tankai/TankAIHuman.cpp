@@ -28,6 +28,7 @@
 #include <tankai/TankAIHuman.h>
 #include <tankai/TankAILogic.h>
 #include <tankgraph/TankModelRenderer.h>
+#include <landscape/LandscapeMaps.h>
 #include <coms/ComsMessageSender.h>
 #include <tank/Tank.h>
 #include <stdio.h>
@@ -139,7 +140,7 @@ void TankAIHuman::autoAim()
 	if (MainCamera::instance()->getCamera().
 		getDirectionFromPt((GLfloat) x, (GLfloat) y, direction))
 	{
-		if (context_->landscapeMaps.getHMap().getIntersect(direction, intersect))
+		if (context_->landscapeMaps->getHMap().getIntersect(direction, intersect))
         {
 			Vector &position = currentTank_->getPhysics().getTankPosition();
 

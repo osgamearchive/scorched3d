@@ -21,6 +21,7 @@
 #include <common/StatsLoggerFile.h>
 #include <common/StatsLoggerMySQL.h>
 #include <common/OptionsParam.h>
+#include <common/OptionsGame.h>
 #include <common/Logger.h>
 #include <server/ScorchedServer.h>
 #include <stdlib.h>

@@ -23,7 +23,10 @@
 #include <actions/CameraPositionAction.h>
 #include <common/OptionsDisplay.h>
 #include <landscape/Landscape.h>
+#include <landscape/LandscapeMaps.h>
+#include <engine/ViewPoints.h>
 #include <tankai/TankAIHuman.h>
+#include <tank/TankContainer.h>
 #include <common/Keyboard.h>
 #include <common/Defines.h>
 #include <math.h>
@@ -200,10 +203,10 @@ bool TargetCamera::moveCamera(float frameTime, bool playing)
 		}
 		break;
 	case CamGun:
-		if (ScorchedClient::instance()->getContext().viewPoints.getLookAtCount() > 0)
+		if (ScorchedClient::instance()->getContext().viewPoints->getLookAtCount() > 0)
 		{
 			Vector lookatPos, lookfromPos;
-			ScorchedClient::instance()->getContext().viewPoints.
+			ScorchedClient::instance()->getContext().viewPoints->
 				getValues(lookatPos, lookfromPos);
 
 			mainCam_.setLookAt(lookatPos, true);

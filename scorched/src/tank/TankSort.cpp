@@ -19,12 +19,15 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <tank/TankSort.h>
+#include <tank/Tank.h>
+#include <tank/TankContainer.h>
+#include <common/OptionsGame.h>
 
 int TankSort::compare(ScorchedContext &context,
 		int kills1, int money1, int wins1, const char *name1,
 		int kills2, int money2, int wins2, const char *name2)
 {
-	switch (context.optionsGame.getScoreType())
+	switch (context.optionsGame->getScoreType())
 	{
 	case OptionsGame::ScoreWins:
 		if (wins1 > wins2) return 1;
@@ -104,7 +107,7 @@ int TankSort::getWinningTeam(ScorchedContext &context)
 	int winsTwo = 0, killsTwo = 0, moneyTwo = 0;
 	std::map<unsigned int, Tank *>::iterator itor;
 	std::map<unsigned int, Tank *> &tanks = 
-		context.tankContainer.getPlayingTanks();
+		context.tankContainer->getPlayingTanks();
 	for (itor = tanks.begin();
 		itor != tanks.end();
 		itor ++)
@@ -162,7 +165,7 @@ void TankSort::getSortedTanksIds(ScorchedContext &context, std::list<unsigned in
 {
 	std::list<Tank *> sortedTanks;
 	std::map<unsigned int, Tank *> &tanks = 
-		context.tankContainer.getPlayingTanks();
+		context.tankContainer->getPlayingTanks();
 	std::map<unsigned int, Tank *>::iterator itor;
 	for (itor = tanks.begin();
 		itor != tanks.end();

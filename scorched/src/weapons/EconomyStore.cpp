@@ -21,6 +21,7 @@
 #include <weapons/EconomyStore.h>
 #include <server/ScorchedServer.h>
 #include <common/Defines.h>
+#include <common/OptionsGame.h>
 #include <common/Logger.h>
 #include <stdlib.h>
 

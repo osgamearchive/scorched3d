@@ -26,6 +26,7 @@
 #include <engine/ScorchedCollisionHandler.h>
 #include <engine/PhysicsParticle.h>
 #include <engine/ActionController.h>
+#include <tank/TankContainer.h>
 
 ScorchedCollisionHandler::ScorchedCollisionHandler(ScorchedContext *context) :
 	context_(context)
@@ -240,7 +241,7 @@ void ScorchedCollisionHandler::shotCollision(dGeomID o1, dGeomID o2,
 			if (shot->getPlayerId() != id)
 			{
 				// Make sure tank we are colliding with is alive
-				Tank *tank = context_->tankContainer.getTankById(id);
+				Tank *tank = context_->tankContainer->getTankById(id);
 				if (tank &&
 					tank->getState().getState() == TankState::sNormal &&
 					tank->getState().getSpectator() == false)
@@ -263,11 +264,11 @@ void ScorchedCollisionHandler::shotCollision(dGeomID o1, dGeomID o2,
 			OptionsTransient::WallSide wallSide = (OptionsTransient::WallSide)
 				(otherInfo->id - CollisionIdWallLeft);
 
-			context_->actionController.addAction(
+			context_->actionController->addAction(
 				new WallHit(particlePositionV, wallSide));
 
 			// Choose what to do depending on the wall
-			switch(context_->optionsTransient.getWallType())
+			switch(context_->optionsTransient->getWallType())
 			{
 			case OptionsTransient::wallBouncy:
 				action = ParticleActionBounce;
@@ -318,7 +319,7 @@ void ScorchedCollisionHandler::shotCollision(dGeomID o1, dGeomID o2,
 	if (action != ParticleActionNone)
 	{
 		std::map<unsigned int, Tank *> &tanks = 
-			context_->tankContainer.getPlayingTanks();
+			context_->tankContainer->getPlayingTanks();
 		std::map<unsigned int, Tank *>::iterator itor;
 		for (itor = tanks.begin();
 			itor != tanks.end();
@@ -360,7 +361,7 @@ ParticleAction ScorchedCollisionHandler::collisionShield(
 	Shield::ShieldSize size)
 {
 	// Check tank still exists and is alive
-	Tank *tank = context_->tankContainer.getTankById(id);
+	Tank *tank = context_->tankContainer->getTankById(id);
 	if (tank && tank->getState().getState() == TankState::sNormal &&
 		tank->getState().getSpectator() == false)
 	{
@@ -372,11 +373,11 @@ ParticleAction ScorchedCollisionHandler::collisionShield(
 				switch (shield->getShieldType())
 				{
 				case Shield::ShieldTypeNormal:
-					context_->actionController.addAction(
+					context_->actionController->addAction(
 						new ShieldHit(tank->getPlayerId()));
 					return ParticleActionFinished;
 				case Shield::ShieldTypeReflective:
-					context_->actionController.addAction(
+					context_->actionController->addAction(
 						new ShieldHit(tank->getPlayerId()));
 					return ParticleActionBounce;
 				case Shield::ShieldTypeReflectiveMag:
@@ -386,7 +387,7 @@ ParticleAction ScorchedCollisionHandler::collisionShield(
 					Vector up(0.0f, 0.0f, 1.0f);
 					if (normal.dotP(up) > 0.8f)
 					{
-						context_->actionController.addAction(
+						context_->actionController->addAction(
 							new ShieldHit(tank->getPlayerId()));
 						return ParticleActionBounce;
 					}
@@ -416,6 +417,6 @@ void ScorchedCollisionHandler::collisionBounce(dGeomID o1, dGeomID o2,
 	{
 		// Create the contact joints for this collision
 		contact.geom = contacts[i];
-		context_->actionController.getPhysics().addCollision(o1, o2, contact);
+		context_->actionController->getPhysics().addCollision(o1, o2, contact);
 	}
 }

@@ -19,6 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <engine/FrameTimer.h>
+#include <engine/ActionController.h>
 #include <client/Main2DCamera.h>
 #include <client/SpeedChange.h>
 #include <client/MainCamera.h>

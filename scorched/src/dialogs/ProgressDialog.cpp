@@ -22,6 +22,8 @@
 #include <dialogs/BackdropDialog.h>
 #include <client/ScorchedClient.h>
 #include <client/Main2DCamera.h>
+#include <engine/MainLoop.h>
+#include <common/Clock.h>
 #include <GLW/GLWFont.h>
 #include <GLEXT/GLBitmap.h>
 #include <math.h>

@@ -22,6 +22,7 @@
 #include <actions/CameraPositionAction.h>
 #include <sprites/MissileActionRenderer.h>
 #include <engine/ScorchedContext.h>
+#include <engine/ActionController.h>
 #include <weapons/WeaponRoller.h>
 #include <GLEXT/GLState.h>
 #include <3dsparse/ASEStore.h>
@@ -62,8 +63,8 @@ void ShotBounce::init()
 		ActionMeta *pos = new CameraPositionAction(
 			startPosition_, ShowTime,
 			5);
-		context_->actionController.getBuffer().serverAdd(
-			context_->actionController.getActionTime() - 4.0f,
+		context_->actionController->getBuffer().serverAdd(
+			context_->actionController->getActionTime() - 4.0f,
 			pos);
 		delete pos;
 	}
@@ -79,7 +80,7 @@ ShotBounce::~ShotBounce()
 	ActionVectorHolder::getActionVector(actionId_);
 	if (actionVector_) actionVector_->remove();
 	if (context_->serverMode) delete actionVector_;
-	if (vPoint_) context_->viewPoints.releaseViewPoint(vPoint_);
+	if (vPoint_) context_->viewPoints->releaseViewPoint(vPoint_);
 }
 
 void ShotBounce::collision(Vector &position)
@@ -152,7 +153,7 @@ void ShotBounce::doCollision()
 {
 	if (context_->serverMode)
 	{
-		context_->actionController.getBuffer().serverAdd(0.0f, actionVector_);
+		context_->actionController->getBuffer().serverAdd(0.0f, actionVector_);
 	}
 	
 	WeaponRoller *proj = (WeaponRoller *) weapon_;

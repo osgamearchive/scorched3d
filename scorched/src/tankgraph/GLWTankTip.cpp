@@ -22,6 +22,7 @@
 #include <tankai/TankAIHuman.h>
 #include <weapons/Weapon.h>
 #include <landscape/Landscape.h>
+#include <landscape/LandscapeMaps.h>
 #include <client/ScorchedClient.h>
 #include <client/ClientState.h>
 #include <common/Defines.h>

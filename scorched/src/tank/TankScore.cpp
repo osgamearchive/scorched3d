@@ -40,7 +40,7 @@ TankScore::~TankScore()
 
 void TankScore::reset()
 {
-	money_ = context_.optionsGame.getStartMoney();
+	money_ = context_.optionsGame->getStartMoney();
 	wins_ = 0;
 	kills_ = 0;
 	missedMoves_ = 0;

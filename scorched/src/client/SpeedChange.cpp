@@ -21,6 +21,7 @@
 #include <client/SpeedChange.h>
 #include <client/ScorchedClient.h>
 #include <common/Keyboard.h>
+#include <engine/ActionController.h>
 #include <GLW/GLWFont.h>
 #include <stdio.h>
 

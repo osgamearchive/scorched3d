@@ -27,6 +27,8 @@
 #include <client/ClientState.h>
 #include <client/MainCamera.h>
 #include <landscape/Landscape.h>
+#include <landscape/LandscapeMaps.h>
+#include <tank/TankContainer.h>
 #include <common/Vector.h>
 #include <math.h>
 

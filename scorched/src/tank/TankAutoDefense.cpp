@@ -21,6 +21,7 @@
 #include <weapons/AccessoryStore.h>
 #include <tank/TankAutoDefense.h>
 #include <server/ScorchedServer.h>
+#include <common/OptionsGame.h>
 
 TankAutoDefense::TankAutoDefense()
 {

@@ -27,8 +27,10 @@
 #include <actions/ShowScore.h>
 #include <coms/ComsActionsMessage.h>
 #include <coms/ComsMessageSender.h>
+#include <engine/ActionController.h>
 #include <common/StatsLogger.h>
 #include <common/OptionsGame.h>
+#include <common/OptionsTransient.h>
 #include <common/Logger.h>
 
 ServerShotState::ServerShotState() : totalTime_(0.0f)

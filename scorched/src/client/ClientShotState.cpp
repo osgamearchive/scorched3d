@@ -21,6 +21,7 @@
 #include <client/ClientShotState.h>
 #include <client/ScorchedClient.h>
 #include <engine/ActionController.h>
+#include <engine/ViewPoints.h>
 #include <common/OptionsParam.h>
 #include <landscape/Landscape.h>
 
@@ -46,7 +47,7 @@ ClientShotState::~ClientShotState()
 void ClientShotState::enterState(const unsigned state)
 {
 	Landscape::instance()->restoreLandscapeTexture();
-	ScorchedClient::instance()->getContext().viewPoints.reset();
+	ScorchedClient::instance()->getContext().viewPoints->reset();
 }
 
 bool ClientShotState::acceptStateChange(const unsigned state, 

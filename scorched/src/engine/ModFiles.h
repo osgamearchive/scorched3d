@@ -18,37 +18,16 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_ScorchedContexth_INCLUDE__)
-#define __INCLUDE_ScorchedContexth_INCLUDE__
+#if !defined(__INCLUDE_ModFilesh_INCLUDE__)
+#define __INCLUDE_ModFilesh_INCLUDE__
 
-class ActionController;
-class GameState;
-class TankContainer;
-class LandscapeMaps;
-class ComsMessageHandler;
-class NetInterface;
-class OptionsGameWrapper;
-class OptionsTransient;
-class ViewPoints;
-class ModFiles;
-
-class ScorchedContext
+class ModFiles
 {
 public:
-	ScorchedContext(const char *name);
-	virtual ~ScorchedContext();
+	ModFiles();
+	virtual ~ModFiles();
 
-	ActionController *actionController;
-	GameState *gameState;
-	TankContainer *tankContainer;
-	LandscapeMaps *landscapeMaps;
-	ComsMessageHandler *comsMessageHandler;
-	NetInterface *netInterface;
-	OptionsGameWrapper *optionsGame;
-	OptionsTransient *optionsTransient;
-	ViewPoints *viewPoints;
-	ModFiles *modFiles;
-	bool serverMode;
+	bool loadModFiles(const char *mod);
 };
 
 #endif

@@ -22,7 +22,6 @@
 #include <scorched/ServerDialog.h>
 #include <scorched/HtmlHelpDialog.h>
 #include <server/ServerMain.h>
-#include <server/ScorchedServer.h>
 #include <common/OptionsParam.h>
 #include <common/OptionsGame.h>
 #include <wx/wx.h>

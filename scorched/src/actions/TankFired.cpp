@@ -18,14 +18,15 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <actions/TankFired.h>
 #include <actions/Explosion.h>
 #include <weapons/AccessoryStore.h>
 #include <engine/ScorchedContext.h>
+#include <engine/ActionController.h>
 #include <common/SoundStore.h>
 #include <common/OptionsParam.h>
 #include <tankgraph/TankModelRenderer.h>
+#include <tank/TankContainer.h>
 
 REGISTER_ACTION_SOURCE(TankFired);
 
@@ -57,7 +58,7 @@ void TankFired::simulate(float frameTime, bool &remove)
 	{
 		firstTime_ = false;
 		Tank *tank = 
-			context_->tankContainer.getTankById(playerId_);
+			context_->tankContainer->getTankById(playerId_);
 		if (tank)
 		{
 			tank->getPhysics().rotateGunXY(rotXY_, false);
@@ -85,7 +86,7 @@ void TankFired::simulate(float frameTime, bool &remove)
 
 			Explosion *explosion = new Explosion(tank->getPhysics().getTankGunPosition(), 3.0f, 
 				weapon_, playerId_, false, Explosion::DeformNone);
-			context_->actionController.addAction(explosion);
+			context_->actionController->addAction(explosion);
 		}
 	}
 

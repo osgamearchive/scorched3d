@@ -22,7 +22,6 @@
 #define __INCLUDE_TurnControllerh_INCLUDE__
 
 #include <list>
-#include <common/OptionsGame.h>
 
 class TurnController
 {

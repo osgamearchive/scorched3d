@@ -21,6 +21,7 @@
 #include <client/ScorchedClient.h>
 #include <client/ClientAddPlayerHandler.h>
 #include <coms/ComsAddPlayerMessage.h>
+#include <tank/TankContainer.h>
 
 ClientAddPlayerHandler *ClientAddPlayerHandler::instance_ = 0;
 

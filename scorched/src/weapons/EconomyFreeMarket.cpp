@@ -23,6 +23,7 @@
 #include <server/ScorchedServer.h>
 #include <common/OptionsParam.h>
 #include <common/Defines.h>
+#include <common/OptionsGame.h>
 #include <XML/XMLFile.h>
 #include <tank/Tank.h>
 #include <stdlib.h>

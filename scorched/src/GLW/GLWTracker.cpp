@@ -20,10 +20,12 @@
 
 #include <GLW/GLWTracker.h>
 #include <GLW/GLWFont.h>
+#include <GLW/GLWToolTip.h>
 #include <GLEXT/GLState.h>
 #include <common/Keyboard.h>
 #include <common/OptionsDisplay.h>
 #include <client/ScorchedClient.h>
+#include <tank/TankContainer.h>
 
 REGISTER_CLASS_SOURCE(GLWTracker);
 

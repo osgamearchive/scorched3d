@@ -19,6 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <tankgraph/TracerStore.h>
+#include <tank/TankContainer.h>
 #include <client/ScorchedClient.h>
 
 TracerStore::TracerStore() : current_(0), listNo_(0)

@@ -25,6 +25,8 @@
 #include <GLW/GLWFont.h>
 #include <GLW/GLWWindowManager.h>
 #include <common/OptionsParam.h>
+#include <common/OptionsGame.h>
+#include <common/OptionsTransient.h>
 #include <client/ScorchedClient.h>
 
 RulesDialog *RulesDialog::instance_ = 0;

@@ -48,7 +48,9 @@
 #include <tankai/TankAIStore.h>
 #include <landscape/HeightMapCollision.h>
 #include <tankgraph/TankModelStore.h>
+#include <engine/MainLoop.h>
 #include <engine/ScorchedCollisionHandler.h>
+#include <engine/ActionController.h>
 #include <dialogs/ProgressDialog.h>
 #include <coms/NetServer.h>
 #include <coms/NetLoopBack.h>

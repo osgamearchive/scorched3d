@@ -19,6 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <landscape/Landscape.h>
+#include <landscape/LandscapeMaps.h>
 #include <landscape/ShadowMap.h>
 #include <landscape/InfoMap.h>
 #include <landscape/WaterMapModifier.h>
@@ -30,6 +31,7 @@
 #include <common/Resources.h>
 #include <common/OptionsDisplay.h>
 #include <client/ScorchedClient.h>
+#include <engine/ActionController.h>
 #include <time.h>
 
 Landscape *Landscape::instance_ = 0;

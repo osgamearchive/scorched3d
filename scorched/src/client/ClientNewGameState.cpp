@@ -29,6 +29,8 @@
 #include <GLEXT/GLLenseFlare.h>
 #include <dialogs/ProgressDialog.h>
 #include <sprites/ExplosionTextures.h>
+#include <engine/ActionController.h>
+#include <engine/MainLoop.h>
 
 ClientNewGameState *ClientNewGameState::instance_ = 0;
 

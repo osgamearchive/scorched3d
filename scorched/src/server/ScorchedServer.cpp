@@ -33,7 +33,6 @@ ScorchedServer *ScorchedServer::instance()
 
 ScorchedServer::ScorchedServer()  : context_("Server")
 {
-	context_.actionController.setScorchedContext(&context_);
 	context_.serverMode = true;
 }
 

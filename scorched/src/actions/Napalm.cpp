@@ -19,11 +19,14 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <engine/ScorchedContext.h>
+#include <engine/ActionController.h>
+#include <tank/TankContainer.h>
 #include <tank/TankController.h>
 #include <actions/Napalm.h>
 #include <actions/CameraPositionAction.h>
 #include <sprites/NapalmRenderer.h>
 #include <landscape/Landscape.h>
+#include <landscape/LandscapeMaps.h>
 #include <common/OptionsParam.h>
 
 REGISTER_ACTION_SOURCE(Napalm);
@@ -73,8 +76,8 @@ void Napalm::init()
 		ActionMeta *pos = new CameraPositionAction(
 			position, ShowTime,
 			5);
-		context_->actionController.getBuffer().serverAdd(
-			context_->actionController.getActionTime() - 4.0f,
+		context_->actionController->getBuffer().serverAdd(
+			context_->actionController->getActionTime() - 4.0f,
 			pos);
 		delete pos;
 	}
@@ -134,7 +137,7 @@ void Napalm::simulate(float frameTime, bool &remove)
 
 float Napalm::getHeight(int x, int y)
 {
-	LandscapeMaps *hmap = &context_->landscapeMaps;
+	LandscapeMaps *hmap = context_->landscapeMaps;
 	if (x < 0 || y < 0 ||
 		x > hmap->getHMap().getWidth() ||
 		y > hmap->getHMap().getWidth())
@@ -169,7 +172,7 @@ void Napalm::simulateRmStep()
 	}
 	delete entry;
 
-	context_->landscapeMaps.getNMap().getHeight(x, y) -= NapalmHeight;
+	context_->landscapeMaps->getNMap().getHeight(x, y) -= NapalmHeight;
 	napalmPoints_.pop_front();
 }
 
@@ -228,7 +231,7 @@ void Napalm::simulateAddStep()
 			(unsigned int) x_ - 1, (unsigned int) y_ - 1);
 	}
 
-	context_->landscapeMaps.getNMap().getHeight(x_, y_) += NapalmHeight;
+	context_->landscapeMaps->getNMap().getHeight(x_, y_) += NapalmHeight;
 	height += NapalmHeight;
 
 	// Calculate every time as the landscape may change
@@ -289,7 +292,7 @@ void Napalm::simulateDamage()
 
 	// Get the tanks
 	std::map<unsigned int, Tank *> &tanks = 
-		context_->tankContainer.getPlayingTanks();
+		context_->tankContainer->getPlayingTanks();
 	std::map<unsigned int, Tank *>::iterator tankItor;
 	std::map<unsigned int, Tank *>::iterator endTankItor = tanks.end();
 

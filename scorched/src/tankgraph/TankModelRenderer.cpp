@@ -21,6 +21,7 @@
 #include <tankgraph/TankModelRenderer.h>
 #include <tankgraph/TankModelStore.h>
 #include <landscape/Landscape.h>
+#include <landscape/LandscapeMaps.h>
 #include <landscape/Hemisphere.h>
 #include <actions/TankFalling.h>
 #include <client/MainCamera.h>

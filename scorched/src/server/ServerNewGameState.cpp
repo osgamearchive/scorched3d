@@ -25,17 +25,21 @@
 #include <server/TurnController.h>
 #include <server/ServerCommon.h>
 #include <client/ClientSave.h>
+#include <common/OptionsTransient.h>
 #include <common/OptionsGame.h>
 #include <common/OptionsParam.h>
 #include <common/Clock.h>
 #include <common/StatsLogger.h>
 #include <common/Logger.h>
 #include <tankai/TankAIAdder.h>
+#include <tank/TankContainer.h>
 #include <weapons/EconomyStore.h>
 #include <coms/ComsNextRoundMessage.h>
 #include <coms/ComsGameStateMessage.h>
 #include <coms/ComsNewGameMessage.h>
 #include <coms/ComsMessageSender.h>
+#include <landscape/LandscapeMaps.h>
+#include <set>
 
 extern Clock serverTimer;
 
@@ -63,7 +67,7 @@ void ServerNewGameState::enterState(const unsigned state)
 		ScorchedServer::instance()->getOptionsGame().commitChanges();
 
 	// Set all options (wind etc..)
-	ScorchedServer::instance()->getContext().optionsTransient.newGame();
+	ScorchedServer::instance()->getContext().optionsTransient->newGame();
 
 	// Check if we can load/save a game
 	if (OptionsParam::instance()->getConnectedToServer() == false)
@@ -94,7 +98,7 @@ void ServerNewGameState::enterState(const unsigned state)
 	ServerCommon::serverLog(0, "Generating landscape");
 	// Move all pending and dead tanks into the fray
 	// Set them all to not ready
-	ScorchedServer::instance()->getContext().tankContainer.newGame();
+	ScorchedServer::instance()->getContext().tankContainer->newGame();
 
 	// Check teams are even
 	checkTeams();
@@ -104,8 +108,8 @@ void ServerNewGameState::enterState(const unsigned state)
 
 	// Generate the new level
 	LandscapeDefinition &defn = LandscapeDefinitions::instance()->getRandomLandscapeDefn(
-		ScorchedServer::instance()->getContext().optionsGame);
-	ScorchedServer::instance()->getContext().landscapeMaps.generateHMap(defn);
+		*ScorchedServer::instance()->getContext().optionsGame);
+	ScorchedServer::instance()->getContext().landscapeMaps->generateHMap(defn);
 
 	// Set the start positions for the tanks
 	// Must be generated after the level as it alters the
@@ -250,10 +254,10 @@ void ServerNewGameState::flattenArea(ScorchedContext &context, Vector &tankPos)
 			int ix = (int) tankPos[0] + x;
 			int iy = (int) tankPos[1] + y;
 			if (ix >= 0 && iy >= 0 &&
-				ix < context.landscapeMaps.getHMap().getWidth() &&
-				iy < context.landscapeMaps.getHMap().getWidth())
+				ix < context.landscapeMaps->getHMap().getWidth() &&
+				iy < context.landscapeMaps->getHMap().getWidth())
 			{
-				context.landscapeMaps.getHMap().getHeight(ix, iy) = tankPos[2];
+				context.landscapeMaps->getHMap().getHeight(ix, iy) = tankPos[2];
 			}
 		}
 	}
@@ -262,7 +266,7 @@ void ServerNewGameState::flattenArea(ScorchedContext &context, Vector &tankPos)
 void ServerNewGameState::calculateStartPosition(ScorchedContext &context)
 {
 	std::map<unsigned int, Tank *> &tanks = 
-		context.tankContainer.getPlayingTanks();
+		context.tankContainer->getPlayingTanks();
 	std::map<unsigned int, Tank *>::iterator mainitor;
 	const int tankBorder = 10;
 	for (mainitor = tanks.begin();
@@ -277,11 +281,11 @@ void ServerNewGameState::calculateStartPosition(ScorchedContext &context)
 		{
 			// Find a new position for the tank
 			tooClose = false;
-			float posX = float (context.landscapeMaps.getHMap().getWidth() - tankBorder * 2) * 
+			float posX = float (context.landscapeMaps->getHMap().getWidth() - tankBorder * 2) * 
 				RAND + float(tankBorder);
-			float posY = float (context.landscapeMaps.getHMap().getWidth() - tankBorder * 2) * 
+			float posY = float (context.landscapeMaps->getHMap().getWidth() - tankBorder * 2) * 
 				RAND + float(tankBorder);
-			float height = context.landscapeMaps.getHMap().
+			float height = context.landscapeMaps->getHMap().
 				getHeight((int) posX, (int) posY);
 			tankPos = Vector(posX, posY, height);
 
@@ -315,7 +319,7 @@ void ServerNewGameState::calculateStartPosition(ScorchedContext &context)
 		}
 
 		// Get the height of the tank
-		tankPos[2] = context.landscapeMaps.getHMap().getInterpHeight(
+		tankPos[2] = context.landscapeMaps->getHMap().getInterpHeight(
 			tankPos[0], tankPos[1]);
 	
 		// Set the starting position of the tank

@@ -21,7 +21,9 @@
 #include <tank/Tank.h>
 #include <tank/TankLib.h>
 #include <engine/ScorchedContext.h>
+#include <engine/ActionController.h>
 #include <common/Defines.h>
+#include <common/OptionsGame.h>
 #include <common/OptionsDisplay.h>
 
 TankPhysics::TankPhysics(ScorchedContext &context, unsigned int playerId) :
@@ -37,15 +39,15 @@ TankPhysics::TankPhysics(ScorchedContext &context, unsigned int playerId) :
 
 	// The tank collision object
 	tankGeom_ = 
-		dCreateSphere(context.actionController.getPhysics().getSpace(), 2.0f);
+		dCreateSphere(context.actionController->getPhysics().getSpace(), 2.0f);
 	tankInfo_.data = (void *) playerId;
 	dGeomSetData(tankGeom_, &tankInfo_);
 
 	// The tank shield collision object
 	shieldSmallGeom_ =
-		dCreateSphere(context.actionController.getPhysics().getSpace(), 3.0f);
+		dCreateSphere(context.actionController->getPhysics().getSpace(), 3.0f);
 	shieldLargeGeom_ =
-		dCreateSphere(context.actionController.getPhysics().getSpace(), 6.0f);
+		dCreateSphere(context.actionController->getPhysics().getSpace(), 6.0f);
 	shieldSmallInfo_.data = (void *) playerId;
 	shieldLargeInfo_.data = (void *) playerId;
 	dGeomSetData(shieldSmallGeom_, &shieldSmallInfo_);
@@ -175,7 +177,7 @@ float TankPhysics::changePower(float power, bool diff)
 	else power_ = power;
 
 	if (power_ < 0.0f) power_ = 0.0f;
-	if (context_.optionsGame.getLimitPowerByHealth())
+	if (context_.optionsGame->getLimitPowerByHealth())
 	{
 		if (power_ > tank_->getState().getLife() * 10.0f) 
 			power_ = tank_->getState().getLife() * 10.0f;

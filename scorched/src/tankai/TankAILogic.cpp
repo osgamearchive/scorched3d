@@ -32,6 +32,7 @@
 #include <common/OptionsParam.h>
 #include <common/StatsLogger.h>
 #include <common/SoundStore.h>
+#include <landscape/LandscapeMaps.h>
 #include <engine/ActionController.h>
 
 void TankAILogic::processPlayedMoveMessage(ScorchedContext &context, 
@@ -70,12 +71,12 @@ void TankAILogic::processMoveMessage(ScorchedContext &context,
 
 	int posX = message.getPositionX();
 	int posY = message.getPositionY();
-	if (posX > 0 && posX < context.landscapeMaps.getHMap().getWidth() &&
-		posY > 0 && posY < context.landscapeMaps.getHMap().getWidth())
+	if (posX > 0 && posX < context.landscapeMaps->getHMap().getWidth() &&
+		posY > 0 && posY < context.landscapeMaps->getHMap().getWidth())
 	{
-		context.landscapeMaps.getMMap().calculateForTank(tank);
+		context.landscapeMaps->getMMap().calculateForTank(tank);
 		MovementMap::MovementMapEntry entry =
-			context.landscapeMaps.getMMap().getEntry(posX, posY);
+			context.landscapeMaps->getMMap().getEntry(posX, posY);
 		if (entry.type == MovementMap::eMovement &&
 			entry.dist < tank->getAccessories().getFuel().getNoFuel())
 		{
@@ -94,11 +95,11 @@ void TankAILogic::processMoveMessage(ScorchedContext &context,
 				unsigned int x = pt >> 16;
 				unsigned int y = pt & 0xffff;
 				move->getPositions().push_front(pt);
-				entry = context.landscapeMaps.getMMap().getEntry(x, y);
+				entry = context.landscapeMaps->getMMap().getEntry(x, y);
 			}
 
 			// Action to perform "walking" the list of points
-			context.actionController.addAction(move);
+			context.actionController->addAction(move);
 		}
 	}
 }
@@ -111,7 +112,7 @@ void TankAILogic::processResignMessage(ScorchedContext &context,
 	{
 		// Tank resign action
 		TankResign *resign = new TankResign(tank->getPlayerId());
-		context.actionController.addAction(resign);
+		context.actionController->addAction(resign);
 
 		StatsLogger::instance()->tankResigned(tank);
 	}
@@ -136,7 +137,7 @@ void TankAILogic::processFiredMessage(ScorchedContext &context,
 			if (count > 0 || count == -1)
 			{
 				if ((10 - weapon->getArmsLevel()) <=
-					context.optionsGame.getMaxArmsLevel())
+					context.optionsGame->getMaxArmsLevel())
 				{
 					// Actually use up one of the weapons
 					tank->getAccessories().getWeapons().rmWeapon(weapon, 1);
@@ -145,7 +146,7 @@ void TankAILogic::processFiredMessage(ScorchedContext &context,
 					TankFired *fired = new TankFired(tank->getPlayerId(), 
 						weapon,
 						message.getRotationXY(), message.getRotationYZ());
-					context.actionController.addAction(fired);
+					context.actionController->addAction(fired);
 
 					// Set the tank to have the correct rotation etc..
 					tank->getPhysics().rotateGunXY(

@@ -20,6 +20,8 @@
 
 #include <tank/TankContainer.h>
 #include <landscape/Landscape.h>
+#include <landscape/LandscapeMaps.h>
+#include <engine/MainLoop.h>
 #include <actions/Napalm.h>
 #include <sprites/NapalmRenderer.h>
 #include <sprites/ExplosionTextures.h>

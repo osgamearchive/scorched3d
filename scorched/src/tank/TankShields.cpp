@@ -21,6 +21,7 @@
 #include <tank/TankShields.h>
 #include <weapons/AccessoryStore.h>
 #include <server/ScorchedServer.h>
+#include <common/OptionsGame.h>
 #include <stdio.h>
 #include <math.h>
 #include <set>

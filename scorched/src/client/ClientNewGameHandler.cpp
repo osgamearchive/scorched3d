@@ -28,6 +28,8 @@
 #include <coms/ComsNewGameMessage.h>
 #include <dialogs/PlayerDialog.h>
 #include <dialogs/ProgressDialog.h>
+#include <landscape/LandscapeMaps.h>
+#include <tank/TankContainer.h>
 
 ClientNewGameHandler *ClientNewGameHandler::instance_ = 0;
 

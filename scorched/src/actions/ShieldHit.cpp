@@ -22,6 +22,7 @@
 #include <common/SoundStore.h>
 #include <common/OptionsParam.h>
 #include <engine/ScorchedContext.h>
+#include <tank/TankContainer.h>
 
 REGISTER_ACTION_SOURCE(ShieldHit);
 
@@ -51,7 +52,7 @@ void ShieldHit::simulate(float frameTime, bool &remove)
 		firstTime_ = false;
 
 		Tank *tank = 
-			context_->tankContainer.getTankById(playerId_);
+			context_->tankContainer->getTankById(playerId_);
 		if (tank)
 		{
 			Shield *shield = 

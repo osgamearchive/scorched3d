@@ -25,11 +25,14 @@
 #include <client/MainBanner.h>
 #include <server/ScorchedServer.h>
 #include <common/OptionsDisplay.h>
+#include <common/OptionsParam.h>
+#include <common/OptionsGame.h>
+#include <engine/MainLoop.h>
 #include <coms/NetServer.h>
 #include <coms/ComsMessageHandler.h>
 #include <coms/ComsMessageSender.h>
 #include <coms/ComsConnectMessage.h>
-#include <common/OptionsParam.h>
+
 
 ConnectDialog *ConnectDialog::instance_ = 0;
 

@@ -1229,6 +1229,12 @@
 				RelativePath="..\engine\MetaClass.h">
 			</File>
 			<File
+				RelativePath="..\engine\ModFiles.cpp">
+			</File>
+			<File
+				RelativePath="..\engine\ModFiles.h">
+			</File>
+			<File
 				RelativePath="..\engine\PhysicsEngine.cpp">
 			</File>
 			<File

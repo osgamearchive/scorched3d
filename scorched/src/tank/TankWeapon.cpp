@@ -19,6 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <common/Defines.h>
+#include <common/OptionsGame.h>
 #include <weapons/AccessoryStore.h>
 #include <weapons/Weapon.h>
 #include <tank/TankWeapon.h>

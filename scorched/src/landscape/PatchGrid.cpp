@@ -23,6 +23,7 @@
 #include <GLEXT/GLCameraFrustum.h>
 #include <client/MainCamera.h>
 #include <client/ScorchedClient.h>
+#include <tank/TankContainer.h>
 #include <landscape/PatchVar.h>
 #include <landscape/PatchGrid.h>
 #include <landscape/TriNodePool.h>

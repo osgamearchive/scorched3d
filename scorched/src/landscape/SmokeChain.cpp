@@ -24,6 +24,7 @@
 #include <client/ScorchedClient.h>
 #include <landscape/SmokeChain.h>
 #include <landscape/Landscape.h>
+#include <landscape/LandscapeMaps.h>
 
 void SmokeChainEntry::set(Vector &position, Vector &velocity, float ms, float mt)
 {

@@ -49,7 +49,7 @@ TankScored::~TankScored()
 void TankScored::init()
 {
 	Tank *tank = 
-		context_->tankContainer.getTankById(playerId_);
+		context_->tankContainer->getTankById(playerId_);
 	if (tank)
 	{
 		if (!context_->serverMode) 
@@ -80,7 +80,7 @@ void TankScored::simulate(float frameTime, bool &remove)
 	{
 		firstTime_ = false;
 		Tank *tank = 
-			context_->tankContainer.getTankById(playerId_);
+			context_->tankContainer->getTankById(playerId_);
 		if (tank)
 		{
 			tank->getScore().setMoney(tank->getScore().getMoney() + moneyDiff_);

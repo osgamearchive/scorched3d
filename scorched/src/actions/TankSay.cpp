@@ -21,6 +21,7 @@
 #include <actions/TankSay.h>
 #include <sprites/TalkRenderer.h>
 #include <engine/ScorchedContext.h>
+#include <engine/ActionController.h>
 #include <common/Defines.h>
 #include <common/OptionsParam.h>
 #include <common/Logger.h>
@@ -45,7 +46,7 @@ TankSay::~TankSay()
 void TankSay::init()
 {
 	Tank *tank = 
-		context_->tankContainer.getTankById(playerId_);
+		context_->tankContainer->getTankById(playerId_);
 	if (tank)
 	{
 		if (!context_->serverMode) 
@@ -53,7 +54,7 @@ void TankSay::init()
 			// put a speach bubble over the talking tank
 			TalkRenderer *talk = new TalkRenderer(
 				tank->getPhysics().getTankTurretPosition());
-			context_->actionController.addAction(new SpriteAction(talk));
+			context_->actionController->addAction(new SpriteAction(talk));
 		}
 
 		if (!context_->serverMode ||

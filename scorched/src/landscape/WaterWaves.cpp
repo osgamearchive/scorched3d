@@ -20,6 +20,7 @@
 
 #include <landscape/WaterWaves.h>
 #include <landscape/Landscape.h>
+#include <landscape/LandscapeMaps.h>
 #include <client/ScorchedClient.h>
 #include <common/OptionsDisplay.h>
 #include <common/Defines.h>

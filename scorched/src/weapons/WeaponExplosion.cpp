@@ -19,6 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <weapons/WeaponExplosion.h>
+#include <engine/ActionController.h>
 
 REGISTER_ACCESSORY_SOURCE(WeaponExplosion);
 
@@ -147,5 +148,5 @@ void WeaponExplosion::fireWeapon(ScorchedContext &context,
 	Action *action = new Explosion(
 		position, (float) size_,
 		this, playerId, hurts_, deformType_);
-	context.actionController.addAction(action);	
+	context.actionController->addAction(action);	
 }

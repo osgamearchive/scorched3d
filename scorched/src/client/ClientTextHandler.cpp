@@ -22,6 +22,7 @@
 #include <client/ClientState.h>
 #include <client/ScorchedClient.h>
 #include <client/MessageDisplay.h>
+#include <engine/ActionController.h>
 #include <sprites/TalkRenderer.h>
 #include <coms/ComsTextMessage.h>
 #include <common/SoundStore.h>

@@ -21,6 +21,7 @@
 #include <client/ScorchedClient.h>
 #include <client/ClientDefenseHandler.h>
 #include <tankai/TankAILogic.h>
+#include <tank/TankContainer.h>
 #include <coms/ComsDefenseMessage.h>
 
 ClientDefenseHandler *ClientDefenseHandler::instance_ = 0;

@@ -21,9 +21,11 @@
 #include <server/ServerCommon.h>
 #include <server/ScorchedServer.h>
 #include <common/OptionsParam.h>
+#include <common/OptionsGame.h>
 #include <common/Logger.h>
 #include <coms/ComsTextMessage.h>
 #include <coms/ComsMessageSender.h>
+#include <coms/NetInterface.h>
 
 static FileLogger *serverFileLogger = 0;
 

@@ -23,6 +23,7 @@
 #include <server/ServerState.h>
 #include <server/ScorchedServer.h>
 #include <server/TurnController.h>
+#include <tank/TankContainer.h>
 #include <engine/GameState.h>
 #include <coms/ComsPlayedMoveMessage.h>
 

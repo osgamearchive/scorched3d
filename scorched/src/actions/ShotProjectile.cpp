@@ -25,6 +25,7 @@
 #include <common/OptionsParam.h>
 #include <common/Defines.h>
 #include <engine/ScorchedContext.h>
+#include <engine/ViewPoints.h>
 #include <math.h>
 
 REGISTER_ACTION_SOURCE(ShotProjectile);
@@ -62,7 +63,7 @@ void ShotProjectile::init()
 		setActionRender(new MissileActionRenderer(flareType_, weapon_->getScale()));
 	}
 
-	vPoint_ = context_->viewPoints.getNewViewPoint(playerId_);
+	vPoint_ = context_->viewPoints->getNewViewPoint(playerId_);
 	setPhysics(startPosition_, velocity_);
 	collisionInfo_.data = this;
 	collisionInfo_.collisionOnSurface = !under_;
@@ -71,13 +72,13 @@ void ShotProjectile::init()
 
 ShotProjectile::~ShotProjectile()
 {
-	if (vPoint_) context_->viewPoints.releaseViewPoint(vPoint_);
+	if (vPoint_) context_->viewPoints->releaseViewPoint(vPoint_);
 }
 
 void ShotProjectile::collision(Vector &position)
 {
 	doCollision(position);
-	context_->viewPoints.explosion(playerId_);
+	context_->viewPoints->explosion(playerId_);
 	PhysicsParticleMeta::collision(position);
 }
 

@@ -25,6 +25,7 @@
 #include <server/ServerCommon.h>
 #include <client/ScorchedClient.h>
 #include <client/ClientState.h>
+#include <engine/MainLoop.h>
 
 QuitDialog *QuitDialog::instance_ = 0;
 

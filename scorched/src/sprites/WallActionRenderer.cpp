@@ -23,6 +23,8 @@
 #include <sprites/WallActionRenderer.h>
 #include <engine/ScorchedContext.h>
 #include <landscape/Landscape.h>
+#include <landscape/LandscapeMaps.h>
+#include <common/OptionsTransient.h>
 
 GLTexture WallActionRenderer::texture_ = GLTexture();
 
@@ -70,7 +72,7 @@ void WallActionRenderer::init(Action *action)
 		break;
 	case OptionsTransient::RightSide:
 		pos[0] = (float) 
-			action->getScorchedContext()->landscapeMaps.getHMap().getWidth();
+			action->getScorchedContext()->landscapeMaps->getHMap().getWidth();
 		xOff_ = -offset; yOff_ = 0.0f;
 		offSet1 = Vector(0.0f, 1.0f, 1.0f);
 		offSet2 = Vector(0.0f, 1.0f, -1.0f);
@@ -88,7 +90,7 @@ void WallActionRenderer::init(Action *action)
 	default:
 	case OptionsTransient::BotSide:
 		pos[1] = (float) 
-			action->getScorchedContext()->landscapeMaps.getHMap().getWidth();
+			action->getScorchedContext()->landscapeMaps->getHMap().getWidth();
 		xOff_ = 0.0f; yOff_ = offset;
 		offSet1 = Vector(1.0f, 0.0f, 1.0f);
 		offSet2 = Vector(1.0f, 0.0f, -1.0f);
@@ -103,7 +105,7 @@ void WallActionRenderer::init(Action *action)
 	cornerC_ = pos + offSet3 * size;
 	cornerD_ = pos + offSet4 * size;
 
-	color_ = action->getScorchedContext()->optionsTransient.getWallColor();
+	color_ = action->getScorchedContext()->optionsTransient->getWallColor();
 }
 
 void WallActionRenderer::simulate(Action *action, float frameTime, bool &remove)

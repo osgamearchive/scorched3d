@@ -29,6 +29,8 @@
 #include <coms/ComsMessageSender.h>
 #include <coms/ComsPlayerStatusMessage.h>
 #include <common/Logger.h>
+#include <common/OptionsTransient.h>
+#include <common/OptionsGame.h>
 
 ServerNextTurnState::ServerNextTurnState()
 {

@@ -19,6 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <dialogs/TalkDialog.h>
+#include <tank/TankContainer.h>
 #include <client/ScorchedClient.h>
 #include <coms/ComsTextMessage.h>
 #include <coms/ComsMessageSender.h>

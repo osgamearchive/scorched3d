@@ -20,7 +20,9 @@
 
 #include <weapons/WeaponAimedUnder.h>
 #include <weapons/AccessoryStore.h>
+#include <landscape/LandscapeMaps.h>
 #include <tank/TankLib.h>
+#include <tank/TankContainer.h>
 #include <common/Defines.h>
 #include <list>
 #include <math.h>
@@ -97,7 +99,7 @@ void WeaponAimedUnder::fireWeapon(ScorchedContext &context,
 {
 	// NOTE: This code is very similar to the funky bomb code
 	// except it works under ground
-	position[2] = context.landscapeMaps.getHMap().
+	position[2] = context.landscapeMaps->getHMap().
 		getInterpHeight(position[0], position[1]) / 2.0f;
 
 	// Get all of the distances of the tanks less than 50 away

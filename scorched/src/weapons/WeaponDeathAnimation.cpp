@@ -21,6 +21,7 @@
 #include <weapons/WeaponDeathAnimation.h>
 #include <weapons/AccessoryStore.h>
 #include <actions/DeathAnimation.h>
+#include <engine/ActionController.h>
 #include <common/Defines.h>
 
 REGISTER_ACCESSORY_SOURCE(WeaponDeathAnimation);
@@ -69,7 +70,7 @@ bool WeaponDeathAnimation::readAccessory(NetBufferReader &reader)
 void WeaponDeathAnimation::fireWeapon(ScorchedContext &context,
 	unsigned int playerId, Vector &position, Vector &velocity)
 {
-	context.actionController.addAction(
+	context.actionController->addAction(
 		new DeathAnimation(playerId, 
 			position, velocity,
 			rendererName_.c_str()));

@@ -22,6 +22,7 @@
 #include <client/ServerBrowserServerList.h>
 #include <client/ScorchedClient.h>
 #include <common/Logger.h>
+#include <common/OptionsGame.h>
 #include <time.h>
 
 ServerBrowserEntry::ServerBrowserEntry() : retries_(0), sentTime_(0), recieved_(0)

@@ -29,6 +29,7 @@
 #include <list>
 #include <engine/ScorchedContext.h>
 
+class Tank;
 namespace TankSort
 {
 	struct SortOnScore

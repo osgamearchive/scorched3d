@@ -19,14 +19,16 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <landscape/DeformLandscape.h>
+#include <landscape/LandscapeMaps.h>
 #include <engine/ScorchedContext.h>
+#include <common/Defines.h>
 #include <math.h>
 
 bool DeformLandscape::deformLandscape(
 	ScorchedContext &context,
 	Vector &pos, float radius, bool down, DeformPoints &map)
 {
-	HeightMap &hmap = context.landscapeMaps.getHMap();
+	HeightMap &hmap = context.landscapeMaps->getHMap();
 
 	bool hits = false;
 	int iradius = (int) radius + 1;

@@ -23,6 +23,7 @@
 
 #include <engine/ScorchedContext.h>
 #include <engine/ScorchedCollisionIds.h>
+#include <engine/ActionController.h>
 
 class HeightMapCollision
 {

@@ -24,6 +24,8 @@
 #include <GLW/GLWWindView.h>
 #include <client/ScorchedClient.h>
 #include <tankgraph/TankModelRenderer.h>
+#include <tank/TankContainer.h>
+#include <common/OptionsTransient.h>
 #include <weapons/AccessoryStore.h>
 
 REGISTER_CLASS_SOURCE(GLWHudCondition);

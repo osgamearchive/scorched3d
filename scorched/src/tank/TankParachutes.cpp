@@ -21,6 +21,7 @@
 #include <tank/TankParachutes.h>
 #include <weapons/AccessoryStore.h>
 #include <server/ScorchedServer.h>
+#include <common/OptionsGame.h>
 #include <stdio.h>
 
 TankParachutes::TankParachutes()

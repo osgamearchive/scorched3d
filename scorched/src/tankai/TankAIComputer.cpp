@@ -27,6 +27,7 @@
 #include <common/OptionsTransient.h>
 #include <actions/TankSay.h>
 #include <engine/ScorchedContext.h>
+#include <engine/ActionController.h>
 #include <coms/ComsMessageSender.h>
 
 TankAIComputer::TankAIComputer() : 
@@ -165,7 +166,7 @@ void TankAIComputer::say(const char *text)
 	newText += ":";
 	newText += text;
 
-	context_->actionController.addAction(
+	context_->actionController->addAction(
 		new TankSay(currentTank_->getPlayerId(), newText.c_str()));
 }
 

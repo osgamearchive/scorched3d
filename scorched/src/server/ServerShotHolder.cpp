@@ -22,6 +22,7 @@
 #include <server/ServerShotHolder.h>
 #include <server/TurnController.h>
 #include <tankai/TankAILogic.h>
+#include <tank/TankContainer.h>
 #include <coms/ComsMessageSender.h>
 #include <coms/ComsPlayerStatusMessage.h>
 

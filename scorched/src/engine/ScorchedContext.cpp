@@ -19,12 +19,32 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <engine/ScorchedContext.h>
+#include <engine/GameState.h>
+#include <engine/ActionController.h>
+#include <engine/ViewPoints.h>
+#include <engine/ModFiles.h>
+#include <coms/NetInterface.h>
+#include <coms/ComsMessageHandler.h>
+#include <common/OptionsTransient.h>
+#include <tank/TankContainer.h>
+#include <landscape/LandscapeMaps.h>
 
 ScorchedContext::ScorchedContext(const char *name) : 
-	gameState(name), netInterface(0), optionsGame(), optionsTransient(optionsGame),
 	serverMode(false)
 {
-	viewPoints.setContext(this);
+	actionController = new ActionController();
+	gameState = new GameState(name);
+	tankContainer = new TankContainer();
+	landscapeMaps = new LandscapeMaps();
+	comsMessageHandler = new ComsMessageHandler();
+	netInterface = (NetInterface *) 0;
+	optionsGame = new OptionsGameWrapper();
+	optionsTransient = new OptionsTransient(*optionsGame);
+	viewPoints = new ViewPoints();
+	modFiles = new ModFiles();
+
+	viewPoints->setContext(this);
+	actionController->setScorchedContext(this);
 }
 
 ScorchedContext::~ScorchedContext()

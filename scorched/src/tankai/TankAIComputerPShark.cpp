@@ -19,6 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <tankai/TankAIComputerPShark.h>
+#include <tank/TankContainer.h>
 #include <engine/ScorchedContext.h>
 #include <math.h>
 
@@ -55,7 +56,7 @@ Tank *TankAIComputerPShark::findTankToShootAt()
 		unsigned int hit = hitlist_.front();
 		hitlist_.pop_front();
 
-		Tank *t = context_->tankContainer.getTankById(hit);
+		Tank *t = context_->tankContainer->getTankById(hit);
 		if (t && t->getState().getState() == TankState::sNormal)
 		{
 			bool sameTeam = false;

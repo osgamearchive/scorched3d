@@ -20,6 +20,7 @@
 
 #include <actions/TankMove.h>
 #include <engine/ScorchedContext.h>
+#include <tank/TankContainer.h>
 
 REGISTER_ACTION_SOURCE(TankMove);
 
@@ -46,7 +47,7 @@ void TankMove::init()
 void TankMove::simulate(float frameTime, bool &remove)
 {
 	Tank *tank = 
-		context_->tankContainer.getTankById(playerId_);
+		context_->tankContainer->getTankById(playerId_);
 	if (tank && 
 		tank->getState().getState() == TankState::sNormal)
 	{

@@ -19,6 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <coms/ComsNewGameMessage.h>
+#include <common/OptionsGame.h>
 #include <weapons/AccessoryStore.h>
 #include <client/ScorchedClient.h>
 #include <server/ScorchedServer.h>

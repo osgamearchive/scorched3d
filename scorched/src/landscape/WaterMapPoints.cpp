@@ -21,6 +21,7 @@
 #include <landscape/WaterMapPoints.h>
 #include <3dsparse/ASEStore.h>
 #include <client/ScorchedClient.h>
+#include <common/OptionsTransient.h>
 
 WaterMapPoints::WaterMapPoints(WaterMap &map, int width, int points) :
 	pts_(0), noPts_(0)

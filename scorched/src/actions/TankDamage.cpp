@@ -23,7 +23,11 @@
 #include <actions/TankFalling.h>
 #include <actions/TankScored.h>
 #include <actions/CameraPositionAction.h>
+#include <common/OptionsGame.h>
+#include <landscape/LandscapeMaps.h>
 #include <engine/ScorchedContext.h>
+#include <engine/ActionController.h>
+#include <tank/TankContainer.h>
 
 REGISTER_ACTION_SOURCE(TankDamage);
 
@@ -56,7 +60,7 @@ void TankDamage::simulate(float frameTime, bool &remove)
 
 		// Find the tank that has been damaged
 		Tank *damagedTank = 
-			context_->tankContainer.getTankById(damagedPlayerId_);
+			context_->tankContainer->getTankById(damagedPlayerId_);
 		if (damagedTank)
 		{
 			if (damagedTank->getState().getState() == TankState::sNormal)
@@ -68,8 +72,8 @@ void TankDamage::simulate(float frameTime, bool &remove)
 					ActionMeta *pos = new CameraPositionAction(
 						damagedTank->getPhysics().getTankPosition(), ShowTime,
 						15);
-					context_->actionController.getBuffer().serverAdd(
-						context_->actionController.getActionTime() - 3.0f,
+					context_->actionController->getBuffer().serverAdd(
+						context_->actionController->getActionTime() - 3.0f,
 						pos);
 					delete pos;
 				}
@@ -114,7 +118,7 @@ void TankDamage::simulate(float frameTime, bool &remove)
 						// The tank has died, make it blow up etc...
 						TankDead *deadTank = 
 							new TankDead(weapon_, damagedPlayerId_, firedPlayerId_);
-						context_->actionController.addAction(deadTank);
+						context_->actionController->addAction(deadTank);
 
 						// The tank is now dead
 						damagedTank->getState().setState(TankState::sDead);
@@ -123,25 +127,25 @@ void TankDamage::simulate(float frameTime, bool &remove)
 
 					// Add any score got from this endevour
 					Tank *firedTank = 
-						context_->tankContainer.getTankById(firedPlayerId_);
+						context_->tankContainer->getTankById(firedPlayerId_);
 					if (firedTank)
 					{	
 						// Calculate the score (more for more damage and the most if you kill them)
 						int score = 0;
-						if (killedTank) score = context_->optionsGame.getMoneyWonPerKillPoint() *
+						if (killedTank) score = context_->optionsGame->getMoneyWonPerKillPoint() *
 								weapon_->getArmsLevel();
-						else score = context_->optionsGame.getMoneyWonPerHitPoint() *
+						else score = context_->optionsGame->getMoneyWonPerHitPoint() *
 								weapon_->getArmsLevel();
 
 						// Make this a percentage if you want
-						if (context_->optionsGame.getMoneyPerHealthPoint()) 
+						if (context_->optionsGame->getMoneyPerHealthPoint()) 
 							score = (score * int(damage_)) / 100;
 
 						// Remove score for self kills
 						if (damagedPlayerId_ ==  firedPlayerId_) score *= -1;
 						else
 						{
-							if ((context_->optionsGame.getTeams() > 1) &&
+							if ((context_->optionsGame->getTeams() > 1) &&
 								(firedTank->getTeam() == damagedTank->getTeam()))
 							{
 								score *= -1;
@@ -159,7 +163,7 @@ void TankDamage::simulate(float frameTime, bool &remove)
 								score,
 								wins,
 								0);
-							context_->actionController.addAction(scored);
+							context_->actionController->addAction(scored);
 						}
 					}
 				}
@@ -173,7 +177,7 @@ void TankDamage::simulate(float frameTime, bool &remove)
 				{
 					// The tank is not dead check if it needs to fall
 					Vector &position = damagedTank->getPhysics().getTankPosition();
-					if (context_->landscapeMaps.getHMap().
+					if (context_->landscapeMaps->getHMap().
 						getInterpHeight(position[0], position[1]) < position[2])
 					{
 						// Check this tank is not already falling
@@ -184,7 +188,7 @@ void TankDamage::simulate(float frameTime, bool &remove)
 							TankFalling::fallingTanks.insert(damagedPlayerId_);
 							
 							// Tank falling
-							context_->actionController.addAction(
+							context_->actionController->addAction(
 								new TankFalling(weapon_, damagedPlayerId_, firedPlayerId_));
 						}
 					}

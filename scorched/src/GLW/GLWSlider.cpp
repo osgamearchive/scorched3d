@@ -23,6 +23,7 @@
 #include <GLEXT/GLState.h>
 #include <common/Keyboard.h>
 #include <client/ScorchedClient.h>
+#include <tank/TankContainer.h>
 
 REGISTER_CLASS_SOURCE(GLWSlider);
 

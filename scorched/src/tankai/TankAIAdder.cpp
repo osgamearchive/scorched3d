@@ -24,6 +24,7 @@
 #include <tank/TankColorGenerator.h>
 #include <common/OptionsGame.h>
 #include <common/OptionsParam.h>
+#include <common/OptionsTransient.h>
 #include <common/Logger.h>
 #include <common/StatsLogger.h>
 #include <coms/ComsAddPlayerMessage.h>
@@ -40,15 +41,15 @@ void TankAIAdder::addTankAIs(ScorchedContext &context)
 {
 	// On the server
 	// Ensure that we cannot add more ais than the server is setup for
-	int maxComputerAIs = context.optionsGame.getNoMaxPlayers();
+	int maxComputerAIs = context.optionsGame->getNoMaxPlayers();
 	for (int i=0; i<maxComputerAIs; i++)
 	{
 		const char *playerType = 
-			context.optionsGame.getPlayerType(i);
+			context.optionsGame->getPlayerType(i);
 		if (0 != stricmp(playerType, "Human"))
 		{
 			std::string botName = 
-				context.optionsGame.getBotNamePrefix();
+				context.optionsGame->getBotNamePrefix();
 			botName += TankAIStrings::instance()->getAIPlayerName();
 
 			addTankAI(context, playerType, "Random", botName.c_str());
@@ -70,7 +71,7 @@ void TankAIAdder::addTankAI(ScorchedContext &context,
 		if (newname.size() == 0)
 		{
 			newname = 
-				context.optionsGame.getBotNamePrefix();
+				context.optionsGame->getBotNamePrefix();
 			newname += TankAIStrings::instance()->getAIPlayerName();
 		}
 
@@ -87,12 +88,12 @@ void TankAIAdder::addTankAI(ScorchedContext &context,
 		sprintf(uniqueId, "%s - computer", aiName);
 		tank->setUnqiueId(uniqueId);
 		tank->setTankAI(ai->getCopy(tank, &context));
-		context.tankContainer.addTank(tank);
+		context.tankContainer->addTank(tank);
 
-		if (context.optionsGame.getTeams() > 1)
+		if (context.optionsGame->getTeams() > 1)
 		{
-			tank->setTeam(context.optionsTransient.getLeastUsedTeam(
-				context.tankContainer));
+			tank->setTeam(context.optionsTransient->getLeastUsedTeam(
+				*context.tankContainer));
 		}
 
 		Logger::log(0, 

@@ -20,7 +20,9 @@
 
 #include <actions/TankFalling.h>
 #include <tank/TankController.h>
+#include <tank/TankContainer.h>
 #include <engine/ScorchedContext.h>
+#include <engine/ActionController.h>
 #include <actions/TankMove.h>
 
 REGISTER_ACTION_SOURCE(TankFalling);
@@ -69,7 +71,7 @@ TankFalling::~TankFalling()
 void TankFalling::init()
 {
 	Tank *current = 
-		context_->tankContainer.getTankById(fallingPlayerId_);
+		context_->tankContainer->getTankById(fallingPlayerId_);
 	if (current)
 	{
 		// Store the start positions
@@ -113,7 +115,7 @@ void TankFalling::init()
 			particle->setPhysics(initPos, nullVelocity);
 			particle->init();
 
-			context_->actionController.addAction(particle);
+			context_->actionController->addAction(particle);
 		}
 	}
 }
@@ -134,7 +136,7 @@ void TankFalling::simulate(float frameTime, bool &remove)
 			spherePosition[2] - 0.25f);
 
 		// Move the tank to the new position
-		context_->actionController.addAction(
+		context_->actionController->addAction(
 			new TankMove(position, fallingPlayerId_, false));
 	}
 
@@ -186,7 +188,7 @@ void TankFalling::collision()
 	}
 
 	Tank *current = 
-		context_->tankContainer.getTankById(fallingPlayerId_);
+		context_->tankContainer->getTankById(fallingPlayerId_);
 	if (current && current->getState().getState() == TankState::sNormal)
 	{
 		// Calcuate the action position
@@ -219,7 +221,7 @@ void TankFalling::collision()
 		}
 
 		// Move the tank to the final position
-		context_->actionController.addAction(
+		context_->actionController->addAction(
 			new TankMove(position, fallingPlayerId_, useParachute));
 
 		// Add the damage to the tank

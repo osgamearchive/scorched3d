@@ -28,6 +28,7 @@
 #include <client/ClientState.h>
 #include <landscape/Landscape.h>
 #include <tankgraph/TankRenderer.h>
+#include <engine/ActionController.h>
 
 CameraDialog *CameraDialog::instance_ = 0;
 

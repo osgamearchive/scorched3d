@@ -22,6 +22,7 @@
 #include <weapons/AccessoryStore.h>
 #include <server/ScorchedServer.h>
 #include <common/Defines.h>
+#include <common/OptionsGame.h>
 #include <stdio.h>
 
 TankBatteries::TankBatteries()

@@ -19,6 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <engine/ScorchedContext.h>
+#include <engine/ActionController.h>
 #include <actions/CameraPositionAction.h>
 #include <common/OptionsParam.h>
 #include <dialogs/ScoreDialog.h>
@@ -46,7 +47,7 @@ CameraPositionAction::~CameraPositionAction()
 void CameraPositionAction::init()
 {
 	CameraPositionActionRegistry::addCameraPositionAction(this);
-	startTime_ = context_->actionController.getActionTime();
+	startTime_ = context_->actionController->getActionTime();
 }
 
 void CameraPositionAction::simulate(float frameTime, bool &remove)
@@ -131,7 +132,7 @@ CameraPositionAction *CameraPositionActionRegistry::getCurrentBest()
 			
 			// Check that this action is near the beginning
 			float currentTime = action->getScorchedContext()->
-				actionController.getActionTime();
+				actionController->getActionTime();
 			float actionTime = action->getStartTime();
 			if (currentTime - actionTime < 1.0f)
 			{

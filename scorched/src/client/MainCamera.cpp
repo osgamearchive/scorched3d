@@ -22,6 +22,7 @@
 #include <client/ClientState.h>
 #include <client/ScorchedClient.h>
 #include <client/Main2DCamera.h>
+#include <engine/ViewPoints.h>
 #include <GLEXT/GLBitmap.h>
 #include <GLEXT/GLConsole.h>
 #include <dialogs/MainMenuDialog.h>
@@ -147,7 +148,7 @@ void MainCamera::simulate(const unsigned state, float frameTime)
 		}
 	}
 
-	ScorchedClient::instance()->getContext().viewPoints.simulate(frameTime);
+	ScorchedClient::instance()->getContext().viewPoints->simulate(frameTime);
 	targetCam_.simulate(frameTime, (state == ClientState::StatePlaying));
 }
 

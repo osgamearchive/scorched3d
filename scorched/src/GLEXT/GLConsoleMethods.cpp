@@ -21,6 +21,7 @@
 #include <GLEXT/GLConsoleMethods.h>
 #include <GLEXT/GLConsoleFileReader.h>
 #include <client/ScorchedClient.h>
+#include <engine/MainLoop.h>
 
 GLConsoleMethods::GLConsoleMethods(GLConsoleRules &rules,
 								   GLConsoleLines &lines) :

@@ -21,6 +21,7 @@
 #include <client/ClientActionsHandler.h>
 #include <client/ClientState.h>
 #include <client/ScorchedClient.h>
+#include <engine/ActionController.h>
 #include <coms/ComsActionsMessage.h>
 
 ClientActionsHandler *ClientActionsHandler::instance_ = 0;

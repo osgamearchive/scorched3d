@@ -22,10 +22,10 @@
 #include <wx/utils.h>
 #include <wx/image.h>
 #include <wx/filedlg.h>
-#include <server/ScorchedServer.h>
 #include <scorched/MainDialog.h>
 #include <scorched/SettingsDialog.h>
 #include <common/Defines.h>
+#include <common/OptionsGame.h>
 #include <common/OptionsParam.h>
 
 extern char scorched3dAppName[128];
@@ -177,24 +177,23 @@ void SingleFrame::onHardButton()
 
 void SingleFrame::onCustomButton()
 {
+	OptionsGame tmpOptions;
+
 	wxString customFilePathSrc = getDataFile("data/singlecustom.xml");
 	wxString customFilePathDest = getSettingsFile("singlecustom.xml");
 	if (::wxFileExists(customFilePathDest))
 	{
-		ScorchedServer::instance()->getOptionsGame().
-			readOptionsFromFile((char *) customFilePathDest.c_str());
+		tmpOptions.readOptionsFromFile((char *) customFilePathDest.c_str());
 	}
 	else
 	{
-		ScorchedServer::instance()->getOptionsGame().
-			readOptionsFromFile((char *) customFilePathSrc.c_str());
+		tmpOptions.readOptionsFromFile((char *) customFilePathSrc.c_str());
 	}
 
-	if (showSettingsDialog(false, ScorchedServer::instance()->getContext().optionsGame))
+	if (showSettingsDialog(false, tmpOptions))
 	{
 		EndModal(wxID_OK);
-		if (ScorchedServer::instance()->getOptionsGame().
-			writeOptionsToFile((char *) customFilePathDest.c_str()))
+		if (tmpOptions.writeOptionsToFile((char *) customFilePathDest.c_str()))
 		{
 			runScorched3D("-startclient \"%s\"", customFilePathDest.c_str());
 		}

@@ -164,7 +164,7 @@ bool TankAIComputerTosser::refineLastShot(Tank *tank, float &angleXYDegs, float 
 			power = closestLessPower + ((closestMorePower - closestLessPower) * percentage);
 
 			// Make adjustments for the wind
-			if(context_->optionsTransient.getWindOn())
+			if(context_->optionsTransient->getWindOn())
 			{
 				Vector dirToTank = tank->getPhysics().getTankPosition() - 
 					currentTank_->getPhysics().getTankPosition();

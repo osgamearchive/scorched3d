@@ -23,6 +23,7 @@
 #include <3dsparse/ModelsFile.h>
 #include <GLEXT/GLLenseFlare.h>
 #include <landscape/Landscape.h>
+#include <landscape/LandscapeMaps.h>
 #include <client/ScorchedClient.h>
 #include <common/Defines.h> // For porting
 

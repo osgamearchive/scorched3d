@@ -21,6 +21,7 @@
 #include <client/ClientReadyState.h>
 #include <client/ScorchedClient.h>
 #include <client/ClientState.h>
+#include <tank/TankContainer.h>
 #include <coms/ComsMessageSender.h>
 #include <coms/ComsPlayerReadyMessage.h>
 

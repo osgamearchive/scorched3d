@@ -223,7 +223,6 @@ public:
 	void setServerFileLogger(const char *value) { serverFileLogger_.setValue(value); }
 	const char *getServerFileLoggerToolTip() { return serverFileLogger_.getDescription(); }
 
-	// Server only options
 	const char *getBotNamePrefix() { return botNamePrefix_.getValue(); }
 	void setBotNamePrefix(const char *value) { botNamePrefix_.setValue(value); }
 	const char *getBotNamePrefixToolTip() { return botNamePrefix_.getDescription(); }
@@ -239,6 +238,10 @@ public:
 	int getPortNo() { return portNo_.getValue(); }
 	void setPortNo(int value) { portNo_.setValue(value); } 
 	const char *getPortNoToolTip() { return portNo_.getDescription(); }
+
+	const char *getMod() { return mod_.getValue(); }
+	void setMod(const char *value) { mod_.setValue(value); }
+	const char *getModToolTip() { return mod_.getDescription(); }
 
 	const char *getServerName() { return serverName_.getValue(); }
 	void setServerName(const char *value) { serverName_.setValue(value); }
@@ -304,6 +307,7 @@ protected:
 	OptionEntryBoundedInt windType_;
 	OptionEntryBoundedInt wallType_;
 	OptionEntryBoundedInt weapScale_;
+	OptionEntryString mod_;
 	OptionEntryString economy_;
 	OptionEntryString landscapes_;
 	OptionEntryString masterListServer_;

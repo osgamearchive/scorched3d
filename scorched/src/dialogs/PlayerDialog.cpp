@@ -24,8 +24,11 @@
 #include <client/ScorchedClient.h>
 #include <tankai/TankAIStore.h>
 #include <tankai/TankAIStrings.h>
+#include <tank/TankContainer.h>
 #include <common/OptionsParam.h>
 #include <common/OptionsDisplay.h>
+#include <common/OptionsTransient.h>
+#include <common/OptionsGame.h>
 #include <GLW/GLWWindowManager.h>
 #include <GLW/GLWTextButton.h>
 #include <coms/ComsAddPlayerMessage.h>

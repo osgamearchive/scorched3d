@@ -24,11 +24,13 @@
 #include <sprites/TankDeadRenderer.h>
 #include <weapons/AccessoryStore.h>
 #include <engine/ScorchedContext.h>
+#include <engine/ActionController.h>
 #include <common/OptionsGame.h>
 #include <common/OptionsParam.h>
 #include <common/Defines.h>
 #include <common/Logger.h>
 #include <common/StatsLogger.h>
+#include <tank/TankContainer.h>
 
 REGISTER_ACTION_SOURCE(TankDead);
 
@@ -59,9 +61,9 @@ void TankDead::simulate(float frameTime, bool &remove)
 		firstTime_ = false;
 
 		Tank *killedTank = 
-			context_->tankContainer.getTankById(killedPlayerId_);
+			context_->tankContainer->getTankById(killedPlayerId_);
 		Tank *firedTank = 
-			context_->tankContainer.getTankById(firedPlayerId_);
+			context_->tankContainer->getTankById(firedPlayerId_);
 
 		if (killedTank)
 		{
@@ -72,8 +74,8 @@ void TankDead::simulate(float frameTime, bool &remove)
 				ActionMeta *pos = new CameraPositionAction(
 					killedTank->getPhysics().getTankPosition(), ShowTime,
 					20);
-				context_->actionController.getBuffer().serverAdd(
-					context_->actionController.getActionTime() - 4.0f,
+				context_->actionController->getBuffer().serverAdd(
+					context_->actionController->getActionTime() - 4.0f,
 					pos);
 				delete pos;
 			}
@@ -93,7 +95,7 @@ void TankDead::simulate(float frameTime, bool &remove)
 							killedTank->getName(),
 							weapon_->getName());
 					}
-					else if ((context_->optionsGame.getTeams() > 1) &&
+					else if ((context_->optionsGame->getTeams() > 1) &&
 							(firedTank->getTeam() == killedTank->getTeam())) 
 					{
 						StatsLogger::instance()->

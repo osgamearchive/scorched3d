@@ -26,6 +26,7 @@
 #include <common/OptionsTransient.h>
 #include <common/Defines.h>
 #include <coms/NetInterface.h>
+#include <tank/TankContainer.h>
 #include <wx/wx.h>
 #include <wx/utils.h>
 
@@ -123,7 +124,10 @@ void ServerBrowserInfo::processStatusMessage(char *buffer)
 	addTag(buffer, "fullversion", version);
 	addTag(buffer, "version", ScorchedVersion);
 	addTag(buffer, "protocolversion", ScorchedProtocolVersion);
-	addTag(buffer, "password", ScorchedServer::instance()->getOptionsGame().getServerPassword()[0]?"On":"Off");
+	addTag(buffer, "mod", 
+		ScorchedServer::instance()->getOptionsGame().getMod());
+	addTag(buffer, "password", 
+		ScorchedServer::instance()->getOptionsGame().getServerPassword()[0]?"On":"Off");
 	addTag(buffer, "noplayers", players);
 	addTag(buffer, "maxplayers", maxplayers);
 	addTag(buffer, "os", osDesc.c_str());

@@ -29,6 +29,7 @@
 #include <sprites/DebrisActionRenderer.h>
 #include <actions/SpriteProjectile.h>
 #include <engine/ScorchedContext.h>
+#include <engine/ActionController.h>
 #include <common/SoundStore.h>
 #include <common/Defines.h>
 
@@ -227,7 +228,7 @@ void ExplosionRenderer::simulate(Action *action, float frameTime, bool &remove)
 						particle->setActionRender(render);
 					}
 
-					action->getScorchedContext()->actionController.addAction(particle);
+					action->getScorchedContext()->actionController->addAction(particle);
 				}
 			}
 		}

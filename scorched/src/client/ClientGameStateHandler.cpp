@@ -20,7 +20,10 @@
 
 #include <client/ClientGameStateHandler.h>
 #include <client/ScorchedClient.h>
+#include <engine/ActionController.h>
 #include <coms/ComsGameStateMessage.h>
+#include <common/OptionsTransient.h>
+#include <common/Vector.h>
 
 ClientGameStateHandler *ClientGameStateHandler::instance_ = 0;
 

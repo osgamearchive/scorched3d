@@ -21,6 +21,7 @@
 #include <weapons/AccessoryStore.h>
 #include <weapons/WeaponProjectile.h>
 #include <actions/ShotProjectile.h>
+#include <engine/ActionController.h>
 
 REGISTER_ACCESSORY_SOURCE(WeaponProjectile);
 
@@ -109,5 +110,5 @@ void WeaponProjectile::fireWeapon(ScorchedContext &context,
 		velocity,
 		this, playerId, 0, under_, 
 		showEndPoint_, showShotPath_, apexCollision_);
-	context.actionController.addAction(action);	
+	context.actionController->addAction(action);	
 }

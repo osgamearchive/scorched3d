@@ -21,6 +21,7 @@
 #include <server/ServerRegistration.h>
 #include <server/ScorchedServer.h>
 #include <common/Logger.h>
+#include <common/OptionsGame.h>
 #include <time.h>
 
 ServerRegistration *ServerRegistration::instance_ = 0;

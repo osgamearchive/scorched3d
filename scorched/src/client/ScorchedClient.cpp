@@ -19,6 +19,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <client/ScorchedClient.h>
+#include <engine/MainLoop.h>
+#include <engine/GameState.h>
 
 ScorchedClient *ScorchedClient::instance_ = 0;
 
@@ -33,9 +35,10 @@ ScorchedClient *ScorchedClient::instance()
 
 ScorchedClient::ScorchedClient() : context_("Client")
 {
-	mainLoop_.clear();
-	mainLoop_.addMainLoop(&context_.gameState);
-	context_.actionController.setScorchedContext(&context_);
+	mainLoop_ = new MainLoop();
+	mainLoop_->clear();
+	mainLoop_->addMainLoop(context_.gameState);
+	context_.serverMode = false;
 }
 
 ScorchedClient::~ScorchedClient()

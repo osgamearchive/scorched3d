@@ -22,7 +22,10 @@
 #define AFX_TANKCONTROLLER_H__3B055B6D_C8E7_42C7_9D29_FBBFD88457D1__INCLUDED_
 
 #include <engine/ScorchedContext.h>
+#include <common/Vector.h>
 
+class Tank;
+class Weapon;
 class TankController
 {
 public:

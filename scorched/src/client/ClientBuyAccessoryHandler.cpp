@@ -22,6 +22,7 @@
 #include <client/ClientBuyAccessoryHandler.h>
 #include <coms/ComsBuyAccessoryMessage.h>
 #include <weapons/AccessoryStore.h>
+#include <tank/TankContainer.h>
 
 ClientBuyAccessoryHandler *ClientBuyAccessoryHandler::instance_ = 0;
 

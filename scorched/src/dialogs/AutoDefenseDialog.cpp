@@ -24,6 +24,7 @@
 #include <GLW/GLWWindowManager.h>
 #include <tankai/TankAIHuman.h>
 #include <tankai/TankAIHumanCtrl.h>
+#include <tank/TankContainer.h>
 #include <common/OptionsTransient.h>
 #include <coms/ComsPlayedMoveMessage.h>
 #include <coms/ComsMessageSender.h>

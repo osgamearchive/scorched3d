@@ -28,15 +28,15 @@ class ScorchedServer
 public:
 	static ScorchedServer *instance();
 
-	GameState &getGameState() { return context_.gameState; }
-	TankContainer &getTankContainer() { return context_.tankContainer; }
-	ActionController &getActionController() { return context_.actionController; }
-	LandscapeMaps &getLandscapeMaps() { return context_.landscapeMaps; }
+	GameState &getGameState() { return *context_.gameState; }
+	TankContainer &getTankContainer() { return *context_.tankContainer; }
+	ActionController &getActionController() { return *context_.actionController; }
+	LandscapeMaps &getLandscapeMaps() { return *context_.landscapeMaps; }
 	ScorchedContext &getContext() { return context_; }
 	NetInterface &getNetInterface() { return *context_.netInterface; }
-	OptionsGameWrapper &getOptionsGame() { return context_.optionsGame; }
-	OptionsTransient &getOptionsTransient() { return context_.optionsTransient; }
-	ComsMessageHandler &getComsMessageHandler() { return context_.comsMessageHandler; }
+	OptionsGameWrapper &getOptionsGame() { return *context_.optionsGame; }
+	OptionsTransient &getOptionsTransient() { return *context_.optionsTransient; }
+	ComsMessageHandler &getComsMessageHandler() { return *context_.comsMessageHandler; }
 
 protected:
 	static ScorchedServer *instance_;
@@ -46,6 +46,5 @@ private:
 	ScorchedServer();
 	virtual ~ScorchedServer();
 };
-
 
 #endif

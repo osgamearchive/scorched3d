@@ -24,6 +24,8 @@
 #include <server/ServerState.h>
 #include <server/ServerTooFewPlayersStimulus.h>
 #include <server/ServerCommon.h>
+#include <common/OptionsGame.h>
+#include <common/OptionsTransient.h>
 #include <common/Logger.h>
 
 ServerNextShotState::ServerNextShotState()

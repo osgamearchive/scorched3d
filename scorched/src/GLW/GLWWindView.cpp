@@ -26,6 +26,7 @@
 #include <common/OptionsTransient.h>
 #include <common/Defines.h>
 #include <landscape/Landscape.h>
+#include <landscape/LandscapeMaps.h>
 #include <math.h>
 
 REGISTER_CLASS_SOURCE(GLWWindView);

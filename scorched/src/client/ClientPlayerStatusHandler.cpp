@@ -21,6 +21,7 @@
 #include <client/ClientPlayerStatusHandler.h>
 #include <client/ScorchedClient.h>
 #include <coms/ComsPlayerStatusMessage.h>
+#include <tank/TankContainer.h>
 
 ClientPlayerStatusHandler *ClientPlayerStatusHandler::instance_ = 0;
 

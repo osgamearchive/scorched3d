@@ -28,6 +28,7 @@
 #include <common/Vector.h>
 #include <engine/ScorchedContext.h>
 
+class Tank;
 class Action;
 class MissileMesh;
 class Weapon : public Accessory

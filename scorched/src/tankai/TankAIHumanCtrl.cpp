@@ -21,8 +21,10 @@
 #include <tankai/TankAIHumanCtrl.h>
 #include <tankai/TankAIHuman.h>
 #include <tankai/TankAIStore.h>
+#include <tank/TankContainer.h>
 #include <client/ScorchedClient.h>
 #include <client/ClientState.h>
+#include <common/Defines.h>
 
 TankAIHumanCtrl * TankAIHumanCtrl::instance_ = 0;
 

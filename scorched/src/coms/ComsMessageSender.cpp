@@ -26,6 +26,7 @@
 #include <common/Logger.h>
 #include <client/ScorchedClient.h>
 #include <server/ScorchedServer.h>
+#include <set>
 
 bool ComsMessageSender::sendToServer(ComsMessage &message)
 {

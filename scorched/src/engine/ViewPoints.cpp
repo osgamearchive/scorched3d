@@ -21,6 +21,8 @@
 #include <engine/ViewPoints.h>
 #include <engine/ScorchedContext.h>
 #include <common/Defines.h>
+#include <common/OptionsGame.h>
+#include <tank/TankContainer.h>
 
 ViewPoints::ViewPoints() : context_(0), totalTime_(0), finished_(false)
 {
@@ -111,8 +113,8 @@ ViewPoints::ViewPoint *ViewPoints::getNewViewPoint(unsigned int playerId)
 {
 	if (context_->serverMode) return 0;
 
-	if (context_->tankContainer.getCurrentPlayerId() != playerId &&
-		context_->optionsGame.getTurnType() == OptionsGame::TurnSimultaneous)
+	if (context_->tankContainer->getCurrentPlayerId() != playerId &&
+		context_->optionsGame->getTurnType() == OptionsGame::TurnSimultaneous)
 	{
 		return 0;
 	}
@@ -126,8 +128,8 @@ void ViewPoints::explosion(unsigned int playerId)
 {
 	if (context_->serverMode) return;
 
-	if (context_->tankContainer.getCurrentPlayerId() != playerId &&
-		context_->optionsGame.getTurnType() == OptionsGame::TurnSimultaneous)
+	if (context_->tankContainer->getCurrentPlayerId() != playerId &&
+		context_->optionsGame->getTurnType() == OptionsGame::TurnSimultaneous)
 	{
 		return;
 	}
