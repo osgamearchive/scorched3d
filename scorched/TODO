@@ -26,7 +26,7 @@ Added: Ability to adjust server options on the fly, so the next match will have 
 Added: More complex but more customizable accessories format (accessories.xml)
 Added: Computers talk when attacking
 Added: Say command added to console.  This allows custom taunts to be bound to keys.
-Added: Different on screen gui
+Added: Different on screen gui (can be skinned)
 Added: New better looking fonts and FreeType2 support
 Added: Rollers 
 Added: Unix directory structure for people that like that sort of thing
