@@ -35,15 +35,15 @@ public:
 	inline void addFloat(GLfloat floats)
 	{
 		DIALOG_ASSERT(used_ < capacity_);
-
-		GLfloat *mem = array_;
 		if (used_ == 0 && vbo_ != 0)
 		{
-			mem = (GLfloat *)
-				GLStateExtension::glMapBufferARB()(GL_ARRAY_BUFFER_ARB, GL_WRITE_ONLY_ARB);
+			array_ = (GLfloat *)
+				GLStateExtension::glMapBufferARB()
+					(GL_ARRAY_BUFFER_ARB, GL_WRITE_ONLY_ARB);
+			DIALOG_ASSERT(array_);
 		}
 
-		mem[used_] = floats;
+		array_[used_] = floats;
 		used_++;
 	}
 	void drawROAM();

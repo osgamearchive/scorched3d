@@ -173,47 +173,18 @@ void GLVertexArray::makeList()
 		setup_ = true;
 	}
 
-	if (!useVBO_)
-	{
-		if (vertices_)
-		{
-			glEnableClientState(GL_VERTEX_ARRAY);
-			glVertexPointer(3, GL_FLOAT, 0, &vertices_[0].x);
-		}
-		if (colors_)
-		{
-			glEnableClientState(GL_COLOR_ARRAY);
-			glColorPointer(3, GL_FLOAT, 0, &colors_[0].r);
-		}
-		if (texCoord_)
-		{
-			if (secondTexture_) GLStateExtension::glClientActiveTextureARB()(GL_TEXTURE1_ARB); 
-			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-			glTexCoordPointer(2, GL_FLOAT, 0, &texCoord_[0].a);
-		}
-	}
-	else
-	{
-		if (vertices_)
-		{
-			glEnableClientState(GL_VERTEX_ARRAY);
-			GLStateExtension::glBindBufferARB()(GL_ARRAY_BUFFER_ARB, verticesVBO_);
-			glVertexPointer(3, GL_FLOAT, 0, 0);
-		}
-		if (colors_)
-		{
-			glEnableClientState(GL_COLOR_ARRAY);
-			GLStateExtension::glBindBufferARB()(GL_ARRAY_BUFFER_ARB, colorsVBO_);
-			glColorPointer(3, GL_FLOAT, 0, 0);
-		}
-		if (texCoord_)
-		{
-			if (secondTexture_) GLStateExtension::glClientActiveTextureARB()(GL_TEXTURE1_ARB); 
-			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-			GLStateExtension::glBindBufferARB()(GL_ARRAY_BUFFER_ARB, textureVBO_);
-			glTexCoordPointer(2, GL_FLOAT, 0, 0);
-		}
-	}
+	if (vertices_ && useVBO_) GLStateExtension::glBindBufferARB()(GL_ARRAY_BUFFER_ARB, verticesVBO_);
+	if (vertices_) glVertexPointer(3, GL_FLOAT, 0, vertices_);
+	if (colors_ && useVBO_) GLStateExtension::glBindBufferARB()(GL_ARRAY_BUFFER_ARB, colorsVBO_);
+	if (colors_) glColorPointer(3, GL_FLOAT, 0, colors_);
+	if (secondTexture_) GLStateExtension::glClientActiveTextureARB()(GL_TEXTURE1_ARB); 
+	if (texCoord_ && useVBO_) GLStateExtension::glBindBufferARB()(GL_ARRAY_BUFFER_ARB, textureVBO_);
+	if (texCoord_) glTexCoordPointer(2, GL_FLOAT, 0, texCoord_);
+
+	if (secondTexture_) GLStateExtension::glClientActiveTextureARB()(GL_TEXTURE1_ARB); 
+	if (vertices_) glEnableClientState(GL_VERTEX_ARRAY);
+	if (colors_) glEnableClientState(GL_COLOR_ARRAY);
+	if (texCoord_) glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
 	glNewList(listNo_ = glGenLists(1), GL_COMPILE);
 		glDrawArrays(prim_, 0, noTris_);
