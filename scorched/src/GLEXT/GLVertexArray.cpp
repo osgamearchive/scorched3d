@@ -153,7 +153,6 @@ void GLVertexArray::draw()
 		if (texture_ && texture_->getTexFormat() == GL_RGBA)
 		{
 			requiredState |= GLState::BLEND_ON;
-			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	
 		}
 	}
 	GLState textureState(requiredState);

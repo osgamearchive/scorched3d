@@ -73,7 +73,6 @@ void ParticleEngine::killAll()
 void ParticleEngine::draw(const unsigned state)
 {
 	GLState glstate(GLState::TEXTURE_ON | GLState::BLEND_ON | GLState::DEPTH_ON);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glDepthMask(GL_FALSE);
 	
 	for (unsigned int i=0; i<maxParticles_; i++)

@@ -126,7 +126,6 @@ void GLWSelector::drawMain(float indent)
 
 	// Draw the background
 	{
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	
 		if (transparent_) glColor4f(0.4f, 0.6f, 0.8f, 0.6f);
 		else glColor3f(0.8f, 0.8f, 1.0f);
 

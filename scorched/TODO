@@ -38,7 +38,7 @@ Changed: LeapFrog weapon primative bounce now variable
 Changed: Message of the day now defined in server.xml file
 
 Added: Ability to use a different kick time when loading a level to when waiting after a shot
-Added: VBO support for models and surrounds/sky
+Added: Vertex Array support for models and surrounds/sky
 Added: AIs can check to see if they will suicide
 Added: New cyborg AI that uses batteries
 Added: A way to allow tank spawn positions to be configured
@@ -94,7 +94,6 @@ More dirt option for landscape (perhaps cannot go under water)
 Make rollers look better
 Guidance
 Add action replay type functionality
-Use VBOs for landscape
 AIs know how to dig
 
 -- Server Stuff

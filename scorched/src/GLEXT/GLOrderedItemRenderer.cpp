@@ -131,7 +131,6 @@ void GLOrderedItemRenderer::draw(const unsigned state)
 	// Setup the transparecy and textures
 	GLState drawState(GLState::TEXTURE_ON | GLState::BLEND_ON | GLState::DEPTH_ON);
 	glDepthMask(GL_FALSE);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	// Remove previous entries
 	tmpRequiredEntries_.clear();

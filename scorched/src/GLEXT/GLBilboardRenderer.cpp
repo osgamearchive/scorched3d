@@ -21,6 +21,7 @@
 #include <GLEXT/GLBilboardRenderer.h>
 #include <GLEXT/GLCameraFrustum.h>
 #include <GLEXT/GLState.h>
+#include <GLEXT/GLInfo.h>
 #include <client/MainCamera.h>
 #include <common/OptionsDisplay.h>
 #include <common/Logger.h>
@@ -154,4 +155,5 @@ void GLBilboardRenderer::drawItem(float distance, GLOrderedItemRenderer::Ordered
 	{
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	}
+	GLInfo::addNoTriangles(2);
 }

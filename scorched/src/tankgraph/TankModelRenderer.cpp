@@ -209,7 +209,6 @@ void TankModelRenderer::drawShield()
 	Vector &position = tank_->getPhysics().getTankPosition();
 	Vector &color = shield->getColor();
 	texture->draw();
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glPushMatrix();
 		glColor4f(color[0], color[1], color[2], 0.5f + shieldHit_);
 		glTranslatef(position[0], position[1], position[2]);
@@ -333,7 +332,6 @@ void TankModelRenderer::drawLife()
 		}
 
 		GLState currentState(GLState::TEXTURE_ON | GLState::BLEND_ON);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		arrowTexture.draw(true);
 
 		glDepthMask(GL_FALSE);
@@ -511,7 +509,6 @@ void TankModelRenderer::draw2d(bool currentTank)
 		}
 
 		GLState newState(GLState::TEXTURE_OFF | GLState::BLEND_ON);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	
 
 		glColor4f(0.9f, 0.9f, 1.0f, 0.5f);
 		static GLuint listNo = 0;

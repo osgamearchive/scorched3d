@@ -57,7 +57,6 @@ void SpeedChange::draw(const unsigned state)
 	if (speed > 1.0f)
 	{
 		GLState state(GLState::BLEND_ON | GLState::TEXTURE_OFF); 
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		static char buffer[10];
 		sprintf(buffer, "%iX", (int) speed);
 

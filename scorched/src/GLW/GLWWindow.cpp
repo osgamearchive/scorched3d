@@ -186,7 +186,6 @@ void GLWWindow::drawMaximizedWindow()
 		if (windowState_ & eCircle)
 		{
 			GLState state(GLState::BLEND_ON);
-			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	
 			drawWindowCircle(x_, y_, w_, h_);
 		}
 
@@ -214,7 +213,6 @@ void GLWWindow::drawMaximizedWindow()
 					x_, y_ + h_ - sizeY, sizeX, sizeY);
 
 				GLState currentStateBlend(GLState::BLEND_ON | GLState::TEXTURE_ON);
-				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	
 				moveTexture_.draw();
 				glColor4f(0.8f, 0.0f, 0.0f, 0.8f);
 				glPushMatrix();
@@ -242,7 +240,6 @@ void GLWWindow::drawMaximizedWindow()
 				glTranslatef(0.0f, 0.0f, 0.0f);
 				{
 					GLState currentStateBlend(GLState::BLEND_ON);
-					glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	
 					glColor4f(0.4f, 0.6f, 0.8f, 0.6f);
 					drawBackSurface(x_, y_, w_, h_);
 				}
@@ -261,7 +258,6 @@ void GLWWindow::drawMaximizedWindow()
 	else
 	{
 		GLState currentStateBlend(GLState::BLEND_ON);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	
 		{
 			glColor3f(0.8f, 0.8f, 1.0f);
 			drawBackSurface(x_, y_, w_, h_);

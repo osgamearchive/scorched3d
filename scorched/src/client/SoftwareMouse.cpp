@@ -61,7 +61,6 @@ void SoftwareMouse::draw(const unsigned currentstate)
 	}
 
 	GLState state(GLState::BLEND_ON | GLState::TEXTURE_ON | GLState::DEPTH_OFF); 
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	int mouseX = ScorchedClient::instance()->getGameState().getMouseX();
 	int mouseY = ScorchedClient::instance()->getGameState().getMouseY();

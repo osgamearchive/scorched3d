@@ -18,11 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// GLSetup.cpp: implementation of the GLSetup class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <client/GLSetup.h>
 #include <GLEXT/GLStateExtension.h>
 
@@ -34,7 +29,7 @@ void GLSetup::setup()
 	glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 
 	glDisable(GL_BLEND);
-	glBlendFunc(GL_ONE, GL_ZERO);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	glDisable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);

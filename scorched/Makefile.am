@@ -596,6 +596,10 @@ scorcheddatatankssa6_DATA = data/tanks/sa6/guncover.bmp \
 	data/tanks/sa6/guncoveralpha.bmp \
 	data/tanks/sa6/sa6.txt \
 	data/tanks/sa6/black.bmp
+scorcheddatatanksturret2dir = ${datadir}/data/tanks/turret2
+scorcheddatatanksturret2_DATA = data/tanks/turret2/chrome.bmp \
+	data/tanks/turret2/missileturret.bmp \
+	data/tanks/turret2/turret2.txt
 scorcheddatatanksm48dir = ${datadir}/data/tanks/m48
 scorcheddatatanksm48_DATA = data/tanks/m48/tread.bmp \
 	data/tanks/m48/chrome.bmp \
@@ -636,6 +640,12 @@ scorcheddatatanksCF104_DATA = data/tanks/CF-104/cockpit.bmp \
 	data/tanks/CF-104/104.txt \
 	data/tanks/CF-104/seams.bmp \
 	data/tanks/CF-104/black.bmp
+scorcheddatatanksmissileturretdir = ${datadir}/data/tanks/missileturret
+scorcheddatatanksmissileturret_DATA = data/tanks/missileturret/red.bmp \
+	data/tanks/missileturret/chrome.bmp \
+	data/tanks/missileturret/side.bmp \
+	data/tanks/missileturret/missileturret.txt \
+	data/tanks/missileturret/white.bmp
 scorcheddatatanksbattleshipdir = ${datadir}/data/tanks/battleship
 scorcheddatatanksbattleship_DATA = data/tanks/battleship/battleship.txt \
 	data/tanks/battleship/grey.bmp

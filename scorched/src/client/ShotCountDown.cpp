@@ -80,7 +80,6 @@ void ShotCountDown::draw(const unsigned currentstate)
 	div_t split = div(timeLeft, 60);
 
 	GLState state(GLState::BLEND_ON | GLState::TEXTURE_OFF | GLState::DEPTH_OFF); 
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	static Vector fontColor;
 	fontColor = Vector(0.7f, 0.7f, 0.2f);

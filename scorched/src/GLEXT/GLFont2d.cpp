@@ -158,7 +158,6 @@ bool GLFont2d::drawString(unsigned length, Vector &color, float size,
 		GLTextureBase::setLastBind(0); // Clear so no texture is cached
 
 		GLState currentState(GLState::BLEND_ON | GLState::TEXTURE_ON);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glColor3fv(color);
 
 		if (bilboard)

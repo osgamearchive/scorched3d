@@ -65,7 +65,6 @@ void CameraDialog::draw()
 	// Add the rounded corners
 	{
 		GLState newState(GLState::DEPTH_ON | GLState::TEXTURE_OFF | GLState::BLEND_ON);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	
 		
 		glPushMatrix();
 		glTranslatef(0.0f, 0.0f, 4000.0f);	

@@ -121,7 +121,6 @@ void GLFontBanner::draw()
 	if (usedLines_ > 0)
 	{
 		GLState currentStateBlend(GLState::BLEND_ON | GLState::DEPTH_OFF);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	
 
 		Vector black(0.0f, 0.0f, 0.0f);
 

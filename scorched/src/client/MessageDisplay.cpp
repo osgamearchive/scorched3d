@@ -79,8 +79,6 @@ void MessageDisplay::draw(const unsigned currentstate)
 	if (showTime_ <= 0.0f) return;
 
 	GLState state(GLState::BLEND_ON | GLState::TEXTURE_OFF | GLState::DEPTH_OFF); 
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
 	static Vector fontColor(0.7f, 0.7f, 0.2f);
 	static Vector fontColor2(0.0f, 0.0f, 0.0f);
 

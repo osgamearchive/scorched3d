@@ -337,7 +337,6 @@ void ScoreDialog::addLine(Tank *current, float y, char *rank, bool finished)
 		ScorchedClient::instance()->getTankContainer().getCurrentDestinationId())
 	{
 		GLState state(GLState::BLEND_ON); 
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 		glColor4f(0.0f, 0.0f, 0.0f, 0.4f);
 		glBegin(GL_QUADS);

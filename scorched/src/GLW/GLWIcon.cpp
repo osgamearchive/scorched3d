@@ -41,7 +41,6 @@ void GLWIcon::draw()
 	if (texture_)
 	{
 		GLState state(GLState::TEXTURE_ON | GLState::BLEND_ON);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glColor3f(1.0f, 1.0f, 1.0f);
 		texture_->draw();
 

@@ -70,7 +70,7 @@ void ExplosionLaserBeamRenderer::init(unsigned int playerId,
 			10.0f, 0.9f, // Life
 			0.5f, 9.5f, // Mass
 			0.0f, 0.0f, // Friction
-			Vector(), Vector(), // Velocity
+			Vector::nullVector, Vector::nullVector, // Velocity
 			Vector(0.9f, 0.9f, 0.1f), 0.9f, // StartColor1
 			Vector(0.9f, 0.9f, 0.1f), 0.1f, // StartColor2
 			Vector(0.6f, 0.6f, 0.95f), 0.0f, // EndColor1
@@ -79,14 +79,17 @@ void ExplosionLaserBeamRenderer::init(unsigned int playerId,
 			0.0f, 0.0f, 10.0f, 10.0f, // EndSize
 			Vector(0.0f, 0.0f, 10.0f) // Gravity
 			);
-		emmiter.emitLinear(800, position_+Vector(-4.0f, -4.0f, 0.0f), position_+Vector(4.0f, 4.0f, 0.0f), ScorchedClient::instance()->getParticleEngine(), ParticleRendererQuadsParticle::getInstance());		
 
+		Vector newPos1 = position_ + Vector(-4.0f, -4.0f, 0.0f);
+		Vector newPos2 = position_ + Vector(4.0f, 4.0f, 0.0f);
+		emmiter.emitLinear(800, newPos1, newPos2, 
+			ScorchedClient::instance()->getParticleEngine(), 
+			ParticleRendererQuadsParticle::getInstance());		
 }
 
 void ExplosionLaserBeamRenderer::draw(Action *action)
 {
 	GLState currentState(GLState::TEXTURE_ON | GLState::BLEND_ON);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); 
 	_texture->draw();
 
 	glPushMatrix();	

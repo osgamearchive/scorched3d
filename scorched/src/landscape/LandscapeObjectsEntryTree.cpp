@@ -23,6 +23,7 @@
 #include <common/Defines.h>
 #include <GLEXT/GLCameraFrustum.h>
 #include <GLEXT/GLBitmap.h>
+#include <GLEXT/GLInfo.h>
 #include <math.h>
 
 GLTexture LandscapeObjectsEntryTree::texture_;
@@ -264,8 +265,15 @@ void LandscapeObjectsEntryTree::render(float distance)
 		glScalef(size, size, size);
 
 		glColor4f(color, color, color, 1.0f);
-		if (OptionsDisplay::instance()->getLowTreeDetail() || distance > 16000) 
+		if (OptionsDisplay::instance()->getLowTreeDetail() || distance > 16000)
+		{
 			glCallList(smallTreeType);
-		else glCallList(treeType);
+			GLInfo::addNoTriangles(20);
+		}
+		else 
+		{
+			glCallList(treeType);
+			GLInfo::addNoTriangles(10);
+		}
 	glPopMatrix();
 }

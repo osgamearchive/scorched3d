@@ -26,6 +26,7 @@
 #include <client/ScorchedClient.h>
 #include <GLEXT/GLState.h>
 #include <GLEXT/GLCameraFrustum.h>
+#include <GLEXT/GLInfo.h>
 
 void ParticleRendererPoints::renderParticle(Particle &particle)
 {
@@ -78,6 +79,8 @@ void ParticleRendererQuads::renderParticle(Particle &particle)
 			particle.position_[1] + bilXY - bilYY, 
 			particle.position_[2] + bilXZ - bilYZ);
 	glEnd();
+
+	GLInfo::addNoTriangles(2);
 }
 
 ParticleRendererQuadsParticle *ParticleRendererQuadsParticle::getInstance()

@@ -57,7 +57,6 @@ void Wall::draw()
 		fadeTime_[OptionsTransient::TopSide] > 0.0f)
 	{
 		GLState currentState(GLState::BLEND_ON | GLState::TEXTURE_ON);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);		
 
 		texture_.draw();
 		drawWall(botA, botB, topB, topA, fadeTime_[OptionsTransient::TopSide]);

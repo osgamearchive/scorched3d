@@ -222,7 +222,6 @@ void GLWToolTip::draw(const unsigned state)
 
 	{
 		GLState currentStateBlend(GLState::BLEND_ON);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	
 		glColor4f(0.5f, 0.5f, 1.0f, 0.8f);	
 		glBegin(GL_TRIANGLE_FAN);
 			glVertex2f(posX + 10.0f, posY + 2.0f);

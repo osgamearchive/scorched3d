@@ -79,7 +79,6 @@ void GLWPlanView::draw()
 void GLWPlanView::drawMap()
 {
 	GLState currentState(GLState::DEPTH_OFF | GLState::BLEND_ON | GLState::TEXTURE_ON);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	glPushMatrix();
 		glTranslatef(x_ + 2.0f, y_ + 2.0f, 0.0f);

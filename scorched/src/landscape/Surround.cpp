@@ -101,7 +101,6 @@ void Surround::draw()
 			}
 
 			GLState currentState(GLState::BLEND_ON);
-			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 			glColor4f(1.0f, 1.0f, 1.0f, 0.3f);
 			drawLayer(layer2_, 2100, 120, 0.0f, xy_ + 0.3f, false);
 		}

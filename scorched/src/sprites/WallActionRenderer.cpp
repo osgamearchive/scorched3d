@@ -119,7 +119,6 @@ void WallActionRenderer::draw(Action *action)
 	if (!init_) init(action);
 
 	GLState currentState(GLState::BLEND_ON | GLState::TEXTURE_ON);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);		
 
 	texture_.draw();
 	glColor4f(color_[0], color_[1], color_[2], fade_);

@@ -25,6 +25,7 @@
 #include <common/OptionsDisplay.h>
 #include <common/Defines.h>
 #include <GLEXT/GLStateExtension.h>
+#include <GLEXT/GLInfo.h>
 
 WaterWaves::WaterWaves() : 
 	totalTime_(0.0f), pointCount_(0), removedCount_(0)
@@ -208,7 +209,6 @@ void WaterWaves::draw()
 	Vector windDirPerp = windDir.Normalize();
 
 	GLState state(GLState::BLEND_OFF | GLState::TEXTURE_ON | GLState::BLEND_ON); 
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glDepthMask(GL_FALSE);
 
 	Landscape::instance()->getWaves1Texture().draw(true);
@@ -282,4 +282,5 @@ void WaterWaves::drawBoxes(float totalTime, Vector &windDirPerp,
 			glVertex3fv(ptD);
 		}
 	glEnd();
+	GLInfo::addNoTriangles(paths.size() - 2);
 }

@@ -195,6 +195,7 @@ void GLLenseFlare::draw(Vector &flarePos,  bool fullFlare, int colorNo, float si
 		glDepthMask(GL_TRUE);
 		delete afterThreeState;
 	}
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 void GLLenseFlare::draw(Vector &flarePos,  Vector &flareDir, int colorNo)
@@ -265,4 +266,5 @@ void GLLenseFlare::draw(Vector &flarePos,  Vector &flareDir, int colorNo)
 		glEnd();
 	}
 	glDepthMask(GL_TRUE);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }

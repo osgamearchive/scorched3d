@@ -23,6 +23,7 @@
 #include <common/OptionsDisplay.h>
 #include <landscape/WaterMap.h>
 #include <landscape/Landscape.h>
+#include <GLEXT/GLInfo.h>
 #include <GLEXT/GLBitmap.h>
 #include <GLEXT/GLStateExtension.h>
 #include <GLEXT/GLCameraFrustum.h>
@@ -129,8 +130,6 @@ void WaterMap::draw()
 	}
 
 	glPushAttrib(GL_TEXTURE_BIT);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
 		if (GLStateExtension::glActiveTextureARB())
 		{
 			GLStateExtension::glActiveTextureARB()(GL_TEXTURE1_ARB);
@@ -387,6 +386,8 @@ void WaterMap::drawWater()
 					}
 					// Draw pt
 					glVertex3f(pointX, pointY, height);
+
+					GLInfo::addNoTriangles(2);
 				}
 
 				currentEntry++;

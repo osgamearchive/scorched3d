@@ -73,7 +73,6 @@ void HelpButtonDialog::draw()
 	setX(float(GLViewPort::getWidth()) - w_);
 
 	GLState state(GLState::TEXTURE_ON | GLState::BLEND_ON | GLState::DEPTH_OFF);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	glColor4f(1.0f, 1.0f, 1.0f, 0.5f);
 	soundTexture_.draw();

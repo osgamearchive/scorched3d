@@ -195,7 +195,6 @@ void GLConsole::draw(const unsigned state)
 	if (height_ <= 0.0f) return;
 
 	GLState currentState(GLState::DEPTH_OFF | GLState::TEXTURE_OFF | GLState::BLEND_ON);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	GLfloat width = (GLfloat) GLViewPort::getWidth();
 	GLfloat top = (GLfloat) GLViewPort::getHeight();
