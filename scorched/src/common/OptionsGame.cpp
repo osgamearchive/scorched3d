@@ -45,6 +45,8 @@ OptionsGame::OptionsGame() :
 		"The amount of time to give clients to respond before kicking them", 0, 30),
 	minFallingDistance_(options_, "MinFallingDistance",
 		"The minimum distance that can be made with no damage (value is divided by 10)", 0, 5),
+	maxClimbingDistance_(options_, "MaxClimbingDistance",
+		"The maximum distance that a tank can climb in one movement square (value is divided by 10)", 0, 8),
 	gravity_(options_, "Gravity",
 		"The gravity used by the physics engine", 0, -10),
 	maxRoundTurns_(options_, "MaxNumberOfRoundTurns",

@@ -119,7 +119,8 @@ void TankFuelTip::itemSelected(GLWSelectorEntry *entry, int position)
 		if (Landscape::instance()->getTextureType() != Landscape::eMovement)
 		{
 			ScorchedClient::instance()->getLandscapeMaps().
-				getMMap().calculateForTank(tank_);
+				getMMap().calculateForTank(tank_,
+					ScorchedClient::instance()->getContext());
 			ScorchedClient::instance()->getLandscapeMaps().
 				getMMap().movementTexture();
 		}

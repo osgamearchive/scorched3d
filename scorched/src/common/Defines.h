@@ -21,6 +21,8 @@
 #ifndef __DEFINES__
 #define __DEFINES__
 
+#include <stdarg.h>
+
 #ifndef _WIN32
 #include "porting.h"
 #endif
@@ -38,6 +40,9 @@ extern void dialogAssert(const char *lineText, const int line, const char *file)
 
 extern void dialogMessage(const char *header, const char *fmt, ...);
 
+extern const char *formatString(const char *format, ...);
+extern const char *formatStringList(const char *format, va_list ap); 
+
 extern const char *getDataFile(const char *file, ...);
 extern const char *getDocFile(const char *file, ...);
 extern const char *getLogFile(const char *file, ...);
@@ -54,7 +59,9 @@ extern const char *getModFile(const char *file, ...);
 
 #define sinf(x) ((float)sin(x))
 #define cosf(x) ((float)cos(x))
+#ifndef __DARWIN__
 #define fabsf(x) ((float)fabs(x))
+#endif
 #define sqrtf(x) ((float)sqrt(x))
 #define acosf(x) ((float)acos(x))
 #define atan2f(x,y) ((float)atan2(x,y))

@@ -26,6 +26,7 @@
 #include <engine/ActionController.h>
 #include <landscape/LandscapeMaps.h>
 #include <tank/TankContainer.h>
+#include <common/OptionsGame.h>
 
 static const int NoMovementTransitions = 4;
 
@@ -153,7 +154,7 @@ void TankMovement::moveTank(Tank *tank)
 
 	// Check we are not trying to climb to high (this may be due
 	// to the landscape changing after we started move)
-	if (*secondz - *firstz > MaxTankClimbHeight)
+	if (*secondz - *firstz > context_->optionsGame->getMaxClimbingDistance())
 	{
 		expandedPositions_.clear();
 	}

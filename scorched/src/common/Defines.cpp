@@ -58,10 +58,31 @@ void dialogMessage(const char *header, const char *fmt, ...)
 
 void dialogAssert(const char *lineText, const int line, const char *file)
 {
+	// Dont use formatString here as this method is called by formatString.
 	char buffer[1024];
 	sprintf(buffer, "%s\n%i:%s", lineText, line, file);
 	dialogMessage("Program Assert", buffer);
 	exit(1);
+}
+
+const char *formatStringList(const char *format, va_list ap)
+{
+	static char buffer[4000];
+	buffer[sizeof(buffer) - 1] = '\0';
+	vsprintf(buffer, format, ap);
+	DIALOG_ASSERT(buffer[sizeof(buffer) - 1] == 0);
+
+	return buffer;
+}
+
+const char *formatString(const char *file, ...)
+{
+	va_list ap; 
+	va_start(ap, file); 
+	const char *result = formatStringList(file, ap);
+	va_end(ap); 
+
+	return result;
 }
 
 #ifndef S3D_DATADIR

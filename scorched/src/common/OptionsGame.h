@@ -143,6 +143,10 @@ public:
 	void setMinFallingDistance(int value) { minFallingDistance_.setValue(value); }
 	const char *getMinFallingDistanceToolTip() { return minFallingDistance_.getDescription(); }
 
+	int getMaxClimbingDistance() { return maxClimbingDistance_.getValue(); }
+	void setMaxClimbingDistance(int value) { maxClimbingDistance_.setValue(value); }
+	const char *getMaxClimbingDistanceToolTip() { return maxClimbingDistance_.getDescription(); }
+
 	int getGravity() { return gravity_.getValue(); }
 	void setGravity(int value) { gravity_.setValue(value); }
 	const char *getGravityToolTip() { return gravity_.getDescription(); }
@@ -293,6 +297,7 @@ protected:
 	OptionEntryInt maxNumberWeapons_;
 	OptionEntryInt gravity_;
 	OptionEntryInt minFallingDistance_;
+	OptionEntryInt maxClimbingDistance_;
 	OptionEntryBoundedInt scoreType_;
 	OptionEntryBoundedInt teams_;
 	OptionEntryBoundedInt numberOfPlayers_;

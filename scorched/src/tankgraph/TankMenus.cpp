@@ -253,7 +253,8 @@ void TankMenus::AccessoryMenu::menuSelection(const char* menuName,
 				}
 				else
 				{
-					ScorchedClient::instance()->getLandscapeMaps().getMMap().calculateForTank(firstTank);
+					ScorchedClient::instance()->getLandscapeMaps().getMMap().calculateForTank(firstTank,
+						ScorchedClient::instance()->getContext());
 					ScorchedClient::instance()->getLandscapeMaps().getMMap().movementTexture();
 				}
 				break;

@@ -74,7 +74,7 @@ void TankAILogic::processMoveMessage(ScorchedContext &context,
 	if (posX > 0 && posX < context.landscapeMaps->getHMap().getWidth() &&
 		posY > 0 && posY < context.landscapeMaps->getHMap().getWidth())
 	{
-		context.landscapeMaps->getMMap().calculateForTank(tank);
+		context.landscapeMaps->getMMap().calculateForTank(tank, context);
 		MovementMap::MovementMapEntry entry =
 			context.landscapeMaps->getMMap().getEntry(posX, posY);
 		if (entry.type == MovementMap::eMovement &&

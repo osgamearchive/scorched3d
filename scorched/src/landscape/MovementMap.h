@@ -26,9 +26,8 @@
 #include <landscape/HeightMap.h>
 #include <map>
 
-const float MaxTankClimbHeight = 0.8f;
-
 class Tank;
+class ScorchedContext;
 class MovementMap
 {
 public:
@@ -54,7 +53,7 @@ public:
 	virtual ~MovementMap();
 
 	void clear();
-	void calculateForTank(Tank *tank);
+	void calculateForTank(Tank *tank, ScorchedContext &context);
 	void movementTexture();
 
 	MovementMapEntry &getEntry(int w, int h) { 
@@ -71,7 +70,8 @@ protected:
 					 float height, float dist,
 					 std::map<unsigned int, MovementMap::MovementMapEntry> &edgeMap,
 					 std::map<unsigned int, MovementMap::MovementMapEntry> &pointsMap,
-					 unsigned int sourcePt);
+					 unsigned int sourcePt,
+					 ScorchedContext &context);
 
 };
 

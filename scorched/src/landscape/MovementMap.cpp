@@ -19,6 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <landscape/MovementMap.h>
+#include <common/OptionsGame.h>
 #include <tank/Tank.h>
 #include <memory.h>
 
@@ -48,7 +49,8 @@ void MovementMap::addPoint(unsigned int x, unsigned int y,
 					 float height, float dist,
 					 std::map<unsigned int, MovementMap::MovementMapEntry> &edgeMap,
 					 std::map<unsigned int, MovementMap::MovementMapEntry> &pointsMap,
-					 unsigned int sourcePt)
+					 unsigned int sourcePt,
+					 ScorchedContext &context)
 {
 	// Check that we are not going outside the arena
 	if (x < 0 || y < 0 ||
@@ -62,6 +64,8 @@ void MovementMap::addPoint(unsigned int x, unsigned int y,
 	// check that this is acceptable
 	float newHeight = hMap_.getHeight(
 		(int) x, (int) y);
+
+	float MaxTankClimbHeight = float(context.optionsGame->getMaxClimbingDistance()) / 10.0f;
 	if (newHeight - height > MaxTankClimbHeight) return;
 	if (newHeight < 5.0f) return; // Water height
 
@@ -96,7 +100,7 @@ void MovementMap::addPoint(unsigned int x, unsigned int y,
 	}
 }
 
-void MovementMap::calculateForTank(Tank *tank)
+void MovementMap::calculateForTank(Tank *tank, ScorchedContext &context)
 {
 	clear();
 	unsigned int posX = (unsigned int) 
@@ -137,14 +141,14 @@ void MovementMap::calculateForTank(Tank *tank)
 					hMap_.getHeight(
 					(int) x, (int) y);
 
-				addPoint(x+1, y, height, dist + 1, edgeMap, pointsMap, pt);
-				addPoint(x, y+1, height, dist + 1, edgeMap, pointsMap, pt);
-				addPoint(x-1, y, height, dist + 1, edgeMap, pointsMap, pt);
-				addPoint(x, y-1, height, dist + 1, edgeMap, pointsMap, pt);
-				addPoint(x+1, y+1, height, dist + 1.4f, edgeMap, pointsMap, pt);
-				addPoint(x-1, y+1, height, dist + 1.4f, edgeMap, pointsMap, pt);
-				addPoint(x-1, y-1, height, dist + 1.4f, edgeMap, pointsMap, pt);
-				addPoint(x+1, y-1, height, dist + 1.4f, edgeMap, pointsMap, pt);
+				addPoint(x+1, y, height, dist + 1, edgeMap, pointsMap, pt, context);
+				addPoint(x, y+1, height, dist + 1, edgeMap, pointsMap, pt, context);
+				addPoint(x-1, y, height, dist + 1, edgeMap, pointsMap, pt, context);
+				addPoint(x, y-1, height, dist + 1, edgeMap, pointsMap, pt, context);
+				addPoint(x+1, y+1, height, dist + 1.4f, edgeMap, pointsMap, pt, context);
+				addPoint(x-1, y+1, height, dist + 1.4f, edgeMap, pointsMap, pt, context);
+				addPoint(x-1, y-1, height, dist + 1.4f, edgeMap, pointsMap, pt, context);
+				addPoint(x+1, y-1, height, dist + 1.4f, edgeMap, pointsMap, pt, context);
 			}
 		}
 	}
