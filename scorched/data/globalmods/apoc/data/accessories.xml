@@ -262,8 +262,8 @@ trace of the shot path.</description>
 		<name>Missile</name>
 		<description>A mid-size explosive projectile weapon</description>
 		<icon>missile.bmp</icon>
-		<cost>250</cost>
-		<bundlesize>1</bundlesize>
+		<cost>1000</cost>
+		<bundlesize>5</bundlesize>
 		<armslevel>9</armslevel>
 		<firedsound>shoot/medium.wav</firedsound>
 		<collisionaction type="WeaponExplosion">
@@ -301,8 +301,8 @@ trace of the shot path.</description>
 		<name>Nuke</name>
 		<description>A very large explosive projectile weapon</description>
 		<icon>nuke.bmp</icon>
-		<cost>6000</cost>
-		<bundlesize>1</bundlesize>
+		<cost>10000</cost>
+		<bundlesize>2</bundlesize>
 		<armslevel>4</armslevel>
 		<projectilemodel type="MilkShape">fatman/fatman.txt</projectilemodel>
 		<firedsound>shoot/xlarge.wav</firedsound>
@@ -325,16 +325,16 @@ trace of the shot path.</description>
 		<name>Fatman</name>
 		<description>An extra large nuke</description>
 		<icon>nuke.bmp</icon>
-		<cost>8000</cost>
+		<cost>16000</cost>
 		<bundlesize>1</bundlesize>
-		<armslevel>2</armslevel>
+		<armslevel>3</armslevel>
 		<projectilescale>2</projectilescale>
 		<projectilemodel type="MilkShape">fatman/fatman.txt</projectilemodel>
 		<firedsound>shoot/xlarge.wav</firedsound>
 		<deathanimationweight>4</deathanimationweight>
 		<collisionaction type="WeaponExplosion">
 			<name>Fatman</name>
-			<armslevel>2</armslevel>
+			<armslevel>3</armslevel>
 			<hurtamount>1.1</hurtamount>
 			<deform>down</deform>
 			<size>24</size>
@@ -401,14 +401,415 @@ trace of the shot path.</description>
 		</collisionaction> 
 	</accessory>
 	<accessory type="WeaponProjectile">
+		<name>Grenade</name>
+		<description>Tosses a grenade which bounces once and explodes</description>
+		<icon>grenade.bmp</icon>
+		<cost>1000</cost>
+		<bundlesize>1</bundlesize>
+		<armslevel>7</armslevel>
+		<nocreateflame/>
+		<nocreatesmoke/>
+		<firedsound>shoot/large.wav</firedsound>
+		<deathanimationweight>4</deathanimationweight>
+		<projectilemodel type="MilkShape">grenade/grenade.txt</projectilemodel>
+		<collisionaction type="WeaponMulti">
+			<name>Grenade</name>
+			<armslevel>7</armslevel>
+			<subweapon1 type="WeaponLeapFrog">
+				<name>Grenade</name>
+				<armslevel>7</armslevel>
+				<bounce>0.5</bounce>
+				<collisionaction type="WeaponVelocity">
+					<name>Grenade</name>
+					<armslevel>7</armslevel>
+					<velocitychange>0.8</velocitychange>
+					<aimedweapon type="WeaponProjectile">
+						<name>Grenade</name>
+						<armslevel>7</armslevel>
+						<nocreateflame/>
+						<nocreatesmoke/>
+						<projectilemodel type="MilkShape">grenade/grenade.txt</projectilemodel>
+						<collisionaction type="WeaponExplosion">
+							<name>Grenade</name>
+							<armslevel>7</armslevel>
+							<hurtamount>1.0</hurtamount>
+							<deform>down</deform>
+							<size>8</size>
+							<explosiontexture>exp00</explosiontexture>
+							<explosionsound>explosions/medium.wav</explosionsound>
+						</collisionaction>
+					</aimedweapon>
+				</collisionaction>
+			</subweapon1>
+			<subweapon2 type="WeaponExplosion">
+				<name>Grenade</name>
+				<armslevel>7</armslevel>
+				<noluminance/>
+				<nocreatedebris/>
+				<hurtamount>0.2</hurtamount>
+				<deform>down</deform>
+				<size>4</size>
+				<explosiontexture>cloud00</explosiontexture>
+				<explosionsound>explosions/thud.wav</explosionsound>
+			</subweapon2>
+		</collisionaction>
+	</accessory>
+	<accessory type="WeaponProjectile">
+		<name>EMP Grenade</name>
+		<description>A grenade that bounces once then explodes and
+damages opponents without destroying the landscape.</description>
+		<icon>emp.bmp</icon>
+		<cost>1500</cost>
+		<bundlesize>1</bundlesize>
+		<armslevel>7</armslevel>
+		<nocreateflame/>
+		<firedsound>shoot/large.wav</firedsound>
+		<deathanimationweight>24</deathanimationweight>
+		<projectilemodel type="MilkShape">shockbomblet/shockbomblet.txt</projectilemodel>
+		<collisionaction type="WeaponMulti">
+			<name>EMP Grenade</name>
+			<armslevel>7</armslevel>
+			<subweapon1 type="WeaponLeapFrog">
+				<name>EMP Grenade</name>
+				<armslevel>7</armslevel>
+				<bounce>0.5</bounce>
+				<collisionaction type="WeaponVelocity">
+					<name>EMP Grenade</name>
+					<armslevel>7</armslevel>
+					<velocitychange>0.8</velocitychange>
+					<aimedweapon type="WeaponProjectile">
+						<name>EMP Grenade</name>
+						<armslevel>7</armslevel>
+						<nocreateflame/>
+						<nocreatesmoke/>
+						<projectilemodel type="MilkShape">shockbomblet/shockbomblet.txt</projectilemodel>
+						<collisionaction type="WeaponExplosion">
+							<name>EMP Grenade</name>
+							<armslevel>7</armslevel>
+							<nocreatedebris/>
+							<hurtamount>1.0</hurtamount>
+							<deform>none</deform>
+							<size>13</size>
+							<explosiontexture>exp05</explosiontexture>
+							<explosionsound>explosions/empsmall.wav</explosionsound>
+						</collisionaction>
+					</aimedweapon>
+				</collisionaction>
+			</subweapon1>
+			<subweapon2 type="WeaponExplosion">
+				<name>EMP Grenade</name>
+				<armslevel>7</armslevel>
+				<noluminance/>
+				<nocreatedebris/>
+				<hurtamount>0.2</hurtamount>
+				<deform>down</deform>
+				<size>4</size>
+				<explosiontexture>cloud00</explosiontexture>
+				<explosionsound>explosions/thud.wav</explosionsound>
+			</subweapon2>
+		</collisionaction>
+	</accessory>
+	<accessory type="WeaponProjectile">
+		<name>Mega EMP</name>
+		<description>A large grenade that bounces once then explodes and
+damages opponents without destroying the landscape.</description>
+		<icon>emp.bmp</icon>
+		<cost>8000</cost>
+		<bundlesize>1</bundlesize>
+		<armslevel>3</armslevel>
+		<nocreateflame/>
+		<deathanimationweight>4</deathanimationweight>
+		<projectilescale>3.0</projectilescale>
+		<projectilemodel type="MilkShape">shockbomblet/shockbomblet.txt</projectilemodel>
+		<firedsound>shoot/xlarge.wav</firedsound>
+		<collisionaction type="WeaponMulti">
+			<name>Mega EMP</name>
+			<armslevel>3</armslevel>
+			<subweapon1 type="WeaponLeapFrog">
+				<name>Mega EMP</name>
+				<armslevel>3</armslevel>
+				<bounce>0.5</bounce>
+				<collisionaction type="WeaponVelocity">
+					<name>Mega EMP</name>
+					<armslevel>3</armslevel>
+					<velocitychange>0.8</velocitychange>
+					<aimedweapon type="WeaponProjectile">
+						<name>Mega EMP</name>
+						<armslevel>3</armslevel>
+						<nocreateflame/>
+						<nocreatesmoke/>
+						<projectilescale>3.0</projectilescale>
+						<projectilemodel type="MilkShape">shockbomblet/shockbomblet.txt</projectilemodel>
+						<collisionaction type="WeaponExplosion">
+							<name>Mega EMP</name>
+							<armslevel>3</armslevel>
+							<nocreatedebris/>
+							<hurtamount>1.0</hurtamount>
+							<deform>none</deform>
+							<size>28</size>
+							<minlife>0.5</minlife>
+							<maxlife>1.5</maxlife>
+							<explosiontexture>exp05</explosiontexture>
+							<explosionsound>explosions/empsmall.wav</explosionsound>
+						</collisionaction>
+					</aimedweapon>
+				</collisionaction>
+			</subweapon1>
+			<subweapon2 type="WeaponExplosion">
+				<name>Mega EMP</name>
+				<armslevel>3</armslevel>
+				<noluminance/>
+				<nocreatedebris/>
+				<hurtamount>0.2</hurtamount>
+				<deform>down</deform>
+				<size>4</size>
+				<explosiontexture>cloud00</explosiontexture>
+				<explosionsound>explosions/thud.wav</explosionsound>
+			</subweapon2>
+		</collisionaction>
+	</accessory>
+	<accessory type="WeaponProjectile">
+		<name>Gas Grenade</name>
+		<description>Grenade that releases a cloud of gas which damages
+opponents.  The cloud does less damage as it spreads out.</description>
+		<icon>gas.bmp</icon>
+		<cost>12000</cost>
+		<bundlesize>1</bundlesize>
+		<armslevel>3</armslevel>
+		<nocreateflame/>
+		<firedsound>shoot/large.wav</firedsound>
+		<deathanimationweight>4</deathanimationweight>
+		<projectilescale>2.0</projectilescale>
+		<projectilemodel type="MilkShape">m7a3grenade/m7a3grenade.txt</projectilemodel>
+		<collisionaction type="WeaponMulti">
+			<name>Gas Grenade</name>
+			<armslevel>3</armslevel>
+			<subweapon1 type="WeaponLeapFrog">
+				<name>Gas Grenade</name>
+				<armslevel>3</armslevel>
+				<bounce>0.5</bounce>
+				<collisionaction type="WeaponVelocity">
+					<name>Gas Grenade</name>
+					<armslevel>3</armslevel>
+					<velocitychange>0.8</velocitychange> 
+					<aimedweapon type="WeaponProjectile">
+						<name>Gas Grenade</name>
+						<armslevel>3</armslevel>
+						<nocreateflame/>
+						<apexcollision></apexcollision>
+						<projectilescale>2.0</projectilescale>
+						<projectilemodel type="MilkShape">m7a3grenade/m7a3grenade.txt</projectilemodel>
+						<collisionaction type="WeaponMulti">
+							<name>Gas Grenade</name>
+							<armslevel>3</armslevel>
+							<subweapon1 type="WeaponProjectile">
+								<name>Gas Grenade</name>
+								<armslevel>3</armslevel>
+								<nocreateflame/>
+								<projectilescale>2.0</projectilescale>
+								<projectilemodel type="MilkShape">m7a3grenade/m7a3grenade.txt</projectilemodel>
+								<collisionaction type="WeaponMulti">
+									<name>Gas Grenade</name>
+									<armslevel>3</armslevel>
+									<subweapon1 type="WeaponDelay">
+										<name>Gas Grenade</name>
+										<armslevel>3</armslevel>
+										<delay>1.25</delay>
+										<delayedweapon type="WeaponMulti">
+											<name>Gas Grenade</name>
+											<armslevel>3</armslevel>
+											<subweapon1 type="WeaponDelay">
+												<name>Gas Grenade</name>
+												<armslevel>3</armslevel>
+												<delay>1.25</delay>
+												<delayedweapon type="WeaponMulti">
+													<name>Gas Grenade</name>
+													<armslevel>3</armslevel>
+													<subweapon1 type="WeaponDelay">
+														<name>Gas Grenade</name>
+														<armslevel>3</armslevel>
+														<delay>1.0</delay>
+														<delayedweapon type="WeaponMulti">
+															<name>Gas Grenade</name>
+															<armslevel>3</armslevel>
+															<subweapon1 type="WeaponDelay">
+																<name>Gas Grenade</name>
+																<armslevel>3</armslevel>
+																<delay>1.0</delay>
+																<delayedweapon type="WeaponExplosion">
+																	<name>Gas Grenade</name>
+																	<armslevel>3</armslevel>
+																	<nocreatedebris/>
+																	<nocreatesplash/>
+																	<hurtamount>0.15</hurtamount>
+																	<deform>none</deform>
+																	<size>60</size>
+																	<explosiontexture>none</explosiontexture>		
+																	<explosionsound>none</explosionsound>
+																</delayedweapon>
+															</subweapon1>
+															<subweapon2 type="WeaponExplosion">
+																<name>Gas Grenade</name>
+																<armslevel>3</armslevel>
+																<nocreatedebris/>
+																<nocreatesplash/>
+																<hurtamount>0.2</hurtamount>
+																<deform>none</deform>
+																<size>56</size>
+																<explosiontexture>none</explosiontexture>		
+																<explosionsound>none</explosionsound>
+															</subweapon2>
+														</delayedweapon>
+													</subweapon1>
+													<subweapon2 type="WeaponExplosion">
+														<name>Gas Grenade</name>
+														<armslevel>3</armslevel>
+														<nocreatedebris/>
+														<nocreatesplash/>
+														<hurtamount>0.25</hurtamount>
+														<deform>none</deform>
+														<size>48</size>
+														<explosiontexture>none</explosiontexture>		
+														<explosionsound>none</explosionsound>
+													</subweapon2>
+													<subweapon3 type="WeaponExplosion">
+														<name>Gas Grenade</name>
+														<armslevel>3</armslevel>
+														<nocreatedebris/>
+														<nocreatesplash/>
+														<noluminance/>
+														<nowindaffected/>
+														<minlife>4</minlife>
+														<maxlife>6</maxlife>
+														<animate/>
+														<hurtamount>0</hurtamount>
+														<deform>none</deform>
+														<size>8</size>
+														<explosiontexture>gas00</explosiontexture>		
+														<explosionsound>none</explosionsound>
+													</subweapon3>
+												</delayedweapon>
+											</subweapon1>
+											<subweapon2 type="WeaponExplosion">
+												<name>Gas Grenade</name>
+												<armslevel>3</armslevel>
+												<nocreatedebris/>
+												<nocreatesplash/>
+												<hurtamount>0.3</hurtamount>
+												<deform>none</deform>
+												<size>36</size>
+												<explosiontexture>none</explosiontexture>		
+												<explosionsound>none</explosionsound>
+											</subweapon2>
+											<subweapon3 type="WeaponExplosion">
+												<name>Gas Grenade</name>
+												<armslevel>3</armslevel>
+												<nocreatedebris/>
+												<nocreatesplash/>
+												<noluminance/>
+												<nowindaffected/>
+												<minlife>4</minlife>
+												<maxlife>6</maxlife>
+												<animate/>
+												<hurtamount>0</hurtamount>
+												<deform>none</deform>
+												<size>10</size>
+												<explosiontexture>gas00</explosiontexture>		
+												<explosionsound>none</explosionsound>
+											</subweapon3>
+										</delayedweapon>
+									</subweapon1>
+									<subweapon2 type="WeaponExplosion">
+										<name>Gas Grenade</name>
+										<armslevel>3</armslevel>
+										<nocreatedebris/>
+										<nocreatesplash/>
+										<minlife>4</minlife>
+										<maxlife>6</maxlife>
+										<hurtamount>0.35</hurtamount>
+										<deform>none</deform>
+										<size>24</size>
+										<explosiontexture>none</explosiontexture>		
+										<explosionsound>none</explosionsound>
+									</subweapon2>
+									<subweapon3 type="WeaponExplosion">
+										<name>Gas Grenade</name>
+										<armslevel>3</armslevel>
+										<nocreatedebris/>
+										<nocreatesplash/>
+										<noluminance/>
+										<nowindaffected/>
+										<minlife>6</minlife>
+										<maxlife>8</maxlife>
+										<animate/>
+										<hurtamount>0</hurtamount>
+										<deform>none</deform>
+										<size>12</size>
+										<explosiontexture>gas00</explosiontexture>		
+										<explosionsound>none</explosionsound>
+									</subweapon3>
+									<subweapon4 type="WeaponNapalm">
+										<name>Gas Grenade</name>
+										<armslevel>3</armslevel>
+										<napalmtime>4.0</napalmtime>
+										<napalmheight>2.0</napalmheight>
+										<steptime>4</steptime>
+										<hurtsteptime>2.0</hurtsteptime>
+										<hurtpersecond>0.1</hurtpersecond>
+										<numberstreams>1</numberstreams>
+										<effectradius>5</effectradius>
+										<napalmtexture>exp03</napalmtexture>		
+										<napalmsound>none</napalmsound>
+									</subweapon4>
+								</collisionaction>
+							</subweapon1>
+							<subweapon2 type="WeaponExplosion">
+								<name>Gas Grenade</name>
+								<armslevel>3</armslevel>
+								<nocreatedebris/>
+								<nocreatesplash/>
+								<noluminance/>
+								<nowindaffected/>
+								<minlife>4</minlife>
+								<maxlife>6</maxlife>
+								<animate/>
+								<hurtamount>0.4</hurtamount>
+								<deform>none</deform>
+								<size>8</size>
+								<explosiontexture>gas00</explosiontexture>		
+								<explosionsound>explosions/gas.wav</explosionsound>
+							</subweapon2>
+						</collisionaction>
+					</aimedweapon>
+				</collisionaction>
+			</subweapon1>
+			<subweapon2 type="WeaponExplosion">
+				<name>Gas Grenade</name>
+				<armslevel>3</armslevel>
+				<nocreatedebris/>
+				<nocreatesplash/>
+				<noluminance/>
+				<nowindaffected/>
+				<minlife>3</minlife>
+				<maxlife>6</maxlife>
+				<animate/>
+				<hurtamount>0.5</hurtamount>
+				<deform>down</deform>
+				<size>6</size>
+				<explosiontexture>gas00</explosiontexture>		
+				<explosionsound>shoot/flare.wav</explosionsound>
+			</subweapon2>
+		</collisionaction>
+	</accessory>
+	<accessory type="WeaponProjectile">
 		<name>Spread MIRV</name>
 		<description>A projectile weapon that on reaching
 its highest point releases several 
 small warheads. These warheads fan out 
 in a random direction.</description>
 		<icon>mirv.bmp</icon>
-		<cost>2500</cost>
-		<bundlesize>1</bundlesize>
+		<cost>5000</cost>
+		<bundlesize>2</bundlesize>
 		<armslevel>6</armslevel>
 		<apexcollision></apexcollision>
 		<firedsound>shoot/large.wav</firedsound>
@@ -447,8 +848,8 @@ several small warheads. These warheads
 fan out in a straight line from the 
 direction of the firer.</description>
 		<icon>mirv.bmp</icon>
-		<cost>2500</cost>
-		<bundlesize>1</bundlesize>
+		<cost>5000</cost>
+		<bundlesize>2</bundlesize>
 		<armslevel>6</armslevel>
 		<apexcollision></apexcollision>
 		<firedsound>shoot/large.wav</firedsound>
@@ -1595,7 +1996,7 @@ around attack nearby opponents twice</description>
 		<name>Disco Bunny</name>
 		<description>Explodes creating other smaller warheads that
 continue bouncing outward and releasing more warheads</description>
-		<icon>swave.bmp</icon>
+		<icon>fbomb.bmp</icon>
 		<cost>60000</cost>
 		<bundlesize>1</bundlesize>
 		<armslevel>1</armslevel>
@@ -1778,8 +2179,8 @@ continue bouncing outward and releasing more warheads</description>
 into a river of flame. Any tanks
 near the flames will lose life.</description>
 		<icon>napalm.bmp</icon>
-		<cost>250</cost>
-		<bundlesize>1</bundlesize>
+		<cost>1000</cost>
+		<bundlesize>5</bundlesize>
 		<armslevel>9</armslevel>
 		<firedsound>shoot/small.wav</firedsound>
 		<projectilescale>0.75</projectilescale>
@@ -1829,7 +2230,7 @@ near the flames will lose life.</description>
 into a large river of flame. Any tanks
 near the flames will lose life.</description>
 		<icon>hnapalm.bmp</icon>
-		<cost>8000</cost>
+		<cost>6000</cost>
 		<bundlesize>1</bundlesize>
 		<armslevel>3</armslevel>
 		<firedsound>shoot/small.wav</firedsound>
@@ -1931,7 +2332,7 @@ random direction. </description>
 		<name>Fire Worms</name>
 		<description>A projectile weapon digs under 
 the ground and explodes/burns on contact.</description>
-		<icon>napalm.bmp</icon>
+		<icon>fworm.bmp</icon>
 		<cost>10000</cost>
 		<bundlesize>1</bundlesize>
 		<armslevel>3</armslevel>
@@ -2047,7 +2448,7 @@ the ground and explodes/burns on contact.</description>
 		<description>A projectile weapon hybrid 
 that upon reaching the apex of its arch 
 releases rolling napalm warheads.</description> 
-		<icon>mirv.bmp</icon> 
+		<icon>fant.bmp</icon> 
 		<cost>10000</cost> 
 		<bundlesize>1</bundlesize> 
 		<armslevel>3</armslevel> 
@@ -2637,8 +3038,8 @@ primary use is to unbury yourself when you get
 covered with dirt.
 		</description>
 		<icon>rcharge.bmp</icon>
-		<cost>200</cost>
-		<bundlesize>1</bundlesize>
+		<cost>1000</cost>
+		<bundlesize>5</bundlesize>
 		<armslevel>8</armslevel>
 		<translatedist>2.0</translatedist>
 		<nextaction type="WeaponMulti">	
@@ -2751,12 +3152,73 @@ the thickness of the wedge destroyed is also greater.
 		</nextaction>
 	</accessory>
 	<accessory type="WeaponProjectile">
+		<name>Acid Blast</name>
+		<description>A projectile weapon that scatters 
+many riot bomblets on impact.</description>
+		<icon>ablast.bmp</icon>
+		<cost>1000</cost>
+		<bundlesize>1</bundlesize>
+		<armslevel>8</armslevel>
+		<projectilemodel type="MilkShape">icbm/icbm.txt</projectilemodel>
+		<firedsound>shoot/flare.wav</firedsound>
+		<deathanimationweight>32</deathanimationweight>
+		<collisionaction type="WeaponMulti">
+			<name>Acid Blast</name>
+			<armslevel>8</armslevel>
+			<subweapon1 type="WeaponAimedOver">
+				<name>Acid Blast</name>
+				<armslevel>8</armslevel>
+				<nowarheads>8</nowarheads>
+				<percentagemiss>20</percentagemiss>
+				<maxaimdistance>0</maxaimdistance>
+				<inaccuracy>10</inaccuracy>
+				<aimedweapon type="WeaponVelocity">
+					<name>Acid Blast</name>
+					<armslevel>8</armslevel>
+					<velocitychange>0.8</velocitychange>
+					<aimedweapon type="WeaponProjectile">
+						<name>Acid Blast</name>
+						<armslevel>8</armslevel>
+						<nocreateflame/>	
+						<projectilescale>0.5</projectilescale>	
+						<projectilemodel type="ase">
+							<mesh>roller.ase</mesh>
+							<skin>green.bmp</skin>
+						</projectilemodel>
+						<collisionaction type="WeaponExplosion">
+							<name>Acid Blast</name>
+							<armslevel>8</armslevel>
+							<nocreatedebris/>
+							<noluminance/>
+							<animate/>
+							<hurtamount>0.0</hurtamount>
+							<deform>down</deform>
+							<size>6</size>
+							<explosionsound>explosions/acid.wav</explosionsound>
+							<explosiontexture>acid00</explosiontexture>
+						</collisionaction>
+					</aimedweapon>
+				</aimedweapon>
+			</subweapon1>
+			<subweapon2 type="WeaponExplosion">
+				<name>Acid Blast</name>
+				<armslevel>8</armslevel>
+				<animate/>
+				<hurtamount>0</hurtamount>
+				<deform>down</deform>
+				<size>8</size>
+				<explosionsound>explosions/crunch.wav</explosionsound>
+				<explosiontexture>acid00</explosiontexture>
+			</subweapon2>
+		</collisionaction>
+	</accessory>
+	<accessory type="WeaponProjectile">
 		<name>Bottomless Pit</name>
 		<description>Creates a narrow, but very deep pit at the 
 point of impact, from which no opponent can escape</description>
 		<icon>pit.bmp</icon>
-		<cost>1500</cost>
-		<bundlesize>1</bundlesize>
+		<cost>3000</cost>
+		<bundlesize>2</bundlesize>
 		<armslevel>7</armslevel>
 		<firedsound>shoot/large.wav</firedsound>
 		<collisionaction type="WeaponRedirect">
@@ -2848,67 +3310,6 @@ point of impact, from which no opponent can escape</description>
 			</nextaction>
 		</collisionaction>
 	</accessory>
-	<accessory type="WeaponProjectile">
-		<name>Acid Blast</name>
-		<description>A projectile weapon that scatters 
-many riot bomblets on impact.</description>
-		<icon>ablast.bmp</icon>
-		<cost>1000</cost>
-		<bundlesize>1</bundlesize>
-		<armslevel>8</armslevel>
-		<projectilemodel type="MilkShape">icbm/icbm.txt</projectilemodel>
-		<firedsound>shoot/flare.wav</firedsound>
-		<deathanimationweight>32</deathanimationweight>
-		<collisionaction type="WeaponMulti">
-			<name>Acid Blast</name>
-			<armslevel>8</armslevel>
-			<subweapon1 type="WeaponAimedOver">
-				<name>Acid Blast</name>
-				<armslevel>8</armslevel>
-				<nowarheads>8</nowarheads>
-				<percentagemiss>20</percentagemiss>
-				<maxaimdistance>0</maxaimdistance>
-				<inaccuracy>10</inaccuracy>
-				<aimedweapon type="WeaponVelocity">
-					<name>Acid Blast</name>
-					<armslevel>8</armslevel>
-					<velocitychange>0.8</velocitychange>
-					<aimedweapon type="WeaponProjectile">
-						<name>Acid Blast</name>
-						<armslevel>8</armslevel>
-						<nocreateflame/>	
-						<projectilescale>0.5</projectilescale>	
-						<projectilemodel type="ase">
-							<mesh>roller.ase</mesh>
-							<skin>green.bmp</skin>
-						</projectilemodel>
-						<collisionaction type="WeaponExplosion">
-							<name>Acid Blast</name>
-							<armslevel>8</armslevel>
-							<nocreatedebris/>
-							<noluminance/>
-							<animate/>
-							<hurtamount>0.0</hurtamount>
-							<deform>down</deform>
-							<size>6</size>
-							<explosionsound>explosions/acid.wav</explosionsound>
-							<explosiontexture>acid00</explosiontexture>
-						</collisionaction>
-					</aimedweapon>
-				</aimedweapon>
-			</subweapon1>
-			<subweapon2 type="WeaponExplosion">
-				<name>Acid Blast</name>
-				<armslevel>8</armslevel>
-				<animate/>
-				<hurtamount>0</hurtamount>
-				<deform>down</deform>
-				<size>8</size>
-				<explosionsound>explosions/crunch.wav</explosionsound>
-				<explosiontexture>acid00</explosiontexture>
-			</subweapon2>
-		</collisionaction>
-	</accessory>
 	<accessory type="WeaponProjectile"> 
 		<name>Landscaper</name> 
 		<description>Gigantic earth removing device.  
@@ -2936,8 +3337,8 @@ This weapon does no physical damage</description>
 	<accessory type="WeaponMulti">
 		<name>Riot Drill</name>
 		<description>Shoots 3 heavy riot bombs in rapid succession</description>
-		<icon>rblast.bmp</icon>
-		<cost>4000</cost>
+		<icon>drill.bmp</icon>
+		<cost>5000</cost>
 		<bundlesize>1</bundlesize>
 		<armslevel>4</armslevel>
 		<firedsound>shoot/tripleshot.wav</firedsound>
@@ -3509,8 +3910,8 @@ The weapon does no physical damage.</description>
 		<description>A projectile weapon that explodes 
 creating some small riot bombs.</description>
 		<icon>bdigger.bmp</icon>
-		<cost>500</cost>
-		<bundlesize>1</bundlesize>
+		<cost>1000</cost>
+		<bundlesize>2</bundlesize>
 		<armslevel>9</armslevel>
 		<firedsound>shoot/flare.wav</firedsound>
 		<projectilescale>0.5</projectilescale>
@@ -3547,8 +3948,8 @@ creating some small riot bombs.</description>
 		<description>A projectile weapon that explodes
 creating some riot bombs.</description>
 		<icon>digger.bmp</icon>
-		<cost>1000</cost>
-		<bundlesize>1</bundlesize>
+		<cost>2000</cost>
+		<bundlesize>2</bundlesize>
 		<armslevel>7</armslevel>
 		<firedsound>shoot/flare.wav</firedsound>
 		<projectilemodel type="MilkShape">digger/digger.txt</projectilemodel>
@@ -3860,6 +4261,192 @@ cover them.</description>
 			<explosionsound>none</explosionsound>
 		</collisionaction>
 	</accessory>
+	<accessory type="WeaponDelay">
+		<name>Wall Of Dirt</name>
+		<description>Raises a small Ring Of Dirt a short 
+distance from your tank in the direction you aim</description>
+		<icon>dshield.bmp</icon>
+		<cost>5000</cost>
+		<bundlesize>1</bundlesize>
+		<armslevel>4</armslevel>
+		<delay>0.5</delay>
+		<firedsound>shoot/large.wav</firedsound>
+		<delayedweapon type="WeaponMulti">
+			<name>Wall Of Dirt</name>
+			<armslevel>4</armslevel>
+			<subweapon1 type="WeaponRedirect">
+				<name>Wall Of Dirt</name>
+				<armslevel>4</armslevel>
+				<habs>false</habs>
+				<vabs>true</vabs>
+				<hredirect>0</hredirect>
+				<vredirect>90</vredirect>
+				<nextaction type="WeaponTranslate">
+					<name>Wall Of Dirt</name>
+					<armslevel>4</armslevel>
+					<translatedist>35</translatedist>
+					<nextaction type="WeaponMulti">
+						<name>Wall Of Dirt</name>
+						<armslevel>4</armslevel>
+						<subweapon1 type="WeaponExplosion">
+							<name>Wall Of Dirt</name>
+							<armslevel>4</armslevel>
+							<deform>up</deform>
+							<hurtamount>0.0</hurtamount>
+							<nocreatedebris/>
+							<size>10</size>
+							<explosiontexture>exp03</explosiontexture>
+							<explosionsound>explosions/gloop.wav</explosionsound>
+						</subweapon1>
+						<subweapon2 type="WeaponDelay">
+							<name>Wall Of Dirt</name>
+							<armslevel>4</armslevel>
+							<delay>0.5</delay>
+							<delayedweapon type="WeaponExplosion">
+								<name>Wall Of Dirt</name>
+								<armslevel>4</armslevel>
+								<deform>up</deform>
+								<hurtamount>0.0</hurtamount>
+								<nocreatedebris/>
+								<size>10</size>
+								<explosiontexture>exp03</explosiontexture>
+								<explosionsound>explosions/gloop.wav</explosionsound>
+							</delayedweapon>
+						</subweapon2>
+						<subweapon3 type="WeaponDelay">
+							<name>Wall Of Dirt</name>
+							<armslevel>4</armslevel>
+							<delay>1.0</delay>
+							<delayedweapon type="WeaponExplosion">
+								<name>Wall Of Dirt</name>
+								<armslevel>4</armslevel>
+								<deform>up</deform>
+								<hurtamount>0.0</hurtamount>
+								<nocreatedebris/>
+								<size>10</size>
+								<explosiontexture>exp03</explosiontexture>
+								<explosionsound>explosions/gloop.wav</explosionsound>
+							</delayedweapon>
+						</subweapon3>
+					</nextaction>
+				</nextaction>
+			</subweapon1>
+			<subweapon2 type="WeaponRedirect">
+				<name>Wall Of Dirt</name>
+				<armslevel>4</armslevel>
+				<habs>false</habs>
+				<vabs>true</vabs>
+				<hredirect>22.5</hredirect>
+				<vredirect>90</vredirect>
+				<nextaction type="WeaponTranslate">
+					<name>Wall Of Dirt</name>
+					<armslevel>4</armslevel>
+					<translatedist>35</translatedist>
+					<nextaction type="WeaponMulti">
+						<name>Wall Of Dirt</name>
+						<armslevel>4</armslevel>
+						<subweapon1 type="WeaponExplosion">
+							<name>Wall Of Dirt</name>
+							<armslevel>4</armslevel>
+							<deform>up</deform>
+							<hurtamount>0.0</hurtamount>
+							<nocreatedebris/>
+							<size>10</size>
+							<explosiontexture>exp03</explosiontexture>
+							<explosionsound>none</explosionsound>
+						</subweapon1>
+						<subweapon2 type="WeaponDelay">
+							<name>Wall Of Dirt</name>
+							<armslevel>4</armslevel>
+							<delay>0.5</delay>
+							<delayedweapon type="WeaponExplosion">
+								<name>Wall Of Dirt</name>
+								<armslevel>4</armslevel>
+								<deform>up</deform>
+								<hurtamount>0.0</hurtamount>
+								<nocreatedebris/>
+								<size>10</size>
+								<explosiontexture>exp03</explosiontexture>
+								<explosionsound>none</explosionsound>
+							</delayedweapon>
+						</subweapon2>
+						<subweapon3 type="WeaponDelay">
+							<name>Wall Of Dirt</name>
+							<armslevel>4</armslevel>
+							<delay>1.0</delay>
+							<delayedweapon type="WeaponExplosion">
+								<name>Wall Of Dirt</name>
+								<armslevel>4</armslevel>
+								<deform>up</deform>
+								<hurtamount>0.0</hurtamount>
+								<nocreatedebris/>
+								<size>10</size>
+								<explosiontexture>exp03</explosiontexture>
+								<explosionsound>none</explosionsound>
+							</delayedweapon>
+						</subweapon3>
+					</nextaction>
+				</nextaction>
+			</subweapon2>
+			<subweapon3 type="WeaponRedirect">
+				<name>Wall Of Dirt</name>
+				<armslevel>4</armslevel>
+				<habs>false</habs>
+				<vabs>true</vabs>
+				<hredirect>-22.5</hredirect>
+				<vredirect>90</vredirect>
+				<nextaction type="WeaponTranslate">
+					<name>Wall Of Dirt</name>
+					<armslevel>4</armslevel>
+					<translatedist>35</translatedist>
+					<nextaction type="WeaponMulti">
+						<name>Wall Of Dirt</name>
+						<armslevel>4</armslevel>
+						<subweapon1 type="WeaponExplosion">
+							<name>Wall Of Dirt</name>
+							<armslevel>4</armslevel>
+							<deform>up</deform>
+							<hurtamount>0.0</hurtamount>
+							<nocreatedebris/>
+							<size>10</size>
+							<explosiontexture>exp03</explosiontexture>
+							<explosionsound>none</explosionsound>
+						</subweapon1>
+						<subweapon2 type="WeaponDelay">
+							<name>Wall Of Dirt</name>
+							<armslevel>4</armslevel>
+							<delay>0.5</delay>
+							<delayedweapon type="WeaponExplosion">
+								<name>Wall Of Dirt</name>
+								<armslevel>4</armslevel>
+								<deform>up</deform>
+								<hurtamount>0.0</hurtamount>
+								<nocreatedebris/>
+								<size>10</size>
+								<explosiontexture>exp03</explosiontexture>
+								<explosionsound>none</explosionsound>
+							</delayedweapon>
+						</subweapon2>
+						<subweapon3 type="WeaponDelay">
+							<name>Wall Of Dirt</name>
+							<armslevel>4</armslevel>
+							<delay>1.0</delay>
+							<delayedweapon type="WeaponExplosion">
+								<name>Wall Of Dirt</name>
+								<armslevel>4</armslevel>
+								<deform>up</deform>
+								<hurtamount>0.0</hurtamount>
+								<nocreatedebris/>
+								<size>10</size>
+								<explosiontexture>exp03</explosiontexture>
+								<explosionsound>none</explosionsound>
+							</delayedweapon>
+						</subweapon3>
+					</nextaction>
+				</nextaction>
+			</subweapon3>
+		</delayedweapon>
+	</accessory>
 	<!--<accessory type="WeaponProjectile">
 		<name>Fungal Bloom</name> 
 		<description>Multiple dirt pile blooms</description> 
@@ -3939,8 +4526,6 @@ burning chunks of earth about the area.</description>
 		<cost>8000</cost>
 		<bundlesize>1</bundlesize>
 		<armslevel>4</armslevel>
-		<nocreateflame/>
-		<nocreatesmoke/>
 		<apexcollision></apexcollision>
 		<firedsound>shoot/xlarge.wav</firedsound>
 		<projectilemodel type="MilkShape">flare.txt</projectilemodel>
@@ -4083,11 +4668,9 @@ burning chunks of earth about the area.</description>
 		<description>A meteor that explodes on impact, scattering
 burning chunks of earth about the area.</description>
 		<icon>meteor.bmp</icon>
-		<cost>16000</cost>
+		<cost>12000</cost>
 		<bundlesize>1</bundlesize>
 		<armslevel>2</armslevel>
-		<nocreateflame/>
-		<nocreatesmoke/>
 		<apexcollision></apexcollision>
 		<firedsound>shoot/xlarge.wav</firedsound>
 		<projectilemodel type="MilkShape">flare.txt</projectilemodel>
@@ -4126,40 +4709,45 @@ burning chunks of earth about the area.</description>
 									<aimedweapon type="WeaponTranslate">
 										<name>Mega Meteor</name>
 										<armslevel>2</armslevel>
-										<translatedist>15</translatedist>
-										<nextaction type="WeaponProjectile">
+										<translatedist>10</translatedist>
+										<nextaction type="WeaponVelocity">
 											<name>Mega Meteor</name>
-											<armslevel>2</armslevel>	
-											<projectilemodel type="ase">
-												<mesh>roller.ase</mesh>
-												<skin>molten.bmp</skin>
-											</projectilemodel>
-											<collisionaction type="WeaponMulti">
+											<armslevel>2</armslevel>
+											<velocitychange>1.2</velocitychange>
+											<aimedweapon type="WeaponProjectile">
 												<name>Mega Meteor</name>
-												<armslevel>2</armslevel>
-												<subweapon1 type="WeaponExplosion">
+												<armslevel>2</armslevel>	
+												<projectilemodel type="ase">
+													<mesh>roller.ase</mesh>
+													<skin>molten.bmp</skin>
+												</projectilemodel>
+												<collisionaction type="WeaponMulti">
 													<name>Mega Meteor</name>
 													<armslevel>2</armslevel>
-													<hurtamount>0</hurtamount>
-													<deform>up</deform>
-													<size>6</size>
-													<explosionsound>explosions/thud.wav</explosionsound>
-													<explosiontexture>exp02</explosiontexture>
-												</subweapon1>
-												<subweapon2 type="WeaponNapalm">
-													<name>Mega Meteor</name>
-													<armslevel>2</armslevel>
-													<napalmtime>8.0</napalmtime>
-													<napalmheight>2.0</napalmheight>
-													<steptime>2</steptime>
-													<hurtsteptime>1.0</hurtsteptime>
-													<hurtpersecond>1.0</hurtpersecond>
-													<numberstreams>2</numberstreams>
-													<effectradius>8</effectradius>
-													<napalmtexture>flames</napalmtexture>
-													<napalmsound>explosions/napalm.wav</napalmsound>
-												</subweapon2>
-											</collisionaction>
+													<subweapon1 type="WeaponExplosion">
+														<name>Mega Meteor</name>
+														<armslevel>2</armslevel>
+														<hurtamount>0</hurtamount>
+														<deform>up</deform>
+														<size>6</size>
+														<explosionsound>explosions/thud.wav</explosionsound>
+														<explosiontexture>exp02</explosiontexture>
+													</subweapon1>
+													<subweapon2 type="WeaponNapalm">
+														<name>Mega Meteor</name>
+														<armslevel>2</armslevel>
+														<napalmtime>8.0</napalmtime>
+														<napalmheight>2.0</napalmheight>
+														<steptime>2</steptime>
+														<hurtsteptime>1.0</hurtsteptime>
+														<hurtpersecond>1.0</hurtpersecond>
+														<numberstreams>2</numberstreams>
+														<effectradius>8</effectradius>
+														<napalmtexture>flames</napalmtexture>
+														<napalmsound>explosions/napalm.wav</napalmsound>
+													</subweapon2>
+												</collisionaction>
+											</aimedweapon>
 										</nextaction>
 									</aimedweapon>
 								</delayedweapon>
@@ -4206,6 +4794,72 @@ burning chunks of earth about the area.</description>
 				<explosiontexture>exp04</explosiontexture>
 			</subweapon2>
 		</collisionaction>
+	</accessory>
+	<accessory type="WeaponMulti">
+		<name>Ring Of Dirt</name>
+		<description>Raises a ring of dirt around your tank</description>
+		<icon>dshield.bmp</icon>
+		<cost>20000</cost>
+		<bundlesize>1</bundlesize>
+		<armslevel>2</armslevel>
+		<firedsound>shoot/large.wav</firedsound>
+		<subweapon1 type="WeaponReference">
+			<name>Ring Of Dirt</name>
+			<armslevel>2</armslevel>
+			<weapon>Wall Of Dirt</weapon>
+		</subweapon1>
+		<subweapon2 type="WeaponRedirect">
+			<name>Ring Of Dirt</name>
+			<armslevel>2</armslevel>
+			<habs>false</habs>
+			<vabs>true</vabs>
+			<hredirect>72</hredirect>
+			<vredirect>90</vredirect>
+			<nextaction type="WeaponReference">
+				<name>Ring Of Dirt</name>
+				<armslevel>2</armslevel>
+				<weapon>Wall Of Dirt</weapon>
+			</nextaction>
+		</subweapon2>
+		<subweapon3 type="WeaponRedirect">
+			<name>Ring Of Dirt</name>
+			<armslevel>2</armslevel>
+			<habs>false</habs>
+			<vabs>true</vabs>
+			<hredirect>144</hredirect>
+			<vredirect>90</vredirect>
+			<nextaction type="WeaponReference">
+				<name>Ring Of Dirt</name>
+				<armslevel>2</armslevel>
+				<weapon>Wall Of Dirt</weapon>
+			</nextaction>
+		</subweapon3>
+		<subweapon4 type="WeaponRedirect">
+			<name>Ring Of Dirt</name>
+			<armslevel>2</armslevel>
+			<habs>false</habs>
+			<vabs>true</vabs>
+			<hredirect>212</hredirect>
+			<vredirect>90</vredirect>
+			<nextaction type="WeaponReference">
+				<name>Ring Of Dirt</name>
+				<armslevel>2</armslevel>
+				<weapon>Wall Of Dirt</weapon>
+			</nextaction>
+		</subweapon4>
+		<subweapon5 type="WeaponRedirect">
+			<name>Ring Of Dirt</name>
+			<armslevel>2</armslevel>
+			<habs>false</habs>
+			<vabs>true</vabs>
+			<hredirect>284</hredirect>
+			<vredirect>90</vredirect>
+			<nextaction type="WeaponReference">
+				<name>Ring Of Dirt</name>
+				<armslevel>2</armslevel>
+				<weapon>Wall Of Dirt</weapon>
+			</nextaction>
+		</subweapon5>
 	</accessory>
 	<!--<accessory type="WeaponProjectile">
 		<name>Terraform</name>
@@ -5020,8 +5674,7 @@ a few times and releases small explosive warheads</description>
 	</accessory>
 	<accessory type="WeaponProjectile">
 		<name>Bunny Bomb</name>
-		<description>MIRV that releases several
-leaping warheads.</description>
+		<description>MIRV that releases several leaping warheads.</description>
 		<icon>lfrog.bmp</icon>
 		<cost>12000</cost>
 		<bundlesize>1</bundlesize>
@@ -5282,8 +5935,8 @@ into a number of rolling bombs. These
 bombs roll downhill exploding on 
 contact with any tank.</description>
 		<icon>broller.bmp</icon>
-		<cost>1500</cost>
-		<bundlesize>1</bundlesize>
+		<cost>3000</cost>
+		<bundlesize>2</bundlesize>
 		<armslevel>7</armslevel>
 		<firedsound>shoot/small.wav</firedsound>
 		<collisionaction type="WeaponRoller">
@@ -5313,8 +5966,8 @@ into a number of rolling bombs.  These
 bombs roll downhill exploding on contact 
 with any tank.</description>
 		<icon>roller.bmp</icon>
-		<cost>4000</cost>
-		<bundlesize>1</bundlesize>
+		<cost>8000</cost>
+		<bundlesize>2</bundlesize>
 		<armslevel>5</armslevel>
 		<firedsound>shoot/medium.wav</firedsound>
 		<collisionaction type="WeaponRoller">
@@ -5344,8 +5997,8 @@ into a number of rolling bombs.  These
 bombs roll downhill exploding on contact 
 with any tank.</description>
 		<icon>hroller.bmp</icon>
-		<cost>6000</cost>
-		<bundlesize>1</bundlesize>
+		<cost>12000</cost>
+		<bundlesize>2</bundlesize>
 		<armslevel>3</armslevel>
 		<firedsound>shoot/large.wav</firedsound>
 		<collisionaction type="WeaponRoller">
@@ -5476,8 +6129,8 @@ releases several baby roller warheads.</description>
 some small burrowing missiles. These 
 missiles target nearby tanks.</description>
 		<icon>bshog.bmp</icon>
-		<cost>1500</cost>
-		<bundlesize>1</bundlesize>
+		<cost>3000</cost>
+		<bundlesize>2</bundlesize>
 		<armslevel>6</armslevel>
 		<firedsound>shoot/flare.wav</firedsound>
 		<projectilescale>0.5</projectilescale>
@@ -5580,56 +6233,6 @@ missiles target nearby tanks.</description>
 					<explosionsound>explosions/medium.wav</explosionsound>
 				</collisionaction>
 			</aimedweapon>	
-		</collisionaction>
-	</accessory>
-	<accessory type="WeaponProjectile">
-		<name>EMP Grenade</name>
-		<description>A projectile weapon that explodes and
-damages opponents without destroying the landscape.</description>
-		<icon>bnuke.bmp</icon>
-		<cost>1500</cost>
-		<bundlesize>1</bundlesize>
-		<armslevel>7</armslevel>
-		<nocreateflame/>
-		<firedsound>shoot/large.wav</firedsound>
-		<deathanimationweight>24</deathanimationweight>
-		<projectilemodel type="MilkShape">shockbomblet/shockbomblet.txt</projectilemodel>
-		<collisionaction type="WeaponExplosion">
-			<name>EMP Grenade</name>
-			<armslevel>7</armslevel>
-			<nocreatedebris/>
-			<hurtamount>1.0</hurtamount>
-			<deform>none</deform>
-			<size>13</size>
-			<explosiontexture>exp05</explosiontexture>
-			<explosionsound>explosions/empsmall.wav</explosionsound>
-		</collisionaction>
-	</accessory>
-	<accessory type="WeaponProjectile">
-		<name>Mega EMP</name>
-		<description>A very large explosive projectile weapon
-that explodes and damages opponents without
-destroying the landscape.</description>
-		<icon>nuke.bmp</icon>
-		<cost>8000</cost>
-		<bundlesize>1</bundlesize>
-		<armslevel>2</armslevel>
-		<nocreateflame/>
-		<deathanimationweight>4</deathanimationweight>
-		<projectilescale>3.0</projectilescale>
-		<projectilemodel type="MilkShape">shockbomblet/shockbomblet.txt</projectilemodel>
-		<firedsound>shoot/xlarge.wav</firedsound>
-		<collisionaction type="WeaponExplosion">
-			<name>Mega EMP</name>
-			<armslevel>2</armslevel>
-			<nocreatedebris/>
-			<hurtamount>1.0</hurtamount>
-			<deform>none</deform>
-			<size>28</size>
-			<minlife>0.5</minlife>
-			<maxlife>1.5</maxlife>
-			<explosiontexture>exp05</explosiontexture>
-			<explosionsound>explosions/empsmall.wav</explosionsound>
 		</collisionaction>
 	</accessory>
 	<accessory type="WeaponProjectile">
@@ -7336,7 +7939,7 @@ at nearby targets</description>
 		<nocreatesplash/>
 		<deform>none</deform>
 		<size>2</size>
-		<explosiontexture>default</explosiontexture>
+		<explosiontexture>cloud00</explosiontexture>
 		<explosionsound>none</explosionsound>			
 	</accessory>
 	<accessory type="WeaponProjectile">
@@ -7444,425 +8047,6 @@ at nearby targets</description>
 				<explosionsound>explosions/quake.wav</explosionsound>
 			</subweapon2>
 		</collisionaction>
-	</accessory>
-	<accessory type="WeaponProjectile">
-		<name>Gas Grenade</name>
-		<description>Releases a cloud of gas which damages opponents.
-The cloud does less damage as it spreads out.</description>
-		<icon>gas.bmp</icon>
-		<cost>12000</cost>
-		<bundlesize>1</bundlesize>
-		<armslevel>3</armslevel>
-		<nocreateflame/>
-		<firedsound>shoot/large.wav</firedsound>
-		<deathanimationweight>4</deathanimationweight>
-		<projectilescale>2.0</projectilescale>
-		<projectilemodel type="MilkShape">m7a3grenade/m7a3grenade.txt</projectilemodel>
-		<collisionaction type="WeaponMulti">
-			<name>Gas Grenade</name>
-			<armslevel>3</armslevel>
-			<subweapon1 type="WeaponLeapFrog">
-				<name>Gas Grenade</name>
-				<armslevel>3</armslevel>
-				<bounce>0.5</bounce>
-				<collisionaction type="WeaponVelocity">
-					<name>Gas Grenade</name>
-					<armslevel>3</armslevel>
-					<velocitychange>0.8</velocitychange> 
-					<aimedweapon type="WeaponProjectile">
-						<name>Gas Grenade</name>
-						<armslevel>3</armslevel>
-						<nocreateflame/>
-						<apexcollision></apexcollision>
-						<projectilescale>2.0</projectilescale>
-						<projectilemodel type="MilkShape">m7a3grenade/m7a3grenade.txt</projectilemodel>
-						<collisionaction type="WeaponMulti">
-							<name>Gas Grenade</name>
-							<armslevel>3</armslevel>
-							<subweapon1 type="WeaponProjectile">
-								<name>Gas Grenade</name>
-								<armslevel>3</armslevel>
-								<nocreateflame/>
-								<projectilescale>2.0</projectilescale>
-								<projectilemodel type="MilkShape">m7a3grenade/m7a3grenade.txt</projectilemodel>
-								<collisionaction type="WeaponMulti">
-									<name>Gas Grenade</name>
-									<armslevel>3</armslevel>
-									<subweapon1 type="WeaponDelay">
-										<name>Gas Grenade</name>
-										<armslevel>3</armslevel>
-										<delay>1.25</delay>
-										<delayedweapon type="WeaponMulti">
-											<name>Gas Grenade</name>
-											<armslevel>3</armslevel>
-											<subweapon1 type="WeaponDelay">
-												<name>Gas Grenade</name>
-												<armslevel>3</armslevel>
-												<delay>1.25</delay>
-												<delayedweapon type="WeaponMulti">
-													<name>Gas Grenade</name>
-													<armslevel>3</armslevel>
-													<subweapon1 type="WeaponDelay">
-														<name>Gas Grenade</name>
-														<armslevel>3</armslevel>
-														<delay>1.0</delay>
-														<delayedweapon type="WeaponMulti">
-															<name>Gas Grenade</name>
-															<armslevel>3</armslevel>
-															<subweapon1 type="WeaponDelay">
-																<name>Gas Grenade</name>
-																<armslevel>3</armslevel>
-																<delay>1.0</delay>
-																<delayedweapon type="WeaponExplosion">
-																	<name>Gas Grenade</name>
-																	<armslevel>3</armslevel>
-																	<nocreatedebris/>
-																	<nocreatesplash/>
-																	<hurtamount>0.15</hurtamount>
-																	<deform>none</deform>
-																	<size>60</size>
-																	<explosiontexture>none</explosiontexture>		
-																	<explosionsound>none</explosionsound>
-																</delayedweapon>
-															</subweapon1>
-															<subweapon2 type="WeaponExplosion">
-																<name>Gas Grenade</name>
-																<armslevel>3</armslevel>
-																<nocreatedebris/>
-																<nocreatesplash/>
-																<hurtamount>0.2</hurtamount>
-																<deform>none</deform>
-																<size>56</size>
-																<explosiontexture>none</explosiontexture>		
-																<explosionsound>none</explosionsound>
-															</subweapon2>
-														</delayedweapon>
-													</subweapon1>
-													<subweapon2 type="WeaponExplosion">
-														<name>Gas Grenade</name>
-														<armslevel>3</armslevel>
-														<nocreatedebris/>
-														<nocreatesplash/>
-														<hurtamount>0.25</hurtamount>
-														<deform>none</deform>
-														<size>48</size>
-														<explosiontexture>none</explosiontexture>		
-														<explosionsound>none</explosionsound>
-													</subweapon2>
-													<subweapon3 type="WeaponExplosion">
-														<name>Gas Grenade</name>
-														<armslevel>3</armslevel>
-														<nocreatedebris/>
-														<nocreatesplash/>
-														<noluminance/>
-														<nowindaffected/>
-														<minlife>4</minlife>
-														<maxlife>6</maxlife>
-														<animate/>
-														<hurtamount>0</hurtamount>
-														<deform>none</deform>
-														<size>8</size>
-														<explosiontexture>gas00</explosiontexture>		
-														<explosionsound>none</explosionsound>
-													</subweapon3>
-												</delayedweapon>
-											</subweapon1>
-											<subweapon2 type="WeaponExplosion">
-												<name>Gas Grenade</name>
-												<armslevel>3</armslevel>
-												<nocreatedebris/>
-												<nocreatesplash/>
-												<hurtamount>0.3</hurtamount>
-												<deform>none</deform>
-												<size>36</size>
-												<explosiontexture>none</explosiontexture>		
-												<explosionsound>none</explosionsound>
-											</subweapon2>
-											<subweapon3 type="WeaponExplosion">
-												<name>Gas Grenade</name>
-												<armslevel>3</armslevel>
-												<nocreatedebris/>
-												<nocreatesplash/>
-												<noluminance/>
-												<nowindaffected/>
-												<minlife>4</minlife>
-												<maxlife>6</maxlife>
-												<animate/>
-												<hurtamount>0</hurtamount>
-												<deform>none</deform>
-												<size>10</size>
-												<explosiontexture>gas00</explosiontexture>		
-												<explosionsound>none</explosionsound>
-											</subweapon3>
-										</delayedweapon>
-									</subweapon1>
-									<subweapon2 type="WeaponExplosion">
-										<name>Gas Grenade</name>
-										<armslevel>3</armslevel>
-										<nocreatedebris/>
-										<nocreatesplash/>
-										<minlife>4</minlife>
-										<maxlife>6</maxlife>
-										<hurtamount>0.35</hurtamount>
-										<deform>none</deform>
-										<size>24</size>
-										<explosiontexture>none</explosiontexture>		
-										<explosionsound>none</explosionsound>
-									</subweapon2>
-									<subweapon3 type="WeaponExplosion">
-										<name>Gas Grenade</name>
-										<armslevel>3</armslevel>
-										<nocreatedebris/>
-										<nocreatesplash/>
-										<noluminance/>
-										<nowindaffected/>
-										<minlife>6</minlife>
-										<maxlife>8</maxlife>
-										<animate/>
-										<hurtamount>0</hurtamount>
-										<deform>none</deform>
-										<size>12</size>
-										<explosiontexture>gas00</explosiontexture>		
-										<explosionsound>none</explosionsound>
-									</subweapon3>
-									<!--<subweapon4 type="WeaponNapalm">
-										<name>Gas Grenade</name>
-										<armslevel>3</armslevel>
-										<napalmtime>4.0</napalmtime>
-										<napalmheight>2.0</napalmheight>
-										<steptime>4</steptime>
-										<hurtsteptime>2.0</hurtsteptime>
-										<hurtpersecond>0.1</hurtpersecond>
-										<numberstreams>1</numberstreams>
-										<effectradius>5</effectradius>
-										<napalmtexture>exp03</napalmtexture>		
-										<napalmsound>none</napalmsound>
-									</subweapon4>-->
-								</collisionaction>
-							</subweapon1>
-							<subweapon2 type="WeaponExplosion">
-								<name>Gas Grenade</name>
-								<armslevel>3</armslevel>
-								<nocreatedebris/>
-								<nocreatesplash/>
-								<noluminance/>
-								<nowindaffected/>
-								<minlife>4</minlife>
-								<maxlife>6</maxlife>
-								<animate/>
-								<hurtamount>0.4</hurtamount>
-								<deform>none</deform>
-								<size>8</size>
-								<explosiontexture>gas00</explosiontexture>		
-								<explosionsound>explosions/gas.wav</explosionsound>
-							</subweapon2>
-						</collisionaction>
-					</aimedweapon>
-				</collisionaction>
-			</subweapon1>
-			<subweapon2 type="WeaponExplosion">
-				<name>Gas Grenade</name>
-				<armslevel>3</armslevel>
-				<nocreatedebris/>
-				<nocreatesplash/>
-				<noluminance/>
-				<nowindaffected/>
-				<minlife>3</minlife>
-				<maxlife>6</maxlife>
-				<animate/>
-				<hurtamount>0.5</hurtamount>
-				<deform>down</deform>
-				<size>6</size>
-				<explosiontexture>gas00</explosiontexture>		
-				<explosionsound>shoot/flare.wav</explosionsound>
-			</subweapon2>
-		</collisionaction>
-	</accessory>
-	<accessory type="WeaponDelay">
-		<name>Dirt Wall</name>
-		<description>Raises a small wall of dirt a short 
-distance from your tank in the direction you aim</description>
-		<icon>dshield.bmp</icon>
-		<cost>6000</cost>
-		<bundlesize>1</bundlesize>
-		<armslevel>4</armslevel>
-		<delay>0.5</delay>
-		<firedsound>shoot/large.wav</firedsound>
-		<delayedweapon type="WeaponMulti">
-			<name>Dirt Wall</name>
-			<armslevel>4</armslevel>
-			<subweapon1 type="WeaponRedirect">
-				<name>Dirt Wall</name>
-				<armslevel>4</armslevel>
-				<habs>false</habs>
-				<vabs>true</vabs>
-				<hredirect>0</hredirect>
-				<vredirect>90</vredirect>
-				<nextaction type="WeaponTranslate">
-					<name>Dirt Wall</name>
-					<armslevel>4</armslevel>
-					<translatedist>35</translatedist>
-					<nextaction type="WeaponMulti">
-						<name>Dirt Wall</name>
-						<armslevel>4</armslevel>
-						<subweapon1 type="WeaponExplosion">
-							<name>Dirt Wall</name>
-							<armslevel>4</armslevel>
-							<deform>up</deform>
-							<hurtamount>0.0</hurtamount>
-							<nocreatedebris/>
-							<size>10</size>
-							<explosiontexture>exp03</explosiontexture>
-							<explosionsound>explosions/gloop.wav</explosionsound>
-						</subweapon1>
-						<subweapon2 type="WeaponDelay">
-							<name>Dirt Wall</name>
-							<armslevel>4</armslevel>
-							<delay>0.5</delay>
-							<delayedweapon type="WeaponExplosion">
-								<name>Dirt Wall</name>
-								<armslevel>4</armslevel>
-								<deform>up</deform>
-								<hurtamount>0.0</hurtamount>
-								<nocreatedebris/>
-								<size>10</size>
-								<explosiontexture>exp03</explosiontexture>
-								<explosionsound>explosions/gloop.wav</explosionsound>
-							</delayedweapon>
-						</subweapon2>
-						<subweapon3 type="WeaponDelay">
-							<name>Dirt Wall</name>
-							<armslevel>4</armslevel>
-							<delay>1.0</delay>
-							<delayedweapon type="WeaponExplosion">
-								<name>Dirt Wall</name>
-								<armslevel>4</armslevel>
-								<deform>up</deform>
-								<hurtamount>0.0</hurtamount>
-								<nocreatedebris/>
-								<size>10</size>
-								<explosiontexture>exp03</explosiontexture>
-								<explosionsound>explosions/gloop.wav</explosionsound>
-							</delayedweapon>
-						</subweapon3>
-					</nextaction>
-				</nextaction>
-			</subweapon1>
-			<subweapon2 type="WeaponRedirect">
-				<name>Dirt Wall</name>
-				<armslevel>4</armslevel>
-				<habs>false</habs>
-				<vabs>true</vabs>
-				<hredirect>22.5</hredirect>
-				<vredirect>90</vredirect>
-				<nextaction type="WeaponTranslate">
-					<name>Dirt Wall</name>
-					<armslevel>4</armslevel>
-					<translatedist>35</translatedist>
-					<nextaction type="WeaponMulti">
-						<name>Dirt Wall</name>
-						<armslevel>4</armslevel>
-						<subweapon1 type="WeaponExplosion">
-							<name>Dirt Wall</name>
-							<armslevel>4</armslevel>
-							<deform>up</deform>
-							<hurtamount>0.0</hurtamount>
-							<nocreatedebris/>
-							<size>10</size>
-							<explosiontexture>exp03</explosiontexture>
-							<explosionsound>none</explosionsound>
-						</subweapon1>
-						<subweapon2 type="WeaponDelay">
-							<name>Dirt Wall</name>
-							<armslevel>4</armslevel>
-							<delay>0.5</delay>
-							<delayedweapon type="WeaponExplosion">
-								<name>Dirt Wall</name>
-								<armslevel>4</armslevel>
-								<deform>up</deform>
-								<hurtamount>0.0</hurtamount>
-								<nocreatedebris/>
-								<size>10</size>
-								<explosiontexture>exp03</explosiontexture>
-								<explosionsound>none</explosionsound>
-							</delayedweapon>
-						</subweapon2>
-						<subweapon3 type="WeaponDelay">
-							<name>Dirt Wall</name>
-							<armslevel>4</armslevel>
-							<delay>1.0</delay>
-							<delayedweapon type="WeaponExplosion">
-								<name>Dirt Wall</name>
-								<armslevel>4</armslevel>
-								<deform>up</deform>
-								<hurtamount>0.0</hurtamount>
-								<nocreatedebris/>
-								<size>10</size>
-								<explosiontexture>exp03</explosiontexture>
-								<explosionsound>none</explosionsound>
-							</delayedweapon>
-						</subweapon3>
-					</nextaction>
-				</nextaction>
-			</subweapon2>
-			<subweapon3 type="WeaponRedirect">
-				<name>Dirt Wall</name>
-				<armslevel>4</armslevel>
-				<habs>false</habs>
-				<vabs>true</vabs>
-				<hredirect>-22.5</hredirect>
-				<vredirect>90</vredirect>
-				<nextaction type="WeaponTranslate">
-					<name>Dirt Wall</name>
-					<armslevel>4</armslevel>
-					<translatedist>35</translatedist>
-					<nextaction type="WeaponMulti">
-						<name>Dirt Wall</name>
-						<armslevel>4</armslevel>
-						<subweapon1 type="WeaponExplosion">
-							<name>Dirt Wall</name>
-							<armslevel>4</armslevel>
-							<deform>up</deform>
-							<hurtamount>0.0</hurtamount>
-							<nocreatedebris/>
-							<size>10</size>
-							<explosiontexture>exp03</explosiontexture>
-							<explosionsound>none</explosionsound>
-						</subweapon1>
-						<subweapon2 type="WeaponDelay">
-							<name>Dirt Wall</name>
-							<armslevel>4</armslevel>
-							<delay>0.5</delay>
-							<delayedweapon type="WeaponExplosion">
-								<name>Dirt Wall</name>
-								<armslevel>4</armslevel>
-								<deform>up</deform>
-								<hurtamount>0.0</hurtamount>
-								<nocreatedebris/>
-								<size>10</size>
-								<explosiontexture>exp03</explosiontexture>
-								<explosionsound>none</explosionsound>
-							</delayedweapon>
-						</subweapon2>
-						<subweapon3 type="WeaponDelay">
-							<name>Dirt Wall</name>
-							<armslevel>4</armslevel>
-							<delay>1.0</delay>
-							<delayedweapon type="WeaponExplosion">
-								<name>Dirt Wall</name>
-								<armslevel>4</armslevel>
-								<deform>up</deform>
-								<hurtamount>0.0</hurtamount>
-								<nocreatedebris/>
-								<size>10</size>
-								<explosiontexture>exp03</explosiontexture>
-								<explosionsound>none</explosionsound>
-							</delayedweapon>
-						</subweapon3>
-					</nextaction>
-				</nextaction>
-			</subweapon3>
-		</delayedweapon>
 	</accessory>
 	<accessory type="WeaponMulti">	
 		<name>Lightning</name>

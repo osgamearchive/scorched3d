@@ -221,7 +221,7 @@
 			<item>USA</item>
 		</defn>
 		<tex>
-			<item>sand</item>
+			<item>usa-summer</item>
 		</tex>
 	</landscape>
 	<landscape>
@@ -474,6 +474,7 @@
 			<item>tropical</item>
 			<item>vulcano</item>
 			<item>storm</item>
+			<item>desert</item>
 		</tex>
 	</landscape>
 	<landscape>

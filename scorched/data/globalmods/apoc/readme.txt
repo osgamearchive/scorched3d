@@ -10,18 +10,20 @@ Official Scorched 3D Site:  http://scorched3d.co.uk
 Changes Since 1.6
 	New Accessories:
 		- Bottomless Pit - Creates a narrow but deep pit at the point of impact
-		- Dirt Wall - Raises a wall of dirt a short distance from your tank in the direction you aim
 		- Earthquake - shakes the earth and does damage over a large area
-		- EMP Grenade - Explodes on impact causing damage to opponents without deforming the earth.
+		- EMP Grenade - Bounces once and explodes causing damage to opponents without deforming the earth.
 		- Hard Hat - Replacement for the old style heavy mag
 		- Hornet Swarm - Releases multiple Hornet's Nests
 		- Gas Grenade - Lands, bounces and releases a cloud of harmful gas.  Custom model by ShoCkwaVe
+		- Grenade - Bounces once and does a fairly small explosion.
 		- Lightning Strike - Explodes at the apex of the projectiles arc creating a small cloud and lightning bolt
 		- Lightning Storm - Explodes at the apex of the projectile's arc creating several lightning bolts over a few seconds
 		- Mega EMP - Larger version of the EMP grenade
 		- Mini Hard Hat - Replacement for the old style mag deflect shield
+		- Ring of Dirt - Raises multiple walls of dirt forming a ring around your tank
 		- Riot Drill - 3 heavy riot bombs are shot in rapid succession at the same point
-		
+		- Wall of Dirt - Raises a wall of dirt a short distance from your tank in the direction you aim
+
 	Other Accessory Changes:
 		- Acidic Napalm - Secondary, random splash when the bomblets impact, new texture
 		- Acid Splash - Bounces once releasing additional random bomblets.  New model/texture by ShoCkwaVe
@@ -55,45 +57,32 @@ Changes Since 1.6
 			- Acidic Napalm, Baby Funk, Fungal Bloom, Large Missile, Napalm Blast, Napalm Splash, Roller MIRV, Roller S-MIRV, Sandfish, Sandhog Blast, Shotgun, Terraform, X-MIRV
 
 ----------------------------------------------------
-                  Install Notes
-----------------------------------------------------
-To install the mod:
-
-Windows:
-Extract the mod into /documents and settings/current user/.scorched/mods
-
-Linux:
-???  Install to the equivalent directory as above
-
-MacOS:
-???  Install to the equivalent directory as above
-
-----------------------------------------------------
                      Files
 ----------------------------------------------------
-AUTHORS		   - Contains the names of all contributors to the Apocalypse Mod, and what they contributed
-LICENSE		   - License for the mod and related materials
-README		   - This file
-README-NEXUS	   - Readme file that comes with Nexus6's maps
-TODO		   - My little list of things I am thinking about doing/adding
+authors.txt			- Contains the names of all contributors to the Apocalypse Mod, and what they contributed
+license.txt			- License for the mod and related materials
+readme.txt			- This file
+readme-nexus.txt	- Readme file that comes with Nexus6's maps
 
-data/		   - Directory containing all data files and other media used by the mod
-accessories.xml    - File containing all the item/weapons for the game
-ainames.txt	   - Contains the custom names for the bots (all names of countries for Apocalypse)
-landscapes.xml     - File containing basic landscape data
-landscapesdefn.xml - Detailed landscape data
-landscapestex.xml  - Defines all the texture (and object) layouts that are used by the landscapes
-server.xml	   - Example Server settings for running an Apocalypse Server
-singleeasy.xml	   - Default easy difficulty single player game settings for Apocalypse
-singlenormal.xml   - Default normal difficulty single player game settings for Apocalypse
-singlehard.xml	   - Default hard difficulty single player game settings for Apocalypse
-tankais.xml	   - File containing parameters for the ai players
-textureset.xml     - Definitions for the textures used in explosion animations
+data/				- Directory containing all data files and other media used by the mod
+accessories.xml		- File containing all the item/weapons for the game
+ainames.txt			- Contains the custom names for the bots (all names of countries for Apocalypse)
+landscapes.xml		- File containing basic landscape data
+landscapesdefn.xml	- Detailed landscape data
+landscapestex.xml	- Defines all the texture (and object) layouts that are used by the landscapes
+server.xml			- Example Server settings for running an Apocalypse Server
+singletarget.xml	- Default target practice game settings
+singleeasy.xml		- Default easy difficulty single player game settings
+singlenormal.xml	- Default normal difficulty single player game settings
+singlehard.xml		- Default hard difficulty single player game settings
+singlegames.xml		- Defines menu icons/text for the mod
+tankais.xml			- File containing parameters for the ai players
+textureset.xml		- Definitions for the textures used in explosion animations
 
-data/accessories/* - All custom models and their textures used by the mod
-data/landscapes/*  - All the custom heightmap and picture files for Apocalypse landscapes
-data/textures/*	   - All custom weapon icons, explosion textures or landscape textures used by the mod
-data/wav/*	   - All custom sounds used by the mod
+data/accessories/*	- All custom models and their textures used by the mod
+data/landscapes/*	- All the custom heightmap and picture files for Apocalypse landscapes
+data/textures/*		- All custom weapon icons, explosion textures or landscape textures used by the mod
+data/wav/*			- All custom sounds used by the mod
 
 Note: Server settings are not required but are provided as an example
 
