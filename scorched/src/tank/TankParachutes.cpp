@@ -18,17 +18,9 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// TankParachutes.cpp: implementation of the TankParachutes class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <tank/TankParachutes.h>
+#include <weapons/AccessoryStore.h>
 #include <stdio.h>
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 TankParachutes::TankParachutes()
 {
@@ -42,7 +34,7 @@ TankParachutes::~TankParachutes()
 
 void TankParachutes::setParachutesEnabled(bool enabled)
 {
-	if (enabled && parachuteCount_ > 0)
+	if (enabled && (parachuteCount_ == -1 || parachuteCount_ > 0))
 	{
 		parachutesEnabled_ = true;
 	}
@@ -58,6 +50,22 @@ void TankParachutes::reset()
 	parachuteCount_ = 0;
 	parachuteThreshold_ = 0.0f;
 	setParachutesEnabled(false);	
+
+	std::list<Accessory *> accessories = 
+		AccessoryStore::instance()->getAllWeapons();
+	std::list<Accessory *>::iterator itor;
+	for (itor = accessories.begin();
+		itor != accessories.end();
+		itor++)
+	{
+		Accessory *accessory = (*itor);
+		if (accessory->getType() == Accessory::AccessoryParachute &&
+			accessory->getPrice() == 0 && 
+			accessory->getBundle() == 0)
+		{
+			addParachutes(-1);
+		}
+	}
 }
 
 void TankParachutes::newGame()
@@ -67,15 +75,18 @@ void TankParachutes::newGame()
 
 void TankParachutes::useParachutes(int no)
 {
-	parachuteCount_ -= no;
 	if (parachuteCount_ > 0)
 	{
-		setParachutesEnabled(parachutesEnabled_);
-	}
-	else
-	{
-		parachuteCount_ = 0;
-		setParachutesEnabled(false);
+		parachuteCount_ -= no;
+		if (parachuteCount_ > 0)
+		{
+			setParachutesEnabled(parachutesEnabled_);
+		}
+		else
+		{
+			parachuteCount_ = 0;
+			setParachutesEnabled(false);
+		}
 	}
 }
 

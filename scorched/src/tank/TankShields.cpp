@@ -26,7 +26,7 @@
 
 TankShields::TankShields()
 {
-	newGame();
+	reset();
 }
 
 TankShields::~TankShields()
@@ -38,6 +38,22 @@ void TankShields::reset()
 {
 	shields_.clear();
 	newGame();
+
+	std::list<Accessory *> accessories = 
+		AccessoryStore::instance()->getAllWeapons();
+	std::list<Accessory *>::iterator itor;
+	for (itor = accessories.begin();
+		itor != accessories.end();
+		itor++)
+	{
+		Accessory *accessory = (*itor);
+		if (accessory->getType() == Accessory::AccessoryShield &&
+			accessory->getPrice() == 0 && 
+			accessory->getBundle() == 0)
+		{
+			addShield((Shield*) accessory, -1);
+		}
+	}
 }
 
 void TankShields::newGame()
@@ -74,7 +90,7 @@ void TankShields::setShieldPower(float power)
 void TankShields::addShield(Shield *sh, int count)
 {
 	std::map<Shield*, int>::iterator itor = shields_.find(sh);
-	if (itor == shields_.end())
+	if (itor == shields_.end() || count < 0)
 	{
 		shields_[sh] = count;
 	}
@@ -89,10 +105,13 @@ void TankShields::rmShield(Shield *sh, int count)
 	std::map<Shield*, int>::iterator itor = shields_.find(sh);
 	if (itor != shields_.end())
 	{
-		shields_[sh] -= count;
-		if (shields_[sh] <= 0)
+		if (shields_[sh] > 0)
 		{
-			shields_.erase(itor);
+			shields_[sh] -= count;
+			if (shields_[sh] <= 0)
+			{
+				shields_.erase(itor);
+			}
 		}
 	}
 }

@@ -24,6 +24,7 @@
 #include <common/Defines.h>
 #include <wx/wx.h>
 #include <wx/image.h>
+#include <wx/notebook.h>
 #include <set>
 #include "Display.cpp"
 
@@ -41,6 +42,11 @@ public:
 	void onLoadDefaultsButton();
 	void onLoadSafeButton();
 	void onMoreRes();
+
+	wxNotebook *book_;
+	wxPanel *mainPanel_;
+	wxPanel *troublePanel_;
+	wxPanel *identPanel_;
 
 protected:
 	DECLARE_EVENT_TABLE()
@@ -67,8 +73,42 @@ DisplayFrame::DisplayFrame() :
 	// Create the size for the layout
 	wxBoxSizer *topsizer = new wxBoxSizer(wxVERTICAL);
 
-	// Create all the display controlls
-	createControls(this, topsizer);
+	// Create all the display controls
+	book_ = new wxNotebook(this, -1);
+	wxNotebookSizer *nbs = new wxNotebookSizer(book_);
+
+	// Main Panel
+	mainPanel_ = new wxPanel(book_, -1);
+	book_->AddPage(mainPanel_, "Main");
+	wxSizer *mainPanelSizer = new wxBoxSizer(wxVERTICAL);
+	createMainControls(mainPanel_, mainPanelSizer);
+	mainPanel_->SetAutoLayout(TRUE);
+	mainPanel_->SetSizer(mainPanelSizer);
+	
+	// Trouble Panel
+	troublePanel_ = new wxPanel(book_, -1);
+	wxSizer *troublePanelSizer = new wxBoxSizer(wxVERTICAL);
+	createTroubleControls(troublePanel_, troublePanelSizer);
+	book_->AddPage(troublePanel_, "Troubleshooting / Detail");
+	troublePanel_->SetAutoLayout(TRUE);
+	troublePanel_->SetSizer(troublePanelSizer);
+
+	// Ident Panel
+	identPanel_ = new wxPanel(book_, -1);
+	wxSizer *identPanelSizer = new wxBoxSizer(wxVERTICAL);
+	createIdentControls(identPanel_, identPanelSizer);
+	book_->AddPage(identPanel_, "Identity");
+	identPanel_->SetAutoLayout(TRUE);
+	identPanel_->SetSizer(identPanelSizer);
+	topsizer->Add(nbs, 0, wxALL, 10);
+
+	// Ok and cancel boxes
+	wxBoxSizer *buttonSizer = new wxBoxSizer(wxHORIZONTAL);
+	IDOK_CTRL = new wxButton(this, wxID_OK, "Ok");
+	IDCANCEL_CTRL = new wxButton(this, wxID_CANCEL, "Cancel");
+	buttonSizer->Add(IDCANCEL_CTRL, 0, wxRIGHT, 5);
+	buttonSizer->Add(IDOK_CTRL, 0, wxLEFT, 5);
+	topsizer->Add(buttonSizer, 0, wxALIGN_RIGHT | wxRIGHT | wxBOTTOM, 10);
 
 	SetSizer(topsizer); // use the sizer for layout
 	topsizer->SetSizeHints(this); // set size hints to honour minimum size

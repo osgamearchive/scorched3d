@@ -31,6 +31,10 @@ TankPhysics::TankPhysics(ScorchedContext &context, unsigned int playerId) :
 	turretRotXY_(0.0f), turretRotYZ_(0.0f),
 	angle_(0.0f), power_(1000.0f), tank_(0), context_(context)
 {
+	// Only make the very first shot random angle
+	turretRotXY_ = RAND * 360;
+	turretRotYZ_ = RAND * 90;
+
 	// The tank collision object
 	tankGeom_ = 
 		dCreateSphere(context.actionController.getPhysics().getSpace(), 2.0f);
@@ -65,11 +69,8 @@ void TankPhysics::setTankPosition(Vector &pos)
 
 void TankPhysics::clientNewGame()
 {
-	angle_ = 0.0f;
 	power_ = 1000.0f;
-	turretRotXY_ = RAND * 360;
-	turretRotYZ_ = RAND * 90;
-	
+	angle_ = 0.0f;
 	oldShots_.clear();
 	madeShot();
 }

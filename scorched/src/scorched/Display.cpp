@@ -20,7 +20,7 @@
 
 #include "Display-def.cpp"
 
-static void createControls(wxWindow *parent, wxSizer *sizer)
+static void createMainControls(wxWindow *parent, wxSizer *sizer)
 {
 	// Display settings
 	wxStaticBox *displayBox = new wxStaticBox(parent, -1, "Display");
@@ -49,6 +49,7 @@ static void createControls(wxWindow *parent, wxSizer *sizer)
 	displaySizer2->Add(IDC_SLIDER1_CTRL, 0);
 	displaySizer2->Add(IDC_MORERES_CTRL, 0, wxALIGN_CENTRE_VERTICAL);
 	displaySizer->Add(displaySizer2, 0);
+
 	wxFlexGridSizer *displaySizer3 = new wxFlexGridSizer(1, 6, 5, 5);
 	IDC_TINYDIALOGS_CTRL = new wxRadioButton(parent, -1, "Tiny", 
 		wxDefaultPosition, wxDefaultSize, wxRB_GROUP);
@@ -65,6 +66,53 @@ static void createControls(wxWindow *parent, wxSizer *sizer)
 	displaySizer->Add(displaySizer3, 0, wxTOP | wxBOTTOM, 10);
 	sizer->Add(displaySizer, 0, wxGROW | wxLEFT | wxRIGHT | wxTOP, 5);
 
+	// Misc switches 
+	wxStaticBox *miscBox = new wxStaticBox(parent, -1, 
+		"Misc. Options");
+	wxStaticBoxSizer *miscSizer = new wxStaticBoxSizer(miscBox, wxHORIZONTAL);
+	wxGridSizer *miscSizer2 = new wxGridSizer(3, 3, 10, 10);
+	IDC_INVERT_CTRL = 
+		new wxCheckBox(parent, -1, "Invert elevation direction",
+		wxDefaultPosition, wxSize((int) 150, (int) -1));
+	miscSizer2->Add(IDC_INVERT_CTRL, 0);
+	IDC_INVERTMOUSE_CTRL = 
+		new wxCheckBox(parent, -1, "Invert mouse direction",
+		wxDefaultPosition, wxSize((int) 150, (int) -1));
+	miscSizer2->Add(IDC_INVERTMOUSE_CTRL, 0);
+	IDC_TIMER_CTRL = 
+		new wxCheckBox(parent, -1, "Show frames per second",
+		wxDefaultPosition, wxSize((int) 150, (int) -1));
+	miscSizer2->Add(IDC_TIMER_CTRL, 0);
+	IDC_NOSOUND_CTRL = 
+		new wxCheckBox(parent, -1, "No Sound",
+		wxDefaultPosition, wxSize((int) 150, (int) -1));
+	miscSizer2->Add(IDC_NOSOUND_CTRL, 0);
+	IDC_TOOLTIP_CTRL = 
+		new wxCheckBox(parent, -1, "Show ToolTips",
+		wxDefaultPosition, wxSize((int) 150, (int) -1));
+	miscSizer2->Add(IDC_TOOLTIP_CTRL, 0);
+	IDC_SMOUSE_CTRL = 
+		new wxCheckBox(parent, -1, "Software Mouse",
+		wxDefaultPosition, wxSize((int) 150, (int) -1));
+	miscSizer2->Add(IDC_SMOUSE_CTRL, 0);
+	IDC_SIDESCROLL_CTRL = 
+		new wxCheckBox(parent, -1, "Side Scrolling",
+		wxDefaultPosition, wxSize((int) 150, (int) -1));
+	miscSizer2->Add(IDC_SIDESCROLL_CTRL, 0);
+	miscSizer->Add(miscSizer2, 0, wxGROW);
+	sizer->Add(miscSizer, 0, wxGROW | wxLEFT | wxRIGHT | wxTOP, 5);
+
+	// Load settings
+	wxBoxSizer *loadSizer = new wxBoxSizer(wxHORIZONTAL);
+	IDC_LOADDEFAULTS_CTRL = new wxButton(parent, ID_LOADDEFAULTS, "Restore Defaults");
+	IDC_LOADSAFE_CTRL = new wxButton(parent, ID_LOADSAFE, "Safe Options");
+	loadSizer->Add(IDC_LOADDEFAULTS_CTRL, 0, wxALL, 10);
+	loadSizer->Add(IDC_LOADSAFE_CTRL, 0, wxALL, 10);
+	sizer->Add(loadSizer, 0, wxALIGN_CENTER);
+}
+
+void createTroubleControls(wxWindow *parent, wxSizer *sizer)
+{
 	// Texture sizes (small med large)
 	wxStaticBox *textureBox = new wxStaticBox(parent, -1, "Level of Detail settings");
 	wxStaticBoxSizer *textureSizer = new wxStaticBoxSizer(textureBox, wxHORIZONTAL);
@@ -179,43 +227,10 @@ static void createControls(wxWindow *parent, wxSizer *sizer)
 	troubleSizer2->Add(IDC_FULLCLEAR_CTRL, 0);
 	troubleSizer->Add(troubleSizer2, 0, wxGROW);
 	sizer->Add(troubleSizer, 0, wxGROW | wxLEFT | wxRIGHT | wxTOP, 5);
+}
 
-	// Misc switches 
-	wxStaticBox *miscBox = new wxStaticBox(parent, -1, 
-		"Misc. Options");
-	wxStaticBoxSizer *miscSizer = new wxStaticBoxSizer(miscBox, wxHORIZONTAL);
-	wxGridSizer *miscSizer2 = new wxGridSizer(3, 3, 10, 10);
-	IDC_INVERT_CTRL = 
-		new wxCheckBox(parent, -1, "Invert elevation direction",
-		wxDefaultPosition, wxSize((int) 150, (int) -1));
-	miscSizer2->Add(IDC_INVERT_CTRL, 0);
-	IDC_INVERTMOUSE_CTRL = 
-		new wxCheckBox(parent, -1, "Invert mouse direction",
-		wxDefaultPosition, wxSize((int) 150, (int) -1));
-	miscSizer2->Add(IDC_INVERTMOUSE_CTRL, 0);
-	IDC_TIMER_CTRL = 
-		new wxCheckBox(parent, -1, "Show frames per second",
-		wxDefaultPosition, wxSize((int) 150, (int) -1));
-	miscSizer2->Add(IDC_TIMER_CTRL, 0);
-	IDC_NOSOUND_CTRL = 
-		new wxCheckBox(parent, -1, "No Sound",
-		wxDefaultPosition, wxSize((int) 150, (int) -1));
-	miscSizer2->Add(IDC_NOSOUND_CTRL, 0);
-	IDC_TOOLTIP_CTRL = 
-		new wxCheckBox(parent, -1, "Show ToolTips",
-		wxDefaultPosition, wxSize((int) 150, (int) -1));
-	miscSizer2->Add(IDC_TOOLTIP_CTRL, 0);
-	IDC_SMOUSE_CTRL = 
-		new wxCheckBox(parent, -1, "Software Mouse",
-		wxDefaultPosition, wxSize((int) 150, (int) -1));
-	miscSizer2->Add(IDC_SMOUSE_CTRL, 0);
-	IDC_SIDESCROLL_CTRL = 
-		new wxCheckBox(parent, -1, "Side Scrolling",
-		wxDefaultPosition, wxSize((int) 150, (int) -1));
-	miscSizer2->Add(IDC_SIDESCROLL_CTRL, 0);
-	miscSizer->Add(miscSizer2, 0, wxGROW);
-	sizer->Add(miscSizer, 0, wxGROW | wxLEFT | wxRIGHT | wxTOP, 5);
-
+void createIdentControls(wxWindow *parent, wxSizer *sizer)
+{
 	// User id edit box
 	wxStaticBox *userBox = new wxStaticBox(parent, -1, 
 		"User ID (Uniquely identifies this player for stats, not generated from any user information.)");
@@ -225,21 +240,4 @@ static void createControls(wxWindow *parent, wxSizer *sizer)
 	IDC_HOSTDESC_CTRL = new wxTextCtrl(parent, -1, wxString(), wxDefaultPosition, wxSize(300, -1));
 	userSizer->Add(IDC_HOSTDESC_CTRL, 0, wxALIGN_CENTER);
 	sizer->Add(userSizer, 0, wxGROW | wxLEFT | wxRIGHT | wxTOP, 5);
-
-	// Load settings
-	wxBoxSizer *loadSizer = new wxBoxSizer(wxHORIZONTAL);
-	IDC_LOADDEFAULTS_CTRL = new wxButton(parent, ID_LOADDEFAULTS, "Restore Defaults");
-	IDC_LOADSAFE_CTRL = new wxButton(parent, ID_LOADSAFE, "Safe Options");
-	loadSizer->Add(IDC_LOADDEFAULTS_CTRL, 0, wxALL, 10);
-	loadSizer->Add(IDC_LOADSAFE_CTRL, 0, wxALL, 10);
-	sizer->Add(loadSizer, 0, wxALIGN_CENTER);
-
-	// Ok and cancel boxes
-	wxBoxSizer *buttonSizer = new wxBoxSizer(wxHORIZONTAL);
-	IDOK_CTRL = new wxButton(parent, wxID_OK, "Ok");
-	IDCANCEL_CTRL = new wxButton(parent, wxID_CANCEL, "Cancel");
-	buttonSizer->Add(IDCANCEL_CTRL, 0, wxALL, 10);
-	buttonSizer->Add(IDOK_CTRL, 0, wxALL, 10);
-	sizer->Add(buttonSizer, 0, wxALIGN_RIGHT);
 }
-
