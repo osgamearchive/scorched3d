@@ -44,8 +44,9 @@ public:
 	virtual void clear() { panel_.clear(); }
 	virtual bool initFromXML(XMLNode *node);
 
-	GLWidget *addWidget(GLWVisibleWidget *widget, GLWCondition *condition = 0) { 
-		return panel_.addWidget(widget, condition); }
+	GLWidget *addWidget(GLWVisibleWidget *widget, GLWCondition *condition = 0,
+		unsigned int flags = 0, float width = 0.0f) { 
+		return panel_.addWidget(widget, condition, flags, width); }
 	std::list<GLWPanel::GLWPanelEntry> &getWidgets() { return panel_.getWidgets(); }
 
 	GLWPanel &getPanel() { return panel_; }

@@ -27,13 +27,30 @@
 class GLWPanel : public GLWidget
 {
 public:
+	enum LayoutFlags
+	{
+		SpaceRight = 1,
+		SpaceLeft = 2,
+		SpaceTop = 4,
+		SpaceBottom = 8,
+		AlignLeft = 16,
+		AlignRight = 32,
+		AlignTop = 64,
+		AlignBottom = 128
+	};
+
 	struct GLWPanelEntry
 	{
-		GLWPanelEntry(GLWidget *w, GLWCondition *c) : 
-			widget(w), condition(c) { }
+		GLWPanelEntry(GLWidget *widget, GLWCondition *con,
+			unsigned int flags, float width); 
 
 		GLWidget *widget;
 		GLWCondition *condition;
+		float leftSpace;
+		float rightSpace;
+		float topSpace;
+		float bottomSpace;
+		unsigned flags;
 	};
 
 	GLWPanel();
@@ -51,7 +68,8 @@ public:
 	virtual bool initFromXML(XMLNode *node);
 	virtual void clear();
 
-	GLWidget *addWidget(GLWidget *widget, GLWCondition *condition = 0);
+	GLWidget *addWidget(GLWidget *widget, GLWCondition *condition = 0, 
+		unsigned int flags = 0, float width = 0.0f);
 	std::list<GLWPanelEntry> &getWidgets() { return widgets_; }
 
 	REGISTER_CLASS_HEADER(GLWPanel);

@@ -21,6 +21,18 @@
 #include <GLEXT/GLState.h>
 #include <GLW/GLWPanel.h>
 
+GLWPanel::GLWPanelEntry::GLWPanelEntry(GLWidget *w, GLWCondition *c,
+	unsigned int f, float wi) :
+	widget(w), condition(c), flags(f),
+	leftSpace(0.0f), rightSpace(0.0f),
+	topSpace(0.0f), bottomSpace(0.0f)
+{
+	if (f & GLWPanel::SpaceRight) rightSpace = wi;
+	if (f & GLWPanel::SpaceLeft) leftSpace = wi;
+	if (f & GLWPanel::SpaceTop) topSpace = wi;
+	if (f & GLWPanel::SpaceBottom) bottomSpace = wi;
+}
+
 REGISTER_CLASS_SOURCE(GLWPanel);
 
 GLWPanel::GLWPanel() : GLWidget()
@@ -33,9 +45,10 @@ GLWPanel::~GLWPanel()
 	clear();
 }
 
-GLWidget *GLWPanel::addWidget(GLWidget *widget, GLWCondition *condition)
+GLWidget *GLWPanel::addWidget(GLWidget *widget, GLWCondition *condition, 
+	unsigned int flags, float width)
 {
-	GLWPanelEntry entry(widget, condition);
+	GLWPanelEntry entry(widget, condition, flags, width);
 	widgets_.push_back(entry);
 	widget->setParent(this);
 	return widget;
