@@ -1627,24 +1627,6 @@
 				RelativePath="..\weapons\WeaponMirv.h">
 			</File>
 			<File
-				RelativePath="..\weapons\WeaponWedge.cpp">
-			</File>
-			<File
-				RelativePath="..\weapons\WeaponWedge.h">
-			</File>
-			<File
-				RelativePath="..\weapons\WeaponTranslate.h">
-			</File>
-			<File
-				RelativePath="..\weapons\WeaponTranslate.cpp">
-			</File>
-			<File
-				RelativePath="..\weapons\WeaponVelocity.h">
-			</File>
-			<File
-				RelativePath="..\weapons\WeaponVelocity.cpp">
-			</File>
-			<File
 				RelativePath="..\weapons\WeaponMulti.cpp">
 			</File>
 			<File
@@ -1673,6 +1655,18 @@
 			</File>
 			<File
 				RelativePath="..\weapons\WeaponRoller.h">
+			</File>
+			<File
+				RelativePath="..\weapons\WeaponTranslate.cpp">
+			</File>
+			<File
+				RelativePath="..\weapons\WeaponTranslate.h">
+			</File>
+			<File
+				RelativePath="..\weapons\WeaponVelocity.cpp">
+			</File>
+			<File
+				RelativePath="..\weapons\WeaponVelocity.h">
 			</File>
 		</Filter>
 		<Filter
@@ -2218,16 +2212,16 @@
 				RelativePath="..\actions\ActionVector.h">
 			</File>
 			<File
-				RelativePath="..\actions\CameraPositionAction.cpp">
-			</File>
-			<File
-				RelativePath="..\actions\CameraPositionAction.h">
-			</File>
-			<File
 				RelativePath="..\actions\Animation.cpp">
 			</File>
 			<File
 				RelativePath="..\actions\Animation.h">
+			</File>
+			<File
+				RelativePath="..\actions\CameraPositionAction.cpp">
+			</File>
+			<File
+				RelativePath="..\actions\CameraPositionAction.h">
 			</File>
 			<File
 				RelativePath="..\actions\Explosion.cpp">
@@ -2252,12 +2246,6 @@
 			</File>
 			<File
 				RelativePath="..\actions\ShotBounce.h">
-			</File>
-			<File
-				RelativePath="..\actions\ShotWedge.cpp">
-			</File>
-			<File
-				RelativePath="..\actions\ShotWedge.h">
 			</File>
 			<File
 				RelativePath="..\actions\ShotProjectile.cpp">
@@ -2378,6 +2366,12 @@
 				RelativePath="..\sprites\FlareActionRenderer.h">
 			</File>
 			<File
+				RelativePath="..\sprites\MetaActionRenderer.cpp">
+			</File>
+			<File
+				RelativePath="..\sprites\MetaActionRenderer.h">
+			</File>
+			<File
 				RelativePath="..\sprites\MissileActionRenderer.cpp">
 			</File>
 			<File
@@ -2390,16 +2384,16 @@
 				RelativePath="..\sprites\NapalmRenderer.h">
 			</File>
 			<File
-				RelativePath="..\sprites\SphereActionRenderer.cpp">
-			</File>
-			<File
-				RelativePath="..\sprites\SphereActionRenderer.h">
-			</File>
-			<File
 				RelativePath="..\sprites\SmokeActionRenderer.cpp">
 			</File>
 			<File
 				RelativePath="..\sprites\SmokeActionRenderer.h">
+			</File>
+			<File
+				RelativePath="..\sprites\SphereActionRenderer.cpp">
+			</File>
+			<File
+				RelativePath="..\sprites\SphereActionRenderer.h">
 			</File>
 			<File
 				RelativePath="..\sprites\SprayActionRenderer.cpp">
@@ -2424,12 +2418,6 @@
 			</File>
 			<File
 				RelativePath="..\sprites\TextActionRenderer.h">
-			</File>
-			<File
-				RelativePath="..\sprites\MetaActionRenderer.cpp">
-			</File>
-			<File
-				RelativePath="..\sprites\MetaActionRenderer.h">
 			</File>
 			<File
 				RelativePath="..\sprites\WallActionRenderer.cpp">

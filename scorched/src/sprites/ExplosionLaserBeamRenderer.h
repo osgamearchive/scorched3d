@@ -49,7 +49,7 @@ private:
 	float totalTime_;
 	Vector points[layers][sides];
 	float angle_;
-	GLTexture *_texture;
+	static GLTexture *_texture;
 
 };
 #endif

@@ -97,7 +97,7 @@ void Explosion::init()
 						*texture,
 						expColor,
 						explosionSize, 
-						explosionLevel_));
+						(explosionLevel_ > 0.0f)));
 			}
 		}
 

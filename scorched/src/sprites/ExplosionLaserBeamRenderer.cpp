@@ -26,12 +26,20 @@
 
 REGISTER_CLASS_SOURCE(ExplosionLaserBeamRenderer);
 
+GLTexture *ExplosionLaserBeamRenderer::_texture = 0;
+
 ExplosionLaserBeamRenderer::~ExplosionLaserBeamRenderer()
 {
 }
 
 ExplosionLaserBeamRenderer::ExplosionLaserBeamRenderer():
 	totalTime_(0), time_(0), size_(12.0f), angle_(0)
+{
+
+}
+
+void ExplosionLaserBeamRenderer::init(unsigned int playerId,
+	Vector &position, Vector &velocity)
 {
 	CACHE_SOUND(sound, (char *) getDataFile("data/wav/misc/laserdeath.wav"));
 	sound->play();
@@ -41,19 +49,15 @@ ExplosionLaserBeamRenderer::ExplosionLaserBeamRenderer():
 			points[j][i]=Vector((float)(360/sides)*i,(double)((size_/(layers+1))*(j+1)));
 		}
 	}
-	_texture = 0;
-
-	std::string file1 = getDataFile("data/textures/waves.bmp");
+	if (!_texture)
+	{
+		std::string file1 = getDataFile("data/textures/waves.bmp");
 	
-	GLBitmap map(file1.c_str(), file1.c_str(), false);
-	_texture = new GLTexture;
-	_texture->create(map, GL_RGBA, true);
-	//GLConsole::instance()->addLine(false, "Size=%f", size_);
-}
+		GLBitmap map(file1.c_str(), file1.c_str(), false);
+		_texture = new GLTexture;
+		_texture->create(map, GL_RGBA, true);
+	}
 
-void ExplosionLaserBeamRenderer::init(unsigned int playerId,
-	Vector &position, Vector &velocity)
-{
 	position_ = position;
 }
 

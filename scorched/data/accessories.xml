@@ -911,14 +911,177 @@ trace of the shot path.</description>
 		<bundlesize></bundlesize>
 		<armslevel></armslevel>
 		<deathanimationweight>10</deathanimationweight>
-		<renderer>ExplosionLaserBeamRenderer</renderer>
+		<animation>ExplosionLaserBeamRenderer</animation>
 	</accessory>
-	<accessory type="WeaponWedge">
-		<name>TestWedge</name>
-		<description>A test of the wedge weapon</description>
-		<icon></icon>
-		<cost>0</cost>
+	<accessory type="WeaponTranslate">
+		<name>Riot Charge</name>
+		<description>Riot Charges destroy a wedge-shaped section of
+dirt from around your turret.  This weapon's
+primary use is to unbury yourself when you get
+covered with dirt.
+		</description>
+		<icon>rcharge.bmp</icon>
+		<cost>2000</cost>
 		<bundlesize>10</bundlesize>
-		<armslevel>1</armslevel>
+		<armslevel>8</armslevel>
+		<translatedist>2.0</translatedist>
+		<nextaction type="WeaponMulti">	
+			<name>Riot Charge</name>
+			<armslevel>8</armslevel>
+			<subweapon1 type="WeaponExplosion">
+				<name>Riot Charge</name>
+				<armslevel>8</armslevel>
+				<hurtamount>0.0</hurtamount>
+				<deform>down</deform>
+				<size>2</size>
+				<explosiontexture>exp03</explosiontexture>
+				<explosionsound>explosions/crunch.wav</explosionsound>				
+			</subweapon1>		
+			<subweapon2 type="WeaponTranslate">
+				<name>Riot Charge</name>
+				<armslevel>8</armslevel>
+				<translatedist>3.0</translatedist>
+				<nextaction type="WeaponMulti">
+					<name>Riot Charge</name>
+					<armslevel>8</armslevel>
+					<subweapon1 type="WeaponExplosion">
+						<name>Riot Charge</name>
+						<armslevel>8</armslevel>
+						<hurtamount>0.0</hurtamount>
+						<deform>down</deform>
+						<size>5</size>
+						<explosiontexture>exp03</explosiontexture>
+						<explosionsound>none</explosionsound>				
+					</subweapon1>	
+					<subweapon2 type="WeaponTranslate">
+						<name>Riot Charge</name>
+						<armslevel>8</armslevel>
+						<translatedist>6.0</translatedist>
+						<nextaction type="WeaponExplosion">
+							<name>Riot Charge</name>
+							<armslevel>7</armslevel>
+							<hurtamount>0.0</hurtamount>
+							<deform>down</deform>
+							<size>6</size>
+							<explosiontexture>exp03</explosiontexture>
+							<explosionsound>none</explosionsound>					
+						</nextaction>
+					</subweapon2>	
+				</nextaction>
+			</subweapon2>
+		</nextaction>
+	</accessory>
+	<accessory type="WeaponTranslate">
+		<name>Riot Blast</name>
+		<description>Riot Blasts are a larger version of the Riot
+Charge.  The destroy a wider angle of dirt, and
+the thickness of the wedge destroyed is also greater.
+		</description>
+		<icon>rblast.bmp</icon>
+		<armslevel>7</armslevel>	
+		<cost>5000</cost>
+		<bundlesize>5</bundlesize>
+		<translatedist>2.0</translatedist>
+		<nextaction type="WeaponMulti">	
+			<name>Riot Blast</name>
+			<armslevel>7</armslevel>
+			<subweapon1 type="WeaponExplosion">
+				<name>Riot Blast</name>
+				<armslevel>7</armslevel>
+				<hurtamount>0.0</hurtamount>
+				<deform>down</deform>
+				<size>4</size>
+				<explosiontexture>exp03</explosiontexture>
+				<explosionsound>explosions/crunch.wav</explosionsound>				
+			</subweapon1>		
+			<subweapon2 type="WeaponTranslate">
+				<name>Riot Blast</name>
+				<armslevel>7</armslevel>
+				<translatedist>3.0</translatedist>
+				<nextaction type="WeaponMulti">
+					<name>Riot Blast</name>
+					<armslevel>7</armslevel>
+					<subweapon1 type="WeaponExplosion">
+						<name>Riot Blast</name>
+						<armslevel>7</armslevel>
+						<hurtamount>0.0</hurtamount>
+						<deform>down</deform>
+						<size>7</size>
+						<explosiontexture>exp03</explosiontexture>
+						<explosionsound>none</explosionsound>				
+					</subweapon1>	
+					<subweapon2 type="WeaponTranslate">
+						<name>Riot Blast</name>
+						<armslevel>7</armslevel>
+						<translatedist>6.0</translatedist>
+						<nextaction type="WeaponExplosion">
+							<name>Riot Charge</name>
+							<armslevel>7</armslevel>
+							<hurtamount>0.0</hurtamount>
+							<deform>down</deform>
+							<size>10</size>
+							<explosiontexture>exp03</explosiontexture>
+							<explosionsound>none</explosionsound>					
+						</nextaction>
+					</subweapon2>	
+				</nextaction>
+			</subweapon2>
+		</nextaction>
+	</accessory>
+	<accessory type="WeaponTranslate">
+		<name>Dirt Charge</name>
+		<description>A Dirt Charge expels a cloud of dirt into 
+the air in a wedge shape.
+		</description>
+		<icon>dcharge.bmp</icon>
+		<armslevel>9</armslevel>	
+		<cost>5000</cost>
+		<bundlesize>5</bundlesize>
+		<translatedist>3.0</translatedist>
+		<nextaction type="WeaponMulti">	
+			<name>Dirt Charge</name>
+			<armslevel>9</armslevel>
+			<subweapon1 type="WeaponExplosion">
+				<name>Dirt Charge</name>
+				<armslevel>9</armslevel>
+				<hurtamount>0.0</hurtamount>
+				<deform>up</deform>
+				<size>2</size>
+				<explosiontexture>exp03</explosiontexture>
+				<explosionsound>explosions/gloop.wav</explosionsound>				
+			</subweapon1>		
+			<subweapon2 type="WeaponTranslate">
+				<name>Dirt Charge</name>
+				<armslevel>9</armslevel>
+				<translatedist>4.0</translatedist>
+				<nextaction type="WeaponMulti">
+					<name>Dirt Charge</name>
+					<armslevel>9</armslevel>
+					<subweapon1 type="WeaponExplosion">
+						<name>Dirt Charge</name>
+						<armslevel>9</armslevel>
+						<hurtamount>0.0</hurtamount>
+						<deform>up</deform>
+						<size>3</size>
+						<explosiontexture>exp03</explosiontexture>
+						<explosionsound>none</explosionsound>				
+					</subweapon1>	
+					<subweapon2 type="WeaponTranslate">
+						<name>Dirt Charge</name>
+						<armslevel>9</armslevel>
+						<translatedist>5.0</translatedist>
+						<nextaction type="WeaponExplosion">
+							<name>Dirt Charge</name>
+							<armslevel>9</armslevel>
+							<hurtamount>0.0</hurtamount>
+							<deform>up</deform>
+							<size>4</size>
+							<explosiontexture>exp03</explosiontexture>
+							<explosionsound>none</explosionsound>					
+						</nextaction>
+					</subweapon2>	
+				</nextaction>
+			</subweapon2>
+		</nextaction>
 	</accessory>
 </accessories>

@@ -49,6 +49,18 @@ bool WeaponAnimation::parseXML(XMLNode *accessoryNode)
 	}
 	rendererName_ = rendererNode->getContent();
 
+	MetaClass *newclass = MetaClassRegistration::getNewClass(
+		rendererName_.c_str());
+	if (!newclass)
+	{
+		dialogMessage("Accessory",
+			"Failed to find animation named \"%s\" in accessory \"%s\"",
+			rendererName_.c_str(),
+			name_.c_str());
+		return false;
+	}
+	delete newclass;
+
 	return true;
 }
 
