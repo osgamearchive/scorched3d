@@ -111,7 +111,8 @@ bool ClientFileHandler::processMessage(unsigned int id,
 			files.find(fileName);
 		if (findItor == files.end())
 		{
-			Logger::log(0, "Failed to find partial mod file \"%s\"", fileName);
+			Logger::log(0, "Failed to find partial mod file \"%s\"", 
+				fileName.c_str());
 			return false;
 		}
 		ModFileEntry *entry = (*findItor).second;
@@ -126,14 +127,14 @@ bool ClientFileHandler::processMessage(unsigned int id,
 		{
 			// Finished
 			Logger::log(0, "  %s - %i bytes",
-				fileName,
+				fileName.c_str(),
 				entry->getCompressedSize());
 
 			// Wrong size
 			if (entry->getCompressedSize() != maxsize)
 			{
 				Logger::log(0, "Downloaded mod file incorrect size \"%s\"",
-					fileName);
+					fileName.c_str());
 				return false;
 			}
 
@@ -141,7 +142,7 @@ bool ClientFileHandler::processMessage(unsigned int id,
 			if (!entry->writeModFile(fileName.c_str()))
 			{
 				Logger::log(0, "Failed to write mod file \"%s\"",
-					fileName);
+					fileName.c_str());
 				return false;
 			}
 		}
