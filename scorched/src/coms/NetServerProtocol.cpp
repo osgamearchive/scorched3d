@@ -122,6 +122,11 @@ NetMessage *NetServerScorchedProtocol::readBuffer(TCPsocket socket)
 
 		result += recv;
 		len -= recv;
+
+		if (len > 0)
+		{
+			Logger::log(0, "Partial read, %i/%i", recv, len + recv);
+		}
 	}
 	NetInterface::getBytesIn() += result;
 

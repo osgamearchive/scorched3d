@@ -172,18 +172,18 @@ bool NetServerRead::pollIncoming()
 
 bool NetServerRead::pollOutgoing()
 {
-	std::list<NetMessage *> newMessages;
+	NetMessage *message = 0;
 	SDL_LockMutex(outgoingMessagesMutex_);
-	newMessages = newMessages_;
-	newMessages_.clear();
+	if (!newMessages_.empty())
+	{
+		message = newMessages_.front();
+		newMessages_.pop_front();
+	}
 	SDL_UnlockMutex(outgoingMessagesMutex_);
 
 	bool result = true;
-	while (!newMessages.empty())
+	if (message)
 	{
-		NetMessage *message = newMessages.front();
-		newMessages.pop_front();
-
 		if (result)
 		{
 			if (message->getMessageType() == NetMessage::DisconnectMessage)
