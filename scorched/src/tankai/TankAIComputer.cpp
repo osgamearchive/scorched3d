@@ -42,7 +42,7 @@ TankAIComputer::~TankAIComputer()
 
 void TankAIComputer::setTank(Tank *tank)
 {
-	tankBuyer_.setTank(currentTank_);
+	tankBuyer_.setTank(tank);
 	TankAI::setTank(tank);
 }
 
