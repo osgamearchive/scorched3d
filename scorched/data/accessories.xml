@@ -960,6 +960,7 @@ trace of the shot path.</description>
 		<armslevel></armslevel>
 		<hurtamount>0.0</hurtamount>
 		<nocreatedebris/>
+		<nocreatesplash/>
 		<deform>none</deform>
 		<size>3</size>
 		<explosiontexture>default</explosiontexture>

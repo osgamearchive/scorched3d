@@ -82,11 +82,9 @@ void Explosion::init()
 			position_[0], position_[1]);
 		float aboveGround = position_[2] - height;
 
-		// Create particles from the center of the explosion
-		// These particles will render smoke trails or bits of debris
-		if (explosion->getCreateDebris())
+		// If there is a weapon play a splash sound when in water
+		if (explosion->getCreateSplash())
 		{
-			// If there is a weapon play a splash sound when in water
 			if (position_[2] < 5.0f)
 			{
 				float mult = Landscape::instance()->getWater().getWidthMult();
@@ -97,10 +95,20 @@ void Explosion::init()
 
 				CACHE_SOUND(sound, (char *) getDataFile("data/wav/misc/splash.wav"));
 				sound->play();
-			}
 
+				context_->actionController->addAction(
+					new SpriteAction(
+						new SprayActionRenderer(position_, explosion->getSize() - 2.0f)));
+			}
+		}
+
+		// Create particles from the center of the explosion
+		// These particles will render smoke trails or bits of debris
+		if (explosion->getCreateDebris())
+		{
 			// If we are below the ground create the spray of dirt (or water)
-			if (aboveGround < 0.0f)
+			if (aboveGround < 0.0f &&
+				position_[2] >= 5.0f)
 			{
 				context_->actionController->addAction(
 					new SpriteAction(

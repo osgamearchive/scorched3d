@@ -26,7 +26,8 @@ REGISTER_ACCESSORY_SOURCE(WeaponExplosion);
 WeaponExplosion::WeaponExplosion() : size_(0.0f), 
 	multiColored_(false), hurtAmount_(0.0f),
 	deformType_(Explosion::DeformNone),
-	createDebris_(true), createMushroom_(false)
+	createDebris_(true), createMushroom_(false),
+	createSplash_(true)
 {
 
 }
@@ -55,6 +56,11 @@ bool WeaponExplosion::parseXML(XMLNode *accessoryNode)
 	XMLNode *noCreateDebrisNode = 0;
 	accessoryNode->getNamedChild("nocreatedebris", noCreateDebrisNode, false);
 	if (noCreateDebrisNode) createDebris_ = false;
+
+	// Get the no splash node
+	XMLNode *noCreateSplashNode = 0;
+	accessoryNode->getNamedChild("nocreatesplash", noCreateSplashNode, false);
+	if (noCreateSplashNode) createSplash_ = false;
 
 	// Get the createMushroom node
 	XMLNode *createMushroomNode = 0;
@@ -87,6 +93,7 @@ bool WeaponExplosion::writeAccessory(NetBuffer &buffer)
 	buffer.addToBuffer(multiColored_);
 	buffer.addToBuffer(createDebris_);
 	buffer.addToBuffer(createMushroom_);
+	buffer.addToBuffer(createSplash_);
     return true;
 }
 
@@ -101,6 +108,7 @@ bool WeaponExplosion::readAccessory(NetBufferReader &reader)
 	if (!reader.getFromBuffer(multiColored_)) return false;
 	if (!reader.getFromBuffer(createDebris_)) return false;
 	if (!reader.getFromBuffer(createMushroom_)) return false;
+	if (!reader.getFromBuffer(createSplash_)) return false;
     return true;
 }
 

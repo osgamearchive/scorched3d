@@ -40,6 +40,7 @@ public:
 	float getHurtAmount() { return hurtAmount_; }
 	bool getCreateDebris() { return createDebris_; }
 	bool getCreateMushroom() { return createMushroom_; }
+	bool getCreateSplash() { return createSplash_; }
 
 	// Inherited from Weapon
 	virtual void fireWeapon(ScorchedContext &context,
@@ -52,6 +53,7 @@ protected:
 	bool multiColored_;
 	bool createDebris_;
 	bool createMushroom_;
+	bool createSplash_;
 	float hurtAmount_;
 	Explosion::DeformType deformType_;
 
