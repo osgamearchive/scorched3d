@@ -18,10 +18,11 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
+#include <tank/TankContainer.h>
 #include <landscape/GlobalHMap.h>
 #include <landscape/Landscape.h>
 #include <actions/Napalm.h>
+#include <actions/ShotProjectile.h>
 #include <sprites/NapalmRenderer.h>
 #include <sprites/ExplosionTextures.h>
 #include <engine/MainLoop.h>
@@ -121,6 +122,16 @@ void NapalmRenderer::draw(Action *action)
 			entry->renderEntry3.texture = ExplosionTextures::instance()->flames.getTexture(
 				(textureNo_ + entry->offset + 20) % noTextures);
 			GLBilboardRenderer::instance()->addEntry(&entry->renderEntry3);
+		}
+
+		if (TankContainer::instance()->getCurrentPlayerId() == napalm->getPlayerId())
+		{
+			Vector position(
+				entry->renderEntry1.posX, 
+				entry->renderEntry1.posY,
+				entry->renderEntry1.posZ);
+			ShotProjectile::getLookAtPosition() += position;
+			ShotProjectile::getLookAtCount()++;
 		}
 	}
 }

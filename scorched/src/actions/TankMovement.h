@@ -36,6 +36,7 @@ public:
 
 	std::list<unsigned int> &getPositions() { return positions_; }
 
+	virtual void draw();
 	virtual void init();
 	virtual void simulate(float frameTime, bool &remove);
 	virtual bool writeAction(NetBuffer &buffer);

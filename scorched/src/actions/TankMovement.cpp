@@ -21,6 +21,7 @@
 #include <actions/TankMovement.h>
 #include <actions/TankFalling.h>
 #include <actions/TankMove.h>
+#include <actions/ShotProjectile.h>
 #include <engine/ActionController.h>
 #include <tank/TankContainer.h>
 #include <landscape/GlobalHMap.h>
@@ -40,6 +41,20 @@ TankMovement::TankMovement(unsigned int playerId) :
 
 TankMovement::~TankMovement()
 {
+}
+
+void TankMovement::draw()
+{
+	if (TankContainer::instance()->getCurrentPlayerId() == playerId_)
+	{
+		Tank *tank = TankContainer::instance()->getTankById(playerId_);
+		if (tank)
+		{
+			ShotProjectile::getLookAtPosition() += 
+				tank->getPhysics().getTankPosition();
+			ShotProjectile::getLookAtCount()++;
+		}
+	}
 }
 
 void TankMovement::init()

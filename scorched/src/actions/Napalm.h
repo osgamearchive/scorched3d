@@ -62,6 +62,7 @@ public:
 	virtual bool readAction(NetBufferReader &reader);
 
 	std::list<NapalmEntry *> &getPoints() { return napalmPoints_; }
+	unsigned int getPlayerId() { return playerId_; }
 
 REGISTER_ACTION_HEADER(Napalm);
 
