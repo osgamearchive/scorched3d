@@ -69,16 +69,25 @@ void SpeedChange::keyboardCheck(const unsigned state, float frameTime,
 							   KeyboardHistory::HistoryElement *history, int hisCount, 
 							   bool &skipRest)
 {
-	KEYPRESS_START(buffer, SDLK_F1)
+	KEYBOARDKEY("SIMULATION_SPEED_X1", x1Key);
+	KEYBOARDKEY("SIMULATION_SPEED_X2", x2Key);
+	KEYBOARDKEY("SIMULATION_SPEED_X3", x3Key);
+	KEYBOARDKEY("SIMULATION_SPEED_X4", x4Key);
+
+	if (x1Key->keyDown(buffer))
+	{
 		resetSpeed();
-	KEYPRESS_END
-	KEYPRESS_START(buffer, SDLK_F2)
+	}
+	else if (x2Key->keyDown(buffer))
+	{
 		ActionController::instance()->setFast(2.0f);
-	KEYPRESS_END
-	KEYPRESS_START(buffer, SDLK_F3)
+	}
+	else if (x3Key->keyDown(buffer))
+	{
 		ActionController::instance()->setFast(3.0f);
-	KEYPRESS_END
-	KEYPRESS_START(buffer, SDLK_F4)
+	}
+	else if (x4Key->keyDown(buffer))
+	{
 		ActionController::instance()->setFast(4.0f);
-	KEYPRESS_END
+	}
 }

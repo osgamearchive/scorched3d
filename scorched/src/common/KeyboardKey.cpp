@@ -90,3 +90,12 @@ bool KeyboardKey::keyDown(char *buffer, bool repeat)
 	keyToogle_ = false;
 	return false;
 }
+
+bool KeyboardKey::keyMatch(unsigned key)
+{
+	for (unsigned int i=0; i<noKeys_; i++)
+	{
+		if (keys_[i] == key) return true;
+	}
+	return false;
+}

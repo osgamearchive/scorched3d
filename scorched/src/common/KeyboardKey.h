@@ -32,6 +32,7 @@ public:
 	virtual ~KeyboardKey();
 
 	bool keyDown(char *buffer, bool repeat = true);
+	bool keyMatch(unsigned key);
 	bool addKeys(std::list<std::string> &keyNames);
 
 	const char *getName() { return name_.c_str(); }

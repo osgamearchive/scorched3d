@@ -76,6 +76,7 @@ Any flames near tanks will remove life.</description>
 		<bundlesize>3</bundlesize>
 		<armslevel>6</armslevel>
 		<size>10</size>
+		<deathanimationweight>60</deathanimationweight>
 	</weapon>
 	<weapon type="WeaponProjectile">
 		<name>Nuke</name>
@@ -84,6 +85,7 @@ Any flames near tanks will remove life.</description>
 		<bundlesize>1</bundlesize>
 		<armslevel>4</armslevel>
 		<size>18</size>
+		<deathanimationweight>10</deathanimationweight>
 	</weapon>
 	<weapon type="WeaponLeapFrog">
 		<name>Leap Frog</name>
@@ -124,6 +126,7 @@ harm tanks but can be used to cover them.</description>
 		<bundlesize>2</bundlesize>
 		<armslevel>7</armslevel>
 		<size>18</size>
+		<deathanimationweight>10</deathanimationweight>
 	</weapon>
 	<weapon type="WeaponRiotBomb">
 		<name>Riot Bomb</name>
@@ -146,6 +149,7 @@ under them.</description>
 		<bundlesize>2</bundlesize>
 		<armslevel>8</armslevel>
 		<size>12</size>
+		<deathanimationweight>10</deathanimationweight>
 	</weapon>
 	<weapon type="WeaponDigger">
 		<name>Baby Digger</name>
@@ -226,6 +230,7 @@ warheads fan out in a random direction.</description>
 		<size>6</size>
 		<nowarheads>5</nowarheads>
 		<spread>true</spread>
+		<deathanimationweight>10</deathanimationweight>
 	</weapon>
 	<weapon type="WeaponMirv">
 		<name>Death's Head</name>
@@ -249,6 +254,7 @@ missiles.  These missiles automatically target nearby tanks.</description>
 		<size>10</size>
 		<subsize>8</subsize>
 		<nowarheads>12</nowarheads>
+		<deathanimationweight>10</deathanimationweight>
 	</weapon>
 	<weapon type="WeaponTracer">
 		<name>Tracer</name>

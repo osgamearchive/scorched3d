@@ -21,7 +21,7 @@
 #include <weapons/Weapon.h>
 #include <weapons/AccessoryStore.h>
 
-Weapon::Weapon()
+Weapon::Weapon() : deathAnimationWeight_(0)
 {
 
 }
@@ -34,6 +34,20 @@ Weapon::~Weapon()
 Accessory::AccessoryType Weapon::getType()
 {
 	return Accessory::AccessoryWeapon;
+}
+
+bool Weapon::parseXML(XMLNode *accessoryNode)
+{
+	if (!Accessory::parseXML(accessoryNode)) return false;
+
+	// Get the accessory name
+	XMLNode *deathWeight = accessoryNode->getNamedChild("deathanimationweight");
+	if (deathWeight)
+	{
+		deathAnimationWeight_ = atoi(deathWeight->getContent());
+	}
+
+	return true;
 }
 
 bool Weapon::write(NetBuffer &buffer, Weapon *weapon)

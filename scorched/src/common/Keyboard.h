@@ -26,11 +26,7 @@
 #include <string>
 #include <map>
 
-#define KEYDOWN(name,key) (name[key]) 
-#define KEYPRESS_START(name, key) { static bool toggle = false; if (KEYDOWN(name, key)) { if (!toggle) { toggle = true; 
-#define KEYPRESS_END  } } else { toggle = false; } }
 #define MAX_KEYBDHIST 1024
-
 #define KEYBOARDKEY(name, key) static KeyboardKey * key = Keyboard::instance()->getKey( name );
 
 class Keyboard

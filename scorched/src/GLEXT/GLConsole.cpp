@@ -72,10 +72,11 @@ void GLConsole::keyboardCheck(const unsigned state, float frameTime,
 {
 	// Use the history to ensure that no keystrokes are missed
 	// regardless of the framerate.
+	KEYBOARDKEY("CONSOLE", consoleKey);
 	for (int i=0; i<hisCount; i++)
 	{
-		DWORD dik = history[i].sdlKey;
-		if (dik == SDLK_BACKQUOTE)
+		unsigned int dik = history[i].sdlKey;
+		if (consoleKey->keyMatch(dik))
 		{
 			if (currentLine_.empty()) opening_ = !opening_;
 			else currentLine_ = "";

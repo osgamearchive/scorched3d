@@ -150,7 +150,7 @@ bool AccessoryStore::parseFile()
 		if (accessory->getType() == Accessory::AccessoryWeapon)
 		{
 			Weapon *weapon = (Weapon *) accessory;
-			for (int i=0; i<weapon->getArmsLevel(); i++)
+			for (int i=0; i<weapon->getDeathAnimationWeight(); i++)
 			{
 				deathAnimations_.push_back(weapon);
 			}
