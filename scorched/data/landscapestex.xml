@@ -41,7 +41,7 @@
 		<detail>data/textures/landscape/default/detail.bmp</detail>
 		<magmasmall>data/textures/landscape/default/magma-small.bmp</magmasmall>
 		<scorch>data/textures/landscape/hell/scorch.bmp</scorch>
-		<fog><A>0.8</A><B>0.8</B><C>0.8</C></fog>
+		<fog><A>0.8</A><B>0.1</B><C>0.1</C></fog>
 		<skytexture>data/textures/landscape/hell/cloud1.bmp</skytexture>
 		<skycolormap>data/textures/clearsky.bmp</skycolormap>
 		<skytimeofday>3</skytimeofday>

@@ -81,7 +81,6 @@ scorcheddata_DATA = data/landscapesdefn.xml \
 	data/accessories.xml \
 	data/landscapes.xml \
 	data/textureset.xml \
-	data/landscapes-old.xml \
 	data/landscapestex.xml \
 	data/mysql.xml \
 	data/singletarget.xml \
