@@ -42,6 +42,9 @@ public:
 protected:
 	int warHeads_;
 	Weapon *aimedWeapon_;
+	float maxAimedDistance_;
+	float percentageMissChance_;
+	float maxInacuracy_;
 
 };
 

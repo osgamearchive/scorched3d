@@ -750,6 +750,8 @@ scorched3d_SOURCES = \
 	SettingsDialog.h \
 	SingleDialog.cpp \
 	SingleDialog.h \
+	SingleSDialog.cpp \
+	SingleSDialog.h \
 	main.cpp \
 	../client/ClientActionsHandler.cpp \
 	../client/ClientActionsHandler.h \

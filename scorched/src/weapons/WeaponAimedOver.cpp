@@ -76,6 +76,39 @@ bool WeaponAimedOver::parseXML(XMLNode *accessoryNode)
 		return false;
 	}
 	warHeads_ = atoi(warheadsNode->getContent());
+	
+	// Get the accessory aimed distance
+	XMLNode *aimNode = accessoryNode->getNamedChild("maxaimdistance", false, true);
+	if (!aimNode)
+	{
+		dialogMessage("Accessory",
+			"Failed to find maxaimdistance node in accessory \"%s\"",
+			name_.c_str());
+		return false;
+	}
+	maxAimedDistance_ = atof(aimNode->getContent());
+	
+	// Get the accessory percentage miss chance
+	XMLNode *percentageNode = accessoryNode->getNamedChild("percentagemiss", false, true);
+	if (!percentageNode)
+	{
+		dialogMessage("Accessory",
+			"Failed to find percentagemiss node in accessory \"%s\"",
+			name_.c_str());
+		return false;
+	}
+	percentageMissChance_ = atof(percentageNode->getContent());
+
+	// Get the accessory percentage miss chance
+	XMLNode *inaccuracyNode = accessoryNode->getNamedChild("inaccuracy", false, true);
+	if (!inaccuracyNode)
+	{
+		dialogMessage("Accessory",
+			"Failed to find inaccuracy node in accessory \"%s\"",
+			name_.c_str());
+		return false;
+	}
+	maxInacuracy_ = atof(inaccuracyNode->getContent());
 
 	return true;
 }
@@ -85,6 +118,9 @@ bool WeaponAimedOver::writeAccessory(NetBuffer &buffer)
 	if (!Weapon::writeAccessory(buffer)) return false;
 	if (!Weapon::write(buffer, aimedWeapon_)) return false;
 	buffer.addToBuffer(warHeads_);
+	buffer.addToBuffer(maxAimedDistance_);
+	buffer.addToBuffer(percentageMissChance_);
+	buffer.addToBuffer(maxInacuracy_);
 	return true;
 }
 
@@ -93,6 +129,9 @@ bool WeaponAimedOver::readAccessory(NetBufferReader &reader)
 	if (!Weapon::readAccessory(reader)) return false;
 	aimedWeapon_ = Weapon::read(reader); if (!aimedWeapon_) return false;
 	if (!reader.getFromBuffer(warHeads_)) return false;
+	if (!reader.getFromBuffer(maxAimedDistance_)) return false;
+	if (!reader.getFromBuffer(percentageMissChance_)) return false;
+	if (!reader.getFromBuffer(maxInacuracy_)) return false;
 	return true;
 }
 
@@ -101,14 +140,14 @@ void WeaponAimedOver::fireWeapon(ScorchedContext &context,
 {
 	position[2] += 0.2f;
 
-	// Get all of the distances of the tanks less than 50 away
+	// Get all of the distances of the tanks less than maxAimedDistance_ away
 	std::list<std::pair<float, Tank *> > sortedTanks;
 	TankLib::getTanksSortedByDistance(
 		context,
 		position, 
 		sortedTanks,
 		0,
-		50.0f);
+		maxAimedDistance_);
 
 	// Add all of these distances together
 	float totalDist = 0.0f;
@@ -138,7 +177,7 @@ void WeaponAimedOver::fireWeapon(ScorchedContext &context,
 	}
 	
 	// Add a percetage that we will not fire at any tank
-	maxDist *= 1.20f; 
+	maxDist *= 1.0f + (percentageMissChance_ / 100.0f);
 
 	// For each war head
 	for (int i=0; i<warHeads_; i++)
@@ -175,12 +214,13 @@ void WeaponAimedOver::fireWeapon(ScorchedContext &context,
 				shootAt->getPhysics().getTankPosition(), 20.0f, 
 				angleXYDegs, angleYZDegs, power);
 
-			angleXYDegs += (RAND * 10.0f) + -5.0f;
-			angleYZDegs += (RAND * 10.0f) + -5.0f;
+			angleXYDegs += (RAND * maxInacuracy_) - 
+				(maxInacuracy_ / 2.0f);
+			angleYZDegs += (RAND * maxInacuracy_) - 
+				(maxInacuracy_ / 2.0f);
 		}
 
 		// Create the shot
-		int flareType = int(RAND * 4.0f);
 		Vector &velocity = TankLib::getVelocityVector(
 			angleXYDegs, angleYZDegs);
 		velocity *= power;

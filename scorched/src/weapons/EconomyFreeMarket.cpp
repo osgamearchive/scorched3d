@@ -147,12 +147,15 @@ void EconomyFreeMarket::calculatePrices()
 			int price = accessory->getPrice() + diff;
 			price = (price / 10) * 10; // Round to 10
 
+			// Make suse price does not get greater than 1.5X the original price
 			if (price > int(float(accessory->getOriginalPrice()) * 1.5f))
 				price = int(float(accessory->getOriginalPrice()) * 1.5f);
-			else if (price < int(float(accessory->getOriginalPrice()) / 2.0f))
-				price = int(float(accessory->getOriginalPrice()) / 2.0f);
+			// Make sure price does not get lower than 0.75X the original price
+			else if (price < int(float(accessory->getOriginalPrice()) * 0.75f))
+				price = int(float(accessory->getOriginalPrice()) * 0.75f);
 			accessory->setPrice(price);
 
+			// Sell price is 0.8X the buy price
 			int selPrice = int(float(accessory->getPrice()) /
 				float(accessory->getBundle()) * 0.8f);
 			selPrice = (selPrice / 10) * 10; // Round to 10
@@ -172,6 +175,8 @@ void EconomyFreeMarket::accessoryBought(Tank *tank,
 	DIALOG_ASSERT(boughtAccessory);
 
 	// Find the list of accessories that this player could have bought
+	// This list comprises of weapons that are similar in price to the one
+	// that has been bought
 	std::list<Accessory *> possibleAccessories;
 	{
 		std::list<Accessory *> weapons = 
@@ -185,7 +190,7 @@ void EconomyFreeMarket::accessoryBought(Tank *tank,
 			Accessory *accessory = *itor;
 	
 			if (accessory->getPrice() <= tank->getScore().getMoney() &&
-				accessory->getPrice() >= boughtAccessory->getPrice() / 2 &&
+				accessory->getPrice() >= int(float(boughtAccessory->getPrice()) * 0.5f) &&
 				accessory->getPrice() <= int(float(boughtAccessory->getPrice()) * 1.5f) &&
 				accessory->getPrice() != 0 &&
 				accessory->getType() == Accessory::AccessoryWeapon)
@@ -209,23 +214,32 @@ void EconomyFreeMarket::accessoryBought(Tank *tank,
 			itor++)
 		{
 			Accessory *accessory = (*itor);
+
+			// Figure out how much money was spent on this weapon
 			int moneyDidAquire = 0;
 			if (accessory == boughtAccessory) moneyDidAquire = 
 				boughtAccessory->getPrice();
 
+			// Figure out if this is more or less money than on average
+			// should be spent on this weapon
 			int adjustment = 
 				ScorchedServer::instance()->getOptionsGame().
 				getFreeMarketAdjustment();
 			int priceDiff = 0;
 			if (moneyDidAquire < moneyShouldAquire)
 			{
+				// This weapon was not bought, decrease its price
 				priceDiff = -adjustment / int(possibleAccessories.size());
+				priceDiff /= 2;
 			}
 			else if (moneyDidAquire >= moneyShouldAquire)
 			{
+				// This weapon was bought, increase its price
 				priceDiff = int((float(adjustment) * (float(possibleAccessories.size()) - 1.0f))
 					/ float(possibleAccessories.size()));
 			}
+
+			// Update the price difference for this weapon
 			std::map<unsigned int, int>::iterator findItor = newPrices_.
 				find(accessory->getAccessoryId());
 			if (findItor == newPrices_.end()) 

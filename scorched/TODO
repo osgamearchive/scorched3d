@@ -16,10 +16,12 @@ Fixed: Plan view is cropped so it does not extend out of dialog
 Fixed: XML Parser does not add extra LFs (Fixes enabled landscapes becoming disabled)
 Fixed: Sky dome incorrectly positioned
 
+Changed: Changed free market ecconmy so price decreases are slower
 Changed: Tank can move up and down bigger slopes (configurable)
 Changed: Spread and hurts weapon primative options are now variable
 Changed: LeapFrog weapon primative bounce now variable
 
+Added: WeaponAimedOver and WeaponAimedUnder weapon primatives can be configured
 Added: Admin commands can be accessed from a client
 Added: Admin slap and ban
 Added: Start of sky dome time of day shading

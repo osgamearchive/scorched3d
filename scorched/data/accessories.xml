@@ -523,6 +523,9 @@ creating some small riot bombs.</description>
 			<name>Baby Digger</name>
 			<armslevel>8</armslevel>
 			<nowarheads>3</nowarheads>
+			<inaccuracy>40</inaccuracy>
+			<percentagemiss>20</percentagemiss>
+			<maxaimdistance>75</maxaimdistance>
 			<aimedweapon type="WeaponProjectile">
 				<name>Baby Digger</name>
 				<armslevel>8</armslevel>
@@ -555,6 +558,9 @@ creating some riot bombs.</description>
 			<name>Digger</name>
 			<armslevel>7</armslevel>
 			<nowarheads>5</nowarheads>
+			<inaccuracy>40</inaccuracy>
+			<percentagemiss>20</percentagemiss>
+			<maxaimdistance>75</maxaimdistance>
 			<aimedweapon type="WeaponProjectile">
 				<name>Digger</name>
 				<armslevel>7</armslevel>
@@ -587,6 +593,9 @@ creating many large riot bombs.</description>
 			<name>Heavy Digger</name>
 			<armslevel>6</armslevel>
 			<nowarheads>10</nowarheads>
+			<inaccuracy>40</inaccuracy>
+			<percentagemiss>20</percentagemiss>
+			<maxaimdistance>75</maxaimdistance>
 			<aimedweapon type="WeaponProjectile">
 				<name>Heavy Digger</name>
 				<armslevel>6</armslevel>
@@ -621,6 +630,9 @@ missiles target nearby tanks.</description>
 			<name>Baby Sandhog</name>
 			<armslevel>8</armslevel>
 			<nowarheads>2</nowarheads>
+			<inaccuracy>40</inaccuracy>
+			<percentagemiss>20</percentagemiss>
+			<maxaimdistance>75</maxaimdistance>
 			<aimedweapon type="WeaponProjectile">
 				<name>Baby Sandhog</name>
 				<armslevel>8</armslevel>
@@ -654,6 +666,9 @@ missiles target nearby tanks.</description>
 			<name>Sandhog</name>
 			<armslevel>5</armslevel>
 			<nowarheads>5</nowarheads>
+			<inaccuracy>40</inaccuracy>
+			<percentagemiss>20</percentagemiss>
+			<maxaimdistance>75</maxaimdistance>
 			<aimedweapon type="WeaponProjectile">
 				<name>Sandhog</name>
 				<armslevel>5</armslevel>
@@ -687,6 +702,9 @@ missiles target nearby tanks.</description>
 			<name>Heavy Sandhog</name>
 			<armslevel>3</armslevel>
 			<nowarheads>10</nowarheads>
+			<inaccuracy>40</inaccuracy>
+			<percentagemiss>20</percentagemiss>
+			<maxaimdistance>75</maxaimdistance>
 			<aimedweapon type="WeaponProjectile">
 				<name>Heavy Sandhog</name>
 				<armslevel>3</armslevel>
@@ -839,6 +857,9 @@ target nearby tanks.</description>
 				<name>Funky Bomb</name>
 				<armslevel>3</armslevel>
 				<nowarheads>12</nowarheads>
+				<percentagemiss>20</percentagemiss>
+				<maxaimdistance>50</maxaimdistance>
+				<inaccuracy>10</inaccuracy>
 				<aimedweapon type="WeaponProjectile">
 					<name>Funky Bomb</name>
 					<armslevel>3</armslevel>	
