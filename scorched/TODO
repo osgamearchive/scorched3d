@@ -2,6 +2,7 @@
 Added: Rotation, elevation and power differences to weapon dialog
 Added: Clickable areas lighten on mouseover in HUD
 
+Fixed: data and document location in RPM (thanks Edward Rudd)
 Fixed: testing code being produced in console
 Fixed: Failing to load display.xml because of user name containing "foreign" chars
 Fixed: Selling items in the free market gives too much money
