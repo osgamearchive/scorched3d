@@ -1,0 +1,187 @@
+<ais>
+	<ai>
+		<name>Cyborg</name>
+		<description>A computer controlled player.
+Cyborgs are like Sharks, except they can 
+use batteries.</description>
+		<aimsniper>50</aimsniper>
+		<aimtype>refined</aimtype>
+		<targettype>agressor</targettype>
+		<nodefenses>false</nodefenses>
+		<availableforrandom>true</availableforrandom>
+		<checknearcollision>true</checknearcollision>
+		<weapon><name>Parachute</name><level>10</level></weapon>
+		<weapon><name>Baby Nuke</name><level>20</level></weapon>	
+		<weapon><name>MIRV</name><level>20</level></weapon>
+		<weapon><name>Battery</name><level>20</level></weapon>
+		<weapon><name>Shield</name><level>20</level></weapon>
+		<weapon><name>Auto Defense</name><level>30</level></weapon>
+		<weapon><name>Nuke</name><level>30</level></weapon>
+		<weapon><name>Fatman</name><level>30</level></weapon>
+	</ai>
+	
+	<ai>
+		<name>Pyro</name>
+		<description>A computer controlled player.
+A Pyro is a refined version of the cyborg
+that prefers to use fire-based weaponry.</description>
+		<aimsniper>50</aimsniper>
+		<aimtype>refined</aimtype>
+		<targettype>agressor</targettype>
+		<nodefenses>false</nodefenses>
+		<availableforrandom>true</availableforrandom>
+		<checknearcollision>true</checknearcollision>
+		<weapon><name>Parachute</name><level>10</level></weapon>
+		<weapon><name>Baby Napalm</name><level>10</level></weapon>
+		<weapon><name>Napalm</name><level>20</level></weapon>	
+		<weapon><name>Battery</name><level>20</level></weapon>
+		<weapon><name>Shield</name><level>20</level></weapon>
+		<weapon><name>Auto Defense</name><level>30</level></weapon>
+		<weapon><name>Hot Napalm</name><level>30</level></weapon>
+		<weapon><name>Meteor</name><level>30</level></weapon>
+	</ai>
+
+	<ai>
+		<name>Chemist</name>
+		<description>A computer controlled player.
+Chemists are Cyborgs that specialize in the
+use of bio/chemical weaponry.</description>
+		<aimsniper>50</aimsniper>
+		<aimtype>refined</aimtype>
+		<targettype>agressor</targettype>
+		<nodefenses>false</nodefenses>
+		<availableforrandom>true</availableforrandom>
+		<checknearcollision>true</checknearcollision>
+		<weapon><name>Parachute</name><level>10</level></weapon>
+		<weapon><name>Acid Blast</name><level>20</level></weapon>
+		<weapon><name>Acid Rain</name><level>20</level></weapon>
+		<weapon><name>Battery</name><level>20</level></weapon>
+		<weapon><name>Shield</name><level>20</level></weapon>
+		<weapon><name>Auto Defense</name><level>30</level></weapon>
+		<weapon><name>Acid Splash</name><level>30</level></weapon>
+		<weapon><name>Gas Grenade</name><level>30</level></weapon>
+	</ai>
+	
+	<ai>
+		<name>Shocker</name>
+		<description>A computer controlled player.
+Shockers are Cyborgs that specialize in
+the use of energy based weapons.</description>
+		<aimsniper>50</aimsniper>
+		<aimtype>refined</aimtype>
+		<targettype>agressor</targettype>
+		<nodefenses>false</nodefenses>
+		<availableforrandom>true</availableforrandom>
+		<checknearcollision>true</checknearcollision>
+		<weapon><name>Parachute</name><level>10</level></weapon>
+		<weapon><name>EMP Grenade</name><level>20</level></weapon>	
+		<weapon><name>Battery</name><level>20</level></weapon>
+		<weapon><name>Shield</name><level>20</level></weapon>
+		<weapon><name>Auto Defense</name><level>30</level></weapon>
+		<weapon><name>Mega EMP</name><level>30</level></weapon>
+		<weapon><name>Chain Lightning</name><level>30</level></weapon>
+	</ai>
+	
+	<ai>
+		<name>Shark</name>
+		<description>A computer controlled player.
+Sharks are like Choosers, except they take 
+grudges against players that are 
+shooting at them.</description>
+		<aimsniper>50</aimsniper>
+		<aimtype>refined</aimtype>
+		<targettype>agressor</targettype>
+		<nodefenses>false</nodefenses>
+		<availableforrandom>true</availableforrandom>
+		<checknearcollision>true</checknearcollision>
+		<weapon><name>Parachute</name><level>10</level></weapon>
+		<weapon><name>Baby Nuke</name><level>20</level></weapon>	
+		<weapon><name>MIRV</name><level>20</level></weapon>
+		<weapon><name>Shield</name><level>20</level></weapon>
+		<weapon><name>Auto Defense</name><level>30</level></weapon>
+		<weapon><name>Nuke</name><level>30</level></weapon>
+	</ai>
+
+	<ai>
+		<name>Chooser</name>
+		<description>A computer controlled player.
+Choosers are like Tossers, except they can 
+also fire in straight line when close 
+enough.</description>
+		<aimsniper>50</aimsniper>
+		<aimtype>refined</aimtype>
+		<targettype>nearest</targettype>
+		<nodefenses>false</nodefenses>
+		<availableforrandom>true</availableforrandom>
+		<checknearcollision>true</checknearcollision>
+		<weapon><name>Parachute</name><level>10</level></weapon>
+		<weapon><name>Baby Nuke</name><level>20</level></weapon>	
+		<weapon><name>MIRV</name><level>20</level></weapon>
+		<weapon><name>Nuke</name><level>30</level></weapon>
+	</ai>
+	
+	<ai>
+		<name>Tosser</name>
+		<description>A computer controlled player.
+Tossers start out like Shooters, but they'll 
+refine their aim to get closer and 
+closer, until they hit. If their initial 
+shot isn't too close, you have some 
+time to kill them.</description>
+		<aimsniper>0</aimsniper>
+		<aimtype>refined</aimtype>
+		<targettype>nearest</targettype>
+		<nodefenses>false</nodefenses>
+		<availableforrandom>true</availableforrandom>
+		<checknearcollision>false</checknearcollision>
+		<weapon><name>Missile</name><level>20</level></weapon>
+		<weapon><name>Baby Nuke</name><level>20</level></weapon>	
+		<weapon><name>MIRV</name><level>20</level></weapon>
+		<weapon><name>Nuke</name><level>30</level></weapon>		
+	</ai>
+	
+	<ai>
+		<name>Shooter</name>
+		<description>A computer controlled player.
+Shooters can be significantly deadlier than 
+Morons, but they don't ever learn, 
+not refining subsiquent shots.</description>
+		<aimsniper>0</aimsniper>
+		<aimtype>guess</aimtype>
+		<targettype>nearest</targettype>
+		<nodefenses>false</nodefenses>
+		<availableforrandom>true</availableforrandom>
+		<checknearcollision>false</checknearcollision>
+		<weapon><name>Missile</name><level>20</level></weapon>
+		<weapon><name>Baby Nuke</name><level>20</level></weapon>		
+	</ai>
+	
+	<ai>
+		<name>Moron</name>
+		<description>A computer controlled player.
+Well, you can't get much stupider than this. 
+Morons just pick an angle and power, 
+and shoot. Definitely for beginners 
+only.</description>
+		<aimsniper>0</aimsniper>
+		<aimtype>random</aimtype>
+		<targettype>nearest</targettype>
+		<nodefenses>false</nodefenses>
+		<checknearcollision>false</checknearcollision>
+		<availableforrandom>true</availableforrandom>
+		<weapon><name>Missile</name><level>2</level></weapon>
+	</ai>
+	
+	<ai>
+		<name>Target</name>
+		<description>A computer controlled player.
+These tanks act as static targets.  They
+will NEVER fire back.</description>
+		<aimsniper>0</aimsniper>
+		<aimtype>random</aimtype>
+		<targettype>none</targettype>
+		<nodefenses>true</nodefenses>
+		<checknearcollision>false</checknearcollision>
+		<availableforrandom>false</availableforrandom>
+	</ai>
+</ais>

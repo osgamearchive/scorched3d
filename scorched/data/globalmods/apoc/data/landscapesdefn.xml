@@ -1,0 +1,809 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<defns>
+	<defn>
+		<name>oldstyle</name>
+		<minplayers>0</minplayers>
+		<maxplayers>24</maxplayers>
+		<surround type="none"></surround>
+		<roof type="sky"></roof>
+		<tankstart type="height">
+			<startcloseness>20</startcloseness>
+			<height><min>5.5</min><max>20</max></height>
+			<startmask></startmask>
+		</tankstart>
+		<heightmap type="generate">
+			<mask></mask>
+			<landhills>
+				<min>60</min><max>80</max>
+			</landhills>
+			<landheight>
+				<min>30</min><max>40</max>
+			</landheight>
+			<landwidthx>256</landwidthx>
+			<landwidthy>256</landwidthy>
+			<landpeakwidthx>
+				<min>10</min><max>50</max>
+			</landpeakwidthx>
+			<landpeakwidthy>
+				<min>-10</min><max>10</max>
+			</landpeakwidthy>
+			<landpeakheight>
+				<min>0.5</min><max>1.5</max>
+			</landpeakheight>
+			<landsmoothing>0.04</landsmoothing>
+			<levelsurround>true</levelsurround>
+		</heightmap>
+	</defn>
+	<defn>
+   		<name>lowlands</name>
+		<minplayers>0</minplayers>
+		<maxplayers>12</maxplayers>
+		<surround type="none"></surround>
+		<roof type="sky"></roof>
+		<tankstart type="height">
+			<startcloseness>20</startcloseness>
+			<height><min>5.5</min><max>20</max></height>
+			<startmask></startmask>
+		</tankstart>
+		<heightmap type="generate">
+			<mask></mask>
+			<landhills>
+				<min>80</min><max>100</max>
+			</landhills>
+			<landheight>
+				<min>10</min><max>20</max>
+			</landheight>
+			<landwidthx>256</landwidthx>
+			<landwidthy>256</landwidthy>
+			<landpeakwidthx>
+				<min>10</min><max>50</max>
+			</landpeakwidthx>
+			<landpeakwidthy>
+				<min>-10</min><max>10</max>
+			</landpeakwidthy>
+			<landpeakheight>
+				<min>0.5</min><max>1.5</max>
+			</landpeakheight>
+			<landsmoothing>0.04</landsmoothing>
+			<levelsurround>true</levelsurround>
+		</heightmap>    
+	</defn>
+	<defn>
+   		<name>hilly</name>
+		<minplayers>0</minplayers>
+		<maxplayers>24</maxplayers>
+		<surround type="none"></surround>
+		<roof type="sky"></roof>
+		<tankstart type="height">
+			<startcloseness>20</startcloseness>
+			<height><min>5.5</min><max>20</max></height>
+			<startmask></startmask>
+		</tankstart>
+		<heightmap type="generate">
+			<mask></mask>
+			<landhills>
+				<min>50</min><max>70</max>
+			</landhills>
+			<landheight>
+				<min>50</min><max>70</max>
+			</landheight>
+			<landwidthx>256</landwidthx>
+			<landwidthy>256</landwidthy>
+			<landpeakwidthx>
+				<min>10</min><max>50</max>
+			</landpeakwidthx>
+			<landpeakwidthy>
+				<min>-10</min><max>10</max>
+			</landpeakwidthy>
+			<landpeakheight>
+				<min>0.5</min><max>1.5</max>
+			</landpeakheight>
+			<landsmoothing>0.04</landsmoothing>
+			<levelsurround>true</levelsurround>
+		</heightmap>
+	</defn>
+	<defn>
+   		<name>ridge</name>
+		<minplayers>0</minplayers>
+		<maxplayers>24</maxplayers>
+		<surround type="none"></surround>
+		<roof type="sky"></roof>
+		<tankstart type="height">
+			<startcloseness>20</startcloseness>
+			<height><min>5.5</min><max>20</max></height>
+			<startmask></startmask>
+		</tankstart>
+		<heightmap type="generate">
+			<mask>data/landscapes/ridge-mask.bmp</mask>
+			<landhills>
+				<min>60</min><max>80</max>
+			</landhills>
+			<landheight>
+				<min>30</min><max>40</max>
+			</landheight>
+			<landwidthx>256</landwidthx>
+			<landwidthy>256</landwidthy>
+			<landpeakwidthx>
+				<min>10</min><max>50</max>
+			</landpeakwidthx>
+			<landpeakwidthy>
+				<min>-10</min><max>10</max>
+			</landpeakwidthy>
+			<landpeakheight>
+				<min>0.5</min><max>1.5</max>
+			</landpeakheight>
+			<landsmoothing>0.04</landsmoothing>
+			<levelsurround>true</levelsurround>
+		</heightmap>
+	</defn>
+	<defn>
+   		<name>islands</name>
+		<minplayers>0</minplayers>
+		<maxplayers>24</maxplayers>
+		<surround type="none"></surround>
+		<roof type="sky"></roof>
+		<tankstart type="height">
+			<startcloseness>20</startcloseness>
+			<height><min>5.5</min><max>20</max></height>
+			<startmask></startmask>
+		</tankstart>
+		<heightmap type="generate">
+			<mask></mask>
+			<landhills>
+				<min>30</min><max>50</max>
+			</landhills>
+			<landheight>
+				<min>30</min><max>50</max>
+			</landheight>
+			<landwidthx>256</landwidthx>
+			<landwidthy>256</landwidthy>
+			<landpeakwidthx>
+				<min>10</min><max>20</max>
+			</landpeakwidthx>
+			<landpeakwidthy>
+				<min>-5</min><max>5</max>
+			</landpeakwidthy>
+			<landpeakheight>
+				<min>1.0</min><max>1.5</max>
+			</landpeakheight>
+			<landsmoothing>0.04</landsmoothing>
+			<levelsurround>true</levelsurround>
+		</heightmap>
+	</defn>
+	<defn>
+   		<name>halfed</name>
+		<minplayers>0</minplayers>
+		<maxplayers>24</maxplayers>
+		<surround type="none"></surround>
+		<roof type="sky"></roof>
+		<tankstart type="height">
+			<startcloseness>20</startcloseness>
+			<height><min>5.5</min><max>20</max></height>
+			<startmask>data/landscapes/half-mask-start.bmp</startmask>
+		</tankstart>
+		<heightmap type="generate">
+			<mask>data/landscapes/half-mask.bmp</mask>
+			<landhills>
+				<min>90</min><max>120</max>
+			</landhills>
+			<landheight>
+				<min>30</min><max>40</max>
+			</landheight>
+			<landwidthx>256</landwidthx>
+			<landwidthy>256</landwidthy>
+			<landpeakwidthx>
+				<min>10</min><max>50</max>
+			</landpeakwidthx>
+			<landpeakwidthy>
+				<min>-10</min><max>10</max>
+			</landpeakwidthy>
+			<landpeakheight>
+				<min>0.5</min><max>1.5</max>
+			</landpeakheight>
+			<landsmoothing>0.04</landsmoothing>
+			<levelsurround>true</levelsurround>
+		</heightmap>
+	</defn>
+	<defn>
+   		<name>valley</name>
+		<minplayers>0</minplayers>
+		<maxplayers>24</maxplayers>
+		<surround type="none"></surround>
+		<roof type="sky"></roof>
+		<tankstart type="height">
+			<startcloseness>20</startcloseness>
+			<height><min>5.5</min><max>20</max></height>
+			<startmask></startmask>
+		</tankstart>
+		<heightmap type="generate">
+			<mask>data/landscapes/valley-mask.bmp</mask>
+			<landhills>
+				<min>120</min><max>120</max>
+			</landhills>
+			<landheight>
+				<min>50</min><max>70</max>
+			</landheight>
+			<landwidthx>256</landwidthx>
+			<landwidthy>256</landwidthy>
+			<landpeakwidthx>
+				<min>10</min><max>50</max>
+			</landpeakwidthx>
+			<landpeakwidthy>
+				<min>-10</min><max>10</max>
+			</landpeakwidthy>
+			<landpeakheight>
+				<min>0.5</min><max>1.5</max>
+			</landpeakheight>
+			<landsmoothing>0.04</landsmoothing>
+			<levelsurround>true</levelsurround>
+		</heightmap>
+		<!--<heightmap type="file">
+			<file>data/landscapes/valley-mask.bmp</file>
+		</heightmap>-->
+	</defn>
+	<defn>
+		<name>test</name>
+		<minplayers>0</minplayers>
+		<maxplayers>24</maxplayers>
+		<surround type="none"></surround>
+		<tankstart type="height">
+			<startcloseness>20</startcloseness>
+			<height><min>5.5</min><max>20</max></height>
+			<startmask></startmask>
+		</tankstart>
+		<roof type="cavern">
+			<width>300</width>
+			<height>125</height>
+			<heightmap type="generate">
+				<mask></mask>
+				<landhills>
+					<min>60</min><max>80</max>
+				</landhills>
+				<landheight>
+					<min>40</min><max>70</max>
+				</landheight>
+				<landwidthx>64</landwidthx>
+				<landwidthy>64</landwidthy>
+				<landpeakwidthx>
+					<min>4</min><max>10</max>
+				</landpeakwidthx>
+				<landpeakwidthy>
+					<min>-3</min><max>3</max>
+				</landpeakwidthy>
+				<landpeakheight>
+					<min>0.5</min><max>1.5</max>
+				</landpeakheight>
+				<landsmoothing>0.04</landsmoothing>
+				<levelsurround>false</levelsurround>
+			</heightmap>
+		</roof>
+		<heightmap type="generate">
+			<mask>data/landscapes/valley-mask.bmp</mask>
+			<landhills>
+				<min>30</min><max>30</max>
+			</landhills>
+			<landheight>
+				<min>50</min><max>70</max>
+			</landheight>
+			<landwidthx>256</landwidthx>
+			<landwidthy>256</landwidthy>
+			<landpeakwidthx>
+				<min>10</min><max>50</max>
+			</landpeakwidthx>
+			<landpeakwidthy>
+				<min>-10</min><max>10</max>
+			</landpeakwidthy>
+			<landpeakheight>
+				<min>0.5</min><max>1.5</max>
+			</landpeakheight>
+			<landsmoothing>0.04</landsmoothing>
+			<levelsurround>true</levelsurround>
+		</heightmap>
+	</defn>
+	<!-- 
+	Maps designed by Bobirov (a.k.a. Robert Hand)
+    copyright 2004
+    distributed under the Creative Commons Attribution-ShareAlike license
+    -->
+    <defn>
+    	<name>Mountains</name>
+    	<minplayers>0</minplayers>
+    	<maxplayers>24</maxplayers>
+    	<surround type="none"></surround>
+		<roof type="sky"></roof>
+    	<tankstart type="height">
+    		<startcloseness>20</startcloseness>
+    		<height><min>10</min><max>125</max></height>
+    		<startmask></startmask>
+    	</tankstart>
+    	<heightmap type="generate">
+			<mask></mask>
+			<landhills>
+				<min>200</min><max>400</max>
+			</landhills>
+			<landheight>
+				<min>50</min><max>75</max>
+			</landheight>
+			<landwidthx>256</landwidthx>
+			<landwidthy>256</landwidthy>
+			<landpeakwidthx>
+				<min>15</min><max>35</max>
+			</landpeakwidthx>
+			<landpeakwidthy>
+				<min>-10</min><max>10</max>
+			</landpeakwidthy>
+			<landpeakheight>
+				<min>.9</min><max>1.1</max>
+			</landpeakheight>
+			<landsmoothing>0.04</landsmoothing>
+			<levelsurround>true</levelsurround>
+		</heightmap>
+    </defn>
+    <defn>
+    	<name>bighill</name>
+    	<minplayers>0</minplayers>
+    	<maxplayers>24</maxplayers>
+    	<surround type="none"></surround>
+		<roof type="sky"></roof>
+    	<tankstart type="height">
+    		<startcloseness>20</startcloseness>
+    		<height><min>15</min><max>125</max></height>
+    		<startmask></startmask>
+    	</tankstart>
+    	<heightmap type="generate">
+			<mask></mask>
+			<landhills>
+				<min>10</min><max>25</max>
+			</landhills>
+			<landheight>
+				<min>75</min><max>75</max>
+			</landheight>
+			<landwidthx>256</landwidthx>
+			<landwidthy>256</landwidthy>
+			<landpeakwidthx>
+				<min>35</min><max>100</max>
+			</landpeakwidthx>
+			<landpeakwidthy>
+				<min>-10</min><max>10</max>
+			</landpeakwidthy>
+			<landpeakheight>
+				<min>.95</min><max>1.05</max>
+			</landpeakheight>
+			<landsmoothing>0.04</landsmoothing>
+			<levelsurround>true</levelsurround>
+		</heightmap>
+    </defn>
+    <defn>
+    	<name>donuthills</name>
+    	<minplayers>0</minplayers>
+    	<maxplayers>24</maxplayers>
+    	<surround type="none"></surround>
+		<roof type="sky"></roof>
+    	<tankstart type="height">
+    		<startcloseness>20</startcloseness>
+			<height><min>10</min><max>125</max></height>
+			<startmask></startmask>
+		</tankstart>
+		<heightmap type="generate">
+			<mask>data/landscapes/ring-mask.bmp</mask>
+			<landhills>
+				<min>300</min><max>300</max>
+			</landhills>
+			<landheight>
+				<min>50</min><max>50</max>
+			</landheight>
+			<landwidthx>256</landwidthx>
+			<landwidthy>256</landwidthy>
+			<landpeakwidthx>
+				<min>20</min><max>50</max>
+			</landpeakwidthx>
+			<landpeakwidthy>
+				<min>-10</min><max>10</max>
+			</landpeakwidthy>
+			<landpeakheight>
+				<min>.85</min><max>1.15</max>
+			</landpeakheight>
+			<landsmoothing>0.04</landsmoothing>
+			<levelsurround>true</levelsurround>
+		</heightmap>
+    </defn>
+    <defn>
+    	<name>apoccity</name>
+    	<minplayers>0</minplayers>
+    	<maxplayers>24</maxplayers>
+    	<surround type="none"></surround>
+		<roof type="sky"></roof>
+    	<tankstart type="height">
+    		<startcloseness>20</startcloseness>
+    		<height><min>8</min><max>50</max></height>
+    		<startmask></startmask>
+    	</tankstart>
+    	<heightmap type="file">
+    		<file>data/landscapes/apoccity.bmp</file>
+    		<levelsurround>true</levelsurround>
+    	</heightmap>
+    </defn>
+    <defn>
+    	<name>world</name>
+    	<minplayers>0</minplayers>
+    	<maxplayers>24</maxplayers>
+    	<surround type="none"></surround>
+		<roof type="sky"></roof>
+    	<tankstart type="height">
+    		<startcloseness>20</startcloseness>
+    		<height><min>10</min><max>100</max></height>
+    		<startmask></startmask>
+    	</tankstart>
+    	<heightmap type="file">
+    		<file>data/landscapes/world-map.bmp</file>
+    		<levelsurround>true</levelsurround>
+    	</heightmap>
+    </defn>
+    <defn>
+    	<name>USA</name>
+    	<minplayers>0</minplayers>
+    	<maxplayers>24</maxplayers>
+    	<surround type="none"></surround>
+		<roof type="sky"></roof>
+    	<tankstart type="height">
+    		<startcloseness>20</startcloseness>
+    		<height><min>10</min><max>75</max></height>
+    		<startmask></startmask>
+    	</tankstart>
+    	<heightmap type="file">
+    		<file>data/landscapes/usa-map.bmp</file>
+    		<levelsurround>true</levelsurround>
+    	</heightmap>
+    </defn>
+    <defn>
+    	<name>volcano</name>
+    	<minplayers>0</minplayers>
+    	<maxplayers>24</maxplayers>
+    	<surround type="none"></surround>
+		<roof type="sky"></roof>
+    	<tankstart type="height">
+    		<startcloseness>20</startcloseness>
+    		<height><min>8</min><max>35</max></height>
+    		<startmask></startmask>
+    	</tankstart>
+    	<heightmap type="file">
+    		<file>data/landscapes/volcano.bmp</file>
+    		<levelsurround>true</levelsurround>
+    	</heightmap>
+    </defn>
+    <defn>
+    	<name>bullseye</name>
+    	<minplayers>0</minplayers>
+    	<maxplayers>24</maxplayers>
+    	<surround type="none"></surround>
+		<roof type="sky"></roof>
+    	<tankstart type="height">
+    		<startcloseness>20</startcloseness>
+    		<height><min>18</min><max>100</max></height>
+    		<startmask></startmask>
+    	</tankstart>
+    	<heightmap type="file">
+			<file>data/landscapes/bullseye-map.bmp</file>
+			<levelsurround>true</levelsurround>
+		</heightmap>
+    </defn>
+    <defn>
+    	<name>plateau</name>
+    	<minplayers>0</minplayers>
+    	<maxplayers>24</maxplayers>
+    	<surround type="none"></surround>
+		<roof type="sky"></roof>
+    	<tankstart type="height">
+    		<startcloseness>20</startcloseness>
+    		<height><min>25</min><max>100</max></height>
+    		<startmask></startmask>
+    	</tankstart>
+    	<heightmap type="file">
+    		<file>data/landscapes/plateau.bmp</file>
+    		<levelsurround>true</levelsurround>
+    	</heightmap>
+    </defn>
+    <defn>
+    	<name>pillars</name>
+    	<minplayers>4</minplayers>
+    	<maxplayers>24</maxplayers>
+    	<surround type="none"></surround>
+		<roof type="sky"></roof>
+    	<tankstart type="height">
+    		<startcloseness>20</startcloseness>
+    		<height><min>20</min><max>125</max></height>
+    		<startmask></startmask>
+    	</tankstart>
+    	<heightmap type="file">
+    		<file>data/landscapes/pillars.bmp</file>
+    		<levelsurround>true</levelsurround>
+    	</heightmap>
+    </defn>
+    <defn>
+    	<name>colosseum</name>
+    	<minplayers>0</minplayers>
+    	<maxplayers>24</maxplayers>
+    	<surround type="none"></surround>
+		<roof type="sky"></roof>
+    	<tankstart type="height">
+    		<startcloseness>20</startcloseness>
+    		<height><min>11.5</min><max>65</max></height>
+    		<startmask></startmask>
+    	</tankstart>
+    	<heightmap type="file">
+    		<file>data/landscapes/colosseum.bmp</file>
+    		<levelsurround>true</levelsurround>
+    	</heightmap>
+    </defn>
+    <defn>
+    	<name>ruffles</name>
+    	<minplayers>4</minplayers>
+    	<maxplayers>24</maxplayers>
+    	<surround type="none"></surround>
+		<roof type="sky"></roof>
+    	<tankstart type="height">
+    		<startcloseness>20</startcloseness>
+    		<height><min>10</min><max>100</max></height>
+    		<startmask></startmask>
+    	</tankstart>
+    	<heightmap type="file">
+    		<file>data/landscapes/ruffles.bmp</file>
+    		<levelsurround>true</levelsurround>
+    	</heightmap>
+    </defn>
+    <defn>
+    	<name>maze</name>
+    	<minplayers>4</minplayers>
+    	<maxplayers>24</maxplayers>
+    	<surround type="none"></surround>
+		<roof type="sky"></roof>
+    	<tankstart type="height">
+    		<startcloseness>20</startcloseness>
+    		<height><min>10</min><max>16</max></height>
+    		<startmask></startmask>
+    	</tankstart>
+    	<heightmap type="file">
+    		<file>data/landscapes/maze.bmp</file>
+    		<levelsurround>true</levelsurround>
+    	</heightmap>
+    </defn>
+    <defn>
+    	<name>castle</name>
+    	<minplayers>4</minplayers>
+    	<maxplayers>24</maxplayers>
+    	<surround type="none"></surround>
+		<roof type="sky"></roof>
+    	<tankstart type="height">
+    		<startcloseness>20</startcloseness>
+    		<height><min>15</min><max>100</max></height>
+    		<startmask></startmask>
+    	</tankstart>
+    	<heightmap type="file">
+    		<file>data/landscapes/castle.bmp</file>
+    		<levelsurround>true</levelsurround>
+    	</heightmap>
+    </defn>
+    
+    <!-- 
+	Maps designed by Nexus6 (a.k.a. Toby Haynes)
+    copyright 2004
+    distributed under the Creative Commons Attribution-ShareAlike license
+    -->
+    
+    <defn>
+    	<name>moon</name>
+    	<minplayers>4</minplayers>
+    	<maxplayers>24</maxplayers>
+    	<surround type="none"></surround>
+		<roof type="sky"></roof>
+    	<tankstart type="height">
+    		<startcloseness>20</startcloseness>
+    		<height><min>9</min><max>75</max></height>
+    		<startmask></startmask>
+    	</tankstart>
+    	<heightmap type="file">
+    		<file>data/landscapes/moon.bmp</file>
+    		<levelsurround>true</levelsurround>
+    	</heightmap>
+    </defn>
+    <defn>
+    	<name>pyramids</name>
+    	<minplayers>0</minplayers>
+    	<maxplayers>24</maxplayers>
+    	<surround type="none"></surround>
+		<roof type="sky"></roof>
+    	<tankstart type="height">
+    		<startcloseness>20</startcloseness>
+    		<height><min>9</min><max>75</max></height>
+    		<startmask></startmask>
+    	</tankstart>
+    	<heightmap type="file">
+    		<file>data/landscapes/pyramids.bmp</file>
+    		<levelsurround>true</levelsurround>
+    	</heightmap>
+    </defn>
+    <defn>
+    	<name>weathered</name>
+    	<minplayers>0</minplayers>
+    	<maxplayers>24</maxplayers>
+    	<surround type="none"></surround>
+		<roof type="sky"></roof>
+    	<tankstart type="height">
+    		<startcloseness>20</startcloseness>
+    		<height><min>7</min><max>100</max></height>
+    		<startmask></startmask>
+    	</tankstart>
+    	<heightmap type="file">
+    		<file>data/landscapes/weathered.bmp</file>
+    		<levelsurround>true</levelsurround>
+    	</heightmap>
+    </defn>
+    <defn>
+    	<name>hex isle</name>
+    	<minplayers>4</minplayers>
+    	<maxplayers>24</maxplayers>
+    	<surround type="none"></surround>
+		<roof type="sky"></roof>
+    	<tankstart type="height">
+    		<startcloseness>20</startcloseness>
+    		<height><min>9</min><max>100</max></height>
+    		<startmask></startmask>
+    	</tankstart>
+    	<heightmap type="file">
+    		<file>data/landscapes/hexIsle.bmp</file>
+    		<levelsurround>true</levelsurround>
+    	</heightmap>
+    </defn>
+    <defn>
+    	<name>two towers</name>
+    	<minplayers>0</minplayers>
+    	<maxplayers>24</maxplayers>
+    	<surround type="none"></surround>
+		<roof type="sky"></roof>
+    	<tankstart type="height">
+    		<startcloseness>20</startcloseness>
+    		<height><min>15</min><max>100</max></height>
+    		<startmask></startmask>
+    	</tankstart>
+    	<heightmap type="file">
+    		<file>data/landscapes/twotowers.bmp</file>
+    		<levelsurround>true</levelsurround>
+    	</heightmap>
+    </defn>
+    <defn>
+    	<name>craters</name>
+    	<minplayers>0</minplayers>
+    	<maxplayers>24</maxplayers>
+    	<surround type="none"></surround>
+		<roof type="sky"></roof>
+    	<tankstart type="height">
+    		<startcloseness>20</startcloseness>
+    		<height><min>9</min><max>75</max></height>
+    		<startmask></startmask>
+    	</tankstart>
+    	<heightmap type="file">
+    		<file>data/landscapes/craters.bmp</file>
+    		<levelsurround>true</levelsurround>
+    	</heightmap>
+    </defn>
+    <defn>
+    	<name>pyramids2</name>
+    	<minplayers>0</minplayers>
+    	<maxplayers>24</maxplayers>
+    	<surround type="none"></surround>
+		<roof type="sky"></roof>
+    	<tankstart type="height">
+    		<startcloseness>20</startcloseness>
+    		<height><min>9</min><max>75</max></height>
+    		<startmask></startmask>
+    	</tankstart>
+    	<heightmap type="file">
+    		<file>data/landscapes/pyramids-v2.bmp</file>
+    		<levelsurround>true</levelsurround>
+    	</heightmap>
+    </defn>
+    <defn>
+    	<name>desert mesa</name>
+    	<minplayers>0</minplayers>
+    	<maxplayers>24</maxplayers>
+    	<surround type="none"></surround>
+		<roof type="sky"></roof>
+    	<tankstart type="height">
+    		<startcloseness>20</startcloseness>
+    		<height><min>7</min><max>100</max></height>
+    		<startmask></startmask>
+    	</tankstart>
+    	<heightmap type="file">
+    		<file>data/landscapes/desertmesa.bmp</file>
+    		<levelsurround>true</levelsurround>
+    	</heightmap>
+    </defn>
+    <defn>
+    	<name>terraces</name>
+    	<minplayers>0</minplayers>
+    	<maxplayers>24</maxplayers>
+    	<surround type="none"></surround>
+		<roof type="sky"></roof>
+    	<tankstart type="height">
+    		<startcloseness>20</startcloseness>
+    		<height><min>9</min><max>75</max></height>
+    		<startmask></startmask>
+    	</tankstart>
+    	<heightmap type="file">
+    		<file>data/landscapes/terraces.bmp</file>
+    		<levelsurround>true</levelsurround>
+    	</heightmap>
+    </defn>
+    <defn>
+    	<name>steppes</name>
+    	<minplayers>0</minplayers>
+    	<maxplayers>24</maxplayers>
+    	<surround type="none"></surround>
+		<roof type="sky"></roof>
+    	<tankstart type="height">
+    		<startcloseness>20</startcloseness>
+    		<height><min>9</min><max>75</max></height>
+    		<startmask></startmask>
+    	</tankstart>
+    	<heightmap type="file">
+    		<file>data/landscapes/steppes.bmp</file>
+    		<levelsurround>true</levelsurround>
+    	</heightmap>
+    </defn>
+    <defn>
+    	<name>nexus canyon</name>
+    	<minplayers>0</minplayers>
+    	<maxplayers>24</maxplayers>
+    	<surround type="none"></surround>
+		<roof type="sky"></roof>
+    	<tankstart type="height">
+    		<startcloseness>20</startcloseness>
+    		<height><min>9</min><max>75</max></height>
+    		<startmask></startmask>
+    	</tankstart>
+    	<heightmap type="file">
+    		<file>data/landscapes/nexuscanyon.bmp</file>
+    		<levelsurround>true</levelsurround>
+    	</heightmap>
+    </defn>
+    <defn>
+    	<name>hillcity</name>
+    	<minplayers>4</minplayers>
+    	<maxplayers>24</maxplayers>
+    	<surround type="none"></surround>
+		<roof type="sky"></roof>
+    	<tankstart type="height">
+    		<startcloseness>20</startcloseness>
+    		<height><min>9</min><max>75</max></height>
+    		<startmask></startmask>
+    	</tankstart>
+    	<heightmap type="file">
+    		<file>data/landscapes/hillcity.bmp</file>
+    		<levelsurround>true</levelsurround>
+    	</heightmap>
+    </defn>
+    
+    <!--
+	Maps designed by ShoCkwaVe
+	copyright 2004
+    distributed under the Creative Commons Attribution-ShareAlike license
+    -->
+    
+    <defn>
+    	<name>arizonaislands</name>
+    	<minplayers>0</minplayers>
+    	<maxplayers>24</maxplayers>
+    	<surround type="none"></surround>
+		<roof type="sky"></roof>
+		<tankstart type="height">
+			<startcloseness>20</startcloseness>
+			<height><min>5.5</min><max>80</max></height>
+			<startmask></startmask>
+		</tankstart>
+		<heightmap type="file">
+			<file>data/landscapes/arizonaislands.bmp</file>
+			<levelsurround>true</levelsurround>
+		</heightmap>
+    </defn>
+    
+</defns>

@@ -1,0 +1,42 @@
+This is a listing of all the players who have made contributions to the mod (whether they know it or not).
+If there is anything that you think I may have used in the mod that was originally done by you and your
+name does not appear in the list below, please send an e-mail to bobirov@yahoo.com stating your name and
+the content that is in question.  I don't want to leave anyone out, and I am sorry if I have not listed you.
+
+	- Bobirov
+		Landscapes:
+			- apoccity, bighill, bullseye, colosseum, maze, mountains, pillars, plateau, ring, ruffles, usa, volcano, world
+		- Sounds:
+			- Made thud.wav, gas.wav myself
+			- Made tripleshot.wav using the flare sound
+			- Made lightningbolt using two sounds from findsounds.com
+			- obtained the rest from various sources on the net (findsounds.com mostly)
+		- Textures:
+			- cloud00, gas00 and light00 explosion textures 
+			- all the custom weapon icons
+		- All custom accessory code unless stated otherwise
+		- Wrote all other additional xml for version 38 (updating landscapes, object placement, ai types, etc)
+		- Final scaling, repositioning and poly reduction of the building models
+	
+	- ShoCkwaVe
+		Projectile Models (models and texturing):
+			- fusionbarrel, m7a3grenade, redhornet, remorcebomblet texture, shockbomblet, shockrocket
+		Object Models (including burnt versions and all texturing):
+			- church1, cityoffice, factory1, farm1, house1, logcabin1, officeplaza1, store1, trailorhouse1
+		Landscapes:
+			- arizonaislands
+	
+	- Nexus6
+		- Landscapes:
+			- castle, craters, desertmesa, hexIsle, hillcity, moon, nexuscanyon, pyramids, pyramids-v2, steppes, terraces, twotowers, weathered
+			
+	- Black-Rose
+		- Some landscape textures from the Black-Rose Mod
+		
+	- Dracon23
+		- Original Hornet's Nest, MOAB, Travolta, Napalm MIRV and Roller MIRV xml
+			
+	- R@p7oR
+		Projectile Models:
+			- napalm
+			
