@@ -22,6 +22,8 @@
 
 unsigned int NetInterface::bytesIn_ = 0;
 unsigned int NetInterface::bytesOut_ = 0;
+unsigned int NetInterface::pings_ = 0;
+unsigned int NetInterface::connects_ = 0;
 
 NetInterface::NetInterface()
 {

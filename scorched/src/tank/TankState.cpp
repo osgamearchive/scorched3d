@@ -94,7 +94,7 @@ const char *TankState::getStateString()
 
 const char *TankState::getSmallStateString()
 {
-	//if (spectator_) return "Spectator";
+	if (spectator_) return "Spectator";
 	return ((state_==sDead)?"Dead":((state_==sNormal)?"Alive":"Pending"));
 }
 

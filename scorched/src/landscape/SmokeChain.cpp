@@ -113,7 +113,7 @@ SmokeChainEntry *SmokeChain::getNextEntry()
 
 void SmokeChain::removeEntry()
 {
-	if (noEntries_ == 0) abort();
+	if (noEntries_ == 0) return;
 	noEntries_--;
 	firstEntry_++;
 	if (firstEntry_ > lastEntry_) firstEntry_ = entries_;

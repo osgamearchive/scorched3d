@@ -420,9 +420,11 @@ void ServerFrame::onTimer()
 		ScorchedServer::instance()->getOptionsTransient().getCurrentGameNo(),
 		ScorchedServer::instance()->getOptionsGame().getNoMaxRoundTurns());
 	frame->statusBar_->SetStatusText(buffer, 2);
-	sprintf(buffer, "%i Bytes in, %i Bytes out",
+	sprintf(buffer, "BI:%i BO:%i P:%i C:%i",
 		NetInterface::getBytesIn(),
-		NetInterface::getBytesOut());
+		NetInterface::getBytesOut(),
+		NetInterface::getPings(),
+		NetInterface::getConnects());
 	frame->statusBar_->SetStatusText(buffer, 3);
 }
 

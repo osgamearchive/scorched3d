@@ -85,6 +85,7 @@ void WallActionRenderer::init(Action *action)
 		offSet3 = Vector(-1.0f, 0.0f, -1.0f);
 		offSet4 = Vector(-1.0f, 0.0f, 1.0f);
 		break;
+	default:
 	case OptionsTransient::BotSide:
 		pos[1] = (float) 
 			action->getScorchedContext()->landscapeMaps.getHMap().getWidth();
@@ -94,8 +95,6 @@ void WallActionRenderer::init(Action *action)
 		offSet3 = Vector(-1.0f, 0.0f, -1.0f);
 		offSet4 = Vector(-1.0f, 0.0f, 1.0f);
 		break;
-	default:
-		abort();
 	}
 
 	const float size = 20.0f;

@@ -152,6 +152,7 @@ bool NetServer::pollIncoming()
 				if (sock)
 				{
 					addClient(sock);
+					getConnects()++;
 
 					NetMessage *message = NetMessagePool::instance()->
 						getFromPool(NetMessage::ConnectMessage, (unsigned int) sock);

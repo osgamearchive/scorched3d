@@ -188,7 +188,16 @@ NetMessage *NetServerCompressedProtocol::readBuffer(TCPsocket socket)
 		{
 			// Return the error to the caller
 			NetMessagePool::instance()->addToPool(message);	
-			message = 0;
+			return 0;
+		}
+
+		// Check for silly sized buffer
+		if (dLen > 512000)
+		{
+			Logger::log(0, "Compressed buffer was too large to recieve. Size = %i.",
+				dLen);
+			NetMessagePool::instance()->addToPool(message);	
+			return 0;
 		}
 
 		// Create a new buffer for the uncompressed data
@@ -215,7 +224,8 @@ NetMessage *NetServerCompressedProtocol::readBuffer(TCPsocket socket)
 		{
 			// Return the error to the caller
 			NetMessagePool::instance()->addToPool(message);	
-			message = 0;
+			NetMessagePool::instance()->addToPool(newMessage);		
+			return 0;
 		}
 		
 		// Re-cycle the new message buffer

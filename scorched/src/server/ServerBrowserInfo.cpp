@@ -25,6 +25,7 @@
 #include <common/OptionsGame.h>
 #include <common/OptionsTransient.h>
 #include <common/Defines.h>
+#include <coms/NetInterface.h>
 
 ServerBrowserInfo *ServerBrowserInfo::instance_ = 0;
 
@@ -71,6 +72,8 @@ void ServerBrowserInfo::processMessages()
 		if (packetV_[i]->len == 0) packetV_[i]->data[0] = '\0';
 
 		//printf("Packet = %s\n", (char *) packetV_[i]->data);
+		NetInterface::getBytesIn() += packetV_[i]->len;
+		NetInterface::getPings() ++;
 
 		if (0 == strcmp((char *) packetV_[i]->data, "status")) processStatusMessage(buffer);
 		else if (0 == strcmp((char *) packetV_[i]->data, "info")) processInfoMessage(buffer);
@@ -80,6 +83,7 @@ void ServerBrowserInfo::processMessages()
 		int len = (int) strlen(buffer)+1;
 		memcpy(packetV_[i]->data, buffer, len);
 		packetV_[i]->len = len;
+		NetInterface::getBytesOut() += len;
 
 		//printf("Packet len = %i\n", packetV_[i]->len);
 		//printf("Packet = %s\n", packetV_[i]->data);

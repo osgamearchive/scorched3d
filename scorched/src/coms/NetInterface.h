@@ -41,10 +41,14 @@ public:
 
 	static unsigned int &getBytesIn() { return bytesIn_; }
 	static unsigned int &getBytesOut() { return bytesOut_; }
+	static unsigned int &getPings() { return pings_; }
+	static unsigned int &getConnects() { return connects_; }
 
 protected:
 	static unsigned int bytesIn_;
 	static unsigned int bytesOut_;
+	static unsigned int pings_;
+	static unsigned int connects_;
 };
 
 #endif
