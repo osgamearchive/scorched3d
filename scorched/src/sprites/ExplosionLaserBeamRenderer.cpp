@@ -43,8 +43,8 @@ totalTime_(0), time_(0), size_(size), position_(position), angle_(0)
 	}
 	_texture = 0;
 	
-	GLBitmap map( PKGDIR "data/textures/bordershield/grid2.bmp", 
-			 PKGDIR "data/textures/bordershield/grid2.bmp", true);
+	GLBitmap map( PKGDIR "data/textures/bordershield/grid22.bmp", 
+			 PKGDIR "data/textures/bordershield/grid.bmp", true);
 	_texture = new GLTexture;
 	_texture->create(map, GL_RGBA, true);
 	//GLConsole::instance()->addLine(false, "Size=%f", size_);
@@ -56,7 +56,8 @@ totalTime_(0), time_(0), size_(size), position_(position), angle_(0)
 
 void ExplosionLaserBeamRenderer::draw(Action *action)
 {
-	
+	GLState currentState(GLState::TEXTURE_ON | GLState::BLEND_ON);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); 
 	glPushMatrix();	
 	glTranslatef(position_[0],position_[1],0.0f);
 	glScalef((GLfloat)time_*0.05,time_*0.05,1.0f);
@@ -68,46 +69,47 @@ void ExplosionLaserBeamRenderer::draw(Action *action)
 		if (tempheight>100) tempheight=100;
 		Vector height(0,0,tempheight);
 
+
+		for (int i=0;i<(sides+1);i++){
+			
+			_texture->draw();
+			glColor4f(1.0f,1.0f,1.8f, 0.5f);
+			glNormal3fv ((float*)(points[j][i%sides]));
+			if (i%2){
+				glTexCoord2f(0.0f, 0.0f+time_);
+			}else{
+				glTexCoord2f(1.0f, 0.0f+time_);
+			}
+			glVertex3fv((float*)(points[j][i%sides]+height));
+			glNormal3fv ((float*)(points[j][i%sides]));
+			if (i%2){
+				glTexCoord2f(0.0f, (float)(tempheight/10)+time_);
+			}else{
+				glTexCoord2f(1.0f, (float)(tempheight/10)+time_);
+			}
+			glVertex3fv((float*)(points[j][i%sides]));
+		}
 		for (int i=0;i<(sides+1);i++){
 			
 		_texture->draw();
 		//GLState currentState(GLState::TEXTURE_ON);
 
-			glColor4f((GLfloat)1.0f,(1/sides)*i,0.0f, 0.5f);
+			glColor4f(0.0f,0.5f,1.0f, 0.5f);
 			
 			glNormal3fv ((float*)(points[j][i%sides]));
 			if (i%2){
-				glTexCoord2f(0.0f, 0.0f);
+				glTexCoord2f(0.0f, 0.0f-time_);
 			}else{
-				glTexCoord2f(1.0f, 0.0f);
+				glTexCoord2f(1.0f, 0.0f-time_);
 			}
 			glVertex3fv((float*)(points[j][i%sides]));
 			glNormal3fv ((float*)(points[j][i%sides]));
 			if (i%2){
-				glTexCoord2f(0.0f, (float)(tempheight/10));
+				glTexCoord2f(0.0f, (float)(tempheight/10)-time_);
 			}else{
-				glTexCoord2f(1.0f, (float)(tempheight/10));
+				glTexCoord2f(1.0f, (float)(tempheight/10)-time_);
 			}
 			glVertex3fv((float*)(points[j][i%sides]+height));
-		}
-		for (int i=0;i<(sides+1);i++){
-			
-			_texture->draw();
-			glColor4f(0.0f,0.0f,0.8f, 0.5f);
-			glNormal3fv ((float*)(points[j][i%sides]));
-			if (i%2){
-				glTexCoord2f(0.0f, 0.0f);
-			}else{
-				glTexCoord2f(1.0f, 0.0f);
-			}
-			glVertex3fv((float*)(points[j][i%sides]+height));
-			glNormal3fv ((float*)(points[j][i%sides]));
-			if (i%2){
-				glTexCoord2f(0.0f, (float)(tempheight/10));
-			}else{
-				glTexCoord2f(1.0f, (float)(tempheight/10));
-			}
-			glVertex3fv((float*)(points[j][i%sides]));
 		}
 		
 		glEnd();
