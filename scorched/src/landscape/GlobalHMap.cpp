@@ -55,7 +55,7 @@ void GlobalHMap::generateHMap(unsigned long seed,
 							  ProgressCounter *counter)
 {
 	// Seed the generator
-	RandomGenerator generator;
+	static RandomGenerator generator;
 	generator.seed(seed);
 	storedSeed_ = seed;
 

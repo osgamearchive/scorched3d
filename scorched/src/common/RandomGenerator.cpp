@@ -18,88 +18,52 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <common/RandomGenerator.h>
 #include <common/Defines.h>
+#include <SDL/SDL_net.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <limits.h>
-#include <time.h>
 
-/* Period parameters */  
-#define N 624
-#define M 397
-#define MATRIX_A 0x9908b0df   /* constant vector a */
-#define UPPER_MASK 0x80000000 /* most significant w-r bits */
-#define LOWER_MASK 0x7fffffff /* least significant r bits */
+// Yes you guessed it, a really sucky way to create cross platform
+// random numbers.  Store them in a file and read them in each system!
 
-/* Tempering parameters */   
-#define TEMPERING_MASK_B 0x9d2c5680
-#define TEMPERING_MASK_C 0xefc60000
-#define TEMPERING_SHIFT_U(y)  (y >> 11)
-#define TEMPERING_SHIFT_S(y)  (y << 7)
-#define TEMPERING_SHIFT_T(y)  (y << 15)
-#define TEMPERING_SHIFT_L(y)  (y >> 18)
-
-RandomGenerator::RandomGenerator() : 
-	mt(0), /* the array for the state vector  */
-	mti(N+1) /* mti==N+1 means mt[N] is not initialized */
+RandomGenerator::RandomGenerator() :
+	bufferSize_(100000),
+	buffer_(0),
+	position_(0)
 {
-	mt = new unsigned long[N];
+	FILE *in = fopen(PKGDIR "data/random.no", "rb");
+	DIALOG_ASSERT(in);
+	unsigned long *tmpbuffer = new unsigned long[bufferSize_];
+	int size = fread(tmpbuffer, sizeof(unsigned long), bufferSize_, in);
+	fclose(in);	
+	DIALOG_ASSERT(size == bufferSize_);
 
-	seed((unsigned long) time(0));
+	buffer_ = new unsigned long[bufferSize_];
+	for (unsigned long i=0; i<bufferSize_; i++)
+	{
+		unsigned long value = tmpbuffer[i];
+		buffer_[i] = SDLNet_Read32(&value);
+	}
+	delete [] tmpbuffer;
 }
 
 RandomGenerator::~RandomGenerator()
 {
-	delete [] mt;
+	delete [] buffer_;
 }
 
 void RandomGenerator::seed(unsigned long seed)
 {
-	for (int i=0;i<N;i++) 
-	{
-		mt[i] = seed & 0xffff0000;
-		seed = 69069 * seed + 1;
-		mt[i] |= (seed & 0xffff0000) >> 16;
-		seed = 69069 * seed + 1;
-	}
-	mti = N;
+	position_ = seed;
 }
 
 unsigned long RandomGenerator::getRandLong()
 {
-	unsigned long y;
-	static unsigned long mag01[2]={0x0, MATRIX_A};
-	/* mag01[x] = x * MATRIX_A  for x=0,1 */
-
-	if (mti >= N) 
-	{ /* generate N words at one time */
-		DIALOG_ASSERT(mti != N+1);  
-
-		int kk;
-		for (kk=0;kk<N-M;kk++) 
-		{
-			y = (mt[kk]&UPPER_MASK)|(mt[kk+1]&LOWER_MASK);
-			mt[kk] = mt[kk+M] ^ (y >> 1) ^ mag01[y & 0x1];
-		}
-		for (;kk<N-1;kk++) 
-		{
-			y = (mt[kk]&UPPER_MASK)|(mt[kk+1]&LOWER_MASK);
-			mt[kk] = mt[kk+(M-N)] ^ (y >> 1) ^ mag01[y & 0x1];
-		}
-		y = (mt[N-1]&UPPER_MASK)|(mt[0]&LOWER_MASK);
-		mt[N-1] = mt[M-1] ^ (y >> 1) ^ mag01[y & 0x1];
-		mti = 0;
-	}
-  
-	y = mt[mti++];
-	y ^= TEMPERING_SHIFT_U(y);
-	y ^= TEMPERING_SHIFT_S(y) & TEMPERING_MASK_B;
-	y ^= TEMPERING_SHIFT_T(y) & TEMPERING_MASK_C;
-	y ^= TEMPERING_SHIFT_L(y);
-
-	return y; 
+	unsigned long pos = position_ % bufferSize_;
+	position_++;
+	return buffer_[pos];
 }
 
 float RandomGenerator::getRandFloat()

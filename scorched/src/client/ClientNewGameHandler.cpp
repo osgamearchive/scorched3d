@@ -33,7 +33,6 @@
 #include <tank/TankStart.h>
 #include <tankgraph/TankRenderer.h>
 #include <coms/ComsNewGameMessage.h>
-#include <common/RandomGenerator.h>
 #include <GLEXT/GLLenseFlare.h>
 #include <sprites/ExplosionTextures.h>
 

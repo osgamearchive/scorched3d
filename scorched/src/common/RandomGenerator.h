@@ -18,7 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #if !defined(__INCLUDE_RandomGeneratorh_INCLUDE__)
 #define __INCLUDE_RandomGeneratorh_INCLUDE__
 
@@ -33,10 +32,10 @@ public:
 	float getRandFloat();
 
 protected:
-	unsigned long *mt;
-	int mti;
+	unsigned long bufferSize_;
+	unsigned long *buffer_;
+	unsigned long position_;
 
 };
-
 
 #endif

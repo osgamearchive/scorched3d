@@ -18,7 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <landscape/GlobalHMap.h>
 #include <tank/TankStart.h>
 #include <tank/TankContainer.h>
@@ -27,12 +26,7 @@
 #include <actions/ShowScore.h>
 #include <common/OptionsGame.h>
 #include <common/OptionsTransient.h>
-#include <common/RandomGenerator.h>
 #include <common/Defines.h>
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 void TankStart::scoreWinners()
 {
@@ -83,8 +77,7 @@ void TankStart::newGame()
 	TankContainer::instance()->newGame();
 
 	// Generate the new level
-	RandomGenerator generator;
-	unsigned long seed = generator.getRandLong();
+	unsigned long seed = rand();
 	GlobalHMap::instance()->generateHMap(seed);
 
 	// Set the start positions for the tanks
