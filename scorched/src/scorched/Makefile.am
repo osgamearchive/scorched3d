@@ -99,8 +99,6 @@ scorched3d_SOURCES = \
 	../GLW/GLWPushButton.h \
 	../GLW/GLWScrollButton.cpp \
 	../GLW/GLWScrollButton.h \
-	../GLW/GLWScrollH.cpp \
-	../GLW/GLWScrollH.h \
 	../GLW/GLWScrollPanel.cpp \
 	../GLW/GLWScrollPanel.h \
 	../GLW/GLWScrollW.cpp \
@@ -127,10 +125,6 @@ scorched3d_SOURCES = \
 	../GLW/GLWidget.h \
 	../tank/Tank.cpp \
 	../tank/Tank.h \
-	../tank/TankAI.cpp \
-	../tank/TankAI.h \
-	../tank/TankAILogic.cpp \
-	../tank/TankAILogic.h \
 	../tank/TankAccessories.cpp \
 	../tank/TankAccessories.h \
 	../tank/TankAutoDefense.cpp \
@@ -281,8 +275,8 @@ scorched3d_SOURCES = \
 	../dialogs/HelpDialog.h \
 	../dialogs/KibitzingDialog.cpp \
 	../dialogs/KibitzingDialog.h \
-	../dialogs/KillDialog.cpp \
-	../dialogs/KillDialog.h \
+	../dialogs/LogDialog.cpp \
+	../dialogs/LogDialog.h \
 	../dialogs/MainMenuDialog.cpp \
 	../dialogs/MainMenuDialog.h \
 	../dialogs/PlanViewDialog.cpp \
@@ -437,6 +431,8 @@ scorched3d_SOURCES = \
 	../weapons/WeaponProjectile.h \
 	../weapons/WeaponRiotBomb.cpp \
 	../weapons/WeaponRiotBomb.h \
+	../weapons/WeaponRoller.cpp \
+	../weapons/WeaponRoller.h \
 	../weapons/WeaponSandHog.cpp \
 	../weapons/WeaponSandHog.h \
 	../weapons/WeaponTracer.cpp \
@@ -485,6 +481,8 @@ scorched3d_SOURCES = \
 	../coms/NetBufferUtil.h \
 	../coms/NetInterface.cpp \
 	../coms/NetInterface.h \
+	../coms/NetLoopBack.cpp \
+	../coms/NetLoopBack.h \
 	../coms/NetMessage.cpp \
 	../coms/NetMessage.h \
 	../coms/NetMessageHandler.cpp \
@@ -589,6 +587,8 @@ scorched3d_SOURCES = \
 	../actions/Explosion.h \
 	../actions/Napalm.cpp \
 	../actions/Napalm.h \
+	../actions/Roller.cpp \
+	../actions/Roller.h \
 	../actions/ShieldHit.cpp \
 	../actions/ShieldHit.h \
 	../actions/ShotProjectile.cpp \
@@ -609,6 +609,8 @@ scorched3d_SOURCES = \
 	../actions/ShotProjectileNapalm.h \
 	../actions/ShotProjectileRiot.cpp \
 	../actions/ShotProjectileRiot.h \
+	../actions/ShotProjectileRoller.cpp \
+	../actions/ShotProjectileRoller.h \
 	../actions/ShotProjectileTracer.cpp \
 	../actions/ShotProjectileTracer.h \
 	../actions/ShotProjectileUnder.cpp \
@@ -651,6 +653,8 @@ scorched3d_SOURCES = \
 	../sprites/MissileActionRenderer.h \
 	../sprites/NapalmRenderer.cpp \
 	../sprites/NapalmRenderer.h \
+	../sprites/RollerRenderer.cpp \
+	../sprites/RollerRenderer.h \
 	../sprites/SmokeActionRenderer.cpp \
 	../sprites/SmokeActionRenderer.h \
 	../sprites/TalkRenderer.cpp \
@@ -663,32 +667,6 @@ scorched3d_SOURCES = \
 	../sprites/TracerActionRenderer.h \
 	../sprites/WallActionRenderer.cpp \
 	../sprites/WallActionRenderer.h \
-	../tankai/TankAIAdder.cpp \
-	../tankai/TankAIAdder.h \
-	../tankai/TankAIComputer.cpp \
-	../tankai/TankAIComputer.h \
-	../tankai/TankAIComputerBuyer.cpp \
-	../tankai/TankAIComputerBuyer.h \
-	../tankai/TankAIComputerCtrl.cpp \
-	../tankai/TankAIComputerCtrl.h \
-	../tankai/TankAIComputerMoron.cpp \
-	../tankai/TankAIComputerMoron.h \
-	../tankai/TankAIComputerPShark.cpp \
-	../tankai/TankAIComputerPShark.h \
-	../tankai/TankAIComputerRandom.cpp \
-	../tankai/TankAIComputerRandom.h \
-	../tankai/TankAIComputerShooter.cpp \
-	../tankai/TankAIComputerShooter.h \
-	../tankai/TankAIComputerTosser.cpp \
-	../tankai/TankAIComputerTosser.h \
-	../tankai/TankAIHuman.cpp \
-	../tankai/TankAIHuman.h \
-	../tankai/TankAIHumanCtrl.cpp \
-	../tankai/TankAIHumanCtrl.h \
-	../tankai/TankAIStore.cpp \
-	../tankai/TankAIStore.h \
-	../tankai/TankAIStrings.cpp \
-	../tankai/TankAIStrings.h \
 	CreateDialogs.cpp \
 	DisplayDialog.cpp \
 	DisplayDialog.h \
@@ -725,8 +703,10 @@ scorched3d_SOURCES = \
 	../client/ClientMessageHandler.h \
 	../client/ClientNewGameHandler.cpp \
 	../client/ClientNewGameHandler.h \
-	../client/ClientNextRoundState.cpp \
-	../client/ClientNextRoundState.h \
+	../client/ClientNewGameState.cpp \
+	../client/ClientNewGameState.h \
+	../client/ClientReadyState.cpp \
+	../client/ClientReadyState.h \
 	../client/ClientRmPlayerHandler.cpp \
 	../client/ClientRmPlayerHandler.h \
 	../client/ClientScoreHandler.cpp \
@@ -747,6 +727,8 @@ scorched3d_SOURCES = \
 	../client/MainBanner.h \
 	../client/MainCamera.cpp \
 	../client/MainCamera.h \
+	../client/MessageDisplay.cpp \
+	../client/MessageDisplay.h \
 	../client/ScorchedClient.cpp \
 	../client/ScorchedClient.h \
 	../client/ServerBrowser.cpp \
@@ -755,8 +737,6 @@ scorched3d_SOURCES = \
 	../client/ServerBrowserRefresh.h \
 	../client/ServerBrowserServerList.cpp \
 	../client/ServerBrowserServerList.h \
-	../client/MessageDisplay.cpp \
-	../client/MessageDisplay.h \
 	../client/ShotTimer.cpp \
 	../client/ShotTimer.h \
 	../client/SpeedChange.cpp \
@@ -769,6 +749,8 @@ scorched3d_SOURCES = \
 	../server/ServerBrowserInfo.h \
 	../server/ServerBuyAccessoryHandler.cpp \
 	../server/ServerBuyAccessoryHandler.h \
+	../server/ServerBuyingState.cpp \
+	../server/ServerBuyingState.h \
 	../server/ServerConnectHandler.cpp \
 	../server/ServerConnectHandler.h \
 	../server/ServerDefenseHandler.cpp \
@@ -781,14 +763,22 @@ scorched3d_SOURCES = \
 	../server/ServerNewGameState.h \
 	../server/ServerNextRoundState.cpp \
 	../server/ServerNextRoundState.h \
+	../server/ServerNextShotState.cpp \
+	../server/ServerNextShotState.h \
+	../server/ServerNextTurnState.cpp \
+	../server/ServerNextTurnState.h \
 	../server/ServerPlayedMoveHandler.cpp \
 	../server/ServerPlayedMoveHandler.h \
 	../server/ServerPlayerReadyHandler.cpp \
 	../server/ServerPlayerReadyHandler.h \
 	../server/ServerPlayingState.cpp \
 	../server/ServerPlayingState.h \
+	../server/ServerReadyState.cpp \
+	../server/ServerReadyState.h \
 	../server/ServerRegistration.cpp \
 	../server/ServerRegistration.h \
+	../server/ServerResetState.cpp \
+	../server/ServerResetState.h \
 	../server/ServerScoreState.cpp \
 	../server/ServerScoreState.h \
 	../server/ServerShotHolder.cpp \
@@ -803,6 +793,8 @@ scorched3d_SOURCES = \
 	../server/ServerTooFewPlayersStimulus.h \
 	../server/ServerWaitingForPlayersState.cpp \
 	../server/ServerWaitingForPlayersState.h \
+	../server/TurnController.cpp \
+	../server/TurnController.h \
 	../irc/ClientGameInfo.cpp \
 	../irc/ClientGameInfo.h \
 	../irc/GameInfoEntry.cpp \
@@ -821,6 +813,34 @@ scorched3d_SOURCES = \
 	../irc/ServerGameInfo.cpp \
 	../irc/ServerGameInfo.h \
 	../irc/UdpHandler.cpp \
-	../irc/UdpHandler.h
+	../irc/UdpHandler.h \
+	../tankai/TankAI.cpp \
+	../tankai/TankAI.h \
+	../tankai/TankAIAdder.cpp \
+	../tankai/TankAIAdder.h \
+	../tankai/TankAIComputer.cpp \
+	../tankai/TankAIComputer.h \
+	../tankai/TankAIComputerBuyer.cpp \
+	../tankai/TankAIComputerBuyer.h \
+	../tankai/TankAIComputerMoron.cpp \
+	../tankai/TankAIComputerMoron.h \
+	../tankai/TankAIComputerPShark.cpp \
+	../tankai/TankAIComputerPShark.h \
+	../tankai/TankAIComputerRandom.cpp \
+	../tankai/TankAIComputerRandom.h \
+	../tankai/TankAIComputerShooter.cpp \
+	../tankai/TankAIComputerShooter.h \
+	../tankai/TankAIComputerTosser.cpp \
+	../tankai/TankAIComputerTosser.h \
+	../tankai/TankAIHuman.cpp \
+	../tankai/TankAIHuman.h \
+	../tankai/TankAIHumanCtrl.cpp \
+	../tankai/TankAIHumanCtrl.h \
+	../tankai/TankAILogic.cpp \
+	../tankai/TankAILogic.h \
+	../tankai/TankAIStore.cpp \
+	../tankai/TankAIStore.h \
+	../tankai/TankAIStrings.cpp \
+	../tankai/TankAIStrings.h
 
 INCLUDES = -I../porting -I.. 
