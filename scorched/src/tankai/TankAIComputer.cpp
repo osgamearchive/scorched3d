@@ -134,13 +134,15 @@ void TankAIComputer::selectFirstShield()
 {
 	if (currentTank_->getAccessories().getShields().getAllShields().size())
 	{
-		std::map<Shield *, int>::iterator itor = 
-			currentTank_->getAccessories().getShields().getAllShields().begin();
-		Shield *shield = (*itor).first;
-
-		if (!currentTank_->getAccessories().getShields().getCurrentShield())
+		std::list<Accessory *> shieldList = 
+			currentTank_->getAccessories().getShields().getAllShields();
+		if (!shieldList.empty())
 		{
-			shieldsUpDown(shield->getAccessoryId());
+			Accessory *shield = shieldList.front();
+			if (!currentTank_->getAccessories().getShields().getCurrentShield())
+			{
+				shieldsUpDown(shield->getAccessoryId());
+			}
 		}
 	}
 }

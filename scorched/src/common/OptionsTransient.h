@@ -73,10 +73,6 @@ public:
 	bool writeToBuffer(NetBuffer &buffer);
 	bool readFromBuffer(NetBufferReader &reader);
 
-	// User to save games
-	bool writeToXML(XMLNode *node);
-	bool readFromXML(XMLNode *node);
-
 protected:
 	OptionsGame &optionsGame_;
 	struct Settings

@@ -18,11 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// TankAccessories.h: interface for the TankAccessories class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_TANKACCESSORIES_H__60850A18_DED2_4BB0_B104_CB0941EF6D1D__INCLUDED_)
 #define AFX_TANKACCESSORIES_H__60850A18_DED2_4BB0_B104_CB0941EF6D1D__INCLUDED_
 
@@ -45,7 +40,7 @@ public:
 	void rm(Accessory *accessory);
 
 	int getAccessoryCount(Accessory *accessory);
-	void getAllAccessories(std::list<std::pair<Accessory *, int> > &result);
+	std::list<Accessory *> getAllAccessories(bool sort=false);
 
 	TankFuel &getFuel() { return tankFuel_; }
 	TankWeapon &getWeapons() { return tankWeapon_; }
@@ -54,9 +49,11 @@ public:
 	TankAutoDefense &getAutoDefense() { return tankAuto_; }
 	TankBatteries &getBatteries() { return tankBatteries_; }
 
-	// Serialize the tank
+	// Serialize the tank accessories
     bool writeMessage(NetBuffer &buffer);
     bool readMessage(NetBufferReader &reader);
+	bool writeXML(XMLNode *node);
+	bool readXML(XMLNode *node);
 
 protected:
 	TankFuel tankFuel_;

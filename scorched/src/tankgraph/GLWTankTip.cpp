@@ -25,6 +25,7 @@
 #include <client/ScorchedClient.h>
 #include <client/ClientState.h>
 #include <common/Defines.h>
+#include <common/OptionsDisplay.h>
 
 TankUndoMenu::TankUndoMenu(Tank *tank) :
 	tank_(tank)
@@ -190,28 +191,31 @@ void TankShieldTip::showItems(float x, float y)
 		"turn off any current shield");
 
 	std::list<GLWSelectorEntry> entries;
-	std::map<Shield*, int> &shields = 
-		tank_->getAccessories().getShields().getAllShields();
-	std::map<Shield*, int>::iterator itor;
+	std::list<Accessory *> shields = 
+		tank_->getAccessories().getShields().getAllShields(
+		OptionsDisplay::instance()->getSortAccessories());
+	std::list<Accessory *>::iterator itor;
 	for (itor = shields.begin();
 		itor != shields.end();
 		itor++)
 	{
+		Accessory *current = (*itor);
+		int count = tank_->getAccessories().getAccessoryCount(current);
+
 		char buffer[128];
-		int count = (*itor).second;
 		if (count >= 0)
 		{
 			sprintf(buffer, "%s (%i)", 
-				(*itor).first->getName(),
+				current->getName(),
 				count);
 		}
 		else
 		{
 			sprintf(buffer, "%s (In)",
-				(*itor).first->getName());
+				current->getName());
 		}
-		entries.push_back(GLWSelectorEntry(buffer, &(*itor).first->getToolTip(), 
-			0, 0, (*itor).first));
+		entries.push_back(GLWSelectorEntry(buffer, &current->getToolTip(), 
+			0, 0, current));
 	}
 	entries.push_back(GLWSelectorEntry("Off", &offTip, 0, 0, 0));
 	GLWSelector::instance()->showSelector(this, x, y, entries,
@@ -405,27 +409,33 @@ void TankWeaponTip::populate()
 void TankWeaponTip::showItems(float x, float y)
 {
 	std::list<GLWSelectorEntry> entries;
-	std::map<Weapon *, int> &weapons = 
-		tank_->getAccessories().getWeapons().getAllWeapons();
-	std::map<Weapon *, int>::iterator itor;
+
+	std::list<Accessory *> weapons = 
+		tank_->getAccessories().getWeapons().getAllWeapons(
+			OptionsDisplay::instance()->getSortAccessories());
+
+	std::list<Accessory *>::iterator itor;
 	for (itor = weapons.begin();
 		itor != weapons.end();
 		itor++)
 	{
+		Accessory *weapon = (*itor);
+		int count = tank_->getAccessories().getAccessoryCount(weapon);
+
 		char buffer[128];
-		if ((*itor).second > 0)
+		if (count > 0)
 		{
 			sprintf(buffer, "%s (%i)", 
-				(*itor).first->getName(),
-				(*itor).second);
+				weapon->getName(),
+				count);
 		}
 		else
 		{
 			sprintf(buffer, "%s (In)", 
-				(*itor).first->getName());
+				weapon->getName());
 		}
-		entries.push_back(GLWSelectorEntry(buffer, &(*itor).first->getToolTip(), 
-			0, (*itor).first->getTexture(), (*itor).first));
+		entries.push_back(GLWSelectorEntry(buffer, &weapon->getToolTip(), 
+			0, weapon->getTexture(), weapon));
 	}
 	GLWSelector::instance()->showSelector(this, x, y, entries,
 		ClientState::StatePlaying);

@@ -18,17 +18,9 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// TankAccessories.cpp: implementation of the TankAccessories class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <weapons/AccessoryStore.h>
 #include <tank/TankAccessories.h>
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
+#include <common/OptionsDisplay.h>
 
 TankAccessories::TankAccessories()
 {
@@ -56,11 +48,15 @@ void TankAccessories::newGame()
 	tankShield_.newGame();
 }
 
-void TankAccessories::getAllAccessories(std::list<std::pair<Accessory *, int> > &result)
+std::list<Accessory *> TankAccessories::getAllAccessories(bool sort)
 {
+	std::list<Accessory *> result;
+
 	// Add all weapons
-	std::map<Weapon *, int> &tankWeapons = tankWeapon_.getAllWeapons();
-	std::map<Weapon *, int>::iterator itor;
+	std::list<Accessory *> tankWeapons = 
+		tankWeapon_.getAllWeapons(
+		OptionsDisplay::instance()->getSortAccessories());
+	std::list<Accessory *>::iterator itor;
 	for (itor = tankWeapons.begin();
 		itor != tankWeapons.end();
 		itor++)
@@ -69,8 +65,10 @@ void TankAccessories::getAllAccessories(std::list<std::pair<Accessory *, int> > 
 	}
 
 	// Add all shields
-	std::map<Shield *, int> &tankShields = tankShield_.getAllShields();
-	std::map<Shield *, int>::iterator shitor;
+	std::list<Accessory *> tankShields = 
+		tankShield_.getAllShields(
+		OptionsDisplay::instance()->getSortAccessories());
+	std::list<Accessory *>::iterator shitor;
 	for (shitor = tankShields.begin();
 		shitor != tankShields.end();
 		shitor++)
@@ -83,8 +81,7 @@ void TankAccessories::getAllAccessories(std::list<std::pair<Accessory *, int> > 
 	{
 		Accessory *accessory = AccessoryStore::instance()->
 			findByAccessoryType(Accessory::AccessoryParachute);
-		result.push_back(std::pair<Accessory *, int>
-			(accessory, tankPara_.getNoParachutes()));
+		result.push_back(accessory);
 	}
 
 	// Add auto defense
@@ -92,8 +89,7 @@ void TankAccessories::getAllAccessories(std::list<std::pair<Accessory *, int> > 
 	{
 		Accessory *accessory = AccessoryStore::instance()->
 			findByAccessoryType(Accessory::AccessoryAutoDefense);
-		result.push_back(std::pair<Accessory *, int>
-			(accessory, 1));
+		result.push_back(accessory);
 	}
 
 	// Add batteries
@@ -101,8 +97,7 @@ void TankAccessories::getAllAccessories(std::list<std::pair<Accessory *, int> > 
 	{
 		Accessory *accessory = AccessoryStore::instance()->
 			findByAccessoryType(Accessory::AccessoryBattery);
-		result.push_back(std::pair<Accessory *, int>
-			(accessory, tankBatteries_.getNoBatteries()));
+		result.push_back(accessory);
 	}
 
 	// Add fuel
@@ -110,9 +105,11 @@ void TankAccessories::getAllAccessories(std::list<std::pair<Accessory *, int> > 
 	{
 		Accessory *accessory = AccessoryStore::instance()->
 			findByAccessoryType(Accessory::AccessoryFuel);
-		result.push_back(std::pair<Accessory *, int>
-			(accessory, tankFuel_.getNoFuel()));
+		result.push_back(accessory);
 	}
+
+	if (sort) AccessoryStore::sortList(result);
+	return result;
 }
 
 int TankAccessories::getAccessoryCount(Accessory *accessory)

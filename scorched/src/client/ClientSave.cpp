@@ -36,14 +36,14 @@ void saveClient()
 
 	// GameState
 	XMLNode *gameStateNode = new XMLNode("gamestate");
-	ScorchedServer::instance()->getOptionsGame().writeOptionsToXML(
-		gameStateNode);
+	//ScorchedServer::instance()->getOptionsGame().writeOptionsToXML(
+	//	gameStateNode);
 	rootnode.addChild(gameStateNode);
 	
 	// Transient State
 	XMLNode *transientStateNode = new XMLNode("transientstate");
-	ScorchedServer::instance()->getOptionsTransient().writeToXML(
-		transientStateNode);
+	//ScorchedServer::instance()->getOptionsTransient().writeToXML(
+	//	transientStateNode);
 	rootnode.addChild(transientStateNode);
 	
 	// Players
@@ -62,7 +62,7 @@ void saveClient()
 
 		// Add each tank
 		Tank *tank = (*itor).second;
-		if (!tank->writeXML(playerNode)) return;
+		//if (!tank->writeXML(playerNode)) return;
 	}
 
 	// Write XML

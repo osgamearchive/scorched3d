@@ -26,6 +26,7 @@
 #include <string>
 #include <coms/NetBuffer.h>
 
+class Accessory;
 class Weapon;
 class TankWeapon  
 {
@@ -45,7 +46,7 @@ public:
 	Weapon *getCurrent();
 
 	// Get inventry
-	std::map<Weapon *, int> &getAllWeapons() { return weapons_; }
+	std::list<Accessory *> getAllWeapons(bool sort=false);
 	int getWeaponCount(Weapon *weapon);
 
 	const char *getWeaponString();

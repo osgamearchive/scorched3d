@@ -18,11 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// TankShields.h: interface for the TankShields class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_TANKSHIELDS_H__88E5EA32_F84D_41E3_AF97_01CBD2874CE3__INCLUDED_)
 #define AFX_TANKSHIELDS_H__88E5EA32_F84D_41E3_AF97_01CBD2874CE3__INCLUDED_
 
@@ -50,7 +45,7 @@ public:
 	void rmShield(Shield *sh, int count);
 
 	int getShieldCount(Shield *shield);
-	std::map<Shield*, int> &getAllShields() { return shields_; }
+	std::list<Accessory *> getAllShields(bool sort=false);
 
 	// Serialize the tank
     bool writeMessage(NetBuffer &buffer);

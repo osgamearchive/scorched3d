@@ -130,6 +130,21 @@ int TankShields::getShieldCount(Shield *shield)
 	return 0;
 }
 
+std::list<Accessory *> TankShields::getAllShields(bool sort)
+{
+	std::list<Accessory *> result;
+	std::map<Shield *, int>::iterator itor;
+	for (itor = shields_.begin();
+		itor != shields_.end();
+		itor++)
+	{
+		result.push_back((*itor).first);
+	}
+
+	if (sort) AccessoryStore::sortList(result);
+	return result;
+}
+
 bool TankShields::writeMessage(NetBuffer &buffer)
 {
 	buffer.addToBuffer(power_);
@@ -173,13 +188,9 @@ bool TankShields::readMessage(NetBufferReader &reader)
 		coveredShields.insert(shield);
 
 		int actualCount = getShieldCount(shield);
-		if (actualCount < shieldCount)
+		if (actualCount != shieldCount)
 		{
-			addShield(shield, shieldCount - actualCount);
-		}
-		else if (actualCount > shieldCount)
-		{
-			rmShield(shield, actualCount - shieldCount);
+			shields_[shield] = shieldCount;
 		}
 	}
 
@@ -194,7 +205,7 @@ bool TankShields::readMessage(NetBufferReader &reader)
 			coveredShields.find(shield);
 		if (findItor == coveredShields.end())
 		{
-			rmShield(shield, getShieldCount(shield));
+			shields_.erase(shield);
 		}
 	}
 

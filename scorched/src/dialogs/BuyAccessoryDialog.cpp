@@ -104,7 +104,8 @@ void BuyAccessoryDialog::addPlayerWeaponsBuy(GLWTab *tab, bool showWeapons)
 	std::list<Accessory *> weapons;
 	if (showWeapons) weapons = AccessoryStore::instance()->getAllWeapons(
 		OptionsDisplay::instance()->getSortAccessories());
-	else weapons = AccessoryStore::instance()->getAllOthers();
+	else weapons = AccessoryStore::instance()->getAllOthers(
+		OptionsDisplay::instance()->getSortAccessories());
 
 	char buffer[256];
 	int height = 10;
@@ -166,23 +167,25 @@ void BuyAccessoryDialog::addPlayerWeaponsSell()
 
 	char buffer[256];
 	int height = 10;
-	std::list<std::pair<Accessory *, int> > tankAccessories;
-	std::list<std::pair<Accessory *, int> >::iterator itor;
 
 	Tank *tank = ScorchedClient::instance()->getTankContainer().getCurrentTank();
 	if (!tank) return;
 
-	tank->getAccessories().getAllAccessories(tankAccessories);
+	std::list<Accessory *> tankAccessories = 
+		tank->getAccessories().getAllAccessories(
+			OptionsDisplay::instance()->getSortAccessories());
+	std::list<Accessory *>::iterator itor;
 	for (itor = tankAccessories.begin();
 		itor != tankAccessories.end();
 		itor++)
 	{
-		Accessory *current = itor->first;
+		Accessory *current = *itor;
+		int count = tank->getAccessories().getAccessoryCount(current);
 
 		GLWVisiblePanel *newPanel = (GLWVisiblePanel *)
 			sellTab_->addWidget(new GLWVisiblePanel(10.0f, (float) height, 315.0f, 20.0f, true));
 		newPanel->setToolTip(&current->getToolTip());
-		if (itor->second>=0) sprintf(buffer, "%i", itor->second);
+		if (count >= 0) sprintf(buffer, "%i", count);
 		else sprintf(buffer, "In");
 		newPanel->addWidget(new GLWLabel(0, -2, buffer));
 		newPanel->addWidget(new GLWIcon(30, 2, 16, 16, current->getTexture()));
@@ -190,7 +193,7 @@ void BuyAccessoryDialog::addPlayerWeaponsSell()
 		sprintf(buffer, "$%i/%i", current->getSellPrice(), 1);
 		newPanel->addWidget(new GLWLabel(205, -2, buffer));
 
-		if (itor->second >= 0)
+		if (count >= 0)
 		{
 			GLWidget *button =
 				newPanel->addWidget(new GLWTextButton("Sell", 325, 0, 60, this,

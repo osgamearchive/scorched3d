@@ -93,4 +93,3 @@ bool TankState::readMessage(NetBufferReader &reader)
 	if (!reader.getFromBuffer(spectator_)) return false;
 	return true;
 }
-

@@ -97,20 +97,6 @@ unsigned int OptionsTransient::getLeastUsedTeam(TankContainer &container)
 	return team;
 }
 
-bool OptionsTransient::writeToXML(XMLNode *node)
-{
-	node->addChild(new XMLNode("NoRoundsLeft", settings_.noRoundsLeft_));
-	return true;
-}
-
-bool OptionsTransient::readFromXML(XMLNode *node)
-{
-	settings_.noRoundsLeft_ = node->getNamedIntChild("NoRoundsLeft", true);
-	if (settings_.noRoundsLeft_ == XMLNode::ErrorFloat) return false;
-
-	return true;
-}
-
 bool OptionsTransient::writeToBuffer(NetBuffer &buffer)
 {
 	buffer.addToBuffer(settings_.noRoundsLeft_);

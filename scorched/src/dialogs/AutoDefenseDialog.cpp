@@ -108,19 +108,18 @@ void AutoDefenseDialog::buttonDown(unsigned int butid)
 			}
 			else
 			{
-				std::map<Shield*, int> &shields = 
+				std::list<Accessory *> shields = 
 					tank->getAccessories().getShields().getAllShields();
-				std::map<Shield*, int>::iterator shieldsItor = shields.begin();
+				std::list<Accessory *>::iterator shieldsItor = shields.begin();
 				for (int i=1; i<ddshields_->getCurrentPosition() && shieldsItor != shields.end(); i++) shieldsItor++;
 				
 				if (shieldsItor != shields.end())
 				{
 					((TankAIHuman *) tank->getTankAI())->shieldsUpDown(
-						(*shieldsItor).first->getAccessoryId());
+						(*shieldsItor)->getAccessoryId());
 				}
 			}
 		}
-
 
 		finished();
 	}
@@ -146,16 +145,16 @@ void AutoDefenseDialog::displayCurrent()
 
 	// Put shields info
 	ddshields_->clear();
-	std::map<Shield*, int>::iterator shieldsItor;
-	std::map<Shield*, int> &shields = 
+	std::list<Accessory *>::iterator shieldsItor;
+	std::list<Accessory *> shields = 
 		tank->getAccessories().getShields().getAllShields();
 	ddshields_->addText("Shields Off");
 	for (shieldsItor = shields.begin();
 		shieldsItor != shields.end();
 		shieldsItor++)
 	{
-		Shield *shield = (*shieldsItor).first;
-		int shieldcount = (*shieldsItor).second;
+		Accessory *shield = (*shieldsItor);
+		int shieldcount = tank->getAccessories().getAccessoryCount(shield);
 		char buffer[256];
 		if (shieldcount > 0)
 		{

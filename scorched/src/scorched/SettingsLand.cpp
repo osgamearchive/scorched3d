@@ -26,13 +26,10 @@ static void createControls(wxWindow *parent, wxSizer *topsizer)
 	landscapes = new wxCheckBox*[
 		LandscapeDefinitions::instance()->getAllLandscapes().size()];
 
-	wxSizer *sizer = new wxGridSizer(3, 3);
 	wxScrolledWindow *scrolledWindow = new wxScrolledWindow(parent, -1,
 		wxDefaultPosition, wxSize(340, 320));
-	scrolledWindow->SetSizer(sizer);
-	scrolledWindow->SetScrollRate(0, 10);
-	topsizer->Add(scrolledWindow, 0, wxALL | wxALIGN_CENTER, 10);
 
+	wxSizer *sizer = new wxFlexGridSizer(3, 3);
 	int i = 0;
 	std::vector<LandscapeDefinition> &defns =
 		LandscapeDefinitions::instance()->getAllLandscapes();
@@ -64,5 +61,11 @@ static void createControls(wxWindow *parent, wxSizer *topsizer)
 
 		sizer->Add(boxSizer, 0, wxALL, 5);
 	}
+
+	scrolledWindow->SetAutoLayout(TRUE);
+	scrolledWindow->SetSizer(sizer);
+	wxSize minSize = sizer->CalcMin();
+	scrolledWindow->SetScrollbars(0, 10, 50, minSize.GetHeight() / 10);
+	topsizer->Add(scrolledWindow, 0, wxALL | wxALIGN_CENTER, 10);
 }
 

@@ -262,17 +262,17 @@ void TankMenus::AccessoryMenu::getMenuItems(const char* menuName,
 	Tank *firstTank = ScorchedClient::instance()->getTankContainer().getCurrentTank();
 	if (!firstTank) return;
 
-	std::list<std::pair<Accessory *, int> > tankAccessories;
-	std::list<std::pair<Accessory *, int> >::iterator itor;
-
 	Accessory::AccessoryType lastType = Accessory::AccessoryWeapon;
-	firstTank->getAccessories().getAllAccessories(tankAccessories);
+	std::list<Accessory *> tankAccessories = 
+		firstTank->getAccessories().getAllAccessories();
+	std::list<Accessory *>::iterator itor;
 	for (itor = tankAccessories.begin();
 		itor != tankAccessories.end();
 		itor++)
 	{
-		Accessory *accessory = (*itor).first;
-		int accessoryCount = (*itor).second;
+		Accessory *accessory = (*itor);
+		int accessoryCount = 
+			firstTank->getAccessories().getAccessoryCount(accessory);
 
 		bool sel = false;
 		switch (accessory->getType())
