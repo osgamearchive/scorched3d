@@ -33,7 +33,7 @@
 
 MissileActionRenderer::MissileActionRenderer(int flareType, float scale) : 
 	flareType_(flareType), counter_(0.05f, 0.05f), 
-	mesh_(0), scale_(scale), rotation_(0.0f)
+	mesh_(0), scale_(scale), rotation_(180.0f)
 {
 	flameemitter_.setAttributes(
 		0.5f, 1.0f, // Life

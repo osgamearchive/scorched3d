@@ -83,8 +83,10 @@ bool ClientTextHandler::processMessage(unsigned int id,
 				if (tank && tank->getState().getState() == TankState::sNormal)
 				{
 					// put a speach bubble over the talking tank
+					Vector white(1.0f, 1.0f, 1.0f);
 					TalkRenderer *talk = new TalkRenderer(
-						tank->getPhysics().getTankTurretPosition());
+						tank->getPhysics().getTankTurretPosition(),
+						white);
 					ScorchedClient::instance()->getActionController().addAction(new SpriteAction(talk));
 				}
 

@@ -28,7 +28,7 @@
 class TalkRenderer : public ActionRenderer
 {
 public:
-	TalkRenderer(Vector &position);
+	TalkRenderer(Vector &position, Vector &color);
 	virtual ~TalkRenderer();
 
 	virtual void simulate(Action *action, float timepassed, bool &remove);
@@ -36,6 +36,7 @@ public:
 
 protected:
 	Vector position_;
+	Vector color_;
 };
 
 #endif // !defined(AFX_TalkRenderer_H__53C71D24_C1E9_41C2_8757_FF947E1B4425__INCLUDED_)

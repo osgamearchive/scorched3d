@@ -22,8 +22,8 @@
 #include <engine/ParticleEmitter.h>
 #include <client/ScorchedClient.h>
 
-TalkRenderer::TalkRenderer(Vector &position) : 
-	position_(position)
+TalkRenderer::TalkRenderer(Vector &position, Vector &color) : 
+	position_(position), color_(color)
 {
 }
 
@@ -44,10 +44,10 @@ void TalkRenderer::simulate(Action *action, float timepassed, bool &remove)
 		0.2f, 0.5f, // Mass
 		0.01f, 0.02f, // Friction
 		Vector(0.0f, 0.0f, 0.0f), Vector(0.0f, 0.0f, 0.0f), // Velocity
-		Vector(1.0f, 1.0f, 1.0f), 1.0f, // StartColor1
-		Vector(1.0f, 1.0f, 1.0f), 1.0f, // StartColor2
-		Vector(1.0f, 1.0f, 1.0f), 0.0f, // EndColor1
-		Vector(1.0f, 1.0f, 1.0f), 0.0f, // EndColor2
+		color_, 1.0f, // StartColor1
+		color_, 1.0f, // StartColor2
+		color_, 0.0f, // EndColor1
+		color_, 0.0f, // EndColor2
 		2.0f, 2.0f, 2.0f, 2.0f, // Start Size
 		2.0f, 2.0f, 2.0f, 2.0f, // EndSize
 		Vector(0.0f, 0.0f, 0.0f), // Gravity
