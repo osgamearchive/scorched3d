@@ -133,7 +133,7 @@ float HeightMap::getDist(Vector &start, Vector &dir, Vector &pos)
 bool HeightMap::getIntersect(Line &direction, Vector &intersect)
 {
 	const float maxFloat = -999999;
-	const int searchSquareWidth_ = 4;
+	const int searchSquareWidth_ = 3;
 
 	float maxdist = maxFloat;
 	for (int x=0; x<width_ - searchSquareWidth_; x+=searchSquareWidth_-1)

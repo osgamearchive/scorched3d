@@ -209,6 +209,7 @@ bool clientMain()
 
 	// Enter the SDL main loop to process SDL events
 	Clock loopClock;
+	bool timeLoop = false;
 	bool paused = false;
 	SDL_Event event;
 	for (;;)
@@ -253,37 +254,37 @@ bool clientMain()
 		} else {
 			idle = true;
 		}
-		if (loopClock.getTimeDifference() > 0.1f) 
+		if(timeLoop) if (loopClock.getTimeDifference() > 0.1f) 
 			GLConsole::instance()->addLine(false, "Clock clientMain 1");
 
 		if (!ScorchedClient::instance()->getMainLoop().mainLoop()) break;
-		if (loopClock.getTimeDifference() > 0.1f) 
+		if (timeLoop) if (loopClock.getTimeDifference() > 0.1f) 
 			GLConsole::instance()->addLine(false, "Clock clientMain 2");
 
 		if ((!paused) && (idle) ) ScorchedClient::instance()->getMainLoop().draw();
-		if (loopClock.getTimeDifference() > 0.1f) 
+		if (timeLoop) if (loopClock.getTimeDifference() > 0.1f) 
 			GLConsole::instance()->addLine(false, "Clock clientMain 3");
 
 		if (paused) SDL_Delay(100);  // Otherwise when not drawing graphics its an infinite loop
-		if (loopClock.getTimeDifference() > 0.1f) 
+		if (timeLoop) if (loopClock.getTimeDifference() > 0.1f) 
 			GLConsole::instance()->addLine(false, "Clock clientMain 4");
 
 		if (!OptionsParam::instance()->getConnectedToServer())
 		{
 			serverLoop();
 		}
-		if (loopClock.getTimeDifference() > 0.1f) 
+		if (timeLoop) if (loopClock.getTimeDifference() > 0.1f) 
 			GLConsole::instance()->addLine(false, "Clock clientMain 5");
 
 		Logger::processLogEntries();
-		if (loopClock.getTimeDifference() > 0.1f) 
+		if (timeLoop) if (loopClock.getTimeDifference() > 0.1f) 
 			GLConsole::instance()->addLine(false, "Clock clientMain 6");
 
 		if (ScorchedClient::instance()->getContext().netInterface)
 		{
 			ScorchedClient::instance()->getNetInterface().processMessages();
 		}
-		if (loopClock.getTimeDifference() > 0.1f) 
+		if (timeLoop) if (loopClock.getTimeDifference() > 0.1f) 
 			GLConsole::instance()->addLine(false, "Clock clientMain 7");
 	}
 
