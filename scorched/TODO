@@ -82,7 +82,6 @@ Fixed: Cannot see tank when it is under water
 Dvorak keyboard support is broken
 The server can start multiple times on the same port!
 Solaris client cannot choose weapons (Ok button does not work)
-Solaris servers/clients create different landscapes than I386 ones (endian problems!)
 
 -- Server Stuff
 Provide remote access to server (web server)

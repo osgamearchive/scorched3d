@@ -85,6 +85,8 @@ OptionsDisplay::OptionsDisplay() :
 		"Do not animate the sky", RWAccess, false),
 	noROAM_(options_,"NoROAM", 
 		"Do not use ROAM algorithm", RWAccess, false),
+	useLandscapeTexture_(options_, "LandscapeTexture",
+		"Texture the landscape", RWAccess, true),
 	noLenseFlare_(options_,"NoLenseFlare", 
 		"Do not show the full lense flare effect", RWAccess, true),
 	texSize_(options_, "TexureSize", 

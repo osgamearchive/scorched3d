@@ -20,14 +20,15 @@
 
 
 #include <landscape/HeightMapRenderer.h>
+#include <common/OptionsDisplay.h>
 #include <GLEXT/GLState.h>
 
 void HeightMapRenderer::drawHeightMap(HeightMap &map)
 {
-	static GLuint displayList_ = 0;
+	/*static GLuint displayList_ = 0;
 	if (!displayList_)
 	{
-		glNewList(displayList_ = glGenLists(1), GL_COMPILE_AND_EXECUTE);
+		glNewList(displayList_ = glGenLists(1), GL_COMPILE_AND_EXECUTE);*/
 
 		// Draw the triangles
 		glColor3f(1.0f, 1.0f, 1.0f);
@@ -37,43 +38,52 @@ void HeightMapRenderer::drawHeightMap(HeightMap &map)
 		{
 			for (int y=0; y<map.getWidth()-1; y++)
 			{
+				glTexCoord2f(float(x) / 256.0f, float(y) / 256.0f);
 				glNormal3fv(map.getNormal(x, y));
 				glVertex3f((float)x, (float)y, map.getHeight(x, y));
+				glTexCoord2f(float(x+1) / 256.0f, float(y) / 256.0f);
 				glNormal3fv(map.getNormal(x + 1, y));
 				glVertex3f((float)x + 1.0f, (float)y, map.getHeight(x + 1, y));
+				glTexCoord2f(float(x+1) / 256.0f, float(y+1) / 256.0f);
 				glNormal3fv(map.getNormal(x + 1, y + 1));
 				glVertex3f((float)x + 1.0f, (float)y + 1.0f, map.getHeight(x + 1, y + 1));
 
+				glTexCoord2f(float(x+1) / 256.0f, float(y+1) / 256.0f);
 				glNormal3fv(map.getNormal(x+1, y+1));
 				glVertex3f((float)x + 1.0f, (float)y + 1.0f, map.getHeight(x + 1, y + 1));
+				glTexCoord2f(float(x) / 256.0f, float(y+1) / 256.0f);
 				glNormal3fv(map.getNormal(x, y+1));
 				glVertex3f((float)x, (float)y + 1.0f, map.getHeight(x, y + 1));
+				glTexCoord2f(float(x) / 256.0f, float(y) / 256.0f);
 				glNormal3fv(map.getNormal(x, y));
 				glVertex3f((float)x, (float)y, map.getHeight(x, y));
 			}
 		}
 		glEnd();
 
-		// Draw the normals
-		glColor3f(0.0f, 1.0f, 0.0f);
-		glBegin(GL_LINES);
-		for (x=0; x<=map.getWidth(); x++)
+		if (OptionsDisplay::instance()->getDrawNormals())
 		{
-			for (int y=0; y<=map.getWidth(); y++)
+			// Draw the normals
+			glColor3f(0.0f, 1.0f, 0.0f);
+			glBegin(GL_LINES);
+			for (x=0; x<=map.getWidth(); x++)
 			{
-				Vector &Normal = map.getNormal(x, y);
-				Vector Position((float)x, (float)y, map.getHeight(x, y));
+				for (int y=0; y<=map.getWidth(); y++)
+				{
+					Vector &Normal = map.getNormal(x, y);
+					Vector Position((float)x, (float)y, map.getHeight(x, y));
 
-				glVertex3fv(Position);
-				glVertex3fv(Position + Normal * 2.0f);
-			}
-		}			
-		glEnd();
+					glVertex3fv(Position);
+					glVertex3fv(Position + Normal * 2.0f);
+				}
+			}			
+			glEnd();
+		}
 
-		glEndList();
+		/*glEndList();
 	}
 	else
 	{
 		glCallList(displayList_);
-	}
+	}*/
 }

@@ -69,6 +69,9 @@ public:
 	bool getNoROAM() { return noROAM_.getValue(); }
 	void setNoROAM(bool value) { noROAM_.setValue(value); }	
 
+	bool getUseLandscapeTexture() { return useLandscapeTexture_.getValue(); }
+	void setUseLandscapeTexture(bool value) { useLandscapeTexture_.setValue(value); }	
+
 	bool getFullScreen() { return fullScreen_.getValue(); }
 	void setFullScreen(bool value) { fullScreen_.setValue(value); }	
 
@@ -152,6 +155,7 @@ protected:
 	OptionEntryBool drawWater_;
 	OptionEntryBool drawPlayerNames_;
 	OptionEntryBool noROAM_;
+	OptionEntryBool useLandscapeTexture_;
 	OptionEntryBool noSkyLayers_;
 	OptionEntryBool noSkyMovement_;
 	OptionEntryBool frameTimer_;

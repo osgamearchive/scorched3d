@@ -100,26 +100,42 @@ void Landscape::draw(const unsigned state)
 	if (OptionsDisplay::instance()->getDrawLines()) glPolygonMode(GL_FRONT, GL_LINE);
 	else glPolygonMode(GL_FRONT, GL_FILL);
 
-	if (OptionsDisplay::instance()->getNoROAM())
-	{
-		GLState currentState(GLState::TEXTURE_OFF);
-		HeightMapRenderer::drawHeightMap(GlobalHMap::instance()->getHMap());
-	}
-	else
+	GLState *textureState = 0;
+	if (OptionsDisplay::instance()->getUseLandscapeTexture())
 	{
 		if (GLStateExtension::glActiveTextureARB())
 		{
 			GLStateExtension::glActiveTextureARB()(GL_TEXTURE1_ARB);
 			glEnable(GL_TEXTURE_2D);
-
 			shadowMap_.setTexture();
 
 			GLStateExtension::glActiveTextureARB()(GL_TEXTURE0_ARB);
 		}
 
 		texture_.draw(true);
+	}
+	else
+	{
+		textureState = new GLState(GLState::TEXTURE_OFF);
+	}
+	
+	if (OptionsDisplay::instance()->getNoROAM())
+	{
+		HeightMapRenderer::drawHeightMap(GlobalHMap::instance()->getHMap());
+	}
+	else
+	{
 		patchGrid_.draw(PatchSide::typeTop);
 
+		if (OptionsDisplay::instance()->getDrawNormals())
+		{
+			GLState currentState(GLState::TEXTURE_OFF);
+			patchGrid_.draw(PatchSide::typeNormals);
+		}
+	}
+
+	if (OptionsDisplay::instance()->getUseLandscapeTexture())
+	{
 		if (GLStateExtension::glActiveTextureARB())
 		{
 			GLStateExtension::glActiveTextureARB()(GL_TEXTURE1_ARB);
@@ -127,12 +143,10 @@ void Landscape::draw(const unsigned state)
 
 			GLStateExtension::glActiveTextureARB()(GL_TEXTURE0_ARB);
 		}
-
-		if (OptionsDisplay::instance()->getDrawNormals())
-		{
-			GLState currentState(GLState::TEXTURE_OFF);
-			patchGrid_.draw(PatchSide::typeNormals);
-		}
+	}
+	else
+	{
+		delete textureState;
 	}
 
 	//static CloudSim sim;

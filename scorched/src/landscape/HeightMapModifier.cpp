@@ -142,7 +142,7 @@ void HeightMapModifier::scale(HeightMap &hmap, int maxHeight,
 
 void HeightMapModifier::addCirclePeak(HeightMap &hmap, Vector &start, 
 									  float sizew, float sizew2, float sizeh,
-									  RandomGenerator &generator)
+									  RandomGenerator &offsetGenerator)
 {
 	float sizewsq = sizew * sizew * 1.2f;
 	float posX, posY;
@@ -163,7 +163,7 @@ void HeightMapModifier::addCirclePeak(HeightMap &hmap, Vector &start,
 				float dist = sqrtf(distsq);
 				float distRand = (dist / 20.0f) * 0.2f;
 				if (distRand > 0.2f) distRand = 0.2f;
-				dist *= generator.getRandFloat() * distRand + 1.0f - (distRand / 2.0f);
+				dist *= offsetGenerator.getRandFloat() * distRand + 1.0f - (distRand / 2.0f);
 				if (dist < sizew)
 				{
 					float newHeight = (float) cos(dist * PI / sizew) * sizeh / 4 + sizeh / 4;
@@ -177,6 +177,7 @@ void HeightMapModifier::addCirclePeak(HeightMap &hmap, Vector &start,
 void HeightMapModifier::generateTerrain(HeightMap &hmap, 
 										int noHills, int maxHeight, 
 										RandomGenerator &generator,
+										RandomGenerator &offsetGenerator,
 										ProgressCounter *counter)
 {
 	if (counter) counter->setNewOp("Teraform Landscape");
@@ -193,11 +194,14 @@ void HeightMapModifier::generateTerrain(HeightMap &hmap,
 		float sizew2 = generator.getRandFloat() * 20.0f - 10.0f + sizew;
 		float bordersize = MAX(sizew, sizew2) * 1.2f;
 		float sizeh = (generator.getRandFloat() * 1.0f + 0.5f) * sizew;
-		Vector start(
-			(generator.getRandFloat() * (width - (bordersize * 2))) + bordersize, 
-			(generator.getRandFloat() * (width - (bordersize * 2))) + bordersize);
 
-		addCirclePeak(hmap, start, sizew, sizew2, sizeh, generator);
+		// NOTE: This has been changed as I386/SPARC have different calling ordering
+		// symantics (see CVS diff for changes)
+		float sx = (generator.getRandFloat() * (width - (bordersize * 2))) + bordersize;
+		float sy = (generator.getRandFloat() * (width - (bordersize * 2))) + bordersize;
+		Vector start(sx, sy);
+
+		addCirclePeak(hmap, start, sizew, sizew2, sizeh, offsetGenerator);
 	}
 
 	scale(hmap, maxHeight, generator, counter);

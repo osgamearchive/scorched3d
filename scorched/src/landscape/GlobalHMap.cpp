@@ -56,7 +56,9 @@ void GlobalHMap::generateHMap(unsigned long seed,
 {
 	// Seed the generator
 	static RandomGenerator generator;
+	static RandomGenerator offsetGenerator;
 	generator.seed(seed);
+	offsetGenerator.seed(seed);
 	storedSeed_ = seed;
 
 	// Create the new height map
@@ -64,9 +66,9 @@ void GlobalHMap::generateHMap(unsigned long seed,
 	int maxHeight = OptionsGame::instance()->getMaxHeight();
 	int noHills = OptionsGame::instance()->getNoHills();
 
-	Logger::log(0, "Landscape : %i %i %i", storedSeed_, maxHeight, noHills);
+	//Logger::log(0, "Landscape : %i %i %i", storedSeed_, maxHeight, noHills);
 	HeightMapModifier::generateTerrain(getHMap(), 
-		noHills, maxHeight, generator, counter);
+		noHills, maxHeight, generator, offsetGenerator, counter);
 
 	// Save this height map for later
 	memcpy(storedMap_, map_.getData(), 

@@ -38,6 +38,7 @@ namespace HeightMapModifier
 
 	void generateTerrain(HeightMap &hmap, int noHills, int maxHeight, 
 						 RandomGenerator &generator, 
+						 RandomGenerator &offsetGenerator,
 						 ProgressCounter *counter = 0);
 	void addCirclePeak(HeightMap &hmap, Vector &start, 
 					   float sizew, float sizew2, float sizeh,
