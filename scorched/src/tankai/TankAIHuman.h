@@ -45,6 +45,10 @@ protected:
 	void movePower(char *buffer, unsigned int keyState, float frameTime);
 	void moveUpDown(char *buffer, unsigned int keyState, float frameTime);
 	void moveLeftRight(char *buffer, unsigned int keyState, float frameTime);
+	void leftRightHUD();
+	void upDownHUD();
+	void powerHUD();
+	void autoAim();
 
 };
 

@@ -1,5 +1,10 @@
 <keys>
 	<keyentry>
+		<name>AUTO_AIM</name>
+		<description>Aims current tank towards point on landscape</description>
+		<key>a</key>
+	</keyentry>
+	<keyentry>
 		<name>FIRE_WEAPON</name>
 		<description>Fire current weapon</description>
 		<key>SPACE</key>

@@ -21,6 +21,9 @@
 #include <common/Keyboard.h>
 #include <common/SoundStore.h>
 #include <common/OptionsDisplay.h>
+#include <client/MainCamera.h>
+#include <landscape/GlobalHMap.h>
+#include <engine/GameState.h>
 #include <tankai/TankAIHuman.h>
 #include <tankgraph/TankModelRenderer.h>
 #include <tank/Tank.h>
@@ -70,6 +73,12 @@ void TankAIHuman::playMove(const unsigned state,
 	if (fireKey->keyDown(buffer, keyState, false))
 	{
 		fireShot();
+	}
+
+	KEYBOARDKEY("AUTO_AIM", aimKey);
+	if (aimKey->keyDown(buffer, keyState))
+	{
+		autoAim();
 	}
 
 	KEYBOARDKEY("ENABLE_PARACHUTES", parachuteKey);
@@ -140,12 +149,39 @@ void TankAIHuman::endPlayMove()
 	elevate->stop();
 }
 
+void TankAIHuman::autoAim()
+{
+	int x = GameState::instance()->getMouseX();
+	int y = GameState::instance()->getMouseY();
+	Line direction;
+	Vector intersect;
+
+	MainCamera::instance()->getCamera().draw();
+	if (MainCamera::instance()->getCamera().
+		getDirectionFromPt((GLfloat) x, (GLfloat) y, direction))
+	{
+        if (GlobalHMap::instance()->getHMap().getIntersect(direction, intersect))
+        {
+			Vector &position = currentTank_->getPhysics().getTankPosition();
+
+			// Calculate direction
+			Vector direction = intersect - position;
+			if (direction[0] != 0.0f && direction[1] != 0.0f)
+			{
+				float angleXYRads = atan2f(direction[1], direction[0]);
+				float angleXYDegs = (angleXYRads / 3.14f) * 180.0f - 90.0f;
+				
+				currentTank_->getPhysics().rotateGunXY(angleXYDegs, false);
+				leftRightHUD();
+			}
+		}
+	}
+}
+
 void TankAIHuman::moveLeftRight(char *buffer, unsigned int keyState, float frameTime)
 {
 	static bool LRMoving = false;
 	bool currentLRMoving = false;
-
-	static char messageBuffer[255];
 
 	KEYBOARDKEY("TURN_RIGHT", rightKey);
 	KEYBOARDKEY("TURN_RIGHT_SLOW", rightSlowKey);
@@ -167,19 +203,10 @@ void TankAIHuman::moveLeftRight(char *buffer, unsigned int keyState, float frame
 		if (rightKF) mult *= 4.0f;
 		else if (rightKS) mult *= 0.25f;
 
-		float rot = currentTank_->getPhysics().
-			rotateGunXY(-45.0f * mult) / 360.0f;
-
-		float rotDiff = (360.0f - currentTank_->getPhysics().getRotationGunXY()) - 
-		(360.0f - currentTank_->getPhysics().getOldRotationGunXY());
-		if (rotDiff > 180.0f) rotDiff -= 360.0f;
-		else if (rotDiff < -180.0f) rotDiff += 360.0f;
-		sprintf(messageBuffer, "%.1f (%+.1f)", 
-			360.0f - currentTank_->getPhysics().getRotationGunXY(),
-			rotDiff);
-		TankModelRendererHUD::setText("Rot:", messageBuffer, rot * 100.0f);
-
+		currentTank_->getPhysics().rotateGunXY(-45.0f * mult);
 		currentLRMoving = true;
+
+		leftRightHUD();
 	}
 	else if (leftK || leftKF || leftKS)
 	{
@@ -187,19 +214,10 @@ void TankAIHuman::moveLeftRight(char *buffer, unsigned int keyState, float frame
 		if (leftKF) mult *= 4.0f;
 		else if (leftKS) mult *= 0.25f;
 
-		float rot = currentTank_->getPhysics().
-			rotateGunXY(45.0f * mult) / 360.0f;
-
-		float rotDiff = (360.0f - currentTank_->getPhysics().getRotationGunXY()) - 
-		(360.0f - currentTank_->getPhysics().getOldRotationGunXY());
-		if (rotDiff > 180.0f) rotDiff -= 360.0f;
-		else if (rotDiff < -180.0f) rotDiff += 360.0f;
-		sprintf(messageBuffer, "%.1f (%+.1f)", 
-			360.0f - currentTank_->getPhysics().getRotationGunXY(),
-			rotDiff);
-		TankModelRendererHUD::setText("Rot:", messageBuffer, rot * 100.0f);
-
+		currentTank_->getPhysics().rotateGunXY(45.0f * mult);
 		currentLRMoving = true;
+
+		leftRightHUD();
 	}
 
 	if (LRMoving != currentLRMoving)
@@ -221,12 +239,25 @@ void TankAIHuman::moveLeftRight(char *buffer, unsigned int keyState, float frame
 	}
 } 
 
+void TankAIHuman::leftRightHUD()
+{		
+	static char messageBuffer[255];
+	float rotDiff = (360.0f - currentTank_->getPhysics().getRotationGunXY()) - 
+		(360.0f - currentTank_->getPhysics().getOldRotationGunXY());
+	if (rotDiff > 180.0f) rotDiff -= 360.0f;
+	else if (rotDiff < -180.0f) rotDiff += 360.0f;
+	sprintf(messageBuffer, "%.1f (%+.1f)", 
+			360.0f - currentTank_->getPhysics().getRotationGunXY(),
+			rotDiff);
+
+	float rot = currentTank_->getPhysics().getRotationGunXY() / 360.0f;
+	TankModelRendererHUD::setText("Rot:", messageBuffer, rot * 100.0f);
+}
+
 void TankAIHuman::moveUpDown(char *buffer, unsigned int keyState, float frameTime)
 {
 	static bool UDMoving = false;
 	bool currentUDMoving = false;
-
-	static char messageBuffer[255];
 
 	KEYBOARDKEY("ROTATE_UP", upKey);
 	KEYBOARDKEY("ROTATE_UP_SLOW", upSlowKey);
@@ -254,16 +285,10 @@ void TankAIHuman::moveUpDown(char *buffer, unsigned int keyState, float frameTim
 		if (upKF) mult *= 4.0f;
 		else if (upKS) mult *= 0.25f;
 
-		float rot = currentTank_->getPhysics().
-			rotateGunYZ(-45.0f * mult)  / 90.0f;
-
-		sprintf(messageBuffer, "%.1f (%+.1f)", 
-			currentTank_->getPhysics().getRotationGunYZ(),
-			currentTank_->getPhysics().getRotationGunYZ() - 
-			currentTank_->getPhysics().getOldRotationGunYZ());
-		TankModelRendererHUD::setText("Ele:", messageBuffer, rot * 100.0f);
-
+		currentTank_->getPhysics().rotateGunYZ(-45.0f * mult);
 		currentUDMoving = true;
+
+		upDownHUD();
 	}
 	else if (downK || downKS || downKF)
 	{
@@ -271,16 +296,10 @@ void TankAIHuman::moveUpDown(char *buffer, unsigned int keyState, float frameTim
 		if (downKF) mult *= 4.0f;
 		else if (downKS) mult *= 0.25f;
 
-		float rot = currentTank_->getPhysics().
-			rotateGunYZ(45.0f * mult)  / 90.0f;
-
-		sprintf(messageBuffer, "%.1f (%+.1f)", 
-			currentTank_->getPhysics().getRotationGunYZ(),
-			currentTank_->getPhysics().getRotationGunYZ() - 
-			currentTank_->getPhysics().getOldRotationGunYZ());
-		TankModelRendererHUD::setText("Ele:", messageBuffer, rot * 100.0f);
-
+		currentTank_->getPhysics().rotateGunYZ(45.0f * mult);
 		currentUDMoving = true;
+
+		upDownHUD();
 	}
 
 	if (UDMoving != currentUDMoving)
@@ -302,12 +321,22 @@ void TankAIHuman::moveUpDown(char *buffer, unsigned int keyState, float frameTim
 	}
 }
 
+void TankAIHuman::upDownHUD()
+{
+	static char messageBuffer[255];
+	sprintf(messageBuffer, "%.1f (%+.1f)", 
+			currentTank_->getPhysics().getRotationGunYZ(),
+			currentTank_->getPhysics().getRotationGunYZ() - 
+			currentTank_->getPhysics().getOldRotationGunYZ());
+
+	float rot = currentTank_->getPhysics().getRotationGunYZ() / 90.0f;
+	TankModelRendererHUD::setText("Ele:", messageBuffer, rot * 100.0f);
+}
+
 void TankAIHuman::movePower(char *buffer, unsigned int keyState, float frameTime)
 {
 	static bool PMoving = false;
 	bool currentPMoving = false;
-
-	static char messageBuffer[255];
 
 	KEYBOARDKEY("INCREASE_POWER", incKey);
 	KEYBOARDKEY("INCREASE_POWER_SLOW", incSlowKey);
@@ -328,16 +357,10 @@ void TankAIHuman::movePower(char *buffer, unsigned int keyState, float frameTime
 		if (incKF) mult *= 4.0f;
 		else if (incKS) mult *= 0.25f;
 
-		float power = currentTank_->getState().
-			changePower(250.0f * mult) / 1000.0f;
-
-		sprintf(messageBuffer, "%.1f (%+.1f)", 		
-			currentTank_->getState().getPower(),
-			currentTank_->getState().getPower() - 
-			currentTank_->getState().getOldPower());
-		TankModelRendererHUD::setText("Pwr:", messageBuffer, power * 100.0f);
-
+		currentTank_->getState().changePower(250.0f * mult);
 		currentPMoving = true;
+
+		powerHUD();
 	}
 	else if (decK || decKS || decKF) 
 	{
@@ -345,16 +368,10 @@ void TankAIHuman::movePower(char *buffer, unsigned int keyState, float frameTime
 		if (decKF) mult *= 4.0f;
 		else if (decKS) mult *= 0.25f;
 
-		float power = currentTank_->getState().
-			changePower(-250.0f * mult) / 1000.0f;
-
-		sprintf(messageBuffer, "%.1f (%+.1f)", 		
-			currentTank_->getState().getPower(),
-			currentTank_->getState().getPower() - 
-			currentTank_->getState().getOldPower());
-		TankModelRendererHUD::setText("Pwr:", messageBuffer, power * 100.0f);
-
+		currentTank_->getState().changePower(-250.0f * mult);
 		currentPMoving = true;
+
+		powerHUD();
 	}
 
 	if (PMoving != currentPMoving)
@@ -372,4 +389,16 @@ void TankAIHuman::movePower(char *buffer, unsigned int keyState, float frameTime
 
 		PMoving = currentPMoving;
 	}
+}
+
+void TankAIHuman::powerHUD()
+{
+	static char messageBuffer[255];
+	sprintf(messageBuffer, "%.1f (%+.1f)", 		
+			currentTank_->getState().getPower(),
+			currentTank_->getState().getPower() - 
+			currentTank_->getState().getOldPower());
+
+	float power = currentTank_->getState().getPower() / 1000.0f;
+	TankModelRendererHUD::setText("Pwr:", messageBuffer, power * 100.0f);
 }
