@@ -113,6 +113,7 @@ int NetServer::threadFunc(void *)
 		if (!instance_->pollIncoming()) quit = true;
 		instance_->pollOutgoing();
 		SDL_UnlockMutex(instance_->setMutex_);
+		SDL_Delay(10);
 	}
 
 	instance_->stop();
