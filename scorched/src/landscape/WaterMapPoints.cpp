@@ -18,20 +18,28 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <landscape/WaterMapPoints.h>
+#include <3dsparse/ASEStore.h>
+#include <client/ScorchedClient.h>
 
 WaterMapPoints::WaterMapPoints(WaterMap &map, int width, int points) :
-	pts_(0), noPts_(0), listNo_(0)
+	pts_(0), noPts_(0)
 {
-	obj_ = gluNewQuadric();
+	borderModelWrap_ = ASEStore::instance()->
+		loadOrGetArray(getDataFile("data/meshes/wrap.ase"));
+	borderModelBounce_ = ASEStore::instance()->
+		loadOrGetArray(getDataFile("data/meshes/bounce.ase"));
+	borderModelConcrete_ = ASEStore::instance()->
+		loadOrGetArray(getDataFile("data/meshes/concrete.ase"));
 	height_ = map.getHeight();
 	createPoints(map, width, points);
 }
 
 WaterMapPoints::~WaterMapPoints()
 {
-	gluDeleteQuadric(obj_);
+	delete borderModelWrap_;
+	delete borderModelBounce_;
+	delete borderModelConcrete_;
 	delete [] pts_;
 }
 
@@ -42,18 +50,20 @@ void WaterMapPoints::draw()
 	for (int i=0; i<noPts_; i++)
 	{
 		glPushMatrix();
-			glTranslatef(current->x, current->y, height_ + *current->z);
-			if (!listNo_)
+			glTranslatef(current->x, current->y, height_ + *current->z + 0.6f);
+			glScalef(0.15f, 0.15f, 0.15f);
+			switch(ScorchedClient::instance()->getOptionsTransient().getWallType())
 			{
-				glNewList(listNo_ = glGenLists(1), GL_COMPILE_AND_EXECUTE);
-					gluSphere(obj_, 1.0f, 8, 8);
-				glEndList();
+			case OptionsTransient::wallWrapAround:
+				borderModelWrap_->draw();
+				break;
+			case OptionsTransient::wallBouncy:
+				borderModelBounce_->draw();
+				break;
+			default:
+				borderModelConcrete_->draw();
+				break;
 			}
-			else
-			{
-				glCallList(listNo_);
-			}
-			//glVertex3f(current->x, current->y, height_ + *current->z);
 		glPopMatrix();
 		current++;
 	}

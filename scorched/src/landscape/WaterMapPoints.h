@@ -18,12 +18,12 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #if !defined(__INCLUDE_WaterMapPointsh_INCLUDE__)
 #define __INCLUDE_WaterMapPointsh_INCLUDE__
 
 #include <landscape/WaterMap.h>
 
+class GLVertexSet;
 class WaterMapPoints
 {
 public:
@@ -33,20 +33,20 @@ public:
 	void draw();
 
 protected:
-	GLUquadric *obj_;
+	GLVertexSet *borderModelWrap_;
+	GLVertexSet *borderModelBounce_;
+	GLVertexSet *borderModelConcrete_;
 	struct Position
 	{
 		float x;
 		float y;
 		float *z;
 	} *pts_;
-	GLuint listNo_;
 	int noPts_;
 	float height_;
 
 	void createPoints(WaterMap &map, int width, int points);
 	void findPoint(WaterMap &map, Position *pos, float x, float y);
 };
-
 
 #endif

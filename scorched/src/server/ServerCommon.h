@@ -23,7 +23,7 @@
 
 namespace ServerCommon
 {
-	bool startFileLogger();
+	void startFileLogger();
 	void sendStringMessage(unsigned int destinationId, const char *fmt, ...);
 	void serverLog(unsigned int playerId, const char *fmt, ...);
 	void sendString(unsigned int destinationId, const char *fmt, ...);

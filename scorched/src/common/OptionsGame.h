@@ -183,6 +183,9 @@ public:
 	const char *getStatsLogger() { return statsLogger_.getValue(); }
 	void setStatsLogger(const char *value) { statsLogger_.setValue(value); }
 
+	const char *getServerFileLogger() { return serverFileLogger_.getValue(); }
+	void setServerFileLogger(const char *value) { serverFileLogger_.setValue(value); }
+
 	// Server only options
 	const char *getBotNamePrefix() { return botNamePrefix_.getValue(); }
 	void setBotNamePrefix(const char *value) { botNamePrefix_.setValue(value); }
@@ -252,6 +255,7 @@ protected:
 	OptionEntryString masterListServer_;
 	OptionEntryString masterListServerURI_;
 	OptionEntryString statsLogger_;
+	OptionEntryString serverFileLogger_;
 
 	// Server only options
 	OptionEntryString botNamePrefix_;

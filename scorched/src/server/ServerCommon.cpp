@@ -27,7 +27,7 @@
 
 static FileLogger *serverFileLogger = 0;
 
-bool ServerCommon::startFileLogger()
+void ServerCommon::startFileLogger()
 {
 	if (!serverFileLogger) 
 	{
@@ -36,10 +36,17 @@ bool ServerCommon::startFileLogger()
 			ScorchedServer::instance()->getOptionsGame().getPortNo());
 
 		serverFileLogger = new FileLogger(buffer);
-		Logger::addLogger(serverFileLogger);
-		return true;
+		if (0 != strcmp(ScorchedServer::instance()->getOptionsGame().
+			getServerFileLogger(), "none"))
+		{
+			Logger::addLogger(serverFileLogger);
+			Logger::log(0, "Created file logger.");
+		}
+		else
+		{
+			Logger::log(0, "Not created file logger.");
+		}
 	}	
-	return false;
 }
 
 void ServerCommon::sendStringMessage(unsigned int dest, const char *fmt, ...)

@@ -592,5 +592,6 @@ void showServerDialog()
 	frame = new ServerFrame(serverName);
 	frame->Show();
 
-	if (ServerCommon::startFileLogger()) Logger::addLogger(&serverLogger);
+	Logger::addLogger(&serverLogger);
+	ServerCommon::startFileLogger();
 }

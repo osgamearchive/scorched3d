@@ -128,6 +128,8 @@ void ClientState::setupGameState(bool network)
 	gameState.addStateLoop(StateGetPlayers, Main2DCamera::instance(), 
 		GLWToolTip::instance());
 	gameState.addStateStimulus(StateGetPlayers, 
+		StimDisconnected, StateConnect);
+	gameState.addStateStimulus(StateGetPlayers, 
 		StimWait, StateWait);
 
 	// StateNewGame

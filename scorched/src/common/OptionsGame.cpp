@@ -89,6 +89,8 @@ OptionsGame::OptionsGame() :
 		"The URI on the master list server for scorched3d", 0, "/~gcamp/scorched"),
 	statsLogger_(options_, "StatsLogger",
 		"The type of player stats to be logged (none, mysql, file)", FlagDontSend, "none"),
+	serverFileLogger_(options_, "ServerLogger",
+		"The type of server events to be logged to file (none, file)", FlagDontSend, "none"),
 	portNo_(options_, "PortNo", 
 		"The port to start the server on", 0, ScorchedPort),
 	serverName_(options_, "ServerName", 

@@ -3,6 +3,9 @@ Fixed: Player tooltips on plan dialog don't work
 Fixed: Auto defense dialog refreshing when other players use theirs
 Fixed: Compilation problems due to std namespace being global
 Fixed: Some MSVC 2003 compilation problems
+Fixed: Buoys now shaded
+
+Added: Server file logging is off by default
 
 -- Bugs in current development release
 Dvorak keyboard support is broken
