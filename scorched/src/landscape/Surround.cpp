@@ -38,3 +38,4 @@ void Surround::generate()
 {
 	default_.generate();
 }
+

@@ -35,7 +35,7 @@ public:
 protected:
 	unsigned int listNo_;
 	Vector hMapBoxVerts_[16];
-	void generateList();
+	void generateList(bool detail);
 
 };
 

@@ -19,7 +19,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <GLEXT/GLState.h>
+#include <GLEXT/GLStateExtension.h>
 #include <client/ScorchedClient.h>
+#include <common/OptionsDisplay.h>
 #include <landscape/Sky.h>
 #include <landscape/Landscape.h>
 #include <landscape/LandscapeMaps.h>
@@ -63,15 +65,34 @@ SurroundDefault::~SurroundDefault()
 
 void SurroundDefault::draw()
 {
+	bool detail = (GLStateExtension::glActiveTextureARB() &&
+		GLStateExtension::getTextureUnits() > 2 &&
+		OptionsDisplay::instance()->getDetailTexture() &&
+		GLStateExtension::hasEnvCombine());
 	if (!listNo_)
 	{
 		glNewList(listNo_ = glGenLists(1), GL_COMPILE);
-			generateList();
+			generateList(detail);
 		glEndList();
 	}
-
+	
+	if (detail)
+	{
+		GLStateExtension::glActiveTextureARB()(GL_TEXTURE2_ARB);
+		glEnable(GL_TEXTURE_2D);
+		glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_COMBINE_ARB);
+		glTexEnvi(GL_TEXTURE_ENV, GL_RGB_SCALE_ARB, 2);
+		Landscape::instance()->getDetailTexture().draw(true);
+		GLStateExtension::glActiveTextureARB()(GL_TEXTURE0_ARB);
+	}
 	Landscape::instance()->getSurroundTexture().draw(true);
 	glCallList(listNo_);
+	if (detail)
+	{
+		GLStateExtension::glActiveTextureARB()(GL_TEXTURE2_ARB);
+		glDisable(GL_TEXTURE_2D);
+		GLStateExtension::glActiveTextureARB()(GL_TEXTURE0_ARB);
+	}
 }
 
 void SurroundDefault::generate()
@@ -80,7 +101,7 @@ void SurroundDefault::generate()
 	listNo_ = 0;
 }
 
-void SurroundDefault::generateList()
+void SurroundDefault::generateList(bool detail)
 {
 	const int dataOfs[8][4] = {
 		{8,11,3,0},
@@ -92,6 +113,8 @@ void SurroundDefault::generateList()
 		{13,1,9,5},
 		{12,0,1,13}
 	};
+
+
 
 	Vector &ambient = 
 		ScorchedClient::instance()->getLandscapeMaps().
@@ -119,6 +142,8 @@ void SurroundDefault::generateList()
 			Vector light = diffuse * diffuseLightMult + ambient;
 
 			glTexCoord2f(x, y);
+			if (detail) GLStateExtension::glMultiTextCoord2fARB()
+				(GL_TEXTURE2_ARB, x, y);
 			glColor3fv(light);
 			glVertex3fv(pos);
 		}
