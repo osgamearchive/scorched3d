@@ -28,6 +28,7 @@
 #include <common/OptionsGame.h>
 #include <common/OptionsTransient.h>
 #include <common/Logger.h>
+#include <common/StatsLogger.h>
 #include <coms/NetBufferUtil.h>
 #include <coms/NetInterface.h>
 #include <server/ServerState.h>
@@ -158,6 +159,7 @@ public:
 	ServerFrame(const char *name);
 
 	void OnSize(wxSizeEvent& event);
+	void OnClose(wxCloseEvent& event);
 	void onTimer();
 	void onTimerMain();
 	void onMenuExit();
@@ -203,6 +205,7 @@ static ServerFrame *frame = 0;
 
 BEGIN_EVENT_TABLE(ServerFrame, wxFrame)
     EVT_SIZE(ServerFrame::OnSize)
+	EVT_CLOSE(ServerFrame::OnClose) 
 	EVT_TIMER(IDC_TIMER1, ServerFrame::onTimer)
 	EVT_TIMER(IDC_TIMER2, ServerFrame::onTimerMain)
 	EVT_MENU(IDC_MENU_EXIT, ServerFrame::onMenuExit)
@@ -408,6 +411,21 @@ void ServerFrame::onStateLogging()
 void ServerFrame::onMenuExit()
 {
 	Close();
+}
+
+void ServerFrame::OnClose(wxCloseEvent& event)
+{
+	Destroy();
+	std::map<unsigned int, Tank *> &tanks = 
+		ScorchedServer::instance()->getTankContainer().getPlayingTanks();
+	std::map<unsigned int, Tank *>::iterator itor;
+	for (itor = tanks.begin();
+			itor != tanks.end();
+			itor++)
+	{
+		Tank *tank = (*itor).second;
+		StatsLogger::instance()->tankLeft(tank);
+	}
 }
 
 void ServerFrame::OnSize(wxSizeEvent& event)

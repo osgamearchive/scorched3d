@@ -163,6 +163,57 @@
 			<Tool
 				Name="VCWebDeploymentTool"/>
 		</Configuration>
+		<Configuration
+			Name="Debug - MySql|Win32"
+			OutputDirectory="Debug - MySql"
+			IntermediateDirectory="Debug - MySql"
+			ConfigurationType="1"
+			CharacterSet="2">
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)\visualc\include\&quot;;&quot;$(SolutionDir)\src\&quot;"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;dDOUBLE;COMPILED_FROM_DSP;XML_STATIC;WINVER=0x400,_MT,wxUSE_GUI=1;HAVE_MYSQL;_WIN32"
+				MinimalRebuild="TRUE"
+				ExceptionHandling="TRUE"
+				BasicRuntimeChecks="0"
+				RuntimeLibrary="3"
+				BufferSecurityCheck="FALSE"
+				DisableLanguageExtensions="FALSE"
+				ForceConformanceInForLoopScope="TRUE"
+				UsePrecompiledHeader="0"
+				BrowseInformation="0"
+				WarningLevel="3"
+				Detect64BitPortabilityProblems="FALSE"
+				DebugInformationFormat="3"/>
+			<Tool
+				Name="VCCustomBuildTool"/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalOptions="/FIXED:NO"
+				AdditionalDependencies="opengl32.lib glu32.lib winmm.lib dxguid.lib comctl32.lib Ws2_32.lib &quot;$(SolutionDir)\visualc\lib\SDL\SDL.lib&quot; &quot;$(SolutionDir)\visualc\lib\SDL\SDL_mixer.lib&quot; &quot;$(SolutionDir)\visualc\lib\SDL\SDL_net.lib&quot; &quot;$(SolutionDir)\visualc\lib\SDL\SDLmain.lib&quot; &quot;$(SolutionDir)\visualc\lib\wx\wxmswd.lib&quot; &quot;$(SolutionDir)\visualc\lib\truetype\libfreetype.lib&quot; &quot;$(SolutionDir)\visualc\lib\mysql\libmysql.lib&quot; rpcrt4.lib"
+				OutputFile="$(OutDir)/scorched.exe"
+				LinkIncremental="1"
+				GenerateDebugInformation="TRUE"
+				ProgramDatabaseFile="$(OutDir)/scorched.pdb"
+				SubSystem="2"
+				StackReserveSize="32000000"
+				TargetMachine="1"/>
+			<Tool
+				Name="VCMIDLTool"/>
+			<Tool
+				Name="VCPostBuildEventTool"/>
+			<Tool
+				Name="VCPreBuildEventTool"/>
+			<Tool
+				Name="VCPreLinkEventTool"/>
+			<Tool
+				Name="VCResourceCompilerTool"/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool
+				Name="VCWebDeploymentTool"/>
+		</Configuration>
 	</Configurations>
 	<Files>
 		<Filter
@@ -2207,6 +2258,12 @@
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Release - MySql|Win32">
+					<Tool
+						Name="VCResourceCompilerTool"
+						AdditionalIncludeDirectories="..\..\visualc\include"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug - MySql|Win32">
 					<Tool
 						Name="VCResourceCompilerTool"
 						AdditionalIncludeDirectories="..\..\visualc\include"/>

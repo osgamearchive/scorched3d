@@ -366,8 +366,8 @@ bool NetLanFrame::TransferDataToWindow()
 		{ "Server IP Address", 140 },
 		{ "Version", 60 },
 		{ "Game Type", 160 },
-		{ "Mod", 60 },
-		{ "OS", 160 }
+		{ "OS", 160 },
+		{ "Mod", 60 }
 	};
 	for (int i=0; i<sizeof(mainListItems)/sizeof(ListItem); i++)
 	{

@@ -1,7 +1,7 @@
 <mysql>
 	<host>localhost</host>
-	<user></user>
-	<passwd>scorched3d</passwd>
+	<user>root</user>
+	<passwd></passwd>
 	<db>scorched3d</db>
 	<prefix></prefix>
 </mysql>

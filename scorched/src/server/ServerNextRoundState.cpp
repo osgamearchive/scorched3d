@@ -42,22 +42,28 @@ ServerNextRoundState::~ServerNextRoundState()
 
 void ServerNextRoundState::enterState(const unsigned state)
 {
-	std::list<Tank *> currentTanks;
-	std::map<unsigned int, Tank *> &playingTanks =
-		ScorchedServer::instance()->getTankContainer().getPlayingTanks();
-	std::map<unsigned int, Tank *>::iterator playingTanksItor;
-	for (playingTanksItor = playingTanks.begin();
-		playingTanksItor != playingTanks.end();
-		playingTanksItor++)
-	{
-		Tank *tank = (*playingTanksItor).second;
-		currentTanks.push_back(tank);
-	}
-	StatsLogger::instance()->roundStart(currentTanks);
-
 	// Move all tanks into the next round
 	// Load the set of options for this next player
 	ScorchedServer::instance()->getContext().optionsTransient->nextRound();
+
+	// Tell the stats about the start of a new round
+	bool weaponBuy = 
+		(ScorchedServer::instance()->getOptionsTransient().getCurrentGameNo() == 0);
+	if (!weaponBuy)
+	{
+		std::list<Tank *> currentTanks;
+		std::map<unsigned int, Tank *> &playingTanks =
+			ScorchedServer::instance()->getTankContainer().getPlayingTanks();
+		std::map<unsigned int, Tank *>::iterator playingTanksItor;
+		for (playingTanksItor = playingTanks.begin();
+			playingTanksItor != playingTanks.end();
+			playingTanksItor++)
+		{
+			Tank *tank = (*playingTanksItor).second;
+			currentTanks.push_back(tank);
+		}
+		StatsLogger::instance()->roundStart(currentTanks);
+	}
 
 	// Set the wind for the next shot
 	Vector wind;

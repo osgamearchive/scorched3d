@@ -157,6 +157,53 @@
 			<Tool
 				Name="VCWebDeploymentTool"/>
 		</Configuration>
+		<Configuration
+			Name="Debug - MySql|Win32"
+			OutputDirectory="Debug - MySql"
+			IntermediateDirectory="Debug - MySql"
+			ConfigurationType="1"
+			CharacterSet="2">
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)\visualc\include\&quot;;&quot;$(SolutionDir)\src\&quot;"
+				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;WINVER=0x400,_MT,wxUSE_GUI=1"
+				MinimalRebuild="TRUE"
+				ExceptionHandling="TRUE"
+				BasicRuntimeChecks="3"
+				RuntimeLibrary="3"
+				DisableLanguageExtensions="FALSE"
+				ForceConformanceInForLoopScope="TRUE"
+				UsePrecompiledHeader="0"
+				WarningLevel="3"
+				Detect64BitPortabilityProblems="FALSE"
+				DebugInformationFormat="4"/>
+			<Tool
+				Name="VCCustomBuildTool"/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="opengl32.lib glu32.lib glaux.lib winmm.lib dxguid.lib comctl32.lib Ws2_32.lib $(SolutionDir)\visualc\lib\SDL\SDL.lib $(SolutionDir)\visualc\lib\wx\wxmswd.lib"
+				OutputFile="$(OutDir)/skincreator.exe"
+				LinkIncremental="2"
+				GenerateDebugInformation="TRUE"
+				ProgramDatabaseFile="$(OutDir)/skincreator.pdb"
+				SubSystem="1"
+				TargetMachine="1"/>
+			<Tool
+				Name="VCMIDLTool"/>
+			<Tool
+				Name="VCPostBuildEventTool"/>
+			<Tool
+				Name="VCPreBuildEventTool"/>
+			<Tool
+				Name="VCPreLinkEventTool"/>
+			<Tool
+				Name="VCResourceCompilerTool"/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool
+				Name="VCWebDeploymentTool"/>
+		</Configuration>
 	</Configurations>
 	<Files>
 		<Filter
