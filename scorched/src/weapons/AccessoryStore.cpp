@@ -69,6 +69,13 @@ bool AccessoryStore::parseFile()
 		Accessory *accessory = createAccessory(currentNode);
 		if (!accessory) return false;
 
+		if (findByPrimaryAccessoryName(accessory->getName()))
+		{
+			return currentNode->returnError(
+				formatString("Accessory \"%s\" already exists",
+				accessory->getName()));
+		}
+
 		// This is a searchable primary accessory
 		accessory->setPrimary(true);
 

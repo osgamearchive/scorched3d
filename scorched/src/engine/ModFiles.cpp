@@ -263,8 +263,9 @@ bool ModFiles::loadModDir(const char *modDir, const char *mod)
 		{
 			dialogMessage("Mod",
 				"ERROR: All mod files must have lower case filenames.\n"
-				"File \"%s\" has upper case charaters in it",
-				oldFileName.c_str());
+				"File \"%s,%s\" has upper case charaters in it",
+				oldFileName.c_str(),
+				shortFileName);
 			return false;
 		}
 

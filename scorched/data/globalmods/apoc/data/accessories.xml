@@ -1,4 +1,5 @@
 <accessories>
+
 	<accessory type="AutoDefense">
 		<name>Auto Defense</name>
 		<description>Allows the tank to raise shields and 
@@ -1794,8 +1795,8 @@ near the flames will lose life.</description>
 			<hurtpersecond>1.0</hurtpersecond>
 			<numberstreams>1</numberstreams>
 			<effectradius>5</effectradius>
-			<explosiontexture>flames</explosiontexture>
-			<explosionsound>explosions/napalm.wav</explosionsound>
+			<napalmtexture>flames</napalmtexture>
+			<napalmsound>explosions/napalm.wav</napalmsound>
 		</collisionaction>
 	</accessory>
 	<accessory type="WeaponProjectile">
@@ -1819,8 +1820,8 @@ near the flames will lose life.</description>
 			<hurtpersecond>1.0</hurtpersecond>
 			<numberstreams>2</numberstreams>
 			<effectradius>5</effectradius>
-			<explosiontexture>flames</explosiontexture>		
-			<explosionsound>explosions/napalm.wav</explosionsound>
+			<napalmtexture>flames</napalmtexture>		
+			<napalmsound>explosions/napalm.wav</napalmsound>
 		</collisionaction>
 	</accessory>
 	<accessory type="WeaponProjectile">
@@ -1844,8 +1845,8 @@ near the flames will lose life.</description>
 			<hurtpersecond>2.0</hurtpersecond>
 			<numberstreams>4</numberstreams>
 			<effectradius>6</effectradius>	
-			<explosiontexture>flames</explosiontexture>		
-			<explosionsound>explosions/napalm.wav</explosionsound>
+			<napalmtexture>flames</napalmtexture>		
+			<napalmsound>explosions/napalm.wav</napalmsound>
 		</collisionaction>
 	</accessory>
 	<accessory type="WeaponProjectile"> 
@@ -1881,8 +1882,8 @@ napalm warheads. </description>
 					<hurtpersecond>1.0</hurtpersecond> 
 					<numberstreams>1</numberstreams> 
 					<effectradius>5</effectradius>
-					<explosiontexture>flames</explosiontexture>
-					<explosionsound>explosions/napalm.wav</explosionsound> 
+					<napalmtexture>flames</napalmtexture>
+					<napalmsound>explosions/napalm.wav</napalmsound> 
 				</collisionaction> 
 			</aimedweapon> 
 		</collisionaction> 
@@ -1921,8 +1922,8 @@ random direction. </description>
 					<hurtpersecond>1.0</hurtpersecond> 
 					<numberstreams>1</numberstreams> 
 					<effectradius>5</effectradius> 
-					<explosiontexture>flames</explosiontexture>
-					<explosionsound>explosions/napalm.wav</explosionsound> 
+					<napalmtexture>flames</napalmtexture>
+					<napalmsound>explosions/napalm.wav</napalmsound> 
 				</collisionaction> 
 			</aimedweapon> 
 		</collisionaction> 
@@ -1978,8 +1979,8 @@ the ground and explodes/burns on contact.</description>
 							<hurtpersecond>1</hurtpersecond>
 							<numberstreams>1</numberstreams>
 							<effectradius>5</effectradius>
-							<explosiontexture>flames</explosiontexture>
-							<explosionsound>explosions/napalm.wav</explosionsound>
+							<napalmtexture>flames</napalmtexture>
+							<napalmsound>explosions/napalm.wav</napalmsound>
 						</subweapon2>
 						<subweapon3 type="WeaponProjectile">
 							<name>Fire Worms</name>
@@ -2029,8 +2030,8 @@ the ground and explodes/burns on contact.</description>
 												<hurtpersecond>1</hurtpersecond>
 												<numberstreams>1</numberstreams>
 												<effectradius>5</effectradius>
-												<explosiontexture>flames</explosiontexture>
-												<explosionsound>explosions/napalm.wav</explosionsound>
+												<napalmtexture>flames</napalmtexture>
+												<napalmsound>explosions/napalm.wav</napalmsound>
 											</subweapon2>
 										</collisionaction>
 									</aimedweapon>
@@ -2072,6 +2073,7 @@ releases rolling napalm warheads.</description>
 					<name>Fire Ants</name> 
 					<armslevel>3</armslevel> 
 					<numberrollers>2</numberrollers> 
+					<time>8</time>
 					<rollermodel type="ase">
 						<mesh>roller.ase</mesh>
 						<skin>none</skin>
@@ -2099,8 +2101,8 @@ releases rolling napalm warheads.</description>
 							<hurtpersecond>1.5</hurtpersecond> 
 							<numberstreams>1</numberstreams> 
 							<effectradius>5</effectradius>
-							<explosiontexture>flames</explosiontexture>
-							<explosionsound>explosions/napalm.wav</explosionsound> 
+							<napalmtexture>flames</napalmtexture>
+							<napalmsound>explosions/napalm.wav</napalmsound> 
 						</subweapon2>
 					</collisionaction> 
 				</collisionaction> 
@@ -2148,8 +2150,8 @@ aimed at enemy tanks.</description>
 						<hurtpersecond>1.0</hurtpersecond>
 						<numberstreams>2</numberstreams>
 						<effectradius>5</effectradius>
-						<explosiontexture>flames</explosiontexture>
-						<explosionsound>explosions/napalm.wav</explosionsound>
+						<napalmtexture>flames</napalmtexture>
+						<napalmsound>explosions/napalm.wav</napalmsound>
 					</collisionaction>
 				</aimedweapon>
 			</subweapon1>
@@ -2215,8 +2217,8 @@ point releases many explosive napalm warheads.</description>
 								<hurtpersecond>1.2</hurtpersecond> 
 								<numberstreams>2</numberstreams> 
 								<effectradius>6</effectradius>
-								<explosiontexture>flames</explosiontexture>
-								<explosionsound>explosions/napalm.wav</explosionsound> 
+								<napalmtexture>flames</napalmtexture>
+								<napalmsound>explosions/napalm.wav</napalmsound> 
 							</collisionaction> 
 						</subweapon1>
 						<subweapon2 type="WeaponAimedOver">
@@ -2253,8 +2255,8 @@ point releases many explosive napalm warheads.</description>
 										<hurtpersecond>1.0</hurtpersecond> 
 										<numberstreams>1</numberstreams> 
 										<effectradius>5.5</effectradius> 
-										<explosiontexture>flames</explosiontexture>
-										<explosionsound>explosions/napalm.wav</explosionsound> 
+										<napalmtexture>flames</napalmtexture>
+										<napalmsound>explosions/napalm.wav</napalmsound> 
 									</subweapon2> 
 								</collisionaction>
 							</aimedweapon> 
@@ -2293,8 +2295,8 @@ point releases many explosive napalm warheads.</description>
 										<hurtpersecond>1.0</hurtpersecond> 
 										<numberstreams>1</numberstreams> 
 										<effectradius>5</effectradius>
-										<explosiontexture>flames</explosiontexture>
-										<explosionsound>explosions/napalm.wav</explosionsound> 
+										<napalmtexture>flames</napalmtexture>
+										<napalmsound>explosions/napalm.wav</napalmsound> 
 									</subweapon2>
 								</collisionaction>
 							</aimedweapon>
@@ -2394,8 +2396,8 @@ and eat earth in addition to burning</description>
 							<hurtpersecond>1.0</hurtpersecond>
 							<numberstreams>1</numberstreams>
 							<effectradius>6</effectradius>
-							<explosiontexture>flames</explosiontexture>
-							<explosionsound>explosions/napalm.wav</explosionsound>
+							<napalmtexture>flames</napalmtexture>
+							<napalmsound>explosions/napalm.wav</napalmsound>
 						</subweapon2>
 						<subweapon3 type="WeaponAimedOver">
 							<name>Acidic Napalm</name>
@@ -2438,8 +2440,8 @@ and eat earth in addition to burning</description>
 											<hurtpersecond>1.0</hurtpersecond>
 											<numberstreams>1</numberstreams>
 											<effectradius>5</effectradius>
-											<explosiontexture>flames</explosiontexture>
-											<explosionsound>explosions/napalm.wav</explosionsound>
+											<napalmtexture>flames</napalmtexture>
+											<napalmsound>explosions/napalm.wav</napalmsound>
 										</subweapon2>
 									</collisionaction>
 								</aimedweapon>
@@ -2544,8 +2546,8 @@ warheads that continue bouncing outward.</description>
 												<hurtpersecond>1.0</hurtpersecond>
 												<numberstreams>2</numberstreams>
 												<effectradius>5</effectradius>
-												<explosiontexture>flames</explosiontexture>
-												<explosionsound>explosions/napalm.wav</explosionsound>
+												<napalmtexture>flames</napalmtexture>
+												<napalmsound>explosions/napalm.wav</napalmsound>
 											</collisionaction>
 										</collisionaction>
 									</subweapon2>
@@ -2559,8 +2561,8 @@ warheads that continue bouncing outward.</description>
 										<hurtpersecond>1.0</hurtpersecond>
 										<numberstreams>2</numberstreams>
 										<effectradius>5.5</effectradius>
-										<explosiontexture>flames</explosiontexture>
-										<explosionsound>explosions/napalm.wav</explosionsound>
+										<napalmtexture>flames</napalmtexture>
+										<napalmsound>explosions/napalm.wav</napalmsound>
 									</subweapon3>
 								</collisionaction>
 							</collisionaction>
@@ -2575,8 +2577,8 @@ warheads that continue bouncing outward.</description>
 							<hurtpersecond>1.0</hurtpersecond>
 							<numberstreams>2</numberstreams>
 							<effectradius>6</effectradius>
-							<explosiontexture>flames</explosiontexture>
-							<explosionsound>explosions/napalm.wav</explosionsound>
+							<napalmtexture>flames</napalmtexture>
+							<napalmsound>explosions/napalm.wav</napalmsound>
 						</subweapon3>
 					</collisionaction>
 				</aimedweapon>
@@ -3924,7 +3926,7 @@ cover them.</description>
 		</collisionaction>
 	</accessory>-->
 	<accessory type="WeaponProjectile">
-		<name>Meteor</name>
+		<name>Meteor Missile</name>
 		<description>A meteor that explodes on impact, scattering
 burning chunks of earth about the area.</description>
 		<icon>meteor.bmp</icon>
@@ -3937,24 +3939,24 @@ burning chunks of earth about the area.</description>
 		<firedsound>shoot/xlarge.wav</firedsound>
 		<projectilemodel type="MilkShape">flare.txt</projectilemodel>
 		<collisionaction type="WeaponMulti">
-			<name>Meteor</name>
+			<name>Meteor Missile</name>
 			<armslevel>4</armslevel>
 			<subweapon1 type="WeaponDelay">
-				<name>Meteor</name>
+				<name>Meteor Missile</name>
 				<armslevel>4</armslevel>
 				<delay>1.5</delay>
 				<delayedweapon type="WeaponMulti">
-					<name>Meteor</name>
+					<name>Meteor Missile</name>
 					<armslevel>4</armslevel>
 					<subweapon1 type="WeaponDelay">
-						<name>Meteor</name>
+						<name>Meteor Missile</name>
 						<armslevel>4</armslevel>
 						<delay>.5</delay>
 						<delayedweapon type="WeaponMulti">
-							<name>Meteor</name>
+							<name>Meteor Missile</name>
 							<armslevel>4</armslevel>
 							<subweapon1 type="WeaponProjectile">
-								<name>Meteor</name>
+								<name>Meteor Missile</name>
 								<armslevel>4</armslevel>
 								<projectilescale>2</projectilescale>
 								<projectilemodel type="ase">
@@ -3962,35 +3964,35 @@ burning chunks of earth about the area.</description>
 									<skin>molten.bmp</skin>
 								</projectilemodel>
 								<collisionaction type="WeaponMulti">
-									<name>Meteor</name>
+									<name>Meteor Missile</name>
 									<armslevel>4</armslevel>
 									<subweapon1 type="WeaponDelay">
-										<name>Meteor</name>
+										<name>Meteor Missile</name>
 										<armslevel>4</armslevel>
 										<delay>0.25</delay>
 										<delayedweapon type="WeaponAimedOver">
-											<name>Meteor</name>
+											<name>Meteor Missile</name>
 											<armslevel>4</armslevel>
 											<nowarheads>12</nowarheads>
 											<percentagemiss>100</percentagemiss>
 											<maxaimdistance>0</maxaimdistance>
 											<inaccuracy>100</inaccuracy>
 											<aimedweapon type="WeaponTranslate">
-												<name>Meteor</name>
+												<name>Meteor Missile</name>
 												<armslevel>2</armslevel>
 												<translatedist>10</translatedist>
 												<nextaction type="WeaponProjectile">
-													<name>Meteor</name>
+													<name>Meteor Missile</name>
 													<armslevel>4</armslevel>	
 													<projectilemodel type="ase">
 														<mesh>roller.ase</mesh>
 														<skin>molten.bmp</skin>
 													</projectilemodel>
 													<collisionaction type="WeaponMulti">
-														<name>Meteor</name>
+														<name>Meteor Missile</name>
 														<armslevel>4</armslevel>
 														<subweapon1 type="WeaponExplosion">
-															<name>Meteor</name>
+															<name>Meteor Missile</name>
 															<armslevel>4</armslevel>
 															<hurtamount>0.0</hurtamount>
 															<deform>up</deform>
@@ -3999,7 +4001,7 @@ burning chunks of earth about the area.</description>
 															<explosiontexture>exp02</explosiontexture>
 														</subweapon1>
 														<subweapon2 type="WeaponNapalm">
-															<name>Meteor</name>
+															<name>Meteor Missile</name>
 															<armslevel>4</armslevel>
 															<napalmtime>8.0</napalmtime>
 															<napalmheight>1.75</napalmheight>
@@ -4008,8 +4010,8 @@ burning chunks of earth about the area.</description>
 															<hurtpersecond>1.0</hurtpersecond>
 															<numberstreams>2</numberstreams>
 															<effectradius>6.5</effectradius>
-															<explosiontexture>flames</explosiontexture>
-															<explosionsound>explosions/napalm.wav</explosionsound>
+															<napalmtexture>flames</napalmtexture>
+															<napalmsound>explosions/napalm.wav</napalmsound>
 														</subweapon2>
 													</collisionaction>
 												</nextaction>
@@ -4017,7 +4019,7 @@ burning chunks of earth about the area.</description>
 										</delayedweapon>
 									</subweapon1>
 									<subweapon2 type="WeaponExplosion">
-										<name>Meteor</name>
+										<name>Meteor Missile</name>
 										<armslevel>4</armslevel>
 										<hurtamount>1.2</hurtamount>
 										<deform>down</deform>
@@ -4029,7 +4031,7 @@ burning chunks of earth about the area.</description>
 								</collisionaction>
 							</subweapon1>
 							<subweapon2 type="WeaponExplosion">
-								<name>Meteor</name>
+								<name>Meteor Missile</name>
 								<armslevel>4</armslevel>
 								<nocreatedebris/>
 								<hurtamount>0</hurtamount>
@@ -4041,7 +4043,7 @@ burning chunks of earth about the area.</description>
 						</delayedweapon>
 					</subweapon1>
 					<subweapon2 type="WeaponExplosion">
-						<name>Meteor</name>
+						<name>Meteor Missile</name>
 						<armslevel>4</armslevel>
 						<nocreatedebris/>
 						<animate/>
@@ -4056,7 +4058,7 @@ burning chunks of earth about the area.</description>
 				</delayedweapon>
 			</subweapon1>
 			<subweapon2 type="WeaponExplosion">
-				<name>Meteor</name>
+				<name>Meteor Missile</name>
 				<armslevel>4</armslevel>
 				<nocreatedebris/>
 				<animate/>
@@ -4148,8 +4150,8 @@ burning chunks of earth about the area.</description>
 													<hurtpersecond>1.0</hurtpersecond>
 													<numberstreams>2</numberstreams>
 													<effectradius>8</effectradius>
-													<explosiontexture>flames</explosiontexture>
-													<explosionsound>explosions/napalm.wav</explosionsound>
+													<napalmtexture>flames</napalmtexture>
+													<napalmsound>explosions/napalm.wav</napalmsound>
 												</subweapon2>
 											</collisionaction>
 										</nextaction>
@@ -4564,8 +4566,8 @@ The meteors explode and scatter flaming earth on impact.</description>
 																					<hurtpersecond>1.0</hurtpersecond>
 																					<numberstreams>1</numberstreams>
 																					<effectradius>5</effectradius>
-																					<explosiontexture>flames</explosiontexture>
-																					<explosionsound>explosions/napalm.wav</explosionsound>
+																					<napalmtexture>flames</napalmtexture>
+																					<napalmsound>explosions/napalm.wav</napalmsound>
 																				</subweapon2>
 																			</collisionaction>
 																		</nextaction>
@@ -4636,8 +4638,8 @@ The meteors explode and scatter flaming earth on impact.</description>
 																			<hurtpersecond>1.0</hurtpersecond>
 																			<numberstreams>2</numberstreams>
 																			<effectradius>5</effectradius>
-																			<explosiontexture>flames</explosiontexture>
-																			<explosionsound>explosions/napalm.wav</explosionsound>
+																			<napalmtexture>flames</napalmtexture>
+																			<napalmsound>explosions/napalm.wav</napalmsound>
 																		</subweapon2>
 																	</collisionaction>
 																</nextaction>
@@ -4723,8 +4725,8 @@ The meteors explode and scatter flaming earth on impact.</description>
 															<hurtpersecond>1.0</hurtpersecond>
 															<numberstreams>2</numberstreams>
 															<effectradius>6</effectradius>
-															<explosiontexture>flames</explosiontexture>
-															<explosionsound>explosions/napalm.wav</explosionsound>
+															<napalmtexture>flames</napalmtexture>
+															<napalmsound>explosions/napalm.wav</napalmsound>
 														</subweapon2>
 													</collisionaction>
 												</nextaction>
@@ -5282,6 +5284,7 @@ contact with any tank.</description>
 			<name>Baby Roller</name>
 			<armslevel>7</armslevel>
 			<numberrollers>8</numberrollers>
+			<time>8</time>
 			<rollermodel type="ase">
 				<mesh>roller.ase</mesh>
 				<skin>none</skin>
@@ -5312,6 +5315,7 @@ with any tank.</description>
 			<name>Roller</name>
 			<armslevel>5</armslevel>
 			<numberrollers>8</numberrollers>
+			<time>8</time>
 			<rollermodel type="ase">
 				<mesh>roller.ase</mesh>
 				<skin>none</skin>
@@ -5342,6 +5346,7 @@ with any tank.</description>
 			<name>Heavy Roller</name>
 			<armslevel>3</armslevel>
 			<numberrollers>8</numberrollers>
+			<time>8</time>
 			<rollermodel type="ase">
 				<mesh>roller.ase</mesh>
 				<skin>none</skin>
@@ -5390,6 +5395,7 @@ releases several rolling warheads.</description>
 					<name>Roller MIRV</name> 
 					<armslevel>3</armslevel> 
 					<numberrollers>3</numberrollers>
+					<time>8</time>
 					<rollermodel type="ase">
 						<mesh>roller.ase</mesh>
 						<skin>none</skin>
@@ -5440,6 +5446,7 @@ releases several baby roller warheads.</description>
 					<name>Roller S-MIRV</name> 
 					<armslevel>3</armslevel> 
 					<numberrollers>3</numberrollers>
+					<time>8</time>
 					<rollermodel type="ase">
 						<mesh>roller.ase</mesh>
 						<skin>none</skin>
@@ -6363,21 +6370,21 @@ through the ground aimed at nearby tanks</description>
 											<deform>none</deform>
 											<size>10</size>
 											<explosionsound>none</explosionsound>
-											<explosiontexture>light00</explosiontexture>
-										</subweapon2>
-									</nextaction>
-								</delayedweapon>
-							</subweapon1>
-							<subweapon2 type="WeaponExplosion">
-								<name>Chain Lightning</name>
-								<armslevel>3</armslevel>
-								<nocreatedebris/>
-								<nocreatesplash/>
-								<hurtamount>1.0</hurtamount>
-								<deform>none</deform>
-								<size>10</size>
-								<explosionsound>none</explosionsound>
-								<explosiontexture>light00</explosiontexture>
+										<explosiontexture>light00</explosiontexture>
+									</subweapon2>
+								</nextaction>
+							</delayedweapon>
+						</subweapon1>
+						<subweapon2 type="WeaponExplosion">
+							<name>Chain Lightning</name>
+							<armslevel>3</armslevel>
+							<nocreatedebris/>
+							<nocreatesplash/>
+							<hurtamount>1.0</hurtamount>
+							<deform>none</deform>
+							<size>10</size>
+							<explosionsound>none</explosionsound>
+							<explosiontexture>light00</explosiontexture>
 							</subweapon2>
 						</nextaction>
 					</delayedweapon>
@@ -7234,6 +7241,74 @@ at nearby targets</description>
 		<explosiontexture>default</explosiontexture>
 		<explosionsound>none</explosionsound>			
 	</accessory>
+	<accessory type="WeaponMulti">	
+		<name>Lightning</name>
+		<nonpurchasable/>
+		<armslevel>10</armslevel>
+		<subweapon1 type="WeaponSound">
+			<name>Lightning</name>
+			<armslevel>10</armslevel>
+			<sound>data/wav/misc/thunder.wav</sound>
+		</subweapon1>
+		<subweapon2 type="WeaponDelay">
+			<name>Lightning</name>
+			<armslevel>10</armslevel>
+			<delay>0.5</delay>
+			<delayedweapon type="WeaponMulti">
+				<name>Lightning</name>
+				<armslevel>10</armslevel>
+				<subweapon1 type="WeaponSkyFlash">
+					<name>Lightning</name>
+					<armslevel>10</armslevel>		
+				</subweapon1>
+				<subweapon2 type="WeaponLightning">
+					<name>Lightning</name>
+					<armslevel>10</armslevel>
+					<conelength>190</conelength>
+					<seglength>6</seglength>
+					<segvar>12</segvar>
+					<size>4</size>
+					<sizevar>-1</sizevar>
+					<minsize>0.1</minsize>
+					<splitprob>0.2</splitprob>
+					<splitvar>0.03</splitvar>
+					<deathprob>0.03</deathprob>
+					<derivangle>0.5</derivangle>
+					<anglevar>0.94</anglevar>
+					<totaltime>1</totaltime>
+					<seghurt>0</seghurt>
+					<seghurtradius>0</seghurtradius>
+					<sound>none</sound>
+				</subweapon2>
+			</delayedweapon>
+		</subweapon2>
+	</accessory>
+	<accessory type="WeaponAimedOver">
+		<name>Meteor</name>
+		<nonpurchasable/>
+		<armslevel>10</armslevel>
+		<nowarheads>5</nowarheads>
+		<percentagemiss>20</percentagemiss>
+		<maxaimdistance>0</maxaimdistance>
+		<inaccuracy>10</inaccuracy>
+		<aimedweapon type="WeaponProjectile">
+			<name>Meteor</name>
+			<armslevel>10</armslevel>	
+			<projectilemodel type="ase">
+				<mesh>roller.ase</mesh>
+				<skin>magma.bmp</skin>
+			</projectilemodel>
+			<collisionaction type="WeaponExplosion">
+				<name>Meteor</name>
+				<armslevel>10</armslevel>
+				<hurtamount>0.0</hurtamount>
+				<deform>none</deform>
+				<size>4</size>
+				<explosionsound>explosions/small.wav</explosionsound>
+				<explosiontexture>exp04</explosiontexture>
+			</collisionaction>
+		</aimedweapon>
+	</accessory>
 	<accessory type="WeaponProjectile">
 		<name>Earthquake</name>
 		<description>Shakes the earth and does damage over a large area.</description>
@@ -7501,8 +7576,8 @@ The cloud does less damage as it spreads out.</description>
 										<hurtpersecond>0.1</hurtpersecond>
 										<numberstreams>1</numberstreams>
 										<effectradius>5</effectradius>
-										<explosiontexture>gas00</explosiontexture>		
-										<explosionsound>none</explosionsound>
+										<napalmtexture>gas00</napalmtexture>		
+										<napalmsound>none</napalmsound>
 									</subweapon2>
 									<subweapon3 type="WeaponExplosion">
 										<name>Gas Grenade</name>
