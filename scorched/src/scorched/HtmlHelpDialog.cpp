@@ -36,7 +36,7 @@ enum
 
 extern char scorched3dAppName[128];
 
-class HelpFrame: public wxMiniFrame
+class HelpFrame: public wxFrame
 {
 public:
 	HelpFrame();
@@ -53,7 +53,7 @@ private:
 	DECLARE_EVENT_TABLE()
 };
 
-BEGIN_EVENT_TABLE(HelpFrame, wxMiniFrame)
+BEGIN_EVENT_TABLE(HelpFrame, wxFrame)
 	EVT_KEY_DOWN(HelpFrame::onKeyDown) 
 	EVT_BUTTON(ID_BUTTON_OK, HelpFrame::onExit)
 	EVT_BUTTON(ID_BUTTON_BACK, HelpFrame::onBack)
@@ -62,7 +62,7 @@ BEGIN_EVENT_TABLE(HelpFrame, wxMiniFrame)
 END_EVENT_TABLE()
 
 HelpFrame::HelpFrame() :
-	wxMiniFrame(getMainDialog(), -1, wxString(scorched3dAppName),
+	wxFrame(getMainDialog(), -1, wxString(scorched3dAppName),
 		wxDefaultPosition, wxDefaultSize, 
 		wxSTAY_ON_TOP | wxRESIZE_BORDER  | wxTINY_CAPTION_HORIZ)
 {
