@@ -47,6 +47,7 @@ Fixed: Moved timer, so talk text is not in the way
 Fixed: Texturing of Milkshape models (Each texture must be a 256x256 bmp)
 
 -- Bugs in current development release
+Fonts sometimes black-out
 Change physics engine to use StepFast
 Dvorak keyboard support is broken
 The server can start multiple times on the same port!
