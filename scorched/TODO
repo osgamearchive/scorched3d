@@ -6,6 +6,7 @@ Fixed: Migrated the game and transient options so version dependancies dont occu
 Fixed: Display settings now refered to as game settings
 Fixed: No parachutes used or health lost during very small falls
 Fixed: Special characters are supported in XML files
+Fixed: Some small memory leaks
 
 Changed: Tank can move up and down bigger slopes
 

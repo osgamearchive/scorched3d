@@ -21,6 +21,14 @@
 #if !defined(__INCLUDE_ModFilesh_INCLUDE__)
 #define __INCLUDE_ModFilesh_INCLUDE__
 
+class ModFile
+{
+	ModFile();
+	virtual ~ModFile();
+
+	bool loadModFile(const char *file);
+};
+
 class ModFiles
 {
 public:

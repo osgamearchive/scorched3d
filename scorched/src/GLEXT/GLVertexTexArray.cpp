@@ -31,7 +31,7 @@ GLVertexTexArray::GLVertexTexArray(GLTexture *texture, int noTris) :
 
 GLVertexTexArray::~GLVertexTexArray()
 {
-	delete texCoord_;
+	delete [] texCoord_;
 }
 
 void GLVertexTexArray::setTexCoord(int offset, GLfloat a, GLfloat b)

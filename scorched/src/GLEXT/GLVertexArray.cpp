@@ -39,8 +39,8 @@ GLVertexArray::GLVertexArray(int noTris) : noTris_(noTris), listNo_(0)
 
 GLVertexArray::~GLVertexArray()
 {
-	delete colors_;
-	delete vertices_;
+	delete [] colors_;
+	delete [] vertices_;
 	if (glIsList(listNo_)) glDeleteLists(listNo_, 1);
 }
 

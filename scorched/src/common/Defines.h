@@ -44,6 +44,7 @@ extern const char *getLogFile(const char *file, ...);
 extern const char *getSettingsFile(const char *file, ...);
 extern const char *getHomeFile(const char *file, ...);
 extern const char *getSaveFile(const char *file, ...);
+extern const char *getModFile(const char *file, ...);
 
 #define RAND ((float) rand() / (float) RAND_MAX)
 #define MAX(x,y) ((x)>(y)?(x):(y))

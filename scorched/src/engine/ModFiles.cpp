@@ -20,6 +20,20 @@
 
 #include <engine/ModFiles.h>
 
+ModFile::ModFile()
+{
+}
+
+ModFile::~ModFile()
+{
+}
+
+bool ModFile::loadModFile(const char *file)
+{
+	return true;
+}
+
+
 ModFiles::ModFiles()
 {
 }

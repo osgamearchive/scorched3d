@@ -38,7 +38,9 @@ public:
 	{
 	public:
 		OrderedEntry() : provider_(0), 
-			requiredItem_(true), removeItem_(false), deleteItem_(true) {}
+			requiredItem_(true), removeItem_(false), deleteItem_(true),
+			distance(0.0f), 
+			posX(0.0f), posY(0.0f), posZ(0.0f) {}
 
 		float posX, posY, posZ;
 		float distance;

@@ -159,10 +159,10 @@ const char *getLogFile(const char *file ...)
 const char *getSaveFile(const char *file ...)
 {
 	static char filename[1024];
-        va_list ap;
-        va_start(ap, file);
-        vsprintf(filename, file, ap);
-        va_end(ap);
+	va_list ap;
+	va_start(ap, file);
+	vsprintf(filename, file, ap);
+	va_end(ap);
 
 	static char buffer[1024];
 	const char *homeDirStr = getSettingsFile("");
@@ -175,3 +175,21 @@ const char *getSaveFile(const char *file ...)
 	return buffer;
 }
 
+const char *getModFile(const char *file ...)
+{
+	static char filename[1024];
+	va_list ap;
+	va_start(ap, file);
+	vsprintf(filename, file, ap);
+	va_end(ap);
+
+	static char buffer[1024];
+	const char *homeDirStr = getSettingsFile("");
+	wxString newDir(wxString(homeDirStr) + wxString("/mods"));
+	if (::wxDirExists(newDir)) homeDirStr = newDir.c_str();
+	else if (::wxMkdir(newDir, 0755)) homeDirStr = newDir.c_str();
+	                                                                                                    
+	sprintf(buffer, "%s/%s", homeDirStr, filename);
+	::wxDos2UnixFilename(buffer);
+	return buffer;
+}
