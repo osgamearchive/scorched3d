@@ -409,7 +409,7 @@ void MainCamera::keyboardCheck(const unsigned state, float frameTime,
 	}
 
 	KEYBOARDKEY("CAMERA_NOLIMIT", limitKey);
-	if (limitKey->keyDown(buffer, keyState, false))
+	if (limitKey->keyDown(buffer, keyState))
 	{	
 		mainCam_.setUseHeightFunc(false);
 	}

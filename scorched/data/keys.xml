@@ -217,7 +217,7 @@
 	<keyentry>
 		<name>CAMERA_NOLIMIT</name>
 		<description>Allow the camera to move through the landscape</description>
-		<key>LALT</key>
+		<key state="LALT">LALT</key>
 	</keyentry>
 	<keyentry>
 		<name>SIMULATION_SPEED_X1</name>
