@@ -632,6 +632,12 @@
 				RelativePath="..\tankgraph\TankMesh.h">
 			</File>
 			<File
+				RelativePath="..\tankgraph\MissileMesh.cpp">
+			</File>
+			<File
+				RelativePath="..\tankgraph\MissileMesh.h">
+			</File>
+			<File
 				RelativePath="..\tankgraph\TankModel.cpp">
 			</File>
 			<File
