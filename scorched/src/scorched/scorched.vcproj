@@ -1000,12 +1000,6 @@
 			Name="dialogs"
 			Filter="">
 			<File
-				RelativePath="..\dialogs\AimDialog.cpp">
-			</File>
-			<File
-				RelativePath="..\dialogs\AimDialog.h">
-			</File>
-			<File
 				RelativePath="..\dialogs\AutoDefenseDialog.cpp">
 			</File>
 			<File

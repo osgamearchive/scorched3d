@@ -28,7 +28,6 @@
 #include <dialogs/AutoDefenseDialog.h>
 #include <dialogs/MainMenuDialog.h>
 #include <dialogs/CameraDialog.h>
-#include <dialogs/AimDialog.h>
 #include <dialogs/PlayerDialog.h>
 #include <dialogs/QuitDialog.h>
 #include <dialogs/LogDialog.h>
@@ -172,9 +171,6 @@ void WindowSetup::setup()
 		GLWWindowManager::instance()->addWindow(ClientState::StatePlaying, 
 			window, key, window->getVisible());
 	}
-
-	GLWWindowManager::instance()->addWindow(ClientState::StatePlaying, 
-		AimDialog::instance(), aimKey, false);
 	addCommonComponents(ClientState::StatePlaying);
 
 	// StateShot

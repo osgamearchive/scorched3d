@@ -43,7 +43,6 @@ public:
 	void setCurrentX(float currentx) { currentX_ = currentx; }
 	void setCurrentY(float currenty) { currentY_ = currenty; }
 
-	virtual void draw();
 	virtual void mouseDown(float x, float y, bool &skipRest);
 	virtual void mouseUp(float x, float y, bool &skipRest);
 	virtual void mouseDrag(float mx, float my, float x, float y, bool &skipRest);
@@ -55,6 +54,20 @@ protected:
 	bool dragging_;
 	float currentX_, currentY_;
 	float range_;
+
+};
+
+class GLWTankTracker : public GLWTracker,
+	public GLWTrackerI
+{
+public:
+	GLWTankTracker();
+	virtual ~GLWTankTracker();
+
+	virtual void draw();
+	virtual void currentChanged(unsigned int id, float valueX, float valueY);
+
+	REGISTER_CLASS_HEADER(GLWTankTracker);
 
 };
 

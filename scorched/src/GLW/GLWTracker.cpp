@@ -23,6 +23,7 @@
 #include <GLEXT/GLState.h>
 #include <common/Keyboard.h>
 #include <common/OptionsDisplay.h>
+#include <client/ScorchedClient.h>
 
 REGISTER_CLASS_SOURCE(GLWTracker);
 
@@ -37,26 +38,6 @@ GLWTracker::GLWTracker(float x, float y, float w, float range) :
 GLWTracker::~GLWTracker()
 {
 
-}
-
-void GLWTracker::draw()
-{
-	glColor3f(0.7f, 0.7f, 0.7f);
-	glBegin(GL_LINE_LOOP);
-		drawRoundBox(x_, y_, w_, w_, 5.0f);
-	glEnd();
-	glBegin(GL_LINES);
-	float size = 0;
-	while (size < w_ / 2.0f)
-	{
-		glVertex2f(size + x_ + w_ / 2.0f, y_ + h_ / 2.0f - 2.0f);
-		glVertex2f(size + x_ + w_ / 2.0f, y_ + h_ / 2.0f + 2.0f);
-
-		glVertex2f(-size + x_ + w_ / 2.0f, y_ + h_ / 2.0f - 2.0f);
-		glVertex2f(-size + x_ + w_ / 2.0f, y_ + h_ / 2.0f + 2.0f);
-		size += 10.0f;
-	}
-	glEnd();
 }
 
 void GLWTracker::mouseDown(float x, float y, bool &skipRest)
@@ -92,4 +73,53 @@ void GLWTracker::mouseDrag(float mx, float my, float x, float y, bool &skipRest)
 
 		skipRest = true;
 	}
+}
+
+REGISTER_CLASS_SOURCE(GLWTankTracker);
+
+GLWTankTracker::GLWTankTracker() : 
+	GLWTracker(0.0f, 0.0f, 0.0f, 100.0f)
+{
+	setHandler(this);
+	setToolTip(new GLWTip("Rotation/Elevation",
+		"Change the rotation and elevation of the\n"
+		"current tank by clicking with the left\n"
+		"mouse button and dragging up and down,\n"
+		"left and right."));
+}
+
+GLWTankTracker::~GLWTankTracker()
+{
+}
+
+void GLWTankTracker::draw()
+{
+	Tank *currentTank =
+		ScorchedClient::instance()->getTankContainer().getCurrentTank();
+	if (currentTank)
+	{
+		if (currentTank->getState().getState() == TankState::sNormal)
+		{
+			setCurrentX(currentTank->getPhysics().getRotationGunXY());
+			setCurrentY(currentTank->getPhysics().getRotationGunYZ());
+		}
+	}
+	GLWTracker::draw();
+}
+
+void GLWTankTracker::currentChanged(unsigned int id, float valueX, float valueY)
+{
+	Tank *currentTank =
+		ScorchedClient::instance()->getTankContainer().getCurrentTank();
+	if (currentTank)
+	{
+		if (currentTank->getState().getState() == TankState::sNormal)
+		{
+			if (id == getId())
+			{
+				currentTank->getPhysics().rotateGunXY(valueX, false);
+				currentTank->getPhysics().rotateGunYZ(valueY, false);
+			}
+		}
+	}	
 }

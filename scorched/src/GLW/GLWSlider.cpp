@@ -22,12 +22,13 @@
 #include <GLW/GLWFont.h>
 #include <GLEXT/GLState.h>
 #include <common/Keyboard.h>
+#include <client/ScorchedClient.h>
 
 REGISTER_CLASS_SOURCE(GLWSlider);
 
-GLWSlider::GLWSlider(float x, float y, float w,  float current, float range) :
+GLWSlider::GLWSlider(float x, float y, float w,  float range) :
 	GLWVisibleWidget(x, y, w, 20.0f), 
-	current_(current), range_(range),
+	range_(range),
 	dragging_(false), handler_(0)
 {
 
@@ -36,26 +37,6 @@ GLWSlider::GLWSlider(float x, float y, float w,  float current, float range) :
 GLWSlider::~GLWSlider()
 {
 
-}
-
-void GLWSlider::draw()
-{
-	glColor3f(0.7f, 0.7f, 0.7f);
-	glBegin(GL_LINE_LOOP);
-		drawRoundBox(x_ + 7.0f, y_, 6.0f, w_, 2.0f);
-	glEnd();
-	glBegin(GL_LINES);
-	float size = 0;
-	while (size < w_ / 2.0f)
-	{
-		glVertex2f(x_ + 7.0f, size + y_ + w_ / 2.0f);
-		glVertex2f(x_ + 13.0f, size + y_ + w_ / 2.0f);
-
-		glVertex2f(x_ + 7.0f, -size + y_ + w_ / 2.0f);
-		glVertex2f(x_ + 13.0f, -size + y_ + w_ / 2.0f);
-		size += 10.0f;
-	}
-	glEnd();
 }
 
 void GLWSlider::mouseDown(float x, float y, bool &skipRest)
@@ -85,5 +66,52 @@ void GLWSlider::mouseDrag(float mx, float my, float x, float y, bool &skipRest)
 		if (handler_) handler_->currentChanged(getId(), current_);
 
 		skipRest = true;
+	}
+}
+
+REGISTER_CLASS_SOURCE(GLWTankSlider);
+
+GLWTankSlider::GLWTankSlider() : 
+	GLWSlider(0.0f, 0.0f, 0.0f, 100.0f)
+{
+	setHandler(this);
+	setToolTip(new GLWTip("Power",
+		"Change the power of the current tank\n"
+		"by clicking with the left mouse button\n"
+		"and dragging up and down."));
+}
+
+GLWTankSlider::~GLWTankSlider()
+{
+}
+
+void GLWTankSlider::draw()
+{
+	Tank *currentTank =
+		ScorchedClient::instance()->getTankContainer().getCurrentTank();
+	if (currentTank)
+	{
+		if (currentTank->getState().getState() == TankState::sNormal)
+		{
+			setCurrent(currentTank->getPhysics().getPower());
+		}
+	}
+	
+	GLWSlider::draw();
+}
+
+void GLWTankSlider::currentChanged(unsigned int id, float value)
+{
+	Tank *currentTank =
+		ScorchedClient::instance()->getTankContainer().getCurrentTank();
+	if (currentTank)
+	{
+		if (currentTank->getState().getState() == TankState::sNormal)
+		{
+			if (id == getId())
+			{
+				currentTank->getPhysics().changePower(value, false);
+			}
+		}
 	}
 }

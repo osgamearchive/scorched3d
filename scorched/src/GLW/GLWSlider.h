@@ -33,7 +33,7 @@ class GLWSlider : public GLWVisibleWidget
 {
 public:
 	GLWSlider(float x = 0.0f, float y = 0.0f, float w = 0.0f, 
-		float current = 0.0f, float range = 0.0f);
+		float range = 0.0f);
 	virtual ~GLWSlider();
 
 	void setHandler(GLWSliderI *handler) { handler_ = handler; }
@@ -41,7 +41,6 @@ public:
 	float getCurrent() { return current_; }
 	void setCurrent(float current) { current_ = current; }
 
-	virtual void draw();
 	virtual void mouseDown(float x, float y, bool &skipRest);
 	virtual void mouseUp(float x, float y, bool &skipRest);
 	virtual void mouseDrag(float mx, float my, float x, float y, bool &skipRest);
@@ -53,6 +52,20 @@ protected:
 	bool dragging_;
 	float current_;
 	float range_;
+
+};
+
+class GLWTankSlider : public GLWSlider, 
+	public GLWSliderI
+{
+public:
+	GLWTankSlider();
+	virtual ~GLWTankSlider();
+
+	virtual void draw();
+	virtual void currentChanged(unsigned int id, float value);
+
+	REGISTER_CLASS_HEADER(GLWTankSlider);
 
 };
 
