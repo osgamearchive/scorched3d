@@ -251,7 +251,7 @@ void Landscape::generate(ProgressCounter *counter)
 	LandscapeTex *tex = 
 			ScorchedClient::instance()->getLandscapeMaps().getLandDfn().getTex();
 
-	if (0 == strcmp(tex->texture->type.c_str(), "generate"))
+	if (0 == strcmp(tex->texturetype.c_str(), "generate"))
 	{
 		LandscapeTexTextureGenerate *generate = 
 			(LandscapeTexTextureGenerate *) tex->texture;
@@ -279,9 +279,82 @@ void Landscape::generate(ProgressCounter *counter)
 		// Set the general surround texture
 		surroundTexture_.replace(texture0);
 	}
-	else DIALOG_ASSERT(0);
+	else
+	{
+		dialogMessage("Landscape",
+			"Failed to find heightmap type %s",
+			tex->texturetype.c_str());
+		DIALOG_ASSERT(0);
+	}
+
+	// Create the main landscape texture
+	DIALOG_ASSERT(texture_.replace(mainMap_, GL_RGB, false));
+
+	// Load a mask
+	std::string sprayMaskFile = getDataFile("data/textures/smoke01.bmp");
+	GLBitmap sprayMaskBitmap(sprayMaskFile.c_str(), sprayMaskFile.c_str(), false);
+
+	if (0 == strcmp(tex->bordertype.c_str(), "water"))
+	{
+		LandscapeTexBorderWater *water = 
+			(LandscapeTexBorderWater *) tex->border;
+
+		GLBitmap waves1Map(
+			water->wavetexture1.c_str(),
+			water->wavetexture1.c_str(),
+			false);
+		GLBitmap waves2Map(
+			water->wavetexture2.c_str(),
+			water->wavetexture2.c_str(),
+			false);
+		waves1Texture_.replace(waves1Map, GL_RGBA);
+		waves2Texture_.replace(waves2Map, GL_RGBA);
+		bitmapWater_.loadFromFile(water->reflection.c_str(), false);
+		GLBitmap bitmapWaterDetail(water->texture.c_str());
+		waterDetail_.replace(bitmapWaterDetail, GL_RGB, true);
+
+		// Generate the water texture for the spray sprite
+		GLBitmap bitmapWater(water->reflection.c_str());
+		bitmapWater.resize(
+			sprayMaskBitmap.getWidth(), sprayMaskBitmap.getHeight());
+		GLBitmap textureWaterNew(
+			sprayMaskBitmap.getWidth(), sprayMaskBitmap.getHeight(), true);
+		GLBitmapModifier::makeBitmapTransparent(textureWaterNew, 
+			bitmapWater, sprayMaskBitmap);
+		landTexWater_.replace(textureWaterNew, GL_RGBA);
+
+		// Load the water reflection bitmap
+		// Create water cubemap texture
+		bitmapWater.resize(256, 256);
+		DIALOG_ASSERT(bitmapWater.getBits());
+		delete waterTexture_;
+		if (GLStateExtension::hasCubeMap() &&
+			!OptionsDisplay::instance()->getNoGLSphereMap())
+		{
+			GLTextureCubeMap *waterCubeMap = new GLTextureCubeMap();
+			waterCubeMap->create(bitmapWater, GL_RGB, false);
+			waterTexture_ = waterCubeMap;
+		}
+		else 
+		{
+			GLTexture *waterNormalMap = new GLTexture();
+			waterNormalMap->create(bitmapWater, GL_RGB, false);
+			waterTexture_ = waterNormalMap;
+		}
+
+		// Find the waves around this island
+		wWaves_.generateWaves(counter);
+	}
+	else
+	{
+		dialogMessage("Landscape",
+			"Failed to find border type %s",
+			tex->bordertype.c_str());
+		DIALOG_ASSERT(0);
+	}
 
 	// Add lighting to the landscape texture
+	sun_.setPosition(tex->skysunxy, tex->skysunyz);
 	GLBitmapModifier::addLightMapToBitmap(mainMap_,
 		ScorchedClient::instance()->getLandscapeMaps().getHMap(),
 		sun_.getPosition(), counter);
@@ -297,93 +370,45 @@ void Landscape::generate(ProgressCounter *counter)
 	// Generate the scorch map for the landscape
 	GLBitmap scorchMap(tex->scorch.c_str());
 	GLBitmapModifier::tileBitmap(scorchMap, scorchMap_);
+	scorchMap.resize(sprayMaskBitmap.getWidth(), sprayMaskBitmap.getHeight());
+	GLBitmap texture1New(sprayMaskBitmap.getWidth(), sprayMaskBitmap.getHeight(), true);
+	GLBitmapModifier::makeBitmapTransparent(texture1New, scorchMap, sprayMaskBitmap);
+	landTex1_.replace(texture1New, GL_RGBA);
 
+	// Magma
+	GLBitmap bitmapMagma(tex->magmasmall.c_str());
+	DIALOG_ASSERT(magTexture_.replace(bitmapMagma));
 
-	GLBitmap waves1Map(
-		resources_.getStringResource("bitmap-waves1"), 
-		resources_.getStringResource("bitmap-waves1"), false);
-	GLBitmap waves2Map(
-		resources_.getStringResource("bitmap-waves2"), 
-		resources_.getStringResource("bitmap-waves2"), false);
-	waves1Texture_.create(waves1Map, GL_RGBA);
-	waves2Texture_.create(waves2Map, GL_RGBA);
-	GLBitmap bitmapWater(resources_.getStringResource("bitmap-cloudreflection"));
-	bitmapWater_.loadFromFile(resources_.getStringResource("bitmap-cloudreflection"), false);
-	GLBitmap bitmapMagma(resources_.getStringResource("bitmap-magmasmall"));
-	GLBitmap bitmapCloud(resources_.getStringResource("bitmap-cloud"));
-	GLBitmap bitmapDetail(resources_.getStringResource("bitmap-detail"));
-	GLBitmap bitmapWaterDetail(resources_.getStringResource("bitmap-water"));
-	skyColorsMap_.loadFromFile(resources_.getStringResource("bitmap-skycolors"));
+	// Sky
+	GLBitmap bitmapCloud(tex->skytexture.c_str());
+	DIALOG_ASSERT(cloudTexture_.replace(bitmapCloud));
+	skyColorsMap_.loadFromFile(tex->skycolormap.c_str());
+
+	// Detail
+	GLBitmap bitmapDetail(tex->detail.c_str());
+	DIALOG_ASSERT(detailTexture_.replace(bitmapDetail, GL_RGB, true));
 
 	// Add objects to the landscape
 	objects_.removeAllObjects();
-	if (resources_.getStringResource("objects")[0])
+	/*if (resources_.getStringResource("objects")[0])
 	{
 		RandomGenerator objectsGenerator;
 		objectsGenerator.seed(
 			ScorchedClient::instance()->getLandscapeMaps().getLandDfn().getSeed());
 		objects_.generate(objectsGenerator, counter);
-	}
+	}*/
 
-	// Create the magma texture
-	DIALOG_ASSERT(magTexture_.replace(bitmapMagma));
-
-	// Create the main landscape texture
-	DIALOG_ASSERT(texture_.replace(mainMap_, GL_RGB, false));
-
-	// Create the detail textures
-	DIALOG_ASSERT(detailTexture_.replace(bitmapDetail, GL_RGB, true));
-	DIALOG_ASSERT(waterDetail_.replace(bitmapWaterDetail, GL_RGB, true));
-	
 	// Create the plan textures (for the plan and wind dialogs)
 	updatePlanTexture();
 	updatePlanATexture();
 
-	// Create the cloud texture
-	DIALOG_ASSERT(cloudTexture_.create(bitmapCloud));
-
-	// Generate small landscape textures
-	std::string file1 = getDataFile("data/textures/smoke01.bmp");
-	GLBitmap smokeBitmap(file1.c_str(), file1.c_str(), false);
-	scorchMap.resize(smokeBitmap.getWidth(), smokeBitmap.getHeight());
-	bitmapWater.resize(smokeBitmap.getWidth(), smokeBitmap.getHeight());
-	GLBitmap texture1New(smokeBitmap.getWidth(), smokeBitmap.getHeight(), true);
-	GLBitmap textureWaterNew(smokeBitmap.getWidth(), smokeBitmap.getHeight(), true);
-	GLBitmapModifier::makeBitmapTransparent(texture1New, scorchMap, smokeBitmap);
-	GLBitmapModifier::makeBitmapTransparent(textureWaterNew, bitmapWater, smokeBitmap);
-	DIALOG_ASSERT(landTex1_.replace(texture1New, GL_RGBA));
-	DIALOG_ASSERT(landTexWater_.replace(textureWaterNew, GL_RGBA));
-
 	// Set the fog color
-	Vector *fogColor = resources_.getVectorResource("color-fog");
 	GLfloat fogColorF[4];
-	fogColorF[0] = (*fogColor)[0];
-	fogColorF[1] = (*fogColor)[1];
-	fogColorF[2] = (*fogColor)[2];
+	fogColorF[0] = tex->fog[0];
+	fogColorF[1] = tex->fog[1];
+	fogColorF[2] = tex->fog[2];
 	fogColorF[3] = 1.0f;
 	glFogfv(GL_FOG_COLOR, fogColorF);
-
-	// Load the water reflection bitmap
-	// Create water cubemap texture
-	bitmapWater.resize(256, 256);
-	DIALOG_ASSERT(bitmapWater.getBits());
-	delete waterTexture_;
-	if (GLStateExtension::hasCubeMap() &&
-		!OptionsDisplay::instance()->getNoGLSphereMap())
-	{
-		GLTextureCubeMap *waterCubeMap = new GLTextureCubeMap();
-		waterCubeMap->create(bitmapWater, GL_RGB, false);
-		waterTexture_ = waterCubeMap;
-	}
-	else 
-	{
-		GLTexture *waterNormalMap = new GLTexture();
-		waterNormalMap->create(bitmapWater, GL_RGB, false);
-		waterTexture_ = waterNormalMap;
-	}
-
-	// Find the waves around this island
-	wWaves_.generateWaves(counter);
 	
 	// Ensure that all components use new landscape
 	reset();

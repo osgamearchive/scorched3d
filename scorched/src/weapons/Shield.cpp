@@ -45,17 +45,17 @@ bool Shield::parseXML(XMLNode *accessoryNode)
 	radius_ = ((strcmp(radiusNode->getContent(), "large")==0)?ShieldSizeLarge:ShieldSizeSmall);
 
 	// Get the remove power 
-	if (!accessoryNode->getNamedFloat("removepower", removePower_)) return false;
+	if (!accessoryNode->getNamedChild("removepower", removePower_)) return false;
 
 	// Get the collision sound
-	if (!accessoryNode->getNamedString("collisionsound", collisionSound_)) return false;
+	if (!accessoryNode->getNamedChild("collisionsound", collisionSound_)) return false;
 
 	// Get the accessory color
 	XMLNode *colorNode = 0;
 	if (!accessoryNode->getNamedChild("color", colorNode)) return false;
-	if (!colorNode->getNamedFloat("r", color_[0])) return false;
-	if (!colorNode->getNamedFloat("g", color_[1])) return false;
-	if (!colorNode->getNamedFloat("b", color_[2])) return false;
+	if (!colorNode->getNamedChild("r", color_[0])) return false;
+	if (!colorNode->getNamedChild("g", color_[1])) return false;
+	if (!colorNode->getNamedChild("b", color_[2])) return false;
 
 	return true;
 }

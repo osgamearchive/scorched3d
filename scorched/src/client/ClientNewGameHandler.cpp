@@ -117,26 +117,6 @@ bool ClientNewGameHandler::processMessage(unsigned int id,
 			return false;
 		}
 
-		// Set a random resource value
-		if (!Landscape::instance()->getResources().initialized())
-		{
-			// Read the resources 
-			if (!Landscape::instance()->getResources().initFromFile(
-				getDataFile("data/resource.xml")))
-			{
-				dialogMessage("Landscape",
-					"Failed to load resources data/resource.xml");
-				return false;
-			}
-		}
-		if (!Landscape::instance()->getResources().setModule(
-			message.getLevelMessage().getHmapDefn().resourceFile.c_str()))
-		{
-			dialogMessage("Scorched3D", "Failed to set resource \"%s\"",
-				message.getLevelMessage().getHmapDefn().resourceFile.c_str());
-			return false;
-		}
-
 		ScorchedClient::instance()->getGameState().stimulate(ClientState::StimWait);
 		ScorchedClient::instance()->getGameState().checkStimulate();
 		ScorchedClient::instance()->getGameState().stimulate(ClientState::StimNewGame);

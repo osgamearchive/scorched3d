@@ -49,7 +49,7 @@ void TankAIComputer::setTank(Tank *tank)
 
 bool TankAIComputer::parseConfig(XMLNode *node)
 {
-	if (!node->getNamedString("name", name_)) return false;
+	if (!node->getNamedChild("name", name_)) return false;
 
 	XMLNode *descNode = 0;
 	if (!node->getNamedChild("description", descNode)) return false;

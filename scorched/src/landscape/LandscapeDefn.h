@@ -29,8 +29,6 @@
 class LandscapeDefnType
 {
 public:
-	std::string type;
-
 	virtual bool readXML(XMLNode *node) = 0;
 	virtual bool writeMessage(NetBuffer &buffer) = 0;
 	virtual bool readMessage(NetBufferReader &reader) = 0;
@@ -74,7 +72,9 @@ public:
 	int minplayers;
 	int maxplayers;
 
+	std::string tankstarttype;
 	LandscapeDefnType *tankstart;
+	std::string heightmaptype;
 	LandscapeDefnType *heightmap;
 
 	bool writeMessage(NetBuffer &buffer);

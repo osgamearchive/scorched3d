@@ -52,7 +52,7 @@ void LandscapeMaps::generateHMap(LandscapeDefinition *hdef,
 	storedHdef_ = hdef;
 
 	// Do we generate or load the landscape
-	if (0 == strcmp(hdef->getDefn()->heightmap->type.c_str(), "load"))
+	if (0 == strcmp(hdef->getDefn()->heightmaptype.c_str(), "load"))
 	{
 		// Load the landscape
 		GLBitmap bitmap;
@@ -72,10 +72,10 @@ void LandscapeMaps::generateHMap(LandscapeDefinition *hdef,
 				bitmap, counter);
 		}
 	}
-	else if (0 == strcmp(hdef->getDefn()->heightmap->type.c_str(), "generate"))
+	else if (0 == strcmp(hdef->getDefn()->heightmaptype.c_str(), "generate"))
 	{
 		LandscapeDefnHeightMapGenerate *generate = 
-			(LandscapeDefnHeightMapGenerate *) hdef->getDefn();
+			(LandscapeDefnHeightMapGenerate *) hdef->getDefn()->heightmap;
 
 		// Seed the generator and generate the landscape
 		RandomGenerator generator;

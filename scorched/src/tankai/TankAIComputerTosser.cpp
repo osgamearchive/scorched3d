@@ -38,7 +38,7 @@ TankAIComputerTosser::~TankAIComputerTosser()
 bool TankAIComputerTosser::parseConfig(XMLNode *node)
 {
 	if (!TankAIComputerShooter::parseConfig(node)) return false;
-	if (!node->getNamedFloat("sniper", sniperDist_)) return false;
+	if (!node->getNamedChild("sniper", sniperDist_)) return false;
 
 	return true;
 }

@@ -454,10 +454,10 @@ bool GLWWindow::initFromXML(XMLNode *node)
 	if (!GLWPanel::initFromXML(node)) return false;
 	
 	// Name
-	if (!node->getNamedString("name", name_)) return false;
+	if (!node->getNamedChild("name", name_)) return false;
 
 	// Desc
-	if (!node->getNamedString("description", description_)) return false;
+	if (!node->getNamedChild("description", description_)) return false;
 	toolTip_.setText(name_.c_str(), description_.c_str());
 
 	return true;

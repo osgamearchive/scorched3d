@@ -203,7 +203,7 @@ bool Keyboard::parseKeyFile(const char *fileName)
 			{
 				const char *state = "NONE";
 				XMLNode *stateNode;
-				if (currentKey->getNamedParameter("state", stateNode)) 
+				if (currentKey->getNamedParameter("state", stateNode, false)) 
 					state = stateNode->getContent();
 
 				// Add a key and state

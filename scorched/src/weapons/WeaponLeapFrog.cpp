@@ -56,7 +56,7 @@ bool WeaponLeapFrog::parseXML(XMLNode *accessoryNode)
 	collisionAction_ = (Weapon*) accessory;
 
 	// Get the bounce
-	if (!accessoryNode->getNamedFloat("bounce", bounce_)) return false;
+	if (!accessoryNode->getNamedChild("bounce", bounce_)) return false;
 
 	return true;
 }

@@ -266,7 +266,16 @@ bool XMLNode::getNamedParameter(const char *name, XMLNode *&value,
 	return false;
 }
 
-bool XMLNode::getNamedString(const char *name, std::string &value,
+bool XMLNode::getNamedParameter(const char *name, std::string &value,
+	bool failOnError, bool remove)
+{
+	XMLNode *node;
+	if (!getNamedParameter(name, node, failOnError, remove)) return false;
+	value = node->getContent();
+	return true;
+}
+
+bool XMLNode::getNamedChild(const char *name, std::string &value,
 	bool failOnError, bool remove)
 {
 	XMLNode *node;
@@ -275,17 +284,17 @@ bool XMLNode::getNamedString(const char *name, std::string &value,
 	return true;
 }
 
-bool XMLNode::getNamedBool(const char *name, bool &value,
+bool XMLNode::getNamedChild(const char *name, bool &value,
 	bool failOnError, bool remove)
 {
 	std::string str;
-	if (!getNamedString(name, str, failOnError, remove)) return false;
+	if (!getNamedChild(name, str, failOnError, remove)) return false;
 
 	value = (0 == strcmp(str.c_str(), "true"));	
 	return true;
 }
 
-bool XMLNode::getNamedFloat(const char *name, float &value,
+bool XMLNode::getNamedChild(const char *name, float &value,
 	bool failOnError, bool remove)
 {
 	XMLNode *node;
@@ -294,7 +303,7 @@ bool XMLNode::getNamedFloat(const char *name, float &value,
 	return true;
 }
 
-bool XMLNode::getNamedInt(const char *name, int &value,
+bool XMLNode::getNamedChild(const char *name, int &value,
 	bool failOnError, bool remove)
 {
 	XMLNode *node;
@@ -303,7 +312,7 @@ bool XMLNode::getNamedInt(const char *name, int &value,
 	return true;
 }
 
-bool XMLNode::getNamedUInt(const char *name, unsigned int &value,
+bool XMLNode::getNamedChild(const char *name, unsigned int &value,
 	bool failOnError, bool remove)
 {
 	XMLNode *node;
@@ -312,7 +321,7 @@ bool XMLNode::getNamedUInt(const char *name, unsigned int &value,
 	return true;
 }
 
-bool XMLNode::getNamedVector(const char *name, Vector &value, 
+bool XMLNode::getNamedChild(const char *name, Vector &value, 
 	bool failOnError, bool remove)
 {
 	XMLNode *node, *nodeA, *nodeB, *nodeC;

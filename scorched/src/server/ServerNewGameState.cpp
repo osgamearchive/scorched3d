@@ -39,6 +39,8 @@
 #include <coms/ComsNewGameMessage.h>
 #include <coms/ComsMessageSender.h>
 #include <landscape/LandscapeMaps.h>
+#include <landscape/LandscapeDefn.h>
+#include <landscape/LandscapeDefinitions.h>
 #include <set>
 
 extern Clock serverTimer;
@@ -117,14 +119,32 @@ void ServerNewGameState::enterState(const unsigned state)
 	checkBots();
 
 	// Generate the new level
-	LandscapeDefinition &defn = LandscapeDefinitions::instance()->getRandomLandscapeDefn(
+	LandscapeDefinition *defn = LandscapeDefinitions::instance()->getRandomLandscapeDefn(
 		*ScorchedServer::instance()->getContext().optionsGame);
+	if (!defn)
+	{
+		dialogMessage("ServerNewGameState", 
+			"Failed to find any defined landscapes");
+		DIALOG_ASSERT(0);
+	}
 	ScorchedServer::instance()->getContext().landscapeMaps->generateHMap(defn);
 
 	// Set the start positions for the tanks
 	// Must be generated after the level as it alters the
 	// level
-	calculateStartPosition(ScorchedServer::instance()->getContext());
+	if (0 == strcmp(defn->getDefn()->tankstarttype.c_str(), "height"))
+	{
+		LandscapeDefnStartHeight *height = (LandscapeDefnStartHeight *)
+			defn->getDefn()->tankstart;
+		calculateHeightStartPosition(height, ScorchedServer::instance()->getContext());
+	}
+	else
+	{
+		dialogMessage("ServerNewGameState",
+			"Failed to find tank start type \"%s\"",
+			defn->getDefn()->tankstarttype.c_str());
+		DIALOG_ASSERT(0);
+	}
 
 	// Add pending tanks (all tanks should be pending) into the game
 	addTanksToGame(state, optionsChanged);
@@ -183,8 +203,9 @@ int ServerNewGameState::addTanksToGame(const unsigned state,
 	{
 		Logger::log(0, "ERROR: Failed to generate diff");
 	}
-	ServerCommon::serverLog(0, "Finished generating landscape \"%s\" message (%i bytes)", 
-		newGameMessage.getLevelMessage().getHmapDefn().name.c_str(),
+	ServerCommon::serverLog(0, "Finished generating landscape (%s, %s) message (%i bytes)", 
+		ScorchedServer::instance()->getLandscapeMaps().getLandDfn().getDefn()->name.c_str(),
+		ScorchedServer::instance()->getLandscapeMaps().getLandDfn().getTex()->name.c_str(),
 		newGameMessage.getLevelMessage().getLevelLen());
 
 	// Check if the generated landscape is too large to send to the clients
@@ -278,7 +299,8 @@ void ServerNewGameState::flattenArea(ScorchedContext &context, Vector &tankPos)
 	}
 }
 
-void ServerNewGameState::calculateStartPosition(ScorchedContext &context)
+void ServerNewGameState::calculateHeightStartPosition(
+	LandscapeDefnStartHeight *defn, ScorchedContext &context)
 {
 	std::map<unsigned int, Tank *> &tanks = 
 		context.tankContainer->getPlayingTanks();
@@ -290,8 +312,7 @@ void ServerNewGameState::calculateStartPosition(ScorchedContext &context)
 	{
 		Vector tankPos;
 		bool tooClose = true;
-		float closeness =
-			ScorchedServer::instance()->getLandscapeMaps().getLandDfn().tankStartCloseness;
+		float closeness = defn->startcloseness;
 		while (tooClose)
 		{
 			// Find a new position for the tank
@@ -306,8 +327,8 @@ void ServerNewGameState::calculateStartPosition(ScorchedContext &context)
 
 			// Make sure not lower than water line
 			// And that the tank is not too close to other tanks
-			if (tankPos[2] < ScorchedServer::instance()->getLandscapeMaps().getLandDfn().tankStartHeightMin ||
-				tankPos[2] > ScorchedServer::instance()->getLandscapeMaps().getLandDfn().tankStartHeightMax) 
+			if (tankPos[2] < defn->heightmin ||
+				tankPos[2] > defn->heightmax) 
 			{
 				tooClose = true;
 				closeness -= 0.1f;

@@ -131,7 +131,7 @@ bool TankModelStore::loadTankMeshes(ProgressCounter *counter)
 
 		// Get the projectile model node (if any)
 		XMLNode *projectileModelNode;
-		if (currentNode->getNamedChild("projectilemodel", projectileModelNode))
+		if (currentNode->getNamedChild("projectilemodel", projectileModelNode, false))
 		{
 			ModelID projModelId;
 			if (!projModelId.initFromNode("data/accessories", projectileModelNode))

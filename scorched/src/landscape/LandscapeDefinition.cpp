@@ -36,12 +36,18 @@ LandscapeDefinition::LandscapeDefinition(
 bool LandscapeDefinition::writeMessage(NetBuffer &buffer)
 {
 	buffer.addToBuffer(seed_);
+	if (!tex_->writeMessage(buffer)) return false;
+	if (!defn_->writeMessage(buffer)) return false;
 	return true;
 }
 
 bool LandscapeDefinition::readMessage(NetBufferReader &reader)
 {
 	if (!reader.getFromBuffer(seed_)) return false;
+	tex_ = new LandscapeTex;
+	if (!tex_->readMessage(reader)) return false;
+	defn_ = new LandscapeDefn;
+	if (!defn_->readMessage(reader)) return false;
 	return true;
 }
 

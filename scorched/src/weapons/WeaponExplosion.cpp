@@ -40,7 +40,7 @@ bool WeaponExplosion::parseXML(XMLNode *accessoryNode)
 	if (!Weapon::parseXML(accessoryNode)) return false;
 
     // Get the accessory size
-    if (!accessoryNode->getNamedInt("size", size_)) return false;
+    if (!accessoryNode->getNamedChild("size", size_)) return false;
 
     // Get the accessory colored
     XMLNode *colorNode = 0;
@@ -48,7 +48,7 @@ bool WeaponExplosion::parseXML(XMLNode *accessoryNode)
     if (colorNode) multiColored_ = true;
 
     // Get the hutiness
-	if (!accessoryNode->getNamedFloat("hurtamount", hurtAmount_)) return false;
+	if (!accessoryNode->getNamedChild("hurtamount", hurtAmount_)) return false;
 
 	// Get the deform
 	XMLNode *deformNode = 0;

@@ -61,19 +61,21 @@ public:
 
 	bool getNamedParameter(const char *name, XMLNode *&node, 
 		bool failOnError = true, bool remove = true);
+	bool getNamedParameter(const char *name, std::string &value,
+		bool failOnError = true, bool remove = true);
 	bool getNamedChild(const char *name, XMLNode *&node, 
 		bool failOnError = true, bool remove = true);
-	bool getNamedString(const char *name, std::string &value,
+	bool getNamedChild(const char *name, std::string &value,
 		bool failOnError = true, bool remove = true);
-	bool getNamedBool(const char *name, bool &value,
+	bool getNamedChild(const char *name, bool &value,
 		bool failOnError = true, bool remove = true);
-	bool getNamedFloat(const char *name, float &value,
+	bool getNamedChild(const char *name, float &value,
 		bool failOnError = true, bool remove = true);
-	bool getNamedInt(const char *name, int &value,
+	bool getNamedChild(const char *name, int &value,
 		bool failOnError = true, bool remove = true);
-	bool getNamedUInt(const char *name, unsigned int &value,
+	bool getNamedChild(const char *name, unsigned int &value,
 		bool failOnError = true, bool remove = true);
-	bool getNamedVector(const char *name, Vector &value,
+	bool getNamedChild(const char *name, Vector &value,
 		bool failOnError = true, bool remove = true);
 
 	bool failChildren();

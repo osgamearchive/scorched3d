@@ -393,21 +393,21 @@ bool GLWScorchedInfo::initFromXML(XMLNode *node)
 	}
 	
 	// Font Size
-	if (!node->getNamedFloat("fontsize", fontSize_)) return false;
+	if (!node->getNamedChild("fontsize", fontSize_)) return false;
 	
 	// Font Color
-	if (!node->getNamedFloat("fontcolorr", fontColor_[0])) return false;
-	if (!node->getNamedFloat("fontcolorg", fontColor_[1])) return false;
-	if (!node->getNamedFloat("fontcolorb", fontColor_[2])) return false;
+	if (!node->getNamedChild("fontcolorr", fontColor_[0])) return false;
+	if (!node->getNamedChild("fontcolorg", fontColor_[1])) return false;
+	if (!node->getNamedChild("fontcolorb", fontColor_[2])) return false;
 
 	// Font Selected Size
-	if (!node->getNamedFloat("selfontcolorr", selectedColor_[0]))  selectedColor_[0] = fontColor_[0];
-	if (!node->getNamedFloat("selfontcolorg", selectedColor_[1]))  selectedColor_[1] = fontColor_[1];
-	if (!node->getNamedFloat("selfontcolorb", selectedColor_[2]))  selectedColor_[2] = fontColor_[22];
+	if (!node->getNamedChild("selfontcolorr", selectedColor_[0], false))  selectedColor_[0] = fontColor_[0];
+	if (!node->getNamedChild("selfontcolorg", selectedColor_[1], false))  selectedColor_[1] = fontColor_[1];
+	if (!node->getNamedChild("selfontcolorb", selectedColor_[2], false))  selectedColor_[2] = fontColor_[22];
 
 	// No Center
 	XMLNode *centerNode;
-	if (node->getNamedChild("nocenter", centerNode))
+	if (node->getNamedChild("nocenter", centerNode, false))
 	{
 		noCenter_ = (0 == strcmp(centerNode->getContent(), "true"));
 	}

@@ -27,10 +27,10 @@
 
 bool LandscapeDefinitionsEntry::readXML(XMLNode *node)
 {
-	if (!node->getNamedString("name", name)) return false;
-	if (!node->getNamedFloat("weight", weight)) return false;
-	if (!node->getNamedString("description", description)) return false;
-	if (!node->getNamedString("picture", picture)) return false;
+	if (!node->getNamedChild("name", name)) return false;
+	if (!node->getNamedChild("weight", weight)) return false;
+	if (!node->getNamedChild("description", description)) return false;
+	if (!node->getNamedChild("picture", picture)) return false;
 
 	XMLNode *tex, *defn, *tmp;
 	if (!node->getNamedChild("defn", defn)) return false;
@@ -200,6 +200,34 @@ bool LandscapeDefinitions::readDefinitions()
 					  "Failed to parse \"data/landscapes.xml\"");
 			return false;
 		}
+		std::vector<std::string>::iterator checkItor;
+		for (checkItor = newDefn.texs.begin();
+			checkItor != newDefn.texs.end();
+			checkItor++)
+		{
+			const char *name = (*checkItor).c_str();
+			if (!getTex(name))
+			{
+				dialogMessage("Scorched Landscape", 
+						"Failed to find tex named \"%s\" in \"data/landscapes.xml\"",
+						name);
+				return false;
+			}
+		}
+		for (checkItor = newDefn.defns.begin();
+			checkItor != newDefn.defns.end();
+			checkItor++)
+		{
+			const char *name = (*checkItor).c_str();
+			if (!getDefn(name))
+			{
+				dialogMessage("Scorched Landscape", 
+						"Failed to find defn named \"%s\" in \"data/landscapes.xml\"",
+						name);
+				return false;
+			}
+		}
+
 		entries_.push_back(newDefn);
 	}
 	return true;
@@ -251,8 +279,8 @@ LandscapeDefinition *LandscapeDefinitions::getRandomLandscapeDefn(
 
 		if (pos <= soFar)
 		{
-			int texPos = int(RAND * float(result->texs.size()));
-			int defnPos = int(RAND * float(result->defns.size()));
+			unsigned int texPos = int(RAND * float(result->texs.size()));
+			unsigned int defnPos = int(RAND * float(result->defns.size()));
 			DIALOG_ASSERT(texPos < result->texs.size());
 			DIALOG_ASSERT(defnPos < result->defns.size());
 			LandscapeTex *tex = getTex(result->texs[texPos].c_str());

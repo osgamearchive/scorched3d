@@ -12,8 +12,7 @@
 			</height>
         </tankstart>
         <heightmap type="generate">
-            <mask>
-            </mask>
+            <mask></mask>
             <landhills>
                 <min>60</min>
                 <max>80</max>

@@ -20,6 +20,9 @@
 
 #include <landscape/Surround.h>
 #include <landscape/Landscape.h>
+#include <landscape/LandscapeMaps.h>
+#include <landscape/LandscapeTex.h>
+#include <landscape/LandscapeDefinition.h>
 #include <landscape/Hemisphere.h>
 #include <GLEXT/GLState.h>
 #include <client/MainCamera.h>
@@ -73,7 +76,7 @@ void Surround::draw()
 			slowXY, slowXY + 0.4f,
 			Landscape::instance()->getSkyColorsMap(),
 			sunDir,
-			OptionsDisplay::instance()->getDayTime());
+			ScorchedClient::instance()->getLandscapeMaps().getLandDfn().getTex()->skytimeofday);
 
 		if (!OptionsDisplay::instance()->getNoSkyLayers())
 		{

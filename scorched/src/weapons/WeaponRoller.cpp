@@ -43,7 +43,7 @@ bool WeaponRoller::parseXML(XMLNode *accessoryNode)
 {
 	if (!Weapon::parseXML(accessoryNode)) return false;
 
-	if (!accessoryNode->getNamedInt("numberrollers", numberRollers_)) return false;
+	if (!accessoryNode->getNamedChild("numberrollers", numberRollers_)) return false;
 
 	XMLNode *subNode = 0;
 	if (!accessoryNode->getNamedChild("collisionaction", subNode)) return false;

@@ -42,22 +42,22 @@ bool Weapon::parseXML(XMLNode *accessoryNode)
 	if (!Accessory::parseXML(accessoryNode)) return false;
 
 	// Get the deathWeight
-	accessoryNode->getNamedInt("deathanimationweight", deathAnimationWeight_, false);
+	accessoryNode->getNamedChild("deathanimationweight", deathAnimationWeight_, false);
 
 	// Get the explosion texture
-	accessoryNode->getNamedString("explosiontexture", explosionTexture_, false);
+	accessoryNode->getNamedChild("explosiontexture", explosionTexture_, false);
 
 	// Get the explosion texture
-	accessoryNode->getNamedString("firedsound", firedSound_, false);
+	accessoryNode->getNamedChild("firedsound", firedSound_, false);
 
 	// Get the explosion texture
-	accessoryNode->getNamedString("explosionsound", explosionSound_, false);
+	accessoryNode->getNamedChild("explosionsound", explosionSound_, false);
 
 	// Get the weapon model scale
-	accessoryNode->getNamedFloat("projectilescale", scale_, false);
+	accessoryNode->getNamedChild("projectilescale", scale_, false);
 
 	// Get the weapon model explosion shake
-	accessoryNode->getNamedFloat("explosionshake", shake_, false);
+	accessoryNode->getNamedChild("explosionshake", shake_, false);
 
 	// Get the weapon model
 	XMLNode *modelNode = 0;

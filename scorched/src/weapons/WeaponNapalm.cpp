@@ -41,13 +41,13 @@ bool WeaponNapalm::parseXML(XMLNode *accessoryNode)
 {
 	if (!Weapon::parseXML(accessoryNode)) return false;
 
-	if (!accessoryNode->getNamedFloat("napalmtime", napalmTime_)) return false;
-	if (!accessoryNode->getNamedFloat("napalmheight", napalmHeight_)) return false;
-	if (!accessoryNode->getNamedFloat("steptime", stepTime_)) return false;
-	if (!accessoryNode->getNamedFloat("hurtsteptime", hurtStepTime_)) return false;
-	if (!accessoryNode->getNamedFloat("hurtpersecond", hurtPerSecond_)) return false;
-	if (!accessoryNode->getNamedInt("numberstreams", numberStreams_)) return false;
-	if (!accessoryNode->getNamedInt("effectradius", effectRadius_)) return false;
+	if (!accessoryNode->getNamedChild("napalmtime", napalmTime_)) return false;
+	if (!accessoryNode->getNamedChild("napalmheight", napalmHeight_)) return false;
+	if (!accessoryNode->getNamedChild("steptime", stepTime_)) return false;
+	if (!accessoryNode->getNamedChild("hurtsteptime", hurtStepTime_)) return false;
+	if (!accessoryNode->getNamedChild("hurtpersecond", hurtPerSecond_)) return false;
+	if (!accessoryNode->getNamedChild("numberstreams", numberStreams_)) return false;
+	if (!accessoryNode->getNamedChild("effectradius", effectRadius_)) return false;
 
 	return true;
 }

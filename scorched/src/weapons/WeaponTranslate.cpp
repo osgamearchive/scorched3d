@@ -40,7 +40,7 @@ bool WeaponTranslate::parseXML(XMLNode *accessoryNode)
 {
 	if (!Weapon::parseXML(accessoryNode)) return false;
 
-	if (!accessoryNode->getNamedFloat("translatedist", translateDist_)) return false;
+	if (!accessoryNode->getNamedChild("translatedist", translateDist_)) return false;
 
 	XMLNode *subNode = 0;
 	if (!accessoryNode->getNamedChild("nextaction", subNode)) return false;

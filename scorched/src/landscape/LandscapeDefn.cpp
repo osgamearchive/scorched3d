@@ -24,13 +24,27 @@
 #include <stdlib.h>
 #include <time.h>
 
+static LandscapeDefnType *fetchTankStartDefnType(const char *type)
+{
+	if (0 == strcmp(type, "height")) return new LandscapeDefnStartHeight;
+	dialogMessage("LandscapeDefnType", "Unknown tankstart type %s", type);
+	return 0;
+}
+
+static LandscapeDefnType *fetchHeightMapDefnType(const char *type)
+{
+	if (0 == strcmp(type, "generate")) return new LandscapeDefnHeightMapGenerate;
+	dialogMessage("LandscapeDefnType", "Unknown heightmap type %s", type);
+	return 0;
+}
+
 static bool parseMinMax(XMLNode *parent, const char *name, 
 	float &min, float &max)
 {
 	XMLNode *node = 0;
 	if (!parent->getNamedChild(name, node)) return false;
-	if (!node->getNamedFloat("max", max)) return false;
-	if (!node->getNamedFloat("min", min)) return false;
+	if (!node->getNamedChild("max", max)) return false;
+	if (!node->getNamedChild("min", min)) return false;
 	return node->failChildren();
 }
 
@@ -52,7 +66,7 @@ bool LandscapeDefnStartHeight::readMessage(NetBufferReader &reader)
 
 bool LandscapeDefnStartHeight::readXML(XMLNode *node)
 {
-	if (!node->getNamedFloat("startcloseness", 
+	if (!node->getNamedChild("startcloseness", 
 		startcloseness)) return false;
 	if (!parseMinMax(node, "height", 
 		heightmin, heightmax)) return false;
@@ -99,20 +113,20 @@ bool LandscapeDefnHeightMapGenerate::readMessage(NetBufferReader &reader)
 
 bool LandscapeDefnHeightMapGenerate::readXML(XMLNode *node)
 {
-	if (!node->getNamedString("mask", mask)) return false;
+	if (!node->getNamedChild("mask", mask)) return false;
 	if (!parseMinMax(node, "landhills", 
 		landhillsmin, landhillsmax)) return false;
 	if (!parseMinMax(node, "landheight", 
 		landheightmin, landheightmax)) return false;
-	if (!node->getNamedFloat("landwidthx", landwidthx)) return false;
-	if (!node->getNamedFloat("landwidthy", landwidthy)) return false;
+	if (!node->getNamedChild("landwidthx", landwidthx)) return false;
+	if (!node->getNamedChild("landwidthy", landwidthy)) return false;
 	if (!parseMinMax(node, "landpeakwidthx", 
 		landpeakwidthxmin, landpeakwidthxmax)) return false;
 	if (!parseMinMax(node, "landpeakwidthy", 
 		landpeakwidthymin, landpeakwidthymax)) return false;
 	if (!parseMinMax(node, "landpeakheight", 
 		landpeakheightmin, landpeakheightmax)) return false;
-	if (!node->getNamedFloat("landsmoothing", landsmoothing)) return false;
+	if (!node->getNamedChild("landsmoothing", landsmoothing)) return false;
 	return node->failChildren();
 }
 
@@ -130,7 +144,9 @@ bool LandscapeDefn::writeMessage(NetBuffer &buffer)
 	buffer.addToBuffer(name);
 	buffer.addToBuffer(minplayers);
 	buffer.addToBuffer(maxplayers);
+	buffer.addToBuffer(tankstarttype);
 	if (!tankstart->writeMessage(buffer)) return false;
+	buffer.addToBuffer(heightmaptype);
 	if (!heightmap->writeMessage(buffer)) return false;
 	return true;
 }
@@ -140,27 +156,35 @@ bool LandscapeDefn::readMessage(NetBufferReader &reader)
 	if (!reader.getFromBuffer(name)) return false;
 	if (!reader.getFromBuffer(minplayers)) return false;
 	if (!reader.getFromBuffer(maxplayers)) return false;
+	if (!reader.getFromBuffer(tankstarttype)) return false;
+	if (!(tankstart = fetchTankStartDefnType(tankstarttype.c_str()))) return false;
 	if (!tankstart->readMessage(reader)) return false;
+	if (!reader.getFromBuffer(heightmaptype)) return false;
+	if (!(heightmap = fetchHeightMapDefnType(heightmaptype.c_str()))) return false;
 	if (!heightmap->readMessage(reader)) return false;
 	return true;
 }
 
 bool LandscapeDefn::readXML(XMLNode *node)
 {
-	if (!node->getNamedString("name", name)) return false;
-	if (!node->getNamedInt("minplayers", minplayers)) return false;
-	if (!node->getNamedInt("maxplayers", maxplayers)) return false;
+	if (!node->getNamedChild("name", name)) return false;
+	if (!node->getNamedChild("minplayers", minplayers)) return false;
+	if (!node->getNamedChild("maxplayers", maxplayers)) return false;
 
-	XMLNode *startNode;
-	if (!node->getNamedChild("tankstart", startNode)) return false;
-	tankstart = new LandscapeDefnStartHeight;
-	if (!tankstart->readXML(startNode)) return false;
-
-	XMLNode *heightNode;
-	if (!node->getNamedChild("heightmap", heightNode)) return false;
-	heightmap = new LandscapeDefnHeightMapGenerate;
-	if (!heightmap->readXML(heightNode)) return false;
-
+	{
+		XMLNode *startNode;
+		if (!node->getNamedChild("tankstart", startNode)) return false;
+		if (!startNode->getNamedParameter("type", tankstarttype)) return false;
+		if (!(tankstart = fetchTankStartDefnType(tankstarttype.c_str()))) return false;
+		if (!tankstart->readXML(startNode)) return false;
+	}
+	{
+		XMLNode *heightNode;
+		if (!node->getNamedChild("heightmap", heightNode)) return false;
+		if (!heightNode->getNamedParameter("type", heightmaptype)) return false;
+		if (!(heightmap = fetchHeightMapDefnType(heightmaptype.c_str()))) return false;
+		if (!heightmap->readXML(heightNode)) return false;
+	}
 	return node->failChildren();
 }
 

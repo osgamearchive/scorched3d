@@ -42,28 +42,28 @@ Accessory::~Accessory()
 bool Accessory::parseXML(XMLNode *accessoryNode)
 {
 	// Get the accessory name
-	if (!accessoryNode->getNamedString("name", name_)) return false;
+	if (!accessoryNode->getNamedChild("name", name_)) return false;
 
 	// Get the accessory armslevel
-	if (!accessoryNode->getNamedInt("armslevel", armsLevel_)) return false;
+	if (!accessoryNode->getNamedChild("armslevel", armsLevel_)) return false;
 
 	// Get the accessory description
-	accessoryNode->getNamedString("description", description_, false);
+	accessoryNode->getNamedChild("description", description_, false);
 	toolTip_.setText(getName(), getDescription());
 
 	// Get the accessory icon
-	accessoryNode->getNamedString("icon", iconName_, false);
+	accessoryNode->getNamedChild("icon", iconName_, false);
 
 	// Get the accessory sound 
-	accessoryNode->getNamedString("activationsound", activationSound_, false);
+	accessoryNode->getNamedChild("activationsound", activationSound_, false);
 
 	// Get the accessory bundle
 	bundle_ = -1;
-	accessoryNode->getNamedInt("bundlesize", bundle_, false);
+	accessoryNode->getNamedChild("bundlesize", bundle_, false);
 
 	// Get the accessory cost
 	price_ = -1;
-	accessoryNode->getNamedInt("cost", price_, false);
+	accessoryNode->getNamedChild("cost", price_, false);
 
 	sellPrice_ = 0;
 	if (price_ > 0 && bundle_ > 0) sellPrice_ = int((price_ / bundle_) * 0.8f);

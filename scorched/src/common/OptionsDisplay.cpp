@@ -61,12 +61,12 @@ OptionsDisplay::OptionsDisplay() :
 		"The maximum percentage of triangles each model will use.", RAccess, 100, 50, 100),
 	explosionParticleMult_(options_, "ExplosionParticleMult",
 		"The number of particles that each explosion will create (relative to explosion size)", RAccess, 20, 0, 100),
-	dayTime_(options_, "DayTime",
-		"The Day Time", RWAccess, 2),
-	sunXYAng_(options_, "SunXYAng",
-		"The XY Rotation of the sun (degrees)", RAccess, 110),
-	sunYZAng_(options_, "SunYZAng",
-		"The YZ Rotation of the sun (degrees)", RAccess, 25),
+	depricatedDayTime_(options_, "DayTime",
+		"The Day Time", RWAccess | OptionEntry::DataDepricated, 2),
+	depricatedSunXYAng_(options_, "SunXYAng",
+		"The XY Rotation of the sun (degrees)", RAccess | OptionEntry::DataDepricated, 110),
+	depricatedSunYZAng_(options_, "SunYZAng",
+		"The YZ Rotation of the sun (degrees)", RAccess | OptionEntry::DataDepricated, 25),
 	brightness_(options_, "Brightness", 
 		"The game screen brightness (gamma).", RAccess, 10, 3, 40),
 	fullScreen_(options_, "FullScreen", 
@@ -170,12 +170,10 @@ OptionsDisplay::OptionsDisplay() :
 	sortAccessories_(options_, "SortAccessories",
 		"Sort accessories alphabetically by name before displaying", RWAccess, false)
 {
-
 }
 
 OptionsDisplay::~OptionsDisplay()
-{
-	
+{	
 }
 
 bool OptionsDisplay::writeOptionsToFile()
@@ -254,13 +252,15 @@ void OptionsDisplay::addToConsole()
 		itor++)
 	{
 		OptionEntry *entry = (*itor);
+		if (!(entry->getData() & OptionEntry::DataDepricated))
+		{
+			GLConsoleRuleAccessType access = GLConsoleRuleAccessTypeRead;
+			if (entry->getData() & RWAccess) access = GLConsoleRuleAccessTypeReadWrite;
 
-		GLConsoleRuleAccessType access = GLConsoleRuleAccessTypeRead;
-		if (entry->getData() & RWAccess) access = GLConsoleRuleAccessTypeReadWrite;
-
-		adapters_.push_back(new GLConsoleRuleFnIOptionsAdapter(
-			*entry,
-			access));
+			adapters_.push_back(new GLConsoleRuleFnIOptionsAdapter(
+				*entry,
+				access));
+		}
 	}
 }
 

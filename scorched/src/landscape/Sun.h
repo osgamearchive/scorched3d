@@ -32,6 +32,7 @@ public:
 	virtual ~Sun();
 
 	void draw();
+	void setPosition(float sunRotXY, float sunRotYZ);
 
 	Vector &getPosition() { return position_; }
 	bool &getDrawSun() { return drawSun_; }

@@ -57,7 +57,7 @@ bool WeaponDelay::parseXML(XMLNode *accessoryNode)
 	}
 	delayedWeapon_ = (Weapon*) accessory;
 
-	if (!accessoryNode->getNamedFloat("delay", delay_)) return false;
+	if (!accessoryNode->getNamedChild("delay", delay_)) return false;
 
 	return true;
 }

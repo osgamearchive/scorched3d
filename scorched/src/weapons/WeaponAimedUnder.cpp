@@ -45,7 +45,7 @@ bool WeaponAimedUnder::parseXML(XMLNode *accessoryNode)
 	if (!Weapon::parseXML(accessoryNode)) return false;
 
 	// Get the accessory size
-	if (!accessoryNode->getNamedInt("nowarheads", warHeads_)) return false;
+	if (!accessoryNode->getNamedChild("nowarheads", warHeads_)) return false;
 
 	// Get the next weapon
 	XMLNode *subNode = 0;
@@ -64,13 +64,13 @@ bool WeaponAimedUnder::parseXML(XMLNode *accessoryNode)
 	aimedWeapon_ = (Weapon*) accessory;
 	
 	// Get the accessory aimed distance
-	if (!accessoryNode->getNamedFloat("maxaimdistance", maxAimedDistance_)) return false;
+	if (!accessoryNode->getNamedChild("maxaimdistance", maxAimedDistance_)) return false;
 	
 	// Get the accessory percentage miss chance
-	if (!accessoryNode->getNamedFloat("percentagemiss", percentageMissChance_)) return false;
+	if (!accessoryNode->getNamedChild("percentagemiss", percentageMissChance_)) return false;
 
 	// Get the accessory percentage miss chance
-	if (!accessoryNode->getNamedFloat("inaccuracy", maxInacuracy_)) return false;
+	if (!accessoryNode->getNamedChild("inaccuracy", maxInacuracy_)) return false;
 
 	return true;
 }

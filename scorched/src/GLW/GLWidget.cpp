@@ -109,10 +109,10 @@ void GLWidget::keyDown(char *buffer, unsigned int keyState,
 
 bool GLWidget::initFromXML(XMLNode *node)
 {
-	if (!node->getNamedFloat("x", x_)) return false;
-	if (!node->getNamedFloat("y", y_)) return false;
-	if (!node->getNamedFloat("w", w_)) return false;
-	if (!node->getNamedFloat("h", h_)) return false; 
+	if (!node->getNamedChild("x", x_)) return false;
+	if (!node->getNamedChild("y", y_)) return false;
+	if (!node->getNamedChild("w", w_)) return false;
+	if (!node->getNamedChild("h", h_)) return false; 
 
 	return true;
 }

@@ -29,18 +29,20 @@
 
 Sun::Sun() : drawSun_(false)
 {
-	float sunRotXY = float(OptionsDisplay::instance()->getSunXYAng()) 
-		/ 180.0f * 3.14f;
-	float sunRotYZ = float(OptionsDisplay::instance()->getSunYZAng())
-		/ 180.0f * 3.14f;
-	position_ = Vector(
-		sinf(sunRotXY) * 900 * cosf(sunRotYZ), 
-		cosf(sunRotXY) * 900 * cosf(sunRotYZ), 
-		sinf(sunRotYZ) * 900);
 }
 
 Sun::~Sun()
 {
+}
+
+void Sun::setPosition(float sunRotXY, float sunRotYZ)
+{
+	sunRotXY = sunRotXY / 180.0f * 3.14f;
+	sunRotYZ = sunRotYZ / 180.0f * 3.14f;
+	position_ = Vector(
+		sinf(sunRotXY) * 900 * cosf(sunRotYZ), 
+		cosf(sunRotXY) * 900 * cosf(sunRotYZ), 
+		sinf(sunRotYZ) * 900);
 }
 
 void Sun::draw()

@@ -29,8 +29,8 @@
 class LandscapeTexType
 {
 public:
-	std::string type;
-
+	virtual bool writeMessage(NetBuffer &buffer) = 0;
+	virtual bool readMessage(NetBufferReader &reader) = 0;
 	virtual bool readXML(XMLNode *node) = 0;
 };
 
@@ -42,6 +42,8 @@ public:
 	std::string wavetexture1;
 	std::string wavetexture2;
 
+	virtual bool writeMessage(NetBuffer &buffer);
+	virtual bool readMessage(NetBufferReader &reader);
 	virtual bool readXML(XMLNode *node);
 };
 
@@ -56,6 +58,8 @@ public:
 	std::string texture3;
 	std::string texture4;
 
+	virtual bool writeMessage(NetBuffer &buffer);
+	virtual bool readMessage(NetBufferReader &reader);
 	virtual bool readXML(XMLNode *node);
 };
 
@@ -69,14 +73,16 @@ public:
 	std::string detail;
 	std::string magmasmall;
 	std::string scorch;
-	Vector skyfog;
+	Vector fog;
 	std::string skytexture;
 	std::string skycolormap;
 	int skytimeofday;
-	int skysunxy;
-	int skysunyz;
+	float skysunxy;
+	float skysunyz;
 
+	std::string bordertype;
 	LandscapeTexType *border;
+	std::string texturetype;
 	LandscapeTexType *texture;
 
 	bool writeMessage(NetBuffer &buffer);

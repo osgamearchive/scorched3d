@@ -121,10 +121,10 @@ void LandscapeObjectPlacementTrees::generateObjects(
 
 	// Add lots of trees, more chance of adding a tree where
 	// the map is stongest
-	bool pine = (strcmp(Landscape::instance()->getResources().
-		getStringResource("objects"), "pine") == 0);
-	float snowHeight = Landscape::instance()->getResources().
-		getFloatResource("objectsnowheight");
+	bool pine = true;//(strcmp(Landscape::instance()->getResources().
+		//getStringResource("objects"), "pine") == 0);
+	float snowHeight = 20.0f;//Landscape::instance()->getResources().
+		//getFloatResource("objectsnowheight");
 	const int NoIterations = 1000000;
 	for (int i=0; i<NoIterations; i++)
 	{

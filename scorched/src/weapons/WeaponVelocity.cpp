@@ -55,7 +55,7 @@ bool WeaponVelocity::parseXML(XMLNode *accessoryNode)
 	}
 	aimedWeapon_ = (Weapon*) accessory;
 
-	if (!accessoryNode->getNamedFloat("velocitychange", velocityChange_)) return false;
+	if (!accessoryNode->getNamedChild("velocitychange", velocityChange_)) return false;
 
 	return true;
 }

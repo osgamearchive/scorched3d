@@ -56,17 +56,6 @@ public:
 	void setNumberExplosionSubParts(int value) { explosionSubParts_.setValue(value); }
 	const char *getNumberExplosionSubPartsToolTip() { return explosionSubParts_.getDescription(); }
 
-	int getSunXYAng() { return sunXYAng_.getValue(); }
-	void setSunXYAng(int value) { sunXYAng_.setValue(value); }
-	const char *getSunXYAngToolTip() { return sunXYAng_.getDescription(); }
-
-	int getDayTime() { return dayTime_.getValue(); }
-	void setDayTime(int value) { dayTime_.setValue(value); }
-
-	int getSunYZAng() { return sunYZAng_.getValue(); }
-	void setSunYZAng(int value) { sunYZAng_.setValue(value); }
-	const char *getSunYZAngToolTip() { return sunYZAng_.getDescription(); }
-
 	int getBrightness() { return brightness_.getValue(); }
 	void setBrightness(int value) { brightness_.setValue(value); }
 	const char *getBrightnessToolTip() { return brightness_.getDescription(); }
@@ -306,9 +295,9 @@ protected:
 	OptionEntryBoundedInt explosionSubParts_;
 	OptionEntryBoundedInt maxModelTriPercentage_;
 	OptionEntryBoundedInt explosionParticleMult_;
-	OptionEntryInt dayTime_;
-	OptionEntryInt sunYZAng_;
-	OptionEntryInt sunXYAng_;
+	OptionEntryInt depricatedDayTime_;
+	OptionEntryInt depricatedSunYZAng_;
+	OptionEntryInt depricatedSunXYAng_;
 	OptionEntryInt colorComponentSize_;
 	OptionEntryInt bitsPerPixel_;
 	OptionEntryInt depthBufferBits_;

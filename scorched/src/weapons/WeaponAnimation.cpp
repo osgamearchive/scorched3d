@@ -39,7 +39,7 @@ bool WeaponAnimation::parseXML(XMLNode *accessoryNode)
 {
 	if (!Weapon::parseXML(accessoryNode)) return false;
 
-	if (!accessoryNode->getNamedString("animation", rendererName_)) return false;
+	if (!accessoryNode->getNamedChild("animation", rendererName_)) return false;
 
 	MetaClass *newclass = MetaClassRegistration::getNewClass(
 		rendererName_.c_str());

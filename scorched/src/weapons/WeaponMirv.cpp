@@ -40,7 +40,7 @@ bool WeaponMirv::parseXML(XMLNode *accessoryNode)
 	if (!Weapon::parseXML(accessoryNode)) return false;
 
 	// Get the accessory spread
-	if (!accessoryNode->getNamedFloat("spreaddist", spreadDist_)) return false;
+	if (!accessoryNode->getNamedChild("spreaddist", spreadDist_)) return false;
 
 	// Get the next weapon
 	XMLNode *subNode = 0;
@@ -59,7 +59,7 @@ bool WeaponMirv::parseXML(XMLNode *accessoryNode)
 	aimedWeapon_ = (Weapon*) accessory;
 
 	// Get the accessory warheads
-	if (!accessoryNode->getNamedInt("nowarheads", noWarheads_)) return false;
+	if (!accessoryNode->getNamedChild("nowarheads", noWarheads_)) return false;
 
 	return true;
 }
