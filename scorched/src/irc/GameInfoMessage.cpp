@@ -77,7 +77,7 @@ std::string GameInfoMessage::getField(char *data,char *field)
 	if (d==NULL)
 		return "";
 	*d=0;
-	return string(s);
+	return std::string(s);
 }
 
 

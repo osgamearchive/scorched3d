@@ -1,5 +1,6 @@
 #include <string.h>
 #include <stdlib.h>
+#include <time.h>
 #include <string>
 #include <list>
 #include <algorithm>
@@ -92,11 +93,11 @@ void IrcBot::set_string(std::string &dst, char *src)
 	char buf[16];
 	if (src == NULL) {
 		unsigned int r = clock(); /* random */
-		snprintf(buf, sizeof(buf), "\\%8.8X", r);
+		sprintf(buf, "\\%8.8X", r);
 		buf[sizeof(buf) - 1] = 0;
 		src = buf;
 	}
-	dst = string(src);
+	dst = std::string(src);
 }
 
 
@@ -108,7 +109,7 @@ void IrcBot::update_names(char *n, bool add)
 		return;
 	if (itor == names_.end()) {
 		if (add)
-			names_.push_back(string(n));
+			names_.push_back(std::string(n));
 	} else {
 		if (!add)
 			names_.erase(itor);
@@ -123,7 +124,6 @@ void IrcBot::irc_check()
 
 void IrcBot::irc_reply()
 {
-	int i;
 	char *n, *w;
 
 	if ((cmd == NULL) || (prefix == NULL))

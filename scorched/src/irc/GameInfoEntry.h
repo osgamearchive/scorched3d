@@ -32,7 +32,7 @@ class GameInfoEntry {
 	const char *getPort()        { return address_port_.c_str(); };
 	const char *getNoClients()   { return no_clients_.c_str(); };
 	const char *getMaxClients()  { return max_clients_.c_str(); };	
-	const char *getAddress()     { return string(address_host_+":"+address_port_).c_str(); };
+	const char *getAddress()     { return std::string(address_host_+":"+address_port_).c_str(); };
 };
 
 #endif				/* _GAMEINFOENTRY_H_ */

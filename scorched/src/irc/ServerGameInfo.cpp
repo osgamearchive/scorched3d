@@ -35,7 +35,7 @@ void ServerGameInfo::Start(Uint16 _port)
 {
 	char itoa[20];
 	sprintf(&itoa[0],"%d",int(_port));
-	server_port_ = string(&itoa[0]);
+	server_port_ = std::string(&itoa[0]);
 
 	IrcBot::Start();
 	UdpHandler::Start();
@@ -113,13 +113,13 @@ void ServerGameInfo::irc_reply()
 		
 		// resolve ip as viewed by the outside world
 		if (SDLNet_ResolveHost(&addr,_ip,0)==-1) {
-			server_host_=string(_ip);
+			server_host_=std::string(_ip);
 			return;
 		}		
 		ipaddr=SDL_SwapBE32(addr.host);
 		sprintf(&ipstr[0],"%d.%d.%d.%d",ipaddr>>24,(ipaddr>>16)&0xff,
 				(ipaddr>>8)&0xff,ipaddr&0xff);
-		server_host_=string(ipstr);
+		server_host_=std::string(ipstr);
 		return;
 	}
 

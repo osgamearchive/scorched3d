@@ -109,7 +109,7 @@ int IrcConnection::irc_cmd(const char *fmt, ...)
 	buf[sizeof(buf) - 1] = 0;
 	va_list ap;
 	va_start(ap, fmt);
-	vsnprintf(buf, sizeof(buf) - 1, fmt, ap);
+	vsprintf(buf, fmt, ap);
 	va_end(ap);
 	return irc_send(buf);
 }

@@ -2557,6 +2557,67 @@
 				RelativePath="..\server\ServerWaitingForPlayersState.h">
 			</File>
 		</Filter>
+		<Filter
+			Name="irc"
+			Filter="">
+			<File
+				RelativePath="..\irc\ClientGameInfo.cpp">
+			</File>
+			<File
+				RelativePath="..\irc\ClientGameInfo.h">
+			</File>
+			<File
+				RelativePath="..\irc\GameInfoEntry.cpp">
+			</File>
+			<File
+				RelativePath="..\irc\GameInfoEntry.h">
+			</File>
+			<File
+				RelativePath="..\irc\GameInfoList.cpp">
+			</File>
+			<File
+				RelativePath="..\irc\GameInfoList.h">
+			</File>
+			<File
+				RelativePath="..\irc\GameInfoMessage.cpp">
+			</File>
+			<File
+				RelativePath="..\irc\GameInfoMessage.h">
+			</File>
+			<File
+				RelativePath="..\irc\IrcBot.cpp">
+			</File>
+			<File
+				RelativePath="..\irc\IrcBot.h">
+			</File>
+			<File
+				RelativePath="..\irc\IrcConnection.cpp">
+			</File>
+			<File
+				RelativePath="..\irc\IrcConnection.h">
+			</File>
+			<File
+				RelativePath="..\irc\IrcDefines.h">
+			</File>
+			<File
+				RelativePath="..\irc\IrcDialog.cpp">
+			</File>
+			<File
+				RelativePath="..\irc\IrcDialog.h">
+			</File>
+			<File
+				RelativePath="..\irc\ServerGameInfo.cpp">
+			</File>
+			<File
+				RelativePath="..\irc\ServerGameInfo.h">
+			</File>
+			<File
+				RelativePath="..\irc\UdpHandler.cpp">
+			</File>
+			<File
+				RelativePath="..\irc\UdpHandler.h">
+			</File>
+		</Filter>
 	</Files>
 	<Globals>
 	</Globals>

@@ -1,4 +1,5 @@
 #include "irc/UdpHandler.h"
+#include <stdarg.h>
 
 UdpHandler::UdpHandler() 
 {
@@ -106,7 +107,7 @@ void UdpHandler::Start()
 
 int UdpHandler::udp_query_dispatcher(void *_data)
 {
-	((UdpHandler *)_data)->udp_query_dispatch();
+	return ((UdpHandler *)_data)->udp_query_dispatch();
 }
 
 int UdpHandler::udp_query_dispatch()
