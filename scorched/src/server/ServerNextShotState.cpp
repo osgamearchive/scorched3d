@@ -44,19 +44,30 @@ void ServerNextShotState::enterState(const unsigned state)
 		return;
 	}
 
-	// Check if this round has finished
-	if (ScorchedServer::instance()->getTankContainer().aliveCount() < 2 ||
-		(ScorchedServer::instance()->getOptionsTransient().getCurrentGameNo() > 
-		 ScorchedServer::instance()->getOptionsGame().getNoMaxRoundTurns()) ||
-		(ScorchedServer::instance()->getTankContainer().teamCount() == 1 &&
-		 ScorchedServer::instance()->getOptionsGame().getTeams() == 2))
+	// Check why this round has finished
+	bool roundFinished = false;
+	if (ScorchedServer::instance()->getOptionsGame().getTeams() == 2 &&
+		ScorchedServer::instance()->getTankContainer().teamCount() == 1)
 	{
-		if (ScorchedServer::instance()->getTankContainer().aliveCount() >= 2)
-		{
-			serverLog(0, "Skipping round due to turn limit");
-			sendString(0, "Skipping round due to turn limit");
-		}
+		// Only one team left
+		roundFinished = true;
+	}
+	else if (ScorchedServer::instance()->getTankContainer().aliveCount() < 2) 
+	{
+		// Only one person left
+		roundFinished = true;
+	}
+	else if (ScorchedServer::instance()->getOptionsTransient().getCurrentGameNo() > 
+		ScorchedServer::instance()->getOptionsGame().getNoMaxRoundTurns())
+	{
+		roundFinished = true;
+		serverLog(0, "Skipping round due to turn limit");
+		sendString(0, "Skipping round due to turn limit");
+	}
 
+	// Check if this round has finished
+	if (roundFinished)
+	{
 		// We have finished with this round
 		// check for all rounds completely finished
 		if (ScorchedServer::instance()->getOptionsTransient().getNoRoundsLeft() <= 0)
@@ -81,10 +92,6 @@ void ServerNextShotState::enterState(const unsigned state)
 		}
 		else
 		{
-			// Tell all tanks it is the next shot
-			// Set the all the tanks to wait state
-			ScorchedServer::instance()->getContext().tankContainer.nextShot();	
-
 			// We have shots to make, lets make them
 			ScorchedServer::instance()->getGameState().stimulate(ServerState::ServerStimulusNextTurn);
 		}

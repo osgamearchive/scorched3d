@@ -48,6 +48,10 @@ void ServerShotState::enterState(const unsigned state)
 	// Add all shots to the action controller
 	ServerShotHolder::instance()->playShots();
 
+	// Tell all tanks it is the next shot
+	// Set the all the tanks to wait state
+	ScorchedServer::instance()->getContext().tankContainer.nextShot();	
+
 	// Reset the amount of time taken
 	totalTime_ = 0.0f;
 }

@@ -144,7 +144,7 @@ void AutoDefenseDialog::select(unsigned int id,
 							   const char *value)
 {
 	Tank *tank = ScorchedClient::instance()->getTankContainer().getCurrentTank();
-	if (!tank) return;
+	if (!tank || !tank->getTankAI()) return;
 
 	if (id == paraId_)
 	{

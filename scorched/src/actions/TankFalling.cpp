@@ -88,23 +88,23 @@ void TankFalling::init()
 			switch (i)
 			{
 			case 0:
-				initPos[0] += 0.75f;
-				initPos[1] += 0.75f;
+				initPos[0] += 0.5f;
+				initPos[1] += 0.5f;
 				initPos[2] += 0.25;
 				break;
 			case 1:
-				initPos[0] += 0.75f;
-				initPos[1] -= 0.75f;
+				initPos[0] += 0.5f;
+				initPos[1] -= 0.5f;
 				initPos[2] += 0.25;
 				break;
 			case 2:
-				initPos[0] -= 0.75f;
-				initPos[1] -= 0.75f;
+				initPos[0] -= 0.5f;
+				initPos[1] -= 0.5f;
 				initPos[2] += 0.25;
 				break;
 			case 3:
-				initPos[0] -= 0.75f;
-				initPos[1] += 0.75f;
+				initPos[0] -= 0.5f;
+				initPos[1] += 0.5f;
 				initPos[2] += 0.25;
 				break;
 			}

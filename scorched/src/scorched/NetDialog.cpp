@@ -221,6 +221,11 @@ void NetLanFrame::onSelectServer()
 				IDC_PLAYER_LIST_CTRL->
 					SetItem(index, 2, 
 					ServerBrowser::instance()->getServerList().getEntryValue(item, tmp));
+
+				sprintf(tmp, "pm%i", i);
+				IDC_PLAYER_LIST_CTRL->
+					SetItem(index, 3, 
+					ServerBrowser::instance()->getServerList().getEntryValue(item, tmp));
 			}
 			
 			onServerChanged();
@@ -302,8 +307,9 @@ bool NetLanFrame::TransferDataToWindow()
 	ListItem playerListItems[] =
 	{
 		{ "Player Name", 200 },
-		{ "Player Score", 200 },
-		{ "Player Time", 100 }
+		{ "Player Score", 100 },
+		{ "Player Time", 100 },
+		{ "Player Team", 100 }
 	};
 	for (int i=0; i<sizeof(playerListItems)/sizeof(ListItem); i++)
 	{

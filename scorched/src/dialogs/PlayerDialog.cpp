@@ -24,8 +24,8 @@
 #include <client/ScorchedClient.h>
 #include <tankai/TankAIStore.h>
 #include <tankai/TankAIStrings.h>
-#include <common/OptionsParam.h>
 #include <common/WindowManager.h>
+#include <common/OptionsParam.h>
 #include <GLW/GLWTextButton.h>
 #include <coms/ComsAddPlayerMessage.h>
 #include <coms/ComsMessageSender.h>
@@ -43,15 +43,16 @@ PlayerDialog *PlayerDialog::instance()
 }
 
 PlayerDialog::PlayerDialog() : 
-	GLWWindow("", 10.0f, 10.0f, 440.0f, 300.0f, eSmallTitle),
-	beenShown_(false), allocatedTeam_(0)
+	GLWWindow("Team", 10.0f, 10.0f, 440.0f, 300.0f, eSmallTitle),
+	allocatedTeam_(0)
 {
 	needCentered_ = true;
 	viewer_ = new GLWTankViewer(10.0f, 25.0f, 4, 3);
 
 	// Add buttons
 	addWidget(viewer_);
-	okId_ = addWidget(new GLWTextButton(" Ok", 365, 10, 55, this, true))->getId();
+	okId_ = addWidget(new GLWTextButton(" Ok", 375, 10, 55, this, true))->getId();
+	cancelId_ = addWidget(new GLWTextButton("Cancel", 280, 10, 85, this, false, true))->getId();
 
 	// Create player name choice
 	playerName_ = (GLWTextBox *) addWidget(new GLWTextBox(70, 265, 340, "Player"));
@@ -88,10 +89,17 @@ void PlayerDialog::draw()
 	GLWWindow::draw();
 }
 
+void PlayerDialog::keyDown(char *buffer, unsigned int keyState, 
+		KeyboardHistory::HistoryElement *history, int hisCount, 
+		bool &skipRest)
+{
+	GLWWindow::keyDown(buffer, keyState, history, hisCount, skipRest);
+	skipRest = true;
+}
+
 void PlayerDialog::windowDisplay()
 {
 	// Add teams
-	allocatedTeam_ = 0;
 	teamDropDown_->clear();
 	if (ScorchedClient::instance()->getOptionsGame().getTeams() == 1)
 	{
@@ -120,42 +128,13 @@ void PlayerDialog::windowDisplay()
 			typeDropDown_->addText((*aiitor)->getName());
 		}
 	}
-}
-
-void PlayerDialog::keyDown(char *buffer, unsigned int keyState, 
-		KeyboardHistory::HistoryElement *history, int hisCount, 
-		bool &skipRest)
-{
-	GLWWindow::keyDown(buffer, keyState, history, hisCount, skipRest);
-	skipRest = true;
-}
-
-void PlayerDialog::addPlayers()
-{
-	if (beenShown_) return;
-	beenShown_ = true;
-
-	const char *playerModel = 
-		OptionsParam::instance()->getSkin();
-	const char *playerName =
-		OptionsParam::instance()->getName();
-
 	currentPlayerId_ = 0;
 	nextPlayer();
-
-	if (playerModel[0])
-	{
-		viewer_->selectModelByName(playerModel);
-	}
-	if (playerName[0])
-	{
-		playerName_->setText(playerName);
-		buttonDown(okId_);
-	}
 }
 
 void PlayerDialog::nextPlayer()
 {
+	allocatedTeam_ = 0;
 	currentPlayerId_ = getNextPlayer(currentPlayerId_);
 	if (currentPlayerId_ == 0)
 	{
@@ -163,13 +142,10 @@ void PlayerDialog::nextPlayer()
 	}
 	else
 	{
-		playerName_->setText(TankAIStrings::instance()->getPlayerName());
-		WindowManager::instance()->showWindow(getId());
 		Tank *tank = 
 			ScorchedClient::instance()->getTankContainer().getTankById(currentPlayerId_);
+		if (tank) playerName_->setText(tank->getName());
 	}
-
-	windowDisplay();
 }
 
 unsigned int PlayerDialog::getNextPlayer(unsigned int current)
@@ -182,9 +158,10 @@ unsigned int PlayerDialog::getNextPlayer(unsigned int current)
 		itor++)
 	{
 		Tank *tank = (*itor).second;
-		if (tank->getDestinationId() == 
-			ScorchedClient::instance()->getTankContainer().getCurrentDestinationId() &&
-			tank->getState().getSpectator())
+		if ((tank->getDestinationId() == 
+			ScorchedClient::instance()->getTankContainer().getCurrentDestinationId()) &&
+			(tank->getPlayerId() != 1) &&
+			(tank->getState().getState() == TankState::sDead))
 		{
 			if (current == 0)
 			{
@@ -222,5 +199,9 @@ void PlayerDialog::buttonDown(unsigned int id)
 
 			nextPlayer();
 		}
+	}
+	else if (id == cancelId_)
+	{
+		WindowManager::instance()->hideWindow(getId());
 	}
 }

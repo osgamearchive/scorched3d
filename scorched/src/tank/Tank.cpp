@@ -42,6 +42,12 @@ Tank::~Tank()
 	delete tankAI_;
 }
 
+void Tank::setTankAI(TankAI *ai)
+{
+	if (tankAI_) delete tankAI_;
+	tankAI_ = ai;
+}
+
 void Tank::reset()
 {
 	accessories_.reset();
@@ -106,10 +112,6 @@ bool Tank::readMessage(NetBufferReader &reader)
 	if (!score_.readMessage(reader)) return false;
 
 	// If any humans turn into computers remove the HumanAI
-	if (destinationId_ == 0) 
-	{
-		delete tankAI_; 
-		tankAI_ = 0;
-	}
+	if (destinationId_ == 0) setTankAI(0);
 	return true;
 }

@@ -192,5 +192,5 @@ void RulesDialog::buttonDown(unsigned int id)
 
 void RulesDialog::windowHide()
 {
-	PlayerDialog::instance()->addPlayers();
+	WindowManager::instance()->showWindow(PlayerDialog::instance()->getId());	
 }

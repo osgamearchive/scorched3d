@@ -32,7 +32,6 @@ class PlayerDialog : public GLWWindow,
 public:
 	static PlayerDialog *instance();
 
-	virtual void addPlayers();
 	virtual void windowDisplay();
 	virtual void draw();
 
@@ -54,9 +53,8 @@ protected:
 	GLWTankViewer *viewer_;
 	GLWTextBox *playerName_;
 	unsigned int allocatedTeam_;
-	unsigned int okId_;
+	unsigned int okId_, cancelId_;
 	unsigned int currentPlayerId_;
-	bool beenShown_;
 
 	void nextPlayer();
 	unsigned int getNextPlayer(unsigned int current);

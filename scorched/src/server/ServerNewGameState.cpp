@@ -56,6 +56,9 @@ void ServerNewGameState::enterState(const unsigned state)
 	// Set them all to not ready
 	ScorchedServer::instance()->getContext().tankContainer.newGame();
 
+	// Check teams are even
+	checkTeams();
+
 	// Generate the new level
 	unsigned long seed = rand();
 	ScorchedServer::instance()->getContext().landscapeMaps.generateHMap(
@@ -262,5 +265,53 @@ void ServerNewGameState::calculateStartPosition(ScorchedContext &context)
 		// Set the starting position of the tank
 		flattenArea(context, tankPos);
 		(*mainitor).second->getPhysics().setTankPosition(tankPos);
+	}
+}
+
+void ServerNewGameState::checkTeams()
+{
+	if (ScorchedServer::instance()->getOptionsGame().getTeams() == 1) return;
+
+	std::list<Tank *> team1;
+	std::list<Tank *> team2;
+	std::map<unsigned int, Tank *> &playingTanks = 
+		ScorchedServer::instance()->getTankContainer().getPlayingTanks();
+	std::map<unsigned int, Tank *>::iterator mainitor;
+	for (mainitor = playingTanks.begin();
+		 mainitor != playingTanks.end();
+		 mainitor++)
+	{
+		Tank *current = (*mainitor).second;
+		if (!current->getState().getSpectator())
+		{
+			if (current->getTeam() == 1) team1.push_back(current);
+			if (current->getTeam() == 2) team2.push_back(current);
+		}
+	}
+
+	int offSet = int(team1.size()) - int(team2.size());
+	if (abs(offSet) < 2) return;
+
+	sendString(0, "Auto ballancing teams");
+	serverLog(0, "Auto ballancing teams");
+
+	offSet /= 2;
+	if (offSet < 0)
+	{
+		for (int i=0; i<abs(offSet); i++)
+		{
+			Tank *tank = team2.front();
+			team2.pop_front();
+			tank->setTeam(1);
+		}
+	}
+	else
+	{
+		for (int i=0; i<abs(offSet); i++)
+		{
+			Tank *tank = team1.front();
+			team1.pop_front();
+			tank->setTeam(2);
+		}
 	}
 }

@@ -41,12 +41,8 @@ OptionsParam::OptionsParam() :
 		"The name of the server to connect to, starts a NET/LAN client", 0, ""),
 	server_(options_, "startserver",
 		"Starts a scorched 3d server, requires the name of the server settings file e.g. data/server.xml", 0, ""),
-	name_(options_, "name",
-		"The name of the NET/LAN player (asked for if not provided)", 0, ""),
 	password_(options_, "password",
 		"The password of the NET/LAN server", 0, ""),
-	skin_(options_, "skin",
-		"The name of the tank for the NET/LAN player (asked for if not provided)", 0, ""),
 	nooptions_(options_, "nooptions",
 		"Only provided for backward compatability, has no current meaning", 0, false)
 {

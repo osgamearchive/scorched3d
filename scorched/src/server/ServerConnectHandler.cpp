@@ -25,6 +25,8 @@
 #include <scorched/ServerDialog.h>
 #include <tank/TankColorGenerator.h>
 #include <tankai/TankAIAdder.h>
+#include <tankai/TankAIStrings.h>
+#include <common/OptionsParam.h>
 #include <common/Defines.h>
 #include <common/FileLines.h>
 #include <common/OptionsGame.h>
@@ -189,8 +191,19 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 	for (unsigned int i=0; i<message.getNoPlayers(); i++)
 	{
 		addNextTank(destinationId,
-			"Spectator",
-			"Random",
+			message.getUniqueId(),
+			false);
+	}
+
+	// For the single player game
+	// Add a spectator that will always remain a spectator
+	// this is so if we only have computer players we still
+	// send messages to them
+	if (!OptionsParam::instance()->getDedicatedServer())
+	{
+		ScorchedServer::instance()->getOptionsGame().setNoMaxPlayers(
+			ScorchedServer::instance()->getOptionsGame().getNoMaxPlayers()+1);
+		addNextTank(destinationId,
 			message.getUniqueId(),
 			true);
 	}
@@ -199,33 +212,43 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 }
 
 void ServerConnectHandler::addNextTank(unsigned int destinationId,
-	const char *sentPlayerName,
-	const char *sentPlayerModel,
 	const char *sentUniqueId,
-	bool spectator)
+	bool extraSpectator)
 {
-	// Get the next available tankId
-	unsigned int tankId = TankAIAdder::getNextTankId();
-	while (ScorchedServer::instance()->getTankContainer().getTankById(tankId))
-	{
-		tankId = TankAIAdder::getNextTankId();
-	}
-
 	// The player has connected
-	Vector color = TankColorGenerator::instance()->getNextColor();
-	TankModelId modelId(sentPlayerModel);
-
+	Vector color;
+	unsigned int tankId = 0;
+	const char *playerName = "";
+	TankModelId modelId("Random");
+	if (extraSpectator)
+	{
+		tankId = 1;
+		playerName = "Spectator";
+		color = Vector(0.7f, 0.7f, 0.7f);
+	}
+	else
+	{
+		playerName = TankAIStrings::instance()->getPlayerName();
+		color = TankColorGenerator::instance()->getNextColor();
+		// Get the next available tankId
+		tankId = TankAIAdder::getNextTankId();
+		while (ScorchedServer::instance()->getTankContainer().getTankById(tankId))
+		{
+			tankId = TankAIAdder::getNextTankId();
+		}
+	}
+	
 	// Create the new tank and add it to the tank container
 	// Collections
 	Tank *tank = new Tank(
 		ScorchedServer::instance()->getContext(),
 		tankId,
 		destinationId,
-		sentPlayerName,
+		playerName,
 		color,
 		modelId);
 	tank->setUnqiueId(sentUniqueId);
-	tank->getState().setSpectator(spectator);
+	tank->getState().setSpectator(true);
 	ScorchedServer::instance()->getTankContainer().addTank(tank);
 
 	// Tell the clients to create this tank
@@ -241,9 +264,9 @@ void ServerConnectHandler::addNextTank(unsigned int destinationId,
 	// Add to dialog
 	Logger::log(tankId, "Player connected \"%i\" \"%s\"",
 		tankId,
-		sentPlayerName);
+		playerName);
 
 	// Tell this computer that a new tank has connected
 	sendString(0, "Player connected \"%s\"",
-		sentPlayerName);
+		playerName);
 }

@@ -18,11 +18,11 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <common/WindowManager.h>
 #include <common/Keyboard.h>
 #include <dialogs/MainMenuDialog.h>
 #include <GLW/GLWWindow.h>
+#include <set>
 
 WindowManager *WindowManager::instance_ = 0;
 
@@ -59,6 +59,27 @@ void WindowManager::clear()
 
 void WindowManager::setCurrentEntry(const unsigned state)
 {
+	// Store the currently visible windows
+	std::set<unsigned int> shownWindows;
+    std::deque<GLWWindow *> windowsCopy;
+	std::deque<GLWWindow *>::iterator qitor;
+
+	if (currentStateEntry_)
+	{
+		windowsCopy = currentStateEntry_->windows_;
+		for (qitor = windowsCopy.begin();
+			qitor != windowsCopy.end();
+			qitor++)
+		{
+			GLWWindow *window = *qitor;
+			if (windowVisible(window->getId()))
+			{
+				shownWindows.insert(window->getId());
+			}
+		}
+	}
+
+	// Find the next state
 	static StateEntry defaultStateEntry;
 	std::map<unsigned, StateEntry>::iterator itor =
 		stateEntrys_.find(state);
@@ -70,17 +91,38 @@ void WindowManager::setCurrentEntry(const unsigned state)
 	else
 	{
 		currentStateEntry_ = &(*itor).second;
+	}
 
-		std::deque<GLWWindow *> windowsCopy = currentStateEntry_->windows_;
-		std::deque<GLWWindow *>::iterator itor;
-		for (itor = windowsCopy.begin();
-			itor != windowsCopy.end();
-			itor++)
+	// Tell the windows that they have been hidden or shown
+	windowsCopy = currentStateEntry_->windows_;
+	for (qitor = windowsCopy.begin();
+		qitor != windowsCopy.end();
+		qitor++)
+	{
+		GLWWindow *window = *qitor;
+		window->windowInit(state);
+
+		// This window should be visible
+		if (windowVisible(window->getId()))
 		{
-			(*itor)->windowInit(state);
-			if (windowVisible((*itor)->getId()))
+			// Only call window display on windows that have not
+			// been shown in the last state
+			std::set<unsigned int>::iterator shownPrev = 
+				shownWindows.find(window->getId());
+			if (shownPrev == shownWindows.end())
 			{
-				(*itor)->windowDisplay();
+				window->windowDisplay();
+			}
+		}
+		else
+		{
+			// Only call window hide on windows that have
+			// been shown in the last state
+			std::set<unsigned int>::iterator shownPrev = 
+				shownWindows.find(window->getId());
+			if (shownPrev != shownWindows.end())
+			{
+				window->windowHide();
 			}
 		}
 	}
@@ -106,9 +148,8 @@ bool WindowManager::showWindow(unsigned id)
 		if (!(*itor).second)
 		{
 			GLWWindow *window = idToWindow_[id];
-			window->windowDisplay();
 			(*itor).second = true;
-
+			window->windowDisplay();
 			moveToFront(id);
 		
 			return true;

@@ -71,17 +71,6 @@ void TankScored::init()
 					(moneyDiff_>0.0f)?greenColor:((moneyDiff_<0.0f)?redColor:yellowColor),
 					buffer));
 		}
-
-		if (roundDiff_ != 0)
-		{
-			if (!context_->serverMode ||
-				OptionsParam::instance()->getDedicatedServer())
-			{
-				Logger::log(tank->getPlayerId(),
-					"\"%s\" wins this round.",
-					tank->getName());
-			}
-		}
 	}
 }
 

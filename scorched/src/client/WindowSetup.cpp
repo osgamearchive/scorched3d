@@ -85,8 +85,9 @@ void WindowSetup::addCommonComponents(unsigned state)
 			MainMenuDialog::instance(), 0, true);
 	}
 
+	KEYBOARDKEY("SHOW_TEAM_DIALOG", teamKey);
 	WindowManager::instance()->addWindow(state,
-		PlayerDialog::instance(), 0, false);
+		PlayerDialog::instance(), teamKey, false);
 
 	KEYBOARDKEY("SHOW_RULES_DIALOG", rulesKey);
 	WindowManager::instance()->addWindow(state, 

@@ -96,6 +96,7 @@ keep track of money after you leave the server
 keep track of views 
 missile landing view
 Make a count down sound when timer runs out.
+Use wxGuides so the guis look better cross platform (and easier to add to)
 
 -- Other Stuff
 Make AIs better

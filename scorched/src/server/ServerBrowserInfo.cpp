@@ -163,6 +163,9 @@ void ServerBrowserInfo::processPlayerMessage(char *buffer)
 
 		sprintf(tmp, "pt%i", i);
 		addTag(buffer, tmp, tank->getScore().getTimePlayedString());
+
+		sprintf(tmp, "pm%i", i);
+		addTag(buffer, tmp, (tank->getTeam()==0)?"None":((tank->getTeam()==1)?"Red":"Green"));
 	}
 	strcat(buffer, "/>");
 }

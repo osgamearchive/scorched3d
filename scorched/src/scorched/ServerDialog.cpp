@@ -156,6 +156,11 @@ wxString ServerPlayerListControl::OnGetItemText(long item, long column) const
 		case 5:
 			return (char *) tank->getState().getStateString();
 			break;
+		case 6:
+			if (tank->getTeam() == 0) return "None";
+			else if (tank->getTeam() == 1) return "Red";
+			else if (tank->getTeam() == 2) return "Green";
+			break;
 		}
 	}
 	return "";
@@ -266,7 +271,8 @@ ServerFrame::ServerFrame(const char *name) :
 			{ "Player Id", 80 },
 			{ "Played Time", 100 },
 			{ "Player Score", 100 },
-			{ "Player State", 140 }
+			{ "Player State", 140 },
+			{ "Player Team", 100 }
 		};
 	for (i=0; i<sizeof(playerListItems)/sizeof(ListItem); i++)
 	{

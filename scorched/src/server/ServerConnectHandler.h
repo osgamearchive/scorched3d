@@ -34,14 +34,12 @@ public:
 		const char *messageType,
 		NetBufferReader &reader);
 
-	void addNextTank(unsigned int destinationId,
-		const char *playerName,
-		const char *playerModel,
-		const char *uniqueId,
-		bool spectator);
-
 protected:
 	static ServerConnectHandler *instance_;
+
+	void addNextTank(unsigned int destinationId,
+		const char *uniqueId,
+		bool extraSpectator);
 
 private:
 	ServerConnectHandler();

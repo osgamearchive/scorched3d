@@ -326,7 +326,7 @@ void GLWTankViewer::selectModelByName(const char *name)
 	DIALOG_ASSERT(models_.size());
 
 	// Ensure that all models have been loaded
-	select(0, 0, "All");
+	//select(0, 0, "All");
 
 	// Select the appropriate model
 	int currentSel = 0;

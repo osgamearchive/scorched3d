@@ -61,7 +61,7 @@ public:
 	const char *getUniqueId() { return uniqueId_.c_str(); }
 	void setUnqiueId(const char *id) { uniqueId_ = id; }
 	TankAI *getTankAI() { return tankAI_; }
-	void setTankAI(TankAI *ai) { tankAI_ = ai; }
+	void setTankAI(TankAI *ai);
 	TankModelId &getModel() { return model_; }
 	void setModel(TankModelId &model) { model_ = model; }
 	Vector &getColor();

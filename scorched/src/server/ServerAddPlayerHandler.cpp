@@ -53,7 +53,7 @@ ServerAddPlayerHandler::~ServerAddPlayerHandler()
 {
 }
 
-bool ServerAddPlayerHandler::processMessage(unsigned int id,
+bool ServerAddPlayerHandler::processMessage(unsigned int destinationId,
 	const char *messageType, NetBufferReader &reader)
 {
 	ComsAddPlayerMessage message;
@@ -62,56 +62,49 @@ bool ServerAddPlayerHandler::processMessage(unsigned int id,
 	// Validate player
 	unsigned int playerId = message.getPlayerId();
 	Tank *tank = ScorchedServer::instance()->getTankContainer().getTankById(playerId);
-	if (!tank || !tank->getState().getSpectator()) return true;
+	if (!tank || (tank->getState().getState() != TankState::sDead))
+	{
+		sendString(destinationId, "Can only change tank when dead.");
+		return true;
+	}
 
 	// Add a computer player (if chosen and a single player match)
 	if (0 != strcmp(message.getPlayerType(), "Human"))
 	{
+		if (ScorchedServer::instance()->getGameState().getState() !=
+			ServerState::ServerStateTooFewPlayers)
+		{
+			sendString(destinationId, "Can only change type before game starts.");
+			return true;
+		}
+
+		// Only allow this on a single player game
 		if (OptionsParam::instance()->getDedicatedServer()) return true;
 
+		// Check tank ai is valid
 		TankAIComputer *ai = 
 			TankAIStore::instance()->getAIByName(message.getPlayerType());
-		if (ai)
-		{
-			tank->setTankAI(ai->getCopy(tank, &ScorchedServer::instance()->getContext()));
-			tank->setDestinationId(0);
+		if (!ai) return true;
 
-			// A hacky case check for when we have added all bots
-			// and NO human players
-			// In this case we need to add a spectator, otherwise no messages
-			// will be sent to the client
-			if (ScorchedServer::instance()->getTankContainer().getNoOfTanks() >=
-				ScorchedServer::instance()->getOptionsGame().getNoMaxPlayers())
-			{
-				bool allBots = true;
-				std::map<unsigned int, Tank *> &tanks = 
-					ScorchedServer::instance()->getTankContainer().getPlayingTanks();
-				std::map<unsigned int, Tank *>::iterator itor;
-				for (itor = tanks.begin();
-					itor != tanks.end();
-					itor++)
-				{
-					Tank *tank = (*itor).second;
-					if (tank->getDestinationId() != 0) allBots = false;
-				}
-				if (allBots)
-				{
-					ScorchedServer::instance()->getOptionsGame().setNoMaxPlayers(
-						ScorchedServer::instance()->getOptionsGame().getNoMaxPlayers()+1);
-					ServerConnectHandler::instance()->addNextTank(
-						NetLoopBack::ClientLoopBackID,
-						"Spectator",
-						"Random",
-						"",
-						true);
-				}
-			}
-		}
+		// Set the tank to have the ai
+		tank->setTankAI(ai->getCopy(tank, &ScorchedServer::instance()->getContext()));
+		tank->setDestinationId(0);
+	}
+	else
+	{
+		tank->setDestinationId(destinationId);
+		tank->setTankAI(0);
 	}
 
 	// Setup the new player
 	std::string name(message.getPlayerName());
-	getUniqueName(name);
+	if (name != tank->getName()) getUniqueName(name);
+
+	// Tell this computer that a new tank has connected
+	StatsLogger::instance()->tankJoined(tank);
+	sendString(0, "Player playing \"%s\"->\"%s\"",
+		tank->getName(), name.c_str());
+
 	TankModelId modelId(message.getModelName());
 	tank->setName(name.c_str());
 	tank->setModel(modelId);
@@ -131,12 +124,6 @@ bool ServerAddPlayerHandler::processMessage(unsigned int id,
 				ScorchedServer::instance()->getTankContainer()));
 		}
 	}
-
-	// Tell this computer that a new tank has connected
-	sendString(0, "Player playing \"%s\"->\"%s\"",
-		tank->getName(), name.c_str());
-
-	StatsLogger::instance()->tankJoined(tank);
 
 	// If we are in a waiting for players state then we can
 	// send the state of these new players

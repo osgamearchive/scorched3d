@@ -35,14 +35,8 @@ public:
 	const char *getServerFile() { return server_.getValue(); }
 	void setServerFile(const char *value) { server_.setValue(value); }
 
-	const char *getName() { return name_.getValue(); }
-	void setName(const char *value) { name_.setValue(value); }
-
 	const char *getPassword() { return password_.getValue(); }
 	void setPassword(const char *value) { password_.setValue(value); }
-
-	const char *getSkin() { return skin_.getValue(); }
-	void setSkin(const char *value) { skin_.setValue(value); }
 
 	enum Action
 	{
@@ -66,9 +60,7 @@ protected:
 
 	OptionEntryString connect_;
 	OptionEntryString server_;
-	OptionEntryString name_;
 	OptionEntryString password_;
-	OptionEntryString skin_;
 	OptionEntryBool nooptions_;
 	bool SDLInitVideo_;
 	bool onServer_;
