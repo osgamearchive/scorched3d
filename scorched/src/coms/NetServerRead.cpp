@@ -105,7 +105,7 @@ void NetServerRead::actualThreadFunc()
 		if (!pollOutgoing()) break;
 
 		float timeDiff = netClock.getTimeDifference();
-		if (timeDiff > 1.0f)
+		if (timeDiff > 15.0f)
 		{
 			Logger::log(0, "Warning: Net loop took %.2f seconds, client %i", 
 				timeDiff, (unsigned int) socket_);

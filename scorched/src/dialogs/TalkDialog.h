@@ -18,7 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #if !defined(__INCLUDE_TalkDialogh_INCLUDE__)
 #define __INCLUDE_TalkDialogh_INCLUDE__
 
@@ -38,6 +37,8 @@ public:
 	virtual void buttonDown(unsigned int id);
 	virtual void windowDisplay();
 
+	void setTeamTalk();
+
 	// Inherited from GLWWindow
 	virtual void keyDown(char *buffer, unsigned int keyState, 
 		KeyboardHistory::HistoryElement *history, int hisCount, 
@@ -55,5 +56,20 @@ private:
 
 };
 
+class TeamTalkDialog : public GLWWindow
+{
+public:
+	static TeamTalkDialog *instance();
+
+	virtual void windowDisplay();
+
+protected:
+	static TeamTalkDialog *instance_;
+
+private:
+	TeamTalkDialog();
+	virtual ~TeamTalkDialog();
+
+};
 
 #endif

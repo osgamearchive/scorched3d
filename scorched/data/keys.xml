@@ -284,6 +284,11 @@
 		<key>t</key>
 	</keyentry>	
 	<keyentry>
+		<name>SHOW_TEAM_TALK_DIALOG</name>
+		<description>Shows or hides the team talk dialog</description>
+		<key>y</key>
+	</keyentry>	
+	<keyentry>
 		<name>SHOW_RULES_DIALOG</name>
 		<description>Shows or hides the rules dialog</description>
 		<key>r</key>

@@ -22,6 +22,7 @@
 
 #include <common/StatsLoggerMySQL.h>
 #include <common/Logger.h>
+#include <server/ServerCommon.h>
 #include <weapons/AccessoryStore.h>
 #include <server/ScorchedServer.h>
 #include <XML/XMLFile.h>
@@ -46,7 +47,7 @@ StatsLoggerMySQL::~StatsLoggerMySQL()
 {
 }
 
-void StatsLoggerMySQL::runQuery(const char *fmt, ...)
+bool StatsLoggerMySQL::runQuery(const char *fmt, ...)
 {
 	if (!success_) return;
 
@@ -56,7 +57,7 @@ void StatsLoggerMySQL::runQuery(const char *fmt, ...)
 	vsprintf(text, fmt, ap);
 	va_end(ap);
 
-	mysql_real_query(mysql_, text, strlen(text));
+	return (mysql_real_query(mysql_, text, strlen(text)) == 0);
 }
 
 void StatsLoggerMySQL::createLogger()
@@ -146,10 +147,8 @@ void StatsLoggerMySQL::createLogger()
 
 				// Try to determine this players sql playerid
 				int weaponId = 0;
-				char buffer[1024];
-				sprintf(buffer, "SELECT weaponid FROM scorched3d_weapons "
-					"WHERE name = \"%s\";", weapon->getName());
-				if (mysql_real_query(mysql_, buffer, strlen(buffer)) == 0)
+				if (runQuery("SELECT weaponid FROM scorched3d_weapons "
+					"WHERE name = \"%s\";", weapon->getName()))
 				{
 					MYSQL_RES *result = mysql_store_result(mysql_);
 					if (result)
@@ -227,14 +226,12 @@ void StatsLoggerMySQL::tankJoined(Tank *tank)
 	createLogger();
 	if (!success_) return;
 
-	char buffer[1024];
-	
 	// Try to determine this players sql playerid
 	int playerId = 0;
-	sprintf(buffer, "SELECT playerid FROM scorched3d_players "
-			"WHERE uniqueid = \"%s\";",
-		tank->getUniqueId());
-	if (mysql_real_query(mysql_, buffer, strlen(buffer)) == 0)
+	int kills = 0;
+	const char *name = 0;
+	if (runQuery("SELECT playerid, kills, name FROM scorched3d_players "
+			"WHERE uniqueid = \"%s\";", tank->getUniqueId()) == 0)
 	{
 		MYSQL_RES *result = mysql_store_result(mysql_);
 		if (result)
@@ -244,10 +241,34 @@ void StatsLoggerMySQL::tankJoined(Tank *tank)
 			{
 				MYSQL_ROW row = mysql_fetch_row(result);
 				playerId = atoi(row[0]);
+				kills = atoi(row[1]);
+				name = row[2];
 
 				Logger::log(0, "Found stats user \"%i\"", playerId);
 			}
 			mysql_free_result(result);
+		}
+	}
+
+	if (name)
+	{
+		if (runQuery("SELECT count(*) FROM scorched3d_players "
+			"WHERE kills > \"%i\";", kills) == 0)
+		{
+			MYSQL_RES *result = mysql_store_result(mysql_);
+			if (result)
+			{
+				int rows = mysql_num_rows(result);
+				for (int r=0; r<rows; r++)
+				{
+					MYSQL_ROW row = mysql_fetch_row(result);
+					int rank = atoi(row[0]);
+
+					sendString(0, "Welcome back %s, you are ranked %i",
+						name, rank + 1);
+				}
+				mysql_free_result(result);
+			}
 		}
 	}
 

@@ -89,6 +89,9 @@ void WindowSetup::addCommonComponents(unsigned state)
 	KEYBOARDKEY("SHOW_TALK_DIALOG", talkKey);
 	GLWWindowManager::instance()->addWindow(state, 
 		TalkDialog::instance(), talkKey, false);
+	KEYBOARDKEY("SHOW_TEAM_TALK_DIALOG", teamTalkKey);
+	GLWWindowManager::instance()->addWindow(state, 
+		TeamTalkDialog::instance(), teamTalkKey, false);
 
 	if (state != ClientState::StateScore)
 	{
@@ -117,6 +120,7 @@ void WindowSetup::setup()
 {
 	KEYBOARDKEY("SHOW_QUIT_DIALOG", quitKey);
 	KEYBOARDKEY("SHOW_TALK_DIALOG", talkKey);
+	KEYBOARDKEY("SHOW_TEAM_TALK_DIALOG", teamTalkKey);
 	KEYBOARDKEY("SHOW_PLAYER_DIALOG", playerKey);
 	KEYBOARDKEY("SHOW_AIM_DIALOG", aimKey);
 	KEYBOARDKEY("SHOW_WEAPON_DIALOG", weaponKey);
@@ -124,6 +128,8 @@ void WindowSetup::setup()
 	// StateConnect
 	GLWWindowManager::instance()->addWindow(ClientState::StateConnect, 
 		TalkDialog::instance(), talkKey, false);
+	GLWWindowManager::instance()->addWindow(ClientState::StateConnect, 
+		TeamTalkDialog::instance(), teamTalkKey, false);
 	GLWWindowManager::instance()->addWindow(ClientState::StateConnect, 
 		BackdropDialog::instance(), 0, true);
 	GLWWindowManager::instance()->addWindow(ClientState::StateConnect, 
@@ -136,6 +142,8 @@ void WindowSetup::setup()
 	// StateGetPlayers
 	GLWWindowManager::instance()->addWindow(ClientState::StateGetPlayers, 
 		TalkDialog::instance(), talkKey, false);
+	GLWWindowManager::instance()->addWindow(ClientState::StateGetPlayers, 
+		TeamTalkDialog::instance(), teamTalkKey, false);
 	GLWWindowManager::instance()->addWindow(ClientState::StateGetPlayers, 
 		BackdropDialog::instance(), 0, true);
 	GLWWindowManager::instance()->addWindow(ClientState::StateGetPlayers, 

@@ -57,7 +57,7 @@ protected:
 	std::map<std::string, int> playerId_;
 	std::map<std::string, int> weaponId_;
 
-	void runQuery(const char *, ...);
+	bool runQuery(const char *, ...);
 	void createLogger();
 
 };

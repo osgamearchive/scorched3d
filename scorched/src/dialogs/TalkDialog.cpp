@@ -70,6 +70,11 @@ void TalkDialog::windowDisplay()
 	teamBox_->getState() = false;
 }
 
+void TalkDialog::setTeamTalk()
+{
+	teamBox_->getState() = true;
+}
+
 void TalkDialog::keyDown(char *buffer, unsigned int keyState, 
 		KeyboardHistory::HistoryElement *history, int hisCount, 
 		bool &skipRest)
@@ -113,4 +118,35 @@ void TalkDialog::buttonDown(unsigned int id)
 		talkText_->setText("");
 		GLWWindowManager::instance()->hideWindow(id_);
 	}
+}
+
+TeamTalkDialog *TeamTalkDialog::instance_ = 0;
+
+TeamTalkDialog *TeamTalkDialog::instance()
+{
+	if (!instance_)
+	{
+		instance_ = new TeamTalkDialog;
+	}
+	return instance_;
+}
+
+TeamTalkDialog::TeamTalkDialog() : 
+	GLWWindow("Team Talk", 10.0f, 10.0f, 300.0f, 70.0f, eSmallTitle,
+		"Allows the current player to send messages\n"
+		"to other online players (in the same team).")
+{
+	needCentered_ = true;
+}
+
+TeamTalkDialog::~TeamTalkDialog()
+{
+}
+
+void TeamTalkDialog::windowDisplay()
+{
+	GLWWindowManager::instance()->hideWindow(getId());
+	GLWWindowManager::instance()->showWindow(
+		TalkDialog::instance()->getId());
+	TalkDialog::instance()->setTeamTalk();
 }
