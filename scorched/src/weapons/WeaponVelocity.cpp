@@ -40,14 +40,8 @@ bool WeaponVelocity::parseXML(XMLNode *accessoryNode)
 	if (!Weapon::parseXML(accessoryNode)) return false;
 
 	// Get the next weapon
-	XMLNode *subNode = accessoryNode->getNamedChild("aimedweapon", false, true);
-	if (!subNode)
-	{
-		dialogMessage("Accessory",
-			"Failed to find aimedweapon node in accessory \"%s\"",
-			name_.c_str());
-		return false;
-	}
+	XMLNode *subNode = 0;
+	if (!accessoryNode->getNamedChild("aimedweapon", subNode)) return false;
 
 	// Check next weapon is correct type
 	Accessory *accessory = 
@@ -61,15 +55,7 @@ bool WeaponVelocity::parseXML(XMLNode *accessoryNode)
 	}
 	aimedWeapon_ = (Weapon*) accessory;
 
-	XMLNode *velocityNode = accessoryNode->getNamedChild("velocitychange", false, true);
-	if (!velocityNode)
-	{
-		dialogMessage("Accessory",
-			"Failed to find velocitychange node in accessory \"%s\"",
-			name_.c_str());
-		return false;
-	}
-	velocityChange_ = (float) atof(velocityNode->getContent());
+	if (!accessoryNode->getNamedFloat("velocitychange", velocityChange_)) return false;
 
 	return true;
 }

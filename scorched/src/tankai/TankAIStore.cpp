@@ -98,13 +98,8 @@ bool TankAIStore::loadAIs()
 			return false;
 		}
 
-		XMLNode *type = currentNode->getNamedParameter("type");
-		if (!type)
-		{
-			dialogMessage("TankAIStore",
-						  "Failed to find type node");
-			return false;
-		}
+		XMLNode *type = 0;
+		if (!currentNode->getNamedParameter("type", type)) return false;
 		const char *typeName = type->getContent();
 
 		TankAIComputer *computer = 0;

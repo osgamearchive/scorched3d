@@ -248,8 +248,6 @@ scorched3d_SOURCES = \
 	../common/ProgressCounter.h \
 	../common/RandomGenerator.cpp \
 	../common/RandomGenerator.h \
-	../common/ResourceFile.cpp \
-	../common/ResourceFile.h \
 	../common/Sound.cpp \
 	../common/Sound.h \
 	../common/SoundBuffer.cpp \
@@ -395,6 +393,10 @@ scorched3d_SOURCES = \
 	../landscape/InfoMap.h \
 	../landscape/Landscape.cpp \
 	../landscape/Landscape.h \
+	../landscape/LandscapeDefn.cpp \
+	../landscape/LandscapeDefn.h \
+	../landscape/LandscapeTex.cpp \
+	../landscape/LandscapeTex.h \
 	../landscape/LandscapeDefinition.cpp \
 	../landscape/LandscapeDefinition.h \
 	../landscape/LandscapeDefinitions.cpp \

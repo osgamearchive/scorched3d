@@ -41,75 +41,13 @@ bool WeaponNapalm::parseXML(XMLNode *accessoryNode)
 {
 	if (!Weapon::parseXML(accessoryNode)) return false;
 
-	XMLNode *timeNode = accessoryNode->getNamedChild("napalmtime", false, true);
-	if (!timeNode)
-	{
-		dialogMessage("Accessory",
-			"Failed to find napalmtime node in accessory \"%s\"",
-			name_.c_str());
-		return false;
-	}
-	napalmTime_ = (float) atof(timeNode->getContent());
-
-	XMLNode *heightNode = accessoryNode->getNamedChild("napalmheight", false, true);
-	if (!heightNode)
-	{
-		dialogMessage("Accessory",
-			"Failed to find napalmheight node in accessory \"%s\"",
-			name_.c_str());
-		return false;
-	}
-	napalmHeight_ = (float) atof(heightNode->getContent());
-
-	XMLNode *stepNode = accessoryNode->getNamedChild("steptime", false, true);
-	if (!stepNode)
-	{
-		dialogMessage("Accessory",
-			"Failed to find steptime node in accessory \"%s\"",
-			name_.c_str());
-		return false;
-	}
-	stepTime_ = (float) atof(stepNode->getContent());
-
-	XMLNode *hurtStepNode = accessoryNode->getNamedChild("hurtsteptime", false, true);
-	if (!hurtStepNode)
-	{
-		dialogMessage("Accessory",
-			"Failed to find hurtsteptime node in accessory \"%s\"",
-			name_.c_str());
-		return false;
-	}
-	hurtStepTime_ = (float) atof(hurtStepNode->getContent());
-
-	XMLNode *hurtPerSecondNode = accessoryNode->getNamedChild("hurtpersecond", false, true);
-	if (!hurtPerSecondNode)
-	{
-		dialogMessage("Accessory",
-			"Failed to find hurtpersecond node in accessory \"%s\"",
-			name_.c_str());
-		return false;
-	}
-	hurtPerSecond_ = (float) atof(hurtPerSecondNode->getContent());
-
-	XMLNode *streamsNode = accessoryNode->getNamedChild("numberstreams", false, true);
-	if (!streamsNode)
-	{
-		dialogMessage("Accessory",
-			"Failed to find numberstreams node in accessory \"%s\"",
-			name_.c_str());
-		return false;
-	}
-	numberStreams_ = atoi(streamsNode->getContent());	
-
-	XMLNode *effectNode = accessoryNode->getNamedChild("effectradius", false, true);
-	if (!effectNode)
-	{
-		dialogMessage("Accessory",
-			"Failed to find effectradius node in accessory \"%s\"",
-			name_.c_str());
-		return false;
-	}
-	effectRadius_ = atoi(effectNode->getContent());
+	if (!accessoryNode->getNamedFloat("napalmtime", napalmTime_)) return false;
+	if (!accessoryNode->getNamedFloat("napalmheight", napalmHeight_)) return false;
+	if (!accessoryNode->getNamedFloat("steptime", stepTime_)) return false;
+	if (!accessoryNode->getNamedFloat("hurtsteptime", hurtStepTime_)) return false;
+	if (!accessoryNode->getNamedFloat("hurtpersecond", hurtPerSecond_)) return false;
+	if (!accessoryNode->getNamedInt("numberstreams", numberStreams_)) return false;
+	if (!accessoryNode->getNamedInt("effectradius", effectRadius_)) return false;
 
 	return true;
 }

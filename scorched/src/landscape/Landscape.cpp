@@ -20,6 +20,8 @@
 
 #include <landscape/Landscape.h>
 #include <landscape/LandscapeMaps.h>
+#include <landscape/LandscapeTex.h>
+#include <landscape/LandscapeDefinition.h>
 #include <landscape/ShadowMap.h>
 #include <landscape/InfoMap.h>
 #include <landscape/WaterMapModifier.h>
@@ -246,12 +248,57 @@ void Landscape::generate(ProgressCounter *counter)
 	}
 
 	// Load the texture bitmaps from resources 
-	GLBitmap texture0(resources_.getStringResource("bitmap-texture0"));
-	GLBitmap texture1(resources_.getStringResource("bitmap-texture1"));
-	GLBitmap texture2(resources_.getStringResource("bitmap-texture2"));
-	GLBitmap texture3(resources_.getStringResource("bitmap-texture3"));
-	GLBitmap texture4(resources_.getStringResource("bitmap-texture4"));
-	GLBitmap scorchMap(resources_.getStringResource("bitmap-scorch"));
+	LandscapeTex *tex = 
+			ScorchedClient::instance()->getLandscapeMaps().getLandDfn().getTex();
+
+	if (0 == strcmp(tex->texture->type.c_str(), "generate"))
+	{
+		LandscapeTexTextureGenerate *generate = 
+			(LandscapeTexTextureGenerate *) tex->texture;
+
+		GLBitmap texture0(generate->texture0.c_str());
+		GLBitmap texture1(generate->texture1.c_str());
+		GLBitmap texture2(generate->texture2.c_str());
+		GLBitmap texture3(generate->texture3.c_str());
+		GLBitmap texture4(generate->texture4.c_str());
+		GLBitmap bitmapShore(generate->shore.c_str());
+		GLBitmap bitmapRock(generate->rockside.c_str());
+		GLBitmap *bitmaps[5];
+		bitmaps[0] = &texture0;
+		bitmaps[1] = &texture1;
+		bitmaps[2] = &texture2;
+		bitmaps[3] = &texture3;
+		bitmaps[4] = &texture4;
+
+		// Generate the new landscape
+		GLBitmapModifier::addHeightToBitmap(
+			ScorchedClient::instance()->getLandscapeMaps().getHMap(),
+			mainMap_,
+			bitmapRock, bitmapShore, bitmaps, 5, 1024, counter);
+
+		// Set the general surround texture
+		surroundTexture_.replace(texture0);
+	}
+	else DIALOG_ASSERT(0);
+
+	// Add lighting to the landscape texture
+	GLBitmapModifier::addLightMapToBitmap(mainMap_,
+		ScorchedClient::instance()->getLandscapeMaps().getHMap(),
+		sun_.getPosition(), counter);
+
+    // Create the landscape texture used for the small plan window
+	gluScaleImage(
+		GL_RGB,
+		mainMap_.getWidth(), mainMap_.getHeight(),
+		GL_UNSIGNED_BYTE, mainMap_.getBits(),
+		bitmapPlan_.getWidth(), bitmapPlan_.getHeight(),
+		GL_UNSIGNED_BYTE, bitmapPlan_.getBits());
+
+	// Generate the scorch map for the landscape
+	GLBitmap scorchMap(tex->scorch.c_str());
+	GLBitmapModifier::tileBitmap(scorchMap, scorchMap_);
+
+
 	GLBitmap waves1Map(
 		resources_.getStringResource("bitmap-waves1"), 
 		resources_.getStringResource("bitmap-waves1"), false);
@@ -260,15 +307,6 @@ void Landscape::generate(ProgressCounter *counter)
 		resources_.getStringResource("bitmap-waves2"), false);
 	waves1Texture_.create(waves1Map, GL_RGBA);
 	waves2Texture_.create(waves2Map, GL_RGBA);
-	GLBitmapModifier::tileBitmap(scorchMap, scorchMap_);
-	GLBitmap bitmapShore(resources_.getStringResource("bitmap-shore"));
-	GLBitmap bitmapRock(resources_.getStringResource("bitmap-rockside"));
-	GLBitmap *bitmaps[5];
-	bitmaps[0] = &texture0;
-	bitmaps[1] = &texture1;
-	bitmaps[2] = &texture2;
-	bitmaps[3] = &texture3;
-	bitmaps[4] = &texture4;
 	GLBitmap bitmapWater(resources_.getStringResource("bitmap-cloudreflection"));
 	bitmapWater_.loadFromFile(resources_.getStringResource("bitmap-cloudreflection"), false);
 	GLBitmap bitmapMagma(resources_.getStringResource("bitmap-magmasmall"));
@@ -277,33 +315,13 @@ void Landscape::generate(ProgressCounter *counter)
 	GLBitmap bitmapWaterDetail(resources_.getStringResource("bitmap-water"));
 	skyColorsMap_.loadFromFile(resources_.getStringResource("bitmap-skycolors"));
 
-	// Generate landscape texture
-	surroundTexture_.replace(texture0);
-	GLBitmapModifier::addHeightToBitmap(
-		ScorchedClient::instance()->getLandscapeMaps().getHMap(), 
-		mainMap_, 
-		bitmapRock, bitmapShore, bitmaps, 5, 1024, counter);
-
-	// Add lighting to the landscape texture
-	GLBitmapModifier::addLightMapToBitmap(mainMap_, 
-		ScorchedClient::instance()->getLandscapeMaps().getHMap(), 
-		sun_.getPosition(), counter);
-
-	// Create the landscape texture used for the small plan window
-	gluScaleImage(
-		GL_RGB, 
-		mainMap_.getWidth(), mainMap_.getHeight(), 
-		GL_UNSIGNED_BYTE, mainMap_.getBits(),
-		bitmapPlan_.getWidth(), bitmapPlan_.getHeight(), 
-		GL_UNSIGNED_BYTE, bitmapPlan_.getBits());
-
 	// Add objects to the landscape
 	objects_.removeAllObjects();
 	if (resources_.getStringResource("objects")[0])
 	{
 		RandomGenerator objectsGenerator;
 		objectsGenerator.seed(
-			ScorchedClient::instance()->getLandscapeMaps().getLandDfn().landSeed);
+			ScorchedClient::instance()->getLandscapeMaps().getLandDfn().getSeed());
 		objects_.generate(objectsGenerator, counter);
 	}
 

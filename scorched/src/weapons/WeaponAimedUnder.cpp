@@ -45,25 +45,11 @@ bool WeaponAimedUnder::parseXML(XMLNode *accessoryNode)
 	if (!Weapon::parseXML(accessoryNode)) return false;
 
 	// Get the accessory size
-	XMLNode *warHeadsNode = accessoryNode->getNamedChild("nowarheads", false, true);
-	if (!warHeadsNode)
-	{
-		dialogMessage("Accessory",
-			"Failed to find nowarheads node in accessory \"%s\"",
-			name_.c_str());
-		return false;
-	}
-	warHeads_ = atoi(warHeadsNode->getContent());
+	if (!accessoryNode->getNamedInt("nowarheads", warHeads_)) return false;
 
 	// Get the next weapon
-	XMLNode *subNode = accessoryNode->getNamedChild("aimedweapon", false, true);
-	if (!subNode)
-	{
-		dialogMessage("Accessory",
-			"Failed to find aimedweapon node in accessory \"%s\"",
-			name_.c_str());
-		return false;
-	}
+	XMLNode *subNode = 0;
+	if (!accessoryNode->getNamedChild("aimedweapon", subNode)) return false;
 
 	// Check next weapon is correct type
 	Accessory *accessory = 
@@ -78,37 +64,13 @@ bool WeaponAimedUnder::parseXML(XMLNode *accessoryNode)
 	aimedWeapon_ = (Weapon*) accessory;
 	
 	// Get the accessory aimed distance
-	XMLNode *aimNode = accessoryNode->getNamedChild("maxaimdistance", false, true);
-	if (!aimNode)
-	{
-		dialogMessage("Accessory",
-			"Failed to find maxaimdistance node in accessory \"%s\"",
-			name_.c_str());
-		return false;
-	}
-	maxAimedDistance_ = (float) atof(aimNode->getContent());
+	if (!accessoryNode->getNamedFloat("maxaimdistance", maxAimedDistance_)) return false;
 	
 	// Get the accessory percentage miss chance
-	XMLNode *percentageNode = accessoryNode->getNamedChild("percentagemiss", false, true);
-	if (!percentageNode)
-	{
-		dialogMessage("Accessory",
-			"Failed to find percentagemiss node in accessory \"%s\"",
-			name_.c_str());
-		return false;
-	}
-	percentageMissChance_ = (float) atof(percentageNode->getContent());
+	if (!accessoryNode->getNamedFloat("percentagemiss", percentageMissChance_)) return false;
 
 	// Get the accessory percentage miss chance
-	XMLNode *inaccuracyNode = accessoryNode->getNamedChild("inaccuracy", false, true);
-	if (!inaccuracyNode)
-	{
-		dialogMessage("Accessory",
-			"Failed to find inaccuracy node in accessory \"%s\"",
-			name_.c_str());
-		return false;
-	}
-	maxInacuracy_ = (float) atof(inaccuracyNode->getContent());
+	if (!accessoryNode->getNamedFloat("inaccuracy", maxInacuracy_)) return false;
 
 	return true;
 }

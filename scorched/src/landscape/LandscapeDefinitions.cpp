@@ -25,6 +25,25 @@
 #include <stdlib.h>
 #include <time.h>
 
+bool LandscapeDefinitionsEntry::readXML(XMLNode *node)
+{
+	if (!node->getNamedString("name", name)) return false;
+	if (!node->getNamedFloat("weight", weight)) return false;
+	if (!node->getNamedString("description", description)) return false;
+	if (!node->getNamedString("picture", picture)) return false;
+
+	XMLNode *tex, *defn, *tmp;
+	if (!node->getNamedChild("defn", defn)) return false;
+	while (defn->getNamedChild("item", tmp, false, true))
+		defns.push_back(tmp->getContent());
+	if (!node->getNamedChild("tex", tex)) return false;
+	while (tex->getNamedChild("item", tmp, false, true))
+		texs.push_back(tmp->getContent());
+
+	DIALOG_ASSERT(!texs.empty() && !defns.empty());
+	return node->failChildren();
+}
+
 LandscapeDefinitions *LandscapeDefinitions::instance_ = 0;
 
 LandscapeDefinitions *LandscapeDefinitions::instance()
@@ -46,29 +65,127 @@ LandscapeDefinitions::~LandscapeDefinitions()
 
 void LandscapeDefinitions::clearLandscapeDefinitions()
 {
-	definitions_.clear();
+	entries_.clear();
+	while (!texs_.empty()) 
+	{
+		delete texs_.front();
+		texs_.pop_front();
+	}
+	while (!defns_.empty())
+	{
+		delete defns_.front();
+		defns_.pop_front();
+	}
 }
 
 bool LandscapeDefinitions::readLandscapeDefinitions()
 {
+	if (!readTexs()) return false;
+	if (!readDefns()) return false;
+	if (!readDefinitions()) return false;
+	return true;
+}
+
+bool LandscapeDefinitions::readTexs()
+{
 	// Load landscape definition file
 	XMLFile file;
-	if (!file.readFile(getDataFile("data/landscapes.xml")))
+	if (!file.readFile(getDataFile("data/landscapestex.xml")) ||
+		!file.getRootNode())
+	{
+		dialogMessage("Scorched Landscape",
+			"Failed to parse \"data/landscapestex.xml\"\n%s",
+			file.getParserError());
+		return false;
+	}
+	// Itterate all of the landscapes in the file
+	std::list<XMLNode *>::iterator childrenItor;
+	std::list<XMLNode *> &children = file.getRootNode()->getChildren();
+	for (childrenItor = children.begin();
+		childrenItor != children.end();
+		childrenItor++)
+	{
+		LandscapeTex *newTex = new LandscapeTex;
+		if (!newTex->readXML(*childrenItor))
+		{
+			dialogMessage("Scorched Landscape",
+				"Failed to parse  \"data/landscapestex.xml\"");
+			return false;
+		}
+		texs_.push_back(newTex);
+	}
+	return true;
+}
+
+LandscapeTex *LandscapeDefinitions::getTex(const char *name)
+{
+	std::list<LandscapeTex*>::iterator itor;
+	for (itor = texs_.begin();
+		itor != texs_.end();
+		itor++)
+	{
+		LandscapeTex *tex = (*itor);
+		if (0 == strcmp(tex->name.c_str(), name)) return tex;
+	}
+	return 0;
+}
+
+bool LandscapeDefinitions::readDefns()
+{
+	// Load landscape definition file
+	XMLFile file;
+	if (!file.readFile(getDataFile("data/landscapesdefn.xml")) ||
+		!file.getRootNode())
+	{
+		dialogMessage("Scorched Landscape",
+			"Failed to parse \"data/landscapesdefn.xml\"\n%s",
+			file.getParserError());
+		return false;
+	}
+	// Itterate all of the landscapes in the file
+	std::list<XMLNode *>::iterator childrenItor;
+	std::list<XMLNode *> &children = file.getRootNode()->getChildren();
+	for (childrenItor = children.begin();
+		childrenItor != children.end();
+		childrenItor++)
+	{
+		LandscapeDefn *newDefn = new LandscapeDefn;
+		if (!newDefn->readXML(*childrenItor))
+		{
+			dialogMessage("Scorched Landscape",
+				"Failed to parse  \"data/landscapesdefn.xml\"");
+			return false;
+		}
+		defns_.push_back(newDefn);
+	}
+	return true;
+}
+
+LandscapeDefn *LandscapeDefinitions::getDefn(const char *name)
+{
+	std::list<LandscapeDefn *>::iterator itor;
+	for (itor = defns_.begin();
+		itor != defns_.end();
+		itor++)
+	{
+		LandscapeDefn *defn = *itor;
+		if (0 == strcmp(defn->name.c_str(), name)) return defn;
+	}
+	return 0;
+}
+
+bool LandscapeDefinitions::readDefinitions()
+{
+	// Load landscape definition file
+	XMLFile file;
+	if (!file.readFile(getDataFile("data/landscapes.xml")) ||
+		!file.getRootNode())
 	{
 		dialogMessage("Scorched Landscape", 
 					  "Failed to parse \"data/landscapes.xml\"\n%s", 
 					  file.getParserError());
 		return false;
 	}
-
-	// Check file exists
-	if (!file.getRootNode())
-	{
-		dialogMessage("Scorched Landscape",
-					"Failed to find landscape definition file \"data/landscapes.xml\"");
-		return false;		
-	}
-
 	// Itterate all of the landscapes in the file
 	std::list<XMLNode *>::iterator childrenItor;
 		std::list<XMLNode *> &children = file.getRootNode()->getChildren();
@@ -76,9 +193,14 @@ bool LandscapeDefinitions::readLandscapeDefinitions()
 		childrenItor != children.end();
 		childrenItor++)
 	{
-		LandscapeDefinition newDefn;
-		if (!newDefn.readXML(*childrenItor)) return false;
-		definitions_.push_back(newDefn);
+		LandscapeDefinitionsEntry newDefn;
+		if (!newDefn.readXML(*childrenItor))
+		{
+			dialogMessage("Scorched Landscape", 
+					  "Failed to parse \"data/landscapes.xml\"");
+			return false;
+		}
+		entries_.push_back(newDefn);
 	}
 	return true;
 }
@@ -98,17 +220,17 @@ bool LandscapeDefinitions::landscapeEnabled(OptionsGame &context,
 	return false;
 }
 
-LandscapeDefinition &LandscapeDefinitions::getRandomLandscapeDefn(
+LandscapeDefinition *LandscapeDefinitions::getRandomLandscapeDefn(
 	OptionsGame &context)
 {
 	float totalWeight = 0.0f;
-	std::list<LandscapeDefinition *> passedLandscapes;
-	std::vector<LandscapeDefinition>::iterator itor;
-	for (itor = definitions_.begin();
-		itor != definitions_.end();
+	std::list<LandscapeDefinitionsEntry *> passedLandscapes;
+	std::list<LandscapeDefinitionsEntry>::iterator itor;
+	for (itor = entries_.begin();
+		itor != entries_.end();
 		itor++)
 	{
-		LandscapeDefinition &result = *itor;
+		LandscapeDefinitionsEntry &result = *itor;
 		if (landscapeEnabled(context, result.name.c_str()))
 		{
 			passedLandscapes.push_back(&result);
@@ -119,25 +241,31 @@ LandscapeDefinition &LandscapeDefinitions::getRandomLandscapeDefn(
 	float pos = RAND * totalWeight;
 	float soFar = 0.0f;
 
-	std::list<LandscapeDefinition *>::iterator passedItor;
+	std::list<LandscapeDefinitionsEntry*>::iterator passedItor;
 	for (passedItor = passedLandscapes.begin();
 		passedItor != passedLandscapes.end();
 		passedItor++)
 	{
-		LandscapeDefinition *result = *passedItor;
+		LandscapeDefinitionsEntry *result = *passedItor;
 		soFar += result->weight;
 
 		if (pos <= soFar)
 		{
-			result->generate();
-			return *result;
+			int texPos = int(RAND * float(result->texs.size()));
+			int defnPos = int(RAND * float(result->defns.size()));
+			DIALOG_ASSERT(texPos < result->texs.size());
+			DIALOG_ASSERT(defnPos < result->defns.size());
+			LandscapeTex *tex = getTex(result->texs[texPos].c_str());
+			LandscapeDefn *defn = getDefn(result->defns[defnPos].c_str());
+			DIALOG_ASSERT(tex && defn);
+			unsigned int seed = (unsigned int) rand();
+			LandscapeDefinition *entry = 
+				new LandscapeDefinition(tex, defn, seed);
+			return entry;
 		}
 
 	}
 
-	dialogMessage("Landscape",
-		"No landscapes marked as active");
-	exit(0);
-	static LandscapeDefinition null;
-	return null;
+	return 0;
 }
+

@@ -19,6 +19,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <landscape/LandscapeMaps.h>
+#include <landscape/LandscapeDefn.h>
+#include <landscape/LandscapeDefinition.h>
 #include <landscape/HeightMapModifier.h>
 #include <landscape/HeightMapLoader.h>
 #include <common/OptionsGame.h>
@@ -29,7 +31,8 @@
 #include <stdlib.h>
 
 LandscapeMaps::LandscapeMaps() : 
-	map_(256), mmap_(map_, 256), nmap_(256), storedMap_(0)
+	map_(256), mmap_(map_, 256), nmap_(256), 
+	storedMap_(0), storedHdef_(0)
 {
 	// Allocate the stored map size to be the same
 	// as the height map size
@@ -41,19 +44,20 @@ LandscapeMaps::~LandscapeMaps()
 	delete [] storedMap_;
 }
 
-void LandscapeMaps::generateHMap(LandscapeDefinition &hdef,
+void LandscapeMaps::generateHMap(LandscapeDefinition *hdef,
 								ProgressCounter *counter)
 {
 	// Store the landscape settings for anyone that connects later
+	delete storedHdef_;
 	storedHdef_ = hdef;
 
 	// Do we generate or load the landscape
-	if (!hdef.heightMapFile.empty())
+	if (0 == strcmp(hdef->getDefn()->heightmap->type.c_str(), "load"))
 	{
 		// Load the landscape
 		GLBitmap bitmap;
-		const char *fileName = 
-			getDataFile("data/landscapes/%s",hdef.heightMapFile.c_str());
+		const char *fileName = "";
+			//getDataFile("data/landscapes/%s",hdef.heightMapFile.c_str());
 		if (!bitmap.loadFromFile(fileName, false))
 		{
 			dialogMessage("Landscape",
@@ -68,18 +72,22 @@ void LandscapeMaps::generateHMap(LandscapeDefinition &hdef,
 				bitmap, counter);
 		}
 	}
-	else
+	else if (0 == strcmp(hdef->getDefn()->heightmap->type.c_str(), "generate"))
 	{
+		LandscapeDefnHeightMapGenerate *generate = 
+			(LandscapeDefnHeightMapGenerate *) hdef->getDefn();
+
 		// Seed the generator and generate the landscape
 		RandomGenerator generator;
 		RandomGenerator offsetGenerator;
-		generator.seed(hdef.landSeed);
-		offsetGenerator.seed(hdef.landSeed);
+		generator.seed(hdef->getSeed());
+		offsetGenerator.seed(hdef->getSeed());
 
 		HeightMapModifier::generateTerrain(
 			getHMap(), 
-			hdef, generator, offsetGenerator, counter);
+			*generate, generator, offsetGenerator, counter);
 	}
+	else DIALOG_ASSERT(0);
 
 	// Save this height map for later
 	memcpy(storedMap_, map_.getData(), 

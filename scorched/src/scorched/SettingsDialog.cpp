@@ -245,14 +245,16 @@ bool SettingsFrame::TransferDataToWindow()
 
 	// Land 
 	{
-		std::vector<LandscapeDefinition> &defns =
+		std::list<LandscapeDefinitionsEntry> &defns =
 			LandscapeDefinitions::instance()->getAllLandscapes();
-		for (int i = 0; i<(int) defns.size(); i++)
+		std::list<LandscapeDefinitionsEntry>::iterator itor = 
+			defns.begin();
+		for (int i = 0; i<(int) defns.size(); i++, itor++)
 		{
 			SettingsLand::landscapes[i]->SetValue(
 				LandscapeDefinitions::instance()->landscapeEnabled(
 					context_,
-					defns[i].name.c_str()));
+					(*itor).name.c_str()));
 		}
 	}
 
@@ -531,14 +533,16 @@ bool SettingsFrame::TransferDataFromWindow()
 	// Land
 	{
 		std::string landscapes;
-		std::vector<LandscapeDefinition> &defns =
+		std::list<LandscapeDefinitionsEntry> &defns =
 			LandscapeDefinitions::instance()->getAllLandscapes();
-		for (int i = 0; i<(int) defns.size(); i++)
+		std::list<LandscapeDefinitionsEntry>::iterator itor = 
+			defns.begin();
+		for (int i = 0; i<(int) defns.size(); i++, itor++)
 		{
 			if (SettingsLand::landscapes[i]->GetValue())
 			{
 				if (!landscapes.empty()) landscapes += ":";
-				landscapes += defns[i].name.c_str();
+				landscapes += (*itor).name.c_str();
 			}
 		}
 		context_.setLandscapes(landscapes.c_str());

@@ -38,16 +38,7 @@ TankAIComputerTosser::~TankAIComputerTosser()
 bool TankAIComputerTosser::parseConfig(XMLNode *node)
 {
 	if (!TankAIComputerShooter::parseConfig(node)) return false;
-
-	XMLNode *sniperNode = node->getNamedChild("sniper");
-	if (!sniperNode)
-	{
-		dialogMessage("TankAIComputer",
-			"Failed to find sniper node in tank ai \"%s\"",
-			name_.c_str());
-		return false;
-	}
-	sniperDist_ = (float) atof(sniperNode->getContent());
+	if (!node->getNamedFloat("sniper", sniperDist_)) return false;
 
 	return true;
 }

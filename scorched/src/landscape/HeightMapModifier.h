@@ -24,21 +24,21 @@
 #include <common/RandomGenerator.h>
 #include <landscape/HeightMap.h>
 
-class LandscapeDefinition;
+class LandscapeDefnHeightMapGenerate;
 
 namespace HeightMapModifier  
 {
 	void levelSurround(HeightMap &hmap);
 	void smooth(HeightMap &hmap, 
-		LandscapeDefinition &defn,
+		LandscapeDefnHeightMapGenerate &defn,
 		ProgressCounter *counter = 0);
 	void scale(HeightMap &hmap, 
-		LandscapeDefinition &defn,
+		LandscapeDefnHeightMapGenerate &defn,
 		RandomGenerator &generator,
 		ProgressCounter *counter = 0);
 
 	void generateTerrain(HeightMap &hmap, 
-		LandscapeDefinition &defn,
+		LandscapeDefnHeightMapGenerate &defn,
 		RandomGenerator &generator, 
 		RandomGenerator &offsetGenerator,
 		ProgressCounter *counter = 0);

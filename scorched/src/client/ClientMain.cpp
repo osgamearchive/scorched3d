@@ -199,7 +199,7 @@ bool clientMain()
 	
 	if (!OptionsParam::instance()->getConnectedToServer())
 	{
-		startServer(true);
+		if (!startServer(true)) return false;
 	}
 
 	// Try to create the main scorched3d game window

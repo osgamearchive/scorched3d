@@ -4,10 +4,12 @@
         <name>ground1</name>
         <minplayers>0</minplayers>
         <maxplayers>24</maxplayers>
-        <tankcloseness>20</tankcloseness>
         <tankstart type="height">
-            <min>5.5</min>
-            <max>20</max>
+			<startcloseness>20</startcloseness>
+			<height>
+           	    <min>5.5</min>
+                <max>20</max>
+			</height>
         </tankstart>
         <heightmap type="generate">
             <mask>

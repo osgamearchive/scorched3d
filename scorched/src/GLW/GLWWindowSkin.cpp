@@ -43,17 +43,13 @@ bool GLWWindowSkin::initFromXML(XMLNode *node)
 	if (!GLWWindow::initFromXML(node)) return false;
 
 	// States
-	XMLNode *stateNode = node->getNamedChild("states", true, true);
-	if (!stateNode) return false; states_ = stateNode->getContent();
+	if (!node->getNamedString("states", states_)) return false;
 
 	// Key
-	XMLNode *keyNode = node->getNamedChild("key", true, true);
-	if (!keyNode) return false; key_ = keyNode->getContent();
+	if (!node->getNamedString("key", key_)) return false;
 
 	// Visible
-	XMLNode *visibleNode = node->getNamedChild("visible", true, true);
-	if (!visibleNode) return false; 
-	visible_ = (strcmp("true", visibleNode->getContent()) == 0);
+	if (!node->getNamedBool("visible", visible_)) return false;
 
 	return true;
 }

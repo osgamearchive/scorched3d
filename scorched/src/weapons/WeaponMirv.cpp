@@ -40,25 +40,11 @@ bool WeaponMirv::parseXML(XMLNode *accessoryNode)
 	if (!Weapon::parseXML(accessoryNode)) return false;
 
 	// Get the accessory spread
-	XMLNode *spreadNode = accessoryNode->getNamedChild("spreaddist", false, true);
-	if (!spreadNode)
-	{
-		dialogMessage("Accessory",
-			"Failed to find spreaddist node in accessory \"%s\"",
-			name_.c_str());
-		return false;
-	}
-	spreadDist_ = (float) atof(spreadNode->getContent());
+	if (!accessoryNode->getNamedFloat("spreaddist", spreadDist_)) return false;
 
 	// Get the next weapon
-	XMLNode *subNode = accessoryNode->getNamedChild("aimedweapon", false, true);
-	if (!subNode)
-	{
-		dialogMessage("Accessory",
-			"Failed to find aimedweapon node in accessory \"%s\"",
-			name_.c_str());
-		return false;
-	}
+	XMLNode *subNode = 0;
+	if (!accessoryNode->getNamedChild("aimedweapon", subNode)) return false;
 
 	// Check next weapon is correct type
 	Accessory *accessory = 
@@ -73,15 +59,7 @@ bool WeaponMirv::parseXML(XMLNode *accessoryNode)
 	aimedWeapon_ = (Weapon*) accessory;
 
 	// Get the accessory warheads
-	XMLNode *warheadsNode = accessoryNode->getNamedChild("nowarheads", false, true);
-	if (!warheadsNode)
-	{
-		dialogMessage("Accessory",
-			"Failed to find nowarheads node in accessory \"%s\"",
-			name_.c_str());
-		return false;
-	}
-	noWarheads_ = atoi(warheadsNode->getContent());
+	if (!accessoryNode->getNamedInt("nowarheads", noWarheads_)) return false;
 
 	return true;
 }

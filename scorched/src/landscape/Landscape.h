@@ -22,7 +22,6 @@
 #define __INCLUDE_Landscapeh_INCLUDE__
 
 #include <engine/GameStateI.h>
-#include <common/ResourceFile.h>
 #include <landscape/WaterMap.h>
 #include <landscape/WaterWaves.h>
 #include <landscape/WaterMapPoints.h>
@@ -78,7 +77,6 @@ public:
 
 	LandscapeTextureType getTextureType() { return textureType_; }
 	void setTextureType(LandscapeTextureType type) { textureType_ = type; }
-	ResourceFile &getResources() { return resources_; }
 
 	void updatePlanTexture();
 	void updatePlanATexture();
@@ -106,7 +104,6 @@ protected:
 	Sun sun_;
 	LandscapeObjects objects_;
 	LandscapeTextureType textureType_;
-	ResourceFile resources_;
 
 	// Textures used for landscape
 	GLTexture texture_;

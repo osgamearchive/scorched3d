@@ -22,20 +22,20 @@
 #define _comsLevelMessage_h
 
 #include <coms/ComsMessage.h>
-#include <landscape/LandscapeDefinitions.h>
 
+class LandscapeDefinition;
 class ComsLevelMessage : public ComsMessage
 {
 public:
 	ComsLevelMessage();
 	virtual ~ComsLevelMessage();
 
-	void createMessage(LandscapeDefinition &hdef,
+	void createMessage(LandscapeDefinition *hdef,
 					   unsigned char *levelData,
 					   unsigned int levelLen);
 
 	// Accessors
-	LandscapeDefinition &getHmapDefn() { return hdef_; }
+	LandscapeDefinition *getHmapDefn();
 	unsigned char *getLevelData() { return levelData_; }
 	unsigned int getLevelLen() { return levelLen_; }
 
@@ -44,7 +44,7 @@ public:
     virtual bool readMessage(NetBufferReader &reader);
 
 protected:
-	LandscapeDefinition hdef_;
+	LandscapeDefinition *hdef_;
 	unsigned char *levelData_;
 	unsigned int levelLen_;
 

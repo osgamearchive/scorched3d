@@ -24,7 +24,7 @@ static void createControls(wxWindow *parent, wxSizer *topsizer)
 {
 	// Re-read just in case a new mod has been loaded
 	LandscapeDefinitions::instance()->clearLandscapeDefinitions();
-	LandscapeDefinitions::instance()->readLandscapeDefinitions();
+	DIALOG_ASSERT(LandscapeDefinitions::instance()->readLandscapeDefinitions());
 
 	delete [] landscapes;
 	landscapes = new wxCheckBox*[
@@ -35,14 +35,14 @@ static void createControls(wxWindow *parent, wxSizer *topsizer)
 
 	wxSizer *sizer = new wxFlexGridSizer(3, 3);
 	int i = 0;
-	std::vector<LandscapeDefinition> &defns =
+	std::list<LandscapeDefinitionsEntry> &defns =
 		LandscapeDefinitions::instance()->getAllLandscapes();
-	std::vector<LandscapeDefinition>::iterator itor;
+	std::list<LandscapeDefinitionsEntry>::iterator itor;
 	for (itor = defns.begin();
 		 itor != defns.end();
 		 itor++, i++)
 	{
-		LandscapeDefinition &dfn = *itor;
+		LandscapeDefinitionsEntry &dfn = *itor;
 		wxBoxSizer *boxSizer = new wxBoxSizer(wxVERTICAL);
 
 		const char *fileName = getDataFile("data/landscapes/%s", dfn.picture.c_str());

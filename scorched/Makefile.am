@@ -69,7 +69,7 @@ scorcheddata_DATA = data/landscapesdefn.xml \
 	data/ssdisplay.xml \
 	data/prunetables.sql \
 	data/ssgame.xml \
-	data/resource.xml \
+	data/resource-old.xml \
 	data/statstables.sql \
 	data/singlecustom.xml \
 	data/safedisplay.xml \
@@ -80,6 +80,7 @@ scorcheddata_DATA = data/landscapesdefn.xml \
 	data/accessories.xml \
 	data/landscapes.xml \
 	data/textureset.xml \
+	data/landscapes-old.xml \
 	data/landscapestex.xml \
 	data/mysql.xml \
 	data/singletarget.xml \

@@ -163,14 +163,14 @@ bool Keyboard::parseKeyFile(const char *fileName)
 		// Get the name of the key
 		const char *keyName = 0;
 		bool command = false;
-		XMLNode *nameNode = currentNode->getNamedChild("name");
-		XMLNode *commandNode = currentNode->getNamedChild("command");
-		if (nameNode)
+		XMLNode *nameNode;
+		XMLNode *commandNode;
+		if (currentNode->getNamedChild("name", nameNode, false))
 		{
 			keyName = nameNode->getContent();
 			command = false;
 		}
-		else if (commandNode)
+		else if (currentNode->getNamedChild("command", commandNode, false))
 		{
 			keyName = commandNode->getContent();
 			command = true;
@@ -183,13 +183,8 @@ bool Keyboard::parseKeyFile(const char *fileName)
 		}
 		
 		// Get the description for the key
-		XMLNode *descNode = currentNode->getNamedChild("description");
-		if (!descNode)
-		{
-			dialogMessage("Keyboard",
-						  "Failed to find description node");
-			return false;
-		}
+		XMLNode *descNode;
+		if (!currentNode->getNamedChild("description", descNode)) return false;
 		const char *keyDesc = descNode->getContent();
 
 		// Create the key
@@ -207,8 +202,9 @@ bool Keyboard::parseKeyFile(const char *fileName)
 			if (strcmp(currentKey->getName(), "key")==0)
 			{
 				const char *state = "NONE";
-				XMLNode *stateNode = currentKey->getNamedParameter("state");
-				if (stateNode) state = stateNode->getContent();
+				XMLNode *stateNode;
+				if (currentKey->getNamedParameter("state", stateNode)) 
+					state = stateNode->getContent();
 
 				// Add a key and state
 				keyNames.push_back(currentKey->getContent());

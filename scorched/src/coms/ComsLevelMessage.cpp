@@ -18,13 +18,13 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
+#include <landscape/LandscapeDefinition.h>
 #include <coms/ComsLevelMessage.h>
 #include <common/Defines.h>
 
 ComsLevelMessage::ComsLevelMessage() :
 	ComsMessage("ComsLevelMessage"),
-	levelData_(0), levelLen_(0)
+	levelData_(0), levelLen_(0), hdef_(0)
 {
 
 }
@@ -32,9 +32,11 @@ ComsLevelMessage::ComsLevelMessage() :
 ComsLevelMessage::~ComsLevelMessage()
 {
 	delete [] levelData_;
+	levelData_ = 0;
+	hdef_ = 0;
 }
 
-void ComsLevelMessage::createMessage(LandscapeDefinition &hdef,
+void ComsLevelMessage::createMessage(LandscapeDefinition *hdef,
 									 unsigned char *levelData,
 									 unsigned int levelLen)
 {
@@ -43,11 +45,18 @@ void ComsLevelMessage::createMessage(LandscapeDefinition &hdef,
 	levelLen_ = levelLen;
 }
 
+LandscapeDefinition *ComsLevelMessage::getHmapDefn()
+{ 
+	LandscapeDefinition *result = hdef_;
+	hdef_ = 0;
+	return result; 
+}
+
 bool ComsLevelMessage::writeMessage(NetBuffer &buffer)
 {
-	DIALOG_ASSERT(levelData_ && levelLen_);
+	DIALOG_ASSERT(levelData_ && levelLen_ && hdef_);
 
-	if (!hdef_.writeMessage(buffer)) return false;
+	if (!hdef_->writeMessage(buffer)) return false;
 	buffer.addToBuffer(levelLen_);
 	if (levelLen_ && levelData_)
 	{
@@ -58,7 +67,8 @@ bool ComsLevelMessage::writeMessage(NetBuffer &buffer)
 
 bool ComsLevelMessage::readMessage(NetBufferReader &reader)
 {
-	if (!hdef_.readMessage(reader)) return false;
+	hdef_ = new LandscapeDefinition;
+	if (!hdef_->readMessage(reader)) return false;
 	if (!reader.getFromBuffer(levelLen_)) return false;
 	if (levelLen_)
 	{
@@ -68,3 +78,4 @@ bool ComsLevelMessage::readMessage(NetBufferReader &reader)
 	}
 	return true;
 }
+

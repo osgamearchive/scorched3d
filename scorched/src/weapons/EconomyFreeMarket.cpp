@@ -72,15 +72,10 @@ bool EconomyFreeMarket::loadPrices()
 			itor++)
 		{
 			XMLNode *node = *itor;
-			XMLNode *nameNode = node->getNamedChild("name");
-			XMLNode *sellNode = node->getNamedChild("sellprice");
-			XMLNode *buyNode = node->getNamedChild("buyprice");
-			if (!nameNode || !sellNode || !buyNode)
-			{
-				dialogMessage("EconomyFreeMarket",
-					"Failed to find name or price nodes");
-				return false;
-			}
+			XMLNode *nameNode, *sellNode, *buyNode;
+			if (!node->getNamedChild("name", nameNode)) return false;
+			if (!node->getNamedChild("sellprice", sellNode)) return false;
+			if (!node->getNamedChild("buyprice", buyNode)) return false;
 
 			Accessory *accessory = ScorchedServer::instance()->getAccessoryStore().
 				findByPrimaryAccessoryName(nameNode->getContent());

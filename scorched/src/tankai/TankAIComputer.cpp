@@ -49,25 +49,12 @@ void TankAIComputer::setTank(Tank *tank)
 
 bool TankAIComputer::parseConfig(XMLNode *node)
 {
-	XMLNode *nameNode = node->getNamedChild("name");
-	if (!nameNode)
-	{
-		dialogMessage("TankAIComputer",
-			"Failed to find name node in tank ai");
-		return false;
-	}
-	name_ = nameNode->getContent();
+	if (!node->getNamedString("name", name_)) return false;
 
-	XMLNode *descNode = node->getNamedChild("description");
-	if (!descNode)
-	{
-		dialogMessage("TankAIComputer",
-			"Failed to find description node in tank ai \"%s\"",
-			name_.c_str());
-		return false;
-	}
+	XMLNode *descNode = 0;
+	if (!node->getNamedChild("description", descNode)) return false;
 	description_.setText(
-		nameNode->getContent(),
+		name_.c_str(),
 		descNode->getContent());
 
 	std::list<XMLNode *>::iterator childrenItor;
@@ -79,15 +66,9 @@ bool TankAIComputer::parseConfig(XMLNode *node)
 		XMLNode *child = (*childrenItor);
 		if (strcmp(child->getName(), "weapon")==0)
 		{
-			XMLNode *wname = child->getNamedChild("name");
-			XMLNode *wlevel = child->getNamedChild("level");
-			if (!wname || !wlevel) 
-			{
-				dialogMessage("TankAIComputer",
-					"Failed to parse weapon node in tank ai \"%s\"",
-					name_.c_str());
-				return false;
-			}
+			XMLNode *wname, *wlevel;
+			if (!child->getNamedChild("name", wname)) return false;
+			if (!child->getNamedChild("level", wlevel)) return false;
 
 			if (!tankBuyer_.addAccessory(
 				wname->getContent(), 

@@ -40,14 +40,8 @@ bool WeaponLeapFrog::parseXML(XMLNode *accessoryNode)
 	if (!Weapon::parseXML(accessoryNode)) return false;
 
 	// Get the next weapon
-	XMLNode *subNode = accessoryNode->getNamedChild("collisionaction", false, true);
-	if (!subNode)
-	{
-		dialogMessage("Accessory",
-			"Failed to find collisionaction node in accessory \"%s\"",
-			name_.c_str());
-		return false;
-	}
+	XMLNode *subNode = 0;
+	if (!accessoryNode->getNamedChild("collisionaction", subNode)) return false;
 
 	// Check next weapon is correct type
 	Accessory *accessory = 
@@ -62,15 +56,7 @@ bool WeaponLeapFrog::parseXML(XMLNode *accessoryNode)
 	collisionAction_ = (Weapon*) accessory;
 
 	// Get the bounce
-	XMLNode *bounceNode = accessoryNode->getNamedChild("bounce", false, true);
-	if (!bounceNode)
-	{
-		dialogMessage("Accessory",
-			"Failed to find bounce node in accessory \"%s\"",
-			name_.c_str());
-		return false;
-	}
-	bounce_ = (float) atof(bounceNode->getContent());
+	if (!accessoryNode->getNamedFloat("bounce", bounce_)) return false;
 
 	return true;
 }

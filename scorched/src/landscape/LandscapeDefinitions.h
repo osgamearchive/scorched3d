@@ -22,11 +22,23 @@
 #define __INCLUDE_LandscapeDefinitionsh_INCLUDE__
 
 #include <landscape/LandscapeDefinition.h>
-#include <coms/ComsMessage.h>
-#include <XML/XMLFile.h>
+#include <landscape/LandscapeTex.h>
+#include <landscape/LandscapeDefn.h>
 #include <string>
 #include <list>
-#include <vector>
+
+class LandscapeDefinitionsEntry
+{
+public:
+	std::string name; 
+	std::vector<std::string> texs; 
+	std::vector<std::string> defns; 
+	float weight; // The posibility this defn will be choosen
+	std::string description;  // Description of this landscape definition type
+	std::string picture; // Visible view of this landscape definition type
+
+	virtual bool readXML(XMLNode *node);
+};
 
 class OptionsGame;
 class LandscapeDefinitions
@@ -37,15 +49,24 @@ public:
 	bool readLandscapeDefinitions();
 	void clearLandscapeDefinitions();
 
-	LandscapeDefinition &getRandomLandscapeDefn(OptionsGame &context);
+	LandscapeDefinition *getRandomLandscapeDefn(OptionsGame &context);
 
 	bool landscapeEnabled(OptionsGame &context, const char *name);
-	std::vector<LandscapeDefinition> &getAllLandscapes() 
-		{ return definitions_; }
+	std::list<LandscapeDefinitionsEntry> &getAllLandscapes() 
+		{ return entries_; }
 
 protected:
 	static LandscapeDefinitions *instance_;
-	std::vector<LandscapeDefinition> definitions_;
+	std::list<LandscapeDefinitionsEntry> entries_;
+	std::list<LandscapeTex*> texs_;
+	std::list<LandscapeDefn*> defns_;
+
+	LandscapeTex *getTex(const char *name);
+	LandscapeDefn *getDefn(const char *name);
+
+	bool readDefinitions();
+	bool readTexs();
+	bool readDefns();
 
 private:
 	LandscapeDefinitions();

@@ -69,13 +69,8 @@ bool ModelID::initFromString(
 
 bool ModelID::initFromNode(const char *directory, XMLNode *modelNode)
 {
-	XMLNode *typeNode = modelNode->getNamedParameter("type");
-	if (!typeNode)
-	{
-		dialogMessage("Scorched Models",
-						"Failed to find type node");
-		return false;
-	}
+	XMLNode *typeNode = 0;
+	if (!modelNode->getNamedParameter("type", typeNode)) return false;
 
 	// Store the model type
 	type_ = typeNode->getContent();
@@ -84,14 +79,9 @@ bool ModelID::initFromNode(const char *directory, XMLNode *modelNode)
 	if (strcmp(typeNode->getContent(), "ase") == 0)
 	{
 		// 3DS Studio ASCII Files
-		XMLNode *meshNode = modelNode->getNamedChild("mesh");
-		XMLNode *skinNode = modelNode->getNamedChild("skin");
-		if (!meshNode || !skinNode)
-		{
-			dialogMessage("Scorched Models",
-						"Failed to find mesh or skin node");
-			return false;
-		}
+		XMLNode *meshNode, *skinNode;
+		if (!modelNode->getNamedChild("mesh", meshNode)) return false;
+		if (!modelNode->getNamedChild("skin", skinNode)) return false;
 
 		const char *skinNameContent = skinNode->getContent();
 		static char skinName[1024];

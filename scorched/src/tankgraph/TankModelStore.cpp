@@ -88,24 +88,14 @@ bool TankModelStore::loadTankMeshes(ProgressCounter *counter)
 		}
 
 		// Get the name of tank
-		XMLNode *nameNode = currentNode->getNamedChild("name");
-		if (!nameNode)
-		{
-			dialogMessage("Scorched Models",
-						  "Failed to find name node");
-			return false;
-		}
+		XMLNode *nameNode;
+		if (!currentNode->getNamedChild("name", nameNode)) return false;
 		const char *modelName = nameNode->getContent();
 		TankModelId id(modelName);
 
 		// Get the model node
-		XMLNode *modelNode = currentNode->getNamedChild("model");
-		if (!modelNode)
-		{
-			dialogMessage("Scorched Models",
-						  "Failed to find model node");
-			return false;
-		}
+		XMLNode *modelNode;
+		if (!currentNode->getNamedChild("model", modelNode)) return false;
 
 		// Parse the modelId which tells us which files and
 		// 3d type the model actuall is
@@ -140,8 +130,8 @@ bool TankModelStore::loadTankMeshes(ProgressCounter *counter)
 		}
 
 		// Get the projectile model node (if any)
-		XMLNode *projectileModelNode = currentNode->getNamedChild("projectilemodel");
-		if (projectileModelNode)
+		XMLNode *projectileModelNode;
+		if (currentNode->getNamedChild("projectilemodel", projectileModelNode))
 		{
 			ModelID projModelId;
 			if (!projModelId.initFromNode("data/accessories", projectileModelNode))

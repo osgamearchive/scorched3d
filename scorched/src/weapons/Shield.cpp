@@ -40,60 +40,22 @@ bool Shield::parseXML(XMLNode *accessoryNode)
 	if (!Accessory::parseXML(accessoryNode)) return false;
 
 	// Get the accessory radius
-	XMLNode *radiusNode = accessoryNode->getNamedChild("radius", false, true);
-	if (!radiusNode)
-	{
-		dialogMessage("Accessory",
-			"Failed to find radius node in accessory \"%s\"",
-			name_.c_str());
-		return false;
-	}
+	XMLNode *radiusNode = 0;
+	if (!accessoryNode->getNamedChild("radius", radiusNode)) return false; 
 	radius_ = ((strcmp(radiusNode->getContent(), "large")==0)?ShieldSizeLarge:ShieldSizeSmall);
 
 	// Get the remove power 
-	XMLNode *removePowerNode = accessoryNode->getNamedChild("removepower", false, true);
-	if (!removePowerNode)
-	{
-		dialogMessage("Accessory",
-			"Failed to find removepower node in accessory \"%s\"",
-			name_.c_str());
-		return false;
-	}
-	removePower_ = (float) atof(removePowerNode->getContent());
+	if (!accessoryNode->getNamedFloat("removepower", removePower_)) return false;
 
 	// Get the collision sound
-	XMLNode *collisionSoundNode = accessoryNode->getNamedChild("collisionsound", false, true);
-	if (!collisionSoundNode)
-	{
-		dialogMessage("Accessory",
-			"Failed to find collisionsound node in accessory \"%s\"",
-			name_.c_str());
-		return false;
-	}
-	collisionSound_ = collisionSoundNode->getContent();
+	if (!accessoryNode->getNamedString("collisionsound", collisionSound_)) return false;
 
 	// Get the accessory color
-	XMLNode *colorNode = accessoryNode->getNamedChild("color", false, true);
-	if (!colorNode)
-	{
-		dialogMessage("Accessory",
-			"Failed to find color node in accessory \"%s\"",
-			name_.c_str());
-		return false;
-	}
-	XMLNode *rcolorNode = colorNode->getNamedChild("r", false, true);
-	XMLNode *gcolorNode = colorNode->getNamedChild("g", false, true);
-	XMLNode *bcolorNode = colorNode->getNamedChild("b", false, true);
-	if (!rcolorNode || !gcolorNode || !bcolorNode)
-	{
-		dialogMessage("Accessory",
-			"Failed to find color component node in accessory \"%s\"",
-			name_.c_str());
-		return false;
-	}
-	color_[0] = (float) atof(rcolorNode->getContent());
-	color_[1] = (float) atof(gcolorNode->getContent());
-	color_[2] = (float) atof(bcolorNode->getContent());
+	XMLNode *colorNode = 0;
+	if (!accessoryNode->getNamedChild("color", colorNode)) return false;
+	if (!colorNode->getNamedFloat("r", color_[0])) return false;
+	if (!colorNode->getNamedFloat("g", color_[1])) return false;
+	if (!colorNode->getNamedFloat("b", color_[2])) return false;
 
 	return true;
 }

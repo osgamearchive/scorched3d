@@ -222,7 +222,8 @@ void ServerBrowserServerList::processMessage(NetMessage &message)
 						ServerBrowserEntry newEntry;
 
 						// Get the name attribute
-						XMLNode *nameNode = currentNode->getNamedChild("name");
+						XMLNode *nameNode = 0;
+						currentNode->getNamedChild("name", nameNode, false);
 						if (nameNode) newEntry.addAttribute("address", nameNode->getContent());
 
 						// Add the new and its attributes

@@ -90,13 +90,8 @@ bool AccessoryStore::parseFile()
 
 Accessory *AccessoryStore::createAccessory(XMLNode *currentNode)
 {
-	XMLNode *typeNode = currentNode->getNamedParameter("type");
-	if (!typeNode)
-	{
-		dialogMessage("AccessoryStore",
-						"Failed to find type node");
-		return 0;
-	}
+	XMLNode *typeNode = 0;
+	if (!currentNode->getNamedParameter("type", typeNode)) return false;
 
 	Accessory *accessory = 
 		AccessoryMetaRegistration::getNewAccessory(typeNode->getContent());

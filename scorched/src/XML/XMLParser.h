@@ -27,30 +27,9 @@
 #include <common/FileLines.h>
 #include <common/Vector.h>
 
-#define XML_PARSE_FLOAT(node, x, y) \
-	if ((x = node->getNamedFloatChild(y, true, true)) \
-	== XMLNode::ErrorFloat) return false;
-#define XML_PARSE_INT(node, x, y) \
-	if ((x = node->getNamedIntChild(y, true, true)) \
-	== XMLNode::ErrorInt) return false;
-#define XML_PARSE_UINT(node, x, y) \
-	if ((x = node->getNamedUIntChild(y, true, true)) \
-	== XMLNode::ErrorUInt) return false;
-#define XML_PARSE_VECTOR(node, x, y) \
-	if ((x = node->getNamedVectorChild(y, true, true)) \
-	== XMLNode::ErrorVector) return false;
-#define XML_PARSE_STRING(node, x, y) \
-	if ((x = node->getNamedStringChild(y, true, true)) \
-	== XMLNode::ErrorString) return false;
-
 class XMLNode
 {
 public:
-	static float ErrorFloat;
-	static int ErrorInt;
-	static unsigned int ErrorUInt;
-	static Vector ErrorVector;
-	static const char *ErrorString;
 	enum NodeType
 	{
 		XMLNodeType,
@@ -80,20 +59,24 @@ public:
 	std::list<XMLNode *> &getChildren() { return children_; }
 	std::list<XMLNode *> &getParameters() { return parameters_; }
 
-	XMLNode *getNamedParameter(const char *name, 
-		bool failOnError = false, bool remove = false);
-	XMLNode *getNamedChild(const char *name, 
-		bool failOnError = false, bool remove = false);
-	const char *getNamedStringChild(const char *name,
-		bool failOnError = false, bool remove = false);
-	float getNamedFloatChild(const char *name, 
-		bool failOnError = false, bool remove = false);
-	int getNamedIntChild(const char *name, 
-		bool failOnError = false, bool remove = false);
-	unsigned int getNamedUIntChild(const char *name, 
-		bool failOnError = false, bool remove = false);
-	Vector getNamedVectorChild(const char *name, 
-		bool failOnError = false, bool remove = false);
+	bool getNamedParameter(const char *name, XMLNode *&node, 
+		bool failOnError = true, bool remove = true);
+	bool getNamedChild(const char *name, XMLNode *&node, 
+		bool failOnError = true, bool remove = true);
+	bool getNamedString(const char *name, std::string &value,
+		bool failOnError = true, bool remove = true);
+	bool getNamedBool(const char *name, bool &value,
+		bool failOnError = true, bool remove = true);
+	bool getNamedFloat(const char *name, float &value,
+		bool failOnError = true, bool remove = true);
+	bool getNamedInt(const char *name, int &value,
+		bool failOnError = true, bool remove = true);
+	bool getNamedUInt(const char *name, unsigned int &value,
+		bool failOnError = true, bool remove = true);
+	bool getNamedVector(const char *name, Vector &value,
+		bool failOnError = true, bool remove = true);
+
+	bool failChildren();
 
 	void addSource(const char *source);
 	void addChild(XMLNode *node); 

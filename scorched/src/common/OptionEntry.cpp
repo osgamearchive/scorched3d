@@ -196,24 +196,9 @@ bool OptionEntryHelper::readFromXML(std::list<OptionEntry *> &options,
 		childrenItor++)
 	{
 		XMLNode *currentNode = (*childrenItor);
-		XMLNode *nameNode = currentNode->getNamedChild("name");
-		XMLNode *valueNode = currentNode->getNamedChild("value");
-
-		if (!nameNode)
-		{
-			dialogMessage(
-				"Scorched3D Options", 
-				"ERROR: Failed to parse file \"%s\". No name node",
-				currentNode->getSource());
-			return false;			
-		}
-		if (!valueNode)
-		{
-			dialogMessage("Scorched3D Options", 
-				   "ERROR: Failed to parse file \"%s\". No value node",
-					currentNode->getSource());
-			return false;			
-		}
+		XMLNode *nameNode, *valueNode; 
+		if (!currentNode->getNamedChild("name", nameNode)) return false;
+		if (!currentNode->getNamedChild("value", valueNode)) return false;
 
 		std::string name = nameNode->getContent();
 		std::string value = valueNode->getContent();

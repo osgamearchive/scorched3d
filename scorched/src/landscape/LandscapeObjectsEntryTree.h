@@ -1,4 +1,5 @@
-#pragma once
+#if !defined(__INCLUDE_LandscapeObjectsEntryTreeh_INCLUDE__)
+#define __INCLUDE_LandscapeObjectsEntryTreeh_INCLUDE__
 
 #include <landscape/LandscapeObjectsEntry.h>
 #include <GLEXT/GLState.h>
@@ -18,3 +19,5 @@ public:
 
 	virtual void render(float distance);
 };
+
+#endif // __INCLUDE_LandscapeObjectsEntryTreeh_INCLUDE__

@@ -21,7 +21,7 @@
 #include <math.h>
 #include <stdlib.h>
 #include <landscape/HeightMapModifier.h>
-#include <landscape/LandscapeDefinitions.h>
+#include <landscape/LandscapeDefn.h>
 #include <common/Defines.h>
 #include <GLEXT/GLBitmap.h>
 
@@ -41,7 +41,7 @@ void HeightMapModifier::levelSurround(HeightMap &hmap)
 }
 
 void HeightMapModifier::smooth(HeightMap &hmap, 
-							   LandscapeDefinition &defn,
+							   LandscapeDefnHeightMapGenerate &defn,
 							   ProgressCounter *counter)
 {
 	if (counter) counter->setNewOp("Smoothing");
@@ -53,7 +53,7 @@ void HeightMapModifier::smooth(HeightMap &hmap,
 	{
 		for (int j=0; j<5; j++)
 		{
-			matrix[i][j] = defn.landSmoothing; // How much smoothing is done (> is more)
+			matrix[i][j] = defn.landsmoothing; // How much smoothing is done (> is more)
 			if (i==2 && j==2) matrix[i][j] = 1.0f;
 		}
 	}
@@ -98,7 +98,7 @@ void HeightMapModifier::smooth(HeightMap &hmap,
 }
 
 void HeightMapModifier::scale(HeightMap &hmap, 
-							  LandscapeDefinition &defn,
+							  LandscapeDefnHeightMapGenerate &defn,
 							  RandomGenerator &generator, 
 							  ProgressCounter *counter)
 {
@@ -120,8 +120,8 @@ void HeightMapModifier::scale(HeightMap &hmap,
 
 	if (counter) counter->setNewOp("Scaling Phase 2");
 
-	float realMax = ((defn.landHeightMax - defn.landHeightMin) * generator.getRandFloat()) + 
-		defn.landHeightMin;
+	float realMax = ((defn.landheightmax - defn.landheightmin) * generator.getRandFloat()) + 
+		defn.landheightmin;
 	float per = realMax / max;
 
 	for (x=0; x<=hmap.getWidth(); x++)
@@ -169,7 +169,7 @@ void HeightMapModifier::addCirclePeak(HeightMap &hmap, Vector &start,
 }
 
 void HeightMapModifier::generateTerrain(HeightMap &hmap, 
-										LandscapeDefinition &defn,
+										LandscapeDefnHeightMapGenerate &defn,
 										RandomGenerator &generator,
 										RandomGenerator &offsetGenerator,
 										ProgressCounter *counter)
@@ -181,10 +181,10 @@ void HeightMapModifier::generateTerrain(HeightMap &hmap,
 	memset(maskMap.getBits(), 255, 256 * 256 * 3);
 
 	// Check if we need to load a new mask
-	if (!defn.heightMaskFile.empty())
+	if (!defn.mask.empty())
 	{
 		const char *fileName = 
-			getDataFile("data/landscapes/%s",defn.heightMaskFile.c_str());
+			getDataFile("data/landscapes/%s",defn.mask.c_str());
 		if (!maskMap.loadFromFile(fileName, false))
 		{
 			dialogMessage("Landscape",
@@ -196,27 +196,27 @@ void HeightMapModifier::generateTerrain(HeightMap &hmap,
 
 	// Generate the landscape
 	hmap.reset();
-	float useWidthX = defn.landWidthX;
-	float useWidthY = defn.landWidthY;
-	float useBorderX = float(hmap.getWidth() - defn.landWidthX) / 2.0f;
-	float useBorderY = float(hmap.getWidth() - defn.landWidthY) / 2.0f;
+	float useWidthX = defn.landwidthx;
+	float useWidthY = defn.landwidthy;
+	float useBorderX = float(hmap.getWidth() - defn.landwidthx) / 2.0f;
+	float useBorderY = float(hmap.getWidth() - defn.landwidthy) / 2.0f;
 	float maskMultX = float(maskMap.getWidth()) / float(hmap.getWidth());
 	float maskMultY = float(maskMap.getHeight()) / float(hmap.getWidth());
 
-	const int noItter = int((defn.landHillsMax - defn.landHillsMin) *
-		generator.getRandFloat() + defn.landHillsMin);
+	const int noItter = int((defn.landhillsmax - defn.landhillsmin) *
+		generator.getRandFloat() + defn.landhillsmin);
 
 	for (int i=0; i<noItter; i++)
 	{
 		if (counter) counter->setNewPercentage((100.0f * float(i)) / float(noItter));
 
 		// Choose settings for a random hemisphere
-		float sizew = (defn.landPeakWidthXMax - defn.landPeakWidthXMin) * generator.getRandFloat() 
-			+ defn.landPeakWidthXMin;
-		float sizew2 = (defn.landPeakWidthYMax - defn.landPeakWidthYMin) * generator.getRandFloat() 
-			+ defn.landPeakWidthYMin + sizew;
-		float sizeh = ((defn.landPeakHeightMax - defn.landPeakHeightMin) * generator.getRandFloat() 
-					   + defn.landPeakHeightMin) * MAX(sizew, sizew2);
+		float sizew = (defn.landpeakwidthxmax - defn.landpeakwidthxmin) * generator.getRandFloat() 
+			+ defn.landpeakwidthxmin;
+		float sizew2 = (defn.landpeakwidthymax - defn.landpeakwidthymin) * generator.getRandFloat() 
+			+ defn.landpeakwidthymin + sizew;
+		float sizeh = ((defn.landpeakheightmax - defn.landpeakheightmin) * generator.getRandFloat() 
+					   + defn.landpeakheightmin) * MAX(sizew, sizew2);
 
 		// Choose a border around this hemisphere
 		float bordersize = MAX(sizew, sizew2) * 1.2f;
@@ -238,7 +238,7 @@ void HeightMapModifier::generateTerrain(HeightMap &hmap,
 			int by = int(sy * maskMultY);
 			GLubyte maskPt = maskMap.getBits()[(bx * 3) + (by * maskMap.getWidth() * 3)];
 
-			//printf("%i %i %i %s\n", maskPt, bx, by, defn.heightMaskFile.c_str());
+			//printf("%i %i %i %s\n", maskPt, bx, by, defn.mask.c_str());
 			ok = ((generator.getRandFloat() * 255.0f) < float(maskPt));
 		}
 

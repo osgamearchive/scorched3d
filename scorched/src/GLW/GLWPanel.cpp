@@ -237,8 +237,8 @@ bool GLWPanel::initFromXML(XMLNode *node)
 	drawPanel_ = false;
 
 	// Items
-	XMLNode *itemsNode = node->getNamedChild("items", true, true);
-	if (!itemsNode) return false;
+	XMLNode *itemsNode;
+	if (!node->getNamedChild("items", itemsNode)) return false;
 
 	// Itterate all of the items in the file
 	std::list<XMLNode *>::iterator childrenItor;
@@ -251,12 +251,9 @@ bool GLWPanel::initFromXML(XMLNode *node)
 		XMLNode *currentNode = (*childrenItor);
 
 		// The Widget
-		XMLNode *widgetNode = currentNode->getNamedChild("widget", true, true);
-		if (!widgetNode) return false;
-
-		// The type
-		XMLNode *widgetTypeNode = widgetNode->getNamedParameter("type", true);
-		if (!widgetTypeNode) return false;
+		XMLNode *widgetNode, *widgetTypeNode;
+		if (!currentNode->getNamedChild("widget", widgetNode)) return false;
+		if (!widgetNode->getNamedParameter("type", widgetTypeNode)) return false;
 
 		// Create new type
 		GLWidget *widget = (GLWidget *)
@@ -278,13 +275,12 @@ bool GLWPanel::initFromXML(XMLNode *node)
 
 		// The condition (if any)
 		GLWCondition *condition = 0;
-		XMLNode *conditionNode = currentNode->getNamedChild("condition", false, true);
-		if (conditionNode)
+		XMLNode *conditionNode = 0;
+		if (currentNode->getNamedChild("condition", conditionNode, false))
 		{
 			// Get the type of this condition
-			XMLNode *conditionTypeNode = conditionNode->
-				getNamedParameter("type", true);
-			if (!conditionTypeNode) return false;
+			XMLNode *conditionTypeNode;
+			if (!conditionNode->getNamedParameter("type", conditionTypeNode)) return false;
 
 			// Create type
 			condition = (GLWCondition *)

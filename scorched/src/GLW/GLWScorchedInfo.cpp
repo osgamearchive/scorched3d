@@ -366,8 +366,8 @@ bool GLWScorchedInfo::initFromXML(XMLNode *node)
 	if (!GLWidget::initFromXML(node)) return false;
 
 	// Type node
-	XMLNode *typeNode = node->getNamedChild("type", true);
-	if (!typeNode) return false;
+	XMLNode *typeNode = 0;
+	if (!node->getNamedChild("type", typeNode)) return false;
 	if (0 == strcmp(typeNode->getContent(), "wind")) infoType_ = eWind;
 	else if (0 == strcmp(typeNode->getContent(), "playername")) infoType_ = ePlayerName;
 	else if (0 == strcmp(typeNode->getContent(), "autodefensecount")) infoType_ = eAutoDefenseCount;
@@ -393,28 +393,21 @@ bool GLWScorchedInfo::initFromXML(XMLNode *node)
 	}
 	
 	// Font Size
-	if ((fontSize_ = node->getNamedFloatChild("fontsize", true)) 
-		== XMLNode::ErrorFloat) return false;
+	if (!node->getNamedFloat("fontsize", fontSize_)) return false;
 	
 	// Font Color
-	if ((fontColor_[0] = node->getNamedFloatChild("fontcolorr", true)) 
-		== XMLNode::ErrorFloat) return false;
-	if ((fontColor_[1] = node->getNamedFloatChild("fontcolorg", true)) 
-		== XMLNode::ErrorFloat) return false;
-	if ((fontColor_[2] = node->getNamedFloatChild("fontcolorb", true)) 
-		== XMLNode::ErrorFloat) return false;
+	if (!node->getNamedFloat("fontcolorr", fontColor_[0])) return false;
+	if (!node->getNamedFloat("fontcolorg", fontColor_[1])) return false;
+	if (!node->getNamedFloat("fontcolorb", fontColor_[2])) return false;
 
 	// Font Selected Size
-	if ((selectedColor_[0] = node->getNamedFloatChild("selfontcolorr", false)) 
-		== XMLNode::ErrorFloat) selectedColor_[0] = fontColor_[0];
-	if ((selectedColor_[1] = node->getNamedFloatChild("selfontcolorg", false)) 
-		== XMLNode::ErrorFloat) selectedColor_[1] = fontColor_[1];
-	if ((selectedColor_[2] = node->getNamedFloatChild("selfontcolorb", false)) 
-		== XMLNode::ErrorFloat) selectedColor_[2] = fontColor_[2];
+	if (!node->getNamedFloat("selfontcolorr", selectedColor_[0]))  selectedColor_[0] = fontColor_[0];
+	if (!node->getNamedFloat("selfontcolorg", selectedColor_[1]))  selectedColor_[1] = fontColor_[1];
+	if (!node->getNamedFloat("selfontcolorb", selectedColor_[2]))  selectedColor_[2] = fontColor_[22];
 
 	// No Center
-	XMLNode *centerNode = node->getNamedChild("nocenter");
-	if (centerNode)
+	XMLNode *centerNode;
+	if (node->getNamedChild("nocenter", centerNode))
 	{
 		noCenter_ = (0 == strcmp(centerNode->getContent(), "true"));
 	}

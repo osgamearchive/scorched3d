@@ -40,25 +40,11 @@ bool WeaponTranslate::parseXML(XMLNode *accessoryNode)
 {
 	if (!Weapon::parseXML(accessoryNode)) return false;
 
-	XMLNode *distNode = accessoryNode->getNamedChild("translatedist", false, true);
-	if (!distNode)
-	{
-		dialogMessage("Accessory",
-			"Failed to find translatedist node in accessory \"%s\"",
-			name_.c_str());
-		return false;
-	}
-	translateDist_ = (float) atof(distNode->getContent());
+	if (!accessoryNode->getNamedFloat("translatedist", translateDist_)) return false;
 
-	// Get the next weapon
-	XMLNode *subNode = accessoryNode->getNamedChild("nextaction", false, true);
-	if (!subNode)
-	{
-		dialogMessage("Accessory",
-			"Failed to find nextaction node in accessory \"%s\"",
-			name_.c_str());
-		return false;
-	}
+	XMLNode *subNode = 0;
+	if (!accessoryNode->getNamedChild("nextaction", subNode)) return false;
+	
 	// Check next weapon is correct type
 	Accessory *accessory = 
 		ScorchedServer::instance()->getAccessoryStore().createAccessory(subNode);

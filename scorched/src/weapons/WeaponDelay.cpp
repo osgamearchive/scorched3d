@@ -42,14 +42,8 @@ bool WeaponDelay::parseXML(XMLNode *accessoryNode)
 	if (!Weapon::parseXML(accessoryNode)) return false;
 
 	// Get the next weapon
-	XMLNode *subNode = accessoryNode->getNamedChild("delayedweapon", false, true);
-	if (!subNode)
-	{
-		dialogMessage("Accessory",
-			"Failed to find delayedweapon node in accessory \"%s\"",
-			name_.c_str());
-		return false;
-	}
+	XMLNode *subNode = 0;
+	if (!accessoryNode->getNamedChild("delayedweapon", subNode)) return false;
 
 	// Check next weapon is correct type
 	Accessory *accessory = 
@@ -63,15 +57,7 @@ bool WeaponDelay::parseXML(XMLNode *accessoryNode)
 	}
 	delayedWeapon_ = (Weapon*) accessory;
 
-	XMLNode *delayNode = accessoryNode->getNamedChild("delay", false, true);
-	if (!delayNode)
-	{
-		dialogMessage("Accessory",
-			"Failed to find delay node in accessory \"%s\"",
-			name_.c_str());
-		return false;
-	}
-	delay_ = (float) atof(delayNode->getContent());
+	if (!accessoryNode->getNamedFloat("delay", delay_)) return false;
 
 	return true;
 }

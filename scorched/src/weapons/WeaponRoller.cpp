@@ -43,27 +43,11 @@ bool WeaponRoller::parseXML(XMLNode *accessoryNode)
 {
 	if (!Weapon::parseXML(accessoryNode)) return false;
 
-	// Get the accessory size
-	XMLNode *rollersNode = accessoryNode->getNamedChild("numberrollers", false, true);
-	if (!rollersNode)
-	{
-		dialogMessage("Accessory",
-			"Failed to find numberrollers node in accessory \"%s\"",
-			name_.c_str());
-		return false;
-	}
-	numberRollers_ = atoi(rollersNode->getContent());	
+	if (!accessoryNode->getNamedInt("numberrollers", numberRollers_)) return false;
 
-	// Get the next weapon
-	XMLNode *subNode = accessoryNode->getNamedChild("collisionaction", false, true);
-	if (!subNode)
-	{
-		dialogMessage("Accessory",
-			"Failed to find collisionaction node in accessory \"%s\"",
-			name_.c_str());
-		return false;
-	}
-	// Check next weapon is correct type
+	XMLNode *subNode = 0;
+	if (!accessoryNode->getNamedChild("collisionaction", subNode)) return false;
+
 	Accessory *accessory = 
 		ScorchedServer::instance()->getAccessoryStore().createAccessory(subNode);
 	if (!accessory || accessory->getType() != Accessory::AccessoryWeapon)

@@ -38,10 +38,10 @@ public:
 	HeightMap &getHMap() { return map_; }
 	MovementMap &getMMap() { return mmap_; }
 	NapalmMap &getNMap() { return nmap_; }
-	LandscapeDefinition &getLandDfn() { return storedHdef_; }
+	LandscapeDefinition &getLandDfn() { return *storedHdef_; }
 
 	// Generates the next level
-	void generateHMap(LandscapeDefinition &hdef,
+	void generateHMap(LandscapeDefinition *hdef,
 		ProgressCounter *counter = 0);
 
 	// Compresses the level into a form that can be
@@ -65,7 +65,7 @@ protected:
 
 	// The values at the start of the level
 	float *storedMap_;
-	LandscapeDefinition storedHdef_;
+	LandscapeDefinition *storedHdef_;
 };
 
 #endif

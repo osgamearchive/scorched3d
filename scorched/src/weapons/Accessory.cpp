@@ -42,63 +42,28 @@ Accessory::~Accessory()
 bool Accessory::parseXML(XMLNode *accessoryNode)
 {
 	// Get the accessory name
-	XMLNode *nameNode = accessoryNode->getNamedChild("name", false, true);
-	if (!nameNode)
-	{
-		dialogMessage("Accessory",
-			"Failed to find name node");
-		return false;
-	}
-	name_ = nameNode->getContent();
+	if (!accessoryNode->getNamedString("name", name_)) return false;
 
 	// Get the accessory armslevel
-	XMLNode *armsLevelNode = accessoryNode->getNamedChild("armslevel", false, true);
-	if (!armsLevelNode)
-	{
-		dialogMessage("Accessory",
-			"Failed to find armslevel node in accessory \"%s\"",
-			name_.c_str());
-		return false;
-	}
-	armsLevel_ = atoi(armsLevelNode->getContent());
+	if (!accessoryNode->getNamedInt("armslevel", armsLevel_)) return false;
 
 	// Get the accessory description
-	XMLNode *descriptionNode = accessoryNode->getNamedChild("description", false, true);
-	if (descriptionNode)
-	{
-		description_ = descriptionNode->getContent();
-	}
+	accessoryNode->getNamedString("description", description_, false);
 	toolTip_.setText(getName(), getDescription());
 
 	// Get the accessory icon
-	XMLNode *iconNode = accessoryNode->getNamedChild("icon", false, true);
-	if (iconNode)
-	{
-		iconName_ = iconNode->getContent();
-	}
+	accessoryNode->getNamedString("icon", iconName_, false);
 
-	// Get the accessory icon
-	XMLNode *activationSoundNode = accessoryNode->getNamedChild("activationsound", false, true);
-	if (activationSoundNode)
-	{
-		activationSound_ = activationSoundNode->getContent();
-	}
+	// Get the accessory sound 
+	accessoryNode->getNamedString("activationsound", activationSound_, false);
 
 	// Get the accessory bundle
-	XMLNode *bundleNode = accessoryNode->getNamedChild("bundlesize", false, true);
-	if (bundleNode)
-	{
-		bundle_ = atoi(bundleNode->getContent());
-	}
-	else bundle_ = -1;
+	bundle_ = -1;
+	accessoryNode->getNamedInt("bundlesize", bundle_, false);
 
 	// Get the accessory cost
-	XMLNode *costNode = accessoryNode->getNamedChild("cost", false, true);
-	if (costNode)
-	{
-		price_ = atoi(costNode->getContent());
-	}
-	else price_ = -1;
+	price_ = -1;
+	accessoryNode->getNamedInt("cost", price_, false);
 
 	sellPrice_ = 0;
 	if (price_ > 0 && bundle_ > 0) sellPrice_ = int((price_ / bundle_) * 0.8f);

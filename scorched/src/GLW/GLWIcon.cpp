@@ -64,14 +64,12 @@ bool GLWIcon::initFromXML(XMLNode *node)
 {
 	if (!GLWidget::initFromXML(node)) return false;
 
-	XMLNode *bitmapNode = node->getNamedChild("bitmap", true);
-	if (!bitmapNode) return false;
-	XMLNode *bitmapANode = node->getNamedChild("bitmapa");
-	
-	XMLNode *invertNode = node->getNamedChild("invert", true);
-	if (!invertNode) return false;
-	bool invert = (0 == strcmp(invertNode->getContent(), "true"));
+	XMLNode *bitmapNode, *bitmapANode, *invertNode;
+	if (!node->getNamedChild("bitmap", bitmapNode)) return false;
+	if (!node->getNamedChild("bitmapa", bitmapANode)) return false;
+	if (!node->getNamedChild("invert", invertNode)) return false;
 
+	bool invert = (0 == strcmp(invertNode->getContent(), "true"));
 	if (bitmapNode && bitmapANode)
 	{
 		std::string bitmapName = 

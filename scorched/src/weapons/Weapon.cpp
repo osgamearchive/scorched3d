@@ -42,50 +42,26 @@ bool Weapon::parseXML(XMLNode *accessoryNode)
 	if (!Accessory::parseXML(accessoryNode)) return false;
 
 	// Get the deathWeight
-	XMLNode *deathWeight = accessoryNode->getNamedChild("deathanimationweight", false, true);
-	if (deathWeight)
-	{
-		deathAnimationWeight_ = atoi(deathWeight->getContent());
-	}
+	accessoryNode->getNamedInt("deathanimationweight", deathAnimationWeight_, false);
 
 	// Get the explosion texture
-	XMLNode *explosionTextureNode = accessoryNode->getNamedChild("explosiontexture", false, true);
-	if (explosionTextureNode)
-	{
-		explosionTexture_ = explosionTextureNode->getContent();
-	}
+	accessoryNode->getNamedString("explosiontexture", explosionTexture_, false);
 
 	// Get the explosion texture
-	XMLNode *firedSoundNode = accessoryNode->getNamedChild("firedsound", false, true);
-	if (firedSoundNode)
-	{
-		firedSound_ = firedSoundNode->getContent();
-	}
+	accessoryNode->getNamedString("firedsound", firedSound_, false);
 
 	// Get the explosion texture
-	XMLNode *explosionSoundNode = accessoryNode->getNamedChild("explosionsound", false, true);
-	if (explosionSoundNode)
-	{
-		explosionSound_ = explosionSoundNode->getContent();
-	}
+	accessoryNode->getNamedString("explosionsound", explosionSound_, false);
 
 	// Get the weapon model scale
-	XMLNode *modelScaleNode = accessoryNode->getNamedChild("projectilescale", false, true);
-	if (modelScaleNode)
-	{
-		scale_= (float) atof(modelScaleNode->getContent());
-	}
+	accessoryNode->getNamedFloat("projectilescale", scale_, false);
 
 	// Get the weapon model explosion shake
-	XMLNode *modelShakeNode = accessoryNode->getNamedChild("explosionshake", false, true);
-	if (modelShakeNode)
-	{
-		shake_ = (float) atof(modelShakeNode->getContent());
-	}
+	accessoryNode->getNamedFloat("explosionshake", shake_, false);
 
 	// Get the weapon model
-	XMLNode *modelNode = accessoryNode->getNamedChild("projectilemodel", false, true);
-	if (modelNode)
+	XMLNode *modelNode = 0;
+	if (accessoryNode->getNamedChild("projectilemodel", modelNode, false))
 	{
 		if (!modelId_.initFromNode("data/accessories", modelNode)) return false;
 	}

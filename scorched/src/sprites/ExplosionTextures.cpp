@@ -106,13 +106,8 @@ bool ExplosionTextures::createTextures(ProgressCounter *counter)
 						  "Failed to find textureset node");
 			return false;
 		}
-		XMLNode *name = currentNode->getNamedParameter("name");
-		if (!name)
-		{
-			dialogMessage("ExplosionTextures",
-						  "Failed to find name node");
-			return false;
-		}
+		XMLNode *name = 0;
+		if (!currentNode->getNamedParameter("name", name)) return false;
 		const char *setName = name->getContent();
 
 		// Create and store the new texture set

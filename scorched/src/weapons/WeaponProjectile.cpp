@@ -44,38 +44,39 @@ bool WeaponProjectile::parseXML(XMLNode *accessoryNode)
 	if (!Weapon::parseXML(accessoryNode)) return false;
 
 	// Get the accessory under
-	XMLNode *underNode = accessoryNode->getNamedChild("under", false, true);
+	XMLNode *underNode = 0;
+	accessoryNode->getNamedChild("under", underNode, false);
 	if (underNode) under_ = true;
 
 	// Get the smoke trails
-	XMLNode *smokeNode = accessoryNode->getNamedChild("showshotpath", false, true);
+	XMLNode *smokeNode = 0;
+	accessoryNode->getNamedChild("showshotpath", smokeNode, false);
 	if (smokeNode) showShotPath_ = true;
 
 	// Get the end point
-	XMLNode *endPointNode = accessoryNode->getNamedChild("showendpoint", false, true);
+	XMLNode *endPointNode = 0;
+	accessoryNode->getNamedChild("showendpoint", endPointNode, false);
 	if (endPointNode) showEndPoint_ = true;
 	
 	// Get the apex point
-	XMLNode *apexNode = accessoryNode->getNamedChild("apexcollision", false, true);
+	XMLNode *apexNode = 0;
+	accessoryNode->getNamedChild("apexcollision", apexNode, false);
 	if (apexNode) apexCollision_ = true;
 
 	// Get the no smoke node
-	XMLNode *noCreateSmokeNode = accessoryNode->getNamedChild("nocreatesmoke", false, true);
+	XMLNode *noCreateSmokeNode = 0;
+	accessoryNode->getNamedChild("nocreatesmoke", noCreateSmokeNode, false);
 	if (noCreateSmokeNode) createSmoke_ = false;
 
 	// Get the no smoke node
-	XMLNode *noCreateFlameNode = accessoryNode->getNamedChild("nocreateflame", false, true);
+	XMLNode *noCreateFlameNode = 0;
+	accessoryNode->getNamedChild("nocreateflame", noCreateFlameNode, false);
 	if (noCreateFlameNode) createFlame_ = false;
 
 	// Get the next weapon
-	XMLNode *subNode = accessoryNode->getNamedChild("collisionaction", false, true);
-	if (!subNode)
-	{
-		dialogMessage("Accessory",
-			"Failed to find collisionaction node in accessory \"%s\"",
-			name_.c_str());
-		return false;
-	}
+	XMLNode *subNode = 0;
+	if (!accessoryNode->getNamedChild("collisionaction", subNode)) return false;
+
 	// Check next weapon is correct type
 	Accessory *accessory = 
 		ScorchedServer::instance()->getAccessoryStore().createAccessory(subNode);

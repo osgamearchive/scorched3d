@@ -40,40 +40,19 @@ bool WeaponExplosion::parseXML(XMLNode *accessoryNode)
 	if (!Weapon::parseXML(accessoryNode)) return false;
 
     // Get the accessory size
-    XMLNode *sizeNode = accessoryNode->getNamedChild("size", false, true);
-    if (!sizeNode)
-    {
-        dialogMessage("Accessory",
-            "Failed to find size node in accessory \"%s\"",
-            name_.c_str());
-        return false;
-    }
-    size_ = atoi(sizeNode->getContent());
+    if (!accessoryNode->getNamedInt("size", size_)) return false;
 
     // Get the accessory colored
-    XMLNode *colorNode = accessoryNode->getNamedChild("multicolor", false, true);
+    XMLNode *colorNode = 0;
+	accessoryNode->getNamedChild("multicolor", colorNode, false);
     if (colorNode) multiColored_ = true;
 
     // Get the hutiness
-    XMLNode *hurtsNode = accessoryNode->getNamedChild("hurtamount", false, true);
-    if (!hurtsNode)
-    {
-        dialogMessage("Accessory",
-            "Failed to find hurtamount node in accessory \"%s\"",
-            name_.c_str());
-        return false;
-    }
-	hurtAmount_ = (float) atof(hurtsNode->getContent());
+	if (!accessoryNode->getNamedFloat("hurtamount", hurtAmount_)) return false;
 
 	// Get the deform
-	XMLNode *deformNode = accessoryNode->getNamedChild("deform", false, true);
-    if (!deformNode)
-    {
-        dialogMessage("Accessory",
-            "Failed to find deform node in accessory \"%s\"",
-            name_.c_str());
-        return false;
-    }
+	XMLNode *deformNode = 0;
+	if (!accessoryNode->getNamedChild("deform", deformNode)) return false;
     if (0 == strcmp(deformNode->getContent(), "down")) deformType_ = Explosion::DeformDown;
 	else if (0 == strcmp(deformNode->getContent(), "up")) deformType_ = Explosion::DeformUp;
 	else if (0 == strcmp(deformNode->getContent(), "none")) deformType_ = Explosion::DeformNone;

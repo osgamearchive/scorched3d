@@ -70,29 +70,6 @@ static const char *getSpacer(int space)
 	return spacestr.c_str();
 }
 
-static bool testMacro()
-{
-	XMLNode *node;
-	float testFloat;
-	Vector testVector;
-	int testInt;
-	unsigned int testUInt;
-	const char *testString;
-
-	XML_PARSE_FLOAT(node, testFloat, "test");
-	XML_PARSE_VECTOR(node, testVector, "test");
-	XML_PARSE_INT(node, testInt, "test");
-	XML_PARSE_UINT(node, testUInt, "test");
-	XML_PARSE_STRING(node, testString, "test");
-	return true;
-}
-
-float XMLNode::ErrorFloat = FLT_MAX;
-int XMLNode::ErrorInt = INT_MAX;
-unsigned int XMLNode::ErrorUInt = UINT_MAX;
-Vector XMLNode::ErrorVector = Vector(FLT_MAX, FLT_MAX, FLT_MAX);
-const char *XMLNode::ErrorString = "Error"; 
-
 XMLNode::XMLNode(const char *name, const char *content, NodeType type) : 
 	name_(name), parent_(0), type_(type),
 	content_(content)
@@ -215,7 +192,22 @@ void XMLNode::addNodeToFile(FileLines &lines, int spacing)
 	}
 }
 
-XMLNode *XMLNode::getNamedChild(const char *name, bool failOnError, bool remove)
+bool XMLNode::failChildren()
+{
+	if (!children_.empty())
+	{
+		XMLNode *node = children_.front();
+		dialogMessage("XMLNode",
+			"Error: Node \"%s\" in \"%s:%s\" is unrecoginzied\n",
+			node->name_.c_str(), source_.c_str(), getName());
+		return false;
+	}
+
+	return true;
+}
+
+bool XMLNode::getNamedChild(const char *name, XMLNode *&value,
+	bool failOnError, bool remove)
 {
 	std::list<XMLNode *>::iterator itor;
 	for (itor = children_.begin();
@@ -230,7 +222,8 @@ XMLNode *XMLNode::getNamedChild(const char *name, bool failOnError, bool remove)
 				removedNodes_.push_back(node);
 				children_.erase(itor);
 			}
-			return node;
+			value = node;
+			return true;
 		}
 	}
 
@@ -238,13 +231,13 @@ XMLNode *XMLNode::getNamedChild(const char *name, bool failOnError, bool remove)
 	{
 		dialogMessage("XMLNode",
 			"Error: Failed to find \"%s\" node in \"%s:%s\"\n",
-			name, source_.c_str(),
-			(parent_->getName()?parent_->getName():"Root"));
+			name, source_.c_str(), getName());
 	}
-	return 0;
+	return false;
 }
 
-XMLNode *XMLNode::getNamedParameter(const char *name, bool failOnError, bool remove)
+bool XMLNode::getNamedParameter(const char *name, XMLNode *&value,
+	bool failOnError, bool remove)
 {
 	std::list<XMLNode *>::iterator itor;
 	for (itor = parameters_.begin();
@@ -259,7 +252,8 @@ XMLNode *XMLNode::getNamedParameter(const char *name, bool failOnError, bool rem
 				removedNodes_.push_back(node);
 				parameters_.erase(itor);
 			}
-			return node;
+			value = node;
+			return true;
 		}
 	}
 
@@ -267,53 +261,69 @@ XMLNode *XMLNode::getNamedParameter(const char *name, bool failOnError, bool rem
 	{
 		dialogMessage("XMLNode",
 			"Error: Failed to find \"%s\" parameter in \"%s:%s\"\n",
-			name, source_.c_str(), 
-			(parent_->getName()?parent_->getName():"Root"));
+			name, source_.c_str(), getName());
 	}
-	return 0;
+	return false;
 }
 
-const char *XMLNode::getNamedStringChild(const char *name, bool failOnError, bool remove)
+bool XMLNode::getNamedString(const char *name, std::string &value,
+	bool failOnError, bool remove)
 {
-	XMLNode *node = getNamedChild(name, failOnError, remove);
-	if (!node) return ErrorString;
-	return node->getContent();
+	XMLNode *node;
+	if (!getNamedChild(name, node, failOnError, remove)) return false;
+	value = node->getContent();
+	return true;
 }
 
-float XMLNode::getNamedFloatChild(const char *name, bool failOnError, bool remove)
+bool XMLNode::getNamedBool(const char *name, bool &value,
+	bool failOnError, bool remove)
 {
-	XMLNode *node = getNamedChild(name, failOnError, remove);
-	if (!node) return ErrorFloat;
-	return (float) atof(node->getContent());
+	std::string str;
+	if (!getNamedString(name, str, failOnError, remove)) return false;
+
+	value = (0 == strcmp(str.c_str(), "true"));	
+	return true;
 }
 
-int XMLNode::getNamedIntChild(const char *name, bool failOnError, bool remove)
+bool XMLNode::getNamedFloat(const char *name, float &value,
+	bool failOnError, bool remove)
 {
-	XMLNode *node = getNamedChild(name, failOnError, remove);
-	if (!node) return ErrorInt;
-	return (int) atoi(node->getContent());
+	XMLNode *node;
+	if (!getNamedChild(name, node, failOnError, remove)) return false;
+	value = (float) atof(node->getContent());
+	return true;
 }
 
-unsigned int XMLNode::getNamedUIntChild(const char *name, bool failOnError, bool remove)
+bool XMLNode::getNamedInt(const char *name, int &value,
+	bool failOnError, bool remove)
 {
-	XMLNode *node = getNamedChild(name, failOnError, remove);
-	if (!node) return ErrorUInt;
-	return (unsigned int) atoi(node->getContent());
+	XMLNode *node;
+	if (!getNamedChild(name, node, failOnError, remove)) return false;
+	value = (int) atoi(node->getContent());
+	return true;
 }
 
-Vector XMLNode::getNamedVectorChild(const char *name, bool failOnError, bool remove)
+bool XMLNode::getNamedUInt(const char *name, unsigned int &value,
+	bool failOnError, bool remove)
 {
-	XMLNode *node = getNamedChild(name, failOnError, remove);
-	if (!node) return ErrorVector;
-	XMLNode *nodeA = node->getNamedChild("A", failOnError, true);
-	XMLNode *nodeB = node->getNamedChild("B", failOnError, true);
-	XMLNode *nodeC = node->getNamedChild("C", failOnError, true);
-	if (!nodeA || !nodeB || !nodeC) return ErrorVector;
-	Vector result;
-	result[0] = (float) atof(nodeA->getContent());
-	result[1] = (float) atof(nodeB->getContent());
-	result[2] = (float) atof(nodeC->getContent());
-	return result;
+	XMLNode *node;
+	if (!getNamedChild(name, node, failOnError, remove)) return false;
+	value = (unsigned int) atoi(node->getContent());
+	return true;
+}
+
+bool XMLNode::getNamedVector(const char *name, Vector &value, 
+	bool failOnError, bool remove)
+{
+	XMLNode *node, *nodeA, *nodeB, *nodeC;
+	if (!getNamedChild(name, node, failOnError, remove)) return false;
+	if (!node->getNamedChild("A", nodeA, failOnError, true)) return false;
+	if (!node->getNamedChild("B", nodeB, failOnError, true)) return false;
+	if (!node->getNamedChild("C", nodeC, failOnError, true)) return false;
+	value[0] = (float) atof(nodeA->getContent());
+	value[1] = (float) atof(nodeB->getContent());
+	value[2] = (float) atof(nodeC->getContent());
+	return true;
 }
 
 void XMLNode::addSource(const char *source)
