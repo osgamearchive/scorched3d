@@ -142,7 +142,7 @@ void EconomyFreeMarket::calculatePrices()
 				findByAccessoryId((*itor).first);
 			
 			int price = accessory->getPrice() + diff;
-			price = (price / 25) * 25; // Round to 25
+			price = (price / 10) * 10; // Round to 10
 
 			if (price > int(float(accessory->getOriginalPrice()) * 1.5f))
 				price = int(float(accessory->getOriginalPrice()) * 1.5f);
@@ -152,7 +152,7 @@ void EconomyFreeMarket::calculatePrices()
 
 			int selPrice = int(float(accessory->getPrice()) /
 				float(accessory->getBundle()) * 0.8f);
-			selPrice = (selPrice / 25) * 25; // Round to 25
+			selPrice = (selPrice / 10) * 10; // Round to 10
 			accessory->setSellPrice(selPrice);
 		}
 	}

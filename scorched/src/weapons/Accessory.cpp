@@ -102,6 +102,8 @@ bool Accessory::parseXML(XMLNode *accessoryNode)
 
 	sellPrice_ = 0;
 	if (price_ > 0 && bundle_ > 0) sellPrice_ = int((price_ / bundle_) * 0.8f);
+	originalPrice_ = price_;
+	originalSellPrice_ = sellPrice_;
 
 	return true;
 }
