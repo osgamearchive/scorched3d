@@ -61,6 +61,8 @@ scorched3d_SOURCES = \
 	../GLEXT/GLStateExtension.h \
 	../GLEXT/GLTexture.cpp \
 	../GLEXT/GLTexture.h \
+	../GLEXT/GLTextureBase.cpp \
+	../GLEXT/GLTextureBase.h \
 	../GLEXT/GLTextureCubeMap.cpp \
 	../GLEXT/GLTextureCubeMap.h \
 	../GLEXT/GLTextureSet.cpp \
