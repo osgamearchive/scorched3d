@@ -214,7 +214,7 @@ bool MSFile::loadFile(FILE *in, const char *fileName)
 		if (!getNextLine(buffer, in)) return false; 
 		if (sscanf(buffer, "%s", textureName) != 1) return false;
 		textureName[strlen(textureName)-1] = '\0';
-		sprintf(fullTextureName, PKGDIR "%s/%s", filePath, &textureName[1]);
+		sprintf(fullTextureName, "%s/%s", filePath, &textureName[1]);
 		while (sep=strchr(fullTextureName, '\\')) *sep = '/';
 
 		// alphamap
