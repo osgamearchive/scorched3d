@@ -381,7 +381,7 @@
 	<!-- (default value : "") -->
 	<option>
 		<name>Mod</name>
-		<value>Apoc</value>
+		<value>apoc</value>
 	</option>
 	<!-- The message of the day -->
 	<!-- (default value : "Scorched3D : Copyright 2004 Gavin Camp

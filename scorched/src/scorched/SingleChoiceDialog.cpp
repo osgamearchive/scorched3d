@@ -111,7 +111,7 @@ SingleChoiceFrame::SingleChoiceFrame(const char *mod) :
 			desc, icon, 
 			this, gridsizer, refData);
 	}
-	setDataFileMod("");
+	setDataFileMod("none");
 
 	topsizer->Add(gridsizer, 0, wxALIGN_CENTER | wxALL, 5);
 

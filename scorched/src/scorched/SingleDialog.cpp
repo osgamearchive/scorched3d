@@ -106,7 +106,6 @@ SingleFrame::SingleFrame() :
 		ID_BUTTON_SCORCHED3D);
 
 	int count = ID_BUTTON_GAME;
-	addModButton(count, "", gridsizer);
 	std::string noModGamesFile = getDataFile("data/singlegames.xml");
 
 	ModDirs modDirs;
@@ -120,8 +119,9 @@ SingleFrame::SingleFrame() :
 			
 		setDataFileMod(modName);
 		std::string modGamesFile = getDataFile("data/singlegames.xml");
-		setDataFileMod("");
-		if (noModGamesFile == modGamesFile) continue;
+		setDataFileMod("none");
+		if (noModGamesFile == modGamesFile &&
+			0 != strcmp(modName, "none")) continue;
 		
 		addModButton(count, modName, gridsizer);
 	}
@@ -169,7 +169,7 @@ void SingleFrame::addModButton(
 		(char *) games.icon.c_str(), 
 		this, sizer, refData);
 
-	setDataFileMod("");
+	setDataFileMod("none");
 }
 
 void SingleFrame::onLoadButton(wxCommandEvent &event)

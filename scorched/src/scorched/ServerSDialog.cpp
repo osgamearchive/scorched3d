@@ -107,7 +107,6 @@ bool ServerSFrame::TransferDataToWindow()
 
 	ModDirs modDirs;
 	if (!modDirs.loadModDirs()) dialogExit("ModFiles", "Failed to load mod files");
-	IDC_SERVER_MOD_CTRL->Append("none");
 	std::list<std::string>::iterator itor;
 	for (itor = modDirs.getDirs().begin();
 		itor != modDirs.getDirs().end();
@@ -132,12 +131,7 @@ bool ServerSFrame::TransferDataFromWindow()
 	options_.setPublishServer(IDC_PUBLISH_CTRL->GetValue());
 	options_.setPublishAddress(IDC_PUBLISHIP_CTRL->GetValue());
 	options_.setAllowSameIP(IDC_ALLOWSAME_CTRL->GetValue());
-	wxString value = IDC_SERVER_MOD_CTRL->GetValue();
-	if (strcmp(value.c_str(), "none"))
-		options_.setMod(IDC_SERVER_MOD_CTRL->GetValue());
-	else
-		options_.setMod("");
-
+	options_.setMod(IDC_SERVER_MOD_CTRL->GetValue());
 	return true;
 }
 

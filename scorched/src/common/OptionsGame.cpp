@@ -118,7 +118,7 @@ OptionsGame::OptionsGame() :
 	serverName_(options_, "ServerName", 
 		"The name of the server to start", 0, "No Name"),
 	mod_(options_, "Mod", 
-		"The name of currently running Scorched3D mod", 0, ""),
+		"The name of currently running Scorched3D mod", 0, "none"),
 	motd_(options_, "MOTD",
 		"The message of the day", 0, 
 		"Scorched3D : Copyright 2004 Gavin Camp\n"

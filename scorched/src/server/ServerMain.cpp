@@ -97,11 +97,8 @@ bool startServer(bool local)
 	ServerDefenseHandler::instance();
 
 	// Set the mod
-	if (ScorchedServer::instance()->getOptionsGame().getMod()[0])
-	{
-		setDataFileMod(
-			ScorchedServer::instance()->getOptionsGame().getMod());
-	}
+	setDataFileMod(
+		ScorchedServer::instance()->getOptionsGame().getMod());
 
 	// Load mod
 	if (OptionsParam::instance()->getDedicatedServer() ||

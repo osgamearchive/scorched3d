@@ -50,8 +50,6 @@ bool ModFiles::excludeFile(const char *file)
 
 bool ModFiles::loadModFiles(const char *mod, bool createDir)
 {
-	if (!mod || !mod[0]) return true;
-
 	{
 		// Get and check the user mod directory exists
 		const char *modDir = getModFile(mod);
@@ -72,6 +70,17 @@ bool ModFiles::loadModFiles(const char *mod, bool createDir)
 		{
 			if (!loadModDir(modDir, mod)) return false;
 		}
+	}
+
+	// For the default "none" mod load some files that can
+	// be downloaded
+	if (0 == strcmp("none", mod))
+	{
+		std::string modDir = getDataFile("");
+		loadModFile(getDataFile("data/accessories.xml"), modDir.c_str(), mod);
+		loadModFile(getDataFile("data/landscapes.xml"), modDir.c_str(), mod);
+		loadModFile(getDataFile("data/landscapesdefn.xml"), modDir.c_str(), mod);
+		loadModFile(getDataFile("data/landscapestex.xml"), modDir.c_str(), mod);
 	}
 	
 	{
@@ -99,13 +108,13 @@ bool ModFiles::loadModFiles(const char *mod, bool createDir)
 			return false;
 		}
 	}
+
 	return true;
 }
 
 bool ModFiles::loadModDir(const char *modDir, const char *mod)
 {
 	// Load all files contained in this directory
-	int modDirLen = strlen(modDir);
 	wxArrayString files;
 	wxDir::GetAllFiles(modDir, &files);
 	wxString *strings = files.GetStringArray();
@@ -114,51 +123,64 @@ bool ModFiles::loadModDir(const char *modDir, const char *mod)
 		// Get the name of the current file
 		wxString &current = strings[i];
 		const char *fullFileName = current.c_str();
-		std::string shortFileNameStr(fullFileName);
-		const char *shortFileName = shortFileNameStr.c_str();
 
-		// Check to see if we ignore this file
-		if (excludeFile(fullFileName)) continue;
-
-		// Turn it into a unix style path and remove the 
-		// name of the directory that contains it
-		shortFileName += modDirLen;
-		::wxDos2UnixFilename((char *) shortFileName);
-		while (shortFileName[0] == '/') shortFileName++;
-
-		// Check that all files are lower case
-		std::string oldFileName = shortFileName;
-		_strlwr((char *) shortFileName);
-		if (strcmp(oldFileName.c_str(), shortFileName) != 0)
+		// Load the file
+		if (!loadModFile(fullFileName, modDir, mod))
 		{
-			dialogMessage("Mod",
-				"ERROR: All mod files must have lower case filenames.\n"
-				"File \"%s,%s\" has upper case charaters in it",
-				oldFileName.c_str(),
-				shortFileName);
 			return false;
 		}
-
-		// Check we don't have this file already
-		if (files_.find(shortFileName) != files_.end()) continue;
-
-		// Create the new mod file and load the file
-		ModFileEntry *file = new ModFileEntry();
-		if (!file->loadModFile(fullFileName))
-		{
-			dialogMessage("Mod",
-				"Error: Failed to load file \"%s\" mod directory \"%s\" in the \"%s\" mod",
-				fullFileName,
-				modDir,
-				mod);
-			return false;
-		}
-
-		// Store for future
-		file->setFileName(shortFileName);
-		files_[shortFileName] = file;
 	}
 
+	return true;
+}
+
+bool ModFiles::loadModFile(const char *fullFileName,
+	const char *modDir, const char *mod)
+{
+	std::string shortFileNameStr(fullFileName);
+	const char *shortFileName = shortFileNameStr.c_str();
+
+	// Check to see if we ignore this file
+	if (excludeFile(fullFileName)) return true;
+
+	// Turn it into a unix style path and remove the 
+	// name of the directory that contains it
+	int modDirLen = strlen(modDir);
+	shortFileName += modDirLen;
+	::wxDos2UnixFilename((char *) shortFileName);
+	while (shortFileName[0] == '/') shortFileName++;
+
+	// Check that all files are lower case
+	std::string oldFileName = shortFileName;
+	_strlwr((char *) shortFileName);
+	if (strcmp(oldFileName.c_str(), shortFileName) != 0)
+	{
+		dialogMessage("Mod",
+			"ERROR: All mod files must have lower case filenames.\n"
+			"File \"%s,%s\" has upper case charaters in it",
+			oldFileName.c_str(),
+			shortFileName);
+		return false;
+	}
+
+	// Check we don't have this file already
+	if (files_.find(shortFileName) != files_.end()) return true;
+
+	// Create the new mod file and load the file
+	ModFileEntry *file = new ModFileEntry();
+	if (!file->loadModFile(fullFileName))
+	{
+		dialogMessage("Mod",
+			"Error: Failed to load file \"%s\" mod directory \"%s\" in the \"%s\" mod",
+			fullFileName,
+			modDir,
+			mod);
+		return false;
+	}
+
+	// Store for future
+	file->setFileName(shortFileName);
+	files_[shortFileName] = file;
 	return true;
 }
 
@@ -317,6 +339,7 @@ ModDirs::~ModDirs()
 
 bool ModDirs::loadModDirs()
 {
+	dirs_.push_back("none");
 	if (!loadModDir(getModFile(""))) return false;
 	if (!loadModDir(getGlobalModFile(""))) return false;
 	return true;

@@ -100,7 +100,6 @@ bool SingleSFrame::TransferDataToWindow()
 
 	ModDirs modDirs;
 	if (!modDirs.loadModDirs()) dialogExit("ModFiles", "Failed to load mod files");
-	IDC_CLIENT_MOD_CTRL->Append("none");
 	std::list<std::string>::iterator itor;
 	for (itor = modDirs.getDirs().begin();
 		itor != modDirs.getDirs().end();
@@ -125,11 +124,7 @@ bool SingleSFrame::TransferDataFromWindow()
 	sscanf(IDC_CLIENT_PLAYERS_CTRL->GetValue(), "%i", &noPlayers);
 	options_.setNoMaxPlayers(noPlayers);
 	options_.setNoMinPlayers(noPlayers);
-	wxString value = IDC_CLIENT_MOD_CTRL->GetValue();
-	if (strcmp(value.c_str(), "none"))
-		options_.setMod(IDC_CLIENT_MOD_CTRL->GetValue());
-	else
-		options_.setMod("");
+	options_.setMod(IDC_CLIENT_MOD_CTRL->GetValue());
 
 	return true;
 }

@@ -129,7 +129,7 @@ void setDataFileMod(const char *mod)
 
 const char *getDataFileMod()
 {
-	return (dataModFile?dataModFile:"");
+	return (dataModFile?dataModFile:"none");
 }
 
 #ifndef S3D_DATADIR
@@ -151,16 +151,13 @@ const char *getDataFile(const char *file, ...)
 	vsprintf(filename, file, ap);
 	va_end(ap);
 
-	if (dataModFile && dataModFile[0])
-	{
-		sprintf(buffer, getModFile("%s/%s", dataModFile, filename));
-		::wxDos2UnixFilename(buffer);
-		if (::wxFileExists(buffer)) return buffer;
+	sprintf(buffer, getModFile("%s/%s", getDataFileMod(), filename));
+	::wxDos2UnixFilename(buffer);
+	if (::wxFileExists(buffer)) return buffer;
 
-		sprintf(buffer, getGlobalModFile("%s/%s", dataModFile, filename));
-		::wxDos2UnixFilename(buffer);
-		if (::wxFileExists(buffer)) return buffer;
-	}
+	sprintf(buffer, getGlobalModFile("%s/%s", getDataFileMod(), filename));
+	::wxDos2UnixFilename(buffer);
+	if (::wxFileExists(buffer)) return buffer;
 
 	sprintf(buffer, S3D_DATADIR "/%s", filename);
 	::wxDos2UnixFilename(buffer);

@@ -45,6 +45,8 @@ protected:
 	std::map<std::string, ModFileEntry *> files_;
 
 	bool loadModDir(const char *moddir, const char *mod);
+	bool loadModFile(const char *fullFileName,
+		const char *modDir, const char *mod);
 
 private:
 	ModFiles(const ModFiles&other);
