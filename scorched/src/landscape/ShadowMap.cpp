@@ -18,20 +18,11 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// ShadowMap.cpp: implementation of the ShadowMap class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <math.h>
 #include <string.h>
 #include <GLEXT/GLStateExtension.h>
 #include <landscape/ShadowMap.h>
 #include <common/Defines.h>
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 ShadowMap::ShadowMap() : size_(256), sizeSq_(256 *256)
 {
@@ -58,18 +49,19 @@ void ShadowMap::setTexture()
 						size_, size_, 
 						GL_LUMINANCE, GL_UNSIGNED_BYTE, 
 						shadowBytes_);
+
+		// Reset the stored bytes
+		memset(shadowBytes_, 255, sizeSq_);
+
+		// Debuging stripe
+		//for (int i=0; i<size_; i++) shadowBytes_[i + i * size_] = 0;
 	}
-
-	// Reset the stored bytes
-	memset(shadowBytes_, 255, sizeSq_);
-
-	// Debuging stripe
-	//for (int i=0; i<size_; i++) shadowBytes_[i + i * size_] = 0;
 }
 
 void ShadowMap::addSquare(float sx, float sy, float sw, float opacity)
 {
-	if (!GLStateExtension::glActiveTextureARB()) return;
+	if (!GLStateExtension::glActiveTextureARB() ||
+		GLStateExtension::getNoTexSubImage()) return;
 
 	const GLubyte minNum = 64;
 	int decrement = int(opacity * 125.0f);
@@ -110,7 +102,8 @@ void ShadowMap::addSquare(float sx, float sy, float sw, float opacity)
 
 void ShadowMap::addCircle(float sx, float sy, float sw, float opacity)
 {
-	if (!GLStateExtension::glActiveTextureARB()) return;
+	if (!GLStateExtension::glActiveTextureARB() || 
+		GLStateExtension::getNoTexSubImage()) return;
 
 	const GLubyte minNum = 64;
 
