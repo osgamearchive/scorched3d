@@ -20,7 +20,6 @@
 
 #include <tank/TankShields.h>
 #include <weapons/AccessoryStore.h>
-#include <server/ScorchedServer.h>
 #include <common/OptionsGame.h>
 #include <stdio.h>
 #include <math.h>
@@ -55,7 +54,7 @@ void TankShields::reset()
 			if (accessory->getPurchasable() &&
 				(accessory->getPrice() == 0 && 
 				accessory->getBundle() == 0) ||
-				ScorchedServer::instance()->getOptionsGame().getGiveAllWeapons())
+				context_.optionsGame->getGiveAllWeapons())
 			{
 				addShield((Shield*) accessory, -1);
 			}

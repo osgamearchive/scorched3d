@@ -57,6 +57,8 @@ protected:
 	KeyboardHistory::HistoryElement keybHist_[MAX_KEYBDHIST];
 	int keybHistCnt_;
 	void clear();
+	bool loadKeyFile(const char *fileName, 
+		std::map<std::string, KeyboardKey *> &usedKeyMap);
 
 	std::map<std::string, KeyboardKey *> keyMap_;
 	std::list<KeyboardKey *> commandKeys_;

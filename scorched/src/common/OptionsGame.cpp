@@ -138,6 +138,8 @@ OptionsGame::OptionsGame() :
 		"Prepend and bot name with the specified text", 0, "(Bot) "),
 	giveAllWeapons_(options_, "GiveAllWeapons",
 		"Start the game will all the weapons", 0, false),
+	cycleMaps_(options_, "CycleMaps",
+		"Cycle through the maps instead of using the probablity", 0, false),
 	randomizeBotNames_(options_, "RandomizeBotNames",
 		"Choose random bot names instread of sequential names", 0, false),
 	computersDeathTalk_(options_, "ComputersDeathTalk",

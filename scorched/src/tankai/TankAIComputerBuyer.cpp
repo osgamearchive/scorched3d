@@ -21,10 +21,9 @@
 #include <weapons/AccessoryStore.h>
 #include <server/ScorchedServer.h>
 #include <tankai/TankAIComputerBuyer.h>
+#include <common/Defines.h>
 #include <tank/Tank.h>
 #include <math.h>
-
-#define RAND ((float) rand() / (float) RAND_MAX)
 
 TankAIComputerBuyer::Entry::Entry(const Entry &other)
 {
@@ -34,7 +33,7 @@ TankAIComputerBuyer::Entry::Entry(const Entry &other)
 TankAIComputerBuyer::Entry &TankAIComputerBuyer::Entry::operator=(const Entry &other)
 {
 	level = other.level;
-	std::list<unsigned int>::const_iterator aitor;
+	std::list<std::string>::const_iterator aitor;
 	for (aitor = other.buyAccessories.begin();
 			aitor != other.buyAccessories.end();
 			aitor++)
@@ -88,6 +87,7 @@ bool TankAIComputerBuyer::addAccessory(const char *accessoryName,
 			"Failed to find accessory \"%s\"", accessoryName);
 		return false;
 	}
+	DIALOG_ASSERT(accessory->getPrimary());
 
 	std::list<Entry>::iterator itor;
 	for (itor = buyEntries_.begin();
@@ -102,14 +102,14 @@ bool TankAIComputerBuyer::addAccessory(const char *accessoryName,
 
 		if (current.level == buyLevel)
 		{
-			current.buyAccessories.push_back(accessory->getAccessoryId());
+			current.buyAccessories.push_back(accessoryName);
 			return true;
 		}
 	}
 
 	Entry newEntry;
 	newEntry.level = buyLevel;
-	newEntry.buyAccessories.push_back(accessory->getAccessoryId());
+	newEntry.buyAccessories.push_back(accessoryName);
 
 	if (itor == buyEntries_.end())
 	{
@@ -146,14 +146,20 @@ void TankAIComputerBuyer::buyAccessory()
 		itor != buyEntries_.end();
 		itor++)
 	{
-		std::list<unsigned int>::iterator aitor;
+		std::list<std::string>::iterator aitor;
 		for (aitor = (*itor).buyAccessories.begin();
 			aitor != (*itor).buyAccessories.end();
 			aitor++)
 		{
+			std::string &name = (*aitor);
 			Accessory *current = ScorchedServer::instance()->
-				getAccessoryStore().findByAccessoryId((*aitor));
-			DIALOG_ASSERT(current);
+				getAccessoryStore().findByPrimaryAccessoryName(name.c_str());
+			if (!current)
+			{
+				dialogExit("TankAIComputerBuyer",
+					"Failed to find accessory \"%s\"",
+					name.c_str());
+			}
 
 			// Check if the tank has each accessory
 			if (!currentTank_->getAccessories().getAccessoryCount(current))
@@ -193,3 +199,4 @@ void TankAIComputerBuyer::buyAccessory()
 		}
 	}
 }
+

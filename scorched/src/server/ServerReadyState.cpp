@@ -128,7 +128,8 @@ bool ServerReadyState::acceptStateChange(const unsigned state,
 			ComsMessageSender::sendToAllPlayingClients(statusMessage);			
 
 			// Send out a last chance message just before we kick
-			if ((idleTime_ > 0) && (time_ > idleTime_ - 6))
+			if (OptionsParam::instance()->getDedicatedServer() &&
+				(idleTime_ > 0) && (time_ > idleTime_ - 6))
 			{
 				for (itor = tanks.begin();
 					itor != tanks.end();
@@ -169,7 +170,8 @@ bool ServerReadyState::acceptStateChange(const unsigned state,
 	}
 
 	// Check if any players have timed out
-	if ((idleTime_ > 0) && (time_ > idleTime_))
+	if (OptionsParam::instance()->getDedicatedServer() &&
+		(idleTime_ > 0) && (time_ > idleTime_))
 	{
 		// Kick all not returned players
 		std::map<unsigned int, Tank *> &tanks = 

@@ -289,16 +289,16 @@ static void createIdentControls(wxWindow *parent, wxSizer *sizer)
 class KeyButtonData : public wxObjectRefData
 {
 public:
-	KeyButtonData();
+	KeyButtonData(const char *key, unsigned int position);
 	virtual ~KeyButtonData();
 
-	KeyboardKey *key_;
+	std::string key_;
 	unsigned int position_;
 };
 
-KeyButtonData::KeyButtonData() :
+KeyButtonData::KeyButtonData(const char *key, unsigned int position) :
 	wxObjectRefData(),
-	key_(0), position_(0)
+	key_(key), position_(position)
 {
 }
 
@@ -349,7 +349,7 @@ static void createKeysControls(wxWindow *parent, wxSizer *topsizer)
 		{
 			wxButton *button = new wxButton(scrolledWindow, ID_KEY, "", 
 				wxDefaultPosition, wxSize(120, -1));
-			button->SetRefData(new KeyButtonData);
+			button->SetRefData(new KeyButtonData(key->getName(), i));
 			button->SetToolTip(key->getDescription());
 			sizer->Add(button, 0, wxLEFT | wxALIGN_CENTER, 5);
 			keyboardKeyList.push_back(button);

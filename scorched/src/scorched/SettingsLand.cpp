@@ -71,5 +71,15 @@ static void createControls(wxWindow *parent, wxSizer *topsizer)
 	scrolledWindow->SetScrollbars(10, 10, 
 		(minSize.GetWidth() + 10) / 10, (minSize.GetHeight() + 10) / 10);
 	topsizer->Add(scrolledWindow, 1, wxGROW | wxALL, 10);
+
+	IDC_CYCLEMAPS_CTRL = new wxCheckBox(parent, IDC_CYCLEMAPS, "Linearly cycle maps");
+	topsizer->Add(IDC_CYCLEMAPS_CTRL, 0, wxALIGN_CENTER);
+
+	wxBoxSizer *buttonSizer = new wxBoxSizer(wxHORIZONTAL);
+	IDC_SELECTALL_CTRL = new wxButton(parent, IDC_SELECTALL, "Select All");
+	IDC_DESELECTALL_CTRL = new wxButton(parent, IDC_DESELECTALL, "Deselect All");
+	buttonSizer->Add(IDC_SELECTALL_CTRL, 0, wxALL, 10);
+	buttonSizer->Add(IDC_DESELECTALL_CTRL, 0, wxALL, 10);
+	topsizer->Add(buttonSizer, 0, wxALIGN_CENTER);
 }
 

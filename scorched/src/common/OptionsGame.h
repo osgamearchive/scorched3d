@@ -257,6 +257,10 @@ public:
 	void setGiveAllWeapons(bool value) { giveAllWeapons_.setValue(value); }
 	const char *getGiveAllWeaponsToolTip() { return giveAllWeapons_.getDescription(); }
 
+	bool getCycleMaps() { return cycleMaps_.getValue(); }
+	void setCycleMaps(bool value) { cycleMaps_.setValue(value); }
+	const char *getCycleMapsToolTip() { return cycleMaps_.getDescription(); }
+
 	bool getRandomizeBotNames() { return randomizeBotNames_.getValue(); }
 	void setRandomizeBotNames(bool value) { randomizeBotNames_.setValue(value); }
 	const char *getRandomizeBotNamesToolTip() { return randomizeBotNames_.getDescription(); }
@@ -351,6 +355,7 @@ protected:
 	OptionEntryBoundedInt moneyInterest_;
 	OptionEntryBool limitPowerByHealth_;
 	OptionEntryBool autoBallanceTeams_;
+	OptionEntryBool cycleMaps_;
 	OptionEntryBoundedInt turnType_;
 	OptionEntryBoundedInt windForce_;
 	OptionEntryBoundedInt windType_;

@@ -42,6 +42,8 @@ Changed: Spread and hurts weapon primative options are now variable
 Changed: LeapFrog weapon primative bounce now variable
 Changed: Message of the day now defined in server.xml file
 
+Added: Slow motion camera speeds
+Added: Maps can be cycled through in order
 Added: Keys can be set via the scorched3d settings dialog
 Added: Cavern environment (comments please!!)
 Added: Trees and models can be placed using a mask and/or height range

@@ -47,7 +47,7 @@ protected:
 		Entry &operator=(const Entry &other);
 		virtual ~Entry() { }
 
-		std::list<unsigned int> buyAccessories;
+		std::list<std::string> buyAccessories;
 		int level;
 	};
 	std::list<Entry> buyEntries_;

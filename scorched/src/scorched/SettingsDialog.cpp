@@ -72,6 +72,8 @@ protected:
 
 	void setupPlayers();
 	void onMaxPlayerChange();
+	void onSelectAll();
+	void onDeselectAll();
 
 private:
 	DECLARE_EVENT_TABLE()
@@ -79,6 +81,8 @@ private:
 
 BEGIN_EVENT_TABLE(SettingsFrame, wxDialog)
 	EVT_TEXT(SettingsPlayers::IDC_SERVER_MAX_PLAYERS,  SettingsFrame::onMaxPlayerChange)
+	EVT_BUTTON(SettingsLand::IDC_SELECTALL,  SettingsFrame::onSelectAll)
+	EVT_BUTTON(SettingsLand::IDC_DESELECTALL,  SettingsFrame::onDeselectAll)
 END_EVENT_TABLE()
 
 SettingsFrame::SettingsFrame(bool server, OptionsGame &context) :
@@ -157,6 +161,30 @@ SettingsFrame::SettingsFrame(bool server, OptionsGame &context) :
 	topsizer->SetSizeHints(this); // set size hints to honour minimum size
 
 	CentreOnScreen();
+}
+
+void SettingsFrame::onSelectAll()
+{
+	std::list<LandscapeDefinitionsEntry> &defns =
+		LandscapeDefinitions::instance()->getAllLandscapes();
+	std::list<LandscapeDefinitionsEntry>::iterator itor = 
+		defns.begin();
+	for (int i = 0; i<(int) defns.size(); i++, itor++)
+	{
+		SettingsLand::landscapes[i]->SetValue(true);
+	}
+}
+
+void SettingsFrame::onDeselectAll()
+{
+	std::list<LandscapeDefinitionsEntry> &defns =
+		LandscapeDefinitions::instance()->getAllLandscapes();
+	std::list<LandscapeDefinitionsEntry>::iterator itor =
+		defns.begin();  
+	for (int i = 0; i<(int) defns.size(); i++, itor++)
+	{           
+		SettingsLand::landscapes[i]->SetValue(false);
+	}
 }
 
 void SettingsFrame::onMaxPlayerChange()
@@ -256,6 +284,10 @@ bool SettingsFrame::TransferDataToWindow()
 					context_,
 					(*itor).name.c_str()));
 		}
+		SettingsLand::IDC_CYCLEMAPS_CTRL->SetValue(
+			context_.getCycleMaps());
+		SettingsLand::IDC_CYCLEMAPS_CTRL->SetToolTip(
+			wxString(context_.getCycleMapsToolTip()));
 	}
 
 	// Eco
@@ -571,6 +603,8 @@ bool SettingsFrame::TransferDataFromWindow()
 			}
 		}
 		context_.setLandscapes(landscapes.c_str());
+		context_.setCycleMaps(
+			SettingsLand::IDC_CYCLEMAPS_CTRL->GetValue());
 	}
 
 	// Eco

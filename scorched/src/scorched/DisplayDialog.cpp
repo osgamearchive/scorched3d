@@ -163,8 +163,9 @@ void DisplayFrame::onKeyButton(wxCommandEvent &event)
 	// Find which button was pressed
 	wxButton *chosenButton = (wxButton *) event.GetEventObject();
 	KeyButtonData *chosenData = (KeyButtonData *) chosenButton->GetRefData();
-	KeyboardKey *chosenKey = chosenData->key_;
+	KeyboardKey *chosenKey = Keyboard::instance()->getKey(chosenData->key_.c_str());
 	unsigned int chosenPosition = chosenData->position_;
+	if (!chosenKey) return;
 
 	// Ask the user for a key
 	showKeyDialog(this);
@@ -189,17 +190,20 @@ void DisplayFrame::onKeyButton(wxCommandEvent &event)
 	{
 		wxButton *button = (*itor);
 		KeyButtonData *data = (KeyButtonData *) button->GetRefData();
-		KeyboardKey *key = data->key_;
+		KeyboardKey *key = Keyboard::instance()->getKey(data->key_.c_str());
 		unsigned int position = data->position_;
 
-		std::vector<KeyboardKey::KeyEntry> &keyEntries = key->getKeys();
-		if (position < keyEntries.size())
+		if (key)
 		{
-			if (keyEntries[position].key == sdlKey &&
-				keyEntries[position].state == sdlState)
+			std::vector<KeyboardKey::KeyEntry> &keyEntries = key->getKeys();
+			if (position < keyEntries.size())
 			{
-				if (key == chosenKey) found = true;
-				else key->removeKey(position);
+				if (keyEntries[position].key == sdlKey &&
+					keyEntries[position].state == sdlState)
+				{
+					if (key == chosenKey) found = true;
+					else key->removeKey(position);
+				}
 			}
 		}
 	}
@@ -216,39 +220,29 @@ void DisplayFrame::onKeyButton(wxCommandEvent &event)
 
 void DisplayFrame::refreshKeysControls()
 {
-	std::list<wxButton *>::iterator buttonitor =
-		keyboardKeyList.begin();
-	std::list<KeyboardKey *> &keys = 
-		Keyboard::instance()->getKeyList();
-	std::list<KeyboardKey *>::iterator keyitor;
-	for (keyitor = keys.begin();
-		keyitor != keys.end();
-		keyitor++)
+	std::list<wxButton *>::iterator buttonitor;
+	for (buttonitor = keyboardKeyList.begin();
+		buttonitor != keyboardKeyList.end();
+		buttonitor++)
 	{
-		KeyboardKey *key = (*keyitor);
-		for (unsigned int position = 0; position < 4; 
-			position ++, buttonitor++)
+		wxButton *button = (*buttonitor);			
+
+		KeyButtonData *data = (KeyButtonData *) button->GetRefData();
+		KeyboardKey *key = Keyboard::instance()->getKey(data->key_.c_str());
+		unsigned int position = data->position_;
+
+		char buffer[256];
+		buffer[0] = '\0';
+		if (key && position < key->getKeys().size())
 		{
-			if (buttonitor == keyboardKeyList.end()) return;
-			wxButton *button = (*buttonitor);			
-
-			KeyButtonData *data = (KeyButtonData *) button->GetRefData();
-			data->key_ = key;
-			data->position_ = position;
-
-			char buffer[256];
-			buffer[0] = '\0';
-			if (position < key->getKeys().size())
-			{
-				const char *keyName = "";
-				const char *stateName = "";
-				KeyboardKey::translateKeyNameValue(key->getKeys()[position].key, keyName);
-				KeyboardKey::translateKeyStateValue(key->getKeys()[position].state, stateName);
-				if (strcmp(stateName, "NONE") == 0) sprintf(buffer, "%s", keyName);
-				else sprintf(buffer, "<%s> %s", stateName, keyName);
-			}
-			button->SetLabel(buffer);
+			const char *keyName = "";
+			const char *stateName = "";
+			KeyboardKey::translateKeyNameValue(key->getKeys()[position].key, keyName);
+			KeyboardKey::translateKeyStateValue(key->getKeys()[position].state, stateName);
+			if (strcmp(stateName, "NONE") == 0) sprintf(buffer, "%s", keyName);
+			else sprintf(buffer, "<%s> %s", stateName, keyName);
 		}
+		button->SetLabel(buffer);
 	}
 }
 

@@ -19,3 +19,15 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 static wxCheckBox **landscapes = 0;
+
+enum
+{
+    IDC_SELECTALL = 500,
+    IDC_DESELECTALL,
+	IDC_CYCLEMAPS
+};
+
+static wxButton *IDC_SELECTALL_CTRL = 0;
+static wxButton *IDC_DESELECTALL_CTRL = 0;
+static wxCheckBox *IDC_CYCLEMAPS_CTRL = 0;
+

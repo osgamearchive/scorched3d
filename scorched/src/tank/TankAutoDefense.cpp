@@ -20,7 +20,6 @@
 
 #include <weapons/AccessoryStore.h>
 #include <tank/TankAutoDefense.h>
-#include <server/ScorchedServer.h>
 #include <common/OptionsGame.h>
 
 TankAutoDefense::TankAutoDefense(ScorchedContext &context) :
@@ -50,7 +49,7 @@ void TankAutoDefense::reset()
 			if (accessory->getPurchasable() &&
 				(accessory->getPrice() == 0 && 
 				accessory->getBundle() == 0) ||
-				ScorchedServer::instance()->getOptionsGame().getGiveAllWeapons())
+				context_.optionsGame->getGiveAllWeapons())
 			{
 				haveDefense_ = true;
 			}

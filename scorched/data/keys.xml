@@ -516,6 +516,7 @@
 		<description>Changes the simulator to simulate in normal time</description>
 		<group>7</group>
 		<key>F1</key>
+		<key state='LSHIFT'>F1</key>
 	</keyentry>
 	<keyentry>
 		<name>SIMULATION_SPEED_X2</name>
@@ -526,8 +527,8 @@
 	</keyentry>
 	<keyentry>
 		<name>SIMULATION_SPEED_X3</name>
-		<title>X6 speed</title>
-		<description>Changes the simulator to simulate six times as fast</description>
+		<title>X4 speed</title>
+		<description>Changes the simulator to simulate four times as fast</description>
 		<group>7</group>
 		<key>F3</key>
 	</keyentry>
@@ -537,6 +538,27 @@
 		<description>Changes the simulator to simulate eight times as fast</description>
 		<group>7</group>
 		<key>F4</key>
+	</keyentry>
+	<keyentry>
+		<name>SIMULATION_SPEED_HALF</name>
+		<title>Half speed</title>
+		<description>Changes the simulator to simulate half as fast</description>
+		<group>7</group>
+		<key state='LSHIFT'>F2</key>
+	</keyentry>
+	<keyentry>
+		<name>SIMULATION_SPEED_QUARTER</name>
+		<title>Quarter speed</title>
+		<description>Changes the simulator to simulate a quarter times as fast</description>
+		<group>7</group>
+		<key state='LSHIFT'>F3</key>
+	</keyentry>
+	<keyentry>
+		<name>SIMULATION_SPEED_EIGHTH</name>
+		<title>Eighth speed</title>
+		<description>Changes the simulator to simulate a eighth times as fast</description>
+		<group>7</group>
+		<key state='LSHIFT'>F4</key>
 	</keyentry>
 	<keyentry>
 		<name>SAVE_SCREEN</name>

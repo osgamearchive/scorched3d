@@ -166,13 +166,21 @@ bool Keyboard::saveKeyFile()
 
 bool Keyboard::loadKeyFile(bool loadDefaults)
 {
-	const char *fileName = getSettingsFile("keys.xml");
-	if (!::wxFileExists(fileName) || loadDefaults)
-	{
-		fileName = getDataFile("data/keys.xml");
-	}
 	clear();
+	std::map<std::string, KeyboardKey *> usedKeyMap_;
 
+	const char *fileName = getSettingsFile("keys.xml");
+	if (::wxFileExists(fileName) && !loadDefaults)
+	{
+		if (!loadKeyFile(fileName, usedKeyMap_)) return false;
+	}
+	if (!loadKeyFile(getDataFile("data/keys.xml"), usedKeyMap_)) return false;
+	return true;
+}
+
+bool Keyboard::loadKeyFile(const char *fileName,
+	std::map<std::string, KeyboardKey *> &usedKeyMap)
+{
 	// Load key definition file
 	XMLFile file;
     if (!file.readFile(fileName))
@@ -192,8 +200,6 @@ bool Keyboard::loadKeyFile(bool loadDefaults)
 					  fileName);
 		return false;		
 	}
-
-	std::map<std::string, KeyboardKey *, std::less<std::string> > usedKeyMap_;
 
 	// Itterate all of the keys in the file
     std::list<XMLNode *>::iterator childrenItor;
@@ -232,6 +238,9 @@ bool Keyboard::loadKeyFile(bool loadDefaults)
 						  "Failed to find name node");
 			return false;
 		}
+
+		// Check to see if we have already loaded this entry
+		if (keyMap_.find(keyName) != keyMap_.end()) continue;
 		
 		// Get the description for the key
 		XMLNode *descNode;
@@ -269,9 +278,9 @@ bool Keyboard::loadKeyFile(bool loadDefaults)
 				wholeKey += state;
 				wholeKey += ":";
 				wholeKey += currentKey->getContent();
-				std::map<std::string, KeyboardKey *, std::less<std::string> >::iterator useditor =
-					usedKeyMap_.find(wholeKey);
-				if (useditor != usedKeyMap_.end())
+				std::map<std::string, KeyboardKey *>::iterator useditor =
+					usedKeyMap.find(wholeKey);
+				if (useditor != usedKeyMap.end())
 				{
 					KeyboardKey *usedKey = (*useditor).second;
 					dialogMessage("Keyboard",
@@ -279,7 +288,7 @@ bool Keyboard::loadKeyFile(bool loadDefaults)
 								  currentKey->getContent(), state, keyName, usedKey->getName());
 					return false;					
 				}
-				usedKeyMap_[wholeKey] = newKey;
+				usedKeyMap[wholeKey] = newKey;
 		}
 
 		// Actually add the key

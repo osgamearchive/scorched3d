@@ -54,11 +54,11 @@ void SpeedChange::resetSpeed()
 void SpeedChange::draw(const unsigned state)
 {
 	float speed = ScorchedClient::instance()->getActionController().getFast();
-	if (speed > 1.0f)
+	if (speed != 1.0f)
 	{
 		GLState state(GLState::BLEND_ON | GLState::TEXTURE_OFF); 
 		static char buffer[10];
-		sprintf(buffer, "%iX", (int) speed);
+		sprintf(buffer, "%.1fX", speed);
 
 		static Vector fontColor(0.7f, 0.7f, 0.2f);
 		GLWFont::instance()->getLargePtFont()->draw(fontColor, 20, 10.0f, 10.0f, 0.0f, buffer);
@@ -74,6 +74,9 @@ void SpeedChange::keyboardCheck(const unsigned state, float frameTime,
 	KEYBOARDKEY("SIMULATION_SPEED_X2", x2Key);
 	KEYBOARDKEY("SIMULATION_SPEED_X3", x3Key);
 	KEYBOARDKEY("SIMULATION_SPEED_X4", x4Key);
+	KEYBOARDKEY("SIMULATION_SPEED_HALF", xHalfKey);
+	KEYBOARDKEY("SIMULATION_SPEED_QUARTER", xQuarterKey);
+	KEYBOARDKEY("SIMULATION_SPEED_EIGHTH", xEighthKey);
 
 	if (x1Key->keyDown(buffer, keyState))
 	{
@@ -94,4 +97,20 @@ void SpeedChange::keyboardCheck(const unsigned state, float frameTime,
 		ScorchedClient::instance()->getActionController().setFast(8.0f);
 		ScorchedClient::instance()->getParticleEngine().setFast(8.0f);
 	}
+	else if (xHalfKey->keyDown(buffer, keyState))
+	{
+		ScorchedClient::instance()->getActionController().setFast(1.0f / 2.0f);
+		ScorchedClient::instance()->getParticleEngine().setFast(1.0f / 2.0f);
+	}
+	else if (xQuarterKey->keyDown(buffer, keyState))
+	{
+		ScorchedClient::instance()->getActionController().setFast(1.0f / 4.0f);
+		ScorchedClient::instance()->getParticleEngine().setFast(1.0f / 4.0f);
+	}
+	else if (xEighthKey->keyDown(buffer, keyState))
+	{
+		ScorchedClient::instance()->getActionController().setFast(1.0f / 8.0f);
+		ScorchedClient::instance()->getParticleEngine().setFast(1.0f / 8.0f);
+	}
 }
+

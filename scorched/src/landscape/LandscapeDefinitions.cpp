@@ -251,6 +251,7 @@ bool LandscapeDefinitions::landscapeEnabled(OptionsGame &context,
 LandscapeDefinition *LandscapeDefinitions::getRandomLandscapeDefn(
 	OptionsGame &context)
 {
+	// Build a list of the maps that are enabled
 	float totalWeight = 0.0f;
 	std::list<LandscapeDefinitionsEntry *> passedLandscapes;
 	std::list<LandscapeDefinitionsEntry>::iterator itor;
@@ -266,34 +267,69 @@ LandscapeDefinition *LandscapeDefinitions::getRandomLandscapeDefn(
 		}
 	}
 
-	float pos = RAND * totalWeight;
-	float soFar = 0.0f;
+	// Check we have a least one map
+	if (passedLandscapes.empty()) return 0;
 
-	std::list<LandscapeDefinitionsEntry*>::iterator passedItor;
-	for (passedItor = passedLandscapes.begin();
-		passedItor != passedLandscapes.end();
-		passedItor++)
+	// Map cycle mode
+	LandscapeDefinitionsEntry *result = 0;
+	if (context.getCycleMaps())
 	{
-		LandscapeDefinitionsEntry *result = *passedItor;
-		soFar += result->weight;
+		// Just cycle through the maps
+		static LandscapeDefinitionsEntry* last = 0;
+		bool next = false;
+		result = passedLandscapes.front();
 
-		if (pos <= soFar)
+		std::list<LandscapeDefinitionsEntry*>::iterator passedItor;
+		for (passedItor = passedLandscapes.begin();
+			passedItor != passedLandscapes.end();
+			passedItor++)
 		{
-			unsigned int texPos = int(RAND * float(result->texs.size()));
-			unsigned int defnPos = int(RAND * float(result->defns.size()));
-			DIALOG_ASSERT(texPos < result->texs.size());
-			DIALOG_ASSERT(defnPos < result->defns.size());
-			LandscapeTex *tex = getTex(result->texs[texPos].c_str());
-			LandscapeDefn *defn = getDefn(result->defns[defnPos].c_str());
-			DIALOG_ASSERT(tex && defn);
-			unsigned int seed = (unsigned int) rand();
-			LandscapeDefinition *entry = 
-				new LandscapeDefinition(tex, defn, seed);
-			return entry;
+			LandscapeDefinitionsEntry *current = *passedItor;
+			if (next) 
+			{
+				result = current;
+				break;
+			}
+			if (current == last) next = true;
 		}
+		last = result;
+	}
+	else
+	{
+		// Choose a map based on probablity
+		float pos = RAND * totalWeight;
+		float soFar = 0.0f;
 
+		std::list<LandscapeDefinitionsEntry*>::iterator passedItor;
+		for (passedItor = passedLandscapes.begin();
+			passedItor != passedLandscapes.end();
+			passedItor++)
+		{
+			LandscapeDefinitionsEntry *current = *passedItor;
+			soFar += current->weight;
+
+			if (pos <= soFar)
+			{
+				result = current;
+				break;
+			}
+		}
 	}
 
-	return 0;
+	// Check we found map
+	if (!result) return 0;
+
+	// Return the chosen definition
+	unsigned int texPos = int(RAND * float(result->texs.size()));
+	unsigned int defnPos = int(RAND * float(result->defns.size()));
+	DIALOG_ASSERT(texPos < result->texs.size());
+	DIALOG_ASSERT(defnPos < result->defns.size());
+	LandscapeTex *tex = getTex(result->texs[texPos].c_str());
+	LandscapeDefn *defn = getDefn(result->defns[defnPos].c_str());
+	DIALOG_ASSERT(tex && defn);
+	unsigned int seed = (unsigned int) rand();
+	LandscapeDefinition *entry = 
+		new LandscapeDefinition(tex, defn, seed);
+	return entry;
 }
 

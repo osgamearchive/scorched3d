@@ -23,7 +23,6 @@
 #include <weapons/AccessoryStore.h>
 #include <weapons/Weapon.h>
 #include <tank/TankWeapon.h>
-#include <server/ScorchedServer.h>
 #include <engine/ScorchedContext.h>
 #include <stdio.h>
 #include <set>
@@ -57,7 +56,7 @@ void TankWeapon::reset()
 			if (accessory->getPurchasable() &&
 				(accessory->getPrice() == 0 && 
 					accessory->getBundle() == 0) ||
-					ScorchedServer::instance()->getOptionsGame().getGiveAllWeapons())
+					context_.optionsGame->getGiveAllWeapons())
 			{
 				addWeapon((Weapon*) accessory, -1);
 			}

@@ -19,7 +19,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <tank/TankFuel.h>
-#include <server/ScorchedServer.h>
 #include <engine/ScorchedContext.h>
 #include <weapons/AccessoryStore.h>
 #include <common/Defines.h>
@@ -53,7 +52,7 @@ void TankFuel::reset()
 			if (accessory->getPurchasable() &&
 				(accessory->getPrice() == 0 && 
 				accessory->getBundle() == 0) ||
-				ScorchedServer::instance()->getOptionsGame().getGiveAllWeapons())
+				context_.optionsGame->getGiveAllWeapons())
 			{
 				addFuel(20);
 			}
@@ -63,6 +62,8 @@ void TankFuel::reset()
 
 void TankFuel::rmFuel(int no)
 {
+	if (context_.optionsGame->getGiveAllWeapons()) return;
+
 	fuelCount_ -= no;
 	if (fuelCount_ < 0)
 	{

@@ -20,7 +20,6 @@
 
 #include <tank/TankBatteries.h>
 #include <weapons/AccessoryStore.h>
-#include <server/ScorchedServer.h>
 #include <common/Defines.h>
 #include <common/OptionsGame.h>
 #include <stdio.h>
@@ -52,7 +51,7 @@ void TankBatteries::reset()
 			if (accessory->getPurchasable() &&
 				(accessory->getPrice() == 0 && 
 				accessory->getBundle() == 0) ||
-				ScorchedServer::instance()->getOptionsGame().getGiveAllWeapons())
+				context_.optionsGame->getGiveAllWeapons())
 			{
 				addBatteries(20);
 			}
@@ -62,6 +61,8 @@ void TankBatteries::reset()
 
 void TankBatteries::rmBatteries(int no)
 {
+	if (context_.optionsGame->getGiveAllWeapons()) return;
+
 	batteryCount_ -= no;
 	if (batteryCount_ < 0)
 	{
