@@ -18,11 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// TankMenus.h: interface for the TankMenus class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_TankMenus_H__571BC1CA_BDBC_4F2B_9F83_4AA083520198__INCLUDED_)
 #define AFX_TankMenus_H__571BC1CA_BDBC_4F2B_9F83_4AA083520198__INCLUDED_
 
@@ -62,6 +57,8 @@ protected:
 
 		std::vector<Accessory *> menuItems_;
 	} accessoryMenu_;	
+
+	void showTankDetails();
 
 };
 

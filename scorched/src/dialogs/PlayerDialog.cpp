@@ -18,7 +18,7 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
+#include <tankgraph/TankModelStore.h>
 #include <dialogs/PlayerDialog.h>
 #include <engine/GameState.h>
 #include <client/ClientState.h>
@@ -86,6 +86,9 @@ void PlayerDialog::buttonDown(unsigned int id)
 	{
 		if (!playerName_->getText().empty())
 		{
+			TankModel *model = 
+				TankModelStore::instance()->getModelByName(getModelName());
+			viewer_->selectModelByName(model->getId().getModelName());
 			GameState::instance()->stimulate(ClientState::StimClientConnect);
 		}
 	}

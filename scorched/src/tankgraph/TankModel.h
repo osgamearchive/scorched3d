@@ -38,6 +38,8 @@ public:
 	void draw(bool drawS, float angle, Vector &position, 
 		float fireOffSet, float rotXY, float rotXZ);
 
+	const char *getMeshName() { return meshName_.c_str(); }
+	const char *getSkinName() { return skinName_.c_str(); }
 	float getTurretHeight();
 	TankModelId &getId();
 	int getNoTris();

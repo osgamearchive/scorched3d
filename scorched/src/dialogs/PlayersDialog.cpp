@@ -18,11 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// PlayersDialog.cpp: implementation of the PlayersDialog class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <GLEXT/GLState.h>
 #include <GLW/GLWLabel.h>
 #include <GLW/GLWTextButton.h>
@@ -31,6 +26,7 @@
 #include <tankai/TankAIStore.h>
 #include <tankai/TankAIHuman.h>
 #include <tankai/TankAIAdder.h>
+#include <tankgraph/TankModelStore.h>
 #include <common/OptionsGame.h>
 #include <common/WindowManager.h>
 #include <common/OptionsTransient.h>
@@ -124,8 +120,11 @@ void PlayersDialog::buttonDown(unsigned int id)
 		if (!playerName_->getText().empty() &&
 			viewer_->getModelName())
 		{
+			TankModel *tankModel = 
+				TankModelStore::instance()->getModelByName(viewer_->getModelName());
+
 			// Create the tank and add it the the containers
-			TankModelId modelId(viewer_->getModelName());
+			TankModelId modelId(tankModel->getId().getModelName());
 			static unsigned int idAllocator = 1;
 			Tank *aTank = new Tank(
 				idAllocator++,

@@ -54,6 +54,7 @@ protected:
 	GLWTab *sellTab_;
 	GLWVisiblePanel *topPanel_;
 	int currentPlayer_;
+	unsigned int actualPlayer_;
 	std::map<unsigned int, Accessory *> sellMap_;
 	std::map<unsigned int, Accessory *> buyMap_;
 

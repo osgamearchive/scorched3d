@@ -43,7 +43,7 @@
 
 BuyAccessoryDialog::BuyAccessoryDialog() : 
 	GLWWindow("", 10.0f, 10.0f, 440.0f, 280.0f, 0),
-	currentPlayer_(-1)
+	currentPlayer_(-1), actualPlayer_(0)
 {
 	okId_ = addWidget(new GLWTextButton(" Ok", 375, 10, 55, this, true))->getId();
 
@@ -84,8 +84,7 @@ void BuyAccessoryDialog::addPlayerName()
 {
 	topPanel_->clear();
 
-	Tank *tank = TankContainer::instance()->
-		getTankByPos((unsigned int) currentPlayer_);
+	Tank *tank = TankContainer::instance()->getTankById(actualPlayer_);
 	if (!tank) return;
 
 	char buffer[256];
@@ -107,8 +106,7 @@ void BuyAccessoryDialog::addPlayerWeapons()
 void BuyAccessoryDialog::addPlayerWeaponsBuy(GLWTab *tab, bool showWeapons)
 {
 	tab->clear();
-	Tank *tank = TankContainer::instance()->
-		getTankByPos((unsigned int) currentPlayer_);
+	Tank *tank = TankContainer::instance()->getTankById(actualPlayer_);
 	if (!tank) return;
 
 	std::list<Accessory *> weapons;
@@ -176,8 +174,7 @@ void BuyAccessoryDialog::addPlayerWeaponsSell()
 	std::list<std::pair<Accessory *, int> > tankAccessories;
 	std::list<std::pair<Accessory *, int> >::iterator itor;
 
-	Tank *tank = TankContainer::instance()->
-		getTankByPos((unsigned int) currentPlayer_);
+	Tank *tank = TankContainer::instance()->getTankById(actualPlayer_);
 	if (!tank) return;
 
 	tank->getAccessories().getAllAccessories(tankAccessories);
@@ -241,6 +238,7 @@ void BuyAccessoryDialog::nextPlayer()
 	{
 		if (tank->getTankAI() && tank->getTankAI()->isHuman())
 		{
+			actualPlayer_ = tank->getPlayerId();
 			buyWeaponTab_->setDepressed();
 			playerRefresh();
 			WindowManager::instance()->showWindow(getId());
@@ -266,8 +264,7 @@ void BuyAccessoryDialog::buttonDown(unsigned int id)
 	}
 	else
 	{
-		Tank *tank = TankContainer::instance()->
-			getTankByPos((unsigned int) currentPlayer_);
+		Tank *tank = TankContainer::instance()->getTankById(actualPlayer_);
 		if (!tank) return;
 
 		std::map<unsigned int, Accessory *>::iterator itor;

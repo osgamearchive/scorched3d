@@ -29,7 +29,7 @@
 
 AutoDefenseDialog::AutoDefenseDialog() :
 	GLWWindow("Auto Defense", 10.0f, 10.0f, 440.0f, 280.0f, 0),
-	currentPlayer_(0)
+	currentPlayer_(-1), actualPlayer_(0)
 {
 	needCentered_ = true;
 	okId_ = addWidget(
@@ -60,13 +60,14 @@ void AutoDefenseDialog::windowInit(const unsigned state)
 void AutoDefenseDialog::nextPlayer()
 {
 	currentPlayer_++;
-	if (currentPlayer_ >= TankContainer::instance()->getNoOfTanks())
+	Tank *current = TankContainer::instance()->getTankByPos(
+		(unsigned int) currentPlayer_);
+	if (!current) 
 	{
 		finished();
 	}
 	else
 	{
-		Tank *current = TankContainer::instance()->getTankByPos(currentPlayer_);
 		if (!current->getAccessories().getAutoDefense().haveDefense() ||
 			(current->getTankAI() && !current->getTankAI()->isHuman()))
 		{
@@ -74,6 +75,7 @@ void AutoDefenseDialog::nextPlayer()
 		}
 		else
 		{
+			actualPlayer_ = current->getPlayerId();
 			displayCurrent();
 		}
 	}
@@ -90,7 +92,7 @@ void AutoDefenseDialog::buttonDown(unsigned int id)
 void AutoDefenseDialog::displayCurrent()
 {
 	WindowManager::instance()->showWindow(getId());
-	Tank *tank = TankContainer::instance()->getTankByPos(currentPlayer_);
+	Tank *tank = TankContainer::instance()->getTankById(actualPlayer_);
 	if (!tank) return;
 
 	topPanel_->clear();
@@ -155,7 +157,7 @@ void AutoDefenseDialog::select(unsigned int id,
 							   const int pos, 
 							   const char *value)
 {
-	Tank *tank = TankContainer::instance()->getTankByPos(currentPlayer_);
+	Tank *tank = TankContainer::instance()->getTankById(actualPlayer_);
 	if (!tank) return;
 
 	if (id == paraId_)

@@ -18,20 +18,17 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// TankMenus.cpp: implementation of the TankMenus class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <engine/GameState.h>
 #include <client/ClientState.h>
 #include <tank/TankContainer.h>
 #include <tankgraph/TankMenus.h>
+#include <tankgraph/TankModelRenderer.h>
 #include <common/WindowManager.h>
 #include <landscape/Landscape.h>
 #include <landscape/GlobalHMap.h>
 #include <dialogs/MainMenuDialog.h>
 #include <dialogs/QuitDialog.h>
+#include <GLEXT/GLConsoleRuleMethodIAdapter.h>
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
@@ -39,12 +36,55 @@
 
 TankMenus::TankMenus()
 {
-
+	new GLConsoleRuleMethodIAdapter<TankMenus>(
+		this, &TankMenus::showTankDetails, "TankDetails");
 }
 
 TankMenus::~TankMenus()
 {
 
+}
+
+void TankMenus::showTankDetails()
+{
+	std::map<unsigned int, Tank *> &tanks = 
+		TankContainer::instance()->getPlayingTanks();
+	Tank *currentTank = 
+		TankContainer::instance()->getCurrentTank();
+
+	GLConsole::instance()->addLine(false,
+		"--Tank Dump-----------------------------------------");
+		
+	std::map<unsigned int, Tank *>::iterator itor;
+	for (itor = tanks.begin();
+		itor != tanks.end();
+		itor++)
+	{
+		Tank *tank = (*itor).second;
+		TankAI *tankai = tank->getTankAI();
+		TankModelId &modelId = tank->getModel();
+		TankModelRenderer *renderer = (TankModelRenderer *) 
+			modelId.getModelIdRenderer();
+		char *mesh = "Unknown";
+		char *skin = "Unknown";
+		if (renderer)
+		{
+			if (renderer->getModel()->getMeshName()) 
+				mesh = (char *) renderer->getModel()->getMeshName();
+			if (renderer->getModel()->getSkinName())
+				skin = (char *) renderer->getModel()->getSkinName();
+		}
+
+		char buffer[1024];
+		sprintf(buffer, "%c %8s - \"%10s\" (%s:%s+%s)", 
+			currentTank == tank?'>':' ',
+			(tankai?(tankai->isHuman()?"Human":"Bot"):"Unknown"),
+			tank->getName(), modelId.getModelName(),mesh,skin);
+		GLConsole::instance()->addLine(false, buffer);
+	}
+
+	GLConsole::instance()->addLine(false,
+		"----------------------------------------------------");
 }
 
 // Player Menus
