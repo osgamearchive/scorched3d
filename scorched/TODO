@@ -36,7 +36,7 @@ Added: Can sort accessories in buying dialog by name (or not)
 Added: Even more tank talk lines (thanks Maxim Genis)
 Added: Even more, and more tank talk lines (thanks Maxim Genis)
 Added: Target mode for single player that gives all weapons + accessories
-Added: Target tank ai that does shoot at all (for target practice)
+Added: Target tank ai that does not shoot at all (for target practice)
 Added: Initial tank elevation and rotation only random for the first round only
 Added: Settings dialog split over tabs to reduce size (and apparent complexity)
 Added: Gorilla tank and banana weapon model (thanks Knochi)
