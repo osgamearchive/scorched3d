@@ -1,55 +1,4 @@
 -- Bugs Fixed and Ready For Release 
-Fixed: Player tooltips on plan dialog don't work
-Fixed: Auto defense dialog refreshing when other players use theirs
-Fixed: Compilation problems due to std namespace being global
-Fixed: Some MSVC 2003 compilation problems
-Fixed: Buoys now shaded
-Fixed: Client does not wait at the end of each shot when fast speed is enabled
-Fixed: TankAIs will not get "confused" by bouncy walls, shields or wrap walls
-Fixed: Spelling and gammour in talk lines (thanks Stefan Lindner)
-Fixed: Score dialog only shown once in the final round
-Fixed: DirectX is only checked when running the client.
-Fixed: Added scroll bars to landscape settings dialog
-Fixed: Smoke disapears after a while
-Fixed: Server more responsive, slow clients don't affect other players
-Fixed: Server won't wait for dead clients to respond
-Fixed: Tooltips don't show through other dialogs
-Fixed: Looser->Loser spelling on dialogs
-Fixed: Shot cam does not jump around (back to v35 kind of)
-Fixed: Scaled down all sand hogs power
-Fixed: Changed server browser to use new browsing server (scorched3d.sourceforge.net)
-Fixed: MOTD is put to logging console as well as rules dialog
-
-Added: Swap y-axis mode for mac OS X windowed mode
-Added: Screensaver mode
-Added: Option to auto remove computer players when a certain number of humans in game
-Added: Laser death sound from original game (thanks josh morris)
-Added: Static compiling flags for wx-windows and SDL
-Added: Mysql compile options for windows (+ required libraries and headers)
-Added: Stats ranking message when player joins server
-Added: Icons on net browsing dialog showing game state
-Added: Talk dialog can be shown in team talk mode (y key)
-Added: Single player games can be saved
-Added: Auto ballance teams option is available via settings gui
-Added: Help tooltips to most dialogs
-Added: Can sort accessories in buying dialog by name (or not)
-Added: Even more tank talk lines (thanks Maxim Genis)
-Added: Even more, and more tank talk lines (thanks Maxim Genis)
-Added: Target mode for single player that gives all weapons + accessories
-Added: Target tank ai that does not shoot at all (for target practice)
-Added: Initial tank elevation and rotation only random for the first round only
-Added: Settings dialog split over tabs to reduce size (and apparent complexity)
-Added: Gorilla tank and banana weapon model (thanks Knochi)
-Added: Html help bundled with Scorched3D
-Added: Help can be browsed via help button on main menu dialog
-Added: Bot names can be randomly choosen by setting config option
-Added: All effects speed up with increased speed settings
-Added: Can change secondary camera windows view (by clicking on camera type)
-Added: Tank models can be made larger (does not effect other clients or damage radius)
-Added: Action camera now shows view from behind tank during turn
-Added: Server file logging is off by default
-Added: Tooltips to display settings and server dialogs
-Added: Fail safe for actions that time them out after 30 seconds
 
 -- Bugs in current development release
 Dvorak keyboard support is broken
@@ -58,14 +7,23 @@ Gun fires at same point for all tanks (ignores turret/gun position in model)
 Shot cam does not get LOD correctly
 
 -- Things I am currently looking at
-Make AIs better (partialy done)
+Make AIs even better
 Riot Blast
 A way to allow tank spawn positions to be configured, bitmap landscapes only?
 Custom maps etc can be auto-downloaded from server
 Web interface for server to change settings
 Allow tank movement up bigger slopes
 Add some way of stopping the OptionsGame from being messed up!
+Fix parachutes so they dont come on too often (perhaps allow threshold to be set).
 A way to set the maximum and minimum players for a map
+Add time connected, roundsplayed, weapons.armslevel, fix player connects, add money earned to stats
+Lightning, rain and meteors
+New surrounds instead of the water
+Allow objects other than trees to be used (as models)
+More dirt option for landscape (perhaps cannot go under water)
+Move resources into landscape definitons file
+Make rollers look better
+More weapons options as seen in http://scorched3d.sourceforge.net/phpBB2/viewtopic.php?t=875
 
 -- Server Stuff
 Chat filter (swear words)
@@ -75,12 +33,9 @@ Ban players
 Option to reconnect when disconected from server.
 In local mode when it's the next person's turn, re-center the view to where they last had it, and display who's turn it is on the screen.
 Ability to re center view around other tanks
-keep track of money after you leave the server
 keep track of views 
 Make a count down sound when timer runs out.
 Add option for human players to say stuff when firing/killed
-Chat logger (for urls) (you can do this using client logging) 
-Only show sprites/pictures for the tanks in the chooser dialog (use 3d model for selected tanks) (kind of fixed by using progress bar)
 
 -- Other Stuff
 Add the ability to customize the languages (for dialogs etc..) (localisation)
