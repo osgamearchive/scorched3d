@@ -303,6 +303,8 @@ scorched3d_SOURCES = \
 	../dialogs/HUDDialog.h \
 	../dialogs/HelpButtonDialog.cpp \
 	../dialogs/HelpButtonDialog.h \
+	../dialogs/InventoryDialog.cpp \
+	../dialogs/InventoryDialog.h \
 	../dialogs/KibitzingDialog.cpp \
 	../dialogs/KibitzingDialog.h \
 	../dialogs/LogDialog.cpp \

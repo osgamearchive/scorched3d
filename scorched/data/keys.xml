@@ -505,6 +505,12 @@
 		<key>q</key>
 	</keyentry>
 	<keyentry>
+		<name>SHOW_INVENTORY_DIALOG</name>
+		<title>Show inventory</title>
+		<description>Shows or hides the inventory dialog</description>
+		<group>5</group>
+	</keyentry>
+	<keyentry>
 		<name>SHOW_SAVE_DIALOG</name>
 		<title>Save game</title>
 		<description>Shows or hides the save game dialog</description>

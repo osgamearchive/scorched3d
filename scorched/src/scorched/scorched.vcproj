@@ -1144,6 +1144,12 @@
 				RelativePath="..\dialogs\HelpButtonDialog.h">
 			</File>
 			<File
+				RelativePath="..\dialogs\InventoryDialog.cpp">
+			</File>
+			<File
+				RelativePath="..\dialogs\InventoryDialog.h">
+			</File>
+			<File
 				RelativePath="..\dialogs\KibitzingDialog.cpp">
 			</File>
 			<File

@@ -39,6 +39,7 @@
 #include <dialogs/TalkDialog.h>
 #include <dialogs/ScoreDialog.h>
 #include <dialogs/KibitzingDialog.h>
+#include <dialogs/InventoryDialog.h>
 #include <dialogs/HUDDialog.h>
 #include <dialogs/HelpButtonDialog.h>
 
@@ -62,6 +63,10 @@ void WindowSetup::addCommonComponents(unsigned state)
 	KEYBOARDKEY("HUD_ITEMS", hudItemsKey);
 	GLWWindowManager::instance()->addWindow(state, 
  		HUDDialog::instance(), hudItemsKey, false);
+
+	KEYBOARDKEY("SHOW_INVENTORY_DIALOG", showInvKey);
+	GLWWindowManager::instance()->addWindow(state, 
+ 		InventoryDialog::instance(), showInvKey, false);
 
 	KEYBOARDKEY("SHOW_QUIT_DIALOG", quitKey);
 	GLWWindowManager::instance()->addWindow(state, 
