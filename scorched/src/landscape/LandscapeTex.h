@@ -63,6 +63,8 @@ public:
 	virtual ~LandscapeTexObjectsPlacementTree();
 
 	int numobjects;
+	int numclusters;
+	float minheight, maxheight;
 
 	std::string objecttype;
 	LandscapeTexType *object;

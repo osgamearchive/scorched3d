@@ -29,6 +29,9 @@
 		<placements>
 			<placement type="trees">
 				<numobjects>1000000</numobjects>
+				<numclusters>25</numclusters>
+				<minheight>8</minheight>
+				<maxheight>30</maxheight>
 				<object type="tree">
 					<tree>pine</tree>
 					<snow>25</snow>
@@ -94,6 +97,9 @@
 		<placements>
 			<placement type="trees">
 				<numobjects>1000000</numobjects>
+				<numclusters>25</numclusters>
+				<minheight>8</minheight>
+				<maxheight>30</maxheight>
 				<object type="tree">
 					<tree>palm</tree>
 					<snow>100</snow>
@@ -130,6 +136,9 @@
 		<placements>
 			<placement type="trees">
 				<numobjects>1000000</numobjects>
+				<numclusters>25</numclusters>
+				<minheight>8</minheight>
+				<maxheight>30</maxheight>
 				<object type="tree">
 					<tree>pine</tree>
 					<snow>10</snow>
@@ -166,6 +175,9 @@
 		<placements>
 			<placement type="trees">
 				<numobjects>1000000</numobjects>
+				<numclusters>25</numclusters>
+				<minheight>8</minheight>
+				<maxheight>30</maxheight>
 				<object type="tree">
 					<tree>palm</tree>
 					<snow>100</snow>
@@ -231,6 +243,9 @@
 		<placements>
 			<placement type="trees">
 				<numobjects>1000000</numobjects>
+				<numclusters>25</numclusters>
+				<minheight>8</minheight>
+				<maxheight>30</maxheight>
 				<object type="tree">
 					<tree>pine</tree>
 					<snow>20</snow>
@@ -267,6 +282,9 @@
 		<placements>
 			<placement type="trees">
 				<numobjects>1000000</numobjects>
+				<numclusters>25</numclusters>
+				<minheight>8</minheight>
+				<maxheight>30</maxheight>
 				<object type="model">
 					<model type="MilkShape">data/accessories/banana/banana.txt</model>
 					<modelburnt type="MilkShape">data/accessories/banana/banana.txt</modelburnt>

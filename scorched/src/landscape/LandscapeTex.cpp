@@ -106,6 +106,9 @@ LandscapeTexObjectsPlacementTree::~LandscapeTexObjectsPlacementTree()
 bool LandscapeTexObjectsPlacementTree::writeMessage(NetBuffer &buffer)
 {
 	buffer.addToBuffer(numobjects);
+	buffer.addToBuffer(numclusters);
+	buffer.addToBuffer(minheight);
+	buffer.addToBuffer(maxheight);
 	buffer.addToBuffer(objecttype);
 	if (!object->writeMessage(buffer)) return false;
 	return true;
@@ -114,6 +117,9 @@ bool LandscapeTexObjectsPlacementTree::writeMessage(NetBuffer &buffer)
 bool LandscapeTexObjectsPlacementTree::readMessage(NetBufferReader &reader)
 {
 	if (!reader.getFromBuffer(numobjects)) return false;
+	if (!reader.getFromBuffer(numclusters)) return false;
+	if (!reader.getFromBuffer(minheight)) return false;
+	if (!reader.getFromBuffer(maxheight)) return false;
 	if (!reader.getFromBuffer(objecttype)) return false;
 	if (!(object = fetchObjectTexType(objecttype.c_str()))) return false;
 	if (!object->readMessage(reader)) return false;
@@ -124,6 +130,9 @@ bool LandscapeTexObjectsPlacementTree::readXML(XMLNode *node)
 {
 	XMLNode *objectNode;
 	if (!node->getNamedChild("numobjects", numobjects)) return false;
+	if (!node->getNamedChild("numclusters", numclusters)) return false;
+	if (!node->getNamedChild("minheight", minheight)) return false;
+	if (!node->getNamedChild("maxheight", maxheight)) return false;
 	if (!node->getNamedChild("object", objectNode)) return false;
 	if (!objectNode->getNamedParameter("type", objecttype)) return false;
 	if (!(object = fetchObjectTexType(objecttype.c_str()))) return false;

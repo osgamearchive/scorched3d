@@ -38,7 +38,7 @@ void LandscapeObjectPlacementTrees::generateObjects(
 	memset(objectMap, 0, sizeof(unsigned char) * 64 * 64);
 
 	// A few points where trees will be clustered around
-	for (int i=0; i<25; i++)
+	for (int i=0; i<placement.numclusters; i++)
 	{
 		// Get a random point
 		int x = int(generator.getRandFloat() * 64.0f);
@@ -51,7 +51,9 @@ void LandscapeObjectPlacementTrees::generateObjects(
 		Vector &normal =
 			ScorchedClient::instance()->getLandscapeMaps().
 				getHMap().getNormal(x * 4, y * 4);
-		if (height > 8.0f && height < 20.0f && normal[2] > 0.7f)
+		if (height > placement.minheight && 
+			height < placement.maxheight && 
+			normal[2] > 0.7f)
 		{
 			// Group other areas around this point that are likely to get trees
 			// Do a few groups
@@ -70,7 +72,9 @@ void LandscapeObjectPlacementTrees::generateObjects(
 					height = 
 						ScorchedClient::instance()->getLandscapeMaps().
 						getHMap().getHeight(newX * 4, newY *4);
-					if (height > 8.0f && height < 30.0f && normal[2] > 0.7f)
+					if (height > placement.minheight && 
+						height < placement.maxheight && 
+						normal[2] > 0.7f)
 					{
 						objectMap[newX + 64 * newY] = 64;
 					}
