@@ -2,7 +2,7 @@ use strict;
 
 my %usedFiles = ();
 
-addVCProj("..\\src\\scorched\\scorched.vcproj", "scorched", "scorched");
+addVCProj("../src/scorched/scorched.vcproj", "scorched", "scorched");
 
 sub addVCProj
 {
@@ -17,20 +17,21 @@ sub addVCProj
 		if (/RelativePath="([^"]+)"/)
 		{
 			my $file = $1;
+			$file =~ s/\\/\//g;
 			if ($file =~ /\.\./)
 			{
-				$file =~ s/\.\.\\//;
+				$file =~ s/\.\.\///;
 			}
 			else
 			{
-				$file = "$basedir\\$file";
+				$file = "$basedir/$file";
 			}
 
 			$file =~ /(^\w+)/;
 			my $dir = $vcfile;
 
 			$dir =~ tr/[a-z]/[A-Z]/;
-			$file = "..\\src\\$file";
+			$file = "../src/$file";
 			if (! -f "$file" )
 			{	
 				print "Not found \"$dir - $file\"\n";
@@ -46,20 +47,22 @@ sub addVCProj
 	close(IN);
 }
 
-opendir(DIR, "..\\src") || die "ERROR: Opendir ..\\src";
+opendir(DIR, "../src") || die "ERROR: Opendir ..\\src";
 my @dirs = grep { !/^\./ } readdir(DIR);
 closedir(DIR);
 
 my $dir;
 foreach $dir (@dirs)
 {
-	checkDir("..\\src\\$dir");
+	#print "Checking dir ../src/$dir\n";
+	checkDir("../src/$dir");
 }
 
 sub checkDir
 {
 	my ($dir) = @_;
 	return if (! -d $dir);
+
 	opendir(DIR, $dir) || die "ERROR: Cannot open \"$dir\"";
 	my @files = grep { !/^\./ } readdir(DIR);
 	closedir(DIR);
@@ -67,7 +70,7 @@ sub checkDir
 	my $file;
 	foreach $file (@files)
 	{
-		my $wholeName = $dir."\\".$file;
+		my $wholeName = $dir."/".$file;
 		#$wholeName =~ tr/[a-z]/[A-Z]/;
 
 		next if (! -f $wholeName);

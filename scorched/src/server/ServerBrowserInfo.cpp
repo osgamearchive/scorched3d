@@ -69,7 +69,7 @@ void ServerBrowserInfo::processMessages()
 	{
 		if (packetV_[i]->len == 0) packetV_[i]->data[0] = '\0';
 
-		printf("Packet = %s\n", (char *) packetV_[i]->data);
+		//printf("Packet = %s\n", (char *) packetV_[i]->data);
 
 		if (0 == strcmp((char *) packetV_[i]->data, "status")) processStatusMessage(buffer);
 		else if (0 == strcmp((char *) packetV_[i]->data, "info")) processInfoMessage(buffer);
@@ -80,8 +80,8 @@ void ServerBrowserInfo::processMessages()
 		memcpy(packetV_[i]->data, buffer, len);
 		packetV_[i]->len = len;
 
-		printf("Packet len = %i\n", packetV_[i]->len);
-		printf("Packet = %s\n", packetV_[i]->data);
+		//printf("Packet len = %i\n", packetV_[i]->len);
+		//printf("Packet = %s\n", packetV_[i]->data);
 	}
 	
 	SDLNet_UDP_SendV(udpsock_, packetV_, numrecv);

@@ -41,11 +41,6 @@ void ServerShotState::enterState(const unsigned state)
 {
 	serverLog(0, "Playing Shots");
 
-	// Tell all tanks it is the next shot
-	// Set the all the tanks to wait state
-	// Once all tanks are ready the next state will be chosen
-	ScorchedServer::instance()->getContext().tankContainer.nextShot();	
-
 	// Reset the counts in the action controller
 	ScorchedServer::instance()->getActionController().resetTime();
 	ScorchedServer::instance()->getActionController().clear();
