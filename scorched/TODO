@@ -11,6 +11,7 @@ Added: Buy dialog order and position don't change after buy
 Added: Tank choice dialog shows many more tanks
 Added: Tanks placed into catagories to make for easier choosing
 Added: MilkShape model support (including alpha maps)
+Added: Keys are defined and can be configured via XML file (keys.xml)
 
 Fixed: Applied http://wwwra.informatik.uni-rostock.de/~waschk/Scorched3D-35-gcc3.3.patch
 Fixed: Landscape explosions are much faster
