@@ -41,6 +41,8 @@ public:
 	virtual Action *fireWeapon(unsigned int playerId, 
 		Vector &position, Vector &velocity) = 0;
 
+	virtual Vector &getExplosionColor();
+
 	int getDeathAnimationWeight() { return deathAnimationWeight_; }
 	const char *getExplosionTexture();
 	const char *getFiredSound();

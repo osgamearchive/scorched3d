@@ -79,11 +79,12 @@ void Explosion::init()
 	if (!context_->serverMode) 
 	{
 		GLTextureSet *texture = &ExplosionTextures::instance()->exp00;
-		std::map<const char *, GLTextureSet*>::iterator itor =
-			ExplosionTextures::instance()->textureSets.find(weapon_->getExplosionTexture());
-		if (itor != ExplosionTextures::instance()->textureSets.end())
+		Vector expColor(1.0f, 1.0f, 1.0f);
+		if (deformType_ != DeformNone)
 		{
-			texture = (*itor).second;
+			texture = ExplosionTextures::instance()->getTextureSetByName(
+				weapon_->getExplosionTexture());
+			expColor = weapon_->getExplosionColor();
 		}
 
 		float height = context_->landscapeMaps.getHMap().getInterpHeight(
@@ -94,7 +95,9 @@ void Explosion::init()
 			new ExplosionRenderer(
 				position_, 
 				*texture,
-				explosionSize, explosionHurts_));
+				expColor,
+				explosionSize, 
+				explosionHurts_));
 		if (width_ >=11 && deformType_==DeformDown && explosionHurts_ &&
 			aboveGround < 2.0f)
 		{

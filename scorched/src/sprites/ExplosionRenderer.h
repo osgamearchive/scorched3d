@@ -31,6 +31,7 @@ class ExplosionRenderer : public ActionRenderer
 {
 public:
 	ExplosionRenderer(Vector &position, GLTextureSet &textureSet, 
+		Vector &color,
 		float width, bool weapon);
 	virtual ~ExplosionRenderer();
 
@@ -44,7 +45,7 @@ protected:
 		ExplosionSubPart();
 
 		void simulate(float frametime);
-		void draw(	Vector &center, float w, float opacity1, 
+		void draw(	Vector &center, Vector &color, float w, float opacity1, 
 			float opacity2, GLTexture *t1, GLTexture *t2);
 
 		GLBilboardRenderer::Entry graphicEntry1_;
@@ -62,7 +63,7 @@ protected:
 		~ExplosionMainPart();
 
 		void simulate(float frametime);
-		void draw(Vector &center, float w, float opacity1, 
+		void draw(Vector &center, Vector &color, float w, float opacity1, 
 			float opacity2, GLTexture *t1, GLTexture *t2);
 
 	protected:
@@ -80,6 +81,7 @@ protected:
 	float width_;
 	float currentWidth_;
 	GLTextureSet &textureSet_;
+	Vector color_;
 
 	void drawExplosion();
 

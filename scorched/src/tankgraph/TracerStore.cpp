@@ -90,12 +90,25 @@ void TracerStore::draw(const unsigned state)
 	for (;itor2 != itorend2; itor2++)
 	{
 		glBegin(GL_LINES);
-			itor = (*itor2).begin();
-			itorend = (*itor2).end();
-			for (;itor != itorend; itor++)
+		itor = (*itor2).begin();
+		itorend = (*itor2).end();
+		for (;itor != itorend; itor++)
+		{
+			Vector &startPos = *itor;
+			itor++;
+			if (itor != itorend)
 			{
-				glVertex3fv(*itor);
+				Vector &endPos = *itor;
+
+				if (fabs(startPos[0] - endPos[0]) < 100.0f &&
+					fabs(startPos[1] - endPos[1]) < 100.0f)
+				{
+					glVertex3fv(startPos);
+					glVertex3fv(endPos);
+				}
 			}
+			else break;
+		}
 		glEnd();
 	}
 }

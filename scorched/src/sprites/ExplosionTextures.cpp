@@ -18,18 +18,9 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// ExplosionTextures.cpp: implementation of the ExplosionTextures class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <stdio.h>
 #include <GLEXT/GLBitmap.h>
 #include <sprites/ExplosionTextures.h>
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 ExplosionTextures *ExplosionTextures::instance_ = 0;
 
@@ -111,4 +102,16 @@ void ExplosionTextures::createTextures(ProgressCounter *counter)
 	textureSets["exp05"] = &exp05;
 
 	createTextureSet(flames, 33, PKGDIR "data/textures/flame/flame", true);
+}
+
+GLTextureSet *ExplosionTextures::getTextureSetByName(const char *name)
+{
+	GLTextureSet * result = &exp00;
+	std::map<std::string, GLTextureSet*>::iterator itor =
+		textureSets.find(name);
+	if (itor != textureSets.end())
+	{
+		result = (*itor).second;
+	}
+	return result;
 }

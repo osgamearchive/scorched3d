@@ -123,5 +123,5 @@ void MissileActionRenderer::draw(Action *action)
 	Vector &actualPos = shot->getCurrentPosition();
 	Vector &actualdir = shot->getCurrentVelocity();
 	mesh_->setScale(scale_);
-	mesh_->draw(actualPos, actualdir);
+	mesh_->draw(actualPos, actualdir, flareType_);
 }

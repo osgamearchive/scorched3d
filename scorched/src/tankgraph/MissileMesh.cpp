@@ -81,7 +81,7 @@ void MissileMesh::createArrays(ModelsFile &aseMissile, bool useTextures, float d
 	}	
 }
 
-void MissileMesh::draw(Vector &position, Vector &direction)
+void MissileMesh::draw(Vector &position, Vector &direction, int flareType)
 {
 	// Draw the missile shadow
 	float aboveGround =
@@ -136,7 +136,7 @@ void MissileMesh::draw(Vector &position, Vector &direction)
 		newPos[1] = position[1] + newY2;
 		newPos[2] = position[2] + newZ2;
 
-		GLLenseFlare::instance()->draw(newPos, dir, 3);
+		GLLenseFlare::instance()->draw(newPos, dir, flareType);
 	}
 }
 

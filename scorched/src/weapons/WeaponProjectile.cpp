@@ -23,7 +23,7 @@
 
 REGISTER_ACCESSORY_SOURCE(WeaponProjectile);
 
-WeaponProjectile::WeaponProjectile() : size_(0), under_(false)
+WeaponProjectile::WeaponProjectile() : size_(0), under_(false), multiColored_(false)
 {
 
 }
@@ -52,6 +52,10 @@ bool WeaponProjectile::parseXML(XMLNode *accessoryNode)
 	XMLNode *underNode = accessoryNode->getNamedChild("under");
 	if (underNode) under_ = true;
 
+	// Get the accessory colored
+	XMLNode *colorNode = accessoryNode->getNamedChild("multicolor");
+	if (colorNode) multiColored_ = true;
+
 	return true;
 }
 
@@ -69,6 +73,30 @@ bool WeaponProjectile::readAccessory(NetBufferReader &reader)
 	if (!reader.getFromBuffer(size_)) return false;
 	if (!reader.getFromBuffer(under_)) return false;
 	return true;
+}
+
+Vector &WeaponProjectile::getExplosionColor()
+{
+	if (!multiColored_) return Weapon::getExplosionColor();
+
+	static Vector red(1.0f, 0.0f, 0.0f);
+	static Vector green(0.0f, 1.0f, 0.0f);
+	static Vector blue(0.0f, 0.0f, 1.0f);
+	static Vector yellow(1.0f, 1.0f, 0.0f);
+
+	int color = int(RAND * 4.0f);
+	switch (color)
+	{
+	case 0:
+		return red;
+	case 1:
+		return green;
+	case 2:
+		return blue;
+	case 3:
+		return yellow;
+	}
+	return Weapon::getExplosionColor();
 }
 
 Action *WeaponProjectile::fireWeapon(unsigned int playerId, Vector &position, Vector &velocity)

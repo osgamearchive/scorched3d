@@ -66,14 +66,14 @@ void ExplosionRenderer::ExplosionMainPart::simulate(float frameTime)
 }
 
 void ExplosionRenderer::ExplosionMainPart::draw(
-	Vector &center, float w, float opacity1, 
+	Vector &center, Vector &color, float w, float opacity1, 
 	float opacity2, GLTexture *t1, GLTexture *t2)
 {
 	Vector newposition = center + position;
 
 	for (int j=0; j<OptionsDisplay::instance()->getNumberExplosionSubParts(); j++)
 	{
-		subParts[j].draw(newposition, w, opacity1, opacity2, t1, t2);
+		subParts[j].draw(newposition, color, w, opacity1, opacity2, t1, t2);
 	}
 }
 
@@ -122,7 +122,7 @@ void ExplosionRenderer::ExplosionSubPart::simulate(float frameTime)
 }
 
 void ExplosionRenderer::ExplosionSubPart::draw(
-	Vector &center, float w, float opacity1, 
+	Vector &center, Vector &color, float w, float opacity1, 
 	float opacity2, GLTexture *t1, GLTexture *t2)
 {	
 	// Set the bilboard parameters and add it the renderer
@@ -135,15 +135,21 @@ void ExplosionRenderer::ExplosionSubPart::draw(
 	graphicEntry2_.texture = t2;
 	graphicEntry1_.alpha = opacity1;
 	graphicEntry2_.alpha = opacity2;
+	graphicEntry1_.r_color = color[0];
+	graphicEntry1_.g_color = color[1];
+	graphicEntry1_.b_color = color[2];
+	graphicEntry2_.r_color = color[0];
+	graphicEntry2_.g_color = color[1];
+	graphicEntry2_.b_color = color[2];
 	GLBilboardRenderer::instance()->addEntry(&graphicEntry1_);
 	if (t2)	GLBilboardRenderer::instance()->addEntry(&graphicEntry2_);
 }
 
 ExplosionRenderer::ExplosionRenderer(Vector &position, GLTextureSet &textureSet, 
-									 float width, bool weapon) 
+									 Vector &color, float width, bool weapon) 
 	: width_(width), currentWidth_(0.0f), textureSet_(textureSet),
 	centrePosition_(position), firstTime_(true),
-	weapon_(weapon)
+	weapon_(weapon), color_(color)
 {
 	mainParts = new ExplosionMainPart[
 		OptionsDisplay::instance()->getNumberExplosionSubParts()];
@@ -268,7 +274,7 @@ void ExplosionRenderer::drawExplosion()
 	// Draw explosions
 	for (i=1; i<OptionsDisplay::instance()->getNumberExplosionSubParts(); i++)
 	{
-		mainParts[i].draw(centrePosition_, 
+		mainParts[i].draw(centrePosition_, color_,
 			width,
 			opacity * (1.0f - textureDiff), 
 			opacity * (textureDiff), 
@@ -277,9 +283,10 @@ void ExplosionRenderer::drawExplosion()
 	}
 
 	// Draw smoke clouds
+	static Vector white(1.0f, 1.0f, 1.0f);
 	for (i=0; i<1; i++)
 	{
-		mainParts[i].draw(centrePosition_, 
+		mainParts[i].draw(centrePosition_, white,
 			0.3f, 0.3f,
 			width, 
 			&ExplosionTextures::instance()->smokeTexture,

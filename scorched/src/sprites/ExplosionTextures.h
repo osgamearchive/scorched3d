@@ -18,16 +18,12 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// ExplosionTextures.h: interface for the ExplosionTextures class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_EXPLOSIONTEXTURES_H__F2BC42E7_B2FB_4C0D_ACF0_0B91D8DC84D3__INCLUDED_)
 #define AFX_EXPLOSIONTEXTURES_H__F2BC42E7_B2FB_4C0D_ACF0_0B91D8DC84D3__INCLUDED_
 
 #include <GLEXT/GLTextureSet.h>
 #include <common/ProgressCounter.h>
+#include <string>
 #include <map>
 
 class ExplosionTextures  
@@ -48,7 +44,8 @@ public:
 	GLTexture smokeTexture;
 	GLTexture smokeTexture2;
 
-	std::map<const char *, GLTextureSet*> textureSets;
+	GLTextureSet *getTextureSetByName(const char *name);
+	std::map<std::string, GLTextureSet*> textureSets;
 
 protected:
 	static ExplosionTextures *instance_;

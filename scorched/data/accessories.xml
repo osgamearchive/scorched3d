@@ -103,7 +103,7 @@ Any flames near tanks will remove life.</description>
 		<bundlesize>0</bundlesize>
 		<armslevel>10</armslevel>
 		<size>4</size>
-		<explosiontexture>exp03</explosiontexture>
+		<explosiontexture>exp00</explosiontexture>
 		<firedsound>shoot/small.wav</firedsound>
 		<explosionsound>explosions/small.wav</explosionsound>
 	</accessory>
@@ -115,7 +115,7 @@ Any flames near tanks will remove life.</description>
 		<bundlesize>5</bundlesize>
 		<armslevel>9</armslevel>
 		<size>6</size>
-		<explosiontexture>exp03</explosiontexture>
+		<explosiontexture>exp00</explosiontexture>
 		<firedsound>shoot/medium.wav</firedsound>
 		<explosionsound>explosions/medium.wav</explosionsound>
 	</accessory>
@@ -129,7 +129,7 @@ Any flames near tanks will remove life.</description>
 		<size>11</size>
 		<explosionshake>2.0</explosionshake>
 		<deathanimationweight>60</deathanimationweight>
-		<explosiontexture>exp03</explosiontexture>
+		<explosiontexture>exp00</explosiontexture>
 		<firedsound>shoot/large.wav</firedsound>
 		<explosionsound>explosions/large.wav</explosionsound>
 		<projectilemodel type="MilkShape">littleboy/littleboy.txt</projectilemodel>
@@ -144,7 +144,7 @@ Any flames near tanks will remove life.</description>
 		<size>18</size>
 		<explosionshake>4.0</explosionshake>
 		<deathanimationweight>10</deathanimationweight>
-		<explosiontexture>exp03</explosiontexture>
+		<explosiontexture>exp00</explosiontexture>
 		<firedsound>shoot/xlarge.wav</firedsound>
 		<explosionsound>explosions/xlarge.wav</explosionsound>
 		<projectilemodel type="MilkShape">fatman/fatman.txt</projectilemodel>
@@ -160,6 +160,7 @@ that continue in the same direction as the original.</description>
 		<armslevel>7</armslevel>
 		<firedsound>shoot/medium.wav</firedsound>
 		<size>8</size>
+		<explosiontexture>exp01</explosiontexture>
 		<explosionsound>explosions/medium.wav</explosionsound>
 		<projectilemodel type="MilkShape">bouncingbetty/bouncingbetty.txt</projectilemodel>
 		<subweapon type="WeaponLeapFrog">
@@ -169,6 +170,7 @@ that continue in the same direction as the original.</description>
 			<bundlesize>-1</bundlesize>
 			<armslevel>7</armslevel>
 			<size>7</size>
+			<explosiontexture>exp01</explosiontexture>
 			<explosionsound>explosions/medium.wav</explosionsound>
 			<projectilemodel type="MilkShape">bouncingbetty/bouncingbetty.txt</projectilemodel>
 			<subweapon type="WeaponProjectile">
@@ -178,6 +180,7 @@ that continue in the same direction as the original.</description>
 				<bundlesize>-1</bundlesize>
 				<armslevel>7</armslevel>
 				<size>6</size>
+				<explosiontexture>exp01</explosiontexture>
 				<explosionsound>explosions/medium.wav</explosionsound>
 				<projectilemodel type="MilkShape">bouncingbetty/bouncingbetty.txt</projectilemodel>
 			</subweapon>
@@ -349,7 +352,7 @@ target nearby tanks.</description>
 			<armslevel>8</armslevel>
 			<size>4</size>
 			<explosionsound>explosions/medium.wav</explosionsound>
-			<explosiontexture>exp03</explosiontexture>
+			<explosiontexture>exp05</explosiontexture>
 			<under></under>
 		</subweapon>	
 	</accessory>
@@ -372,7 +375,7 @@ burrowing missiles. These missiles target nearby tanks.</description>
 			<armslevel>5</armslevel>
 			<size>4</size>
 			<explosionsound>explosions/medium.wav</explosionsound>
-			<explosiontexture>exp03</explosiontexture>
+			<explosiontexture>exp05</explosiontexture>
 			<under></under>
 		</subweapon>	
 	</accessory>
@@ -396,7 +399,7 @@ burrowing missiles. These missiles target nearby tanks.</description>
 			<armslevel>3</armslevel>
 			<size>4</size>
 			<explosionsound>explosions/medium.wav</explosionsound>
-			<explosiontexture>exp03</explosiontexture>
+			<explosiontexture>exp05</explosiontexture>
 			<under></under>
 		</subweapon>	
 	</accessory>
@@ -425,7 +428,7 @@ direction of the firer.</description>
 			<armslevel>3</armslevel>
 			<size>6</size>
 			<explosionsound>explosions/large.wav</explosionsound>
-			<explosiontexture>exp05</explosiontexture>
+			<explosiontexture>exp04</explosiontexture>
 			<projectilescale>0.2</projectilescale>
 			<projectilemodel type="MilkShape">bomblet/bomblet.txt</projectilemodel>
 		</subweapon>	
@@ -454,7 +457,7 @@ warheads fan out in a random direction.</description>
 			<armslevel>5</armslevel>
 			<size>6</size>
 			<explosionsound>explosions/large.wav</explosionsound>
-			<explosiontexture>exp05</explosiontexture>
+			<explosiontexture>exp04</explosiontexture>
 			<projectilescale>0.2</projectilescale>
 			<projectilemodel type="MilkShape">bomblet/bomblet.txt</projectilemodel>
 		</subweapon>	
@@ -481,7 +484,7 @@ warheads fan out in a random direction.</description>
 			<armslevel>2</armslevel>
 			<size>18</size>
 			<explosionsound>explosions/xlarge.wav</explosionsound>
-			<explosiontexture>exp05</explosiontexture>
+			<explosiontexture>exp04</explosiontexture>
 			<projectilescale>0.5</projectilescale>
 			<projectilemodel type="MilkShape">mirvwarhead/mirvwarhead.txt</projectilemodel>
 		</subweapon>	
@@ -498,6 +501,9 @@ missiles.  These missiles automatically target nearby tanks.</description>
 		<nowarheads>12</nowarheads>
 		<deathanimationweight>10</deathanimationweight>
 		<firedsound>shoot/large.wav</firedsound>
+		<multicolor/>
+		<explosionsound>explosions/large.wav</explosionsound>
+		<explosiontexture>exp02</explosiontexture>
 		<projectilemodel type="MilkShape">icbm/icbm.txt</projectilemodel>
 		<subweapon type="WeaponProjectile">
 			<name>Funky Bomb</name>
@@ -506,8 +512,9 @@ missiles.  These missiles automatically target nearby tanks.</description>
 			<bundlesize>-1</bundlesize>
 			<armslevel>3</armslevel>
 			<size>8</size>
+			<multicolor/>
 			<explosionsound>explosions/large.wav</explosionsound>
-			<explosiontexture>exp04</explosiontexture>
+			<explosiontexture>exp02</explosiontexture>
 			<projectilemodel type="MilkShape">bomb/bomb.txt</projectilemodel>
 		</subweapon>
 	</accessory>
@@ -521,7 +528,6 @@ Leaves a marker at the final position.</description>
 		<bundlesize>20</bundlesize>
 		<armslevel>10</armslevel>
 		<smoke>false</smoke>
-		<explosiontexture>exp03</explosiontexture>
 		<firedsound>shoot/flare.wav</firedsound>
 		<projectilemodel type="MilkShape">flare.txt</projectilemodel>
 	</accessory>
@@ -535,7 +541,6 @@ Leaves a colored trace of the shot path.</description>
 		<bundlesize>10</bundlesize>
 		<armslevel>9</armslevel>
 		<smoke>true</smoke>
-		<explosiontexture>exp03</explosiontexture>
 		<firedsound>shoot/flare.wav</firedsound>
 		<projectilemodel type="MilkShape">flare.txt</projectilemodel>
 	</accessory>

@@ -32,7 +32,7 @@ public:
 	MissileMesh(ModelsFile &missile, bool useTextures, float detail);
 	virtual ~MissileMesh();
 
-	void draw(Vector &position, Vector &direction);
+	void draw(Vector &position, Vector &direction, int flareType);
 	void setScale(float scale);
 
 protected:

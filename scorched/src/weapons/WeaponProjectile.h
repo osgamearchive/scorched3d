@@ -33,6 +33,7 @@ public:
 	virtual bool writeAccessory(NetBuffer &buffer);
 	virtual bool readAccessory(NetBufferReader &reader);
 
+	virtual Vector &getExplosionColor();
 	int getSize() { return size_; }
 
 	// Inherited from Weapon
@@ -43,6 +44,7 @@ public:
 protected:
 	int size_;
 	bool under_;
+	bool multiColored_;
 
 };
 

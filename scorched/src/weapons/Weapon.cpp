@@ -137,6 +137,12 @@ Weapon *Weapon::read(NetBufferReader &reader)
 	return ((Weapon *) accessory);
 }
 
+Vector &Weapon::getExplosionColor()
+{
+	static Vector white(1.0f, 1.0f, 1.0f);
+	return white;
+}
+
 const char *Weapon::getExplosionTexture()
 {
 	return explosionTexture_.c_str();

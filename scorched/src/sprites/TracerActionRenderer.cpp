@@ -66,6 +66,7 @@ void TracerActionRenderer::draw(Action *action)
 						glVertex3fv(endPos);
 					}
 				}
+				else break;
 			}
 			glEnd();
 		}
