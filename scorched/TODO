@@ -1,4 +1,8 @@
 -- Bugs Fixed and Ready For Release 
+Fixed: Free market economy getting confused when accessories.xml file edited
+Fixed: Display message when scorched3d data directory not present
+Fixed: Missed move message fixed for buying
+
 Added: Error reporting to MS file loading
 
 -- Bugs in current development release

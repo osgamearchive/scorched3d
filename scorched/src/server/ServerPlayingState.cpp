@@ -83,24 +83,20 @@ bool ServerPlayingState::acceptStateChange(const unsigned state,
 						int movesMissed = tank->getScore().getMissedMoves() + 1;
 						tank->getScore().setMissedMoves(movesMissed);
 
-						if (movesMissed == 1)
-						{
-							ServerCommon::serverLog(tank->getPlayerId(), "Player \"%s\" failed to make a move",
-								tank->getName());
-							ServerCommon::sendString(0, "Player \"%s\" failed to make a move",
-								tank->getName());
-						}
-						else
-						{
-							ServerCommon::serverLog(tank->getPlayerId(), "Player \"%s\" failed to make %i moves in a row",
-								tank->getName(), movesMissed);
-							ServerCommon::sendString(0, "Player \"%s\" failed to make %i moves in a row",
-								tank->getName(), movesMissed);
-						}
-
 						// If the allowed missed moves has been specified
 						if (ScorchedServer::instance()->getOptionsGame().getAllowedMissedMoves() > 0)
 						{
+							ServerCommon::serverLog(tank->getPlayerId(), 
+								"Player \"%s\" failed to %s, allowed %i more missed move(s)",
+								tank->getName(),
+								((state == ServerState::ServerStateBuying)?"buy":"move"),
+								ScorchedServer::instance()->getOptionsGame().getAllowedMissedMoves() - movesMissed);
+							ServerCommon::sendString(0, 
+								"Player \"%s\" failed to %s, allowed %i more missed move(s)",
+								tank->getName(),
+								((state == ServerState::ServerStateBuying)?"buy":"move"),
+								ScorchedServer::instance()->getOptionsGame().getAllowedMissedMoves() - movesMissed);
+
 							// And this player has exceeded them
 							if (movesMissed >= ScorchedServer::instance()->getOptionsGame().getAllowedMissedMoves())
 							{

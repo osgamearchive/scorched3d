@@ -155,6 +155,11 @@ bool UniqueIdStore::saveUniqueId(unsigned int ip, const char *id,
 		Entry &entry = *itor;
 		if (0 == strcmp(entry.published.c_str(), published))
 		{
+			if (0 != strcmp(entry.id.c_str(), id))
+			{
+				Logger::log(0, "Warning: Using different uniqueid from stored.");
+			}
+
 			return true;
 		}
 	}
