@@ -29,7 +29,8 @@ static void createControls(wxWindow *parent, wxSizer *topsizer)
 	delete [] landscapes;
 	landscapes = new wxCheckBox*[landscapeDefinitions.getAllLandscapes().size()];
 
-	wxScrolledWindow *scrolledWindow = new wxScrolledWindow(parent, -1);
+	wxScrolledWindow *scrolledWindow = new wxScrolledWindow(parent, -1, 
+		wxDefaultPosition, wxSize(300, 300));
 
 	wxSizer *sizer = new wxFlexGridSizer(2, 2);
 	int i = 0;

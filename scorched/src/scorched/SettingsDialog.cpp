@@ -133,13 +133,6 @@ SettingsFrame::SettingsFrame(bool server, OptionsGame &context) :
 	envPanel_->SetAutoLayout(TRUE);
 	envPanel_->SetSizer(envPanelSizer);
 
-	landPanel_ = new wxPanel(book_, -1);
-	wxSizer *landPanelSizer = new wxBoxSizer(wxVERTICAL);
-	SettingsLand::createControls(landPanel_, landPanelSizer);
-	book_->AddPage(landPanel_, "Land");
-	landPanel_->SetAutoLayout(TRUE);
-	landPanel_->SetSizer(landPanelSizer);
-
 	if (server)
 	{
 		if (SettingsPlayers::IDC_COMBO_PTYPE_CTRL) 
@@ -161,6 +154,13 @@ SettingsFrame::SettingsFrame(bool server, OptionsGame &context) :
 	book_->AddPage(motdPanel_, "MOTD");
 	motdPanel_->SetAutoLayout(TRUE);
 	motdPanel_->SetSizer(motdPanelSizer);
+
+	landPanel_ = new wxPanel(book_, -1);
+	wxSizer *landPanelSizer = new wxBoxSizer(wxVERTICAL);
+	SettingsLand::createControls(landPanel_, landPanelSizer);
+	book_->AddPage(landPanel_, "Land");
+	landPanel_->SetAutoLayout(TRUE);
+	//landPanel_->SetSizer(landPanelSizer);
 
 	topsizer->Add(nbs, 0, wxALL, 10);
 

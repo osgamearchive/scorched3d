@@ -31,7 +31,7 @@ static void createMainControls(wxWindow *parent, wxSizer *sizer)
 	IDC_DISPLAY_CTRL = 
 		new wxComboBox(parent, -1,
 		"",
-		wxDefaultPosition, wxSize((int) 315, -1),
+		wxDefaultPosition, wxSize(315, -1),
 		0, 0, wxCB_READONLY);
 	IDC_FULLSCREEN_CTRL = 
 		new wxCheckBox(parent, -1, "Full Screen");
@@ -44,7 +44,7 @@ static void createMainControls(wxWindow *parent, wxSizer *sizer)
 	IDC_SLIDER1_CTRL = 
 		new wxSlider(parent, -1,
 		0,0,0,
-		wxDefaultPosition, wxSize((int) 315, -1),
+		wxDefaultPosition, wxSize(315, -1),
 		wxSL_HORIZONTAL | wxSL_AUTOTICKS);
 	displaySizer2->Add(brightText, 0, wxALIGN_CENTER_VERTICAL);
 	displaySizer2->Add(IDC_SLIDER1_CTRL, 0);
@@ -71,8 +71,7 @@ static void createMainControls(wxWindow *parent, wxSizer *sizer)
 	{
 	// Sound settings
 	wxStaticBox *soundBox = new wxStaticBox(parent, -1, "Sound");
-	wxStaticBoxSizer *soundSizer = new wxStaticBoxSizer(soundBox, wxVERTICAL);
-	wxBoxSizer *soundSizer2 = new wxBoxSizer(wxHORIZONTAL);
+	wxStaticBoxSizer *soundSizer = new wxStaticBoxSizer(soundBox, wxHORIZONTAL);
 	wxStaticText *volumeText = new wxStaticText(parent, -1, "Volume :");
 	IDC_NOSOUND_CTRL = 
 		new wxCheckBox(parent, -1, "No Sound");
@@ -84,14 +83,13 @@ static void createMainControls(wxWindow *parent, wxSizer *sizer)
 	IDC_SOUNDCHANNELS_CTRL = 
 		new wxComboBox(parent, -1,
 			"",
-			wxDefaultPosition, wxSize((int) 50, (int) 91.5),
+			wxDefaultPosition, wxSize(40, -1),
 			0, 0, wxCB_READONLY);
-	soundSizer2->Add(volumeText, 0, wxRIGHT, 10);
-	soundSizer2->Add(IDC_VOLUME_CTRL, 0, wxRIGHT, 10);
-	soundSizer2->Add(IDC_NOSOUND_CTRL, 0, wxRIGHT, 10);
-	soundSizer2->Add(IDC_SOUNDCHANNELS_CTRL, 0, wxRIGHT, 5);
-	soundSizer2->Add(new wxStaticText(parent, -1, "Channels"), 0, wxALIGN_CENTRE_VERTICAL);
-	soundSizer->Add(soundSizer2, 0);
+	soundSizer->Add(volumeText, 0, wxRIGHT, 10);
+	soundSizer->Add(IDC_VOLUME_CTRL, 0, wxRIGHT, 10);
+	soundSizer->Add(IDC_NOSOUND_CTRL, 0, wxRIGHT, 10);
+	soundSizer->Add(IDC_SOUNDCHANNELS_CTRL, 0, wxRIGHT, 5);
+	soundSizer->Add(new wxStaticText(parent, -1, "Channels"), 0, wxALIGN_CENTRE_VERTICAL);
 	sizer->Add(soundSizer, 0, wxGROW | wxLEFT | wxRIGHT | wxTOP, 5);
 	}
 
@@ -370,7 +368,8 @@ static std::list<wxButton *> keyboardKeyList;
 
 static void createKeysControls(wxWindow *parent, wxSizer *topsizer)
 {
-	wxScrolledWindow *scrolledWindow = new wxScrolledWindow(parent, -1);
+	wxScrolledWindow *scrolledWindow = new wxScrolledWindow(parent, -1, 
+		wxDefaultPosition, wxSize(500, 350));
 	wxSizer *sizer = new wxFlexGridSizer(5, 1);
 	
 	keyboardKeyList.clear();
@@ -422,7 +421,7 @@ static void createKeysControls(wxWindow *parent, wxSizer *topsizer)
 	wxSize minSize = sizer->CalcMin();
 	scrolledWindow->SetScrollbars(10, 10, 
 		(minSize.GetWidth() + 10) / 10, (minSize.GetHeight() + 10) / 10);
-	topsizer->Add(scrolledWindow, 1, wxGROW | wxALL, 2);
+	topsizer->Add(scrolledWindow, 1, wxGROW | wxALL | wxALIGN_CENTER, 2);
 
 	// Add the load default keys button
 	IDC_LOADKEYDEFAULTS_CTRL = new wxButton(parent, ID_KEYDEFAULTS, "Load Default Keys");

@@ -80,7 +80,7 @@ static void createControls(wxWindow *parent,
 	IDC_SERVER_MOD_CTRL = 
 		new wxComboBox(parent, -1,
 		"",
-		wxDefaultPosition, wxSize((int) 150, (int) 124.5),
+		wxDefaultPosition, wxDefaultSize,
 		0, 0, wxCB_READONLY);
 	modSizer->Add(IDC_SERVER_MOD_CTRL, 0, wxALL, 5);
 	sizer->Add(modSizer, 0, wxGROW | wxALIGN_RIGHT | wxALL, 5);

@@ -30,14 +30,14 @@ static void createControls(wxWindow *parent, wxSizer *topsizer)
 	buttonSizer->Add(IDC_SERVER_MIN_PLAYERS_CTRL = 
 		new wxComboBox(parent, -1,
 		"",
-		wxDefaultPosition, wxSize((int) 72, (int) 124.5),
+		wxDefaultPosition, wxDefaultSize,
 		0, 0, wxCB_READONLY), 0, wxALIGN_CENTER);
 	buttonSizer->Add(new wxStaticText(parent, -1,
 		"Max Players :"), 0, wxALIGN_CENTER | wxRIGHT | wxLEFT, 5);
 	buttonSizer->Add(IDC_SERVER_MAX_PLAYERS_CTRL = 
 		new wxComboBox(parent, IDC_SERVER_MAX_PLAYERS,
 		"",
-		wxDefaultPosition, wxSize((int) 72, (int) 135),
+		wxDefaultPosition, wxDefaultSize,
 		0, 0, wxCB_READONLY), 0, wxALIGN_CENTER);	
 
 	wxBoxSizer *buttonSizer2 = new wxBoxSizer(wxHORIZONTAL);
@@ -47,7 +47,7 @@ static void createControls(wxWindow *parent, wxSizer *topsizer)
 	buttonSizer2->Add(IDC_SERVER_REMOVEBOT_PLAYERS_CTRL = 
 		new wxComboBox(parent, -1,
 		"",
-		wxDefaultPosition, wxSize((int) 72, (int) 135),
+		wxDefaultPosition, wxDefaultSize,
 		0, 0, wxCB_READONLY), 0, wxALIGN_CENTER);
 
 	IDC_SERVER_RESIDUAL_CTRL = new wxCheckBox(parent, -1, 
@@ -67,7 +67,7 @@ static void createControls(wxWindow *parent, wxSizer *topsizer)
 		playerSizer->Add(IDC_COMBO_PTYPE_CTRL[i] = 
 			new wxComboBox(parent, -1,
 			"",
-			wxDefaultPosition, wxSize((int) 72, (int) 106.5),
+			wxDefaultPosition, wxDefaultSize,
 			0, 0, wxCB_READONLY));
 		sizer->Add(playerSizer, 0, wxALIGN_RIGHT | wxALL, 2);
 	}
