@@ -174,7 +174,7 @@ void TankMovement::moveTank(Tank *tank)
 bool TankMovement::writeAction(NetBuffer &buffer)
 {
 	buffer.addToBuffer(playerId_);
-	buffer.addToBuffer(positions_.size());
+	buffer.addToBuffer((unsigned int) positions_.size());
 	std::list<unsigned int>::iterator itor;
 	for (itor = positions_.begin();
 		itor != positions_.end();

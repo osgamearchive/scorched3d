@@ -5,9 +5,9 @@
 
 #define YYBISON 1  /* Identify Bison output.  */
 
-#if !defined(__FreeBSD__) 
+#if !defined(__FreeBSD__) && !defined(__DARWIN__)
 #define alloca 
-#endif //!defined(__FreeBSD__) 
+#endif //!defined(__FreeBSD__) && !defined(__DARWIN__)
 
 #define yyparse aseparse
 #define yylex aselex

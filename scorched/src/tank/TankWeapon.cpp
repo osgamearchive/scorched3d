@@ -18,20 +18,11 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// TankWeapon.cpp: implementation of the TankWeapon class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <common/Defines.h>
 #include <weapons/AccessoryStore.h>
 #include <tank/TankWeapon.h>
 #include <stdio.h>
 #include <set>
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 TankWeapon::TankWeapon() : currentWeapon_(0)
 {
@@ -181,7 +172,7 @@ const char *TankWeapon::getWeaponString()
 bool TankWeapon::writeMessage(NetBuffer &buffer)
 {
 	std::map<Weapon *, int>::iterator itor;
-	buffer.addToBuffer(weapons_.size());
+	buffer.addToBuffer((int) weapons_.size());
 	for (itor = weapons_.begin();
 		itor != weapons_.end();
 		itor++)

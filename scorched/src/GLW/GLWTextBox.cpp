@@ -64,19 +64,19 @@ void GLWTextBox::keyDown(char *buffer, unsigned int keyState,
 	{
 		char c = history[i].representedKey;
 		DWORD dik = history[i].sdlKey;
-		if (c >= ' ')
-		{
-			if ((int) text_.size() < w_ / 12)
-			{
-				text_ += c;
-			}
-			skipRest = true;
-		}
-		else if (dik == SDLK_BACKSPACE || dik == SDLK_DELETE)
+		if (dik == SDLK_BACKSPACE || dik == SDLK_DELETE)
 		{
 			if (!text_.empty())
 			{
 				text_ = text_.substr(0, text_.length() - 1);
+			}
+			skipRest = true;
+		}
+		else if (c >= ' ')
+		{
+			if ((int) text_.size() < w_ / 12)
+			{
+				text_ += c;
 			}
 			skipRest = true;
 		}

@@ -31,7 +31,13 @@ extern "C" {
 
 #include <stdio.h>
 #include <stdarg.h>
-#include <malloc.h>		// for alloca under windows
+
+#if defined(__DARWIN__)
+#include <sys/malloc.h>
+#else
+#include <malloc.h>            // for alloca under windows
+#endif
+
 #include <string.h>
 #include <math.h>
 

@@ -18,20 +18,11 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// TankShields.cpp: implementation of the TankShields class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <tank/TankShields.h>
 #include <weapons/AccessoryStore.h>
 #include <stdio.h>
 #include <math.h>
 #include <set>
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 TankShields::TankShields()
 {
@@ -122,7 +113,7 @@ bool TankShields::writeMessage(NetBuffer &buffer)
 	buffer.addToBuffer((unsigned int)(currentShield_?currentShield_->getAccessoryId():0));
 
 	std::map<Shield *, int>::iterator itor;
-	buffer.addToBuffer(shields_.size());
+	buffer.addToBuffer((int) shields_.size());
 	for (itor = shields_.begin();
 		itor != shields_.end();
 		itor++)

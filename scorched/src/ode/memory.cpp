@@ -31,6 +31,10 @@
 // sequence number `_d_seqstop' or pointer value `_d_ptrstop'. these variables
 // are global and can be set in the debugger.
 
+#if defined(__DARWIN__)
+#include <stdlib.h>
+#endif
+
 #include <ode/config.h>
 #include <ode/memory.h>
 #include <ode/error.h>

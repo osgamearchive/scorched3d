@@ -81,6 +81,49 @@ directly in this directory.  Ensure that the .xml files in the
 scorched3d/data directory are writable to allow settings to be
 saved.
 
+MacOSX
+------
+To compile under MacOSX, you must have the latest version of fink
+(http://fink.sourceforge.net) installed - by which I mean the 'unstable'
+tree, since some of the libraries necessary for compiling Scorched3D are
+not available in the 'stable' source tree.
+
+Make sure you're set up fink properly, and that means having a line in your
+~/.bashrc which says ". /sw/bin/init.sh" - if you don't have your fink
+environment set up correctly in your xterm, the configure script won't find
+your libraries.
+
+The following fink packages must be compiled from source:
+'fink install XXX'   sdl, sdl-mixer, sdl-net
+
+
+Next, the wxgtk fink package must be built with a special patch.  Do the
+following:
+
+
+0)
+ fink fetch wxgtk
+
+1)
+ cp scorched/osx/wxgtk.info /sw/fink/dists/unstable/main/finkinfo/x11
+ cp scorched/osx/wxgtk.patch /sw/fink/dists/unstable/main/finkinfo/x11
+
+2)
+ fink rebuild wxgtk
+
+
+Fink should be set up with the correct libraries now.
+
+
+Next run ./configure with some extra parameters:
+
+ CPPFLAGS="-I/usr/X11R6/include -D__DARWIN__" LDFLAGS=-L/usr/X11R6/lib ./configure
+
+Now you should be able to do a simple make && make install.
+
+The resulting binary must be run from an xterm within apple's X11 server.
+Good luck!
+
 Generic
 -------
 
