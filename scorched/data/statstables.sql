@@ -1,6 +1,6 @@
 drop table scorched3d_main, scorched3d_events, scorched3d_eventtypes;
 drop table scorched3d_names, scorched3d_players, scorched3d_weapons;
-drop table scorched3d_binary;
+drop table scorched3d_binary, scorched3d_ipaddress;
 
 create table if not exists scorched3d_main (
 	name varchar(64),
@@ -75,6 +75,14 @@ create table if not exists scorched3d_names (
 	name varchar(32) BINARY NOT NULL DEFAULT "",
 	count INTEGER NOT NULL DEFAULT 0,
 	PRIMARY KEY (playerid, name),
+	FOREIGN KEY (playerid) REFERENCES scorched3d_players(playerid)
+);
+
+create table if not exists scorched3d_ipaddress (
+	playerid INTEGER NOT NULL DEFAULT 0,
+	ipaddress varchar(32) BINARY NOT NULL DEFAULT "",
+	count INTEGER NOT NULL DEFAULT 0,
+	PRIMARY KEY (playerid, ipaddress),
 	FOREIGN KEY (playerid) REFERENCES scorched3d_players(playerid)
 );
 

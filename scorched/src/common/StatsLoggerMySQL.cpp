@@ -407,6 +407,14 @@ void StatsLoggerMySQL::tankJoined(Tank *tank)
 	runQuery("UPDATE scorched3d%s_names SET count=count+1 WHERE "
 		"playerid=%i AND name=\"%s\";", prefix_.c_str(), playerId, tank->getName());
 
+	// Add the ipaddress (may fail if duplicates)
+	runQuery("INSERT INTO scorched3d%s_ipaddress (playerid, ipaddress, count) VALUES "
+		"(%i, \"%s\", 0);", prefix_.c_str(), playerId, 
+		NetInterface::getIpName(tank->getIpAddress()));
+	runQuery("UPDATE scorched3d%s_ipaddress SET count=count+1 WHERE "
+		"playerid=%i AND ipaddress=\"%s\";", prefix_.c_str(), playerId, 
+		NetInterface::getIpName(tank->getIpAddress()));
+
 	// Joining events
 	runQuery("INSERT INTO scorched3d%s_events (eventtype, playerid, otherplayerid, weaponid, eventtime) "
 		"VALUES(%i, %i, 0, 0, NOW());",
