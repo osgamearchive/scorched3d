@@ -24,7 +24,7 @@
 #include <server/TurnController.h>
 #include <scorched/ServerDialog.h>
 #include <common/OptionsGame.h>
-#include <common/Timer.h>
+#include <common/Clock.h>
 #include <common/StatsLogger.h>
 #include <common/Logger.h>
 #include <coms/ComsNextRoundMessage.h>
@@ -32,7 +32,7 @@
 #include <coms/ComsNewGameMessage.h>
 #include <coms/ComsMessageSender.h>
 
-extern Timer serverTimer;
+extern Clock serverTimer;
 
 ServerNewGameState::ServerNewGameState()
 {

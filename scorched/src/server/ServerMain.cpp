@@ -23,7 +23,7 @@
 #include <weapons/AccessoryStore.h>
 #include <coms/NetLoopBack.h>
 #include <common/Defines.h>
-#include <common/Timer.h>
+#include <common/Clock.h>
 #include <common/ARGParser.h>
 #include <common/Defines.h>
 #include <common/Logger.h>
@@ -50,7 +50,7 @@
 #include <server/ScorchedServer.h>
 #include <SDL/SDL.h>
 
-Timer serverTimer;
+Clock serverTimer;
 
 bool startServer(bool local)
 {

@@ -660,6 +660,12 @@
 				RelativePath="..\common\ARGParser.h">
 			</File>
 			<File
+				RelativePath="..\common\Clock.cpp">
+			</File>
+			<File
+				RelativePath="..\common\Clock.h">
+			</File>
+			<File
 				RelativePath="..\common\Defines.cpp">
 			</File>
 			<File
@@ -811,12 +817,6 @@
 			</File>
 			<File
 				RelativePath="..\common\StatsLogger.h">
-			</File>
-			<File
-				RelativePath="..\common\Timer.cpp">
-			</File>
-			<File
-				RelativePath="..\common\Timer.h">
 			</File>
 			<File
 				RelativePath="..\common\Triangle.cpp">

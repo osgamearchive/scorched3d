@@ -29,7 +29,7 @@
 #include <list>
 #include <set>
 #include <GLEXT/GLState.h>
-#include <common/Timer.h>
+#include <common/Clock.h>
 #include <engine/MainLoopI.h>
 
 class MainLoop
@@ -45,7 +45,7 @@ public:
 	void clear();
 
 	void swapBuffers();
-	Timer &getTimer() { return fTimer_; }
+	Clock &getTimer() { return fTimer_; }
 	float getDrawTime() { return lastDrawTime_; } // Time taken to draw last frame
 
 	void exitLoop() { exitLoop_ = true; }
@@ -53,8 +53,8 @@ public:
 protected:
 	std::list<MainLoopI *> newMainLoops_;
 	std::set<MainLoopI *> mainLoops_;
-	Timer fTimer_; // Frame/simulation timer
-	Timer dTimer_; // Draw timer
+	Clock fTimer_; // Frame/simulation timer
+	Clock dTimer_; // Draw timer
 	bool exitLoop_;
 	float lastDrawTime_;
 

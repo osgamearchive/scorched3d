@@ -21,7 +21,6 @@
 #include <engine/MainLoop.h>
 #include <common/OptionsDisplay.h>
 #include <common/Defines.h>
-#include <common/Timer.h>
 #include <GLEXT/GLState.h>
 #include <SDL/SDL.h>
 
