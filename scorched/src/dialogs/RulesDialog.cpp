@@ -95,13 +95,26 @@ void RulesDialog::draw()
 			14,
 			x_ + 12.0f, top - 30.0f, 0.0f,
 			"Game has not started yet");
-		GLWFont::instance()->getFont()->draw(
-			yellow,
-			14,
-			x_ + 12.0f, top - 45.0f, 0.0f,
-			"Waiting for %i more players", 
-			ScorchedClient::instance()->getOptionsGame().getNoMinPlayers()-
-			ScorchedClient::instance()->getTankContainer().getNoOfNonSpectatorTanks());
+
+		int waitingFor = ScorchedClient::instance()->getOptionsGame().getNoMinPlayers() -
+			ScorchedClient::instance()->getTankContainer().getNoOfNonSpectatorTanks();
+		if (waitingFor == 1)
+		{
+			GLWFont::instance()->getFont()->draw(
+				yellow,
+				14,
+				x_ + 12.0f, top - 45.0f, 0.0f,
+				"Players are waiting for you");
+		}
+		else
+		{
+			GLWFont::instance()->getFont()->draw(
+				yellow,
+				14,
+				x_ + 12.0f, top - 45.0f, 0.0f,
+				"Waiting for %i more players", 
+				waitingFor);
+		}
 	}
 	else
 	{

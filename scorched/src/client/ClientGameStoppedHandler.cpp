@@ -55,6 +55,6 @@ bool ClientGameStoppedHandler::processMessage(unsigned int id,
 	if (!message.readMessage(reader)) return false;
 
 	WindowManager::instance()->showWindow(RulesDialog::instance()->getId());
-	ScorchedClient::instance()->getGameState().stimulate(ClientState::StimDisconnected);
+	ScorchedClient::instance()->getGameState().stimulate(ClientState::StimGameStopped);
 	return true;
 }

@@ -36,6 +36,7 @@ namespace ClientState
 		StimAutoDefense,
 		StimPlaying,
 		StimDisconnected,
+		StimGameStopped,
 		StimShot,
 		StimScore
 	};
