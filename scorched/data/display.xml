@@ -8,7 +8,7 @@
   <!-- How many explosion clouds are drawn -->
   <option>
     <name>ExplosionParts</name>
-    <value>10</value>
+    <value>8</value>
     <defaultvalue>8</defaultvalue>
   </option>
   <!-- How many explosion sub clouds are drawn -->
@@ -92,18 +92,48 @@
   <!-- Completely clear the screen on each frame -->
   <option>
     <name>FullClear</name>
-    <value>on</value>
+    <value>off</value>
     <defaultvalue>off</defaultvalue>
   </option>
   <!-- Do not use texture area replacing -->
   <option>
-    <name>NoTexSubImage</name>
+    <name>NoGLTexSubImage</name>
     <value>off</value>
     <defaultvalue>off</defaultvalue>
   </option>
   <!-- Do not use any OpenGL extensions -->
   <option>
     <name>NoGLExt</name>
+    <value>off</value>
+    <defaultvalue>off</defaultvalue>
+  </option>
+  <!-- Do not use more than one texture per face -->
+  <option>
+    <name>NoGLMultiTex</name>
+    <value>off</value>
+    <defaultvalue>off</defaultvalue>
+  </option>
+  <!-- Do not compile vertex arrays -->
+  <option>
+    <name>NoGLCompiledArrays</name>
+    <value>off</value>
+    <defaultvalue>off</defaultvalue>
+  </option>
+  <!-- Do not use combined textures -->
+  <option>
+    <name>NoGLEnvCombine</name>
+    <value>off</value>
+    <defaultvalue>off</defaultvalue>
+  </option>
+  <!-- Do not use cube maps -->
+  <option>
+    <name>NoGLCubeMap</name>
+    <value>off</value>
+    <defaultvalue>off</defaultvalue>
+  </option>
+  <!-- Do not use hardware mipmaps -->
+  <option>
+    <name>NoGLHardwareMipmaps</name>
     <value>off</value>
     <defaultvalue>off</defaultvalue>
   </option>
@@ -136,12 +166,6 @@
     <name>NoLenseFlare</name>
     <value>on</value>
     <defaultvalue>on</defaultvalue>
-  </option>
-  <!-- Do not use more than one texture per face -->
-  <option>
-    <name>NoMultiTex</name>
-    <value>off</value>
-    <defaultvalue>off</defaultvalue>
   </option>
   <!-- Do not texture tanks -->
   <option>
@@ -230,13 +254,13 @@
   <!-- The window width to use (in pixels) -->
   <option>
     <name>ScreenWidth</name>
-    <value>800</value>
+    <value>640</value>
     <defaultvalue>640</defaultvalue>
   </option>
   <!-- The window height to use (in pixels) -->
   <option>
     <name>ScreenHeight</name>
-    <value>600</value>
+    <value>480</value>
     <defaultvalue>480</defaultvalue>
   </option>
   <!-- The number of sprites to allow on screen -->
