@@ -696,7 +696,8 @@ scorcheddatawindows_DATA = data/windows/client.bmp \
 	data/windows/help.bmp \
 	data/windows/helpa.bmp \
 	data/windows/tank-cus.bmp \
-	data/windows/target.bmp
+	data/windows/target.bmp \
+	data/windows/save.bmp
 scorcheddatalandscapesdir = ${datadir}/data/landscapes
 scorcheddatalandscapes_DATA = data/landscapes/half-mask.bmp \
 	data/landscapes/halved.bmp \
