@@ -66,7 +66,7 @@ OptionsDisplay::OptionsDisplay() :
 	sunXYAng_(options_, "SunXYAng",
 		"The XY Rotation of the sun (degrees)", RAccess, 110),
 	sunYZAng_(options_, "SunYZAng",
-		"The YZ Rotation of the sun (degrees)", RAccess, 75),
+		"The YZ Rotation of the sun (degrees)", RAccess, 25),
 	brightness_(options_, "Brightness", 
 		"The game screen brightness (gamma).", RAccess, 10, 3, 40),
 	fullScreen_(options_, "FullScreen", 

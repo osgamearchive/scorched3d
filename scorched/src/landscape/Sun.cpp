@@ -27,7 +27,7 @@
 #include <stdlib.h>
 #include <math.h>
 
-Sun::Sun() : drawSun_(true)
+Sun::Sun() : drawSun_(false)
 {
 	float sunRotXY = float(OptionsDisplay::instance()->getSunXYAng()) 
 		/ 180.0f * 3.14f;
