@@ -34,7 +34,13 @@ public:
 	virtual bool writeAccessory(NetBuffer &buffer);
 	virtual bool readAccessory(NetBufferReader &reader);
 
-	int getHot() { return hot_; }
+	const float getNapalmTime() { return napalmTime_; }
+	const float getNaplamHeight() { return napalmHeight_; }
+	const float getStepTime() { return stepTime_; }
+	const float getHurtStepTime() { return hurtStepTime_; }
+	const float getHurtPerSecond() { return hurtPerSecond_; }
+	const int getEffectRadius() { return effectRadius_; }
+	const int getNumberStreams() { return numberStreams_; }
 
 	// Inherited from Weapon
 	virtual Action *fireWeapon(unsigned int playerId, Vector &position, Vector &velocity);
@@ -42,7 +48,13 @@ public:
 	REGISTER_ACCESSORY_HEADER(WeaponNapalm, Accessory::AccessoryWeapon);
 
 protected:
-	bool hot_;
+	float napalmTime_;   // The time to generate napalm
+	float napalmHeight_; // The height of a napalm point
+	float stepTime_;     // Add/rm napalm every StepTime secs
+	float hurtStepTime_; // Calculate damage every HurtStepTime secs
+	float hurtPerSecond_;// Damage per second
+	int numberStreams_;  // The number of napalm paths
+	int effectRadius_;   // How close do tanks take damage
 
 };
 

@@ -23,9 +23,8 @@
 #include <engine/ScorchedContext.h>
 #include <weapons/WeaponNapalm.h>
 #include <common/OptionsParam.h>
+#include <common/Defines.h>
 #include <common/SoundStore.h>
-
-static const float NapalmBurnTime = 8.0f;
 
 REGISTER_ACTION_SOURCE(ShotProjectileNapalm);
 
@@ -49,21 +48,12 @@ void ShotProjectileNapalm::collision(Vector &position)
 {
 	ShotProjectile::collision(position);
 
-	addNapalm((int) position[0], (int) position[1]);
-	addNapalm((int) position[0] + 2, (int) position[1] + 2);
-	if (((WeaponNapalm *) weapon_)->getHot()) addNapalm((int) position[0] - 2, (int) position[1] + 2);
-}
-
-void ShotProjectileNapalm::addNapalm(int x, int y)
-{
-	// Ensure that the napalm has not hit the walls
-	// or anything outside the landscape
-	if (x > 1 && y > 1 &&
-		x < context_->landscapeMaps.getHMap().getWidth() - 1 &&
-		y < context_->landscapeMaps.getHMap().getWidth() - 1)
+	WeaponNapalm *weapon = (WeaponNapalm *) weapon_;
+	for (int i=0; i<weapon->getNumberStreams(); i++)
 	{
-		context_->actionController.addAction(
-			new Napalm(x, y, NapalmBurnTime, weapon_, playerId_));
+		int x = int(position[0] + RAND * 4.0f - 2.0f);
+		int y = int(position[1] + RAND * 4.0f - 2.0f);
+		addNapalm(x, y);
 	}
 
 	if (!OptionsParam::instance()->getOnServer()) 
@@ -76,5 +66,18 @@ void ShotProjectileNapalm::addNapalm(int x, int y)
 				SoundStore::instance()->fetchOrCreateBuffer(soundBuffer);
 			expSound->play();
 		}
+	}
+}
+
+void ShotProjectileNapalm::addNapalm(int x, int y)
+{
+	// Ensure that the napalm has not hit the walls
+	// or anything outside the landscape
+	if (x > 1 && y > 1 &&
+		x < context_->landscapeMaps.getHMap().getWidth() - 1 &&
+		y < context_->landscapeMaps.getHMap().getWidth() - 1)
+	{
+		context_->actionController.addAction(
+			new Napalm(x, y, weapon_, playerId_));
 	}
 }

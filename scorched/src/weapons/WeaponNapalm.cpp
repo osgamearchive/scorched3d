@@ -23,7 +23,7 @@
 
 REGISTER_ACCESSORY_SOURCE(WeaponNapalm);
 
-WeaponNapalm::WeaponNapalm() : hot_(false)
+WeaponNapalm::WeaponNapalm()
 {
 
 }
@@ -37,16 +37,75 @@ bool WeaponNapalm::parseXML(XMLNode *accessoryNode)
 {
 	if (!Weapon::parseXML(accessoryNode)) return false;
 
-	// Get the accessory hot
-	XMLNode *hotNode = accessoryNode->getNamedChild("hot");
-	if (!hotNode)
+	XMLNode *timeNode = accessoryNode->getNamedChild("napalmtime");
+	if (!timeNode)
 	{
 		dialogMessage("Accessory",
-			"Failed to find hot node in accessory \"%s\"",
+			"Failed to find napalmtime node in accessory \"%s\"",
 			name_.c_str());
 		return false;
 	}
-	hot_ = (strcmp(hotNode->getContent(), "true") == 0);
+	napalmTime_ = (float) atof(timeNode->getContent());
+
+	XMLNode *heightNode = accessoryNode->getNamedChild("napalmheight");
+	if (!heightNode)
+	{
+		dialogMessage("Accessory",
+			"Failed to find napalmheight node in accessory \"%s\"",
+			name_.c_str());
+		return false;
+	}
+	napalmHeight_ = (float) atof(heightNode->getContent());
+
+	XMLNode *stepNode = accessoryNode->getNamedChild("steptime");
+	if (!stepNode)
+	{
+		dialogMessage("Accessory",
+			"Failed to find steptime node in accessory \"%s\"",
+			name_.c_str());
+		return false;
+	}
+	stepTime_ = (float) atof(stepNode->getContent());
+
+	XMLNode *hurtStepNode = accessoryNode->getNamedChild("hurtsteptime");
+	if (!hurtStepNode)
+	{
+		dialogMessage("Accessory",
+			"Failed to find hurtsteptime node in accessory \"%s\"",
+			name_.c_str());
+		return false;
+	}
+	hurtStepTime_ = (float) atof(hurtStepNode->getContent());
+
+	XMLNode *hurtPerSecondNode = accessoryNode->getNamedChild("hurtpersecond");
+	if (!hurtPerSecondNode)
+	{
+		dialogMessage("Accessory",
+			"Failed to find hurtpersecond node in accessory \"%s\"",
+			name_.c_str());
+		return false;
+	}
+	hurtPerSecond_ = (float) atof(hurtPerSecondNode->getContent());
+
+	XMLNode *streamsNode = accessoryNode->getNamedChild("numberstreams");
+	if (!streamsNode)
+	{
+		dialogMessage("Accessory",
+			"Failed to find numberstreams node in accessory \"%s\"",
+			name_.c_str());
+		return false;
+	}
+	numberStreams_ = atoi(streamsNode->getContent());	
+
+	XMLNode *effectNode = accessoryNode->getNamedChild("effectradius");
+	if (!effectNode)
+	{
+		dialogMessage("Accessory",
+			"Failed to find effectradius node in accessory \"%s\"",
+			name_.c_str());
+		return false;
+	}
+	effectRadius_ = atoi(effectNode->getContent());
 
 	return true;
 }
@@ -54,14 +113,26 @@ bool WeaponNapalm::parseXML(XMLNode *accessoryNode)
 bool WeaponNapalm::writeAccessory(NetBuffer &buffer)
 {
 	if (!Weapon::writeAccessory(buffer)) return false;
-	buffer.addToBuffer(hot_);
+	buffer.addToBuffer(napalmTime_);
+	buffer.addToBuffer(napalmHeight_);
+	buffer.addToBuffer(stepTime_);
+	buffer.addToBuffer(hurtStepTime_);
+	buffer.addToBuffer(hurtPerSecond_);
+	buffer.addToBuffer(numberStreams_);
+	buffer.addToBuffer(effectRadius_);
 	return true;
 }
 
 bool WeaponNapalm::readAccessory(NetBufferReader &reader)
 {
 	if (!Weapon::readAccessory(reader)) return false;
-	if (!reader.getFromBuffer(hot_)) return false;
+	if (!reader.getFromBuffer(napalmTime_)) return false;
+	if (!reader.getFromBuffer(napalmHeight_)) return false;
+	if (!reader.getFromBuffer(stepTime_)) return false;
+	if (!reader.getFromBuffer(hurtStepTime_)) return false;
+	if (!reader.getFromBuffer(hurtPerSecond_)) return false;
+	if (!reader.getFromBuffer(numberStreams_)) return false;
+	if (!reader.getFromBuffer(effectRadius_)) return false;
 	return true;
 }
 

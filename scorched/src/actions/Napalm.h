@@ -24,7 +24,7 @@
 
 #include <engine/ActionMeta.h>
 #include <GLEXT/GLBilboardRenderer.h>
-#include <weapons/Weapon.h>
+#include <weapons/WeaponNapalm.h>
 #include <list>
 
 class Napalm : public ActionMeta
@@ -53,7 +53,7 @@ public:
 	};
 
 	Napalm();
-	Napalm(int x, int y, float napalmTime, Weapon *weapon, unsigned int playerId);
+	Napalm(int x, int y, Weapon *weapon, unsigned int playerId);
 	virtual ~Napalm();
 
 	virtual void init();
@@ -70,7 +70,7 @@ protected:
 	int x_, y_;
 	float napalmTime_;
 	unsigned int playerId_;
-	Weapon *weapon_;
+	WeaponNapalm *weapon_;
 	float totalTime_, hurtTime_;
 
 	// Not sent bu wire

@@ -24,16 +24,6 @@
 #include <actions/Napalm.h>
 #include <sprites/NapalmRenderer.h>
 #include <common/OptionsParam.h>
-#include <weapons/WeaponNapalm.h>
-#include <weapons/AccessoryStore.h>
-
-// TODO, should these be configurable in the OptionsGame file?
-static const float NapalmHeight = 2.0f; // The height of a napalm point
-static const float StepTime = 0.1f; // Add/rm napalm every StepTime secs
-static const float HurtStepTime = 2.0f; // Calculate damage every HurtStepTime secs
-static const float HurtPerSecond = 1.0f;
-static const float HurtPerSecondHot = 2.0f;
-static const int EffectRadius = 5; // The distance of the burn radius
 
 REGISTER_ACTION_SOURCE(Napalm);
 
@@ -41,8 +31,10 @@ Napalm::Napalm() : hitWater_(false), totalTime_(0.0f), hurtTime_(0.0f)
 {
 }
 
-Napalm::Napalm(int x, int y, float napalmTime, Weapon *weapon, unsigned int playerId) :
-	x_(x), y_(y), napalmTime_(napalmTime), weapon_(weapon), playerId_(playerId), hitWater_(false),
+Napalm::Napalm(int x, int y, Weapon *weapon, unsigned int playerId) :
+	x_(x), y_(y), napalmTime_(((WeaponNapalm *) weapon)->getNapalmTime()), 
+	weapon_((WeaponNapalm *) weapon), 
+	playerId_(playerId), hitWater_(false),
 	totalTime_(0.0f), hurtTime_(0.0f)
 {
 
@@ -66,6 +58,9 @@ void Napalm::simulate(float frameTime, bool &remove)
 	// Add napalm for the period of the time interval
 	// once the time interval has expired then start taking it away
 	// Once all napalm has disapeared the simulation is over
+	const float StepTime = weapon_->getStepTime();
+	const float HurtStepTime = weapon_->getHurtStepTime();
+
 	totalTime_ += frameTime;
 	while (totalTime_ > StepTime)
 	{
@@ -132,6 +127,8 @@ float Napalm::getHeight(int x, int y)
 
 void Napalm::simulateRmStep()
 {
+	const float NapalmHeight = weapon_->getNaplamHeight();
+
 	// Remove the first napalm point from the list
 	// and remove the height from the landscape
 	NapalmEntry *entry = napalmPoints_.front();
@@ -145,6 +142,8 @@ void Napalm::simulateRmStep()
 
 void Napalm::simulateAddStep()
 {
+	const float NapalmHeight = weapon_->getNaplamHeight();
+
 	// Get the height of this point
 	float height = getHeight(x_, y_);
 
@@ -217,8 +216,8 @@ void Napalm::simulateAddStep()
 
 void Napalm::simulateDamage()
 {
-	float damagePerPointSecond = HurtPerSecond;
-	if (((WeaponNapalm *)weapon_)->getHot()) damagePerPointSecond = HurtPerSecondHot;
+	float damagePerPointSecond = weapon_->getHurtPerSecond();
+	const float EffectRadius = weapon_->getEffectRadius();
 
 	// Store how much each tank is damaged
 	// Keep in a map so we don't need to create multiple
@@ -296,7 +295,6 @@ bool Napalm::writeAction(NetBuffer &buffer)
 {
 	buffer.addToBuffer(x_);
 	buffer.addToBuffer(y_);
-	buffer.addToBuffer(napalmTime_);
 	Weapon::write(buffer, weapon_);
 	buffer.addToBuffer(playerId_);
 	return true;
@@ -306,8 +304,7 @@ bool Napalm::readAction(NetBufferReader &reader)
 {
 	if (!reader.getFromBuffer(x_)) return false;
 	if (!reader.getFromBuffer(y_)) return false;
-	if (!reader.getFromBuffer(napalmTime_)) return false;
-	weapon_ = Weapon::read(reader); if (!weapon_) return false;
+	weapon_ = (WeaponNapalm *) Weapon::read(reader); if (!weapon_) return false;
 	if (!reader.getFromBuffer(playerId_)) return false;
 	return true;
 }
