@@ -10,6 +10,7 @@ Fixed: Reduced the server to client payload size considerably (lag??)
 
 Added: Users can turn IP authentication off
 Added: Weapon and talk icons to the speach lines
+Added: Mod file import and export in options dialog
 
 -- Bugs in current development release
 Dvorak keyboard support is broken
