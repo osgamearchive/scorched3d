@@ -29,7 +29,6 @@
 #include <common/OptionsTransient.h>
 #include <common/Resources.h>
 #include <common/OptionsDisplay.h>
-#include <dialogs/WindDialog.h>
 #include <client/ScorchedClient.h>
 #include <time.h>
 
@@ -51,7 +50,8 @@ Landscape::Landscape() :
 	surround_(surroundDefs_),
 	hMapSurround_(surroundDefs_),
 	resetWater_(false), resetWaterTimer_(0.0f), waterTexture_(0),
-	textureType_(eDefault)
+	textureType_(eDefault),
+	changeCount_(1)
 {
 	new GLConsoleRuleMethodIAdapter<Landscape>(
 		this, &Landscape::savePlan, "SavePlan");
@@ -80,7 +80,7 @@ void Landscape::simulate(const unsigned state, float frameTime)
 				updatePlanTexture();
 
 				// Re-calculate the landsacpe on the wind indicator
-				WindDialog::instance()->buildMap();
+				changeCount_++;
 				resetWater_ = false;
 			}
 		}
@@ -370,6 +370,9 @@ void Landscape::updatePlanATexture()
 		ScorchedClient::instance()->getLandscapeMaps().getHMap(), 
 		bitmapPlan_, bitmapPlanAlpha_, wMap_.getHeight());
 	DIALOG_ASSERT(planAlphaTexture_.replace(bitmapPlanAlpha_, GL_RGBA, false));
+	planAlphaTexture_.draw();
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_CLAMP);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,GL_CLAMP);
 }
 
 void Landscape::reset()
@@ -378,7 +381,7 @@ void Landscape::reset()
 	// Ensure all objects use any new landscape
 	recalculate(0, 0, 1000);
 	patchGrid_.forceCalculate(256);
-	WindDialog::instance()->buildMap();
+	changeCount_++;
 	WaterMapModifier::addWaterVisibility(
 		ScorchedClient::instance()->getLandscapeMaps().getHMap(), 
 		wMap_);

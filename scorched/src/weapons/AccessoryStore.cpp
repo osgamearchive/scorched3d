@@ -73,7 +73,7 @@ bool AccessoryStore::parseFile(const char *fileName)
 		return false;		
 	}
 
-	// Itterate all of the tanks in the file
+	// Itterate all of the accessories in the file
     std::list<XMLNode *>::iterator childrenItor;
 	std::list<XMLNode *> &children = file.getRootNode()->getChildren();
     for (childrenItor = children.begin();

@@ -26,7 +26,9 @@
 
 #define REGISTER_CLASS_HEADER(x) \
 	virtual const char *getClassName() { return #x ; } \
-	virtual MetaClass *getClassCopy() { return new x ; } 
+	virtual MetaClass *getClassCopy() { return new x ; } \
+	virtual unsigned int getMetaClassId() \
+	{ static unsigned int metaClassID = nextMetaClassId_++; return metaClassID; }
 #define REGISTER_CLASS_SOURCE(x) \
 	struct META_##x { META_##x() { MetaClassRegistration::addMap(#x , new x ); } }; \
 	static META_##x META_IMPL_##x ;
@@ -38,10 +40,14 @@ public:
 	virtual ~MetaClass();
 
 	// Automatically given by the 
-	// REGISTER_ACTION_HEADER and
-	// REGISTER_ACTION_SOURCE macros
+	// REGISTER_CLASS_HEADER and
+	// REGISTER_CLASS_SOURCE macros
 	virtual const char *getClassName() = 0;
 	virtual MetaClass *getClassCopy() = 0;
+	virtual unsigned int getMetaClassId() = 0;
+
+protected:
+	static unsigned int nextMetaClassId_;
 };
 
 class MetaClassRegistration
@@ -53,4 +59,3 @@ public:
 };
 
 #endif // __INCLUDE_MetaClassh_INCLUDE__
-

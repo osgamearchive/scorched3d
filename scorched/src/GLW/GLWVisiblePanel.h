@@ -18,14 +18,8 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// GLWVisiblePanel.h: interface for the GLWVisiblePanel class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_GLWVISIBLEPANEL_H__813A99E5_8077_4BFD_9C49_81CF68526962__INCLUDED_)
 #define AFX_GLWVISIBLEPANEL_H__813A99E5_8077_4BFD_9C49_81CF68526962__INCLUDED_
-
 
 #include <GLW/GLWVisibleWidget.h>
 #include <GLW/GLWPanel.h>
@@ -33,7 +27,9 @@
 class GLWVisiblePanel : public GLWVisibleWidget
 {
 public:
-	GLWVisiblePanel(float x, float y, float w, float h, bool depressed = false);
+	GLWVisiblePanel(float x = 0.0f, float y = 0.0f, 
+		float w = 0.0f, float h = 0.0f, 
+		bool depressed = false);
 	virtual ~GLWVisiblePanel();
 
 	virtual void simulate(float frameTime);
@@ -54,7 +50,7 @@ public:
 	bool &getDepressed() { return depressed_; }
 	bool &getDrawPanel() { return drawPanel_; }
 
-METACLASSID
+	REGISTER_CLASS_HEADER(GLWVisiblePanel);
 
 protected:
 	bool depressed_;

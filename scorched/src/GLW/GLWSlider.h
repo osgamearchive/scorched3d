@@ -32,7 +32,8 @@ public:
 class GLWSlider : public GLWVisibleWidget
 {
 public:
-	GLWSlider(float x, float y, float w, float current, float range);
+	GLWSlider(float x = 0.0f, float y = 0.0f, float w = 0.0f, 
+		float current = 0.0f, float range = 0.0f);
 	virtual ~GLWSlider();
 
 	void setHandler(GLWSliderI *handler) { handler_ = handler; }
@@ -45,7 +46,7 @@ public:
 	virtual void mouseUp(float x, float y, bool &skipRest);
 	virtual void mouseDrag(float mx, float my, float x, float y, bool &skipRest);
 
-METACLASSID
+	REGISTER_CLASS_HEADER(GLWSlider);
 
 protected:
 	GLWSliderI *handler_;

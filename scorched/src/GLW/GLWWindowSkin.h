@@ -18,47 +18,32 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_WindDialogh_INCLUDE__)
-#define __INCLUDE_WindDialogh_INCLUDE__
+#if !defined(__INCLUDE_GLWWindowSkinh_INCLUDE__)
+#define __INCLUDE_GLWWindowSkinh_INCLUDE__
 
 #include <GLW/GLWWindow.h>
-#include <GLEXT/GLVertexSet.h>
-#include <GLEXT/GLTexture.h>
+#include <XML/XMLFile.h>
 
-class WindDialogToolTip : public GLWTip
+class GLWWindowSkin : public GLWWindow
 {
 public:
-	WindDialogToolTip();
-	virtual ~WindDialogToolTip();
+	GLWWindowSkin();
+	virtual ~GLWWindowSkin();
 
-	virtual void populate();
-};
+	bool loadWindow(XMLNode *node);
 
-class WindDialog : public GLWWindow 
-{
-public:
-	static WindDialog *instance();
-
-	void buildMap();
-
-	// Inherited from GLWWindow
 	virtual void draw();
 
+	const char *getStates() { return states_.c_str(); }
+	const char *getKey() { return key_.c_str(); }
+	bool getVisible() { return visible_; }
+
 protected:
-	static WindDialog *instance_;
-	GLVertexSet *windModel_;
-	GLTexture windTexture_;
-	GLuint listNo_;
-	WindDialogToolTip tip_;
+	std::string states_;
+	std::string key_;
+	bool visible_;
+	bool init_;
 
-	void drawArrow();
-	void drawScene();
-	void drawDisplay();
-
-private:
-	WindDialog();
-	virtual ~WindDialog();
 };
-
 
 #endif

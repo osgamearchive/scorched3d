@@ -32,7 +32,8 @@ class GLWTankViewer : public GLWVisibleWidget,
 					  public GLWDropDownI
 {
 public:
-	GLWTankViewer(float x, float y, int numH, int numV);
+	GLWTankViewer(float x = 0.0f, float y = 0.0f, 
+		int numH = 0, int numV = 0);
 	virtual ~GLWTankViewer();
 
 	void selectModelByName(const char *name);
@@ -51,7 +52,7 @@ public:
 	virtual void mouseDrag(float mx, float my, float x, float y, 
 						   bool &skipRest);
 
-	METACLASSID
+	REGISTER_CLASS_HEADER(GLWTankViewer);
 protected:
 	GLWDropDown catagoryChoice_;
 	GLWScrollW scrollBar_;

@@ -25,7 +25,6 @@
 #include <GLEXT/GLViewPort.h>
 #include <client/ClientState.h>
 #include <client/ScorchedClient.h>
-#include <common/WindowManager.h>
 #include <common/OptionsGame.h>
 #include <common/OptionsTransient.h>
 #include <coms/ComsMessageSender.h>

@@ -18,11 +18,10 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <dialogs/HelpDialog.h>
 #include <GLW/GLWFileView.h>
 #include <GLW/GLWTextButton.h>
-#include <common/WindowManager.h>
+#include <GLW/GLWWindowManager.h>
 
 HelpDialog *HelpDialog::instance_ = 0;
 
@@ -54,6 +53,6 @@ void HelpDialog::buttonDown(unsigned int id)
 {
 	if (id == okId_)
 	{
-		WindowManager::instance()->hideWindow(id_);
+		GLWWindowManager::instance()->hideWindow(id_);
 	}
 }

@@ -21,9 +21,9 @@
 #include <dialogs/LogDialog.h>
 #include <dialogs/QuitDialog.h>
 #include <GLW/GLWTextButton.h>
+#include <GLW/GLWWindowManager.h>
 #include <GLEXT/GLViewPort.h>
 #include <common/OptionsDisplay.h>
-#include <common/WindowManager.h>
 
 LogDialog *LogDialog::instance_ = 0;
 
@@ -88,6 +88,7 @@ void LogDialog::buttonDown(unsigned int id)
 {
 	if (id == quit_->getId())
 	{
-		WindowManager::instance()->showWindow(QuitDialog::instance()->getId());
+		GLWWindowManager::instance()->
+			showWindow(QuitDialog::instance()->getId());
 	}
 }

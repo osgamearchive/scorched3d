@@ -31,6 +31,7 @@ XMLFile::~XMLFile()
 
 bool XMLFile::readFile(const char *fileName)
 {
+	parser_.setSource(fileName);
 	FileLines lines;
 	// Load the file
 	// Failing to find the file is not an error

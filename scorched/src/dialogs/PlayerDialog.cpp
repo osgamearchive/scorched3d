@@ -24,9 +24,9 @@
 #include <client/ScorchedClient.h>
 #include <tankai/TankAIStore.h>
 #include <tankai/TankAIStrings.h>
-#include <common/WindowManager.h>
 #include <common/OptionsParam.h>
 #include <common/OptionsDisplay.h>
+#include <GLW/GLWWindowManager.h>
 #include <GLW/GLWTextButton.h>
 #include <coms/ComsAddPlayerMessage.h>
 #include <coms/ComsMessageSender.h>
@@ -147,7 +147,7 @@ void PlayerDialog::nextPlayer()
 	currentPlayerId_ = getNextPlayer(currentPlayerId_);
 	if (currentPlayerId_ == 0)
 	{
-		WindowManager::instance()->hideWindow(getId());
+		GLWWindowManager::instance()->hideWindow(getId());
 	}
 	else
 	{
@@ -226,6 +226,6 @@ void PlayerDialog::buttonDown(unsigned int id)
 	}
 	else if (id == cancelId_)
 	{
-		WindowManager::instance()->hideWindow(getId());
+		GLWWindowManager::instance()->hideWindow(getId());
 	}
 }

@@ -38,10 +38,11 @@ public:
 		eCircle = 16
 	};
 
-	GLWWindow(const char *name, float x, float y, 
-		float w, float h,
-		unsigned int states, 
-		const char *description);
+	GLWWindow(const char *name = "None", 
+		float x = 0.0f, float y = 0.0f, 
+		float w = 0.0f, float h = 0.0f,
+		unsigned int states = 0, 
+		const char *description = "None");
 	GLWWindow(const char *name, float w, float h,
 		unsigned int states,
 		const char *description);
@@ -63,7 +64,7 @@ public:
 	GLWTip &getToolTip() { return toolTip_; }
 	void needsCentered() { needCentered_ = true; }
 
-METACLASSID
+	REGISTER_CLASS_HEADER(GLWWindow);
 
 protected:
 	enum

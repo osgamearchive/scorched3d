@@ -31,19 +31,19 @@ public:
 	virtual void buttonUp(unsigned int id) = 0;
 };
 
-
 class GLWPushButton : public GLWButton
 {
 public:
-	GLWPushButton(float x, float y, float w, float h, GLWPushButtonI *handler = 0);
+	GLWPushButton(float x = 0.0f, float y = 0.0f, 
+		float w = 0.0f, float h = 0.0f, 
+		GLWPushButtonI *handler = 0);
 	virtual ~GLWPushButton();
 
 	virtual void mouseDown(float x, float y, bool &skipRest);
 	virtual void mouseUp(float x, float y, bool &skipRest);
 
-METACLASSID
+	REGISTER_CLASS_HEADER(GLWPushButton);
 
 };
-
 
 #endif

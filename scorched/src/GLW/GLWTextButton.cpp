@@ -20,6 +20,8 @@
 
 #include <GLW/GLWTextButton.h>
 
+REGISTER_CLASS_SOURCE(GLWTextButton);
+
 GLWTextButton::GLWTextButton(char *buttonText,float x, float y, float w, GLWButtonI *handler,
 							 unsigned flags) :
 	GLWButton(x, y, w, 22.0f, handler, flags), 

@@ -18,35 +18,42 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_WeaponDialogh_INCLUDE__)
-#define __INCLUDE_WeaponDialogh_INCLUDE__
+#if !defined(__INCLUDE_GLWWindViewh_INCLUDE__)
+#define __INCLUDE_GLWWindViewh_INCLUDE__
 
-#include <GLW/GLWWindow.h>
+#include <GLW/GLWVisibleWidget.h>
+#include <GLW/GLWToolTip.h>
+#include <GLEXT/GLVertexSet.h>
 #include <GLEXT/GLTexture.h>
-#include <tank/Tank.h>
 
-class WeaponDialog : public GLWWindow
+class WindDialogToolTip : public GLWTip
 {
 public:
-	static WeaponDialog *instance();
+	WindDialogToolTip();
+	virtual ~WindDialogToolTip();
 
-	// Inherited from GLWWindow
+	virtual void populate();
+};
+
+class GLWWindView : public GLWVisibleWidget
+{
+public:
+	GLWWindView(float x = 0.0f, float y = 0.0f,
+		float w = 0.0f, float h = 0.0f);
+	virtual ~GLWWindView();
+
 	virtual void draw();
-	virtual void simulate(float frameTime);
-	virtual void mouseDown(float x, float y, bool &skipRest);
+
+	REGISTER_CLASS_HEADER(GLWWindView);
 
 protected:
-	static WeaponDialog *instance_;
-	float totalTime_;
-	GLTexture xyTexture_;
-	GLTexture yzTexture_;
-	GLTexture powerTexture_;
+	unsigned int changeCount_;
+	GLVertexSet *windModel_;
+	GLuint listNo_;
 
-	void drawWeapon(Tank *current);
-
-private:
-	WeaponDialog();
-	virtual ~WeaponDialog();
+	void drawArrow();
+	void drawScene();
+	void drawDisplay();
 
 };
 

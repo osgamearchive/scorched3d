@@ -20,7 +20,7 @@
 
 #include <engine/ScorchedContext.h>
 #include <actions/ShowScore.h>
-#include <common/WindowManager.h>
+#include <GLW/GLWWindowManager.h>
 #include <common/OptionsParam.h>
 #include <dialogs/ScoreDialog.h>
 
@@ -38,7 +38,7 @@ void ShowScore::init()
 {
 	if (!context_->serverMode)
 	{
-		WindowManager::instance()->showWindow(
+		GLWWindowManager::instance()->showWindow(
 			ScoreDialog::instance()->getId());
 	}
 }
@@ -52,7 +52,7 @@ void ShowScore::simulate(float frameTime, bool &remove)
 		remove = true;
 		if (!context_->serverMode)
 		{
-			WindowManager::instance()->hideWindow(
+			GLWWindowManager::instance()->hideWindow(
 				ScoreDialog::instance()->getId());
 		}
 	}

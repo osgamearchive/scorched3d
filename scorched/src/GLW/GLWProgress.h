@@ -32,7 +32,8 @@
 class GLWProgress : public GLWVisiblePanel
 {
 public:
-	GLWProgress(float x, float y, float w, float min = 0.0f, float max = 100.0f);
+	GLWProgress(float x = 0.0f, float y = 0.0f, 
+		float w = 0.0f, float min = 0.0f, float max = 100.0f);
 	virtual ~GLWProgress();
 
 	virtual void draw();
@@ -40,7 +41,7 @@ public:
 	const float getCurrent() { return current_; }
 	void setCurrent(float newCurrent);
 
-METACLASSID
+	REGISTER_CLASS_HEADER(GLWProgress);
 
 protected:
 	float x_, y_, w_;

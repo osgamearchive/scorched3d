@@ -21,9 +21,9 @@
 #include <client/ScorchedClient.h>
 #include <client/ClientNewGameHandler.h>
 #include <client/ClientState.h>
+#include <GLW/GLWWindowManager.h>
 #include <server/ScorchedServer.h>
 #include <common/OptionsParam.h>
-#include <common/WindowManager.h>
 #include <common/Resources.h>
 #include <coms/ComsNewGameMessage.h>
 #include <dialogs/PlayerDialog.h>
@@ -83,7 +83,8 @@ bool ClientNewGameHandler::processMessage(unsigned int id,
 		ScorchedClient::instance()->getGameState().checkStimulate();
 
 		// Show player dialog
-		WindowManager::instance()->showWindow(PlayerDialog::instance()->getId());	
+		GLWWindowManager::instance()->showWindow(
+			PlayerDialog::instance()->getId());	
 	}
 	else
 	{

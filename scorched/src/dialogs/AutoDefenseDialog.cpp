@@ -21,9 +21,9 @@
 #include <dialogs/AutoDefenseDialog.h>
 #include <GLW/GLWFlag.h>
 #include <GLW/GLWTextButton.h>
+#include <GLW/GLWWindowManager.h>
 #include <tankai/TankAIHuman.h>
 #include <tankai/TankAIHumanCtrl.h>
-#include <common/WindowManager.h>
 #include <common/OptionsTransient.h>
 #include <coms/ComsPlayedMoveMessage.h>
 #include <coms/ComsMessageSender.h>
@@ -132,7 +132,7 @@ void AutoDefenseDialog::buttonDown(unsigned int butid)
 
 void AutoDefenseDialog::displayCurrent()
 {
-	WindowManager::instance()->showWindow(getId());
+	GLWWindowManager::instance()->showWindow(getId());
 	Tank *tank = ScorchedClient::instance()->getTankContainer().getCurrentTank();
 	if (!tank) return;
 
@@ -219,6 +219,6 @@ void AutoDefenseDialog::finished()
 		ComsPlayedMoveMessage::eFinishedBuy);
 	ComsMessageSender::sendToServer(comsMessage);
 
-	WindowManager::instance()->hideWindow(getId());
+	GLWWindowManager::instance()->hideWindow(getId());
 	ScorchedClient::instance()->getGameState().stimulate(ClientState::StimWait);
 }

@@ -45,7 +45,6 @@ public:
 		KeyboardHistory::HistoryElement *history, int hisCount, 
 		bool &skipRest);
 
-	METACLASSID
 protected:
 	GLFont2d *menuFont_;
 	std::map<std::string, GLMenuEntry *> menuList_;

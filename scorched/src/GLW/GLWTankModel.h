@@ -18,38 +18,22 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_TankDialogh_INCLUDE__)
-#define __INCLUDE_TankDialogh_INCLUDE__
 
-#include <GLW/GLWWindow.h>
-#include <GLEXT/GLTexture.h>
+#if !defined(__INCLUDE_GLWTankModelh_INCLUDE__)
+#define __INCLUDE_GLWTankModelh_INCLUDE__
 
-class Tank;
-class TankDialog : public GLWWindow 
+#include <GLW/GLWVisibleWidget.h>
+
+class GLWTankModel : public GLWVisibleWidget
 {
 public:
-	static TankDialog *instance();
+	GLWTankModel(float x = 0.0f, float y = 0.0f,
+		float w = 0.0f, float h = 0.0f);
+	virtual ~GLWTankModel();
 
-	// Inherited from GLWWindow
 	virtual void draw();
-	virtual void mouseDown(float x, float y, bool &skipRest);
 
-protected:
-	static TankDialog *instance_;
-	GLTexture healthTexture_;
-	GLTexture shieldTexture_;
-	GLTexture batteryTexture_;
-	GLTexture parachuteTexture_;
-	GLTexture autodefenseTexture_;
-	GLTexture fuelTexture_;
-
-	void drawTankModel(Tank *current);
-	void drawTankDetails(Tank *current);
-
-private:
-	TankDialog();
-	virtual ~TankDialog();
+	REGISTER_CLASS_HEADER(GLWTankModel);
 };
-
 
 #endif

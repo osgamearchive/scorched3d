@@ -33,7 +33,7 @@
 #include <client/ScorchedClient.h>
 #include <tankgraph/TankRenderer.h>
 #include <tankai/TankAIHumanCtrl.h>
-#include <common/WindowManager.h>
+#include <GLW/GLWWindowManager.h>
 #include <landscape/Landscape.h>
 #include <GLW/GLWToolTip.h>
 #include <GLEXT/GLCameraFrustum.h>
@@ -43,14 +43,14 @@
 void ClientState::addWindowManager(GameState &gameState, unsigned state)
 {
 	gameState.addStateLoop(state, Main2DCamera::instance(), 
-		WindowManager::instance());
+		GLWWindowManager::instance());
 	gameState.addStateMouseDownEntry(state, GameState::MouseButtonLeft, 
-		WindowManager::instance());
+		GLWWindowManager::instance());
 	gameState.addStateMouseDragEntry(state, GameState::MouseButtonLeft, 
-		WindowManager::instance());
+		GLWWindowManager::instance());
 	gameState.addStateMouseUpEntry(state, GameState::MouseButtonLeft, 
-		WindowManager::instance());
-	gameState.addStateKeyEntry(state, WindowManager::instance());
+		GLWWindowManager::instance());
+	gameState.addStateKeyEntry(state, GLWWindowManager::instance());
 }
 
 void ClientState::addStandardComponents(GameState &gameState, unsigned state, bool network)

@@ -18,17 +18,10 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// GLWProgress.cpp: implementation of the GLWProgress class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <GLEXT/GLState.h>
 #include <GLW/GLWProgress.h>
 
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
+REGISTER_CLASS_SOURCE(GLWProgress);
 
 GLWProgress::GLWProgress(float x, float y, float w, float min, float max) :
 	GLWVisiblePanel(x, y, w, 25.0f, true), x_(x), y_(y), w_(w), min_(min), max_(max), current_(min)

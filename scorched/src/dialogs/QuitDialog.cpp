@@ -22,7 +22,7 @@
 #include <dialogs/QuitDialog.h>
 #include <GLW/GLWTextButton.h>
 #include <GLW/GLWLabel.h>
-#include <common/WindowManager.h>
+#include <GLW/GLWWindowManager.h>
 #include <client/ScorchedClient.h>
 
 QuitDialog *QuitDialog::instance_ = 0;
@@ -55,7 +55,7 @@ void QuitDialog::buttonDown(unsigned int id)
 {
 	if (id == okId_)
 	{
-		WindowManager::instance()->hideWindow(id_);
+		GLWWindowManager::instance()->hideWindow(id_);
 	}
 	else if (id == quitId_)
 	{

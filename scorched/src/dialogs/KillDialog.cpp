@@ -21,7 +21,7 @@
 #include <dialogs/KillDialog.h>
 #include <GLW/GLWTextButton.h>
 #include <GLW/GLWLabel.h>
-#include <common/WindowManager.h>
+#include <GLW/GLWWindowManager.h>
 #include <server/ServerCommon.h>
 
 KillDialog *KillDialog::instance_ = 0;
@@ -54,11 +54,11 @@ void KillDialog::buttonDown(unsigned int id)
 {
 	if (id == okId_)
 	{
-		WindowManager::instance()->hideWindow(id_);
+		GLWWindowManager::instance()->hideWindow(id_);
 	}
 	else if (id == killId_)
 	{
 		ServerCommon::killAll();
-		WindowManager::instance()->hideWindow(id_);
+		GLWWindowManager::instance()->hideWindow(id_);
 	}
 }

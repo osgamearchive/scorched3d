@@ -21,7 +21,7 @@
 #include <client/ClientGameStoppedHandler.h>
 #include <client/ClientState.h>
 #include <client/ScorchedClient.h>
-#include <common/WindowManager.h>
+#include <GLW/GLWWindowManager.h>
 #include <dialogs/RulesDialog.h>
 #include <coms/ComsGameStoppedMessage.h>
 
@@ -54,7 +54,9 @@ bool ClientGameStoppedHandler::processMessage(unsigned int id,
 	ComsGameStoppedMessage message;
 	if (!message.readMessage(reader)) return false;
 
-	WindowManager::instance()->showWindow(RulesDialog::instance()->getId());
-	ScorchedClient::instance()->getGameState().stimulate(ClientState::StimGameStopped);
+	GLWWindowManager::instance()->showWindow(
+		RulesDialog::instance()->getId());
+	ScorchedClient::instance()->getGameState().
+		stimulate(ClientState::StimGameStopped);
 	return true;
 }

@@ -51,6 +51,8 @@ void GLFontBannerEntry::setText(char *text)
 
 Vector GLFontBanner::defaultColor = Vector(0.7f, 0.7f, 0.7f);
 
+REGISTER_CLASS_SOURCE(GLFontBanner);
+
 GLFontBanner::GLFontBanner(GLfloat x, GLfloat y, GLfloat w, int lines)
 	: x_(x), y_(y), w_(w), totalLines_(lines),
 	  startLine_(0), usedLines_(0)

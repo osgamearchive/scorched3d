@@ -27,7 +27,8 @@
 class GLWTextBox : public GLWVisibleWidget
 {
 public:
-	GLWTextBox(float x, float y, float w, char *startText = 0);
+	GLWTextBox(float x = 0.0f, float y = 0.0f, 
+		float w = 0.0f, char *startText = 0);
 	virtual ~GLWTextBox();
 
 	virtual void draw();
@@ -40,7 +41,7 @@ public:
 	void setText(const char *text) { text_ = text; }
 	void setMaxTextLen(unsigned int maxLen) { maxTextLen_ = maxLen; }
 
-METACLASSID
+	REGISTER_CLASS_HEADER(GLWTextBox);
 
 protected:
 	float ctime_;

@@ -20,7 +20,6 @@
 
 #include <engine/ScorchedContext.h>
 #include <actions/CameraPositionAction.h>
-#include <common/WindowManager.h>
 #include <common/OptionsParam.h>
 #include <dialogs/ScoreDialog.h>
 

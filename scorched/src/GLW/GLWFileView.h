@@ -29,7 +29,9 @@ class GLWFileView :
 	public GLWVisibleWidget
 {
 public:
-	GLWFileView(char *fileName, float x, float y, float w, float h);
+	GLWFileView(char *fileName = "", 
+		float x = 0.0f, float y = 0.0f, 
+		float w = 0.0f, float h = 0.0f);
 	virtual ~GLWFileView();
 
 	virtual void draw();
@@ -38,7 +40,7 @@ public:
 	virtual void mouseUp(float x, float y, bool &skipRest);
 	virtual void mouseDrag(float mx, float my, float x, float y, bool &skipRest);
 
-METACLASSID
+	REGISTER_CLASS_HEADER(GLWFileView);
 
 protected:
 	GLWScrollW scroll_;

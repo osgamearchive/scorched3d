@@ -33,7 +33,8 @@ public:
 	static ASEStore *instance();
 
 	GLVertexSet *loadOrGetArray(const char *fileName);
-	GLTexture *loadTexture(const char *name, const char *aname);
+	GLTexture *loadTexture(const char *name, 
+		const char *aname, bool invert = false);
 
 protected:
 	static ASEStore *instance_;

@@ -114,10 +114,10 @@ bool LandscapeDefinition::readXML(XMLNode *node)
 	}
 	picture = pictNode->getContent();
 
-	if ((weight = node->getNamedFloatChild("weight", 
-		"data/landscapes.xml")) == 0.0f) return false;
+	if ((weight = node->getNamedFloatChild("weight", true))
+		== XMLNode::ErrorFloat) return false;
 	if ((tankStartCloseness = node->getNamedFloatChild(
-		"tankstartcloseness", "data/landscapes.xml")) == 0.0f) return false;
+		"tankstartcloseness", true)) == XMLNode::ErrorFloat) return false;
 	if (!readXMLMinMax(node, "tankstartheight", 
 		tankStartHeightMin, tankStartHeightMax)) return false;
 
@@ -180,9 +180,9 @@ bool LandscapeDefinition::readHeightMap(XMLNode *heightmapNode,
 		if (!readXMLMinMax(heightmapNode, "landheight", 
 			landHeightMin, landHeightMax)) return false;
 		if ((landWidthX=heightmapNode->getNamedFloatChild("landwidthx", 
-			"data/landscapes.xml")) == 0.0f) return false;
+			true)) == XMLNode::ErrorFloat) return false;
 		if ((landWidthY=heightmapNode->getNamedFloatChild("landwidthy", 
-			"data/landscapes.xml")) == 0.0f) return false;
+			true)) == XMLNode::ErrorFloat) return false;
 		if (!readXMLMinMax(heightmapNode, "landpeakwidthx", 
 			landPeakWidthXMin, landPeakWidthXMax)) return false;
 		if (!readXMLMinMax(heightmapNode, "landpeakwidthy", 
@@ -190,7 +190,7 @@ bool LandscapeDefinition::readHeightMap(XMLNode *heightmapNode,
 		if (!readXMLMinMax(heightmapNode, "landpeakheight", 
 			landPeakHeightMin, landPeakHeightMax)) return false;
 		if ((landSmoothing = heightmapNode->getNamedFloatChild("landsmoothing", 
-			"data/landscapes.xml")) == 0.0f) return false;
+			true)) == XMLNode::ErrorFloat) return false;
 	}
 	else if (0 == strcmp(typeNode->getContent(), "file"))
 	{
@@ -282,9 +282,10 @@ bool LandscapeDefinition::readXMLMinMax(XMLNode *node,
 		return false;
 	}
 
-	min = subnode->getNamedFloatChild("min", "data/landscapes.xml");
-	max = subnode->getNamedFloatChild("max", "data/landscapes.xml");
-	if (min == 0.0f || max == 0.0f) return false;
+	if ((min = subnode->getNamedFloatChild("min", true)) == 
+		XMLNode::ErrorFloat) return false;
+	if ((max = subnode->getNamedFloatChild("max", true)) == 
+		XMLNode::ErrorFloat) return false;
 	return true;
 }
 

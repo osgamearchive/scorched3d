@@ -41,8 +41,10 @@ public:
 		ButtonFlagCenterX = 4
 	};
 
-	GLWButton(float x, float y, float w, float h, GLWButtonI *handler = 0,
-			  unsigned flags = 0);
+	GLWButton(float x = 0.0f, float y = 0.0f, 
+		float w = 0.0f, float h = 0.0f, 
+		GLWButtonI *handler = 0,
+		unsigned flags = 0);
 	virtual ~GLWButton();
 
 	virtual void draw();	
@@ -59,7 +61,7 @@ public:
 	virtual void setHandler(GLWButtonI *handler);
 	void setRepeatMode() { repeatMode_ = true; }
 
-METACLASSID
+	REGISTER_CLASS_HEADER(GLWButton);
 
 protected:
 	GLWButtonI *handler_;

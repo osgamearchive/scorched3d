@@ -18,22 +18,18 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// GLWFlag.h: interface for the GLWFlag class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_GLWFLAG_H__E5E95ACF_A6F4_4552_B05C_75CA02ACB6D2__INCLUDED_)
 #define AFX_GLWFLAG_H__E5E95ACF_A6F4_4552_B05C_75CA02ACB6D2__INCLUDED_
 
-
+#include <GLW/GLWFont.h>
 #include <GLW/GLWVisibleWidget.h>
 #include <common/Vector.h>
 
 class GLWFlag : public GLWVisibleWidget
 {
 public:
-	GLWFlag(Vector &color, float x, float y, float w);
+	GLWFlag(Vector &color = GLWFont::widgetFontColor, 
+		float x = 0.0f, float y = 0.0f, float w = 0.0f);
 	virtual ~GLWFlag();
 
 	virtual void simulate(float frameTime);
@@ -42,7 +38,7 @@ public:
 	void setColor(Vector &color) { color_ = color; }
 	Vector &getColor() { return color_; }
 
-METACLASSID
+	REGISTER_CLASS_HEADER(GLWFlag);
 protected:
 	Vector color_;
 	float offset_;

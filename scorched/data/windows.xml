@@ -1,0 +1,215 @@
+<windows>
+	<window>
+		<name>Plan</name>
+		<states>all</states>
+		<visible>true</visible>
+		<key>SHOW_PLAN_DIALOG</key>
+		<width>128</width>
+		<height>128</height>
+		<positionx>-138</positionx>
+		<positiony>-168</positiony>
+		<description>Shows the position of the the tanks
+on a overhead map of the island.</description>
+		<items>
+			<item type="GLWIcon">
+				<x>0</x><y>0</y>
+				<w>128</w><h>128</h>
+				<bitmap>data/windows/plan.bmp</bitmap>
+				<bitmapa>data/windows/plana.bmp</bitmapa>
+				<invert>true</invert>
+			</item>
+			<item type="GLWPlanView">
+				<x>0</x><y>0</y>
+				<w>128</w><h>128</h>				
+			</item>
+		</items>
+	</window>
+	<window>
+		<name>Wind</name>
+		<states>all</states>
+		<visible>true</visible>
+		<key>SHOW_WIND_DIALOG</key>
+		<width>128</width>
+		<height>128</height>
+		<positionx>10</positionx>
+		<positiony>-168</positiony>
+		<description>Displays indicators for the current wind
+strength and direction.</description>
+		<items>
+			<item type="GLWIcon">
+				<x>0</x><y>0</y>
+				<w>128</w><h>128</h>
+				<bitmap>data/windows/plan.bmp</bitmap>
+				<bitmapa>data/windows/plana.bmp</bitmapa>
+				<invert>true</invert>
+			</item>
+			<item type="GLWWindView">
+				<x>0</x><y>0</y>
+				<w>128</w><h>128</h>				
+			</item>
+		</items>
+	</window>
+	<window>
+		<name>Player</name>
+		<states>player</states>
+		<visible>true</visible>
+		<key>SHOW_PLAYER_DIALOG</key>
+		<width>190</width>
+		<height>128</height>
+		<positionx>-200</positionx>
+		<positiony>10</positiony>
+		<description>Displays indicators for the current player,
+including its health, and defense status</description>
+		<items>
+			<item type="GLWIcon">
+				<x>0</x><y>0</y>
+				<w>190</w><h>190</h>
+				<bitmap>data/windows/player.bmp</bitmap>
+				<bitmapa>data/windows/playera.bmp</bitmapa>
+				<invert>true</invert>
+			</item>
+			<item type="GLWTankModel">
+				<x>31</x><y>0</y>
+				<w>128</w><h>128</h>
+			</item>
+			<item type="GLWIcon">
+				<x>0</x><y>0</y>
+				<w>190</w><h>190</h>
+				<bitmap>data/windows/player.bmp</bitmap>
+				<bitmapa>data/windows/playera2.bmp</bitmapa>
+				<invert>true</invert>
+			</item>
+			<item type="GLWScorchedInfo">
+				<type>playername</type>
+				<x>0</x><y>7</y>
+				<w>190</w><h>15</h>
+				<fontsize>10</fontsize>
+				<fontcolorr>0.0f</fontcolorr>
+				<fontcolorg>0.0f</fontcolorg>
+				<fontcolorb>0.0f</fontcolorb>
+			</item>
+			<item type="GLWScorchedInfo">
+				<type>healthcount</type>
+				<x>27</x><y>89</y>
+				<w>50</w><h>20</h>
+				<fontsize>12</fontsize>
+				<fontcolorr>0.9f</fontcolorr>
+				<fontcolorg>0.9f</fontcolorg>
+				<fontcolorb>1.0f</fontcolorb>
+			</item>
+			<item type="GLWScorchedInfo">
+				<type>shieldcount</type>
+				<x>23</x><y>65</y>
+				<w>50</w><h>20</h>
+				<fontsize>12</fontsize>
+				<fontcolorr>0.9f</fontcolorr>
+				<fontcolorg>0.9f</fontcolorg>
+				<fontcolorb>1.0f</fontcolorb>
+			</item>
+			<item type="GLWScorchedInfo">
+				<type>parachutecount</type>
+				<x>27</x><y>40</y>
+				<w>50</w><h>20</h>
+				<fontsize>12</fontsize>
+				<fontcolorr>0.9f</fontcolorr>
+				<fontcolorg>0.9f</fontcolorg>
+				<fontcolorb>1.0f</fontcolorb>
+			</item>
+			<item type="GLWScorchedInfo">
+				<type>batterycount</type>
+				<x>147</x><y>89</y>
+				<w>50</w><h>20</h>
+				<fontsize>12</fontsize>
+				<fontcolorr>0.9f</fontcolorr>
+				<fontcolorg>0.9f</fontcolorg>
+				<fontcolorb>1.0f</fontcolorb>
+			</item>
+			<item type="GLWScorchedInfo">
+				<type>autodefensecount</type>
+				<x>151</x><y>65</y>
+				<w>50</w><h>20</h>
+				<fontsize>12</fontsize>
+				<fontcolorr>0.9f</fontcolorr>
+				<fontcolorg>0.9f</fontcolorg>
+				<fontcolorb>1.0f</fontcolorb>
+			</item>
+			<item type="GLWScorchedInfo">
+				<type>fuelcount</type>
+				<x>147</x><y>40</y>
+				<w>50</w><h>20</h>
+				<fontsize>12</fontsize>
+				<fontcolorr>0.9f</fontcolorr>
+				<fontcolorg>0.9f</fontcolorg>
+				<fontcolorb>1.0f</fontcolorb>
+			</item>
+		</items>
+	</window>
+	<window>
+		<name>Weapon</name>
+		<states>player</states>
+		<visible>true</visible>
+		<key>SHOW_WEAPON_DIALOG</key>
+		<width>159</width>
+		<height>128</height>
+		<positionx>10</positionx>
+		<positiony>10</positiony>
+		<description>Displays indicators for the current weapon,
+including its power and direction.</description>
+		<items>
+			<item type="GLWIcon">
+				<x>-10</x><y>0</y>
+				<w>190</w><h>190</h>
+				<bitmap>data/windows/weapon.bmp</bitmap>
+				<bitmapa>data/windows/weapona.bmp</bitmapa>
+				<invert>true</invert>
+			</item>
+			<item type="GLWWeaponModel">
+				<x>0</x><y>0</y>
+				<w>128</w><h>128</h>
+			</item>
+			<item type="GLWIcon">
+				<x>-10</x><y>0</y>
+				<w>190</w><h>190</h>
+				<bitmap>data/windows/weapon.bmp</bitmap>
+				<bitmapa>data/windows/weapona2.bmp</bitmapa>
+				<invert>true</invert>
+			</item>		
+			<item type="GLWScorchedInfo">
+				<type>weaponname</type>
+				<x>0</x><y>7</y>
+				<w>128</w><h>20</h>
+				<fontsize>10</fontsize>
+				<fontcolorr>0.0f</fontcolorr>
+				<fontcolorg>0.0f</fontcolorg>
+				<fontcolorb>0.0f</fontcolorb>
+			</item>
+			<item type="GLWScorchedInfo">
+				<type>power</type>
+				<x>116</x><y>89</y>
+				<w>50</w><h>20</h>
+				<fontsize>12</fontsize>
+				<fontcolorr>0.9f</fontcolorr>
+				<fontcolorg>0.9f</fontcolorg>
+				<fontcolorb>1.0f</fontcolorb>
+			</item>
+			<item type="GLWScorchedInfo">
+				<type>elevation</type>
+				<x>120</x><y>65</y>
+				<w>50</w><h>20</h>
+				<fontsize>12</fontsize>
+				<fontcolorr>0.9f</fontcolorr>
+				<fontcolorg>0.9f</fontcolorg>
+				<fontcolorb>1.0f</fontcolorb>
+			</item>
+			<item type="GLWScorchedInfo">
+				<type>rotation</type>
+				<x>116</x><y>40</y>
+				<w>50</w><h>20</h>
+				<fontsize>12</fontsize>
+				<fontcolorr>0.9f</fontcolorr>
+				<fontcolorg>0.9f</fontcolorg>
+				<fontcolorb>1.0f</fontcolorb>
+			</item>
+		</items>
+	</window>
+</windows>

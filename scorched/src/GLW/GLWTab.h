@@ -19,13 +19,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 
-// GLWTab.h: interface for the GLWTab class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_GLWTAB_H__5A717DEA_0AE4_4341_9991_A4575E3FF041__INCLUDED_)
 #define AFX_GLWTAB_H__5A717DEA_0AE4_4341_9991_A4575E3FF041__INCLUDED_
-
 
 #include <GLW/GLWScrollPanel.h>
 #include <GLW/GLWLabel.h>
@@ -41,7 +36,11 @@ public:
 class GLWTab : public GLWScrollPanel
 {
 public:
-	GLWTab(char *tabName, float index, float x, float y, float w, float h, float tw = 40.0f);
+	GLWTab(char *tabName = "", 
+		float index = 0.0f, 
+		float x = 0.0f, float y = 0.0f, 
+		float w = 0.0f, float h =  0.0f, 
+		float tw = 40.0f);
 	virtual ~GLWTab();
 
 	virtual void setParent(GLWPanel *parent);
@@ -53,7 +52,7 @@ public:
 	void setDepressed();
 	void setHandler(GLWTabI *handler) { handler_ = handler; }
 
-METACLASSID
+	REGISTER_CLASS_HEADER(GLWTab);
 
 protected:
 	float tw_;

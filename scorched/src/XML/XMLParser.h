@@ -35,7 +35,7 @@ public:
 	};
 
 	XMLNode(const char *name, XMLNode *parent, 
-		NodeType type = XMLNode::XMLNodeType);
+		NodeType type, const char *source);
 	virtual ~XMLNode();
 
 	const char *getName() { return name_.c_str(); }
@@ -45,11 +45,12 @@ public:
 	std::list<XMLNode *> &getParameters() { return parameters_; }
 
 	NodeType getType() { return type_; }
-	XMLNode *getNamedParameter(const char *name);
-	XMLNode *getNamedChild(const char *name);
-	XMLNode *removeNamedChild(const char *name);
+	XMLNode *getNamedParameter(const char *name, bool failOnError = false);
+	XMLNode *getNamedChild(const char *name, bool failOnError = false);
+	XMLNode *removeNamedChild(const char *name, bool failOnError = false);
 
-	float getNamedFloatChild(const char *name, const char *file);
+	static float ErrorFloat;
+	float getNamedFloatChild(const char *name, bool failOnError = false);
 
 	void addChild(XMLNode *node) { children_.push_back(node); }
 	void addContent(const char *data, int len) { content_.append(data, len); }
@@ -62,6 +63,7 @@ protected:
 	std::list<XMLNode *> parameters_;
 	std::string name_;
 	std::string content_;
+	std::string source_;
 
 };
 
@@ -74,12 +76,14 @@ public:
 	bool parse(const char *data, int len, int final);
 	const char *getParseError();
 
+	void setSource(const char *source) { source_ = source; }
 	XMLNode *getRoot() { return root_; }
 
 protected:
 	XMLNode *root_;
 	XMLNode *current_;
 	XML_Parser p_;
+	std::string source_;
 
 	void startElementHandler(const XML_Char *name,
                            const XML_Char **atts);

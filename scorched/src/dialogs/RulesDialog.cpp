@@ -22,7 +22,7 @@
 #include <dialogs/PlayerDialog.h>
 #include <GLW/GLWTextButton.h>
 #include <GLW/GLWFont.h>
-#include <common/WindowManager.h>
+#include <GLW/GLWWindowManager.h>
 #include <common/OptionsParam.h>
 #include <client/ScorchedClient.h>
 
@@ -189,11 +189,12 @@ void RulesDialog::buttonDown(unsigned int id)
 {
 	if (id == okId_)
 	{
-		WindowManager::instance()->hideWindow(id_);	
+		GLWWindowManager::instance()->hideWindow(id_);	
 	}
 }
 
 void RulesDialog::windowHide()
 {
-	WindowManager::instance()->showWindow(PlayerDialog::instance()->getId());	
+	GLWWindowManager::instance()->showWindow(
+		PlayerDialog::instance()->getId());	
 }

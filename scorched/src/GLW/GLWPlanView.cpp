@@ -18,50 +18,36 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <math.h>
+#include <GLW/GLWPlanView.h>
+#include <GLW/GLWTranslate.h>
 #include <GLEXT/GLState.h>
 #include <GLEXT/GLViewPort.h>
 #include <tankgraph/TankModelRenderer.h>
 #include <client/ScorchedClient.h>
 #include <client/ClientState.h>
 #include <client/MainCamera.h>
-#include <dialogs/PlanViewDialog.h>
 #include <landscape/Landscape.h>
 #include <common/Vector.h>
+#include <math.h>
+
+REGISTER_CLASS_SOURCE(GLWPlanView);
 
 static const float degToRad = 3.14f / 180.0f;
 static const float maxAnimationTime = 2.0f;
 
-PlanViewDialog *PlanViewDialog::instance_ = 0;
-
-PlanViewDialog *PlanViewDialog::instance()
-{
-	if (!instance_)
-	{
-		instance_ = new PlanViewDialog();
-	}
-	return instance_;
-}
-
-PlanViewDialog::PlanViewDialog() : 
+GLWPlanView::GLWPlanView(float x, float y, float w, float h) :
+	GLWVisibleWidget(x, y, w, h),
 	animationTime_(0.0f), flashTime_(0.0f),
-	GLWWindow("Plan", 10, 15, 120, 120, eCircle,
-		"Shows the position of the the tanks\n"
-		"on a overhead map of the island."),
 	flash_(true)
 {
-
 }
 
-PlanViewDialog::~PlanViewDialog()
+GLWPlanView::~GLWPlanView()
 {
-
 }
 
-void PlanViewDialog::simulate(float frameTime)
+void GLWPlanView::simulate(float frameTime)
 {
-	GLWWindow::simulate(frameTime);
-
 	flashTime_ += frameTime;
 	if (flashTime_ > 0.3f)
 	{
@@ -76,26 +62,15 @@ void PlanViewDialog::simulate(float frameTime)
 	}
 }
 
-void PlanViewDialog::draw()
+void GLWPlanView::draw()
 {
-	static bool init = false;
-	if (!init)
-	{
-		setX(GLViewPort::getWidth() - w_ - 10.0f);
-		setY(GLViewPort::getHeight() - h_ - 40.0f);
-		init = true;
-	}
-
-	GLWToolTip::instance()->addToolTip(&toolTip_, 
-		x_ + 20.0f, y_ + 20.0f, 80.0f, 80.0f);
-
-	GLWWindow::draw();
 	drawMap();
+	GLWVisibleWidget::draw();
 }
 
-void PlanViewDialog::drawMap()
+void GLWPlanView::drawMap()
 {
-	GLState currentState(GLState::DEPTH_OFF | GLState::BLEND_ON);
+	GLState currentState(GLState::DEPTH_OFF | GLState::BLEND_ON | GLState::TEXTURE_ON);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	glPushMatrix();
@@ -111,7 +86,7 @@ void PlanViewDialog::drawMap()
 	glPopMatrix();
 }
 
-void PlanViewDialog::drawTexture()
+void GLWPlanView::drawTexture()
 {
 	// Draw the square of land
 	glColor3f(1.0f, 1.0f, 1.0f);
@@ -128,13 +103,16 @@ void PlanViewDialog::drawTexture()
 	glEnd();
 }
 
-void PlanViewDialog::drawCameraPointer()
+void GLWPlanView::drawCameraPointer()
 {
 	// Draw the camera pointer
 	glColor3f(0.9f, 0.9f, 1.0f);
-	float mapWidth = (float) ScorchedClient::instance()->getLandscapeMaps().getHMap().getWidth();
-	Vector currentPos = MainCamera::instance()->getCamera().getCurrentPos();
-	Vector lookAt = MainCamera::instance()->getCamera().getLookAt();
+	float mapWidth = (float) ScorchedClient::instance()->
+		getLandscapeMaps().getHMap().getWidth();
+	Vector currentPos = MainCamera::instance()->
+		getCamera().getCurrentPos();
+	Vector lookAt = MainCamera::instance()->
+		getCamera().getLookAt();
 	Vector direction = (currentPos - lookAt).Normalize2D() * 0.2f;
 
 	static Vector mid(128.0f, 128.0f);
@@ -159,7 +137,7 @@ void PlanViewDialog::drawCameraPointer()
 	glEnd();
 }
 
-void PlanViewDialog::drawTanks()
+void GLWPlanView::drawTanks()
 {
 	std::map<unsigned int, Tank *> &currentTanks = 
 		ScorchedClient::instance()->getTankContainer().getPlayingTanks();
@@ -200,7 +178,8 @@ void PlanViewDialog::drawTanks()
 			if (model)
 			{
 				GLWToolTip::instance()->addToolTip(&model->getTips()->tankTip,
-					x_ + position[0] * w_ - 4.0f, y_ + position[1] * h_ - 4.0f, 
+					GLWTranslate::getPosX() + x_ + position[0] * w_ - 4.0f, 
+					GLWTranslate::getPosY() + y_ + position[1] * h_ - 4.0f, 
 					8.0f, 8.0f);
 			}
 		}
@@ -208,7 +187,7 @@ void PlanViewDialog::drawTanks()
 	glEnd();
 }
 
-void PlanViewDialog::drawCurrentTank()
+void GLWPlanView::drawCurrentTank()
 {
 	// Draw the extra rings around the currently playing player
 	// on the plan view
@@ -264,22 +243,21 @@ void PlanViewDialog::drawCurrentTank()
 
 }
 
-void PlanViewDialog::mouseDown(float x, float y, bool &skipRest)
+void GLWPlanView::mouseDown(float x, float y, bool &skipRest)
 {
-	GLWWindow::mouseDown(x, y, skipRest);
-	if ((dragging_ != NoDrag)) return;
-
 	if ((x > x_) && (x < x_ + w_) &&
 		(y > y_) && (y < y_ + h_))
 	{
 		skipRest = true;
 
-		float mapWidth = (float) ScorchedClient::instance()->getLandscapeMaps().getHMap().getWidth();
+		float mapWidth = (float) ScorchedClient::instance()->
+			getLandscapeMaps().getHMap().getWidth();
 
 		float mapX = ((x - x_) / w_) * mapWidth;
 		float mapY = ((y - y_) / h_) * mapWidth;
 
-		Vector lookAt(mapX, mapY, ScorchedClient::instance()->getLandscapeMaps().getHMap().getInterpHeight(mapX, mapY) + 5.0f);
+		Vector lookAt(mapX, mapY, ScorchedClient::instance()->
+			getLandscapeMaps().getHMap().getInterpHeight(mapX, mapY) + 5.0f);
 		MainCamera::instance()->getCamera().setLookAt(lookAt);
 	}
 }

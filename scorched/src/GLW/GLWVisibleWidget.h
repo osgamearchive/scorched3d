@@ -42,8 +42,7 @@ public:
 	virtual void setW(float w) { w_ = w; }
 	virtual void setH(float h) { h_ = h; }
 
-METACLASSID
-
+	virtual bool initFromXML(XMLNode *node);
 	void setToolTip(GLWTip *tooltip) { tooltip_ = tooltip; }
 
 	static bool inBox(float posX, float posY, float x, float y, float w, float h);

@@ -26,6 +26,8 @@ GLWCheckBoxI::~GLWCheckBoxI()
 
 }
 
+REGISTER_CLASS_SOURCE(GLWCheckBox);
+
 GLWCheckBox::GLWCheckBox(float x, float y, bool startState) :
 	GLWVisibleWidget(x, y, 20.0f, 20.0f), state_(startState), handler_(0)
 {

@@ -38,7 +38,12 @@ public:
 		eHealthCount,
 		eShieldCount,
 		eFuelCount,
-		eBatteryCount
+		eBatteryCount,
+		eWeaponName,
+		eWeaponCount,
+		eRotation,
+		eElevation,
+		ePower
 	};
 
 	GLWScorchedInfo(float x = 0.0f, float y = 0.0f, 
@@ -46,10 +51,10 @@ public:
 	virtual ~GLWScorchedInfo();
 
 	virtual void draw();
+	virtual void mouseDown(float x, float y, bool &skipRest);
 	virtual bool initFromXML(XMLNode *node);
 
-
-METACLASSID
+	REGISTER_CLASS_HEADER(GLWScorchedInfo);
 protected:
 	InfoType infoType_;
 	float fontSize_;

@@ -24,6 +24,8 @@
 #include <common/Keyboard.h>
 #include <common/OptionsDisplay.h>
 
+REGISTER_CLASS_SOURCE(GLWTracker);
+
 GLWTracker::GLWTracker(float x, float y, float w, float range) :
 	GLWVisibleWidget(x, y, w, w), 
 	range_(range),

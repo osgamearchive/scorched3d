@@ -18,20 +18,10 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// GLWidget.cpp: implementation of the GLWidget class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <GLW/GLWidget.h>
 #include <GLW/GLWPanel.h>
 
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
-
 unsigned int GLWidget::nextId_ = 0;
-unsigned int GLWidget::nextMetaClassId_ = 0;
 
 GLWidget::GLWidget() : id_(++nextId_), parent_(0)
 {
@@ -73,4 +63,9 @@ void GLWidget::keyDown(char *buffer, unsigned int keyState,
 		bool &skipRest)
 {
 
+}
+
+bool GLWidget::initFromXML(XMLNode *node)
+{
+	return true;
 }

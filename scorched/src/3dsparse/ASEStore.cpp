@@ -44,7 +44,8 @@ ASEStore::~ASEStore()
 {
 }
 
-GLTexture *ASEStore::loadTexture(const char *name, const char *aname)
+GLTexture *ASEStore::loadTexture(const char *name, 
+								 const char *aname, bool invert)
 {
 	std::string wholeName;
 	wholeName += name;
@@ -63,7 +64,7 @@ GLTexture *ASEStore::loadTexture(const char *name, const char *aname)
 	GLBitmap *map = 0;
 	if (aname[0])
 	{
-		map = new GLBitmap((char *) name, (char *) aname, false);
+		map = new GLBitmap((char *) name, (char *) aname, invert);
 		if (!map->getBits())
 		{
 			dialogMessage("Scorched3D load model texture", 

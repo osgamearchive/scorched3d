@@ -18,19 +18,18 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <common/WindowManager.h>
+#include <GLW/GLWWindowManager.h>
+#include <GLW/GLWWindowSkinManager.h>
+#include <GLW/GLWSelector.h>
 #include <common/Keyboard.h>
 #include <common/OptionsParam.h>
 #include <client/ClientState.h>
 #include <client/WindowSetup.h>
-#include <GLW/GLWSelector.h>
 #include <dialogs/AutoDefenseDialog.h>
 #include <dialogs/MainMenuDialog.h>
-#include <dialogs/WindDialog.h>
 #include <dialogs/CameraDialog.h>
 #include <dialogs/AimDialog.h>
 #include <dialogs/PlayerDialog.h>
-#include <dialogs/PlanViewDialog.h>
 #include <dialogs/QuitDialog.h>
 #include <dialogs/LogDialog.h>
 #include <dialogs/ConnectDialog.h>
@@ -39,71 +38,76 @@
 #include <dialogs/BuyAccessoryDialog.h>
 #include <dialogs/RulesDialog.h>
 #include <dialogs/TalkDialog.h>
-#include <dialogs/TankDialog.h>
-#include <dialogs/WeaponDialog.h>
 #include <dialogs/ScoreDialog.h>
 #include <dialogs/KillDialog.h>
 #include <dialogs/KibitzingDialog.h>
 
 void WindowSetup::addCommonComponents(unsigned state)
 {
-	KEYBOARDKEY("SHOW_PLAN_DIALOG", planKey);
-	WindowManager::instance()->addWindow(state, 
-		PlanViewDialog::instance(), planKey, true);
-
-	KEYBOARDKEY("SHOW_WIND_DIALOG", windKey);
-	WindowManager::instance()->addWindow(state, 
-		WindDialog::instance(), windKey, true);
+	std::list<GLWWindowSkin *> allStateWindows = 
+		GLWWindowSkinManager::instance()->getAllStateWindows();
+	std::list<GLWWindowSkin *>::iterator itor;
+	for (itor = allStateWindows.begin();
+		itor != allStateWindows.end();
+		itor++)
+	{
+		GLWWindowSkin *window = *itor;
+		KeyboardKey *key = 0;
+		if (window->getKey()[0]) key = 
+			Keyboard::instance()->getKey(window->getKey());
+		GLWWindowManager::instance()->addWindow(state, 
+			window, key, window->getVisible());
+	}
 
 	KEYBOARDKEY("SHOW_QUIT_DIALOG", quitKey);
-	WindowManager::instance()->addWindow(state, 
+	GLWWindowManager::instance()->addWindow(state, 
  		QuitDialog::instance(), quitKey, false);
 
 	KEYBOARDKEY("SHOW_KIBITZ_DIALOG", kibitzKey);
-	WindowManager::instance()->addWindow(state, 
+	GLWWindowManager::instance()->addWindow(state, 
 		new KibitzingDialog, kibitzKey, false);
 
 	if (!OptionsParam::instance()->getConnectedToServer())
 	{
 		KEYBOARDKEY("SHOW_KILL_DIALOG", killKey);
-		WindowManager::instance()->addWindow(state, 
+		GLWWindowManager::instance()->addWindow(state, 
  			KillDialog::instance(), killKey, false);
 	}
 
 	KEYBOARDKEY("SHOW_CAMERA_DIALOG", cameraKey);
-	WindowManager::instance()->addWindow(state, 
+	GLWWindowManager::instance()->addWindow(state, 
 		CameraDialog::instance(), cameraKey, false);
 
 	KEYBOARDKEY("SHOW_HELP_DIALOG", helpKey);
-	WindowManager::instance()->addWindow(state, 
+	GLWWindowManager::instance()->addWindow(state, 
 		HelpDialog::instance(), helpKey, false);
 	if (state != ClientState::StateScore)
 	{
 		KEYBOARDKEY("SHOW_SCORE_DIALOG", scoreKey);
-		WindowManager::instance()->addWindow(state, 
+		GLWWindowManager::instance()->addWindow(state, 
 			ScoreDialog::instance(), scoreKey, false);
 	}
 	KEYBOARDKEY("SHOW_TALK_DIALOG", talkKey);
-	WindowManager::instance()->addWindow(state, 
+	GLWWindowManager::instance()->addWindow(state, 
 		TalkDialog::instance(), talkKey, false);
 
 	if (state != ClientState::StateScore)
 	{
-		WindowManager::instance()->addWindow(state, 
+		GLWWindowManager::instance()->addWindow(state, 
 			MainMenuDialog::instance(), 0, true);
-		WindowManager::instance()->addWindow(state,
+		GLWWindowManager::instance()->addWindow(state,
 			GLWSelector::instance(), 0, true);
 	}
 
 	if (OptionsParam::instance()->getConnectedToServer())
 	{
 		KEYBOARDKEY("SHOW_TEAM_DIALOG", teamKey);
-		WindowManager::instance()->addWindow(state,
+		GLWWindowManager::instance()->addWindow(state,
 			PlayerDialog::instance(), teamKey, false);
 	}
 
 	KEYBOARDKEY("SHOW_RULES_DIALOG", rulesKey);
-	WindowManager::instance()->addWindow(state, 
+	GLWWindowManager::instance()->addWindow(state, 
 		RulesDialog::instance(), rulesKey, true);
 }
 
@@ -116,25 +120,25 @@ void WindowSetup::setup()
 	KEYBOARDKEY("SHOW_WEAPON_DIALOG", weaponKey);
 
 	// StateConnect
-	WindowManager::instance()->addWindow(ClientState::StateConnect, 
+	GLWWindowManager::instance()->addWindow(ClientState::StateConnect, 
 		TalkDialog::instance(), talkKey, false);
-	WindowManager::instance()->addWindow(ClientState::StateConnect, 
+	GLWWindowManager::instance()->addWindow(ClientState::StateConnect, 
 		BackdropDialog::instance(), 0, true);
-	WindowManager::instance()->addWindow(ClientState::StateConnect, 
+	GLWWindowManager::instance()->addWindow(ClientState::StateConnect, 
 		QuitDialog::instance(), quitKey, false);
-	WindowManager::instance()->addWindow(ClientState::StateConnect, 
+	GLWWindowManager::instance()->addWindow(ClientState::StateConnect, 
 		LogDialog::instance(), 0, true);
-	WindowManager::instance()->addWindow(ClientState::StateConnect, 
+	GLWWindowManager::instance()->addWindow(ClientState::StateConnect, 
 		ConnectDialog::instance(), 0, true);
 
 	// StateGetPlayers
-	WindowManager::instance()->addWindow(ClientState::StateGetPlayers, 
+	GLWWindowManager::instance()->addWindow(ClientState::StateGetPlayers, 
 		TalkDialog::instance(), talkKey, false);
-	WindowManager::instance()->addWindow(ClientState::StateGetPlayers, 
+	GLWWindowManager::instance()->addWindow(ClientState::StateGetPlayers, 
 		BackdropDialog::instance(), 0, true);
-	WindowManager::instance()->addWindow(ClientState::StateGetPlayers, 
+	GLWWindowManager::instance()->addWindow(ClientState::StateGetPlayers, 
 		PlayerDialog::instance(), 0, true);
-	WindowManager::instance()->addWindow(ClientState::StateGetPlayers, 
+	GLWWindowManager::instance()->addWindow(ClientState::StateGetPlayers, 
 		QuitDialog::instance(), quitKey, false);
 
 	// StateWait
@@ -145,20 +149,31 @@ void WindowSetup::setup()
 
 	// StateBuyWeapons
 	addCommonComponents(ClientState::StateBuyWeapons);
-	WindowManager::instance()->addWindow(ClientState::StateBuyWeapons, 
+	GLWWindowManager::instance()->addWindow(ClientState::StateBuyWeapons, 
 		new BuyAccessoryDialog, 0, true);
 
 	// StateAutoDefense
 	addCommonComponents(ClientState::StateAutoDefense);
-	WindowManager::instance()->addWindow(ClientState::StateAutoDefense, 
+	GLWWindowManager::instance()->addWindow(ClientState::StateAutoDefense, 
 		new AutoDefenseDialog, 0, false);
 
 	// StatePlaying
-	WindowManager::instance()->addWindow(ClientState::StatePlaying, 
-		TankDialog::instance(), playerKey, true);
-	WindowManager::instance()->addWindow(ClientState::StatePlaying, 
-		WeaponDialog::instance(), weaponKey, true);
-	WindowManager::instance()->addWindow(ClientState::StatePlaying, 
+	std::list<GLWWindowSkin *> playerStateWindows = 
+		GLWWindowSkinManager::instance()->getPlayerStateWindows();
+	std::list<GLWWindowSkin *>::iterator itor;
+	for (itor = playerStateWindows.begin();
+		itor != playerStateWindows.end();
+		itor++)
+	{
+		GLWWindowSkin *window = *itor;
+		KeyboardKey *key = 0;
+		if (window->getKey()[0]) key = 
+			Keyboard::instance()->getKey(window->getKey());
+		GLWWindowManager::instance()->addWindow(ClientState::StatePlaying, 
+			window, key, window->getVisible());
+	}
+
+	GLWWindowManager::instance()->addWindow(ClientState::StatePlaying, 
 		AimDialog::instance(), aimKey, false);
 	addCommonComponents(ClientState::StatePlaying);
 
@@ -167,6 +182,6 @@ void WindowSetup::setup()
 
 	// StateScore
 	addCommonComponents(ClientState::StateScore);
-	WindowManager::instance()->addWindow(ClientState::StateScore,
+	GLWWindowManager::instance()->addWindow(ClientState::StateScore,
 		ScoreDialog::instance2(), 0, true);
 }

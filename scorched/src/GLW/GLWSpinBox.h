@@ -18,14 +18,8 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #ifndef _GLWSPINBOX_H_
 #define _GLWSPINBOX_H_
-// GLWSpinBox.h: interface for the GLWSpinBox class.
-//
-//////////////////////////////////////////////////////////////////////
-
-
 
 #include <GLW/GLWButton.h>
 
@@ -33,8 +27,8 @@ class GLWSpinBox : public GLWVisibleWidget,
 					public GLWButtonI
 {
 public:
-	GLWSpinBox(float x, float y, float w, 
-		int start, int minRange, int maxRange, int step=1);
+	GLWSpinBox(float x = 0.0f, float y = 0.0f, float w = 0.0f, 
+		int start = 0, int minRange = 0, int maxRange = 0, int step = 1);
 	virtual ~GLWSpinBox();
 
 	virtual void draw();
@@ -48,7 +42,7 @@ public:
 	virtual void buttonDown(unsigned int id);
 	int getValue() { return value_; }
 
-METACLASSID
+	REGISTER_CLASS_HEADER(GLWSpinBox);
 
 protected:
 	bool keyDown_;

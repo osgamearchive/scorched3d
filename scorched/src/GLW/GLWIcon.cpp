@@ -18,9 +18,11 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <GLW/GLWIcon.h>
 #include <GLEXT/GLState.h>
+#include <3dsparse/ASEStore.h>
+
+REGISTER_CLASS_SOURCE(GLWIcon);
 
 GLWIcon::GLWIcon(float x, float y, float w, float h, GLTexture *texture) : 
 	GLWVisibleWidget(x, y, w, h),
@@ -40,6 +42,9 @@ void GLWIcon::draw()
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glColor3f(1.0f, 1.0f, 1.0f);
 		texture_->draw();
+		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_CLAMP);
+		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,GL_CLAMP);
+
 		glBegin(GL_QUADS);
 			glTexCoord2f(0.0f, 0.0f);
 			glVertex2f(x_, y_);
@@ -53,4 +58,30 @@ void GLWIcon::draw()
 	}
 
 	GLWVisibleWidget::draw();
+}
+
+bool GLWIcon::initFromXML(XMLNode *node)
+{
+	if (!GLWVisibleWidget::initFromXML(node)) return false;
+
+	XMLNode *bitmapNode = node->getNamedChild("bitmap", true);
+	if (!bitmapNode) return false;
+	XMLNode *bitmapANode = node->getNamedChild("bitmapa");
+	
+	XMLNode *invertNode = node->getNamedChild("invert", true);
+	if (!invertNode) return false;
+	bool invert = (0 == strcmp(invertNode->getContent(), "true"));
+
+	if (bitmapNode && bitmapANode)
+	{
+		std::string bitmapName = 
+			getDataFile(bitmapNode->getContent());
+		std::string bitmapAName = 
+			getDataFile(bitmapANode->getContent());
+
+		texture_ = ASEStore::instance()->loadTexture(
+			bitmapName.c_str(), bitmapAName.c_str(), invert);
+		if (!texture_) return false;
+	}
+	return true;
 }

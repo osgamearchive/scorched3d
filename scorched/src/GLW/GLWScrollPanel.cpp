@@ -21,9 +21,7 @@
 #include <GLW/GLWScrollPanel.h>
 #include <GLW/GLWTranslate.h>
 
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
+REGISTER_CLASS_SOURCE(GLWScrollPanel);
 
 GLWScrollPanel::GLWScrollPanel(float x, float y, float w, float h) : 
 	GLWVisiblePanel(x, y, w, h), scrollW_(x + w - 19, y + 4, h - 10, 0, 0),

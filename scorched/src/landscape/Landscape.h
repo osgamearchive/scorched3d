@@ -79,6 +79,8 @@ public:
 	void updatePlanTexture();
 	void updatePlanATexture();
 
+	unsigned int getChangeCount() { return changeCount_; }
+
 	// Inherited from GameStateI
 	virtual void draw(const unsigned state);
 	virtual void simulate(const unsigned state, float frameTime);
@@ -122,6 +124,7 @@ protected:
 	// Variables used to set when the water is refreshed
 	bool resetWater_;
 	float resetWaterTimer_;
+	unsigned int changeCount_;
 
 	void savePlan();
 

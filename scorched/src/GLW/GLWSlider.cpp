@@ -23,6 +23,8 @@
 #include <GLEXT/GLState.h>
 #include <common/Keyboard.h>
 
+REGISTER_CLASS_SOURCE(GLWSlider);
+
 GLWSlider::GLWSlider(float x, float y, float w,  float current, float range) :
 	GLWVisibleWidget(x, y, w, 20.0f), 
 	current_(current), range_(range), startX_(0.0f), startCurrent_(current),

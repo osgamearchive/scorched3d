@@ -18,24 +18,25 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+#if !defined(__INCLUDE_GLWPlanViewh_INCLUDE__)
+#define __INCLUDE_GLWPlanViewh_INCLUDE__
 
-#if !defined(AFX_PLANVIEW_H__083C6C16_1CD9_469C_AE4B_B44D159FB53C__INCLUDED_)
-#define AFX_PLANVIEW_H__083C6C16_1CD9_469C_AE4B_B44D159FB53C__INCLUDED_
+#include <GLW/GLWVisibleWidget.h>
 
-#include <GLW/GLWWindow.h>
-
-class PlanViewDialog : public GLWWindow
+class GLWPlanView : public GLWVisibleWidget
 {
 public:
-	static PlanViewDialog *instance();
+	GLWPlanView(float x = 0.0f, float y = 0.0f,
+		float w = 0.0f, float h = 0.0f);
+	virtual ~GLWPlanView();
 
-	// Inherited from GLWWindow
-	virtual void draw();
-	virtual void mouseDown(float x, float y, bool &skipRest);
 	virtual void simulate(float frameTime);
+	virtual void mouseDown(float x, float y, bool &skipRest);
+	virtual void draw();
+
+	REGISTER_CLASS_HEADER(GLWPlanView);
 
 protected:
-	static PlanViewDialog *instance_;
 	float animationTime_;
 	float flashTime_;
 	bool flash_;
@@ -47,10 +48,6 @@ protected:
 	void drawTanks();
 	void drawCurrentTank();
 
-private:
-	PlanViewDialog();
-	virtual ~PlanViewDialog();
-
 };
 
-#endif // !defined(AFX_PLANVIEW_H__083C6C16_1CD9_469C_AE4B_B44D159FB53C__INCLUDED_)
+#endif

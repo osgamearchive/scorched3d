@@ -18,7 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #if !defined(__INCLUDE_GLWIconh_INCLUDE__)
 #define __INCLUDE_GLWIconh_INCLUDE__
 
@@ -28,16 +27,18 @@
 class GLWIcon : public GLWVisibleWidget
 {
 public:
-	GLWIcon(float x, float y, float w, float h, GLTexture *texture);
+	GLWIcon(float x = 0.0f, float y = 0.0f, 
+		float w = 0.0f, float h = 0.0f, 
+		GLTexture *texture = 0);
 	virtual ~GLWIcon();
 
 	virtual void draw();
+	virtual bool initFromXML(XMLNode *node);
 
-METACLASSID
+	REGISTER_CLASS_HEADER(GLWIcon);
 protected:
 	GLTexture *texture_;
 
 };
-
 
 #endif

@@ -20,6 +20,8 @@
 
 #include <GLW/GLWScrollW.h>
 
+REGISTER_CLASS_SOURCE(GLWScrollW);
+
 GLWScrollWI::~GLWScrollWI()
 {
 

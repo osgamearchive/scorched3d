@@ -21,6 +21,8 @@
 #include <GLW/GLWLabel.h>
 #include <GLW/GLWFont.h>
 
+REGISTER_CLASS_SOURCE(GLWLabel);
+
 GLWLabel::GLWLabel(float x, float y, char *buttonText) : 
 	GLWVisibleWidget(x, y, 0.0f, 20.0f)
 {

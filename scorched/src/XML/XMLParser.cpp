@@ -20,11 +20,17 @@
 
 #include <XML/XMLParser.h>
 #include <common/Defines.h>
+#include <limits.h>
+#include <float.h>
 #include <stdlib.h>
 #include <stdio.h>
 
-XMLNode::XMLNode(const char *name, XMLNode *parent, NodeType type) : 
-	name_(name), parent_(parent), type_(type)
+float XMLNode::ErrorFloat = FLT_MAX;
+
+XMLNode::XMLNode(const char *name, XMLNode *parent, 
+				 NodeType type, const char *source) : 
+	name_(name), parent_(parent), type_(type),
+	source_(source)
 {
 }
 
@@ -50,7 +56,7 @@ XMLNode::~XMLNode()
 	}
 }
 
-XMLNode *XMLNode::getNamedChild(const char *name)
+XMLNode *XMLNode::getNamedChild(const char *name, bool failOnError)
 {
 	std::list<XMLNode *>::iterator itor;
 	for (itor = children_.begin();
@@ -60,10 +66,18 @@ XMLNode *XMLNode::getNamedChild(const char *name)
 		XMLNode *node = (*itor);
 		if (strcmp(name, node->getName()) == 0) return node;
 	}
+
+	if (failOnError)
+	{
+		dialogMessage("XMLNode",
+			"Error: Failed to find \"%s\" node in \"%s:%s\"\n",
+			name, source_.c_str(),
+			(parent_->getName()?parent_->getName():"Root"));
+	}
 	return 0;
 }
 
-XMLNode *XMLNode::removeNamedChild(const char *name)
+XMLNode *XMLNode::removeNamedChild(const char *name, bool failOnError)
 {
 	std::list<XMLNode *>::iterator itor;
 	for (itor = children_.begin();
@@ -78,10 +92,18 @@ XMLNode *XMLNode::removeNamedChild(const char *name)
 			return node;
 		}
 	}
+
+	if (failOnError)
+	{
+		dialogMessage("XMLNode",
+			"Error: Failed to find \"%s\" node in \"%s:%s\"\n",
+			name, source_.c_str(), 
+			(parent_->getName()?parent_->getName():"Root"));
+	}
 	return 0;
 }
 
-XMLNode *XMLNode::getNamedParameter(const char *name)
+XMLNode *XMLNode::getNamedParameter(const char *name, bool failOnError)
 {
 	std::list<XMLNode *>::iterator itor;
 	for (itor = parameters_.begin();
@@ -91,24 +113,26 @@ XMLNode *XMLNode::getNamedParameter(const char *name)
 		XMLNode *node = (*itor);
 		if (strcmp(name, node->getName()) == 0) return node;
 	}
+
+	if (failOnError)
+	{
+		dialogMessage("XMLNode",
+			"Error: Failed to find \"%s\" parameter in \"%s:%s\"\n",
+			name, source_.c_str(), 
+			(parent_->getName()?parent_->getName():"Root"));
+	}
 	return 0;
 }
 
-float XMLNode::getNamedFloatChild(const char *name, const char *file)
+float XMLNode::getNamedFloatChild(const char *name, bool failOnError)
 {
-	XMLNode *node = getNamedChild(name);
-	if (!node)
-	{
-		dialogMessage("XMLNode",
-			"Error: Failed to find node \"%s\" in file \"%s\"",
-			name, file);
-		return 0.0f;
-	}
-
+	XMLNode *node = getNamedChild(name, failOnError);
+	if (!node) return XMLNode::ErrorFloat;
 	return (float) atof(node->getContent());
 }
 
-XMLParser::XMLParser() : root_(0), current_(0)
+XMLParser::XMLParser() : root_(0), current_(0), 
+	source_("Not Specified")
 {
 	// Init the XML parser
 	p_ = XML_ParserCreate(0);
@@ -151,14 +175,16 @@ void XMLParser::startElementHandler(const XML_Char *name,
 	if (!root_)
 	{
 		// Create the root node
-		root_ = current_ = new XMLNode(name, 0);
+		root_ = current_ = new XMLNode(name, 0, 
+			XMLNode::XMLNodeType, source_.c_str());
 	}
 	else
 	{
 		DIALOG_ASSERT(current_);
 
 		// Add a new child to this node
-		XMLNode *newNode = new XMLNode(name, current_);
+		XMLNode *newNode = new XMLNode(name, current_, 
+			XMLNode::XMLNodeType, source_.c_str());
 		current_->addChild(newNode);
 		current_ = newNode;
 	}
@@ -172,7 +198,8 @@ void XMLParser::startElementHandler(const XML_Char *name,
 			const XML_Char *value = *atts;
 			atts++;
 
-			XMLNode *param = new XMLNode(name, current_, XMLNode::XMLParameterType);
+			XMLNode *param = new XMLNode(name, current_, 
+				XMLNode::XMLParameterType, source_.c_str());
 			param->addContent(value, strlen(value));
 			current_->getParameters().push_back(param);
 		}

@@ -18,17 +18,17 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <dialogs/WindDialog.h>
+#include <GLW/GLWWindView.h>
 #include <client/ScorchedClient.h>
 #include <client/MainCamera.h>
-#include <GLW/GLWFont.h>
-#include <GLEXT/GLBitmap.h>
+#include <3dsparse/ASEStore.h>
 #include <GLEXT/GLViewPort.h>
 #include <common/OptionsTransient.h>
 #include <common/Defines.h>
 #include <landscape/Landscape.h>
-#include <3dsparse/ASEStore.h>
 #include <math.h>
+
+REGISTER_CLASS_SOURCE(GLWWindView);
 
 WindDialogToolTip::WindDialogToolTip()
 {
@@ -40,7 +40,8 @@ WindDialogToolTip::~WindDialogToolTip()
 
 void WindDialogToolTip::populate()
 {
-	if ((int) ScorchedClient::instance()->getOptionsTransient().getWindSpeed() == 0)
+	if ((int) ScorchedClient::instance()->
+		getOptionsTransient().getWindSpeed() == 0)
 	{
 		setText("Wind",
 			"Displays the current wind direction\n"
@@ -53,62 +54,40 @@ void WindDialogToolTip::populate()
 			"Displays the current wind direction\n"
 			"and speed.\n"
 			"Current Wind Force : %i (out of 5)\n",
-			(int) ScorchedClient::instance()->getOptionsTransient().getWindSpeed());
+			(int) ScorchedClient::instance()->
+			getOptionsTransient().getWindSpeed());
 	}
 }
 
-WindDialog *WindDialog::instance_ = 0;
-
-WindDialog *WindDialog::instance()
+GLWWindView::GLWWindView(float x, float y, float w, float h) :
+	GLWVisibleWidget(x, y, w, h),
+	listNo_(0), changeCount_(0)
 {
-	if (!instance_)
-	{
-		instance_ = new WindDialog;
-	}
-
-	return instance_;
-}
-
-WindDialog::WindDialog() : 
-	GLWWindow("Wind", 10, 15, 120, 120, eCircle,
-		"Displays indicators for the current wind\n"
-		"strength and direction."),
-	listNo_(0)
-{
+	setToolTip(new WindDialogToolTip());
 	windModel_ = ASEStore::instance()->
 		loadOrGetArray(getDataFile("data/meshes/wind.ase"));
 }
 
-WindDialog::~WindDialog()
+GLWWindView::~GLWWindView()
 {
 	delete windModel_;
 	if (glIsList(listNo_)) glDeleteLists(listNo_, 1);
 }
 
-void WindDialog::buildMap()
+void GLWWindView::draw()
 {
-	if (glIsList(listNo_)) glDeleteLists(listNo_, 1);
-	listNo_ = 0;
-}
-
-void WindDialog::draw()
-{
-	static bool init = false;
-	if (!init)
+	if (changeCount_ != Landscape::instance()->getChangeCount())
 	{
-		setX(10.0f);
-		setY(GLViewPort::getHeight() - h_ - 40.0f);
-		init = true;
+		changeCount_ = Landscape::instance()->getChangeCount();
+		if (glIsList(listNo_)) glDeleteLists(listNo_, 1);
+		listNo_ = 0;
 	}
 
-	GLWToolTip::instance()->addToolTip(&tip_, 
-		x_ + 20.0f, y_ + 20.0f, 80.0f, 80.0f);
-
-	GLWWindow::draw();
 	drawDisplay();
+	GLWVisibleWidget::draw();
 }
 
-void WindDialog::drawDisplay()
+void GLWWindView::drawDisplay()
 {
 	Vector &lookFrom = MainCamera::instance()->getCamera().getCurrentPos();
 	Vector &lookAt = MainCamera::instance()->getCamera().getLookAt();
@@ -120,66 +99,36 @@ void WindDialog::drawDisplay()
 	float angYZ = acosf(dir[2]) / 3.14f * 180.0f + 180.0f;
 	if (angYZ < 280.0f) angYZ = 280.0f;
 
-	if (!windTexture_.textureValid())
-	{
-		GLBitmap windMap(getDataFile("data/windows/wind.bmp"), true);
-		windTexture_.create(windMap, GL_RGBA, false);
-	}
-
-	GLState currentState(GLState::DEPTH_ON);
+	GLState currentState(GLState::DEPTH_ON | GLState::TEXTURE_ON);
 	glPushMatrix();
-		glLoadIdentity();
 		glTranslatef(x_ + w_ / 2.0f, y_ + h_ / 2.0f, 0.0f);
+		glRotatef(angYZ, 1.0f, 0.0f, 0.0f);
+		glRotatef(angXY, 0.0f, 0.0f, 1.0f);
 
-		glPushMatrix();
-			glRotatef(angYZ, 1.0f, 0.0f, 0.0f);
-			glRotatef(angXY, 0.0f, 0.0f, 1.0f);
-
-			// Draw the minature landscape
-			glScalef(scale2, scale2, scale2);
-			if (listNo_) glCallList(listNo_);
-			else
-			{
-				glNewList(listNo_ = glGenLists(1), GL_COMPILE_AND_EXECUTE);
-					drawScene();
-				glEndList();
-			}
-
-			// Draw the wind arrow for direction
-			GLState texState(GLState::TEXTURE_OFF);
-			if (ScorchedClient::instance()->getOptionsTransient().getWindOn())
-			{
-				glTranslatef(0.0f, 0.0f, 20.0f);
-				glScalef(scale, scale, scale);
-
-				glRotatef(-ScorchedClient::instance()->getOptionsTransient().getWindAngle(), 0.0f, 0.0f, 1.0f);
-				drawArrow();
-			}
-
-		glPopMatrix();
-
-		float multw = w_ / 120.0f;
-		float multh = h_ / 120.0f;
-		// Draw the wind speed indicator
+		// Draw the minature landscape
+		glScalef(scale2, scale2, scale2);
+		if (listNo_) glCallList(listNo_);
+		else
 		{
-			GLState currentState2(GLState::BLEND_ON | GLState::DEPTH_OFF);
-
-			drawInfoBox(w_ / 2.0f - 21.0f * multw, h_ / 2.0f - 03.0f * multh, 35.0f);
-			drawJoin(w_ / 2.0f - 18.0f * multw, h_ / 2.0f - 18.0f * multh);
-			static Vector fontColor(0.8f, 0.8f, 1.0f);
-			GLWFont::instance()->getLargePtFont()->draw(fontColor, 14,
-				w_ / 2.0f - 4.0f * multw, h_ / 2.0f - 20.0f * multh, 0.0f, "%i", (int) 
-				ScorchedClient::instance()->getOptionsTransient().getWindSpeed());
+			glNewList(listNo_ = glGenLists(1), GL_COMPILE_AND_EXECUTE);
+				drawScene();
+			glEndList();
 		}
 
-		glColor4f(1.0f, 1.0f, 1.0f, 0.8f);
-		GLState currentState2(GLState::BLEND_ON | GLState::DEPTH_OFF | GLState::TEXTURE_ON);
-		windTexture_.draw();
-		drawIconBox(w_ / 2.0f - 19.0f * multw, h_ / 2.0f - 21.0f * multh);
+		// Draw the wind arrow for direction
+		GLState texState(GLState::TEXTURE_OFF);
+		if (ScorchedClient::instance()->getOptionsTransient().getWindOn())
+		{
+			glTranslatef(0.0f, 0.0f, 20.0f);
+			glScalef(scale, scale, scale);
+
+			glRotatef(-ScorchedClient::instance()->getOptionsTransient().getWindAngle(), 0.0f, 0.0f, 1.0f);
+			drawArrow();
+		}
 	glPopMatrix();
 }
 
-void WindDialog::drawScene()
+void GLWWindView::drawScene()
 {
 	Landscape::instance()->getPlanTexture().draw(true);
 	glColor3f(1.0f, 1.0f, 1.0f);
@@ -239,7 +188,7 @@ void WindDialog::drawScene()
 	glEnd();
 }
 
-void WindDialog::drawArrow()
+void GLWWindView::drawArrow()
 {
 	windModel_->draw();
 }

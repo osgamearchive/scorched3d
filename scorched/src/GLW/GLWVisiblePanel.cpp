@@ -22,9 +22,7 @@
 #include <GLW/GLWVisiblePanel.h>
 #include <GLW/GLWTranslate.h>
 
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
+REGISTER_CLASS_SOURCE(GLWVisiblePanel);
 
 GLWVisiblePanel::GLWVisiblePanel(float x, float y, float w, float h, bool depressed) : 
 	GLWVisibleWidget(x, y, w, h), depressed_(depressed), drawPanel_(true)
@@ -75,6 +73,7 @@ void GLWVisiblePanel::mouseDown(float x, float y, bool &skipRest)
 	x -= x_;
 	y -= y_;
 
+	GLWTranslate trans(x_, y_);
 	panel_.mouseDown(x, y, skipRest);
 }
 
@@ -83,6 +82,7 @@ void GLWVisiblePanel::mouseUp(float x, float y, bool &skipRest)
 	x -= x_;
 	y -= y_;
 
+	GLWTranslate trans(x_, y_);
 	panel_.mouseUp(x, y, skipRest);
 }
 

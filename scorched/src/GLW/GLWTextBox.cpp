@@ -23,6 +23,8 @@
 #include <GLW/GLWTextBox.h>
 #include <common/Keyboard.h>
 
+REGISTER_CLASS_SOURCE(GLWTextBox);
+
 GLWTextBox::GLWTextBox(float x, float y, float w, char *startText) :
 	GLWVisibleWidget(x, y, w, 25.0f), ctime_(0.0f), text_(startText?startText:""), 
 	cursor_(false), maxTextLen_(0)

@@ -34,7 +34,8 @@ public:
 class GLWCheckBox : public GLWVisibleWidget
 {
 public:
-	GLWCheckBox(float x, float y, bool startState = true);
+	GLWCheckBox(float x = 0.0f, float y = 0.0f, 
+		bool startState = true);
 	virtual ~GLWCheckBox();
 
 	virtual void draw();
@@ -44,7 +45,7 @@ public:
 	void setState(bool state) { state_ = state; }
 	void setHandler(GLWCheckBoxI *handler);
 
-METACLASSID
+	REGISTER_CLASS_HEADER(GLWCheckBox);
 protected:
 	bool state_;
 	GLWCheckBoxI *handler_;

@@ -19,10 +19,10 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <dialogs/TalkDialog.h>
-#include <common/WindowManager.h>
 #include <client/ScorchedClient.h>
 #include <coms/ComsTextMessage.h>
 #include <coms/ComsMessageSender.h>
+#include <GLW/GLWWindowManager.h>
 #include <GLW/GLWLabel.h>
 #include <GLEXT/GLViewPort.h>
 
@@ -106,11 +106,11 @@ void TalkDialog::buttonDown(unsigned int id)
 		}
 
 		talkText_->setText("");
-		WindowManager::instance()->hideWindow(id_);
+		GLWWindowManager::instance()->hideWindow(id_);
 	}
 	if (id == cancel_->getId())
 	{
 		talkText_->setText("");
-		WindowManager::instance()->hideWindow(id_);
+		GLWWindowManager::instance()->hideWindow(id_);
 	}
 }

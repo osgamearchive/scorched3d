@@ -26,7 +26,7 @@
 #include <tankai/TankAIHuman.h>
 #include <tankgraph/TankMenus.h>
 #include <tankgraph/TankModelRenderer.h>
-#include <common/WindowManager.h>
+#include <GLW/GLWWindowManager.h>
 #include <common/OptionsParam.h>
 #include <coms/ComsMessageSender.h>
 #include <coms/ComsTextMessage.h>
@@ -44,7 +44,6 @@ TankMenus::TankMenus() : logger_("ClientLog")
 		Landscape::instance(), &Landscape::updatePlanTexture, "RecalculatePlan");
 	new GLConsoleRuleMethodIAdapter<Landscape>(
 		Landscape::instance(), &Landscape::updatePlanATexture, "RecalculateAPlan");
-
 
 	new GLConsoleRuleMethodIAdapter<TankMenus>(
 		this, &TankMenus::showTankDetails, "TankDetails");
@@ -161,11 +160,11 @@ void TankMenus::PlayerMenu::menuSelection(const char* menuName,
 				tankAI->resign();
 				break;
 			case 2:
-				WindowManager::instance()->showWindow(
+				GLWWindowManager::instance()->showWindow(
 					QuitDialog::instance()->getId());
 				break;
 			case 3:
-				WindowManager::instance()->showWindow(
+				GLWWindowManager::instance()->showWindow(
 					KillDialog::instance()->getId());
 				break;
 			case 4:

@@ -21,6 +21,8 @@
 #include <engine/MetaClass.h>
 #include <common/Defines.h>
 
+unsigned int MetaClass::nextMetaClassId_ = 0;
+
 MetaClass::MetaClass()
 {
 }

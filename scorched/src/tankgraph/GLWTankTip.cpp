@@ -44,7 +44,7 @@ void TankUndoMenu::showItems(float x, float y)
 	std::list<GLWSelectorEntry> entries;
 	std::vector<TankPhysics::ShotEntry> &oldShots =
 		tank_->getPhysics().getOldShots();
-	for (int i=0; i<oldShots.size(); i++)
+	for (int i=0; i<(int) oldShots.size(); i++)
 	{
 		char buffer[128];
 		sprintf(buffer, "%i: Pwr:%.1f Ele:%.1f Rot:%.1f",

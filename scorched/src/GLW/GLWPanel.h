@@ -18,11 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// GLWPanel.h: interface for the GLWPanel class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_GLWPANEL_H__6619410E_0A6B_459B_8A38_11024F49A6E3__INCLUDED_)
 #define AFX_GLWPANEL_H__6619410E_0A6B_459B_8A38_11024F49A6E3__INCLUDED_
 
@@ -49,7 +44,7 @@ public:
 	GLWidget *addWidget(GLWidget *widget);
 	std::list<GLWidget *> &getWidgets() { return widgets_; }
 
-METACLASSID
+	REGISTER_CLASS_HEADER(GLWPanel);
 
 protected:
 	std::list<GLWidget *> widgets_;

@@ -34,7 +34,8 @@ class GLWScrollPanel : public GLWVisiblePanel,
 						public GLWScrollWI
 {
 public:
-	GLWScrollPanel(float x, float y, float w, float h);
+	GLWScrollPanel(float x = 0.0f, float y = 0.0f, 
+		float w = 0.0f, float h = 0.0f);
 	virtual ~GLWScrollPanel();
 
 	virtual void draw();
@@ -51,7 +52,7 @@ public:
 	bool &getDrawScrollBar() { return drawScrollBar_; }
 	GLWScrollW &getScrollBar() { return scrollW_; }
 
-	METACLASSID
+	REGISTER_CLASS_HEADER(GLWScrollPanel);
 protected:
 	GLWScrollW scrollW_;
 	bool drawScrollBar_;

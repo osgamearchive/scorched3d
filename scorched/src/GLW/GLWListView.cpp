@@ -18,10 +18,11 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <GLW/GLWListView.h>
 #include <GLW/GLWFont.h>
 #include <stdio.h>
+
+REGISTER_CLASS_SOURCE(GLWListView);
 
 GLWListView::GLWListView(float x, float y, float w, float h, int maxLen) :
 	GLWVisibleWidget(x, y, w, h), 

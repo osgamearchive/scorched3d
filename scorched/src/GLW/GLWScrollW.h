@@ -37,7 +37,10 @@ class GLWScrollW  :
 	public GLWScrollButtonI
 {
 public:
-	GLWScrollW(float x, float y, float h, int min, int max, int see = 1, GLWScrollWI *handler = 0);
+	GLWScrollW(float x = 0.0f, float y = 0.0f, 
+		float h = 0.0f, 
+		int min = 0, int max = 0, int see = 1, 
+		GLWScrollWI *handler = 0);
 	virtual ~GLWScrollW();
 
 	void setHandler(GLWScrollWI *handler = 0) { handler_ = handler; }
@@ -63,7 +66,7 @@ public:
 	virtual void startDrag(unsigned int id);
 	virtual void buttonDrag(unsigned int id, float x, float y);
 
-METACLASSID
+	REGISTER_CLASS_HEADER(GLWScrollW);
 protected:
 	GLWScrollWI *handler_;
 	GLWButton topButton_;

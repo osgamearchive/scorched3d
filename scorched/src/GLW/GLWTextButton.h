@@ -27,7 +27,9 @@
 class GLWTextButton : public GLWButton
 {
 public:
-	GLWTextButton(char *buttonText, float x, float y, float w, GLWButtonI *handler = 0,
+	GLWTextButton(char *buttonText = "", 
+		float x = 0.0f, float y = 0.0f, float w = 0.0f, 
+		GLWButtonI *handler = 0,
 		unsigned flags = 0);
 	virtual ~GLWTextButton();
 
@@ -36,7 +38,7 @@ public:
 	void setText(const char *text) { label_.setText(text); }
 	const char *getText() { return label_.getText(); }
 
-METACLASSID
+	REGISTER_CLASS_HEADER(GLWTextButton);
 
 protected:
 	GLWLabel label_;

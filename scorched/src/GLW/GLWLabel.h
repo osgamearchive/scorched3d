@@ -27,7 +27,8 @@
 class GLWLabel : public GLWVisibleWidget  
 {
 public:
-	GLWLabel(float x, float y, char *buttonText = 0);
+	GLWLabel(float x = 0.0f, float y = 0.0f, 
+		char *buttonText = 0);
 	virtual ~GLWLabel();
 
 	virtual void draw();	
@@ -35,7 +36,7 @@ public:
 	void setText(const char *text);
 	void calcWidth();
 
-METACLASSID
+	REGISTER_CLASS_HEADER(GLWLabel);
 
 protected:
 	std::string buttonText_;

@@ -18,9 +18,9 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #if !defined(__INCLUDE_GLWScrollButtonh_INCLUDE__)
 #define __INCLUDE_GLWScrollButtonh_INCLUDE__
+
 #include <GLW/GLWButton.h>
 
 class GLWScrollButtonI
@@ -46,6 +46,5 @@ protected:
 	GLWScrollButtonI *scrollHandler_;
 	float startX_, startY_;
 };
-
 
 #endif

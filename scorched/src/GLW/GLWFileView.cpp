@@ -18,18 +18,22 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <GLW/GLWFileView.h>
 #include <GLW/GLWFont.h>
+
+REGISTER_CLASS_SOURCE(GLWFileView);
 
 GLWFileView::GLWFileView(char *fileName, float x, float y, float w, float h) :
 	GLWVisibleWidget(x, y, w, h), 
 	scroll_(x + w - 17, y, h, 0, 1)
 {
-	lines_.readFile(fileName);
-	scroll_.setMax((int) lines_.getLines().size());
-	scroll_.setSee((int) (h_ / 9));
-	scroll_.setCurrent(scroll_.getMax());
+	if (fileName[0])
+	{
+		lines_.readFile(fileName);
+		scroll_.setMax((int) lines_.getLines().size());
+		scroll_.setSee((int) (h_ / 9));
+		scroll_.setCurrent(scroll_.getMax());
+	}
 }
 
 GLWFileView::~GLWFileView()

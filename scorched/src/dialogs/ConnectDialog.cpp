@@ -29,7 +29,6 @@
 #include <coms/ComsMessageHandler.h>
 #include <coms/ComsMessageSender.h>
 #include <coms/ComsConnectMessage.h>
-#include <common/WindowManager.h>
 #include <common/OptionsParam.h>
 
 ConnectDialog *ConnectDialog::instance_ = 0;

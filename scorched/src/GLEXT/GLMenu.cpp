@@ -21,9 +21,9 @@
 #include <GLEXT/GLMenu.h>
 #include <GLEXT/GLState.h>
 #include <GLEXT/GLViewPort.h>
+#include <GLW/GLWWindowManager.h>
 #include <GLW/GLWFont.h>
 #include <client/ScorchedClient.h>
-#include <common/WindowManager.h>
 
 GLMenu::GLMenu() : GLWWindow("", 0.0f, 10.0f, 10000.0f, 25.0f, 0, "")
 {
@@ -96,7 +96,7 @@ void GLMenu::draw()
 
 	int x = ScorchedClient::instance()->getGameState().getMouseX();
 	int y = ScorchedClient::instance()->getGameState().getMouseY();
-	if (WindowManager::instance()->getFocus(x, y) == getId())
+	if (GLWWindowManager::instance()->getFocus(x, y) == getId())
 	{
 		GLfloat currentWidth = 0.0f;
 		for (itor = menuList_.begin();

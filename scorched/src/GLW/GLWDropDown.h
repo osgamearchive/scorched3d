@@ -38,7 +38,7 @@ public:
 class GLWDropDown : public GLWVisibleWidget
 {
 public:
-	GLWDropDown(float x, float y, float w);
+	GLWDropDown(float x = 0.0f, float y = 0.0f, float w = 0.0f);
 	virtual ~GLWDropDown();
 
 	void setHandler(GLWDropDownI *handler);
@@ -54,7 +54,7 @@ public:
 
 	void clear();
 
-METACLASSID
+	REGISTER_CLASS_HEADER(GLWDropDown);
 protected:
 	std::string text_;
 	std::list<std::string> texts_;

@@ -156,3 +156,17 @@ bool GLWVisibleWidget::inBox(float posX, float posY, float x, float y, float w, 
 
 	return false;
 }
+
+bool GLWVisibleWidget::initFromXML(XMLNode *node)
+{
+	if ((x_ = node->getNamedFloatChild("x", true)) == 
+		XMLNode::ErrorFloat) return false;
+	if ((y_ = node->getNamedFloatChild("y", true)) == 
+		XMLNode::ErrorFloat) return false;
+	if ((w_ = node->getNamedFloatChild("w", true)) == 
+		XMLNode::ErrorFloat) return false;
+	if ((h_ = node->getNamedFloatChild("h", true)) == 
+		XMLNode::ErrorFloat) return false;
+
+	return true;
+}

@@ -43,6 +43,7 @@
 #include <client/WindowSetup.h>
 #include <server/ScorchedServer.h>
 #include <GLEXT/GLConsoleFileReader.h>
+#include <GLW/GLWWindowSkinManager.h>
 #include <tankai/TankAIStore.h>
 #include <landscape/HeightMapCollision.h>
 #include <tankgraph/TankModelStore.h>
@@ -172,6 +173,7 @@ bool startClient(ProgressCounter *progressCounter)
 	TankAIStore::instance();
 
 	progressCounter->setNewOp("Initializing Windows");
+	if (!GLWWindowSkinManager::instance()->loadWindows()) return false;
 	WindowSetup::setup();
 	std::string errorString;
 	if (!GLConsoleFileReader::loadFileIntoConsole(getDataFile("data/autoexec.xml"), errorString))

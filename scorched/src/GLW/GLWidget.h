@@ -18,22 +18,16 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// GLWidget.h: interface for the GLWidget class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_GLWIDGET_H__3F7BC394_576B_4ADF_8771_7D97EB3AF314__INCLUDED_)
 #define AFX_GLWIDGET_H__3F7BC394_576B_4ADF_8771_7D97EB3AF314__INCLUDED_
 
 #include <GLEXT/GLState.h>
+#include <XML/XMLParser.h>
+#include <engine/MetaClass.h>
 #include <common/KeyboardHistory.h>
 
-#define METACLASSID virtual unsigned int getMetaClassId() \
-	{ static unsigned int metaClassID = nextMetaClassId_++; return metaClassID; }
-
 class GLWPanel;
-class GLWidget
+class GLWidget : public MetaClass
 {
 public:
 	GLWidget();
@@ -51,10 +45,9 @@ public:
 		bool &skipRest);
 
 	unsigned int getId() { return id_; }
-	virtual unsigned int getMetaClassId() = 0;
+	virtual bool initFromXML(XMLNode *node);
 
 protected:
-	static unsigned int nextMetaClassId_;
 	static unsigned int nextId_;
 	unsigned int id_;
 	GLWPanel *parent_;

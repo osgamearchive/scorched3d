@@ -23,8 +23,8 @@
 #include <GLEXT/GLBitmap.h>
 #include <GLEXT/GLViewPort.h>
 #include <GLW/GLWWindow.h>
+#include <GLW/GLWWindowManager.h>
 #include <client/ScorchedClient.h>
-#include <common/WindowManager.h>
 
 static const float roundSize = 20.0f;
 static const float smallRoundSize = 10.0f;
@@ -185,7 +185,7 @@ void GLWWindow::drawMaximizedWindow()
 
 		int x = ScorchedClient::instance()->getGameState().getMouseX();
 		int y = ScorchedClient::instance()->getGameState().getMouseY();
-		if (WindowManager::instance()->getFocus(x, y) == getId())
+		if (GLWWindowManager::instance()->getFocus(x, y) == getId())
 		{
 			if (windowState_ & eResizeable)
 			{

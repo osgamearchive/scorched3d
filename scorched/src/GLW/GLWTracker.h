@@ -32,7 +32,8 @@ public:
 class GLWTracker : public GLWVisibleWidget
 {
 public:
-	GLWTracker(float x, float y, float w, float range);
+	GLWTracker(float x = 0.0f, float y = 0.0f, 
+		float w = 0.0f, float range = 0.0f);
 	virtual ~GLWTracker();
 
 	void setHandler(GLWTrackerI *handler) { handler_ = handler; }
@@ -47,7 +48,7 @@ public:
 	virtual void mouseUp(float x, float y, bool &skipRest);
 	virtual void mouseDrag(float mx, float my, float x, float y, bool &skipRest);
 
-METACLASSID
+	REGISTER_CLASS_HEADER(GLWTracker);
 
 protected:
 	GLWTrackerI *handler_;

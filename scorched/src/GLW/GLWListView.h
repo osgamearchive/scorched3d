@@ -31,7 +31,9 @@ class GLWListView :
 	public GLWVisibleWidget
 {
 public:
-	GLWListView(float x, float y, float w, float h, int maxLen = -1);
+	GLWListView(float x = 0.0f, float y = 0.0f, 
+		float w = 0.0f, float h = 0.0f, 
+		int maxLen = -1);
 	virtual ~GLWListView();
 
 	void addLine(const char *fmt, ...);
@@ -46,7 +48,7 @@ public:
 	virtual void setW(float w) { w_ = w; scroll_.setX(x_ + w_ - 17); }
 	virtual void setH(float h) { h_ = h; scroll_.setH(h_); }
 
-METACLASSID
+	REGISTER_CLASS_HEADER(GLWListView);
 
 protected:
 	int maxLen_;

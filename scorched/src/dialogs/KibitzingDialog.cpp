@@ -22,7 +22,7 @@
 #include <dialogs/KibitzingDialog.h>
 #include <GLW/GLWTextButton.h>
 #include <GLW/GLWLabel.h>
-#include <common/WindowManager.h>
+#include <GLW/GLWWindowManager.h>
 
 KibitzingDialog::KibitzingDialog() : 
 	GLWWindow("Kibitzing", 280.0f, 80.0f, 0,
@@ -43,6 +43,6 @@ void KibitzingDialog::buttonDown(unsigned int id)
 {
 	if (id == okId_)
 	{
-		WindowManager::instance()->hideWindow(id_);
+		GLWWindowManager::instance()->hideWindow(id_);
 	}
 }

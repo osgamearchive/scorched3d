@@ -27,6 +27,8 @@ GLWButtonI::~GLWButtonI()
 
 }
 
+REGISTER_CLASS_SOURCE(GLWButton);
+
 GLWButton::GLWButton(float x, float y, float w, float h, GLWButtonI *handler,
 					 unsigned flags) : 
 	handler_(handler),

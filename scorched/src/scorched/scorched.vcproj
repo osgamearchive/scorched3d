@@ -404,6 +404,12 @@
 				RelativePath="..\GLW\GLWPanel.h">
 			</File>
 			<File
+				RelativePath="..\GLW\GLWPlanView.cpp">
+			</File>
+			<File
+				RelativePath="..\GLW\GLWPlanView.h">
+			</File>
+			<File
 				RelativePath="..\GLW\GLWProgress.cpp">
 			</File>
 			<File
@@ -464,6 +470,12 @@
 				RelativePath="..\GLW\GLWTab.h">
 			</File>
 			<File
+				RelativePath="..\GLW\GLWTankModel.cpp">
+			</File>
+			<File
+				RelativePath="..\GLW\GLWTankModel.h">
+			</File>
+			<File
 				RelativePath="..\GLW\GLWTextBox.cpp">
 			</File>
 			<File
@@ -506,10 +518,40 @@
 				RelativePath="..\GLW\GLWVisibleWidget.h">
 			</File>
 			<File
+				RelativePath="..\GLW\GLWWeaponModel.cpp">
+			</File>
+			<File
+				RelativePath="..\GLW\GLWWeaponModel.h">
+			</File>
+			<File
+				RelativePath="..\GLW\GLWWindView.cpp">
+			</File>
+			<File
+				RelativePath="..\GLW\GLWWindView.h">
+			</File>
+			<File
 				RelativePath="..\GLW\GLWWindow.cpp">
 			</File>
 			<File
 				RelativePath="..\GLW\GLWWindow.h">
+			</File>
+			<File
+				RelativePath="..\GLW\GLWWindowManager.cpp">
+			</File>
+			<File
+				RelativePath="..\GLW\GLWWindowManager.h">
+			</File>
+			<File
+				RelativePath="..\GLW\GLWWindowSkin.cpp">
+			</File>
+			<File
+				RelativePath="..\GLW\GLWWindowSkin.h">
+			</File>
+			<File
+				RelativePath="..\GLW\GLWWindowSkinManager.cpp">
+			</File>
+			<File
+				RelativePath="..\GLW\GLWWindowSkinManager.h">
 			</File>
 			<File
 				RelativePath="..\GLW\GLWidget.cpp">
@@ -880,12 +922,6 @@
 			<File
 				RelativePath="..\common\VectorLib.h">
 			</File>
-			<File
-				RelativePath="..\common\WindowManager.cpp">
-			</File>
-			<File
-				RelativePath="..\common\WindowManager.h">
-			</File>
 		</Filter>
 		<Filter
 			Name="3dsparse"
@@ -1030,12 +1066,6 @@
 				RelativePath="..\dialogs\MainMenuDialog.h">
 			</File>
 			<File
-				RelativePath="..\dialogs\PlanViewDialog.cpp">
-			</File>
-			<File
-				RelativePath="..\dialogs\PlanViewDialog.h">
-			</File>
-			<File
 				RelativePath="..\dialogs\PlayerDialog.cpp">
 			</File>
 			<File
@@ -1070,24 +1100,6 @@
 			</File>
 			<File
 				RelativePath="..\dialogs\TalkDialog.h">
-			</File>
-			<File
-				RelativePath="..\dialogs\TankDialog.cpp">
-			</File>
-			<File
-				RelativePath="..\dialogs\TankDialog.h">
-			</File>
-			<File
-				RelativePath="..\dialogs\WeaponDialog.cpp">
-			</File>
-			<File
-				RelativePath="..\dialogs\WeaponDialog.h">
-			</File>
-			<File
-				RelativePath="..\dialogs\WindDialog.cpp">
-			</File>
-			<File
-				RelativePath="..\dialogs\WindDialog.h">
 			</File>
 		</Filter>
 		<Filter
