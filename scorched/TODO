@@ -14,6 +14,7 @@ Fixed: Smoke disapears after a while
 Fixed: Server more responsive, slow clients don't affect other players
 Fixed: Tooltips don't show through other dialogs
 
+Added: Mysql compile options for windows (+ required libraries and headers)
 Added: Stats ranking message when player joins server
 Added: Icons on net browsing dialog showing game state
 Added: Talk dialog can be shown in team talk mode (y key)
