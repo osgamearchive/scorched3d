@@ -65,8 +65,8 @@ void ServerMessageHandler::clientConnected(NetMessage &message)
 			(int) address[0], (int) address[1], 
 			(int) address[2], (int) address[3],
 			ipAddress);
-		ServerCommon::kickDestination(
-			message.getDestinationId());
+		ScorchedServer::instance()->getNetInterface().
+			disconnectClient(message.getDestinationId());
 	}
 	else
 	{
