@@ -53,6 +53,65 @@ void StatsLogger::createLogger()
 	}
 }
 
+void StatsLogger::gameStart()
+{
+	createLogger();
+	if (!statsLogger_) return;
+
+	time_t theTime = time(0);
+	char *time = ctime(&theTime); 
+	char *nl = strchr(time, '\n'); 
+	if (nl) *nl = '\0';
+
+	statsLogger_->logMessage(time, "startgame", 0);
+}
+
+void StatsLogger::roundStart()
+{
+	createLogger();
+	if (!statsLogger_) return;
+
+	time_t theTime = time(0);
+	char *time = ctime(&theTime); 
+	char *nl = strchr(time, '\n'); 
+	if (nl) *nl = '\0';
+
+	statsLogger_->logMessage(time, "startround", 0);
+}
+
+void StatsLogger::tankFired(Tank *firedTank, Weapon *weapon)
+{
+	createLogger();
+	if (!statsLogger_) return;
+
+	time_t theTime = time(0);
+	char *time = ctime(&theTime); 
+	char *nl = strchr(time, '\n'); 
+	if (nl) *nl = '\0';
+
+	char message[1024];
+	sprintf(message, "fired \"%s\" [%s] \"%s\"", 
+		firedTank->getName(), firedTank->getUniqueId(),
+		weapon->getName());
+	statsLogger_->logMessage(time, message, 0);
+}
+
+void StatsLogger::tankResigned(Tank *resignedTank)
+{
+	createLogger();
+	if (!statsLogger_) return;
+
+	time_t theTime = time(0);
+	char *time = ctime(&theTime); 
+	char *nl = strchr(time, '\n'); 
+	if (nl) *nl = '\0';
+
+	char message[1024];
+	sprintf(message, "resgined \"%s\" [%s]", 
+		resignedTank->getName(), resignedTank->getUniqueId());
+	statsLogger_->logMessage(time, message, 0);
+}
+
 void StatsLogger::tankJoined(Tank *tank)
 {
 	createLogger();

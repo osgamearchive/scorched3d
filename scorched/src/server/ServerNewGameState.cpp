@@ -25,6 +25,7 @@
 #include <scorched/ServerDialog.h>
 #include <common/OptionsGame.h>
 #include <common/Timer.h>
+#include <common/StatsLogger.h>
 #include <common/Logger.h>
 #include <coms/ComsNextRoundMessage.h>
 #include <coms/ComsGameStateMessage.h>
@@ -43,6 +44,8 @@ ServerNewGameState::~ServerNewGameState()
 
 void ServerNewGameState::enterState(const unsigned state)
 {
+	StatsLogger::instance()->gameStart();
+
 	// Tell clients a new game is starting
 	sendString(0, "Next Round");
 

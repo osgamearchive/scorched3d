@@ -28,6 +28,7 @@
 #include <weapons/Parachute.h>
 #include <common/OptionsGame.h>
 #include <common/OptionsParam.h>
+#include <common/StatsLogger.h>
 #include <common/SoundStore.h>
 #include <engine/ActionController.h>
 
@@ -109,6 +110,8 @@ void TankAILogic::processResignMessage(ScorchedContext &context,
 		// Tank resign action
 		TankResign *resign = new TankResign(tank->getPlayerId());
 		context.actionController.addAction(resign);
+
+		StatsLogger::instance()->tankResigned(tank);
 	}
 }
 
@@ -161,6 +164,7 @@ void TankAILogic::processFiredMessage(ScorchedContext &context,
 					{
 						context.actionController.addAction(action);
 					}
+					StatsLogger::instance()->tankFired(tank, weapon);
 				}
 			}
 		}

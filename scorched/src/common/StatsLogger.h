@@ -30,8 +30,14 @@ class StatsLogger
 public:
 	static StatsLogger *instance();
 
+	void gameStart();
+	void roundStart();
+
 	void tankJoined(Tank *tank);
 	void tankLeft(Tank *tank);
+
+	void tankFired(Tank *firedTank, Weapon *weapon);
+	void tankResigned(Tank *resignedTank);
 
 	void tankKilled(Tank *firedTank, Tank *deadTank, Weapon *weapon);
 	void tankTeamKilled(Tank *firedTank, Tank *deadTank, Weapon *weapon);

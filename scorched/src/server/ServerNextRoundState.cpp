@@ -26,6 +26,7 @@
 #include <coms/ComsNextRoundMessage.h>
 #include <coms/ComsMessageSender.h>
 #include <common/Logger.h>
+#include <common/StatsLogger.h>
 
 ServerNextRoundState::ServerNextRoundState()
 {
@@ -37,6 +38,8 @@ ServerNextRoundState::~ServerNextRoundState()
 
 void ServerNextRoundState::enterState(const unsigned state)
 {
+	StatsLogger::instance()->roundStart();
+
 	// Move all tanks into the next round
 	// Load the set of options for this next player
 	ScorchedServer::instance()->getContext().optionsTransient.nextRound();
