@@ -35,6 +35,7 @@ public:
 
 	virtual char *tankRank(Tank *tank);
 	virtual void updateStats(Tank *tank);
+	virtual char *allocateId();
 
 	virtual void tankJoined(Tank *tank);
 	virtual void tankLeft(Tank *tank);

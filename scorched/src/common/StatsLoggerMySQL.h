@@ -43,6 +43,7 @@ public:
 
 	virtual char *tankRank(Tank *tank);
 	virtual void updateStats(Tank *tank);
+	virtual char *allocateId();
 
 	virtual void tankJoined(Tank *tank);
 	virtual void tankLeft(Tank *tank);
@@ -69,6 +70,7 @@ protected:
 
 	bool runQuery(const char *, ...);
 	void createLogger();
+	int getPlayerId(const char *uniqueId);
 
 };
 

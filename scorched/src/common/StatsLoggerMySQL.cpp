@@ -22,6 +22,7 @@
 
 #include <common/StatsLoggerMySQL.h>
 #include <common/OptionsGame.h>
+#include <common/Defines.h>
 #include <common/Logger.h>
 #include <coms/NetInterface.h>
 #include <server/ServerCommon.h>
@@ -30,6 +31,7 @@
 #include <XML/XMLFile.h>
 #include <stdlib.h>
 #include <time.h>
+#include <math.h>
 
 enum EventType
 {
@@ -71,7 +73,10 @@ void StatsLoggerMySQL::createLogger()
 	{
 		mysql_ = mysql_init(0);
 		XMLFile file;
-		if (file.readFile(getDataFile("data/mysql.xml")) &&
+
+		const char *fileName = getSettingsFile("mysql-%i.xml",
+			ScorchedServer::instance()->getOptionsGame().getPortNo());
+		if (file.readFile(fileName) &&
 			file.getRootNode())
 		{
 			std::string host, user, passwd, db;
@@ -105,13 +110,14 @@ void StatsLoggerMySQL::createLogger()
 			else
 			{
 				success_ = false;
-				Logger::log(0, "Failed to parse mysql.xml settings file.");
+				Logger::log(0, "Failed to parse %s settings file.", fileName);
 			}
 		}
 		else
 		{	
 			success_ = false;
-			Logger::log(0, "Failed to parse mysql.xml settings file. Error: %s", 
+			Logger::log(0, "Failed to parse %s settings file. Error: %s", 
+				fileName,
 				file.getParserError());
 		}
 
@@ -119,9 +125,11 @@ void StatsLoggerMySQL::createLogger()
 		{
 			// Add this server to the list of servers
 			runQuery("INSERT INTO scorched3d_main "
-				"(name, prefix) VALUES(\"%s\", \"%s\");",
+				"(name, published, prefix) VALUES(\"%s\", \"%s\", \"%s\");",
 				ScorchedServer::instance()->getOptionsGame().
 				getServerName(),
+				ScorchedServer::instance()->getOptionsGame().
+				getPublishAddress(),
 				prefix_.c_str());
 
 			// Add event types
@@ -318,15 +326,12 @@ char *StatsLoggerMySQL::tankRank(Tank *tank)
 	return retval;
 }
 
-void StatsLoggerMySQL::tankJoined(Tank *tank)
+int StatsLoggerMySQL::getPlayerId(const char *uniqueId)
 {
-	createLogger();
-	if (!success_) return;
-
 	// Try to determine this players sql playerid
 	int playerId = 0;
 	if (runQuery("SELECT playerid FROM scorched3d%s_players "
-			"WHERE uniqueid = \"%s\";", prefix_.c_str(), tank->getUniqueId()))
+			"WHERE uniqueid = \"%s\";", prefix_.c_str(), uniqueId))
 	{
 		MYSQL_RES *result = mysql_store_result(mysql_);
 		if (result)
@@ -336,14 +341,31 @@ void StatsLoggerMySQL::tankJoined(Tank *tank)
 			{
 				MYSQL_ROW row = mysql_fetch_row(result);
 				playerId = atoi(row[0]);
-
-				Logger::log(0, "Found stats user \"%i\"", playerId);
 			}
 			mysql_free_result(result);
 		}
 	}
 
+	return playerId;
+}
+
+char *StatsLoggerMySQL::allocateId() 
+{ 
+	static char buffer[128];
+	do
+	{
+		sprintf(buffer, "%i-%i-%i", rand(), rand(), rand());
+	} while (getPlayerId(buffer) != 0);
+	return buffer;
+}
+
+void StatsLoggerMySQL::tankJoined(Tank *tank)
+{
+	createLogger();
+	if (!success_) return;
+
 	// We don't have a player id, create one
+	int playerId = getPlayerId(tank->getUniqueId());
 	if (playerId == 0)
 	{
 		runQuery("INSERT INTO scorched3d%s_players (uniqueid) "
@@ -351,6 +373,10 @@ void StatsLoggerMySQL::tankJoined(Tank *tank)
 			tank->getUniqueId());
 		playerId = (int) mysql_insert_id(mysql_);
 		Logger::log(0, "Add new stats user \"%i\"", playerId);
+	}
+	else
+	{
+		Logger::log(0, "Found stats user \"%i\"", playerId);
 	}
 
 	// Store this new player id
@@ -405,6 +431,45 @@ void StatsLoggerMySQL::tankKilled(Tank *firedTank, Tank *deadTank, Weapon *weapo
 		playerId_[firedTank->getUniqueId()], 
 		playerId_[deadTank->getUniqueId()], 
 		weaponId_[weapon->getName()]);
+
+	// Update both players skill points
+	if (runQuery("SELECT a.skill, b.skill FROM "
+		"scorched3d%s_players as a, scorched3d%s_players as b "
+		"WHERE a.playerid = %i AND b.playerid = %i;",
+        prefix_.c_str(), prefix_.c_str(), 
+		playerId_[firedTank->getUniqueId()],
+		playerId_[deadTank->getUniqueId()]))
+	{
+		MYSQL_RES *result = mysql_store_result(mysql_);
+		if (result)
+		{
+			int rows = (int) mysql_num_rows(result);
+			for (int r=0; r<rows; r++)
+			{
+				MYSQL_ROW row = mysql_fetch_row(result);
+				int firedSkill = atoi(row[0]);
+				int deadSkill = atoi(row[1]);
+
+				float weaponMult = (float(weapon->getArmsLevel()) / 10.0f) + 1.0f;
+
+				int skillDiff = 
+					int((20.0f * weaponMult) / (1.0f + powf(10.0f, (float(firedSkill - deadSkill) / 1000.0f))));
+
+				runQuery("UPDATE scorched3d%s_players SET skill=skill+%i "
+					"WHERE playerid = %i;", 
+					prefix_.c_str(), 
+					skillDiff,
+					playerId_[firedTank->getUniqueId()]);
+
+				runQuery("UPDATE scorched3d%s_players SET skill=skill-%i "
+					"WHERE playerid = %i;", 
+					prefix_.c_str(), 
+					skillDiff,
+					playerId_[deadTank->getUniqueId()]);
+			}
+			mysql_free_result(result);
+		}
+	}
 
 	runQuery("UPDATE scorched3d%s_players SET kills=kills+1 "
 		"WHERE playerid = %i;", prefix_.c_str(), playerId_[firedTank->getUniqueId()]);

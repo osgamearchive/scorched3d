@@ -31,6 +31,7 @@
 #include <common/Defines.h>
 #include <common/FileLines.h>
 #include <common/OptionsGame.h>
+#include <common/StatsLogger.h>
 #include <common/Logger.h>
 #include <coms/ComsAddPlayerMessage.h>
 #include <coms/ComsConnectAcceptMessage.h>
@@ -164,12 +165,19 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 		}
 	}
 
+	// Generate the players unique id (if we need to)
+	const char *uniqueId = message.getUniqueId();
+	if (0 == uniqueId[0]) // No ID
+	{
+		uniqueId = StatsLogger::instance()->allocateId();
+	}
+
 	// Send the connection accepted message to the client
 	ComsConnectAcceptMessage acceptMessage(
 		destinationId,
 		ScorchedServer::instance()->getOptionsGame().getServerName(),
 		ScorchedServer::instance()->getOptionsGame().getPublishAddress(),
-		message.getUniqueId());
+		uniqueId);
 	if (!ComsMessageSender::sendToSingleClient(acceptMessage, destinationId))
 	{
 		Logger::log(0,
@@ -204,7 +212,7 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 	{
 		addNextTank(destinationId,
 			ipAddress,	
-			message.getUniqueId(),
+			uniqueId,
 			message.getHostDesc(),
 			false);
 	}
@@ -217,7 +225,7 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 	{
 		addNextTank(destinationId,
 			ipAddress,
-			message.getUniqueId(),
+			uniqueId,
 			message.getHostDesc(),
 			true);
 	}

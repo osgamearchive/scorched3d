@@ -38,6 +38,7 @@ public:
 
 	virtual char *tankRank(Tank *tank) = 0;
 	virtual void updateStats(Tank *tank) = 0;
+	virtual char *allocateId() = 0;
 
 	virtual void tankJoined(Tank *tank) = 0;
 	virtual void tankLeft(Tank *tank) = 0;
@@ -71,6 +72,7 @@ public:
 
 	virtual char *tankRank(Tank *tank) { return "-"; }
 	virtual void updateStats(Tank *tank) {}
+	virtual char *allocateId() { return ""; }
 
 	virtual void tankJoined(Tank *tank) {}
 	virtual void tankLeft(Tank *tank) {}

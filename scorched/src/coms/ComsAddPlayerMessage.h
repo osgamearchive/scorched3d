@@ -18,7 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #ifndef _ComsAddPlayerMessage_h
 #define _ComsAddPlayerMessage_h
 
@@ -46,6 +45,11 @@ public:
 	unsigned int getDestinationId() { return destinationId_; }
 	unsigned int getPlayerTeam() { return playerTeam_; }
 
+	unsigned int getPlayerIconSize() { return playerIconSize_; }
+	unsigned char *getPlayerIcon() { return playerIcon_; }
+	void setPlayerIcon(unsigned char *icon,
+		unsigned int size) { playerIcon_ = icon; playerIconSize_ = size; }
+
 	// Inherited from ComsMessage
 	virtual bool writeMessage(NetBuffer &buffer);
 	virtual bool readMessage(NetBufferReader &reader);
@@ -58,6 +62,8 @@ protected:
 	std::string modelName_;
 	std::string playerType_;
 	Vector playerColor_;
+	unsigned int playerIconSize_;
+	unsigned char *playerIcon_;
 
 private:
 	ComsAddPlayerMessage(const ComsAddPlayerMessage &);

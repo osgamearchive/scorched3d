@@ -84,7 +84,7 @@ void GLWSelector::showSelector(GLWSelectorI *user,
 		itor++)
 	{
 		partEntries.push_back(*itor);
-		if (partEntries.size() * 20 >= GLViewPort::getHeight() - 40)
+		if ((int) partEntries.size() * 20 >= GLViewPort::getHeight() - 40)
 		{
 			GLWSelectorPart *part = new GLWSelectorPart(
 				user, basePosition, 

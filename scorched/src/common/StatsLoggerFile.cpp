@@ -19,8 +19,11 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <common/StatsLoggerFile.h>
-#include <server/ScorchedServer.h>
 #include <common/OptionsGame.h>
+#include <common/Defines.h>
+#include <server/ScorchedServer.h>
+#include <stdlib.h>
+
 
 StatsLoggerFile::StatsLoggerFile() : statsLogger_(0)
 {
@@ -70,6 +73,13 @@ void StatsLoggerFile::roundStart(std::list<Tank *> &tanks)
 
 void StatsLoggerFile::updateStats(Tank *tank)
 {
+}
+
+char *StatsLoggerFile::allocateId() 
+{ 
+	static char buffer[128];
+	sprintf(buffer, "%i-%i-%i", rand(), rand(), rand());
+	return buffer;
 }
 
 char *StatsLoggerFile::tankRank(Tank *firedTank)

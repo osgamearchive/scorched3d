@@ -109,13 +109,16 @@ const char *UniqueIdStore::getUniqueId(unsigned int ip)
 	}
 
 	static char buffer[128];
-	sprintf(buffer, "%i-%i-%i", rand(), rand(), rand());
+	sprintf(buffer, "");
 	return buffer;
 }
 
 bool UniqueIdStore::saveUniqueId(unsigned int ip, const char *id,
 	const char *published)
 {
+	// No unique id
+	if (0 == id[0]) return true;
+
 	// AutoDetect server no unique id saved
 	if (0 == strcmp(published, "AutoDetect")) return true;
 
