@@ -34,40 +34,47 @@ static void createControls(wxWindow *parent)
 		new wxTextCtrl(parent, IDC_SERVER_PORT,
 		"",
 		wxPoint((int) 111, (int) 49.5), wxSize((int) 72, (int) 21));
+	IDC_SERVER_PASSWORD_CTRL = 
+		new wxTextCtrl(parent, IDC_SERVER_PASSWORD,
+		"",
+		wxPoint((int) 111, (int) 73.5), wxSize((int) 226.5, (int) 21));
 	new wxStaticText(parent, -1,
 		"Port Number :",
-		wxPoint((int) 21, (int) 54), wxSize((int) 69, (int) 12));
+		wxPoint((int) 19.5, (int) 54));
 	new wxStaticBox(parent, -1,
 		"Server Name",
-		wxPoint((int) 10.5, (int) 10.5), wxSize((int) 339, (int) 117));
+		wxPoint((int) 10.5, (int) 10.5), wxSize((int) 339, (int) 147));
 	new wxStaticText(parent, -1,
 		"Server Name :",
-		wxPoint((int) 19.5, (int) 30), wxSize((int) 70.5, (int) 12));
+		wxPoint((int) 19.5, (int) 30));
+	new wxStaticText(parent, -1,
+		"Password :",
+		wxPoint((int) 19.5, (int) 78));
 	IDC_PUBLISH_CTRL = 
 		new wxCheckBox(parent, IDC_PUBLISH,
 		"Allow other internet and LAN users to see this server",
-		wxPoint((int) 21, (int) 78));
+		wxPoint((int) 21, (int) 100));
 	IDC_PUBLISHIP_CTRL = 
 		new wxTextCtrl(parent, IDC_PUBLISHIP,
 		"",
-		wxPoint((int) 111, (int) 99), wxSize((int) 228, (int) 21));
+		wxPoint((int) 111, (int) 126), wxSize((int) 228, (int) 21));
 	IDC_PUBLISHIP_CTRL_TEXT = new wxStaticText(parent, -1,
 		"Published Name :",
-		wxPoint((int) 21, (int) 102), wxSize((int) 84, (int) 12));
+		wxPoint((int) 21, (int) 126), wxSize((int) 84, (int) 12));
 	IDOK_CTRL = 
 		new wxButton(parent, wxID_OK,
 		"Start Server",
-		wxPoint((int) 273, (int) 202.5), wxSize((int) 75, (int) 21));
+		wxPoint((int) 273, (int) 226.5), wxSize((int) 75, (int) 21));
 	IDC_BUTTON_SETTINGS_CTRL = 
 		new wxButton(parent, IDC_BUTTON_SETTINGS,
 		"Edit Advanced Settings",
-		wxPoint((int) 19.5, (int) 156), wxSize((int) 150, (int) 21));
+		wxPoint((int) 19.5, (int) 180), wxSize((int) 150, (int) 21));
 	IDCANCEL_CTRL = 
 		new wxButton(parent, wxID_CANCEL,
 		"Cancel",
-		wxPoint((int) 189, (int) 202.5), wxSize((int) 75, (int) 21));
+		wxPoint((int) 189, (int) 226.5), wxSize((int) 75, (int) 21));
 	new wxStaticBox(parent, -1,
 		"Advanced Settings",
-		wxPoint((int) 10.5, (int) 132), wxSize((int) 339, (int) 60));
+		wxPoint((int) 10.5, (int) 158), wxSize((int) 339, (int) 58));
 }
 

@@ -149,6 +149,9 @@ public:
 	const char *getServerName() { return serverName_.getValue(); }
 	void setServerName(const char *value) { serverName_.setValue(value); }
 
+	const char *getServerPassword() { return serverPassword_.getValue(); }
+	void setServerPassword(const char *value) { serverPassword_.setValue(value); }
+
 	const char *getPlayerType(int no) { DIALOG_ASSERT(no<24); return playerType_[no]->getValue(); }
 	void setPlayerType(int no, const char *value) { DIALOG_ASSERT(no<24); playerType_[no]->setValue(value); }
 
@@ -169,7 +172,6 @@ public:
 protected:
 	static OptionsGame *instance_;
 	std::list<OptionEntry *> options_;
-	std::list<OptionEntry *> nextOptions_; // TODO move this into options
 	std::list<OptionEntry *> playerTypeOptions_;
 
 	OptionEntryBoundedInt maxArmsLevel_;
@@ -204,6 +206,7 @@ protected:
 	OptionEntryString botNamePrefix_;
 	OptionEntryString serverName_;
 	OptionEntryString *playerType_[24];
+	OptionEntryString serverPassword_;
 	OptionEntryInt portNo_;
 	OptionEntryString publishAddress_;
 	OptionEntryBool publishServer_;

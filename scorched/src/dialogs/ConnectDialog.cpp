@@ -171,7 +171,7 @@ bool ConnectDialog::tryConnection()
 	ComsConnectMessage connectMessage(
 		ScorchedVersion,
 		ScorchedProtocolVersion,
-		"", // No password functionality (yet)
+		PlayerDialog::instance()->getPlayerPassword(),
 		OptionsDisplay::instance()->getUniqueUserId(),
 		PlayerDialog::instance()->getPlayerName(),
 		PlayerDialog::instance()->getModelName());

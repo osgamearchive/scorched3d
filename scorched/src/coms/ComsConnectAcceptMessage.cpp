@@ -20,6 +20,7 @@
 
 
 #include <coms/ComsConnectAcceptMessage.h>
+#include <weapons/AccessoryStore.h>
 #include <common/OptionsGame.h>
 
 ComsConnectAcceptMessage::ComsConnectAcceptMessage(unsigned int clientId,
@@ -44,6 +45,7 @@ bool ComsConnectAcceptMessage::writeMessage(NetBuffer &buffer)
 	buffer.addToBuffer(motd_.c_str());
 	buffer.addToBuffer(clientId_);
 	if (!OptionsGame::instance()->writeToBuffer(buffer)) return false;
+	if (!AccessoryStore::instance()->writeToBuffer(buffer)) return false;
 	
 	return true;
 }
@@ -54,6 +56,7 @@ bool ComsConnectAcceptMessage::readMessage(NetBufferReader &reader)
 	if (!reader.getFromBuffer(motd_)) return false;
 	if (!reader.getFromBuffer(clientId_)) return false;
 	if (!OptionsGame::instance()->readFromBuffer(reader)) return false;
+	if (!AccessoryStore::instance()->readFromBuffer(reader)) return false;
 
 	return true;
 }

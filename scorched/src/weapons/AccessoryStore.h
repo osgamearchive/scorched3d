@@ -44,13 +44,19 @@ public:
 
 	std::list<Accessory *> getAllWeapons();
 	std::list<Accessory *> getAllOthers();
-	std::list<Accessory *> &getAllAccessories();
+	std::list<Accessory *> &getAllAccessories();	
+
+	bool writeToBuffer(NetBuffer &buffer);
+	bool readFromBuffer(NetBufferReader &reader);
 
 protected:
 	static AccessoryStore *instance_;
 	std::list<Accessory *> accessories_;
 	std::vector<Weapon *> deathAnimations_;
-	bool parseFile();
+
+	bool parseFile(const char *fileName);
+	void clearAccessories();
+	void addAccessory(Accessory *accessory);
 
 private:
 	AccessoryStore();

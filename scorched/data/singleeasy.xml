@@ -47,6 +47,12 @@
     <value>5</value>
     <defaultvalue>5</defaultvalue>
   </option>
+  <!-- The number of each weapon the player is allowed -->
+  <option>
+    <name>MaxNumberWeapons</name>
+    <value>90</value>
+    <defaultvalue>90</defaultvalue>
+  </option>
   <!-- The maximum number of players to allow -->
   <option>
     <name>NumberOfPlayers</name>
@@ -58,6 +64,18 @@
     <name>NumberOfMinPlayers</name>
     <value>2</value>
     <defaultvalue>2</defaultvalue>
+  </option>
+  <!-- The percentage chance the computers will say something when killed -->
+  <option>
+    <name>ComputersDeathTalk</name>
+    <value>100</value>
+    <defaultvalue>100</defaultvalue>
+  </option>
+  <!-- The percentage chance the computers will say something when shooting -->
+  <option>
+    <name>ComputersAttackTalk</name>
+    <value>10</value>
+    <defaultvalue>10</defaultvalue>
   </option>
   <!-- The first round players are allowed to buy on -->
   <option>
@@ -154,6 +172,12 @@
     <name>ServerName</name>
     <value>No Name</value>
     <defaultvalue>No Name</defaultvalue>
+  </option>
+  <!-- The password for this server (empty password = no password) -->
+  <option>
+    <name>ServerPassword</name>
+    <value></value>
+    <defaultvalue></defaultvalue>
   </option>
   <!-- The port to start the server on -->
   <option>

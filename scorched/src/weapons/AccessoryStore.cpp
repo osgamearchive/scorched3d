@@ -55,7 +55,7 @@ AccessoryStore *AccessoryStore::instance()
 
 AccessoryStore::AccessoryStore()
 {
-	parseFile();
+	parseFile(PKGDIR "data/weapons.xml");
 }
 
 AccessoryStore::~AccessoryStore()
@@ -63,13 +63,16 @@ AccessoryStore::~AccessoryStore()
 
 }
 
-bool AccessoryStore::parseFile()
+bool AccessoryStore::parseFile(const char *fileName)
 {
+	clearAccessories();
+
 	XMLFile file;
-	if (!file.readFile(PKGDIR "data/weapons.xml"))
+	if (!file.readFile(fileName))
 	{
 		dialogMessage("AccessoryStore", 
-					  "Failed to parse \"data/weapons.xml\"\n%s", 
+					  "Failed to parse \"%s\"\n%s", 
+					  fileName,
 					  file.getParserError());
 		return false;
 	}
@@ -78,7 +81,8 @@ bool AccessoryStore::parseFile()
 	if (!file.getRootNode())
 	{
 		dialogMessage("AccessoryStore",
-					"Failed to find tank definition file \"data/weapons.xml\"");
+					"Failed to find tank definition file \"%s\"",
+					  fileName);
 		return false;		
 	}
 
@@ -117,17 +121,7 @@ bool AccessoryStore::parseFile()
 		}
 		
 		if (!accessory->parseXML(currentNode)) return false;
-		accessories_.push_back(accessory);
-
-		// Add weapons to death animations, weighted by arms level
-		if (accessory->getType() == Accessory::AccessoryWeapon)
-		{
-			Weapon *weapon = (Weapon *) accessory;
-			for (int i=0; i<weapon->getDeathAnimationWeight(); i++)
-			{
-				deathAnimations_.push_back(weapon);
-			}
-		}
+		addAccessory(accessory);
 	}
 
 	return true;
@@ -203,4 +197,64 @@ Accessory *AccessoryStore::findByAccessoryName(const char *name)
 		if (strcmp(accessory->getName(), name)==0) return accessory;
 	}
 	return 0;
+}
+
+void AccessoryStore::clearAccessories()
+{
+	deathAnimations_.clear();
+	while (!accessories_.empty())
+	{
+		Accessory *accessory = accessories_.front();
+		accessories_.pop_front();
+		delete accessory;
+	}
+}
+
+void AccessoryStore::addAccessory(Accessory *accessory)
+{
+	accessories_.push_back(accessory);
+
+	// Add weapons to death animations, weighted by arms level
+	if (accessory->getType() == Accessory::AccessoryWeapon)
+	{
+		Weapon *weapon = (Weapon *) accessory;
+		for (int i=0; i<weapon->getDeathAnimationWeight(); i++)
+		{
+			deathAnimations_.push_back(weapon);
+		}
+	}	
+}
+
+bool AccessoryStore::writeToBuffer(NetBuffer &buffer)
+{
+	buffer.addToBuffer((int) accessories_.size());
+	std::list<Accessory *>::iterator itor;
+	for (itor = accessories_.begin();
+		itor != accessories_.end();
+		itor++)
+	{
+		Accessory *accessory = (*itor);
+		buffer.addToBuffer(accessory->getAccessoryTypeName());
+		if (!accessory->writeAccessory(buffer)) return false;
+	}	
+	return true;
+}
+
+bool AccessoryStore::readFromBuffer(NetBufferReader &reader)
+{
+	clearAccessories();
+
+	int noAccessories = 0;
+	if (!reader.getFromBuffer(noAccessories)) return false;
+	for (int a=0; a<noAccessories; a++)
+	{
+		std::string accessoryTypeName;
+		if (!reader.getFromBuffer(accessoryTypeName)) return false;
+		Accessory *accessory = 
+			AccessoryMetaRegistration::getNewAccessory(accessoryTypeName.c_str());
+		if (!accessory) return false;
+		if (!accessory->readAccessory(reader)) return false;
+
+		addAccessory(accessory);
+	}
 }

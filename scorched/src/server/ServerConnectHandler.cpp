@@ -121,6 +121,24 @@ bool ServerConnectHandler::processMessage(NetPlayerID &id,
 		return true;
 	}
 
+	// Check for a password (if any)
+	if (OptionsGame::instance()->getServerPassword()[0])
+	{
+		if (0 != strcmp(message.getPassword(),
+						OptionsGame::instance()->getServerPassword()))
+		{
+			sendString(id, 			
+					   "This server is running a password protected game."
+					   "Your supplied password does not match");
+			Logger::log(0, 
+						"Player \"%s\" connected with an invalid password",
+						playerName.c_str());
+			
+			kickPlayer(id);
+			return true;
+		}
+	}
+
 	// Make sure no-one has the same name
 	while (TankContainer::instance()->getTankByName(playerName.c_str()))
 	{

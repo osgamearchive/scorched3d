@@ -38,7 +38,7 @@ OptionsGame *OptionsGame::instance()
 OptionsGame::OptionsGame() :
 	maxArmsLevel_(options_, "MaxArmsLevel",
 		"The largest weapon type allowed", 0, 10, 0, 10),
-	maxNumberWeapons_(nextOptions_, "MaxNumberWeapons",
+	maxNumberWeapons_(options_, "MaxNumberWeapons",
 		"The number of each weapon the player is allowed", 0, 90),
 	tankStartCloseness_(options_, "TankStartCloseness",
 		"How close tanks are allowed to start the level", 0, 20),
@@ -90,15 +90,17 @@ OptionsGame::OptionsGame() :
 		"The port to start the server on", 0, ScorchedPort),
 	serverName_(options_, "ServerName", 
 		"The name of the server to start", 0, "No Name"),
+	serverPassword_(options_, "ServerPassword", 
+		"The password for this server (empty password = no password)", 0, ""),
 	publishServer_(options_, "PublishServer",
 		"Allow other scorched net clients to see this server.  Do not use for LAN games.", 0, false),
 	publishAddress_(options_, "PublishAddress",
 		"IP address to publish to scorched net clients (auto-detected if not given).", 0, "AutoDetect"),
 	botNamePrefix_(options_, "BotNamePrefix", 
 		"Prepend and bot name with the specified text", 0, "(Bot) "),
-	computersDeathTalk_(nextOptions_, "ComputersDeathTalk",
+	computersDeathTalk_(options_, "ComputersDeathTalk",
 		"The percentage chance the computers will say something when killed", 0, 100, 0, 100),
-	computersAttackTalk_(nextOptions_, "ComputersAttackTalk",
+	computersAttackTalk_(options_, "ComputersAttackTalk",
 		"The percentage chance the computers will say something when shooting", 0, 10, 0, 100)
 {
 	char buffer[128];

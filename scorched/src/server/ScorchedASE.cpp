@@ -26,6 +26,7 @@
 #include <engine/GameState.h>
 #include <tank/TankContainer.h>
 #include <server/ServerState.h>
+#include <wx/utils.h>
 
 #ifndef _NO_SERVER_ASE_
 extern "C" {
@@ -44,7 +45,7 @@ void ASEQuery_wantstatus(void)
 		serverName, 
 		"Scorched3D", (started?"Random":"NotStarted"), 
 		version,
-		0,
+		OptionsGame::instance()->getServerPassword()[0],
 		TankContainer::instance()->getNoOfTanks(),
 		OptionsGame::instance()->getNoMaxPlayers());
 }
@@ -81,6 +82,9 @@ void ASEQuery_wantrules(void)
 	ASEQuery_addrule("RoundsLeft", buffer);
 	ASEQuery_addrule("ProtocolVersion", ScorchedProtocolVersion);
 	ASEQuery_addrule("Version", ScorchedVersion);
+	static wxString osbuffer;
+	osbuffer = ::wxGetOSDescription();
+	ASEQuery_addrule("OS", osbuffer.data());
 	
 	unsigned currentState = GameState::instance()->getState();
 	bool started = (currentState!=ServerState::ServerStateWaitingForPlayers);
@@ -92,7 +96,10 @@ void ASEQuery_wantrules(void)
 		itor ++)
 	{
 		OptionEntry *entry = (*itor);
-		ASEQuery_addrule(entry->getName(), entry->getValueAsString());
+		if (strcmp(entry->getName(), "ServerPassword")!=0)
+		{
+			ASEQuery_addrule(entry->getName(), entry->getValueAsString());
+		}
 	}
 }
 #endif

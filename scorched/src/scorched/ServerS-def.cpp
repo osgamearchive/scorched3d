@@ -23,6 +23,7 @@ enum
 {
 	IDC_SERVER_NAME = 1,
 	IDC_SERVER_PORT,
+	IDC_SERVER_PASSWORD,
 	IDC_PUBLISH,
 	IDC_PUBLISHIP,
 	IDC_BUTTON_SETTINGS
@@ -30,6 +31,7 @@ enum
 
 static wxTextCtrl *IDC_SERVER_NAME_CTRL = 0;
 static wxTextCtrl *IDC_SERVER_PORT_CTRL = 0;
+static wxTextCtrl *IDC_SERVER_PASSWORD_CTRL = 0;
 static wxCheckBox *IDC_PUBLISH_CTRL = 0;
 static wxTextCtrl *IDC_PUBLISHIP_CTRL = 0;
 static wxButton *IDOK_CTRL = 0;

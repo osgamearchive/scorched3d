@@ -83,6 +83,7 @@ bool ServerSFrame::TransferDataToWindow()
 	sprintf(buffer, "%i", OptionsGame::instance()->getPortNo());
 	IDC_SERVER_PORT_CTRL->SetValue(buffer);
 	IDC_SERVER_NAME_CTRL->SetValue(OptionsGame::instance()->getServerName());
+	IDC_SERVER_PASSWORD_CTRL->SetValue(OptionsGame::instance()->getServerPassword());
 	IDC_PUBLISH_CTRL->SetValue(OptionsGame::instance()->getPublishServer());
 	IDC_PUBLISHIP_CTRL->SetValue(OptionsGame::instance()->getPublishAddress());
 	return true;
@@ -92,6 +93,7 @@ bool ServerSFrame::TransferDataFromWindow()
 {
 	OptionsGame::instance()->setPortNo(atoi(IDC_SERVER_PORT_CTRL->GetValue()));
 	OptionsGame::instance()->setServerName(IDC_SERVER_NAME_CTRL->GetValue());
+	OptionsGame::instance()->setServerPassword(IDC_SERVER_PASSWORD_CTRL->GetValue());
 	OptionsGame::instance()->setPublishServer(IDC_PUBLISH_CTRL->GetValue());
 	OptionsGame::instance()->setPublishAddress(IDC_PUBLISHIP_CTRL->GetValue());
 

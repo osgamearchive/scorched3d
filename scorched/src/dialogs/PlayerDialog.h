@@ -37,6 +37,8 @@ public:
 		{ return playerName_->getText().c_str(); }
 	const char *getModelName()
 		{ return viewer_->getModelName(); }
+	const char *getPlayerPassword()
+		{ return playerPassword_->getText().c_str(); }
 
 	// Inherited from GLWWindow
 	virtual void draw();
@@ -48,6 +50,7 @@ protected:
 	static PlayerDialog *instance_;
 	GLWTankViewer *viewer_;
 	GLWTextBox *playerName_;
+	GLWTextBox *playerPassword_;
 	unsigned int okId_;
 	bool skipInit_;
 
