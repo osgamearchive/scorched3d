@@ -21,7 +21,6 @@
 #if !defined(__INCLUDE_StatsLoggerh_INCLUDE__)
 #define __INCLUDE_StatsLoggerh_INCLUDE__
 
-#include <common/Logger.h>
 #include <tank/Tank.h>
 #include <weapons/Weapon.h>
 
@@ -30,32 +29,28 @@ class StatsLogger
 public:
 	static StatsLogger *instance();
 
-	void gameStart();
-	void roundStart();
+	StatsLogger();
+	virtual ~StatsLogger();
 
-	void tankJoined(Tank *tank);
-	void tankLeft(Tank *tank);
+	virtual void gameStart() = 0;
+	virtual void roundStart() = 0;
 
-	void tankFired(Tank *firedTank, Weapon *weapon);
-	void tankResigned(Tank *resignedTank);
+	virtual void tankJoined(Tank *tank) = 0;
+	virtual void tankLeft(Tank *tank) = 0;
 
-	void tankKilled(Tank *firedTank, Tank *deadTank, Weapon *weapon);
-	void tankTeamKilled(Tank *firedTank, Tank *deadTank, Weapon *weapon);
-	void tankSelfKilled(Tank *firedTank, Weapon *weapon);
+	virtual void tankFired(Tank *firedTank, Weapon *weapon) = 0;
+	virtual void tankResigned(Tank *resignedTank) = 0;
 
-	void tankWon(Tank *tank);
-	void tankOverallWinner(Tank *tank);
+	virtual void tankKilled(Tank *firedTank, Tank *deadTank, Weapon *weapon) = 0;
+	virtual void tankTeamKilled(Tank *firedTank, Tank *deadTank, Weapon *weapon) = 0;
+	virtual void tankSelfKilled(Tank *firedTank, Weapon *weapon) = 0;
+
+	virtual void tankWon(Tank *tank) = 0;
+	virtual void tankOverallWinner(Tank *tank) = 0;
 
 protected:
 	static StatsLogger *instance_;
-	FileLogger *statsLogger_;
 
-	void createLogger();
-
-private:
-	StatsLogger();
-	virtual ~StatsLogger();
 };
-
 
 #endif
