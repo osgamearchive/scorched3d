@@ -2,7 +2,9 @@
              Apocalypse v2.0 Information
 ----------------------------------------------------
 Apocalypse is a modification for Scorched 3D which adds many new weapons, items, and landscapes
-for use with this awesome game.
+for use with this awesome game.  The mod is the product of work by several people (named in authors.txt).
+All original work contained in the mod is copyright.  Legal information can be found in license.txt.
+
 
 Official Apocalypse Site:  http://apochq.handwired.net
 Official Scorched 3D Site:  http://scorched3d.co.uk
@@ -105,7 +107,6 @@ BouncingBetty	- Bomb that bounces and releases multiple explosive warheads
 Bunny Bomb	- MIRV with leaping warheads
 Chain Lightning - Explodes and releases an aimed arc of electricity with courses through the ground aimed at nearby tanks
 Digger Blast	x Explodes on contact and releases many baby diggers
-Dirt Wall       - Raises a wall of dirt a short distance from your tank in the direction you aim
 Disco Bunny	- Releases an initial salvo of aimed warheads which bounce outwards creating more warheads as they bounce
 Dmsday Device	- Larger, more destructive version of Apocalypse
 Earthquake      - shakes the earth and does damage over a large area
@@ -134,6 +135,7 @@ Napalm Blast	x Explodes on impact and releases many small napalm bomblets
 Napalm MIRV	- MIRV with napalm warheads
 Napalm S-MIRV	- Spread MIRV with napalm warheads
 Quicksand	- Explodes on impact releasing a series of slow-moving, poorly aimed diggers
+Ring of Dirt    - Raises multiple dirt walls that form a ring around you
 Riot Drill      - 3 heavy riot bombs are shot in rapid succession at the same point
 Roller MIRV	x MIRV with rolling warheads
 Roller S-MIRV	x Rolling Spread MIRV
@@ -144,6 +146,7 @@ Strangelove	- The end game weapon
 Suicide Bomb	- Detonates yourself causing a huge, powerful explosion
 Terraform	x Raises dirt over a huge area when fired high into the air
 The Travolta	- Super-sized Funky Bomb
+Wall of Dirt    - Raises a small wall of dirt a short distance from your tank in the direction you aim
 
 ----------------------------------------------------
                      New Items

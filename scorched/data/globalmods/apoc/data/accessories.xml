@@ -240,6 +240,110 @@ trace of the shot path.</description>
 			<armslevel>9</armslevel>
 		</collisionaction>
 	</accessory>
+	<accessory type="WeaponMulti">	
+		<name>Lightning</name>
+		<nonpurchasable/>
+		<armslevel>10</armslevel>
+		<subweapon1 type="WeaponSound">
+			<name>Lightning</name>
+			<armslevel>10</armslevel>
+			<sound>data/wav/misc/thunder.wav</sound>
+		</subweapon1>
+		<subweapon2 type="WeaponDelay">
+			<name>Lightning</name>
+			<armslevel>10</armslevel>
+			<delay>0.5</delay>
+			<delayedweapon type="WeaponMulti">
+				<name>Lightning</name>
+				<armslevel>10</armslevel>
+				<subweapon1 type="WeaponSkyFlash">
+					<name>Lightning</name>
+					<armslevel>10</armslevel>		
+				</subweapon1>
+				<subweapon2 type="WeaponLightning">
+					<name>Lightning</name>
+					<armslevel>10</armslevel>
+					<conelength>190</conelength>
+					<seglength>6</seglength>
+					<segvar>12</segvar>
+					<size>4</size>
+					<sizevar>-1</sizevar>
+					<minsize>0.1</minsize>
+					<splitprob>0.2</splitprob>
+					<splitvar>0.03</splitvar>
+					<deathprob>0.03</deathprob>
+					<derivangle>0.5</derivangle>
+					<anglevar>0.94</anglevar>
+					<totaltime>1</totaltime>
+					<seghurt>0</seghurt>
+					<seghurtradius>0</seghurtradius>
+					<sound>none</sound>
+				</subweapon2>
+			</delayedweapon>
+		</subweapon2>
+	</accessory>
+	<accessory type="WeaponAimedOver">
+		<name>Meteor</name>
+		<nonpurchasable/>
+		<armslevel>10</armslevel>
+		<nowarheads>5</nowarheads>
+		<percentagemiss>20</percentagemiss>
+		<maxaimdistance>0</maxaimdistance>
+		<inaccuracy>10</inaccuracy>
+		<aimedweapon type="WeaponProjectile">
+			<name>Meteor</name>
+			<armslevel>10</armslevel>	
+			<projectilemodel type="ase">
+				<mesh>roller.ase</mesh>
+				<skin>magma.bmp</skin>
+			</projectilemodel>
+			<collisionaction type="WeaponExplosion">
+				<name>Meteor</name>
+				<armslevel>10</armslevel>
+				<hurtamount>0.0</hurtamount>
+				<deform>none</deform>
+				<size>4</size>
+				<explosionsound>explosions/small.wav</explosionsound>
+				<explosiontexture>exp04</explosiontexture>
+			</collisionaction>
+		</aimedweapon>
+	</accessory>
+	<accessory type="WeaponAimedOver">
+		<name>Spark Burst</name>
+		<nonpurchasable/>
+		<armslevel>10</armslevel>
+		<nowarheads>10</nowarheads>
+		<percentagemiss>20</percentagemiss>
+		<maxaimdistance>0</maxaimdistance>
+		<inaccuracy>10</inaccuracy>
+		<aimedweapon type="WeaponRedirect">
+			<name>Spark Burst</name>
+			<armslevel>10</armslevel>
+			<habs>false</habs>
+			<vabs>false</vabs>
+			<hredirect>0</hredirect>
+			<vredirect>-75</vredirect>
+			<nextaction type="WeaponLightning">
+				<name>Spark Burst</name>
+				<armslevel>10</armslevel>
+				<conelength>15</conelength>
+				<seglength>1</seglength>
+				<segvar>12</segvar>
+				<size>4</size>
+				<sizevar>-1</sizevar>
+				<minsize>0.1</minsize>
+				<splitprob>0.2</splitprob>
+				<splitvar>0.03</splitvar>
+				<deathprob>0.03</deathprob>
+				<derivangle>0.5</derivangle>
+				<anglevar>0.94</anglevar>
+				<totaltime>1</totaltime>
+				<seghurt>0</seghurt>
+				<seghurtradius>0</seghurtradius>
+				<sound>none</sound>
+			</nextaction>
+		</aimedweapon>
+	</accessory>
 	<accessory type="WeaponProjectile">
 		<name>Baby Missile</name>
 		<description>A small explosive projectile weapon</description>
@@ -7342,12 +7446,37 @@ energy wave that ripples outward horizontally</description>
 					</delayedweapon>
 				</aimedweapon>
 			</subweapon1>
-			<subweapon2 type="WeaponAnimation">
+			<subweapon2 type="WeaponReference">
+				<name>Shockwave</name>
+				<armslevel>2</armslevel>
+				<weapon>Spark Burst</weapon>
+			</subweapon2>
+			<subweapon3 type="WeaponDelay">
+				<name>Shockwave</name>
+				<armslevel>2</armslevel>
+				<delay>1.0</delay>
+				<delayedweapon type="WeaponReference">
+					<name>Shockwave</name>
+					<armslevel>2</armslevel>
+					<weapon>Spark Burst</weapon>
+				</delayedweapon>
+			</subweapon3>
+			<subweapon4 type="WeaponDelay">
+				<name>Shockwave</name>
+				<armslevel>2</armslevel>
+				<delay>2.0</delay>
+				<delayedweapon type="WeaponReference">
+					<name>Shockwave</name>
+					<armslevel>2</armslevel>
+					<weapon>Spark Burst</weapon>
+				</delayedweapon>
+			</subweapon4>
+			<subweapon5 type="WeaponAnimation">
 				<name>Shockwave</name>
 				<armslevel>2</armslevel>
 				<animation>ExplosionLaserBeamRenderer</animation>
 				<data>none</data>
-			</subweapon2>
+			</subweapon5>
 		</collisionaction>
 	</accessory>
 	<accessory type="WeaponProjectile">
@@ -8047,74 +8176,6 @@ at nearby targets</description>
 				<explosionsound>explosions/quake.wav</explosionsound>
 			</subweapon2>
 		</collisionaction>
-	</accessory>
-	<accessory type="WeaponMulti">	
-		<name>Lightning</name>
-		<nonpurchasable/>
-		<armslevel>10</armslevel>
-		<subweapon1 type="WeaponSound">
-			<name>Lightning</name>
-			<armslevel>10</armslevel>
-			<sound>data/wav/misc/thunder.wav</sound>
-		</subweapon1>
-		<subweapon2 type="WeaponDelay">
-			<name>Lightning</name>
-			<armslevel>10</armslevel>
-			<delay>0.5</delay>
-			<delayedweapon type="WeaponMulti">
-				<name>Lightning</name>
-				<armslevel>10</armslevel>
-				<subweapon1 type="WeaponSkyFlash">
-					<name>Lightning</name>
-					<armslevel>10</armslevel>		
-				</subweapon1>
-				<subweapon2 type="WeaponLightning">
-					<name>Lightning</name>
-					<armslevel>10</armslevel>
-					<conelength>190</conelength>
-					<seglength>6</seglength>
-					<segvar>12</segvar>
-					<size>4</size>
-					<sizevar>-1</sizevar>
-					<minsize>0.1</minsize>
-					<splitprob>0.2</splitprob>
-					<splitvar>0.03</splitvar>
-					<deathprob>0.03</deathprob>
-					<derivangle>0.5</derivangle>
-					<anglevar>0.94</anglevar>
-					<totaltime>1</totaltime>
-					<seghurt>0</seghurt>
-					<seghurtradius>0</seghurtradius>
-					<sound>none</sound>
-				</subweapon2>
-			</delayedweapon>
-		</subweapon2>
-	</accessory>
-	<accessory type="WeaponAimedOver">
-		<name>Meteor</name>
-		<nonpurchasable/>
-		<armslevel>10</armslevel>
-		<nowarheads>5</nowarheads>
-		<percentagemiss>20</percentagemiss>
-		<maxaimdistance>0</maxaimdistance>
-		<inaccuracy>10</inaccuracy>
-		<aimedweapon type="WeaponProjectile">
-			<name>Meteor</name>
-			<armslevel>10</armslevel>	
-			<projectilemodel type="ase">
-				<mesh>roller.ase</mesh>
-				<skin>magma.bmp</skin>
-			</projectilemodel>
-			<collisionaction type="WeaponExplosion">
-				<name>Meteor</name>
-				<armslevel>10</armslevel>
-				<hurtamount>0.0</hurtamount>
-				<deform>none</deform>
-				<size>4</size>
-				<explosionsound>explosions/small.wav</explosionsound>
-				<explosiontexture>exp04</explosiontexture>
-			</collisionaction>
-		</aimedweapon>
 	</accessory>
 	<!--<accessory type="WeaponProjectile">
 		<name>Reference Test</name>
