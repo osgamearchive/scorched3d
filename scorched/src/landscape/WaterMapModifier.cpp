@@ -42,16 +42,24 @@ void WaterMapModifier::addWaterVisibility(
 			{
 				int posX1 = posX >> 3;
 				int posY1 = posY >> 3;
-				int posX2 = MAX(hMap.getMinWidth(), posX1 + 1);
+				int posX2 = MIN(hMap.getMinWidth(), posX1 + 1);
 				int posY2 = posY1;
 				int posX3 = posX1;
-				int posY3 = MAX(hMap.getMinWidth(), posY1 + 1);
+				int posY3 = MIN(hMap.getMinWidth(), posY1 + 1);
+				int posX4 = MAX(0, posX1 - 1);
+				int posY4 = posY1;
+				int posX5 = posX1;
+				int posY5 = MAX(0, posY1 - 1);
 
 				float height = 
 					MIN(
+					MIN(
+					MIN(
 					MIN(hMap.getMinHeight(posX1, posY1),
 						hMap.getMinHeight(posX2, posY2)),
-						hMap.getMinHeight(posX3, posY3));
+						hMap.getMinHeight(posX3, posY3)),
+						hMap.getMinHeight(posX4, posY4)),
+						hMap.getMinHeight(posX5, posY5));
 				if (height > waterHeight)
 				{
 					currentEntry->dontDraw = true;

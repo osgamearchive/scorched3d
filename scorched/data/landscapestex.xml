@@ -11,7 +11,7 @@
 		<skycolormap>data/textures/clearsky.bmp</skycolormap>
 		<skytimeofday>3</skytimeofday>
 		<skysunxy>110</skysunxy>
-		<skysunyz>25</skysunyz>
+		<skysunyz>15</skysunyz>
 		<border type="water">
 			<reflection>data/textures/landscape/default/cubemap.bmp</reflection>
 			<texture>data/textures/landscape/default/water.bmp</texture>
@@ -53,7 +53,7 @@
 		<skycolormap>data/textures/clearsky.bmp</skycolormap>
 		<skytimeofday>3</skytimeofday>
 		<skysunxy>110</skysunxy>
-		<skysunyz>25</skysunyz>
+		<skysunyz>15</skysunyz>
 		<border type="water">
 			<reflection>data/textures/landscape/hell/cubemap.bmp</reflection>
 			<texture>data/textures/landscape/default/water.bmp</texture>
@@ -85,7 +85,7 @@
 		<skycolormap>data/textures/clearsky.bmp</skycolormap>
 		<skytimeofday>3</skytimeofday>
 		<skysunxy>110</skysunxy>
-		<skysunyz>25</skysunyz>
+		<skysunyz>15</skysunyz>
 		<border type="water">
 			<reflection>data/textures/landscape/sand/cubemap.bmp</reflection>
 			<texture>data/textures/landscape/default/water.bmp</texture>
@@ -127,7 +127,7 @@
 		<skycolormap>data/textures/clearsky.bmp</skycolormap>
 		<skytimeofday>3</skytimeofday>
 		<skysunxy>110</skysunxy>
-		<skysunyz>25</skysunyz>
+		<skysunyz>15</skysunyz>
 		<border type="water">
 			<reflection>data/textures/landscape/snow/cubemap.bmp</reflection>
 			<texture>data/textures/landscape/default/water.bmp</texture>
@@ -169,7 +169,7 @@
 		<skycolormap>data/textures/clearsky.bmp</skycolormap>
 		<skytimeofday>3</skytimeofday>
 		<skysunxy>110</skysunxy>
-		<skysunyz>25</skysunyz>
+		<skysunyz>15</skysunyz>
 		<border type="water">
 			<reflection>data/textures/landscape/tropical/cubemap.bmp</reflection>
 			<texture>data/textures/landscape/default/water.bmp</texture>
@@ -211,7 +211,7 @@
 		<skycolormap>data/textures/clearsky.bmp</skycolormap>
 		<skytimeofday>3</skytimeofday>
 		<skysunxy>110</skysunxy>
-		<skysunyz>25</skysunyz>
+		<skysunyz>15</skysunyz>
 		<border type="water">
 			<reflection>data/textures/landscape/vulcano/cubemap.bmp</reflection>
 			<texture>data/textures/landscape/default/water.bmp</texture>
@@ -243,7 +243,7 @@
 		<skycolormap>data/textures/clearsky.bmp</skycolormap>
 		<skytimeofday>3</skytimeofday>
 		<skysunxy>110</skysunxy>
-		<skysunyz>25</skysunyz>
+		<skysunyz>15</skysunyz>
 		<border type="water">
 			<reflection>data/textures/landscape/storm/cubemap.bmp</reflection>
 			<texture>data/textures/landscape/default/water.bmp</texture>
@@ -285,7 +285,7 @@
 		<skycolormap>data/textures/clearsky.bmp</skycolormap>
 		<skytimeofday>3</skytimeofday>
 		<skysunxy>110</skysunxy>
-		<skysunyz>25</skysunyz>
+		<skysunyz>15</skysunyz>
 		<border type="none"></border>
 		<surround type="none"></surround>
 		<texture type="generate">

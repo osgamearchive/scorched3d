@@ -36,6 +36,7 @@ public:
 	bool playerThisTurn(unsigned int playerId);
 	std::list<unsigned int> &getPlayersThisShot() { return playersThisShot_; }
 	std::list<unsigned int> &getPlayersThisTurn() { return playersThisTurn_; }
+	std::list<unsigned int> &getPlayersLeftToMove() { return playersLeftToMove_; }
 
 protected:
 	static TurnController *instance_;
