@@ -23,6 +23,7 @@
 #include <common/Defines.h>
 #include <common/OptionsGame.h>
 #include <common/OptionsParam.h>
+#include <engine/ModFiles.h>
 #include <wx/wx.h>
 #include <wx/utils.h>
 #include <wx/dir.h>
@@ -95,39 +96,20 @@ bool ServerSFrame::TransferDataToWindow()
 	IDC_PUBLISHIP_CTRL->SetValue(options_.getPublishAddress());
 	IDC_PUBLISHIP_CTRL->SetToolTip(options_.getPublishAddressToolTip());
 
-	IDC_SERVER_MOD_CTRL->Append("None");
+	ModDirs modDirs;
+	if (!modDirs.loadModDirs()) dialogExit("ModFiles", "Failed to load mod files");
+	IDC_SERVER_MOD_CTRL->Append("none");
+	std::list<std::string>::iterator itor;
+	for (itor = modDirs.getDirs().begin();
+		itor != modDirs.getDirs().end();
+		itor++)
 	{
-		wxDir dir(getModFile(""));
-		if (dir.IsOpened())
-		{
-			wxString filename;
-			bool cont = dir.GetFirst(&filename, "", wxDIR_DIRS);
-			while (cont)
-			{
-				if (IDC_SERVER_MOD_CTRL->FindString(filename) == -1)
-					IDC_SERVER_MOD_CTRL->Append(filename);
-				cont = dir.GetNext(&filename);
-			}
-		}
-	}
-	{
-		wxDir dir(getGlobalModFile(""));
-		if (dir.IsOpened())
-		{
-			wxString filename;
-			bool cont = dir.GetFirst(&filename, "", wxDIR_DIRS);
-			while (cont)
-			{
-				if (IDC_SERVER_MOD_CTRL->FindString(filename) == -1)
-					IDC_SERVER_MOD_CTRL->Append(filename);
-				cont = dir.GetNext(&filename);
-			}
-		}
+		IDC_SERVER_MOD_CTRL->Append((*itor).c_str());
 	}
 	if (IDC_SERVER_MOD_CTRL->FindString(options_.getMod()) != -1)
 		IDC_SERVER_MOD_CTRL->SetValue(options_.getMod());
 	else 
-		IDC_SERVER_MOD_CTRL->SetValue("None");
+		IDC_SERVER_MOD_CTRL->SetValue("none");
 	IDC_SERVER_MOD_CTRL->SetToolTip(
 		wxString("The Scorched3D mod to use for this game."));
 
@@ -141,7 +123,7 @@ bool ServerSFrame::TransferDataFromWindow()
 	options_.setPublishServer(IDC_PUBLISH_CTRL->GetValue());
 	options_.setPublishAddress(IDC_PUBLISHIP_CTRL->GetValue());
 	wxString value = IDC_SERVER_MOD_CTRL->GetValue();
-	if (strcmp(value.c_str(), "None"))
+	if (strcmp(value.c_str(), "none"))
 		options_.setMod(IDC_SERVER_MOD_CTRL->GetValue());
 	else
 		options_.setMod("");

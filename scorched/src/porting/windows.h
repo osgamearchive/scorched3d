@@ -29,7 +29,7 @@ typedef void *  HGLRC;
 
 #define _strnicmp(a,b,c)	strncasecmp(a,b,c)
 #define stricmp(a,b)		strcasecmp(a,b)
-#define _strlwr(a)		(a)
+#define _strlwr(a)		{ for (char *b=a; *b; b++) *b=tolower(*b); }
 
 /* registry */
 typedef int     HKEY; 

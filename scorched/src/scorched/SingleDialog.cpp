@@ -22,7 +22,6 @@
 #include <wx/utils.h>
 #include <wx/image.h>
 #include <wx/filedlg.h>
-#include <wx/dir.h>
 #include <scorched/MainDialog.h>
 #include <scorched/SingleSDialog.h>
 #include <scorched/SingleGames.h>
@@ -30,9 +29,7 @@
 #include <common/Defines.h>
 #include <common/OptionsGame.h>
 #include <common/OptionsParam.h>
-#include <set>
-#include <string>
-#include <string.h>
+#include <engine/ModFiles.h>
 
 extern char scorched3dAppName[128];
 
@@ -65,7 +62,6 @@ public:
 protected:
 	void addModButton(
 		int &count,
-		std::set<std::string> &mods, 
 		const char *mod, wxSizer *sizer);
 
 private:
@@ -102,37 +98,25 @@ SingleFrame::SingleFrame() :
 
 	wxFlexGridSizer *gridsizer = new wxFlexGridSizer(4, 2, 5, 5);
 
-	std::set<std::string> loadedMods;
 	int count = ID_BUTTON_GAME;
-	addModButton(count, loadedMods, "", gridsizer);
+	addModButton(count, "", gridsizer);
+	std::string noModGamesFile = getDataFile("data/singlegames.xml");
 
+	ModDirs modDirs;
+	if (!modDirs.loadModDirs()) dialogExit("SingleFrame", "Failed to load mod dirs");	
+	std::list<std::string>::iterator itor;
+	for (itor = modDirs.getDirs().begin();
+		itor != modDirs.getDirs().end();
+		itor++)
 	{
-		wxDir dir(getModFile(""));
-		if (dir.IsOpened())
-		{
-			wxString filename;
-			bool cont = dir.GetFirst(&filename, "", wxDIR_DIRS);
-			while (cont)
-			{
-				addModButton(count, loadedMods, 
-					filename.c_str(), gridsizer);
-				cont = dir.GetNext(&filename);
-			}
-		}
-	}
-	{
-		wxDir dir(getGlobalModFile(""));
-		if (dir.IsOpened())
-		{
-			wxString filename;
-			bool cont = dir.GetFirst(&filename, "", wxDIR_DIRS);
-			while (cont)
-			{
-				addModButton(count, loadedMods, 
-					filename.c_str(), gridsizer);
-				cont = dir.GetNext(&filename);
-			}
-		}
+		const char *modName = (*itor).c_str();
+			
+		setDataFileMod(modName);
+		std::string modGamesFile = getDataFile("data/singlegames.xml");
+		setDataFileMod("");
+		if (noModGamesFile == modGamesFile) continue;
+		
+		addModButton(count, modName, gridsizer);
 	}
 
 	{
@@ -164,21 +148,13 @@ SingleFrame::SingleFrame() :
 
 void SingleFrame::addModButton(
 	int &count,
-	std::set<std::string> &mods, 
 	const char *mod,
 	wxSizer *sizer)
 {
-	_strlwr((char *) mod);
-	if (mods.find(mod) != mods.end()) return;
-
-	std::string noModGamesFile = getDataFile("data/singlegames.xml");
 	setDataFileMod(mod);
-	std::string modGamesFile = getDataFile("data/singlegames.xml");
-	if (mod[0] && noModGamesFile == modGamesFile) return;
-	mods.insert(mod);
-
+	
 	SingleGames games;
-	if (!games.parse(modGamesFile.c_str())) 
+	if (!games.parse(getDataFile("data/singlegames.xml"))) 
 		dialogExit("SingleFrame", "Failed to load \"%s\" games", mod);
 	wxObjectRefData *refData = new SingleFrameData(mod);
 	addButtonToWindow(count++, 

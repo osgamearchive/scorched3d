@@ -23,9 +23,9 @@
 #include <common/Defines.h>
 #include <common/OptionsGame.h>
 #include <common/OptionsParam.h>
+#include <engine/ModFiles.h>
 #include <wx/wx.h>
 #include <wx/utils.h>
-#include <wx/dir.h>
 #include "SingleS.cpp"
 
 extern char scorched3dAppName[128];
@@ -98,39 +98,21 @@ bool SingleSFrame::TransferDataToWindow()
 		wxString("The number of players that will play in this game.\n"
 			"This number should include computer players"));
 
-	IDC_CLIENT_MOD_CTRL->Append("None");
+	ModDirs modDirs;
+	if (!modDirs.loadModDirs()) dialogExit("ModFiles", "Failed to load mod files");
+	IDC_CLIENT_MOD_CTRL->Append("none");
+	std::list<std::string>::iterator itor;
+	for (itor = modDirs.getDirs().begin();
+		itor != modDirs.getDirs().end();
+		itor++)
 	{
-		wxDir dir(getModFile(""));
-		if (dir.IsOpened())
-		{
-			wxString filename;
-			bool cont = dir.GetFirst(&filename, "", wxDIR_DIRS);
-			while (cont)
-			{
-				if (IDC_CLIENT_MOD_CTRL->FindString(filename) == -1)
-					IDC_CLIENT_MOD_CTRL->Append(filename);
-				cont = dir.GetNext(&filename);
-			}
-		}
+		IDC_CLIENT_MOD_CTRL->Append((*itor).c_str());
 	}
-	{
-		wxDir dir(getGlobalModFile(""));
-		if (dir.IsOpened())
-		{
-			wxString filename;
-			bool cont = dir.GetFirst(&filename, "", wxDIR_DIRS);
-			while (cont)
-			{
-				if (IDC_CLIENT_MOD_CTRL->FindString(filename) == -1)
-					IDC_CLIENT_MOD_CTRL->Append(filename);
-				cont = dir.GetNext(&filename);
-			}
-		}
-	}
+
 	if (IDC_CLIENT_MOD_CTRL->FindString(options_.getMod()) != -1)
 		IDC_CLIENT_MOD_CTRL->SetValue(options_.getMod());
 	else 
-		IDC_CLIENT_MOD_CTRL->SetValue("None");
+		IDC_CLIENT_MOD_CTRL->SetValue("none");
 	IDC_CLIENT_MOD_CTRL->SetToolTip(
 		wxString("The Scorched3D mod to use for this game."));
 
@@ -144,7 +126,7 @@ bool SingleSFrame::TransferDataFromWindow()
 	options_.setNoMaxPlayers(noPlayers);
 	options_.setNoMinPlayers(noPlayers);
 	wxString value = IDC_CLIENT_MOD_CTRL->GetValue();
-	if (strcmp(value.c_str(), "None"))
+	if (strcmp(value.c_str(), "none"))
 		options_.setMod(IDC_CLIENT_MOD_CTRL->GetValue());
 	else
 		options_.setMod("");

@@ -261,7 +261,8 @@ bool ModFiles::loadModDir(const char *modDir, const char *mod)
 		_strlwr((char *) shortFileName);
 		if (strcmp(oldFileName.c_str(), shortFileName) != 0)
 		{
-			dialogMessage("ERROR: All mod files must have lower case filenames.\n"
+			dialogMessage("Mod",
+				"ERROR: All mod files must have lower case filenames.\n"
 				"File \"%s\" has upper case charaters in it",
 				oldFileName.c_str());
 			return false;
@@ -300,5 +301,63 @@ void ModFiles::clearData()
 		 ModFileEntry *entry = (*itor).second;
 		 entry->getCompressedBuffer().clear();
 	}
+}
+
+ModDirs::ModDirs()
+{
+}
+
+ModDirs::~ModDirs()
+{
+}
+
+bool ModDirs::loadModDirs()
+{
+	if (!loadModDir(getModFile(""))) return false;
+	if (!loadModDir(getGlobalModFile(""))) return false;
+	return true;
+}
+	
+bool ModDirs::loadModDir(const char *dirName)
+{
+	wxDir dir(dirName);
+	if (dir.IsOpened())
+	{
+		wxString filename;
+		bool cont = dir.GetFirst(&filename, "", wxDIR_DIRS);
+		while (cont)
+		{
+			if (!loadModFile(filename.c_str())) return false;
+			cont = dir.GetNext(&filename);
+		}
+	}
+	return true;
+}
+
+bool ModDirs::loadModFile(const char *fileName)
+{
+	std::string oldFileName(fileName);
+	_strlwr((char *) fileName);
+
+	if (strcmp(oldFileName.c_str(), fileName) != 0)
+	{
+		dialogMessage("ModDirs",
+			"ERROR: All mod directories must have lower case filenames.\n"
+			"Directory \"%s\" has upper case charaters in it",
+			fileName);
+		return false;
+	}
+	
+	std::list<std::string>::iterator itor;
+	for (itor = dirs_.begin();
+		itor != dirs_.end();
+		itor++)
+	{
+		std::string name = (*itor);
+		if (0 == strcmp(name.c_str(), fileName)) return true;
+	}
+	dirs_.push_back(fileName);
+	
+	return true;
 }
 

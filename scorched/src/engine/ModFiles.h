@@ -23,6 +23,7 @@
 
 #include <coms/NetBuffer.h>
 #include <map>
+#include <list>
 #include <string>
 
 struct ModIdentifierEntry
@@ -88,6 +89,22 @@ protected:
 	bool loadModDir(const char *moddir, const char *mod);
 	bool excludeFile(const char *file);
 
+};
+
+class ModDirs
+{
+public:
+	ModDirs();
+	virtual ~ModDirs();
+
+	bool loadModDirs();
+	std::list<std::string> &getDirs() { return dirs_; }
+
+protected:
+	std::list<std::string> dirs_;
+	
+	bool loadModDir(const char *dir);
+	bool loadModFile(const char *fileName);
 };
 
 #endif
