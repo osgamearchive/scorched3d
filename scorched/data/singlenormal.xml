@@ -17,9 +17,15 @@
     <value>20</value>
     <defaultvalue>20</defaultvalue>
   </option>
-  <!-- The amount of team each player has for each shot -->
+  <!-- The amount of time each player has for each shot -->
   <option>
     <name>ShotTime</name>
+    <value>0</value>
+    <defaultvalue>0</defaultvalue>
+  </option>
+  <!-- The amount of time each player has to buy weapons and use auto defense -->
+  <option>
+    <name>BuyingTime</name>
     <value>0</value>
     <defaultvalue>0</defaultvalue>
   </option>
@@ -29,11 +35,23 @@
     <value>15</value>
     <defaultvalue>15</defaultvalue>
   </option>
+  <!-- The number of moves a player is allowed to miss (due to the shot timer) -->
+  <option>
+    <name>AllowedMissedMoves</name>
+    <value>3</value>
+    <defaultvalue>3</defaultvalue>
+  </option>
   <!-- The number of rounds to play in each game -->
   <option>
     <name>NumberOfRounds</name>
     <value>5</value>
     <defaultvalue>5</defaultvalue>
+  </option>
+  <!-- The number of each weapon the player is allowed -->
+  <option>
+    <name>MaxNumberWeapons</name>
+    <value>90</value>
+    <defaultvalue>90</defaultvalue>
   </option>
   <!-- The maximum number of players to allow -->
   <option>
@@ -46,6 +64,18 @@
     <name>NumberOfMinPlayers</name>
     <value>5</value>
     <defaultvalue>2</defaultvalue>
+  </option>
+  <!-- The percentage chance the computers will say something when killed -->
+  <option>
+    <name>ComputersDeathTalk</name>
+    <value>100</value>
+    <defaultvalue>100</defaultvalue>
+  </option>
+  <!-- The percentage chance the computers will say something when shooting -->
+  <option>
+    <name>ComputersAttackTalk</name>
+    <value>10</value>
+    <defaultvalue>10</defaultvalue>
   </option>
   <!-- The first round players are allowed to buy on -->
   <option>
@@ -65,11 +95,23 @@
     <value>200000</value>
     <defaultvalue>200000</defaultvalue>
   </option>
-  <!-- The money awarded for each person killed * weapon used -->
+  <!-- The money awarded for each person hit * weapon used -->
   <option>
     <name>MoneyWonPerHitPoint</name>
+    <value>100</value>
+    <defaultvalue>100</defaultvalue>
+  </option>
+  <!-- The money awarded for each person killed * weapon used -->
+  <option>
+    <name>MoneyWonPerKillPoint</name>
     <value>500</value>
     <defaultvalue>500</defaultvalue>
+  </option>
+  <!-- The money awarded is proportional to the amount of health removed -->
+  <option>
+    <name>MoneyPerHealthPoint</name>
+    <value>on</value>
+    <defaultvalue>on</defaultvalue>
   </option>
   <!-- The money each player starts with -->
   <option>
@@ -89,7 +131,31 @@
     <value>15</value>
     <defaultvalue>15</defaultvalue>
   </option>
-  <!-- The maximum number of hill -->
+  <!-- Show power is limited by the amount of health a player has -->
+  <option>
+    <name>LimitPowerByHealth</name>
+    <value>on</value>
+    <defaultvalue>on</defaultvalue>
+  </option>
+  <!-- The player turn mode -->
+  <option>
+    <name>TurnType</name>
+    <value>1</value>
+    <defaultvalue>1</defaultvalue>
+  </option>
+  <!-- The y width of the landscape -->
+  <option>
+    <name>LandWidthY</name>
+    <value>256</value>
+    <defaultvalue>256</defaultvalue>
+  </option>
+  <!-- The x width of the landscape -->
+  <option>
+    <name>LandWidthX</name>
+    <value>256</value>
+    <defaultvalue>256</defaultvalue>
+  </option>
+  <!-- The maximum number of hills -->
   <option>
     <name>LandHills</name>
     <value>100</value>
@@ -125,11 +191,35 @@
     <value>1</value>
     <defaultvalue>1</defaultvalue>
   </option>
+  <!-- The master list server for scorched3d -->
+  <option>
+    <name>MasterListServer</name>
+    <value>www.employees.org</value>
+    <defaultvalue>www.employees.org</defaultvalue>
+  </option>
+  <!-- The URI on the master list server for scorched3d -->
+  <option>
+    <name>MasterListServerURI</name>
+    <value>/~gcamp/scorched</value>
+    <defaultvalue>/~gcamp/scorched</defaultvalue>
+  </option>
+  <!-- Prepend and bot name with the specified text -->
+  <option>
+    <name>BotNamePrefix</name>
+    <value>(Bot) </value>
+    <defaultvalue>(Bot) </defaultvalue>
+  </option>
   <!-- The name of the server to start -->
   <option>
     <name>ServerName</name>
     <value>No Name</value>
     <defaultvalue>No Name</defaultvalue>
+  </option>
+  <!-- The password for this server (empty password = no password) -->
+  <option>
+    <name>ServerPassword</name>
+    <value></value>
+    <defaultvalue></defaultvalue>
   </option>
   <!-- The port to start the server on -->
   <option>

@@ -95,11 +95,23 @@
     <value>200000</value>
     <defaultvalue>200000</defaultvalue>
   </option>
-  <!-- The money awarded for each person killed * weapon used -->
+  <!-- The money awarded for each person hit * weapon used -->
   <option>
     <name>MoneyWonPerHitPoint</name>
+    <value>100</value>
+    <defaultvalue>100</defaultvalue>
+  </option>
+  <!-- The money awarded for each person killed * weapon used -->
+  <option>
+    <name>MoneyWonPerKillPoint</name>
     <value>500</value>
     <defaultvalue>500</defaultvalue>
+  </option>
+  <!-- The money awarded is proportional to the amount of health removed -->
+  <option>
+    <name>MoneyPerHealthPoint</name>
+    <value>on</value>
+    <defaultvalue>on</defaultvalue>
   </option>
   <!-- The money each player starts with -->
   <option>
@@ -131,7 +143,19 @@
     <value>0</value>
     <defaultvalue>1</defaultvalue>
   </option>
-  <!-- The maximum number of hill -->
+  <!-- The y width of the landscape -->
+  <option>
+    <name>LandWidthY</name>
+    <value>256</value>
+    <defaultvalue>256</defaultvalue>
+  </option>
+  <!-- The x width of the landscape -->
+  <option>
+    <name>LandWidthX</name>
+    <value>256</value>
+    <defaultvalue>256</defaultvalue>
+  </option>
+  <!-- The maximum number of hills -->
   <option>
     <name>LandHills</name>
     <value>100</value>
