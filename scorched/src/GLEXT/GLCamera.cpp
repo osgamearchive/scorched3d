@@ -29,7 +29,7 @@
 
 GLCamera::GLCamera(GLsizei windowWidth, GLsizei windowHeight) :
 	rotationXY_(0.0f), rotationYZ_(PI / 4), zoom_(150.0f),
-	useHeightFunc_(false), heightFunc_(0)
+	useHeightFunc_(false), heightFunc_(0), totalTime_(0.0f)
 {
 	setWindowOffset(0, 0);
 	setWindowSize(windowWidth, windowHeight);
@@ -104,24 +104,51 @@ void GLCamera::moveViewport(Vector &lookFrom, Vector &lookAt)
 void GLCamera::simulate(float frameTime)
 {
 	const float SecondsToReachTarget = 0.3f;
-	if (frameTime > SecondsToReachTarget)
+
+	// Make some constant changes, regardless of framerate
+	totalTime_ += frameTime;
+	while (totalTime_ > 0.1f)
 	{
-		frameTime = SecondsToReachTarget;
+		totalTime_ -= 0.1f;
+
+		// Calculate any camera shake
+		shake_ -= 0.1f;
+		if (shake_ > 0.0f)
+		{
+			shakeV_[0] = RAND * shake_;
+			shakeV_[1] = RAND * shake_;
+			shakeV_[2] = RAND * shake_;
+		}
+		else 
+		{
+			shake_ = 0.0f;
+			shakeV_.zero();
+		}
+
+		// Calculate the new look at value
+		Vector directionLookAt = wantedLookAt_ - lookAt_;
+		directionLookAt	*= SecondsToReachTarget;
+		lookAt_ += directionLookAt;
+
+		// Calculate the new look from value
+		Vector wantedPosition = wantedOffset_ + lookAt_;
+		Vector directionPosition = wantedPosition - currentPosition_;
+		directionPosition *= SecondsToReachTarget;
+		currentPosition_ += directionPosition;
 	}
-
-	Vector directionLookAt = wantedLookAt_ - lookAt_;
-	directionLookAt	*= frameTime / SecondsToReachTarget;
-	lookAt_ += directionLookAt;
-
-	Vector wantedPosition = wantedOffset_ + lookAt_;
-	Vector directionPosition = wantedPosition - currentPosition_;
-	directionPosition *= frameTime / SecondsToReachTarget;
-	currentPosition_ += directionPosition;
 }
 
 void GLCamera::draw()
 {
-	moveViewport(currentPosition_, lookAt_);
+	static Vector look;
+	look = lookAt_;
+	look += shakeV_;
+	moveViewport(currentPosition_, look);
+}
+
+void GLCamera::addShake(float shake)
+{
+	shake_ += shake;
 }
 
 void GLCamera::movePosition(float XY, float YZ, float Z)

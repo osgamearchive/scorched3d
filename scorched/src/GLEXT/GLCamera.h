@@ -46,6 +46,7 @@ public:
 
 	void draw();
 	void simulate(float frameTime = 0.02f);
+	void addShake(float shake);
 
 	void movePosition(float XY, float YZ, float Z);
 	void movePositionDelta(float XY, float YZ, float Z);
@@ -66,6 +67,9 @@ protected:
 	GLsizei windowL_, windowT_;
 	GLfloat windowAspect_;
 	GLfloat rotationXY_, rotationYZ_, zoom_;
+	float shake_;
+	float totalTime_;
+	Vector shakeV_;
 	bool useHeightFunc_;
 	Vector lookAt_;
 	Vector wantedLookAt_;
