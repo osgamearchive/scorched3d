@@ -9,7 +9,6 @@
 	<tank>
 		<name>battleship turret</name>
 		<model type="MilkShape">battleship/battleship.txt</model>
-		<projectilemodel type="MilkShape">icbm/icbm.txt</projectilemodel>
 	</tank>
 	<tank>
 		<name>T-90</name>
@@ -25,6 +24,7 @@
 		<name>SA-6 Gainful</name>
 		<catagory>High Def</catagory>
 		<model type="MilkShape">sa6/sa6.txt</model>
+		<projectilemodel type="MilkShape">sa6/sa6.txt</projectilemodel>
 	</tank>
 	<tank>
 		<name>ZSU-57 High Def</name>
@@ -40,6 +40,7 @@
 		<name>M-48 Chaparral High Def</name>
 		<catagory>High Def</catagory>
 		<model type="MilkShape">m48/m48.txt</model>
+		<projectilemodel type="MilkShape">m48/m48.txt</projectilemodel>
 	</tank>
 	<tank>
 		<name>Lav-25 HighDef</name>
@@ -60,11 +61,13 @@
 		<name>MLRS HighDef</name>
 		<catagory>High Def</catagory>
 		<model type="MilkShape">mlrs/mlrs.txt</model>
+		<projectilemodel type="MilkShape">barrage/barrage.txt</projectilemodel>
 	</tank>
 	<tank>
 		<name>Hawk HighDef</name>
 		<catagory>High Def</catagory>
 		<model type="MilkShape">hawk/hawk.txt</model>
+		<projectilemodel type="MilkShape">hawkmissile/hawk.txt</projectilemodel>
 	</tank>
 	<tank>
 		<name>Bradley</name>
@@ -75,6 +78,7 @@
 		<name>BM-13 HighDef</name>
 		<catagory>High Def</catagory>
 		<model type="MilkShape">bm13/bm13-2.txt</model>
+		<projectilemodel type="MilkShape">barrage/barrage.txt</projectilemodel>
 	</tank>
 	<tank>
 		<name>Towed Artillery HighDef</name>
@@ -111,6 +115,7 @@
 			<mesh>sa-19.ase</mesh>
 			<skin>sa-19.bmp</skin>
 		</model>
+		<projectilemodel type="MilkShape">barrage/barrage.txt</projectilemodel>
 	</tank>
 	<tank>
 		<name>ZSU-24-1 (SHILKA)</name>
@@ -125,6 +130,7 @@
 			<mesh>rapier.ase</mesh>
 			<skin>rapier.bmp</skin>
 		</model>
+		<projectilemodel type="MilkShape">m48/m48.txt</projectilemodel>
 	</tank>
 	<tank>
 		<name>Harpoon</name>
@@ -139,6 +145,7 @@
 			<mesh>v2.ase</mesh>
 			<skin>v2.bmp</skin>
 		</model>
+		<projectilemodel type="MilkShape">v2missile/v2missile.txt</projectilemodel>
 	</tank>
 	<tank>
 		<name>Sea Sparrow</name>
@@ -146,6 +153,7 @@
 			<mesh>seasparrow.ase</mesh>
 			<skin>seasparrow.bmp</skin>
 		</model>
+		<projectilemodel type="MilkShape">m48/m48.txt</projectilemodel>
 	</tank>
 	<tank>
 		<name>RAM System</name>
@@ -241,6 +249,7 @@
 			<mesh>hawk.ase</mesh>
 			<skin>hawk.bmp</skin>
 		</model>
+		<projectilemodel type="MilkShape">hawkmissile/hawk.txt</projectilemodel>
 	</tank>
 	<tank>
 		<name>TowedArtilleryA</name>
@@ -269,6 +278,7 @@
 			<mesh>bm13.ase</mesh>
 			<skin>bm13.bmp</skin>
 		</model>
+		<projectilemodel type="MilkShape">barrage/barrage.txt</projectilemodel>
 	</tank>
 	<tank>
 		<name>Bradley (Jungle)</name>
