@@ -78,7 +78,7 @@ bool WeaponLeapFrog::readAccessory(NetBufferReader &reader)
 void WeaponLeapFrog::fireWeapon(ScorchedContext &context,
 	unsigned int playerId, Vector &position, Vector &velocity)
 {
-	Vector newVelocity = velocity * 0.8f;
+	Vector newVelocity = velocity * 0.6f;
 	if (newVelocity[2] < 0.0f) newVelocity[2] *= -1.0f;
 	collisionAction_->fireWeapon(context, playerId, position, newVelocity);
 }

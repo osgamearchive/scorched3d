@@ -778,7 +778,6 @@ Leaves a marker at the final position.</description>
 		<bundlesize>20</bundlesize>
 		<armslevel>10</armslevel>
 		<firedsound>shoot/flare.wav</firedsound>
-		<projectilemodel type="MilkShape">flare.txt</projectilemodel>
 		<showendpoint></showendpoint>
 		<collisionaction type="WeaponNull">
 			<name>Tracer</name>
@@ -795,7 +794,6 @@ Leaves a colored trace of the shot path.</description>
 		<bundlesize>10</bundlesize>
 		<armslevel>9</armslevel>
 		<firedsound>shoot/flare.wav</firedsound>
-		<projectilemodel type="MilkShape">flare.txt</projectilemodel>
 		<showendpoint></showendpoint>
 		<smoke></smoke>
 		<collisionaction type="WeaponNull">
