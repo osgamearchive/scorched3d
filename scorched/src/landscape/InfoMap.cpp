@@ -118,16 +118,7 @@ void InfoMap::showHeightBands()
 		}
 	}
 
-	Landscape::instance()->getMainTexture().draw(true);
-	glPixelStorei(GL_UNPACK_ROW_LENGTH, 
-		Landscape::instance()->getMainMap().getWidth());
-	glTexSubImage2D(GL_TEXTURE_2D, 0, 
-					0, 0, 
-					newMap.getWidth(), newMap.getHeight(), 
-					GL_RGB, GL_UNSIGNED_BYTE, 
-					newMap.getBits());
-	glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
-
+	Landscape::instance()->getMainTexture().replace(newMap, GL_RGB, false);
 	Landscape::instance()->setTextureType(Landscape::eOther);
 }
 
@@ -165,15 +156,6 @@ void InfoMap::showGrid()
 		}
 	}
 
-	Landscape::instance()->getMainTexture().draw(true);
-	glPixelStorei(GL_UNPACK_ROW_LENGTH, 
-		Landscape::instance()->getMainMap().getWidth());
-	glTexSubImage2D(GL_TEXTURE_2D, 0, 
-					0, 0, 
-					newMap.getWidth(), newMap.getHeight(), 
-					GL_RGB, GL_UNSIGNED_BYTE, 
-					newMap.getBits());
-	glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
-
+	Landscape::instance()->getMainTexture().replace(newMap, GL_RGB, false);
 	Landscape::instance()->setTextureType(Landscape::eOther);
 }

@@ -70,6 +70,9 @@ public:
 	LandscapeTextureType getTextureType() { return textureType_; }
 	void setTextureType(LandscapeTextureType type) { textureType_ = type; }
 
+	void updatePlanTexture();
+	void updatePlanATexture();
+
 	// Inherited from GameStateI
 	virtual void draw(const unsigned state);
 	virtual void simulate(const unsigned state, float frameTime);
@@ -100,6 +103,9 @@ protected:
 	GLTexture *waterTexture_;
 	GLBitmap mainMap_;
 	GLBitmap scorchMap_;
+	GLBitmap bitmapPlanAlpha_;
+	GLBitmap bitmapPlan_;
+	GLBitmap bitmapWater_;
 
 	// Variables used to set when the water is refreshed
 	bool resetWater_;

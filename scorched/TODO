@@ -31,6 +31,7 @@ Added: Missiles now have a model and not just a photon torpedo
 Added: Missile models can be configured on a per weapon basis
 Added: Coms message and state logging
 Added: Client can log to file
+Added: Plan dialogs now updated when landscape removed
 
 Fixed: Tank bounding boxes can still cause collisions when tank is dead
 Fixed: Random windows crashes, increased stack size to stop ODE from running out of stack

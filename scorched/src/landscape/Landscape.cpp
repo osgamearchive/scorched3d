@@ -72,6 +72,10 @@ void Landscape::simulate(const unsigned state, float frameTime)
 				WaterMapModifier::addWaterVisibility(
 					ScorchedClient::instance()->getLandscapeMaps().getHMap(), wMap_);
 
+				// Update the plan texture
+				updatePlanATexture();
+				updatePlanTexture();
+
 				// Re-calculate the landsacpe on the wind indicator
 				WindDialog::instance()->buildMap();
 				resetWater_ = false;
@@ -203,22 +207,22 @@ void Landscape::generate(ProgressCounter *counter)
 	}
 
 	// Generate the texture used to map onto the landscape
-	// Load the textures used for the levels of the landscape
 	if (!mainMap_.getBits())
 	{
 		mainMap_.createBlank(mapTexSize, mapTexSize);
 		scorchMap_.createBlank(mapTexSize, mapTexSize);
+		bitmapPlanAlpha_.createBlank(planTexSize, planTexSize, true);
+		bitmapPlan_.createBlank(planTexSize, planTexSize);
 	}
+
+	// Load the texture bitmaps from resources 
 	GLBitmap texture0(Resources::stringResource("bitmap-texture0"));
-	surroundTexture_.create(texture0);
 	GLBitmap texture1(Resources::stringResource("bitmap-texture1"));
 	GLBitmap texture2(Resources::stringResource("bitmap-texture2"));
 	GLBitmap texture3(Resources::stringResource("bitmap-texture3"));
 	GLBitmap texture4(Resources::stringResource("bitmap-texture4"));
-
 	GLBitmap scorchMap(Resources::stringResource("bitmap-scorch"));
 	GLBitmapModifier::tileBitmap(scorchMap, scorchMap_);
-
 	GLBitmap bitmapShore(Resources::stringResource("bitmap-shore"));
 	GLBitmap bitmapRock(Resources::stringResource("bitmap-rockside"));
 	GLBitmap *bitmaps[5];
@@ -227,8 +231,13 @@ void Landscape::generate(ProgressCounter *counter)
 	bitmaps[2] = &texture2;
 	bitmaps[3] = &texture3;
 	bitmaps[4] = &texture4;
+	GLBitmap bitmapWater(Resources::stringResource("bitmap-cloudreflection"));
+	bitmapWater_.loadFromFile(Resources::stringResource("bitmap-cloudreflection"), false);
+	GLBitmap bitmapMagma(Resources::stringResource("bitmap-magmasmall"));
+	GLBitmap bitmapCloud(Resources::stringResource("bitmap-cloud"));
 
 	// Generate landscape texture
+	surroundTexture_.replace(texture0);
 	GLBitmapModifier::addHeightToBitmap(
 		ScorchedClient::instance()->getLandscapeMaps().getHMap(), 
 		mainMap_, 
@@ -240,71 +249,59 @@ void Landscape::generate(ProgressCounter *counter)
 		sun_.getPosition(), counter);
 
 	// Create the landscape texture used for the small plan window
-	GLBitmap bitmapPlan(planTexSize, planTexSize);
 	gluScaleImage(
 		GL_RGB, 
 		mainMap_.getWidth(), mainMap_.getHeight(), 
 		GL_UNSIGNED_BYTE, mainMap_.getBits(),
-		bitmapPlan.getWidth(), bitmapPlan.getHeight(), 
-		GL_UNSIGNED_BYTE, bitmapPlan.getBits());
+		bitmapPlan_.getWidth(), bitmapPlan_.getHeight(), 
+		GL_UNSIGNED_BYTE, bitmapPlan_.getBits());
 
-	GLBitmap bitmapPlanAlpha(planTexSize, planTexSize, true);
-	GLBitmap bitmapWater(Resources::stringResource("bitmap-cloudreflection"));
-	GLBitmapModifier::addWaterToBitmap(
-		ScorchedClient::instance()->getLandscapeMaps().getHMap(), 
-		bitmapPlan, bitmapWater, wMap_.getHeight());
-	GLBitmapModifier::removeWaterFromBitmap(
-		ScorchedClient::instance()->getLandscapeMaps().getHMap(), 
-		bitmapPlan, bitmapPlanAlpha, wMap_.getHeight());
+	// Create the magma texture
+	DIALOG_ASSERT(magTexture_.replace(bitmapMagma));
 
-	// Load the bitmaps into the textures
-	GLBitmap bitmapMagma(Resources::stringResource("bitmap-magmasmall"));
-	magTexture_.create(bitmapMagma);
-	if (!texture_.textureValid())
-	{
-		texture_.create(mainMap_, GL_RGB, false);
-	}
-	else
-	{
-		texture_.draw(true);
-		glPixelStorei(GL_UNPACK_ROW_LENGTH, mainMap_.getWidth());
-		glTexSubImage2D(GL_TEXTURE_2D, 0, 
-			0, 0, 
-			mainMap_.getWidth(), mainMap_.getHeight(), 
-			GL_RGB, GL_UNSIGNED_BYTE, 
-			mainMap_.getBits());
-		glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
-	}
-	planTexture_.create(bitmapPlan, GL_RGB, false);
-	planAlphaTexture_.create(bitmapPlanAlpha, GL_RGBA, true);
+	// Create the main landscape texture
+	DIALOG_ASSERT(texture_.replace(mainMap_, GL_RGB, false));
 
+	// Create the plan textures (for the plan and wind dialogs)
+	updatePlanTexture();
+	updatePlanATexture();
+
+	// Create the cloud texture
+	DIALOG_ASSERT(cloudTexture_.create(bitmapCloud));
+
+	// Water waves texture
 	GLBitmapModifier::addWavesToBitmap(
 		ScorchedClient::instance()->getLandscapeMaps().getHMap(), 
 		wMap_.getBitmap(), wMap_.getHeight(), 0.3f);
 	wMap_.refreshTexture();
 
-	// Load the cloud layer bitmap
-	GLBitmap map(Resources::stringResource("bitmap-cloud"));
-	DIALOG_ASSERT(cloudTexture_.create(map));
-
 	// Load the water reflection bitmap
-	// Create water cubemap
+	// Create water cubemap texture
 	delete waterTexture_;
-	if (GLStateExtension::hasCubeMap())
-	{
-		waterTexture_ = new GLTextureCubeMap;
-	}
-	else
-	{
-		waterTexture_ = new GLTexture;
-	}
-	GLBitmap waterMap(Resources::stringResource("bitmap-cloudreflection"));
-	waterMap.resize(256, 256);
-	DIALOG_ASSERT(waterMap.getBits());
-	waterTexture_->create(waterMap, GL_RGB, false);
+	if (GLStateExtension::hasCubeMap()) waterTexture_ = new GLTextureCubeMap;
+	else waterTexture_ = new GLTexture;
+	bitmapWater.resize(256, 256);
+	DIALOG_ASSERT(bitmapWater.getBits());
+	waterTexture_->create(bitmapWater, GL_RGB, false);
 
 	// Ensure that all components use new landscape
 	reset();
+}
+
+void Landscape::updatePlanTexture()
+{
+	GLBitmapModifier::addWaterToBitmap(
+		ScorchedClient::instance()->getLandscapeMaps().getHMap(), 
+		bitmapPlan_, bitmapWater_, wMap_.getHeight());
+	DIALOG_ASSERT(planTexture_.replace(bitmapPlan_, GL_RGB, false));
+}
+
+void Landscape::updatePlanATexture()
+{
+	GLBitmapModifier::removeWaterFromBitmap(
+		ScorchedClient::instance()->getLandscapeMaps().getHMap(), 
+		bitmapPlan_, bitmapPlanAlpha_, wMap_.getHeight());
+	DIALOG_ASSERT(planAlphaTexture_.replace(bitmapPlanAlpha_, GL_RGBA, false));
 }
 
 void Landscape::reset()
@@ -325,13 +322,6 @@ void Landscape::restoreLandscapeTexture()
 {
 	if (textureType_ == eDefault) return;
 
-	Landscape::instance()->getMainTexture().draw(true);
-	glPixelStorei(GL_UNPACK_ROW_LENGTH, mainMap_.getWidth());
-	glTexSubImage2D(GL_TEXTURE_2D, 0, 
-					0, 0, 
-					mainMap_.getWidth(), mainMap_.getHeight(), 
-					GL_RGB, GL_UNSIGNED_BYTE, 
-					mainMap_.getBits());
-	glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
+	DIALOG_ASSERT(texture_.replace(mainMap_, GL_RGB, false));
 	textureType_ = eDefault;
 }

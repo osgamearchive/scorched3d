@@ -45,7 +45,9 @@ public:
 				GLint alignment = 4,
 				GLenum format = GL_RGB, 
 				bool mipMap = true);
-
+	virtual bool replace(GLImage &bitmap,
+						GLenum format = GL_RGB, 
+						bool mipMap = true);
 	virtual void draw(bool force = false);
 	bool textureValid() { return texNum_ != 0; }
 	GLenum getTexType() { return texType_; }

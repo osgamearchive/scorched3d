@@ -442,12 +442,7 @@ void WaterMap::refreshTexture()
 {
 	if (texture2_.textureValid())
 	{
-		texture2_.draw(true);
-		glTexSubImage2D(GL_TEXTURE_2D, 0, 
-						0, 0, 
-						bitmap2_.getWidth(), bitmap2_.getHeight(), 
-						GL_RGBA, GL_UNSIGNED_BYTE, 
-						bitmap2_.getBits());
+		texture2_.replace(bitmap2_, GL_RGBA, false);
 	}
 }
 

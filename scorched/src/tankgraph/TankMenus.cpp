@@ -37,6 +37,14 @@ TankMenus::TankMenus() : logger_(0)
 		(ScorchedClient::instance()->getTankContainer(),
 		"ClientLog");
 
+	new GLConsoleRuleMethodIAdapter<Landscape>(
+		Landscape::instance(), &Landscape::reset, "ResetLandscape");
+	new GLConsoleRuleMethodIAdapter<Landscape>(
+		Landscape::instance(), &Landscape::updatePlanTexture, "RecalculatePlan");
+	new GLConsoleRuleMethodIAdapter<Landscape>(
+		Landscape::instance(), &Landscape::updatePlanATexture, "RecalculateAPlan");
+
+
 	new GLConsoleRuleMethodIAdapter<TankMenus>(
 		this, &TankMenus::showTankDetails, "TankDetails");
 	new GLConsoleRuleMethodIAdapter<TankMenus>(

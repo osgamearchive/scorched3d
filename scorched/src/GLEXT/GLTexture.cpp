@@ -55,6 +55,29 @@ void GLTexture::draw(bool force)
 	}
 }
 
+bool GLTexture::replace(GLImage &bitmap,
+						GLenum format, 
+						bool mipMap)
+{
+	if (textureValid())
+	{
+		glBindTexture(texType_, texNum_);
+
+		glPixelStorei(GL_UNPACK_ROW_LENGTH, bitmap.getWidth());
+		glTexSubImage2D(texType_, 0, 
+			0, 0, 
+			bitmap.getWidth(), bitmap.getHeight(), 
+			format, GL_UNSIGNED_BYTE, 
+			bitmap.getBits());
+		glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
+	}
+	else
+	{
+		return create(bitmap, format, mipMap);
+	}
+	return true;
+}
+
 bool GLTexture::create(GLImage &bitmap, 
 					   GLenum format, 
 					   bool mipMap)
@@ -122,18 +145,18 @@ bool GLTexture::createTexture(const void * data,
 	}
 	else if (width == 1)
 	{
-		glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-
 		if (mipMap)
 		{
+			glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+			glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+
 			gluBuild1DMipmaps(GL_TEXTURE_1D, components, height, 
 					format, GL_UNSIGNED_BYTE, data);
 		}
 		else
 		{
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
+			glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+			glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
 			glTexImage1D(GL_TEXTURE_1D, 0, components, height, 
 				0, format, GL_UNSIGNED_BYTE, data);
