@@ -469,10 +469,10 @@ scorched3d_SOURCES = \
 	../weapons/WeaponAimedOver.h \
 	../weapons/WeaponAimedUnder.cpp \
 	../weapons/WeaponAimedUnder.h \
-	../weapons/WeaponDelay.cpp \
-	../weapons/WeaponDelay.h \
 	../weapons/WeaponAnimation.cpp \
 	../weapons/WeaponAnimation.h \
+	../weapons/WeaponDelay.cpp \
+	../weapons/WeaponDelay.h \
 	../weapons/WeaponExplosion.cpp \
 	../weapons/WeaponExplosion.h \
 	../weapons/WeaponLeapFrog.cpp \
@@ -494,11 +494,11 @@ scorched3d_SOURCES = \
 	../weapons/WeaponVelocity.cpp \
 	../weapons/WeaponVelocity.h \
 	../coms/ComsActionsMessage.cpp \
-	../coms/ComsAdminMessage.h \
-	../coms/ComsAdminMessage.cpp \
 	../coms/ComsActionsMessage.h \
 	../coms/ComsAddPlayerMessage.cpp \
 	../coms/ComsAddPlayerMessage.h \
+	../coms/ComsAdminMessage.cpp \
+	../coms/ComsAdminMessage.h \
 	../coms/ComsBuyAccessoryMessage.cpp \
 	../coms/ComsBuyAccessoryMessage.h \
 	../coms/ComsConnectAcceptMessage.cpp \
@@ -671,10 +671,10 @@ scorched3d_SOURCES = \
 	../actions/Napalm.h \
 	../actions/ShieldHit.cpp \
 	../actions/ShieldHit.h \
-	../actions/ShotDelay.h \
-	../actions/ShotDelay.cpp \
 	../actions/ShotBounce.cpp \
 	../actions/ShotBounce.h \
+	../actions/ShotDelay.cpp \
+	../actions/ShotDelay.h \
 	../actions/ShotProjectile.cpp \
 	../actions/ShotProjectile.h \
 	../actions/ShowScore.cpp \
@@ -753,12 +753,12 @@ scorched3d_SOURCES = \
 	SingleDialog.cpp \
 	SingleDialog.h \
 	main.cpp \
-	../client/ClientAdmin.cpp \
-	../client/ClientAdmin.h \
 	../client/ClientActionsHandler.cpp \
 	../client/ClientActionsHandler.h \
 	../client/ClientAddPlayerHandler.cpp \
 	../client/ClientAddPlayerHandler.h \
+	../client/ClientAdmin.cpp \
+	../client/ClientAdmin.h \
 	../client/ClientBuyAccessoryHandler.cpp \
 	../client/ClientBuyAccessoryHandler.h \
 	../client/ClientConnectionAcceptHandler.cpp \
@@ -839,10 +839,12 @@ scorched3d_SOURCES = \
 	../client/WindowSetup.h \
 	../server/ScorchedServer.cpp \
 	../server/ScorchedServer.h \
-	../server/ServerAdminHandler.h \
-	../server/ServerAdminHandler.cpp \
 	../server/ServerAddPlayerHandler.cpp \
 	../server/ServerAddPlayerHandler.h \
+	../server/ServerAdminHandler.cpp \
+	../server/ServerAdminHandler.h \
+	../server/ServerBanned.cpp \
+	../server/ServerBanned.h \
 	../server/ServerBrowserInfo.cpp \
 	../server/ServerBrowserInfo.h \
 	../server/ServerBuyAccessoryHandler.cpp \

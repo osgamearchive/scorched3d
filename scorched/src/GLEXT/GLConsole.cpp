@@ -24,6 +24,7 @@
 #include <GLEXT/GLConsole.h>
 #include <GLEXT/GLViewPort.h>
 #include <GLW/GLWFont.h>
+#include <GLW/GLWToolTip.h>
 
 GLConsole *GLConsole::instance_ = 0;
 
@@ -186,6 +187,10 @@ void GLConsole::draw(const unsigned state)
 void GLConsole::drawBackdrop(float width, float top)
 {
 	if (height_ > top * .75f) height_ = top * .75f;
+
+	GLWToolTip::instance()->clearToolTip(
+		0.0f, top - height_ + 10.0f,
+		width, height_);
 
 	glColor4f(0.0f, 0.0f, 0.0f, 0.7f);
 	glBegin(GL_QUADS);

@@ -78,6 +78,7 @@ scorcheddata_DATA = data/playernames.txt \
 	data/singleeasy.xml \
 	data/accessories.xml \
 	data/landscapes.xml \
+	data/textureset.xml \
 	data/mysql.xml \
 	data/singletarget.xml \
 	data/motd.txt \
@@ -94,6 +95,7 @@ scorcheddatatextures_DATA = data/textures/glow1.bmp \
 	data/textures/pine.bmp \
 	data/textures/pinea.bmp \
 	data/textures/waves.bmp \
+	data/textures/clearsky.bmp \
 	data/textures/waves2.bmp
 scorcheddatatexturesbordershielddir = ${datadir}/data/textures/bordershield
 scorcheddatatexturesbordershield_DATA = data/textures/bordershield/grid2.bmp \
@@ -330,11 +332,13 @@ scorcheddatawindows_DATA = data/windows/question.gif \
 	data/windows/tank2.ico \
 	data/windows/weapon.bmp \
 	data/windows/wait.bmp \
+	data/windows/sounda.bmp \
 	data/windows/wind.bmp \
 	data/windows/scorched.bmp \
 	data/windows/move.bmp \
 	data/windows/mask.bmp \
 	data/windows/playera.bmp \
+	data/windows/sound.bmp \
 	data/windows/arrow.bmp \
 	data/windows/island.ico \
 	data/windows/waita.bmp \
