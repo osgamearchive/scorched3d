@@ -135,7 +135,8 @@ void TankMesh::createArrays(ModelsFile &aseTank, bool useTextures, float detail)
 		itor++)
 	{
 		const char *name = (*itor)->getName();
-		if (stricmp(name, "\"Gun\"") == 0)
+		if (strstr(name, "\"Gun") == name ||
+			strstr(name, "\"gun") == name)
 		{
 			(*itor)->centre(gunCenter);
 		}
