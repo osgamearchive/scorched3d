@@ -4,7 +4,7 @@ include('statsheader.php');
 
 <?
 // Query player events and player/weapon names
-$query ="SELECT scorched3d_events.playerid, scorched3d_events.weaponid, scorched3d_events.eventtime, scorched3d_events.eventtype, scorched3d_events.otherplayerid, (playernames.name) as playername, (otherplayernames.name) as otherplayername, (scorched3d_weapons.name) as weaponname FROM scorched3d_events LEFT JOIN scorched3d_players playernames ON scorched3d_events.playerid=playernames.playerid LEFT JOIN scorched3d_players otherplayernames ON scorched3d_events.otherplayerid=otherplayernames.playerid LEFT OUTER JOIN scorched3d_weapons ON scorched3d_events.weaponid=scorched3d_weapons.weaponid ORDER BY eventtime desc limit 100";
+$query ="SELECT scorched3d_events.playerid, scorched3d_events.weaponid, scorched3d_events.eventtime, scorched3d_events.eventtype, scorched3d_events.otherplayerid, (playernames.name) as playername, (otherplayernames.name) as otherplayername, (scorched3d_weapons.name) as weaponname FROM scorched3d_events LEFT JOIN scorched3d_players playernames ON scorched3d_events.playerid=playernames.playerid LEFT JOIN scorched3d_players otherplayernames ON scorched3d_events.otherplayerid=otherplayernames.playerid LEFT JOIN scorched3d_weapons ON scorched3d_events.weaponid=scorched3d_weapons.weaponid ORDER BY eventtime desc limit 100";
 $result = mysql_query($query) or die("Query failed : " . mysql_error());
 $row = mysql_fetch_object($result);
 ?>
@@ -22,32 +22,26 @@ $row = mysql_fetch_object($result);
 <?
 while ($row = mysql_fetch_object($result))
 {
-	$event = 'none';
 	switch ($row->eventtype)
 	{
-	case 1: $event = '<font color=red>killed</font>'; break;
-	case 2: $event = 'team killed'; break;
-	case 3: $event = '<font color=red>killed self</font>'; break;
-	case 4: $event = 'resigned'; break;
-	case 5: $event = 'won'; break;
-	case 6: $event = 'overall winner'; break;
+	case 1: $event = 'red>killed'; break;
+	case 2: $event = 'violet>team killed'; break;
+	case 3: $event = 'violet>killed self'; break;
+	case 4: $event = 'yellow>resigned'; break;
+	case 5: $event = 'green>won'; break;
+	case 6: $event = 'blue>overall winner'; break;
 	}
-	$weapon = $row->weaponname;
-	switch ($row->weaponid)
-	{
-	case 0: $weapon = " "; break;
-	}
-	$otherplayer = $row->otherplayername;
+	$otherplayer = "<a href=playerstats.php?PlayerID=".$row->otherplayerid.">".$row->otherplayername."</a>";
 	switch ($row->eventtype)
 	{
-	case 3: $otherplayer = "<center>with</center>"; break;
+	case 3: $otherplayer = "<font color=violet><center>with</center></font>"; break;
 	}
         echo "<tr>";
         echo "<td>$row->eventtime</td>";
-        echo "<td align=right>$row->playername</td>";
-        echo "<td align=center>$event</td>";
+        echo "<td align=right><a href=playerstats.php?PlayerID=".$row->playerid.">".$row->playername."</a></td>";
+        echo "<td align=center><font color=".$event."</font></td>";
         echo "<td>$otherplayer</td>";
-        echo "<td>$weapon</td>";
+        echo "<td><a href=weaponstats.php?WeaponID=".$row->weaponid.">".$row->weaponname."</a></td>";
         echo "</tr>";
 }
 ?>

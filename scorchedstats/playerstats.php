@@ -5,7 +5,7 @@ include('statsheader.php');
 
 <?
 // General Player Stats
-$query = "SELECT * FROM scorched3d_players where playerid=$playerid";
+$query = "SELECT * FROM scorched3d_players WHERE playerid=$playerid";
 $result = mysql_query($query) or die("Query failed : " . mysql_error());
 $row = mysql_fetch_object($result);
 ?>
@@ -23,10 +23,22 @@ $row = mysql_fetch_object($result);
 <tr><td bgcolor=#111111><b>Rounds Resigned</b></td><td><?=$row->resigns?></td></tr>
 <tr><td bgcolor=#111111><b>Total Shots</b></td><td><?=$row->shots?></td></tr>
 <tr><td bgcolor=#111111><b>Opponent Kills</b></td><td><?=$row->kills?></td></tr>
-<?$calc = round($row->kills/$row->shots, 3);?>
-<tr><td bgcolor=#111111><b>Kill Ratio</b></td><td><?=$calc*100?>% (<?$calc = round($row->shots/$row->kills, 2)?><?=$calc?> shots/kill)</td></tr>
-<?$calc = round($row->kills/$row->deaths, 2);?>
-<tr><td bgcolor=#111111><b>Kills/Death</b></td><td><?=$calc?></td></tr>
+<?
+if ($row->shots==0)
+	$calc=0.0;
+else
+	$calc=round((($row->kills-($row->selfkills+$row->teamkills))/$row->shots)*100, 1);
+if ($row->kills==0)
+	$calc2=0;
+else
+	$calc2=round($row->shots/$row->kills, 2);
+echo "<tr><td bgcolor=#111111><b>Kill Ratio</b></td><td>$calc% ($calc2 shots/kill)</td></tr>";
+if ($row->deaths==0)
+	$calc="No Deaths Recorded";
+else
+	$calc = round((($row->kills-$row->teamkills)/$row->deaths), 2);
+echo "<tr><td bgcolor=#111111><b>Kills/Death</b></td><td>$calc</td></tr>";
+?>
 <tr><td bgcolor=#111111><b>Self Kills</b></td><td><?=$row->selfkills?></td></tr>
 <tr><td bgcolor=#111111><b>Team Kills</b></td><td><?=$row->teamkills?></td></tr>
 <tr><td bgcolor=#111111><b>Deaths</b></td><td><?=$row->deaths?></td></tr>

@@ -31,8 +31,6 @@ while ($row = mysql_fetch_object($result))
 }
 ?>
 </table>
-
 <?
 include('statsfooter.php');
 ?>
-
