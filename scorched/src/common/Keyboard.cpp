@@ -161,14 +161,26 @@ bool Keyboard::parseKeyFile(const char *fileName)
 		}
 
 		// Get the name of the key
+		const char *keyName = 0;
+		bool command = false;
 		XMLNode *nameNode = currentNode->getNamedChild("name");
-		if (!nameNode)
+		XMLNode *commandNode = currentNode->getNamedChild("command");
+		if (nameNode)
+		{
+			keyName = nameNode->getContent();
+			command = false;
+		}
+		else if (commandNode)
+		{
+			keyName = commandNode->getContent();
+			command = true;
+		}
+		else
 		{
 			dialogMessage("Keyboard",
 						  "Failed to find name node");
 			return false;
 		}
-		const char *keyName = nameNode->getContent();
 		
 		// Get the description for the key
 		XMLNode *descNode = currentNode->getNamedChild("description");
@@ -181,7 +193,7 @@ bool Keyboard::parseKeyFile(const char *fileName)
 		const char *keyDesc = descNode->getContent();
 
 		// Create the key
-		KeyboardKey *newKey = new KeyboardKey(keyName, keyDesc);
+		KeyboardKey *newKey = new KeyboardKey(keyName, keyDesc, command);
 
 		// Add all the key names
 		std::list<std::string> keyNames, keyStateNames;
@@ -223,15 +235,31 @@ bool Keyboard::parseKeyFile(const char *fileName)
 
 		// Actually add the key
 		if (!newKey->addKeys(keyNames, keyStateNames)) return false;
-		keyMap_[keyName] = newKey;
+
+		
+		if (command)
+		{
+			// Add to the list of commands
+			commandKeys_.push_back(newKey);
+		}
+		else
+		{
+			// Add to the list of pre-defined keys
+			keyMap_[keyName] = newKey;
+		}
 	}
 
 	return true;
 }
 
+std::list<KeyboardKey *> &Keyboard::getCommandKeys()
+{
+	return commandKeys_;
+}
+
 KeyboardKey *Keyboard::getKey(const char *name)
 {
-	static KeyboardKey defaultKey("None", "None");
+	static KeyboardKey defaultKey("None", "None", false);
 
 	std::map<std::string, KeyboardKey *, std::less<std::string> >::iterator itor =
 		keyMap_.find(name);

@@ -97,13 +97,26 @@ int main(int argc, char *argv[])
 	{
 		dialogMessage(
 			scorched3dAppName,
-			"Warning: This game requires the Scorched3D data directory to run.\n"
+			"Error: This game requires the Scorched3D data directory to run.\n"
 			"Your machine does not appear to have the Scorched3D data directory in\n"
 			"the same directory as the scorched.exe file.\n\n"
 			"If Scorched3D does not run please re-install Scorched3D.");
 		exit(1);
 	}
-	fclose(checkfile);
+	else fclose(checkfile);
+
+	// Check the options files are writeable
+	checkfile = fopen(PKGDIR "data/display.xml", "a");
+	if (!checkfile)
+	{
+		dialogMessage(
+			scorched3dAppName,
+			"Warning: Your display settings file (" PKGDIR "data/display.xml) cannot be\n"
+			"written to.  Your settings will not be saved from one game to the next.\n\n"
+			"To fix this problem correct the permissions for all the files in the\n"
+			PKGDIR"data directory.");
+	}
+	else fclose(checkfile);
 
 #ifdef _WIN32
 	// Do a check for directX 8.0

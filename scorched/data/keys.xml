@@ -1,5 +1,15 @@
 <keys>
 	<keyentry>
+		<command>LandscapeInfoGrid</command>
+		<description>Turns the landscape grid on</description>
+		<key state="LCTRL">g</key>
+	</keyentry>
+	<keyentry>
+		<command>LandscapeInfoHeightBands</command>
+		<description>Turns the landscape height bands on</description>
+		<key state="LCTRL">h</key>
+	</keyentry>
+	<keyentry>
 		<name>HUD_ITEMS</name>
 		<description>Toggles the various HUD items on and off</description>
 		<key>i</key>

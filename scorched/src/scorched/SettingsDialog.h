@@ -22,7 +22,7 @@
 #if !defined(__INCLUDE_SettingsDialogh_INCLUDE__)
 #define __INCLUDE_SettingsDialogh_INCLUDE__
 
-class ScorchedContext;
-bool showSettingsDialog(bool server, ScorchedContext &context);
+class OptionsGame;
+bool showSettingsDialog(bool server, OptionsGame &context);
 
 #endif

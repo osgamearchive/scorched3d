@@ -28,7 +28,8 @@ class KeyboardKey
 {
 public:
 	KeyboardKey(const char *name,
-				const char *description);
+				const char *description,
+				bool command);
 	virtual ~KeyboardKey();
 
 	bool keyDown(char *buffer, unsigned int keyState, bool repeat = true);
@@ -38,6 +39,7 @@ public:
 
 	const char *getName() { return name_.c_str(); }
 	const char *getDescription() { return description_.c_str(); }
+	bool getNameIsCommand() { return command_; }
 
 	static bool translateKeyName(const char *name, unsigned int &key);
 	static bool translateKeyState(const char *name, unsigned int &state);
@@ -46,6 +48,7 @@ protected:
 	std::string name_;
 	std::string description_;
 	bool keyToogle_;
+	bool command_;
 	unsigned int noKeys_;
 	unsigned int *keys_;
 	unsigned int *keyStates_;

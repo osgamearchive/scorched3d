@@ -24,6 +24,7 @@
 #include <common/KeyboardHistory.h>
 #include <common/KeyboardKey.h>
 #include <string>
+#include <list>
 #include <map>
 
 #define MAX_KEYBDHIST 1024
@@ -46,6 +47,7 @@ public:
 
 	bool parseKeyFile(const char *fileName);
 	KeyboardKey *getKey(const char *name);
+	std::list<KeyboardKey *> &getCommandKeys();
 			                       
 protected:
 	static Keyboard *instance_;
@@ -53,6 +55,7 @@ protected:
 	KeyboardHistory::HistoryElement keybHist_[MAX_KEYBDHIST];
 	int keybHistCnt_;
 
+	std::list<KeyboardKey *> commandKeys_;
 	std::map<std::string, KeyboardKey *, std::less<std::string> > keyMap_;
                        
 private:

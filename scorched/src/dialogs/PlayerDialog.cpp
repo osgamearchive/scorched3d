@@ -26,6 +26,7 @@
 #include <tankai/TankAIStrings.h>
 #include <common/WindowManager.h>
 #include <common/OptionsParam.h>
+#include <common/OptionsDisplay.h>
 #include <GLW/GLWTextButton.h>
 #include <coms/ComsAddPlayerMessage.h>
 #include <coms/ComsMessageSender.h>
@@ -148,7 +149,16 @@ void PlayerDialog::nextPlayer()
 	{
 		Tank *tank = 
 			ScorchedClient::instance()->getTankContainer().getTankById(currentPlayerId_);
-		if (tank) playerName_->setText(tank->getName());
+		if (OptionsParam::instance()->getConnectedToServer())
+		{
+			// If we are connected online then use the online name
+			playerName_->setText(OptionsDisplay::instance()->getOnlineUserName());
+		}
+		else
+		{
+			// Else use the default names
+			if (tank) playerName_->setText(tank->getName());
+		}
 	}
 }
 
@@ -183,6 +193,12 @@ void PlayerDialog::buttonDown(unsigned int id)
 	{
 		if (!playerName_->getText().empty())
 		{
+			// If we are connected online save this players name
+			if (OptionsParam::instance()->getConnectedToServer())
+			{
+				OptionsDisplay::instance()->setOnlineUserName(playerName_->getText().c_str());
+			}
+
 			// Get the model type (turns a "Random" choice into a proper name)
 			TankModel *model = 
 				TankModelStore::instance()->getModelByName(viewer_->getModelName());

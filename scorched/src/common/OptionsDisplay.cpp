@@ -38,6 +38,8 @@ OptionsDisplay::OptionsDisplay() :
 		"Use the detail texture on the landscape", RWAccess, true),
 	uniqueUserId_(options_, "UniqueUserId",
 		"The unique string given to any servers to uniquely identify the client.", RAccess, ""),
+	onlineUserName_(options_, "OnlineUserName",
+		"The player name that will be used for all online games.", RAccess, "Player"),
 	explosionParts_(options_, "ExplosionParts",
 		"How many explosion clouds are drawn", RAccess, 8, 0, 10),
 	explosionSubParts_(options_, "ExplosionSubParts",

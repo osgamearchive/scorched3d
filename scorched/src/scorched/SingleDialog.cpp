@@ -140,7 +140,7 @@ void SingleFrame::onCustomButton()
 {
 	ScorchedServer::instance()->getOptionsGame().readOptionsFromFile(customFilePath);
 
-	if (showSettingsDialog(false, ScorchedServer::instance()->getContext()))
+	if (showSettingsDialog(false, ScorchedServer::instance()->getContext().optionsGame))
 	{
 		ScorchedServer::instance()->getOptionsGame().writeOptionsToFile(customFilePath);
 		OptionsParam::instance()->getSinglePlayer() = true;

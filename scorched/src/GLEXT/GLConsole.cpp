@@ -130,6 +130,20 @@ void GLConsole::keyboardCheck(const unsigned state, float frameTime,
 		}
 		skipRest = true;
 	}
+	else
+	{
+		std::list<KeyboardKey *> &keys = Keyboard::instance()->getCommandKeys();
+		std::list<KeyboardKey *>::iterator keyItor = keys.begin();
+		std::list<KeyboardKey *>::iterator keyEndItor = keys.end();
+		for (; keyItor != keyEndItor; keyItor++)
+		{
+			KeyboardKey *key = (*keyItor);
+			if (key->keyDown(buffer, keyState))
+			{
+				addLine(true, key->getName());
+			}
+		}
+	}
 }
 
 void GLConsole::simulate(const unsigned state, float frameTime)

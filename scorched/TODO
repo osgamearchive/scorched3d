@@ -13,6 +13,10 @@ Fixed: Display modes should be shown only once
 Fixed: Targeting triangle is much thinner (seen from above)
 Fixed: Shot camera does not get left behind
 
+Added: Console commands can be bound to quick keys
+Added: Online player name remembered from one game to the next
+Added: Player gets warned if settings cannot be saved
+Added: Shot camera zooms out for large explosions/multi-part weapons
 Added: Fastword modes increased to x8
 Added: AIs should be able to use batteries now
 Added: Player score added to the player dialog (bottom right)
@@ -39,6 +43,7 @@ Loadable maps?
 All clients should use same ground textures.
 
 -- Client Stuff
+A safe mode option for when scorched crashed last time
 Options should be stored in users home directory.
 Option to reconnect when disconected from server.
 Return to the launcher after a game finishes.

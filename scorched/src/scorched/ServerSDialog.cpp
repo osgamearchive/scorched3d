@@ -76,7 +76,7 @@ ServerSFrame::ServerSFrame() :
 
 void ServerSFrame::onSettingsButton()
 {
-	if (showSettingsDialog(true, ScorchedServer::instance()->getContext()))
+	if (showSettingsDialog(true, ScorchedServer::instance()->getContext().optionsGame))
 	{
 		ScorchedServer::instance()->getOptionsGame().writeOptionsToFile(serverFilePath);
 	}

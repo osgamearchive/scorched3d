@@ -24,9 +24,10 @@
 #include <common/Defines.h>
 
 KeyboardKey::KeyboardKey(const char *name,
-						 const char *description) :
+						 const char *description,
+						 bool command) :
 	name_(name), description_(description), 
-	noKeys_(0), keys_(0), keyStates_(0), keyToogle_(false)
+	noKeys_(0), keys_(0), keyStates_(0), keyToogle_(false), command_(command)
 {
 
 }

@@ -20,7 +20,6 @@
 
 #include <scorched/DisplayDialog.h>
 #include <scorched/MainDialog.h>
-#include <engine/ScorchedContext.h>
 #include <tankai/TankAIStore.h>
 #include <common/OptionsGame.h>
 #include <wx/wx.h>
@@ -59,13 +58,13 @@ extern char scorched3dAppName[128];
 class SettingsFrame: public wxDialog
 {
 public:
-	SettingsFrame(bool server, ScorchedContext &context);
+	SettingsFrame(bool server, OptionsGame &context);
 
 	virtual bool TransferDataToWindow();
 	virtual bool TransferDataFromWindow();
 
 protected:
-	ScorchedContext &context_;
+	OptionsGame &context_;
 	wxNotebook *book_;
 	wxPanel *mainPanel_;
 	wxPanel *ecoPanel_;
@@ -84,7 +83,7 @@ BEGIN_EVENT_TABLE(SettingsFrame, wxDialog)
 	EVT_TEXT(SettingsPlayers::IDC_SERVER_MAX_PLAYERS,  SettingsFrame::onMaxPlayerChange)
 END_EVENT_TABLE()
 
-SettingsFrame::SettingsFrame(bool server, ScorchedContext &context) :
+SettingsFrame::SettingsFrame(bool server, OptionsGame &context) :
 	wxDialog(getMainDialog(), -1, scorched3dAppName, wxPoint(0,0), wxSize(374, 370)),
 	context_(context)
 {
@@ -140,12 +139,12 @@ void SettingsFrame::setupPlayers()
 {
 	int maxPlayers = 10;
 	sscanf(SettingsPlayers::IDC_SERVER_MAX_PLAYERS_CTRL->GetValue(), "%i", &maxPlayers);
-	context_.optionsGame.setNoMaxPlayers(maxPlayers);
+	context_.setNoMaxPlayers(maxPlayers);
 
 	for (int i=0; i<24; i++)
 	{
 		(*SettingsPlayers::playerCombos[i])->Enable(
-			(i < context_.optionsGame.getNoMaxPlayers()));
+			(i < context_.getNoMaxPlayers()));
 	}
 }
 
@@ -155,7 +154,7 @@ bool SettingsFrame::TransferDataToWindow()
 	if (playersPanel_)
 	{
 		SettingsPlayers::IDC_EDIT3_CTRL->
-			SetValue(context_.optionsGame.getBotNamePrefix());
+			SetValue(context_.getBotNamePrefix());
 		SettingsPlayers::IDC_EDIT3_CTRL->SetToolTip(
 			wxString("The text prefixed onto any player that is a bot."));
 
@@ -170,12 +169,12 @@ bool SettingsFrame::TransferDataToWindow()
 			SettingsPlayers::IDC_SERVER_MIN_PLAYERS_CTRL->Append(string);
 			SettingsPlayers::IDC_SERVER_MAX_PLAYERS_CTRL->Append(string);
 		}
-		sprintf(buffer, "%i", context_.optionsGame.getNoMinPlayers());
+		sprintf(buffer, "%i", context_.getNoMinPlayers());
 		SettingsPlayers::IDC_SERVER_MIN_PLAYERS_CTRL->SetValue(buffer);
 		SettingsPlayers::IDC_SERVER_MIN_PLAYERS_CTRL->SetToolTip(
 			wxString("The number of players that must be on the server before a game starts."));
 
-		sprintf(buffer, "%i", context_.optionsGame.getNoMaxPlayers());
+		sprintf(buffer, "%i", context_.getNoMaxPlayers());
 		SettingsPlayers::IDC_SERVER_MAX_PLAYERS_CTRL->SetValue(buffer);
 		SettingsPlayers::IDC_SERVER_MAX_PLAYERS_CTRL->SetToolTip(
 			wxString("The maximum number of players that can be on the server."));
@@ -194,7 +193,7 @@ bool SettingsFrame::TransferDataToWindow()
 			}
 			(*SettingsPlayers::playerCombos[i])->Append("Human");
 			(*SettingsPlayers::playerCombos[i])->SetValue(
-				context_.optionsGame.getPlayerType(i));
+				context_.getPlayerType(i));
 		}
 		setupPlayers();
 	}
@@ -211,7 +210,7 @@ bool SettingsFrame::TransferDataToWindow()
 		}
 		SettingsLand::IDC_LANDCOVERAGE_CTRL->Append("5");
 		SettingsLand::IDC_LANDCOVERAGE_CTRL->Append("1");
-		sprintf(buffer, "%i", context_.optionsGame.getNoHills());
+		sprintf(buffer, "%i", context_.getNoHills());
 		SettingsLand::IDC_LANDCOVERAGE_CTRL->SetValue(buffer);
 		SettingsLand::IDC_LANDCOVERAGE_CTRL->SetToolTip(
 			wxString("Specifies how large the island is."));
@@ -222,7 +221,7 @@ bool SettingsFrame::TransferDataToWindow()
 			sprintf(buffer, "%i", i);
 			SettingsLand::IDC_LANDHEIGHT_CTRL->Append(buffer);
 		}
-		sprintf(buffer, "%i", context_.optionsGame.getMaxHeight());
+		sprintf(buffer, "%i", context_.getMaxHeight());
 		SettingsLand::IDC_LANDHEIGHT_CTRL->SetValue(buffer);
 		SettingsLand::IDC_LANDHEIGHT_CTRL->SetToolTip(
 			wxString("Specifies how hilly the landscape is."));
@@ -233,11 +232,11 @@ bool SettingsFrame::TransferDataToWindow()
 			SettingsLand::IDC_LANDWIDTHX_CTRL->Append(buffer);
 			SettingsLand::IDC_LANDWIDTHY_CTRL->Append(buffer);
 		}
-		sprintf(buffer, "%i", context_.optionsGame.getLandWidthX());
+		sprintf(buffer, "%i", context_.getLandWidthX());
 		SettingsLand::IDC_LANDWIDTHX_CTRL->SetValue(buffer);
 		SettingsLand::IDC_LANDWIDTHX_CTRL->SetToolTip(
 			wxString("Specifies how wide the island can be."));
-		sprintf(buffer, "%i", context_.optionsGame.getLandWidthY());
+		sprintf(buffer, "%i", context_.getLandWidthY());
 		SettingsLand::IDC_LANDWIDTHY_CTRL->SetValue(buffer);
 		SettingsLand::IDC_LANDWIDTHY_CTRL->SetToolTip(
 			wxString("Specifies how wide the island can be."));
@@ -253,7 +252,7 @@ bool SettingsFrame::TransferDataToWindow()
 			sprintf(buffer, "%i", i);
 			SettingsEco::IDC_BUYONROUND_CTRL->Append(buffer);
 		}
-		sprintf(buffer, "%i", context_.optionsGame.getBuyOnRound());
+		sprintf(buffer, "%i", context_.getBuyOnRound());
 		SettingsEco::IDC_BUYONROUND_CTRL->SetValue(buffer);
 		SettingsEco::IDC_BUYONROUND_CTRL->SetToolTip(
 			wxString("Players will be allowed to buy more weapons on this round."));
@@ -265,13 +264,13 @@ bool SettingsFrame::TransferDataToWindow()
 			SettingsEco::IDC_MONEYPERHIT_CTRL->Append(buffer);
 			SettingsEco::IDC_MONEYPERKILL_CTRL->Append(buffer);
 		}
-		sprintf(buffer, "%i", context_.optionsGame.getMoneyWonPerHitPoint());
+		sprintf(buffer, "%i", context_.getMoneyWonPerHitPoint());
 		SettingsEco::IDC_MONEYPERHIT_CTRL->SetValue(buffer);
 		SettingsEco::IDC_MONEYPERHIT_CTRL->SetToolTip(
 			wxString("The money awarded for HITTING another tank.\n"
 				"This is multiplied by the weapons arms level\n"
 					 "and health points removed (if switched on)."));
-		sprintf(buffer, "%i", context_.optionsGame.getMoneyWonPerKillPoint());
+		sprintf(buffer, "%i", context_.getMoneyWonPerKillPoint());
 		SettingsEco::IDC_MONEYPERKILL_CTRL->SetValue(buffer);
 		SettingsEco::IDC_MONEYPERKILL_CTRL->SetToolTip(
 			wxString("The money awarded for KILLING another tank.\n"
@@ -279,7 +278,7 @@ bool SettingsFrame::TransferDataToWindow()
 				"and health points removed (if switched on)."));
 
 		SettingsEco::IDC_MONEYPERHEALTH_CTRL->SetValue(
-			context_.optionsGame.getMoneyPerHealthPoint());
+			context_.getMoneyPerHealthPoint());
 		SettingsEco::IDC_MONEYPERHEALTH_CTRL->SetToolTip(
 			wxString("Switchs on money being awarded by health points removed"));
 
@@ -290,11 +289,11 @@ bool SettingsFrame::TransferDataToWindow()
 			SettingsEco::IDC_STARTMONEY_CTRL->Append(buffer);
 			SettingsEco::IDC_MONEYPERROUND_CTRL->Append(buffer);
 		}
-		sprintf(buffer, "%i", context_.optionsGame.getStartMoney());
+		sprintf(buffer, "%i", context_.getStartMoney());
 		SettingsEco::IDC_STARTMONEY_CTRL->SetValue(buffer);
 		SettingsEco::IDC_STARTMONEY_CTRL->SetToolTip(
 			wxString("The money each tank will start the game with."));
-		sprintf(buffer, "%i", context_.optionsGame.getMoneyWonForRound());
+		sprintf(buffer, "%i", context_.getMoneyWonForRound());
 		SettingsEco::IDC_MONEYPERROUND_CTRL->SetValue(buffer);
 		SettingsEco::IDC_MONEYPERROUND_CTRL->SetToolTip(
 			wxString("The money awarded to the last tank surviving a round."));
@@ -305,7 +304,7 @@ bool SettingsFrame::TransferDataToWindow()
 			sprintf(buffer, "%i", i);
 			SettingsEco::IDC_INTEREST_CTRL->Append(buffer);
 		}
-		sprintf(buffer, "%i", context_.optionsGame.getInterest());
+		sprintf(buffer, "%i", context_.getInterest());
 		SettingsEco::IDC_INTEREST_CTRL->SetValue(buffer);
 		SettingsEco::IDC_INTEREST_CTRL->SetToolTip(
 			wxString("The amount of monetary interest gained at the end of each round."));
@@ -315,7 +314,7 @@ bool SettingsFrame::TransferDataToWindow()
 		SettingsEco::IDC_SCOREMODE_CTRL->Append("Most Kills");
 		SettingsEco::IDC_SCOREMODE_CTRL->Append("Most Money");
 		SettingsEco::IDC_SCOREMODE_CTRL->SetSelection(
-			(int) context_.optionsGame.getScoreType());
+			(int) context_.getScoreType());
 		SettingsEco::IDC_SCOREMODE_CTRL->SetToolTip(
 			wxString("Who wins each round."));
 	}
@@ -332,7 +331,7 @@ bool SettingsFrame::TransferDataToWindow()
 				buffer, (void *) (i+1));
 		}
 		SettingsEnv::IDC_COMBO_FORCE_CTRL->SetSelection(
-			context_.optionsGame.getWindForce());
+			context_.getWindForce());
 		SettingsEnv::IDC_COMBO_FORCE_CTRL->SetToolTip(
 			wxString("The force of the wind."));
 
@@ -342,7 +341,7 @@ bool SettingsFrame::TransferDataToWindow()
 		SettingsEnv::IDC_COMBO_WINDCHANGES_CTRL->Append("On Move", 
 			(void *) OptionsGame::WindOnMove);
 		SettingsEnv::IDC_COMBO_WINDCHANGES_CTRL->SetSelection(
-			context_.optionsGame.getWindType());
+			context_.getWindType());
 		SettingsEnv::IDC_COMBO_WINDCHANGES_CTRL->SetToolTip(
 			wxString("Specifies when the wind is allowed to change direction."));
 
@@ -356,7 +355,7 @@ bool SettingsFrame::TransferDataToWindow()
 		SettingsEnv::IDC_COMBO_WALLTYPE_CTRL->Append("Wrap", 
 			(void *) OptionsGame::WallWrapAround);
 		SettingsEnv::IDC_COMBO_WALLTYPE_CTRL->SetSelection(
-			context_.optionsGame.getWallType());
+			context_.getWallType());
 		SettingsEnv::IDC_COMBO_WALLTYPE_CTRL->SetToolTip(
 			wxString("Specifies the behaviour of the walls that surround the island."));
 
@@ -368,7 +367,7 @@ bool SettingsFrame::TransferDataToWindow()
 		SettingsEnv::IDC_COMBO_WEAPONSCALE_CTRL->Append("Large", 
 			(void *) OptionsGame::ScaleLarge);
 		SettingsEnv::IDC_COMBO_WEAPONSCALE_CTRL->SetSelection(
-			context_.optionsGame.getWeapScale());
+			context_.getWeapScale());
 		SettingsEnv::IDC_COMBO_WEAPONSCALE_CTRL->SetToolTip(
 			wxString("Specifies the size of the blast radius for explosive weapons."));
 
@@ -381,7 +380,7 @@ bool SettingsFrame::TransferDataToWindow()
 
 		}
 		SettingsEnv::IDC_COMBO_ARMSLEVEL_CTRL->SetSelection(
-			context_.optionsGame.getMaxArmsLevel());
+			context_.getMaxArmsLevel());
 		SettingsEnv::IDC_COMBO_ARMSLEVEL_CTRL->SetToolTip(
 			wxString("Specifies the most powerful weapon that will be available to buy."));
 	}
@@ -396,7 +395,7 @@ bool SettingsFrame::TransferDataToWindow()
 			sprintf(string, "%i", i);
 			SettingsMain::IDC_SERVER_PLAYERS_CTRL->Append(string);
 		}
-		sprintf(string, "%i", context_.optionsGame.getNoMaxPlayers());
+		sprintf(string, "%i", context_.getNoMaxPlayers());
 		SettingsMain::IDC_SERVER_PLAYERS_CTRL->SetValue(string);
 		SettingsMain::IDC_SERVER_PLAYERS_CTRL->Show(playersPanel_ == 0);
 		SettingsMain::IDC_SERVER_PLAYERS_CTRL_TEXT->Show(playersPanel_ == 0);
@@ -412,7 +411,7 @@ bool SettingsFrame::TransferDataToWindow()
 			SettingsMain::IDC_TEAMS_CTRL->Append(string);
 		}
 		SettingsMain::IDC_TEAMS_CTRL->SetSelection(
-			context_.optionsGame.getTeams() - 1);
+			context_.getTeams() - 1);
 		SettingsMain::IDC_TEAMS_CTRL->SetToolTip(
 			wxString("The number of teams that will play in this game."));
 
@@ -423,7 +422,7 @@ bool SettingsFrame::TransferDataToWindow()
 			SettingsMain::IDC_SERVER_ROUNDS_CTRL->Append(string);
 		}
 		SettingsMain::IDC_SERVER_ROUNDS_CTRL->SetSelection(
-			context_.optionsGame.getNoRounds() - 1);
+			context_.getNoRounds() - 1);
 		SettingsMain::IDC_SERVER_ROUNDS_CTRL->SetToolTip(
 			wxString("The number of rounds that will be played in this game."));
 
@@ -435,7 +434,7 @@ bool SettingsFrame::TransferDataToWindow()
 		SettingsMain::IDC_TYPE_CTRL->Append("Sequential (Random Order)", 
 			(void *) OptionsGame::TurnSequentialRandom);
 		SettingsMain::IDC_TYPE_CTRL->SetSelection(
-			context_.optionsGame.getTurnType());
+			context_.getTurnType());
 		SettingsMain::IDC_TYPE_CTRL->SetToolTip(
 			wxString("Specifies the order of play."));	
 
@@ -448,11 +447,11 @@ bool SettingsFrame::TransferDataToWindow()
 			SettingsMain::IDC_IDLE_TIME_CTRL->Append(string);
 		}
 		SettingsMain::IDC_SHOT_TIME_CTRL->SetSelection(
-			context_.optionsGame.getShotTime()/5);
+			context_.getShotTime()/5);
 		SettingsMain::IDC_SHOT_TIME_CTRL->SetToolTip(
 			wxString("The maximum amount of time allowed for each player to make a move."));
 		SettingsMain::IDC_IDLE_TIME_CTRL->SetSelection(
-			context_.optionsGame.getIdleKickTime()/5);
+			context_.getIdleKickTime()/5);
 		SettingsMain::IDC_IDLE_TIME_CTRL->SetToolTip(
 			wxString("The amount of time to wait for a client to respond before kicking it."));
 
@@ -470,7 +469,7 @@ bool SettingsFrame::TransferDataFromWindow()
 	// Players
 	if (playersPanel_)
 	{
-		context_.optionsGame.setBotNamePrefix(
+		context_.setBotNamePrefix(
 			SettingsPlayers::IDC_EDIT3_CTRL->GetValue());
 
 		// Read min + max players
@@ -480,12 +479,12 @@ bool SettingsFrame::TransferDataFromWindow()
 		int maxPlayers = 10;
 		sscanf(SettingsPlayers::IDC_SERVER_MAX_PLAYERS_CTRL->GetValue(), 
 			"%i", &maxPlayers);
-		context_.optionsGame.setNoMinPlayers(minPlayers);
-		context_.optionsGame.setNoMaxPlayers(maxPlayers);
+		context_.setNoMinPlayers(minPlayers);
+		context_.setNoMaxPlayers(maxPlayers);
 
 		for (int i=0; i<24; i++)
 		{
-			context_.optionsGame.setPlayerType(i, 
+			context_.setPlayerType(i, 
 				(*SettingsPlayers::playerCombos[i])->GetValue());
 		}
 	}
@@ -501,10 +500,10 @@ bool SettingsFrame::TransferDataFromWindow()
 		int ilandWidthY = 256;
 		sscanf(SettingsLand::IDC_LANDWIDTHY_CTRL->GetValue(), "%i", &ilandWidthY);
 
-		context_.optionsGame.setMaxHeight(ilandHeight);
-		context_.optionsGame.setNoHills(ilandCover);
-		context_.optionsGame.setLandWidthX(ilandWidthX);
-		context_.optionsGame.setLandWidthY(ilandWidthY);
+		context_.setMaxHeight(ilandHeight);
+		context_.setNoHills(ilandCover);
+		context_.setLandWidthX(ilandWidthX);
+		context_.setLandWidthY(ilandWidthY);
 	}
 
 	// Eco
@@ -523,36 +522,36 @@ bool SettingsFrame::TransferDataFromWindow()
 		sscanf(SettingsEco::IDC_STARTMONEY_CTRL->GetValue(), "%i", &startMoney);
 		sscanf(SettingsEco::IDC_INTEREST_CTRL->GetValue(), "%i", &interest);
 
-		context_.optionsGame.setScoreType(
+		context_.setScoreType(
 			(OptionsGame::ScoreType) SettingsEco::IDC_SCOREMODE_CTRL->GetSelection());
-		context_.optionsGame.setStartMoney(startMoney);
-		context_.optionsGame.setInterest(interest);
-		context_.optionsGame.setBuyOnRound(buyonround);
-		context_.optionsGame.setMoneyWonForRound(moneyperround);
-		context_.optionsGame.setMoneyWonPerHitPoint(moneyperhit);
-		context_.optionsGame.setMoneyWonPerKillPoint(moneyperkill);
-		context_.optionsGame.setMoneyPerHealthPoint(SettingsEco::IDC_MONEYPERHEALTH_CTRL->GetValue());
+		context_.setStartMoney(startMoney);
+		context_.setInterest(interest);
+		context_.setBuyOnRound(buyonround);
+		context_.setMoneyWonForRound(moneyperround);
+		context_.setMoneyWonPerHitPoint(moneyperhit);
+		context_.setMoneyWonPerKillPoint(moneyperkill);
+		context_.setMoneyPerHealthPoint(SettingsEco::IDC_MONEYPERHEALTH_CTRL->GetValue());
 	}
 
 	// Env
 	{
-		context_.optionsGame.setWindForce((OptionsGame::WindForce) (int)
+		context_.setWindForce((OptionsGame::WindForce) (int)
 			SettingsEnv::IDC_COMBO_FORCE_CTRL->GetClientData(
 				SettingsEnv::IDC_COMBO_FORCE_CTRL->GetSelection()));
 
-		context_.optionsGame.setWindType((OptionsGame::WindType) (int)
+		context_.setWindType((OptionsGame::WindType) (int)
 			SettingsEnv::IDC_COMBO_WINDCHANGES_CTRL->GetClientData(
 				SettingsEnv::IDC_COMBO_WINDCHANGES_CTRL->GetSelection()));
 
-		context_.optionsGame.setWallType((OptionsGame::WallType) (int)
+		context_.setWallType((OptionsGame::WallType) (int)
 			SettingsEnv::IDC_COMBO_WALLTYPE_CTRL->GetClientData(
 				SettingsEnv::IDC_COMBO_WALLTYPE_CTRL->GetSelection()));
 
-		context_.optionsGame.setWeapScale((OptionsGame::WeapScale) (int)
+		context_.setWeapScale((OptionsGame::WeapScale) (int)
 			SettingsEnv::IDC_COMBO_WEAPONSCALE_CTRL->GetClientData(
 				SettingsEnv::IDC_COMBO_WEAPONSCALE_CTRL->GetSelection()));
 
-		context_.optionsGame.setMaxArmsLevel((int) 
+		context_.setMaxArmsLevel((int) 
 			SettingsEnv::IDC_COMBO_ARMSLEVEL_CTRL->GetClientData(
 				SettingsEnv::IDC_COMBO_ARMSLEVEL_CTRL->GetSelection()));
 	}
@@ -565,30 +564,30 @@ bool SettingsFrame::TransferDataFromWindow()
 		int idleTime = 30;
 		int noPlayers = 2;
 
-		context_.optionsGame.setTurnType((OptionsGame::TurnType) (int) 
+		context_.setTurnType((OptionsGame::TurnType) (int) 
 			SettingsMain::IDC_TYPE_CTRL->GetClientData(
 				SettingsMain::IDC_TYPE_CTRL->GetSelection()));
-		context_.optionsGame.setTeams((int) SettingsMain::IDC_TEAMS_CTRL->GetSelection() + 1);
+		context_.setTeams((int) SettingsMain::IDC_TEAMS_CTRL->GetSelection() + 1);
 
 		sscanf(SettingsMain::IDC_SERVER_PLAYERS_CTRL->GetValue(), "%i", &noPlayers);
 		sscanf(SettingsMain::IDC_SERVER_ROUNDS_CTRL->GetValue(), "%i", &noRounds);
 		sscanf(SettingsMain::IDC_SHOT_TIME_CTRL->GetValue(), "%i", &shotTime);
 		sscanf(SettingsMain::IDC_IDLE_TIME_CTRL->GetValue(), "%i", &idleTime);
 		
-		context_.optionsGame.setNoRounds(noRounds);
-		context_.optionsGame.setShotTime(shotTime);
-		context_.optionsGame.setIdleKickTime(idleTime);
+		context_.setNoRounds(noRounds);
+		context_.setShotTime(shotTime);
+		context_.setIdleKickTime(idleTime);
 		if (playersPanel_ == 0)
 		{
-			context_.optionsGame.setNoMaxPlayers(noPlayers);
-			context_.optionsGame.setNoMinPlayers(noPlayers);
+			context_.setNoMaxPlayers(noPlayers);
+			context_.setNoMinPlayers(noPlayers);
 		}
 	}
 
 	return true;
 }
 
-bool showSettingsDialog(bool server, ScorchedContext &context)
+bool showSettingsDialog(bool server, OptionsGame &context)
 {
 	SettingsFrame frame(server, context);
 	return (frame.ShowModal() == wxID_OK);

@@ -177,6 +177,9 @@ public:
 	const char *getUniqueUserId() { return uniqueUserId_.getValue(); }
 	void setUniqueUserId(const char *value) { uniqueUserId_.setValue(value); }
 
+	const char *getOnlineUserName() { return onlineUserName_.getValue(); }
+	void setOnlineUserName(const char *value) { onlineUserName_.setValue(value); }
+
 	bool writeOptionsToFile(char *filePath);
 	bool readOptionsFromFile(char *filePath);
 	void addToConsole();
@@ -232,6 +235,7 @@ protected:
 	OptionEntryInt screenWidth_;
 	OptionEntryInt screenHeight_;
 	OptionEntryString uniqueUserId_;
+	OptionEntryString onlineUserName_;
 
 private:
 	OptionsDisplay();
