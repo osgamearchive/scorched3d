@@ -134,6 +134,33 @@ void GLWScorchedInfo::draw()
 				current->getName());
 		}
 		break;
+		case ePlayerIcon:
+		{
+			setToolTip(&model->getTips()->nameTip);
+			GLState state(GLState::TEXTURE_ON | GLState::BLEND_ON);
+			glColor3f((*fontColor)[0], (*fontColor)[1], (*fontColor)[2]);
+			current->getAvatar().getTexture().draw();
+			glBegin(GL_QUADS);
+				glTexCoord2f(0.0f, 0.0f);
+				glVertex2f(x_, y_);
+				glTexCoord2f(1.0f, 0.0f);
+				glVertex2f(x_ + w_, y_);
+				glTexCoord2f(1.0f, 1.0f);
+				glVertex2f(x_ + w_, y_ + h_);
+				glTexCoord2f(0.0f, 1.0f);
+				glVertex2f(x_, y_ + h_);
+			glEnd();
+		}
+		break;
+		case ePlayerColor:
+		{
+			setToolTip(&model->getTips()->nameTip);
+			GLWFont::instance()->getSmallPtFont()->draw(
+				current->getColor(), fontSize_,
+				x_, y_, 0.0f,
+				current->getScore().getStatsRank());
+		}
+		break;
 		case eAutoDefenseCount:
 			setToolTip(&model->getTips()->autodTip);
 			GLWFont::instance()->getSmallPtFont()->draw(
@@ -208,14 +235,10 @@ void GLWScorchedInfo::draw()
 		case eWeaponName:
 		{
 			setToolTip(&model->getTips()->weaponTip);
-			int count = current->getAccessories().getWeapons().getWeaponCount(
-				current->getAccessories().getWeapons().getCurrent());
+
 			static char buffer[256];
-			const char *format = "%s (%i)";
-			if (count < 0) format = "%s (In)";
-			sprintf(buffer, format, 
-				current->getAccessories().getWeapons().getCurrent()->getName(),
-				count);
+			sprintf(buffer, "%s", 
+				current->getAccessories().getWeapons().getCurrent()->getName());
 			float weaponWidth = (float) GLWFont::instance()->getSmallPtFont()->
 				getWidth(fontSize_, buffer);
 
@@ -239,6 +262,25 @@ void GLWScorchedInfo::draw()
 				x_, y_, 0.0f,
 				format,
 				count);
+		}
+		break;
+		case eWeaponIcon:
+		{
+			setToolTip(&model->getTips()->weaponTip);
+
+			GLState state(GLState::TEXTURE_ON | GLState::BLEND_ON);
+			glColor3f((*fontColor)[0], (*fontColor)[1], (*fontColor)[2]);
+			weapon->getTexture()->draw();
+			glBegin(GL_QUADS);
+				glTexCoord2f(0.0f, 0.0f);
+				glVertex2f(x_, y_);
+				glTexCoord2f(1.0f, 0.0f);
+				glVertex2f(x_ + w_, y_);
+				glTexCoord2f(1.0f, 1.0f);
+				glVertex2f(x_ + w_, y_ + h_);
+				glTexCoord2f(0.0f, 1.0f);
+				glVertex2f(x_, y_ + h_);
+			glEnd();
 		}
 		break;
 		case eRotation:
@@ -311,6 +353,10 @@ void GLWScorchedInfo::mouseDown(float x, float y, bool &skipRest)
 		{
 			case ePlayerName:
 			break;
+			case ePlayerIcon:
+			break;
+			case ePlayerColor:
+			break;
 			case eAutoDefenseCount:
 				tankTips->autodTip.showItems(GLWTranslate::getPosX() + x, 
 					GLWTranslate::getPosY() + y);
@@ -338,6 +384,10 @@ void GLWScorchedInfo::mouseDown(float x, float y, bool &skipRest)
 					GLWTranslate::getPosY() + y);
 			break;
 			case eWeaponCount:
+				tankTips->weaponTip.showItems(GLWTranslate::getPosX() + x, 
+					GLWTranslate::getPosY() + y);
+			break;
+			case eWeaponIcon:
 				tankTips->weaponTip.showItems(GLWTranslate::getPosX() + x, 
 					GLWTranslate::getPosY() + y);
 			break;
@@ -370,6 +420,8 @@ bool GLWScorchedInfo::initFromXML(XMLNode *node)
 	if (!node->getNamedChild("type", typeNode)) return false;
 	if (0 == strcmp(typeNode->getContent(), "wind")) infoType_ = eWind;
 	else if (0 == strcmp(typeNode->getContent(), "playername")) infoType_ = ePlayerName;
+	else if (0 == strcmp(typeNode->getContent(), "playericon")) infoType_ = ePlayerIcon;
+	else if (0 == strcmp(typeNode->getContent(), "playercolor")) infoType_ = ePlayerColor;
 	else if (0 == strcmp(typeNode->getContent(), "autodefensecount")) infoType_ = eAutoDefenseCount;
 	else if (0 == strcmp(typeNode->getContent(), "parachutecount")) infoType_ = eParachuteCount;
 	else if (0 == strcmp(typeNode->getContent(), "shieldcount")) infoType_ = eShieldCount;
@@ -378,6 +430,7 @@ bool GLWScorchedInfo::initFromXML(XMLNode *node)
 	else if (0 == strcmp(typeNode->getContent(), "batterycount")) infoType_ = eBatteryCount;
 	else if (0 == strcmp(typeNode->getContent(), "weaponname")) infoType_ = eWeaponName;
 	else if (0 == strcmp(typeNode->getContent(), "weaponcount")) infoType_ = eWeaponCount;
+	else if (0 == strcmp(typeNode->getContent(), "weaponicon")) infoType_ = eWeaponIcon;
 	else if (0 == strcmp(typeNode->getContent(), "rotation")) infoType_ = eRotation;
 	else if (0 == strcmp(typeNode->getContent(), "elevation")) infoType_ = eElevation;
 	else if (0 == strcmp(typeNode->getContent(), "power")) infoType_ = ePower;
