@@ -19,6 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <engine/PhysicsParticleObject.h>
+#include <common/Defines.h>
 
 PhysicsParticleObject::PhysicsParticleObject() : body_(0), geom_(0)
 {
@@ -29,6 +30,8 @@ PhysicsParticleObject::~PhysicsParticleObject()
 {
 	if (body_) dBodyDestroy(body_);
 	if (geom_) dGeomDestroy(geom_);
+	body_ = 0;
+	geom_ = 0;
 }
 
 void PhysicsParticleObject::setPhysics(PhysicsEngine &engine, Vector &position, Vector &velocity)
@@ -48,11 +51,6 @@ void PhysicsParticleObject::setPhysics(PhysicsEngine &engine, Vector &position, 
 		(dReal) velocity[0], (dReal) velocity[1], (dReal) velocity[2]);
 	dBodySetMass(body_,&m);
 
-    //dRFromAxisAndAngle (R,dRandReal()*2.0-1.0,dRandReal()*2.0-1.0,
-	//		 dRandReal()*2.0-1.0,dRandReal()*10.0-5.0);
-    //dBodySetRotation (obj[i].body,R);
-    //dBodySetData (obj[i].body,(void*) i);
-
 	// Create the geom representing the object
 	geom_ = dCreateSphere(engine.getSpace(), size);
 	dGeomSetBody(geom_, body_);	
@@ -60,6 +58,7 @@ void PhysicsParticleObject::setPhysics(PhysicsEngine &engine, Vector &position, 
 
 void PhysicsParticleObject::setPosition(Vector &position)
 {
+	DIALOG_ASSERT(body_);
 	dBodySetPosition(body_,
 		(dReal) position[0], (dReal) position[1], (dReal) position[2]);
 }
@@ -67,20 +66,30 @@ void PhysicsParticleObject::setPosition(Vector &position)
 Vector &PhysicsParticleObject::getPosition()
 {
 	static Vector position;
-	const dReal *pos = dBodyGetPosition(body_);
-	position[0] = (float) pos[0];
-	position[1] = (float) pos[1];
-	position[2] = (float) pos[2];
+	if (body_)
+	{
+		const dReal *pos = dBodyGetPosition(body_);
+		position[0] = (float) pos[0];
+		position[1] = (float) pos[1];
+		position[2] = (float) pos[2];
+	}
+	else position.zero();
+
 	return position;
 }
 
 Vector &PhysicsParticleObject::getVelocity()
 {
 	static Vector velocity;
-	const dReal *vel = dBodyGetLinearVel(body_);
-	velocity[0] = (float) vel[0];
-	velocity[1] = (float) vel[1];
-	velocity[2] = (float) vel[2];
+	if (body_)
+	{
+		const dReal *vel = dBodyGetLinearVel(body_);
+		velocity[0] = (float) vel[0];
+		velocity[1] = (float) vel[1];
+		velocity[2] = (float) vel[2];
+	}
+	else velocity.zero();
+
 	return velocity;
 }
 
@@ -88,3 +97,4 @@ void PhysicsParticleObject::setData(void *data)
 {
 	dGeomSetData(geom_, data);
 }
+
