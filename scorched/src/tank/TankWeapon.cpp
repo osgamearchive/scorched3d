@@ -48,7 +48,7 @@ void TankWeapon::reset()
 	weapons_.clear();
 	currentWeapon_ = 0;
 
-	std::list<Accessory *> &accessories = 
+	std::list<Accessory *> accessories = 
 		AccessoryStore::instance()->getAllWeapons();
 	std::list<Accessory *>::iterator itor;
 	for (itor = accessories.begin();
