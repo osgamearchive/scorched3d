@@ -188,7 +188,8 @@ void NetLanFrame::onSelectServer()
 				ServerBrowser::instance()->getServerList().getEntryValue(item, "protocolversion");
 			std::string version =
 				ServerBrowser::instance()->getServerList().getEntryValue(item, "version");
-			if (stricmp(protocolVersion.c_str(), ScorchedProtocolVersion) != 0)
+			if (protocolVersion.size() > 0 &&
+				stricmp(protocolVersion.c_str(), ScorchedProtocolVersion) != 0)
 			{
 				dialogMessage("Scorched 3D", 
 					"Warning: This server is running a incompatable version of Scorched3D.\n"

@@ -43,15 +43,11 @@ TankMovement::~TankMovement()
 
 void TankMovement::draw()
 {
-	if (context_->tankContainer.getCurrentPlayerId() == playerId_)
+	Tank *tank = context_->tankContainer.getTankById(playerId_);
+	if (tank)
 	{
-		Tank *tank = context_->tankContainer.getTankById(playerId_);
-		if (tank)
-		{
-			ShotProjectile::getLookAtPosition() += 
-				tank->getPhysics().getTankPosition();
-			ShotProjectile::getLookAtCount()++;
-		}
+		ShotProjectile::addLookAtPosition(
+			tank->getPhysics().getTankPosition(), playerId_, *context_);
 	}
 }
 

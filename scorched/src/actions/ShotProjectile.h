@@ -49,8 +49,11 @@ public:
 
 	Weapon *getWeapon() { return weapon_; }
 
-	static Vector &getLookAtPosition() { return lookatPosition_; }
-	static unsigned int &getLookAtCount() { return lookatCount_; }
+	static void addLookAtPosition(Vector &position, 
+		unsigned int playerId,
+		ScorchedContext &context);
+	static Vector getEndLookAtPosition();
+	static unsigned int getLookatCount() { return lookatCount_; }
 
 protected:
 	static Vector lookatPosition_;

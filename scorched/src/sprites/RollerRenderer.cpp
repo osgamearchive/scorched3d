@@ -49,13 +49,10 @@ void RollerRenderer::draw(Action *action)
 	glEnd();
 	glPointSize(1.0f);
 
-	if (action->getScorchedContext()->tankContainer.getCurrentPlayerId() == roller->getPlayerId())
-	{
-		Vector position(
-			(float) roller->getX(), 
-			(float) roller->getY(),
-			z);
-		ShotProjectile::getLookAtPosition() += position;
-		ShotProjectile::getLookAtCount()++;
-	}
+	Vector position(
+		(float) roller->getX(), 
+		(float) roller->getY(),
+		z);
+	ShotProjectile::addLookAtPosition(
+		position, roller->getPlayerId(), *roller->getScorchedContext());
 }

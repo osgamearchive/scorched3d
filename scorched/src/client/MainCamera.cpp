@@ -162,10 +162,10 @@ void MainCamera::moveCamera(float frameTime)
 		break;
 	case CamGun:
 		if (!ScorchedClient::instance()->getActionController().noReferencedActions() &&
-			ShotProjectile::getLookAtCount() > 0)
+			ShotProjectile::getLookatCount() > 0)
 		{
-			ShotProjectile::getLookAtPosition() /= (float) ShotProjectile::getLookAtCount();
-			mainCam_.setLookAt(ShotProjectile::getLookAtPosition());
+			Vector lookatPos = ShotProjectile::getEndLookAtPosition();
+			mainCam_.setLookAt(lookatPos);
 			mainCam_.movePosition(currentRotation + 0.3f, 1.0f, 10.0f);
 		}
 		else
@@ -253,9 +253,6 @@ void MainCamera::moveCamera(float frameTime)
 	default:
 		break;
 	}
-
-	ShotProjectile::getLookAtCount() = 0;
-	ShotProjectile::getLookAtPosition() = Vector();
 }
 
 void MainCamera::mouseDrag(const unsigned state, GameState::MouseButton button, 

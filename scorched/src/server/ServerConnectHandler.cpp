@@ -296,7 +296,7 @@ void ServerConnectHandler::addNextTank(unsigned int destinationId,
 
 	// Add to dialog
 	Logger::log(tankId, "Player connected \"%i\" \"%s\"",
-		destinationId,
+		tankId,
 		playerName.c_str());
 
 	// Tell the clients to create this tank

@@ -84,12 +84,7 @@ void ShotProjectile::collision(Vector &position)
 
 void ShotProjectile::draw()
 {
-	if (context_->tankContainer.getCurrentPlayerId() == playerId_)
-	{
-		lookatPosition_ += getCurrentPosition();
-		lookatCount_++;
-	}
-
+	addLookAtPosition(getCurrentPosition(), playerId_, *context_);
 	PhysicsParticleMeta::draw();
 }
 
@@ -121,3 +116,24 @@ bool ShotProjectile::readAction(NetBufferReader &reader)
 	return true;
 }
 
+void ShotProjectile::addLookAtPosition(Vector &position,
+									   unsigned int playerId,
+									   ScorchedContext &context)
+{
+	if (context.tankContainer.getCurrentPlayerId() != playerId &&
+		context.optionsGame.getTurnType() == OptionsGame::TurnSimultaneous)
+	{
+		return;
+	}
+
+	lookatCount_++;
+	lookatPosition_ += position;
+}
+
+Vector ShotProjectile::getEndLookAtPosition()
+{
+	 Vector result = lookatPosition_ / (float) lookatCount_;
+	 lookatPosition_.zero();
+	 lookatCount_ = 0;
+	 return result;
+}

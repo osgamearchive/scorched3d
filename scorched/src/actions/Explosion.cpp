@@ -59,11 +59,8 @@ Explosion::~Explosion()
 
 void Explosion::draw()
 {
-	if (context_->tankContainer.getCurrentPlayerId() == playerId_)
-	{
-		ShotProjectile::getLookAtPosition() += position_;
-		ShotProjectile::getLookAtCount()++;
-	}
+	ShotProjectile::addLookAtPosition(
+		position_, playerId_, *context_);
 
 	ActionMeta::draw();
 }

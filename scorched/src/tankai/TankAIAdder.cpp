@@ -24,6 +24,7 @@
 #include <tank/TankColorGenerator.h>
 #include <common/OptionsGame.h>
 #include <common/OptionsParam.h>
+#include <common/Logger.h>
 #include <coms/ComsAddPlayerMessage.h>
 #include <coms/ComsMessageSender.h>
 
@@ -83,6 +84,10 @@ void TankAIAdder::addTankAI(ScorchedContext &context,
 			modelId);
 		tank->setTankAI(ai->getCopy(tank, &context));
 		context.tankContainer.addTank(tank);
+
+		Logger::log(tank->getPlayerId(), "Player connected \"%i\" \"%s\"",
+			tank->getPlayerId(),
+			tank->getName());
 
 		if (raiseEvent)
 		{

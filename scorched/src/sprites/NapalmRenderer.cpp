@@ -123,14 +123,11 @@ void NapalmRenderer::draw(Action *action)
 			GLBilboardRenderer::instance()->addEntry(&entry->renderEntry3);
 		}
 
-		if (action->getScorchedContext()->tankContainer.getCurrentPlayerId() == napalm->getPlayerId())
-		{
-			Vector position(
-				entry->renderEntry1.posX, 
-				entry->renderEntry1.posY,
-				entry->renderEntry1.posZ);
-			ShotProjectile::getLookAtPosition() += position;
-			ShotProjectile::getLookAtCount()++;
-		}
+		Vector position(
+			entry->renderEntry1.posX, 
+			entry->renderEntry1.posY,
+			entry->renderEntry1.posZ);
+		ShotProjectile::addLookAtPosition(
+			position, napalm->getPlayerId(), *napalm->getScorchedContext());
 	}
 }
