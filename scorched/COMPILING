@@ -111,15 +111,10 @@ following:
 2)
  fink rebuild wxgtk
 
-
 Fink should be set up with the correct libraries now.
 
-
-Next run ./configure with some extra parameters:
-
- CPPFLAGS="-I/usr/X11R6/include -D__DARWIN__" LDFLAGS=-L/usr/X11R6/lib ./configure
-
-Now you should be able to do a simple make && make install.
+Now follow the same compilation instructions as for the linux platform (see
+above).
 
 The resulting binary must be run from an xterm within apple's X11 server.
 Good luck!

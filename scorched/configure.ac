@@ -13,6 +13,11 @@ AC_PROG_CXX
 AC_PROG_INSTALL
 AC_PROG_RANLIB
 
+if test `uname` == Darwin; then
+CPPFLAGS="-I/usr/X11R6/include -D__DARWIN__"
+LDFLAGS=-L/usr/X11R6/lib
+fi
+
 dnl Check for SDL
 SDL_VERSION=1.2.5
 AM_PATH_SDL($SDL_VERSION,
@@ -63,6 +68,8 @@ if test x$have_SDLnet != xyes; then
     AC_MSG_ERROR([*** Can't find the SDL_net library Try: http://www.libsdl.org/projects/SDL_net])
 fi
 LIBS="$LIBS -lSDL_net"
+
+AC_CHECK_LIB(fridge, beer, echo "Hmm?!", echo "Warning: No beer found in fridge!";echo "We highly suggest that you rectify this situation immediately.")
 
 dnl Checks for OpenGL
 AC_MSG_CHECKING(for OpenGL support)
