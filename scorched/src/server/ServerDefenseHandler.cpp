@@ -64,10 +64,13 @@ bool ServerDefenseHandler::processMessage(unsigned int destinationId,
 	unsigned int playerId = message.getPlayerId();
 
 	// Check we are in the correct state
-	if (ScorchedServer::instance()->getGameState().getState() != ServerState::ServerStatePlaying)
+	if ((ScorchedServer::instance()->getGameState().getState() != 
+		 ServerState::ServerStatePlaying) ||
+		(ScorchedServer::instance()->getGameState().getState() != 
+		 ServerState::ServerStateBuying))
 	{
-		Logger::log(playerId, "ERROR: Player attempted to but in incorrect state");
-		return false;
+		Logger::log(playerId, "ERROR: Player attempted to use defense but in incorrect state");
+		return true;
 	}
 
 	// Check tank exists and is alive
