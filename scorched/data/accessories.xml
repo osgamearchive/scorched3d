@@ -161,6 +161,7 @@ that continue in the same direction as the original.</description>
 		<firedsound>shoot/medium.wav</firedsound>
 		<size>8</size>
 		<explosionsound>explosions/medium.wav</explosionsound>
+		<projectilemodel type="MilkShape">bouncingbetty/bouncingbetty.txt</projectilemodel>
 		<subweapon type="WeaponLeapFrog">
 			<name>Leap Frog</name>
 			<description></description>
@@ -169,6 +170,7 @@ that continue in the same direction as the original.</description>
 			<armslevel>7</armslevel>
 			<size>7</size>
 			<explosionsound>explosions/medium.wav</explosionsound>
+			<projectilemodel type="MilkShape">bouncingbetty/bouncingbetty.txt</projectilemodel>
 			<subweapon type="WeaponProjectile">
 				<name>Leap Frog</name>
 				<description></description>
@@ -177,6 +179,7 @@ that continue in the same direction as the original.</description>
 				<armslevel>7</armslevel>
 				<size>6</size>
 				<explosionsound>explosions/medium.wav</explosionsound>
+				<projectilemodel type="MilkShape">bouncingbetty/bouncingbetty.txt</projectilemodel>
 			</subweapon>
 		</subweapon>
 	</accessory>
@@ -400,7 +403,10 @@ direction of the firer.</description>
 		<nowarheads>5</nowarheads>
 		<spread>false</spread>
 		<firedsound>shoot/large.wav</firedsound>
-		<projectilemodel type="MilkShape">icbm/icbm.txt</projectilemodel>
+		<projectilemodel type="ase">
+			<mesh>clusterbomb.ase</mesh>
+			<skin>white.bmp</skin>
+		</projectilemodel>
 		<subweapon type="WeaponProjectile">
 			<name>MIRV</name>
 			<description></description>
@@ -410,7 +416,8 @@ direction of the firer.</description>
 			<size>6</size>
 			<explosionsound>explosions/large.wav</explosionsound>
 			<explosiontexture>exp05</explosiontexture>
-			<projectilemodel type="MilkShape">littleboy/littleboy.txt</projectilemodel>
+			<projectilescale>0.2</projectilescale>
+			<projectilemodel type="MilkShape">bomblet/bomblet.txt</projectilemodel>
 		</subweapon>	
 	</accessory>
 	<accessory type="WeaponMirv">
@@ -425,7 +432,10 @@ warheads fan out in a random direction.</description>
 		<nowarheads>5</nowarheads>
 		<spread>true</spread>
 		<firedsound>shoot/large.wav</firedsound>
-		<projectilemodel type="MilkShape">icbm/icbm.txt</projectilemodel>
+		<projectilemodel type="ase">
+			<mesh>clusterbomb.ase</mesh>
+			<skin>white.bmp</skin>
+		</projectilemodel>
 		<subweapon type="WeaponProjectile">
 			<name>Spread MIRV</name>
 			<description></description>
@@ -435,7 +445,8 @@ warheads fan out in a random direction.</description>
 			<size>6</size>
 			<explosionsound>explosions/large.wav</explosionsound>
 			<explosiontexture>exp05</explosiontexture>
-			<projectilemodel type="MilkShape">littleboy/littleboy.txt</projectilemodel>
+			<projectilescale>0.2</projectilescale>
+			<projectilemodel type="MilkShape">bomblet/bomblet.txt</projectilemodel>
 		</subweapon>	
 	</accessory>
 	<accessory type="WeaponMirv">
@@ -461,7 +472,8 @@ warheads fan out in a random direction.</description>
 			<size>18</size>
 			<explosionsound>explosions/xlarge.wav</explosionsound>
 			<explosiontexture>exp05</explosiontexture>
-			<projectilemodel type="MilkShape">littleboy/littleboy.txt</projectilemodel>
+			<projectilescale>0.5</projectilescale>
+			<projectilemodel type="MilkShape">mirvwarhead/mirvwarhead.txt</projectilemodel>
 		</subweapon>	
 	</accessory>
 	<accessory type="WeaponAimedOver">
@@ -486,7 +498,7 @@ missiles.  These missiles automatically target nearby tanks.</description>
 			<size>8</size>
 			<explosionsound>explosions/large.wav</explosionsound>
 			<explosiontexture>exp04</explosiontexture>
-			<projectilemodel type="MilkShape">littleboy/littleboy.txt</projectilemodel>
+			<projectilemodel type="MilkShape">bomb/bomb.txt</projectilemodel>
 		</subweapon>
 	</accessory>
 	<accessory type="WeaponTracer">
@@ -515,6 +527,7 @@ Leaves a colored trace of the shot path.</description>
 		<smoke>true</smoke>
 		<explosiontexture>exp03</explosiontexture>
 		<firedsound>shoot/flare.wav</firedsound>
+		<projectilemodel type="MilkShape">flare.txt</projectilemodel>
 	</accessory>
 	<accessory type="Shield">
 		<name>Shield</name>
