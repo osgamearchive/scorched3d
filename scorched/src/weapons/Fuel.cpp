@@ -32,8 +32,3 @@ Fuel::~Fuel()
 {
 
 }
-
-const char *Fuel::getActivatedSound()
-{
-	return PKGDIR "data/wav/battery/battery.wav";
-}

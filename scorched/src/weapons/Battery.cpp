@@ -32,8 +32,3 @@ Battery::~Battery()
 {
 
 }
-
-const char *Battery::getActivatedSound()
-{
-	return PKGDIR "data/wav/battery/battery.wav";
-}

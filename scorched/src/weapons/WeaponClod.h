@@ -34,10 +34,6 @@ public:
 	virtual bool writeAccessory(NetBuffer &buffer);
 	virtual bool readAccessory(NetBufferReader &reader);
 
-	virtual const char *getExplosionTexture();
-	virtual const char *getFiredSound();
-	virtual const char *getExplosionSound();
-
 	// Inherited from Weapon
 	Action *fireWeapon(unsigned int playerId, Vector &position, Vector &velocity);
 

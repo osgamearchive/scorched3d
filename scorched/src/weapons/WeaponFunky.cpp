@@ -107,18 +107,3 @@ Action *WeaponFunky::fireWeapon(unsigned int playerId, Vector &position, Vector 
 
 	return 0;
 }
-
-const char *WeaponFunky::getExplosionTexture()
-{
-	return "exp04";
-}
-
-const char *WeaponFunky::getFiredSound()
-{
-	return PKGDIR "data/wav/shoot/large.wav";
-}
-
-const char *WeaponFunky::getExplosionSound()
-{
-	return PKGDIR "data/wav/explosions/large.wav";
-}

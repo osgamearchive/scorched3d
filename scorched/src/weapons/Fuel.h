@@ -30,8 +30,6 @@ public:
 	Fuel();
 	virtual ~Fuel();
 
-    const char *getActivatedSound();
-
 	REGISTER_ACCESSORY_HEADER(Fuel, Accessory::AccessoryFuel);
 
 };

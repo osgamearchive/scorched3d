@@ -28,12 +28,23 @@
 #include <client/MainCamera.h>
 #include <common/OptionsDisplay.h>
 #include <GLEXT/GLCameraFrustum.h>
+#include <3dsparse/ASEStore.h>
 #include <GLW/GLWFont.h>
 
 float TankModelRendererHUD::timeLeft_ = -1.0f;
 float TankModelRendererHUD::percentage_ = -1.0f;
 std::string TankModelRendererHUD::textA_ = "";
 std::string TankModelRendererHUD::textB_ = "";
+
+Vector TankModelRendererAIM::aimPosition_;
+float TankModelRendererAIM::timeLeft_ = -1.0f;
+
+GLVertexArray *TankModelRendererAIM::getAutoAimModel()
+{
+	static GLVertexArray *array = 
+		ASEStore::instance()->loadOrGetArray(PKGDIR "data/meshes/autoaim.ase");
+	return array;
+}
 
 TankModelRenderer::TankModelRenderer(Tank *tank) :
 	tank_(tank), tankTip_(tank),
@@ -51,6 +62,19 @@ TankModelRenderer::~TankModelRenderer()
 
 void TankModelRenderer::draw(bool currentTank)
 {
+	if (TankModelRendererAIM::drawAim())
+	{
+		GLState texState(GLState::TEXTURE_OFF);
+		Vector &pos = TankModelRendererAIM::getAimPosition();
+
+		glPushMatrix();
+			glTranslatef(pos[0], pos[1], pos[2]);
+			//glScalef(scale, scale, scale);
+
+			TankModelRendererAIM::getAutoAimModel()->draw();
+		glPopMatrix();
+	}
+
 	// Check we can see the tank
 	canSeeTank_ = true;
 	if (!GLCameraFrustum::instance()->

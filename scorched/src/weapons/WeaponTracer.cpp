@@ -80,8 +80,3 @@ Action *WeaponTracer::fireWeapon(unsigned int playerId, Vector &position, Vector
 
 	return 0;
 }
-
-const char *WeaponTracer::getFiredSound()
-{
-	return PKGDIR "data/wav/shoot/flare.wav";
-}

@@ -166,14 +166,13 @@ void TankAIHuman::autoAim()
 
 			// Calculate direction
 			Vector direction = intersect - position;
-			if (direction[0] != 0.0f && direction[1] != 0.0f)
-			{
-				float angleXYRads = atan2f(direction[1], direction[0]);
-				float angleXYDegs = (angleXYRads / 3.14f) * 180.0f - 90.0f;
-				
-				currentTank_->getPhysics().rotateGunXY(angleXYDegs, false);
-				leftRightHUD();
-			}
+			float angleXYRads = atan2f(direction[1], direction[0]);
+			float angleXYDegs = (angleXYRads / 3.14f) * 180.0f - 90.0f;
+			
+			currentTank_->getPhysics().rotateGunXY(angleXYDegs, false);
+			leftRightHUD();
+
+			TankModelRendererAIM::setAimPosition(intersect);
 		}
 	}
 }

@@ -35,7 +35,6 @@ public:
 
 	// Inherited from Weapon
 	Action *fireWeapon(unsigned int playerId, Vector &position, Vector &velocity);
-	virtual const char *getFiredSound();
 
 	REGISTER_ACCESSORY_HEADER(WeaponSandHog, Accessory::AccessoryWeapon);
 

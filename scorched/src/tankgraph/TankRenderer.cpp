@@ -63,6 +63,7 @@ void TankRenderer::Renderer3D::simulate(const unsigned state, float simTime)
 {
 	// Simulate the HUD
 	TankModelRendererHUD::simulate(simTime);
+	TankModelRendererAIM::simulate(simTime);
 
 	// Draw all of the tanks
 	std::map<unsigned int, Tank *> &tanks = 

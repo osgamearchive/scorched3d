@@ -81,13 +81,3 @@ Action *WeaponLeapFrog::fireWeapon(unsigned int playerId, Vector &position, Vect
 
 	return 0;
 }
-
-const char *WeaponLeapFrog::getFiredSound()
-{
-	return PKGDIR "data/wav/shoot/medium.wav";
-}
-
-const char *WeaponLeapFrog::getExplosionSound()
-{
-	return PKGDIR "data/wav/explosions/medium.wav";
-}

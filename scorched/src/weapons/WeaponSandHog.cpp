@@ -80,9 +80,3 @@ Action *WeaponSandHog::fireWeapon(unsigned int playerId, Vector &position, Vecto
 
 	return 0;
 }
-
-const char *WeaponSandHog::getFiredSound()
-{
-	// TODO
-	return PKGDIR "data/wav/shoot/flare.wav";
-}

@@ -81,8 +81,3 @@ Action *WeaponNapalm::fireWeapon(unsigned int playerId, Vector &position, Vector
 
 	return 0;
 }
-
-const char *WeaponNapalm::getFiredSound()
-{
-	return PKGDIR "data/wav/shoot/small.wav";
-}

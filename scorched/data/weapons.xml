@@ -4,31 +4,38 @@
 		<description>Deployed when the tank falls.  
 Prevents the tank from taking falling damage.
 Parachutes must be enbabled before they are effective.</description>
+		<icon>para.bmp</icon>
 		<cost>10000</cost>
 		<bundlesize>8</bundlesize>
 		<armslevel>7</armslevel>
+		<activationsound>misc/para.wav</activationsound>
 	</weapon>
 	<weapon type="Battery">
 		<name>Battery</name>
 		<description>Used to re-charge tank life.
 Giving more health and longer shots.</description>
+		<icon>battery.bmp</icon>
 		<cost>5000</cost>
 		<bundlesize>10</bundlesize>
 		<armslevel>7</armslevel>
+		<activationsound>battery/battery.wav</activationsound>
 	</weapon>
 	<weapon type="Fuel">
 		<name>Fuel</name>
 		<description>Allows the tank to move.
 When it is the players turn the tank may choose 
 to move rather than fire.</description>
+		<icon>fuel.bmp</icon>
 		<cost>10000</cost>
 		<bundlesize>20</bundlesize>
 		<armslevel>7</armslevel>
+		<activationsound>battery/battery.wav</activationsound>
 	</weapon>
 	<weapon type="AutoDefense">
 		<name>Auto Defense</name>
 		<description>Allows the tank to raise shields and 
 activate parachutes before the tanks main move.</description>
+		<icon>autod.bmp</icon>
 		<cost>10000</cost>
 		<bundlesize>1</bundlesize>
 		<armslevel>7</armslevel>
@@ -38,95 +45,132 @@ activate parachutes before the tanks main move.</description>
 		<description>A projectile weapon that explodes 
 into a river of flame. Any tanks near the
 flames will loose life.</description>
+		<icon>napalm.bmp</icon>
 		<cost>10000</cost>
 		<bundlesize>10</bundlesize>
 		<armslevel>7</armslevel>
 		<hot>false</hot>
+		<firedsound>shoot/small.wav</firedsound>
+		<explosionsound>explosions/napalm.wav</explosionsound>
 	</weapon>
 	<weapon type="WeaponNapalm">
 		<name>Hot Napalm</name>
 		<description>A projectile weapon that explodes 
 into a large river of flame. Any tanks near the
 Any flames near tanks will remove life.</description>
+		<icon>hnapalm.bmp</icon>
 		<cost>20000</cost>
 		<bundlesize>2</bundlesize>
 		<armslevel>5</armslevel>
 		<hot>true</hot>
+		<firedsound>shoot/small.wav</firedsound>
+		<explosionsound>explosions/napalm.wav</explosionsound>
 	</weapon>
 	<weapon type="WeaponProjectile">
 		<name>Baby Missile</name>
 		<description>A small explosive projectile weapon</description>
+		<icon>bmissile.bmp</icon>
 		<cost>0</cost>
 		<bundlesize>0</bundlesize>
 		<armslevel>10</armslevel>
 		<size>4</size>
+		<explosiontexture>exp03</explosiontexture>
+		<firedsound>shoot/small.wav</firedsound>
+		<explosionsound>explosions/small.wav</explosionsound>
 	</weapon>
 	<weapon type="WeaponProjectile">
 		<name>Missile</name>
 		<description>A mid-size explosive projectile weapon</description>
+		<icon>missile.bmp</icon>
 		<cost>1875</cost>
 		<bundlesize>5</bundlesize>
 		<armslevel>9</armslevel>
 		<size>6</size>
+		<explosiontexture>exp03</explosiontexture>
+		<firedsound>shoot/medium.wav</firedsound>
+		<explosionsound>explosions/medium.wav</explosionsound>
 	</weapon>
 	<weapon type="WeaponProjectile">
 		<name>Baby Nuke</name>
 		<description>A large explosive projectile weapon</description>
+		<icon>bnuke.bmp</icon>
 		<cost>10000</cost>
 		<bundlesize>3</bundlesize>
 		<armslevel>6</armslevel>
 		<size>10</size>
 		<deathanimationweight>60</deathanimationweight>
+		<explosiontexture>exp03</explosiontexture>
+		<firedsound>shoot/large.wav</firedsound>
+		<explosionsound>explosions/large.wav</explosionsound>
 	</weapon>
 	<weapon type="WeaponProjectile">
 		<name>Nuke</name>
 		<description>A very large explosive projectile weapon</description>
+		<icon>nuke.bmp</icon>
 		<cost>12000</cost>
 		<bundlesize>1</bundlesize>
 		<armslevel>4</armslevel>
 		<size>18</size>
 		<deathanimationweight>10</deathanimationweight>
+		<explosiontexture>exp03</explosiontexture>
+		<firedsound>shoot/xlarge.wav</firedsound>
+		<explosionsound>explosions/xlarge.wav</explosionsound>
 	</weapon>
 	<weapon type="WeaponLeapFrog">
 		<name>Leap Frog</name>
 		<description>An explosive projectile weapon.  When the 
 warhead explodes it creates other small warheads 
 that continue in the same direction as the original.</description>
+		<icon>lfrog.bmp</icon>
 		<cost>10000</cost>
 		<bundlesize>2</bundlesize>
 		<armslevel>7</armslevel>
 		<size>8</size>
+		<firedsound>shoot/medium.wav</firedsound>
+		<explosionsound>explosions/medium.wav</explosionsound>
 	</weapon>
 	<weapon type="WeaponClod">
 		<name>Dirt Clod</name>
 		<description>A projectile weapon that explodes making 
 a small mound of earth. The explosion does not 
 harm tanks but can be used to cover them.</description>
+		<icon>dclod.bmp</icon>
 		<cost>5000</cost>
 		<bundlesize>10</bundlesize>
 		<armslevel>10</armslevel>
 		<size>6</size>
+		<explosiontexture>exp03</explosiontexture>
+		<firedsound>shoot/small.wav</firedsound>
+		<explosionsound>explosions/gloop.wav</explosionsound>
 	</weapon>
 	<weapon type="WeaponClod">
 		<name>Dirt Ball</name>
 		<description>A projectile weapon that explodes making
 a medium mound of earth.  The explosion does not 
 harm tanks but can be used to cover them.</description>
+		<icon>dball.bmp</icon>
 		<cost>5000</cost>
 		<bundlesize>5</bundlesize>
 		<armslevel>9</armslevel>
 		<size>10</size>
+		<explosiontexture>exp03</explosiontexture>
+		<firedsound>shoot/small.wav</firedsound>
+		<explosionsound>explosions/gloop.wav</explosionsound>
 	</weapon>
 	<weapon type="WeaponClod">
 		<name>Ton Of Dirt</name>
 		<description>A projectile weapon that explodes making
 a large mound of earth.  The explosion does not 
 harm tanks but can be used to cover them.</description>
+		<icon>tdirt.bmp</icon>
 		<cost>6750</cost>
 		<bundlesize>2</bundlesize>
 		<armslevel>7</armslevel>
 		<size>18</size>
 		<deathanimationweight>10</deathanimationweight>
+		<explosiontexture>exp03</explosiontexture>
+		<firedsound>shoot/small.wav</firedsound>
+		<explosionsound>explosions/gloop.wav</explosionsound>
 	</weapon>
 	<weapon type="WeaponRiotBomb">
 		<name>Riot Bomb</name>
@@ -134,77 +178,103 @@ harm tanks but can be used to cover them.</description>
 a small amount of earth. The explosion does not
 harm tanks but can be used to remove earth from 
 under them.</description>
+		<icon>rbomb.bmp</icon>
 		<cost>5000</cost>
 		<bundlesize>5</bundlesize>
 		<armslevel>10</armslevel>
 		<size>6</size>
+		<explosiontexture>exp03</explosiontexture>
+		<firedsound>shoot/small.wav</firedsound>
+		<explosionsound>explosions/crunch.wav</explosionsound>
 	</weapon>
 	<weapon type="WeaponRiotBomb">
-		<name>Lrg Riot Bomb</name>
+		<name>Hvy Riot Bomb</name>
 		<description>A projectile weapon that explodes removing
 a large amount of earth. The explosion does not 
 harm tanks but can be used to remove earth from 
 under them.</description>
+		<icon>hrbomb.bmp</icon>
 		<cost>4750</cost>
 		<bundlesize>2</bundlesize>
 		<armslevel>8</armslevel>
 		<size>12</size>
 		<deathanimationweight>10</deathanimationweight>
+		<explosiontexture>exp03</explosiontexture>
+		<firedsound>shoot/small.wav</firedsound>
+		<explosionsound>explosions/crunch.wav</explosionsound>
 	</weapon>
 	<weapon type="WeaponDigger">
 		<name>Baby Digger</name>
 		<description>A projectile weapon that explodes creating
 some small riot bombs.</description>
+		<icon>bdigger.bmp</icon>
 		<cost>3000</cost>
 		<bundlesize>10</bundlesize>
 		<armslevel>10</armslevel>
 		<nowarheads>3</nowarheads>
+		<explosiontexture>exp03</explosiontexture>
+		<firedsound>shoot/flare.wav</firedsound>
 	</weapon>
 	<weapon type="WeaponDigger">
 		<name>Digger</name>
 		<description>A projectile weapon that explodes creating 
 some riot bombs.</description>
+		<icon>digger.bmp</icon>
 		<cost>2500</cost>
 		<bundlesize>5</bundlesize>
 		<armslevel>10</armslevel>
 		<nowarheads>5</nowarheads>
+		<explosiontexture>exp03</explosiontexture>
+		<firedsound>shoot/flare.wav</firedsound>
 	</weapon>
 	<weapon type="WeaponDigger">
 		<name>Heavy Digger</name>
 		<description>A projectile weapon that explodes creating
 many small riot bombs.</description>
+		<icon>hdigger.bmp</icon>
 		<cost>6750</cost>
 		<bundlesize>2</bundlesize>
 		<armslevel>9</armslevel>
 		<nowarheads>10</nowarheads>
+		<explosiontexture>exp03</explosiontexture>
+		<firedsound>shoot/flare.wav</firedsound>
 	</weapon>
 	<weapon type="WeaponSandHog">
 		<name>Baby Sandhog</name>
 		<description>A projectile weapon that explodes creating
 some small burrowing missiles. These missiles 
 target nearby tanks.</description>
+		<icon>bshog.bmp</icon>
 		<cost>10000</cost>
 		<bundlesize>10</bundlesize>
 		<armslevel>10</armslevel>
 		<nowarheads>3</nowarheads>
+		<explosiontexture>exp03</explosiontexture>
+		<firedsound>shoot/flare.wav</firedsound>
 	</weapon>
 	<weapon type="WeaponSandHog">
 		<name>Sandhog</name>
 		<description>A projectile weapon that explodes creating some 
 burrowing missiles. These missiles target nearby tanks.</description>
+		<icon>shog.bmp</icon>
 		<cost>16750</cost>
 		<bundlesize>5</bundlesize>
 		<armslevel>10</armslevel>
 		<nowarheads>10</nowarheads>
+		<explosiontexture>exp03</explosiontexture>
+		<firedsound>shoot/flare.wav</firedsound>
 	</weapon>
 	<weapon type="WeaponSandHog">
 		<name>Heavy Sandhog</name>
 		<description>A projectile weapon that explodes creating many 
 burrowing missiles. These missiles target nearby tanks.</description>
+		<icon>hshog.bmp</icon>
 		<cost>25000</cost>
 		<bundlesize>2</bundlesize>
 		<armslevel>9</armslevel>
 		<nowarheads>20</nowarheads>
+		<explosiontexture>exp03</explosiontexture>
+		<firedsound>shoot/flare.wav</firedsound>
 	</weapon>
 	<weapon type="WeaponMirv">
 		<name>MIRV</name>
@@ -212,18 +282,23 @@ burrowing missiles. These missiles target nearby tanks.</description>
 point releases several small warheads. These
 warheads fan out in a straight line from the 
 direction of the firer.</description>
+		<icon>mirv.bmp</icon>
 		<cost>10000</cost>
 		<bundlesize>3</bundlesize>
 		<armslevel>6</armslevel>
 		<size>6</size>
 		<nowarheads>5</nowarheads>
 		<spread>false</spread>
+		<explosiontexture>exp05</explosiontexture>
+		<firedsound>shoot/large.wav</firedsound>
+		<explosionsound>explosions/large.wav</explosionsound>
 	</weapon>
 	<weapon type="WeaponMirv">
 		<name>Spread MIRV</name>
 		<description>A projectile weapon that on reaching its highest
 point releases several small warheads. These 
 warheads fan out in a random direction.</description>
+		<icon>mirv.bmp</icon>
 		<cost>10000</cost>
 		<bundlesize>2</bundlesize>
 		<armslevel>5</armslevel>
@@ -231,23 +306,31 @@ warheads fan out in a random direction.</description>
 		<nowarheads>5</nowarheads>
 		<spread>true</spread>
 		<deathanimationweight>10</deathanimationweight>
+		<explosiontexture>exp05</explosiontexture>
+		<firedsound>shoot/large.wav</firedsound>
+		<explosionsound>explosions/large.wav</explosionsound>
 	</weapon>
 	<weapon type="WeaponMirv">
 		<name>Death's Head</name>
 		<description>A projectile weapon that on reaching its highest
 point releases many large warheads. These 
 warheads fan out in a random direction.</description>
+		<icon>dhead.bmp</icon>
 		<cost>20000</cost>
 		<bundlesize>1</bundlesize>
 		<armslevel>2</armslevel>
 		<size>18</size>
 		<nowarheads>20</nowarheads>
 		<spread>true</spread>
+		<explosiontexture>exp05</explosiontexture>
+		<firedsound>shoot/xlarge.wav</firedsound>
+		<explosionsound>explosions/xlarge.wav</explosionsound>
 	</weapon>
 	<weapon type="WeaponFunky">
 		<name>Funky Bomb</name>
 		<description>A projectile weapon that on exploding releases many small
 missiles.  These missiles automatically target nearby tanks.</description>
+		<icon>fbomb.bmp</icon>
 		<cost>7000</cost>
 		<bundlesize>2</bundlesize>
 		<armslevel>3</armslevel>
@@ -255,48 +338,65 @@ missiles.  These missiles automatically target nearby tanks.</description>
 		<subsize>8</subsize>
 		<nowarheads>12</nowarheads>
 		<deathanimationweight>10</deathanimationweight>
+		<explosiontexture>exp04</explosiontexture>
+		<firedsound>shoot/large.wav</firedsound>
+		<explosionsound>explosions/large.wav</explosionsound>
 	</weapon>
 	<weapon type="WeaponTracer">
 		<name>Tracer</name>
 		<description>A projectile weapon that causes no damage.
 Can be used to determine range without wasting other weapons.
 Leaves a marker at the final position.</description>
+		<icon>tracer.bmp</icon>
 		<cost>10</cost>
 		<bundlesize>20</bundlesize>
 		<armslevel>10</armslevel>
 		<smoke>false</smoke>
+		<explosiontexture>exp03</explosiontexture>
+		<firedsound>shoot/flare.wav</firedsound>
 	</weapon>
 	<weapon type="WeaponTracer">
 		<name>Smoke Tracer</name>
 		<description>A projectile weapon that causes no damage.
 Can be used to determine range without wasting other weapons.
 Leaves a colored trace of the shot path.</description>
+		<icon>stracer.bmp</icon>
 		<cost>500</cost>
 		<bundlesize>10</bundlesize>
 		<armslevel>9</armslevel>
 		<smoke>true</smoke>
+		<explosiontexture>exp03</explosiontexture>
+		<firedsound>shoot/flare.wav</firedsound>
 	</weapon>
 	<weapon type="Shield">
 		<name>Shield</name>
 		<description>A small defensive shield that protects the
 tank from small amounts of damage. Shields must
 be activated before they work.</description>
+		<icon>shield.bmp</icon>
 		<cost>20000</cost>
 		<bundlesize>3</bundlesize>
 		<armslevel>8</armslevel>
 		<radius>small</radius>
-		<color><r>1.0</r><g>1.0</g><b>1</b></color>
+		<color><r>1.0</r><g>1.0</g><b>1.0</b></color>
+		<activationsound>shield/activate.wav</activationsound>
+		<collisionsound>shield/hit.wav</collisionsound>
+		<removepower>20</removepower>
 	</weapon>
 	<weapon type="Shield">
 		<name>Heavy Shield</name>
 		<description>A large defensive shield that protects the
 tank from small amounts of damage. Shields must
 be activated before they work.</description>
+		<icon>hshield.bmp</icon>
 		<cost>30000</cost>
 		<bundlesize>2</bundlesize>
 		<armslevel>7</armslevel>
 		<radius>large</radius>
-		<color><r>1.0</r><g>1.0</g><b>1</b></color>
+		<color><r>1.0</r><g>1.0</g><b>1.0</b></color>
+		<activationsound>shield/activate.wav</activationsound>
+		<collisionsound>shield/hit.wav</collisionsound>
+		<removepower>15</removepower>
 	</weapon>
 	<weapon type="ShieldReflective">
 		<name>Force Shield</name>
@@ -304,11 +404,15 @@ be activated before they work.</description>
 tank from large amounts of damage. Force shields
 reflect any shots that hit them. Shields must be
 activated before they work.</description>
+		<icon>fshield.bmp</icon>
 		<cost>25000</cost>
 		<bundlesize>3</bundlesize>
 		<armslevel>6</armslevel>
 		<radius>small</radius>
-		<color><r>0.5</r><g>1.0</g><b>1</b></color>
+		<color><r>0.5</r><g>1.0</g><b>1.0</b></color>
+		<activationsound>shield/activateforce.wav</activationsound>
+		<collisionsound>shield/hit2.wav</collisionsound>
+		<removepower>20</removepower>
 	</weapon>
 	<weapon type="ShieldReflectiveMag">
 		<name>Mag Deflect</name>
@@ -316,11 +420,15 @@ activated before they work.</description>
 tank from small amounts of damage. Mag shields
 reflect any shots that hit them but only from above.
 Shields must be activated before they work.</description>
+		<icon>mag.bmp</icon>
 		<cost>10000</cost>
 		<bundlesize>2</bundlesize>
 		<armslevel>8</armslevel>
 		<radius>small</radius>
-		<color><r>0.5</r><g>1.0</g><b>1</b></color>
+		<color><r>0.5</r><g>1.0</g><b>1.0</b></color>
+		<activationsound>shield/activate.wav</activationsound>
+		<collisionsound>shield/hit2.wav</collisionsound>
+		<removepower>20</removepower>
 	</weapon>
 	<weapon type="ShieldReflectiveMag">
 		<name>Heavy Mag</name>
@@ -328,10 +436,14 @@ Shields must be activated before they work.</description>
 tank from small amounts of damage.  Mag shields
 reflect any shots that hit them but only from above.
 Shields must be activated before they work.</description>
+		<icon>smag.bmp</icon>
 		<cost>25000</cost>
 		<bundlesize>2</bundlesize>
 		<armslevel>6</armslevel>
 		<radius>large</radius>
-		<color><r>0.5</r><g>1.0</g><b>1</b></color>
+		<color><r>0.5</r><g>1.0</g><b>1.0</b></color>
+		<activationsound>shield/activate.wav</activationsound>
+		<collisionsound>shield/hit2.wav</collisionsound>
+		<removepower>15</removepower>
 	</weapon>
 </weapons>

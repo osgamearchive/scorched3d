@@ -25,13 +25,6 @@
 #include <common/OptionsTransient.h>
 #include <actions/TankSay.h>
 #include <engine/ActionController.h>
-#include <coms/ComsPlayedMoveMessage.h>
-#include <coms/ComsDefenseMessage.h>
-#include <coms/ComsMessageSender.h>
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 TankAIComputer::TankAIComputer() : 
 	TankAI(0), primaryShot_(true), name_("<NoName>")

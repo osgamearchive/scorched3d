@@ -55,6 +55,7 @@ public:
 	virtual bool writeAccessory(NetBuffer &buffer);
 	virtual bool readAccessory(NetBufferReader &reader);
 
+	virtual const char *getActivationSound();
 	virtual const char *getName();
 	virtual const char *getDescription();
 	virtual const int getPrice();
@@ -62,6 +63,7 @@ public:
 	virtual const int getBundle();
 	virtual const int getArmsLevel();
 	GLWTip &getToolTip();
+	const char *getIconName() { return iconName_.c_str(); }
 
 	virtual bool singular();
 
@@ -71,8 +73,10 @@ public:
 
 protected:
 	GLWTip toolTip_;
+	std::string iconName_;
 	std::string name_;
 	std::string description_;
+	std::string activationSound_;
 	int price_;
 	int bundle_;
 	int armsLevel_;

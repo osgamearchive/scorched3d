@@ -171,11 +171,16 @@ bool TankAILogic::processDefenseMessage(ComsDefenseMessage &message, Tank *tank)
 		{
 			if (!OptionsParam::instance()->getOnServer()) 
 			{
-				static Battery battery;
-				SoundBuffer *batSound = 
-					SoundStore::instance()->fetchOrCreateBuffer(
-						(char *) battery.getActivatedSound());
-				batSound->play();
+				Accessory *battery = 
+					AccessoryStore::instance()->findByAccessoryType(Accessory::AccessoryBattery);
+				if (battery)
+				{
+					char buffer[256];
+					sprintf(buffer, PKGDIR "data/wav/%s", battery->getActivationSound());
+					SoundBuffer *batSound = 
+						SoundStore::instance()->fetchOrCreateBuffer(buffer);
+					batSound->play();
+				}
 			}
 
 			tank->getAccessories().getBatteries().rmBatteries(1);
@@ -194,9 +199,10 @@ bool TankAILogic::processDefenseMessage(ComsDefenseMessage &message, Tank *tank)
 				{
 					if (!OptionsParam::instance()->getOnServer()) 
 					{
+						char buffer[256];
+						sprintf(buffer, PKGDIR "data/wav/%s", accessory->getActivationSound());
 						SoundBuffer *activateSound = 
-							SoundStore::instance()->fetchOrCreateBuffer(
-								(char *) shield->getActivatedSound());
+							SoundStore::instance()->fetchOrCreateBuffer(buffer);
 						activateSound->play();
 					}
 
@@ -221,13 +227,15 @@ bool TankAILogic::processDefenseMessage(ComsDefenseMessage &message, Tank *tank)
 	case ComsDefenseMessage::eParachutesUp:
 		if (tank->getAccessories().getParachutes().getNoParachutes() > 0)
 		{
-			if (!OptionsParam::instance()->getOnServer()) 
+			Accessory *parachute = 
+				AccessoryStore::instance()->findByAccessoryType(Accessory::AccessoryParachute);
+			if (parachute)
 			{
-				static Parachute para;
-				SoundBuffer *activateSound = 
-					SoundStore::instance()->fetchOrCreateBuffer(
-						(char *) para.getActivatedSound());
-				activateSound->play();
+				char buffer[256];
+				sprintf(buffer, PKGDIR "data/wav/%s", parachute->getActivationSound());
+				SoundBuffer *paraSound = 
+					SoundStore::instance()->fetchOrCreateBuffer(buffer);
+				paraSound->play();
 			}
 
 			tank->getAccessories().getParachutes().setParachutesEnabled(true);

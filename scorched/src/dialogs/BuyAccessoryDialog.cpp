@@ -20,6 +20,8 @@
 
 #include <dialogs/BuyAccessoryDialog.h>
 #include <GLW/GLWTextButton.h>
+#include <GLW/GLWIcon.h>
+#include <GLW/GLWFlag.h>
 #include <tank/TankContainer.h>
 #include <client/ClientState.h>
 #include <common/WindowManager.h>
@@ -29,7 +31,7 @@
 #include <coms/ComsMessageSender.h>
 #include <coms/ComsBuyAccessoryMessage.h>
 #include <weapons/AccessoryStore.h>
-#include <GLW/GLWFlag.h>
+#include <3dsparse/ASEStore.h>
 #include <stdio.h>
 
 BuyAccessoryDialog::BuyAccessoryDialog() : 
@@ -133,13 +135,21 @@ void BuyAccessoryDialog::addPlayerWeaponsBuy(GLWTab *tab, bool showWeapons)
 			tank->getAccessories().getAccessoryCount(current);
 
 		GLWVisiblePanel *newPanel = (GLWVisiblePanel *)
-			tab->addWidget(new GLWVisiblePanel(10.0f, (float) height, 300.0f, 20.0f, true));
+			tab->addWidget(new GLWVisiblePanel(10.0f, (float) height, 315.0f, 20.0f, true));
 		newPanel->setToolTip(&current->getToolTip());
 		sprintf(buffer, "%i", (currentNumber>=0?currentNumber:99));
 		newPanel->addWidget(new GLWLabel(0, -2, buffer));
-		newPanel->addWidget(new GLWLabel(30, -2, (char *) current->getName()));
+		GLTexture *texture = 0;
+		if (current->getIconName()[0])
+		{
+			char fileBuffer[256];
+			sprintf(fileBuffer, PKGDIR "data/textures/wicons/%s", current->getIconName());
+			texture = ASEStore::instance()->loadTexture(fileBuffer, "");
+		}
+		newPanel->addWidget(new GLWIcon(45, 2, 16, 16, texture));
+		newPanel->addWidget(new GLWLabel(65, -2, (char *) current->getName()));
 		sprintf(buffer, "$%i/%i", current->getPrice(), current->getBundle());
-		newPanel->addWidget(new GLWLabel(195, -2, buffer));
+		newPanel->addWidget(new GLWLabel(210, -2, buffer));
 
 		if ((!current->singular() && currentNumber >= 0) || (current->singular() && currentNumber==0))
 		{
@@ -147,7 +157,7 @@ void BuyAccessoryDialog::addPlayerWeaponsBuy(GLWTab *tab, bool showWeapons)
 				current->getPrice() <= tank->getScore().getMoney())
 			{
 				GLWidget *button = 
-					newPanel->addWidget(new GLWTextButton("Buy", 310, 0, 60, this));
+					newPanel->addWidget(new GLWTextButton("Buy", 325, 0, 60, this));
 				buyMap_[button->getId()] = current;
 			}
 		}
@@ -174,20 +184,30 @@ void BuyAccessoryDialog::addPlayerWeaponsSell()
 		itor != tankAccessories.end();
 		itor++)
 	{
+		Accessory *current = itor->first;
+
 		GLWVisiblePanel *newPanel = (GLWVisiblePanel *)
-			sellTab_->addWidget(new GLWVisiblePanel(10.0f, (float) height, 300.0f, 20.0f, true));
-		newPanel->setToolTip(&(itor->first)->getToolTip());
+			sellTab_->addWidget(new GLWVisiblePanel(10.0f, (float) height, 315.0f, 20.0f, true));
+		newPanel->setToolTip(&current->getToolTip());
 		sprintf(buffer, "%i", (itor->second>=0?itor->second:99));
 		newPanel->addWidget(new GLWLabel(0, -2, buffer));
-		newPanel->addWidget(new GLWLabel(30, -2, (char *) (itor->first)->getName()));
-		sprintf(buffer, "$%i/%i", (itor->first)->getSellPrice(), 1);
-		newPanel->addWidget(new GLWLabel(195, -2, buffer));
+		GLTexture *texture = 0;
+		if (current->getIconName()[0])
+		{
+			char fileBuffer[256];
+			sprintf(fileBuffer, PKGDIR "data/textures/wicons/%s", current->getIconName());
+			texture = ASEStore::instance()->loadTexture(fileBuffer, "");
+		}
+		newPanel->addWidget(new GLWIcon(45, 2, 16, 16, texture));
+		newPanel->addWidget(new GLWLabel(65, -2, (char *) current->getName()));
+		sprintf(buffer, "$%i/%i", current->getSellPrice(), 1);
+		newPanel->addWidget(new GLWLabel(210, -2, buffer));
 
 		if (itor->second >= 0)
 		{
 			GLWidget *button =
-				newPanel->addWidget(new GLWTextButton("Sell", 310, 0, 60, this));
-			sellMap_[button->getId()] = itor->first;
+				newPanel->addWidget(new GLWTextButton("Sell", 325, 0, 60, this));
+			sellMap_[button->getId()] = current;
 		}
 
 		height += 24;

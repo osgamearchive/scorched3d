@@ -42,16 +42,20 @@ public:
 	virtual Action *fireWeapon(unsigned int playerId, 
 		Vector &position, Vector &velocity) = 0;
 
-	virtual int getDeathAnimationWeight() { return deathAnimationWeight_; }
-	virtual const char *getExplosionTexture();
-	virtual const char *getFiredSound();
-	virtual const char *getExplosionSound();
+	int getDeathAnimationWeight() { return deathAnimationWeight_; }
+	const char *getExplosionTexture();
+	const char *getFiredSound();
+	const char *getExplosionSound();
 
 	static bool write(NetBuffer &buffer, Weapon *weapon);
 	static Weapon *read(NetBufferReader &reader);
 
 protected:
 	int deathAnimationWeight_;
+	std::string explosionTexture_;
+	std::string firedSound_;
+	std::string explosionSound_;
+
 };
 
 #endif // !defined(AFX_WEAPON_H__65439E20_84A6_406A_8FD0_045A3E7555D3__INCLUDED_)

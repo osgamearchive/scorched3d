@@ -37,7 +37,6 @@ public:
 	int getHot() { return hot_; }
 
 	// Inherited from Weapon
-	virtual const char *getFiredSound();
 	virtual Action *fireWeapon(unsigned int playerId, Vector &position, Vector &velocity);
 
 	REGISTER_ACCESSORY_HEADER(WeaponNapalm, Accessory::AccessoryWeapon);

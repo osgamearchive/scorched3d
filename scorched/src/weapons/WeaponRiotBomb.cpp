@@ -79,18 +79,3 @@ Action *WeaponRiotBomb::fireWeapon(unsigned int playerId, Vector &position, Vect
 
 	return 0;
 }
-
-const char *WeaponRiotBomb::getFiredSound()
-{
-	return PKGDIR "data/wav/shoot/small.wav";
-}
-
-const char *WeaponRiotBomb::getExplosionSound()
-{
-	return PKGDIR "data/wav/explosions/crunch.wav";
-}
-
-const char *WeaponRiotBomb::getExplosionTexture()
-{
-	return "exp03";
-}

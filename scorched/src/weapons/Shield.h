@@ -51,9 +51,7 @@ public:
 	virtual bool writeAccessory(NetBuffer &buffer);
 	virtual bool readAccessory(NetBufferReader &reader);
 
-	// Sounds to play on shield actions
-	virtual const char *getActivatedSound();
-	virtual const char *getCollisionSound();
+	const char *getCollisionSound();
 
 	// Shield attributes
 	float getHitRemovePower();
@@ -64,8 +62,10 @@ public:
 	REGISTER_ACCESSORY_HEADER(Shield, Accessory::AccessoryShield);
 
 protected:
+	std::string collisionSound_;
 	ShieldSize radius_;
 	Vector color_;
+	float removePower_;
 };
 
 #endif // !defined(AFX_SHIELD_H__F9BCDF39_FB62_4BB4_9D64_C70215669F9C__INCLUDED_)

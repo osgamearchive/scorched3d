@@ -29,14 +29,36 @@ REGISTER_ACTION_SOURCE(TankFalling);
 
 std::set<unsigned int> TankFalling::fallingTanks;
 
-TankFalling::TankFalling() : collisionInfo_(CollisionIdFallingTank)
+TankFallingParticle::TankFallingParticle(TankFalling *tell) : 
+	tell_(tell), collisionInfo_(CollisionIdFallingTank)
+{
+
+}
+
+void TankFallingParticle::init()
+{
+	collisionInfo_.data = this;
+	physicsObject_.setData(&collisionInfo_);
+}
+
+void TankFallingParticle::collision(Vector &position)
+{
+	if (tell_) tell_->collision();
+}
+
+void TankFallingParticle::hadCollision()
+{
+	collision_ = true;
+	tell_ = 0;
+}
+
+TankFalling::TankFalling() : remove_(false)
 {
 }
 
 TankFalling::TankFalling(Weapon *weapon, unsigned int fallingPlayerId,
 				   unsigned int firedPlayerId) :
-	weapon_(weapon),
-	collisionInfo_(CollisionIdFallingTank),
+	weapon_(weapon), remove_(false),
 	fallingPlayerId_(fallingPlayerId), firedPlayerId_(firedPlayerId)
 {
 }
@@ -54,22 +76,54 @@ void TankFalling::init()
 	{
 		// Store the start positions
 		tankStartPosition_ = current->getPhysics().getTankPosition();
+		lastPosition_= tankStartPosition_;
+		lastPosition_[2] += 0.25f;
 
-		// The sphere is 1 radius
-		Vector nullVelocity;
-		Vector initPos = current->getPhysics().getTankPosition();
-		initPos[2] += 1.0f;
-		lastPosition_= initPos;
-		setPhysics(initPos, nullVelocity);
+		for (int i=0; i<4; i++)
+		{
+			TankFallingParticle *particle = new TankFallingParticle(this);
+			particles_.push_back(particle);
+
+			// The sphere is 0.25 radius
+			Vector nullVelocity;
+			Vector initPos = current->getPhysics().getTankPosition();	
+			switch (i)
+			{
+			case 0:
+				initPos[0] += 0.75f;
+				initPos[1] += 0.75f;
+				initPos[2] += 0.25;
+				break;
+			case 1:
+				initPos[0] += 0.75f;
+				initPos[1] -= 0.75f;
+				initPos[2] += 0.25;
+				break;
+			case 2:
+				initPos[0] -= 0.75f;
+				initPos[1] -= 0.75f;
+				initPos[2] += 0.25;
+				break;
+			case 3:
+				initPos[0] -= 0.75f;
+				initPos[1] += 0.75f;
+				initPos[2] += 0.25;
+				break;
+			}
+
+			particle->setPhysics(initPos, nullVelocity);
+			particle->init();
+
+			ActionController::instance()->addAction(particle);
+		}
 	}
-
-	collisionInfo_.data = this;
-	physicsObject_.setData(&collisionInfo_);
 }
 
 void TankFalling::simulate(float frameTime, bool &remove)
 {
-	Vector &spherePosition = getCurrentPosition();
+	Vector spherePosition;
+	getAllPositions(spherePosition);
+	
 	float distance = lastPosition_[2] - spherePosition[2];
 	if (distance > 0.5f)
 	{
@@ -78,14 +132,15 @@ void TankFalling::simulate(float frameTime, bool &remove)
 		// Calcuate the action position
 		Vector position(spherePosition[0], 
 			spherePosition[1], 
-			spherePosition[2] - 1.0f);
+			spherePosition[2] - 0.25f);
 
 		// Move the tank to the new position
 		ActionController::instance()->addAction(
 			new TankMove(position, fallingPlayerId_, false));
 	}
 
-	PhysicsParticleMeta::simulate(frameTime, remove);
+	remove = remove_;
+	ActionMeta::simulate(frameTime, remove);
 }
 
 bool TankFalling::writeAction(NetBuffer &buffer)
@@ -104,16 +159,43 @@ bool TankFalling::readAction(NetBufferReader &reader)
 	return true;
 }
 
-void TankFalling::collision(Vector &spherePosition)
+void TankFalling::getAllPositions(Vector &spherePosition)
 {
+	std::list<TankFallingParticle *>::iterator itor;
+	for (itor = particles_.begin();
+		itor != particles_.end();
+		itor++)
+	{
+		TankFallingParticle *part = (*itor);
+		spherePosition += part->getCurrentPosition();
+	}
+	spherePosition /= 4.0f;
+}
+
+void TankFalling::collision()
+{
+	// Remove this action and all
+	// particle actions
+	remove_ = true;
+	std::list<TankFallingParticle *>::iterator itor;
+	for (itor = particles_.begin();
+		itor != particles_.end();
+		itor++)
+	{
+		TankFallingParticle *part = (*itor);
+		part->hadCollision();
+	}
+
 	Tank *current = 
 		TankContainer::instance()->getTankById(fallingPlayerId_);
 	if (current && current->getState().getState() == TankState::sNormal)
 	{
 		// Calcuate the action position
+		Vector spherePosition;
+		getAllPositions(spherePosition);
 		Vector position(spherePosition[0], 
 			spherePosition[1], 
-			spherePosition[2] - 1.0f);
+			spherePosition[2] - 0.25f);
 
 		// Find how far we have falled to get the total damage
 		float dist = (tankStartPosition_ - position).Magnitude();
@@ -139,6 +221,4 @@ void TankFalling::collision(Vector &spherePosition)
 		TankController::damageTank(
 			current, weapon_, firedPlayerId_, damage, false);
 	}
-
-	PhysicsParticleMeta::collision(spherePosition);
 }

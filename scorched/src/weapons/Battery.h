@@ -29,8 +29,6 @@ public:
 	Battery();
 	virtual ~Battery();
 
-    const char *getActivatedSound();
-
 	REGISTER_ACCESSORY_HEADER(Battery, Accessory::AccessoryBattery);
 
 };

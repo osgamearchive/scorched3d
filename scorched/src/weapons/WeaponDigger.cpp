@@ -80,14 +80,3 @@ Action *WeaponDigger::fireWeapon(unsigned int playerId, Vector &position, Vector
 
 	return 0;
 }
-
-const char *WeaponDigger::getFiredSound()
-{
-	// TODO
-	return PKGDIR "data/wav/shoot/flare.wav";
-}
-
-const char *WeaponDigger::getExplosionTexture()
-{
-	return "exp03";
-}

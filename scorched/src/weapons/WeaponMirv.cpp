@@ -108,18 +108,3 @@ Action *WeaponMirv::fireWeapon(unsigned int playerId, Vector &position, Vector &
 
 	return 0;
 }
-
-const char *WeaponMirv::getExplosionTexture()
-{
-	return "exp05";
-}
-
-const char *WeaponMirv::getFiredSound()
-{
-	return PKGDIR "data/wav/shoot/large.wav";
-}
-
-const char *WeaponMirv::getExplosionSound()
-{
-	return PKGDIR "data/wav/explosions/large.wav";
-}

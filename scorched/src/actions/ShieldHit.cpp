@@ -61,9 +61,10 @@ void ShieldHit::simulate(float frameTime, bool &remove)
 			{
 				if (!OptionsParam::instance()->getOnServer()) 
 				{
+					char buffer[256];
+					sprintf(buffer, PKGDIR "data/wav/%s", shield->getCollisionSound());
 					SoundBuffer *shieldSound = 
-						SoundStore::instance()->fetchOrCreateBuffer(
-							(char *) shield->getCollisionSound());
+						SoundStore::instance()->fetchOrCreateBuffer(buffer);
 					shieldSound->play();
 				}
 

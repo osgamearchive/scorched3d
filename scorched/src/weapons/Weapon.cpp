@@ -21,7 +21,7 @@
 #include <weapons/Weapon.h>
 #include <weapons/AccessoryStore.h>
 
-Weapon::Weapon() : deathAnimationWeight_(0)
+Weapon::Weapon() : deathAnimationWeight_(0), explosionTexture_("exp00")
 {
 
 }
@@ -35,11 +35,32 @@ bool Weapon::parseXML(XMLNode *accessoryNode)
 {
 	if (!Accessory::parseXML(accessoryNode)) return false;
 
-	// Get the accessory name
+	// Get the deathWeight
 	XMLNode *deathWeight = accessoryNode->getNamedChild("deathanimationweight");
 	if (deathWeight)
 	{
 		deathAnimationWeight_ = atoi(deathWeight->getContent());
+	}
+
+	// Get the explosion texture
+	XMLNode *explosionTextureNode = accessoryNode->getNamedChild("explosiontexture");
+	if (explosionTextureNode)
+	{
+		explosionTexture_ = explosionTextureNode->getContent();
+	}
+
+	// Get the explosion texture
+	XMLNode *firedSoundNode = accessoryNode->getNamedChild("firedsound");
+	if (firedSoundNode)
+	{
+		firedSound_ = firedSoundNode->getContent();
+	}
+
+	// Get the explosion texture
+	XMLNode *explosionSoundNode = accessoryNode->getNamedChild("explosionsound");
+	if (explosionSoundNode)
+	{
+		explosionSound_ = explosionSoundNode->getContent();
 	}
 
 	return true;
@@ -49,6 +70,9 @@ bool Weapon::writeAccessory(NetBuffer &buffer)
 {
 	if (!Accessory::writeAccessory(buffer)) return false;
 	buffer.addToBuffer(deathAnimationWeight_);
+	buffer.addToBuffer(explosionTexture_);
+	buffer.addToBuffer(firedSound_);
+	buffer.addToBuffer(explosionSound_);
 	return true;
 }
 
@@ -56,6 +80,9 @@ bool Weapon::readAccessory(NetBufferReader &reader)
 {
 	if (!Accessory::readAccessory(reader)) return false;
 	if (!reader.getFromBuffer(deathAnimationWeight_)) return false;
+	if (!reader.getFromBuffer(explosionTexture_)) return false;
+	if (!reader.getFromBuffer(firedSound_)) return false;
+	if (!reader.getFromBuffer(explosionSound_)) return false;
 	return true;
 }
 
@@ -80,15 +107,17 @@ Weapon *Weapon::read(NetBufferReader &reader)
 
 const char *Weapon::getExplosionTexture()
 {
-	return "exp00";
+	return explosionTexture_.c_str();
 }
 
 const char *Weapon::getFiredSound()
 {
-	return 0;
+	if (!firedSound_.c_str()[0]) return 0;
+	return firedSound_.c_str();
 }
 
 const char *Weapon::getExplosionSound()
 {
-	return 0;
+	if (!explosionSound_.c_str()[0]) return 0;
+	return explosionSound_.c_str();
 }

@@ -81,37 +81,3 @@ Action *WeaponProjectile::fireWeapon(unsigned int playerId, Vector &position, Ve
 
 	return 0;
 }
-
-const char *WeaponProjectile::getFiredSound()
-{
-	if (size_ < 5)
-	{
-		return PKGDIR "data/wav/shoot/small.wav";
-	}
-	else if (size_ < 10)
-	{
-		return PKGDIR "data/wav/shoot/medium.wav";
-	}
-	else if (size_ < 15)
-	{
-		return PKGDIR "data/wav/shoot/large.wav";
-	}
-	return PKGDIR "data/wav/shoot/xlarge.wav";
-}
-
-const char *WeaponProjectile::getExplosionSound()
-{
-	if (size_ < 5)
-	{
-		return PKGDIR "data/wav/explosions/small.wav";
-	}
-	else if (size_ < 10)
-	{
-		return PKGDIR "data/wav/explosions/medium.wav";
-	}
-	else if (size_ < 15)
-	{
-		return PKGDIR "data/wav/explosions/large.wav";
-	}
-	return PKGDIR "data/wav/explosions/xlarge.wav";
-}

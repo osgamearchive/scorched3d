@@ -76,9 +76,11 @@ void TankFired::simulate(float frameTime, bool &remove)
 				// play fired sound
 				if (weapon_->getFiredSound())
 				{
+					static char soundBuffer[256];
+					sprintf(soundBuffer, PKGDIR "data/wav/%s", weapon_->getFiredSound());
+
 					SoundBuffer *firedSound = 
-						SoundStore::instance()->fetchOrCreateBuffer(
-							(char *) weapon_->getFiredSound());
+						SoundStore::instance()->fetchOrCreateBuffer(soundBuffer);
 					firedSound->play();
 				}
 			}

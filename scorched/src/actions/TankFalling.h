@@ -27,9 +27,24 @@
 #include <weapons/Weapon.h>
 
 #include <set>
+#include <list>
 
-class TankFalling : 
-	public PhysicsParticleMeta
+class TankFalling;
+class TankFallingParticle : public PhysicsParticle
+{
+public:
+	TankFallingParticle(TankFalling *tell);
+
+	virtual void init();
+	virtual void collision(Vector &position);
+	void hadCollision();
+
+protected:
+	TankFalling *tell_;
+	ScorchedCollisionInfo collisionInfo_;
+};
+
+class TankFalling : public ActionMeta
 {
 public:
 	static std::set<unsigned int> fallingTanks;
@@ -43,17 +58,21 @@ public:
 	virtual void simulate(float frameTime, bool &remove);
 	virtual bool writeAction(NetBuffer &buffer);
 	virtual bool readAction(NetBufferReader &reader);
-	virtual void collision(Vector &position);
+
+	void collision();
 
 	REGISTER_ACTION_HEADER(TankFalling);
 
 protected:
-	ScorchedCollisionInfo collisionInfo_;
+	std::list<TankFallingParticle *> particles_;
 	Weapon *weapon_;
 	unsigned int fallingPlayerId_;
 	unsigned int firedPlayerId_;
 	Vector tankStartPosition_;
 	Vector lastPosition_;
+	bool remove_;
+
+	void getAllPositions(Vector &spherePositions);
 
 };
 

@@ -50,6 +50,28 @@ bool Shield::parseXML(XMLNode *accessoryNode)
 	}
 	radius_ = ((strcmp(radiusNode->getContent(), "large")==0)?ShieldSizeLarge:ShieldSizeSmall);
 
+	// Get the remove power 
+	XMLNode *removePowerNode = accessoryNode->getNamedChild("removepower");
+	if (!removePowerNode)
+	{
+		dialogMessage("Accessory",
+			"Failed to find removepower node in accessory \"%s\"",
+			name_.c_str());
+		return false;
+	}
+	removePower_ = (float) atof(removePowerNode->getContent());
+
+	// Get the collision sound
+	XMLNode *collisionSoundNode = accessoryNode->getNamedChild("collisionsound");
+	if (!collisionSoundNode)
+	{
+		dialogMessage("Accessory",
+			"Failed to find collisionsound node in accessory \"%s\"",
+			name_.c_str());
+		return false;
+	}
+	collisionSound_ = collisionSoundNode->getContent();
+
 	// Get the accessory color
 	XMLNode *colorNode = accessoryNode->getNamedChild("color");
 	if (!colorNode)
@@ -80,6 +102,8 @@ bool Shield::writeAccessory(NetBuffer &buffer)
 {
 	if (!Accessory::writeAccessory(buffer)) return false;
 	buffer.addToBuffer((int) radius_);
+	buffer.addToBuffer(removePower_);
+	buffer.addToBuffer(collisionSound_);
 	buffer.addToBuffer(color_[0]);
 	buffer.addToBuffer(color_[1]);
 	buffer.addToBuffer(color_[2]);
@@ -90,24 +114,23 @@ bool Shield::readAccessory(NetBufferReader &reader)
 {
 	if (!Accessory::readAccessory(reader)) return false;
 	int r; if (!reader.getFromBuffer(r)) return false; radius_ = (ShieldSize) r;
+	if (!reader.getFromBuffer(removePower_)) return false;
+	if (!reader.getFromBuffer(collisionSound_)) return false;
 	if (!reader.getFromBuffer(color_[0])) return false;
 	if (!reader.getFromBuffer(color_[1])) return false;
 	if (!reader.getFromBuffer(color_[2])) return false;
 	return true;
 }
 
-const char *Shield::getActivatedSound()
-{
-	return  PKGDIR "data/wav/shield/activate.wav";
-}
-
 const char *Shield::getCollisionSound()
 {
-	return PKGDIR "data/wav/shield/hit.wav";
+	if (!collisionSound_.c_str()[0]) return 0;
+	return collisionSound_.c_str();
 }
 
 float Shield::getHitRemovePower()
 {
+	return removePower_;
 	if (radius_ == ShieldSizeSmall) return 20;
 	return 15;
 }

@@ -69,7 +69,7 @@ void ScorchedCollisionHandler::collision(dGeomID o1, dGeomID o2,
 	if (info1->id == CollisionIdFallingTank || info2->id == CollisionIdFallingTank)
 	{
 		// The falling tank has hit something
-		groundCollision(o1, o2, contacts, noContacts, true);
+		groundCollision(o1, o2, contacts, noContacts, false);
 	}
 	else
 	if (info1->id == CollisionIdShot || info2->id == CollisionIdShot)

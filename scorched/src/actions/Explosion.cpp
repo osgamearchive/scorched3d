@@ -113,9 +113,10 @@ void Explosion::simulate(float frameTime, bool &remove)
 			{
 				if (weapon_->getExplosionSound())
 				{
+					static char soundBuffer[256];
+					sprintf(soundBuffer, PKGDIR "data/wav/%s", weapon_->getExplosionSound());
 					SoundBuffer *expSound = 
-						SoundStore::instance()->fetchOrCreateBuffer(
-							(char *) weapon_->getExplosionSound());
+						SoundStore::instance()->fetchOrCreateBuffer(soundBuffer);
 					expSound->play();
 				}
 			}

@@ -33,8 +33,3 @@ Parachute::~Parachute()
 {
 
 }
-
-const char *Parachute::getActivatedSound()
-{
-	return PKGDIR "data/wav/misc/para.wav";
-}

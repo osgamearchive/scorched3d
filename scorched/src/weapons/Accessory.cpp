@@ -58,6 +58,20 @@ bool Accessory::parseXML(XMLNode *accessoryNode)
 	description_ = descriptionNode->getContent();
 	toolTip_.setText(getName(), getDescription());
 
+	// Get the accessory icon
+	XMLNode *iconNode = accessoryNode->getNamedChild("icon");
+	if (iconNode)
+	{
+		iconName_ = iconNode->getContent();
+	}
+
+	// Get the accessory icon
+	XMLNode *activationSoundNode = accessoryNode->getNamedChild("activationsound");
+	if (activationSoundNode)
+	{
+		activationSound_ = activationSoundNode->getContent();
+	}
+
 	// Get the accessory bundle
 	XMLNode *bundleNode = accessoryNode->getNamedChild("bundlesize");
 	if (!bundleNode)
@@ -101,6 +115,8 @@ bool Accessory::writeAccessory(NetBuffer &buffer)
 {
 	buffer.addToBuffer(name_);
 	buffer.addToBuffer(description_);
+	buffer.addToBuffer(iconName_);
+	buffer.addToBuffer(activationSound_);
 	buffer.addToBuffer(price_);
 	buffer.addToBuffer(bundle_);
 	buffer.addToBuffer(armsLevel_);
@@ -112,12 +128,20 @@ bool Accessory::readAccessory(NetBufferReader &reader)
 {
 	if (!reader.getFromBuffer(name_)) return false;
 	if (!reader.getFromBuffer(description_)) return false;
+	if (!reader.getFromBuffer(iconName_)) return false;
+	if (!reader.getFromBuffer(activationSound_)) return false;
 	if (!reader.getFromBuffer(price_)) return false;
 	if (!reader.getFromBuffer(bundle_)) return false;
 	if (!reader.getFromBuffer(armsLevel_)) return false;
 	if (!reader.getFromBuffer(sellPrice_)) return false;
 	toolTip_.setText(getName(), getDescription());
 	return true;
+}
+
+const char *Accessory::getActivationSound()
+{
+	if (!activationSound_.c_str()[0]) return 0;
+	return activationSound_.c_str();
 }
 
 const char *Accessory::getName()

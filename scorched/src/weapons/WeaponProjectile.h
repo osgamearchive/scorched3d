@@ -36,8 +36,6 @@ public:
 	int getSize() { return size_; }
 
 	// Inherited from Weapon
-	virtual const char *getFiredSound();
-	virtual const char *getExplosionSound();
 	virtual Action *fireWeapon(unsigned int playerId, Vector &position, Vector &velocity);
 
 	REGISTER_ACCESSORY_HEADER(WeaponProjectile, Accessory::AccessoryWeapon);

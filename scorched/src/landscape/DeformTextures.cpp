@@ -37,9 +37,6 @@ void DeformTextures::deformLandscape(Vector &pos, float radius,
 	// Recalculate landscape
 	Landscape::instance()->recalculate((int) pos[0], (int) pos[1], (int) radius);
 
-	GLState currentState(GLState::TEXTURE_ON);
-	Landscape::instance()->getMainTexture().draw(true);
-
 	float pixelsPerSW = (float)(Landscape::instance()->getMainMap().getWidth() / hmap.getWidth());
 	float pixelsPerSH = (float)(Landscape::instance()->getMainMap().getHeight() / hmap.getWidth());
 
@@ -94,6 +91,9 @@ void DeformTextures::deformLandscape(Vector &pos, float radius,
 			srcBits += width - w * 3;
 			destBits += width - w * 3;
 		}
+
+		GLState currentState(GLState::TEXTURE_ON);
+		Landscape::instance()->getMainTexture().draw(true);
 
 		glPixelStorei(GL_UNPACK_ROW_LENGTH, landscapeWidth);
 		glTexSubImage2D(GL_TEXTURE_2D, 0, 

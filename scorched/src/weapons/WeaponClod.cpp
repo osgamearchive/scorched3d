@@ -81,18 +81,3 @@ Action *WeaponClod::fireWeapon(unsigned int playerId, Vector &position, Vector &
 
 	return 0;
 }
-
-const char *WeaponClod::getExplosionTexture()
-{
-	return "exp03";
-}
-
-const char *WeaponClod::getFiredSound()
-{
-	return PKGDIR "data/wav/shoot/small.wav";
-}
-
-const char *WeaponClod::getExplosionSound()
-{
-	return PKGDIR "data/wav/explosions/gloop.wav";
-}
