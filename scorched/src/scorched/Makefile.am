@@ -181,6 +181,8 @@ scorched3d_SOURCES = \
 	../tankgraph/TracerStore.h \
 	../common/ARGParser.cpp \
 	../common/ARGParser.h \
+	../common/Clock.cpp \
+	../common/Clock.h \
 	../common/Defines.cpp \
 	../common/Defines.h \
 	../common/Display.cpp \
@@ -232,8 +234,6 @@ scorched3d_SOURCES = \
 	../common/SoundStore.h \
 	../common/StatsLogger.cpp \
 	../common/StatsLogger.h \
-	../common/Timer.cpp \
-	../common/Timer.h \
 	../common/Triangle.cpp \
 	../common/Triangle.h \
 	../common/Vector.cpp \

@@ -106,7 +106,7 @@ void ProgressDialog::draw()
 
 void ProgressDialog::progressChange(const char *op, const float percentage)
 {
-	static Timer localTimer;
+	static Clock localTimer;
 	static float timeDelay = 0.0f;
 	timeDelay += localTimer.getTimeDifference();
 
