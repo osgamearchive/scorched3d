@@ -1846,6 +1846,12 @@
 				RelativePath="..\weapons\WeaponSkyFlash.h">
 			</File>
 			<File
+				RelativePath="..\weapons\WeaponSound.cpp">
+			</File>
+			<File
+				RelativePath="..\weapons\WeaponSound.h">
+			</File>
+			<File
 				RelativePath="..\weapons\WeaponTranslate.cpp">
 			</File>
 			<File
@@ -2528,6 +2534,12 @@
 			</File>
 			<File
 				RelativePath="..\actions\SkyFlash.h">
+			</File>
+			<File
+				RelativePath="..\actions\SoundAction.cpp">
+			</File>
+			<File
+				RelativePath="..\actions\SoundAction.h">
 			</File>
 			<File
 				RelativePath="..\actions\SpriteProjectile.cpp">

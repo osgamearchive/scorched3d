@@ -1169,30 +1169,38 @@ trace of the shot path.</description>
 		<explosiontexture>default</explosiontexture>
 		<explosionsound>none</explosionsound>			
 	</accessory>
-	<accessory type="WeaponLightning">
+	<accessory type="WeaponMulti">	
 		<name>Lightning</name>
-		<description></description>
-		<icon>bmissile.bmp</icon>
-		<cost>0</cost>
-		<nonpurchasable/>
-		<nomuzzleflash/>
-		<bundlesize>0</bundlesize>
 		<armslevel>10</armslevel>
-		<conelength>190</conelength>
-		<seglength>6</seglength>
-		<segvar>12</segvar>
-		<size>4</size>
-		<sizevar>-1</sizevar>
-		<minsize>0.1</minsize>
-		<splitprob>0.2</splitprob>
-		<splitvar>0.03</splitvar>
-		<deathprob>0.03</deathprob>
-		<derivangle>0.5</derivangle>
-		<anglevar>0.94</anglevar>
-		<totaltime>1</totaltime>
-		<seghurt>0</seghurt>
-		<seghurtradius>0</seghurtradius>
-		<sound>none</sound>
+		<subweapon1 type="WeaponSkyFlash">
+			<name>Lightning</name>
+			<armslevel>10</armslevel>		
+		</subweapon1>
+		<subweapon2 type="WeaponLightning">
+			<name>Lightning</name>
+			<description></description>
+			<icon>bmissile.bmp</icon>
+			<cost>0</cost>
+			<nonpurchasable/>
+			<nomuzzleflash/>
+			<bundlesize>0</bundlesize>
+			<armslevel>10</armslevel>
+			<conelength>190</conelength>
+			<seglength>6</seglength>
+			<segvar>12</segvar>
+			<size>4</size>
+			<sizevar>-1</sizevar>
+			<minsize>0.1</minsize>
+			<splitprob>0.2</splitprob>
+			<splitvar>0.03</splitvar>
+			<deathprob>0.03</deathprob>
+			<derivangle>0.5</derivangle>
+			<anglevar>0.94</anglevar>
+			<totaltime>1</totaltime>
+			<seghurt>0</seghurt>
+			<seghurtradius>0</seghurtradius>
+			<sound>none</sound>
+		</subweapon2>
 	</accessory>
 	<!-- <accessory type="WeaponReference">
 		<name>Test Reference</name>
