@@ -197,6 +197,7 @@ MissileMesh *Weapon::getWeaponMesh(Tank *currentPlayer)
 		loadedMeshes_.find(name);
 	if (itor == loadedMeshes_.end())
 	{
+		usedModelId->clearCachedFile();
 		ModelsFile *newFile = usedModelId->getModelsFile();
 		if (!newFile) return 0;
 

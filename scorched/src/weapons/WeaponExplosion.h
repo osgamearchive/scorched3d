@@ -46,6 +46,7 @@ public:
 	bool getWindAffected() { return windAffected_; }
 	bool getLuminance() { return luminance_; }
 	bool getAnimate() { return animate_; }
+	const char *getDeformTexture() { return deformTexture_.c_str(); }
 
 	// Inherited from Weapon
 	virtual void fireWeapon(ScorchedContext &context,
@@ -65,6 +66,7 @@ protected:
 	bool createSplash_;
 	bool animate_;
 	float hurtAmount_;
+	std::string deformTexture_;
 	Explosion::DeformType deformType_;
 
 };

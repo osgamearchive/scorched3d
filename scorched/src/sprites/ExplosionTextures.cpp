@@ -18,10 +18,11 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <stdio.h>
 #include <GLEXT/GLBitmap.h>
 #include <XML/XMLFile.h>
 #include <sprites/ExplosionTextures.h>
+#include <landscape/Landscape.h>
+#include <stdio.h>
 
 ExplosionTextures *ExplosionTextures::instance_ = 0;
 
@@ -167,4 +168,30 @@ GLTextureSet *ExplosionTextures::getTextureSetByName(const char *name)
 		result = (*itor).second;
 	}
 	return result;
+}
+
+GLBitmap &ExplosionTextures::getScorchBitmap(const char *name)
+{
+	if (name[0])
+	{
+		std::map<std::string, GLBitmap*>::iterator findItor =
+			scorchedBitmaps.find(name);
+		if (findItor != scorchedBitmaps.end())
+		{
+			return *(*findItor).second;
+		}
+
+		const char *fileName = getDataFile(name);
+		if (fileExists(fileName))
+		{
+			GLBitmap *map = new GLBitmap;
+			if (map->loadFromFile(fileName, false))
+			{
+				scorchedBitmaps[name] = map;
+				return *map;
+			}
+			else delete map;
+		}
+	}
+	return Landscape::instance()->getScorchMap();
 }

@@ -22,6 +22,7 @@
 #define AFX_EXPLOSIONTEXTURES_H__F2BC42E7_B2FB_4C0D_ACF0_0B91D8DC84D3__INCLUDED_
 
 #include <GLEXT/GLTextureSet.h>
+#include <GLEXT/GLBitmap.h>
 #include <common/ProgressCounter.h>
 #include <string>
 #include <map>
@@ -38,8 +39,11 @@ public:
 	GLTexture talkTexture;
 	GLTexture lightningTexture;
 
+	GLBitmap &getScorchBitmap(const char *name);
+
 	GLTextureSet *getTextureSetByName(const char *name);
 	std::map<std::string, GLTextureSet*> textureSets;
+	std::map<std::string, GLBitmap*> scorchedBitmaps;
 
 protected:
 	static ExplosionTextures *instance_;

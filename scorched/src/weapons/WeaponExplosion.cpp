@@ -88,6 +88,9 @@ bool WeaponExplosion::parseXML(XMLNode *accessoryNode)
 	accessoryNode->getNamedChild("minlife", minLife_, false);
 	accessoryNode->getNamedChild("maxlife", maxLife_, false);
 
+	// Get tje deform texture
+	accessoryNode->getNamedChild("deformtexture", deformTexture_, false);
+
 	// Get the deform
 	XMLNode *deformNode = 0;
 	if (!accessoryNode->getNamedChild("deform", deformNode)) return false;
@@ -120,6 +123,7 @@ bool WeaponExplosion::writeAccessory(NetBuffer &buffer)
 	buffer.addToBuffer(windAffected_);
 	buffer.addToBuffer(luminance_);
 	buffer.addToBuffer(animate_);
+	buffer.addToBuffer(deformTexture_);
     return true;
 }
 
@@ -140,6 +144,7 @@ bool WeaponExplosion::readAccessory(NetBufferReader &reader)
 	if (!reader.getFromBuffer(windAffected_)) return false;
 	if (!reader.getFromBuffer(luminance_)) return false;
 	if (!reader.getFromBuffer(animate_)) return false;
+	if (!reader.getFromBuffer(deformTexture_)) return false;
     return true;
 }
 

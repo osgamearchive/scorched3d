@@ -261,7 +261,9 @@ void Explosion::simulate(float frameTime, bool &remove)
 				if (!context_->serverMode) 
 				{
 					DeformTextures::deformLandscape(newPosition, explosionSize, 
-						(weapon_->getDeformType() == DeformDown), map);
+						(weapon_->getDeformType() == DeformDown), 
+						ExplosionTextures::instance()->getScorchBitmap(weapon_->getDeformTexture()),
+						map);
 				}
 			}
 		}

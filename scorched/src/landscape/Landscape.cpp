@@ -198,35 +198,53 @@ void Landscape::draw(const unsigned state)
 	if (OptionsDisplay::instance()->getDrawLines()) glPolygonMode(GL_FRONT, GL_FILL);
 }
 
+int Landscape::getPlanTexSize()
+{
+	switch (OptionsDisplay::instance()->getTexSize())
+	{
+	case 0:
+		return 64;
+		break;
+	case 2:
+		return 256;
+		break;
+	default:
+		return 128;
+		break;
+	}
+	return 128;
+}
+
+int Landscape::getMapTexSize()
+{
+	switch (OptionsDisplay::instance()->getTexSize())
+	{
+	case 0:
+		return 256;
+		break;
+	case 2:
+		return 2048;
+		break;
+	default:
+		return 1024;
+		break;
+	}
+	return 1024;
+}
+
 void Landscape::generate(ProgressCounter *counter)
 {
 	textureType_ = eDefault;
 	InfoMap::instance();
 
 	// Choose the correct sizes for the current LOD
-	int mapTexSize = 1024;
-	int planTexSize = 128;
-	switch (OptionsDisplay::instance()->getTexSize())
-	{
-	case 0:
-		mapTexSize = 256;
-		planTexSize = 64;
-		break;
-	case 2:
-		mapTexSize = 2048;
-		planTexSize = 256;
-		break;
-	default:
-		mapTexSize = 1024;
-		planTexSize = 128;
-		break;
-	}
+	int mapTexSize = getMapTexSize();
+	int planTexSize = getPlanTexSize();
 
 	// Generate the texture used to map onto the landscape
 	if (!mainMap_.getBits())
 	{
 		mainMap_.createBlank(mapTexSize, mapTexSize);
-		scorchMap_.createBlank(mapTexSize, mapTexSize);
 		bitmapPlanAlpha_.createBlank(planTexSize, planTexSize, true);
 		bitmapPlan_.createBlank(planTexSize, planTexSize);
 		bitmapPlanAlphaAlpha_.loadFromFile(
@@ -299,8 +317,8 @@ void Landscape::generate(ProgressCounter *counter)
 	// Generate the scorch map for the landscape
 	std::string sprayMaskFile = getDataFile("data/textures/smoke01.bmp");
 	GLBitmap sprayMaskBitmap(sprayMaskFile.c_str(), sprayMaskFile.c_str(), false);
+	scorchMap_.loadFromFile(getDataFile(tex->scorch.c_str()));
 	GLBitmap scorchMap(getDataFile(tex->scorch.c_str()));
-	GLBitmapModifier::tileBitmap(scorchMap, scorchMap_);
 	scorchMap.resize(sprayMaskBitmap.getWidth(), sprayMaskBitmap.getHeight());
 	GLBitmap texture1New(sprayMaskBitmap.getWidth(), sprayMaskBitmap.getHeight(), true);
 	GLBitmapModifier::makeBitmapTransparent(texture1New, scorchMap, sprayMaskBitmap);

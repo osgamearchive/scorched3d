@@ -76,6 +76,8 @@ public:
 
 	void updatePlanTexture();
 	void updatePlanATexture();
+	int getPlanTexSize();
+	int getMapTexSize();
 
 	unsigned int getChangeCount() { return changeCount_; }
 

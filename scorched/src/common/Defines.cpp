@@ -33,6 +33,11 @@ static char *dataModFile = 0;
 
 extern bool wxWindowInit;
 
+bool fileExists(const char *file)
+{
+	return ::wxFileExists(file);
+}
+
 void dialogMessage(const char *header, const char *fmt, ...)
 {
 	char text[20048];

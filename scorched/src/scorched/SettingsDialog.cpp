@@ -450,7 +450,7 @@ bool SettingsFrame::TransferDataToWindow()
 		SettingsEnv::IDC_COMBO_STARTARMSLEVEL_CTRL->SetToolTip(
 			wxString("Specifies the most powerful weapon that will be available to buy from round 0."));
 		SettingsEnv::IDC_COMBO_ENDARMSLEVEL_CTRL->SetSelection(
-			context_.getStartArmsLevel());
+			context_.getEndArmsLevel());
 		SettingsEnv::IDC_COMBO_ENDARMSLEVEL_CTRL->SetToolTip(
 			wxString("Specifies the most powerful weapon that will be available to buy in the final round."));
 

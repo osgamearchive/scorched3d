@@ -29,7 +29,8 @@
 #include <math.h>
 
 void DeformTextures::deformLandscape(Vector &pos, float radius, 
-									 bool down, DeformLandscape::DeformPoints &map)
+	bool down, GLBitmap &scorchedMap, 
+	DeformLandscape::DeformPoints &map)
 {
 	HeightMap &hmap = ScorchedClient::instance()->getLandscapeMaps().getHMap();
 	int iradius = (int) radius + 1;
@@ -79,21 +80,44 @@ void DeformTextures::deformLandscape(Vector &pos, float radius,
 
 		GLubyte *bytes = 
 			Landscape::instance()->getMainMap().getBits() + ((width * y) + x * 3);
-
 		GLubyte *destBits = bytes;
-		GLubyte *srcBits = 
-			Landscape::instance()->getScorchMap().getBits() + ((width * y) + x * 3);
 		for (int b=0; b<h;b++)
 		{
+			float mapYf = float(b) / pixelsPerSH + 2.0f;
+			float mapYb = mapYf - floorf(mapYf);
+			float mapYa = 1.0f - mapYb;
+            int mapY = int(mapYf);
+
 			for (int a=0; a<w; a++)
 			{
-				int mapX = int(a / pixelsPerSW) + 2;
-				int mapY = int(b / pixelsPerSH) + 2;
+				float mapXf = float(a) / pixelsPerSW + 2.0f;
+				float mapXb = mapXf - floorf(mapXf);
+				float mapXa = 1.0f - mapXb;
+				int mapX = int(mapXf);
+
 				if (mapX < 49 && mapY < 49)
 				{
-					float mag = map.map[mapX][mapY];
+					float mag = 0.0f;
+					if (a < w-1 && b < h-1)
+					{
+						float maga = map.map[mapX][mapY] * mapXa +
+							map.map[mapX + 1][mapY] * mapXb;
+						float magb = map.map[mapX][mapY + 1] * mapXa +
+							map.map[mapX + 1][mapY + 1] * mapXb;
+						mag = maga * mapYa + magb * mapYb;
+					}
+					else 
+					{
+						mag = map.map[mapX][mapY];
+					}
+					
 					if (mag > 0.0f)
 					{
+						int posX = (x + a) % scorchedMap.getWidth();
+						int posY = (y + b) % scorchedMap.getHeight();
+						GLubyte *srcBits = 
+							scorchedMap.getBits() + ((scorchedMap.getWidth() * posY * 3) + posX * 3);
+
 						destBits[0] = (GLubyte) ((float(srcBits[0]) * mag) + 
 							(float(destBits[0]) * (1.0f - mag)));
 						destBits[1] = (GLubyte) ((float(srcBits[1]) * mag) + 
@@ -102,11 +126,8 @@ void DeformTextures::deformLandscape(Vector &pos, float radius,
 							(float(destBits[2]) * (1.0f - mag)));
 					}
 				}
-
-				srcBits += 3;
 				destBits +=3;
 			}
-			srcBits += width - w * 3;
 			destBits += width - w * 3;
 		}
 
