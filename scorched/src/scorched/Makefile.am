@@ -357,8 +357,8 @@ scorched3d_SOURCES = \
 	../landscape/Hemisphere.h \
 	../landscape/InfoMap.cpp \
 	../landscape/InfoMap.h \
-	../landscape/Landscape.h \
 	../landscape/Landscape.cpp \
+	../landscape/Landscape.h \
 	../landscape/MovementMap.cpp \
 	../landscape/MovementMap.h \
 	../landscape/NapalmMap.cpp \
@@ -541,6 +541,8 @@ scorched3d_SOURCES = \
 	../ode/step.h \
 	../ode/testing.cpp \
 	../ode/testing.h \
+	../ode/timer.cpp \
+	../ode/timer.h \
 	../XML/XMLFile.cpp \
 	../XML/XMLFile.h \
 	../XML/XMLParser.cpp \

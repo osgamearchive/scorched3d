@@ -34,6 +34,7 @@ extern "C" {
 #include <malloc.h>		// for alloca under windows
 #include <string.h>
 #include <math.h>
+#include <alloca.h>
 
 #if defined(WIN32) && (defined(MSVC) || defined(MINGW))
 static union { unsigned char __c[4]; float __f; } __ode_huge_valf =

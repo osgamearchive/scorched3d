@@ -22,7 +22,7 @@
 
 #include <ode/config.h>
 #include <ode/error.h>
-
+#include <stdlib.h>
 
 static dMessageFunction *error_function = 0;
 static dMessageFunction *debug_function = 0;
