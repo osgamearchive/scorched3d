@@ -334,6 +334,8 @@ void DisplayFrame::refreshScreen()
 	IDC_MORERES_CTRL->SetToolTip(OptionsDisplay::instance()->getMoreResToolTip());
 	IDC_SWAPYAXIS_CTRL->SetValue(OptionsDisplay::instance()->getSwapYAxis());
 	IDC_SWAPYAXIS_CTRL->SetToolTip(OptionsDisplay::instance()->getSwapYAxisToolTip());
+	IDC_LOGGING_CTRL->SetValue(OptionsDisplay::instance()->getClientLogToFile());
+	IDC_LOGGING_CTRL->SetToolTip(OptionsDisplay::instance()->getClientLogToFileToolTip());
 
 	for (int i=2; i<64; i+=2)
 	{
@@ -505,6 +507,7 @@ bool DisplayFrame::TransferDataFromWindow()
 	OptionsDisplay::instance()->setDetailTexture(!IDC_NODETAILTEX_CTRL->GetValue());
 	OptionsDisplay::instance()->setMoreRes(IDC_MORERES_CTRL->GetValue());
 	OptionsDisplay::instance()->setSwapYAxis(IDC_SWAPYAXIS_CTRL->GetValue());
+	OptionsDisplay::instance()->setClientLogToFile(IDC_LOGGING_CTRL->GetValue());
 
 	wxString buffer = IDC_DISPLAY_CTRL->GetValue();
 	int windowWidth, windowHeight;

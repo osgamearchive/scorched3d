@@ -30,6 +30,7 @@
 #include <tankgraph/TankModelRenderer.h>
 #include <GLW/GLWWindowManager.h>
 #include <common/OptionsParam.h>
+#include <common/OptionsDisplay.h>
 #include <coms/ComsMessageSender.h>
 #include <coms/ComsMessageHandler.h>
 #include <coms/ComsTextMessage.h>
@@ -69,6 +70,11 @@ TankMenus::TankMenus() : logger_("ClientLog")
 	new GLConsoleRuleFnIBooleanAdapter(
 		"ActionLogging",
 		ScorchedClient::instance()->getActionController().getActionLogging());
+
+	if (OptionsDisplay::instance()->getClientLogToFile())
+	{
+		logToFile();
+	}
 }
 
 TankMenus::~TankMenus()

@@ -256,6 +256,10 @@ public:
 	void setShowContextHelp(bool value) { showContextHelp_.setValue(value); }
 	const char *getShowContextHelpToolTip() { return showContextHelp_.getDescription(); }
 
+	bool getClientLogToFile() { return clientLogToFile_.getValue(); }
+	void setClientLogToFile(bool value) { clientLogToFile_.setValue(value); }
+	const char *getClientLogToFileToolTip() { return clientLogToFile_.getDescription(); }
+
 	int getSoundVolume() { return soundVolume_.getValue(); }
 	void setSoundVolume(int value) { soundVolume_.setValue(value); }
 	const char *getSoundVolumeToolTip() { return soundVolume_.getDescription(); }
@@ -379,6 +383,7 @@ protected:
 	OptionEntryBool softwareMouse_;
 	OptionEntryBool sideScroll_;
 	OptionEntryBool swapYAxis_;
+	OptionEntryBool clientLogToFile_;
 	OptionEntryBoundedInt dialogSize_;
 	OptionEntryBoundedInt texSize_;
 	OptionEntryBoundedInt tankDetail_;

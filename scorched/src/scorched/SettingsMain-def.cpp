@@ -37,6 +37,7 @@ static wxTextCtrl *IDC_SERVER_PASSWORD_CTRL = 0;
 static wxTextCtrl *IDC_SERVERADMIN_PASSWORD_CTRL = 0;
 static wxComboBox *IDC_SERVER_ROUNDS_CTRL = 0;
 static wxComboBox *IDC_NOSHOTS_CTRL = 0;
+static wxComboBox *IDC_DOWNLOAD_SPEED_CTRL = 0;
 static wxComboBox *IDC_WAIT_TIME_CTRL = 0;
 static wxComboBox *IDC_SHOT_TIME_CTRL = 0;
 static wxComboBox *IDC_IDLE_TIME_CTRL = 0;

@@ -139,7 +139,7 @@ bool ConnectDialog::tryConnection()
 				formatString("Failed to resolve server name"), 0);
 			return false;
 		}
-		unsigned int ipAddress = address.host;
+		unsigned int ipAddress = SDLNet_Read32(&address.host);
 		uniqueId = idStore_.getUniqueId(ipAddress);
 	}
 	else

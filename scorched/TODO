@@ -45,6 +45,7 @@ Changed: Spread and hurts weapon primative options are now variable
 Changed: LeapFrog weapon primative bounce now variable
 Changed: Message of the day now defined in server.xml file
 
+Added: Option to disallow people from the same ip address
 Added: Option to change number of sound mixing channels
 Added: Unique ids are different for each stats server (to stop spoofing)
 Added: Scorched textures can be specified on a per weapon basis
@@ -122,7 +123,6 @@ Shot cam does not get LOD correctly
 -- Things I am currently looking at
 Fix crashing when people win (Graphics card drivers??)
 Fix large menus
-Option to disallow people from the same ip address
 
 -- Things for next release
 Ambient sounds

@@ -121,6 +121,8 @@ OptionsDisplay::OptionsDisplay() :
 		"Do not draw the moving shore waves.", RWAccess, false),
 	noDepthSorting_(options_, "NoDepthSorting",
 		"Do not depth sort sprites.", RWAccess, false),
+	clientLogToFile_(options_, "ClientLogToFile",
+		"Client logs to file", RAccess, false),
 	drawLines_(options_, "DrawLines", 
 		"Do not fill in the landscape", RWAccess, false),
 	drawNormals_(options_, "DrawNormals", 

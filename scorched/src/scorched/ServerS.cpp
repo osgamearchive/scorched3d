@@ -62,12 +62,12 @@ static void createControls(wxWindow *parent,
 	IDC_PUBLISH_CTRL = 
 		new wxCheckBox(parent, IDC_PUBLISH,
 		"Allow ALL other internet users to see and use this server");	
-	servernameSizer->Add(IDC_PUBLISH_CTRL);
+	servernameSizer->Add(IDC_PUBLISH_CTRL, 0, wxTOP, 5);
 
 	IDC_ALLOWSAME_CTRL = 
 		new wxCheckBox(parent, -1,
 		"Allow multiple clients from same machine to use this server");	
-	servernameSizer->Add(IDC_ALLOWSAME_CTRL);
+	servernameSizer->Add(IDC_ALLOWSAME_CTRL, 0, wxTOP, 5);
 
 	sizer->Add(servernameSizer, 0, wxALL, 5);
 	

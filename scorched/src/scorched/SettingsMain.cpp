@@ -105,6 +105,14 @@ static void createControls(wxWindow *parent, wxSizer *topsizer)
 		wxDefaultPosition, wxSize((int) 132, (int) 124.5),
 		0, 0, wxCB_READONLY);
 	sizer->Add(IDC_IDLE_SHOTTIME_CTRL, 0, wxALIGN_CENTER);
+	sizer->Add(new wxStaticText(parent, -1,
+		"Mod Download Speed :"), 0, wxALIGN_CENTER);
+	IDC_DOWNLOAD_SPEED_CTRL = 
+		new wxComboBox(parent, -1,
+		"",
+		wxDefaultPosition, wxSize((int) 132, (int) 124.5),
+		0, 0, wxCB_READONLY);
+	sizer->Add(IDC_DOWNLOAD_SPEED_CTRL, 0, wxALIGN_CENTER);
 	IDC_SERVER_PASSWORD_CTRL_TEXT = 
 		new wxStaticText(parent, -1, "Password :");
 	sizer->Add(IDC_SERVER_PASSWORD_CTRL_TEXT, 0, wxALIGN_CENTER);

@@ -590,6 +590,18 @@ bool SettingsFrame::TransferDataToWindow()
 		SettingsMain::IDC_IDLE_SHOTTIME_CTRL->SetToolTip(
 			wxString("The amount of time to wait for a client to respond after shots before kicking it."));
 
+		// Download speed
+		for (i=0; i<=250000; i+=5000)
+		{
+			sprintf(string, "%i bytes/sec", i);
+			if (i==0) sprintf(string, "%i (No download)", i);	
+			SettingsMain::IDC_DOWNLOAD_SPEED_CTRL->Append(string);
+		}
+		SettingsMain::IDC_DOWNLOAD_SPEED_CTRL->SetSelection(
+			context_.getModDownloadSpeed()/5000);
+		SettingsMain::IDC_DOWNLOAD_SPEED_CTRL->SetToolTip(
+			wxString(context_.getModDownloadSpeedToolTip()));
+
 		// Password
 		SettingsMain::IDC_SERVER_PASSWORD_CTRL->SetValue(
 			context_.getServerPassword());
@@ -748,6 +760,7 @@ bool SettingsFrame::TransferDataFromWindow()
 		int idleTime = 30;
 		int idleShotTime = 10;
 		int maxRoundTurns = 15;
+		int downloadSpeed = 0;
 
 		context_.setTurnType((OptionsGame::TurnType) (int) 
 			SettingsMain::IDC_TYPE_CTRL->GetClientData(
@@ -759,6 +772,7 @@ bool SettingsFrame::TransferDataFromWindow()
 		sscanf(SettingsMain::IDC_SHOT_TIME_CTRL->GetValue(), "%i", &shotTime);
 		sscanf(SettingsMain::IDC_IDLE_TIME_CTRL->GetValue(), "%i", &idleTime);
 		sscanf(SettingsMain::IDC_IDLE_SHOTTIME_CTRL->GetValue(), "%i", &idleShotTime);
+		sscanf(SettingsMain::IDC_DOWNLOAD_SPEED_CTRL->GetValue(), "%i", &downloadSpeed);
 		context_.setAutoBallanceTeams(SettingsMain::IDC_AUTOBALANCETEAMS_CTRL->GetValue());
 		
 		context_.setNoRounds(noRounds);
@@ -766,6 +780,7 @@ bool SettingsFrame::TransferDataFromWindow()
 		context_.setIdleKickTime(idleTime);
 		context_.setIdleShotKickTime(idleShotTime);
 		context_.setNoMaxRoundTurns(maxRoundTurns);
+		context_.setModDownloadSpeed(downloadSpeed);
 		
 		context_.setServerPassword(
 			SettingsMain::IDC_SERVER_PASSWORD_CTRL->GetValue());

@@ -288,7 +288,7 @@ unsigned int NetServer::getIpAddress(TCPsocket destination)
 	IPaddress *address = SDLNet_TCP_GetPeerAddress(destination);
 	if (!address) return 0;
 
-	unsigned int addr = address->host;
+	unsigned int addr = SDLNet_Read32(&address->host);
 	return addr;
 }
 

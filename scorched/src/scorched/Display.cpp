@@ -129,6 +129,10 @@ static void createMainControls(wxWindow *parent, wxSizer *sizer)
 		new wxCheckBox(parent, -1, "Side Scrolling",
 		wxDefaultPosition, wxSize((int) 150, (int) -1));
 	miscSizer2->Add(IDC_SIDESCROLL_CTRL, 0);
+	IDC_LOGGING_CTRL = 
+		new wxCheckBox(parent, -1, "Client Logging",
+		wxDefaultPosition, wxSize((int) 150, (int) -1));
+	miscSizer2->Add(IDC_LOGGING_CTRL, 0);
 	miscSizer->Add(miscSizer2, 0, wxGROW);
 	sizer->Add(miscSizer, 0, wxGROW | wxLEFT | wxRIGHT | wxTOP, 5);
 	}

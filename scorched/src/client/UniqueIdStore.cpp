@@ -64,7 +64,7 @@ bool UniqueIdStore::loadStore()
 		IPaddress ipAddress;
 		if (SDLNet_ResolveHost(&ipAddress, entry.published.c_str(), 0) == 0)
 		{
-			entry.ip = ipAddress.host;
+			entry.ip = SDLNet_Read32(&ipAddress.host);
 		}
 		else entry.ip = 0;
 		ids_.push_back(entry);
@@ -127,7 +127,7 @@ bool UniqueIdStore::saveUniqueId(unsigned int ip, const char *id,
 		return false;
 	}
 
-	unsigned int ipAddress = address.host;
+	unsigned int ipAddress = SDLNet_Read32(&address.host);
 	if (ipAddress != ip) 
 	{
 		std::string actualIp = NetInterface::getIpName(ip);
