@@ -7,9 +7,10 @@ include('conversionfunctions.php');
 
 // General Player Stats
 
-$query = "SELECT * FROM scorched3d".$prefix."_players WHERE playerid=$playerid GROUP BY playerid ORDER BY kills";
+$query = "SELECT *, round((skill + (overallwinner*5) + (COALESCE(round((wins/gamesplayed)*(skill-1000), 3), 0)) + ((skill-1000) * COALESCE(round(((kills-(teamkills+selfkills))/shots), 3), 0))),0) as skill FROM scorched3d".$prefix."_players WHERE playerid=$playerid GROUP BY playerid ORDER BY kills";
 $result = mysql_query($query) or die("Query failed : " . mysql_error());
 $row = mysql_fetch_object($result);
+$playername=$row->name;
 if ($row->shots==0)	$killratio="No Shots Recorded";
 else $killratio=prependnumber(((($row->kills-$row->teamkills-$row->selfkills)/$row->shots)*100), "%", 2);
 if ($row->kills==0){
@@ -26,9 +27,10 @@ else
 	$killsperround = round((($row->kills-$row->teamkills-$row->selfkills)/$row->gamesplayed), 2);	
 ?>
 <table width=640 border="0" align="center">
-<tr><td align=center><b>Player Stats</b></td></tr>
+<tr><td align=center><b><?=$playername?>'s Stats</b></td></tr>
 </table>
 <table width="600" bordercolor=#333333 cellspacing="0" cellpadding="0" border="1" align="center">
+<tr><td bgcolor=#111111><b>Player Icon</b></td><td><img src="getbinary.php?id=<?=$row->avatarid?>"></td></tr>
 <tr><td bgcolor=#111111><b>Last Used Player Name</b></td><td><?=$row->name?></td></tr>
 <tr><td bgcolor=#111111><b>Last Connected</b></td><td><?=$row->lastconnected?></td></tr>
 <tr><td bgcolor=#111111><b>OS</b></td><td><?=$row->osdesc?></td></tr>
@@ -41,6 +43,7 @@ else
 <tr><td bgcolor=#111111><b>Rounds Resigned</b></td><td><?=$row->resigns?></td></tr>
 <tr><td bgcolor=#111111><b>Total Turns</b></td><td><?=$row->roundsplayed?></td></tr>
 <tr><td bgcolor=#111111><b>Total Shots</b></td><td><?=$row->shots?></td></tr>
+<tr><td bgcolor=#111111><b>Skill Rating</b></td><td><?=$row->skill?></td></tr>
 <tr><td bgcolor=#111111><b>Opponent Kills</b></td><td><?=$row->kills?></td></tr>
 <tr><td bgcolor=#111111><b>Kill Ratio</b></td><td><?echo $killratio."  (".$shotsperkill;?> shots/kill)</td></tr>
 <tr><td bgcolor=#111111><b>Kills Per Round</b></td><td><?=$killsperround?></td></tr>
@@ -62,7 +65,7 @@ $query = "SELECT * FROM scorched3d".$prefix."_names where playerid=$playerid";
 $result = mysql_query($query) or die("Query failed : " . mysql_error());
 ?>
 <table width="600" border="0" align="center">
-<tr><td align=center><b>Player Aliases</b></td></tr>
+<tr><td align=center><b><?=$playername?>'s Aliases</b></td></tr>
 </table>
 <table width="600" bordercolor=#333333 cellspacing="0" cellpadding="0" border="1" align="center">
 <tr>
@@ -84,7 +87,7 @@ $query = "select (scorched3d".$prefix."_events.playerid) as playerid, (scorched3
 $result = mysql_query($query) or die("Query failed : " . mysql_error());
 ?>
 <table width=600 border="0" align="center">
-<tr><td align=center><b>Player's Stats For Today</b></td></tr>
+<tr><td align=center><b><?=$playername?>'s Stats For Today</b></td></tr>
 </table>
 <table width=600 bordercolor=#333333 cellspacing="0" cellpadding="0" border="1" align="center">
 <tr>
@@ -136,7 +139,7 @@ $query = "select (scorched3d".$prefix."_events.playerid) as playerid, (scorched3
 $result = mysql_query($query) or die("Query failed : " . mysql_error());
 ?>
 <table width=600 border="0" align="center">
-<tr><td align=center><b>Player's Stats For The Last 7 Days</b></td></tr>
+<tr><td align=center><b><?=$playername?>'s Stats For The Last 7 Days</b></td></tr>
 </table>
 <table width=600 bordercolor=#333333 cellspacing="0" cellpadding="0" border="1" align="center">
 <tr>
@@ -188,7 +191,7 @@ $query="select (scorched3d".$prefix."_events.otherplayerid) as killedid, (scorch
 $result = mysql_query($query) or die("Query failed : " . mysql_error(). "<BR>query=$query");
 ?>
 <table width="600" border="0" align="center">
-<tr><td align=center><b>Top 25 Targets</b></td></tr>
+<tr><td align=center><b><?=$playername?>'s Top 25 Targets</b></td></tr>
 </table>
 <table width="600" bordercolor=#333333 cellspacing="0" cellpadding="0" border="1" align="center">
 <tr>
@@ -217,7 +220,7 @@ $query=" select (scorched3d".$prefix."_events.playerid) as killedid, (scorched3d
 $result = mysql_query($query) or die("Query failed : " . mysql_error(). "<BR>query=$query");
 ?>
 <table width="600" border="0" align="center">
-<tr><td align=center><b>Top 25 Killers</b></td></tr>
+<tr><td align=center><b><?=$playername?>'s Top 25 Killers</b></td></tr>
 </table>
 <table width="600" bordercolor=#333333 cellspacing="0" cellpadding="0" border="1" align="center">
 <tr>
@@ -242,16 +245,17 @@ while ($row = mysql_fetch_object($result))
 
 <?	
 // Top Weapons
-$query="select (scorched3d".$prefix."_events.weaponid) as weaponid, (count(*)) as tally, (scorched3d".$prefix."_weapons.name) as name from scorched3d".$prefix."_events LEFT JOIN scorched3d".$prefix."_weapons ON (scorched3d".$prefix."_events.weaponid=scorched3d".$prefix."_weapons.weaponid) where playerid=$playerid and eventtype=1 group by weaponid order by tally desc";
+$query="select (scorched3d".$prefix."_events.weaponid) as weaponid, (count(*)) as tally, (scorched3d".$prefix."_weapons.armslevel) as armslevel, (scorched3d".$prefix."_weapons.name) as name from scorched3d".$prefix."_events LEFT JOIN scorched3d".$prefix."_weapons ON (scorched3d".$prefix."_events.weaponid=scorched3d".$prefix."_weapons.weaponid) where playerid=$playerid and eventtype=1 group by weaponid order by tally desc";
 $result = mysql_query($query) or die("Query failed : " . mysql_error(). "<BR>query=$query");
 ?>
 <table width="600" border="0" align="center">
-<tr><td align=center><b>Top Weapons</b></td></tr>
+<tr><td align=center><b><?=$playername?>'s Top Weapons</b></td></tr>
 </table>
 <table width="600" bordercolor=#333333 cellspacing="0" cellpadding="0" border="1" align="center">
 <tr>
 <td bgcolor=#111111 width=50></td>
 <td bgcolor=#111111><b>Weapon</b></td>
+<td bgcolor=#111111><b>Armslevel</b></td>
 <td bgcolor=#111111><b>Kills</b></td>
 </tr>
 <?
@@ -262,6 +266,7 @@ while ($row = mysql_fetch_object($result))
 	echo "<tr>";
 	echo "<td>$rownumber<br></td>";
 	echo "<td><a href=\"weaponstats.php?Prefix=$prefix&WeaponID=$row->weaponid\">$row->name</a></td>";
+	echo "<td>$row->armslevel<br></td>";
 	echo "<td>$row->tally<br></td>";
 	echo "</tr>";
 }

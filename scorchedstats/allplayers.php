@@ -12,7 +12,7 @@ include('sortfunction.php');
 include('conversionfunctions.php')
 ?>
                                                                                             
-<table width=640 border="0" align="center">
+<table width=790 border="0" align="center">
 <tr><td align="center">
 <?
 include('search.php');
@@ -21,13 +21,13 @@ include('search.php');
 </table>
 
 <?
-$query = " SELECT wins, (scorched3d".$prefix."_players.overallwinner) as gamewins, skill + wins * 150 + overallwinner * 500 as skill, playerid, kills, lastconnected, shots, name, (scorched3d".$prefix."_players.selfkills) as suicides, teamkills, resigns, (scorched3d".$prefix."_players.gamesplayed) as roundsplayed, timeplayed, moneyearned FROM scorched3d".$prefix."_players ORDER BY $orderby $dir LIMIT $playerid, 25";
+$query = " SELECT wins, (scorched3d".$prefix."_players.overallwinner) as gamewins, round((skill + (overallwinner*5) + (COALESCE(round((wins/gamesplayed)*(skill-1000), 3), 0)) + ((skill-1000) * COALESCE(round(((kills-(teamkills+selfkills))/shots), 3), 0))),0) as skill, playerid, kills, lastconnected, shots, name, (scorched3d".$prefix."_players.selfkills) as suicides, teamkills, resigns, (scorched3d".$prefix."_players.gamesplayed) as roundsplayed, timeplayed, moneyearned, deaths FROM scorched3d".$prefix."_players ORDER BY $orderby $dir LIMIT $playerid, 25";
 $result = mysql_query($query) or die("Query failed : " . mysql_error());
 ?>
-<table width=640 border="0" align="center">
+<table width=720 border="0" align="center">
 <tr><td align=center><font size="+1"><b><? echo "Players ".($playerid+1)." to ".($playerid+25)." (sorted by ".$orderby.")";?></b></font></td></tr>
 </table>
-<table width=640 bordercolor=#333333 cellspacing="0" cellpadding="0" border="1" align="center">
+<table width=720 bordercolor=#333333 cellspacing="0" cellpadding="0" border="1" align="center">
 <tr>
 <td bgcolor=#111111 width=50></td>
 
@@ -43,6 +43,7 @@ echo "<td align=center bgcolor=#111111><b><a href=allplayers.php?Prefix=$prefix&
 echo "<td align=center bgcolor=#111111><b><a href=allplayers.php?Prefix=$prefix&?PlayerID=0&OrderBy=resigns&Dir=".sortdirection('resigns', $orderby, $dir).">Resigns</a></b></td>";
 echo "<td align=center bgcolor=#111111><b><a href=allplayers.php?Prefix=$prefix&?PlayerID=0&OrderBy=suicides&Dir=".sortdirection('suicides', $orderby, $dir).">SKs</a></b></td>";
 echo "<td align=center bgcolor=#111111><b><a href=allplayers.php?Prefix=$prefix&?PlayerID=0&OrderBy=teamkills&Dir=".sortdirection('teamkills', $orderby, $dir).">TKs</a></b></td>";
+echo "<td align=center bgcolor=#111111><b><a href=allplayers.php?Prefix=$prefix&?PlayerID=0&OrderBy=deaths&Dir=".sortdirection('deaths', $orderby, $dir).">Deaths</a></b></td>";
 echo "<td align=center bgcolor=#111111><b><a href=allplayers.php?Prefix=$prefix&?PlayerID=0&OrderBy=timeplayed&Dir=".sortdirection('timeplayed', $orderby, $dir).">Time Played</a></b></td>";
 //echo "<td width=160 bgcolor=#111111><b><a href=allplayers.php?Prefix=$prefix&?PlayerID=0&OrderBy=lastconnected&Dir=".sortdirection('lastconnected', $orderby, $dir).">Last Connect</b></td>";
 ?>
@@ -69,6 +70,7 @@ while ($row = mysql_fetch_object($result))
         echo "<td align=center width=50>$row->resigns</td>";
         echo "<td align=center>$row->suicides</td>";
         echo "<td align=center>$row->teamkills</td>";
+        echo "<td align=center>$row->deaths</td>";
      	echo "<td align=right>".secondstotext($row->timeplayed)."</td>";
         //echo "<td>$row->lastconnected</td>";
         echo "</tr>";
