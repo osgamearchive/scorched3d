@@ -30,15 +30,17 @@ Gun fires at same point for all tanks (ignores turret/gun position in model)
 
 -- Things I am currently looking at
 Problem with certain buffer checks
-Better waves around island
+Trees/buildings
 Ability to adjust server options on the fly, so the next match will have the new options
 Make AIs better
 
 -- Server Stuff
+Chat filter (swear words)
 ability to adjust server options on the fly, so the next match will have the new options
 Ban players 
 
 -- Client Stuff
+Better windows options (docking, minimized, fade in/out)
 A safe mode option for when scorched crashed last time
 Options should be stored in users home directory.
 Option to reconnect when disconected from server.
@@ -48,6 +50,7 @@ keep track of money after you leave the server
 keep track of views 
 Make a count down sound when timer runs out.
 Add option for human players to say stuff when firing/killed
+Chat logger (for urls)
 
 -- Other Stuff
 Add the ability to customize the languages (for dialogs etc..) (localisation)
@@ -62,6 +65,7 @@ First person style camera mode
 Towers can't move
 More weapons, always more weapons
 Smoke bombs
+Bouncing debris
 Cloaking device for tanks
 Low level cloud or fog
 Patriot missile type defense
