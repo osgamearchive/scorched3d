@@ -964,21 +964,14 @@ trace of the shot path.</description>
 	</accessory>
 	<accessory type="WeaponAnimation">
 		<name></name>
-		<description></description>
-		<icon></icon>
-		<cost></cost>
-		<bundlesize></bundlesize>
-		<armslevel></armslevel>
+		<armslevel>0</armslevel>
 		<deathanimationweight>10</deathanimationweight>
 		<animation>ExplosionLaserBeamRenderer</animation>
 	</accessory>
 	<accessory type="WeaponMuzzle">
 		<name></name>
 		<description>The muzzle flash for guns</description>
-		<icon></icon>
-		<cost></cost>
-		<bundlesize></bundlesize>
-		<armslevel></armslevel>
+		<armslevel>0</armslevel>
 		<hurtamount>0.0</hurtamount>
 		<nocreatedebris/>
 		<nocreatesplash/>
