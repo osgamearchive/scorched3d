@@ -8,7 +8,7 @@
 		<roof type="sky"></roof>
 		<tankstart type="height">
 			<startcloseness>20</startcloseness>
-			<height><min>5.5</min><max>20</max></height>
+			<height><min>5.5</min><max>30</max></height>
 			<startmask></startmask>
 		</tankstart>
 		<heightmap type="generate">
@@ -76,7 +76,7 @@
 		<roof type="sky"></roof>
 		<tankstart type="height">
 			<startcloseness>20</startcloseness>
-			<height><min>5.5</min><max>20</max></height>
+			<height><min>5.5</min><max>70</max></height>
 			<startmask></startmask>
 		</tankstart>
 		<heightmap type="generate">
@@ -110,7 +110,7 @@
 		<roof type="sky"></roof>
 		<tankstart type="height">
 			<startcloseness>20</startcloseness>
-			<height><min>5.5</min><max>20</max></height>
+			<height><min>5.5</min><max>30</max></height>
 			<startmask></startmask>
 		</tankstart>
 		<heightmap type="generate">
@@ -165,7 +165,7 @@
 		<roof type="sky"></roof>
 		<tankstart type="height">
 			<startcloseness>20</startcloseness>
-			<height><min>5.5</min><max>20</max></height>
+			<height><min>5.5</min><max>35</max></height>
 			<startmask></startmask>
 		</tankstart>
 		<heightmap type="generate">
@@ -199,7 +199,7 @@
 		<roof type="sky"></roof>
 		<tankstart type="height">
 			<startcloseness>20</startcloseness>
-			<height><min>5.5</min><max>20</max></height>
+			<height><min>5.5</min><max>30</max></height>
 			<startmask>data/landscapes/half-mask-start.bmp</startmask>
 		</tankstart>
 		<heightmap type="generate">
@@ -233,7 +233,7 @@
 		<roof type="sky"></roof>
 		<tankstart type="height">
 			<startcloseness>20</startcloseness>
-			<height><min>5.5</min><max>20</max></height>
+			<height><min>5.5</min><max>60</max></height>
 			<startmask></startmask>
 		</tankstart>
 		<heightmap type="generate">
@@ -266,7 +266,7 @@
 		<surround type="none"></surround>
 		<tankstart type="height">
 			<startcloseness>20</startcloseness>
-			<height><min>5.5</min><max>20</max></height>
+			<height><min>5.5</min><max>60</max></height>
 			<startmask></startmask>
 		</tankstart>
 		<roof type="cavern">

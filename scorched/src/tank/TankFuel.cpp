@@ -55,7 +55,7 @@ void TankFuel::reset()
 				if (context_.optionsGame->getGiveAllWeapons() ||
 					accessory->getStartingNumber() == -1)
 				{
-					addFuel(20);
+					addFuel(40);
 					infinite_ = true;
 				}
 				else if (accessory->getStartingNumber() > 0)
