@@ -18,7 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #if !defined(__INCLUDE_GLWDropDownh_INCLUDE__)
 #define __INCLUDE_GLWDropDownh_INCLUDE__
 
@@ -26,55 +25,53 @@
 #include <string>
 #include <GLW/GLWPushButton.h>
 #include <GLW/GLWidget.h>
-
-class GLWDropDownEntry
-{
-public:
-	GLWDropDownEntry(const char *name = "",
-		GLWTip *tip = 0) :
-		text_(name), tip_(tip)
-	{
-	}
-
-	std::string text_;
-	GLWTip *tip_;
-};
+#include <GLW/GLWSelector.h>
 
 class GLWDropDownI
 {
 public:
 	virtual ~GLWDropDownI();
 
-	virtual void select(unsigned int id, const int pos, GLWDropDownEntry value) = 0;
+	virtual void select(unsigned int id, const int pos, GLWSelectorEntry value) = 0;
 };
 
-class GLWDropDown : public GLWidget
+class GLWDropDown : public GLWidget, public GLWSelectorI, public GLWPushButtonI
 {
 public:
 	GLWDropDown(float x = 0.0f, float y = 0.0f, float w = 0.0f);
 	virtual ~GLWDropDown();
 
 	void setHandler(GLWDropDownI *handler);
-	void addText(GLWDropDownEntry text);
+	void addText(GLWSelectorEntry text);
 	void setText(const char *text) { text_ = text; }
 	const char *getText() { return text_.c_str(); }
 	void setCurrentPosition(int pos);
 	int getCurrentPosition();
 
+	// Inherited from GLWidget
 	virtual void draw();
 	virtual void mouseDown(float x, float y, bool &skipRest);
 	virtual void mouseUp(float x, float y, bool &skipRest);
+	virtual void setX(float x);
+	virtual void setY(float y);
+
+	// Inherited from GLWSelectorI
+	virtual void itemSelected(GLWSelectorEntry *entry, int position);
+	virtual void noItemSelected();
+
+	// Inhertied from GLWButtonI
+	virtual void buttonDown(unsigned int id);
+	virtual void buttonUp(unsigned int id);
 
 	void clear();
 
 	REGISTER_CLASS_HEADER(GLWDropDown);
 protected:
 	std::string text_;
-	std::list<GLWDropDownEntry> texts_;
+	std::list<GLWSelectorEntry> texts_;
 	GLWPushButton button_;
 	GLWDropDownI *handler_;
 
 };
-
 
 #endif

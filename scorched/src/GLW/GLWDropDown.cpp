@@ -32,11 +32,11 @@ GLWDropDownI::~GLWDropDownI()
 REGISTER_CLASS_SOURCE(GLWDropDown);
 
 GLWDropDown::GLWDropDown(float x, float y, float w) :
-	GLWidget(x, y, w - 21, 25.0f), text_("None"), 
-	button_(x + w - 20.0f, y, 20.0f, 25.0f),
+	GLWidget(x, y, w, 25.0f), text_("None"), 
+	button_(x + w - 22.0f, y + 2.0f, 20.0f, 21.0f),
 	handler_(0)
 {
-
+	button_.setHandler(this);
 }
 
 GLWDropDown::~GLWDropDown()
@@ -56,14 +56,14 @@ void GLWDropDown::clear()
 
 int GLWDropDown::getCurrentPosition()
 {
-	std::list<GLWDropDownEntry>::iterator itor;
+	std::list<GLWSelectorEntry>::iterator itor;
 	int pos = 0;
 	for (itor = texts_.begin();
 		itor != texts_.end();
 		itor++, pos++)
 	{
-		GLWDropDownEntry &entry = *itor;
-		if (strcmp(text_.c_str(), entry.text_.c_str()) == 0)
+		GLWSelectorEntry &entry = *itor;
+		if (strcmp(text_.c_str(), entry.getText()) == 0)
 		{
 			return pos;
 		}
@@ -75,22 +75,22 @@ int GLWDropDown::getCurrentPosition()
 void GLWDropDown::setCurrentPosition(int pos)
 {
 	int position = 0;
-	std::list<GLWDropDownEntry>::iterator itor;
+	std::list<GLWSelectorEntry>::iterator itor;
 	for (itor = texts_.begin();
 		itor != texts_.end();
 		itor++)
 	{
-		GLWDropDownEntry &entry = *itor;
-		text_ = entry.text_;
+		GLWSelectorEntry &entry = *itor;
+		text_ = entry.getText();
 		if (position++ >= pos) break;
 	}
 }
 
-void GLWDropDown::addText(GLWDropDownEntry text)
+void GLWDropDown::addText(GLWSelectorEntry text)
 {
 	if (texts_.empty())
 	{
-		text_ = text.text_;
+		text_ = text.getText();
 	}
 	texts_.push_back(text);
 }
@@ -114,99 +114,66 @@ void GLWDropDown::draw()
 
 	glColor3f(0.2f, 0.2f, 0.2f);
 	glBegin(GL_TRIANGLES);
-		glVertex2d(x_ + w_ + 16.0f + offset, y_ + 17.0f - offset);
-		glVertex2d(x_ + w_ + 5.0f + offset, y_ + 17.0f - offset);
-		glVertex2d(x_ + w_ + 10.0f + offset, y_ + 7.0f - offset);
+		glVertex2d(x_ + w_ - 6.0f + offset, y_ + 17.0f - offset);
+		glVertex2d(x_ + w_ - 17.0f + offset, y_ + 17.0f - offset);
+		glVertex2d(x_ + w_ - 12.0f + offset, y_ + 7.0f - offset);
 	glEnd();
 
-	GLWFont::instance()->getLargePtFont()->draw(
+	GLWFont::instance()->getLargePtFont()->drawWidth(
+		(int) w_ - 25,
 		GLWFont::widgetFontColor, 14,
 		x_ + 5.0f, y_ + 5.0f, 0.0f, text_.c_str());
+}
 
+void GLWDropDown::buttonDown(unsigned int id)
+{
 	if (button_.getPressed())
 	{
-		glColor3f(0.8f, 0.8f, 1.0f);
-		float dropSize = float(20.0f * texts_.size());
-
-		GLWToolTip::instance()->clearToolTip(
+		GLWSelector::instance()->showSelector(
+			this, 
 			GLWTranslate::getPosX() + x_, 
-			GLWTranslate::getPosY() + y_ - dropSize, 
-			w_, dropSize);
-
-		glBegin(GL_QUADS);
-			glVertex2f(x_, y_ - dropSize - 1);
-			glVertex2f(x_ + w_, y_ - dropSize - 1);
-			glVertex2f(x_ + w_, y_ - 1);
-			glVertex2f(x_, y_ - 1);
-		glEnd();
-		glBegin(GL_LINE_LOOP);
-			drawShadedRoundBox(x_, y_ - dropSize - 1, w_, dropSize, 10.0f, true);
-		glEnd();
-
-		float top = y_ - 24.0f;
-		std::list<GLWDropDownEntry>::iterator itor;
-		for (itor = texts_.begin();
-			itor != texts_.end();
-			itor++)
-		{
-			GLWDropDownEntry &entry = *itor;
-			static Vector selectedColor(0.7f, 0.7f, 0.7f);
-			bool selected = 
-				inBox(mouseX, mouseY, x_, top, w_, 19.0f);
-
-			if (entry.tip_)
-			{
-				GLWToolTip::instance()->addToolTip(entry.tip_, 
-					GLWTranslate::getPosX() + x_, 
-					GLWTranslate::getPosY() + top, 
-					w_, 19.0f);
-			}
-
-			GLWFont::instance()->getLargePtFont()->draw(
-				selected?selectedColor:GLWFont::widgetFontColor, 14,
-				x_ + 5.0f, top + 5.0f, 0.0f, entry.text_.c_str());
-			top -= 20.0f;
-		}
+			GLWTranslate::getPosY() + y_ - 7.0f, 
+			texts_,
+			0,
+			false);
 	}
+}
+
+void GLWDropDown::buttonUp(unsigned int id)
+{
 }
 
 void GLWDropDown::mouseDown(float x, float y, bool &skipRest)
 {
 	button_.mouseDown(x, y, skipRest);
-	if (!skipRest)
+}
+
+void GLWDropDown::setX(float x)
+{
+	GLWidget::setX(x);
+	button_.setX(x + w_ - 22.0f);
+}
+
+void GLWDropDown::setY(float y)
+{
+	GLWidget::setY(y);
+	button_.setY(y + 2.0f); 
+}
+
+void GLWDropDown::itemSelected(GLWSelectorEntry *entry, int position)
+{
+	button_.getPressed() = false;
+	text_ = entry->getText();
+	if (handler_)
 	{
-		if (button_.getPressed())
-		{
-			button_.getPressed() = false;
-			skipRest = true;
-
-			float dropSize = float(20.0f * texts_.size());
-			if (inBox(x, y, x_, y_ - dropSize - 1, w_, dropSize))
-			{
-				int pos = 0;
-				float top = y_ - 24.0f;
-				std::list<GLWDropDownEntry>::iterator itor;
-				for (itor = texts_.begin();
-					itor != texts_.end();
-					itor++)
-				{
-					GLWDropDownEntry &entry = *itor;
-					if (inBox(x, y, x_, top, w_, 19.0f))
-					{
-						text_ = entry.text_.c_str();
-						if (handler_)
-						{
-							handler_->select(id_, pos, entry);
-							return;
-						}
-					}
-
-					pos++;
-					top -= 20.0f;
-				}
-			}
-		}
+		handler_->select(id_, position, *entry);
+		return;
 	}
+}
+
+void GLWDropDown::noItemSelected()
+{
+	button_.getPressed() = false;
 }
 
 void GLWDropDown::mouseUp(float x, float y, bool &skipRest)

@@ -37,12 +37,13 @@ public:
 		SpaceLeft = 2,
 		SpaceTop = 4,
 		SpaceBottom = 8,
-		AlignLeft = 16,
-		AlignRight = 32,
-		AlignCenterLeftRight = 64,
-		AlignTop = 128,
-		AlignBottom = 256,
-		AlignCenterTopBottom = 512
+		SpaceAll = 16,
+		AlignLeft = 32,
+		AlignRight = 64,
+		AlignCenterLeftRight = 128,
+		AlignTop = 256,
+		AlignBottom = 512,
+		AlignCenterTopBottom = 1024
 	};
 	enum LayoutType
 	{
@@ -91,7 +92,7 @@ public:
 	virtual unsigned int getGridWidth();
 
 	GLWidget *addWidget(GLWidget *widget, GLWCondition *condition = 0, 
-		unsigned int flags = AlignLeft | AlignTop, 
+		unsigned int flags = 0, 
 		float width = 0.0f);
 	std::list<GLWPanelEntry> &getWidgets() { return widgets_; }
 

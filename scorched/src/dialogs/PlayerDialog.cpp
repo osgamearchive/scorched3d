@@ -145,7 +145,7 @@ void PlayerDialog::windowDisplay()
 
 	// Add player types
 	typeDropDown_->clear();
-	typeDropDown_->addText(GLWDropDownEntry("Human", 
+	typeDropDown_->addText(GLWSelectorEntry("Human", 
 		&TankAIStore::instance()->getAIByName("Human")->getDescription()));
 	if (!OptionsParam::instance()->getConnectedToServer())
 	{
@@ -155,7 +155,7 @@ void PlayerDialog::windowDisplay()
 			aiitor++)
 		{
 			typeDropDown_->addText(
-				GLWDropDownEntry((*aiitor)->getName(),
+				GLWSelectorEntry((*aiitor)->getName(),
 					&(*aiitor)->getDescription()));
 		}
 	}

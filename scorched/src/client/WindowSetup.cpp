@@ -39,6 +39,7 @@
 #include <dialogs/TalkDialog.h>
 #include <dialogs/ScoreDialog.h>
 #include <dialogs/KibitzingDialog.h>
+#include <dialogs/HUDDialog.h>
 #include <dialogs/HelpButtonDialog.h>
 
 void WindowSetup::addCommonComponents(unsigned state)
@@ -57,6 +58,10 @@ void WindowSetup::addCommonComponents(unsigned state)
 		GLWWindowManager::instance()->addWindow(state, 
 			window, key, window->getVisible());
 	}
+
+	KEYBOARDKEY("HUD_ITEMS", hudItemsKey);
+	GLWWindowManager::instance()->addWindow(state, 
+ 		HUDDialog::instance(), hudItemsKey, false);
 
 	KEYBOARDKEY("SHOW_QUIT_DIALOG", quitKey);
 	GLWWindowManager::instance()->addWindow(state, 
@@ -138,6 +143,8 @@ void WindowSetup::setup()
 		LogDialog::instance(), 0, true);
 	GLWWindowManager::instance()->addWindow(ClientState::StateConnect, 
 		ConnectDialog::instance(), 0, true);
+	GLWWindowManager::instance()->addWindow(ClientState::StateConnect, 
+			GLWSelector::instance(), 0, true);
 
 	// StateGetPlayers
 	GLWWindowManager::instance()->addWindow(ClientState::StateGetPlayers, 
@@ -152,6 +159,8 @@ void WindowSetup::setup()
 		QuitDialog::instance(), quitKey, false);
 	GLWWindowManager::instance()->addWindow(ClientState::StateGetPlayers, 
 		HelpButtonDialog::instance(), 0, true);
+	GLWWindowManager::instance()->addWindow(ClientState::StateGetPlayers, 
+			GLWSelector::instance(), 0, true);
 
 	// StateLoadPlayers
 	GLWWindowManager::instance()->addWindow(ClientState::StateLoadPlayers,

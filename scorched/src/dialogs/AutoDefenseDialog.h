@@ -39,7 +39,7 @@ public:
 	virtual void buttonDown(unsigned int id);
 
 	// Inherited from GLWDropDownI 
-	virtual void select(unsigned int id, const int pos, GLWDropDownEntry value);
+	virtual void select(unsigned int id, const int pos, GLWSelectorEntry value);
 
 	// Inherited from GLWWindow
 	virtual void draw();

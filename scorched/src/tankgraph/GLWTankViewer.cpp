@@ -56,7 +56,7 @@ GLWTankViewer::GLWTankViewer(float x, float y, int numH, int numV) :
 
 	catagoryChoice_.setHandler(this);
 	catagoryChoice_.setText("All");
-	select(0, 0, "All");
+	select(0, 0, GLWSelectorEntry("All"));
 
 	catagoryChoice_.setToolTip(new GLWTip("Model Catagory",
 		"Displays the currently selected model catagory.\n"
@@ -75,7 +75,8 @@ GLWTankViewer::~GLWTankViewer()
 }
 
 void GLWTankViewer::select(unsigned int id, 
-						   const int pos, GLWDropDownEntry value)
+						   const int pos, 
+						   GLWSelectorEntry value)
 {
 	std::vector<TankModel *> newmodels;
 
@@ -87,7 +88,7 @@ void GLWTankViewer::select(unsigned int id,
 		 modelItor++)
 	{
 		TankModel *model = (*modelItor);
-		if (model->isOfCatagory(value.text_.c_str()))
+		if (model->isOfCatagory(value.getText()))
 		{
 			newmodels.push_back(model);
 		}
@@ -289,13 +290,13 @@ void GLWTankViewer::drawCaption(int pos)
 {
 	GLState state(GLState::DEPTH_OFF);
 
-	Vector color(0.7f, 0.3f, 0.3f);
+	Vector color(0.3f, 0.3f, 0.3f);
 	GLWFont::instance()->getSmallPtFont()->
-		drawWidth(int(TankSquareSize * numH_ + TankPadding), 
+		drawWidth(int(TankSquareSize * 2 + TankPadding), 
 			color, 10.0f, -70.0f, 75.0f, 0.0f, 
 			models_[pos]->getId().getModelName());
 	GLWFont::instance()->getSmallPtFont()->
-		drawWidth(int(TankSquareSize * numH_ + TankPadding), 
+		drawWidth(int(TankSquareSize * 2 + TankPadding), 
 			color, 10.0f, -70.0f, 63.0f, 0.0f, 
 			"(%i Triangles)", models_[pos]->getNoTris());
 }

@@ -38,25 +38,38 @@ AutoDefenseDialog::AutoDefenseDialog() :
 		"lower defenses before the round starts")
 {
 	needCentered_ = true;
-	okId_ = addWidget(
-		new GLWTextButton("Ok", 375, 10, 55, this, 
-		GLWButton::ButtonFlagOk | GLWButton::ButtonFlagCenterX))->getId();
-	cancelId_ = addWidget(
-		new GLWTextButton("Cancel", 265, 10, 105, this, 
-		GLWButton::ButtonFlagCancel | GLWButton::ButtonFlagCenterX))->getId();
-	topPanel_ = (GLWPanel *)
-		addWidget(new GLWPanel(10, 245, 420, 30));
 
-	ddpara_ = (GLWDropDown *) addWidget(new GLWDropDown(120, 170, 300));
+	topPanel_ = (GLWPanel *)
+		addWidget(new GLWPanel(10, 245, 300, 30),
+		0, SpaceLeft | SpaceRight | SpaceTop, 10.0f);
+
+	ddpara_ = (GLWDropDown *) addWidget(new GLWDropDown(120, 170, 300),
+		0, SpaceLeft | SpaceRight | SpaceTop, 10.0f);
 	ddpara_->setHandler(this);
 	ddpara_->setToolTip(new GLWTip("Enable Parachutes",
 		"Choose to enable parachutes before the\n"
 		"beginning of the next round."));
-	ddshields_ = (GLWDropDown *) addWidget(new GLWDropDown(120, 200, 300));
+	ddshields_ = (GLWDropDown *) addWidget(new GLWDropDown(120, 200, 300),
+		0, SpaceLeft | SpaceRight | SpaceTop, 10.0f);
 	ddshields_->setToolTip(new GLWTip("Choose Shields",
 		"Choose the shield to use at the beginning\n"
 		"of the next round."));
 	ddshields_->setHandler(this);
+
+	GLWPanel *buttonPanel = new GLWPanel(0.0f, 0.0f, 0.0f, 0.0f, false, false);
+	GLWButton *cancelButton = new GLWTextButton("Cancel", 95, 10, 105, this, 
+		GLWButton::ButtonFlagCancel | GLWButton::ButtonFlagCenterX);
+	cancelId_ = cancelButton->getId();
+	buttonPanel->addWidget(cancelButton, 0, SpaceRight, 10.0f);
+	GLWButton *okButton = new GLWTextButton("Ok", 235, 10, 55, this, 
+		GLWButton::ButtonFlagOk | GLWButton::ButtonFlagCenterX);
+	okId_ = okButton->getId();
+	buttonPanel->addWidget(okButton);
+	buttonPanel->setLayout(GLWPanel::LayoutHorizontal);
+	addWidget(buttonPanel, 0, SpaceAll | AlignRight, 10.0f);
+
+	setLayout(GLWPanel::LayoutVerticle);
+	layout();
 }
 
 AutoDefenseDialog::~AutoDefenseDialog()
@@ -143,12 +156,9 @@ void AutoDefenseDialog::displayCurrent()
 	if (!tank) return;
 
 	// Put information at the top of the dialog
-	char buffer[256];
-	sprintf(buffer, "$%i", tank->getScore().getMoney());
 	topPanel_->clear();
 	topPanel_->addWidget(new GLWFlag(tank->getColor(), 5, 5, 60));
 	topPanel_->addWidget(new GLWLabel(70, 0, (char *) tank->getName()));
-	topPanel_->addWidget(new GLWLabel(280, 0, buffer));
 
 	// Put shields info
 	static GLWTip shieldsOffTip("Shields Off",
@@ -157,7 +167,7 @@ void AutoDefenseDialog::displayCurrent()
 	std::list<Accessory *>::iterator shieldsItor;
 	std::list<Accessory *> shields = 
 		tank->getAccessories().getShields().getAllShields();
-	ddshields_->addText(GLWDropDownEntry("Shields Off", &shieldsOffTip));
+	ddshields_->addText(GLWSelectorEntry("Shields Off", &shieldsOffTip));
 	for (shieldsItor = shields.begin();
 		shieldsItor != shields.end();
 		shieldsItor++)
@@ -176,8 +186,8 @@ void AutoDefenseDialog::displayCurrent()
 			sprintf(buffer, "%s (In)",
 				shield->getName());
 		}
-		ddshields_->addText(GLWDropDownEntry(buffer,
-			&shield->getToolTip()));
+		ddshields_->addText(GLWSelectorEntry(buffer,
+			&shield->getToolTip(), 0, shield->getTexture()));
 	}
 
 	// Put parachutes info
@@ -186,7 +196,7 @@ void AutoDefenseDialog::displayCurrent()
 	static GLWTip paraOnTip("Parachutesields On",
 		"Turns on parachutes.");
 	ddpara_->clear();
-	ddpara_->addText(GLWDropDownEntry("Parachutes Off", &paraOffTip));
+	ddpara_->addText(GLWSelectorEntry("Parachutes Off", &paraOffTip));
 	if (tank->getAccessories().getParachutes().getNoParachutes() != 0)
 	{
 		char buffer[256];
@@ -199,7 +209,7 @@ void AutoDefenseDialog::displayCurrent()
 		{
 			sprintf(buffer, "Parachutes On (In)");
 		}
-		ddpara_->addText(GLWDropDownEntry(buffer, &paraOnTip));
+		ddpara_->addText(GLWSelectorEntry(buffer, &paraOnTip));
 	}
 
 	// Set the currently shown items
@@ -248,7 +258,7 @@ void AutoDefenseDialog::displayCurrent()
 
 void AutoDefenseDialog::select(unsigned int id, 
 							   const int pos, 
-							   GLWDropDownEntry value)
+							   GLWSelectorEntry value)
 {
 	// Nothing to do as we don't actualy set the status
 	// until the ok button is pressed

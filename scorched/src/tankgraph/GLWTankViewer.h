@@ -42,7 +42,7 @@ public:
 	void setTankModels(std::vector<TankModel *> &models);
 
 	// Inhertied from GLWDropDownI
-	virtual void select(unsigned int id, const int pos, GLWDropDownEntry value);
+	virtual void select(unsigned int id, const int pos, GLWSelectorEntry value);
 
 	// Inhertied from GLWidget
 	virtual void draw();

@@ -29,10 +29,18 @@ GLWPanel::GLWPanelEntry::GLWPanelEntry(GLWidget *w, GLWCondition *c,
 	leftSpace(0.0f), rightSpace(0.0f),
 	topSpace(0.0f), bottomSpace(0.0f)
 {
-	if (f & GLWPanel::SpaceRight) rightSpace = wi;
-	if (f & GLWPanel::SpaceLeft) leftSpace = wi;
-	if (f & GLWPanel::SpaceTop) topSpace = wi;
-	if (f & GLWPanel::SpaceBottom) bottomSpace = wi;
+	if (! (f & GLWPanel::AlignLeft) &&
+		! (f & GLWPanel::AlignRight) &&
+		! (f & GLWPanel::AlignCenterLeftRight)) flags |= GLWPanel::AlignLeft;
+
+	if (! (f & GLWPanel::AlignTop) &&
+		! (f & GLWPanel::AlignCenterTopBottom) &&
+		! (f & GLWPanel::AlignBottom)) flags |= GLWPanel::AlignBottom;
+
+	if ((f & GLWPanel::SpaceRight) || (f & GLWPanel::SpaceAll)) rightSpace = wi;
+	if ((f & GLWPanel::SpaceLeft) || (f & GLWPanel::SpaceAll)) leftSpace = wi;
+	if ((f & GLWPanel::SpaceTop) || (f & GLWPanel::SpaceAll)) topSpace = wi;
+	if ((f & GLWPanel::SpaceBottom) || (f & GLWPanel::SpaceAll)) bottomSpace = wi;
 }
 
 REGISTER_CLASS_SOURCE(GLWPanel);
@@ -54,6 +62,15 @@ GLWPanel::~GLWPanel()
 GLWidget *GLWPanel::addWidget(GLWidget *widget, GLWCondition *condition, 
 	unsigned int flags, float width)
 {
+	std::list<GLWPanelEntry>::iterator itor;
+	for (itor = widgets_.begin();
+		itor != widgets_.end();
+		itor++)
+	{
+		GLWPanelEntry &entry = *itor;
+		DIALOG_ASSERT(entry.widget != widget);
+	}
+
 	GLWPanelEntry entry(widget, condition, flags, width);
 	widgets_.push_back(entry);
 	widget->setParent(this);
@@ -318,7 +335,7 @@ void GLWPanel::layout()
 			entry.topSpace + entry.bottomSpace;		
 		if (layout_ == LayoutHorizontal)
 		{
-			w += height;
+			w += width;
 			h = MAX(h, height);
 		}
 		else if (layout_ == LayoutVerticle)
@@ -415,7 +432,7 @@ void GLWPanel::layout()
 	{
 		DIALOG_ASSERT(gridWidth_ != 0);
 	
-		int cell = 0;
+		unsigned int cell = 0;
 		float width = 0.0f;
 		float height = getH();
 		for (itor = widgets_.begin();
@@ -455,8 +472,7 @@ void GLWPanel::layout()
 			}
 			else DIALOG_ASSERT(0);	
 		
-			cell++;
-			if (cell >= gridWidth_)
+			if (++cell >= gridWidth_)
 			{
 				cell = 0;	
 				width = 0.0f;

@@ -52,7 +52,8 @@ GLWSelector *GLWSelector::instance()
 
 GLWSelector::GLWSelector() :
 	GLWWindow("", 0.0f, 0.0f, 0.0f, 0.0f, 0, ""), 
-	visible_(false), showState_(0)
+	visible_(false), showState_(0),
+	transparent_(true)
 {
 		windowLevel_ = 1000;
 }
@@ -117,8 +118,8 @@ void GLWSelector::draw()
 
 void GLWSelector::drawMain(float indent)
 {
-	GLState currentStateBlend(GLState::TEXTURE_OFF | 
-		GLState::DEPTH_OFF | GLState::BLEND_ON);
+	GLState currentStateBlend(GLState::TEXTURE_OFF | GLState::DEPTH_OFF | GLState::BLEND_ON);
+
 	GLFont2d &font = *GLWFont::instance()->getLargePtFont();
 	int mouseX = ScorchedClient::instance()->getGameState().getMouseX();
 	int mouseY = ScorchedClient::instance()->getGameState().getMouseY();
@@ -126,7 +127,9 @@ void GLWSelector::drawMain(float indent)
 	// Draw the background
 	{
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	
-		glColor4f(0.4f, 0.6f, 0.8f, 0.6f);
+		if (transparent_) glColor4f(0.4f, 0.6f, 0.8f, 0.6f);
+		else glColor3f(0.8f, 0.8f, 1.0f);
+
 		glBegin(GL_TRIANGLE_FAN);
 			glVertex2f(selectedX_ + 20.0f, 
 				selectedY_ - 25.0f + 5.0f);
@@ -142,9 +145,18 @@ void GLWSelector::drawMain(float indent)
 		glColor4f(0.0f, 0.0f, 0.0f, 0.8f);
 		glLineWidth(2.0f);
 		glBegin(GL_LINE_LOOP);
-			GLWidget::drawRoundBox(
-				selectedX_, selectedY_ - selectedHeight_ + 5.0f, 
-				selectedWidth_, selectedHeight_, 10.0f);
+			if (transparent_)
+			{
+				GLWidget::drawRoundBox(
+					selectedX_, selectedY_ - selectedHeight_ + 5.0f, 
+					selectedWidth_, selectedHeight_, 10.0f);
+			}
+			else
+			{
+				GLWidget::drawShadedRoundBox(
+					selectedX_, selectedY_ - selectedHeight_ + 5.0f, 
+					selectedWidth_, selectedHeight_, 10.0f, true);
+			}
 		glEnd();
 		glLineWidth(1.0f);
 	}
@@ -199,12 +211,17 @@ void GLWSelector::drawMain(float indent)
 
 			static Vector color(0.9f, 0.9f, 1.0f);
 			static Vector itemcolor(0.1f, 0.1f, 0.4f);
+			static Vector selectedColor(0.3f, 0.3f, 0.7f);
+			Vector *c = 0;
+			if (transparent_) c = (selected?&color:&itemcolor);
+			else c = (selected?&selectedColor:&GLWFont::widgetFontColor);
+
 			if (item.getSelected())
 			{
-				font.draw(selected?color:itemcolor, 12, selectedX_ + 5.0f, 
+				font.draw(*c, 12, selectedX_ + 5.0f, 
 					currentTop - 16.0f, 0.0f, "x");
 			}
-			font.draw(selected?color:itemcolor, 12, selectedX_ + indent + 10.0f, 
+			font.draw(*c, 12, selectedX_ + indent + 10.0f, 
 				currentTop - 16.0f, 0.0f, (char *) item.getText());
 			currentTop -= 18.0f;
 		}
@@ -214,11 +231,13 @@ void GLWSelector::drawMain(float indent)
 void GLWSelector::showSelector(GLWSelectorI *user,
 							   float x, float y,
 							   std::list<GLWSelectorEntry> &entries,
-							   unsigned int showState)
+							   unsigned int showState,
+							   bool transparent)
 {
 	showState_ = showState;
 	selectedHeight_ = 0;
 	selectedWidth_ = 0;
+	transparent_ = transparent;
 	drawX_ = x;
 	drawY_ = y;
 	user_ = user;
@@ -241,6 +260,7 @@ void GLWSelector::mouseDown(float mouseX, float mouseY, bool &hitMenu)
 	if (visible_ && ((showState_ == 0) ||
 		(ScorchedClient::instance()->getGameState().getState() == showState_)))
 	{
+		bool hit = false;
 		bool thisMenu = (mouseX > selectedX_ && mouseX < selectedX_ + selectedWidth_ && 
 			mouseY < selectedY_ && mouseY > selectedY_ - selectedHeight_);
 		if (thisMenu)
@@ -266,6 +286,7 @@ void GLWSelector::mouseDown(float mouseX, float mouseY, bool &hitMenu)
 					if (selectedX_ < mouseX && mouseX < selectedX_ + selectedWidth_ &&
 						currentTop - 18.0f <= mouseY && mouseY < currentTop)
 					{
+						hit = true;
 						if (user_) user_->itemSelected(&item, position);
 					}
 
@@ -274,6 +295,8 @@ void GLWSelector::mouseDown(float mouseX, float mouseY, bool &hitMenu)
 				}
 			}
 		}
+
+		if (!hit && user_) user_->noItemSelected();
 
 		hideSelector();
 		hitMenu = true;

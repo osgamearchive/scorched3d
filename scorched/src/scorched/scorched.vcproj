@@ -413,6 +413,12 @@
 				RelativePath="..\GLW\GLWCheckBox.h">
 			</File>
 			<File
+				RelativePath="..\GLW\GLWCheckBoxText.cpp">
+			</File>
+			<File
+				RelativePath="..\GLW\GLWCheckBoxText.h">
+			</File>
+			<File
 				RelativePath="..\GLW\GLWDropDown.cpp">
 			</File>
 			<File
@@ -1079,6 +1085,12 @@
 			</File>
 			<File
 				RelativePath="..\dialogs\ConnectDialog.h">
+			</File>
+			<File
+				RelativePath="..\dialogs\HUDDialog.cpp">
+			</File>
+			<File
+				RelativePath="..\dialogs\HUDDialog.h">
 			</File>
 			<File
 				RelativePath="..\dialogs\HelpButtonDialog.cpp">

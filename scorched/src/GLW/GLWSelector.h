@@ -79,7 +79,8 @@ public:
 		GLWSelectorI *user,
 		float x, float y,
 		std::list<GLWSelectorEntry> &entries,
-		unsigned int showState = 0);
+		unsigned int showState = 0,
+		bool transparent = true);
 	// Hide the selector
 	void hideSelector();
 
@@ -102,6 +103,7 @@ protected:
 	float selectedHeight_, selectedWidth_;
 	float selectedX_, selectedY_;
 	bool visible_;
+	bool transparent_;
 
 	void drawMain(float indent);
 
