@@ -18,58 +18,45 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_TalkDialogh_INCLUDE__)
-#define __INCLUDE_TalkDialogh_INCLUDE__
+#if !defined(AFX_TalkSettingsDialog_H__4B5E93CF_1DE2_4979_A629_AEBD725ABE65__INCLUDED_)
+#define AFX_TalkSettingsDialog_H__4B5E93CF_1DE2_4979_A629_AEBD725ABE65__INCLUDED_
 
+#include <map>
 #include <GLW/GLWWindow.h>
-#include <GLW/GLWTextButton.h>
-#include <GLW/GLWTextBox.h>
+#include <GLW/GLWButton.h>
 #include <GLW/GLWCheckBox.h>
+#include <GLW/GLWTab.h>
 
-class TalkDialog : public GLWWindow,
-						  public GLWButtonI
+class TalkSettingsDialog : public GLWWindow,
+						public GLWButtonI,
+						public GLWCheckBoxI
 {
 public:
-	static TalkDialog *instance();
+	static TalkSettingsDialog *instance();
 
 	// Inherited from GLWButtonI
-	virtual void draw();
 	virtual void buttonDown(unsigned int id);
-	virtual void windowDisplay();
 
-	void setTeamTalk();
+	// Inherited from GLWCheckBoxI
+	void stateChange(bool state, unsigned int id);
 
 	// Inherited from GLWWindow
-	virtual void keyDown(char *buffer, unsigned int keyState, 
-		KeyboardHistory::HistoryElement *history, int hisCount, 
-		bool &skipRest);
+	virtual void windowInit(const unsigned state);
 
 protected:
-	static TalkDialog *instance_;
-	GLWTextBox *talkText_;
-	GLWTextButton *ok_, *cancel_, *mute_;
-	GLWCheckBox *teamBox_;
+	static TalkSettingsDialog *instance_;
+
+	unsigned int okId_;
+	GLWTab *muteTab_;
+	std::map<unsigned int, unsigned int> muteMap_;
+
+	void addPlayers();
 
 private:
-	TalkDialog();
-	virtual ~TalkDialog();
-
+	TalkSettingsDialog();
+	virtual ~TalkSettingsDialog();
 };
 
-class TeamTalkDialog : public GLWWindow
-{
-public:
-	static TeamTalkDialog *instance();
+#endif // !defined(AFX_TalkSettingsDialog_H__4B5E93CF_1DE2_4979_A629_AEBD725ABE65__INCLUDED_)
 
-	virtual void windowDisplay();
 
-protected:
-	static TeamTalkDialog *instance_;
-
-private:
-	TeamTalkDialog();
-	virtual ~TeamTalkDialog();
-
-};
-
-#endif

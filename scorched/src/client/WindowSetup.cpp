@@ -37,6 +37,7 @@
 #include <dialogs/BuyAccessoryDialog.h>
 #include <dialogs/RulesDialog.h>
 #include <dialogs/TalkDialog.h>
+#include <dialogs/TalkSettingsDialog.h>
 #include <dialogs/ScoreDialog.h>
 #include <dialogs/KibitzingDialog.h>
 #include <dialogs/InventoryDialog.h>
@@ -102,6 +103,8 @@ void WindowSetup::addCommonComponents(unsigned state)
 	KEYBOARDKEY("SHOW_TEAM_TALK_DIALOG", teamTalkKey);
 	GLWWindowManager::instance()->addWindow(state, 
 		TeamTalkDialog::instance(), teamTalkKey, false);
+	GLWWindowManager::instance()->addWindow(state, 
+		TalkSettingsDialog::instance(), 0, false);
 
 	if (state != ClientState::StateScore)
 	{
@@ -141,6 +144,8 @@ void WindowSetup::setup()
 	GLWWindowManager::instance()->addWindow(ClientState::StateConnect, 
 		TeamTalkDialog::instance(), teamTalkKey, false);
 	GLWWindowManager::instance()->addWindow(ClientState::StateConnect, 
+		TalkSettingsDialog::instance(), 0, false);
+	GLWWindowManager::instance()->addWindow(ClientState::StateConnect, 
 		BackdropDialog::instance(), 0, true);
 	GLWWindowManager::instance()->addWindow(ClientState::StateConnect, 
 		QuitDialog::instance(), quitKey, false);
@@ -156,6 +161,8 @@ void WindowSetup::setup()
 		TalkDialog::instance(), talkKey, false);
 	GLWWindowManager::instance()->addWindow(ClientState::StateGetPlayers, 
 		TeamTalkDialog::instance(), teamTalkKey, false);
+	GLWWindowManager::instance()->addWindow(ClientState::StateGetPlayers, 
+		TalkSettingsDialog::instance(), 0, false);
 	GLWWindowManager::instance()->addWindow(ClientState::StateGetPlayers, 
 		BackdropDialog::instance(), 0, true);
 	GLWWindowManager::instance()->addWindow(ClientState::StateGetPlayers, 

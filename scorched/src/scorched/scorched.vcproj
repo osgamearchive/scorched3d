@@ -1209,6 +1209,12 @@
 			<File
 				RelativePath="..\dialogs\TalkDialog.h">
 			</File>
+			<File
+				RelativePath="..\dialogs\TalkSettingsDialog.cpp">
+			</File>
+			<File
+				RelativePath="..\dialogs\TalkSettingsDialog.h">
+			</File>
 		</Filter>
 		<Filter
 			Name="engine"

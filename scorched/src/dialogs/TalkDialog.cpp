@@ -19,6 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <dialogs/TalkDialog.h>
+#include <dialogs/TalkSettingsDialog.h>
 #include <tank/TankContainer.h>
 #include <client/ScorchedClient.h>
 #include <coms/ComsTextMessage.h>
@@ -54,6 +55,9 @@ TalkDialog::TalkDialog() :
 	cancel_ = (GLWTextButton *) 
 		addWidget(new GLWTextButton("Cancel ", 120, 10, 105, this, 
 		GLWButton::ButtonFlagCancel | GLWButton::ButtonFlagCenterX));
+	mute_ = (GLWTextButton *) 
+		addWidget(new GLWTextButton("Mute", 150, 10, 65, this, 
+		GLWButton::ButtonFlagCenterX));
 
 	addWidget(new GLWLabel(30, 7, "Team Say"));
 	teamBox_ = (GLWCheckBox *)
@@ -120,10 +124,15 @@ void TalkDialog::buttonDown(unsigned int id)
 		talkText_->setText("");
 		GLWWindowManager::instance()->hideWindow(id_);
 	}
-	if (id == cancel_->getId())
+	else if (id == cancel_->getId())
 	{
 		talkText_->setText("");
 		GLWWindowManager::instance()->hideWindow(id_);
+	}
+	else if (id == mute_->getId())
+	{
+		GLWWindowManager::instance()->showWindow(
+				TalkSettingsDialog::instance()->getId());
 	}
 }
 

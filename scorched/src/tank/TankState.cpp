@@ -27,7 +27,8 @@
 TankState::TankState(ScorchedContext &context, unsigned int playerId) : 
 	state_(sPending), life_(100.0f), tank_(0),
 	readyState_(sReady), admin_(false),
-	context_(context), spectator_(false), loading_(false)
+	context_(context), spectator_(false), loading_(false),
+	muted_(false)
 {
 
 }
@@ -105,3 +106,4 @@ bool TankState::readMessage(NetBufferReader &reader)
 	if (!reader.getFromBuffer(loading_)) return false;
 	return true;
 }
+

@@ -66,27 +66,30 @@ bool ClientTextHandler::processMessage(unsigned int id,
 	}
 	else
 	{
-		if (ScorchedClient::instance()->getGameState().getState() == 
-			ClientState::StateConnect)
+		Tank *tank = 
+			ScorchedClient::instance()->getTankContainer().getTankById(message.getPlayerId());
+		if ((message.getPlayerId() == 0) || (tank && !tank->getState().getMuted()))
 		{
-			Logger::log(0, message.getText());
-		}
-		else
-		{
-			CACHE_SOUND(sound,  (char *) getDataFile("data/wav/misc/text.wav"));
-			sound->play();
-
-			Tank *tank = 
-				ScorchedClient::instance()->getTankContainer().getTankById(message.getPlayerId());
-			if (tank && tank->getState().getState() == TankState::sNormal)
+			if (ScorchedClient::instance()->getGameState().getState() == 
+				ClientState::StateConnect)
 			{
-				// put a speach bubble over the talking tank
-				TalkRenderer *talk = new TalkRenderer(
-					tank->getPhysics().getTankTurretPosition());
-				ScorchedClient::instance()->getActionController().addAction(new SpriteAction(talk));
+				Logger::log(0, message.getText());
 			}
+			else
+			{
+				CACHE_SOUND(sound,  (char *) getDataFile("data/wav/misc/text.wav"));
+				sound->play();
 
-			Logger::log(message.getPlayerId(), message.getText());
+				if (tank && tank->getState().getState() == TankState::sNormal)
+				{
+					// put a speach bubble over the talking tank
+					TalkRenderer *talk = new TalkRenderer(
+						tank->getPhysics().getTankTurretPosition());
+					ScorchedClient::instance()->getActionController().addAction(new SpriteAction(talk));
+				}
+
+				Logger::log(message.getPlayerId(), message.getText());
+			}
 		}
 	}
 

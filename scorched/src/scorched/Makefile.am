@@ -325,6 +325,8 @@ scorched3d_SOURCES = \
 	../dialogs/ScoreDialog.h \
 	../dialogs/TalkDialog.cpp \
 	../dialogs/TalkDialog.h \
+	../dialogs/TalkSettingsDialog.cpp \
+	../dialogs/TalkSettingsDialog.h \
 	../engine/Action.cpp \
 	../engine/Action.h \
 	../engine/ActionBuffer.cpp \

@@ -62,6 +62,8 @@ public:
 	bool getLoading() { return loading_; }
 	void setAdmin(bool admin) { admin_ = admin; }
 	bool getAdmin() { return admin_; }
+	void setMuted(bool muted) { muted_ = muted; }
+	bool getMuted() { return muted_; }
 	
 	const char *getStateString();
 	const char *getSmallStateString();
@@ -83,6 +85,7 @@ protected:
 	bool admin_;
 	bool spectator_;
 	bool loading_;
+	bool muted_;
 
 };
 
