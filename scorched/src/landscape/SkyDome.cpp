@@ -99,7 +99,7 @@ void SkyDome::draw()
 				Landscape::instance()->getSkyColorsMap(),
 				sunDir,
 				ScorchedClient::instance()->getLandscapeMaps().
-				getLandDfn().getTex()->skytimeofday);
+				getLandDfn()->getTex()->skytimeofday);
 		}
 		GLState mainState2(GLState::TEXTURE_ON | GLState::BLEND_OFF);
 		drawLayer(layer1_, 1800, 180, slowXY, slowXY + 0.4f, true);

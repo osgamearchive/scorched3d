@@ -221,15 +221,16 @@ void TargetCamera::simulate(float frameTime, bool playing)
 	totalTime_ += frameTime * ParticleEngine::getFast();
 	while (totalTime_ > 0.05f)
 	{
-		if (!OptionsDisplay::instance()->getNoPrecipitation())
+		if (ScorchedClient::instance()->getLandscapeMaps().getLandDfn() &&
+			!OptionsDisplay::instance()->getNoPrecipitation())
 		{
 			if (0 == strcmp("rain", 
 				ScorchedClient::instance()->getLandscapeMaps().
-				getLandDfn().getTex()->precipitationtype.c_str()))
+				getLandDfn()->getTex()->precipitationtype.c_str()))
 			{
 				LandscapeTexPrecipitation *rain = (LandscapeTexPrecipitation *)
 					ScorchedClient::instance()->getLandscapeMaps().
-					getLandDfn().getTex()->precipitation;
+					getLandDfn()->getTex()->precipitation;
 				rainEmitter_.emitPrecipitation(mainCam_.getCurrentPos(),
 					particleEngine_,
 					rain->particles,
@@ -237,11 +238,11 @@ void TargetCamera::simulate(float frameTime, bool playing)
 			}
 			else if (0 == strcmp("snow", 
 				ScorchedClient::instance()->getLandscapeMaps().
-				getLandDfn().getTex()->precipitationtype.c_str()))
+				getLandDfn()->getTex()->precipitationtype.c_str()))
 			{
 				LandscapeTexPrecipitation *snow = (LandscapeTexPrecipitation *)
 					ScorchedClient::instance()->getLandscapeMaps().
-					getLandDfn().getTex()->precipitation;
+					getLandDfn()->getTex()->precipitation;
 				snowEmitter_.emitPrecipitation(mainCam_.getCurrentPos(),
 					particleEngine_,
 					snow->particles,

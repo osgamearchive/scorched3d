@@ -52,10 +52,10 @@ void SurroundLandscape::makeNormal(Vector &position, Vector &normal)
 {
 	Vector &ambient = 
 		ScorchedClient::instance()->getLandscapeMaps().
-			getLandDfn().getTex()->skyambience;
+			getLandDfn()->getTex()->skyambience;
 	Vector &diffuse = 
 		ScorchedClient::instance()->getLandscapeMaps().
-			getLandDfn().getTex()->skydiffuse;
+			getLandDfn()->getTex()->skydiffuse;
 	Vector &sunPos = Landscape::instance()->getSky().getSun().getPosition();
 	Vector sunDirection = (sunPos - position).Normalize();
 	

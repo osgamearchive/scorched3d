@@ -259,7 +259,7 @@ void Landscape::generate(ProgressCounter *counter)
 
 	// Load the texture bitmaps from resources 
 	LandscapeTex *tex = 
-			ScorchedClient::instance()->getLandscapeMaps().getLandDfn().getTex();
+			ScorchedClient::instance()->getLandscapeMaps().getLandDfn()->getTex();
 
 	if (0 == strcmp(tex->texturetype.c_str(), "generate"))
 	{
@@ -315,7 +315,7 @@ void Landscape::generate(ProgressCounter *counter)
 	objects_.removeAllObjects();
 	RandomGenerator objectsGenerator;
 	objectsGenerator.seed(
-		ScorchedClient::instance()->getLandscapeMaps().getLandDfn().getSeed());
+		ScorchedClient::instance()->getLandscapeMaps().getLandDfn()->getSeed());
 	objects_.generate(objectsGenerator, *tex, counter);
 
 	// Create the main landscape texture

@@ -60,7 +60,7 @@ void ServerShotState::enterState(const unsigned state)
 	firstTime_ = true;
 	events_.initialize(
 		ScorchedServer::instance()->getLandscapeMaps().
-		getLandDfn().getTex());
+		getLandDfn()->getTex());
 }
 
 bool ServerShotState::acceptStateChange(const unsigned state, 

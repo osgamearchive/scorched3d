@@ -51,10 +51,10 @@ void SkyRoof::makeNormal(Vector &position, Vector &normal)
 {
 	Vector &ambient = 
 		ScorchedClient::instance()->getLandscapeMaps().
-			getLandDfn().getTex()->skyambience;
+			getLandDfn()->getTex()->skyambience;
 	Vector &diffuse = 
 		ScorchedClient::instance()->getLandscapeMaps().
-			getLandDfn().getTex()->skydiffuse;
+			getLandDfn()->getTex()->skydiffuse;
 	Vector &sunPos = Landscape::instance()->getSky().getSun().getPosition();
 	Vector sunDirection = (sunPos - position).Normalize();
 	
@@ -136,7 +136,7 @@ void SkyRoof::drawSegment(Vector &a, Vector &b, Vector &na, Vector &nb)
 	LandscapeDefnRoofCavern *cavern = 
 		(LandscapeDefnRoofCavern *) 
 		ScorchedClient::instance()->getLandscapeMaps().
-		getLandDfn().getDefn()->roof;
+		getLandDfn()->getDefn()->roof;
 	float hemispehereRadius = cavern->width;
 
 	const int steps = 5;

@@ -36,7 +36,7 @@ bool DeformLandscape::deformLandscape(
 	int iradius = (int) radius + 1;
 	if (iradius > 49) iradius = 49;
 
-	float lowestHeight = context.landscapeMaps->getLandDfn().getTex()->lowestlandheight;
+	float lowestHeight = context.landscapeMaps->getLandDfn()->getTex()->lowestlandheight;
 
 	// Take out or add a chunk into the landsacpe
 	for (int x=-iradius; x<=iradius; x++)

@@ -40,7 +40,7 @@ public:
 	HeightMap &getSMap() { return smap_; }
 	MovementMap &getMMap() { return mmap_; }
 	NapalmMap &getNMap() { return nmap_; }
-	LandscapeDefinition &getLandDfn() { return *storedHdef_; }
+	LandscapeDefinition *getLandDfn() { return storedHdef_; }
 	bool getRoof() { return roof_; }
 	bool getSurround() { return surround_; }
 

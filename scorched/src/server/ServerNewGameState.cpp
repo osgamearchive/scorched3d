@@ -195,8 +195,8 @@ int ServerNewGameState::addTanksToGame(const unsigned state,
 		Logger::log(0, "ERROR: Failed to generate diff");
 	}
 	ServerCommon::serverLog(0, "Finished generating landscape (%s, %s) message (%i bytes)", 
-		ScorchedServer::instance()->getLandscapeMaps().getLandDfn().getDefn()->name.c_str(),
-		ScorchedServer::instance()->getLandscapeMaps().getLandDfn().getTex()->name.c_str(),
+		ScorchedServer::instance()->getLandscapeMaps().getLandDfn()->getDefn()->name.c_str(),
+		ScorchedServer::instance()->getLandscapeMaps().getLandDfn()->getTex()->name.c_str(),
 		newGameMessage.getLevelMessage().getLevelLen());
 
 	// Check if the generated landscape is too large to send to the clients
