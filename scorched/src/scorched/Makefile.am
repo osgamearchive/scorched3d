@@ -335,6 +335,8 @@ scorched3d_SOURCES = \
 	../engine/ActionController.h \
 	../engine/ActionMeta.cpp \
 	../engine/ActionMeta.h \
+	../engine/EventContainer.cpp \
+	../engine/EventContainer.h \
 	../engine/FrameTimer.cpp \
 	../engine/FrameTimer.h \
 	../engine/GameState.cpp \
