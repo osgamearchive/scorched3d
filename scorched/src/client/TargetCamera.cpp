@@ -168,6 +168,7 @@ bool TargetCamera::moveCamera(float frameTime, bool playing)
 		currentRotation = (180.0f - currentTank->getPhysics().getRotationGunXY()) / 57.32f;
 	}
 
+	bool viewFromBehindTank = false;
 	switch (cameraPos_)
 	{
 	case CamAction:
@@ -179,6 +180,7 @@ bool TargetCamera::moveCamera(float frameTime, bool playing)
 				mainCam_.setLookAt(action->getShowPosition());
 				mainCam_.movePosition(currentRotation + 0.3f, 0.7f, 80.0f);
 			}
+			else viewFromBehindTank = true;
 		}
 		break;
 	case CamTop:
@@ -206,21 +208,7 @@ bool TargetCamera::moveCamera(float frameTime, bool playing)
 			mainCam_.setOffSet(lookfromPos, true);
 			//simulateCamera = false;
 		}
-		else
-		{
-			if (playing &&
-				currentTank && currentTank->getState().getState() == TankState::sNormal)
-			{
-				float currentElevation = (currentTank->getPhysics().getRotationGunYZ()) / 160.0f;
-				Vector newPos = currentTank->getPhysics().getTankGunPosition();
-				Vector diff = newPos - position;
-				Vector newPos2 = position + (diff);
-				newPos2 += Vector(0.0f, 0.0f, 0.5f);
-
-				mainCam_.setLookAt(newPos2);
-				mainCam_.movePosition(currentRotation, currentElevation + 1.57f, 3.0f);
-			}
-		}
+		else viewFromBehindTank = true;
 		break;
 	case CamBehind:
 		{
@@ -291,6 +279,22 @@ bool TargetCamera::moveCamera(float frameTime, bool playing)
 		break;
 	default:
 		break;
+	}
+	
+	if (viewFromBehindTank)
+	{
+			if (playing &&
+				currentTank && currentTank->getState().getState() == TankState::sNormal)
+			{
+				float currentElevation = (currentTank->getPhysics().getRotationGunYZ()) / 160.0f;
+				Vector newPos = currentTank->getPhysics().getTankGunPosition();
+				Vector diff = newPos - position;
+				Vector newPos2 = position + (diff);
+				newPos2 += Vector(0.0f, 0.0f, 0.5f);
+
+				mainCam_.setLookAt(newPos2);
+				mainCam_.movePosition(currentRotation, currentElevation + 1.57f, 3.0f);
+			}
 	}
 
 	return simulateCamera;

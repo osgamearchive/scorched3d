@@ -789,10 +789,10 @@ scorched3d_SOURCES = \
 	../client/ServerBrowserRefresh.h \
 	../client/ServerBrowserServerList.cpp \
 	../client/ServerBrowserServerList.h \
-	../client/SoftwareMouse.cpp \
-	../client/SoftwareMouse.h \
 	../client/ShotCountDown.cpp \
 	../client/ShotCountDown.h \
+	../client/SoftwareMouse.cpp \
+	../client/SoftwareMouse.h \
 	../client/SpeedChange.cpp \
 	../client/SpeedChange.h \
 	../client/TargetCamera.cpp \
