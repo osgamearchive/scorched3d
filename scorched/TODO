@@ -1,5 +1,6 @@
 -- Bugs Fixed and Ready For Release 
 Added: Rotation, elevation and power differences to weapon dialog
+Added: Clickable areas lighten on mouseover in HUD
 
 Fixed: testing code being producing in console
 Fixed: Failing to load display.xml because of user name containing "forgien" chars

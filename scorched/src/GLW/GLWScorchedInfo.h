@@ -73,6 +73,7 @@ protected:
 	InfoType infoType_;
 	float fontSize_;
 	Vector fontColor_;
+	Vector selectedColor_;
 	bool noCenter_;
 };
 

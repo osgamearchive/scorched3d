@@ -55,6 +55,15 @@ GLWScorchedInfo::~GLWScorchedInfo()
 
 void GLWScorchedInfo::draw()
 {
+	Vector *fontColor = &fontColor_;
+	int mouseX = ScorchedClient::instance()->getGameState().getMouseX();
+	int mouseY = ScorchedClient::instance()->getGameState().getMouseY();
+	if (inBox((float) mouseX - GLWTranslate::getPosX(), 
+		(float) mouseY - GLWTranslate::getPosY(), x_, y_, w_, h_))
+	{
+		fontColor = &selectedColor_;
+	}
+
 	GLWVisibleWidget::draw();
 	
 	GLState state(GLState::TEXTURE_ON | GLState::DEPTH_OFF);
@@ -82,7 +91,7 @@ void GLWScorchedInfo::draw()
 			float offSet = 0.0f;
 			if (!noCenter_) offSet = w_ / 2.0f - (windwidth / 2.0f);
 			GLWFont::instance()->getSmallPtFont()->draw(
-				fontColor_, fontSize_,
+				*fontColor, fontSize_,
 				x_ + offSet, y_, 0.0f,
 				buffer);                    
 		}
@@ -123,7 +132,7 @@ void GLWScorchedInfo::draw()
 		case eAutoDefenseCount:
 			setToolTip(&model->getTips()->autodTip);
 			GLWFont::instance()->getSmallPtFont()->draw(
-				fontColor_, fontSize_,
+				*fontColor, fontSize_,
 				x_, y_, 0.0f,
 				(current->getAccessories().getAutoDefense().haveDefense()?"On":"Off"));
 		break;
@@ -132,14 +141,14 @@ void GLWScorchedInfo::draw()
 			if (!current->getAccessories().getParachutes().parachutesEnabled())
 			{
 				GLWFont::instance()->getSmallPtFont()->draw(
-					fontColor_, fontSize_,
+					*fontColor, fontSize_,
 					x_, y_, 0.0f,
 					"Off");
 			}
 			else
 			{
 				GLWFont::instance()->getSmallPtFont()->draw(
-					fontColor_, fontSize_,
+					*fontColor, fontSize_,
 					x_, y_, 0.0f,
 					"%i",
 					current->getAccessories().getParachutes().getNoParachutes());
@@ -148,7 +157,7 @@ void GLWScorchedInfo::draw()
 		case eHealthCount:
 			setToolTip(&model->getTips()->healthTip);
 			GLWFont::instance()->getSmallPtFont()->draw(
-				fontColor_, fontSize_,
+				*fontColor, fontSize_,
 				x_, y_, 0.0f,
 				"%.0f",
 				current->getState().getLife());
@@ -158,14 +167,14 @@ void GLWScorchedInfo::draw()
 			if (!current->getAccessories().getShields().getCurrentShield())
 			{
 				GLWFont::instance()->getSmallPtFont()->draw(
-					fontColor_, fontSize_,
+					*fontColor, fontSize_,
 					x_, y_, 0.0f,
 					"Off");
 			}
 			else
 			{
 				GLWFont::instance()->getSmallPtFont()->draw(
-					fontColor_, fontSize_,
+					*fontColor, fontSize_,
 					x_, y_, 0.0f,
 					"%.0f",
 					current->getAccessories().getShields().getShieldPower());
@@ -174,7 +183,7 @@ void GLWScorchedInfo::draw()
 		case eBatteryCount:
 			setToolTip(&model->getTips()->batteryTip);
 			GLWFont::instance()->getSmallPtFont()->draw(
-				fontColor_, fontSize_,
+				*fontColor, fontSize_,
 				x_, y_, 0.0f,
 				"%i",
 				current->getAccessories().getBatteries().getNoBatteries());
@@ -182,7 +191,7 @@ void GLWScorchedInfo::draw()
 		case eFuelCount:
 			setToolTip(&model->getTips()->fuelTip);
 			GLWFont::instance()->getSmallPtFont()->draw(
-				fontColor_, fontSize_,
+				*fontColor, fontSize_,
 				x_, y_, 0.0f,
 				"%i",
 				current->getAccessories().getFuel().getNoFuel());
@@ -204,7 +213,7 @@ void GLWScorchedInfo::draw()
 			float offSet = 0.0f;
 			if (!noCenter_) offSet = w_ / 2.0f - (weaponWidth / 2.0f);
 			GLWFont::instance()->getSmallPtFont()->draw(
-				current->getColor(), fontSize_,
+				*fontColor, fontSize_,
 				x_ + offSet, y_, 0.0f,
 				buffer);
 		}
@@ -217,7 +226,7 @@ void GLWScorchedInfo::draw()
 			const char *format = "%i";
 			if (count < 0) format = "Inf";
 			GLWFont::instance()->getSmallPtFont()->draw(
-				fontColor_, fontSize_,
+				*fontColor, fontSize_,
 				x_, y_, 0.0f,
 				format,
 				count);
@@ -226,14 +235,14 @@ void GLWScorchedInfo::draw()
 		case eRotation:
 			setToolTip(&model->getTips()->rotationTip);
 			GLWFont::instance()->getSmallPtFont()->draw(
-				fontColor_, fontSize_,
+				*fontColor, fontSize_,
 				x_, y_, 0.0f,
 				"%.1f",
 				360.0f - current->getPhysics().getRotationGunXY());
 		break;
 		case eRotationDiff:
 			GLWFont::instance()->getSmallPtFont()->draw(
-				fontColor_, fontSize_,
+				*fontColor, fontSize_,
 				x_, y_, 0.0f,
 				"%+.1f",
 				current->getPhysics().getRotationXYDiff());
@@ -241,14 +250,14 @@ void GLWScorchedInfo::draw()
 		case eElevation:
 			setToolTip(&model->getTips()->elevationTip);
 			GLWFont::instance()->getSmallPtFont()->draw(
-				fontColor_, fontSize_,
+				*fontColor, fontSize_,
 				x_, y_, 0.0f,
 				"%.1f",
 				current->getPhysics().getRotationGunYZ());
 		break;
 		case eElevationDiff:
 			GLWFont::instance()->getSmallPtFont()->draw(
-				fontColor_, fontSize_,
+				*fontColor, fontSize_,
 				x_, y_, 0.0f,
 				"%+.1f",
 				current->getPhysics().getRotationYZDiff());
@@ -256,14 +265,14 @@ void GLWScorchedInfo::draw()
 		case ePower:
 			setToolTip(&model->getTips()->powerTip);
 			GLWFont::instance()->getSmallPtFont()->draw(
-				fontColor_, fontSize_,
+				*fontColor, fontSize_,
 				x_, y_, 0.0f,
 				"%.1f",
 				current->getPhysics().getPower());
 		break;
 		case ePowerDiff:
 			GLWFont::instance()->getSmallPtFont()->draw(
-				fontColor_, fontSize_,
+				*fontColor, fontSize_,
 				x_, y_, 0.0f,
 				"%+.1f",
 				current->getPhysics().getPowerDiff());
@@ -385,6 +394,14 @@ bool GLWScorchedInfo::initFromXML(XMLNode *node)
 		== XMLNode::ErrorFloat) return false;
 	if ((fontColor_[2] = node->getNamedFloatChild("fontcolorb", true)) 
 		== XMLNode::ErrorFloat) return false;
+
+	// Font Selected Size
+	if ((selectedColor_[0] = node->getNamedFloatChild("selfontcolorr", false)) 
+		== XMLNode::ErrorFloat) selectedColor_[0] = fontColor_[0];
+	if ((selectedColor_[1] = node->getNamedFloatChild("selfontcolorg", false)) 
+		== XMLNode::ErrorFloat) selectedColor_[1] = fontColor_[1];
+	if ((selectedColor_[2] = node->getNamedFloatChild("selfontcolorb", false)) 
+		== XMLNode::ErrorFloat) selectedColor_[2] = fontColor_[2];
 
 	// No Center
 	XMLNode *centerNode = node->getNamedChild("nocenter");
