@@ -215,7 +215,9 @@ void GLVertexArray::makeList()
 		}
 	}
 
+	glNewList(listNo_ = glGenLists(1), GL_COMPILE);
 	glDrawArrays(prim_, 0, noTris_);
+	glEndList();
 
 	if (vertices_) glDisableClientState(GL_VERTEX_ARRAY);
 	if (colors_) glDisableClientState(GL_COLOR_ARRAY);
