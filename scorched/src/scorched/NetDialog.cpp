@@ -20,13 +20,13 @@
 
 #include <scorched/NetDialog.h>
 #include <scorched/MainDialog.h>
-#include <client/ServerBrowser.h>
-#include <common/OptionsParam.h>
-#include <common/Defines.h>
 #include <windows.h>
 #include <wx/wx.h>
 #include <wx/listctrl.h>
 #include <wx/image.h>
+#include <client/ServerBrowser.h>
+#include <common/OptionsParam.h>
+#include <common/Defines.h>
 #include "NetLan.cpp"
 
 class NetListControl : public wxListCtrl

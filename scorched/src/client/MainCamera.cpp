@@ -27,6 +27,7 @@
 #include <common/OptionsDisplay.h>
 #include <common/Defines.h>
 #include <math.h>
+#include <time.h>
 
 MainCamera *MainCamera::instance_ = 0;
 

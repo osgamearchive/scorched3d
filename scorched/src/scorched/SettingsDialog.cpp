@@ -77,7 +77,8 @@ BEGIN_EVENT_TABLE(SettingsFrame, wxDialog)
 END_EVENT_TABLE()
 
 SettingsFrame::SettingsFrame(bool server, OptionsGame &context) :
-	wxDialog(getMainDialog(), -1, scorched3dAppName),
+	wxDialog(getMainDialog(), -1, scorched3dAppName,
+		wxDefaultPosition, wxDefaultSize),
 	context_(context)
 {
 #ifdef _WIN32

@@ -277,6 +277,8 @@ scorched3d_SOURCES = \
 	../dialogs/BackdropDialog.h \
 	../dialogs/BuyAccessoryDialog.cpp \
 	../dialogs/BuyAccessoryDialog.h \
+	../dialogs/CameraDialog.cpp \
+	../dialogs/CameraDialog.h \
 	../dialogs/ConnectDialog.cpp \
 	../dialogs/ConnectDialog.h \
 	../dialogs/HelpDialog.cpp \
@@ -307,8 +309,6 @@ scorched3d_SOURCES = \
 	../dialogs/TankDialog.h \
 	../dialogs/WindDialog.cpp \
 	../dialogs/WindDialog.h \
-	../dialogs/CameraDialog.cpp \
-	../dialogs/CameraDialog.h \
 	../engine/Action.cpp \
 	../engine/Action.h \
 	../engine/ActionBuffer.cpp \
@@ -753,8 +753,6 @@ scorched3d_SOURCES = \
 	../client/MainBanner.h \
 	../client/MainCamera.cpp \
 	../client/MainCamera.h \
-	../client/TargetCamera.cpp \
-	../client/TargetCamera.h \
 	../client/MessageDisplay.cpp \
 	../client/MessageDisplay.h \
 	../client/ScorchedClient.cpp \
@@ -765,12 +763,14 @@ scorched3d_SOURCES = \
 	../client/ServerBrowserRefresh.h \
 	../client/ServerBrowserServerList.cpp \
 	../client/ServerBrowserServerList.h \
-	../client/ShotTimer.cpp \
-	../client/ShotTimer.h \
 	../client/ShotCountDown.cpp \
 	../client/ShotCountDown.h \
+	../client/ShotTimer.cpp \
+	../client/ShotTimer.h \
 	../client/SpeedChange.cpp \
 	../client/SpeedChange.h \
+	../client/TargetCamera.cpp \
+	../client/TargetCamera.h \
 	../client/WindowSetup.cpp \
 	../client/WindowSetup.h \
 	../server/ScorchedServer.cpp \
@@ -827,25 +827,6 @@ scorched3d_SOURCES = \
 	../server/ServerTooFewPlayersStimulus.h \
 	../server/TurnController.cpp \
 	../server/TurnController.h \
-	../irc/ClientGameInfo.cpp \
-	../irc/ClientGameInfo.h \
-	../irc/GameInfoEntry.cpp \
-	../irc/GameInfoEntry.h \
-	../irc/GameInfoList.cpp \
-	../irc/GameInfoList.h \
-	../irc/GameInfoMessage.cpp \
-	../irc/GameInfoMessage.h \
-	../irc/IrcBot.cpp \
-	../irc/IrcBot.h \
-	../irc/IrcConnection.cpp \
-	../irc/IrcConnection.h \
-	../irc/IrcDefines.h \
-	../irc/IrcDialog.cpp \
-	../irc/IrcDialog.h \
-	../irc/ServerGameInfo.cpp \
-	../irc/ServerGameInfo.h \
-	../irc/UdpHandler.cpp \
-	../irc/UdpHandler.h \
 	../tankai/TankAI.cpp \
 	../tankai/TankAI.h \
 	../tankai/TankAIAdder.cpp \

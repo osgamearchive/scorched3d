@@ -18,6 +18,13 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+#ifndef _WIN32
+#include <fcntl.h>
+#define SOCKET	int
+#else
+#include <winsock2.h>
+#endif
+
 #include <coms/NetBufferUtil.h>
 
 // HACK HACK HACK
@@ -26,13 +33,6 @@
 // this is NOT what we want as we use threads and do not
 // care.
 // This seems to be the only way to set blocking IO back on.
-
-#ifndef _WIN32
-#include <fcntl.h>
-#define SOCKET	int
-#else
-#include <winsock2.h>
-#endif
 
 struct _TCPsocket {
 	int ready;
