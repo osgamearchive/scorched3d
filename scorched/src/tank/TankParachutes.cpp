@@ -63,12 +63,14 @@ void TankParachutes::reset()
 		Accessory *accessory = (*itor);
 		if (accessory->getType() == Accessory::AccessoryParachute)
 		{
-			if (accessory->getPurchasable() &&
-				(accessory->getPrice() == 0 && 
-				accessory->getBundle() == 0) ||
-				context_.optionsGame->getGiveAllWeapons())
+			if (accessory->getPurchasable())
 			{
-				addParachutes(-1);
+				if ((accessory->getPrice() == 0 && 
+					accessory->getBundle() == 0) ||
+					context_.optionsGame->getGiveAllWeapons())
+				{
+					addParachutes(-1);
+				}
 			}
 		}
 	}

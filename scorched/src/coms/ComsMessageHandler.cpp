@@ -124,8 +124,9 @@ void ComsMessageHandler::processReceiveMessage(NetMessage &message)
 	}
 
 	ComsMessageHandlerI *handler = (*itor).second;
+	const char *messageTypeStr = messageType.c_str();
 	if (!handler->processMessage(message.getDestinationId(), 
-		messageType.c_str(), reader))
+		messageTypeStr, reader))
 	{
 		char buffer[1024];
 		sprintf(buffer, "Failed to handle message type \"%s\"",

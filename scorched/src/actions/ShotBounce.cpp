@@ -206,6 +206,7 @@ bool ShotBounce::readAction(NetBufferReader &reader)
 {
 	if (!reader.getFromBuffer(playerId_)) return false;
 	if (!reader.getFromBuffer(actionId_)) return false;
+	if (!reader.getFromBuffer(data_)) return false;
 	weapon_ = (WeaponRoller *) context_->accessoryStore->readWeapon(reader); if (!weapon_) return false;
 	return true;
 }

@@ -51,12 +51,14 @@ void TankShields::reset()
 		Accessory *accessory = (*itor);
 		if (accessory->getType() == Accessory::AccessoryShield)
 		{
-			if (accessory->getPurchasable() &&
-				(accessory->getPrice() == 0 && 
-				accessory->getBundle() == 0) ||
-				context_.optionsGame->getGiveAllWeapons())
+			if (accessory->getPurchasable())
 			{
-				addShield((Shield*) accessory, -1);
+				if ((accessory->getPrice() == 0 && 
+					accessory->getBundle() == 0) ||
+					context_.optionsGame->getGiveAllWeapons())
+				{
+					addShield((Shield*) accessory, -1);
+				}
 			}
 		}
 	}

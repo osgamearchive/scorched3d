@@ -49,12 +49,14 @@ void TankFuel::reset()
 		Accessory *accessory = (*itor);
 		if (accessory->getType() == Accessory::AccessoryFuel)
 		{
-			if (accessory->getPurchasable() &&
-				(accessory->getPrice() == 0 && 
-				accessory->getBundle() == 0) ||
-				context_.optionsGame->getGiveAllWeapons())
+			if (accessory->getPurchasable())
 			{
-				addFuel(20);
+				if ((accessory->getPrice() == 0 && 
+					accessory->getBundle() == 0) ||
+					context_.optionsGame->getGiveAllWeapons())
+				{
+					addFuel(20);
+				}
 			}
 		}
 	}

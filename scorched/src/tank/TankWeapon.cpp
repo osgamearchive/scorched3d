@@ -53,12 +53,14 @@ void TankWeapon::reset()
 		Accessory *accessory = (*itor);
 		if (accessory->getType() == Accessory::AccessoryWeapon)
 		{
-			if (accessory->getPurchasable() &&
-				(accessory->getPrice() == 0 && 
+			if (accessory->getPurchasable())
+			{
+				if ((accessory->getPrice() == 0 && 
 					accessory->getBundle() == 0) ||
 					context_.optionsGame->getGiveAllWeapons())
-			{
-				addWeapon((Weapon*) accessory, -1);
+				{
+					addWeapon((Weapon*) accessory, -1);
+				}
 			}
 		}
 	}

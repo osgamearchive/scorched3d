@@ -46,12 +46,14 @@ void TankAutoDefense::reset()
 		Accessory *accessory = (*itor);
 		if (accessory->getType() == Accessory::AccessoryAutoDefense)
 		{
-			if (accessory->getPurchasable() &&
-				(accessory->getPrice() == 0 && 
-				accessory->getBundle() == 0) ||
-				context_.optionsGame->getGiveAllWeapons())
+			if (accessory->getPurchasable())
 			{
-				haveDefense_ = true;
+				if ((accessory->getPrice() == 0 && 
+					accessory->getBundle() == 0) ||
+					context_.optionsGame->getGiveAllWeapons())
+				{
+					haveDefense_ = true;
+				}
 			}
 		}
 	}

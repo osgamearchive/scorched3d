@@ -218,7 +218,7 @@ void MainCamera::keyboardCheck(const unsigned state, float frameTime,
 	else if (setQuick2->keyDown(buffer, keyState, false)) 
 		setQuick(2);
 	else if (setQuick3->keyDown(buffer, keyState, false)) 
-		setQuick(4);
+		setQuick(3);
 	else if (setQuick4->keyDown(buffer, keyState, false)) 
 		setQuick(4);
 	else if (setQuick5->keyDown(buffer, keyState, false)) 
@@ -228,7 +228,7 @@ void MainCamera::keyboardCheck(const unsigned state, float frameTime,
 	else if (useQuick2->keyDown(buffer, keyState, false)) 
 		useQuick(2);
 	else if (useQuick3->keyDown(buffer, keyState, false)) 
-		useQuick(4);
+		useQuick(3);
 	else if (useQuick4->keyDown(buffer, keyState, false)) 
 		useQuick(4);
 	else if (useQuick5->keyDown(buffer, keyState, false)) 

@@ -48,12 +48,14 @@ void TankBatteries::reset()
 		Accessory *accessory = (*itor);
 		if (accessory->getType() == Accessory::AccessoryBattery)
 		{
-			if (accessory->getPurchasable() &&
-				(accessory->getPrice() == 0 && 
-				accessory->getBundle() == 0) ||
-				context_.optionsGame->getGiveAllWeapons())
+			if (accessory->getPurchasable())
 			{
-				addBatteries(20);
+				if ((accessory->getPrice() == 0 && 
+					accessory->getBundle() == 0) ||
+					context_.optionsGame->getGiveAllWeapons())
+				{
+					addBatteries(20);
+				}
 			}
 		}
 	}
