@@ -44,7 +44,7 @@ public:
 	void setMessageHandler(NetMessageHandlerI *handler) 
 		{ messageHandler_.setMessageHandler(handler); }
 
-	void destroyClient(TCPsocket client);
+	void disconnectClient(TCPsocket &client);
 	void sendMessage(NetBuffer &buffer);
 	void sendMessage(NetBuffer &buffer,
 					 TCPsocket destination);
@@ -66,6 +66,7 @@ protected:
 	void pollOutgoing();
 	void addClient(TCPsocket &client);
 	void rmClient(TCPsocket &client);
+	void destroyClient(TCPsocket client);
 	void updateSockSet();
 
 private:

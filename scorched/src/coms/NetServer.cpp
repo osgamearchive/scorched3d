@@ -197,11 +197,19 @@ void NetServer::pollOutgoing()
 		std::set<TCPsocket>::iterator itor = 
 			connections_.find(message->getPlayerId());
 		if (itor != connections_.end())
-		{		
-			if (!protocol_->sendBuffer(
-				message->getBuffer(), message->getPlayerId()))
+		{	
+			if (message->getMessageType() == NetMessage::DisconnectMessage)
 			{
-				dialogMessage("NetBuffer", "ERORR: Failed to send message");
+				destroyClient(message->getPlayerId());
+			}
+			else
+			{
+				
+				if (!protocol_->sendBuffer(
+					message->getBuffer(), message->getPlayerId()))
+				{
+					Logger::log(0, "Failed to send message to client");
+				}
 			}
 		}
 
@@ -266,6 +274,19 @@ void NetServer::destroyClient(TCPsocket client)
 		rmClient(client);
 	}
 	SDL_UnlockMutex(setMutex_);
+}
+
+void NetServer::disconnectClient(TCPsocket &client)
+{
+	DIALOG_ASSERT(client);
+
+	NetMessage *message = NetMessagePool::instance()->
+		getFromPool(NetMessage::DisconnectMessage, client);	
+
+	// Add the message to the list of out going
+	SDL_LockMutex(outgoingMessagesMutex_);
+	outgoing_.push_back(message);
+	SDL_UnlockMutex(outgoingMessagesMutex_);	
 }
 
 void NetServer::sendMessage(NetBuffer &buffer)

@@ -347,7 +347,7 @@ void kickPlayer(NetPlayerID id)
 
 	if (human)
 	{
-		ComsGateway::instance()->destroyClient(id);
+		ComsGateway::instance()->disconnectClient(id);
 	}
 	else
 	{
