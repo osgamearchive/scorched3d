@@ -60,6 +60,9 @@ bool ServerStateTooFewPlayersState::acceptStateChange(const unsigned state,
 
 	if (!readyToPlay)
 	{
+		// Check if we need to add any new bots
+		ServerNewGameState::checkBots();
+
 		// Add any new clients
 		if (ServerNewGameState::addTanksToGame(state))
 		{

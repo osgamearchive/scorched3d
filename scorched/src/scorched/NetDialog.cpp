@@ -31,6 +31,19 @@
 #include <common/Defines.h>
 #include "NetLan.cpp"
 
+static bool serverCompatable(std::string pversion, std::string version)
+{
+	if (pversion.size() > 0 && 
+		0 != strcmp(pversion.c_str(), ScorchedProtocolVersion))
+	{
+		return false;
+	}
+
+	if (0 == strcmp(version.c_str(), "37")) return false;
+
+	return true;
+}
+
 class NetListControl : public wxListCtrl
 {
 public:
@@ -62,8 +75,10 @@ int NetListControl::OnGetItemImage(long item) const
 		std::string pversion =
 			ServerBrowser::instance()->getServerList().
 				getEntryValue(item, "protocolversion");
-		if (pversion.size() > 0 && 
-			0 != strcmp(pversion.c_str(), ScorchedProtocolVersion))
+		std::string version =
+			ServerBrowser::instance()->getServerList().
+				getEntryValue(item, "version");
+		if (!serverCompatable(pversion, version))
 		{
 			return 3;
 		}
@@ -238,8 +253,7 @@ void NetLanFrame::onSelectServer()
 				ServerBrowser::instance()->getServerList().getEntryValue(item, "protocolversion");
 			std::string version =
 				ServerBrowser::instance()->getServerList().getEntryValue(item, "version");
-			if (protocolVersion.size() > 0 &&
-				stricmp(protocolVersion.c_str(), ScorchedProtocolVersion) != 0)
+			if (!serverCompatable(protocolVersion, version))
 			{
 				dialogMessage("Scorched 3D", 
 					"Warning: This server is running a incompatable version of Scorched3D.\n"

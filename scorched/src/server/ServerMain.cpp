@@ -92,16 +92,17 @@ bool startServer(bool local)
 	ScorchedServer::instance()->getOptionsTransient().reset();
 	LandscapeDefinitions::instance();
 
+	// Add the server side bots
+	// Add any new AIs
+	TankAIStore::instance();
+	TankAIAdder::addTankAIs(ScorchedServer::instance()->getContext());
+
+	// Start the state machine
 	ServerState::setupStates(ScorchedServer::instance()->getGameState());
 
 	// Economy
 	AccessoryStore::instance();
 	EconomyStore::instance();
-
-	// Add the server side bots
-	// Add any new AIs
-	TankAIStore::instance();
-	TankAIAdder::addTankAIs(ScorchedServer::instance()->getContext());
 
 	return true;
 }

@@ -27,6 +27,8 @@ namespace ClientSave
 	bool saveClient(const char *fileName);
 
 	bool stateRestored();
+	void setStateNotRestored();
+
 	bool restoreClient(bool loadGameState, bool loadPlayers);
 	bool loadClient(const char *fileName);
 }

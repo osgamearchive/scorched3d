@@ -22,7 +22,7 @@
 #include <common/Defines.h>
 #include <GLEXT/GLConsole.h>
 #include <GLEXT/GLBitmap.h>
-
+#include <common/SoundStore.h>
 
 ExplosionLaserBeamRenderer::~ExplosionLaserBeamRenderer()
 {
@@ -31,6 +31,9 @@ ExplosionLaserBeamRenderer::~ExplosionLaserBeamRenderer()
 ExplosionLaserBeamRenderer::ExplosionLaserBeamRenderer(Vector &position, float size):
 totalTime_(0), time_(0), size_(size), position_(position), angle_(0)
 {
+	CACHE_SOUND(sound, (char *) getDataFile("data/wav/misc/laserdeath.wav"));
+	sound->play();
+
 	for (int j=0;j<layers;j++){
 		for(int i=0;i<sides;i++){
 			points[j][i]=Vector((float)(360/sides)*i,(double)((size_/(layers+1))*(j+1)));

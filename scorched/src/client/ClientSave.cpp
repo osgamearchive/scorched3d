@@ -34,7 +34,6 @@ static bool stateRestoredFromFile = false;
 
 bool ClientSave::storeClient()
 {
-	stateRestoredFromFile = false;
 	NetBuffer &buffer = saveBuffer;
 	buffer.reset();
 
@@ -196,6 +195,11 @@ bool ClientSave::stateRestored()
 	return stateRestoredFromFile;
 }
 
+void ClientSave::setStateNotRestored()
+{
+	stateRestoredFromFile = false;
+}
+
 bool ClientSave::loadClient(const char *fileName)
 {
 	FILE *file = fopen(fileName, "rb");
@@ -217,4 +221,3 @@ bool ClientSave::loadClient(const char *fileName)
 	stateRestoredFromFile = true;
 	return true;
 }
-

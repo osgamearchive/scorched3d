@@ -197,6 +197,8 @@ bool SettingsFrame::TransferDataToWindow()
 			SettingsPlayers::IDC_SERVER_MAX_PLAYERS_CTRL->Append(string);
 			SettingsPlayers::IDC_SERVER_REMOVEBOT_PLAYERS_CTRL->Append(string);
 		}
+		SettingsPlayers::IDC_SERVER_REMOVEBOT_PLAYERS_CTRL->Append("0");
+
 		sprintf(buffer, "%i", context_.getNoMinPlayers());
 		SettingsPlayers::IDC_SERVER_MIN_PLAYERS_CTRL->SetValue(buffer);
 		SettingsPlayers::IDC_SERVER_MIN_PLAYERS_CTRL->SetToolTip(
@@ -267,7 +269,7 @@ bool SettingsFrame::TransferDataToWindow()
 			wxString("Economic factors for weapon prices"));
 
 		// Money per hit
-		for (i=2000; i>=0; i-=100)
+		for (i=2000; i>=0; i-=50)
 		{	
 			sprintf(buffer, "%i", i);
 			SettingsEco::IDC_MONEYPERHIT_CTRL->Append(buffer);
