@@ -254,8 +254,8 @@ MainFrame::MainFrame() :
 	{
 		wxButton *button =
 			addButtonToWindow(ID_BUTTON_DISPLAY,
-				"Change the display settings.\n"
-				"Change graphics and compatability options", 
+				"Change game settings.\n"
+				"Graphics, compatability and other options", 
 				"data/windows/display.bmp", this, gridsizer);
 		if (button && !OptionsParam::instance()->getSDLInitVideo())
 		{

@@ -217,9 +217,9 @@ LIBS="$LIBS $FT2_LIBS"
 
 # Directory setup stuff
 
-dnl --docdir
+dnl --with-docdir
 AC_ARG_WITH(docdir,
-	AC_HELP_STRING([--docdir=DIR],
+	AC_HELP_STRING([--with-docdir=DIR],
 	[Use DIR to store documentation files (default DATADIR)]),
 	[with_docdir=$withval])
 if test "x$with_docdir" = "x" ; then
