@@ -46,6 +46,9 @@ Gun fires at same point for all tanks (ignores turret/gun position in model)
 Shot cam does not get LOD correctly
 
 -- Things I am currently looking at
+Sort out window scaling at different resolutions
+Move all files that require RW access to users home dir
+Have a look at seperating data and binary paths
 Roller model
 Better arrows over tank
 GUI Icon stuff
