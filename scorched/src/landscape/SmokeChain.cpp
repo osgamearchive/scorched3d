@@ -75,7 +75,7 @@ bool SmokeChainEntry::move(float frameTime)
 	posZ += velocity_[2] * frameTime;
 	velocity_ += ScorchedClient::instance()->getOptionsTransient().getWindDirection() * 
 		ScorchedClient::instance()->getOptionsTransient().getWindSpeed() / 100.0f;
-	velocity_ *= (float ) pow(0.9, frameTime);
+	velocity_ *= (float ) pow(0.9f, frameTime);
 	
 	a += frameTime / 5.0f;
 	t += frameTime;
