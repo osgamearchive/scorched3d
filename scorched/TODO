@@ -41,6 +41,7 @@ Added: More resoultions can be shown for non-fullscreen modes
 Added: Damped the shot camera stop stop it from jumping around
 Added: Action camera does not jump around so much (it stays with the best action)
 Added: Camera and window menu items get tool tips
+Added: Free market economy
 
 Fixed: SG characters being printed during init stages
 Fixed: Client does not start new game until all explosions have finished
@@ -65,7 +66,6 @@ Shot cam does not get LOD correctly
 Sort out window scaling at different resolutions
 GUI Icon stuff
 Make AIs better
-Free market economy
 Finish aiming dialog
 
 -- Server Stuff

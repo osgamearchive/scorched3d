@@ -195,11 +195,11 @@ void EconomyFreeMarket::accessoryBought(Tank *tank,
 			int priceDiff = 0;
 			if (moneyDidAquire < moneyShouldAquire)
 			{
-				int priceDiff = -500 / possibleAccessories.size();
+				priceDiff = -500 / int(possibleAccessories.size());
 			}
 			else if (moneyDidAquire >= moneyShouldAquire)
 			{
-				int priceDiff = 500 / possibleAccessories.size();
+				priceDiff = 500 / int(possibleAccessories.size());
 			}
 			std::map<unsigned int, int>::iterator findItor = newPrices_.
 				find(accessory->getAccessoryId());
