@@ -65,7 +65,8 @@ void ComsMessageHandler::processMessage(NetMessage &message)
 		case NetMessage::DisconnectMessage:
 			if (comsMessageLogging_)
 			{
-				Logger::log(0, "ComsMessage:Disconnected");
+				Logger::log(0, "ComsMessage:Disconnected(%i)",
+					message.getDestinationId());
 			}
 
 			if (connectionHandler_) 
@@ -74,7 +75,8 @@ void ComsMessageHandler::processMessage(NetMessage &message)
 		case NetMessage::ConnectMessage:
 			if (comsMessageLogging_)
 			{
-				Logger::log(0, "ComsMessage:Connected");
+				Logger::log(0, "ComsMessage:Connected(%i)",
+					message.getDestinationId());
 			}
 
 			if (connectionHandler_)
@@ -103,8 +105,8 @@ void ComsMessageHandler::processReceiveMessage(NetMessage &message)
 
 	if (comsMessageLogging_)
 	{
-		Logger::log(0, "ComsMessageHandler::processReceiveMessage(%s)",
-					messageType.c_str());
+		Logger::log(0, "ComsMessageHandler::processReceiveMessage(%s, %i)",
+					messageType.c_str(), message.getDestinationId());
 	}
 
 	std::map<std::string, ComsMessageHandlerI *>::iterator itor =

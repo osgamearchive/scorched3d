@@ -63,7 +63,8 @@ enum
 	IDC_MENU_PLAYERADD_7,
 	IDC_MENU_PLAYERADD_8,
 	IDC_MENU_PLAYERADD_9,
-	IDC_MENU_STARTNEWGAME
+	IDC_MENU_STARTNEWGAME,
+	IDC_MENU_COMSMESSAGELOGGING
 };
 
 class ServerPlayerListControl : public wxListCtrl
@@ -171,6 +172,7 @@ public:
 	void onPlayerAdd7();
 	void onPlayerAdd8();
 	void onPlayerAdd9();
+	void onComsMessageLogging();
 
 	ServerPlayerListControl *playerList_;
 	wxListCtrl *logList_;
@@ -209,6 +211,7 @@ BEGIN_EVENT_TABLE(ServerFrame, wxFrame)
 	EVT_MENU(IDC_MENU_PLAYERADD_9, ServerFrame::onPlayerAdd9)
 	EVT_MENU(IDC_MENU_PLAYERKILLALL, ServerFrame::onKillAll)
 	EVT_MENU(IDC_MENU_STARTNEWGAME, ServerFrame::onStartNewGame)
+	EVT_MENU(IDC_MENU_COMSMESSAGELOGGING, ServerFrame::onComsMessageLogging)
 END_EVENT_TABLE()
 
 ServerFrame::ServerFrame(const char *name) :
@@ -283,12 +286,14 @@ ServerFrame::ServerFrame(const char *name) :
 
 	// Add menu items
 	wxMenu *menuFile = new wxMenu;
-    menuFile->Append(IDC_MENU_SHOWOPTIONS, "&Display Options");
+	menuFile->Append(IDC_MENU_SHOWOPTIONS, "&Display Options");
 	menuFile->Append(IDC_MENU_EDITOPTIONS, "&Edit Options");
 	menuFile->Append(IDC_MENU_LOADOPTIONS, "&Load Options");
 	menuFile->Append(IDC_MENU_SAVEOPTIONS, "&Save Options");
-    menuFile->AppendSeparator();
-    menuFile->Append(IDC_MENU_EXIT, "E&xit");
+	menuFile->AppendSeparator();
+	menuFile->Append(IDC_MENU_COMSMESSAGELOGGING, "&Toggle Coms Message logging");
+ 	menuFile->AppendSeparator();
+ 	menuFile->Append(IDC_MENU_EXIT, "E&xit");
 
 	wxMenu *menuAddPlayer = new wxMenu;
 	int aicount = 0;
@@ -359,6 +364,14 @@ void ServerFrame::onPlayerAdd6() { onPlayerAdd(6); }
 void ServerFrame::onPlayerAdd7() { onPlayerAdd(7); }
 void ServerFrame::onPlayerAdd8() { onPlayerAdd(8); }
 void ServerFrame::onPlayerAdd9() { onPlayerAdd(9); }
+
+void ServerFrame::onComsMessageLogging()
+{
+	ScorchedServer::instance()->getComsMessageHandler().getMessageLogging() =
+		!ScorchedServer::instance()->getComsMessageHandler().getMessageLogging();
+	Logger::log(0, "Server Coms Message Logging %s",
+		(ScorchedServer::instance()->getComsMessageHandler().getMessageLogging()?"On":"Off"));
+}
 
 void ServerFrame::onMenuExit()
 {
