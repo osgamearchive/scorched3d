@@ -46,8 +46,8 @@ MissileActionRenderer::MissileActionRenderer(int flareType, float scale) :
 		Vector(1.0f, 1.0f, 0.3f), 0.1f, // EndColor2
 		0.2f, 0.2f, 0.5f, 0.5f, // Start Size
 		1.5f, 1.5f, 3.0f, 3.0f, // EndSize
-		Vector(0.0f, 0.0f, 10.0f) // Gravity
-		);
+		Vector(0.0f, 0.0f, 10.0f), // Gravity
+		true);
 
 	smokeemitter_.setAttributes(
 		2.5f, 4.0f, // Life
@@ -60,8 +60,8 @@ MissileActionRenderer::MissileActionRenderer(int flareType, float scale) :
 		Vector(0.8f, 0.8f, 0.8f), 0.1f, // EndColor2
 		0.2f, 0.2f, 0.5f, 0.5f, // Start Size
 		2.2f, 2.2f, 4.0f, 4.0f, // EndSize
-		Vector(0.0f, 0.0f, 100.0f) // Gravity
-		);
+		Vector(0.0f, 0.0f, 100.0f), // Gravity
+		false);
 }
 
 MissileActionRenderer::~MissileActionRenderer()
@@ -89,7 +89,7 @@ void MissileActionRenderer::simulate(Action *action, float timepassed, bool &rem
 	{
 		flameemitter_.emitLinear(2, actualPos1, actualPos2, 
 			ScorchedClient::instance()->getParticleEngine(), 
-			ParticleRendererQuadsParticle::getInstance());
+			ParticleRendererQuads::getInstance());
 	}
 
 	// Add the smoke trail
@@ -108,7 +108,7 @@ void MissileActionRenderer::simulate(Action *action, float timepassed, bool &rem
 			smokeemitter_.setVelocity(vel1, vel2);
 			smokeemitter_.emitLinear(3, actualPos1, actualPos2, 
 				ScorchedClient::instance()->getParticleEngine(), 
-				ParticleRendererQuadsSmoke::getInstance());
+				ParticleRendererQuads::getInstance());
 		}
 	}
 }

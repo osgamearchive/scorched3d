@@ -29,45 +29,43 @@
 
 static const int AlphaSteps = int(ExplosionNukeRenderer_STEPS * 0.9f);
 
-void ExplosionNukeRenderer::Entry::simulate()
+ExplosionNukeRendererEntry::ExplosionNukeRendererEntry(
+	Vector &position, float size) :
+	totalTime_(0.0f), size_(size),
+	startPosition_(position)
 {
-	position_ ++;
-	if (position_ > AlphaSteps)
-	{
-		alpha -= alphaDec_;
-	}
+	rotation_ = RAND * 360.0f;
+	width_ = RAND * 0.5f + 1.0f;
 }
 
-void ExplosionNukeRenderer::Entry::draw(Vector startPosition, float size)
+ExplosionNukeRendererEntry::~ExplosionNukeRendererEntry()
 {
-	// Set the current position
-	float z = positions_[position_][2] - size / 2.0f ;
-	float w = positions_[position_][0] + 4;
-	posX = startPosition[0] + sinf(rotation_) * w;
-	posY = startPosition[1] + cosf(rotation_) * w;
-	posZ = startPosition[2] + z;
+}
+
+void ExplosionNukeRendererEntry::simulate(Particle *particle, float time)
+{
+	totalTime_ += time;
+
+	int position = int((totalTime_ / (size_ / 3.0f)) * 
+		float(ExplosionNukeRenderer_STEPS));
+	if (position >= ExplosionNukeRenderer_STEPS)
+		position = ExplosionNukeRenderer_STEPS - 1;
+
+	float z = ExplosionNukeRenderer::positions_[position][2] * 14.0f / size_ - size_;
+	float w = ExplosionNukeRenderer::positions_[position][0] + size_ / 4 + 4.0f;
+	particle->position_[0] = startPosition_[0] + sinf(rotation_) * w * width_;
+	particle->position_[1] = startPosition_[1] + cosf(rotation_) * w * width_;
+	particle->position_[2] = startPosition_[2] + z;
 
 	// Add a little offset to the current position
 	// (NOTE: This should really be done in simulate!!)
-	if (position_>=(ExplosionNukeRenderer_STEPS *0.3f)){
+	/*if (position_>=(ExplosionNukeRenderer_STEPS *0.3f)){
 		//entry.posZ+=(RAND*2.0f)-1.0f;
 		float delta= ExplosionNukeRenderer_STEPS-(ExplosionNukeRenderer_STEPS*0.3f);
 		float diff = position_-(ExplosionNukeRenderer_STEPS*0.3f);
 		float num = diff/delta;  //num =0..1
 		posZ-=(num*num*num)*size;
-	}
-	
-	// Add a shadow of the smoke on the ground
-	if (smoke_ &&
-		posX > 0.0f && posY > 0.0f && 
-		posX < 255.0f && posY < 255.0f)
-	{
-		float aboveGround =	posZ - 
-			ScorchedClient::instance()->getLandscapeMaps().getHMap().
-			getHeight(int (posX), int(posY));
-		Landscape::instance()->getShadowMap().
-			addCircle(posX, posY, (height * aboveGround) / 10.0f, 0.7f * alpha);
-	}
+	}*/
 }
 
 Vector *ExplosionNukeRenderer::positions_ = 0;
@@ -101,41 +99,41 @@ ExplosionNukeRenderer::ExplosionNukeRenderer(Vector &position, float size)
 			positions_[i] = pos;
 		}
 	}
+
+	emitter_.setAttributes(
+		size_ / 3.0f, size_ / 3.0f, // Life
+		0.2f, 0.5f, // Mass
+		0.01f, 0.02f, // Friction
+		Vector(0.0f, 0.0f, 0.0f), Vector(0.0f, 0.0f, 0.0f), // Velocity
+		Vector(1.0f, 1.0f, 1.0f), 0.4f, // StartColor1
+		Vector(1.0f, 1.0f, 1.0f), 0.5f, // StartColor2
+		Vector(1.0f, 1.0f, 1.0f), 0.1f, // EndColor1
+		Vector(1.0f, 1.0f, 1.0f), 0.2f, // EndColor2
+		2.0f, 2.0f, 3.0f, 3.0f, // Start Size
+		4.0f, 4.0f, 6.0f, 6.0f, // EndSize
+		Vector(0.0f, 0.0f, 100.0f), // Gravity
+		false);
 }
 
 ExplosionNukeRenderer::~ExplosionNukeRenderer()
 {
-	std::list<Entry*>::iterator itor = entries_.begin();
-	std::list<Entry*>::iterator enditor = entries_.end();
-	for (;itor != enditor; itor++)
-	{
-		Entry *entry = *itor;
-		GLBilboardRenderer::instance()->removeEntry(entry, true);
-	}
 }
 
 void ExplosionNukeRenderer::draw(Action *action)
 {
- 	std::list<Entry*>::iterator itor = entries_.begin();
- 	std::list<Entry*>::iterator enditor = entries_.end();
- 	for (;itor != enditor; itor++)
- 	{
- 		Entry *entry = *itor;
- 		entry->draw(position_, size_);
- 	}
 }
 
 void ExplosionNukeRenderer::simulate(Action *action, float frameTime, bool &remove)
 {
 	float AddSmokeTime = 0.08f;
-	int SmokesPerTime = 2;
+	int SmokesPerTime = 20;
 	if (OptionsDisplay::instance()->getEffectsDetail() == 0) 
 	{
-		SmokesPerTime = 1;
+		SmokesPerTime = 10;
 	}
 	else if (OptionsDisplay::instance()->getEffectsDetail() == 2) 
 	{
-		SmokesPerTime = 5;
+		SmokesPerTime = 30;
 	}
 
 	totalTime_ += frameTime;
@@ -145,52 +143,18 @@ void ExplosionNukeRenderer::simulate(Action *action, float frameTime, bool &remo
 	{
 		time_ -= AddSmokeTime;
 
-		// Simulate all current entries
-		std::list<Entry*>::iterator itor = entries_.begin();
-		std::list<Entry*>::iterator enditor = entries_.end();
-		for (;itor != enditor; itor++)
-		{
-			(*itor)->simulate();
-		}
-
-		// Remove any entries that have finished the cycle
-		while (!entries_.empty() && 
-			entries_.back()->position_ >= ExplosionNukeRenderer_STEPS)
-		{
-			Entry *entry = entries_.back();
-			GLBilboardRenderer::instance()->removeEntry(entry, true);
-			entries_.pop_back();
-		}
-
 		// Add any new entries
-		if (totalTime_ < size_ / 2.0f)
+		if (totalTime_ > 1.25f)
 		{
-			for (int i=0; i<SmokesPerTime; i++)
+			if (totalTime_ < 2.25f)
 			{
-				Entry *entry = new Entry;
-				entry->width = 4.0f;
-				entry->height = 4.0f;
-				entry->alpha = 0.15f+(RAND *0.20f);
-				entry->position_ = 0;
-				entry->rotation_ = RAND * (3.14f * 2.0f);
-				entry->texture = &ExplosionTextures::instance()->smokeTexture;
-				entry->textureCoord = (int) (RAND * 3.0f);
-				entry->smoke_ = (RAND > 0.80f);
-
-				float red = RAND * 0.2f + 0.8f;
-				float other = RAND * 0.2f + 0.8f;
-
-				entry->r_color = red;
-				entry->g_color = other;
-				entry->b_color = other;
-
-				entry->alphaDec_ = entry->alpha / 
-					(float) (ExplosionNukeRenderer_STEPS - AlphaSteps);
-
-				GLBilboardRenderer::instance()->addEntry(entry);
-				entries_.push_front(entry);
+				emitter_.emitMushroom(
+					position_,
+					ScorchedClient::instance()->getParticleEngine(),
+					SmokesPerTime,
+					size_);
 			}
+			else remove = true;
 		}
-		else remove = entries_.empty();
 	}
 }

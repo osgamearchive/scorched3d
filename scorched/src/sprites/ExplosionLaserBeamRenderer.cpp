@@ -65,7 +65,7 @@ void ExplosionLaserBeamRenderer::init(unsigned int playerId,
 
 	position_ = position;
 
-			ParticleEmitter emmiter;
+	ParticleEmitter emmiter;
 	emmiter.setAttributes(
 			10.0f, 0.9f, // Life
 			0.5f, 9.5f, // Mass
@@ -77,14 +77,14 @@ void ExplosionLaserBeamRenderer::init(unsigned int playerId,
 			Vector(0.8f, 0.8f, 1.0f), 0.1f, // EndColor2
 			0.0f, 0.0f, 0.5f, 0.5f, // Start Size
 			0.0f, 0.0f, 10.0f, 10.0f, // EndSize
-			Vector(0.0f, 0.0f, 10.0f) // Gravity
-			);
+			Vector(0.0f, 0.0f, 10.0f), // Gravity
+			true);
 
 		Vector newPos1 = position_ + Vector(-4.0f, -4.0f, 0.0f);
 		Vector newPos2 = position_ + Vector(4.0f, 4.0f, 0.0f);
 		emmiter.emitLinear(800, newPos1, newPos2, 
 			ScorchedClient::instance()->getParticleEngine(), 
-			ParticleRendererQuadsParticle::getInstance());		
+			ParticleRendererQuads::getInstance());		
 }
 
 void ExplosionLaserBeamRenderer::draw(Action *action)

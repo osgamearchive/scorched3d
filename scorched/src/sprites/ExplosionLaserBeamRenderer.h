@@ -22,7 +22,7 @@
 #define __INCLUDE_ExplosionLaserRendererh_INCLUDE__
 
 #include <sprites/MetaActionRenderer.h>
-#include <sprites/ExplosionRenderer.h>
+#include <GLEXT/GLTexture.h>
 
 #define sides 8
 #define layers 5

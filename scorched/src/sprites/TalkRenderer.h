@@ -23,7 +23,6 @@
 
 #include <engine/Action.h>
 #include <common/Vector.h>
-#include <GLEXT/GLBilboardRenderer.h>
 #include <GLEXT/GLTexture.h>
 
 class TalkRenderer : public ActionRenderer
@@ -36,11 +35,7 @@ public:
 	virtual void draw(Action *action);
 
 protected:
-	GLBilboardRenderer::GLBilboardOrderedEntry *bilEntry_;
-	float frameTime_;
 	Vector position_;
-	static GLTexture talkTex_;
-
 };
 
 #endif // !defined(AFX_TalkRenderer_H__53C71D24_C1E9_41C2_8757_FF947E1B4425__INCLUDED_)

@@ -19,12 +19,15 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <engine/ParticleEngine.h>
+#include <common/OptionsDisplay.h>
 #include <GLEXT/GLState.h>
+#include <client/MainCamera.h>
+#include <algorithm>
 
 ParticleEngine::ParticleEngine(unsigned int maxParticles) :
 	particlesOnScreen_(0), particles_(0), 
-	freeParticles_(0), 
-	speed_(1.0f)
+	freeParticles_(0), usedParticles_(0),
+	speed_(1.0f), totalTime_(0.0f)
 {
 	setMaxParticles(maxParticles);
 }
@@ -33,8 +36,10 @@ ParticleEngine::~ParticleEngine()
 {
 	delete [] particles_;
 	delete [] freeParticles_;
+	delete [] usedParticles_;
 	particles_ = 0;
 	freeParticles_ = 0;
+	usedParticles_ = 0;
 }
 
 void ParticleEngine::setMaxParticles(unsigned int maxParticles)
@@ -42,8 +47,10 @@ void ParticleEngine::setMaxParticles(unsigned int maxParticles)
 	maxParticles_ = maxParticles;
 	delete [] particles_;
 	delete [] freeParticles_;
+	delete [] usedParticles_;
 	freeParticles_ = new Particle*[maxParticles];
 	particles_  = new Particle[maxParticles];
+	usedParticles_ = new Particle*[maxParticles];
 
 	killAll();
 }
@@ -64,13 +71,10 @@ void ParticleEngine::killAll()
 	{
 		Particle &particle = particles_[i];
 		if (particle.life_ > 0.0f) particle.life_ = -1.0f;
-		particle.next_ = 0;
 
 		freeParticles_[i] = &particles_[i];
 	}
 	particlesOnScreen_ = 0;
-	start_ = 0;
-	end_ = 0;
 }
 
 void ParticleEngine::draw(const unsigned state)
@@ -78,29 +82,54 @@ void ParticleEngine::draw(const unsigned state)
 	GLState glstate(GLState::TEXTURE_ON | GLState::BLEND_ON | GLState::DEPTH_ON);
 	glDepthMask(GL_FALSE);
 	
-	Particle *particle = start_;
-	while (particle)
+	for (unsigned int i=0; i<particlesOnScreen_; i++)
 	{
+		Particle *particle = usedParticles_[i];
 		if (particle->renderer_)
 		{
 			particle->renderer_->renderParticle(*particle);
 		}
-		particle = particle->next_;
 	}
 
 	glDepthMask(GL_TRUE);
+}
+
+static inline bool lt_distance(Particle *o1, Particle *o2) 
+{ 
+	return o1->distance_ > o2->distance_;
+}
+
+static inline float approx_distance(float  dx, float dy)
+{
+   float approx = (dx * dx) + (dy * dy);
+   return approx;
 }
 
 void ParticleEngine::simulate(const unsigned state, float time)
 {
 	if (speed_ != 1.0f) time *= speed_;
 
-	Vector momentum;
-	Particle *particle = start_;
-	Particle *lastParticle = 0;
-	while (particle)
+	const float StepTime = 0.05f;
+	totalTime_ += time;
+	while (totalTime_ > StepTime)
 	{
-		Particle *next = particle->next_;
+		totalTime_ -= StepTime;
+		normalizedSimulate(StepTime);
+	}
+}
+
+void ParticleEngine::normalizedSimulate(float time)
+{
+	Vector momentum;
+	Vector &cameraPos = 
+		MainCamera::instance()->getCamera().getCurrentPos();
+
+	unsigned int currentParticles = particlesOnScreen_;
+	unsigned int putPos = 0;
+	for (unsigned int i=0; i<currentParticles; i++)
+	{
+		Particle *particle = usedParticles_[i];
+
 		particle->life_ -= time;
 		if (particle->life_ > 0.0f)
 		{
@@ -114,31 +143,39 @@ void ParticleEngine::simulate(const unsigned state, float time)
 			particle->alpha_ += particle->alphaCounter_ * time;
 			particle->size_ += particle->sizeCounter_ * time;
 
-			//now its time for the external forces to take their toll
+			// now its time for the external forces to take their toll
 			particle->velocity_ *= 1.0f - (particle->friction_ * time);
 			particle->velocity_ += particle->gravity_ * time * time;
+
+			// Wind
+			//particle->velocity_ += ScorchedClient::instance()->getOptionsTransient().getWindDirection() * 
+			//	ScorchedClient::instance()->getOptionsTransient().getWindSpeed() / 100.0f;
 
 			// Simulate the particle
 			if (particle->renderer_)
 			{
 				particle->renderer_->simulateParticle(*particle, time);
 			}
+			particle->distance_ = approx_distance(
+				cameraPos[0] - particle->position_[0],
+				cameraPos[1] - particle->position_[1]);
 
-			lastParticle = particle;
+			usedParticles_[putPos] = particle;
+			putPos++;
 		}
 		else
 		{
 			particlesOnScreen_--;
 			freeParticles_[particlesOnScreen_] = particle;
-			delete particle->userData_;
-
-			if (end_ == particle) end_ = lastParticle;
-			if (start_ == particle) start_ = particle->next_;
-			if (lastParticle) lastParticle->next_ = particle->next_;
-			particle->next_ = 0;
-			particle->userData_ = 0;
+			particle->unsetParticle();
 		}
-		particle = next;
+	}
+
+	if (!OptionsDisplay::instance()->getNoDepthSorting() &&
+		particlesOnScreen_ > 0)
+	{
+		// sort by distance
+		std::sort(usedParticles_, usedParticles_ + particlesOnScreen_);
 	}
 }
 
@@ -148,9 +185,7 @@ Particle *ParticleEngine::getNextAliveParticle()
 	if (particlesOnScreen_ < maxParticles_)
 	{
 		particle = freeParticles_[particlesOnScreen_];
-		if (end_) end_->next_ = particle;
-		end_ = particle;
-		if (!start_) start_ = particle;
+		usedParticles_[particlesOnScreen_] = particle;
 		particlesOnScreen_ ++;	
 	}
 

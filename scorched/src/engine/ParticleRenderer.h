@@ -39,22 +39,9 @@ public:
 class ParticleRendererQuads : public ParticleRenderer
 {
 public:
+	static ParticleRendererQuads *getInstance();
 	virtual void renderParticle(Particle &particle);
 	virtual void simulateParticle(Particle &particle, float time);
-};
-
-class ParticleRendererQuadsParticle : public ParticleRendererQuads
-{
-public:
-	static ParticleRendererQuadsParticle *getInstance();
-	virtual void renderParticle(Particle &particle);
-};
-
-class ParticleRendererQuadsSmoke : public ParticleRendererQuads
-{
-public:
-	static ParticleRendererQuadsSmoke *getInstance();
-	virtual void renderParticle(Particle &particle);
 };
 
 class ParticleRendererDebris : public ParticleRenderer
@@ -69,6 +56,22 @@ class ParticleRendererSmoke : public ParticleRenderer
 {
 public:
 	static ParticleRendererSmoke *getInstance();
+	virtual void renderParticle(Particle &particle);
+	virtual void simulateParticle(Particle &particle, float time);
+};
+
+class ParticleRendererNapalm : public ParticleRenderer
+{
+public:
+	static ParticleRendererNapalm *getInstance();
+	virtual void renderParticle(Particle &particle);
+	virtual void simulateParticle(Particle &particle, float time);
+};
+
+class ParticleRendererMushroom : public ParticleRenderer
+{
+public:
+	static ParticleRendererMushroom *getInstance();
 	virtual void renderParticle(Particle &particle);
 	virtual void simulateParticle(Particle &particle, float time);
 };

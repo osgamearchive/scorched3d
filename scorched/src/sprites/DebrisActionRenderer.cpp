@@ -51,6 +51,7 @@ DebrisActionRenderer::DebrisActionRenderer() :
 
 DebrisActionRenderer::~DebrisActionRenderer()
 {
+	debris_ = 0;
 }
 
 void DebrisActionRenderer::simulate(float timepassed)

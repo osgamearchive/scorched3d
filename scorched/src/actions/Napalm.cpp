@@ -24,17 +24,19 @@
 #include <tank/TankController.h>
 #include <actions/Napalm.h>
 #include <actions/CameraPositionAction.h>
+#include <sprites/ExplosionTextures.h>
 #include <sprites/NapalmRenderer.h>
 #include <GLEXT/GLBitmapModifier.h>
 #include <GLEXT/GLStateExtension.h>
 #include <landscape/Landscape.h>
 #include <landscape/LandscapeMaps.h>
 #include <common/OptionsParam.h>
+#include <client/ScorchedClient.h>
 
 REGISTER_ACTION_SOURCE(Napalm);
 
 Napalm::Napalm() : hitWater_(false), totalTime_(0.0f), hurtTime_(0.0f),
-	napalmTime_(0.0f)
+	napalmTime_(0.0f), counter_(0.1f, 0.1f), set_(0)
 {
 }
 
@@ -42,32 +44,21 @@ Napalm::Napalm(int x, int y, Weapon *weapon, unsigned int playerId) :
 	x_(x), y_(y), napalmTime_(0.0f), 
 	weapon_((WeaponNapalm *) weapon), 
 	playerId_(playerId), hitWater_(false),
-	totalTime_(0.0f), hurtTime_(0.0f)
+	totalTime_(0.0f), hurtTime_(0.0f),
+	counter_(0.1f, 0.1f), set_(0)
 {
-
 }
 
 Napalm::~Napalm()
 {
-	std::list<NapalmEntry *>::iterator itor;
-	std::list<NapalmEntry *>::iterator endItor = 
-		napalmPoints_.end();
-	for (itor = napalmPoints_.begin();
-		itor != endItor;
-		itor++)
-	{
-		NapalmEntry *entry = (*itor);
-		GLBilboardRenderer::instance()->removeEntry(entry->renderEntry1, true);
-		GLBilboardRenderer::instance()->removeEntry(entry->renderEntry2, true);
-		GLBilboardRenderer::instance()->removeEntry(entry->renderEntry3, true);		
-	}
 }
 
 void Napalm::init()
 {
 	if (!context_->serverMode) 
 	{
-		setActionRender(new NapalmRenderer);
+		set_ = ExplosionTextures::instance()->getTextureSetByName(
+			weapon_->getExplosionTexture());
 	}
 
 	// Point the action camera at this event
@@ -87,6 +78,33 @@ void Napalm::init()
 
 void Napalm::simulate(float frameTime, bool &remove)
 {
+	if (!context_->serverMode)
+	{
+		if (counter_.nextDraw(frameTime))
+		{
+			int count = int(RAND * float(napalmPoints_.size()));
+
+			std::list<Napalm::NapalmEntry *>::iterator itor;
+			std::list<Napalm::NapalmEntry *>::iterator endItor = 
+				napalmPoints_.end();
+			for (itor = napalmPoints_.begin();
+					itor != endItor;
+					itor++, count--)
+			{
+				NapalmEntry *entry = (*itor);
+				if (count == 0)
+				{
+					float posZ = 
+						ScorchedClient::instance()->getLandscapeMaps().getHMap().getHeight(
+						entry->posX, entry->posY);
+					Landscape::instance()->getSmoke().
+						addSmoke(float(entry->posX), float(entry->posY), posZ);
+					break;
+				}
+			}
+		}
+	}
+
 	// Add napalm for the period of the time interval
 	// once the time interval has expired then start taking it away
 	// Once all napalm has disapeared the simulation is over
@@ -168,10 +186,6 @@ void Napalm::simulateRmStep()
 	int y = entry->posY;
 	if (!context_->serverMode)
 	{
-		GLBilboardRenderer::instance()->removeEntry(entry->renderEntry1, true);
-		GLBilboardRenderer::instance()->removeEntry(entry->renderEntry2, true);
-		GLBilboardRenderer::instance()->removeEntry(entry->renderEntry3, true);
-
 		// Add the ground scorch
 		/*if (!GLStateExtension::getNoTexSubImage())
 		{
@@ -217,26 +231,35 @@ void Napalm::simulateAddStep()
 	napalmPoints_.push_back(newEntry);
 	if (!context_->serverMode)
 	{
-		newEntry->renderEntry1 = new GLBilboardRenderer::GLBilboardOrderedEntry;
-		newEntry->renderEntry2 = new GLBilboardRenderer::GLBilboardOrderedEntry;
-		newEntry->renderEntry3 = new GLBilboardRenderer::GLBilboardOrderedEntry;
-		newEntry->renderEntry1->alphatype = GL_ONE;
-		newEntry->renderEntry2->alphatype = GL_ONE;
-		newEntry->renderEntry3->alphatype = GL_ONE;
-		newEntry->renderEntry1->posX = float(x_) + 0.5f;
-		newEntry->renderEntry2->posX = float(x_) - 0.5f;
-		newEntry->renderEntry3->posX = float(x_);
-		newEntry->renderEntry1->posY = float(y_) - 0.2f;
-		newEntry->renderEntry2->posY = float(y_) - 0.2f;
-		newEntry->renderEntry3->posY = float(y_) + 0.5f;
-		newEntry->renderEntry1->width = newEntry->renderEntry2->width = 
-			newEntry->renderEntry3->width = 1.0f;
-		newEntry->renderEntry1->height = newEntry->renderEntry2->height = 
-			newEntry->renderEntry3->height = 2.0f;		
-
-		GLBilboardRenderer::instance()->addEntry(newEntry->renderEntry1);
-		GLBilboardRenderer::instance()->addEntry(newEntry->renderEntry2);
-		GLBilboardRenderer::instance()->addEntry(newEntry->renderEntry3);
+		ParticleEmitter emitter;
+		emitter.setAttributes(
+			weapon_->getNapalmTime(), weapon_->getNapalmTime(),
+			0.5f, 1.0f, // Mass
+			0.01f, 0.02f, // Friction
+			Vector(0.0f, 0.0f, 0.0f), Vector(0.0f, 0.0f, 0.0f), // Velocity
+			Vector(1.0f, 1.0f, 1.0f), 0.9f, // StartColor1
+			Vector(1.0f, 1.0f, 1.0f), 0.6f, // StartColor2
+			Vector(1.0f, 1.0f, 1.0f), 0.0f, // EndColor1
+			Vector(1.0f, 1.0f, 1.0f), 0.1f, // EndColor2
+			1.5f, 1.5f, 1.5f, 1.5f, // Start Size
+			1.5f, 1.5f, 1.5f, 1.5f, // EndSize
+			Vector(0.0f, 0.0f, 0.0f), // Gravity
+			true);
+		Vector position1(float(x_) + 0.5f, float(y_) - 0.2f, 0.0f);
+		Vector position2(float(x_) - 0.5f, float(y_) - 0.2f, 0.0f);
+		Vector position3(float(x_) + 0.0f, float(y_) + 0.5f, 0.0f);
+		emitter.emitNapalm(
+			position1, 
+			ScorchedClient::instance()->getParticleEngine(),
+			set_);
+		emitter.emitNapalm(
+			position2, 
+			ScorchedClient::instance()->getParticleEngine(),
+			set_);
+		emitter.emitNapalm(
+			position3, 
+			ScorchedClient::instance()->getParticleEngine(),
+			set_);
 
 		Landscape::instance()->getObjects().burnObjects(
 			(unsigned int) x_, (unsigned int) y_);

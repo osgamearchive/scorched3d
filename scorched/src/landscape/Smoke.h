@@ -21,8 +21,7 @@
 #if !defined(AFX_SMOKE_H__6265A8BD_0FB0_4CB0_BDDC_6C706B2A2A07__INCLUDED_)
 #define AFX_SMOKE_H__6265A8BD_0FB0_4CB0_BDDC_6C706B2A2A07__INCLUDED_
 
-#include <GLEXT/GLTexture.h>
-#include <landscape/SmokeChain.h>
+#include <engine/ParticleEmitter.h>
 
 class SmokeCounter 
 {
@@ -43,20 +42,9 @@ class Smoke
 { 
 public:
 	Smoke();
-	virtual ~Smoke();
 
-	void addSmoke(float x, float y, float z,
-			float dx = 0.0f, float dy = 0.0f, float dz = 0.0f,
-			float maxSize = 0.5f, float maxTime = 5.0f);
-
-	void removeAllSmokes();
-
-	virtual void draw();
-	virtual void simulate(float frameTime);
-
-protected:
-	static Smoke *instance_;
-	SmokeChain chain_;
+	void addSmoke(float x, float y, float z);
+	ParticleEmitter emitter_;
 
 };
 

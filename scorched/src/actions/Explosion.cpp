@@ -38,9 +38,7 @@
 #include <landscape/DeformTextures.h>
 #include <landscape/LandscapeMaps.h>
 #include <landscape/Landscape.h>
-#include <sprites/ExplosionRenderer.h>
 #include <sprites/ExplosionNukeRenderer.h>
-#include <sprites/SprayActionRenderer.h>
 #include <sprites/ExplosionTextures.h>
 #include <math.h>
 
@@ -82,6 +80,21 @@ void Explosion::init()
 			position_[0], position_[1]);
 		float aboveGround = position_[2] - height;
 
+		ParticleEmitter sprayemitter;
+		sprayemitter.setAttributes(
+			3.0f, 4.0f, // Life
+			0.5f, 1.0f, // Mass
+			0.01f, 0.02f, // Friction
+			Vector(0.0f, 0.0f, 0.0f), Vector(0.0f, 0.0f, 0.0f), // Velocity
+			Vector(0.9f, 0.9f, 0.9f), 0.5f, // StartColor1
+			Vector(1.0f, 1.0f, 1.0f), 0.7f, // StartColor2
+			Vector(0.9f, 0.9f, 0.9f), 0.0f, // EndColor1
+			Vector(1.0f, 1.0f, 1.0f), 0.1f, // EndColor2
+			3.0f, 3.0f, 4.0f, 4.0f, // Start Size
+			3.0f, 3.0f, 4.0f, 4.0f, // EndSize
+			Vector(0.0f, 0.0f, -800.0f), // Gravity
+			false);
+
 		// If there is a weapon play a splash sound when in water
 		if (explosion->getCreateSplash())
 		{
@@ -96,9 +109,9 @@ void Explosion::init()
 				CACHE_SOUND(sound, (char *) getDataFile("data/wav/misc/splash.wav"));
 				sound->play();
 
-				context_->actionController->addAction(
-					new SpriteAction(
-						new SprayActionRenderer(position_, explosion->getSize() - 2.0f)));
+				sprayemitter.emitSpray(position_, 
+					ScorchedClient::instance()->getParticleEngine(),
+					explosion->getSize() - 2.0f);
 			}
 		}
 
@@ -107,12 +120,12 @@ void Explosion::init()
 		if (explosion->getCreateDebris())
 		{
 			// If we are below the ground create the spray of dirt (or water)
-			if (aboveGround < 0.0f &&
+			if (aboveGround < 1.0f &&
 				position_[2] >= 5.0f)
 			{
-				context_->actionController->addAction(
-					new SpriteAction(
-						new SprayActionRenderer(position_, explosion->getSize() - 2.0f)));
+				sprayemitter.emitSpray(position_, 
+					ScorchedClient::instance()->getParticleEngine(),
+					explosion->getSize() - 2.0f);
 			}
 
 			ParticleEmitter emitter;
@@ -127,8 +140,8 @@ void Explosion::init()
 				Vector(0.8f, 0.8f, 0.8f), 0.1f, // EndColor2
 				0.2f, 0.2f, 0.5f, 0.5f, // Start Size
 				2.2f, 2.2f, 4.0f, 4.0f, // EndSize
-				Vector(0.0f, 0.0f, -800.0f) // Gravity
-				);
+				Vector(0.0f, 0.0f, -800.0f), // Gravity
+				false);
 
 			// Create debris
 			float mult = float(
@@ -148,9 +161,7 @@ void Explosion::init()
 				float posYZ = (RAND * 4.0f) - 2.0f;
 
 				Landscape::instance()->getSmoke().addSmoke(
-					position_[0] + posXY, position_[1] + posYZ, position_[2] + 2.0f,
-					0.0f, 0.0f, 0.0f,
-					0.5f);
+					position_[0] + posXY, position_[1] + posYZ, position_[2] + 2.0f);
 			}
 		}
 
@@ -166,13 +177,28 @@ void Explosion::init()
 
 			if (texture)
 			{
-				context_->actionController->addAction(
-					new SpriteAction(new ExplosionRenderer(
-						position_, 
-						*texture,
-						expColor,
-						explosionSize, 
-						(explosion->getHurtAmount() > 0.0f))));
+				GLTextureSet *set = 
+					ExplosionTextures::instance()->getTextureSetByName(
+					weapon_->getExplosionTexture());
+
+				ParticleEmitter exploemitter;
+				exploemitter.setAttributes(
+					0.5f, 1.0f, // Life
+					0.2f, 0.5f, // Mass
+					0.01f, 0.02f, // Friction
+					Vector(0.0f, 0.0f, 0.0f), Vector(0.0f, 0.0f, 0.0f), // Velocity
+					Vector(1.0f, 1.0f, 1.0f), 0.8f, // StartColor1
+					Vector(1.0f, 1.0f, 1.0f), 0.9f, // StartColor2
+					Vector(1.0f, 1.0f, 1.0f), 0.0f, // EndColor1
+					Vector(1.0f, 1.0f, 1.0f), 0.1f, // EndColor2
+					0.2f, 0.2f, 0.5f, 0.5f, // Start Size
+					2.2f, 2.2f, 4.0f, 4.0f, // EndSize
+					Vector(0.0f, 0.0f, 0.0f), // Gravity
+					true);
+				exploemitter.emitExplosion(position_,
+					ScorchedClient::instance()->getParticleEngine(),
+					explosionSize,
+					set);
 			}
 		}
 

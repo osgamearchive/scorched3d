@@ -66,12 +66,12 @@ void TankDeadRenderer::simulate(Action *action, float frametime, bool &removeAct
 			Vector(0.8f, 0.8f, 1.0f), 0.1f, // EndColor2
 			0.2f, 0.2f, 0.5f, 0.5f, // Start Size
 			1.5f, 1.5f, 3.0f, 3.0f, // EndSize
-			Vector(0.0f, 0.0f, 0.0f) // Gravity
-			);
+			Vector(0.0f, 0.0f, 0.0f), // Gravity
+			true);
 		emmiter.emitExplosionRing(
 			400, position, 
 			ScorchedClient::instance()->getParticleEngine(), 
-			ParticleRendererQuadsParticle::getInstance());
+			ParticleRendererQuads::getInstance());
 	}
 
 	// Remove this action on the first itteration

@@ -220,12 +220,6 @@
 			Name="GLEXT"
 			Filter="">
 			<File
-				RelativePath="..\GLEXT\GLBilboardRenderer.cpp">
-			</File>
-			<File
-				RelativePath="..\GLEXT\GLBilboardRenderer.h">
-			</File>
-			<File
 				RelativePath="..\GLEXT\GLBitmap.cpp">
 			</File>
 			<File
@@ -374,12 +368,6 @@
 			</File>
 			<File
 				RelativePath="..\GLEXT\GLMenuI.h">
-			</File>
-			<File
-				RelativePath="..\GLEXT\GLOrderedItemRenderer.cpp">
-			</File>
-			<File
-				RelativePath="..\GLEXT\GLOrderedItemRenderer.h">
 			</File>
 			<File
 				RelativePath="..\GLEXT\GLState.cpp">
@@ -1530,12 +1518,6 @@
 				RelativePath="..\landscape\Smoke.h">
 			</File>
 			<File
-				RelativePath="..\landscape\SmokeChain.cpp">
-			</File>
-			<File
-				RelativePath="..\landscape\SmokeChain.h">
-			</File>
-			<File
 				RelativePath="..\landscape\Sun.cpp">
 			</File>
 			<File
@@ -2541,12 +2523,6 @@
 			</File>
 			<File
 				RelativePath="..\sprites\SphereActionRenderer.h">
-			</File>
-			<File
-				RelativePath="..\sprites\SprayActionRenderer.cpp">
-			</File>
-			<File
-				RelativePath="..\sprites\SprayActionRenderer.h">
 			</File>
 			<File
 				RelativePath="..\sprites\TalkRenderer.cpp">

@@ -21,7 +21,6 @@
 #include <dialogs/CameraDialog.h>
 #include <GLW/GLWFont.h>
 #include <GLEXT/GLCameraFrustum.h>
-#include <GLEXT/GLOrderedItemRenderer.h>
 #include <client/MainCamera.h>
 #include <client/Main2DCamera.h>
 #include <client/ScorchedClient.h>
@@ -138,7 +137,7 @@ void CameraDialog::drawLandscape()
 	Landscape::instance()->draw(0);
 	TankRenderer::instance()->render3DSecond.draw(0);
 	ScorchedClient::instance()->getActionController().draw(0);
-	GLOrderedItemRenderer::instance()->draw(0);
+	ScorchedClient::instance()->getParticleEngine().draw(0);
 }
 
 void CameraDialog::mouseDown(float x, float y, bool &skipRest)

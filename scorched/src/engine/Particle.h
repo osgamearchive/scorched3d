@@ -23,6 +23,7 @@
 
 #include <common/Vector.h>
 #include <engine/ParticleRenderer.h>
+#include <GLEXT/GLTexture.h>
 
 class Particle
 {
@@ -35,7 +36,9 @@ public:
         Vector &velocity, Vector &gravity,
 		Vector &color, Vector &colorCounter,
 		Vector &size, Vector &sizeCounter,
-		float alpha, float alphaCounter);
+		float alpha, float alphaCounter,
+		bool additiveTexture);
+	void unsetParticle();
 
 	float life_;
 	float mass_;
@@ -43,14 +46,19 @@ public:
 	Vector position_;
 	Vector velocity_;
 	Vector gravity_;
-
 	Vector color_, colorCounter_;
 	Vector size_, sizeCounter_;
 	float alpha_, alphaCounter_;
 
+	// Used for texturing
+	bool additiveTexture_;
+	GLTexture *texture_;
+	int textureCoord_;
+	bool shadow_;
+
+	float distance_; // Dist from camera
 	void *userData_;
-	ParticleRenderer *renderer_;
-	Particle *next_;
+	ParticleRenderer *renderer_; // How to render
 };
 
 #endif // __INCLUDE_Particleh_INCLUDE__

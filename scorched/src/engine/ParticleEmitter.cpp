@@ -22,6 +22,10 @@
 #include <engine/ParticleEmitter.h>
 #include <sprites/DebrisActionRenderer.h>
 #include <sprites/SmokeActionRenderer.h>
+#include <sprites/ExplosionTextures.h>
+#include <sprites/NapalmRenderer.h>
+#include <sprites/ExplosionNukeRenderer.h>
+#include <landscape/Landscape.h>
 #include <math.h>
 #include <stdlib.h>
 
@@ -123,6 +127,11 @@ void ParticleEmitter::setGravity(Vector gravity)
 	gravity_ = gravity;
 }
 
+void ParticleEmitter::setAdditiveTexture(bool additiveTexture)
+{
+	additiveTexture_ = additiveTexture;
+}
+
 void ParticleEmitter::setAttributes(
 	float life1, float life2,
 	float mass1, float mass2,
@@ -136,7 +145,8 @@ void ParticleEmitter::setAttributes(
 	float startX2, float startY2,
 	float endX1, float endY1,
 	float endX2, float endY2,
-	Vector gravity)
+	Vector gravity,
+	bool additiveTexture)
 {
 	setLife(life1, life2);
 	setMass(mass1, mass2);
@@ -151,6 +161,7 @@ void ParticleEmitter::setAttributes(
 	setEndSize(endX1, endY1,
 		endX2, endY2);
 	setGravity(gravity);
+	setAdditiveTexture(additiveTexture);
 }
 
 void ParticleEmitter::createDefaultParticle(Particle &particle)
@@ -174,7 +185,8 @@ void ParticleEmitter::createDefaultParticle(Particle &particle)
 		friction, velocity, gravity_,
 		color, colorc, 
 		size, sizec, 
-		alpha, alphac);
+		alpha, alphac,
+		additiveTexture_);
 }
 
 void ParticleEmitter::emitLinear(int number, 
@@ -191,6 +203,7 @@ void ParticleEmitter::emitLinear(int number,
 		randomVector(position, position1, position2);
 
 		createDefaultParticle(*particle);
+		particle->texture_ = &ExplosionTextures::instance()->particleTexture;
 		particle->position_ = position;
 		particle->renderer_ = renderer;
 	}
@@ -215,6 +228,7 @@ void ParticleEmitter::emitExplosionRing(int number,
 		velocity[1] = cosf(ang) * speed;
 		velocity[2] = 0.0f;
 
+		particle->texture_ = &ExplosionTextures::instance()->particleTexture;
 		particle->velocity_ = velocity;
 		particle->position_ = position;
 		particle->renderer_ = renderer;
@@ -234,7 +248,7 @@ void ParticleEmitter::emitDebris(int number,
 
 		float direction = RAND * 3.14f * 2.0f;
 		float speed = RAND * 25.0f + 5.0f;
-		float height = RAND * 15.0f + 5.0f;
+		float height = RAND * 25.0f + 15.0f;
 		Vector velocity(sinf(direction) * speed, 
 			cosf(direction) * speed, height);
 
@@ -254,5 +268,149 @@ void ParticleEmitter::emitDebris(int number,
 			particle->renderer_ = ParticleRendererSmoke::getInstance();
 			particle->userData_ = smoke;
 		}
+	}
+}
+
+void ParticleEmitter::emitSmoke(int number,
+	Vector &position,
+	ParticleEngine &engine)
+{
+	for (int i=0; i<number; i++)
+	{
+		Particle *particle = engine.getNextAliveParticle();
+		if (!particle) return;
+
+		createDefaultParticle(*particle);
+
+		particle->position_ = position;
+		particle->renderer_ = ParticleRendererQuads::getInstance();
+		particle->texture_ = &ExplosionTextures::instance()->smokeTexture;
+		particle->shadow_ = (RAND > 0.75f);
+		particle->textureCoord_ = (int) (RAND * 4.0f);
+	}
+}
+
+void ParticleEmitter::emitNapalm(
+	Vector &position,
+	ParticleEngine &engine,
+	GLTextureSet *set)
+{
+	Particle *particle = engine.getNextAliveParticle();
+	if (!particle) return;
+
+	createDefaultParticle(*particle);
+
+	particle->position_ = position;
+	particle->renderer_ = ParticleRendererNapalm::getInstance();
+	particle->textureCoord_ = 0;
+	particle->userData_ = new NapalmRenderer(set);
+}
+
+void ParticleEmitter::emitSpray(
+	Vector &position,
+	ParticleEngine &engine,
+	float width)
+{
+	for (int i=0; i<6 + int(width) * 2; i++)
+	{
+		Particle *particle = engine.getNextAliveParticle();
+		if (!particle) return;
+
+		createDefaultParticle(*particle);
+
+		float rotation = RAND * 2.0f * 3.14f;
+		float x = sinf(rotation);
+		float y = cosf(rotation);
+		Vector pos = position;
+		pos[0] += (x * width * RAND);
+		pos[1] += (y * width * RAND);
+		Vector velocity;
+		velocity[0] = (x * RAND) / 10.0f;
+		velocity[1] = (y * RAND) / 10.0f;
+		velocity[2] = 25.0f * RAND + 15.0f;
+
+		if (position[2] < 5.0f)
+		{
+			particle->texture_ = &Landscape::instance()->getLandscapeTextureWater();
+		}
+		else
+		{
+			particle->texture_ = &Landscape::instance()->getLandscapeTexture1();
+		}
+		particle->velocity_ = velocity;
+		particle->position_ = pos;
+		particle->renderer_ = ParticleRendererQuads::getInstance();
+		particle->textureCoord_ = (int) (RAND * 4.0f);
+	}
+}
+
+void ParticleEmitter::emitTalk(
+	Vector &position,
+	ParticleEngine &engine)
+{
+	Particle *particle = engine.getNextAliveParticle();
+	if (!particle) return;
+
+	createDefaultParticle(*particle);
+
+	particle->position_ = position;
+	particle->renderer_ = ParticleRendererQuads::getInstance();
+	particle->textureCoord_ = 0;
+	particle->texture_ = &ExplosionTextures::instance()->talkTexture;
+}
+
+void ParticleEmitter::emitExplosion(
+	Vector &position,
+	ParticleEngine &engine,
+	float width,
+	GLTextureSet *set)
+{
+	for (int i=0; i<int(width) * 4; i++)
+	{
+		Particle *particle = engine.getNextAliveParticle();
+		if (!particle) return;
+
+		float randRotXY = (RAND * TWOPI);
+		float randRotXZ = (RAND * TWOPI);
+		float cosRandRotXZ = (float) cos(randRotXZ);
+		Vector velocity;
+		velocity[0] = float(sin(randRotXY) * cosRandRotXZ);
+		velocity[1] = float(cos(randRotXY) * cosRandRotXZ);
+		velocity[2] = float(sin(randRotXZ));
+		velocity *= (width * 2.5f);
+
+		float size = RAND * width * 2.0f + 2.0f;
+
+		setEndSize(size, size, size, size);
+
+		createDefaultParticle(*particle);
+
+		particle->velocity_ = velocity;
+		particle->position_ = position;
+		particle->renderer_ = ParticleRendererQuads::getInstance();
+		particle->textureCoord_ = int(RAND * 4.0f);
+		particle->texture_ = set->getTexture(int(RAND * set->getNoTextures()));
+	}
+}
+
+void ParticleEmitter::emitMushroom(
+	Vector &position,
+	ParticleEngine &engine,
+	int number,
+	float width)
+{
+	for (int i=0; i<number; i++)
+	{
+		Particle *particle = engine.getNextAliveParticle();
+		if (!particle) return;
+
+		createDefaultParticle(*particle);
+
+		particle->position_ = position;
+		particle->renderer_ = ParticleRendererMushroom::getInstance();
+		particle->textureCoord_ = int(RAND * 4.0f);
+		particle->texture_ = &ExplosionTextures::instance()->smokeTexture;
+		particle->shadow_ = (RAND > 0.80f);
+		particle->userData_ = new ExplosionNukeRendererEntry(position, width);
 	}
 }

@@ -22,6 +22,7 @@
 #define __INCLUDE_ParticleEmitterh_INCLUDE__
 
 #include <engine/ParticleEngine.h>
+#include <GLEXT/GLTextureSet.h>
 
 class ParticleEmitter
 {
@@ -41,6 +42,7 @@ public:
 	Vector startSize1_, startSize2_;
 	Vector endSize1_, endSize2_;
 	Vector gravity_;
+	bool additiveTexture_;
 
 	void createDefaultParticle(Particle &particle);
 
@@ -57,7 +59,8 @@ public:
 		float startX2, float startY2,
 		float endX1, float endY1,
 		float endX2, float endY2,
-		Vector gravity);
+		Vector gravity,
+		bool additiveTexture);
 
 	void setLife(float life1, float life2);
 	void setMass(float mass1, float mass2);
@@ -76,20 +79,43 @@ public:
 		float endX1, float endY1,
 		float endX2, float endY2);
 	void setGravity(Vector gravity);
+	void setAdditiveTexture(bool additiveTexture);
 
 	void emitLinear(int number, 
 		Vector &position1, Vector &position2,
 		ParticleEngine &engine,
 		ParticleRenderer *renderer = 0);
-
 	void emitExplosionRing(int number,
 		Vector &position,
 		ParticleEngine &engine,
 		ParticleRenderer *renderer = 0);
-
 	void emitDebris(int number,
 		Vector &position,
 		ParticleEngine &engine);
+	void emitSmoke(int number,
+		Vector &position,
+		ParticleEngine &engine);
+	void emitNapalm(
+		Vector &position,
+		ParticleEngine &engine,
+		GLTextureSet *set);
+	void emitSpray(
+		Vector &position,
+		ParticleEngine &engine,
+		float width);
+	void emitTalk(
+		Vector &position,
+		ParticleEngine &engine);
+	void emitExplosion(
+		Vector &position,
+		ParticleEngine &engine,
+		float width,
+		GLTextureSet *set);
+	void emitMushroom(
+		Vector &position,
+		ParticleEngine &engine,
+		int number,
+		float width);
 };
 
 #endif // __INCLUDE_ParticleEmitterh_INCLUDE__

@@ -298,7 +298,7 @@ void TankModelRenderer::simulate(float frameTime)
 				tank_->getPhysics().getTankTurretPosition()[2]);
 
 			smokeWaitForTime_ = (
-				(RAND * float(tank_->getState().getLife()) * 10.0f) + 250.0f) 
+				(RAND * float(tank_->getState().getLife()) * 10.0f) + 250.0f)
 				/ 3000.0f;;
 			smokeTime_ = 0.0f;
 		}

@@ -91,7 +91,6 @@ void Landscape::simulate(const unsigned state, float frameTime)
 		}
 	}
 	patchGrid_.simulate(frameTime);
-	smoke_.simulate(frameTime * speedMult);
 	surround_.simulate(frameTime * speedMult);
 	wall_.simulate(frameTime * speedMult);
 	wWaves_.simulate(frameTime * speedMult);
@@ -206,7 +205,6 @@ void Landscape::draw(const unsigned state)
 	objects_.draw();
 	wall_.draw();
 	sun_.draw();
-	smoke_.draw();
 
 	if (OptionsDisplay::instance()->getDrawLines()) glPolygonMode(GL_FRONT, GL_FILL);
 }
@@ -437,9 +435,9 @@ void Landscape::reset()
 	WaterMapModifier::addWaterVisibility(
 		ScorchedClient::instance()->getLandscapeMaps().getHMap(), 
 		wMap_);
-	smoke_.removeAllSmokes();
 	wMap_.reset();
 	surround_.clear();
+	ScorchedClient::instance()->getParticleEngine().killAll();
 }
 
 void Landscape::restoreLandscapeTexture()

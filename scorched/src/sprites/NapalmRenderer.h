@@ -18,29 +18,25 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #if !defined(__INCLUDE_NapalmRendererh_INCLUDE__)
 #define __INCLUDE_NapalmRendererh_INCLUDE__
 
-#include <engine/Action.h>
-#include <landscape/Smoke.h>
+#include <engine/Particle.h>
 
 class GLTextureSet;
-class NapalmRenderer : public ActionRenderer
+class NapalmRenderer
 {
 public:
-	NapalmRenderer();
-	virtual ~NapalmRenderer();
+	NapalmRenderer(GLTextureSet *set);
+	~NapalmRenderer();
 
-	virtual void simulate(Action *action, float timepassed, bool &remove);
-	virtual void draw(Action *action);
+	void draw(Particle *particle);
+	void simulate(Particle *particle, float timepassed);
 
 protected:
-	int textureNo_;
-	float totalTime_;
-	SmokeCounter counter_;
+	int plus_;
+	float textureNo_;
 	GLTextureSet *set_;
 };
-
 
 #endif

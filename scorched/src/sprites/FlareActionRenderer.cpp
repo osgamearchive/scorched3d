@@ -41,8 +41,7 @@ void FlareActionRenderer::simulate(Action *action, float timepassed, bool &remov
 	{
 		Vector &actualPos = ((PhysicsParticleMeta *)action)->getCurrentPosition();
 		Landscape::instance()->getSmoke().
-			addSmoke(actualPos[0], actualPos[1], actualPos[2], 
-				0.0f, 0.0f, 0.0f, 0.7f);
+			addSmoke(actualPos[0], actualPos[1], actualPos[2]);
 	}
 }
 

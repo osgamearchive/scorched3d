@@ -18,112 +18,34 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <tank/TankContainer.h>
-#include <landscape/Landscape.h>
-#include <landscape/LandscapeMaps.h>
-#include <engine/MainLoop.h>
-#include <actions/Napalm.h>
 #include <sprites/NapalmRenderer.h>
 #include <sprites/ExplosionTextures.h>
 #include <client/ScorchedClient.h>
+#include <landscape/LandscapeMaps.h>
 
-NapalmRenderer::NapalmRenderer() : 
-	textureNo_(0), totalTime_(0.0f), counter_(0.1f, 0.1f), set_(0)
+NapalmRenderer::NapalmRenderer(GLTextureSet *set) : 
+	textureNo_(0.0f), set_(set)
 {
-
+	int noTextures = set_->getNoTextures();
+	plus_ = int(RAND * noTextures);
 }
 
 NapalmRenderer::~NapalmRenderer()
 {
 }
 
-void NapalmRenderer::simulate(Action *action, float timepassed, bool &remove)
+void NapalmRenderer::draw(Particle *particle)
 {
-	// Cannot simulate textures in here
-	// as we need a faster framerate than the simulation
-	// loop runs at
-
-	if (counter_.nextDraw(timepassed))
-	{
-		Napalm *napalm = (Napalm *) action;
-		int count = int(RAND * float(napalm->getPoints().size()));
-
-		std::list<Napalm::NapalmEntry *>::iterator itor;
-		std::list<Napalm::NapalmEntry *>::iterator endItor = 
-			napalm->getPoints().end();
-		for (itor = napalm->getPoints().begin();
-				itor != endItor;
-				itor++, count--)
-		{
-			Napalm::NapalmEntry *entry = (*itor);
-			if (count == 0)
-			{
-				float posZ = 
-					ScorchedClient::instance()->getLandscapeMaps().getHMap().getHeight(
-					entry->posX, entry->posY);
-				Landscape::instance()->getSmoke().
-					addSmoke(float(entry->posX), float(entry->posY), posZ, 
-					0.0f, 0.0f, 0.0f, 1.0f);
-				break;
-			}
-		}
-	}
+	particle->position_[2] = 
+		ScorchedClient::instance()->getLandscapeMaps().getHMap().getHeight(
+			(int) particle->position_[0],
+			(int) particle->position_[1]) + particle->size_[1] * 2.0f;
 }
 
-void NapalmRenderer::draw(Action *action)
+void NapalmRenderer::simulate(Particle *particle, float timepassed)
 {
-	const float StepTime = 0.05f; // 20 fps
-
-	totalTime_ += ScorchedClient::instance()->getMainLoop().getDrawTime();
-	while (totalTime_ > StepTime)
-	{
-		totalTime_ -= StepTime;
-		textureNo_++;
-	}
-
-	Napalm *napalm = (Napalm *) action;
-	if (!set_)
-	{
-		set_ = 
-			ExplosionTextures::instance()->getTextureSetByName(
-			napalm->getWeapon()->getExplosionTexture());
-	}
-
-	// Setup the bilboard
 	int noTextures = set_->getNoTextures();
-
-	std::list<Napalm::NapalmEntry *>::iterator itor;
-	std::list<Napalm::NapalmEntry *>::iterator endItor = 
-		napalm->getPoints().end();
-	for (itor = napalm->getPoints().begin();
-			itor != endItor;
-			itor++)
-	{
-		Napalm::NapalmEntry *entry = (*itor);
-		int ix = entry->posX;
-		int iy = entry->posY;
-		float fz = ScorchedClient::instance()->getLandscapeMaps().getHMap().getHeight(ix, iy);
-		
-		// Check that this point is still above the water
-		if (fz >= Landscape::instance()->getWater().getHeight())
-		{
-			// Draw the bilboard texture for this napalm
-			// particle
-
-			// Particle 1
-			entry->renderEntry1->posZ = fz + 2.5f;
-			entry->renderEntry1->texture = set_->getTexture(
-				(textureNo_ + entry->offset + 0) % noTextures);
-
-			// Particle 2
-			entry->renderEntry2->posZ = fz + 2.5f;
-			entry->renderEntry2->texture = set_->getTexture(
-				(textureNo_ + entry->offset + 10) % noTextures);
-
-			// Particle 3
-			entry->renderEntry3->posZ = fz + 2.5f;
-			entry->renderEntry3->texture = set_->getTexture(
-				(textureNo_ + entry->offset + 20) % noTextures);
-		}
-	}
+	textureNo_ += 0.1f;
+	int no = (int(textureNo_) + plus_) % noTextures;
+	particle->texture_ = set_->getTexture(no);
 }

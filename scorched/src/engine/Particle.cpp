@@ -21,7 +21,9 @@
 #include <engine/Particle.h>
 
 Particle::Particle() : 
-	next_(0), life_(-1.0f), renderer_(0), userData_(0)
+	life_(-1.0f), renderer_(0), userData_(0),
+	distance_(0.0f), texture_(0), shadow_(false),
+	textureCoord_(0)
 {
 }
 
@@ -34,11 +36,21 @@ void Particle::setParticle(
     Vector &velocity, Vector &gravity,
 	Vector &color, Vector &colorCounter,
 	Vector &size, Vector &sizeCounter,
-	float alpha, float alphaCounter)
+	float alpha, float alphaCounter,
+	bool additiveTexture)
 {
 	life_ = life; mass_ = mass; friction_ = friction;
 	velocity_ = velocity; gravity_ = gravity;
 	color_ = color; colorCounter_ = colorCounter;
 	size_ = size; sizeCounter_ = sizeCounter;
 	alpha_ = alpha; alphaCounter_ = alphaCounter;
+	additiveTexture_ = additiveTexture;
+}
+
+void Particle::unsetParticle()
+{
+	delete userData_;
+	userData_ = 0;
+	texture_ = 0;
+	shadow_ = false;
 }

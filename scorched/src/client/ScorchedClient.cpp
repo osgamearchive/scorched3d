@@ -22,6 +22,7 @@
 #include <engine/MainLoop.h>
 #include <engine/ParticleEngine.h>
 #include <engine/GameState.h>
+#include <common/OptionsDisplay.h>
 
 ScorchedClient *ScorchedClient::instance_ = 0;
 
@@ -37,11 +38,18 @@ ScorchedClient *ScorchedClient::instance()
 ScorchedClient::ScorchedClient() : 
 	context_("Client")
 {
-	particleEngine_ = new ParticleEngine(2000);
 	mainLoop_ = new MainLoop();
 	mainLoop_->clear();
 	mainLoop_->addMainLoop(context_.gameState);
 	context_.serverMode = false;
+
+	// Calculate how many particles we can see
+	int numberOfBilboards = 6000;
+	if (OptionsDisplay::instance()->getEffectsDetail() == 0) 
+		numberOfBilboards = 100;
+	else if (OptionsDisplay::instance()->getEffectsDetail() == 2) 
+		numberOfBilboards = 10000;
+	particleEngine_ = new ParticleEngine(numberOfBilboards);
 }
 
 ScorchedClient::~ScorchedClient()

@@ -20,6 +20,7 @@
 
 #include <stdlib.h>
 #include <landscape/Smoke.h>
+#include <client/ScorchedClient.h>
 
 SmokeCounter::SmokeCounter(float minTime, float timeDiff) :
 	currentTime_(0.0f), minTime_(minTime), timeDiff_(timeDiff)
@@ -45,73 +46,26 @@ void SmokeCounter::genNextTime()
 	nextTime_ = RAND * timeDiff_ + minTime_;
 }
 
-Smoke::Smoke() : chain_(1500)
+Smoke::Smoke()
 {
-
+	emitter_.setAttributes(
+		2.0f, 4.0f, // Life
+		0.2f, 0.5f, // Mass
+		0.01f, 0.02f, // Friction
+		Vector(0.0f, 0.0f, 0.0f), Vector(0.0f, 0.0f, 0.0f), // Velocity
+		Vector(0.8f, 0.8f, 0.8f), 0.6f, // StartColor1
+		Vector(0.8f, 0.8f, 0.8f), 0.8f, // StartColor2
+		Vector(0.8f, 0.8f, 0.8f), 0.0f, // EndColor1
+		Vector(0.8f, 0.8f, 0.8f), 0.0f, // EndColor2
+		0.2f, 0.2f, 0.5f, 0.5f, // Start Size
+		1.2f, 1.2f, 1.5f, 1.5f, // EndSize
+		Vector(0.0f, 0.0f, 400.0f), // Gravity
+		false);
 }
 
-Smoke::~Smoke()
+void Smoke::addSmoke(float x, float y, float z)
 {
-
-}
-
-void Smoke::addSmoke(float x, float y, float z, 
-					 float dx, float dy, float dz,
-					 float maxSize, float maxTime)
-{
-	SmokeChainEntry *entry = chain_.getNextEntry();
-	if (entry)
-	{
-		static Vector setVector;
-		setVector[0] = x;
-		setVector[1] = y;
-		setVector[2] = z;
-
-		static Vector moveVector;
-		moveVector[0] = dx;
-		moveVector[1] = dy;
-		moveVector[2] = dz;
-
-		entry->set(setVector, moveVector, maxSize, maxTime);
-	}
-}
-
-void Smoke::simulate(float frameTime)
-{
-	SmokeChainEntry *entry = chain_.getFirst();
-	if (!entry) return;
-
-	int removeEntry = 0;
-	for (;entry; entry = chain_.getNext())
-	{
-		if (!entry->move(frameTime))
-		{
-			removeEntry ++;
-		}
-	}
-
-	while (removeEntry > 0) 
-	{
-		chain_.removeEntry();
-		removeEntry--;
-	}
-}
-
-void Smoke::draw()
-{
-	SmokeChainEntry *entry = chain_.getFirst();
-	if (!entry) return;
-
-	for (;entry; entry = chain_.getNext())
-	{
-		entry->draw();
-	}
-}
-
-void Smoke::removeAllSmokes()
-{
-	while (chain_.getNoEntries() > 0)
-	{
-		chain_.removeEntry();
-	}
+	Vector position(x, y, z);
+	emitter_.emitSmoke(1, position, 
+		ScorchedClient::instance()->getParticleEngine());
 }

@@ -35,7 +35,6 @@ void SmokeActionRenderer::simulate(Vector &actualPos, float timepassed)
 	if (counter_.nextDraw(timepassed))
 	{
 		Landscape::instance()->getSmoke().
-			addSmoke(actualPos[0], actualPos[1], actualPos[2], 
-			0.0f, 0.0f, 0.0f, 1.0f);
+			addSmoke(actualPos[0], actualPos[1], actualPos[2]);
 	}
 }

@@ -75,6 +75,10 @@ bool ExplosionTextures::createTextures(ProgressCounter *counter)
 	particleTexture.create(bitmap3, GL_RGBA);
 	DIALOG_ASSERT(particleTexture.textureValid());
 
+	GLBitmap talkBitmap(getDataFile("data/textures/talk.bmp"), true);
+	talkTexture.create(talkBitmap, GL_RGBA);
+	DIALOG_ASSERT(talkTexture.textureValid());
+
 	XMLFile file;
 	if (!file.readFile(getDataFile("data/textureset.xml")))
 	{

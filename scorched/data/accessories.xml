@@ -981,7 +981,7 @@ trace of the shot path.</description>
 		<nocreatedebris/>
 		<nocreatesplash/>
 		<deform>none</deform>
-		<size>3</size>
+		<size>2</size>
 		<explosiontexture>default</explosiontexture>
 		<explosionsound>none</explosionsound>			
 	</accessory>

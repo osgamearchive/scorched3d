@@ -18,16 +18,31 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #if !defined(__INCLUDE_ExplosionNukeRendererh_INCLUDE__)
 #define __INCLUDE_ExplosionNukeRendererh_INCLUDE__
 
-#include <GLEXT/GLBilboardRenderer.h>
 #include <engine/Action.h>
+#include <engine/ParticleEmitter.h>
 #include <common/Vector.h>
 #include <list>
 
 #define ExplosionNukeRenderer_STEPS 100
+
+class ExplosionNukeRendererEntry
+{
+public:
+	ExplosionNukeRendererEntry(Vector &position, float size);
+	~ExplosionNukeRendererEntry();
+
+	void simulate(Particle *particle, float time);
+
+protected:
+	float size_;
+	float totalTime_;
+	float rotation_;
+	float width_;
+	Vector startPosition_;
+};
 
 class ExplosionNukeRenderer : public ActionRenderer
 {
@@ -38,24 +53,13 @@ public:
 	virtual void draw(Action *action);
 	virtual void simulate(Action *action, float frameTime, bool &remove);
 
-protected:
 	static Vector *positions_;
-	struct Entry : public GLBilboardRenderer::GLBilboardOrderedEntry
-	{
-		float rotation_;
-		int position_;
-		float alphaDec_;
-		bool smoke_;
-
-		void simulate();
-		void draw(Vector startPosition, float size);
-	};
-
-	std::list<Entry*> entries_;
+protected:
 	Vector position_;
 	float size_;
 	float time_;
 	float totalTime_;
+	ParticleEmitter emitter_;
 };
 
 #endif
