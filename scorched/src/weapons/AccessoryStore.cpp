@@ -40,6 +40,7 @@
 #include <weapons/WeaponSandHog.h>
 #include <weapons/WeaponDigger.h>
 #include <math.h>
+#include <stdio.h>
 
 AccessoryStore *AccessoryStore::instance_ = 0;
 
@@ -55,7 +56,7 @@ AccessoryStore *AccessoryStore::instance()
 
 AccessoryStore::AccessoryStore()
 {
-	parseFile(PKGDIR "data/weapons.xml");
+	if (!parseFile(PKGDIR "data/accessories.xml")) exit(1);
 }
 
 AccessoryStore::~AccessoryStore()

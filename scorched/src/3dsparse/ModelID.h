@@ -23,6 +23,7 @@
 #define __INCLUDE_ModelIDh_INCLUDE__
 
 #include <XML/XMLFile.h>
+#include <coms/NetBuffer.h>
 
 class ModelsFile;
 class ModelID
@@ -31,7 +32,8 @@ public:
 	ModelID();
 	virtual ~ModelID();
 
-	bool initFromNode(XMLNode *modelNode);
+	bool initFromNode(const char *directory,
+		XMLNode *modelNode);
 	bool initFromString(
 		const char *type,
 		const char *meshName,
@@ -42,6 +44,10 @@ public:
 	const char *getSkinName() { return skinName_.c_str(); }
 	const char *getMeshName() { return meshName_.c_str(); }
 	const char *getType() { return type_.c_str(); }
+
+	// Serialize
+	virtual bool writeModelID(NetBuffer &buffer);
+	virtual bool readModelID(NetBufferReader &reader);
 
 	ModelsFile *getNewFile();
 

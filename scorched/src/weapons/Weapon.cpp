@@ -25,8 +25,8 @@ Weapon::Weapon() : deathAnimationWeight_(0), explosionTexture_("exp00")
 {
 	modelId_.initFromString(
 		"ase",
-		PKGDIR "data/meshes/missile.ase",
-		"");
+		PKGDIR "data/accessories/default.ase",
+		PKGDIR "data/accessories/default.bmp");
 }
 
 Weapon::~Weapon()
@@ -70,7 +70,7 @@ bool Weapon::parseXML(XMLNode *accessoryNode)
 	XMLNode *modelNode = accessoryNode->getNamedChild("projectilemodel");
 	if (modelNode)
 	{
-		if (!modelId_.initFromNode(modelNode)) return false;
+		if (!modelId_.initFromNode(PKGDIR "data/accessories", modelNode)) return false;
 	}
 
 	return true;
@@ -83,6 +83,7 @@ bool Weapon::writeAccessory(NetBuffer &buffer)
 	buffer.addToBuffer(explosionTexture_);
 	buffer.addToBuffer(firedSound_);
 	buffer.addToBuffer(explosionSound_);
+	if (!modelId_.writeModelID(buffer)) return false;
 	return true;
 }
 
@@ -93,6 +94,7 @@ bool Weapon::readAccessory(NetBufferReader &reader)
 	if (!reader.getFromBuffer(explosionTexture_)) return false;
 	if (!reader.getFromBuffer(firedSound_)) return false;
 	if (!reader.getFromBuffer(explosionSound_)) return false;
+	if (!modelId_.readModelID(reader)) return false;
 	return true;
 }
 

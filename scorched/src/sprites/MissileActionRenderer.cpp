@@ -22,6 +22,7 @@
 #include <3dsparse/ModelsFile.h>
 #include <actions/ShotProjectile.h>
 #include <landscape/Landscape.h>
+#include <common/OptionsDisplay.h>
 
 std::map<std::string, MissileMesh *> MissileActionRenderer::loadedMeshes_;
 
@@ -62,7 +63,8 @@ void MissileActionRenderer::draw(Action *action)
 			ModelsFile *newFile = shot->getWeapon()->getModelID().getNewFile();
 			if (!newFile) return;
 
-			mesh_ = new MissileMesh(*newFile, false, 1.0f);
+			mesh_ = new MissileMesh(*newFile, 
+				!OptionsDisplay::instance()->getNoSkins(), 1.0f);
 			delete newFile;
 			loadedMeshes_[name] = mesh_;
 		}

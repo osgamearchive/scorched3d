@@ -175,7 +175,7 @@ void MainCamera::moveCamera(float frameTime)
 		{
 			ShotProjectile::getLookAtPosition() /= (float) ShotProjectile::getLookAtCount();
 			mainCam_.setLookAt(ShotProjectile::getLookAtPosition());
-			mainCam_.movePosition(currentRotation + 0.3f, 1.0f, 30.0f);
+			mainCam_.movePosition(currentRotation + 0.3f, 1.0f, 10.0f);
 		}
 		else
 		{

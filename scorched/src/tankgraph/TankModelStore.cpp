@@ -106,7 +106,7 @@ bool TankModelStore::loadTankMeshes()
 		// 3d type the model actuall is
 		// The model files are not parsed until later
 		ModelID modelId;
-		if (!modelId.initFromNode(modelNode))
+		if (!modelId.initFromNode(PKGDIR "data/tanks", modelNode))
 		{
 			dialogMessage("Scorched Models",
 						"Failed to load mesh for tank \"%s\"",

@@ -45,7 +45,7 @@ bool ModelID::initFromString(
 	return true;
 }
 
-bool ModelID::initFromNode(XMLNode *modelNode)
+bool ModelID::initFromNode(const char *directory, XMLNode *modelNode)
 {
 	XMLNode *typeNode = modelNode->getNamedParameter("type");
 	if (!typeNode)
@@ -73,11 +73,11 @@ bool ModelID::initFromNode(XMLNode *modelNode)
 
 		const char *skinNameContent = skinNode->getContent();
 		static char skinName[1024];
-		sprintf(skinName, PKGDIR "data/tanks/%s", skinNameContent);
+		sprintf(skinName, "%s/%s", directory, skinNameContent);
 
 		const char *meshNameContent = meshNode->getContent();
 		static char meshName[1024];
-		sprintf(meshName, PKGDIR "data/tanks/%s", meshNameContent);
+		sprintf(meshName, "%s/%s", directory, meshNameContent);
 
 		if (!::wxFileExists(skinName))
 		{
@@ -101,7 +101,7 @@ bool ModelID::initFromNode(XMLNode *modelNode)
 	{
 		const char *meshNameContent = modelNode->getContent();
 		static char meshName[1024];
-		sprintf(meshName, PKGDIR "data/tanks/%s", meshNameContent);
+		sprintf(meshName, "%s/%s", directory, meshNameContent);
 
 		if (!::wxFileExists(meshName))
 		{
@@ -122,6 +122,22 @@ bool ModelID::initFromNode(XMLNode *modelNode)
 	}
 
 	return true;
+}
+
+bool ModelID::writeModelID(NetBuffer &buffer)
+{
+	buffer.addToBuffer(type_);
+	buffer.addToBuffer(meshName_);
+	buffer.addToBuffer(skinName_);
+	return true;
+}
+
+bool ModelID::readModelID(NetBufferReader &reader)
+{
+	if (!reader.getFromBuffer(type_)) return false;
+	if (!reader.getFromBuffer(meshName_)) return false;
+	if (!reader.getFromBuffer(skinName_)) return false;
+	return true;	
 }
 
 ModelsFile *ModelID::getNewFile()
