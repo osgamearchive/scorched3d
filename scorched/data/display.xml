@@ -80,7 +80,7 @@
   <!-- Do not use the sound. -->
   <option>
     <name>NoSound</name>
-    <value>on</value>
+    <value>off</value>
     <defaultvalue>off</defaultvalue>
   </option>
   <!-- Show landscape normals on the landscape -->
