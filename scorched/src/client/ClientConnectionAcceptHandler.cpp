@@ -27,6 +27,7 @@
 #include <coms/ComsMessageSender.h>
 #include <common/Logger.h>
 #include <common/OptionsGame.h>
+#include <common/OptionsParam.h>
 
 ClientConnectionAcceptHandler *ClientConnectionAcceptHandler::instance_ = 0;
 
@@ -83,13 +84,17 @@ bool ClientConnectionAcceptHandler::processMessage(unsigned int id,
 
 	// Load any mod files we currently have for the mod
 	// the server is using.
-	if (!ScorchedClient::instance()->getModFiles().loadModFiles(
-		ScorchedClient::instance()->getOptionsGame().getMod(), true))
+	if (OptionsParam::instance()->getConnectedToServer() ||
+		OptionsParam::instance()->getLoadModFiles())
 	{
-		dialogMessage("ModFiles", 
-			"Failed to load mod \"%s\"",
-			ScorchedClient::instance()->getOptionsGame().getMod());
-		return false;
+		if (!ScorchedClient::instance()->getModFiles().loadModFiles(
+			ScorchedClient::instance()->getOptionsGame().getMod(), true))
+		{
+			dialogMessage("ModFiles", 
+				"Failed to load mod \"%s\"",
+				ScorchedClient::instance()->getOptionsGame().getMod());
+			return false;
+		}
 	}
 
 	// Tell the server what mod files we actually have

@@ -55,6 +55,7 @@ bool SingleGames::parse(const char *fileName)
 	if (!file.getRootNode()->getNamedChild("main", mainNode)) return false;
 	if (!mainNode->getNamedChild("description", description)) return false;
 	if (!mainNode->getNamedChild("icon", icon)) return false;
+	if (!mainNode->getNamedChild("url", url)) return false;
 	if (!checkDataFile(icon.c_str())) return false;
 
 	XMLNode *gameNode = 0;

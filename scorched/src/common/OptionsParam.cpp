@@ -52,7 +52,9 @@ OptionsParam::OptionsParam() :
 	nooptions_(options_, "nooptions",
 		"Only provided for backward compatability, has no current meaning", 0, false),
 	console_(options_, "console",
-		"Run the server in a console (non-gui) mode", 0, false)
+		"Run the server in a console (non-gui) mode", 0, false),
+	loadmodfiles_(options_, "loadmodfiles",
+		"Loads the mod files even in a non-network game", 0, false)
 {
 
 }

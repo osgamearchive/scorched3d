@@ -32,7 +32,8 @@ extern char scorched3dAppName[128];
 
 enum
 {
-	ID_BUTTON_CHOICE = 1,
+	ID_BUTTON_SCORCHED3D = 999,
+	ID_BUTTON_CHOICE
 };
 
 class SingleChoiceFrameData : public wxObjectRefData
@@ -49,13 +50,18 @@ class SingleChoiceFrame: public wxDialog
 public:
 	SingleChoiceFrame(const char *mod);
 
+protected:
 	void onChoiceButton(wxCommandEvent &event);
+	void onScorchedButton();
+
+	SingleGames games;
 
 private:
     DECLARE_EVENT_TABLE()
 };
 
 BEGIN_EVENT_TABLE(SingleChoiceFrame, wxDialog)
+    EVT_BUTTON(ID_BUTTON_SCORCHED3D,  SingleChoiceFrame::onScorchedButton)
     EVT_BUTTON(ID_BUTTON_CHOICE,  SingleChoiceFrame::onChoiceButton)
 	EVT_BUTTON(ID_BUTTON_CHOICE + 1,  SingleChoiceFrame::onChoiceButton)
 	EVT_BUTTON(ID_BUTTON_CHOICE + 2,  SingleChoiceFrame::onChoiceButton)
@@ -83,11 +89,11 @@ SingleChoiceFrame::SingleChoiceFrame(const char *mod) :
 	setDataFileMod(mod);
 
 	addTitleToWindow(this, topsizer, 
-		getDataFile("data/windows/scorched.bmp"));
+		getDataFile("data/windows/scorched.bmp"),
+		ID_BUTTON_SCORCHED3D);
 
 	int useId = ID_BUTTON_CHOICE;
 	wxFlexGridSizer *gridsizer = new wxFlexGridSizer(4, 2, 5, 5);
-	SingleGames games;
 	if (!games.parse(getDataFile("data/singlegames.xml"))) 
 		dialogExit("SingleChoiceFrame", "Failed to load games");
 	std::list<SingleGames::Entry>::iterator itor;
@@ -132,6 +138,11 @@ void SingleChoiceFrame::onChoiceButton(wxCommandEvent &event)
 
 	EndModal(wxID_OK);
 	runScorched3D("-startclient \"%s\"", targetFilePath);
+}
+
+void SingleChoiceFrame::onScorchedButton()
+{
+	showURL(games.url.c_str());
 }
 
 bool showSingleChoiceDialog(const char *mod)

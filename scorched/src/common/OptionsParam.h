@@ -36,6 +36,7 @@ public:
 	const char *getPassword() { return password_.getValue(); }
 	bool getConsole() { return console_.getValue(); }
 	bool getScreenSaverMode() { return screensaver_.getValue(); }
+	bool getLoadModFiles() { return loadmodfiles_.getValue(); }
 
 	enum Action
 	{
@@ -64,6 +65,7 @@ protected:
 	OptionEntryString client_;
 	OptionEntryString password_;
 	OptionEntryString save_;
+	OptionEntryBool loadmodfiles_;
 	OptionEntryBool screensaver_;
 	OptionEntryBool nooptions_;
 	OptionEntryBool console_;

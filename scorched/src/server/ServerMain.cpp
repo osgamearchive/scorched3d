@@ -103,8 +103,12 @@ bool startServer(bool local)
 	}
 
 	// Load mod
-	if (!ScorchedServer::instance()->getModFiles().loadModFiles(
-		ScorchedServer::instance()->getOptionsGame().getMod(), false)) return false;
+	if (OptionsParam::instance()->getDedicatedServer() ||
+		OptionsParam::instance()->getLoadModFiles())
+	{
+		if (!ScorchedServer::instance()->getModFiles().loadModFiles(
+			ScorchedServer::instance()->getOptionsGame().getMod(), false)) return false;
+	}
 
 	// Init physics
 	HeightMapCollision *hmcol = 

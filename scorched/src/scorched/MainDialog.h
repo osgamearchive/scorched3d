@@ -41,5 +41,6 @@ wxButton *addButtonToWindow(
 	wxWindow *parent,
 	wxSizer *sizer,
 	wxObjectRefData *data = 0);
+void showURL(const char *url);
 
 #endif

@@ -3,9 +3,10 @@
 		<description>Start a single or multi-player Apocalypse mod game.
 One or more people play against themselves or the computer.</description>
 		<icon>data/windows/nuke.bmp</icon>
+		<url>http://apochq.handwired.net/</url>
 	</main>
 	<game>
-		<description>Start a target practice game.
+		<description>Start a target practice Apocalypse mod game.
 Play a practice level against targets that don't fire back.</description>
 		<icon>data/windows/target.bmp</icon>
 		<gamefile>data/singletarget.xml</gamefile>

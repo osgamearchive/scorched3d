@@ -38,6 +38,7 @@ enum
 	ID_BUTTON_EASY = 1,
 	ID_BUTTON_CUSTOM,
 	ID_BUTTON_LOAD,
+	ID_BUTTON_SCORCHED3D,
 	ID_BUTTON_GAME = 100
 };
 
@@ -58,6 +59,7 @@ public:
 	void onGameButton(wxCommandEvent &event);
 	void onCustomButton();
 	void onLoadButton();
+	void onScorchedButton();
 
 protected:
 	void addModButton(
@@ -71,6 +73,7 @@ private:
 BEGIN_EVENT_TABLE(SingleFrame, wxDialog)
 	EVT_BUTTON(ID_BUTTON_CUSTOM,  SingleFrame::onCustomButton)
 	EVT_BUTTON(ID_BUTTON_LOAD, SingleFrame::onLoadButton)
+	EVT_BUTTON(ID_BUTTON_SCORCHED3D, SingleFrame::onScorchedButton)
 	EVT_BUTTON(ID_BUTTON_GAME,  SingleFrame::onGameButton)
 	EVT_BUTTON(ID_BUTTON_GAME + 1,  SingleFrame::onGameButton)
 	EVT_BUTTON(ID_BUTTON_GAME + 2,  SingleFrame::onGameButton)
@@ -99,7 +102,8 @@ SingleFrame::SingleFrame() :
 	wxFlexGridSizer *gridsizer = new wxFlexGridSizer(4, 2, 5, 5);
 
 	addTitleToWindow(this, topsizer, 
-		getDataFile("data/windows/scorched.bmp"));
+		getDataFile("data/windows/scorched.bmp"),
+		ID_BUTTON_SCORCHED3D);
 
 	int count = ID_BUTTON_GAME;
 	addModButton(count, "", gridsizer);
@@ -204,6 +208,11 @@ void SingleFrame::onCustomButton()
 	{
 		EndModal(wxID_OK);
 	}
+}
+
+void SingleFrame::onScorchedButton()
+{
+	showURL("http://www.scorched3d.co.uk");
 }
 
 bool showSingleDialog()

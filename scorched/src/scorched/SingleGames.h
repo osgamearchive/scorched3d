@@ -39,6 +39,7 @@ public:
 
 	bool parse(const char *fileName);
 
+	std::string url;
 	std::string icon;
 	std::string description;
 	std::list<Entry> entries;

@@ -127,13 +127,22 @@ void SurroundDefault::generateList(bool detail)
 		Landscape::instance()->getSky().getSun().getPosition();
 	Vector normal(0.0f, 0.0f, 1.0f);
 
+	float texMultX = 
+		64.0f *
+        (float(Landscape::instance()->getGroundTexture().getWidth()) /
+		256.0f);
+	float texMultY = 
+		64.0f *
+        (float(Landscape::instance()->getGroundTexture().getHeight()) /
+		256.0f);
+
 	glBegin(GL_QUADS);
 	for (int i=0; i<8; i++) 
 	{
 		for (int j=0; j<4; j++) 
 		{
-			float x = hMapBoxVerts_[dataOfs[i][j]][0] / 64.0f;
-			float y = hMapBoxVerts_[dataOfs[i][j]][1] / 64.0f;
+			float x = hMapBoxVerts_[dataOfs[i][j]][0] / texMultX;
+			float y = hMapBoxVerts_[dataOfs[i][j]][1] / texMultY;
 
 			Vector pos = hMapBoxVerts_[dataOfs[i][j]];
 			Vector sunDirection = (sunPos - pos).Normalize();

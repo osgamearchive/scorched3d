@@ -3,6 +3,7 @@
 		<description>Start a single or multi-player game.
 One or more people play against themselves or the computer.</description>
 		<icon>data/windows/tank2.bmp</icon>
+		<url>http://www.scorched3d.co.uk</url>
 	</main>
 	<game>
 		<description>Start an target practice game.

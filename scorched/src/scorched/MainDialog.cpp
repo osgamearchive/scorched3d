@@ -114,6 +114,13 @@ public:
 	}
 };
 
+void showURL(const char *url)
+{
+#ifdef _WIN32
+		WinExec(formatString("explorer %s", url) ,SW_SHOWDEFAULT);
+#endif
+}
+
 void runScorched3D(const char *fmt, ...)
 {
 	char text[1024];
@@ -361,17 +368,15 @@ void MainFrame::onTimer()
 
 void MainFrame::onScorchedClick()
 {
-#ifdef _WIN32
-	WinExec("explorer http://www.scorched3d.co.uk", SW_SHOWDEFAULT);
-#endif
+	showURL("http://www.scorched3d.co.uk");
 }
 
 void MainFrame::onDonateClick()
 {
-#ifdef _WIN32
-	WinExec("https://www.paypal.com/xclick/business=donations%40"
-		"scorched3d.co.uk&item_name=Scorched3D&no_note=1&tax=0&currency_code=GBP",SW_SHOWDEFAULT);
-#endif
+	const char *exec = 
+		"\"https://www.paypal.com/xclick/business=donations%40"
+		"scorched3d.co.uk&item_name=Scorched3D&no_note=1&tax=0&currency_code=GBP\"";
+	showURL(exec);
 }
 
 void MainFrame::onDisplayButton()
