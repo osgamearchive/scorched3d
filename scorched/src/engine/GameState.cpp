@@ -23,6 +23,7 @@
 #include <engine/GameStateStimulusI.h>
 #include <common/Keyboard.h>
 #include <common/Defines.h>
+#include <common/Logger.h>
 
 GameState *GameState::instance_ = 0;
 
@@ -43,7 +44,8 @@ GameState::GameState() :
 	currentState_(-1),
 	currentEntry_(0),
 	currentMouseX_(0),
-	currentMouseY_(0)
+	currentMouseY_(0),
+	stateLogging_(false)
 {
 	
 }
@@ -295,6 +297,10 @@ void GameState::simulate(float simTime)
 				SimulusIPair &p = *itor;
 				if (p.first->acceptStateChange(thisState, p.second, simTime))
 				{
+					if (stateLogging_)
+					{
+						Logger::log(0, "acceptStateChange(%i, %i)", thisState, p.second);
+					}
 					setState(itor->second);
 					return;
 				}
@@ -330,8 +336,14 @@ void GameState::draw()
 
 void GameState::setState(const unsigned state)
 {
+	if (stateLogging_)
+	{
+		Logger::log(0, "setState(%i)", state);
+	}
+
 	currentState_ = state;
 	currentEntry_ = 0;
+	pendingStimulus_ = ((unsigned int) -1);
 	std::map<unsigned, GameStateEntry>::iterator itor = stateList_.find(state);
 	if (itor != stateList_.end())
 	{
@@ -386,6 +398,11 @@ bool GameState::checkStimulate()
 
 void GameState::stimulate(const unsigned stimulus)
 {
+	if (stateLogging_)
+	{
+		Logger::log(0, "stimulate(%i)", stimulus);
+	}
+
 	pendingStimulus_ = stimulus;
 }
 

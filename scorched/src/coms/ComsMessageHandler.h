@@ -60,11 +60,14 @@ public:
 	// Inherited from NetMessageHandlerI
 	virtual void processMessage(NetMessage &message);
 
+	bool &getMessageLogging() { return comsMessageLogging_; }
+
 protected:
 	static ComsMessageHandler *instance_;
 	std::map<std::string, ComsMessageHandlerI *> handlerMap_;
 	ComsMessageConnectionHandlerI *connectionHandler_;
 
+	bool comsMessageLogging_;
 	void processReceiveMessage(NetMessage &message);
 
 private:

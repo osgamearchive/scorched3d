@@ -64,6 +64,7 @@ public:
 	const unsigned getState() { return currentState_; }
 	int getMouseX() { return currentMouseX_; }
 	int getMouseY() { return currentMouseY_; }
+	bool &getStateLogging() { return stateLogging_; }
 
 	// User fns to add classes to state management
 	void addStateStimulus(const unsigned state, 
@@ -144,6 +145,7 @@ protected:
 	std::map<unsigned, GameStateEntry> stateList_;
 	unsigned pendingStimulus_;
 	bool fakeMiddleButton_;
+	bool stateLogging_;
 
 	// Dragging stuff
 	// Up or down for each button (bit field)

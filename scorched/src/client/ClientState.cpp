@@ -136,8 +136,6 @@ void ClientState::setupGameState(bool network)
 	GameState::instance()->addStateStimulus(StateNextRound, 
 		StimBuyWeapons, StateBuyWeapons);
 	GameState::instance()->addStateStimulus(StateNextRound, 
-		StimShot, StateShot);
-	GameState::instance()->addStateStimulus(StateNextRound, 
 		StimScore, StateScore);
 	GameState::instance()->addStateStimulus(StateNextRound, 
 		StimNextRound, StateNextRound);

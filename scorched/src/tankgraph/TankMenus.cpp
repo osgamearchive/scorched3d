@@ -24,12 +24,15 @@
 #include <tankgraph/TankMenus.h>
 #include <tankgraph/TankModelRenderer.h>
 #include <common/WindowManager.h>
+#include <coms/ComsMessageHandler.h>
+#include <engine/GameState.h>
 #include <landscape/Landscape.h>
 #include <landscape/GlobalHMap.h>
 #include <dialogs/MainMenuDialog.h>
 #include <dialogs/QuitDialog.h>
 #include <dialogs/KillDialog.h>
 #include <GLEXT/GLConsoleRuleMethodIAdapter.h>
+#include <GLEXT/GLConsoleRuleFnIAdapter.h>
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
@@ -39,6 +42,10 @@ TankMenus::TankMenus()
 {
 	new GLConsoleRuleMethodIAdapter<TankMenus>(
 		this, &TankMenus::showTankDetails, "TankDetails");
+	new GLConsoleRuleFnIBooleanAdapter(
+		"ComsMessageLogging", ComsMessageHandler::instance()->getMessageLogging());
+	new GLConsoleRuleFnIBooleanAdapter(
+		"StateLogging", GameState::instance()->getStateLogging());
 }
 
 TankMenus::~TankMenus()

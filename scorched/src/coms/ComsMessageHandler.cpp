@@ -21,6 +21,7 @@
 
 #include <coms/ComsMessageHandler.h>
 #include <common/Defines.h>
+#include <common/Logger.h>
 
 ComsMessageConnectionHandlerI::~ComsMessageConnectionHandlerI()
 {
@@ -41,7 +42,8 @@ ComsMessageHandler *ComsMessageHandler::instance()
 	return instance_;
 }
 
-ComsMessageHandler::ComsMessageHandler() : connectionHandler_(0)
+ComsMessageHandler::ComsMessageHandler() : 
+	connectionHandler_(0), comsMessageLogging_(false)
 {
 }
 
@@ -73,10 +75,20 @@ void ComsMessageHandler::processMessage(NetMessage &message)
 			processReceiveMessage(message);
 			break;
 		case NetMessage::DisconnectMessage:
+			if (comsMessageLogging_)
+			{
+				Logger::log(0, "ComsMessage:Disconnected");
+			}
+
 			if (connectionHandler_) 
 				connectionHandler_->clientDisconnected(message);
 			break;
 		case NetMessage::ConnectMessage:
+			if (comsMessageLogging_)
+			{
+				Logger::log(0, "ComsMessage:Connected");
+			}
+
 			if (connectionHandler_)
 				connectionHandler_->clientConnected(message);
 			break;
@@ -99,6 +111,12 @@ void ComsMessageHandler::processReceiveMessage(NetMessage &message)
 			connectionHandler_->clientError(message,
 				"Failed to decode message type");
 		return;
+	}
+
+	if (comsMessageLogging_)
+	{
+		Logger::log(0, "ComsMessageHandler::processReceiveMessage(%s)",
+					messageType.c_str());
 	}
 
 	std::map<std::string, ComsMessageHandlerI *>::iterator itor =
