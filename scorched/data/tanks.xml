@@ -581,6 +581,14 @@
 		<catagory>Humour</catagory>
 		<model type="MilkShape">tux/tux.txt</model>
 	</tank>
+	<tank>
+		<name>Missile Turret</name>
+		<model type="MilkShape">missileturret/missileturret.txt</model>
+	</tank>
+	<tank>
+		<name>Turret 2</name>
+		<model type="MilkShape">turret2/turret2.txt</model>
+	</tank>
 	<!--<tank>
 		<name>R2D2</name>
 		<catagory>Starwars</catagory>

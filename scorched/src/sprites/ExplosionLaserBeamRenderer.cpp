@@ -24,6 +24,11 @@
 #include <GLEXT/GLBitmap.h>
 #include <common/SoundStore.h>
 
+#include <client/ScorchedClient.h>
+#include <engine/ParticleEmitter.h>
+#include <engine/ParticleEngine.h>
+
+
 REGISTER_CLASS_SOURCE(ExplosionLaserBeamRenderer);
 
 GLTexture *ExplosionLaserBeamRenderer::_texture = 0;
@@ -59,6 +64,23 @@ void ExplosionLaserBeamRenderer::init(unsigned int playerId,
 	}
 
 	position_ = position;
+
+			ParticleEmitter emmiter;
+	emmiter.setAttributes(
+			10.0f, 0.9f, // Life
+			0.5f, 9.5f, // Mass
+			0.0f, 0.0f, // Friction
+			Vector(), Vector(), // Velocity
+			Vector(0.9f, 0.9f, 0.1f), 0.9f, // StartColor1
+			Vector(0.9f, 0.9f, 0.1f), 0.1f, // StartColor2
+			Vector(0.6f, 0.6f, 0.95f), 0.0f, // EndColor1
+			Vector(0.8f, 0.8f, 1.0f), 0.1f, // EndColor2
+			0.0f, 0.0f, 0.5f, 0.5f, // Start Size
+			0.0f, 0.0f, 10.0f, 10.0f, // EndSize
+			Vector(0.0f, 0.0f, 10.0f) // Gravity
+			);
+		emmiter.emitLinear(800, position_+Vector(-4.0f, -4.0f, 0.0f), position_+Vector(4.0f, 4.0f, 0.0f), ScorchedClient::instance()->getParticleEngine(), ParticleRendererQuadsParticle::getInstance());		
+
 }
 
 void ExplosionLaserBeamRenderer::draw(Action *action)
@@ -122,6 +144,7 @@ void ExplosionLaserBeamRenderer::draw(Action *action)
 }
 void ExplosionLaserBeamRenderer::simulate(Action *action, float frameTime, bool &remove)
 {
+
 	totalTime_ += frameTime;
 	time_ += frameTime;
 	angle_=(angle_+3.0f);
