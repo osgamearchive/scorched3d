@@ -122,8 +122,8 @@ bool DeformLandscape::deformLandscape(
 	{
 		// Recalcualte the normals
 		hmap.generateNormals(
-			MAX(0, (int) (pos[0] - radius)), MIN(hmap.getWidth(), (int) (pos[0] + radius)),
-			MAX(0, (int) (pos[1] - radius)), MIN(hmap.getWidth(), (int) (pos[1] + radius)));
+			MAX(0, (int) (pos[0] - radius - 3.0f)), MIN(hmap.getWidth(), (int) (pos[0] + radius + 4.0f)),
+			MAX(0, (int) (pos[1] - radius - 3.0f)), MIN(hmap.getWidth(), (int) (pos[1] + radius + 3.0f)));
 	}
 
 	return hits;
@@ -153,6 +153,6 @@ void DeformLandscape::flattenArea(ScorchedContext &context, Vector &tankPos)
 
 	// Recalcualte the normals
 	hmap.generateNormals(
-		MAX(0, posX - 2), MIN(hmap.getWidth(), posX + 2),
-		MAX(0, posY - 2), MIN(hmap.getWidth(), posY + 2));
+		MAX(0, posX - 3), MIN(hmap.getWidth(), posX + 3),
+		MAX(0, posY - 3), MIN(hmap.getWidth(), posY + 3));
 }
