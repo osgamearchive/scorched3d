@@ -32,6 +32,9 @@ Added: Rollers
 Added: Unix directory structure for people that like that sort of thing
 Added: Any error output to stdout is also displayed in a popup window
 Added: A safe settings option is displayed if scorched3d fails to start
+Added: Safe and default options can be loaded from Display dialog
+Added: Laser beam death animation (thanks Cameron Smith)
+Added: More cool tank models (thanks Cameron Smith)
 
 Fixed: SG characters being printed during init stages
 Fixed: Client does not start new game until all explosions have finished

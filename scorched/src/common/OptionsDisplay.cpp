@@ -40,11 +40,11 @@ OptionsDisplay::OptionsDisplay() :
 	detailTexture_(options_, "DetailTexture",
 		"Use the detail texture on the landscape", RWAccess, true),
 	uniqueUserId_(options_, "UniqueUserId",
-		"The unique string given to any servers to uniquely identify the client.", RAccess, ""),
+		"The unique string given to any servers to uniquely identify the client.", RAccess | NoRestore, ""),
 	hostDescription_(options_, "HostDescription",
-		"The description of this host given to any servers for stats.", RAccess, ""),
+		"The description of this host given to any servers for stats.", RAccess | NoRestore, ""),
 	onlineUserName_(options_, "OnlineUserName",
-		"The player name that will be used for all online games.", RAccess, "Player"),
+		"The player name that will be used for all online games.", RAccess | NoRestore, "Player"),
 	explosionParts_(options_, "ExplosionParts",
 		"How many explosion clouds are drawn", RAccess, 8, 0, 10),
 	explosionSubParts_(options_, "ExplosionSubParts",
@@ -191,6 +191,21 @@ bool OptionsDisplay::readOptionsFromFile()
 	return true;
 }
 
+void OptionsDisplay::loadDefaultValues()
+{
+        std::list<OptionEntry *>::iterator itor;
+        for (itor = options_.begin();
+                itor != options_.end();
+                itor++)
+	{
+                OptionEntry *entry = (*itor);
+		if (!(entry->getData() & NoRestore))
+		{
+			entry->setValueFromString(entry->getDefaultValueAsString());
+		}
+	}
+}
+
 void OptionsDisplay::loadSafeValues()
 {
 	const char *path = getDataFile("data/safedisplay.xml");
@@ -208,8 +223,8 @@ void OptionsDisplay::addToConsole()
 	{
 		OptionEntry *entry = (*itor);
 
-		GLConsoleRuleAccessType access = GLConsoleRuleAccessTypeReadWrite;
-		if (entry->getData() == RAccess) access = GLConsoleRuleAccessTypeRead;
+		GLConsoleRuleAccessType access = GLConsoleRuleAccessTypeRead;
+		if (entry->getData() & RWAccess) access = GLConsoleRuleAccessTypeReadWrite;
 
 		adapters_.push_back(new GLConsoleRuleFnIOptionsAdapter(
 			*entry,

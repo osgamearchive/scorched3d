@@ -193,6 +193,14 @@ static void createControls(wxWindow *parent, wxSizer *sizer)
 	userSizer->Add(IDC_HOSTDESC_CTRL, 0, wxALIGN_CENTER);
 	sizer->Add(userSizer, 0, wxGROW | wxLEFT | wxRIGHT | wxTOP, 5);
 
+	// Load settings
+	wxBoxSizer *loadSizer = new wxBoxSizer(wxHORIZONTAL);
+	IDC_LOADDEFAULTS_CTRL = new wxButton(parent, ID_LOADDEFAULTS, "Restore Defaults");
+	IDC_LOADSAFE_CTRL = new wxButton(parent, ID_LOADSAFE, "Safe Options");
+	loadSizer->Add(IDC_LOADDEFAULTS_CTRL, 0, wxALL, 10);
+	loadSizer->Add(IDC_LOADSAFE_CTRL, 0, wxALL, 10);
+	sizer->Add(loadSizer, 0, wxALIGN_CENTER);
+
 	// Ok and cancel boxes
 	wxBoxSizer *buttonSizer = new wxBoxSizer(wxHORIZONTAL);
 	IDOK_CTRL = new wxButton(parent, wxID_OK, "Ok");

@@ -32,7 +32,8 @@ public:
 	{
 		NoAccess = 0,
 		RWAccess = 1,
-		RAccess = 2
+		RAccess = 2,
+		NoRestore = 4
 	};
 
 	int getMaxModelTriPercentage() { return maxModelTriPercentage_.getValue(); }
@@ -195,6 +196,7 @@ public:
 	void setHostDescription(const char *value) { hostDescription_.setValue(value); }
 
 	void loadSafeValues();
+	void loadDefaultValues();
 	bool writeOptionsToFile();
 	bool readOptionsFromFile();
 	void addToConsole();

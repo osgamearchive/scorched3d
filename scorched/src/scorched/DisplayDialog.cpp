@@ -37,7 +37,19 @@ public:
 
 	virtual bool TransferDataToWindow();
 	virtual bool TransferDataFromWindow();
+
+	void onLoadDefaultsButton();
+	void onLoadSafeButton();
+
+protected:
+	DECLARE_EVENT_TABLE()
+	void refreshScreen();
 };
+
+BEGIN_EVENT_TABLE(DisplayFrame, wxDialog)
+    EVT_BUTTON(ID_LOADDEFAULTS,  DisplayFrame::onLoadDefaultsButton)
+    EVT_BUTTON(ID_LOADSAFE,  DisplayFrame::onLoadSafeButton)
+END_EVENT_TABLE()
 
 DisplayFrame::DisplayFrame() :
 	wxDialog(getMainDialog(), -1, wxString(scorched3dAppName))
@@ -60,11 +72,29 @@ DisplayFrame::DisplayFrame() :
 	CentreOnScreen();
 }
 
+void DisplayFrame::onLoadDefaultsButton()
+{
+	OptionsDisplay::instance()->loadDefaultValues();
+	refreshScreen();
+}
+
+void DisplayFrame::onLoadSafeButton()
+{
+	OptionsDisplay::instance()->loadSafeValues();
+	refreshScreen();
+}
+
 bool DisplayFrame::TransferDataToWindow()
 {
 	// Read display options from a file
 	OptionsDisplay::instance()->readOptionsFromFile();
 
+	refreshScreen();
+	return true;
+}
+
+void DisplayFrame::refreshScreen()
+{
 	IDC_FULLCLEAR_CTRL->SetValue(OptionsDisplay::instance()->getFullClear());
 	IDC_NOEXT_CTRL->SetValue(OptionsDisplay::instance()->getNoGLExt());
 	IDC_NOLANDSCAPESCORCH_CTRL->SetValue(OptionsDisplay::instance()->getNoGLTexSubImage());
@@ -154,8 +184,6 @@ bool DisplayFrame::TransferDataToWindow()
 	};
 
 	IDOK_CTRL->SetDefault();
-
-	return true;
 }
 
 bool DisplayFrame::TransferDataFromWindow()

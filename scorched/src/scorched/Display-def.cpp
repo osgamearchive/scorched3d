@@ -18,6 +18,12 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+enum
+{
+	ID_LOADDEFAULTS = 60,
+	ID_LOADSAFE 
+};
+
 static wxCheckBox *IDC_NOCOMPILEDARRAYS_CTRL = 0;
 static wxCheckBox *IDC_NOENVCOMBINE_CTRL = 0;
 static wxCheckBox *IDC_NOCUBEMAP_CTRL = 0;
@@ -52,5 +58,9 @@ static wxCheckBox *IDC_NOSKYANI_CTRL = 0;
 static wxCheckBox *IDC_NOWATERANI_CTRL = 0;
 static wxTextCtrl *IDC_USERID_CTRL = 0;
 static wxTextCtrl *IDC_HOSTDESC_CTRL = 0;
+
+static wxButton *IDC_LOADDEFAULTS_CTRL = 0;
+static wxButton *IDC_LOADSAFE_CTRL = 0;
+
 static wxButton *IDOK_CTRL = 0;
 static wxButton *IDCANCEL_CTRL = 0;
