@@ -57,7 +57,7 @@ protected:
 	void findPoints(ProgressCounter *counter);
 	bool findNextPath(ProgressCounter *counter);
 	void findPath(std::vector<Vector> &points, int x, int y);
-	void constructLines(std::vector<Vector> &points, int dist);
+	void constructLines(std::vector<Vector> &points);
 	void drawBoxes(float totalTime);
 
 };

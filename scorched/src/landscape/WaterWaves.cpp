@@ -22,6 +22,7 @@
 #include <landscape/Landscape.h>
 #include <client/ScorchedClient.h>
 #include <common/OptionsDisplay.h>
+#include <common/Defines.h>
 #include <GLEXT/GLStateExtension.h>
 
 WaterWaves::WaterWaves() : totalTime_(0.0f)
@@ -94,7 +95,7 @@ bool WaterWaves::findNextPath(ProgressCounter *counter)
 			if (wavePoints_[x + y * 256]) 
 			{
 				findPath(points, x, y);
-				constructLines(points, 4);
+				constructLines(points);
 				return true;			
 			}
 		}
@@ -118,12 +119,13 @@ void WaterWaves::findPath(std::vector<Vector> &points, int x, int y)
 	else if (wavePoints_[(x+1) + (y-1) * 256]) findPath(points, x+1, y-1);
 }
 
-void WaterWaves::constructLines(std::vector<Vector> &points, int dist)
+void WaterWaves::constructLines(std::vector<Vector> &points)
 {
 	Vector ptA;
 	Vector ptB;
 	const float waterHeight = 5.0f;
 	Vector point = points.front();
+	int dist = int(RAND * 6.0f + 1.0f);
 	for (int i=5; i<(int)points.size(); i+=5)
 	{
 		Vector &current = points[i];
@@ -171,6 +173,7 @@ void WaterWaves::constructLines(std::vector<Vector> &points, int dist)
 			}
 
 			point = current;
+			dist = int(RAND * 6.0f + 1.0f);
 		}
 	}
 }
