@@ -33,7 +33,7 @@ public:
 	virtual ~TankMenus();
 
 protected:
-	FileLogger *logger_;
+	FileLogger logger_;
 
 	struct PlayerMenu : public GLMenuI
 	{

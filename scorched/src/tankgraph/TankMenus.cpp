@@ -31,12 +31,8 @@
 #include <GLEXT/GLConsoleRuleMethodIAdapter.h>
 #include <GLEXT/GLConsoleRuleFnIAdapter.h>
 
-TankMenus::TankMenus() : logger_(0)
+TankMenus::TankMenus() : logger_("ClientLog")
 {
-	logger_ = new FileLogger
-		(ScorchedClient::instance()->getTankContainer(),
-		"ClientLog");
-
 	new GLConsoleRuleMethodIAdapter<Landscape>(
 		Landscape::instance(), &Landscape::reset, "ResetLandscape");
 	new GLConsoleRuleMethodIAdapter<Landscape>(
@@ -64,7 +60,7 @@ TankMenus::~TankMenus()
 
 void TankMenus::logToFile()
 {
-	Logger::addLogger(logger_);
+	Logger::addLogger(&logger_);
 }
 
 void TankMenus::showTankDetails()

@@ -610,11 +610,14 @@ void showServerDialog()
 	frame = new ServerFrame(serverName);
 	frame->Show();
 
-	char buffer[256];
-	sprintf(buffer, "ServerLog-%i-", 
-		ScorchedServer::instance()->getOptionsGame().getPortNo());
-	if (!serverFileLogger) serverFileLogger = new FileLogger(
-		ScorchedServer::instance()->getTankContainer(), buffer);
-	Logger::addLogger(serverFileLogger);
-	Logger::addLogger(&serverLogger);
+	if (!serverFileLogger) 
+	{
+		char buffer[256];
+		sprintf(buffer, "ServerLog-%i-", 
+			ScorchedServer::instance()->getOptionsGame().getPortNo());
+
+		serverFileLogger = new FileLogger(buffer);
+		Logger::addLogger(serverFileLogger);
+		Logger::addLogger(&serverLogger);
+	}
 }

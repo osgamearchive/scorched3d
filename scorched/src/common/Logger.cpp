@@ -156,8 +156,8 @@ void Logger::processLogEntries()
 	SDL_UnlockMutex(logMutex_);
 }
 
-FileLogger::FileLogger(TankContainer &tankContainer, const char *fileName) : 
-	lines_(0), logFile_(0), fileName_(fileName), tankContainer_(tankContainer)
+FileLogger::FileLogger(const char *fileName) : 
+	lines_(0), logFile_(0), fileName_(fileName)
 {
 
 }
@@ -171,14 +171,12 @@ void FileLogger::logMessage(
 		const char *message,
 		unsigned int playerId)
 {
-	Tank *source = tankContainer_.getTankById(playerId);
 	const unsigned int MaxLines = 1000;
 	if (!logFile_ || (lines_++>MaxLines)) openFile(fileName_.c_str());
 	if (!logFile_) return;
 
 	// Log to file and flush file
-	fprintf(logFile_, "%s - %s %c%s%c\n", time, 
-		message, source?'[':' ',source?source->getUniqueId():"",source?']':' ');
+	fprintf(logFile_, "%s - %s\n", time, message);
 	fflush(logFile_);
 }
 

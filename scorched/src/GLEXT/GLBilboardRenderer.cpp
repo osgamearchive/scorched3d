@@ -38,8 +38,7 @@ GLBilboardRenderer *GLBilboardRenderer::instance()
 }
 
 GLBilboardRenderer::GLBilboardRenderer() : 
-	totalTime_(0.0f), totalSwitches_(0), totalBilboards_(0), showMessages_(false),
-	bilboardsThisFrame_(0)
+	totalTime_(0.0f), totalSwitches_(0), totalBilboards_(0), showMessages_(false)
 {
 	new GLConsoleRuleFnIBooleanAdapter("BilboardStats", showMessages_);
 	GLOrderedItemRenderer::instance()->addSetup(this);
@@ -74,29 +73,19 @@ void GLBilboardRenderer::itemsSetup()
 	// Setup the bilboard items
 	bilX_ = GLCameraFrustum::instance()->getBilboardVectorX();
 	bilY_ = GLCameraFrustum::instance()->getBilboardVectorY();
-	bilboardsAllowed_ = 
-		float(OptionsDisplay::instance()->getNumberBilboards()) /
-		float(bilboardsThisFrame_);
-	bilboardsThisFrame_ = 0;
-	bilboardCount_ = 0.0f;
-	bilboardDrawn_ = 0.0f;
 }
 
 void GLBilboardRenderer::addEntry(Entry *entry)
 {
-	++bilboardsThisFrame_;
 	entry->provider_ = this;
+	entry->requiredItem_ = false;
 	GLOrderedItemRenderer::instance()->addEntry(entry);
 }
 
-void GLBilboardRenderer::drawItem(GLOrderedItemRenderer::OrderedEntry &oentry)
+void GLBilboardRenderer::drawItem(float distance, GLOrderedItemRenderer::OrderedEntry &oentry)
 {
 	GLBilboardRenderer::Entry &entry =
 		(GLBilboardRenderer::Entry &) oentry;
-
-	bilboardCount_ += bilboardsAllowed_;
-	if (bilboardDrawn_ > bilboardCount_) return;	
-	bilboardDrawn_ += 1.0f;
 
 	totalBilboards_++;
 	if (entry.texture != GLTexture::getLastBind())

@@ -25,6 +25,7 @@
 #include <GLW/GLWWindow.h>
 #include <GLW/GLWTextButton.h>
 #include <GLW/GLWTextBox.h>
+#include <GLW/GLWCheckBox.h>
 
 class TalkDialog : public GLWWindow,
 						  public GLWButtonI
@@ -35,6 +36,7 @@ public:
 	// Inherited from GLWButtonI
 	virtual void draw();
 	virtual void buttonDown(unsigned int id);
+	virtual void windowDisplay();
 
 	// Inherited from GLWWindow
 	virtual void keyDown(char *buffer, unsigned int keyState, 
@@ -45,6 +47,7 @@ protected:
 	static TalkDialog *instance_;
 	GLWTextBox *talkText_;
 	GLWTextButton *ok_, *cancel_;
+	GLWCheckBox *teamBox_;
 
 private:
 	TalkDialog();

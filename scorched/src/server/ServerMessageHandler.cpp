@@ -24,6 +24,7 @@
 #include <coms/ComsRmPlayerMessage.h>
 #include <coms/ComsMessageSender.h>
 #include <common/Logger.h>
+#include <common/StatsLogger.h>
 
 ServerMessageHandler *ServerMessageHandler::instance_ = 0;
 
@@ -89,6 +90,8 @@ void ServerMessageHandler::destroyPlayer(unsigned int tankId)
 	{
 		Logger::log(tankId, "Player disconnected \"%i\" \"%s\"", 
 			tankId, tank->getName());
+
+		StatsLogger::instance()->tankLeft(tank);
 
 		// Tell all the clients to remove this player
 		ComsRmPlayerMessage rmPlayerMessage(

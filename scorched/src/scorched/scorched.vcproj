@@ -807,6 +807,12 @@
 				RelativePath="..\common\SoundStore.h">
 			</File>
 			<File
+				RelativePath="..\common\StatsLogger.cpp">
+			</File>
+			<File
+				RelativePath="..\common\StatsLogger.h">
+			</File>
+			<File
 				RelativePath="..\common\Timer.cpp">
 			</File>
 			<File

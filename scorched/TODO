@@ -90,7 +90,6 @@ Ban players
 Loadable maps?
 
 -- Client Stuff
-private messages
 In local mode when it's the next person's turn, re-center the view to where they last had it, and display who's turn it is on the screen.
 ability to re center view around other tanks
 keep track of money after you leave the server
@@ -124,6 +123,7 @@ communism
 # real-time mode - everyone shoots as fast as they can?
 
 -- Graphics Stuff
+New algorithm for bilboard culling (current one causes flickers)
 anti-gravity dirt (doesn't fall) Needed for cavern environment 
 New animations for weapons
 New landscape surrounds, desert etc...

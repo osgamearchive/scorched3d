@@ -39,6 +39,7 @@ public:
 	virtual int getNoTris();
 
 	virtual bool lessThan(TankModel *other);
+	void clear();
 
 	TankModelId &getId();
 	ModelID &getProjectileModelID();

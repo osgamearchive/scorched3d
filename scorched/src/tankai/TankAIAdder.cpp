@@ -25,6 +25,7 @@
 #include <common/OptionsGame.h>
 #include <common/OptionsParam.h>
 #include <common/Logger.h>
+#include <common/StatsLogger.h>
 #include <coms/ComsAddPlayerMessage.h>
 #include <coms/ComsMessageSender.h>
 
@@ -82,6 +83,9 @@ void TankAIAdder::addTankAI(ScorchedContext &context,
 			newname.c_str(),
 			color,
 			modelId);
+		char uniqueId[256];
+		sprintf(uniqueId, "%s - computer", aiName);
+		tank->setUnqiueId(uniqueId);
 		tank->setTankAI(ai->getCopy(tank, &context));
 		context.tankContainer.addTank(tank);
 
@@ -94,6 +98,8 @@ void TankAIAdder::addTankAI(ScorchedContext &context,
 		Logger::log(tank->getPlayerId(), "Player connected \"%i\" \"%s\"",
 			tank->getPlayerId(),
 			tank->getName());
+
+		StatsLogger::instance()->tankJoined(tank);
 
 		if (raiseEvent)
 		{

@@ -24,6 +24,7 @@
 #include <server/ServerState.h>
 #include <scorched/ServerDialog.h>
 #include <common/OptionsParam.h>
+#include <common/StatsLogger.h>
 #include <coms/ComsAddPlayerMessage.h>
 #include <coms/ComsGameStateMessage.h>
 #include <coms/ComsMessageSender.h>
@@ -134,6 +135,8 @@ bool ServerAddPlayerHandler::processMessage(unsigned int id,
 	// Tell this computer that a new tank has connected
 	sendString(0, "Player playing \"%s\"->\"%s\"",
 		tank->getName(), name.c_str());
+
+	StatsLogger::instance()->tankJoined(tank);
 
 	// If we are in a waiting for players state then we can
 	// send the state of these new players

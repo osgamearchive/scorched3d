@@ -24,6 +24,7 @@
 #include <actions/TankScored.h>
 #include <actions/CameraPositionAction.h>
 #include <engine/ScorchedContext.h>
+#include <common/StatsLogger.h>
 
 REGISTER_ACTION_SOURCE(TankDamage);
 
@@ -156,6 +157,23 @@ void TankDamage::simulate(float frameTime, bool &remove)
 								wins,
 								0);
 							context_->actionController.addAction(scored);
+						}
+
+						if (killedTank)
+						{
+							if (damagedPlayerId_ ==  firedPlayerId_) 
+							{
+								StatsLogger::instance()->tankSelfKilled(firedTank, weapon_);
+							}
+							else if ((context_->optionsGame.getTeams() > 1) &&
+								(firedTank->getTeam() == damagedTank->getTeam()))
+							{
+								StatsLogger::instance()->tankTeamKilled(firedTank, damagedTank, weapon_);
+							}
+							else
+							{
+								StatsLogger::instance()->tankKilled(firedTank, damagedTank, weapon_);
+							}
 						}
 					}
 				}

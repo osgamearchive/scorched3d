@@ -55,7 +55,7 @@ public:
 	// Inherited from Interfaces
 	virtual void itemsSetup();
 	virtual void itemsSimulate(float simTime);
-	virtual void drawItem(GLOrderedItemRenderer::OrderedEntry &entry);
+	virtual void drawItem(float distance, GLOrderedItemRenderer::OrderedEntry &entry);
 
 protected:
 	static GLBilboardRenderer *instance_;
@@ -69,10 +69,6 @@ protected:
 	// State
 	Vector bilX_;
 	Vector bilY_;
-	float bilboardsAllowed_;
-	float bilboardCount_;
-	float bilboardDrawn_;
-	int bilboardsThisFrame_;
 
 private:
 	GLBilboardRenderer();

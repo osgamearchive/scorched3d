@@ -21,6 +21,7 @@
 #include <GLEXT/GLOrderedItemRenderer.h>
 #include <GLEXT/GLState.h>
 #include <client/MainCamera.h>
+#include <common/OptionsDisplay.h>
 
 GLOrderedItemRenderer *GLOrderedItemRenderer::instance_ = 0;
 
@@ -61,15 +62,8 @@ void GLOrderedItemRenderer::addSetup(GLOrderedItemRendererProviderSetup *setup)
 
 void GLOrderedItemRenderer::addEntry(OrderedEntry *entry)
 {
-	Vector &cameraPos = 
-		MainCamera::instance()->getCamera().getCurrentPos();
-
-	float dist = 0.0f;
-	dist += (cameraPos[0] - entry->posX) * (cameraPos[0] - entry->posX);
-	dist += (cameraPos[1] - entry->posY) * (cameraPos[1] - entry->posY);
-	dist += (cameraPos[2] - entry->posZ) * (cameraPos[2] - entry->posZ);
-
-	entries_.insert(std::pair<float, OrderedEntry *>(dist,entry));
+	if (entry->requiredItem_) requiredEntries_.push_back(entry);
+	else notRequiredEntries_.push_back(entry);
 }
 
 void GLOrderedItemRenderer::draw(const unsigned state)
@@ -84,6 +78,48 @@ void GLOrderedItemRenderer::draw(const unsigned state)
 		setup->itemsSetup();
 	}
 
+	std::multimap<float, OrderedEntry *> entries;
+	Vector &cameraPos = 
+		MainCamera::instance()->getCamera().getCurrentPos();
+	std::vector<OrderedEntry *>::iterator addItor;
+
+	// Add entries that are required
+	for (addItor = requiredEntries_.begin();
+		addItor != requiredEntries_.end();
+		addItor++)
+	{
+		OrderedEntry *entry = *addItor;
+		float dist = 0.0f;
+		dist += (cameraPos[0] - entry->posX) * (cameraPos[0] - entry->posX);
+		dist += (cameraPos[1] - entry->posY) * (cameraPos[1] - entry->posY);
+		dist += (cameraPos[2] - entry->posZ) * (cameraPos[2] - entry->posZ);
+
+		entries.insert(std::pair<float, OrderedEntry *>(dist,entry));
+	}
+
+	// Add entries that are NOT required
+	float bilboardsAllowed = 
+		float(OptionsDisplay::instance()->getNumberBilboards()) /
+		float(notRequiredEntries_.size());
+	float bilboardCount = 0.0f;
+	float bilboardDrawn = 0.0f;
+	for (addItor = notRequiredEntries_.begin();
+		addItor != notRequiredEntries_.end();
+		addItor++)
+	{
+		bilboardCount += bilboardsAllowed;
+		if (bilboardDrawn > bilboardCount) continue;	
+		bilboardDrawn += 1.0f;
+
+		OrderedEntry *entry = *addItor;
+		float dist = 0.0f;
+		dist += (cameraPos[0] - entry->posX) * (cameraPos[0] - entry->posX);
+		dist += (cameraPos[1] - entry->posY) * (cameraPos[1] - entry->posY);
+		dist += (cameraPos[2] - entry->posZ) * (cameraPos[2] - entry->posZ);
+
+		entries.insert(std::pair<float, OrderedEntry *>(dist,entry));
+	}
+
 	// Setup the transparecy and textures
 	GLState drawState(GLState::TEXTURE_ON | GLState::BLEND_ON | GLState::DEPTH_ON);
 	glDepthMask(GL_FALSE);
@@ -91,20 +127,22 @@ void GLOrderedItemRenderer::draw(const unsigned state)
 
 	// Draw all the items
 	std::multimap<float, OrderedEntry *>::reverse_iterator itor;
-	std::multimap<float, OrderedEntry *>::reverse_iterator endItor = entries_.rend();
-	for (itor = entries_.rbegin();
+	std::multimap<float, OrderedEntry *>::reverse_iterator endItor = entries.rend();
+	for (itor = entries.rbegin();
 			itor != endItor;
 			itor++)
 	{
+		float distance = (*itor).first;
 		OrderedEntry *entry = (*itor).second;
-		entry->provider_->drawItem(*entry);
+		entry->provider_->drawItem(distance, *entry);
 	}
 
 	// Reset the depth mask
 	glDepthMask(GL_TRUE);
 
-	// Remove all items, so they need to be added to be drawn again
-	entries_.clear();
+	// Remove all entries
+	notRequiredEntries_.clear();
+	requiredEntries_.clear();
 }
 
 GLOrderedItemRendererProvider::~GLOrderedItemRendererProvider()

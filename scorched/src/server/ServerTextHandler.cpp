@@ -82,14 +82,38 @@ bool ServerTextHandler::processMessage(unsigned int destinationId,
 			newText += ")";
 		}
 		newText += ": ";
+		if (message.getTeamOnlyMessage())
+		{
+			newText += "(Team) ";
+		}
 		newText += message.getText();
 
 		// Update the server console with the say text
 		serverLog(tankId, "Says \"%s\"", newText.c_str());
 
 		ComsTextMessage newMessage(newText.c_str(), 
-			tank->getPlayerId());
-		ComsMessageSender::sendToAllConnectedClients(newMessage);
+			tank->getPlayerId(), false, message.getTeamOnlyMessage());
+		if (message.getTeamOnlyMessage())
+		{
+			std::map<unsigned int, Tank *> &tanks =
+				ScorchedServer::instance()->getTankContainer().getPlayingTanks();
+			std::map<unsigned int, Tank *>::iterator itor;
+			for (itor = tanks.begin();
+				itor != tanks.end();
+				itor++)
+			{
+				Tank *currentTank = (*itor).second;
+				if (tank->getTeam() == currentTank->getTeam())
+				{
+					ComsMessageSender::sendToSingleClient(newMessage,
+						currentTank->getDestinationId());
+				}
+			}
+		}
+		else
+		{
+			ComsMessageSender::sendToAllConnectedClients(newMessage);
+		}
 	}
 	else
 	{

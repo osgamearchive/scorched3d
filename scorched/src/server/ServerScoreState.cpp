@@ -22,6 +22,7 @@
 #include <server/ScorchedServer.h>
 #include <scorched/ServerDialog.h>
 #include <common/OptionsGame.h>
+#include <common/StatsLogger.h>
 #include <common/Logger.h>
 #include <tank/TankSort.h>
 #include <coms/ComsScoreMessage.h>
@@ -56,6 +57,7 @@ void ServerScoreState::enterState(const unsigned state)
 		std::list<Tank *>::iterator scoreitor = sortedTanks.begin();
 		serverLog((*scoreitor)->getPlayerId(), "\"%s\" is the overall winner!", (*scoreitor)->getName());
 		sendStringMessage(0, "\"%s\" is the overall winner!", (*scoreitor)->getName());
+		StatsLogger::instance()->tankWon((*scoreitor));
 	}
 	else
 	{

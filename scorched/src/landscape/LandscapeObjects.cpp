@@ -63,7 +63,7 @@ void LandscapeObjects::draw()
 	}
 }
 
-void LandscapeObjects::drawItem(GLOrderedItemRenderer::OrderedEntry &oentry)
+void LandscapeObjects::drawItem(float distance, GLOrderedItemRenderer::OrderedEntry &oentry)
 {
 	LandscapeObjects::Entry &entry = (LandscapeObjects::Entry &) oentry;
 

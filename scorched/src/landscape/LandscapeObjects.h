@@ -34,7 +34,7 @@ public:
 
 	void draw();
 	void generate(ProgressCounter *counter);
-	void drawItem(GLOrderedItemRenderer::OrderedEntry &entry);
+	void drawItem(float distance, GLOrderedItemRenderer::OrderedEntry &entry);
 
 protected:
 	struct Entry : public GLOrderedItemRenderer::OrderedEntry

@@ -72,7 +72,7 @@ private:
 class FileLogger : public LoggerI
 {
 public:
-	FileLogger(TankContainer &tankContainer, const char *fileName);
+	FileLogger(const char *fileName);
 	virtual ~FileLogger();
 
 	virtual void logMessage(
@@ -83,7 +83,6 @@ public:
 protected:
 	std::string fileName_;
 	FILE *logFile_;
-	TankContainer &tankContainer_;
 	unsigned int lines_;
 
 	void openFile(const char *fileName);

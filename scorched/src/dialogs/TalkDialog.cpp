@@ -23,6 +23,7 @@
 #include <client/ScorchedClient.h>
 #include <coms/ComsTextMessage.h>
 #include <coms/ComsMessageSender.h>
+#include <GLW/GLWLabel.h>
 
 TalkDialog *TalkDialog::instance_ = 0;
 
@@ -46,6 +47,10 @@ TalkDialog::TalkDialog() :
 	cancel_ = (GLWTextButton *) 
 		addWidget(new GLWTextButton(" Cancel ", 120, 10, 105, this, false, true));
 
+	addWidget(new GLWLabel(25, 7, "Team Say"));
+	teamBox_ = (GLWCheckBox *)
+		addWidget(new GLWCheckBox(10, 10, false));
+
 	// Create player name choice
 	talkText_ = (GLWTextBox *) 
 		addWidget(new GLWTextBox(10, 40, 280, ""));
@@ -53,6 +58,11 @@ TalkDialog::TalkDialog() :
 
 TalkDialog::~TalkDialog()
 {
+}
+
+void TalkDialog::windowDisplay()
+{
+	teamBox_->getState() = false;
 }
 
 void TalkDialog::keyDown(char *buffer, unsigned int keyState, 
@@ -86,7 +96,9 @@ void TalkDialog::buttonDown(unsigned int id)
 		if (!talkText_->getText().empty())
 		{
 			ComsTextMessage message(talkText_->getText().c_str(),
-				ScorchedClient::instance()->getTankContainer().getCurrentPlayerId());
+				ScorchedClient::instance()->getTankContainer().getCurrentPlayerId(),
+				false,
+				teamBox_->getState());
 			ComsMessageSender::sendToServer(message);
 		}
 

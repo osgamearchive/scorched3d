@@ -27,6 +27,7 @@
 #include <scorched/ServerDialog.h>
 #include <coms/ComsActionsMessage.h>
 #include <coms/ComsMessageSender.h>
+#include <common/StatsLogger.h>
 #include <common/OptionsGame.h>
 #include <common/Logger.h>
 
@@ -133,6 +134,7 @@ void ServerShotState::scoreWinners()
 			addMoney += ScorchedServer::instance()->
 				getOptionsGame().getMoneyWonForRound();
 			addRounds = 1;
+			StatsLogger::instance()->tankWon(tank);
 		}
 
 		// Add the money to the tanks

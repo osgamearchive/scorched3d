@@ -43,6 +43,13 @@ ModelID &TankModel::getProjectileModelID()
 	return projectileModelId_;
 }
 
+void TankModel::clear()
+{
+	init_ = false;
+	delete tankMesh_;
+	tankMesh_ = 0;
+}
+
 void TankModel::draw(bool drawS, float angle, 
 	Vector &position, float fireOffSet, 
 	float rotXY, float rotXZ)

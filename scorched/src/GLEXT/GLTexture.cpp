@@ -68,14 +68,17 @@ bool GLTexture::replace(GLImage &bitmap,
 	if (textureValid())
 	{
 		glBindTexture(texType_, texNum_);
-
-		glPixelStorei(GL_UNPACK_ROW_LENGTH, bitmap.getWidth());
-		glTexSubImage2D(texType_, 0, 
-			0, 0, 
-			bitmap.getWidth(), bitmap.getHeight(), 
-			format, GL_UNSIGNED_BYTE, 
-			bitmap.getBits());
-		glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
+		if (glGetError() != GL_INVALID_VALUE &&
+			glGetError() != GL_INVALID_OPERATION)
+		{
+			glPixelStorei(GL_UNPACK_ROW_LENGTH, bitmap.getWidth());
+			glTexSubImage2D(texType_, 0, 
+				0, 0, 
+				bitmap.getWidth(), bitmap.getHeight(), 
+				format, GL_UNSIGNED_BYTE, 
+				bitmap.getBits());
+			glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
+		}
 	}
 	else
 	{
@@ -117,9 +120,19 @@ bool GLTexture::create(const void * data,
 		{
 			GLfloat priority = 1.0f;
 			glGenTextures(1, &texNum_);
+			if (glGetError() == GL_INVALID_VALUE ||
+				glGetError() == GL_INVALID_OPERATION)
+			{
+				DIALOG_ASSERT("Failed to create texture" == 0);
+			}
 			glPrioritizeTextures(1, &texNum_, &priority);
 		}
 		glBindTexture(texType_, texNum_);
+		if (glGetError() == GL_INVALID_VALUE ||
+			glGetError() == GL_INVALID_OPERATION)
+		{
+			DIALOG_ASSERT("Failed to bind create texture" == 0);
+		}
 
 		success = createTexture(data, width, height, components, alignment, format, mipMap);
 	}

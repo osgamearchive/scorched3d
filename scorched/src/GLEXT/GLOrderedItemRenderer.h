@@ -24,6 +24,7 @@
 #include <engine/GameStateI.h>
 #include <map>
 #include <list>
+#include <vector>
 
 // Renders items using z-ordering
 // i.e. the furthest away are drawn first
@@ -36,9 +37,10 @@ public:
 	class OrderedEntry
 	{
 	public:
-		OrderedEntry() : provider_(0) {}
+		OrderedEntry() : provider_(0), requiredItem_(true) {}
 
 		float posX, posY, posZ;
+		bool requiredItem_;
 		GLOrderedItemRendererProvider *provider_;
 	};
 
@@ -53,7 +55,8 @@ public:
 
 protected:
 	static GLOrderedItemRenderer *instance_;
-	std::multimap<float, OrderedEntry *> entries_;
+	std::vector<OrderedEntry *> requiredEntries_;
+	std::vector<OrderedEntry *> notRequiredEntries_;
 	std::list<GLOrderedItemRendererProviderSetup *> setups_;
 
 private:
@@ -66,7 +69,7 @@ class GLOrderedItemRendererProvider
 public:
 	virtual ~GLOrderedItemRendererProvider();
 
-	virtual void drawItem(GLOrderedItemRenderer::OrderedEntry &entry) = 0;
+	virtual void drawItem(float distance, GLOrderedItemRenderer::OrderedEntry &entry) = 0;
 };
 
 class GLOrderedItemRendererProviderSetup
