@@ -18,13 +18,8 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #ifndef _GLWTEXTBOX_H_
 #define _GLWTEXTBOX_H_
-// GLWTextBox.h: interface for the GLWTextBox class.
-//
-//////////////////////////////////////////////////////////////////////
-
 
 #include <string>
 #include <GLW/GLWVisibleWidget.h>
@@ -43,12 +38,14 @@ public:
 
 	std::string &getText() { return text_; }
 	void setText(const char *text) { text_ = text; }
+	void setMaxTextLen(unsigned int maxLen) { maxTextLen_ = maxLen; }
 
 METACLASSID
 
 protected:
 	float ctime_;
 	bool cursor_;
+	unsigned int maxTextLen_;
 	std::string text_;
 
 };

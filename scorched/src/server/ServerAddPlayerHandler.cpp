@@ -156,8 +156,8 @@ void ServerAddPlayerHandler::getUniqueName(std::string &sentname)
 	std::string playerName;
 	int nameLen = strlen(nameBeginning);
 	if (nameLen == 0) playerName = "NoName";
-	else if (nameLen < 16) playerName = nameBeginning;
-	else playerName.append(nameBeginning, 16);
+	else if (nameLen < 22) playerName = nameBeginning;
+	else playerName.append(nameBeginning, 22);
 
 	// Make sure no-one has the same name
 	while (ScorchedServer::instance()->getTankContainer().getTankByName(playerName.c_str()))

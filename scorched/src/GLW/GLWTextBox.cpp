@@ -25,7 +25,7 @@
 
 GLWTextBox::GLWTextBox(float x, float y, float w, char *startText) :
 	GLWVisibleWidget(x, y, w, 25.0f), ctime_(0.0f), text_(startText?startText:""), 
-	cursor_(false)
+	cursor_(false), maxTextLen_(0)
 {
 
 }
@@ -74,9 +74,12 @@ void GLWTextBox::keyDown(char *buffer, unsigned int keyState,
 		}
 		else if (c >= ' ')
 		{
-			if ((int) text_.size() < w_ / 12)
+			if ((maxTextLen_==0) || ((int) text_.size() < maxTextLen_))
 			{
-				text_ += c;
+				if ((int) text_.size() < w_ / 12)
+				{
+					text_ += c;
+				}
 			}
 			skipRest = true;
 		}

@@ -36,7 +36,7 @@ TankDialog *TankDialog::instance()
 }
 
 TankDialog::TankDialog() :
-	GLWWindow("Player", 110, 10, 215, 65, eTransparent | eSmallTitle)
+	GLWWindow("Player", 110, 10, 215, 75, eTransparent | eSmallTitle)
 {
 
 }
@@ -77,44 +77,44 @@ void TankDialog::drawTankModel(Tank *current)
 		if (model)
 		{
 			GLWToolTip::instance()->addToolTip(model->getTip(), 
-				x_ + 5.0f, y_ + 5.0f, 55.0f, 55.0f);
+				x_ + 7.0f, y_ + 3.0f, 55.0f, 55.0f);
 		}
 
 		// Draw the round window containing the tank model
 		GLState newState(GLState::DEPTH_OFF | GLState::TEXTURE_OFF | GLState::BLEND_ON);
 		glColor4f(1.0f, 1.0f, 1.0f, 0.2f);
 		glBegin(GL_TRIANGLE_FAN);
-			glVertex2f(x_ + 25.0f, y_ + 25.0f);
-			glVertex2f(x_ + 25.0f, y_ + 5.0f);
-			drawRoundBox(x_ + 5.0f, y_ + 5.0f, 55.0f, 55.0f, 10.0f);
-			glVertex2f(x_ + 25.0f, y_ + 5.0f);
+			glVertex2f(x_ + 27.0f, y_ + 23.0f);
+			glVertex2f(x_ + 27.0f, y_ + 3.0f);
+			drawRoundBox(x_ + 7.0f, y_ + 3.0f, 55.0f, 55.0f, 10.0f);
+			glVertex2f(x_ + 27.0f, y_ + 3.0f);
 		glEnd();
 
 		glColor3f(0.0f, 0.0f, 0.0f);
 		GLState neState(GLState::BLEND_OFF);
 		glBegin(GL_LINE_LOOP);
-			drawRoundBox(x_ + 5.0f, y_ + 5.0f, 55.0f, 55.0f, 10.0f);
+			drawRoundBox(x_ + 7.0f, y_ + 3.0f, 55.0f, 55.0f, 10.0f);
 		glEnd();
 
 		// Draw the life bar
-		float lifePart = 12.0f + 40.0f * current->getState().getLife() / 100.0f;		
+		float lifePart = 14.0f + 40.0f * current->getState().getLife() / 100.0f;		
 		glBegin(GL_QUADS);
 			if (current->getState().getLife() > 0.0f)
 			{
 				glColor3f(0.0f, 0.8f, 0.0f);
-				glVertex2f(x_ + 12.0f, y_ + 10.0f);
-				glVertex2f(x_ + lifePart, y_ + 10.0f);
-				glVertex2f(x_ + lifePart, y_ + 13.0f);
-				glVertex2f(x_ + 12.0f, y_ + 13.0f);
+				glVertex2f(x_ + 14.0f, y_ + 8.0f);
+				glVertex2f(x_ + lifePart, y_ + 8.0f);
+				glVertex2f(x_ + lifePart, y_ + 11.0f);
+				glVertex2f(x_ + 14.0f, y_ + 11.0f);
 			}
 	
 			if (current->getState().getLife() < 100.0f)
 			{
 				glColor3f(0.8f, 0.0f, 0.0f);
-				glVertex2f(x_ + lifePart, y_ + 10.0f);
-				glVertex2f(x_ + 52, y_ + 10.0f);
-				glVertex2f(x_ + 52, y_ + 13.0f);
-				glVertex2f(x_ + lifePart, y_ + 13.0f);
+				glVertex2f(x_ + lifePart, y_ + 8.0f);
+				glVertex2f(x_ + 54, y_ + 8.0f);
+				glVertex2f(x_ + 54, y_ + 11.0f);
+				glVertex2f(x_ + lifePart, y_ + 11.0f);
 			}
 		glEnd();
 	}
@@ -133,7 +133,7 @@ void TankDialog::drawTankModel(Tank *current)
 	// Draw the tank
 	glPushMatrix();
 		// Set the tank angle
-		glTranslatef(x_ + 32.0f, y_ + 25.0f, 0.0f);
+		glTranslatef(x_ + 34.0f, y_ + 23.0f, 0.0f);
 		glRotatef(angYZ, 1.0f, 0.0f, 0.0f);
 		glRotatef(angXY, 0.0f, 0.0f, 1.0f);
 
@@ -154,11 +154,11 @@ void TankDialog::drawTankDetails(Tank *current)
 
 	// Draw the name of the tank
 	GLWFont::instance()->getFont()->drawLen(
-		14,
+		22,
 		current->getColor(),
 		14.0f,
-		x_ + 63.0f,
-		y_ + h_ - 20.0f,
+		x_ + 5.0f,
+		y_ + h_ - 17.0f,
 		0.0f,
 		current->getName());
 
@@ -171,7 +171,7 @@ void TankDialog::drawTankDetails(Tank *current)
 	GLWFont::instance()->getFont()->draw(
 		yellow,
 		12.0f,
-		x_ + 65.0f,
+		x_ + 67.0f,
 		y_ + h_ - 32.0f,
 		0.0f,
 		"Rot:%s",
@@ -179,7 +179,7 @@ void TankDialog::drawTankDetails(Tank *current)
 	GLWFont::instance()->getFont()->draw(
 		yellow,
 		12.0f,
-		x_ + 65.0f,
+		x_ + 67.0f,
 		y_ + h_ - 42.0f,
 		0.0f,
 		"Ele:%s",
@@ -187,7 +187,7 @@ void TankDialog::drawTankDetails(Tank *current)
 	GLWFont::instance()->getFont()->draw(
 		yellow,
 		12.0f,
-		x_ + 65.0f,
+		x_ + 67.0f,
 		y_ + h_ - 52.0f,
 		0.0f,
 		"Pwr:%s",
@@ -195,14 +195,22 @@ void TankDialog::drawTankDetails(Tank *current)
 
 	GLWToolTip::instance()->addToolTip(
 		&current->getAccessories().getWeapons().getCurrent()->getToolTip(),
-		x_ + 65.0f, y_ + h_ - 62.0f, 150.0f, 10.0f);
+		x_ + 67.0f, y_ + h_ - 62.0f, 150.0f, 10.0f);
 	int count = current->getAccessories().getWeapons().getWeaponCount(
 		current->getAccessories().getWeapons().getCurrent());
 	GLWFont::instance()->getFont()->draw(
 		yellow,
 		12.0f,
-		x_ + 65.0f,
+		x_ + 67.0f,
 		y_ + h_ - 62.0f,
 		0.0f,
 		current->getAccessories().getWeapons().getWeaponString());
+
+	GLWFont::instance()->getFont()->draw(
+		yellow,
+		12.0f,
+		x_ + 67.0f,
+		y_ + h_ - 72.0f,
+		0.0f,
+		current->getScore().getScoreString());
 }

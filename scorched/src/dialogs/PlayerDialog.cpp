@@ -56,6 +56,7 @@ PlayerDialog::PlayerDialog() :
 
 	// Create player name choice
 	playerName_ = (GLWTextBox *) addWidget(new GLWTextBox(70, 265, 340, "Player"));
+	playerName_->setMaxTextLen(22);
 	addWidget(new GLWLabel(10, 265, "Name:"));
 
 	// Create team choice
