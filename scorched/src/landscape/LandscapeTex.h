@@ -26,6 +26,7 @@
 #include <XML/XMLFile.h>
 #include <string>
 #include <vector>
+class ScorchedContext;
 
 class LandscapeTexType
 {
@@ -43,33 +44,31 @@ public:
 	virtual bool readXML(XMLNode *node);
 };
 
-class LandscapeTexEvent : public LandscapeTexType
+class LandscapeTexCondition : public LandscapeTexType
 {
 public:
-	virtual ~LandscapeTexEvent();
-
-	std::string conditiontype;
-	std::string actiontype;
-	LandscapeTexType *condition;
-	LandscapeTexType *action;
-
-	virtual bool writeMessage(NetBuffer &buffer);
-	virtual bool readMessage(NetBufferReader &reader);
-	virtual bool readXML(XMLNode *node);
+	virtual float getNextEventTime() = 0;
 };
 
-class LandscapeTexConditionTime : public LandscapeTexType
+class LandscapeTexConditionTime : public LandscapeTexCondition
 {
 public:
 	float mintime;
 	float maxtime;
 
+	virtual float getNextEventTime();
 	virtual bool writeMessage(NetBuffer &buffer);
 	virtual bool readMessage(NetBufferReader &reader);
 	virtual bool readXML(XMLNode *node);
 };
 
-class LandscapeTexActionFireWeapon : public LandscapeTexType
+class LandscapeTexAction : public LandscapeTexType
+{
+public:
+	virtual void fireAction(ScorchedContext &context) = 0;
+};
+
+class LandscapeTexActionFireWeapon : public LandscapeTexAction
 {
 public:
 	Vector position;
@@ -77,6 +76,22 @@ public:
 	Vector direction;
 	Vector directionoffset;
 	std::string weapon;
+
+	virtual void fireAction(ScorchedContext &context);
+	virtual bool writeMessage(NetBuffer &buffer);
+	virtual bool readMessage(NetBufferReader &reader);
+	virtual bool readXML(XMLNode *node);
+};
+
+class LandscapeTexEvent : public LandscapeTexType
+{
+public:
+	virtual ~LandscapeTexEvent();
+
+	std::string conditiontype;
+	std::string actiontype;
+	LandscapeTexCondition *condition;
+	LandscapeTexAction *action;
 
 	virtual bool writeMessage(NetBuffer &buffer);
 	virtual bool readMessage(NetBufferReader &reader);
@@ -206,7 +221,7 @@ public:
 
 	std::vector<std::string> objectstype;
 	std::vector<LandscapeTexType *> objects;
-	std::vector<LandscapeTexType *> events;
+	std::vector<LandscapeTexEvent *> events;
 
 	bool writeMessage(NetBuffer &buffer);
 	bool readMessage(NetBufferReader &reader);

@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,38 +18,23 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+#if !defined(__INCLUDE_EventContainerh_INCLUDE__)
+#define __INCLUDE_EventContainerh_INCLUDE__
 
-#if !defined(__INCLUDE_ServerShotStateh_INCLUDE__)
-#define __INCLUDE_ServerShotStateh_INCLUDE__
+#include <landscape/LandscapeTex.h>
+#include <map>
 
-#include <engine/GameStateI.h>
-#include <engine/GameStateStimulusI.h>
-#include <engine/EventContainer.h>
-
-// Sends out the new game message
-class ServerShotState : 
-	public GameStateI,
-	public GameStateStimulusI
+class EventContainer
 {
 public:
-	ServerShotState();
-	virtual ~ServerShotState();
+	EventContainer();
+	virtual ~EventContainer();
 
-	virtual void enterState(const unsigned state);
-	virtual bool acceptStateChange(const unsigned state, 
-		const unsigned nextState,
-		float frameTime);
-
-	float &getShotTime() { return totalTime_; }
+	void initialize(LandscapeTex *tex);
+	void simulate(float frameTime, ScorchedContext &context);
 
 protected:
-	float totalTime_;
-	bool firstTime_;
-	EventContainer events_;
-
-	void stepActions(unsigned int state, float maxSingleSimTime);
-	void scoreWinners();
-
+	std::map<LandscapeTexEvent *, float> events_;
 };
 
-#endif
+#endif // __INCLUDE_EventContainerh_INCLUDE__

@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,38 +18,46 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-#if !defined(__INCLUDE_ServerShotStateh_INCLUDE__)
-#define __INCLUDE_ServerShotStateh_INCLUDE__
-
-#include <engine/GameStateI.h>
-#include <engine/GameStateStimulusI.h>
 #include <engine/EventContainer.h>
 
-// Sends out the new game message
-class ServerShotState : 
-	public GameStateI,
-	public GameStateStimulusI
+EventContainer::EventContainer()
 {
-public:
-	ServerShotState();
-	virtual ~ServerShotState();
+}
 
-	virtual void enterState(const unsigned state);
-	virtual bool acceptStateChange(const unsigned state, 
-		const unsigned nextState,
-		float frameTime);
+EventContainer::~EventContainer()
+{
+}
 
-	float &getShotTime() { return totalTime_; }
+void EventContainer::initialize(LandscapeTex *tex)
+{
+	events_.clear();
+	std::vector<LandscapeTexEvent *> &events = tex->events;
+	std::vector<LandscapeTexEvent *>::iterator itor;
+	for (itor = events.begin();
+		itor != events.end();
+		itor++)
+	{
+		LandscapeTexEvent *event = (*itor);
+		float nextTime = event->condition->getNextEventTime();
+		events_[event] = nextTime;
+	}
+}
 
-protected:
-	float totalTime_;
-	bool firstTime_;
-	EventContainer events_;
-
-	void stepActions(unsigned int state, float maxSingleSimTime);
-	void scoreWinners();
-
-};
-
-#endif
+void EventContainer::simulate(float frameTime, ScorchedContext &context)
+{
+	std::map<LandscapeTexEvent *, float>::iterator itor;
+	for (itor = events_.begin();
+		itor != events_.end();
+		itor++)
+	{
+		LandscapeTexEvent *event = (*itor).first;
+		float &nextTime = (*itor).second;
+		
+		nextTime -= frameTime;
+		if (nextTime < 0.0f)
+		{
+			event->action->fireAction(context);
+			nextTime = event->condition->getNextEventTime();
+		}
+	}	
+}

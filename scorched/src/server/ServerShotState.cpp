@@ -29,6 +29,8 @@
 #include <coms/ComsActionsMessage.h>
 #include <coms/ComsMessageSender.h>
 #include <engine/ActionController.h>
+#include <landscape/LandscapeMaps.h>
+#include <landscape/LandscapeDefinition.h>
 #include <common/StatsLogger.h>
 #include <common/OptionsGame.h>
 #include <common/OptionsTransient.h>
@@ -56,6 +58,9 @@ void ServerShotState::enterState(const unsigned state)
 	// Reset the amount of time taken
 	totalTime_ = 0.0f;
 	firstTime_ = true;
+	events_.initialize(
+		ScorchedServer::instance()->getLandscapeMaps().
+		getLandDfn().getTex());
 }
 
 bool ServerShotState::acceptStateChange(const unsigned state, 
@@ -120,6 +125,8 @@ void ServerShotState::stepActions(unsigned int state, float maxSingleSimTime)
 	while (!ScorchedServer::instance()->getActionController().noReferencedActions())
 	{
 		ScorchedServer::instance()->getActionController().simulate(state, stepTime);
+		events_.simulate(stepTime, ScorchedServer::instance()->getContext());
+
 		totalTime_ += stepTime;
 		currentTime += stepTime;
 		if (currentTime > maxSingleSimTime) break;

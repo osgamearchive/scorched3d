@@ -316,14 +316,14 @@
 			<event>
 				<condition type="time">
 					<mintime>0.0</mintime>
-					<maxtime>3.0</maxtime>
+					<maxtime>5.0</maxtime>
 				</condition>
 				<action type="fireweapon">
 					<position><A>128</A><B>128</B><C>200</C></position>
-					<positionoffset><A>110</A><B>110</B><C>0</C></positionoffset>
+					<positionoffset><A>60</A><B>60</B><C>0</C></positionoffset>
 					<direction><A>0</A><B>0</B><C>-1</C></direction>
 					<directionoffset><A>0</A><B>0</B><C>0</C></directionoffset>
-					<weapon>WeaponLightning</weapon>
+					<weapon>Lightning</weapon>
 				</action>
 			</event>
 		</events>

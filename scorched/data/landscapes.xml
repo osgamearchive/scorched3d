@@ -9,12 +9,12 @@
 			<item>oldstyle</item>
 		</defn>
 		<tex>
-			<item>default</item>
+			<!--<item>default</item>
 			<item>hell</item>
 			<item>sand</item>
 			<item>snow</item>
 			<item>tropical</item>
-			<item>vulcano</item>
+			<item>vulcano</item>-->
 			<item>storm</item>
 		</tex>
 	</landscape>

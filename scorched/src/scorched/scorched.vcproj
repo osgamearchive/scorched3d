@@ -1244,6 +1244,12 @@
 				RelativePath="..\engine\ActionMeta.h">
 			</File>
 			<File
+				RelativePath="..\engine\EventContainer.cpp">
+			</File>
+			<File
+				RelativePath="..\engine\EventContainer.h">
+			</File>
+			<File
 				RelativePath="..\engine\FrameTimer.cpp">
 			</File>
 			<File

@@ -19,6 +19,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <landscape/LandscapeTex.h>
+#include <engine/ScorchedContext.h>
+#include <weapons/AccessoryStore.h>
 #include <common/Defines.h>
 #include <string.h>
 #include <stdlib.h>
@@ -62,14 +64,14 @@ static LandscapeTexType *fetchPrecipitationTexType(const char *type)
 	return 0;
 }
 
-static LandscapeTexType *fetchConditionTexType(const char *type)
+static LandscapeTexCondition *fetchConditionTexType(const char *type)
 {
 	if (0 == strcmp(type, "time")) return new LandscapeTexConditionTime;
 	dialogMessage("LandscapeTexType", "Unknown condition type %s", type);
 	return 0;
 }
 
-static LandscapeTexType *fetchActionTexType(const char *type)
+static LandscapeTexAction *fetchActionTexType(const char *type)
 {
 	if (0 == strcmp(type, "fireweapon")) return new LandscapeTexActionFireWeapon;
 	dialogMessage("LandscapeTexType", "Unknown action type %s", type);
@@ -139,6 +141,11 @@ bool LandscapeTexEvent::readXML(XMLNode *node)
 }
 
 // LandscapeTexConditionTime
+float LandscapeTexConditionTime::getNextEventTime()
+{
+	return RAND * (maxtime - mintime) + mintime;
+}
+
 bool LandscapeTexConditionTime::writeMessage(NetBuffer &buffer)
 {
 	buffer.addToBuffer(mintime);
@@ -161,6 +168,36 @@ bool LandscapeTexConditionTime::readXML(XMLNode *node)
 }
 
 // LandscapeTexActionFireWeapon
+void LandscapeTexActionFireWeapon::fireAction(ScorchedContext &context)
+{
+	Accessory *accessory = 
+		context.accessoryStore->findByPrimaryAccessoryName(
+			weapon.c_str());
+	if (!accessory) dialogExit("LandscapeTexActionFireWeapon",
+		"Failed to find weapon named \"%s\"", weapon.c_str());
+	if (accessory->getType() != Accessory::AccessoryWeapon) 
+		dialogExit("LandscapeTexActionFireWeapon",
+			"Accessory named \"%s\" is not a weapon", weapon.c_str());
+	Weapon *weapon = (Weapon *) accessory;
+
+	Vector pos, vel;
+	pos[0] += position[0] - positionoffset[0] + 
+		positionoffset[0] * 2.0f * RAND;
+	pos[1] += position[1] - positionoffset[1] + 
+		positionoffset[1] * 2.0f * RAND;
+	pos[2] += position[2] - positionoffset[2] + 
+		positionoffset[2] * 2.0f * RAND;
+	vel[0] += direction[0] - directionoffset[0] + 
+		directionoffset[0] * 2.0f * RAND;
+	vel[1] += direction[1] - directionoffset[1] + 
+		directionoffset[1] * 2.0f * RAND;
+	vel[2] += direction[2] - directionoffset[2] + 
+		directionoffset[2] * 2.0f * RAND;
+
+	weapon->fireWeapon(context, 0, pos, vel, 
+		Weapon::eDataDeathAnimation);
+}
+
 bool LandscapeTexActionFireWeapon::writeMessage(NetBuffer &buffer)
 {
 	buffer.addToBuffer(position);
@@ -520,7 +557,7 @@ bool LandscapeTex::readMessage(NetBufferReader &reader)
 	if (!texture->readMessage(reader)) return false;
 	
 	if (!reader.getFromBuffer(precipitationtype)) return false;
-	if (!(precipitation = fetchTextureTexType(precipitationtype.c_str()))) return false;
+	if (!(precipitation = fetchPrecipitationTexType(precipitationtype.c_str()))) return false;
 	if (!precipitation->readMessage(reader)) return false;	
 
 	int size = 0;
@@ -538,7 +575,7 @@ bool LandscapeTex::readMessage(NetBufferReader &reader)
 	if (!reader.getFromBuffer(size)) return false;
 	for (int i=0; i<size; i++)
 	{
-		LandscapeTexType *event = new LandscapeTexEvent;
+		LandscapeTexEvent *event = new LandscapeTexEvent;
 		if (!event->readMessage(reader)) return false;
 		events.push_back(event);
 	}
@@ -608,7 +645,7 @@ bool LandscapeTex::readXML(XMLNode *node)
 		if (!node->getNamedChild("events", eventsNode)) return false;
 		while (eventsNode->getNamedChild("event", eventNode, false))
 		{
-			LandscapeTexType *event = new LandscapeTexEvent;
+			LandscapeTexEvent *event = new LandscapeTexEvent;
 			if (!event->readXML(eventNode)) return false;
 			events.push_back(event);
 		}

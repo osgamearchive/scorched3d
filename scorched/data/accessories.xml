@@ -1174,23 +1174,24 @@ trace of the shot path.</description>
 		<description></description>
 		<icon>bmissile.bmp</icon>
 		<cost>0</cost>
+		<nonpurchasable/>
 		<nomuzzleflash/>
 		<bundlesize>0</bundlesize>
 		<armslevel>10</armslevel>
-		<conelength>30</conelength>
-		<seglength>1</seglength>
-		<segvar>2</segvar>
+		<conelength>190</conelength>
+		<seglength>6</seglength>
+		<segvar>12</segvar>
 		<size>4</size>
 		<sizevar>-1</sizevar>
 		<minsize>0.1</minsize>
 		<splitprob>0.2</splitprob>
-		<splitvar>0.02</splitvar>
+		<splitvar>0.03</splitvar>
 		<deathprob>0.03</deathprob>
 		<derivangle>0.5</derivangle>
 		<anglevar>0.94</anglevar>
 		<totaltime>1</totaltime>
-		<seghurt>10</seghurt>
-		<seghurtradius>2</seghurtradius>
+		<seghurt>0</seghurt>
+		<seghurtradius>0</seghurtradius>
 	</accessory>
 	<!-- <accessory type="WeaponReference">
 		<name>Test Reference</name>
