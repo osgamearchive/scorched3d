@@ -22,6 +22,8 @@
 #include <common/Keyboard.h>
 #include <dialogs/MainMenuDialog.h>
 #include <GLW/GLWWindow.h>
+#include <GLW/GLWSelector.h>
+#include <limits.h>
 #include <set>
 
 WindowManager *WindowManager::instance_ = 0;
@@ -38,7 +40,7 @@ WindowManager *WindowManager::instance()
 
 WindowManager::WindowManager() : currentStateEntry_(0)
 {
-	setCurrentEntry(-1);
+	setCurrentEntry(UINT_MAX);
 	MainMenuDialog::instance()->
 		addMenu("Windows", 90.0f, this, 0, this, 0);
 }
@@ -51,7 +53,7 @@ WindowManager::~WindowManager()
 void WindowManager::clear()
 {
 	currentStateEntry_ = 0;
-	setCurrentEntry(-1);
+	setCurrentEntry(UINT_MAX);
 	stateEntrys_.clear();
 	idToWindow_.clear();
 	windowVisibility_.clear();
@@ -127,8 +129,8 @@ void WindowManager::setCurrentEntry(const unsigned state)
 		}
 	}
 
-	moveToFront(
-		MainMenuDialog::instance()->getId());
+	moveToFront(MainMenuDialog::instance()->getId());
+	moveToFront(GLWSelector::instance()->getId());
 }
 
 void WindowManager::addWindow(const unsigned state, GLWWindow *window, KeyboardKey *key, bool visible)
@@ -154,8 +156,8 @@ bool WindowManager::showWindow(unsigned id)
 			(*itor).second = true;
 			window->windowDisplay();
 			moveToFront(id);
-			moveToFront(
-				MainMenuDialog::instance()->getId());
+			moveToFront(MainMenuDialog::instance()->getId());
+			moveToFront(GLWSelector::instance()->getId());
 
 			return true;
 		}

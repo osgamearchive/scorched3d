@@ -23,6 +23,7 @@
 #include <common/OptionsParam.h>
 #include <client/ClientState.h>
 #include <client/WindowSetup.h>
+#include <GLW/GLWSelector.h>
 #include <dialogs/AutoDefenseDialog.h>
 #include <dialogs/MainMenuDialog.h>
 #include <dialogs/WindDialog.h>
@@ -90,6 +91,8 @@ void WindowSetup::addCommonComponents(unsigned state)
 	{
 		WindowManager::instance()->addWindow(state, 
 			MainMenuDialog::instance(), 0, true);
+		WindowManager::instance()->addWindow(state,
+			GLWSelector::instance(), 0, true);
 	}
 
 	if (OptionsParam::instance()->getConnectedToServer())

@@ -3,10 +3,10 @@ SUBDIRS = src
 docdir = @docdir@
 
 scorcheddocumentationdir = ${docdir}/documentation
-scorcheddocumentation_DATA = documentation/README-EXPAT.txt \
+scorcheddocumentation_DATA = documentation/README-SDLMIXER.txt \
+	documentation/README-EXPAT.txt \
 	documentation/README-ODE.txt \
 	documentation/README-SDL.txt \
-	documentation/README-SDLMIXER.txt \
 	documentation/README-SDLNET.txt \
 	documentation/README-wxwindows.txt \
 	documentation/README-zlib.txt \
@@ -18,31 +18,31 @@ scorcheddatadir = ${datadir}/data
 scorcheddata_DATA = data/accessories.xml \
 	data/ainames.txt \
 	data/autoexec.xml \
-	data/server.xml \
 	data/keys.xml \
+	data/landscapes.xml \
 	data/motd.txt \
 	data/mysql.xml \
 	data/playernames.txt \
+	data/prunetables.sql \
 	data/random.no \
 	data/resource.xml \
+	data/safedisplay.xml \
+	data/server.xml \
 	data/singlecustom.xml \
 	data/singleeasy.xml \
 	data/singlehard.xml \
 	data/singlenormal.xml \
 	data/statstables.sql \
 	data/tankais.xml \
-	data/tanks.xml \
-	data/landscapes.xml \
-	data/prunetables.sql \
-	data/safedisplay.xml
+	data/tanks.xml
 scorcheddataaccessoriesdir = ${datadir}/data/accessories
 scorcheddataaccessories_DATA = data/accessories/clusterbomb.ase \
 	data/accessories/clusterbomb2.ase \
 	data/accessories/default.ase \
 	data/accessories/default.bmp \
 	data/accessories/flare.txt \
-	data/accessories/white.bmp \
-	data/accessories/roller.ase
+	data/accessories/roller.ase \
+	data/accessories/white.bmp
 scorcheddataaccessoriesbarragedir = ${datadir}/data/accessories/barrage
 scorcheddataaccessoriesbarrage_DATA = data/accessories/barrage/barrage.txt \
 	data/accessories/barrage/gradient.bmp \
@@ -71,25 +71,25 @@ scorcheddataaccessorieshawkmissile_DATA = data/accessories/hawkmissile/gradient.
 	data/accessories/hawkmissile/white.bmp \
 	data/accessories/hawkmissile/yellow.bmp
 scorcheddataaccessoriesicbmdir = ${datadir}/data/accessories/icbm
-scorcheddataaccessoriesicbm_DATA = data/accessories/icbm/black.bmp \
-	data/accessories/icbm/gradient.bmp \
+scorcheddataaccessoriesicbm_DATA = data/accessories/icbm/gradient.bmp \
+	data/accessories/icbm/black.bmp \
 	data/accessories/icbm/icbm.txt \
 	data/accessories/icbm/white.bmp \
 	data/accessories/icbm/yellow.bmp
 scorcheddataaccessorieslittleboydir = ${datadir}/data/accessories/littleboy
-scorcheddataaccessorieslittleboy_DATA = data/accessories/littleboy/black.bmp \
-	data/accessories/littleboy/littleboy.txt
+scorcheddataaccessorieslittleboy_DATA = data/accessories/littleboy/littleboy.txt \
+	data/accessories/littleboy/black.bmp
 scorcheddataaccessoriesm48dir = ${datadir}/data/accessories/m48
 scorcheddataaccessoriesm48_DATA = data/accessories/m48/gradient.bmp \
 	data/accessories/m48/m48.txt \
 	data/accessories/m48/white.bmp \
 	data/accessories/m48/yellow.bmp
 scorcheddataaccessoriesmirvwarheaddir = ${datadir}/data/accessories/mirvwarhead
-scorcheddataaccessoriesmirvwarhead_DATA = data/accessories/mirvwarhead/black.bmp \
-	data/accessories/mirvwarhead/mirvwarhead.txt
+scorcheddataaccessoriesmirvwarhead_DATA = data/accessories/mirvwarhead/mirvwarhead.txt \
+	data/accessories/mirvwarhead/black.bmp
 scorcheddataaccessoriespalmtreedir = ${datadir}/data/accessories/palmtree
-scorcheddataaccessoriespalmtree_DATA = data/accessories/palmtree/black.bmp \
-	data/accessories/palmtree/burntpalm.txt \
+scorcheddataaccessoriespalmtree_DATA = data/accessories/palmtree/burntpalm.txt \
+	data/accessories/palmtree/black.bmp \
 	data/accessories/palmtree/burntpalm2.txt \
 	data/accessories/palmtree/green.bmp \
 	data/accessories/palmtree/palm.txt \
@@ -110,8 +110,8 @@ scorcheddataaccessoriesshell_DATA = data/accessories/shell/black.bmp \
 	data/accessories/shell/shell.txt
 scorcheddataaccessoriessmallpinedir = ${datadir}/data/accessories/smallpine
 scorcheddataaccessoriessmallpine_DATA = data/accessories/smallpine/black.bmp \
-	data/accessories/smallpine/burntsmallpine.txt \
 	data/accessories/smallpine/green.bmp \
+	data/accessories/smallpine/burntsmallpine.txt \
 	data/accessories/smallpine/smallpine.txt \
 	data/accessories/smallpine/smallpine2.txt \
 	data/accessories/smallpine/smallpine3.txt \
@@ -121,20 +121,72 @@ scorcheddataaccessoriessmallpine_DATA = data/accessories/smallpine/black.bmp \
 	data/accessories/smallpine/wintersmallpine2.txt \
 	data/accessories/smallpine/wintersmallpine3.txt
 scorcheddataaccessoriesv2missiledir = ${datadir}/data/accessories/v2missile
-scorcheddataaccessoriesv2missile_DATA = data/accessories/v2missile/black.bmp \
-	data/accessories/v2missile/checker.bmp \
+scorcheddataaccessoriesv2missile_DATA = data/accessories/v2missile/checker.bmp \
+	data/accessories/v2missile/black.bmp \
 	data/accessories/v2missile/gradient.bmp \
 	data/accessories/v2missile/v2missile.txt \
 	data/accessories/v2missile/yellow.bmp
+scorcheddatawavdir = ${datadir}/data/wav
+scorcheddatawav_DATA = 
+scorcheddatawavbatterydir = ${datadir}/data/wav/battery
+scorcheddatawavbattery_DATA = data/wav/battery/battery.wav
+scorcheddatawavexplosionsdir = ${datadir}/data/wav/explosions
+scorcheddatawavexplosions_DATA = data/wav/explosions/crunch.wav \
+	data/wav/explosions/gloop.wav \
+	data/wav/explosions/large.wav \
+	data/wav/explosions/medium.wav \
+	data/wav/explosions/napalm.wav \
+	data/wav/explosions/small.wav \
+	data/wav/explosions/tank.wav \
+	data/wav/explosions/xlarge.wav
+scorcheddatawavmiscdir = ${datadir}/data/wav/misc
+scorcheddatawavmisc_DATA = data/wav/misc/camera.wav \
+	data/wav/misc/para.wav \
+	data/wav/misc/play.wav \
+	data/wav/misc/splash.wav \
+	data/wav/misc/text.wav
+scorcheddatawavmovementdir = ${datadir}/data/wav/movement
+scorcheddatawavmovement_DATA = data/wav/movement/elevate.wav \
+	data/wav/movement/movement.wav \
+	data/wav/movement/turn.wav
+scorcheddatawavshielddir = ${datadir}/data/wav/shield
+scorcheddatawavshield_DATA = data/wav/shield/activateforce.wav \
+	data/wav/shield/activate.wav \
+	data/wav/shield/hit.wav \
+	data/wav/shield/hit2.wav
+scorcheddatawavshootdir = ${datadir}/data/wav/shoot
+scorcheddatawavshoot_DATA = data/wav/shoot/flare.wav \
+	data/wav/shoot/large.wav \
+	data/wav/shoot/laser.wav \
+	data/wav/shoot/launch.wav \
+	data/wav/shoot/medium.wav \
+	data/wav/shoot/small.wav \
+	data/wav/shoot/tracer.wav \
+	data/wav/shoot/xlarge.wav
 scorcheddataacessoriesdir = ${datadir}/data/acessories
 scorcheddataacessories_DATA = 
 scorcheddatafontsdir = ${datadir}/data/fonts
 scorcheddatafonts_DATA = data/fonts/test.ttf
+scorcheddatalandscapesdir = ${datadir}/data/landscapes
+scorcheddatalandscapes_DATA = data/landscapes/picture-none.bmp \
+	data/landscapes/half-mask.bmp \
+	data/landscapes/halved.bmp \
+	data/landscapes/hilly.bmp \
+	data/landscapes/hmap3.bmp \
+	data/landscapes/hole-mask.bmp \
+	data/landscapes/hole.bmp \
+	data/landscapes/islands.bmp \
+	data/landscapes/lowlands.bmp \
+	data/landscapes/oldstyle.bmp \
+	data/landscapes/valley-mask.bmp \
+	data/landscapes/ridge-mask.bmp \
+	data/landscapes/ridge.bmp \
+	data/landscapes/valley.bmp
 scorcheddatameshesdir = ${datadir}/data/meshes
-scorcheddatameshes_DATA = data/meshes/autoaim.ase \
+scorcheddatameshes_DATA = data/meshes/survivalraft.txt \
+	data/meshes/autoaim.ase \
 	data/meshes/rock1.ase \
 	data/meshes/rock2.ase \
-	data/meshes/survivalraft.txt \
 	data/meshes/wind.ase
 scorcheddatatalkdir = ${datadir}/data/talk
 scorcheddatatalk_DATA = data/talk/talk1.txt \
@@ -146,13 +198,13 @@ scorcheddatatalkpolishdir = ${datadir}/data/talk/polish
 scorcheddatatalkpolish_DATA = data/talk/polish/talk1.txt \
 	data/talk/polish/talk2.txt
 scorcheddatatanksdir = ${datadir}/data/tanks
-scorcheddatatanks_DATA = data/tanks/apache.ase \
+scorcheddatatanks_DATA = data/tanks/apache-long.ase \
 	data/tanks/a7v.ase \
 	data/tanks/a7v.bmp \
 	data/tanks/aat.ase \
 	data/tanks/aat.bmp \
-	data/tanks/apache-long.ase \
 	data/tanks/apache-long.bmp \
+	data/tanks/apache.ase \
 	data/tanks/apache.bmp \
 	data/tanks/atst.ase \
 	data/tanks/atst.bmp \
@@ -161,12 +213,13 @@ scorcheddatatanks_DATA = data/tanks/apache.ase \
 	data/tanks/bradley.ase \
 	data/tanks/bradley.bmp \
 	data/tanks/bradleyb.bmp \
-	data/tanks/flakpanzerwirbelwind.ase \
-	data/tanks/flakpanzerwirbelwind.bmp \
 	data/tanks/harpoon.ase \
 	data/tanks/harpoon.bmp \
+	data/tanks/flakpanzerwirbelwind.ase \
+	data/tanks/flakpanzerwirbelwind.bmp \
 	data/tanks/hawk.ase \
 	data/tanks/hawk.bmp \
+	data/tanks/towedartillery.ase \
 	data/tanks/hind.ase \
 	data/tanks/hind.bmp \
 	data/tanks/hothgun.ase \
@@ -215,13 +268,13 @@ scorcheddatatanks_DATA = data/tanks/apache.ase \
 	data/tanks/sa6.bmp \
 	data/tanks/scud.ase \
 	data/tanks/scud.bmp \
+	data/tanks/t55.ase \
 	data/tanks/seasparrow.ase \
 	data/tanks/seasparrow.bmp \
 	data/tanks/siegetank.ase \
 	data/tanks/siegetank.bmp \
 	data/tanks/siegetank2.ase \
 	data/tanks/siegetank2.bmp \
-	data/tanks/t55.ase \
 	data/tanks/t55.bmp \
 	data/tanks/t55b.bmp \
 	data/tanks/t74.ase \
@@ -242,14 +295,13 @@ scorcheddatatanks_DATA = data/tanks/apache.ase \
 	data/tanks/tank6b.bmp \
 	data/tanks/tos1.ase \
 	data/tanks/tos1.bmp \
-	data/tanks/towedartillery.ase \
-	data/tanks/towedartillery.bmp \
 	data/tanks/towedartilleryb.bmp \
+	data/tanks/towedartillery.bmp \
+	data/tanks/zsu-24-1.ase \
 	data/tanks/v2.ase \
 	data/tanks/v2.bmp \
 	data/tanks/wespe.ase \
 	data/tanks/wespe.bmp \
-	data/tanks/zsu-24-1.ase \
 	data/tanks/zsu-24-1.bmp
 scorcheddatatanksbattleshipdir = ${datadir}/data/tanks/battleship
 scorcheddatatanksbattleship_DATA = data/tanks/battleship/battleship.txt \
@@ -264,6 +316,12 @@ scorcheddatatanksbm13_DATA = data/tanks/bm13/bigtire.bmp \
 scorcheddatatanksbradley2dir = ${datadir}/data/tanks/bradley2
 scorcheddatatanksbradley2_DATA = data/tanks/bradley2/bradley.bmp \
 	data/tanks/bradley2/bradley2.txt
+scorcheddatatanksdeathdir = ${datadir}/data/tanks/death
+scorcheddatatanksdeath_DATA = data/tanks/death/black.bmp \
+	data/tanks/death/chrome.bmp \
+	data/tanks/death/death.txt \
+	data/tanks/death/tan.bmp \
+	data/tanks/death/white.bmp
 scorcheddatatanksguntowerdir = ${datadir}/data/tanks/guntower
 scorcheddatatanksguntower_DATA = data/tanks/guntower/guntower.bmp \
 	data/tanks/guntower/guntower.txt \
@@ -275,8 +333,8 @@ scorcheddatatankshawk_DATA = data/tanks/hawk/bigtire.bmp \
 	data/tanks/hawk/tan.bmp \
 	data/tanks/hawk/white.bmp
 scorcheddatatankshelderdir = ${datadir}/data/tanks/helder
-scorcheddatatankshelder_DATA = data/tanks/helder/helder.txt \
-	data/tanks/helder/helder2.txt \
+scorcheddatatankshelder_DATA = data/tanks/helder/helder2.txt \
+	data/tanks/helder/helder.txt \
 	data/tanks/helder/redspace.bmp \
 	data/tanks/helder/whitespace.bmp
 scorcheddatatankslav25dir = ${datadir}/data/tanks/lav-25
@@ -305,10 +363,16 @@ scorcheddatatankspatriot_DATA = data/tanks/patriot/bigtire.bmp \
 	data/tanks/patriot/chrome.bmp \
 	data/tanks/patriot/kaki.bmp \
 	data/tanks/patriot/patriot.txt
+scorcheddatatanksphotoncannondir = ${datadir}/data/tanks/photoncannon
+scorcheddatatanksphotoncannon_DATA = data/tanks/photoncannon/basetexture.bmp \
+	data/tanks/photoncannon/blue.bmp \
+	data/tanks/photoncannon/gradient.bmp \
+	data/tanks/photoncannon/photoncannon.txt \
+	data/tanks/photoncannon/yellow.bmp
 scorcheddatatankssa6dir = ${datadir}/data/tanks/sa6
-scorcheddatatankssa6_DATA = data/tanks/sa6/black.bmp \
+scorcheddatatankssa6_DATA = data/tanks/sa6/guncover.bmp \
+	data/tanks/sa6/black.bmp \
 	data/tanks/sa6/chrome.bmp \
-	data/tanks/sa6/guncover.bmp \
 	data/tanks/sa6/guncoveralpha.bmp \
 	data/tanks/sa6/sa6.txt \
 	data/tanks/sa6/white.bmp \
@@ -324,10 +388,10 @@ scorcheddatatanksthel_DATA = data/tanks/thel/black.bmp \
 	data/tanks/thel/kaki.bmp \
 	data/tanks/thel/thel.txt
 scorcheddatatankstowedartillery2dir = ${datadir}/data/tanks/towedartillery2
-scorcheddatatankstowedartillery2_DATA = data/tanks/towedartillery2/bigtire.bmp \
+scorcheddatatankstowedartillery2_DATA = data/tanks/towedartillery2/towedartillery2.txt \
+	data/tanks/towedartillery2/bigtire.bmp \
 	data/tanks/towedartillery2/chrome.bmp \
-	data/tanks/towedartillery2/tan.bmp \
-	data/tanks/towedartillery2/towedartillery2.txt
+	data/tanks/towedartillery2/tan.bmp
 scorcheddatatankszsu23dir = ${datadir}/data/tanks/zsu23
 scorcheddatatankszsu23_DATA = data/tanks/zsu23/black.bmp \
 	data/tanks/zsu23/white.bmp \
@@ -337,26 +401,14 @@ scorcheddatatankszsu57dir = ${datadir}/data/tanks/zsu57
 scorcheddatatankszsu57_DATA = data/tanks/zsu57/black.bmp \
 	data/tanks/zsu57/zsu57.bmp \
 	data/tanks/zsu57/zsu57.txt
-scorcheddatatanksdeathdir = ${datadir}/data/tanks/death
-scorcheddatatanksdeath_DATA = data/tanks/death/black.bmp \
-	data/tanks/death/chrome.bmp \
-	data/tanks/death/death.txt \
-	data/tanks/death/tan.bmp \
-	data/tanks/death/white.bmp
-scorcheddatatanksphotoncannondir = ${datadir}/data/tanks/photoncannon
-scorcheddatatanksphotoncannon_DATA = data/tanks/photoncannon/basetexture.bmp \
-	data/tanks/photoncannon/blue.bmp \
-	data/tanks/photoncannon/gradient.bmp \
-	data/tanks/photoncannon/photoncannon.txt \
-	data/tanks/photoncannon/yellow.bmp
 scorcheddatatexturesdir = ${datadir}/data/textures
-scorcheddatatextures_DATA = data/textures/glow1.bmp \
-	data/textures/smoke01.bmp \
+scorcheddatatextures_DATA = data/textures/smoke01.bmp \
+	data/textures/glow1.bmp \
+	data/textures/pine.bmp \
+	data/textures/pinea.bmp \
 	data/textures/smoke02.bmp \
 	data/textures/talk.bmp \
 	data/textures/waves.bmp \
-	data/textures/pine.bmp \
-	data/textures/pinea.bmp \
 	data/textures/waves2.bmp
 scorcheddatatexturesbordershielddir = ${datadir}/data/textures/bordershield
 scorcheddatatexturesbordershield_DATA = data/textures/bordershield/grid.bmp \
@@ -430,10 +482,10 @@ scorcheddatatexturesflame_DATA = data/textures/flame/flame01.bmp \
 scorcheddatatextureslandscapedir = ${datadir}/data/textures/landscape
 scorcheddatatextureslandscape_DATA = data/textures/landscape/textures.txt
 scorcheddatatextureslandscapedefaultdir = ${datadir}/data/textures/landscape/default
-scorcheddatatextureslandscapedefault_DATA = data/textures/landscape/default/cloud1.bmp \
-	data/textures/landscape/default/cubemap.bmp \
-	data/textures/landscape/default/detail.bmp \
+scorcheddatatextureslandscapedefault_DATA = data/textures/landscape/default/cubemap.bmp \
+	data/textures/landscape/default/cloud1.bmp \
 	data/textures/landscape/default/magma-small.bmp \
+	data/textures/landscape/default/detail.bmp \
 	data/textures/landscape/default/rockside.bmp \
 	data/textures/landscape/default/scorch.bmp \
 	data/textures/landscape/default/shore.bmp \
@@ -444,8 +496,8 @@ scorcheddatatextureslandscapedefault_DATA = data/textures/landscape/default/clou
 	data/textures/landscape/default/texture4.bmp \
 	data/textures/landscape/default/water.bmp
 scorcheddatatextureslandscapehelldir = ${datadir}/data/textures/landscape/hell
-scorcheddatatextureslandscapehell_DATA = data/textures/landscape/hell/cloud1.bmp \
-	data/textures/landscape/hell/cubemap.bmp \
+scorcheddatatextureslandscapehell_DATA = data/textures/landscape/hell/cubemap.bmp \
+	data/textures/landscape/hell/cloud1.bmp \
 	data/textures/landscape/hell/rockside.bmp \
 	data/textures/landscape/hell/scorch.bmp \
 	data/textures/landscape/hell/shore.bmp \
@@ -455,8 +507,8 @@ scorcheddatatextureslandscapehell_DATA = data/textures/landscape/hell/cloud1.bmp
 	data/textures/landscape/hell/texture3.bmp \
 	data/textures/landscape/hell/texture4.bmp
 scorcheddatatextureslandscapesanddir = ${datadir}/data/textures/landscape/sand
-scorcheddatatextureslandscapesand_DATA = data/textures/landscape/sand/cloud1.bmp \
-	data/textures/landscape/sand/cubemap.bmp \
+scorcheddatatextureslandscapesand_DATA = data/textures/landscape/sand/cubemap.bmp \
+	data/textures/landscape/sand/cloud1.bmp \
 	data/textures/landscape/sand/rockside.bmp \
 	data/textures/landscape/sand/scorch.bmp \
 	data/textures/landscape/sand/shore.bmp \
@@ -466,8 +518,8 @@ scorcheddatatextureslandscapesand_DATA = data/textures/landscape/sand/cloud1.bmp
 	data/textures/landscape/sand/texture3.bmp \
 	data/textures/landscape/sand/texture4.bmp
 scorcheddatatextureslandscapesnowdir = ${datadir}/data/textures/landscape/snow
-scorcheddatatextureslandscapesnow_DATA = data/textures/landscape/snow/cloud1.bmp \
-	data/textures/landscape/snow/cubemap.bmp \
+scorcheddatatextureslandscapesnow_DATA = data/textures/landscape/snow/cubemap.bmp \
+	data/textures/landscape/snow/cloud1.bmp \
 	data/textures/landscape/snow/rockside.bmp \
 	data/textures/landscape/snow/scorch.bmp \
 	data/textures/landscape/snow/shore.bmp \
@@ -477,8 +529,8 @@ scorcheddatatextureslandscapesnow_DATA = data/textures/landscape/snow/cloud1.bmp
 	data/textures/landscape/snow/texture3.bmp \
 	data/textures/landscape/snow/texture4.bmp
 scorcheddatatextureslandscapestormdir = ${datadir}/data/textures/landscape/storm
-scorcheddatatextureslandscapestorm_DATA = data/textures/landscape/storm/cloud1.bmp \
-	data/textures/landscape/storm/cubemap.bmp \
+scorcheddatatextureslandscapestorm_DATA = data/textures/landscape/storm/cubemap.bmp \
+	data/textures/landscape/storm/cloud1.bmp \
 	data/textures/landscape/storm/rockside.bmp \
 	data/textures/landscape/storm/scorch.bmp \
 	data/textures/landscape/storm/shore.bmp \
@@ -488,8 +540,8 @@ scorcheddatatextureslandscapestorm_DATA = data/textures/landscape/storm/cloud1.b
 	data/textures/landscape/storm/texture3.bmp \
 	data/textures/landscape/storm/texture4.bmp
 scorcheddatatextureslandscapetropicaldir = ${datadir}/data/textures/landscape/tropical
-scorcheddatatextureslandscapetropical_DATA = data/textures/landscape/tropical/cloud1.bmp \
-	data/textures/landscape/tropical/cubemap.bmp \
+scorcheddatatextureslandscapetropical_DATA = data/textures/landscape/tropical/cubemap.bmp \
+	data/textures/landscape/tropical/cloud1.bmp \
 	data/textures/landscape/tropical/rockside.bmp \
 	data/textures/landscape/tropical/scorch.bmp \
 	data/textures/landscape/tropical/shore.bmp \
@@ -499,8 +551,8 @@ scorcheddatatextureslandscapetropical_DATA = data/textures/landscape/tropical/cl
 	data/textures/landscape/tropical/texture3.bmp \
 	data/textures/landscape/tropical/texture4.bmp
 scorcheddatatextureslandscapevulcanodir = ${datadir}/data/textures/landscape/vulcano
-scorcheddatatextureslandscapevulcano_DATA = data/textures/landscape/vulcano/cloud1.bmp \
-	data/textures/landscape/vulcano/cubemap.bmp \
+scorcheddatatextureslandscapevulcano_DATA = data/textures/landscape/vulcano/cubemap.bmp \
+	data/textures/landscape/vulcano/cloud1.bmp \
 	data/textures/landscape/vulcano/rockside.bmp \
 	data/textures/landscape/vulcano/scorch.bmp \
 	data/textures/landscape/vulcano/shore.bmp \
@@ -527,12 +579,13 @@ scorcheddatatextureslensflare_DATA = data/textures/lensflare/flare0.bw \
 	data/textures/lensflare/shine8.bw \
 	data/textures/lensflare/shine9.bw
 scorcheddatatextureswiconsdir = ${datadir}/data/textures/wicons
-scorcheddatatextureswicons_DATA = data/textures/wicons/Thumbs.db \
+scorcheddatatextureswicons_DATA = data/textures/wicons/battery.bmp \
+	data/textures/wicons/Thumbs.db \
 	data/textures/wicons/autod.bmp \
-	data/textures/wicons/battery.bmp \
 	data/textures/wicons/bdigger.bmp \
 	data/textures/wicons/bmissile.bmp \
 	data/textures/wicons/bnuke.bmp \
+	data/textures/wicons/broller.bmp \
 	data/textures/wicons/bshog.bmp \
 	data/textures/wicons/dball.bmp \
 	data/textures/wicons/dclod.bmp \
@@ -544,6 +597,7 @@ scorcheddatatextureswicons_DATA = data/textures/wicons/Thumbs.db \
 	data/textures/wicons/hdigger.bmp \
 	data/textures/wicons/hnapalm.bmp \
 	data/textures/wicons/hrbomb.bmp \
+	data/textures/wicons/hroller.bmp \
 	data/textures/wicons/hshield.bmp \
 	data/textures/wicons/hshog.bmp \
 	data/textures/wicons/lfrog.bmp \
@@ -554,59 +608,24 @@ scorcheddatatextureswicons_DATA = data/textures/wicons/Thumbs.db \
 	data/textures/wicons/nuke.bmp \
 	data/textures/wicons/para.bmp \
 	data/textures/wicons/rbomb.bmp \
+	data/textures/wicons/roller.bmp \
 	data/textures/wicons/shield.bmp \
 	data/textures/wicons/shog.bmp \
 	data/textures/wicons/smag.bmp \
 	data/textures/wicons/stracer.bmp \
 	data/textures/wicons/tdirt.bmp \
-	data/textures/wicons/tracer.bmp \
-	data/textures/wicons/broller.bmp \
-	data/textures/wicons/hroller.bmp \
-	data/textures/wicons/roller.bmp
-scorcheddatawavdir = ${datadir}/data/wav
-scorcheddatawav_DATA = 
-scorcheddatawavbatterydir = ${datadir}/data/wav/battery
-scorcheddatawavbattery_DATA = data/wav/battery/battery.wav
-scorcheddatawavexplosionsdir = ${datadir}/data/wav/explosions
-scorcheddatawavexplosions_DATA = data/wav/explosions/crunch.wav \
-	data/wav/explosions/gloop.wav \
-	data/wav/explosions/large.wav \
-	data/wav/explosions/medium.wav \
-	data/wav/explosions/napalm.wav \
-	data/wav/explosions/small.wav \
-	data/wav/explosions/tank.wav \
-	data/wav/explosions/xlarge.wav
-scorcheddatawavmiscdir = ${datadir}/data/wav/misc
-scorcheddatawavmisc_DATA = data/wav/misc/camera.wav \
-	data/wav/misc/para.wav \
-	data/wav/misc/play.wav \
-	data/wav/misc/splash.wav \
-	data/wav/misc/text.wav
-scorcheddatawavmovementdir = ${datadir}/data/wav/movement
-scorcheddatawavmovement_DATA = data/wav/movement/elevate.wav \
-	data/wav/movement/movement.wav \
-	data/wav/movement/turn.wav
-scorcheddatawavshielddir = ${datadir}/data/wav/shield
-scorcheddatawavshield_DATA = data/wav/shield/activate.wav \
-	data/wav/shield/activateforce.wav \
-	data/wav/shield/hit.wav \
-	data/wav/shield/hit2.wav
-scorcheddatawavshootdir = ${datadir}/data/wav/shoot
-scorcheddatawavshoot_DATA = data/wav/shoot/flare.wav \
-	data/wav/shoot/large.wav \
-	data/wav/shoot/laser.wav \
-	data/wav/shoot/launch.wav \
-	data/wav/shoot/medium.wav \
-	data/wav/shoot/small.wav \
-	data/wav/shoot/tracer.wav \
-	data/wav/shoot/xlarge.wav
+	data/textures/wicons/tracer.bmp
 scorcheddatawindowsdir = ${datadir}/data/windows
-scorcheddatawindows_DATA = data/windows/client.bmp \
-	data/windows/display.bmp \
+scorcheddatawindows_DATA = data/windows/display.bmp \
+	data/windows/client.bmp \
+	data/windows/health.bmp \
 	data/windows/island.bmp \
 	data/windows/island.ico \
 	data/windows/logotiled.bmp \
+	data/windows/move.bmp \
+	data/windows/power.bmp \
 	data/windows/scorched.bmp \
+	data/windows/scorchedi.bmp \
 	data/windows/scorcheds.bmp \
 	data/windows/server.bmp \
 	data/windows/tank-easy.bmp \
@@ -616,27 +635,8 @@ scorcheddatawindows_DATA = data/windows/client.bmp \
 	data/windows/tank2.ico \
 	data/windows/wait.bmp \
 	data/windows/waita.bmp \
-	data/windows/scorchedi.bmp \
-	data/windows/health.bmp \
-	data/windows/move.bmp \
-	data/windows/power.bmp \
 	data/windows/wind.bmp \
 	data/windows/xy.bmp \
 	data/windows/yz.bmp \
 	data/windows/arrow.bmp \
 	data/windows/arrowi.bmp
-scorcheddatalandscapesdir = ${datadir}/data/landscapes
-scorcheddatalandscapes_DATA = data/landscapes/half-mask.bmp \
-	data/landscapes/halved.bmp \
-	data/landscapes/hilly.bmp \
-	data/landscapes/hole.bmp \
-	data/landscapes/hole-mask.bmp \
-	data/landscapes/islands.bmp \
-	data/landscapes/lowlands.bmp \
-	data/landscapes/oldstyle.bmp \
-	data/landscapes/picture-none.bmp \
-	data/landscapes/ridge.bmp \
-	data/landscapes/ridge-mask.bmp \
-	data/landscapes/valley.bmp \
-	data/landscapes/valley-mask.bmp \
-	data/landscapes/hmap3.bmp

@@ -22,6 +22,7 @@
 #include <client/ScorchedClient.h>
 #include <common/Keyboard.h>
 #include <GLW/GLWFont.h>
+#include <GLW/GLWSelector.h>
 #include <stdio.h>
 
 SpeedChange *SpeedChange::instance_ = 0;
@@ -75,6 +76,11 @@ void SpeedChange::keyboardCheck(const unsigned state, float frameTime,
 
 	if (x1Key->keyDown(buffer, keyState))
 	{
+		std::list<GLWSelectorEntry> entries;
+		entries.push_back(GLWSelectorEntry("Test1"));
+		entries.push_back(GLWSelectorEntry("Test222222"));
+		GLWSelector::instance()->showSelector(0, 320, 200, entries);
+
 		resetSpeed();
 	}
 	else if (x2Key->keyDown(buffer, keyState))
