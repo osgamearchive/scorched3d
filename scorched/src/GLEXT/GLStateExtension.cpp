@@ -18,10 +18,10 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <GLEXT/GLStateExtension.h>
 #include <SDL/SDL.h>
 #include <string.h>
+#include <string>
 
 bool GLStateExtension::noExtensions_ = false;
 bool GLStateExtension::multiTexDisabled_ = false;
@@ -33,22 +33,33 @@ PFNGLACTIVETEXTUREARBPROC GLStateExtension::glActiveTextureARB_ =  0;
 PFNGLMULTITEXCOORD2FARBPROC GLStateExtension::glMultiTextCoord2fARB_ = 0;
 PFNGLCLIENTACTIVETEXTUREARBPROC GLStateExtension::glClientActiveTextureARB_ = 0;
 
+// glGetIntegerv(GL_MAX_TEXTURE_UNITS_ARB,&num_tus);
+
 bool GLStateExtension::hasExtension(char *name)
 {
 	if (noExtensions_) return false;
 
 	if (multiTexDisabled_)
 	{
-		if (strcmp(name, "ARB_multitexture") == 0) return false;
+		if (strcmp(name, "GL_ARB_multitexture") == 0) return false;
 	}
 
+	bool result = false;
 	const char *ext = (char *) glGetString(GL_EXTENSIONS);
-	return (0 != strstr(ext, name));
+	std::string extCopy(ext);
+	char *token = strtok((char *) extCopy.c_str(), " ");
+	while(token != 0)
+	{
+		if (0 == strcmp(token, name)) result = true;
+		token = strtok(NULL, "\n");
+	}
+
+	return result;
 }
 
 void GLStateExtension::setup()
 {
-	if (hasExtension("ARB_multitexture") && ! multiTexDisabled_)
+	if (hasExtension("GL_ARB_multitexture") && ! multiTexDisabled_)
 	{
 		glActiveTextureARB_ = 
 			(PFNGLACTIVETEXTUREARBPROC)	SDL_GL_GetProcAddress("glActiveTextureARB");
