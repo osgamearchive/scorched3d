@@ -23,6 +23,13 @@ Fix crashing when people win (Graphics card drivers??)
 
 -- Things for next release
 Being able to register peoples nicknames
+Movement sounds
+Animated GIFs for avitars
+Size limit for avitars
+Distance fogging
+Admin alerts for ip addresses that have been tagged
+Admin team commands (change team etc)
+Bots all in one team option
 Ambient sounds
 Boids
 Move placements to seperate file
