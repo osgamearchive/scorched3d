@@ -32,9 +32,10 @@ rm -rf $RPM_BUILD_ROOT
 rm -rf $RPM_BUILD_ROOT
 
 %files
-%defattr(755,root,games)
+%defattr(644,root,games,755)
 %{_datadir}/data
 %{_datadir}/doc
+%attr(755,root,games)
 %{_bindir}/scorched3d
 
 %changelog

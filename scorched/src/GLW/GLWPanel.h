@@ -27,6 +27,15 @@
 class GLWPanel : public GLWidget
 {
 public:
+	struct GLWPanelEntry
+	{
+		GLWPanelEntry(GLWidget *w, GLWCondition *c) : 
+			widget(w), condition(c) { }
+
+		GLWidget *widget;
+		GLWCondition *condition;
+	};
+
 	GLWPanel();
 	virtual ~GLWPanel();
 
@@ -39,15 +48,16 @@ public:
 		KeyboardHistory::HistoryElement *history, int hisCount, 
 		bool &skipRest);
 
+	virtual bool initFromXML(XMLNode *node);
 	virtual void clear();
 
-	GLWidget *addWidget(GLWidget *widget);
-	std::list<GLWidget *> &getWidgets() { return widgets_; }
+	GLWidget *addWidget(GLWidget *widget, GLWCondition *condition = 0);
+	std::list<GLWPanelEntry> &getWidgets() { return widgets_; }
 
 	REGISTER_CLASS_HEADER(GLWPanel);
 
 protected:
-	std::list<GLWidget *> widgets_;
+	std::list<GLWPanelEntry> widgets_;
 
 };
 

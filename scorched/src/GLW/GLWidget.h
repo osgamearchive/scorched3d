@@ -54,4 +54,14 @@ protected:
 
 };
 
+class GLWCondition : public MetaClass
+{
+public:
+	GLWCondition();
+	virtual ~GLWCondition();
+
+	virtual bool getResult(GLWidget *widget) = 0;
+	virtual bool initFromXML(XMLNode *node);
+};
+
 #endif // !defined(AFX_GLWIDGET_H__3F7BC394_576B_4ADF_8771_7D97EB3AF314__INCLUDED_)

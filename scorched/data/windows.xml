@@ -11,16 +11,20 @@
 		<description>Shows the position of the the tanks
 on a overhead map of the island.</description>
 		<items>
-			<item type="GLWIcon">
-				<x>0</x><y>0</y>
-				<w>128</w><h>128</h>
-				<bitmap>data/windows/plan.bmp</bitmap>
-				<bitmapa>data/windows/plana.bmp</bitmapa>
-				<invert>true</invert>
+			<item>
+				<widget type="GLWIcon">
+					<x>0</x><y>0</y>
+					<w>128</w><h>128</h>
+					<bitmap>data/windows/plan.bmp</bitmap>
+					<bitmapa>data/windows/plana.bmp</bitmapa>
+					<invert>true</invert>
+				</widget>
 			</item>
-			<item type="GLWPlanView">
-				<x>0</x><y>0</y>
-				<w>128</w><h>128</h>				
+			<item>
+				<widget type="GLWPlanView">
+					<x>0</x><y>0</y>
+					<w>128</w><h>128</h>				
+				</widget>
 			</item>
 		</items>
 	</window>
@@ -36,32 +40,40 @@ on a overhead map of the island.</description>
 		<description>Displays indicators for the current wind
 strength and direction.</description>
 		<items>
-			<item type="GLWIcon">
-				<x>0</x><y>0</y>
-				<w>128</w><h>128</h>
-				<bitmap>data/windows/wind.bmp</bitmap>
-				<bitmapa>data/windows/winda.bmp</bitmapa>
-				<invert>true</invert>
+			<item>
+				<widget type="GLWIcon">
+					<x>0</x><y>0</y>
+					<w>128</w><h>128</h>
+					<bitmap>data/windows/wind.bmp</bitmap>
+					<bitmapa>data/windows/winda.bmp</bitmapa>
+					<invert>true</invert>
+				</widget>
 			</item>
-			<item type="GLWWindView">
-				<x>0</x><y>0</y>
-				<w>128</w><h>128</h>				
+			<item>
+				<widget type="GLWWindView">
+					<x>0</x><y>0</y>
+					<w>128</w><h>128</h>				
+				</widget>
 			</item>
-			<item type="GLWIcon">
-				<x>0</x><y>0</y>
-				<w>128</w><h>128</h>
-				<bitmap>data/windows/wind.bmp</bitmap>
-				<bitmapa>data/windows/winda2.bmp</bitmapa>
-				<invert>true</invert>
+			<item>
+				<widget type="GLWIcon">
+					<x>0</x><y>0</y>
+					<w>128</w><h>128</h>
+					<bitmap>data/windows/wind.bmp</bitmap>
+					<bitmapa>data/windows/winda2.bmp</bitmapa>
+					<invert>true</invert>
+				</widget>
 			</item>
-			<item type="GLWScorchedInfo">
-				<type>wind</type>
-				<x>0</x><y>7</y>
-				<w>128</w><h>20</h>	
-				<fontsize>10</fontsize>
-				<fontcolorr>0.9f</fontcolorr>
-				<fontcolorg>0.9f</fontcolorg>
-				<fontcolorb>1.0f</fontcolorb>	
+			<item>
+				<widget type="GLWScorchedInfo">
+					<type>wind</type>
+					<x>0</x><y>7</y>
+					<w>128</w><h>20</h>	
+					<fontsize>10</fontsize>
+					<fontcolorr>0.9f</fontcolorr>
+					<fontcolorg>0.9f</fontcolorg>
+					<fontcolorb>1.0f</fontcolorb>	
+				</widget>
 			</item>
 		</items>
 	</window>
@@ -77,86 +89,106 @@ strength and direction.</description>
 		<description>Displays indicators for the current player,
 including its health, and defense status</description>
 		<items>
-			<item type="GLWIcon">
-				<x>0</x><y>0</y>
-				<w>190</w><h>190</h>
-				<bitmap>data/windows/player.bmp</bitmap>
-				<bitmapa>data/windows/playera.bmp</bitmapa>
-				<invert>true</invert>
+			<item>
+				<widget type="GLWIcon">
+					<x>0</x><y>0</y>
+					<w>190</w><h>190</h>
+					<bitmap>data/windows/player.bmp</bitmap>
+					<bitmapa>data/windows/playera.bmp</bitmapa>
+					<invert>true</invert>
+				</widget>
 			</item>
-			<item type="GLWTankModel">
-				<x>31</x><y>0</y>
-				<w>128</w><h>128</h>
+			<item>
+				<widget type="GLWTankModel">
+					<x>31</x><y>0</y>
+					<w>128</w><h>128</h>
+				</widget>
 			</item>
-			<item type="GLWIcon">
-				<x>0</x><y>0</y>
-				<w>190</w><h>190</h>
-				<bitmap>data/windows/player.bmp</bitmap>
-				<bitmapa>data/windows/playera2.bmp</bitmapa>
-				<invert>true</invert>
+			<item>
+				<widget type="GLWIcon">
+					<x>0</x><y>0</y>
+					<w>190</w><h>190</h>
+					<bitmap>data/windows/player.bmp</bitmap>
+					<bitmapa>data/windows/playera2.bmp</bitmapa>
+					<invert>true</invert>
+				</widget>
 			</item>
-			<item type="GLWScorchedInfo">
-				<type>playername</type>
-				<x>0</x><y>7</y>
-				<w>190</w><h>15</h>
-				<fontsize>10</fontsize>
-				<fontcolorr>0.0f</fontcolorr>
-				<fontcolorg>0.0f</fontcolorg>
-				<fontcolorb>0.0f</fontcolorb>
+			<item>
+				<widget type="GLWScorchedInfo">
+					<type>playername</type>
+					<x>0</x><y>7</y>
+					<w>190</w><h>15</h>
+					<fontsize>10</fontsize>
+					<fontcolorr>0.0f</fontcolorr>
+					<fontcolorg>0.0f</fontcolorg>
+					<fontcolorb>0.0f</fontcolorb>
+				</widget>
 			</item>
-			<item type="GLWScorchedInfo">
-				<type>healthcount</type>
-				<x>27</x><y>89</y>
-				<w>40</w><h>20</h>
-				<fontsize>12</fontsize>
-				<fontcolorr>0.9f</fontcolorr>
-				<fontcolorg>0.9f</fontcolorg>
-				<fontcolorb>1.0f</fontcolorb>
+			<item>
+				<widget type="GLWScorchedInfo">
+					<type>healthcount</type>
+					<x>27</x><y>89</y>
+					<w>40</w><h>20</h>
+					<fontsize>12</fontsize>
+					<fontcolorr>0.9f</fontcolorr>
+					<fontcolorg>0.9f</fontcolorg>
+					<fontcolorb>1.0f</fontcolorb>
+				</widget>
 			</item>
-			<item type="GLWScorchedInfo">
-				<type>shieldcount</type>
-				<x>23</x><y>65</y>
-				<w>40</w><h>20</h>
-				<fontsize>12</fontsize>
-				<fontcolorr>0.9f</fontcolorr>
-				<fontcolorg>0.9f</fontcolorg>
-				<fontcolorb>1.0f</fontcolorb>
+			<item>
+				<widget type="GLWScorchedInfo">
+					<type>shieldcount</type>
+					<x>23</x><y>65</y>
+					<w>40</w><h>20</h>
+					<fontsize>12</fontsize>
+					<fontcolorr>0.9f</fontcolorr>
+					<fontcolorg>0.9f</fontcolorg>
+					<fontcolorb>1.0f</fontcolorb>
+				</widget>
 			</item>
-			<item type="GLWScorchedInfo">
-				<type>parachutecount</type>
-				<x>27</x><y>40</y>
-				<w>40</w><h>20</h>
-				<fontsize>12</fontsize>
-				<fontcolorr>0.9f</fontcolorr>
-				<fontcolorg>0.9f</fontcolorg>
-				<fontcolorb>1.0f</fontcolorb>
+			<item>
+				<widget type="GLWScorchedInfo">
+					<type>parachutecount</type>
+					<x>27</x><y>40</y>
+					<w>40</w><h>20</h>
+					<fontsize>12</fontsize>
+					<fontcolorr>0.9f</fontcolorr>
+					<fontcolorg>0.9f</fontcolorg>
+					<fontcolorb>1.0f</fontcolorb>
+				</widget>
 			</item>
-			<item type="GLWScorchedInfo">
-				<type>batterycount</type>
-				<x>147</x><y>89</y>
-				<w>40</w><h>20</h>
-				<fontsize>12</fontsize>
-				<fontcolorr>0.9f</fontcolorr>
-				<fontcolorg>0.9f</fontcolorg>
-				<fontcolorb>1.0f</fontcolorb>
+			<item>
+				<widget type="GLWScorchedInfo">
+					<type>batterycount</type>
+					<x>147</x><y>89</y>
+					<w>40</w><h>20</h>
+					<fontsize>12</fontsize>
+					<fontcolorr>0.9f</fontcolorr>
+					<fontcolorg>0.9f</fontcolorg>
+					<fontcolorb>1.0f</fontcolorb>
+				</widget>
 			</item>
-			<item type="GLWScorchedInfo">
-				<type>autodefensecount</type>
-				<x>151</x><y>65</y>
-				<w>40</w><h>20</h>
-				<fontsize>12</fontsize>
-				<fontcolorr>0.9f</fontcolorr>
-				<fontcolorg>0.9f</fontcolorg>
-				<fontcolorb>1.0f</fontcolorb>
+			<item>
+				<widget type="GLWScorchedInfo">
+					<type>autodefensecount</type>
+					<x>151</x><y>65</y>
+					<w>40</w><h>20</h>
+					<fontsize>12</fontsize>
+					<fontcolorr>0.9f</fontcolorr>
+					<fontcolorg>0.9f</fontcolorg>
+					<fontcolorb>1.0f</fontcolorb>
+				</widget>
 			</item>
-			<item type="GLWScorchedInfo">
-				<type>fuelcount</type>
-				<x>147</x><y>40</y>
-				<w>40</w><h>20</h>
-				<fontsize>12</fontsize>
-				<fontcolorr>0.9f</fontcolorr>
-				<fontcolorg>0.9f</fontcolorg>
-				<fontcolorb>1.0f</fontcolorb>
+			<item>
+				<widget type="GLWScorchedInfo">
+					<type>fuelcount</type>
+					<x>147</x><y>40</y>
+					<w>40</w><h>20</h>
+					<fontsize>12</fontsize>
+					<fontcolorr>0.9f</fontcolorr>
+					<fontcolorg>0.9f</fontcolorg>
+					<fontcolorb>1.0f</fontcolorb>
+				</widget>
 			</item>
 		</items>
 	</window>
@@ -172,59 +204,73 @@ including its health, and defense status</description>
 		<description>Displays indicators for the current weapon,
 including its power and direction.</description>
 		<items>
-			<item type="GLWIcon">
-				<x>-10</x><y>0</y>
-				<w>190</w><h>190</h>
-				<bitmap>data/windows/weapon.bmp</bitmap>
-				<bitmapa>data/windows/weapona.bmp</bitmapa>
-				<invert>true</invert>
+			<item>
+				<widget type="GLWIcon">
+					<x>-10</x><y>0</y>
+					<w>190</w><h>190</h>
+					<bitmap>data/windows/weapon.bmp</bitmap>
+					<bitmapa>data/windows/weapona.bmp</bitmapa>
+					<invert>true</invert>
+				</widget>
 			</item>
-			<item type="GLWWeaponModel">
-				<x>0</x><y>0</y>
-				<w>128</w><h>128</h>
+			<item>
+				<widget type="GLWWeaponModel">
+					<x>0</x><y>0</y>
+					<w>128</w><h>128</h>
+				</widget>
 			</item>
-			<item type="GLWIcon">
-				<x>-10</x><y>0</y>
-				<w>190</w><h>190</h>
-				<bitmap>data/windows/weapon.bmp</bitmap>
-				<bitmapa>data/windows/weapona2.bmp</bitmapa>
-				<invert>true</invert>
+			<item>
+				<widget type="GLWIcon">
+					<x>-10</x><y>0</y>
+					<w>190</w><h>190</h>
+					<bitmap>data/windows/weapon.bmp</bitmap>
+					<bitmapa>data/windows/weapona2.bmp</bitmapa>
+					<invert>true</invert>
+				</widget>
 			</item>		
-			<item type="GLWScorchedInfo">
-				<type>weaponname</type>
-				<x>0</x><y>7</y>
-				<w>128</w><h>20</h>
-				<fontsize>10</fontsize>
-				<fontcolorr>0.0f</fontcolorr>
-				<fontcolorg>0.0f</fontcolorg>
-				<fontcolorb>0.0f</fontcolorb>
+			<item>
+				<widget type="GLWScorchedInfo">
+					<type>weaponname</type>
+					<x>0</x><y>7</y>
+					<w>128</w><h>20</h>
+					<fontsize>10</fontsize>
+					<fontcolorr>0.0f</fontcolorr>
+					<fontcolorg>0.0f</fontcolorg>
+					<fontcolorb>0.0f</fontcolorb>
+				</widget>
 			</item>
-			<item type="GLWScorchedInfo">
-				<type>power</type>
-				<x>116</x><y>89</y>
-				<w>70</w><h>20</h>
-				<fontsize>12</fontsize>
-				<fontcolorr>0.9f</fontcolorr>
-				<fontcolorg>0.9f</fontcolorg>
-				<fontcolorb>1.0f</fontcolorb>
+			<item>
+				<widget type="GLWScorchedInfo">
+					<type>power</type>
+					<x>116</x><y>89</y>
+					<w>70</w><h>20</h>
+					<fontsize>12</fontsize>
+					<fontcolorr>0.9f</fontcolorr>
+					<fontcolorg>0.9f</fontcolorg>
+					<fontcolorb>1.0f</fontcolorb>
+				</widget>
 			</item>
-			<item type="GLWScorchedInfo">
-				<type>elevation</type>
-				<x>120</x><y>65</y>
-				<w>50</w><h>20</h>
-				<fontsize>12</fontsize>
-				<fontcolorr>0.9f</fontcolorr>
-				<fontcolorg>0.9f</fontcolorg>
-				<fontcolorb>1.0f</fontcolorb>
+			<item>
+				<widget type="GLWScorchedInfo">
+					<type>elevation</type>
+					<x>120</x><y>65</y>
+					<w>50</w><h>20</h>
+					<fontsize>12</fontsize>
+					<fontcolorr>0.9f</fontcolorr>
+					<fontcolorg>0.9f</fontcolorg>
+					<fontcolorb>1.0f</fontcolorb>
+				</widget>
 			</item>
-			<item type="GLWScorchedInfo">
-				<type>rotation</type>
-				<x>116</x><y>40</y>
-				<w>60</w><h>20</h>
-				<fontsize>12</fontsize>
-				<fontcolorr>0.9f</fontcolorr>
-				<fontcolorg>0.9f</fontcolorg>
-				<fontcolorb>1.0f</fontcolorb>
+			<item>
+				<widget type="GLWScorchedInfo">
+					<type>rotation</type>
+					<x>116</x><y>40</y>
+					<w>60</w><h>20</h>
+					<fontsize>12</fontsize>
+					<fontcolorr>0.9f</fontcolorr>
+					<fontcolorg>0.9f</fontcolorg>
+					<fontcolorb>1.0f</fontcolorb>
+				</widget>
 			</item>
 		</items>
 	</window>
@@ -240,24 +286,32 @@ including its power and direction.</description>
 		<description>Allows the current player to aim without
 having to use the keyboard.</description>
 		<items>
-			<item type="GLWIcon">
-				<x>0</x><y>0</y>
-				<w>145</w><h>145</h>
-				<bitmap>data/windows/aim.bmp</bitmap>
-				<bitmapa>data/windows/aima.bmp</bitmapa>
-				<invert>true</invert>
+			<item>
+				<widget type="GLWIcon">
+					<x>0</x><y>0</y>
+					<w>145</w><h>145</h>
+					<bitmap>data/windows/aim.bmp</bitmap>
+					<bitmapa>data/windows/aima.bmp</bitmapa>
+					<invert>true</invert>
+				</widget>
 			</item>
-			<item type="GLWTankTracker">
-				<x>0</x><y>0</y>
-				<w>128</w><h>128</h>				
+			<item>
+				<widget type="GLWTankTracker">
+					<x>0</x><y>0</y>
+					<w>128</w><h>128</h>				
+				</widget>
 			</item>
-			<item type="GLWTankSlider">
-				<x>128</x><y>0</y>
-				<w>17</w><h>128</h>				
+			<item>
+				<widget type="GLWTankSlider">
+					<x>128</x><y>0</y>
+					<w>17</w><h>128</h>				
+				</widget>
 			</item>
-			<item type="GLWTankFire">
-				<x>2</x><y>5</y>
-				<w>30</w><h>27</h>
+			<item>
+				<widget type="GLWTankFire">
+					<x>2</x><y>5</y>
+					<w>30</w><h>27</h>
+				</widget>
 			</item>
 		</items>
 	</window>

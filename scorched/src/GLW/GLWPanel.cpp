@@ -33,35 +33,40 @@ GLWPanel::~GLWPanel()
 	clear();
 }
 
-GLWidget *GLWPanel::addWidget(GLWidget *widget)
+GLWidget *GLWPanel::addWidget(GLWidget *widget, GLWCondition *condition)
 {
-	widgets_.push_back(widget);
+	GLWPanelEntry entry(widget, condition);
+	widgets_.push_back(entry);
 	widget->setParent(this);
 	return widget;
 }
 
 void GLWPanel::clear()
 {
-	std::list<GLWidget *>::iterator itor;
+	std::list<GLWPanelEntry>::iterator itor;
 	for (itor = widgets_.begin();
 		itor != widgets_.end();
 		itor++)
 	{
-		delete (*itor);
+		delete (*itor).widget;
+		delete (*itor).condition;
 	}
 	widgets_.clear();
 }
 
 void GLWPanel::simulate(float frameTime)
 {
-	std::list<GLWidget *>::iterator itor;
+	std::list<GLWPanelEntry>::iterator itor;
 	for (itor = widgets_.begin();
 		itor != widgets_.end();
 		itor++)
 	{
-		glPushMatrix();
-		(*itor)->simulate(frameTime);
-		glPopMatrix();
+		GLWPanelEntry &entry = *itor;
+		if (!entry.condition || 
+			entry.condition->getResult(entry.widget))
+		{
+			entry.widget->simulate(frameTime);
+		}
 	}
 }
 
@@ -69,50 +74,68 @@ void GLWPanel::draw()
 {
 	GLState currentState(GLState::DEPTH_OFF | GLState::TEXTURE_OFF);
 
-	std::list<GLWidget *>::iterator itor;
+	std::list<GLWPanelEntry>::iterator itor;
 	for (itor = widgets_.begin();
 		itor != widgets_.end();
 		itor++)
 	{
-		glPushMatrix();
-		(*itor)->draw();
-		glPopMatrix();
+		GLWPanelEntry &entry = *itor;
+		if (!entry.condition || 
+			entry.condition->getResult(entry.widget))
+		{
+			glPushMatrix();
+				(*itor).widget->draw();
+			glPopMatrix();
+		}
 	}
 }
 
 void GLWPanel::mouseDown(float x, float y, bool &skipRest)
 {
-	std::list<GLWidget *>::reverse_iterator itor;
+	std::list<GLWPanelEntry>::reverse_iterator itor;
 	for (itor = widgets_.rbegin();
 		itor != widgets_.rend();
 		itor++)
 	{
-		(*itor)->mouseDown(x, y, skipRest);
-		if (skipRest) break;
+		GLWPanelEntry &entry = *itor;
+		if (!entry.condition || 
+			entry.condition->getResult(entry.widget))
+		{
+			(*itor).widget->mouseDown(x, y, skipRest);
+			if (skipRest) break;
+		}
 	}
 }
 
 void GLWPanel::mouseUp(float x, float y, bool &skipRest)
 {
-	std::list<GLWidget *>::reverse_iterator itor;
+	std::list<GLWPanelEntry>::reverse_iterator itor;
 	for (itor = widgets_.rbegin();
 		itor != widgets_.rend();
 		itor++)
 	{
-		(*itor)->mouseUp(x, y, skipRest);
+		GLWPanelEntry &entry = *itor;
+		if (!entry.condition || 
+			entry.condition->getResult(entry.widget))
+		(*itor).widget->mouseUp(x, y, skipRest);
 		if (skipRest) break;
 	}
 }
 
 void GLWPanel::mouseDrag(float mx, float my, float x, float y, bool &skipRest)
 {
-	std::list<GLWidget *>::reverse_iterator itor;
+	std::list<GLWPanelEntry>::reverse_iterator itor;
 	for (itor = widgets_.rbegin();
 		itor != widgets_.rend();
 		itor++)
 	{
-		(*itor)->mouseDrag(mx, my, x, y, skipRest);
-		if (skipRest) break;
+		GLWPanelEntry &entry = *itor;
+		if (!entry.condition || 
+			entry.condition->getResult(entry.widget))
+		{
+			(*itor).widget->mouseDrag(mx, my, x, y, skipRest);
+			if (skipRest) break;
+		}
 	}
 }
 
@@ -120,12 +143,93 @@ void GLWPanel::keyDown(char *buffer, unsigned int keyState,
 		KeyboardHistory::HistoryElement *history, int hisCount, 
 		bool &skipRest)
 {
-	std::list<GLWidget *>::reverse_iterator itor;
+	std::list<GLWPanelEntry>::reverse_iterator itor;
 	for (itor = widgets_.rbegin();
 		itor != widgets_.rend();
 		itor++)
 	{
-		(*itor)->keyDown(buffer, keyState, history, hisCount, skipRest);
-		if (skipRest) break;
+		GLWPanelEntry &entry = *itor;
+		if (!entry.condition || 
+			entry.condition->getResult(entry.widget))
+		{
+			(*itor).widget->keyDown(buffer, keyState, history, hisCount, skipRest);
+			if (skipRest) break;
+		}
 	}
 }
+
+bool GLWPanel::initFromXML(XMLNode *node)
+{
+	// Items
+	XMLNode *itemsNode = node->removeNamedChild("items", true);
+	if (!itemsNode) return false;
+
+	// Itterate all of the items in the file
+	std::list<XMLNode *>::iterator childrenItor;
+		std::list<XMLNode *> &children = itemsNode->getChildren();
+	for (childrenItor = children.begin();
+		childrenItor != children.end();
+		childrenItor++)
+	{
+		// For each node named items
+		XMLNode *currentNode = (*childrenItor);
+
+		// The Widget
+		XMLNode *widgetNode = currentNode->removeNamedChild("widget", true);
+		if (!widgetNode) return false;
+
+		// The type
+		XMLNode *widgetTypeNode = widgetNode->getNamedParameter("type", true);
+		if (!widgetTypeNode) return false;
+
+		// Create new type
+		GLWidget *widget = (GLWidget *)
+			MetaClassRegistration::getNewClass(widgetTypeNode->getContent());
+		if (!widget) 
+		{
+			dialogMessage("GLWPanel",
+				"Unknown widget type \"%s\"",
+				widgetTypeNode->getContent());
+			return false;
+		}
+		if (!widget->initFromXML(widgetNode))
+		{
+			dialogMessage("GLWPanel",
+				"Failed to parse \"%s\" widget type",
+				widgetTypeNode->getContent());
+			return false;			
+		}
+
+		// The condition (if any)
+		GLWCondition *condition = 0;
+		XMLNode *conditionNode = currentNode->removeNamedChild("condition");
+		if (conditionNode)
+		{
+			// Get the type of this condition
+			XMLNode *conditionTypeNode = conditionNode->
+				getNamedParameter("type", true);
+			if (!conditionTypeNode) return false;
+
+			// Create type
+			condition = (GLWCondition *)
+				MetaClassRegistration::getNewClass(conditionTypeNode->getContent());
+			if (!condition)
+			{
+				dialogMessage("GLWPanel",
+					"Unknown condition type \"%s\"",
+					conditionTypeNode->getContent());
+				return false;
+			}
+			if (!condition->initFromXML(conditionNode))
+			{
+				dialogMessage("GLWPanel",
+					"Failed to parse \"%s\" condition type",
+					conditionTypeNode->getContent());
+				return false;
+			}
+		}
+
+		addWidget(widget, condition);
+	}
+}
+

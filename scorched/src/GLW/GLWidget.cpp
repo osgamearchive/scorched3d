@@ -69,3 +69,17 @@ bool GLWidget::initFromXML(XMLNode *node)
 {
 	return true;
 }
+
+GLWCondition::GLWCondition()
+{
+}
+
+GLWCondition::~GLWCondition()
+{
+}
+
+bool GLWCondition::initFromXML(XMLNode *node)
+{
+	return true;
+}
+

@@ -106,43 +106,7 @@ bool GLWVisiblePanel::initFromXML(XMLNode *node)
 	if (!GLWVisibleWidget::initFromXML(node)) return false;
 	drawPanel_ = false;
 
-	// Items
-	XMLNode *itemsNode = node->removeNamedChild("items", true);
-	if (!itemsNode) return false;
-
-	// Itterate all of the items in the file
-    std::list<XMLNode *>::iterator childrenItor;
-	std::list<XMLNode *> &children = itemsNode->getChildren();
-    for (childrenItor = children.begin();
-        childrenItor != children.end();
-        childrenItor++)
-    {
-		// For each node named items
-        XMLNode *currentNode = (*childrenItor);
-
-		// The type
-		XMLNode *typeNode = currentNode->getNamedParameter("type", true);
-		if (!typeNode) return false;
-
-		// Create new type
-		GLWVisibleWidget *widget = (GLWVisibleWidget *)
-			MetaClassRegistration::getNewClass(typeNode->getContent());
-		if (!widget) 
-		{
-			dialogMessage("GLWVisiblePanel",
-				"Unknown type \"%s\"",
-				typeNode->getContent());
-			return false;
-		}
-		if (!widget->initFromXML(currentNode))
-		{
-			dialogMessage("GLWVisiblePanel",
-				"Failed to parse \"%s\" type",
-				typeNode->getContent());
-			return false;			
-		}
-		addWidget(widget);
-	}
-
+	if (!panel_.initFromXML(node)) return false;
+	
 	return true;
 }

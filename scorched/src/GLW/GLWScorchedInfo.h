@@ -25,6 +25,17 @@
 #include <XML/XMLParser.h>
 #include <common/Vector.h>
 
+class GLWHudCondition : public GLWCondition
+{
+public:
+	GLWHudCondition();
+	virtual ~GLWHudCondition();
+
+	virtual bool getResult(GLWidget *widget);
+
+	REGISTER_CLASS_HEADER(GLWHudCondition);
+};
+
 class GLWScorchedInfo : public GLWVisibleWidget
 {
 public:

@@ -25,6 +25,21 @@
 #include <tankgraph/TankModelRenderer.h>
 #include <weapons/AccessoryStore.h>
 
+REGISTER_CLASS_SOURCE(GLWHudCondition);
+
+GLWHudCondition::GLWHudCondition()
+{
+}
+
+GLWHudCondition::~GLWHudCondition()
+{
+}
+
+bool GLWHudCondition::getResult(GLWidget *widget)
+{
+	return TankModelRendererHUD::drawText();
+}
+
 REGISTER_CLASS_SOURCE(GLWScorchedInfo);
 
 GLWScorchedInfo::GLWScorchedInfo(float x, float y, float w, float h) : 

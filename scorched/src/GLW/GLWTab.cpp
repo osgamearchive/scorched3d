@@ -68,14 +68,15 @@ void GLWTab::mouseDown(float x, float y, bool &skipRest)
 
 void GLWTab::setDepressed()
 {
-	std::list<GLWidget *>::iterator itor;
+	std::list<GLWPanel::GLWPanelEntry>::iterator itor;
 	for (itor = parent_->getWidgets().begin();
 		itor != parent_->getWidgets().end();
 		itor++)
 	{
-		if ((*itor)->getMetaClassId() == getMetaClassId())
+		GLWPanel::GLWPanelEntry &entry = (*itor);
+		if (entry.widget->getMetaClassId() == getMetaClassId())
 		{
-			GLWTab *tab = (GLWTab *) *itor;
+			GLWTab *tab = (GLWTab *) entry.widget;
 			tab->depressed_ = false;
 		}
 	}
