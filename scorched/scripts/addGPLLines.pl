@@ -18,6 +18,7 @@ my @dirs =
 	"tank",
 	"tankai",
 	"tankgraph",
+	"boids",
 	"weapons"
 );
 

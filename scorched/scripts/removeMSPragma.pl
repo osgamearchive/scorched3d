@@ -19,6 +19,7 @@ my @dirs =
 	"XML",
 	"tankgraph",
 	"tank",
+	"boids",
 	"weapons"
 );
 

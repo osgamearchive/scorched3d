@@ -351,6 +351,8 @@ void DisplayFrame::refreshScreen()
 	IDC_HOSTDESC_CTRL->SetToolTip(OptionsDisplay::instance()->getHostDescriptionToolTip());
 	IDC_NODETAILTEX_CTRL->SetValue(!OptionsDisplay::instance()->getDetailTexture());
 	IDC_NODETAILTEX_CTRL->SetToolTip(OptionsDisplay::instance()->getDetailTextureToolTip());
+	IDC_NOBOIDS_CTRL->SetValue(OptionsDisplay::instance()->getNoBOIDS());
+	IDC_NOBOIDS_CTRL->SetToolTip(OptionsDisplay::instance()->getNoBOIDSToolTip());
 	IDC_MORERES_CTRL->SetValue(OptionsDisplay::instance()->getMoreRes());
 	IDC_MORERES_CTRL->SetToolTip(OptionsDisplay::instance()->getMoreResToolTip());
 	IDC_SWAPYAXIS_CTRL->SetValue(OptionsDisplay::instance()->getSwapYAxis());
@@ -527,6 +529,7 @@ bool DisplayFrame::TransferDataFromWindow()
 	OptionsDisplay::instance()->setOnlineTankModel(IDC_TANKMODEL_CTRL->GetValue());
 	OptionsDisplay::instance()->setHostDescription(IDC_HOSTDESC_CTRL->GetValue());
 	OptionsDisplay::instance()->setDetailTexture(!IDC_NODETAILTEX_CTRL->GetValue());
+	OptionsDisplay::instance()->setNoBOIDS(IDC_NOBOIDS_CTRL->GetValue());
 	OptionsDisplay::instance()->setMoreRes(IDC_MORERES_CTRL->GetValue());
 	OptionsDisplay::instance()->setSwapYAxis(IDC_SWAPYAXIS_CTRL->GetValue());
 	OptionsDisplay::instance()->setClientLogToFile(IDC_LOGGING_CTRL->GetValue());

@@ -30,6 +30,7 @@
 #include <landscape/Wall.h>
 #include <landscape/ShadowMap.h>
 
+class ScorchedBoids;
 class Surround;
 class Sky;
 class Landscape : public GameStateI
@@ -94,6 +95,7 @@ protected:
 	Wall wall_;
 	PatchGrid patchGrid_;
 	Sky *sky_;
+	ScorchedBoids *boids_;
 	Surround *surround_;
 	ShadowMap shadowMap_;
 	Smoke smoke_;

@@ -330,7 +330,7 @@ void PlayerDialog::buttonDown(unsigned int id)
 				if (tank->getAvatar().loadFromFile(imageList_->getCurrent()))
 				{
 					if (tank->getAvatar().getFile().getBufferUsed() <=
-						ScorchedClient::instance()->getOptionsGame().getMaxAvatarSize())
+						(unsigned) ScorchedClient::instance()->getOptionsGame().getMaxAvatarSize())
 					{
 						message.setPlayerIconName(imageList_->getCurrent());
 						message.getPlayerIcon().addDataToBuffer(

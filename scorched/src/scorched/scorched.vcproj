@@ -850,16 +850,16 @@
 				RelativePath="..\tankgraph\TankModelRenderer.h">
 			</File>
 			<File
-				RelativePath="..\tankgraph\TankParticleRenderer.h">
+				RelativePath="..\tankgraph\TankModelStore.cpp">
+			</File>
+			<File
+				RelativePath="..\tankgraph\TankModelStore.h">
 			</File>
 			<File
 				RelativePath="..\tankgraph\TankParticleRenderer.cpp">
 			</File>
 			<File
-				RelativePath="..\tankgraph\TankModelStore.cpp">
-			</File>
-			<File
-				RelativePath="..\tankgraph\TankModelStore.h">
+				RelativePath="..\tankgraph\TankParticleRenderer.h">
 			</File>
 			<File
 				RelativePath="..\tankgraph\TankRenderer.cpp">
@@ -3518,6 +3518,49 @@
 			</File>
 			<File
 				RelativePath="..\..\data\windows.xml">
+			</File>
+		</Filter>
+		<Filter
+			Name="boids"
+			Filter="">
+			<File
+				RelativePath="..\boids\Boid.cpp">
+			</File>
+			<File
+				RelativePath="..\boids\Boid.h">
+			</File>
+			<File
+				RelativePath="..\boids\BoidVector.cpp">
+			</File>
+			<File
+				RelativePath="..\boids\BoidVector.h">
+			</File>
+			<File
+				RelativePath="..\boids\BoidWorld.cpp">
+			</File>
+			<File
+				RelativePath="..\boids\BoidWorld.h">
+			</File>
+			<File
+				RelativePath="..\boids\Obstacle.cpp">
+			</File>
+			<File
+				RelativePath="..\boids\Obstacle.h">
+			</File>
+			<File
+				RelativePath="..\boids\ScorchedBoids.cpp">
+			</File>
+			<File
+				RelativePath="..\boids\ScorchedBoids.h">
+			</File>
+			<File
+				RelativePath="..\boids\ScorchedBoidsObstacle.cpp">
+			</File>
+			<File
+				RelativePath="..\boids\ScorchedBoidsObstacle.h">
+			</File>
+			<File
+				RelativePath="..\boids\SimObject.h">
 			</File>
 		</Filter>
 	</Files>

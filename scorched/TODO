@@ -12,6 +12,8 @@ Fixed: Window ordering in window menu does not change due to z order
 Fixed: Invisible window removed from connect dialog
 Fixed: Shields and player names showing through smoke
 
+Added: Boids (birds) to levels (needs animation)
+Added: Fog density attribute to levels (distance fogging)
 Added: Admin alerts for players (ip addresses) that have been flagged
 Added: WeaponNapalm option to allow napalm type weapons underwater
 Added: Admin newgame command
@@ -38,9 +40,7 @@ Fix crashing when people win (Graphics card drivers??)
 Being able to register peoples nicknames
 Movement sounds
 Animated GIFs for avitars
-Distance fogging
 Ambient sounds
-Boids
 Move placements to seperate file
 Allow players to choose players without joining first
 Shadows for other models

@@ -439,7 +439,7 @@ void ServerNewGameState::checkTeams()
 		case OptionsGame::TeamBallanceBotsVs:
 			checkTeamsBotsVs();
 			break;
-		deafult:
+		default:
 			break;
 	}
 }

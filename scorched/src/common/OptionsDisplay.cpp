@@ -155,6 +155,8 @@ OptionsDisplay::OptionsDisplay() :
 		"Do not animate the sky", RWAccess, false),
 	noROAM_(options_,"NoROAM", 
 		"Do not use ROAM algorithm", RWAccess, false),
+	noBOIDS_(options_,"NoBOIDS", 
+		"Do not use BOIDS", RWAccess, false),
 	noPrecipitation_(options_, "NoPrecipitation",
 		"Do not draw precipitation", RWAccess, false),
 	noTessalation_(options_,"NoTessalation", 

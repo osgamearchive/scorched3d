@@ -127,7 +127,7 @@ bool ServerAddPlayerHandler::processMessage(unsigned int destinationId,
 	if (noAvatar) // Currently we can only set the avatar once
 	{
 		if (message.getPlayerIcon().getBufferUsed() <=
-			ScorchedServer::instance()->getOptionsGame().getMaxAvatarSize())
+			(unsigned) ScorchedServer::instance()->getOptionsGame().getMaxAvatarSize())
 		{
 			tank->getAvatar().setFromBuffer(
 				message.getPlayerIconName(),

@@ -114,6 +114,16 @@ public:
 	virtual bool readXML(XMLNode *node);
 };
 
+class LandscapeTexBoids : public LandscapeTexType
+{
+public:
+	ModelID model;
+	int count;
+	int minz, maxz;
+
+	virtual bool readXML(XMLNode *node);
+};
+
 class LandscapeTexObjectsPlacement : public LandscapeTexType
 {
 public:
@@ -187,6 +197,7 @@ public:
 	std::string magmasmall;
 	std::string scorch;
 	Vector fog;
+	float fogdensity;
 	float lowestlandheight;
 	std::string skytexture;
 	std::string skycolormap;
@@ -206,6 +217,7 @@ public:
 	std::vector<std::string> objectstype;
 	std::vector<LandscapeTexType *> objects;
 	std::vector<LandscapeTexEvent *> events;
+	std::vector<LandscapeTexBoids *> boids;
 
 	bool readXML(XMLNode *node);
 

@@ -107,7 +107,7 @@ void TankModelRenderer::draw(bool currentTank)
 	Landscape::instance()->getShadowMap().addCircle(
 		tank_->getPhysics().getTankPosition()[0], 
 		tank_->getPhysics().getTankPosition()[1], 
-		2.0f * modelSize);
+		3.0f * modelSize);
 
 	// Draw the tank model
 	model_->draw(currentTank, 

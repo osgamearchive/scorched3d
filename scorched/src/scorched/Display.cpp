@@ -216,6 +216,10 @@ static void createTroubleControls(wxWindow *parent, wxSizer *sizer)
 		new wxCheckBox(parent, -1, "No tank skins",
 		wxDefaultPosition, wxSize((int) 150, (int) -1));
 	detailSizer2->Add(IDC_NOSKINS_CTRL, 0);
+	IDC_NOBOIDS_CTRL = 
+		new wxCheckBox(parent, -1, "No birds",
+		wxDefaultPosition, wxSize((int) 150, (int) -1));
+	detailSizer2->Add(IDC_NOBOIDS_CTRL, 0);
 	IDC_NOTREES_CTRL = 
 		new wxCheckBox(parent, -1, "No trees",
 		wxDefaultPosition, wxSize((int) 150, (int) -1));
@@ -319,9 +323,6 @@ static void createIdentControls(wxWindow *parent, wxSizer *sizer)
 	IDC_USERID_CTRL->SetColLabelValue(0,"Published Ip");
 	IDC_USERID_CTRL->SetColLabelValue(1, "Current Ip");
 	IDC_USERID_CTRL->SetColLabelValue(2, "Unique Id");
-	IDC_USERID_CTRL->SetColSize(0, 200);
-	IDC_USERID_CTRL->SetColSize(1, 100);
-	IDC_USERID_CTRL->SetColSize(2, 130);
 	IDC_USERID_CTRL->SetColLabelSize(20);
 	IDC_USERID_CTRL->SetRowLabelSize(0);
 	int pos = 0;
@@ -336,6 +337,7 @@ static void createIdentControls(wxWindow *parent, wxSizer *sizer)
 		IDC_USERID_CTRL->SetCellValue(pos, 2, entry.id.c_str());
 	}
 	IDC_USERID_CTRL->EnableEditing(false);
+	IDC_USERID_CTRL->AutoSizeColumns(true);
 	IDC_USERID_CTRL->ForceRefresh();
 
 	userSizer->Add(IDC_USERID_CTRL, 1, wxALIGN_CENTER | wxGROW);

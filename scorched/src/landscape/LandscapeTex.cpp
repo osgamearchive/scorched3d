@@ -192,6 +192,19 @@ bool LandscapeTexPrecipitation::readXML(XMLNode *node)
 	return node->failChildren();
 }
 
+// LandscapeTexBoids
+bool LandscapeTexBoids::readXML(XMLNode *node)
+{
+	XMLNode *modelnode;
+	if (!node->getNamedChild("model", modelnode)) return false;
+	if (!model.initFromNode(".", modelnode)) return false;
+	if (!node->getNamedChild("count", count)) return false;
+	if (!node->getNamedChild("minz", minz)) return false;
+	if (!node->getNamedChild("maxz", maxz)) return false;
+
+	return node->failChildren();
+}
+
 // LandscapeTexObjectsPlacementTree
 LandscapeTexObjectsPlacement::~LandscapeTexObjectsPlacement()
 {
@@ -291,6 +304,11 @@ LandscapeTex::~LandscapeTex()
 	{
 		delete events[i];
 	}
+	for (unsigned int i=0; i<boids.size(); i++)
+	{
+		delete boids[i];
+	}
+	boids.clear();
 	objects.clear();
 	objectstype.clear();
 	events.clear();
@@ -303,6 +321,7 @@ bool LandscapeTex::readXML(XMLNode *node)
 	if (!node->getNamedChild("magmasmall", magmasmall)) return false;
 	if (!node->getNamedChild("scorch", scorch)) return false;
 	if (!node->getNamedChild("fog", fog)) return false;
+	if (!node->getNamedChild("fogdensity", fogdensity)) return false;
 	if (!node->getNamedChild("lowestlandheight", lowestlandheight)) return false;
 	if (!node->getNamedChild("skytexture", skytexture)) return false;
 	if (!node->getNamedChild("skycolormap", skycolormap)) return false;
@@ -364,6 +383,17 @@ bool LandscapeTex::readXML(XMLNode *node)
 			events.push_back(event);
 		}
 		if (!eventsNode->failChildren()) return false;
+	}
+	{
+		XMLNode *boidsNode, *boidNode;
+		if (!node->getNamedChild("boids", boidsNode)) return false;
+		while (boidsNode->getNamedChild("boid", boidNode, false))
+		{
+			LandscapeTexBoids *boid = new LandscapeTexBoids;
+			if (!boid->readXML(boidNode)) return false;
+			boids.push_back(boid);
+		}
+		if (!boidsNode->failChildren()) return false;
 	}
 	return node->failChildren();
 }

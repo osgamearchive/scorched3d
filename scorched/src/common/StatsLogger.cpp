@@ -18,9 +18,9 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <common/StatsLoggerFile.h>
 #include <common/StatsLoggerMySQL.h>
 #include <common/StatsLoggerPGSQL.h>
+#include <common/StatsLoggerFile.h>
 #include <common/OptionsParam.h>
 #include <common/OptionsGame.h>
 #include <common/Logger.h>

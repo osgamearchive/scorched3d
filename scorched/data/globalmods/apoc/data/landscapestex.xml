@@ -6,6 +6,7 @@
 		<magmasmall>data/textures/landscape/default/magma-small.bmp</magmasmall>
 		<scorch>data/textures/landscape/default/scorch.bmp</scorch>
 		<fog><A>0.8</A><B>0.8</B><C>0.8</C></fog>
+		<fogdensity>0.001</fogdensity>
 		<lowestlandheight>0.0</lowestlandheight>
 		<skytexture>data/textures/landscape/default/cloud1.bmp</skytexture>
 		<skycolormap>data/textures/clearsky.bmp</skycolormap>
@@ -47,6 +48,7 @@
 		</placements>
 		<precipitation type="none"></precipitation>
 		<events></events>
+		<boids></boids>
 	</tex>
 	<tex>
 		<name>hell</name>
@@ -54,6 +56,7 @@
 		<magmasmall>data/textures/landscape/default/magma-small.bmp</magmasmall>
 		<scorch>data/textures/landscape/hell/scorch.bmp</scorch>
 		<fog><A>0.8</A><B>0.1</B><C>0.1</C></fog>
+		<fogdensity>0.001</fogdensity>
 		<lowestlandheight>0.0</lowestlandheight>
 		<skytexture>data/textures/landscape/hell/cloud1.bmp</skytexture>
 		<skycolormap>data/textures/clearsky.bmp</skycolormap>
@@ -98,6 +101,7 @@
 				</action>
 			</event>
 		</events>
+		<boids></boids>
 	</tex>
 	<tex>
 		<name>sand</name>
@@ -105,6 +109,7 @@
 		<magmasmall>data/textures/landscape/default/magma-small.bmp</magmasmall>
 		<scorch>data/textures/landscape/sand/scorch.bmp</scorch>
 		<fog><A>0.8</A><B>0.8</B><C>0.8</C></fog>
+		<fogdensity>0.001</fogdensity>
 		<lowestlandheight>0.0</lowestlandheight>
 		<skytexture>data/textures/landscape/sand/cloud1.bmp</skytexture>
 		<skycolormap>data/textures/clearsky.bmp</skycolormap>
@@ -146,6 +151,7 @@
 		</placements>
 		<precipitation type="none"></precipitation>
 		<events></events>
+		<boids></boids>
 	</tex>
 	<tex>
 		<name>snow</name>
@@ -153,6 +159,7 @@
 		<magmasmall>data/textures/landscape/default/magma-small.bmp</magmasmall>
 		<scorch>data/textures/landscape/snow/scorch.bmp</scorch>
 		<fog><A>0.8</A><B>0.8</B><C>0.8</C></fog>
+		<fogdensity>0.001</fogdensity>
 		<lowestlandheight>0.0</lowestlandheight>
 		<skytexture>data/textures/landscape/snow/cloud1.bmp</skytexture>
 		<skycolormap>data/textures/clearsky.bmp</skycolormap>
@@ -196,6 +203,7 @@
 			<particles>60</particles>
 		</precipitation>
 		<events></events>
+		<boids></boids>
 	</tex>
 	<tex>
 		<name>tropical</name>
@@ -203,6 +211,7 @@
 		<magmasmall>data/textures/landscape/default/magma-small.bmp</magmasmall>
 		<scorch>data/textures/landscape/tropical/scorch.bmp</scorch>
 		<fog><A>0.8</A><B>0.8</B><C>0.8</C></fog>
+		<fogdensity>0.001</fogdensity>
 		<lowestlandheight>0.0</lowestlandheight>
 		<skytexture>data/textures/landscape/tropical/cloud1.bmp</skytexture>
 		<skycolormap>data/textures/clearsky.bmp</skycolormap>
@@ -244,6 +253,7 @@
 		</placements>
 		<precipitation type="none"></precipitation>
 		<events></events>
+		<boids></boids>
 	</tex>
 	<tex>
 		<name>vulcano</name>
@@ -251,6 +261,7 @@
 		<magmasmall>data/textures/landscape/default/magma-small.bmp</magmasmall>
 		<scorch>data/textures/landscape/vulcano/scorch.bmp</scorch>
 		<fog><A>0.8</A><B>0.8</B><C>0.8</C></fog>
+		<fogdensity>0.001</fogdensity>
 		<lowestlandheight>0.0</lowestlandheight>
 		<skytexture>data/textures/landscape/vulcano/cloud1.bmp</skytexture>
 		<skycolormap>data/textures/clearsky.bmp</skycolormap>
@@ -281,6 +292,7 @@
 		<placements></placements>
 		<precipitation type="none"></precipitation>
 		<events></events>
+		<boids></boids>
 	</tex>
 	<tex>
 		<name>storm</name>
@@ -288,6 +300,7 @@
 		<magmasmall>data/textures/landscape/default/magma-small.bmp</magmasmall>
 		<scorch>data/textures/landscape/storm/scorch.bmp</scorch>
 		<fog><A>0.5</A><B>0.5</B><C>0.5</C></fog>
+		<fogdensity>0.001</fogdensity>
 		<lowestlandheight>0.0</lowestlandheight>
 		<skytexture>data/textures/landscape/storm/cloud1.bmp</skytexture>
 		<skycolormap>data/textures/clearsky.bmp</skycolormap>
@@ -345,6 +358,7 @@
 				</action>
 			</event>
 		</events>
+		<boids></boids>
 	</tex>
 	<tex>
 		<name>cavern</name>
@@ -352,6 +366,7 @@
 		<magmasmall>data/textures/landscape/default/magma-small.bmp</magmasmall>
 		<scorch>data/textures/landscape/storm/scorch.bmp</scorch>
 		<fog><A>0.3</A><B>0.3</B><C>0.3</C></fog>
+		<fogdensity>0.001</fogdensity>
 		<lowestlandheight>0.0</lowestlandheight>
 		<skytexture>data/textures/landscape/storm/cloud1.bmp</skytexture>
 		<skycolormap>data/textures/clearsky.bmp</skycolormap>
@@ -393,6 +408,7 @@
 		</placements>
 		<precipitation type="none"></precipitation>
 		<events></events>
+		<boids></boids>
 	</tex>
 	<tex>
 		<name>test</name>
@@ -400,6 +416,7 @@
 		<magmasmall>data/textures/landscape/default/magma-small.bmp</magmasmall>
 		<scorch>data/textures/landscape/storm/scorch.bmp</scorch>
 		<fog><A>0.3</A><B>0.3</B><C>0.3</C></fog>
+		<fogdensity>0.001</fogdensity>
 		<lowestlandheight>0.0</lowestlandheight>
 		<skytexture>data/textures/landscape/storm/cloud1.bmp</skytexture>
 		<skycolormap>data/textures/clearsky.bmp</skycolormap>
@@ -461,6 +478,7 @@
 		</placements>
 		<precipitation type="none"></precipitation>
 		<events></events>
+		<boids></boids>
 	</tex>
 	<tex>
 		<name>usa-summer</name>
@@ -468,6 +486,7 @@
 		<magmasmall>data/textures/landscape/default/magma-small.bmp</magmasmall>
 		<scorch>data/textures/landscape/sand/scorch.bmp</scorch>
 		<fog><A>0.8</A><B>0.8</B><C>0.8</C></fog>
+		<fogdensity>0.001</fogdensity>
 		<lowestlandheight>0.0</lowestlandheight>
 		<skytexture>data/textures/landscape/sand/cloud1.bmp</skytexture>
 		<skycolormap>data/textures/clearsky.bmp</skycolormap>
@@ -574,6 +593,7 @@
 		</placements>
 		<precipitation type="none"></precipitation>
 		<events></events>
+		<boids></boids>
 	</tex>
 	<tex>
 		<name>moon</name>
@@ -581,6 +601,7 @@
 		<magmasmall>data/textures/landscape/default/magma-small.bmp</magmasmall>
 		<scorch>data/textures/landscape/snow/scorch.bmp</scorch>
 		<fog><A>0</A><B>0</B><C>0</C></fog>
+		<fogdensity>0.003</fogdensity>
 		<lowestlandheight>0.0</lowestlandheight>
 		<skytexture>data/textures/landscape/storm/cloud1.bmp</skytexture>
 		<skycolormap>data/textures/clearsky.bmp</skycolormap>
@@ -679,6 +700,7 @@
 				</action>
 			</event>
 		</events>
+		<boids></boids>
 	</tex>
 	<tex>
 		<name>desert</name>
@@ -686,6 +708,7 @@
 		<magmasmall>data/textures/landscape/default/magma-small.bmp</magmasmall>
 		<scorch>data/textures/landscape/tropical/scorch.bmp</scorch>
 		<fog><A>0.8</A><B>0.8</B><C>0.8</C></fog>
+		<fogdensity>0.001</fogdensity>
 		<lowestlandheight>0.0</lowestlandheight>
 		<skytexture>data/textures/landscape/sand/cloud1.bmp</skytexture>
 		<skycolormap>data/textures/clearsky.bmp</skycolormap>
@@ -785,6 +808,7 @@
 		</placements>
 		<precipitation type="none"></precipitation>
 		<events></events>
+		<boids></boids>
 	</tex>
 	<tex>
 		<name>wintercity1</name>
@@ -792,6 +816,7 @@
 		<magmasmall>data/textures/landscape/default/magma-small.bmp</magmasmall>
 		<scorch>data/textures/landscape/snow/scorch.bmp</scorch>
 		<fog><A>0.8</A><B>0.8</B><C>0.8</C></fog>
+		<fogdensity>0.001</fogdensity>
 		<lowestlandheight>0.0</lowestlandheight>
 		<skytexture>data/textures/landscape/snow/cloud1.bmp</skytexture>
 		<skycolormap>data/textures/clearsky.bmp</skycolormap>
@@ -995,6 +1020,7 @@
 			<particles>60</particles>
 		</precipitation>
 		<events></events>
+		<boids></boids>
 	</tex>
 	<tex>
 		<name>summercity1</name>
@@ -1002,6 +1028,7 @@
 		<magmasmall>data/textures/landscape/default/magma-small.bmp</magmasmall>
 		<scorch>data/textures/landscape/tropical/scorch.bmp</scorch>
 		<fog><A>0.8</A><B>0.8</B><C>0.8</C></fog>
+		<fogdensity>0.001</fogdensity>
 		<lowestlandheight>0.0</lowestlandheight>
 		<skytexture>data/textures/landscape/tropical/cloud1.bmp</skytexture>
 		<skycolormap>data/textures/clearsky.bmp</skycolormap>
@@ -1203,6 +1230,7 @@
 		</placements>
 		<precipitation type="none"></precipitation>
 		<events></events>
+		<boids></boids>
 	</tex>
 	<tex>
 		<name>wintercity2</name>
@@ -1210,6 +1238,7 @@
 		<magmasmall>data/textures/landscape/default/magma-small.bmp</magmasmall>
 		<scorch>data/textures/landscape/snow/scorch.bmp</scorch>
 		<fog><A>0.8</A><B>0.8</B><C>0.8</C></fog>
+		<fogdensity>0.001</fogdensity>
 		<lowestlandheight>0.0</lowestlandheight>
 		<skytexture>data/textures/landscape/snow/cloud1.bmp</skytexture>
 		<skycolormap>data/textures/clearsky.bmp</skycolormap>
@@ -1413,6 +1442,7 @@
 			<particles>60</particles>
 		</precipitation>
 		<events></events>
+		<boids></boids>
 	</tex>
 	<tex>
 		<name>summercity2</name>
@@ -1420,6 +1450,7 @@
 		<magmasmall>data/textures/landscape/default/magma-small.bmp</magmasmall>
 		<scorch>data/textures/landscape/tropical/scorch.bmp</scorch>
 		<fog><A>0.8</A><B>0.8</B><C>0.8</C></fog>
+		<fogdensity>0.001</fogdensity>
 		<lowestlandheight>0.0</lowestlandheight>
 		<skytexture>data/textures/landscape/tropical/cloud1.bmp</skytexture>
 		<skycolormap>data/textures/clearsky.bmp</skycolormap>
@@ -1621,6 +1652,7 @@
 		</placements>
 		<precipitation type="none"></precipitation>
 		<events></events>
+		<boids></boids>
 	</tex>
 	<tex>
 		<name>wintercity3</name>
@@ -1628,6 +1660,7 @@
 		<magmasmall>data/textures/landscape/default/magma-small.bmp</magmasmall>
 		<scorch>data/textures/landscape/snow/scorch.bmp</scorch>
 		<fog><A>0.8</A><B>0.8</B><C>0.8</C></fog>
+		<fogdensity>0.001</fogdensity>
 		<lowestlandheight>0.0</lowestlandheight>
 		<skytexture>data/textures/landscape/snow/cloud1.bmp</skytexture>
 		<skycolormap>data/textures/clearsky.bmp</skycolormap>
@@ -1816,6 +1849,7 @@
 			<particles>60</particles>
 		</precipitation>
 		<events></events>
+		<boids></boids>
 	</tex>
 	<tex>
 		<name>summercity3</name>
@@ -1823,6 +1857,7 @@
 		<magmasmall>data/textures/landscape/default/magma-small.bmp</magmasmall>
 		<scorch>data/textures/landscape/tropical/scorch.bmp</scorch>
 		<fog><A>0.8</A><B>0.8</B><C>0.8</C></fog>
+		<fogdensity>0.001</fogdensity>
 		<lowestlandheight>0.0</lowestlandheight>
 		<skytexture>data/textures/landscape/tropical/cloud1.bmp</skytexture>
 		<skycolormap>data/textures/clearsky.bmp</skycolormap>
@@ -2009,5 +2044,6 @@
 		</placements>
 		<precipitation type="none"></precipitation>
 		<events></events>
+		<boids></boids>
 	</tex>
 </texs>

@@ -30,6 +30,7 @@
 #include <GLEXT/GLBitmapModifier.h>
 #include <GLEXT/GLStateExtension.h>
 #include <GLEXT/GLConsoleRuleMethodIAdapter.h>
+#include <boids/ScorchedBoids.h>
 #include <common/OptionsTransient.h>
 #include <common/Defines.h>
 #include <common/OptionsDisplay.h>
@@ -59,6 +60,7 @@ Landscape::Landscape() :
 {
 	surround_ = new Surround(ScorchedClient::instance()->getLandscapeMaps().getHMap(), 1524, 256);
 	sky_ = new Sky;
+	boids_ = new ScorchedBoids;
 
 	new GLConsoleRuleMethodIAdapter<Landscape>(
 		this, &Landscape::savePlan, "SavePlan");
@@ -91,6 +93,7 @@ void Landscape::simulate(const unsigned state, float frameTime)
 	patchGrid_.simulate(frameTime);
 	sky_->simulate(frameTime * speedMult);
 	wall_.simulate(frameTime * speedMult);
+	boids_->simulate(frameTime * speedMult);
 }
 
 void Landscape::recalculate(int posX, int posY, int dist)
@@ -109,6 +112,10 @@ void Landscape::recalculate(int posX, int posY, int dist)
 void Landscape::draw(const unsigned state)
 {
 	if (OptionsDisplay::instance()->getDrawLines()) glPolygonMode(GL_FRONT, GL_LINE);
+
+	// NOTE: The following code is drawn with fog on
+	// Be carefull as this we "dull" bilboard textures
+	glEnable(GL_FOG); // NOTE: Fog on
 
 	GLState *textureState = 0;
 	if (OptionsDisplay::instance()->getUseLandscapeTexture())
@@ -188,17 +195,14 @@ void Landscape::draw(const unsigned state)
 	//sim.simulate();
 
 	points_.draw();
-
-	// NOTE: The following code is drawn with fog on
-	// Be carefull as this we "dull" bilboard textures
-	glEnable(GL_FOG); // NOTE: Fog on
 	surround_->draw();
 	sky_->draw();
 	water_.draw();
-	glDisable(GL_FOG); // NOTE: Fog off
-
+	boids_->draw();
 	objects_.draw();
 	wall_.draw();
+
+	glDisable(GL_FOG); // NOTE: Fog off
 
 	if (OptionsDisplay::instance()->getDrawLines()) glPolygonMode(GL_FRONT, GL_FILL);
 }
@@ -303,6 +307,9 @@ void Landscape::generate(ProgressCounter *counter)
 	// Create the water (if any)
 	water_.generate();
 
+	// Add any boids
+	boids_->generate();
+
 	// Add lighting to the landscape texture
 	sky_->getSun().setPosition(tex->skysunxy, tex->skysunyz);
 	GLBitmapModifier::addLightMapToBitmap(mainMap_,
@@ -363,6 +370,8 @@ void Landscape::generate(ProgressCounter *counter)
 	fogColorF[2] = tex->fog[2];
 	fogColorF[3] = 1.0f;
 	glFogfv(GL_FOG_COLOR, fogColorF);
+	GLfloat fogDensity = tex->fogdensity;
+	glFogf(GL_FOG_DENSITY, fogDensity);	
 	
 	// Load the sky
 	sky_->generate();
