@@ -20,6 +20,8 @@ Fixed: Game browsing dialog can now be resized
 Fixed: Players table in game browsing dialog being cleared unnecessarily
 Fixed: Console font now courier and easier to read
 
+Added: Windows installer switched to nsis (http://nsis.sourceforge.net/)
+Added: Level send size made smaller
 Added: Default scorched settings now stored in the "none" mod so settings can be changed
 Added: Admin users now defined in xml document
 Added: Admin users require a username and password

@@ -3,8 +3,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "scorched", "src\scorched\sc
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "skincreator", "src\skincreator\skincreator.vcproj", "{B9B5E9FF-3641-4A90-AA46-C9E5AFA335CB}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup", "setup\setup.vdproj", "{4A9591BB-38BF-4019-B58A-CC2FABE1A03C}"
-EndProject
 Global
 	GlobalSection(SolutionConfiguration) = preSolution
 		ConfigName.0 = Debug
@@ -27,10 +25,6 @@ Global
 		{B9B5E9FF-3641-4A90-AA46-C9E5AFA335CB}.Debug - MySql.ActiveCfg = Debug - MySql|Win32
 		{B9B5E9FF-3641-4A90-AA46-C9E5AFA335CB}.Release.ActiveCfg = Release|Win32
 		{B9B5E9FF-3641-4A90-AA46-C9E5AFA335CB}.Release - MySql.ActiveCfg = Release - MySql|Win32
-		{4A9591BB-38BF-4019-B58A-CC2FABE1A03C}.Debug.ActiveCfg = Debug
-		{4A9591BB-38BF-4019-B58A-CC2FABE1A03C}.Debug - MySql.ActiveCfg = Debug - MySql
-		{4A9591BB-38BF-4019-B58A-CC2FABE1A03C}.Release.ActiveCfg = Release
-		{4A9591BB-38BF-4019-B58A-CC2FABE1A03C}.Release - MySql.ActiveCfg = Release - MySql
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 	EndGlobalSection
