@@ -47,17 +47,35 @@
     <value>110</value>
     <defaultvalue>110</defaultvalue>
   </option>
+  <!-- The number of bits to use for each of the RGBA components -->
+  <option>
+    <name>ColorComponentSize</name>
+    <value>5</value>
+    <defaultvalue>5</defaultvalue>
+  </option>
   <!-- The number of bits requested for the depth buffer -->
   <option>
     <name>DepthBufferBits</name>
     <value>24</value>
     <defaultvalue>24</defaultvalue>
   </option>
+  <!-- Use the detail texture on the landscape -->
+  <option>
+    <name>DetailTexture</name>
+    <value>on</value>
+    <defaultvalue>on</defaultvalue>
+  </option>
   <!-- Show the tank angles and amounts in hex -->
   <option>
     <name>UseHexidecimal</name>
     <value>off</value>
     <defaultvalue>off</defaultvalue>
+  </option>
+  <!-- Use double buffering -->
+  <option>
+    <name>DoubleBuffer</name>
+    <value>on</value>
+    <defaultvalue>on</defaultvalue>
   </option>
   <!-- Whether to use full screen mode or not -->
   <option>
@@ -69,6 +87,12 @@
   <option>
     <name>FullClear</name>
     <value>on</value>
+    <defaultvalue>off</defaultvalue>
+  </option>
+  <!-- Do not use texture area replacing -->
+  <option>
+    <name>NoTexSubImage</name>
+    <value>off</value>
     <defaultvalue>off</defaultvalue>
   </option>
   <!-- Do not use any OpenGL extensions -->
