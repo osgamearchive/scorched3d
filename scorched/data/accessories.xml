@@ -744,7 +744,8 @@ direction of the firer.</description>
 			<name>MIRV</name>
 			<armslevel>6</armslevel>
 			<nowarheads>5</nowarheads>
-			<spreaddist>0.0</spreaddist>
+			<hspreaddist>0.0</hspreaddist>
+			<vspreaddist>5.0</vspreaddist>
 			<aimedweapon type="WeaponProjectile">
 				<name>MIRV</name>
 				<armslevel>6</armslevel>	
@@ -782,7 +783,8 @@ in a random direction.</description>
 			<name>Spread MIRV</name>
 			<armslevel>5</armslevel>
 			<nowarheads>5</nowarheads>
-			<spreaddist>1.0</spreaddist>
+			<hspreaddist>1.0</hspreaddist>
+			<vspreaddist>5.0</vspreaddist>
 			<aimedweapon type="WeaponProjectile">
 				<name>Spread MIRV</name>
 				<armslevel>5</armslevel>	
@@ -818,7 +820,8 @@ out in a random direction.</description>
 			<name>Death Head</name>
 			<armslevel>2</armslevel>
 			<nowarheads>20</nowarheads>
-			<spreaddist>1.0</spreaddist>
+			<hspreaddist>1.0</hspreaddist>
+			<vspreaddist>5.0</vspreaddist>
 			<aimedweapon type="WeaponProjectile">
 				<name>Death Head</name>
 				<armslevel>2</armslevel>	

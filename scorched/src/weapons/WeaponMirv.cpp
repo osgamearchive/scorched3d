@@ -25,7 +25,7 @@
 REGISTER_ACCESSORY_SOURCE(WeaponMirv);
 
 WeaponMirv::WeaponMirv() :
-	noWarheads_(0), spreadDist_(0.0f)
+	noWarheads_(0), hspreadDist_(0.0f), vspreadDist_(0.0f)
 {
 
 }
@@ -40,7 +40,10 @@ bool WeaponMirv::parseXML(XMLNode *accessoryNode)
 	if (!Weapon::parseXML(accessoryNode)) return false;
 
 	// Get the accessory spread
-	if (!accessoryNode->getNamedChild("spreaddist", spreadDist_)) return false;
+	if (!accessoryNode->getNamedChild("hspreaddist", hspreadDist_)) 
+		return false;
+	if (!accessoryNode->getNamedChild("vspreaddist", vspreadDist_)) 
+		return false;
 
 	// Get the next weapon
 	XMLNode *subNode = 0;
@@ -67,7 +70,8 @@ bool WeaponMirv::parseXML(XMLNode *accessoryNode)
 bool WeaponMirv::writeAccessory(NetBuffer &buffer)
 {
 	if (!Weapon::writeAccessory(buffer)) return false;
-	buffer.addToBuffer(spreadDist_);
+	buffer.addToBuffer(hspreadDist_);
+	buffer.addToBuffer(vspreadDist_);
 	if (!Weapon::write(buffer, aimedWeapon_)) return false;
 	buffer.addToBuffer(noWarheads_);
 	return true;
@@ -76,7 +80,8 @@ bool WeaponMirv::writeAccessory(NetBuffer &buffer)
 bool WeaponMirv::readAccessory(NetBufferReader &reader)
 {
 	if (!Weapon::readAccessory(reader)) return false;
-	if (!reader.getFromBuffer(spreadDist_)) return false;
+	if (!reader.getFromBuffer(hspreadDist_)) return false;
+	if (!reader.getFromBuffer(vspreadDist_)) return false;
 	aimedWeapon_ = Weapon::read(reader); if (!aimedWeapon_) return false;
 	if (!reader.getFromBuffer(noWarheads_)) return false;
 	return true;
@@ -93,16 +98,16 @@ void WeaponMirv::fireWeapon(ScorchedContext &context,
 	{
 		Vector newDiff = velocity;
 		newDiff[2] = 0.0f;
-		if (spreadDist_ != 0.0f)
+		if (hspreadDist_ != 0.0f)
 		{
 			Vector diff = newDiff;
 			diff[2] -= 1.0f;
 			Vector perp = newDiff * diff;
 
-			newDiff += (perp * ((RAND * spreadDist_) - (spreadDist_ * 0.5f)));
+			newDiff += (perp * ((RAND * hspreadDist_) - (hspreadDist_ * 0.5f)));
 		}
 		newDiff[2] += (float(i - (noWarheads_ / 2)) / 
-			float(noWarheads_ / 2)) * 5.0f;
+			float(noWarheads_ / 2)) * vspreadDist_;
 
 		aimedWeapon_->fireWeapon(context, playerId, position, newDiff);
 	}
