@@ -24,12 +24,7 @@
 #include <GLEXT/GLBitmap.h>
 
 
-
-ExplosionLaserBeamRenderer::ExplosionLaserBeamRenderer(void)
-{
-}
-
-ExplosionLaserBeamRenderer::~ExplosionLaserBeamRenderer(void)
+ExplosionLaserBeamRenderer::~ExplosionLaserBeamRenderer()
 {
 }
 

@@ -1520,6 +1520,12 @@
 				RelativePath="..\weapons\WeaponNull.h">
 			</File>
 			<File
+				RelativePath="..\weapons\WeaponDeathAnimation.cpp">
+			</File>
+			<File
+				RelativePath="..\weapons\WeaponDeathAnimation.h">
+			</File>
+			<File
 				RelativePath="..\weapons\WeaponExplosion.cpp">
 			</File>
 			<File
@@ -2037,6 +2043,12 @@
 			</File>
 			<File
 				RelativePath="..\actions\CameraPositionAction.h">
+			</File>
+			<File
+				RelativePath="..\actions\DeathAnimation.cpp">
+			</File>
+			<File
+				RelativePath="..\actions\DeathAnimation.h">
 			</File>
 			<File
 				RelativePath="..\actions\Explosion.cpp">

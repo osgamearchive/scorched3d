@@ -94,7 +94,7 @@ bool AccessoryStore::parseFile(const char *fileName)
 		if (!accessory) return false;
 
 		// This is a searchable primary accessory
-		accessory->getPrimary() = true;
+		accessory->setPrimary(true);
 	}
 
 	return true;

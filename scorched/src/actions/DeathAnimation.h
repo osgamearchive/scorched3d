@@ -18,35 +18,34 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_ExplosionLaserRendererh_INCLUDE__)
-#define __INCLUDE_ExplosionLaserRendererh_INCLUDE__
+#if !defined(__INCLUDE_DeathAnimationh_INCLUDE__)
+#define __INCLUDE_DeathAnimationh_INCLUDE__
 
-#include <engine/Action.h>
+#include <engine/ActionMeta.h>
 #include <common/Vector.h>
-#include <sprites/ExplosionRenderer.h>
 
-#define sides 8
-#define layers 4
-#define star_interval 10
-
-
-class ExplosionLaserBeamRenderer : public ActionRenderer
+class DeathAnimation : public ActionMeta
 {
 public:
-	ExplosionLaserBeamRenderer(Vector &position, float size);
-	virtual ~ExplosionLaserBeamRenderer();
+	DeathAnimation();
+	DeathAnimation(unsigned int playerId,
+		Vector &position, 
+		Vector &velocity,
+		const char *rendererName);
+	virtual ~DeathAnimation();
 
-	virtual void draw(Action *action);
-	virtual void simulate(Action *action, float frameTime, bool &remove);
-private:
+	virtual void init();
+	virtual void simulate(float frameTime, bool &remove);
+	virtual bool writeAction(NetBuffer &buffer);
+	virtual bool readAction(NetBufferReader &reader);
 
-	Vector position_;
-	float size_;
-	float time_;
-	float totalTime_;
-	Vector points[layers][sides];
-	float angle_;
-	GLTexture *_texture;
+REGISTER_ACTION_HEADER(DeathAnimation);
+
+protected:
+	Vector position_, velocity_;
+	unsigned int playerId_;
+	std::string rendererName_;
 
 };
+
 #endif

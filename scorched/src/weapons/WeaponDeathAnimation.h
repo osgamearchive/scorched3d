@@ -18,35 +18,34 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_ExplosionLaserRendererh_INCLUDE__)
-#define __INCLUDE_ExplosionLaserRendererh_INCLUDE__
+#if !defined(AFX_WeaponDeathAnimation_H__A96ADD10_0901_4E1D_A49B_9BE78AD33B9B__INCLUDED_)
+#define AFX_WeaponDeathAnimation_H__A96ADD10_0901_4E1D_A49B_9BE78AD33B9B__INCLUDED_
 
-#include <engine/Action.h>
-#include <common/Vector.h>
-#include <sprites/ExplosionRenderer.h>
+#include <weapons/Weapon.h>
 
-#define sides 8
-#define layers 4
-#define star_interval 10
-
-
-class ExplosionLaserBeamRenderer : public ActionRenderer
+class WeaponDeathAnimation : public Weapon
 {
 public:
-	ExplosionLaserBeamRenderer(Vector &position, float size);
-	virtual ~ExplosionLaserBeamRenderer();
+	WeaponDeathAnimation();
+	virtual ~WeaponDeathAnimation();
 
-	virtual void draw(Action *action);
-	virtual void simulate(Action *action, float frameTime, bool &remove);
-private:
+	// This weapon can never be bought
+	virtual bool getPrimary() { return false; } 
+	virtual void setPrimary(bool p) { }
 
-	Vector position_;
-	float size_;
-	float time_;
-	float totalTime_;
-	Vector points[layers][sides];
-	float angle_;
-	GLTexture *_texture;
+	virtual bool parseXML(XMLNode *accessoryNode);
+	virtual bool writeAccessory(NetBuffer &buffer);
+	virtual bool readAccessory(NetBufferReader &reader);
+
+	// Inherited from Weapon
+	virtual void fireWeapon(ScorchedContext &context,
+		unsigned int playerId, Vector &position, Vector &velocity);
+
+	REGISTER_ACCESSORY_HEADER(WeaponDeathAnimation, Accessory::AccessoryWeapon);
+
+protected:
+	std::string rendererName_;
 
 };
-#endif
+
+#endif // !defined(AFX_WeaponDeathAnimation_H__A96ADD10_0901_4E1D_A49B_9BE78AD33B9B__INCLUDED_)

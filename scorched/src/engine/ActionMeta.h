@@ -50,12 +50,4 @@ public:
 	//virtual MetaClass *getClassCopy() = 0;
 };
 
-class ActionRendererMeta : public ActionRenderer, public MetaClass
-{
-public:
-	ActionRendererMeta();
-	virtual ~ActionRendererMeta();
-
-};
-
 #endif

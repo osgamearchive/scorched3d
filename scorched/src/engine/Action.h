@@ -68,7 +68,7 @@ public:
 	virtual void init();
 };
 
-class SpriteActionReferenced : public Action
+class SpriteActionReferenced : public SpriteAction
 {
 public:
 	SpriteActionReferenced(ActionRenderer *render = 0);
@@ -76,8 +76,6 @@ public:
 
 	virtual bool getServerOnly() { return false; }
 	virtual bool getReferenced() { return true; }
-
-	virtual void init();
 
 };
 

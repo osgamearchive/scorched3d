@@ -27,11 +27,3 @@ ActionMeta::ActionMeta()
 ActionMeta::~ActionMeta()
 {
 }
-
-ActionRendererMeta::ActionRendererMeta()
-{
-}
-
-ActionRendererMeta::~ActionRendererMeta()
-{
-}

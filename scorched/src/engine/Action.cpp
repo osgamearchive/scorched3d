@@ -81,7 +81,7 @@ void SpriteAction::init()
 {
 }
 
-SpriteActionReferenced::SpriteActionReferenced(ActionRenderer *render) : Action(render)
+SpriteActionReferenced::SpriteActionReferenced(ActionRenderer *render) : SpriteAction(render)
 {
 
 }
@@ -90,6 +90,3 @@ SpriteActionReferenced::~SpriteActionReferenced()
 {
 }
 
-void SpriteActionReferenced::init()
-{
-}

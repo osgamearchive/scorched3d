@@ -66,7 +66,8 @@ public:
 	const char *getIconName() { return iconName_.c_str(); }
 
 	unsigned int getAccessoryId() { return accessoryId_; }
-	bool &getPrimary() { return primary_; }
+	virtual bool getPrimary() { return primary_; }
+	virtual void setPrimary(bool p) { primary_ = p; }
 	virtual bool singular();
 
 	virtual AccessoryType getType() = 0;
