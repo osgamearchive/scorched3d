@@ -18,30 +18,26 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// GLTextureCubeMap.cpp: implementation of the GLTextureCubeMap class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <GLEXT/GLState.h>
 #include <GLEXT/GLTextureCubeMap.h>
 
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
-
 GLTextureCubeMap::GLTextureCubeMap()
 {
-
+	memset(cubeTexNum_, 0, sizeof(GLuint) * 6);
 }
 
 GLTextureCubeMap::~GLTextureCubeMap()
 {
-	if (texNum_)
+	if (textureValid())
 	{
-		glDeleteTextures(6, &texNum_);
-		texNum_ = 0;
+		glDeleteTextures(6, cubeTexNum_);
+		memset(cubeTexNum_, 0, sizeof(GLuint) * 6);
 	}
+}
+
+bool GLTextureCubeMap::textureValid()
+{
+	return (glIsTexture(cubeTexNum_[0]) == GL_TRUE);
 }
 
 void GLTextureCubeMap::draw(bool force)
@@ -56,10 +52,18 @@ bool GLTextureCubeMap::create(GLImage &bitmap,
 			GLenum format, 
 			bool mipMap)
 {
-	return GLTexture::create(bitmap, format, mipMap);
+	bool success = create(bitmap.getBits(),
+			bitmap.getWidth(), 
+			bitmap.getHeight(), 
+			bitmap.getComponents(), 
+			bitmap.getAlignment(),
+			format,
+			mipMap);
+
+	return success;
 }
 
-bool GLTextureCubeMap::create(const void * data, 
+bool GLTextureCubeMap::create(const void *data, 
 					   GLint width, 
 					   GLint height, 
 					   GLint components, 
@@ -70,18 +74,13 @@ bool GLTextureCubeMap::create(const void * data,
 	bool success = false;
 	if (data)
 	{
-		if (!texNum_)
+		if (!textureValid())
 		{
-			GLuint texNum[6];
-			glGenTextures(6, texNum);
-			GLfloat priority = 1.0f;
-			glPrioritizeTextures(6, texNum, &priority);
-
-			texNum_ = texNum[0];
+			glGenTextures(6, cubeTexNum_);
 		}
 
 		// Generate a texture GL_TEXTURE_CUBE_MAP_EXT and bind it
-		glBindTexture(GL_TEXTURE_CUBE_MAP_EXT, texNum_);
+		glBindTexture(GL_TEXTURE_CUBE_MAP_EXT, cubeTexNum_[0]);
 
 		success = createTexture(data, width, height, components, alignment, format, mipMap);
 	}

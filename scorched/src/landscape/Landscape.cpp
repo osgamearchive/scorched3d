@@ -332,13 +332,22 @@ void Landscape::generate(ProgressCounter *counter)
 
 	// Load the water reflection bitmap
 	// Create water cubemap texture
-	delete waterTexture_;
-	if (GLStateExtension::hasCubeMap()) waterTexture_ = new GLTextureCubeMap;
-	else waterTexture_ = new GLTexture;
 	bitmapWater.resize(256, 256);
 	DIALOG_ASSERT(bitmapWater.getBits());
-	waterTexture_->create(bitmapWater, GL_RGB, false);
-
+	delete waterTexture_;
+	if (GLStateExtension::hasCubeMap())
+	{
+		GLTextureCubeMap *waterCubeMap = new GLTextureCubeMap();
+		waterCubeMap->create(bitmapWater, GL_RGB, false);
+		waterTexture_ = waterCubeMap;
+	}
+	else 
+	{
+		GLTexture *waterNormalMap = new GLTexture();
+		waterNormalMap->create(bitmapWater, GL_RGB, false);
+		waterTexture_ = waterNormalMap;
+	}
+	
 	// Ensure that all components use new landscape
 	reset();
 }

@@ -6,6 +6,7 @@ Fixed: Invert/swap keys now works
 Fixed: Graphics for explosions do not cross into next round
 Fixed: Client stimulus 6 in state 4 bug
 Fixed: Clicking sound sometimes continues after move has been made
+Fixed: Fonts sometimes black-out or plan dialog goes all white (I think)
 
 Added: Player score added to the player dialog (bottom right)
 Added: Max player name length increased from 16->22
@@ -17,7 +18,6 @@ Added: All used GL extensions can be turned off individually
 Added: Tank model detail can be set using display dialog
 
 -- Bugs in current development release
-Fonts sometimes black-out (not seen for a while, fixed??)
 Dvorak keyboard support is broken
 The server can start multiple times on the same port (windows only)!
 Gun fires at same point for all tanks (ignores turret/gun position in model)

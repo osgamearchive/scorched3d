@@ -18,44 +18,21 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(AFX_GLTEXTURECUBEMAP_H__490E9736_961A_4873_A10F_ED47E6E33527__INCLUDED_)
-#define AFX_GLTEXTURECUBEMAP_H__490E9736_961A_4873_A10F_ED47E6E33527__INCLUDED_
+#if !defined(__INCLUDE_GLTextureBaseh_INCLUDE__)
+#define __INCLUDE_GLTextureBaseh_INCLUDE__
 
-#include <GLEXT/GLTextureBase.h>
-#include <GLEXT/GLImage.h>
-
-class GLTextureCubeMap : public GLTextureBase
+class GLTextureBase
 {
 public:
-	GLTextureCubeMap();
-	virtual ~GLTextureCubeMap();
+	GLTextureBase();
+	virtual ~GLTextureBase();
 
-	virtual void draw(bool force = false);
+	virtual void draw(bool force = false) = 0;
 
-	bool create(GLImage &bitmap, 
-			GLenum format = GL_RGB, 
-			bool mipMap = true);
-	bool create(const void * data, 
-			GLint width, 
-			GLint height, 
-			GLint components, 
-			GLint alignment,
-			GLenum format, 
-			bool mipMap);
-
-	bool textureValid();
+	static GLTextureBase *getLastBind() { return lastBind_; }
 
 protected:
-	GLuint cubeTexNum_[6];
-
-	bool createTexture(const void * data, 
-						GLint width, 
-						GLint height, 
-						GLint components, 
-						GLint alignment,
-						GLenum format, 
-						bool mipMap);
-
+	static GLTextureBase *lastBind_; 
 };
 
-#endif // !defined(AFX_GLTEXTURECUBEMAP_H__490E9736_961A_4873_A10F_ED47E6E33527__INCLUDED_)
+#endif

@@ -284,6 +284,12 @@
 				RelativePath="..\GLEXT\GLTexture.h">
 			</File>
 			<File
+				RelativePath="..\GLEXT\GLTextureBase.cpp">
+			</File>
+			<File
+				RelativePath="..\GLEXT\GLTextureBase.h">
+			</File>
+			<File
 				RelativePath="..\GLEXT\GLTextureCubeMap.cpp">
 			</File>
 			<File

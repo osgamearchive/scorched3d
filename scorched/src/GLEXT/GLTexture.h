@@ -18,49 +18,44 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// GLTexture.h: interface for the GLTexture class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_GLTEXTURE_H__9DA92C48_B9A4_4517_AB9F_55141CCDA817__INCLUDED_)
 #define AFX_GLTEXTURE_H__9DA92C48_B9A4_4517_AB9F_55141CCDA817__INCLUDED_
 
-
 #include <GLEXT/GLImage.h>
+#include <GLEXT/GLTextureBase.h>
 
-class GLTexture  
+class GLTexture : public GLTextureBase
 {
 public:
 	GLTexture();
 	virtual ~GLTexture();
 
-	virtual bool create(GLImage &bitmap, 
+	virtual void draw(bool force = false);
+
+	bool create(GLImage &bitmap, 
 				GLenum format = GL_RGB, 
 				bool mipMap = true);
-	virtual bool create(const void * data, 
+	bool create(const void * data, 
 				GLint width, 
 				GLint height, 
 				GLint components, 
 				GLint alignment = 4,
 				GLenum format = GL_RGB, 
 				bool mipMap = true);
-	virtual bool replace(GLImage &bitmap,
+	bool replace(GLImage &bitmap,
 						GLenum format = GL_RGB, 
 						bool mipMap = true);
-	virtual void draw(bool force = false);
+
 	bool textureValid();
 	GLenum getTexType() { return texType_; }
 	GLenum getTexFormat() { return texFormat_; }
-	static GLTexture *getLastBind() { return lastBind_; }
 
 protected:
 	GLuint texNum_;
 	GLenum texType_;
 	GLenum texFormat_;
-	static GLTexture *lastBind_;
 
-	virtual bool createTexture(const void * data, 
+	bool createTexture(const void * data, 
 						GLint width, 
 						GLint height, 
 						GLint components, 

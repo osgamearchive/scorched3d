@@ -29,6 +29,7 @@
 #include <GLEXT/GLState.h>
 #include <common/Vector.h>
 #include <landscape/WaterMapSurround.h>
+#include <GLEXT/GLTexture.h>
 #include <GLEXT/GLTextureCubeMap.h>
 #include <GLEXT/GLBitmap.h>
 

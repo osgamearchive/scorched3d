@@ -24,8 +24,6 @@
 
 static std::set<GLuint> usedNumbers_;
 
-GLTexture *GLTexture::lastBind_ = 0;
-
 GLTexture::GLTexture() : texNum_(0), texType_(GL_TEXTURE_2D)
 {
 

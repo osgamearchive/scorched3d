@@ -66,7 +66,7 @@ public:
 	GLTexture &getPlanATexture() { return planAlphaTexture_; }
 	GLTexture &getPlanTexture() { return planTexture_; }
 	GLTexture &getCloudTexture() { return cloudTexture_; }
-	GLTexture &getWaterTexture() { return *waterTexture_; }
+	GLTextureBase &getWaterTexture() { return *waterTexture_; }
 	GLTexture &getWaterDetail() { return waterDetail_; }
 
 	GLTexture &getLandscapeTextureWater() { return landTexWater_; }
@@ -107,7 +107,7 @@ protected:
 	GLTexture surroundTexture_;
 	GLTexture cloudTexture_;
 	GLTexture detailTexture_;
-	GLTexture *waterTexture_;
+	GLTextureBase *waterTexture_;
 	GLTexture waterDetail_;
 	GLTexture landTex1_;
 	GLTexture landTexWater_;
