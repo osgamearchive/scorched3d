@@ -18,11 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// GLCamera.cpp: implementation of the GLCamera class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <math.h>
 #include <common/Defines.h>
 #include <GLEXT/GLState.h>
@@ -100,7 +95,7 @@ void GLCamera::moveViewport(Vector &lookFrom, Vector &lookAt)
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();	
 	glViewport(windowL_, windowT_, windowW_, windowH_);
-	gluPerspective(60.0f, windowAspect_, 2.0f, 2500.0f);
+	gluPerspective(60.0f, windowAspect_, 1.0f, 2500.0f);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	gluLookAt(lookFrom[0], lookFrom[1], lz, lookAt[0], lookAt[1], lookAt[2] ,0.0f, 0.0f, 1.0f);
