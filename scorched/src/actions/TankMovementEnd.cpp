@@ -20,6 +20,7 @@
 
 #include <actions/TankMovementEnd.h>
 #include <actions/TankMovement.h>
+#include <landscape/DeformLandscape.h>
 #include <common/OptionsGame.h>
 #include <weapons/AccessoryStore.h>
 #include <tank/TankContainer.h>
@@ -58,6 +59,7 @@ void TankMovementEnd::simulate(float frameTime, bool &remove)
 		{
 			// Move the tank to the final position
 			current->getPhysics().setTankPosition(position_);
+			DeformLandscape::flattenArea(*context_, position_);
 		}
 	}
 

@@ -128,3 +128,30 @@ bool DeformLandscape::deformLandscape(
 	return hits;
 }
 
+void DeformLandscape::flattenArea(ScorchedContext &context, Vector &tankPos)
+{
+	HeightMap &hmap = context.landscapeMaps->getHMap();
+	int posX = (int) tankPos[0];
+	int posY = (int) tankPos[1];
+
+	// Flatten a small area around the tank
+	for (int x=-2; x<=2; x++)
+	{
+		for (int y=-2; y<=2; y++)
+		{
+			int ix = posX + x;
+			int iy = posY + y;
+			if (ix >= 0 && iy >= 0 &&
+				ix < hmap.getWidth() &&
+				iy < hmap.getWidth())
+			{
+				hmap.setHeight(ix, iy, tankPos[2]);
+			}
+		}
+	}
+
+	// Recalcualte the normals
+	hmap.generateNormals(
+		MAX(0, posX - 2), MIN(hmap.getWidth(), posX + 2),
+		MAX(0, posY - 2), MIN(hmap.getWidth(), posY + 2));
+}

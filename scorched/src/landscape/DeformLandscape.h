@@ -35,6 +35,9 @@ namespace DeformLandscape
 		ScorchedContext &context,
 		Vector &pos, float radius, 
 		bool down, DeformPoints &map);
+	void flattenArea(
+		ScorchedContext &context, 
+		Vector &tankPos);
 
 };
 

@@ -41,6 +41,7 @@
 #include <landscape/LandscapeMaps.h>
 #include <landscape/LandscapeDefn.h>
 #include <landscape/LandscapeDefinitions.h>
+#include <landscape/DeformLandscape.h>
 #include <GLEXT/GLBitmap.h>
 #include <set>
 
@@ -270,26 +271,6 @@ int ServerNewGameState::addTanksToGame(const unsigned state,
 	return count;
 }
 
-void ServerNewGameState::flattenArea(ScorchedContext &context, Vector &tankPos)
-{
-	// Flatten a small area around the tank,
-	// before the game starts
-	for (int x=-2; x<=2; x++)
-	{
-		for (int y=-2; y<=2; y++)
-		{
-			int ix = (int) tankPos[0] + x;
-			int iy = (int) tankPos[1] + y;
-			if (ix >= 0 && iy >= 0 &&
-				ix < context.landscapeMaps->getHMap().getWidth() &&
-				iy < context.landscapeMaps->getHMap().getWidth())
-			{
-				context.landscapeMaps->getHMap().setHeight(ix, iy, tankPos[2]);
-			}
-		}
-	}
-}
-
 void ServerNewGameState::calculateStartPosition(
 	LandscapeDefnType *defn,
 	const char *type,
@@ -418,7 +399,7 @@ void ServerNewGameState::calculateStartPosition(
 			tankPos[0], tankPos[1]);
 	
 		// Set the starting position of the tank
-		flattenArea(context, tankPos);
+		DeformLandscape::flattenArea(context, tankPos);
 		tank->getPhysics().setTankPosition(tankPos);
 	}
 }

@@ -45,7 +45,6 @@ protected:
 		LandscapeDefnType *defn,
 		const char *type,
 		ScorchedContext &contex);
-	void flattenArea(ScorchedContext &contex, Vector &pos);
 };
 
 #endif

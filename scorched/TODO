@@ -16,6 +16,7 @@ Fixed: Aming sight is correctly positioned for all tanks
 Fixed: Bug where a player is assigned black as their color
 Fixed: Ensure tank movement and falling is consistent between server and client
 
+Added: Ground (re)flattened around tank after move or fall
 Added: Buying time to settings dialogs
 Added: flame color attributes to WeaponProjectile to control the trail color
 Added: smokelife and flamelife attributes to WeaponProjectile to control trail length

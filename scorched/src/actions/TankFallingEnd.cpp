@@ -22,6 +22,7 @@
 #include <actions/TankFalling.h>
 #include <common/OptionsGame.h>
 #include <weapons/AccessoryStore.h>
+#include <landscape/DeformLandscape.h>
 #include <tank/TankContainer.h>
 #include <tank/TankController.h>
 
@@ -87,6 +88,7 @@ void TankFallingEnd::simulate(float frameTime, bool &remove)
 
 		// Move the tank to the final position
 		current->getPhysics().setTankPosition(endPosition_);
+		DeformLandscape::flattenArea(*context_, endPosition_);
 
 		// Add the damage to the tank
 		TankController::damageTank(
