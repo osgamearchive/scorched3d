@@ -1464,10 +1464,10 @@
 				RelativePath="..\landscape\LandscapeObjectsPlacement.h">
 			</File>
 			<File
-				RelativePath="..\landscape\LandscapePoints.h">
+				RelativePath="..\landscape\LandscapePoints.cpp">
 			</File>
 			<File
-				RelativePath="..\landscape\LandscapePoints.cpp">
+				RelativePath="..\landscape\LandscapePoints.h">
 			</File>
 			<File
 				RelativePath="..\landscape\LandscapeTex.cpp">
@@ -1476,10 +1476,10 @@
 				RelativePath="..\landscape\LandscapeTex.h">
 			</File>
 			<File
-				RelativePath="..\landscape\MapPoints.h">
+				RelativePath="..\landscape\MapPoints.cpp">
 			</File>
 			<File
-				RelativePath="..\landscape\MapPoints.cpp">
+				RelativePath="..\landscape\MapPoints.h">
 			</File>
 			<File
 				RelativePath="..\landscape\MovementMap.cpp">

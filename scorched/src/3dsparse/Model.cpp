@@ -23,6 +23,11 @@
 #include <3dsparse/MeshLOD.h>
 #include <3dsparse/ModelStore.h>
 
+static const float shadowAmbientLight = 0.2f;
+static const float shadowDiffuseLight = 0.8f;
+static const float nonshadowAmbientLight = 0.8f;
+static const float nonshadowDiffuseLight = 0.2f;
+
 Model::Model(char *name) : 
 	name_(name), computedCollapseCosts_(false), 
 	color_(0.5f, 0.5f, 0.5f)
@@ -138,15 +143,15 @@ int Model::mapIndex(int i, float currentReduction)
 	return returnval;
 }
 
-GLVertexArray *Model::getArray(bool useTextures, float detail)
+GLVertexArray *Model::getArray(bool useTextures, bool shadowModel, float detail)
 {
 	GLVertexArray *result = 0;
-	if (useTextures && getTextureName()[0]) result = getTexArray(detail);
-	else result = getNoTexArray(detail);
+	if (useTextures && getTextureName()[0]) result = getTexArray(shadowModel, detail);
+	else result = getNoTexArray(shadowModel, detail);
 	return result;
 }
 
-GLVertexArray *Model::getNoTexArray(float detail)
+GLVertexArray *Model::getNoTexArray(bool shadowModel, float detail)
 {
 	// Get the list or normals and triangles for this detail level
 	std::list<Vector> triangles;
@@ -156,6 +161,14 @@ GLVertexArray *Model::getNoTexArray(float detail)
 
 	Vector lightpos(-0.3f, -0.2f, 1.0f);
 	lightpos.Normalize();
+	float intense, diffuseLightMult;
+	float ambientLight = shadowAmbientLight;
+	float diffuseLight = shadowDiffuseLight;
+	if (!shadowModel)
+	{
+		ambientLight = nonshadowAmbientLight;
+		diffuseLight = nonshadowDiffuseLight;
+	}
 
 	GLVertexArray *array = new GLVertexArray(GL_TRIANGLES, int(triangles.size()));
 	std::list<Vector>::iterator triangleItor = triangles.begin();
@@ -164,21 +177,27 @@ GLVertexArray *Model::getNoTexArray(float detail)
 	while (triangleItor != triangles.end() &&
 		normalItor != normals.end())
 	{
-		float intense = lightpos.dotP((*normalItor).Normalize()) + 0.2f; 
-		if (intense > 1.0f) intense = 1.0f; if (intense < 0.2f) intense = 0.2f;
+		diffuseLightMult = 
+			(((lightpos.dotP((*normalItor).Normalize())) / 2.0f) + 0.5f);
+		intense = diffuseLightMult * diffuseLight + ambientLight;
+		if (intense > 1.0f) intense = 1.0f; 
 		array->setVertex(triPos, (*triangleItor)[0], (*triangleItor)[1], (*triangleItor)[2]); 
 		array->setColor(triPos, color_[0] * intense, color_[1] * intense, color_[2] * intense);
 		triangleItor++; normalItor++; triPos++;
 
-		intense = lightpos.dotP((*normalItor).Normalize()) + 0.2f; 
-		if (intense > 1.0f) intense = 1.0f; if (intense < 0.2f) intense = 0.2f;
+		diffuseLightMult = 
+			(((lightpos.dotP((*normalItor).Normalize())) / 2.0f) + 0.5f);
+		intense = diffuseLightMult * diffuseLight + ambientLight;
+		if (intense > 1.0f) intense = 1.0f; 
 		array->setVertex(triPos, (*triangleItor)[0], (*triangleItor)[1], (*triangleItor)[2]); 
 		array->setColor(triPos, color_[0] * intense, color_[1] * intense, 
 						color_[2] * intense);
 		triangleItor++; normalItor++; triPos++;
 
-		intense = lightpos.dotP((*normalItor).Normalize()) + 0.2f; 
-		if (intense > 1.0f) intense = 1.0f; if (intense < 0.2f) intense = 0.2f;
+		diffuseLightMult = 
+			(((lightpos.dotP((*normalItor).Normalize())) / 2.0f) + 0.5f);
+		intense = diffuseLightMult * diffuseLight + ambientLight;
+		if (intense > 1.0f) intense = 1.0f; 
 		array->setVertex(triPos, (*triangleItor)[0], (*triangleItor)[1], (*triangleItor)[2]); 
 		array->setColor(triPos, color_[0] * intense, color_[1] * intense, 
 						color_[2] * intense);
@@ -188,7 +207,7 @@ GLVertexArray *Model::getNoTexArray(float detail)
 	return array;
 }
 
-GLVertexArray *Model::getTexArray(float detail)
+GLVertexArray *Model::getTexArray(bool shadowModel, float detail)
 {
 	std::list<Vector> triangles;
 	std::list<Vector> normals;
@@ -197,6 +216,14 @@ GLVertexArray *Model::getTexArray(float detail)
 
 	Vector lightpos(0.3f, 0.2f, 1.0f);
 	lightpos.Normalize();
+	float intense, diffuseLightMult;
+	float ambientLight = shadowAmbientLight;
+	float diffuseLight = shadowDiffuseLight;
+	if (!shadowModel)
+	{
+		ambientLight = nonshadowAmbientLight;
+		diffuseLight = nonshadowDiffuseLight;
+	}
 
 	GLTexture *texture = 
 		ModelStore::instance()->loadTexture(
@@ -227,22 +254,28 @@ GLVertexArray *Model::getTexArray(float detail)
 		Vector &coordC = (*texCoordsItor);
 		triangleItor++; normalItor++; texCoordsItor++;
 
-		float intense = lightpos.dotP(normalA.Normalize()) + 0.2f; 
-		if (intense > 1.0f) intense = 1.0f; if (intense < 0.2f) intense = 0.2f;
+		diffuseLightMult = 
+			(((lightpos.dotP(normalA.Normalize())) / 2.0f) + 0.5f);
+		intense = diffuseLightMult * diffuseLight + ambientLight;
+		if (intense > 1.0f) intense = 1.0f; 
 		array->setVertex(triPos, triA[0], triA[1], triA[2]); 
 		array->setColor(triPos, intense, intense, intense);
 		array->setTexCoord(triPos, coordA[0], coordA[1]);
 		triPos++;
 		
-		intense = lightpos.dotP(normalB.Normalize()) + 0.2f;
-		if (intense > 1.0f) intense = 1.0f; if (intense < 0.2f) intense = 0.2f;
+		diffuseLightMult = 
+			(((lightpos.dotP(normalB.Normalize())) / 2.0f) + 0.5f);
+		intense = diffuseLightMult * diffuseLight + ambientLight;
+		if (intense > 1.0f) intense = 1.0f; 
 		array->setVertex(triPos, triB[0], triB[1], triB[2]); 
 		array->setColor(triPos, intense, intense, intense);
 		array->setTexCoord(triPos, coordB[0], coordB[1]);
 		triPos++;
 
-		intense = lightpos.dotP(normalC.Normalize()) + 0.2f; 
-		if (intense > 1.0f) intense = 1.0f; if (intense < 0.2f) intense = 0.2f;
+		diffuseLightMult = 
+			(((lightpos.dotP(normalC.Normalize())) / 2.0f) + 0.5f);
+		intense = diffuseLightMult * diffuseLight + ambientLight;
+		if (intense > 1.0f) intense = 1.0f; 
 		array->setVertex(triPos, triC[0], triC[1], triC[2]); 
 		array->setColor(triPos, intense, intense, intense);
 		array->setTexCoord(triPos, coordC[0], coordC[1]);

@@ -110,7 +110,7 @@ GLTexture *ModelStore::loadTexture(const char *name,
 }
 
 GLVertexSet *ModelStore::loadOrGetArray(ModelID &model, 
-	bool usetextures, bool centreBottom)
+	bool usetextures, bool centreBottom, bool shadowModel)
 {
 	std::map<std::string, GLVertexSet *>::iterator findItor =
 		fileMap_.find(model.getStringHash());
@@ -128,7 +128,8 @@ GLVertexSet *ModelStore::loadOrGetArray(ModelID &model,
 				 itor++)
 			{
 				Model *currentModel = *itor;
-				GLVertexArray *array = currentModel->getArray(usetextures);
+				GLVertexArray *array = currentModel->
+					getArray(usetextures, shadowModel);
 				arraySet->addToGroup(*array);
 			}
 			fileMap_[model.getStringHash()] = arraySet;

@@ -165,7 +165,7 @@ void ShotBounce::draw()
 		{
 			ModelID &id = ((WeaponRoller *) weapon_)->getRollerModelID();
 			bool useTexture = (strcmp(id.getSkinName(), "none") != 0);
-			model_ = ModelStore::instance()->loadOrGetArray(id, useTexture);
+			model_ = ModelStore::instance()->loadOrGetArray(id, useTexture, false, false);
 		}
 
 		GLState state(GLState::TEXTURE_OFF);

@@ -87,7 +87,31 @@ void GLWWeaponModel::draw()
 		glRotatef(totalTime_ * 45.0f, 0.0f, 0.0f, 1.0f);
 		Vector position;
 		Vector direction(0.3f, 1.0f, 1.0f);
-		storedMesh->setScale(w_ / 3.0f);
+		float scale = MIN(storedWeapon->getScale(), 1.0f);
+		storedMesh->setScale(w_ / 3.0f * scale);
 		storedMesh->draw(position, direction, 0, totalTime_ * 45.0f);
 	glPopMatrix();
+}
+
+void GLWWeaponModel::mouseDown(float x, float y, bool &skipRest)
+{
+	Tank *current = 
+ 		ScorchedClient::instance()->getTankContainer().getCurrentTank();
+	if (!current ||
+		current->getState().getState() != TankState::sNormal)
+  	{
+  		return;
+	}
+	TankModelRenderer *model = (TankModelRenderer *) 
+		current->getModel().getModelIdRenderer();
+	if (!model) return;
+	GLWTankTips *tankTips = model->getTips();
+
+	if (inBox(x, y, x_, y_, w_, h_))
+	{
+		skipRest = true;
+
+		tankTips->weaponTip.showItems(GLWTranslate::getPosX() + x, 
+			GLWTranslate::getPosY() + y);
+	}
 }

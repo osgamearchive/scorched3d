@@ -18,7 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #if !defined(__INCLUDE_GLWTankModelh_INCLUDE__)
 #define __INCLUDE_GLWTankModelh_INCLUDE__
 
@@ -32,6 +31,7 @@ public:
 	virtual ~GLWTankModel();
 
 	virtual void draw();
+	virtual void mouseDown(float x, float y, bool &skipRest);
 
 	REGISTER_CLASS_HEADER(GLWTankModel);
 };

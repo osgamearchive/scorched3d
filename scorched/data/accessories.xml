@@ -142,6 +142,7 @@ near the flames will loose life.</description>
 		<bundlesize>10</bundlesize>
 		<armslevel>5</armslevel>
 		<firedsound>shoot/small.wav</firedsound>
+		<projectilemodel type="MilkShape">napalm/napalm.txt</projectilemodel>
 		<collisionaction type="WeaponNapalm">
 			<name>Napalm</name>
 			<armslevel>5</armslevel>
@@ -167,6 +168,7 @@ will loose life.</description>
 		<bundlesize>2</bundlesize>
 		<armslevel>3</armslevel>
 		<firedsound>shoot/small.wav</firedsound>
+		<projectilemodel type="MilkShape">napalm/napalm.txt</projectilemodel>
 		<collisionaction type="WeaponNapalm">
 			<name>Hot Napalm</name>
 			<armslevel>3</armslevel>
@@ -196,10 +198,7 @@ contact with any tank.</description>
 			<name>Baby Roller</name>
 			<armslevel>8</armslevel>
 			<numberrollers>8</numberrollers>
-			<rollermodel type="ase">
-				<mesh>roller.ase</mesh>
-				<skin>default.bmp</skin>
-			</rollermodel>
+			<rollermodel type="MilkShape">roller/roller.txt</rollermodel>
 			<collisionaction type="WeaponExplosion">
 				<name>Baby Roller</name>
 				<armslevel>8</armslevel>
@@ -226,10 +225,7 @@ with any tank.</description>
 			<name>Roller</name>
 			<armslevel>8</armslevel>
 			<numberrollers>8</numberrollers>
-			<rollermodel type="ase">
-				<mesh>roller.ase</mesh>
-				<skin>default.bmp</skin>
-			</rollermodel>
+			<rollermodel type="MilkShape">roller/roller.txt</rollermodel>
 			<collisionaction type="WeaponExplosion">
 				<name>Roller</name>
 				<armslevel>8</armslevel>
@@ -256,10 +252,7 @@ with any tank.</description>
 			<name>Heavy Roller</name>
 			<armslevel>8</armslevel>
 			<numberrollers>8</numberrollers>
-			<rollermodel type="ase">
-				<mesh>roller.ase</mesh>
-				<skin>default.bmp</skin>
-			</rollermodel>
+			<rollermodel type="MilkShape">roller/roller.txt</rollermodel>
 			<collisionaction type="WeaponExplosion">
 				<name>Heavy Roller</name>
 				<armslevel>8</armslevel>
@@ -279,6 +272,7 @@ with any tank.</description>
 		<bundlesize>0</bundlesize>
 		<armslevel>10</armslevel>
 		<firedsound>shoot/small.wav</firedsound>
+		<projectilescale>0.5</projectilescale>
 		<collisionaction type="WeaponExplosion">
 			<name>Baby Missile</name>
 			<armslevel>10</armslevel>
@@ -297,6 +291,7 @@ with any tank.</description>
 		<bundlesize>5</bundlesize>
 		<armslevel>9</armslevel>
 		<firedsound>shoot/medium.wav</firedsound>
+		<projectilescale>0.75</projectilescale>
 		<collisionaction type="WeaponExplosion">
 			<name>Missile</name>
 			<armslevel>9</armslevel>
@@ -363,6 +358,8 @@ to cover them.</description>
 		<bundlesize>10</bundlesize>
 		<armslevel>10</armslevel>	
 		<firedsound>shoot/small.wav</firedsound>
+		<projectilemodel type="MilkShape">dirt/dirt.txt</projectilemodel>
+		<projectilescale>0.6</projectilescale>
 		<collisionaction type="WeaponExplosion">
 			<name>Dirt Clod</name>
 			<armslevel>10</armslevel>
@@ -385,6 +382,8 @@ cover them.</description>
 		<bundlesize>5</bundlesize>
 		<armslevel>9</armslevel>
 		<firedsound>shoot/small.wav</firedsound>
+		<projectilemodel type="MilkShape">dirt/dirt.txt</projectilemodel>
+		<projectilescale>0.8</projectilescale>
 		<collisionaction type="WeaponExplosion">
 			<name>Dirt Ball</name>
 			<armslevel>9</armslevel>
@@ -408,6 +407,7 @@ cover them.</description>
 		<armslevel>7</armslevel>
 		<deathanimationweight>10</deathanimationweight>
 		<firedsound>shoot/small.wav</firedsound>
+		<projectilemodel type="MilkShape">dirt/dirt.txt</projectilemodel>
 		<collisionaction type="WeaponExplosion">
 			<name>Ton Of Dirt</name>
 			<armslevel>7</armslevel>
@@ -418,6 +418,65 @@ cover them.</description>
 			<explosiontexture>exp03</explosiontexture>
 			<explosionsound>explosions/gloop.wav</explosionsound>
 		</collisionaction>
+	</accessory>
+	<accessory type="WeaponTranslate">
+		<name>Dirt Charge</name>
+		<description>A Dirt Charge expels a cloud of dirt into 
+the air in a wedge shape.</description>
+		<icon>dcharge.bmp</icon>
+		<armslevel>9</armslevel>	
+		<cost>5000</cost>
+		<bundlesize>5</bundlesize>
+		<translatedist>3.0</translatedist>
+		<projectilemodel type="MilkShape">dirt/dirt.txt</projectilemodel>
+		<nextaction type="WeaponMulti">	
+			<name>Dirt Charge</name>
+			<armslevel>9</armslevel>
+			<subweapon1 type="WeaponExplosion">
+				<name>Dirt Charge</name>
+				<armslevel>9</armslevel>
+				<hurtamount>0.0</hurtamount>
+				<nocreatedebris/>
+				<deform>up</deform>
+				<size>2</size>
+				<explosiontexture>exp03</explosiontexture>
+				<explosionsound>explosions/gloop.wav</explosionsound>				
+			</subweapon1>		
+			<subweapon2 type="WeaponTranslate">
+				<name>Dirt Charge</name>
+				<armslevel>9</armslevel>
+				<translatedist>4.0</translatedist>
+				<nextaction type="WeaponMulti">
+					<name>Dirt Charge</name>
+					<armslevel>9</armslevel>
+					<subweapon1 type="WeaponExplosion">
+						<name>Dirt Charge</name>
+						<armslevel>9</armslevel>
+						<hurtamount>0.0</hurtamount>
+						<nocreatedebris/>
+						<deform>up</deform>
+						<size>3</size>
+						<explosiontexture>exp03</explosiontexture>
+						<explosionsound>none</explosionsound>				
+					</subweapon1>	
+					<subweapon2 type="WeaponTranslate">
+						<name>Dirt Charge</name>
+						<armslevel>9</armslevel>
+						<translatedist>5.0</translatedist>
+						<nextaction type="WeaponExplosion">
+							<name>Dirt Charge</name>
+							<armslevel>9</armslevel>
+							<hurtamount>0.0</hurtamount>
+							<nocreatedebris/>
+							<deform>up</deform>
+							<size>4</size>
+							<explosiontexture>exp03</explosiontexture>
+							<explosionsound>none</explosionsound>
+						</nextaction>
+					</subweapon2>	
+				</nextaction>
+			</subweapon2>
+		</nextaction>
 	</accessory>
 	<accessory type="WeaponProjectile">
 		<name>Riot Bomb</name>
@@ -430,6 +489,7 @@ remove earth from under them.</description>
 		<bundlesize>5</bundlesize>
 		<armslevel>10</armslevel>
 		<firedsound>shoot/small.wav</firedsound>
+		<projectilemodel type="MilkShape">riot/riot.txt</projectilemodel>
 		<collisionaction type="WeaponExplosion">
 			<name>Riot Bomb</name>
 			<armslevel>10</armslevel>
@@ -453,6 +513,7 @@ remove earth from under them.</description>
 		<armslevel>8</armslevel>
 		<deathanimationweight>10</deathanimationweight>
 		<firedsound>shoot/small.wav</firedsound>
+		<projectilemodel type="MilkShape">riot/riot.txt</projectilemodel>
 		<collisionaction type="WeaponExplosion">
 			<name>Hvy Riot Bomb</name>
 			<armslevel>8</armslevel>
@@ -463,6 +524,127 @@ remove earth from under them.</description>
 			<explosiontexture>exp03</explosiontexture>
 			<explosionsound>explosions/crunch.wav</explosionsound>
 		</collisionaction>
+	</accessory>
+	<accessory type="WeaponTranslate">
+		<name>Riot Charge</name>
+		<description>Riot Charges destroy a wedge-shaped section of
+dirt from around your turret.  This weapon's
+primary use is to unbury yourself when you get
+covered with dirt.</description>
+		<icon>rcharge.bmp</icon>
+		<cost>2000</cost>
+		<bundlesize>10</bundlesize>
+		<armslevel>8</armslevel>
+		<translatedist>2.0</translatedist>
+		<projectilemodel type="MilkShape">riot/riot.txt</projectilemodel>
+		<nextaction type="WeaponMulti">	
+			<name>Riot Charge</name>
+			<armslevel>8</armslevel>
+			<subweapon1 type="WeaponExplosion">
+				<name>Riot Charge</name>
+				<armslevel>8</armslevel>
+				<hurtamount>0.0</hurtamount>
+				<nocreatedebris/>
+				<deform>down</deform>
+				<size>2</size>
+				<explosiontexture>exp03</explosiontexture>
+				<explosionsound>explosions/crunch.wav</explosionsound>				
+			</subweapon1>		
+			<subweapon2 type="WeaponTranslate">
+				<name>Riot Charge</name>
+				<armslevel>8</armslevel>
+				<translatedist>3.0</translatedist>
+				<nextaction type="WeaponMulti">
+					<name>Riot Charge</name>
+					<armslevel>8</armslevel>
+					<subweapon1 type="WeaponExplosion">
+						<name>Riot Charge</name>
+						<armslevel>8</armslevel>
+						<hurtamount>0.0</hurtamount>
+						<nocreatedebris/>
+						<deform>down</deform>
+						<size>5</size>
+						<explosiontexture>exp03</explosiontexture>
+						<explosionsound>none</explosionsound>				
+					</subweapon1>	
+					<subweapon2 type="WeaponTranslate">
+						<name>Riot Charge</name>
+						<armslevel>8</armslevel>
+						<translatedist>6.0</translatedist>
+						<nextaction type="WeaponExplosion">
+							<name>Riot Charge</name>
+							<armslevel>7</armslevel>
+							<hurtamount>0.0</hurtamount>
+							<nocreatedebris/>
+							<deform>down</deform>
+							<size>6</size>
+							<explosiontexture>exp03</explosiontexture>
+							<explosionsound>none</explosionsound>
+						</nextaction>
+					</subweapon2>	
+				</nextaction>
+			</subweapon2>
+		</nextaction>
+	</accessory>
+	<accessory type="WeaponTranslate">
+		<name>Riot Blast</name>
+		<description>Riot Blasts are a larger version of the Riot
+Charge.  The destroy a wider angle of dirt, and
+the thickness of the wedge destroyed is also greater.</description>
+		<icon>rblast.bmp</icon>
+		<armslevel>7</armslevel>	
+		<cost>5000</cost>
+		<bundlesize>5</bundlesize>
+		<translatedist>2.0</translatedist>
+		<projectilemodel type="MilkShape">riot/riot.txt</projectilemodel>
+		<nextaction type="WeaponMulti">	
+			<name>Riot Blast</name>
+			<armslevel>7</armslevel>
+			<subweapon1 type="WeaponExplosion">
+				<name>Riot Blast</name>
+				<armslevel>7</armslevel>
+				<hurtamount>0.0</hurtamount>
+				<nocreatedebris/>
+				<deform>down</deform>
+				<size>4</size>
+				<explosiontexture>exp03</explosiontexture>
+				<explosionsound>explosions/crunch.wav</explosionsound>				
+			</subweapon1>		
+			<subweapon2 type="WeaponTranslate">
+				<name>Riot Blast</name>
+				<armslevel>7</armslevel>
+				<translatedist>3.0</translatedist>
+				<nextaction type="WeaponMulti">
+					<name>Riot Blast</name>
+					<armslevel>7</armslevel>
+					<subweapon1 type="WeaponExplosion">
+						<name>Riot Blast</name>
+						<armslevel>7</armslevel>
+						<hurtamount>0.0</hurtamount>
+						<nocreatedebris/>
+						<deform>down</deform>
+						<size>7</size>
+						<explosiontexture>exp03</explosiontexture>
+						<explosionsound>none</explosionsound>				
+					</subweapon1>	
+					<subweapon2 type="WeaponTranslate">
+						<name>Riot Blast</name>
+						<armslevel>7</armslevel>
+						<translatedist>6.0</translatedist>
+						<nextaction type="WeaponExplosion">
+							<name>Riot Charge</name>
+							<armslevel>7</armslevel>
+							<hurtamount>0.0</hurtamount>
+							<nocreatedebris/>
+							<deform>down</deform>
+							<size>10</size>
+							<explosiontexture>exp03</explosiontexture>
+							<explosionsound>none</explosionsound>
+						</nextaction>
+					</subweapon2>	
+				</nextaction>
+			</subweapon2>
+		</nextaction>
 	</accessory>
 	<accessory type="WeaponProjectile">
 		<name>Leap Frog</name>
@@ -833,7 +1015,7 @@ in a random direction.</description>
 		</collisionaction>
 	</accessory>
 	<accessory type="WeaponProjectile">
-		<name>Death Head</name>
+		<name>Death's Head</name>
 		<description>A projectile weapon that on
 reaching its highest point releases 
 many large warheads. These warheads fan 
@@ -935,6 +1117,7 @@ final position.</description>
 		<nocreateflame/>
 		<bundlesize>20</bundlesize>
 		<armslevel>10</armslevel>
+		<projectilemodel type="MilkShape">flare.txt</projectilemodel>
 		<firedsound>shoot/flare.wav</firedsound>
 		<showendpoint></showendpoint>
 		<collisionaction type="WeaponNull">
@@ -955,6 +1138,7 @@ trace of the shot path.</description>
 		<armslevel>9</armslevel>
 		<nocreateflame/>
 		<firedsound>shoot/flare.wav</firedsound>
+		<projectilemodel type="MilkShape">flare.txt</projectilemodel>
 		<showendpoint></showendpoint>
 		<showshotpath></showshotpath>
 		<collisionaction type="WeaponNull">
@@ -980,186 +1164,6 @@ trace of the shot path.</description>
 		<size>2</size>
 		<explosiontexture>default</explosiontexture>
 		<explosionsound>none</explosionsound>			
-	</accessory>
-	<accessory type="WeaponTranslate">
-		<name>Riot Charge</name>
-		<description>Riot Charges destroy a wedge-shaped section of
-dirt from around your turret.  This weapon's
-primary use is to unbury yourself when you get
-covered with dirt.
-		</description>
-		<icon>rcharge.bmp</icon>
-		<cost>2000</cost>
-		<bundlesize>10</bundlesize>
-		<armslevel>8</armslevel>
-		<translatedist>2.0</translatedist>
-		<nextaction type="WeaponMulti">	
-			<name>Riot Charge</name>
-			<armslevel>8</armslevel>
-			<subweapon1 type="WeaponExplosion">
-				<name>Riot Charge</name>
-				<armslevel>8</armslevel>
-				<hurtamount>0.0</hurtamount>
-				<nocreatedebris/>
-				<deform>down</deform>
-				<size>2</size>
-				<explosiontexture>exp03</explosiontexture>
-				<explosionsound>explosions/crunch.wav</explosionsound>				
-			</subweapon1>		
-			<subweapon2 type="WeaponTranslate">
-				<name>Riot Charge</name>
-				<armslevel>8</armslevel>
-				<translatedist>3.0</translatedist>
-				<nextaction type="WeaponMulti">
-					<name>Riot Charge</name>
-					<armslevel>8</armslevel>
-					<subweapon1 type="WeaponExplosion">
-						<name>Riot Charge</name>
-						<armslevel>8</armslevel>
-						<hurtamount>0.0</hurtamount>
-						<nocreatedebris/>
-						<deform>down</deform>
-						<size>5</size>
-						<explosiontexture>exp03</explosiontexture>
-						<explosionsound>none</explosionsound>				
-					</subweapon1>	
-					<subweapon2 type="WeaponTranslate">
-						<name>Riot Charge</name>
-						<armslevel>8</armslevel>
-						<translatedist>6.0</translatedist>
-						<nextaction type="WeaponExplosion">
-							<name>Riot Charge</name>
-							<armslevel>7</armslevel>
-							<hurtamount>0.0</hurtamount>
-							<nocreatedebris/>
-							<deform>down</deform>
-							<size>6</size>
-							<explosiontexture>exp03</explosiontexture>
-							<explosionsound>none</explosionsound>
-						</nextaction>
-					</subweapon2>	
-				</nextaction>
-			</subweapon2>
-		</nextaction>
-	</accessory>
-	<accessory type="WeaponTranslate">
-		<name>Riot Blast</name>
-		<description>Riot Blasts are a larger version of the Riot
-Charge.  The destroy a wider angle of dirt, and
-the thickness of the wedge destroyed is also greater.
-		</description>
-		<icon>rblast.bmp</icon>
-		<armslevel>7</armslevel>	
-		<cost>5000</cost>
-		<bundlesize>5</bundlesize>
-		<translatedist>2.0</translatedist>
-		<nextaction type="WeaponMulti">	
-			<name>Riot Blast</name>
-			<armslevel>7</armslevel>
-			<subweapon1 type="WeaponExplosion">
-				<name>Riot Blast</name>
-				<armslevel>7</armslevel>
-				<hurtamount>0.0</hurtamount>
-				<nocreatedebris/>
-				<deform>down</deform>
-				<size>4</size>
-				<explosiontexture>exp03</explosiontexture>
-				<explosionsound>explosions/crunch.wav</explosionsound>				
-			</subweapon1>		
-			<subweapon2 type="WeaponTranslate">
-				<name>Riot Blast</name>
-				<armslevel>7</armslevel>
-				<translatedist>3.0</translatedist>
-				<nextaction type="WeaponMulti">
-					<name>Riot Blast</name>
-					<armslevel>7</armslevel>
-					<subweapon1 type="WeaponExplosion">
-						<name>Riot Blast</name>
-						<armslevel>7</armslevel>
-						<hurtamount>0.0</hurtamount>
-						<nocreatedebris/>
-						<deform>down</deform>
-						<size>7</size>
-						<explosiontexture>exp03</explosiontexture>
-						<explosionsound>none</explosionsound>				
-					</subweapon1>	
-					<subweapon2 type="WeaponTranslate">
-						<name>Riot Blast</name>
-						<armslevel>7</armslevel>
-						<translatedist>6.0</translatedist>
-						<nextaction type="WeaponExplosion">
-							<name>Riot Charge</name>
-							<armslevel>7</armslevel>
-							<hurtamount>0.0</hurtamount>
-							<nocreatedebris/>
-							<deform>down</deform>
-							<size>10</size>
-							<explosiontexture>exp03</explosiontexture>
-							<explosionsound>none</explosionsound>
-						</nextaction>
-					</subweapon2>	
-				</nextaction>
-			</subweapon2>
-		</nextaction>
-	</accessory>
-	<accessory type="WeaponTranslate">
-		<name>Dirt Charge</name>
-		<description>A Dirt Charge expels a cloud of dirt into 
-the air in a wedge shape.
-		</description>
-		<icon>dcharge.bmp</icon>
-		<armslevel>9</armslevel>	
-		<cost>5000</cost>
-		<bundlesize>5</bundlesize>
-		<translatedist>3.0</translatedist>
-		<nextaction type="WeaponMulti">	
-			<name>Dirt Charge</name>
-			<armslevel>9</armslevel>
-			<subweapon1 type="WeaponExplosion">
-				<name>Dirt Charge</name>
-				<armslevel>9</armslevel>
-				<hurtamount>0.0</hurtamount>
-				<nocreatedebris/>
-				<deform>up</deform>
-				<size>2</size>
-				<explosiontexture>exp03</explosiontexture>
-				<explosionsound>explosions/gloop.wav</explosionsound>				
-			</subweapon1>		
-			<subweapon2 type="WeaponTranslate">
-				<name>Dirt Charge</name>
-				<armslevel>9</armslevel>
-				<translatedist>4.0</translatedist>
-				<nextaction type="WeaponMulti">
-					<name>Dirt Charge</name>
-					<armslevel>9</armslevel>
-					<subweapon1 type="WeaponExplosion">
-						<name>Dirt Charge</name>
-						<armslevel>9</armslevel>
-						<hurtamount>0.0</hurtamount>
-						<nocreatedebris/>
-						<deform>up</deform>
-						<size>3</size>
-						<explosiontexture>exp03</explosiontexture>
-						<explosionsound>none</explosionsound>				
-					</subweapon1>	
-					<subweapon2 type="WeaponTranslate">
-						<name>Dirt Charge</name>
-						<armslevel>9</armslevel>
-						<translatedist>5.0</translatedist>
-						<nextaction type="WeaponExplosion">
-							<name>Dirt Charge</name>
-							<armslevel>9</armslevel>
-							<hurtamount>0.0</hurtamount>
-							<nocreatedebris/>
-							<deform>up</deform>
-							<size>4</size>
-							<explosiontexture>exp03</explosiontexture>
-							<explosionsound>none</explosionsound>
-						</nextaction>
-					</subweapon2>	
-				</nextaction>
-			</subweapon2>
-		</nextaction>
 	</accessory>
 	<!-- <accessory type="WeaponReference">
 		<name>Test Reference</name>

@@ -43,6 +43,7 @@ public:
 	virtual ~GLWWindView();
 
 	virtual void draw();
+	virtual void mouseDown(float x, float y, bool &skipRest);
 
 	REGISTER_CLASS_HEADER(GLWWindView);
 

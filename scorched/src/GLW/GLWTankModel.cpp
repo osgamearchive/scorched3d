@@ -79,3 +79,12 @@ void GLWTankModel::draw()
 			true);
 	glPopMatrix();
 }
+
+void GLWTankModel::mouseDown(float x, float y, bool &skipRest)
+{
+	if (inBox(x, y, x_, y_, w_, h_))
+	{
+		skipRest = true;
+		MainCamera::instance()->getTarget().setCameraType(TargetCamera::CamBehind);
+	}
+}

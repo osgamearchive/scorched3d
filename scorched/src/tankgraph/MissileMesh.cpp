@@ -75,7 +75,7 @@ void MissileMesh::createArrays(ModelsFile &aseMissile, bool useTextures, float d
 		}
 		else
 		{
-			GLVertexSet *set = (*itor)->getArray(useTextures_, detail);
+			GLVertexSet *set = (*itor)->getArray(useTextures_, true, detail);
 			missileArrays_.addToGroup(*set);
 		}
 	}	

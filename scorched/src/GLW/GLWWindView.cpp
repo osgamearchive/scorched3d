@@ -198,3 +198,19 @@ void GLWWindView::drawArrow()
 {
 	windModel_->draw();
 }
+
+void GLWWindView::mouseDown(float x, float y, bool &skipRest)
+{
+	if (inBox(x, y, x_, y_, w_, h_))
+	{
+		skipRest = true;
+
+		unsigned int type =
+			MainCamera::instance()->getTarget().getCameraType();
+		type++;
+		if (type >= TargetCamera::CamFree) type = 0;
+
+		MainCamera::instance()->getTarget().setCameraType(
+			(TargetCamera::CamType) type);
+	}
+}

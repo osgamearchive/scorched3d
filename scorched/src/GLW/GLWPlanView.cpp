@@ -252,8 +252,7 @@ void GLWPlanView::drawCurrentTank()
 
 void GLWPlanView::mouseDown(float x, float y, bool &skipRest)
 {
-	if ((x > x_) && (x < x_ + w_) &&
-		(y > y_) && (y < y_ + h_))
+	if (inBox(x, y, x_, y_, w_, h_))
 	{
 		skipRest = true;
 
@@ -265,6 +264,7 @@ void GLWPlanView::mouseDown(float x, float y, bool &skipRest)
 
 		Vector lookAt(mapX, mapY, ScorchedClient::instance()->
 			getLandscapeMaps().getHMap().getInterpHeight(mapX, mapY) + 5.0f);
+		MainCamera::instance()->getTarget().setCameraType(TargetCamera::CamFree);
 		MainCamera::instance()->getCamera().setLookAt(lookAt);
 	}
 }

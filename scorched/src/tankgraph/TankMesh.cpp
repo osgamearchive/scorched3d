@@ -170,7 +170,7 @@ void TankMesh::addToSet(GLVertexSetGroup &vset, std::list<Model*> &models, float
 		mitor != models.end();
 		mitor++)
 	{
-		GLVertexSet *set = (*mitor)->getArray(useTextures_, detail);
+		GLVertexSet *set = (*mitor)->getArray(useTextures_, true, detail);
 		vset.addToGroup(*set);
 	}	
 }

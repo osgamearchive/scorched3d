@@ -64,7 +64,7 @@ END_EVENT_TABLE()
 HelpFrame::HelpFrame() :
 	wxFrame(getMainDialog(), -1, wxString(scorched3dAppName),
 		wxDefaultPosition, wxDefaultSize, 
-		wxSTAY_ON_TOP | wxRESIZE_BORDER  | wxTINY_CAPTION_HORIZ)
+		wxSTAY_ON_TOP | wxCAPTION | wxSYSTEM_MENU | wxMINIMIZE_BOX | wxMAXIMIZE_BOX | wxTHICK_FRAME)
 {
 #ifdef _WIN32
 	// Set the frame's icon

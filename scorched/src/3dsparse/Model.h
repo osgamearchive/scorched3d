@@ -36,7 +36,9 @@ public:
 	virtual ~Model();
 
 	// Detail is the LOD for the returned mesh (1.0 = full, 0.0 = none)
-	virtual GLVertexArray *getArray(bool useTextures, float detail = 1.0f);
+	virtual GLVertexArray *getArray(bool useTextures, 
+		bool shadowModel, 
+		float detail = 1.0f);
 
 	Vector &getVertex(int pos);
 
@@ -71,8 +73,8 @@ protected:
 	std::string texture_;
 	std::string atexture_; // Alpha texture
 
-	GLVertexArray *getNoTexArray(float detail);
-	GLVertexArray *getTexArray(float detail);
+	GLVertexArray *getNoTexArray(bool shadowModel, float detail);
+	GLVertexArray *getTexArray(bool shadowModel, float detail);
 
 	// All used only for LOD computations
 	bool computedCollapseCosts_; // Has the collapse cost been calculated
