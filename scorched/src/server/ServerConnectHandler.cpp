@@ -204,6 +204,8 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 	{
 		ScorchedServer::instance()->getOptionsGame().setNoMaxPlayers(
 			ScorchedServer::instance()->getOptionsGame().getNoMaxPlayers()+1);
+		ScorchedServer::instance()->getOptionsGame().getChangedOptions().setNoMaxPlayers(
+			ScorchedServer::instance()->getOptionsGame().getNoMaxPlayers()+1);
 		addNextTank(destinationId,
 			message.getUniqueId(),
 			message.getHostDesc(),

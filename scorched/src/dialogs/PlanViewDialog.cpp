@@ -129,7 +129,7 @@ void PlanViewDialog::drawTexture()
 void PlanViewDialog::drawCameraPointer()
 {
 	// Draw the camera pointer
-	glColor3f(1.0f, 1.0f, 0.0f);
+	glColor3f(0.5f, 0.5f, 0.0f);
 	float mapWidth = (float) ScorchedClient::instance()->getLandscapeMaps().getHMap().getWidth();
 	Vector currentPos = MainCamera::instance()->getCamera().getCurrentPos();
 	Vector lookAt = MainCamera::instance()->getCamera().getLookAt();
@@ -175,7 +175,8 @@ void PlanViewDialog::drawTanks()
 		itor++)
 	{
 		Tank *tank = (*itor).second;
-		if (tank->getState().getState() == TankState::sNormal)
+		if (tank->getState().getState() == TankState::sNormal &&
+			!tank->getState().getSpectator())
 		{
 			glColor3fv(tank->getColor());
 			position = tank->getPhysics().getTankPosition();
