@@ -371,8 +371,10 @@ bool GameState::checkStimulate()
 		}
 		else
 		{
-			DIALOG_ASSERT(0);
-			pendingStimulus_ = -1;
+			dialogMessage("Scorched3D", 
+				"Failed to find stimulus %i in state %i", 
+				pendingStimulus_, currentState_);
+			exit(1);
 		}
 	}
 

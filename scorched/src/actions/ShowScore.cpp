@@ -21,6 +21,7 @@
 
 #include <actions/ShowScore.h>
 #include <common/WindowManager.h>
+#include <common/OptionsParam.h>
 #include <dialogs/ScoreDialog.h>
 
 REGISTER_ACTION_SOURCE(ShowScore);
@@ -35,8 +36,11 @@ ShowScore::~ShowScore()
 
 void ShowScore::init()
 {
-	WindowManager::instance()->showWindow(
-		ScoreDialog::instance()->getId());
+	if (!OptionsParam::instance()->getOnServer()) 
+	{
+		WindowManager::instance()->showWindow(
+			ScoreDialog::instance()->getId());
+	}
 }
 
 void ShowScore::simulate(float frameTime, bool &remove)
@@ -46,8 +50,11 @@ void ShowScore::simulate(float frameTime, bool &remove)
 	if (totalTime_ > 5.0f)
 	{
 		remove = true;
-		WindowManager::instance()->hideWindow(
-			ScoreDialog::instance()->getId());
+		if (!OptionsParam::instance()->getOnServer()) 
+		{
+			WindowManager::instance()->hideWindow(
+				ScoreDialog::instance()->getId());
+		}
 	}
 	Action::simulate(frameTime, remove);
 }

@@ -33,6 +33,8 @@ public:
 	static unsigned int getBytesIn() { return bytesIn_; }
 	static unsigned int getBytesOut() { return bytesOut_; }
 
+	static void setBlockingIO(TCPsocket &socket);
+
 protected:
 	static unsigned int bytesIn_;
 	static unsigned int bytesOut_;

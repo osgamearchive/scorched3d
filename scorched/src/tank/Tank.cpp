@@ -71,28 +71,12 @@ void Tank::nextRound()
 
 void Tank::setUnqiueId(const char *id)
 {
-	const unsigned int MaxUniqueIdLen = 16;
-	if (strlen(id) < MaxUniqueIdLen)
-	{
-		 uniqueId_ = id;
-	}
-	else
-	{
-		uniqueId_.append(id, 16);
-	}
+	uniqueId_ = id;
 }
 
 void Tank::setTankName(const char *name)
 {
-	const unsigned int MaxNameLen = 16;
-	if (strlen(name) < MaxNameLen)
-	{
-		 name_ = name;
-	}
-	else
-	{
-		name_.append(name, 16);
-	}
+	name_ = name;
 }
 
 bool Tank::writeMessage(NetBuffer &buffer)

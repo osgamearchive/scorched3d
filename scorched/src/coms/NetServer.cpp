@@ -72,6 +72,7 @@ bool NetServer::start(int port, int maxClients)
 	{
 		return false;
 	}
+	NetBufferUtil::setBlockingIO(server_);
 
 	addClient(server_);
 

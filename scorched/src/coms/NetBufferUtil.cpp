@@ -101,8 +101,7 @@ NetMessage *NetBufferUtil::readBuffer(TCPsocket &socket)
 			&buffer->getBuffer().getBuffer()[result], len);
 		if (recv <= 0) 
 		{
-			Logger::log(0, "Read failed for buffer chunk.");
-
+			Logger::log(0, "Read failed for buffer chunk");
 			NetMessagePool::instance()->addToPool(buffer);
 			return 0;
 		}
@@ -114,4 +113,44 @@ NetMessage *NetBufferUtil::readBuffer(TCPsocket &socket)
 
 	// return the new buffer
 	return buffer;
+}
+
+// HACK HACK HACK
+// This code has been ripped from the SDL_net library
+// The library always sets the sockets to be non-blocking
+// this is NOT what we want as we use threads and do not
+// care.
+// This seems to be the only way to set blocking IO back on.
+
+#ifndef _WIN32
+#include <fcntl.h>
+#define SOCKET	int
+#else
+#include <winsock2.h>
+#endif
+
+struct _TCPsocket {
+	int ready;
+	SOCKET channel;
+	IPaddress remoteAddress;
+	IPaddress localAddress;
+	int sflag;
+};
+
+void NetBufferUtil::setBlockingIO(TCPsocket &so)
+{
+#ifdef O_NONBLOCK
+	/* Set the socket to blocking mode for accept() */
+	fcntl(so->channel, F_SETFL, 0);
+#else
+#ifdef WIN32
+	{
+		/* passing a zero value, socket mode set blocking */
+		unsigned long mode = 0;
+		ioctlsocket (so->channel, FIONBIO, &mode);
+	}
+#else
+#warning How do we set blocking mode on other operating systems?
+#endif /* WIN32 */
+#endif /* O_NONBLOCK */
 }

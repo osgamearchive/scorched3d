@@ -73,6 +73,7 @@ bool NetClient::connect(const char *hostName, int port)
 	{
 		return false;
 	}
+	NetBufferUtil::setBlockingIO(client_);
 
 	if (SDLNet_TCP_AddSocket(sockSet_,client_) == -1)
 	{
