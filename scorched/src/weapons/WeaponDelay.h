@@ -18,43 +18,31 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(AFX_WEAPONPROJECTILE_H__70119A64_2064_4066_8EE5_FD6A3E24D5FC__INCLUDED_)
-#define AFX_WEAPONPROJECTILE_H__70119A64_2064_4066_8EE5_FD6A3E24D5FC__INCLUDED_
+#if !defined(AFX_WeaponDelay_H__B5C043F0_7DC6_4198_AE5B_E19002234FCE__INCLUDED_)
+#define AFX_WeaponDelay_H__B5C043F0_7DC6_4198_AE5B_E19002234FCE__INCLUDED_
 
 #include <weapons/Weapon.h>
 
-class WeaponProjectile : public Weapon
+class WeaponDelay  : public Weapon
 {
 public:
-	WeaponProjectile();
-	virtual ~WeaponProjectile();
+	WeaponDelay();
+	virtual ~WeaponDelay();
 
 	virtual bool parseXML(XMLNode *accessoryNode);
 	virtual bool writeAccessory(NetBuffer &buffer);
 	virtual bool readAccessory(NetBufferReader &reader);
 
-	Weapon *getCollisionAction() { return collisionAction_; }
-
 	// Inherited from Weapon
-	virtual void fireWeapon(ScorchedContext &context,
+	void fireWeapon(ScorchedContext &context,
 		unsigned int playerId, Vector &position, Vector &velocity);
 
-	REGISTER_ACCESSORY_HEADER(WeaponProjectile, Accessory::AccessoryWeapon);
-
-	bool getUnder() { return under_; }
-	bool getShowShotPath() { return showShotPath_; }
-	bool getShowEndPoint() { return showEndPoint_; }
-	bool getApexCollision() { return apexCollision_; }
-	bool getCreateSmoke() { return createSmoke_; }
+	REGISTER_ACCESSORY_HEADER(WeaponDelay, Accessory::AccessoryWeapon);
 
 protected:
-	bool under_;
-	bool showShotPath_;
-	bool showEndPoint_;
-	bool apexCollision_;
-	bool createSmoke_;
-	Weapon *collisionAction_;
+	float delay_;
+	Weapon *delayedWeapon_;
 
 };
 
-#endif // !defined(AFX_WEAPONPROJECTILE_H__70119A64_2064_4066_8EE5_FD6A3E24D5FC__INCLUDED_)
+#endif // !defined(AFX_WeaponDelay_H__B5C043F0_7DC6_4198_AE5B_E19002234FCE__INCLUDED_)

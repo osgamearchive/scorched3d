@@ -24,7 +24,7 @@
 #include <engine/PhysicsParticle.h>
 #include <engine/ScorchedCollisionIds.h>
 #include <engine/ViewPoints.h>
-#include <weapons/Weapon.h>
+#include <weapons/WeaponProjectile.h>
 #include <list>
 
 class ShotProjectile : 
@@ -35,11 +35,7 @@ public:
 	ShotProjectile(
 		Vector &startPosition, Vector &velocity,
 		Weapon *weapon, unsigned int playerId,
-		unsigned int flareType,
-		bool under,
-		bool tracer,
-		bool smokeTracer,
-		bool apexCollision);
+		unsigned int flareType);
 	virtual ~ShotProjectile();
 
 	virtual void simulate(float frameTime, bool &remove);
@@ -51,8 +47,7 @@ public:
 	REGISTER_ACTION_HEADER(ShotProjectile);
 
 	unsigned int getPlayerId() { return playerId_; }
-	bool getSmokeTracer() { return smokeTracer_; }
-	Weapon *getWeapon() { return weapon_; }
+	WeaponProjectile *getWeapon() { return (WeaponProjectile *) weapon_; }
 	std::list<Vector> &getPositions() { return positions_; }
 
 protected:
@@ -65,10 +60,6 @@ protected:
 	unsigned int playerId_;
 	unsigned int flareType_;
 	bool up_;
-	bool under_;
-	bool tracer_;
-	bool smokeTracer_;
-	bool apexCollision_;
 	float snapTime_;
 	std::list<Vector> positions_;
 
@@ -79,6 +70,5 @@ private:
 	const ShotProjectile & operator=(const ShotProjectile &);
 
 };
-
 
 #endif

@@ -19,12 +19,13 @@ Changed: Tank can move up and down bigger slopes (configurable)
 Changed: Spread and hurts weapon primative options are now variable
 Changed: LeapFrog weapon primative bounce now variable
 
+Added: No smoke trails option to projectile weapons
 Added: Riot Charge, Riot Blast and Dirt Charge weapons
 Added: Server can broadcast a message every x seconds
 Added: More resolutions when "More Resolutions" chosen
 Added: "none" sound available for weapon primative explosions
 Added: "none" texture available for weapon primative explosions
-Added: New weapon primatives WeaponVelocity and WeaponTranslate
+Added: New weapon primatives WeaponVelocity, WeaponDelay and WeaponTranslate
 Added: Simplistic water option (no movement, shading and only uses one quad)
 Added: No sphere mapping option for water
 Added: Custom maps (and other mods) can be auto-downloaded from server

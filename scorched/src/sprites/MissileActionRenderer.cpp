@@ -47,12 +47,15 @@ MissileActionRenderer::~MissileActionRenderer()
 void MissileActionRenderer::simulate(Action *action, float timepassed, bool &remove)
 {
 	ShotProjectile *shot = (ShotProjectile *) action;
-	if (counter_.nextDraw(timepassed))
+	if (shot->getWeapon()->getCreateSmoke())
 	{
-		Vector &actualPos = shot->getCurrentPosition();
-		Landscape::instance()->getSmoke().
-			addSmoke(actualPos[0], actualPos[1], actualPos[2], 
-				0.0f, 0.0f, 0.0f, 0.7f);
+		if (counter_.nextDraw(timepassed))
+		{
+			Vector &actualPos = shot->getCurrentPosition();
+			Landscape::instance()->getSmoke().
+				addSmoke(actualPos[0], actualPos[1], actualPos[2], 
+					0.0f, 0.0f, 0.0f, 0.7f);
+		}
 	}
 	rotation_ += shot->getCurrentVelocity().Magnitude();
 }
@@ -63,7 +66,7 @@ void MissileActionRenderer::draw(Action *action)
 	Vector &actualPos = shot->getCurrentPosition();
 	Vector &actualdir = shot->getCurrentVelocity();
 
-	if (shot->getSmokeTracer())
+	if (shot->getWeapon()->getShowShotPath())
 	{
 		Tank *current = 
 			action->getScorchedContext()->tankContainer->

@@ -1603,6 +1603,12 @@
 				RelativePath="..\weapons\WeaponAimedUnder.h">
 			</File>
 			<File
+				RelativePath="..\weapons\WeaponDelay.cpp">
+			</File>
+			<File
+				RelativePath="..\weapons\WeaponDelay.h">
+			</File>
+			<File
 				RelativePath="..\weapons\WeaponAnimation.cpp">
 			</File>
 			<File
@@ -2240,6 +2246,12 @@
 			</File>
 			<File
 				RelativePath="..\actions\ShieldHit.h">
+			</File>
+			<File
+				RelativePath="..\actions\ShotDelay.h">
+			</File>
+			<File
+				RelativePath="..\actions\ShotDelay.cpp">
 			</File>
 			<File
 				RelativePath="..\actions\ShotBounce.cpp">

@@ -27,7 +27,7 @@ REGISTER_ACCESSORY_SOURCE(WeaponProjectile);
 
 WeaponProjectile::WeaponProjectile() : 
 	under_(false), collisionAction_(0), apexCollision_(false),
-	showShotPath_(false), showEndPoint_(false)
+	showShotPath_(false), showEndPoint_(false), createSmoke_(true)
 {
 
 }
@@ -46,7 +46,7 @@ bool WeaponProjectile::parseXML(XMLNode *accessoryNode)
 	if (underNode) under_ = true;
 
 	// Get the smoke trails
-	XMLNode *smokeNode = accessoryNode->getNamedChild("smoke", false, true);
+	XMLNode *smokeNode = accessoryNode->getNamedChild("showshotpath", false, true);
 	if (smokeNode) showShotPath_ = true;
 
 	// Get the end point
@@ -56,6 +56,10 @@ bool WeaponProjectile::parseXML(XMLNode *accessoryNode)
 	// Get the apex point
 	XMLNode *apexNode = accessoryNode->getNamedChild("apexcollision", false, true);
 	if (apexNode) apexCollision_ = true;
+
+	// Get the no smoke node
+	XMLNode *noCreateSmokeNode = accessoryNode->getNamedChild("nocreatesmoke", false, true);
+	if (noCreateSmokeNode) createSmoke_ = false;
 
 	// Get the next weapon
 	XMLNode *subNode = accessoryNode->getNamedChild("collisionaction", false, true);
@@ -88,6 +92,7 @@ bool WeaponProjectile::writeAccessory(NetBuffer &buffer)
 	buffer.addToBuffer(showEndPoint_);
 	buffer.addToBuffer(apexCollision_);
 	buffer.addToBuffer(under_);
+	buffer.addToBuffer(createSmoke_);
 	return true;
 }
 
@@ -98,7 +103,7 @@ bool WeaponProjectile::readAccessory(NetBufferReader &reader)
 	if (!reader.getFromBuffer(showShotPath_)) return false;
 	if (!reader.getFromBuffer(showEndPoint_)) return false;
 	if (!reader.getFromBuffer(apexCollision_)) return false;
-	if (!reader.getFromBuffer(under_)) return false;
+	if (!reader.getFromBuffer(createSmoke_)) return false;
 	return true;
 }
 
@@ -108,7 +113,8 @@ void WeaponProjectile::fireWeapon(ScorchedContext &context,
 	Action *action = new ShotProjectile(
 		position, 
 		velocity,
-		this, playerId, 0, under_, 
-		showEndPoint_, showShotPath_, apexCollision_);
+		this, 
+		playerId, 
+		0); // FlareType
 	context.actionController->addAction(action);	
 }

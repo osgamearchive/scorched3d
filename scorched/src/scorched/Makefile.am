@@ -469,6 +469,8 @@ scorched3d_SOURCES = \
 	../weapons/WeaponAimedOver.h \
 	../weapons/WeaponAimedUnder.cpp \
 	../weapons/WeaponAimedUnder.h \
+	../weapons/WeaponDelay.cpp \
+	../weapons/WeaponDelay.h \
 	../weapons/WeaponAnimation.cpp \
 	../weapons/WeaponAnimation.h \
 	../weapons/WeaponExplosion.cpp \
@@ -667,6 +669,8 @@ scorched3d_SOURCES = \
 	../actions/Napalm.h \
 	../actions/ShieldHit.cpp \
 	../actions/ShieldHit.h \
+	../actions/ShotDelay.h \
+	../actions/ShotDelay.cpp \
 	../actions/ShotBounce.cpp \
 	../actions/ShotBounce.h \
 	../actions/ShotProjectile.cpp \

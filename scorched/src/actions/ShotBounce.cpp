@@ -20,7 +20,6 @@
 
 #include <actions/ShotBounce.h>
 #include <actions/CameraPositionAction.h>
-#include <sprites/MissileActionRenderer.h>
 #include <engine/ScorchedContext.h>
 #include <engine/ActionController.h>
 #include <weapons/WeaponRoller.h>
