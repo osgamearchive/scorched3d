@@ -79,6 +79,7 @@ ShotBounce::~ShotBounce()
 {
 	ActionVectorHolder::getActionVector(actionId_);
 	if (actionVector_) actionVector_->remove();
+	if (context_->serverMode) delete actionVector_;
 	if (vPoint_) context_->viewPoints.releaseViewPoint(vPoint_);
 }
 

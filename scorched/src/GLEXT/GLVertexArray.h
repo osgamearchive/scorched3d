@@ -66,6 +66,10 @@ protected:
 
 	virtual void buildList();
 
+private:
+	GLVertexArray(const GLVertexArray &other);
+	GLVertexArray &operator=(GLVertexArray &other);
+
 };
 
 #endif // !defined(AFX_GLVERTEXARRAY_H__281612E4_C081_45C1_A049_B92631DBA524__INCLUDED_)

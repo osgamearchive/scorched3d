@@ -469,7 +469,7 @@
 			<File
 				RelativePath="..\GLW\GLWTab.h">
 			</File>
-				<File
+			<File
 				RelativePath="..\GLW\GLWTankFire.cpp">
 			</File>
 			<File
