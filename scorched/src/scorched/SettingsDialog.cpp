@@ -345,7 +345,8 @@ bool SettingsFrame::TransferDataToWindow()
 	// Env
 	{
 		// Wind force
-		SettingsEnv::IDC_COMBO_FORCE_CTRL->Append("Random", (void *) 0);
+		SettingsEnv::IDC_COMBO_FORCE_CTRL->Append("Random", 
+			(void *) (OptionsGame::WindRandom));
 		for (int i=0; i<=5; i++)
 		{
 			char buffer[25];
@@ -353,6 +354,10 @@ bool SettingsFrame::TransferDataToWindow()
 			SettingsEnv::IDC_COMBO_FORCE_CTRL->Append(
 				buffer, (void *) (i+1));
 		}
+		SettingsEnv::IDC_COMBO_FORCE_CTRL->Append("Breezy (Force 0->2)", 
+			(void *) (OptionsGame::WindBreezy));
+		SettingsEnv::IDC_COMBO_FORCE_CTRL->Append("Gale (Force 3->5)", 
+			(void *) (OptionsGame::WindGale));
 		SettingsEnv::IDC_COMBO_FORCE_CTRL->SetSelection(
 			context_.getWindForce());
 		SettingsEnv::IDC_COMBO_FORCE_CTRL->SetToolTip(

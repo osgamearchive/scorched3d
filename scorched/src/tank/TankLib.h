@@ -28,6 +28,8 @@
 class Tank;
 namespace TankLib
 {
+	bool intersection(ScorchedContext &context,
+		Vector position, float xy, float yz, int dist);
 	float getDistanceToTank(Vector &position, Tank *targetTank);
 	void getTanksSortedByDistance(
 		ScorchedContext &context,
@@ -38,7 +40,8 @@ namespace TankLib
 	void getShotTowardsPosition(
 		ScorchedContext &context,
 		Vector &position, Vector &shootAt, float distForSniper, 
-		float &angleXYDegs, float &angleYZDegs, float &power);
+		float &angleXYDegs, float &angleYZDegs, float &power,
+		bool checkIntersection = false);
 	Vector &getVelocityVector(float xy, float yz);
 	Vector &getGunPosition(float xy, float yz);
 };

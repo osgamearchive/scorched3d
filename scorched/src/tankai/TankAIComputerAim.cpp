@@ -45,14 +45,15 @@ bool TankAIComputerAim::parseConfig(XMLNode *node)
 {
 	if (!node->getNamedChild("aimsniper", sniperDist_)) return false;
 	if (!node->getNamedChild("aimtype", aimType_)) return false;
-	if (0 != strcmp(aimType_.c_str(), "none") &&
-		0 != strcmp(aimType_.c_str(), "refined") &&
+	if (0 != strcmp(aimType_.c_str(), "refined") &&
 		0 != strcmp(aimType_.c_str(), "guess") &&
 		0 != strcmp(aimType_.c_str(), "random"))
 	{
 		return node->returnError("Unknown aimtype. "
-			"Should be one of none, refined, guess, random");
+			"Should be one of refined, guess, random");
 	}
+	if (!node->getNamedChild("checknearcollision", checkNearCollision_)) return false;
+
 	return true;
 }
 
@@ -76,17 +77,13 @@ bool TankAIComputerAim::aimAtTank(Tank *tank)
 {
 	if (!tank) return false;
 
-	if (0 == strcmp(aimType_.c_str(), "none"))
+	if (0 == strcmp(aimType_.c_str(), "refined"))
 	{
-		return false;
-	}
-	else if (0 == strcmp(aimType_.c_str(), "refined"))
-	{
-		refinedAim(tank, true);
+		return refinedAim(tank, true);
 	}
 	else if (0 == strcmp(aimType_.c_str(), "guess"))
 	{
-		refinedAim(tank, false);
+		return refinedAim(tank, false);
 	}
 	else if (0 == strcmp(aimType_.c_str(), "random"))
 	{
@@ -244,7 +241,7 @@ bool TankAIComputerAim::refineLastShot(Tank *tank,
 	return false;
 }
 
-void TankAIComputerAim::refinedAim(Tank *targetTank, bool refine)
+bool TankAIComputerAim::refinedAim(Tank *targetTank, bool refine)
 {
 	// Find the angle + power etc.. to use
 	float angleXYDegs = 0.0f; 
@@ -262,7 +259,26 @@ void TankAIComputerAim::refinedAim(Tank *targetTank, bool refine)
 			ScorchedServer::instance()->getContext(),
 			currentTank_->getPhysics().getTankPosition(), 
 			targetTank->getPhysics().getTankPosition(), sniperDist_, 
-			angleXYDegs, angleYZDegs, power);
+			angleXYDegs, angleYZDegs, power,
+			checkNearCollision_);
+	}
+
+	// Check we will not kill ourselves
+	if (checkNearCollision_)
+	{
+		// Check we don't collide with ground within a near distance
+		float distance = (currentTank_->getPhysics().getTankPosition() - 
+			targetTank->getPhysics().getTankPosition()).Magnitude();
+		int allowedIntersectDist = int(distance / 2.0f);
+		while (TankLib::intersection(
+			ScorchedServer::instance()->getContext(), 
+			currentTank_->getPhysics().getTankPosition(), 
+			angleXYDegs, angleYZDegs, allowedIntersectDist))
+		{
+			angleYZDegs += 10.0f;
+			power *= 1.1f; if (power > 1000.0f) power = 1000.0f;
+			if (angleYZDegs > 90.0f) return false;
+		}
 	}
 
 	// Set the parameters
@@ -284,9 +300,11 @@ void TankAIComputerAim::refinedAim(Tank *targetTank, bool refine)
 		madeShots_[targetTank->getPlayerId()].push_back(newMadeShot);
 		lastShot_ = &madeShots_[targetTank->getPlayerId()].back();
 	}
+
+	return true;
 }
 
-void TankAIComputerAim::randomAim()
+bool TankAIComputerAim::randomAim()
 {
 	// Find the angle + power etc.. to use
 	float angleXYDegs = RAND * 360.0f;
@@ -298,4 +316,6 @@ void TankAIComputerAim::randomAim()
 	currentTank_->getPhysics().rotateGunXY(angleXYDegs, false);
 	currentTank_->getPhysics().rotateGunYZ(angleYZDegs, false);
 	currentTank_->getPhysics().changePower(power, false);
+
+	return true;
 }

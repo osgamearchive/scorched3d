@@ -50,7 +50,9 @@ public:
 		Wind2 = 3,
 		Wind3 = 4,
 		Wind4 = 5,
-		Wind5 = 6
+		Wind5 = 6,
+		WindBreezy = 7,
+		WindGale = 8
 	};
 	enum WindType
 	{

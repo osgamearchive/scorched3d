@@ -37,10 +37,11 @@ bool TankAIComputerTarget::parseConfig(XMLNode *node)
 {
 	if (!node->getNamedChild("targettype", targetType_)) return false;
 	if (0 != strcmp(targetType_.c_str(), "nearest") &&
-		0 != strcmp(targetType_.c_str(), "agressor"))
+		0 != strcmp(targetType_.c_str(), "agressor") &&
+		0 != strcmp(targetType_.c_str(), "none"))
 	{
 		return node->returnError("Unknown targettype. "
-			"Should be one of nearest, agressor");
+			"Should be one of none, nearest, agressor");
 	}
 
 	return true;
@@ -53,6 +54,8 @@ void TankAIComputerTarget::setTank(Tank *tank)
 
 Tank *TankAIComputerTarget::findTankToShootAt()
 {
+	if (0 == strcmp(targetType_.c_str(), "none")) 
+		return 0;
 	if (0 == strcmp(targetType_.c_str(), "nearest")) 
 		return findNearTankToShootAt();
 	if (0 == strcmp(targetType_.c_str(), "agressor"))

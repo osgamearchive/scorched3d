@@ -217,10 +217,13 @@ void TankAIComputer::playMove(const unsigned state, float frameTime,
 	}
 
 	Tank *target = tankTarget_.findTankToShootAt();
-	if (tankAim_.aimAtTank(target))
+	if (target)
 	{
-		fireShot();
-		return;
+		if (tankAim_.aimAtTank(target))
+		{
+			fireShot();
+			return;
+		}
 	}
 
 	skipShot();

@@ -86,7 +86,7 @@ OptionsGame::OptionsGame() :
 	scoreType_(options_, "ScoreType",
 		"How the winnder is choosen", 0, int(ScoreWins), int(ScoreWins), int(ScoreMoney)),
 	windForce_(options_, "WindForce", 
-		"The force of the wind", 0, int(WindRandom), int(WindRandom), int(Wind5)),
+		"The force of the wind", 0, int(WindRandom), int(WindRandom), int(WindGale)),
 	windType_(options_, "WindType", 
 		"When the wind changes", 0, int(WindOnRound), int(WindOnRound), int(WindOnMove)),
 	wallType_(options_, "WallType", 

@@ -22,6 +22,7 @@
 #include <tank/TankContainer.h>
 #include <common/OptionsTransient.h>
 #include <common/Defines.h>
+#include <landscape/LandscapeMaps.h>
 #include <math.h>
 
 float TankLib::getDistanceToTank(Vector &position, Tank *targetTank)
@@ -74,29 +75,64 @@ void TankLib::getTanksSortedByDistance(ScorchedContext &context,
 	}
 }
 
+bool TankLib::intersection(ScorchedContext &context,
+	Vector position, float xy, float yz, int dist)
+{
+	position[2] += 0.5f;
+	Vector velocity = getVelocityVector(xy, yz);
+	velocity.StoreNormalize();
+
+	for (int i=0; i<dist; i++)
+	{
+		if (position[2] < context.landscapeMaps->getHMap().getInterpHeight(
+			position[0], position[1]))
+		{
+			return true;
+		}
+		position += velocity;
+	}
+
+    return false;
+}
+
 void TankLib::getShotTowardsPosition(ScorchedContext &context,
-									 Vector &position, Vector &shootAt, float distForSniper, 
-									float &angleXYDegs, float &angleYZDegs, float &power)
+	Vector &position, Vector &shootAt, float distForSniper, 
+	float &angleXYDegs, float &angleYZDegs, float &power,
+	bool checkIntersection)
 {
 	// Calculate direction
 	Vector direction = shootAt - position;
 	float angleXYRads = atan2f(direction[1], direction[0]);
 	angleXYDegs = (angleXYRads / 3.14f) * 180.0f - 90.0f;
-	angleYZDegs = 45.0f;
-
-	float distance2D = sqrtf(direction[0] * direction[0] + direction[1] * direction[1]);
+	float distance2D = sqrtf(direction[0] * direction[0] + 
+		direction[1] * direction[1]);
 
 	// Special case
 	// If we are less than a certain distance and under the position we
 	// will use a direct shot on full power
-	if (((distance2D < distForSniper) && (shootAt[2] >= position[2])) ||
-		(distForSniper == -1.0f))
+	bool useSniper = ((distance2D < distForSniper) && (shootAt[2] >= position[2])) ||
+		(distForSniper == -1.0f);
+	if (useSniper)
 	{
 		power = 1000.0f;
 		float angleYZRads = atan2f(distance2D, direction[2]);
 		angleYZDegs = 90.0f - ((angleYZRads / 3.14f) * 180.0f);
+
+		// If we check intersection
+		if (checkIntersection)
+		{
+			// Ensure that the sniper shot wont collide with the ground
+			// neared than 80% dist to target away
+			int allowedIntersectDist = int(distance2D * 0.8f);
+			if (intersection(context, position, 
+				angleXYDegs, angleYZDegs, allowedIntersectDist))
+			{
+				useSniper = false;
+			}
+		}
 	}
-	else
+
+	if (!useSniper)
 	{
 		// Calculate power (very roughly)
 		power = 1000.0f;
@@ -137,6 +173,9 @@ void TankLib::getShotTowardsPosition(ScorchedContext &context,
 
 			power *= windoffsetFB;
 		}
+
+		// Angle
+		angleYZDegs = 45.0f;
 	}
 }
 

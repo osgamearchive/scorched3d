@@ -1,11 +1,12 @@
 Batteries can be used to heal yourself.
-Shields protect your from weapon damage.
+Shields protect you from weapon damage.
 Parachutes protect you from falling damage.
-Parachutes and shields must be enabled.
+Parachutes must be enabled before they work.
+Shields must be enabled before they work.
 Buying fuel will allow your tank to move.
 All shots are affected by wind.
-The 's' key will show your current score.
-The 't' key allows you to talk to players.
-The 'a' key will aim the mouse position.
+The 's' key will show you your current score.
+The 't' key allows you to talk to online players.
+The 'a' key will aim at the mouse pointer.
 Use the 1 to 9 keys to switch camera views.
 The 'c' key will show a second camera view.

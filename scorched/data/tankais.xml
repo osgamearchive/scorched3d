@@ -9,6 +9,7 @@ use batteries.</description>
 		<targettype>agressor</targettype>
 		<nodefenses>false</nodefenses>
 		<availableforrandom>true</availableforrandom>
+		<checknearcollision>true</checknearcollision>
 		<weapon><name>Parachute</name><level>10</level></weapon>
 		<weapon><name>Baby Nuke</name><level>20</level></weapon>	
 		<weapon><name>MIRV</name><level>20</level></weapon>
@@ -29,6 +30,7 @@ shooting at them.</description>
 		<targettype>agressor</targettype>
 		<nodefenses>false</nodefenses>
 		<availableforrandom>true</availableforrandom>
+		<checknearcollision>true</checknearcollision>
 		<weapon><name>Parachute</name><level>10</level></weapon>
 		<weapon><name>Baby Nuke</name><level>20</level></weapon>	
 		<weapon><name>MIRV</name><level>20</level></weapon>
@@ -48,6 +50,7 @@ enough.</description>
 		<targettype>nearest</targettype>
 		<nodefenses>false</nodefenses>
 		<availableforrandom>true</availableforrandom>
+		<checknearcollision>true</checknearcollision>
 		<weapon><name>Parachute</name><level>10</level></weapon>
 		<weapon><name>Baby Nuke</name><level>20</level></weapon>	
 		<weapon><name>MIRV</name><level>20</level></weapon>
@@ -67,6 +70,7 @@ time to kill them.</description>
 		<targettype>nearest</targettype>
 		<nodefenses>false</nodefenses>
 		<availableforrandom>true</availableforrandom>
+		<checknearcollision>false</checknearcollision>
 		<weapon><name>Missile</name><level>20</level></weapon>
 		<weapon><name>Baby Nuke</name><level>20</level></weapon>	
 		<weapon><name>MIRV</name><level>20</level></weapon>
@@ -84,6 +88,7 @@ not refining subsiquent shots.</description>
 		<targettype>nearest</targettype>
 		<nodefenses>false</nodefenses>
 		<availableforrandom>true</availableforrandom>
+		<checknearcollision>false</checknearcollision>
 		<weapon><name>Missile</name><level>20</level></weapon>
 		<weapon><name>Baby Nuke</name><level>20</level></weapon>		
 	</ai>
@@ -99,6 +104,7 @@ only.</description>
 		<aimtype>random</aimtype>
 		<targettype>nearest</targettype>
 		<nodefenses>false</nodefenses>
+		<checknearcollision>false</checknearcollision>
 		<availableforrandom>true</availableforrandom>
 		<weapon><name>Missile</name><level>2</level></weapon>
 	</ai>
@@ -109,9 +115,10 @@ only.</description>
 These tanks act as static targets.  They
 will NEVER fire back.</description>
 		<aimsniper>0</aimsniper>
-		<aimtype>none</aimtype>
-		<targettype>nearest</targettype>
+		<aimtype>random</aimtype>
+		<targettype>none</targettype>
 		<nodefenses>true</nodefenses>
+		<checknearcollision>false</checknearcollision>
 		<availableforrandom>false</availableforrandom>
 	</ai>
 </ais>

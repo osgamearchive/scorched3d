@@ -48,9 +48,10 @@ protected:
 	float sniperDist_;
 	std::map<unsigned int, std::list<MadeShot> > madeShots_;
 	std::string aimType_;
+	bool checkNearCollision_;
 
-	void randomAim();
-	void refinedAim(Tank *tank, bool refine);
+	bool randomAim();
+	bool refinedAim(Tank *tank, bool refine);
 	bool refineLastShot(Tank *tank, float &angleXYDegs, 
 		float &angleYZDegs, float &power);
 };
