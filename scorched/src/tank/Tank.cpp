@@ -28,15 +28,6 @@
 #include <tank/Tank.h>
 #include <tank/TankColorGenerator.h>
 
-static void removeBadChars(char *string)
-{
-	for (;*string; string++)
-	{
-		if (*string == '\"') *string = ' ';
-		else if (*string == ']') *string = ' ';
-	}
-}
-
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
@@ -89,7 +80,6 @@ void Tank::setUnqiueId(const char *id)
 	{
 		uniqueId_.append(id, 16);
 	}
-	removeBadChars((char *) uniqueId_.c_str());
 }
 
 void Tank::setTankName(const char *name)
@@ -103,7 +93,6 @@ void Tank::setTankName(const char *name)
 	{
 		name_.append(name, 16);
 	}
-	removeBadChars((char *) name_.c_str());
 }
 
 bool Tank::writeMessage(NetBuffer &buffer)

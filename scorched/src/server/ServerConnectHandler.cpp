@@ -72,6 +72,33 @@ bool ServerConnectHandler::processMessage(NetPlayerID &id,
 		return true;
 	}
 
+
+	// Form the correct player name
+	// Remove spaces from the front of the name and
+	// unwanted characters from middle
+	char *nameBeginning = (char *) message.getPlayerName();
+	while (*nameBeginning == ' ') nameBeginning++;
+	char *nameMiddle = nameBeginning;
+	for (;*nameMiddle; nameMiddle++)
+	{
+		if (*nameMiddle == '\"') *nameMiddle = '\'';
+		else if (*nameMiddle == ']') *nameMiddle = ')';
+		else if (*nameMiddle == '[') *nameMiddle = '(';
+	}
+
+	// Check the client provides a name with a least 1 char in it
+	int nameLen = strlen(nameBeginning);
+	if (nameLen == 0)
+	{
+		sendString(id, "A player name must be provided");
+		Logger::log(0, "Player connected with out a name");
+		kickPlayer(id);
+		return true;
+	}
+	std::string playerName;
+	if (nameLen < 16) playerName = nameBeginning;
+	else playerName.append(nameBeginning, 16);
+
 	// Check the player protocol versions are the same (correct)
 	if (0 != strcmp(message.getProtocolVersion(), ScorchedProtocolVersion))
 	{
@@ -86,7 +113,7 @@ bool ServerConnectHandler::processMessage(NetPlayerID &id,
 			message.getVersion(), message.getProtocolVersion());
 		Logger::log(0, 
 			"Player \"%s\" connected with out of date version \"%s(%s)\"",
-			message.getPlayerName(),
+			playerName.c_str(),
 			message.getVersion(),
 			message.getProtocolVersion());
 
@@ -94,19 +121,7 @@ bool ServerConnectHandler::processMessage(NetPlayerID &id,
 		return true;
 	}
 
-	// Form the correct player name
 	// Make sure no-one has the same name
-	// Check the client provides a name
-	std::string playerName(message.getPlayerName());
-	if (!playerName.size())
-	{
-		sendString(id, 			
-			"A player name must be provided");
-		Logger::log(0, 
-			"Player connected with out a name");
-		kickPlayer(id);
-		return true;
-	}
 	while (TankContainer::instance()->getTankByName(playerName.c_str()))
 	{
 		playerName += "(2)";
