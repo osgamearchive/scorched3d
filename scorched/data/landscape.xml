@@ -7,7 +7,7 @@
 				<min>60</min><max>80</max>
 			</landhills>
 			<landheight>
-				<min>10</min><max>30</max>
+				<min>30</min><max>40</max>
 			</landheight>
 			<landwidthx>256</landwidthx>
 			<landwidthy>256</landwidthy>
