@@ -22,7 +22,7 @@
 #include <server/ServerState.h>
 #include <server/ScorchedServer.h>
 #include <server/TurnController.h>
-#include <scorched/ServerDialog.h>
+#include <server/ServerCommon.h>
 #include <tank/TankColorGenerator.h>
 #include <tankai/TankAIAdder.h>
 #include <tankai/TankAIStrings.h>
@@ -66,8 +66,8 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 	if (ScorchedServer::instance()->getOptionsGame().getNoMaxPlayers() ==
 		ScorchedServer::instance()->getTankContainer().getNoOfTanks())
 	{
-		sendString(destinationId, "Too many players");
-		kickDestination(destinationId);
+		ServerCommon::sendString(destinationId, "Too many players");
+		ServerCommon::kickDestination(destinationId);
 		return true;		
 	}
 
@@ -78,7 +78,7 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 	if (!message.readMessage(reader) ||
 		(0 != strcmp(message.getProtocolVersion(), ScorchedProtocolVersion)))
 	{
-		sendString(destinationId, 			
+		ServerCommon::sendString(destinationId, 			
 			"The version of Scorched you are running\n"
 			"does not match the server's version.\n"
 			"This server is running Scorched build %s (%s).\n"
@@ -93,7 +93,7 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 			message.getVersion(),
 			message.getProtocolVersion());
 
-		kickDestination(destinationId);
+		ServerCommon::kickDestination(destinationId);
 		return true;
 	}
 
@@ -102,8 +102,8 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 		ScorchedServer::instance()->getOptionsGame().getNoMaxPlayers() -
 		ScorchedServer::instance()->getTankContainer().getNoOfTanks())
 	{
-		sendString(destinationId, "Too many players");
-		kickDestination(destinationId);
+		ServerCommon::sendString(destinationId, "Too many players");
+		ServerCommon::kickDestination(destinationId);
 		return true;
 	}
 
@@ -113,13 +113,13 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 		if (0 != strcmp(message.getPassword(),
 						ScorchedServer::instance()->getOptionsGame().getServerPassword()))
 		{
-			sendString(destinationId, 			
+			ServerCommon::sendString(destinationId, 			
 					   "This server is running a password protected game.\n"
 					   "Your supplied password does not match.\n"
 					"Connection failed.");
 			Logger::log(0, "ERROR: Player connected with an invalid password");
 			
-			kickDestination(destinationId);
+			ServerCommon::kickDestination(destinationId);
 			return true;
 		}
 	}
@@ -143,7 +143,7 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 	if (found) // If so, dont allow more
 	{
 		Logger::log(0, "ERROR: Duplicate connection from destination \"%i\"", destinationId);
-		kickDestination(destinationId);
+		ServerCommon::kickDestination(destinationId);
 		return true;
 	}
 
@@ -163,7 +163,7 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 		Logger::log(0,
 			"ERROR: Failed to send accept to client \"%i\"",
 			destinationId);
-		kickDestination(destinationId);
+		ServerCommon::kickDestination(destinationId);
 		return true;
 	}
 
@@ -271,6 +271,6 @@ void ServerConnectHandler::addNextTank(unsigned int destinationId,
 		playerName);
 
 	// Tell this computer that a new tank has connected
-	sendString(0, "Player connected \"%s\"",
+	ServerCommon::sendString(0, "Player connected \"%s\"",
 		playerName);
 }

@@ -23,7 +23,7 @@
 #include <server/ScorchedServer.h>
 #include <server/ServerState.h>
 #include <server/ServerTooFewPlayersStimulus.h>
-#include <scorched/ServerDialog.h>
+#include <server/ServerCommon.h>
 #include <common/Logger.h>
 
 ServerNextShotState::ServerNextShotState()
@@ -62,8 +62,8 @@ void ServerNextShotState::enterState(const unsigned state)
 			 ScorchedServer::instance()->getOptionsGame().getNoMaxRoundTurns() > 0)
 	{
 		roundFinished = true;
-		serverLog(0, "Skipping round due to turn limit");
-		sendString(0, "Skipping round due to turn limit");
+		ServerCommon::serverLog(0, "Skipping round due to turn limit");
+		ServerCommon::sendString(0, "Skipping round due to turn limit");
 	}
 
 	// Check if this round has finished
@@ -98,3 +98,4 @@ void ServerNextShotState::enterState(const unsigned state)
 		}
 	}
 }
+

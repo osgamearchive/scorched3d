@@ -18,19 +18,9 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #if !defined(__INCLUDE_ServerDialogh_INCLUDE__)
 #define __INCLUDE_ServerDialogh_INCLUDE__
 
-#include <coms/NetMessage.h>
-class Tank;
-
 void showServerDialog();
-
-void sendStringMessage(unsigned int destinationId, const char *fmt, ...);
-void serverLog(unsigned int playerId, const char *fmt, ...);
-void sendString(unsigned int destinationId, const char *fmt, ...);
-void kickDestination(unsigned int destinationId);
-void killAll();
 
 #endif

@@ -22,9 +22,9 @@
 #include <server/ServerShotState.h>
 #include <server/ServerState.h>
 #include <server/ServerShotHolder.h>
+#include <server/ServerCommon.h>
 #include <actions/TankScored.h>
 #include <actions/ShowScore.h>
-#include <scorched/ServerDialog.h>
 #include <coms/ComsActionsMessage.h>
 #include <coms/ComsMessageSender.h>
 #include <common/StatsLogger.h>
@@ -89,12 +89,12 @@ bool ServerShotState::acceptStateChange(const unsigned state,
 	else
 	{
 		// We have finished all shots
-		serverLog(0, "Finished playing Shots (%.2f seconds)", totalTime_);
+		ServerCommon::serverLog(0, "Finished playing Shots (%.2f seconds)", totalTime_);
 
 		// tell the clients of the shot outcomes
 		ComsActionsMessage actionsMessage;
 		ComsMessageSender::sendToAllPlayingClients(actionsMessage);
-		serverLog(0, "Sending actions message (%i bytes)", 
+		ServerCommon::serverLog(0, "Sending actions message (%i bytes)", 
 			NetBufferDefault::defaultBuffer.getBufferUsed());
 
 		return true;

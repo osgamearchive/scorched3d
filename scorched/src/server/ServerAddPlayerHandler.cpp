@@ -22,7 +22,7 @@
 #include <server/ScorchedServer.h>
 #include <server/ServerConnectHandler.h>
 #include <server/ServerState.h>
-#include <scorched/ServerDialog.h>
+#include <server/ServerCommon.h>
 #include <common/OptionsParam.h>
 #include <common/StatsLogger.h>
 #include <coms/ComsAddPlayerMessage.h>
@@ -64,7 +64,7 @@ bool ServerAddPlayerHandler::processMessage(unsigned int destinationId,
 	Tank *tank = ScorchedServer::instance()->getTankContainer().getTankById(playerId);
 	if (!tank || (tank->getState().getState() != TankState::sDead))
 	{
-		sendString(destinationId, "Can only change tank when dead.");
+		ServerCommon::sendString(destinationId, "Can only change tank when dead.");
 		return true;
 	}
 
@@ -74,7 +74,7 @@ bool ServerAddPlayerHandler::processMessage(unsigned int destinationId,
 		if (ScorchedServer::instance()->getGameState().getState() !=
 			ServerState::ServerStateTooFewPlayers)
 		{
-			sendString(destinationId, "Can only change type before game starts.");
+			ServerCommon::sendString(destinationId, "Can only change type before game starts.");
 			return true;
 		}
 
@@ -101,7 +101,7 @@ bool ServerAddPlayerHandler::processMessage(unsigned int destinationId,
 	if (name != tank->getName()) getUniqueName(name);
 
 	// Tell this computer that a new tank has connected
-	sendString(0, "Player playing \"%s\"->\"%s\"",
+	ServerCommon::sendString(0, "Player playing \"%s\"->\"%s\"",
 		tank->getName(), name.c_str());
 
 	TankModelId modelId(message.getModelName());

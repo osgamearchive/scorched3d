@@ -23,7 +23,7 @@
 #include <server/ServerState.h>
 #include <server/ServerShotHolder.h>
 #include <server/ScorchedServer.h>
-#include <scorched/ServerDialog.h>
+#include <server/ServerCommon.h>
 #include <common/OptionsParam.h>
 #include <common/OptionsGame.h>
 #include <common/Logger.h>
@@ -119,7 +119,7 @@ bool ServerReadyState::acceptStateChange(const unsigned state,
 					tank->getName(),
 					ScorchedServer::instance()->getOptionsGame().getIdleKickTime());
 
-				kickDestination(tank->getDestinationId());
+				ServerCommon::kickDestination(tank->getDestinationId());
 			}
 		}
 

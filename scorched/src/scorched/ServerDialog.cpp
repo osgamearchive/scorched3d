@@ -24,15 +24,13 @@
 #include <tankai/TankAIAdder.h>
 #include <common/OptionsGame.h>
 #include <common/OptionsTransient.h>
-#include <common/OptionsParam.h>
 #include <common/Logger.h>
 #include <coms/NetBufferUtil.h>
-#include <coms/ComsTextMessage.h>
-#include <coms/ComsMessageSender.h>
 #include <server/ServerState.h>
 #include <server/ServerMain.h>
 #include <server/ServerMessageHandler.h>
 #include <server/ScorchedServer.h>
+#include <server/ServerCommon.h>
 #include <server/ServerTooFewPlayersStimulus.h>
 #include <wx/wx.h>
 #include <wx/image.h>
@@ -62,36 +60,6 @@ enum
 	IDC_MENU_PLAYERADD_9,
 	IDC_MENU_STARTNEWGAME
 };
-
-void killAll()
-{
-	std::map<unsigned int, Tank *>::iterator itor;
-	std::map<unsigned int, Tank *> &tanks = 
-		ScorchedServer::instance()->getTankContainer().getPlayingTanks();
-	for (itor = tanks.begin();
-		 itor != tanks.end();
-		 itor++)
-	{
-		Tank *current = (*itor).second;
-		current->getState().setState(TankState::sDead);
-	}
-}
-
-void serverLog(unsigned int playerId, const char *fmt, ...)
-{
-	if (OptionsParam::instance()->getDedicatedServer())
-	{
-		static char text[2048];
-
-		// Add the actual log message
-		va_list ap;
-		va_start(ap, fmt);
-		vsprintf(text, fmt, ap);
-		va_end(ap);
-
-		Logger::log(playerId, text);
-	}
-}
 
 class ServerPlayerListControl : public wxListCtrl
 {
@@ -428,79 +396,9 @@ void ServerFrame::onTimer()
 	frame->statusBar_->SetStatusText(buffer, 3);
 }
 
-void sendStringMessage(unsigned int dest, const char *fmt, ...)
-{
-	static char text[1024];
-	va_list ap;
-
-	va_start(ap, fmt);
-	vsprintf(text, fmt, ap);
-	va_end(ap);	
-
-	ComsTextMessage message(text, 0, true);
-	if (dest == 0)
-	{
-		ComsMessageSender::sendToAllConnectedClients(message);
-	}
-	else
-	{
-		ComsMessageSender::sendToSingleClient(message, dest);
-	}
-}
-
-void sendString(unsigned int dest, const char *fmt, ...)
-{
-	static char text[1024];
-	va_list ap;
-
-	va_start(ap, fmt);
-	vsprintf(text, fmt, ap);
-	va_end(ap);	
-
-	ComsTextMessage message(text);
-	if (dest == 0)
-	{
-		ComsMessageSender::sendToAllConnectedClients(message);
-	}
-	else
-	{
-		ComsMessageSender::sendToSingleClient(message, dest);
-	}
-}
-
-void kickDestination(unsigned int destinationId)
-{
-	if (destinationId == 0)
-	{
-		Logger::log(0, "Cannot kick local destination");
-		return;
-	}
-	Logger::log(0, "Kicking destination \"%i\"", destinationId);
-
-	std::map<unsigned int, Tank *>::iterator itor;
-	std::map<unsigned int, Tank *> &tanks = 
-		ScorchedServer::instance()->getTankContainer().getPlayingTanks();
-	for (itor = tanks.begin();
-		itor != tanks.end();
-		itor++)
-	{
-		Tank *tank = (*itor).second;
-		if (tank->getDestinationId() == destinationId)
-		{
-			sendString(0,
-				"Player \"%s\" has been kicked from the server",
-				tank->getName(), tank->getPlayerId());
-			Logger::log(tank->getPlayerId(), "Kicking client \"%s\" \"%i\"", 
-				tank->getName(), tank->getPlayerId());
-		}
-	}
-
-	ScorchedServer::instance()->getNetInterface().disconnectClient(destinationId);
-}
-
 void ServerFrame::onKillAll()
 {
-	killAll();
+	ServerCommon::killAll();
 }
 
 void ServerFrame::onStartNewGame()
@@ -517,7 +415,7 @@ void ServerFrame::onPlayerTalkAll()
 	{
 		Logger::log(0, "Says \"%s\"", 
 			entryDialog.GetValue().GetData());
-		sendString(0, entryDialog.GetValue());
+		ServerCommon::sendString(0, entryDialog.GetValue());
 	}
 }
 
@@ -543,7 +441,7 @@ void ServerFrame::onPlayerTalk()
 					ScorchedServer::instance()->getTankContainer().getTankByPos((unsigned int) item);
 				if (!tank->getTankAI())
 				{
-					sendString(tank->getDestinationId(), entryDialog.GetValue());
+					ServerCommon::sendString(tank->getDestinationId(), entryDialog.GetValue());
 				}
 			}
 		}
@@ -569,7 +467,7 @@ void ServerFrame::onPlayerKick()
 			}
 			else
 			{
-				kickDestination(tank->getDestinationId());
+				ServerCommon::kickDestination(tank->getDestinationId());
 			}
 		}		
     }
@@ -595,7 +493,6 @@ void ServerFrame::onShowOptions()
 	dialogMessage("Scorched 3D Server Options", allOptionsStr);
 }
 
-static FileLogger *serverFileLogger = 0;
 static class ServerLogger : public LoggerI
 {
 public:
@@ -631,14 +528,5 @@ void showServerDialog()
 	frame = new ServerFrame(serverName);
 	frame->Show();
 
-	if (!serverFileLogger) 
-	{
-		char buffer[256];
-		sprintf(buffer, "ServerLog-%i-", 
-			ScorchedServer::instance()->getOptionsGame().getPortNo());
-
-		serverFileLogger = new FileLogger(buffer);
-		Logger::addLogger(serverFileLogger);
-		Logger::addLogger(&serverLogger);
-	}
+	if (ServerCommon::startFileLogger()) Logger::addLogger(&serverLogger);
 }

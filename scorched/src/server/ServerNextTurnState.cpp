@@ -22,7 +22,7 @@
 #include <server/ServerState.h>
 #include <server/ScorchedServer.h>
 #include <server/TurnController.h>
-#include <scorched/ServerDialog.h>
+#include <server/ServerCommon.h>
 #include <tankai/TankAIComputer.h>
 #include <coms/ComsStartGameMessage.h>
 #include <coms/ComsTimerStartMessage.h>
@@ -94,7 +94,8 @@ void ServerNextTurnState::enterState(const unsigned state)
 			}
 			else
 			{
-				sendStringMessage(tank->getDestinationId(), "%s's Move", tank->getName());
+				ServerCommon::sendStringMessage(tank->getDestinationId(), 
+					"%s's Move", tank->getName());
 
 				// Tell the clients to start the game
 				ComsStartGameMessage startMessage(tank->getPlayerId(), weaponBuy);

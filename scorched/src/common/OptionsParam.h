@@ -32,6 +32,7 @@ public:
 	const char *getServerFile() { return server_.getValue(); }
 	const char *getClientFile() { return client_.getValue(); }
 	const char *getPassword() { return password_.getValue(); }
+	bool getConsole() { return console_.getValue(); }
 
 	enum Action
 	{
@@ -59,6 +60,7 @@ protected:
 	OptionEntryString client_;
 	OptionEntryString password_;
 	OptionEntryBool nooptions_;
+	OptionEntryBool console_;
 	bool SDLInitVideo_;
 
 private:

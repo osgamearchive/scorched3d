@@ -22,7 +22,7 @@
 #include <GLW/GLWTextButton.h>
 #include <GLW/GLWLabel.h>
 #include <common/WindowManager.h>
-#include <scorched/ServerDialog.h>
+#include <server/ServerCommon.h>
 
 KillDialog *KillDialog::instance_ = 0;
 
@@ -53,7 +53,7 @@ void KillDialog::buttonDown(unsigned int id)
 	}
 	else if (id == killId_)
 	{
-		killAll();
+		ServerCommon::killAll();
 		WindowManager::instance()->hideWindow(id_);
 	}
 }

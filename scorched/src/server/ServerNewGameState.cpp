@@ -22,7 +22,7 @@
 #include <server/ServerState.h>
 #include <server/ScorchedServer.h>
 #include <server/TurnController.h>
-#include <scorched/ServerDialog.h>
+#include <server/ServerCommon.h>
 #include <common/OptionsGame.h>
 #include <common/Clock.h>
 #include <common/StatsLogger.h>
@@ -47,10 +47,10 @@ void ServerNewGameState::enterState(const unsigned state)
 	StatsLogger::instance()->gameStart();
 
 	// Tell clients a new game is starting
-	sendString(0, "Next Round");
+	ServerCommon::sendString(0, "Next Round");
 
 	// Setup landscape and tank start pos
-	serverLog(0, "Generating landscape");
+	ServerCommon::serverLog(0, "Generating landscape");
 
 	// Set all options (wind etc..)
 	ScorchedServer::instance()->getContext().optionsTransient.newGame();
@@ -117,7 +117,7 @@ int ServerNewGameState::addTanksToGame(const unsigned state)
 	{
 		Logger::log(0, "ERROR: Failed to generate diff");
 	}
-	serverLog(0, "Finished generating landscape \"%s\" message (%i bytes)", 
+	ServerCommon::serverLog(0, "Finished generating landscape \"%s\" message (%i bytes)", 
 		newGameMessage.getLevelMessage().getHmapDefn().name.c_str(),
 		newGameMessage.getLevelMessage().getLevelLen());
 
@@ -125,8 +125,8 @@ int ServerNewGameState::addTanksToGame(const unsigned state)
 	if (newGameMessage.getLevelMessage().getLevelLen() >
 		(unsigned int) ScorchedServer::instance()->getOptionsGame().getMaxLandscapeSize())
 	{
-		serverLog(0, "Landscape too large to send to waiting clients.");
-		sendString(0, "Landscape too large to send to waiting clients (%i bytes).", 
+		ServerCommon::serverLog(0, "Landscape too large to send to waiting clients.");
+		ServerCommon::sendString(0, "Landscape too large to send to waiting clients (%i bytes).", 
 			newGameMessage.getLevelMessage().getLevelLen());
 		return 0;
 	}
@@ -301,8 +301,8 @@ void ServerNewGameState::checkTeams()
 	int offSet = int(team1.size()) - int(team2.size());
 	if (abs(offSet) < 2) return;
 
-	sendString(0, "Auto ballancing teams");
-	serverLog(0, "Auto ballancing teams");
+	ServerCommon::sendString(0, "Auto ballancing teams");
+	ServerCommon::serverLog(0, "Auto ballancing teams");
 
 	offSet /= 2;
 	if (offSet < 0)

@@ -17,6 +17,7 @@ Added: Faster sprite depth sorting
 Added: Moving waves around the island shores
 Added: Trees
 Added: Display options are stored in users home directory (if available)
+Added: Server can be run in console (non-gui) mode
 
 Fixed: Menu items could only be clicked in left hand side
 Fixed: Shot cam goes back to player even when not their turn
@@ -37,13 +38,11 @@ Gun fires at same point for all tanks (ignores turret/gun position in model)
 Bilboards for far away trees
 Different tree types
 Remove trees from around tanks
-Console server
 Ability to adjust server options on the fly, so the next match will have the new options
 Make AIs better
 
 -- Server Stuff
 Chat filter (swear words)
-ability to adjust server options on the fly, so the next match will have the new options
 Ban players 
 
 -- Client Stuff
@@ -100,6 +99,5 @@ Some kind of fire out the back of missiles
 Clouds
 lightning
 Trees (done, just need LOD and remove them when ground is cleared)
-Water has waves as appose to ripples
 Napalm scorches ground
 

@@ -44,7 +44,9 @@ OptionsParam::OptionsParam() :
 	password_(options_, "password",
 		"The password of the NET/LAN server", 0, ""),
 	nooptions_(options_, "nooptions",
-		"Only provided for backward compatability, has no current meaning", 0, false)
+		"Only provided for backward compatability, has no current meaning", 0, false),
+	console_(options_, "console",
+		"Run the server in a console (non-gui) mode", 0, false)
 {
 
 }

@@ -781,6 +781,8 @@ scorched3d_SOURCES = \
 	../client/TargetCamera.h \
 	../client/WindowSetup.cpp \
 	../client/WindowSetup.h \
+	../server/ServerCommon.cpp \
+	../server/ServerCommon.h \
 	../server/ScorchedServer.cpp \
 	../server/ScorchedServer.h \
 	../server/ServerAddPlayerHandler.cpp \

@@ -48,6 +48,7 @@
 #include <server/ServerRegistration.h>
 #include <server/ServerBrowserInfo.h>
 #include <server/ServerState.h>
+#include <server/ServerCommon.h>
 #include <server/ScorchedServer.h>
 #include <SDL/SDL.h>
 
@@ -96,7 +97,7 @@ bool startServer(bool local)
 	return true;
 }
 
-bool serverMain()
+void serverMain()
 {
 	// Create the server states
 	if (!startServer(false))
@@ -123,7 +124,6 @@ bool serverMain()
 	}
 
 	Logger::log(0, "Server started");
-	return true;
 }
 
 void serverLoop()
@@ -137,3 +137,18 @@ void serverLoop()
 		ScorchedServer::instance()->getGameState().simulate(serverTimer.getTimeDifference());
 	}
 }
+
+void consoleServer()
+{
+	printf("Starting Server...\n");
+	ServerCommon::startFileLogger();
+	serverMain();
+	printf("Server Started.\n");
+
+	for (;;)
+	{
+		SDL_Delay(10);
+		serverLoop();
+	}
+}
+

@@ -22,7 +22,7 @@
 #include <server/ServerShotHolder.h>
 #include <server/ScorchedServer.h>
 #include <server/TurnController.h>
-#include <scorched/ServerDialog.h>
+#include <server/ServerCommon.h>
 #include <common/OptionsGame.h>
 #include <common/Logger.h>
 
@@ -72,16 +72,16 @@ bool ServerPlayingState::acceptStateChange(const unsigned state,
 
 						if (movesMissed == 1)
 						{
-							serverLog(tank->getPlayerId(), "Player \"%s\" failed to make a move",
+							ServerCommon::serverLog(tank->getPlayerId(), "Player \"%s\" failed to make a move",
 								tank->getName());
-							sendString(0, "Player \"%s\" failed to make a move",
+							ServerCommon::sendString(0, "Player \"%s\" failed to make a move",
 								tank->getName());
 						}
 						else
 						{
-							serverLog(tank->getPlayerId(), "Player \"%s\" failed to make %i moves in a row",
+							ServerCommon::serverLog(tank->getPlayerId(), "Player \"%s\" failed to make %i moves in a row",
 								tank->getName(), movesMissed);
-							sendString(0, "Player \"%s\" failed to make %i moves in a row",
+							ServerCommon::sendString(0, "Player \"%s\" failed to make %i moves in a row",
 								tank->getName(), movesMissed);
 						}
 
@@ -92,7 +92,7 @@ bool ServerPlayingState::acceptStateChange(const unsigned state,
 							if (movesMissed >= ScorchedServer::instance()->getOptionsGame().getAllowedMissedMoves())
 							{
 								// Then kick this player
-								kickDestination(tank->getDestinationId());
+								ServerCommon::kickDestination(tank->getDestinationId());
 							}
 						}
 					}

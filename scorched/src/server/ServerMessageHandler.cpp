@@ -20,7 +20,7 @@
 
 #include <server/ServerMessageHandler.h>
 #include <server/ScorchedServer.h>
-#include <scorched/ServerDialog.h>
+#include <server/ServerCommon.h>
 #include <coms/ComsRmPlayerMessage.h>
 #include <coms/ComsMessageSender.h>
 #include <common/Logger.h>
@@ -113,5 +113,5 @@ void ServerMessageHandler::clientError(NetMessage &message,
 	Logger::log(0, "Client \"%i\", ***Server Error*** \"%s\"", 
 		message.getDestinationId(),
 		errorString);
-	kickDestination(message.getDestinationId());
+	ServerCommon::kickDestination(message.getDestinationId());
 }

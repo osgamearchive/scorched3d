@@ -23,6 +23,7 @@
 #include <SDL/SDL.h>
 #include <client/ClientMain.h>
 #include <server/ScorchedServer.h>
+#include <server/ServerMain.h>
 #include <common/OptionsDisplay.h>
 #include <common/OptionsParam.h>
 #include <common/OptionsGame.h>
@@ -193,6 +194,12 @@ int main(int argc, char *argv[])
 		}
 		ScorchedServer::instance()->getOptionsGame().readOptionsFromFile(
 			(char *) OptionsParam::instance()->getServerFile());
+
+		if (OptionsParam::instance()->getConsole())
+		{
+			consoleServer();
+			return true;
+		}
 
 		// Note: WE DO NOT BREAK
 	

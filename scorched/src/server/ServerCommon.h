@@ -18,13 +18,17 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+#if !defined(__INCLUDE_ServerCommonh_INCLUDE__)
+#define __INCLUDE_ServerCommonh_INCLUDE__
 
-#if !defined(__INCLUDE_ServerMainh_INCLUDE__)
-#define __INCLUDE_ServerMainh_INCLUDE__
-
-bool startServer(bool local);
-void serverMain();
-void serverLoop();
-void consoleServer();
+namespace ServerCommon
+{
+	bool startFileLogger();
+	void sendStringMessage(unsigned int destinationId, const char *fmt, ...);
+	void serverLog(unsigned int playerId, const char *fmt, ...);
+	void sendString(unsigned int destinationId, const char *fmt, ...);
+	void kickDestination(unsigned int destinationId);
+	void killAll();
+}
 
 #endif

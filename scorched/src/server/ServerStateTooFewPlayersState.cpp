@@ -23,7 +23,7 @@
 #include <server/ScorchedServer.h>
 #include <server/ServerNewGameState.h>
 #include <server/ServerState.h>
-#include <scorched/ServerDialog.h>
+#include <server/ServerCommon.h>
 #include <coms/ComsGameStoppedMessage.h>
 #include <coms/ComsGameStateMessage.h>
 #include <coms/ComsMessageSender.h>
@@ -47,8 +47,8 @@ void ServerStateTooFewPlayersState::enterState(const unsigned state)
 	ComsGameStoppedMessage gameStopped;
 	ComsMessageSender::sendToAllConnectedClients(gameStopped);
 
-	serverLog(0, "Too few players, stopping play");
-	sendString(0, "Too few players, stopping play");
+	ServerCommon::serverLog(0, "Too few players, stopping play");
+	ServerCommon::sendString(0, "Too few players, stopping play");
 }
 
 bool ServerStateTooFewPlayersState::acceptStateChange(const unsigned state, 

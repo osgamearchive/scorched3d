@@ -20,7 +20,7 @@
 
 #include <server/ServerScoreState.h>
 #include <server/ScorchedServer.h>
-#include <scorched/ServerDialog.h>
+#include <server/ServerCommon.h>
 #include <common/OptionsGame.h>
 #include <common/StatsLogger.h>
 #include <common/Logger.h>
@@ -55,8 +55,8 @@ void ServerScoreState::enterState(const unsigned state)
 		
 		TankSort::getSortedTanks(sortedTanks, ScorchedServer::instance()->getContext());
 		std::list<Tank *>::iterator scoreitor = sortedTanks.begin();
-		serverLog((*scoreitor)->getPlayerId(), "\"%s\" is the overall winner!", (*scoreitor)->getName());
-		sendStringMessage(0, "\"%s\" is the overall winner!", (*scoreitor)->getName());
+		ServerCommon::serverLog((*scoreitor)->getPlayerId(), "\"%s\" is the overall winner!", (*scoreitor)->getName());
+		ServerCommon::sendStringMessage(0, "\"%s\" is the overall winner!", (*scoreitor)->getName());
 		StatsLogger::instance()->tankOverallWinner((*scoreitor));
 	}
 	else
@@ -65,22 +65,22 @@ void ServerScoreState::enterState(const unsigned state)
 			ScorchedServer::instance()->getContext());
 		if (winningTeam == 0)
 		{
-			serverLog(0, "The game is a draw!");
-			sendStringMessage(0, "The game is a draw!");
+			ServerCommon::serverLog(0, "The game is a draw!");
+			ServerCommon::sendStringMessage(0, "The game is a draw!");
 		}
 		else if (winningTeam == 1)
 		{
-			serverLog(0, "Red team is the overall winner!");
-			sendStringMessage(0, "Red team is the overall winner!");
+			ServerCommon::serverLog(0, "Red team is the overall winner!");
+			ServerCommon::sendStringMessage(0, "Red team is the overall winner!");
 		}
 		else 
 		{
-			serverLog(0, "Green team is the overall winner!");
-			sendStringMessage(0, "Green team is the overall winner!");
+			ServerCommon::serverLog(0, "Green team is the overall winner!");
+			ServerCommon::sendStringMessage(0, "Green team is the overall winner!");
 		}
 	}
 
-	sendString(0, "Please wait for the next game...");
+	ServerCommon::sendString(0, "Please wait for the next game...");
 	ComsScoreMessage scoreMessage;
 	ComsMessageSender::sendToAllPlayingClients(scoreMessage);
 

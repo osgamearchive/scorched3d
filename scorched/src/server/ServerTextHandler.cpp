@@ -20,7 +20,7 @@
 
 #include <server/ServerTextHandler.h>
 #include <server/ScorchedServer.h>
-#include <scorched/ServerDialog.h>
+#include <server/ServerCommon.h>
 #include <tank/TankContainer.h>
 #include <coms/ComsTextMessage.h>
 #include <coms/ComsMessageSender.h>
@@ -95,7 +95,7 @@ bool ServerTextHandler::processMessage(unsigned int destinationId,
 		}
 
 		// Update the server console with the say text
-		serverLog(tankId, "Says \"%s\"", newText.c_str());
+		ServerCommon::serverLog(tankId, "Says \"%s\"", newText.c_str());
 
 		ComsTextMessage newMessage(newText.c_str(), 
 			tank->getPlayerId(), false, message.getTeamOnlyMessage());
@@ -123,7 +123,7 @@ bool ServerTextHandler::processMessage(unsigned int destinationId,
 	}
 	else
 	{
-		serverLog(0, "Says \"%s\"",	message.getText());
+		ServerCommon::serverLog(0, "Says \"%s\"", message.getText());
 	}
 
 	return true;
