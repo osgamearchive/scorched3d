@@ -23,7 +23,7 @@
 #include <GLEXT/GLState.h>
 #include <GLEXT/GLViewPort.h>
 #include <client/ScorchedClient.h>
-#include <common/defines.h>
+#include <common/Defines.h>
 
 GLWSelectorEntry::GLWSelectorEntry(const char *text, 
 			GLWTip *tooltip, 
