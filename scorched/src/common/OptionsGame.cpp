@@ -38,6 +38,8 @@ OptionsGame *OptionsGame::instance()
 OptionsGame::OptionsGame() :
 	maxArmsLevel_(options_, "MaxArmsLevel",
 		"The largest weapon type allowed", 0, 10, 0, 10),
+	maxNumberWeapons_(nextOptions_, "MaxNumberWeapons",
+		"The number of each weapon the player is allowed", 0, 90),
 	tankStartCloseness_(options_, "TankStartCloseness",
 		"How close tanks are allowed to start the level", 0, 20),
 	maxLandscapeSize_(options_, "MaxLandscapeSize",
@@ -93,7 +95,11 @@ OptionsGame::OptionsGame() :
 	publishAddress_(options_, "PublishAddress",
 		"IP address to publish to scorched net clients (auto-detected if not given).", 0, "AutoDetect"),
 	botNamePrefix_(options_, "BotNamePrefix", 
-		"Prepend and bot name with the specified text", 0, "(Bot) ")
+		"Prepend and bot name with the specified text", 0, "(Bot) "),
+	computersDeathTalk_(nextOptions_, "ComputersDeathTalk",
+		"The percentage chance the computers will say something when killed", 0, 100, 0, 100),
+	computersAttackTalk_(nextOptions_, "ComputersAttackTalk",
+		"The percentage chance the computers will say something when shooting", 0, 10, 0, 100)
 {
 	char buffer[128];
 	for (int i=0; i<24; i++)

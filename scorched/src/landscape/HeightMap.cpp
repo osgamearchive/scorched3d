@@ -96,7 +96,7 @@ void HeightMap::generateNormals(int minX, int maxX, int minY, int maxY, Progress
 			total.zero();
 
 			int times = 0;
-			for (int dist=1; dist<=5; dist+=2)
+			for (int dist=1; dist<=3; dist+=2)
 			{
 				for (int a=0, b=1; a<4; a++, b++)
 				{
@@ -120,6 +120,8 @@ void HeightMap::generateNormals(int minX, int maxX, int minY, int maxY, Progress
 					total += A;
 					times += 1;
 				}
+
+				if (times > 4) break;
 			}
 
 			getNormal(x, y) = total / (float) times;

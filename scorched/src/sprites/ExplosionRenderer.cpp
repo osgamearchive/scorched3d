@@ -42,7 +42,7 @@
 ExplosionRenderer::ExplosionMainPart::ExplosionMainPart()
 {
 	subParts = new ExplosionSubPart[
-		OptionsDisplay::instance()->getNoExplosionSubParts()];
+		OptionsDisplay::instance()->getNumberExplosionSubParts()];
 
 	float randRotXY = (RAND * TWOPI);
 	float randRotXZ = (RAND * TWOPI);
@@ -65,7 +65,7 @@ void ExplosionRenderer::ExplosionMainPart::simulate(float frameTime)
 {
 	position += positionMove * frameTime * 3.0f;
 
-	for (int j=0; j<OptionsDisplay::instance()->getNoExplosionSubParts(); j++)
+	for (int j=0; j<OptionsDisplay::instance()->getNumberExplosionSubParts(); j++)
 	{
 		subParts[j].simulate(frameTime);
 	}
@@ -77,7 +77,7 @@ void ExplosionRenderer::ExplosionMainPart::draw(
 {
 	Vector newposition = center + position;
 
-	for (int j=0; j<OptionsDisplay::instance()->getNoExplosionSubParts(); j++)
+	for (int j=0; j<OptionsDisplay::instance()->getNumberExplosionSubParts(); j++)
 	{
 		subParts[j].draw(newposition, w, opacity1, opacity2, t1, t2);
 	}
@@ -152,7 +152,7 @@ ExplosionRenderer::ExplosionRenderer(Vector &position, GLTextureSet &textureSet,
 	weapon_(weapon)
 {
 	mainParts = new ExplosionMainPart[
-		OptionsDisplay::instance()->getNoExplosionSubParts()];
+		OptionsDisplay::instance()->getNumberExplosionSubParts()];
 }
 
 ExplosionRenderer::~ExplosionRenderer()
@@ -218,7 +218,7 @@ void ExplosionRenderer::simulate(Action *action, float frameTime, bool &remove)
 		else
 		{
 			// Add initial smoke clouds
-			for (int a=0; a<OptionsDisplay::instance()->getNoExplosionSubParts() * 2; a++)
+			for (int a=0; a<OptionsDisplay::instance()->getNumberExplosionSubParts() * 2; a++)
 			{
 				float posXY = (RAND * 4.0f) - 2.0f;
 				float posYZ = (RAND * 4.0f) - 2.0f;
@@ -232,7 +232,7 @@ void ExplosionRenderer::simulate(Action *action, float frameTime, bool &remove)
 	}
 
 	// Update position of explosion parts
-	for (int i=0; i<OptionsDisplay::instance()->getNoExplosionSubParts(); i++)
+	for (int i=0; i<OptionsDisplay::instance()->getNumberExplosionSubParts(); i++)
 	{
 		mainParts[i].simulate(frameTime);
 	}		
@@ -271,7 +271,7 @@ void ExplosionRenderer::drawExplosion()
 
 	int i;
 	// Draw explosions
-	for (i=1; i<OptionsDisplay::instance()->getNoExplosionSubParts(); i++)
+	for (i=1; i<OptionsDisplay::instance()->getNumberExplosionSubParts(); i++)
 	{
 		mainParts[i].draw(centrePosition_, 
 			width,

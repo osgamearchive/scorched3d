@@ -36,13 +36,16 @@ public:
 	PatchGrid(HeightMap *hMap, int patchSize);
 	virtual ~PatchGrid();
 
+	void forceCalculate(int threshold);
 	void recalculate(int posX, int posY, int dist);
 	void draw(PatchSide::DrawType sides);
+	void simulate(float frameTime);
 
 protected:
 	Vector lastPos_;
 	int width_;
 	int patchSize_;
+	float simulationTime_;
 	Patch **patches_;
 	HeightMap *hMap_;
 

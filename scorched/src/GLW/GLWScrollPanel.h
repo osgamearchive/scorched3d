@@ -48,6 +48,7 @@ public:
 	virtual void setH(float h);
 
 	bool &getDrawScrollBar() { return drawScrollBar_; }
+	GLWScrollW &getScrollBar() { return scrollW_; }
 
 	METACLASSID
 protected:

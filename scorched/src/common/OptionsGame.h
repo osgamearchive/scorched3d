@@ -61,6 +61,9 @@ public:
 	int getMaxArmsLevel() { return maxArmsLevel_.getValue(); }
 	void setMaxArmsLevel(int value) { maxArmsLevel_.setValue(value); }
 
+	int getMaxNumberWeapons() { return maxNumberWeapons_.getValue(); }
+	void setMaxNumberWeapons(int value) { maxNumberWeapons_.setValue(value); }
+
 	int getTankStartCloseness() { return tankStartCloseness_.getValue(); }
 	void setTankStartCloseness(int value) { tankStartCloseness_.setValue(value); }
 
@@ -130,6 +133,12 @@ public:
 	bool getSimultaneous() { return simultaneous_.getValue(); }
 	void setSimultaneous(bool value) { simultaneous_.setValue(value); }
 
+	int getComputersDeathTalk() { return computersDeathTalk_.getValue(); }
+	void setComputersDeathTalk(int value) { computersDeathTalk_.setValue(value); }
+
+	int getComputersAttackTalk() { return computersAttackTalk_.getValue(); }
+	void setComputersAttackTalk(int value) { computersAttackTalk_.setValue(value); }
+
 	// Server only options
 	const char *getBotNamePrefix() { return botNamePrefix_.getValue(); }
 	void setBotNamePrefix(const char *value) { botNamePrefix_.setValue(value); }
@@ -160,6 +169,7 @@ public:
 protected:
 	static OptionsGame *instance_;
 	std::list<OptionEntry *> options_;
+	std::list<OptionEntry *> nextOptions_; // TODO move this into options
 	std::list<OptionEntry *> playerTypeOptions_;
 
 	OptionEntryBoundedInt maxArmsLevel_;
@@ -170,8 +180,11 @@ protected:
 	OptionEntryInt scoreTime_;
 	OptionEntryInt allowedMissedMoves_;
 	OptionEntryInt numberOfRounds_;
+	OptionEntryInt maxNumberWeapons_;
 	OptionEntryBoundedInt numberOfPlayers_;
 	OptionEntryBoundedInt numberOfMinPlayers_;
+	OptionEntryBoundedInt computersDeathTalk_;
+	OptionEntryBoundedInt computersAttackTalk_;
 	OptionEntryInt moneyBuyOnRound_;
 	OptionEntryInt moneyWonForRound_;
 	OptionEntryInt maxLandscapeSize_;

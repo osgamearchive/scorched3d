@@ -18,11 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// GLBitmapModifier.h: interface for the GLBitmapModifier class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_GLBITMAPMODIFIER_H__3C6E8BBF_1AB2_4847_BEB1_934C97C76F05__INCLUDED_)
 #define AFX_GLBITMAPMODIFIER_H__3C6E8BBF_1AB2_4847_BEB1_934C97C76F05__INCLUDED_
 
@@ -38,6 +33,8 @@ namespace GLBitmapModifier
 							float &dist,
 							float stopDist);
 
+	void tileBitmap(GLBitmap &src, GLBitmap &dest);
+
 	void addLightMapToBitmap(GLBitmap &bitmap, 
 							HeightMap &hMap,
 							Vector &sunPos,
@@ -51,14 +48,6 @@ namespace GLBitmapModifier
 							int numberSources,
 							int destBitmapScaleSize,
 							ProgressCounter *counter = 0);
-
-	void addScorchToBitmap(HeightMap &hMap,
-							Vector &sunPos,
-							GLBitmap &destBitmap,
-							GLBitmap &scorchBitmap,
-							DeformLandscape::DeformPoints &map,
-							int scorchX, int scorchY,
-							int scorchW);
 
 	void addWavesToBitmap(HeightMap &hMap,
 							GLBitmap &destBitmap,

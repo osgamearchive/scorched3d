@@ -39,14 +39,14 @@ public:
 	int getMaxModelTriPercentage() { return maxModelTriPercentage_.getValue(); }
 	void setMaxModelTriPercentage(int value) { maxModelTriPercentage_.setValue(value); }
 
-	int getNoExplosionParts() { return explosionParts_.getValue(); }
-	void setNoExplosionParts(int value) { explosionParts_.setValue(value); }
+	int getNumberExplosionParts() { return explosionParts_.getValue(); }
+	void setNumberExplosionParts(int value) { explosionParts_.setValue(value); }
 
 	int getExplosionParticlesMult() { return explosionParticleMult_.getValue(); }
 	void setExplosionParticlesMult(int value) { explosionParticleMult_.setValue(value); }
 
-	int getNoExplosionSubParts() { return explosionSubParts_.getValue(); }
-	void setNoExplosionSubParts(int value) { explosionSubParts_.setValue(value); }
+	int getNumberExplosionSubParts() { return explosionSubParts_.getValue(); }
+	void setNumberExplosionSubParts(int value) { explosionSubParts_.setValue(value); }
 
 	int getWaterHeight() { return waterHeight_.getValue(); }
 	void setWaterHeight(int value) { waterHeight_.setValue(value); }

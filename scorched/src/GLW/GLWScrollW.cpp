@@ -154,6 +154,13 @@ void GLWScrollW::startDrag(unsigned int id)
 	dragCurrent_ = current_;
 }
 
+void GLWScrollW::setCurrent(int newCurrent)
+{
+	int diffCurrent = current_ - newCurrent;
+	current_ = newCurrent;
+	if (handler_) handler_->positionChange(getId(), current_, -diffCurrent);
+}
+
 void GLWScrollW::buttonDrag(unsigned int id, float x, float y)
 {
 	const int possibilites = max_ - min_;
@@ -167,10 +174,7 @@ void GLWScrollW::buttonDrag(unsigned int id, float x, float y)
 
 		if (newCurrent != current_)
 		{
-			int diffCurrent = current_ - newCurrent;
-			current_ = newCurrent;
-
-			if (handler_) handler_->positionChange(getId(), current_, -diffCurrent);
+			setCurrent(newCurrent);
 		}
 	}
 }

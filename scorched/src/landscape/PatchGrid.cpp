@@ -39,7 +39,8 @@
 //////////////////////////////////////////////////////////////////////
 
 PatchGrid::PatchGrid(HeightMap *hMap, int patchSize) :
-	hMap_(hMap), lastPos_(-1, -2, -3), patchSize_(patchSize)
+	hMap_(hMap), lastPos_(-1, -2, -3), patchSize_(patchSize),
+	simulationTime_(0.0f)
 {
  	width_ = (hMap_->getWidth()+1) / patchSize;
 	patches_ = new Patch*[width_ * width_];
@@ -60,6 +61,36 @@ PatchGrid::PatchGrid(HeightMap *hMap, int patchSize) :
 PatchGrid::~PatchGrid()
 {
 	delete [] patches_;
+}
+
+void PatchGrid::simulate(float frameTime)
+{
+	const float SimulationTimeStep = 0.25f;
+
+	simulationTime_ += frameTime;
+	while (simulationTime_ > SimulationTimeStep)
+	{
+		simulationTime_ -= SimulationTimeStep;
+		forceCalculate(3);
+	}
+}
+
+void PatchGrid::forceCalculate(int threshold)
+{
+	unsigned tessCount = 0;
+	Patch **patch = patches_;
+	for (int p=0; p<width_ * width_; p++)
+	{			
+		if ((*patch)->getRecalculate())
+		{
+			tessCount++;
+			(*patch)->getRecalculate() = false;
+			(*patch)->computeVariance();
+		}
+		if (tessCount >= threshold) return;
+
+		patch++;
+	}
 }
 
 void PatchGrid::recalculate(int posX, int posY, int dist)
@@ -210,7 +241,7 @@ void PatchGrid::draw(PatchSide::DrawType sides)
 			if (frustum->sphereInFrustum(point, (*patch)->getWidth() + 5.0f))
 			{
 				if ((*patch)->getRecalculate() &&
-					tessCount < 10)
+					tessCount < 0)
 				{
 					tessCount++;
 					(*patch)->getRecalculate() = false;

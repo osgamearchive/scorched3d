@@ -18,11 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// GLBitmapModifier.cpp: implementation of the GLBitmapModifier class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <vector>
 #include <math.h>
 #include <GLEXT/GLBitmapItterator.h>
@@ -31,10 +26,6 @@
 
 static const float ambientLightConst = 0.2f;
 static const float directLightConst = 0.8f;
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 bool GLBitmapModifier::findIntersection(HeightMap &hMap,
 										Vector start,
@@ -71,6 +62,26 @@ bool GLBitmapModifier::findIntersection(HeightMap &hMap,
 	}
 
 	return result;
+}
+
+void GLBitmapModifier::tileBitmap(GLBitmap &src, GLBitmap &dest)
+{
+	GLubyte *destBytes = dest.getBits();
+	for (int j=0; j<dest.getHeight(); j++)
+	{
+		for (int i=0; i<dest.getWidth();i++, destBytes+=3)
+		{
+			int srcX = i % src.getWidth();
+			int srcY = j % src.getHeight();
+
+			GLubyte *srcBytes = src.getBits() + (3 * srcX) +
+				(3 * src.getWidth() * srcY);
+
+			destBytes[0] = srcBytes[0];
+			destBytes[1] = srcBytes[1];
+			destBytes[2] = srcBytes[2];
+		}
+	}
 }
 
 void GLBitmapModifier::addLightMapToBitmap(GLBitmap &destBitmap, 
@@ -415,74 +426,6 @@ void GLBitmapModifier::addHeightToBitmap(HeightMap &hMap,
 		}
 	}
 	delete [] heightBitmaps;
-}
-
-void GLBitmapModifier::addScorchToBitmap(HeightMap &hMap,
-										 Vector &sunPos,
-										GLBitmap &destBitmap,
-										GLBitmap &scorchBitmap,
-										DeformLandscape::DeformPoints &map,
-										int scorchX, int scorchY,
-										int scorchW)
-{
-	GLBitmapItterator bitmapItor(scorchBitmap,
-								destBitmap.getWidth(), 
-								destBitmap.getHeight(), 
-								GLBitmapItterator::wrap);
-
-	GLfloat hdx = (GLfloat) hMap.getWidth() / (GLfloat) destBitmap.getWidth();
-	GLfloat hdy = (GLfloat) hMap.getWidth() / (GLfloat) destBitmap.getHeight();
-
-	GLubyte *destBits = destBitmap.getBits();
-
-	GLfloat hy = 0.0f;
-	for (int by=0; by<destBitmap.getHeight(); by++, hy+=hdy, bitmapItor.incY())
-	{
-		int mapY = ((int) hy) - scorchY;
-		if ((mapY >= 0) && (mapY < scorchW))
-		{
-			GLfloat hx = 0.0f;
-			for (int bx=0; bx<destBitmap.getWidth(); bx++, destBits+=3, hx+=hdx, bitmapItor.incX())
-			{
-				int mapX = ((int) hx) - scorchX;
-
-				if ((mapX >= 0) && (mapX < scorchW))
-				{
-					// Add first height component
-					if (map.map[mapX][mapY] > 0.0f)
-					{
-						// Calculate lighting
-						float dz = hMap.getInterpHeight(hx, hy);
-			
-						Vector testPosition(hx, hy, dz);
-						Vector testNormal;
-						hMap.getInterpNormal(hx, hy, testNormal);
-						Vector sunDirection = (sunPos - testPosition).Normalize();
-
-						float diffuseLight = directLightConst * (testNormal.dotP(sunDirection));
-						float ambientLight = ambientLightConst;
-						float lightIntense = diffuseLight + ambientLight;
-						if (lightIntense > 1.0f) lightIntense = 1.0f;
-						else if (lightIntense < ambientLightConst) lightIntense = ambientLightConst;
-
-						float mag = map.map[mapX][mapY];
-
-						GLubyte *sourceBits = bitmapItor.getPos();
-						destBits[0] = (GLubyte) ((float(sourceBits[0]) * (mag * lightIntense)) + 
-							(float(destBits[0]) * (1.0f - mag)));
-						destBits[1] = (GLubyte) ((float(sourceBits[1]) * (mag * lightIntense)) + 
-							(float(destBits[1]) * (1.0f - mag)));
-						destBits[2] = (GLubyte) ((float(sourceBits[2]) * (mag * lightIntense)) + 
-							(float(destBits[2]) * (1.0f - mag)));
-					}
-				}
-			}
-		}
-		else
-		{
-			destBits += destBitmap.getWidth() * 3;
-		}
-	}
 }
 
 void GLBitmapModifier::addWavesToBitmap(HeightMap &hMap,

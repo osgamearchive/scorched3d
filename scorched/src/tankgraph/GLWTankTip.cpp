@@ -37,9 +37,11 @@ void GLWTankTip::populate()
 	static char buffer[1024];
 	sprintf(buffer, 
 			"Life   : %.0f\n"
-			"Shield : %.0f",
+			"Shield : %.0f\n"
+			"Score  : %s",
 			tank_->getState().getLife(),
-			tank_->getAccessories().getShields().getShieldPower());
+			tank_->getAccessories().getShields().getShieldPower(),
+			tank_->getScore().getScoreString());
 
 	setText(tank_->getName(), buffer);
 }

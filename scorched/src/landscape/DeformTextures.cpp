@@ -37,14 +37,6 @@ void DeformTextures::deformLandscape(Vector &pos, float radius,
 	// Recalculate landscape
 	Landscape::instance()->recalculate((int) pos[0], (int) pos[1], (int) radius);
 
-	// Add a scorched texture to the area
-	// Calculate new texture and load it into the gound texture
-	GLBitmapModifier::addScorchToBitmap(
-		hmap, 
-		Landscape::instance()->getSun().getPosition(),
-		Landscape::instance()->getMainMap(), Landscape::instance()->getScorchMap(), 
-		map, (int) (pos[0] - iradius), (int) (pos[1] - iradius), iradius * 2);
-
 	GLState currentState(GLState::TEXTURE_ON);
 	Landscape::instance()->getMainTexture().draw(true);
 
@@ -59,18 +51,51 @@ void DeformTextures::deformLandscape(Vector &pos, float radius,
 	x = MAX(x, 0);
 	y = MAX(y, 0);
 	w = MIN(w, Landscape::instance()->getMainMap().getWidth() - x);
-	w = MIN(h, Landscape::instance()->getMainMap().getHeight() - y);
+	h = MIN(h, Landscape::instance()->getMainMap().getHeight() - y);
 
 	if (x < Landscape::instance()->getMainMap().getWidth() &&
-		y < Landscape::instance()->getMainMap().getHeight())
+		y < Landscape::instance()->getMainMap().getHeight() && 
+		x + w < Landscape::instance()->getMainMap().getWidth() &&
+		y + h < Landscape::instance()->getMainMap().getHeight())
 	{
-		int width = 3 * Landscape::instance()->getMainMap().getWidth();
+		int landscapeWidth = Landscape::instance()->getMainMap().getWidth();
+		int width = 3 * landscapeWidth;
 		width   = (width + 3) & ~3;	
 
 		GLubyte *bytes = 
 			Landscape::instance()->getMainMap().getBits() + ((width * y) + x * 3);
-		glPixelStorei(GL_UNPACK_ROW_LENGTH, 
-			Landscape::instance()->getMainMap().getWidth());
+
+		GLubyte *destBits = bytes;
+		GLubyte *srcBits = 
+			Landscape::instance()->getScorchMap().getBits() + ((width * y) + x * 3);
+		for (int b=0; b<h;b++)
+		{
+			for (int a=0; a<w; a++)
+			{
+				int mapX = int(a / pixelsPerSW) + 2;
+				int mapY = int(b / pixelsPerSH) + 2;
+				if (mapX < 49 && mapY < 49)
+				{
+					float mag = map.map[mapX][mapY];
+					if (mag > 0.0f)
+					{
+						destBits[0] = (GLubyte) ((float(srcBits[0]) * mag) + 
+							(float(destBits[0]) * (1.0f - mag)));
+						destBits[1] = (GLubyte) ((float(srcBits[1]) * mag) + 
+							(float(destBits[1]) * (1.0f - mag)));
+						destBits[2] = (GLubyte) ((float(srcBits[2]) * mag) + 
+							(float(destBits[2]) * (1.0f - mag)));
+					}
+				}
+
+				srcBits += 3;
+				destBits +=3;
+			}
+			srcBits += width - w * 3;
+			destBits += width - w * 3;
+		}
+
+		glPixelStorei(GL_UNPACK_ROW_LENGTH, landscapeWidth);
 		glTexSubImage2D(GL_TEXTURE_2D, 0, 
 						x, y, 
 						w, h, 

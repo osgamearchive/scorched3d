@@ -98,7 +98,7 @@ OptionsDisplay::OptionsDisplay() :
 	numberSprites_(options_, "NumberSprites",
 		"The number of sprites to allow on screen", RWAccess, 40),
 	numberBilboards_(options_, "NumberBilboards",
-		"The number of bilboards to allow on screen", RWAccess, 1000),
+		"The number of bilboards to allow on screen", RWAccess, 2000),
 	depthBufferBits_(options_, "DepthBufferBits",
 		"The number of bits requested for the depth buffer", RAccess, 24),
 	showContextHelp_(options_, "ShowContextHelp",

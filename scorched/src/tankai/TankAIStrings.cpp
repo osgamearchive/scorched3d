@@ -18,17 +18,9 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// TankAIStrings.cpp: implementation of the TankAIStrings class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <tankai/TankAIStrings.h>
 #include <common/Defines.h>
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
+#include <common/OptionsGame.h>
 
 TankAIStrings *TankAIStrings::instance_ = 0;
 
@@ -66,12 +58,20 @@ const char *TankAIStrings::getPlayerName()
 
 const char *TankAIStrings::getDeathLine()
 {
-	const char *deathLine = deathLines_.getRandomLine();
+	const char *deathLine = 0;
+	float percentage = float(OptionsGame::instance()->getComputersDeathTalk());
+	float talkPer = RAND * 100.0f;
+	if (talkPer < percentage) deathLine = deathLines_.getRandomLine();
+
 	return deathLine;
 }
 
 const char *TankAIStrings::getAttackLine()
 {
-	const char *attackLine = attackLines_.getRandomLine();
+	const char *attackLine = 0;
+	float percentage = float(OptionsGame::instance()->getComputersAttackTalk());
+	float talkPer = RAND * 100.0f;
+	if (talkPer < percentage) attackLine = attackLines_.getRandomLine();
+	
 	return attackLine;
 }

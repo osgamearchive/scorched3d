@@ -18,11 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// BuyAccessoryDialog.cpp: implementation of the BuyAccessoryDialog class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <dialogs/BuyAccessoryDialog.h>
 #include <GLW/GLWTextButton.h>
 #include <tank/TankContainer.h>
@@ -36,10 +31,6 @@
 #include <weapons/AccessoryStore.h>
 #include <GLW/GLWFlag.h>
 #include <stdio.h>
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 BuyAccessoryDialog::BuyAccessoryDialog() : 
 	GLWWindow("", 10.0f, 10.0f, 440.0f, 280.0f, 0),
@@ -123,8 +114,7 @@ void BuyAccessoryDialog::addPlayerWeaponsBuy(GLWTab *tab, bool showWeapons)
 		itor++)
 	{	
 		Accessory *current = (*itor);
-		if (current->getPrice() <= tank->getScore().getMoney() &&
-			(10-current->getArmsLevel()) <= OptionsGame::instance()->getMaxArmsLevel())
+		if (10-current->getArmsLevel() <= OptionsGame::instance()->getMaxArmsLevel())
 		{
 			accVector.push_back(current);
 		}
@@ -152,7 +142,8 @@ void BuyAccessoryDialog::addPlayerWeaponsBuy(GLWTab *tab, bool showWeapons)
 
 		if ((!current->singular() && currentNumber >= 0) || (current->singular() && currentNumber==0))
 		{
-			if (currentNumber < 90)
+			if (currentNumber < OptionsGame::instance()->getMaxNumberWeapons() &&
+				current->getPrice() <= tank->getScore().getMoney())
 			{
 				GLWidget *button = 
 					newPanel->addWidget(new GLWTextButton("Buy", 310, 0, 60, this));
@@ -289,7 +280,13 @@ void BuyAccessoryDialog::buttonDown(unsigned int id)
 			// Add the accessory
 			tank->getAccessories().add(acc);
 			tank->getScore().setMoney(tank->getScore().getMoney() - acc->getPrice());
+
+			// Refresh the window
+			int buyCurrent = buyWeaponTab_->getScrollBar().getCurrent();
+			int otherCurrent = buyOtherTab_->getScrollBar().getCurrent();
 			playerRefresh();
+			buyWeaponTab_->getScrollBar().setCurrent(buyCurrent);
+			buyOtherTab_->getScrollBar().setCurrent(otherCurrent);
 		}
 		else
 		{
@@ -307,7 +304,11 @@ void BuyAccessoryDialog::buttonDown(unsigned int id)
 				// Add the accessory
 				tank->getAccessories().rm(acc);
 				tank->getScore().setMoney(tank->getScore().getMoney() + acc->getSellPrice());
+
+				// Refresh the window
+				int sellCurrent = sellTab_->getScrollBar().getCurrent();
 				playerRefresh();
+				sellTab_->getScrollBar().setCurrent(sellCurrent);
 			}
 		}
 	}

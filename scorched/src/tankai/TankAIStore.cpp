@@ -47,7 +47,7 @@ TankAIStore::TankAIStore()
 	addComputerAI(new TankAIComputerPShark(0));
 
 	// Test purpose only
-	// addComputerAI(new TankAIComputerDHTest(0));
+	 addComputerAI(new TankAIComputerDHTest(0));
 }
 
 TankAIStore::~TankAIStore()

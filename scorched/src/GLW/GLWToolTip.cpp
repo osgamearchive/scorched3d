@@ -54,13 +54,13 @@ void GLWTip::setText(const char *title, const char *text)
 	while(token != NULL)
 	{
 		texts_.push_back(token);
-		float width = float(strlen(token)) * 6.0f + 10.0f;
+		float width = float(strlen(token)) * 7.0f + 10.0f;
 		if (width > textWidth_) textWidth_ = width;
 		textHeight_ += 10.0f;
 		token = strtok(NULL, "\n");
 	}
 
-	float width = float(strlen(title_.c_str())) * 6.0f + 10.0f;
+	float width = float(strlen(title_.c_str())) * 7.0f + 10.0f;
 	if (width > textWidth_) textWidth_ = width;
 }
 
@@ -191,8 +191,9 @@ void GLWToolTip::draw(const unsigned state)
 	glEnd();
 
 	float pos = posY + posH - 16.0f;
-	GLWFont::instance()->getFont()->draw(selectedColor, 9, posX + 3.0f, 
+	GLWFont::instance()->getFont()->draw(selectedColor, 11, posX + 3.0f, 
 		pos, 0.0f, currentTip_->getTitle());
+	pos -= 2.0f;
 
 	std::list<char *> &texts = currentTip_->getTexts();
 	std::list<char *>::iterator itor;
@@ -201,7 +202,7 @@ void GLWToolTip::draw(const unsigned state)
 	{
 		pos -= 10.0f;
 
-		GLWFont::instance()->getFont()->draw(color, 9, posX + 6.0f, 
+		GLWFont::instance()->getFont()->draw(color, 10, posX + 6.0f, 
 			pos, 0.0f, (*itor));
 	}
 

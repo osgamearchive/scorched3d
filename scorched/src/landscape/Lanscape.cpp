@@ -78,6 +78,7 @@ void Landscape::simulate(const unsigned state, float frameTime)
 			}
 		}
 	}
+	patchGrid_.simulate(frameTime);
 	smoke_.simulate(frameTime);
 	surround_.simulate(frameTime);
 	wall_.simulate(frameTime);
@@ -206,6 +207,7 @@ void Landscape::generate(ProgressCounter *counter)
 	if (!mainMap_.getBits())
 	{
 		mainMap_.createBlank(mapTexSize, mapTexSize);
+		scorchMap_.createBlank(mapTexSize, mapTexSize);
 	}
 	GLBitmap texture0(Resources::stringResource("bitmap-texture0"));
 	surroundTexture_.create(texture0);
@@ -214,7 +216,9 @@ void Landscape::generate(ProgressCounter *counter)
 	GLBitmap texture3(Resources::stringResource("bitmap-texture3"));
 	GLBitmap texture4(Resources::stringResource("bitmap-texture4"));
 
-	scorchMap_.loadFromFile(Resources::stringResource("bitmap-scorch"), false);
+	GLBitmap scorchMap(Resources::stringResource("bitmap-scorch"));
+	GLBitmapModifier::tileBitmap(scorchMap, scorchMap_);
+
 	GLBitmap bitmapShore(Resources::stringResource("bitmap-shore"));
 	GLBitmap bitmapRock(Resources::stringResource("bitmap-rockside"));
 	GLBitmap *bitmaps[5];
@@ -303,6 +307,7 @@ void Landscape::reset()
 	// Recalculate all landscape objects
 	// Ensure all objects use any new landscape
 	recalculate(0, 0, 1000);
+	patchGrid_.forceCalculate(256);
 	WindDialog::instance()->buildMap();
 	WaterMapModifier::addWaterVisibility(
 		GlobalHMap::instance()->getHMap(), 

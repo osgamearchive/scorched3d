@@ -64,10 +64,11 @@ unsigned int Variance::recursComputeVariance( int leftX,  int leftY,  float left
 
 	// Variance of this triangle is the actual height at it's hypotenuse midpoint minus the interpolated height.
 	// Use values passed on the stack instead of re-accessing the Height Field.
-	unsigned int myVariance = (unsigned int) (50.0f * fabs(centerZ - ((leftZ + rightZ) / 2.0f)));
+	float part = centerZ - ((leftZ + rightZ) / 2.0f);
+	unsigned int myVariance = (unsigned int) (part < 0.0f?part * -50.0f:part * 50.0f);
 
-	if ( (abs(leftX - rightX) >= 2) ||
-		 (abs(leftY - rightY) >= 2) )
+	if ( ((leftX - rightX) >= 2) || ((leftX - rightX) <= -2) ||
+		 ((leftY - rightY) >= 2) || ((leftY - rightY) <= -2))
 	{
 		// Final Variance for this node is the max of it's own variance and that of it's children.
 		myVariance = MAX( myVariance, recursComputeVariance( apexX,   apexY,  apexZ, leftX, leftY, leftZ, centerX, centerY, centerZ,    node<<1 ) );

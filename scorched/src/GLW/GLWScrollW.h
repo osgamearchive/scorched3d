@@ -50,7 +50,7 @@ public:
 	void setMin(int min) { min_ = min; }
 	void setMax(int max) { max_ = max; }
 	void setSee(int see) { see_ = see; }
-	void setCurrent(int c) { current_ = c; }
+	void setCurrent(int c);
 	virtual void setX(float x);
 
 	int getCurrent() { return current_; }

@@ -6,12 +6,15 @@ Added: Menu items change color when available (mouse over)
 Added: Can now kick computer players (from server dialog)
 Added: Can set number of sprites and bilboards
 Added: Talk text now has tank state appended to it (dead, pending)
+Added: Buy dialog shows all available weapons
+Added: Buy dialog order and position don't change after buy
 
+Fixed: Landscape explosions are much faster
 Fixed: Text drawn outside dialogs (help and connect dialogs)
 Fixed: Player name will always fit on score dialog
 Fixed: can set number arguments via the console
 Fixed: Reduced bilboards and sprites used
-Fixed: <SHFT>/<CNTRL> wrong way round in README
+Fixed: SHFT/CTRL keys wrong way round in README
 Fixed: Auto defense dialog shown for other players
 Fixed: +/- keys do not work on key pad
 Fixed: Auto defense dialog+bug dialog can be shown multiple times for same player
