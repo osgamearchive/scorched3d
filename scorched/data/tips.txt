@@ -4,5 +4,8 @@ Parachutes protect you from falling damage.
 Parachutes and shields must be enabled.
 Buying fuel will allow your tank to move.
 All shots are affected by wind.
-Pressing the 's' key will show your current score.
-Pressing the 't' key allows you to talk to players.
+The 's' key will show your current score.
+The 't' key allows you to talk to players.
+The 'a' key will aim the mouse position.
+Use the 1 to 9 keys to switch camera views.
+The 'c' key will show a second camera view.

@@ -92,12 +92,13 @@ bool Sound::init()
 
 void Sound::setVolume(int volume)
 {
-	Mix_Volume(-1, volume);
+	if (init_) Mix_Volume(-1, volume);
 }
 
 int Sound::getVolume()
 {
-	return Mix_Volume(-1, -1);
+	if (init_) return Mix_Volume(-1, -1);
+	return 0;
 }
 
 SoundBuffer *Sound::createBuffer(char *fileName)

@@ -31,6 +31,8 @@ class HelpButtonDialog : public GLWWindow,
 public:
 	static HelpButtonDialog *instance();
 
+	GLTexture &getHelpTexture();
+
 protected:
 	static HelpButtonDialog *instance_;
 	GLTexture helpTexture_;

@@ -20,6 +20,7 @@
 
 #include <dialogs/ProgressDialog.h>
 #include <dialogs/BackdropDialog.h>
+#include <dialogs/HelpButtonDialog.h>
 #include <client/ScorchedClient.h>
 #include <client/Main2DCamera.h>
 #include <engine/MainLoop.h>
@@ -72,14 +73,13 @@ void ProgressDialog::draw()
 	GLWWindow::draw();
 
 	{
-		GLState state(GLState::DEPTH_OFF);
+		GLState state(GLState::DEPTH_OFF | GLState::TEXTURE_ON | GLState::BLEND_ON);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	
 		wait_.draw();
 
 		glPushMatrix();
 			glTranslatef(x_, y_ + 20.0f, 0.0f);
 			{
-				GLState state2(GLState::TEXTURE_ON | GLState::BLEND_ON);
 				glColor3f(1.0f, 1.0f, 1.0f);
 				glBegin(GL_QUADS);
 					glTexCoord2f(0.0f, 0.0f);
@@ -117,9 +117,25 @@ void ProgressDialog::draw()
 				14.0f, 20.0f, 28.0f, 0.0f, 
 				progressLabel_->getText());
 
+			HelpButtonDialog::instance()->getHelpTexture().draw();
+			glPushMatrix();
+				glColor3f(1.0f, 1.0f, 1.0f);
+				glTranslatef(18.0f, -10.0f, 0.0f);
+				glBegin(GL_QUADS);
+					glTexCoord2f(0.0f, 0.0f);
+					glVertex2f(0.0f, 0.0f);
+					glTexCoord2f(1.0f, 0.0f);
+					glVertex2f(20.0f, 0.0f);
+					glTexCoord2f(1.0f, 1.0f);
+					glVertex2f(20.0f, 20.0f);
+					glTexCoord2f(0.0f, 1.0f);
+					glVertex2f(0.0f, 20.0f);
+				glEnd();
+			glPopMatrix();
+
 			Vector color2(0.4f, 0.4f, 0.4f);
 			GLWFont::instance()->getLargePtFont()->drawWidth(300, 
-				color2, 8.0f, 20.0f, -10.0f, 0.0f, 
+				color2, 8.0f, 38.0f, -4.0f, 0.0f, 
 				tip_);
 		glPopMatrix();
 	}

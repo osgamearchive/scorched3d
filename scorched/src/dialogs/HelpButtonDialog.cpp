@@ -46,7 +46,7 @@ HelpButtonDialog::~HelpButtonDialog()
 {
 }
 
-void HelpButtonDialog::draw()
+GLTexture &HelpButtonDialog::getHelpTexture()
 {
 	if (!helpTexture_.textureValid())
 	{
@@ -55,6 +55,12 @@ void HelpButtonDialog::draw()
 		GLBitmap map(file.c_str(), filea.c_str(), false);
 		helpTexture_.create(map, GL_RGBA, false);
 	}
+	return helpTexture_;
+}
+
+void HelpButtonDialog::draw()
+{
+	getHelpTexture();
 	if (!soundTexture_.textureValid())
 	{
 		std::string file = getDataFile("data/windows/sound.bmp");
@@ -107,16 +113,28 @@ void HelpButtonDialog::mouseDown(float x, float y, bool &skipRest)
 		else
 		{
 			std::list<GLWSelectorEntry> entries;
-			for (int i=0; i<=10; i++)
+
+			if (OptionsDisplay::instance()->getNoSound())
 			{
-				int volume = int(float(i) * 12.8f);
-				bool selected = 
-					(OptionsDisplay::instance()->getSoundVolume() >= volume &&
-					OptionsDisplay::instance()->getSoundVolume() < volume + 12);
+				int i = -1;
 				entries.push_back(
-					GLWSelectorEntry(
-						formatString("Volume : %i", i * 10), 
-						0, selected, 0, (void *) i));
+						GLWSelectorEntry(
+							"Sound Off", 
+							0, true, 0, (void *) i));
+			}
+			else
+			{
+				for (int i=0; i<=10; i++)
+				{
+					int volume = int(float(i) * 12.8f);
+					bool selected = 
+						(OptionsDisplay::instance()->getSoundVolume() >= volume &&
+						OptionsDisplay::instance()->getSoundVolume() < volume + 12);
+					entries.push_back(
+						GLWSelectorEntry(
+							formatString("Volume : %i", i * 10), 
+							0, selected, 0, (void *) i));
+				}
 			}
 
 			GLWSelector::instance()->showSelector(
@@ -141,7 +159,11 @@ void HelpButtonDialog::keyDown(char *buffer, unsigned int keyState,
 
 void HelpButtonDialog::itemSelected(GLWSelectorEntry *entry, int position)
 {
-	int volume = int(float((int) entry->getUserData()) * 12.8f);
-	Sound::instance()->setVolume(volume);
-	OptionsDisplay::instance()->setSoundVolume(volume);
+	int data = (int) entry->getUserData();
+	if (data != -1)
+	{
+		int volume = int(float(data) * 12.8f);
+		Sound::instance()->setVolume(volume);
+		OptionsDisplay::instance()->setSoundVolume(volume);
+	}
 }
