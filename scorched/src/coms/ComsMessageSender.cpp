@@ -20,14 +20,21 @@
 
 
 #include <coms/ComsMessageSender.h>
+#include <coms/ComsMessageHandler.h>
 #include <coms/NetBuffer.h>
 #include <coms/ComsGateway.h>
 #include <coms/NetServer.h>
+#include <common/Logger.h>
 #include <tank/TankContainer.h>
 
 bool ComsMessageSender::sendToServer(ComsMessage &message)
 {
 	if (!ComsGateway::instance()->started()) return false;
+
+	if (ComsMessageHandler::instance()->getMessageLogging())
+	{
+		Logger::log(0, "sendToServer(%s)", message.getMessageType());
+	}
 
 	NetBufferDefault::defaultBuffer.reset();
 	if (!message.writeTypeMessage(NetBufferDefault::defaultBuffer))
@@ -46,6 +53,13 @@ bool ComsMessageSender::sendToSingleClient(ComsMessage &message,
 						TCPsocket destination)
 {
 	if (!ComsGateway::instance()->started()) return false;
+
+	if (ComsMessageHandler::instance()->getMessageLogging())
+	{
+		Logger::log(0, "sendToSingleClient(%s, %i)", 
+					message.getMessageType(),
+					(int) destination);
+	}
 
 	unsigned int playerId = (unsigned int) destination;
 	Tank *tank = TankContainer::instance()->getTankById(playerId);

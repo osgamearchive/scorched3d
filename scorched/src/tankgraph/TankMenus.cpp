@@ -24,6 +24,7 @@
 #include <tankgraph/TankMenus.h>
 #include <tankgraph/TankModelRenderer.h>
 #include <common/WindowManager.h>
+#include <common/Logger.h>
 #include <coms/ComsMessageHandler.h>
 #include <engine/GameState.h>
 #include <landscape/Landscape.h>
@@ -38,10 +39,14 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
+static FileLogger clientFileLogger("ClientLog");
+
 TankMenus::TankMenus()
 {
 	new GLConsoleRuleMethodIAdapter<TankMenus>(
 		this, &TankMenus::showTankDetails, "TankDetails");
+	new GLConsoleRuleMethodIAdapter<TankMenus>(
+		this, &TankMenus::logToFile, "LogToFile");
 	new GLConsoleRuleFnIBooleanAdapter(
 		"ComsMessageLogging", ComsMessageHandler::instance()->getMessageLogging());
 	new GLConsoleRuleFnIBooleanAdapter(
@@ -51,6 +56,11 @@ TankMenus::TankMenus()
 TankMenus::~TankMenus()
 {
 
+}
+
+void TankMenus::logToFile()
+{
+	Logger::addLogger(&clientFileLogger);
 }
 
 void TankMenus::showTankDetails()

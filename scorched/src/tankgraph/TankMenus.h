@@ -57,6 +57,7 @@ protected:
 	} accessoryMenu_;	
 
 	void showTankDetails();
+	void logToFile();
 
 };
 
