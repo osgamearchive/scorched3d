@@ -51,6 +51,9 @@ public:
 	ViewPoints();
 	virtual ~ViewPoints();
 
+	void reset() { finished_ = false; }
+	void explosion(unsigned int playerId);
+
 	void simulate(float frameTime);
 	void getValues(Vector &lookAt, 
 				   Vector &lookFrom);
@@ -68,6 +71,7 @@ protected:
 	ScorchedContext *context_;
 	Vector lookAt_, lookFrom_;
 	float totalTime_;
+	bool finished_;
 
 };
 

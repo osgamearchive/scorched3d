@@ -61,7 +61,6 @@ protected:
 	unsigned int playerId_;
 	bool explosionHurts_;
 	DeformType deformType_;
-	ViewPoints::ViewPoint *vPoint_;
 	
 };
 

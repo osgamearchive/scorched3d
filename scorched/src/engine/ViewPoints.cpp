@@ -22,7 +22,7 @@
 #include <engine/ScorchedContext.h>
 #include <common/Defines.h>
 
-ViewPoints::ViewPoints() : context_(0), totalTime_(0)
+ViewPoints::ViewPoints() : context_(0), totalTime_(0), finished_(false)
 {
 }
 
@@ -86,46 +86,24 @@ void ViewPoints::simulate(float frameTime)
 		count += 1.0f;
 	}
 
-	float dist = 35.0f;
+	float dist = 25.0f;
 	float maxMin = (max - min).Magnitude();
 	if (maxMin > 0.0f)
 	{
-		dist = 35.0f + maxMin;
+		dist = 25.0f + maxMin;
 	}
 	lookFrom.StoreNormalize();
 
 	lookAt /= count;
 	lookFrom *= dist;
 
-	// Make some constant changes, regardless of framerate
-	if (count == 1)
-	{
-		lookAt_ = lookAt;
-		lookFrom_ = lookFrom;
-	}
-	else
-	{
-		const float SecondsToReachTarget = 0.1f;
-		totalTime_ += frameTime;
-		while (totalTime_ > 0.05f)
-		{
-			totalTime_ -= 0.05f;
-
-			// Calculate the new look at value
-			Vector directionLookAt = lookAt - lookAt_;
-			directionLookAt	*= SecondsToReachTarget;
-			lookAt_ += directionLookAt;
-
-			// Calculate the new look from value
-			Vector directionPosition = lookFrom - lookFrom_;
-			directionPosition *= SecondsToReachTarget;
-			lookFrom_ += directionPosition;
-		}
-	}
+	lookAt_ = lookAt;
+	lookFrom_ = lookFrom;
 }
 
 int ViewPoints::getLookAtCount()
 {
+	if (finished_) return 0;
 	return (int) points_.size();
 }
 
@@ -142,6 +120,19 @@ ViewPoints::ViewPoint *ViewPoints::getNewViewPoint(unsigned int playerId)
 	ViewPoint *viewpoint = new ViewPoint();
 	points_.push_back(viewpoint);
 	return viewpoint;
+}
+
+void ViewPoints::explosion(unsigned int playerId)
+{
+	if (context_->serverMode) return;
+
+	if (context_->tankContainer.getCurrentPlayerId() != playerId &&
+		context_->optionsGame.getTurnType() == OptionsGame::TurnSimultaneous)
+	{
+		return;
+	}
+
+	finished_ = true;
 }
 
 void ViewPoints::releaseViewPoint(ViewPoint *point)

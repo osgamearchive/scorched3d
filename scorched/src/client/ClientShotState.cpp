@@ -46,6 +46,7 @@ ClientShotState::~ClientShotState()
 void ClientShotState::enterState(const unsigned state)
 {
 	Landscape::instance()->restoreLandscapeTexture();
+	ScorchedClient::instance()->getContext().viewPoints.reset();
 }
 
 bool ClientShotState::acceptStateChange(const unsigned state, 

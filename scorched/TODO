@@ -14,6 +14,7 @@ Fixed: Smoke disapears after a while
 Fixed: Server more responsive, slow clients don't affect other players
 Fixed: Server won't wait for dead clients to respond
 Fixed: Tooltips don't show through other dialogs
+Fixed: Shot cam does not jump around (back to v35 kind of)
 
 Added: Mysql compile options for windows (+ required libraries and headers)
 Added: Stats ranking message when player joins server
@@ -50,7 +51,6 @@ Shot cam does not get LOD correctly
 -- Things I am currently looking at
 Make AIs better (partialy done)
 Option to auto remove computer players when a certain number of humans in game
-Make shot cam zoom out for explosion (partialy done)
 Riot Blast
 A way to allow tank spawn positions to be configured, bitmap landscapes only?
 

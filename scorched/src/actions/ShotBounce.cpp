@@ -71,7 +71,7 @@ void ShotBounce::init()
 	{
 		actionVector_ = ActionVectorHolder::getActionVector(actionId_);
 	}
-	vPoint_ = context_->viewPoints.getNewViewPoint(playerId_);
+	//vPoint_ = context_->viewPoints.getNewViewPoint(playerId_);
 }
 
 ShotBounce::~ShotBounce()

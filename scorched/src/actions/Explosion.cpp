@@ -41,7 +41,7 @@
 REGISTER_ACTION_SOURCE(Explosion);
 
 Explosion::Explosion() :
-	firstTime_(true), vPoint_(0), totalTime_(0.0f)
+	firstTime_(true), totalTime_(0.0f)
 {
 
 }
@@ -53,14 +53,14 @@ Explosion::Explosion(Vector &position, float width,
 	firstTime_(true),
 	weapon_(weapon), playerId_(fired), 
 	position_(position), width_(width), deformType_(deformType),
-	explosionHurts_(explosionHurts), vPoint_(0), totalTime_(0.0f)
+	explosionHurts_(explosionHurts), totalTime_(0.0f)
 {
 
 }
 
 Explosion::~Explosion()
 {
-	if (vPoint_) context_->viewPoints.releaseViewPoint(vPoint_);
+
 }
 
 void Explosion::init()
@@ -70,11 +70,6 @@ void Explosion::init()
 	multiplier *= 0.5f;
 	multiplier += 1.0f;
 	float explosionSize = width_ * multiplier;	
-
-	if (deformType_ != DeformNone)
-	{
-		//vPoint_ = context_->viewPoints.getNewViewPoint(playerId_);
-	}
 
 	if (!context_->serverMode) 
 	{
@@ -184,19 +179,6 @@ void Explosion::simulate(float frameTime, bool &remove)
 			*context_,
 			weapon_, playerId_, 
 			position_, width_ , !explosionHurts_);
-	}
-
-	if (deformType_ != DeformNone)
-	{
-		if (vPoint_)
-		{
-			vPoint_->setPosition(position_);
-			Vector velocity(
-				sinf(0.0f / 10.0f * 3.14f), 
-				cosf(0.0f / 10.0f * 3.14f), 1.0f);
-			vPoint_->setLookFrom(velocity);
-			vPoint_->setRadius(10.0f + width_ / 3.0f);
-		}
 	}
 
 	if (!renderer_) remove = true;
