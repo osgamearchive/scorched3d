@@ -82,14 +82,14 @@ bool ServerPlayingState::acceptStateChange(const unsigned state,
 
 						if (movesMissed == 1)
 						{
-							Logger::log(tank, "Player \"%s\" failed to make a move",
+							Logger::log(tank->getPlayerId(), "Player \"%s\" failed to make a move",
 								tank->getName());
 							sendString(0, "Player \"%s\" failed to make a move",
 								tank->getName());
 						}
 						else
 						{
-							Logger::log(tank, "Player \"%s\" failed to make %i moves in a row",
+							Logger::log(tank->getPlayerId(), "Player \"%s\" failed to make %i moves in a row",
 								tank->getName(), movesMissed);
 							sendString(0, "Player \"%s\" failed to make %i moves in a row",
 								tank->getName(), movesMissed);

@@ -99,7 +99,7 @@ bool ServerNextRoundState::acceptStateChange(const unsigned state,
 			Tank *tank = (*itor).second;
 			if (tank->getState().getReadyState() == TankState::SNotReady)
 			{
-				Logger::log(tank, "Player \"%s\" not returned ready for %i seconds", 
+				Logger::log(tank->getPlayerId(), "Player \"%s\" not returned ready for %i seconds", 
 					tank->getName(),
 					OptionsGame::instance()->getIdleKickTime());
 

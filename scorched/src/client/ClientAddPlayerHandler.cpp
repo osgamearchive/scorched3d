@@ -75,7 +75,7 @@ bool ClientAddPlayerHandler::processMessage(NetPlayerID &id,
 	TankContainer::instance()->addTank(tank);
 
 	// Tell this computer that a new tank has connected
-	Logger::log(tank,
+	Logger::log(message.getPlayerId(),
 			"New player connected \"%s\" %s",
 			message.getPlayerName(),
 			(tank->getPlayerId() == TankContainer::instance()->getCurrentPlayerId()?

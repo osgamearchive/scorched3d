@@ -328,7 +328,7 @@ void kickPlayer(NetPlayerID id)
 		sendString(0,
 			"Player \"%s\" has been kicked from the server",
 			tank->getName(), id);
-		Logger::log(tank, "Kicking client \"%s\" \"%i\"", 
+		Logger::log(tank->getPlayerId(), "Kicking client \"%s\" \"%i\"", 
 			tank->getName(), id);
 
 		if (tank->getTankAI() && !tank->getTankAI()->isHuman())
@@ -437,7 +437,7 @@ public:
 	virtual void logMessage(
 		const char *time,
 		const char *message,
-		Tank *source)
+		unsigned int playerId)
 	{
 		// Make sure the list does not exceed 100 entries
 		if (frame->logList_->GetItemCount() > 99)

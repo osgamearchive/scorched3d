@@ -42,7 +42,7 @@ public:
 	virtual void logMessage(
 		const char *time,
 		const char *message,
-		Tank *source);
+		unsigned int playerId);
 
 protected:
 	static MainBanner* instance_;

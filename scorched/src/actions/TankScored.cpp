@@ -75,7 +75,7 @@ void TankScored::init()
 
 		if (roundDiff_ != 0)
 		{
-			Logger::log(tank,
+			Logger::log(tank->getPlayerId(),
 				"\"%s\" wins this round.",
 				tank->getName());
 		}

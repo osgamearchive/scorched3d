@@ -60,7 +60,7 @@ bool ServerTextHandler::processMessage(NetPlayerID &id,
 		newText += message.getText();
 
 		// Update the server console with the say text
-		Logger::log(tank, "Says \"%s\"", newText.c_str());
+		Logger::log(tankId, "Says \"%s\"", newText.c_str());
 
 		ComsTextMessage newMessage(newText.c_str(), 
 			tank->getPlayerId(), tank->getColor());

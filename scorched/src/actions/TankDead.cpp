@@ -73,14 +73,14 @@ void TankDead::simulate(float frameTime, bool &remove)
 			{
 				if (killedPlayerId_ == firedPlayerId_)
 				{
-					Logger::log(firedTank,
+					Logger::log(firedPlayerId_,
 						"\"%s\" killed self with a \"%s\"",
 						killedTank->getName(),
 						weapon_->getName());
 				}
 				else 
 				{
-					Logger::log(firedTank,
+					Logger::log(firedPlayerId_,
 							"\"%s\" killed \"%s\" with a \"%s\"",
 							firedTank->getName(),
 							killedTank->getName(),

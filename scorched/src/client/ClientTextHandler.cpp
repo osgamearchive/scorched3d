@@ -73,7 +73,7 @@ bool ClientTextHandler::processMessage(NetPlayerID &id,
 			ActionController::instance()->addAction(new SpriteAction(talk));
 		}
 
-		Logger::log(tank, message.getText());
+		Logger::log(message.getPlayerId(), message.getText());
 	}
 
 	return true;

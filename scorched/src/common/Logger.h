@@ -18,7 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #ifndef _LOGGER_H_
 #define _LOGGER_H_
 
@@ -26,15 +25,18 @@
 #include <string>
 #include <list>
 
-class Tank;
 class LoggerI
 {
 public:
 	virtual void logMessage(
 		const char *time,
 		const char *message,
-		Tank *source) = 0;
+		unsigned int playerId) = 0;
 };
+
+// ************************************************
+// NOTE: This logger is and needs to be thread safe
+// ************************************************
 
 class Logger
 {
@@ -42,13 +44,22 @@ public:
 	static Logger *instance();
 
 	static void addLogger(LoggerI *logger);
-	static void log(Tank *src, const char *fmt, ...);
+	static void processLogEntries();
+	static void log(unsigned int playerId, const char *fmt, ...);
 
 protected:
 	static Logger *instance_;
-	std::list<LoggerI *> loggers_;
+	struct LogEntry
+	{
+		std::string time_;
+		std::string message_;
+		unsigned int playerId_;
+	};
 
-	static void addLog(char *time, char *text, Tank *src);
+	std::list<LoggerI *> loggers_;
+	std::list<LogEntry> entries_;
+
+	static void addLog(char *time, char *text, unsigned int playerId);
 
 private:
 	Logger();
@@ -64,7 +75,7 @@ public:
 	virtual void logMessage(
 		const char *time,
 		const char *message,
-		Tank *source);
+		unsigned int playerId);
 
 protected:
 	std::string fileName_;

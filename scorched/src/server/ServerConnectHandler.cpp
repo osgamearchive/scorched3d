@@ -214,7 +214,7 @@ bool ServerConnectHandler::processMessage(NetPlayerID &id,
 	TankContainer::instance()->addTank(tank);
 
 	// Add to dialog
-	Logger::log(tank, "Player connected \"%i\" \"%s\"",
+	Logger::log(tankId, "Player connected \"%i\" \"%s\"",
 		id,
 		playerName.c_str());
 

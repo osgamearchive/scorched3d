@@ -58,7 +58,7 @@ void TankSay::init()
 			ActionController::instance()->addAction(new SpriteAction(talk));
 		}
 
-		Logger::log(tank, text_.c_str());
+		Logger::log(tank->getPlayerId(), text_.c_str());
 	}
 }
 

@@ -56,7 +56,7 @@ void ServerMessageHandler::clientDisconnected(NetMessage &message)
 	Tank *tank = TankContainer::instance()->removeTank(tankId);
 	if (tank)
 	{
-		Logger::log(tank, "Client disconnected \"%i\" \"%s\"", 
+		Logger::log(tankId, "Client disconnected \"%i\" \"%s\"", 
 			message.getPlayerId(), tank->getName());
 
 		// Tell all the clients to remove the tank

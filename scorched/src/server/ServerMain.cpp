@@ -150,6 +150,7 @@ void serverLoop()
 	// Main server loop:
 	if (NetServer::instance()->started())
 	{
+		Logger::processLogEntries();
 		NetMessageHandler::instance()->processMessages();
 		GameState::instance()->simulate(serverTimer.getTimeDifference());
 #ifndef _NO_SERVER_ASE_

@@ -24,6 +24,7 @@
 #include <common/OptionsDisplay.h>
 #include <common/ARGParser.h>
 #include <common/Keyboard.h>
+#include <common/Logger.h>
 #include <common/OptionsParam.h>
 #include <common/OptionsGame.h>
 #include <common/Mouse.h>
@@ -98,6 +99,7 @@ void clientMain()
 		if ((!paused) && (idle) ) MainLoop::instance()->draw();
 		if (paused) SDL_Delay(100);  // Otherwise when not drawing graphics its an infinite loop
 
+		Logger::processLogEntries();
 		if ((OptionsParam::instance()->getConnectedToServer()))
 		{
 			NetMessageHandler::instance()->processMessages();

@@ -56,7 +56,7 @@ void TankResign::simulate(float frameTime, bool &remove)
 		{
 			tank->getState().setState(TankState::sDead);
 
-			Logger::log(tank, "\"%s\" resigned from round", tank->getName());
+			Logger::log(playerId_, "\"%s\" resigned from round", tank->getName());
 		}
 	}
 

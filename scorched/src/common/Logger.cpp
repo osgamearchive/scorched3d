@@ -18,14 +18,10 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// Logger.cpp: implementation of the Timer class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <common/Defines.h>
 #include <common/Logger.h>
-#include <tank/Tank.h>
+#include <tank/TankContainer.h>
+#include <SDL/SDL.h>
 #include <time.h>
 #include <stdio.h>
 #include <stdarg.h>
@@ -34,6 +30,11 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
+// ************************************************
+// NOTE: This logger is and needs to be thread safe
+// ************************************************
+
+static SDL_mutex *logMutex_ = 0;
 Logger * Logger::instance_ = 0;
 
 Logger * Logger::instance()
@@ -47,7 +48,7 @@ Logger * Logger::instance()
 
 Logger::Logger()
 {
-
+	if (!logMutex_) logMutex_ = SDL_CreateMutex();
 }
 
 Logger::~Logger()
@@ -56,11 +57,14 @@ Logger::~Logger()
 
 void Logger::addLogger(LoggerI *logger)
 {
+	SDL_LockMutex(logMutex_);
 	Logger::instance()->loggers_.push_back(logger);
+	SDL_UnlockMutex(logMutex_);
 }
 
-void Logger::log(Tank *src, const char *fmt, ...)
+void Logger::log(unsigned int playerId, const char *fmt, ...)
 {
+	SDL_LockMutex(logMutex_);
 	static char text[2048];
 
 	// Add the time to the beginning of the log message
@@ -83,31 +87,55 @@ void Logger::log(Tank *src, const char *fmt, ...)
 		while (found)
 		{
 			*found = '\0';
-			addLog(time, start, src);
+			addLog(time, start, playerId);
 			start = found;
 			start++;
 
 			found = strchr(start, '\n');
 		}
-		if (start[0] != '\0') addLog(time, start, src);
+		if (start[0] != '\0') addLog(time, start, playerId);
 	}
 	else
 	{
-		addLog(time, text, src);
+		addLog(time, text, playerId);
 	}
+	SDL_UnlockMutex(logMutex_);
 }
 
-void Logger::addLog(char *time, char *text, Tank *src)
+void Logger::addLog(char *time, char *text, unsigned int playerId)
 {
-	std::list<LoggerI *> &loggers = Logger::instance()->loggers_;
-	std::list<LoggerI *>::iterator itor;
-	for (itor = loggers.begin();
-		itor != loggers.end();
-		itor++)
+	instance_->entries_.push_back(LogEntry());
+	LogEntry &lastEntry = instance_->entries_.back();
+
+	lastEntry.time_ = time;
+	lastEntry.message_ = text;
+	lastEntry.playerId_ = playerId;
+}
+
+void Logger::processLogEntries()
+{
+	SDL_LockMutex(logMutex_);
+	std::list<LogEntry> &entries = Logger::instance()->entries_;
+	while (!entries.empty())
 	{
-		LoggerI *log = (*itor);
-		log->logMessage(time, text, src);
+		LogEntry &firstEntry = entries.front();
+
+		std::list<LoggerI *> &loggers = Logger::instance()->loggers_;
+		std::list<LoggerI *>::iterator logItor;
+		for (logItor = loggers.begin();
+			logItor != loggers.end();
+			logItor++)
+		{
+			LoggerI *log = (*logItor);
+			log->logMessage(
+				firstEntry.time_.c_str(), 
+				firstEntry.message_.c_str(), 
+				firstEntry.playerId_);
+		}
+
+		entries.pop_front();
 	}
+	SDL_UnlockMutex(logMutex_);
 }
 
 FileLogger::FileLogger(const char *fileName) : 
@@ -123,8 +151,9 @@ FileLogger::~FileLogger()
 void FileLogger::logMessage(
 		const char *time,
 		const char *message,
-		Tank *source)
+		unsigned int playerId)
 {
+	Tank *source = TankContainer::instance()->getTankById(playerId);
 	const unsigned int MaxLines = 1000;
 	if (!logFile_ || (lines_++>MaxLines)) openFile(fileName_.c_str());
 	if (!logFile_) return;

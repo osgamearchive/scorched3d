@@ -77,7 +77,7 @@ ConnectDialog::~ConnectDialog()
 void ConnectDialog::logMessage(
 		const char *time,
 		const char *message,
-		Tank *source)
+		unsigned int playerId)
 {
 	listView_->addLine(message);
 }

@@ -25,7 +25,7 @@
 
 #include <client/MainBanner.h>
 #include <client/MainCamera.h>
-#include <tank/Tank.h>
+#include <tank/TankContainer.h>
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
@@ -56,8 +56,9 @@ MainBanner::~MainBanner()
 void MainBanner::logMessage(
 		const char *time,
 		const char *message,
-		Tank *source)
+		unsigned int playerId)
 {
+	Tank *source = TankContainer::instance()->getTankById(playerId);
 	banner_.addLine(source?source->getColor():GLFontBanner::defaultColor, message);
 }
 
