@@ -35,6 +35,7 @@
 #include <server/ServerTooFewPlayersStimulus.h>
 #include <wx/wx.h>
 #include <wx/image.h>
+#include <wx/filedlg.h>
 #include <wx/listctrl.h>
 
 enum 
@@ -46,6 +47,8 @@ enum
 	IDC_MENU_EXIT,
 	IDC_MENU_SHOWOPTIONS,
 	IDC_MENU_EDITOPTIONS,
+	IDC_MENU_SAVEOPTIONS,
+	IDC_MENU_LOADOPTIONS,
 	IDC_MENU_PLAYERTALK,
 	IDC_MENU_PLAYERTALKALL,
 	IDC_MENU_PLAYERKICK,
@@ -151,6 +154,8 @@ public:
 	void onMenuExit();
 	void onShowOptions();
 	void onEditOptions();
+	void onLoadOptions();
+	void onSaveOptions();
 	void onPlayerTalk();
 	void onPlayerTalkAll();
 	void onPlayerKick();
@@ -188,6 +193,8 @@ BEGIN_EVENT_TABLE(ServerFrame, wxFrame)
 	EVT_MENU(IDC_MENU_EXIT, ServerFrame::onMenuExit)
 	EVT_MENU(IDC_MENU_SHOWOPTIONS, ServerFrame::onShowOptions)
 	EVT_MENU(IDC_MENU_EDITOPTIONS, ServerFrame::onEditOptions)
+	EVT_MENU(IDC_MENU_LOADOPTIONS, ServerFrame::onLoadOptions)
+	EVT_MENU(IDC_MENU_SAVEOPTIONS, ServerFrame::onSaveOptions)
 	EVT_MENU(IDC_MENU_PLAYERTALK, ServerFrame::onPlayerTalk)
 	EVT_MENU(IDC_MENU_PLAYERTALKALL, ServerFrame::onPlayerTalkAll)
 	EVT_MENU(IDC_MENU_PLAYERKICK, ServerFrame::onPlayerKick)
@@ -277,7 +284,9 @@ ServerFrame::ServerFrame(const char *name) :
 	// Add menu items
 	wxMenu *menuFile = new wxMenu;
     menuFile->Append(IDC_MENU_SHOWOPTIONS, "&Display Options");
-	menuFile->Append(IDC_MENU_EDITOPTIONS, "Edit &Options");
+	menuFile->Append(IDC_MENU_EDITOPTIONS, "&Edit Options");
+	menuFile->Append(IDC_MENU_LOADOPTIONS, "&Load Options");
+	menuFile->Append(IDC_MENU_SAVEOPTIONS, "&Save Options");
     menuFile->AppendSeparator();
     menuFile->Append(IDC_MENU_EXIT, "E&xit");
 
@@ -489,7 +498,42 @@ void ServerFrame::onEditOptions()
 	{
 		dialogMessage("Server",
 			"These changes will only take place at the start of the next round (map).\n"
-			"Some changes may not work in game :).");
+			"Be careful, some changes may not work without restarting server.");
+	}
+}
+
+void ServerFrame::onLoadOptions()
+{
+	wxString file = ::wxFileSelector("Please choose the options file to open",
+									 PKGDIR "data", // default path
+									 "server.xml", // default filename
+									 "", // default extension
+									 "*.xml",
+									 wxOPEN | wxFILE_MUST_EXIST);
+	if (!file.empty())
+	{
+		if(ScorchedServer::instance()->getOptionsGame().getChangedOptions().
+		   readOptionsFromFile((char *) file.c_str()))
+		{
+			dialogMessage("Server",
+						  "These changes will only take place at the start of the next round (map).\n"
+						  "Be careful, some changes may not work without restarting server.");
+		}
+	}
+}
+
+void ServerFrame::onSaveOptions()
+{
+	wxString file = ::wxFileSelector("Please choose the options file to save",
+									 PKGDIR "data", // default path
+									 "server.xml", // default filename
+									 "", // default extension
+									 "*.xml",
+									 wxSAVE);
+	if (!file.empty())
+	{
+		ScorchedServer::instance()->getOptionsGame().getChangedOptions().
+			writeOptionsToFile((char *) file.c_str());
 	}
 }
 

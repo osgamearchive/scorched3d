@@ -120,6 +120,7 @@ int ServerNewGameState::addTanksToGame(const unsigned state,
 	{
 		// Tell client(s) of game settings changes
 		Logger::log(0, "Sending a new game state");
+		ServerCommon::sendString(0, "Game options have been changed!");
 		newGameMessage.addGameState(); 
 	}
 	if (!ScorchedServer::instance()->getLandscapeMaps().generateHMapDiff(
