@@ -964,7 +964,7 @@ covered with dirt.
 							<deform>down</deform>
 							<size>6</size>
 							<explosiontexture>exp03</explosiontexture>
-							<explosionsound>none</explosionsound>					
+							<explosionsound>none</explosionsound>
 						</nextaction>
 					</subweapon2>	
 				</nextaction>
@@ -1021,7 +1021,7 @@ the thickness of the wedge destroyed is also greater.
 							<deform>down</deform>
 							<size>10</size>
 							<explosiontexture>exp03</explosiontexture>
-							<explosionsound>none</explosionsound>					
+							<explosionsound>none</explosionsound>
 						</nextaction>
 					</subweapon2>	
 				</nextaction>
@@ -1077,7 +1077,7 @@ the air in a wedge shape.
 							<deform>up</deform>
 							<size>4</size>
 							<explosiontexture>exp03</explosiontexture>
-							<explosionsound>none</explosionsound>					
+							<explosionsound>none</explosionsound>
 						</nextaction>
 					</subweapon2>	
 				</nextaction>

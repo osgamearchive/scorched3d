@@ -220,7 +220,6 @@ scorcheddatatextureswiconsdir = ${datadir}/data/textures/wicons
 scorcheddatatextureswicons_DATA = data/textures/wicons/para.bmp \
 	data/textures/wicons/hrbomb.bmp \
 	data/textures/wicons/fbomb.bmp \
-	data/textures/wicons/Thumbs.db \
 	data/textures/wicons/autod.bmp \
 	data/textures/wicons/tdirt.bmp \
 	data/textures/wicons/dball.bmp \
@@ -236,15 +235,19 @@ scorcheddatatextureswicons_DATA = data/textures/wicons/para.bmp \
 	data/textures/wicons/dhead.bmp \
 	data/textures/wicons/bshog.bmp \
 	data/textures/wicons/shog.bmp \
+	data/textures/wicons/rcharge.bmp \
 	data/textures/wicons/fshield.bmp \
 	data/textures/wicons/nuke.bmp \
 	data/textures/wicons/hshield.bmp \
 	data/textures/wicons/hroller.bmp \
 	data/textures/wicons/rbomb.bmp \
 	data/textures/wicons/mag.bmp \
+	data/textures/wicons/rblast.bmp \
 	data/textures/wicons/shield.bmp \
+	data/textures/wicons/dcharge.bmp \
 	data/textures/wicons/lfrog.bmp \
 	data/textures/wicons/digger.bmp \
+	data/textures/wicons/laser.bmp \
 	data/textures/wicons/stracer.bmp \
 	data/textures/wicons/tracer.bmp \
 	data/textures/wicons/missile.bmp \

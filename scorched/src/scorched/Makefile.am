@@ -477,12 +477,6 @@ scorched3d_SOURCES = \
 	../weapons/WeaponLeapFrog.h \
 	../weapons/WeaponMirv.cpp \
 	../weapons/WeaponMirv.h \
-	../weapons/WeaponWedge.cpp \
-	../weapons/WeaponWedge.h \
-	../weapons/WeaponTranslate.h \
-	../weapons/WeaponTranslate.cpp \
-	../weapons/WeaponVelocity.h \
-	../weapons/WeaponVelocity.cpp \
 	../weapons/WeaponMulti.cpp \
 	../weapons/WeaponMulti.h \
 	../weapons/WeaponNapalm.cpp \
@@ -493,6 +487,10 @@ scorched3d_SOURCES = \
 	../weapons/WeaponProjectile.h \
 	../weapons/WeaponRoller.cpp \
 	../weapons/WeaponRoller.h \
+	../weapons/WeaponTranslate.cpp \
+	../weapons/WeaponTranslate.h \
+	../weapons/WeaponVelocity.cpp \
+	../weapons/WeaponVelocity.h \
 	../coms/ComsActionsMessage.cpp \
 	../coms/ComsActionsMessage.h \
 	../coms/ComsAddPlayerMessage.cpp \
@@ -659,10 +657,10 @@ scorched3d_SOURCES = \
 	../zlib/zutil.h \
 	../actions/ActionVector.cpp \
 	../actions/ActionVector.h \
-	../actions/CameraPositionAction.cpp \
-	../actions/CameraPositionAction.h \
 	../actions/Animation.cpp \
 	../actions/Animation.h \
+	../actions/CameraPositionAction.cpp \
+	../actions/CameraPositionAction.h \
 	../actions/Explosion.cpp \
 	../actions/Explosion.h \
 	../actions/Napalm.cpp \
@@ -671,8 +669,6 @@ scorched3d_SOURCES = \
 	../actions/ShieldHit.h \
 	../actions/ShotBounce.cpp \
 	../actions/ShotBounce.h \
-	../actions/ShotWedge.cpp \
-	../actions/ShotWedge.h \
 	../actions/ShotProjectile.cpp \
 	../actions/ShotProjectile.h \
 	../actions/ShowScore.cpp \
@@ -711,14 +707,16 @@ scorched3d_SOURCES = \
 	../sprites/ExplosionTextures.h \
 	../sprites/FlareActionRenderer.cpp \
 	../sprites/FlareActionRenderer.h \
+	../sprites/MetaActionRenderer.cpp \
+	../sprites/MetaActionRenderer.h \
 	../sprites/MissileActionRenderer.cpp \
 	../sprites/MissileActionRenderer.h \
 	../sprites/NapalmRenderer.cpp \
 	../sprites/NapalmRenderer.h \
-	../sprites/SphereActionRenderer.cpp \
-	../sprites/SphereActionRenderer.h \
 	../sprites/SmokeActionRenderer.cpp \
 	../sprites/SmokeActionRenderer.h \
+	../sprites/SphereActionRenderer.cpp \
+	../sprites/SphereActionRenderer.h \
 	../sprites/SprayActionRenderer.cpp \
 	../sprites/SprayActionRenderer.h \
 	../sprites/TalkRenderer.cpp \
@@ -727,8 +725,6 @@ scorched3d_SOURCES = \
 	../sprites/TankDeadRenderer.h \
 	../sprites/TextActionRenderer.cpp \
 	../sprites/TextActionRenderer.h \
-	../sprites/MetaActionRenderer.cpp \
-	../sprites/MetaActionRenderer.h \
 	../sprites/WallActionRenderer.cpp \
 	../sprites/WallActionRenderer.h \
 	CreateDialogs.cpp \
