@@ -24,12 +24,14 @@
 #include <GLEXT/GLBitmap.h>
 #include <common/SoundStore.h>
 
+REGISTER_CLASS_SOURCE(ExplosionLaserBeamRenderer);
+
 ExplosionLaserBeamRenderer::~ExplosionLaserBeamRenderer()
 {
 }
 
-ExplosionLaserBeamRenderer::ExplosionLaserBeamRenderer(Vector &position, float size):
-totalTime_(0), time_(0), size_(size), position_(position), angle_(0)
+ExplosionLaserBeamRenderer::ExplosionLaserBeamRenderer():
+	totalTime_(0), time_(0), size_(12.0f), angle_(0)
 {
 	CACHE_SOUND(sound, (char *) getDataFile("data/wav/misc/laserdeath.wav"));
 	sound->play();
@@ -47,10 +49,12 @@ totalTime_(0), time_(0), size_(size), position_(position), angle_(0)
 	_texture = new GLTexture;
 	_texture->create(map, GL_RGBA, true);
 	//GLConsole::instance()->addLine(false, "Size=%f", size_);
+}
 
-
-
-
+void ExplosionLaserBeamRenderer::init(unsigned int playerId,
+	Vector &position, Vector &velocity)
+{
+	position_ = position;
 }
 
 void ExplosionLaserBeamRenderer::draw(Action *action)

@@ -18,16 +18,16 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(AFX_WeaponDeathAnimation_H__A96ADD10_0901_4E1D_A49B_9BE78AD33B9B__INCLUDED_)
-#define AFX_WeaponDeathAnimation_H__A96ADD10_0901_4E1D_A49B_9BE78AD33B9B__INCLUDED_
+#if !defined(AFX_WeaponAnimation_H__A96ADD10_0901_4E1D_A49B_9BE78AD33B9B__INCLUDED_)
+#define AFX_WeaponAnimation_H__A96ADD10_0901_4E1D_A49B_9BE78AD33B9B__INCLUDED_
 
 #include <weapons/Weapon.h>
 
-class WeaponDeathAnimation : public Weapon
+class WeaponAnimation : public Weapon
 {
 public:
-	WeaponDeathAnimation();
-	virtual ~WeaponDeathAnimation();
+	WeaponAnimation();
+	virtual ~WeaponAnimation();
 
 	// This weapon can never be bought
 	virtual bool getPrimary() { return false; } 
@@ -41,11 +41,11 @@ public:
 	virtual void fireWeapon(ScorchedContext &context,
 		unsigned int playerId, Vector &position, Vector &velocity);
 
-	REGISTER_ACCESSORY_HEADER(WeaponDeathAnimation, Accessory::AccessoryWeapon);
+	REGISTER_ACCESSORY_HEADER(WeaponAnimation, Accessory::AccessoryWeapon);
 
 protected:
 	std::string rendererName_;
 
 };
 
-#endif // !defined(AFX_WeaponDeathAnimation_H__A96ADD10_0901_4E1D_A49B_9BE78AD33B9B__INCLUDED_)
+#endif // !defined(AFX_WeaponAnimation_H__A96ADD10_0901_4E1D_A49B_9BE78AD33B9B__INCLUDED_)

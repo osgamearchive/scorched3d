@@ -18,38 +18,35 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_ExplosionLaserRendererh_INCLUDE__)
-#define __INCLUDE_ExplosionLaserRendererh_INCLUDE__
+#if !defined(AFX_WeaponTranslate_H__B5C043F0_7DC6_4198_AE5B_E19002234FCE__INCLUDED_)
+#define AFX_WeaponTranslate_H__B5C043F0_7DC6_4198_AE5B_E19002234FCE__INCLUDED_
 
-#include <sprites/MetaActionRenderer.h>
-#include <sprites/ExplosionRenderer.h>
+#include <weapons/Weapon.h>
 
-#define sides 8
-#define layers 5
-#define star_interval 10
-
-class ExplosionLaserBeamRenderer : public MetaActionRenderer
+class WeaponTranslate  : public Weapon
 {
 public:
-	ExplosionLaserBeamRenderer();
-	virtual ~ExplosionLaserBeamRenderer();
+	WeaponTranslate();
+	virtual ~WeaponTranslate();
 
-	virtual void init(unsigned int playerId,
-		Vector &position, Vector &velocity);
+	virtual bool parseXML(XMLNode *accessoryNode);
+	virtual bool writeAccessory(NetBuffer &buffer);
+	virtual bool readAccessory(NetBufferReader &reader);
 
-	virtual void draw(Action *action);
-	virtual void simulate(Action *action, float frameTime, bool &remove);
+	Weapon *getNextAction() { return nextAction_; }
+	float getTranslateDist() { return translateDist_; }
 
-	REGISTER_CLASS_HEADER(ExplosionLaserBeamRenderer);
-private:
+	// Inherited from Weapon
+	void fireWeapon(ScorchedContext &context,
+		unsigned int playerId, Vector &position, Vector &velocity);
 
-	Vector position_;
-	float size_;
-	float time_;
-	float totalTime_;
-	Vector points[layers][sides];
-	float angle_;
-	GLTexture *_texture;
+	REGISTER_ACCESSORY_HEADER(WeaponTranslate, Accessory::AccessoryWeapon);
+
+protected:
+	float translateDist_;
+	Weapon *nextAction_;
 
 };
-#endif
+
+#endif // !defined(AFX_WeaponTranslate_H__B5C043F0_7DC6_4198_AE5B_E19002234FCE__INCLUDED_)
+

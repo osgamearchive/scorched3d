@@ -1603,10 +1603,10 @@
 				RelativePath="..\weapons\WeaponAimedUnder.h">
 			</File>
 			<File
-				RelativePath="..\weapons\WeaponDeathAnimation.cpp">
+				RelativePath="..\weapons\WeaponAnimation.cpp">
 			</File>
 			<File
-				RelativePath="..\weapons\WeaponDeathAnimation.h">
+				RelativePath="..\weapons\WeaponAnimation.h">
 			</File>
 			<File
 				RelativePath="..\weapons\WeaponExplosion.cpp">
@@ -1631,6 +1631,12 @@
 			</File>
 			<File
 				RelativePath="..\weapons\WeaponWedge.h">
+			</File>
+			<File
+				RelativePath="..\weapons\WeaponTranslate.h">
+			</File>
+			<File
+				RelativePath="..\weapons\WeaponTranslate.cpp">
 			</File>
 			<File
 				RelativePath="..\weapons\WeaponVelocity.h">
@@ -2218,10 +2224,10 @@
 				RelativePath="..\actions\CameraPositionAction.h">
 			</File>
 			<File
-				RelativePath="..\actions\DeathAnimation.cpp">
+				RelativePath="..\actions\Animation.cpp">
 			</File>
 			<File
-				RelativePath="..\actions\DeathAnimation.h">
+				RelativePath="..\actions\Animation.h">
 			</File>
 			<File
 				RelativePath="..\actions\Explosion.cpp">
@@ -2418,6 +2424,12 @@
 			</File>
 			<File
 				RelativePath="..\sprites\TextActionRenderer.h">
+			</File>
+			<File
+				RelativePath="..\sprites\MetaActionRenderer.cpp">
+			</File>
+			<File
+				RelativePath="..\sprites\MetaActionRenderer.h">
 			</File>
 			<File
 				RelativePath="..\sprites\WallActionRenderer.cpp">

@@ -903,7 +903,7 @@ trace of the shot path.</description>
 			<armslevel>9</armslevel>
 		</collisionaction>
 	</accessory>
-	<accessory type="WeaponDeathAnimation">
+	<accessory type="WeaponAnimation">
 		<name></name>
 		<description></description>
 		<icon></icon>

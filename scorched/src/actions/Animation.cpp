@@ -18,17 +18,19 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <actions/DeathAnimation.h>
+#include <actions/Animation.h>
+#include <engine/MetaClass.h>
 #include <engine/ScorchedContext.h>
-#include <sprites/ExplosionLaserBeamRenderer.h>
+#include <sprites/MetaActionRenderer.h>
+#include <common/Defines.h>
 
-REGISTER_ACTION_SOURCE(DeathAnimation);
+REGISTER_ACTION_SOURCE(Animation);
 
-DeathAnimation::DeathAnimation()
+Animation::Animation()
 {
 }
 
-DeathAnimation::DeathAnimation(unsigned int playerId,
+Animation::Animation(unsigned int playerId,
 		Vector &position, 
 		Vector &velocity,
 		const char *rendererName) : 
@@ -37,35 +39,38 @@ DeathAnimation::DeathAnimation(unsigned int playerId,
 {
 }
 
-DeathAnimation::~DeathAnimation()
+Animation::~Animation()
 {
 }
 
-void DeathAnimation::init()
+void Animation::init()
 {
 	if (!context_->serverMode)
 	{
-		if (0 == strcmp(rendererName_.c_str(), "ExplosionLaserBeamRenderer"))
+		MetaActionRenderer *renderer = (MetaActionRenderer *) 
+			MetaClassRegistration::getNewClass(rendererName_.c_str());
+
+		if (renderer)
 		{
-			setActionRender(
-				new ExplosionLaserBeamRenderer(position_, 12.0f));
+			renderer->init(playerId_, position_, velocity_);
+			setActionRender(renderer);
 		}
 		else
 		{
-			dialogMessage("DeathAnimation",
+			dialogMessage("Animation",
 						  "No renderer named \"%s\"",
 						  rendererName_.c_str());
 		}
 	}
 }
 
-void DeathAnimation::simulate(float frameTime, bool &removeAction)
+void Animation::simulate(float frameTime, bool &removeAction)
 {
 	ActionMeta::simulate(frameTime, removeAction);
 	if (!renderer_) removeAction = true;
 }
 
-bool DeathAnimation::writeAction(NetBuffer &buffer)
+bool Animation::writeAction(NetBuffer &buffer)
 {
 	buffer.addToBuffer(playerId_);
 	buffer.addToBuffer(position_[0]);
@@ -78,7 +83,7 @@ bool DeathAnimation::writeAction(NetBuffer &buffer)
 	return true;
 }
 
-bool DeathAnimation::readAction(NetBufferReader &reader)
+bool Animation::readAction(NetBufferReader &reader)
 {
 	if (!reader.getFromBuffer(playerId_)) return false;
 	if (!reader.getFromBuffer(position_[0])) return false;
@@ -90,3 +95,4 @@ bool DeathAnimation::readAction(NetBufferReader &reader)
 	if (!reader.getFromBuffer(rendererName_)) return false;
 	return true;
 }
+

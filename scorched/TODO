@@ -21,6 +21,7 @@ Changed: LeapFrog weapon primative bounce now variable
 
 Added: Server can broadcast a message every x seconds
 Added: More resolutions when "More Resolutions" chosen
+Added: "none" sound available for weapon primative explosions
 Added: "none" texture available for weapon primative explosions
 Added: New weapon primative type WeaponVelocity 
 Added: Simplistic water option (no movement, shading and only uses one quad)

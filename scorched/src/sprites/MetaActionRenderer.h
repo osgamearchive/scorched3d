@@ -18,38 +18,23 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_ExplosionLaserRendererh_INCLUDE__)
-#define __INCLUDE_ExplosionLaserRendererh_INCLUDE__
+#if !defined(__INCLUDE_MetaActionRendererh_INCLUDE__)
+#define __INCLUDE_MetaActionRendererh_INCLUDE__
 
-#include <sprites/MetaActionRenderer.h>
-#include <sprites/ExplosionRenderer.h>
+#include <engine/Action.h>
+#include <engine/MetaClass.h>
+#include <common/Vector.h>
 
-#define sides 8
-#define layers 5
-#define star_interval 10
-
-class ExplosionLaserBeamRenderer : public MetaActionRenderer
+class MetaActionRenderer : public ActionRenderer, public MetaClass
 {
 public:
-	ExplosionLaserBeamRenderer();
-	virtual ~ExplosionLaserBeamRenderer();
+	MetaActionRenderer();
+	virtual ~MetaActionRenderer();
 
 	virtual void init(unsigned int playerId,
-		Vector &position, Vector &velocity);
-
-	virtual void draw(Action *action);
-	virtual void simulate(Action *action, float frameTime, bool &remove);
-
-	REGISTER_CLASS_HEADER(ExplosionLaserBeamRenderer);
-private:
-
-	Vector position_;
-	float size_;
-	float time_;
-	float totalTime_;
-	Vector points[layers][sides];
-	float angle_;
-	GLTexture *_texture;
+		Vector &position, Vector &velocity) = 0;
 
 };
+
 #endif
+

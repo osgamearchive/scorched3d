@@ -18,33 +18,32 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <weapons/WeaponDeathAnimation.h>
-#include <weapons/AccessoryStore.h>
-#include <actions/DeathAnimation.h>
+#include <weapons/WeaponAnimation.h>
+#include <actions/Animation.h>
 #include <engine/ActionController.h>
 #include <common/Defines.h>
 
-REGISTER_ACCESSORY_SOURCE(WeaponDeathAnimation);
+REGISTER_ACCESSORY_SOURCE(WeaponAnimation);
 
-WeaponDeathAnimation::WeaponDeathAnimation()
+WeaponAnimation::WeaponAnimation()
 {
 
 }
 
-WeaponDeathAnimation::~WeaponDeathAnimation()
+WeaponAnimation::~WeaponAnimation()
 {
 
 }
 
-bool WeaponDeathAnimation::parseXML(XMLNode *accessoryNode)
+bool WeaponAnimation::parseXML(XMLNode *accessoryNode)
 {
 	if (!Weapon::parseXML(accessoryNode)) return false;
 
-	XMLNode *rendererNode = accessoryNode->getNamedChild("renderer", false, true);
+	XMLNode *rendererNode = accessoryNode->getNamedChild("animation", false, true);
 	if (!rendererNode)
 	{
 		dialogMessage("Accessory",
-			"Failed to find renderer node in accessory \"%s\"",
+			"Failed to find animation node in accessory \"%s\"",
 			name_.c_str());
 		return false;
 	}
@@ -53,25 +52,25 @@ bool WeaponDeathAnimation::parseXML(XMLNode *accessoryNode)
 	return true;
 }
 
-bool WeaponDeathAnimation::writeAccessory(NetBuffer &buffer)
+bool WeaponAnimation::writeAccessory(NetBuffer &buffer)
 {
 	if (!Weapon::writeAccessory(buffer)) return false;
 	buffer.addToBuffer(rendererName_);
 	return true;
 }
 
-bool WeaponDeathAnimation::readAccessory(NetBufferReader &reader)
+bool WeaponAnimation::readAccessory(NetBufferReader &reader)
 {
 	if (!Weapon::readAccessory(reader)) return false;
 	if (!reader.getFromBuffer(rendererName_)) return false;
 	return true;
 }
 
-void WeaponDeathAnimation::fireWeapon(ScorchedContext &context,
+void WeaponAnimation::fireWeapon(ScorchedContext &context,
 	unsigned int playerId, Vector &position, Vector &velocity)
 {
 	context.actionController->addAction(
-		new DeathAnimation(playerId, 
+		new Animation(playerId, 
 			position, velocity,
 			rendererName_.c_str()));
 }

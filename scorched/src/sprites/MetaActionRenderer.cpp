@@ -18,34 +18,12 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_DeathAnimationh_INCLUDE__)
-#define __INCLUDE_DeathAnimationh_INCLUDE__
+#include <sprites/MetaActionRenderer.h>
 
-#include <engine/ActionMeta.h>
-#include <common/Vector.h>
-
-class DeathAnimation : public ActionMeta
+MetaActionRenderer::MetaActionRenderer()
 {
-public:
-	DeathAnimation();
-	DeathAnimation(unsigned int playerId,
-		Vector &position, 
-		Vector &velocity,
-		const char *rendererName);
-	virtual ~DeathAnimation();
+}
 
-	virtual void init();
-	virtual void simulate(float frameTime, bool &remove);
-	virtual bool writeAction(NetBuffer &buffer);
-	virtual bool readAction(NetBufferReader &reader);
-
-REGISTER_ACTION_HEADER(DeathAnimation);
-
-protected:
-	Vector position_, velocity_;
-	unsigned int playerId_;
-	std::string rendererName_;
-
-};
-
-#endif
+MetaActionRenderer::~MetaActionRenderer()
+{
+}

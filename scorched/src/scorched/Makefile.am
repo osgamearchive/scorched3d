@@ -469,8 +469,8 @@ scorched3d_SOURCES = \
 	../weapons/WeaponAimedOver.h \
 	../weapons/WeaponAimedUnder.cpp \
 	../weapons/WeaponAimedUnder.h \
-	../weapons/WeaponDeathAnimation.cpp \
-	../weapons/WeaponDeathAnimation.h \
+	../weapons/WeaponAnimation.cpp \
+	../weapons/WeaponAnimation.h \
 	../weapons/WeaponExplosion.cpp \
 	../weapons/WeaponExplosion.h \
 	../weapons/WeaponLeapFrog.cpp \
@@ -479,6 +479,8 @@ scorched3d_SOURCES = \
 	../weapons/WeaponMirv.h \
 	../weapons/WeaponWedge.cpp \
 	../weapons/WeaponWedge.h \
+	../weapons/WeaponTranslate.h \
+	../weapons/WeaponTranslate.cpp \
 	../weapons/WeaponVelocity.h \
 	../weapons/WeaponVelocity.cpp \
 	../weapons/WeaponMulti.cpp \
@@ -659,8 +661,8 @@ scorched3d_SOURCES = \
 	../actions/ActionVector.h \
 	../actions/CameraPositionAction.cpp \
 	../actions/CameraPositionAction.h \
-	../actions/DeathAnimation.cpp \
-	../actions/DeathAnimation.h \
+	../actions/Animation.cpp \
+	../actions/Animation.h \
 	../actions/Explosion.cpp \
 	../actions/Explosion.h \
 	../actions/Napalm.cpp \
@@ -725,6 +727,8 @@ scorched3d_SOURCES = \
 	../sprites/TankDeadRenderer.h \
 	../sprites/TextActionRenderer.cpp \
 	../sprites/TextActionRenderer.h \
+	../sprites/MetaActionRenderer.cpp \
+	../sprites/MetaActionRenderer.h \
 	../sprites/WallActionRenderer.cpp \
 	../sprites/WallActionRenderer.h \
 	CreateDialogs.cpp \
