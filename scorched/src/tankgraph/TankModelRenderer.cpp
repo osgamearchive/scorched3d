@@ -178,7 +178,7 @@ void TankModelRenderer::drawSecond(bool currentTank)
 			tank_->getPhysics().getTankPosition() - bilX;
 		position[2] = height + 8.7f;
 
-		tank_->getAvatar().getTexture().draw();
+		tank_->getAvatar().getTexture()->draw();
 		static Vector white(1.0f, 1.0f, 1.0f);
 		GLCameraFrustum::instance()->drawBilboard(
 			position, white, 0.8f, 0.6f, 0.5f, false, 0);

@@ -68,11 +68,16 @@ PlayerDialog::PlayerDialog() :
 	addWidget(infoPanel);
 
 	// Create players avatar choice
+	avatarTip1_.setText("Avatar", 
+		"The current player's avatar.\n"
+		"Click to change.\n");
+	avatarTip2_.setText("Avatar", 
+		"The current player's avatar.\n"
+		"CANNOT be changed while playing,\n"
+		"you must quit to change.");
 	imageList_ = new GLWImageList(10.0f, 20.0f, getDataFile("data/avatars"));
 	imageList_->setCurrent("player.gif");
-	imageList_->setToolTip(new GLWTip("Avatar", 
-		"The current player's avatar.\n"
-		"Click to change."));
+	imageList_->setToolTip(&avatarTip1_);
 	infoPanel->addWidget(imageList_);
 
 	// Create player name choice
@@ -244,7 +249,17 @@ void PlayerDialog::nextPlayer()
 			// Else use the default names
 			if (tank) playerName_->setText(tank->getName());
 		}
-		imageList_->setEnabled(tank->getState().getSpectator());
+		
+		if (tank->getState().getSpectator())
+		{
+			imageList_->setEnabled(true);
+			imageList_->setToolTip(&avatarTip1_);
+		}
+		else
+		{
+			imageList_->setEnabled(false);
+			imageList_->setToolTip(&avatarTip2_);
+		}
 	}
 }
 

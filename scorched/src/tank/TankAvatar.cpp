@@ -26,6 +26,7 @@
 #include <stdio.h>
 
 GLTexture *TankAvatar::defaultTexture_ = 0;
+std::list<TankAvatar::AvatarStore> TankAvatar::storeEntries_;
 
 TankAvatar::TankAvatar() : texture_(0)
 {
@@ -34,7 +35,6 @@ TankAvatar::TankAvatar() : texture_(0)
 
 TankAvatar::~TankAvatar()
 {
-	delete texture_;
 	delete file_;
 }
 
@@ -101,15 +101,37 @@ bool TankAvatar::setFromBuffer(const char *fileName,
 
 	if (createTexture)
 	{
-		delete texture_;
-		texture_ = new GLTexture;
-		texture_->create(gif);
+		texture_ = 0;
+		unsigned int crc = getCrc();
+		std::list<AvatarStore>::iterator itor;
+		for (itor = storeEntries_.begin();
+			itor != storeEntries_.end();
+			itor++)
+		{
+			AvatarStore &store = (*itor);
+			if (store.crc_ == crc &&
+				0 == strcmp(store.name_.c_str(), name_.c_str()))
+			{
+				texture_ = store.texture_;
+				break;
+			}
+		}
+		if (!texture_)
+		{
+			texture_ = new GLTexture;
+			texture_->create(gif);
+			AvatarStore store;
+			store.crc_ = crc;
+			store.name_ = name_;
+			store.texture_ = texture_;
+			storeEntries_.push_back(store);
+		}
 	}
 
 	return true;
 }
 
-GLTexture &TankAvatar::getTexture()
+GLTexture *TankAvatar::getTexture()
 {
 	if (!texture_)
 	{
@@ -121,10 +143,10 @@ GLTexture &TankAvatar::getTexture()
 				getDataFile("data/avatars/player.gif"));
 			defaultTexture_->create(gif);
 		}
-		return *defaultTexture_;
+		return defaultTexture_;
 	}
 
-	return *texture_; 
+	return texture_; 
 }
 
 unsigned int TankAvatar::getCrc()

@@ -98,7 +98,7 @@ bool ClientTextHandler::processMessage(unsigned int id,
 				{
 					Logger::log(
 						LoggerInfo(message.getPlayerId(),
-							&tank->getAvatar().getTexture()), 
+							tank->getAvatar().getTexture()), 
 						message.getText());
 				}
 				else

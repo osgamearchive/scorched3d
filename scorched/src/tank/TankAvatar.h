@@ -23,6 +23,7 @@
 
 #include <string>
 #include <coms/NetBuffer.h>
+#include <list>
 
 class GLTexture;
 class TankAvatar
@@ -39,13 +40,22 @@ public:
 		NetBuffer &buffer,
 		bool createTexture = false);
 
-	GLTexture &getTexture();
+	GLTexture *getTexture();
 	const char *getName() { return name_.c_str(); }
 	NetBuffer &getFile() { return *file_; }
 	unsigned int getCrc();
 	
 protected:
 	static GLTexture *defaultTexture_;
+	class AvatarStore
+	{
+	public:
+		GLTexture *texture_;
+		unsigned int crc_;
+		std::string name_;
+	};
+	static std::list<AvatarStore> storeEntries_;
+
 	GLTexture *texture_;
 	NetBuffer *file_;
 	std::string name_;

@@ -29,7 +29,7 @@
 #include <string>
 
 unsigned int ScorchedPort = 27270;
-char *ScorchedVersion = "38.1";
+char *ScorchedVersion = "38.1b";
 char *ScorchedProtocolVersion = "bc";
 static char *dataModFile = 0;
 

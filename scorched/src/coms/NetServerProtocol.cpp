@@ -77,7 +77,6 @@ static bool realSDLNet_TCP_Recv(TCPsocket socket, char *dest, int len)
 		int recv = SDLNet_TCP_Recv(socket, &dest[result], len);
 		if (recv <= 0) 
 		{
-			Logger::log(0, "Read failed for buffer chunk");
 			return false;
 		}
 
@@ -101,7 +100,7 @@ NetMessage *NetServerScorchedProtocol::readBuffer(TCPsocket socket)
 	char lenbuf[4];
 	if (!realSDLNet_TCP_Recv(socket, lenbuf, 4))
 	{
-		Logger::log(0, "Failed to read buffer length.");
+		Logger::log(0, "Socket closed.");
 		return 0;
 	}
 

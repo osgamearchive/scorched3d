@@ -144,10 +144,10 @@ void GLFontBanner::draw()
  					drawOutline(black, outlineFontWidth, fontWidth,
  						x_ - minus - 1, start - i * lineDepth - 1, 0.0f, 
  						textLines_[pos].getText());
- 				GLWFont::instance()->getSmallPtFontOutline()->
+ 				/*GLWFont::instance()->getSmallPtFontOutline()->
  					drawOutline(black, outlineFontWidth2, fontWidth,
  						x_ - minus + 3, start - i * lineDepth - 0.0f, 0.0f, 
- 						textLines_[pos].getText());
+ 						textLines_[pos].getText());*/
 
 				/*float left = minus;
 				GLState currentStateBlend(GLState::TEXTURE_OFF);

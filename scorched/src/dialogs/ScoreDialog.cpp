@@ -396,7 +396,7 @@ void ScoreDialog::addLine(Tank *current, float y, char *rank, bool finished)
 	{
 		GLState state(GLState::TEXTURE_ON);
 		glColor3f(1.0f, 1.0f, 1.0f);
-		current->getAvatar().getTexture().draw();
+		current->getAvatar().getTexture()->draw();
 		glBegin(GL_QUADS);
 			glTexCoord2f(0.0f, 0.0f);
 			glVertex2f(textX + iconLeft,

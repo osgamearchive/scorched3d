@@ -139,7 +139,7 @@ void GLWScorchedInfo::draw()
 			setToolTip(&model->getTips()->nameTip);
 			GLState state(GLState::TEXTURE_ON | GLState::BLEND_ON);
 			glColor3f((*fontColor)[0], (*fontColor)[1], (*fontColor)[2]);
-			current->getAvatar().getTexture().draw();
+			current->getAvatar().getTexture()->draw();
 			glBegin(GL_QUADS);
 				glTexCoord2f(0.0f, 0.0f);
 				glVertex2f(x_, y_);

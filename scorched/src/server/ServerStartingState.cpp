@@ -50,8 +50,11 @@ bool ServerStartingState::acceptStateChange(const unsigned state,
 
 	if (frameTime > 0.0f && int(timeLeft_) != int(startTime))
 	{
-		ServerCommon::serverLog(0, "Game starting in %.0f seconds...", timeLeft_);
-		ServerCommon::sendString(0, "Game starting in %.0f seconds...", timeLeft_);
+		if (int(startTime) % 5 == 0)
+		{
+			ServerCommon::serverLog(0, "Game starting in %.0f seconds...", timeLeft_);
+			ServerCommon::sendString(0, "Game starting in %.0f seconds...", timeLeft_);
+		}
 	}
 
 	// Check if we need to add any new bots

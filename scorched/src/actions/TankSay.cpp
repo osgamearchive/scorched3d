@@ -65,7 +65,7 @@ void TankSay::init()
 		{
 			Logger::log(
 				LoggerInfo(tank->getPlayerId(),
-					&tank->getAvatar().getTexture()), 
+					tank->getAvatar().getTexture()), 
 				text_.c_str());
 		}
 		else if (OptionsParam::instance()->getDedicatedServer())

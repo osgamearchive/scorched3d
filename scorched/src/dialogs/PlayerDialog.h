@@ -58,6 +58,7 @@ protected:
 	GLWTankViewer *viewer_;
 	GLWTextBox *playerName_;
 	GLWImageList *imageList_;
+	GLWTip avatarTip1_, avatarTip2_;
 	unsigned int allocatedTeam_;
 	unsigned int okId_, cancelId_;
 	unsigned int currentPlayerId_;
