@@ -78,10 +78,10 @@ const char *getDataFile(const char *file, ...)
 {
 	static char filename[1024];
 	static char buffer[1024];
-        va_list ap;
-        va_start(ap, file);
-        vsprintf(filename, file, ap);
-        va_end(ap);
+	va_list ap;
+	va_start(ap, file);
+	vsprintf(filename, file, ap);
+	va_end(ap);
 	sprintf(buffer, S3D_DATADIR "/%s", filename);
 	::wxDos2UnixFilename(buffer);
 	return buffer;
@@ -89,72 +89,82 @@ const char *getDataFile(const char *file, ...)
 
 const char *getDocFile(const char *file, ...)
 {
-        static char filename[1024];
-        static char buffer[1024];
-        va_list ap;
-        va_start(ap, file);
-        vsprintf(filename, file, ap);
-        va_end(ap);
-        sprintf(buffer, S3D_DOCDIR "/%s", filename);
-        ::wxDos2UnixFilename(buffer);
-        return buffer;
+	static char filename[1024];
+	static char buffer[1024];
+	va_list ap;
+	va_start(ap, file);
+	vsprintf(filename, file, ap);
+	va_end(ap);
+	sprintf(buffer, S3D_DOCDIR "/%s", filename);
+	::wxDos2UnixFilename(buffer);
+	return buffer;
 }
 
 const char *getHomeFile(const char *file, ...)
 {
-        static char filename[1024];
-        static char buffer[1024];
-        va_list ap;
-        va_start(ap, file);
-        vsprintf(filename, file, ap);
-        va_end(ap);
+	static char filename[1024];
+	static char buffer[1024];
+	va_list ap;
+	va_start(ap, file);
+	vsprintf(filename, file, ap);
+	va_end(ap);
 
 	const char *homeDirStr = getDataFile("");
-        wxString homeDir = ::wxGetHomeDir();
-        if (::wxDirExists(homeDir)) homeDirStr = homeDir.c_str();
+	wxString homeDir = ::wxGetHomeDir();
+	if (::wxDirExists(homeDir)) homeDirStr = homeDir.c_str();
 
-        sprintf(buffer, "%s/%s", homeDirStr, filename);
+	sprintf(buffer, "%s/%s", homeDirStr, filename);
 	::wxDos2UnixFilename(buffer);
-        return buffer;
+	return buffer;
 }
 
 const char *getSettingsFile(const char *file ...)
 {
-        static char filename[1024];
-        static char buffer[1024];
-        va_list ap;
-        va_start(ap, file);
-        vsprintf(filename, file, ap);
-        va_end(ap);
-                                                                                                           
-        const char *homeDirStr = getHomeFile("");
+	static char filename[1024];
+	static char buffer[1024];
+	va_list ap;
+	va_start(ap, file);
+	vsprintf(filename, file, ap);
+	va_end(ap);
+	                                                                                                    
+	const char *homeDirStr = getHomeFile("");
 	wxString newDir(wxString(homeDirStr) + wxString("/.scorched3d"));
 	if (::wxDirExists(newDir)) homeDirStr = newDir.c_str();
 	else if (::wxMkdir(newDir, 0755)) homeDirStr = newDir.c_str();
 
-        sprintf(buffer, "%s/%s", homeDirStr, filename);
-        ::wxDos2UnixFilename(buffer);
-        return buffer;
-
+	sprintf(buffer, "%s/%s", homeDirStr, filename);
+	::wxDos2UnixFilename(buffer);
+	return buffer;
 }
 
 const char *getLogFile(const char *file ...)
 {
-        static char filename[1024];
-        static char buffer[1024];
-        va_list ap;
-        va_start(ap, file);
-        vsprintf(filename, file, ap);
-        va_end(ap);
-                                                                                                           
-        const char *homeDirStr = getSettingsFile("");
-        wxString newDir(wxString(homeDirStr) + wxString("/logs"));
-        if (::wxDirExists(newDir)) homeDirStr = newDir.c_str();
-        else if (::wxMkdir(newDir, 0755)) homeDirStr = newDir.c_str();
-                                                                                                           
-        sprintf(buffer, "%s/%s", homeDirStr, filename);
-        ::wxDos2UnixFilename(buffer);
-        return buffer;
-                                                                                                           
+	static char filename[1024];
+	static char buffer[1024];
+	va_list ap;
+	va_start(ap, file);
+	vsprintf(filename, file, ap);
+	va_end(ap);
+	                                                                                                    
+	const char *homeDirStr = getSettingsFile("");
+	wxString newDir(wxString(homeDirStr) + wxString("/logs"));
+	if (::wxDirExists(newDir)) homeDirStr = newDir.c_str();
+	else if (::wxMkdir(newDir, 0755)) homeDirStr = newDir.c_str();
+	                                                                                                    
+	sprintf(buffer, "%s/%s", homeDirStr, filename);
+	::wxDos2UnixFilename(buffer);
+	return buffer;
 }
 
+const char *getSaveFileDir()
+{
+	static char buffer[1024];
+	const char *homeDirStr = getSettingsFile("");
+	wxString newDir(wxString(homeDirStr) + wxString("/saves"));
+	if (::wxDirExists(newDir)) homeDirStr = newDir.c_str();
+	else if (::wxMkdir(newDir, 0755)) homeDirStr = newDir.c_str();
+	                                                                                                    
+	sprintf(buffer, "%s", homeDirStr);
+	::wxDos2UnixFilename(buffer);
+	return buffer;
+}

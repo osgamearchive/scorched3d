@@ -21,6 +21,7 @@
 #include <wx/wx.h>
 #include <wx/utils.h>
 #include <wx/image.h>
+#include <wx/filedlg.h>
 #include <server/ScorchedServer.h>
 #include <scorched/MainDialog.h>
 #include <scorched/SettingsDialog.h>
@@ -35,7 +36,8 @@ enum
 	ID_BUTTON_NORMAL,
 	ID_BUTTON_HARD,
 	ID_BUTTON_CUSTOM,
-	ID_BUTTON_TARGET
+	ID_BUTTON_TARGET,
+	ID_BUTTON_LOAD
 };
 
 class SingleFrame: public wxDialog
@@ -48,6 +50,7 @@ public:
 	void onHardButton();
 	void onCustomButton();
 	void onTargetButton();
+	void onLoadButton();
 
 private:
     DECLARE_EVENT_TABLE()
@@ -59,6 +62,7 @@ BEGIN_EVENT_TABLE(SingleFrame, wxDialog)
 	EVT_BUTTON(ID_BUTTON_HARD,  SingleFrame::onHardButton)
 	EVT_BUTTON(ID_BUTTON_CUSTOM,  SingleFrame::onCustomButton)
 	EVT_BUTTON(ID_BUTTON_TARGET, SingleFrame::onTargetButton)
+	EVT_BUTTON(ID_BUTTON_LOAD, SingleFrame::onLoadButton)
 END_EVENT_TABLE()
 
 SingleFrame::SingleFrame() :
@@ -104,6 +108,11 @@ SingleFrame::SingleFrame() :
 			"Choose the opponents to play against.", 
 			"data/windows/tank-cus.bmp", this, gridsizer);
 	}
+	{
+		addButtonToWindow(ID_BUTTON_LOAD,
+			"Load a previously saved single or multi-player game.", 
+			"data/windows/save.bmp", this, gridsizer);
+	}
 	topsizer->Add(gridsizer, 0, wxALIGN_CENTER | wxALL, 5);
 
 	// Quit button
@@ -116,6 +125,22 @@ SingleFrame::SingleFrame() :
 	topsizer->SetSizeHints(this); // set size hints to honour minimum size
 
 	CentreOnScreen();
+}
+
+void SingleFrame::onLoadButton()
+{
+	EndModal(wxID_OK);
+
+	wxString file = ::wxFileSelector("Please choose the saved game to load",
+									 getSaveFileDir(), // default path
+									 "", // default filename
+									 "", // default extension
+									 "*.s3d",
+									 wxOPEN | wxFILE_MUST_EXIST);
+	if (!file.empty())
+	{
+		runScorched3D("-loadsave \"%s\"", file.c_str());
+	}
 }
 
 void SingleFrame::onTargetButton()

@@ -44,6 +44,7 @@ protected:
 	NetServerProtocol *protocol_;
 	NetMessageHandler *messageHandler_;
 	SDL_mutex *outgoingMessagesMutex_;
+	SDL_Thread *thread_;
 	std::list<NetMessage *> newMessages_;
 
 	void actualThreadFunc();

@@ -95,7 +95,7 @@ public:
 			SDL_LockMutex(messageMutex_);
 			messageString_ = "The Scorched3d process "
 				"terminated unexpectedly.\n"
-				"The error given was :-\n";
+				"The error given was :\n";
 			while (IsInputAvailable())
 			{
 				wxTextInputStream tis(*GetInputStream());

@@ -29,7 +29,8 @@ NetServerRead::NetServerRead(TCPsocket socket,
 							 bool *checkDeleted) : 
 	socket_(socket), sockSet_(0), protocol_(protocol), 
 	outgoingMessagesMutex_(0), checkDeleted_(checkDeleted),
-	disconnect_(false), messageHandler_(messageHandler)
+	disconnect_(false), messageHandler_(messageHandler),
+	thread_(0)
 {
 	sockSet_ = SDLNet_AllocSocketSet(1);
 	SDLNet_TCP_AddSocket(sockSet_, socket);
@@ -39,7 +40,8 @@ NetServerRead::NetServerRead(TCPsocket socket,
 		getFromPool(NetMessage::ConnectMessage, (unsigned int) socket);
 	messageHandler_->addMessage(message);
 
-	SDL_CreateThread(NetServerRead::threadFunc, (void *) this);
+	thread_ = SDL_CreateThread(NetServerRead::threadFunc, (void *) this);
+	if (!thread_) disconnect_ = true;
 }
 
 NetServerRead::~NetServerRead()
@@ -71,6 +73,12 @@ bool NetServerRead::getDisconnect()
 	SDL_LockMutex(outgoingMessagesMutex_);
 	bool result = disconnect_;	
 	SDL_UnlockMutex(outgoingMessagesMutex_);
+
+	if (result && thread_)
+	{
+		int status = 0;
+		SDL_WaitThread(thread_, &status);
+	}
 	return result; 
 }
 
