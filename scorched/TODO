@@ -9,6 +9,7 @@ Added: Talk text now has tank state appended to it (dead, pending)
 Added: Buy dialog shows all available weapons
 Added: Buy dialog order and position don't change after buy
 
+Fixed: Applied http://wwwra.informatik.uni-rostock.de/~waschk/Scorched3D-35-gcc3.3.patch
 Fixed: Landscape explosions are much faster
 Fixed: Text drawn outside dialogs (help and connect dialogs)
 Fixed: Player name will always fit on score dialog
