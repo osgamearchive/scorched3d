@@ -113,9 +113,11 @@ while ($row = mysql_fetch_object($result))
 
 </tr>
 </td>
-
 <tr><td align=center>
 You can sort all <? print $row[0]; ?> players by <a href="allstats.php?Prefix=<? echo $prefix; ?>&Fields=skl:k:me:w:ow:r:sk:tk:d:tp&OrderBy=resigns">resigns</a>, <a href="allstats.php?Prefix=<? echo $prefix; ?>&Fields=skl:k:me:w:ow:r:sk:tk:d:tp&OrderBy=selfkills">suicides</a> and <a href="allstats.php?Prefix=<? echo $prefix; ?>&Fields=skl:k:me:w:ow:r:sk:tk:d:tp&OrderBy=teamkills">teamkills</a> as well.
+<?
+include('search.php');
+?>
 <br><br><br>
 </tr></td>
 </table>
