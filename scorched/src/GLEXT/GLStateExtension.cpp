@@ -28,6 +28,7 @@ bool GLStateExtension::noExtensions_ = false;
 bool GLStateExtension::multiTexDisabled_ = false;
 bool GLStateExtension::hasCubeMap_ = false;
 bool GLStateExtension::hasHardwareMipmaps_ = false;
+bool GLStateExtension::envCombine_ = false;
 int GLStateExtension::textureUnits_ = 0;
 PFNGLLOCKARRAYSEXTPROC GLStateExtension::glLockArraysEXT_ = 0;
 PFNGLACTIVETEXTUREARBPROC GLStateExtension::glActiveTextureARB_ =  0;
@@ -102,6 +103,7 @@ void GLStateExtension::setup()
 			SDL_GL_GetProcAddress("glLockArraysEXT");
 	}
 
+	envCombine_ = hasExtension("GL_ARB_texture_env_combine");
 	hasCubeMap_ = hasExtension("GL_EXT_texture_cube_map");
 	hasHardwareMipmaps_ = hasExtension("GL_SGIS_generate_mipmap");
 }

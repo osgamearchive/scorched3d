@@ -24,6 +24,14 @@
 
 #include <GLEXT/GLState.h>
 
+#ifndef GL_COMBINE_ARB
+#define GL_COMBINE_ARB						0x8570
+#endif
+
+#ifndef GL_RGB_SCALE_ARB
+#define GL_RGB_SCALE_ARB					0x8573
+#endif
+
 #ifndef _WIN32
 typedef void (* PFNGLACTIVETEXTUREARBPROC) (GLenum texture);
 typedef void (* PFNGLMULTITEXCOORD2FARBPROC) (GLenum target, GLfloat s, GLfloat t);
@@ -45,6 +53,7 @@ public:
 
 	static bool hasCubeMap() { return hasCubeMap_; }
 	static bool hasHardwareMipmaps() { return hasHardwareMipmaps_; }
+	static bool hasEnvCombine() { return envCombine_; }
 	static int getTextureUnits() { return textureUnits_; }
 
 	static void setup();
@@ -52,6 +61,7 @@ public:
 protected:
 	static bool hasExtension(char *name);
 
+	static bool envCombine_;
 	static bool noExtensions_;
 	static bool multiTexDisabled_;
 

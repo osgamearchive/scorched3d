@@ -34,13 +34,24 @@ enum
 	IDC_SLIDER1,
 	IDC_SINGLESKYLAYER,
 	IDC_NOSKYANI,
-	IDC_NOWATERANI
+	IDC_NOWATERANI,
+	IDC_NOWATER,
+	IDC_LANDSCAPETEX,
+	IDC_INVERT,
+	IDC_TIMER,
+	IDC_USERID,
+	IDC_NODETAILTEX
 };
 
 static wxCheckBox *IDC_FULLCLEAR_CTRL = 0;
 static wxCheckBox *IDC_NOEXT_CTRL = 0;
 static wxCheckBox *IDC_NOSOUND_CTRL = 0;
+static wxCheckBox *IDC_NOWATER_CTRL = 0;
+static wxCheckBox *IDC_LANDSCAPETEX_CTRL = 0;
 static wxCheckBox *IDC_NOMULTITEX_CTRL = 0;
+static wxCheckBox *IDC_INVERT_CTRL = 0;
+static wxCheckBox *IDC_TIMER_CTRL = 0;
+static wxCheckBox *IDC_NODETAILTEX_CTRL = 0;
 static wxRadioButton *IDC_RADIO_SMALL_CTRL = 0;
 static wxRadioButton *IDC_RADIO_MEDIUM_CTRL = 0;
 static wxRadioButton *IDC_RADIO_LARGE_CTRL = 0;
@@ -51,5 +62,6 @@ static wxSlider *IDC_SLIDER1_CTRL = 0;
 static wxCheckBox *IDC_SINGLESKYLAYER_CTRL = 0;
 static wxCheckBox *IDC_NOSKYANI_CTRL = 0;
 static wxCheckBox *IDC_NOWATERANI_CTRL = 0;
+static wxTextCtrl *IDC_USERID_CTRL = 0;
 static wxButton *IDOK_CTRL = 0;
 static wxButton *IDCANCEL_CTRL = 0;

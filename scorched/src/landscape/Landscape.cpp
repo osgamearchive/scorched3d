@@ -111,10 +111,14 @@ void Landscape::draw(const unsigned state)
 		if (GLStateExtension::glActiveTextureARB())
 		{
 			if (GLStateExtension::getTextureUnits() > 2 &&
-				OptionsDisplay::instance()->getDetailTexture())
+				OptionsDisplay::instance()->getDetailTexture() &&
+				GLStateExtension::hasEnvCombine())
 			{
 				GLStateExtension::glActiveTextureARB()(GL_TEXTURE2_ARB);
 				glEnable(GL_TEXTURE_2D);
+				glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_COMBINE_ARB);
+				glTexEnvi(GL_TEXTURE_ENV, GL_RGB_SCALE_ARB, 2);
+
 				detailTexture_.draw(true);
 			}
 
@@ -154,7 +158,8 @@ void Landscape::draw(const unsigned state)
 		if (GLStateExtension::glActiveTextureARB())
 		{
 			if (GLStateExtension::getTextureUnits() > 2 &&
-				OptionsDisplay::instance()->getDetailTexture())
+				OptionsDisplay::instance()->getDetailTexture() &&
+				GLStateExtension::hasEnvCombine())
 			{
 				GLStateExtension::glActiveTextureARB()(GL_TEXTURE2_ARB);
 				glDisable(GL_TEXTURE_2D);

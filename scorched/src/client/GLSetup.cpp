@@ -45,7 +45,7 @@ void GLSetup::setup()
 
 	glFogi(GL_FOG_MODE, GL_EXP2);	
 	glFogfv(GL_FOG_COLOR, fogColor);
-	glFogf(GL_FOG_DENSITY, 0.0005f);	
+	glFogf(GL_FOG_DENSITY, 0.001f);	
 	//glHint(GL_FOG_HINT, GL_DONT_CARE);
 	//glFogf(GL_FOG_START, 1.0f);	
 	//glFogf(GL_FOG_END, 2.0f);

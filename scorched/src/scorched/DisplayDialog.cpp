@@ -39,7 +39,7 @@ public:
 };
 
 DisplayFrame::DisplayFrame() :
-	wxDialog(getMainDialog(), -1, scorched3dAppName, wxPoint(0,0), wxSize(545, 395))
+	wxDialog(getMainDialog(), -1, scorched3dAppName, wxPoint(0,0), wxSize(545, 445))
 {
 	CentreOnScreen();
 
@@ -65,8 +65,14 @@ bool DisplayFrame::TransferDataToWindow()
 	IDC_SINGLESKYLAYER_CTRL->SetValue(OptionsDisplay::instance()->getNoSkyLayers());
 	IDC_NOSKYANI_CTRL->SetValue(OptionsDisplay::instance()->getNoSkyMovement());
 	IDC_NOWATERANI_CTRL->SetValue(OptionsDisplay::instance()->getNoWaterMovement());
+	IDC_NOWATER_CTRL->SetValue(!OptionsDisplay::instance()->getDrawWater());
+	IDC_LANDSCAPETEX_CTRL->SetValue(!OptionsDisplay::instance()->getUseLandscapeTexture());
+	IDC_INVERT_CTRL->SetValue(OptionsDisplay::instance()->getInvertUpDownKey());
+	IDC_TIMER_CTRL->SetValue(OptionsDisplay::instance()->getFrameTimer());
 	IDC_SLIDER1_CTRL->SetRange(3, 40);
 	IDC_SLIDER1_CTRL->SetValue(OptionsDisplay::instance()->getBrightness());
+	IDC_USERID_CTRL->SetValue(OptionsDisplay::instance()->getUniqueUserId());
+	IDC_NODETAILTEX_CTRL->SetValue(!OptionsDisplay::instance()->getDetailTexture());
 
 	char string[256];
 	SDL_Rect **modes = SDL_ListModes(NULL,SDL_FULLSCREEN|SDL_HWSURFACE);
@@ -115,6 +121,12 @@ bool DisplayFrame::TransferDataFromWindow()
 	OptionsDisplay::instance()->setNoSkyMovement(IDC_NOSKYANI_CTRL->GetValue());
 	OptionsDisplay::instance()->setNoWaterMovement(IDC_NOWATERANI_CTRL->GetValue());
 	OptionsDisplay::instance()->setBrightness(IDC_SLIDER1_CTRL->GetValue());
+	OptionsDisplay::instance()->setDrawWater(!IDC_NOWATER_CTRL->GetValue());
+	OptionsDisplay::instance()->setUseLandscapeTexture(!IDC_LANDSCAPETEX_CTRL->GetValue());
+	OptionsDisplay::instance()->setInvertUpDownKey(IDC_INVERT_CTRL->GetValue());
+	OptionsDisplay::instance()->setFrameTimer(IDC_TIMER_CTRL->GetValue());
+	OptionsDisplay::instance()->setUniqueUserId(IDC_USERID_CTRL->GetValue());
+	OptionsDisplay::instance()->setDetailTexture(!IDC_NODETAILTEX_CTRL->GetValue());
 
 	wxString buffer = IDC_DISPLAY_CTRL->GetValue();
 	int windowWidth, windowHeight;

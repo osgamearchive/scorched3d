@@ -85,7 +85,7 @@ static void createControls(wxWindow *parent)
 		"Resolution :",
 		wxPoint((int) 129, (int) 27), wxSize((int) 58.5, (int) 12));
 	new wxStaticBox(parent, -1,
-		"Detail Settings",
+		"Misc. Settings",
 		wxPoint((int) 10.5, (int) 130.5), wxSize((int) 519, (int) 79.5));
 	IDC_SINGLESKYLAYER_CTRL = 
 		new wxCheckBox(parent, IDC_SINGLESKYLAYER,
@@ -99,13 +99,40 @@ static void createControls(wxWindow *parent)
 		new wxCheckBox(parent, IDC_NOWATERANI,
 		"Don't animate water",
 		wxPoint((int) 27, (int) 187));
+	IDC_NOWATER_CTRL = 
+		new wxCheckBox(parent, IDC_NOWATER,
+		"Don't draw water",
+		wxPoint((int) 200, (int) 147));
+	IDC_LANDSCAPETEX_CTRL = 
+		new wxCheckBox(parent, IDC_LANDSCAPETEX,
+		"Don't texture landscape",
+		wxPoint((int) 200, (int) 167));
+	IDC_INVERT_CTRL = 
+		new wxCheckBox(parent, IDC_INVERT,
+		"Invert up/down keys",
+		wxPoint((int) 200, (int) 187));
+	IDC_TIMER_CTRL = 
+		new wxCheckBox(parent, IDC_TIMER,
+		"Show frames per second",
+		wxPoint((int) 370, (int) 147));
+	IDC_NODETAILTEX_CTRL = 
+		new wxCheckBox(parent, IDC_NODETAILTEX,
+		"Don't use detail textures",
+		wxPoint((int) 370, (int) 167));
+	new wxStaticBox(parent, -1,
+		"User ID (Uniquely identifies this player for stats, not generated from any user information.)",
+		wxPoint((int) 10.5, (int) 332), wxSize((int) 519, (int) 43.5));
+	IDC_USERID_CTRL = 
+		new wxTextCtrl(parent, IDC_USERID,
+		"", 
+		wxPoint((int) 27, (int) 345), wxSize((int) 300, (int) 23.5));
 	IDOK_CTRL = 
 		new wxButton(parent, wxID_OK,
 		"Ok",
-		wxPoint((int) 454.5, (int) 334.5), wxSize((int) 75, (int) 21));
+		wxPoint((int) 454.5, (int) 384.5), wxSize((int) 75, (int) 21));
 	IDCANCEL_CTRL = 
 		new wxButton(parent, wxID_CANCEL,
 		"Cancel",
-		wxPoint((int) 373.5, (int) 334.5), wxSize((int) 75, (int) 21));
+		wxPoint((int) 373.5, (int) 384.5), wxSize((int) 75, (int) 21));
 }
 
