@@ -68,6 +68,8 @@ public:
 	move instantly.
 	*/
 	void setOffSet(Vector &offSet, bool instant = false);
+	Vector &getOffSet() { return wantedOffset_; }
+
 	/**
 	Changes the current viewport size (w, h dimension) of the viewport.
 	The viewport is the area of the window that is drawn to.

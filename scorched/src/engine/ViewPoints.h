@@ -54,6 +54,8 @@ public:
 	void simulate(float frameTime);
 	void getValues(Vector &lookAt, 
 				   Vector &lookFrom);
+	void setValues(Vector &lookAt, 
+				   Vector &lookFrom);
 	int getLookAtCount();
 
 	ViewPoints::ViewPoint *getNewViewPoint(unsigned int playerId);

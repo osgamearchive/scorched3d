@@ -87,7 +87,7 @@ bool ActionController::noReferencedActions()
 		(referenceCount_ == 0) &&
 		buffer_.empty());
 
-	if (!finished && actionTracing_)
+	if (actionTracing_)
 	{
 		if (time_ - lastTraceTime_ > 5.0f)
 		{

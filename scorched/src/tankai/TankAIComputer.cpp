@@ -43,6 +43,7 @@ TankAIComputer::~TankAIComputer()
 void TankAIComputer::setTank(Tank *tank)
 {
 	tankBuyer_.setTank(currentTank_);
+	TankAI::setTank(tank);
 }
 
 bool TankAIComputer::parseConfig(XMLNode *node)

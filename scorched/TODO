@@ -8,6 +8,7 @@ Fixed: Client does not wait at the end of each shot when fast speed is enabled
 Fixed: TankAIs will not get "confused" by bouncy walls, shields or wrap walls
 Fixed: Spelling and gammour in talk lines (thanks Stefan Lindner)
 Fixed: Score dialog only shown once in the final round
+Fixed: DirectX is only checked when running the client.
 Fixed: Added scroll bars to landscape settings dialog
 
 Added: Can sort accessories in buying dialog by name (or not)
@@ -35,6 +36,7 @@ Gun fires at same point for all tanks (ignores turret/gun position in model)
 Shot cam does not get LOD correctly
 
 -- Things I am currently looking at
+Allow more than 12 landscapes in the landscape settings dialog
 Make AIs better
 Single player saving
 Option to auto remove computer players when a certain number of humans in game

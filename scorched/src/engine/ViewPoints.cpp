@@ -37,6 +37,13 @@ void ViewPoints::getValues(Vector &lookAt,
 	lookFrom = lookFrom_;
 }
 
+void ViewPoints::setValues(Vector &lookAt, 
+						   Vector &lookFrom)
+{
+	lookAt_ = lookAt;
+	lookFrom_ = lookFrom;
+}
+
 void ViewPoints::simulate(float frameTime)
 {
 	if (getLookAtCount() == 0) return;
@@ -79,11 +86,11 @@ void ViewPoints::simulate(float frameTime)
 		count += 1.0f;
 	}
 
-	float dist = 15.0f;
+	float dist = 35.0f;
 	float maxMin = (max - min).Magnitude();
 	if (maxMin > 0.0f)
 	{
-		dist = 15.0f + maxMin;
+		dist = 35.0f + maxMin;
 	}
 	lookFrom.StoreNormalize();
 
@@ -98,7 +105,7 @@ void ViewPoints::simulate(float frameTime)
 	}
 	else
 	{
-		const float SecondsToReachTarget = 0.05f;
+		const float SecondsToReachTarget = 0.1f;
 		totalTime_ += frameTime;
 		while (totalTime_ > 0.05f)
 		{

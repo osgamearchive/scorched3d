@@ -128,22 +128,8 @@ int main(int argc, char *argv[])
 	else fclose(checkfile);
 
 #ifdef _WIN32
-	// Do a check for directX 8.0
-	HINSTANCE hD3D8DLL = LoadLibrary( "D3D8.DLL" );
-	if(hD3D8DLL == NULL)
-	{
-		dialogMessage(
-			scorched3dAppName,
-			"Warning: This game requires DirectX 8.0 or later to run.\n"
-			"Your machine does not appear to have DirectX 8.0 installed.\n\n"
-			"The latest version of DirectX can be obtained freely from Microsoft at:\n"
-			"http://www.microsoft.com/windows/directx/default.asp");
-	}
-	FreeLibrary(hD3D8DLL);
-
 	// For borland compilers disable floating point exceptions. 
 	_control87(MCW_EM,MCW_EM);
-
 #endif
 
 #ifndef _WIN32
@@ -207,6 +193,24 @@ int main(int argc, char *argv[])
 #endif
 		break;
 	case OptionsParam::ActionRunClient:
+
+#ifdef _WIN32
+		{
+			// Do a check for directX 8.0
+			HINSTANCE hD3D8DLL = LoadLibrary( "D3D8.DLL" );
+			if(hD3D8DLL == NULL)
+			{
+				dialogMessage(
+					scorched3dAppName,
+					"Warning: This game requires DirectX 8.0 or later to run.\n"
+					"Your machine does not appear to have DirectX 8.0 installed.\n\n"
+					"The latest version of DirectX can be obtained freely from Microsoft at:\n"
+					"http://www.microsoft.com/windows/directx/default.asp");
+			}
+			FreeLibrary(hD3D8DLL);
+		}
+#endif
+
 		// Actually start the client game if that is desired
 		wxWindowInit = false;
 		if (OptionsParam::instance()->getSDLInitVideo())

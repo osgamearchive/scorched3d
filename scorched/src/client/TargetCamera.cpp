@@ -168,6 +168,7 @@ bool TargetCamera::moveCamera(float frameTime, bool playing)
 		currentRotation = (180.0f - currentTank->getPhysics().getRotationGunXY()) / 57.32f;
 	}
 
+	bool shotView = false;
 	bool viewFromBehindTank = false;
 	switch (cameraPos_)
 	{
@@ -203,7 +204,9 @@ bool TargetCamera::moveCamera(float frameTime, bool playing)
 		if (ScorchedClient::instance()->getContext().viewPoints.getLookAtCount() > 0)
 		{
 			Vector lookatPos, lookfromPos;
-			ScorchedClient::instance()->getContext().viewPoints.getValues(lookatPos, lookfromPos);
+			ScorchedClient::instance()->getContext().viewPoints.
+				getValues(lookatPos, lookfromPos);
+			shotView = true;
 			mainCam_.setLookAt(lookatPos, true);
 			mainCam_.setOffSet(lookfromPos, true);
 			//simulateCamera = false;
@@ -279,6 +282,14 @@ bool TargetCamera::moveCamera(float frameTime, bool playing)
 		break;
 	default:
 		break;
+	}
+
+	if (!shotView)
+	{
+		Vector lookatPos = mainCam_.getLookAt();
+		Vector lookfromPos = mainCam_.getOffSet();
+		ScorchedClient::instance()->getContext().viewPoints.
+				setValues(lookatPos, lookfromPos);
 	}
 	
 	if (viewFromBehindTank)
