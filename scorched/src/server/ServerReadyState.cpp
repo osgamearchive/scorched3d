@@ -60,12 +60,12 @@ void ServerReadyState::enterState(const unsigned state)
 
 	if (shotState_->getShotTime() == 0.0f)
 	{
-		idleTime_ = ScorchedServer::instance()->
+		idleTime_ = (float) ScorchedServer::instance()->
 			getOptionsGame().getIdleKickTime();
 	}
 	else
 	{
-		idleTime_ = ScorchedServer::instance()->
+		idleTime_ = (float) ScorchedServer::instance()->
 			getOptionsGame().getIdleShotKickTime();
 	}
 
