@@ -64,7 +64,7 @@ bool UniqueIdStore::loadStore()
 		IPaddress ipAddress;
 		if (SDLNet_ResolveHost(&ipAddress, entry.published.c_str(), 0) == 0)
 		{
-			entry.ip = ipAddress.host;
+			entry.ip = SDLNet_Read32(&ipAddress.host);
 		}
 		else entry.ip = 0;
 		ids_.push_back(entry);
@@ -120,17 +120,19 @@ bool UniqueIdStore::saveUniqueId(unsigned int ip, const char *id,
 	if (0 == strcmp(published, "AutoDetect")) return true;
 
 	// Check the published ip matches the actual server ip
-	IPaddress ipAddress;
-	if (SDLNet_ResolveHost(&ipAddress, published, 0) != 0)
+	IPaddress address;
+	if (SDLNet_ResolveHost(&address, published, 0) != 0)
 	{
 		Logger::log(0, "Failed to resolve published server host \"%s\"", published);
 		return false;
 	}
-	if (ipAddress.host != ip) 
+
+	unsigned int ipAddress = SDLNet_Read32(&address.host);
+	if (ipAddress != ip) 
 	{
 		std::string actualIp = NetInterface::getIpName(ip);
-		std::string pubIp = NetInterface::getIpName(ipAddress.host);
-		Logger::log(0, "Server ip %s does not match published ip %s (%s)",
+		std::string pubIp = NetInterface::getIpName(ipAddress);
+		Logger::log(0, "Server ip does not match published ip\n%s != %s (%s)",
 			actualIp.c_str(), published, pubIp.c_str());
 		return false;
 	}

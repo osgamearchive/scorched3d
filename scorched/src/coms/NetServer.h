@@ -45,7 +45,7 @@ public:
 	virtual void sendMessage(NetBuffer &buffer);
 	virtual void sendMessage(NetBuffer &buffer, unsigned int destination);
 
-	virtual unsigned int getIpAddress(unsigned int destination);
+	static unsigned int getIpAddress(TCPsocket destination);
 
 protected:
 	NetServerProtocol *protocol_;

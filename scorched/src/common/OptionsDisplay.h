@@ -148,6 +148,10 @@ public:
 	void setNoGLHardwareMipmaps(bool value) { noGLHardwareMipmaps_.setValue(value); }
 	const char *getNoGLHardwareMipmapsToolTip() { return noGLHardwareMipmaps_.getDescription(); }
 
+	int getSoundChannels() { return soundChannels_.getValue(); }
+	void setSoundChannels(int value) { soundChannels_.setValue(value); }
+	const char *getSoundChannelsToolTip() { return soundChannels_.getDescription(); }
+
 	bool getNoSound() { return noSound_.getValue(); }
 	void setNoSound(bool value) { noSound_.setValue(value); }
 	const char *getNoSoundToolTip() { return noSound_.getDescription(); }
@@ -319,6 +323,7 @@ protected:
 	OptionEntryInt depricatedSunYZAng_;
 	OptionEntryInt depricatedSunXYAng_;
 	OptionEntryInt colorComponentSize_;
+	OptionEntryInt soundChannels_;
 	OptionEntryInt bitsPerPixel_;
 	OptionEntryInt depthBufferBits_;
 	OptionEntryInt bannerRows_;

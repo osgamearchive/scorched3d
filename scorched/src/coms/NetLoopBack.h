@@ -48,8 +48,6 @@ public:
 	virtual void sendMessage(NetBuffer &buffer);
 	virtual void sendMessage(NetBuffer &buffer, unsigned int destination);
 
-	virtual unsigned int getIpAddress(unsigned int destination);
-
 protected:
 	unsigned int currentId_;
 	NetMessageHandler messageHandler_;

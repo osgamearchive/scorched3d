@@ -33,7 +33,8 @@ public:
 
 	void addToPool(NetMessage *message);
 	NetMessage *getFromPool(NetMessage::MessageType type,
-							unsigned int destinationId);
+		unsigned int destinationId,
+		unsigned int ipAddress);
 
 protected:
 	static NetMessagePool *instance_;

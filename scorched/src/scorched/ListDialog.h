@@ -18,36 +18,22 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+#if !defined(__INCLUDE_ListDialogh_INCLUDE__)
+#define __INCLUDE_ListDialogh_INCLUDE__
 
-#if !defined(__INCLUDE_ServerConnectHandlerh_INCLUDE__)
-#define __INCLUDE_ServerConnectHandlerh_INCLUDE__
+#include <wx/wx.h>
+#include <wx/listbox.h>
 
-#include <coms/ComsMessageHandler.h>
-
-class ServerConnectHandler : 
-	public ComsMessageHandlerI
+class ListDialog : public wxDialog
 {
-public:
-	static ServerConnectHandler *instance();
+	public:
+		ListDialog(wxWindow *parent, const char *title);
 
-	virtual bool processMessage(unsigned int id,
-		const char *messageType,
-		NetBufferReader &reader);
+		void addItem(const char *item);
 
-protected:
-	static ServerConnectHandler *instance_;
-
-	void addNextTank(unsigned int destinationId,
-		unsigned int ipAddress,
-		const char *uniqueId,
-		const char *hostDesc,
-		bool extraSpectator);
-
-private:
-	ServerConnectHandler();
-	virtual ~ServerConnectHandler();
+	protected:
+		wxListBox *list_;
 
 };
-
 
 #endif

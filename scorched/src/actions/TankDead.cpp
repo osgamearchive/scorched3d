@@ -133,7 +133,7 @@ void TankDead::simulate(float frameTime, bool &remove)
 				{
 					Tank firedTank(*context_, 0, 0, "Environment", 
 						Vector::nullVector, killedTank->getModel());
-					firedTank.setUnqiueId("Environment");
+					firedTank.setUniqueId("Environment");
 					StatsLogger::instance()->
 						tankKilled(&firedTank, killedTank, weapon_); 
 					StatsLogger::instance()->

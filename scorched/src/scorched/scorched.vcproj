@@ -2715,6 +2715,12 @@
 				RelativePath="HtmlHelpDialog.h">
 			</File>
 			<File
+				RelativePath="ListDialog.cpp">
+			</File>
+			<File
+				RelativePath="ListDialog.h">
+			</File>
+			<File
 				RelativePath="KeyDialog.cpp">
 			</File>
 			<File

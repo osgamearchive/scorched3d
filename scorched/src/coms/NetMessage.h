@@ -39,6 +39,7 @@ public:
 	};
 
 	unsigned int &getDestinationId() { return destinationId_; }
+	unsigned int &getIpAddress() { return ipAddress_; }
 	MessageType getMessageType() { return type_; }
 	NetBuffer &getBuffer() { return messageBuffer_; }
 
@@ -46,12 +47,15 @@ protected:
 	NetBuffer messageBuffer_;
 	MessageType type_;
 	unsigned int destinationId_;
+	unsigned int ipAddress_;
 
 	void setDestinationId(unsigned int destinationId) { destinationId_ = destinationId; }
+	void setIpAddress(unsigned int ipAddress) { ipAddress_ = ipAddress; }
 	void setType(MessageType type) { type_ = type; }
 
 	NetMessage(MessageType type = NetMessage::NoMessage,
-			   unsigned int destinationId = 0);
+			   unsigned int destinationId = 0,
+			   unsigned int ipAddress = 0);
 	virtual ~NetMessage();
 };
 

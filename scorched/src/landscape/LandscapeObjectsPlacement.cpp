@@ -159,6 +159,8 @@ void LandscapeObjectPlacementTrees::generateObjects(
 			placement.objecttype.c_str());
 	}
 
+	float mult = (float) Landscape::instance()->getMainMap().getWidth() / 256.0f;
+
 	// Add lots of trees, more chance of adding a tree where
 	// the map is stongest
 	const int NoIterations = placement.numobjects;
@@ -184,10 +186,6 @@ void LandscapeObjectPlacementTrees::generateObjects(
 
 			if (height > placement.minheight + 0.5f)
 			{
-				float mult = (float) Landscape::instance()->getMainMap().getWidth() / 256.0f;
-				GLBitmapModifier::addCircle(Landscape::instance()->getMainMap(),
-					lx * mult, ly * mult, 2.5f * mult, 1.0f);
-
 				LandscapeObjectsEntry *entry = 0;
 				if (model)
 				{
@@ -213,6 +211,9 @@ void LandscapeObjectPlacementTrees::generateObjects(
 					entry->posY = ly;
 					entry->posZ = height;
 					entry->rotation = RAND * 360.0f;
+					
+					GLBitmapModifier::addCircle(Landscape::instance()->getMainMap(),
+						lx * mult, ly * mult, entry->size * mult, 1.0f);
 				}
 
 				Landscape::instance()->getObjects().addObject(
@@ -269,6 +270,8 @@ void LandscapeObjectPlacementMask::generateObjects(
 			"Error: failed to find mask \"%s\"",
 			placement.mask.c_str());
 	}
+
+	float mult = (float) Landscape::instance()->getMainMap().getWidth() / 256.0f;
 
 	const int NoIterations = placement.numobjects;
 	for (int i=0; i<NoIterations; i++)
@@ -361,6 +364,9 @@ void LandscapeObjectPlacementMask::generateObjects(
 						entry->posY = ly;
 						entry->posZ = height;
 						entry->rotation = lr;
+						
+						GLBitmapModifier::addCircle(Landscape::instance()->getMainMap(),
+							lx * mult, ly * mult, entry->size * mult, 1.0f);
 					}
 
 					Landscape::instance()->getObjects().addObject(

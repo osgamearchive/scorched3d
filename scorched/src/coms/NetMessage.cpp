@@ -21,8 +21,9 @@
 #include <coms/NetMessage.h>
 
 NetMessage::NetMessage(MessageType type,
-					   unsigned int destinationId) :
-	type_(type), destinationId_(destinationId)
+	unsigned int destinationId,
+	unsigned int ipAddress) :
+	type_(type), destinationId_(destinationId), ipAddress_(ipAddress)
 {
 
 }

@@ -132,14 +132,15 @@ bool ConnectDialog::tryConnection()
 				formatString("Failed to load id store"), 0);
 			return false;
 		}
-		IPaddress ipAddress;
-		if (SDLNet_ResolveHost(&ipAddress, hostPart.c_str(), 0) != 0)
+		IPaddress address;
+		if (SDLNet_ResolveHost(&address, hostPart.c_str(), 0) != 0)
 		{
 			LogDialog::instance()->logMessage("", 
 				formatString("Failed to resolve server name"), 0);
 			return false;
 		}
-		uniqueId = idStore_.getUniqueId(ipAddress.host);
+		unsigned int ipAddress = SDLNet_Read32(&address.host);
+		uniqueId = idStore_.getUniqueId(ipAddress);
 	}
 	else
 	{

@@ -71,7 +71,7 @@ void Sound::destroy()
 	instance_ = 0;
 }
 
-bool Sound::init()
+bool Sound::init(int channels)
 {
 	if ( Mix_OpenAudio(11025, // frequency 
 		AUDIO_S16SYS, // format (16 bit)
@@ -86,6 +86,8 @@ bool Sound::init()
 	{
 		init_ = true;
 	}
+
+	Mix_AllocateChannels(channels);
 
 	return init_;
 }

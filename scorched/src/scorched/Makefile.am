@@ -802,6 +802,8 @@ scorched3d_SOURCES = \
 	DisplayDialog.h \
 	HtmlHelpDialog.cpp \
 	HtmlHelpDialog.h \
+	ListDialog.cpp \
+	ListDialog.h \
 	KeyDialog.cpp \
 	KeyDialog.h \
 	MainDialog.cpp \

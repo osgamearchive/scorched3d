@@ -74,14 +74,9 @@ void NetLoopBack::sendMessage(NetBuffer &buffer, unsigned int destination)
 		destination == ServerLoopBackID);
 
 	NetMessage *message = NetMessagePool::instance()->
-		getFromPool(NetMessage::BufferMessage, currentId_);
+		getFromPool(NetMessage::BufferMessage, currentId_, 0);
 	message->getBuffer().reset();
 	message->getBuffer().addDataToBuffer(buffer.getBuffer(), buffer.getBufferUsed());
 	loopback_->messageHandler_.addMessage(message);
-}
-
-unsigned int NetLoopBack::getIpAddress(unsigned int destination)
-{
-	return 0;
 }
 

@@ -114,7 +114,7 @@ void TankAIAdder::addTankAI(ScorchedServer &context,
 			color,
 			modelId);
 
-		tank->setUnqiueId(uniqueId);
+		tank->setUniqueId(uniqueId);
 		tank->setTankAI(ai->getCopy(tank));
 		context.getTankContainer().addTank(tank);
 

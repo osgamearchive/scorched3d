@@ -36,6 +36,7 @@
 #include <coms/ComsConnectAcceptMessage.h>
 #include <coms/ComsConnectMessage.h>
 #include <coms/ComsMessageSender.h>
+#include <coms/NetServer.h>
 
 ServerConnectHandler *ServerConnectHandler::instance_ = 0;
 
@@ -62,6 +63,7 @@ ServerConnectHandler::~ServerConnectHandler()
 bool ServerConnectHandler::processMessage(unsigned int destinationId,
 	const char *messageType, NetBufferReader &reader)
 {
+	unsigned int ipAddress = 0;
 	// Only do this on the server, the client can have all bots
 	if (OptionsParam::instance()->getDedicatedServer())
 	{
@@ -74,6 +76,9 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 			ServerCommon::kickDestination(destinationId);
 			return true;		
 		}
+
+		// Get the ip address
+		ipAddress = NetServer::getIpAddress((TCPsocket) destinationId);
 	}
 
 	// Decode the connect message
@@ -191,6 +196,7 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 	for (unsigned int i=0; i<message.getNoPlayers(); i++)
 	{
 		addNextTank(destinationId,
+			ipAddress,	
 			message.getUniqueId(),
 			message.getHostDesc(),
 			false);
@@ -203,6 +209,7 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 	if (!OptionsParam::instance()->getDedicatedServer())
 	{
 		addNextTank(destinationId,
+			ipAddress,
 			message.getUniqueId(),
 			message.getHostDesc(),
 			true);
@@ -212,6 +219,7 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 }
 
 void ServerConnectHandler::addNextTank(unsigned int destinationId,
+	unsigned int ipAddress,
 	const char *sentUniqueId,
 	const char *sentHostDesc,
 	bool extraSpectator)
@@ -250,7 +258,8 @@ void ServerConnectHandler::addNextTank(unsigned int destinationId,
 		playerName,
 		color,
 		modelId);
-	tank->setUnqiueId(sentUniqueId);
+	tank->setUniqueId(sentUniqueId);
+	tank->setIpAddress(ipAddress);
 	tank->setHostDesc(sentHostDesc);
 	tank->getState().setSpectator(true);
 	tank->getState().setLoading(true);

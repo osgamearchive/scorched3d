@@ -39,7 +39,7 @@ const char *NetInterface::getIpName(unsigned int ipAddress)
 	unsigned char address[4];
 	memcpy(address, &ipAddress, sizeof(address));
 	sprintf(result, "%i.%i.%i.%i", 
-		(int) address[0], (int) address[1], 
-		(int) address[2], (int) address[3]);
+		(int) address[3], (int) address[2], 
+		(int) address[1], (int) address[0]);
 	return result;
 }

@@ -20,7 +20,7 @@
 
 #include <coms/NetServerProtocol.h>
 #include <coms/NetMessagePool.h>
-#include <coms/NetInterface.h>
+#include <coms/NetServer.h>
 #include <common/Logger.h>
 #include <zlib/zlib.h>
 
@@ -123,7 +123,9 @@ NetMessage *NetServerScorchedProtocol::readBuffer(TCPsocket socket)
 
 	// allocate the buffer memory
 	NetMessage *buffer = NetMessagePool::instance()->
-		getFromPool(NetMessage::BufferMessage, (unsigned int) socket);
+		getFromPool(NetMessage::BufferMessage, 
+				(unsigned int) socket,
+				NetServer::getIpAddress(socket));
 	buffer->getBuffer().allocate(len);
 	buffer->getBuffer().setBufferUsed(len);
 
@@ -157,7 +159,9 @@ bool NetServerCompressedProtocol::sendBuffer(NetBuffer &buffer, TCPsocket socket
 
 	// Allocate a new buffer
 	NetMessage *newMessage = NetMessagePool::instance()->
-		getFromPool(NetMessage::BufferMessage, (unsigned int) socket);
+		getFromPool(NetMessage::BufferMessage, 
+				(unsigned int) socket,
+				NetServer::getIpAddress(socket));
 	NetBuffer &newBuffer = newMessage->getBuffer();
 	newBuffer.allocate(destLen);
 
@@ -223,7 +227,8 @@ NetMessage *NetServerCompressedProtocol::readBuffer(TCPsocket socket)
 		unsigned long destLen = dLen;
 		NetMessage *newMessage =
 			NetMessagePool::instance()->getFromPool(message->getMessageType(),
-													message->getDestinationId());
+													message->getDestinationId(),
+													NetServer::getIpAddress(socket));
 		NetBuffer &newBuffer = newMessage->getBuffer();
 		newBuffer.allocate(destLen);
 		newBuffer.setBufferUsed(destLen);
@@ -284,7 +289,9 @@ NetMessage *NetServerHTTPProtocol::readBuffer(TCPsocket socket)
 {
 	// allocate the buffer memory
 	NetMessage *netBuffer = NetMessagePool::instance()->
-		getFromPool(NetMessage::BufferMessage, (unsigned int) socket);
+		getFromPool(NetMessage::BufferMessage,
+				(unsigned int) socket,
+				NetServer::getIpAddress(socket));
 	netBuffer->getBuffer().reset();
 
 	// get the string buffer over the socket

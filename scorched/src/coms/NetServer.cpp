@@ -226,7 +226,9 @@ void NetServer::disconnectClient(unsigned int dest)
 	DIALOG_ASSERT(client);
 
 	NetMessage *message = NetMessagePool::instance()->
-		getFromPool(NetMessage::DisconnectMessage, (unsigned int) client);	
+		getFromPool(NetMessage::DisconnectMessage, 
+				(unsigned int) client,
+				getIpAddress(client));
 
 	// Add the message to the list of out going
 	sendMessage(client, message);
@@ -245,7 +247,9 @@ void NetServer::sendMessage(NetBuffer &buffer, unsigned int dest)
 
 	// Get a new buffer from the pool
 	NetMessage *message = NetMessagePool::instance()->
-		getFromPool(NetMessage::NoMessage, (unsigned int) destination);
+		getFromPool(NetMessage::NoMessage, 
+				(unsigned int) destination,
+				getIpAddress(destination));
 
 	// Add message to new buffer
 	message->getBuffer().allocate(buffer.getBufferUsed());
@@ -278,21 +282,13 @@ void NetServer::sendMessage(TCPsocket client, NetMessage *message)
 	SDL_UnlockMutex(setMutex_);
 }
 
-unsigned int NetServer::getIpAddress(unsigned int dest)
+unsigned int NetServer::getIpAddress(TCPsocket destination)
 {
-	if (dest == 0)
-	{
-		if (firstDestination_)
-		{
-			IPaddress *address = SDLNet_TCP_GetPeerAddress(firstDestination_);
-			if (!address) return 0;
-			return address->host;
-		}
-		return 0;
-	}
-	TCPsocket destination = (TCPsocket) dest;
+	if (destination == 0) return 0;
 	IPaddress *address = SDLNet_TCP_GetPeerAddress(destination);
 	if (!address) return 0;
 
-	return address->host;
+	unsigned int addr = SDLNet_Read32(&address->host);
+	return addr;
 }
+

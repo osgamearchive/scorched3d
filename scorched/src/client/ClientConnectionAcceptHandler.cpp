@@ -26,7 +26,7 @@
 #include <coms/ComsConnectAcceptMessage.h>
 #include <coms/ComsHaveModFilesMessage.h>
 #include <coms/ComsMessageSender.h>
-#include <coms/NetInterface.h>
+#include <coms/NetServer.h>
 #include <common/Logger.h>
 #include <common/OptionsGame.h>
 #include <common/OptionsParam.h>
@@ -64,8 +64,7 @@ bool ClientConnectionAcceptHandler::processMessage(unsigned int id,
 
 	if (OptionsParam::instance()->getConnectedToServer())
 	{
-		unsigned int ip =
-			ScorchedClient::instance()->getNetInterface().getIpAddress(0);
+		unsigned int ip = NetServer::getIpAddress((TCPsocket) id);
 		if (!ConnectDialog::instance()->getIdStore().saveUniqueId(
 			ip, message.getUniqueId(), message.getPublishAddress()))
 		{

@@ -357,18 +357,12 @@ void StatsLoggerMySQL::tankJoined(Tank *tank)
 	runQuery("UPDATE scorched3d%s_names SET count=count+1 WHERE "
 		"playerid=%i AND name=\"%s\";", prefix_.c_str(), playerId, tank->getName());
 
-	// IP address
-	NetInterface &netinterface = ScorchedServer::instance()->getNetInterface();
-	unsigned int ip = netinterface.getIpAddress(tank->getDestinationId());
-	unsigned char address[4];
-	memcpy(address, &ip, sizeof(address));
-
 	// Joining stats
 	runQuery("UPDATE scorched3d%s_players SET connects=connects+1, "
 		"lastconnected=NOW(), name=\"%s\", osdesc=\"%s\", ipaddress=\"%s\" "
 		"WHERE playerid = %i;", 
 		prefix_.c_str(), tank->getName(), tank->getHostDesc(), 
-		NetInterface::getIpName(ip),
+		NetInterface::getIpName(tank->getIpAddress()),
 		playerId);
 }
 

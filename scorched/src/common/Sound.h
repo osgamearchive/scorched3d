@@ -35,7 +35,7 @@ class Sound
 public:
 	static Sound *instance();
 
-	bool init();
+	bool init(int channels);
 	void setVolume(int volume);
 	int getVolume();
 	void destroy();

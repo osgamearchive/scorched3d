@@ -162,17 +162,12 @@ void ProgressDialog::progressChange(const char *op, const float percentage)
 	static float timeDelay = 0.0f;
 	timeDelay += localTimer.getTimeDifference();
 
-	static float oldPercentage = 0.0f;
-
 	progressLabel_->setText(op);
 	progress_->setCurrent(percentage);
 
-	if ((percentage == 0.0f) ||
-		(timeDelay > 0.25f) || 
-		(percentage > 99.9f) || 
-		(fabsf(oldPercentage - percentage) > 5.0f))
+	if ((timeDelay > 0.25f) || 
+		(percentage > 99.0f))
 	{
-		oldPercentage = percentage;
 		timeDelay = 0.0f;
 	
 		Main2DCamera::instance()->draw(0);
@@ -182,3 +177,4 @@ void ProgressDialog::progressChange(const char *op, const float percentage)
 		ScorchedClient::instance()->getMainLoop().swapBuffers();
 	}
 }
+

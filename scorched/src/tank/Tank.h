@@ -60,7 +60,7 @@ public:
 	void setName(const char *name) { name_ = name; }
 	unsigned int getNameLen() { return name_.size(); }
 	const char *getUniqueId() { return uniqueId_.c_str(); }
-	void setUnqiueId(const char *id) { uniqueId_ = id; }
+	void setUniqueId(const char *id) { uniqueId_ = id; }
 	const char *getHostDesc() { return hostDesc_.c_str(); }
 	void setHostDesc(const char *id) { hostDesc_ = id; }
 	TankAI *getTankAI() { return tankAI_; }
@@ -69,6 +69,8 @@ public:
 	void setModel(TankModelId &model) { model_ = model; }
 	Vector &getColor();
 	void setColor(Vector &color) { color_ = color; }
+	unsigned int getIpAddress() { return ipAddress_; }
+	void setIpAddress(unsigned int ipAddress) { ipAddress_ = ipAddress; }
 
 	// Other attributes
 	TankAccessories& getAccessories() { return accessories_; }
@@ -93,6 +95,7 @@ protected:
 	unsigned int team_;
 	unsigned int playerId_;
 	unsigned int destinationId_;
+	unsigned int ipAddress_;
 
 };
 

@@ -335,6 +335,13 @@ void DisplayFrame::refreshScreen()
 	IDC_SWAPYAXIS_CTRL->SetValue(OptionsDisplay::instance()->getSwapYAxis());
 	IDC_SWAPYAXIS_CTRL->SetToolTip(OptionsDisplay::instance()->getSwapYAxisToolTip());
 
+	for (int i=2; i<64; i+=2)
+	{
+		IDC_SOUNDCHANNELS_CTRL->Append(formatString("%i", i));
+	}
+	IDC_SOUNDCHANNELS_CTRL->SetValue(
+		formatString("%i", OptionsDisplay::instance()->getSoundChannels()));
+
 	refreshResolutions();
 
 	IDC_TINYDIALOGS_CTRL->SetToolTip(OptionsDisplay::instance()->getDialogSizeToolTip());
@@ -472,6 +479,7 @@ bool DisplayFrame::TransferDataFromWindow()
 	OptionsDisplay::instance()->setNoVBO(IDC_NOVBO_CTRL->GetValue());
 	OptionsDisplay::instance()->setNoGLHardwareMipmaps(IDC_NOMIPMAPS_CTRL->GetValue());
 	OptionsDisplay::instance()->setNoSound(IDC_NOSOUND_CTRL->GetValue());
+	OptionsDisplay::instance()->setSoundChannels(atoi(IDC_SOUNDCHANNELS_CTRL->GetValue()));
 	OptionsDisplay::instance()->setNoSkins(IDC_NOSKINS_CTRL->GetValue());
 	OptionsDisplay::instance()->setNoTrees(IDC_NOTREES_CTRL->GetValue());
 	OptionsDisplay::instance()->setNoPrecipitation(IDC_NOPRECIPITATION_CTRL->GetValue());

@@ -108,7 +108,8 @@ bool initHardware(ProgressCounter *progressCounter)
 				"Is anything else currently using the sound card?");
 		}
 		progressCounter->setNewOp("Initializing Sound SW");
-		if (!Sound::instance()->init())
+		if (!Sound::instance()->init(
+			OptionsDisplay::instance()->getSoundChannels()))
 		{
 			dialogMessage("Scorched3D Sound", 
 				"Failed to aquire sound.\n"

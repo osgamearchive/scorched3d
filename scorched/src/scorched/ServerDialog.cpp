@@ -22,6 +22,7 @@
 #include <scorched/MainDialog.h>
 #include <scorched/SettingsDialog.h>
 #include <scorched/ServerMsgDialog.h>
+#include <scorched/ListDialog.h>
 #include <tankai/TankAIStore.h>
 #include <tankai/TankAIAdder.h>
 #include <engine/ModFiles.h>
@@ -132,8 +133,10 @@ wxString ServerPlayerListControl::OnGetItemText(long item, long column) const
 		case 2:
 			{
 				static char buffer[256];
-				sprintf(buffer, "dest=%i id=%i", 
-					tank->getDestinationId(), tank->getPlayerId());
+				sprintf(buffer, "dest=%i ip=%s id=%i", 
+					tank->getDestinationId(), 
+					NetInterface::getIpName(tank->getIpAddress()), 
+					tank->getPlayerId());
 				return buffer;
 			}
 			break;
@@ -704,8 +707,7 @@ void ServerFrame::onSaveOptions()
 
 void ServerFrame::onShowModFiles()
 {
-	int count = 0;
-	std::string allOptionsStr;
+	ListDialog listDialog(this, "Scorched 3D Server Mod Files");
 	std::map<std::string, ModFileEntry *> &modFiles = 
 		ScorchedServer::instance()->getModFiles().getFiles();
 	std::map<std::string, ModFileEntry *>::iterator itor;
@@ -714,11 +716,11 @@ void ServerFrame::onShowModFiles()
 		itor++)
 	{
 		ModFileEntry *entry = (*itor).second;
-		allOptionsStr += entry->getFileName();
-		if (++count % 3 == 2) allOptionsStr += "\n";
-		else allOptionsStr += "       ";
+
+		listDialog.addItem(formatString("%s - %u bytes", 
+				entry->getFileName(), entry->getCompressedSize()));
 	}
-	dialogMessage("Scorched 3D Server Mod Files", allOptionsStr.c_str());
+	listDialog.ShowModal();
 }
 
 void ServerFrame::onReloadBanned()
@@ -728,8 +730,7 @@ void ServerFrame::onReloadBanned()
 
 void ServerFrame::onShowBanned()
 {
-	int count = 0;
-	std::string bannedStr;
+	ListDialog listDialog(this, "Scorched 3D Server Banned Users");
 	std::list<ServerBanned::BannedRange> &bannedIps = 
 		ServerBanned::instance()->getBannedIps();
 	std::list<ServerBanned::BannedRange>::iterator itor;
@@ -749,19 +750,16 @@ void ServerFrame::onShowBanned()
 			unsigned int ip = *ipitor;
 			std::string ipName = NetInterface::getIpName(ip);
 
-			bannedStr += formatString("%s (%s)",
-				ipName.c_str(), mask.c_str());
-			if (++count % 3 == 2) bannedStr += "\n";
-			else bannedStr += "       ";
+			listDialog.addItem(formatString("%s (%s)",
+				ipName.c_str(), mask.c_str()));
 		}
 	}
-	dialogMessage("Scorched 3D Banned Users", bannedStr.c_str());
+	listDialog.ShowModal();
 }
 
 void ServerFrame::onShowOptions()
 {
-	int count = 0;
-	std::string allOptionsStr;
+	ListDialog listDialog(this, "Scorched 3D Server Options");
 	std::list<OptionEntry *> &allOptions = 
 		ScorchedServer::instance()->getOptionsGame().getOptions();
 	std::list<OptionEntry *>::iterator itor;
@@ -770,13 +768,10 @@ void ServerFrame::onShowOptions()
 		itor++)
 	{
 		OptionEntry *entry = (*itor);
-		allOptionsStr += entry->getName();
-		allOptionsStr += " = ";
-		allOptionsStr += entry->getValueAsString();
-		if (++count % 4 == 3) allOptionsStr += "\n";
-		else allOptionsStr += "       ";
+		listDialog.addItem(formatString("%s = %s", 
+			entry->getName(), entry->getValueAsString()));
 	}
-	dialogMessage("Scorched 3D Server Options", allOptionsStr.c_str());
+	listDialog.ShowModal();
 }
 
 static class ServerLogger : public LoggerI

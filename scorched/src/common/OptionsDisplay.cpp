@@ -109,6 +109,8 @@ OptionsDisplay::OptionsDisplay() :
 		"Draw the water without using sphere map relfections.", RAccess, false),
 	noGLHardwareMipmaps_(options_, "NoGLHardwareMipmaps",
 		"Generate texture LOD in software only.", RAccess, false),
+	soundChannels_(options_, "SoundChannels", 
+		"Number of sound channels to mix.", RAccess, 8),
 	noSound_(options_, "NoSound", 
 		"Do not use any sound.", RWAccess, false),
 	noTrees_(options_, "NoTrees",

@@ -76,30 +76,31 @@ bool ServerBanned::load()
 		unsigned int m = UINT_MAX;
 		if (currentNode->getNamedParameter("mask", maskNode, false))
 		{
-			unsigned char mask[4];
-			if (sscanf(maskNode->getContent(), "%i.%i.%i.%i", 
-				&mask[0], &mask[1], &mask[2], &mask[3]) != 4)
+			unsigned int mask[4];
+			if (sscanf(maskNode->getContent(), "%u.%u.%u.%u", 
+				&mask[3], &mask[2], &mask[1], &mask[0]) != 4)
 			{
 				dialogMessage("ServerBanned",
 					"Failed to parse mask %s",
 					maskNode->getContent());
 				return false;
 			}
-			memcpy(&m, mask, sizeof(m));
+			m = mask[3] << 24 | mask[2] << 16 | mask[1] << 8 | mask[0];
 		}
 
 		// Read the ip address
-		unsigned char address[4];
-		if (sscanf(currentNode->getContent(), "%i.%i.%i.%i", 
-			&address[0], &address[1], &address[2], &address[3]) != 4)
+		unsigned int address[4];
+		if (sscanf(currentNode->getContent(), "%u.%u.%u.%u", 
+			&address[3], &address[2], &address[1], &address[0]) != 4)
 		{
 			dialogMessage("ServerBanned", 
 				"Failed to parse ip address %s", 
 				currentNode->getContent());
 			return false;
 		}
+
 		unsigned int ip = 0;
-		memcpy(&ip, address, sizeof(ip));
+		ip = address[3] << 24 | address[2] << 16 | address[1] << 8 | address[0];
 
 		// Add the new entry
 		addBannedEntry(ip, m);

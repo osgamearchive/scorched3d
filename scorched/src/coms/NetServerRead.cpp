@@ -19,6 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <coms/NetServerRead.h>
+#include <coms/NetServer.h>
 #include <coms/NetMessagePool.h>
 #include <common/Clock.h>
 #include <common/Logger.h>
@@ -61,7 +62,8 @@ void NetServerRead::start()
 	// Send the player connected notification
 	NetMessage *message = NetMessagePool::instance()->
 		getFromPool(NetMessage::ConnectMessage, 
-		(unsigned int) socket_);
+		(unsigned int) socket_,
+		NetServer::getIpAddress(socket_));
 	messageHandler_->addMessage(message);
 
 	recvThread_ = SDL_CreateThread(
@@ -91,7 +93,9 @@ void NetServerRead::addMessage(NetMessage *message)
 	{
 		sentDisconnect_ = true;
 		NetMessage *message = NetMessagePool::instance()->
-			getFromPool(NetMessage::DisconnectMessage, (unsigned int) socket_);
+			getFromPool(NetMessage::DisconnectMessage, 
+				(unsigned int) socket_,
+				NetServer::getIpAddress(socket_));
 		messageHandler_->addMessage(message);
 	}
 	SDL_UnlockMutex(outgoingMessagesMutex_);
@@ -194,7 +198,9 @@ void NetServerRead::actualSendRecvThreadFunc(bool send)
 	{
 		sentDisconnect_ = true;
 		NetMessage *message = NetMessagePool::instance()->
-			getFromPool(NetMessage::DisconnectMessage, (unsigned int) socket_);
+			getFromPool(NetMessage::DisconnectMessage, 
+				(unsigned int) socket_,
+				NetServer::getIpAddress(socket_));
 		messageHandler_->addMessage(message);
 	}
 	SDL_UnlockMutex(outgoingMessagesMutex_);

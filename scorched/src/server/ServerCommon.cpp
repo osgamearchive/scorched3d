@@ -169,8 +169,7 @@ void ServerCommon::banPlayer(unsigned int playerId)
 			Logger::log(0, "Cannot ban local player (bot)");
 			return;
 		}
-		unsigned int ipAddress = ScorchedServer::instance()->getNetInterface().
-			getIpAddress(tank->getDestinationId());
+		unsigned int ipAddress = tank->getIpAddress();
 		if (ipAddress != 0)
 		{
 			Logger::log(0, "Banning player %i", playerId);

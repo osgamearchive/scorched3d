@@ -52,11 +52,24 @@ StatsLogger *StatsLogger::instance()
 				"but mysql support has not been compiled into this\n"
 				"scorched3d binary.");
 #endif
+			if (strcmp(ScorchedServer::instance()->getOptionsGame().getPublishAddress(),
+						"AutoDetect") == 0)
+			{
+				dialogExit("StatsLogger",
+					"Stats logging enabled but AutoDetect used for server address");
+			}
 		}
 		else if (strcmp(statsLogger, "file") == 0)
 		{
 			Logger::log(0, "Created file stats logger.");
 			instance_ = new StatsLoggerFile;
+			
+			if (strcmp(ScorchedServer::instance()->getOptionsGame().getPublishAddress(),
+						"AutoDetect") == 0)
+			{
+				dialogExit("StatsLogger",
+					"Stats logging enabled but AutoDetect used for server address");
+			}
 		}
 		else
 		{
