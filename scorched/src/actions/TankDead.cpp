@@ -100,6 +100,10 @@ void TankDead::simulate(float frameTime, bool &remove)
 
 			// The tank is now dead
 			killedTank->getState().setState(TankState::sDead);
+			
+			// Inform the tank it is dead
+			TankAI *ai = killedTank->getTankAI();
+			if (ai) ai->tankHurt(weapon_, firedPlayerId_);
 
 			// Add / Remove the scores
 			if (firedTank)

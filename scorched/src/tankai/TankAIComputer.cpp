@@ -102,8 +102,7 @@ void TankAIComputer::nextShot()
 
 void TankAIComputer::tankHurt(Weapon *weapon, unsigned int firer)
 {
-	if (currentTank_->getState().getLife() == 0.0f &&
-		currentTank_->getState().getState() == TankState::sNormal)
+	if (currentTank_->getState().getState() == TankState::sDead)
 	{
 		const char *line = TankAIStrings::instance()->getDeathLine();
 		if (line) say(line);
