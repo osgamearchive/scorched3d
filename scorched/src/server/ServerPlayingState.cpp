@@ -48,7 +48,7 @@ bool ServerPlayingState::acceptStateChange(const unsigned state,
 	time_ += frameTime;
 	if (ScorchedServer::instance()->getOptionsGame().getShotTime() > 0)
 	{
-		if (time_ > ScorchedServer::instance()->getOptionsGame().getShotTime())
+		if (time_ > ScorchedServer::instance()->getOptionsGame().getShotTime() + 5)
 		{
 			// For each alive tank that should have made a move
 			// Check if the tank has missed its go

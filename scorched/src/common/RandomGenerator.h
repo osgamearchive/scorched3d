@@ -27,14 +27,14 @@ public:
 	RandomGenerator();
 	virtual ~RandomGenerator();
 
-	void seed(unsigned long seed);
-	unsigned long getRandLong();
+	void seed(unsigned int seed);
+	unsigned int getRandUInt();
 	float getRandFloat();
 
 protected:
-	static unsigned long bufferSize_;
-	static unsigned long *buffer_;
-	unsigned long position_;
+	static unsigned int bufferSize_;
+	static unsigned int *buffer_;
+	unsigned int position_;
 
 };
 

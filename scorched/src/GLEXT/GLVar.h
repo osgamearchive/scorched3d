@@ -39,7 +39,8 @@ public:
 						GLfloat txa3, GLfloat tya3,
 						GLfloat txb3, GLfloat tyb3);
 	void draw();
-	unsigned long getNoTriangles() { unsigned long t = noTriangles_; noTriangles_ = 0; return t; }
+	unsigned int getNoTriangles() 
+		{ unsigned int t = noTriangles_; noTriangles_ = 0; return t; }
 
 protected:
 	struct GLVarStruct
@@ -86,7 +87,7 @@ protected:
 	GLVarBuffer *bufferOne_;
 	GLVarBuffer *bufferTwo_;
 	GLVarBuffer *currentBuffer_;
-	unsigned long noTriangles_;
+	unsigned int noTriangles_;
 
 	void swapBuffers();
 

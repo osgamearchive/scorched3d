@@ -28,8 +28,8 @@
 // Yes you guessed it, a really sucky way to create cross platform
 // random numbers.  Store them in a file and read them in each system!
 
-unsigned long RandomGenerator::bufferSize_ = 0;
-unsigned long *RandomGenerator::buffer_ = 0;
+unsigned int RandomGenerator::bufferSize_ = 0;
+unsigned int *RandomGenerator::buffer_ = 0;
 
 RandomGenerator::RandomGenerator() :
 	position_(0)
@@ -41,15 +41,15 @@ RandomGenerator::RandomGenerator() :
 		FILE *in = fopen(getDataFile("data/random.no"), "rb");
 		DIALOG_ASSERT(in);
 		bufferSize_= 100000;
-		unsigned long *tmpbuffer = new unsigned long[bufferSize_];
-		int size = fread(tmpbuffer, sizeof(unsigned long), bufferSize_, in);
+		unsigned int *tmpbuffer = new unsigned int[bufferSize_];
+		int size = fread(tmpbuffer, sizeof(unsigned int), bufferSize_, in);
 		fclose(in);	
 		DIALOG_ASSERT(size == bufferSize_);
 
-		buffer_ = new unsigned long[bufferSize_];
-		for (unsigned long i=0; i<bufferSize_; i++)
+		buffer_ = new unsigned int[bufferSize_];
+		for (unsigned int i=0; i<bufferSize_; i++)
 		{
-			unsigned long value = tmpbuffer[i];
+			unsigned int value = tmpbuffer[i];
 			buffer_[i] = SDLNet_Read32(&value);
 		}
 		delete [] tmpbuffer;
@@ -60,20 +60,21 @@ RandomGenerator::~RandomGenerator()
 {
 }
 
-void RandomGenerator::seed(unsigned long seed)
+void RandomGenerator::seed(unsigned int seed)
 {
 	position_ = seed;
 }
 
-unsigned long RandomGenerator::getRandLong()
+unsigned int RandomGenerator::getRandUInt()
 {
-	unsigned long pos = position_ % bufferSize_;
+	unsigned int pos = position_ % bufferSize_;
 	position_++;
 	return buffer_[pos];
 }
 
 float RandomGenerator::getRandFloat()
 {
-	unsigned long y = getRandLong();
-	return float(y) / float(ULONG_MAX);
+	unsigned int y = getRandUInt();
+	return float(y) / float(UINT_MAX);
 }
+

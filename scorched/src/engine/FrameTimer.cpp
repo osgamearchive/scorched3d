@@ -62,7 +62,7 @@ void FrameTimer::simulate(const unsigned state, float frameTime)
 
 	if (totalTime_ > 5.0f)
 	{
-		unsigned long tris = (PatchVar::var?PatchVar::var->getNoTriangles():0);
+		unsigned int tris = (PatchVar::var?PatchVar::var->getNoTriangles():0);
 		if (OptionsDisplay::instance()->getFrameTimer())
 		{
 			Logger::log(0, "%.2f Frames Per Second (%.2f T/S)", 
