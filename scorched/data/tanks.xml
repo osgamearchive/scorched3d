@@ -7,6 +7,16 @@
 		</model>
 	</tank>
 	<tank>
+		<name>Patriot HighDef</name>
+		<catagory>High Def</catagory>
+		<model type="MilkShape">patriot/patriot.txt</model>
+	</tank>
+	<tank>
+		<name>MLRS HighDef</name>
+		<catagory>High Def</catagory>
+		<model type="MilkShape">mlrs/mlrs.txt</model>
+	</tank>
+	<tank>
 		<name>Hawk HighDef</name>
 		<catagory>High Def</catagory>
 		<model type="MilkShape">hawk/hawk.txt</model>
