@@ -102,7 +102,6 @@ void Landscape::recalculate(int posX, int posY, int dist)
 void Landscape::draw(const unsigned state)
 {
 	if (OptionsDisplay::instance()->getDrawLines()) glPolygonMode(GL_FRONT, GL_LINE);
-	else glPolygonMode(GL_FRONT, GL_FILL);
 
 	GLState *textureState = 0;
 	if (OptionsDisplay::instance()->getUseLandscapeTexture())
