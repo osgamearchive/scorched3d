@@ -65,7 +65,7 @@ close(CLIENT);
 
 my @clientfiles = getFiles("../src/scorched/scorched.vcproj");
 
-open (CLIENT, ">../src/scorched/Makefile.am") || die;
+open (CLIENT, ">../src/scorched/Makefile.am") || die "../src/scorched/Makefile.am";
 
 print CLIENT << "EOF";
 ## Process with automake to produce Makefile.in

@@ -18,42 +18,27 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <dialogs/HelpDialog.h>
-#include <GLW/GLWFileView.h>
-#include <GLW/GLWTextButton.h>
-#include <GLW/GLWWindowManager.h>
+#if !defined(__INCLUDE_GLWBitmaph_INCLUDE__)
+#define __INCLUDE_GLWBitmaph_INCLUDE__
 
-HelpDialog *HelpDialog::instance_ = 0;
+#include <GLEXT/GLBitmap.h>
+#include <GLW/GLWVisibleWidget.h>
 
-HelpDialog *HelpDialog::instance()
+class GLWBitmap : public GLWVisibleWidget
 {
-	if (!instance_)
-	{
-		instance_ = new HelpDialog;
-	}
-	return instance_;
-}
+public:
+	GLWBitmap(float x = 0.0f, float y = 0.0f, 
+		float w = 0.0f, float h = 0.0f, 
+		GLBitmap *bitmap = 0);
+	virtual ~GLWBitmap();
 
-HelpDialog::HelpDialog() : 
-	GLWWindow("Help", 0.0f, 0.0f, 340.0f, 230.0f, 0,
-		"Shows the default keys for Scorched3D")
-{
-	needCentered_ = true;
-	addWidget(new GLWFileView((char *) getDocFile("documentation/readme.txt"), 
-		10, 40, 320, 180));
-	okId_ = addWidget(new GLWTextButton("Ok", 275, 10, 55, this,
-		GLWButton::ButtonFlagOk | GLWButton::ButtonFlagCenterX))->getId();
-}
+	virtual void draw();
+	virtual bool initFromXML(XMLNode *node);
 
-HelpDialog::~HelpDialog()
-{
-}
+	REGISTER_CLASS_HEADER(GLWBitmap);
+protected:
+	GLBitmap *bitmap_;
 
-void HelpDialog::buttonDown(unsigned int id)
-{
-	if (id == okId_)
-	{
-		GLWWindowManager::instance()->hideWindow(id_);
-	}
-}
+};
 
+#endif

@@ -10,10 +10,56 @@ scorcheddocumentation_DATA = documentation/README-EXPAT.txt \
 	documentation/README-SDLNET.txt \
 	documentation/README-wxwindows.txt \
 	documentation/README-zlib.txt \
-	documentation/Scorched3D.hlp \
-	documentation/liesmich.txt \
-	documentation/multiplayer.txt \
 	documentation/readme.txt
+scorcheddocumentationhtmldir = ${docdir}/documentation/html
+scorcheddocumentationhtml_DATA = documentation/html/accessories.html \
+	documentation/html/aiming.html \
+	documentation/html/camera.html \
+	documentation/html/index.html \
+	documentation/html/keys.html \
+	documentation/html/modelling.html \
+	documentation/html/online.html \
+	documentation/html/options.html \
+	documentation/html/players.html \
+	documentation/html/ports.html \
+	documentation/html/quickstart.html \
+	documentation/html/screen.html
+scorcheddocumentationhtmlbuttonsdir = ${docdir}/documentation/html/buttons
+scorcheddocumentationhtmlbuttons_DATA = documentation/html/buttons/scorchedlarge2.jpg
+scorcheddocumentationhtmlnumbersdir = ${docdir}/documentation/html/numbers
+scorcheddocumentationhtmlnumbers_DATA = documentation/html/numbers/number-1.jpg \
+	documentation/html/numbers/number-2.jpg \
+	documentation/html/numbers/number-3.jpg \
+	documentation/html/numbers/number-4.jpg \
+	documentation/html/numbers/number-5.jpg \
+	documentation/html/numbers/number-6.jpg \
+	documentation/html/numbers/number-7.jpg \
+	documentation/html/numbers/number-8.jpg \
+	documentation/html/numbers/number-9.jpg
+scorcheddocumentationhtmlscreenshotsdir = ${docdir}/documentation/html/screenshots
+scorcheddocumentationhtmlscreenshots_DATA = documentation/html/screenshots/3ds.jpg \
+	documentation/html/screenshots/aiming.jpg \
+	documentation/html/screenshots/indicators.jpg \
+	documentation/html/screenshots/milkshape1.jpg \
+	documentation/html/screenshots/milkshape2.jpg \
+	documentation/html/screenshots/online1.jpg \
+	documentation/html/screenshots/online2.jpg \
+	documentation/html/screenshots/plan.jpg \
+	documentation/html/screenshots/player.jpg \
+	documentation/html/screenshots/quickstart1.jpg \
+	documentation/html/screenshots/quickstart2.jpg \
+	documentation/html/screenshots/quickstart3.jpg \
+	documentation/html/screenshots/quickstart4.jpg \
+	documentation/html/screenshots/quickstart5.jpg \
+	documentation/html/screenshots/quickstart6.jpg \
+	documentation/html/screenshots/quickstart7.jpg \
+	documentation/html/screenshots/scorched37-3-small.jpg \
+	documentation/html/screenshots/scorched37-4-small.jpg \
+	documentation/html/screenshots/server1.jpg \
+	documentation/html/screenshots/server2.jpg \
+	documentation/html/screenshots/tooltip1.jpg \
+	documentation/html/screenshots/weapon.jpg \
+	documentation/html/screenshots/wind.jpg
 scorcheddatadir = ${datadir}/data
 scorcheddata_DATA = data/accessories.xml \
 	data/ainames.txt \

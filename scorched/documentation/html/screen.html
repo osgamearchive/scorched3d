@@ -1,0 +1,116 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Scorched 3D - Dialog Guide</title>
+</head>
+
+<body bgcolor="#000000" text="#FFFFFF" link="#FF9933" vlink="#FF9933" alink="#FF9933">
+
+<b><a href="index.html">Introduction</a> -> Dialog Guide</b><br><br>
+
+<b>Screen Layout</b><br>
+<p><img src=screenshots/quickstart5.jpg></p>
+<p>
+Scorched3D has a basic screen layout shown above.  The screen consists of the main playing area
+with a few dialogs 
+<img src=numbers/number-1.jpg> <img src=numbers/number-2.jpg> 
+<img src=numbers/number-3.jpg> <img src=numbers/number-4.jpg>.
+Each dialog can be moved by dragging.  Some can also be resized by dragging the bottom right corner.
+</p>
+
+<b>Wind Dialog</b><br>
+<p><img src=screenshots/wind.jpg></p>
+<p>
+The wind dialog gives the current information about the wind speed and direction.  
+Every shot made is affected by the current wind conditions.  The shot power and 
+angle may need to be adjusted to take the wind into account.<br>
+<img src=numbers/number-5.jpg> The wind direction is shown as an arrow.<br>
+<img src=numbers/number-6.jpg> The wind strength is shown as words.<br>
+<img src=numbers/number-7.jpg> The island.<br>
+The wind view moves so that the wind direction arrow is always correct with respect to 
+the current camera angle.  The direction arrow is therefor relative to the
+current camera view not the plan view.
+</p>
+
+<b>Plan View Dialog</b><br>
+<p><img src=screenshots/plan.jpg></p>
+<p>
+The plan view dialog shows the island from a top down view (looking directly down from the top)
+<img src=numbers/number-5.jpg>.
+All of the player positions are shown as coloured dots.  Each dot is colored the same
+color of the player it represents.  
+The dots representing player(s) still making their move will flash on and off.
+The current player is shown by a ring around their dot <img src=numbers/number-6.jpg>.
+Tool tips describing each player are available by moving the mouse over each dot.
+</p>
+<p>
+The current camera position is shown on the plan view as a wedge <img src=numbers/number-7.jpg>.
+The camera can be positioned to look at any point on the landscape by clicking on the plan view.
+The camera will be moved to look at the clicked point on the landscape.
+</p>
+
+<b>Weapon Dialog</b><br>
+<p><img src=screenshots/weapon.jpg></p>
+<p>
+The weapon dialog shows aiming information for the current player, and information
+about the currently selected weapon.<br>
+<img src=numbers/number-5.jpg> The power that will be used by the next shot (0->1000).<br>
+<img src=numbers/number-6.jpg> The vertical elevation that will be used by the next shot (0->90 degrees).<br>
+<img src=numbers/number-7.jpg> The horizontal rotation that will be used by the next shot (0->360 degrees).<br>
+<img src=numbers/number-8.jpg> The currently selected weapon that will be used by the next shot.
+The number in brackets is the number of shots left with this weapon (in = infitine).<br>
+<img src=numbers/number-9.jpg> A picture of the currenly selected weapon.<br>
+A new weapon can be slected by clicking on the current weapon name and choosing another from the popup menu.
+Previously used aiming angles can be recalled by clicking on the power, evelvation or rotation.
+See <a href="aiming.html">here</a> for a more detailed look at aiming.
+</p>
+
+<b>Player Dialog</b><br>
+<p><img src=screenshots/player.jpg></p>
+<p>
+The player dialog shows information about the current player, and information
+about the any active defenses.<br>
+<img src=numbers/number-1.jpg> The tank model used by this player.
+<br>
+<img src=numbers/number-2.jpg> The name of the current player.
+<br>
+<img src=numbers/number-3.jpg> The life left for this player.  
+Once this reaches zero the tank is dead.
+The amount of life a tank has limits how far they can shoot (the
+maximum power available to the tank).
+<br>
+<img src=numbers/number-4.jpg> The power of the currently selected shield for this player, 
+or off if no sheild is selected.  To read more on shields see <a href="accessories.html">here</a>.
+To enable or disable a shield click on the sheild icon and then select a new
+shield from the popup menu.
+<br>
+<img src=numbers/number-5.jpg> The number of parachutes left for this player, 
+of off if parachuates are not enabled.  
+To read more on parachutes see <a href="accessories.html">here</a>.
+To enable or disable parachutes click on the parachute icon and then select
+on or off from the popup menu.
+<br>
+<img src=numbers/number-6.jpg> The number of batteries that this player has left.
+To read more on batteries see <a href="accessories.html">here</a>.
+To use one or more batteries click on the battery icon and choose
+the number of batteries you wish to use from the popup menu. 
+<br>
+<img src=numbers/number-7.jpg> The availability of the auto defense.
+The auto defense must be bought before it can be used.  
+The auto defense allows the tank to raise shields and activate
+parachutes before the round starts (only useful for sequential game modes)
+it does not automatically raise shields before the tank is hit.
+To read more on the auto defense see <a href="accessories.html">here</a>.
+<br>
+<img src=numbers/number-8.jpg> The amount of fuel this player has left.
+Fuel can be bought and allows the player to move the tank.
+To read more on fuel see <a href="accessories.html">here</a>.
+To use fuel (move the tank) click on the fuel icon and select move.  The landscape
+will go dark with a lighter area around your tank.  This lighter area is
+the area to where the tank can move.  To move the tank left click within
+the light area.  The tank cannot move up very steep hills so you may not be
+able to move out of or across craters.
+</p>
+
+</body>
+</html>

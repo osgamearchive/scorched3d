@@ -1,0 +1,35 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Scorched 3D - Ports</title>
+</head>
+
+<body bgcolor="#000000" text="#FFFFFF" link="#FF9933" vlink="#FF9933" alink="#FF9933">
+
+<b><a href="index.html">Introduction</a> -> Ports</b><br><br>
+
+<b>Scorched3D Ports</b><br>
+<p>
+The Scorched3D client uses the following ports:- <br>
+<table border=1>
+<tr><td><b>Port</b></td><td><b>Description</b></td></tr>
+<tr><td>80 TCP</td><td>For server browsing (outgoing connections only).</td></tr>
+<tr><td>27270 TCP</td><td>For game messages (outgoing connections only).</td></tr>
+<tr><td>27271 UDP</td><td>For server browsing (outgoing connections only).</td></tr>
+</table>
+<br>
+The Scorched3D server uses the following ports:- 
+<table border=1>
+<tr><td><b>Port</b></td><td><b>Description</b></td></tr>
+<tr><td>80 TCP </td><td>For server browsing registration (outgoing connections only). </td></tr>
+<tr><td>27270 TCP </td><td>For game messages (incoming connections only). </td></tr>
+<tr><td>27271 UDP </td><td>For server browsing (incoming connections only). </td></tr>
+</table>
+<br>
+To run a server ports 27270 TCP and 27271 UDP need to be accessible externally. 
+When running a Scorched3D server behind a firewall or NAT router it may be necersary to open
+or forward these ports.
+</p>
+
+</body>
+</html>

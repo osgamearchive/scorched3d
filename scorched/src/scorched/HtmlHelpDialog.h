@@ -18,42 +18,9 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <dialogs/HelpDialog.h>
-#include <GLW/GLWFileView.h>
-#include <GLW/GLWTextButton.h>
-#include <GLW/GLWWindowManager.h>
+#if !defined(__INCLUDE_HelpDialogh_INCLUDE__)
+#define __INCLUDE_HelpDialogh_INCLUDE__
 
-HelpDialog *HelpDialog::instance_ = 0;
+void showHtmlHelpDialog();
 
-HelpDialog *HelpDialog::instance()
-{
-	if (!instance_)
-	{
-		instance_ = new HelpDialog;
-	}
-	return instance_;
-}
-
-HelpDialog::HelpDialog() : 
-	GLWWindow("Help", 0.0f, 0.0f, 340.0f, 230.0f, 0,
-		"Shows the default keys for Scorched3D")
-{
-	needCentered_ = true;
-	addWidget(new GLWFileView((char *) getDocFile("documentation/readme.txt"), 
-		10, 40, 320, 180));
-	okId_ = addWidget(new GLWTextButton("Ok", 275, 10, 55, this,
-		GLWButton::ButtonFlagOk | GLWButton::ButtonFlagCenterX))->getId();
-}
-
-HelpDialog::~HelpDialog()
-{
-}
-
-void HelpDialog::buttonDown(unsigned int id)
-{
-	if (id == okId_)
-	{
-		GLWWindowManager::instance()->hideWindow(id_);
-	}
-}
-
+#endif

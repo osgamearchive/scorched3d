@@ -79,6 +79,8 @@ scorched3d_SOURCES = \
 	../GLEXT/GLViewPort.h \
 	../GLW/GLWButton.cpp \
 	../GLW/GLWButton.h \
+	../GLW/GLWBitmap.cpp \
+	../GLW/GLWBitmap.h \
 	../GLW/GLWCheckBox.cpp \
 	../GLW/GLWCheckBox.h \
 	../GLW/GLWDropDown.cpp \
@@ -712,6 +714,8 @@ scorched3d_SOURCES = \
 	MainDialog.h \
 	NetDialog.cpp \
 	NetDialog.h \
+	HtmlHelpDialog.cpp \
+	HtmlHelpDialog.h \
 	ServerDialog.cpp \
 	ServerDialog.h \
 	ServerSDialog.cpp \

@@ -28,6 +28,7 @@
 #include <SDL/SDL.h>
 #include <SDL/SDL_net.h>
 #include <scorched/MainDialog.h>
+#include <scorched/HtmlHelpDialog.h>
 #include <scorched/NetDialog.h>
 #include <scorched/SingleDialog.h>
 #include <scorched/DisplayDialog.h>
@@ -49,6 +50,7 @@ enum
 	ID_BUTTON_SINGLE,
 	ID_BUTTON_SERVER,
 	ID_BUTTON_SCORCHED,
+	ID_BUTTON_HELP,
 	ID_MAIN_TIMER
 };
 
@@ -172,6 +174,7 @@ public:
 	void onSingleButton();
 	void onServerButton();
 	void onScorchedClick();
+	void onHelpButton();
 
 private:
 	DECLARE_EVENT_TABLE()
@@ -186,6 +189,7 @@ BEGIN_EVENT_TABLE(MainFrame, wxFrame)
 	EVT_BUTTON(ID_BUTTON_SERVER,  MainFrame::onServerButton)
 	EVT_BUTTON(wxID_CANCEL,  MainFrame::onQuitButton)
 	EVT_BUTTON(ID_BUTTON_SCORCHED,  MainFrame::onScorchedClick)
+	EVT_BUTTON(ID_BUTTON_HELP,  MainFrame::onHelpButton)
 END_EVENT_TABLE()
 
 MainFrame::MainFrame() :
@@ -258,6 +262,14 @@ MainFrame::MainFrame() :
 			button->Disable();
 		}
 	}
+
+	// Help Dialog
+	/*{
+		addButtonToWindow(ID_BUTTON_HELP,
+			"Show help for Scorched3D",
+			"data/windows/display.bmp", this, gridsizer);
+	}*/
+
 	topsizer->Add(gridsizer, 0, wxALIGN_CENTER | wxLEFT | wxRIGHT, 20);
 
 	// Setup timer
@@ -339,6 +351,11 @@ void MainFrame::onQuitButton()
 {
 	wxWindowExit = true;
 	Close();
+}
+
+void MainFrame::onHelpButton()
+{
+	showHtmlHelpDialog();
 }
 
 void showMainDialog()

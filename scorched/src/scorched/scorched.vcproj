@@ -350,6 +350,12 @@
 				RelativePath="..\GLW\GLWButton.h">
 			</File>
 			<File
+				RelativePath="..\GLW\GLWBitmap.cpp">
+			</File>
+			<File
+				RelativePath="..\GLW\GLWBitmap.h">
+			</File>
+			<File
 				RelativePath="..\GLW\GLWCheckBox.cpp">
 			</File>
 			<File
@@ -2326,6 +2332,12 @@
 			</File>
 			<File
 				RelativePath="NetDialog.h">
+			</File>
+			<File
+				RelativePath="HtmlHelpDialog.cpp">
+			</File>
+			<File
+				RelativePath="HtmlHelpDialog.h">
 			</File>
 			<File
 				RelativePath="ServerDialog.cpp">
