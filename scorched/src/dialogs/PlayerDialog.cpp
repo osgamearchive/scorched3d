@@ -47,7 +47,7 @@ PlayerDialog *PlayerDialog::instance()
 }
 
 PlayerDialog::PlayerDialog() : 
-	GLWWindow("Team", 10.0f, 10.0f, 465.0f, 350.0f, eSmallTitle,
+	GLWWindow("Team", 10.0f, 10.0f, 465.0f, 340.0f, eSmallTitle,
 		"Allows the player to make changes to their\n"
 		"name, their tank and to change teams."),
 	allocatedTeam_(0), cancelId_(0), viewer_(0)
@@ -63,8 +63,17 @@ PlayerDialog::PlayerDialog() :
 			GLWButton::ButtonFlagCancel | GLWButton::ButtonFlagCenterX))->getId();
 	}
 
-	GLWPanel *infoPanel = new GLWPanel(10.0f, 270.0f, 445.0f, 70.0f);
+	GLWPanel *infoPanel = new GLWPanel(10.0f, 260.0f, 445.0f, 70.0f,
+		false, true, true);
 	addWidget(infoPanel);
+
+	// Create players avatar choice
+	imageList_ = new GLWImageList(10.0f, 20.0f, getDataFile("data/avatars"));
+	imageList_->setCurrent("player.gif");
+	imageList_->setToolTip(new GLWTip("Avatar", 
+		"The current player's avatar.\n"
+		"Click to change."));
+	infoPanel->addWidget(imageList_);
 
 	// Create player name choice
 	GLWTip *nameTip = new GLWTip("Player Name",
@@ -72,10 +81,10 @@ PlayerDialog::PlayerDialog() :
 		"Use the backspace or delete key to remove this name.\n"
 		"Type in a new player name via the keyboad to change.");
 	GLWLabel *nameLabel = (GLWLabel *) 
-		infoPanel->addWidget(new GLWLabel(10, 40, "Name:"));
+		infoPanel->addWidget(new GLWLabel(50, 40, "Name:"));
 	nameLabel->setToolTip(nameTip);
 	playerName_ = (GLWTextBox *) 
-		infoPanel->addWidget(new GLWTextBox(80, 40, 360, "Player"));
+		infoPanel->addWidget(new GLWTextBox(120, 40, 320, "Player"));
 	playerName_->setMaxTextLen(22);
 	playerName_->setToolTip(nameTip);
 	
@@ -96,10 +105,10 @@ PlayerDialog::PlayerDialog() :
 		"players.  This is only available when playing\n"
 		"single player games.");
 	GLWLabel *typeLabel = (GLWLabel *) 
-		infoPanel->addWidget(new GLWLabel(10, 5, "Type:"));
+		infoPanel->addWidget(new GLWLabel(50, 5, "Type:"));
 	typeLabel->setToolTip(typeTip);
 	typeDropDown_ = (GLWDropDown *) 
-		infoPanel->addWidget(new GLWDropDown(80, 5, 120));
+		infoPanel->addWidget(new GLWDropDown(120, 5, 120));
 	typeDropDown_->setToolTip(typeTip);
 }
 
@@ -136,7 +145,8 @@ void PlayerDialog::windowDisplay()
 {	
 	if (!viewer_)
 	{
-		GLWPanel *infoPanel = new GLWPanel(10.0f, 55.0f, 445.0f, 210.0f);
+		GLWPanel *infoPanel = new GLWPanel(10.0f, 40.0f, 445.0f, 210.0f,
+			false, true, true);
 		viewer_ = new GLWTankViewer(5.0f, 5.0f, 4, 3);
 		infoPanel->addWidget(viewer_);
 		addWidget(infoPanel);
@@ -208,6 +218,11 @@ void PlayerDialog::nextPlayer()
 				OptionsDisplay::instance()->getOnlineUserName());
 			viewer_->selectModelByName(
 				OptionsDisplay::instance()->getOnlineTankModel());
+			if (!imageList_->setCurrent(
+				OptionsDisplay::instance()->getOnlineUserIcon()))
+			{
+				imageList_->setCurrent("player.gif");
+			}
 		}
 		else
 		{
@@ -255,6 +270,8 @@ void PlayerDialog::buttonDown(unsigned int id)
 					playerName_->getText().c_str());
 				OptionsDisplay::instance()->setOnlineTankModel(
 					viewer_->getModelName());
+				OptionsDisplay::instance()->setOnlineUserIcon(
+					imageList_->getCurrent());
 			}
 
 			// Get the model type (turns a "Random" choice into a proper name)

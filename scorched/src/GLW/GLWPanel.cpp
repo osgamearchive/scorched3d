@@ -46,10 +46,10 @@ GLWPanel::GLWPanelEntry::GLWPanelEntry(GLWidget *w, GLWCondition *c,
 REGISTER_CLASS_SOURCE(GLWPanel);
 
 GLWPanel::GLWPanel(float x, float y, float w, float h, 
-	bool depressed, bool visible) : 
+	bool depressed, bool visible, bool ridge) : 
 	GLWidget(x, y, w, h), depressed_(depressed), 
 	drawPanel_(visible), layout_(LayoutNone),
-	gridWidth_(0)
+	gridWidth_(0), ridge_(ridge)
 {
 
 }
@@ -126,6 +126,13 @@ void GLWPanel::draw()
 			glBegin(GL_LINE_LOOP);
 				drawShadedRoundBox(x_, y_, w_, h_, 10.0f, !depressed_);
 			glEnd();
+
+			if (ridge_)
+			{
+				glBegin(GL_LINE_LOOP);
+					drawShadedRoundBox(x_-2.0f, y_-2.0f, w_+4.0f, h_+4.0f, 10.0f, depressed_);
+				glEnd();
+			}
 		}
 
 		{

@@ -24,6 +24,7 @@
 #include <GLW/GLWWindow.h>
 #include <GLW/GLWButton.h>
 #include <GLW/GLWTextBox.h>
+#include <GLW/GLWImageList.h>
 #include <tankgraph/GLWTankViewer.h>
 
 class PlayerDialog : public GLWWindow,
@@ -52,6 +53,7 @@ protected:
 	GLWDropDown *teamDropDown_;
 	GLWTankViewer *viewer_;
 	GLWTextBox *playerName_;
+	GLWImageList *imageList_;
 	unsigned int allocatedTeam_;
 	unsigned int okId_, cancelId_;
 	unsigned int currentPlayerId_;

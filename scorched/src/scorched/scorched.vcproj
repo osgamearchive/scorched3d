@@ -328,10 +328,10 @@
 				RelativePath="..\GLEXT\GLFontBanner.h">
 			</File>
 			<File
-				RelativePath="..\GLEXT\GLGif.h">
+				RelativePath="..\GLEXT\GLGif.cpp">
 			</File>
 			<File
-				RelativePath="..\GLEXT\GLGif.cpp">
+				RelativePath="..\GLEXT\GLGif.h">
 			</File>
 			<File
 				RelativePath="..\GLEXT\GLImage.cpp">
@@ -492,6 +492,12 @@
 			</File>
 			<File
 				RelativePath="..\GLW\GLWIcon.h">
+			</File>
+			<File
+				RelativePath="..\GLW\GLWImageList.cpp">
+			</File>
+			<File
+				RelativePath="..\GLW\GLWImageList.h">
 			</File>
 			<File
 				RelativePath="..\GLW\GLWLabel.cpp">
@@ -1304,16 +1310,16 @@
 				RelativePath="..\engine\MetaClass.h">
 			</File>
 			<File
-				RelativePath="..\engine\ModFiles.cpp">
-			</File>
-			<File
-				RelativePath="..\engine\ModFiles.h">
-			</File>
-			<File
 				RelativePath="..\engine\ModFileEntry.cpp">
 			</File>
 			<File
 				RelativePath="..\engine\ModFileEntry.h">
+			</File>
+			<File
+				RelativePath="..\engine\ModFiles.cpp">
+			</File>
+			<File
+				RelativePath="..\engine\ModFiles.h">
 			</File>
 			<File
 				RelativePath="..\engine\Particle.cpp">

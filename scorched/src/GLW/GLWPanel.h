@@ -70,7 +70,8 @@ public:
 	GLWPanel(float x = 0.0f, float y = 0.0f, 
 		float w = 0.0f, float h = 0.0f, 
 		bool depressed = false,
-		bool visible = true);
+		bool visible = true,
+		bool ridge = false);
 	virtual ~GLWPanel();
 
 	virtual void simulate(float frameTime);
@@ -106,6 +107,7 @@ protected:
 	std::list<GLWPanelEntry> widgets_;
 	bool depressed_;
 	bool drawPanel_;
+	bool ridge_;
 	unsigned int layout_;
 	unsigned int gridWidth_;
 

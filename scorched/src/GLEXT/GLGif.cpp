@@ -20,9 +20,10 @@
 
 #include <stdio.h>
 #include <math.h>
+#include <common/Defines.h>
 #include <GLEXT/GLState.h>
 #include <GLEXT/GLGif.h>
-#include <wx/wx.h>
+#include <wx/utils.h>
 #include <wx/gifdecod.h>
 #include <wx/wfstream.h>
 
