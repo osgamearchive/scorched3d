@@ -64,6 +64,7 @@ A way to allow tank spawn positions to be configured, bitmap landscapes only?
 Custom maps etc can be auto-downloaded from server
 Web interface for server to change settings
 Allow tank movement up bigger slopes
+Add some way of stopping the OptionsGame from being messed up!
 
 -- Server Stuff
 Chat filter (swear words)
