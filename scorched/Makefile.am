@@ -341,6 +341,7 @@ scorcheddatawindows_DATA = data/windows/question.gif \
 	data/windows/weapona.bmp \
 	data/windows/tank2.bmp \
 	data/windows/tank-med.bmp \
+	data/windows/planaa.bmp \
 	data/windows/aim.bmp \
 	data/windows/warn.gif \
 	data/windows/helpa.bmp \

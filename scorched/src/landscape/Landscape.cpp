@@ -29,6 +29,7 @@
 #include <GLEXT/GLConsoleRuleMethodIAdapter.h>
 #include <common/OptionsTransient.h>
 #include <common/Resources.h>
+#include <common/Defines.h>
 #include <common/OptionsDisplay.h>
 #include <client/ScorchedClient.h>
 #include <engine/ActionController.h>
@@ -241,6 +242,9 @@ void Landscape::generate(ProgressCounter *counter)
 		scorchMap_.createBlank(mapTexSize, mapTexSize);
 		bitmapPlanAlpha_.createBlank(planTexSize, planTexSize, true);
 		bitmapPlan_.createBlank(planTexSize, planTexSize);
+		bitmapPlanAlphaAlpha_.loadFromFile(
+			getDataFile("data/windows/planaa.bmp"), false);
+		bitmapPlanAlphaAlpha_.resize(planTexSize, planTexSize);
 	}
 
 	// Load the texture bitmaps from resources 
@@ -372,7 +376,8 @@ void Landscape::updatePlanATexture()
 {
 	GLBitmapModifier::removeWaterFromBitmap(
 		ScorchedClient::instance()->getLandscapeMaps().getHMap(), 
-		bitmapPlan_, bitmapPlanAlpha_, wMap_.getHeight());
+		bitmapPlan_, bitmapPlanAlpha_, bitmapPlanAlphaAlpha_, 
+		wMap_.getHeight());
 	DIALOG_ASSERT(planAlphaTexture_.replace(bitmapPlanAlpha_, GL_RGBA, false));
 	planAlphaTexture_.draw();
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_CLAMP);

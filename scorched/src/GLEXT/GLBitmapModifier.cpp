@@ -515,10 +515,17 @@ void GLBitmapModifier::addWavesToBitmap(HeightMap &hMap,
 void GLBitmapModifier::removeWaterFromBitmap(HeightMap &hMap,
 							GLBitmap &srcBitmap,
 							GLBitmap &destBitmap,
+							GLBitmap &alphaBitmap,
 							float waterHeight)
 {
+	DIALOG_ASSERT(srcBitmap.getWidth() == destBitmap.getWidth() &&
+		srcBitmap.getWidth() == alphaBitmap.getWidth());
+	DIALOG_ASSERT(srcBitmap.getHeight() == destBitmap.getHeight() &&
+		srcBitmap.getHeight() == alphaBitmap.getHeight());
+
 	GLubyte *destBits = destBitmap.getBits();
 	GLubyte *srcBits = srcBitmap.getBits();
+	GLubyte *alphaBits = alphaBitmap.getBits();
 
 	GLfloat hdx = (GLfloat) hMap.getWidth() / (GLfloat) destBitmap.getWidth();
 	GLfloat hdy = (GLfloat) hMap.getWidth() / (GLfloat) destBitmap.getHeight();
@@ -527,18 +534,22 @@ void GLBitmapModifier::removeWaterFromBitmap(HeightMap &hMap,
 	for (int y=0; y<srcBitmap.getHeight(); y++, hy+=hdy)
 	{
 		GLfloat hx = 0.0f;
-		for (int x=0; x<srcBitmap.getWidth(); x++, hx+=hdx, destBits+=4, srcBits+=3)
+		for (int x=0; x<srcBitmap.getWidth(); x++, hx+=hdx, 
+			destBits+=4, srcBits+=3, alphaBits+=3)
 		{
-			float height = hMap.getInterpHeight(hx, hy);
-
-			GLubyte alpha = 0;
-			if (height > waterHeight - 0.3)
+			GLubyte alpha = 255 - alphaBits[0];
+			if (alpha > 0)
 			{
-				alpha = 128;
-				if (height > waterHeight)
+				float height = hMap.getInterpHeight(hx, hy);
+				if (height > waterHeight - 0.3)
 				{
-					alpha = 255;
+					alpha = 128;
+					if (height > waterHeight)
+					{
+						alpha = 255;
+					}
 				}
+				else alpha = 0;
 			}
 
 			destBits[0] = srcBits[0];

@@ -65,6 +65,7 @@ namespace GLBitmapModifier
 	void removeWaterFromBitmap(HeightMap &hMap,
 							GLBitmap &srcBitmap,
 							GLBitmap &destBitmap,
+							GLBitmap &alphaBitmap,
 							float waterHeight);
 
 	void addBorderToBitmap(GLBitmap &destBitmap,

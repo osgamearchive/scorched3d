@@ -117,6 +117,7 @@ protected:
 	GLTexture landTexWater_;
 	GLBitmap mainMap_;
 	GLBitmap scorchMap_;
+	GLBitmap bitmapPlanAlphaAlpha_;
 	GLBitmap bitmapPlanAlpha_;
 	GLBitmap bitmapPlan_;
 	GLBitmap bitmapWater_;
