@@ -1,278 +1,280 @@
 <keys>
-	<key>
+	<keyentry>
 		<name>FIRE_WEAPON</name>
 		<description>Fire current weapon</description>
 		<key>SPACE</key>
 		<key>f</key>
-	</key>
-	<key>
+	</keyentry>
+	<keyentry>
 		<name>UNDO_MOVE</name>
 		<description>Changes the tanks evelevation, power and rotation back to those used to make the last shot.</description>
 		<key>u</key>
-	</key>
-	<key>
+	</keyentry>
+	<keyentry>
 		<name>TURN_LEFT</name>
 		<description>Turn the tank to the left</description>
 		<key>LEFT</key>
-	</key>
-	<key>
+	</keyentry>
+	<keyentry>
 		<name>TURN_LEFT_SLOW</name>
 		<description>Turn the tank to the left slowly</description>
 		<key state="LSHIFT">LEFT</key>
-	</key>
-	<key>
+	</keyentry>
+	<keyentry>
 		<name>TURN_LEFT_FAST</name>
 		<description>Turn the tank to the left quickly</description>
 		<key state="LCTRL">LEFT</key>
-	</key>
-	<key>
+	</keyentry>
+	<keyentry>
 		<name>TURN_RIGHT</name>
 		<description>Turn the tank to the right</description>
 		<key>RIGHT</key>
-	</key>
-	<key>
+	</keyentry>
+	<keyentry>
 		<name>TURN_RIGHT_SLOW</name>
 		<description>Turn the tank to the right slowly</description>
 		<key state="LSHIFT">RIGHT</key>
-	</key>
-	<key>
+	</keyentry>
+	<keyentry>
 		<name>TURN_RIGHT_FAST</name>
 		<description>Turn the tank to the right quicky</description>
 		<key state="LCTRL">RIGHT</key>
-	</key>
-	<key>
+	</keyentry>
+	<keyentry>
 		<name>ROTATE_UP</name>
 		<description>Increase the tank's angle of elevation</description>
 		<key>UP</key>
-	</key>
-	<key>
+	</keyentry>
+	<keyentry>
 		<name>ROTATE_UP_SLOW</name>
 		<description>Increase the tank's angle of elevation slowly</description>
 		<key state="LSHIFT">UP</key>
-	</key>
-	<key>
+	</keyentry>
+	<keyentry>
 		<name>ROTATE_UP_FAST</name>
 		<description>Increase the tank's angle of elevation quickly</description>
 		<key state="LCTRL">UP</key>
-	</key>
-	<key>
+	</keyentry>
+	<keyentry>
 		<name>ROTATE_DOWN</name>
 		<description>Decrease the tank's angle of elevation</description>
 		<key>DOWN</key>
-	</key>
-	<key>
+	</keyentry>
+	<keyentry>
 		<name>ROTATE_DOWN_SLOW</name>
 		<description>Decrease the tank's angle of elevation slowly</description>
 		<key state="LSHIFT">DOWN</key>
-	</key>
-	<key>
+	</keyentry>
+	<keyentry>
 		<name>ROTATE_DOWN_FAST</name>
 		<description>Decrease the tank's angle of elevation quickly</description>
 		<key state="LCTRL">DOWN</key>
-	</key>
-	<key>
+	</keyentry>
+	<keyentry>
 		<name>INCREASE_POWER</name>
 		<description>Increase the tank's shot power</description>
 		<key>EQUALS</key>
 		<key>PLUS</key>
 		<key>KP_PLUS</key>
-	</key>
-	<key>
+	</keyentry>
+	<keyentry>
 		<name>INCREASE_POWER_SLOW</name>
 		<description>Increase the tank's shot power slowly</description>
 		<key state="LSHIFT">EQUALS</key>
 		<key state="LSHIFT">KP_PLUS</key>
-	</key>
-	<key>
+	</keyentry>
+	<keyentry>
 		<name>INCREASE_POWER_FAST</name>
 		<description>Increase the tank's shot power quickly</description>
 		<key state="LCTRL">EQUALS</key>
 		<key state="LCTRL">KP_PLUS</key>
-	</key>
-	<key>
+		<key>PAGEUP</key>
+	</keyentry>
+	<keyentry>
 		<name>DECREASE_POWER</name>
 		<description>Decrease the tank's shot power</description>
 		<key>MINUS</key>
 		<key>KP_MINUS</key>
-	</key>
-	<key>
+	</keyentry>
+	<keyentry>
 		<name>DECREASE_POWER_SLOW</name>
 		<description>Decrease the tank's shot power slowly</description>
 		<key state="LSHIFT">MINUS</key>
 		<key state="LSHIFT">KP_MINUS</key>
-	</key>
-	<key>
+	</keyentry>
+	<keyentry>
 		<name>DECREASE_POWER_FAST</name>
 		<description>Decrease the tank's shot power quickly</description>
 		<key state="LCTRL">MINUS</key>
 		<key state="LCTRL">KP_MINUS</key>
-	</key>
-	<key>
+		<key>PAGEDOWN</key>
+	</keyentry>
+	<keyentry>
 		<name>CHANGE_UP_WEAPON</name>
 		<description>Changes to the next available weapon</description>
 		<key>TAB</key>
-	</key>
-	<key>
+	</keyentry>
+	<keyentry>
 		<name>CHANGE_DOWN_WEAPON</name>
 		<description>Changes to the previous available weapon</description>
 		<key state="LSHIFT">TAB</key>
-	</key>
-	<key>
+	</keyentry>
+	<keyentry>
 		<name>ENABLE_PARACHUTES</name>
 		<description>Enables parachutes</description>
 		<key>p</key>
-	</key>
-	<key>
+	</keyentry>
+	<keyentry>
 		<name>USE_BATTERY</name>
 		<description>Uses one battery</description>
 		<key>b</key>
-	</key>
-	<key>
+	</keyentry>
+	<keyentry>
 		<name>SAVE_SCREEN</name>
 		<description>Saves the screen as a bitamp file</description>
 		<key>F5</key>
-	</key>
-	<key>
+	</keyentry>
+	<keyentry>
 		<name>CAMERA_TOP_VIEW</name>
 		<description>Changes the camera angle to the top view</description>
 		<key>1</key>
-	</key>
-	<key>
+	</keyentry>
+	<keyentry>
 		<name>CAMERA_BEHIND_VIEW</name>
 		<description>Changes the camera angle to the behind view</description>
 		<key>2</key>
-	</key>
-	<key>
+	</keyentry>
+	<keyentry>
 		<name>CAMERA_TANK_VIEW</name>
 		<description>Changes the camera angle to the tank view</description>
 		<key>3</key>
-	</key>
-	<key>
+	</keyentry>
+	<keyentry>
 		<name>CAMERA_GUN_VIEW</name>
 		<description>Changes the camera angle to the gun view</description>
 		<key>4</key>
-	</key>
-	<key>
+	</keyentry>
+	<keyentry>
 		<name>CAMERA_LEFT_VIEW</name>
 		<description>Changes the camera angle to the left view</description>
 		<key>5</key>
-	</key>
-	<key>
+	</keyentry>
+	<keyentry>
 		<name>CAMERA_RIGHT_VIEW</name>
 		<description>Changes the camera angle to the right view</description>
 		<key>6</key>
-	</key>
-	<key>
+	</keyentry>
+	<keyentry>
 		<name>CAMERA_LEFTFAR_VIEW</name>
 		<description>Changes the camera angle to the far left view</description>
 		<key>7</key>
-	</key>
-	<key>
+	</keyentry>
+	<keyentry>
 		<name>CAMERA_RIGHTFAR_VIEW</name>
 		<description>Changes the camera angle to the far right view</description>
 		<key>8</key>
-	</key>	
-	<key>
+	</keyentry>	
+	<keyentry>
 		<name>CAMERA_SPECTATOR_VIEW</name>
 		<description>Changes the camera angle to the spectator view</description>
 		<key>0</key>
-	</key>
-	<key>
+	</keyentry>
+	<keyentry>
 		<name>CAMERA_ROTATE_LEFT</name>
 		<description>Rotates the camara left</description>
 		<key>KP4</key>
-	</key>
-	<key>
+	</keyentry>
+	<keyentry>
 		<name>CAMERA_ROTATE_RIGHT</name>
 		<description>Rotates the camara right</description>
 		<key>KP6</key>
-	</key>
-	<key>
+	</keyentry>
+	<keyentry>
 		<name>CAMERA_ROTATE_UP</name>
 		<description>Rotates the camara up</description>
 		<key>KP8</key>
-	</key>	
-	<key>
+	</keyentry>	
+	<keyentry>
 		<name>CAMERA_ROTATE_DOWN</name>
 		<description>Rotates the camara down</description>
 		<key>KP2</key>
-	</key>
-	<key>
+	</keyentry>
+	<keyentry>
 		<name>CAMERA_ZOOM_IN</name>
 		<description>Zoom the camrea in</description>
 		<key>KP9</key>
-	</key>	
-	<key>
+	</keyentry>	
+	<keyentry>
 		<name>CAMERA_ZOOM_OUT</name>
 		<description>Zoom the camrea in</description>
 		<key>KP3</key>
-	</key>
-	<key>
+	</keyentry>
+	<keyentry>
 		<name>CAMERA_NOLIMIT</name>
 		<description>Allow the camera to move through the landscape</description>
 		<key>LALT</key>
-	</key>
-	<key>
+	</keyentry>
+	<keyentry>
 		<name>SIMULATION_SPEED_X1</name>
 		<description>Changes the simulator to simulate in normal time</description>
 		<key>F1</key>
-	</key>
-	<key>
+	</keyentry>
+	<keyentry>
 		<name>SIMULATION_SPEED_X2</name>
 		<description>Changes the simulator to simulate twice as fast</description>
 		<key>F2</key>
-	</key>
-	<key>
+	</keyentry>
+	<keyentry>
 		<name>SIMULATION_SPEED_X3</name>
 		<description>Changes the simulator to simulate three time as fast</description>
 		<key>F3</key>
-	</key>
-	<key>
+	</keyentry>
+	<keyentry>
 		<name>SIMULATION_SPEED_X4</name>
 		<description>Changes the simulator to simulate four time as fast</description>
 		<key>F4</key>
-	</key>
-	<key>
+	</keyentry>
+	<keyentry>
 		<name>CONSOLE</name>
 		<description>Shows or hides the game console</description>
 		<key>BACKQUOTE</key>
-	</key>
-	<key>
+	</keyentry>
+	<keyentry>
 		<name>SHOW_QUIT_DIALOG</name>
 		<description>Shows or hides the quit dialog</description>
 		<key>ESCAPE</key>
-	</key>
-	<key>
+	</keyentry>
+	<keyentry>
 		<name>SHOW_HELP_DIALOG</name>
 		<description>Shows or hides the help dialog</description>
 		<key>h</key>
-	</key>	
-	<key>
+	</keyentry>	
+	<keyentry>
 		<name>SHOW_TALK_DIALOG</name>
 		<description>Shows or hides the talk dialog</description>
 		<key>t</key>
-	</key>	
-	<key>
+	</keyentry>	
+	<keyentry>
 		<name>SHOW_SCORE_DIALOG</name>
 		<description>Shows or hides the score dialog</description>
 		<key>s</key>
-	</key>	
-	<key>
+	</keyentry>	
+	<keyentry>
 		<name>SHOW_WIND_DIALOG</name>
 		<description>Shows or hides the wind dialog</description>
-	</key>	
-	<key>
+	</keyentry>	
+	<keyentry>
 		<name>SHOW_PLAN_DIALOG</name>
 		<description>Shows or hides the plan dialog</description>
-	</key>	
-	<key>
+	</keyentry>	
+	<keyentry>
 		<name>SHOW_PLAYER_DIALOG</name>
 		<description>Shows or hides the player dialog</description>
-	</key>	
-		<key>
+	</keyentry>
+	<keyentry>
 		<name>SHOW_KIBITZ_DIALOG</name>
 		<description>Shows or hides the no kibitz dialog</description>
 		<key>k</key>
-	</key>	
+	</keyentry>	
 </keys>
 

@@ -137,10 +137,10 @@ bool Keyboard::parseKeyFile(const char *fileName)
     {
 		// Parse the tank entry
         XMLNode *currentNode = (*childrenItor);
-		if (strcmp(currentNode->getName(), "key"))
+		if (strcmp(currentNode->getName(), "keyentry"))
 		{
 			dialogMessage("Keyboard",
-						  "Failed to find key node");
+						  "Failed to find keyentry node");
 			return false;
 		}
 

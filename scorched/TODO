@@ -12,7 +12,7 @@ Added: Tank choice dialog shows many more tanks
 Added: Tanks placed into catagories to make for easier choosing
 Added: MilkShape model support (including alpha maps)
 Added: Keys are defined and can be configured via XML file (keys.xml)
-Added: Resouces can be enabled and disabled in the resource file (landscapes can be disable)
+Added: Resouces can be enabled and disabled in the resource file (landscapes can be disabled)
 
 Fixed: Tanks do not start right at the landscape edge
 Fixed: Applied http://wwwra.informatik.uni-rostock.de/~waschk/Scorched3D-35-gcc3.3.patch
@@ -30,6 +30,7 @@ Fixed: Player/Quit menu option does not work in single player mode
 Fixed: Moved timer, so talk text is not in the way
 
 -- Bugs in current development release
+Wind indicator does not display arrow correctly
 Dvorak keyboard support is broken
 The server can start multiple times on the same port!
 Solaris client cannot choose weapons (Ok button does not work) gcc version??
