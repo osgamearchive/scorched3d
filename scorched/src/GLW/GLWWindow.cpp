@@ -21,6 +21,7 @@
 #include <GLEXT/GLState.h>
 #include <GLEXT/GLTexture.h>
 #include <GLEXT/GLBitmap.h>
+#include <GLEXT/GLViewPort.h>
 #include <GLW/GLWWindow.h>
 #include <client/ScorchedClient.h>
 #include <common/WindowManager.h>
@@ -182,10 +183,8 @@ void GLWWindow::drawMaximizedWindow()
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	
 		drawWindowCircle(x_, y_, w_, h_);
 
-		static int iVPort[4];
-		glGetIntegerv(GL_VIEWPORT, iVPort);
 		int x = ScorchedClient::instance()->getGameState().getMouseX();
-		int y = iVPort[3] - ScorchedClient::instance()->getGameState().getMouseY();
+		int y = ScorchedClient::instance()->getGameState().getMouseY();
 		if (WindowManager::instance()->getFocus(x, y) == getId())
 		{
 			if (windowState_ & eResizeable)
@@ -270,11 +269,10 @@ void GLWWindow::draw()
 	GLState currentState(GLState::DEPTH_OFF | GLState::TEXTURE_OFF);
 	if (needCentered_)
 	{
-		static float fVPort[4];
-		glGetFloatv(GL_VIEWPORT, fVPort);
-
-		setX((fVPort[2] - getW()) / 2.0f);
-		setY((fVPort[3] - getH()) / 2.0f);
+		int wWidth = GLViewPort::getWidth();
+		int wHeight = GLViewPort::getHeight();
+		setX((wWidth - getW()) / 2.0f);
+		setY((wHeight - getH()) / 2.0f);
 		needCentered_ = false;
 	}
 
@@ -284,12 +282,6 @@ void GLWWindow::draw()
 void GLWWindow::mouseDown(float x, float y, bool &skipRest)
 {
 	if (disabled_) return;
-
-	static float fVPort[4];
-	glGetFloatv(GL_VIEWPORT, fVPort);
-	float currentTop = fVPort[3];
-
-	y = currentTop - y;
 
 	if (x > x_ && x < x_ + w_)
 	{
@@ -353,12 +345,6 @@ void GLWWindow::mouseUp(float x, float y, bool &skipRest)
 void GLWWindow::mouseDrag(float mx, float my, float x, float y, bool &skipRest)
 {
 	if (disabled_) return;
-
-	static float fVPort[4];
-	glGetFloatv(GL_VIEWPORT, fVPort);
-	float currentTop = fVPort[3];
-
-	my = currentTop - my;
 
 	switch(dragging_)
 	{

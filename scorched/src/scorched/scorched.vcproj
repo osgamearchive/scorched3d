@@ -333,6 +333,12 @@
 			<File
 				RelativePath="..\GLEXT\GLVertexTexArray.h">
 			</File>
+			<File
+				RelativePath="..\GLEXT\GLViewPort.cpp">
+			</File>
+			<File
+				RelativePath="..\GLEXT\GLViewPort.h">
+			</File>
 		</Filter>
 		<Filter
 			Name="GLW"
@@ -1438,12 +1444,6 @@
 				RelativePath="..\weapons\Economy.h">
 			</File>
 			<File
-				RelativePath="..\weapons\EconomyStore.cpp">
-			</File>
-			<File
-				RelativePath="..\weapons\EconomyStore.h">
-			</File>
-			<File
 				RelativePath="..\weapons\EconomyFreeMarket.cpp">
 			</File>
 			<File
@@ -1454,6 +1454,12 @@
 			</File>
 			<File
 				RelativePath="..\weapons\EconomyNone.h">
+			</File>
+			<File
+				RelativePath="..\weapons\EconomyStore.cpp">
+			</File>
+			<File
+				RelativePath="..\weapons\EconomyStore.h">
 			</File>
 			<File
 				RelativePath="..\weapons\Fuel.cpp">

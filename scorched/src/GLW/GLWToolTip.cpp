@@ -19,10 +19,10 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <GLEXT/GLState.h>
+#include <GLEXT/GLViewPort.h>
 #include <GLW/GLWToolTip.h>
 #include <GLW/GLWVisibleWidget.h>
 #include <GLW/GLWFont.h>
-#include <client/MainCamera.h>
 #include <client/ScorchedClient.h>
 #include <common/OptionsDisplay.h>
 #include <string.h>
@@ -130,9 +130,8 @@ bool GLWToolTip::addToolTip(GLWTip *tip, float x, float y, float w, float h)
 {
 	if (!OptionsDisplay::instance()->getShowContextHelp()) return false;
 
-	int windowHeight = MainCamera::instance()->getCamera().getHeight();
 	int mouseX = ScorchedClient::instance()->getGameState().getMouseX();
-	int mouseY = windowHeight - ScorchedClient::instance()->getGameState().getMouseY();
+	int mouseY = ScorchedClient::instance()->getGameState().getMouseY();
 	
 	bool result = false;
 	if (x < mouseX && mouseX < x + w &&
@@ -177,7 +176,7 @@ void GLWToolTip::draw(const unsigned state)
 	float posH = currentTip_->getTextHeight();
 	float posW = currentTip_->getTextWidth();
 
-	int camWidth = MainCamera::instance()->getCamera().getWidth();
+	int camWidth = GLViewPort::getWidth();
 	if (posX > camWidth / 2)
 	{
 		posX -= posW + 5.0f;
@@ -186,7 +185,7 @@ void GLWToolTip::draw(const unsigned state)
 	{
 		posX += currentTip_->w + 5.0f;
 	}
-	int camHeight = MainCamera::instance()->getCamera().getHeight();
+	int camHeight = GLViewPort::getHeight();
 	if (posY > camHeight / 2)
 	{
 		posY -= posH;

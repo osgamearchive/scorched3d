@@ -19,10 +19,11 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <dialogs/WindDialog.h>
-#include <client/MainCamera.h>
 #include <client/ScorchedClient.h>
+#include <client/MainCamera.h>
 #include <GLW/GLWFont.h>
 #include <GLEXT/GLBitmap.h>
+#include <GLEXT/GLViewPort.h>
 #include <common/OptionsTransient.h>
 #include <common/Defines.h>
 #include <landscape/Landscape.h>
@@ -42,7 +43,7 @@ WindDialog *WindDialog::instance()
 }
 
 WindDialog::WindDialog() : 
-	GLWWindow("Wind", 10, 15, 100, 100, eCircle,
+	GLWWindow("Wind", 10, 15, 120, 120, eCircle,
 		"Displays indicators for the current wind\n"
 		"strength and direction."),
 	listNo_(0)
@@ -68,12 +69,8 @@ void WindDialog::draw()
 	static bool init = false;
 	if (!init)
 	{
-		float width = MIN(MainCamera::instance()->getCamera().getWidth() / 8.0f, 120.0f);
-		setW(width);
-		setH(width);
-
 		setX(10.0f);
-		setY(MainCamera::instance()->getCamera().getHeight() - width - 40.0f);
+		setY(GLViewPort::getHeight() - h_ - 40.0f);
 		init = true;
 	}
 

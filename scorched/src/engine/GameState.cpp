@@ -91,7 +91,7 @@ void GameState::mouseMove(int x, int y)
 		if (MouseButtonMiddle & currentMouseState_)
 		{
 			int diffX = x - mouseMDragX_; mouseMDragX_ = x;
-			int diffY = y - mouseMDragY_; mouseMDragY_ = y;
+			int diffY = mouseMDragY_ - y; mouseMDragY_ = y;
 
 			mouseMoveCall(thisState, MouseButtonMiddle, 
 						  currentEntry_->subMouseDragMiddleList,
@@ -102,7 +102,7 @@ void GameState::mouseMove(int x, int y)
 								  MouseButtonRight & currentMouseState_))
 		{
 			int diffX = x - mouseMDragX_; mouseMDragX_ = x;
-			int diffY = y - mouseMDragY_; mouseMDragY_ = y;
+			int diffY = mouseMDragY_ - y; mouseMDragY_ = y;
 
 			mouseMoveCall(thisState, MouseButtonMiddle, 
 						  currentEntry_->subMouseDragMiddleList,
@@ -113,7 +113,7 @@ void GameState::mouseMove(int x, int y)
 			if (MouseButtonLeft & currentMouseState_)
 			{
 				int diffX = x - mouseLDragX_; mouseLDragX_ = x;
-				int diffY = y - mouseLDragY_; mouseLDragY_ = y;
+				int diffY = mouseLDragY_ - y; mouseLDragY_ = y;
 
 				mouseMoveCall(thisState, MouseButtonLeft, 
 							  currentEntry_->subMouseDragLeftList,
@@ -122,7 +122,7 @@ void GameState::mouseMove(int x, int y)
 			if (MouseButtonRight & currentMouseState_)
 			{
 				int diffX = x - mouseRDragX_; mouseRDragX_ = x;
-				int diffY = y - mouseRDragY_; mouseRDragY_ = y;
+				int diffY = mouseRDragY_ - y; mouseRDragY_ = y;
 
 				mouseMoveCall(thisState, MouseButtonRight, 
 							  currentEntry_->subMouseDragRightList,

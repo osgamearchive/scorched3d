@@ -18,52 +18,39 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <client/Main2DCamera.h>
-#include <client/ScorchedClient.h>
-#include <common/OptionsDisplay.h>
+#if !defined(__INCLUDE_GLViewPorth_INCLUDE__)
+#define __INCLUDE_GLViewPorth_INCLUDE__
 
-Main2DCamera *Main2DCamera::instance_ = 0;
-
-Main2DCamera *Main2DCamera::instance()
+class GLViewPort
 {
-	if (!instance_)
-	{
-		instance_ = new Main2DCamera;
-	}
+public:
+	GLViewPort();
+	virtual ~GLViewPort();
 
-	return instance_;
-}
+	void draw();
 
-Main2DCamera::Main2DCamera()
-{
+	/**
+	The size of the viewport in pixels and actual
+	physcial window size in pixels.
+	This viewport may not be the actual size of the window,
+	in which case the graphics will seem larger or smaller
+	than usual.
+	*/
+	void setWindowSize(int width, int height,
+		int awidth, int aheight);
 
-}
+	static int getWidth() { return width_; }
+	static int getHeight() { return height_; }
+	static int getActualWidth() { return actualWidth_; }
+	static int getActualHeight() { return actualHeight_; }
+	static float getWidthMult() { return widthMult_; }
+	static float getHeightMult() { return heightMult_; }
 
-Main2DCamera::~Main2DCamera()
-{
+protected:
+	static int width_, height_;
+	static float widthMult_, heightMult_;
+	static int actualWidth_, actualHeight_;
 
-}
+};
 
-void Main2DCamera::draw(const unsigned state)
-{
-	if (OptionsDisplay::instance()->getFullClear())
-	{
-		glClearDepth(1.0f);
-		glClear(GL_DEPTH_BUFFER_BIT);
-	}
-	else
-	{
-		if (ScorchedClient::instance()->getMainLoop().getFlip())
-		{
-			glClearDepth(0.5f);
-			glClear(GL_DEPTH_BUFFER_BIT);
-		}
-		else
-		{
-			glClearDepth(0.5f);
-			glClear(GL_DEPTH_BUFFER_BIT);
-		}
-	}
-
-	viewPort_.draw();
-}
+#endif

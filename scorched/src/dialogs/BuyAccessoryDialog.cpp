@@ -22,6 +22,7 @@
 #include <GLW/GLWTextButton.h>
 #include <GLW/GLWIcon.h>
 #include <GLW/GLWFlag.h>
+#include <GLEXT/GLViewPort.h>
 #include <client/ClientState.h>
 #include <client/ScorchedClient.h>
 #include <common/WindowManager.h>
@@ -57,9 +58,7 @@ BuyAccessoryDialog::~BuyAccessoryDialog()
 
 void BuyAccessoryDialog::setupWindow()
 {
-	static float fVPort[4];
-	glGetFloatv(GL_VIEWPORT, fVPort);
-	float screenHeight = fVPort[3];
+	float screenHeight = (float) GLViewPort::getHeight();
 	float addition = 0;
 	if (screenHeight > 340) addition = screenHeight - 340;
 	if (addition > 200) addition = 200;

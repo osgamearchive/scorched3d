@@ -20,6 +20,7 @@
 
 #include <GLEXT/GLMenu.h>
 #include <GLEXT/GLState.h>
+#include <GLEXT/GLViewPort.h>
 #include <GLW/GLWFont.h>
 #include <client/ScorchedClient.h>
 #include <common/WindowManager.h>
@@ -75,11 +76,6 @@ void GLMenu::draw()
 {
 	GLState currentState(GLState::DEPTH_OFF | GLState::TEXTURE_OFF);
 
-	static float fVPort[4];
-	glGetFloatv(GL_VIEWPORT, fVPort);
-	float currentTop = fVPort[3];
-
-	
 	bool depressed = false;
 	std::map<std::string, GLMenuEntry *>::iterator itor;
 	for (itor = menuList_.begin();
@@ -94,10 +90,12 @@ void GLMenu::draw()
 	}	
 	if (depressed) setH(1000000.0f);
 	else setH(25.0f);
+
+	float currentTop = (float) GLViewPort::getHeight();
 	setY(currentTop - h_);
 
 	int x = ScorchedClient::instance()->getGameState().getMouseX();
-	int y = int(fVPort[3]) - ScorchedClient::instance()->getGameState().getMouseY();
+	int y = ScorchedClient::instance()->getGameState().getMouseY();
 	if (WindowManager::instance()->getFocus(x, y) == getId())
 	{
 		GLfloat currentWidth = 0.0f;
@@ -118,9 +116,7 @@ void GLMenu::draw()
 void GLMenu::mouseDown(float x, float y, bool &hitMenu)
 {
 	hitMenu = false;
-	static float fVPort[4];
-	glGetFloatv(GL_VIEWPORT, fVPort);
-	float currentTop = fVPort[3];
+	float currentTop = (float) GLViewPort::getHeight();
 
 	std::map<std::string, GLMenuEntry *>::iterator itor;
 	for (itor = menuList_.begin();
@@ -130,7 +126,7 @@ void GLMenu::mouseDown(float x, float y, bool &hitMenu)
 		GLMenuEntry *entry = itor->second;
 		if (entry->getEnabled())
 		{
-			if (entry->click(currentTop, int(x), int(currentTop) - int(y)))
+			if (entry->click(currentTop, int(x), int(y)))
 			{
 				hitMenu = true;
 			}

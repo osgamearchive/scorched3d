@@ -22,6 +22,7 @@
 #include <client/ScorchedClient.h>
 #include <common/OptionsGame.h>
 #include <GLEXT/GLConsole.h>
+#include <GLEXT/GLViewPort.h>
 #include <GLW/GLWFont.h>
 
 MessageDisplay *MessageDisplay::instance_ = 0;
@@ -80,15 +81,15 @@ void MessageDisplay::draw(const unsigned currentstate)
 	GLState state(GLState::BLEND_ON | GLState::TEXTURE_OFF | GLState::DEPTH_OFF); 
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	static float fVPort[4];
-	glGetFloatv(GL_VIEWPORT, fVPort);
-
 	static Vector fontColor(0.7f, 0.7f, 0.2f);
 	static Vector fontColor2(0.0f, 0.0f, 0.0f);
 
-	float x = (fVPort[2]/2.0f) - float(GLWFont::instance()->getLargePtFont()->getWidth(
+	float wHeight = (float) GLViewPort::getHeight();
+	float wWidth = (float) GLViewPort::getWidth();
+
+	float x = (wWidth/2.0f) - float(GLWFont::instance()->getLargePtFont()->getWidth(
 		30, currentText_.c_str()) / 2);
-	float y = fVPort[3] - 120.0f;
+	float y = wHeight - 120.0f;
 
 	GLWFont::instance()->getLargePtFont()->draw(
 		fontColor2, 30, 

@@ -21,6 +21,7 @@
 #include <dialogs/LogDialog.h>
 #include <dialogs/QuitDialog.h>
 #include <GLW/GLWTextButton.h>
+#include <GLEXT/GLViewPort.h>
 #include <common/OptionsDisplay.h>
 #include <common/WindowManager.h>
 
@@ -64,16 +65,16 @@ void LogDialog::logMessage(
 
 void LogDialog::draw()
 {
-	static float fVPort[4];
-	glGetFloatv(GL_VIEWPORT, fVPort);
-	float width = fVPort[2] - 40.0f;
+	float wWidth = (float) GLViewPort::getWidth();
+	float width = wWidth - 40.0f;
 	if (width < 320) width = 320;
 	if (width > 640) width = 640;
 	setW(width - 20);
 	listView_->setW(width - 40);
 	quit_->setX(width - 115);
 
-	float height = fVPort[3] - 40.0f;
+	float wHeight = (float) GLViewPort::getHeight();
+	float height = wHeight - 40.0f;
 	if (height < 200) height = 200;
 	if (height > 300) height = 300;
 	serverName_->setY(height - 50);

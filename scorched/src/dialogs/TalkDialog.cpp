@@ -24,6 +24,7 @@
 #include <coms/ComsTextMessage.h>
 #include <coms/ComsMessageSender.h>
 #include <GLW/GLWLabel.h>
+#include <GLEXT/GLViewPort.h>
 
 TalkDialog *TalkDialog::instance_ = 0;
 
@@ -79,9 +80,7 @@ void TalkDialog::keyDown(char *buffer, unsigned int keyState,
 
 void TalkDialog::draw()
 {
-	static float fVPort[4];
-	glGetFloatv(GL_VIEWPORT, fVPort);
-	float width = fVPort[2];
+	float width = (float) GLViewPort::getWidth();
 	if (width < 320) width = 320;
 	if (width > 640) width = 640;
 

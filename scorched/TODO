@@ -42,6 +42,7 @@ Added: Damped the shot camera stop stop it from jumping around
 Added: Action camera does not jump around so much (it stays with the best action)
 Added: Camera and window menu items get tool tips
 Added: Free market economy
+Added: Window and font sizes can be set seperately from screen resolution
 
 Fixed: SG characters being printed during init stages
 Fixed: Client does not start new game until all explosions have finished
@@ -63,7 +64,6 @@ Gun fires at same point for all tanks (ignores turret/gun position in model)
 Shot cam does not get LOD correctly
 
 -- Things I am currently looking at
-Sort out window scaling at different resolutions
 GUI Icon stuff
 Make AIs better
 Finish aiming dialog

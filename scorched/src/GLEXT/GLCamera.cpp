@@ -23,6 +23,7 @@
 #include <common/Defines.h>
 #include <GLEXT/GLState.h>
 #include <GLEXT/GLCamera.h>
+#include <GLEXT/GLViewPort.h>
 
 GLCamera::GLCamera(GLsizei windowWidth, GLsizei windowHeight) :
 	rotationXY_(0.0f), rotationYZ_(PI / 4), zoom_(150.0f),
@@ -194,10 +195,14 @@ bool GLCamera::getDirectionFromPt(GLfloat winX, GLfloat winY, Line &direction)
 	glGetDoublev(GL_PROJECTION_MATRIX, projMatrix);
 	glGetIntegerv(GL_VIEWPORT, viewport);
 
+	float realX = winX / GLViewPort::getWidthMult();
+	float realY = GLViewPort::getActualHeight() - 
+		((GLViewPort::getHeight() - winY) / GLViewPort::getHeightMult());
+
 	GLdouble x,y,z;
 	gluUnProject(
-		winX,
-		viewport[3] - winY,
+		realX,
+		realY,
 		0.0f,
 		modelMatrix,
 		projMatrix,
@@ -208,8 +213,8 @@ bool GLCamera::getDirectionFromPt(GLfloat winX, GLfloat winY, Line &direction)
 	Vector pos1((float) x, (float) y, (float) z);
 
 	gluUnProject(
-		winX,
-		viewport[3] - winY,
+		realX,
+		realY,
 		100.0f,
 		modelMatrix,
 		projMatrix,

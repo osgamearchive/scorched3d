@@ -106,8 +106,8 @@ void WindowSetup::addCommonComponents(unsigned state)
 
 void WindowSetup::setup()
 {
-	KEYBOARDKEY("SHOW_TALK_DIALOG", talkKey);
 	KEYBOARDKEY("SHOW_QUIT_DIALOG", quitKey);
+	KEYBOARDKEY("SHOW_TALK_DIALOG", talkKey);
 	KEYBOARDKEY("SHOW_PLAYER_DIALOG", playerKey);
 	KEYBOARDKEY("SHOW_AIM_DIALOG", aimKey);
 	KEYBOARDKEY("SHOW_WEAPON_DIALOG", weaponKey);
@@ -130,9 +130,9 @@ void WindowSetup::setup()
 	WindowManager::instance()->addWindow(ClientState::StateGetPlayers, 
 		BackdropDialog::instance(), 0, true);
 	WindowManager::instance()->addWindow(ClientState::StateGetPlayers, 
-		QuitDialog::instance(), quitKey, false);
-	WindowManager::instance()->addWindow(ClientState::StateGetPlayers, 
 		PlayerDialog::instance(), 0, true);
+	WindowManager::instance()->addWindow(ClientState::StateGetPlayers, 
+		QuitDialog::instance(), quitKey, false);
 
 	// StateWait
 	addCommonComponents(ClientState::StateWait);

@@ -22,6 +22,7 @@
 #include <client/ScorchedClient.h>
 #include <client/ClientState.h>
 #include <common/OptionsGame.h>
+#include <GLEXT/GLViewPort.h>
 #include <GLW/GLWFont.h>
 #include <GLW/GLWVisibleWidget.h>
 
@@ -81,9 +82,6 @@ void ShotCountDown::draw(const unsigned currentstate)
 	GLState state(GLState::BLEND_ON | GLState::TEXTURE_OFF | GLState::DEPTH_OFF); 
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	static float fVPort[4];
-	glGetFloatv(GL_VIEWPORT, fVPort);
-
 	static Vector fontColor;
 	fontColor = Vector(0.7f, 0.7f, 0.2f);
 	if (timeLeft <= 5)
@@ -110,20 +108,22 @@ void ShotCountDown::draw(const unsigned currentstate)
 			split.rem);	
 	}
 
+	float wHeight = (float) GLViewPort::getHeight();
+	float wWidth = (float) GLViewPort::getWidth();
 	if (currentstate == ClientState::StateWait)
 	{
 		static Vector green(0.2f, 0.7f, 0.2f);
 		GLWFont::instance()->getSmallPtFont()->draw(
-			green, 10, (fVPort[2]/2.0f) - (width / 2), 
-			fVPort[3] - 50.0f, 0.0f, format, 
+			green, 10, (wWidth/2.0f) - (width / 2), 
+			wHeight - 50.0f, 0.0f, format, 
 			split.quot,
 			split.rem);	
 	}
 	else if (showTime_)
 	{
 		GLWFont::instance()->getLargePtFont()->draw(
-			fontColor, 20, (fVPort[2]/2.0f) - (width / 2),
-			fVPort[3] - 50.0f, 0.0f, format, 
+			fontColor, 20, (wWidth/2.0f) - (width / 2),
+			wHeight - 50.0f, 0.0f, format, 
 			split.quot,
 			split.rem);
 	}

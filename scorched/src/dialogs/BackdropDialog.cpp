@@ -18,7 +18,7 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
+#include <GLEXT/GLViewPort.h>
 #include <GLEXT/GLState.h>
 #include <GLEXT/GLBitmap.h>
 #include <dialogs/BackdropDialog.h>
@@ -62,14 +62,13 @@ BackdropDialog::~BackdropDialog()
 
 void BackdropDialog::draw()
 {
-	static float fVPort[4];
-	glGetFloatv(GL_VIEWPORT, fVPort);
-
 	GLState currentState(GLState::DEPTH_OFF | GLState::TEXTURE_ON);
 
 	// Calcuate how may tiles are needed
-	float xScale = fVPort[2] / 128.0f;
-	float yScale = fVPort[3] / 128.0f;
+	float wWidth = (float) GLViewPort::getWidth();
+	float wHeight = (float) GLViewPort::getHeight();
+	float xScale = wWidth / 128.0f;
+	float yScale = wHeight / 128.0f;
 
 	// Draw the tiled logo backdrop
 	backTex_.draw(true);
@@ -78,16 +77,16 @@ void BackdropDialog::draw()
 		glTexCoord2f(0.0f - offset_, 0.0f + offset_);
 		glVertex2f(0.0f, 0.0f);
 		glTexCoord2f(xScale - offset_, 0.0f + offset_);
-		glVertex2f(fVPort[2], 0.0f);
+		glVertex2f(wWidth, 0.0f);
 		glTexCoord2f(xScale - offset_, yScale + offset_);
-		glVertex2f(fVPort[2], fVPort[3]);
+		glVertex2f(wWidth, wHeight);
 		glTexCoord2f(0.0f - offset_, yScale + offset_);
-		glVertex2f(0.0f, fVPort[3]);
+		glVertex2f(0.0f, wHeight);
 	glEnd();	
 
 	{
 		glPushMatrix();
-			glTranslatef(fVPort[2]/2 - 256, fVPort[3] - 64, 0.0f);
+			glTranslatef(wWidth / 2 - 256, wHeight - 64, 0.0f);
 			GLState currentStateBlend(GLState::BLEND_ON);
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	
 			titleTex_.draw();

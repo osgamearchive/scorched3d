@@ -18,52 +18,44 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <client/Main2DCamera.h>
-#include <client/ScorchedClient.h>
-#include <common/OptionsDisplay.h>
+#include <GLEXT/GLViewPort.h>
+#include <GLEXT/GLState.h>
 
-Main2DCamera *Main2DCamera::instance_ = 0;
+int GLViewPort::width_ = 0;
+int GLViewPort::height_ = 0;
+int GLViewPort::actualWidth_ = 0;
+int GLViewPort::actualHeight_ = 0;
+float GLViewPort::widthMult_ = 0.0f;
+float GLViewPort::heightMult_ = 0.0f;
 
-Main2DCamera *Main2DCamera::instance()
+GLViewPort::GLViewPort()
 {
-	if (!instance_)
-	{
-		instance_ = new Main2DCamera;
-	}
-
-	return instance_;
 }
 
-Main2DCamera::Main2DCamera()
+GLViewPort::~GLViewPort()
 {
-
 }
 
-Main2DCamera::~Main2DCamera()
+void GLViewPort::draw()
 {
-
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();	
+	glViewport(0, 0, actualWidth_, actualHeight_);
+	glOrtho(0.0, float(width_), 
+			0.0, float(height_), 
+			-4000.0, 4000.0);
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
 }
 
-void Main2DCamera::draw(const unsigned state)
+void GLViewPort::setWindowSize(int width, int height,
+							   int awidth, int aheight)
 {
-	if (OptionsDisplay::instance()->getFullClear())
-	{
-		glClearDepth(1.0f);
-		glClear(GL_DEPTH_BUFFER_BIT);
-	}
-	else
-	{
-		if (ScorchedClient::instance()->getMainLoop().getFlip())
-		{
-			glClearDepth(0.5f);
-			glClear(GL_DEPTH_BUFFER_BIT);
-		}
-		else
-		{
-			glClearDepth(0.5f);
-			glClear(GL_DEPTH_BUFFER_BIT);
-		}
-	}
+	width_ = width;
+	height_ = height;
+	actualWidth_ = awidth;
+	actualHeight_ = aheight;
 
-	viewPort_.draw();
+	widthMult_ = (float) width_ / (float) actualWidth_;
+	heightMult_ = (float) height_ / (float) actualHeight_;
 }

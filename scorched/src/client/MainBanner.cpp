@@ -19,9 +19,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <client/MainBanner.h>
-#include <client/MainCamera.h>
 #include <client/ScorchedClient.h>
 #include <tank/TankContainer.h>
+#include <GLEXT/GLViewPort.h>
 #include <common/OptionsDisplay.h>
 
 MainBanner* MainBanner::instance_ = 0;
@@ -67,7 +67,7 @@ void MainBanner::draw(const unsigned state)
 	GLState currentState(GLState::TEXTURE_OFF);
 	glColor3f(1.0f, 1.0f, 0.0f);
 
-	GLsizei width = MainCamera::instance()->getCamera().getWidth();
+	GLsizei width = GLViewPort::getWidth();
 	banner_->setX(width / 2.0f);
 	banner_->draw();
 } 

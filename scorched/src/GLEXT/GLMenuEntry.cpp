@@ -159,12 +159,8 @@ void GLMenuEntry::drawDepressed(GLFont2d &font, float currentTop, float currentL
 		glLineWidth(1.0f);
 	}
 
-	static int iVPort[4];
-	glGetIntegerv(GL_VIEWPORT, iVPort);
-	int windowHeight = iVPort[3];
-
 	int mouseX = ScorchedClient::instance()->getGameState().getMouseX();
-	int mouseY = windowHeight - ScorchedClient::instance()->getGameState().getMouseY();
+	int mouseY = ScorchedClient::instance()->getGameState().getMouseY();
 
 	// Draw the menu items
 	currentTop -= menuItemHeight + 7.0f;

@@ -121,15 +121,6 @@ public:
 	bool getDirectionFromPt(GLfloat ptX, GLfloat ptY, Line &direction);
 
 	/**
-	Returns the current viewport (and usualy window) size
-	*/
-	GLsizei getWidth() { return windowW_; }
-	/**
-	Returns the current viewport (and usualy window) size
-	*/
-	GLsizei getHeight() { return windowH_; }
-
-	/**
 	Get the point the camera is currently looking from
 	*/
 	Vector &getCurrentPos() { return currentPosition_; }

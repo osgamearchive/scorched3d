@@ -19,11 +19,12 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <dialogs/TankDialog.h>
-#include <client/MainCamera.h>
 #include <client/ScorchedClient.h>
+#include <client/MainCamera.h>
 #include <weapons/Weapon.h>
 #include <tankgraph/TankModelRenderer.h>
 #include <GLW/GLWFont.h>
+#include <GLEXT/GLViewPort.h>
 #include <GLEXT/GLBitmap.h>
 
 TankDialog *TankDialog::instance_ = 0;
@@ -53,7 +54,7 @@ void TankDialog::draw()
 	static bool init = false;
 	if (!init)
 	{
-		setX(MainCamera::instance()->getCamera().getWidth() - w_ - 10.0f);
+		setX(GLViewPort::getWidth() - w_ - 10.0f);
 		init = true;
 	}
 

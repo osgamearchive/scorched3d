@@ -92,13 +92,9 @@ void GLWDropDown::addText(const char *text)
 
 void GLWDropDown::draw()
 {
-	static int iVPort[4];
-	glGetIntegerv(GL_VIEWPORT, iVPort);
-	int windowHeight = iVPort[3];
-
 	float mouseX = float(ScorchedClient::instance()->getGameState().getMouseX());
 	mouseX -= GLWTranslate::getPosX();
-	float mouseY = float(windowHeight - ScorchedClient::instance()->getGameState().getMouseY());
+	float mouseY = float(ScorchedClient::instance()->getGameState().getMouseY());
 	mouseY -= GLWTranslate::getPosY();
 
 	glBegin(GL_LINE_LOOP);

@@ -20,10 +20,11 @@
 
 #include <math.h>
 #include <GLEXT/GLState.h>
+#include <GLEXT/GLViewPort.h>
 #include <tankgraph/TankModelRenderer.h>
-#include <client/MainCamera.h>
 #include <client/ScorchedClient.h>
 #include <client/ClientState.h>
+#include <client/MainCamera.h>
 #include <dialogs/PlanViewDialog.h>
 #include <landscape/Landscape.h>
 #include <common/Vector.h>
@@ -44,7 +45,7 @@ PlanViewDialog *PlanViewDialog::instance()
 
 PlanViewDialog::PlanViewDialog() : 
 	animationTime_(0.0f), flashTime_(0.0f),
-	GLWWindow("Plan", 10, 15, 100, 100, eCircle,
+	GLWWindow("Plan", 10, 15, 120, 120, eCircle,
 		"Shows the position of the the tanks\n"
 		"on a overhead map."),
 	flash_(true)
@@ -80,12 +81,8 @@ void PlanViewDialog::draw()
 	static bool init = false;
 	if (!init)
 	{
-		float width = MIN(MainCamera::instance()->getCamera().getWidth() / 8.0f, 120.0f);
-		setX(MainCamera::instance()->getCamera().getWidth() - width - 10.0f);
-		setY(MainCamera::instance()->getCamera().getHeight() - width - 40.0f);
-		setW(width);
-		setH(width);
-
+		setX(GLViewPort::getWidth() - w_ - 10.0f);
+		setY(GLViewPort::getHeight() - h_ - 40.0f);
 		init = true;
 	}
 
@@ -268,8 +265,6 @@ void PlanViewDialog::mouseDown(float x, float y, bool &skipRest)
 {
 	GLWWindow::mouseDown(x, y, skipRest);
 	if ((dragging_ != NoDrag)) return;
-
-	y = MainCamera::instance()->getCamera().getHeight() - y;
 
 	if ((x > x_) && (x < x_ + w_) &&
 		(y > y_) && (y < y_ + h_))

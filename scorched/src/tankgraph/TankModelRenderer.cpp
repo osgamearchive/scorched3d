@@ -29,6 +29,7 @@
 #include <GLEXT/GLCameraFrustum.h>
 #include <GLEXT/GLBitmap.h>
 #include <GLEXT/GLTexture.h>
+#include <GLEXT/GLViewPort.h>
 #include <3dsparse/ASEStore.h>
 #include <GLW/GLWFont.h>
 
@@ -424,6 +425,8 @@ void TankModelRenderer::storeTank2DPos()
 		glGetDoublev(GL_PROJECTION_MATRIX, projMatrix);
 		glGetIntegerv(GL_VIEWPORT, viewport);
 
+		viewport[2] = GLViewPort::getWidth();
+		viewport[3] = GLViewPort::getHeight();
 		int result = gluProject(
 			tankTurretPos[0], 
 			tankTurretPos[1], 

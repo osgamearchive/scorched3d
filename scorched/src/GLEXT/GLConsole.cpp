@@ -22,6 +22,7 @@
 #include <common/Defines.h>
 #include <GLEXT/GLState.h>
 #include <GLEXT/GLConsole.h>
+#include <GLEXT/GLViewPort.h>
 #include <GLW/GLWFont.h>
 
 GLConsole *GLConsole::instance_ = 0;
@@ -175,11 +176,8 @@ void GLConsole::draw(const unsigned state)
 	GLState currentState(GLState::DEPTH_OFF | GLState::TEXTURE_OFF | GLState::BLEND_ON);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	static GLint viewport[4];
-	glGetIntegerv(GL_VIEWPORT, viewport);
-
-	GLfloat width = (GLfloat) viewport[2];
-	GLfloat top = (GLfloat) viewport[3];
+	GLfloat width = (GLfloat) GLViewPort::getWidth();
+	GLfloat top = (GLfloat) GLViewPort::getHeight();
 
 	drawBackdrop(width, top);
 	drawText(width, top);

@@ -236,7 +236,10 @@ void clientMain()
 					event.resize.w,event.resize.h, 
 					OptionsDisplay::instance()->getFullScreen());
 				MainCamera::instance()->getCamera().setWindowSize(
-					event.resize.w, event.resize.h);*/
+					event.resize.w, event.resize.h);
+				Main2DCamera::instance()->getViewPort().setWindowSize(
+					event.resize.w, event.resize.h);
+					*/
 				break;
 			case SDL_QUIT:
 				ScorchedClient::instance()->getMainLoop().exitLoop();

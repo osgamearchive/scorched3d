@@ -21,6 +21,7 @@
 #include <client/ClientDialog.h>
 #include <client/GLSetup.h>
 #include <client/MainCamera.h>
+#include <client/Main2DCamera.h>
 #include <common/OptionsDisplay.h>
 #include <common/OptionsParam.h>
 #include <common/Display.h>
@@ -59,7 +60,31 @@ bool createScorchedWindow()
 		return FALSE;
 	}
 
-	MainCamera::instance()->getCamera().setWindowSize(width,height);
+	int windowWidth = 1024;
+	int windowHeight = 768;
+	switch (OptionsDisplay::instance()->getDialogSize())
+	{
+	case 0:
+		windowWidth = 1600;
+		windowHeight = 1200;
+		break;
+	case 1:
+		windowWidth = 1152;
+		windowHeight = 864;
+		break;
+	case 3:
+		windowWidth = 800;
+		windowHeight = 600;
+		break;
+	case 4:
+		windowWidth = 640;
+		windowHeight = 480;
+		break;
+	}
+
+	MainCamera::instance()->getCamera().setWindowSize(width, height);
+	Main2DCamera::instance()->getViewPort().setWindowSize(windowWidth, windowHeight, 
+		width, height);
 
 	Gamma::instance()->set(
 		float(OptionsDisplay::instance()->getBrightness()) / 10.0f);

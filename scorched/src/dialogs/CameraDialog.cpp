@@ -96,9 +96,11 @@ void CameraDialog::draw()
 	
 	// Set the new viewport
 	targetCam_.getCamera().setWindowSize(
-		int(w_ - inset - inset), int(h_ - inset - inset));
+		int(float(w_ - inset - inset) / GLViewPort::getWidthMult()), 
+		int(float(h_ - inset - inset) / GLViewPort::getHeightMult())); 
 	targetCam_.getCamera().setWindowOffset(
-		int(x_ + inset), int(y_ + inset));
+		int(float(x_ + inset) / GLViewPort::getWidthMult()), 
+		int(float(y_ + inset) / GLViewPort::getHeightMult()));
 	targetCam_.draw();
 	
 	// Draw the stuff we want to see

@@ -168,6 +168,9 @@ public:
 	int getBannerRows() { return bannerRows_.getValue(); }
 	void setBannerRows(int value) { bannerRows_.setValue(value); }
 
+	int getDialogSize() { return dialogSize_.getValue(); }
+	void setDialogSize(int value) { dialogSize_.setValue(value); }
+
 	int getTexSize() { return texSize_.getValue(); }
 	void setTexSize(int value) { texSize_.setValue(value); }
 
@@ -254,6 +257,7 @@ protected:
 	OptionEntryBool noWaves_;
 	OptionEntryBool showContextHelp_;
 	OptionEntryBool lowTreeDetail_;
+	OptionEntryBoundedInt dialogSize_;
 	OptionEntryBoundedInt texSize_;
 	OptionEntryBoundedInt tankDetail_;
 	OptionEntryBoundedInt effectsDetail_;

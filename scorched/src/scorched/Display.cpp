@@ -24,7 +24,7 @@ static void createControls(wxWindow *parent, wxSizer *sizer)
 {
 	// Display settings
 	wxStaticBox *displayBox = new wxStaticBox(parent, -1, "Display");
-	wxStaticBoxSizer *displaySizer = new wxStaticBoxSizer(displayBox, wxHORIZONTAL);
+	wxStaticBoxSizer *displaySizer = new wxStaticBoxSizer(displayBox, wxVERTICAL);
 	wxFlexGridSizer *displaySizer2 = new wxFlexGridSizer(2, 3, 5, 5);
 	wxStaticText *resText = new wxStaticText(parent, -1, "Resolution :");
 	IDC_DISPLAY_CTRL = 
@@ -49,6 +49,20 @@ static void createControls(wxWindow *parent, wxSizer *sizer)
 	displaySizer2->Add(IDC_SLIDER1_CTRL, 0);
 	displaySizer2->Add(IDC_MORERES_CTRL, 0, wxALIGN_CENTRE_VERTICAL);
 	displaySizer->Add(displaySizer2, 0);
+	wxFlexGridSizer *displaySizer3 = new wxFlexGridSizer(1, 6, 5, 5);
+	IDC_TINYDIALOGS_CTRL = new wxRadioButton(parent, -1, "Tiny", 
+		wxDefaultPosition, wxDefaultSize, wxRB_GROUP);
+	IDC_SMALLDIALOGS_CTRL = new wxRadioButton(parent, -1, "Small");
+	IDC_MEDIUMDIALOGS_CTRL = new wxRadioButton(parent, -1, "Medium");
+	IDC_LARGEDIALOGS_CTRL = new wxRadioButton(parent, -1, "Large");
+	IDC_HUGEDIALOGS_CTRL = new wxRadioButton(parent, -1, "Huge");
+	displaySizer3->Add(new wxStaticText(parent, -1, "Dialog/Font Sizes :"));
+	displaySizer3->Add(IDC_TINYDIALOGS_CTRL);
+	displaySizer3->Add(IDC_SMALLDIALOGS_CTRL);
+	displaySizer3->Add(IDC_MEDIUMDIALOGS_CTRL);
+	displaySizer3->Add(IDC_LARGEDIALOGS_CTRL);
+	displaySizer3->Add(IDC_HUGEDIALOGS_CTRL);
+	displaySizer->Add(displaySizer3, 0, wxTOP | wxBOTTOM, 10);
 	sizer->Add(displaySizer, 0, wxGROW | wxLEFT | wxRIGHT | wxTOP, 5);
 
 	// Texture sizes (small med large)

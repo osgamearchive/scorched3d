@@ -133,6 +133,25 @@ void DisplayFrame::refreshScreen()
 
 	refreshResolutions();
 
+	switch (OptionsDisplay::instance()->getDialogSize())
+	{
+	case 0:
+		IDC_TINYDIALOGS_CTRL->SetValue(true);
+		break;
+	case 1:
+		IDC_SMALLDIALOGS_CTRL->SetValue(true);
+		break;
+	case 2:
+		IDC_MEDIUMDIALOGS_CTRL->SetValue(true);
+		break;
+	case 3:
+		IDC_LARGEDIALOGS_CTRL->SetValue(true);
+		break;
+	case 4:
+		IDC_HUGEDIALOGS_CTRL->SetValue(true);
+		break;
+	}
+
 	switch (OptionsDisplay::instance()->getTexSize())
 	{
 	case 0:
@@ -257,6 +276,13 @@ bool DisplayFrame::TransferDataFromWindow()
 		OptionsDisplay::instance()->setScreenWidth(windowWidth);
 		OptionsDisplay::instance()->setScreenHeight(windowHeight);
 	}
+
+	int dialogSize = 0;
+	if (IDC_SMALLDIALOGS_CTRL->GetValue()) dialogSize = 1;
+	if (IDC_MEDIUMDIALOGS_CTRL->GetValue()) dialogSize = 2;
+	if (IDC_LARGEDIALOGS_CTRL->GetValue()) dialogSize = 3;
+	if (IDC_HUGEDIALOGS_CTRL->GetValue()) dialogSize = 4;
+	OptionsDisplay::instance()->setDialogSize(dialogSize);
 
 	int texSize = 1;
 	if (IDC_SMALLTEX_CTRL->GetValue()) texSize = 0;
