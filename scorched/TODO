@@ -15,6 +15,7 @@ Fixed: The server can start multiple times on the same port (windows only)!
 Fixed: Plan view is cropped so it does not extend out of dialog
 Fixed: XML Parser does not add extra LFs (Fixes enabled landscapes becoming disabled)
 Fixed: Sky dome incorrectly positioned
+Fixed: Tank cannot move when burried
 
 Changed: Changed free market ecconmy so price decreases are slower
 Changed: Tank can move up and down bigger slopes (configurable)
@@ -68,7 +69,6 @@ Some kind of fire out the back of missiles
 Proper mag shield
 Guidance
 Add action replay type functionality
-Fix: Movement when burried
 
 -- Server Stuff
 Chat filter (swear words)

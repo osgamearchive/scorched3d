@@ -65,7 +65,8 @@ void MovementMap::addPoint(unsigned int x, unsigned int y,
 	float newHeight = hMap_.getHeight(
 		(int) x, (int) y);
 
-	float MaxTankClimbHeight = float(context.optionsGame->getMaxClimbingDistance()) / 10.0f;
+	float MaxTankClimbHeight = float(context.optionsGame->
+		getMaxClimbingDistance()) / 10.0f;
 	if (newHeight - height > MaxTankClimbHeight) return;
 	if (newHeight < 5.0f) return; // Water height
 
@@ -103,6 +104,20 @@ void MovementMap::addPoint(unsigned int x, unsigned int y,
 void MovementMap::calculateForTank(Tank *tank, ScorchedContext &context)
 {
 	clear();
+
+	// Check if the tank is buried and cannot move
+	float landscapeHeight = hMap_.getInterpHeight(
+		tank->getPhysics().getTankPosition()[0],
+		tank->getPhysics().getTankPosition()[1]);
+	float tankHeight = 
+		tank->getPhysics().getTankPosition()[2];
+	float MaxTankClimbHeight = float(context.optionsGame->
+		getMaxClimbingDistance()) / 10.0f;
+	if (landscapeHeight > tankHeight + MaxTankClimbHeight)
+	{
+		return;
+	}
+
 	unsigned int posX = (unsigned int) 
 		tank->getPhysics().getTankPosition()[0];
 	unsigned int posY = (unsigned int) 
