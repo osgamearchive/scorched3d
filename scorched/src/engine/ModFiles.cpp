@@ -118,8 +118,17 @@ bool ModFileEntry::loadModFile(const char *filename)
 {
 	NetBuffer fileContents;
 	{
+		// Do translation on ASCII files to prevent CVS
+		// from being a biatch
+		const char *fileMode = "rb";
+		if (strstr(filename, ".txt") != 0 ||
+			strstr(filename, ".xml") != 0)
+		{
+			fileMode = "ra";
+		}
+
 		// Load the file into a coms buffer
-		FILE *file = fopen(filename, "rb");
+		FILE *file = fopen(filename, fileMode);
 		if (!file) return false;
 		int newSize = 0;
 		unsigned char buffer[256];
