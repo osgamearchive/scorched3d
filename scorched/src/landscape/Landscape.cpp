@@ -273,9 +273,6 @@ void Landscape::generate(ProgressCounter *counter)
 		ScorchedClient::instance()->getLandscapeMaps().getHMap(), 
 		sun_.getPosition(), counter);
 
-	// Add objects to the landscape
-	objects_.generate(counter);
-
 	// Create the landscape texture used for the small plan window
 	gluScaleImage(
 		GL_RGB, 
@@ -289,6 +286,9 @@ void Landscape::generate(ProgressCounter *counter)
 
 	// Create the main landscape texture
 	DIALOG_ASSERT(texture_.replace(mainMap_, GL_RGB, false));
+
+	// Add objects to the landscape
+	objects_.generate(counter);
 
 	// Create the detail textures
 	DIALOG_ASSERT(detailTexture_.replace(bitmapDetail, GL_RGB, true));

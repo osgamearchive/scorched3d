@@ -22,6 +22,7 @@
 #define __INCLUDE_LandscapeObjectsh_INCLUDE__
 
 #include <common/ProgressCounter.h>
+#include <GLEXT/GLVertexSet.h>
 #include <GLEXT/GLOrderedItemRenderer.h>
 #include <list>
 
@@ -41,6 +42,7 @@ protected:
 	};
 
 	std::list<Entry*> entries_;
+	GLVertexSet *vertexSet_;
 
 };
 

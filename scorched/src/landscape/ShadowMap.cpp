@@ -25,6 +25,7 @@
 
 #include <math.h>
 #include <string.h>
+#include <GLEXT/GLStateExtension.h>
 #include <landscape/ShadowMap.h>
 #include <common/Defines.h>
 
@@ -65,6 +66,8 @@ void ShadowMap::setTexture()
 
 void ShadowMap::addSquare(float sx, float sy, float sw, float opacity)
 {
+	if (!GLStateExtension::glActiveTextureARB()) return;
+
 	const GLubyte minNum = 64;
 	int decrement = int(opacity * 125.0f);
 	float halfW = sw / 2.0f;
@@ -104,6 +107,8 @@ void ShadowMap::addSquare(float sx, float sy, float sw, float opacity)
 
 void ShadowMap::addCircle(float sx, float sy, float sw, float opacity)
 {
+	if (!GLStateExtension::glActiveTextureARB()) return;
+
 	const GLubyte minNum = 64;
 
 	int decrement = int(opacity * 125.0f);
