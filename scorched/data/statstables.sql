@@ -23,6 +23,7 @@ create table if not exists scorched3d_players (
         wins INTEGER NOT NULL DEFAULT 0,
         overallwinner INTEGER NOT NULL DEFAULT 0,
         resigns INTEGER NOT NULL DEFAULT 0,
+        gamesplayed INTEGER NOT NULL DEFAULT 0,
         timeplayed INTEGER NOT NULL DEFAULT 0,
         roundsplayed INTEGER NOT NULL DEFAULT 0,
         moneyearned INTEGER NOT NULL DEFAULT 0,

@@ -188,6 +188,19 @@ void StatsLoggerMySQL::gameStart(std::list<Tank *> &tanks)
 	runQuery("UPDATE scorched3d_main SET games = games + 1 WHERE name = \"%s\";",
 		ScorchedServer::instance()->getOptionsGame().
 		getServerName());
+
+	std::list<Tank *>::iterator itor;
+	for (itor = tanks.begin();
+		itor != tanks.end();
+		itor++)
+	{
+		Tank *tank = *itor;
+		if (!tank->getState().getSpectator())
+		{
+			runQuery("UPDATE scorched3d%s_players SET gamesplayed=gamesplayed+1 "
+				"WHERE playerid = %i;", prefix_.c_str(), playerId_[tank->getUniqueId()]);
+		}
+	}
 }
 
 void StatsLoggerMySQL::roundStart(std::list<Tank *> &tanks)
