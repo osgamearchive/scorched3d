@@ -41,7 +41,7 @@ public:
 	bool parseConfig(XMLNode *node);
 	void newGame();
 	void ourShotLanded(Weapon *weapon, Vector &position);
-	AimResult aimAtTank(Tank *tank);
+	AimResult aimAtTank(Tank *tank, float &distance, int &noShots);
 
 protected:
 	struct MadeShot
@@ -50,18 +50,33 @@ protected:
 		float angleYZDegs;
 		float power;
 		Vector finalpos;
-	} *lastShot_;
+	};
+	struct ShotListEntry
+	{
+		ShotListEntry() : 
+			shotCount(0)
+		{
+		}
+		int shotCount;
+		Vector lastShot;
+		std::list<MadeShot> shotList;
+	};
 
+	unsigned int lastShot_;
 	Tank *currentTank_;
 	float sniperDist_;
-	std::map<unsigned int, std::list<MadeShot> > madeShots_;
+	std::map<unsigned int, ShotListEntry> madeShots_;
 	std::string aimType_;
 	bool checkNearCollision_;
 
-	AimResult randomAim();
-	AimResult refinedAim(Tank *tank, bool refine);
+	AimResult randomAim(float &distance, int &noShots);
+	AimResult refinedAim(Tank *tank, bool refine, float &distance, int &noShots);
 	bool refineLastShot(Tank *tank, float &angleXYDegs, 
 		float &angleYZDegs, float &power);
+	bool oldRefineLastShot(Tank *tank, 
+		float &angleXYDegs, float &angleYZDegs, float &power);
+	bool newRefineLastShot(Tank *tank, 
+		float &angleXYDegs, float &angleYZDegs, float &power);
 };
 
 #endif // __INCLUDE_TankAIComputerAimh_INCLUDE__

@@ -156,7 +156,7 @@ void WeaponAimedUnder::fireWeapon(ScorchedContext &context,
 		{
 			// We have a tank to aim at
 			// Aim a shot towards it
-			TankLib::getShotTowardsPosition(
+			TankLib::getSniperShotTowardsPosition(
 				context,
 				position, 
 				shootAt->getPhysics().getTankPosition(), -1.0f, 

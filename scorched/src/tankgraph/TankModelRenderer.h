@@ -18,7 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #if !defined(__INCLUDE_DefaultTankRendererh_INCLUDE__)
 #define __INCLUDE_DefaultTankRendererh_INCLUDE__
 
@@ -95,6 +94,7 @@ protected:
 	void drawLife();
 	void drawShield();
 	void drawLifeBar(Vector &bilX, float value, float height, float barheight);
+	void drawSight();
 };
 
 

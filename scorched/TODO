@@ -11,7 +11,12 @@ Fixed: Key repeat for console macros bound to keys
 Fixed: wx 2.5 compilation errors (sizers still to fix)
 Fixed: Tank name is above ground when tank burried
 Fixed: Accessories.xml file format to remove duplication
+Fixed: Computer AIs becoming confused when shots hit off walls
+Fixed: Aming sight is correctly positioned for all tanks
 
+Added: Each computer AI can now have multiple different buying stratagies
+Added: New aiming algorithm for Cyborg computer AI (copes with wind and tank movement)
+Added: Computer AIs now choose weapons more appropraitely
 Added: Maximum number of weapons can be set on a per weapon basis
 Added: Starting number of weapons can be set on a per weapon basis
 Added: Start timer to server for joining players

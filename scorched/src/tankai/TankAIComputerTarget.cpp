@@ -154,7 +154,7 @@ Tank *TankAIComputerTarget::findShotAtTankToShootAt()
 }
 
 void TankAIComputerTarget::shotLanded(
-		ParticleAction action,
+		ScorchedCollisionType action,
 		ScorchedCollisionInfo *collision,
 		Weapon *weapon, unsigned int firer, 
 		Vector &position,

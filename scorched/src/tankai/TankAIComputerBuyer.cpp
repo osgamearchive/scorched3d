@@ -22,6 +22,7 @@
 #include <server/ScorchedServer.h>
 #include <tankai/TankAIComputerBuyer.h>
 #include <common/Defines.h>
+#include <common/Logger.h>
 #include <tank/Tank.h>
 #include <math.h>
 
@@ -65,11 +66,22 @@ bool TankAIComputerBuyer::parseConfig(AccessoryStore &store, XMLNode *node)
 		if (!weaponNode->getNamedChild("type", wtype)) return false;
 
 		if (!addAccessory(store, wname.c_str(),  wlevel)) return false;
+
+		if (0 != strcmp(wtype.c_str(), "dig") &&
+			0 != strcmp(wtype.c_str(), "explosionsmall") &&
+			0 != strcmp(wtype.c_str(), "explosionlarge") &&
+			0 != strcmp(wtype.c_str(), "defense"))
+		{
+			dialogExit("TankAIComputerBuyer",
+				"Unknown ai weapon type \"%s\"\n"
+				"Should be one of dig, defense, explosionsmall, explosionlarge", 
+				wtype.c_str());
+		}
 		buyTypes_.insert(
 			std::pair<std::string, std::string>(wtype, wname));
 	}
 
-	return true;
+	return node->failChildren();
 }
 
 void TankAIComputerBuyer::clearAccessories()
@@ -163,7 +175,7 @@ void TankAIComputerBuyer::buyAccessory()
 			}
 
 			// Check if the tank has each accessory
-			if (!currentTank_->getAccessories().getAccessoryCount(current))
+			if (currentTank_->getAccessories().getAccessoryCount(current) == 0)
 			{
 				// It does not have this one yet
 				buyList.push_back(current);
@@ -201,3 +213,43 @@ void TankAIComputerBuyer::buyAccessory()
 	}
 }
 
+void TankAIComputerBuyer::dumpAccessories()
+{
+	Logger::log(0, "-------------");
+	std::list<Entry>::iterator itor;
+	for (itor = buyEntries_.begin();
+		itor != buyEntries_.end();
+		itor++)
+	{
+		std::list<std::string>::iterator itor2;
+		for (itor2 = (*itor).buyAccessories.begin();
+			itor2 != (*itor).buyAccessories.end();
+			itor2++)
+		{
+			Logger::log(0, "%s", (*itor2).c_str());
+		}
+	}
+	Logger::log(0, "-------------");
+}
+
+std::vector<Accessory *> TankAIComputerBuyer::getWeaponType(const char *type)
+{
+	std::vector<Accessory *> result;
+	std::pair<std::multimap<std::string, std::string>::iterator,
+		std::multimap<std::string, std::string>::iterator> findItor = 
+		getTypes().equal_range(type);
+	std::multimap<std::string, std::string>::iterator itor;
+	for (itor = findItor.first;
+		itor != findItor.second;
+		itor++)
+	{
+		Accessory *accessory = ScorchedServer::instance()->
+			getAccessoryStore().findByPrimaryAccessoryName(
+				(*itor).second.c_str());
+		if (currentTank_->getAccessories().getAccessoryCount(accessory) != 0)
+		{
+			result.push_back(accessory);
+		}
+	}
+	return result;
+}

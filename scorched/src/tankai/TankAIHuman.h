@@ -38,7 +38,7 @@ public:
 	virtual void newGame();
 	virtual void reset();
 	virtual void tankHurt(Weapon *weapon, unsigned int firer);
-	virtual void shotLanded(ParticleAction action,
+	virtual void shotLanded(ScorchedCollisionType action,
 		ScorchedCollisionInfo *collision,
 		Weapon *weapon, unsigned int firer, 
 		Vector &position,

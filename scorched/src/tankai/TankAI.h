@@ -67,7 +67,7 @@ public:
 	// or who fired shots at them
 	virtual void tankHurt(Weapon *weapon, unsigned int firer) = 0;
 	virtual void shotLanded(
-		ParticleAction action,
+		ScorchedCollisionType action,
 		ScorchedCollisionInfo *collision,
 		Weapon *weapon, unsigned int firer, 
 		Vector &position,

@@ -23,6 +23,7 @@
 
 #include <weapons/AccessoryStore.h>
 #include <list>
+#include <vector>
 #include <map>
 
 class Tank;
@@ -38,8 +39,12 @@ public:
 	void buyAccessories(int maxNoBought);
 	void clearAccessories();
 
+	std::vector<Accessory *> getWeaponType(const char *type);
+
 	std::multimap<std::string, std::string> &getTypes() { return buyTypes_; }
 	void setTank(Tank *tank) { currentTank_ = tank; }
+
+	void dumpAccessories();
 
 protected:
 	struct Entry

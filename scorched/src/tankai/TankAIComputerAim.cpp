@@ -21,9 +21,13 @@
 #include <tankai/TankAIComputerAim.h>
 #include <server/ScorchedServer.h>
 #include <common/OptionsTransient.h>
+#include <common/Defines.h>
+#include <tank/TankContainer.h>
 #include <tank/TankLib.h>
+#include <math.h>
+#include <float.h>
 
-TankAIComputerAim::TankAIComputerAim()
+TankAIComputerAim::TankAIComputerAim() : lastShot_(0)
 {
 	newGame();
 }
@@ -45,12 +49,13 @@ bool TankAIComputerAim::parseConfig(XMLNode *node)
 {
 	if (!node->getNamedChild("aimsniper", sniperDist_)) return false;
 	if (!node->getNamedChild("aimtype", aimType_)) return false;
-	if (0 != strcmp(aimType_.c_str(), "refined") &&
+	if (0 != strcmp(aimType_.c_str(), "newrefined") &&
+		0 != strcmp(aimType_.c_str(), "refined") &&
 		0 != strcmp(aimType_.c_str(), "guess") &&
 		0 != strcmp(aimType_.c_str(), "random"))
 	{
 		return node->returnError("Unknown aimtype. "
-			"Should be one of refined, guess, random");
+			"Should be one of newrefined, refined, guess, random");
 	}
 	if (!node->getNamedChild("checknearcollision", checkNearCollision_)) return false;
 
@@ -61,9 +66,23 @@ void TankAIComputerAim::ourShotLanded(Weapon *weapon, Vector &position)
 {
 	// Called when the shot we have fired has landed
 	// Store the last position of this shot in the cache
-	if (lastShot_)
+	if (lastShot_ != 0)
 	{
-		lastShot_->finalpos = position;
+		// Find the tank the last shot has been made at
+		Tank *targetTank = ScorchedServer::instance()->
+			getTankContainer().getTankById(lastShot_);
+		if (targetTank)
+		{
+			// Find the list of shots for this tank
+			std::map<unsigned int, ShotListEntry>::iterator finditor = 
+				madeShots_.find(targetTank->getPlayerId());
+			DIALOG_ASSERT(finditor != madeShots_.end());
+
+			// Add this position
+			(*finditor).second.shotList.back().finalpos = position;
+			(*finditor).second.lastShot = position;
+		}
+
 		lastShot_ = 0;
 	}
 }
@@ -73,21 +92,23 @@ void TankAIComputerAim::setTank(Tank *tank)
 	currentTank_ = tank;
 }
 
-TankAIComputerAim::AimResult TankAIComputerAim::aimAtTank(Tank *tank)
+TankAIComputerAim::AimResult TankAIComputerAim::aimAtTank(
+	Tank *tank, float &distance, int &noShots)
 {
 	if (!tank) return AimFailed;
 
-	if (0 == strcmp(aimType_.c_str(), "refined"))
+	if (0 == strcmp(aimType_.c_str(), "refined") ||
+		0 == strcmp(aimType_.c_str(), "newrefined"))
 	{
-		return refinedAim(tank, true);
+		return refinedAim(tank, true, distance, noShots);
 	}
 	else if (0 == strcmp(aimType_.c_str(), "guess"))
 	{
-		return refinedAim(tank, false);
+		return refinedAim(tank, false, distance, noShots);
 	}
 	else if (0 == strcmp(aimType_.c_str(), "random"))
 	{
-		return randomAim();
+		return randomAim(distance, noShots);
 	}
 	else DIALOG_ASSERT(0);
 
@@ -97,12 +118,133 @@ TankAIComputerAim::AimResult TankAIComputerAim::aimAtTank(Tank *tank)
 bool TankAIComputerAim::refineLastShot(Tank *tank, 
 	float &angleXYDegs, float &angleYZDegs, float &power)
 {
-	// Find any previous shots made at this tank
-	std::map<unsigned int, std::list<MadeShot> >::iterator finditor = 
+	if (0 == strcmp(aimType_.c_str(), "newrefined"))
+	{
+		return newRefineLastShot(tank, angleXYDegs, angleYZDegs, power);
+	}
+	return oldRefineLastShot(tank, angleXYDegs, angleYZDegs, power);
+}
+
+bool TankAIComputerAim::newRefineLastShot(Tank *tank, 
+	float &angleXYDegs, float &angleYZDegs, float &power)
+{
+	// Hmm, this is actually a lot simpilier that I thought it would be
+	// should have tried this before
+	//
+	// Basicially the aiming is done seperately in 2d (for both the x 
+	// and y axis) and then combined at the end to make a truely 3d shot
+	float nearestDistanceX = FLT_MAX, nearestDistanceY = FLT_MAX;
+	MadeShot *nearestX = 0, *nearestY = 0;
+
+	// We can use the shot position gained from other tanks
+	// Find the closest x and closest y shot made so far
+	Vector tankPosition = tank->getPhysics().getTankPosition();
+	std::map<unsigned int, ShotListEntry>::iterator outeritor;
+	for (outeritor = madeShots_.begin();
+		outeritor != madeShots_.end();
+		outeritor++)
+	{
+		std::list<MadeShot>::iterator inneritor;
+		for (inneritor = (*outeritor).second.shotList.begin();
+			inneritor != (*outeritor).second.shotList.end();
+			inneritor++)
+		{
+			MadeShot &shot = *inneritor;
+
+			float distanceX = fabsf(shot.finalpos[0] - tankPosition[0]);
+			if (distanceX < nearestDistanceX)
+			{
+				// Find a close enough shot or
+				// the last shot we made at this player
+				if (distanceX < 15.0f ||
+					(*outeritor).first == tank->getPlayerId())
+				{
+					nearestX = &shot;
+					nearestDistanceX = distanceX;
+				}
+			}
+			float distanceY = fabsf(shot.finalpos[1] - tankPosition[1]);
+			if (distanceY < nearestDistanceY)
+			{
+				if (distanceY < 15.0f ||
+					(*outeritor).first == tank->getPlayerId())
+				{
+					nearestY = &shot;
+					nearestDistanceY = distanceY;
+				}
+			}
+		}
+	}
+
+	// Check if we have enough info to refine the shot
+	if (!nearestX || !nearestY) return false;
+
+	// Figure out the best old velocity we have
+	Vector oldVelocityX = TankLib::getVelocityVector(
+		nearestX->angleXYDegs, nearestX->angleYZDegs) *
+		nearestX->power;
+	Vector oldVelocityY = TankLib::getVelocityVector(
+		nearestY->angleXYDegs, nearestY->angleYZDegs) *
+		nearestY->power;
+	Vector oldVelocity(
+		oldVelocityX[0], oldVelocityY[1], oldVelocityX[0]);
+
+	// Figure out the new best angle
+	Vector newVelocity = oldVelocity;
+	newVelocity[0] -= (nearestX->finalpos[0] - tankPosition[0]) * 0.1f;
+	newVelocity[1] -= (nearestY->finalpos[1] - tankPosition[1]) * 0.1f;
+
+	float angleXYRads = atan2f(newVelocity[1], newVelocity[0]);
+	angleXYDegs = (angleXYRads / 3.14f) * 180.0f - 90.0f;
+	angleYZDegs = 45.0f;
+
+	// And the new best power
+	Vector resultingVelocity = TankLib::getVelocityVector(
+		angleXYDegs, angleYZDegs);
+	float resultingDistance = 
+		sqrtf(resultingVelocity[0] * resultingVelocity[0] +
+		resultingVelocity[1] * resultingVelocity[1]);
+	float wantedDistance = 
+		sqrtf(newVelocity[0] * newVelocity[0] +
+		newVelocity[1] * newVelocity[1]);
+	power = wantedDistance / resultingDistance;
+
+	// Remove the nearest shots so we don't get out of date info
+	// when the ground has moved 
+	// Only remove for this tank as it should only be a problem
+	// very close to the target
+	std::map<unsigned int, ShotListEntry>::iterator finditor = 
 		madeShots_.find(tank->getPlayerId());
 	if (finditor != madeShots_.end())
 	{
-		std::list<MadeShot> &shotList = (*finditor).second;
+		std::list<MadeShot> shots;
+		std::list<MadeShot>::iterator inneritor;
+		for (inneritor = (*finditor).second.shotList.begin();
+			inneritor != (*finditor).second.shotList.end();
+			inneritor++)
+		{
+			MadeShot &shot = *inneritor;
+			if (&shot != nearestX &&
+				&shot != nearestY)
+			{
+				shots.push_back(shot);
+			}
+		}
+		(*finditor).second.shotList = shots;
+	}
+
+	return true;
+}
+
+bool TankAIComputerAim::oldRefineLastShot(Tank *tank, 
+	float &angleXYDegs, float &angleYZDegs, float &power)
+{
+	// Find any previous shots made at this tank
+	std::map<unsigned int, ShotListEntry>::iterator finditor = 
+		madeShots_.find(tank->getPlayerId());
+	if (finditor != madeShots_.end())
+	{
+		std::list<MadeShot> &shotList = (*finditor).second.shotList;
 
 		if (shotList.empty())
 		{
@@ -219,6 +361,7 @@ bool TankAIComputerAim::refineLastShot(Tank *tank,
 			// We have only a shot that was too short
 			// Make a guess on how much more power to use
 			power = closestLessPower * (distToTank / closestLessDistToTank);
+			//power = (closestLessDistToTank + power) / 2.0f;
 			angleXYDegs = closestLessXY;
 			angleYZDegs = closestLessYZ;
 		}
@@ -227,6 +370,7 @@ bool TankAIComputerAim::refineLastShot(Tank *tank,
 			// We have only a shot that was too long
 			// Make a guess on how much less power to use
 			power = closestMorePower * (distToTank / closestMoreDistToTank);
+			//power = (power) / 2.0f;
 			angleXYDegs = closestMoreXY;
 			angleYZDegs = closestMoreYZ;
 		}
@@ -241,81 +385,109 @@ bool TankAIComputerAim::refineLastShot(Tank *tank,
 	return false;
 }
 
-TankAIComputerAim::AimResult TankAIComputerAim::refinedAim(Tank *targetTank, bool refine)
+TankAIComputerAim::AimResult TankAIComputerAim::refinedAim(
+	Tank *targetTank, bool refine, float &distance, int &noShots)
 {
 	// Find the angle + power etc.. to use
 	float angleXYDegs = 0.0f; 
 	float angleYZDegs = 0.0f;
 	float power = 0.0f;
 
-	// Try to refine an already made shot
-	// This happens if we have already made a shot at this target then
-	// try to make the next shot even better
-	if (!refineLastShot(targetTank, angleXYDegs, angleYZDegs, power))
+	// Find closest shot and number of shots made at this target
+	// do this before we add the new shot as we don't know where
+	// it landed it yet.
+	noShots = 0;
+	distance = 512.0f;
+	std::map<unsigned int, ShotListEntry>::iterator finditor = 
+		madeShots_.find(targetTank->getPlayerId());
+	if (finditor != madeShots_.end())
 	{
-		// Else make a new shot up
-		// Makes a randow powered shot towards the target
-		TankLib::getShotTowardsPosition(
-			ScorchedServer::instance()->getContext(),
-			currentTank_->getPhysics().getTankPosition(), 
-			targetTank->getPhysics().getTankPosition(), sniperDist_, 
-			angleXYDegs, angleYZDegs, power,
-			checkNearCollision_);
+		noShots = (*finditor).second.shotCount;
+		distance = (targetTank->getPhysics().getTankPosition()-
+			(*finditor).second.lastShot).Magnitude();
 	}
 
-	// Set the parameters
-	// Sets the angle of the gun and the power
-	currentTank_->getPhysics().rotateGunXY(angleXYDegs, false);
-	currentTank_->getPhysics().rotateGunYZ(angleYZDegs, false);
-	currentTank_->getPhysics().changePower(power, false);
-
-	// Check we will not kill ourselves
-	if (checkNearCollision_)
+	// Check if we can make a sniper shot to the target
+	// If not then try an ordinary shot
+	if (!TankLib::getSniperShotTowardsPosition(
+		ScorchedServer::instance()->getContext(),
+		currentTank_->getPhysics().getTankPosition(), 
+		targetTank->getPhysics().getTankPosition(), sniperDist_, 
+		angleXYDegs, angleYZDegs, power,
+		checkNearCollision_))
 	{
-		// Check we don't collide with ground within a near distance
-		float distance = (currentTank_->getPhysics().getTankPosition() - 
-			targetTank->getPhysics().getTankPosition()).Magnitude();
-		int allowedIntersectDist = int(distance / 2.0f);
-		while (TankLib::intersection(
-			ScorchedServer::instance()->getContext(), 
-			currentTank_->getPhysics().getTankGunPosition(), 
-			angleXYDegs, angleYZDegs, allowedIntersectDist))
+		// Try to refine an already made shot
+		// This happens if we have already made a shot at this target then
+		// try to make the next shot even better
+		if (!refine ||
+			!refineLastShot(targetTank, angleXYDegs, angleYZDegs, power))
 		{
-			angleYZDegs += 10.0f;
-			power *= 1.1f; if (power > 1000.0f) power = 1000.0f;
-			if (angleYZDegs > 90.0f) return AimBurried;
+			// Else make a new shot up
+			// Makes a randow powered shot towards the target
+			TankLib::getShotTowardsPosition(
+				ScorchedServer::instance()->getContext(),
+				currentTank_->getPhysics().getTankPosition(), 
+				targetTank->getPhysics().getTankPosition(), 
+				angleXYDegs, angleYZDegs, power);
 		}
-	}
 
-	// Set the parameters
-	// Sets the angle of the gun and the power
-	currentTank_->getPhysics().rotateGunXY(angleXYDegs, false);
-	currentTank_->getPhysics().rotateGunYZ(angleYZDegs, false);
-	currentTank_->getPhysics().changePower(power, false);
+		// Set the parameters
+		// Sets the angle of the gun and the power
+		currentTank_->getPhysics().rotateGunXY(angleXYDegs, false);
+		currentTank_->getPhysics().rotateGunYZ(angleYZDegs, false);
+		currentTank_->getPhysics().changePower(power, false);
 
-	// Only save the shot if this ai refines
-	if (refine)
-	{
+		// Check we will not kill ourselves
+		if (checkNearCollision_)
+		{
+			// Check we don't collide with ground within a near distance
+			float distance = (currentTank_->getPhysics().getTankPosition() - 
+				targetTank->getPhysics().getTankPosition()).Magnitude();
+			int allowedIntersectDist = int(distance / 2.0f);
+			while (TankLib::intersection(
+				ScorchedServer::instance()->getContext(), 
+				currentTank_->getPhysics().getTankGunPosition(), 
+				angleXYDegs, angleYZDegs, power, allowedIntersectDist))
+			{
+				angleYZDegs += 5.0f;
+				power *= 1.1f; if (power > 1000.0f) power = 1000.0f;
+				if (angleYZDegs > 90.0f) return AimBurried;
+			}
+		}
+
 		// Save the shot made in the list of shots
 		// Cache all shots made at the targets
 		// This will be used later to make a more educated shot next time
+		// Only used if refined shots are being made
 		MadeShot newMadeShot;
 		newMadeShot.angleXYDegs = angleXYDegs;
 		newMadeShot.angleYZDegs = angleYZDegs;
 		newMadeShot.power = power;
-		madeShots_[targetTank->getPlayerId()].push_back(newMadeShot);
-		lastShot_ = &madeShots_[targetTank->getPlayerId()].back();
+		madeShots_[targetTank->getPlayerId()].shotList.push_back(newMadeShot);
+		madeShots_[targetTank->getPlayerId()].shotCount++;
+		lastShot_ = targetTank->getPlayerId();
 	}
+
+	// Set the parameters
+	// Sets the angle of the gun and the power
+	currentTank_->getPhysics().rotateGunXY(angleXYDegs, false);
+	currentTank_->getPhysics().rotateGunYZ(angleYZDegs, false);
+	currentTank_->getPhysics().changePower(power, false);
 
 	return AimOk;
 }
 
-TankAIComputerAim::AimResult TankAIComputerAim::randomAim()
+TankAIComputerAim::AimResult TankAIComputerAim::randomAim(
+	float &distance, int &noShots)
 {
 	// Find the angle + power etc.. to use
 	float angleXYDegs = RAND * 360.0f;
 	float angleYZDegs = RAND * 70.0f + 10.0f;
 	float power = RAND * 900.0f + 100.0f;
+
+	// No idea
+	noShots = int(RAND * 10.0f);
+	distance = RAND * 100.0f;
 
 	// Set the parameters
 	// Sets the angle of the gun and the power

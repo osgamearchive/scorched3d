@@ -169,7 +169,7 @@ void WeaponAimedOver::fireWeapon(ScorchedContext &context,
 			TankLib::getShotTowardsPosition(
 				context,
 				position, 
-				shootAt->getPhysics().getTankPosition(), 20.0f, 
+				shootAt->getPhysics().getTankPosition(), 
 				angleXYDegs, angleYZDegs, power);
 
 			angleXYDegs += (RAND * maxInacuracy_) - 

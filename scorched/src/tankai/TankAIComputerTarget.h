@@ -33,7 +33,7 @@ public:
 	bool parseConfig(XMLNode *node);
 	void setTank(Tank *tank);
 	void shotLanded(
-		ParticleAction action,
+		ScorchedCollisionType action,
 		ScorchedCollisionInfo *collision,
 		Weapon *weapon, unsigned int firer, 
 		Vector &position,

@@ -23,6 +23,7 @@
 #include <landscape/Landscape.h>
 #include <landscape/LandscapeMaps.h>
 #include <landscape/Hemisphere.h>
+#include <tank/TankLib.h>
 #include <actions/TankFalling.h>
 #include <client/MainCamera.h>
 #include <client/ScorchedClient.h>
@@ -115,11 +116,29 @@ void TankModelRenderer::draw(bool currentTank)
 		tank_->getPhysics().getRotationGunXY(), 
 		tank_->getPhysics().getRotationGunYZ(),
 		false, modelSize);
+
+	// Draw the tank sight
+	if (currentTank) drawSight();
 }
 
 void TankModelRenderer::drawSecond(bool currentTank)
 {
 	if (!canSeeTank_) return;
+
+	// Draw the approximate aiming path
+	/*{
+		GLState newState(GLState::TEXTURE_OFF);
+		glColor3f(1.0f, 0.0f, 0.0f);
+		glBegin(GL_LINES);
+		TankLib::intersection(ScorchedClient::instance()->getContext(), 
+			tank_->getPhysics().getTankGunPosition(), 
+			tank_->getPhysics().getRotationGunXY(),
+			tank_->getPhysics().getRotationGunYZ(),
+			tank_->getPhysics().getPower(),
+			255, 
+			true);
+		glEnd();
+	}*/
 
 	// Draw the life bars and arrow
 	drawLife();
@@ -190,6 +209,54 @@ void TankModelRenderer::drawSecond(bool currentTank)
 			drawParachute();
 		}
 	}
+}
+
+void TankModelRenderer::drawSight()
+{
+	static GLuint sightList_ = 0;
+	if (!sightList_)
+	{
+		glNewList(sightList_ = glGenLists(1), GL_COMPILE);
+			glBegin(GL_QUAD_STRIP);
+				float x;
+				for (x=135.0f; x>=90.0f; x-=9.0f)
+				{
+					const float deg = 3.14f / 180.0f;
+					float dx = x * deg;
+					float color = 1.0f - fabsf(90.0f - x) / 45.0f;
+
+					glColor3f(1.0f * color, 0.5f * color, 0.5f * color);
+					glVertex3f(+0.03f * color, 2.0f * sinf(dx), 2.0f * cosf(dx));
+					glVertex3f(+0.03f * color, 10.0f * sinf(dx), 10.0f * cosf(dx));
+				}
+				for (x=90.0f; x<135.0f; x+=9.0f)
+				{
+					const float deg = 3.14f / 180.0f;
+					float dx = x * deg;
+					float color = 1.0f - fabsf(90.0f - x) / 45.0f;
+
+					glColor3f(1.0f * color, 0.5f * color, 0.5f * color);
+					glVertex3f(-0.03f * color, 2.0f * sinf(dx), 2.0f * cosf(dx));
+					glVertex3f(-0.03f * color, 10.0f * sinf(dx), 10.0f * cosf(dx));
+				}
+			glEnd();
+		glEndList();
+	}
+
+	GLState currentState(GLState::BLEND_OFF | GLState::TEXTURE_OFF);
+	glPushMatrix();
+		glTranslatef(
+			tank_->getPhysics().getTankGunPosition()[0],
+			tank_->getPhysics().getTankGunPosition()[1],
+			tank_->getPhysics().getTankGunPosition()[2]);
+
+		glRotatef(tank_->getPhysics().getRotationGunXY(), 
+			0.0f, 0.0f, 1.0f);
+		glRotatef(tank_->getPhysics().getRotationGunYZ(), 
+			1.0f, 0.0f, 0.0f);
+
+		glCallList(sightList_);
+	glPopMatrix();
 }
 
 void TankModelRenderer::drawShield()

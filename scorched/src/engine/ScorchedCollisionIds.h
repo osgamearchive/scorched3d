@@ -21,12 +21,12 @@
 #if !defined(__INCLUDE_ScorchedCollisionIdsh_INCLUDE__)
 #define __INCLUDE_ScorchedCollisionIdsh_INCLUDE__
 
-enum ParticleAction
+enum ScorchedCollisionType
 {
-	ParticleActionBounce,
-	ParticleActionFinished,
-	ParticalActionWarp,
-	ParticleActionNone
+	CollisionNone = 0,
+	CollisionFinished = 1,
+	CollisionWall = 2,
+	CollisionShield = 3
 };
 
 enum ScorchedCollisionId

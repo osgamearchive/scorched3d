@@ -29,7 +29,8 @@ class Tank;
 namespace TankLib
 {
 	bool intersection(ScorchedContext &context,
-		Vector position, float xy, float yz, int dist);
+		Vector position, float xy, float yz, float power,
+		int dist, bool drawDots = false);
 	float getDistanceToTank(Vector &position, Tank *targetTank);
 	void getTanksSortedByDistance(
 		ScorchedContext &context,
@@ -37,11 +38,14 @@ namespace TankLib
 		std::list<std::pair<float, Tank *> > &result,
 		unsigned int teams,
 		float maxDistance = -1);
-	void getShotTowardsPosition(
-		ScorchedContext &context,
+	bool getSniperShotTowardsPosition(ScorchedContext &context,
 		Vector &position, Vector &shootAt, float distForSniper, 
 		float &angleXYDegs, float &angleYZDegs, float &power,
 		bool checkIntersection = false);
+	void getShotTowardsPosition(
+		ScorchedContext &context,
+		Vector &position, Vector &shootAt, 
+		float &angleXYDegs, float &angleYZDegs, float &power);
 	Vector &getVelocityVector(float xy, float yz);
 	Vector &getGunPosition(float xy, float yz);
 };

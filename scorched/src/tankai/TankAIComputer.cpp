@@ -29,13 +29,15 @@
 #include <engine/ScorchedContext.h>
 #include <engine/ActionController.h>
 #include <coms/ComsMessageSender.h>
+#include <stdlib.h>
 
 TankAIComputer::TankAIComputer() : 
 	primaryShot_(true), 
 	availableForRandom_(true),
 	useShields_(true),
 	useParachutes_(true),
-	useBatteries_(true)
+	useBatteries_(true),
+	tankBuyer_(0)
 {
 }
 
@@ -45,7 +47,13 @@ TankAIComputer::~TankAIComputer()
 
 void TankAIComputer::setTank(Tank *tank)
 {
-	tankBuyer_.setTank(tank);
+	std::vector<TankAIComputerBuyer>::iterator itor;
+	for (itor = tankBuyers_.begin();
+		itor != tankBuyers_.end();
+		itor++)
+	{
+		(*itor).setTank(tank);
+	}
 	tankTarget_.setTank(tank);
 	tankAim_.setTank(tank);
 	TankAI::setTank(tank);
@@ -82,16 +90,35 @@ bool TankAIComputer::parseConfig(AccessoryStore &store, XMLNode *node)
 	if (!tankAim_.parseConfig(node)) return false;
 
 	// Weapons
-	if (!tankBuyer_.parseConfig(store, node)) return false;
+	XMLNode *weaponsNode = 0;
+	while (node->getNamedChild("weaponset", weaponsNode, false))
+	{
+		TankAIComputerBuyer buyer;
+		tankBuyers_.push_back(buyer);
+		if (!tankBuyers_.back().parseConfig(store, weaponsNode)) return false;
+	}
+	if (tankBuyers_.empty())
+	{
+		dialogExit("TankAIComputer",
+			"Must have at least one weapons set defined for an ai.\n"
+			"(Even if it is empty)");
+	}
 
 	// Targeting
 	if (!tankTarget_.parseConfig(node)) return false;
 
-	return true;
+	return node->failChildren();
 }
 
 void TankAIComputer::reset()
 {
+	if (!tankBuyers_.empty())
+	{
+		tankBuyer_ = &tankBuyers_[rand() % tankBuyers_.size()];
+	}
+	else DIALOG_ASSERT(0);
+	tankBuyer_->dumpAccessories();
+
 	tankTarget_.reset();
 }
 
@@ -110,7 +137,7 @@ void TankAIComputer::tankHurt(Weapon *weapon, unsigned int firer)
 	}
 }
 
-void TankAIComputer::shotLanded(ParticleAction action,
+void TankAIComputer::shotLanded(ScorchedCollisionType action,
 								ScorchedCollisionInfo *collision,
 								Weapon *weapon, unsigned int firer, 
 								Vector &position,
@@ -120,7 +147,16 @@ void TankAIComputer::shotLanded(ParticleAction action,
 		position, landedCounter);
 	if (primaryShot_ && firer == currentTank_->getPlayerId())
 	{
-		tankAim_.ourShotLanded(weapon, position);
+		Vector newPosition = position;
+		if (action == CollisionWall)
+		{
+			// Pretend the shot went through the wall so 
+			// the ai gets the length it would have travelled and thus
+			// knows to back of the power
+			newPosition =  (position - currentTank_->getPhysics().getTankPosition()) / 4.0f + position;
+		}
+		
+		tankAim_.ourShotLanded(weapon, newPosition);
 		primaryShot_ = false;
 	}
 }
@@ -132,7 +168,7 @@ void TankAIComputer::autoDefense()
 
 void TankAIComputer::buyAccessories()
 {
-	tankBuyer_.buyAccessories(10);
+	tankBuyer_->buyAccessories(10);
 
 	ComsPlayedMoveMessage *message = 
 		new ComsPlayedMoveMessage(currentTank_->getPlayerId(), ComsPlayedMoveMessage::eFinishedBuy);
@@ -193,27 +229,6 @@ void TankAIComputer::playMove(const unsigned state, float frameTime,
 									char *buffer, unsigned int keyState)
 {
 	// Play move is called when the computer opponent must make there move
-	// Chooses a random explosive weapon
-	std::pair<std::multimap<std::string, std::string>::iterator,
-		std::multimap<std::string, std::string>::iterator> findItor = 
-		tankBuyer_.getTypes().equal_range("explosion");
-	std::multimap<std::string, std::string>::iterator itor;
-	std::vector<std::string> useful;
-	for (itor = findItor.first;
-		itor != findItor.second;
-		itor++)
-	{
-		useful.push_back((*itor).second);
-	}
-
-	if (!useful.empty())
-	{
-		int weaponIndex = int(RAND * (float)(useful.size()));
-		Accessory *current = ScorchedServer::instance()->
-			getAccessoryStore().findByPrimaryAccessoryName(
-				useful[weaponIndex].c_str());
-		currentTank_->getAccessories().getWeapons().setWeapon(current);
-	}
 
 	// Make sure defenses are raised (if we don't have an autodefense)
 	raiseDefenses();
@@ -237,13 +252,28 @@ void TankAIComputer::playMove(const unsigned state, float frameTime,
 	Tank *target = tankTarget_.findTankToShootAt();
 	if (target)
 	{
+		int noShots;
+		float distance;
 		TankAIComputerAim::AimResult 
-			aimResult = tankAim_.aimAtTank(target);
+			aimResult = tankAim_.aimAtTank(target, distance, noShots);
 
 		if (aimResult == TankAIComputerAim::AimOk)
 		{
-			if (currentTank_->getAccessories().getWeapons().getCurrent())
+			std::vector<Accessory *> weapons;
+			if (distance < 15.0f && noShots > 1)
 			{
+				weapons = tankBuyer_->getWeaponType("explosionlarge");
+			}
+			if (weapons.empty())
+			{
+				weapons = tankBuyer_->getWeaponType("explosionsmall");
+			}
+
+			if (!weapons.empty())
+			{
+				int pos = rand() % weapons.size();
+				Accessory *accessory = weapons[pos];
+				currentTank_->getAccessories().getWeapons().setWeapon(accessory);
 				fireShot();
 				return;
 			}
@@ -255,24 +285,15 @@ void TankAIComputer::playMove(const unsigned state, float frameTime,
 		}
 		else if (aimResult == TankAIComputerAim::AimBurried)
 		{
-			std::multimap<std::string, std::string>::iterator findItor = 
-				tankBuyer_.getTypes().find("dig");
-			if (findItor != tankBuyer_.getTypes().end())
+			std::vector<Accessory *> digs = 
+				tankBuyer_->getWeaponType("dig");
+			if (!digs.empty())
 			{
-				Accessory *current = ScorchedServer::instance()->
-					getAccessoryStore().findByPrimaryAccessoryName(
-						(*findItor).second.c_str());
-				if (current)
-				{
-					if (currentTank_->getAccessories().getWeapons().
-						getWeaponCount(current) != 0)
-					{
-						currentTank_->getAccessories().getWeapons().
-							setWeapon(current);
-						fireShot();
-						return;
-					}
-				}
+				int pos = rand() % digs.size();
+				Accessory *accessory = digs[pos];
+				currentTank_->getAccessories().getWeapons().setWeapon(accessory);
+				fireShot();
+				return;
 			}
 		}
 	}

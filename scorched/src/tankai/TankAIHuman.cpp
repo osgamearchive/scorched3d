@@ -57,7 +57,7 @@ void TankAIHuman::tankHurt(Weapon *weapon, unsigned int firer)
 {
 }
 
-void TankAIHuman::shotLanded(ParticleAction action,
+void TankAIHuman::shotLanded(ScorchedCollisionType action,
 							 ScorchedCollisionInfo *collision,
 							 Weapon *weapon, unsigned int firer, 
 							 Vector &position,

@@ -193,6 +193,7 @@ void ScorchedCollisionHandler::groundCollision(dGeomID o1, dGeomID o2,
 void ScorchedCollisionHandler::shotCollision(dGeomID o1, dGeomID o2, 
 		dContactGeom *contacts, int noContacts)
 {
+	ScorchedCollisionType collisionType = CollisionNone;
 	const dReal *particlePosition = dGeomGetPosition(o1);
 	ScorchedCollisionInfo *particleInfo = 
 		(ScorchedCollisionInfo *) dGeomGetData(o1);
@@ -235,6 +236,10 @@ void ScorchedCollisionHandler::shotCollision(dGeomID o1, dGeomID o2,
 					Shield::ShieldSizeLarge:Shield::ShieldSizeSmall),
 					shot,
 					1.0f);
+				if (action != ParticleActionNone)
+				{
+					collisionType = CollisionShield;
+				}
 			}
 			else
 			{
@@ -255,6 +260,7 @@ void ScorchedCollisionHandler::shotCollision(dGeomID o1, dGeomID o2,
 					tank->getState().getSpectator() == false)
 				{
 					action = ParticleActionFinished;
+					collisionType = CollisionFinished;
 				}
 			}
 			else
@@ -274,6 +280,7 @@ void ScorchedCollisionHandler::shotCollision(dGeomID o1, dGeomID o2,
 
 			context_->actionController->addAction(
 				new WallHit(particlePositionV, wallSide));
+			collisionType = CollisionWall;
 
 			// Choose what to do depending on the wall
 			switch(context_->optionsTransient->getWallType())
@@ -318,6 +325,7 @@ void ScorchedCollisionHandler::shotCollision(dGeomID o1, dGeomID o2,
 	case CollisionIdRoof:
 		// A shot collides with the landscape
 		action = ParticleActionFinished;
+		collisionType = CollisionFinished;
 		break;
 	default:
 		action = ParticleActionNone;
@@ -325,7 +333,7 @@ void ScorchedCollisionHandler::shotCollision(dGeomID o1, dGeomID o2,
 	};
 
 	// Tell all TankAIs about this collision (if any)
-	if (action != ParticleActionNone)
+	if (collisionType != CollisionNone)
 	{
 		std::map<unsigned int, Tank *> &tanks = 
 			context_->tankContainer->getPlayingTanks();
@@ -341,7 +349,7 @@ void ScorchedCollisionHandler::shotCollision(dGeomID o1, dGeomID o2,
 				if (tank->getState().getState() == TankState::sNormal &&
 					tank->getState().getSpectator() == false)
 				{
-					ai->shotLanded(action, otherInfo, 
+					ai->shotLanded(collisionType, otherInfo, 
 						shot->getWeapon(), shot->getPlayerId(), 
 						shot->getCurrentPosition(),
 						shot->getLandedCounter());
@@ -365,7 +373,7 @@ void ScorchedCollisionHandler::shotCollision(dGeomID o1, dGeomID o2,
 	}
 }
 
-ParticleAction ScorchedCollisionHandler::collisionShield(
+ScorchedCollisionHandler::ParticleAction ScorchedCollisionHandler::collisionShield(
 	unsigned int id,
 	Vector &collisionPos,
 	Shield::ShieldSize size,

@@ -39,7 +39,7 @@ public:
 	virtual void newGame();
 	virtual bool parseConfig(AccessoryStore &store, XMLNode *node);
 	virtual void tankHurt(Weapon *weapon, unsigned int firer);
-	virtual void shotLanded(ParticleAction action,
+	virtual void shotLanded(ScorchedCollisionType action,
 		ScorchedCollisionInfo *collision,
 		Weapon *weapon, unsigned int firer, 
 		Vector &position,
@@ -77,8 +77,9 @@ TANKAI_DEFINE(TankAIComputer);
 
 protected:
 	TankAIComputerTarget tankTarget_;
-	TankAIComputerBuyer tankBuyer_;
 	TankAIComputerAim tankAim_;
+	TankAIComputerBuyer *tankBuyer_;
+	std::vector<TankAIComputerBuyer> tankBuyers_;
 	bool primaryShot_;
 	bool availableForRandom_;
 	bool useParachutes_;

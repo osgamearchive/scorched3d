@@ -23,6 +23,7 @@
 #include <common/OptionsTransient.h>
 #include <common/Defines.h>
 #include <landscape/LandscapeMaps.h>
+#include <GLEXT/GLState.h>
 #include <math.h>
 
 float TankLib::getDistanceToTank(Vector &position, Tank *targetTank)
@@ -76,26 +77,28 @@ void TankLib::getTanksSortedByDistance(ScorchedContext &context,
 }
 
 bool TankLib::intersection(ScorchedContext &context,
-	Vector position, float xy, float yz, int dist)
+	Vector position, float xy, float yz, float power, 
+	int dist, bool drawDots)
 {
-	position[2] += 0.5f;
-	Vector velocity = getVelocityVector(xy, yz);
-	velocity.StoreNormalize();
+	Vector startPosition = position;
+	Vector velocity = getVelocityVector(xy, yz) * power / 250.0f;
 
-	for (int i=0; i<dist; i++)
+	do
 	{
 		if (position[2] < context.landscapeMaps->getHMap().getInterpHeight(
 			position[0], position[1]))
 		{
 			return true;
 		}
+		if (drawDots) glVertex3fv(position);
 		position += velocity;
-	}
+		velocity += Vector(0.0f, 0.0f, -0.00015f);
+	} while ((position - startPosition).Magnitude() < dist);
 
     return false;
 }
 
-void TankLib::getShotTowardsPosition(ScorchedContext &context,
+bool TankLib::getSniperShotTowardsPosition(ScorchedContext &context,
 	Vector &position, Vector &shootAt, float distForSniper, 
 	float &angleXYDegs, float &angleYZDegs, float &power,
 	bool checkIntersection)
@@ -112,71 +115,81 @@ void TankLib::getShotTowardsPosition(ScorchedContext &context,
 	// will use a direct shot on full power
 	bool useSniper = ((distance2D < distForSniper) && (shootAt[2] >= position[2])) ||
 		(distForSniper == -1.0f);
-	if (useSniper)
-	{
-		power = 1000.0f;
-		float angleYZRads = atan2f(distance2D, direction[2]);
-		angleYZDegs = 90.0f - ((angleYZRads / 3.14f) * 180.0f);
+	if (!useSniper) return false;
 
-		// If we check intersection
-		if (checkIntersection)
+	power = 1000.0f;
+	float angleYZRads = atan2f(distance2D, direction[2]);
+	angleYZDegs = 90.0f - ((angleYZRads / 3.14f) * 180.0f);
+
+	// If we check intersection
+	if (checkIntersection)
+	{
+		// Ensure that the sniper shot wont collide with the ground
+		// nearer than 80% dist to target away
+		int allowedIntersectDist = int(distance2D * 0.8f);
+		if (intersection(context, position + Vector(0.0f, 0.0f, 0.5f), 
+			angleXYDegs, angleYZDegs, power, allowedIntersectDist))
 		{
-			// Ensure that the sniper shot wont collide with the ground
-			// neared than 80% dist to target away
-			int allowedIntersectDist = int(distance2D * 0.8f);
-			if (intersection(context, position, 
-				angleXYDegs, angleYZDegs, allowedIntersectDist))
+			return false;
+		}
+	}
+
+	return true;
+}
+
+void TankLib::getShotTowardsPosition(ScorchedContext &context,
+	Vector &position, Vector &shootAt,
+	float &angleXYDegs, float &angleYZDegs, float &power)
+{
+	// Calculate direction
+	Vector direction = shootAt - position;
+	float angleXYRads = atan2f(direction[1], direction[0]);
+	angleXYDegs = (angleXYRads / 3.14f) * 180.0f - 90.0f;
+	float distance2D = sqrtf(direction[0] * direction[0] + 
+		direction[1] * direction[1]);
+
+	// Calculate power (very roughly)
+	power = 1000.0f;
+	if (distance2D < 200.0f)
+	{
+		power = 750;
+		if (distance2D < 100.0f)
+		{
+			power = 550;
+			if (distance2D < 50.0f)
 			{
-				useSniper = false;
+				power = 350;
 			}
 		}
 	}
 
-	if (!useSniper)
+	// Add some randomness to the power
+	power += (RAND * 200.0f) - 100.0f;
+	if (power < 100) power = 100;
+
+	if (context.optionsTransient->getWindOn())
 	{
-		// Calculate power (very roughly)
-		power = 1000.0f;
-		if (distance2D < 200.0f)
-		{
-			power = 750;
-			if (distance2D < 100.0f)
-			{
-				power = 550;
-				if (distance2D < 50.0f)
-				{
-					power = 350;
-				}
-			}
-		}
+		// Make less adjustments for less wind
+		float windMag = context.optionsTransient->getWindSpeed() / 5.0f;
 
-		// Add some randomness to the power
-		power += (RAND * 200.0f) - 100.0f;
-		if (power < 100) power = 100;
+		// Try to account for the wind direction
+		Vector ndirection = direction;
+		ndirection[2] = 0.0f;
+		ndirection = ndirection.Normalize();
+		ndirection = ndirection.get2DPerp();
+		float windoffsetLR = context.optionsTransient->getWindDirection().dotP(ndirection);
+		angleXYDegs += windoffsetLR * distance2D * (0.12f + RAND * 0.04f) * windMag;
 
-		if (context.optionsTransient->getWindOn())
-		{
-			// Make less adjustments for less wind
-			float windMag = context.optionsTransient->getWindSpeed() / 5.0f;
+		float windoffsetFB = context.optionsTransient->getWindDirection().dotP(direction.Normalize());
+		windoffsetFB /= 10.0f;
+		windoffsetFB *= windMag;
+		windoffsetFB += 1.0f; // windowoffset FB 0.9 > 1.1
 
-			// Try to account for the wind direction
-			Vector ndirection = direction;
-			ndirection[2] = 0.0f;
-			ndirection = ndirection.Normalize();
-			ndirection = ndirection.get2DPerp();
-			float windoffsetLR = context.optionsTransient->getWindDirection().dotP(ndirection);
-			angleXYDegs += windoffsetLR * distance2D * (0.12f + RAND * 0.04f) * windMag;
-
-			float windoffsetFB = context.optionsTransient->getWindDirection().dotP(direction.Normalize());
-			windoffsetFB /= 10.0f;
-			windoffsetFB *= windMag;
-			windoffsetFB += 1.0f; // windowoffset FB 0.9 > 1.1
-
-			power *= windoffsetFB;
-		}
-
-		// Angle
-		angleYZDegs = 45.0f;
+		power *= windoffsetFB;
 	}
+
+	// Angle
+	angleYZDegs = 45.0f;
 }
 
 Vector &TankLib::getVelocityVector(float xy, float yz)

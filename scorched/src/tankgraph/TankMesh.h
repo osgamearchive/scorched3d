@@ -40,7 +40,6 @@ public:
 	int getNoTris();
 
 protected:
-	static GLuint sightList_;
 	bool useTextures_;
 	float turretHeight_;
 	Vector gunOffset_;
@@ -49,7 +48,6 @@ protected:
 	GLVertexSetGroup turretArrays_;
 	GLVertexSetGroup otherArrays_;
 
-	void drawSight();
 	void drawGun(bool drawS, float fireOffset, float rotXY, float rotXZ);
 	void createArrays(ModelsFile &aseTank, bool useTextures, float detail);
 	void addToSet(GLVertexSetGroup &vset, std::list<Model*> &models, float detail);

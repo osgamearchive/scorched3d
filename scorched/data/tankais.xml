@@ -5,19 +5,32 @@
 Cyborgs are like Sharks, except they can 
 use batteries.</description>
 		<aimsniper>50</aimsniper>
-		<aimtype>refined</aimtype>
+		<aimtype>newrefined</aimtype>
 		<targettype>agressor</targettype>
 		<nodefenses>false</nodefenses>
 		<availableforrandom>true</availableforrandom>
 		<checknearcollision>true</checknearcollision>
-		<weapon><name>Parachute</name><level>10</level><type>defense</type></weapon>
-		<weapon><name>Baby Nuke</name><level>20</level><type>explosion</type></weapon>	
-		<weapon><name>MIRV</name><level>20</level><type>explosion</type></weapon>
-		<weapon><name>Battery</name><level>20</level><type>defense</type></weapon>
-		<weapon><name>Shield</name><level>20</level><type>defense</type></weapon>
-		<weapon><name>Auto Defense</name><level>30</level><type>defense</type></weapon>
-		<weapon><name>Nuke</name><level>30</level><type>explosion</type></weapon>
-		<weapon><name>Riot Blast</name><level>20</level><type>dig</type></weapon>
+		<weaponset>
+			<weapon><name>Parachute</name><level>10</level><type>defense</type></weapon>
+			<weapon><name>Baby Nuke</name><level>20</level><type>explosionlarge</type></weapon>	
+			<weapon><name>Battery</name><level>20</level><type>defense</type></weapon>
+			<weapon><name>Shield</name><level>20</level><type>defense</type></weapon>
+			<weapon><name>Auto Defense</name><level>30</level><type>defense</type></weapon>
+			<weapon><name>Nuke</name><level>30</level><type>explosionlarge</type></weapon>
+			<weapon><name>Riot Blast</name><level>20</level><type>dig</type></weapon>
+			<weapon><name>Baby Missile</name><level>1</level><type>explosionsmall</type></weapon>
+		</weaponset>
+		<weaponset>
+			<weapon><name>Parachute</name><level>10</level><type>defense</type></weapon>
+			<weapon><name>MIRV</name><level>20</level><type>explosionlarge</type></weapon>
+			<weapon><name>Battery</name><level>20</level><type>defense</type></weapon>
+			<weapon><name>Shield</name><level>20</level><type>defense</type></weapon>
+			<weapon><name>Auto Defense</name><level>30</level><type>defense</type></weapon>
+			<weapon><name>Spread MIRV</name><level>30</level><type>explosionlarge</type></weapon>
+			<weapon><name>Death's Head</name><level>30</level><type>explosionlarge</type></weapon>
+			<weapon><name>Riot Blast</name><level>20</level><type>dig</type></weapon>
+			<weapon><name>Baby Missile</name><level>1</level><type>explosionsmall</type></weapon>			
+		</weaponset>
 	</ai>
 
 	<ai>
@@ -32,12 +45,15 @@ shooting at them.</description>
 		<nodefenses>false</nodefenses>
 		<availableforrandom>true</availableforrandom>
 		<checknearcollision>true</checknearcollision>
-		<weapon><name>Parachute</name><level>10</level><type>defense</type></weapon>
-		<weapon><name>Baby Nuke</name><level>20</level><type>explosion</type></weapon>	
-		<weapon><name>MIRV</name><level>20</level><type>explosion</type></weapon>
-		<weapon><name>Shield</name><level>20</level><type>defense</type></weapon>
-		<weapon><name>Auto Defense</name><level>30</level><type>defense</type></weapon>
-		<weapon><name>Nuke</name><level>30</level><type>explosion</type></weapon>
+		<weaponset>
+			<weapon><name>Parachute</name><level>10</level><type>defense</type></weapon>
+			<weapon><name>Baby Nuke</name><level>20</level><type>explosionlarge</type></weapon>	
+			<weapon><name>MIRV</name><level>20</level><type>explosionlarge</type></weapon>
+			<weapon><name>Shield</name><level>20</level><type>defense</type></weapon>
+			<weapon><name>Auto Defense</name><level>30</level><type>defense</type></weapon>
+			<weapon><name>Nuke</name><level>30</level><type>explosionlarge</type></weapon>
+			<weapon><name>Baby Missile</name><level>1</level><type>explosionsmall</type></weapon>
+		</weaponset>
 	</ai>
 
 	<ai>
@@ -52,10 +68,13 @@ enough.</description>
 		<nodefenses>false</nodefenses>
 		<availableforrandom>true</availableforrandom>
 		<checknearcollision>true</checknearcollision>
-		<weapon><name>Parachute</name><level>10</level><type>defense</type></weapon>
-		<weapon><name>Baby Nuke</name><level>20</level><type>explosion</type></weapon>	
-		<weapon><name>MIRV</name><level>20</level><type>explosion</type></weapon>
-		<weapon><name>Nuke</name><level>30</level><type>explosion</type></weapon>
+		<weaponset>
+			<weapon><name>Parachute</name><level>10</level><type>defense</type></weapon>
+			<weapon><name>Baby Nuke</name><level>20</level><type>explosionlarge</type></weapon>	
+			<weapon><name>MIRV</name><level>20</level><type>explosionlarge</type></weapon>
+			<weapon><name>Nuke</name><level>30</level><type>explosionlarge</type></weapon>
+			<weapon><name>Baby Missile</name><level>1</level><type>explosionsmall</type></weapon>
+		</weaponset>
 	</ai>
 	
 	<ai>
@@ -72,10 +91,13 @@ time to kill them.</description>
 		<nodefenses>false</nodefenses>
 		<availableforrandom>true</availableforrandom>
 		<checknearcollision>false</checknearcollision>
-		<weapon><name>Missile</name><level>20</level><type>explosion</type></weapon>
-		<weapon><name>Baby Nuke</name><level>20</level><type>explosion</type></weapon>	
-		<weapon><name>MIRV</name><level>20</level><type>explosion</type></weapon>
-		<weapon><name>Nuke</name><level>30</level><type>explosion</type></weapon>		
+		<weaponset>
+			<weapon><name>Missile</name><level>20</level><type>explosionsmall</type></weapon>
+			<weapon><name>Baby Nuke</name><level>20</level><type>explosionlarge</type></weapon>	
+			<weapon><name>MIRV</name><level>20</level><type>explosionlarge</type></weapon>
+			<weapon><name>Nuke</name><level>30</level><type>explosionlarge</type></weapon>
+			<weapon><name>Baby Missile</name><level>1</level><type>explosionsmall</type></weapon>
+		</weaponset>
 	</ai>
 	
 	<ai>
@@ -90,8 +112,11 @@ not refining subsiquent shots.</description>
 		<nodefenses>false</nodefenses>
 		<availableforrandom>true</availableforrandom>
 		<checknearcollision>false</checknearcollision>
-		<weapon><name>Missile</name><level>20</level><type>explosion</type></weapon>
-		<weapon><name>Baby Nuke</name><level>20</level><type>explosion</type></weapon>		
+		<weaponset>
+			<weapon><name>Missile</name><level>20</level><type>explosionsmall</type></weapon>
+			<weapon><name>Baby Nuke</name><level>20</level><type>explosionlarge</type></weapon>
+			<weapon><name>Baby Missile</name><level>1</level><type>explosionsmall</type></weapon>	
+		</weaponset>
 	</ai>
 	
 	<ai>
@@ -107,7 +132,10 @@ only.</description>
 		<nodefenses>false</nodefenses>
 		<checknearcollision>false</checknearcollision>
 		<availableforrandom>true</availableforrandom>
-		<weapon><name>Missile</name><level>2</level><type>explosion</type></weapon>
+		<weaponset>
+			<weapon><name>Missile</name><level>2</level><type>explosionsmall</type></weapon>
+			<weapon><name>Baby Missile</name><level>1</level><type>explosionsmall</type></weapon>
+		</weaponset>
 	</ai>
 	
 	<ai>
@@ -121,5 +149,7 @@ will NEVER fire back.</description>
 		<nodefenses>true</nodefenses>
 		<checknearcollision>false</checknearcollision>
 		<availableforrandom>false</availableforrandom>
+		<weaponset>
+		</weaponset>
 	</ai>
 </ais>

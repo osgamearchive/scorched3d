@@ -40,6 +40,13 @@ public:
 protected:
 	static ScorchedCollisionHandler *instance_;
 
+	enum ParticleAction
+	{
+		ParticleActionBounce,
+		ParticleActionFinished,
+		ParticalActionWarp,
+		ParticleActionNone
+	};
 	ScorchedContext *context_;
 
 	void groundCollision(dGeomID o1, dGeomID o2, 
@@ -52,7 +59,7 @@ protected:
 	void collisionBounce(dGeomID o1, dGeomID o2, 
 		dContactGeom *contacts, int noContacts, double bvel = 0.0);
 
-	ParticleAction collisionShield(unsigned int id,
+	ScorchedCollisionHandler::ParticleAction collisionShield(unsigned int id,
 		Vector &collisionPos,
 		Shield::ShieldSize size,
 		PhysicsParticleMeta *shot,
