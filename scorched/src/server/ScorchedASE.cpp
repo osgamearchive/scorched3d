@@ -26,6 +26,7 @@
 #include <engine/GameState.h>
 #include <tank/TankContainer.h>
 #include <server/ServerState.h>
+#include <wx/wx.h>
 #include <wx/utils.h>
 
 #ifndef _NO_SERVER_ASE_
@@ -83,8 +84,8 @@ void ASEQuery_wantrules(void)
 	ASEQuery_addrule("ProtocolVersion", ScorchedProtocolVersion);
 	ASEQuery_addrule("Version", ScorchedVersion);
 	static wxString osbuffer;
-	osbuffer = ::wxGetOSDescription();
-	ASEQuery_addrule("OS", osbuffer.data());
+	osbuffer = wxGetOsDescription();
+	ASEQuery_addrule("OS", osbuffer.c_str());
 	
 	unsigned currentState = GameState::instance()->getState();
 	bool started = (currentState!=ServerState::ServerStateWaitingForPlayers);

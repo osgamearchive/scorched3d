@@ -257,4 +257,5 @@ bool AccessoryStore::readFromBuffer(NetBufferReader &reader)
 
 		addAccessory(accessory);
 	}
+	return true;
 }
