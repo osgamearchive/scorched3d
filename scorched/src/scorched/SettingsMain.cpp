@@ -18,66 +18,88 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include "SettingsMain-def.cpp"
 
-static void createControls(wxWindow *parent)
+static void createControls(wxWindow *parent, wxSizer *topsizer)
 {
+	wxSizer *sizer = new wxGridSizer(2, 2);
+	topsizer->Add(sizer, 0, wxALL | wxALIGN_CENTER, 10);
+
 	IDC_SERVER_PLAYERS_CTRL_TEXT = 
 		new wxStaticText(parent, -1,
-		"No Players :",
-		wxPoint((int) 28.5, (int) 55.5));
+		"No Players :");
+	sizer->Add(IDC_SERVER_PLAYERS_CTRL_TEXT, 0, wxALIGN_CENTER);
 	IDC_SERVER_PLAYERS_CTRL = 
 		new wxComboBox(parent, IDC_SERVER_PLAYERS,
 		"",
-		wxPoint((int) 97.5, (int) 52.5), wxSize((int) 72, (int) 124.5),
+		wxDefaultPosition, wxSize((int) 100, (int) 124.5),
 		0, 0, wxCB_READONLY);
+	sizer->Add(IDC_SERVER_PLAYERS_CTRL, 0, wxALIGN_CENTER);
+		
 	IDC_TEAMS_CTRL_TEXT = 
 		new wxStaticText(parent, -1,
-		"Num Teams :",
-		wxPoint((int) 185, (int) 30));
+		"Num Teams :");
+	sizer->Add(IDC_TEAMS_CTRL_TEXT, 0, wxALIGN_CENTER);
 	IDC_TEAMS_CTRL = 
 		new wxComboBox(parent, IDC_TEAMS,
 		"",
-		wxPoint((int) 250.5, (int) 27), wxSize((int) 87, (int) 124.5),
+		wxDefaultPosition, wxSize((int) 100, (int) 124.5),
 		0, 0, wxCB_READONLY);
+	sizer->Add(IDC_TEAMS_CTRL, 0, wxALIGN_CENTER);
+		
 	IDC_TYPE_CTRL_TEXT = 
 		new wxStaticText(parent, -1,
-		"Game Type :",
-		wxPoint((int) 28.5, (int) 78));
+		"Game Type :");
+	sizer->Add(IDC_TYPE_CTRL_TEXT, 0, wxALIGN_CENTER);
 	IDC_TYPE_CTRL = 
 		new wxComboBox(parent, IDC_GAME_TYPE,
 		"",
-		wxPoint((int) 97.5, (int) 78), wxSize((int) 100, (int) 124.5),
+		wxDefaultPosition, wxSize((int) 100, (int) 124.5),
 		0, 0, wxCB_READONLY);
-	new wxStaticText(parent, -1,
-		"No Rounds :",
-		wxPoint((int) 28.5, (int) 30));
+	sizer->Add(IDC_TYPE_CTRL, 0, wxALIGN_CENTER);
+		
+	IDC_SERVER_ROUNDS_CTRL_TEXT = 
+		new wxStaticText(parent, -1,
+		"No Rounds :");
+	sizer->Add(IDC_SERVER_ROUNDS_CTRL_TEXT, 0, wxALIGN_CENTER);
 	IDC_SERVER_ROUNDS_CTRL = 
 		new wxComboBox(parent, IDC_SERVER_ROUNDS,
 		"",
-		wxPoint((int) 97.5, (int) 27), wxSize((int) 72, (int) 124.5),
+		wxDefaultPosition, wxSize((int) 100, (int) 124.5),
 		0, 0, wxCB_READONLY);
-	new wxStaticBox(parent, -1,
-		"Game Options",
-		wxPoint((int) 10.5, (int) 10.5), wxSize((int) 339, (int) 99));
+	sizer->Add(IDC_SERVER_ROUNDS_CTRL, 0, wxALIGN_CENTER);
+		
+	IDC_NOSHOTS_CTRL_TEXT = 
+		new wxStaticText(parent, -1,
+		"No Turns :");
+	sizer->Add(IDC_NOSHOTS_CTRL_TEXT, 0, wxALIGN_CENTER);
+	IDC_NOSHOTS_CTRL = 
+		new wxComboBox(parent, IDC_NOSHOTS,
+		"",
+		wxDefaultPosition, wxSize((int) 100, (int) 124.5),
+		0, 0, wxCB_READONLY);
+	sizer->Add(IDC_NOSHOTS_CTRL, 0, wxALIGN_CENTER);	
+		
+	IDC_SHOT_TIME_CTRL_TEXT = 
+		new wxStaticText(parent, -1,
+		"Shot Time :");
+	sizer->Add(IDC_SHOT_TIME_CTRL_TEXT, 0, wxALIGN_CENTER);
 	IDC_SHOT_TIME_CTRL = 
 		new wxComboBox(parent, IDC_SHOT_TIME,
 		"",
-		wxPoint((int) 250.5, (int) 52.5), wxSize((int) 87, (int) 124.5),
+		wxDefaultPosition, wxSize((int) 100, (int) 124.5),
 		0, 0, wxCB_READONLY);
-	IDC_SHOT_TIME_CTRL_TEXT = 
+	sizer->Add(IDC_SHOT_TIME_CTRL, 0, wxALIGN_CENTER);
+		
+	IDC_IDLE_TIME_CTRL_TEXT =
 		new wxStaticText(parent, -1,
-		"Shot Time :",
-		wxPoint((int) 195, (int) 55.5));
+		"Idle Time :");
+	sizer->Add(IDC_IDLE_TIME_CTRL_TEXT, 0, wxALIGN_CENTER);
 	IDC_IDLE_TIME_CTRL = 
 		new wxComboBox(parent, IDC_IDLE_TIME,
 		"",
-		wxPoint((int) 250.5, (int) 78), wxSize((int) 87, (int) 124.5),
+		wxDefaultPosition, wxSize((int) 100, (int) 124.5),
 		0, 0, wxCB_READONLY);
-	IDC_IDLE_TIME_CTRL_TEXT =
-		new wxStaticText(parent, -1,
-		"Idle Time :",
-		wxPoint((int) 199.5, (int) 81));
+	sizer->Add(IDC_IDLE_TIME_CTRL, 0, wxALIGN_CENTER);
 }
 

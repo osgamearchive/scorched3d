@@ -21,32 +21,16 @@
 #if !defined(AFX_MAINCAMERA_H__97593EBB_5901_4D81_BAEB_8ADC76CFB627__INCLUDED_)
 #define AFX_MAINCAMERA_H__97593EBB_5901_4D81_BAEB_8ADC76CFB627__INCLUDED_
 
-#include <GLEXT/GLCamera.h>
 #include <GLEXT/GLMenuI.h>
 #include <engine/GameStateI.h>
+#include <client/TargetCamera.h>
 
-class MainCamera : public GameStateI,
-					public GLMenuI
+class MainCamera : public GameStateI, public GLMenuI
 {
 public:
 	static MainCamera *instance();
-	enum CamType
-	{
-		CamTop = 0,
-		CamBehind,
-		CamTank,
-		CamGun,
-		CamAction,
-		CamLeft,
-		CamRight,
-		CamLeftFar,
-		CamRightFar,
-		CamSpectator,
-		CamFree
-	};
 
-	GLCamera &getCamera() { return mainCam_; }
-	void resetCam();
+	GLCamera &getCamera() { return targetCam_.getCamera(); }
 
 	// Inherited from GameStateI
 	virtual void simulate(const unsigned state, 
@@ -71,8 +55,6 @@ public:
 	virtual void getMenuItems(const char* menuName, 
 		std::list<GLMenuItem> &result);
 
-	static float heightFunc(int x, int y);
-
 	// Class to save the screen shots
 	class SaveScreen : public GameStateI
 	{
@@ -85,10 +67,7 @@ public:
 
 protected:
 	static MainCamera *instance_;
-	GLCamera mainCam_;
-	CamType cameraPos_;
-
-	bool moveCamera(float frameTime);
+	TargetCamera targetCam_;
 
 private:
 	MainCamera();

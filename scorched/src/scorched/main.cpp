@@ -22,6 +22,7 @@
 #include <wx/utils.h>
 #include <SDL/SDL.h>
 #include <client/ClientMain.h>
+#include <server/ScorchedServer.h>
 #include <common/OptionsDisplay.h>
 #include <common/OptionsParam.h>
 #include <common/OptionsGame.h>
@@ -95,7 +96,8 @@ int _matherr(struct _exception  *e)
 int main(int argc, char *argv[])
 {
 	// Generate the version
-	sprintf(scorched3dAppName, "Scorched3D - Version %s (%s)", ScorchedVersion, ScorchedProtocolVersion);
+	sprintf(scorched3dAppName, "Scorched3D - Version %s (%s)", 
+		ScorchedVersion, ScorchedProtocolVersion);
 
 	// Check we are in the correct directory
 	FILE *checkfile = fopen(PKGDIR "data/autoexec.xml", "r");
@@ -177,8 +179,21 @@ int main(int argc, char *argv[])
 
 	switch (OptionsParam::instance()->getAction())
 	{
-	case OptionsParam::ActionNone:
 	case OptionsParam::ActionRunServer:
+	
+		// Load the server settings file
+		if (!::wxFileExists(OptionsParam::instance()->getServerFile()))
+		{
+			dialogMessage(scorched3dAppName,
+				"Server file \"%s\" does not exist.",
+				OptionsParam::instance()->getServerFile());
+			return false;
+		}
+		ScorchedServer::instance()->getOptionsGame().readOptionsFromFile(
+			(char *) OptionsParam::instance()->getServerFile());
+		// Note: WE DO NOT BREAK
+	
+	case OptionsParam::ActionNone:
 		// Run the wxWindows main loop
 		// Dialogs are created int CreateDialogs.cpp
 #ifdef _WIN32
@@ -198,6 +213,21 @@ int main(int argc, char *argv[])
 				dialogMessage(
 					scorched3dAppName,
 					"Warning: Failed to set client locale");
+			}
+
+			// Check if we are connecting to a server
+			if (!OptionsParam::instance()->getConnect()[0])
+			{
+				// If not load the client settings file
+				if (!::wxFileExists(OptionsParam::instance()->getClientFile()))
+				{
+					dialogMessage(scorched3dAppName,
+						"Client file \"%s\" does not exist.",
+						OptionsParam::instance()->getClientFile());
+					return false;
+				}
+				ScorchedServer::instance()->getOptionsGame().readOptionsFromFile(
+					(char *) OptionsParam::instance()->getClientFile());
 			}
 
 			clientMain();

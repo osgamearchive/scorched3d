@@ -18,14 +18,8 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// GLCamera.h: interface for the GLCamera class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_GLCAMERA_H__A41E0133_3B1F_11D4_BCBB_00A0C9A4CA3E__INCLUDED_)
 #define AFX_GLCAMERA_H__A41E0133_3B1F_11D4_BCBB_00A0C9A4CA3E__INCLUDED_
-
 
 #include <GLEXT/GLState.h>
 #include <common/Line.h>
@@ -33,12 +27,12 @@
 class GLCamera
 {
 public:
-	typedef float (*HeightFunc)(int, int);
+	typedef float (*HeightFunc)(int, int, void *);
 
 	GLCamera(GLsizei windowWidth, GLsizei windowHeight);
 	virtual ~GLCamera();
 
-	void setHeightFunc(HeightFunc func);
+	void setHeightFunc(HeightFunc func, void *heightData = 0);
 	void setUseHeightFunc(bool toggle);
 	void setLookAt(Vector &lookAt, bool instant = false);
 	void setOffSet(Vector &offSet, bool instant = false);
@@ -77,6 +71,7 @@ protected:
 	Vector wantedOffset_;
 	Vector currentPosition_;
 	HeightFunc heightFunc_;
+	void *heightData_;
 
 	virtual void calculateWantedOffset();
 	virtual void moveViewport(Vector &lookFrom, Vector &lookAt);

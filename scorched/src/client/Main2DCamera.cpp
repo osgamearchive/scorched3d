@@ -18,17 +18,8 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// Main2DCamera.cpp: implementation of the Main2DCamera class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <client/MainCamera.h>
 #include <client/Main2DCamera.h>
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 Main2DCamera *Main2DCamera::instance_ = 0;
 
@@ -61,7 +52,7 @@ void Main2DCamera::draw(const unsigned state)
 		MainCamera::instance()->getCamera().getHeight());
 	glOrtho(0.0, MainCamera::instance()->getCamera().getWidth(), 
 			0.0, MainCamera::instance()->getCamera().getHeight(), 
-			-100.0, 100.0);
+			-4000.0, 4000.0);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 }

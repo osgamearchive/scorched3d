@@ -18,19 +18,10 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// GLWWindow.cpp: implementation of the GLWWindow class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <GLEXT/GLState.h>
 #include <GLEXT/GLTexture.h>
 #include <GLEXT/GLBitmap.h>
 #include <GLW/GLWWindow.h>
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 static const float roundSize = 20.0f;
 static const float smallRoundSize = 10.0f;
@@ -99,7 +90,8 @@ void GLWWindow::drawOutlinePoints(float x, float y, float w, float h)
 	else
 		drawCircle(8, 4, x + w - roundSize, y + roundSize, 20.0f);
 	drawCircle(4, 0, x + w - roundSize, y + h - roundSize, 20.0f);
-	if (((tw > 70.0f) || (tw > 50.0f && windowState_ & eSmallTitle)) && !(windowState_ & eNoTitle))
+	if (((tw > 70.0f) || (tw > 50.0f && windowState_ & eSmallTitle)) && 
+		!(windowState_ & eNoTitle))
 	{
 		showTitle_ = true;
 		drawCircle(8, 10, x + tw, y + h + sr, sz);
@@ -162,14 +154,14 @@ void GLWWindow::drawMaximizedWindow()
 			glGetIntegerv(GL_DEPTH_FUNC, &func);
 			glDepthFunc(GL_ALWAYS);
 			glPushMatrix();
-				glTranslatef(0.0f, 0.0f, -90.0f);
+				glTranslatef(0.0f, 0.0f, -4000.0f);
 				{
 					GLState currentStateBlend(GLState::BLEND_ON);
 					glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	
 					glColor4f(0.0f, 0.0, 0.0f, 0.7f);
 					drawBackSurface(x_, y_, w_, h_);
 				}
-				glColor3f(0.0f, 0.0f, 0.0f);
+				glColor3f(0.1f, 0.1f, 0.1f);
 				drawSurround(x_, y_, w_, h_);
 			glPopMatrix();
 			glDepthFunc(func);

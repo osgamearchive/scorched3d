@@ -316,5 +316,10 @@
 		<description>Shows or hides the kill all players dialog</description>
 		<key>q</key>
 	</keyentry>	
+	<keyentry>
+		<name>SHOW_CAMERA_DIALOG</name>
+		<description>Shows or hides the camera dialog</description>
+		<key>c</key>
+	</keyentry>	
 </keys>
 

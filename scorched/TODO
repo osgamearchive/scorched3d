@@ -1,8 +1,16 @@
 -- Bugs Fixed and Ready For Release 
 Added: Count down timer is visible even after shots are made
 Added: Number of shots left in this round is visible in score dialog
-Added: Number of shots left can be turned off
+Added: Number of shots left can be turned off in options
 Added: When quit game you go back to the start dialogs
+Added: All dialogs now use wxSizers
+Added: The first round ordering for sequential mode games is always random
+Added: Can set the number of text rows shown at bottom of screen
+Added: Secondary camera view, that shows the shot cam when enabled
+Added: Pressing enter on the quit dialog quits the game
+
+Fixed: Screen mode is restored when quit is chosen from console
+Fixed: Random ordering mode only worked for non-buy rounds
 
 -- Bugs in current development release
 Dvorak keyboard support is broken

@@ -307,6 +307,8 @@ scorched3d_SOURCES = \
 	../dialogs/TankDialog.h \
 	../dialogs/WindDialog.cpp \
 	../dialogs/WindDialog.h \
+	../dialogs/CameraDialog.cpp \
+	../dialogs/CameraDialog.h \
 	../engine/Action.cpp \
 	../engine/Action.h \
 	../engine/ActionBuffer.cpp \
@@ -751,6 +753,8 @@ scorched3d_SOURCES = \
 	../client/MainBanner.h \
 	../client/MainCamera.cpp \
 	../client/MainCamera.h \
+	../client/TargetCamera.cpp \
+	../client/TargetCamera.h \
 	../client/MessageDisplay.cpp \
 	../client/MessageDisplay.h \
 	../client/ScorchedClient.cpp \

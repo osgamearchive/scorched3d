@@ -116,7 +116,7 @@ void ScoreDialog::draw()
 	GLWFont::instance()->getFont()->draw(
 			white,
 			20,
-			x_ + 100.0f, y_ + h_ - 21.0f, 0.0f,
+			x_ + 8.0f, y_ + h_ - 21.0f, 0.0f,
 			finished?" Final Rankings":"Current Rankings");
 
 	bool server = (OptionsParam::instance()->getConnectedToServer());
@@ -143,8 +143,8 @@ void ScoreDialog::draw()
 		GLWFont::instance()->getFont()->draw(
 				white,
 				12,
-				x_ + 240.0f, y_ + h_ - 35.0f, 0.0f,
-			"   %i Rounds%s",
+				x_ + 240.0f, y_ + h_ - 21.0f, 0.0f,
+				"   %i Rounds%s",
 				ScorchedClient::instance()->getOptionsTransient().getNoRoundsLeft(),
 				moves);
 	}

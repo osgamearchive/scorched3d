@@ -49,11 +49,13 @@ void TurnController::newGame()
 	OptionsGame::TurnType turnType =
 		ScorchedServer::instance()->getOptionsGame().getTurnType();
 
-	// A current game number of zero means its it weapon and auto-defense 
-	// choose time, all the players should do this at the same time
-	if (ScorchedServer::instance()->getOptionsTransient().getCurrentGameNo() == 0)
+	// On the very first round make the order random (if looser first chosen)
+	// as there is no looser yet!
+	if ((ScorchedServer::instance()->getOptionsTransient().getNoRoundsLeft() == 
+		ScorchedServer::instance()->getOptionsGame().getNoRounds() - 1) &&
+		turnType == OptionsGame::TurnSequentialLooserFirst)
 	{
-		turnType = OptionsGame::TurnSimultaneous;
+		turnType = OptionsGame::TurnSequentialRandom;
 	}
 
 	// Standard player ordering is the reverse of the tank score
@@ -106,11 +108,15 @@ void TurnController::nextShot()
 
 	OptionsGame::TurnType turnType =
 		ScorchedServer::instance()->getOptionsGame().getTurnType();
+		
+	// Game number 0 is the weapons choosing round, so every one can do this
+	// concurrently
 	if (ScorchedServer::instance()->getOptionsTransient().getCurrentGameNo() == 0)
 	{
 		turnType = OptionsGame::TurnSimultaneous;
 	}
 
+	// Choose the next player(s) based on game mode
 	if (turnType == OptionsGame::TurnSequentialRandom ||
 		turnType == OptionsGame::TurnSequentialLooserFirst)
 	{

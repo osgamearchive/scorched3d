@@ -41,7 +41,7 @@ RulesDialog::RulesDialog() :
 	GLWWindow("Rules", 0.0f, 0.0f, 300.0f, 295.0f, eSmallTitle)
 {
 	needCentered_ = true;
-	okId_ = addWidget(new GLWTextButton(" Ok", 235, 10, 55, this, true))->getId();
+	okId_ = addWidget(new GLWTextButton(" Ok", 235, 10, 55, this, true, true))->getId();
 	listView_ = (GLWListView *) addWidget(new GLWListView(10, 130, 280, 140, 100));
 }
 

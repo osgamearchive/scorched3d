@@ -24,14 +24,10 @@
 #include <GLEXT/GLState.h>
 #include <GLEXT/GLCamera.h>
 
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
-
 GLCamera::GLCamera(GLsizei windowWidth, GLsizei windowHeight) :
 	rotationXY_(0.0f), rotationYZ_(PI / 4), zoom_(150.0f),
 	useHeightFunc_(false), heightFunc_(0), totalTime_(0.0f), 
-	shake_(0.0f)
+	shake_(0.0f), heightData_(0)
 {
 	setWindowOffset(0, 0);
 	setWindowSize(windowWidth, windowHeight);
@@ -48,9 +44,10 @@ void GLCamera::setUseHeightFunc(bool toggle)
 	useHeightFunc_ = toggle;
 }
 
-void GLCamera::setHeightFunc(HeightFunc func)
+void GLCamera::setHeightFunc(HeightFunc func, void *data)
 {
 	heightFunc_ = func;
+	heightData_ = data;
 	if (func)
 	{
 		useHeightFunc_ = true;
@@ -100,7 +97,7 @@ void GLCamera::moveViewport(Vector &lookFrom, Vector &lookAt)
 	GLfloat lz(lookFrom[2]);
 	if (heightFunc_ && useHeightFunc_)
 	{
-		lz = MAX(lz, (*heightFunc_)((int) lookFrom[0], (int) lookFrom[1]));
+		lz = MAX(lz, (*heightFunc_)((int) lookFrom[0], (int) lookFrom[1], heightData_));
 	}
 
 	glMatrixMode(GL_PROJECTION);

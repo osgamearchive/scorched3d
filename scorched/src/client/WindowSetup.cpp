@@ -26,6 +26,7 @@
 #include <dialogs/AutoDefenseDialog.h>
 #include <dialogs/MainMenuDialog.h>
 #include <dialogs/WindDialog.h>
+#include <dialogs/CameraDialog.h>
 #include <dialogs/PlayerDialog.h>
 #include <dialogs/PlanViewDialog.h>
 #include <dialogs/QuitDialog.h>
@@ -65,6 +66,10 @@ void WindowSetup::addCommonComponents(unsigned state)
 		WindowManager::instance()->addWindow(state, 
  			KillDialog::instance(), killKey, false);
 	}
+
+	KEYBOARDKEY("SHOW_CAMERA_DIALOG", cameraKey);
+	WindowManager::instance()->addWindow(state, 
+		CameraDialog::instance(), cameraKey, false);
 
 	KEYBOARDKEY("SHOW_HELP_DIALOG", helpKey);
 	WindowManager::instance()->addWindow(state, 

@@ -1045,6 +1045,12 @@
 			<File
 				RelativePath="..\dialogs\WindDialog.h">
 			</File>
+			<File
+				RelativePath="..\dialogs\CameraDialog.cpp">
+			</File>
+			<File
+				RelativePath="..\dialogs\CameraDialog.h">
+			</File>
 		</Filter>
 		<Filter
 			Name="engine"
@@ -2463,6 +2469,12 @@
 			</File>
 			<File
 				RelativePath="..\client\MainCamera.h">
+			</File>
+			<File
+				RelativePath="..\client\TargetCamera.cpp">
+			</File>
+			<File
+				RelativePath="..\client\TargetCamera.h">
 			</File>
 			<File
 				RelativePath="..\client\MessageDisplay.cpp">

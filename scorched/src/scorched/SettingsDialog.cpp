@@ -44,14 +44,7 @@ namespace SettingsMain
 namespace SettingsPlayers 
 { 
 #include "SettingsPlayers.cpp" 
-
-wxComboBox **playerCombos[] = {
- &IDC_COMBO_PTYPE1_CTRL, &IDC_COMBO_PTYPE2_CTRL, &IDC_COMBO_PTYPE3_CTRL, &IDC_COMBO_PTYPE4_CTRL, &IDC_COMBO_PTYPE5_CTRL,
- &IDC_COMBO_PTYPE6_CTRL, &IDC_COMBO_PTYPE7_CTRL, &IDC_COMBO_PTYPE8_CTRL, &IDC_COMBO_PTYPE9_CTRL, &IDC_COMBO_PTYPE10_CTRL,
- &IDC_COMBO_PTYPE11_CTRL, &IDC_COMBO_PTYPE12_CTRL, &IDC_COMBO_PTYPE13_CTRL, &IDC_COMBO_PTYPE14_CTRL, &IDC_COMBO_PTYPE15_CTRL,
- &IDC_COMBO_PTYPE16_CTRL, &IDC_COMBO_PTYPE17_CTRL, &IDC_COMBO_PTYPE18_CTRL, &IDC_COMBO_PTYPE19_CTRL, &IDC_COMBO_PTYPE20_CTRL,
- &IDC_COMBO_PTYPE21_CTRL, &IDC_COMBO_PTYPE22_CTRL, &IDC_COMBO_PTYPE23_CTRL, &IDC_COMBO_PTYPE24_CTRL };
-};
+}
 
 extern char scorched3dAppName[128];
 
@@ -84,50 +77,80 @@ BEGIN_EVENT_TABLE(SettingsFrame, wxDialog)
 END_EVENT_TABLE()
 
 SettingsFrame::SettingsFrame(bool server, OptionsGame &context) :
-	wxDialog(getMainDialog(), -1, scorched3dAppName, wxPoint(0,0), wxSize(374, 370)),
+	wxDialog(getMainDialog(), -1, scorched3dAppName),
 	context_(context)
 {
-	CentreOnScreen();
-
 #ifdef _WIN32
 	// Set the frame's icon
 	wxIcon icon(PKGDIR "data/windows/tank2.ico", wxBITMAP_TYPE_ICO);
 	SetIcon(icon);
 #endif
 
+	// Create the positioning sizer
+	wxBoxSizer *topsizer = new wxBoxSizer(wxVERTICAL);
+
 	// Create all the display controls
-	book_ = new wxNotebook(this, -1, wxPoint(0, 0), wxSize(368, 300));
+	book_ = new wxNotebook(this, -1);
+	wxNotebookSizer *nbs = new wxNotebookSizer(book_);
 
-	mainPanel_ = new wxPanel(book_, -1, wxPoint(0, 0), wxSize(300, 300));
-	SettingsMain::createControls(mainPanel_);
+	mainPanel_ = new wxPanel(book_, -1);
 	book_->AddPage(mainPanel_, "Main");
+	wxSizer *mainPanelSizer = new wxBoxSizer(wxVERTICAL);
+	SettingsMain::createControls(mainPanel_, mainPanelSizer);
+	mainPanel_->SetAutoLayout(TRUE);
+	mainPanel_->SetSizer(mainPanelSizer);
 
-	ecoPanel_ = new wxPanel(book_, -1, wxPoint(0, 0), wxSize(300, 300));
-	SettingsEco::createControls(ecoPanel_);
+	ecoPanel_ = new wxPanel(book_, -1);
+	wxSizer *ecoPanelSizer = new wxBoxSizer(wxVERTICAL);
+	SettingsEco::createControls(ecoPanel_, ecoPanelSizer);
 	book_->AddPage(ecoPanel_, "Eco");
+	ecoPanel_->SetAutoLayout(TRUE);
+	ecoPanel_->SetSizer(ecoPanelSizer);
 
-	envPanel_ = new wxPanel(book_, -1, wxPoint(0, 0), wxSize(300, 300));
-	SettingsEnv::createControls(envPanel_);
+	envPanel_ = new wxPanel(book_, -1);
+	wxSizer *envPanelSizer = new wxBoxSizer(wxVERTICAL);
+	SettingsEnv::createControls(envPanel_, envPanelSizer);
 	book_->AddPage(envPanel_, "Env");
+	envPanel_->SetAutoLayout(TRUE);
+	envPanel_->SetSizer(envPanelSizer);
 
-	landPanel_ = new wxPanel(book_, -1, wxPoint(0, 0), wxSize(300, 300));
-	SettingsLand::createControls(landPanel_);
+	landPanel_ = new wxPanel(book_, -1);
+	wxSizer *landPanelSizer = new wxBoxSizer(wxVERTICAL);
+	SettingsLand::createControls(landPanel_, landPanelSizer);
 	book_->AddPage(landPanel_, "Land");
+	landPanel_->SetAutoLayout(TRUE);
+	landPanel_->SetSizer(landPanelSizer);
 
 	if (server)
 	{
-		playersPanel_ = new wxPanel(book_, -1, wxPoint(0, 0), wxSize(300, 300));
-		SettingsPlayers::createControls(playersPanel_);
+		if (SettingsPlayers::IDC_COMBO_PTYPE_CTRL) 
+			delete [] SettingsPlayers::IDC_COMBO_PTYPE_CTRL;
+		SettingsPlayers::IDC_COMBO_PTYPE_CTRL = new wxComboBox*[24];
+	
+		playersPanel_ = new wxPanel(book_, -1);
+		wxSizer *playersPanelSizer = new wxBoxSizer(wxVERTICAL);
+		SettingsPlayers::createControls(playersPanel_, playersPanelSizer);
 		book_->AddPage(playersPanel_, "Players");
+		playersPanel_->SetAutoLayout(TRUE);
+		playersPanel_->SetSizer(playersPanelSizer);
 	}
 	else playersPanel_ = 0;
+	topsizer->Add(nbs, 0, wxALL, 10);
 
-	new wxButton(this, wxID_OK,
-		"Ok",
-		wxPoint((int) 285, (int) 310), wxSize((int) 75, (int) 21));
-	new wxButton(this, wxID_CANCEL,
-		"Cancel",
-		wxPoint((int) 205, (int) 310), wxSize((int) 75, (int) 21));
+	// Ok and cancel boxes
+	wxBoxSizer *buttonSizer = new wxBoxSizer(wxHORIZONTAL);
+	wxButton *okButton = new wxButton(this, wxID_OK, "Ok");
+	wxButton *cancelButton = new wxButton(this, wxID_CANCEL, "Cancel");
+	buttonSizer->Add(cancelButton, 0, wxALL, 10);
+	buttonSizer->Add(okButton, 0, wxALL, 10);
+	topsizer->Add(buttonSizer, 0, wxALIGN_RIGHT);
+	okButton->SetDefault();
+		
+	// use the sizer for layout
+	SetSizer(topsizer); 
+	topsizer->SetSizeHints(this); // set size hints to honour minimum size
+
+	CentreOnScreen();
 }
 
 void SettingsFrame::onMaxPlayerChange()
@@ -143,7 +166,7 @@ void SettingsFrame::setupPlayers()
 
 	for (int i=0; i<24; i++)
 	{
-		(*SettingsPlayers::playerCombos[i])->Enable(
+		SettingsPlayers::IDC_COMBO_PTYPE_CTRL[i]->Enable(
 			(i < context_.getNoMaxPlayers()));
 	}
 }
@@ -189,10 +212,10 @@ bool SettingsFrame::TransferDataToWindow()
 				itor++)
 			{
 				TankAIComputer *ai = *itor;
-				(*SettingsPlayers::playerCombos[i])->Append(ai->getName());
+				SettingsPlayers::IDC_COMBO_PTYPE_CTRL[i]->Append(ai->getName());
 			}
-			(*SettingsPlayers::playerCombos[i])->Append("Human");
-			(*SettingsPlayers::playerCombos[i])->SetValue(
+			SettingsPlayers::IDC_COMBO_PTYPE_CTRL[i]->Append("Human");
+			SettingsPlayers::IDC_COMBO_PTYPE_CTRL[i]->SetValue(
 				context_.getPlayerType(i));
 		}
 		setupPlayers();
@@ -426,6 +449,17 @@ bool SettingsFrame::TransferDataToWindow()
 		SettingsMain::IDC_SERVER_ROUNDS_CTRL->SetToolTip(
 			wxString("The number of rounds that will be played in this game."));
 
+		// Shots combo
+		for (i=0; i<50; i++)
+		{
+			sprintf(string, "%i", i);	
+			SettingsMain::IDC_NOSHOTS_CTRL->Append(string);
+		}
+		SettingsMain::IDC_NOSHOTS_CTRL->SetSelection(
+			context_.getNoMaxRoundTurns());
+		SettingsMain::IDC_NOSHOTS_CTRL->SetToolTip(
+			wxString("The maximum number of turns that will be played in each round (0 = infinite)."));
+
 		// Type combo
 		SettingsMain::IDC_TYPE_CTRL->Append("Simultaneous", 
 			(void *) OptionsGame::TurnSimultaneous);
@@ -485,7 +519,7 @@ bool SettingsFrame::TransferDataFromWindow()
 		for (int i=0; i<24; i++)
 		{
 			context_.setPlayerType(i, 
-				(*SettingsPlayers::playerCombos[i])->GetValue());
+				SettingsPlayers::IDC_COMBO_PTYPE_CTRL[i]->GetValue());
 		}
 	}
 
@@ -563,12 +597,14 @@ bool SettingsFrame::TransferDataFromWindow()
 		int waitTime = 30;
 		int idleTime = 30;
 		int noPlayers = 2;
+		int maxRoundTurns = 15;
 
 		context_.setTurnType((OptionsGame::TurnType) (int) 
 			SettingsMain::IDC_TYPE_CTRL->GetClientData(
 				SettingsMain::IDC_TYPE_CTRL->GetSelection()));
 		context_.setTeams((int) SettingsMain::IDC_TEAMS_CTRL->GetSelection() + 1);
 
+		sscanf(SettingsMain::IDC_NOSHOTS_CTRL->GetValue(), "%i", &maxRoundTurns);
 		sscanf(SettingsMain::IDC_SERVER_PLAYERS_CTRL->GetValue(), "%i", &noPlayers);
 		sscanf(SettingsMain::IDC_SERVER_ROUNDS_CTRL->GetValue(), "%i", &noRounds);
 		sscanf(SettingsMain::IDC_SHOT_TIME_CTRL->GetValue(), "%i", &shotTime);
@@ -577,6 +613,7 @@ bool SettingsFrame::TransferDataFromWindow()
 		context_.setNoRounds(noRounds);
 		context_.setShotTime(shotTime);
 		context_.setIdleKickTime(idleTime);
+		context_.setNoMaxRoundTurns(maxRoundTurns);
 		if (playersPanel_ == 0)
 		{
 			context_.setNoMaxPlayers(noPlayers);

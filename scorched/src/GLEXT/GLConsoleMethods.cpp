@@ -18,17 +18,9 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// GLConsoleMethods.cpp: implementation of the GLConsoleMethods class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <GLEXT/GLConsoleMethods.h>
 #include <GLEXT/GLConsoleFileReader.h>
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
+#include <client/ScorchedClient.h>
 
 GLConsoleMethods::GLConsoleMethods(GLConsoleRules &rules,
 								   GLConsoleLines &lines) :
@@ -62,7 +54,7 @@ void GLConsoleMethods::runMethod(const char *name,
 	}
 	else if (!strcmp(name, "exit") || !strcmp(name, "quit"))
 	{
-		exit(0);
+		ScorchedClient::instance()->getMainLoop().exitLoop();
 	}
 	else if (!strcmp(name, "consoleload"))
 	{

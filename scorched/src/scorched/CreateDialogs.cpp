@@ -46,23 +46,13 @@ bool ScorchedApp::OnInit()
 	wxImage::AddHandler(new wxICOHandler);
 	if (OptionsParam::instance()->getAction() == OptionsParam::ActionRunServer)
 	{
-		if (!::wxFileExists(OptionsParam::instance()->getServerFile()))
-		{
-			dialogMessage("Scorched Server",
-						"Server file \"%s\" does not exist.",
-						OptionsParam::instance()->getServerFile());
-			return false;
-		}
-
-		ScorchedServer::instance()->getOptionsGame().readOptionsFromFile(
-			(char *) OptionsParam::instance()->getServerFile());
-
   		// Run the server
 		showServerDialog();
 		serverMain();
 	}
 	else
 	{
+		// Show the launcher dialogs
 		showMainDialog();
 		SetTopWindow(getMainDialog());
 	}
