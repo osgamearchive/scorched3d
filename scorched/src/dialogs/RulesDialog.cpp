@@ -98,13 +98,32 @@ void RulesDialog::draw()
 
 		int waitingFor = ScorchedClient::instance()->getOptionsGame().getNoMinPlayers() -
 			ScorchedClient::instance()->getTankContainer().getNoOfNonSpectatorTanks();
-		if (waitingFor == 1)
+
+		int mySpectators = 0;
+		std::map<unsigned int, Tank *> &playingTanks = 
+			ScorchedClient::instance()->getTankContainer().getPlayingTanks();
+		std::map<unsigned int, Tank *>::iterator itor;
+		for (itor = playingTanks.begin();
+			itor != playingTanks.end();
+			itor++)
+		{
+			Tank *current = (*itor).second;
+
+			if (current->getDestinationId() == 
+				ScorchedClient::instance()->getTankContainer().getCurrentDestinationId() &&
+				current->getState().getSpectator())
+			{
+				mySpectators++;
+			}
+		}
+
+		if (waitingFor == mySpectators)
 		{
 			GLWFont::instance()->getFont()->draw(
 				yellow,
 				14,
 				x_ + 12.0f, top - 45.0f, 0.0f,
-				"Players are waiting for you");
+				"Choose your player to start game");
 		}
 		else
 		{
