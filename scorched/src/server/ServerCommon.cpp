@@ -116,6 +116,7 @@ void ServerCommon::kickDestination(unsigned int destinationId)
 {
 	Logger::log(0, "Kicking destination \"%i\"", destinationId);
 
+	bool kickedPlayers = false;
 	std::map<unsigned int, Tank *>::iterator itor;
 	std::map<unsigned int, Tank *> tanks = 
 		ScorchedServer::instance()->getTankContainer().getPlayingTanks();
@@ -126,8 +127,16 @@ void ServerCommon::kickDestination(unsigned int destinationId)
 		Tank *tank = (*itor).second;
 		if (tank->getDestinationId() == destinationId)
 		{
+			kickedPlayers = true;
 			kickPlayer(tank->getPlayerId());
 		}
+	}
+	
+	// Make sure we disconnect even if a player has not been created yet
+	if (!kickedPlayers)
+	{
+		ScorchedServer::instance()->getNetInterface().
+			disconnectClient(destinationId);
 	}
 }
 

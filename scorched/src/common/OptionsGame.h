@@ -309,6 +309,10 @@ public:
 	void setPublishAddress(const char *value) { publishAddress_.setValue(value); }
 	const char *getPublishAddressToolTip() { return publishAddress_.getDescription(); }
 
+	bool getAllowSameIP() { return allowSameIP_.getValue(); }
+	void setAllowSameIP(bool value) { allowSameIP_.setValue(value); }	
+	const char *getAllowSameIPToolTip() { return allowSameIP_.getDescription(); }
+
 	bool getPublishServer() { return publishServer_.getValue(); }
 	void setPublishServer(bool value) { publishServer_.setValue(value); }	
 	const char *getPublishServerToolTip() { return publishServer_.getDescription(); }
@@ -393,6 +397,7 @@ protected:
 	OptionEntryInt portNo_;
 	OptionEntryString publishAddress_;
 	OptionEntryBool publishServer_;
+	OptionEntryBool allowSameIP_;
 };
 
 class OptionsGameWrapper : public OptionsGame

@@ -135,7 +135,6 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 	}
 
 	// Check if a player from this destination has connected already
-	bool found = false;
 	std::map<unsigned int, Tank *> &playingTanks = 
 		ScorchedServer::instance()->getTankContainer().getPlayingTanks();
 	std::map<unsigned int, Tank *>::iterator playingItor;
@@ -146,15 +145,23 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 		Tank *current = (*playingItor).second;
 		if (current->getDestinationId() == destinationId)
 		{
-			found = true;
-			break;
+			Logger::log(0, "ERROR: Duplicate connection from destination \"%i\"", 
+				destinationId);
+			ServerCommon::kickDestination(destinationId);
+			return true;
 		}
-	}
-	if (found) // If so, dont allow more
-	{
-		Logger::log(0, "ERROR: Duplicate connection from destination \"%i\"", destinationId);
-		ServerCommon::kickDestination(destinationId);
-		return true;
+		
+		if (!ScorchedServer::instance()->getOptionsGame().getAllowSameIP() &&
+			ipAddress != 0)
+		{
+			if (ipAddress == current->getIpAddress())
+			{
+				Logger::log(0, "Duplicate ip connection from destination \"%i\"", 
+					destinationId);
+				ServerCommon::kickDestination(destinationId);
+				return true;
+			}
+		}
 	}
 
 	// Send the connection accepted message to the client

@@ -32,6 +32,7 @@ static wxComboBox *IDC_SERVER_MOD_CTRL = 0;
 static wxTextCtrl *IDC_SERVER_NAME_CTRL = 0;
 static wxTextCtrl *IDC_SERVER_PORT_CTRL = 0;
 static wxCheckBox *IDC_PUBLISH_CTRL = 0;
+static wxCheckBox *IDC_ALLOWSAME_CTRL = 0;
 static wxTextCtrl *IDC_PUBLISHIP_CTRL = 0;
 static wxButton *IDOK_PUBLISHAUTO_CTRL = 0;
 static wxButton *IDOK_CTRL = 0;
