@@ -30,7 +30,6 @@
 #include <weapons/WeaponExplosion.h>
 #include <actions/Explosion.h>
 #include <actions/CameraPositionAction.h>
-#include <actions/SpriteProjectile.h>
 #include <engine/ScorchedContext.h>
 #include <engine/ActionController.h>
 #include <engine/ParticleEmitter.h>

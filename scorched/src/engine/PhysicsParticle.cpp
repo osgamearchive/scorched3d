@@ -22,7 +22,8 @@
 #include <engine/ScorchedContext.h>
 #include <engine/ActionController.h>
 
-PhysicsParticle::PhysicsParticle()  : collision_(false), totalActionTime_(0)
+PhysicsParticle::PhysicsParticle()  : 
+	collision_(false), totalActionTime_(0)
 {
 
 }
@@ -34,7 +35,8 @@ PhysicsParticle::~PhysicsParticle()
 
 void PhysicsParticle::setPhysics(Vector &position, Vector &velocity)
 {
-	physicsObject_.setPhysics(context_->actionController->getPhysics(), position, velocity);
+	physicsObject_.setPhysics(context_->actionController->getPhysics(), 
+		position, velocity);
 }
 
 void PhysicsParticle::collision(Vector &position)
@@ -57,16 +59,6 @@ Vector &PhysicsParticle::getCurrentVelocity()
 	return physicsObject_.getVelocity();
 }
 
-void PhysicsParticle::setCurrentPosition(Vector &position)
-{
-	physicsObject_.setPosition(position);
-}
-
-float *PhysicsParticle::getRotationQuat()
-{
-	return physicsObject_.getRotationQuat();
-}
-
 void PhysicsParticle::simulate(float frameTime, bool &remove)
 {
 	Action::simulate(frameTime, remove);
@@ -75,7 +67,8 @@ void PhysicsParticle::simulate(float frameTime, bool &remove)
 	if (totalActionTime_ > 30.0f) remove = true;
 }
 
-PhysicsParticleMeta::PhysicsParticleMeta()  : collision_(false), totalActionTime_(0)
+PhysicsParticleMeta::PhysicsParticleMeta()  : 
+	collision_(false), totalActionTime_(0), warp_(false)
 {
 
 }
@@ -86,7 +79,7 @@ PhysicsParticleMeta::~PhysicsParticleMeta()
 }
 
 void PhysicsParticleMeta::setPhysics(Vector &position, Vector &velocity,
-									 float sphereSize, float sphereDensity)
+	float sphereSize, float sphereDensity)
 {
 	physicsObject_.setPhysics(context_->actionController->getPhysics(), 
 		position, velocity,
@@ -120,7 +113,8 @@ Vector &PhysicsParticleMeta::getCurrentVelocity()
 
 void PhysicsParticleMeta::setCurrentPosition(Vector &position)
 {
-	physicsObject_.setPosition(position);
+	warp_ = true;
+	warpPosition_ = position;
 }
 
 float *PhysicsParticleMeta::getRotationQuat()
@@ -130,6 +124,12 @@ float *PhysicsParticleMeta::getRotationQuat()
 
 void PhysicsParticleMeta::simulate(float frameTime, bool &remove)
 {
+	if (warp_)
+	{
+		warp_ = false;
+		physicsObject_.setPosition(warpPosition_);
+	}
+
 	Action::simulate(frameTime, remove);
 	if (collision_) remove = true;
 	totalActionTime_ += frameTime;

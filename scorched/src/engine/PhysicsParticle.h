@@ -18,11 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// PhysicsParticle.h: interface for the PhysicsParticle class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_PhysicsParticle_H__53A44445_C8C9_4108_B5E1_744C0AF7A1D5__INCLUDED_)
 #define AFX_PhysicsParticle_H__53A44445_C8C9_4108_B5E1_744C0AF7A1D5__INCLUDED_
 
@@ -44,9 +39,7 @@ public:
 
 	Vector &getCurrentPosition();
 	Vector &getCurrentVelocity();
-	float *getRotationQuat();
 	void setData(void *data);
-	void setCurrentPosition(Vector &position);
 
 	// Inherited from action
 	virtual void simulate(float timepassed, bool &remove);
@@ -83,6 +76,8 @@ protected:
 	PhysicsParticleObject physicsObject_;
 	bool collision_;
 	float totalActionTime_;
+	Vector warpPosition_;
+	bool warp_;
 
 };
 
