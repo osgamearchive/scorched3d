@@ -45,7 +45,7 @@ void DeformTextures::deformLandscape(Vector &pos, float radius,
 				{
 					unsigned int x = (unsigned int) (pos[0] + i);
 					unsigned int y = (unsigned int) (pos[1] + j);
-					Landscape::instance()->getObjects().removeTrees(x, y);
+					Landscape::instance()->getObjects().removeObjects(x, y);
 				}
 			}
 		}

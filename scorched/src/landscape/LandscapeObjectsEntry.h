@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,33 +18,22 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_LandscapeObjectsh_INCLUDE__)
-#define __INCLUDE_LandscapeObjectsh_INCLUDE__
+#if !defined(__INCLUDE_LandscapeObjectsEntryh_INCLUDE__)
+#define __INCLUDE_LandscapeObjectsEntryh_INCLUDE__
 
-#include <common/ProgressCounter.h>
-#include <common/RandomGenerator.h>
-#include <landscape/LandscapeObjectsEntry.h>
-#include <map>
-
-class LandscapeObjects
+class LandscapeObjectsEntry
 {
 public:
-	LandscapeObjects();
-	virtual ~LandscapeObjects();
+	LandscapeObjectsEntry();
+	virtual ~LandscapeObjectsEntry();
 
-	void draw();
-	void generate(RandomGenerator &generator, ProgressCounter *counter = 0);
+	float posX, posY, posZ;
+	float rotation;
+	float size;
+	float color;
+	bool burnt;
 
-	void removeAroundTanks();
-	void removeAllObjects();
-	void removeObjects(unsigned int x, unsigned int y);
-	void burnObjects(unsigned int x, unsigned int y);
-	void addObject(unsigned int x, unsigned int y, 
-		LandscapeObjectsEntry *entry);
-
-protected:
-	std::multimap<unsigned int, LandscapeObjectsEntry*> entries_;
-
+	virtual void render(float distance) = 0;
 };
 
-#endif
+#endif // __INCLUDE_LandscapeObjectsEntryh_INCLUDE__

@@ -211,18 +211,6 @@ void Landscape::draw(const unsigned state)
 
 void Landscape::generate(ProgressCounter *counter)
 {
-	if (!resources_.initialized())
-	{
-		// Read the resources 
-		if (!resources_.initFromFile(
-			getDataFile("data/resource.xml")))
-		{
-			dialogMessage("Landscape",
-				"Failed to load resources data/resource.xml");
-			return;
-		}
-	}
-
 	textureType_ = eDefault;
 	InfoMap::instance();
 
@@ -310,7 +298,7 @@ void Landscape::generate(ProgressCounter *counter)
 		GL_UNSIGNED_BYTE, bitmapPlan_.getBits());
 
 	// Add objects to the landscape
-	objects_.removeAllTrees();
+	objects_.removeAllObjects();
 	if (resources_.getStringResource("objects")[0])
 	{
 		RandomGenerator objectsGenerator;

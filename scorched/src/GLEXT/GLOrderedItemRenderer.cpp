@@ -50,7 +50,7 @@ GLOrderedItemRenderer::~GLOrderedItemRenderer()
 {
 }
 
-inline float approx_distance(float  dx, float dy)
+static inline float approx_distance(float  dx, float dy)
 {
    float approx = (dx * dx) + (dy * dy);
    return approx;
@@ -132,8 +132,6 @@ void GLOrderedItemRenderer::draw(const unsigned state)
 	GLState drawState(GLState::TEXTURE_ON | GLState::BLEND_ON | GLState::DEPTH_ON);
 	glDepthMask(GL_FALSE);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glEnable(GL_ALPHA_TEST);
-	glAlphaFunc(GL_GREATER, 0.05f);
 
 	// Remove previous entries
 	tmpRequiredEntries_.clear();
@@ -178,7 +176,6 @@ void GLOrderedItemRenderer::draw(const unsigned state)
 
 	// Reset the depth mask
 	glDepthMask(GL_TRUE);
-	glDisable(GL_ALPHA_TEST);
 }
 
 GLOrderedItemRendererProvider::~GLOrderedItemRendererProvider()

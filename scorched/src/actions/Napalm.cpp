@@ -25,6 +25,8 @@
 #include <actions/Napalm.h>
 #include <actions/CameraPositionAction.h>
 #include <sprites/NapalmRenderer.h>
+#include <GLEXT/GLBitmapModifier.h>
+#include <GLEXT/GLStateExtension.h>
 #include <landscape/Landscape.h>
 #include <landscape/LandscapeMaps.h>
 #include <common/OptionsParam.h>
@@ -169,6 +171,16 @@ void Napalm::simulateRmStep()
 		GLBilboardRenderer::instance()->removeEntry(entry->renderEntry1, true);
 		GLBilboardRenderer::instance()->removeEntry(entry->renderEntry2, true);
 		GLBilboardRenderer::instance()->removeEntry(entry->renderEntry3, true);
+
+		// Add the ground scorch
+		/*if (!GLStateExtension::getNoTexSubImage())
+		{
+			int landscapeWidth = Landscape::instance()->getMainMap().getWidth();
+			float mult = float(landscapeWidth) / 256.0f;
+			float w = 2.5f * mult;
+			GLBitmapModifier::addCircle(Landscape::instance()->getMainMap(),
+				x * mult, y * mult, w, 1.0f);
+		}*/
 	}
 	delete entry;
 
@@ -226,11 +238,11 @@ void Napalm::simulateAddStep()
 		GLBilboardRenderer::instance()->addEntry(newEntry->renderEntry2);
 		GLBilboardRenderer::instance()->addEntry(newEntry->renderEntry3);
 
-		Landscape::instance()->getObjects().burnTrees(
+		Landscape::instance()->getObjects().burnObjects(
 			(unsigned int) x_, (unsigned int) y_);
-		Landscape::instance()->getObjects().burnTrees(
+		Landscape::instance()->getObjects().burnObjects(
 			(unsigned int) x_ + 1, (unsigned int) y_ + 1);
-		Landscape::instance()->getObjects().burnTrees(
+		Landscape::instance()->getObjects().burnObjects(
 			(unsigned int) x_ - 1, (unsigned int) y_ - 1);
 	}
 

@@ -1395,6 +1395,24 @@
 				RelativePath="..\landscape\LandscapeObjects.h">
 			</File>
 			<File
+				RelativePath="..\landscape\LandscapeObjectsEntry.cpp">
+			</File>
+			<File
+				RelativePath="..\landscape\LandscapeObjectsEntry.h">
+			</File>
+			<File
+				RelativePath="..\landscape\LandscapeObjectsEntryTree.cpp">
+			</File>
+			<File
+				RelativePath="..\landscape\LandscapeObjectsEntryTree.h">
+			</File>
+			<File
+				RelativePath="..\landscape\LandscapeObjectsPlacement.cpp">
+			</File>
+			<File
+				RelativePath="..\landscape\LandscapeObjectsPlacement.h">
+			</File>
+			<File
 				RelativePath="..\landscape\MovementMap.cpp">
 			</File>
 			<File
