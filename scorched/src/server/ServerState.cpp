@@ -28,6 +28,7 @@
 #include <server/ServerReadyState.h>
 #include <server/ServerResetState.h>
 #include <server/ServerTooFewPlayersStimulus.h>
+#include <server/ServerStateTooFewPlayersState.h>
 #include <server/ServerPlayingState.h>
 #include <server/ServerBuyingState.h>
 #include <server/ServerScoreState.h>
@@ -37,24 +38,20 @@ void ServerState::setupStates(GameState &gameState)
 {
 	gameState.clear();
 
-	ServerTooFewPlayersStimulus *tooFewPlayersStim =
-		new ServerTooFewPlayersStimulus;
+	// ServerStateTooFewPlayers
+	ServerStateTooFewPlayersState *serverTooFewPlayers = 
+		new ServerStateTooFewPlayersState();
+	gameState.addStateEntry(ServerStateTooFewPlayers,
+		serverTooFewPlayers);
+	gameState.addStateStimulus(ServerStateTooFewPlayers, 
+		serverTooFewPlayers, ServerStateReset);
+	gameState.addStateStimulus(ServerStateTooFewPlayers, 
+		ServerStimulusReady, ServerStateReady);
 
-	// ServerStateWaitingForPlayers (start state)
-	ServerWaitingForPlayersState *serverWaiting = 
-		new ServerWaitingForPlayersState;
-	gameState.addStateEntry(ServerStateWaitingForPlayers,
-		serverWaiting);
-	gameState.addStateStimulus(ServerStateWaitingForPlayers,
-		serverWaiting, ServerStateReset);	
-	gameState.setState(ServerStateWaitingForPlayers);
-
-	// ServerStateReset
+	// ServerStateReset (Start State)
 	ServerResetState *serverReset = new ServerResetState();
 	gameState.addStateEntry(ServerStateReset,
 		serverReset);
-	gameState.addStateStimulus(ServerStateReset,
-		tooFewPlayersStim, ServerStateWaitingForPlayers);	
 	gameState.addStateStimulus(ServerStateReset, 
 		ServerStimulusNewGame, ServerStateNewGame);
 
@@ -62,8 +59,6 @@ void ServerState::setupStates(GameState &gameState)
 	ServerNewGameState *serverNewGame = new ServerNewGameState;
 	gameState.addStateEntry(ServerStateNewGame,
 		serverNewGame);
-	gameState.addStateStimulus(ServerStateNewGame,
-		tooFewPlayersStim, ServerStateWaitingForPlayers);	
 	gameState.addStateStimulus(ServerStateNewGame, 
 		ServerStimulusNextRound, ServerStateNextRound);
 
@@ -71,8 +66,6 @@ void ServerState::setupStates(GameState &gameState)
 	ServerNextRoundState *serverNextRound = new ServerNextRoundState;
 	gameState.addStateEntry(ServerStateNextRound,
 		serverNextRound);
-	gameState.addStateStimulus(ServerStateNextRound,
-		tooFewPlayersStim, ServerStateWaitingForPlayers);	
 	gameState.addStateStimulus(ServerStateNextRound, 
 		ServerStimulusReady, ServerStateReady);
 
@@ -80,8 +73,6 @@ void ServerState::setupStates(GameState &gameState)
 	ServerReadyState *serverReady = new ServerReadyState;
 	gameState.addStateEntry(ServerStateReady,
 		serverReady);
-	gameState.addStateStimulus(ServerStateReady,
-		tooFewPlayersStim, ServerStateWaitingForPlayers);	
 	gameState.addStateStimulus(ServerStateReady, 
 		serverReady, ServerStateNextShot);
 
@@ -89,8 +80,8 @@ void ServerState::setupStates(GameState &gameState)
 	ServerNextShotState *serverNextShot = new ServerNextShotState;
 	gameState.addStateEntry(ServerStateNextShot,
 		serverNextShot);
-	gameState.addStateStimulus(ServerStateNextShot,
-		tooFewPlayersStim, ServerStateWaitingForPlayers);	
+	gameState.addStateStimulus(ServerStateNextShot, 
+		ServerStimulusTooFewPlayers, ServerStateTooFewPlayers);
 	gameState.addStateStimulus(ServerStateNextShot, 
 		ServerStimulusNextTurn, ServerStateNextTurn);
 	gameState.addStateStimulus(ServerStateNextShot,
@@ -105,7 +96,7 @@ void ServerState::setupStates(GameState &gameState)
 	gameState.addStateEntry(ServerStateNextTurn,
 		serverNextTurn);
 	gameState.addStateStimulus(ServerStateNextTurn,
-		tooFewPlayersStim, ServerStateWaitingForPlayers);	
+		ServerTooFewPlayersStimulus::instance(), ServerStateTooFewPlayers);	
 	gameState.addStateStimulus(ServerStateNextTurn,
 		ServerStimulusBuying, ServerStateBuying);	
 	gameState.addStateStimulus(ServerStateNextTurn,
@@ -118,7 +109,7 @@ void ServerState::setupStates(GameState &gameState)
 	gameState.addStateEntry(ServerStatePlaying,
 		serverPlaying);
 	gameState.addStateStimulus(ServerStatePlaying,
-		tooFewPlayersStim, ServerStateWaitingForPlayers);	
+		ServerTooFewPlayersStimulus::instance(), ServerStateTooFewPlayers);	
 	gameState.addStateStimulus(ServerStatePlaying,
 		serverPlaying, ServerStateNextTurn);
 
@@ -127,7 +118,7 @@ void ServerState::setupStates(GameState &gameState)
 	gameState.addStateEntry(ServerStateBuying,
 		serverBuying);
 	gameState.addStateStimulus(ServerStateBuying,
-		tooFewPlayersStim, ServerStateWaitingForPlayers);	
+		ServerTooFewPlayersStimulus::instance(), ServerStateTooFewPlayers);	
 	gameState.addStateStimulus(ServerStateBuying,
 		serverBuying, ServerStateNextTurn);
 
@@ -136,7 +127,7 @@ void ServerState::setupStates(GameState &gameState)
 	gameState.addStateEntry(ServerStateShot,
 		serverShot);
 	gameState.addStateStimulus(ServerStateShot,
-		tooFewPlayersStim, ServerStateWaitingForPlayers);	
+		ServerTooFewPlayersStimulus::instance(), ServerStateTooFewPlayers);	
 	gameState.addStateStimulus(ServerStateShot,
 		serverShot, ServerStateReady);	
 
@@ -145,7 +136,10 @@ void ServerState::setupStates(GameState &gameState)
 	gameState.addStateEntry(ServerStateScore,
 		serverScore);
 	gameState.addStateStimulus(ServerStateScore,
-		tooFewPlayersStim, ServerStateWaitingForPlayers);	
+		ServerTooFewPlayersStimulus::instance(), ServerStateTooFewPlayers);	
 	gameState.addStateStimulus(ServerStateScore,
-		serverScore, ServerStateWaitingForPlayers);	
+		serverScore, ServerStateReset);	
+
+	// Set the start state
+	gameState.setState(ServerStateReset);
 }

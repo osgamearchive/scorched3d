@@ -22,6 +22,7 @@
 #include <server/TurnController.h>
 #include <server/ScorchedServer.h>
 #include <server/ServerState.h>
+#include <server/ServerTooFewPlayersStimulus.h>
 #include <scorched/ServerDialog.h>
 #include <common/Logger.h>
 
@@ -36,6 +37,14 @@ ServerNextShotState::~ServerNextShotState()
 void ServerNextShotState::enterState(const unsigned state)
 {
 	serverLog(0, "Choosing Shots");
+
+	// Check there are enough players for this shot
+	if (ServerTooFewPlayersStimulus::instance()->acceptStateChange(state, 
+		ServerState::ServerStateTooFewPlayers, 0.0f))
+	{
+		ScorchedServer::instance()->getGameState().stimulate(ServerState::ServerStimulusTooFewPlayers);
+		return;
+	}
 
 	// Check if this round has finished
 	if (ScorchedServer::instance()->getTankContainer().aliveCount() < 2 ||

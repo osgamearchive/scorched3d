@@ -34,7 +34,7 @@ public:
 
 	virtual void enterState(const unsigned state);
 
-	static void addTanksToGame(const unsigned state);
+	static int addTanksToGame(const unsigned state);
 
 protected:
 	void calculateStartPosition(ScorchedContext &contex);

@@ -24,6 +24,7 @@
 #include <common/OptionsTransient.h>
 #include <common/Defines.h>
 #include <server/ServerState.h>
+#include <server/ServerTooFewPlayersStimulus.h>
 
 ServerBrowserInfo *ServerBrowserInfo::instance_ = 0;
 
@@ -98,7 +99,7 @@ void ServerBrowserInfo::processStatusMessage(char *buffer)
 	char version[256];
 	sprintf(version, "%s (%s)", ScorchedVersion, ScorchedProtocolVersion);
 	unsigned currentState = ScorchedServer::instance()->getGameState().getState();
-	bool started = (currentState!=ServerState::ServerStateWaitingForPlayers);
+	bool started = !ServerTooFewPlayersStimulus::instance()->acceptStateChange(0, 0, 0.0f);
 	char players[25];
 	sprintf(players, "%i", ScorchedServer::instance()->getTankContainer().getNoOfTanks());
 	char maxplayers[25];

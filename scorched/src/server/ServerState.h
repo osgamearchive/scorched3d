@@ -28,7 +28,7 @@ namespace ServerState
 {
 	enum ServerStateEnum
 	{
-		ServerStateWaitingForPlayers = 1,
+		ServerStateTooFewPlayers = 1,
 		ServerStateReset,
 		ServerStateNewGame,
 		ServerStateNextRound,
@@ -50,7 +50,8 @@ namespace ServerState
 		ServerStimulusPlaying,
 		ServerStimulusBuying,
 		ServerStimulusShot,
-		ServerStimulusScore
+		ServerStimulusScore,
+		ServerStimulusTooFewPlayers
 	};
 
 	void setupStates(GameState &gameState);

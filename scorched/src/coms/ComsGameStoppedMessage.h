@@ -18,11 +18,11 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #if !defined(__INCLUDE_ComsGameStoppedMessageh_INCLUDE__)
 #define __INCLUDE_ComsGameStoppedMessageh_INCLUDE__
 
 #include <coms/ComsMessage.h>
+#include <coms/ComsPlayerStateMessage.h>
 
 class ComsGameStoppedMessage : public ComsMessage
 {
@@ -34,8 +34,9 @@ public:
 	virtual bool writeMessage(NetBuffer &buffer);
 	virtual bool readMessage(NetBufferReader &reader);
 
+protected:
+	ComsPlayerStateMessage stateMessage_;
+
 };
-
-
 
 #endif

@@ -23,6 +23,7 @@
 
 #include <GLW/GLWWindow.h>
 #include <GLW/GLWButton.h>
+#include <GLW/GLWListView.h>
 
 class RulesDialog : public GLWWindow , 
 					public GLWButtonI
@@ -34,8 +35,11 @@ public:
 	virtual void buttonDown(unsigned int id);
 	virtual void draw();
 
+	void addMOTD(const char *text);
+
 protected:
 	static RulesDialog *instance_;
+	GLWListView *listView_;
 	unsigned int okId_;
 	bool firstShow_;
 

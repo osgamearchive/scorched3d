@@ -2613,6 +2613,12 @@
 				RelativePath="..\server\ServerState.h">
 			</File>
 			<File
+				RelativePath="..\server\ServerStateTooFewPlayersState.cpp">
+			</File>
+			<File
+				RelativePath="..\server\ServerStateTooFewPlayersState.h">
+			</File>
+			<File
 				RelativePath="..\server\ServerTextHandler.cpp">
 			</File>
 			<File

@@ -177,6 +177,21 @@ int TankContainer::aliveCount()
 	return alive;
 }
 
+void TankContainer::setAllDead()
+{
+	std::map<unsigned int, Tank *>::iterator mainitor;
+	for (mainitor = playingTanks_.begin();
+		 mainitor != playingTanks_.end();
+		 mainitor++)
+	{
+		Tank *current = (*mainitor).second;
+		if (current->getState().getState() != TankState::sPending)
+		{
+			current->getState().setState(TankState::sDead);
+		}
+	}
+}
+
 bool TankContainer::allReady()
 {
 	std::map<unsigned int, Tank *>::iterator mainitor;

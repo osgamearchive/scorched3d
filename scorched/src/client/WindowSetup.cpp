@@ -118,6 +118,9 @@ void WindowSetup::setup()
 	WindowManager::instance()->addWindow(ClientState::StateConnect, 
 		ConnectDialog::instance(), 0, true);
 
+	// StateWait
+	addCommonComponents(ClientState::StateWait);
+
 	// StateNextRound
 	addCommonComponents(ClientState::StateReady);
 

@@ -18,10 +18,11 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <client/ClientGameStoppedHandler.h>
 #include <client/ClientState.h>
 #include <client/ScorchedClient.h>
+#include <common/WindowManager.h>
+#include <dialogs/RulesDialog.h>
 #include <coms/ComsGameStoppedMessage.h>
 
 ClientGameStoppedHandler *ClientGameStoppedHandler::instance_ = 0;
@@ -53,6 +54,7 @@ bool ClientGameStoppedHandler::processMessage(unsigned int id,
 	ComsGameStoppedMessage message;
 	if (!message.readMessage(reader)) return false;
 
+	WindowManager::instance()->showWindow(RulesDialog::instance()->getId());
 	ScorchedClient::instance()->getGameState().stimulate(ClientState::StimDisconnected);
 	return true;
 }

@@ -47,6 +47,7 @@ public:
 	void newGame();
 
 	void resetTanks();
+	void setAllDead();
 	void removeAllTanks();
 	bool allReady();
 	int aliveCount();

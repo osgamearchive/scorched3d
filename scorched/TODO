@@ -42,6 +42,10 @@ Added: Player ordering can be specified for sequential game modes
 Added: Landscape width can be set (smaller landscapes only)
 Added: Better scroll bar controls
 Added: Widgets are all now rounded
+Added: Mushroom clouds for nukes
+Added: MOTD and rules displayed when player connects
+Added: Dirt cloud for explosions
+Added: Start of trees for landscape
 
 Fixed: Tank bounding boxes can still cause collisions when tank is dead
 Fixed: Random windows crashes, increased stack size to stop ODE from running out of stack
@@ -83,6 +87,7 @@ In local mode when it's the next person's turn, re-center the view to where they
 ability to re center view around other tanks
 keep track of money after you leave the server
 keep track of views 
+missile landing view
 Make a count down sound when timer runs out.
 
 -- Other Stuff
@@ -111,6 +116,7 @@ communism
 anti-gravity dirt (doesn't fall) Needed for cavern environment 
 New animations for weapons
 New landscape surrounds, desert etc...
+Some kind of fire out the back of missiles
 Clouds
 lightning
 Trees,

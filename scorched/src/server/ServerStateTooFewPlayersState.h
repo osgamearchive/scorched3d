@@ -18,23 +18,23 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <coms/ComsGameStoppedMessage.h>
+#if !defined(__INCLUDE_ServerStateTooFewPlayersStateh_INCLUDE__)
+#define __INCLUDE_ServerStateTooFewPlayersStateh_INCLUDE__
 
-ComsGameStoppedMessage::ComsGameStoppedMessage() :
-	ComsMessage("ComsGameStoppedMessage")
-{
-}
+#include <engine/GameStateI.h>
+#include <engine/GameStateStimulusI.h>
 
-ComsGameStoppedMessage::~ComsGameStoppedMessage()
+class ServerStateTooFewPlayersState : 
+	public GameStateI, public GameStateStimulusI
 {
-}
+public:
+	ServerStateTooFewPlayersState();
+	virtual ~ServerStateTooFewPlayersState();
 
-bool ComsGameStoppedMessage::writeMessage(NetBuffer &buffer)
-{
-	return stateMessage_.writeMessage(buffer);
-}
+	virtual void enterState(const unsigned state);
+	virtual bool acceptStateChange(const unsigned state, 
+		const unsigned nextState,
+		float frameTime);
+};
 
-bool ComsGameStoppedMessage::readMessage(NetBufferReader &reader)
-{
-	return stateMessage_.readMessage(reader);
-}
+#endif

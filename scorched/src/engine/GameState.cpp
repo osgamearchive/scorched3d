@@ -362,7 +362,11 @@ void GameState::setState(const unsigned state)
 	}
 	else
 	{
-		DIALOG_ASSERT(0);
+		dialogMessage("Scorched3D", 
+			"%s: Failed to find state %i", 
+			name_.c_str(),
+			state);
+		exit(1);
 	}
 }
 

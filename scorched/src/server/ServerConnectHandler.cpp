@@ -173,55 +173,6 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 		return true;
 	}
 
-	sendString(destinationId,
-		"Server playing a %s game.\n"
-		"Players will be kicked if their machine does not\n"
-		"return ready for %i seconds\n"
-		"or if they miss %i rounds",
-		TurnController::instance()->getGameType(
-			ScorchedServer::instance()->getOptionsGame().getTurnType()),
-		ScorchedServer::instance()->getOptionsGame().getIdleKickTime(),
-		ScorchedServer::instance()->getOptionsGame().getAllowedMissedMoves());
-
-	// Tell the client about the current state of play
-	// (e.g.) how many players how long to wait etc...
-	if (ScorchedServer::instance()->getGameState().getState() == 
-		ServerState::ServerStateWaitingForPlayers &&
-		(ScorchedServer::instance()->getOptionsGame().getNoMinPlayers() > 
-		ScorchedServer::instance()->getTankContainer().getNoOfNonSpectatorTanks() + (int) message.getPlayers().size()))
-	{
-		sendString(destinationId,
-			"--------------------------------------\n"
-			"This server currently has %i players out\n"
-			"of a maximum of %i players.\n"
-			"This server will only start a game when\n"
-			"there are %i or more players.\n"
-			"%i more player(s) are required before a \n"
-			"game will start.\n"
-			"Waiting for more players to join...\n"
-			"--------------------------------------\n",
-			ScorchedServer::instance()->getTankContainer().getNoOfNonSpectatorTanks() + 
-			(int) message.getPlayers().size(),
-			ScorchedServer::instance()->getOptionsGame().getNoMaxPlayers(),
-			ScorchedServer::instance()->getOptionsGame().getNoMinPlayers(),
-			ScorchedServer::instance()->getOptionsGame().getNoMinPlayers() - 
-			ScorchedServer::instance()->getTankContainer().getNoOfNonSpectatorTanks() - 
-			(int) message.getPlayers().size());
-	}
-	else
-	{
-		sendString(destinationId,
-			"--------------------------------------\n"
-			"This server currently has %i players out\n"
-			"of a maximum of %i players.\n"
-			"You will join the game within %i seconds...\n"
-			"--------------------------------------\n",
-			ScorchedServer::instance()->getTankContainer().getNoOfNonSpectatorTanks() + 
-			(int) message.getPlayers().size(),
-			ScorchedServer::instance()->getOptionsGame().getNoMaxPlayers(),
-			ScorchedServer::instance()->getOptionsGame().getWaitTime());
-	}
-
 	// Send all current tanks to the new client
 	std::map<unsigned int, Tank *>::iterator itor;
 	std::map<unsigned int, Tank *> &tankList = 

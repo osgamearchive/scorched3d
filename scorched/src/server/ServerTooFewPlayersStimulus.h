@@ -27,14 +27,19 @@
 class ServerTooFewPlayersStimulus : public GameStateStimulusI
 {
 public:
-	ServerTooFewPlayersStimulus();
-	virtual ~ServerTooFewPlayersStimulus();
+	static ServerTooFewPlayersStimulus *instance();
 
 	virtual bool acceptStateChange(const unsigned state, 
 		const unsigned nextState,
 		float frameTime);
 
+protected:
+	static ServerTooFewPlayersStimulus *instance_;
+
 private:
+	ServerTooFewPlayersStimulus();
+	virtual ~ServerTooFewPlayersStimulus();
+
 	ServerTooFewPlayersStimulus(const ServerTooFewPlayersStimulus &);
 	const ServerTooFewPlayersStimulus & operator=(const ServerTooFewPlayersStimulus &);
 

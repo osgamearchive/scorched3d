@@ -43,7 +43,7 @@ void ServerNewGameState::enterState(const unsigned state)
 {
 	// Tell clients a new game is starting
 	serverLog(0, "Starting new game");
-	sendStringMessage(0, "Next Round");
+	sendString(0, "Next Round");
 
 	// Setup landscape and tank start pos
 	serverLog(0, "Generating landscape");
@@ -80,7 +80,7 @@ void ServerNewGameState::enterState(const unsigned state)
 	ScorchedServer::instance()->getGameState().stimulate(ServerState::ServerStimulusNextRound);
 }
 
-void ServerNewGameState::addTanksToGame(const unsigned state)
+int ServerNewGameState::addTanksToGame(const unsigned state)
 {
 	// Check if there are any pending tanks
 	// An optimization that is only for the
@@ -100,7 +100,7 @@ void ServerNewGameState::addTanksToGame(const unsigned state)
 			pending = true;
 		}
 	}
-	if (!pending) return;
+	if (!pending) return 0;
 
 	// Generate the level message
 	ComsNewGameMessage newGameMessage;
@@ -109,7 +109,7 @@ void ServerNewGameState::addTanksToGame(const unsigned state)
 	{
 		Logger::log(0, "ERROR: Failed to generate diff");
 	}
-	serverLog(0, "Finished generating landscape (%i bytes)", 
+	serverLog(0, "Finished generating landscape message (%i bytes)", 
 		newGameMessage.getLevelMessage().getLevelLen());
 
 	// Check if the generated landscape is too large to send to the clients
@@ -119,7 +119,7 @@ void ServerNewGameState::addTanksToGame(const unsigned state)
 		serverLog(0, "Landscape too large to send to waiting clients.");
 		sendString(0, "Landscape too large to send to waiting clients (%i bytes).", 
 			newGameMessage.getLevelMessage().getLevelLen());
-		return;
+		return 0;
 	}
 
 	// Used to ensure we only send messages to each
@@ -128,6 +128,7 @@ void ServerNewGameState::addTanksToGame(const unsigned state)
 	std::set<unsigned int>::iterator findItor;
 
 	// Tell any pending tanks to join the game
+	int count = 0;
 	for (itor = tanks.begin();
 		itor != tanks.end();
 		itor++)
@@ -136,6 +137,7 @@ void ServerNewGameState::addTanksToGame(const unsigned state)
 		// Check to see if any tanks are pending being added
 		if (tank->getState().getState() == TankState::sPending)
 		{
+			count++;
 			if (tank->getState().getSpectator())
 			{
 				// This tank is now playing (but dead)
@@ -164,6 +166,8 @@ void ServerNewGameState::addTanksToGame(const unsigned state)
 			}
 		}
 	}
+
+	return count;
 }
 
 void ServerNewGameState::flattenArea(ScorchedContext &context, Vector &tankPos)

@@ -20,6 +20,7 @@
 
 #include <client/ClientConnectionAcceptHandler.h>
 #include <client/ScorchedClient.h>
+#include <dialogs/RulesDialog.h>
 #include <coms/ComsConnectAcceptMessage.h>
 #include <common/Logger.h>
 
@@ -57,11 +58,11 @@ bool ClientConnectionAcceptHandler::processMessage(unsigned int id,
 	ScorchedClient::instance()->getTankContainer().
 		setCurrentDestinationId(message.getDestinationId());
 
-	// Add connection info to the dialogs
 	Logger::log(0,
-		"Connection accepted by \"%s\"",
+		"Connection accepted by \"%s\".\nPlease wait...",
 		message.getServerName());
-	Logger::log(0, message.getMotd());
+
+	RulesDialog::instance()->addMOTD(message.getMotd());
 
 	return true;
 }

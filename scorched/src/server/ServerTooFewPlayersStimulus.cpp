@@ -20,11 +20,17 @@
 
 #include <server/ServerTooFewPlayersStimulus.h>
 #include <server/ScorchedServer.h>
-#include <scorched/ServerDialog.h>
-#include <coms/ComsGameStoppedMessage.h>
-#include <coms/ComsMessageSender.h>
-#include <common/OptionsGame.h>
-#include <common/Logger.h>
+
+ServerTooFewPlayersStimulus *ServerTooFewPlayersStimulus::instance_ = 0;
+
+ServerTooFewPlayersStimulus *ServerTooFewPlayersStimulus::instance()
+{
+	if (!instance_)
+	{
+		instance_ = new ServerTooFewPlayersStimulus;
+	}
+	return instance_;
+}
 
 ServerTooFewPlayersStimulus::ServerTooFewPlayersStimulus()
 {
@@ -43,31 +49,6 @@ bool ServerTooFewPlayersStimulus::acceptStateChange(const unsigned state,
 	if (ScorchedServer::instance()->getTankContainer().getNoOfNonSpectatorTanks() <
 		ScorchedServer::instance()->getOptionsGame().getNoMinPlayers())
 	{
-		// Move all dead + alive tanks to pending
-		ScorchedServer::instance()->getTankContainer().resetTanks();
-
-		// Tell any clients why the game has been abandonded
-		ComsGameStoppedMessage gameStopped;
-		ComsMessageSender::sendToAllConnectedClients(gameStopped);
-
-		serverLog(0, "Too few players, stopping play");
-		sendString(0, "Too few players, stopping play");
-		sendString(0,
-			"--------------------------------------\n"
-			"This server currently has %i players out\n"
-			"of a maximum of %i players.\n"
-			"This server will only start a game when\n"
-			"there are %i or more players.\n"
-			"%i more player(s) are required before a \n"
-			"game will start.\n"
-			"Waiting for more players to join...\n"
-			"--------------------------------------\n",
-			ScorchedServer::instance()->getTankContainer().getNoOfNonSpectatorTanks(),
-			ScorchedServer::instance()->getOptionsGame().getNoMaxPlayers(),
-			ScorchedServer::instance()->getOptionsGame().getNoMinPlayers(),
-			ScorchedServer::instance()->getOptionsGame().getNoMinPlayers() - 
-			ScorchedServer::instance()->getTankContainer().getNoOfNonSpectatorTanks());
-
 		return true;
 	}
 	return false;

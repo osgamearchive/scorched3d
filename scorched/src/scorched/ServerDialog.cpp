@@ -33,6 +33,7 @@
 #include <server/ServerMain.h>
 #include <server/ServerMessageHandler.h>
 #include <server/ScorchedServer.h>
+#include <server/ServerTooFewPlayersStimulus.h>
 #include <wx/wx.h>
 #include <wx/image.h>
 #include <wx/listctrl.h>
@@ -398,8 +399,7 @@ void ServerFrame::onTimer()
 		ScorchedServer::instance()->getOptionsGame().getNoMaxPlayers());
 	frame->statusBar_->SetStatusText(buffer, 0);
 	frame->statusBar_->SetStatusText(
-		(ScorchedServer::instance()->getGameState().getState() == 
-		ServerState::ServerStateWaitingForPlayers?"Not Playing":"Playing"), 1);
+		(ServerTooFewPlayersStimulus::instance()->acceptStateChange(0, 0, 0.0f)?"Not Playing":"Playing"), 1);
 	sprintf(buffer, "Round %i/%i, %i/%i Moves",
 		ScorchedServer::instance()->getOptionsGame().getNoRounds() - 
 		ScorchedServer::instance()->getOptionsTransient().getNoRoundsLeft(),
