@@ -209,6 +209,26 @@
 		<key>0</key>
 	</keyentry>
 	<keyentry>
+		<name>CAMERA_SCROLL_LEFT</name>
+		<description>Scroll the camara left</description>
+		<key state="LALT">a</key>
+	</keyentry>
+	<keyentry>
+		<name>CAMERA_SCROLL_RIGHT</name>
+		<description>Scroll the camara right</description>
+		<key state="LALT">d</key>
+	</keyentry>
+	<keyentry>
+		<name>CAMERA_SCROLL_UP</name>
+		<description>Rotates the camara up</description>
+		<key state="LALT">w</key>
+	</keyentry>
+	<keyentry>
+		<name>CAMERA_SCROLL_DOWN</name>
+		<description>Rotates the camara down</description>
+		<key state="LALT">s</key>
+	</keyentry>
+	<keyentry>
 		<name>CAMERA_ROTATE_LEFT</name>
 		<description>Rotates the camara left</description>
 		<key>KP4</key>
@@ -241,7 +261,7 @@
 	<keyentry>
 		<name>CAMERA_NOLIMIT</name>
 		<description>Allow the camera to move through the landscape</description>
-		<key state="LALT">LALT</key>
+		<key state="RALT">RALT</key>
 	</keyentry>
 	<keyentry>
 		<name>CAMERA_SET_QUICK_SLOT_1</name>

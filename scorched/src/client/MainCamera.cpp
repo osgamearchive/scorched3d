@@ -190,6 +190,19 @@ void MainCamera::keyboardCheck(const unsigned state, float frameTime,
 		saveScreen_.saveScreen_ = true;
 	}
 
+	KEYBOARDKEY("CAMERA_SCROLL_UP", scrollUp);
+	KEYBOARDKEY("CAMERA_SCROLL_DOWN", scrollDown);
+	KEYBOARDKEY("CAMERA_SCROLL_LEFT", scrollLeft);
+	KEYBOARDKEY("CAMERA_SCROLL_RIGHT", scrollRight);
+	if (scrollUp->keyDown(buffer, keyState)) 
+		targetCam_.getCamera().scroll(GLCamera::eScrollUp);
+	else if (scrollDown->keyDown(buffer, keyState)) 
+		targetCam_.getCamera().scroll(GLCamera::eScrollDown);
+	else if (scrollLeft->keyDown(buffer, keyState)) 
+		targetCam_.getCamera().scroll(GLCamera::eScrollLeft);
+	else if (scrollRight->keyDown(buffer, keyState)) 
+		targetCam_.getCamera().scroll(GLCamera::eScrollRight);
+
 	KEYBOARDKEY("CAMERA_SET_QUICK_SLOT_1", setQuick1);
 	KEYBOARDKEY("CAMERA_SET_QUICK_SLOT_2", setQuick2);
 	KEYBOARDKEY("CAMERA_SET_QUICK_SLOT_3", setQuick3);
