@@ -83,7 +83,6 @@ scorcheddata_DATA = data/landscapesdefn.xml \
 	data/landscapestex.xml \
 	data/mysql.xml \
 	data/singletarget.xml \
-	data/motd.txt \
 	data/server.xml \
 	data/ainames.txt \
 	data/singlehard.xml \
@@ -363,6 +362,7 @@ scorcheddatalandscapes_DATA = data/landscapes/hmap3.bmp \
 	data/landscapes/islands.bmp \
 	data/landscapes/ridge-mask.bmp \
 	data/landscapes/hilly.bmp \
+	data/landscapes/half-mask-start.bmp \
 	data/landscapes/halved.bmp \
 	data/landscapes/hole.bmp \
 	data/landscapes/ridge.bmp \

@@ -120,6 +120,20 @@ else
 fi 
 LIBS="$LIBS $OPENGL_LIBS"
 
+dnl Checks for Profiling
+AC_MSG_CHECKING(for profiling enabled)
+AC_ARG_ENABLE(profiling, 
+	[  --enable-profiling    Enable gprof code profiling],
+		    , enable_profiling=no,
+		    enable_profiling=yes)
+if test "x$enable_profiling" = "xyes" ; then
+	LIBS="$LIBS -pg"
+	CFLAGS="$CFLAGS -pg"
+	CPPFLAGS="$CPPFLAGS -pg"
+	CXXFLAGS="$CXXFLAGS -pg"
+fi
+AC_MSG_RESULT($enable_profiling)
+
 dnl Floating point math
 AC_MSG_CHECKING(for floating point math support)
 have_fp=yes
