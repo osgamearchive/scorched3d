@@ -25,7 +25,8 @@ scorcheddocumentationhtml_DATA = documentation/html/accessories.html \
 	documentation/html/quickstart.html \
 	documentation/html/screen.html
 scorcheddocumentationhtmlbuttonsdir = ${docdir}/documentation/html/buttons
-scorcheddocumentationhtmlbuttons_DATA = documentation/html/buttons/scorchedlarge2.gif
+scorcheddocumentationhtmlbuttons_DATA = documentation/html/buttons/scorchedlarge2.gif \
+	documentation/html/buttons/donate.gif
 scorcheddocumentationhtmlnumbersdir = ${docdir}/documentation/html/numbers
 scorcheddocumentationhtmlnumbers_DATA = documentation/html/numbers/number-1.gif \
 	documentation/html/numbers/number-2.gif \
@@ -639,7 +640,8 @@ scorcheddatawavmisc_DATA = data/wav/misc/camera.wav \
 	data/wav/misc/para.wav \
 	data/wav/misc/play.wav \
 	data/wav/misc/splash.wav \
-	data/wav/misc/text.wav
+	data/wav/misc/text.wav \
+	data/wav/misc/laserdeath.wav
 scorcheddatawavmovementdir = ${datadir}/data/wav/movement
 scorcheddatawavmovement_DATA = data/wav/movement/elevate.wav \
 	data/wav/movement/movement.wav \
