@@ -117,7 +117,7 @@ create table if not exists scorched3d_weapons (
 	deathshots INTEGER NOT NULL DEFAULT 0,
 	deathkills INTEGER NOT NULL DEFAULT 0,
 	
-	PRIMARY KEY (weaponid),
+	PRIMARY KEY (weaponid, prefixid, seriesid),
 	FOREIGN KEY (prefixid) REFERENCES scorched3d_prefixs(prefixid),
 	FOREIGN KEY (seriesid) REFERENCES scorched3d_series(seriesid)
 );
