@@ -39,9 +39,8 @@ totalTime_(0), time_(0), size_(size), position_(position), angle_(0)
 	_texture = 0;
 
 	std::string file1 = getDataFile("data/textures/bordershield/grid22.bmp");
-	std::string file2 = getDataFile("data/textures/bordershield/grid.bmp");
 	
-	GLBitmap map(file1.c_str(), file2.c_str(), true);
+	GLBitmap map(file1.c_str(), file1.c_str(), false);
 	_texture = new GLTexture;
 	_texture->create(map, GL_RGBA, true);
 	//GLConsole::instance()->addLine(false, "Size=%f", size_);
@@ -55,6 +54,8 @@ void ExplosionLaserBeamRenderer::draw(Action *action)
 {
 	GLState currentState(GLState::TEXTURE_ON | GLState::BLEND_ON);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); 
+	_texture->draw();
+
 	glPushMatrix();	
 	glTranslatef(position_[0],position_[1],0.0f);
 	glScalef(time_*0.05f,time_*0.05f,1.0f);
@@ -66,11 +67,9 @@ void ExplosionLaserBeamRenderer::draw(Action *action)
 		if (tempheight>100) tempheight=100;
 		Vector height(0,0,tempheight);
 
-
+		glColor4f(0.8f,0.8f,1.0f, 0.7f);
 		for (int i=0;i<(sides+1);i++){
 			
-			_texture->draw();
-			glColor4f(1.0f,1.0f,1.8f, 0.5f);
 			glNormal3fv ((float*)(points[j][i%sides]));
 			if (i%2){
 				glTexCoord2f(0.0f, 0.0f+time_);
@@ -87,11 +86,6 @@ void ExplosionLaserBeamRenderer::draw(Action *action)
 			glVertex3fv((float*)(points[j][i%sides]));
 		}
 		for (int i=0;i<(sides+1);i++){
-			
-		_texture->draw();
-		//GLState currentState(GLState::TEXTURE_ON);
-
-			glColor4f(0.0f,0.5f,1.0f, 0.5f);
 			
 			glNormal3fv ((float*)(points[j][i%sides]));
 			if (i%2){
