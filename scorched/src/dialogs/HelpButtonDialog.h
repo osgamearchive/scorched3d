@@ -18,28 +18,32 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+#if !defined(__INCLUDE_HelpButtonDialogh_INCLUDE__)
+#define __INCLUDE_HelpButtonDialogh_INCLUDE__
 
-#if !defined(__INCLUDE_HelpDialogh_INCLUDE__)
-#define __INCLUDE_HelpDialogh_INCLUDE__
 #include <GLW/GLWWindow.h>
-#include <GLW/GLWButton.h>
+#include <GLEXT/GLTexture.h>
 
-class HelpDialog : public GLWWindow, 
-					public GLWButtonI
+class HelpButtonDialog : public GLWWindow
 {
 public:
-	static HelpDialog *instance();
-
-	virtual void buttonDown(unsigned int id);
+	static HelpButtonDialog *instance();
 
 protected:
-	static HelpDialog *instance_;
-	unsigned int okId_;
+	static HelpButtonDialog *instance_;
+	GLTexture helpTexture_;
+
+	virtual void draw();
+	virtual void mouseDown(float x, float y, bool &skipRest);
+	virtual void mouseUp(float x, float y, bool &skipRest);
+	virtual void mouseDrag(float mx, float my, float x, float y, bool &skipRest);
+	virtual void keyDown(char *buffer, unsigned int keyState, 
+		KeyboardHistory::HistoryElement *history, int hisCount, 
+		bool &skipRest);
 
 private:
-	HelpDialog();
-	virtual ~HelpDialog();
+	HelpButtonDialog();
+	virtual ~HelpButtonDialog();
 };
-
 
 #endif

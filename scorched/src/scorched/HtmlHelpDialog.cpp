@@ -24,6 +24,7 @@
 #include <wx/wx.h>
 #include <wx/minifram.h>
 #include <wx/wxhtml.h>
+#include <wx/event.h>
 
 enum
 {
@@ -44,6 +45,7 @@ public:
 	void onBack();
 	void onForward();
 	void onHome();
+	void onKeyDown(wxKeyEvent &event);
 
 	wxHtmlWindow *html_;
 
@@ -52,6 +54,7 @@ private:
 };
 
 BEGIN_EVENT_TABLE(HelpFrame, wxMiniFrame)
+	EVT_KEY_DOWN(HelpFrame::onKeyDown) 
 	EVT_BUTTON(ID_BUTTON_OK, HelpFrame::onExit)
 	EVT_BUTTON(ID_BUTTON_BACK, HelpFrame::onBack)
 	EVT_BUTTON(ID_BUTTON_FORWARD, HelpFrame::onForward)
@@ -100,6 +103,7 @@ HelpFrame::HelpFrame() :
 	wxBoxSizer *buttonSizer = new wxBoxSizer(wxHORIZONTAL);
 	wxButton *IDOK_CTRL = new wxButton(this, ID_BUTTON_OK, "Close",
 		wxDefaultPosition, wxSize(-1, 18));
+	IDOK_CTRL->SetDefault();
 	buttonSizer->Add(IDOK_CTRL, 0, wxALL, 3);
 	topsizer->Add(buttonSizer, 0, wxALIGN_RIGHT);
 
@@ -107,6 +111,11 @@ HelpFrame::HelpFrame() :
 	topsizer->SetSizeHints(this); // set size hints to honour minimum size
 
 	CentreOnScreen();
+}
+
+void HelpFrame::onKeyDown(wxKeyEvent &event)
+{
+	if (event.GetKeyCode() == WXK_ESCAPE) Close();
 }
 
 void HelpFrame::onExit()

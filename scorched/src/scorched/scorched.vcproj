@@ -344,16 +344,16 @@
 			Name="GLW"
 			Filter="">
 			<File
-				RelativePath="..\GLW\GLWButton.cpp">
-			</File>
-			<File
-				RelativePath="..\GLW\GLWButton.h">
-			</File>
-			<File
 				RelativePath="..\GLW\GLWBitmap.cpp">
 			</File>
 			<File
 				RelativePath="..\GLW\GLWBitmap.h">
+			</File>
+			<File
+				RelativePath="..\GLW\GLWButton.cpp">
+			</File>
+			<File
+				RelativePath="..\GLW\GLWButton.h">
 			</File>
 			<File
 				RelativePath="..\GLW\GLWCheckBox.cpp">
@@ -1042,10 +1042,10 @@
 				RelativePath="..\dialogs\ConnectDialog.h">
 			</File>
 			<File
-				RelativePath="..\dialogs\HelpDialog.cpp">
+				RelativePath="..\dialogs\HelpButtonDialog.cpp">
 			</File>
 			<File
-				RelativePath="..\dialogs\HelpDialog.h">
+				RelativePath="..\dialogs\HelpButtonDialog.h">
 			</File>
 			<File
 				RelativePath="..\dialogs\KibitzingDialog.cpp">
@@ -2322,6 +2322,12 @@
 				RelativePath="DisplayDialog.h">
 			</File>
 			<File
+				RelativePath="HtmlHelpDialog.cpp">
+			</File>
+			<File
+				RelativePath="HtmlHelpDialog.h">
+			</File>
+			<File
 				RelativePath="MainDialog.cpp">
 			</File>
 			<File
@@ -2332,12 +2338,6 @@
 			</File>
 			<File
 				RelativePath="NetDialog.h">
-			</File>
-			<File
-				RelativePath="HtmlHelpDialog.cpp">
-			</File>
-			<File
-				RelativePath="HtmlHelpDialog.h">
 			</File>
 			<File
 				RelativePath="ServerDialog.cpp">

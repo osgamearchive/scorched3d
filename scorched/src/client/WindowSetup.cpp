@@ -40,6 +40,7 @@
 #include <dialogs/ScoreDialog.h>
 #include <dialogs/KillDialog.h>
 #include <dialogs/KibitzingDialog.h>
+#include <dialogs/HelpButtonDialog.h>
 
 void WindowSetup::addCommonComponents(unsigned state)
 {
@@ -108,6 +109,9 @@ void WindowSetup::addCommonComponents(unsigned state)
 	KEYBOARDKEY("SHOW_RULES_DIALOG", rulesKey);
 	GLWWindowManager::instance()->addWindow(state, 
 		RulesDialog::instance(), rulesKey, true);
+
+	GLWWindowManager::instance()->addWindow(state, 
+		HelpButtonDialog::instance(), 0, true);
 }
 
 void WindowSetup::setup()
@@ -139,6 +143,8 @@ void WindowSetup::setup()
 		PlayerDialog::instance(), 0, true);
 	GLWWindowManager::instance()->addWindow(ClientState::StateGetPlayers, 
 		QuitDialog::instance(), quitKey, false);
+	GLWWindowManager::instance()->addWindow(ClientState::StateGetPlayers, 
+		HelpButtonDialog::instance(), 0, true);
 
 	// StateWait
 	addCommonComponents(ClientState::StateWait);

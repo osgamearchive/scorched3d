@@ -23,6 +23,7 @@
 #include <GLW/GLWSelector.h>
 #include <common/Keyboard.h>
 #include <dialogs/MainMenuDialog.h>
+#include <dialogs/HelpButtonDialog.h>
 #include <limits.h>
 #include <set>
 
@@ -130,6 +131,7 @@ void GLWWindowManager::setCurrentEntry(const unsigned state)
 	}
 
 	moveToFront(MainMenuDialog::instance()->getId());
+	moveToFront(HelpButtonDialog::instance()->getId());
 	moveToFront(GLWSelector::instance()->getId());
 }
 
@@ -157,6 +159,7 @@ bool GLWWindowManager::showWindow(unsigned id)
 			window->windowDisplay();
 			moveToFront(id);
 			moveToFront(MainMenuDialog::instance()->getId());
+			moveToFront(HelpButtonDialog::instance()->getId());
 			moveToFront(GLWSelector::instance()->getId());
 
 			return true;
