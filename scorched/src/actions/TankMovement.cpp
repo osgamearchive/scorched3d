@@ -133,10 +133,11 @@ void TankMovement::simulate(float frameTime, bool &remove)
 	{
 		if (vPoint_) vPoint_->setPosition(tank->getPhysics().getTankPosition());
 
+		// Stop moving if the tank is dead
 		if (tank->getState().getState() == TankState::sNormal)
 		{
 			// Check to see if this tank is falling
-			// If it is then we end the move
+			// If it is then we wait until the fall is over
 			std::set<unsigned int>::iterator findItor =
 				TankFalling::fallingTanks.find(playerId_);
 			if (findItor == TankFalling::fallingTanks.end())
@@ -157,7 +158,6 @@ void TankMovement::simulate(float frameTime, bool &remove)
 
 				if (expandedPositions_.empty()) remove = true;
 			}
-			else remove = true;
 		}
 		else remove = true;
 
