@@ -27,13 +27,13 @@
 class TankAIComputerMoron : public TankAIComputer
 {
 public:
-	TankAIComputerMoron(Tank *tank);
+	TankAIComputerMoron();
 	virtual ~TankAIComputerMoron();
 
 	virtual void playMove(const unsigned state, float frameTime, 
 		char *buffer, unsigned int keyState);
 
-TANKAI_DEFINE(Moron, TankAIComputerMoron);
+TANKAI_DEFINE(TankAIComputerMoron);
 
 protected:
 	void selectWeapons();

@@ -1,0 +1,41 @@
+<ais>
+	<ai type="Shark">
+		<name>Shark</name>
+		<sniper>50</sniper>
+		<weapon><name>Parachute</name><level>10</level></weapon>
+		<weapon><name>Baby Nuke</name><level>20</level></weapon>	
+		<weapon><name>MIRV</name><level>20</level></weapon>
+		<weapon><name>Shield</name><level>20</level></weapon>
+		<weapon><name>Auto Defense</name><level>30</level></weapon>
+		<weapon><name>Nuke</name><level>30</level></weapon>
+	</ai>
+
+	<ai type="Tosser">
+		<name>Chooser</name>
+		<sniper>50</sniper>
+		<weapon><name>Parachute</name><level>10</level></weapon>
+		<weapon><name>Baby Nuke</name><level>20</level></weapon>	
+		<weapon><name>MIRV</name><level>20</level></weapon>
+		<weapon><name>Nuke</name><level>30</level></weapon>
+	</ai>
+	
+	<ai type="Tosser">
+		<name>Tosser</name>
+		<sniper>0</sniper>
+		<weapon><name>Missile</name><level>20</level></weapon>
+		<weapon><name>Baby Nuke</name><level>20</level></weapon>	
+		<weapon><name>MIRV</name><level>20</level></weapon>
+		<weapon><name>Nuke</name><level>30</level></weapon>		
+	</ai>
+	
+	<ai type="Shooter">
+		<name>Shooter</name>
+		<weapon><name>Missile</name><level>20</level></weapon>
+		<weapon><name>Baby Nuke</name><level>20</level></weapon>		
+	</ai>
+	
+	<ai type="Moron">
+		<name>Moron</name>
+		<weapon><name>Missile</name><level>2</level></weapon>
+	</ai>
+</ais>

@@ -18,18 +18,14 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <weapons/AccessoryStore.h>
 #include <tankai/TankAIComputerShooter.h>
 #include <tank/Tank.h>
 #include <tank/TankLib.h>
 
-TankAIComputerShooter::TankAIComputerShooter(Tank *tank) :
-	TankAIComputer(tank)
+TankAIComputerShooter::TankAIComputerShooter()
 {
-	// A good weapon is next
-	tankBuyer_.addAccessory("Missile", 20);
-	tankBuyer_.addAccessory("Baby Nuke", 20);
+
 }
 
 TankAIComputerShooter::~TankAIComputerShooter()

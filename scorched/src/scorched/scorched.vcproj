@@ -42,6 +42,7 @@
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile="$(OutDir)/scorched.pdb"
 				SubSystem="2"
+				StackReserveSize="26214400"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCMIDLTool"/>
@@ -90,6 +91,7 @@
 				LinkIncremental="1"
 				GenerateDebugInformation="TRUE"
 				SubSystem="2"
+				StackReserveSize="26214400"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				TargetMachine="1"/>
@@ -140,6 +142,7 @@
 				LinkIncremental="1"
 				GenerateDebugInformation="TRUE"
 				SubSystem="2"
+				StackReserveSize="26214400"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				TargetMachine="1"/>
@@ -759,10 +762,10 @@
 				RelativePath="..\common\KeyboardHistory.h">
 			</File>
 			<File
-                             	RelativePath="..\common\KeyboardKey.cpp">
+				RelativePath="..\common\KeyboardKey.cpp">
 			</File>
 			<File
-                            	RelativePath="..\common\KeyboardKey.h">
+				RelativePath="..\common\KeyboardKey.h">
 			</File>
 			<File
 				RelativePath="..\common\Line.cpp">
@@ -2194,22 +2197,10 @@
 				RelativePath="..\tankai\TankAIComputerBuyer.h">
 			</File>
 			<File
-				RelativePath="..\tankai\TankAIComputerChooser.cpp">
-			</File>
-			<File
-				RelativePath="..\tankai\TankAIComputerChooser.h">
-			</File>
-			<File
 				RelativePath="..\tankai\TankAIComputerCtrl.cpp">
 			</File>
 			<File
 				RelativePath="..\tankai\TankAIComputerCtrl.h">
-			</File>
-			<File
-				RelativePath="..\tankai\TankAIComputerDHTest.cpp">
-			</File>
-			<File
-				RelativePath="..\tankai\TankAIComputerDHTest.h">
 			</File>
 			<File
 				RelativePath="..\tankai\TankAIComputerMoron.cpp">

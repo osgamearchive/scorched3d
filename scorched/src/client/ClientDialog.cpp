@@ -32,6 +32,7 @@
 #include <common/OptionsTransient.h>
 #include <common/OptionsGame.h>
 #include <common/Gamma.h>
+#include <tankai/TankAIStore.h>
 #include <landscape/HeightMapCollision.h>
 #include <landscape/GlobalHMap.h>
 #include <tankgraph/TankModelStore.h>
@@ -108,6 +109,11 @@ void setup()
 	if (!TankModelStore::instance()->loadTankMeshes())
 	{
 		dialogMessage("Scorched 3D", "Failed to load all tank models");		
+		exit(1);
+	}
+	if (!TankAIStore::instance()->loadAIs())
+	{
+		dialogMessage("Scorched 3D", "Failed to load all tank ais");		
 		exit(1);
 	}
 

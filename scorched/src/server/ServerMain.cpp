@@ -36,6 +36,7 @@
 #include <landscape/HeightMapCollision.h>
 #include <landscape/GlobalHMap.h>
 #include <tankai/TankAIAdder.h>
+#include <tankai/TankAIStore.h>
 #include <tank/TankContainer.h>
 #include <scorched/ServerDialog.h>
 #include <server/ServerMessageHandler.h>
@@ -112,6 +113,12 @@ bool serverMain()
 	ServerState::setupStates();
 
 	// Add the server side bots
+	if (!TankAIStore::instance()->loadAIs())
+	{
+		dialogMessage("Scorched3D Server", 
+			"Failed to load all tank ais");
+		return false;
+	}
 	TankAIAdder::addTankAIs();
 
 	// Try to start the server

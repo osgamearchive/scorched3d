@@ -18,11 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// TankAIComputer.cpp: implementation of the TankAIComputer class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <tankai/TankAIComputer.h>
 #include <tankai/TankAIStrings.h>
 #include <server/ServerShotHolder.h>
@@ -38,15 +33,60 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-TankAIComputer::TankAIComputer(Tank *tank) : 
-	TankAI(tank), primaryShot_(true)
+TankAIComputer::TankAIComputer() : 
+	TankAI(0), primaryShot_(true), name_("<NoName>")
 {
-	tankBuyer_.setTank(currentTank_);
+	
 }
 
 TankAIComputer::~TankAIComputer()
 {
 
+}
+
+void TankAIComputer::setTank(Tank *tank)
+{
+	currentTank_ = tank;
+	tankBuyer_.setTank(currentTank_);
+}
+
+bool TankAIComputer::parseConfig(XMLNode *node)
+{
+	XMLNode *nameNode = node->getNamedChild("name");
+	if (!nameNode)
+	{
+		dialogMessage("TankAIComputer",
+			"Failed to find name node in tank ai");
+		return false;
+	}
+	name_ = nameNode->getContent();
+
+	std::list<XMLNode *>::iterator childrenItor;
+	std::list<XMLNode *> &children = node->getChildren();
+    for (childrenItor = children.begin();
+		 childrenItor != children.end();
+		 childrenItor++)
+    {
+		XMLNode *child = (*childrenItor);
+		if (strcmp(child->getName(), "weapon")==0)
+		{
+			XMLNode *wname = child->getNamedChild("name");
+			XMLNode *wlevel = child->getNamedChild("level");
+			if (!wname || !wlevel) 
+			{
+				dialogMessage("TankAIComputer",
+					"Failed to parse weapon node in tank ai \"%s\"",
+					name_.c_str());
+				return false;
+			}
+
+			if (!tankBuyer_.addAccessory(
+				wname->getContent(), 
+				atoi(wlevel->getContent()))) return false;
+		}
+	}
+
+	return true;
 }
 
 void TankAIComputer::newGame()

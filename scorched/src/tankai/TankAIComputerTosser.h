@@ -18,11 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// TankAIComputerTosser.h: interface for the TankAIComputerTosser class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_TankAIComputerTosser_H__2D4FA3B6_4C3B_48ED_9C04_0D8EC257C32D__INCLUDED_)
 #define AFX_TankAIComputerTosser_H__2D4FA3B6_4C3B_48ED_9C04_0D8EC257C32D__INCLUDED_
 
@@ -34,15 +29,16 @@
 class TankAIComputerTosser : public TankAIComputerShooter
 {
 public:
-	TankAIComputerTosser(Tank *tank);
+	TankAIComputerTosser();
 	virtual ~TankAIComputerTosser();
 
 	virtual void newGame();
+	virtual bool parseConfig(XMLNode *node);
 	virtual void ourShotLanded(Weapon *weapon, Vector &position);
 	virtual void playMove(const unsigned state, float frameTime, 
 		char *buffer, unsigned int keyState);
 
-TANKAI_DEFINE(Tosser, TankAIComputerTosser);
+TANKAI_DEFINE(TankAIComputerTosser);
 
 protected:
 	struct MadeShot

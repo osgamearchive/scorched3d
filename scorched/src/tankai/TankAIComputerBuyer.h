@@ -31,7 +31,7 @@ public:
 	TankAIComputerBuyer();
 	virtual ~TankAIComputerBuyer();
 
-	void addAccessory(const char *accessoryName, int buyLevel);
+	bool addAccessory(const char *accessoryName, int buyLevel);
 	void buyAccessories(int maxNoBought);
 	void clearAccessories();
 

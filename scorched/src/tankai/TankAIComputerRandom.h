@@ -27,9 +27,10 @@
 class TankAIComputerRandom : public TankAIComputer
 {
 public:
-	TankAIComputerRandom(Tank *tank);
+	TankAIComputerRandom();
 	virtual ~TankAIComputerRandom();
 
+	virtual bool parseConfig(XMLNode *node);
 	virtual const char *getName() { return "Random"; }
 	virtual TankAIComputer *getCopy(Tank *tank);
 	virtual void playMove(const unsigned state, float frameTime, 

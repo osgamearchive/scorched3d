@@ -23,10 +23,9 @@
 #include <tankai/TankAIComputerMoron.h>
 #include <tank/Tank.h>
 
-TankAIComputerMoron::TankAIComputerMoron(Tank *tank) :
-	TankAIComputer(tank)
+TankAIComputerMoron::TankAIComputerMoron()
 {
-	tankBuyer_.addAccessory("Missile", 2);
+
 }
 
 TankAIComputerMoron::~TankAIComputerMoron()

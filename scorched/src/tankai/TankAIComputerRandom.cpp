@@ -18,21 +18,28 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
+#include <common/Defines.h>
 #include <tankai/TankAIComputerRandom.h>
 #include <tankai/TankAIStore.h>
 
-TankAIComputerRandom::TankAIComputerRandom(Tank *tank) : 
-	TankAIComputer(tank)
+TankAIComputerRandom::TankAIComputerRandom()
 {
+	name_ = "Random";
 }
 
 TankAIComputerRandom::~TankAIComputerRandom()
 {
 }
 
+bool TankAIComputerRandom::parseConfig(XMLNode *node)
+{
+	return true;
+}
+
 TankAIComputer *TankAIComputerRandom::getCopy(Tank *tank)
 {
+	DIALOG_ASSERT(TankAIStore::instance()->getAis().size());
+
 	int tankNo = int(RAND * float(TankAIStore::instance()->getAis().size()));
 	std::list<TankAIComputer *>::iterator itor = 
 		TankAIStore::instance()->getAis().begin();

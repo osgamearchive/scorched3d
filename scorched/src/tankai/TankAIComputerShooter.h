@@ -27,14 +27,14 @@
 class TankAIComputerShooter : public TankAIComputer
 {
 public:
-	TankAIComputerShooter(Tank *tank);
+	TankAIComputerShooter();
 	virtual ~TankAIComputerShooter();
 
 	virtual void playMove(const unsigned state, 
 		float frameTime, char *buffer, unsigned int keyState);
 	virtual void autoDefense();
 
-TANKAI_DEFINE(Shooter, TankAIComputerShooter);
+TANKAI_DEFINE(TankAIComputerShooter);
 
 protected:
 	virtual void selectWeapons();

@@ -59,15 +59,15 @@ void TankAIComputerBuyer::clearAccessories()
 	buyEntries_.clear();
 }
 
-void TankAIComputerBuyer::addAccessory(const char *accessoryName,
+bool TankAIComputerBuyer::addAccessory(const char *accessoryName,
 									int buyLevel)
 {
 	Accessory *accessory = AccessoryStore::instance()->findByAccessoryName(accessoryName);
 	if (!accessory)
 	{
 		dialogMessage("TankAIComputerBuyer", 
-			"ERROR: Failed to find accessory \"%s\"", accessoryName);
-		exit(1);
+			"Failed to find accessory \"%s\"", accessoryName);
+		return false;
 	}
 
 	std::list<Entry>::iterator itor;
@@ -84,7 +84,7 @@ void TankAIComputerBuyer::addAccessory(const char *accessoryName,
 		if (current.level == buyLevel)
 		{
 			current.buyAccessories.push_back(accessory);
-			return;
+			return true;
 		}
 	}
 
@@ -105,6 +105,8 @@ void TankAIComputerBuyer::addAccessory(const char *accessoryName,
 		itor--;
 		buyEntries_.insert(itor, newEntry);
 	}
+
+	return true;
 }
 
 void TankAIComputerBuyer::buyAccessories(int no)

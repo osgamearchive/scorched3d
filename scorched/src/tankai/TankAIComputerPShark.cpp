@@ -18,16 +18,13 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <tankai/TankAIComputerPShark.h>
 #include <tank/TankContainer.h>
 #include <math.h>
 
-TankAIComputerPShark::TankAIComputerPShark(Tank *tank) :
-	TankAIComputerChooser(tank)
+TankAIComputerPShark::TankAIComputerPShark()
 {
-	tankBuyer_.addAccessory("Shield", 30);
-	tankBuyer_.addAccessory("Auto Defense", 40);
+
 }
 
 TankAIComputerPShark::~TankAIComputerPShark()
@@ -42,13 +39,13 @@ void TankAIComputerPShark::tankHurt(Weapon *weapon, unsigned int firer)
 		// Add tanks we take a grudge against
 		hitlist_.push_front(firer);
 	}
-	TankAIComputerChooser::tankHurt(weapon, firer);
+	TankAIComputerTosser::tankHurt(weapon, firer);
 }
 
 void TankAIComputerPShark::newGame()
 {
 	hitlist_.clear();
-	TankAIComputerChooser::newGame();
+	TankAIComputerTosser::newGame();
 }
 
 Tank *TankAIComputerPShark::findTankToShootAt()
@@ -66,5 +63,5 @@ Tank *TankAIComputerPShark::findTankToShootAt()
 		}
 	}
 
-	return TankAIComputerChooser::findTankToShootAt();
+	return TankAIComputerTosser::findTankToShootAt();
 }

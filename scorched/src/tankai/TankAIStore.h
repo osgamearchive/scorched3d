@@ -30,13 +30,16 @@ class TankAIStore
 public:
 	static TankAIStore *instance();
 
-	void addComputerAI(TankAIComputer *ai);
+	bool loadAIs();
+
 	std::list<TankAIComputer *> &getAis() { return ais_; }
 	TankAIComputer *getAIByName(const char *name);
 
 protected:
 	static TankAIStore *instance_;
 	std::list<TankAIComputer *> ais_;
+
+	void addComputerAI(TankAIComputer *ai);
 
 private:
 	TankAIStore();

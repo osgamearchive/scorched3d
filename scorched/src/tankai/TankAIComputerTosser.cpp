@@ -18,11 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// TankAIComputerTosser.cpp: implementation of the TankAIComputerMuppet class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <math.h>
 #include <weapons/AccessoryStore.h>
 #include <tank/TankLib.h>
@@ -33,18 +28,32 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-TankAIComputerTosser::TankAIComputerTosser(Tank *tank) : 
-	TankAIComputerShooter(tank),
+TankAIComputerTosser::TankAIComputerTosser() : 
 	lastShot_(0), sniperDist_(0.0f)
 {
-	// A good weapon is next
-	tankBuyer_.addAccessory("MIRV", 20);
-	tankBuyer_.addAccessory("Nuke", 30);
+
 }
 
 TankAIComputerTosser::~TankAIComputerTosser()
 {
 
+}
+
+bool TankAIComputerTosser::parseConfig(XMLNode *node)
+{
+	if (!TankAIComputerShooter::parseConfig(node)) return false;
+
+	XMLNode *sniperNode = node->getNamedChild("sniper");
+	if (!sniperNode)
+	{
+		dialogMessage("TankAIComputer",
+			"Failed to find sniper node in tank ai \"%s\"",
+			name_.c_str());
+		return false;
+	}
+	sniperDist_ = (float) atof(sniperNode->getContent());
+
+	return true;
 }
 
 void TankAIComputerTosser::newGame()

@@ -22,18 +22,18 @@
 #if !defined(__INCLUDE_TankAIComputerPSharkh_INCLUDE__)
 #define __INCLUDE_TankAIComputerPSharkh_INCLUDE__
 
-#include <tankai/TankAIComputerChooser.h>
+#include <tankai/TankAIComputerTosser.h>
 
-class TankAIComputerPShark : public TankAIComputerChooser
+class TankAIComputerPShark : public TankAIComputerTosser
 {
 public:
-	TankAIComputerPShark(Tank *tank);
+	TankAIComputerPShark();
 	virtual ~TankAIComputerPShark();
 
 	virtual void newGame();
 	virtual void tankHurt(Weapon *weapon, unsigned int firer);
 
-	TANKAI_DEFINE(Shark, TankAIComputerPShark);
+	TANKAI_DEFINE(TankAIComputerPShark);
 
 protected:
 	std::list<unsigned int> hitlist_;

@@ -18,11 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// TankAIComputer.h: interface for the TankAIComputer class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_TANKAICOMPUTER_H__5F21C9C7_0F71_4CCC_ABB9_976CF0A5C5EC__INCLUDED_)
 #define AFX_TANKAICOMPUTER_H__5F21C9C7_0F71_4CCC_ABB9_976CF0A5C5EC__INCLUDED_
 
@@ -30,34 +25,38 @@
 #include <tank/TankAI.h>
 #include <tankai/TankAIComputerBuyer.h>
 
-#define TANKAI_DEFINE(x, y) \
-	virtual const char *getName() { return #x; } \
-	virtual TankAIComputer *getCopy(Tank *tank) { return new y(tank); }
+#define TANKAI_DEFINE(y) \
+	virtual TankAIComputer *getCopy(Tank *tank) { TankAIComputer *comp = new y(*this); comp->setTank(tank); return comp; }
 
+class XMLNode;
 class TankAIComputer : public TankAI
 {
 public:
-	TankAIComputer(Tank *tank);
+	TankAIComputer();
 	virtual ~TankAIComputer();
 
-	virtual bool isHuman() { return false; }
-
-	virtual const char *getName() = 0;
 	virtual TankAIComputer *getCopy(Tank *tank) = 0;
 
 	// Inherited from TankAI
 	virtual void newGame();
 	virtual void nextRound();
+	virtual bool parseConfig(XMLNode *node);
+	virtual const char *getName() { return name_.c_str(); }
 	virtual void tankHurt(Weapon *weapon, unsigned int firer);
 	virtual void shotLanded(Weapon *weapon, unsigned int firer, 
 		Vector &position);
+
+	virtual bool isHuman() { return false; }
 
 	// Notificiation that the shot fired has landed
 	virtual void buyAccessories();
 	virtual void ourShotLanded(Weapon *weapon, Vector &position);
 
+	void setTank(Tank *tank);
+
 protected:
 	TankAIComputerBuyer tankBuyer_;
+	std::string name_;
 	bool primaryShot_;
 
 	void say(const char *text);
