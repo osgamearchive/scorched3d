@@ -44,6 +44,8 @@ public:
 	int getMissedMoves() { return missedMoves_; }
 	void setMissedMoves(int miss) { missedMoves_ = miss; }
 
+	time_t getStartTime() { return startTime_; }
+
 	// Get info as text
 	const char *getTimePlayedString();
 	const char *getScoreString();

@@ -21,6 +21,7 @@
 #include <server/ServerNewGameState.h>
 #include <server/ServerState.h>
 #include <server/ScorchedServer.h>
+#include <server/ServerMessageHandler.h>
 #include <server/TurnController.h>
 #include <server/ServerCommon.h>
 #include <client/ClientSave.h>
@@ -95,6 +96,9 @@ void ServerNewGameState::enterState(const unsigned state)
 
 	// Check teams are even
 	checkTeams();
+
+	// Check that we dont have too many bots
+	checkBots();
 
 	// Generate the new level
 	LandscapeDefinition &defn = LandscapeDefinitions::instance()->getRandomLandscapeDefn(
@@ -384,6 +388,53 @@ void ServerNewGameState::checkTeams()
 			Tank *tank = team1.front();
 			team1.pop_front();
 			tank->setTeam(2);
+		}
+	}
+}
+
+void ServerNewGameState::checkBots()
+{
+	int noPlayers = 
+		ScorchedServer::instance()->getTankContainer().
+			getNoOfNonSpectatorTanks();
+	int requiredPlayers =
+		ScorchedServer::instance()->getOptionsGame().
+			getRemoveBotsAtPlayers();
+
+	if (noPlayers > requiredPlayers)
+	{
+		std::multimap<unsigned int, unsigned int> ais_;
+
+		// Make sure everyone is in a team if they should be
+		std::map<unsigned int, Tank *> &playingTanks = 
+			ScorchedServer::instance()->getTankContainer().getPlayingTanks();
+		std::map<unsigned int, Tank *>::iterator mainitor;
+		for (mainitor = playingTanks.begin();
+			mainitor != playingTanks.end();
+			mainitor++)
+		{
+			Tank *current = (*mainitor).second;
+			if (current->getDestinationId() == 0)
+			{
+				unsigned int startTime = (unsigned int)
+					current->getScore().getStartTime();
+				ais_.insert(std::pair<unsigned int, unsigned int>
+					(startTime, current->getPlayerId()));
+			}
+		}
+
+		// Kick the ais that have been on the server the longest
+		std::multimap<unsigned int, unsigned int>::iterator
+			aiItor = ais_.begin();
+		while (noPlayers > requiredPlayers)
+		{
+			if (aiItor != ais_.end())
+			{
+				std::pair<unsigned int, unsigned int> item = *aiItor;
+				ServerMessageHandler::instance()->destroyPlayer(item.second);
+				aiItor++;
+			}
+			noPlayers--;
 		}
 	}
 }

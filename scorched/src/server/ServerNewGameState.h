@@ -37,6 +37,7 @@ public:
 	static int addTanksToGame(const unsigned state,
 		bool addState = false);
 	static void checkTeams();
+	static void checkBots();
 
 protected:
 	void calculateStartPosition(ScorchedContext &contex);
