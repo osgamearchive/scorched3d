@@ -19,6 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <engine/ActionController.h>
+#include <common/Logger.h>
 #include <landscape/HeightMapCollision.h>
 #include <list>
 
@@ -201,6 +202,7 @@ void ActionController::stepActions(float frameTime)
 		if (act->getReferenced() &&
 			act->getActionStartTime() - time_ > 30.0f)
 		{
+			Logger::log(0, "Warning: removing timed out action");
 			remove = true;
 		}
 

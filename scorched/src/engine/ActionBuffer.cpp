@@ -20,6 +20,7 @@
 
 #include <map>
 #include <engine/ActionBuffer.h>
+#include <common/Logger.h>
 
 ActionBuffer::ActionBuffer()
 {
@@ -49,6 +50,11 @@ bool ActionBuffer::empty()
 
 void ActionBuffer::serverAdd(float time, ActionMeta *action)
 {
+	if (time > 60.0f)
+	{
+		Logger::log(0, "Warning: Action added for long time %i", time);
+	}
+
 	// Add this action into the buffer to be sent to 
 	// the client
 	actionBuffer_.addToBuffer(time);
