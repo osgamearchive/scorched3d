@@ -18,38 +18,29 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_LandscapeObjectsh_INCLUDE__)
-#define __INCLUDE_LandscapeObjectsh_INCLUDE__
+#if !defined(__INCLUDE_MapPointsh_INCLUDE__)
+#define __INCLUDE_MapPointsh_INCLUDE__
 
-#include <common/ProgressCounter.h>
-#include <common/RandomGenerator.h>
-#include <landscape/LandscapeObjectsEntry.h>
-#include <map>
+#include <GLEXT/GLVertexSet.h>
 
-class LandscapeTex;
-class LandscapeObjects
+class MapPoints
 {
 public:
-	LandscapeObjects();
-	virtual ~LandscapeObjects();
+	static MapPoints *instance();
 
-	void draw();
-	void generate(RandomGenerator &generator, 
-		LandscapeTex &tex,
-		ProgressCounter *counter = 0);
-
-	void removeAroundTanks();
-	void removeAllObjects();
-	void removeObjects(unsigned int x, unsigned int y);
-	void burnObjects(unsigned int x, unsigned int y);
-	void addObject(unsigned int x, unsigned int y, 
-		LandscapeObjectsEntry *entry);
-
-	std::multimap<unsigned int, LandscapeObjectsEntry*> &getEntries() { return entries_; }
+	GLVertexSet *getBorderModelWrap() { return borderModelWrap_; }
+	GLVertexSet *getBorderModelBounce() { return borderModelBounce_; }
+	GLVertexSet *getBorderModelConcrete() { return borderModelConcrete_; }
 
 protected:
-	std::multimap<unsigned int, LandscapeObjectsEntry*> entries_;
+	static MapPoints *instance_;
+	GLVertexSet *borderModelWrap_;
+	GLVertexSet *borderModelBounce_;
+	GLVertexSet *borderModelConcrete_;
 
+private:
+	MapPoints();
+	virtual ~MapPoints();
 };
 
 #endif

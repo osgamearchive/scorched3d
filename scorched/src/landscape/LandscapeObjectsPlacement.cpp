@@ -21,6 +21,7 @@
 #include <landscape/LandscapeObjectsPlacement.h>
 #include <landscape/LandscapeObjectsEntryTree.h>
 #include <landscape/LandscapeObjectsEntryModel.h>
+#include <landscape/LandscapeObjects.h>
 #include <landscape/LandscapeMaps.h>
 #include <landscape/LandscapeTex.h>
 #include <landscape/Landscape.h>
@@ -275,13 +276,24 @@ void LandscapeObjectPlacementMask::generateObjects(
 		if (i % 1000 == 0) if (counter) 
 			counter->setNewPercentage(float(i)/float(NoIterations)*100.0f);
 
-		float x = generator.getRandFloat();
-		float y = generator.getRandFloat();
-	
-		float lx = x * 255.0f;
-		float ly = y * 255.0f;
-		int mx = int(map.getWidth() * x);
-		int my = int(map.getWidth() * y);
+		float lx = generator.getRandFloat() * 255.0f;
+		float ly = generator.getRandFloat() * 255.0f;
+		float lr = generator.getRandFloat() * 360.0f;
+		
+		if (placement.xsnap > 0.0f) 
+		{
+			lx = float(int(lx / placement.xsnap)) * placement.xsnap;
+		}
+		if (placement.ysnap > 0.0f)
+		{
+			ly = float(int(ly / placement.ysnap)) * placement.ysnap;
+		}
+		if (placement.angsnap > 0.0f)
+		{
+			lr = float(int(lr / placement.angsnap)) * placement.angsnap;
+		}
+		lx = MIN(MAX(0.0f, lx), 255.0f);
+		ly = MIN(MAX(0.0f, ly), 255.0f);
 
 		float height = 
 			ScorchedClient::instance()->getLandscapeMaps().
@@ -289,41 +301,69 @@ void LandscapeObjectPlacementMask::generateObjects(
 		if (height > placement.minheight && 
 			height < placement.maxheight)
 		{
+				
+			int mx = int(map.getWidth() * (lx / 255.0f));
+			int my = int(map.getWidth() * (ly / 255.0f));
 			GLubyte *bits = map.getBits() +
 				mx * 3 + my * map.getWidth() * 3;
 			if (bits[0] > 127)
 			{
-				LandscapeObjectsEntry *entry = 0;
-				if (model)
+				bool closeness = true;
+				if (placement.mincloseness > 0.0f)
 				{
-					entry = new LandscapeObjectsEntryModel;
-					((LandscapeObjectsEntryModel *) entry)->model = model;
-					((LandscapeObjectsEntryModel *) entry)->modelburnt = modelburnt;				
-					entry->color = 1.0f;
-					entry->size = 0.05f;
-					entry->posX = lx;
-					entry->posY = ly;
-					entry->posZ = height;
-					entry->rotation = RAND * 360.0f;
+					float distsq = placement.mincloseness * placement.mincloseness;
+					std::multimap<unsigned int, LandscapeObjectsEntry*> &entries =
+						Landscape::instance()->getObjects().getEntries();
+					std::multimap<unsigned int, LandscapeObjectsEntry*>::iterator itor;
+					for (itor = entries.begin();
+						itor != entries.end();
+						itor++)
+					{
+						LandscapeObjectsEntry *object = (*itor).second;
+						float distx = object->posX - lx;
+						float disty = object->posY - ly;
+						if (distx * distx + disty *disty < distsq)
+						{
+							closeness = false;
+							break;
+						}
+					}
 				}
-				else
+			
+				if (closeness)
 				{
-					entry = new LandscapeObjectsEntryTree;
-					((LandscapeObjectsEntryTree *) entry)->snow = (pine && 
-						(height > snowHeight + (RAND * 10.0f) - 5.0f));
-					((LandscapeObjectsEntryTree *) entry)->pine = pine;
-					entry->color = RAND * 0.5f + 0.5f;
-					entry->size =  RAND * 2.0f + 1.0f;
-					entry->posX = lx;
-					entry->posY = ly;
-					entry->posZ = height;
-					entry->rotation = RAND * 360.0f;
-				}
+					LandscapeObjectsEntry *entry = 0;
+					if (model)
+					{
+						entry = new LandscapeObjectsEntryModel;
+						((LandscapeObjectsEntryModel *) entry)->model = model;
+						((LandscapeObjectsEntryModel *) entry)->modelburnt = modelburnt;				
+						entry->color = 1.0f;
+						entry->size = 0.05f;
+						entry->posX = lx;
+						entry->posY = ly;
+						entry->posZ = height;
+						entry->rotation = lr;
+					}
+					else
+					{
+						entry = new LandscapeObjectsEntryTree;
+						((LandscapeObjectsEntryTree *) entry)->snow = (pine && 
+							(height > snowHeight + (RAND * 10.0f) - 5.0f));
+						((LandscapeObjectsEntryTree *) entry)->pine = pine;
+						entry->color = RAND * 0.5f + 0.5f;
+						entry->size =  RAND * 2.0f + 1.0f;
+						entry->posX = lx;
+						entry->posY = ly;
+						entry->posZ = height;
+						entry->rotation = lr;
+					}
 
-				Landscape::instance()->getObjects().addObject(
-					(unsigned int) lx,
-					(unsigned int) ly,
-					entry);
+					Landscape::instance()->getObjects().addObject(
+						(unsigned int) lx,
+						(unsigned int) ly,
+						entry);
+				}
 			}
 		}
 	}

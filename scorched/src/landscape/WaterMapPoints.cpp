@@ -19,48 +19,24 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <landscape/WaterMapPoints.h>
+#include <landscape/MapPoints.h>
 #include <3dsparse/ModelStore.h>
 #include <client/ScorchedClient.h>
 #include <common/OptionsTransient.h>
 
 WaterMapPoints::WaterMapPoints(WaterMap &map, int width, int points) :
-	pts_(0), noPts_(0), 
-	borderModelWrap_(0),
-	borderModelBounce_(0),
-	borderModelConcrete_(0)
+	pts_(0), noPts_(0)
 {
 	createPoints(map, width, points);
 }
 
 WaterMapPoints::~WaterMapPoints()
 {
-	delete borderModelWrap_;
-	delete borderModelBounce_;
-	delete borderModelConcrete_;
 	delete [] pts_;
 }
 
 void WaterMapPoints::draw()
 {
-	if (!borderModelWrap_)
-	{
-		ModelID id;
-		id.initFromString("ase", "data/meshes/wrap.ase", "none");
-		borderModelWrap_ = ModelStore::instance()->loadOrGetArray(id);
-	}
-	if (!borderModelBounce_)
-	{
-		ModelID id;
-		id.initFromString("ase", "data/meshes/bounce.ase", "none");
-		borderModelBounce_ = ModelStore::instance()->loadOrGetArray(id);
-	}
-	if (!borderModelConcrete_)
-	{	
-		ModelID id;
-		id.initFromString("ase", "data/meshes/concrete.ase", "none");
-		borderModelConcrete_ = ModelStore::instance()->loadOrGetArray(id);
-	}
-
 	GLState currentState(GLState::TEXTURE_OFF);
 	Position *current = pts_;
 	for (int i=0; i<noPts_; i++)
@@ -74,13 +50,13 @@ void WaterMapPoints::draw()
 			switch(ScorchedClient::instance()->getOptionsTransient().getWallType())
 			{
 			case OptionsTransient::wallWrapAround:
-				borderModelWrap_->draw();
+				MapPoints::instance()->getBorderModelWrap()->draw();
 				break;
 			case OptionsTransient::wallBouncy:
-				borderModelBounce_->draw();
+				MapPoints::instance()->getBorderModelBounce()->draw();
 				break;
 			default:
-				borderModelConcrete_->draw();
+				MapPoints::instance()->getBorderModelConcrete()->draw();
 				break;
 			}
 		glPopMatrix();

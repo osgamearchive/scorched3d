@@ -23,7 +23,6 @@
 
 #include <landscape/WaterMap.h>
 
-class GLVertexSet;
 class WaterMapPoints
 {
 public:
@@ -33,9 +32,6 @@ public:
 	void draw();
 
 protected:
-	GLVertexSet *borderModelWrap_;
-	GLVertexSet *borderModelBounce_;
-	GLVertexSet *borderModelConcrete_;
 	struct Position
 	{
 		float x;

@@ -219,9 +219,14 @@ void HeightMapModifier::generateTerrain(HeightMap &hmap,
 					   + defn.landpeakheightmin) * MAX(sizew, sizew2);
 
 		// Choose a border around this hemisphere
-		float bordersize = MAX(sizew, sizew2) * 1.2f;
-		float bordersizex = bordersize + useBorderX;
-		float bordersizey = bordersize + useBorderY;
+		float bordersizex = 0.0f;
+		float bordersizey = 0.0f;
+		if (defn.levelsurround)
+		{
+			float bordersize = MAX(sizew, sizew2) * 1.2f;
+			bordersizex = bordersize + useBorderX;
+			bordersizey = bordersize + useBorderY;
+		}
 
 		// Choose a point for this hemisphere
 		float sx = (generator.getRandFloat() * (float(hmap.getWidth()) - 

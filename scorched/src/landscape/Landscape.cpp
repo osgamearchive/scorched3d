@@ -50,6 +50,7 @@ Landscape *Landscape::instance()
 
 Landscape::Landscape() : 
 	patchGrid_(&ScorchedClient::instance()->getLandscapeMaps().getHMap(), 16), 
+	points_(ScorchedClient::instance()->getLandscapeMaps().getHMap(), 256, 4), 
 	resetLandscape_(false), resetLandscapeTimer_(0.0f), 
 	textureType_(eDefault),
 	changeCount_(1)
@@ -180,6 +181,8 @@ void Landscape::draw(const unsigned state)
 
 	//static CloudSim sim;
 	//sim.simulate();
+
+	points_.draw();
 
 	// NOTE: The following code is drawn with fog on
 	// Be carefull as this we "dull" bilboard textures

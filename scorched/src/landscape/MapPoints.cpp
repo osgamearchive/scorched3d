@@ -18,38 +18,32 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_LandscapeObjectsh_INCLUDE__)
-#define __INCLUDE_LandscapeObjectsh_INCLUDE__
+#include <landscape/MapPoints.h>
+#include <3dsparse/ModelStore.h>
 
-#include <common/ProgressCounter.h>
-#include <common/RandomGenerator.h>
-#include <landscape/LandscapeObjectsEntry.h>
-#include <map>
+MapPoints *MapPoints::instance_ = 0;
 
-class LandscapeTex;
-class LandscapeObjects
+MapPoints *MapPoints::instance()
 {
-public:
-	LandscapeObjects();
-	virtual ~LandscapeObjects();
+	if (!instance_) instance_ = new MapPoints;
+	return instance_;
+}
 
-	void draw();
-	void generate(RandomGenerator &generator, 
-		LandscapeTex &tex,
-		ProgressCounter *counter = 0);
+MapPoints::MapPoints() 
+{
+	ModelID id;
+	id.initFromString("ase", "data/meshes/wrap.ase", "none");
+	borderModelWrap_ = ModelStore::instance()->loadOrGetArray(id);
+	id.initFromString("ase", "data/meshes/bounce.ase", "none");
+	borderModelBounce_ = ModelStore::instance()->loadOrGetArray(id);
+	id.initFromString("ase", "data/meshes/concrete.ase", "none");
+	borderModelConcrete_ = ModelStore::instance()->loadOrGetArray(id);
+}
 
-	void removeAroundTanks();
-	void removeAllObjects();
-	void removeObjects(unsigned int x, unsigned int y);
-	void burnObjects(unsigned int x, unsigned int y);
-	void addObject(unsigned int x, unsigned int y, 
-		LandscapeObjectsEntry *entry);
+MapPoints::~MapPoints()
+{
+	delete borderModelWrap_;
+	delete borderModelBounce_;
+	delete borderModelConcrete_;
+}
 
-	std::multimap<unsigned int, LandscapeObjectsEntry*> &getEntries() { return entries_; }
-
-protected:
-	std::multimap<unsigned int, LandscapeObjectsEntry*> entries_;
-
-};
-
-#endif

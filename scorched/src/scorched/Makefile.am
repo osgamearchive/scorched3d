@@ -407,8 +407,12 @@ scorched3d_SOURCES = \
 	../landscape/LandscapeObjectsEntryTree.h \
 	../landscape/LandscapeObjectsPlacement.cpp \
 	../landscape/LandscapeObjectsPlacement.h \
+	../landscape/LandscapePoints.h \
+	../landscape/LandscapePoints.cpp \
 	../landscape/LandscapeTex.cpp \
 	../landscape/LandscapeTex.h \
+	../landscape/MapPoints.h \
+	../landscape/MapPoints.cpp \
 	../landscape/MovementMap.cpp \
 	../landscape/MovementMap.h \
 	../landscape/NapalmMap.cpp \
