@@ -58,6 +58,12 @@ NetServerRead::~NetServerRead()
 
 void NetServerRead::start()
 {
+	// Send the player connected notification
+	NetMessage *message = NetMessagePool::instance()->
+		getFromPool(NetMessage::ConnectMessage, 
+		(unsigned int) socket_);
+	messageHandler_->addMessage(message);
+
 	recvThread_ = SDL_CreateThread(
 		NetServerRead::recvThreadFunc, (void *) this);
 	sendThread_ = SDL_CreateThread(
@@ -137,12 +143,6 @@ void NetServerRead::actualCtrlThreadFunc()
 		SDL_UnlockMutex(outgoingMessagesMutex_);
 		SDL_Delay(100);
 	}
-
-	// Send the player connected notification
-	NetMessage *message = NetMessagePool::instance()->
-		getFromPool(NetMessage::ConnectMessage, 
-		(unsigned int) socket_);
-	messageHandler_->addMessage(message);
 
 	// Wait for the other threads to end
 	int status;

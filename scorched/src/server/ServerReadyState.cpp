@@ -119,11 +119,23 @@ bool ServerReadyState::acceptStateChange(const unsigned state,
 			if ((ScorchedServer::instance()->getOptionsGame().getIdleKickTime() > 0) &&
 				(time_ > ScorchedServer::instance()->getOptionsGame().getIdleKickTime() - 6))
 			{
-				Logger::log(0, "Sending last chance message");
+				for (itor = tanks.begin();
+					itor != tanks.end();
+					itor++)
+				{
+					Tank *tank = (*itor).second;
+					if (tank->getState().getReadyState() == TankState::SNotReady)
+					{
+						Logger::log(0, "Sending last chance message to \"%s\"",
+							tank->getName());
 
-				// Tell all clients to hurry up
-				ComsLastChanceMessage chanceMessage;
-				ComsMessageSender::sendToAllPlayingClients(chanceMessage);	
+						// Tell client to hurry up
+						ComsLastChanceMessage chanceMessage;
+						ComsMessageSender::sendToSingleClient(
+							chanceMessage,
+							tank->getDestinationId());	
+					}
+				}
 			}
 		}
 	}	
