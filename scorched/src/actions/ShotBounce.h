@@ -27,6 +27,7 @@
 #include <actions/ActionVector.h>
 #include <weapons/Weapon.h>
 
+class GLVertexSet;
 class ShotBounce : 
 	public PhysicsParticleMeta
 {
@@ -59,6 +60,7 @@ protected:
 	float totalTime_;
 	float snapshotTime_;
 	ActionVector *actionVector_;
+	GLVertexSet *model_;
 
 	void doCollision();
 

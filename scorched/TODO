@@ -52,7 +52,6 @@ Shot cam does not get LOD correctly
 -- Things I am currently looking at
 Capture stdout from secondary scorched windows and display in main
 Sort out window scaling at different resolutions
-Roller model
 Better arrows over tank
 GUI Icon stuff
 Make AIs better

@@ -23,15 +23,14 @@
 #include <engine/ScorchedContext.h>
 #include <weapons/WeaponRoller.h>
 #include <GLEXT/GLState.h>
-
-#include <GLEXT/GLConsole.h>
+#include <3dsparse/ASEStore.h>
 
 REGISTER_ACTION_SOURCE(ShotBounce);
 
 ShotBounce::ShotBounce() : 
 	collisionInfo_(CollisionIdBounce),
 	totalTime_(0.0f), actionId_(0), actionVector_(0),
-	snapshotTime_(0.0f), vPoint_(0)
+	snapshotTime_(0.0f), vPoint_(0), model_(0)
 {
 	
 }
@@ -41,7 +40,7 @@ ShotBounce::ShotBounce(Vector &startPosition, Vector &velocity,
 	collisionInfo_(CollisionIdBounce), startPosition_(startPosition),
 	velocity_(velocity), weapon_(weapon), playerId_(playerId),
 	totalTime_(0.0f), actionId_(0), actionVector_(0),
-	snapshotTime_(0.0f), vPoint_(0)
+	snapshotTime_(0.0f), vPoint_(0), model_(0)
 {
 	actionId_ = ActionVectorHolder::getNextActionId();
 }
@@ -129,12 +128,15 @@ void ShotBounce::draw()
 {
 	if (!context_->serverMode) 
 	{
+		if (!model_) model_ = ASEStore::instance()->
+			loadOrGetArray(getDataFile("data/accessories/roller.ase"));
+
 		GLState state(GLState::TEXTURE_OFF);
-		glColor3f(1.0f, 0.0f, 0.0f);
-		glPointSize(3.0f);
-		glBegin(GL_POINTS);
-			glVertex3fv(startPosition_);
-		glEnd();
+		glPushMatrix();
+			glTranslatef(startPosition_[0], startPosition_[1], startPosition_[2]);
+			glScalef(0.08f, 0.08f, 0.08f);
+			model_->draw();
+		glPopMatrix();
 	}
 }
 
@@ -145,9 +147,6 @@ void ShotBounce::doCollision()
 		context_->actionController.getBuffer().serverAdd(0.0f, actionVector_);
 	}
 	
-	GLConsole::instance()->addLine(false, "%.3f %.3f %.3f", 
-		getCurrentPosition()[0], getCurrentPosition()[1], getCurrentPosition()[2]);
-
 	WeaponRoller *proj = (WeaponRoller *) weapon_;
 	proj->getCollisionAction()->fireWeapon(
 		*context_,
