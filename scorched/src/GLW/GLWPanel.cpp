@@ -19,6 +19,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <GLEXT/GLState.h>
+#include <XML/XMLParser.h>
+#include <GLW/GLWTranslate.h>
 #include <GLW/GLWPanel.h>
 
 GLWPanel::GLWPanelEntry::GLWPanelEntry(GLWidget *w, GLWCondition *c,
@@ -35,7 +37,8 @@ GLWPanel::GLWPanelEntry::GLWPanelEntry(GLWidget *w, GLWCondition *c,
 
 REGISTER_CLASS_SOURCE(GLWPanel);
 
-GLWPanel::GLWPanel() : GLWidget()
+GLWPanel::GLWPanel(float x, float y, float w, float h, bool depressed) : 
+	GLWidget(x, y, w, h), depressed_(depressed), drawPanel_(true)
 {
 
 }
@@ -87,24 +90,53 @@ void GLWPanel::draw()
 {
 	GLState currentState(GLState::DEPTH_OFF | GLState::TEXTURE_OFF);
 
-	std::list<GLWPanelEntry>::iterator itor;
-	for (itor = widgets_.begin();
-		itor != widgets_.end();
-		itor++)
-	{
-		GLWPanelEntry &entry = *itor;
-		if (!entry.condition || 
-			entry.condition->getResult(entry.widget))
+	GLWidget::draw();
+
+	glPushMatrix();
+		if (drawPanel_)
 		{
-			glPushMatrix();
-				(*itor).widget->draw();
-			glPopMatrix();
+			glColor3f(0.8f, 0.8f, 1.0f);
+			glBegin(GL_QUADS);
+				glVertex2f(x_, y_);
+				glVertex2f(x_ + w_, y_);
+				glVertex2f(x_ + w_, y_ + h_);
+				glVertex2f(x_, y_ + h_);
+			glEnd();
+
+			glBegin(GL_LINE_LOOP);
+				drawShadedRoundBox(x_, y_, w_, h_, 10.0f, !depressed_);
+			glEnd();
 		}
-	}
+
+		{
+			GLWTranslate trans(x_, y_);
+			glTranslatef(x_, y_, 0.0f);
+
+			std::list<GLWPanelEntry>::iterator itor;
+			for (itor = widgets_.begin();
+				itor != widgets_.end();
+				itor++)
+			{
+				GLWPanelEntry &entry = *itor;
+				if (!entry.condition || 
+					entry.condition->getResult(entry.widget))
+				{
+					glPushMatrix();
+						(*itor).widget->draw();
+					glPopMatrix();
+				}
+			}
+		}
+	glPopMatrix();
 }
 
 void GLWPanel::mouseDown(float x, float y, bool &skipRest)
 {
+	x -= x_;
+	y -= y_;
+
+	GLWTranslate trans(x_, y_);
+
 	std::list<GLWPanelEntry>::reverse_iterator itor;
 	for (itor = widgets_.rbegin();
 		itor != widgets_.rend();
@@ -122,6 +154,11 @@ void GLWPanel::mouseDown(float x, float y, bool &skipRest)
 
 void GLWPanel::mouseUp(float x, float y, bool &skipRest)
 {
+	x -= x_;
+	y -= y_;
+
+	GLWTranslate trans(x_, y_);
+
 	std::list<GLWPanelEntry>::reverse_iterator itor;
 	for (itor = widgets_.rbegin();
 		itor != widgets_.rend();
@@ -137,6 +174,9 @@ void GLWPanel::mouseUp(float x, float y, bool &skipRest)
 
 void GLWPanel::mouseDrag(float mx, float my, float x, float y, bool &skipRest)
 {
+	mx -= x_;
+	my -= y_;
+
 	std::list<GLWPanelEntry>::reverse_iterator itor;
 	for (itor = widgets_.rbegin();
 		itor != widgets_.rend();
@@ -173,6 +213,9 @@ void GLWPanel::keyDown(char *buffer, unsigned int keyState,
 
 bool GLWPanel::initFromXML(XMLNode *node)
 {
+	if (!GLWidget::initFromXML(node)) return false;
+	drawPanel_ = false;
+
 	// Items
 	XMLNode *itemsNode = node->getNamedChild("items", true, true);
 	if (!itemsNode) return false;

@@ -61,7 +61,7 @@ void WindDialogToolTip::populate()
 }
 
 GLWWindView::GLWWindView(float x, float y, float w, float h) :
-	GLWVisibleWidget(x, y, w, h),
+	GLWidget(x, y, w, h),
 	listNo_(0), changeCount_(0)
 {
 	setToolTip(new WindDialogToolTip());
@@ -84,7 +84,7 @@ void GLWWindView::draw()
 		listNo_ = 0;
 	}
 
-	GLWVisibleWidget::draw();
+	GLWidget::draw();
 	drawDisplay();
 }
 

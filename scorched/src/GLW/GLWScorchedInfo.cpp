@@ -46,7 +46,7 @@ bool GLWHudCondition::getResult(GLWidget *widget)
 REGISTER_CLASS_SOURCE(GLWScorchedInfo);
 
 GLWScorchedInfo::GLWScorchedInfo(float x, float y, float w, float h) : 
-	GLWVisibleWidget(x, y, w, h), infoType_(eNone), noCenter_(false)
+	GLWidget(x, y, w, h), infoType_(eNone), noCenter_(false)
 {
 
 }
@@ -67,7 +67,7 @@ void GLWScorchedInfo::draw()
 		fontColor = &selectedColor_;
 	}
 
-	GLWVisibleWidget::draw();
+	GLWidget::draw();
 	
 	GLState state(GLState::TEXTURE_ON | GLState::DEPTH_OFF);
 	
@@ -357,13 +357,13 @@ void GLWScorchedInfo::mouseDown(float x, float y, bool &skipRest)
 	}
 	else
 	{
-		GLWVisibleWidget::mouseDown(x, y, skipRest);
+		GLWidget::mouseDown(x, y, skipRest);
 	}
 }
 
 bool GLWScorchedInfo::initFromXML(XMLNode *node)
 {
-	if (!GLWVisibleWidget::initFromXML(node)) return false;
+	if (!GLWidget::initFromXML(node)) return false;
 
 	// Type node
 	XMLNode *typeNode = node->getNamedChild("type", true);

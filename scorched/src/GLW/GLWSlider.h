@@ -21,7 +21,7 @@
 #ifndef _GLWSLIDER_H_
 #define _GLWSLIDER_H_
 
-#include <GLW/GLWVisibleWidget.h>
+#include <GLW/GLWidget.h>
 
 class GLWSliderI
 {
@@ -29,7 +29,7 @@ public:
 	virtual void currentChanged(unsigned int id, float value) = 0;
 };
 
-class GLWSlider : public GLWVisibleWidget
+class GLWSlider : public GLWidget
 {
 public:
 	GLWSlider(float x = 0.0f, float y = 0.0f, float w = 0.0f, 

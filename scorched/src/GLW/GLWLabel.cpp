@@ -24,7 +24,7 @@
 REGISTER_CLASS_SOURCE(GLWLabel);
 
 GLWLabel::GLWLabel(float x, float y, char *buttonText) : 
-	GLWVisibleWidget(x, y, 0.0f, 20.0f),
+	GLWidget(x, y, 0.0f, 20.0f),
 	color_(GLWFont::widgetFontColor)
 {
 	if (buttonText) setText(buttonText);
@@ -55,7 +55,7 @@ void GLWLabel::calcWidth()
 
 void GLWLabel::draw()
 {
-	GLWVisibleWidget::draw();
+	GLWidget::draw();
 
 	glColor3f(1.0f, 0.0f, 0.0f);
 	calcWidth();

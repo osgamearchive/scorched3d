@@ -300,7 +300,7 @@ including its power and direction.</description>
 				</widget>
 			</item>
 			<item>
-				<widget type="GLWVisiblePanel">
+				<widget type="GLWPanel">
 					<x>169</x><y>26</y>
 					<w>128</w><h>128</h>
 					<items>

@@ -21,11 +21,12 @@
 #include <GLW/GLWIcon.h>
 #include <GLEXT/GLState.h>
 #include <3dsparse/ASEStore.h>
+#include <XML/XMLParser.h>
 
 REGISTER_CLASS_SOURCE(GLWIcon);
 
 GLWIcon::GLWIcon(float x, float y, float w, float h, GLTexture *texture) : 
-	GLWVisibleWidget(x, y, w, h),
+	GLWidget(x, y, w, h),
 	texture_(texture)
 {
 	tooltipTransparent_ = true;
@@ -56,12 +57,12 @@ void GLWIcon::draw()
 		glEnd();
 	}
 
-	GLWVisibleWidget::draw();
+	GLWidget::draw();
 }
 
 bool GLWIcon::initFromXML(XMLNode *node)
 {
-	if (!GLWVisibleWidget::initFromXML(node)) return false;
+	if (!GLWidget::initFromXML(node)) return false;
 
 	XMLNode *bitmapNode = node->getNamedChild("bitmap", true);
 	if (!bitmapNode) return false;

@@ -22,9 +22,9 @@
 #define _GLWTEXTBOX_H_
 
 #include <string>
-#include <GLW/GLWVisibleWidget.h>
+#include <GLW/GLWidget.h>
 
-class GLWTextBox : public GLWVisibleWidget
+class GLWTextBox : public GLWidget
 {
 public:
 	GLWTextBox(float x = 0.0f, float y = 0.0f, 

@@ -21,7 +21,7 @@
 #include <GLEXT/GLState.h>
 #include <GLEXT/GLViewPort.h>
 #include <GLW/GLWToolTip.h>
-#include <GLW/GLWVisibleWidget.h>
+#include <GLW/GLWidget.h>
 #include <GLW/GLWFont.h>
 #include <client/ScorchedClient.h>
 #include <common/OptionsDisplay.h>
@@ -227,7 +227,7 @@ void GLWToolTip::draw(const unsigned state)
 		glBegin(GL_TRIANGLE_FAN);
 			glVertex2f(posX + 10.0f, posY + 2.0f);
 			glVertex2f(posX + 10.0f, posY);
-			GLWVisibleWidget::drawRoundBox(
+			GLWidget::drawRoundBox(
 				posX, posY,
 				posW, posH, 10.0f);
 			glVertex2f(posX + 10.0f, posY);
@@ -235,7 +235,7 @@ void GLWToolTip::draw(const unsigned state)
 		glColor4f(0.9f, 0.9f, 1.0f, 0.5f);
 		glLineWidth(2.0f);
 		glBegin(GL_LINE_LOOP);
-			GLWVisibleWidget::drawRoundBox(
+			GLWidget::drawRoundBox(
 				posX, posY,
 				posW, posH, 10.0f);
 		glEnd();

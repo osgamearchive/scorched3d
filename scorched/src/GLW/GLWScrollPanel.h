@@ -27,10 +27,10 @@
 #define AFX_GLWSCROLLPANEL_H__53CDEDBB_3EC0_480E_8E9C_E40645155DD0__INCLUDED_
 
 
-#include <GLW/GLWVisiblePanel.h>
+#include <GLW/GLWPanel.h>
 #include <GLW/GLWScrollW.h>
 
-class GLWScrollPanel : public GLWVisiblePanel,
+class GLWScrollPanel : public GLWPanel,
 						public GLWScrollWI
 {
 public:

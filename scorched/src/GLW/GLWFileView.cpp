@@ -24,7 +24,7 @@
 REGISTER_CLASS_SOURCE(GLWFileView);
 
 GLWFileView::GLWFileView(char *fileName, float x, float y, float w, float h) :
-	GLWVisibleWidget(x, y, w, h), 
+	GLWidget(x, y, w, h), 
 	scroll_(x + w - 17, y, h, 0, 1)
 {
 	if (fileName[0])

@@ -44,8 +44,8 @@ AutoDefenseDialog::AutoDefenseDialog() :
 	cancelId_ = addWidget(
 		new GLWTextButton("Cancel", 265, 10, 105, this, 
 		GLWButton::ButtonFlagCancel | GLWButton::ButtonFlagCenterX))->getId();
-	topPanel_ = (GLWVisiblePanel *)
-		addWidget(new GLWVisiblePanel(10, 245, 420, 30));
+	topPanel_ = (GLWPanel *)
+		addWidget(new GLWPanel(10, 245, 420, 30));
 
 	ddpara_ = (GLWDropDown *) addWidget(new GLWDropDown(120, 170, 300));
 	ddpara_->setHandler(this);

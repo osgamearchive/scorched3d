@@ -29,7 +29,7 @@
 REGISTER_CLASS_SOURCE(GLWTankModel);
 
 GLWTankModel::GLWTankModel(float x, float y, float w, float h) :
-	GLWVisibleWidget(x, y, w, h)
+	GLWidget(x, y, w, h)
 {
 }
 

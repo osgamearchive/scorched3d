@@ -22,9 +22,9 @@
 #define __INCLUDE_GLWBitmaph_INCLUDE__
 
 #include <GLEXT/GLBitmap.h>
-#include <GLW/GLWVisibleWidget.h>
+#include <GLW/GLWidget.h>
 
-class GLWBitmap : public GLWVisibleWidget
+class GLWBitmap : public GLWidget
 {
 public:
 	GLWBitmap(float x = 0.0f, float y = 0.0f, 

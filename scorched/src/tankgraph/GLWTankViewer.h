@@ -22,13 +22,13 @@
 #define _gLWTankViewer_h
 
 #include <GLW/GLWScrollW.h>
-#include <GLW/GLWVisiblePanel.h>
+#include <GLW/GLWPanel.h>
 #include <GLW/GLWDropDown.h>
 #include <GLW/GLWToolTip.h>
 #include <tankgraph/TankModel.h>
 #include <vector>
 
-class GLWTankViewer : public GLWVisibleWidget,
+class GLWTankViewer : public GLWidget,
 					  public GLWDropDownI
 {
 public:
@@ -56,7 +56,7 @@ public:
 protected:
 	GLWDropDown catagoryChoice_;
 	GLWScrollW scrollBar_;
-	GLWVisiblePanel infoWindow_;
+	GLWPanel infoWindow_;
 	GLWTip toolTip_;
 	std::vector<TankModel *> models_;
 	int numH_, numV_;

@@ -51,7 +51,10 @@ void WaterMapPoints::draw()
 	for (int i=0; i<noPts_; i++)
 	{
 		glPushMatrix();
-			glTranslatef(current->x, current->y, height_ + *current->z + 0.6f);
+			glTranslatef(current->x, current->y, 
+				height_ + current->entry->height + 0.6f);
+			glRotatef(current->entry->normal[0] * 90.0f, 1.0f, 0.0f, 0.0f);
+			glRotatef(current->entry->normal[2] * 90.0f, 0.0f, 1.0f, 0.0f);
 			glScalef(0.15f, 0.15f, 0.15f);
 			switch(ScorchedClient::instance()->getOptionsTransient().getWallType())
 			{
@@ -97,5 +100,5 @@ void WaterMapPoints::findPoint(WaterMap &map, Position *pos, float x, float y)
 	Vector point(x, y);
 	pos->x = x;
 	pos->y = y;
-	pos->z = &map.getNearestWaterPoint(point).height;
+	pos->entry = &map.getNearestWaterPoint(point);
 }

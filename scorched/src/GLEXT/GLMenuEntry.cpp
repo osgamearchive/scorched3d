@@ -21,7 +21,7 @@
 #include <client/ScorchedClient.h>
 #include <GLEXT/GLState.h>
 #include <GLEXT/GLMenuEntry.h>
-#include <GLW/GLWVisibleWidget.h>
+#include <GLW/GLWidget.h>
 
 static Vector color(0.9f, 0.9f, 1.0f);
 static Vector itemcolor(0.1f, 0.1f, 0.4f);
@@ -88,7 +88,7 @@ void GLMenuEntry::drawNonDepressed(float currentTop, float currentLeft)
 		glBegin(GL_TRIANGLE_FAN);
 			glVertex2f(currentLeft + 10.0f, currentTop - 10.0f);
 			glVertex2f(currentLeft + 10.0f, currentTop - menuItemHeight);
-			GLWVisibleWidget::drawRoundBox(currentLeft, currentTop - menuItemHeight, 
+			GLWidget::drawRoundBox(currentLeft, currentTop - menuItemHeight, 
 				width_, menuItemHeight, 10.0f);
 			glVertex2f(currentLeft + 10.0f, currentTop - menuItemHeight);
 		glEnd();
@@ -96,7 +96,7 @@ void GLMenuEntry::drawNonDepressed(float currentTop, float currentLeft)
 		glColor4f(0.0f, 0.0f, 0.0f, 0.8f);
 		glLineWidth(2.0f);
 		glBegin(GL_LINE_LOOP);
-			GLWVisibleWidget::drawRoundBox(currentLeft, currentTop - menuItemHeight, 
+			GLWidget::drawRoundBox(currentLeft, currentTop - menuItemHeight, 
 				width_, menuItemHeight, 10.0f);
 		glEnd();
 		glLineWidth(1.0f);
@@ -144,7 +144,7 @@ void GLMenuEntry::drawDepressed(GLFont2d &font, float currentTop, float currentL
 		glBegin(GL_TRIANGLE_FAN);
 			glVertex2f(currentLeft + 20.0f, currentTop - 25.0f - drop);
 			glVertex2f(currentLeft + 20.0f, currentTop - lowerHeight - drop);
-			GLWVisibleWidget::drawRoundBox(currentLeft, currentTop - lowerHeight - drop, 
+			GLWidget::drawRoundBox(currentLeft, currentTop - lowerHeight - drop, 
 				selectedWidth_, lowerHeight - drop, 10.0f);
 			glVertex2f(currentLeft + 20.0f, currentTop - lowerHeight - drop);
 		glEnd();
@@ -152,7 +152,7 @@ void GLMenuEntry::drawDepressed(GLFont2d &font, float currentTop, float currentL
 		glColor4f(0.0f, 0.0f, 0.0f, 0.8f);
 		glLineWidth(2.0f);
 		glBegin(GL_LINE_LOOP);
-			GLWVisibleWidget::drawRoundBox(currentLeft, currentTop - lowerHeight  - drop, 
+			GLWidget::drawRoundBox(currentLeft, currentTop - lowerHeight  - drop, 
 				selectedWidth_, lowerHeight - drop, 10.0f);
 		glEnd();
 		glLineWidth(1.0f);

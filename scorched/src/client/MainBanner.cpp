@@ -22,6 +22,7 @@
 #include <client/ScorchedClient.h>
 #include <tank/TankContainer.h>
 #include <GLEXT/GLViewPort.h>
+#include <GLEXT/GLState.h>
 #include <common/OptionsDisplay.h>
 
 MainBanner* MainBanner::instance_ = 0;

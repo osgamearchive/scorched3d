@@ -19,7 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <GLW/GLWWindowSkin.h>
-#include <GLW/GLWVisibleWidget.h>
+#include <GLW/GLWidget.h>
 #include <GLW/GLWWindowManager.h>
 #include <GLW/GLWToolTip.h>
 #include <GLEXT/GLState.h>

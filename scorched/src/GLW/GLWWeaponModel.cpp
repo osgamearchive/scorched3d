@@ -31,7 +31,7 @@
 REGISTER_CLASS_SOURCE(GLWWeaponModel);
 
 GLWWeaponModel::GLWWeaponModel(float x, float y, float w, float h) :
-	GLWVisibleWidget(x, y, w, h),
+	GLWidget(x, y, w, h),
 	totalTime_(0.0f)
 {
 }
@@ -42,13 +42,13 @@ GLWWeaponModel::~GLWWeaponModel()
 
 void GLWWeaponModel::simulate(float frameTime)
 {
-	GLWVisibleWidget::simulate(frameTime);
+	GLWidget::simulate(frameTime);
 	totalTime_+=frameTime;
 }
 
 void GLWWeaponModel::draw()
 {
-	GLWVisibleWidget::draw();
+	GLWidget::draw();
 
 	Tank *current = 
 		ScorchedClient::instance()->getTankContainer().getCurrentTank();

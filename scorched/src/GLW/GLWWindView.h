@@ -21,7 +21,7 @@
 #if !defined(__INCLUDE_GLWWindViewh_INCLUDE__)
 #define __INCLUDE_GLWWindViewh_INCLUDE__
 
-#include <GLW/GLWVisibleWidget.h>
+#include <GLW/GLWidget.h>
 #include <GLW/GLWToolTip.h>
 #include <GLEXT/GLVertexSet.h>
 #include <GLEXT/GLTexture.h>
@@ -35,7 +35,7 @@ public:
 	virtual void populate();
 };
 
-class GLWWindView : public GLWVisibleWidget
+class GLWWindView : public GLWidget
 {
 public:
 	GLWWindView(float x = 0.0f, float y = 0.0f,

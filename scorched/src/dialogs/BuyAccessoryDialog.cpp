@@ -48,8 +48,8 @@ BuyAccessoryDialog::BuyAccessoryDialog() :
 		addWidget(new GLWTab("Others", 120, 10, 40, 420, 160, 80));
 	sellTab_ = (GLWTab *)
 		addWidget(new GLWTab("Sell", 240, 10, 40, 420, 160, 80));
-	topPanel_ = (GLWVisiblePanel *)
-		addWidget(new GLWVisiblePanel(10, 245, 420, 30));
+	topPanel_ = (GLWPanel *)
+		addWidget(new GLWPanel(10, 245, 420, 30));
 	sortBox_ = (GLWCheckBox *) addWidget(new GLWCheckBox(10, 10));
 	sortBox_->setHandler(this);
 	addWidget(new GLWLabel(35, 7, "Sort accessories by name"));
@@ -146,8 +146,8 @@ void BuyAccessoryDialog::addPlayerWeaponsBuy(GLWTab *tab, bool showWeapons)
 		int currentNumber = 
 			tank->getAccessories().getAccessoryCount(current);
 
-		GLWVisiblePanel *newPanel = (GLWVisiblePanel *)
-			tab->addWidget(new GLWVisiblePanel(10.0f, (float) height, 315.0f, 20.0f, true));
+		GLWPanel *newPanel = (GLWPanel *)
+			tab->addWidget(new GLWPanel(10.0f, (float) height, 315.0f, 20.0f, true));
 		newPanel->setToolTip(&current->getToolTip());
 		sprintf(buffer, "%i", (currentNumber>=0?currentNumber:99));
 		newPanel->addWidget(new GLWLabel(0, -2, buffer));
@@ -194,8 +194,8 @@ void BuyAccessoryDialog::addPlayerWeaponsSell()
 		Accessory *current = *itor;
 		int count = tank->getAccessories().getAccessoryCount(current);
 
-		GLWVisiblePanel *newPanel = (GLWVisiblePanel *)
-			sellTab_->addWidget(new GLWVisiblePanel(10.0f, (float) height, 315.0f, 20.0f, true));
+		GLWPanel *newPanel = (GLWPanel *)
+			sellTab_->addWidget(new GLWPanel(10.0f, (float) height, 315.0f, 20.0f, true));
 		newPanel->setToolTip(&current->getToolTip());
 		if (count >= 0) sprintf(buffer, "%i", count);
 		else sprintf(buffer, "In");

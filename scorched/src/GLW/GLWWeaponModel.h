@@ -21,9 +21,9 @@
 #if !defined(__INCLUDE_GLWWeaponModelh_INCLUDE__)
 #define __INCLUDE_GLWWeaponModelh_INCLUDE__
 
-#include <GLW/GLWVisibleWidget.h>
+#include <GLW/GLWidget.h>
 
-class GLWWeaponModel : public GLWVisibleWidget
+class GLWWeaponModel : public GLWidget
 {
 public:
 	GLWWeaponModel(float x = 0.0f, float y = 0.0f,

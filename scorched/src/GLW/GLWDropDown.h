@@ -25,7 +25,7 @@
 #include <list>
 #include <string>
 #include <GLW/GLWPushButton.h>
-#include <GLW/GLWVisibleWidget.h>
+#include <GLW/GLWidget.h>
 
 class GLWDropDownEntry
 {
@@ -48,7 +48,7 @@ public:
 	virtual void select(unsigned int id, const int pos, GLWDropDownEntry value) = 0;
 };
 
-class GLWDropDown : public GLWVisibleWidget
+class GLWDropDown : public GLWidget
 {
 public:
 	GLWDropDown(float x = 0.0f, float y = 0.0f, float w = 0.0f);

@@ -49,7 +49,7 @@ protected:
 	unsigned int okId_;
 	unsigned int cancelId_;
 	unsigned int messageCount_;
-	GLWVisiblePanel *topPanel_;
+	GLWPanel *topPanel_;
 	GLWDropDown *ddshields_;
 	GLWDropDown *ddpara_;
 

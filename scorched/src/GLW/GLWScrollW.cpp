@@ -19,6 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <GLW/GLWScrollW.h>
+#include <GLEXT/GLState.h>
 
 REGISTER_CLASS_SOURCE(GLWScrollW);
 
@@ -28,7 +29,7 @@ GLWScrollWI::~GLWScrollWI()
 }
 
 GLWScrollW::GLWScrollW(float x, float y, float h, int min, int max, int see, GLWScrollWI *handler) :
-	GLWVisibleWidget(x, y, 15.0f, h),
+	GLWidget(x, y, 15.0f, h),
 	min_(min), max_(max), see_(see), current_(min),
 	handler_(handler), dragCurrent_(0),
 	bottomButton_(x_ + 2.0f, y_ + 2.0f, w_ - 4.0f, w_ - 4.0f),
@@ -63,7 +64,7 @@ void GLWScrollW::setX(float x)
 
 void GLWScrollW::setH(float h)
 {
-	GLWVisibleWidget::setH(h);
+	GLWidget::setH(h);
 	topButton_.setY(y_ + h_ - w_ + 2.0f);
 }
 

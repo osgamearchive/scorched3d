@@ -24,7 +24,7 @@
 REGISTER_CLASS_SOURCE(GLWProgress);
 
 GLWProgress::GLWProgress(float x, float y, float w, float min, float max) :
-	GLWVisiblePanel(x, y, w, 25.0f, true), x_(x), y_(y), w_(w), min_(min), max_(max), current_(min)
+	GLWPanel(x, y, w, 25.0f, true), x_(x), y_(y), w_(w), min_(min), max_(max), current_(min)
 {
 
 }
@@ -38,7 +38,7 @@ void GLWProgress::draw()
 {
 	GLfloat width = ((current_ - min_) / (max_ - min_)) * (w_ - 4);
 
-	GLWVisiblePanel::draw();
+	GLWPanel::draw();
 
 	glColor3f(0.4f, 0.4f, 0.5f);
 	glBegin(GL_QUADS);

@@ -22,9 +22,9 @@
 #if !defined(__INCLUDE_GLWTankModelh_INCLUDE__)
 #define __INCLUDE_GLWTankModelh_INCLUDE__
 
-#include <GLW/GLWVisibleWidget.h>
+#include <GLW/GLWidget.h>
 
-class GLWTankModel : public GLWVisibleWidget
+class GLWTankModel : public GLWidget
 {
 public:
 	GLWTankModel(float x = 0.0f, float y = 0.0f,

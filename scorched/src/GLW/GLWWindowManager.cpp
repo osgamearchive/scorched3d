@@ -283,7 +283,7 @@ unsigned int GLWWindowManager::getFocus(int x, int y)
 		GLWWindow *window = (*itor);
 		if (windowVisible(window->getId()))
 		{
-			if (GLWVisibleWidget::inBox(
+			if (GLWidget::inBox(
 				(float) x, (float) y,
 				window->getX(), window->getY(),
 				window->getW(), window->getH()))

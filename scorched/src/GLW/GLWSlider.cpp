@@ -28,7 +28,7 @@
 REGISTER_CLASS_SOURCE(GLWSlider);
 
 GLWSlider::GLWSlider(float x, float y, float w,  float range) :
-	GLWVisibleWidget(x, y, w, 20.0f), 
+	GLWidget(x, y, w, 20.0f), 
 	range_(range),
 	dragging_(false), handler_(0)
 {

@@ -22,9 +22,9 @@
 #define __INCLUDE_GLWIconh_INCLUDE__
 
 #include <GLEXT/GLTexture.h>
-#include <GLW/GLWVisibleWidget.h>
+#include <GLW/GLWidget.h>
 
-class GLWIcon : public GLWVisibleWidget
+class GLWIcon : public GLWidget
 {
 public:
 	GLWIcon(float x = 0.0f, float y = 0.0f, 

@@ -25,7 +25,7 @@
 REGISTER_CLASS_SOURCE(GLWFlag);
 
 GLWFlag::GLWFlag(Vector &color, float x, float y, float w) : 
-	color_(color), GLWVisibleWidget(x, y, w, 20.0f), offset_(0.0f)
+	color_(color), GLWidget(x, y, w, 20.0f), offset_(0.0f)
 {
 
 }

@@ -18,8 +18,8 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <GLW/GLWCheckBox.h>
+#include <GLEXT/GLState.h>
 
 GLWCheckBoxI::~GLWCheckBoxI()
 {
@@ -29,7 +29,7 @@ GLWCheckBoxI::~GLWCheckBoxI()
 REGISTER_CLASS_SOURCE(GLWCheckBox);
 
 GLWCheckBox::GLWCheckBox(float x, float y, bool startState) :
-	GLWVisibleWidget(x, y, 20.0f, 20.0f), state_(startState), handler_(0)
+	GLWidget(x, y, 20.0f, 20.0f), state_(startState), handler_(0)
 {
 }
 

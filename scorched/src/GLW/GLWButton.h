@@ -21,7 +21,7 @@
 #ifndef _GLWBUTTON_H_
 #define _GLWBUTTON_H_
 
-#include <GLW/GLWVisibleWidget.h>
+#include <GLW/GLWidget.h>
 
 class GLWButtonI
 {
@@ -31,7 +31,7 @@ public:
 	virtual void buttonDown(unsigned int id) = 0;
 };
 
-class GLWButton : public GLWVisibleWidget
+class GLWButton : public GLWidget
 {
 public:
 	enum

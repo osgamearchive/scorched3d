@@ -26,7 +26,7 @@
 REGISTER_CLASS_SOURCE(GLWTextBox);
 
 GLWTextBox::GLWTextBox(float x, float y, float w, char *startText) :
-	GLWVisibleWidget(x, y, w, 25.0f), ctime_(0.0f), text_(startText?startText:""), 
+	GLWidget(x, y, w, 25.0f), ctime_(0.0f), text_(startText?startText:""), 
 	cursor_(false), maxTextLen_(0)
 {
 
@@ -49,7 +49,7 @@ void GLWTextBox::simulate(float frameTime)
 
 void GLWTextBox::draw()
 {
-	GLWVisibleWidget::draw();
+	GLWidget::draw();
 	glBegin(GL_LINE_LOOP);
 		drawShadedRoundBox(x_, y_, w_, h_, 10.0f, false);
 	glEnd();

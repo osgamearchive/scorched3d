@@ -22,6 +22,7 @@
 #include <GLEXT/GLTexture.h>
 #include <GLEXT/GLBitmap.h>
 #include <GLEXT/GLViewPort.h>
+#include <XML/XMLParser.h>
 #include <GLW/GLWWindow.h>
 #include <GLW/GLWWindowManager.h>
 #include <client/ScorchedClient.h>
@@ -38,7 +39,7 @@ GLWWindow::GLWWindow(const char *name, float x, float y,
 					 float w, float h,
 					 unsigned int states,
 					 const char *description) : 
-	GLWVisiblePanel(x, y, w, h), dragging_(NoDrag), 
+	GLWPanel(x, y, w, h), dragging_(NoDrag), 
 	needCentered_(false), showTitle_(false), name_(name),
 	disabled_(false), windowState_(states), maxWindowSize_(0.0f),
 	description_(description), toolTip_(name, description),
@@ -50,7 +51,7 @@ GLWWindow::GLWWindow(const char *name, float x, float y,
 GLWWindow::GLWWindow(const char *name, float w, float h,
 					 unsigned int states,
 					 const char *description) :
-	GLWVisiblePanel(0.0f, 0.0f, w, h), dragging_(NoDrag), 
+	GLWPanel(0.0f, 0.0f, w, h), dragging_(NoDrag), 
 	needCentered_(true), showTitle_(false), name_(name),
 	disabled_(false), windowState_(states),
 	description_(description), toolTip_(name, description),
@@ -190,7 +191,7 @@ void GLWWindow::drawMaximizedWindow()
 		}
 
 		glPushMatrix();
-			GLWVisiblePanel::draw();
+			GLWPanel::draw();
 		glPopMatrix();
 
 		int x = ScorchedClient::instance()->getGameState().getMouseX();
@@ -254,7 +255,7 @@ void GLWWindow::drawMaximizedWindow()
 		}
 
 		glPushMatrix();
-			GLWVisiblePanel::draw();
+			GLWPanel::draw();
 		glPopMatrix();
 	}
 	else
@@ -272,7 +273,7 @@ void GLWWindow::drawMaximizedWindow()
 		glLineWidth(1.0f);
 
 		glPushMatrix();
-			GLWVisiblePanel::draw();
+			GLWPanel::draw();
 		glPopMatrix();
 	}
 }
@@ -321,7 +322,7 @@ void GLWWindow::mouseDown(float x, float y, bool &skipRest)
 			else if (y > y_ && y < y_ + h_)
 			{
 				// There is a mouse down in the actual window
-				GLWVisiblePanel::mouseDown(x, y, skipRest);
+				GLWPanel::mouseDown(x, y, skipRest);
 				skipRest = true;
 			}
 		}
@@ -347,7 +348,7 @@ void GLWWindow::mouseDown(float x, float y, bool &skipRest)
 				else if (y > y_ && y < y_ + h_)
 				{
 					// There is a mouse down in the actual window
-					GLWVisiblePanel::mouseDown(x, y, skipRest);
+					GLWPanel::mouseDown(x, y, skipRest);
 					skipRest = true;
 				}
 			}	
@@ -360,7 +361,7 @@ void GLWWindow::mouseUp(float x, float y, bool &skipRest)
 	if (disabled_) return;
 
 	dragging_ = NoDrag;
-	GLWVisiblePanel::mouseUp(x, y, skipRest);
+	GLWPanel::mouseUp(x, y, skipRest);
 }
 
 void GLWWindow::mouseDrag(float mx, float my, float x, float y, bool &skipRest)
@@ -390,7 +391,7 @@ void GLWWindow::mouseDrag(float mx, float my, float x, float y, bool &skipRest)
 		skipRest = true;
 		break;
 	default:
-		GLWVisiblePanel::mouseDrag(mx, my, x, -y, skipRest);
+		GLWPanel::mouseDrag(mx, my, x, -y, skipRest);
 		break;
 	}
 }
@@ -401,7 +402,7 @@ void GLWWindow::keyDown(char *buffer, unsigned int keyState,
 {
 	if (disabled_) return;
 
-	GLWVisiblePanel::keyDown(buffer, keyState, history, hisCount, skipRest);
+	GLWPanel::keyDown(buffer, keyState, history, hisCount, skipRest);
 }
 
 void GLWWindow::drawInfoBox(float x, float y, float w)
@@ -450,7 +451,7 @@ void GLWWindow::drawIconBox(float x, float y)
 
 bool GLWWindow::initFromXML(XMLNode *node)
 {
-	if (!GLWVisiblePanel::initFromXML(node)) return false;
+	if (!GLWPanel::initFromXML(node)) return false;
 	
 	// Name
 	XMLNode *nameNode = node->getNamedChild("name", true, true);

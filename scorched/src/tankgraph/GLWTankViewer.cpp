@@ -29,7 +29,7 @@ static const float TankPadding = 20.0f;
 static const float TankInfo = 150.0f;
 
 GLWTankViewer::GLWTankViewer(float x, float y, int numH, int numV) :
-	GLWVisibleWidget(x, y, 
+	GLWidget(x, y, 
 					 TankSquareSize * numH + TankPadding, 
 					 TankSquareSize * numV + TankPadding),
 	scrollBar_(w_ - 7.0f, y + 2.0f, h_ - 4.0f, 0, 0, numV),

@@ -11,6 +11,7 @@ Fixed: Matched sounding mixing format to sound buffer format
 
 Changed: Tank can move up and down bigger slopes
 
+Added: Bouyes sway with the waves
 Added: Gravity can be changed
 Added: time connected, roundsplayed, armslevel, connects, add money earned to stats
 Added: Option to set max server players to zero (so no new players can connect)
@@ -23,6 +24,8 @@ Gun fires at same point for all tanks (ignores turret/gun position in model)
 Shot cam does not get LOD correctly
 
 -- Things I am currently looking at
+Add dialog to toggle display indicators (instead of toggle key)
+Add wxsizer type functionality to GLWidgets
 Fix crashing when people win
 Make AIs even better
 Riot Blast

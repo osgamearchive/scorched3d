@@ -20,11 +20,12 @@
 
 #include <GLW/GLWScrollPanel.h>
 #include <GLW/GLWTranslate.h>
+#include <GLEXT/GLState.h>
 
 REGISTER_CLASS_SOURCE(GLWScrollPanel);
 
 GLWScrollPanel::GLWScrollPanel(float x, float y, float w, float h) : 
-	GLWVisiblePanel(x, y, w, h), scrollW_(x + w - 19, y + 4, h - 10, 0, 0),
+	GLWPanel(x, y, w, h), scrollW_(x + w - 19, y + 4, h - 10, 0, 0),
 	drawScrollBar_(true), maxSee_(0)
 {
 	scrollW_.setHandler(this);
@@ -37,7 +38,7 @@ GLWScrollPanel::~GLWScrollPanel()
 
 void GLWScrollPanel::setH(float h)
 {
-	GLWVisibleWidget::setH(h);
+	GLWidget::setH(h);
 
 	scrollW_.setH(h_ - 10);
 }
@@ -59,13 +60,13 @@ void GLWScrollPanel::draw()
 		GLState currentState(GLState::DEPTH_OFF | GLState::TEXTURE_OFF);
 
 		std::list<GLWPanel::GLWPanelEntry>::iterator itor;
-		for (itor = panel_.getWidgets().begin();
-			itor != panel_.getWidgets().end();
+		for (itor = getWidgets().begin();
+			itor != getWidgets().end();
 			itor++)
 		{
 			glPushMatrix();
-				GLWVisibleWidget *vw =
-					(GLWVisibleWidget *) (*itor).widget;
+				GLWidget *vw =
+					(GLWidget *) (*itor).widget;
 				if (vw->getY() < 0.0f || vw->getY() + vw->getH() > h_)
 				{
 					drawScrollBar_ = true;
@@ -85,7 +86,7 @@ void GLWScrollPanel::draw()
 	{
 		if (canSee > maxSee_) maxSee_ = canSee;
 
-		scrollW_.setMax((int) panel_.getWidgets().size());
+		scrollW_.setMax((int) getWidgets().size());
 		scrollW_.setSee(maxSee_);
 		scrollW_.draw();
 	}
@@ -103,12 +104,12 @@ void GLWScrollPanel::mouseUp(float x, float y, bool &skipRest)
 		y -= y_;
 
 		std::list<GLWPanel::GLWPanelEntry>::iterator itor;
-		for (itor = panel_.getWidgets().begin();
-			itor != panel_.getWidgets().end();
+		for (itor = getWidgets().begin();
+			itor != getWidgets().end();
 			itor++)
 		{
-			GLWVisibleWidget *vw =
-				(GLWVisibleWidget *) (*itor).widget;
+			GLWidget *vw =
+				(GLWidget *) (*itor).widget;
 			if (vw->getY() < 0.0f || vw->getY() + vw->getH() > h_)
 			{
 			
@@ -134,12 +135,12 @@ void GLWScrollPanel::mouseDown(float x, float y, bool &skipRest)
 		y -= y_;
 
 		std::list<GLWPanel::GLWPanelEntry>::iterator itor;
-		for (itor = panel_.getWidgets().begin();
-			itor != panel_.getWidgets().end();
+		for (itor = getWidgets().begin();
+			itor != getWidgets().end();
 			itor++)
 		{
-			GLWVisibleWidget *vw =
-				(GLWVisibleWidget *) (*itor).widget;
+			GLWidget *vw =
+				(GLWidget *) (*itor).widget;
 			if (vw->getY() < 0.0f || vw->getY() + vw->getH() > h_)
 			{
 			
@@ -165,12 +166,12 @@ void GLWScrollPanel::mouseDrag(float mx, float my, float x, float y, bool &skipR
 		my -= y_;
 
 		std::list<GLWPanel::GLWPanelEntry>::iterator itor;
-		for (itor = panel_.getWidgets().begin();
-			itor != panel_.getWidgets().end();
+		for (itor = getWidgets().begin();
+			itor != getWidgets().end();
 			itor++)
 		{
-			GLWVisibleWidget *vw =
-				(GLWVisibleWidget *) (*itor).widget;
+			GLWidget *vw =
+				(GLWidget *) (*itor).widget;
 			if (vw->getY() < 0.0f || vw->getY() + vw->getH() > h_)
 			{
 			
@@ -186,16 +187,16 @@ void GLWScrollPanel::mouseDrag(float mx, float my, float x, float y, bool &skipR
 
 void GLWScrollPanel::positionChange(unsigned int id, int current, int movement)
 {
-	GLWVisibleWidget *widget = (GLWVisibleWidget *) 
-		panel_.getWidgets().front().widget;
+	GLWidget *widget = (GLWidget *) 
+		getWidgets().front().widget;
 
 	std::list<GLWPanel::GLWPanelEntry>::iterator itor;
-	for (itor = panel_.getWidgets().begin();
-		itor != panel_.getWidgets().end();
+	for (itor = getWidgets().begin();
+		itor != getWidgets().end();
 		itor++)
 	{
-		GLWVisibleWidget *vw =
-			(GLWVisibleWidget *) (*itor).widget;
+		GLWidget *vw =
+			(GLWidget *) (*itor).widget;
 		vw->setY(vw->getY() - widget->getH() * movement);
 	}
 }
@@ -203,5 +204,5 @@ void GLWScrollPanel::positionChange(unsigned int id, int current, int movement)
 void GLWScrollPanel::clear()
 {
 	scrollW_.setCurrent(0);
-	GLWVisiblePanel::clear();
+	GLWPanel::clear();
 }

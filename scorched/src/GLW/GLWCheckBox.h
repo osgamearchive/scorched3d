@@ -21,7 +21,7 @@
 
 #if !defined(__INCLUDE_GLWCheckBoxh_INCLUDE__)
 #define __INCLUDE_GLWCheckBoxh_INCLUDE__
-#include <GLW/GLWVisibleWidget.h>
+#include <GLW/GLWidget.h>
 
 class GLWCheckBoxI
 {
@@ -31,7 +31,7 @@ public:
 	virtual void stateChange(bool state, unsigned int id) = 0;
 };
 
-class GLWCheckBox : public GLWVisibleWidget
+class GLWCheckBox : public GLWidget
 {
 public:
 	GLWCheckBox(float x = 0.0f, float y = 0.0f, 

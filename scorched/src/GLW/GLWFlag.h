@@ -22,10 +22,10 @@
 #define AFX_GLWFLAG_H__E5E95ACF_A6F4_4552_B05C_75CA02ACB6D2__INCLUDED_
 
 #include <GLW/GLWFont.h>
-#include <GLW/GLWVisibleWidget.h>
+#include <GLW/GLWidget.h>
 #include <common/Vector.h>
 
-class GLWFlag : public GLWVisibleWidget
+class GLWFlag : public GLWidget
 {
 public:
 	GLWFlag(Vector &color = GLWFont::widgetFontColor, 

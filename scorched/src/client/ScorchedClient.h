@@ -39,6 +39,7 @@ public:
 	OptionsGameWrapper &getOptionsGame() { return *context_.optionsGame; }
 	OptionsTransient &getOptionsTransient() { return *context_.optionsTransient; }
 	ComsMessageHandler &getComsMessageHandler() { return *context_.comsMessageHandler; }
+	ModFiles &getModFiles() { return *context_.modFiles; }
 
 protected:
 	static ScorchedClient *instance_;

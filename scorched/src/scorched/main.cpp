@@ -91,11 +91,10 @@ bool parseCommandLine(int argc, char *argv[])
 	// Write the new options back the the file
 	OptionsDisplay::instance()->writeOptionsToFile();
 
-	// Read the game options
+	// Read the game options (allows us to modify any settings only 
+	// used by the chooser screens)
 	const char *optionsGamePath = getSettingsFile("game.xml");
 	ScorchedClient::instance()->getOptionsGame().readOptionsFromFile(
-		(char *) optionsGamePath);
-	ScorchedClient::instance()->getOptionsGame().writeOptionsToFile(
 		(char *) optionsGamePath);
 
 	// Set the path the executable was run with

@@ -23,7 +23,7 @@
 
 #include <GLW/GLWButton.h>
 
-class GLWSpinBox : public GLWVisibleWidget, 
+class GLWSpinBox : public GLWidget, 
 					public GLWButtonI
 {
 public:

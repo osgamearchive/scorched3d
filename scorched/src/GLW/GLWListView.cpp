@@ -25,7 +25,7 @@
 REGISTER_CLASS_SOURCE(GLWListView);
 
 GLWListView::GLWListView(float x, float y, float w, float h, int maxLen) :
-	GLWVisibleWidget(x, y, w, h), 
+	GLWidget(x, y, w, h), 
 	scroll_(x + w - 17, y, h, 0, 1), maxLen_(maxLen)
 {
 	scroll_.setMax((int) lines_.size());

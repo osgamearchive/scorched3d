@@ -22,11 +22,11 @@
 #define AFX_GLWWINDOW_H__DF296D0F_BC67_4A40_B8F9_3B70E8AC1F65__INCLUDED_
 
 #include <string>
-#include <GLW/GLWVisiblePanel.h>
+#include <GLW/GLWPanel.h>
 #include <GLW/GLWToolTip.h>
 #include <GLEXT/GLTexture.h>
 
-class GLWWindow : public GLWVisiblePanel
+class GLWWindow : public GLWPanel
 {
 public:
 	enum PossibleStates

@@ -569,18 +569,6 @@
 				RelativePath="..\GLW\GLWTranslate.h">
 			</File>
 			<File
-				RelativePath="..\GLW\GLWVisiblePanel.cpp">
-			</File>
-			<File
-				RelativePath="..\GLW\GLWVisiblePanel.h">
-			</File>
-			<File
-				RelativePath="..\GLW\GLWVisibleWidget.cpp">
-			</File>
-			<File
-				RelativePath="..\GLW\GLWVisibleWidget.h">
-			</File>
-			<File
 				RelativePath="..\GLW\GLWWeaponModel.cpp">
 			</File>
 			<File

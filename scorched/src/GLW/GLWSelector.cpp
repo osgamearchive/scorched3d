@@ -132,7 +132,7 @@ void GLWSelector::drawMain(float indent)
 				selectedY_ - 25.0f + 5.0f);
 			glVertex2f(selectedX_ + 20.0f, 
 				selectedY_ - selectedHeight_ + 5.0f);
-			GLWVisibleWidget::drawRoundBox(
+			GLWidget::drawRoundBox(
 				selectedX_, selectedY_ - selectedHeight_ + 5.0f, 
 				selectedWidth_, selectedHeight_, 10.0f);
 			glVertex2f(selectedX_ + 20.0f, 
@@ -142,7 +142,7 @@ void GLWSelector::drawMain(float indent)
 		glColor4f(0.0f, 0.0f, 0.0f, 0.8f);
 		glLineWidth(2.0f);
 		glBegin(GL_LINE_LOOP);
-			GLWVisibleWidget::drawRoundBox(
+			GLWidget::drawRoundBox(
 				selectedX_, selectedY_ - selectedHeight_ + 5.0f, 
 				selectedWidth_, selectedHeight_, 10.0f);
 		glEnd();

@@ -21,12 +21,24 @@
 #if !defined(__INCLUDE_ModFilesh_INCLUDE__)
 #define __INCLUDE_ModFilesh_INCLUDE__
 
+#include <coms/NetBuffer.h>
+#include <map>
+#include <string>
+
 class ModFile
 {
+public:
 	ModFile();
 	virtual ~ModFile();
 
 	bool loadModFile(const char *file);
+
+	unsigned int getFileSize() { return file_.getBufferUsed(); }
+	char *getFileBytes() { return file_.getBuffer(); }
+
+protected:
+	NetBuffer file_;
+	unsigned int crc_;
 };
 
 class ModFiles
@@ -36,6 +48,10 @@ public:
 	virtual ~ModFiles();
 
 	bool loadModFiles(const char *mod);
+
+protected:
+	std::map<std::string, ModFile *> files_;
+
 };
 
 #endif

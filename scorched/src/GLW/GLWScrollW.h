@@ -32,7 +32,7 @@ public:
 };
 
 class GLWScrollW  : 
-	public GLWVisibleWidget, 
+	public GLWidget, 
 	public GLWButtonI,
 	public GLWScrollButtonI
 {

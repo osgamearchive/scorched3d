@@ -27,9 +27,9 @@
 #define AFX_GLWPROGRESS_H__0712973C_EA7A_4C72_A48B_90B2A898FAF3__INCLUDED_
 
 
-#include <GLW/GLWVisiblePanel.h>
+#include <GLW/GLWPanel.h>
 
-class GLWProgress : public GLWVisiblePanel
+class GLWProgress : public GLWPanel
 {
 public:
 	GLWProgress(float x = 0.0f, float y = 0.0f, 

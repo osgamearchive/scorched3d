@@ -24,7 +24,7 @@
 #include <common/OptionsGame.h>
 #include <GLEXT/GLViewPort.h>
 #include <GLW/GLWFont.h>
-#include <GLW/GLWVisibleWidget.h>
+#include <GLW/GLWidget.h>
 
 ShotCountDown *ShotCountDown::instance_ = 0;
 

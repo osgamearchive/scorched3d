@@ -26,7 +26,7 @@ REGISTER_CLASS_SOURCE(GLWSpinBox);
 
 GLWSpinBox::GLWSpinBox(float x, float y, float w, int start, 
 					   int minRange, int maxRange, int step) :
-	GLWVisibleWidget(x, y, w, 25.0f), value_(start), minRange_(minRange), maxRange_(maxRange),
+	GLWidget(x, y, w, 25.0f), value_(start), minRange_(minRange), maxRange_(maxRange),
 	top_(x + w - 12.0f, y + 13.0f, 10.0f, 10.0f),
 	bottom_(x + w - 12.0f, y + 2.0f, 10.0f, 10.0f),
 	dragging_(false), step_(step)

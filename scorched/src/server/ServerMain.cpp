@@ -34,6 +34,7 @@
 #include <common/OptionsTransient.h>
 #include <engine/ActionController.h>
 #include <engine/ScorchedCollisionHandler.h>
+#include <engine/ModFiles.h>
 #include <landscape/HeightMapCollision.h>
 #include <landscape/LandscapeDefinitions.h>
 #include <tankai/TankAIAdder.h>
@@ -82,6 +83,10 @@ bool startServer(bool local)
 	ServerBuyAccessoryHandler::instance();
 	ServerAddPlayerHandler::instance();
 	ServerDefenseHandler::instance();
+
+	// Load mod
+	if (!ScorchedServer::instance()->getModFiles().loadModFiles(
+		ScorchedServer::instance()->getOptionsGame().getMod())) return false;
 
 	// Init physics
 	HeightMapCollision *hmcol = 

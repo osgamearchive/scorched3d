@@ -21,21 +21,26 @@
 #if !defined(AFX_GLWIDGET_H__3F7BC394_576B_4ADF_8771_7D97EB3AF314__INCLUDED_)
 #define AFX_GLWIDGET_H__3F7BC394_576B_4ADF_8771_7D97EB3AF314__INCLUDED_
 
-#include <GLEXT/GLState.h>
-#include <XML/XMLParser.h>
 #include <engine/MetaClass.h>
 #include <common/KeyboardHistory.h>
 
+class XMLNode;
+class GLWTip;
 class GLWPanel;
+
+/**
+A base class for al GL Widgets.
+Defines the interface.
+**/
 class GLWidget : public MetaClass
 {
 public:
-	GLWidget();
+	GLWidget(float x = 0.0f, float y = 0.0f, 
+		float w = 0.0f, float h = 0.0f);
 	virtual ~GLWidget();
 
-	virtual void setParent(GLWPanel *parent);
-
-	virtual void draw() = 0;
+	// The widgets implementation
+	virtual void draw();
 	virtual void simulate(float frameTime);
 	virtual void mouseDown(float x, float y, bool &skipRest);
 	virtual void mouseUp(float x, float y, bool &skipRest);
@@ -44,16 +49,45 @@ public:
 		KeyboardHistory::HistoryElement *history, int hisCount, 
 		bool &skipRest);
 
+	// Accessors
 	unsigned int getId() { return id_; }
 	virtual bool initFromXML(XMLNode *node);
+	virtual void setToolTip(GLWTip *tooltip) { tooltip_ = tooltip; }
+	virtual void setParent(GLWPanel *parent);
+
+	// Width, height and position functions
+	virtual float getX() { return x_; }
+	virtual float getY() { return y_; }
+	virtual float getW() { return w_; }
+	virtual float getH() { return h_; }
+	virtual void setX(float x) { x_ = x; }
+	virtual void setY(float y) { y_ = y; }
+	virtual void setW(float w) { w_ = w; }
+	virtual void setH(float h) { h_ = h; }
+
+	// Helper Functions
+	static bool inBox(float posX, float posY, float x, float y, float w, float h);
+	static void drawRoundBox(float x, float y, float w, float h, float size);
+	static void drawShadedRoundBox(float x, float y, float w, float h, float size, bool depressed);
+	static void drawCircle(int startA, int endA, float posX, float posY, float size);
+	static void drawWholeCircle(bool cap = false);
+	static void drawBox(float x, float y, float w, float h, bool depressed);
 
 protected:
 	static unsigned int nextId_;
 	unsigned int id_;
+	float x_, y_, w_, h_;
+	GLWTip *tooltip_;
+	bool tooltipTransparent_;
 	GLWPanel *parent_;
 
 };
 
+/**
+Class that defines a GL Widget Condition.
+A condition is an expression that evaluates to true or false
+and determines if the associated widget should be drawn.
+**/
 class GLWCondition : public MetaClass
 {
 public:

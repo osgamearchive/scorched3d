@@ -32,7 +32,7 @@ GLWDropDownI::~GLWDropDownI()
 REGISTER_CLASS_SOURCE(GLWDropDown);
 
 GLWDropDown::GLWDropDown(float x, float y, float w) :
-	GLWVisibleWidget(x, y, w - 21, 25.0f), text_("None"), 
+	GLWidget(x, y, w - 21, 25.0f), text_("None"), 
 	button_(x + w - 20.0f, y, 20.0f, 25.0f),
 	handler_(0)
 {
@@ -97,7 +97,7 @@ void GLWDropDown::addText(GLWDropDownEntry text)
 
 void GLWDropDown::draw()
 {
-	GLWVisibleWidget::draw();
+	GLWidget::draw();
 
 	float mouseX = float(ScorchedClient::instance()->getGameState().getMouseX());
 	mouseX -= GLWTranslate::getPosX();

@@ -21,7 +21,7 @@
 #ifndef _GLWTRACKER_H_
 #define _GLWTRACKER_H_
 
-#include <GLW/GLWVisibleWidget.h>
+#include <GLW/GLWidget.h>
 
 class GLWTrackerI
 {
@@ -29,7 +29,7 @@ public:
 	virtual void currentChanged(unsigned int id, float valueX, float valueY) = 0;
 };
 
-class GLWTracker : public GLWVisibleWidget
+class GLWTracker : public GLWidget
 {
 public:
 	GLWTracker(float x = 0.0f, float y = 0.0f, 

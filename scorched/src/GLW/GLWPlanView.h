@@ -21,9 +21,9 @@
 #if !defined(__INCLUDE_GLWPlanViewh_INCLUDE__)
 #define __INCLUDE_GLWPlanViewh_INCLUDE__
 
-#include <GLW/GLWVisibleWidget.h>
+#include <GLW/GLWidget.h>
 
-class GLWPlanView : public GLWVisibleWidget
+class GLWPlanView : public GLWidget
 {
 public:
 	GLWPlanView(float x = 0.0f, float y = 0.0f,

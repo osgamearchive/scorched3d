@@ -21,7 +21,7 @@
 #if !defined(AFX_GLWScorchedInfo_H__E5E95ACF_A6F4_4552_B05C_75CA02ACB6D2__INCLUDED_)
 #define AFX_GLWScorchedInfo_H__E5E95ACF_A6F4_4552_B05C_75CA02ACB6D2__INCLUDED_
 
-#include <GLW/GLWVisibleWidget.h>
+#include <GLW/GLWidget.h>
 #include <XML/XMLParser.h>
 #include <common/Vector.h>
 
@@ -36,7 +36,7 @@ public:
 	REGISTER_CLASS_HEADER(GLWHudCondition);
 };
 
-class GLWScorchedInfo : public GLWVisibleWidget
+class GLWScorchedInfo : public GLWidget
 {
 public:
 	enum InfoType

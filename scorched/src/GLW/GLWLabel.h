@@ -22,16 +22,19 @@
 #define AFX_GLWLABEL_H__75483479_A6F8_45CC_8E83_B517E721211F__INCLUDED_
 
 #include <string>
-#include <GLW/GLWVisibleWidget.h>
+#include <GLW/GLWidget.h>
+#include <common/Vector.h>
 
-class GLWLabel : public GLWVisibleWidget  
+class GLWLabel : public GLWidget  
 {
 public:
 	GLWLabel(float x = 0.0f, float y = 0.0f, 
 		char *buttonText = 0);
 	virtual ~GLWLabel();
 
-	virtual void draw();	
+	virtual float getW() { calcWidth(); return GLWidget::getW(); }
+	virtual void draw();
+
 	const char *getText() { return buttonText_.c_str(); }
 	void setText(const char *text);
 	void setColor(Vector &color);

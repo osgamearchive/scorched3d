@@ -21,14 +21,14 @@
 
 #if !defined(__INCLUDE_GLWListViewh_INCLUDE__)
 #define __INCLUDE_GLWListViewh_INCLUDE__
-#include <GLW/GLWVisibleWidget.h>
+#include <GLW/GLWidget.h>
 #include <GLW/GLWScrollW.h>
 #include <common/FileLines.h>
 #include <vector>
 #include <string>
 
 class GLWListView :
-	public GLWVisibleWidget
+	public GLWidget
 {
 public:
 	GLWListView(float x = 0.0f, float y = 0.0f, 

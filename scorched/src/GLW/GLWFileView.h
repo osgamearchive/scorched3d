@@ -21,12 +21,12 @@
 
 #if !defined(__INCLUDE_GLWFileViewh_INCLUDE__)
 #define __INCLUDE_GLWFileViewh_INCLUDE__
-#include <GLW/GLWVisibleWidget.h>
+#include <GLW/GLWidget.h>
 #include <GLW/GLWScrollW.h>
 #include <common/FileLines.h>
 
 class GLWFileView :
-	public GLWVisibleWidget
+	public GLWidget
 {
 public:
 	GLWFileView(char *fileName = "", 

@@ -39,9 +39,9 @@ public:
 	virtual bool TransferDataToWindow();
 	virtual bool TransferDataFromWindow();
 
-	void onLoadDefaultsButton();
-	void onLoadSafeButton();
-	void onMoreRes();
+	void onLoadDefaultsButton(wxCommandEvent &event);
+	void onLoadSafeButton(wxCommandEvent &event);
+	void onMoreRes(wxCommandEvent &event);
 
 	wxNotebook *book_;
 	wxPanel *mainPanel_;
@@ -116,19 +116,19 @@ DisplayFrame::DisplayFrame() :
 	CentreOnScreen();
 }
 
-void DisplayFrame::onLoadDefaultsButton()
+void DisplayFrame::onLoadDefaultsButton(wxCommandEvent &event)
 {
 	OptionsDisplay::instance()->loadDefaultValues();
 	refreshScreen();
 }
 
-void DisplayFrame::onLoadSafeButton()
+void DisplayFrame::onLoadSafeButton(wxCommandEvent &event)
 {
 	OptionsDisplay::instance()->loadSafeValues();
 	refreshScreen();
 }
 
-void DisplayFrame::onMoreRes()
+void DisplayFrame::onMoreRes(wxCommandEvent &event)
 {
 	refreshResolutions();
 }

@@ -24,6 +24,10 @@
 #include <list>
 #include <GLW/GLWidget.h>
 
+/**
+A container widget for other widgets.
+Also controls how widgets are layed out.
+**/
 class GLWPanel : public GLWidget
 {
 public:
@@ -53,7 +57,9 @@ public:
 		unsigned flags;
 	};
 
-	GLWPanel();
+	GLWPanel(float x = 0.0f, float y = 0.0f, 
+		float w = 0.0f, float h = 0.0f, 
+		bool depressed = false);
 	virtual ~GLWPanel();
 
 	virtual void simulate(float frameTime);
@@ -74,8 +80,14 @@ public:
 
 	REGISTER_CLASS_HEADER(GLWPanel);
 
+	// Accessors
+	bool &getDepressed() { return depressed_; }
+	bool &getDrawPanel() { return drawPanel_; }
+
 protected:
 	std::list<GLWPanelEntry> widgets_;
+	bool depressed_;
+	bool drawPanel_;
 
 };
 

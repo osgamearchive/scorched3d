@@ -32,7 +32,7 @@ REGISTER_CLASS_SOURCE(GLWButton);
 GLWButton::GLWButton(float x, float y, float w, float h, GLWButtonI *handler,
 					 unsigned flags) : 
 	handler_(handler),
-	GLWVisibleWidget(x, y, w, h),
+	GLWidget(x, y, w, h),
 	flags_(flags), pressed_(false), startdrag_(false),
 	repeatMode_(false), repeatTime_(0.0f),
 	enabled_(true)
@@ -57,7 +57,7 @@ void GLWButton::setHandler(GLWButtonI *handler)
 
 void GLWButton::draw()
 {
-	GLWVisibleWidget::draw();
+	GLWidget::draw();
 
 	float size = 10.0f;
 	if (w_ < 16 || h_ < 16) size = 6.0f;

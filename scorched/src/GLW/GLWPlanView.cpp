@@ -38,7 +38,7 @@ static const float degToRad = 3.14f / 180.0f;
 static const float maxAnimationTime = 2.0f;
 
 GLWPlanView::GLWPlanView(float x, float y, float w, float h) :
-	GLWVisibleWidget(x, y, w, h),
+	GLWidget(x, y, w, h),
 	animationTime_(0.0f), flashTime_(0.0f),
 	flash_(true)
 {
@@ -72,7 +72,7 @@ void GLWPlanView::simulate(float frameTime)
 
 void GLWPlanView::draw()
 {
-	GLWVisibleWidget::draw();
+	GLWidget::draw();
 	drawMap();
 }
 

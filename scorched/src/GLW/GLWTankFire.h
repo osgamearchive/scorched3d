@@ -21,9 +21,9 @@
 #ifndef _GLWTankFire_H_
 #define _GLWTankFire_H_
 
-#include <GLW/GLWVisibleWidget.h>
+#include <GLW/GLWidget.h>
 
-class GLWTankFire : public GLWVisibleWidget
+class GLWTankFire : public GLWidget
 {
 public:
 	GLWTankFire();

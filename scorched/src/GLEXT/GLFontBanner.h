@@ -51,8 +51,8 @@ class GLFontBanner : public GLWidget
 public:
 	static Vector defaultColor;
 
-	GLFontBanner(GLfloat x = 0.0f, GLfloat y = 0.0f, 
-		GLfloat w = 0.0f, int lines = 0);
+	GLFontBanner(float x = 0.0f, float y = 0.0f, 
+		float w = 0.0f, int lines = 0);
 	virtual ~GLFontBanner();
 
 	virtual void simulate(float frameTime);
@@ -65,7 +65,7 @@ public:
 	REGISTER_CLASS_HEADER(GLFontBanner);
 
 protected:
-	GLfloat x_, y_, w_;
+	float x_, y_, w_;
 	int totalLines_;
 	int startLine_, usedLines_;
 

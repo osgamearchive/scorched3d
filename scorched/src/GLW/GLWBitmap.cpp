@@ -25,7 +25,7 @@
 REGISTER_CLASS_SOURCE(GLWBitmap);
 
 GLWBitmap::GLWBitmap(float x, float y, float w, float h, GLBitmap *bitmap) : 
-	GLWVisibleWidget(x, y, w, h),
+	GLWidget(x, y, w, h),
 	bitmap_(bitmap)
 {
 }
@@ -62,12 +62,12 @@ void GLWBitmap::draw()
 		glPixelStorei(GL_PACK_SKIP_PIXELS, 0);
 	}
 
-	GLWVisibleWidget::draw();
+	GLWidget::draw();
 }
 
 bool GLWBitmap::initFromXML(XMLNode *node)
 {
-	if (!GLWVisibleWidget::initFromXML(node)) return false;
+	if (!GLWidget::initFromXML(node)) return false;
 	return true;
 }
 

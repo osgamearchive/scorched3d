@@ -30,7 +30,7 @@
 REGISTER_CLASS_SOURCE(GLWTracker);
 
 GLWTracker::GLWTracker(float x, float y, float w, float range) :
-	GLWVisibleWidget(x, y, w, w), 
+	GLWidget(x, y, w, w), 
 	range_(range),
 	dragging_(false), handler_(0), currentX_(0.0f), currentY_(0.0f)
 {

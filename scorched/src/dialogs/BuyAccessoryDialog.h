@@ -26,7 +26,7 @@
 #include <weapons/Weapon.h>
 #include <GLW/GLWWindow.h>
 #include <GLW/GLWButton.h>
-#include <GLW/GLWVisiblePanel.h>
+#include <GLW/GLWPanel.h>
 #include <GLW/GLWTab.h>
 #include <GLW/GLWCheckBox.h>
 
@@ -50,7 +50,7 @@ protected:
 	GLWTab *buyWeaponTab_;
 	GLWTab *buyOtherTab_;
 	GLWTab *sellTab_;
-	GLWVisiblePanel *topPanel_;
+	GLWPanel *topPanel_;
 	GLWCheckBox *sortBox_;
 	std::map<unsigned int, Accessory *> sellMap_;
 	std::map<unsigned int, Accessory *> buyMap_;

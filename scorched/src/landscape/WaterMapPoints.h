@@ -40,7 +40,7 @@ protected:
 	{
 		float x;
 		float y;
-		float *z;
+		WaterMap::WaterEntry *entry;
 	} *pts_;
 	int noPts_;
 	float height_;
