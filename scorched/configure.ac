@@ -4,7 +4,7 @@ AC_INIT(README)
 AC_CANONICAL_TARGET([]) 
 
 dnl Setup for automake
-AM_INIT_AUTOMAKE(scorched3d, 0.35.1)
+AM_INIT_AUTOMAKE(scorched3d, 0.36.2)
 
 dnl Check for tools
 AC_PROG_MAKE_SET
