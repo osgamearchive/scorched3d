@@ -150,7 +150,7 @@ void MainCamera::moveCamera(float frameTime)
 		if (CameraPositionAction::getPriority() != 0)
 		{
 			mainCam_.setLookAt(CameraPositionAction::getPosition());
-			mainCam_.movePosition(currentRotation + 0.3f, 1.0f, 40.0f);
+			mainCam_.movePosition(currentRotation + 0.3f, 0.7f, 80.0f);
 			CameraPositionAction::getPriority() = 0;
 		}
 		break;
