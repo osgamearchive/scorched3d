@@ -255,7 +255,8 @@ void TankAIHuman::movePower(char *buffer, float mult)
 
 	static char messageBuffer[255];
 	if (KEYDOWN(buffer, SDLK_EQUALS) ||
-		KEYDOWN(buffer, SDLK_PLUS)) 
+		KEYDOWN(buffer, SDLK_PLUS) || 
+		KEYDOWN(buffer, SDLK_KP_PLUS)) 
 	{
 		float power = currentTank_->getState().
 			changePower(250.0f * mult) / 1000.0f;
@@ -264,7 +265,8 @@ void TankAIHuman::movePower(char *buffer, float mult)
 
 		currentPMoving = true;
 	}
-	else if (KEYDOWN(buffer, SDLK_MINUS)) 
+	else if (KEYDOWN(buffer, SDLK_MINUS) ||
+		KEYDOWN(buffer, SDLK_KP_MINUS)) 
 	{
 		float power = currentTank_->getState().
 			changePower(-250.0f * mult) / 1000.0f;
