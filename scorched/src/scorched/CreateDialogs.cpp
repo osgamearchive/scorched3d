@@ -20,6 +20,7 @@
 
 #include <scorched/MainDialog.h>
 #include <scorched/ServerDialog.h>
+#include <scorched/HtmlHelpDialog.h>
 #include <server/ServerMain.h>
 #include <server/ScorchedServer.h>
 #include <common/OptionsParam.h>
@@ -50,6 +51,10 @@ bool ScorchedApp::OnInit()
   		// Run the server
 		showServerDialog();
 		serverMain();
+	}
+	else if (OptionsParam::instance()->getAction() == OptionsParam::ActionHelp)
+	{
+		showHtmlHelpDialog();
 	}
 	else
 	{

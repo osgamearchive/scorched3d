@@ -22,6 +22,7 @@
 #include <scorched/MainDialog.h>
 #include <common/Defines.h>
 #include <wx/wx.h>
+#include <wx/minifram.h>
 #include <wx/wxhtml.h>
 
 enum
@@ -34,7 +35,7 @@ enum
 
 extern char scorched3dAppName[128];
 
-class HelpFrame: public wxFrame
+class HelpFrame: public wxMiniFrame
 {
 public:
 	HelpFrame();
@@ -50,7 +51,7 @@ private:
 	DECLARE_EVENT_TABLE()
 };
 
-BEGIN_EVENT_TABLE(HelpFrame, wxFrame)
+BEGIN_EVENT_TABLE(HelpFrame, wxMiniFrame)
 	EVT_BUTTON(ID_BUTTON_OK, HelpFrame::onExit)
 	EVT_BUTTON(ID_BUTTON_BACK, HelpFrame::onBack)
 	EVT_BUTTON(ID_BUTTON_FORWARD, HelpFrame::onForward)
@@ -58,7 +59,9 @@ BEGIN_EVENT_TABLE(HelpFrame, wxFrame)
 END_EVENT_TABLE()
 
 HelpFrame::HelpFrame() :
-	wxFrame(getMainDialog(), -1, wxString(scorched3dAppName))
+	wxMiniFrame(getMainDialog(), -1, wxString(scorched3dAppName),
+		wxDefaultPosition, wxDefaultSize, 
+		wxSTAY_ON_TOP | wxRESIZE_BORDER  | wxTINY_CAPTION_HORIZ)
 {
 #ifdef _WIN32
 	// Set the frame's icon
@@ -76,12 +79,15 @@ HelpFrame::HelpFrame() :
 
 	// Ok Button
 	wxBoxSizer *buttonSizer2 = new wxBoxSizer(wxHORIZONTAL);
-	wxButton *IDBACK_CTRL = new wxButton(this, ID_BUTTON_BACK, "<< Back");
-	buttonSizer2->Add(IDBACK_CTRL, 0, wxALL, 5);
-	wxButton *IDHOME_CTRL = new wxButton(this, ID_BUTTON_HOME, "Home");
-	buttonSizer2->Add(IDHOME_CTRL, 0, wxALL, 5);
-	wxButton *IDFORWARD_CTRL = new wxButton(this, ID_BUTTON_FORWARD, "Forward >>");
-	buttonSizer2->Add(IDFORWARD_CTRL, 0, wxALL, 5);
+	wxButton *IDBACK_CTRL = new wxButton(this, ID_BUTTON_BACK, "<< Back",
+		wxDefaultPosition, wxSize(-1, 18));
+	buttonSizer2->Add(IDBACK_CTRL, 0, wxALL, 3);
+	wxButton *IDHOME_CTRL = new wxButton(this, ID_BUTTON_HOME, "Home",
+		wxDefaultPosition, wxSize(-1, 18));
+	buttonSizer2->Add(IDHOME_CTRL, 0, wxALL, 3);
+	wxButton *IDFORWARD_CTRL = new wxButton(this, ID_BUTTON_FORWARD, "Forward >>",
+		wxDefaultPosition, wxSize(-1, 18));
+	buttonSizer2->Add(IDFORWARD_CTRL, 0, wxALL, 3);
 	topsizer->Add(buttonSizer2, 0, wxALIGN_CENTER);
 
 	// Html Window
@@ -92,8 +98,9 @@ HelpFrame::HelpFrame() :
 
 	// Ok Button
 	wxBoxSizer *buttonSizer = new wxBoxSizer(wxHORIZONTAL);
-	wxButton *IDOK_CTRL = new wxButton(this, ID_BUTTON_OK, "Close");
-	buttonSizer->Add(IDOK_CTRL, 0, wxALL, 5);
+	wxButton *IDOK_CTRL = new wxButton(this, ID_BUTTON_OK, "Close",
+		wxDefaultPosition, wxSize(-1, 18));
+	buttonSizer->Add(IDOK_CTRL, 0, wxALL, 3);
 	topsizer->Add(buttonSizer, 0, wxALIGN_RIGHT);
 
 	SetSizer(topsizer); // use the sizer for layout

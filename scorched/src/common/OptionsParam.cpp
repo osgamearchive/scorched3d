@@ -43,6 +43,8 @@ OptionsParam::OptionsParam() :
 		"Starts a scorched 3d client, requires the name of the client settings file e.g. data/singlecustom.xml", 0, ""),
 	password_(options_, "password",
 		"The password of the NET/LAN server", 0, ""),
+	help_(options_, "starthelp",
+		"Show the Scorched3D help dialog", 0, false),
 	nooptions_(options_, "nooptions",
 		"Only provided for backward compatability, has no current meaning", 0, false),
 	console_(options_, "console",
@@ -78,6 +80,7 @@ OptionsParam::Action OptionsParam::getAction()
 	{
 		return ActionError;
 	}
+	if (help_.getValue()) return ActionHelp;
 
 	return ActionNone;
 }

@@ -36,10 +36,11 @@ public:
 
 	enum Action
 	{
+		ActionNone = 0,
 		ActionRunServer,
 		ActionRunClient,
 		ActionError,
-		ActionNone
+		ActionHelp
 	};
 	Action getAction();
 	void clearAction();
@@ -61,6 +62,7 @@ protected:
 	OptionEntryString password_;
 	OptionEntryBool nooptions_;
 	OptionEntryBool console_;
+	OptionEntryBool help_;
 	bool SDLInitVideo_;
 
 private:

@@ -95,7 +95,7 @@ SingleFrame::SingleFrame() :
 			"Choose the opponents to play against.", 
 			"data/windows/tank2.bmp", this, gridsizer);
 	}
-	topsizer->Add(gridsizer, 0, wxALIGN_CENTER);
+	topsizer->Add(gridsizer, 0, wxALIGN_CENTER | wxALL, 5);
 
 	// Quit button
 	wxBoxSizer *buttonSizer = new wxBoxSizer(wxHORIZONTAL);

@@ -196,6 +196,7 @@ int main(int argc, char *argv[])
 		// Note: WE DO NOT BREAK
 	
 	case OptionsParam::ActionNone:
+	case OptionsParam::ActionHelp:
 		// Run the wxWindows main loop
 		// Dialogs are created int CreateDialogs.cpp
 #ifdef _WIN32
