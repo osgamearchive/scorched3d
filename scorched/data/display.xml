@@ -47,11 +47,17 @@
     <value>110</value>
     <defaultvalue>110</defaultvalue>
   </option>
-  <!-- The number of bits to use for each of the RGBA components -->
+  <!-- The number of bits to use for each of the RGBA components (0 = use default) -->
   <option>
     <name>ColorComponentSize</name>
-    <value>5</value>
-    <defaultvalue>5</defaultvalue>
+    <value>0</value>
+    <defaultvalue>0</defaultvalue>
+  </option>
+  <!-- The number of bits per pixel to use for the display (0 = current display bbp) -->
+  <option>
+    <name>BitsPerPixel</name>
+    <value>0</value>
+    <defaultvalue>0</defaultvalue>
   </option>
   <!-- The number of bits requested for the depth buffer -->
   <option>
@@ -248,7 +254,7 @@
   <!-- The unique string given to any servers to uniquely identify the client. -->
   <option>
     <name>UniqueUserId</name>
-    <value></value>
+    <value>3805-2132-23870</value>
     <defaultvalue></defaultvalue>
   </option>
 </options>

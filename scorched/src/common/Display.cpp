@@ -47,12 +47,6 @@ Display::~Display()
 bool Display::init()
 {
 	init_ = false;
-	videoInfo = SDL_GetVideoInfo();
-	if (!videoInfo)
-	{
-		dialogMessage("Display", "ERROR: Failed to get the video information");
-		return false;
-	}
          
 	/* set opengl double buffering */
 	int doubleBuffer = OptionsDisplay::instance()->getDoubleBuffer()?1:0;
@@ -111,9 +105,8 @@ bool Display::changeSettings(int width, int height, bool full)
 		/* create display surface */
 		int videoFlags = SDL_OPENGL | SDL_ANYFORMAT;  
 		int flags = ( full ? videoFlags|SDL_FULLSCREEN : videoFlags);
-		surface = SDL_SetVideoMode( width, height, 
-			videoInfo->vfmt->BitsPerPixel, 
-			flags);
+		int bpp = OptionsDisplay::instance()->getBitsPerPixel();
+		surface = SDL_SetVideoMode( width, height, bpp, flags);
 		if (!surface)
 		{
 			char buffer[256];
@@ -122,13 +115,16 @@ bool Display::changeSettings(int width, int height, bool full)
 				"Error Message: %s\n"
 				"----------------------------\n"
 				"Requested Display Mode:-\n"
-				"Driver:%s\n"
-				"Resolution: %s:%ix%ix%i (depth = %i)\n"
+				"Driver=%s\n"
+				"Resolution=%ix%ix%i %s\n" 
+				"DepthBuffer=%i\n"
 				"DoubleBuffer=%s\n"
 				"ColorComponentSize=%i\n",
 				SDL_GetError(),
 				buffer, 
-				(full?"fullscreen":"windowed"), width, height, videoInfo->vfmt->BitsPerPixel, 
+				width, height, 
+				OptionsDisplay::instance()->getBitsPerPixel(),
+				(full?"(fullscreen)":"(windowed)"), 
 				OptionsDisplay::instance()->getDepthBufferBits(),
 				OptionsDisplay::instance()->getDoubleBuffer()?"On":"Off",
 				OptionsDisplay::instance()->getColorComponentSize());

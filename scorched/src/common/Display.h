@@ -22,10 +22,6 @@
 #ifndef _DISPLAY_H_
 #define _DISPLAY_H_
 
-// Display.h: interface for the Display class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <stdlib.h>
 #include <SDL/SDL.h>
 
@@ -46,9 +42,9 @@ private:
 	virtual ~Display();
 
 	bool init_;
-	const SDL_VideoInfo *videoInfo;
 	SDL_Surface *surface;
 
 };
 
 #endif /* _DISPLAY_H_ */
+

@@ -116,7 +116,9 @@ OptionsDisplay::OptionsDisplay() :
 	doubleBuffer_(options_, "DoubleBuffer",
 		"Use double buffering", RAccess, true),
 	colorComponentSize_(options_, "ColorComponentSize",
-		"The number of bits to use for each of the RGBA components", RAccess, 5),
+		"The number of bits to use for each of the RGBA components (0 = use default)", RAccess, 0),
+	bitsPerPixel_(options_, "BitsPerPixel",
+		"The number of bits per pixel to use for the display (0 = current display bbp)", RAccess, 0),
 	showContextHelp_(options_, "ShowContextHelp",
 		"Show help bubbles for items that have it", RWAccess, true)
 {

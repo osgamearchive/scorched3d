@@ -156,6 +156,9 @@ public:
 	int getColorComponentSize() { return colorComponentSize_.getValue(); }
 	void setColorComponentSize(int value) { colorComponentSize_.setValue(value); }
 
+	int getBitsPerPixel() { return bitsPerPixel_.getValue(); }
+	void setBitsPerPixel(int value) { bitsPerPixel_.setValue(value); }
+
 	bool getDoubleBuffer() { return doubleBuffer_.getValue(); }
 	void setDoubleBuffer(bool value) { doubleBuffer_.setValue(value); }
 
@@ -179,6 +182,7 @@ protected:
 	OptionEntryInt sunYZAng_;
 	OptionEntryInt sunXYAng_;
 	OptionEntryInt colorComponentSize_;
+	OptionEntryInt bitsPerPixel_;
 	OptionEntryInt depthBufferBits_;
 	OptionEntryBool detailTexture_;
 	OptionEntryBool useHex_;
