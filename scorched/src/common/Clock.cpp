@@ -22,7 +22,7 @@
 #include <common/Clock.h>
 #include <SDL/SDL.h>
 
-Clock::Clock() : isPaused_(false)
+Clock::Clock() 
 {
 	dwLastTime_ = SDL_GetTicks();
 }
@@ -31,43 +31,16 @@ Clock::~Clock()
 {
 }
 
-void Clock::pause()
-{
-	if (!isPaused_)
-	{
-		unsigned int  dwCurrentTime = SDL_GetTicks();
-		unsigned int  dwTimeDiff = dwCurrentTime - dwLastTime_;
-		dwLastTime_ = dwTimeDiff;
-		isPaused_ = true;
-	}
-}
-
-
-void Clock::resume()
-{
-	if (isPaused_)
-	{
-		unsigned int  dwCurrentTime = SDL_GetTicks();
-		dwLastTime_ = dwCurrentTime - dwLastTime_;
-
-		isPaused_ = false;
-	}
-}
-
 float Clock::getTimeDifference()
 {
-
-	if (isPaused_) return 0.0f;
-
 	unsigned int  dwCurrentTime = SDL_GetTicks();
-	unsigned int  dwTimeDiff = dwCurrentTime - dwLastTime_;
-	if (dwTimeDiff < 0)
+	unsigned int  dwTimeDiff = 1;
+	if (dwCurrentTime > dwLastTime_)
 	{
-		dwTimeDiff = 1;
+		dwTimeDiff = dwCurrentTime - dwLastTime_;
 	}
 
 	dwLastTime_ = dwCurrentTime;
 	return ((float) dwTimeDiff) / 1000.0f;
-
 }
 

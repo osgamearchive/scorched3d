@@ -27,13 +27,9 @@ public:
 	Clock();
 	virtual ~Clock();
 
-	void pause();
-	void resume();
-
 	virtual float getTimeDifference();
 
 protected:
-	bool isPaused_;
 	unsigned int  dwLastTime_;
 
 };
