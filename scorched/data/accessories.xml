@@ -607,7 +607,7 @@ creating many large riot bombs.</description>
 some small burrowing missiles. These 
 missiles target nearby tanks.</description>
 		<icon>bshog.bmp</icon>
-		<cost>10000</cost>
+		<cost>14000</cost>
 		<bundlesize>7</bundlesize>
 		<armslevel>8</armslevel>
 		<firedsound>shoot/flare.wav</firedsound>
@@ -616,7 +616,7 @@ missiles target nearby tanks.</description>
 		<collisionaction type="WeaponAimedUnder">
 			<name>Baby Sandhog</name>
 			<armslevel>8</armslevel>
-			<nowarheads>3</nowarheads>
+			<nowarheads>2</nowarheads>
 			<aimedweapon type="WeaponProjectile">
 				<name>Baby Sandhog</name>
 				<armslevel>8</armslevel>
@@ -641,7 +641,7 @@ missiles target nearby tanks.</description>
 creating some burrowing missiles. These 
 missiles target nearby tanks.</description>
 		<icon>shog.bmp</icon>
-		<cost>16750</cost>
+		<cost>20000</cost>
 		<bundlesize>5</bundlesize>
 		<armslevel>5</armslevel>
 		<firedsound>shoot/flare.wav</firedsound>
@@ -649,7 +649,7 @@ missiles target nearby tanks.</description>
 		<collisionaction type="WeaponAimedUnder">
 			<name>Sandhog</name>
 			<armslevel>5</armslevel>
-			<nowarheads>10</nowarheads>
+			<nowarheads>5</nowarheads>
 			<aimedweapon type="WeaponProjectile">
 				<name>Sandhog</name>
 				<armslevel>5</armslevel>
@@ -673,7 +673,7 @@ missiles target nearby tanks.</description>
 creating many burrowing missiles. These 
 missiles target nearby tanks.</description>
 		<icon>hshog.bmp</icon>
-		<cost>25000</cost>
+		<cost>30000</cost>
 		<bundlesize>2</bundlesize>
 		<armslevel>3</armslevel>
 		<firedsound>shoot/flare.wav</firedsound>
@@ -682,7 +682,7 @@ missiles target nearby tanks.</description>
 		<collisionaction type="WeaponAimedUnder">
 			<name>Heavy Sandhog</name>
 			<armslevel>3</armslevel>
-			<nowarheads>20</nowarheads>
+			<nowarheads>10</nowarheads>
 			<aimedweapon type="WeaponProjectile">
 				<name>Heavy Sandhog</name>
 				<armslevel>3</armslevel>

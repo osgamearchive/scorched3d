@@ -51,6 +51,8 @@ OptionsGame::OptionsGame() :
 		"The maximum number of players to allow", 0, 2, 1, 24),
 	numberOfMinPlayers_(options_, "NumberOfMinPlayers", 
 		"The minimum number of players to allow", 0, 2, 2, 24),
+	removeBotsAtPlayers_(options_, "RemoveBotsAtPlayers",
+		"The number of players to allow before remvoing bots", 0, 24, 2, 24),
 	limitPowerByHealth_(options_, "LimitPowerByHealth", 
 		"Show power is limited by the amount of health a player has", 0, true),
 	autoBallanceTeams_(options_, "AutoBallanceTeams",

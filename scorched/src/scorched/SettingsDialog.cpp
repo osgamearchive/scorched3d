@@ -195,6 +195,7 @@ bool SettingsFrame::TransferDataToWindow()
 
 			SettingsPlayers::IDC_SERVER_MIN_PLAYERS_CTRL->Append(string);
 			SettingsPlayers::IDC_SERVER_MAX_PLAYERS_CTRL->Append(string);
+			SettingsPlayers::IDC_SERVER_REMOVEBOT_PLAYERS_CTRL->Append(string);
 		}
 		sprintf(buffer, "%i", context_.getNoMinPlayers());
 		SettingsPlayers::IDC_SERVER_MIN_PLAYERS_CTRL->SetValue(buffer);
@@ -205,6 +206,11 @@ bool SettingsFrame::TransferDataToWindow()
 		SettingsPlayers::IDC_SERVER_MAX_PLAYERS_CTRL->SetValue(buffer);
 		SettingsPlayers::IDC_SERVER_MAX_PLAYERS_CTRL->SetToolTip(
 			wxString("The maximum number of players that can be on the server."));
+
+		sprintf(buffer, "%i", context_.getRemoveBotsAtPlayers());
+		SettingsPlayers::IDC_SERVER_REMOVEBOT_PLAYERS_CTRL->SetValue(buffer);
+		SettingsPlayers::IDC_SERVER_REMOVEBOT_PLAYERS_CTRL->SetToolTip(
+			wxString("The number of players to allow before remvoing bots."));
 
 		std::list<TankAI *> &ais = 
 			TankAIStore::instance()->getAis();
@@ -498,6 +504,11 @@ bool SettingsFrame::TransferDataFromWindow()
 		int maxPlayers = 10;
 		sscanf(SettingsPlayers::IDC_SERVER_MAX_PLAYERS_CTRL->GetValue(), 
 			"%i", &maxPlayers);
+		int maxBotPlayers = 10;
+		sscanf(SettingsPlayers::IDC_SERVER_REMOVEBOT_PLAYERS_CTRL->GetValue(), 
+			"%i", &maxBotPlayers);
+
+		context_.setRemoveBotsAtPlayers(maxBotPlayers);
 		context_.setNoMinPlayers(minPlayers);
 		context_.setNoMaxPlayers(maxPlayers);
 

@@ -16,6 +16,7 @@ Fixed: Server won't wait for dead clients to respond
 Fixed: Tooltips don't show through other dialogs
 Fixed: Looser->Loser spelling on dialogs
 Fixed: Shot cam does not jump around (back to v35 kind of)
+Fixed: Scaled down all sand hogs power
 
 Added: Static compiling flags for wx-windows and SDL
 Added: Mysql compile options for windows (+ required libraries and headers)

@@ -99,6 +99,10 @@ public:
 	void setNoRounds(int value) { numberOfRounds_.setValue(value); }
 	const char *getNoRoundsToolTip() { return numberOfRounds_.getDescription(); }
 
+	int getRemoveBotsAtPlayers() { return removeBotsAtPlayers_.getValue(); }
+	void setRemoveBotsAtPlayers(int value) { removeBotsAtPlayers_.setValue(value); }
+	const char *getRemoveBotsAtPlayersToolTip() { return removeBotsAtPlayers_.getDescription(); }
+
 	int getNoMaxRoundTurns() { return maxRoundTurns_.getValue(); }
 	void setNoMaxRoundTurns(int value) { maxRoundTurns_.setValue(value); }
 	const char *getNoMaxRoundTurnsToolTip() { return maxRoundTurns_.getDescription(); }
@@ -284,6 +288,7 @@ protected:
 	OptionEntryBoundedInt teams_;
 	OptionEntryBoundedInt numberOfPlayers_;
 	OptionEntryBoundedInt numberOfMinPlayers_;
+	OptionEntryBoundedInt removeBotsAtPlayers_;
 	OptionEntryBoundedInt computersDeathTalk_;
 	OptionEntryBoundedInt computersAttackTalk_;
 	OptionEntryInt moneyBuyOnRound_;
