@@ -205,9 +205,11 @@ void StatsLoggerMySQL::roundStart(std::list<Tank *> &tanks)
 		itor++)
 	{
 		Tank *tank = *itor;
-		
-		runQuery("UPDATE scorched3d%s_players SET roundsplayed=roundsplayed+1 "
-			"WHERE playerid = %i;", prefix_.c_str(), playerId_[tank->getUniqueId()]);
+		if (!tank->getState().getSpectator())
+		{
+			runQuery("UPDATE scorched3d%s_players SET roundsplayed=roundsplayed+1 "
+				"WHERE playerid = %i;", prefix_.c_str(), playerId_[tank->getUniqueId()]);
+		}
 	}
 }
 
@@ -335,15 +337,15 @@ void StatsLoggerMySQL::tankLeft(Tank *tank)
 	createLogger();
 	if (!success_) return;
 
-	runQuery("UPDATE scorched3d%s_players SET timeplayed=timeplayed+%i moneyearned=moneyearned+%i "
-		"WHERE playerid = %i;", 
-		prefix_.c_str(),
-		tank->getScore().getTimePlayed(), 
-		tank->getScore().getTotalMoneyEarned(), 
-		playerId_[tank->getUniqueId()]);
-
-	// Remove this player id
-	playerId_.erase(tank->getUniqueId());
+	if (!tank->getState().getSpectator())
+	{
+		runQuery("UPDATE scorched3d%s_players SET timeplayed=timeplayed+%i, moneyearned=moneyearned+%i "
+			"WHERE playerid = %i;", 
+			prefix_.c_str(),
+			tank->getScore().getTimePlayed(), 
+			tank->getScore().getTotalMoneyEarned(), 
+			playerId_[tank->getUniqueId()]);
+	}
 }
 
 void StatsLoggerMySQL::tankKilled(Tank *firedTank, Tank *deadTank, Weapon *weapon)

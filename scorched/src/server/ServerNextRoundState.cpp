@@ -50,7 +50,8 @@ void ServerNextRoundState::enterState(const unsigned state)
 		playingTanksItor != playingTanks.end();
 		playingTanksItor++)
 	{
-		currentTanks.push_back((*playingTanksItor).second);
+		Tank *tank = (*playingTanksItor).second;
+		currentTanks.push_back(tank);
 	}
 	StatsLogger::instance()->roundStart(currentTanks);
 

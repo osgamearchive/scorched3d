@@ -40,8 +40,8 @@ public:
 	REGISTER_ACCESSORY_HEADER(WeaponRedirect, Accessory::AccessoryWeapon);
 
 protected:
-	float hredirect_;
-	float vredirect_;
+	float hredirect_, vredirect_;
+	bool habs_, vabs_;
 	Weapon *nextAction_;
 
 };

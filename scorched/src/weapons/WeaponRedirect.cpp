@@ -24,11 +24,13 @@
 #include <server/ScorchedServer.h>
 #include <common/Defines.h>
 #include <tank/TankLib.h>
+#include <math.h>
 
 REGISTER_ACCESSORY_SOURCE(WeaponRedirect);
 
 WeaponRedirect::WeaponRedirect() :
 	hredirect_(0.0f), vredirect_(0.0f),
+	habs_(false), vabs_(false),
 	nextAction_(0)
 {
 
@@ -44,7 +46,9 @@ bool WeaponRedirect::parseXML(XMLNode *accessoryNode)
 	if (!Weapon::parseXML(accessoryNode)) return false;
 
 	if (!accessoryNode->getNamedChild("hredirect", hredirect_)) return false;
+	if (!accessoryNode->getNamedChild("habs", habs_)) return false;
 	if (!accessoryNode->getNamedChild("vredirect", vredirect_)) return false;
+	if (!accessoryNode->getNamedChild("vabs", vabs_)) return false;
 
 	XMLNode *subNode = 0;
 	if (!accessoryNode->getNamedChild("nextaction", subNode)) return false;
@@ -70,6 +74,8 @@ bool WeaponRedirect::writeAccessory(NetBuffer &buffer)
 	if (!Weapon::write(buffer, nextAction_)) return false;
 	buffer.addToBuffer(hredirect_);
 	buffer.addToBuffer(vredirect_);
+	buffer.addToBuffer(habs_);
+	buffer.addToBuffer(vabs_);
 	return true;
 }
 
@@ -79,6 +85,8 @@ bool WeaponRedirect::readAccessory(NetBufferReader &reader)
 	nextAction_ = Weapon::read(reader); if (!nextAction_) return false;
 	if (!reader.getFromBuffer(hredirect_)) return false;
 	if (!reader.getFromBuffer(vredirect_)) return false;
+	if (!reader.getFromBuffer(habs_)) return false;
+	if (!reader.getFromBuffer(vabs_)) return false;
 	return true;
 }
 
@@ -86,10 +94,16 @@ void WeaponRedirect::fireWeapon(ScorchedContext &context,
 	unsigned int playerId, Vector &position, Vector &velocity)
 {
 	float currentMag = velocity.Magnitude();
-	float currentAng = atan2f(velocity[1], velocity[0]) / 3.14f * 180.0f;
-	currentAng += hredirect_;
+	float currenth = (atan2f(velocity[1], velocity[0]) / 3.14f * 180.0f) + 90.0f;
+	float dist = (float) sqrt(velocity[0] * velocity[0] + velocity[1] * velocity[1]);
+	float currentv = atan2f(dist, velocity[2]) / 3.14f * 180.0f;
+
+	if (habs_) currenth = hredirect_;
+	else currenth += hredirect_;
+	if (vabs_) currentv = vredirect_;
+	else currentv += vredirect_;
 	
-	Vector newVelocity = TankLib::getVelocityVector(currentAng, vredirect_);
+	Vector newVelocity = TankLib::getVelocityVector(currenth, currentv);
 	newVelocity.StoreNormalize();
 	newVelocity *= currentMag;
 	
