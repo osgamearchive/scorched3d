@@ -43,9 +43,9 @@ SaveDialog::SaveDialog() :
 	GLWWindow("Save", 210.0f, 80.0f, 0,
 		"Allows the player to save the game.")
 {
-	okId_ = addWidget(new GLWTextButton("Save", 95, 10, 105, this, 
+	okId_ = addWidget(new GLWTextButton("Save", 10, 45, 190, this, 
 		GLWButton::ButtonFlagOk | GLWButton::ButtonFlagCenterX))->getId();
-	cancelId_ = addWidget(new GLWTextButton("Cancel", 10, 45, 190, this, 
+	cancelId_ = addWidget(new GLWTextButton("Cancel", 95, 10, 105, this, 
 		GLWButton::ButtonFlagCancel | GLWButton::ButtonFlagCenterX))->getId();
 }
 
@@ -58,10 +58,13 @@ void SaveDialog::buttonDown(unsigned int id)
 {
 	if (id == okId_)
 	{
-		const char *saveFile = getSaveFile("saved-%i", time(0));
-		if (saveClient(saveFile))
+		const char *saveFile = getSaveFile("saved-%i.s3d", time(0));
+		if (ClientSave::saveClient(saveFile))
 		{
-			Logger::log(0, "Game saved as %s.", saveFile);
+			const char *showFileName = saveFile;
+			for (const char *a=saveFile; *a; a++) 
+				if (*a == '/') showFileName = a;
+			Logger::log(0, "Game saved as %s.", showFileName);
 		}
 		GLWWindowManager::instance()->hideWindow(id_);
 	}

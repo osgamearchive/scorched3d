@@ -406,6 +406,11 @@ bool SettingsFrame::TransferDataToWindow()
 			wxString("The number of players that will play in this game.\n"
 				"This number should include computer players"));
 
+		SettingsMain::IDC_AUTOBALANCETEAMS_CTRL->SetValue(
+			context_.getAutoBallanceTeams());
+		SettingsMain::IDC_AUTOBALANCETEAMS_CTRL->SetToolTip(
+			wxString("Players are moved between teams to ballance them."));
+
 		// Teams combo
 		SettingsMain::IDC_TEAMS_CTRL->Append("None");
 		for (i=2; i<=2; i++)
@@ -589,6 +594,7 @@ bool SettingsFrame::TransferDataFromWindow()
 		sscanf(SettingsMain::IDC_SERVER_ROUNDS_CTRL->GetValue(), "%i", &noRounds);
 		sscanf(SettingsMain::IDC_SHOT_TIME_CTRL->GetValue(), "%i", &shotTime);
 		sscanf(SettingsMain::IDC_IDLE_TIME_CTRL->GetValue(), "%i", &idleTime);
+		context_.setAutoBallanceTeams(SettingsMain::IDC_AUTOBALANCETEAMS_CTRL->GetValue());
 		
 		context_.setNoRounds(noRounds);
 		context_.setShotTime(shotTime);

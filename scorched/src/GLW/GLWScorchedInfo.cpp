@@ -21,6 +21,7 @@
 #include <GLW/GLWScorchedInfo.h>
 #include <GLW/GLWFont.h>
 #include <GLW/GLWTranslate.h>
+#include <GLW/GLWWindView.h>
 #include <client/ScorchedClient.h>
 #include <tankgraph/TankModelRenderer.h>
 #include <weapons/AccessoryStore.h>
@@ -73,6 +74,8 @@ void GLWScorchedInfo::draw()
 	{
 		case eWind:
 		{
+			static WindDialogToolTip windTip;
+			setToolTip(&windTip);
 			static char buffer[256];
 			if (ScorchedClient::instance()->
 				getOptionsTransient().getWindSpeed() == 0)

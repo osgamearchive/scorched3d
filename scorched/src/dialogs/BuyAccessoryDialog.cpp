@@ -49,11 +49,20 @@ BuyAccessoryDialog::BuyAccessoryDialog() :
 		addWidget(new GLWTab("Sell", 240, 10, 40, 420, 160, 80));
 	topPanel_ = (GLWVisiblePanel *)
 		addWidget(new GLWVisiblePanel(10, 245, 420, 30));
+	sortBox_ = (GLWCheckBox *) addWidget(new GLWCheckBox(10, 10));
+	sortBox_->setHandler(this);
+	addWidget(new GLWLabel(35, 7, "Sort accessories by name"));
 }
 
 BuyAccessoryDialog::~BuyAccessoryDialog()
 {
 
+}
+
+void BuyAccessoryDialog::stateChange(bool state, unsigned int id)
+{
+	OptionsDisplay::instance()->setSortAccessories(state);
+	playerRefresh();
 }
 
 void BuyAccessoryDialog::setupWindow()
@@ -70,6 +79,8 @@ void BuyAccessoryDialog::setupWindow()
 	topPanel_->setY(240 + addition);
 
 	needCentered_ = true;
+
+	sortBox_->setState(OptionsDisplay::instance()->getSortAccessories());
 }
 
 void BuyAccessoryDialog::addPlayerName()

@@ -29,6 +29,7 @@ public:
 	static GLWFont *instance();
 
 	static Vector widgetFontColor;
+	static Vector disabledWidgetFontColor;
 
 	GLFont2d *getLargePtFont() { return courier16Font_; }
 	GLFont2d *getSmallPtFont() { return courier16Font_; }

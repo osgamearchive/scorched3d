@@ -28,9 +28,11 @@
 #include <GLW/GLWButton.h>
 #include <GLW/GLWVisiblePanel.h>
 #include <GLW/GLWTab.h>
+#include <GLW/GLWCheckBox.h>
 
 class BuyAccessoryDialog : public GLWWindow,
-						public GLWButtonI
+						public GLWButtonI,
+						public GLWCheckBoxI
 {
 public:
 	BuyAccessoryDialog();
@@ -40,12 +42,16 @@ public:
 	virtual void buttonDown(unsigned int id);
 	virtual void windowInit(const unsigned state);
 
+	// Inherited from GLWCheckBoxI
+	virtual void stateChange(bool state, unsigned int id);
+
 protected:
 	unsigned int okId_;
 	GLWTab *buyWeaponTab_;
 	GLWTab *buyOtherTab_;
 	GLWTab *sellTab_;
 	GLWVisiblePanel *topPanel_;
+	GLWCheckBox *sortBox_;
 	std::map<unsigned int, Accessory *> sellMap_;
 	std::map<unsigned int, Accessory *> buyMap_;
 

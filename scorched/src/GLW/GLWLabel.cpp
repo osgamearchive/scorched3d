@@ -24,14 +24,21 @@
 REGISTER_CLASS_SOURCE(GLWLabel);
 
 GLWLabel::GLWLabel(float x, float y, char *buttonText) : 
-	GLWVisibleWidget(x, y, 0.0f, 20.0f)
+	GLWVisibleWidget(x, y, 0.0f, 20.0f),
+	color_(GLWFont::widgetFontColor)
 {
 	if (buttonText) setText(buttonText);
+	tooltipTransparent_ = true;
 }
 
 GLWLabel::~GLWLabel()
 {
 
+}
+
+void GLWLabel::setColor(Vector &color)
+{
+	color_ = color;
 }
 
 void GLWLabel::setText(const char *text)
@@ -53,6 +60,6 @@ void GLWLabel::draw()
 	glColor3f(1.0f, 0.0f, 0.0f);
 	calcWidth();
 	GLWFont::instance()->getLargePtFont()->draw(
-		GLWFont::widgetFontColor, 14,
+		color_, 14,
 		x_, y_ + 6.0f, 0.0f, (char *) buttonText_.c_str());
 }

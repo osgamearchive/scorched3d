@@ -23,6 +23,8 @@
 TankAI::TankAI() : 
 	currentTank_(0), context_(0)
 {
+	description_.setText("TankAI",
+		"No Description");
 }
 
 TankAI::~TankAI()

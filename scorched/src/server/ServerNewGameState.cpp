@@ -23,7 +23,9 @@
 #include <server/ScorchedServer.h>
 #include <server/TurnController.h>
 #include <server/ServerCommon.h>
+#include <client/ClientSave.h>
 #include <common/OptionsGame.h>
+#include <common/OptionsParam.h>
 #include <common/Clock.h>
 #include <common/StatsLogger.h>
 #include <common/Logger.h>
@@ -60,6 +62,29 @@ void ServerNewGameState::enterState(const unsigned state)
 
 	// Set all options (wind etc..)
 	ScorchedServer::instance()->getContext().optionsTransient.newGame();
+
+	// Check if we can load/save a game
+	if (OptionsParam::instance()->getConnectedToServer() == false)
+	{
+		if (ScorchedServer::instance()->getTankContainer().getNoOfTanks() -
+			ScorchedServer::instance()->getTankContainer().getNoOfNonSpectatorTanks() > 1)
+		{
+			// We have not loaded players yet
+			// this is the very first landscape
+		}
+		else
+		{
+			// Not the first landscape
+			if (ClientSave::stateRestored())
+			{
+				ClientSave::restoreClient(false, true);
+			}
+			else
+			{
+				ClientSave::storeClient();
+			}
+		}
+	}
 
 	// Setup landscape and tank start pos
 	ServerCommon::serverLog(0, "Generating landscape");

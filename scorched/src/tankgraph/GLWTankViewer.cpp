@@ -57,6 +57,16 @@ GLWTankViewer::GLWTankViewer(float x, float y, int numH, int numV) :
 	catagoryChoice_.setHandler(this);
 	catagoryChoice_.setText("All");
 	select(0, 0, "All");
+
+	catagoryChoice_.setToolTip(new GLWTip("Model Catagory",
+		"Displays the currently selected model catagory.\n"
+		"To make models easier to locate\n"
+		"tank models are grouped by catagory."));
+	infoWindow_.setToolTip(new GLWTip("Current Model",
+		"Displays the currently selected tank model.\n"
+		"This is the model this player will use in game.\n"
+		"Choose a new model from the selection on the\n"
+		"left."));
 }
 
 GLWTankViewer::~GLWTankViewer()
@@ -65,7 +75,7 @@ GLWTankViewer::~GLWTankViewer()
 }
 
 void GLWTankViewer::select(unsigned int id, 
-						   const int pos, const char *value)
+						   const int pos, GLWDropDownEntry value)
 {
 	std::vector<TankModel *> newmodels;
 
@@ -77,7 +87,7 @@ void GLWTankViewer::select(unsigned int id,
 		 modelItor++)
 	{
 		TankModel *model = (*modelItor);
-		if (model->isOfCatagory(value))
+		if (model->isOfCatagory(value.text_.c_str()))
 		{
 			newmodels.push_back(model);
 		}

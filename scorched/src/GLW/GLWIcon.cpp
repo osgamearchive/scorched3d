@@ -28,6 +28,7 @@ GLWIcon::GLWIcon(float x, float y, float w, float h, GLTexture *texture) :
 	GLWVisibleWidget(x, y, w, h),
 	texture_(texture)
 {
+	tooltipTransparent_ = true;
 }
 
 GLWIcon::~GLWIcon()

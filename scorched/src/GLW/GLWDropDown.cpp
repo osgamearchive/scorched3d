@@ -21,6 +21,7 @@
 #include <GLW/GLWDropDown.h>
 #include <GLW/GLWTranslate.h>
 #include <GLW/GLWFont.h>
+#include <GLW/GLWToolTip.h>
 #include <client/ScorchedClient.h>
 
 GLWDropDownI::~GLWDropDownI()
@@ -55,13 +56,14 @@ void GLWDropDown::clear()
 
 int GLWDropDown::getCurrentPosition()
 {
-	std::list<std::string>::iterator itor;
+	std::list<GLWDropDownEntry>::iterator itor;
 	int pos = 0;
 	for (itor = texts_.begin();
 		itor != texts_.end();
 		itor++, pos++)
 	{
-		if (strcmp(text_.c_str(), (*itor).c_str()) == 0)
+		GLWDropDownEntry &entry = *itor;
+		if (strcmp(text_.c_str(), entry.text_.c_str()) == 0)
 		{
 			return pos;
 		}
@@ -73,27 +75,30 @@ int GLWDropDown::getCurrentPosition()
 void GLWDropDown::setCurrentPosition(int pos)
 {
 	int position = 0;
-	std::list<std::string>::iterator itor;
+	std::list<GLWDropDownEntry>::iterator itor;
 	for (itor = texts_.begin();
 		itor != texts_.end();
 		itor++)
 	{
-		text_ = (*itor);
+		GLWDropDownEntry &entry = *itor;
+		text_ = entry.text_;
 		if (position++ >= pos) break;
 	}
 }
 
-void GLWDropDown::addText(const char *text)
+void GLWDropDown::addText(GLWDropDownEntry text)
 {
 	if (texts_.empty())
 	{
-		text_ = text;
+		text_ = text.text_;
 	}
 	texts_.push_back(text);
 }
 
 void GLWDropDown::draw()
 {
+	GLWVisibleWidget::draw();
+
 	float mouseX = float(ScorchedClient::instance()->getGameState().getMouseX());
 	mouseX -= GLWTranslate::getPosX();
 	float mouseY = float(ScorchedClient::instance()->getGameState().getMouseY());
@@ -122,6 +127,12 @@ void GLWDropDown::draw()
 	{
 		glColor3f(0.8f, 0.8f, 1.0f);
 		float dropSize = float(20.0f * texts_.size());
+
+		GLWToolTip::instance()->clearToolTip(
+			GLWTranslate::getPosX() + x_, 
+			GLWTranslate::getPosY() + y_ - dropSize, 
+			w_, dropSize);
+
 		glBegin(GL_QUADS);
 			glVertex2f(x_, y_ - dropSize - 1);
 			glVertex2f(x_ + w_, y_ - dropSize - 1);
@@ -133,18 +144,27 @@ void GLWDropDown::draw()
 		glEnd();
 
 		float top = y_ - 24.0f;
-		std::list<std::string>::iterator itor;
+		std::list<GLWDropDownEntry>::iterator itor;
 		for (itor = texts_.begin();
 			itor != texts_.end();
 			itor++)
 		{
+			GLWDropDownEntry &entry = *itor;
 			static Vector selectedColor(0.7f, 0.7f, 0.7f);
 			bool selected = 
 				inBox(mouseX, mouseY, x_, top, w_, 19.0f);
 
+			if (entry.tip_)
+			{
+				GLWToolTip::instance()->addToolTip(entry.tip_, 
+					GLWTranslate::getPosX() + x_, 
+					GLWTranslate::getPosY() + top, 
+					w_, 19.0f);
+			}
+
 			GLWFont::instance()->getLargePtFont()->draw(
 				selected?selectedColor:GLWFont::widgetFontColor, 14,
-				x_ + 5.0f, top + 5.0f, 0.0f, (*itor).c_str());
+				x_ + 5.0f, top + 5.0f, 0.0f, entry.text_.c_str());
 			top -= 20.0f;
 		}
 	}
@@ -165,17 +185,18 @@ void GLWDropDown::mouseDown(float x, float y, bool &skipRest)
 			{
 				int pos = 0;
 				float top = y_ - 24.0f;
-				std::list<std::string>::iterator itor;
+				std::list<GLWDropDownEntry>::iterator itor;
 				for (itor = texts_.begin();
 					itor != texts_.end();
 					itor++)
 				{
+					GLWDropDownEntry &entry = *itor;
 					if (inBox(x, y, x_, top, w_, 19.0f))
 					{
-						text_ = (*itor);
+						entry.text_.c_str();
 						if (handler_)
 						{
-							handler_->select(id_, pos, text_.c_str());
+							handler_->select(id_, pos, entry);
 							return;
 						}
 					}

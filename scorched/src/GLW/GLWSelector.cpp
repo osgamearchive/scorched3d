@@ -148,6 +148,10 @@ void GLWSelector::drawMain(float indent)
 		glLineWidth(1.0f);
 	}
 
+	GLWToolTip::instance()->clearToolTip(
+		selectedX_, selectedY_ - selectedHeight_ + 5.0f, 
+		selectedWidth_, selectedHeight_);
+
 	// Draw the menu items
 	float currentTop = selectedY_;
 	std::list<GLWSelectorEntry>::iterator itor;

@@ -155,6 +155,20 @@ bool GLWToolTip::addToolTip(GLWTip *tip, float x, float y, float w, float h)
 	return result;
 }
 
+void GLWToolTip::clearToolTip(float x, float y, float w, float h)
+{
+	if (!OptionsDisplay::instance()->getShowContextHelp()) return;
+
+	int mouseX = ScorchedClient::instance()->getGameState().getMouseX();
+	int mouseY = ScorchedClient::instance()->getGameState().getMouseY();
+	
+	if (x < mouseX && mouseX < x + w &&
+		y < mouseY && mouseY < y + h)
+	{
+		currentTip_ = 0;
+	}
+}
+
 void GLWToolTip::simulate(const unsigned state, float frameTime)
 {
 	timePasted_ += frameTime;

@@ -57,6 +57,7 @@ public:
 		bool &skipRest);
 	bool &getPressed() { return pressed_; }
 
+	void setEnabled(bool enabled);
 	void setFlags(unsigned f) { flags_ = f; }
 	virtual void setHandler(GLWButtonI *handler);
 	void setRepeatMode() { repeatMode_ = true; }
@@ -68,6 +69,7 @@ protected:
 	unsigned flags_;
 	bool startdrag_, pressed_;
 	bool repeatMode_;
+	bool enabled_;
 	float repeatTime_;
 
 };

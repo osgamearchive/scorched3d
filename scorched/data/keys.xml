@@ -329,6 +329,10 @@
 		<key>q</key>
 	</keyentry>	
 	<keyentry>
+		<name>SHOW_SAVE_DIALOG</name>
+		<description>Shows or hides the save game dialog</description>
+	</keyentry>	
+	<keyentry>
 		<name>SHOW_CAMERA_DIALOG</name>
 		<description>Shows or hides the camera dialog</description>
 		<key>c</key>

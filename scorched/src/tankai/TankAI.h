@@ -23,6 +23,7 @@
 
 #include <common/Vector.h>
 #include <engine/ScorchedCollisionIds.h>
+#include <GLW/GLWToolTip.h>
 
 class Weapon;
 class ScorchedContext;
@@ -41,6 +42,7 @@ public:
 
 	virtual bool isHuman() = 0;
 	virtual const char *getName() = 0;
+	virtual GLWTip &getDescription() { return description_; }
 	virtual TankAI *getCopy(Tank *tank, ScorchedContext *context) = 0;
 	virtual bool availableForRandom() { return false; }
 
@@ -71,6 +73,7 @@ public:
 		Vector &position) = 0;
 
 protected:
+	GLWTip description_;
 	Tank *currentTank_;
 	ScorchedContext *context_;
 

@@ -1,6 +1,10 @@
 <ais>
 	<ai type="Shark">
 		<name>Shark</name>
+		<description>A computer controlled player.
+Sharks are like Choosers, except they take 
+grudges against players that are 
+shooting at them.</description>
 		<sniper>50</sniper>
 		<weapon><name>Parachute</name><level>10</level></weapon>
 		<weapon><name>Baby Nuke</name><level>20</level></weapon>	
@@ -12,6 +16,10 @@
 
 	<ai type="Tosser">
 		<name>Chooser</name>
+		<description>A computer controlled player.
+Choosers are like Tossers, except they can 
+also fire in straight line when close 
+enough.</description>
 		<sniper>50</sniper>
 		<weapon><name>Parachute</name><level>10</level></weapon>
 		<weapon><name>Baby Nuke</name><level>20</level></weapon>	
@@ -21,6 +29,12 @@
 	
 	<ai type="Tosser">
 		<name>Tosser</name>
+		<description>A computer controlled player.
+Tossers start out like Shooters, but they'll 
+refine their aim to get closer and 
+closer, until they hit. If their initial 
+shot isn't too close, you have some 
+time to kill them.</description>
 		<sniper>0</sniper>
 		<weapon><name>Missile</name><level>20</level></weapon>
 		<weapon><name>Baby Nuke</name><level>20</level></weapon>	
@@ -30,16 +44,28 @@
 	
 	<ai type="Shooter">
 		<name>Shooter</name>
+		<description>A computer controlled player.
+Shooters can be significantly deadlier than 
+Morons, but they don't ever learn, 
+not refining subsiquent shots.</description>
 		<weapon><name>Missile</name><level>20</level></weapon>
 		<weapon><name>Baby Nuke</name><level>20</level></weapon>		
 	</ai>
 	
 	<ai type="Moron">
 		<name>Moron</name>
+		<description>A computer controlled player.
+Well, you can't get much stupider than this. 
+Morons just pick an angle and power, 
+and shoot. Definitely for beginners 
+only.</description>
 		<weapon><name>Missile</name><level>2</level></weapon>
 	</ai>
 	
 	<ai type="Target">
 		<name>Target</name>
+		<description>A computer controlled player.
+These tanks act as static targets.  They
+will NEVER fire back.</description>
 	</ai>
 </ais>

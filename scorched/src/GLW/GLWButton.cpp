@@ -34,7 +34,8 @@ GLWButton::GLWButton(float x, float y, float w, float h, GLWButtonI *handler,
 	handler_(handler),
 	GLWVisibleWidget(x, y, w, h),
 	flags_(flags), pressed_(false), startdrag_(false),
-	repeatMode_(false), repeatTime_(0.0f)
+	repeatMode_(false), repeatTime_(0.0f),
+	enabled_(true)
 {
 
 }
@@ -44,6 +45,11 @@ GLWButton::~GLWButton()
 
 }
 
+void GLWButton::setEnabled(bool enabled)
+{
+	enabled_ = enabled;
+}
+
 void GLWButton::setHandler(GLWButtonI *handler)
 { 
 	handler_ = handler; 
@@ -51,6 +57,8 @@ void GLWButton::setHandler(GLWButtonI *handler)
 
 void GLWButton::draw()
 {
+	GLWVisibleWidget::draw();
+
 	float size = 10.0f;
 	if (w_ < 16 || h_ < 16) size = 6.0f;
 	else if (w_ < 12 || h_ < 12) size = 4.0f;
@@ -78,7 +86,8 @@ void GLWButton::simulate(float frameTime)
 
 void GLWButton::mouseDown(float x, float y, bool &skipRest)
 {
-	if (inBox(x, y, x_, y_, w_, h_))
+	if (enabled_ &&
+		inBox(x, y, x_, y_, w_, h_))
 	{
 		skipRest = true;
 		startdrag_ = true;
@@ -127,7 +136,8 @@ void GLWButton::keyDown(char *buffer, unsigned int keyState,
 		KeyboardHistory::HistoryElement *history, int hisCount, 
 		bool &skipRest)
 {
-	if (handler_ && ((flags_&ButtonFlagOk) || (flags_&ButtonFlagCancel)))
+	if (enabled_ && handler_ && 
+		((flags_&ButtonFlagOk) || (flags_&ButtonFlagCancel)))
 	{
 		for (int i=0; i<hisCount; i++)
 		{

@@ -22,7 +22,7 @@
 #define __INCLUDE_QuitDialogh_INCLUDE__
 
 #include <GLW/GLWWindow.h>
-#include <GLW/GLWButton.h>
+#include <GLW/GLWTextButton.h>
 
 class QuitDialog : public GLWWindow,
 				public GLWButtonI
@@ -31,9 +31,11 @@ public:
 	static QuitDialog *instance();
 
 	virtual void buttonDown(unsigned int id);
+	virtual void windowDisplay();
+
 protected:
-	unsigned int okId_, quitId_;
-	unsigned int killId_, saveId_;
+	GLWTextButton *okButton_, *quitButton_;
+	GLWTextButton *killButton_, *saveButton_;
 	static QuitDialog *instance_;
 
 private:

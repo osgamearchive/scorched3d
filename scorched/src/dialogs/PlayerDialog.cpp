@@ -63,18 +63,34 @@ PlayerDialog::PlayerDialog() :
 	addWidget(viewer_);
 
 	// Create player name choice
+	GLWTip *nameTip = new GLWTip("Player Name",
+		"The name of this player.\n"
+		"Use the backspace or delete key to remove this name.\n"
+		"Type in a new player name via the keyboad to change.");
+	GLWLabel *nameLabel = (GLWLabel *) addWidget(new GLWLabel(10, 265, "Name:"));
+	nameLabel->setToolTip(nameTip);
 	playerName_ = (GLWTextBox *) addWidget(new GLWTextBox(80, 265, 340, "Player"));
 	playerName_->setMaxTextLen(22);
-	addWidget(new GLWLabel(10, 265, "Name:"));
-
+	playerName_->setToolTip(nameTip);
+	
 	// Create team choice
-	addWidget(new GLWLabel(250, 235, "Team:"));
+	GLWTip *teamTip = new GLWTip("Team Selection",
+		"Change the team this player will join.\n"
+		"This is only available when playing team games.");
+	GLWLabel *teamLabel = (GLWLabel *) addWidget(new GLWLabel(250, 235, "Team:"));
+	teamLabel->setToolTip(teamTip);
 	teamDropDown_ = (GLWDropDown *) addWidget(new GLWDropDown(320, 235, 110));
+	teamDropDown_->setToolTip(teamTip);
 
 	// Create computer type choice
-	addWidget(new GLWLabel(10, 235, "Type:"));
+	GLWTip *typeTip = new GLWTip("Player Type",
+		"Change between human and computer controlled\n"
+		"players.  This is only available when playing\n"
+		"single player games.");
+	GLWLabel *typeLabel = (GLWLabel *) addWidget(new GLWLabel(10, 235, "Type:"));
+	typeLabel->setToolTip(typeTip);
 	typeDropDown_ = (GLWDropDown *) addWidget(new GLWDropDown(80, 235, 110));
-
+	typeDropDown_->setToolTip(typeTip);
 }
 
 PlayerDialog::~PlayerDialog()
@@ -126,7 +142,8 @@ void PlayerDialog::windowDisplay()
 
 	// Add player types
 	typeDropDown_->clear();
-	typeDropDown_->addText("Human");
+	typeDropDown_->addText(GLWDropDownEntry("Human", 
+		&TankAIStore::instance()->getAIByName("Human")->getDescription()));
 	if (!OptionsParam::instance()->getConnectedToServer())
 	{
 		std::list<TankAI *>::iterator aiitor;
@@ -134,7 +151,9 @@ void PlayerDialog::windowDisplay()
 			aiitor != TankAIStore::instance()->getAis().end();
 			aiitor++)
 		{
-			typeDropDown_->addText((*aiitor)->getName());
+			typeDropDown_->addText(
+				GLWDropDownEntry((*aiitor)->getName(),
+					&(*aiitor)->getDescription()));
 		}
 	}
 	currentPlayerId_ = 0;

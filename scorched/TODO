@@ -11,10 +11,14 @@ Fixed: Score dialog only shown once in the final round
 Fixed: DirectX is only checked when running the client.
 Fixed: Added scroll bars to landscape settings dialog
 Fixed: Smoke disapears after a while
-Fixed: Server more responsive, slow clients don't affect all other players
+Fixed: Server more responsive, slow clients don't affect other players
+Fixed: Tooltips don't show through other dialogs
 
+Added: Auto ballance teams option is available via settings gui
+Added: Help tooltips to most dialogs
 Added: Can sort accessories in buying dialog by name (or not)
 Added: Even more tank talk lines (thanks Maxim Genis)
+Added: Even more, and more tank talk lines (thanks Maxim Genis)
 Added: Target mode for single player that gives all weapons + accessories
 Added: Target tank ai that does shoot at all (for target practice)
 Added: Initial tank elevation and rotation only random for the first round only
@@ -38,11 +42,10 @@ Gun fires at same point for all tanks (ignores turret/gun position in model)
 Shot cam does not get LOD correctly
 
 -- Things I am currently looking at
-Allow more than 12 landscapes in the landscape settings dialog
-Make AIs better
-Single player saving
+Make AIs better (partialy done)
+Single player saving (partialy done)
 Option to auto remove computer players when a certain number of humans in game
-Make shot cam zoom out for explosion
+Make shot cam zoom out for explosion (partialy done)
 Riot Blast
 A way to allow tank spawn positions to be configured, bitmap landscapes only?
 

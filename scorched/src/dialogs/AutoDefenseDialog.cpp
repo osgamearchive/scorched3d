@@ -48,7 +48,13 @@ AutoDefenseDialog::AutoDefenseDialog() :
 
 	ddpara_ = (GLWDropDown *) addWidget(new GLWDropDown(120, 170, 300));
 	ddpara_->setHandler(this);
+	ddpara_->setToolTip(new GLWTip("Enable Parachutes",
+		"Choose to enable parachutes before the\n"
+		"beginning of the next round."));
 	ddshields_ = (GLWDropDown *) addWidget(new GLWDropDown(120, 200, 300));
+	ddshields_->setToolTip(new GLWTip("Choose Shields",
+		"Choose the shield to use at the beginning\n"
+		"of the next round."));
 	ddshields_->setHandler(this);
 }
 
@@ -144,11 +150,13 @@ void AutoDefenseDialog::displayCurrent()
 	topPanel_->addWidget(new GLWLabel(280, 0, buffer));
 
 	// Put shields info
+	static GLWTip shieldsOffTip("Shields Off",
+		"Turns off shields.");
 	ddshields_->clear();
 	std::list<Accessory *>::iterator shieldsItor;
 	std::list<Accessory *> shields = 
 		tank->getAccessories().getShields().getAllShields();
-	ddshields_->addText("Shields Off");
+	ddshields_->addText(GLWDropDownEntry("Shields Off", &shieldsOffTip));
 	for (shieldsItor = shields.begin();
 		shieldsItor != shields.end();
 		shieldsItor++)
@@ -167,12 +175,17 @@ void AutoDefenseDialog::displayCurrent()
 			sprintf(buffer, "%s (In)",
 				shield->getName());
 		}
-		ddshields_->addText(buffer);
+		ddshields_->addText(GLWDropDownEntry(buffer,
+			&shield->getToolTip()));
 	}
 
 	// Put parachutes info
+	static GLWTip paraOffTip("Parachutesields Off",
+		"Turns off parachutes.");
+	static GLWTip paraOnTip("Parachutesields On",
+		"Turns on parachutes.");
 	ddpara_->clear();
-	ddpara_->addText("Parachutes Off");
+	ddpara_->addText(GLWDropDownEntry("Parachutes Off", &paraOffTip));
 	if (tank->getAccessories().getParachutes().getNoParachutes() != 0)
 	{
 		char buffer[256];
@@ -185,7 +198,7 @@ void AutoDefenseDialog::displayCurrent()
 		{
 			sprintf(buffer, "Parachutes On (In)");
 		}
-		ddpara_->addText(buffer);
+		ddpara_->addText(GLWDropDownEntry(buffer, &paraOnTip));
 	}
 
 	// Set the currently shown items
@@ -234,7 +247,7 @@ void AutoDefenseDialog::displayCurrent()
 
 void AutoDefenseDialog::select(unsigned int id, 
 							   const int pos, 
-							   const char *value)
+							   GLWDropDownEntry value)
 {
 	// Nothing to do as we don't actualy set the status
 	// until the ok button is pressed

@@ -49,6 +49,7 @@ void GLWTextBox::simulate(float frameTime)
 
 void GLWTextBox::draw()
 {
+	GLWVisibleWidget::draw();
 	glBegin(GL_LINE_LOOP);
 		drawShadedRoundBox(x_, y_, w_, h_, 10.0f, false);
 	glEnd();

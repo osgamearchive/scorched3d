@@ -28,7 +28,7 @@
 static GLuint listNo = 0;
 
 GLWVisibleWidget::GLWVisibleWidget(float x, float y, float w, float h) :
-	x_(x), y_(y), w_(w), h_(h), tooltip_(0)
+	x_(x), y_(y), w_(w), h_(h), tooltip_(0), tooltipTransparent_(false)
 {
 
 }
@@ -55,6 +55,13 @@ void GLWVisibleWidget::draw()
 	if (tooltip_)
 	{
 		GLWToolTip::instance()->addToolTip(tooltip_, 
+			GLWTranslate::getPosX() + x_, 
+			GLWTranslate::getPosY() + y_, 
+			w_, h_);
+	}
+	else if (!tooltipTransparent_)
+	{
+		GLWToolTip::instance()->clearToolTip(
 			GLWTranslate::getPosX() + x_, 
 			GLWTranslate::getPosY() + y_, 
 			w_, h_);

@@ -32,17 +32,21 @@
 static NetBuffer saveBuffer;
 static bool stateRestoredFromFile = false;
 
-bool storeClient()
+bool ClientSave::storeClient()
 {
+	stateRestoredFromFile = false;
 	NetBuffer &buffer = saveBuffer;
 	buffer.reset();
 
 	// Add Version
 	buffer.addToBuffer(ScorchedProtocolVersion);
 	
-	// GameState
-	if (!ScorchedServer::instance()->getOptionsGame().writeToBuffer(
-		buffer)) return false;
+	// GameState (removing the spectator tank)
+	ScorchedServer::instance()->getOptionsGame().setNoMaxPlayers(
+		ScorchedServer::instance()->getOptionsGame().getNoMaxPlayers()-1);
+	ScorchedServer::instance()->getOptionsGame().writeToBuffer(buffer);
+	ScorchedServer::instance()->getOptionsGame().setNoMaxPlayers(
+		ScorchedServer::instance()->getOptionsGame().getNoMaxPlayers()+1);
 	
 	// Transient State
 	if (!ScorchedServer::instance()->getOptionsTransient().writeToBuffer(
@@ -52,7 +56,7 @@ bool storeClient()
 	std::map<unsigned int, Tank *> &tanks = 
 		ScorchedServer::instance()->getTankContainer().
 			getPlayingTanks();
-	buffer.addToBuffer((int) tanks.size());
+	buffer.addToBuffer((int) tanks.size() - 1);
  	std::map<unsigned int, Tank *>::iterator itor;
 	for (itor = tanks.begin();
 		itor != tanks.end();
@@ -60,24 +64,30 @@ bool storeClient()
 	{
 		// Add each tank
 		Tank *tank = (*itor).second;
-		buffer.addToBuffer(tank->getPlayerId());
-		if (!tank->writeMessage(buffer)) return false;
 
-		TankAI *tankAI = tank->getTankAI();
-		if (tankAI) 
+		// Remove the spectator tank
+		if (!tank->getState().getSpectator())
 		{
-			buffer.addToBuffer(tankAI->getName());
-		}
-		else
-		{
-			buffer.addToBuffer("Human");
+			// Add all other tanks
+			buffer.addToBuffer(tank->getPlayerId());
+			if (!tank->writeMessage(buffer)) return false;
+
+			TankAI *tankAI = tank->getTankAI();
+			if (tankAI) 
+			{
+				buffer.addToBuffer(tankAI->getName());
+			}
+			else
+			{
+				buffer.addToBuffer("Human");
+			}
 		}
 	}
 
 	return true;
 }
 
-bool saveClient(const char *fileName)
+bool ClientSave::saveClient(const char *fileName)
 {
 	FILE *file = fopen(fileName, "wb");
 	if (!file) return false;
@@ -90,7 +100,7 @@ bool saveClient(const char *fileName)
 	return (size == saveBuffer.getBufferUsed());
 }
 
-bool restoreClient(bool stateOnly)
+bool ClientSave::restoreClient(bool loadGameState, bool loadPlayers)
 {
 	NetBufferReader reader(saveBuffer);
 
@@ -104,15 +114,26 @@ bool restoreClient(bool stateOnly)
 	}
 	
 	// GameState
-	if (!ScorchedServer::instance()->getOptionsGame().readFromBuffer(
-		reader)) return false;
+	if (loadGameState)
+	{
+		if (!ScorchedServer::instance()->getOptionsGame().readFromBuffer(
+			reader)) return false;
+	}
+	else
+	{
+		OptionsGame optionsGame;
+		optionsGame.readFromBuffer(reader);
+	}
 	
 	// Transient State
 	if (!ScorchedServer::instance()->getOptionsTransient().readFromBuffer(
 		reader)) return false;
 	
-	if (stateOnly) return true;
-	
+	if (!loadPlayers) return true;
+
+	bool specTanks = (ScorchedServer::instance()->getTankContainer().getNoOfTanks() -
+		ScorchedServer::instance()->getTankContainer().getNoOfNonSpectatorTanks() > 1);
+
 	// Players
 	int noTanks = 0;
 	if (!reader.getFromBuffer(noTanks)) return false;
@@ -122,13 +143,15 @@ bool restoreClient(bool stateOnly)
 		if (!reader.getFromBuffer(playerId)) return false;
 	
 		Tank *tank = 
-			ScorchedServer::instance()->getTankContainer().getTankById(
-				playerId);
-		if (tank)
+			ScorchedServer::instance()->getTankContainer().getTankById(playerId);
+		if (!specTanks)
 		{
-			if (!tank->readMessage(reader)) return false;
-			std::string tankAIStr;
-			if (!reader.getFromBuffer(tankAIStr)) return false;
+			/*if (tank)
+			{
+				if (!tank->readMessage(reader)) return false;
+				std::string tankAIStr;
+				if (!reader.getFromBuffer(tankAIStr)) return false;
+			}*/
 		}
 		else
 		{
@@ -168,12 +191,12 @@ bool restoreClient(bool stateOnly)
 	return true;
 }
 
-bool stateRestored()
+bool ClientSave::stateRestored()
 {
 	return stateRestoredFromFile;
 }
 
-bool loadClient(const char *fileName)
+bool ClientSave::loadClient(const char *fileName)
 {
 	FILE *file = fopen(fileName, "rb");
 	if (!file) 

@@ -34,6 +34,9 @@
 
 TankAIHuman::TankAIHuman()
 {
+	description_.setText("Human",
+		"A human controlled player\n"
+		"(turns off any computer controller player).");
 }
 
 TankAIHuman::~TankAIHuman()

@@ -146,7 +146,7 @@ void WindowSetup::setup()
 		HelpButtonDialog::instance(), 0, true);
 
 	// StateLoadPlayers
-	GLWWindowManager::instance()->addWindow(ClientState::StateGetPlayers,
+	GLWWindowManager::instance()->addWindow(ClientState::StateLoadPlayers,
 		BackdropDialog::instance(), 0, true);
 
 	// StateWait

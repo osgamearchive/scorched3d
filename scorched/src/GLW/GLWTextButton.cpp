@@ -19,6 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <GLW/GLWTextButton.h>
+#include <GLW/GLWFont.h>
 
 REGISTER_CLASS_SOURCE(GLWTextButton);
 
@@ -54,6 +55,9 @@ void GLWTextButton::draw()
 		label_.calcWidth();
 		x += (w_ / 2.0f) - (label_.getW() / 2.0f);
 	}
+
+	if (enabled_) label_.setColor(GLWFont::widgetFontColor);
+	else label_.setColor(GLWFont::disabledWidgetFontColor);
 
 	label_.setX(x);
 	label_.draw();

@@ -25,6 +25,10 @@
 TankAIComputerRandom::TankAIComputerRandom() 
 {
 	name_ = "Random";
+	description_.setText("Random",
+		"A computer controlled player.\n"
+		"Randomly chooses from all available computer\n"
+		"controled players (except targets).");
 }
 
 TankAIComputerRandom::~TankAIComputerRandom()

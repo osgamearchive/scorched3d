@@ -249,8 +249,8 @@ int main(int argc, char *argv[])
 							OptionsParam::instance()->getSaveFile());
 						exit(1);
 					}
-					if (!loadClient(OptionsParam::instance()->getSaveFile()) ||
-						!restoreClient(true))
+					if (!ClientSave::loadClient(OptionsParam::instance()->getSaveFile()) ||
+						!ClientSave::restoreClient(true, false))
 					{
 						dialogMessage(scorched3dAppName,
 							"Cannot load client save file \"%s\".",

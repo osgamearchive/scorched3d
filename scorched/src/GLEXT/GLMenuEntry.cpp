@@ -156,6 +156,10 @@ void GLMenuEntry::drawDepressed(GLFont2d &font, float currentTop, float currentL
 				selectedWidth_, lowerHeight - drop, 10.0f);
 		glEnd();
 		glLineWidth(1.0f);
+
+		GLWToolTip::instance()->clearToolTip(
+			currentLeft, currentTop - lowerHeight  - drop, 
+				selectedWidth_, lowerHeight - drop);
 	}
 
 	int mouseX = ScorchedClient::instance()->getGameState().getMouseX();

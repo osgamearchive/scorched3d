@@ -27,12 +27,25 @@
 #include <GLW/GLWPushButton.h>
 #include <GLW/GLWVisibleWidget.h>
 
+class GLWDropDownEntry
+{
+public:
+	GLWDropDownEntry(const char *name = "",
+		GLWTip *tip = 0) :
+		text_(name), tip_(tip)
+	{
+	}
+
+	std::string text_;
+	GLWTip *tip_;
+};
+
 class GLWDropDownI
 {
 public:
 	virtual ~GLWDropDownI();
 
-	virtual void select(unsigned int id, const int pos, const char *value) = 0;
+	virtual void select(unsigned int id, const int pos, GLWDropDownEntry value) = 0;
 };
 
 class GLWDropDown : public GLWVisibleWidget
@@ -42,7 +55,7 @@ public:
 	virtual ~GLWDropDown();
 
 	void setHandler(GLWDropDownI *handler);
-	void addText(const char *text);
+	void addText(GLWDropDownEntry text);
 	void setText(const char *text) { text_ = text; }
 	const char *getText() { return text_.c_str(); }
 	void setCurrentPosition(int pos);
@@ -57,7 +70,7 @@ public:
 	REGISTER_CLASS_HEADER(GLWDropDown);
 protected:
 	std::string text_;
-	std::list<std::string> texts_;
+	std::list<GLWDropDownEntry> texts_;
 	GLWPushButton button_;
 	GLWDropDownI *handler_;
 

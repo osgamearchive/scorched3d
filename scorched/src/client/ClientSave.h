@@ -21,11 +21,14 @@
 #if !defined(__INCLUDE_ClientSaveh_INCLUDE__)
 #define __INCLUDE_ClientSaveh_INCLUDE__
 
-bool storeClient();
-bool saveClient(const char *fileName);
+namespace ClientSave
+{
+	bool storeClient();
+	bool saveClient(const char *fileName);
 
-bool stateRestored();
-bool restoreClient(bool stateOnly);
-bool loadClient(const char *fileName);
+	bool stateRestored();
+	bool restoreClient(bool loadGameState, bool loadPlayers);
+	bool loadClient(const char *fileName);
+}
 
 #endif

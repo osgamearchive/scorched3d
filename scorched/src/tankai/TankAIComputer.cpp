@@ -57,6 +57,18 @@ bool TankAIComputer::parseConfig(XMLNode *node)
 	}
 	name_ = nameNode->getContent();
 
+	XMLNode *descNode = node->getNamedChild("description");
+	if (!descNode)
+	{
+		dialogMessage("TankAIComputer",
+			"Failed to find description node in tank ai \"%s\"",
+			name_.c_str());
+		return false;
+	}
+	description_.setText(
+		nameNode->getContent(),
+		descNode->getContent());
+
 	std::list<XMLNode *>::iterator childrenItor;
 	std::list<XMLNode *> &children = node->getChildren();
     for (childrenItor = children.begin();

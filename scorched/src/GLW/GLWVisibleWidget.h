@@ -43,7 +43,7 @@ public:
 	virtual void setH(float h) { h_ = h; }
 
 	virtual bool initFromXML(XMLNode *node);
-	void setToolTip(GLWTip *tooltip) { tooltip_ = tooltip; }
+	virtual void setToolTip(GLWTip *tooltip) { tooltip_ = tooltip; }
 
 	static bool inBox(float posX, float posY, float x, float y, float w, float h);
 	static void drawRoundBox(float x, float y, float w, float h, float size);
@@ -55,6 +55,7 @@ public:
 protected:
 	float x_, y_, w_, h_;
 	GLWTip *tooltip_;
+	bool tooltipTransparent_;
 };
 
 #endif // !defined(AFX_GLWVISIBLEWIDGET_H__1EB53BAC_EE59_4434_805E_F9FAA72BEF37__INCLUDED_)

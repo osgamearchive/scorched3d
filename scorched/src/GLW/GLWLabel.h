@@ -34,12 +34,14 @@ public:
 	virtual void draw();	
 	const char *getText() { return buttonText_.c_str(); }
 	void setText(const char *text);
+	void setColor(Vector &color);
 	void calcWidth();
 
 	REGISTER_CLASS_HEADER(GLWLabel);
 
 protected:
 	std::string buttonText_;
+	Vector color_;
 
 };
 

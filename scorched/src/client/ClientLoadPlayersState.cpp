@@ -42,6 +42,6 @@ ClientLoadPlayersState::~ClientLoadPlayersState()
 
 void ClientLoadPlayersState::enterState(const unsigned state)
 {
-	restoreClient(false);
+	ClientSave::restoreClient(false, true);
 }
 

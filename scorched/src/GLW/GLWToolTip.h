@@ -83,6 +83,7 @@ public:
 	static GLWToolTip *instance();
 
 	bool addToolTip(GLWTip *tip, float x, float y, float w, float h);
+	void clearToolTip(float x, float y, float w, float h);
 
 	// Inherited from GameStateI
 	virtual void simulate(const unsigned state, float frameTime);

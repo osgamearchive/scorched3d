@@ -21,6 +21,7 @@
 #include <GLW/GLWFont.h>
 
 Vector GLWFont::widgetFontColor = Vector(0.2f, 0.2f, 0.2f);
+Vector GLWFont::disabledWidgetFontColor = Vector(0.4f, 0.4f, 0.4f);
 
 GLWFont *GLWFont::instance_ = 0;
 
