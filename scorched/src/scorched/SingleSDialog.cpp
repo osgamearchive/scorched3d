@@ -38,7 +38,7 @@ public:
 	virtual bool TransferDataToWindow();
 	virtual bool TransferDataFromWindow();
 
-	void onSettingsButton();
+	void onSettingsButton(wxCommandEvent &event);
 
 private:
 	DECLARE_EVENT_TABLE()
@@ -75,7 +75,7 @@ SingleSFrame::SingleSFrame(OptionsGame &options) :
 	CentreOnScreen();
 }
 
-void SingleSFrame::onSettingsButton()
+void SingleSFrame::onSettingsButton(wxCommandEvent &event)
 {
 	TransferDataFromWindow();
 	// Don't save until the whole options have been choosen

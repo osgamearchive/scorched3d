@@ -39,8 +39,8 @@ public:
 	virtual bool TransferDataToWindow();
 	virtual bool TransferDataFromWindow();
 
-	void onSettingsButton();
-	void onPublishAutoButton();
+	void onSettingsButton(wxCommandEvent &event);
+	void onPublishAutoButton(wxCommandEvent &event);
 
 private:
 	DECLARE_EVENT_TABLE()
@@ -78,12 +78,12 @@ ServerSFrame::ServerSFrame(OptionsGame &options) :
 	CentreOnScreen();
 }
 
-void ServerSFrame::onPublishAutoButton()
+void ServerSFrame::onPublishAutoButton(wxCommandEvent &event)
 {
 	IDC_PUBLISHIP_CTRL->SetValue("AutoDetect");
 }
 
-void ServerSFrame::onSettingsButton()
+void ServerSFrame::onSettingsButton(wxCommandEvent &event)
 {
 	TransferDataFromWindow();
 	// Don't save until the whole options have been choosen

@@ -41,10 +41,10 @@ class HelpFrame: public wxFrame
 public:
 	HelpFrame();
 
-	void onExit();
-	void onBack();
-	void onForward();
-	void onHome();
+	void onExit(wxCommandEvent &event);
+	void onBack(wxCommandEvent &event);
+	void onForward(wxCommandEvent &event);
+	void onHome(wxCommandEvent &event);
 	void onKeyDown(wxKeyEvent &event);
 
 	wxHtmlWindow *html_;
@@ -96,7 +96,8 @@ HelpFrame::HelpFrame() :
 	// Html Window
 	html_ = new wxHtmlWindow(this, -1, 
 		wxDefaultPosition, wxSize(500, 300));
-	onHome();
+	wxCommandEvent event;
+	onHome(event);
 	topsizer->Add(html_, 1, wxLEFT | wxRIGHT | wxGROW, 5);
 
 	// Ok Button
@@ -118,22 +119,22 @@ void HelpFrame::onKeyDown(wxKeyEvent &event)
 	if (event.GetKeyCode() == WXK_ESCAPE) Close();
 }
 
-void HelpFrame::onExit()
+void HelpFrame::onExit(wxCommandEvent &event)
 {
 	Close();
 }
 
-void HelpFrame::onForward()
+void HelpFrame::onForward(wxCommandEvent &event)
 {
 	html_->HistoryForward();
 }
 
-void HelpFrame::onBack()
+void HelpFrame::onBack(wxCommandEvent &event)
 {
 	html_->HistoryBack();
 }
 
-void HelpFrame::onHome()
+void HelpFrame::onHome(wxCommandEvent &event)
 {
 	html_->HistoryClear();
 	html_->LoadPage(getDocFile("documentation/html/index.html"));

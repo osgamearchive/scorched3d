@@ -57,9 +57,9 @@ public:
 	SingleFrame();
 
 	void onGameButton(wxCommandEvent &event);
-	void onCustomButton();
-	void onLoadButton();
-	void onScorchedButton();
+	void onCustomButton(wxCommandEvent &event);
+	void onLoadButton(wxCommandEvent &event);
+	void onScorchedButton(wxCommandEvent &event);
 
 protected:
 	void addModButton(
@@ -172,7 +172,7 @@ void SingleFrame::addModButton(
 	setDataFileMod("");
 }
 
-void SingleFrame::onLoadButton()
+void SingleFrame::onLoadButton(wxCommandEvent &event)
 {
 	wxString file = ::wxFileSelector("Please choose the saved game to load",
 									 getSaveFile(""), // default path
@@ -202,7 +202,7 @@ void SingleFrame::onGameButton(wxCommandEvent &event)
 	}
 }
 
-void SingleFrame::onCustomButton()
+void SingleFrame::onCustomButton(wxCommandEvent &event)
 {
 	if (showSingleSDialog())
 	{
@@ -210,7 +210,7 @@ void SingleFrame::onCustomButton()
 	}
 }
 
-void SingleFrame::onScorchedButton()
+void SingleFrame::onScorchedButton(wxCommandEvent &event)
 {
 	showURL("http://www.scorched3d.co.uk");
 }

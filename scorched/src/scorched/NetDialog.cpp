@@ -54,7 +54,7 @@ public:
 	virtual wxString OnGetItemText(long WXUNUSED(item), long WXUNUSED(col)) const;
 	virtual int OnGetItemImage(long WXUNUSED(item)) const;
 	
-	void onDClickServer();
+	void onDClickServer(wxMouseEvent&);
 	
 private:
 	DECLARE_EVENT_TABLE()
@@ -169,13 +169,13 @@ public:
 	virtual bool TransferDataToWindow();
 	virtual bool TransferDataFromWindow();
 
-	void onRefreshLanButton();
-	void onRefreshNETButton();
-	void onClearButton();
-	void onClearPasswordButton();
-	void onSelectServer();
-	void onTimer();
-	void onServerChanged();
+	void onRefreshLanButton(wxCommandEvent &event);
+	void onRefreshNETButton(wxCommandEvent &event);
+	void onClearButton(wxCommandEvent &event);
+	void onClearPasswordButton(wxCommandEvent &event);
+	void onSelectServer(wxListEvent &event);
+	void onTimer(wxTimerEvent &event);
+	void onServerChanged(wxCommandEvent &event);
 
 private:
 	DECLARE_EVENT_TABLE()
@@ -230,21 +230,22 @@ NetLanFrame::NetLanFrame() :
 	// Create a timer
 	timer_.SetOwner(this, 1001);
 	timer_.Start(3000, false);
-	onTimer();
+	wxTimerEvent timerEvent;
+	onTimer(timerEvent);
 }
 
-void NetLanFrame::onClearButton()
+void NetLanFrame::onClearButton(wxCommandEvent &event)
 {
 	IDC_EDIT_SERVER_CTRL->SetValue("");
-	onServerChanged();
+	onServerChanged(event);
 }
 
-void NetLanFrame::onClearPasswordButton()
+void NetLanFrame::onClearPasswordButton(wxCommandEvent &event)
 {
 	IDC_EDIT_PASSWORD_CTRL->SetValue("");
 }
 
-void NetLanFrame::onSelectServer()
+void NetLanFrame::onSelectServer(wxListEvent &event)
 {
 	IDC_PLAYER_LIST_CTRL->DeleteAllItems();
 
@@ -305,30 +306,31 @@ void NetLanFrame::onSelectServer()
 					SetItem(index, 4, 
 					ServerBrowser::instance()->getServerList().getEntryValue(item, tmp));
 			}
-			
-			onServerChanged();
+		
+			wxCommandEvent event;	
+			onServerChanged(event);
 		}
     }
 }
 
-void NetLanFrame::onRefreshLanButton()
+void NetLanFrame::onRefreshLanButton(wxCommandEvent &event)
 {
 	refreshLANWindow(true);
 }
 
-void NetLanFrame::onRefreshNETButton()
+void NetLanFrame::onRefreshNETButton(wxCommandEvent &event)
 {
 	refreshLANWindow(false);
 }
 
-void NetLanFrame::onServerChanged()
+void NetLanFrame::onServerChanged(wxCommandEvent &event)
 {
 	bool enabled = IDC_EDIT_SERVER_CTRL->GetValue().c_str()[0] != '\0';
 	IDOK_CTRL->Enable(enabled);
 	IDOK_CTRL->SetDefault();
 }
 
-void NetLanFrame::onTimer()
+void NetLanFrame::onTimer(wxTimerEvent &event)
 {
 	if (!ServerBrowser::instance()->getRefreshing())
 	{
@@ -401,7 +403,8 @@ bool NetLanFrame::TransferDataToWindow()
 			playerListItems[i].size);
 	}
 
-	onServerChanged();
+	wxCommandEvent evt;
+	onServerChanged(evt);
 	return true;
 }
 
@@ -410,7 +413,7 @@ bool NetLanFrame::TransferDataFromWindow()
 	return true;
 }
 
-void NetListControl::onDClickServer()
+void NetListControl::onDClickServer(wxMouseEvent& event)
 {
 	bool enabled = IDC_EDIT_SERVER_CTRL->GetValue().c_str()[0] != '\0';
 	if (enabled)

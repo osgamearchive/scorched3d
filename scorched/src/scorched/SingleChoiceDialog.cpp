@@ -52,7 +52,7 @@ public:
 
 protected:
 	void onChoiceButton(wxCommandEvent &event);
-	void onScorchedButton();
+	void onScorchedButton(wxCommandEvent &event);
 
 	SingleGames games;
 
@@ -140,7 +140,7 @@ void SingleChoiceFrame::onChoiceButton(wxCommandEvent &event)
 	runScorched3D("-startclient \"%s\"", targetFilePath);
 }
 
-void SingleChoiceFrame::onScorchedButton()
+void SingleChoiceFrame::onScorchedButton(wxCommandEvent &event)
 {
 	showURL(games.url.c_str());
 }

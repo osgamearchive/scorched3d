@@ -80,9 +80,9 @@ protected:
 	wxPanel *motdPanel_;
 
 	void setupPlayers();
-	void onMaxPlayerChange();
-	void onSelectAll();
-	void onDeselectAll();
+	void onMaxPlayerChange(wxCommandEvent &event);
+	void onSelectAll(wxCommandEvent &event);
+	void onDeselectAll(wxCommandEvent &event);
 
 private:
 	DECLARE_EVENT_TABLE()
@@ -180,7 +180,7 @@ SettingsFrame::SettingsFrame(bool server, OptionsGame &context) :
 	CentreOnScreen();
 }
 
-void SettingsFrame::onSelectAll()
+void SettingsFrame::onSelectAll(wxCommandEvent &event)
 {
 	std::list<LandscapeDefinitionsEntry> &defns =
 		SettingsLand::landscapeDefinitions.getAllLandscapes();
@@ -192,7 +192,7 @@ void SettingsFrame::onSelectAll()
 	}
 }
 
-void SettingsFrame::onDeselectAll()
+void SettingsFrame::onDeselectAll(wxCommandEvent &event)
 {
 	std::list<LandscapeDefinitionsEntry> &defns =
 		SettingsLand::landscapeDefinitions.getAllLandscapes();
@@ -204,7 +204,7 @@ void SettingsFrame::onDeselectAll()
 	}
 }
 
-void SettingsFrame::onMaxPlayerChange()
+void SettingsFrame::onMaxPlayerChange(wxCommandEvent &event)
 {
 	setupPlayers();
 }

@@ -186,15 +186,15 @@ class MainFrame: public wxFrame
 public:
 	MainFrame();
 
-	void onTimer();
-	void onDisplayButton();
-	void onQuitButton();
-	void onNetLanButton();
-	void onSingleButton();
-	void onServerButton();
-	void onScorchedClick();
-	void onDonateClick();
-	void onHelpButton();
+	void onTimer(wxTimerEvent &event);
+	void onDisplayButton(wxCommandEvent &event);
+	void onQuitButton(wxCommandEvent &event);
+	void onNetLanButton(wxCommandEvent &event);
+	void onSingleButton(wxCommandEvent &event);
+	void onServerButton(wxCommandEvent &event);
+	void onScorchedClick(wxCommandEvent &event);
+	void onDonateClick(wxCommandEvent &event);
+	void onHelpButton(wxCommandEvent &event);
 
 private:
 	DECLARE_EVENT_TABLE()
@@ -325,7 +325,7 @@ MainFrame::MainFrame() :
 	CentreOnScreen();
 }
 
-void MainFrame::onTimer()
+void MainFrame::onTimer(wxTimerEvent &event)
 {
 	wxString newString;
 	SDL_LockMutex(messageMutex_);
@@ -370,12 +370,12 @@ void MainFrame::onTimer()
 	}
 }
 
-void MainFrame::onScorchedClick()
+void MainFrame::onScorchedClick(wxCommandEvent &event)
 {
 	showURL("http://www.scorched3d.co.uk");
 }
 
-void MainFrame::onDonateClick()
+void MainFrame::onDonateClick(wxCommandEvent &event)
 {
 	const char *exec = 
 		"\"https://www.paypal.com/xclick/business=donations%40"
@@ -383,33 +383,33 @@ void MainFrame::onDonateClick()
 	showURL(exec);
 }
 
-void MainFrame::onDisplayButton()
+void MainFrame::onDisplayButton(wxCommandEvent &event)
 {
 	showDisplayDialog();
 }
 
-void MainFrame::onNetLanButton()
+void MainFrame::onNetLanButton(wxCommandEvent &event)
 {
 	showNetLanDialog();
 }
 
-void MainFrame::onSingleButton()
+void MainFrame::onSingleButton(wxCommandEvent &event)
 {
 	showSingleDialog();
 }
 
-void MainFrame::onServerButton()
+void MainFrame::onServerButton(wxCommandEvent &event)
 {
 	showServerSDialog();
 }
 
-void MainFrame::onQuitButton()
+void MainFrame::onQuitButton(wxCommandEvent &event)
 {
 	wxWindowExit = true;
 	Close();
 }
 
-void MainFrame::onHelpButton()
+void MainFrame::onHelpButton(wxCommandEvent &event)
 {
 	showHtmlHelpDialog();
 }

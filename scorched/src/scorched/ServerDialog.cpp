@@ -173,38 +173,38 @@ public:
 
 	void OnSize(wxSizeEvent& event);
 	void OnClose(wxCloseEvent& event);
-	void onTimer();
-	void onTimerMain();
-	void onMenuExit();
-	void onShowOptions();
-	void onShowModFiles();
-	void onShowBanned();
-	void onReloadBanned();
-	void onEditOptions();
-	void onLoadOptions();
-	void onSaveOptions();
-	void onPlayerTalk();
-	void onPlayerTalkAll();
-	void onTimedMsg();
-	void onPlayerKick();
-	void onPlayerSlap25();
-	void onKillAll();
-	void onStartNewGame();
-	void onPlayerBan();
-	void onPlayerMute();
-	void onPlayerUnMute();
+	void onTimer(wxTimerEvent &event);
+	void onTimerMain(wxTimerEvent &event);
+	void onMenuExit(wxCommandEvent &event);
+	void onShowOptions(wxCommandEvent &event);
+	void onShowModFiles(wxCommandEvent &event);
+	void onShowBanned(wxCommandEvent &event);
+	void onReloadBanned(wxCommandEvent &event);
+	void onEditOptions(wxCommandEvent &event);
+	void onLoadOptions(wxCommandEvent &event);
+	void onSaveOptions(wxCommandEvent &event);
+	void onPlayerTalk(wxCommandEvent &event);
+	void onPlayerTalkAll(wxCommandEvent &event);
+	void onTimedMsg(wxCommandEvent &event);
+	void onPlayerKick(wxCommandEvent &event);
+	void onPlayerSlap25(wxCommandEvent &event);
+	void onKillAll(wxCommandEvent &event);
+	void onStartNewGame(wxCommandEvent &event);
+	void onPlayerBan(wxCommandEvent &event);
+	void onPlayerMute(wxCommandEvent &event);
+	void onPlayerUnMute(wxCommandEvent &event);
 	void onPlayerAdd(int i);
-	void onPlayerAdd1();
-	void onPlayerAdd2();
-	void onPlayerAdd3();
-	void onPlayerAdd4();
-	void onPlayerAdd5();
-	void onPlayerAdd6();
-	void onPlayerAdd7();
-	void onPlayerAdd8();
-	void onPlayerAdd9();
-	void onComsMessageLogging();
-	void onStateLogging();
+	void onPlayerAdd1(wxCommandEvent &event);
+	void onPlayerAdd2(wxCommandEvent &event);
+	void onPlayerAdd3(wxCommandEvent &event);
+	void onPlayerAdd4(wxCommandEvent &event);
+	void onPlayerAdd5(wxCommandEvent &event);
+	void onPlayerAdd6(wxCommandEvent &event);
+	void onPlayerAdd7(wxCommandEvent &event);
+	void onPlayerAdd8(wxCommandEvent &event);
+	void onPlayerAdd9(wxCommandEvent &event);
+	void onComsMessageLogging(wxCommandEvent &event);
+	void onStateLogging(wxCommandEvent &event);
 
 	ServerPlayerListControl *playerList_;
 	wxListCtrl *logList_;
@@ -414,17 +414,17 @@ void ServerFrame::onPlayerAdd(int i)
 	}
 }
 
-void ServerFrame::onPlayerAdd1() { onPlayerAdd(1); }
-void ServerFrame::onPlayerAdd2() { onPlayerAdd(2); }
-void ServerFrame::onPlayerAdd3() { onPlayerAdd(3); }
-void ServerFrame::onPlayerAdd4() { onPlayerAdd(4); }
-void ServerFrame::onPlayerAdd5() { onPlayerAdd(5); }
-void ServerFrame::onPlayerAdd6() { onPlayerAdd(6); }
-void ServerFrame::onPlayerAdd7() { onPlayerAdd(7); }
-void ServerFrame::onPlayerAdd8() { onPlayerAdd(8); }
-void ServerFrame::onPlayerAdd9() { onPlayerAdd(9); }
+void ServerFrame::onPlayerAdd1(wxCommandEvent &event) { onPlayerAdd(1); }
+void ServerFrame::onPlayerAdd2(wxCommandEvent &event) { onPlayerAdd(2); }
+void ServerFrame::onPlayerAdd3(wxCommandEvent &event) { onPlayerAdd(3); }
+void ServerFrame::onPlayerAdd4(wxCommandEvent &event) { onPlayerAdd(4); }
+void ServerFrame::onPlayerAdd5(wxCommandEvent &event) { onPlayerAdd(5); }
+void ServerFrame::onPlayerAdd6(wxCommandEvent &event) { onPlayerAdd(6); }
+void ServerFrame::onPlayerAdd7(wxCommandEvent &event) { onPlayerAdd(7); }
+void ServerFrame::onPlayerAdd8(wxCommandEvent &event) { onPlayerAdd(8); }
+void ServerFrame::onPlayerAdd9(wxCommandEvent &event) { onPlayerAdd(9); }
 
-void ServerFrame::onComsMessageLogging()
+void ServerFrame::onComsMessageLogging(wxCommandEvent &event)
 {
 	ScorchedServer::instance()->getComsMessageHandler().getMessageLogging() =
 		!ScorchedServer::instance()->getComsMessageHandler().getMessageLogging();
@@ -432,7 +432,7 @@ void ServerFrame::onComsMessageLogging()
 		(ScorchedServer::instance()->getComsMessageHandler().getMessageLogging()?"On":"Off"));
 }
 
-void ServerFrame::onStateLogging()
+void ServerFrame::onStateLogging(wxCommandEvent &event)
 {
 	ScorchedServer::instance()->getGameState().getStateLogging() = 
 		!ScorchedServer::instance()->getGameState().getStateLogging();
@@ -440,7 +440,7 @@ void ServerFrame::onStateLogging()
 		(ScorchedServer::instance()->getGameState().getStateLogging()?"On":"Off"));
 }
 
-void ServerFrame::onMenuExit()
+void ServerFrame::onMenuExit(wxCommandEvent &event)
 {
 	Close();
 }
@@ -469,17 +469,17 @@ void ServerFrame::OnSize(wxSizeEvent& event)
 	event.Skip();
 }
 
-void ServerFrame::onTimedMsg()
+void ServerFrame::onTimedMsg(wxCommandEvent &event)
 {
 	showServerMsgDialog();
 }
 
-void ServerFrame::onTimerMain()
+void ServerFrame::onTimerMain(wxTimerEvent &event)
 {
 	serverLoop();
 }
 
-void ServerFrame::onTimer()
+void ServerFrame::onTimer(wxTimerEvent &event)
 {
 	// Update the player list
 	if (frame->playerList_->GetItemCount() !=
@@ -513,18 +513,18 @@ void ServerFrame::onTimer()
 	frame->statusBar_->SetStatusText(buffer, 3);
 }
 
-void ServerFrame::onKillAll()
+void ServerFrame::onKillAll(wxCommandEvent &event)
 {
 	ServerCommon::killAll();
 }
 
-void ServerFrame::onStartNewGame()
+void ServerFrame::onStartNewGame(wxCommandEvent &event)
 {
-	onKillAll();
+	onKillAll(event);
 	ScorchedServer::instance()->getOptionsTransient().startNewGame();
 }
 
-void ServerFrame::onPlayerTalkAll()
+void ServerFrame::onPlayerTalkAll(wxCommandEvent &event)
 {
 	wxTextEntryDialog entryDialog(
 		frame, "Message to players");
@@ -536,7 +536,7 @@ void ServerFrame::onPlayerTalkAll()
 	}
 }
 
-void ServerFrame::onPlayerTalk()
+void ServerFrame::onPlayerTalk(wxCommandEvent &event)
 {
 	wxTextEntryDialog entryDialog(
 		frame, "Message to players");
@@ -565,7 +565,7 @@ void ServerFrame::onPlayerTalk()
 	}
 }
 
-void ServerFrame::onPlayerKick()
+void ServerFrame::onPlayerKick(wxCommandEvent &event)
 {
 	long item = -1;
     while ((item = frame->playerList_->GetNextItem(
@@ -584,7 +584,7 @@ void ServerFrame::onPlayerKick()
     }
 }
 
-void ServerFrame::onPlayerMute()
+void ServerFrame::onPlayerMute(wxCommandEvent &event)
 {
 	long item = -1;
     while ((item = frame->playerList_->GetNextItem(
@@ -603,7 +603,7 @@ void ServerFrame::onPlayerMute()
     }
 }
 
-void ServerFrame::onPlayerUnMute()
+void ServerFrame::onPlayerUnMute(wxCommandEvent &event)
 {
 	long item = -1;
     while ((item = frame->playerList_->GetNextItem(
@@ -622,7 +622,7 @@ void ServerFrame::onPlayerUnMute()
     }
 }
 
-void ServerFrame::onPlayerBan()
+void ServerFrame::onPlayerBan(wxCommandEvent &event)
 {
 	long item = -1;
     while ((item = frame->playerList_->GetNextItem(
@@ -641,7 +641,7 @@ void ServerFrame::onPlayerBan()
     }
 }
 
-void ServerFrame::onPlayerSlap25()
+void ServerFrame::onPlayerSlap25(wxCommandEvent &event)
 {
 	long item = -1;
     while ((item = frame->playerList_->GetNextItem(
@@ -660,7 +660,7 @@ void ServerFrame::onPlayerSlap25()
     }
 }
 
-void ServerFrame::onEditOptions()
+void ServerFrame::onEditOptions(wxCommandEvent &event)
 {
 	if(showSettingsDialog(true, ScorchedServer::instance()->
 		getOptionsGame().getChangedOptions()))
@@ -671,7 +671,7 @@ void ServerFrame::onEditOptions()
 	}
 }
 
-void ServerFrame::onLoadOptions()
+void ServerFrame::onLoadOptions(wxCommandEvent &event)
 {
 	wxString file = ::wxFileSelector("Please choose the options file to open",
 									 getSettingsFile(""), // default path
@@ -691,7 +691,7 @@ void ServerFrame::onLoadOptions()
 	}
 }
 
-void ServerFrame::onSaveOptions()
+void ServerFrame::onSaveOptions(wxCommandEvent &event)
 {
 	wxString file = ::wxFileSelector("Please choose the options file to save",
 									 getSettingsFile(""), // default path
@@ -706,7 +706,7 @@ void ServerFrame::onSaveOptions()
 	}
 }
 
-void ServerFrame::onShowModFiles()
+void ServerFrame::onShowModFiles(wxCommandEvent &event)
 {
 	ListDialog listDialog(this, "Scorched 3D Server Mod Files");
 	std::map<std::string, ModFileEntry *> &modFiles = 
@@ -726,12 +726,12 @@ void ServerFrame::onShowModFiles()
 	listDialog.ShowModal();
 }
 
-void ServerFrame::onReloadBanned()
+void ServerFrame::onReloadBanned(wxCommandEvent &event)
 {
 	ServerBanned::instance()->load();
 }
 
-void ServerFrame::onShowBanned()
+void ServerFrame::onShowBanned(wxCommandEvent &event)
 {
 	ListDialog listDialog(this, "Scorched 3D Server Banned Users");
 	std::list<ServerBanned::BannedRange> &bannedIps = 
@@ -760,7 +760,7 @@ void ServerFrame::onShowBanned()
 	listDialog.ShowModal();
 }
 
-void ServerFrame::onShowOptions()
+void ServerFrame::onShowOptions(wxCommandEvent &event)
 {
 	ListDialog listDialog(this, "Scorched 3D Server Options");
 	std::list<OptionEntry *> &allOptions = 
