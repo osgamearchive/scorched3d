@@ -11,7 +11,9 @@ Fixed: Wind indicator missing one face (thanks Funkinator)
 Fixed: Window ordering in window menu does not change due to z order
 Fixed: Invisible window removed from connect dialog
 Fixed: Shields and player names showing through smoke
+Fixed: Scorched3D client does not go un-responsive when creating levels
 
+Added: Keep alive messages to further shorten lag
 Added: Boids (birds) to levels (needs animation)
 Added: Fog density attribute to levels (distance fogging)
 Added: Admin alerts for players (ip addresses) that have been flagged

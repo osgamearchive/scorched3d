@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,10 +18,29 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_ClientMainh_INCLUDE__)
-#define __INCLUDE_ClientMainh_INCLUDE__
+#if !defined(__INCLUDE_ServerKeepAliveHandlerh_INCLUDE__)
+#define __INCLUDE_ServerKeepAliveHandlerh_INCLUDE__
 
-bool clientEventLoop();
-bool clientMain();
+#include <coms/ComsMessageHandler.h>
 
-#endif
+class ServerKeepAliveHandler : 
+	public ComsMessageHandlerI
+{
+public:
+	static ServerKeepAliveHandler *instance();
+
+	virtual bool processMessage(unsigned int id,
+		const char *messageType,
+		NetBufferReader &reader);
+
+	void checkKeepAlives();
+
+protected:
+	static ServerKeepAliveHandler *instance_;
+
+private:
+	ServerKeepAliveHandler();
+	virtual ~ServerKeepAliveHandler();
+};
+
+#endif // __INCLUDE_ServerKeepAliveHandlerh_INCLUDE__

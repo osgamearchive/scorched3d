@@ -43,6 +43,7 @@
 #include <client/ClientLastChanceHandler.h>
 #include <client/ClientDefenseHandler.h>
 #include <client/ClientPlayerStatusHandler.h>
+#include <client/ClientKeepAliveSender.h>
 #include <client/ClientState.h>
 #include <client/WindowSetup.h>
 #include <server/ScorchedServer.h>
@@ -72,6 +73,9 @@
 #include <common/Sound.h>
 #include <common/Clock.h>
 #include <SDL/SDL.h>
+
+static int mouseEventCount = 0;
+static bool paused = false;
 
 bool initHardware(ProgressCounter *progressCounter)
 {
@@ -190,6 +194,72 @@ bool startClient(ProgressCounter *progressCounter)
 	return true;
 }
 
+bool clientEventLoop()
+{
+	static SDL_Event event;
+	bool idle = true;
+	if (SDL_PollEvent(&event))
+	{
+		idle = false;
+		switch (event.type)
+		{
+		/* keyboard events */
+		case SDL_KEYUP:
+			break;
+		case SDL_KEYDOWN:
+			if (OptionsParam::instance()->getScreenSaverMode()) 
+			{
+				if (!(SDL_GetModState() & KMOD_LSHIFT))
+				{
+					ScorchedClient::instance()->getMainLoop().exitLoop();
+				}
+			}
+
+			/* keyevents are handled in mainloop */
+			Keyboard::instance()->processKeyboardEvent(event);
+			break;
+
+			/* mouse events */
+		case SDL_MOUSEBUTTONDOWN:
+		case SDL_MOUSEBUTTONUP:
+		case SDL_MOUSEMOTION:
+			if (OptionsParam::instance()->getScreenSaverMode()) 
+			{
+				if (!(SDL_GetModState() & KMOD_LSHIFT))
+				{
+					if (++ mouseEventCount > 5)
+					{
+						ScorchedClient::instance()->getMainLoop().exitLoop();
+					}
+				}
+			}
+
+			Mouse::instance()->processMouseEvent(event);
+			break;
+		case SDL_ACTIVEEVENT:
+			paused = (event.active.gain == 0);
+			break;
+		case SDL_VIDEORESIZE:
+			/*Display::instance()->changeSettings(
+				event.resize.w,event.resize.h, 
+				OptionsDisplay::instance()->getFullScreen());*/
+			MainCamera::instance()->getCamera().setWindowSize(
+				event.resize.w, event.resize.h);
+			Main2DCamera::instance()->getViewPort().setWindowSize(
+				event.resize.w, event.resize.h);
+				
+			break;
+		case SDL_QUIT:
+			ScorchedClient::instance()->getMainLoop().exitLoop();
+			break;
+		}
+	}
+
+	ClientKeepAliveSender::instance()->sendKeepAlive();
+
+	return idle;
+}
+
 bool clientMain()
 {
 	if (!createScorchedWindow()) return false;
@@ -213,72 +283,12 @@ bool clientMain()
 	OptionsDisplay::instance()->addToConsole();
 
 	// Enter the SDL main loop to process SDL events
-	int mouseEventCount = 0;
 	Clock loopClock;
 	bool timeLoop = false;
-	bool paused = false;
-	SDL_Event event;
 	for (;;)
 	{
-		bool idle = false;
-		if (SDL_PollEvent(&event))
-		{
-			idle = false;
-			switch (event.type)
-			{
-			/* keyboard events */
-			case SDL_KEYUP:
-				break;
-			case SDL_KEYDOWN:
-				if (OptionsParam::instance()->getScreenSaverMode()) 
-				{
-					if (!(SDL_GetModState() & KMOD_LSHIFT))
-					{
-						ScorchedClient::instance()->getMainLoop().exitLoop();
-					}
-				}
+		bool idle = clientEventLoop();
 
-				/* keyevents are handled in mainloop */
-				Keyboard::instance()->processKeyboardEvent(event);
-				break;
-
-				/* mouse events */
-			case SDL_MOUSEBUTTONDOWN:
-			case SDL_MOUSEBUTTONUP:
-			case SDL_MOUSEMOTION:
-				if (OptionsParam::instance()->getScreenSaverMode()) 
-				{
-					if (!(SDL_GetModState() & KMOD_LSHIFT))
-					{
-						if (++ mouseEventCount > 5)
-						{
-							ScorchedClient::instance()->getMainLoop().exitLoop();
-						}
-					}
-				}
-
-				Mouse::instance()->processMouseEvent(event);
-				break;
-			case SDL_ACTIVEEVENT:
-				paused = (event.active.gain == 0);
-				break;
-			case SDL_VIDEORESIZE:
-				/*Display::instance()->changeSettings(
-					event.resize.w,event.resize.h, 
-					OptionsDisplay::instance()->getFullScreen());*/
-				MainCamera::instance()->getCamera().setWindowSize(
-					event.resize.w, event.resize.h);
-				Main2DCamera::instance()->getViewPort().setWindowSize(
-					event.resize.w, event.resize.h);
-					
-				break;
-			case SDL_QUIT:
-				ScorchedClient::instance()->getMainLoop().exitLoop();
-				break;
-			}
-		} else {
-			idle = true;
-		}
 		if(timeLoop) if (loopClock.getTimeDifference() > 0.1f) 
 			GLConsole::instance()->addLine(false, "Clock clientMain 1");
 

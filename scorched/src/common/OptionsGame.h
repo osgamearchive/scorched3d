@@ -151,6 +151,14 @@ public:
 	void setShotTime(int value) { shotTime_.setValue(value); }
 	const char *getShotTimeToolTip() { return shotTime_.getDescription(); }
 
+	int getKeepAliveTime() { return keepAliveTime_.getValue(); }
+	void setKeepAliveTime(int value) { keepAliveTime_.setValue(value); }
+	const char *getKeepAliveTimeToolTip() { return keepAliveTime_.getDescription(); }
+
+	int getKeepAliveTimeoutTime() { return keepAliveTimeoutTime_.getValue(); }
+	void setKeepAliveTimeoutTime(int value) { keepAliveTimeoutTime_.setValue(value); }
+	const char *getKeepAliveTimeoutTimeToolTip() { return keepAliveTimeoutTime_.getDescription(); }
+
 	int getBuyingTime() { return buyingTime_.getValue(); }
 	void setBuyingTime(int value) { buyingTime_.setValue(value); }
 	const char *getBuyingTimeToolTip() { return buyingTime_.getDescription(); }
@@ -359,6 +367,8 @@ protected:
 	OptionEntryBoundedInt startArmsLevel_;
 	OptionEntryBoundedInt endArmsLevel_;
 	OptionEntryInt maxRoundTurns_;
+	OptionEntryInt keepAliveTime_;
+	OptionEntryInt keepAliveTimeoutTime_;
 	OptionEntryInt shotTime_;
 	OptionEntryInt startTime_;
 	OptionEntryInt buyingTime_;

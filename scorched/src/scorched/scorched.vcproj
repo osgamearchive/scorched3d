@@ -2012,6 +2012,12 @@
 				RelativePath="..\coms\ComsHaveModFilesMessage.h">
 			</File>
 			<File
+				RelativePath="..\coms\ComsKeepAliveMessage.cpp">
+			</File>
+			<File
+				RelativePath="..\coms\ComsKeepAliveMessage.h">
+			</File>
+			<File
 				RelativePath="..\coms\ComsLastChanceMessage.cpp">
 			</File>
 			<File
@@ -2938,6 +2944,12 @@
 				RelativePath="..\client\ClientGameStoppedHandler.h">
 			</File>
 			<File
+				RelativePath="..\client\ClientKeepAliveSender.cpp">
+			</File>
+			<File
+				RelativePath="..\client\ClientKeepAliveSender.h">
+			</File>
+			<File
 				RelativePath="..\client\ClientLastChanceHandler.cpp">
 			</File>
 			<File
@@ -3216,6 +3228,12 @@
 			</File>
 			<File
 				RelativePath="..\server\ServerHaveModFilesHandler.h">
+			</File>
+			<File
+				RelativePath="..\server\ServerKeepAliveHandler.cpp">
+			</File>
+			<File
+				RelativePath="..\server\ServerKeepAliveHandler.h">
 			</File>
 			<File
 				RelativePath="..\server\ServerMain.cpp">

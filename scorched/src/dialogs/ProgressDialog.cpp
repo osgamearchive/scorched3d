@@ -23,6 +23,7 @@
 #include <dialogs/HelpButtonDialog.h>
 #include <client/ScorchedClient.h>
 #include <client/Main2DCamera.h>
+#include <client/ClientMain.h>
 #include <engine/MainLoop.h>
 #include <common/Clock.h>
 #include <GLW/GLWFont.h>
@@ -161,6 +162,8 @@ void ProgressDialog::progressChange(const char *op, const float percentage)
 	static Clock localTimer;
 	static float timeDelay = 0.0f;
 	timeDelay += localTimer.getTimeDifference();
+
+	clientEventLoop();	
 
 	progressLabel_->setText(op);
 	progress_->setCurrent(percentage);

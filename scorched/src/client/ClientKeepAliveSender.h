@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,10 +18,23 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_ClientMainh_INCLUDE__)
-#define __INCLUDE_ClientMainh_INCLUDE__
+#if !defined(__INCLUDE_ClientKeepAliveSenderh_INCLUDE__)
+#define __INCLUDE_ClientKeepAliveSenderh_INCLUDE__
 
-bool clientEventLoop();
-bool clientMain();
+class ClientKeepAliveSender
+{
+public:
+	static ClientKeepAliveSender *instance();
 
-#endif
+	void sendKeepAlive();
+
+protected:
+	static ClientKeepAliveSender *instance_;
+	unsigned int lastSendTime_;
+
+private:
+	ClientKeepAliveSender();
+	virtual ~ClientKeepAliveSender();
+};
+
+#endif // __INCLUDE_ClientKeepAliveSenderh_INCLUDE__

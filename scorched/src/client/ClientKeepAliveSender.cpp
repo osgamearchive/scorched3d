@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,47 +18,49 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <client/ClientMessageHandler.h>
-#include <client/ClientState.h>
+#include <client/ClientKeepAliveSender.h>
 #include <client/ScorchedClient.h>
+#include <coms/ComsKeepAliveMessage.h>
+#include <coms/ComsMessageSender.h>
 #include <tank/TankContainer.h>
-#include <common/Logger.h>
-#include <coms/NetInterface.h>
+#include <common/OptionsGame.h>
+#include <time.h>
 
-ClientMessageHandler *ClientMessageHandler::instance_ = 0;
+ClientKeepAliveSender *ClientKeepAliveSender::instance_ = 0;
 
-ClientMessageHandler *ClientMessageHandler::instance()
+ClientKeepAliveSender *ClientKeepAliveSender::instance()
 {
 	if (!instance_)
 	{
-		instance_ = new ClientMessageHandler;
+		instance_ = new ClientKeepAliveSender;
 	}
 	return instance_;
 }
 
-ClientMessageHandler::ClientMessageHandler()
+ClientKeepAliveSender::ClientKeepAliveSender() : lastSendTime_(0)
 {
 }
 
-ClientMessageHandler::~ClientMessageHandler()
+ClientKeepAliveSender::~ClientKeepAliveSender()
 {
 }
 
-void ClientMessageHandler::clientConnected(NetMessage &message)
+void ClientKeepAliveSender::sendKeepAlive()
 {
-	Logger::log(0, "Connected");
-}
+	if (ScorchedClient::instance()->getTankContainer().getCurrentDestinationId() == 0 ||
+		ScorchedClient::instance()->getOptionsGame().getKeepAliveTimeoutTime() == 0)
+	{
+		return;
+	}
+	unsigned int sendTime = (unsigned int)
+		ScorchedClient::instance()->getOptionsGame().getKeepAliveTime();
+	unsigned int theTime = (unsigned int) time(0);
 
-void ClientMessageHandler::clientDisconnected(NetMessage &message)
-{
-	Logger::log(0, "Disconnected");
-	ScorchedClient::instance()->getGameState().stimulate(ClientState::StimDisconnected);
-	ScorchedClient::instance()->getTankContainer().setCurrentDestinationId(0);
-}
+	if (theTime - lastSendTime_ > sendTime)
+	{
+		ComsKeepAliveMessage message;
+		ComsMessageSender::sendToServer(message);
 
-void ClientMessageHandler::clientError(NetMessage &message,
-		const char *errorString)
-{
-	Logger::log(0, "***Client Error*** \"%s\"", errorString);
-	ScorchedClient::instance()->getNetInterface().disconnectAllClients();
+		lastSendTime_ = theTime;
+	}
 }

@@ -602,7 +602,12 @@ bool SettingsFrame::TransferDataToWindow()
 			SettingsMain::IDC_START_TIME_CTRL->Append(string);
 			SettingsMain::IDC_IDLE_SHOTTIME_CTRL->Append(string);
 			SettingsMain::IDC_IDLE_TIME_CTRL->Append(string);
+			SettingsMain::IDC_KEEPALIVE_TIME_CTRL->Append(string);
 		}
+		SettingsMain::IDC_KEEPALIVE_TIME_CTRL->SetSelection(
+			context_.getKeepAliveTimeoutTime()/5);
+		SettingsMain::IDC_KEEPALIVE_TIME_CTRL->SetToolTip(
+			wxString(context_.getKeepAliveTimeoutTimeToolTip()));
 		SettingsMain::IDC_START_TIME_CTRL->SetSelection(
 			context_.getStartTime()/5);
 		SettingsMain::IDC_START_TIME_CTRL->SetToolTip(
@@ -795,6 +800,7 @@ bool SettingsFrame::TransferDataFromWindow()
 		int idleShotTime = 10;
 		int maxRoundTurns = 15;
 		int downloadSpeed = 0;
+		int keepAliveTime = 0;
 
 		context_.setTurnType((OptionsGame::TurnType) (int) 
 			SettingsMain::IDC_TYPE_CTRL->GetClientData(
@@ -812,8 +818,11 @@ bool SettingsFrame::TransferDataFromWindow()
 		sscanf(SettingsMain::IDC_IDLE_TIME_CTRL->GetValue(), "%i", &idleTime);
 		sscanf(SettingsMain::IDC_IDLE_SHOTTIME_CTRL->GetValue(), "%i", &idleShotTime);
 		sscanf(SettingsMain::IDC_DOWNLOAD_SPEED_CTRL->GetValue(), "%i", &downloadSpeed);
+		sscanf(SettingsMain::IDC_KEEPALIVE_TIME_CTRL->GetValue(), "%i", &keepAliveTime);
+
 		context_.setNoRounds(noRounds);
 		context_.setShotTime(shotTime);
+		context_.setKeepAliveTimeoutTime(keepAliveTime);
 		context_.setBuyingTime(buyingTime);
 		context_.setStartTime(startTime);
 		context_.setIdleKickTime(idleTime);

@@ -53,6 +53,7 @@
 #include <server/ServerPlayerAimHandler.h>
 #include <server/ServerHaveModFilesHandler.h>
 #include <server/ServerBuyAccessoryHandler.h>
+#include <server/ServerKeepAliveHandler.h>
 #include <server/ServerFileAkHandler.h>
 #include <server/ServerConnectHandler.h>
 #include <server/ServerFileServer.h>
@@ -90,6 +91,7 @@ bool startServer(bool local)
 	ServerPlayerAimHandler::instance();
 	ServerAdminHandler::instance();
 	ServerHaveModFilesHandler::instance();
+	ServerKeepAliveHandler::instance();
 	ServerPlayedMoveHandler::instance();
 	ServerFileAkHandler::instance();
 	ServerBuyAccessoryHandler::instance();
@@ -172,6 +174,7 @@ void serverLoop()
 		ScorchedServer::instance()->getGameState().simulate(timeDifference);
 		ServerFileServer::instance()->simulate(timeDifference);
 		ServerTimedMessage::instance()->simulate();
+		ServerKeepAliveHandler::instance()->checkKeepAlives();
 
 		if (timeDifference > 5.0f &&
 			OptionsParam::instance()->getDedicatedServer())
