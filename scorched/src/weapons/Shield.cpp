@@ -44,6 +44,9 @@ bool Shield::parseXML(OptionsGame &context,
 	// Get the remove power 
 	if (!accessoryNode->getNamedChild("removepower", removePower_)) return false;
 
+	// Get the penetration
+	if (!accessoryNode->getNamedChild("penetration", penetration_)) return false;
+
 	// Get the collision sound
 	if (!accessoryNode->getNamedChild("collisionsound", collisionSound_)) return false;
 	if (!checkDataFile("data/wav/%s", getCollisionSound())) return false;
@@ -65,13 +68,6 @@ const char *Shield::getCollisionSound()
 {
 	if (!collisionSound_.c_str()[0]) return 0;
 	return collisionSound_.c_str();
-}
-
-float Shield::getHitRemovePower()
-{
-	return removePower_;
-	if (radius_ == ShieldSizeSmall) return 20;
-	return 15;
 }
 
 Shield::ShieldType Shield::getShieldType()

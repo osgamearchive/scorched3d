@@ -47,7 +47,8 @@ public:
 
 	// Shield attributes
 	const char *getCollisionSound();
-	float getHitRemovePower();
+	float getHitRemovePower() { return removePower_; }
+	float getHitPenetration() { return penetration_; }
 	ShieldSize getRadius() { return radius_; }
 	Vector &getColor() { return color_; }
 	bool getHalfShield() { return halfShield_; }
@@ -60,6 +61,7 @@ protected:
 	ShieldSize radius_;
 	Vector color_;
 	float removePower_;
+	float penetration_;
 	bool halfShield_;
 };
 

@@ -19,6 +19,7 @@ Fixed: Rollers don't affect shields so badly
 Fixed: Game browsing dialog can now be resized
 Fixed: Players table in game browsing dialog being cleared unnecessarily
 
+Added: Shield penetration can be configured in accessories.xml file
 Added: Players can be persistantly admin muted
 Added: Landscape definitions are not sent during new game (instead loaded from mod)
 Added: Laser weapon primitive

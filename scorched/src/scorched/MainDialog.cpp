@@ -364,7 +364,7 @@ void MainFrame::onTimer(wxTimerEvent &event)
 		{
 			::wxMessageBox(
 				newString,
-				"Scorched3D Abnormal Termination",
+				"Scorched3D Terminated Due To Incorrect Configuration",
 				wxICON_ERROR);
 		}
 	}

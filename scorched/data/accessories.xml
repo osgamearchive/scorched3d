@@ -56,6 +56,7 @@ work.</description>
 			</color>
 			<collisionsound>shield/hit.wav</collisionsound>
 			<removepower>20</removepower>
+			<penetration>1.0</penetration>
 		</accessoryaction>
 	</accessory>
 	<accessory>
@@ -79,6 +80,7 @@ work.</description>
 			</color>
 			<collisionsound>shield/hit.wav</collisionsound>
 			<removepower>10</removepower>
+			<penetration>0.8</penetration>
 		</accessoryaction>
 	</accessory>
 	<accessory>
@@ -103,6 +105,7 @@ they work.</description>
 			</color>
 			<collisionsound>shield/hit2.wav</collisionsound>
 			<removepower>10</removepower>
+			<penetration>0.6</penetration>
 		</accessoryaction>
 	</accessory>
 	<accessory>
@@ -128,6 +131,7 @@ be activated before they work.</description>
 			</color>
 			<collisionsound>shield/hit2.wav</collisionsound>
 			<removepower>4</removepower>
+			<penetration>1.0</penetration>
 		</accessoryaction>
 	</accessory>
 	<accessory>
@@ -153,6 +157,7 @@ activated before they work.</description>
 			</color>
 			<collisionsound>shield/hit2.wav</collisionsound>
 			<removepower>3</removepower>
+			<penetration>0.8</penetration>
 		</accessoryaction>
 	</accessory>
 	<accessory>
@@ -1205,6 +1210,7 @@ trace of the shot path.</description>
 		<armslevel>10</armslevel>
 		<startingnumber>-1</startingnumber>
 		<accessoryaction type='WeaponLaser'>
+			<nomuzzleflash/>
 			<totaltime>1</totaltime>
 			<minimumdistance>10</minimumdistance>
 			<maximumdistance>200</maximumdistance>

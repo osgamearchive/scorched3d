@@ -25,6 +25,7 @@
 #include <actions/CameraPositionAction.h>
 #include <common/OptionsGame.h>
 #include <weapons/AccessoryStore.h>
+#include <weapons/Shield.h>
 #include <landscape/LandscapeMaps.h>
 #include <engine/ScorchedContext.h>
 #include <engine/ActionController.h>
@@ -75,21 +76,24 @@ void TankDamage::simulate(float frameTime, bool &remove)
 					Accessory *sh = damagedTank->getAccessories().getShields().getCurrentShield();
 					if (sh && useShieldDamage_)
 					{
-						// TODO: Hmm should different shield types and sizes take damage
-						// at different rates
-						float power = damagedTank->getAccessories().getShields().getShieldPower();
-						if (power < damage_)
+						Shield *shield = (Shield *) sh->getAction();
+						float shieldPowerRequired = 
+							damage_ * shield->getHitPenetration();
+						float shieldPower = 
+							damagedTank->getAccessories().getShields().getShieldPower();
+						if (shieldPower > shieldPowerRequired)
 						{
-							power = 0.0f;
-							damage_ -= power;
+							shieldPower -= shieldPowerRequired;
+							damage_ = 0.0f;
 						}
 						else
 						{
-							power -= damage_;
-							damage_ = 0.0f;
+							float p = (shieldPowerRequired - shieldPower) / shield->getHitPenetration();
+							shieldPower = 0.0f;
+							damage_ -= p;
 						}
 
-						damagedTank->getAccessories().getShields().setShieldPower(power);
+						damagedTank->getAccessories().getShields().setShieldPower(shieldPower);
 					}
 				}
 
