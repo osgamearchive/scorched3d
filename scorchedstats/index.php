@@ -28,13 +28,20 @@ else
 	$result = mysql_query($query) or die("Query 1 failed : " . mysql_error());
 	$seriesrow = mysql_fetch_object($result);
 }
+
+$totalplayersresult = mysql_query("select count(playerid) from scorched3d_players") or die("Query failed : " . mysql_error());
+$totalplayersrow = mysql_fetch_array($totalplayersresult);
+$totalplayers = $totalplayersrow[0];
 ?>
 
 <table width="790" border="0" align="center">
 <tr align=center>
 <td>
-<font size=+2><b>Stats for <?=$seriesrow->name?></b></font><br>
-<font size=-1><?=$seriesrow->started?> to <?=$seriesrow->ended?></font>
+<font size=+2><b><u>Stats for <?=$seriesrow->name?></u></b></font><br>
+<font size=-1>
+<?=$seriesrow->started?> to <?=$seriesrow->ended?><br>
+Players : <?=$totalplayers?>, Games: <?=$seriesrow->games?>, Rounds : <?=$seriesrow->rounds?>
+</font>
 </td>
 </tr>
 </table>
@@ -67,9 +74,7 @@ $server = $serverrow[0];
 <table width="790" border="0" align="center">
 <tr>
 <td align=Center>
-<b><font size="+1"><? echo $server; ?></font></b><br>
-<font size=-1>Players : <? echo $count; ?>, Rounds : <? echo $seriesrow->rounds; ?>, 
-Games : <? echo $seriesrow->games; ?></font><br>
+<b><font size="+1">Stats for server : <? echo $server; ?></font></b>
 </td>
 </tr>
 
@@ -145,7 +150,7 @@ while ($row = mysql_fetch_object($result))
 </tr>
 </td>
 <tr><td align=center>
-You can sort all <? print $row[0]; ?> players by <a href="allstats.php?Prefix=<?=$prefixid?>&Series=<?=$seriesid?>&Fields=skl:k:me:w:ow:r:sk:tk:d:tp&OrderBy=resigns">resigns</a>, <a href="allstats.php?Prefix=<?=$prefixid?>&Series=<?=$seriesid?>&Fields=skl:k:me:w:ow:r:sk:tk:d:tp&OrderBy=selfkills">suicides</a> and <a href="allstats.php?Prefix=<?=$prefixid?>&Series=<?=$seriesid?>&Fields=skl:k:me:w:ow:r:sk:tk:d:tp&OrderBy=teamkills">teamkills</a> as well.
+You can sort all <? echo $count; ?> players by <a href="allstats.php?Prefix=<?=$prefixid?>&Series=<?=$seriesid?>&Fields=skl:k:me:w:ow:r:sk:tk:d:tp&OrderBy=resigns">resigns</a>, <a href="allstats.php?Prefix=<?=$prefixid?>&Series=<?=$seriesid?>&Fields=skl:k:me:w:ow:r:sk:tk:d:tp&OrderBy=selfkills">suicides</a> and <a href="allstats.php?Prefix=<?=$prefixid?>&Series=<?=$seriesid?>&Fields=skl:k:me:w:ow:r:sk:tk:d:tp&OrderBy=teamkills">teamkills</a> as well.
 <br>
 </tr></td>
 </table>
