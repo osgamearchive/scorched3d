@@ -6,3 +6,7 @@ Why do I appear in the stats more than once?</a>
 <?
 include('../footer.php');
 ?>
+
+</body>
+</html>
+
