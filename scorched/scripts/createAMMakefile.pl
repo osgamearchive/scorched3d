@@ -30,18 +30,7 @@ open (CLIENT, ">../src/scorched/Makefile.am") || die;
 print CLIENT << "EOF";
 ## Process with automake to produce Makefile.in
                                                                                 
-UNIX_DIST =
-
-OTH_SUBDIRS = \\
-        Debug           \\
-        Release
-
-WIN_DIST = \\
-        resource.aps    \\
-        resource.rc     \\
-        scorched.vcproj
-
-EXTRA_DIST = \$(WIN_DIST) \$(UNIX_DIST) \$(OTH_SUBDIRS)
+EXTRA_DIST = scorched.vcproj
 
 noinst_PROGRAMS = scorched3d
 
