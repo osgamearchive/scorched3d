@@ -53,7 +53,7 @@ foreach $dir (@dirs)
 			print "$dir/$file\n";
 
 			$filelines[$index] = "#if !defined($incline)\n#define $incline\n";
-			push @filelines, "\n\n#endif\n";
+			push @filelines, "\n#endif // $incline\n";
 
 			open(OUTFILE, ">../src/$dir/$file") || die "ERROR: Out";
 			print OUTFILE @filelines;

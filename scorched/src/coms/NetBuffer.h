@@ -34,6 +34,7 @@ public:
 	virtual ~NetBuffer();
 
 	void reset();
+	void resize(unsigned newBufferSize);
 	void allocate(unsigned size);
 	void setBufferUsed(unsigned size) { usedSize_ = size; }
 
@@ -76,6 +77,11 @@ public:
 	virtual ~NetBufferReader();
 
 	void reset();
+
+	unsigned getBufferSize() { return bufferSize_; }
+	unsigned getReadSize() { return readSize_; }
+	char *getBuffer() { return buffer_; }
+	void setReadSize(unsigned size) { readSize_ = size; }
 
 	bool getFromBuffer(int &result);
 	bool getFromBuffer(float &result);

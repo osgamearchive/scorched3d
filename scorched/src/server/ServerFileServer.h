@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,28 +18,31 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_ConnectDialogh_INCLUDE__)
-#define __INCLUDE_ConnectDialogh_INCLUDE__
+#if !defined(__INCLUDE_ServerFileServerh_INCLUDE__)
+#define __INCLUDE_ServerFileServerh_INCLUDE__
 
-#include <GLW/GLWWindow.h>
+#include <coms/ComsFileMessage.h>
 
-class ConnectDialog : public GLWWindow
+class Tank;
+class ServerFileServer
 {
 public:
-	static ConnectDialog *instance();
+	static ServerFileServer *instance();
 
-	// Inherited from GLWWindow
-	virtual void simulate(float frameTime);
+	void simulate(float timeDifference);
 
 protected:
-	static ConnectDialog *instance_;
-	bool tryConnection_;
+	static ServerFileServer *instance_;
+	unsigned int lastTime_;
+	unsigned int bytesSent_;
 
-	bool tryConnection();
+	void sendBytes(Tank *tank, unsigned int size);
+	unsigned int sendNextFile(ComsFileMessage &message,
+		Tank *tank, unsigned int size);
 
 private:
-	ConnectDialog();
-	virtual ~ConnectDialog();
+	ServerFileServer();
+	virtual ~ServerFileServer();
 };
 
-#endif
+#endif // __INCLUDE_ServerFileServerh_INCLUDE__

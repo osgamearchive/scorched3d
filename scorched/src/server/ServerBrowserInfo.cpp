@@ -50,16 +50,11 @@ ServerBrowserInfo::~ServerBrowserInfo()
 {
 }
 
-void ServerBrowserInfo::start()
+bool ServerBrowserInfo::start()
 {
 	udpsock_ = SDLNet_UDP_Open(ScorchedServer::instance()->getOptionsGame().getPortNo() + 1);
-	if(!udpsock_)
-	{
-		dialogMessage("ServerBrowserInfo",
-			"Failed to open port \"%i\"",
-			ScorchedServer::instance()->getOptionsGame().getPortNo() + 1);
-		return;
-	}
+	if(!udpsock_) return false;
+	return true;
 }
 
 void ServerBrowserInfo::processMessages()

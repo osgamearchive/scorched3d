@@ -24,16 +24,23 @@
 #include <zlib/zlib.h>
 #include <wx/dir.h>
 #include <wx/utils.h>
+#include <string.h>
 
-ModFile::ModFile() : crc_(0)
+ModFileEntry::ModFileEntry() : 
+	crc_(0)
 {
 }
 
-ModFile::~ModFile()
+ModFileEntry::~ModFileEntry()
 {
 }
 
-bool ModFile::loadModFile(const char *filename)
+void ModFileEntry::writeModFile(const char *file)
+{
+
+}
+
+bool ModFileEntry::loadModFile(const char *filename)
 {
 	NetBuffer fileContents;
 	{
@@ -112,7 +119,7 @@ bool ModFiles::loadModFiles(const char *mod)
 		const char *fileName = current.c_str();
 
 		// Create the new mod file and load the file
-		ModFile *file = new ModFile();
+		ModFileEntry *file = new ModFileEntry();
 		if (!file->loadModFile(fileName))
 		{
 			dialogMessage("Mod",
@@ -129,7 +136,19 @@ bool ModFiles::loadModFiles(const char *mod)
 		::wxDos2UnixFilename((char *) fileName);
 		while (fileName[0] == '/') fileName++;
 
+		// Check that all files are lower case
+		std::string oldFileName = fileName;
+		_strlwr((char *) fileName);
+		if (strcmp(oldFileName.c_str(), fileName) != 0)
+		{
+			dialogMessage("ERROR: All mod files must have lower case filenames.\n"
+				"File \"%s\" has upper case charaters in it",
+				oldFileName.c_str());
+			return false;
+		}
+
 		// Store for future
+		file->setFileName(fileName);
 		files_[fileName] = file;
 		totalSize += file->getFileSize();
 	}

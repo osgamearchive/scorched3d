@@ -144,26 +144,30 @@ void ServerNewGameState::enterState(const unsigned state)
 int ServerNewGameState::addTanksToGame(const unsigned state,
 									   bool addState)
 {
-	// Check if there are any pending tanks
-	// An optimization that is only for the
-	// next round state case
-	bool pending = false;
 	std::map<unsigned int, Tank *> &tanks = 
 		ScorchedServer::instance()->getTankContainer().getPlayingTanks();
 	std::map<unsigned int, Tank *>::iterator itor;
-	for (itor = tanks.begin();
-		itor != tanks.end();
-		itor++)
+
+	// Check if there are any pending tanks
+	// An optimization that is only for the
+	// next round state case
+	if (state != ServerState::ServerStateNewGame)
 	{
-		Tank *tank = (*itor).second;
-		// Check to see if any tanks are pending being added
-		if (tank->getState().getState() == TankState::sPending ||
-			state == ServerState::ServerStateNewGame)
+		bool pending = false;
+		for (itor = tanks.begin();
+			itor != tanks.end();
+			itor++)
 		{
-			pending = true;
+			Tank *tank = (*itor).second;
+			// Check to see if any tanks are pending being added
+			if (tank->getState().getState() == TankState::sPending &&
+				!tank->getState().getLoading())
+			{
+				pending = true;
+			}
 		}
+		if (!pending) return 0;
 	}
-	if (!pending) return 0;
 
 	// Generate the level message
 	ComsNewGameMessage newGameMessage;
@@ -206,8 +210,9 @@ int ServerNewGameState::addTanksToGame(const unsigned state,
 	{
 		Tank *tank = (*itor).second;
 		// Check to see if any tanks are pending being added
-		if (tank->getState().getState() == TankState::sPending ||
-			state == ServerState::ServerStateNewGame)
+		if (!tank->getState().getLoading() &&
+			(tank->getState().getState() == TankState::sPending ||
+			state == ServerState::ServerStateNewGame))
 		{
 			count++;
 			if (tank->getState().getSpectator())

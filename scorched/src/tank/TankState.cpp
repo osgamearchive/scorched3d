@@ -27,7 +27,7 @@
 TankState::TankState(ScorchedContext &context, unsigned int playerId) : 
 	state_(sPending), life_(100.0f), tank_(0),
 	readyState_(sReady), 
-	context_(context), spectator_(false)
+	context_(context), spectator_(false), loading_(false)
 {
 }
 
@@ -73,6 +73,7 @@ const char *TankState::getStateString()
 
 const char *TankState::getSmallStateString()
 {
+	if (loading_) return "Loading";
 	if (spectator_) return "Spectator";
 	return ((state_==sDead)?"Dead":((state_==sNormal)?"Alive":"Pending"));
 }
@@ -82,6 +83,7 @@ bool TankState::writeMessage(NetBuffer &buffer)
 	buffer.addToBuffer((int) state_);
 	buffer.addToBuffer(life_);
 	buffer.addToBuffer(spectator_);
+	buffer.addToBuffer(loading_);
 	return true;
 }
 
@@ -92,5 +94,6 @@ bool TankState::readMessage(NetBufferReader &reader)
 	state_ = (TankState::State) s;
 	if (!reader.getFromBuffer(life_)) return false;
 	if (!reader.getFromBuffer(spectator_)) return false;
+	if (!reader.getFromBuffer(loading_)) return false;
 	return true;
 }

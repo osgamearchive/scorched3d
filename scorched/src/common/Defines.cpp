@@ -70,7 +70,8 @@ const char *formatStringList(const char *format, va_list ap)
 	static char buffer[4000];
 	buffer[sizeof(buffer) - 1] = '\0';
 	vsprintf(buffer, format, ap);
-	DIALOG_ASSERT(buffer[sizeof(buffer) - 1] == 0);
+	if (buffer[sizeof(buffer) - 1] != 0) 
+		dialogAssert("buffer[sizeof(buffer) - 1] == 0", __LINE__, __FILE__);
 
 	return buffer;
 }

@@ -255,6 +255,10 @@ public:
 	void setMod(const char *value) { mod_.setValue(value); }
 	const char *getModToolTip() { return mod_.getDescription(); }
 
+	int getModDownloadSpeed() { return modDownloadSpeed_.getValue(); }
+	void setModDownloadSpeed(int value) { modDownloadSpeed_.setValue(value); }
+	const char *getModDownloadSpeedToolTip() { return modDownloadSpeed_.getDescription(); }
+
 	const char *getServerName() { return serverName_.getValue(); }
 	void setServerName(const char *value) { serverName_.setValue(value); }
 	const char *getServerNameToolTip() { return serverName_.getDescription(); }
@@ -322,6 +326,7 @@ protected:
 	OptionEntryBoundedInt windType_;
 	OptionEntryBoundedInt wallType_;
 	OptionEntryBoundedInt weapScale_;
+	OptionEntryInt modDownloadSpeed_;
 	OptionEntryString mod_;
 	OptionEntryString economy_;
 	OptionEntryString landscapes_;

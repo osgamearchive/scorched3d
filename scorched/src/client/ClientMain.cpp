@@ -35,6 +35,7 @@
 #include <client/ClientRmPlayerHandler.h>
 #include <client/ClientGameStateHandler.h>
 #include <client/ClientStartTimerHandler.h>
+#include <client/ClientFileHandler.h>
 #include <client/ClientPlayerAimHandler.h>
 #include <client/ClientActionsHandler.h>
 #include <client/ClientNextRoundHandler.h>
@@ -152,6 +153,7 @@ bool startClient(ProgressCounter *progressCounter)
 	ClientRmPlayerHandler::instance();
 	ClientPlayerAimHandler::instance();
 	ClientStartTimerHandler::instance();
+	ClientFileHandler::instance();
 	ClientGameStoppedHandler::instance();
 	ClientStartGameHandler::instance();
 	ClientNextRoundHandler::instance();

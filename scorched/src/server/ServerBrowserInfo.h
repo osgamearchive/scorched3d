@@ -28,7 +28,7 @@ class ServerBrowserInfo
 public:
 	static ServerBrowserInfo *instance();
 
-	void start();
+	bool start();
 	void processMessages();
 
 protected:

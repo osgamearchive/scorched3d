@@ -58,6 +58,8 @@ public:
 	ReadyState getReadyState() { return readyState_; }
 	void setSpectator(bool s) { spectator_ = s; }
 	bool getSpectator() { return spectator_; }	
+	void setLoading(bool l) { loading_ = l; }
+	bool getLoading() { return loading_; }
 	
 	const char *getStateString();
 	const char *getSmallStateString();
@@ -77,6 +79,7 @@ protected:
 	ReadyState readyState_;
 	float life_;
 	bool spectator_;
+	bool loading_;
 
 };
 

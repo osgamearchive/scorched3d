@@ -74,6 +74,19 @@ void NetBuffer::reset()
 	usedSize_ = 0;
 }
 
+void NetBuffer::resize(unsigned newBufferSize)
+{
+	if (newBufferSize < startSize) newBufferSize = startSize;
+	char *newBuffer = new char[newBufferSize];
+	if (buffer_)
+	{
+		memcpy(newBuffer, buffer_, usedSize_);
+		delete [] buffer_;
+	}
+	buffer_ = newBuffer;
+	bufferSize_ = newBufferSize;
+}
+
 void NetBuffer::addDataToBuffer(const void *add, unsigned len)
 {
 	unsigned bufferLeft = bufferSize_ - usedSize_;
@@ -81,16 +94,8 @@ void NetBuffer::addDataToBuffer(const void *add, unsigned len)
 	{
 		unsigned sizeNeeded = len + usedSize_;
 		unsigned newBufferSize = sizeNeeded * 2;
-		if (newBufferSize < startSize) newBufferSize = startSize;
 
-		char *newBuffer = new char[newBufferSize];
-		if (buffer_)
-		{
-			memcpy(newBuffer, buffer_, usedSize_);
-			delete [] buffer_;
-		}
-		buffer_ = newBuffer;
-		bufferSize_ = newBufferSize;
+		resize(newBufferSize);
 	}
 
 	memcpy(&buffer_[usedSize_], add, len);

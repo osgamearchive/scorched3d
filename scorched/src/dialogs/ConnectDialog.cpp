@@ -46,7 +46,7 @@ ConnectDialog *ConnectDialog::instance()
 }
 
 ConnectDialog::ConnectDialog() : 
-	GLWWindow("Connect", 10.0f, 10.0f, 300.0f, 240.0f, 0,
+	GLWWindow("Connect", 10.0f, 10.0f, 300.0f, 240.0f, eNoDraw,
 		"Connection dialog"),
 	tryConnection_(true)
 {
@@ -56,7 +56,7 @@ ConnectDialog::~ConnectDialog()
 {
 }
 
-void ConnectDialog::draw()
+void ConnectDialog::simulate(float frameTime)
 {
 	if (tryConnection_)
 	{
@@ -67,7 +67,8 @@ void ConnectDialog::draw()
 		{
 			if (++tryCount>2)
 			{
-				Logger::log(0, "Could not connect to server.");
+				LogDialog::instance()->logMessage("", 
+					"Could not connect to server.", 0);
 				break;
 			}
 		}
@@ -81,9 +82,13 @@ bool ConnectDialog::tryConnection()
 	unsigned int noPlayers = 1;
 	LogDialog::instance()->setServerName(serverName);
 
-	Logger::log(0, "Atempting connection");
-	Logger::log(0, "  Trying \"%s\"....", serverName);
+	LogDialog::instance()->logMessage("", 
+		"Atempting connection", 0);
+	LogDialog::instance()->logMessage("", 
+		formatString("  Trying \"%s\"....", serverName), 0);
+
 	ScorchedClient::instance()->getMainLoop().draw();
+	ScorchedClient::instance()->getMainLoop().swapBuffers();
 
 	if (OptionsParam::instance()->getConnectedToServer())
 	{
@@ -106,8 +111,12 @@ bool ConnectDialog::tryConnection()
 		NetServer &netServer = (NetServer &) ScorchedClient::instance()->getNetInterface();
 		if (!netServer.connect((char *) hostPart.c_str(), port))
 		{
-			Logger::log(0, "  Connection Failed.");
+			LogDialog::instance()->logMessage("", 
+				"  Connection Failed.", 0);
+
 			ScorchedClient::instance()->getMainLoop().draw();
+			ScorchedClient::instance()->getMainLoop().swapBuffers();
+
 			SDL_Delay(3 * 1000);
 			return false;
 		}
@@ -128,7 +137,8 @@ bool ConnectDialog::tryConnection()
 	connectMessage.setNoPlayers(noPlayers);
 	if (!ComsMessageSender::sendToServer(connectMessage))
 	{
-		Logger::log(0, "  Connection Send Failed!");
+		LogDialog::instance()->logMessage("", 
+			"  Connection Send Failed!", 0);
 	}
 
 	MainBanner::instance();

@@ -47,8 +47,11 @@
 #include <server/ServerPlayedMoveHandler.h>
 #include <server/ServerAddPlayerHandler.h>
 #include <server/ServerPlayerAimHandler.h>
+#include <server/ServerHaveModFilesHandler.h>
 #include <server/ServerBuyAccessoryHandler.h>
+#include <server/ServerFileAkHandler.h>
 #include <server/ServerConnectHandler.h>
+#include <server/ServerFileServer.h>
 #include <server/ServerRegistration.h>
 #include <server/ServerBrowserInfo.h>
 #include <server/ServerState.h>
@@ -79,7 +82,9 @@ bool startServer(bool local)
 	ServerTextHandler::instance();
 	ServerPlayerReadyHandler::instance();
 	ServerPlayerAimHandler::instance();
+	ServerHaveModFilesHandler::instance();
 	ServerPlayedMoveHandler::instance();
+	ServerFileAkHandler::instance();
 	ServerBuyAccessoryHandler::instance();
 	ServerAddPlayerHandler::instance();
 	ServerDefenseHandler::instance();
@@ -124,15 +129,18 @@ void serverMain()
 	NetServer *netServer = (NetServer *) 
 		ScorchedServer::instance()->getContext().netInterface;
 	if (!netServer->start(
-		ScorchedServer::instance()->getOptionsGame().getPortNo()))
+		ScorchedServer::instance()->getOptionsGame().getPortNo()) ||
+		!ServerBrowserInfo::instance()->start())
 	{
 		dialogMessage("Scorched3D Server", 
 			"Failed to start the server.\n\n"
-			"Ensure the specified port does not conflict with any other program.");
-		exit(1);
+			"Could not bind to the server ports.\n"
+			"Ensure the specified ports (%i, %i) do not conflict with any other program.",
+			ScorchedServer::instance()->getOptionsGame().getPortNo(),
+			ScorchedServer::instance()->getOptionsGame().getPortNo() + 1);
+		exit(0);
 	}
 
-	ServerBrowserInfo::instance()->start();
  	if (ScorchedServer::instance()->getOptionsGame().getPublishServer()) 
 	{
 		ServerRegistration::instance()->start();
@@ -149,7 +157,10 @@ void serverLoop()
 		Logger::processLogEntries();
 		ScorchedServer::instance()->getNetInterface().processMessages();
 		ServerBrowserInfo::instance()->processMessages();
-		ScorchedServer::instance()->getGameState().simulate(serverTimer.getTimeDifference());
+
+		float timeDifference = serverTimer.getTimeDifference();
+		ScorchedServer::instance()->getGameState().simulate(timeDifference);
+		ServerFileServer::instance()->simulate(timeDifference);
 	}
 }
 

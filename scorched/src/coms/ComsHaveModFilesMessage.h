@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,28 +18,28 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_ConnectDialogh_INCLUDE__)
-#define __INCLUDE_ConnectDialogh_INCLUDE__
+#if !defined(__INCLUDE_ComsHaveModFilesMessageh_INCLUDE__)
+#define __INCLUDE_ComsHaveModFilesMessageh_INCLUDE__
 
-#include <GLW/GLWWindow.h>
+#include <coms/ComsMessage.h>
+#include <engine/ModFiles.h>
+#include <list>
 
-class ConnectDialog : public GLWWindow
+class ComsHaveModFilesMessage : public ComsMessage
 {
 public:
-	static ConnectDialog *instance();
+	ComsHaveModFilesMessage();
+	virtual ~ComsHaveModFilesMessage();
 
-	// Inherited from GLWWindow
-	virtual void simulate(float frameTime);
+	ModIdentifierEntry *getFile(const char *name);
+	std::list<ModIdentifierEntry> &getFiles() { return files_; }
+
+	// Inherited from ComsMessage
+    virtual bool writeMessage(NetBuffer &buffer);
+    virtual bool readMessage(NetBufferReader &reader);
 
 protected:
-	static ConnectDialog *instance_;
-	bool tryConnection_;
-
-	bool tryConnection();
-
-private:
-	ConnectDialog();
-	virtual ~ConnectDialog();
+	std::list<ModIdentifierEntry> files_;
 };
 
-#endif
+#endif // __INCLUDE_ComsHaveModFilesMessageh_INCLUDE__

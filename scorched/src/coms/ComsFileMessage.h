@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,28 +18,27 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_ConnectDialogh_INCLUDE__)
-#define __INCLUDE_ConnectDialogh_INCLUDE__
+#if !defined(__INCLUDE_ComsFileMessageh_INCLUDE__)
+#define __INCLUDE_ComsFileMessageh_INCLUDE__
 
-#include <GLW/GLWWindow.h>
+#include <coms/ComsMessage.h>
 
-class ConnectDialog : public GLWWindow
+class ComsFileMessage : public ComsMessage
 {
 public:
-	static ConnectDialog *instance();
+	ComsFileMessage();
+	virtual ~ComsFileMessage();
 
-	// Inherited from GLWWindow
-	virtual void simulate(float frameTime);
+	NetBuffer fileBuffer;
 
-protected:
-	static ConnectDialog *instance_;
-	bool tryConnection_;
-
-	bool tryConnection();
+	// Inherited from ComsMessage
+	virtual bool writeMessage(NetBuffer &buffer);
+	virtual bool readMessage(NetBufferReader &reader);
 
 private:
-	ConnectDialog();
-	virtual ~ConnectDialog();
+	ComsFileMessage(const ComsFileMessage &);
+	const ComsFileMessage & operator=(const ComsFileMessage &);
+
 };
 
-#endif
+#endif // __INCLUDE_ComsFileMessageh_INCLUDE__

@@ -262,6 +262,7 @@ void ServerConnectHandler::addNextTank(unsigned int destinationId,
 	tank->setUnqiueId(sentUniqueId);
 	tank->setHostDesc(sentHostDesc);
 	tank->getState().setSpectator(true);
+	tank->getState().setLoading(true);
 	ScorchedServer::instance()->getTankContainer().addTank(tank);
 
 	// Tell the clients to create this tank

@@ -18,28 +18,54 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_ConnectDialogh_INCLUDE__)
-#define __INCLUDE_ConnectDialogh_INCLUDE__
+#include <tank/TankMod.h>
+#include <engine/ModFiles.h>
 
-#include <GLW/GLWWindow.h>
-
-class ConnectDialog : public GLWWindow
+TankMod::TankMod() : 
+	readyToReceive_(true), sent_(false)
 {
-public:
-	static ConnectDialog *instance();
+	files_ = new std::list<ModIdentifierEntry>();
+}
 
-	// Inherited from GLWWindow
-	virtual void simulate(float frameTime);
+TankMod::~TankMod()
+{
+	delete files_;
+	files_ = 0;
+}
 
-protected:
-	static ConnectDialog *instance_;
-	bool tryConnection_;
+void TankMod::addFile(ModIdentifierEntry &entry)
+{
+	files_->push_back(entry);
+}
 
-	bool tryConnection();
+void TankMod::rmFile(const char *file)
+{
+	std::list<ModIdentifierEntry>::iterator itor;
+	for (itor = files_->begin();
+		itor != files_->end();
+		itor++)
+	{
+		ModIdentifierEntry &entry = (*itor);
+		if (0 == strcmp(entry.fileName.c_str(), file))
+		{
+			files_->erase(itor);
+			return;
+		}
+	}
+}
 
-private:
-	ConnectDialog();
-	virtual ~ConnectDialog();
-};
-
-#endif
+ModIdentifierEntry *TankMod::getFile(const char *file)
+{
+	std::list<ModIdentifierEntry>::iterator itor;
+	for (itor = files_->begin();
+		itor != files_->end();
+		itor++)
+	{
+		ModIdentifierEntry &entry = (*itor);
+		if (0 == strcmp(entry.fileName.c_str(), file))
+		{
+			return &entry;
+		}
+	}
+	return 0;
+}

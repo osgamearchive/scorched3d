@@ -25,18 +25,44 @@
 #include <map>
 #include <string>
 
-class ModFile
+struct ModIdentifierEntry
+{
+	ModIdentifierEntry(const char *f = "",
+		unsigned int l = 0,
+		unsigned int c = 0) :
+		fileName(f),
+		length(l),
+		crc(c)
+	{
+	};
+
+	std::string fileName;
+	unsigned int length;
+	unsigned int crc;
+};
+
+class ModFileEntry
 {
 public:
-	ModFile();
-	virtual ~ModFile();
+	ModFileEntry();
+	virtual ~ModFileEntry();
 
 	bool loadModFile(const char *file);
+	void writeModFile(const char *file);
+
+	void setFileName(const char *name) { fileName_ = name; }
+	const char *getFileName() { return fileName_.c_str(); }
+
+	unsigned int getFileCrc() { return crc_; }
+	void setCrc(unsigned int c) { crc_ = c; }
 
 	unsigned int getFileSize() { return file_.getBufferUsed(); }
 	char *getFileBytes() { return file_.getBuffer(); }
 
+	NetBuffer &getBuffer() { return file_; }
+
 protected:
+	std::string fileName_;
 	NetBuffer file_;
 	unsigned int crc_;
 };
@@ -49,8 +75,10 @@ public:
 
 	bool loadModFiles(const char *mod);
 
+	std::map<std::string, ModFileEntry *> &getFiles() { return files_; }
+
 protected:
-	std::map<std::string, ModFile *> files_;
+	std::map<std::string, ModFileEntry *> files_;
 
 };
 

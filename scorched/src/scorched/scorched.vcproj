@@ -675,6 +675,12 @@
 				RelativePath="..\tank\TankLib.h">
 			</File>
 			<File
+				RelativePath="..\tank\TankMod.cpp">
+			</File>
+			<File
+				RelativePath="..\tank\TankMod.h">
+			</File>
+			<File
 				RelativePath="..\tank\TankModelId.cpp">
 			</File>
 			<File
@@ -1691,6 +1697,18 @@
 				RelativePath="..\coms\ComsDefenseMessage.h">
 			</File>
 			<File
+				RelativePath="..\coms\ComsFileAkMessage.cpp">
+			</File>
+			<File
+				RelativePath="..\coms\ComsFileAkMessage.h">
+			</File>
+			<File
+				RelativePath="..\coms\ComsFileMessage.cpp">
+			</File>
+			<File
+				RelativePath="..\coms\ComsFileMessage.h">
+			</File>
+			<File
 				RelativePath="..\coms\ComsGameStateMessage.cpp">
 			</File>
 			<File
@@ -1701,6 +1719,12 @@
 			</File>
 			<File
 				RelativePath="..\coms\ComsGameStoppedMessage.h">
+			</File>
+			<File
+				RelativePath="..\coms\ComsHaveModFilesMessage.cpp">
+			</File>
+			<File
+				RelativePath="..\coms\ComsHaveModFilesMessage.h">
 			</File>
 			<File
 				RelativePath="..\coms\ComsLevelMessage.cpp">
@@ -2476,6 +2500,12 @@
 				RelativePath="..\client\ClientDialog.h">
 			</File>
 			<File
+				RelativePath="..\client\ClientFileHandler.cpp">
+			</File>
+			<File
+				RelativePath="..\client\ClientFileHandler.h">
+			</File>
+			<File
 				RelativePath="..\client\ClientGameStateHandler.cpp">
 			</File>
 			<File
@@ -2730,6 +2760,24 @@
 			</File>
 			<File
 				RelativePath="..\server\ServerDefenseHandler.h">
+			</File>
+			<File
+				RelativePath="..\server\ServerFileAkHandler.cpp">
+			</File>
+			<File
+				RelativePath="..\server\ServerFileAkHandler.h">
+			</File>
+			<File
+				RelativePath="..\server\ServerFileServer.cpp">
+			</File>
+			<File
+				RelativePath="..\server\ServerFileServer.h">
+			</File>
+			<File
+				RelativePath="..\server\ServerHaveModFilesHandler.cpp">
+			</File>
+			<File
+				RelativePath="..\server\ServerHaveModFilesHandler.h">
 			</File>
 			<File
 				RelativePath="..\server\ServerMain.cpp">

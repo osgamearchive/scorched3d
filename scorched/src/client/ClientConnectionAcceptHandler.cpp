@@ -21,8 +21,12 @@
 #include <client/ClientConnectionAcceptHandler.h>
 #include <client/ScorchedClient.h>
 #include <dialogs/RulesDialog.h>
+#include <engine/ModFiles.h>
 #include <coms/ComsConnectAcceptMessage.h>
+#include <coms/ComsHaveModFilesMessage.h>
+#include <coms/ComsMessageSender.h>
 #include <common/Logger.h>
+#include <common/OptionsGame.h>
 
 ClientConnectionAcceptHandler *ClientConnectionAcceptHandler::instance_ = 0;
 
@@ -55,14 +59,49 @@ bool ClientConnectionAcceptHandler::processMessage(unsigned int id,
 	ComsConnectAcceptMessage message;
 	if (!message.readMessage(reader)) return false;
 
+	// The server tells us what our id is.
+	// Set this id so we know what our players are
 	ScorchedClient::instance()->getTankContainer().
 		setCurrentDestinationId(message.getDestinationId());
 
+	// Tell the user to wait
 	Logger::log(0,
 		"Connection accepted by \"%s\".\nPlease wait...",
 		message.getServerName());
 
+	// Show the MOTD (Message of the Day) on the screen and
+	// rules dialog
 	RulesDialog::instance()->addMOTD(message.getMotd());
+
+	// Load any mod files we currently have for the mod
+	// the server is using.
+	if (!ScorchedClient::instance()->getModFiles().loadModFiles(
+		ScorchedClient::instance()->getOptionsGame().getMod()))
+	{
+		dialogMessage("Failed to load mod \"%s\"",
+			ScorchedClient::instance()->getOptionsGame().getMod());
+		return false;
+	}
+
+	// Tell the server what mod files we actually have
+	ComsHaveModFilesMessage comsFileMessage;
+	std::map<std::string, ModFileEntry *> &files = 
+		ScorchedClient::instance()->getModFiles().getFiles();
+	std::map<std::string, ModFileEntry *>::iterator itor;
+	for (itor = files.begin();
+		itor != files.end();
+		itor++)
+	{
+		const std::string &name = (*itor).first;
+		ModFileEntry *file = (*itor).second;
+
+		comsFileMessage.getFiles().push_back(
+			ModIdentifierEntry(
+				name.c_str(),
+				file->getFileSize(),
+				file->getFileCrc()));
+	}
+	if (!ComsMessageSender::sendToServer(comsFileMessage)) return false;
 
 	return true;
 }

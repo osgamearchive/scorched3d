@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,28 +18,30 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_ConnectDialogh_INCLUDE__)
-#define __INCLUDE_ConnectDialogh_INCLUDE__
+#include <coms/ComsFileMessage.h>
 
-#include <GLW/GLWWindow.h>
-
-class ConnectDialog : public GLWWindow
+ComsFileMessage::ComsFileMessage() :
+	ComsMessage("ComsFileMessage")
 {
-public:
-	static ConnectDialog *instance();
 
-	// Inherited from GLWWindow
-	virtual void simulate(float frameTime);
+}
 
-protected:
-	static ConnectDialog *instance_;
-	bool tryConnection_;
+ComsFileMessage::~ComsFileMessage()
+{
 
-	bool tryConnection();
+}
 
-private:
-	ConnectDialog();
-	virtual ~ConnectDialog();
-};
+bool ComsFileMessage::writeMessage(NetBuffer &buffer)
+{
+	buffer.addDataToBuffer(fileBuffer.getBuffer(), fileBuffer.getBufferUsed());
+	return true;
+}
 
-#endif
+bool ComsFileMessage::readMessage(NetBufferReader &reader)
+{
+	unsigned int size = reader.getBufferSize() - reader.getReadSize();
+	fileBuffer.allocate(size);
+	fileBuffer.setBufferUsed(size);
+	reader.getDataFromBuffer(fileBuffer.getBuffer(), size);
+	return true;
+}

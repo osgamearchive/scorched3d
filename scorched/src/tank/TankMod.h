@@ -18,28 +18,34 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_ConnectDialogh_INCLUDE__)
-#define __INCLUDE_ConnectDialogh_INCLUDE__
+#if !defined(__INCLUDE_TankModh_INCLUDE__)
+#define __INCLUDE_TankModh_INCLUDE__
 
-#include <GLW/GLWWindow.h>
+#include <list>
 
-class ConnectDialog : public GLWWindow
+struct ModIdentifierEntry;
+class TankMod
 {
 public:
-	static ConnectDialog *instance();
+	TankMod();
+	virtual ~TankMod();
 
-	// Inherited from GLWWindow
-	virtual void simulate(float frameTime);
+	void setReadyToReceive(bool r) { readyToReceive_ = r; }
+	bool getReadyToReceive() { return readyToReceive_; }
+
+	void setSent(bool s) { sent_ = s; }
+	bool getSent() { return sent_; }
+
+	void addFile(ModIdentifierEntry &entry);
+	void rmFile(const char *file);
+	ModIdentifierEntry *getFile(const char *file);
+	std::list<ModIdentifierEntry> &getFiles() { return *files_; }
 
 protected:
-	static ConnectDialog *instance_;
-	bool tryConnection_;
+	bool readyToReceive_;
+	bool sent_;
+	std::list<ModIdentifierEntry> *files_; // Ptr so we dont include ModFiles.h
 
-	bool tryConnection();
-
-private:
-	ConnectDialog();
-	virtual ~ConnectDialog();
 };
 
 #endif

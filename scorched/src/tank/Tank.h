@@ -26,6 +26,7 @@
 #include <tank/TankState.h>
 #include <tank/TankPhysics.h>
 #include <tank/TankModelId.h>
+#include <tank/TankMod.h>
 #include <tankai/TankAI.h>
 
 class Tank  
@@ -74,6 +75,7 @@ public:
 	TankScore &getScore() { return score_; }
 	TankPhysics &getPhysics() { return physics_; }
 	TankState &getState() { return state_; }
+	TankMod &getMod() { return mod_; }
 
 protected:
 	ScorchedContext &context_;
@@ -82,6 +84,7 @@ protected:
 	TankScore score_;
 	TankPhysics physics_;
 	TankState state_;
+	TankMod mod_;
 	TankAI *tankAI_;
 	Vector color_;
 	std::string name_;

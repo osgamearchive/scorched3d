@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,28 +18,25 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_ConnectDialogh_INCLUDE__)
-#define __INCLUDE_ConnectDialogh_INCLUDE__
+#include <coms/ComsFileAkMessage.h>
 
-#include <GLW/GLWWindow.h>
-
-class ConnectDialog : public GLWWindow
+ComsFileAkMessage::ComsFileAkMessage() :
+	ComsMessage("ComsFileAkMessage")
 {
-public:
-	static ConnectDialog *instance();
 
-	// Inherited from GLWWindow
-	virtual void simulate(float frameTime);
+}
 
-protected:
-	static ConnectDialog *instance_;
-	bool tryConnection_;
+ComsFileAkMessage::~ComsFileAkMessage()
+{
 
-	bool tryConnection();
+}
 
-private:
-	ConnectDialog();
-	virtual ~ConnectDialog();
-};
+bool ComsFileAkMessage::writeMessage(NetBuffer &buffer)
+{
+	return true;
+}
 
-#endif
+bool ComsFileAkMessage::readMessage(NetBufferReader &reader)
+{
+	return true;
+}
