@@ -46,6 +46,7 @@ bool TankAvatar::writeMessage(NetBuffer &buffer)
 		buffer.addDataToBuffer(file_->getBuffer(),
 			file_->getBufferUsed());
 	}
+	return true;
 }
 
 bool TankAvatar::readMessage(NetBufferReader &reader)
@@ -61,6 +62,7 @@ bool TankAvatar::readMessage(NetBufferReader &reader)
 		reader.getDataFromBuffer(file_->getBuffer(),
 			used);
 	}
+	return true;
 }
 
 bool TankAvatar::loadFromFile(const char *fileName)
