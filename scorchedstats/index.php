@@ -3,15 +3,6 @@ include('statsheader.php');
 include('conversionfunctions.php')
 ?>
 
-<p align=center>
-<b>
-<? echo $other_title; ?><br>
-<font size=+2>
-<? echo $main_title; ?>
-</font>
-</b>
-</p>
-
 <?
 $seriesid=$_GET['Series'];
 if ($seriesid==Null)
@@ -40,7 +31,7 @@ $totalplayers = $totalplayersrow[0];
 <font size=+2><b><u>Stats for <?=$seriesrow->name?></u></b></font><br>
 <font size=-1>
 <?=$seriesrow->started?> to <?=$seriesrow->ended?><br>
-Players : <?=$totalplayers?>, Games: <?=$seriesrow->games?>, Rounds : <?=$seriesrow->rounds?>
+Players : <?=$totalplayers?>, Games: <?=$seriesrow->games?>, Rounds : <?=$seriesrow->rounds?>, Server : <a href="playeros.php">activity</a>
 </font>
 </td>
 </tr>
@@ -93,8 +84,6 @@ $server = $serverrow[0];
 <td><b><font size=-1><a href="recentplayers.php?Prefix=<?=$prefixid?>&Series=<?=$seriesid?>">Recent Players</a></font></b><br></td>
 <td align=center width=20>|</td>
 <td><b><font size=-1><a href="stathistory.php?Prefix=<?=$prefixid?>&Series=<?=$seriesid?>">History</a></font></b><br></td>
-<td align=center width=20>|</td>
-<td><b><font size=-1><a href="playeros.php?Prefix=<?=$prefixid?>&Series=<?=$seriesid?>">Server Stats</a></font></b><br></td>
 </tr>
 </table>
 </td>
@@ -116,7 +105,7 @@ $result = mysql_query($query) or die("Query failed : " . mysql_error()."<br>".$q
 <td bgcolor=#111111 align=center><b><a href="allstats.php?Prefix=<?=$prefixid?>&Series=<?=$seriesid?>&Fields=skl:k:me:w:ow:r:sk:tk:d:tp&OrderBy=kills">Kills</a></b></td>
 <td bgcolor=#111111 align=center><b><a href="allstats.php?Prefix=<?=$prefixid?>&Series=<?=$seriesid?>&Fields=skl:k:me:w:ow:r:sk:tk:d:tp&OrderBy=moneyearned">Money</a></b></td>
 <td bgcolor=#111111 align=center><b><a href="allstats.php?Prefix=<?=$prefixid?>&Series=<?=$seriesid?>&Fields=skl:k:me:w:ow:r:sk:tk:d:tp&OrderBy=wins">Round Wins</a></b></td>
-<td bgcolor=#111111 align=center><b><a href="allstats.php?Prefix=<?=$prefixid?>&Series=<?=$seriesid?>&Fields=skl:k:me:w:ow:r:sk:tk:d:tp&OrderBy=gamewins">Game Wins</a></b></td>
+<td bgcolor=#111111 align=center><b><a href="allstats.php?Prefix=<?=$prefixid?>&Series=<?=$seriesid?>&Fields=skl:k:me:w:ow:r:sk:tk:d:tp&OrderBy=overallwinner">Game Wins</a></b></td>
 <td bgcolor=#111111 align=center><center><b>Last Connected</b></center></td>
 </tr>
 <?

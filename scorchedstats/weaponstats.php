@@ -7,6 +7,9 @@ include('statsheader.php');
 include('conversionfunctions.php');
 ?>
 
+<? include('util.php'); ?>
+<br>
+
 <?
 // General Weapon Stats
 $query = "SELECT *, COALESCE(round(kills/shots, 2), 0.0) as killratio FROM scorched3d_weapons where weaponid=$weaponid and prefixid=$prefixid and seriesid=$seriesid";
@@ -36,7 +39,7 @@ $query="select (scorched3d_players.name) as name, (scorched3d_events.playerid) a
 $result = mysql_query($query) or die("Query failed : " . mysql_error(). "<BR>query=$query");
 ?>
 <table width="600" border="0" align="center">
-<tr><td align=center><b><?=$weaponname?> Users</b></td></tr>
+<tr><td align=center><font size="+1"><b><?=$weaponname?> Users</b></font></td></tr>
 </table>
 <table width="600" bordercolor=#333333 cellspacing="0" cellpadding="0" border="1" align="center">
 <tr>
@@ -69,7 +72,7 @@ $result = mysql_query($query) or die("Query failed : " . mysql_error());
 $row = mysql_fetch_object($result);
 ?>
 <table width=550 border="0" align="center">
-<tr><td align=center><b>Recent <?=$weaponname?> Uses</b></td></tr>
+<tr><td align=center><font size="+1"><b>Recent <?=$weaponname?> Uses</b></font></td></tr>
 </table>
 <table width="550" bordercolor=#333333 cellspacing="0" cellpadding="0" border="1" align="center">
 <tr>

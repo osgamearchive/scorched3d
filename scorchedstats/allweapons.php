@@ -11,6 +11,9 @@ include('sortfunction.php');
 include('conversionfunctions.php');
 ?>
 
+<? include('util.php'); ?>
+<br>
+
 <?
 // Top weapons query
 $query="SELECT *, COALESCE(round(100*kills/shots, 2), 0.0) as killratio from scorched3d_weapons WHERE prefixid=".$prefixid." AND seriesid=".$seriesid." AND (scorched3d_weapons.cost) >= 0 GROUP BY weaponid ORDER BY $orderby $dir";

@@ -4,6 +4,9 @@ $seriesid=$_GET['Series'];
 include('statsheader.php');
 ?>
 
+<? include('util.php'); ?>
+<br>
+
 <?
 // Query player events and player/weapon names
 $query ="SELECT scorched3d_events.playerid, scorched3d_events.weaponid, scorched3d_events.eventtime, scorched3d_events.eventtype, scorched3d_events.otherplayerid, (playernames.name) as playername, (otherplayernames.name) as otherplayername, (scorched3d_weapons.name) as weaponname, (scorched3d_weapons.armslevel) as armslevel FROM scorched3d_events LEFT JOIN scorched3d_players playernames ON scorched3d_events.playerid=playernames.playerid LEFT JOIN scorched3d_players otherplayernames ON scorched3d_events.otherplayerid=otherplayernames.playerid LEFT JOIN scorched3d_weapons ON scorched3d_events.weaponid=scorched3d_weapons.weaponid where scorched3d_events.prefixid=$prefixid and scorched3d_events.seriesid=$seriesid ORDER BY eventtime desc limit 100";

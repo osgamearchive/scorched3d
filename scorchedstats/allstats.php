@@ -215,6 +215,11 @@ elseif ($limit>100) $limit=100;
 $urlinfo="allstats.php?Prefix=".$prefixid."&Series=".$seriesid."&Fields=".$fields."&Limit=".$limit."&FBy=".$filterurl;
 ?>
 
+<?
+include('util.php');
+?>
+<br>
+
 <!-- Begin the visible section of the page -->
 <table border=1 align=center>
 <tr><td align=center>

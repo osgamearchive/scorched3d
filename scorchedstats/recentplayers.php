@@ -4,6 +4,9 @@ $seriesid=$_GET['Series'];
 include('statsheader.php');
 ?>
 
+<? include('util.php'); ?>
+<br>
+
 <?
 // Top Players Query
 $query = " select name, osdesc, scorched3d_stats.playerid, lastconnected, connects FROM scorched3d_stats LEFT JOIN scorched3d_players playernames ON scorched3d_stats.playerid=playernames.playerid where prefixid=$prefixid and seriesid=$seriesid GROUP BY playerid ORDER BY lastconnected desc limit 25";

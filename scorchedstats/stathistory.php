@@ -17,6 +17,9 @@ if ($compare=='<' and $days=='0') $compare='=';
 include('statsheader.php');
 include('sortfunction.php');  //function used to determine sort order
 ?>
+
+<? include('util.php'); ?>
+<br>
                                                                                             
 <table width=640 border="1" align="center">
 <tr><td align="center">
