@@ -298,10 +298,6 @@ public:
 	void setServerName(const char *value) { serverName_.setValue(value); }
 	const char *getServerNameToolTip() { return serverName_.getDescription(); }
 
-	const char *getServerAdminPassword() { return serverAdminPassword_.getValue(); }
-	void setServerAdminPassword(const char *value) { serverAdminPassword_.setValue(value); }
-	const char *getServerAdminPasswordToolTip() { return serverAdminPassword_.getDescription(); }
-
 	const char *getServerPassword() { return serverPassword_.getValue(); }
 	void setServerPassword(const char *value) { serverPassword_.setValue(value); }
 	const char *getServerPasswordToolTip() { return serverPassword_.getDescription(); }
@@ -398,7 +394,7 @@ protected:
 	OptionEntryString serverName_;
 	OptionEntryString *playerType_[24];
 	OptionEntryString serverPassword_;
-	OptionEntryString serverAdminPassword_;
+	OptionEntryString depricatedServerAdminPassword_;
 	OptionEntryInt portNo_;
 	OptionEntryString publishAddress_;
 	OptionEntryBool publishServer_;

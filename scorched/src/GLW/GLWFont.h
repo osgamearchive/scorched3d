@@ -33,10 +33,12 @@ public:
 
 	GLFont2d *getLargePtFont() { return courier16Font_; }
 	GLFont2d *getSmallPtFont() { return courier16Font_; }
+	GLFont2d *getCourierFont() { return courierFont_; }
 
 protected:
 	static  GLWFont *instance_;
 	GLFont2d *courier16Font_;
+	GLFont2d *courierFont_;
 
 private:
 	GLWFont();

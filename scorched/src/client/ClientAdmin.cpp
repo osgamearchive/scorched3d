@@ -59,19 +59,34 @@ void ClientAdmin::admin(std::list<GLConsoleRuleSplit> split,
 
 		bool failed = false;
 		if (0 == stricmp(firstsplit.rule.c_str(), "help")) adminHelp(result);
-		else if (0 == stricmp(firstsplit.rule.c_str(), "show")) adminShow(result);
-		else if (0 == stricmp(firstsplit.rule.c_str(), "killall"))
+		else if (0 == stricmp(firstsplit.rule.c_str(), "killall") ||
+			0 == stricmp(firstsplit.rule.c_str(), "showbanned") ||
+			0 == stricmp(firstsplit.rule.c_str(), "show"))
 		{
-			result.push_back("  sending killall...");
-			ComsAdminMessage message(ComsAdminMessage::AdminKillAll);
+			result.push_back(formatString("  sending %s...", 
+				firstsplit.rule.c_str()));
+
+			ComsAdminMessage::ComsAdminMessageType type = 
+				ComsAdminMessage::AdminShow;
+			if (0 == stricmp(firstsplit.rule.c_str(), "show"))
+				type = ComsAdminMessage::AdminShow;
+			else if (0 == stricmp(firstsplit.rule.c_str(), "showbanned"))
+				type = ComsAdminMessage::AdminShowBanned;
+			else if (0 == stricmp(firstsplit.rule.c_str(), "killall"))
+				type = ComsAdminMessage::AdminKillAll;
+
+			ComsAdminMessage message(type);
 			ComsMessageSender::sendToServer(message);
 		}
-		else if (0 == stricmp(firstsplit.rule.c_str(), "login") ||
+		else if (
 			0 == stricmp(firstsplit.rule.c_str(), "kick") ||
 			0 == stricmp(firstsplit.rule.c_str(), "ban") ||
 			0 == stricmp(firstsplit.rule.c_str(), "mute") ||
+			0 == stricmp(firstsplit.rule.c_str(), "permmute") ||
+			0 == stricmp(firstsplit.rule.c_str(), "unpermmute") ||
 			0 == stricmp(firstsplit.rule.c_str(), "unmute") ||
 			0 == stricmp(firstsplit.rule.c_str(), "talk") ||
+			0 == stricmp(firstsplit.rule.c_str(), "admintalk") ||
 			0 == stricmp(firstsplit.rule.c_str(), "message"))
 		{
 			if (split.empty()) failed = true;
@@ -83,24 +98,32 @@ void ClientAdmin::admin(std::list<GLConsoleRuleSplit> split,
 					secondsplit.rule.c_str()));
 					
 				ComsAdminMessage::ComsAdminMessageType type = 
-					ComsAdminMessage::AdminLogin;
+					ComsAdminMessage::AdminKick;
 				if (0 == stricmp(firstsplit.rule.c_str(), "kick"))
 					type = ComsAdminMessage::AdminKick;
 				else if (0 == stricmp(firstsplit.rule.c_str(), "ban"))
 					type = ComsAdminMessage::AdminBan;
 				else if (0 == stricmp(firstsplit.rule.c_str(), "mute"))
 					type = ComsAdminMessage::AdminMute;
+				else if (0 == stricmp(firstsplit.rule.c_str(), "permmute"))
+					type = ComsAdminMessage::AdminPermMute;
+				else if (0 == stricmp(firstsplit.rule.c_str(), "unpermmute"))
+					type = ComsAdminMessage::AdminUnPermMute;
 				else if (0 == stricmp(firstsplit.rule.c_str(), "unmute"))
 					type = ComsAdminMessage::AdminUnMute;	
 				else if (0 == stricmp(firstsplit.rule.c_str(), "talk"))
 					type = ComsAdminMessage::AdminTalk;	
+				else if (0 == stricmp(firstsplit.rule.c_str(), "admintalk"))
+					type = ComsAdminMessage::AdminAdminTalk;	
 				else if (0 == stricmp(firstsplit.rule.c_str(), "message"))
 					type = ComsAdminMessage::AdminMessage;	
+
 				ComsAdminMessage message(type, secondsplit.rule.c_str());
 				ComsMessageSender::sendToServer(message);
 			}
 		}
-		else if (0 == stricmp(firstsplit.rule.c_str(), "slap"))
+		else if (0 == stricmp(firstsplit.rule.c_str(), "slap") ||
+			0 == stricmp(firstsplit.rule.c_str(), "login"))
 		{
 			if (split.empty()) failed = true;
 			else
@@ -117,7 +140,9 @@ void ClientAdmin::admin(std::list<GLConsoleRuleSplit> split,
 						thirdsplit.rule.c_str()));
 					
 					ComsAdminMessage::ComsAdminMessageType type = 
-						ComsAdminMessage::AdminSlap;
+						ComsAdminMessage::AdminLogin;
+					if (0 == stricmp(firstsplit.rule.c_str(), "slap"))
+						type = ComsAdminMessage::AdminSlap;
 					ComsAdminMessage message(type, 
 						secondsplit.rule.c_str(), 
 						thirdsplit.rule.c_str());
@@ -143,39 +168,18 @@ void ClientAdmin::admin(std::list<GLConsoleRuleSplit> split,
 void ClientAdmin::adminHelp(std::list<std::string> &result)
 {
 	result.push_back("  help - This help");
+	result.push_back("  login <username> <password> - Login as admin");
 	result.push_back("  show - Show ids for all current players");
-	result.push_back("  login <password> - Login as admin");
+	result.push_back("  showbanned - Shows all banned/perm muted players");
 	result.push_back("  killall - Kills all current players and starts next round");
 	result.push_back("  kick <player id> - Kicks specified player");
 	result.push_back("  ban <player id> - Bans and kicks specified player");
 	result.push_back("  mute <player id> - Mutes specified player for everyone");
 	result.push_back("  unmute <player id> - Un-mutes specified player for everyone");
+	result.push_back("  permmute <player id> - Mutes specified player for everyone perminantly");
+	result.push_back("  unpermmute <player id> - Un-Mutes specified player for everyone perminantly");
 	result.push_back("  slap <player id> <health> - Removes health from specified player");
 	result.push_back("  talk <text> - Admin talk to all players (white with no name)");
+	result.push_back("  admintalk <text> - Admin talk to all admin players only");
 	result.push_back("  message <text> - Message to all players (yellow in center of screen)");
 }
-
-void ClientAdmin::adminShow(std::list<std::string> &result)
-{
-	std::map<unsigned int, Tank *> &tanks = 
-		ScorchedClient::instance()->getTankContainer().getPlayingTanks();
-	Tank *currentTank = 
-		ScorchedClient::instance()->getTankContainer().getCurrentTank();
-
-	result.push_back(
-		"--Admin Show-----------------------------------------");
-	std::map<unsigned int, Tank *>::iterator itor;
-	for (itor = tanks.begin();
-		itor != tanks.end();
-		itor++)
-	{
-		Tank *tank = (*itor).second;
-
-		result.push_back(
-			formatString("%i \"%s\"",                
-				tank->getPlayerId(), tank->getName()));
-	}
-	result.push_back(
-		"----------------------------------------------------");
-}
-

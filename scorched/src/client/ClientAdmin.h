@@ -33,7 +33,6 @@ protected:
 
 	void admin(std::list<GLConsoleRuleSplit> split, std::list<std::string> &result);
 	void adminHelp(std::list<std::string> &result);
-	void adminShow(std::list<std::string> &result);
 
 private:
 	ClientAdmin();

@@ -21,6 +21,8 @@
 #if !defined(__INCLUDE_ServerCommonh_INCLUDE__)
 #define __INCLUDE_ServerCommonh_INCLUDE__
 
+#include <server/ServerBanned.h>
+
 namespace ServerCommon
 {
 	void startFileLogger();
@@ -29,7 +31,7 @@ namespace ServerCommon
 	void sendString(unsigned int destinationId, const char *fmt, ...);
 	void kickDestination(unsigned int destinationId, bool delayed = false);
 	void kickPlayer(unsigned int playerId, bool delayed = false);
-	void banPlayer(unsigned int playerId);
+	void banPlayer(unsigned int playerId, ServerBanned::BannedType type = ServerBanned::Banned);
 	void slapPlayer(unsigned int playerId, float slap);
 	void killAll();
 }

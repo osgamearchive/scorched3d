@@ -66,6 +66,8 @@ enum
 	IDC_MENU_PLAYERSLAP25,
 	IDC_MENU_PLAYERKILLALL,
 	IDC_MENU_PLAYERBAN,
+	IDC_MENU_PLAYERPERMMUTE,
+	IDC_MENU_PLAYERUNPERMMUTE,
 	IDC_MENU_PLAYERMUTE,
 	IDC_MENU_PLAYERUNMUTE,
 	IDC_MENU_PLAYERADD,
@@ -191,6 +193,8 @@ public:
 	void onKillAll(wxCommandEvent &event);
 	void onStartNewGame(wxCommandEvent &event);
 	void onPlayerBan(wxCommandEvent &event);
+	void onPlayerPermMute(wxCommandEvent &event);
+	void onPlayerUnPermMute(wxCommandEvent &event);
 	void onPlayerMute(wxCommandEvent &event);
 	void onPlayerUnMute(wxCommandEvent &event);
 	void onPlayerAdd(int i);
@@ -235,6 +239,8 @@ BEGIN_EVENT_TABLE(ServerFrame, wxFrame)
 	EVT_MENU(IDC_MENU_SAVEOPTIONS, ServerFrame::onSaveOptions)
 	EVT_MENU(IDC_MENU_TIMEDMSG, ServerFrame::onTimedMsg)
 	EVT_MENU(IDC_MENU_PLAYERBAN, ServerFrame::onPlayerBan)
+	EVT_MENU(IDC_MENU_PLAYERPERMMUTE, ServerFrame::onPlayerPermMute)
+	EVT_MENU(IDC_MENU_PLAYERUNPERMMUTE, ServerFrame::onPlayerUnPermMute)
 	EVT_MENU(IDC_MENU_PLAYERTALK, ServerFrame::onPlayerTalk)
 	EVT_MENU(IDC_MENU_PLAYERTALKALL, ServerFrame::onPlayerTalkAll)
 	EVT_MENU(IDC_MENU_PLAYERKICK, ServerFrame::onPlayerKick)
@@ -345,6 +351,8 @@ ServerFrame::ServerFrame(const char *name) :
 	wxMenu *menuAdmin = new wxMenu;
 	menuAdmin->Append(IDC_MENU_PLAYERKICK, "Kick selected players");
 	menuAdmin->Append(IDC_MENU_PLAYERBAN, "Ban selected players");
+	menuAdmin->Append(IDC_MENU_PLAYERPERMMUTE, "Perminantly mutes selected players");
+	menuAdmin->Append(IDC_MENU_PLAYERUNPERMMUTE, "Un-perminantly mutes selected players");
 	menuAdmin->Append(IDC_MENU_PLAYERSLAP25, "Slap selected players (25 pts)");
 	menuAdmin->Append(IDC_MENU_PLAYERMUTE, "Mute selected players");
 	menuAdmin->Append(IDC_MENU_PLAYERUNMUTE, "Unmute selected players");
@@ -622,7 +630,7 @@ void ServerFrame::onPlayerUnMute(wxCommandEvent &event)
     }
 }
 
-void ServerFrame::onPlayerBan(wxCommandEvent &event)
+static void banPlayers(ServerBanned::BannedType type)
 {
 	long item = -1;
     while ((item = frame->playerList_->GetNextItem(
@@ -636,9 +644,26 @@ void ServerFrame::onPlayerBan(wxCommandEvent &event)
 			Tank *tank = 
 				ScorchedServer::instance()->getTankContainer().
 				getTankByPos((unsigned int) item);
-			ServerCommon::banPlayer(tank->getPlayerId());
+			ServerCommon::banPlayer(tank->getPlayerId(), type);
 		}		
     }
+}
+
+void ServerFrame::onPlayerBan(wxCommandEvent &event)
+{
+	banPlayers(ServerBanned::Banned);
+}
+
+void ServerFrame::onPlayerPermMute(wxCommandEvent &event)
+{
+	banPlayers(ServerBanned::Muted);
+	onPlayerMute(event);
+}
+
+void ServerFrame::onPlayerUnPermMute(wxCommandEvent &event)
+{
+	banPlayers(ServerBanned::NotBanned);
+	onPlayerUnMute(event);
 }
 
 void ServerFrame::onPlayerSlap25(wxCommandEvent &event)

@@ -45,16 +45,16 @@ void GLConsoleLine::set(const char *line, bool showPointer)
 
 void GLConsoleLine::drawLine(float x, float y, GLFont2d *font)
 {
-	static Vector color(0.6f, 0.6f, 0.6f);
+	static Vector color(0.9f, 0.9f, 0.9f);
 	if (showPointer_)
 	{
 		// We show a line number of those lines with commands
 		// on them
-		font->draw(color, 11, x, y, 0.0f, "%4i : %s", lineNumber_, line_.c_str());
+		font->draw(color, 12, x, y, 0.0f, "%4i : %s", lineNumber_, line_.c_str());
 	}
 	else
 	{
-		font->draw(color, 11, x, y, 0.0f,"      %s", line_.c_str());
+		font->draw(color, 12, x, y, 0.0f,"      %s", line_.c_str());
 	}
 }
 

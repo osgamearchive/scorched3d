@@ -33,6 +33,9 @@ public:
 		const char *messageType,
 		NetBufferReader &reader);
 
+protected:
+	bool login(const char *name, const char *password);
+
 private:
 	ServerAdminHandler();
 	virtual ~ServerAdminHandler();

@@ -168,7 +168,8 @@ void ServerCommon::kickPlayer(unsigned int playerId, bool delayed)
 	}
 }
 
-void ServerCommon::banPlayer(unsigned int playerId)
+void ServerCommon::banPlayer(unsigned int playerId,
+	ServerBanned::BannedType type)
 {
 	Tank *tank = ScorchedServer::instance()->
 		getTankContainer().getTankById(playerId);
@@ -176,17 +177,28 @@ void ServerCommon::banPlayer(unsigned int playerId)
 	{
 		if (tank->getDestinationId() == 0)
 		{
-			Logger::log(0, "Cannot ban local player (bot)");
+			Logger::log(0, "Cannot ban local player/bot");
 			return;
 		}
 		unsigned int ipAddress = tank->getIpAddress();
 		if (ipAddress != 0)
 		{
-			Logger::log(0, "Banning player %i", playerId);
+			switch (type)
+			{
+			case ServerBanned::Banned:
+				Logger::log(0, "Banning player %i", playerId);
+				break;
+			case ServerBanned::Muted:
+				Logger::log(0, "Perminantly muting player %i", playerId);
+				break;
+			case ServerBanned::NotBanned:
+				Logger::log(0, "Unbanning player %i", playerId);
+				break;
+			}
 		
 			ServerBanned::instance()->
-				addBanned(ipAddress, tank->getName());
-			kickPlayer(playerId);
+				addBanned(ipAddress, tank->getName(), type);
+			if (type == ServerBanned::Banned) kickPlayer(playerId);
 		}
 	}
 }

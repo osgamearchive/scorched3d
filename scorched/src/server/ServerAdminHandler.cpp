@@ -21,9 +21,13 @@
 #include <server/ServerAdminHandler.h>
 #include <server/ScorchedServer.h>
 #include <server/ServerCommon.h>
+#include <server/ServerBanned.h>
 #include <common/OptionsGame.h>
+#include <common/Logger.h>
 #include <coms/ComsAdminMessage.h>
+#include <coms/NetInterface.h>
 #include <tank/TankContainer.h>
+#include <XML/XMLFile.h>
 #include <stdlib.h>
 
 ServerAdminHandler *ServerAdminHandler::instance()
@@ -46,7 +50,7 @@ ServerAdminHandler::~ServerAdminHandler()
 
 bool ServerAdminHandler::processMessage(unsigned int destinationId,
 	const char *messageType,
-									NetBufferReader &reader)
+	NetBufferReader &reader)
 {
 	ComsAdminMessage message;
 	if (!message.readMessage(reader)) return false;
@@ -70,36 +74,33 @@ bool ServerAdminHandler::processMessage(unsigned int destinationId,
 	// Login if that is what is happening
 	if (message.getType() == ComsAdminMessage::AdminLogin)
 	{
-		if (ScorchedServer::instance()->getOptionsGame().
-			getServerAdminPassword()[0])
+		if (login(message.getParam1(), message.getParam2()))
 		{
-			if (strcmp(message.getParam1(), 
-					ScorchedServer::instance()->getOptionsGame().
-					getServerAdminPassword()) == 0)
-			{
-				ServerCommon::sendString(destinationId,
-					"Admin logged in");
-				adminTank->getState().setAdmin(true);
-			}
-			else
-			{
-				adminTank->getState().setAdminTries(
-					adminTank->getState().getAdminTries() + 1);
-				
-				ServerCommon::sendString(destinationId,
-					"Incorrect admin password (try %i)", 
-					adminTank->getState().getAdminTries());
-
-				if (adminTank->getState().getAdminTries() > 3)
-				{
-					ServerCommon::kickPlayer(adminTank->getPlayerId());
-				}
-			}
+			ServerCommon::sendString(0,
+				"\"%s\" logged in as server admin \"%s\"",
+				adminTank->getName(),
+				message.getParam1());
+			Logger::log(0,
+				"\"%s\" logged in as server admin \"%s\"",
+				adminTank->getName(),
+				message.getParam1());
+			adminTank->getState().setAdmin(true);
 		}
 		else
 		{
+			adminTank->getState().setAdminTries(
+				adminTank->getState().getAdminTries() + 1);
+			
 			ServerCommon::sendString(destinationId,
-				"Admin functionality not enabled");
+				"Incorrect admin password (try %i/3)", 
+				adminTank->getState().getAdminTries());
+			Logger::log(0,
+				"Incorrect admin password (try %i/3)", 
+				adminTank->getState().getAdminTries());
+			if (adminTank->getState().getAdminTries() > 3)
+			{
+				ServerCommon::kickPlayer(adminTank->getPlayerId());
+			}
 		}
 		return true;
 	}
@@ -114,12 +115,85 @@ bool ServerAdminHandler::processMessage(unsigned int destinationId,
 	// Do admin fn (we are logged in at this point)
 	switch (message.getType())
 	{
+	case ComsAdminMessage::AdminShow:
+		{
+			std::map<unsigned int, Tank *> &tanks = 
+				ScorchedServer::instance()->getTankContainer().getPlayingTanks();
+			std::string result;
+			result += 
+				"--Admin Show-----------------------------------------\n";
+			std::map<unsigned int, Tank *>::iterator itor;
+			for (itor = tanks.begin();
+				itor != tanks.end();
+				itor++)
+			{
+				Tank *tank = (*itor).second;
+
+				result += 
+					formatString("%i \"%s\" \"%s\" \"%s\" %s \n",
+						tank->getPlayerId(), 
+						tank->getName(),
+						NetInterface::getIpName(tank->getIpAddress()),
+						tank->getScore().getStatsRank(),
+						(tank->getState().getMuted()?"Muted":"Not Muted"));
+			}
+			result +=
+				"----------------------------------------------------\n";
+
+			ServerCommon::sendString(destinationId, result.c_str());
+		}
+		break;
+	case ComsAdminMessage::AdminShowBanned:
+		{
+			std::string result;
+			result += 
+				"--Admin Show Banned----------------------------------\n";
+
+			std::list<ServerBanned::BannedRange> &bannedIps = 
+				ServerBanned::instance()->getBannedIps();
+			std::list<ServerBanned::BannedRange>::iterator itor;
+			for (itor = bannedIps.begin();
+				itor != bannedIps.end();
+				itor++)
+			{
+				ServerBanned::BannedRange &range = (*itor);
+				std::string mask = NetInterface::getIpName(range.mask);
+
+				std::map<unsigned int, ServerBanned::BannedEntry>::iterator ipitor;
+				for (ipitor = range.ips.begin();
+					ipitor != range.ips.end();
+					ipitor++)
+				{
+					unsigned int ip = (*ipitor).first;
+					ServerBanned::BannedEntry &entry = (*ipitor).second;
+					std::string ipName = NetInterface::getIpName(ip);
+
+					result += formatString("\"%s\" %s %s (%s) - %s",
+						entry.name.c_str(),
+						ServerBanned::getBannedTypeStr(entry.type),
+						ipName.c_str(), mask.c_str(),
+						(entry.bantime?ctime(&entry.bantime):"\n"));
+				}
+			}
+			result +=
+				"----------------------------------------------------\n";
+
+			ServerCommon::sendString(destinationId, result.c_str());
+		}
+		break;
 	case ComsAdminMessage::AdminBan:
 		{
 			Tank *targetTank = ScorchedServer::instance()->
 				getTankContainer().getTankById(atoi(message.getParam1()));
-			if (targetTank) ServerCommon::banPlayer(
-				targetTank->getPlayerId());
+			if (targetTank)
+			{
+				Logger::log(0,
+					"\"%s\" admin ban \"%s\"",
+					adminTank->getName(),
+					targetTank->getName());
+				ServerCommon::banPlayer(
+					targetTank->getPlayerId());
+			}
 			else ServerCommon::sendString(destinationId, "Unknown player for ban");
 		}
 		break;
@@ -127,8 +201,15 @@ bool ServerAdminHandler::processMessage(unsigned int destinationId,
 		{
 			Tank *targetTank = ScorchedServer::instance()->
 				getTankContainer().getTankById(atoi(message.getParam1()));
-			if (targetTank) ServerCommon::kickPlayer(
-				targetTank->getPlayerId());
+			if (targetTank)
+			{
+				Logger::log(0,
+					"\"%s\" admin kick \"%s\"",
+					adminTank->getName(),
+					targetTank->getName());
+				ServerCommon::kickPlayer(
+					targetTank->getPlayerId());
+			}
 			else ServerCommon::sendString(destinationId, "Unknown player for kick");
 		}
 		break;
@@ -137,31 +218,168 @@ bool ServerAdminHandler::processMessage(unsigned int destinationId,
 		{
 			Tank *targetTank = ScorchedServer::instance()->
 				getTankContainer().getTankById(atoi(message.getParam1()));
-			if (targetTank) targetTank->getState().setMuted(
+			if (targetTank)
+			{
+				Logger::log(0,
+					"\"%s\" admin mute \"%s\"",
+					adminTank->getName(),
+					targetTank->getName());
+				targetTank->getState().setMuted(
 					message.getType() == ComsAdminMessage::AdminMute); 
-			else ServerCommon::sendString(destinationId, "Unknown player for slap");
+			}
+			else ServerCommon::sendString(destinationId, "Unknown player for mute");
+		}
+		break;
+	case ComsAdminMessage::AdminPermMute:
+		{
+			Tank *targetTank = ScorchedServer::instance()->
+				getTankContainer().getTankById(atoi(message.getParam1()));
+			if (targetTank)
+			{
+				Logger::log(0,
+					"\"%s\" admin permmute \"%s\"",
+					adminTank->getName(),
+					targetTank->getName());
+				ServerCommon::banPlayer(
+					targetTank->getPlayerId(),
+					ServerBanned::Muted);
+				targetTank->getState().setMuted(true);
+			}
+			else ServerCommon::sendString(destinationId, "Unknown player for permmute");
+		}
+		break;
+	case ComsAdminMessage::AdminUnPermMute:
+		{
+			Tank *targetTank = ScorchedServer::instance()->
+				getTankContainer().getTankById(atoi(message.getParam1()));
+			if (targetTank)
+			{
+				Logger::log(0,
+					"\"%s\" admin unpermmute \"%s\"",
+					adminTank->getName(),
+					targetTank->getName());
+				ServerCommon::banPlayer(
+					targetTank->getPlayerId(),
+					ServerBanned::NotBanned);
+				targetTank->getState().setMuted(false);
+			}
+			else ServerCommon::sendString(destinationId, "Unknown player for unpermmute");
 		}
 		break;
 	case ComsAdminMessage::AdminTalk:
+		Logger::log(0,
+			"\"%s\" admin talk \"%s\"",
+			adminTank->getName(),
+			message.getParam1());
+
 		ServerCommon::sendString(0, message.getParam1());
 		break;
+	case ComsAdminMessage::AdminAdminTalk:
+		{
+			Logger::log(0,
+				"\"%s\" admin admintalk \"%s\"",
+				adminTank->getName(),
+				message.getParam1());
+
+			std::map<unsigned int, Tank *> &tanks = 
+				ScorchedServer::instance()->
+					getTankContainer().getPlayingTanks();
+			for (itor = tanks.begin();
+				itor != tanks.end();
+				itor++)
+			{
+				Tank *tank = (*itor).second;
+				if (tank->getState().getAdmin())
+				{
+					ServerCommon::sendString(
+						tank->getDestinationId(), 
+						"(Admin) %s", 
+						message.getParam1());
+				}
+			}
+		}
+		break;
 	case ComsAdminMessage::AdminMessage:
+		Logger::log(0,
+			"\"%s\" admin message \"%s\"",
+			adminTank->getName(),
+			message.getParam1());
 		ServerCommon::sendStringMessage(0, message.getParam1());
 		break;
 	case ComsAdminMessage::AdminKillAll:
+		Logger::log(0,
+			"\"%s\" admin killall",
+			adminTank->getName());
+
 		ServerCommon::killAll();
 		break;
 	case ComsAdminMessage::AdminSlap:
 		{
 			Tank *targetTank = ScorchedServer::instance()->
 				getTankContainer().getTankById(atoi(message.getParam1()));
-			if (targetTank) ServerCommon::slapPlayer(
-				targetTank->getPlayerId(),
-				(float) atof(message.getParam2()));
+			if (targetTank)
+			{	
+				Logger::log(0,
+					"\"%s\" admin slap \"%s\" %.0f",
+					adminTank->getName(),
+					targetTank->getName(),
+					(float) atof(message.getParam2()));
+				ServerCommon::slapPlayer(
+					targetTank->getPlayerId(),
+					(float) atof(message.getParam2()));
+			}
 			else ServerCommon::sendString(destinationId, "Unknown player for slap");
 		}
 		break;
 	}
 
 	return true;
+}
+
+bool ServerAdminHandler::login(const char *name, const char *password)
+{
+	const char *fileName = 
+		getSettingsFile("adminpassword-server-%i.xml",
+			ScorchedServer::instance()->getOptionsGame().getPortNo());
+
+	XMLFile file;
+	if (!file.readFile(fileName))
+	{
+		Logger::log(0, 
+			"Failed to parse \"%s\"\n%s", 
+			fileName,
+			file.getParserError());
+		return false;
+	}
+	if (!file.getRootNode())
+	{
+		Logger::log(0, 
+			"Please create file %s to have admin users", 
+			fileName);
+		return false;
+	}
+
+	// Itterate all of the users in the file
+    std::list<XMLNode *>::iterator childrenItor;
+	std::list<XMLNode *> &children = file.getRootNode()->getChildren();
+    for (childrenItor = children.begin();
+		 childrenItor != children.end();
+		 childrenItor++)
+    {
+        XMLNode *currentNode = (*childrenItor);
+		if (strcmp(currentNode->getName(), "user")) return false;
+
+		std::string currentName, currentPassword;
+		if (!currentNode->getNamedChild("name", currentName)) return false;
+		if (!currentNode->getNamedChild("password", currentPassword)) return false;
+		if (!currentNode->failChildren()) return false;
+
+		if (0 == strcmp(name, currentName.c_str()) &&
+			0 == strcmp(password, currentPassword.c_str()))
+		{
+			return true;
+		}
+	}
+
+	return false;	
 }

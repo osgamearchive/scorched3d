@@ -42,7 +42,7 @@ GLConsole::GLConsole() :
 	methods_(rules_, lines_), showCursor_(true)
 {
 	Logger::addLogger(this);
-	font_ = GLWFont::instance()->getSmallPtFont();
+	font_ = GLWFont::instance()->getCourierFont();
 }
 
 GLConsole::~GLConsole()
@@ -211,7 +211,7 @@ void GLConsole::drawBackdrop(float width, float top)
 		0.0f, top - height_ + 10.0f,
 		width, height_);
 
-	glColor4f(0.0f, 0.0f, 0.0f, 0.7f);
+	glColor4f(0.0f, 0.0f, 0.0f, 0.9f);
 	glBegin(GL_QUADS);
 		glVertex2f(0.0f, top - height_ + 10.0f);
 		glVertex2f(width, top - height_ + 10.0f);
@@ -235,7 +235,7 @@ void GLConsole::drawBackdrop(float width, float top)
 
 void GLConsole::drawText(float width, float top)
 {
-	static Vector color(0.8f, 0.8f, 0.8f);
+	static Vector color(1.0f, 1.0f, 1.0f);
 	font_->draw(color, 14,
 		10.0f, top - (height_ - 14.0f), 0.0f, "> %s%c", 
 		currentLine_.c_str(),

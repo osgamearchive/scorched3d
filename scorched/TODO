@@ -18,9 +18,15 @@ Fixed: Ensure tank movement and falling is consistent between server and client
 Fixed: Rollers don't affect shields so badly
 Fixed: Game browsing dialog can now be resized
 Fixed: Players table in game browsing dialog being cleared unnecessarily
+Fixed: Console font now courier and easier to read
 
-Added: Shield penetration can be configured in accessories.xml file
+Added: Admin users now defined in xml document
+Added: Admin users require a username and password
+Added: Admin show shows all players ip address and stats id
+Added: admin permmute, admin unpermmute, admin admintalk, admin showbanned
 Added: Players can be persistantly admin muted
+Added: Server logging for all admin operations
+Added: Shield penetration can be configured in accessories.xml file
 Added: Landscape definitions are not sent during new game (instead loaded from mod)
 Added: Laser weapon primitive
 Added: Ground (re)flattened around tank after move or fall

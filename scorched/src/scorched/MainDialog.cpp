@@ -99,8 +99,16 @@ public:
 		{
 			SDL_LockMutex(messageMutex_);
 			exitCode_ = status;
-			messageString_ = "The Scorched3d process "
-				"terminated unexpectedly.\n";
+			if (exitCode_ != 64)
+			{
+				messageString_ = "The Scorched3d process "
+					"terminated unexpectedly.\n";
+			}
+			else
+			{
+				messageString_ = "The Scorched3d process "
+					"terminated due to configuration errors.\n";
+			}
 			while (IsInputAvailable())
 			{
 				wxTextInputStream tis(*GetInputStream());
@@ -364,7 +372,7 @@ void MainFrame::onTimer(wxTimerEvent &event)
 		{
 			::wxMessageBox(
 				newString,
-				"Scorched3D Terminated Due To Incorrect Configuration",
+				"Scorched3D Termination",
 				wxICON_ERROR);
 		}
 	}

@@ -122,7 +122,7 @@ void GLFontBanner::draw()
 
 	if (usedLines_ > 0)
 	{
-		GLState currentStateBlend(GLState::TEXTURE_ON | 
+		GLState currentStateBlend(GLState::TEXTURE_OFF | 
 			GLState::BLEND_ON | GLState::DEPTH_OFF);
 
 		Vector black(0.0f, 0.0f, 0.0f);
@@ -135,23 +135,32 @@ void GLFontBanner::draw()
 			int used = usedLines_;
 			for (int i=0; i<used; i++)
 			{
-				float minus = GLWFont::instance()->getLargePtFont()->
-					getWidth(fontWidth, textLines_[pos].getText()) / 2.0f;
+				GLFontBannerEntry &entry = textLines_[pos];
 
-				GLWFont::instance()->getLargePtFont()->
-					drawOutline(black, outlineFontWidth, fontWidth,
-						x_ - minus - 2, start - i * lineDepth - 2.0f, 0.0f, 
-						textLines_[pos].getText());
-				/*GLWFont::instance()->getLargePtFont()->
-					drawOutline(black, outlineFontWidth, fontWidth,
-						x_ - minus - 0, start - i * lineDepth - 0.0f, 0.0f, 
-						textLines_[pos].getText());*/
+				float minus = GLWFont::instance()->getLargePtFont()->
+					getWidth(fontWidth, entry.getText()) / 2.0f;
+				float left = minus;
+				if (entry.getTexture())
+				{
+					left = minus + fontWidth + 8.0f;
+				}
+
+				glColor4f(0.0f, 0.0f, 0.0f, 0.7f);
+				glBegin(GL_QUADS);
+					glVertex2f(x_ + minus + 5, start - i * lineDepth + lineDepth - 2.0f);
+					glVertex2f(x_ - left - 3, start - i * lineDepth + lineDepth - 2.0f);
+					glVertex2f(x_ - left - 3, start - i * lineDepth - 5.0f);
+					glVertex2f(x_ + minus + 5, start - i * lineDepth - 5.0f);
+				glEnd();
 
 				if (++pos >= totalLines_) pos = 0;
 			}
 		}
 
 		{
+			GLState currentStateBlend(GLState::TEXTURE_ON | 
+				GLState::BLEND_ON | GLState::DEPTH_OFF);
+
 			int pos = startLine_;
 			int used = usedLines_;
 			for (int i=0; i<used; i++)

@@ -41,6 +41,10 @@ GLWFont::GLWFont()
 	courier16Font_->createFont(
 		getDataFile("data/fonts/test.ttf"),
 		16);
+	courierFont_ = new GLFont2d;
+	courierFont_->createFont(
+		getDataFile("data/fonts/courier.ttf"),
+		16);
 }
 
 GLWFont::~GLWFont()

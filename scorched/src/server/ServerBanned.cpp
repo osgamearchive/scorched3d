@@ -197,7 +197,7 @@ void ServerBanned::addBannedEntry(unsigned int ip, unsigned int mask,
 
 const char *ServerBanned::getBannedTypeStr(BannedType type)
 {
-	const char *str = "banned";
+	const char *str = "error";
 	if (type == Muted)
 	{
 		str = "muted";
@@ -255,7 +255,10 @@ bool ServerBanned::save()
 					XMLNode::XMLParameterType));
 
 			// Add to file
-			node.addChild(optionNode);
+			if (entry.type != NotBanned)
+			{
+				node.addChild(optionNode);
+			}
 		}
 	}
 	return node.writeToFile(filename);
