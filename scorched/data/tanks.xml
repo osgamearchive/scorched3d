@@ -12,6 +12,12 @@
 		<model type="MilkShape">kenny2.txt</model>
 	</tank>
 	<tank>
+		<name>Gorilla</name>
+		<catagory>Humour</catagory>
+		<model type="MilkShape">gorilla/gorilla.txt</model>
+		<projectilemodel type="MilkShape">banana/banana.txt</projectilemodel>
+	</tank>
+	<tank>
 		<name>Death</name>
 		<catagory>Humour</catagory>
 		<model type="MilkShape">death/death.txt</model>

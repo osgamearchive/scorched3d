@@ -6,6 +6,7 @@ Fixed: Some MSVC 2003 compilation problems
 Fixed: Buoys now shaded
 Fixed: Client does not wait at the end of each shot when fast speed is enabled
 
+Added: Gorilla tank and banana weapon model (thanks Knochi)
 Added: Html help bundled with Scorched3D
 Added: Help can be browsed via help button on main menu dialog
 Added: Bot names can be randomly choosen by setting config option
