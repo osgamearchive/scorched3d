@@ -18,22 +18,23 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #if !defined(__INCLUDE_ServerNextRoundStateh_INCLUDE__)
 #define __INCLUDE_ServerNextRoundStateh_INCLUDE__
 
-#include <engine/GameStateI.h>
+#include <server/ServerShotState.h>
 
 class ServerNextRoundState : 
 	public GameStateI
 {
 public:
-	ServerNextRoundState();
+	ServerNextRoundState(ServerShotState *shot);
 	virtual ~ServerNextRoundState();
 
 	virtual void enterState(const unsigned state);
 
-};
+protected:
+	ServerShotState *shot_;
 
+};
 
 #endif

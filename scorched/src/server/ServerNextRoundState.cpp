@@ -32,7 +32,8 @@
 #include <common/OptionsTransient.h>
 #include <common/StatsLogger.h>
 
-ServerNextRoundState::ServerNextRoundState()
+ServerNextRoundState::ServerNextRoundState(ServerShotState *shot) :
+	shot_(shot)
 {
 }
 
@@ -76,6 +77,7 @@ void ServerNextRoundState::enterState(const unsigned state)
 
 	// Make sure that no players have made shots
 	ServerShotHolder::instance()->clearShots();
+	shot_->getShotTime() = 0.0f;
 
 	// Setup this list of players that need to move before this round is over
 	TurnController::instance()->nextRound();

@@ -43,6 +43,7 @@ public:
 
 protected:
 	float time_;
+	float idleTime_;
 	ServerShotState *shotState_;
 
 	void finished();

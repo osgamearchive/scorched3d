@@ -28,6 +28,7 @@ enum
 	IDC_WAIT_TIME,
 	IDC_SHOT_TIME,
 	IDC_IDLE_TIME,
+	IDC_IDLE_SHOTTIME,
 	IDC_TEAMS,
 	IDC_AUTOBALANCETEAMS
 };
@@ -39,6 +40,7 @@ static wxComboBox *IDC_NOSHOTS_CTRL = 0;
 static wxComboBox *IDC_WAIT_TIME_CTRL = 0;
 static wxComboBox *IDC_SHOT_TIME_CTRL = 0;
 static wxComboBox *IDC_IDLE_TIME_CTRL = 0;
+static wxComboBox *IDC_IDLE_SHOTTIME_CTRL = 0;
 static wxComboBox *IDC_TYPE_CTRL = 0;
 static wxComboBox *IDC_TEAMS_CTRL = 0;
 static wxCheckBox *IDC_AUTOBALANCETEAMS_CTRL = 0;
@@ -51,3 +53,4 @@ static wxStaticText *IDC_TYPE_CTRL_TEXT = 0;
 static wxStaticText *IDC_WAIT_TIME_CTRL_TEXT = 0;
 static wxStaticText *IDC_SHOT_TIME_CTRL_TEXT = 0;
 static wxStaticText *IDC_IDLE_TIME_CTRL_TEXT = 0;
+static wxStaticText *IDC_IDLE_SHOTTIME_CTRL_TEXT = 0;

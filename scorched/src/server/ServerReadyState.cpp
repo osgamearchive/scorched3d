@@ -58,6 +58,17 @@ void ServerReadyState::enterState(const unsigned state)
 	// Set the wait timer to the current time
 	time_ = 0.0f;
 
+	if (shotState_->getShotTime() == 0.0f)
+	{
+		idleTime_ = ScorchedServer::instance()->
+			getOptionsGame().getIdleKickTime();
+	}
+	else
+	{
+		idleTime_ = ScorchedServer::instance()->
+			getOptionsGame().getIdleShotKickTime();
+	}
+
 	// Add on the time the shots took to simulate
 	// So we don't time clients out too quickly
 	time_ -= shotState_->getShotTime();
@@ -117,8 +128,7 @@ bool ServerReadyState::acceptStateChange(const unsigned state,
 			ComsMessageSender::sendToAllPlayingClients(statusMessage);			
 
 			// Send out a last chance message just before we kick
-			if ((ScorchedServer::instance()->getOptionsGame().getIdleKickTime() > 0) &&
-				(time_ > ScorchedServer::instance()->getOptionsGame().getIdleKickTime() - 6))
+			if ((idleTime_ > 0) && (time_ > idleTime_ - 6))
 			{
 				for (itor = tanks.begin();
 					itor != tanks.end();
@@ -158,8 +168,7 @@ bool ServerReadyState::acceptStateChange(const unsigned state,
 	}
 
 	// Check if any players have timed out
-	if ((ScorchedServer::instance()->getOptionsGame().getIdleKickTime() > 0) &&
-		(time_ > ScorchedServer::instance()->getOptionsGame().getIdleKickTime()))
+	if ((idleTime_ > 0) && (time_ > idleTime_))
 	{
 		// Kick all not returned players
 		std::map<unsigned int, Tank *> &tanks = 
@@ -175,7 +184,7 @@ bool ServerReadyState::acceptStateChange(const unsigned state,
 				Logger::log(0, 
 					"Player \"%s\" not returned ready for %i seconds", 
 					tank->getName(),
-					ScorchedServer::instance()->getOptionsGame().getIdleKickTime());
+					idleTime_);
 
 				ServerCommon::kickDestination(tank->getDestinationId());
 			}

@@ -474,6 +474,7 @@ bool SettingsFrame::TransferDataToWindow()
 			sprintf(string, "%i Seconds", i);
 			if (i==0) sprintf(string, "%i (Infinite)", i);	
 			SettingsMain::IDC_SHOT_TIME_CTRL->Append(string);
+			SettingsMain::IDC_IDLE_SHOTTIME_CTRL->Append(string);
 			SettingsMain::IDC_IDLE_TIME_CTRL->Append(string);
 		}
 		SettingsMain::IDC_SHOT_TIME_CTRL->SetSelection(
@@ -483,7 +484,11 @@ bool SettingsFrame::TransferDataToWindow()
 		SettingsMain::IDC_IDLE_TIME_CTRL->SetSelection(
 			context_.getIdleKickTime()/5);
 		SettingsMain::IDC_IDLE_TIME_CTRL->SetToolTip(
-			wxString("The amount of time to wait for a client to respond before kicking it."));
+			wxString("The amount of time to wait for a client to respond after level loading before kicking it."));
+		SettingsMain::IDC_IDLE_SHOTTIME_CTRL->SetSelection(
+			context_.getIdleShotKickTime()/5);
+		SettingsMain::IDC_IDLE_SHOTTIME_CTRL->SetToolTip(
+			wxString("The amount of time to wait for a client to respond after shots before kicking it."));
 
 		// Password
 		SettingsMain::IDC_SERVER_PASSWORD_CTRL->SetValue(
@@ -610,6 +615,7 @@ bool SettingsFrame::TransferDataFromWindow()
 		int shotTime = 30;
 		int waitTime = 30;
 		int idleTime = 30;
+		int idleShotTime = 10;
 		int maxRoundTurns = 15;
 
 		context_.setTurnType((OptionsGame::TurnType) (int) 
@@ -621,11 +627,13 @@ bool SettingsFrame::TransferDataFromWindow()
 		sscanf(SettingsMain::IDC_SERVER_ROUNDS_CTRL->GetValue(), "%i", &noRounds);
 		sscanf(SettingsMain::IDC_SHOT_TIME_CTRL->GetValue(), "%i", &shotTime);
 		sscanf(SettingsMain::IDC_IDLE_TIME_CTRL->GetValue(), "%i", &idleTime);
+		sscanf(SettingsMain::IDC_IDLE_SHOTTIME_CTRL->GetValue(), "%i", &idleShotTime);
 		context_.setAutoBallanceTeams(SettingsMain::IDC_AUTOBALANCETEAMS_CTRL->GetValue());
 		
 		context_.setNoRounds(noRounds);
 		context_.setShotTime(shotTime);
 		context_.setIdleKickTime(idleTime);
+		context_.setIdleShotKickTime(idleShotTime);
 		context_.setNoMaxRoundTurns(maxRoundTurns);
 		
 		context_.setServerPassword(

@@ -141,6 +141,10 @@ public:
 	void setIdleKickTime(int value) { idleKickTime_.setValue(value); }
 	const char *getIdleKickTimeToolTip() { return idleKickTime_.getDescription(); }
 
+	int getIdleShotKickTime() { return idleShotKickTime_.getValue(); }
+	void setIdleShotKickTime(int value) { idleShotKickTime_.setValue(value); }
+	const char *getIdleShotKickTimeToolTip() { return idleShotKickTime_.getDescription(); }
+
 	int getMinFallingDistance() { return minFallingDistance_.getValue(); }
 	void setMinFallingDistance(int value) { minFallingDistance_.setValue(value); }
 	const char *getMinFallingDistanceToolTip() { return minFallingDistance_.getDescription(); }
@@ -332,6 +336,7 @@ protected:
 	OptionEntryBool moneyPerHealthPoint_;
 	OptionEntryBoundedInt moneyStarting_;
 	OptionEntryInt idleKickTime_;
+	OptionEntryInt idleShotKickTime_;
 	OptionEntryBoundedInt moneyInterest_;
 	OptionEntryBool limitPowerByHealth_;
 	OptionEntryBool autoBallanceTeams_;

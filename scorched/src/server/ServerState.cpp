@@ -59,14 +59,14 @@ void ServerState::setupStates(GameState &gameState)
 		ServerStimulusNextRound, ServerStateNextRound);
 
 	// ServerStateNextRound
-	ServerNextRoundState *serverNextRound = new ServerNextRoundState;
+	ServerShotState *serverShot = new ServerShotState();
+	ServerNextRoundState *serverNextRound = new ServerNextRoundState(serverShot);
 	gameState.addStateEntry(ServerStateNextRound,
 		serverNextRound);
 	gameState.addStateStimulus(ServerStateNextRound, 
 		ServerStimulusReady, ServerStateReady);
 
 	// ServerStateReady
-	ServerShotState *serverShot = new ServerShotState;
 	ServerReadyState *serverReady = new ServerReadyState(serverShot);
 	gameState.addStateEntry(ServerStateReady,
 		serverReady);
