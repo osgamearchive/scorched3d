@@ -226,7 +226,10 @@ bool MSFile::loadFile(FILE *in)
 			{
 				Model *model = *mitor;
 				model->setTextureName(fullTextureName);
-				model->setATextureName(fullTextureAlphaName);
+				if (textureNameAlpha[1])
+				{
+					model->setATextureName(fullTextureAlphaName);
+				}
 				model->setColor(dcolor);
 			}
 		}
