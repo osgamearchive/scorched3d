@@ -18,45 +18,25 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-enum
-{
-	IDC_FULLCLEAR = 1,
-	IDC_NOEXT,
-	IDC_NOSOUND,
-	IDC_NOMULTITEX,
-	IDC_RADIO_SMALL,
-	IDC_RADIO_MEDIUM,
-	IDC_RADIO_LARGE,
-	IDC_NOSKINS,
-	IDC_FULLSCREEN,
-	IDC_DISPLAY,
-	IDC_SLIDER1,
-	IDC_SINGLESKYLAYER,
-	IDC_NOSKYANI,
-	IDC_NOWATERANI,
-	IDC_NOWATER,
-	IDC_LANDSCAPETEX,
-	IDC_INVERT,
-	IDC_TIMER,
-	IDC_USERID,
-	IDC_NODETAILTEX,
-	IDC_NOLANDSCAPESCORCH
-};
-
+static wxCheckBox *IDC_NOCOMPILEDARRAYS_CTRL = 0;
+static wxCheckBox *IDC_NOENVCOMBINE_CTRL = 0;
+static wxCheckBox *IDC_NOCUBEMAP_CTRL = 0;
+static wxCheckBox *IDC_NOMIPMAPS_CTRL = 0;
 static wxCheckBox *IDC_FULLCLEAR_CTRL = 0;
 static wxCheckBox *IDC_NOEXT_CTRL = 0;
 static wxCheckBox *IDC_NOSOUND_CTRL = 0;
 static wxCheckBox *IDC_NOWATER_CTRL = 0;
-static wxCheckBox *IDC_LANDSCAPETEX_CTRL = 0;
 static wxCheckBox *IDC_NOMULTITEX_CTRL = 0;
 static wxCheckBox *IDC_INVERT_CTRL = 0;
 static wxCheckBox *IDC_TIMER_CTRL = 0;
 static wxCheckBox *IDC_NODETAILTEX_CTRL = 0;
 static wxCheckBox *IDC_NOLANDSCAPESCORCH_CTRL = 0;
-static wxRadioButton *IDC_RADIO_SMALL_CTRL = 0;
-static wxRadioButton *IDC_RADIO_MEDIUM_CTRL = 0;
-static wxRadioButton *IDC_RADIO_LARGE_CTRL = 0;
+static wxRadioButton *IDC_SMALLTEX_CTRL = 0;
+static wxRadioButton *IDC_MEDIUMTEX_CTRL = 0;
+static wxRadioButton *IDC_LARGETEX_CTRL = 0;
+static wxRadioButton *IDC_LOWTANK_CTRL = 0;
+static wxRadioButton *IDC_MEDIUMTANK_CTRL = 0;
+static wxRadioButton *IDC_HIGHTANK_CTRL = 0;
 static wxCheckBox *IDC_NOSKINS_CTRL = 0;
 static wxCheckBox *IDC_FULLSCREEN_CTRL = 0;
 static wxComboBox *IDC_DISPLAY_CTRL = 0;

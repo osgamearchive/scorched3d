@@ -105,12 +105,11 @@ void MissileActionRenderer::draw(Action *action)
 			loadedMeshes_.find(name);
 		if (itor == loadedMeshes_.end())
 		{
-			ModelsFile *newFile = usedModelId->getNewFile();
+			ModelsFile *newFile = usedModelId->getModelsFile();
 			if (!newFile) return;
 
 			mesh_ = new MissileMesh(*newFile, 
 				!OptionsDisplay::instance()->getNoSkins(), 1.0f);
-			delete newFile;
 			loadedMeshes_[name] = mesh_;
 		}
 		else

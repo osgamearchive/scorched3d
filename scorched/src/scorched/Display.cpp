@@ -18,125 +18,166 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include "Display-def.cpp"
 
-static void createControls(wxWindow *parent)
+static void createControls(wxWindow *parent, wxSizer *sizer)
 {
-	IDC_FULLCLEAR_CTRL = 
-		new wxCheckBox(parent, IDC_FULLCLEAR,
-		"Full Clear - Clears screen instead of overwriting for each frame (slower)",
-		wxPoint((int) 27, (int) 228));
-	new wxStaticBox(parent, -1,
-		"Switches (Switches used to diagnose problems)",
-		wxPoint((int) 10.5, (int) 213), wxSize((int) 519, (int) 114));
-	IDC_NOEXT_CTRL = 
-		new wxCheckBox(parent, IDC_NOEXT,
-		"No GL Extensions - Don't use any OpenGL extensions (3dfx)",
-		wxPoint((int) 27, (int) 248));
-	IDC_NOSOUND_CTRL = 
-		new wxCheckBox(parent, IDC_NOSOUND,
-		"No Sound - Don't use any sound",
-		wxPoint((int) 27, (int) 288));
-	IDC_NOMULTITEX_CTRL = 
-		new wxCheckBox(parent, IDC_NOMULTITEX,
-		"No Multi Texture - Only use one texture per face (faster)",
-		wxPoint((int) 27, (int) 268));
-	new wxStaticBox(parent, -1,
-		"Texture Sizes (Larger is slower but of better quality)",
-		wxPoint((int) 10.5, (int) 84), wxSize((int) 519, (int) 43.5));
-	IDC_RADIO_SMALL_CTRL = 
-		new wxRadioButton(parent, IDC_RADIO_SMALL,
-		"Small (3dfx and fastest)",
-		wxPoint((int) 66, (int) 103.5));
-	IDC_RADIO_MEDIUM_CTRL = 
-		new wxRadioButton(parent, IDC_RADIO_MEDIUM,
-		"Medium",
-		wxPoint((int) 247.5, (int) 103.5));
-	IDC_RADIO_LARGE_CTRL = 
-		new wxRadioButton(parent, IDC_RADIO_LARGE,
-		"Large (slowest)",
-		wxPoint((int) 387, (int) 105));
-	new wxStaticBox(parent, -1,
-		"Display",
-		wxPoint((int) 10.5, (int) 4.5), wxSize((int) 519, (int) 76.5));
-	IDC_FULLSCREEN_CTRL = 
-		new wxCheckBox(parent, IDC_FULLSCREEN,
-		"Full Screen",
-		wxPoint((int) 27, (int) 52.5));
+	// Display settings
+	wxStaticBox *displayBox = new wxStaticBox(parent, -1, "Display");
+	wxStaticBoxSizer *displaySizer = new wxStaticBoxSizer(displayBox, wxHORIZONTAL);
+	wxFlexGridSizer *displaySizer2 = new wxFlexGridSizer(2, 3, 5, 5);
+	wxStaticText *resText = new wxStaticText(parent, -1, "Resolution :");
 	IDC_DISPLAY_CTRL = 
-		new wxComboBox(parent, IDC_DISPLAY,
+		new wxComboBox(parent, -1,
 		"",
-		wxPoint((int) 198, (int) 21), wxSize((int) 301.5, (int) 129),
+		wxDefaultPosition, wxSize((int) 315, -1),
 		0, 0, wxCB_READONLY);
-	new wxStaticText(parent, -1,
-		"Brightness :",
-		wxPoint((int) 129, (int) 54), wxSize((int) 58.5, (int) 12));
+	IDC_FULLSCREEN_CTRL = 
+		new wxCheckBox(parent, -1, "Full Screen");
+	displaySizer2->Add(resText, 0);
+	displaySizer2->Add(IDC_DISPLAY_CTRL, 0);
+	displaySizer2->Add(IDC_FULLSCREEN_CTRL, 0, wxALIGN_CENTRE_VERTICAL);
+	wxStaticText *brightText = new wxStaticText(parent, -1, "Brightness :");
 	IDC_SLIDER1_CTRL = 
-		new wxSlider(parent, IDC_SLIDER1,
+		new wxSlider(parent, -1,
 		0,0,0,
-		wxPoint((int) 190.5, (int) 43.5), wxSize((int) 315, (int) 33),
+		wxDefaultPosition, wxSize((int) 315, -1),
 		wxSL_HORIZONTAL | wxSL_AUTOTICKS);
-	new wxStaticText(parent, -1,
-		"Resolution :",
-		wxPoint((int) 129, (int) 27), wxSize((int) 58.5, (int) 12));
-	new wxStaticBox(parent, -1,
-		"Misc. Settings",
-		wxPoint((int) 10.5, (int) 130.5), wxSize((int) 519, (int) 79.5));
+	displaySizer2->Add(brightText, 0);
+	displaySizer2->Add(IDC_SLIDER1_CTRL, 0);
+	displaySizer->Add(displaySizer2, 0);
+	sizer->Add(displaySizer, 0, wxGROW | wxLEFT | wxRIGHT | wxTOP, 5);
+
+	// Texture sizes (small med large)
+	wxStaticBox *textureBox = new wxStaticBox(parent, -1, "Level of Detail settings");
+	wxStaticBoxSizer *textureSizer = new wxStaticBoxSizer(textureBox, wxHORIZONTAL);
+	wxGridSizer *textureSizer2 = new wxGridSizer(1, 4, 10, 10);
+	wxStaticText *texSizeText = new wxStaticText(parent, -1, "Texture Sizes :");
+	textureSizer2->Add(texSizeText);
+	IDC_SMALLTEX_CTRL = new wxRadioButton(parent, -1, "Small (3dfx/faster)", wxDefaultPosition, wxDefaultSize, wxRB_GROUP);
+	textureSizer2->Add(IDC_SMALLTEX_CTRL, 0);
+	IDC_MEDIUMTEX_CTRL = new wxRadioButton(parent, -1, "Medium");
+	textureSizer2->Add(IDC_MEDIUMTEX_CTRL, 0);
+	IDC_LARGETEX_CTRL = new wxRadioButton(parent, -1, "Large (slower)");
+	textureSizer2->Add(IDC_LARGETEX_CTRL, 0);
+	wxStaticText *tankSizeText = new wxStaticText(parent, -1, "Tank Detail :");
+	textureSizer2->Add(tankSizeText);
+	IDC_LOWTANK_CTRL = new wxRadioButton(parent, -1, "Low (faster)", wxDefaultPosition, wxDefaultSize, wxRB_GROUP);
+	textureSizer2->Add(IDC_LOWTANK_CTRL, 0);
+	IDC_MEDIUMTANK_CTRL = new wxRadioButton(parent, -1, "Medium");
+	textureSizer2->Add(IDC_MEDIUMTANK_CTRL, 0);
+	IDC_HIGHTANK_CTRL = new wxRadioButton(parent, -1, "High (slower)");
+	textureSizer2->Add(IDC_HIGHTANK_CTRL, 0);
+	textureSizer->Add(textureSizer2, 0, wxGROW);
+	sizer->Add(textureSizer, 0, wxGROW | wxLEFT | wxRIGHT | wxTOP, 5);
+
+	// Detail switches 
+	wxStaticBox *detailBox = new wxStaticBox(parent, -1, 
+		"Detail (Turn off to speed up the game)");
+	wxStaticBoxSizer *detailSizer = new wxStaticBoxSizer(detailBox, wxHORIZONTAL);
+	wxGridSizer *detailSizer2 = new wxGridSizer(3, 3, 10, 10);
 	IDC_SINGLESKYLAYER_CTRL = 
-		new wxCheckBox(parent, IDC_SINGLESKYLAYER,
-		"Single sky layer",
-		wxPoint((int) 27, (int) 147));
+		new wxCheckBox(parent, -1, "Single sky layer",
+		wxDefaultPosition, wxSize((int) 150, (int) -1));
+	detailSizer2->Add(IDC_SINGLESKYLAYER_CTRL, 0);
 	IDC_NOSKYANI_CTRL = 
-		new wxCheckBox(parent, IDC_NOSKYANI,
-		"Don't animate sky",
-		wxPoint((int) 27, (int) 167));
+		new wxCheckBox(parent, -1, "Don't animate sky",
+		wxDefaultPosition, wxSize((int) 150, (int) -1));
+	detailSizer2->Add(IDC_NOSKYANI_CTRL, 0);
 	IDC_NOWATERANI_CTRL = 
-		new wxCheckBox(parent, IDC_NOWATERANI,
-		"Don't animate water",
-		wxPoint((int) 27, (int) 187));
+		new wxCheckBox(parent, -1, "Don't animate water",
+		wxDefaultPosition, wxSize((int) 150, (int) -1));
+	detailSizer2->Add(IDC_NOWATERANI_CTRL, 0);
 	IDC_NOWATER_CTRL = 
-		new wxCheckBox(parent, IDC_NOWATER,
-		"Don't draw water",
-		wxPoint((int) 200, (int) 147));
-	IDC_LANDSCAPETEX_CTRL = 
-		new wxCheckBox(parent, IDC_LANDSCAPETEX,
-		"Don't texture landscape",
-		wxPoint((int) 200, (int) 167));
-	IDC_INVERT_CTRL = 
-		new wxCheckBox(parent, IDC_INVERT,
-		"Invert up/down keys",
-		wxPoint((int) 200, (int) 187));
-	IDC_TIMER_CTRL = 
-		new wxCheckBox(parent, IDC_TIMER,
-		"Show frames per second",
-		wxPoint((int) 370, (int) 147));
+		new wxCheckBox(parent, -1, "Don't draw water",
+		wxDefaultPosition, wxSize((int) 150, (int) -1));
+	detailSizer2->Add(IDC_NOWATER_CTRL, 0);
 	IDC_NODETAILTEX_CTRL = 
-		new wxCheckBox(parent, IDC_NODETAILTEX,
-		"Don't use detail textures",
-		wxPoint((int) 370, (int) 167));
+		new wxCheckBox(parent, -1, "Don't use detail textures",
+		wxDefaultPosition, wxSize((int) 150, (int) -1));
+	detailSizer2->Add(IDC_NODETAILTEX_CTRL, 0);
 	IDC_NOSKINS_CTRL = 
-		new wxCheckBox(parent, IDC_NOSKINS,
-		"No tank skins",
-		wxPoint((int) 370, (int) 187));
+		new wxCheckBox(parent, -1, "No tank skins",
+		wxDefaultPosition, wxSize((int) 150, (int) -1));
+	detailSizer2->Add(IDC_NOSKINS_CTRL, 0);
+	detailSizer->Add(detailSizer2, 0, wxGROW);
+	sizer->Add(detailSizer, 0, wxGROW | wxLEFT | wxRIGHT | wxTOP, 5);
+
+	// Troubleshooting switches 
+	wxStaticBox *troubleBox = new wxStaticBox(parent, -1,
+		"Trouble shooting (Turn off if Scorched crashes)");
+	wxStaticBoxSizer *troubleSizer = new wxStaticBoxSizer(troubleBox, wxHORIZONTAL);
+	wxGridSizer *troubleSizer2 = new wxGridSizer(3, 3, 10, 10);
+	IDC_NOEXT_CTRL = 
+		new wxCheckBox(parent, -1, "No GL Extensions",
+		wxDefaultPosition, wxSize((int) 150, (int) -1));
+	troubleSizer2->Add(IDC_NOEXT_CTRL, 0);
+	IDC_NOMULTITEX_CTRL = 
+		new wxCheckBox(parent, -1, "No multi texture",
+		wxDefaultPosition, wxSize((int) 150, (int) -1));
+	troubleSizer2->Add(IDC_NOMULTITEX_CTRL, 0);
 	IDC_NOLANDSCAPESCORCH_CTRL = 
-		new wxCheckBox(parent, IDC_NOLANDSCAPESCORCH,
-		"Don't use TexSubImaging",
-		wxPoint((int) 27, (int) 308));
-	new wxStaticBox(parent, -1,
-		"User ID (Uniquely identifies this player for stats, not generated from any user information.)",
-		wxPoint((int) 10.5, (int) 332), wxSize((int) 519, (int) 43.5));
-	IDC_USERID_CTRL = 
-		new wxTextCtrl(parent, IDC_USERID,
-		"", 
-		wxPoint((int) 27, (int) 345), wxSize((int) 300, (int) 23.5));
-	IDOK_CTRL = 
-		new wxButton(parent, wxID_OK,
-		"Ok",
-		wxPoint((int) 454.5, (int) 384.5), wxSize((int) 75, (int) 21));
-	IDCANCEL_CTRL = 
-		new wxButton(parent, wxID_CANCEL,
-		"Cancel",
-		wxPoint((int) 373.5, (int) 384.5), wxSize((int) 75, (int) 21));
+		new wxCheckBox(parent, -1, "No TexSubImaging",
+		wxDefaultPosition, wxSize((int) 150, (int) -1));
+	troubleSizer2->Add(IDC_NOLANDSCAPESCORCH_CTRL, 0);
+	IDC_NOCOMPILEDARRAYS_CTRL = 
+		new wxCheckBox(parent, -1, "No compiled arrays",
+		wxDefaultPosition, wxSize((int) 150, (int) -1));
+	troubleSizer2->Add(IDC_NOCOMPILEDARRAYS_CTRL, 0);
+	IDC_NOENVCOMBINE_CTRL = 
+		new wxCheckBox(parent, -1, "No combined textures",
+		wxDefaultPosition, wxSize((int) 150, (int) -1));
+	troubleSizer2->Add(IDC_NOENVCOMBINE_CTRL, 0);
+	IDC_NOCUBEMAP_CTRL = 
+		new wxCheckBox(parent, -1, "No cube map textures",
+		wxDefaultPosition, wxSize((int) 150, (int) -1));
+	troubleSizer2->Add(IDC_NOCUBEMAP_CTRL, 0);
+	IDC_NOMIPMAPS_CTRL = 
+		new wxCheckBox(parent, -1, "No HW mip maps",
+		wxDefaultPosition, wxSize((int) 150, (int) -1));
+	troubleSizer2->Add(IDC_NOMIPMAPS_CTRL, 0);
+	IDC_FULLCLEAR_CTRL = 
+		new wxCheckBox(parent, -1, "Full Clear",
+		wxDefaultPosition, wxSize((int) 150, (int) -1));
+	troubleSizer2->Add(IDC_FULLCLEAR_CTRL, 0);
+	troubleSizer->Add(troubleSizer2, 0, wxGROW);
+	sizer->Add(troubleSizer, 0, wxGROW | wxLEFT | wxRIGHT | wxTOP, 5);
+
+
+	// Misc switches 
+	wxStaticBox *miscBox = new wxStaticBox(parent, -1, 
+		"Misc. Options");
+	wxStaticBoxSizer *miscSizer = new wxStaticBoxSizer(miscBox, wxHORIZONTAL);
+	wxGridSizer *miscSizer2 = new wxGridSizer(3, 3, 10, 10);
+	IDC_INVERT_CTRL = 
+		new wxCheckBox(parent, -1, "Invert up/down keys",
+		wxDefaultPosition, wxSize((int) 150, (int) -1));
+	miscSizer2->Add(IDC_INVERT_CTRL, 0);
+	IDC_TIMER_CTRL = 
+		new wxCheckBox(parent, -1, "Show frames per second",
+		wxDefaultPosition, wxSize((int) 150, (int) -1));
+	miscSizer2->Add(IDC_TIMER_CTRL, 0);
+	IDC_NOSOUND_CTRL = 
+		new wxCheckBox(parent, -1, "No Sound",
+		wxDefaultPosition, wxSize((int) 150, (int) -1));
+	miscSizer2->Add(IDC_NOSOUND_CTRL, 0);
+	miscSizer->Add(miscSizer2, 0, wxGROW);
+	sizer->Add(miscSizer, 0, wxGROW | wxLEFT | wxRIGHT | wxTOP, 5);
+
+	// User id edit box
+	wxStaticBox *userBox = new wxStaticBox(parent, -1, 
+		"User ID (Uniquely identifies this player for stats, not generated from any user information.)");
+	wxStaticBoxSizer *userSizer = new wxStaticBoxSizer(userBox, wxHORIZONTAL);
+	IDC_USERID_CTRL = new wxTextCtrl(parent, -1, wxString(), wxDefaultPosition, wxSize(300, -1));
+	userSizer->Add(IDC_USERID_CTRL, 0, wxALIGN_CENTER);
+	sizer->Add(userSizer, 0, wxGROW | wxLEFT | wxRIGHT | wxTOP, 5);
+
+	// Ok and cancel boxes
+	wxBoxSizer *buttonSizer = new wxBoxSizer(wxHORIZONTAL);
+	IDOK_CTRL = new wxButton(parent, wxID_OK, "Ok");
+	IDCANCEL_CTRL = new wxButton(parent, wxID_CANCEL, "Cancel");
+	buttonSizer->Add(IDCANCEL_CTRL, 0, wxALL, 10);
+	buttonSizer->Add(IDOK_CTRL, 0, wxALL, 10);
+	sizer->Add(buttonSizer, 0, wxALIGN_RIGHT);
 }
 

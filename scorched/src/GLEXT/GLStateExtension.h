@@ -42,29 +42,25 @@ typedef void (* PFNGLLOCKARRAYSEXTPROC) (GLint first, GLsizei count);
 class GLStateExtension
 {
 public:
-	static bool &getNoExtensions() { return noExtensions_; }
-	static bool &getNoMultiTex() { return multiTexDisabled_; }
-	static bool &getNoTexSubImage() { return noTexSubImage_; }
 
+	static void setup(); // Setup and check for each extension
+
+	// Use multi textureing?
 	static PFNGLACTIVETEXTUREARBPROC glActiveTextureARB() { return glActiveTextureARB_; }
 	static PFNGLMULTITEXCOORD2FARBPROC glMultiTextCoord2fARB() { return glMultiTextCoord2fARB_; }
 	static PFNGLCLIENTACTIVETEXTUREARBPROC glClientActiveTextureARB() { return glClientActiveTextureARB_; }
-
+	// Use locked arrays?
 	static PFNGLLOCKARRAYSEXTPROC glLockArraysEXT() { return glLockArraysEXT_; }
-
-	static bool hasCubeMap() { return hasCubeMap_; }
-	static bool hasHardwareMipmaps() { return hasHardwareMipmaps_; }
-	static bool hasEnvCombine() { return envCombine_; }
-	static int getTextureUnits() { return textureUnits_; }
-
-	static void setup();
+	static bool getNoTexSubImage(); // Use tex sub image extension?
+	static bool hasCubeMap(); // Use cube map extension?
+	static bool hasHardwareMipmaps(); // Use hardware mipmap extension?
+	static bool hasEnvCombine(); // Use env combine
+	static int getTextureUnits(); // How many texture units
 
 protected:
 	static bool hasExtension(char *name);
 
-	static bool noTexSubImage_;
 	static bool envCombine_;
-	static bool noExtensions_;
 	static bool multiTexDisabled_;
 
 	static PFNGLACTIVETEXTUREARBPROC glActiveTextureARB_;

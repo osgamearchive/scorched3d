@@ -1,14 +1,20 @@
 -- Bugs Fixed and Ready For Release 
-Fixed: Some display problems on Unix and 16bit mode display
+Fixed: Some display problems on Unix
+Fixed: 16bit display mode performance problems on win32/unix
 Fixed: Some cross compatability compilation problems
 Fixed: Invert/swap keys now works
 Fixed: Graphics for explosions do not cross into next round
 Fixed: Client stimulus 6 in state 4 bug
+Fixed: Clicking sound sometimes continues after move has been made
 
 Added: Player score added to the player dialog (bottom right)
 Added: Max player name length increased from 16->22
 Added: Kenny tank model (thanks Knochi)
-Added: Max OS X compatability patch (thanks C. Thomas)
+Added: Mac OS X compatability patch (thanks C. Thomas)
+Added: Single player mode does not generate landscape before connecting
+Added: Display dialog generated using wxSizers (easier to add new feaures)
+Added: All used GL extensions can be turned off individually
+Added: Tank model detail can be set using display dialog
 
 -- Bugs in current development release
 Fonts sometimes black-out (not seen for a while, fixed??)

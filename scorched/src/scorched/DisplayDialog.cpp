@@ -18,7 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <scorched/DisplayDialog.h>
 #include <scorched/MainDialog.h>
 #include <common/OptionsDisplay.h>
@@ -39,35 +38,43 @@ public:
 };
 
 DisplayFrame::DisplayFrame() :
-	wxDialog(getMainDialog(), -1, scorched3dAppName, wxPoint(0,0), wxSize(545, 445))
+	wxDialog(getMainDialog(), -1, wxString(scorched3dAppName))
 {
-	CentreOnScreen();
-
 #ifdef _WIN32
 	// Set the frame's icon
 	wxIcon icon(PKGDIR "data/windows/tank2.ico", wxBITMAP_TYPE_ICO);
 	SetIcon(icon);
 #endif
 
+	// Create the size for the layout
+	wxBoxSizer *topsizer = new wxBoxSizer(wxVERTICAL);
+
 	// Create all the display controlls
-	createControls(this);
+	createControls(this, topsizer);
+
+	SetSizer(topsizer); // use the sizer for layout
+	topsizer->SetSizeHints(this); // set size hints to honour minimum size
+
+	CentreOnScreen();
 }
 
 bool DisplayFrame::TransferDataToWindow()
 {
 	IDC_FULLCLEAR_CTRL->SetValue(OptionsDisplay::instance()->getFullClear());
-	IDC_NOEXT_CTRL->SetValue(OptionsDisplay::instance()->getNoExt());
-	IDC_NOLANDSCAPESCORCH_CTRL->SetValue(OptionsDisplay::instance()->getNoTexSubImage());
+	IDC_NOEXT_CTRL->SetValue(OptionsDisplay::instance()->getNoGLExt());
+	IDC_NOLANDSCAPESCORCH_CTRL->SetValue(OptionsDisplay::instance()->getNoGLTexSubImage());
+	IDC_NOMULTITEX_CTRL->SetValue(OptionsDisplay::instance()->getNoGLMultiTex());
+	IDC_NOCOMPILEDARRAYS_CTRL->SetValue(OptionsDisplay::instance()->getNoGLCompiledArrays());
+	IDC_NOENVCOMBINE_CTRL->SetValue(OptionsDisplay::instance()->getNoGLEnvCombine());
+	IDC_NOCUBEMAP_CTRL->SetValue(OptionsDisplay::instance()->getNoGLCubeMap());
+	IDC_NOMIPMAPS_CTRL->SetValue(OptionsDisplay::instance()->getNoGLHardwareMipmaps());
 	IDC_NOSOUND_CTRL->SetValue(OptionsDisplay::instance()->getNoSound());
-	IDC_NOMULTITEX_CTRL->SetValue(OptionsDisplay::instance()->getNoMultiTex());
-	IDC_NOMULTITEX_CTRL->SetValue(OptionsDisplay::instance()->getNoMultiTex());
 	IDC_NOSKINS_CTRL->SetValue(OptionsDisplay::instance()->getNoSkins());
 	IDC_FULLSCREEN_CTRL->SetValue(OptionsDisplay::instance()->getFullScreen());
 	IDC_SINGLESKYLAYER_CTRL->SetValue(OptionsDisplay::instance()->getNoSkyLayers());
 	IDC_NOSKYANI_CTRL->SetValue(OptionsDisplay::instance()->getNoSkyMovement());
 	IDC_NOWATERANI_CTRL->SetValue(OptionsDisplay::instance()->getNoWaterMovement());
 	IDC_NOWATER_CTRL->SetValue(!OptionsDisplay::instance()->getDrawWater());
-	IDC_LANDSCAPETEX_CTRL->SetValue(!OptionsDisplay::instance()->getUseLandscapeTexture());
 	IDC_INVERT_CTRL->SetValue(OptionsDisplay::instance()->getInvertUpDownKey());
 	IDC_TIMER_CTRL->SetValue(OptionsDisplay::instance()->getFrameTimer());
 	IDC_SLIDER1_CTRL->SetRange(3, 40);
@@ -94,13 +101,26 @@ bool DisplayFrame::TransferDataToWindow()
 	switch (OptionsDisplay::instance()->getTexSize())
 	{
 	case 0:
-		IDC_RADIO_SMALL_CTRL->SetValue(true);
+		IDC_SMALLTEX_CTRL->SetValue(true);
 		break;
 	case 1:
-		IDC_RADIO_MEDIUM_CTRL->SetValue(true);
+		IDC_MEDIUMTEX_CTRL->SetValue(true);
 		break;
 	default:
-		IDC_RADIO_LARGE_CTRL->SetValue(true);
+		IDC_LARGETEX_CTRL->SetValue(true);
+		break;
+	};
+
+	switch (OptionsDisplay::instance()->getTankDetail())
+	{
+	case 0:
+		IDC_LOWTANK_CTRL->SetValue(true);
+		break;
+	case 1:
+		IDC_MEDIUMTANK_CTRL->SetValue(true);
+		break;
+	default:
+		IDC_HIGHTANK_CTRL->SetValue(true);
 		break;
 	};
 
@@ -112,11 +132,14 @@ bool DisplayFrame::TransferDataToWindow()
 bool DisplayFrame::TransferDataFromWindow()
 {
 	OptionsDisplay::instance()->setFullClear(IDC_FULLCLEAR_CTRL->GetValue());
-	OptionsDisplay::instance()->setNoTexSubImage(IDC_NOLANDSCAPESCORCH_CTRL->GetValue());
-	OptionsDisplay::instance()->setNoExt(IDC_NOEXT_CTRL->GetValue());
+	OptionsDisplay::instance()->setNoGLTexSubImage(IDC_NOLANDSCAPESCORCH_CTRL->GetValue());
+	OptionsDisplay::instance()->setNoGLExt(IDC_NOEXT_CTRL->GetValue());
+	OptionsDisplay::instance()->setNoGLMultiTex(IDC_NOMULTITEX_CTRL->GetValue());
+	OptionsDisplay::instance()->setNoGLCompiledArrays(IDC_NOCOMPILEDARRAYS_CTRL->GetValue());
+	OptionsDisplay::instance()->setNoGLEnvCombine(IDC_NOENVCOMBINE_CTRL->GetValue());
+	OptionsDisplay::instance()->setNoGLCubeMap(IDC_NOCUBEMAP_CTRL->GetValue());
+	OptionsDisplay::instance()->setNoGLHardwareMipmaps(IDC_NOMIPMAPS_CTRL->GetValue());
 	OptionsDisplay::instance()->setNoSound(IDC_NOSOUND_CTRL->GetValue());
-	OptionsDisplay::instance()->setNoMultiTex(IDC_NOMULTITEX_CTRL->GetValue());
-	OptionsDisplay::instance()->setNoMultiTex(IDC_NOMULTITEX_CTRL->GetValue());
 	OptionsDisplay::instance()->setNoSkins(IDC_NOSKINS_CTRL->GetValue());
 	OptionsDisplay::instance()->setFullScreen(IDC_FULLSCREEN_CTRL->GetValue());
 	OptionsDisplay::instance()->setNoSkyLayers(IDC_SINGLESKYLAYER_CTRL->GetValue());
@@ -124,7 +147,6 @@ bool DisplayFrame::TransferDataFromWindow()
 	OptionsDisplay::instance()->setNoWaterMovement(IDC_NOWATERANI_CTRL->GetValue());
 	OptionsDisplay::instance()->setBrightness(IDC_SLIDER1_CTRL->GetValue());
 	OptionsDisplay::instance()->setDrawWater(!IDC_NOWATER_CTRL->GetValue());
-	OptionsDisplay::instance()->setUseLandscapeTexture(!IDC_LANDSCAPETEX_CTRL->GetValue());
 	OptionsDisplay::instance()->setInvertUpDownKey(IDC_INVERT_CTRL->GetValue());
 	OptionsDisplay::instance()->setFrameTimer(IDC_TIMER_CTRL->GetValue());
 	OptionsDisplay::instance()->setUniqueUserId(IDC_USERID_CTRL->GetValue());
@@ -142,9 +164,14 @@ bool DisplayFrame::TransferDataFromWindow()
 	}
 
 	int texSize = 1;
-	if (IDC_RADIO_SMALL_CTRL->GetValue()) texSize = 0;
-	if (IDC_RADIO_LARGE_CTRL->GetValue()) texSize = 2;
+	if (IDC_SMALLTEX_CTRL->GetValue()) texSize = 0;
+	if (IDC_LARGETEX_CTRL->GetValue()) texSize = 2;
 	OptionsDisplay::instance()->setTexSize(texSize);
+
+	int tankDetail = 1;
+	if (IDC_LOWTANK_CTRL->GetValue()) tankDetail = 0;
+	if (IDC_HIGHTANK_CTRL->GetValue()) tankDetail = 2;
+	OptionsDisplay::instance()->setTankDetail(tankDetail);
 
 	return true;
 }

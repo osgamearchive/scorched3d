@@ -22,6 +22,7 @@
 #include <tankgraph/TankModel.h>
 #include <common/Defines.h>
 #include <common/OptionsDisplay.h>
+#include <3dsparse/ModelsFile.h>
 #include <XML/XMLFile.h>
 
 TankModelStore *TankModelStore::instance_ = 0;
@@ -116,6 +117,23 @@ bool TankModelStore::loadTankMeshes()
 
 		// Create the tank model
 		TankModel *model = new TankModel(id, modelId);
+
+		// Get the model file to determine if the file is too large
+		ModelsFile *mFile = model->getTankModelID().getModelsFile();
+		if (!mFile || !mFile->getSuccess()) return false;		
+		if (strcmp(model->getId().getModelName(), "Random") != 0)
+		{
+			// Check if the model uses too many triangles
+			int triangles = mFile->getNumberFaces();
+			if (OptionsDisplay::instance()->getTankDetail() == 0)
+			{
+				if (triangles > 250) continue;
+			}
+			else if (OptionsDisplay::instance()->getTankDetail() == 1)
+			{
+				if (triangles > 500) continue;
+			}
+		}
 
 		// Get the projectile model node (if any)
 		XMLNode *projectileModelNode = currentNode->getNamedChild("projectilemodel");

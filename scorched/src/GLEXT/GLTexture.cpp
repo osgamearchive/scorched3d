@@ -18,17 +18,11 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// GLTexture.cpp: implementation of the GLTexture class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <GLEXT/GLTexture.h>
 #include <GLEXT/GLStateExtension.h>
+#include <set>
 
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
+static std::set<GLuint> usedNumbers_;
 
 GLTexture *GLTexture::lastBind_ = 0;
 
@@ -42,6 +36,7 @@ GLTexture::~GLTexture()
 	if (texNum_)
 	{
 		glDeleteTextures(1, &texNum_);
+		usedNumbers_.erase(texNum_);
 		texNum_ = 0;
 	}
 }
@@ -62,6 +57,7 @@ bool GLTexture::replace(GLImage &bitmap,
 	if (textureValid() && GLStateExtension::getNoTexSubImage())
 	{
 		glDeleteTextures(1, &texNum_);
+		usedNumbers_.erase(texNum_);
 		texNum_ = 0;
 	}
 
@@ -120,6 +116,13 @@ bool GLTexture::create(const void * data,
 		{
 			GLfloat priority = 1.0f;
 			glGenTextures(1, &texNum_);
+
+			if (usedNumbers_.find(texNum_) != usedNumbers_.end())
+			{
+				DIALOG_ASSERT("Texture Reuse" == 0);
+			}
+			usedNumbers_.insert(texNum_);
+
 			if (glGetError() == GL_INVALID_VALUE ||
 				glGetError() == GL_INVALID_OPERATION)
 			{

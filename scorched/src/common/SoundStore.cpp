@@ -40,19 +40,19 @@ SoundStore::~SoundStore()
 {
 }
 
-SoundBuffer *SoundStore::fetchOrCreateBuffer(char *filename)
+SoundBuffer *SoundStore::fetchOrCreateBuffer(char *fn)
 {
-	_strlwr(filename);
+	std::string filename(fn);
 	BufferMap::iterator itor = bufferMap_.find(filename);
 	if (itor != bufferMap_.end())
 	{
 		return (*itor).second;
 	}
 
-	SoundBuffer *buffer = Sound::instance()->createBuffer(filename);
+	SoundBuffer *buffer = Sound::instance()->createBuffer(fn);
 	if (!buffer)
 	{
-		dialogMessage(filename, "Failed to load sound");
+		dialogMessage(fn, "Failed to load sound");
 	}
 
 	bufferMap_[filename] = buffer;

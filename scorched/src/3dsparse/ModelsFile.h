@@ -36,6 +36,7 @@ public:
 
 	Vector &getMax() { return max_; }
 	Vector &getMin() { return min_; }
+	int getNumberFaces();
 	std::list<Model *> &getModels() { return models_; }
 
 	void centre();

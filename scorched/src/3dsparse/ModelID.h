@@ -30,7 +30,10 @@ class ModelID
 {
 public:
 	ModelID();
+	ModelID(const ModelID &other);
 	virtual ~ModelID();
+
+	ModelID &operator=(const ModelID &other);
 
 	bool initFromNode(const char *directory,
 		XMLNode *modelNode);
@@ -51,14 +54,15 @@ public:
 	virtual bool writeModelID(NetBuffer &buffer);
 	virtual bool readModelID(NetBufferReader &reader);
 
-	ModelsFile *getNewFile();
+	ModelsFile *getModelsFile();
+	void clearCachedFile();
 
 protected:
 	std::string type_;
 	std::string meshName_;
 	std::string skinName_;
+	ModelsFile *cachedFile_;
 
 };
-
 
 #endif

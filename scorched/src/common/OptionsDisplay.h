@@ -84,20 +84,35 @@ public:
 	bool getInvertUpDownKey() { return invertUpDownKey_.getValue(); }
 	void setInvertUpDownKey(bool value) { invertUpDownKey_.setValue(value); }
 
-	bool getNoExt() { return noExt_.getValue(); }
-	void setNoExt(bool value) { noExt_.setValue(value); }
+	bool getNoGLExt() { return noGLExt_.getValue(); }
+	void setNoGLExt(bool value) { noGLExt_.setValue(value); }
 
-	bool getNoTexSubImage() { return noTexSubImage_.getValue(); }
-	void setNoTexSubImage(bool value) { noTexSubImage_.setValue(value); }
+	bool getNoGLTexSubImage() { return noGLTexSubImage_.getValue(); }
+	void setNoGLTexSubImage(bool value) { noGLTexSubImage_.setValue(value); }
+
+	bool getNoGLMultiTex() { return noGLMultiTex_.getValue(); }
+	void setNoGLMultiTex(bool value) { noGLMultiTex_.setValue(value); }
+
+	bool getNoGLCompiledArrays() { return noGLCompiledArrays_.getValue(); }
+	void setNoGLCompiledArrays(bool value) { noGLCompiledArrays_.setValue(value); }
+	
+	bool getNoGLEnvCombine() { return noGLEnvCombine_.getValue(); }
+	void setNoGLEnvCombine(bool value) { noGLEnvCombine_.setValue(value); }
+
+	bool getNoGLCubeMap() { return noGLCubeMap_.getValue(); }
+	void setNoGLCubeMap(bool value) { noGLCubeMap_.setValue(value); }
+
+	bool getNoGLHardwareMipmaps() { return noGLHardwareMipmaps_.getValue(); }
+	void setNoGLHardwareMipmaps(bool value) { noGLHardwareMipmaps_.setValue(value); }
 
 	bool getNoSound() { return noSound_.getValue(); }
 	void setNoSound(bool value) { noSound_.setValue(value); }
 
-	bool getNoMultiTex() { return noMultiTex_.getValue(); }
-	void setNoMultiTex(bool value) { noMultiTex_.setValue(value); }
-
 	bool getNoSkins() { return noSkins_.getValue(); }
 	void setNoSkins(bool value) { noSkins_.setValue(value); }
+
+	int getTankDetail() { return tankDetail_.getValue(); }
+	void setTankDetail(int value) { tankDetail_.setValue(value); }
 
 	int getNumberSprites() { return numberSprites_.getValue(); }
 	void setNumberSprites(int value) { numberSprites_.setValue(value); }
@@ -189,14 +204,18 @@ protected:
 	OptionEntryBool doubleBuffer_;
 	OptionEntryBool fullScreen_;
 	OptionEntryBool fullClear_;
-	OptionEntryBool noTexSubImage_;
-	OptionEntryBool noExt_;
+	OptionEntryBool noGLTexSubImage_;
+	OptionEntryBool noGLExt_;
+	OptionEntryBool noGLMultiTex_;
+	OptionEntryBool noGLCompiledArrays_;
+	OptionEntryBool noGLEnvCombine_;
+	OptionEntryBool noGLCubeMap_;
+	OptionEntryBool noGLHardwareMipmaps_;
 	OptionEntryBool invertUpDownKey_;
 	OptionEntryBool noSound_;
 	OptionEntryBool drawNormals_;
 	OptionEntryBool drawLines_;
 	OptionEntryBool noLenseFlare_;
-	OptionEntryBool noMultiTex_;
 	OptionEntryBool noSkins_;
 	OptionEntryBool drawWater_;
 	OptionEntryBool drawPlayerNames_;
@@ -211,6 +230,7 @@ protected:
 	OptionEntryBool noWaterMovement_;
 	OptionEntryBool showContextHelp_;
 	OptionEntryBoundedInt texSize_;
+	OptionEntryBoundedInt tankDetail_;
 	OptionEntryInt screenWidth_;
 	OptionEntryInt screenHeight_;
 	OptionEntryInt numberSprites_;

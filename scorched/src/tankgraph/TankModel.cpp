@@ -38,6 +38,11 @@ TankModelId &TankModel::getId()
 	return id_; 
 }
 
+ModelID &TankModel::getTankModelID()
+{
+	return modelId_;
+}
+
 ModelID &TankModel::getProjectileModelID()
 {
 	return projectileModelId_;
@@ -58,7 +63,7 @@ void TankModel::draw(bool drawS, float angle,
 	{
 		init_ = true;
 
-		ModelsFile *newFile = modelId_.getNewFile();
+		ModelsFile *newFile = modelId_.getModelsFile();
 		if (!newFile) return;
 
 		// Get the model detail
@@ -68,7 +73,6 @@ void TankModel::draw(bool drawS, float angle,
 		// Create tank mesh
 		tankMesh_ = new TankMesh(
 			*newFile, !OptionsDisplay::instance()->getNoSkins(), detail);
-		delete newFile;
 	}
 
 	if (tankMesh_)

@@ -31,12 +31,34 @@ static const char *getDirectoryPath(const char *file)
 	return buffer;
 }
 
-ModelID::ModelID()
+ModelID::ModelID() : cachedFile_(0)
 {
+}
+
+ModelID::ModelID(const ModelID &other) : 
+	cachedFile_(0),
+	type_(other.type_),
+	meshName_(other.meshName_),
+	skinName_(other.skinName_)
+{
+
 }
 
 ModelID::~ModelID()
 {
+	delete cachedFile_;
+	cachedFile_ = 0;
+}
+
+ModelID &ModelID::operator=(const ModelID &other)
+{
+	delete cachedFile_;
+	cachedFile_ = 0;
+	type_ = other.type_;
+	meshName_ = other.meshName_;
+	skinName_ = other.skinName_;
+
+	return *this;
 }
 
 bool ModelID::initFromString(
@@ -147,29 +169,40 @@ bool ModelID::readModelID(NetBufferReader &reader)
 	return true;	
 }
 
-ModelsFile *ModelID::getNewFile()
+ModelsFile *ModelID::getModelsFile()
 {
-	ModelsFile *newFile = 0;
-	if (0 == strcmp(getType(), "ase"))
+	ModelsFile *newFile = cachedFile_;
+	if (newFile == 0)
 	{
-		// Load the ASEFile containing the tank definitions
-		std::string meshName(getDirectoryPath(getMeshName()));
-		newFile = new ASEFile(meshName.c_str(), getDirectoryPath(getSkinName()));
-		if (!newFile->getSuccess())
+		if (0 == strcmp(getType(), "ase"))
 		{
-			dialogMessage("ASE File", "Failed to load ASE file \"%s\"", getMeshName());
-			return 0;
+			// Load the ASEFile containing the tank definitions
+			std::string meshName(getDirectoryPath(getMeshName()));
+			newFile = new ASEFile(meshName.c_str(), getDirectoryPath(getSkinName()));
+			if (!newFile->getSuccess())
+			{
+				dialogMessage("ASE File", "Failed to load ASE file \"%s\"", getMeshName());
+				return 0;
+			}
+		}
+		else
+		{
+			// Load the Milkshape containing the tank definitions
+			newFile = new MSFile(getDirectoryPath(getMeshName()));
+			if (!newFile->getSuccess())
+			{
+				dialogMessage("MS File", "Failed to load MS file \"%s\"", getMeshName());
+				return 0;
+			}			
 		}
 	}
-	else
-	{
-		// Load the Milkshape containing the tank definitions
-		newFile = new MSFile(getDirectoryPath(getMeshName()));
-		if (!newFile->getSuccess())
-		{
-			dialogMessage("MS File", "Failed to load MS file \"%s\"", getMeshName());
-			return 0;
-		}			
-	}
+
+	cachedFile_ = newFile;
 	return newFile;
+}
+
+void ModelID::clearCachedFile()
+{
+	delete cachedFile_;
+	cachedFile_ = 0;
 }

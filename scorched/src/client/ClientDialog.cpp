@@ -37,12 +37,6 @@ extern char scorched3dAppName[128];
 
 void setup()
 {
-	GLStateExtension::getNoExtensions() = 
-		OptionsDisplay::instance()->getNoExt();
-	GLStateExtension::getNoMultiTex() = 
-		OptionsDisplay::instance()->getNoMultiTex();
-	GLStateExtension::getNoTexSubImage() =
-		OptionsDisplay::instance()->getNoTexSubImage();
 	Gamma::instance()->set(
 		float(OptionsDisplay::instance()->getBrightness()) / 10.0f);
 

@@ -29,6 +29,7 @@ namespace ClientState
 	enum Stimulus
 	{
 		StimNextPlayerDialog = 1,
+		StimGetPlayers,
 		StimNewGame,
 		StimReady,
 		StimWait,
@@ -45,6 +46,7 @@ namespace ClientState
 	{
 		StateConnect = 1,
 		StateNewGame,
+		StateGetPlayers,
 		StateReady,
 		StateWait,
 		StateBuyWeapons,

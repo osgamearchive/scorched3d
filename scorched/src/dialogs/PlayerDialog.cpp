@@ -44,14 +44,17 @@ PlayerDialog *PlayerDialog::instance()
 
 PlayerDialog::PlayerDialog() : 
 	GLWWindow("Team", 10.0f, 10.0f, 440.0f, 300.0f, eSmallTitle),
-	allocatedTeam_(0)
+	allocatedTeam_(0), cancelId_(0)
 {
 	needCentered_ = true;
 	viewer_ = new GLWTankViewer(10.0f, 25.0f, 4, 3);
 
 	// Add buttons
 	okId_ = addWidget(new GLWTextButton(" Ok", 375, 10, 55, this, true))->getId();
-	cancelId_ = addWidget(new GLWTextButton("Cancel", 280, 10, 85, this, false, true))->getId();
+	if (OptionsParam::instance()->getConnectedToServer())
+	{
+		cancelId_ = addWidget(new GLWTextButton("Cancel", 280, 10, 85, this, false, true))->getId();
+	}
 	addWidget(viewer_);
 
 	// Create player name choice
@@ -162,7 +165,7 @@ unsigned int PlayerDialog::getNextPlayer(unsigned int current)
 		if ((tank->getDestinationId() == 
 			ScorchedClient::instance()->getTankContainer().getCurrentDestinationId()) &&
 			(tank->getPlayerId() != 1) &&
-			(tank->getState().getState() == TankState::sDead))
+			(tank->getState().getState() != TankState::sNormal))
 		{
 			if (current == 0)
 			{

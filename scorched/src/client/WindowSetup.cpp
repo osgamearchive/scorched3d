@@ -85,9 +85,12 @@ void WindowSetup::addCommonComponents(unsigned state)
 			MainMenuDialog::instance(), 0, true);
 	}
 
-	KEYBOARDKEY("SHOW_TEAM_DIALOG", teamKey);
-	WindowManager::instance()->addWindow(state,
-		PlayerDialog::instance(), teamKey, false);
+	if (OptionsParam::instance()->getConnectedToServer())
+	{
+		KEYBOARDKEY("SHOW_TEAM_DIALOG", teamKey);
+		WindowManager::instance()->addWindow(state,
+			PlayerDialog::instance(), teamKey, false);
+	}
 
 	KEYBOARDKEY("SHOW_RULES_DIALOG", rulesKey);
 	WindowManager::instance()->addWindow(state, 
@@ -111,6 +114,16 @@ void WindowSetup::setup()
 		LogDialog::instance(), 0, true);
 	WindowManager::instance()->addWindow(ClientState::StateConnect, 
 		ConnectDialog::instance(), 0, true);
+
+	// StateGetPlayers
+	WindowManager::instance()->addWindow(ClientState::StateGetPlayers, 
+		TalkDialog::instance(), talkKey, false);
+	WindowManager::instance()->addWindow(ClientState::StateGetPlayers, 
+		BackdropDialog::instance(), 0, true);
+	WindowManager::instance()->addWindow(ClientState::StateGetPlayers, 
+		QuitDialog::instance(), quitKey, false);
+	WindowManager::instance()->addWindow(ClientState::StateGetPlayers, 
+		PlayerDialog::instance(), 0, true);
 
 	// StateWait
 	addCommonComponents(ClientState::StateWait);

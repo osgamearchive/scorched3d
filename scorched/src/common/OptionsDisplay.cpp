@@ -18,7 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <common/OptionsDisplay.h>
 #include <GLEXT/GLConsoleRuleFnIAdapter.h>
 
@@ -69,14 +68,22 @@ OptionsDisplay::OptionsDisplay() :
 		"Draw the player color triangle over the tank", RWAccess, true),
 	drawPlayerHealth_(options_, "DrawPlayerHealth",
 		"Draw the health bars above the tank", RWAccess, true),
-	noTexSubImage_(options_, "NoTexSubImage",
+	noGLTexSubImage_(options_, "NoGLTexSubImage",
 		"Do not use texture area replacing", RAccess, false),
-	noExt_(options_, "NoGLExt", 
+	noGLExt_(options_, "NoGLExt", 
 		"Do not use any OpenGL extensions", RAccess, false),
+	noGLMultiTex_(options_, "NoGLMultiTex", 
+		"Do not use more than one texture per face", RAccess, false),
+	noGLCompiledArrays_(options_, "NoGLCompiledArrays",
+		"Do not compile vertex arrays", RAccess, false),
+	noGLEnvCombine_(options_, "NoGLEnvCombine",
+		"Do not use combined textures", RAccess, false),
+	noGLCubeMap_(options_, "NoGLCubeMap",
+		"Do not use cube maps", RAccess, false),
+	noGLHardwareMipmaps_(options_, "NoGLHardwareMipmaps",
+		"Do not use hardware mipmaps", RAccess, false),
 	noSound_(options_, "NoSound", 
 		"Do not use the sound.", RWAccess, false),
-	noMultiTex_(options_, "NoMultiTex", 
-		"Do not use more than one texture per face", RAccess, false),
 	drawLines_(options_, "DrawLines", 
 		"Do not fill in the landscape", RWAccess, false),
 	drawNormals_(options_, "DrawNormals", 
@@ -103,6 +110,8 @@ OptionsDisplay::OptionsDisplay() :
 		"Show the tank angles and amounts in hex", RWAccess, false),
 	texSize_(options_, "TexureSize", 
 		"The texture details setting", RAccess, 1, 0, 2),
+	tankDetail_(options_, "TankDetail", 
+		"The tank details setting", RAccess, 2, 0, 2),
 	screenWidth_(options_, "ScreenWidth", 
 		"The window width to use (in pixels)", RAccess, 640),
 	screenHeight_(options_, "ScreenHeight",

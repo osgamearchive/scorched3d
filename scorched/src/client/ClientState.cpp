@@ -116,6 +116,11 @@ void ClientState::setupGameState(bool network)
 	gameState.addStateStimulus(StateConnect, 
 		StimWait, StateWait);
 
+	// StateGetPlayers (Single Player Only)
+	addWindowManager(gameState, StateGetPlayers);
+	gameState.addStateStimulus(StateGetPlayers, 
+		StimWait, StateWait);
+
 	// StateNewGame
 	addWindowManager(gameState, StateNewGame);
 	gameState.addStateEntry(StateNewGame,
@@ -162,6 +167,8 @@ void ClientState::setupGameState(bool network)
 		StimWait, StateWait);
 	gameState.addStateStimulus(StateWait, 
 		StimScore, StateScore);
+	gameState.addStateStimulus(StateWait, 
+		StimGetPlayers, StateGetPlayers);
 	gameState.addStateStimulus(StateWait, 
 		StimNewGame, StateNewGame);
 

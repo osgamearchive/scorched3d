@@ -18,16 +18,7 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// SoundBuffer.cpp: implementation of the SoundBuffer class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <common/SoundBuffer.h>
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 SoundBuffer::SoundBuffer() : chunk_(NULL) , repeats_(0) , channel_(-1)
 {
@@ -42,8 +33,7 @@ SoundBuffer::~SoundBuffer()
 void SoundBuffer::destroyBuffer()
 {
 	stop();
-	if (chunk_) 
-		Mix_FreeChunk(chunk_);
+	if (chunk_) Mix_FreeChunk(chunk_);
 	chunk_ = NULL;
 	channel_ = -1;
 	repeats_ = 0;
@@ -57,19 +47,25 @@ bool SoundBuffer::createBuffer(char *wavFileName)
 
 bool SoundBuffer::play()
 {
-	if (!chunk_) 
-		return false;
+	if (!chunk_) return false;
+
+	if (repeats_ == -1)
+	{
+		// If we are set to repeat, ensure that this sound
+		// is not already playing.
+		stop();
+		// If it was playing we would loose the channel number
+		// and would be unable to stop it.
+	}
+
 	channel_=Mix_PlayChannel(-1,chunk_,repeats_);
 	return (channel_<0 ? false : true );
 }
 
 bool SoundBuffer::stop()
 {
-	if ((!chunk_) || (channel_<0))
-		return false;
-	
-	if (Mix_HaltChannel(channel_) < 0) 
-		return false;
+	if ((!chunk_) || (channel_<0)) return false;
+	if (Mix_HaltChannel(channel_) < 0) return false;
 
 	channel_ = -1;
 	return true;
@@ -77,8 +73,8 @@ bool SoundBuffer::stop()
 
 bool SoundBuffer::setRepeats()
 {
-	if (!chunk_)
- 	        return false;
+	if (!chunk_) return false;
+
 	repeats_=-1;
 	return true;
 }

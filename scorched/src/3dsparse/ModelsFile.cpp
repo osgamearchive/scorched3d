@@ -38,6 +38,19 @@ ModelsFile::~ModelsFile()
 	models_.clear();
 }
 
+int ModelsFile::getNumberFaces()
+{
+	int faces = 0;
+	std::list<Model *>::iterator itor;
+	for (itor = models_.begin();
+		itor != models_.end();
+		itor++)
+	{
+		faces += (int) (*itor)->getFaces().size();
+	}
+	return faces;
+}
+
 void ModelsFile::scale(float sfactor)
 {
 	std::list<Model *>::iterator itor;

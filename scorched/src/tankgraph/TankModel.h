@@ -42,6 +42,7 @@ public:
 	void clear();
 
 	TankModelId &getId();
+	ModelID &getTankModelID();
 	ModelID &getProjectileModelID();
 
 	bool isOfCatagory(const char *catagory);
