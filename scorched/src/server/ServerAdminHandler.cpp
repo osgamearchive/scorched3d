@@ -137,7 +137,7 @@ bool ServerAdminHandler::processMessage(unsigned int destinationId,
 						(tank->getState().getMuted()?"Muted":"Not Muted"));
 			}
 			result +=
-				"----------------------------------------------------\n";
+				"-----------------------------------------------------\n";
 
 			ServerCommon::sendString(destinationId, result.c_str());
 		}
@@ -186,7 +186,7 @@ bool ServerAdminHandler::processMessage(unsigned int destinationId,
 				}
 			}
 			result +=
-				"----------------------------------------------------\n";
+				"-----------------------------------------------------\n";
 
 			ServerCommon::sendString(destinationId, result.c_str());
 		}

@@ -61,7 +61,7 @@ void ClientAdmin::admin(std::list<GLConsoleRuleSplit> split,
 		if (0 == stricmp(firstsplit.rule.c_str(), "help")) adminHelp(result);
 		else if (0 == stricmp(firstsplit.rule.c_str(), "killall") ||
 			0 == stricmp(firstsplit.rule.c_str(), "showbanned") ||
-			0 == stricmp(firstsplit.rule.c_str(), "show"),
+			0 == stricmp(firstsplit.rule.c_str(), "show") ||
 			0 == stricmp(firstsplit.rule.c_str(), "logout"))
 		{
 			result.push_back(formatString("  sending %s...", 
@@ -118,7 +118,7 @@ void ClientAdmin::admin(std::list<GLConsoleRuleSplit> split,
 				else if (0 == stricmp(firstsplit.rule.c_str(), "talk"))
 					type = ComsAdminMessage::AdminTalk;	
 				else if (0 == stricmp(firstsplit.rule.c_str(), "poor"))
-					type = ComsAdminMessage::AdminTalk;	
+					type = ComsAdminMessage::AdminPoor;	
 				else if (0 == stricmp(firstsplit.rule.c_str(), "admintalk"))
 					type = ComsAdminMessage::AdminAdminTalk;	
 				else if (0 == stricmp(firstsplit.rule.c_str(), "message"))
@@ -175,7 +175,7 @@ void ClientAdmin::adminHelp(std::list<std::string> &result)
 {
 	result.push_back("  help - This help");
 	result.push_back("  login <username> <password> - Login as admin");
-	result.push_back("  logoff - Logoff as admin");
+	result.push_back("  logout - Logoff as admin");
 	result.push_back("  show - Show ids for all current players");
 	result.push_back("  showbanned - Shows all banned/perm muted players");
 	result.push_back("  killall - Kills all current players and starts next round");
