@@ -111,7 +111,7 @@ bool ServerBrowserServerList::fetchServerList()
 			return true;
 		}
 
-		SDL_Delay(1000);
+		SDL_Delay(100);
 		currentTime = time(0);
 	}
 
@@ -145,7 +145,7 @@ bool ServerBrowserServerList::fetchLANList()
 	time_t startTime = time(0);
 	for (;;)
 	{
-		SDL_Delay(1000);
+		SDL_Delay(100);
 		if (SDLNet_UDP_Recv(udpsock, recvPacket_))
 		{
 			unsigned int addr = SDLNet_Read32(&recvPacket_->address.host);
