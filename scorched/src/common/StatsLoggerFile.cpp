@@ -68,17 +68,13 @@ void StatsLoggerFile::roundStart(std::list<Tank *> &tanks)
 	statsLogger_->logMessage(time, "startround", 0);
 }
 
-void StatsLoggerFile::tankRank(Tank *firedTank)
+void StatsLoggerFile::updateStats(Tank *tank)
 {
-	createLogger();
-	if (!statsLogger_) return;
-                                                                                                          
-	time_t theTime = time(0);
-	char *time = ctime(&theTime);
-	char *nl = strchr(time, '\n');
-	if (nl) *nl = '\0';
-	
-	statsLogger_->logMessage(time, "tankrank", 0);
+}
+
+char *StatsLoggerFile::tankRank(Tank *firedTank)
+{
+	return "-";
 }
 
 void StatsLoggerFile::tankFired(Tank *firedTank, Weapon *weapon)

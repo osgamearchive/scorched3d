@@ -27,6 +27,7 @@
 #include <common/OptionsParam.h>
 #include <common/OptionsGame.h>
 #include <common/Logger.h>
+#include <common/StatsLogger.h>
 #include <common/OptionsTransient.h>
 #include <coms/ComsGameStateMessage.h>
 #include <coms/ComsPlayerStatusMessage.h>
@@ -151,14 +152,7 @@ bool ServerReadyState::acceptStateChange(const unsigned state,
 		// Check all players returned ready
 		if (ScorchedServer::instance()->getTankContainer().allReady())
 		{
-			// Say we are waiting on no one
-			ComsPlayerStatusMessage statusMessage;
-			ComsMessageSender::sendToAllPlayingClients(statusMessage);	
-
-			// Make sure all clients have the correct game settings
-			ComsGameStateMessage message;
-			ComsMessageSender::sendToAllPlayingClients(message);	
-
+			finished();
 			return true;
 		}
 	}
@@ -187,13 +181,7 @@ bool ServerReadyState::acceptStateChange(const unsigned state,
 			}
 		}
 
-		// Say we are waiting on no one
-		ComsPlayerStatusMessage statusMessage;
-		ComsMessageSender::sendToAllPlayingClients(statusMessage);	
-
-		// Make sure all clients have the correct game settings
-		ComsGameStateMessage message;
-		ComsMessageSender::sendToAllPlayingClients(message);	
+		finished();
 
 		// Stimulate into the next state
 		return true;
@@ -201,3 +189,32 @@ bool ServerReadyState::acceptStateChange(const unsigned state,
 	return false;
 }
 
+void ServerReadyState::finished()
+{
+	// Update the stats for the players before sending out the
+	// stats message
+	std::map<unsigned int, Tank *> &tanks = 
+		ScorchedServer::instance()->getTankContainer().getPlayingTanks();
+	std::map<unsigned int, Tank *>::iterator itor;
+	for (itor = tanks.begin();
+		itor != tanks.end();
+		itor++)
+	{
+		Tank *tank = (*itor).second;
+
+		// Ensure stats are uptodate
+		StatsLogger::instance()->updateStats(tank);
+
+		// Get the new tanks rank
+		char *rank = StatsLogger::instance()->tankRank(tank);
+		tank->getScore().setStatsRank(rank);
+	}
+
+	// Say we are waiting on no one
+	ComsPlayerStatusMessage statusMessage;
+	ComsMessageSender::sendToAllPlayingClients(statusMessage);	
+
+	// Make sure all clients have the correct game settings
+	ComsGameStateMessage message;
+	ComsMessageSender::sendToAllPlayingClients(message);	
+}

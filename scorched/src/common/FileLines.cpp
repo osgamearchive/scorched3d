@@ -51,6 +51,13 @@ bool FileLines::readFile(char *filename)
 		char buffer[10048];
 		while (fgets(buffer, 10048, in))
 		{
+			char *wincr = strchr(buffer,'\r');
+			if (wincr)
+			{ 
+				*wincr = '\n'; 
+				*(wincr + 1) = '\0'; 
+			} 
+
 			char *nl = strchr(buffer, '\n');
 			if (nl) *nl = '\0';
 			fileLines_.push_back(buffer);

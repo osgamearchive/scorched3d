@@ -21,6 +21,7 @@
 #if !defined(AFX_TANKSCORE_H__ED963414_2B77_4027_B35A_D69960165470__INCLUDED_)
 #define AFX_TANKSCORE_H__ED963414_2B77_4027_B35A_D69960165470__INCLUDED_
 
+#include <string>
 #include <time.h>
 
 class ScorchedContext;
@@ -37,7 +38,6 @@ public:
 
 	int getMoney() { return money_; }
 	void setMoney(int money);
-	int getTotalMoneyEarned() { return totalMoneyEarned_; }
 
 	int getWins() { return wins_; }
 	void setWins(int wins) { wins_ = wins; }
@@ -48,6 +48,13 @@ public:
 	time_t getTimePlayed() { return time(0) - startTime_; }
 	time_t getStartTime() { return startTime_; }
 
+	// Stuff for stats
+	time_t getTimePlayedStat();
+	void addTotalMoneyEarnedStat(int tm) { totalMoneyEarned_ += tm; }
+	int getTotalMoneyEarnedStat();
+	void setStatsRank(const char *rank) { statsRank_ = rank; }
+	const char *getStatsRank() { return statsRank_.c_str(); }
+
 	// Get info as text
 	const char *getTimePlayedString();
 	const char *getScoreString();
@@ -57,6 +64,7 @@ public:
 	bool readMessage(NetBufferReader &reader);
 
 protected:
+	std::string statsRank_;
 	ScorchedContext &context_;
 	int kills_;
 	int money_;
@@ -64,6 +72,7 @@ protected:
 	int wins_;
 	int missedMoves_;
 	time_t startTime_;
+	time_t lastStatTime_;
 
 };
 

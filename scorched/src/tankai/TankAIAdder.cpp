@@ -29,6 +29,7 @@
 #include <common/StatsLogger.h>
 #include <coms/ComsAddPlayerMessage.h>
 #include <coms/ComsMessageSender.h>
+#include <set>
 
 static unsigned int tankId_ = 2;
 
@@ -67,6 +68,35 @@ void TankAIAdder::addTankAI(ScorchedContext &context,
 		TankAIStore::instance()->getAIByName(aiName);
 	if (ai)
 	{
+		// Create our uniqueid
+		char uniqueId[256];
+		{
+			std::set<int> usedIds;
+			sprintf(uniqueId, "%s - computer - %%i", aiName);
+			std::map<unsigned int, Tank *> &playingTanks = 
+				context.tankContainer->getPlayingTanks();
+			std::map<unsigned int, Tank *>::iterator playingItor;
+			for (playingItor = playingTanks.begin();
+				playingItor != playingTanks.end();
+				playingItor++)
+			{
+				Tank *current = (*playingItor).second;
+				if (current->getDestinationId() == 0)
+				{
+					int id = 1;
+					if (sscanf(current->getUniqueId(), uniqueId, &id) == 1)
+					{
+						usedIds.insert(id);
+					}
+				}
+			}
+
+			int uniqueIdCount = 1;
+			while (usedIds.find(uniqueIdCount) != usedIds.end()) uniqueIdCount++;
+
+			sprintf(uniqueId, "%s - computer - %i", aiName, uniqueIdCount);
+		}
+
 		std::string newname = name;
 		if (newname.size() == 0)
 		{
@@ -84,8 +114,7 @@ void TankAIAdder::addTankAI(ScorchedContext &context,
 			newname.c_str(),
 			color,
 			modelId);
-		char uniqueId[256];
-		sprintf(uniqueId, "%s - computer", aiName);
+
 		tank->setUnqiueId(uniqueId);
 		tank->setTankAI(ai->getCopy(tank));
 		context.tankContainer->addTank(tank);

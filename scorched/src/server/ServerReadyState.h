@@ -44,6 +44,8 @@ public:
 protected:
 	float time_;
 	ServerShotState *shotState_;
+
+	void finished();
 };
 
 #endif

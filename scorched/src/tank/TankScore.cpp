@@ -27,9 +27,10 @@
 static const int maxMoney = 500000;
 
 TankScore::TankScore(ScorchedContext &context) : 
-	context_(context), totalMoneyEarned_(0)
+	context_(context), totalMoneyEarned_(0),
+	statsRank_("-")
 {
-	startTime_ = time(0);
+	startTime_ = lastStatTime_ = time(0);
 	reset();
 }
 
@@ -49,7 +50,6 @@ void TankScore::reset()
 
 void TankScore::setMoney(int money)
 {
-	totalMoneyEarned_ += money - money_;
 	money_ = money;
 	if (money_ > maxMoney) money_ = maxMoney;
 	if (money_ < 0) money_ = 0;
@@ -85,6 +85,7 @@ bool TankScore::writeMessage(NetBuffer &buffer)
 	buffer.addToBuffer(kills_);
 	buffer.addToBuffer(money_);
 	buffer.addToBuffer(wins_);
+	buffer.addToBuffer(statsRank_);
 	return true;
 }
 
@@ -93,5 +94,21 @@ bool TankScore::readMessage(NetBufferReader &reader)
 	if (!reader.getFromBuffer(kills_)) return false;
 	if (!reader.getFromBuffer(money_)) return false;
 	if (!reader.getFromBuffer(wins_)) return false;
+	if (!reader.getFromBuffer(statsRank_)) return false;
 	return true;
+}
+
+time_t TankScore::getTimePlayedStat()
+{
+	time_t val = lastStatTime_;
+	lastStatTime_ = time(0);
+	time_t res = lastStatTime_ - val;
+	return res;
+}
+
+int TankScore::getTotalMoneyEarnedStat()
+{ 
+	int moneyEarned = totalMoneyEarned_;
+	totalMoneyEarned_ = 0;
+	return moneyEarned; 
 }

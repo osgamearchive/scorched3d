@@ -116,7 +116,10 @@ bool ServerAddPlayerHandler::processMessage(unsigned int destinationId,
 	{
 		StatsLogger::instance()->tankJoined(tank);
 	}
-	StatsLogger::instance()->tankRank(tank);
+
+	char *rank = StatsLogger::instance()->tankRank(tank);
+	ServerCommon::sendString(0, "Welcome back %s, you are ranked %s",
+		tank->getName(), rank);
 	tank->getState().setSpectator(false);
 
 	// Choose a team (if applicable)

@@ -204,7 +204,11 @@ bool NetServerRead::pollIncoming()
 {
 	int numready = SDLNet_CheckSockets(sockSet_, 100);
 	if (numready == -1) return false;
-	if (numready == 0) return true;
+	if (numready == 0)
+	{
+		SDL_Delay(10);
+		return true;
+	}
 
 	if(SDLNet_SocketReady(socket_))
 	{

@@ -152,7 +152,7 @@ void StatsLoggerMySQL::createLogger()
 					MYSQL_RES *result = mysql_store_result(mysql_);
 					if (result)
 					{
-						int rows = mysql_num_rows(result);
+						int rows = (int) mysql_num_rows(result);
 						for (int r=0; r<rows; r++)
 						{
 							MYSQL_ROW row = mysql_fetch_row(result);
@@ -170,7 +170,7 @@ void StatsLoggerMySQL::createLogger()
 						weapon->getName(), 
 						weapon->getDescription(),
 						weapon->getArmsLevel());
-					weaponId = mysql_insert_id(mysql_);		
+					weaponId = (int) mysql_insert_id(mysql_);		
 				}
 
 				weaponId_[weapon->getName()] = weaponId;
@@ -237,10 +237,24 @@ void StatsLoggerMySQL::tankResigned(Tank *tank)
 		"WHERE playerid = %i;", prefix_.c_str(), playerId_[tank->getUniqueId()]);
 }
 
-void StatsLoggerMySQL::tankRank(Tank *tank)
+void StatsLoggerMySQL::updateStats(Tank *tank)
 {
+	if (!tank->getState().getSpectator())
+	{
+		runQuery("UPDATE scorched3d%s_players SET timeplayed=timeplayed+%i, moneyearned=moneyearned+%i "
+			"WHERE playerid = %i;", 
+			prefix_.c_str(),
+			tank->getScore().getTimePlayedStat(), 
+			tank->getScore().getTotalMoneyEarnedStat(), 
+			playerId_[tank->getUniqueId()]);
+	}
+}
+
+char *StatsLoggerMySQL::tankRank(Tank *tank)
+{
+	char *retval = "-";
 	createLogger();
-	if (!success_) return;
+	if (!success_) return retval;
 
 	// Try to determine this players sql playerid
 	int kills = 0;
@@ -250,7 +264,7 @@ void StatsLoggerMySQL::tankRank(Tank *tank)
 		MYSQL_RES *result = mysql_store_result(mysql_);
 		if (result)
 		{
-			int rows = mysql_num_rows(result);
+			int rows = (int) mysql_num_rows(result);
 			for (int r=0; r<rows; r++)
 			{
 				MYSQL_ROW row = mysql_fetch_row(result);
@@ -266,20 +280,21 @@ void StatsLoggerMySQL::tankRank(Tank *tank)
 		MYSQL_RES *result = mysql_store_result(mysql_);
 		if (result)
 		{
-			int rows = mysql_num_rows(result);
+			int rows = (int) mysql_num_rows(result);
 			for (int r=0; r<rows; r++)
 			{
 				MYSQL_ROW row = mysql_fetch_row(result);
-				int rank = atoi(row[0]);
+				int rank = atoi(row[0]) + 1;
 
-				Logger::log(0, "Welcome back %s, you are ranked %i",
-					tank->getName(), rank + 1);
-				ServerCommon::sendString(0, "Welcome back %s, you are ranked %i",
-					tank->getName(), rank + 1);
+				static char rankStr[100];
+				sprintf(rankStr, "%i", rank);
+				retval = rankStr;
 			}
 			mysql_free_result(result);
 		}
 	}
+
+	return retval;
 }
 
 void StatsLoggerMySQL::tankJoined(Tank *tank)
@@ -295,7 +310,7 @@ void StatsLoggerMySQL::tankJoined(Tank *tank)
 		MYSQL_RES *result = mysql_store_result(mysql_);
 		if (result)
 		{
-			int rows = mysql_num_rows(result);
+			int rows = (int) mysql_num_rows(result);
 			for (int r=0; r<rows; r++)
 			{
 				MYSQL_ROW row = mysql_fetch_row(result);
@@ -313,7 +328,7 @@ void StatsLoggerMySQL::tankJoined(Tank *tank)
 		runQuery("INSERT INTO scorched3d%s_players (uniqueid) "
 			"VALUES(\"%s\");", prefix_.c_str(),
 			tank->getUniqueId());
-		playerId = mysql_insert_id(mysql_);
+		playerId = (int) mysql_insert_id(mysql_);
 		Logger::log(0, "Add new stats user \"%i\"", playerId);
 	}
 
@@ -337,15 +352,7 @@ void StatsLoggerMySQL::tankLeft(Tank *tank)
 	createLogger();
 	if (!success_) return;
 
-	if (!tank->getState().getSpectator())
-	{
-		runQuery("UPDATE scorched3d%s_players SET timeplayed=timeplayed+%i, moneyearned=moneyearned+%i "
-			"WHERE playerid = %i;", 
-			prefix_.c_str(),
-			tank->getScore().getTimePlayed(), 
-			tank->getScore().getTotalMoneyEarned(), 
-			playerId_[tank->getUniqueId()]);
-	}
+	updateStats(tank);
 }
 
 void StatsLoggerMySQL::tankKilled(Tank *firedTank, Tank *deadTank, Weapon *weapon)

@@ -33,7 +33,9 @@ public:
 	virtual void gameStart(std::list<Tank *> &tanks);
 	virtual void roundStart(std::list<Tank *> &tanks);
 
-	virtual void tankRank(Tank *tank);
+	virtual char *tankRank(Tank *tank);
+	virtual void updateStats(Tank *tank);
+
 	virtual void tankJoined(Tank *tank);
 	virtual void tankLeft(Tank *tank);
 

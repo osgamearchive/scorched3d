@@ -36,7 +36,9 @@ public:
 	virtual void gameStart(std::list<Tank *> &tanks) = 0;
 	virtual void roundStart(std::list<Tank *> &tanks) = 0;
 
-	virtual void tankRank(Tank *tank) = 0;
+	virtual char *tankRank(Tank *tank) = 0;
+	virtual void updateStats(Tank *tank) = 0;
+
 	virtual void tankJoined(Tank *tank) = 0;
 	virtual void tankLeft(Tank *tank) = 0;
 
@@ -58,25 +60,27 @@ protected:
 class StatsLoggerNone : public StatsLogger
 {
 public:
-        StatsLoggerNone() {}
-        virtual ~StatsLoggerNone() {}
+	StatsLoggerNone() {}
+	virtual ~StatsLoggerNone() {}
 
-        virtual void gameStart(std::list<Tank *> &tanks) {}
-        virtual void roundStart(std::list<Tank *> &tanks) {}
+	virtual void gameStart(std::list<Tank *> &tanks) {}
+	virtual void roundStart(std::list<Tank *> &tanks) {}
 
-	virtual void tankRank(Tank *tank) {}
-        virtual void tankJoined(Tank *tank) {}
-        virtual void tankLeft(Tank *tank) {}
+	virtual char *tankRank(Tank *tank) { return "-"; }
+	virtual void updateStats(Tank *tank) {}
 
-        virtual void tankFired(Tank *firedTank, Weapon *weapon) {}
-        virtual void tankResigned(Tank *resignedTank) {}
+	virtual void tankJoined(Tank *tank) {}
+	virtual void tankLeft(Tank *tank) {}
 
-        virtual void tankKilled(Tank *firedTank, Tank *deadTank, Weapon *weapon) {}
-        virtual void tankTeamKilled(Tank *firedTank, Tank *deadTank, Weapon *weapon) {}
-        virtual void tankSelfKilled(Tank *firedTank, Weapon *weapon) {}
+	virtual void tankFired(Tank *firedTank, Weapon *weapon) {}
+	virtual void tankResigned(Tank *resignedTank) {}
 
-        virtual void tankWon(Tank *tank) {}
-        virtual void tankOverallWinner(Tank *tank) {}
+	virtual void tankKilled(Tank *firedTank, Tank *deadTank, Weapon *weapon) {}
+	virtual void tankTeamKilled(Tank *firedTank, Tank *deadTank, Weapon *weapon) {}
+	virtual void tankSelfKilled(Tank *firedTank, Weapon *weapon) {}
+
+	virtual void tankWon(Tank *tank) {}
+	virtual void tankOverallWinner(Tank *tank) {}
 };
 
 #endif

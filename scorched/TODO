@@ -27,12 +27,15 @@ Fixed: Player resigns only take place at the end of the round
 Fixed: Load fail safe settings dialog is only displayed after a sigsegv 
 Fixed: Server coms should be more responsive
 Fixed: Client failed to read 3/4 message
+Fixed: Clients timing out after players disconnect
+Fixed: All bots of same type (e.g. shark) share the same stats
 
 Changed: Changed free market ecconmy so price decreases are slower
 Changed: Tank can move up and down bigger slopes (configurable)
 Changed: Spread and hurts weapon primative options are now variable
 Changed: LeapFrog weapon primative bounce now variable
 
+Added: Stats ranking is show in the score dialog
 Added: Stats prefix can be (pre/a)pended onto mysql stats tables
 Added: When a player reconnects give back kills, money etc until the end of the game
 Added: Allow objects other than trees to be used (as models)

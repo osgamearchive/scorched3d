@@ -83,6 +83,7 @@ void TankScored::simulate(float frameTime, bool &remove)
 			context_->tankContainer->getTankById(playerId_);
 		if (tank)
 		{
+			tank->getScore().addTotalMoneyEarnedStat(moneyDiff_);
 			tank->getScore().setMoney(tank->getScore().getMoney() + moneyDiff_);
 			tank->getScore().setKills(tank->getScore().getKills() + killDiff_);
 			tank->getScore().setWins(tank->getScore().getWins() + roundDiff_);

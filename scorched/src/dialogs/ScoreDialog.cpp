@@ -34,8 +34,9 @@ static const float rankLeft = 5.0f;
 static const float nameLeft = 25.0f;
 static const float killsLeft = 205.0f;
 static const float moneyLeft = 260.0f;
-static const float winsLeft = 360.0f;
-static const float readyLeft = 390.0f;
+static const float winsLeft = 340.0f;
+static const float readyLeft = 370.0f;
+static const float statsLeft = 395.0f;
 static const float lineSpacer = 10.0f;
 
 ScoreDialog *ScoreDialog::instance_ = 0;
@@ -62,7 +63,7 @@ ScoreDialog *ScoreDialog::instance2()
 }
 
 ScoreDialog::ScoreDialog() :
-	GLWWindow("Score", 10.0f, 10.0f, 417.0f, 310.0f, eTransparent |eSmallTitle,
+	GLWWindow("Score", 10.0f, 10.0f, 437.0f, 310.0f, eTransparent |eSmallTitle,
 		"Shows the current score for all players."),
 	lastScoreValue_(0), lastWinsValue_(0)
 {
@@ -154,7 +155,7 @@ void ScoreDialog::draw()
 		GLWFont::instance()->getSmallPtFont()->draw(
 				white,
 				10,
-				x_ + 260.0f, y_ + h_ - 21.0f, 0.0f,
+				x_ + 275.0f, y_ + h_ - 21.0f, 0.0f,
 				"%i Rounds%s",
 				ScorchedClient::instance()->getOptionsTransient().getNoRoundsLeft(),
 				moves);
@@ -181,6 +182,11 @@ void ScoreDialog::draw()
 			12,
 			x_ + winsLeft, y_ + h_ - y - lineSpacer - 26.0f, 0.0f,
 			"Wins");
+	GLWFont::instance()->getSmallPtFont()->draw(
+			white,
+			12,
+			x_ + statsLeft, y_ + h_ - y - lineSpacer - 26.0f, 0.0f,
+			"Stat");
 	y+= lineSpacer + lineSpacer;
 
 	int tmpLastScoreValue = 0;
@@ -418,5 +424,11 @@ void ScoreDialog::addLine(Tank *current, float y, char *rank, bool finished)
 			textX + readyLeft, textY, 0.0f,
 			"%s",
 			((current->getState().getReadyState() == TankState::SNotReady)?"*":" "));
+		GLWFont::instance()->getSmallPtFont()->draw(
+			current->getColor(),
+			10,
+			textX + statsLeft, textY, 0.0f,
+			"%s",
+			current->getScore().getStatsRank());
 	}
 }

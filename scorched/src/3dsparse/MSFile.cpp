@@ -35,9 +35,16 @@ MSFile::~MSFile()
 
 bool MSFile::getNextLine(char *line, FILE *in)
 {
+	char * wincr; 
 	while (fgets(line, 256, in) != 0)
 	{
 		lineNo_++;
+		if (wincr=strchr(line,'\r')) 
+		{ 
+			*wincr='\n'; 
+			*(wincr + 1) = '\0'; 
+		} 
+
 		if ((line[0] == '\\' && line[1] == '\\') ||
 			(line[0] == '/' && line[1] == '/') ||
 			(line[0] == '\0') || 
