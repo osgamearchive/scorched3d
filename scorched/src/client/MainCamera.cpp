@@ -30,6 +30,7 @@
 #include <tankai/TankAIHuman.h>
 #include <common/Keyboard.h>
 #include <common/SoundStore.h>
+#include <common/OptionsDisplay.h>
 #include <common/Defines.h>
 
 static const char *menuItems[] = 
@@ -407,6 +408,24 @@ void MainCamera::keyboardCheck(const unsigned state, float frameTime,
 	if (saveScreenKey->keyDown(buffer, keyState, false))
 	{
 		saveScreen_.saveScreen_ = true;
+	}
+
+	KEYBOARDKEY("HUD_ITEMS", hudItemsKey);
+	if (hudItemsKey->keyDown(buffer, keyState, false))
+	{
+		unsigned int currentHudState = 0x0;
+		if (OptionsDisplay::instance()->getDrawPlayerNames()) currentHudState |= 0x1;
+		if (OptionsDisplay::instance()->getDrawPlayerSight()) currentHudState |= 0x2;
+		if (OptionsDisplay::instance()->getDrawPlayerColor()) currentHudState |= 0x4;
+		if (OptionsDisplay::instance()->getDrawPlayerHealth()) currentHudState |= 0x8;
+
+		currentHudState++;
+		if (currentHudState > 0x1 + 0x2 + 0x4 + 0x8) currentHudState = 0x0;
+
+		OptionsDisplay::instance()->setDrawPlayerNames((currentHudState & 0x1) != 0x0);
+		OptionsDisplay::instance()->setDrawPlayerSight((currentHudState & 0x2) != 0x0);
+		OptionsDisplay::instance()->setDrawPlayerColor((currentHudState & 0x4) != 0x0);
+		OptionsDisplay::instance()->setDrawPlayerHealth((currentHudState & 0x8) != 0x0);
 	}
 }
 

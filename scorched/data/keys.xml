@@ -1,5 +1,10 @@
 <keys>
 	<keyentry>
+		<name>HUD_ITEMS</name>
+		<description>Toggles the various HUD items on and off</description>
+		<key>i</key>
+	</keyentry>
+	<keyentry>
 		<name>AUTO_AIM</name>
 		<description>Aims current tank towards point on landscape</description>
 		<key>a</key>
