@@ -81,12 +81,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_034F22BA63ED4DDFB9B469F982F00454"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:I:\\SCORCHED\\DATA\\WINDOWS\\CLIENT.BMP"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_0372761CB8434F5991653F148CB0CC83"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:I:\\SCORCHED\\DATA\\ACCESSORIES\\FATMAN\\FATMAN.TXT"
@@ -321,6 +315,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_1060CB2F417949448B761D3229184A5D"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:I:\\SCORCHED\\DATA\\WINDOWS\\AIM.BMP"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_11AE66257E1A4EDABA772C8F60112E9A"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:I:\\SCORCHED\\DATA\\TANKS\\DEATH\\DEATH.TXT"
@@ -447,6 +447,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_19E60342D4214B9F881DF8D2F53F6077"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:I:\\SCORCHED\\DATA\\WINDOWS\\WEAPONA.BMP"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_1A157371FC7B45FCA0227347DED41F7B"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:I:\\SCORCHED\\DATA\\TANKS\\M48\\M48.TXT"
@@ -462,12 +468,6 @@
         "MsmKey" = "8:_1AE773C270BF4422A7A1ED748E6F3942"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:I:\\SCORCHED\\DATA\\TANKS\\SCUD.BMP"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_1B5F035003BB45D7815CD664A396CEA8"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:I:\\SCORCHED\\DATA\\WINDOWS\\PLAYER.BMP"
         }
         "Entry"
         {
@@ -519,6 +519,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_1FBC34888CFB408781FE130F17B50117"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:I:\\SCORCHED\\DATA\\WINDOWS\\WAIT.BMP"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_200D93199C5F4DC28C708D425F1B140D"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:I:\\SCORCHED\\DATA\\TEXTURES\\WICONS\\HRBOMB.BMP"
@@ -543,15 +549,15 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_22095E229EBD4C0882D1CEB2D2B6BEE8"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:I:\\SCORCHED\\DATA\\WINDOWS\\ISLAND.BMP"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_221FF73F25D0448695F427A24624E67E"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:I:\\SCORCHED\\DATA\\SAFEDISPLAY.XML"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_2260DB9340FD437292D391EC96F41E9C"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:I:\\SCORCHED\\DATA\\WINDOWS\\ISLAND.BMP"
         }
         "Entry"
         {
@@ -564,6 +570,12 @@
         "MsmKey" = "8:_2320ED37E6D6433C9469A5FEA3AF66A1"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:I:\\SCORCHED\\DATA\\TEXTURES\\FLAME\\FLAME23.BMP"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_246FDE0D3AF643D19A6B82CA83465584"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:I:\\SCORCHED\\DATA\\WINDOWS\\POINTERA.BMP"
         }
         "Entry"
         {
@@ -651,12 +663,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_2A68BAAFA162460C9AB218865B9FC711"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:I:\\SCORCHED\\DATA\\WINDOWS\\WIND.BMP"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_2B983B8BD31B4A4FBCBA02027B7F65F4"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:I:\\SCORCHED\\DATA\\TALK\\POLISH\\TALK1.TXT"
@@ -705,6 +711,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_2D7072D2F56348709A712CFDB03D4D7F"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:I:\\SCORCHED\\DATA\\WINDOWS\\ARROWI.BMP"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_2DC92855AF614CD0AEE05D8595418D55"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:I:\\SCORCHED\\DATA\\TANKS\\HELDER\\REDSPACE.BMP"
@@ -720,12 +732,6 @@
         "MsmKey" = "8:_2E4DE88F415540778123C337725661C1"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:I:\\SCORCHED\\DATA\\TEXTURES\\LANDSCAPE\\SNOW\\TEXTURE1.BMP"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_2E61A412F2A34407A9AA2CD86E2D01FC"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:I:\\SCORCHED\\DATA\\WINDOWS\\TANK2.ICO"
         }
         "Entry"
         {
@@ -768,12 +774,6 @@
         "MsmKey" = "8:_3123B87137EB4931A13787FF5F04539A"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:I:\\SCORCHED\\DATA\\TANKS\\ATST.ASE"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_316FD870D7AE452C80523908AB13C026"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:I:\\SCORCHED\\DATA\\WINDOWS\\TANK-EASY.BMP"
         }
         "Entry"
         {
@@ -861,6 +861,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_39EF57CE2F274A63B9E0980E35E16B10"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:I:\\SCORCHED\\DATA\\WINDOWS\\WIND.BMP"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_3A031818CCF54C708011284F11CFF934"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:I:\\SCORCHED\\DATA\\ACCESSORIES\\SMALLPINE\\WINTERSMALLPINE.TXT"
@@ -945,6 +951,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_3E8016461ABE47718F3E960BCFF34C29"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:I:\\SCORCHED\\DATA\\WINDOWS\\PLAN.BMP"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_3EDF306328F147078E8D8AE195251447"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:I:\\SCORCHED\\DATA\\ACCESSORIES\\BOMB\\BOMB.TXT"
@@ -999,15 +1011,15 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_43A7547142C249A0B639B78289B7B02C"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:I:\\SCORCHED\\DATA\\WINDOWS\\WINDA2.BMP"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_443BCFE331A44496AEAB4655612AD15E"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:I:\\SCORCHED\\DATA\\WAV\\MOVEMENT\\MOVEMENT.WAV"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_4473D65951744FE1B2F23B7B1B929D32"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:I:\\SCORCHED\\DATA\\WINDOWS\\SERVER.BMP"
         }
         "Entry"
         {
@@ -1101,9 +1113,9 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_4C329D4F2E5C414794DE93E9F3CC3554"
-        "OwnerKey" = "8:_00B02EF62DD34223A20B9D1684C24F0B"
-        "MsmSig" = "8:VC_User_STL.BA9B76E9_0DE0_11D5_A548_0090278A1BB8"
+        "MsmKey" = "8:_4B92C6CD58764A8D89DE430FD00388F9"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:I:\\SCORCHED\\DATA\\WINDOWS\\WINDA2.BMP"
         }
         "Entry"
         {
@@ -1179,6 +1191,18 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_529B413238EB49E99E6A0B8E1FDEEF92"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:I:\\SCORCHED\\DATA\\WINDOWS\\TANK-MED.BMP"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_535B7757D4994E5F86FFAC0E0C7979AA"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:I:\\SCORCHED\\DATA\\WINDOWS\\TANK-EASY.BMP"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_53A795A8D544492BB7E891177C120517"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:I:\\SCORCHED\\DATA\\TANKS\\MLRS\\TREAD.BMP"
@@ -1197,21 +1221,9 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_55D5B245E9D64F27A403620FBC8FB83A"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:I:\\SCORCHED\\DATA\\WINDOWS\\WINDA.BMP"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_56230C0926D84443BB5575C82F4D58B5"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:I:\\SCORCHED\\DATA\\TANKS\\T55.BMP"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_5677A617CE994669AB7995B3DDC3A2D3"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:I:\\SCORCHED\\DATA\\WINDOWS\\PLAN.BMP"
         }
         "Entry"
         {
@@ -1233,9 +1245,9 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_58AA85046C9E43E4B57F4D6C69EA22F8"
+        "MsmKey" = "8:_5893EB0128804AC1AE7214149CC22677"
         "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:I:\\SCORCHED\\DATA\\WINDOWS\\ISLAND.ICO"
+        "MsmSig" = "8:I:\\SCORCHED\\DATA\\WINDOWS\\DIFF.BMP"
         }
         "Entry"
         {
@@ -1257,9 +1269,9 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_596C00A963E8472CAA080FD115E02C4F"
+        "MsmKey" = "8:_599EBBA4314F4BE69C9B2C4446E1ACFF"
         "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:I:\\SCORCHED\\DATA\\WINDOWS\\PLAYERA.BMP"
+        "MsmSig" = "8:I:\\SCORCHED\\DATA\\WINDOWS\\WEAPON.BMP"
         }
         "Entry"
         {
@@ -1275,9 +1287,15 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_5AB9ADA3DEA44A04B8269C5FC7F0780A"
+        "MsmKey" = "8:_5AAB81D50239473B90D1D82D809F956C"
         "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:I:\\SCORCHED\\DATA\\WINDOWS\\ARROW.BMP"
+        "MsmSig" = "8:I:\\SCORCHED\\MSVCP70.DLL"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_5AE40A58086648B793F75C6991D93379"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:I:\\SCORCHED\\DATA\\WINDOWS\\DISPLAY.BMP"
         }
         "Entry"
         {
@@ -1377,6 +1395,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_60BD13831DEE42FAB98CCAB06259AB4A"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:I:\\SCORCHED\\DATA\\WINDOWS\\TANK2.ICO"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_60D0606FEDE34707BDAAE37D67FC9A57"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:I:\\SCORCHED\\DATA\\TANKS\\ZSU57\\BLACK.BMP"
@@ -1461,6 +1485,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_636F54F2C824411C88ACD977BC6A35C9"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:I:\\SCORCHED\\DATA\\WINDOWS\\SCORCHED.BMP"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_637118B818E045A680992E7A3176A52D"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:I:\\SCORCHED\\DATA\\SINGLENORMAL.XML"
@@ -1470,12 +1500,6 @@
         "MsmKey" = "8:_63E8C5A2F9EE402BB59AFA8AE3D9481C"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:I:\\SCORCHED\\DATA\\TEXTURES\\EXPLODE\\EXP01_2.BMP"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_640371C896E14789A7D8B622460EA4C3"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:I:\\SCORCHED\\DATA\\WINDOWS\\DISPLAY.BMP"
         }
         "Entry"
         {
@@ -1515,6 +1539,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_67E2B26B73BE417BAC51C2506B138067"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:I:\\SCORCHED\\DATA\\WINDOWS\\TANK2.BMP"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_681ECEEBA9774CF6A0310BDD5D078F10"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:I:\\SCORCHED\\DATA\\TEXTURES\\WICONS\\FBOMB.BMP"
@@ -1524,18 +1554,6 @@
         "MsmKey" = "8:_698E9578B5E248DC8148A50C9EF589EE"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:I:\\SCORCHED\\DATA\\ACCESSORIES\\BOMBLET\\YELLOW.BMP"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_69DEE26456DC46119814BAFEF337A86A"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:I:\\SCORCHED\\DATA\\WINDOWS\\MOVE.BMP"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_6A17A14B16D949C2985507569D68A24F"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:I:\\SCORCHED\\DATA\\WINDOWS\\WEAPON.BMP"
         }
         "Entry"
         {
@@ -1731,12 +1749,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_78916BA81C55473CAA8148958B1032AC"
-        "OwnerKey" = "8:_00B02EF62DD34223A20B9D1684C24F0B"
-        "MsmSig" = "8:VC_User_CRT.BA9B6D09_0DE0_11D5_A548_0090278A1BB8"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_7950E2B95B344EEE992BF458219BDE9B"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:I:\\SCORCHED\\DATA\\TEXTURES\\EXPLODE\\EXP04_3.BMP"
@@ -1749,9 +1761,21 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_798EA3ECEABA4F16946FAE6A4DE88D5D"
+        "OwnerKey" = "8:_00B02EF62DD34223A20B9D1684C24F0B"
+        "MsmSig" = "8:VC_User_STL.BA9B76E9_0DE0_11D5_A548_0090278A1BB8"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_79A7BE79BA1345969398F6245A3474C6"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:I:\\SCORCHED\\DATA\\WAV\\EXPLOSIONS\\TANK.WAV"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_79AB84688E3D450CAC858EF45523B833"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:I:\\SCORCHED\\MSVCR70.DLL"
         }
         "Entry"
         {
@@ -1791,6 +1815,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_7AE6EA7C05774DFBBA78BB6B0CA8151F"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:I:\\SCORCHED\\DATA\\WINDOWS\\PLAYER.BMP"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_7B109B069C0E43C28864E6E9B8689E5D"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:I:\\SCORCHED\\DATA\\ACCESSORIES\\SA6\\WHITE.BMP"
@@ -1821,12 +1851,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_7CAC96B79C7543F8BA06199FE23581CC"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:I:\\SCORCHED\\DATA\\WINDOWS\\TANK2.BMP"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_7D74D2614EBC4EC797718476D1D0F34E"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:I:\\SCORCHED\\DATA\\MOTD.TXT"
@@ -1854,12 +1878,6 @@
         "MsmKey" = "8:_7E3686D0C3694945B3730A82F57632AD"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:I:\\SCORCHED\\DATA\\TANKS\\TANK2.BMP"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_7ED2EC2A2CAE49ED9F346C3DDE0B74D7"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:I:\\SCORCHED\\DATA\\WINDOWS\\WAIT.BMP"
         }
         "Entry"
         {
@@ -1977,6 +1995,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_86BE1BEBF83642FA8B6F1EFD0578059D"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:I:\\SCORCHED\\DATA\\WINDOWS\\DIFFA.BMP"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_8728723D0CE24A719A24131718D4EF14"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:I:\\SCORCHED\\DATA\\TANKS\\AAT.ASE"
@@ -2028,6 +2052,12 @@
         "MsmKey" = "8:_8CF92F2802C94AA5B635DA6460EE99D7"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:I:\\SCORCHED\\DATA\\TALK\\TALK2.TXT"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_8D2EB08CD95B4D448502C618D17B4EC5"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:I:\\SCORCHED\\DATA\\WINDOWS\\WINDA.BMP"
         }
         "Entry"
         {
@@ -2103,6 +2133,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_91CA4047D97240DF8B894CD0DB057F66"
+        "OwnerKey" = "8:_00B02EF62DD34223A20B9D1684C24F0B"
+        "MsmSig" = "8:VC_User_CRT.BA9B6D09_0DE0_11D5_A548_0090278A1BB8"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_929B2C5445C24B6BBD8F1910BC491D07"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:I:\\SCORCHED\\DATA\\TEXTURES\\FLAME\\FLAME15.BMP"
@@ -2148,6 +2184,12 @@
         "MsmKey" = "8:_9531A1647E544023987FA17C84DB3E5A"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:I:\\SCORCHED\\DATA\\TEXTURES\\FLAME\\FLAME04.BMP"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_9575DDD98DE14F40AA27275ED07BDE3F"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:I:\\SCORCHED\\DATA\\WINDOWS\\AIMA.BMP"
         }
         "Entry"
         {
@@ -2217,12 +2259,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_9A0C34CCF9764D278803E5C5DDCB0533"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:I:\\SCORCHED\\DATA\\WINDOWS\\TANK-MED.BMP"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_9A42566B684544889FFBE9E349850C0B"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:I:\\SCORCHED\\DATA\\TANKS\\RAM.ASE"
@@ -2250,6 +2286,12 @@
         "MsmKey" = "8:_9AD49D3E6A594E2384B39DB74AE83D85"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:I:\\SCORCHED\\DATA\\TANKS\\HOTHGUN2.ASE"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_9AF13C4F964247AAB07F94EE6C862E26"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:I:\\SCORCHED\\DATA\\WINDOWS\\POINTER.BMP"
         }
         "Entry"
         {
@@ -2343,12 +2385,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_A160864558BB4EA1B450D329DCE25DBD"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:I:\\SCORCHED\\DATA\\WINDOWS\\WEAPONA2.BMP"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_A231054023A84C249D6643E0F0E04CE3"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:I:\\SCORCHED\\DATA\\WAV\\SHOOT\\MEDIUM.WAV"
@@ -2358,6 +2394,12 @@
         "MsmKey" = "8:_A283A1A03F9A41E88E4523D1F86D9DB5"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:I:\\SCORCHED\\DATA\\TEXTURES\\FLAME\\FLAME33.BMP"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_A2F9A21C39304017AF4E13C653ED7941"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:I:\\SCORCHED\\DATA\\WINDOWS\\WAITA.BMP"
         }
         "Entry"
         {
@@ -2469,12 +2511,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_AD628D40137245B7BE23B363F2548975"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:I:\\SCORCHED\\DATA\\WINDOWS\\AIMA.BMP"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_AE73E5300855455C8E7DC688C7D187E2"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:I:\\SCORCHED\\DATA\\ACCESSORIES\\SMALLPINE\\GREEN.BMP"
@@ -2505,6 +2541,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_B0C99D5BCE574F9FB6EA859FEE19AABF"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:I:\\SCORCHED\\DATA\\WINDOWS\\ISLAND.ICO"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_B1457A565F2F47B0938E1D71EEAA1CF4"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:I:\\SCORCHED\\DOCUMENTATION\\SCORCHED3D.HLP"
@@ -2517,12 +2559,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_B1F5E14BF2E148CCA607B14EAEEB8A2F"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:I:\\SCORCHED\\DATA\\WINDOWS\\SERVER.BMP"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_B210663F4D81178A0BCEEE6FB2489106"
         "OwnerKey" = "8:_00B02EF62DD34223A20B9D1684C24F0B"
         "MsmSig" = "8:C:\\WINDOWS\\SYSTEM32\\COMDLG32.DLL"
@@ -2532,12 +2568,6 @@
         "MsmKey" = "8:_B2EF5368453442DE911FFC42F264746F"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:I:\\SCORCHED\\DATA\\ACCESSORIES\\PALMTREE\\BURNTPALM.TXT"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_B30E253B6A494495A8878AB3DE812BFF"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:I:\\SCORCHED\\DATA\\WINDOWS\\PLANA.BMP"
         }
         "Entry"
         {
@@ -2559,12 +2589,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_B594842709A84023AE37EEC0754098B5"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:I:\\SCORCHED\\DATA\\WINDOWS\\WEAPONA.BMP"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_B6D995E23B2549DB8555958D25B28CD1"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:I:\\SCORCHED\\SDL_NET.DLL"
@@ -2574,6 +2598,12 @@
         "MsmKey" = "8:_B7147922DD454BC4B24BDA515320E627"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:I:\\SCORCHED\\DATA\\TEXTURES\\WICONS\\SMAG.BMP"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_B7AB96E9FA454F52AD1E97241FEEE249"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:I:\\SCORCHED\\DATA\\WINDOWS\\PLAYERA.BMP"
         }
         "Entry"
         {
@@ -2601,6 +2631,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_B9BFD7BFB3FB4D708C77321768AFE1F6"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:I:\\SCORCHED\\DATA\\WINDOWS\\WEAPONA2.BMP"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_BA4479F30FB945DF8EE31CD5F64AE3A6"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:I:\\SCORCHED\\AUTHORS"
@@ -2610,12 +2646,6 @@
         "MsmKey" = "8:_BC08628702EF4928883D921FF1A5AE79"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:I:\\SCORCHED\\DATA\\ACCESSORIES\\SA6\\SA6.TXT"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_BC1A87C246EA4294BDC5BB4657FA7B9F"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:I:\\SCORCHED\\DATA\\WINDOWS\\TANK-HARD.BMP"
         }
         "Entry"
         {
@@ -2688,12 +2718,6 @@
         "MsmKey" = "8:_C1C70DBD9A8746AA8D3875B1CBCFE50A"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:I:\\SCORCHED\\DATA\\ACCESSORIES\\BARRAGE\\GRADIENT.BMP"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_C24A3AA7F40B453392F0747EF11FDC67"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:I:\\SCORCHED\\DATA\\WINDOWS\\WAITA.BMP"
         }
         "Entry"
         {
@@ -2793,6 +2817,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_C9552FC2A0EA4346B820A1BA0D09E143"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:I:\\SCORCHED\\DATA\\WINDOWS\\TANK-HARD.BMP"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_CA39653C617C4FF69C8054D47DEC2297"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:I:\\SCORCHED\\DATA\\TANKS\\PATRIOT.BMP"
@@ -2802,12 +2832,6 @@
         "MsmKey" = "8:_CA3DA4559EA04E55B3364DAFE3460DE0"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:I:\\SCORCHED\\DATA\\TANKS\\THEL\\CHROME.BMP"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_CADC235AF7B84233A141538C063764B5"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:I:\\SCORCHED\\DATA\\WINDOWS\\ARROWI.BMP"
         }
         "Entry"
         {
@@ -2949,6 +2973,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_D7988832D5C64B7482757AE93084669B"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:I:\\SCORCHED\\DATA\\WINDOWS\\PLANA.BMP"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_D84B88E353A748839C219EDE95BB4FE1"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:I:\\SCORCHED\\DATA\\WAV\\MISC\\SPLASH.WAV"
@@ -2982,12 +3012,6 @@
         "MsmKey" = "8:_DAFB9EEA89654609BC8C1AD3E4D1F2B6"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:I:\\SCORCHED\\DATA\\TANKS\\T55B.BMP"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_DBB1C3066DF44E2FBCB0BECB27466382"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:I:\\SCORCHED\\DATA\\WINDOWS\\AIM.BMP"
         }
         "Entry"
         {
@@ -3069,6 +3093,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_E030229A6517459CB2748408C7969688"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:I:\\SCORCHED\\DATA\\WINDOWS\\ARROW.BMP"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_E0F99C601B47430180361AB552F7E37F"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:I:\\SCORCHED\\DATA\\TANKS\\BM13\\TAN.BMP"
@@ -3081,9 +3111,9 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_E2943B30A906438ABF719798511CAFDE"
+        "MsmKey" = "8:_E2927830AC8B4BCE8217477A938997F6"
         "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:I:\\SCORCHED\\DATA\\WINDOWS\\LOGOTILED.BMP"
+        "MsmSig" = "8:I:\\SCORCHED\\DATA\\WINDOWS\\PLAYERA2.BMP"
         }
         "Entry"
         {
@@ -3105,6 +3135,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_E5A25D42E19A4627981857E4DBE2122B"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:I:\\SCORCHED\\DATA\\WINDOWS\\LOGOTILED.BMP"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_E5DF20D5948A4F75A6C94923616FAE8B"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:I:\\SCORCHED\\DATA\\TANKS\\THEL\\KAKI.BMP"
@@ -3120,12 +3156,6 @@
         "MsmKey" = "8:_E6415B5B807040BC9E715AA0E143F661"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:I:\\SCORCHED\\DATA\\TEXTURES\\WICONS\\HNAPALM.BMP"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_E67A53A0FBA44E2E9F27E0CB1C229B65"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:I:\\SCORCHED\\DATA\\WINDOWS\\SCORCHED.BMP"
         }
         "Entry"
         {
@@ -3294,6 +3324,12 @@
         "MsmKey" = "8:_F15A41035CA14548AC71BF5F0A72A36E"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:I:\\SCORCHED\\DATA\\TANKS\\HARPOON.ASE"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_F1E2601C174B4802A77ECC161325B3D5"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:I:\\SCORCHED\\DATA\\WINDOWS\\MOVE.BMP"
         }
         "Entry"
         {
@@ -3495,9 +3531,9 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_FBEFF45909AD494BBD900F193931DFC2"
+        "MsmKey" = "8:_FBC86FE6A88A418D8FA16C8915B69524"
         "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:I:\\SCORCHED\\DATA\\WINDOWS\\PLAYERA2.BMP"
+        "MsmSig" = "8:I:\\SCORCHED\\DATA\\WINDOWS\\CLIENT.BMP"
         }
         "Entry"
         {
@@ -3785,26 +3821,6 @@
             "TargetName" = "8:texture4.bmp"
             "Tag" = "8:"
             "Folder" = "8:_7D35636E01E24362AC9BDD76C22D1080"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_034F22BA63ED4DDFB9B469F982F00454"
-            {
-            "SourcePath" = "8:..\\data\\windows\\client.bmp"
-            "TargetName" = "8:client.bmp"
-            "Tag" = "8:"
-            "Folder" = "8:_6102248286DB4C3FB7569F7975A94E38"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -4599,6 +4615,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_1060CB2F417949448B761D3229184A5D"
+            {
+            "SourcePath" = "8:..\\data\\windows\\aim.bmp"
+            "TargetName" = "8:aim.bmp"
+            "Tag" = "8:"
+            "Folder" = "8:_6102248286DB4C3FB7569F7975A94E38"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_11AE66257E1A4EDABA772C8F60112E9A"
             {
             "SourcePath" = "8:..\\data\\tanks\\death\\death.txt"
@@ -5019,6 +5055,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_19E60342D4214B9F881DF8D2F53F6077"
+            {
+            "SourcePath" = "8:..\\data\\windows\\weapona.bmp"
+            "TargetName" = "8:weapona.bmp"
+            "Tag" = "8:"
+            "Folder" = "8:_6102248286DB4C3FB7569F7975A94E38"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_1A157371FC7B45FCA0227347DED41F7B"
             {
             "SourcePath" = "8:..\\data\\tanks\\m48\\m48.txt"
@@ -5065,26 +5121,6 @@
             "TargetName" = "8:scud.bmp"
             "Tag" = "8:"
             "Folder" = "8:_EB647F7E5BC44FC096BAD78DF9B89CE8"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_1B5F035003BB45D7815CD664A396CEA8"
-            {
-            "SourcePath" = "8:..\\data\\windows\\player.bmp"
-            "TargetName" = "8:player.bmp"
-            "Tag" = "8:"
-            "Folder" = "8:_6102248286DB4C3FB7569F7975A94E38"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -5259,6 +5295,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_1FBC34888CFB408781FE130F17B50117"
+            {
+            "SourcePath" = "8:..\\data\\windows\\wait.bmp"
+            "TargetName" = "8:wait.bmp"
+            "Tag" = "8:"
+            "Folder" = "8:_6102248286DB4C3FB7569F7975A94E38"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_200D93199C5F4DC28C708D425F1B140D"
             {
             "SourcePath" = "8:..\\data\\textures\\wicons\\hrbomb.bmp"
@@ -5339,12 +5395,12 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_22095E229EBD4C0882D1CEB2D2B6BEE8"
+            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_221FF73F25D0448695F427A24624E67E"
             {
-            "SourcePath" = "8:..\\data\\windows\\island.bmp"
-            "TargetName" = "8:island.bmp"
+            "SourcePath" = "8:..\\data\\safedisplay.xml"
+            "TargetName" = "8:safedisplay.xml"
             "Tag" = "8:"
-            "Folder" = "8:_6102248286DB4C3FB7569F7975A94E38"
+            "Folder" = "8:_636E638ED4584AB1A7302DD17740F679"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -5359,12 +5415,12 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_221FF73F25D0448695F427A24624E67E"
+            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_2260DB9340FD437292D391EC96F41E9C"
             {
-            "SourcePath" = "8:..\\data\\safedisplay.xml"
-            "TargetName" = "8:safedisplay.xml"
+            "SourcePath" = "8:..\\data\\windows\\island.bmp"
+            "TargetName" = "8:island.bmp"
             "Tag" = "8:"
-            "Folder" = "8:_636E638ED4584AB1A7302DD17740F679"
+            "Folder" = "8:_6102248286DB4C3FB7569F7975A94E38"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -5405,6 +5461,26 @@
             "TargetName" = "8:flame23.bmp"
             "Tag" = "8:"
             "Folder" = "8:_CE2F96ABB4084A65B72BDA63F81322C1"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_246FDE0D3AF643D19A6B82CA83465584"
+            {
+            "SourcePath" = "8:..\\data\\windows\\pointera.bmp"
+            "TargetName" = "8:pointera.bmp"
+            "Tag" = "8:"
+            "Folder" = "8:_6102248286DB4C3FB7569F7975A94E38"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -5681,7 +5757,7 @@
             }
             "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_2A119155BB39403794D978A39215CB8A"
             {
-            "Signature" = "8:200000000060bd99534fc2016ad82ed0d914c4010060bd99534fc2010000000000c80100000000000000000067006c007500330032002e0064006c006c000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+            "Signature" = "8:200000000060bd99534fc201c48db1114b1bc4010060bd99534fc2010000000000c80100000000000000000067006c007500330032002e0064006c006c000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
             "SourcePath" = "8:GLU32.dll"
             "TargetName" = "8:GLU32.dll"
             "Tag" = "8:"
@@ -5698,26 +5774,6 @@
             "Register" = "3:1"
             "Exclude" = "11:TRUE"
             "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_2A68BAAFA162460C9AB218865B9FC711"
-            {
-            "SourcePath" = "8:..\\data\\windows\\wind.bmp"
-            "TargetName" = "8:wind.bmp"
-            "Tag" = "8:"
-            "Folder" = "8:_6102248286DB4C3FB7569F7975A94E38"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_2B983B8BD31B4A4FBCBA02027B7F65F4"
@@ -5880,6 +5936,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_2D7072D2F56348709A712CFDB03D4D7F"
+            {
+            "SourcePath" = "8:..\\data\\windows\\arrowi.bmp"
+            "TargetName" = "8:arrowi.bmp"
+            "Tag" = "8:"
+            "Folder" = "8:_6102248286DB4C3FB7569F7975A94E38"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_2DC92855AF614CD0AEE05D8595418D55"
             {
             "SourcePath" = "8:..\\data\\tanks\\helder\\redspace.bmp"
@@ -5926,26 +6002,6 @@
             "TargetName" = "8:texture1.bmp"
             "Tag" = "8:"
             "Folder" = "8:_0DC736828E1D44E69E6632B102813E54"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_2E61A412F2A34407A9AA2CD86E2D01FC"
-            {
-            "SourcePath" = "8:..\\data\\windows\\tank2.ico"
-            "TargetName" = "8:tank2.ico"
-            "Tag" = "8:"
-            "Folder" = "8:_6102248286DB4C3FB7569F7975A94E38"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -6086,26 +6142,6 @@
             "TargetName" = "8:atst.ase"
             "Tag" = "8:"
             "Folder" = "8:_EB647F7E5BC44FC096BAD78DF9B89CE8"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_316FD870D7AE452C80523908AB13C026"
-            {
-            "SourcePath" = "8:..\\data\\windows\\tank-easy.bmp"
-            "TargetName" = "8:tank-easy.bmp"
-            "Tag" = "8:"
-            "Folder" = "8:_6102248286DB4C3FB7569F7975A94E38"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -6400,6 +6436,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_39EF57CE2F274A63B9E0980E35E16B10"
+            {
+            "SourcePath" = "8:..\\data\\windows\\wind.bmp"
+            "TargetName" = "8:wind.bmp"
+            "Tag" = "8:"
+            "Folder" = "8:_6102248286DB4C3FB7569F7975A94E38"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_3A031818CCF54C708011284F11CFF934"
             {
             "SourcePath" = "8:..\\data\\accessories\\smallpine\\wintersmallpine.txt"
@@ -6680,6 +6736,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_3E8016461ABE47718F3E960BCFF34C29"
+            {
+            "SourcePath" = "8:..\\data\\windows\\plan.bmp"
+            "TargetName" = "8:plan.bmp"
+            "Tag" = "8:"
+            "Folder" = "8:_6102248286DB4C3FB7569F7975A94E38"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_3EDF306328F147078E8D8AE195251447"
             {
             "SourcePath" = "8:..\\data\\accessories\\bomb\\bomb.txt"
@@ -6860,12 +6936,12 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_43A7547142C249A0B639B78289B7B02C"
+            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_443BCFE331A44496AEAB4655612AD15E"
             {
-            "SourcePath" = "8:..\\data\\windows\\winda2.bmp"
-            "TargetName" = "8:winda2.bmp"
+            "SourcePath" = "8:..\\data\\wav\\movement\\movement.wav"
+            "TargetName" = "8:movement.wav"
             "Tag" = "8:"
-            "Folder" = "8:_6102248286DB4C3FB7569F7975A94E38"
+            "Folder" = "8:_B9563BCCBF234DB7AF0F3EED50DBF162"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -6880,12 +6956,12 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_443BCFE331A44496AEAB4655612AD15E"
+            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_4473D65951744FE1B2F23B7B1B929D32"
             {
-            "SourcePath" = "8:..\\data\\wav\\movement\\movement.wav"
-            "TargetName" = "8:movement.wav"
+            "SourcePath" = "8:..\\data\\windows\\server.bmp"
+            "TargetName" = "8:server.bmp"
             "Tag" = "8:"
-            "Folder" = "8:_B9563BCCBF234DB7AF0F3EED50DBF162"
+            "Folder" = "8:_6102248286DB4C3FB7569F7975A94E38"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -7200,6 +7276,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_4B92C6CD58764A8D89DE430FD00388F9"
+            {
+            "SourcePath" = "8:..\\data\\windows\\winda2.bmp"
+            "TargetName" = "8:winda2.bmp"
+            "Tag" = "8:"
+            "Folder" = "8:_6102248286DB4C3FB7569F7975A94E38"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_4C3AB738F42F4F21B8BF23E8C192F16D"
             {
             "SourcePath" = "8:..\\data\\accessories\\icbm\\black.bmp"
@@ -7440,6 +7536,46 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_529B413238EB49E99E6A0B8E1FDEEF92"
+            {
+            "SourcePath" = "8:..\\data\\windows\\tank-med.bmp"
+            "TargetName" = "8:tank-med.bmp"
+            "Tag" = "8:"
+            "Folder" = "8:_6102248286DB4C3FB7569F7975A94E38"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_535B7757D4994E5F86FFAC0E0C7979AA"
+            {
+            "SourcePath" = "8:..\\data\\windows\\tank-easy.bmp"
+            "TargetName" = "8:tank-easy.bmp"
+            "Tag" = "8:"
+            "Folder" = "8:_6102248286DB4C3FB7569F7975A94E38"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_53A795A8D544492BB7E891177C120517"
             {
             "SourcePath" = "8:..\\data\\tanks\\mlrs\\tread.bmp"
@@ -7500,52 +7636,12 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_55D5B245E9D64F27A403620FBC8FB83A"
-            {
-            "SourcePath" = "8:..\\data\\windows\\winda.bmp"
-            "TargetName" = "8:winda.bmp"
-            "Tag" = "8:"
-            "Folder" = "8:_6102248286DB4C3FB7569F7975A94E38"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_56230C0926D84443BB5575C82F4D58B5"
             {
             "SourcePath" = "8:..\\data\\tanks\\t55.bmp"
             "TargetName" = "8:t55.bmp"
             "Tag" = "8:"
             "Folder" = "8:_EB647F7E5BC44FC096BAD78DF9B89CE8"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_5677A617CE994669AB7995B3DDC3A2D3"
-            {
-            "SourcePath" = "8:..\\data\\windows\\plan.bmp"
-            "TargetName" = "8:plan.bmp"
-            "Tag" = "8:"
-            "Folder" = "8:_6102248286DB4C3FB7569F7975A94E38"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -7620,10 +7716,10 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_58AA85046C9E43E4B57F4D6C69EA22F8"
+            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_5893EB0128804AC1AE7214149CC22677"
             {
-            "SourcePath" = "8:..\\data\\windows\\island.ico"
-            "TargetName" = "8:island.ico"
+            "SourcePath" = "8:..\\data\\windows\\diff.bmp"
+            "TargetName" = "8:diff.bmp"
             "Tag" = "8:"
             "Folder" = "8:_6102248286DB4C3FB7569F7975A94E38"
             "Condition" = "8:"
@@ -7700,10 +7796,10 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_596C00A963E8472CAA080FD115E02C4F"
+            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_599EBBA4314F4BE69C9B2C4446E1ACFF"
             {
-            "SourcePath" = "8:..\\data\\windows\\playera.bmp"
-            "TargetName" = "8:playera.bmp"
+            "SourcePath" = "8:..\\data\\windows\\weapon.bmp"
+            "TargetName" = "8:weapon.bmp"
             "Tag" = "8:"
             "Folder" = "8:_6102248286DB4C3FB7569F7975A94E38"
             "Condition" = "8:"
@@ -7760,10 +7856,30 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_5AB9ADA3DEA44A04B8269C5FC7F0780A"
+            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_5AAB81D50239473B90D1D82D809F956C"
             {
-            "SourcePath" = "8:..\\data\\windows\\arrow.bmp"
-            "TargetName" = "8:arrow.bmp"
+            "SourcePath" = "8:..\\MSVCP70.DLL"
+            "TargetName" = "8:MSVCP70.DLL"
+            "Tag" = "8:"
+            "Folder" = "8:_503AD013874445A0BB4C7E827DED82C7"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_5AE40A58086648B793F75C6991D93379"
+            {
+            "SourcePath" = "8:..\\data\\windows\\display.bmp"
+            "TargetName" = "8:display.bmp"
             "Tag" = "8:"
             "Folder" = "8:_6102248286DB4C3FB7569F7975A94E38"
             "Condition" = "8:"
@@ -8100,6 +8216,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_60BD13831DEE42FAB98CCAB06259AB4A"
+            {
+            "SourcePath" = "8:..\\data\\windows\\tank2.ico"
+            "TargetName" = "8:tank2.ico"
+            "Tag" = "8:"
+            "Folder" = "8:_6102248286DB4C3FB7569F7975A94E38"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_60D0606FEDE34707BDAAE37D67FC9A57"
             {
             "SourcePath" = "8:..\\data\\tanks\\zsu57\\black.bmp"
@@ -8380,6 +8516,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_636F54F2C824411C88ACD977BC6A35C9"
+            {
+            "SourcePath" = "8:..\\data\\windows\\scorched.bmp"
+            "TargetName" = "8:scorched.bmp"
+            "Tag" = "8:"
+            "Folder" = "8:_6102248286DB4C3FB7569F7975A94E38"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_637118B818E045A680992E7A3176A52D"
             {
             "SourcePath" = "8:..\\data\\singlenormal.xml"
@@ -8406,26 +8562,6 @@
             "TargetName" = "8:exp01_2.bmp"
             "Tag" = "8:"
             "Folder" = "8:_D249E4D4E0584F808B7FCF51C1179B69"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_640371C896E14789A7D8B622460EA4C3"
-            {
-            "SourcePath" = "8:..\\data\\windows\\display.bmp"
-            "TargetName" = "8:display.bmp"
-            "Tag" = "8:"
-            "Folder" = "8:_6102248286DB4C3FB7569F7975A94E38"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -8560,6 +8696,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_67E2B26B73BE417BAC51C2506B138067"
+            {
+            "SourcePath" = "8:..\\data\\windows\\tank2.bmp"
+            "TargetName" = "8:tank2.bmp"
+            "Tag" = "8:"
+            "Folder" = "8:_6102248286DB4C3FB7569F7975A94E38"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_681ECEEBA9774CF6A0310BDD5D078F10"
             {
             "SourcePath" = "8:..\\data\\textures\\wicons\\fbomb.bmp"
@@ -8586,46 +8742,6 @@
             "TargetName" = "8:yellow.bmp"
             "Tag" = "8:"
             "Folder" = "8:_BF1AD4C444C448BA915D05487A536AA8"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_69DEE26456DC46119814BAFEF337A86A"
-            {
-            "SourcePath" = "8:..\\data\\windows\\move.bmp"
-            "TargetName" = "8:move.bmp"
-            "Tag" = "8:"
-            "Folder" = "8:_6102248286DB4C3FB7569F7975A94E38"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_6A17A14B16D949C2985507569D68A24F"
-            {
-            "SourcePath" = "8:..\\data\\windows\\weapon.bmp"
-            "TargetName" = "8:weapon.bmp"
-            "Tag" = "8:"
-            "Folder" = "8:_6102248286DB4C3FB7569F7975A94E38"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -9340,6 +9456,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_79AB84688E3D450CAC858EF45523B833"
+            {
+            "SourcePath" = "8:..\\MSVCR70.dll"
+            "TargetName" = "8:MSVCR70.dll"
+            "Tag" = "8:"
+            "Folder" = "8:_503AD013874445A0BB4C7E827DED82C7"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_79BA14035EF0498F993B4197DD3B1D40"
             {
             "SourcePath" = "8:..\\documentation\\README-ODE.txt"
@@ -9460,6 +9596,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_7AE6EA7C05774DFBBA78BB6B0CA8151F"
+            {
+            "SourcePath" = "8:..\\data\\windows\\player.bmp"
+            "TargetName" = "8:player.bmp"
+            "Tag" = "8:"
+            "Folder" = "8:_6102248286DB4C3FB7569F7975A94E38"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_7B109B069C0E43C28864E6E9B8689E5D"
             {
             "SourcePath" = "8:..\\data\\accessories\\sa6\\white.bmp"
@@ -9560,26 +9716,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_7CAC96B79C7543F8BA06199FE23581CC"
-            {
-            "SourcePath" = "8:..\\data\\windows\\tank2.bmp"
-            "TargetName" = "8:tank2.bmp"
-            "Tag" = "8:"
-            "Folder" = "8:_6102248286DB4C3FB7569F7975A94E38"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_7D74D2614EBC4EC797718476D1D0F34E"
             {
             "SourcePath" = "8:..\\data\\motd.txt"
@@ -9666,26 +9802,6 @@
             "TargetName" = "8:tank2.bmp"
             "Tag" = "8:"
             "Folder" = "8:_EB647F7E5BC44FC096BAD78DF9B89CE8"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_7ED2EC2A2CAE49ED9F346C3DDE0B74D7"
-            {
-            "SourcePath" = "8:..\\data\\windows\\wait.bmp"
-            "TargetName" = "8:wait.bmp"
-            "Tag" = "8:"
-            "Folder" = "8:_6102248286DB4C3FB7569F7975A94E38"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -10080,6 +10196,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_86BE1BEBF83642FA8B6F1EFD0578059D"
+            {
+            "SourcePath" = "8:..\\data\\windows\\diffa.bmp"
+            "TargetName" = "8:diffa.bmp"
+            "Tag" = "8:"
+            "Folder" = "8:_6102248286DB4C3FB7569F7975A94E38"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_8728723D0CE24A719A24131718D4EF14"
             {
             "SourcePath" = "8:..\\data\\tanks\\aat.ase"
@@ -10246,6 +10382,26 @@
             "TargetName" = "8:talk2.txt"
             "Tag" = "8:"
             "Folder" = "8:_1604219D1C054218B7EA6E2DC35679DC"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_8D2EB08CD95B4D448502C618D17B4EC5"
+            {
+            "SourcePath" = "8:..\\data\\windows\\winda.bmp"
+            "TargetName" = "8:winda.bmp"
+            "Tag" = "8:"
+            "Folder" = "8:_6102248286DB4C3FB7569F7975A94E38"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -10660,6 +10816,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_9575DDD98DE14F40AA27275ED07BDE3F"
+            {
+            "SourcePath" = "8:..\\data\\windows\\aima.bmp"
+            "TargetName" = "8:aima.bmp"
+            "Tag" = "8:"
+            "Folder" = "8:_6102248286DB4C3FB7569F7975A94E38"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_95F27E7BDC22456CB3257A66F8DFEC24"
             {
             "SourcePath" = "8:..\\data\\landscapes\\oldstyle.bmp"
@@ -10880,26 +11056,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_9A0C34CCF9764D278803E5C5DDCB0533"
-            {
-            "SourcePath" = "8:..\\data\\windows\\tank-med.bmp"
-            "TargetName" = "8:tank-med.bmp"
-            "Tag" = "8:"
-            "Folder" = "8:_6102248286DB4C3FB7569F7975A94E38"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_9A42566B684544889FFBE9E349850C0B"
             {
             "SourcePath" = "8:..\\data\\tanks\\ram.ase"
@@ -10986,6 +11142,26 @@
             "TargetName" = "8:hothgun2.ase"
             "Tag" = "8:"
             "Folder" = "8:_EB647F7E5BC44FC096BAD78DF9B89CE8"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_9AF13C4F964247AAB07F94EE6C862E26"
+            {
+            "SourcePath" = "8:..\\data\\windows\\pointer.bmp"
+            "TargetName" = "8:pointer.bmp"
+            "Tag" = "8:"
+            "Folder" = "8:_6102248286DB4C3FB7569F7975A94E38"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -11300,26 +11476,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_A160864558BB4EA1B450D329DCE25DBD"
-            {
-            "SourcePath" = "8:..\\data\\windows\\weapona2.bmp"
-            "TargetName" = "8:weapona2.bmp"
-            "Tag" = "8:"
-            "Folder" = "8:_6102248286DB4C3FB7569F7975A94E38"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_A231054023A84C249D6643E0F0E04CE3"
             {
             "SourcePath" = "8:..\\data\\wav\\shoot\\medium.wav"
@@ -11346,6 +11502,26 @@
             "TargetName" = "8:flame33.bmp"
             "Tag" = "8:"
             "Folder" = "8:_CE2F96ABB4084A65B72BDA63F81322C1"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_A2F9A21C39304017AF4E13C653ED7941"
+            {
+            "SourcePath" = "8:..\\data\\windows\\waita.bmp"
+            "TargetName" = "8:waita.bmp"
+            "Tag" = "8:"
+            "Folder" = "8:_6102248286DB4C3FB7569F7975A94E38"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -11720,26 +11896,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_AD628D40137245B7BE23B363F2548975"
-            {
-            "SourcePath" = "8:..\\data\\windows\\aima.bmp"
-            "TargetName" = "8:aima.bmp"
-            "Tag" = "8:"
-            "Folder" = "8:_6102248286DB4C3FB7569F7975A94E38"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_AE73E5300855455C8E7DC688C7D187E2"
             {
             "SourcePath" = "8:..\\data\\accessories\\smallpine\\green.bmp"
@@ -11840,6 +11996,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_B0C99D5BCE574F9FB6EA859FEE19AABF"
+            {
+            "SourcePath" = "8:..\\data\\windows\\island.ico"
+            "TargetName" = "8:island.ico"
+            "Tag" = "8:"
+            "Folder" = "8:_6102248286DB4C3FB7569F7975A94E38"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_B1457A565F2F47B0938E1D71EEAA1CF4"
             {
             "SourcePath" = "8:..\\documentation\\Scorched3D.hlp"
@@ -11880,29 +12056,9 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_B1F5E14BF2E148CCA607B14EAEEB8A2F"
-            {
-            "SourcePath" = "8:..\\data\\windows\\server.bmp"
-            "TargetName" = "8:server.bmp"
-            "Tag" = "8:"
-            "Folder" = "8:_6102248286DB4C3FB7569F7975A94E38"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_B210663F4D81178A0BCEEE6FB2489106"
             {
-            "Signature" = "8:200000000060bd99534fc2011e9d33d0d914c4010060bd99534fc2010000000000f00300000000000000000063006f006d0064006c006700330032002e0064006c006c000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+            "Signature" = "8:200000000060bd99534fc20116737b254a1bc4010060bd99534fc2010000000000f00300000000000000000063006f006d0064006c006700330032002e0064006c006c000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
             "SourcePath" = "8:comdlg32.dll"
             "TargetName" = "8:comdlg32.dll"
             "Tag" = "8:"
@@ -11927,26 +12083,6 @@
             "TargetName" = "8:burntpalm.txt"
             "Tag" = "8:"
             "Folder" = "8:_14120FE1EC444F3A914CC2FB1B4FAD54"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_B30E253B6A494495A8878AB3DE812BFF"
-            {
-            "SourcePath" = "8:..\\data\\windows\\plana.bmp"
-            "TargetName" = "8:plana.bmp"
-            "Tag" = "8:"
-            "Folder" = "8:_6102248286DB4C3FB7569F7975A94E38"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -12021,26 +12157,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_B594842709A84023AE37EEC0754098B5"
-            {
-            "SourcePath" = "8:..\\data\\windows\\weapona.bmp"
-            "TargetName" = "8:weapona.bmp"
-            "Tag" = "8:"
-            "Folder" = "8:_6102248286DB4C3FB7569F7975A94E38"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_B6D995E23B2549DB8555958D25B28CD1"
             {
             "SourcePath" = "8:..\\SDL_net.dll"
@@ -12067,6 +12183,26 @@
             "TargetName" = "8:smag.bmp"
             "Tag" = "8:"
             "Folder" = "8:_AF201C7552C14DF5870322E95751518E"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_B7AB96E9FA454F52AD1E97241FEEE249"
+            {
+            "SourcePath" = "8:..\\data\\windows\\playera.bmp"
+            "TargetName" = "8:playera.bmp"
+            "Tag" = "8:"
+            "Folder" = "8:_6102248286DB4C3FB7569F7975A94E38"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -12161,6 +12297,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_B9BFD7BFB3FB4D708C77321768AFE1F6"
+            {
+            "SourcePath" = "8:..\\data\\windows\\weapona2.bmp"
+            "TargetName" = "8:weapona2.bmp"
+            "Tag" = "8:"
+            "Folder" = "8:_6102248286DB4C3FB7569F7975A94E38"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_BA4479F30FB945DF8EE31CD5F64AE3A6"
             {
             "SourcePath" = "8:..\\AUTHORS"
@@ -12187,26 +12343,6 @@
             "TargetName" = "8:sa6.txt"
             "Tag" = "8:"
             "Folder" = "8:_E232F01C34CA476B9C773C9A3F0188CC"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_BC1A87C246EA4294BDC5BB4657FA7B9F"
-            {
-            "SourcePath" = "8:..\\data\\windows\\tank-hard.bmp"
-            "TargetName" = "8:tank-hard.bmp"
-            "Tag" = "8:"
-            "Folder" = "8:_6102248286DB4C3FB7569F7975A94E38"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -12447,26 +12583,6 @@
             "TargetName" = "8:gradient.bmp"
             "Tag" = "8:"
             "Folder" = "8:_92211005EE314765A2C2A329DEB815DA"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_C24A3AA7F40B453392F0747EF11FDC67"
-            {
-            "SourcePath" = "8:..\\data\\windows\\waita.bmp"
-            "TargetName" = "8:waita.bmp"
-            "Tag" = "8:"
-            "Folder" = "8:_6102248286DB4C3FB7569F7975A94E38"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -12783,7 +12899,7 @@
             }
             "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_C93368FB68F6FAD0E5F21BA0D3212DEE"
             {
-            "Signature" = "8:200000000060bd99534fc2016ad82ed0d914c4010060bd99534fc2010000000000780a0000000000000000006f00700065006e0067006c00330032002e0064006c006c000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+            "Signature" = "8:200000000060bd99534fc201c48db1114b1bc4010060bd99534fc2010000000000780a0000000000000000006f00700065006e0067006c00330032002e0064006c006c000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
             "SourcePath" = "8:OPENGL32.dll"
             "TargetName" = "8:OPENGL32.dll"
             "Tag" = "8:"
@@ -12800,6 +12916,26 @@
             "Register" = "3:1"
             "Exclude" = "11:TRUE"
             "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_C9552FC2A0EA4346B820A1BA0D09E143"
+            {
+            "SourcePath" = "8:..\\data\\windows\\tank-hard.bmp"
+            "TargetName" = "8:tank-hard.bmp"
+            "Tag" = "8:"
+            "Folder" = "8:_6102248286DB4C3FB7569F7975A94E38"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_CA39653C617C4FF69C8054D47DEC2297"
@@ -12828,26 +12964,6 @@
             "TargetName" = "8:chrome.bmp"
             "Tag" = "8:"
             "Folder" = "8:_F18593E78D774499BF4589238F337347"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_CADC235AF7B84233A141538C063764B5"
-            {
-            "SourcePath" = "8:..\\data\\windows\\arrowi.bmp"
-            "TargetName" = "8:arrowi.bmp"
-            "Tag" = "8:"
-            "Folder" = "8:_6102248286DB4C3FB7569F7975A94E38"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -13322,6 +13438,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_D7988832D5C64B7482757AE93084669B"
+            {
+            "SourcePath" = "8:..\\data\\windows\\plana.bmp"
+            "TargetName" = "8:plana.bmp"
+            "Tag" = "8:"
+            "Folder" = "8:_6102248286DB4C3FB7569F7975A94E38"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_D84B88E353A748839C219EDE95BB4FE1"
             {
             "SourcePath" = "8:..\\data\\wav\\misc\\splash.wav"
@@ -13428,26 +13564,6 @@
             "TargetName" = "8:t55b.bmp"
             "Tag" = "8:"
             "Folder" = "8:_EB647F7E5BC44FC096BAD78DF9B89CE8"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_DBB1C3066DF44E2FBCB0BECB27466382"
-            {
-            "SourcePath" = "8:..\\data\\windows\\aim.bmp"
-            "TargetName" = "8:aim.bmp"
-            "Tag" = "8:"
-            "Folder" = "8:_6102248286DB4C3FB7569F7975A94E38"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -13722,6 +13838,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_E030229A6517459CB2748408C7969688"
+            {
+            "SourcePath" = "8:..\\data\\windows\\arrow.bmp"
+            "TargetName" = "8:arrow.bmp"
+            "Tag" = "8:"
+            "Folder" = "8:_6102248286DB4C3FB7569F7975A94E38"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_E0F99C601B47430180361AB552F7E37F"
             {
             "SourcePath" = "8:..\\data\\tanks\\bm13\\tan.bmp"
@@ -13762,10 +13898,10 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_E2943B30A906438ABF719798511CAFDE"
+            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_E2927830AC8B4BCE8217477A938997F6"
             {
-            "SourcePath" = "8:..\\data\\windows\\logotiled.bmp"
-            "TargetName" = "8:logotiled.bmp"
+            "SourcePath" = "8:..\\data\\windows\\playera2.bmp"
+            "TargetName" = "8:playera2.bmp"
             "Tag" = "8:"
             "Folder" = "8:_6102248286DB4C3FB7569F7975A94E38"
             "Condition" = "8:"
@@ -13842,6 +13978,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_E5A25D42E19A4627981857E4DBE2122B"
+            {
+            "SourcePath" = "8:..\\data\\windows\\logotiled.bmp"
+            "TargetName" = "8:logotiled.bmp"
+            "Tag" = "8:"
+            "Folder" = "8:_6102248286DB4C3FB7569F7975A94E38"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_E5DF20D5948A4F75A6C94923616FAE8B"
             {
             "SourcePath" = "8:..\\data\\tanks\\thel\\kaki.bmp"
@@ -13888,26 +14044,6 @@
             "TargetName" = "8:hnapalm.bmp"
             "Tag" = "8:"
             "Folder" = "8:_AF201C7552C14DF5870322E95751518E"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_E67A53A0FBA44E2E9F27E0CB1C229B65"
-            {
-            "SourcePath" = "8:..\\data\\windows\\scorched.bmp"
-            "TargetName" = "8:scorched.bmp"
-            "Tag" = "8:"
-            "Folder" = "8:_6102248286DB4C3FB7569F7975A94E38"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -14468,6 +14604,26 @@
             "TargetName" = "8:harpoon.ase"
             "Tag" = "8:"
             "Folder" = "8:_EB647F7E5BC44FC096BAD78DF9B89CE8"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_F1E2601C174B4802A77ECC161325B3D5"
+            {
+            "SourcePath" = "8:..\\data\\windows\\move.bmp"
+            "TargetName" = "8:move.bmp"
+            "Tag" = "8:"
+            "Folder" = "8:_6102248286DB4C3FB7569F7975A94E38"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -15142,10 +15298,10 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_FBEFF45909AD494BBD900F193931DFC2"
+            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_FBC86FE6A88A418D8FA16C8915B69524"
             {
-            "SourcePath" = "8:..\\data\\windows\\playera2.bmp"
-            "TargetName" = "8:playera2.bmp"
+            "SourcePath" = "8:..\\data\\windows\\client.bmp"
+            "TargetName" = "8:client.bmp"
             "Tag" = "8:"
             "Folder" = "8:_6102248286DB4C3FB7569F7975A94E38"
             "Condition" = "8:"
@@ -16166,7 +16322,7 @@
             "Target" = "8:_00B02EF62DD34223A20B9D1684C24F0B"
             "Folder" = "8:_1B64D6D8F4E047DEB623D5605A9333AF"
             "WorkingFolder" = "8:_503AD013874445A0BB4C7E827DED82C7"
-            "Icon" = "8:_2E61A412F2A34407A9AA2CD86E2D01FC"
+            "Icon" = "8:_60BD13831DEE42FAB98CCAB06259AB4A"
             "Feature" = "8:"
             }
             "{D0C99CFE-1238-11D3-8E00-00C04F6837D0}:_DAFE87E634E04AEFB76C2EEC82766F85"
@@ -16271,7 +16427,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Scorched3D"
         "ProductCode" = "8:{6D195B55-488B-4A85-BCB2-788EA45CB11F}"
-        "PackageCode" = "8:{EFDBF2E6-BC38-43BD-9C33-9D6014B767FC}"
+        "PackageCode" = "8:{C7D00345-244A-453B-A01E-9B0878083297}"
         "UpgradeCode" = "8:{8EE7F3CA-B23C-4008-B4BC-B74542AD07A1}"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
@@ -16286,7 +16442,7 @@
         "Keywords" = "8:"
         "ARPCOMMENTS" = "8:Scorched3D v37.1"
         "ARPURLINFOABOUT" = "8:http://www.scorched3d.co.uk"
-        "ARPPRODUCTICON" = "8:_2E61A412F2A34407A9AA2CD86E2D01FC"
+        "ARPPRODUCTICON" = "8:_60BD13831DEE42FAB98CCAB06259AB4A"
         "ARPIconIndex" = "3:0"
         "SearchPath" = "8:"
         "UseSystemSearchPath" = "11:TRUE"
@@ -16297,7 +16453,7 @@
         }
         "MergeModule"
         {
-            "{AC8774A4-3E09-11D3-8E14-00C04F6837D0}:_4C329D4F2E5C414794DE93E9F3CC3554"
+            "{AC8774A4-3E09-11D3-8E14-00C04F6837D0}:_798EA3ECEABA4F16946FAE6A4DE88D5D"
             {
             "UseDynamicProperties" = "11:TRUE"
             "IsDependency" = "11:TRUE"
@@ -16323,7 +16479,7 @@
             "Feature" = "8:"
             "IsolateTo" = "8:"
             }
-            "{AC8774A4-3E09-11D3-8E14-00C04F6837D0}:_78916BA81C55473CAA8148958B1032AC"
+            "{AC8774A4-3E09-11D3-8E14-00C04F6837D0}:_91CA4047D97240DF8B894CD0DB057F66"
             {
             "UseDynamicProperties" = "11:TRUE"
             "IsDependency" = "11:TRUE"
