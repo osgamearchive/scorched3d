@@ -138,113 +138,127 @@ bool ResourceFile::initFromFile(const char *xmlFileName)
 		// Get the current module
 		XMLNode *moduleNode = (*itor);
 
-		ResourceModule *inheritedNode = 0;
-		XMLNode *inherits = moduleNode->getNamedParameter("inherits");
-		if (inherits)
+		// Check if this resource is enabled
+		bool resouceEnabled = true;
+		XMLNode *enabled = moduleNode->getNamedParameter("enabled");
+		if (enabled)
 		{
-			std::map<std::string, ResourceModule *>::iterator findItor =
-				modules_.find(inherits->getContent());
-			if (findItor == modules_.end())
+			if (strcmp(enabled->getContent(), "true"))
 			{
-				dialogMessage("Resource File", 
-					"Resource file \"%s\" module \"%s\" inherits unknown module \"%s\"",
-					xmlFileName, moduleNode->getName(), inherits->getContent());
-				return false;
-			}
-			else
-			{
-				inheritedNode = (*findItor).second;
+				resouceEnabled = false;
 			}
 		}
 
-		ResourceModule *module = 
-			new ResourceModule(moduleNode->getName(), inheritedNode);
-		if (!currentModule_) currentModule_ = module;
-
-		// Add new module type and check it does not already exist
-		std::map<std::string, ResourceModule *>::iterator findItor =
-			modules_.find(moduleNode->getName());
-		if (findItor != modules_.end())
+		if (resouceEnabled)
 		{
-			dialogMessage("Resource File", 
-				"Resource file \"%s\" has duplicate module \"%s\"",
-				xmlFileName, moduleNode->getName());
-			return false;
-		}
-		modules_[moduleNode->getName()] = module;
-
-		// Add all the values from the module
-		std::list<XMLNode *> &valueNodes = moduleNode->getChildren();
-		std::list<XMLNode *>::iterator valueItor;
-		for (valueItor = valueNodes.begin();
-			valueItor != valueNodes.end();
-			valueItor++)
-		{
-			// Get the current value
-			XMLNode *valueNode = (*valueItor);
-
-			// Check the value does not already exist and add the value
-			std::map<std::string, std::string>::iterator valueFind =
-				module->moduleValues.find(valueNode->getName());
-			if (valueFind != module->moduleValues.end())
+			ResourceModule *inheritedNode = 0;
+			XMLNode *inherits = moduleNode->getNamedParameter("inherits");
+			if (inherits)
 			{
-				dialogMessage("Resource File", 
-					"Resource file \"%s\" has duplicate value \"%s:%s\"",
-					xmlFileName, moduleNode->getName(), valueNode->getName());
-				return false;
-			}
-
-			// check files exist etc...
-			XMLNode *type = valueNode->getNamedParameter("type");
-			if (type)
-			{
-				if (0 == strcmp(type->getContent(), "file"))
+				std::map<std::string, ResourceModule *>::iterator findItor =
+					modules_.find(inherits->getContent());
+				if (findItor == modules_.end())
 				{
-					static char string[1024];
-					sprintf(string, "%s", valueNode->getContent());
+					dialogMessage("Resource File", 
+						"Resource file \"%s\" module \"%s\" inherits unknown module \"%s\"",
+						xmlFileName, moduleNode->getName(), inherits->getContent());
+					return false;
+				}
+				else
+				{
+					inheritedNode = (*findItor).second;
+				}
+			}
 
-					// Remove front spaces etc...
-					char *spaceString = string;
-					while (*spaceString && *spaceString < 32) spaceString++;
+			ResourceModule *module = 
+				new ResourceModule(moduleNode->getName(), inheritedNode);
+			if (!currentModule_) currentModule_ = module;
 
-					// Remove end spaces etc...
-					for (int i=strlen(spaceString) - 1; i>=0; i--)
+			// Add new module type and check it does not already exist
+			std::map<std::string, ResourceModule *>::iterator findItor =
+				modules_.find(moduleNode->getName());
+			if (findItor != modules_.end())
+			{
+				dialogMessage("Resource File", 
+					"Resource file \"%s\" has duplicate module \"%s\"",
+					xmlFileName, moduleNode->getName());
+				return false;
+			}
+			modules_[moduleNode->getName()] = module;
+
+			// Add all the values from the module
+			std::list<XMLNode *> &valueNodes = moduleNode->getChildren();
+			std::list<XMLNode *>::iterator valueItor;
+			for (valueItor = valueNodes.begin();
+				valueItor != valueNodes.end();
+				valueItor++)
+			{
+				// Get the current value
+				XMLNode *valueNode = (*valueItor);
+
+				// Check the value does not already exist and add the value
+				std::map<std::string, std::string>::iterator valueFind =
+					module->moduleValues.find(valueNode->getName());
+				if (valueFind != module->moduleValues.end())
+				{
+					dialogMessage("Resource File", 
+						"Resource file \"%s\" has duplicate value \"%s:%s\"",
+						xmlFileName, moduleNode->getName(), valueNode->getName());
+					return false;
+				}
+
+				// check files exist etc...
+				XMLNode *type = valueNode->getNamedParameter("type");
+				if (type)
+				{
+					if (0 == strcmp(type->getContent(), "file"))
 					{
-						if (spaceString[i] < 32) spaceString[i] = '\0';
-						else break;
-					}
+						static char string[1024];
+						sprintf(string, "%s", valueNode->getContent());
 
-					// Add directory component
-					static char fileName[1024];
-					sprintf(fileName, "%s%s", PKGDIR, spaceString);
-                    
-					::wxDos2UnixFilename(fileName);
-					if (::wxFileExists(fileName))
-					{
-						module->moduleValues[valueNode->getName()] = fileName;
+						// Remove front spaces etc...
+						char *spaceString = string;
+						while (*spaceString && *spaceString < 32) spaceString++;
+
+						// Remove end spaces etc...
+						for (int i=strlen(spaceString) - 1; i>=0; i--)
+						{
+							if (spaceString[i] < 32) spaceString[i] = '\0';
+							else break;
+						}
+
+						// Add directory component
+						static char fileName[1024];
+						sprintf(fileName, "%s%s", PKGDIR, spaceString);
+	                    
+						::wxDos2UnixFilename(fileName);
+						if (::wxFileExists(fileName))
+						{
+							module->moduleValues[valueNode->getName()] = fileName;
+						}
+						else
+						{
+							dialogMessage("Resource File", 
+								"Resource file \"%s\" value \"%s:%s\"\n"
+								"Cannot find file type defines filename \"%s\"",
+								xmlFileName, moduleNode->getName(), valueNode->getName(),
+								fileName);
+							return false;
+						}
 					}
 					else
 					{
 						dialogMessage("Resource File", 
-							"Resource file \"%s\" value \"%s:%s\"\n"
-							"Cannot find file type defines filename \"%s\"",
-							xmlFileName, moduleNode->getName(), valueNode->getName(),
-							fileName);
+							"Resource file \"%s\" has unknown type \"%s\" value \"%s:%s\"",
+							xmlFileName, type->getContent(), moduleNode->getName(), valueNode->getName());
 						return false;
 					}
 				}
 				else
 				{
-					dialogMessage("Resource File", 
-						"Resource file \"%s\" has unknown type \"%s\" value \"%s:%s\"",
-						xmlFileName, type->getContent(), moduleNode->getName(), valueNode->getName());
-					return false;
+					module->moduleValues[valueNode->getName()] =
+						valueNode->getContent();
 				}
-			}
-			else
-			{
-				module->moduleValues[valueNode->getName()] =
-					valueNode->getContent();
 			}
 		}
 	}

@@ -1,5 +1,5 @@
 <resources>
-	<default>
+	<default enabled="true">
 		<bitmap-cloud type="file">
 			data/textures/landscape/default/cloud1.bmp
 		</bitmap-cloud>
@@ -34,7 +34,7 @@
 			data/textures/landscape/default/texture4.bmp
 		</bitmap-texture4>
 	</default>
-	<hell inherits="default">
+	<hell inherits="default" enabled="true">
 		<bitmap-cloud type="file">
 			data/textures/landscape/hell/cloud1.bmp
 		</bitmap-cloud>
@@ -66,7 +66,7 @@
 			data/textures/landscape/hell/texture4.bmp
 		</bitmap-texture4>
 	</hell>
-	<sand inherits="default">
+	<sand inherits="default" enabled="true">
 		<bitmap-cloud type="file">
 			data/textures/landscape/sand/cloud1.bmp
 		</bitmap-cloud>
@@ -98,7 +98,7 @@
 			data/textures/landscape/sand/texture4.bmp
 		</bitmap-texture4>
 	</sand>
-	<snow inherits="default">
+	<snow inherits="default" enabled="true">
 		<bitmap-cloud type="file">
 			data/textures/landscape/snow/cloud1.bmp
 		</bitmap-cloud>
@@ -130,7 +130,7 @@
 			data/textures/landscape/snow/texture4.bmp
 		</bitmap-texture4>
 	</snow>
-	<tropical inherits="default">
+	<tropical inherits="default" enabled="true">
 		<bitmap-cloud type="file">
 			data/textures/landscape/tropical/cloud1.bmp
 		</bitmap-cloud>
@@ -162,7 +162,7 @@
 			data/textures/landscape/tropical/texture4.bmp
 		</bitmap-texture4>
 	</tropical>
-	<vulcano inherits="default">
+	<vulcano inherits="default" enabled="true">
 		<bitmap-cloud type="file">
 			data/textures/landscape/vulcano/cloud1.bmp
 		</bitmap-cloud>
@@ -194,7 +194,7 @@
 			data/textures/landscape/vulcano/texture4.bmp
 		</bitmap-texture4>
 	</vulcano>
-	<storm inherits="default">
+	<storm inherits="default" enabled="true">
 		<bitmap-cloud type="file">
 			data/textures/landscape/storm/cloud1.bmp
 		</bitmap-cloud>

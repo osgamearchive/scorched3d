@@ -12,6 +12,7 @@ Added: Tank choice dialog shows many more tanks
 Added: Tanks placed into catagories to make for easier choosing
 Added: MilkShape model support (including alpha maps)
 Added: Keys are defined and can be configured via XML file (keys.xml)
+Added: Resouces can be enabled and disabled in the resource file (landscapes can be disable)
 
 Fixed: Tanks do not start right at the landscape edge
 Fixed: Applied http://wwwra.informatik.uni-rostock.de/~waschk/Scorched3D-35-gcc3.3.patch
