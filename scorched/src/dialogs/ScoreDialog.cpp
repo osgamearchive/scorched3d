@@ -341,7 +341,8 @@ void ScoreDialog::addLine(Tank *current, float y, char *rank, bool finished)
 	bool currentPlayer = false;
 	
 	// Print a highlight behind the current clients player
-	if (current->getDestinationId() == 
+	if (!current->getState().getSpectator() &&
+		current->getDestinationId() == 
 		ScorchedClient::instance()->getTankContainer().getCurrentDestinationId())
 	{
 		GLState state(GLState::BLEND_ON); 

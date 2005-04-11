@@ -85,17 +85,17 @@ void SaveDialog::buttonDown(unsigned int id)
 	{
 		if (textBox_->getText()[0])
 		{
-			const char *saveFile = formatString("%s.s3d", textBox_->getText());
-			if (ClientSave::saveClient(getSaveFile(saveFile)))
+			std::string saveFile = formatString("%s.s3d", textBox_->getText().c_str());
+			if (ClientSave::saveClient(getSaveFile(saveFile.c_str())))
 			{
 				MessageDisplay::instance()->addMessage(
-					"Game saved as \"%s\"", saveFile);
-				Logger::log("Game saved as \"%s\"", saveFile);
+					formatString("Saved as \"%s\"", saveFile.c_str()));
+				Logger::log("Saved as \"%s\"", saveFile.c_str());
 			}
 			else
 			{
 				MessageDisplay::instance()->addMessage(
-					"Game save failed");
+					"Save failed");
 			}
 			GLWWindowManager::instance()->hideWindow(id_);
 		}
