@@ -18,39 +18,12 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_ModelsFileh_INCLUDE__)
-#define __INCLUDE_ModelsFileh_INCLUDE__
+#include <3dsparse/Face.h>
 
-#include <list>
-#include <string>
-#include <3dsparse/Model.h>
-
-class ModelsFile
+Face::Face()
 {
-public:
-	ModelsFile(const char *fileName);
-	virtual ~ModelsFile();
+}
 
-	bool getSuccess() { return (error_.c_str()[0] == '\0'); }
-	bool setError(const char *error) { error_ = error; return false; }
-	const char *getName() { return name_.c_str(); }
-	const char *getError() { return error_.c_str(); }
-
-	Vector &getMax() { return max_; }
-	Vector &getMin() { return min_; }
-	int getNumberFaces();
-	std::list<Model *> &getModels() { return models_; }
-
-	void centre();
-	void centreBottom();
-	void scale(float scalef);
-
-protected:
-	std::list<Model *> models_;
-	std::string name_;
-	std::string error_;
-	Vector max_, min_;
-
-};
-
-#endif
+Face::~Face()
+{
+}

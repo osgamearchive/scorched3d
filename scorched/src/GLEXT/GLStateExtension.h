@@ -69,15 +69,15 @@ public:
 	inline static PFNGLCLIENTACTIVETEXTUREARBPROC glClientActiveTextureARB() { return glClientActiveTextureARB_; }
 
 	// Use tex sub image extension?
-	inline static bool getNoTexSubImage() { return noTexSubImage_; }
+	static bool getNoTexSubImage() { return noTexSubImage_; }
 	// Use cube map extension?
-	inline static bool hasCubeMap() { return hasCubeMap_; }
+	static bool hasCubeMap() { return hasCubeMap_; }
 	// Use hardware mipmap extension?
-	inline static bool hasHardwareMipmaps() { return hasHardwareMipmaps_; }
+	static bool hasHardwareMipmaps() { return hasHardwareMipmaps_; }
 	// Use env combine
-	inline static bool hasEnvCombine() { return envCombine_; }
+	static bool hasEnvCombine() { return envCombine_; }
 	 // How many texture units
-	inline static int getTextureUnits() { return textureUnits_; }
+	static int getTextureUnits() { return textureUnits_; }
 
 protected:
 	static bool hasExtension(char *name);

@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,25 +18,24 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_MSFileh_INCLUDE__)
-#define __INCLUDE_MSFileh_INCLUDE__
+#if !defined(__INCLUDE_MSModelFactoryh_INCLUDE__)
+#define __INCLUDE_MSModelFactoryh_INCLUDE__
 
-#include <3dsparse/ModelsFile.h>
-#include <stdio.h>
+#include <3dsparse/Model.h>
 
-class MSFile : public ModelsFile
+class MSModelFactory
 {
 public:
-	MSFile(const char *fileName);
-	virtual ~MSFile();
+	MSModelFactory();
+	virtual ~MSModelFactory();
+
+	Model *createModel(const char *fileName);
 
 protected:
-	bool setLineError(const char *fileName, const char *error);
-	bool loadFile(const char *fileName);
-	bool loadFile(FILE *in, const char *fileName);
+	void returnError(const char *fileName, const char *error);
+	void loadFile(FILE *in, const char *fileName, Model *Model);
 	bool getNextLine(char *line, FILE *in);
 	unsigned int lineNo_;
-
 };
 
-#endif
+#endif // __INCLUDE_MSModelFactoryh_INCLUDE__

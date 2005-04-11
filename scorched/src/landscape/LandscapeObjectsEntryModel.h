@@ -22,8 +22,8 @@
 #define __INCLUDE_LandscapeObjectsEntryModelh_INCLUDE__
 
 #include <landscape/LandscapeObjectsEntry.h>
-#include <GLEXT/GLVertexSet.h>
 
+class ModelRenderer;
 class LandscapeObjectsEntryModel :
 	public LandscapeObjectsEntry
 {
@@ -33,8 +33,8 @@ public:
 
 	virtual void render(float distance);
 
-	GLVertexSet *model;
-	GLVertexSet *modelburnt;
+	ModelRenderer *model;
+	ModelRenderer *modelburnt;
 };
 
 #endif // __INCLUDE_LandscapeObjectsEntryModelh_INCLUDE__

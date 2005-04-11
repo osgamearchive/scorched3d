@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -21,76 +21,43 @@
 #if !defined(__INCLUDE_Modelh_INCLUDE__)
 #define __INCLUDE_Modelh_INCLUDE__
 
-#include <GLEXT/GLVertexArray.h>
-#include <common/Vector.h>
-#include <common/Face.h>
-#include <string>
-#include <vector>
-#include <list>
+#include <3dsparse/Mesh.h>
+#include <3dsparse/Bone.h>
 
-// The base class container for, err, models (3d models)
 class Model
 {
 public:
-	Model(char *name);
+	Model();
 	virtual ~Model();
 
-	// Detail is the LOD for the returned mesh (1.0 = full, 0.0 = none)
-	virtual GLVertexArray *getArray(bool useTextures, 
-		bool shadowModel, 
-		float detail = 1.0f);
-
-	Vector &getVertex(int pos);
-	int getVertexBone(int pos);
-
-	Vector &getMax() { return max_; }
 	Vector &getMin() { return min_; }
-	Vector &getColor() { return color_; }
-	const char *getName() { return name_.c_str(); }
-	const char *getTextureName() { return texture_.c_str(); }
-	const char *getATextureName() { return atexture_.c_str(); }
+	Vector &getMax() { return max_; }
+	std::vector<Mesh *> &getMeshes() { return meshes_; }
+	std::vector<BoneType *> &getBaseBoneTypes() { return baseBoneTypes_; }
+	std::vector<Bone *> &getBones() { return bones_; }
+	int getNumberTriangles();
+	int getStartFrame() { return startFrame_; }
+	int getTotalFrames() { return totalFrames_; }
 
-	std::vector<Vector> &getVertices() { return vertexes_; }
-	std::vector<int> &getVertexBones() { return vertexBones_; }
-	std::vector<Face> &getFaces() { return faces_; }
-
-	virtual void centre(Vector &centre);
-	virtual void scale(float scalef);
-
-	// Used by parser
-	virtual void setTextureName(const char *name) { texture_ = name; }
-	virtual void setATextureName(const char *name) { atexture_ = name; }
-	virtual void setColor(Vector &color);
-	virtual void setFaceNormal(Vector &normal, int face, int index);
-	virtual void setFaceTCoord(Vector &tcoord, int face, int index);
-	virtual void insertVertex(Vector &newVertex, int boneIndex = -1);
-	virtual void insertFace(Face &newFace);
+	// Used during building
+	void setup();
+	void addMesh(Mesh *mesh) { meshes_.push_back(mesh); }
+	void addBone(Bone *bone) { bones_.push_back(bone); }
+	void setStartFrame(int frame) { startFrame_ = frame; }
+	void setTotalFrames(int frames) { totalFrames_ = frames; }
 	
 protected:
-	std::string name_;
-	std::vector<Vector> vertexes_;
-	std::vector<int> vertexBones_;
-	std::vector<Face> faces_;
-	Vector max_, min_;
-	Vector color_; // Color for meshes with no texture (material)
-	std::string texture_;
-	std::string atexture_; // Alpha texture
+	std::vector<Mesh *> meshes_;
+	std::vector<Bone *> bones_;
+	std::vector<BoneType *> baseBoneTypes_;
+	Vector min_, max_;
 
-	GLVertexArray *getNoTexArray(bool shadowModel, float detail);
-	GLVertexArray *getTexArray(bool shadowModel, float detail);
+	int startFrame_;
+	int totalFrames_;
 
-	// All used only for LOD computations
-	bool computedCollapseCosts_; // Has the collapse cost been calculated
-	std::vector<int> map_; // Cached collapsed costs
-	int mapIndex(int pos, float currentReduction); 
-	void computeCollapseCosts();
-	void formArray(
-		std::list<Vector> &triList, 
-		std::list<Vector> &normalList,
-		std::list<Vector> &texCoordList,
-		float detail);
-
+	void centre();
+	void setupBones();
+	void setupColor();
 };
 
-
-#endif
+#endif // __INCLUDE_Modelh_INCLUDE__

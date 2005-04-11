@@ -18,14 +18,14 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #if !defined(__INCLUDE_ModelIDh_INCLUDE__)
 #define __INCLUDE_ModelIDh_INCLUDE__
 
-#include <XML/XMLFile.h>
-#include <coms/NetBuffer.h>
+#include <string>
 
-class ModelsFile;
+class NetBuffer;
+class NetBufferReader;
+class XMLNode;
 class ModelID
 {
 public:
@@ -54,16 +54,11 @@ public:
 	virtual bool writeModelID(NetBuffer &buffer);
 	virtual bool readModelID(NetBufferReader &reader);
 
-	ModelsFile *getModelsFile();
-	void clearCachedFile();
-
 protected:
 	std::string type_;
 	std::string meshName_;
 	std::string skinName_;
 	std::string hash_;
-	ModelsFile *cachedFile_;
-
 };
 
 #endif

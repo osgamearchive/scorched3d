@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,59 +18,45 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+#include <3dsparse/ASEModelFactory.h>
+#include <common/Defines.h>
 #include <stdio.h>
 #include <math.h>
-#include <3dsparse/ASEFile.h>
-#include <common/Defines.h>
 
 extern FILE *asein;
 extern int aseparse(void);
 extern int aselineno;
 
-ASEFile *ASEFile::current_ = 0;
+static ASEModelFactory *factory_ = 0;
+static Model *model_ = 0;
 
-ASEFile::ASEFile(const char *fileName,
-				 const char *texName) : 
-	ModelsFile(fileName), texName_(texName)
+ASEModelFactory::ASEModelFactory()
 {
+}
+
+ASEModelFactory::~ASEModelFactory()
+{
+}
+
+Model *ASEModelFactory::createModel(const char *fileName,
+	const char *texName)
+{
+	model_ = new Model();
 	if (loadFile(fileName))
 	{
-		centre();
-		calculateTexCoords();
+		model_->setup();
+		calculateTexCoords(texName);
 	}
 	else
 	{
-		setError(
-			formatString("Failed to load ASE file \"%s\"", fileName));
-	}
-}
-
-ASEFile::~ASEFile()
-{
-
-}
-
-ASEFile *ASEFile::getCurrent()
-{
-	return current_;
-}
-
-ASEModel *ASEFile::getCurrentModel()
-{
-	if (!models_.empty())
-	{
-		return (ASEModel *) models_.back();
+		delete model_;
+		model_ = 0;
 	}
 
-	return 0;
+	return model_;
 }
 
-void ASEFile::addModel(char *modelName)
-{
-	models_.push_back(new ASEModel(modelName, (char *) texName_));
-}
-
-bool ASEFile::loadFile(const char *fileName)
+bool ASEModelFactory::loadFile(const char *fileName)
 {
 	asein = fopen(fileName, "r");
 	if (!asein)
@@ -79,12 +65,30 @@ bool ASEFile::loadFile(const char *fileName)
 	}
 
 	// Reset variables for next parser
-	current_ = this;
+	factory_ = this;
 	aselineno = 0;
 	return (aseparse() == 0);
 }
 
-Vector ASEFile::getTexCoord(Vector &tri, MaxMag mag, Vector &max, Vector &min)
+ASEModelFactory *ASEModelFactory::getCurrent()
+{
+	return factory_;
+}
+
+void ASEModelFactory::addMesh(char *meshName)
+{
+	Mesh *mesh = new Mesh(meshName);
+	model_->addMesh(mesh);
+}
+
+Mesh *ASEModelFactory::getCurrentMesh()
+{
+	DIALOG_ASSERT(!model_->getMeshes().empty());
+	Mesh *mesh = model_->getMeshes().back();
+	return mesh;
+}
+
+Vector ASEModelFactory::getTexCoord(Vector &tri, MaxMag mag, Vector &max, Vector &min)
 {
 	Vector newTri = tri;
 	newTri -= min;
@@ -112,24 +116,26 @@ Vector ASEFile::getTexCoord(Vector &tri, MaxMag mag, Vector &max, Vector &min)
 	return newTri;
 }
 
-void ASEFile::calculateTexCoords()
+void ASEModelFactory::calculateTexCoords(const char *texName)
 {
-	std::list<Model *>::iterator itor;
-	for (itor = models_.begin();
-		itor != models_.end();
+	std::vector<Mesh *>::iterator itor;
+	for (itor = model_->getMeshes().begin();
+		itor != model_->getMeshes().end();
 		itor++)
 	{
-		Model *model = *itor;
-		std::vector<Face>::iterator fitor;
-		for (fitor = model->getFaces().begin();
-			fitor != model->getFaces().end();
+		Mesh *mesh = *itor;
+		mesh->setTextureName(texName);
+
+		std::vector<Face*>::iterator fitor;
+		for (fitor = mesh->getFaces().begin();
+			fitor != mesh->getFaces().end();
 			fitor++)
 		{
-			Face &face = *fitor;
+			Face &face = *(*fitor);
 
-			Vector triA = model->getVertex(face.v[0]);
-			Vector triB = model->getVertex(face.v[1]);
-			Vector triC = model->getVertex(face.v[2]);
+			Vector &triA = mesh->getVertex(face.v[0])->position;
+			Vector &triB = mesh->getVertex(face.v[1])->position;
+			Vector &triC = mesh->getVertex(face.v[2])->position;
 
 			MaxMag maxMag = MagZ;
 			Vector faceNormal = (face.normal[0] + face.normal[1] + face.normal[2]).Normalize();
@@ -144,9 +150,10 @@ void ASEFile::calculateTexCoords()
 				maxMag = MagY;
 			}
 
-			face.tcoord[0] = getTexCoord(triA, maxMag, getMax(), getMin());
-			face.tcoord[1] = getTexCoord(triB, maxMag, getMax(), getMin());
-			face.tcoord[2] = getTexCoord(triC, maxMag, getMax(), getMin());
+			face.tcoord[0] = getTexCoord(triA, maxMag, mesh->getMax(), mesh->getMin());
+			face.tcoord[1] = getTexCoord(triB, maxMag, mesh->getMax(), mesh->getMin());
+			face.tcoord[2] = getTexCoord(triC, maxMag, mesh->getMax(), mesh->getMin());
 		}
 	}
 }
+

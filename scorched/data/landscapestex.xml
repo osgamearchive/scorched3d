@@ -53,7 +53,7 @@
 				<count>20</count>
 				<minz>5</minz>
 				<maxz>25</maxz>
-				<model type="MilkShape">data/meshes/bird.txt</model>
+				<model type="MilkShape">data/meshes/seagull/seagull.txt</model>
 			</boid>
 		</boids>
 	</tex>
@@ -163,7 +163,7 @@
 				<count>20</count>
 				<minz>5</minz>
 				<maxz>25</maxz>
-				<model type="MilkShape">data/meshes/bird.txt</model>
+				<model type="MilkShape">data/meshes/seagull/seagull.txt</model>
 			</boid>
 		</boids>
 	</tex>
@@ -272,7 +272,7 @@
 				<count>20</count>
 				<minz>5</minz>
 				<maxz>25</maxz>
-				<model type="MilkShape">data/meshes/bird.txt</model>
+				<model type="MilkShape">data/meshes/seagull/seagull.txt</model>
 			</boid>
 		</boids>
 	</tex>

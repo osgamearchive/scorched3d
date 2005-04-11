@@ -20,7 +20,8 @@
 
 #include <tankgraph/TankModel.h>
 #include <common/OptionsDisplay.h>
-#include <3dsparse/ModelsFile.h>
+#include <3dsparse/ModelStore.h>
+#include <3dsparse/Model.h>
 
 TankModel::TankModel(TankModelId &id, ModelID &modelId) :
 	init_(false),
@@ -63,7 +64,7 @@ void TankModel::draw(bool drawS, float angle,
 	{
 		init_ = true;
 
-		ModelsFile *newFile = modelId_.getModelsFile();
+		Model *newFile = ModelStore::instance()->loadModel(modelId_);
 		if (!newFile) return;
 
 		// Get the model detail
@@ -71,8 +72,7 @@ void TankModel::draw(bool drawS, float angle,
 			float(OptionsDisplay::instance()->getMaxModelTriPercentage()) / 100.0f;
 
 		// Create tank mesh
-		tankMesh_ = new TankMesh(
-			*newFile, !OptionsDisplay::instance()->getNoSkins(), detail);
+		tankMesh_ = new TankMesh(*newFile);
 	}
 
 	if (tankMesh_)

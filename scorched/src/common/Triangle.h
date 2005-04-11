@@ -43,8 +43,8 @@ public:
 		const float ptC1, const float ptC2, const float ptC3,
 		Vector &normalC);
 
-	inline bool pointInBoundingBox(const Vector &pt);
-	inline bool pointInTriangle(const Vector &pt);
+	bool pointInBoundingBox(const Vector &pt);
+	bool pointInTriangle(const Vector &pt);
 
 	virtual bool rayIntersect(
 		const Line &ray, 

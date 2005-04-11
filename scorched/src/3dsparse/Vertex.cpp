@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,27 +18,12 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_DebrisActionRendererh_INCLUDE__)
-#define __INCLUDE_DebrisActionRendererh_INCLUDE__
+#include <3dsparse/Vertex.h>
 
-#include <common/Vector.h>
-#include <3dsparse/ModelRenderer.h>
-
-class DebrisActionRenderer
+Vertex::Vertex() : boneIndex(-1)
 {
-public:
-	DebrisActionRenderer();
-	~DebrisActionRenderer();
+}
 
-	void simulate(float time);
-	void draw(Vector &position);
-
-protected:
-	ModelRenderer *debris_;
-	float rotationAng_;
-	float rotationX_, rotationY_, rotationZ_;
-	float rotationSpeed_;
-
-};
-
-#endif
+Vertex::~Vertex()
+{
+}

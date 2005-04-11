@@ -21,22 +21,21 @@
 #if !defined(__INCLUDE_MapPointsh_INCLUDE__)
 #define __INCLUDE_MapPointsh_INCLUDE__
 
-#include <GLEXT/GLVertexSet.h>
-
+class ModelRenderer;
 class MapPoints
 {
 public:
 	static MapPoints *instance();
 
-	GLVertexSet *getBorderModelWrap() { return borderModelWrap_; }
-	GLVertexSet *getBorderModelBounce() { return borderModelBounce_; }
-	GLVertexSet *getBorderModelConcrete() { return borderModelConcrete_; }
+	ModelRenderer *getBorderModelWrap() { return borderModelWrap_; }
+	ModelRenderer *getBorderModelBounce() { return borderModelBounce_; }
+	ModelRenderer *getBorderModelConcrete() { return borderModelConcrete_; }
 
 protected:
 	static MapPoints *instance_;
-	GLVertexSet *borderModelWrap_;
-	GLVertexSet *borderModelBounce_;
-	GLVertexSet *borderModelConcrete_;
+	ModelRenderer *borderModelWrap_;
+	ModelRenderer *borderModelBounce_;
+	ModelRenderer *borderModelConcrete_;
 
 private:
 	MapPoints();

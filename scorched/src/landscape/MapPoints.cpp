@@ -20,6 +20,7 @@
 
 #include <landscape/MapPoints.h>
 #include <3dsparse/ModelStore.h>
+#include <3dsparse/ModelRenderer.h>
 
 MapPoints *MapPoints::instance_ = 0;
 
@@ -34,17 +35,20 @@ MapPoints::MapPoints()
 	{
 		ModelID id;
 		id.initFromString("ase", "data/meshes/wrap.ase", "none");
-		borderModelWrap_ = ModelStore::instance()->loadOrGetArray(id);
+		borderModelWrap_ = new ModelRenderer(
+			ModelStore::instance()->loadModel(id));
 	}
 	{
 		ModelID id;
 		id.initFromString("ase", "data/meshes/bounce.ase", "none");
-		borderModelBounce_ = ModelStore::instance()->loadOrGetArray(id);
+		borderModelBounce_ =  new ModelRenderer(
+			ModelStore::instance()->loadModel(id));
 	}
 	{
 		ModelID id;
 		id.initFromString("ase", "data/meshes/concrete.ase", "none");
-		borderModelConcrete_ = ModelStore::instance()->loadOrGetArray(id);
+		borderModelConcrete_ =  new ModelRenderer(
+			ModelStore::instance()->loadModel(id));
 	}
 }
 

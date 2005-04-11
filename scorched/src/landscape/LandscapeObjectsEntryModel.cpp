@@ -19,6 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <landscape/LandscapeObjectsEntryModel.h>
+#include <3dsparse/ModelRenderer.h>
 #include <GLEXT/GLState.h>
 #include <GLEXT/GLCameraFrustum.h>
 
@@ -29,6 +30,8 @@ LandscapeObjectsEntryModel::LandscapeObjectsEntryModel() :
 
 LandscapeObjectsEntryModel::~LandscapeObjectsEntryModel()
 {
+	delete model;
+	delete modelburnt;
 }
 
 void LandscapeObjectsEntryModel::render(float distance)

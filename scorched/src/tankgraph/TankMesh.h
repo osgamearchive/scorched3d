@@ -22,37 +22,40 @@
 #define AFX_TANKMESH_H__CB857C65_A22F_4FBC_9344_EFF22F8A4EEA__INCLUDED_
 
 #include <common/Vector.h>
-#include <GLEXT/GLVertexSetGroup.h>
+#include <3dsparse/ModelRenderer.h>
 #include <list>
 
-class Model;
-class ModelsFile;
-class TankMesh  
+class TankMesh : public ModelRenderer
 {
 public:
-	TankMesh(ModelsFile &tank, bool useTextures, float detail);
+	TankMesh(Model &tank);
 	virtual ~TankMesh();
 
 	void draw(bool drawS, float angle, Vector &position, 
 		float fireOffSet, float rotXY, float rotXZ,
 		bool absCenter = false, float scale = 1.0f);
-	float getTurretHeight() { return turretHeight_; }
 	int getNoTris();
 
 	static void drawSight();
 protected:
-	bool useTextures_;
-	float turretHeight_;
+	enum MeshType
+	{
+		eNone,
+		eTurret,
+		eGun
+	};
+
+	bool drawS_;
+	float fireOffSet_;
+	float scale_;
+	float rotXY_;
+	float rotXZ_;
 	Vector gunOffset_;
-	Vector modelCenter_;
-	GLVertexSetGroup gunArrays_;
-	GLVertexSetGroup turretArrays_;
-	GLVertexSetGroup otherArrays_;
+	Vector turretCenter_;
+	std::vector<MeshType> meshTypes_;
 
-	void drawGun(bool drawS, float fireOffset, float rotXY, float rotXZ);
-	void createArrays(ModelsFile &aseTank, bool useTextures, float detail);
-	void addToSet(GLVertexSetGroup &vset, std::list<Model*> &models, float detail);
-
+	virtual void drawMesh(unsigned int m, Mesh *mesh);
+	void setupTankMesh();
 };
 
 #endif // !defined(AFX_TANKMESH_H__CB857C65_A22F_4FBC_9344_EFF22F8A4EEA__INCLUDED_)

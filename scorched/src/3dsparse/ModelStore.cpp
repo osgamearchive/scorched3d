@@ -19,9 +19,11 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <GLEXT/GLBitmap.h>
-#include <GLEXT/GLVertexSetGroup.h>
+#include <GLEXT/GLTexture.h>
+#include <3dsparse/ASEModelFactory.h>
+#include <3dsparse/MSModelFactory.h>
 #include <3dsparse/ModelStore.h>
-#include <3dsparse/ASEFile.h>
+#include <3dsparse/Model.h>
 #include <common/OptionsDisplay.h>
 #include <common/Defines.h>
 
@@ -45,7 +47,7 @@ ModelStore::~ModelStore()
 }
 
 GLTexture *ModelStore::loadTexture(const char *name, 
-								 const char *aname, bool invert)
+	const char *aname, bool invert)
 {
 	std::string wholeName;
 	wholeName += name;
@@ -109,32 +111,15 @@ GLTexture *ModelStore::loadTexture(const char *name,
 	return texture;
 }
 
-GLVertexSet *ModelStore::loadOrGetArray(ModelID &model, 
-	bool usetextures, bool centreBottom, bool shadowModel)
+Model *ModelStore::loadModel(ModelID &modelId)
 {
-	std::map<std::string, GLVertexSet *>::iterator findItor =
-		fileMap_.find(model.getStringHash());
+	std::map<std::string, Model *>::iterator findItor =
+		fileMap_.find(modelId.getStringHash());
 	if (findItor == fileMap_.end())
 	{
-		ModelsFile *file = model.getModelsFile();
-		if (file)
-		{
-			if (centreBottom) file->centreBottom();
-			else file->centre();
-			GLVertexSetGroup *arraySet = new GLVertexSetGroup();
-			std::list<Model *>::iterator itor;
-			for (itor = file->getModels().begin();
-				 itor != file->getModels().end();
-				 itor++)
-			{
-				Model *currentModel = *itor;
-				GLVertexArray *array = currentModel->
-					getArray(usetextures, shadowModel);
-				arraySet->addToGroup(*array);
-			}
-			fileMap_[model.getStringHash()] = arraySet;
-			return arraySet;
-		}
+		Model *model = getModel(modelId);
+		fileMap_[modelId.getStringHash()] = model;
+		return model;
 	}
 	else
 	{
@@ -143,3 +128,27 @@ GLVertexSet *ModelStore::loadOrGetArray(ModelID &model,
 	return 0;
 }
 
+Model *ModelStore::getModel(ModelID &id)
+{
+	Model *model = 0;
+	if (0 == strcmp(id.getType(), "ase"))
+	{
+		// Load the ASEFile containing the tank definitions
+		std::string meshName(getDataFile(id.getMeshName()));
+
+		bool noSkin = 
+			(0 == strcmp("none", id.getSkinName()));
+		ASEModelFactory factory;
+		model = factory.createModel(meshName.c_str(), 
+			(noSkin?"":getDataFile(id.getSkinName())));
+	}
+	else
+	{
+		// Load the Milkshape containing the tank definitions
+		std::string meshName(getDataFile(id.getMeshName()));
+		MSModelFactory factory;
+		model = factory.createModel(meshName.c_str());		
+	}
+
+	return model;
+}

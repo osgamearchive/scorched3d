@@ -21,6 +21,7 @@
 #include <GLEXT/GLBitmap.h>
 #include <GLEXT/GLTexture.h>
 #include <3dsparse/ModelID.h>
+#include <3dsparse/ModelStore.h>
 #include <tankgraph/TankModelRenderer.h>
 #include <tankgraph/MissileMesh.h>
 #include <weapons/Accessory.h>
@@ -189,12 +190,11 @@ MissileMesh *Accessory::getWeaponMesh(ModelID &id, Tank *currentPlayer)
 		loadedMeshes_.find(name);
 	if (itor == loadedMeshes_.end())
 	{
-		usedModelId->clearCachedFile();
-		ModelsFile *newFile = usedModelId->getModelsFile();
-		if (!newFile) return 0;
+		Model *model = 
+			ModelStore::instance()->loadModel(*usedModelId);
+		if (!model) return 0;
 
-		mesh = new MissileMesh(*newFile, 
-			!OptionsDisplay::instance()->getNoSkins(), 1.0f);
+		mesh = new MissileMesh(*model);
 		loadedMeshes_[name] = mesh;
 	}
 	else

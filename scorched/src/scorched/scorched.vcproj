@@ -772,12 +772,6 @@
 				RelativePath="..\common\Display.h">
 			</File>
 			<File
-				RelativePath="..\common\Face.cpp">
-			</File>
-			<File
-				RelativePath="..\common\Face.h">
-			</File>
-			<File
 				RelativePath="..\common\FileLines.cpp">
 			</File>
 			<File
@@ -953,22 +947,34 @@
 			Name="3dsparse"
 			Filter="">
 			<File
-				RelativePath="..\3dsparse\ASEFile.cpp">
+				RelativePath="..\3dsparse\ASEModelFactory.cpp">
 			</File>
 			<File
-				RelativePath="..\3dsparse\ASEFile.h">
+				RelativePath="..\3dsparse\ASEModelFactory.h">
 			</File>
 			<File
-				RelativePath="..\3dsparse\ASEModel.cpp">
+				RelativePath="..\3dsparse\Bone.cpp">
 			</File>
 			<File
-				RelativePath="..\3dsparse\ASEModel.h">
+				RelativePath="..\3dsparse\Bone.h">
 			</File>
 			<File
-				RelativePath="..\3dsparse\MSFile.cpp">
+				RelativePath="..\3dsparse\Face.cpp">
 			</File>
 			<File
-				RelativePath="..\3dsparse\MSFile.h">
+				RelativePath="..\3dsparse\Face.h">
+			</File>
+			<File
+				RelativePath="..\3dsparse\MSModelFactory.cpp">
+			</File>
+			<File
+				RelativePath="..\3dsparse\MSModelFactory.h">
+			</File>
+			<File
+				RelativePath="..\3dsparse\Mesh.cpp">
+			</File>
+			<File
+				RelativePath="..\3dsparse\Mesh.h">
 			</File>
 			<File
 				RelativePath="..\3dsparse\MeshLOD.cpp">
@@ -1001,16 +1007,28 @@
 				RelativePath="..\3dsparse\ModelID.h">
 			</File>
 			<File
+				RelativePath="..\3dsparse\ModelMaths.cpp">
+			</File>
+			<File
+				RelativePath="..\3dsparse\ModelMaths.h">
+			</File>
+			<File
+				RelativePath="..\3dsparse\ModelRenderer.cpp">
+			</File>
+			<File
+				RelativePath="..\3dsparse\ModelRenderer.h">
+			</File>
+			<File
 				RelativePath="..\3dsparse\ModelStore.cpp">
 			</File>
 			<File
 				RelativePath="..\3dsparse\ModelStore.h">
 			</File>
 			<File
-				RelativePath="..\3dsparse\ModelsFile.cpp">
+				RelativePath="..\3dsparse\Vertex.cpp">
 			</File>
 			<File
-				RelativePath="..\3dsparse\ModelsFile.h">
+				RelativePath="..\3dsparse\Vertex.h">
 			</File>
 			<File
 				RelativePath="..\3dsparse\aseFile.lex.cpp">

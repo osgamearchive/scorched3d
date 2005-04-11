@@ -28,6 +28,7 @@
 #include <client/ScorchedClient.h>
 #include <GLEXT/GLBitmapModifier.h>
 #include <3dsparse/ModelStore.h>
+#include <3dsparse/ModelRenderer.h>
 
 void LandscapeObjectPlacementTrees::generateObjects(
 	RandomGenerator &generator, 
@@ -128,8 +129,8 @@ void LandscapeObjectPlacementTrees::generateObjects(
 
 	bool pine = true;
 	float snowHeight = 20.0f;
-	GLVertexSet *model = 0;
-	GLVertexSet *modelburnt = 0;
+	Model *model = 0;
+	Model *modelburnt = 0;
 	if (0 == strcmp(placement.objecttype.c_str(), "tree"))
 	{
 		LandscapeTexObjectsTree *treeObjects = 
@@ -142,10 +143,8 @@ void LandscapeObjectPlacementTrees::generateObjects(
 		LandscapeTexObjectsModel *modelObjects = 
 			(LandscapeTexObjectsModel *) placement.object;
 		
-		model = ModelStore::instance()->loadOrGetArray(
-			modelObjects->model, true, true);
-		modelburnt = ModelStore::instance()->loadOrGetArray(
-			modelObjects->modelburnt, true, true);
+		model = ModelStore::instance()->loadModel(modelObjects->model);
+		modelburnt = ModelStore::instance()->loadModel(modelObjects->modelburnt);
 		if (!model || !modelburnt)
 		{
 			dialogExit("LandscapeObjectPlacementTrees",
@@ -190,8 +189,10 @@ void LandscapeObjectPlacementTrees::generateObjects(
 				if (model)
 				{
 					entry = new LandscapeObjectsEntryModel;
-					((LandscapeObjectsEntryModel *) entry)->model = model;
-					((LandscapeObjectsEntryModel *) entry)->modelburnt = modelburnt;				
+					((LandscapeObjectsEntryModel *) entry)->model = 
+						new ModelRenderer(model);
+					((LandscapeObjectsEntryModel *) entry)->modelburnt = 
+						new ModelRenderer(modelburnt);
 					entry->color = 1.0f;
 					entry->size = 0.05f;
 					entry->posX = lx;
@@ -232,8 +233,8 @@ void LandscapeObjectPlacementMask::generateObjects(
 {
 	bool pine = true;
 	float snowHeight = 20.0f;
-	GLVertexSet *model = 0;
-	GLVertexSet *modelburnt = 0;
+	Model *model = 0;
+	Model *modelburnt = 0;
 	if (0 == strcmp(placement.objecttype.c_str(), "tree"))
 	{
 		LandscapeTexObjectsTree *treeObjects = 
@@ -246,10 +247,8 @@ void LandscapeObjectPlacementMask::generateObjects(
 		LandscapeTexObjectsModel *modelObjects = 
 			(LandscapeTexObjectsModel *) placement.object;
 		
-		model = ModelStore::instance()->loadOrGetArray(
-			modelObjects->model, true, true);
-		modelburnt = ModelStore::instance()->loadOrGetArray(
-			modelObjects->modelburnt, true, true);
+		model = ModelStore::instance()->loadModel(modelObjects->model);
+		modelburnt = ModelStore::instance()->loadModel(modelObjects->modelburnt);
 		if (!model || !modelburnt)
 		{
 			dialogExit("LandscapeObjectPlacementMask",
@@ -343,8 +342,10 @@ void LandscapeObjectPlacementMask::generateObjects(
 					if (model)
 					{
 						entry = new LandscapeObjectsEntryModel;
-						((LandscapeObjectsEntryModel *) entry)->model = model;
-						((LandscapeObjectsEntryModel *) entry)->modelburnt = modelburnt;				
+						((LandscapeObjectsEntryModel *) entry)->model = 
+							new ModelRenderer(model);
+						((LandscapeObjectsEntryModel *) entry)->modelburnt = 
+							new ModelRenderer(modelburnt);
 						entry->color = 1.0f;
 						entry->size = 0.05f;
 						entry->posX = lx;

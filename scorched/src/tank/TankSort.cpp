@@ -49,10 +49,14 @@ int TankSort::compare(ScorchedContext &context,
 		if (kills1 > kills2) return 1;
 		if (kills1 == kills2)
 		{
-			if (money1 > money2) return 1;
-			if (money1 == money2)
+			if (wins1 > wins2) return 1;
+			if (wins1 == wins2)
 			{
-				return strcmp(name1, name2);
+				if (money1 > money2) return 1;
+				if (money1 == money2)
+				{
+					return strcmp(name1, name2);
+				}
 			}
 		}
 		return -1;

@@ -26,6 +26,7 @@
 #include <weapons/AccessoryStore.h>
 #include <GLEXT/GLState.h>
 #include <3dsparse/ModelStore.h>
+#include <3dsparse/ModelRenderer.h>
 #include <ode/ode.h>
 #include <string.h>
 
@@ -62,6 +63,7 @@ void ShotBounce::init()
 
 ShotBounce::~ShotBounce()
 {
+	delete model_;
 	if (vPoint_) context_->viewPoints->releaseViewPoint(vPoint_);
 }
 
@@ -113,7 +115,8 @@ void ShotBounce::draw()
 		{
 			ModelID &id = ((WeaponRoller *) weapon_)->getRollerModelID();
 			bool useTexture = (strcmp(id.getSkinName(), "none") != 0);
-			model_ = ModelStore::instance()->loadOrGetArray(id, useTexture, false, false);
+			model_ = new ModelRenderer(
+				ModelStore::instance()->loadModel(id));
 		}
 
 		if (vPoint_)

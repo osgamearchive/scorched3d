@@ -165,8 +165,15 @@ Boid::calculateRollPitchYaw(BoidVector appliedAcceleration,
 		sqrt(currentVelocity.z*currentVelocity.z
 		     + currentVelocity.x*currentVelocity.x));
 
+  
+
   yaw = atan2(currentVelocity.x, currentVelocity.z);
 
+}
+
+void Boid::updateslow()
+{
+	dampedroll = (dampedroll + roll) / 2.0;
 }
 
 BoidVector 
@@ -452,7 +459,7 @@ Boid::Boid(BoidWorld *w, int boidNum, BoidVector bPosition, BoidVector bVelocity
 
   maxVelocity = 10.0;
   maxAcceleration = 0.5;
-  roll = pitch = yaw = 0;
+  roll = pitch = yaw = dampedroll = 0;
   boidType = NORMAL;
   cruiseDistance = 2*dimensions.z; // Try to stay at least one bodywidth apart
   flockSelectively = false; 

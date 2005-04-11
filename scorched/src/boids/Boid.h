@@ -79,6 +79,8 @@ public:
   virtual bool update(const double &elapsedSeconds);  
   // Updates this object based on the amount of elapsed time since the last
   // update, and the previous acceleration and velocity.
+
+  void updateslow();
     
   double maxVelocity;
   // [m/sec] Maximum magnitude of velocity. Default value is 10
@@ -90,6 +92,8 @@ public:
   double cruiseDistance;
   // [m] Desired distance from closest neighbor when flying. Default value
   // is twice the bodylength.
+
+  double dampedroll;
 
   double roll;
   // [radians] Rotation around body-local z-axis (+roll =

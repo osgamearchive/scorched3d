@@ -27,7 +27,7 @@
 class GLDynamicVertexArray
 {
 public:
-	inline static GLDynamicVertexArray *instance()
+	static GLDynamicVertexArray *instance()
 	{
 		if (!instance_) instance_ = new GLDynamicVertexArray;
 		return instance_;
@@ -36,7 +36,7 @@ public:
 	int getSpace() { return capacity_ - used_; }
 	int getUsed() { return used_; }
 
-	inline void addFloat(GLfloat floats)
+	void addFloat(GLfloat floats)
 	{
 		DIALOG_ASSERT(used_ < capacity_);
 		array_[used_] = floats;

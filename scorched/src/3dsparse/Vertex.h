@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,41 +18,21 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(AFX_ASEFILE_H__D1A8093E_9A49_46F5_A38F_FC3F733E568E__INCLUDED_)
-#define AFX_ASEFILE_H__D1A8093E_9A49_46F5_A38F_FC3F733E568E__INCLUDED_
+#if !defined(__INCLUDE_Vertexh_INCLUDE__)
+#define __INCLUDE_Vertexh_INCLUDE__
 
-#include <3dsparse/ASEModel.h>
-#include <3dsparse/ModelsFile.h>
 #include <common/Vector.h>
 
-// File for pasing 3D Studio Max ASCII files
-class ASEFile : public ModelsFile
+class BoneType;
+class Vertex
 {
 public:
-	ASEFile(const char *fileName,
-			const char *texName);
-	virtual ~ASEFile();
+	Vertex();
+	virtual ~Vertex();
 
-	// Used by parser
-	static ASEFile *getCurrent();
-	void addModel(char *modelName);
-	ASEModel *getCurrentModel();
-
-protected:
-	enum MaxMag
-	{
-		MagX,
-		MagY,
-		MagZ
-	};
-
-	static ASEFile *current_;
-	const char *texName_;
-
-	void calculateTexCoords();
-	Vector getTexCoord(Vector &tri, MaxMag mag, Vector &max, Vector &min);
-	bool loadFile(const char *fileName);
-
+	Vector position;
+	Vector color;
+	int boneIndex;
 };
 
-#endif // !defined(AFX_ASEFILE_H__D1A8093E_9A49_46F5_A38F_FC3F733E568E__INCLUDED_)
+#endif // __INCLUDE_Vertexh_INCLUDE__

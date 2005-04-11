@@ -19,16 +19,11 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 
-// MeshLOD.h: interface for the MeshLOD class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_MESHLOD_H__B41BFFFA_EEFA_4BBD_A1B1_8376672E9B7B__INCLUDED_)
 #define AFX_MESHLOD_H__B41BFFFA_EEFA_4BBD_A1B1_8376672E9B7B__INCLUDED_
 
-
 #include <vector>
-#include <common/Face.h>
+#include <3dsparse/Face.h>
 #include <common/Vector.h>
 
 namespace MeshLOD

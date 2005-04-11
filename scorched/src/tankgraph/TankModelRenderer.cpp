@@ -29,6 +29,7 @@
 #include <client/ScorchedClient.h>
 #include <common/OptionsDisplay.h>
 #include <3dsparse/ModelStore.h>
+#include <3dsparse/ModelRenderer.h>
 #include <weapons/Shield.h>
 #include <weapons/Accessory.h>
 #include <GLEXT/GLCameraFrustum.h>
@@ -45,14 +46,15 @@ std::string TankModelRendererHUD::textB_ = "";
 Vector TankModelRendererAIM::aimPosition_;
 float TankModelRendererAIM::timeLeft_ = -1.0f;
 
-GLVertexSet *TankModelRendererAIM::getAutoAimModel()
+ModelRenderer *TankModelRendererAIM::getAutoAimModel()
 {
-	static GLVertexSet *array = 0;
+	static ModelRenderer *array = 0;
 	if (!array)
 	{
 		ModelID id;
 		id.initFromString("ase", "data/meshes/autoaim.ase", "none");
-		array = ModelStore::instance()->loadOrGetArray(id);
+		array = new ModelRenderer(
+			ModelStore::instance()->loadModel(id));
 	}
 	return array;
 }

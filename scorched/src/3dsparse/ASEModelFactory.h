@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,24 +18,36 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(AFX_ASEMODEL_H__5164D8CF_5506_4E58_BB87_A89EDC315B0B__INCLUDED_)
-#define AFX_ASEMODEL_H__5164D8CF_5506_4E58_BB87_A89EDC315B0B__INCLUDED_
+#if !defined(__INCLUDE_ASEModelFactoryh_INCLUDE__)
+#define __INCLUDE_ASEModelFactoryh_INCLUDE__
 
 #include <3dsparse/Model.h>
 
-class ASEModel : public Model
+class ASEModelFactory
 {
 public:
-	ASEModel(char *name, char *texture);
-	virtual ~ASEModel();
+	ASEModelFactory();
+	virtual ~ASEModelFactory();
+
+	Model *createModel(const char *fileName,
+		const char *texName);
 
 	// Used by parser
-	void setTmRow(Vector &row, int index);
-	virtual void setFaceNormal(Vector &normal, int face, int index);
-	
-protected:
-	Vector tmRow_[3];
+	static ASEModelFactory *getCurrent();
+	void addMesh(char *meshName);
+	Mesh *getCurrentMesh();
 
+protected:
+	enum MaxMag
+	{
+		MagX,
+		MagY,
+		MagZ
+	};
+
+	bool loadFile(const char *fileName);
+	void calculateTexCoords(const char *texName);
+	Vector getTexCoord(Vector &tri, MaxMag mag, Vector &max, Vector &min);
 };
 
-#endif // !defined(AFX_ASEMODEL_H__5164D8CF_5506_4E58_BB87_A89EDC315B0B__INCLUDED_)
+#endif // __INCLUDE_ASEModelFactoryh_INCLUDE__

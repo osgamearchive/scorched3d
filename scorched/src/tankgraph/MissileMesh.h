@@ -22,27 +22,24 @@
 #define AFX_MISSILEMESH_H__CB857C65_A22F_4FBC_9344_EFF22F8A4EEA__INCLUDED_
 
 #include <common/Vector.h>
-#include <GLEXT/GLVertexSetGroup.h>
 #include <list>
 
-class ModelsFile;
+class Model;
+class ModelRenderer;
 class MissileMesh  
 {
 public:
-	MissileMesh(ModelsFile &missile, bool useTextures, float detail);
+	MissileMesh(Model &missile);
 	virtual ~MissileMesh();
 
 	void draw(Vector &position, Vector &direction, int flareType, float rotation);
 	void setScale(float scale);
 
 protected:
-	bool useTextures_;
-	GLVertexSetGroup missileArrays_;
-	std::list<Vector> flarePos_;
-
-	void createArrays(ModelsFile &aseTank, bool useTextures, float detail);
+	float innerScale_;
 	float scale_;
-
+	ModelRenderer *model_;
+	std::list<Vector> flarePos_;
 };
 
 #endif // !defined(AFX_MISSILEMESH_H__CB857C65_A22F_4FBC_9344_EFF22F8A4EEA__INCLUDED_)

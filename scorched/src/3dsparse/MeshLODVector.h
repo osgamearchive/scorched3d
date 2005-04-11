@@ -18,14 +18,8 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// MeshLODVector.h: interface for the MeshLODVector class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_MESHLODVECTOR_H__D2D4334B_59D8_42E3_A4CD_E6605D748F79__INCLUDED_)
 #define AFX_MESHLODVECTOR_H__D2D4334B_59D8_42E3_A4CD_E6605D748F79__INCLUDED_
-
 
 #include <list>
 #include <common/Vector.h>

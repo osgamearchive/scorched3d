@@ -56,7 +56,9 @@
 #define	MAX_TM_ROW3	295
 
 #include <common/Defines.h>
-#include <3dsparse/ASEFile.h>
+#include <3dsparse/ASEModelFactory.h>
+
+static Vector tmRow[3];
 
 Face aseFace;
 int aseFaceNo;
@@ -790,22 +792,26 @@ yyreduce:
   switch (yyn) {
 
 case 9:
-{ ASEFile::getCurrent()->getCurrentModel()->setColor(aseVector); ;
+{ ASEModelFactory::getCurrent()->getCurrentMesh()->setColor(aseVector); ;
     break;}
 case 10:
-{ ASEFile::getCurrent()->addModel(aseString); ;
+{ ASEModelFactory::getCurrent()->addMesh(aseString); ;
     break;}
 case 12:
-{ ASEFile::getCurrent()->getCurrentModel()->setTmRow(aseVector, 0); ;
+{ tmRow[0] = aseVector.Normalize(); 
     break;}
 case 13:
-{ ASEFile::getCurrent()->getCurrentModel()->setTmRow(aseVector, 1); ;
+{ tmRow[1] = aseVector.Normalize(); 
     break;}
 case 14:
-{ ASEFile::getCurrent()->getCurrentModel()->setTmRow(aseVector, 2); ;
+{ tmRow[2] = aseVector.Normalize(); 
     break;}
 case 18:
-{ ASEFile::getCurrent()->getCurrentModel()->insertVertex(aseVector); ;
+{ 
+	Vertex vertex;
+	vertex.position = aseVector;
+	vertex.boneIndex = -1;
+	ASEModelFactory::getCurrent()->getCurrentMesh()->insertVertex(vertex); ;
     break;}
 case 22:
 { aseFace.v[0] = aseDigit; ;
@@ -816,20 +822,38 @@ case 23:
 case 24:
 { 
 		aseFace.v[2] = aseDigit;
-		ASEFile::getCurrent()->getCurrentModel()->insertFace(aseFace);	
+		ASEModelFactory::getCurrent()->getCurrentMesh()->insertFace(aseFace);	
 	;
     break;}
 case 28:
 { aseFaceNo = aseDigit; ;
     break;}
 case 29:
-{ ASEFile::getCurrent()->getCurrentModel()->setFaceNormal(aseVector, aseFaceNo, 0); ;
+{ 
+	Vector n(
+		aseVector[0] * tmRow[0][0] + aseVector[1] * tmRow[1][0] + aseVector[2] * tmRow[2][0],
+		aseVector[0] * tmRow[0][1] + aseVector[1] * tmRow[1][1] + aseVector[2] * tmRow[2][1],
+		aseVector[0] * tmRow[0][2] + aseVector[1] * tmRow[1][2] + aseVector[2] * tmRow[2][2]);
+
+	ASEModelFactory::getCurrent()->getCurrentMesh()->setFaceNormal(n, aseFaceNo, 0);
     break;}
 case 30:
-{ ASEFile::getCurrent()->getCurrentModel()->setFaceNormal(aseVector, aseFaceNo, 1); ;
+{ 
+	Vector n(
+		aseVector[0] * tmRow[0][0] + aseVector[1] * tmRow[1][0] + aseVector[2] * tmRow[2][0],
+		aseVector[0] * tmRow[0][1] + aseVector[1] * tmRow[1][1] + aseVector[2] * tmRow[2][1],
+		aseVector[0] * tmRow[0][2] + aseVector[1] * tmRow[1][2] + aseVector[2] * tmRow[2][2]);
+
+	ASEModelFactory::getCurrent()->getCurrentMesh()->setFaceNormal(n, aseFaceNo, 1);
     break;}
 case 31:
-{ ASEFile::getCurrent()->getCurrentModel()->setFaceNormal(aseVector, aseFaceNo, 2); ;
+{ 
+	Vector n(
+		aseVector[0] * tmRow[0][0] + aseVector[1] * tmRow[1][0] + aseVector[2] * tmRow[2][0],
+		aseVector[0] * tmRow[0][1] + aseVector[1] * tmRow[1][1] + aseVector[2] * tmRow[2][1],
+		aseVector[0] * tmRow[0][2] + aseVector[1] * tmRow[1][2] + aseVector[2] * tmRow[2][2]);
+
+	ASEModelFactory::getCurrent()->getCurrentMesh()->setFaceNormal(n, aseFaceNo, 2);
     break;}
 }
    /* the action file gets copied in in place of this dollarsign */

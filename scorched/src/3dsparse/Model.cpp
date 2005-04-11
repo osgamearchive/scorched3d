@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,312 +18,195 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <common/Defines.h>
 #include <3dsparse/Model.h>
-#include <3dsparse/MeshLOD.h>
-#include <3dsparse/ModelStore.h>
+#include <3dsparse/ModelMaths.h>
 
-static const float shadowAmbientLight = 0.2f;
-static const float shadowDiffuseLight = 0.8f;
-static const float nonshadowAmbientLight = 0.8f;
-static const float nonshadowDiffuseLight = 0.2f;
-
-Model::Model(char *name) : 
-	name_(name), computedCollapseCosts_(false), 
-	color_(0.5f, 0.5f, 0.5f)
+Model::Model() : startFrame_(0), totalFrames_(0)
 {
-
 }
 
 Model::~Model()
 {
-
-}
-
-void Model::setColor(Vector &color)
-{
-	color_ = color;
-}
-
-void Model::insertVertex(Vector &newVertex, int boneIndex)
-{
-	if (vertexes_.empty())
+	while (!meshes_.empty())
 	{
-		max_ = newVertex;
-		min_ = newVertex;
+		Mesh *mesh = meshes_.back();
+		meshes_.pop_back();
+		delete mesh;
 	}
-	else
+	while (!bones_.empty())
 	{
-		max_[0] = MAX(max_[0], newVertex[0]);
-		max_[1] = MAX(max_[1], newVertex[1]);
-		max_[2] = MAX(max_[2], newVertex[2]);
-
-		min_[0] = MIN(min_[0], newVertex[0]);
-		min_[1] = MIN(min_[1], newVertex[1]);
-		min_[2] = MIN(min_[2], newVertex[2]);
+		Bone *bone = bones_.back();
+		bones_.pop_back();
+		delete bone;
 	}
-
-	vertexes_.push_back(newVertex);
-	vertexBones_.push_back(boneIndex);
+	while (!baseBoneTypes_.empty())
+	{
+		BoneType *boneType = baseBoneTypes_.back();
+		baseBoneTypes_.pop_back();
+		delete boneType;
+	}
 }
 
-void Model::insertFace(Face &newFace)
+void Model::centre()
 {
-	faces_.push_back(newFace);
-}
+	max_ = meshes_.front()->getMax();
+	min_ = meshes_.front()->getMin();
+	DIALOG_ASSERT(!meshes_.empty());
 
-void Model::setFaceTCoord(Vector &tcoord, int face, int index)
-{
-	DIALOG_ASSERT(index < 3);
-	DIALOG_ASSERT(face < (int) faces_.size());
-
-	faces_[face].tcoord[index] = tcoord;
-}
-
-void Model::setFaceNormal(Vector &normal, int face, int index)
-{
-	DIALOG_ASSERT(index < 3);
-	DIALOG_ASSERT(face < (int) faces_.size());
-
-	faces_[face].normal[index] = normal;
-}
-
-Vector &Model::getVertex(int pos)
-{
-	DIALOG_ASSERT(pos < (int) vertexes_.size());
-	return vertexes_[pos];
-}
-
-int Model::getVertexBone(int pos)
-{
-	DIALOG_ASSERT(pos < (int) vertexBones_.size());
-	return vertexBones_[pos];
-}
-
-void Model::centre(Vector &centre)
-{
-	std::vector<Vector>::iterator itor;
-	for (itor = vertexes_.begin();
-		itor != vertexes_.end();
+	std::vector<Mesh *>::iterator itor;
+	for (itor = meshes_.begin();
+		itor != meshes_.end();
 		itor++)
 	{
-		(*itor) -= centre;
+		max_[0] = MAX(max_[0], (*itor)->getMax()[0]);
+		max_[1] = MAX(max_[1], (*itor)->getMax()[1]);
+		max_[2] = MAX(max_[2], (*itor)->getMax()[2]);
+
+		min_[0] = MIN(min_[0], (*itor)->getMin()[0]);
+		min_[1] = MIN(min_[1], (*itor)->getMin()[1]);
+		min_[2] = MIN(min_[2], (*itor)->getMin()[2]);
 	}
-	max_ -= centre;
+
+	Vector centre = (max_ + min_) / 2.0f;
+	for (itor = meshes_.begin();
+		itor != meshes_.end();
+		itor++)
+	{
+		(*itor)->move(-centre);
+	}
 	min_ -= centre;
+	max_ -= centre;
 }
 
-void Model::scale(float scalef)
+int Model::getNumberTriangles()
 {
-	std::vector<Vector>::iterator itor;
-	for (itor = vertexes_.begin();
-		itor != vertexes_.end();
+	int tris = 0;
+	std::vector<Mesh *>::iterator itor;
+	for (itor = meshes_.begin();
+		itor != meshes_.end();
 		itor++)
 	{
-		(*itor) *= scalef;
+		Mesh *mesh = *itor;
+		tris += (int) mesh->getFaces().size();
 	}
-	max_ *= scalef;
-	min_ *= scalef;
+	return tris;
 }
 
-void Model::computeCollapseCosts()
+void Model::setup()
 {
-	if (!computedCollapseCosts_)
-	{
-		MeshLOD::progressiveMesh(vertexes_, faces_, map_);
-		computedCollapseCosts_ = true;
-	}
+	centre();
+	setupBones();
+	setupColor();
 }
 
-int Model::mapIndex(int i, float currentReduction)
+void Model::setupColor()
 {
-	if (currentReduction == 1.0f) return i;
-
-	int newVertexVal = (int (currentReduction * (float) vertexes_.size()));
-
-	int returnval = i;
-	while (returnval > newVertexVal)
-	{
-		returnval=map_[returnval];
-	}
-
-	return returnval;
-}
-
-GLVertexArray *Model::getArray(bool useTextures, bool shadowModel, float detail)
-{
-	GLVertexArray *result = 0;
-	if (useTextures && getTextureName()[0]) result = getTexArray(shadowModel, detail);
-	else result = getNoTexArray(shadowModel, detail);
-	return result;
-}
-
-GLVertexArray *Model::getNoTexArray(bool shadowModel, float detail)
-{
-	// Get the list or normals and triangles for this detail level
-	std::list<Vector> triangles;
-	std::list<Vector> normals;
-	std::list<Vector> texCoords;
-	formArray(triangles, normals, texCoords, detail);
-
 	Vector lightpos(-0.3f, -0.2f, 1.0f);
-	lightpos.Normalize();
-	float intense, diffuseLightMult;
-	float ambientLight = shadowAmbientLight;
-	float diffuseLight = shadowDiffuseLight;
-	if (!shadowModel)
-	{
-		ambientLight = nonshadowAmbientLight;
-		diffuseLight = nonshadowDiffuseLight;
-	}
+	lightpos.StoreNormalize();
 
-	GLVertexArray *array = new GLVertexArray(GL_TRIANGLES, int(triangles.size()));
-	std::list<Vector>::iterator triangleItor = triangles.begin();
-	std::list<Vector>::iterator normalItor = normals.begin();
-	int triPos = 0;
-	while (triangleItor != triangles.end() &&
-		normalItor != normals.end())
-	{
-		diffuseLightMult = 
-			(((lightpos.dotP((*normalItor).Normalize())) / 2.0f) + 0.5f);
-		intense = diffuseLightMult * diffuseLight + ambientLight;
-		if (intense > 1.0f) intense = 1.0f; 
-		array->setVertex(triPos, (*triangleItor)[0], (*triangleItor)[1], (*triangleItor)[2]); 
-		array->setColor(triPos, color_[0] * intense, color_[1] * intense, color_[2] * intense);
-		triangleItor++; normalItor++; triPos++;
-
-		diffuseLightMult = 
-			(((lightpos.dotP((*normalItor).Normalize())) / 2.0f) + 0.5f);
-		intense = diffuseLightMult * diffuseLight + ambientLight;
-		if (intense > 1.0f) intense = 1.0f; 
-		array->setVertex(triPos, (*triangleItor)[0], (*triangleItor)[1], (*triangleItor)[2]); 
-		array->setColor(triPos, color_[0] * intense, color_[1] * intense, 
-						color_[2] * intense);
-		triangleItor++; normalItor++; triPos++;
-
-		diffuseLightMult = 
-			(((lightpos.dotP((*normalItor).Normalize())) / 2.0f) + 0.5f);
-		intense = diffuseLightMult * diffuseLight + ambientLight;
-		if (intense > 1.0f) intense = 1.0f; 
-		array->setVertex(triPos, (*triangleItor)[0], (*triangleItor)[1], (*triangleItor)[2]); 
-		array->setColor(triPos, color_[0] * intense, color_[1] * intense, 
-						color_[2] * intense);
-		triangleItor++; normalItor++; triPos++;
-	}
-
-	return array;
-}
-
-GLVertexArray *Model::getTexArray(bool shadowModel, float detail)
-{
-	std::list<Vector> triangles;
-	std::list<Vector> normals;
-	std::list<Vector> texCoords;
-	formArray(triangles, normals, texCoords, detail);
-
-	Vector lightpos(0.3f, 0.2f, 1.0f);
-	lightpos.Normalize();
-	float intense, diffuseLightMult;
-	float ambientLight = shadowAmbientLight;
-	float diffuseLight = shadowDiffuseLight;
-	if (!shadowModel)
-	{
-		ambientLight = nonshadowAmbientLight;
-		diffuseLight = nonshadowDiffuseLight;
-	}
-
-	GLTexture *texture = 
-		ModelStore::instance()->loadTexture(
-			getTextureName(), getATextureName());
-	DIALOG_ASSERT(texture);
-	GLVertexArray *array = new GLVertexArray(
-		GL_TRIANGLES, int(triangles.size()),
-		GLVertexArray::typeVertex | GLVertexArray::typeTexture | GLVertexArray::typeColor,
-		texture);
-	std::list<Vector>::iterator triangleItor = triangles.begin();
-	std::list<Vector>::iterator normalItor = normals.begin();
-	std::list<Vector>::iterator texCoordsItor = texCoords.begin();
-	int triPos = 0;
-	while (triangleItor != triangles.end() &&
-		normalItor != normals.end() &&
-		texCoordsItor != texCoords.end())
-	{
-		Vector &normalA = (*normalItor);
-		Vector &triA = (*triangleItor);
-		Vector &coordA = (*texCoordsItor);
-		triangleItor++; normalItor++; texCoordsItor++;
-		Vector &normalB = (*normalItor);
-		Vector &triB = (*triangleItor);
-		Vector &coordB = (*texCoordsItor);
-		triangleItor++; normalItor++; texCoordsItor++;
-		Vector &normalC = (*normalItor);
-		Vector &triC = (*triangleItor);
-		Vector &coordC = (*texCoordsItor);
-		triangleItor++; normalItor++; texCoordsItor++;
-
-		diffuseLightMult = 
-			(((lightpos.dotP(normalA.Normalize())) / 2.0f) + 0.5f);
-		intense = diffuseLightMult * diffuseLight + ambientLight;
-		if (intense > 1.0f) intense = 1.0f; 
-		array->setVertex(triPos, triA[0], triA[1], triA[2]); 
-		array->setColor(triPos, intense, intense, intense);
-		array->setTexCoord(triPos, coordA[0], coordA[1]);
-		triPos++;
-		
-		diffuseLightMult = 
-			(((lightpos.dotP(normalB.Normalize())) / 2.0f) + 0.5f);
-		intense = diffuseLightMult * diffuseLight + ambientLight;
-		if (intense > 1.0f) intense = 1.0f; 
-		array->setVertex(triPos, triB[0], triB[1], triB[2]); 
-		array->setColor(triPos, intense, intense, intense);
-		array->setTexCoord(triPos, coordB[0], coordB[1]);
-		triPos++;
-
-		diffuseLightMult = 
-			(((lightpos.dotP(normalC.Normalize())) / 2.0f) + 0.5f);
-		intense = diffuseLightMult * diffuseLight + ambientLight;
-		if (intense > 1.0f) intense = 1.0f; 
-		array->setVertex(triPos, triC[0], triC[1], triC[2]); 
-		array->setColor(triPos, intense, intense, intense);
-		array->setTexCoord(triPos, coordC[0], coordC[1]);
-		triPos++;
-	}
-
-	return array;
-}
-
-void Model::formArray(std::list<Vector> &triList, 
-						std::list<Vector> &normalList,
-						std::list<Vector> &texCoordList,
-						float detail)
-{
-	if (detail != 1.0f) computeCollapseCosts();
-
-	std::vector<Face>::iterator itor;
-	for (itor = faces_.begin();
-		itor != faces_.end();
+	std::vector<Mesh *>::iterator itor;
+	for (itor = meshes_.begin();
+		itor != meshes_.end();
 		itor++)
 	{
-		int posA = mapIndex(itor->v[0], detail);
-		int posB = mapIndex(itor->v[1], detail);
-		int posC = mapIndex(itor->v[2], detail);
-		if ( posA == posB || posA == posC || posB == posC )
+		Mesh *mesh = (*itor);
+	
+		std::vector<Face *>::iterator itor;
+		for (itor = mesh->getFaces().begin();
+			itor != mesh->getFaces().end();
+			itor++)
 		{
-			// Do not draw			
+			Face *face = *itor;
+			for (int i=0; i<3; i++)
+			{
+				Vertex *vertex = mesh->getVertex(face->v[i]);
+				Vector &normal = face->normal[i];
+
+				const float ambientLight = 0.2f;
+				const float diffuseLight = 0.8f;
+				float diffuseLightMult = 
+					(((lightpos.dotP(normal.Normalize())) / 2.0f) + 0.5f);
+				float intense = diffuseLightMult * diffuseLight + ambientLight;
+				if (intense > 1.0f) intense = 1.0f; 
+				vertex->color[0] = intense;
+				vertex->color[1] = intense;
+				vertex->color[2] = intense;
+			}
 		}
-		else
+	}
+}
+
+void Model::setupBones()
+{
+	for (unsigned int b=0; b<bones_.size(); b++)
+	{
+		baseBoneTypes_.push_back(new BoneType());
+	}
+
+	for (unsigned int b=0; b<bones_.size(); b++)
+	{
+		Bone *bone = bones_[b];
+		BoneType *type = baseBoneTypes_[b];
+
+		// Find the parent bone
+		for (unsigned int p=0; p<bones_.size(); p++)
 		{
-			triList.push_back(getVertex(posA));
-			triList.push_back(getVertex(posB));
-			triList.push_back(getVertex(posC));
+			Bone *parent = bones_[p];
+			if (0 == strcmp(bone->getParentName(), parent->getName()))
+			{
+				type->parent_ = p;
+				break;
+			}
+		}
 
-			texCoordList.push_back(itor->tcoord[0]);
-			texCoordList.push_back(itor->tcoord[1]);
-			texCoordList.push_back(itor->tcoord[2]);
+		// Set rotation and position
+		Vector rot;
+		rot[0] = bone->getRotation()[0] * 180.0f / PI;
+		rot[1] = bone->getRotation()[1] * 180.0f / PI;
+		rot[2] = bone->getRotation()[2] * 180.0f / PI;
+		if (type->parent_ == -1) rot[0] -= 90.0f;
 
-			normalList.push_back(itor->normal[0]);
-			normalList.push_back(itor->normal[1]);
-			normalList.push_back(itor->normal[2]);
+		ModelMaths::angleMatrix(rot, type->relative_);
+		type->relative_[0][3] = bone->getPosition()[0];
+		type->relative_[1][3] = bone->getPosition()[1];
+		type->relative_[2][3] = bone->getPosition()[2];
+
+		// Setup child relations
+		if (type->parent_ != -1)
+		{
+			BoneType *parent = baseBoneTypes_[type->parent_];
+
+			ModelMaths::concatTransforms(parent->absolute_, type->relative_, type->absolute_);
+			memcpy(type->final_, type->absolute_, sizeof(BoneMatrixType));
+		}
+		else // No parent
+		{
+			memcpy(type->absolute_, type->relative_, sizeof(BoneMatrixType));
+			memcpy(type->final_, type->relative_, sizeof(BoneMatrixType));
+		}
+	}
+
+	// Move vertexes to align with the bones
+	for (unsigned int i=0; i<meshes_.size(); i++)
+	{
+		Mesh *mesh = meshes_[i];
+		for (unsigned int j=0; j<mesh->getVertexes().size(); j++)
+		{
+			Vertex *vertex = mesh->getVertex(j);
+			if (vertex->boneIndex != -1)
+			{
+				BoneType *type = baseBoneTypes_[vertex->boneIndex];
+
+				// Translation
+				vertex->position[0] -= type->absolute_[0][3];
+				vertex->position[1] -= type->absolute_[1][3];
+				vertex->position[2] -= type->absolute_[2][3];
+
+				// Rotation
+				Vector tmp;
+				ModelMaths::vectorIRotate(vertex->position, type->absolute_, tmp);
+				vertex->position = tmp;
+			}
 		}
 	}
 }

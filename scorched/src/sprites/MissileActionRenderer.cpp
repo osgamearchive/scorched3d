@@ -22,7 +22,6 @@
 #include <sprites/ExplosionTextures.h>
 #include <GLEXT/GLCameraFrustum.h>
 #include <weapons/Accessory.h>
-#include <3dsparse/ModelsFile.h>
 #include <actions/ShotProjectile.h>
 #include <landscape/Landscape.h>
 #include <common/OptionsDisplay.h>

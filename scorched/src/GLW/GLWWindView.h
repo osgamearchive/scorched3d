@@ -23,8 +23,6 @@
 
 #include <GLW/GLWidget.h>
 #include <GLW/GLWToolTip.h>
-#include <GLEXT/GLVertexSet.h>
-#include <GLEXT/GLTexture.h>
 
 class WindDialogToolTip : public GLWTip
 {
@@ -35,6 +33,7 @@ public:
 	virtual void populate();
 };
 
+class ModelRenderer;
 class GLWWindView : public GLWidget
 {
 public:
@@ -49,8 +48,8 @@ public:
 
 protected:
 	unsigned int changeCount_;
-	GLVertexSet *windModel_;
-	GLuint listNo_;
+	ModelRenderer *windModel_;
+	unsigned int listNo_;
 
 	void drawArrow();
 	void drawScene();

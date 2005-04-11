@@ -24,7 +24,7 @@
 #include <vector>
 
 class ModelID;
-class GLVertexSet;
+class ModelRenderer;
 class Boid;
 class Obstacle;
 class BoidWorld
@@ -73,9 +73,11 @@ protected:
 	// See description in CalculateVisibilityMatrix() and the comments for the
 	// visMatrix macro for more info.
 
-	GLVertexSet *bird_;
+	ModelRenderer *bird_;
 	float elapsedTime_;
 	float stepTime_;
+	float stepTime2_;
+	bool halfTime_;
 
 	void makeBoids(int boidCount, int maxZ, int minZ);
 	void makeObstacles(int maxZ, int minZ);

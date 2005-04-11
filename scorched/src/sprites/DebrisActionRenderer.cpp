@@ -37,20 +37,21 @@ DebrisActionRenderer::DebrisActionRenderer() :
 		ModelID id;
 		id.initFromString("ase", "data/meshes/rock1.ase", 
 			"none");
-		debris_ = ModelStore::instance()->loadOrGetArray(id);
+		debris_ = new ModelRenderer(ModelStore::instance()->loadModel(id));
 	}
 	else
 	{
 		ModelID id;
 		id.initFromString("ase", "data/meshes/rock2.ase", 
 			"none");
-		debris_ = ModelStore::instance()->loadOrGetArray(id);
+		debris_ = new ModelRenderer(ModelStore::instance()->loadModel(id));
 	}
 	DIALOG_ASSERT(debris_);
 }
 
 DebrisActionRenderer::~DebrisActionRenderer()
 {
+	delete debris_;
 	debris_ = 0;
 }
 

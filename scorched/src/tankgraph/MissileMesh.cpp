@@ -20,48 +20,30 @@
 
 #include <math.h>
 #include <tankgraph/MissileMesh.h>
-#include <3dsparse/ModelsFile.h>
+#include <3dsparse/ModelRenderer.h>
 #include <GLEXT/GLLenseFlare.h>
 #include <landscape/Landscape.h>
 #include <landscape/LandscapeMaps.h>
 #include <client/ScorchedClient.h>
 #include <common/Defines.h> // For porting
 
-MissileMesh::MissileMesh(ModelsFile &missile, bool useTextures, float detail) 
-	: useTextures_(useTextures), scale_(1.0f)
+MissileMesh::MissileMesh(Model &missile) : 
+	innerScale_(1.0f),
+	scale_(1.0f)
 {
-	createArrays(missile, useTextures, detail);
-}
-
-MissileMesh::~MissileMesh()
-{
-	missileArrays_.destroyGroup();
-}
-
-void MissileMesh::createArrays(ModelsFile &aseMissile, bool useTextures, float detail)
-{
-	// Check we have a valid tank model
-	if (aseMissile.getModels().empty())
-	{
-		dialogExit("MissileMesh", 
-			"ERROR: Failed to find any objects in missile mesh");
-	}
-
-	// Make sure model is not too large
-	aseMissile.centre();
+	model_ = new ModelRenderer(&missile);
 
 	// Make sure the missile is not too large
 	const float maxSize = 2.0f;
-	float size = (aseMissile.getMax() - aseMissile.getMin()).Magnitude();
-	if (size > maxSize)
-	{
-		const float sfactor = 2.2f / size;
-		aseMissile.scale(sfactor);
-	}
+	Vector min = model_->getModel()->getMin();
+	Vector max = model_->getModel()->getMax();
+	float size = (max - min).Magnitude();
+	if (size > maxSize) innerScale_ = 2.2f / size;
 
-	std::list<Model *>::iterator itor;
-	for (itor = aseMissile.getModels().begin();
-		itor != aseMissile.getModels().end();
+	// Add lense flares (if any)
+	std::vector<Mesh *>::iterator itor;
+	for (itor = model_->getModel()->getMeshes().begin();
+		itor != model_->getModel()->getMeshes().end();
 		itor++)
 	{
 		const char *name = (*itor)->getName();
@@ -73,12 +55,12 @@ void MissileMesh::createArrays(ModelsFile &aseMissile, bool useTextures, float d
 			Vector center = ((*itor)->getMax() + (*itor)->getMin()) / 2.0f;
 			flarePos_.push_back(center);
 		}
-		else
-		{
-			GLVertexSet *set = (*itor)->getArray(useTextures_, true, detail);
-			missileArrays_.addToGroup(*set);
-		}
 	}	
+}
+
+MissileMesh::~MissileMesh()
+{
+	delete model_;
 }
 
 void MissileMesh::draw(Vector &position, Vector &direction, int flareType, float rotation)
@@ -89,9 +71,6 @@ void MissileMesh::draw(Vector &position, Vector &direction, int flareType, float
 		getHeight((int) position[0], (int) position[1]);
 	Landscape::instance()->getShadowMap().
 		addCircle(position[0], position[1], aboveGround / 10.0f);
-
-	unsigned state = useTextures_?GLState::TEXTURE_ON:GLState::TEXTURE_OFF;
-	GLState currentState(state);
 
 	// Firgure out the opengl roation matrix from the direction
 	// of the fired missile
@@ -110,8 +89,9 @@ void MissileMesh::draw(Vector &position, Vector &direction, int flareType, float
 		glRotatef(angYZDeg, 1.0f, 0.0f, 0.0f);
 
 		glRotatef(rotation, 0.0f, 0.0f, 1.0f);
-		glScalef(scale_, scale_, scale_);
-		missileArrays_.draw();
+		float scale = innerScale_ * scale_;
+		glScalef(scale, scale, scale);
+		model_->draw();
 	glPopMatrix();
 
 	// Draw any lense flares associated with the missile

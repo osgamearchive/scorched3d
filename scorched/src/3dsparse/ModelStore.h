@@ -22,28 +22,27 @@
 #define __INCLUDE_ModelStoreh_INCLUDE__
 
 #include <3dsparse/ModelID.h>
-#include <GLEXT/GLVertexSet.h>
-#include <GLEXT/GLTexture.h>
 #include <map>
 #include <string>
 
+class GLTexture;
+class Model;
 class ModelStore
 {
 public:
 	static ModelStore *instance();
 
-	GLVertexSet *loadOrGetArray(ModelID &model,
-		bool usetextures = false, 
-		bool centreBottom = false, 
-		bool shadowModel = true);
+	Model *loadModel(ModelID &modelId);
 	GLTexture *loadTexture(const char *name, 
 		const char *aname, 
 		bool invert = false);
 
 protected:
 	static ModelStore *instance_;
-	std::map<std::string, GLVertexSet *> fileMap_;
+	std::map<std::string, Model *> fileMap_;
 	std::map<std::string, GLTexture *> skins_;
+
+	Model *getModel(ModelID &id);
 
 private:
 	ModelStore();

@@ -14,10 +14,12 @@ Fixed: Shields and player names showing through smoke
 Fixed: Scorched3D client does not go un-responsive when creating levels
 Fixed: Shot cam follows rollers
 
+Added: Saved game filename to save game file dialog
+Added: Support for animated meshes (via bones)
 Added: apexnodud option to WeaponProjectile to stop apex collisions from duding
 Added: Trial of new on screen message format (death messages seperated out)
 Added: Keep alive messages to further shorten lag
-Added: Boids (birds) to levels (needs animation)
+Added: Boids (birds) to levels
 Added: Fog density attribute to levels (distance fogging)
 Added: Admin alerts for players (ip addresses) that have been flagged
 Added: WeaponNapalm option to allow napalm type weapons underwater

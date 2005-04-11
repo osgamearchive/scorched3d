@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,33 +18,31 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <common/Defines.h>
-#include <3dsparse/ASEModel.h>
+#if !defined(__INCLUDE_ModelRendererh_INCLUDE__)
+#define __INCLUDE_ModelRendererh_INCLUDE__
 
-ASEModel::ASEModel(char *name, char *texture) : Model(name)
+#include <3dsparse/Model.h>
+
+class ModelRenderer
 {
-	setTextureName(texture);
-}
+public:
+	ModelRenderer(Model *model);
+	virtual ~ModelRenderer();
 
-ASEModel::~ASEModel()
-{
+	void draw();
+	void drawBottomAligned();
+	void simulate(float frameTime);
 
-}
+	Model *getModel() { return model_; }
 
-void ASEModel::setTmRow(Vector &row, int index)
-{
-	DIALOG_ASSERT(index < 3);
-	tmRow_[index] = row.Normalize();
-}
+protected:
+	Model *model_;
+	float currentFrame_;
+	std::vector<BoneType *> boneTypes_;
+	Vector vertexTranslation_;
 
-void ASEModel::setFaceNormal(Vector &normal, int face, int index)
-{
-	DIALOG_ASSERT(index < 3);
-	DIALOG_ASSERT(face < (int) faces_.size());
+	virtual void drawMesh(unsigned int m, Mesh *mesh);
+	virtual void setup();
+};
 
-	Vector n(normal[0] * tmRow_[0][0] + normal[1] * tmRow_[1][0] + normal[2] * tmRow_[2][0],
-		normal[0] * tmRow_[0][1] + normal[1] * tmRow_[1][1] + normal[2] * tmRow_[2][1],
-		normal[0] * tmRow_[0][2] + normal[1] * tmRow_[1][2] + normal[2] * tmRow_[2][2]);
-
-	faces_[face].normal[index] = n;
-}
+#endif // __INCLUDE_ModelRendererh_INCLUDE__

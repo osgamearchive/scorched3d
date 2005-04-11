@@ -21,6 +21,7 @@
 #include <GLEXT/GLState.h>
 #include <GLEXT/GLCameraFrustum.h>
 #include <3dsparse/ModelStore.h>
+#include <3dsparse/ModelRenderer.h>
 #include <client/ScorchedClient.h>
 #include <landscape/LandscapeMaps.h>
 #include <landscape/HeightMap.h>
@@ -35,18 +36,21 @@ BoidWorld::BoidWorld(
 	int boidCount, 
 	int maxZ, int minZ) : 
 	visibilityMatrix_(0), 
-	elapsedTime_(0.0f), stepTime_(0.0f)
+	elapsedTime_(0.0f), stepTime_(0.0f), stepTime2_(0.0f),
+	halfTime_(false)
 {
 	// Create boids
 	makeBoids(boidCount, maxZ, minZ);
 	makeObstacles(maxZ, minZ);
 
 	// Create bird model
-	bird_ = ModelStore::instance()->loadOrGetArray(birdModel);
+	bird_ = new ModelRenderer(
+			ModelStore::instance()->loadModel(birdModel));
 }
 
 BoidWorld::~BoidWorld()
 {
+	delete bird_;
 	for (unsigned int i=0; i<boids_.size(); i++) 
 	{
 		delete []visibilityMatrix_[i];
@@ -123,16 +127,26 @@ void BoidWorld::simulate(float frameTime)
 {
 	const float StepTime = 0.04f;
 	elapsedTime_ += frameTime;
-	stepTime_ += frameTime;
 
+	stepTime_ += frameTime;
 	if (stepTime_ > StepTime)
 	{
+		halfTime_ = !halfTime_;
 		for (int i=0; i<getBoidCount(); i++) 
 		{
 			getBoids()[i]->update(elapsedTime_);
+			if (halfTime_) getBoids()[i]->updateslow();
 		}
 
 		stepTime_ = 0.0f;
+	}
+
+	const float StepTime2 = 0.5f;
+	stepTime2_ += frameTime * 20.0f;
+	while (stepTime2_ > StepTime2)
+	{
+		bird_->simulate(StepTime2);
+		stepTime2_ -= StepTime2;
 	}
 }
 
@@ -153,10 +167,10 @@ void BoidWorld::draw()
 
 		glPushMatrix();
 			glTranslated(position.x, position.z, position.y);
-			glRotated(-boid->yaw / 3.14 * 180.0, 0.0f, 0.0f, 1.0f);
-			glRotated(boid->pitch / 3.14 * 180.0, 1.0f, 0.0f, 0.0f);
-			glRotated(boid->roll / 3.14 * 180.0, 0.0f, 1.0f, 0.0f);
-			glScalef(0.03f, 0.03f, 0.03f);
+			glRotated(-boid->yaw / 3.14f * 180.0f, 0.0f, 0.0f, 1.0f);
+			glRotated(boid->pitch / 3.14f * 180.0f, 1.0f, 0.0f, 0.0f);
+			glRotated(boid->dampedroll / 3.14f * 180.0f, 0.0f, 1.0f, 0.0f);
+			glScalef(0.005f, 0.005f, 0.005f);
 		
 			bird_->draw();
 		glPopMatrix();

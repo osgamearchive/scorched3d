@@ -18,14 +18,8 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// Face.h: interface for the Face class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_FACE_H__711CB826_F1C1_4563_8760_65F19C8FDAAC__INCLUDED_)
 #define AFX_FACE_H__711CB826_F1C1_4563_8760_65F19C8FDAAC__INCLUDED_
-
 
 #include <common/Vector.h>
 

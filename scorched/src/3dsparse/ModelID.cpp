@@ -19,38 +19,31 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <3dsparse/ModelID.h>
-#include <3dsparse/MSFile.h>
-#include <3dsparse/ASEFile.h>
 #include <common/Defines.h>
+#include <coms/NetBuffer.h>
+#include <XML/XMLParser.h>
 #include <wx/utils.h>
 
-ModelID::ModelID() : cachedFile_(0)
+ModelID::ModelID()
 {
 }
 
 ModelID::ModelID(const ModelID &other) : 
-	cachedFile_(0),
 	type_(other.type_),
 	meshName_(other.meshName_),
 	skinName_(other.skinName_)
 {
-
 }
 
 ModelID::~ModelID()
 {
-	delete cachedFile_;
-	cachedFile_ = 0;
 }
 
 ModelID &ModelID::operator=(const ModelID &other)
 {
-	delete cachedFile_;
-	cachedFile_ = 0;
 	type_ = other.type_;
 	meshName_ = other.meshName_;
 	skinName_ = other.skinName_;
-
 	return *this;
 }
 
@@ -62,7 +55,6 @@ bool ModelID::initFromString(
 	type_ = type;
 	meshName_ = meshName;
 	skinName_ = skinName;
-
 	return true;
 }
 
@@ -155,46 +147,6 @@ bool ModelID::readModelID(NetBufferReader &reader)
 	if (!reader.getFromBuffer(meshName_)) return false;
 	if (!reader.getFromBuffer(skinName_)) return false;
 	return true;	
-}
-
-ModelsFile *ModelID::getModelsFile()
-{
-	ModelsFile *newFile = cachedFile_;
-	if (newFile == 0)
-	{
-		if (0 == strcmp(getType(), "ase"))
-		{
-			// Load the ASEFile containing the tank definitions
-			std::string meshName(getDataFile(getMeshName()));
-			newFile = new ASEFile(meshName.c_str(), getDataFile(getSkinName()));
-			if (!newFile->getSuccess())
-			{
-				dialogExit("ASE File", "Failed to load ASE file \"%s\"\n%s", 
-					getMeshName(), newFile->getError());
-				return 0;
-			}
-		}
-		else
-		{
-			// Load the Milkshape containing the tank definitions
-			newFile = new MSFile(getDataFile(getMeshName()));
-			if (!newFile->getSuccess())
-			{
-				dialogExit("MS File", "Failed to load MS file \"%s\"\n%s", 
-					getMeshName(), newFile->getError());
-				return 0;
-			}			
-		}
-	}
-
-	cachedFile_ = newFile;
-	return newFile;
-}
-
-void ModelID::clearCachedFile()
-{
-	delete cachedFile_;
-	cachedFile_ = 0;
 }
 
 const char *ModelID::getStringHash()

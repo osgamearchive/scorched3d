@@ -20,60 +20,47 @@
 
 #include <math.h>
 #include <tankgraph/TankMesh.h>
-#include <3dsparse/ModelsFile.h>
+#include <GLEXT/GLState.h>
+#include <3dsparse/ModelRenderer.h>
 #include <common/OptionsDisplay.h>
-#include <common/Defines.h> // For porting
+#include <common/Defines.h>
 
-TankMesh::TankMesh(ModelsFile &tank, bool useTextures, float detail) 
-	: turretHeight_(0.0f), useTextures_(useTextures)
+TankMesh::TankMesh(Model &tank) : 
+	ModelRenderer(&tank),
+	scale_(1.0f)
 {
-	createArrays(tank, useTextures, detail);
+	setupTankMesh();
 }
 
 TankMesh::~TankMesh()
 {
-	gunArrays_.destroyGroup();
-	turretArrays_.destroyGroup();
-	otherArrays_.destroyGroup();
 }
 
 int TankMesh::getNoTris()
 {
-	return 
-		gunArrays_.getNoTris() + 
-		turretArrays_.getNoTris() +
-		otherArrays_.getNoTris();
+	return (model_?model_->getNumberTriangles():0);
 }
 
-void TankMesh::createArrays(ModelsFile &aseTank, bool useTextures, float detail)
+void TankMesh::setupTankMesh()
 {
 	// Make sure the tank is not too large
 	const float maxSize = 3.0f;
-	float size = (aseTank.getMax() - aseTank.getMin()).Magnitude();
-	if (size > maxSize)
-	{
-		const float sfactor = 2.2f / size;
-		aseTank.scale(sfactor);
-	}
-	aseTank.centre();
-	modelCenter_ = (aseTank.getMax() + aseTank.getMin()) / 2.0f;
+	Vector &min = model_->getMin();
+	Vector &max = model_->getMax();
+	float size = (max - min).Magnitude();
+	if (size > maxSize) scale_ = 2.2f / size;
 
-	std::list<Model*> otherModels;
-	std::list<Model*> turretModels;
-	std::list<Model*> gunModels;
+	// Find the turrets and guns
+	Mesh *turretPivot = 0, *gunPivot = 0;
+	int turretCount = 0;
 
-	// Find the gun and turret meshes from all of the mesh
-	// parts used to create the tank
-	// Keep them and use them to draw tank's gun
-	Vector turretCenter;
-	Model *turretPivot = 0;
-	Model *gunPivot = 0;
-	std::list<Model *>::iterator itor;
-	for (itor = aseTank.getModels().begin();
-		itor != aseTank.getModels().end();
+	std::vector<Mesh *>::iterator itor;
+	for (itor = model_->getMeshes().begin();
+		itor != model_->getMeshes().end();
 		itor++)
 	{
-		const char *name = (*itor)->getName();
+		Mesh *mesh = (*itor);
+		const char *name = mesh->getName();
 
 		if (strstr(name, "\"Turret") == name ||
 			strstr(name, "\"turret") == name)
@@ -81,15 +68,16 @@ void TankMesh::createArrays(ModelsFile &aseTank, bool useTextures, float detail)
 			if (strstr(name, "pivot") ||
 				strstr(name, "Pivot"))
 			{
-				turretPivot = *itor;
+				turretPivot = mesh;
 			}
 			else
 			{
-				turretModels.push_back(*itor);
-
 				// Find the center that the tank should rotate around
-				turretCenter += ((*itor)->getMax() + (*itor)->getMin()) / 2.0f;
+				turretCount++;
+				turretCenter_ += (mesh->getMax() + mesh->getMin()) / 2.0f;
 			}
+
+			meshTypes_.push_back(eTurret);
 		}
 		else if (strstr(name, "\"Gun") == name ||
 			strstr(name, "\"gun") == name)
@@ -97,130 +85,91 @@ void TankMesh::createArrays(ModelsFile &aseTank, bool useTextures, float detail)
 			if (strstr(name, "pivot") ||
 				strstr(name, "Pivot"))
 			{
-				gunPivot = *itor;
+				gunPivot = mesh;
 			}
-			else
-			{
-				gunModels.push_back(*itor);
-			}
+
+			meshTypes_.push_back(eGun);
 		}
 		else
 		{
-			otherModels.push_back(*itor);
+			meshTypes_.push_back(eNone);
 		}
-	}	
-
-	// Check we have a valid tank model
-	if (gunModels.empty() || turretModels.empty())
-	{
-		dialogExit("Tank", "ERROR: Failed to find gun and turret from mesh");
 	}
 
 	// Find the center of rotation for the turret
 	if (turretPivot)
 	{
-		turretCenter = (turretPivot->getMax() + turretPivot->getMin()) / 2.0f;
+		turretCenter_ = (turretPivot->getMax() + turretPivot->getMin()) / 2.0f;
 	}
 	else
 	{
-		turretCenter /= float(turretModels.size());
+		turretCenter_ /= float(turretCount);
 	}
-	Vector gunCenter = turretCenter;
-	turretCenter[2] = aseTank.getMin()[2];
+	Vector gunCenter = turretCenter_;
+	turretCenter_[2] = 0.0f;
 
 	// Find the center of rotation for the gun
 	if (gunPivot)
 	{
 		gunCenter = (gunPivot->getMax() + gunPivot->getMin()) / 2.0f;
 	}
-	gunOffset_ = gunCenter - turretCenter;
-
-	modelCenter_ -= turretCenter;
-	
-	// Center all meshes around base of turret
-	// Center gun around turret center
-	// and place all of the meshes on the ground 
-	for (itor = aseTank.getModels().begin();
-		itor != aseTank.getModels().end();
-		itor++)
-	{
-		const char *name = (*itor)->getName();
-		if (strstr(name, "\"Gun") == name ||
-			strstr(name, "\"gun") == name)
-		{
-			(*itor)->centre(gunCenter);
-		}
-		else
-		{
-			(*itor)->centre(turretCenter);
-		}
-	}
-
-	addToSet(turretArrays_, turretModels, detail);
-	addToSet(gunArrays_, gunModels, detail);
-	addToSet(otherArrays_, otherModels, detail);
-}
-
-void TankMesh::addToSet(GLVertexSetGroup &vset, std::list<Model*> &models, float detail)
-{
-	std::list<Model*>::iterator mitor;
-	for (mitor = models.begin();
-		mitor != models.end();
-		mitor++)
-	{
-		GLVertexSet *set = (*mitor)->getArray(useTextures_, true, detail);
-		vset.addToGroup(*set);
-	}	
+	gunOffset_ = gunCenter - turretCenter_;
 }
 
 void TankMesh::draw(bool drawS, float angle, Vector &position, 
 					float fireOffset, float rotXY, float rotXZ,
 					bool absCenter, float scale)
 {
-	GLState *texState = 0;
-	if (useTextures_) texState = new GLState(GLState::TEXTURE_ON);
-
-	float x = position[0];
-	float y = position[1];
-	float z = position[2];
-	if (absCenter)
-	{
-		x -= modelCenter_[0];
-		y -= modelCenter_[1];
-		z -= modelCenter_[2];
-	}
+	rotXY_ = rotXY;
+	rotXZ_ = rotXZ;
+	drawS_ = drawS;
+	fireOffSet_ = fireOffset;
 
 	glPushMatrix();
-		glTranslatef(x, y, z);
+		glTranslatef(position[0], position[1], position[2]);
 		glRotatef(angle, 0.0f, 0.0f, 1.0f);
-		glScalef(scale, scale, scale);
-		otherArrays_.draw();
-		drawGun(drawS, fireOffset, rotXY, rotXZ);
-	glPopMatrix();
+		glScalef(scale * scale_, scale * scale_, scale * scale_);
 
-	delete texState;
+		if (absCenter) ModelRenderer::draw();
+		else ModelRenderer::drawBottomAligned();
+	glPopMatrix();
 }
 
-void TankMesh::drawGun(bool drawS, float fireOffSet, float rotXY, float rotXZ)
+void TankMesh::drawMesh(unsigned int m, Mesh *mesh)
 {
-	// Rotate around z axis and then draw turret
-	glRotatef(rotXY, 0.0f, 0.0f, 1.0f);
-	turretArrays_.draw();
+	glPushMatrix();
+		MeshType type = meshTypes_[m];
+		vertexTranslation_ = -turretCenter_;
 
-	// Rotate around y axis and then draw gun
-	glTranslatef(gunOffset_[0], gunOffset_[1], gunOffset_[2]);
-	glRotatef(rotXZ, 1.0f, 0.0f, 0.0f);
-	if (fireOffSet != 0.0f) glTranslatef(0.0f, fireOffSet, 0.0f);
-	gunArrays_.draw();
+		if (type == eTurret || type == eGun)
+		{
+			glRotatef(rotXY_, 0.0f, 0.0f, 1.0f);
+			if (type == eGun)
+			{
+				glTranslatef(gunOffset_[0], gunOffset_[1], gunOffset_[2]);
+				vertexTranslation_ -= gunOffset_;
+				glRotatef(rotXZ_, 1.0f, 0.0f, 0.0f);
 
-	// Draw the sight
-	if (drawS &&
-		OptionsDisplay::instance()->getDrawPlayerSight() &&
-		OptionsDisplay::instance()->getOldSightPosition())
-	{
-		GLState sightState(GLState::BLEND_OFF | GLState::TEXTURE_OFF);
-		drawSight();
-	}
+				// Draw the sight
+				if (drawS_ &&
+					OptionsDisplay::instance()->getDrawPlayerSight() &&
+					OptionsDisplay::instance()->getOldSightPosition())
+				{
+					GLState sightState(GLState::BLEND_OFF | GLState::TEXTURE_OFF);
+					glPushMatrix();
+						glScalef(1.0f / scale_, 1.0f / scale_, 1.0f / scale_);
+						drawSight();
+					glPopMatrix();
+				}
+
+				if (fireOffSet_ != 0.0f) glTranslatef(0.0f, fireOffSet_, 0.0f);
+			}
+		}
+
+		ModelRenderer::drawMesh(m, mesh);
+	glPopMatrix();
+
+	vertexTranslation_.zero();
 }
 
 void TankMesh::drawSight()

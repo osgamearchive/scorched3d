@@ -25,14 +25,14 @@
 #include <tankgraph/TankModel.h>
 #include <tankgraph/GLWTankTip.h>
 #include <GLEXT/GLState.h>
-#include <GLEXT/GLVertexArray.h>
 
+class ModelRenderer;
 class TankModelRendererAIM
 {
 public:
 	static void simulate(float frameTime) { timeLeft_ -= frameTime; }
 
-	static GLVertexSet *getAutoAimModel();
+	static ModelRenderer *getAutoAimModel();
 	static bool drawAim() { return (timeLeft_ > 0.0f); }
 	static void setAimPosition(Vector &pos) { aimPosition_ = pos; timeLeft_= 2.0f; }
 	static Vector &getAimPosition() { return aimPosition_; }

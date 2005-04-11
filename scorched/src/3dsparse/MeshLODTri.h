@@ -19,13 +19,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 
-// MeshLODTri.h: interface for the MeshLODTri class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_MESHLODTRI_H__0EB05DEC_5B60_4C5A_BD4A_372E237D2140__INCLUDED_)
 #define AFX_MESHLODTRI_H__0EB05DEC_5B60_4C5A_BD4A_372E237D2140__INCLUDED_
-
 
 #include <common/Vector.h>
 
