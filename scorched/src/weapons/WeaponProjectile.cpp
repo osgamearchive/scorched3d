@@ -29,7 +29,7 @@ WeaponProjectile::WeaponProjectile() :
 	under_(false), collisionAction_(0), apexCollision_(false),
 	showShotPath_(false), showEndPoint_(false), 
 	createSmoke_(true),	createFlame_(true), 
-	spinSpeed_(1.0f),
+	spinSpeed_(1.0f), apexNoDud_(false),
 	flameLife_(1.0f), smokeLife_(4.0f),
 	flameStartColor1_(0.9f, 0.0f, 0.0f), flameStartColor2_(1.0f, 0.2f, 0.2f),
 	flameEndColor1_(0.95f, 0.9f, 0.2f), flameEndColor2_(1.0f, 1.0f, 0.3f)
@@ -70,9 +70,11 @@ bool WeaponProjectile::parseXML(OptionsGame &context,
 	if (endPointNode) showEndPoint_ = true;
 	
 	// Get the apex point
-	XMLNode *apexNode = 0;
+	XMLNode *apexNode = 0, *apexNoDudNode = 0;
 	accessoryNode->getNamedChild("apexcollision", apexNode, false);
+	accessoryNode->getNamedChild("apexnodud", apexNoDudNode, false);
 	if (apexNode) apexCollision_ = true;
+	if (apexNoDudNode) apexNoDud_ = true;
 
 	// Get the no smoke node
 	XMLNode *noCreateSmokeNode = 0;

@@ -22,6 +22,7 @@
 #include <GLW/GLWTextButton.h>
 #include <GLW/GLWLabel.h>
 #include <GLW/GLWWindowManager.h>
+#include <client/MessageDisplay.h>
 #include <client/ScorchedClient.h>
 #include <client/ClientSave.h>
 #include <common/Logger.h>
@@ -43,10 +44,28 @@ SaveDialog::SaveDialog() :
 	GLWWindow("Save", 210.0f, 80.0f, 0,
 		"Allows the player to save the game.")
 {
-	okId_ = addWidget(new GLWTextButton("Save", 10, 45, 190, this, 
-		GLWButton::ButtonFlagOk | GLWButton::ButtonFlagCenterX))->getId();
-	cancelId_ = addWidget(new GLWTextButton("Cancel", 95, 10, 105, this, 
-		GLWButton::ButtonFlagCancel | GLWButton::ButtonFlagCenterX))->getId();
+	textBox_ = new GLWTextBox(0.0f, 0.0f, 250.0f);
+	addWidget(textBox_,
+		0, SpaceLeft | SpaceRight | SpaceTop, 10.0f);
+
+	GLWPanel *buttonPanel = new GLWPanel(0.0f, 0.0f, 0.0f, 0.0f, false, false);
+	
+	GLWButton *cancelButton = new GLWTextButton("Cancel", 95, 10, 105, this, 
+		GLWButton::ButtonFlagCancel | GLWButton::ButtonFlagCenterX);
+	cancelId_ = cancelButton->getId();
+	buttonPanel->addWidget(cancelButton, 0, SpaceRight, 10.0f);
+	
+	GLWButton *okButton = new GLWTextButton("Save", 10, 45, 105, this, 
+		GLWButton::ButtonFlagOk | GLWButton::ButtonFlagCenterX);
+	okId_ = okButton->getId();
+	buttonPanel->addWidget(okButton);
+	
+	
+	buttonPanel->setLayout(GLWPanel::LayoutHorizontal);
+	addWidget(buttonPanel, 0, SpaceAll | AlignRight, 10.0f);
+
+	setLayout(GLWPanel::LayoutVerticle);
+	layout();
 }
 
 SaveDialog::~SaveDialog()
@@ -54,19 +73,32 @@ SaveDialog::~SaveDialog()
 
 }
 
+void SaveDialog::windowDisplay()
+{
+	const char *text = formatString("saved-%i", time(0));
+	textBox_->setText(text);
+}
+
 void SaveDialog::buttonDown(unsigned int id)
 {
 	if (id == okId_)
 	{
-		const char *saveFile = getSaveFile("saved-%i.s3d", time(0));
-		if (ClientSave::saveClient(saveFile))
+		if (textBox_->getText()[0])
 		{
-			const char *showFileName = saveFile;
-			for (const char *a=saveFile; *a; a++) 
-				if (*a == '/') showFileName = a;
-			Logger::log( "Game saved as %s.", showFileName);
+			const char *saveFile = formatString("%s.s3d", textBox_->getText());
+			if (ClientSave::saveClient(getSaveFile(saveFile)))
+			{
+				MessageDisplay::instance()->addMessage(
+					"Game saved as \"%s\"", saveFile);
+				Logger::log("Game saved as \"%s\"", saveFile);
+			}
+			else
+			{
+				MessageDisplay::instance()->addMessage(
+					"Game save failed");
+			}
+			GLWWindowManager::instance()->hideWindow(id_);
 		}
-		GLWWindowManager::instance()->hideWindow(id_);
 	}
 	else if (id == cancelId_)
 	{

@@ -12,7 +12,9 @@ Fixed: Window ordering in window menu does not change due to z order
 Fixed: Invisible window removed from connect dialog
 Fixed: Shields and player names showing through smoke
 Fixed: Scorched3D client does not go un-responsive when creating levels
+Fixed: Shot cam follows rollers
 
+Added: apexnodud option to WeaponProjectile to stop apex collisions from duding
 Added: Trial of new on screen message format (death messages seperated out)
 Added: Keep alive messages to further shorten lag
 Added: Boids (birds) to levels (needs animation)

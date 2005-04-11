@@ -153,6 +153,10 @@ void Explosion::init()
 					position_[0] + posXY, position_[1] + posYZ, position_[2] + 2.0f);
 			}
 		}
+		else
+		{
+			context_->viewPoints->explosion(playerId_);
+		}
 
 		{
 			GLTextureSet *texture = 0;

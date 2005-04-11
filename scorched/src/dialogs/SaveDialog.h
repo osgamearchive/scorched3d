@@ -23,6 +23,7 @@
 
 #include <GLW/GLWWindow.h>
 #include <GLW/GLWButton.h>
+#include <GLW/GLWTextBox.h>
 
 class SaveDialog : public GLWWindow,
 				public GLWButtonI
@@ -31,9 +32,11 @@ public:
 	static SaveDialog *instance();
 
 	virtual void buttonDown(unsigned int id);
+	virtual void windowDisplay();
 protected:
 	unsigned int okId_, cancelId_;
 	static SaveDialog *instance_;
+	GLWTextBox *textBox_;
 
 private:
 	SaveDialog();

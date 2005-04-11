@@ -54,6 +54,7 @@ protected:
 	ScorchedCollisionInfo collisionInfo_;
 	ViewPoints::ViewPoint *vPoint_;
 	Vector startPosition_, velocity_;
+	Vector lookFrom_;
 	WeaponRoller *weapon_;
 	unsigned int playerId_;
 	unsigned int data_;

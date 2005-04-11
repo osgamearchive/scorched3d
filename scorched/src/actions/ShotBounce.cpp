@@ -55,7 +55,9 @@ void ShotBounce::init()
 	collisionInfo_.collisionOnSurface = true;
 	physicsObject_.setData(&collisionInfo_);
 
-	//vPoint_ = context_->viewPoints.getNewViewPoint(playerId_);
+	Vector lookatPos;
+	vPoint_ = context_->viewPoints->getNewViewPoint(playerId_);
+	context_->viewPoints->getValues(lookatPos, lookFrom_);
 }
 
 ShotBounce::~ShotBounce()
@@ -112,6 +114,12 @@ void ShotBounce::draw()
 			ModelID &id = ((WeaponRoller *) weapon_)->getRollerModelID();
 			bool useTexture = (strcmp(id.getSkinName(), "none") != 0);
 			model_ = ModelStore::instance()->loadOrGetArray(id, useTexture, false, false);
+		}
+
+		if (vPoint_)
+		{
+			vPoint_->setPosition(getCurrentPosition());
+			vPoint_->setLookFrom(lookFrom_);
 		}
 
 		GLState state(GLState::TEXTURE_OFF);

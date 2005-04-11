@@ -37,8 +37,6 @@ scorched3d_SOURCES = \
 	../GLEXT/GLDynamicVertexArray.h \
 	../GLEXT/GLFont2d.cpp \
 	../GLEXT/GLFont2d.h \
-	../GLEXT/GLFontBanner.cpp \
-	../GLEXT/GLFontBanner.h \
 	../GLEXT/GLGif.cpp \
 	../GLEXT/GLGif.h \
 	../GLEXT/GLImage.cpp \
@@ -99,6 +97,8 @@ scorched3d_SOURCES = \
 	../GLW/GLWLabel.h \
 	../GLW/GLWListView.cpp \
 	../GLW/GLWListView.h \
+	../GLW/GLWLoggerView.cpp \
+	../GLW/GLWLoggerView.h \
 	../GLW/GLWPanel.cpp \
 	../GLW/GLWPanel.h \
 	../GLW/GLWPlanView.cpp \
@@ -153,48 +153,6 @@ scorched3d_SOURCES = \
 	../GLW/GLWWindowSkinManager.h \
 	../GLW/GLWidget.cpp \
 	../GLW/GLWidget.h \
-	../tank/Tank.cpp \
-	../tank/Tank.h \
-	../tank/TankAccessories.cpp \
-	../tank/TankAccessories.h \
-	../tank/TankAdmin.cpp \
-	../tank/TankAdmin.h \
-	../tank/TankAutoDefense.cpp \
-	../tank/TankAutoDefense.h \
-	../tank/TankAvatar.cpp \
-	../tank/TankAvatar.h \
-	../tank/TankBatteries.cpp \
-	../tank/TankBatteries.h \
-	../tank/TankColorGenerator.cpp \
-	../tank/TankColorGenerator.h \
-	../tank/TankContainer.cpp \
-	../tank/TankContainer.h \
-	../tank/TankController.cpp \
-	../tank/TankController.h \
-	../tank/TankDeadContainer.cpp \
-	../tank/TankDeadContainer.h \
-	../tank/TankFuel.cpp \
-	../tank/TankFuel.h \
-	../tank/TankLib.cpp \
-	../tank/TankLib.h \
-	../tank/TankMod.cpp \
-	../tank/TankMod.h \
-	../tank/TankModelId.cpp \
-	../tank/TankModelId.h \
-	../tank/TankParachutes.cpp \
-	../tank/TankParachutes.h \
-	../tank/TankPhysics.cpp \
-	../tank/TankPhysics.h \
-	../tank/TankScore.cpp \
-	../tank/TankScore.h \
-	../tank/TankShields.cpp \
-	../tank/TankShields.h \
-	../tank/TankSort.cpp \
-	../tank/TankSort.h \
-	../tank/TankState.cpp \
-	../tank/TankState.h \
-	../tank/TankWeapon.cpp \
-	../tank/TankWeapon.h \
 	../tankgraph/GLWTankTip.cpp \
 	../tankgraph/GLWTankTip.h \
 	../tankgraph/GLWTankViewer.cpp \
@@ -231,6 +189,8 @@ scorched3d_SOURCES = \
 	../common/FileLines.h \
 	../common/FileList.cpp \
 	../common/FileList.h \
+	../common/FileLogger.cpp \
+	../common/FileLogger.h \
 	../common/Gamma.cpp \
 	../common/Gamma.h \
 	../common/KeyStateTranslate.h \
@@ -244,6 +204,8 @@ scorched3d_SOURCES = \
 	../common/Line.h \
 	../common/Logger.cpp \
 	../common/Logger.h \
+	../common/LoggerI.cpp \
+	../common/LoggerI.h \
 	../common/Mouse.cpp \
 	../common/Mouse.h \
 	../common/OptionEntry.cpp \
@@ -587,6 +549,8 @@ scorched3d_SOURCES = \
 	../coms/ComsGameStoppedMessage.h \
 	../coms/ComsHaveModFilesMessage.cpp \
 	../coms/ComsHaveModFilesMessage.h \
+	../coms/ComsKeepAliveMessage.cpp \
+	../coms/ComsKeepAliveMessage.h \
 	../coms/ComsLastChanceMessage.cpp \
 	../coms/ComsLastChanceMessage.h \
 	../coms/ComsLevelMessage.cpp \
@@ -875,6 +839,8 @@ scorched3d_SOURCES = \
 	../client/ClientGameStateHandler.h \
 	../client/ClientGameStoppedHandler.cpp \
 	../client/ClientGameStoppedHandler.h \
+	../client/ClientKeepAliveSender.cpp \
+	../client/ClientKeepAliveSender.h \
 	../client/ClientLastChanceHandler.cpp \
 	../client/ClientLastChanceHandler.h \
 	../client/ClientLoadPlayersState.cpp \
@@ -917,8 +883,6 @@ scorched3d_SOURCES = \
 	../client/GLSetup.h \
 	../client/Main2DCamera.cpp \
 	../client/Main2DCamera.h \
-	../client/MainBanner.cpp \
-	../client/MainBanner.h \
 	../client/MainCamera.cpp \
 	../client/MainCamera.h \
 	../client/MessageDisplay.cpp \
@@ -967,6 +931,8 @@ scorched3d_SOURCES = \
 	../server/ServerFileServer.h \
 	../server/ServerHaveModFilesHandler.cpp \
 	../server/ServerHaveModFilesHandler.h \
+	../server/ServerKeepAliveHandler.cpp \
+	../server/ServerKeepAliveHandler.h \
 	../server/ServerMain.cpp \
 	../server/ServerMain.h \
 	../server/ServerMessageHandler.cpp \
@@ -1047,6 +1013,48 @@ scorched3d_SOURCES = \
 	../boids/ScorchedBoids.h \
 	../boids/ScorchedBoidsObstacle.cpp \
 	../boids/ScorchedBoidsObstacle.h \
-	../boids/SimObject.h
+	../boids/SimObject.h \
+	../tank/Tank.cpp \
+	../tank/Tank.h \
+	../tank/TankAccessories.cpp \
+	../tank/TankAccessories.h \
+	../tank/TankAdmin.cpp \
+	../tank/TankAdmin.h \
+	../tank/TankAutoDefense.cpp \
+	../tank/TankAutoDefense.h \
+	../tank/TankAvatar.cpp \
+	../tank/TankAvatar.h \
+	../tank/TankBatteries.cpp \
+	../tank/TankBatteries.h \
+	../tank/TankColorGenerator.cpp \
+	../tank/TankColorGenerator.h \
+	../tank/TankContainer.cpp \
+	../tank/TankContainer.h \
+	../tank/TankController.cpp \
+	../tank/TankController.h \
+	../tank/TankDeadContainer.cpp \
+	../tank/TankDeadContainer.h \
+	../tank/TankFuel.cpp \
+	../tank/TankFuel.h \
+	../tank/TankLib.cpp \
+	../tank/TankLib.h \
+	../tank/TankMod.cpp \
+	../tank/TankMod.h \
+	../tank/TankModelId.cpp \
+	../tank/TankModelId.h \
+	../tank/TankParachutes.cpp \
+	../tank/TankParachutes.h \
+	../tank/TankPhysics.cpp \
+	../tank/TankPhysics.h \
+	../tank/TankScore.cpp \
+	../tank/TankScore.h \
+	../tank/TankShields.cpp \
+	../tank/TankShields.h \
+	../tank/TankSort.cpp \
+	../tank/TankSort.h \
+	../tank/TankState.cpp \
+	../tank/TankState.h \
+	../tank/TankWeapon.cpp \
+	../tank/TankWeapon.h
 
 INCLUDES = -I../porting -I.. 

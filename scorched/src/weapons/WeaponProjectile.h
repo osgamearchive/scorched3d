@@ -45,6 +45,7 @@ public:
 	bool getShowShotPath() { return showShotPath_; }
 	bool getShowEndPoint() { return showEndPoint_; }
 	bool getApexCollision() { return apexCollision_; }
+	bool getApexNoDud() { return apexNoDud_; }
 	bool getCreateSmoke() { return createSmoke_; }
 	bool getCreateFlame() { return createFlame_; }
 	float getSpinSpeed() { return spinSpeed_; }
@@ -60,6 +61,7 @@ protected:
 	bool showShotPath_;
 	bool showEndPoint_;
 	bool apexCollision_;
+	bool apexNoDud_;
 	bool createSmoke_;
 	bool createFlame_;
 	float spinSpeed_;
