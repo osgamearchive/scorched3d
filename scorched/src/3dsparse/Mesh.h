@@ -25,6 +25,7 @@
 #include <3dsparse/Face.h>
 #include <3dsparse/Vertex.h>
 #include <vector>
+#include <string>
 
 class GLTexture;
 class Mesh

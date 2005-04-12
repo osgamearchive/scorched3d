@@ -67,15 +67,15 @@ void Model::centre()
 		min_[2] = MIN(min_[2], (*itor)->getMin()[2]);
 	}
 
-	Vector centre = (max_ + min_) / 2.0f;
+	Vector centre = (max_ + min_) / -2.0f;
 	for (itor = meshes_.begin();
 		itor != meshes_.end();
 		itor++)
 	{
-		(*itor)->move(-centre);
+		(*itor)->move(centre);
 	}
-	min_ -= centre;
-	max_ -= centre;
+	min_ += centre;
+	max_ += centre;
 }
 
 int Model::getNumberTriangles()

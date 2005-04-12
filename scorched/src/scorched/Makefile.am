@@ -183,8 +183,6 @@ scorched3d_SOURCES = \
 	../common/Defines.h \
 	../common/Display.cpp \
 	../common/Display.h \
-	../common/Face.cpp \
-	../common/Face.h \
 	../common/FileLines.cpp \
 	../common/FileLines.h \
 	../common/FileList.cpp \
@@ -242,12 +240,16 @@ scorched3d_SOURCES = \
 	../common/Vector.h \
 	../common/VectorLib.cpp \
 	../common/VectorLib.h \
-	../3dsparse/ASEFile.cpp \
-	../3dsparse/ASEFile.h \
-	../3dsparse/ASEModel.cpp \
-	../3dsparse/ASEModel.h \
-	../3dsparse/MSFile.cpp \
-	../3dsparse/MSFile.h \
+	../3dsparse/ASEModelFactory.cpp \
+	../3dsparse/ASEModelFactory.h \
+	../3dsparse/Bone.cpp \
+	../3dsparse/Bone.h \
+	../3dsparse/Face.cpp \
+	../3dsparse/Face.h \
+	../3dsparse/MSModelFactory.cpp \
+	../3dsparse/MSModelFactory.h \
+	../3dsparse/Mesh.cpp \
+	../3dsparse/Mesh.h \
 	../3dsparse/MeshLOD.cpp \
 	../3dsparse/MeshLOD.h \
 	../3dsparse/MeshLODTri.cpp \
@@ -258,10 +260,14 @@ scorched3d_SOURCES = \
 	../3dsparse/Model.h \
 	../3dsparse/ModelID.cpp \
 	../3dsparse/ModelID.h \
+	../3dsparse/ModelMaths.cpp \
+	../3dsparse/ModelMaths.h \
+	../3dsparse/ModelRenderer.cpp \
+	../3dsparse/ModelRenderer.h \
 	../3dsparse/ModelStore.cpp \
 	../3dsparse/ModelStore.h \
-	../3dsparse/ModelsFile.cpp \
-	../3dsparse/ModelsFile.h \
+	../3dsparse/Vertex.cpp \
+	../3dsparse/Vertex.h \
 	../3dsparse/aseFile.lex.cpp \
 	../3dsparse/aseFile.tab.cpp \
 	../3dsparse/aseFile.tab.cpp.h \

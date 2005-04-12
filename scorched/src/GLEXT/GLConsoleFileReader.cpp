@@ -64,7 +64,7 @@ void GLConsoleFileReader::saveConsoleIntoFile(const char *filename)
 	{
 		std::string string;
 		const char *line = (*itor)->getLine();
-		if ((*itor)->getShowPointer())
+		if ((*itor)->getLineType() != GLConsoleLine::eNone)
 		{
 			filelines.addLine("  <command>%s</command>", line);
 		}

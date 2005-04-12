@@ -19,11 +19,12 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <GLEXT/GLConsoleLines.h>
+#include <string>
 
 unsigned GLConsoleLine::nextLineNumber_ = 0;
 
 GLConsoleLine::GLConsoleLine() :
-	showPointer_(false), lineNumber_(0)
+	lineType_(eNone), lineNumber_(0)
 {
 
 }
@@ -33,24 +34,37 @@ GLConsoleLine::~GLConsoleLine()
 
 }
 
-void GLConsoleLine::set(const char *line, bool showPointer)
+void GLConsoleLine::set(const char *line, LineType type)
 {
 	line_ = std::string(line);
-	showPointer_ = showPointer;
-	if (showPointer_)
+	lineType_ = type;
+	if (lineType_ == eCommand)
 	{
 		lineNumber_ = ++nextLineNumber_;
+	}
+	if (lineType_ == eCommandCont)
+	{
+		lineNumber_ = nextLineNumber_;
 	}
 }
 
 void GLConsoleLine::drawLine(float x, float y, GLFont2d *font)
 {
 	static Vector color(0.9f, 0.9f, 0.9f);
-	if (showPointer_)
+	if (lineType_ != eNone)
 	{
-		// We show a line number of those lines with commands
-		// on them
-		font->draw(color, 12, x, y, 0.0f, "%4i : %s", lineNumber_, line_.c_str());
+		if (lineType_ == eCommand)
+		{
+			// We show a line number of those lines with commands
+			// on them
+			font->draw(color, 12, x, y, 0.0f, 
+				"%4i : %s", lineNumber_, line_.c_str());
+		}
+		else
+		{
+			font->draw(color, 12, x, y, 0.0f, 
+				"  %s %s", "... ", line_.c_str());
+		}
 	}
 	else
 	{
@@ -94,7 +108,7 @@ const char *GLConsoleLines::getItem(int linecount)
 		for (int line = currentLine_ + 1; line < linesSize; line++)
 		{
 			GLConsoleLine *consoleline = lines_[line];
-			if (consoleline->getShowPointer())
+			if (consoleline->getLineType() == GLConsoleLine::eCommand)
 			{
 				linecount++;
 				currentLine_ = line;
@@ -107,7 +121,7 @@ const char *GLConsoleLines::getItem(int linecount)
 		for (int line = currentLine_ - 1; line >= 0 && line < linesSize; line--)
 		{
 			GLConsoleLine *consoleline = lines_[line];
-			if (consoleline->getShowPointer())
+			if (consoleline->getLineType() == GLConsoleLine::eCommand)
 			{
 				linecount--;
 				currentLine_ = line;
@@ -119,8 +133,25 @@ const char *GLConsoleLines::getItem(int linecount)
 	// Check the command is valid and return the line
 	if (currentLine_ >= 0 && currentLine_ < linesSize)
 	{
-		GLConsoleLine *line = lines_[currentLine_];
-		if (line->getShowPointer()) return line->getLine();
+		if (lines_[currentLine_]->getLineType()  == GLConsoleLine::eCommand)
+		{
+			static std::string result;
+
+			// This current line
+			result = lines_[currentLine_]->getLine();
+
+			// Any continues of this line
+			int current = currentLine_ - 1;
+			while (current < linesSize && 
+				current >= 0 &&
+				lines_[current]->getLineType() == GLConsoleLine::eCommandCont)
+			{
+				result.append(lines_[current]->getLine());
+				current--;
+			}
+
+			return result.c_str();
+		}
 	}
 	return "";
 }
@@ -130,10 +161,11 @@ void GLConsoleLines::addLine(const char *text, bool showPointer)
 	if (showPointer) reset();
 
 	const int bufferSize = 80;
+	int section = 0;
 	int len = (int) strlen(text);
 	if (len < bufferSize)
 	{
-		addSmallLine(text, showPointer);
+		addSmallLine(section++, text, showPointer);
 	}
 	else
 	{
@@ -147,33 +179,40 @@ void GLConsoleLines::addLine(const char *text, bool showPointer)
 			{
 				buffer[c+1] = '\0';
 				c=-1;
-				addSmallLine(buffer, showPointer);
+				addSmallLine(section++, buffer, showPointer);
 			}
 		}
 		if (buffer[0]) 
 		{
-			buffer[c+1] = '\0';
-			addSmallLine(buffer, showPointer);
+			buffer[c] = '\0';
+			addSmallLine(section++, buffer, showPointer);
 		}
 	}
 }
 
-void GLConsoleLines::addSmallLine(const char *text, bool showPointer)
+void GLConsoleLines::addSmallLine(int sectionNo, const char *text, bool showPointer)
 {
+	GLConsoleLine::LineType type = GLConsoleLine::eNone;
+	if (showPointer)
+	{
+		if (sectionNo == 0) type = GLConsoleLine::eCommand;
+		else type = GLConsoleLine::eCommandCont;
+	}
+
 	if (lines_.size() == maxLines_)
 	{
 		// We need to reuse the lines
 		// reuse the first line
 		GLConsoleLine *line = lines_.back();
 		lines_.pop_back();
-		line->set(text, showPointer);
+		line->set(text, type);
 		lines_.push_front(line);
 	}
 	else
 	{
 		// Add a new line
 		GLConsoleLine *line = new GLConsoleLine;
-		line->set(text, showPointer);
+		line->set(text, type);
 		lines_.push_front(line);
 	}
 

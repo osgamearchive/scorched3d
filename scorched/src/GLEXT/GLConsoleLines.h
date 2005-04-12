@@ -28,20 +28,27 @@
 class GLConsoleLine
 {
 public:
+	enum LineType
+	{
+		eNone,
+		eCommand,
+		eCommandCont
+	};
+
 	GLConsoleLine();
 	virtual ~GLConsoleLine();
 
-	void set(const char *line, bool showPointer);
+	void set(const char *line, LineType type);
 	void drawLine(float x, float y, GLFont2d *font);
 
-	bool getShowPointer() { return showPointer_; }
+	LineType getLineType() { return lineType_; }
 	const char *getLine() { return line_.c_str(); }
 
 protected:
-	bool showPointer_;
+	unsigned int lineNumber_;
 	std::string line_;
 	static unsigned nextLineNumber_;
-	unsigned lineNumber_;
+	LineType lineType_;
 
 };
 
@@ -68,7 +75,7 @@ protected:
 	int maxLines_;
 	int currentLine_;
 
-	void addSmallLine(const char *line, bool showPointer);
+	void addSmallLine(int section, const char *line, bool showPointer);
 
 };
 

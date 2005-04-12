@@ -613,6 +613,9 @@ scorcheddatameshes_DATA = data/meshes/autoaim.ase \
 	data/meshes/wind.ase \
 	data/meshes/wrap.ase \
 	data/meshes/bird.txt
+scorcheddatameshesseagulldir = ${datadir}/data/meshes/seagull
+scorcheddatameshesseagull_DATA = data/meshes/seagull/seagull.bmp \
+	data/meshes/seagull/seagull.txt
 scorcheddatatalkdir = ${datadir}/data/talk
 scorcheddatatalk_DATA = data/talk/talk1.txt \
 	data/talk/talk2.txt
