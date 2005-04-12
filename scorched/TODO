@@ -13,6 +13,7 @@ Fixed: Invisible window removed from connect dialog
 Fixed: Shields and player names showing through smoke
 Fixed: Scorched3D client does not go un-responsive when creating levels
 Fixed: Shot cam follows rollers
+Fixed: Multi-line console messages are handled correctly
 
 Added: Saved game filename to save game file dialog
 Added: Support for animated meshes (via bones)
