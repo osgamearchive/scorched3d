@@ -37,6 +37,9 @@ public:
 
 	virtual void draw(const unsigned state);
 
+	void drawTracerEnd(Vector &position);
+	void drawSmokeTracer(std::list<Vector> &positions);
+
 	void newGame();
 	void clearTracers();
 	void addTracer(unsigned int tank, 

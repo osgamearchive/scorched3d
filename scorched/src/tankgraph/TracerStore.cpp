@@ -64,54 +64,66 @@ void TracerStore::draw(const unsigned state)
 	}
 	if (current_->points.empty()) return;
 
-	GLState currentState(GLState::TEXTURE_OFF);
-
 	glColor3fv(current->getColor());
+	
 	std::list<Vector>::iterator itor = current_->points.begin();
 	std::list<Vector>::iterator itorend = current_->points.end();
 	for (;itor != itorend; itor++)
 	{
-		glPushMatrix();
-			glTranslatef((*itor)[0], (*itor)[1], (*itor)[2]);
-			if (!listNo_)
-			{
-				glNewList(listNo_ = glGenLists(1), GL_COMPILE_AND_EXECUTE);
-					gluSphere(obj_, 0.5f, 4, 2);
-				glEndList();
-			}
-			else
-			{
-				glCallList(listNo_);
-			}
-		glPopMatrix();
+		drawTracerEnd(*itor);
 	}
 
 	std::list<std::list<Vector> >::iterator itor2 = current_->lines.begin();
 	std::list<std::list<Vector> >::iterator itorend2 = current_->lines.end();
 	for (;itor2 != itorend2; itor2++)
 	{
-		glBegin(GL_LINES);
-		itor = (*itor2).begin();
-		itorend = (*itor2).end();
-		for (;itor != itorend; itor++)
-		{
-			Vector &startPos = *itor;
-			itor++;
-			if (itor != itorend)
-			{
-				Vector &endPos = *itor;
-
-				if (fabs(startPos[0] - endPos[0]) < 100.0f &&
-					fabs(startPos[1] - endPos[1]) < 100.0f)
-				{
-					glVertex3fv(startPos);
-					glVertex3fv(endPos);
-				}
-			}
-			else break;
-		}
-		glEnd();
+		drawSmokeTracer(*itor2);
 	}
+}
+
+void TracerStore::drawTracerEnd(Vector &position)
+{
+	GLState currentState(GLState::TEXTURE_OFF | GLState::BLEND_OFF);
+
+	glPushMatrix();
+		glTranslatef(position[0], position[1], position[2]);
+		if (!listNo_)
+		{
+			glNewList(listNo_ = glGenLists(1), GL_COMPILE_AND_EXECUTE);
+				gluSphere(obj_, 0.5f, 4, 2);
+			glEndList();
+		}
+		else
+		{
+			glCallList(listNo_);
+		}
+	glPopMatrix();
+}
+
+void TracerStore::drawSmokeTracer(std::list<Vector> &positions)
+{
+	GLState currentState(GLState::TEXTURE_OFF | GLState::BLEND_OFF);
+	
+	glBegin(GL_LINES);
+	std::list<Vector>::iterator itor = positions.begin();
+	std::list<Vector>::iterator itorend = positions.end();
+	for (;itor != itorend; itor++)
+	{
+		Vector &startPos = *itor;
+		itor++;
+		if (itor != itorend)
+		{
+			Vector &endPos = *itor;
+				if (fabs(startPos[0] - endPos[0]) < 100.0f &&
+				fabs(startPos[1] - endPos[1]) < 100.0f)
+			{
+				glVertex3fv(startPos);
+				glVertex3fv(endPos);
+			}
+		}
+		else break;
+	}
+	glEnd();
 }
 
 void TracerStore::newGame()
