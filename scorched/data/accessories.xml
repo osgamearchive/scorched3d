@@ -79,8 +79,8 @@ work.</description>
 				<b>1.0</b>
 			</color>
 			<collisionsound>shield/hit.wav</collisionsound>
-			<removepower>10</removepower>
-			<penetration>0.8</penetration>
+			<removepower>15</removepower>
+			<penetration>1.0</penetration>
 		</accessoryaction>
 	</accessory>
 	<accessory>
@@ -104,8 +104,8 @@ they work.</description>
 				<b>1.0</b>
 			</color>
 			<collisionsound>shield/hit2.wav</collisionsound>
-			<removepower>10</removepower>
-			<penetration>0.6</penetration>
+			<removepower>20</removepower>
+			<penetration>1.0</penetration>
 		</accessoryaction>
 	</accessory>
 	<accessory>
@@ -157,7 +157,7 @@ activated before they work.</description>
 			</color>
 			<collisionsound>shield/hit2.wav</collisionsound>
 			<removepower>3</removepower>
-			<penetration>0.8</penetration>
+			<penetration>1.0</penetration>
 		</accessoryaction>
 	</accessory>
 	<accessory>
@@ -194,8 +194,8 @@ near the flames will loose life.</description>
 				<numberstreams>2</numberstreams>
 				<effectradius>5</effectradius>
 				<napalmtexture>flames</napalmtexture>
-				<allowunderwater>off</allowunderwater>
 				<napalmsound>explosions/napalm.wav</napalmsound>
+				<allowunderwater>off</allowunderwater>
 			</collisionaction>
 		</accessoryaction>
 	</accessory>
@@ -221,9 +221,9 @@ will loose life.</description>
 				<hurtpersecond>2.0</hurtpersecond>
 				<numberstreams>3</numberstreams>
 				<effectradius>5</effectradius>
-				<allowunderwater>off</allowunderwater>
 				<napalmtexture>flames</napalmtexture>
 				<napalmsound>explosions/napalm.wav</napalmsound>
+				<allowunderwater>off</allowunderwater>
 			</collisionaction>
 		</accessoryaction>
 	</accessory>

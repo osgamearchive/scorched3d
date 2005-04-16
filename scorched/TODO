@@ -14,6 +14,8 @@ Fixed: Shields and player names showing through smoke
 Fixed: Scorched3D client does not go un-responsive when creating levels
 Fixed: Shot cam follows rollers
 Fixed: Multi-line console messages are handled correctly
+Fixed: Tanks can fire out from other tanks shields
+Fixed: Shield strength to make less over powering (copied from shield test mod)
 
 Added: Saved game filename to save game file dialog
 Added: Support for animated meshes (via bones)

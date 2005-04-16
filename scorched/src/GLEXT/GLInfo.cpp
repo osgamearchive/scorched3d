@@ -29,18 +29,3 @@ GLInfo::GLInfo()
 GLInfo::~GLInfo()
 {
 }
-
-unsigned int GLInfo::getNoTriangles()
-{
-	return noTriangles_;
-}
-
-void GLInfo::addNoTriangles(unsigned int count)
-{
-	noTriangles_ += count;
-}
-
-void GLInfo::resetNoTriangles()
-{
-	noTriangles_ = 0;
-}

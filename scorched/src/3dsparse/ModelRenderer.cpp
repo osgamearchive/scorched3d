@@ -22,6 +22,7 @@
 #include <3dsparse/ModelMaths.h>
 #include <GLEXT/GLState.h>
 #include <GLEXT/GLTexture.h>
+#include <GLEXT/GLInfo.h>
 #include <common/OptionsDisplay.h>
 
 ModelRenderer::ModelRenderer(Model *model) : 
@@ -135,6 +136,8 @@ void ModelRenderer::drawMesh(unsigned int m, Mesh *mesh)
 		itor++)
 	{
 		Face *face = *itor;
+
+		GLInfo::addNoTriangles(1);
 		for (int i=0; i<3; i++)
 		{
 			Vertex *vertex = mesh->getVertex(face->v[i]);

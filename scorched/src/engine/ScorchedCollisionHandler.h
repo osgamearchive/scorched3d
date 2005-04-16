@@ -59,7 +59,9 @@ protected:
 	void collisionBounce(dGeomID o1, dGeomID o2, 
 		dContactGeom *contacts, int noContacts, double bvel = 0.0);
 
-	ScorchedCollisionHandler::ParticleAction collisionShield(unsigned int id,
+	ScorchedCollisionHandler::ParticleAction collisionShield(
+		unsigned int shotId,
+		unsigned int hitId,
 		Vector &collisionPos,
 		Shield::ShieldSize size,
 		PhysicsParticleMeta *shot,

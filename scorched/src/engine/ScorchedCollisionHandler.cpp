@@ -21,6 +21,7 @@
 #include <common/OptionsTransient.h>
 #include <common/Defines.h>
 #include <actions/ShotProjectile.h>
+#include <actions/ShotBounce.h>
 #include <actions/WallHit.h>
 #include <actions/ShieldHit.h>
 #include <engine/ScorchedCollisionHandler.h>
@@ -90,7 +91,8 @@ void ScorchedCollisionHandler::bounceCollision(dGeomID o1, dGeomID o2,
 		otherInfo = (ScorchedCollisionInfo *) dGeomGetData(o1);
 	}
 
-	PhysicsParticleMeta *particle = (PhysicsParticleMeta *) bounceInfo->data;
+	ShotBounce *particle = (ShotBounce *) bounceInfo->data;
+	unsigned int id = (unsigned int) otherInfo->data;
 
 	// only collide with the ground, walls or landscape,
 	// or iteself
@@ -125,8 +127,10 @@ void ScorchedCollisionHandler::bounceCollision(dGeomID o1, dGeomID o2,
 				(float) bouncePosition[1],
 				(float) bouncePosition[2]);
 
-			unsigned int id = (unsigned int) otherInfo->data;
-			ParticleAction action = collisionShield(id, bouncePositionV, 
+			ParticleAction action = collisionShield(
+				particle->getPlayerId(),
+				id, 
+				bouncePositionV, 
 				((otherInfo->id==CollisionIdShieldLarge)?
 				Shield::ShieldSizeLarge:Shield::ShieldSizeSmall),
 				particle,
@@ -229,21 +233,17 @@ void ScorchedCollisionHandler::shotCollision(dGeomID o1, dGeomID o2,
 		// May have collided with shield
 		{
 			// Only collide with other peoples shields
-			if (shot->getPlayerId() != id)
+			action = collisionShield(
+				shot->getPlayerId(),
+				id, 
+				particlePositionV, 
+				((otherInfo->id==CollisionIdShieldLarge)?
+				Shield::ShieldSizeLarge:Shield::ShieldSizeSmall),
+				shot,
+				1.0f);
+			if (action != ParticleActionNone)
 			{
-				action = collisionShield(id, particlePositionV, 
-					((otherInfo->id==CollisionIdShieldLarge)?
-					Shield::ShieldSizeLarge:Shield::ShieldSizeSmall),
-					shot,
-					1.0f);
-				if (action != ParticleActionNone)
-				{
-					collisionType = CollisionShield;
-				}
-			}
-			else
-			{
-				action = ParticleActionNone;
+				collisionType = CollisionShield;
 			}
 		}
 		break;
@@ -374,32 +374,59 @@ void ScorchedCollisionHandler::shotCollision(dGeomID o1, dGeomID o2,
 }
 
 ScorchedCollisionHandler::ParticleAction ScorchedCollisionHandler::collisionShield(
-	unsigned int id,
+	unsigned int shotId,
+	unsigned int hitId,
 	Vector &collisionPos,
 	Shield::ShieldSize size,
 	PhysicsParticleMeta *shot,
 	float hitPercentage)
 {
 	// Check tank still exists and is alive
-	Tank *tank = context_->tankContainer->getTankById(id);
-	if (tank && tank->getState().getState() == TankState::sNormal &&
-		tank->getState().getSpectator() == false)
+	Tank *hitTank = context_->tankContainer->getTankById(hitId);
+	if (hitTank && hitTank->getState().getState() == TankState::sNormal &&
+		hitTank->getState().getSpectator() == false)
 	{
-		Accessory *accessory = tank->getAccessories().getShields().getCurrentShield();
+		Accessory *accessory = hitTank->getAccessories().getShields().getCurrentShield();
 		if (accessory)
 		{
 			Shield *shield = (Shield *) accessory->getAction();
 			if (shield->getRadius() == size)
 			{
+				// Check if this tank is under the shield
 				bool passed = true;
-				if (shield->getHalfShield())
+				if (shotId == hitId)
 				{
-					Vector normal = (collisionPos - 
-						tank->getPhysics().getTankPosition()).Normalize();
-					Vector up(0.0f, 0.0f, 1.0f);
-					passed = (normal.dotP(up) > 0.7f);
+					passed = false;
+				}
+				else
+				{
+					Tank *shotTank = context_->tankContainer->getTankById(shotId);
+					if (shotTank)
+					{
+						float distance = (shotTank->getPhysics().getTankPosition() -
+							hitTank->getPhysics().getTankPosition()).Magnitude();
+						float shieldSize = 
+							((shield->getRadius()==Shield::ShieldSizeSmall)?ShieldSizeSmallSize:ShieldSizeLargeSize);
+						if (distance < shieldSize)
+						{
+							passed = false;
+						}
+					}
 				}
 
+				// Check for half shields
+				if (passed)
+				{
+					if (shield->getHalfShield())
+					{
+						Vector normal = (collisionPos - 
+							hitTank->getPhysics().getTankPosition()).Normalize();
+						Vector up(0.0f, 0.0f, 1.0f);
+						passed = (normal.dotP(up) > 0.7f);
+					}
+				}
+
+				// Check for other shield types
 				if (passed)
 				{
 					switch (shield->getShieldType())
@@ -408,7 +435,7 @@ ScorchedCollisionHandler::ParticleAction ScorchedCollisionHandler::collisionShie
 						if (hitPercentage > 0.0f) 
 						{
 							context_->actionController->addAction(
-								new ShieldHit(tank->getPlayerId(),
+								new ShieldHit(hitTank->getPlayerId(),
 								hitPercentage));
 						}
 						return ParticleActionFinished;
@@ -416,7 +443,7 @@ ScorchedCollisionHandler::ParticleAction ScorchedCollisionHandler::collisionShie
 						if (hitPercentage > 0.0f)
 						{
 							context_->actionController->addAction(
-								new ShieldHit(tank->getPlayerId(),
+								new ShieldHit(hitTank->getPlayerId(),
 								hitPercentage));
 						}
 						return ParticleActionBounce;
@@ -428,8 +455,8 @@ ScorchedCollisionHandler::ParticleAction ScorchedCollisionHandler::collisionShie
 
 							if (hitPercentage > 0.0f)
 							{
-								tank->getAccessories().getShields().setShieldPower(
-									tank->getAccessories().getShields().getShieldPower() -
+								hitTank->getAccessories().getShields().setShieldPower(
+									hitTank->getAccessories().getShields().getShieldPower() -
 									shield->getHitRemovePower() * hitPercentage);
 							}
 						}

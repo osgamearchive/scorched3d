@@ -24,9 +24,18 @@
 class GLInfo
 {
 public:
-	static unsigned int getNoTriangles();
-	static void addNoTriangles(unsigned int count);
-	static void resetNoTriangles();
+	static unsigned int getNoTriangles()
+	{
+		return noTriangles_;
+	}
+	static void addNoTriangles(unsigned int count)
+	{
+		noTriangles_ += count;
+	}
+	static void resetNoTriangles()
+	{
+		noTriangles_ = 0;
+	}
 
 protected:
 	static unsigned int noTriangles_;

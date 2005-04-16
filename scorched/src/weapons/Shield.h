@@ -24,6 +24,9 @@
 #include <weapons/AccessoryPart.h>
 #include <common/Vector.h>
 
+const float ShieldSizeSmallSize = 3.0f;
+const float ShieldSizeLargeSize = 6.0f;
+
 class Shield : public AccessoryPart
 {
 public:
