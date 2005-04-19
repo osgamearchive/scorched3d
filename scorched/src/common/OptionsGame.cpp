@@ -82,7 +82,7 @@ OptionsGame::OptionsGame() :
 	depricatedAutoBallanceTeams_(options_, "AutoBallanceTeams",
 		"", OptionEntry::DataDepricated, true),
 	teamBallance_(options_, "TeamBallance",
-		"The mode of team auto-ballancing performed for team games", 0, int(TeamBallanceNone), int(TeamBallanceNone), int(TeamBallanceBotsVs)),
+		"The mode of team auto-ballancing performed for team games", 0, int(TeamBallanceNone), int(TeamBallanceNone), int(TeamBallanceAutoByScore)),
 	moneyPerHealthPoint_(options_, "MoneyPerHealthPoint",
 		"The money awarded is proportional to the amount of health removed", 0, true),
 	turnType_(options_, "TurnType", 

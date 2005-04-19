@@ -85,11 +85,11 @@ bool ServerTextHandler::processMessage(unsigned int destinationId,
 			newText += tank->getState().getSmallStateString();
 			newText += ")";
 		}
-		newText += ": ";
 		if (message.getTeamOnlyMessage())
 		{
-			newText += "(Team) ";
+			newText += " (Team)";
 		}
+		newText += ": ";
 		newText += message.getText();
 		
 		// Remove any bad characters

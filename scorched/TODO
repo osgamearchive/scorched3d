@@ -16,7 +16,10 @@ Fixed: Shot cam follows rollers
 Fixed: Multi-line console messages are handled correctly
 Fixed: Tanks can fire out from other tanks shields
 Fixed: Shield strength to make less over powering (copied from shield test mod)
+Fixed: Team talk messages now have the team text before the colon
 
+Added: New team auto ballance mode that auto ballances using player score
+Added: LOD for models (disabled, not very good though)
 Added: Saved game filename to save game file dialog
 Added: Support for animated meshes (via bones)
 Added: apexnodud option to WeaponProjectile to stop apex collisions from duding

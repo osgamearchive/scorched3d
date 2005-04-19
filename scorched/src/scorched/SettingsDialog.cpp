@@ -539,6 +539,8 @@ bool SettingsFrame::TransferDataToWindow()
 			(void *) OptionsGame::TeamBallanceAuto);
 		SettingsMain::IDC_TEAMBALLANCE_CTRL->Append("BotsVs",
 			(void *) OptionsGame::TeamBallanceBotsVs);
+		SettingsMain::IDC_TEAMBALLANCE_CTRL->Append("AutoByScore",
+			(void *) OptionsGame::TeamBallanceAutoByScore);
 		SettingsMain::IDC_TEAMBALLANCE_CTRL->SetSelection(
 			context_.getTeamBallance());
 		SettingsMain::IDC_TEAMBALLANCE_CTRL->SetToolTip(

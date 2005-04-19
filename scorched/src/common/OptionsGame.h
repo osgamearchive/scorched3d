@@ -88,7 +88,8 @@ public:
 	{
 		TeamBallanceNone,
 		TeamBallanceAuto,
-		TeamBallanceBotsVs
+		TeamBallanceBotsVs,
+		TeamBallanceAutoByScore
 	};
 
 	int getTeams() { return teams_.getValue(); }

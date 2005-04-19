@@ -33,6 +33,7 @@
 #include <common/Logger.h>
 #include <tankai/TankAIAdder.h>
 #include <tank/TankContainer.h>
+#include <tank/TankSort.h>
 #include <weapons/EconomyStore.h>
 #include <coms/ComsNextRoundMessage.h>
 #include <coms/ComsGameStateMessage.h>
@@ -434,6 +435,7 @@ void ServerNewGameState::checkTeams()
 	switch (ScorchedServer::instance()->getOptionsGame().getTeamBallance())
 	{
 		case OptionsGame::TeamBallanceAuto:
+		case OptionsGame::TeamBallanceAutoByScore:
 			checkTeamsAuto();
 			break;
 		case OptionsGame::TeamBallanceBotsVs:
@@ -468,8 +470,23 @@ void ServerNewGameState::checkTeamsAuto()
 	int offSet = int(team1.size()) - int(team2.size());
 	if (abs(offSet) < 2) return;
 
-	ServerCommon::sendString(0, "Auto ballancing teams");
-	ServerCommon::serverLog(0, "Auto ballancing teams");
+	if (ScorchedServer::instance()->getOptionsGame().getTeamBallance() ==
+		OptionsGame::TeamBallanceAutoByScore)
+	{
+		// Sort tanks so the loosing players are swapped
+		TankSort::getSortedTanks(team1,
+			ScorchedServer::instance()->getContext());
+		TankSort::getSortedTanks(team2,
+			ScorchedServer::instance()->getContext());
+
+		ServerCommon::sendString(0, "Auto ballancing teams, by score");
+		ServerCommon::serverLog(0, "Auto ballancing teams, by score");
+	}
+	else
+	{
+		ServerCommon::sendString(0, "Auto ballancing teams");
+		ServerCommon::serverLog(0, "Auto ballancing teams");
+	}
 
 	// Ballance the teams
 	offSet /= 2;
@@ -477,8 +494,8 @@ void ServerNewGameState::checkTeamsAuto()
 	{
 		for (int i=0; i<abs(offSet); i++)
 		{
-			Tank *tank = team2.front();
-			team2.pop_front();
+			Tank *tank = team2.back();
+			team2.pop_back();
 			tank->setTeam(1);
 		}
 	}
@@ -486,8 +503,8 @@ void ServerNewGameState::checkTeamsAuto()
 	{
 		for (int i=0; i<abs(offSet); i++)
 		{
-			Tank *tank = team1.front();
-			team1.pop_front();
+			Tank *tank = team1.back();
+			team1.pop_back();
 			tank->setTeam(2);
 		}
 	}
