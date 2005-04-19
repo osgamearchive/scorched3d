@@ -33,7 +33,7 @@ public:
 
 	void draw(bool drawS, float angle, Vector &position, 
 		float fireOffSet, float rotXY, float rotXZ,
-		bool absCenter = false, float scale = 1.0f);
+		bool absCenter = false, float scale = 1.0f, float LOD = 1.0f);
 	int getNoTris();
 
 	static void drawSight();
@@ -54,7 +54,7 @@ protected:
 	Vector turretCenter_;
 	std::vector<MeshType> meshTypes_;
 
-	virtual void drawMesh(unsigned int m, Mesh *mesh);
+	virtual void drawMesh(unsigned int m, Mesh *mesh, float LOD);
 	void setupTankMesh();
 };
 

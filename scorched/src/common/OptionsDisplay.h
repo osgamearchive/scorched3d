@@ -36,10 +36,6 @@ public:
 		NoRestore = 4
 	};
 
-	int getMaxModelTriPercentage() { return maxModelTriPercentage_.getValue(); }
-	void setMaxModelTriPercentage(int value) { maxModelTriPercentage_.setValue(value); }
-	const char *getMaxModelTriPercentageToolTip() { return maxModelTriPercentage_.getDescription(); }
-
 	int getTankModelSize() { return tankModelSize_.getValue(); }
 	void setTankModelSize(int value) { tankModelSize_.setValue(value); }
 	const char *getTankModelSizeToolTip() { return tankModelSize_.getDescription(); }
@@ -79,6 +75,10 @@ public:
 	bool getNoTessalation() { return noTessalation_.getValue(); }
 	void setNoTessalation(bool value) { noTessalation_.setValue(value); }	
 	const char *getNoTessalationToolTip() { return noTessalation_.getDescription(); }
+
+	bool getNoModelLOD() { return noModelLOD_.getValue(); }
+	void setNoModelLOD(bool value) { noModelLOD_.setValue(value); }	
+	const char *getNoModelLODToolTip() { return noModelLOD_.getDescription(); }
 
 	bool getNoVBO() { return noVBO_.getValue(); }
 	void setNoVBO(bool value) { noVBO_.setValue(value); }	
@@ -341,7 +341,7 @@ protected:
 	OptionEntryBoundedInt brightness_;
 	OptionEntryBoundedInt explosionParts_;
 	OptionEntryBoundedInt explosionSubParts_;
-	OptionEntryBoundedInt maxModelTriPercentage_;
+	OptionEntryBoundedInt depricatedMaxModelTriPercentage_;
 	OptionEntryBoundedInt explosionParticleMult_;
 	OptionEntryInt depricatedDayTime_;
 	OptionEntryInt depricatedSunYZAng_;
@@ -390,6 +390,7 @@ protected:
 	OptionEntryBool noBOIDS_;
 	OptionEntryBool noTessalation_;
 	OptionEntryBool noVBO_;
+	OptionEntryBool noModelLOD_;
 	OptionEntryBool useLandscapeTexture_;
 	OptionEntryBool noSkyLayers_;
 	OptionEntryBool noSkyMovement_;

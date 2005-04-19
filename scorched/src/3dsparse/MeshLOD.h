@@ -24,12 +24,12 @@
 
 #include <vector>
 #include <3dsparse/Face.h>
-#include <common/Vector.h>
+#include <3dsparse/Vertex.h>
 
 namespace MeshLOD
 {
-	void progressiveMesh(std::vector<Vector> &verts,
-						 std::vector<Face> &tri,
+	void progressiveMesh(std::vector<Vertex *> &verts,
+						 std::vector<Face *> &tri,
 						 std::vector<int> &map);
 };
 

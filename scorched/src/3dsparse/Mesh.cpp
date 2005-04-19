@@ -20,6 +20,7 @@
 
 #include <3dsparse/Mesh.h>
 #include <3dsparse/ModelStore.h>
+#include <3dsparse/MeshLOD.h>
 #include <GLEXT/GLTexture.h>
 
 Mesh::Mesh(const char *name) : name_(name), texture_(0)
@@ -95,4 +96,9 @@ void Mesh::setTextureName(const char *t)
 	{
 		textureName_ = t; 
 	}
+}
+
+void Mesh::setupCollapse()
+{
+	MeshLOD::progressiveMesh(vertexes_, faces_, collapseMap_);
 }

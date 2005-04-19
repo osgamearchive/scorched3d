@@ -19,7 +19,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <tankgraph/TankModel.h>
-#include <common/OptionsDisplay.h>
 #include <3dsparse/ModelStore.h>
 #include <3dsparse/Model.h>
 
@@ -58,7 +57,7 @@ void TankModel::clear()
 
 void TankModel::draw(bool drawS, float angle, 
 	Vector &position, float fireOffSet, 
-	float rotXY, float rotXZ, bool absCenter, float scale)
+	float rotXY, float rotXZ, bool absCenter, float scale, float LOD)
 {
 	if (!init_)
 	{
@@ -67,10 +66,6 @@ void TankModel::draw(bool drawS, float angle,
 		Model *newFile = ModelStore::instance()->loadModel(modelId_);
 		if (!newFile) return;
 
-		// Get the model detail
-		float detail = 
-			float(OptionsDisplay::instance()->getMaxModelTriPercentage()) / 100.0f;
-
 		// Create tank mesh
 		tankMesh_ = new TankMesh(*newFile);
 	}
@@ -78,7 +73,7 @@ void TankModel::draw(bool drawS, float angle,
 	if (tankMesh_)
 	{
 		tankMesh_->draw(drawS, angle, position, fireOffSet, 
-			rotXY, rotXZ, absCenter, scale);
+			rotXY, rotXZ, absCenter, scale, LOD);
 	}
 }
 

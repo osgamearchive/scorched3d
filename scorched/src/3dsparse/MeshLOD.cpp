@@ -36,25 +36,25 @@ namespace MeshLOD
 /* Start Namespace MeshLOD */
 
 void addVertices(std::vector<MeshLODVector *> &vertices,
-				 std::vector<Vector> &verts)
+				 std::vector<Vertex *> &verts)
 {
 	for(int i=0; i<(int) verts.size(); i++) 
 	{
-		MeshLODVector *v = new MeshLODVector(verts[i], i);
+		MeshLODVector *v = new MeshLODVector(verts[i]->position, i);
 		vertices.push_back(v);
 	}
 }
 
 void addTriangles(std::vector<MeshLODVector *> &vertices,
 				  std::vector<MeshLODTri*> &triangles,
-				  std::vector<Face> &tri)
+				  std::vector<Face *> &tri)
 {
 	for(int i=0; i<(int) tri.size(); i++) 
 	{
 		MeshLODTri *t=new MeshLODTri(
-					      vertices[tri[i].v[0]],
-					      vertices[tri[i].v[1]],
-					      vertices[tri[i].v[2]] );
+					      vertices[tri[i]->v[0]],
+					      vertices[tri[i]->v[1]],
+					      vertices[tri[i]->v[2]] );
 		triangles.push_back(t);
 	}
 }
@@ -112,8 +112,8 @@ void removeVertex(std::vector<MeshLODVector *> &vertices, MeshLODVector *mn)
 	}
 }
 
-void progressiveMesh(std::vector<Vector> &verts,
-					 std::vector<Face> &tri,
+void progressiveMesh(std::vector<Vertex *> &verts,
+					 std::vector<Face *> &tri,
 					 std::vector<int> &map)
 {
 	std::vector<MeshLODVector *> vertices;
@@ -153,7 +153,7 @@ void progressiveMesh(std::vector<Vector> &verts,
 	}
 
 	// Reorder the original vertex list
-	std::vector<Vector> tmpVerts;
+	std::vector<Vertex *> tmpVerts;
 	for(i=0;i<verts.size();i++) 
 	{
 		tmpVerts.push_back(verts[i]);
@@ -169,7 +169,7 @@ void progressiveMesh(std::vector<Vector> &verts,
 	{
 		for (int j=0; j<3; j++)
 		{
-			tri[i].v[j] = permutation[tri[i].v[j]];
+			tri[i]->v[j] = permutation[tri[i]->v[j]];
 		}
 	}
 }

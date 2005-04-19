@@ -29,8 +29,8 @@ public:
 	ModelRenderer(Model *model);
 	virtual ~ModelRenderer();
 
-	void draw();
-	void drawBottomAligned();
+	void draw(float LOD = 1.0f);
+	void drawBottomAligned(float LOD = 1.0f);
 	void simulate(float frameTime);
 
 	Model *getModel() { return model_; }
@@ -41,7 +41,7 @@ protected:
 	std::vector<BoneType *> boneTypes_;
 	Vector vertexTranslation_;
 
-	virtual void drawMesh(unsigned int m, Mesh *mesh);
+	virtual void drawMesh(unsigned int m, Mesh *mesh, float LOD);
 	virtual void setup();
 };
 

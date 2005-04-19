@@ -118,7 +118,7 @@ void TankMesh::setupTankMesh()
 
 void TankMesh::draw(bool drawS, float angle, Vector &position, 
 					float fireOffset, float rotXY, float rotXZ,
-					bool absCenter, float scale)
+					bool absCenter, float scale, float LOD)
 {
 	rotXY_ = rotXY;
 	rotXZ_ = rotXZ;
@@ -130,12 +130,12 @@ void TankMesh::draw(bool drawS, float angle, Vector &position,
 		glRotatef(angle, 0.0f, 0.0f, 1.0f);
 		glScalef(scale * scale_, scale * scale_, scale * scale_);
 
-		if (absCenter) ModelRenderer::draw();
-		else ModelRenderer::drawBottomAligned();
+		if (absCenter) ModelRenderer::draw(LOD);
+		else ModelRenderer::drawBottomAligned(LOD);
 	glPopMatrix();
 }
 
-void TankMesh::drawMesh(unsigned int m, Mesh *mesh)
+void TankMesh::drawMesh(unsigned int m, Mesh *mesh, float LOD)
 {
 	glPushMatrix();
 		MeshType type = meshTypes_[m];
@@ -166,7 +166,7 @@ void TankMesh::drawMesh(unsigned int m, Mesh *mesh)
 			}
 		}
 
-		ModelRenderer::drawMesh(m, mesh);
+		ModelRenderer::drawMesh(m, mesh, LOD);
 	glPopMatrix();
 
 	vertexTranslation_.zero();

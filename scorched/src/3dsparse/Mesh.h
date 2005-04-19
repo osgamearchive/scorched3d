@@ -45,6 +45,8 @@ public:
 		{ return aTextureName_.c_str(); }
 	GLTexture *getTexture();
 
+	std::vector<int> &getCollapseMap()
+		{ return collapseMap_; }
 	std::vector<Face *> &getFaces() 
 		{ return faces_; }
 	Face *getFace(int faceIndex)
@@ -60,6 +62,7 @@ public:
 	void move(Vector &movement);
 
 	// Creation
+	void setupCollapse();
 	void insertFace(Face &face) 
 		{ faces_.push_back(new Face(face)); }
 	void insertVertex(Vertex &vertex);
@@ -78,6 +81,7 @@ protected:
 	std::string textureName_, aTextureName_;
 	std::vector<Face *> faces_;
 	std::vector<Vertex *> vertexes_;
+	std::vector<int> collapseMap_;
 	Vector baseColor_;
 	Vector min_, max_;
 	GLTexture *texture_;

@@ -55,20 +55,20 @@ void ModelRenderer::setup()
 	}
 }
 
-void ModelRenderer::drawBottomAligned()
+void ModelRenderer::drawBottomAligned(float LOD)
 {
 	glPushMatrix();
 		glTranslatef(0.0f, 0.0f, -model_->getMin()[2]);
-		draw();
+		draw(LOD);
 	glPopMatrix();
 }
 
-void ModelRenderer::draw()
+void ModelRenderer::draw(float LOD)
 {
 	for (unsigned int m=0; m<model_->getMeshes().size(); m++)
 	{
 		Mesh *mesh = model_->getMeshes()[m];
-		drawMesh(m, mesh);
+		drawMesh(m, mesh, LOD);
 	}
 }
 
@@ -115,7 +115,7 @@ void ModelRenderer::simulate(float frameTime)
 	}
 }
 
-void ModelRenderer::drawMesh(unsigned int m, Mesh *mesh)
+void ModelRenderer::drawMesh(unsigned int m, Mesh *mesh, float LOD)
 {
 	Vector vec;
 	bool useTextures =
@@ -130,6 +130,16 @@ void ModelRenderer::drawMesh(unsigned int m, Mesh *mesh)
 	GLState glState(state);
 
 	glBegin(GL_TRIANGLES);
+
+	int maxIndex = int(float(mesh->getVertexes().size()) * LOD);
+	int faceVerts[3];
+	if (mesh->getCollapseMap().empty() &&
+		!mesh->getFaces().empty() &&
+		!OptionsDisplay::instance()->getNoModelLOD())
+	{
+		mesh->setupCollapse();
+	}
+	
 	std::vector<Face *>::iterator itor;
 	for (itor = mesh->getFaces().begin();
 		itor != mesh->getFaces().end();
@@ -137,40 +147,60 @@ void ModelRenderer::drawMesh(unsigned int m, Mesh *mesh)
 	{
 		Face *face = *itor;
 
-		GLInfo::addNoTriangles(1);
 		for (int i=0; i<3; i++)
 		{
-			Vertex *vertex = mesh->getVertex(face->v[i]);
-
-			if (!useTextures) glColor3f(
-				mesh->getColor()[0] * vertex->color[0],
-				mesh->getColor()[1] * vertex->color[1],
-				mesh->getColor()[2] * vertex->color[2]);
-			else
+			int index = face->v[i];
+			if (!OptionsDisplay::instance()->getNoModelLOD() &&
+				LOD < 1.0f)
 			{
-				glColor3fv(vertex->color);
-				glTexCoord2f(face->tcoord[i][0], 
-					face->tcoord[i][1]);
+				while (index > maxIndex)
+				{
+					index = mesh->getCollapseMap()[index];
+				}
 			}
 
-			if (vertex->boneIndex != -1)
+			faceVerts[i] = index;
+		}
+		
+		if (faceVerts[0] != faceVerts[1] &&
+			faceVerts[1] != faceVerts[2] &&
+			faceVerts[0] != faceVerts[2])
+		{
+			GLInfo::addNoTriangles(1);
+			for (int i=0; i<3; i++)
 			{
-				BoneType *type = boneTypes_[vertex->boneIndex];
+				Vertex *vertex = mesh->getVertex(faceVerts[i]);
 
-				ModelMaths::vectorRotate(vertex->position, type->final_, vec);
-				vec[0] += type->final_[0][3] + vertexTranslation_[0];
-				vec[1] += type->final_[1][3] + vertexTranslation_[1];
-				vec[2] += type->final_[2][3] + vertexTranslation_[2];
-				
-			}
-			else
-			{
-				vec[0] = vertex->position[0] + vertexTranslation_[0];
-				vec[1] = vertex->position[1] + vertexTranslation_[1];
-				vec[2] = vertex->position[2] + vertexTranslation_[2];
-			}
+				if (!useTextures) glColor3f(
+					mesh->getColor()[0] * vertex->color[0],
+					mesh->getColor()[1] * vertex->color[1],
+					mesh->getColor()[2] * vertex->color[2]);
+				else
+				{
+					glColor3fv(vertex->color);
+					glTexCoord2f(face->tcoord[i][0], 
+						face->tcoord[i][1]);
+				}
 
-			glVertex3fv(vec);
+				if (vertex->boneIndex != -1)
+				{
+					BoneType *type = boneTypes_[vertex->boneIndex];
+
+					ModelMaths::vectorRotate(vertex->position, type->final_, vec);
+					vec[0] += type->final_[0][3] + vertexTranslation_[0];
+					vec[1] += type->final_[1][3] + vertexTranslation_[1];
+					vec[2] += type->final_[2][3] + vertexTranslation_[2];
+					
+				}
+				else
+				{
+					vec[0] = vertex->position[0] + vertexTranslation_[0];
+					vec[1] = vertex->position[1] + vertexTranslation_[1];
+					vec[2] = vertex->position[2] + vertexTranslation_[2];
+				}
+
+				glVertex3fv(vec);
+			}
 		}
 	}
 	glEnd();
