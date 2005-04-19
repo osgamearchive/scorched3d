@@ -44,7 +44,8 @@ ServerBrowserInfo *ServerBrowserInfo::instance()
 
 ServerBrowserInfo::ServerBrowserInfo() : udpsock_(0)
 {
-	packetV_ = SDLNet_AllocPacketV(20, 10000);
+	packetV_ = SDLNet_AllocPacketV(4, 10000);
+	packetVOut_ = SDLNet_AllocPacketV(20, 10000);
 }
 
 ServerBrowserInfo::~ServerBrowserInfo()
@@ -65,7 +66,7 @@ void ServerBrowserInfo::processMessages()
 	int numrecv = SDLNet_UDP_RecvV(udpsock_, packetV_);
 	if(numrecv <=0) return;
 	
-	static char buffer[10000];
+	int numsent = 0;
 	for(int i=0; i<numrecv; i++) 
 	{
 		if (packetV_[i]->len == 0) packetV_[i]->data[0] = '\0';
@@ -75,29 +76,65 @@ void ServerBrowserInfo::processMessages()
 		NetInterface::getPings() ++;
 
 		// Only compare the first few characters so a NULL is not needed
-		if (0 == strncmp((char *) packetV_[i]->data, "status", 6)) processStatusMessage(buffer);
-		else if (0 == strncmp((char *) packetV_[i]->data, "info", 4)) processInfoMessage(buffer);
-		else if (0 == strncmp((char *) packetV_[i]->data, "players", 7)) processPlayerMessage(buffer);
-		else processPingMessage(buffer);
-		
-		int len = (int) strlen(buffer)+1;
-		memcpy(packetV_[i]->data, buffer, len);
-		packetV_[i]->len = len;
-		NetInterface::getBytesOut() += len;
+		std::list<std::string> reply;
+		const char *wrapper = "pong";
+		if (0 == strncmp((char *) packetV_[i]->data, "status", 6))
+		{
+			wrapper = "status";
+			processStatusMessage(reply);
+		}
+		else if (0 == strncmp((char *) packetV_[i]->data, "info", 4))
+		{
+			wrapper = "info";
+			processInfoMessage(reply);
+		}
+		else if (0 == strncmp((char *) packetV_[i]->data, "players", 7))
+		{
+			wrapper = "players";
+			processPlayerMessage(reply);
+		}
 
-		//printf("Packet len = %i\n", packetV_[i]->len);
-		//printf("Packet = %s\n", packetV_[i]->data);
+		bool first = true;
+		while (!reply.empty() || first)
+		{
+			first = false;
+			
+			std::string buffer = "<";
+			buffer += wrapper;
+			buffer += " ";
+			while (!reply.empty())
+			{
+				std::string next = reply.front();
+				reply.pop_front();
+				if (strlen(next.c_str()) <= 50)
+				{
+					buffer += next;
+				}
+			
+				if (strlen(buffer.c_str()) > 800) break;
+			}
+			buffer += "/>";
+			
+			int len = (int) strlen(buffer.c_str())+1;
+			memcpy(packetVOut_[numsent]->data, buffer.c_str(), len);
+			packetVOut_[numsent]->len = len;
+			packetVOut_[numsent]->address.host = packetV_[i]->address.host;
+			packetVOut_[numsent]->address.port = packetV_[i]->address.port;
+			packetVOut_[numsent]->channel = packetV_[i]->channel;
+			
+			NetInterface::getBytesOut() += len;
+			//printf("Packet len = %i\n", packetVOut_[numsent]->len);
+			//printf("Packet = %s\n", packetVOut_[numsent]->data);
+			
+			if (++numsent > 20) break;
+		}
 	}
 	
-	SDLNet_UDP_SendV(udpsock_, packetV_, numrecv);
+	//printf("Sending %i packets\n", numsent);
+	SDLNet_UDP_SendV(udpsock_, packetVOut_, numsent);
 }
 
-void ServerBrowserInfo::processPingMessage(char *buffer)
-{
-	strcpy(buffer, "<pong/>");
-}
-
-void ServerBrowserInfo::processStatusMessage(char *buffer)
+void ServerBrowserInfo::processStatusMessage(std::list<std::string> &reply)
 {
 	char *serverName = (char *) ScorchedServer::instance()->getOptionsGame().getServerName();
 	char version[256];
@@ -114,32 +151,28 @@ void ServerBrowserInfo::processStatusMessage(char *buffer)
 		((ScorchedServer::instance()->getOptionsGame().getTeams() > 1)?"Teams":"No Teams"));
 	wxString osDesc = ::wxGetOsDescription();
 
-	strcpy(buffer, "<status ");
-	addTag(buffer, "gametype", type);
-	addTag(buffer, "state", (started?"Started":"Waiting"));
-	addTag(buffer, "servername", serverName);
-	addTag(buffer, "fullversion", version);
-	addTag(buffer, "version", ScorchedVersion);
-	addTag(buffer, "protocolversion", ScorchedProtocolVersion);
-	addTag(buffer, "mod", 
-		ScorchedServer::instance()->getOptionsGame().getMod());
-	addTag(buffer, "password", 
-		ScorchedServer::instance()->getOptionsGame().getServerPassword()[0]?"On":"Off");
-	addTag(buffer, "noplayers", players);
-	addTag(buffer, "maxplayers", maxplayers);
-	addTag(buffer, "round", formatString("%i/%i",
+	reply.push_back(addTag("gametype", type));
+	reply.push_back(addTag("state", (started?"Started":"Waiting")));
+	reply.push_back(addTag("servername", serverName));
+	reply.push_back(addTag("fullversion", version));
+	reply.push_back(addTag("version", ScorchedVersion));
+	reply.push_back(addTag("protocolversion", ScorchedProtocolVersion));
+	reply.push_back(addTag("mod", 
+		ScorchedServer::instance()->getOptionsGame().getMod()));
+	reply.push_back(addTag("password", 
+		ScorchedServer::instance()->getOptionsGame().getServerPassword()[0]?"On":"Off"));
+	reply.push_back(addTag("noplayers", players));
+	reply.push_back(addTag("maxplayers", maxplayers));
+	reply.push_back(addTag("round", formatString("%i/%i",
 		ScorchedServer::instance()->getOptionsTransient().getCurrentRoundNo(),
-		ScorchedServer::instance()->getOptionsGame().getNoRounds()));
-	addTag(buffer, "os", osDesc.c_str());
-	strcat(buffer, "/>");
+		ScorchedServer::instance()->getOptionsGame().getNoRounds())));
+	reply.push_back(addTag("os", osDesc.c_str()));
 }
 
-
-void ServerBrowserInfo::processInfoMessage(char *buffer)
+void ServerBrowserInfo::processInfoMessage(std::list<std::string> &reply)
 {
 	// Add all of the other tank options
 	// Currently nothing on the client uses this info
-	strcpy(buffer, "<info ");
 	std::list<OptionEntry *> &options = ScorchedServer::instance()->getOptionsGame().getOptions();
 	std::list<OptionEntry *>::iterator optionItor;
 	for (optionItor = options.begin();
@@ -147,26 +180,22 @@ void ServerBrowserInfo::processInfoMessage(char *buffer)
 		optionItor ++)
 	{
 		OptionEntry *entry = (*optionItor);
-		if (!(entry->getData() & OptionEntry::DataProtected))
+		if (!(entry->getData() & OptionEntry::DataProtected) &&
+			!(entry->getData() & OptionEntry::DataDepricated))
 		{
-			if (strlen(entry->getValueAsString()) < 50)
-			{
-				addTag(buffer, entry->getName(), entry->getValueAsString());
-			}
+			reply.push_back(
+				addTag(entry->getName(), entry->getValueAsString()));
 		}
 	}	
-	strcat(buffer, "/>");
 }
 
-void ServerBrowserInfo::processPlayerMessage(char *buffer)
+void ServerBrowserInfo::processPlayerMessage(std::list<std::string> &reply)
 {
 	// Add all of the player information
 	std::map<unsigned int, Tank *> &tanks =
 		ScorchedServer::instance()->getTankContainer().getPlayingTanks();
 	std::map<unsigned int, Tank *>::iterator tankItor;
 	int i=0;
-
-	strcpy(buffer, "<players ");
 	for (tankItor =  tanks.begin();
 		tankItor != tanks.end();
 		tankItor++, i++)
@@ -175,29 +204,37 @@ void ServerBrowserInfo::processPlayerMessage(char *buffer)
 		static char tmp[128];
 
 		sprintf(tmp, "pn%i", i);
-		addTag(buffer, tmp, tank->getName());
+		reply.push_back(addTag(tmp, tank->getName()));
 
 		sprintf(tmp, "ps%i", i);
-		addTag(buffer, tmp, tank->getScore().getScoreString());
+		reply.push_back(addTag(tmp, tank->getScore().getScoreString()));
 
 		sprintf(tmp, "pt%i", i);
-		addTag(buffer, tmp, tank->getScore().getTimePlayedString());
+		reply.push_back(addTag(tmp, tank->getScore().getTimePlayedString()));
 
 		sprintf(tmp, "pm%i", i);
-		addTag(buffer, tmp, (tank->getTeam()==0)?"None":((tank->getTeam()==1)?"Red":"Green"));
+		reply.push_back(addTag(tmp, 
+			(tank->getTeam()==0)?"None":((tank->getTeam()==1)?"Red":"Green")));
 
 		sprintf(tmp, "pr%i", i);
-		addTag(buffer, tmp, tank->getScore().getStatsRank());
+		reply.push_back(addTag(tmp, tank->getScore().getStatsRank()));
 	}
-	strcat(buffer, "/>");
+
 }
 
-void ServerBrowserInfo::addTag(char *buffer, const char *name, const char *value)
+const char *ServerBrowserInfo::addTag(const char *name, const char *value)
 {
-	static char newvalue[256];
+	static char buffer[10000];
+	static char newvalue[10000];
 	strcpy(newvalue, value);
-	for (char *a=newvalue; *a; a++) if (*a == '\'') *a='\"';
+	for (char *a=newvalue; *a; a++)
+	{
+		if (*a == '\'') *a='\"';
+		else if (*a == '>') *a=' ';
+		else if (*a == '<') *a=' ';
+	}
 
-	strcat(buffer, name); strcat(buffer, "='");
+	strcpy(buffer, name); strcat(buffer, "='");
 	strcat(buffer, newvalue); strcat(buffer, "' ");
+	return buffer;
 }

@@ -81,8 +81,6 @@ private:
 
 BoidVector Direction(const BoidVector &a);
 BoidVector Direction(const double &x, const double &y, const double &z);
-BoidVector Average(int numBoidVectors, BoidVector a, ...);
-
 
 //-----------------------------------------------------
 // INLINE FUNCTIONS

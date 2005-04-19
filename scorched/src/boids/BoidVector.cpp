@@ -25,21 +25,3 @@
 // (c) 1996 Christopher Kline <ckline@acm.org>
 
 #include "BoidVector.h"
- 
-
-BoidVector
-Average(int numBoidVectors, BoidVector a, ...) {
-
-  BoidVector v = a;
-  va_list arg_ptr;
-  int i;
-
-  va_start(arg_ptr, a);
-  for (i=0; i<numBoidVectors-1; i++) 
-    v += va_arg(arg_ptr, BoidVector);
-  va_end(arg_ptr);
-
-  v.x /= numBoidVectors; v.y /= numBoidVectors; v.z /= numBoidVectors;  
-  return(v);
-}
-

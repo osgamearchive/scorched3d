@@ -22,6 +22,8 @@
 #define __INCLUDE_ServerBrowserInfoh_INCLUDE__
 
 #include <SDL/SDL_net.h>
+#include <list>
+#include <string>
 
 class ServerBrowserInfo
 {
@@ -35,13 +37,13 @@ protected:
 	static ServerBrowserInfo *instance_;
 	UDPsocket udpsock_;
 	UDPpacket **packetV_;
+	UDPpacket **packetVOut_;
 
 	void processMessage(UDPpacket *packet);
-	void processStatusMessage(char *buffer);
-	void processPlayerMessage(char *buffer);
-	void processInfoMessage(char *buffer);
-	void processPingMessage(char *buffer);
-	void addTag(char *buffer, const char *name, const char *value);
+	void processStatusMessage(std::list<std::string> &reply);
+	void processPlayerMessage(std::list<std::string> &reply);
+	void processInfoMessage(std::list<std::string> &reply);
+	const char *addTag(const char *name, const char *value);
 
 private:
 	ServerBrowserInfo();

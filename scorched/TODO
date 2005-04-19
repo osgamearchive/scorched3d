@@ -17,6 +17,7 @@ Fixed: Multi-line console messages are handled correctly
 Fixed: Tanks can fire out from other tanks shields
 Fixed: Shield strength to make less over powering (copied from shield test mod)
 Fixed: Team talk messages now have the team text before the colon
+Fixed: Server status messages getting too big too send
 
 Added: New team auto ballance mode that auto ballances using player score
 Added: LOD for models (disabled, not very good though)
