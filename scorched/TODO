@@ -21,6 +21,7 @@ Fixed: Player should always reconnect with last used player name
 Fixed: Server status messages getting too big too send
 Fixed: Winner award given when all players leave (1/2 total rounds must be played)
 
+Added: Delay before tooltips are seen is configurable
 Added: timedcollision attribute to shot projectile (for timed explosions)
 Added: Landscape placements moved to a different file (landscapeplace.xml)
 Added: Movement sound when tanks move using fuel

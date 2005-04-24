@@ -78,7 +78,21 @@ void GLFont2d::draw(Vector &color, float size,
 	vsprintf(text, fmt, ap);
 	va_end(ap);	
 
-	drawString((GLsizei) strlen(text), color, size, x, y, z, text, false);
+	drawString((GLsizei) strlen(text), color, 1.0f, size, x, y, z, text, false);
+}
+
+void GLFont2d::drawA(Vector &color, float alpha, float size, 
+					float x, float y, float z, 
+					const char *fmt, ...)
+{
+	static char text[2048];
+	va_list ap;
+
+	va_start(ap, fmt);
+	vsprintf(text, fmt, ap);
+	va_end(ap);	
+
+	drawString((GLsizei) strlen(text), color, alpha, size, x, y, z, text, false);
 }
 
 void GLFont2d::drawOutline(Vector &color, float size, float size2,
@@ -92,7 +106,7 @@ void GLFont2d::drawOutline(Vector &color, float size, float size2,
 	vsprintf(text, fmt, ap);
 	va_end(ap);	
 
-	drawString((GLsizei) strlen(text), color, size, x, y, z, text, false, size2);
+	drawString((GLsizei) strlen(text), color, 1.0f, size, x, y, z, text, false, size2);
 }
 
 void GLFont2d::drawWidth(int len, Vector &color, float size, 
@@ -114,7 +128,7 @@ void GLFont2d::drawWidth(int len, Vector &color, float size,
 		if (width < len) l++;
 	}
 
-	drawString(l, color, size, x, y, z, text, false);
+	drawString(l, color, 1.0f, size, x, y, z, text, false);
 }
 
 void GLFont2d::drawBilboard(Vector &color, float size, 
@@ -128,7 +142,7 @@ void GLFont2d::drawBilboard(Vector &color, float size,
 	vsprintf(text, fmt, ap);
 	va_end(ap);	
 
-	drawString((GLsizei) strlen(text), color, size, x, y, z, text, true);
+	drawString((GLsizei) strlen(text), color, 1.0f, size, x, y, z, text, true);
 }
 
 static void drawLetter(char ch, GLuint list_base, GLuint *tex_base, 
@@ -163,7 +177,7 @@ static void drawLetter(char ch, GLuint list_base, GLuint *tex_base,
 	glTranslatef(bilX[0], bilX[1], bilX[2]);
 }
 
-bool GLFont2d::drawString(unsigned length, Vector &color, float size, 
+bool GLFont2d::drawString(unsigned length, Vector &color, float alpha, float size, 
 	float x, float y, float z, 
 	const char *string,
 	bool bilboard,
@@ -174,7 +188,7 @@ bool GLFont2d::drawString(unsigned length, Vector &color, float size,
 		GLTextureBase::setLastBind(0); // Clear so no texture is cached
 
 		GLState currentState(GLState::BLEND_ON | GLState::TEXTURE_ON);
-		glColor3fv(color);
+		glColor4f(color[0], color[1], color[2], alpha);
 
 		if (bilboard)
 		{

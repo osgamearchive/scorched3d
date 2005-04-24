@@ -126,7 +126,8 @@ GLWToolTip *GLWToolTip::instance()
 
 GLWToolTip::GLWToolTip() : 
 	lastTip_(0), currentTip_(0),
-	timePasted_(0.0f)
+	timeDrawn_(0.0f), timeSeen_(0.0),
+	lastPopulatedTip_(0)
 {
 }
 
@@ -171,32 +172,44 @@ void GLWToolTip::clearToolTip(float x, float y, float w, float h)
 
 void GLWToolTip::simulate(const unsigned state, float frameTime)
 {
-	timePasted_ += frameTime;
-	const float TimeStep = 2.0f;
-	if (timePasted_ > TimeStep)
-	{
-		timePasted_ = 0.0f;
-	}
+	timeDrawn_ += frameTime;
 }
 
 void GLWToolTip::draw(const unsigned state)
 {
 	bool sameTip = (lastTip_ == currentTip_);
 	lastTip_ = currentTip_;
-	if (!currentTip_) return;
+	currentTip_ = 0;
 
-	if (!sameTip)
+	if (sameTip && lastTip_)
 	{
-		currentTip_->populate();
+		timeSeen_ += timeDrawn_;
+	}
+	else
+	{
+		timeSeen_ = 0.0f;
+	}
+	timeDrawn_ = 0.0f;
+
+	float showTime = 
+		float(OptionsDisplay::instance()->getToolTipTime()) / 1000.0f;
+	if (!lastTip_ || (timeSeen_ < showTime)) return;
+
+	float alpha = MIN(1.0f, (timeSeen_ - showTime) * 4.0f);
+
+	if (lastPopulatedTip_ != lastTip_)
+	{
+		lastTip_->populate();
+		lastPopulatedTip_ = lastTip_;
 	}
 
 	GLState currentState(GLState::TEXTURE_OFF | GLState::DEPTH_OFF);
 
-	currentTip_->calcWidth();
-	float posX = currentTip_->getX();
-	float posY = currentTip_->getY();
-	float posH = currentTip_->getTextHeight();
-	float posW = currentTip_->getTextWidth();
+	lastTip_->calcWidth();
+	float posX = lastTip_->getX();
+	float posY = lastTip_->getY();
+	float posH = lastTip_->getTextHeight();
+	float posW = lastTip_->getTextWidth();
 
 	int camWidth = GLViewPort::getWidth();
 	if (posX > camWidth / 2)
@@ -205,7 +218,7 @@ void GLWToolTip::draw(const unsigned state)
 	}
 	else
 	{
-		posX += currentTip_->w + 5.0f;
+		posX += lastTip_->w + 5.0f;
 	}
 	int camHeight = GLViewPort::getHeight();
 	if (posY > camHeight / 2)
@@ -222,7 +235,7 @@ void GLWToolTip::draw(const unsigned state)
 
 	{
 		GLState currentStateBlend(GLState::BLEND_ON);
-		glColor4f(0.5f, 0.5f, 1.0f, 0.8f);	
+		glColor4f(0.5f, 0.5f, 1.0f, 0.8f * alpha);	
 		glBegin(GL_TRIANGLE_FAN);
 			glVertex2f(posX + 10.0f, posY + 2.0f);
 			glVertex2f(posX + 10.0f, posY);
@@ -231,7 +244,7 @@ void GLWToolTip::draw(const unsigned state)
 				posW, posH, 10.0f);
 			glVertex2f(posX + 10.0f, posY);
 		glEnd();
-		glColor4f(0.9f, 0.9f, 1.0f, 0.5f);
+		glColor4f(0.9f, 0.9f, 1.0f, 0.5f * alpha);
 		glLineWidth(2.0f);
 		glBegin(GL_LINE_LOOP);
 			GLWidget::drawRoundBox(
@@ -242,20 +255,18 @@ void GLWToolTip::draw(const unsigned state)
 	}
 
 	float pos = posY + posH - 16.0f;
-	GLWFont::instance()->getSmallPtFont()->draw(selectedColor, 11, posX + 3.0f, 
-		pos, 0.0f, currentTip_->getTitle());
+	GLWFont::instance()->getSmallPtFont()->drawA(selectedColor, alpha, 11, posX + 3.0f, 
+		pos, 0.0f, lastTip_->getTitle());
 	pos -= 2.0f;
 
-	std::list<char *> &texts = currentTip_->getTexts();
+	std::list<char *> &texts = lastTip_->getTexts();
 	std::list<char *>::iterator itor;
 	std::list<char *>::iterator enditor = texts.end();
 	for (itor = texts.begin(); itor != enditor; itor++)
 	{
 		pos -= 10.0f;
 
-		GLWFont::instance()->getSmallPtFont()->draw(color, 9, posX + 6.0f, 
+		GLWFont::instance()->getSmallPtFont()->drawA(color, alpha, 9, posX + 6.0f, 
 			pos, 0.0f, (*itor));
 	}
-
-	currentTip_ = 0;
 }

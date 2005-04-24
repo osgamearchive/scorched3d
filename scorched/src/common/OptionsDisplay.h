@@ -36,6 +36,9 @@ public:
 		NoRestore = 4
 	};
 
+	int getToolTipTime() { return toolTipTime_.getValue(); }
+	void setToolTipTime(int value) { toolTipTime_.setValue(value); }
+
 	int getTankModelSize() { return tankModelSize_.getValue(); }
 	void setTankModelSize(int value) { tankModelSize_.setValue(value); }
 	const char *getTankModelSizeToolTip() { return tankModelSize_.getDescription(); }
@@ -352,6 +355,7 @@ protected:
 	OptionEntryInt depthBufferBits_;
 	OptionEntryInt bannerRowsDepricated_;
 	OptionEntryInt tankModelSize_;
+	OptionEntryInt toolTipTime_;
 	OptionEntryBool detailTexture_;
 	OptionEntryBool useHex_;
 	OptionEntryBool doubleBuffer_;

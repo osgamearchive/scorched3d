@@ -44,6 +44,9 @@ public:
 	void draw(Vector &color, float size, 
 			  float x, float y, float z, 
 			  const char *fmt, ...);
+	void drawA(Vector &color, float alpha, float size, 
+			  float x, float y, float z, 
+			  const char *fmt, ...);
 	void drawWidth(int width, 
 				 Vector &color, float size, 
 				 float x, float y, float z, 
@@ -63,7 +66,8 @@ protected:
 	CharEntry *characters_;
 
 	virtual bool drawString(unsigned len,
-							Vector &color, float size, 
+							Vector &color, float alpha, 
+							float size, 
 							float x, float y, float z, 
 							const char *string,
 							bool bilboard,

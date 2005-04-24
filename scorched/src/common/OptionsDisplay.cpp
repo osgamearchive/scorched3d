@@ -71,6 +71,8 @@ OptionsDisplay::OptionsDisplay() :
 		"", RAccess | OptionEntry::DataDepricated, 110),
 	depricatedSunYZAng_(options_, "SunYZAng",
 		"", RAccess | OptionEntry::DataDepricated, 25),
+	toolTipTime_(options_, "ToolTipTime", 
+		"The milliseconds before showing a tool tip.", RWAccess, 400),
 	brightness_(options_, "Brightness", 
 		"The game screen brightness (gamma).", RAccess, 10, 3, 40),
 	fullScreen_(options_, "FullScreen", 
