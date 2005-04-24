@@ -48,6 +48,8 @@ bool ComsConnectAcceptMessage::writeMessage(NetBuffer &buffer)
 	buffer.addToBuffer(serverName_);
 	buffer.addToBuffer(publishAddress_);
 	buffer.addToBuffer(uniqueId_);
+	buffer.addToBuffer(serverGif_.getBufferUsed());
+	buffer.addDataToBuffer(serverGif_.getBuffer(), serverGif_.getBufferUsed());
 	if (!ScorchedServer::instance()->getOptionsGame().
 		writeToBuffer(buffer, false)) return false;
 	return true;
@@ -59,6 +61,12 @@ bool ComsConnectAcceptMessage::readMessage(NetBufferReader &reader)
 	if (!reader.getFromBuffer(serverName_)) return false;
 	if (!reader.getFromBuffer(publishAddress_)) return false;
 	if (!reader.getFromBuffer(uniqueId_)) return false;
+	unsigned int used;
+	if (!reader.getFromBuffer(used)) return false;
+	serverGif_.allocate(used);
+	serverGif_.reset();
+	serverGif_.setBufferUsed(used);
+	reader.getDataFromBuffer(serverGif_.getBuffer(), used);
 	if (!ScorchedClient::instance()->getOptionsGame().
 		readFromBuffer(reader, false)) return false;
 	return true;

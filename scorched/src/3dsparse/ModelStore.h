@@ -34,7 +34,7 @@ public:
 
 	Model *loadModel(ModelID &modelId);
 	GLTexture *loadTexture(const char *name, 
-		const char *aname, 
+		const char *aname = "", 
 		bool invert = false);
 
 protected:

@@ -47,12 +47,12 @@
 					<x>0</x><y>0</y>
 					<w>0</w><h>0</h>
 					<mask>2</mask>
-					<oldstyle>off</oldstyle>
+					<oldstyle>true</oldstyle>
 					<displaytime>10.0</displaytime>
 					<totallines>5</totallines>
-					<linedepth>14</linedepth>
-					<fontsize>8</fontsize>
-					<outlinefontsize>10</outlinefontsize>
+					<linedepth>18</linedepth>
+					<fontsize>12</fontsize>
+					<outlinefontsize>14</outlinefontsize>
 					<textaligntop>true</textaligntop>
 					<parentsized>true</parentsized>
 				</widget>

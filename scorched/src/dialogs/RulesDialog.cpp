@@ -49,11 +49,19 @@ RulesDialog::RulesDialog() :
 	needCentered_ = true;
 	okId_ = addWidget(new GLWTextButton("Ok", 295, 10, 55, this, 
 		GLWButton::ButtonFlagCancel | GLWButton::ButtonFlagOk | GLWButton::ButtonFlagCenterX))->getId();
-	listView_ = (GLWListView *) addWidget(new GLWListView(10, 130, 340, 140, 100));
+	listView_ = (GLWListView *) addWidget(new GLWListView(10, 150, 340, 90, 100));
+	addWidget(new GLWPanel(45, 245, 270, 40));
+	icon_ = (GLWIcon *) addWidget(new GLWIcon(50, 250, 260, 30));
 }
 
 RulesDialog::~RulesDialog()
 {
+}
+
+void RulesDialog::addIcon(GLTexture *texture)
+{
+	delete icon_->getTexture();
+	icon_->setTexture(texture);
 }
 
 void RulesDialog::addMOTD(const char *text)
@@ -101,7 +109,7 @@ void RulesDialog::draw()
 
 	GLState newState(GLState::TEXTURE_OFF | GLState::DEPTH_OFF);
 
-	float top = y_ + h_ - 150.0f;
+	float top = y_ + h_ - 130.0f;
 	Vector yellow(0.3f, 0.3f, 0.3f); // Hmm, thats not yellow
 	if (ScorchedClient::instance()->getTankContainer().getNoOfNonSpectatorTanks() <
 		ScorchedClient::instance()->getOptionsGame().getNoMinPlayers())
@@ -171,30 +179,36 @@ void RulesDialog::draw()
 		yellow,
 		12,
 		x_ + 12.0f, top - 75.0f, 0.0f,
+		"Mod : %s", 
+		ScorchedClient::instance()->getOptionsGame().getMod());
+	GLWFont::instance()->getSmallPtFont()->draw(
+		yellow,
+		12,
+		x_ + 12.0f, top - 90.0f, 0.0f,
 		"Game type : %s", 
 		ScorchedClient::instance()->getOptionsTransient().getGameType());
 	GLWFont::instance()->getSmallPtFont()->draw(
 		yellow,
 		12,
-		x_ + 12.0f, top - 90.0f, 0.0f,
+		x_ + 12.0f, top - 105.0f, 0.0f,
 		((options.getTeams() > 1)?"%i Teams":"No teams"),
 		options.getTeams());
 	GLWFont::instance()->getSmallPtFont()->draw(
 		yellow,
 		12,
-		x_ + 12.0f, top - 105.0f, 0.0f,
+		x_ + 12.0f, top - 120.0f, 0.0f,
 		"Score Mode : %s", (options.getScoreType() == OptionsGame::ScoreWins)?"Most Wins":
 		((options.getScoreType() == OptionsGame::ScoreKills)?"Most Kills":"Most Money"));
 	GLWFont::instance()->getSmallPtFont()->draw(
 		yellow,
 		12,
-		x_ + 12.0f, top - 120.0f, 0.0f,
+		x_ + 12.0f, top - 135.0f, 0.0f,
 		((options.getShotTime() > 0)?"Shot time : %i (s)":"No shot time limit"),
 		options.getShotTime());
 	GLWFont::instance()->getSmallPtFont()->draw(
 		yellow,
 		12,
-		x_ + 12.0f, top - 135.0f, 0.0f,
+		x_ + 12.0f, top - 150.0f, 0.0f,
 		((options.getBuyingTime() > 0)?"Buying time : %i (s)":"No buying time limit"),
 		options.getShotTime());
 }

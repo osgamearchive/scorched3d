@@ -24,6 +24,7 @@
 #include <GLW/GLWWindow.h>
 #include <GLW/GLWButton.h>
 #include <GLW/GLWListView.h>
+#include <GLW/GLWIcon.h>
 
 class RulesDialog : public GLWWindow , 
 					public GLWButtonI
@@ -37,10 +38,12 @@ public:
 	virtual void draw();
 
 	void addMOTD(const char *text);
+	void addIcon(GLTexture *texture);
 
 protected:
 	static RulesDialog *instance_;
 	GLWListView *listView_;
+	GLWIcon *icon_;
 	unsigned int okId_;
 
 private:

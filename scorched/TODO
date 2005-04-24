@@ -17,8 +17,10 @@ Fixed: Multi-line console messages are handled correctly
 Fixed: Tanks can fire out from other tanks shields
 Fixed: Shield strength to make less over powering (copied from shield test mod)
 Fixed: Team talk messages now have the team text before the colon
+Fixed: Player should always reconnect with last used player name
 Fixed: Server status messages getting too big too send
 
+Added: Option for each server to have different banner displayed in rules dialog
 Added: New team auto ballance mode that auto ballances using player score
 Added: LOD for models (disabled, not very good though)
 Added: Saved game filename to save game file dialog

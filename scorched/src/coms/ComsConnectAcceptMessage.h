@@ -36,6 +36,7 @@ public:
 	const char *getServerName() { return serverName_.c_str(); }
 	const char *getPublishAddress() { return publishAddress_.c_str(); }
 	const char *getUniqueId() { return uniqueId_.c_str(); }
+	NetBuffer &getServerGif() { return serverGif_; }
 
 	// Inherited from ComsMessage
     virtual bool writeMessage(NetBuffer &buffer);
@@ -46,6 +47,7 @@ protected:
 	std::string serverName_;
 	std::string publishAddress_;
 	std::string uniqueId_;
+	NetBuffer serverGif_;
 
 private:
 	ComsConnectAcceptMessage(const ComsConnectAcceptMessage &);

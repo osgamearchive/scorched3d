@@ -23,6 +23,7 @@
 #include <dialogs/RulesDialog.h>
 #include <dialogs/ConnectDialog.h>
 #include <engine/ModFiles.h>
+#include <GLEXT/GLGif.h>
 #include <tank/TankContainer.h>
 #include <coms/ComsConnectAcceptMessage.h>
 #include <coms/ComsHaveModFilesMessage.h>
@@ -88,6 +89,24 @@ bool ClientConnectionAcceptHandler::processMessage(unsigned int id,
 	// rules dialog
 	RulesDialog::instance()->addMOTD(
 		ScorchedClient::instance()->getOptionsGame().getMOTD());
+
+	// Set the server specific gif for the current server
+	{
+		GLGif map;
+		if (message.getServerGif().getBufferUsed() > 0)
+		{
+			// Use a custom icon
+			map.loadFromBuffer(message.getServerGif());
+		}
+		else
+		{
+			// Use the default icon
+			map.loadFromFile(getDataFile("data/windows/scorched.gif"));
+		}
+		GLTexture *texture = new GLTexture;
+		texture->create(map);
+		RulesDialog::instance()->addIcon(texture);
+	}
 
 	// Set the mod
 	setDataFileMod(

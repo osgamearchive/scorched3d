@@ -29,6 +29,7 @@
 #include <tank/TankContainer.h>
 #include <tankai/TankAIAdder.h>
 #include <tankai/TankAIStrings.h>
+#include <GLEXT/GLGif.h>
 #include <common/OptionsParam.h>
 #include <common/Defines.h>
 #include <common/FileLines.h>
@@ -182,6 +183,24 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 		ScorchedServer::instance()->getOptionsGame().getServerName(),
 		ScorchedServer::instance()->getOptionsGame().getPublishAddress(),
 		uniqueId);
+	// Add the connection gif
+	if (OptionsParam::instance()->getDedicatedServer())
+	{
+		const char *fileName = 
+			getSettingsFile("icon-server-%i.gif",
+				ScorchedServer::instance()->getOptionsGame().getPortNo());
+		FILE *in = fopen(fileName, "rb");
+		if (in)
+		{
+			acceptMessage.getServerGif().reset();
+			unsigned char readBuf[512];
+			while (unsigned int size = fread(readBuf, sizeof(unsigned char), 512, in))
+			{
+				acceptMessage.getServerGif().addDataToBuffer(readBuf, size);
+			}
+			fclose(in);
+		}
+	}
 	if (!ComsMessageSender::sendToSingleClient(acceptMessage, destinationId))
 	{
 		Logger::log(

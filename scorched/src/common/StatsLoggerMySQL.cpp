@@ -385,6 +385,28 @@ static bool findInList(std::list<std::string> &results,
 void StatsLoggerMySQL::addAliases(int playerId, 
 	std::list<std::string> &results)
 {
+	// Make sure the last used name is in the list and
+	// it is always first
+	if (runQuery("SELECT name FROM scorched3d_players "
+			"WHERE playerid = %i;", playerId))
+	{
+		MYSQL_RES *result = mysql_store_result(mysql_);
+		if (result)
+		{
+			int rows = (int) mysql_num_rows(result);
+			for (int r=0; r<rows; r++)
+			{
+				MYSQL_ROW row = mysql_fetch_row(result);
+				if (!findInList(results, row[0]))
+				{
+					results.push_back(row[0]);
+				}
+			}
+			mysql_free_result(result);
+		}
+	}
+
+	// Add all other UNIQUE aliases
 	if (runQuery("SELECT name FROM scorched3d_names "
 			"WHERE playerid = %i;", playerId))
 	{

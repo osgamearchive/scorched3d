@@ -35,6 +35,9 @@ public:
 	virtual void draw();
 	virtual bool initFromXML(XMLNode *node);
 
+	GLTexture *getTexture() { return texture_; }
+	void setTexture(GLTexture *texture) { texture_ = texture; }
+
 	REGISTER_CLASS_HEADER(GLWIcon);
 protected:
 	GLTexture *texture_;
