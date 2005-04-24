@@ -22,6 +22,7 @@
 #include <landscape/LandscapeMaps.h>
 #include <landscape/LandscapeTex.h>
 #include <landscape/LandscapeDefinition.h>
+#include <landscape/LandscapeDefinitions.h>
 #include <landscape/Sky.h>
 #include <landscape/Surround.h>
 #include <landscape/ShadowMap.h>
@@ -319,11 +320,20 @@ void Landscape::generate(ProgressCounter *counter)
 
 	// Add objects to the landscape (if any)
 	// Do this now as it adds shadows to the mainmap
+	LandscapePlace *place = 
+		ScorchedClient::instance()->getLandscapes().getPlace(
+			tex->placements.c_str());
+	if (!place)
+	{
+		dialogExit("Landscape",
+			"Failed to find placements type %s",
+			tex->placements.c_str());
+	}
 	objects_.removeAllObjects();
 	RandomGenerator objectsGenerator;
 	objectsGenerator.seed(
 		ScorchedClient::instance()->getLandscapeMaps().getLandDfn()->getSeed());
-	objects_.generate(objectsGenerator, *tex, counter);
+	objects_.generate(objectsGenerator, *place, counter);
 
 	// Create the main landscape texture
 	DIALOG_ASSERT(texture_.replace(mainMap_, GL_RGB, false));

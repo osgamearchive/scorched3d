@@ -24,6 +24,7 @@
 #include <engine/PhysicsParticle.h>
 #include <engine/ScorchedCollisionIds.h>
 #include <engine/ViewPoints.h>
+#include <tankgraph/TracerStore.h>
 #include <weapons/WeaponProjectile.h>
 #include <list>
 
@@ -51,7 +52,7 @@ public:
 	unsigned int getLandedCounter() { return landedCounter_; }
 	unsigned int getPlayerId() { return playerId_; }
 	WeaponProjectile *getWeapon() { return weapon_; }
-	std::list<Vector> &getPositions() { return positions_; }
+	std::list<TracerStore::TracerLinePoint> &getPositions() { return positions_; }
 
 protected:
 	static Vector lookatPosition_;
@@ -65,7 +66,8 @@ protected:
 	unsigned int data_;
 	bool up_;
 	float snapTime_;
-	std::list<Vector> positions_;
+	float totalTime_;
+	std::list<TracerStore::TracerLinePoint> positions_;
 	unsigned int landedCounter_;
 
 	void doCollision(Vector &position);

@@ -18,46 +18,19 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+#if !defined(__INCLUDE_ServerCheckForWinnersStateh_INCLUDE__)
+#define __INCLUDE_ServerCheckForWinnersStateh_INCLUDE__
 
-#if !defined(__INCLUDE_ServerStateh_INCLUDE__)
-#define __INCLUDE_ServerStateh_INCLUDE__
+#include <engine/GameStateI.h>
+#include <engine/GameStateStimulusI.h>
 
-#include <engine/GameState.h>
-
-namespace ServerState
+class ServerCheckForWinnersState : public GameStateI
 {
-	enum ServerStateEnum
-	{
-		ServerStateTooFewPlayers = 1,
-		ServerStateReset,
-		ServerStateStarting,
-		ServerStateNewGame,
-		ServerStateNextRound,
-		ServerStateReady,
-		ServerStateNextShot,
-		ServerStateNextTurn,
-		ServerStatePlaying,
-		ServerStateBuying,
-		ServerStateShot,
-		ServerStateScore,
-		ServerStateCheckForWinners
-	};
+public:
+	ServerCheckForWinnersState();
+	virtual ~ServerCheckForWinnersState();
 
-	enum ServerStimulusEnum
-	{
-		ServerStimulusNewGame = 1,
-		ServerStimulusNextRound,
-		ServerStimulusReady,
-		ServerStimulusNextTurn,
-		ServerStimulusPlaying,
-		ServerStimulusBuying,
-		ServerStimulusShot,
-		ServerStimulusScore,
-		ServerStimulusTooFewPlayers,
-		ServerStimulusStarting
-	};
-
-	void setupStates(GameState &gameState);
+	virtual void enterState(const unsigned state);
 };
 
 #endif

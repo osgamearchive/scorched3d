@@ -26,7 +26,7 @@
 #include <landscape/LandscapeObjectsEntry.h>
 #include <map>
 
-class LandscapeTex;
+class LandscapePlace;
 class LandscapeObjects
 {
 public:
@@ -35,7 +35,7 @@ public:
 
 	void draw();
 	void generate(RandomGenerator &generator, 
-		LandscapeTex &tex,
+		LandscapePlace &place,
 		ProgressCounter *counter = 0);
 
 	void removeAroundTanks();

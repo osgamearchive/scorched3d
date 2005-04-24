@@ -65,13 +65,50 @@ void LandscapeDefinitions::clearLandscapeDefinitions()
 		delete defns_.front();
 		defns_.pop_front();
 	}
+	while (!places_.empty())
+	{
+		delete places_.front();
+		places_.pop_front();
+	}
 }
 
 bool LandscapeDefinitions::readLandscapeDefinitions()
 {
+	if (!readPlaces()) return false;
 	if (!readTexs()) return false;
 	if (!readDefns()) return false;
 	if (!readDefinitions()) return false;
+	return true;
+}
+
+bool LandscapeDefinitions::readPlaces()
+{
+	// Load landscape definition file
+	XMLFile file;
+	if (!file.readFile(getDataFile("data/landscapesplace.xml")) ||
+		!file.getRootNode())
+	{
+		dialogMessage("Scorched Landscape",
+			"Failed to parse \"data/landscapesplace.xml\"\n%s",
+			file.getParserError());
+		return false;
+	}
+	// Itterate all of the landscapes in the file
+	std::list<XMLNode *>::iterator childrenItor;
+	std::list<XMLNode *> &children = file.getRootNode()->getChildren();
+	for (childrenItor = children.begin();
+		childrenItor != children.end();
+		childrenItor++)
+	{
+		LandscapePlace *newPlace = new LandscapePlace;
+		if (!newPlace->readXML(*childrenItor))
+		{
+			dialogMessage("Scorched Landscape",
+				"Failed to parse  \"data/landscapesplace.xml\"");
+			return false;
+		}
+		places_.push_back(newPlace);
+	}
 	return true;
 }
 
@@ -95,7 +132,7 @@ bool LandscapeDefinitions::readTexs()
 		childrenItor++)
 	{
 		LandscapeTex *newTex = new LandscapeTex;
-		if (!newTex->readXML(*childrenItor))
+		if (!newTex->readXML(this, *childrenItor))
 		{
 			dialogMessage("Scorched Landscape",
 				"Failed to parse  \"data/landscapestex.xml\"");
@@ -148,6 +185,19 @@ bool LandscapeDefinitions::readDefns()
 		defns_.push_back(newDefn);
 	}
 	return true;
+}
+
+LandscapePlace *LandscapeDefinitions::getPlace(const char *name)
+{
+	std::list<LandscapePlace *>::iterator itor;
+	for (itor = places_.begin();
+		itor != places_.end();
+		itor++)
+	{
+		LandscapePlace *place = *itor;
+		if (0 == strcmp(place->name.c_str(), name)) return place;
+	}
+	return 0;
 }
 
 LandscapeDefn *LandscapeDefinitions::getDefn(const char *name)
@@ -317,7 +367,8 @@ LandscapeDefinition *LandscapeDefinitions::getRandomLandscapeDefn(
 	std::string defn = result->defns[defnPos].c_str();
 	unsigned int seed = (unsigned int) rand();
 	LandscapeDefinition *entry = 
-		new LandscapeDefinition(tex.c_str(), defn.c_str(), seed);
+		new LandscapeDefinition(
+			tex.c_str(), defn.c_str(), seed);
 	return entry;
 }
 

@@ -24,23 +24,23 @@
 #include <common/ProgressCounter.h>
 #include <common/RandomGenerator.h>
 
-class LandscapeTexObjectsPlacementTree;
+class LandscapePlaceObjectsPlacementTree;
 class LandscapeObjectPlacementTrees 
 {
 public:
 	virtual void generateObjects(
 		RandomGenerator &generator, 
-		LandscapeTexObjectsPlacementTree &placement,
+		LandscapePlaceObjectsPlacementTree &placement,
 		ProgressCounter *counter = 0);
 };
 
-class LandscapeTexObjectsPlacementMask;
+class LandscapePlaceObjectsPlacementMask;
 class LandscapeObjectPlacementMask 
 {
 public:
 	virtual void generateObjects(
 		RandomGenerator &generator, 
-		LandscapeTexObjectsPlacementMask &placement,
+		LandscapePlaceObjectsPlacementMask &placement,
 		ProgressCounter *counter = 0);
 };
 

@@ -18,46 +18,32 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+#include <server/ServerCheckForWinnersState.h>
+#include <server/ScorchedServer.h>
+#include <server/ServerState.h>
+#include <common/OptionsGame.h>
+#include <common/OptionsTransient.h>
 
-#if !defined(__INCLUDE_ServerStateh_INCLUDE__)
-#define __INCLUDE_ServerStateh_INCLUDE__
-
-#include <engine/GameState.h>
-
-namespace ServerState
+ServerCheckForWinnersState::ServerCheckForWinnersState()
 {
-	enum ServerStateEnum
+}
+
+ServerCheckForWinnersState::~ServerCheckForWinnersState()
+{
+}
+
+void ServerCheckForWinnersState::enterState(const unsigned state)
+{
+	if (ScorchedServer::instance()->getOptionsTransient().getCurrentRoundNo() >
+		ScorchedServer::instance()->getOptionsGame().getNoRounds() / 2 && 
+		ScorchedServer::instance()->getOptionsTransient().getCurrentRoundNo() > 2)
 	{
-		ServerStateTooFewPlayers = 1,
-		ServerStateReset,
-		ServerStateStarting,
-		ServerStateNewGame,
-		ServerStateNextRound,
-		ServerStateReady,
-		ServerStateNextShot,
-		ServerStateNextTurn,
-		ServerStatePlaying,
-		ServerStateBuying,
-		ServerStateShot,
-		ServerStateScore,
-		ServerStateCheckForWinners
-	};
-
-	enum ServerStimulusEnum
+        ScorchedServer::instance()->getGameState().stimulate(
+			ServerState::ServerStimulusScore);
+	}
+	else
 	{
-		ServerStimulusNewGame = 1,
-		ServerStimulusNextRound,
-		ServerStimulusReady,
-		ServerStimulusNextTurn,
-		ServerStimulusPlaying,
-		ServerStimulusBuying,
-		ServerStimulusShot,
-		ServerStimulusScore,
-		ServerStimulusTooFewPlayers,
-		ServerStimulusStarting
-	};
-
-	void setupStates(GameState &gameState);
-};
-
-#endif
+        ScorchedServer::instance()->getGameState().stimulate(
+			ServerState::ServerStimulusTooFewPlayers);
+	}
+}

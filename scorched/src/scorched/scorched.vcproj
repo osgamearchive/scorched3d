@@ -1448,6 +1448,12 @@
 				RelativePath="..\landscape\LandscapeObjectsPlacement.h">
 			</File>
 			<File
+				RelativePath="..\landscape\LandscapePlace.cpp">
+			</File>
+			<File
+				RelativePath="..\landscape\LandscapePlace.h">
+			</File>
+			<File
 				RelativePath="..\landscape\LandscapePoints.cpp">
 			</File>
 			<File
@@ -3086,6 +3092,12 @@
 			</File>
 			<File
 				RelativePath="..\server\ServerBuyAccessoryHandler.h">
+			</File>
+			<File
+				RelativePath="..\server\ServerCheckForWinnersState.cpp">
+			</File>
+			<File
+				RelativePath="..\server\ServerCheckForWinnersState.h">
 			</File>
 			<File
 				RelativePath="..\server\ServerCommon.cpp">

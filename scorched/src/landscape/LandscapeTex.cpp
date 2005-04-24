@@ -19,6 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <landscape/LandscapeTex.h>
+#include <landscape/LandscapeDefinitions.h>
 #include <engine/ScorchedContext.h>
 #include <weapons/AccessoryStore.h>
 #include <common/Defines.h>
@@ -38,22 +39,6 @@ static LandscapeTexType *fetchTextureTexType(const char *type)
 {
 	if (0 == strcmp(type, "generate")) return new LandscapeTexTextureGenerate;
 	dialogMessage("LandscapeTexType", "Unknown texture type %s", type);
-	return 0;
-}
-
-static LandscapeTexType *fetchPlacementTexType(const char *type)
-{
-	if (0 == strcmp(type, "trees")) return new LandscapeTexObjectsPlacementTree;
-	if (0 == strcmp(type, "mask")) return new LandscapeTexObjectsPlacementMask;
-	dialogMessage("LandscapeTexType", "Unknown placement type %s", type);
-	return 0;
-}
-
-static LandscapeTexType *fetchObjectTexType(const char *type)
-{
-	if (0 == strcmp(type, "tree")) return new LandscapeTexObjectsTree;
-	if (0 == strcmp(type, "model")) return new LandscapeTexObjectsModel;
-	dialogMessage("LandscapeTexType", "Unknown object type %s", type);
 	return 0;
 }
 
@@ -166,25 +151,6 @@ bool LandscapeTexActionFireWeapon::readXML(XMLNode *node)
 	return node->failChildren();
 }
 
-// LandscapeTexObjectsModel
-bool LandscapeTexObjectsModel::readXML(XMLNode *node)
-{
-	XMLNode *modelnode, *burntmodelnode;
-	if (!node->getNamedChild("model", modelnode)) return false;
-	if (!model.initFromNode(".", modelnode)) return false;
-	if (!node->getNamedChild("modelburnt", burntmodelnode)) return false;
-	if (!modelburnt.initFromNode(".", burntmodelnode)) return false;
-	return node->failChildren();
-}
-
-// LandscapeTexObjectsTree
-bool LandscapeTexObjectsTree::readXML(XMLNode *node)
-{
-	if (!node->getNamedChild("tree", tree)) return false;
-	if (!node->getNamedChild("snow", snow)) return false;
-	return node->failChildren();
-}
-
 // LandscapeTexPrecipitation
 bool LandscapeTexPrecipitation::readXML(XMLNode *node)
 {
@@ -203,47 +169,6 @@ bool LandscapeTexBoids::readXML(XMLNode *node)
 	if (!node->getNamedChild("maxz", maxz)) return false;
 
 	return node->failChildren();
-}
-
-// LandscapeTexObjectsPlacementTree
-LandscapeTexObjectsPlacement::~LandscapeTexObjectsPlacement()
-{
-	delete object;
-}
-
-bool LandscapeTexObjectsPlacement::readXML(XMLNode *node)
-{
-	XMLNode *objectNode;
-	if (!node->getNamedChild("object", objectNode)) return false;
-	if (!objectNode->getNamedParameter("type", objecttype)) return false;
-	if (!(object = fetchObjectTexType(objecttype.c_str()))) return false;
-	if (!object->readXML(objectNode)) return false;
-	return node->failChildren();
-}
-
-// LandscapeTexObjectsPlacementMask
-bool LandscapeTexObjectsPlacementMask::readXML(XMLNode *node)
-{
-	if (!node->getNamedChild("numobjects", numobjects)) return false;
-	if (!node->getNamedChild("mask", mask)) return false;
-	if (!node->getNamedChild("minheight", minheight)) return false;
-	if (!node->getNamedChild("maxheight", maxheight)) return false;
-	if (!node->getNamedChild("mincloseness", mincloseness)) return false;
-	if (!node->getNamedChild("minslope", minslope)) return false;
-	if (!node->getNamedChild("xsnap", xsnap)) return false;
-	if (!node->getNamedChild("ysnap", ysnap)) return false;
-	if (!node->getNamedChild("angsnap", angsnap)) return false;
-	return LandscapeTexObjectsPlacement::readXML(node);
-}
-
-// LandscapeTexObjectsPlacementTree
-bool LandscapeTexObjectsPlacementTree::readXML(XMLNode *node)
-{
-	if (!node->getNamedChild("numobjects", numobjects)) return false;
-	if (!node->getNamedChild("numclusters", numclusters)) return false;
-	if (!node->getNamedChild("minheight", minheight)) return false;
-	if (!node->getNamedChild("maxheight", maxheight)) return false;
-	return LandscapeTexObjectsPlacement::readXML(node);
 }
 
 // LandscapeTexBorderWater 
@@ -296,10 +221,6 @@ LandscapeTex::~LandscapeTex()
 {
 	delete border;
 	delete texture;
-	for (unsigned int i=0; i<objects.size(); i++)
-	{
-		delete objects[i];
-	}
 	for (unsigned int i=0; i<events.size(); i++)
 	{
 		delete events[i];
@@ -309,12 +230,10 @@ LandscapeTex::~LandscapeTex()
 		delete boids[i];
 	}
 	boids.clear();
-	objects.clear();
-	objectstype.clear();
 	events.clear();
 }
 
-bool LandscapeTex::readXML(XMLNode *node)
+bool LandscapeTex::readXML(LandscapeDefinitions *definitions, XMLNode *node)
 {
 	if (!node->getNamedChild("name", name)) return false;
 	if (!node->getNamedChild("detail", detail)) return false;
@@ -338,6 +257,10 @@ bool LandscapeTex::readXML(XMLNode *node)
 	if (!checkDataFile(skycolormap.c_str())) return false;
 
 	{
+		if (!node->getNamedChild("placements", placements)) return false;
+		if (!definitions->getPlace(placements.c_str())) return false;
+	}
+	{
 		XMLNode *borderNode;
 		if (!node->getNamedChild("border", borderNode)) return false;
 		if (!borderNode->getNamedParameter("type", bordertype)) return false;
@@ -357,21 +280,6 @@ bool LandscapeTex::readXML(XMLNode *node)
 		if (!precipitationNode->getNamedParameter("type", precipitationtype)) return false;
 		if (!(precipitation = fetchPrecipitationTexType(precipitationtype.c_str()))) return false;
 		if (!precipitation->readXML(precipitationNode)) return false;
-	}
-	{
-		XMLNode *placementsNode, *placementNode;
-		if (!node->getNamedChild("placements", placementsNode)) return false;
-		while (placementsNode->getNamedChild("placement", placementNode, false))
-		{
-			std::string placementtype;
-			LandscapeTexType *placement = 0;
-			if (!placementNode->getNamedParameter("type", placementtype)) return false;
-			if (!(placement = fetchPlacementTexType(placementtype.c_str()))) return false;
-			if (!placement->readXML(placementNode)) return false;
-			objects.push_back(placement);
-			objectstype.push_back(placementtype);
-		}
-		if (!placementsNode->failChildren()) return false;
 	}
 	{
 		XMLNode *eventsNode, *eventNode;

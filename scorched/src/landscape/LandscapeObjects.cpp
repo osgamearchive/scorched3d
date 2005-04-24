@@ -21,7 +21,7 @@
 #include <landscape/LandscapeObjects.h>
 #include <landscape/Landscape.h>
 #include <landscape/LandscapeMaps.h>
-#include <landscape/LandscapeTex.h>
+#include <landscape/LandscapePlace.h>
 #include <landscape/LandscapeObjectsPlacement.h>
 #include <client/ScorchedClient.h>
 #include <client/MainCamera.h>
@@ -79,7 +79,7 @@ static inline unsigned int pointToUInt(unsigned int x, unsigned int y)
 }
 
 void LandscapeObjects::generate(RandomGenerator &generator, 
-	LandscapeTex &tex,
+	LandscapePlace &place,
 	ProgressCounter *counter)
 {
 	if (counter) counter->setNewOp("Populating Landscape");
@@ -91,26 +91,26 @@ void LandscapeObjects::generate(RandomGenerator &generator,
 	if (OptionsDisplay::instance()->getNoTrees()) return;
 
 	// Generate all the objects using the objects definitions
-	for (unsigned int i=0; i<tex.objects.size(); i++)
+	for (unsigned int i=0; i<place.objects.size(); i++)
 	{
 		// Check which type of objects placement will be used
-		std::string placementtype = tex.objectstype[i];
+		std::string placementtype = place.objectstype[i];
 		if (0 == strcmp(placementtype.c_str(), "trees"))
 		{
 			// Trees type placement
 			LandscapeObjectPlacementTrees gen;
-			LandscapeTexObjectsPlacementTree *placement =
-				(LandscapeTexObjectsPlacementTree *)
-					tex.objects[i];
+			LandscapePlaceObjectsPlacementTree *placement =
+				(LandscapePlaceObjectsPlacementTree *)
+					place.objects[i];
 			gen.generateObjects(generator, *placement, counter);
 		}
 		else if (0 == strcmp(placementtype.c_str(), "mask"))
 		{
 			// Mask type placement
 			LandscapeObjectPlacementMask gen;
-			LandscapeTexObjectsPlacementMask *placement =
-				(LandscapeTexObjectsPlacementMask *)
-					tex.objects[i];
+			LandscapePlaceObjectsPlacementMask *placement =
+				(LandscapePlaceObjectsPlacementMask *)
+					place.objects[i];
 			gen.generateObjects(generator, *placement, counter);
 		}
 		else

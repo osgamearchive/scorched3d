@@ -76,7 +76,8 @@ bool ClientTextHandler::processMessage(unsigned int id,
 			if (ScorchedClient::instance()->getGameState().getState() == 
 				ClientState::StateConnect)
 			{
-				Logger::log(message.getText());
+				LoggerInfo info(LoggerInfo::TypeTalk, message.getText());
+				Logger::log(info);
 			}
 			else
 			{
@@ -99,6 +100,12 @@ bool ClientTextHandler::processMessage(unsigned int id,
 					LoggerInfo info(LoggerInfo::TypeTalk, message.getText());
 					info.setPlayerId(message.getPlayerId());
 					info.setIcon(tank->getAvatar().getTexture());
+					Logger::log(info);
+				}
+				else
+				{
+					// From the server (player 0)
+					LoggerInfo info(LoggerInfo::TypeTalk, message.getText());
 					Logger::log(info);
 				}
 			}

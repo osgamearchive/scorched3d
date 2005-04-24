@@ -35,7 +35,8 @@ unsigned int ShotProjectile::lookatCount_ = 0;
 
 ShotProjectile::ShotProjectile() : 
 	collisionInfo_(CollisionIdShot), vPoint_(0), 
-	snapTime_(0.2f),  up_(false), landedCounter_(0), data_(0)
+	snapTime_(0.2f),  up_(false), landedCounter_(0), data_(0),
+	totalTime_(0.0)
 {
 
 }
@@ -49,7 +50,8 @@ ShotProjectile::ShotProjectile(Vector &startPosition, Vector &velocity,
 	weapon_(weapon), playerId_(playerId), 
 	flareType_(flareType), vPoint_(0),
 	snapTime_(0.2f), up_(false),
-	landedCounter_(0), data_(data)
+	landedCounter_(0), data_(data),
+	totalTime_(0.0)
 {
 
 }
@@ -87,6 +89,7 @@ void ShotProjectile::collision(Vector &position)
 
 void ShotProjectile::simulate(float frameTime, bool &remove)
 {
+	totalTime_ += frameTime;
 	if (vPoint_)
 	{
 		vPoint_->setPosition(getCurrentPosition());
@@ -96,16 +99,7 @@ void ShotProjectile::simulate(float frameTime, bool &remove)
 		vPoint_->setLookFrom(velocity);
 	}
 
-	if (getWeapon()->getShowShotPath())
-	{
-		snapTime_ += frameTime;
-		if (snapTime_ > 0.1f)
-		{
-			positions_.push_back(getCurrentPosition());
-			snapTime_ = 0.0f;
-		}
-	}
-
+	// Apex collision
 	if (getWeapon()->getApexCollision())
 	{
 		if (getCurrentVelocity()[2] > 0.0f) up_ = true;
@@ -113,6 +107,31 @@ void ShotProjectile::simulate(float frameTime, bool &remove)
 		{
 			doCollision(getCurrentPosition());
 			remove = true;
+		}
+	}
+
+	// Timed collision
+	if (getWeapon()->getTimedCollision() > 0.0f)
+	{
+		if (totalTime_ > getWeapon()->getTimedCollision())
+		{
+			doCollision(getCurrentPosition());
+			remove = true;
+		}
+	}
+
+	// Shot path
+	if (getWeapon()->getShowShotPath())
+	{
+		snapTime_ += frameTime;
+		if (snapTime_ > 0.1f || remove)
+		{
+			Vector up (0.0f, 0.0f, 1.0f);
+			TracerStore::TracerLinePoint point;
+			point.position = getCurrentPosition();
+			point.cross = (getCurrentVelocity() * up).Normalize();
+			positions_.push_back(point);
+			snapTime_ = 0.0f;
 		}
 	}
 

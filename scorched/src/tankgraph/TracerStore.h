@@ -32,20 +32,26 @@ class Tank;
 class TracerStore : public GameStateI
 {
 public:
+	struct TracerLinePoint
+	{
+		Vector position;
+		Vector cross;
+	};
+
 	TracerStore();
 	virtual ~TracerStore();
 
 	virtual void draw(const unsigned state);
 
 	void drawTracerEnd(Vector &position);
-	void drawSmokeTracer(std::list<Vector> &positions);
+	void drawSmokeTracer(std::list<TracerLinePoint> &positions);
 
 	void newGame();
 	void clearTracers();
 	void addTracer(unsigned int tank, 
 		Vector &position);
 	void addSmokeTracer(unsigned int tank, 
-		Vector &position, std::list<Vector> &positions);
+		Vector &position, std::list<TracerLinePoint> &positions);
 
 protected:
 	class TraceEntry
@@ -55,7 +61,7 @@ protected:
 
 		unsigned int tank;
 		std::list<Vector> points;
-		std::list<std::list<Vector> > lines;
+		std::list<std::list<TracerLinePoint> > lines;
 	};
 
 	std::map<unsigned int, TraceEntry> traceEntries_;

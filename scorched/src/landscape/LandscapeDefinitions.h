@@ -24,6 +24,7 @@
 #include <landscape/LandscapeDefinition.h>
 #include <landscape/LandscapeTex.h>
 #include <landscape/LandscapeDefn.h>
+#include <landscape/LandscapePlace.h>
 #include <string>
 #include <list>
 
@@ -53,6 +54,7 @@ public:
 	LandscapeDefinition *getRandomLandscapeDefn(OptionsGame &context);
 	LandscapeTex *getTex(const char *name);
 	LandscapeDefn *getDefn(const char *name);
+	LandscapePlace *getPlace(const char *name);
 
 	bool landscapeEnabled(OptionsGame &context, const char *name);
 	std::list<LandscapeDefinitionsEntry> &getAllLandscapes() 
@@ -62,10 +64,12 @@ protected:
 	std::list<LandscapeDefinitionsEntry> entries_;
 	std::list<LandscapeTex*> texs_;
 	std::list<LandscapeDefn*> defns_;
+	std::list<LandscapePlace*> places_;
 
 	bool readDefinitions();
 	bool readTexs();
 	bool readDefns();
+	bool readPlaces();
 
 };
 

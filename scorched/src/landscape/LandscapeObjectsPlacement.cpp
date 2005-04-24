@@ -23,7 +23,7 @@
 #include <landscape/LandscapeObjectsEntryModel.h>
 #include <landscape/LandscapeObjects.h>
 #include <landscape/LandscapeMaps.h>
-#include <landscape/LandscapeTex.h>
+#include <landscape/LandscapePlace.h>
 #include <landscape/Landscape.h>
 #include <client/ScorchedClient.h>
 #include <GLEXT/GLBitmapModifier.h>
@@ -32,7 +32,7 @@
 
 void LandscapeObjectPlacementTrees::generateObjects(
 	RandomGenerator &generator, 
-	LandscapeTexObjectsPlacementTree &placement,
+	LandscapePlaceObjectsPlacementTree &placement,
 	ProgressCounter *counter)
 {
 	// Generate a map of where the trees should go
@@ -133,15 +133,15 @@ void LandscapeObjectPlacementTrees::generateObjects(
 	Model *modelburnt = 0;
 	if (0 == strcmp(placement.objecttype.c_str(), "tree"))
 	{
-		LandscapeTexObjectsTree *treeObjects = 
-			(LandscapeTexObjectsTree *) placement.object;
+		LandscapePlaceObjectsTree *treeObjects = 
+			(LandscapePlaceObjectsTree *) placement.object;
 		pine = (0 == strcmp(treeObjects->tree.c_str(), "pine"));
 		snowHeight = treeObjects->snow;
 	}
 	else if (0 == strcmp(placement.objecttype.c_str(), "model"))
 	{
-		LandscapeTexObjectsModel *modelObjects = 
-			(LandscapeTexObjectsModel *) placement.object;
+		LandscapePlaceObjectsModel *modelObjects = 
+			(LandscapePlaceObjectsModel *) placement.object;
 		
 		model = ModelStore::instance()->loadModel(modelObjects->model);
 		modelburnt = ModelStore::instance()->loadModel(modelObjects->modelburnt);
@@ -228,7 +228,7 @@ void LandscapeObjectPlacementTrees::generateObjects(
 
 void LandscapeObjectPlacementMask::generateObjects(
 	RandomGenerator &generator, 
-	LandscapeTexObjectsPlacementMask &placement,
+	LandscapePlaceObjectsPlacementMask &placement,
 	ProgressCounter *counter)
 {
 	bool pine = true;
@@ -237,15 +237,15 @@ void LandscapeObjectPlacementMask::generateObjects(
 	Model *modelburnt = 0;
 	if (0 == strcmp(placement.objecttype.c_str(), "tree"))
 	{
-		LandscapeTexObjectsTree *treeObjects = 
-			(LandscapeTexObjectsTree *) placement.object;
+		LandscapePlaceObjectsTree *treeObjects = 
+			(LandscapePlaceObjectsTree *) placement.object;
 		pine = (0 == strcmp(treeObjects->tree.c_str(), "pine"));
 		snowHeight = treeObjects->snow;
 	}
 	else if (0 == strcmp(placement.objecttype.c_str(), "model"))
 	{
-		LandscapeTexObjectsModel *modelObjects = 
-			(LandscapeTexObjectsModel *) placement.object;
+		LandscapePlaceObjectsModel *modelObjects = 
+			(LandscapePlaceObjectsModel *) placement.object;
 		
 		model = ModelStore::instance()->loadModel(modelObjects->model);
 		modelburnt = ModelStore::instance()->loadModel(modelObjects->modelburnt);

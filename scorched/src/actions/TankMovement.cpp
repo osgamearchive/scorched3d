@@ -27,6 +27,7 @@
 #include <landscape/LandscapeMaps.h>
 #include <tank/TankContainer.h>
 #include <common/OptionsGame.h>
+#include <common/SoundStore.h>
 
 static const int NoMovementTransitions = 4;
 std::map<unsigned int, TankMovement*> TankMovement::movingTanks;
@@ -35,7 +36,7 @@ REGISTER_ACTION_SOURCE(TankMovement);
 
 TankMovement::TankMovement() : 
 	timePassed_(0.0f), vPoint_(0), 
-	remove_(false), moving_(true)
+	remove_(false), moving_(true), moveSound_(0)
 {
 }
 
@@ -44,7 +45,7 @@ TankMovement::TankMovement(unsigned int playerId,
 	playerId_(playerId), 
 	positionX_(positionX), positionY_(positionY),
 	timePassed_(0.0f), vPoint_(0), 
-	remove_(false), moving_(true)
+	remove_(false), moving_(true), moveSound_(0)
 {
 }
 
@@ -62,6 +63,16 @@ void TankMovement::init()
 
 	vPoint_ = context_->viewPoints->getNewViewPoint(playerId_);
 	
+	// Start the tank movement sound
+	if (!context_->serverMode) 
+	{
+		moveSound_ = 
+			SoundStore::instance()->fetchOrCreateBuffer((char *)
+				getDataFile("data/wav/movement/tankmove.wav"));
+		moveSound_->setRepeats();
+		moveSound_->play();
+	}
+
 	// As with everything to do with movement
 	// The xy position is stored as an unsigned int
 	// to save space, z is calculated from the landscape
@@ -143,6 +154,11 @@ void TankMovement::simulate(float frameTime, bool &remove)
 	else
 	{
 		remove = true;
+	}
+
+	if (remove && moveSound_)
+	{
+		moveSound_->stop();
 	}
 	
 	ActionMeta::simulate(frameTime, remove);

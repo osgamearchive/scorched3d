@@ -20,6 +20,8 @@
 
 #include <tankgraph/TracerStore.h>
 #include <tank/TankContainer.h>
+#include <GLEXT/GLTexture.h>
+#include <GLEXT/GLBitmap.h>
 #include <client/ScorchedClient.h>
 
 TracerStore::TracerStore() : current_(0), listNo_(0)
@@ -73,8 +75,8 @@ void TracerStore::draw(const unsigned state)
 		drawTracerEnd(*itor);
 	}
 
-	std::list<std::list<Vector> >::iterator itor2 = current_->lines.begin();
-	std::list<std::list<Vector> >::iterator itorend2 = current_->lines.end();
+	std::list<std::list<TracerLinePoint> >::iterator itor2 = current_->lines.begin();
+	std::list<std::list<TracerLinePoint> >::iterator itorend2 = current_->lines.end();
 	for (;itor2 != itorend2; itor2++)
 	{
 		drawSmokeTracer(*itor2);
@@ -100,30 +102,66 @@ void TracerStore::drawTracerEnd(Vector &position)
 	glPopMatrix();
 }
 
-void TracerStore::drawSmokeTracer(std::list<Vector> &positions)
+void TracerStore::drawSmokeTracer(std::list<TracerLinePoint> &positions)
 {
 	GLState currentState(GLState::TEXTURE_OFF | GLState::BLEND_OFF);
-	
-	glBegin(GL_LINES);
-	std::list<Vector>::iterator itor = positions.begin();
-	std::list<Vector>::iterator itorend = positions.end();
-	for (;itor != itorend; itor++)
+	/*glEnable(GL_ALPHA_TEST);
+	glAlphaFunc(GL_GREATER, 0.00f);
+
+	static GLTexture arrowTexture;
+	if (!arrowTexture.textureValid())
 	{
-		Vector &startPos = *itor;
-		itor++;
-		if (itor != itorend)
-		{
-			Vector &endPos = *itor;
-				if (fabs(startPos[0] - endPos[0]) < 100.0f &&
-				fabs(startPos[1] - endPos[1]) < 100.0f)
-			{
-				glVertex3fv(startPos);
-				glVertex3fv(endPos);
-			}
-		}
-		else break;
+		std::string file1 = getDataFile("data/windows/arrow.bmp");
+		std::string file2 = getDataFile("data/windows/arrowi.bmp");
+		GLBitmap bitmap(file1.c_str(), file2.c_str(), true);
+		arrowTexture.create(bitmap, GL_RGBA);
 	}
-	glEnd();
+	arrowTexture.draw();*/
+
+	// Draw twice (for front and back facing)
+	for (int i=0; i<2; i++)
+	{
+		glBegin(GL_QUAD_STRIP);
+		Vector lastPos;
+		float totalDist = 0.0f;
+		std::list<TracerLinePoint>::iterator itor = positions.begin();
+		std::list<TracerLinePoint>::iterator itorend = positions.end();
+		for (;itor != itorend; itor++)
+		{
+			Vector &currentPos = (*itor).position;
+			Vector &cross = (*itor).cross;
+			if (itor == positions.begin()) lastPos = currentPos;
+
+			float dist = (lastPos - currentPos).Magnitude();
+			if (dist < 100.0f)
+			{
+				if (i==0)
+				{
+					glTexCoord2f(0.0f, totalDist);
+					glVertex3fv(currentPos - cross / 2.0f);
+					glTexCoord2f(1.0f, totalDist);
+					glVertex3fv(currentPos + cross / 2.0f);
+				}
+				else
+				{
+					glTexCoord2f(0.0f, totalDist);
+					glVertex3fv(currentPos + cross / 2.0f);
+					glTexCoord2f(1.0f, totalDist);
+					glVertex3fv(currentPos - cross / 2.0f);
+				}
+			}
+			else
+			{
+				glEnd();
+				glBegin(GL_QUAD_STRIP);
+			}
+
+			totalDist += dist / 10.0f;
+			lastPos = currentPos;
+		}
+		glEnd();
+	}
+	//glDisable(GL_ALPHA_TEST);
 }
 
 void TracerStore::newGame()
@@ -148,7 +186,8 @@ void TracerStore::addTracer(unsigned int tank, Vector &position)
 	}
 }
 
-void TracerStore::addSmokeTracer(unsigned int tank, Vector &position, std::list<Vector> &positions)
+void TracerStore::addSmokeTracer(unsigned int tank, 
+	Vector &position, std::list<TracerLinePoint> &positions)
 {
 	std::map<unsigned int, TraceEntry>::iterator itor = 
 		traceEntries_.find(tank);

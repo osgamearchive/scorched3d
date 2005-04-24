@@ -48,6 +48,7 @@ public:
 	bool getApexNoDud() { return apexNoDud_; }
 	bool getCreateSmoke() { return createSmoke_; }
 	bool getCreateFlame() { return createFlame_; }
+	float getTimedCollision() { return timedCollision_; }
 	float getSpinSpeed() { return spinSpeed_; }
 	float getFlameLife() { return flameLife_; }
 	float getSmokeLife() { return smokeLife_; }
@@ -67,6 +68,7 @@ protected:
 	float spinSpeed_;
 	float flameLife_;
 	float smokeLife_;
+	float timedCollision_;
 	Vector flameStartColor1_;
 	Vector flameStartColor2_;
 	Vector flameEndColor1_;

@@ -21,13 +21,12 @@
 #if !defined(__INCLUDE_LandscapeTexh_INCLUDE__)
 #define __INCLUDE_LandscapeTexh_INCLUDE__
 
-#include <coms/ComsMessage.h>
 #include <3dsparse/ModelID.h>
 #include <XML/XMLFile.h>
 #include <string>
 #include <vector>
-class ScorchedContext;
 
+class ScorchedContext;
 class LandscapeTexType
 {
 public:
@@ -88,24 +87,6 @@ public:
 	virtual bool readXML(XMLNode *node);
 };
 
-class LandscapeTexObjectsModel : public LandscapeTexType
-{
-public:
-	ModelID model;
-	ModelID modelburnt;
-
-	virtual bool readXML(XMLNode *node);
-};
-
-class LandscapeTexObjectsTree : public LandscapeTexType
-{
-public:
-	std::string tree;
-	float snow;
-
-	virtual bool readXML(XMLNode *node);
-};
-
 class LandscapeTexPrecipitation : public LandscapeTexType
 {
 public:
@@ -120,39 +101,6 @@ public:
 	ModelID model;
 	int count;
 	int minz, maxz;
-
-	virtual bool readXML(XMLNode *node);
-};
-
-class LandscapeTexObjectsPlacement : public LandscapeTexType
-{
-public:
-	virtual ~LandscapeTexObjectsPlacement();
-
-	std::string objecttype;
-	LandscapeTexType *object;
-
-	virtual bool readXML(XMLNode *node);
-};
-
-class LandscapeTexObjectsPlacementTree : public LandscapeTexObjectsPlacement
-{
-public:
-	int numobjects;
-	int numclusters;
-	float minheight, maxheight;
-
-	virtual bool readXML(XMLNode *node);
-};
-
-class LandscapeTexObjectsPlacementMask : public LandscapeTexObjectsPlacement
-{
-public:
-	int numobjects;
-	std::string mask;
-	float minheight, maxheight;
-	float mincloseness, minslope;
-	float xsnap, ysnap, angsnap;
 
 	virtual bool readXML(XMLNode *node);
 };
@@ -186,6 +134,7 @@ public:
 	virtual bool readXML(XMLNode *node);
 };
 
+class LandscapeDefinitions;
 class LandscapeTex
 {
 public:
@@ -196,6 +145,7 @@ public:
 	std::string detail;
 	std::string magmasmall;
 	std::string scorch;
+	std::string placements;
 	Vector fog;
 	float fogdensity;
 	float lowestlandheight;
@@ -214,12 +164,10 @@ public:
 	std::string precipitationtype;
 	LandscapeTexType *precipitation;
 
-	std::vector<std::string> objectstype;
-	std::vector<LandscapeTexType *> objects;
 	std::vector<LandscapeTexEvent *> events;
 	std::vector<LandscapeTexBoids *> boids;
 
-	bool readXML(XMLNode *node);
+	bool readXML(LandscapeDefinitions *definitions, XMLNode *node);
 
 private:
 	LandscapeTex(const LandscapeTex &other);

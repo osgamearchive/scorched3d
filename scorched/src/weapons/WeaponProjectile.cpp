@@ -30,6 +30,7 @@ WeaponProjectile::WeaponProjectile() :
 	showShotPath_(false), showEndPoint_(false), 
 	createSmoke_(true),	createFlame_(true), 
 	spinSpeed_(1.0f), apexNoDud_(false),
+	timedCollision_(0.0f),
 	flameLife_(1.0f), smokeLife_(4.0f),
 	flameStartColor1_(0.9f, 0.0f, 0.0f), flameStartColor2_(1.0f, 0.2f, 0.2f),
 	flameEndColor1_(0.95f, 0.9f, 0.2f), flameEndColor2_(1.0f, 1.0f, 0.3f)
@@ -75,6 +76,9 @@ bool WeaponProjectile::parseXML(OptionsGame &context,
 	accessoryNode->getNamedChild("apexnodud", apexNoDudNode, false);
 	if (apexNode) apexCollision_ = true;
 	if (apexNoDudNode) apexNoDud_ = true;
+
+	// Get the timed collision point
+	accessoryNode->getNamedChild("timedcollision", timedCollision_, false);
 
 	// Get the no smoke node
 	XMLNode *noCreateSmokeNode = 0;

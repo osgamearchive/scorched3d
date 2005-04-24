@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<places>
+	<place>
+		<name>none</name>
+		<placements></placements>
+	</place>
+	<place>
+		<name>pine</name>
+		<placements>
+			<placement type="trees">
+				<numobjects>1000000</numobjects>
+				<numclusters>25</numclusters>
+				<minheight>8</minheight>
+				<maxheight>30</maxheight>
+				<object type="tree">
+					<tree>pine</tree>
+					<snow>25</snow>
+				</object>
+			</placement>
+		</placements>
+	</place>
+	<place>
+		<name>palm</name>
+		<placements>
+			<placement type="trees">
+				<numobjects>1000000</numobjects>
+				<numclusters>25</numclusters>
+				<minheight>8</minheight>
+				<maxheight>30</maxheight>
+				<object type="tree">
+					<tree>palm</tree>
+					<snow>100</snow>
+				</object>
+			</placement>
+		</placements>
+	</place>
+	<place>
+		<name>snowpine</name>
+		<placements>
+			<placement type="trees">
+				<numobjects>1000000</numobjects>
+				<numclusters>25</numclusters>
+				<minheight>8</minheight>
+				<maxheight>30</maxheight>
+				<object type="tree">
+					<tree>pine</tree>
+					<snow>10</snow>
+				</object>
+			</placement>
+		</placements>		
+	</place>
+</places>
