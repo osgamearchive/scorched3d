@@ -403,6 +403,8 @@ scorched3d_SOURCES = \
 	../landscape/LandscapeObjectsEntryTree.h \
 	../landscape/LandscapeObjectsPlacement.cpp \
 	../landscape/LandscapeObjectsPlacement.h \
+	../landscape/LandscapePlace.cpp \
+	../landscape/LandscapePlace.h \
 	../landscape/LandscapePoints.cpp \
 	../landscape/LandscapePoints.h \
 	../landscape/LandscapeTex.cpp \
@@ -925,6 +927,8 @@ scorched3d_SOURCES = \
 	../server/ServerBrowserInfo.h \
 	../server/ServerBuyAccessoryHandler.cpp \
 	../server/ServerBuyAccessoryHandler.h \
+	../server/ServerCheckForWinnersState.cpp \
+	../server/ServerCheckForWinnersState.h \
 	../server/ServerCommon.cpp \
 	../server/ServerCommon.h \
 	../server/ServerConnectHandler.cpp \

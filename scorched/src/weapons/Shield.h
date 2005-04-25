@@ -53,6 +53,9 @@ public:
 	float getHitRemovePower() { return removePower_; }
 	float getHitPenetration() { return penetration_; }
 	ShieldSize getRadius() { return radius_; }
+	float getActualRadius() 
+		{ return ((getRadius()==Shield::ShieldSizeSmall)?
+			ShieldSizeSmallSize:ShieldSizeLargeSize); }
 	Vector &getColor() { return color_; }
 	bool getHalfShield() { return halfShield_; }
 	virtual ShieldType getShieldType();

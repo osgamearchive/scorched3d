@@ -405,8 +405,7 @@ ScorchedCollisionHandler::ParticleAction ScorchedCollisionHandler::collisionShie
 					{
 						float distance = (shotTank->getPhysics().getTankPosition() -
 							hitTank->getPhysics().getTankPosition()).Magnitude();
-						float shieldSize = 
-							((shield->getRadius()==Shield::ShieldSizeSmall)?ShieldSizeSmallSize:ShieldSizeLargeSize);
+						float shieldSize = shield->getActualRadius();
 						if (distance < shieldSize)
 						{
 							passed = false;

@@ -20,6 +20,7 @@ Fixed: Team talk messages now have the team text before the colon
 Fixed: Player should always reconnect with last used player name
 Fixed: Server status messages getting too big too send
 Fixed: Winner award given when all players leave (1/2 total rounds must be played)
+Fixed: Bug where rollers kill shields and heavy shields with direct hits
 
 Added: Delay before tooltips are seen is configurable
 Added: timedcollision attribute to shot projectile (for timed explosions)

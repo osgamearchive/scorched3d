@@ -20,9 +20,11 @@
 
 #include <weapons/WeaponRoller.h>
 #include <weapons/AccessoryStore.h>
+#include <weapons/Shield.h>
 #include <actions/ShotBounce.h>
 #include <common/Defines.h>
 #include <engine/ActionController.h>
+#include <tank/TankContainer.h>
 #include <landscape/LandscapeMaps.h>
 #include <math.h>
 
@@ -74,13 +76,46 @@ void WeaponRoller::fireWeapon(ScorchedContext &context,
 {
 	for (int i=0; i<numberRollers_; i++)
 	{
-	//for (float i=0.0f; i<360.0f; i+= 360.0f / float(numberRollers_))
-	//{
 		Vector position = oldposition;
+		
+		// Make a slightly different starting position
 		position[0] += RAND * 2.0f - 1.0f;
 		position[1] += RAND * 2.0f - 1.0f;
-		position[2] = context.landscapeMaps->getHMap().getInterpHeight(
+		float minHeight = context.landscapeMaps->getHMap().getInterpHeight(
 			position[0], position[1]) + 1.0f;
+		if (position[2] < minHeight) position[2] = minHeight;
+				
+		// Make sure this new position is not inside a tank's shields
+		bool ok = false;
+		while (!ok)
+		{
+			ok = true;
+			std::map<unsigned int, Tank *> &tanks = 
+				context.tankContainer->getPlayingTanks();
+			std::map<unsigned int, Tank *>::iterator itor;
+			for (itor = tanks.begin();
+				itor != tanks.end();
+				itor++)
+			{
+				Tank *current = (*itor).second;
+				Vector &tankPos = 
+					current->getPhysics().getTankPosition();
+				Accessory *accessory = 
+					current->getAccessories().getShields().getCurrentShield();
+				if (accessory)
+				{
+					Shield *shield = (Shield *) accessory->getAction();
+					float shieldSize = shield->getActualRadius();
+					if ((position - tankPos).Magnitude() < shieldSize)
+					{
+						ok = false;
+						position[2] += 1.0f;
+					}
+				}
+			}
+		}
+		
+
 		addRoller(context, playerId, position, data);
 	}
 }
