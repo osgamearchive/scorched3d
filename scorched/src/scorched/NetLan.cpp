@@ -107,7 +107,7 @@ static void createControlsPost(wxWindow *parent, wxSizer *sizer)
 
 	// Ok and cancel boxes
 	wxBoxSizer *buttonSizer = new wxBoxSizer(wxHORIZONTAL);
-	IDOK_CTRL = new wxButton(parent, wxID_OK, "Ok");
+	IDOK_CTRL = new wxButton(parent, wxID_OK, "Join Game");
 	IDCANCEL_CTRL = new wxButton(parent, wxID_CANCEL, "Cancel");
 	buttonSizer->Add(IDCANCEL_CTRL, 0, wxALL, 5);
 	buttonSizer->Add(IDOK_CTRL, 0, wxALL, 5);
