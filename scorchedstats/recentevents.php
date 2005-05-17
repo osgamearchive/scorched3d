@@ -1,6 +1,7 @@
 <?
-$prefixid=$_GET['Prefix'];
-$seriesid=$_GET['Series'];
+$prefixid = ( isset($HTTP_GET_VARS['Prefix']) ) ? intval($HTTP_GET_VARS['Prefix']) : 0;
+$seriesid = ( isset($HTTP_GET_VARS['Series']) ) ? intval($HTTP_GET_VARS['Series']) : 0;
+
 include('statsheader.php');
 ?>
 

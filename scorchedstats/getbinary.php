@@ -2,9 +2,10 @@
 
 include('config.php');
 
-$id=$_GET['id'];
+$id = ( isset($HTTP_GET_VARS['id']) ) ? intval($HTTP_GET_VARS['id']) : 0;
+
 $data="";
-if($id) 
+if($id != 0) 
 {
 
 	$link = mysql_connect($dbhost, $dbuser, $dbpasswd) or die("Could not connect : " . mysql_error());

@@ -11,8 +11,10 @@ include('search.php');
 </table>
 
 <?
-$playername=$_GET['playername'] or die ("No player name specified");
-$query = " select name, playerid from scorched3d_names where name rlike \"$playername\"";
+$playername = ( isset($HTTP_GET_VARS['playername']) ) ? htmlspecialchars($HTTP_GET_VARS['playername']) : '';
+$playername = str_replace("\'", "''", $playername);
+
+$query = " select name, playerid from scorched3d_names where name rlike '$playername'";
 $result = mysql_query($query) or die("Query failed : " . mysql_error());
 ?>
 <table width=600 border="0" align="center">

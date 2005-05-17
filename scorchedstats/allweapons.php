@@ -1,10 +1,9 @@
 <?
-$orderby=$_GET['OrderBy'];
-if ($orderby==Null)	$orderby="kills";
-$dir=$_GET['Dir'];
-if ($dir==Null)	$dir="desc";
-$prefixid=$_GET['Prefix'];
-$seriesid=$_GET['Series'];
+$prefixid = ( isset($HTTP_GET_VARS['Prefix']) ) ? intval($HTTP_GET_VARS['Prefix']) : 0;
+$seriesid = ( isset($HTTP_GET_VARS['Series']) ) ? intval($HTTP_GET_VARS['Series']) : 0;
+
+$dir = ( isset($HTTP_GET_VARS['Dir']) ) ? htmlspecialchars($HTTP_GET_VARS['Dir']) : 'desc';
+$orderby = ( isset($HTTP_GET_VARS['OrderBy']) ) ? htmlspecialchars($HTTP_GET_VARS['OrderBy']) : 'kills';
 
 include('statsheader.php');
 include('sortfunction.php');
@@ -17,7 +16,7 @@ include('conversionfunctions.php');
 <?
 // Top weapons query
 $query="SELECT *, COALESCE(round(100*kills/shots, 2), 0.0) as killratio from scorched3d_weapons WHERE prefixid=".$prefixid." AND seriesid=".$seriesid." AND (scorched3d_weapons.cost) >= 0 GROUP BY weaponid ORDER BY $orderby $dir";
-$result = mysql_query($query) or die("Query failed : " . mysql_error() ."<br>".$query);
+$result = mysql_query($query) or die("Query failed : " . mysql_error());
 ?>
 <table width="600" border="0" align="center">
 <tr><td align=center><font size="+1"><b><? echo $mod_name." Weapons"; ?></b></font></td></tr>

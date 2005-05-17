@@ -1,10 +1,22 @@
 <?
+
+include('conversionfunctions.php');
 include('statsheader.php');
 include('sortfunction.php');
-include('conversionfunctions.php');
 
-$prefixid=$_GET['Prefix'];
-$seriesid=$_GET['Series'];
+$prefixid = ( isset($HTTP_GET_VARS['Prefix']) ) ? intval($HTTP_GET_VARS['Prefix']) : 0;
+$seriesid = ( isset($HTTP_GET_VARS['Series']) ) ? intval($HTTP_GET_VARS['Series']) : 0;
+$playerid = ( isset($HTTP_GET_VARS['PlayerID']) ) ? intval($HTTP_GET_VARS['PlayerID']) : 0;
+
+$num_rows = ( isset($HTTP_GET_VARS['Players']) ) ? intval($HTTP_GET_VARS['Players']) : 0;
+$limit = ( isset($HTTP_GET_VARS['Limit']) ) ? intval($HTTP_GET_VARS['Limit']) : 0;
+
+$dir = ( isset($HTTP_GET_VARS['Dir']) ) ? htmlspecialchars($HTTP_GET_VARS['Dir']) : 'desc';
+if ($dir != 'desc' && $dir != 'asc') $dir = 'desc';
+$orderby = ( isset($HTTP_GET_VARS['OrderBy']) ) ? htmlspecialchars($HTTP_GET_VARS['OrderBy']) : 'kills';
+$filterby = ( isset($HTTP_GET_VARS['FBy']) ) ? htmlspecialchars($HTTP_GET_VARS['FBy']) : 'none';
+
+$fielddata = $HTTP_GET_VARS['Fields'];
 
 // Looks to see if $valuetocheck exists in the array of currently displayed fields
 function fieldcheck($datastring, $valuetocheck){
@@ -156,22 +168,7 @@ function dataformat($fieldname, $value){
 	}
 }
 
-// Get playerid, sort direction and field to sort by from url
-$playerid=$_GET['PlayerID'];
-if ($playerid==Null or !is_numeric($playerid)) $playerid=0;
-
-$dir=$_GET['Dir'];
-if ($dir==Null)	$dir="desc";
-elseif ($dir!="desc" and $dir!="asc") $dir="desc";
-
-$orderby=$_GET['OrderBy'];
-if ($orderby==Null) {
-	$orderby="kills";
-	$dir='asc';
-}
-
 // Get selected fields to display from the url
-$fielddata=$_GET['Fields'];
 if ($fielddata==Null) {
 	$fieldarray[0]="kills";
 	$fields="k";
@@ -191,7 +188,6 @@ for ($i=0; $i<count($fieldarray); $i++) {	//Expand field names in the field name
 }
 
 // Gather filtering options from the url
-$filterby=$_GET['FBy'];
 if ($filterby != Null and $filterby != 'none') {
 	$filtercompare=$_GET['FComp'];
 	$filtervalue=$_GET['FVal'];
@@ -206,8 +202,6 @@ else {
 }
 
 // Get number of results per page from the url
-$num_rows=$_GET['Players'];
-$limit=$_GET['Limit'];
 if ($limit==Null or !is_numeric($limit)) $limit=25;
 elseif ($limit<10) $limit=10;
 elseif ($limit>100) $limit=100;
@@ -330,7 +324,7 @@ else {
 
 //Query requested info from the database and setup table for displaying it
 $query = "SELECT scorched3d_stats.playerid, name, avatarid, $columnquery FROM scorched3d_stats LEFT JOIN scorched3d_players playernames ON scorched3d_stats.playerid=playernames.playerid $wherequery ORDER BY $orderby $dir LIMIT $playerid, $limit";
-$result = mysql_query($query) or die("Query failed : " . mysql_error()."<br>".$query);
+$result = mysql_query($query) or die("Query failed : " . mysql_error());
 ?>
 <table width=760 border="0" align="center">
 <tr><td align=center><font size="+1"><b><? echo "Players ".($playerid+1)." to ".($playerid+$limit)." (sorted by ".columnformat($orderby).$filter.")";?></b></font></td></tr>

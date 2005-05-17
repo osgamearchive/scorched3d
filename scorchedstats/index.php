@@ -4,8 +4,8 @@ include('conversionfunctions.php')
 ?>
 
 <?
-$seriesid=$_GET['Series'];
-if ($seriesid==Null)
+$seriesid = ( isset($HTTP_GET_VARS['Series']) ) ? intval($HTTP_GET_VARS['Series']) : 0;
+if ($seriesid==0)
 {
 	// Series
 	$query=" select seriesid, rounds, games, started, ended, name from scorched3d_series where type = 0;";
@@ -95,7 +95,7 @@ $server = $serverrow[0];
 <?
 // Top Players Query
 $query = "select *, name, avatarid, round((skill + (overallwinner*5) + (COALESCE(round((wins/gamesplayed)*(skill-1000), 3), 0)) + ((skill-1000) * COALESCE(round(((kills-(teamkills+selfkills))/shots), 3), 0))),0) as skill from scorched3d_stats LEFT JOIN scorched3d_players playernames ON scorched3d_stats.playerid=playernames.playerid where prefixid = ".$prefixid." and seriesid = ".$seriesid." order by kills desc limit 10";
-$result = mysql_query($query) or die("Query failed : " . mysql_error()."<br>".$query);
+$result = mysql_query($query) or die("Query failed : " . mysql_error());
 ?>
 
 <table width="650" bordercolor="#333333" cellspacing="0" cellpadding="0" border="1" align="center">

@@ -1,7 +1,9 @@
 <?
-$playerid=$_GET['PlayerID'] or die ("No player specified");
-$prefixid=$_GET['Prefix'] or die ("No prefix specified");;
-$seriesid=$_GET['Series'] or die ("No series specified");;
+
+$prefixid = ( isset($HTTP_GET_VARS['Prefix']) ) ? intval($HTTP_GET_VARS['Prefix']) : 0;
+$seriesid = ( isset($HTTP_GET_VARS['Series']) ) ? intval($HTTP_GET_VARS['Series']) : 0;
+$playerid = ( isset($HTTP_GET_VARS['PlayerID']) ) ? intval($HTTP_GET_VARS['PlayerID']) : 0;
+
 include('statsheader.php');
 ?>
 

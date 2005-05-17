@@ -1,7 +1,7 @@
 <?
-$playerid=$_GET['PlayerID'] or die ("No player specified");
-$prefixid=$_GET['Prefix'] or die ("No prefix specified"); 
-$seriesid=$_GET['Series'] or die ("No series specified"); 
+$prefixid = ( isset($HTTP_GET_VARS['Prefix']) ) ? intval($HTTP_GET_VARS['Prefix']) : 0;
+$seriesid = ( isset($HTTP_GET_VARS['Series']) ) ? intval($HTTP_GET_VARS['Series']) : 0;
+$playerid = ( isset($HTTP_GET_VARS['PlayerID']) ) ? intval($HTTP_GET_VARS['PlayerID']) : 0;
 
 include('statsheader.php');
 include('conversionfunctions.php');
@@ -36,7 +36,7 @@ $playername=$playerrow->name;
 
 <?
 // Player Aliases
-$query = "SELECT * FROM scorched3d_names where playerid=$playerid order by count desc limit 15";
+$query = "SELECT * FROM scorched3d_names where playerid=$playerid order by count desc limit 5";
 $result = mysql_query($query) or die("Query failed : " . mysql_error());
 ?>
 <table width="600" border="0" align="center">
@@ -54,7 +54,14 @@ $result = mysql_query($query) or die("Query failed : " . mysql_error());
 	}
 ?>
 </table>
+<table width=600 border =0 align=center>
+<tr><td><a href="playernames.php?Prefix=<?=$prefixid?>&Series=<?=$seriesid?>&PlayerID=<?=$playerid?>">
+View all aliases
+</a>
+</tr></td>
+</table>
 <br>
+
 
 <?
 // Main Stats
@@ -222,7 +229,7 @@ View all players (<? print $row[0]; ?>).
 <?
 // List top targets
 $query="select (scorched3d_events.otherplayerid) as killedid, (scorched3d_players.name) as name, (count(*)) AS tally from scorched3d_events LEFT JOIN scorched3d_players ON (scorched3d_events.otherplayerid=scorched3d_players.playerid) where scorched3d_events.playerid=$playerid and scorched3d_events.prefixid=$prefixid and scorched3d_events.seriesid=$seriesid and eventtype=1 group by scorched3d_events.otherplayerid order by tally desc limit 25";
-$result = mysql_query($query) or die("Query failed : " . mysql_error(). "<BR>query=$query");
+$result = mysql_query($query) or die("Query failed : " . mysql_error());
 ?>
 <table width="600" border="0" align="center">
 <tr><td align=center><b>Top 25 Targets</b></td></tr>
@@ -251,7 +258,7 @@ while ($row = mysql_fetch_object($result))
 <?
 // Top Killers
 $query=" select (scorched3d_events.playerid) as killedid, (scorched3d_players.name) as name, (count(*)) AS tally from scorched3d_events LEFT JOIN scorched3d_players ON (scorched3d_events.playerid=scorched3d_players.playerid) where otherplayerid=$playerid and prefixid=$prefixid and seriesid=$seriesid and eventtype=1 group by scorched3d_events.playerid order by tally desc limit 25";
-$result = mysql_query($query) or die("Query failed : " . mysql_error(). "<BR>query=$query");
+$result = mysql_query($query) or die("Query failed : " . mysql_error());
 ?>
 <table width="600" border="0" align="center">
 <tr><td align=center><b>Top 25 Killers</b></td></tr>
@@ -280,7 +287,7 @@ while ($row = mysql_fetch_object($result))
 <?	
 // Top Weapons
 $query="select (scorched3d_events.weaponid) as weaponid, (count(*)) as tally, (scorched3d_weapons.armslevel) as armslevel, (scorched3d_weapons.name) as name from scorched3d_events LEFT JOIN scorched3d_weapons ON (scorched3d_events.weaponid=scorched3d_weapons.weaponid) where playerid=$playerid and scorched3d_events.prefixid=$prefixid and scorched3d_events.seriesid=$seriesid and eventtype=1 group by weaponid order by tally desc";
-$result = mysql_query($query) or die("Query failed : " . mysql_error(). "<BR>query=$query");
+$result = mysql_query($query) or die("Query failed : " . mysql_error());
 ?>
 <table width="600" border="0" align="center">
 <tr><td align=center><b>Top Weapons</b></td></tr>

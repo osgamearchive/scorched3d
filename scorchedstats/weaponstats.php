@@ -1,7 +1,8 @@
 <?
-$weaponid=$_GET['WeaponID'] or die ("No Weapon specified");
-$prefixid=$_GET['Prefix'] or die ("No prefix specified");
-$seriesid=$_GET['Series'] or die ("No series specified");
+
+$prefixid = ( isset($HTTP_GET_VARS['Prefix']) ) ? intval($HTTP_GET_VARS['Prefix']) : 0;
+$seriesid = ( isset($HTTP_GET_VARS['Series']) ) ? intval($HTTP_GET_VARS['Series']) : 0;
+$weaponid = ( isset($HTTP_GET_VARS['WeaponID']) ) ? intval($HTTP_GET_VARS['WeaponID']) : 0;
 
 include('statsheader.php');
 include('conversionfunctions.php');
@@ -36,7 +37,7 @@ $weaponname=$row->name;
 <?
 // Weapon users
 $query="select (scorched3d_players.name) as name, (scorched3d_events.playerid) as killer, SUM(IF(scorched3d_events.eventtype='1',1,0)) AS kills, SUM(IF(scorched3d_events.eventtype='2',1,0)) AS teamkills , SUM(IF(scorched3d_events.eventtype='3',1,0)) AS selfkills from scorched3d_events LEFT JOIN scorched3d_players ON (scorched3d_events.playerid=scorched3d_players.playerid) WHERE weaponid=$weaponid and scorched3d_events.prefixid=$prefixid and scorched3d_events.seriesid=$seriesid group by killer order by kills desc limit 25";
-$result = mysql_query($query) or die("Query failed : " . mysql_error(). "<BR>query=$query");
+$result = mysql_query($query) or die("Query failed : " . mysql_error());
 ?>
 <table width="600" border="0" align="center">
 <tr><td align=center><font size="+1"><b><?=$weaponname?> Users</b></font></td></tr>

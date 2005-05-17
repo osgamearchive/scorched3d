@@ -1,19 +1,22 @@
 <?//Gather any sort info or set defaults
-$playerid=$_GET['PlayerID'];// or die ("No player specified");
-if ($playerid==Null) $playerid=0;
-$prefixid=$_GET['Prefix'] or die ("No prefix specified");
-$seriesid=$_GET['Series'] or die ("No series specified");
 
-$orderby=$_GET['OrderBy'];
-if ($orderby==Null)	$orderby="kills";
-$dir=$_GET['Dir'];
-if ($dir==Null)	$dir="desc";
-$compare=$_GET['Compare'];
-if ($compare==Null) $compare="<=";
-$days=$_GET['Days'];
-if ($days==Null) $days="6";
-$num_rows=$_GET['Players'];
+$prefixid = ( isset($HTTP_GET_VARS['Prefix']) ) ? intval($HTTP_GET_VARS['Prefix']) : 0;
+$seriesid = ( isset($HTTP_GET_VARS['Series']) ) ? intval($HTTP_GET_VARS['Series']) : 0;
+$playerid = ( isset($HTTP_GET_VARS['PlayerID']) ) ? intval($HTTP_GET_VARS['PlayerID']) : 0;
+
+$days = ( isset($HTTP_GET_VARS['Days']) ) ? intval($HTTP_GET_VARS['Days']) : 6;
+$num_rows = ( isset($HTTP_GET_VARS['Players']) ) ? intval($HTTP_GET_VARS['Players']) : 10;
+
+$orderby = ( isset($HTTP_GET_VARS['OrderBy']) ) ? htmlspecialchars($HTTP_GET_VARS['OrderBy']) : 'kills';
+
+$dir = ( isset($HTTP_GET_VARS['Dir']) ) ? htmlspecialchars($HTTP_GET_VARS['Dir']) : 'desc';
+if ($dir != "desc" && $dir != "asc") $dir = "desc";
+
+$compare = ( isset($HTTP_GET_VARS['Compare']) ) ? htmlspecialchars($HTTP_GET_VARS['Compare']) : '<=';
+if ($compare != '<=' && $compare != '<' && $compare != '=' && 
+	$compare != '>' && $compare != '>=') $compare = '<=';
 if ($compare=='<' and $days=='0') $compare='=';
+
 include('statsheader.php');
 include('sortfunction.php');  //function used to determine sort order
 ?>
