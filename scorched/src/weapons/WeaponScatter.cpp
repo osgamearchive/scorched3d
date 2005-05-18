@@ -42,7 +42,7 @@ bool WeaponScatter::parseXML(OptionsGame &context,
 
 	// Get the next weapon
 	XMLNode *subNode = 0;
-	if (!accessoryNode->getNamedChild("scatteredweapon", subNode)) return false;
+	if (!accessoryNode->getNamedChild("aimedweapon", subNode)) return false;
 
 	// Check next weapon is correct type
 	AccessoryPart *accessory = store->createAccessoryPart(context, parent_, subNode);
@@ -56,23 +56,23 @@ bool WeaponScatter::parseXML(OptionsGame &context,
 	aimedWeapon_ = (Weapon*) accessory;
 
 	if (!accessoryNode->getNamedChild("position", position_)) return false;
-	if (!accessoryNode->getNamedChild("positionOffset", positionOffset_)) return false;
+	if (!accessoryNode->getNamedChild("positionoffset", positionOffset_)) return false;
 	if (!accessoryNode->getNamedChild("direction", direction_)) return false;
-	if (!accessoryNode->getNamedChild("directionOffset", directionOffset_)) return false;
+	if (!accessoryNode->getNamedChild("directionoffset", directionOffset_)) return false;
 
 	return true;
 }
 
 void WeaponScatter::fireWeapon(ScorchedContext &context,
-	unsigned int playerId, Vector &position, Vector &velocity,
+	unsigned int playerId, Vector &p, Vector &v,
 	unsigned int data)
 {
 	Vector pos, vel;
-	pos[0] += position[0] - positionOffset_[0] + 
+	pos[0] += position_[0] - positionOffset_[0] + 
 		positionOffset_[0] * 2.0f * RAND;
-	pos[1] += position[1] - positionOffset_[1] + 
+	pos[1] += position_[1] - positionOffset_[1] + 
 		positionOffset_[1] * 2.0f * RAND;
-	pos[2] += position[2] - positionOffset_[2] + 
+	pos[2] += position_[2] - positionOffset_[2] + 
 		positionOffset_[2] * 2.0f * RAND;
 	vel[0] += direction_[0] - directionOffset_[0] + 
 		directionOffset_[0] * 2.0f * RAND;

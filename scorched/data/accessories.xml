@@ -1158,7 +1158,7 @@ trace of the shot path.</description>
 			<positionoffset><A>60</A><B>60</B><C>0</C></positionoffset>
 			<direction><A>0</A><B>0</B><C>-1</C></direction>
 			<directionoffset><A>0</A><B>0</B><C>0</C></directionoffset>		
-			<aimedWeapon type='WeaponMulti'>
+			<aimedweapon type='WeaponMulti'>
 				<subweapon1 type='WeaponSound'>
 					<sound>data/wav/misc/thunder.wav</sound>
 				</subweapon1>
@@ -1185,7 +1185,7 @@ trace of the shot path.</description>
 						</subweapon2>
 					</delayedweapon>
 				</subweapon2>
-			</aimedWeapon>
+			</aimedweapon>
 		</accessoryaction>
 	</accessory>
 	<accessory>
@@ -1197,7 +1197,7 @@ trace of the shot path.</description>
 			<positionoffset><A>60</A><B>60</B><C>0</C></positionoffset>
 			<direction><A>0</A><B>0</B><C>-1</C></direction>
 			<directionoffset><A>0</A><B>0</B><C>0</C></directionoffset>		
-			<aimedWeapon type='WeaponAimedOver'>
+			<aimedweapon type='WeaponAimedOver'>
 				<nowarheads>5</nowarheads>
 				<percentagemiss>20</percentagemiss>
 				<maxaimdistance>0</maxaimdistance>
@@ -1215,7 +1215,7 @@ trace of the shot path.</description>
 						<explosiontexture>exp04</explosiontexture>
 					</collisionaction>
 				</aimedweapon>
-			</aimedWeapon>
+			</aimedweapon>
 		</accessoryaction>
 	</accessory>
 
