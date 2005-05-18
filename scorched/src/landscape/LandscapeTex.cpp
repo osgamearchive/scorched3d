@@ -124,29 +124,12 @@ void LandscapeTexActionFireWeapon::fireAction(ScorchedContext &context)
 	Weapon *weapon = (Weapon *) accessory->getAction();
 
 	Vector pos, vel;
-	pos[0] += position[0] - positionoffset[0] + 
-		positionoffset[0] * 2.0f * RAND;
-	pos[1] += position[1] - positionoffset[1] + 
-		positionoffset[1] * 2.0f * RAND;
-	pos[2] += position[2] - positionoffset[2] + 
-		positionoffset[2] * 2.0f * RAND;
-	vel[0] += direction[0] - directionoffset[0] + 
-		directionoffset[0] * 2.0f * RAND;
-	vel[1] += direction[1] - directionoffset[1] + 
-		directionoffset[1] * 2.0f * RAND;
-	vel[2] += direction[2] - directionoffset[2] + 
-		directionoffset[2] * 2.0f * RAND;
-
 	weapon->fireWeapon(context, 0, pos, vel, 
 		Weapon::eDataDeathAnimation);
 }
 
 bool LandscapeTexActionFireWeapon::readXML(XMLNode *node)
 {
-	if (!node->getNamedChild("position", position)) return false;
-	if (!node->getNamedChild("positionoffset", positionoffset)) return false;
-	if (!node->getNamedChild("direction", direction)) return false;
-	if (!node->getNamedChild("directionoffset", directionoffset)) return false;
 	if (!node->getNamedChild("weapon", weapon)) return false;
 	return node->failChildren();
 }

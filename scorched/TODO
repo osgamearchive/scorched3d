@@ -22,6 +22,7 @@ Fixed: Server status messages getting too big too send
 Fixed: Winner award given when all players leave (1/2 total rounds must be played)
 Fixed: Bug where rollers kill shields and heavy shields with direct hits
 
+Added: WeaponScatter so that weapons can emit from the sky (like meteors)
 Added: Delay before tooltips are seen is configurable
 Added: timedcollision attribute to shot projectile (for timed explosions)
 Added: Landscape placements moved to a different file (landscapeplace.xml)

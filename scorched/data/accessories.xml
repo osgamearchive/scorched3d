@@ -1153,57 +1153,69 @@ trace of the shot path.</description>
 		<name>Lightning</name>
 		<armslevel>10</armslevel>
 		<maximumnumber>0</maximumnumber>
-		<accessoryaction type='WeaponMulti'>
-			<subweapon1 type='WeaponSound'>
-				<sound>data/wav/misc/thunder.wav</sound>
-			</subweapon1>
-			<subweapon2 type='WeaponDelay'>
-				<delay>0.5</delay>
-				<delayedweapon type='WeaponMulti'>
-					<subweapon1 type='WeaponSkyFlash'></subweapon1>
-					<subweapon2 type='WeaponLightning'>
-						<conelength>190</conelength>
-						<seglength>6</seglength>
-						<segvar>12</segvar>
-						<size>4</size>
-						<sizevar>-1</sizevar>
-						<minsize>0.1</minsize>
-						<splitprob>0.2</splitprob>
-						<splitvar>0.03</splitvar>
-						<deathprob>0.03</deathprob>
-						<derivangle>0.5</derivangle>
-						<anglevar>0.94</anglevar>
-						<totaltime>1</totaltime>
-						<seghurt>0</seghurt>
-						<seghurtradius>0</seghurtradius>
-						<sound>none</sound>
-					</subweapon2>
-				</delayedweapon>
-			</subweapon2>
+		<accessoryaction type="WeaponScatter">
+			<position><A>128</A><B>128</B><C>200</C></position>
+			<positionoffset><A>60</A><B>60</B><C>0</C></positionoffset>
+			<direction><A>0</A><B>0</B><C>-1</C></direction>
+			<directionoffset><A>0</A><B>0</B><C>0</C></directionoffset>		
+			<aimedWeapon type='WeaponMulti'>
+				<subweapon1 type='WeaponSound'>
+					<sound>data/wav/misc/thunder.wav</sound>
+				</subweapon1>
+				<subweapon2 type='WeaponDelay'>
+					<delay>0.5</delay>
+					<delayedweapon type='WeaponMulti'>
+						<subweapon1 type='WeaponSkyFlash'></subweapon1>
+						<subweapon2 type='WeaponLightning'>
+							<conelength>190</conelength>
+							<seglength>6</seglength>
+							<segvar>12</segvar>
+							<size>4</size>
+							<sizevar>-1</sizevar>
+							<minsize>0.1</minsize>
+							<splitprob>0.2</splitprob>
+							<splitvar>0.03</splitvar>
+							<deathprob>0.03</deathprob>
+							<derivangle>0.5</derivangle>
+							<anglevar>0.94</anglevar>
+							<totaltime>1</totaltime>
+							<seghurt>0</seghurt>
+							<seghurtradius>0</seghurtradius>
+							<sound>none</sound>
+						</subweapon2>
+					</delayedweapon>
+				</subweapon2>
+			</aimedWeapon>
 		</accessoryaction>
 	</accessory>
 	<accessory>
 		<name>Meteor</name>
 		<armslevel>10</armslevel>
 		<maximumnumber>0</maximumnumber>
-		<accessoryaction type='WeaponAimedOver'>
-			<nowarheads>5</nowarheads>
-			<percentagemiss>20</percentagemiss>
-			<maxaimdistance>0</maxaimdistance>
-			<inaccuracy>10</inaccuracy>
-			<aimedweapon type='WeaponProjectile'>
-				<projectilemodel type='ase'>
-					<mesh>roller.ase</mesh>
-					<skin>magma.bmp</skin>
-				</projectilemodel>
-				<collisionaction type='WeaponExplosion'>
-					<hurtamount>0.0</hurtamount>
-					<deform>none</deform>
-					<size>4</size>
-					<explosionsound>explosions/small.wav</explosionsound>
-					<explosiontexture>exp04</explosiontexture>
-				</collisionaction>
-			</aimedweapon>
+		<accessoryaction type="WeaponScatter">
+			<position><A>128</A><B>128</B><C>200</C></position>
+			<positionoffset><A>60</A><B>60</B><C>0</C></positionoffset>
+			<direction><A>0</A><B>0</B><C>-1</C></direction>
+			<directionoffset><A>0</A><B>0</B><C>0</C></directionoffset>		
+			<aimedWeapon type='WeaponAimedOver'>
+				<nowarheads>5</nowarheads>
+				<percentagemiss>20</percentagemiss>
+				<maxaimdistance>0</maxaimdistance>
+				<inaccuracy>10</inaccuracy>
+				<aimedweapon type='WeaponProjectile'>
+					<projectilemodel type='ase'>
+						<mesh>roller.ase</mesh>
+						<skin>magma.bmp</skin>
+					</projectilemodel>
+					<collisionaction type='WeaponExplosion'>
+						<hurtamount>0.0</hurtamount>
+						<deform>none</deform>
+						<size>4</size>
+						<explosionsound>explosions/small.wav</explosionsound>
+						<explosiontexture>exp04</explosiontexture>
+					</collisionaction>
+				</aimedweapon>
+			</aimedWeapon>
 		</accessoryaction>
 	</accessory>
 

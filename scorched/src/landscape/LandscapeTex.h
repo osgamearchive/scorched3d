@@ -64,10 +64,6 @@ public:
 class LandscapeTexActionFireWeapon : public LandscapeTexAction
 {
 public:
-	Vector position;
-	Vector positionoffset;
-	Vector direction;
-	Vector directionoffset;
 	std::string weapon;
 
 	virtual void fireAction(ScorchedContext &context);

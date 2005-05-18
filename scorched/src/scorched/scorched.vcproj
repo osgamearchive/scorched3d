@@ -1841,6 +1841,12 @@
 			<File
 				RelativePath="..\weapons\WeaponVelocity.h">
 			</File>
+			<File
+				RelativePath="..\weapons\WeaponScatter.cpp">
+			</File>
+			<File
+				RelativePath="..\weapons\WeaponScatter.h">
+			</File>
 		</Filter>
 		<Filter
 			Name="coms"
