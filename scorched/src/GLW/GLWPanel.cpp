@@ -22,6 +22,7 @@
 #include <XML/XMLParser.h>
 #include <GLW/GLWTranslate.h>
 #include <GLW/GLWPanel.h>
+#include <GLW/GLWTab.h>
 
 GLWPanel::GLWPanelEntry::GLWPanelEntry(GLWidget *w, GLWCondition *c,
 	unsigned int f, float wi) :

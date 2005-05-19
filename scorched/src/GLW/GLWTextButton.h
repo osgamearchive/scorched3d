@@ -30,7 +30,8 @@ public:
 	GLWTextButton(char *buttonText = "", 
 		float x = 0.0f, float y = 0.0f, float w = 0.0f, 
 		GLWButtonI *handler = 0,
-		unsigned flags = 0);
+		unsigned flags = 0,
+		float size = 14.0f);
 	virtual ~GLWTextButton();
 
 	virtual void draw();

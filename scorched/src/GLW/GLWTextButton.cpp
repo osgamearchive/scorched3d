@@ -24,16 +24,14 @@
 REGISTER_CLASS_SOURCE(GLWTextButton);
 
 GLWTextButton::GLWTextButton(char *buttonText,float x, float y, float w, GLWButtonI *handler,
-							 unsigned flags) :
-	GLWButton(x, y, w, 22.0f, handler, flags), 
-		label_(x, y -2, buttonText)
+							 unsigned flags, float size) :
+	GLWButton(x, y, w, size + 8.0f, handler, flags), 
+	label_(x, y -2, buttonText, size)
 {
-
 }
 
 GLWTextButton::~GLWTextButton()
 {
-
 }
 
 void GLWTextButton::draw()

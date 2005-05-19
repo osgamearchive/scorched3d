@@ -21,6 +21,10 @@
 #include <GLEXT/GLState.h>
 #include <GLW/GLWTab.h>
 
+static const float tabRoundSize = 10.0f;
+static const float tabHeight = 20.0f;
+static const float tabSpacing = 10.0f;
+
 REGISTER_CLASS_SOURCE(GLWTab);
 
 GLWTabI::~GLWTabI()
@@ -28,18 +32,17 @@ GLWTabI::~GLWTabI()
 
 }
 
-GLWTab::GLWTab(char *tabName, float index, float x, float y, float w, float h, float tw) :
-	GLWScrollPanel(x, y, w, h), label_(x + 12.0f + index, y + h - 3.0f, tabName),
-	tw_(tw),
-	index_(index), handler_(0),
+GLWTab::GLWTab(char *tabName, float x, float y, float w, float h) :
+	GLWScrollPanel(x, y, w, h), 
+	label_(x + 5.0f + index_, y + h - 3.0f, tabName),
+	handler_(0), index_(-1.0f),
 	depressed_(true)
 {
-
+	label_.setSize(12.0f);
 }
 
 GLWTab::~GLWTab()
 {
-
 }
 
 void GLWTab::setH(float h)
@@ -48,11 +51,17 @@ void GLWTab::setH(float h)
 	label_.setY(y_ + h_ - 3.0f);
 }
 
+float GLWTab::getTw()
+{
+	return label_.getW() + tabSpacing;
+}
+
 void GLWTab::mouseDown(float x, float y, bool &skipRest)
 {
+	float tw = getTw();
 	if (x > x_ + index_ &&
-		x < x_ + index_ + tw_ + 40 &&
-		y < y_ + h_ + 20 &&
+		x < x_ + index_ + tw &&
+		y < y_ + h_ + tabHeight &&
 		y > y_ + h_)
 	{
 		setDepressed();
@@ -95,23 +104,44 @@ void GLWTab::draw()
 {
 	GLState currentState(GLState::DEPTH_OFF | GLState::TEXTURE_OFF);
 
+	if (index_ == -1.0f)
+	{
+		index_ = 0.0f;
+		std::list<GLWPanel::GLWPanelEntry>::iterator itor;
+		for (itor = parent_->getWidgets().begin();
+			itor != parent_->getWidgets().end();
+			itor++)
+		{
+			GLWPanel::GLWPanelEntry &entry = (*itor);
+			if (entry.widget->getMetaClassId() == getMetaClassId())
+			{
+				GLWTab *tab = (GLWTab *) entry.widget;
+				if (tab == this) break;
+				index_ += tab->getTw() + 2.0f;
+			}
+		}
+	}
+
+	label_.setX(x_ + 5.0f + index_);
 	if (depressed_) drawSurround();
 	else drawNonSurround();
 }
 
 void GLWTab::drawNonSurround()
 {
-	glBegin(GL_LINES);
+	float tw = getTw();
+	glBegin(GL_LINE_STRIP);
 		glColor3f(0.4f, 0.4f, 0.6f);
-		glVertex2d(x_ + index_, y_ + h_);
-		glVertex2d(x_ + index_ + 20.0f, y_ + h_ + 20.0f);
-
-		glVertex2d(x_ + index_ + 20.0f, y_ + h_ + 20.0f);
-		glVertex2d(x_ + index_ + 20.0f + tw_, y_ + h_ + 20.0f);
+		glVertex2f(x_ + index_, y_ + h_);
+		drawCircle(12, 16, x_ + index_ + tabRoundSize, 
+			y_ + h_ + tabHeight - tabRoundSize, tabRoundSize);
+		drawCircle(0, 2, x_ + index_ + tw - tabRoundSize, 
+			y_ + h_ + tabHeight - tabRoundSize, tabRoundSize);
 
 		glColor3f(1.0f, 1.0f, 1.0f);
-		glVertex2d(x_ + index_ + 20.0f + tw_, y_ + h_ + 20.0f);
-		glVertex2d(x_ + index_ + 40.0f + tw_, y_ + h_);
+		drawCircle(2, 4, x_ + index_ + tw - tabRoundSize, 
+			y_ + h_ + tabHeight - tabRoundSize, tabRoundSize);
+		glVertex2f(x_ + index_ + tw, y_ + h_);
 	glEnd();
 
 	label_.draw();
@@ -119,32 +149,31 @@ void GLWTab::drawNonSurround()
 
 void GLWTab::drawSurround()
 {
-	glBegin(GL_LINES);
+	float tw = getTw();
+
+	glBegin(GL_LINE_STRIP);
+		glColor3f(1.0f, 1.0f, 1.0f);
+		glVertex2f(x_, y_);
+		glVertex2f(x_, y_ + h_);
+		glVertex2f(x_ + index_, y_ + h_);
+		drawCircle(12, 16, x_ + index_ + tabRoundSize, 
+			y_ + h_ + tabHeight - tabRoundSize, tabRoundSize);
+		drawCircle(0, 2, x_ + index_ + tw - tabRoundSize, 
+			y_ + h_ + tabHeight - tabRoundSize, tabRoundSize);
+
 		glColor3f(0.4f, 0.4f, 0.6f);
-		glVertex2d(x_, y_);
-		glVertex2d(x_ + w_, y_);
-
-		glVertex2d(x_ + w_, y_);
-		glVertex2d(x_ + w_, y_ + h_);
-
-		glVertex2d(x_ + index_ + 20.0f + tw_, y_ + h_ + 20.0f);
-		glVertex2d(x_ + index_ + 40.0f + tw_, y_ + h_);
+		drawCircle(2, 4, x_ + index_ + tw - tabRoundSize, 
+			y_ + h_ + tabHeight - tabRoundSize, tabRoundSize);
+		glVertex2f(x_ + index_ + tw, y_ + h_);
 
 		glColor3f(1.0f, 1.0f, 1.0f);
-		glVertex2d(x_, y_ + h_);
-		glVertex2d(x_ + index_, y_ + h_);
+		glVertex2f(x_ + index_ + tw, y_ + h_);
+		glVertex2f(x_ + w_, y_ + h_);
 
-		glVertex2d(x_ + index_, y_ + h_);
-		glVertex2d(x_ + index_ + 20.0f, y_ + h_ + 20.0f);
-
-		glVertex2d(x_ + index_ + 20.0f, y_ + h_ + 20.0f);
-		glVertex2d(x_ + index_ + 20.0f + tw_, y_ + h_ + 20.0f);
-
-		glVertex2d(x_ + index_ + 40.0f + tw_, y_ + h_);
-		glVertex2d(x_ + w_, y_ + h_);
-
-		glVertex2d(x_, y_ + h_);
-		glVertex2d(x_, y_);
+		glColor3f(0.4f, 0.4f, 0.6f);
+		glVertex2f(x_ + w_, y_ + h_);
+		glVertex2f(x_ + w_, y_);
+		glVertex2f(x_, y_);
 	glEnd();
 
 	GLWScrollPanel::draw();

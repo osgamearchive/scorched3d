@@ -30,6 +30,7 @@
 #include <GLW/GLWTab.h>
 #include <GLW/GLWCheckBox.h>
 
+class Tank;
 class BuyAccessoryDialog : public GLWWindow,
 						public GLWButtonI,
 						public GLWCheckBoxI
@@ -39,6 +40,7 @@ public:
 	virtual ~BuyAccessoryDialog();
 
 	// Inherited from GLWButtonI
+	virtual void draw();
 	virtual void buttonDown(unsigned int id);
 	virtual void windowInit(const unsigned state);
 
@@ -47,6 +49,7 @@ public:
 
 protected:
 	unsigned int okId_;
+	bool firstDrawTime_;
 	GLWTab *buyWeaponTab_;
 	GLWTab *buyOtherTab_;
 	GLWTab *sellTab_;
@@ -55,12 +58,12 @@ protected:
 	std::map<unsigned int, Accessory *> sellMap_;
 	std::map<unsigned int, Accessory *> buyMap_;
 
-	void setupWindow();
 	void playerRefresh();
 	void addPlayerName();
 	void addPlayerWeapons();
 	void addPlayerWeaponsSell();
 	void addPlayerWeaponsBuy(GLWTab *tab, bool weapons);
+	void addAccessory(Tank *tank, GLWTab *tab, float height, Accessory *current);
 
 };
 

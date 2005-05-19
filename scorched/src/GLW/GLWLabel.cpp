@@ -23,8 +23,8 @@
 
 REGISTER_CLASS_SOURCE(GLWLabel);
 
-GLWLabel::GLWLabel(float x, float y, char *buttonText) : 
-	GLWidget(x, y, 0.0f, 20.0f),
+GLWLabel::GLWLabel(float x, float y, char *buttonText, float size) : 
+	GLWidget(x, y, 0.0f, 20.0f), size_(size),
 	color_(GLWFont::widgetFontColor)
 {
 	if (buttonText) setText(buttonText);
@@ -41,6 +41,12 @@ void GLWLabel::setColor(Vector &color)
 	color_ = color;
 }
 
+void GLWLabel::setSize(float size)
+{
+	size_ = size;
+	w_ = 0.0f;
+}
+
 void GLWLabel::setText(const char *text)
 { 
 	buttonText_ = text; 
@@ -49,8 +55,8 @@ void GLWLabel::setText(const char *text)
 
 void GLWLabel::calcWidth()
 {
-	if (w_ == 0.0f) w_ = (float) GLWFont::instance()->getLargePtFont()->getWidth(14, 
-		(char *) buttonText_.c_str());
+	if (w_ == 0.0f) w_ = (float) GLWFont::instance()->getLargePtFont()->getWidth(
+		size_, (char *) buttonText_.c_str());
 }
 
 void GLWLabel::draw()
@@ -60,6 +66,6 @@ void GLWLabel::draw()
 	glColor3f(1.0f, 0.0f, 0.0f);
 	calcWidth();
 	GLWFont::instance()->getLargePtFont()->draw(
-		color_, 14,
+		color_, size_,
 		x_, y_ + 6.0f, 0.0f, (char *) buttonText_.c_str());
 }

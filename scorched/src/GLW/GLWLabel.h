@@ -29,7 +29,8 @@ class GLWLabel : public GLWidget
 {
 public:
 	GLWLabel(float x = 0.0f, float y = 0.0f, 
-		char *buttonText = 0);
+		char *buttonText = 0,
+		float size = 14.0f);
 	virtual ~GLWLabel();
 
 	virtual float getW() { calcWidth(); return GLWidget::getW(); }
@@ -38,6 +39,7 @@ public:
 	const char *getText() { return buttonText_.c_str(); }
 	void setText(const char *text);
 	void setColor(Vector &color);
+	void setSize(float size);
 	void calcWidth();
 
 	REGISTER_CLASS_HEADER(GLWLabel);
@@ -45,6 +47,7 @@ public:
 protected:
 	std::string buttonText_;
 	Vector color_;
+	float size_;
 
 };
 

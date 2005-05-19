@@ -49,7 +49,7 @@ InventoryDialog::InventoryDialog() :
 		GLWButton::ButtonFlagOk | GLWButton::ButtonFlagCenterX))->getId();
 
 	sellTab_ = (GLWTab *)
-		addWidget(new GLWTab("Inventory", 0, 10, 40, 420, 160, 100));
+		addWidget(new GLWTab("Inventory", 10, 40, 420, 160));
 	topPanel_ = (GLWPanel *)
 		addWidget(new GLWPanel(10, 265, 420, 50));
 	sortBox_ = (GLWCheckBox *) addWidget(new GLWCheckBox(10, 10));

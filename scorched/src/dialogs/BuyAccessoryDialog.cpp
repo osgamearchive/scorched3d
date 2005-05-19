@@ -37,17 +37,18 @@
 BuyAccessoryDialog::BuyAccessoryDialog() : 
 	GLWWindow("", 10.0f, 10.0f, 440.0f, 300.0f, 0,
 		"Allows the current player to buy and sell\n"
-		"weapons and other accessories.")
+		"weapons and other accessories."),
+	firstDrawTime_(true)
 {
 	okId_ = addWidget(new GLWTextButton("Ok", 375, 10, 55, this, 
 		GLWButton::ButtonFlagOk | GLWButton::ButtonFlagCenterX))->getId();
 
 	buyWeaponTab_ = (GLWTab *)
-		addWidget(new GLWTab("Weapons", 0, 10, 40, 420, 160, 80));
+		addWidget(new GLWTab("Weapons", 10, 40, 420, 160));
 	buyOtherTab_ = (GLWTab *)
-		addWidget(new GLWTab("Others", 120, 10, 40, 420, 160, 80));
+		addWidget(new GLWTab("Defense", 10, 40, 420, 160));
 	sellTab_ = (GLWTab *)
-		addWidget(new GLWTab("Sell", 240, 10, 40, 420, 160, 80));
+		addWidget(new GLWTab("Inv", 10, 40, 420, 160));
 	topPanel_ = (GLWPanel *)
 		addWidget(new GLWPanel(10, 265, 420, 50));
 	sortBox_ = (GLWCheckBox *) addWidget(new GLWCheckBox(10, 10));
@@ -57,31 +58,27 @@ BuyAccessoryDialog::BuyAccessoryDialog() :
 
 BuyAccessoryDialog::~BuyAccessoryDialog()
 {
-
 }
 
-void BuyAccessoryDialog::stateChange(bool state, unsigned int id)
+void BuyAccessoryDialog::draw()
 {
-	OptionsDisplay::instance()->setSortAccessories(state);
-	playerRefresh();
-}
+	if (firstDrawTime_)
+	{
+		firstDrawTime_ = false;
+		float screenHeight = (float) GLViewPort::getHeight();
+		float addition = 0;
+		if (screenHeight > 340) addition = screenHeight - 340;
+		if (addition > 200) addition = 200;
 
-void BuyAccessoryDialog::setupWindow()
-{
-	float screenHeight = (float) GLViewPort::getHeight();
-	float addition = 0;
-	if (screenHeight > 340) addition = screenHeight - 340;
-	if (addition > 200) addition = 200;
+		setH(300 + addition);
+		buyWeaponTab_->setH(160 + addition);
+		sellTab_->setH(160 + addition);
+		buyOtherTab_->setH(160 + addition);
+		topPanel_->setY(240 + addition);
 
-	setH(300 + addition);
-	buyWeaponTab_->setH(160 + addition);
-	sellTab_->setH(160 + addition);
-	buyOtherTab_->setH(160 + addition);
-	topPanel_->setY(240 + addition);
-
-	needCentered_ = true;
-
-	sortBox_->setState(OptionsDisplay::instance()->getSortAccessories());
+		needCentered_ = true;
+	}
+	GLWWindow::draw();
 }
 
 void BuyAccessoryDialog::addPlayerName()
@@ -103,16 +100,20 @@ void BuyAccessoryDialog::addPlayerName()
 
 void BuyAccessoryDialog::addPlayerWeapons()
 {
-	addPlayerWeaponsSell();
-
 	buyMap_.clear();
+	sellMap_.clear();
+
+	sellTab_->clear();
+	buyWeaponTab_->clear();
+	buyOtherTab_->clear();
+
+	addPlayerWeaponsSell();
 	addPlayerWeaponsBuy(buyWeaponTab_, true);
 	addPlayerWeaponsBuy(buyOtherTab_, false);
 }
 
 void BuyAccessoryDialog::addPlayerWeaponsBuy(GLWTab *tab, bool showWeapons)
 {
-	tab->clear();
 	Tank *tank = ScorchedClient::instance()->getTankContainer().getCurrentTank();
 	if (!tank) return;
 
@@ -123,9 +124,6 @@ void BuyAccessoryDialog::addPlayerWeaponsBuy(GLWTab *tab, bool showWeapons)
 	else weapons = ScorchedClient::instance()->
 		getAccessoryStore().getAllOthers(
 		OptionsDisplay::instance()->getSortAccessories());
-
-	char buffer[256];
-	int height = 10;
 
 	std::list<Accessory *> accessories;
 	std::list<Accessory *>::iterator itor;
@@ -142,53 +140,24 @@ void BuyAccessoryDialog::addPlayerWeaponsBuy(GLWTab *tab, bool showWeapons)
 		}
 	}
 
+	float height = 10.0f;
 	std::list<Accessory *>::iterator itor2;
 	for (itor2 = accessories.begin();
 		itor2 != accessories.end();
 		itor2++)
 	{
 		Accessory *current = (*itor2);
-
-		int currentNumber = 
-			tank->getAccessories().getAccessoryCount(current);
-
-		GLWPanel *newPanel = (GLWPanel *)
-			tab->addWidget(new GLWPanel(10.0f, (float) height, 315.0f, 20.0f, true));
-		newPanel->setToolTip(&current->getToolTip());
-		sprintf(buffer, "%i", (currentNumber>=0?currentNumber:99));
-		newPanel->addWidget(new GLWLabel(0, -2, buffer));
-		newPanel->addWidget(new GLWIcon(30, 2, 16, 16, current->getTexture()));
-		newPanel->addWidget(new GLWLabel(50, -2, (char *) current->getName()));
-		sprintf(buffer, "$%i/%i", current->getPrice(), current->getBundle());
-		newPanel->addWidget(new GLWLabel(205, -2, buffer));
-
-		if (currentNumber + current->getBundle() <= current->getMaximumNumber() && // Not exceeded maximum
-			current->getStartingNumber() != -1) // Not infinite
-		{
-			if (current->getPrice() <= tank->getScore().getMoney())
-			{
-				GLWidget *button = 
-					newPanel->addWidget(new GLWTextButton("Buy", 325, 0, 60, this, 
-					GLWButton::ButtonFlagCenterX));
-				buyMap_[button->getId()] = current;
-			}
-		}
-
-		height += 24;
+		addAccessory(tank, tab, height, current);
+		height += 24.0f;
 	}
 }
 
 void BuyAccessoryDialog::addPlayerWeaponsSell()
 {
-	sellTab_->clear();
-	sellMap_.clear();
-
-	char buffer[256];
-	int height = 10;
-
 	Tank *tank = ScorchedClient::instance()->getTankContainer().getCurrentTank();
 	if (!tank) return;
 
+	float height = 10.0f;
 	std::list<Accessory *> tankAccessories = 
 		tank->getAccessories().getAllAccessories(
 			OptionsDisplay::instance()->getSortAccessories());
@@ -198,46 +167,74 @@ void BuyAccessoryDialog::addPlayerWeaponsSell()
 		itor++)
 	{
 		Accessory *current = *itor;
-		int count = tank->getAccessories().getAccessoryCount(current);
+		addAccessory(tank, sellTab_, height, current);
+		height += 24.0f;
+	}
+}
 
-		GLWPanel *newPanel = (GLWPanel *)
-			sellTab_->addWidget(new GLWPanel(10.0f, (float) height, 315.0f, 20.0f, true));
-		newPanel->setToolTip(&current->getToolTip());
-		if (current->getStartingNumber() != -1) sprintf(buffer, "%i", count);
-		else sprintf(buffer, "In");
-		newPanel->addWidget(new GLWLabel(0, -2, buffer));
-		newPanel->addWidget(new GLWIcon(30, 2, 16, 16, current->getTexture()));
-		newPanel->addWidget(new GLWLabel(50, -2, (char *) current->getName()));
-		sprintf(buffer, "$%i/%i", current->getSellPrice(), 1);
-		newPanel->addWidget(new GLWLabel(205, -2, buffer));
+void BuyAccessoryDialog::addAccessory(
+	Tank *tank, GLWTab *tab, 
+	float height, Accessory *current)
+{
+	char buffer[256];
+	int currentNumber = 
+		tank->getAccessories().getAccessoryCount(current);
 
-		if (current->getStartingNumber() != -1)
+	GLWPanel *newPanel = (GLWPanel *)
+		tab->addWidget(new GLWPanel(5.0f, (float) height, 290.0f, 20.0f, true));
+	newPanel->setToolTip(&current->getToolTip());
+	sprintf(buffer, "%i", (currentNumber>=0?currentNumber:99));
+	newPanel->addWidget(new GLWLabel(5, -2, buffer, 12.0f));
+	newPanel->addWidget(new GLWIcon(30, 2, 16, 16, current->getTexture()));
+	newPanel->addWidget(new GLWLabel(50, -2, (char *) current->getName(), 12.0f));
+	sprintf(buffer, "$%i/%i", current->getPrice(), current->getBundle());
+	newPanel->addWidget(new GLWLabel(195, -2, buffer, 12.0f));
+
+	if (currentNumber + current->getBundle() <= current->getMaximumNumber() && // Not exceeded maximum
+		current->getStartingNumber() != -1) // Not infinite
+	{
+		if (current->getPrice() <= tank->getScore().getMoney())
 		{
-			GLWidget *button =
-				newPanel->addWidget(new GLWTextButton("Sell", 325, 0, 60, this,
-				GLWButton::ButtonFlagCenterX));
-			sellMap_[button->getId()] = current;
+			GLWTextButton *button = (GLWTextButton *)
+				newPanel->addWidget(new GLWTextButton("Buy", 295, 0, 45, this, 
+				GLWButton::ButtonFlagCenterX, 12.0f));
+			button->setH(button->getH() - 2.0f);
+			buyMap_[button->getId()] = current;
 		}
-
-		height += 24;
+	}
+	if (currentNumber > 0 && 
+		current->getStartingNumber() != -1)
+	{
+		GLWTextButton *button = (GLWTextButton *)
+			newPanel->addWidget(new GLWTextButton("Sell", 345, 0, 45, this,
+			GLWButton::ButtonFlagCenterX, 12.0f));
+		button->setH(button->getH() - 2.0f);
+		sellMap_[button->getId()] = current;
 	}
 }
 
 void BuyAccessoryDialog::playerRefresh()
 {
-	setupWindow();
 	addPlayerName();
 	addPlayerWeapons();
 }
 
 void BuyAccessoryDialog::windowInit(const unsigned state)
 {
+	sortBox_->setState(OptionsDisplay::instance()->getSortAccessories());
 	Tank *tank = ScorchedClient::instance()->getTankContainer().getCurrentTank();
 	if (tank)
 	{
 		buyWeaponTab_->setDepressed();
 		playerRefresh();
 	}
+}
+
+void BuyAccessoryDialog::stateChange(bool state, unsigned int id)
+{
+	// The sort accessories check box has been clicked
+	OptionsDisplay::instance()->setSortAccessories(state);
+	playerRefresh();
 }
 
 void BuyAccessoryDialog::buttonDown(unsigned int id)
@@ -267,9 +264,11 @@ void BuyAccessoryDialog::buttonDown(unsigned int id)
 			// Refresh the window
 			int buyCurrent = buyWeaponTab_->getScrollBar().getCurrent();
 			int otherCurrent = buyOtherTab_->getScrollBar().getCurrent();
+			int sellCurrent = sellTab_->getScrollBar().getCurrent();
 			playerRefresh();
 			buyWeaponTab_->getScrollBar().setCurrent(buyCurrent);
 			buyOtherTab_->getScrollBar().setCurrent(otherCurrent);
+			sellTab_->getScrollBar().setCurrent(sellCurrent);
 		}
 		else
 		{
@@ -286,8 +285,12 @@ void BuyAccessoryDialog::buttonDown(unsigned int id)
 				tank->getScore().setMoney(tank->getScore().getMoney() + acc->getSellPrice());
 
 				// Refresh the window
+				int buyCurrent = buyWeaponTab_->getScrollBar().getCurrent();
+				int otherCurrent = buyOtherTab_->getScrollBar().getCurrent();
 				int sellCurrent = sellTab_->getScrollBar().getCurrent();
 				playerRefresh();
+				buyWeaponTab_->getScrollBar().setCurrent(buyCurrent);
+				buyOtherTab_->getScrollBar().setCurrent(otherCurrent);
 				sellTab_->getScrollBar().setCurrent(sellCurrent);
 			}
 		}

@@ -44,7 +44,7 @@ TalkSettingsDialog::TalkSettingsDialog() :
 		GLWButton::ButtonFlagCenterX))->getId();
 
 	muteTab_ = (GLWTab *)
-		addWidget(new GLWTab("Mute", 0, 10, 40, 420, 410, 100));
+		addWidget(new GLWTab("Mute", 10, 40, 420, 410));
 }
 
 TalkSettingsDialog::~TalkSettingsDialog()

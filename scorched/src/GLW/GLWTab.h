@@ -37,29 +37,27 @@ class GLWTab : public GLWScrollPanel
 {
 public:
 	GLWTab(char *tabName = "", 
-		float index = 0.0f, 
 		float x = 0.0f, float y = 0.0f, 
-		float w = 0.0f, float h =  0.0f, 
-		float tw = 40.0f);
+		float w = 0.0f, float h =  0.0f);
 	virtual ~GLWTab();
 
 	virtual void setParent(GLWPanel *parent);
 	virtual void mouseDown(float x, float y, bool &skipRest);
 	virtual void draw();
-
 	virtual void setH(float h);
 
+	float getTw();
+	
 	void setDepressed();
 	void setHandler(GLWTabI *handler) { handler_ = handler; }
 
 	REGISTER_CLASS_HEADER(GLWTab);
 
 protected:
-	float tw_;
-	float index_;
 	bool depressed_;
 	GLWLabel label_;
 	GLWTabI *handler_;
+	float index_;
 
 	void drawSurround();
 	void drawNonSurround();
