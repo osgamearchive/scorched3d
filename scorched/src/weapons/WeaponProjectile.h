@@ -56,6 +56,7 @@ public:
 	Vector &getFlameStartColor2() { return flameStartColor2_; }
 	Vector &getFlameEndColor1() { return flameEndColor1_; }
 	Vector &getFlameEndColor2() { return flameEndColor2_; }
+	const char *getEngineSound() { return engineSound_.c_str(); }
 
 protected:
 	bool under_;
@@ -73,6 +74,7 @@ protected:
 	Vector flameStartColor2_;
 	Vector flameEndColor1_;
 	Vector flameEndColor2_;
+	std::string engineSound_;
 	Weapon *collisionAction_;
 
 };

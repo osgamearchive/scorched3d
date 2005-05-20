@@ -33,7 +33,8 @@ WeaponProjectile::WeaponProjectile() :
 	timedCollision_(0.0f),
 	flameLife_(1.0f), smokeLife_(4.0f),
 	flameStartColor1_(0.9f, 0.0f, 0.0f), flameStartColor2_(1.0f, 0.2f, 0.2f),
-	flameEndColor1_(0.95f, 0.9f, 0.2f), flameEndColor2_(1.0f, 1.0f, 0.3f)
+	flameEndColor1_(0.95f, 0.9f, 0.2f), flameEndColor2_(1.0f, 1.0f, 0.3f),
+	engineSound_("data/wav/misc/rocket.wav")
 {
 
 }
@@ -89,6 +90,9 @@ bool WeaponProjectile::parseXML(OptionsGame &context,
 	XMLNode *noCreateFlameNode = 0;
 	accessoryNode->getNamedChild("nocreateflame", noCreateFlameNode, false);
 	if (noCreateFlameNode) createFlame_ = false;
+
+	// Get the engine sound (if any)
+	accessoryNode->getNamedChild("enginesound", engineSound_, false);
 
 	// Get the next weapon
 	XMLNode *subNode = 0;

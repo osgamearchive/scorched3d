@@ -19,8 +19,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <common/Keyboard.h>
-#include <common/SoundStore.h>
 #include <common/OptionsDisplay.h>
+#include <sound/Sound.h>
 #include <weapons/Accessory.h>
 #include <GLEXT/GLConsole.h>
 #include <client/MainCamera.h>
@@ -34,7 +34,8 @@
 #include <tank/Tank.h>
 #include <stdio.h>
 
-TankAIHuman::TankAIHuman()
+TankAIHuman::TankAIHuman() :
+	elevateSound_(0), rotateSound_(0), startSound_(0)
 {
 	description_.setText("Human",
 		"A human controlled player\n"
@@ -43,6 +44,9 @@ TankAIHuman::TankAIHuman()
 
 TankAIHuman::~TankAIHuman()
 {
+	delete elevateSound_;
+	delete rotateSound_;
+	delete startSound_;
 }
 
 void TankAIHuman::newGame()
@@ -77,6 +81,13 @@ void TankAIHuman::playMove(const unsigned state,
 		GLConsole::instance()->addLine(true, 
 			"say \"Spam... 123123232131231232131321\"");
 	}*/
+
+	if (!elevateSound_) elevateSound_ = Sound::instance()->createSource();
+	elevateSound_->setPosition(currentTank_->getPhysics().getTankPosition());
+	if (!rotateSound_) rotateSound_ = Sound::instance()->createSource();
+	rotateSound_->setPosition(currentTank_->getPhysics().getTankPosition());
+	if (!startSound_) startSound_ = Sound::instance()->createSource();
+	startSound_->setPosition(currentTank_->getPhysics().getTankPosition());
 
 	moveLeftRight(buffer, keyState, frameTime);
 	moveUpDown(buffer, keyState, frameTime);
@@ -151,11 +162,8 @@ void TankAIHuman::playMove(const unsigned state,
 
 void TankAIHuman::endPlayMove()
 {
-	CACHE_SOUND(turn,  (char *) getDataFile("data/wav/movement/turn.wav"));
-	CACHE_SOUND(elevate,  (char *) getDataFile("data/wav/movement/elevate.wav"));
-
-	turn->stop();
-	elevate->stop();
+	if (elevateSound_) elevateSound_->stop();
+	if (rotateSound_) rotateSound_->stop();
 }
 
 void TankAIHuman::autoAim()
@@ -234,13 +242,12 @@ void TankAIHuman::moveLeftRight(char *buffer, unsigned int keyState, float frame
 		CACHE_SOUND(turn, (char *) getDataFile("data/wav/movement/turn.wav"));
 		if (currentLRMoving)
 		{
-			sound->play();
-			turn->setRepeats();
-			turn->play();
+			startSound_->play(sound);
+			rotateSound_->play(turn, true);
 		}
 		else
 		{
-			turn->stop();
+			rotateSound_->stop();
 		}
 
 		LRMoving = currentLRMoving;
@@ -318,13 +325,12 @@ void TankAIHuman::moveUpDown(char *buffer, unsigned int keyState, float frameTim
 		CACHE_SOUND(elevate, (char *) getDataFile("data/wav/movement/elevate.wav"));
 		if (currentUDMoving)
 		{
-			sound->play();
-			elevate->setRepeats();
-			elevate->play();
+			startSound_->play(sound);
+			elevateSound_->play(elevate, true);
 		}
 		else
 		{
-			elevate->stop();
+			elevateSound_->stop();
 		}
 
 		UDMoving = currentUDMoving;
@@ -384,12 +390,11 @@ void TankAIHuman::movePower(char *buffer, unsigned int keyState, float frameTime
 		CACHE_SOUND(elevate, (char *) getDataFile("data/wav/movement/elevate.wav"));
 		if (currentPMoving)
 		{
-			elevate->setRepeats();
-			elevate->play();
+			elevateSound_->play(elevate, true);
 		}
 		else
 		{
-			elevate->stop();
+			elevateSound_->stop();
 		}
 
 		PMoving = currentPMoving;

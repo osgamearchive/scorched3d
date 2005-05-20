@@ -21,7 +21,7 @@
 #include <actions/SoundAction.h>
 #include <weapons/WeaponSound.h>
 #include <weapons/AccessoryStore.h>
-#include <common/SoundStore.h>
+#include <sound/Sound.h>
 
 REGISTER_ACTION_SOURCE(SoundAction);
 
@@ -44,9 +44,12 @@ void SoundAction::simulate(float frameTime, bool &remove)
 	if (!context_->serverMode)
 	{
 		SoundBuffer *activateSound = 
-			SoundStore::instance()->fetchOrCreateBuffer((char *)
+			Sound::instance()->fetchOrCreateBuffer((char *)
 				getDataFile(weapon_->getSound()));
-		activateSound->play();
+		SoundSource *source = Sound::instance()->createSource();
+		source->setRelative();
+		source->play(activateSound);
+		Sound::instance()->manageSource(source);
 	}
 
 	remove = true;

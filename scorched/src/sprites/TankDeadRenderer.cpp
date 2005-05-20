@@ -19,7 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <sprites/TankDeadRenderer.h>
-#include <common/SoundStore.h>
+#include <sound/Sound.h>
 #include <tank/TankContainer.h>
 #include <client/ScorchedClient.h>
 #include <engine/ParticleEmitter.h>
@@ -44,14 +44,18 @@ void TankDeadRenderer::draw(Action *action)
 
 void TankDeadRenderer::simulate(Action *action, float frametime, bool &removeAction)
 {
-	// Play Dead Tank Sound
-	CACHE_SOUND(sound, (char *) getDataFile("data/wav/explosions/tank.wav"));
-	sound->play();
-	
 	Tank *killedTank = ScorchedClient::instance()->
 		getTankContainer().getTankById(killedPlayerId_);                                                                           
 	if (killedTank)
 	{
+		// Play Dead Tank Sound
+		CACHE_SOUND(sound, (char *) getDataFile("data/wav/explosions/tank.wav"));
+		SoundSource *source = Sound::instance()->createSource();
+		source->setPosition(killedTank->getPhysics().getTankPosition());
+		source->play(sound);
+		Sound::instance()->manageSource(source);
+
+		// Emmit explosion ring
 		Vector position = 
 			killedTank->getPhysics().getTankPosition();
 		ParticleEmitter emmiter;

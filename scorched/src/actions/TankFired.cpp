@@ -23,7 +23,7 @@
 #include <weapons/AccessoryStore.h>
 #include <engine/ScorchedContext.h>
 #include <engine/ActionController.h>
-#include <common/SoundStore.h>
+#include <sound/Sound.h>
 #include <common/OptionsParam.h>
 #include <tankgraph/TankModelRenderer.h>
 #include <tank/TankContainer.h>
@@ -79,10 +79,13 @@ void TankFired::simulate(float frameTime, bool &remove)
 					0 != strcmp("none", weapon_->getParent()->getActivationSound()))
 				{
 					SoundBuffer *firedSound = 
-						SoundStore::instance()->fetchOrCreateBuffer( (char*)
+						Sound::instance()->fetchOrCreateBuffer( (char*)
 							getDataFile("data/wav/%s", 
 							weapon_->getParent()->getActivationSound()));
-					firedSound->play();
+					SoundSource *source = Sound::instance()->createSource();
+					source->setPosition(tank->getPhysics().getTankPosition());
+					source->play(firedSound);
+					Sound::instance()->manageSource(source);
 				}
 			}
 

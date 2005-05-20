@@ -31,11 +31,12 @@
 #include <client/ScorchedClient.h>
 #include <engine/ScorchedContext.h>
 #include <engine/ParticleEngine.h>
+#include <sound/Sound.h>
 
 MissileActionRenderer::MissileActionRenderer(int flareType, float scale) : 
 	flareType_(flareType), counter_(0.05f, 0.05f), 
 	mesh_(0), scale_(scale), rotation_(180.0f),
-	flameemitter_(0), smokeemitter_(0)
+	flameemitter_(0), smokeemitter_(0), sound_(0)
 {
 }
 
@@ -43,6 +44,7 @@ MissileActionRenderer::~MissileActionRenderer()
 {
 	delete flameemitter_;
 	delete smokeemitter_;
+	delete sound_;
 }
 
 void MissileActionRenderer::simulate(Action *action, float timepassed, bool &remove)
@@ -83,6 +85,24 @@ void MissileActionRenderer::simulate(Action *action, float timepassed, bool &rem
 			Vector(0.0f, 0.0f, 100.0f), // Gravity
 			false,
 			true);
+	}
+	if (!sound_)
+	{
+		const char *engineSound = shot->getWeapon()->getEngineSound();
+		if (0 != strcmp("none", engineSound))
+		{
+			SoundBuffer *rocket = Sound::instance()->fetchOrCreateBuffer(
+				(char *) getDataFile(engineSound));
+			sound_ = Sound::instance()->createSource();
+			sound_->setPosition(shot->getCurrentPosition());
+			sound_->setGain(0.25f);
+			sound_->play(rocket, true);
+		}
+	}
+	if (sound_)
+	{
+		sound_->setPosition(shot->getCurrentPosition());
+		sound_->setVelocity(shot->getCurrentVelocity());
 	}
 
 	Vector &actualPos = shot->getCurrentPosition();

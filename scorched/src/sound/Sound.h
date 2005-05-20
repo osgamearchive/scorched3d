@@ -18,36 +18,52 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+#ifndef _SOUND_H_
+#define _SOUND_H_
 
-#if !defined(__INCLUDE_SoundStoreh_INCLUDE__)
-#define __INCLUDE_SoundStoreh_INCLUDE__
-
-#include <common/Sound.h>
-#include <common/SoundBuffer.h>
-#include <common/Defines.h>
 #include <map>
+#include <list>
 #include <string>
+#include <sound/SoundBuffer.h>
+#include <sound/SoundSource.h>
+#include <sound/SoundListener.h>
 
 #define CACHE_SOUND(var, filename) 										\
-		static SoundBuffer* var = SoundStore::instance()->fetchOrCreateBuffer(filename);
+		static SoundBuffer* var = Sound::instance()->fetchOrCreateBuffer(filename);
 
-class SoundStore
+class Sound  
 {
 public:
-	static SoundStore* instance();
+	static Sound *instance();
+
+	bool init(int channels);
+	void destroy();
 
 	SoundBuffer *fetchOrCreateBuffer(char *filename);
+	SoundSource *createSource();
+	SoundListener *getDefaultListener();
+	SoundSource *getDefaultSource();
+
+	void manageSource(SoundSource *source);
+	bool getInit() { return init_; }
 
 protected:
+	static Sound *instance_;
 	typedef std::map<std::string, SoundBuffer *> BufferMap;
-
-	static SoundStore* instance_;
+	typedef std::list<SoundSource *> SourceList;
 	BufferMap bufferMap_;
+	SourceList managedSources_;
+	bool init_;
+
+	SoundListener listener_;
+	SoundSource *defaultSource_;
+	SoundBuffer *createBuffer(char *fileName);
+	void checkManaged();
 
 private:
-	SoundStore();
-	virtual ~SoundStore();
+	Sound();
+	virtual ~Sound();
+
 };
 
-
-#endif
+#endif /* _SOUND_H_ */

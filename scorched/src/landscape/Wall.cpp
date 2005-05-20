@@ -20,7 +20,7 @@
 
 #include <client/ScorchedClient.h>
 #include <landscape/Wall.h>
-#include <common/SoundStore.h>
+#include <sound/Sound.h>
 #include <GLEXT/GLBitmap.h>
 
 Wall::Wall()
@@ -132,11 +132,14 @@ void Wall::drawWall(Vector &cornerA, Vector &cornerB,
 	glEnd();
 }
 
-void Wall::wallHit(OptionsTransient::WallSide side)
+void Wall::wallHit(Vector &position, OptionsTransient::WallSide side)
 {
 	fadeTime_[side] = 1.0f;
 	CACHE_SOUND(sound, (char *) getDataFile("data/wav/shield/hit2.wav"));
-	sound->play();
+	SoundSource *source = Sound::instance()->createSource();
+	source->setPosition(position);
+	source->play(sound);
+	Sound::instance()->manageSource(source);
 }
 
 void Wall::simulate(float time)

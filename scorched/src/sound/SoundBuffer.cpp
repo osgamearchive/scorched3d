@@ -18,11 +18,14 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <common/SoundBuffer.h>
+#include <sound/SoundBuffer.h>
+#include <sound/Sound.h>
+#include <al/al.h>
+#include <al/alut.h>
 
-SoundBuffer::SoundBuffer() : chunk_(NULL) , repeats_(0) , channel_(-1)
+SoundBuffer::SoundBuffer() : 
+	error_(0), buffer_(0)
 {
-
 }
 
 SoundBuffer::~SoundBuffer()
@@ -32,49 +35,45 @@ SoundBuffer::~SoundBuffer()
 
 void SoundBuffer::destroyBuffer()
 {
-	stop();
-	if (chunk_) Mix_FreeChunk(chunk_);
-	chunk_ = NULL;
-	channel_ = -1;
-	repeats_ = 0;
+	if (buffer_) alGenBuffers(1, &buffer_);
+	buffer_ = 0;
 }
 
 bool SoundBuffer::createBuffer(char *wavFileName)
 {
-	chunk_ = Mix_LoadWAV(wavFileName);
-	return (chunk_ != NULL);
-}
-
-bool SoundBuffer::play()
-{
-	if (!chunk_) return false;
-
-	if (repeats_ == -1)
+	// Create a buffer
+	alGetError();
+	alGenBuffers(1, &buffer_);
+	if ((error_ = alGetError()) != AL_NO_ERROR)
 	{
-		// If we are set to repeat, ensure that this sound
-		// is not already playing.
-		stop();
-		// If it was playing we would loose the channel number
-		// and would be unable to stop it.
+		return false;
 	}
 
-	channel_=Mix_PlayChannel(-1,chunk_,repeats_);
-	return (channel_<0 ? false : true );
-}
+	// Load WAV
+	void *data;
+	ALenum format;
+	ALsizei size;
+	ALsizei freq;
+	ALboolean loop;
+	alutLoadWAVFile(wavFileName,&format,&data,&size,&freq,&loop);
+	if ((error_ = alGetError()) != AL_NO_ERROR)
+	{
+		return false;
+	}
 
-bool SoundBuffer::stop()
-{
-	if ((!chunk_) || (channel_<0)) return false;
-	if (Mix_HaltChannel(channel_) < 0) return false;
+	// Load WAV into buffer
+	alBufferData(buffer_,format,data,size,freq);
+	if ((error_ = alGetError()) != AL_NO_ERROR)
+	{
+		return false;
+	}
 
-	channel_ = -1;
-	return true;
-}
+	// Delete WAV memory
+	alutUnloadWAV(format,data,size,freq);
+	if ((error_ = alGetError()) != AL_NO_ERROR)
+	{
+		return false;
+	}
 
-bool SoundBuffer::setRepeats()
-{
-	if (!chunk_) return false;
-
-	repeats_=-1;
 	return true;
 }

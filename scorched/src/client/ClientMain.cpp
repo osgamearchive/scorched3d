@@ -66,12 +66,11 @@
 #include <common/OptionsGame.h>
 #include <common/Keyboard.h>
 #include <common/ProgressCounter.h>
-#include <common/Sound.h>
 #include <common/Mouse.h>
 #include <common/Display.h>
 #include <common/Gamma.h>
-#include <common/Sound.h>
 #include <common/Clock.h>
+#include <sound/Sound.h>
 #include <SDL/SDL.h>
 
 static int mouseEventCount = 0;
@@ -101,16 +100,6 @@ bool initHardware(ProgressCounter *progressCounter)
 
 	if (!OptionsDisplay::instance()->getNoSound())
 	{
-		progressCounter->setNewOp("Initializing Sound HW");
-		if (SDL_InitSubSystem(SDL_INIT_AUDIO) < 0)
-		{
-			dialogMessage("Scorched3D Sound", 
-				"Failed to initialise sound.\n"
-#ifdef WIN32
-				"Is DirectX 5.0 installed?\n"
-#endif
-				"Is anything else currently using the sound card?");
-		}
 		progressCounter->setNewOp("Initializing Sound SW");
 		if (!Sound::instance()->init(
 			OptionsDisplay::instance()->getSoundChannels()))
@@ -122,8 +111,8 @@ bool initHardware(ProgressCounter *progressCounter)
 #endif
 				"Is anything else currently using the sound card?");
 		}
-		Sound::instance()->setVolume(
-			OptionsDisplay::instance()->getSoundVolume());
+		Sound::instance()->getDefaultListener()->setGain(
+			float(OptionsDisplay::instance()->getSoundVolume()) / 128.0f);
 	}
 	return true;
 }

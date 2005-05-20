@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,38 +18,26 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+#if !defined(__INCLUDE_SoundListenerh_INCLUDE__)
+#define __INCLUDE_SoundListenerh_INCLUDE__
 
-#ifndef _SOUND_H_
-#define _SOUND_H_
-// Sound.h: interface for the Sound class.
-//
-//////////////////////////////////////////////////////////////////////
+#include <common/Vector.h>
 
-#include <list>
-#include <SDL/SDL_mixer.h>
-
-class SoundBuffer;
-
-class Sound  
+class Sound;
+class SoundListener
 {
 public:
-	static Sound *instance();
+	virtual ~SoundListener();
 
-	bool init(int channels);
-	void setVolume(int volume);
-	int getVolume();
-	void destroy();
-	SoundBuffer *createBuffer(char *fileName);
+	void setPosition(Vector &position);
+	void setVelocity(Vector &velocity);
+	void setOrientation(Vector &orientation);
+	void setGain(float gain);
 
 protected:
-	static Sound *instance_;
-	std::list<SoundBuffer *> buffers_;
-	bool init_;
+	friend class Sound;
 
-private:
-	Sound();
-	virtual ~Sound();
-
+	SoundListener();
 };
 
-#endif /* _SOUND_H_ */
+#endif // __INCLUDE_SoundListenerh_INCLUDE__

@@ -24,10 +24,10 @@
 #include <engine/ActionMeta.h>
 #include <engine/ViewPoints.h>
 #include <common/Vector.h>
-#include <common/SoundBuffer.h>
 #include <list>
 #include <map>
 
+class SoundSource;
 class Tank;
 class TankMovement : public ActionMeta
 {
@@ -65,7 +65,7 @@ protected:
 	std::list<PositionEntry> expandedPositions_;
 	float timePassed_;
 	ViewPoints::ViewPoint *vPoint_;
-	SoundBuffer *moveSound_;
+	SoundSource *moveSoundSource_;
 
 	unsigned int playerId_;
 	int positionX_, positionY_;

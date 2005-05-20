@@ -19,7 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <actions/ShieldHit.h>
-#include <common/SoundStore.h>
+#include <sound/Sound.h>
 #include <common/OptionsParam.h>
 #include <engine/ScorchedContext.h>
 #include <weapons/Accessory.h>
@@ -34,9 +34,11 @@ ShieldHit::ShieldHit() : firstTime_(true)
 }
 
 ShieldHit::ShieldHit(unsigned int playerId,
+	Vector &position,
 	float hitPercentage) :
 	firstTime_(true), playerId_(playerId),
-	hitPercentage_(hitPercentage)
+	hitPercentage_(hitPercentage),
+	position_(position)
 {
 
 }
@@ -68,9 +70,12 @@ void ShieldHit::simulate(float frameTime, bool &remove)
 				if (!context_->serverMode) 
 				{
 					SoundBuffer *shieldSound = 
-						SoundStore::instance()->fetchOrCreateBuffer( (char *)
+						Sound::instance()->fetchOrCreateBuffer( (char *)
 							getDataFile( "data/wav/%s", shield->getCollisionSound()));
-					shieldSound->play();
+					SoundSource *source = Sound::instance()->createSource();
+					source->setPosition(position_);
+					source->play(shieldSound);
+					Sound::instance()->manageSource(source);
 
 					TankModelRenderer *model = (TankModelRenderer *) 
 						tank->getModel().getModelIdRenderer();
@@ -95,6 +100,7 @@ bool ShieldHit::writeAction(NetBuffer &buffer)
 {
 	buffer.addToBuffer(playerId_);
 	buffer.addToBuffer(hitPercentage_);
+	buffer.addToBuffer(position_);
 	return true;
 }
 
@@ -102,5 +108,6 @@ bool ShieldHit::readAction(NetBufferReader &reader)
 {
 	if (!reader.getFromBuffer(playerId_)) return false;
 	if (!reader.getFromBuffer(hitPercentage_)) return false;
+	if (!reader.getFromBuffer(position_)) return false;
 	return true;
 }

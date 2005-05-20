@@ -27,7 +27,7 @@
 #include <landscape/LandscapeMaps.h>
 #include <tank/TankContainer.h>
 #include <common/OptionsGame.h>
-#include <common/SoundStore.h>
+#include <sound/Sound.h>
 
 static const int NoMovementTransitions = 4;
 std::map<unsigned int, TankMovement*> TankMovement::movingTanks;
@@ -36,7 +36,7 @@ REGISTER_ACTION_SOURCE(TankMovement);
 
 TankMovement::TankMovement() : 
 	timePassed_(0.0f), vPoint_(0), 
-	remove_(false), moving_(true), moveSound_(0)
+	remove_(false), moving_(true), moveSoundSource_(0)
 {
 }
 
@@ -45,13 +45,15 @@ TankMovement::TankMovement(unsigned int playerId,
 	playerId_(playerId), 
 	positionX_(positionX), positionY_(positionY),
 	timePassed_(0.0f), vPoint_(0), 
-	remove_(false), moving_(true), moveSound_(0)
+	remove_(false), moving_(true), moveSoundSource_(0)
 {
 }
 
 TankMovement::~TankMovement()
 {
 	if (vPoint_) context_->viewPoints->releaseViewPoint(vPoint_);
+	delete moveSoundSource_;
+	moveSoundSource_ = 0;
 }
 
 void TankMovement::init()
@@ -66,11 +68,12 @@ void TankMovement::init()
 	// Start the tank movement sound
 	if (!context_->serverMode) 
 	{
-		moveSound_ = 
-			SoundStore::instance()->fetchOrCreateBuffer((char *)
+		SoundBuffer *moveSound = 
+			Sound::instance()->fetchOrCreateBuffer((char *)
 				getDataFile("data/wav/movement/tankmove.wav"));
-		moveSound_->setRepeats();
-		moveSound_->play();
+		moveSoundSource_ = Sound::instance()->createSource();
+		moveSoundSource_->setPosition(tank->getPhysics().getTankPosition());
+		moveSoundSource_->play(moveSound, true);
 	}
 
 	// As with everything to do with movement
@@ -156,9 +159,9 @@ void TankMovement::simulate(float frameTime, bool &remove)
 		remove = true;
 	}
 
-	if (remove && moveSound_)
+	if (remove && moveSoundSource_)
 	{
-		moveSound_->stop();
+		moveSoundSource_->stop();
 	}
 	
 	ActionMeta::simulate(frameTime, remove);
@@ -177,8 +180,6 @@ void TankMovement::simulationMove(float frameTime)
 		context_->tankContainer->getTankById(playerId_);
 	if (tank)
 	{
-		if (vPoint_) vPoint_->setPosition(tank->getPhysics().getTankPosition());
-
 		// Stop moving if the tank is dead
 		if (tank->getState().getState() == TankState::sNormal)
 		{
@@ -247,6 +248,10 @@ void TankMovement::moveTank(Tank *tank)
 		// Actually move the tank
 		tank->getPhysics().rotateTank(a);
 		tank->getPhysics().setTankPosition(newPos);
+
+		// Set viewpoints
+		if (vPoint_) vPoint_->setPosition(newPos);
+		if (moveSoundSource_) moveSoundSource_->setPosition(newPos);
 	}
 }
 

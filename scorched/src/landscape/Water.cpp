@@ -24,7 +24,7 @@
 #include <landscape/LandscapeTex.h>
 #include <landscape/LandscapeDefinition.h>
 #include <common/OptionsDisplay.h>
-#include <common/SoundStore.h>
+#include <sound/Sound.h>
 #include <client/ScorchedClient.h>
 #include <engine/ParticleEmitter.h>
 #include <GLEXT/GLBitmapModifier.h>
@@ -187,7 +187,10 @@ bool Water::explosion(Vector position, float size)
 		addWave(position, 5.0f);
 
 		CACHE_SOUND(sound, (char *) getDataFile("data/wav/misc/splash.wav"));
-		sound->play();
+		SoundSource *source = Sound::instance()->createSource();
+		source->setPosition(position);
+		source->play(sound);
+		Sound::instance()->manageSource(source);
 
 		ParticleEmitter sprayemitter;
 		sprayemitter.setAttributes(

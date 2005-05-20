@@ -20,7 +20,7 @@
 
 #include <actions/Lightning.h>
 #include <common/Defines.h>
-#include <common/SoundStore.h>
+#include <sound/Sound.h>
 #include <GLEXT/GLState.h>
 #include <sprites/ExplosionTextures.h>
 #include <client/MainCamera.h>
@@ -91,9 +91,12 @@ void Lightning::simulate(float frameTime, bool &remove)
 				0 != strcmp("none", weapon_->getSound()))
 			{
 				SoundBuffer *expSound =
-					SoundStore::instance()->fetchOrCreateBuffer(
+					Sound::instance()->fetchOrCreateBuffer(
 					(char *) getDataFile(weapon_->getSound()));
-				expSound->play();
+				SoundSource *source = Sound::instance()->createSource();
+				source->setPosition(position_);
+				source->play(expSound);
+				Sound::instance()->manageSource(source);
 			}
 		} 
 	}

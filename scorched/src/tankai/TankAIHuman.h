@@ -23,6 +23,7 @@
 
 #include <tankai/TankAI.h>
 
+class SoundSource;
 class TankAIHuman : public TankAI
 {
 public:
@@ -68,6 +69,9 @@ protected:
 	void upDownHUD();
 	void powerHUD();
 	void autoAim();
+	SoundSource *elevateSound_;
+	SoundSource *rotateSound_;
+	SoundSource *startSound_;
 
 };
 

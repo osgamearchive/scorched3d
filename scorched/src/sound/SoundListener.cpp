@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,44 +18,50 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+#include <sound/SoundListener.h>
+#include <sound/Sound.h>
+#include <al/al.h>
 
-#include <common/SoundStore.h>
-
-SoundStore *SoundStore::instance_ = 0;
-
-SoundStore *SoundStore::instance()
-{
-	if (!instance_)
-	{
-		instance_ = new SoundStore;
-	}
-	return instance_;
-}
-
-SoundStore::SoundStore()
+SoundListener::SoundListener()
 {
 }
 
-SoundStore::~SoundStore()
+SoundListener::~SoundListener()
 {
 }
 
-SoundBuffer *SoundStore::fetchOrCreateBuffer(char *fn)
+void SoundListener::setPosition(Vector &position)
 {
-	std::string filename(fn);
-	BufferMap::iterator itor = bufferMap_.find(filename);
-	if (itor != bufferMap_.end())
-	{
-		return (*itor).second;
-	}
+	if (!Sound::instance()->getInit()) return;
 
-	SoundBuffer *buffer = Sound::instance()->createBuffer(fn);
-	if (!buffer)
-	{
-		dialogMessage("Failed to load sound",
-				"\"%s\"", fn);
-	}
+	alListenerfv(AL_POSITION, position);
+}
 
-	bufferMap_[filename] = buffer;
-	return buffer;
+void SoundListener::setVelocity(Vector &velocity)
+{
+	if (!Sound::instance()->getInit()) return;
+
+	alListenerfv(AL_VELOCITY, velocity);
+}
+
+void SoundListener::setOrientation(Vector &o)
+{
+	if (!Sound::instance()->getInit()) return;
+
+	float orientation[6];
+	orientation[0] = o[0];
+	orientation[1] = o[1];
+	orientation[2] = o[2];
+	orientation[3] = 0.0f;
+	orientation[4] = 0.0f;
+	orientation[5] = 1.0f;
+
+	alListenerfv(AL_ORIENTATION, orientation);
+}
+
+void SoundListener::setGain(float gain)
+{
+	if (!Sound::instance()->getInit()) return;
+
+	alListenerf(AL_GAIN, gain);
 }

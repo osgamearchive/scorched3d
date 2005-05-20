@@ -28,7 +28,7 @@
 #include <common/OptionsTransient.h>
 #include <common/OptionsGame.h>
 #include <common/Defines.h>
-#include <common/SoundStore.h>
+#include <sound/Sound.h>
 #include <coms/ComsStartGameMessage.h>
 
 ClientStartGameHandler *ClientStartGameHandler::instance_ = 0;
@@ -74,7 +74,7 @@ bool ClientStartGameHandler::processMessage(unsigned int id,
 		ScorchedClient::instance()->getTankContainer().getCurrentDestinationId())
 	{
 		CACHE_SOUND(playSound, (char *) getDataFile("data/wav/misc/play.wav"));
-		playSound->play();
+		Sound::instance()->getDefaultSource()->play(playSound);
 	}
 
 	// Stimulate into the new game state

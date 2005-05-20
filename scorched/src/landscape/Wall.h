@@ -32,7 +32,7 @@ public:
 	Wall();
 	virtual ~Wall();
 
-	void wallHit(OptionsTransient::WallSide side);
+	void wallHit(Vector &position, OptionsTransient::WallSide side);
 	void draw();
 	void simulate(float time);
 

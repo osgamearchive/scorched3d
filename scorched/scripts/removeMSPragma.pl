@@ -20,6 +20,7 @@ my @dirs =
 	"tankgraph",
 	"tank",
 	"boids",
+	"sound",
 	"weapons"
 );
 

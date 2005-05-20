@@ -132,6 +132,10 @@ public:
 	Get the point the camera is currently looking at (observing)
 	*/
 	Vector &getLookAt() { return lookAt_; }
+	/**
+	Get the speed of movement of the camera looking from position
+	*/
+	Vector &getVelocity() { return velocity_; }
 
 	/**
 	Returns the current camera horizontal rotation.
@@ -171,6 +175,7 @@ protected:
 	Vector wantedLookAt_;
 	Vector wantedOffset_;
 	Vector currentPosition_;
+	Vector velocity_;
 	MinHeightFunc minHeightFunc_;
 	MaxHeightFunc maxHeightFunc_;
 	void *minHeightData_;

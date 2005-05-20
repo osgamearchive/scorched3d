@@ -22,8 +22,7 @@
 #include <common/Defines.h>
 #include <GLEXT/GLConsole.h>
 #include <GLEXT/GLBitmap.h>
-#include <common/SoundStore.h>
-
+#include <sound/Sound.h>
 #include <client/ScorchedClient.h>
 #include <engine/ParticleEmitter.h>
 #include <engine/ParticleEngine.h>
@@ -49,9 +48,12 @@ void ExplosionLaserBeamRenderer::init(unsigned int playerId,
 	if (0 != strcmp("none", data))
 	{
 		SoundBuffer *firedSound = 
-			SoundStore::instance()->fetchOrCreateBuffer( (char*)
+			Sound::instance()->fetchOrCreateBuffer( (char*)
 				getDataFile(data));
-		firedSound->play();
+		SoundSource *source = Sound::instance()->createSource();
+		source->setPosition(position);
+		source->play(firedSound);
+		Sound::instance()->manageSource(source);
 	}
 
 	for (int j=0;j<layers;j++){

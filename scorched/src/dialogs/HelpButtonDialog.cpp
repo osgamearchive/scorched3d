@@ -20,7 +20,7 @@
 
 #include <scorched/MainDialog.h>
 #include <dialogs/HelpButtonDialog.h>
-#include <common/Sound.h>
+#include <sound/Sound.h>
 #include <common/OptionsDisplay.h>
 #include <GLEXT/GLViewPort.h>
 #include <GLEXT/GLBitmap.h>
@@ -162,7 +162,7 @@ void HelpButtonDialog::itemSelected(GLWSelectorEntry *entry, int position)
 	if (data != -1)
 	{
 		int volume = int(float(data) * 12.8f);
-		Sound::instance()->setVolume(volume);
+		Sound::instance()->getDefaultListener()->setGain(float(volume) / 128.0f);
 		OptionsDisplay::instance()->setSoundVolume(volume);
 	}
 }

@@ -51,7 +51,7 @@ void WallActionRenderer::init(Action *action)
 		texture_.create(map, GL_RGBA, true);
 	}
 
-	Landscape::instance()->getWall().wallHit(type_);
+	Landscape::instance()->getWall().wallHit(position_, type_);
 	Vector pos = position_;
 	Vector offSet1, offSet2, offSet3 ,offSet4;
 

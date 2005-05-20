@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,36 +18,37 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_MissileActionRendererh_INCLUDE__)
-#define __INCLUDE_MissileActionRendererh_INCLUDE__
+#if !defined(__INCLUDE_SoundSourceh_INCLUDE__)
+#define __INCLUDE_SoundSourceh_INCLUDE__
 
-#include <engine/Action.h>
-#include <engine/ParticleEmitter.h>
-#include <tankgraph/MissileMesh.h>
-#include <landscape/Smoke.h>
-#include <string>
-#include <map>
+#include <common/Vector.h>
 
-class SoundSource;
-class MissileActionRenderer : public ActionRenderer
+class Sound;
+class SoundBuffer;
+class SoundSource
 {
 public:
-	MissileActionRenderer(int flareType, float scale = 1.0f);
-	virtual ~MissileActionRenderer();
+	virtual ~SoundSource();
 
-	virtual void simulate(Action *action, float timepassed, bool &remove);
-	virtual void draw(Action *action);
+	void play(SoundBuffer *buffer, bool repeat = false);
+	void stop();
+
+	bool getPlaying();
+
+	void setRelative();
+	void setPosition(Vector &position);
+	void setVelocity(Vector &velocity);
+	void setPitch(float pitch);
+	void setGain(float gain);
 
 protected:
-	int flareType_;
-	SoundSource *sound_;
-	SmokeCounter counter_;
-	ParticleEmitter *flameemitter_;
-	ParticleEmitter *smokeemitter_;
-	MissileMesh *mesh_;
-	float rotation_;
-	float scale_;
+	friend class Sound;
+	unsigned int source_;
 
+	SoundSource();
+
+	void create();
+	void destroy();
 };
 
-#endif
+#endif // __INCLUDE_SoundSourceh_INCLUDE__

@@ -21,8 +21,8 @@
 #include <client/MainCamera.h>
 #include <client/ScorchedClient.h>
 #include <tank/TankController.h>
+#include <sound/Sound.h>
 #include <common/OptionsGame.h>
-#include <common/SoundStore.h>
 #include <common/OptionsParam.h>
 #include <common/OptionsDisplay.h>
 #include <common/Defines.h>
@@ -46,7 +46,6 @@ REGISTER_ACTION_SOURCE(Explosion);
 Explosion::Explosion() :
 	firstTime_(true), totalTime_(0.0f)
 {
-
 }
 
 Explosion::Explosion(Vector &position,
@@ -56,12 +55,10 @@ Explosion::Explosion(Vector &position,
 	weapon_(weapon), playerId_(fired), 
 	position_(position), data_(data)
 {
-
 }
 
 Explosion::~Explosion()
 {
-
 }
 
 void Explosion::init()
@@ -218,9 +215,12 @@ void Explosion::simulate(float frameTime, bool &remove)
 				0 != strcmp("none", weapon_->getExplosionSound()))
 			{
 				SoundBuffer *expSound = 
-					SoundStore::instance()->fetchOrCreateBuffer(
+					Sound::instance()->fetchOrCreateBuffer(
 						(char *) getDataFile("data/wav/%s", weapon_->getExplosionSound()));
-				expSound->play();
+				SoundSource *soundSource = Sound::instance()->createSource();
+				soundSource->setPosition(position_);
+				soundSource->play(expSound);
+				Sound::instance()->manageSource(soundSource);
 			}
 		}
 

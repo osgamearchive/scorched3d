@@ -435,6 +435,7 @@ ScorchedCollisionHandler::ParticleAction ScorchedCollisionHandler::collisionShie
 						{
 							context_->actionController->addAction(
 								new ShieldHit(hitTank->getPlayerId(),
+								collisionPos,
 								hitPercentage));
 						}
 						return ParticleActionFinished;
@@ -443,6 +444,7 @@ ScorchedCollisionHandler::ParticleAction ScorchedCollisionHandler::collisionShie
 						{
 							context_->actionController->addAction(
 								new ShieldHit(hitTank->getPlayerId(),
+								collisionPos,
 								hitPercentage));
 						}
 						return ParticleActionBounce;

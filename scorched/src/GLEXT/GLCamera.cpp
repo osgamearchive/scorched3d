@@ -162,6 +162,7 @@ void GLCamera::simulate(float frameTime)
 		Vector directionPosition = wantedPosition - currentPosition_;
 		directionPosition *= SecondsToReachTarget;
 		currentPosition_ += directionPosition;
+		velocity_ = directionPosition;
 	}
 }
 

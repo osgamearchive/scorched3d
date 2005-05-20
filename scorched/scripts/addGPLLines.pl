@@ -19,6 +19,7 @@ my @dirs =
 	"tankai",
 	"tankgraph",
 	"boids",
+	"sound",
 	"weapons"
 );
 

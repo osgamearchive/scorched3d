@@ -26,8 +26,8 @@
 #include <GLEXT/GLBitmap.h>
 #include <GLEXT/GLConsole.h>
 #include <dialogs/MainMenuDialog.h>
+#include <sound/Sound.h>
 #include <common/Keyboard.h>
-#include <common/SoundStore.h>
 #include <common/OptionsDisplay.h>
 #include <common/Defines.h>
 #include <common/Logger.h>
@@ -151,6 +151,16 @@ void MainCamera::simulate(const unsigned state, float frameTime)
 
 	ScorchedClient::instance()->getContext().viewPoints->simulate(frameTime);
 	targetCam_.simulate(frameTime, (state == ClientState::StatePlaying));
+
+	Sound::instance()->getDefaultListener()->setPosition(
+		targetCam_.getCamera().getCurrentPos());
+	Sound::instance()->getDefaultListener()->setVelocity(
+		targetCam_.getCamera().getVelocity());
+	Vector direction = 
+		targetCam_.getCamera().getLookAt() -
+		targetCam_.getCamera().getCurrentPos();
+	Sound::instance()->getDefaultListener()->setOrientation(
+		direction);
 }
 
 void MainCamera::draw(const unsigned state)
@@ -283,7 +293,7 @@ void MainCamera::SaveScreen::draw(const unsigned state)
 
 	// snapshot sound
 	CACHE_SOUND(sound,  (char *) getDataFile("data/wav/misc/camera.wav"));
-	sound->play();
+	Sound::instance()->getDefaultSource()->play(sound);
 }
 
 void MainCamera::Precipitation::draw(const unsigned state)

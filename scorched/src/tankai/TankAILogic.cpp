@@ -32,7 +32,7 @@
 #include <common/OptionsTransient.h>
 #include <common/OptionsParam.h>
 #include <common/StatsLogger.h>
-#include <common/SoundStore.h>
+#include <sound/Sound.h>
 #include <landscape/LandscapeMaps.h>
 #include <engine/ActionController.h>
 
@@ -214,9 +214,12 @@ bool TankAILogic::processDefenseMessage(ScorchedContext &context,
 				if (battery)
 				{
 					SoundBuffer *batSound = 
-						SoundStore::instance()->fetchOrCreateBuffer((char *)
+						Sound::instance()->fetchOrCreateBuffer((char *)
 							getDataFile("data/wav/%s", battery->getActivationSound()));
-					batSound->play();
+					SoundSource *source = Sound::instance()->createSource();
+					source->setPosition(tank->getPhysics().getTankPosition());
+					source->play(batSound);
+					Sound::instance()->manageSource(source);
 				}
 			}
 
@@ -237,9 +240,12 @@ bool TankAILogic::processDefenseMessage(ScorchedContext &context,
 					if (!context.serverMode) 
 					{
 						SoundBuffer *activateSound = 
-							SoundStore::instance()->fetchOrCreateBuffer((char *)
+							Sound::instance()->fetchOrCreateBuffer((char *)
 								getDataFile("data/wav/%s", accessory->getActivationSound()));
-						activateSound->play();
+						SoundSource *source = Sound::instance()->createSource();
+						source->setPosition(tank->getPhysics().getTankPosition());
+						source->play(activateSound);
+						Sound::instance()->manageSource(source);
 					}
 
 					tank->getAccessories().getShields().setCurrentShield(accessory);
@@ -266,12 +272,18 @@ bool TankAILogic::processDefenseMessage(ScorchedContext &context,
 			Accessory *parachute = 
 				context.accessoryStore->
 					findByAccessoryType(AccessoryPart::AccessoryParachute);
-			if (parachute)
+			if (!context.serverMode)
 			{
-				SoundBuffer *paraSound = 
-					SoundStore::instance()->fetchOrCreateBuffer((char *)
-						getDataFile("data/wav/%s", parachute->getActivationSound()));
-				paraSound->play();
+				if (parachute)
+				{
+					SoundBuffer *paraSound = 
+						Sound::instance()->fetchOrCreateBuffer((char *)
+							getDataFile("data/wav/%s", parachute->getActivationSound()));
+					SoundSource *source = Sound::instance()->createSource();
+					source->setPosition(tank->getPhysics().getTankPosition());
+					source->play(paraSound);
+					Sound::instance()->manageSource(source);
+				}
 			}
 
 			tank->getAccessories().getParachutes().setParachutesEnabled(true);

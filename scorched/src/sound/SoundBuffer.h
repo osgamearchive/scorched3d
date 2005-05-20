@@ -18,35 +18,28 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #ifndef _SOUNDBUFFER_H_
 #define _SOUNDBUFFER_H_
 
-// SoundBuffer.h: interface for the SoundBuffer class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#include <common/Sound.h>
-
+class Sound;
 class SoundBuffer  
 {
 public:
-	friend class Sound;
+	virtual ~SoundBuffer();
 
-	bool setRepeats();
-	bool play();
-	bool stop();
+	unsigned int getBuffer() { return buffer_; }
 
 protected:
+	friend class Sound;
+
 	SoundBuffer();
-	virtual ~SoundBuffer();
 
 	bool createBuffer(char *wavFileName);
 	void destroyBuffer();
-
-	Mix_Chunk *chunk_;
-	int repeats_;
-	int channel_;
+	unsigned int getError() { return error_; }
+	
+	unsigned int error_;
+	unsigned int buffer_;
 };
 
 #endif /* _SOUNDBUFFER_H_ */

@@ -38,7 +38,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/FIXED:NO"
-				AdditionalDependencies="opengl32.lib glu32.lib winmm.lib dxguid.lib comctl32.lib Ws2_32.lib &quot;$(SolutionDir)\visualc\lib\SDL\SDL.lib&quot; &quot;$(SolutionDir)\visualc\lib\SDL\SDL_mixer.lib&quot; &quot;$(SolutionDir)\visualc\lib\SDL\SDL_net.lib&quot; &quot;$(SolutionDir)\visualc\lib\SDL\SDLmain.lib&quot; &quot;$(SolutionDir)\visualc\lib\wx\wxmswd.lib&quot; &quot;$(SolutionDir)\visualc\lib\truetype\libfreetype.lib&quot; rpcrt4.lib"
+				AdditionalDependencies="opengl32.lib glu32.lib winmm.lib dxguid.lib comctl32.lib Ws2_32.lib &quot;$(SolutionDir)\visualc\lib\SDL\SDL.lib&quot; &quot;$(SolutionDir)\visualc\lib\SDL\SDL_net.lib&quot; &quot;$(SolutionDir)\visualc\lib\SDL\SDLmain.lib&quot; &quot;$(SolutionDir)\visualc\lib\al\ALut.lib&quot; &quot;$(SolutionDir)\visualc\lib\al\OpenAL32.lib&quot; &quot;$(SolutionDir)\visualc\lib\wx\wxmswd.lib&quot; &quot;$(SolutionDir)\visualc\lib\truetype\libfreetype.lib&quot; rpcrt4.lib"
 				OutputFile="$(OutDir)/scorched.exe"
 				LinkIncremental="1"
 				GenerateDebugInformation="TRUE"
@@ -88,7 +88,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="opengl32.lib glu32.lib winmm.lib dxguid.lib comctl32.lib Ws2_32.lib &quot;$(SolutionDir)\visualc\lib\SDL\SDL.lib&quot; &quot;$(SolutionDir)\visualc\lib\SDL\SDL_mixer.lib&quot; &quot;$(SolutionDir)\visualc\lib\SDL\SDL_net.lib&quot; &quot;$(SolutionDir)\visualc\lib\SDL\SDLmain.lib&quot; &quot;$(SolutionDir)\visualc\lib\wx\wxmsw.lib&quot; &quot;$(SolutionDir)\visualc\lib\truetype\libfreetype.lib&quot; rpcrt4.lib"
+				AdditionalDependencies="opengl32.lib glu32.lib winmm.lib dxguid.lib comctl32.lib Ws2_32.lib &quot;$(SolutionDir)\visualc\lib\SDL\SDL.lib&quot; &quot;$(SolutionDir)\visualc\lib\SDL\SDL_net.lib&quot; &quot;$(SolutionDir)\visualc\lib\SDL\SDLmain.lib&quot; &quot;$(SolutionDir)\visualc\lib\al\ALut.lib&quot; &quot;$(SolutionDir)\visualc\lib\al\OpenAL32.lib&quot; &quot;$(SolutionDir)\visualc\lib\wx\wxmsw.lib&quot; &quot;$(SolutionDir)\visualc\lib\truetype\libfreetype.lib&quot; rpcrt4.lib"
 				OutputFile="$(OutDir)/scorched.exe"
 				LinkIncremental="1"
 				GenerateDebugInformation="TRUE"
@@ -139,7 +139,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="opengl32.lib glu32.lib winmm.lib dxguid.lib comctl32.lib Ws2_32.lib &quot;$(SolutionDir)\visualc\lib\SDL\SDL.lib&quot; &quot;$(SolutionDir)\visualc\lib\SDL\SDL_mixer.lib&quot; &quot;$(SolutionDir)\visualc\lib\SDL\SDL_net.lib&quot; &quot;$(SolutionDir)\visualc\lib\SDL\SDLmain.lib&quot; &quot;$(SolutionDir)\visualc\lib\wx\wxmsw.lib&quot; &quot;$(SolutionDir)\visualc\lib\truetype\libfreetype.lib&quot; &quot;$(SolutionDir)\visualc\lib\mysql\libmysql.lib&quot; rpcrt4.lib"
+				AdditionalDependencies="opengl32.lib glu32.lib winmm.lib dxguid.lib comctl32.lib Ws2_32.lib &quot;$(SolutionDir)\visualc\lib\SDL\SDL.lib&quot; &quot;$(SolutionDir)\visualc\lib\SDL\SDL_net.lib&quot; &quot;$(SolutionDir)\visualc\lib\SDL\SDLmain.lib&quot; &quot;$(SolutionDir)\visualc\lib\al\ALut.lib&quot; &quot;$(SolutionDir)\visualc\lib\al\OpenAL32.lib&quot; &quot;$(SolutionDir)\visualc\lib\wx\wxmsw.lib&quot; &quot;$(SolutionDir)\visualc\lib\truetype\libfreetype.lib&quot; &quot;$(SolutionDir)\visualc\lib\mysql\libmysql.lib&quot; rpcrt4.lib"
 				OutputFile="$(OutDir)/scorched.exe"
 				LinkIncremental="1"
 				GenerateDebugInformation="TRUE"
@@ -191,7 +191,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/FIXED:NO"
-				AdditionalDependencies="opengl32.lib glu32.lib winmm.lib dxguid.lib comctl32.lib Ws2_32.lib &quot;$(SolutionDir)\visualc\lib\SDL\SDL.lib&quot; &quot;$(SolutionDir)\visualc\lib\SDL\SDL_mixer.lib&quot; &quot;$(SolutionDir)\visualc\lib\SDL\SDL_net.lib&quot; &quot;$(SolutionDir)\visualc\lib\SDL\SDLmain.lib&quot; &quot;$(SolutionDir)\visualc\lib\wx\wxmswd.lib&quot; &quot;$(SolutionDir)\visualc\lib\truetype\libfreetype.lib&quot; &quot;$(SolutionDir)\visualc\lib\mysql\libmysql.lib&quot; rpcrt4.lib"
+				AdditionalDependencies="opengl32.lib glu32.lib winmm.lib dxguid.lib comctl32.lib Ws2_32.lib &quot;$(SolutionDir)\visualc\lib\SDL\SDL.lib&quot; &quot;$(SolutionDir)\visualc\lib\SDL\SDL_net.lib&quot; &quot;$(SolutionDir)\visualc\lib\SDL\SDLmain.lib&quot; &quot;$(SolutionDir)\visualc\lib\al\ALut.lib&quot; &quot;$(SolutionDir)\visualc\lib\al\OpenAL32.lib&quot; &quot;$(SolutionDir)\visualc\lib\wx\wxmswd.lib&quot; &quot;$(SolutionDir)\visualc\lib\truetype\libfreetype.lib&quot; &quot;$(SolutionDir)\visualc\lib\mysql\libmysql.lib&quot; rpcrt4.lib"
 				OutputFile="$(OutDir)/scorched.exe"
 				LinkIncremental="1"
 				GenerateDebugInformation="TRUE"
@@ -887,24 +887,6 @@
 			</File>
 			<File
 				RelativePath="..\common\RandomGenerator.h">
-			</File>
-			<File
-				RelativePath="..\common\Sound.cpp">
-			</File>
-			<File
-				RelativePath="..\common\Sound.h">
-			</File>
-			<File
-				RelativePath="..\common\SoundBuffer.cpp">
-			</File>
-			<File
-				RelativePath="..\common\SoundBuffer.h">
-			</File>
-			<File
-				RelativePath="..\common\SoundStore.cpp">
-			</File>
-			<File
-				RelativePath="..\common\SoundStore.h">
 			</File>
 			<File
 				RelativePath="..\common\StatsLogger.cpp">
@@ -1818,6 +1800,12 @@
 				RelativePath="..\weapons\WeaponRoller.h">
 			</File>
 			<File
+				RelativePath="..\weapons\WeaponScatter.cpp">
+			</File>
+			<File
+				RelativePath="..\weapons\WeaponScatter.h">
+			</File>
+			<File
 				RelativePath="..\weapons\WeaponSkyFlash.cpp">
 			</File>
 			<File
@@ -1840,12 +1828,6 @@
 			</File>
 			<File
 				RelativePath="..\weapons\WeaponVelocity.h">
-			</File>
-			<File
-				RelativePath="..\weapons\WeaponScatter.cpp">
-			</File>
-			<File
-				RelativePath="..\weapons\WeaponScatter.h">
 			</File>
 		</Filter>
 		<Filter
@@ -3621,6 +3603,34 @@
 			</File>
 			<File
 				RelativePath="..\tank\TankWeapon.h">
+			</File>
+		</Filter>
+		<Filter
+			Name="sound"
+			Filter="">
+			<File
+				RelativePath="..\sound\Sound.cpp">
+			</File>
+			<File
+				RelativePath="..\sound\Sound.h">
+			</File>
+			<File
+				RelativePath="..\sound\SoundBuffer.cpp">
+			</File>
+			<File
+				RelativePath="..\sound\SoundBuffer.h">
+			</File>
+			<File
+				RelativePath="..\sound\SoundListener.cpp">
+			</File>
+			<File
+				RelativePath="..\sound\SoundListener.h">
+			</File>
+			<File
+				RelativePath="..\sound\SoundSource.cpp">
+			</File>
+			<File
+				RelativePath="..\sound\SoundSource.h">
 			</File>
 		</Filter>
 	</Files>
