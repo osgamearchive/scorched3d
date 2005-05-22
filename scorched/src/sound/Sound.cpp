@@ -22,7 +22,7 @@
 #include <sound/Sound.h>
 #include <sound/SoundBuffer.h>
 #include <al/al.h>
-#include <al/alut.h>
+#include <al/alc.h>
 
 Sound *Sound::instance_ = 0;
 
@@ -66,7 +66,11 @@ Sound::~Sound()
 				delete source;
 			}
 		}
-		alutExit();
+
+		ALCcontext *context = alcGetCurrentContext();
+		ALCdevice *device = alcGetContextsDevice(context);
+        alcDestroyContext(context);
+        alcCloseDevice(device);
 	}
 	init_ = false;
 }
@@ -79,7 +83,23 @@ void Sound::destroy()
 
 bool Sound::init(int channels)
 {
-	alutInit(0, NULL);
+	const char *deviceName = 0;
+	ALCdevice *soundDevice = alcOpenDevice((const ALubyte *) deviceName);
+	if (!soundDevice)
+	{
+		dialogExit("Failed to find sound device %s",
+			(deviceName?deviceName:"Null"));
+		return false;
+	}
+
+	ALCcontext *soundContext = alcCreateContext(soundDevice, 0);
+	if (!soundContext)
+	{
+		dialogExit("Scorched3D", "Failed to create sound context");
+		return false;
+	}
+
+	alcMakeContextCurrent(soundContext); 
 	alDistanceModel(AL_INVERSE_DISTANCE);
 
 	init_ = true;
