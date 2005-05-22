@@ -21,8 +21,8 @@
 #include <common/Defines.h>
 #include <sound/Sound.h>
 #include <sound/SoundBuffer.h>
-#include <al/al.h>
-#include <al/alc.h>
+#include <AL/al.h>
+#include <AL/alc.h>
 
 Sound *Sound::instance_ = 0;
 

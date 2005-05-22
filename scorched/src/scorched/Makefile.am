@@ -222,12 +222,6 @@ scorched3d_SOURCES = \
 	../common/ProgressCounter.h \
 	../common/RandomGenerator.cpp \
 	../common/RandomGenerator.h \
-	../common/Sound.cpp \
-	../common/Sound.h \
-	../common/SoundBuffer.cpp \
-	../common/SoundBuffer.h \
-	../common/SoundStore.cpp \
-	../common/SoundStore.h \
 	../common/StatsLogger.cpp \
 	../common/StatsLogger.h \
 	../common/StatsLoggerFile.cpp \
@@ -525,6 +519,8 @@ scorched3d_SOURCES = \
 	../weapons/WeaponReference.h \
 	../weapons/WeaponRoller.cpp \
 	../weapons/WeaponRoller.h \
+	../weapons/WeaponScatter.cpp \
+	../weapons/WeaponScatter.h \
 	../weapons/WeaponSkyFlash.cpp \
 	../weapons/WeaponSkyFlash.h \
 	../weapons/WeaponSound.cpp \
@@ -533,8 +529,6 @@ scorched3d_SOURCES = \
 	../weapons/WeaponTranslate.h \
 	../weapons/WeaponVelocity.cpp \
 	../weapons/WeaponVelocity.h \
-	../weapons/WeaponScatter.cpp \
-	../weapons/WeaponScatter.h \
 	../coms/ComsActionsMessage.cpp \
 	../coms/ComsActionsMessage.h \
 	../coms/ComsAddPlayerMessage.cpp \
@@ -1067,6 +1061,14 @@ scorched3d_SOURCES = \
 	../tank/TankState.cpp \
 	../tank/TankState.h \
 	../tank/TankWeapon.cpp \
-	../tank/TankWeapon.h
+	../tank/TankWeapon.h \
+	../sound/Sound.cpp \
+	../sound/Sound.h \
+	../sound/SoundBuffer.cpp \
+	../sound/SoundBuffer.h \
+	../sound/SoundListener.cpp \
+	../sound/SoundListener.h \
+	../sound/SoundSource.cpp \
+	../sound/SoundSource.h
 
 INCLUDES = -I../porting -I.. 

@@ -20,7 +20,7 @@
 
 #include <sound/SoundSource.h>
 #include <sound/SoundBuffer.h>
-#include <al/al.h>
+#include <AL/al.h>
 
 SoundSource::SoundSource() : source_(0)
 {

@@ -20,7 +20,7 @@
 
 #include <sound/SoundListener.h>
 #include <sound/Sound.h>
-#include <al/al.h>
+#include <AL/al.h>
 
 SoundListener::SoundListener()
 {

@@ -20,8 +20,8 @@
 
 #include <sound/SoundBuffer.h>
 #include <sound/Sound.h>
-#include <al/al.h>
-#include <al/alut.h>
+#include <AL/al.h>
+#include <AL/alut.h>
 
 SoundBuffer::SoundBuffer() : 
 	error_(0), buffer_(0)
@@ -55,7 +55,7 @@ bool SoundBuffer::createBuffer(char *wavFileName)
 	ALsizei size;
 	ALsizei freq;
 	ALboolean loop;
-	alutLoadWAVFile(wavFileName,&format,&data,&size,&freq,&loop);
+	alutLoadWAVFile((ALbyte*) wavFileName,&format,&data,&size,&freq,&loop);
 	if ((error_ = alGetError()) != AL_NO_ERROR)
 	{
 		return false;

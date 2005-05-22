@@ -32,33 +32,6 @@ CFLAGS="$CFLAGS $SDL_CFLAGS"
 CXXFLAGS="$CXXFLAGS $SDL_CFLAGS"
 LIBS="$LIBS $SDL_LIBS"
 
-dnl Checking for SDL_mixer
-AC_MSG_CHECKING(for SDL_mixer lib)
-have_SDLmixer=yes
-if test "x$enable_sdltest" = "xyes" ; then
-	AC_TRY_COMPILE([
-		#include <SDL/SDL.h>
-		#include <SDL/SDL_mixer.h>
-
-		int main(int argc, char *argv[])
-		{ return 0; }
-#undef  main
-#define main K_and_R_C_main
-		],[
-		],[
-		have_SDLmixer=yes
-		],[
-		have_SDLmixer=no
-		]
-	)
-fi
-
-AC_MSG_RESULT($have_SDLmixer)
-if test x$have_SDLmixer != xyes; then
-    AC_MSG_ERROR([*** Can't find the SDL_mixer library. Try: http://www.libsdl.org/projects/SDL_mixer])
-fi
-LIBS="$LIBS -lSDL_mixer"
-
 dnl checking for SDL_net
 AC_MSG_CHECKING(for SDL_net lib)
 have_SDLnet=yes
@@ -92,11 +65,11 @@ AC_CHECK_LIB(fridge, beer, echo "Hmm?!",[
 
 dnl Checks for OpenGL
 AC_ARG_ENABLE(opengltest, 
-	[  --disable-opengltest    Do not try to compile and run a test opengl program],
+	[  --disable-opengltest    Do not try to compile and run a test OpenGL program],
 		    , enable_opengltest=yes)
 AC_MSG_CHECKING(for OpenGL support)
 have_opengl=yes
-if test "x$enable_sdltest" = "xyes" ; then
+if test "x$enable_opengltest" = "xyes" ; then
 	AC_TRY_COMPILE([
 		#include <GL/gl.h>
 		#include <GL/glu.h>
@@ -119,6 +92,41 @@ else
     OPENGL_LIBS="-lGL -lGLU" 
 fi 
 LIBS="$LIBS $OPENGL_LIBS"
+
+dnl Checking for OpenAL
+AC_ARG_ENABLE(openaltest, 
+	[  --disable-openaltest    Do not try to compile and run a test OpenAL program],
+		    , enable_openaltest=yes)
+AC_MSG_CHECKING(for OpenAL)
+AC_PATH_PROG(OPENAL_CONFIG, openal-config, no)
+have_openal=yes
+if test x$OPENAL_CONFIG = xno; then
+	echo "*** The openal-config script installed by OpenAL could not be found"
+	echo "*** Make sure openal-config is in your path, or set the OPENAL_CONFIG"
+	echo "*** environment variable to the full path to openal-config."
+	have_openal = no
+fi
+LIBS="$LIBS `$OPENAL_CONFIG --libs`"
+CFLAGS="$CFLAGS `$OPENAL_CONFIG --cflags`"
+CXXFLAGS="$CXXFLAGS `$OPENAL_CONFIG --cflags`"
+
+AC_MSG_CHECKING(for OpenAL compilation)
+if test "x$enable_altest" = "xyes" ; then
+	AC_TRY_COMPILE([
+		#include <AL/al.h>
+		#include <AL/alut.h>
+		#include <AL/alc.h>
+		],[
+		],[
+		have_openal=yes
+		],[
+		have_openal=no
+	])
+fi
+AC_MSG_RESULT($have_opengl)
+if test x$have_openal != xyes; then
+    AC_MSG_ERROR([*** Can't find the openal library. Try: http://www.openal.org/])
+fi
 
 dnl Checks for Profiling
 AC_MSG_CHECKING(for profiling enabled)
