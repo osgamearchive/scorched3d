@@ -22,6 +22,7 @@
 #define AFX_BuyAccessoryDialog_H__4B5E93CF_1DE2_4979_A629_AEBD725ABE65__INCLUDED_
 
 #include <map>
+#include <set>
 #include <vector>
 #include <weapons/Weapon.h>
 #include <GLW/GLWWindow.h>
@@ -53,15 +54,22 @@ protected:
 	GLWTab *buyWeaponTab_;
 	GLWTab *buyOtherTab_;
 	GLWTab *sellTab_;
+	GLWTab *favouritesTab_;
 	GLWPanel *topPanel_;
 	GLWCheckBox *sortBox_;
 	std::map<unsigned int, Accessory *> sellMap_;
 	std::map<unsigned int, Accessory *> buyMap_;
+	std::map<unsigned int, Accessory *> favMap_;
+	std::set<std::string> favorites_;
 
+	void loadFavorites();
+	void saveFavorites();
 	void playerRefresh();
+	void playerRefreshKeepPos();
 	void addPlayerName();
 	void addPlayerWeapons();
 	void addPlayerWeaponsSell();
+	void addPlayerFavorites();
 	void addPlayerWeaponsBuy(GLWTab *tab, bool weapons);
 	void addAccessory(Tank *tank, GLWTab *tab, float height, Accessory *current);
 

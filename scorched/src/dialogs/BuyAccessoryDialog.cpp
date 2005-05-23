@@ -35,25 +35,31 @@
 #include <stdio.h>
 
 BuyAccessoryDialog::BuyAccessoryDialog() : 
-	GLWWindow("", 10.0f, 10.0f, 440.0f, 300.0f, 0,
+	GLWWindow("", 10.0f, 10.0f, 465.0f, 300.0f, 0,
 		"Allows the current player to buy and sell\n"
 		"weapons and other accessories."),
 	firstDrawTime_(true)
 {
-	okId_ = addWidget(new GLWTextButton("Ok", 375, 10, 55, this, 
+	okId_ = addWidget(new GLWTextButton("Ok", 400, 10, 55, this, 
 		GLWButton::ButtonFlagOk | GLWButton::ButtonFlagCenterX))->getId();
 
 	buyWeaponTab_ = (GLWTab *)
-		addWidget(new GLWTab("Weapons", 10, 40, 420, 160));
+		addWidget(new GLWTab("Weapons", 10, 40, 450, 160));
 	buyOtherTab_ = (GLWTab *)
-		addWidget(new GLWTab("Defense", 10, 40, 420, 160));
+		addWidget(new GLWTab("Defense", 10, 40, 450, 160));
 	sellTab_ = (GLWTab *)
-		addWidget(new GLWTab("Inv", 10, 40, 420, 160));
+		addWidget(new GLWTab("Inv", 10, 40, 450, 160));
+	favouritesTab_ = (GLWTab *)
+		addWidget(new GLWTab("Favorites", 10, 40, 450, 160));
 	topPanel_ = (GLWPanel *)
-		addWidget(new GLWPanel(10, 265, 420, 50));
-	sortBox_ = (GLWCheckBox *) addWidget(new GLWCheckBox(10, 10));
+		addWidget(new GLWPanel(10, 265, 450, 50));
+	sortBox_ = (GLWCheckBox *) addWidget(new GLWCheckBox(10, 14));
 	sortBox_->setHandler(this);
-	addWidget(new GLWLabel(35, 7, "Sort accessories by name"));
+	sortBox_->setW(14);
+	sortBox_->setH(14);
+	GLWLabel *label = (GLWLabel *)
+		addWidget(new GLWLabel(30, 9, "Sort accessories by name"));
+	label->setSize(12);
 }
 
 BuyAccessoryDialog::~BuyAccessoryDialog()
@@ -74,6 +80,7 @@ void BuyAccessoryDialog::draw()
 		buyWeaponTab_->setH(160 + addition);
 		sellTab_->setH(160 + addition);
 		buyOtherTab_->setH(160 + addition);
+		favouritesTab_->setH(160 + addition);
 		topPanel_->setY(240 + addition);
 
 		needCentered_ = true;
@@ -98,18 +105,64 @@ void BuyAccessoryDialog::addPlayerName()
 		ScorchedClient::instance()->getOptionsGame().getNoRounds())));
 }
 
+void BuyAccessoryDialog::playerRefresh()
+{
+	addPlayerName();
+	addPlayerWeapons();
+}
+
+void BuyAccessoryDialog::playerRefreshKeepPos()
+{
+	int buyCurrent = buyWeaponTab_->getScrollBar().getCurrent();
+	int otherCurrent = buyOtherTab_->getScrollBar().getCurrent();
+	int sellCurrent = sellTab_->getScrollBar().getCurrent();
+	int favCurrent = favouritesTab_->getScrollBar().getCurrent();
+	addPlayerWeapons();
+	buyWeaponTab_->getScrollBar().setCurrent(buyCurrent);
+	buyOtherTab_->getScrollBar().setCurrent(otherCurrent);
+	sellTab_->getScrollBar().setCurrent(sellCurrent);
+	favouritesTab_->getScrollBar().setCurrent(favCurrent);
+}
+
 void BuyAccessoryDialog::addPlayerWeapons()
 {
 	buyMap_.clear();
 	sellMap_.clear();
+	favMap_.clear();
 
+	favouritesTab_->clear();
 	sellTab_->clear();
 	buyWeaponTab_->clear();
 	buyOtherTab_->clear();
 
+	addPlayerFavorites();
 	addPlayerWeaponsSell();
 	addPlayerWeaponsBuy(buyWeaponTab_, true);
 	addPlayerWeaponsBuy(buyOtherTab_, false);
+}
+
+void BuyAccessoryDialog::addPlayerFavorites()
+{
+	Tank *tank = ScorchedClient::instance()->getTankContainer().getCurrentTank();
+	if (!tank) return;
+
+	float height = 10.0f;
+	std::list<Accessory *> acessories = 
+		ScorchedClient::instance()->
+			getAccessoryStore().getAllAccessories(
+				OptionsDisplay::instance()->getSortAccessories());
+	std::list<Accessory *>::iterator itor;
+	for (itor = acessories.begin();
+		itor != acessories.end();
+		itor++)
+	{
+		Accessory *current = *itor;
+		if (favorites_.find(current->getName()) != favorites_.end())
+		{
+			addAccessory(tank, favouritesTab_, height, current);
+			height += 24.0f;
+		}
+	}
 }
 
 void BuyAccessoryDialog::addPlayerWeaponsBuy(GLWTab *tab, bool showWeapons)
@@ -176,51 +229,74 @@ void BuyAccessoryDialog::addAccessory(
 	Tank *tank, GLWTab *tab, 
 	float height, Accessory *current)
 {
-	char buffer[256];
 	int currentNumber = 
 		tank->getAccessories().getAccessoryCount(current);
 
+	// Panel
 	GLWPanel *newPanel = (GLWPanel *)
-		tab->addWidget(new GLWPanel(5.0f, (float) height, 290.0f, 20.0f, true));
+		tab->addWidget(new GLWPanel(5.0f, (float) height, 415.0f, 22.0f, true));
 	newPanel->setToolTip(&current->getToolTip());
-	sprintf(buffer, "%i", (currentNumber>=0?currentNumber:99));
-	newPanel->addWidget(new GLWLabel(5, -2, buffer, 12.0f));
-	newPanel->addWidget(new GLWIcon(30, 2, 16, 16, current->getTexture()));
-	newPanel->addWidget(new GLWLabel(50, -2, (char *) current->getName(), 12.0f));
-	sprintf(buffer, "$%i/%i", current->getPrice(), current->getBundle());
-	newPanel->addWidget(new GLWLabel(195, -2, buffer, 12.0f));
 
+	// Favorites checkbox
+	GLWCheckBox *sortBox = (GLWCheckBox *) newPanel->addWidget(new GLWCheckBox(2, 4, false));
+	sortBox->setHandler(this);
+	sortBox->setW(14);
+	sortBox->setH(14);
+	sortBox->setToolTip(new GLWTip("Favorite Weapon",
+		"Set/unset this weapon as a favorite.\n"
+		"Favorite weapons will show in the\n"
+		"favorites tab."));
+	sortBox->setState(favorites_.find(current->getName()) != favorites_.end());
+	favMap_[sortBox->getId()] = current;
+	
+	// Others
+	newPanel->addWidget(new GLWLabel(20, 0, (char *)
+		formatString("%i", (currentNumber>=0?currentNumber:99)), 12.0f));
+	newPanel->addWidget(new GLWIcon(45, 4, 16, 16, current->getTexture()));
+	newPanel->addWidget(new GLWLabel(65, 0, (char *) current->getName(), 12.0f));
+
+	// Buy Button
 	if (currentNumber + current->getBundle() <= current->getMaximumNumber() && // Not exceeded maximum
-		current->getStartingNumber() != -1) // Not infinite
+		current->getStartingNumber() != -1 && // Not infinite
+		current->getPrice() <= tank->getScore().getMoney())
 	{
-		if (current->getPrice() <= tank->getScore().getMoney())
-		{
-			GLWTextButton *button = (GLWTextButton *)
-				newPanel->addWidget(new GLWTextButton("Buy", 295, 0, 45, this, 
-				GLWButton::ButtonFlagCenterX, 12.0f));
-			button->setH(button->getH() - 2.0f);
-			buyMap_[button->getId()] = current;
-		}
+		GLWTextButton *button = (GLWTextButton *)
+			newPanel->addWidget(new GLWTextButton(
+				(char *) formatString("$%i/%i$",
+					current->getPrice(), current->getBundle()), 
+					210, 2, 100, this, 
+			GLWButton::ButtonFlagCenterX, 12.0f));
+		button->setColor(Vector(0.0f, 0.4f, 0.0f));
+		button->setToolTip(new GLWTip("Buy", 
+			formatString("Buy %i %s for $%i", 
+				current->getBundle(), current->getName(), current->getPrice())));
+		button->setH(button->getH() - 2.0f);
+		buyMap_[button->getId()] = current;
 	}
+
+	// Sell Button
 	if (currentNumber > 0 && 
 		current->getStartingNumber() != -1)
 	{
 		GLWTextButton *button = (GLWTextButton *)
-			newPanel->addWidget(new GLWTextButton("Sell", 345, 0, 45, this,
+			newPanel->addWidget(new GLWTextButton(
+				(char *) formatString("$%i/%i",
+					current->getSellPrice(), 1), 
+					312, 2, 100, this,
 			GLWButton::ButtonFlagCenterX, 12.0f));
+		button->setColor(Vector(0.7f, 0.0f, 0.0f));
+		button->setToolTip(new GLWTip("Sell", 
+			formatString("Sell 1 %s for $%i", 
+				current->getName(), current->getSellPrice())));
 		button->setH(button->getH() - 2.0f);
 		sellMap_[button->getId()] = current;
 	}
 }
 
-void BuyAccessoryDialog::playerRefresh()
-{
-	addPlayerName();
-	addPlayerWeapons();
-}
-
 void BuyAccessoryDialog::windowInit(const unsigned state)
 {
+	loadFavorites();
+
 	sortBox_->setState(OptionsDisplay::instance()->getSortAccessories());
 	Tank *tank = ScorchedClient::instance()->getTankContainer().getCurrentTank();
 	if (tank)
@@ -232,15 +308,37 @@ void BuyAccessoryDialog::windowInit(const unsigned state)
 
 void BuyAccessoryDialog::stateChange(bool state, unsigned int id)
 {
-	// The sort accessories check box has been clicked
-	OptionsDisplay::instance()->setSortAccessories(state);
-	playerRefresh();
+	if (id == sortBox_->getId())
+	{
+		// The sort accessories check box has been clicked
+		OptionsDisplay::instance()->setSortAccessories(state);
+		playerRefreshKeepPos();
+	}
+	else
+	{
+		// The favorites check box has been clicked
+		std::map<unsigned int, Accessory *>::iterator findItor
+			= favMap_.find(id);
+		if (findItor != favMap_.end())
+		{
+			if (state)
+			{
+				favorites_.insert((*findItor).second->getName());
+			}
+			else
+			{
+				favorites_.erase((*findItor).second->getName());
+			}
+		}
+		playerRefreshKeepPos();
+	}
 }
 
 void BuyAccessoryDialog::buttonDown(unsigned int id)
 {
 	if (id == okId_)
 	{
+		saveFavorites();
 		ScorchedClient::instance()->getGameState().stimulate(ClientState::StimAutoDefense);
 	}
 	else
@@ -262,13 +360,7 @@ void BuyAccessoryDialog::buttonDown(unsigned int id)
 			tank->getScore().setMoney(tank->getScore().getMoney() - acc->getPrice());
 
 			// Refresh the window
-			int buyCurrent = buyWeaponTab_->getScrollBar().getCurrent();
-			int otherCurrent = buyOtherTab_->getScrollBar().getCurrent();
-			int sellCurrent = sellTab_->getScrollBar().getCurrent();
-			playerRefresh();
-			buyWeaponTab_->getScrollBar().setCurrent(buyCurrent);
-			buyOtherTab_->getScrollBar().setCurrent(otherCurrent);
-			sellTab_->getScrollBar().setCurrent(sellCurrent);
+			playerRefreshKeepPos();
 		}
 		else
 		{
@@ -285,14 +377,54 @@ void BuyAccessoryDialog::buttonDown(unsigned int id)
 				tank->getScore().setMoney(tank->getScore().getMoney() + acc->getSellPrice());
 
 				// Refresh the window
-				int buyCurrent = buyWeaponTab_->getScrollBar().getCurrent();
-				int otherCurrent = buyOtherTab_->getScrollBar().getCurrent();
-				int sellCurrent = sellTab_->getScrollBar().getCurrent();
-				playerRefresh();
-				buyWeaponTab_->getScrollBar().setCurrent(buyCurrent);
-				buyOtherTab_->getScrollBar().setCurrent(otherCurrent);
-				sellTab_->getScrollBar().setCurrent(sellCurrent);
+				playerRefreshKeepPos();
 			}
 		}
 	}
+}
+
+void BuyAccessoryDialog::loadFavorites()
+{
+	const char *filename = 
+		getSettingsFile("weapon-favorites-%s.xml", 
+			ScorchedClient::instance()->getOptionsGame().getMod());
+
+	favorites_.clear();
+	XMLFile file;
+	if (!file.readFile(filename))
+	{
+		dialogMessage("BuyAccessoryDialog", 
+					  "Failed to parse \"%s\"\n%s", 
+					  filename,
+					  file.getParserError());
+		return;
+	}
+	if (!file.getRootNode()) return; // Empty File
+
+	std::string accessory;
+	while (file.getRootNode()->getNamedChild("accessory", accessory, false))
+	{
+		favorites_.insert(accessory);
+	}
+}
+
+void BuyAccessoryDialog::saveFavorites()
+{
+	const char *filename = 
+		getSettingsFile("weapon-favorites-%s.xml", 
+			ScorchedClient::instance()->getOptionsGame().getMod());
+
+	XMLNode node("accessories");
+	std::set<std::string>::iterator itor;
+	for (itor = favorites_.begin();
+		itor != favorites_.end();
+		itor++)
+	{
+		std::string &accessory = *itor;
+
+		XMLNode *accessoryNode = 
+			new XMLNode("accessory", accessory.c_str());
+		node.addChild(accessoryNode);
+	}
+	node.writeToFile(filename);
 }

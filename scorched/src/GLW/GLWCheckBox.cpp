@@ -44,25 +44,22 @@ void GLWCheckBox::setHandler(GLWCheckBoxI *handler)
 
 void GLWCheckBox::draw()
 {
+	float halfW = h_ / 2.0f;
 	glLineWidth(1.0f);
 	glBegin(GL_LINE_LOOP);
-		drawShadedRoundBox(x_, y_, w_, h_, 10.0f, false);
+		drawShadedRoundBox(x_, y_, w_, h_, halfW, false);
 	glEnd();
 
 	if (state_)
 	{
 		// Draw check mark
-		glLineWidth(3.0f);
 		glColor3f(0.2f, 0.2f, 0.2f);
-		glBegin(GL_LINES);
-			glVertex2f(x_ + 4.0f, y_ + 4.0f);
-			glVertex2f(x_ + w_ - 4.0f, y_ + h_ - 4.0f);
-
-			glVertex2f(x_ + 4.0f, y_ + h_ - 4.0f);
-			glVertex2f(x_ + w_ - 4.0f, y_ + 4.0f);
+		glBegin(GL_TRIANGLE_FAN);
+			glVertex2f(x_ + halfW, y_ + halfW);
+			drawCircle(16, -1, x_ + halfW, y_ + halfW, halfW - 3.0f);
 		glEnd();
-		glLineWidth(1.0f);
 	}
+	GLWidget::draw();
 }
 
 void GLWCheckBox::mouseDown(float x, float y, bool &skipRest)
@@ -74,4 +71,5 @@ void GLWCheckBox::mouseDown(float x, float y, bool &skipRest)
 		skipRest = true;
 		if (handler_) handler_->stateChange(state_, getId());
 	}
+	GLWidget::mouseDown(x, y, skipRest);
 }

@@ -38,11 +38,13 @@ public:
 
 	void setText(const char *text) { label_.setText(text); }
 	const char *getText() { return label_.getText(); }
+	void setColor(const Vector &color) { color_ = color; }
 
 	REGISTER_CLASS_HEADER(GLWTextButton);
 
 protected:
 	GLWLabel label_;
+	Vector color_;
 
 };
 
