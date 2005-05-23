@@ -262,7 +262,7 @@ void BuyAccessoryDialog::addAccessory(
 	{
 		GLWTextButton *button = (GLWTextButton *)
 			newPanel->addWidget(new GLWTextButton(
-				(char *) formatString("$%i/%i$",
+				(char *) formatString("$%i/%i",
 					current->getPrice(), current->getBundle()), 
 					210, 2, 100, this, 
 			GLWButton::ButtonFlagCenterX, 12.0f));
