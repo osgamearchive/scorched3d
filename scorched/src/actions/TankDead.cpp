@@ -146,7 +146,7 @@ void TankDead::simulate(float frameTime, bool &remove)
 				if (!context_->serverMode ||
 					OptionsParam::instance()->getDedicatedServer())
 				{
-					Tank firedTank(*context_, 0, 0, "Environment", 
+					static Tank firedTank(*context_, 0, 0, "Environment", 
 						Vector::nullVector, killedTank->getModel());
 					firedTank.setUniqueId("Environment");
 					StatsLogger::instance()->
