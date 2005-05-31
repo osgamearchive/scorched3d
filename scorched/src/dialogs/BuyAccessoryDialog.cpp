@@ -268,7 +268,7 @@ void BuyAccessoryDialog::addAccessory(
 			GLWButton::ButtonFlagCenterX, 12.0f));
 		button->setColor(Vector(0.0f, 0.4f, 0.0f));
 		button->setToolTip(new GLWTip("Buy", 
-			formatString("Buy %i %s for $%i", 
+			formatString("Buy %i %s(s) for $%i", 
 				current->getBundle(), current->getName(), current->getPrice())));
 		button->setH(button->getH() - 2.0f);
 		buyMap_[button->getId()] = current;

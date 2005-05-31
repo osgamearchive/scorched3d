@@ -11,111 +11,9 @@
 	</Platforms>
 	<Configurations>
 		<Configuration
-			Name="Debug|Win32"
-			OutputDirectory="Debug"
-			IntermediateDirectory="Debug"
-			ConfigurationType="1"
-			CharacterSet="2">
-			<Tool
-				Name="VCCLCompilerTool"
-				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)\visualc\include\&quot;;&quot;$(SolutionDir)\src\&quot;"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;dDOUBLE;COMPILED_FROM_DSP;XML_STATIC;WINVER=0x400,_MT,wxUSE_GUI=1"
-				MinimalRebuild="TRUE"
-				ExceptionHandling="TRUE"
-				BasicRuntimeChecks="0"
-				RuntimeLibrary="3"
-				BufferSecurityCheck="FALSE"
-				DisableLanguageExtensions="FALSE"
-				ForceConformanceInForLoopScope="TRUE"
-				UsePrecompiledHeader="0"
-				BrowseInformation="0"
-				WarningLevel="3"
-				Detect64BitPortabilityProblems="FALSE"
-				DebugInformationFormat="3"/>
-			<Tool
-				Name="VCCustomBuildTool"/>
-			<Tool
-				Name="VCLinkerTool"
-				AdditionalOptions="/FIXED:NO"
-				AdditionalDependencies="opengl32.lib glu32.lib winmm.lib dxguid.lib comctl32.lib Ws2_32.lib &quot;$(SolutionDir)\visualc\lib\SDL\SDL.lib&quot; &quot;$(SolutionDir)\visualc\lib\SDL\SDL_net.lib&quot; &quot;$(SolutionDir)\visualc\lib\SDL\SDLmain.lib&quot; &quot;$(SolutionDir)\visualc\lib\al\ALut.lib&quot; &quot;$(SolutionDir)\visualc\lib\al\OpenAL32.lib&quot; &quot;$(SolutionDir)\visualc\lib\wx\wxmswd.lib&quot; &quot;$(SolutionDir)\visualc\lib\truetype\libfreetype.lib&quot; rpcrt4.lib"
-				OutputFile="$(OutDir)/scorched.exe"
-				LinkIncremental="1"
-				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile="$(OutDir)/scorched.pdb"
-				SubSystem="2"
-				StackReserveSize="32000000"
-				TargetMachine="1"/>
-			<Tool
-				Name="VCMIDLTool"/>
-			<Tool
-				Name="VCPostBuildEventTool"/>
-			<Tool
-				Name="VCPreBuildEventTool"/>
-			<Tool
-				Name="VCPreLinkEventTool"/>
-			<Tool
-				Name="VCResourceCompilerTool"/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"/>
-			<Tool
-				Name="VCWebDeploymentTool"/>
-		</Configuration>
-		<Configuration
 			Name="Release|Win32"
 			OutputDirectory="Release"
 			IntermediateDirectory="Release"
-			ConfigurationType="1"
-			CharacterSet="2">
-			<Tool
-				Name="VCCLCompilerTool"
-				Optimization="2"
-				InlineFunctionExpansion="0"
-				OmitFramePointers="TRUE"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)\visualc\include\&quot;;&quot;$(SolutionDir)\src\&quot;"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;dDOUBLE;COMPILED_FROM_DSP;XML_STATIC;WINVER=0x400,_MT,wxUSE_GUI=1"
-				StringPooling="TRUE"
-				ExceptionHandling="TRUE"
-				RuntimeLibrary="2"
-				EnableFunctionLevelLinking="TRUE"
-				DisableLanguageExtensions="FALSE"
-				ForceConformanceInForLoopScope="TRUE"
-				UsePrecompiledHeader="0"
-				WarningLevel="3"
-				Detect64BitPortabilityProblems="FALSE"
-				DebugInformationFormat="0"/>
-			<Tool
-				Name="VCCustomBuildTool"/>
-			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="opengl32.lib glu32.lib winmm.lib dxguid.lib comctl32.lib Ws2_32.lib &quot;$(SolutionDir)\visualc\lib\SDL\SDL.lib&quot; &quot;$(SolutionDir)\visualc\lib\SDL\SDL_net.lib&quot; &quot;$(SolutionDir)\visualc\lib\SDL\SDLmain.lib&quot; &quot;$(SolutionDir)\visualc\lib\al\ALut.lib&quot; &quot;$(SolutionDir)\visualc\lib\al\OpenAL32.lib&quot; &quot;$(SolutionDir)\visualc\lib\wx\wxmsw.lib&quot; &quot;$(SolutionDir)\visualc\lib\truetype\libfreetype.lib&quot; rpcrt4.lib"
-				OutputFile="$(OutDir)/scorched.exe"
-				LinkIncremental="1"
-				GenerateDebugInformation="TRUE"
-				SubSystem="2"
-				StackReserveSize="32000000"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
-				TargetMachine="1"/>
-			<Tool
-				Name="VCMIDLTool"/>
-			<Tool
-				Name="VCPostBuildEventTool"/>
-			<Tool
-				Name="VCPreBuildEventTool"/>
-			<Tool
-				Name="VCPreLinkEventTool"/>
-			<Tool
-				Name="VCResourceCompilerTool"/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"/>
-			<Tool
-				Name="VCWebDeploymentTool"/>
-		</Configuration>
-		<Configuration
-			Name="Release - MySql|Win32"
-			OutputDirectory="Release - MySql"
-			IntermediateDirectory="Release - MySql"
 			ConfigurationType="1"
 			CharacterSet="2">
 			<Tool
@@ -139,7 +37,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="opengl32.lib glu32.lib winmm.lib dxguid.lib comctl32.lib Ws2_32.lib &quot;$(SolutionDir)\visualc\lib\SDL\SDL.lib&quot; &quot;$(SolutionDir)\visualc\lib\SDL\SDL_net.lib&quot; &quot;$(SolutionDir)\visualc\lib\SDL\SDLmain.lib&quot; &quot;$(SolutionDir)\visualc\lib\al\ALut.lib&quot; &quot;$(SolutionDir)\visualc\lib\al\OpenAL32.lib&quot; &quot;$(SolutionDir)\visualc\lib\wx\wxmsw.lib&quot; &quot;$(SolutionDir)\visualc\lib\truetype\libfreetype.lib&quot; &quot;$(SolutionDir)\visualc\lib\mysql\libmysql.lib&quot; rpcrt4.lib"
+				AdditionalDependencies="opengl32.lib glu32.lib winmm.lib dxguid.lib comctl32.lib Ws2_32.lib &quot;$(SolutionDir)\visualc\lib\SDL\SDL.lib&quot; &quot;$(SolutionDir)\visualc\lib\SDL\SDL_net.lib&quot; &quot;$(SolutionDir)\visualc\lib\SDL\SDLmain.lib&quot; &quot;$(SolutionDir)\visualc\lib\al\ALut.lib&quot; &quot;$(SolutionDir)\visualc\lib\al\OpenAL32.lib&quot; &quot;$(SolutionDir)\visualc\lib\wx\wxmsw.lib&quot; &quot;$(SolutionDir)\visualc\lib\truetype\libfreetype.lib&quot; &quot;$(SolutionDir)\visualc\lib\mysql\libmysql.lib&quot; &quot;$(SolutionDir)\visualc\lib\cg\cg.lib&quot; &quot;$(SolutionDir)\visualc\lib\cg\cggl.lib&quot; rpcrt4.lib"
 				OutputFile="$(OutDir)/scorched.exe"
 				LinkIncremental="1"
 				GenerateDebugInformation="TRUE"
@@ -164,9 +62,9 @@
 				Name="VCWebDeploymentTool"/>
 		</Configuration>
 		<Configuration
-			Name="Debug - MySql|Win32"
-			OutputDirectory="Debug - MySql"
-			IntermediateDirectory="Debug - MySql"
+			Name="Debug|Win32"
+			OutputDirectory="Debug"
+			IntermediateDirectory="Debug"
 			ConfigurationType="1"
 			CharacterSet="2">
 			<Tool
@@ -191,7 +89,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/FIXED:NO"
-				AdditionalDependencies="opengl32.lib glu32.lib winmm.lib dxguid.lib comctl32.lib Ws2_32.lib &quot;$(SolutionDir)\visualc\lib\SDL\SDL.lib&quot; &quot;$(SolutionDir)\visualc\lib\SDL\SDL_net.lib&quot; &quot;$(SolutionDir)\visualc\lib\SDL\SDLmain.lib&quot; &quot;$(SolutionDir)\visualc\lib\al\ALut.lib&quot; &quot;$(SolutionDir)\visualc\lib\al\OpenAL32.lib&quot; &quot;$(SolutionDir)\visualc\lib\wx\wxmswd.lib&quot; &quot;$(SolutionDir)\visualc\lib\truetype\libfreetype.lib&quot; &quot;$(SolutionDir)\visualc\lib\mysql\libmysql.lib&quot; rpcrt4.lib"
+				AdditionalDependencies="opengl32.lib glu32.lib winmm.lib dxguid.lib comctl32.lib Ws2_32.lib &quot;$(SolutionDir)\visualc\lib\SDL\SDL.lib&quot; &quot;$(SolutionDir)\visualc\lib\SDL\SDL_net.lib&quot; &quot;$(SolutionDir)\visualc\lib\SDL\SDLmain.lib&quot; &quot;$(SolutionDir)\visualc\lib\al\ALut.lib&quot; &quot;$(SolutionDir)\visualc\lib\al\OpenAL32.lib&quot; &quot;$(SolutionDir)\visualc\lib\wx\wxmswd.lib&quot; &quot;$(SolutionDir)\visualc\lib\truetype\libfreetype.lib&quot; &quot;$(SolutionDir)\visualc\lib\mysql\libmysql.lib&quot; &quot;$(SolutionDir)\visualc\lib\cg\cg.lib&quot; &quot;$(SolutionDir)\visualc\lib\cg\cggl.lib&quot; rpcrt4.lib"
 				OutputFile="$(OutDir)/scorched.exe"
 				LinkIncremental="1"
 				GenerateDebugInformation="TRUE"
@@ -2328,25 +2226,13 @@
 			<File
 				RelativePath="wxinclude.rc">
 				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCResourceCompilerTool"
-						AdditionalIncludeDirectories="..\..\visualc\include"/>
-				</FileConfiguration>
-				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
 						Name="VCResourceCompilerTool"
 						AdditionalIncludeDirectories="..\..\visualc\include"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release - MySql|Win32">
-					<Tool
-						Name="VCResourceCompilerTool"
-						AdditionalIncludeDirectories="..\..\visualc\include"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug - MySql|Win32">
+					Name="Debug|Win32">
 					<Tool
 						Name="VCResourceCompilerTool"
 						AdditionalIncludeDirectories="..\..\visualc\include"/>
