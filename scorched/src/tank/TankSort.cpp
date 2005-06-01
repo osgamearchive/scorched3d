@@ -149,7 +149,7 @@ int TankSort::getWinningTeam(ScorchedContext &context)
 			}
 		}
 		
-		if (won) return i;
+		if (won) return (i + 1);
 	}
 
 	return 0;

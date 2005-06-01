@@ -228,10 +228,10 @@ void ScoreDialog::draw()
 			{
 				unsigned int playerId = (*itor);
 				Tank *current = ScorchedClient::instance()->getTankContainer().getTankById(playerId);
-				if (current && current->getTeam() == i + 1 && !current->getState().getSpectator()) 
+				if (current && current->getTeam() == (i + 1) && !current->getState().getSpectator()) 
 				{
 					scores[i].team = true;
-					addLine(current, y, (char *)(winningTeam==i?"1":"2"), finished);
+					addLine(current, y, (char *)((winningTeam==(i+1))?"1":"2"), finished);
 					
 					scores[i].wins += current->getScore().getWins();
 					scores[i].kills += current->getScore().getKills();
