@@ -119,9 +119,13 @@ DisplayFrame::DisplayFrame() :
 	createKeysControls(keysPanel_, keysPanelSizer);
 	book_->AddPage(keysPanel_, "Keys");
 	keysPanel_->SetAutoLayout(TRUE);
+#if wxCHECK_VERSION(2,6,0)
+	keysPanel_->SetSizer(keysPanelSizer);
+#else
 #if wxCHECK_VERSION(2,5,0)
 #else
 	keysPanel_->SetSizer(keysPanelSizer);
+#endif
 #endif
 
 	// Ident Panel

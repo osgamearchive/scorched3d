@@ -22,6 +22,7 @@ Fixed: Server status messages getting too big too send
 Fixed: Winner award given when all players leave (1/2 total rounds must be played)
 Fixed: Bug where rollers kill shields and heavy shields with direct hits
 
+Added: Even slower/finer angle/power changes by using SHIFT+CTRL
 Added: Favorites tag to buy and sell dialog
 Added: 3D sound support using OpenAL (removed SDL_mixer sound support)
 Added: enginesound attribute to weapon projectile

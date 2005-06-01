@@ -420,7 +420,7 @@ void BuyAccessoryDialog::saveFavorites()
 		itor != favorites_.end();
 		itor++)
 	{
-		std::string &accessory = *itor;
+		std::string accessory = *itor;
 
 		XMLNode *accessoryNode = 
 			new XMLNode("accessory", accessory.c_str());

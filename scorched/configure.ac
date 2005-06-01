@@ -13,8 +13,8 @@ AC_PROG_CXX
 AC_PROG_INSTALL
 AC_PROG_RANLIB
 
-LDFLAGS="-L/usr/X11R6/lib -L/usr/X11R6"
-CPPFLAGS="-I/usr/X11R6/include -I/usr/X11R6"
+LDFLAGS="-L/usr/X11R6/lib -L/usr/X11R6 -L/usr/local/lib"
+CPPFLAGS="-I/usr/X11R6/include -I/usr/X11R6 -I/usr/local/include"
 if test `uname` == Darwin; then
 LDFLAGS="$LDFLAGS -lmx"
 CPPFLAGS="$CPPFLAGS -D__DARWIN__"
@@ -104,11 +104,12 @@ if test x$OPENAL_CONFIG = xno; then
 	echo "*** The openal-config script installed by OpenAL could not be found"
 	echo "*** Make sure openal-config is in your path, or set the OPENAL_CONFIG"
 	echo "*** environment variable to the full path to openal-config."
-	have_openal = no
+	have_openal=no
+else
+	LIBS="$LIBS `$OPENAL_CONFIG --libs`"
+	CFLAGS="$CFLAGS `$OPENAL_CONFIG --cflags`"
+	CXXFLAGS="$CXXFLAGS `$OPENAL_CONFIG --cflags`"
 fi
-LIBS="$LIBS `$OPENAL_CONFIG --libs`"
-CFLAGS="$CFLAGS `$OPENAL_CONFIG --cflags`"
-CXXFLAGS="$CXXFLAGS `$OPENAL_CONFIG --cflags`"
 
 AC_MSG_CHECKING(for OpenAL compilation)
 if test "x$enable_altest" = "xyes" ; then
@@ -123,7 +124,8 @@ if test "x$enable_altest" = "xyes" ; then
 		have_openal=no
 	])
 fi
-AC_MSG_RESULT($have_opengl)
+
+AC_MSG_RESULT($have_openal)
 if test x$have_openal != xyes; then
     AC_MSG_ERROR([*** Can't find the openal library. Try: http://www.openal.org/])
 fi

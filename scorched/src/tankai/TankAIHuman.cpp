@@ -201,34 +201,40 @@ void TankAIHuman::moveLeftRight(char *buffer, unsigned int keyState, float frame
 
 	KEYBOARDKEY("TURN_RIGHT", rightKey);
 	KEYBOARDKEY("TURN_RIGHT_SLOW", rightSlowKey);
+	KEYBOARDKEY("TURN_RIGHT_VSLOW", rightVSlowKey);
 	KEYBOARDKEY("TURN_RIGHT_FAST", rightFastKey);
 	KEYBOARDKEY("TURN_LEFT", leftKey);
 	KEYBOARDKEY("TURN_LEFT_SLOW", leftSlowKey);
+	KEYBOARDKEY("TURN_LEFT_VSLOW", leftVSlowKey);
 	KEYBOARDKEY("TURN_LEFT_FAST", leftFastKey);
 
 	bool rightK = rightKey->keyDown(buffer, keyState);
 	bool rightKF = rightFastKey->keyDown(buffer, keyState);
 	bool rightKS = rightSlowKey->keyDown(buffer, keyState);
+	bool rightKVS = rightVSlowKey->keyDown(buffer, keyState);
 	bool leftK = leftKey->keyDown(buffer, keyState);
 	bool leftKF = leftFastKey->keyDown(buffer, keyState);
 	bool leftKS = leftSlowKey->keyDown(buffer, keyState);
+	bool leftKVS = leftVSlowKey->keyDown(buffer, keyState);
 
-	if (rightK || rightKF || rightKS)
+	if (rightK || rightKF || rightKS || rightKVS)
 	{
 		float mult = frameTime;
 		if (rightKF) mult *= 4.0f;
 		else if (rightKS) mult *= 0.25f;
+		else if (rightKVS) mult *= 0.05f;
 
 		currentTank_->getPhysics().rotateGunXY(-45.0f * mult);
 		currentLRMoving = true;
 
 		leftRightHUD();
 	}
-	else if (leftK || leftKF || leftKS)
+	else if (leftK || leftKF || leftKS || leftKVS)
 	{
 		float mult = frameTime;
 		if (leftKF) mult *= 4.0f;
 		else if (leftKS) mult *= 0.25f;
+		else if (leftKVS) mult *= 0.05f;
 
 		currentTank_->getPhysics().rotateGunXY(45.0f * mult);
 		currentLRMoving = true;
@@ -268,50 +274,60 @@ void TankAIHuman::moveUpDown(char *buffer, unsigned int keyState, float frameTim
 
 	KEYBOARDKEY("ROTATE_UP", staticUpKey);
 	KEYBOARDKEY("ROTATE_UP_SLOW", staticUpSlowKey);
+	KEYBOARDKEY("ROTATE_UP_VSLOW", staticUpVSlowKey);
 	KEYBOARDKEY("ROTATE_UP_FAST", staticUpFastKey);
 	KEYBOARDKEY("ROTATE_DOWN", staticDownKey);
 	KEYBOARDKEY("ROTATE_DOWN_SLOW", staticDownSlowKey);
+	KEYBOARDKEY("ROTATE_DOWN_VSLOW", staticDownVSlowKey);
 	KEYBOARDKEY("ROTATE_DOWN_FAST", staticDownFastKey);
 
 	KeyboardKey *upKey = staticUpKey;
 	KeyboardKey *upSlowKey = staticUpSlowKey;
+	KeyboardKey *upVSlowKey = staticUpVSlowKey;
 	KeyboardKey *upFastKey = staticUpFastKey;
 	KeyboardKey *downKey = staticDownKey;
 	KeyboardKey *downSlowKey = staticDownSlowKey;
+	KeyboardKey *downVSlowKey = staticDownVSlowKey;
 	KeyboardKey *downFastKey = staticDownFastKey;
 	if (OptionsDisplay::instance()->getInvertElevation())
 	{
 		upKey = staticDownKey;
 		upSlowKey = staticDownSlowKey;
+		upVSlowKey = staticDownVSlowKey;
 		upFastKey = staticDownFastKey;
 		downKey = staticUpKey;
 		downSlowKey = staticUpSlowKey;
+		downVSlowKey = staticUpVSlowKey;
 		downFastKey = staticUpFastKey;
 	}
 
 	bool upK = upKey->keyDown(buffer, keyState);
 	bool upKS = upSlowKey->keyDown(buffer, keyState);
+	bool upKVS = upVSlowKey->keyDown(buffer, keyState);
 	bool upKF = upFastKey->keyDown(buffer, keyState);
 	bool downK = downKey->keyDown(buffer, keyState);
 	bool downKS = downSlowKey->keyDown(buffer, keyState);
+	bool downKVS = downVSlowKey->keyDown(buffer, keyState);
 	bool downKF = downFastKey->keyDown(buffer, keyState);
 
-	if (upK || upKS || upKF)
+	if (upK || upKS || upKF || upKVS)
 	{
 		float mult = frameTime;
 		if (upKF) mult *= 4.0f;
 		else if (upKS) mult *= 0.25f;
+		else if (upKVS) mult *= 0.05f;
 
 		currentTank_->getPhysics().rotateGunYZ(-45.0f * mult);
 		currentUDMoving = true;
 
 		upDownHUD();
 	}
-	else if (downK || downKS || downKF)
+	else if (downK || downKS || downKF || downKVS)
 	{
 		float mult = frameTime;
 		if (downKF) mult *= 4.0f;
 		else if (downKS) mult *= 0.25f;
+		else if (downKVS) mult *= 0.05f;
 
 		currentTank_->getPhysics().rotateGunYZ(45.0f * mult);
 		currentUDMoving = true;
@@ -351,33 +367,39 @@ void TankAIHuman::movePower(char *buffer, unsigned int keyState, float frameTime
 
 	KEYBOARDKEY("INCREASE_POWER", incKey);
 	KEYBOARDKEY("INCREASE_POWER_SLOW", incSlowKey);
+	KEYBOARDKEY("INCREASE_POWER_VSLOW", incVSlowKey);
 	KEYBOARDKEY("INCREASE_POWER_FAST", incFastKey);
 	KEYBOARDKEY("DECREASE_POWER", decKey);
 	KEYBOARDKEY("DECREASE_POWER_SLOW", decSlowKey);
+	KEYBOARDKEY("DECREASE_POWER_VSLOW", decVSlowKey);
 	KEYBOARDKEY("DECREASE_POWER_FAST", decFastKey);
 	bool incK = incKey->keyDown(buffer, keyState);
 	bool incKS = incSlowKey->keyDown(buffer, keyState);
+	bool incKVS = incVSlowKey->keyDown(buffer, keyState);
 	bool incKF = incFastKey->keyDown(buffer, keyState);
 	bool decK = decKey->keyDown(buffer, keyState);
 	bool decKS = decSlowKey->keyDown(buffer, keyState);
+	bool decKVS = decVSlowKey->keyDown(buffer, keyState);
 	bool decKF = decFastKey->keyDown(buffer, keyState);
 
-	if (incK || incKS || incKF) 
+	if (incK || incKS || incKF || incKVS) 
 	{
 		float mult = frameTime;
 		if (incKF) mult *= 4.0f;
 		else if (incKS) mult *= 0.25f;
+		else if (incKVS) mult *= 0.05f;
 
 		currentTank_->getPhysics().changePower(250.0f * mult);
 		currentPMoving = true;
 
 		powerHUD();
 	}
-	else if (decK || decKS || decKF) 
+	else if (decK || decKS || decKF || decKVS) 
 	{
 		float mult = frameTime;
 		if (decKF) mult *= 4.0f;
 		else if (decKS) mult *= 0.25f;
+		else if (decKVS) mult *= 0.05f;
 
 		currentTank_->getPhysics().changePower(-250.0f * mult);
 		currentPMoving = true;

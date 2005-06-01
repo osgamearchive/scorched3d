@@ -22,6 +22,13 @@
 		<key state='LSHIFT'>LEFT</key>
 	</keyentry>
 	<keyentry>
+		<name>TURN_LEFT_VSLOW</name>
+		<title>Rotate left (very slowly)</title>
+		<description>Turn the tank to the left slowly</description>
+		<group>0</group>
+		<key state='LSHIFTCTRL'>LEFT</key>
+	</keyentry>
+	<keyentry>
 		<name>TURN_LEFT_FAST</name>
 		<title>Rotate left (fast)</title>
 		<description>Turn the tank to the left quickly</description>
@@ -41,6 +48,13 @@
 		<description>Turn the tank to the right slowly</description>
 		<group>0</group>
 		<key state='LSHIFT'>RIGHT</key>
+	</keyentry>
+	<keyentry>
+		<name>TURN_RIGHT_VSLOW</name>
+		<title>Rotate right (very slowly)</title>
+		<description>Turn the tank to the right slowly</description>
+		<group>0</group>
+		<key state='LSHIFTCTRL'>RIGHT</key>
 	</keyentry>
 	<keyentry>
 		<name>TURN_RIGHT_FAST</name>
@@ -64,6 +78,13 @@
 		<key state='LSHIFT'>UP</key>
 	</keyentry>
 	<keyentry>
+		<name>ROTATE_UP_VSLOW</name>
+		<title>Increase elevation (very slowly)</title>
+		<description>Increase the tank&apos;s angle of elevation slowly</description>
+		<group>0</group>
+		<key state='LSHIFTCTRL'>UP</key>
+	</keyentry>
+	<keyentry>
 		<name>ROTATE_UP_FAST</name>
 		<title>Increase elevation (fast)</title>
 		<description>Increase the tank&apos;s angle of elevation quickly</description>
@@ -83,6 +104,13 @@
 		<description>Decrease the tank&apos;s angle of elevation slowly</description>
 		<group>0</group>
 		<key state='LSHIFT'>DOWN</key>
+	</keyentry>
+	<keyentry>
+		<name>ROTATE_DOWN_VSLOW</name>
+		<title>Decrease elevation (very slowly)</title>
+		<description>Decrease the tank&apos;s angle of elevation slowly</description>
+		<group>0</group>
+		<key state='LSHIFTCTRL'>DOWN</key>
 	</keyentry>
 	<keyentry>
 		<name>ROTATE_DOWN_FAST</name>
@@ -111,6 +139,15 @@
 		<key state='LSHIFT'>PAGEUP</key>
 	</keyentry>
 	<keyentry>
+		<name>INCREASE_POWER_VSLOW</name>
+		<title>Increase power (very slowly)</title>
+		<description>Increase the tank&apos;s shot power slowly</description>
+		<group>0</group>
+		<key state='LSHIFTCTRL'>EQUALS</key>
+		<key state='LSHIFTCTRL'>KP_PLUS</key>
+		<key state='LSHIFTCTRL'>PAGEUP</key>
+	</keyentry>
+	<keyentry>
 		<name>INCREASE_POWER_FAST</name>
 		<title>Increase power (fast)</title>
 		<description>Increase the tank&apos;s shot power quickly</description>
@@ -136,6 +173,15 @@
 		<key state='LSHIFT'>MINUS</key>
 		<key state='LSHIFT'>KP_MINUS</key>
 		<key state='LSHIFT'>PAGEDOWN</key>
+	</keyentry>
+	<keyentry>
+		<name>DECREASE_POWER_VSLOW</name>
+		<title>Decrease power (very slow)</title>
+		<description>Decrease the tank&apos;s shot power slowly</description>
+		<group>0</group>
+		<key state='LSHIFTCTRL'>MINUS</key>
+		<key state='LSHIFTCTRL'>KP_MINUS</key>
+		<key state='LSHIFTCTRL'>PAGEDOWN</key>
 	</keyentry>
 	<keyentry>
 		<name>DECREASE_POWER_FAST</name>
