@@ -213,8 +213,14 @@ void ServerBrowserInfo::processPlayerMessage(std::list<std::string> &reply)
 		reply.push_back(addTag(tmp, tank->getScore().getTimePlayedString()));
 
 		sprintf(tmp, "pm%i", i);
-		reply.push_back(addTag(tmp, 
-			(tank->getTeam()==0)?"None":((tank->getTeam()==1)?"Red":"Green")));
+		switch (tank->getTeam())
+		{
+		case 1: reply.push_back(addTag(tmp, "Red")); break;
+		case 2: reply.push_back(addTag(tmp, "Blue")); break;
+		case 3: reply.push_back(addTag(tmp, "Green")); break;
+		case 4: reply.push_back(addTag(tmp, "Yellow")); break;
+		default: reply.push_back(addTag(tmp, "None")); break;
+		}
 
 		sprintf(tmp, "pr%i", i);
 		reply.push_back(addTag(tmp, tank->getScore().getStatsRank()));

@@ -75,11 +75,13 @@ void Tank::clientNewGame()
 Vector &Tank::getColor()
 {
 	static Vector red(1.0f, 0.0f, 0.0f);
-	static Vector yellow(1.0f, 1.0f, 0.0f);
 	static Vector blue(0.0f, 1.0f, 0.0f);
 	static Vector green(0.0f, 0.0f, 1.0f);
+	static Vector yellow(1.0f, 1.0f, 0.0f);
 	if (team_ == 1) return red;
 	else if (team_ == 2) return blue;
+	else if (team_ == 3) return green;
+	else if (team_ == 4) return yellow;
 	return color_;
 }
 

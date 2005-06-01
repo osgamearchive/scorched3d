@@ -107,8 +107,16 @@ bool TankSort::SortOnScore::operator()(const Tank *x, const Tank *y, ScorchedCon
 
 int TankSort::getWinningTeam(ScorchedContext &context)
 {
-	int winsOne = 0, killsOne = 0, moneyOne = 0;
-	int winsTwo = 0, killsTwo = 0, moneyTwo = 0;
+	struct Score
+	{
+		Score() : wins(0), kills(0), money(0) {}
+	
+		int wins;
+		int kills;
+		int money;
+	};
+	Score scores[4];
+
 	std::map<unsigned int, Tank *>::iterator itor;
 	std::map<unsigned int, Tank *> &tanks = 
 		context.tankContainer->getPlayingTanks();
@@ -117,32 +125,34 @@ int TankSort::getWinningTeam(ScorchedContext &context)
 		itor ++)
 	{
 		Tank *current = (*itor).second;
-		if (current->getTeam() == 1 && !current->getState().getSpectator()) 
+		if (current->getTeam() > 0 && !current->getState().getSpectator()) 
 		{
-			winsOne += current->getScore().getWins();
-			killsOne += current->getScore().getKills();
-			moneyOne += current->getScore().getMoney();
+			scores[current->getTeam() - 1].wins += current->getScore().getWins();
+			scores[current->getTeam() - 1].kills += current->getScore().getKills();
+			scores[current->getTeam() - 1].money += current->getScore().getMoney();
 		}
 	}
-	// Team 2
-	for (itor = tanks.begin();
-		itor != tanks.end();
-		itor ++)
+
+	for (int i=0; i<context.optionsGame->getTeams(); i++)
 	{
-		Tank *current = (*itor).second;
-		if (current->getTeam() == 2 && !current->getState().getSpectator()) 
+		bool won = true;
+		for (int j=0; j<context.optionsGame->getTeams(); j++)
 		{
-			winsTwo += current->getScore().getWins();
-			killsTwo += current->getScore().getKills();
-			moneyTwo += current->getScore().getMoney();
-		}	
+			if (i != j)
+			{
+				if (compare(context,
+					scores[i].kills, scores[i].money, scores[i].wins, "",
+					scores[j].kills, scores[j].money, scores[j].wins, "") < 1)
+				{
+					won = false;
+				}
+			}
+		}
+		
+		if (won) return i;
 	}
 
-	int result = compare(context,
-		killsOne, moneyOne, winsOne, "",
-		killsTwo, moneyTwo, winsTwo, "");
-
-	return (result>=0?result:2);
+	return 0;
 }
 
 void TankSort::getSortedTanks(std::list<Tank *> &list, ScorchedContext &context)

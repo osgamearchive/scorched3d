@@ -42,7 +42,7 @@ bool ServerNextShotState::getRoundFinished()
 {
 	// Check why this round has finished
 	bool roundFinished = false;
-	if (ScorchedServer::instance()->getOptionsGame().getTeams() == 2 &&
+	if (ScorchedServer::instance()->getOptionsGame().getTeams() > 1 &&
 		ScorchedServer::instance()->getTankContainer().teamCount() == 1)
 	{
 		// Only one team left

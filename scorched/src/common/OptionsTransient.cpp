@@ -87,7 +87,10 @@ unsigned int OptionsTransient::getLeastUsedTeam(TankContainer &container)
 		Tank *tank = (*itor).second;
 		if (!tank->getState().getSpectator())
 		{
-			counts[tank->getTeam()] ++;
+			if (tank->getTeam() > 0)
+			{
+				counts[tank->getTeam()] ++;
+			}
 		}
 	}
 

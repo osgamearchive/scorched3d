@@ -204,60 +204,45 @@ void ScoreDialog::draw()
 		int winningTeam = TankSort::getWinningTeam(
 			ScorchedClient::instance()->getContext());
 
-		bool teamOne = false;
-		bool teamTwo = false;
-		int winsOne = 0, killsOne = 0, moneyOne = 0;
-		int winsTwo = 0, killsTwo = 0, moneyTwo = 0;
-		std::list<unsigned int>::iterator itor;
-		// Team 1
-		for (itor = sortedTanks_.begin();
-			itor != sortedTanks_.end();
-			itor ++)
+		struct Score
 		{
-			unsigned int playerId = (*itor);
-			Tank *current = ScorchedClient::instance()->getTankContainer().getTankById(playerId);
-			if (current && current->getTeam() == 1 && !current->getState().getSpectator()) 
+			Score() : wins(0), kills(0), money(0), team(false) {}
+	
+			int wins;
+			int kills;
+			int money;
+			bool team;
+		};
+		Score scores[4];
+
+		for (int i=0; i<ScorchedClient::instance()->getOptionsGame().getTeams(); i++)
+		{
+			std::list<unsigned int>::iterator itor;
+			for (itor = sortedTanks_.begin();
+				itor != sortedTanks_.end();
+				itor ++)
 			{
-				teamOne = true;
-				addLine(current, y, (char *)(winningTeam!=2?"1":"2"), finished);
-				winsOne += current->getScore().getWins();
-				killsOne += current->getScore().getKills();
-				moneyOne += current->getScore().getMoney();
-				tmpLastScoreValue += current->getScore().getMoney();
-				tmpLastWinsValue += current->getScore().getWins();
+				unsigned int playerId = (*itor);
+				Tank *current = ScorchedClient::instance()->getTankContainer().getTankById(playerId);
+				if (current && current->getTeam() == i - 1 && !current->getState().getSpectator()) 
+				{
+					scores[i].team = true;
+					addLine(current, y, (char *)(winningTeam==i?"1":"2"), finished);
+					
+					scores[i].wins += current->getScore().getWins();
+					scores[i].kills += current->getScore().getKills();
+					scores[i].money += current->getScore().getMoney();
+					tmpLastScoreValue += current->getScore().getMoney();
+					tmpLastWinsValue += current->getScore().getWins();
+					y+= lineSpacer;
+				}
+			}
+			if (scores[i].team)
+			{
+				addScoreLine(y, scores[i].kills, scores[i].money, scores[i].wins);
+				y+= lineSpacer;
 				y+= lineSpacer;
 			}
-		}
-		if (teamOne)
-		{
-			addScoreLine(y, killsOne,moneyOne,winsOne);
-			y+= lineSpacer;
-			y+= lineSpacer;
-		}
-		// Team 2
-		for (itor = sortedTanks_.begin();
-			itor != sortedTanks_.end();
-			itor ++)
-		{
-			unsigned int playerId = (*itor);
-			Tank *current = ScorchedClient::instance()->getTankContainer().getTankById(playerId);
-			if (current && current->getTeam() == 2 && !current->getState().getSpectator()) 
-			{
-				teamTwo = true;
-				addLine(current, y, (char *)(winningTeam!=1?"1":"2"), finished);
-				winsTwo += current->getScore().getWins();
-				killsTwo += current->getScore().getKills();
-				moneyTwo += current->getScore().getMoney();
-				tmpLastScoreValue += current->getScore().getMoney();
-				tmpLastWinsValue += current->getScore().getWins();
-				y+= lineSpacer;
-			}	
-		}
-		if (teamTwo)
-		{
-			addScoreLine(y, killsTwo,moneyTwo,winsTwo);
-			y+= lineSpacer;
-			y+= lineSpacer;
 		}
 	}
 	else

@@ -156,7 +156,9 @@ wxString ServerPlayerListControl::OnGetItemText(long item, long column) const
 		case 6:
 			if (tank->getTeam() == 0) return "None";
 			else if (tank->getTeam() == 1) return "Red";
-			else if (tank->getTeam() == 2) return "Green";
+			else if (tank->getTeam() == 2) return "Blue";
+			else if (tank->getTeam() == 3) return "Green";
+			else if (tank->getTeam() == 4) return "Yellow";
 			break;
 		case 7:
 			return tank->getHostDesc();

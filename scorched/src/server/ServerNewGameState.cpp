@@ -350,30 +350,53 @@ void ServerNewGameState::calculateStartPosition(
 					context.landscapeMaps->getHMap().getWidth();
 				unsigned char *maskPos = tankMask.getBits() +
 					maskY * 3 + maskX * tankMask.getWidth() * 3;
-
-				switch(tank->getTeam())
+					
+				if (maskPos[0] == 0 && maskPos[1] == 0 && maskPos[2] == 0)
 				{
-				case 0:
-					if (maskPos[0] == 0 && maskPos[2] == 0)
+					// No tank is allowed on the black parts ot the mask
+					// regardless of the team
+					tooClose = true;
+					closeness -= 0.1f;				
+				}
+				else if (maskPos[0] == 255 && maskPos[1] == 255 && maskPos[2] == 255)
+				{
+					// All tanks are allowed on the white parts of the mask
+					// regardless of the team
+				}
+				else if (tank->getTeam() > 0)
+				{
+					// Check for team specific colors
+					switch(tank->getTeam())
 					{
-						tooClose = true;
-						closeness -= 0.1f;
+					case 1:
+						if (maskPos[0] != 255 || maskPos[1] != 0 || maskPos[2] != 0)
+						{
+							tooClose = true;
+							closeness -= 0.1f;
+						}
+						break;
+					case 2:
+						if (maskPos[0] != 0 || maskPos[1] != 0 || maskPos[2] != 255)
+						{
+							tooClose = true;
+							closeness -= 0.1f;
+						}
+						break;
+					case 3:
+						if (maskPos[0] != 0 || maskPos[1] != 255 || maskPos[2] != 0)
+						{
+							tooClose = true;
+							closeness -= 0.1f;
+						}
+						break;
+					case 4:
+						if (maskPos[0] != 255 || maskPos[1] != 255 || maskPos[2] != 0)
+						{
+							tooClose = true;
+							closeness -= 0.1f;
+						}
+						break;						
 					}
-					break;
-				case 1:
-					if (maskPos[0] == 0)
-					{
-						tooClose = true;
-						closeness -= 0.1f;
-					}
-					break;
-				case 2:
-					if (maskPos[2] == 0)
-					{
-						tooClose = true;
-						closeness -= 0.1f;
-					}
-					break;
 				}
 			}
 
@@ -449,8 +472,7 @@ void ServerNewGameState::checkTeams()
 void ServerNewGameState::checkTeamsAuto()
 {
 	// Count players in each team
-	std::list<Tank *> team1;
-	std::list<Tank *> team2;
+	std::list<Tank *> teamPlayers[4];
 	std::map<unsigned int, Tank *> &playingTanks = 
 		ScorchedServer::instance()->getTankContainer().getPlayingTanks();
 	std::map<unsigned int, Tank *>::iterator mainitor;
@@ -461,51 +483,73 @@ void ServerNewGameState::checkTeamsAuto()
 		Tank *current = (*mainitor).second;
 		if (!current->getState().getSpectator())
 		{
-			if (current->getTeam() == 1) team1.push_back(current);
-			if (current->getTeam() == 2) team2.push_back(current);
+			if (current->getTeam() > 0)
+			{
+				teamPlayers[current->getTeam() - 1].push_back(current);
+			}
 		}
 	}
 
-	// Check if teams are ballanced
-	int offSet = int(team1.size()) - int(team2.size());
-	if (abs(offSet) < 2) return;
-
-	if (ScorchedServer::instance()->getOptionsGame().getTeamBallance() ==
-		OptionsGame::TeamBallanceAutoByScore)
+	bool ballanced = false;
+	bool check = true;
+	while (check)
 	{
-		// Sort tanks so the loosing players are swapped
-		TankSort::getSortedTanks(team1,
-			ScorchedServer::instance()->getContext());
-		TankSort::getSortedTanks(team2,
-			ScorchedServer::instance()->getContext());
-
-		ServerCommon::sendString(0, "Auto ballancing teams, by score");
-		ServerCommon::serverLog(0, "Auto ballancing teams, by score");
-	}
-	else
-	{
-		ServerCommon::sendString(0, "Auto ballancing teams");
-		ServerCommon::serverLog(0, "Auto ballancing teams");
-	}
-
-	// Ballance the teams
-	offSet /= 2;
-	if (offSet < 0)
-	{
-		for (int i=0; i<abs(offSet); i++)
+		check = false;
+	
+		// Find the teams with the min and max players in them
+		std::list<Tank *> *minPlayers = &teamPlayers[0];
+		std::list<Tank *> *maxPlayers = &teamPlayers[0];
+		for (int i=0; i<ScorchedServer::instance()->getOptionsGame().getTeams(); i++)
 		{
-			Tank *tank = team2.back();
-			team2.pop_back();
-			tank->setTeam(1);
+			if (teamPlayers[i].size() < minPlayers->size()) minPlayers = &teamPlayers[i];
+			if (teamPlayers[i].size() > maxPlayers->size()) maxPlayers = &teamPlayers[i];			
+		}
+		
+		// Is the difference between the min and max teams >= 2 players
+		if (maxPlayers->size() - minPlayers->size() >= 2)
+		{
+			check = true;
+			ballanced = true;
+			
+			// Sort teams (if needed)
+			if (ScorchedServer::instance()->getOptionsGame().getTeamBallance() ==
+				OptionsGame::TeamBallanceAutoByScore)
+			{
+				// Sort tanks so the loosing players are swapped
+				TankSort::getSortedTanks(*minPlayers,
+					ScorchedServer::instance()->getContext());
+				TankSort::getSortedTanks(*maxPlayers,
+					ScorchedServer::instance()->getContext());
+			}
+		
+			// Find out which team has the least players
+			for (int i=0; i<ScorchedServer::instance()->getOptionsGame().getTeams(); i++)
+			{	
+				if (minPlayers == &teamPlayers[i])
+				{
+					// Ballance the teams
+					Tank *tank = maxPlayers->back();
+					maxPlayers->pop_back();
+					minPlayers->push_back(tank);
+					tank->setTeam(i+1);
+				}
+			}
 		}
 	}
-	else
+
+	// Check if we needed to ballance
+	if (ballanced)
 	{
-		for (int i=0; i<abs(offSet); i++)
+		if (ScorchedServer::instance()->getOptionsGame().getTeamBallance() ==
+			OptionsGame::TeamBallanceAutoByScore)
 		{
-			Tank *tank = team1.back();
-			team1.pop_back();
-			tank->setTeam(2);
+			ServerCommon::sendString(0, "Auto ballancing teams, by score");
+			ServerCommon::serverLog(0, "Auto ballancing teams, by score");
+		}
+		else
+		{
+			ServerCommon::sendString(0, "Auto ballancing teams");
+			ServerCommon::serverLog(0, "Auto ballancing teams");
 		}
 	}
 }

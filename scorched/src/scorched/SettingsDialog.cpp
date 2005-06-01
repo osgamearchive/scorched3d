@@ -554,7 +554,7 @@ bool SettingsFrame::TransferDataToWindow()
 		SettingsMain::IDC_TEAMS_CTRL->Append("None");
 		int i;
 		char string[256];
-		for (i=2; i<=2; i++)
+		for (i=2; i<=4; i++)
 		{
 			sprintf(string, "%i", i);	
 			SettingsMain::IDC_TEAMS_CTRL->Append(string);

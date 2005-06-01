@@ -71,7 +71,11 @@ bool ServerTooFewPlayersStimulus::acceptStateChange(const unsigned state,
 		ServerNewGameState::checkTeams();
 		
 		// Check there is at least one player in each team
-		int team1 = 0, team2 = 0;
+		int teamCount[4];
+		for (int i=0; i<ScorchedServer::instance()->getOptionsGame().getTeams();i++)
+		{
+			teamCount[i] = 0;
+		}
 		std::map<unsigned int, Tank *> &playingTanks = 
 			ScorchedServer::instance()->getTankContainer().getPlayingTanks();
 		std::map<unsigned int, Tank *>::iterator mainitor;
@@ -82,11 +86,16 @@ bool ServerTooFewPlayersStimulus::acceptStateChange(const unsigned state,
 			Tank *current = (*mainitor).second;
 			if (!current->getState().getSpectator())
 			{
-				if (current->getTeam() == 1) team1++;
-				if (current->getTeam() == 2) team2++;
+				if (current->getTeam() > 0)
+				{
+					teamCount[current->getTeam() - 1]++;
+				}
 			}
 		}
-		if (team1 == 0 || team2 == 0) return true;
+		for (int i=0; i<ScorchedServer::instance()->getOptionsGame().getTeams();i++)
+		{
+			if (teamCount[i] == 0) return true;
+		}
 	}
 	
 	return false;

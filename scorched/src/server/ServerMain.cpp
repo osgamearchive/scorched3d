@@ -67,8 +67,28 @@
 
 Clock serverTimer;
 
+void checkSettings()
+{
+	if (ScorchedServer::instance()->getOptionsGame().getTeams() > 
+		ScorchedServer::instance()->getOptionsGame().getNoMinPlayers())
+	{
+		dialogExit("ScorchedServer",
+			"Cannot start a game with more teams than minimum players");
+	}
+	
+	if (ScorchedServer::instance()->getOptionsGame().getTeamBallance() == 
+		OptionsGame::TeamBallanceBotsVs &&
+		ScorchedServer::instance()->getOptionsGame().getTeams() > 2)
+	{
+		dialogExit("ScorchedServer",
+			"Cannot start a game with more than 2 teams in the bots vs mode");		
+	}
+}
+
 bool startServer(bool local)
 {
+	checkSettings();
+
 	// Setup the message handling classes
 	if (!local)
 	{

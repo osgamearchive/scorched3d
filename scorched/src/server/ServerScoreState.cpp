@@ -39,7 +39,6 @@ ServerScoreState::~ServerScoreState()
 
 void ServerScoreState::enterState(const unsigned state)
 {
-	ServerCommon::sendString(0, "Please wait for the next game...");
 	ComsScoreMessage scoreMessage;
 	ComsMessageSender::sendToAllPlayingClients(scoreMessage);
 
@@ -62,6 +61,8 @@ void ServerScoreState::enterState(const unsigned state)
 		std::list<Tank *>::iterator scoreitor = sortedTanks.begin();
 		ServerCommon::serverLog((*scoreitor)->getPlayerId(), "\"%s\" is the overall winner!", (*scoreitor)->getName());
 		ServerCommon::sendStringMessage(0, "\"%s\" is the overall winner!", (*scoreitor)->getName());
+		
+		// Score the winning tank as the overall winner
 		StatsLogger::instance()->tankOverallWinner((*scoreitor));
 	}
 	else
@@ -78,10 +79,38 @@ void ServerScoreState::enterState(const unsigned state)
 			ServerCommon::serverLog(0, "Red team is the overall winner!");
 			ServerCommon::sendStringMessage(0, "Red team is the overall winner!");
 		}
-		else 
+		else if (winningTeam == 2)
+		{
+			ServerCommon::serverLog(0, "Blue team is the overall winner!");
+			ServerCommon::sendStringMessage(0, "Blue team is the overall winner!");
+		} 
+		else if (winningTeam == 3)
 		{
 			ServerCommon::serverLog(0, "Green team is the overall winner!");
 			ServerCommon::sendStringMessage(0, "Green team is the overall winner!");
+		} 
+		else if (winningTeam == 4)
+		{
+			ServerCommon::serverLog(0, "Yellow team is the overall winner!");
+			ServerCommon::sendStringMessage(0, "Yellow team is the overall winner!");
+		}
+		
+		// Score all the winning tanks as overall winners
+		if (winningTeam != 0)
+		{
+			std::map<unsigned int, Tank *> &tanks = 
+				ScorchedServer::instance()->getTankContainer().getPlayingTanks();
+			std::map<unsigned int, Tank *>::iterator itor;
+			for (itor = tanks.begin();
+				itor != tanks.end();
+				itor++)
+			{
+				Tank *tank = (*itor).second;
+				if (tank->getTeam() == winningTeam)
+				{
+					StatsLogger::instance()->tankOverallWinner(tank);
+				}
+			}
 		}
 	}
 

@@ -163,6 +163,8 @@ int TankContainer::teamCount()
 {
 	int team1 = 0;
 	int team2 = 0;
+	int team3 = 0;
+	int team4 = 0;
 	std::map<unsigned int, Tank *>::iterator mainitor;
 	for (mainitor = playingTanks_.begin();
 		 mainitor != playingTanks_.end();
@@ -173,9 +175,11 @@ int TankContainer::teamCount()
 		{
 			if (current->getTeam() == 1) team1=1;
 			if (current->getTeam() == 2) team2=1;
+			if (current->getTeam() == 3) team3=1;
+			if (current->getTeam() == 4) team4=1;
 		}
 	}
-	return team1 + team2;
+	return team1 + team2 + team3 + team4;
 }
 
 int TankContainer::aliveCount()

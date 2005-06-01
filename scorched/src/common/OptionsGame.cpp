@@ -26,7 +26,7 @@
 
 OptionsGame::OptionsGame() :
 	teams_(options_, "Teams",
-		"The number of teams (1 == no teams)", 0, 1, 1, 2),
+		"The number of teams (1 == no teams)", 0, 1, 1, 4),
 	depricatedMaxArmsLevel_(options_, "MaxArmsLevel",
 		"", OptionEntry::DataDepricated, 10, 0, 10),
 	startArmsLevel_(options_, "StartArmsLevel",
