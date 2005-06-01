@@ -109,7 +109,11 @@ void ScoreDialog::windowInit(const unsigned state)
 void ScoreDialog::draw()
 {
 	float h = sortedTanks_.size() * lineSpacer + 80.0f;
-	if (ScorchedClient::instance()->getOptionsGame().getTeams() > 1) h += lineSpacer * 4.0f;
+	if (ScorchedClient::instance()->getOptionsGame().getTeams() > 1)
+	{
+		h += (lineSpacer * 2.0f) * (ScorchedClient::instance()->getOptionsGame().getTeams() - 1) +
+			lineSpacer * 2.0f;
+	}
 	setH(h);
 
 	static size_t noTanks = 0;
@@ -224,7 +228,7 @@ void ScoreDialog::draw()
 			{
 				unsigned int playerId = (*itor);
 				Tank *current = ScorchedClient::instance()->getTankContainer().getTankById(playerId);
-				if (current && current->getTeam() == i - 1 && !current->getState().getSpectator()) 
+				if (current && current->getTeam() == i + 1 && !current->getState().getSpectator()) 
 				{
 					scores[i].team = true;
 					addLine(current, y, (char *)(winningTeam==i?"1":"2"), finished);
