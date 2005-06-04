@@ -32,7 +32,7 @@ GLWTankViewer::GLWTankViewer(float x, float y, int numH, int numV) :
 	GLWidget(x, y, 
 					 TankSquareSize * numH + TankPadding, 
 					 TankSquareSize * numV + TankPadding),
-	scrollBar_(w_ - 7.0f, y + 2.0f, h_ - 4.0f, 0, 0, numV),
+	scrollBar_(w_ - 12.0f, y + 2.0f, h_ - 4.0f, 0, 0, numV),
 	infoWindow_(x + TankSquareSize * numH + TankPadding + 10.0f, 
 				y + TankSquareSize * numV + TankPadding - TankInfo - 35.0f, 
 				TankInfo, TankInfo, true),

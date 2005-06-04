@@ -346,8 +346,9 @@ void ServerNewGameState::calculateStartPosition(
 				// Find the mask position
 				int maskX = int(posX * float(tankMask.getWidth())) / 
 					context.landscapeMaps->getHMap().getWidth();
-				int maskY = int(posY * float(tankMask.getHeight())) / 
-					context.landscapeMaps->getHMap().getWidth();
+				int maskY = context.landscapeMaps->getHMap().getWidth() -
+					(int(posY * float(tankMask.getHeight())) / 
+					context.landscapeMaps->getHMap().getWidth());
 				unsigned char *maskPos = tankMask.getBits() +
 					maskY * 3 + maskX * tankMask.getWidth() * 3;
 					

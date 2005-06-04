@@ -49,6 +49,7 @@ public:
 	bool textureValid();
 	GLenum getTexType() { return texType_; }
 	GLenum getTexFormat() { return texFormat_; }
+	GLuint getTexName() { return texNum_; }
 	int getWidth() { return width_; }
 	int getHeight() { return height_; }
 	static unsigned int getTextureSpace() { return textureSpace_; }

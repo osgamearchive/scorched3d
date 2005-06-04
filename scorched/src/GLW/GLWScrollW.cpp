@@ -71,10 +71,10 @@ void GLWScrollW::setH(float h)
 void GLWScrollW::draw()
 {
 	const float buttonWidth = w_ - 4.0f;
-	const int possibilites = max_ - min_;
+	const int possibilites = (max_ - min_) - see_;
 
 	// Draw scroll indicator
-	if (see_ >= possibilites)
+	if (possibilites <= 0)
 	{
 		// Can see all possibilites
 		middleButton_.setY(y_ + buttonWidth + 4.0f);
@@ -85,13 +85,16 @@ void GLWScrollW::draw()
 	}
 	else
 	{
-		float eachwidth = (h_ - buttonWidth - buttonWidth - 8.0f)  / possibilites;
-		float bottom = float(possibilites - see_) * eachwidth;
-		float percentage = float(current_) / float(possibilites);
-		float pos = bottom * percentage;
+		float totalheight = (h_ - buttonWidth - buttonWidth - 8.0f);
+		float percentageSeen = float(see_) / float(max_ - min_);
+		float barSize = percentageSeen  * totalheight;
+
+		float heightLeft = totalheight - barSize;
+		float heightParts = heightLeft / possibilites;
+		float pos = heightParts * current_;
 
 		float midY = y_ + buttonWidth + 4.0f + pos;
-		float midH = see_ * eachwidth;
+		float midH = barSize;
 		middleButton_.setY(midY);
 		middleButton_.setH(midH);
 
@@ -200,14 +203,14 @@ void GLWScrollW::setCurrent(int newCurrent)
 
 void GLWScrollW::buttonDrag(unsigned int id, float x, float y)
 {
-	const int possibilites = max_ - min_;
-	if (see_ < possibilites)
+	const int possibilites = (max_ - min_) - see_;
+	if (possibilites > 0)
 	{
 		int diff = int(y / 5.0f);
 		int newCurrent = dragCurrent_ + diff;
 
 		if (newCurrent < min_) newCurrent = min_;
-		else if (newCurrent > max_) newCurrent = max_;
+		else if (newCurrent > max_ - see_) newCurrent = max_ - see_;
 
 		if (newCurrent != current_)
 		{
@@ -220,8 +223,8 @@ void GLWScrollW::buttonDown(unsigned int id)
 {
 	if (id == bottomButton_.getId())
 	{
-		const int possibilites = max_ - min_;
-		if (see_ < possibilites)
+		const int possibilites = (max_ - min_) - see_;
+		if (possibilites > 0)
 		{
 			if (current_ > min_) 
 			{
@@ -232,10 +235,10 @@ void GLWScrollW::buttonDown(unsigned int id)
 	}
 	else if (id == topButton_.getId())
 	{
-		const int possibilites = max_ - min_;
-		if (see_ < possibilites)
+		const int possibilites = (max_ - min_) - see_;
+		if (possibilites > 0)
 		{
-			if (current_ < max_) 
+			if (current_ < max_ - see_) 
 			{
 				current_++;
 				if (handler_) handler_->positionChange(getId(), current_, +1);
@@ -244,14 +247,14 @@ void GLWScrollW::buttonDown(unsigned int id)
 	}
 	else if (id == backButtonTop_.getId())
 	{
-		const int possibilites = max_ - min_;
-		if (see_ < possibilites)
+		const int possibilites = (max_ - min_) - see_;
+		if (possibilites > 0)
 		{
 			int oldcurrent = current_;
-			if (current_ < max_)
+			if (current_ < max_ - see_)
 			{
 				current_ += see_;
-				if (current_ > max_) current_ = max_;
+				if (current_ > max_ - see_) current_ = max_ - see_;
 				if (handler_) handler_->
 					positionChange(getId(), current_, current_ - oldcurrent);
 			}
@@ -259,8 +262,8 @@ void GLWScrollW::buttonDown(unsigned int id)
 	}
 	else if (id == backButtonBot_.getId())
 	{
-		const int possibilites = max_ - min_;
-		if (see_ < possibilites)
+		const int possibilites = (max_ - min_) - see_;
+		if (possibilites > 0)
 		{
 			int oldcurrent = current_;
 			if (current_ > min_)

@@ -21,6 +21,7 @@
 #include <GLW/GLWScrollPanel.h>
 #include <GLW/GLWTranslate.h>
 #include <GLEXT/GLState.h>
+#include <float.h>
 
 REGISTER_CLASS_SOURCE(GLWScrollPanel);
 
@@ -52,6 +53,8 @@ void GLWScrollPanel::draw()
 {
 	drawScrollBar_ = false;
 	int canSee = 0;
+	float widgetMinY = FLT_MAX;
+	float widgetMaxY = FLT_MIN;
 	glPushMatrix();
 	{
 		GLWTranslate trans(x_, y_);
@@ -76,18 +79,22 @@ void GLWScrollPanel::draw()
 					canSee++;
 					vw->draw();
 				}
+
+				if (vw->getY() < widgetMinY) widgetMinY = vw->getY();
+				if (vw->getY() + vw->getH() > widgetMaxY) widgetMaxY = vw->getY() + vw->getH();
 			glPopMatrix();
 		}
 	}
 	glPopMatrix();
 
+	widgetHeight_ = widgetMaxY - widgetMinY;
+
 	// Draw scroll bar if not
 	if (drawScrollBar_)
 	{
 		if (canSee > maxSee_) maxSee_ = canSee;
-
-		scrollW_.setMax((int) getWidgets().size());
 		scrollW_.setSee(maxSee_);
+		scrollW_.setMax((int) getWidgets().size());
 		scrollW_.draw();
 	}
 }
@@ -190,6 +197,8 @@ void GLWScrollPanel::positionChange(unsigned int id, int current, int movement)
 	GLWidget *widget = (GLWidget *) 
 		getWidgets().front().widget;
 
+	float move = ((widgetHeight_ + 2.0f) / float(getWidgets().size())) * float(movement);
+
 	std::list<GLWPanel::GLWPanelEntry>::iterator itor;
 	for (itor = getWidgets().begin();
 		itor != getWidgets().end();
@@ -197,7 +206,7 @@ void GLWScrollPanel::positionChange(unsigned int id, int current, int movement)
 	{
 		GLWidget *vw =
 			(GLWidget *) (*itor).widget;
-		vw->setY(vw->getY() - widget->getH() * movement);
+		vw->setY(vw->getY() - move);
 	}
 }
 

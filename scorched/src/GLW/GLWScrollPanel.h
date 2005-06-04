@@ -18,14 +18,8 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// GLWScrollPanel.h: interface for the GLWScrollPanel class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_GLWSCROLLPANEL_H__53CDEDBB_3EC0_480E_8E9C_E40645155DD0__INCLUDED_)
 #define AFX_GLWSCROLLPANEL_H__53CDEDBB_3EC0_480E_8E9C_E40645155DD0__INCLUDED_
-
 
 #include <GLW/GLWPanel.h>
 #include <GLW/GLWScrollW.h>
@@ -57,6 +51,7 @@ protected:
 	GLWScrollW scrollW_;
 	bool drawScrollBar_;
 	int maxSee_;
+	float widgetHeight_;
 
 };
 
