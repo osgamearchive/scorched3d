@@ -1,4 +1,5 @@
-#pragma once
+#if !defined(__INCLUDE_CGIncludesh_INCLUDE__)
+#define __INCLUDE_CGIncludesh_INCLUDE__
 
 #ifdef HAVE_CG
 
@@ -56,3 +57,4 @@ CGprogram cgCreateProgramFromFile(CGcontext context,
 
 
 #endif
+#endif // __INCLUDE_CGIncludesh_INCLUDE__
