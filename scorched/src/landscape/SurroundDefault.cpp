@@ -21,6 +21,7 @@
 #include <GLEXT/GLState.h>
 #include <GLEXT/GLStateExtension.h>
 #include <GLEXT/GLInfo.h>
+#include <cgext/CGFog.h>
 #include <client/ScorchedClient.h>
 #include <common/OptionsDisplay.h>
 #include <landscape/Sky.h>
@@ -87,7 +88,12 @@ void SurroundDefault::draw()
 		GLStateExtension::glActiveTextureARB()(GL_TEXTURE0_ARB);
 	}
 	Landscape::instance()->getGroundTexture().draw(true);
+
+	//CGFog::instance()->bind(
+	//	Landscape::instance()->getGroundTexture().getTexName());
 	glCallList(listNo_);
+	//CGFog::instance()->unBind();
+
 	if (detail)
 	{
 		GLStateExtension::glActiveTextureARB()(GL_TEXTURE2_ARB);

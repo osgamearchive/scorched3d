@@ -162,7 +162,10 @@ public:
 	};
 	void scroll(ScrollDir direction);
 
+	static GLCamera *getCurrentCamera() { return currentCamera_; }
+
 protected:
+	static GLCamera *currentCamera_;
 	GLsizei windowW_, windowH_;
 	GLsizei windowL_, windowT_;
 	GLfloat windowAspect_;

@@ -343,6 +343,10 @@ public:
 	void setAllowSameIP(bool value) { allowSameIP_.setValue(value); }	
 	const char *getAllowSameIPToolTip() { return allowSameIP_.getDescription(); }
 
+	bool getAllowSameUniqueId() { return allowSameUniqueId_.getValue(); }
+	void setAllowSameUniqueId(bool value) { allowSameUniqueId_.setValue(value); }	
+	const char *getAllowSameUniqueIdToolTip() { return allowSameUniqueId_.getDescription(); }
+
 	bool getPublishServer() { return publishServer_.getValue(); }
 	void setPublishServer(bool value) { publishServer_.setValue(value); }	
 	const char *getPublishServerToolTip() { return publishServer_.getDescription(); }
@@ -434,6 +438,7 @@ protected:
 	OptionEntryString publishAddress_;
 	OptionEntryBool publishServer_;
 	OptionEntryBool allowSameIP_;
+	OptionEntryBool allowSameUniqueId_;
 };
 
 class OptionsGameWrapper : public OptionsGame

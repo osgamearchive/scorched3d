@@ -165,6 +165,8 @@ OptionsDisplay::OptionsDisplay() :
 		"Do not use ROAM tessalation algorithm", RWAccess, false),
 	noVBO_(options_,"NoVBO", 
 		"Do not use Vertex Buffer Objects (if avaialable)", RWAccess, true),
+	noCg_(options_,"NoCg", 
+		"Do not use vertex or pixel shaders (if avaialable)", RWAccess, true),
 	noModelLOD_(options_, "NoModelLOD",
 		"Do not use LOD optimizations for models", RWAccess, true),
 	useLandscapeTexture_(options_, "LandscapeTexture",

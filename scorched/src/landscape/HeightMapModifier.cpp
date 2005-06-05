@@ -181,7 +181,6 @@ void HeightMapModifier::generateTerrain(HeightMap &hmap,
 
 	// Create a default mask that allows everything
 	GLBitmap maskMap(256, 256);
-	memset(maskMap.getBits(), 255, 256 * 256 * 3);
 
 	// Check if we need to load a new mask
 	if (!defn.mask.empty())
@@ -241,7 +240,7 @@ void HeightMapModifier::generateTerrain(HeightMap &hmap,
 			int(sy) >= 0 && int(sy) < hmap.getWidth())
 		{
 			int bx = int(sx * maskMultX);
-			int by = int(sy * maskMultY);
+			int by = maskMap.getWidth() - int(sy * maskMultY);
 			GLubyte maskPt = maskMap.getBits()[(bx * 3) + (by * maskMap.getWidth() * 3)];
 
 			//printf("%i %i %i %s\n", maskPt, bx, by, defn.mask.c_str());

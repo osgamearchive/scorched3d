@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,25 +18,33 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-enum
+#if !defined(__INCLUDE_CGLoaderh_INCLUDE__)
+#define __INCLUDE_CGLoaderh_INCLUDE__
+
+#include <cgext/CGProgram.h>
+
+class CGLoader
 {
-	IDC_SERVER_NAME = 1,
-	IDC_SERVER_PORT,
-	IDC_PUBLISH,
-	IDC_PUBLISHIP,
-	IDC_BUTTON_SETTINGS,
-	IDC_PUBLISHAUTO
+public:
+	static CGLoader *instance();
+
+	bool init();
+	CGProgram *loadVertexProgram(const char *fileName,
+		const char *entryFn);
+	CGProgram *loadFragmentProgram(const char *fileName,
+	const char *entryFn);
+
+	bool cgEnabled();
+
+protected:
+	static CGLoader *instance_;
+	unsigned int counter_;
+	bool init_;
+	CGcontext cgContext_;
+
+private:
+	CGLoader();
+	virtual ~CGLoader();
 };
 
-static wxComboBox *IDC_SERVER_MOD_CTRL = 0;
-static wxTextCtrl *IDC_SERVER_NAME_CTRL = 0;
-static wxTextCtrl *IDC_SERVER_PORT_CTRL = 0;
-static wxCheckBox *IDC_PUBLISH_CTRL = 0;
-static wxCheckBox *IDC_ALLOWSAME_CTRL = 0;
-static wxCheckBox *IDC_ALLOWSAMEID_CTRL = 0;
-static wxTextCtrl *IDC_PUBLISHIP_CTRL = 0;
-static wxButton *IDOK_PUBLISHAUTO_CTRL = 0;
-static wxButton *IDOK_CTRL = 0;
-static wxButton *IDC_BUTTON_SETTINGS_CTRL = 0;
-static wxButton *IDCANCEL_CTRL = 0;
-static wxStaticText *IDC_PUBLISHIP_CTRL_TEXT = 0;
+#endif // __INCLUDE_CGLoaderh_INCLUDE__

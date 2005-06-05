@@ -22,7 +22,7 @@
 #include <GLEXT/GLState.h>
 #include <GLEXT/GLCameraFrustum.h>
 #include <GLEXT/GLDynamicVertexArray.h>
-#include <client/MainCamera.h>
+#include <GLEXT/GLCamera.h>
 #include <client/ScorchedClient.h>
 #include <common/OptionsDisplay.h>
 #include <tank/TankContainer.h>
@@ -147,7 +147,7 @@ void PatchGrid::reset()
 
 	// Only need to recalculate patches if the viewing camera has changed
 	// position
-	Vector &pos = MainCamera::instance()->getCamera().getCurrentPos();
+	Vector &pos = GLCamera::getCurrentCamera()->getCurrentPos();
 	if (pos == lastPos_) return;
 	lastPos_ = pos;
 

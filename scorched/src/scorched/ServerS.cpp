@@ -68,6 +68,10 @@ static void createControls(wxWindow *parent,
 		new wxCheckBox(parent, -1,
 		"Allow multiple clients from same machine to use this server");	
 	servernameSizer->Add(IDC_ALLOWSAME_CTRL, 0, wxTOP, 5);
+	IDC_ALLOWSAMEID_CTRL = 
+		new wxCheckBox(parent, -1,
+		"Allow multiple clients with the same unique id to use this server");	
+	servernameSizer->Add(IDC_ALLOWSAMEID_CTRL, 0, wxTOP, 5);
 
 	sizer->Add(servernameSizer, 0, wxALL, 5);
 	

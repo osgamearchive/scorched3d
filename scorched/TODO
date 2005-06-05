@@ -21,6 +21,10 @@ Fixed: Player should always reconnect with last used player name
 Fixed: Server status messages getting too big too send
 Fixed: Winner award given when all players leave (1/2 total rounds must be played)
 Fixed: Bug where rollers kill shields and heavy shields with direct hits
+Fixed: Napalm and rollers cannot be fired when underground
+Fixed: Rollers can explode on cavern roof
+Fixed: Can see health bars under water
+Fixed: Only certain file types can be sent during auto mod download
 
 Added: Maximum teams increased to 4 (red, blue, green and yellow)
 Added: Even slower/finer angle/power changes by using SHIFT+CTRL

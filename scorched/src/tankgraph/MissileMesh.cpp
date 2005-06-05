@@ -82,6 +82,7 @@ void MissileMesh::draw(Vector &position, Vector &direction, int flareType, float
 	float angYZDeg = angYZRad * radToDeg;
 
 	// Apply the matrix and render the missile
+	float scale = innerScale_ * scale_;
 	glPushMatrix();
 		glTranslatef(position[0], position[1], position[2]);
 		
@@ -89,7 +90,6 @@ void MissileMesh::draw(Vector &position, Vector &direction, int flareType, float
 		glRotatef(angYZDeg, 1.0f, 0.0f, 0.0f);
 
 		glRotatef(rotation, 0.0f, 0.0f, 1.0f);
-		float scale = innerScale_ * scale_;
 		glScalef(scale, scale, scale);
 		model_->draw();
 	glPopMatrix();
@@ -111,9 +111,9 @@ void MissileMesh::draw(Vector &position, Vector &direction, int flareType, float
 		float newZ2 = newZ;
 
 		Vector newPos;
-		newPos[0] = position[0] + newX2;
-		newPos[1] = position[1] + newY2;
-		newPos[2] = position[2] + newZ2;
+		newPos[0] = position[0] + newX2 * scale;
+		newPos[1] = position[1] + newY2 * scale;
+		newPos[2] = position[2] + newZ2 * scale;
 
 		GLLenseFlare::instance()->draw(newPos, false, flareType);
 	}

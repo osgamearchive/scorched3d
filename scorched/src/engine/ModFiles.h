@@ -40,6 +40,7 @@ public:
 
 	std::map<std::string, ModFileEntry *> &getFiles() { return files_; }
 	static bool excludeFile(const char *file);
+	static bool fileEnding(const char *file, const char *ext);
 
 protected:
 	std::map<std::string, ModFileEntry *> files_;

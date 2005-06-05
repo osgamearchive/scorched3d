@@ -70,6 +70,16 @@ void WeaponNapalm::fireWeapon(ScorchedContext &context,
 	unsigned int playerId, Vector &position, Vector &velocity,
 	unsigned int data)
 {
+	float minHeight = context.landscapeMaps->getHMap().getInterpHeight(
+		position[0], position[1]);
+	if (position[2] < minHeight)
+	{
+		if (minHeight - position[2] > 1.5f)
+		{
+			return;
+		}
+	}
+
 	for (int i=0; i<numberStreams_; i++)
 	{
 		int x = int(position[0] + RAND * 4.0f - 2.0f);

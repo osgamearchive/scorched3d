@@ -20,7 +20,7 @@
 
 #include <math.h>
 #include <GLEXT/GLState.h>
-#include <client/MainCamera.h>
+#include <GLEXT/GLCamera.h>
 #include <GLEXT/GLLuminance.h>
 #include <GLEXT/GLLenseFlare.h>
 #include <GLEXT/GLCameraFrustum.h>
@@ -119,8 +119,8 @@ void GLLenseFlare::draw(Vector &flarePos,  bool fullFlare, int colorNo, float si
 {
 	if (GLCameraFrustum::instance()->sphereInFrustum(flarePos, 5))
 	{
-		Vector &cameraPos = MainCamera::instance()->getCamera().getCurrentPos();
-		Vector &cameraAt = MainCamera::instance()->getCamera().getLookAt();
+		Vector &cameraPos = GLCamera::getCurrentCamera()->getCurrentPos();
+		Vector &cameraAt = GLCamera::getCurrentCamera()->getLookAt();
 
 		Vector view_dir = flarePos - cameraPos;
 		Vector centre = cameraPos + view_dir.Normalize() * 20.0f;
@@ -205,8 +205,8 @@ void GLLenseFlare::draw(Vector &flarePos,  Vector &flareDir, int colorNo)
 		return;
 	}
 
-	Vector &cameraPos = MainCamera::instance()->getCamera().getCurrentPos();
-	Vector &cameraAt = MainCamera::instance()->getCamera().getLookAt();
+	Vector &cameraPos = GLCamera::getCurrentCamera()->getCurrentPos();
+	Vector &cameraAt = GLCamera::getCurrentCamera()->getLookAt();
 
 	Vector flare_dir = flareDir;// .Normalize(); // Should already be normalized
 	Vector view_dir = (flarePos - cameraPos).Normalize();

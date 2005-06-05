@@ -127,14 +127,17 @@ void TankModelRenderer::draw(bool currentTank)
 	{
 		drawSight();
 	}
+
+	// Draw the life bars
+	drawLife();
 }
 
 void TankModelRenderer::drawSecond()
 {
 	if (!canSeeTank_) return;
 
-	// Draw the life bars and arrow
-	drawLife();
+	// Draw the arrow
+	drawArrow();
 
 	// Draw the current shield (if any)
 	if (tank_->getAccessories().getShields().getCurrentShield())
@@ -439,8 +442,13 @@ void TankModelRenderer::simulate(float frameTime)
 	}
 }
 
-void TankModelRenderer::drawLife()
+void TankModelRenderer::drawArrow()
 {
+	if (!OptionsDisplay::instance()->getDrawPlayerColor())
+	{
+		return;
+	}
+
 	GLState currentState(GLState::TEXTURE_OFF | GLState::BLEND_OFF);
 	Vector &bilX = GLCameraFrustum::instance()->getBilboardVectorX();
 	bilX /= 2.0f;
@@ -454,8 +462,7 @@ void TankModelRenderer::drawLife()
 		height = groundHeight;
 	}
 
-	// Arrow over tank
-	if (OptionsDisplay::instance()->getDrawPlayerColor())
+	// Arrow over tank	
 	{
 		static GLTexture arrowTexture;
 		if (!arrowTexture.textureValid())
@@ -488,7 +495,27 @@ void TankModelRenderer::drawLife()
 		glDepthMask(GL_TRUE);
 	}
 
-	if (OptionsDisplay::instance()->getDrawPlayerHealth())
+}
+
+void TankModelRenderer::drawLife()
+{
+	if (!OptionsDisplay::instance()->getDrawPlayerHealth())
+	{
+		return;
+	}
+
+	GLState currentState(GLState::TEXTURE_OFF | GLState::BLEND_OFF);
+	Vector &bilX = GLCameraFrustum::instance()->getBilboardVectorX();
+	bilX /= 2.0f;
+
+	Vector &position = tank_->getPhysics().getTankPosition();
+	float height = position[2];
+	float groundHeight = ScorchedClient::instance()->getLandscapeMaps().getHMap().
+		getHeight((int) position[0], (int) position[1]);
+	if (height < groundHeight)
+	{
+		height = groundHeight;
+	}
 	{
 		float shieldLife = 0.0f;
 		Accessory *currentShield =

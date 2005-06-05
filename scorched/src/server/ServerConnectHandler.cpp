@@ -177,6 +177,28 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 		uniqueId = StatsLogger::instance()->allocateId();
 	}
 
+	// Check that this unique id has not already connected (if unique ids are in use)
+	if (0 != uniqueId[0] &&
+		!ScorchedServer::instance()->getOptionsGame().getAllowSameUniqueId())
+	{
+		std::map<unsigned int, Tank *> &playingTanks = 
+			ScorchedServer::instance()->getTankContainer().getPlayingTanks();
+		std::map<unsigned int, Tank *>::iterator playingItor;
+		for (playingItor = playingTanks.begin();
+			playingItor != playingTanks.end();
+			playingItor++)
+		{
+			Tank *current = (*playingItor).second;
+			if (0 == strcmp(current->getUniqueId(), uniqueId))
+			{
+				Logger::log( "Duplicate uniqueid connection from destination \"%i\"", 
+					destinationId);
+				ServerCommon::kickDestination(destinationId);
+				return true;
+			}
+		}
+	}
+
 	// Send the connection accepted message to the client
 	ComsConnectAcceptMessage acceptMessage(
 		destinationId,

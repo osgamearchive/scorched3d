@@ -87,6 +87,10 @@ public:
 	void setNoVBO(bool value) { noVBO_.setValue(value); }	
 	const char *getNoVBOToolTip() { return noVBO_.getDescription(); }
 
+	bool getNoCg() { return noCg_.getValue(); }
+	void setNoCg(bool value) { noCg_.setValue(value); }	
+	const char *getNoCgToolTip() { return noCg_.getDescription(); }
+
 	bool getDetailTexture() { return detailTexture_.getValue(); }
 	void setDetailTexture(bool value) { detailTexture_.setValue(value); }	
 	const char *getDetailTextureToolTip() { return detailTexture_.getDescription(); }
@@ -394,6 +398,7 @@ protected:
 	OptionEntryBool noBOIDS_;
 	OptionEntryBool noTessalation_;
 	OptionEntryBool noVBO_;
+	OptionEntryBool noCg_;
 	OptionEntryBool noModelLOD_;
 	OptionEntryBool useLandscapeTexture_;
 	OptionEntryBool noSkyLayers_;

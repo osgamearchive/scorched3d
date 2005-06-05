@@ -10,6 +10,7 @@ my @dirs =
 	"dialogs",
 	"engine",
 	"GLEXT",
+	"cgext",
 	"GLW",
 	"landscape",
 	"scorched",

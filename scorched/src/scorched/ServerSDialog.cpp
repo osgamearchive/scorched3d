@@ -104,6 +104,8 @@ bool ServerSFrame::TransferDataToWindow()
 	IDC_PUBLISHIP_CTRL->SetToolTip(options_.getPublishAddressToolTip());
 	IDC_ALLOWSAME_CTRL->SetValue(options_.getAllowSameIP());
 	IDC_ALLOWSAME_CTRL->SetToolTip(options_.getAllowSameIPToolTip());
+	IDC_ALLOWSAMEID_CTRL->SetValue(options_.getAllowSameUniqueId());
+	IDC_ALLOWSAMEID_CTRL->SetToolTip(options_.getAllowSameUniqueIdToolTip());
 
 	ModDirs modDirs;
 	if (!modDirs.loadModDirs()) dialogExit("ModFiles", "Failed to load mod files");
@@ -131,6 +133,7 @@ bool ServerSFrame::TransferDataFromWindow()
 	options_.setPublishServer(IDC_PUBLISH_CTRL->GetValue());
 	options_.setPublishAddress(IDC_PUBLISHIP_CTRL->GetValue());
 	options_.setAllowSameIP(IDC_ALLOWSAME_CTRL->GetValue());
+	options_.setAllowSameUniqueId(IDC_ALLOWSAMEID_CTRL->GetValue());
 	options_.setMod(IDC_SERVER_MOD_CTRL->GetValue());
 	return true;
 }

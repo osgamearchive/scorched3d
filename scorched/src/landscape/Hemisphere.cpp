@@ -87,8 +87,8 @@ void Hemisphere::createXY(
 
 	for (int j=startHeightSlice; j<heightSlices; j++) 
 	{
-		float theta1 = j * HALFPI / float(heightSlices);
-		float theta2 = (j + 1) * HALFPI / float(heightSlices);
+		float theta1 = sinf(HALFPI * j / float(heightSlices)) * HALFPI;
+		float theta2 = sinf(HALFPI * (j + 1) / float(heightSlices)) * HALFPI;
 
 		for (int i=startRotationSlice;i<=rotationSlices;i++) 
 		{

@@ -35,6 +35,9 @@ ModFileEntry::~ModFileEntry()
 
 bool ModFileEntry::writeModFile(const char *fileName, const char *modName)
 {
+	// Check that this file is allowed to be sent
+	if (ModFiles::excludeFile(fileName)) return true;
+
 	// Check the downloaded CRC matches the actual crc of the file
 	unsigned int crc =  crc32(0L, Z_NULL, 0);
 	crc = crc32(crc, (unsigned char *) 

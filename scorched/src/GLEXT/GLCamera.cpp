@@ -25,12 +25,15 @@
 #include <GLEXT/GLCamera.h>
 #include <GLEXT/GLViewPort.h>
 
+GLCamera *GLCamera::currentCamera_ = 0;
+
 GLCamera::GLCamera(GLsizei windowWidth, GLsizei windowHeight) :
 	rotationXY_(0.0f), rotationYZ_(PI / 4), zoom_(150.0f),
 	useHeightFunc_(false), minHeightFunc_(0), maxHeightFunc_(0), 
 	totalTime_(0.0f), 
 	shake_(0.0f), minHeightData_(0), maxHeightData_(0)
 {
+	currentCamera_ = this;
 	setWindowOffset(0, 0);
 	setWindowSize(windowWidth, windowHeight);
 	calculateWantedOffset();
@@ -169,6 +172,7 @@ void GLCamera::simulate(float frameTime)
 void GLCamera::draw()
 {
 	static Vector look;
+	currentCamera_ = this;
 	look = lookAt_;
 	look += shakeV_;
 	moveViewport(currentPosition_, look);

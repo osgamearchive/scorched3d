@@ -22,8 +22,8 @@
 #include <common/Defines.h>
 #include <sound/Sound.h>
 #include <GLEXT/GLState.h>
+#include <GLEXT/GLCamera.h>
 #include <sprites/ExplosionTextures.h>
-#include <client/MainCamera.h>
 #include <tank/TankContainer.h>
 #include <tank/TankController.h>
 #include <weapons/AccessoryStore.h>
@@ -110,8 +110,8 @@ void Lightning::draw()
 {
 	if (!context_->serverMode)
 	{
-		Vector &cameraPos =
-			MainCamera::instance()->getCamera().getCurrentPos();
+		Vector &cameraPos = 
+			GLCamera::getCurrentCamera()->getCurrentPos();
 
 		GLState state(GLState::TEXTURE_ON | GLState::BLEND_ON);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE);

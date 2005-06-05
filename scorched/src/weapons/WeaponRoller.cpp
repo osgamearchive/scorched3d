@@ -74,9 +74,20 @@ void WeaponRoller::fireWeapon(ScorchedContext &context,
 	unsigned int playerId, Vector &oldposition, Vector &velocity,
 	unsigned int data)
 {
+	float minHeight = context.landscapeMaps->getHMap().getInterpHeight(
+		oldposition[0], oldposition[1]);
+	if (oldposition[2] < minHeight)
+	{
+		if (minHeight - oldposition[2] > 1.5f)
+		{
+			return;
+		}
+	}
+
 	for (int i=0; i<numberRollers_; i++)
 	{
 		Vector position = oldposition;
+		position[2] += 1.5f;
 		
 		// Make a slightly different starting position
 		position[0] += RAND * 2.0f - 1.0f;
@@ -85,6 +96,17 @@ void WeaponRoller::fireWeapon(ScorchedContext &context,
 			position[0], position[1]) + 1.0f;
 		if (position[2] < minHeight) position[2] = minHeight;
 				
+		// Check if we have hit the roof (quite litteraly)
+		if (context.landscapeMaps->getRoof())
+		{
+			float maxHeight = context.landscapeMaps->getRMap().getInterpHeight(
+				position[0] / 4.0f, position[1] / 4.0f);
+			if (position[2] > maxHeight - 1.0f)
+			{
+				position[2] = maxHeight - 1.0f;
+			}
+		}
+
 		// Make sure this new position is not inside a tank's shields
 		bool ok = false;
 		while (!ok)
@@ -115,7 +137,6 @@ void WeaponRoller::fireWeapon(ScorchedContext &context,
 			}
 		}
 		
-
 		addRoller(context, playerId, position, data);
 	}
 }

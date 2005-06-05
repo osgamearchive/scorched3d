@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,25 +18,34 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-enum
-{
-	IDC_SERVER_NAME = 1,
-	IDC_SERVER_PORT,
-	IDC_PUBLISH,
-	IDC_PUBLISHIP,
-	IDC_BUTTON_SETTINGS,
-	IDC_PUBLISHAUTO
-};
+#include <cgext/CGProgram.h>
 
-static wxComboBox *IDC_SERVER_MOD_CTRL = 0;
-static wxTextCtrl *IDC_SERVER_NAME_CTRL = 0;
-static wxTextCtrl *IDC_SERVER_PORT_CTRL = 0;
-static wxCheckBox *IDC_PUBLISH_CTRL = 0;
-static wxCheckBox *IDC_ALLOWSAME_CTRL = 0;
-static wxCheckBox *IDC_ALLOWSAMEID_CTRL = 0;
-static wxTextCtrl *IDC_PUBLISHIP_CTRL = 0;
-static wxButton *IDOK_PUBLISHAUTO_CTRL = 0;
-static wxButton *IDOK_CTRL = 0;
-static wxButton *IDC_BUTTON_SETTINGS_CTRL = 0;
-static wxButton *IDCANCEL_CTRL = 0;
-static wxStaticText *IDC_PUBLISHIP_CTRL_TEXT = 0;
+CGProgram::CGProgram(CGprogram cgProgram,
+					 CGprofile cgVertexProfile) :
+	cgProgram_(cgProgram),
+	cgVertexProfile_(cgVertexProfile)
+{
+}
+
+CGProgram::~CGProgram()
+{
+}
+
+CGparameter CGProgram::getNamedParameter(const char* name)
+{
+	return cgGetNamedParameter(cgProgram_, name);
+}
+
+void CGProgram::bind()
+{
+	// Enable Our Vertex Shader Profile
+	cgGLEnableProfile(cgVertexProfile_);					
+
+	// Bind Our Vertex Program To The Current State
+	cgGLBindProgram(cgProgram_);
+}
+
+void CGProgram::unBind()
+{
+	cgGLDisableProfile(cgVertexProfile_);
+}

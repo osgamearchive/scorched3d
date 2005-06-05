@@ -146,6 +146,8 @@ OptionsGame::OptionsGame() :
 		"The admin password for this server (empty password = no access)", OptionEntry::DataDepricated, ""),
 	allowSameIP_(options_, "AllowSameIP",
 		"Allow scorched clients from same machine/NAT router to connect.", 0, true),
+	allowSameUniqueId_(options_, "AllowSameUniqueId",
+		"Allow scorched clients with same unique id to connect.", 0, true),
 	publishServer_(options_, "PublishServer",
 		"Allow other scorched net clients to see this server.  Do not use for LAN games.", 0, false),
 	publishAddress_(options_, "PublishAddress",

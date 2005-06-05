@@ -98,6 +98,7 @@ protected:
 	void drawShield();
 	void drawLifeBar(Vector &bilX, float value, float height, float barheight);
 	void drawSight();
+	void drawArrow();
 };
 
 

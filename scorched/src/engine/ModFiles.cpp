@@ -41,10 +41,39 @@ ModFiles::~ModFiles()
 	files_.clear();
 }
 
+bool ModFiles::fileEnding(const char *file, const char *ext)
+{
+	int fileLen = strlen(file);
+	int extLen = strlen(ext);
+	if (fileLen < extLen) return false;
+
+	for (int i=0; i<extLen; i++)
+	{
+		if (file[fileLen - i - 1] != ext[extLen - i - 1])
+		{
+			return false;
+		}
+	}
+	return true;
+}
+
 bool ModFiles::excludeFile(const char *file)
 {
 	if (strstr(file, "Thumbs.db")) return true;
 	if (strstr(file, "CVS")) return true;
+
+	if (!fileEnding(file, ".xml") &&
+		!fileEnding(file, ".bmp") &&
+		!fileEnding(file, ".txt") &&
+		!fileEnding(file, ".gif") &&
+		!fileEnding(file, ".ico") &&
+		!fileEnding(file, ".ase") &&
+		!fileEnding(file, ".wav"))
+	{
+		Logger::log("Excluding mod file \"%s\"", file);
+		return true;
+	}
+
 	return false;
 }
 
@@ -363,7 +392,7 @@ bool ModDirs::loadModDir(const char *dirName)
 
 bool ModDirs::loadModFile(const char *fileName)
 {
-	if (ModFiles::excludeFile(fileName)) return true;
+	if (strstr(fileName, "CVS")) return true;
 
 	std::string oldFileName(fileName);
 	_strlwr((char *) fileName);

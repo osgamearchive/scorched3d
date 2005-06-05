@@ -28,7 +28,7 @@
 #include <common/OptionsTransient.h>
 #include <common/OptionsGame.h>
 #include <common/Gamma.h>
-#include <GLEXT/GLStateExtension.h>
+#include <cgext/CGLoader.h>
 #include <stdio.h>
 #include <time.h>
 
@@ -49,7 +49,7 @@ bool createScorchedWindow()
 			"ERROR: Failed to set the display mode.\n"
 			"Ensure that no other application is exclusively using the graphics hardware.\n"
 			"Ensure that the current desktop mode has at least 24 bits colour depth.\n");
-		return FALSE;
+		return false;
 	}
 
 	int windowWidth = 1024;
@@ -86,6 +86,13 @@ bool createScorchedWindow()
 	{
 		SDL_ShowCursor(SDL_DISABLE);
 	}
+	if (!OptionsDisplay::instance()->getNoCg())
+	{
+		if (!CGLoader::instance()->init())
+		{
+			return false;
+		}
+	}
 
-	return TRUE;
+	return true;
 }

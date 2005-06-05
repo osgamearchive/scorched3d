@@ -24,8 +24,8 @@
 #include <landscape/LandscapePlace.h>
 #include <landscape/LandscapeObjectsPlacement.h>
 #include <client/ScorchedClient.h>
-#include <client/MainCamera.h>
 #include <tank/TankContainer.h>
+#include <GLEXT/GLCamera.h>
 #include <common/Defines.h>
 #include <common/OptionsDisplay.h>
 #include <stdio.h>
@@ -52,8 +52,7 @@ void LandscapeObjects::draw()
 	glEnable(GL_ALPHA_TEST);
 	glAlphaFunc(GL_GREATER, 0.00f);
 
-	Vector &cameraPos = 
-		MainCamera::instance()->getCamera().getCurrentPos();
+	Vector &cameraPos = GLCamera::getCurrentCamera()->getCurrentPos();
 
 	std::multimap<unsigned int, LandscapeObjectsEntry*>::iterator 
 		itor = entries_.begin();

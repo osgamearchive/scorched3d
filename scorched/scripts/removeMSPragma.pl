@@ -13,6 +13,7 @@ my @dirs =
 	"client",
 	"server",
 	"actions",
+	"cgext",
 	"scorched",
 	"sprites",
 	"tankai",
