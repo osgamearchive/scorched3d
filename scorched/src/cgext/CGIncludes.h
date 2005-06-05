@@ -8,6 +8,8 @@
 
 #else
 
+// Not sure if this is a good way of doing this, time will tell...
+
 enum CGenum
 {
 	CG_GL_FRAGMENT,
@@ -25,30 +27,30 @@ typedef unsigned CGprogram;
 typedef unsigned CGcontext;
 typedef unsigned CGparameter;
 
-CGparameter cgGetNamedParameter(CGprogram, const char *name) 
+static CGparameter cgGetNamedParameter(CGprogram, const char *name) 
 	{ return CGparameter(); }
 
-CGprofile cgGLGetLatestProfile(CGenum) { return 0; }
-void cgGLEnableProfile(CGprofile) {}
-void cgGLDisableProfile(CGprofile) {}
-void cgGLSetOptimalOptions(CGprofile) {}
-void cgGLBindProgram(CGprogram) {}
-void cgGLLoadProgram(CGprogram) {}
-void cgGLEnableTextureParameter(CGparameter) {}
-void cgGLDisableTextureParameter(CGparameter) {}
+static CGprofile cgGLGetLatestProfile(CGenum) { return 0; }
+static void cgGLEnableProfile(CGprofile) {}
+static void cgGLDisableProfile(CGprofile) {}
+static void cgGLSetOptimalOptions(CGprofile) {}
+static void cgGLBindProgram(CGprogram) {}
+static void cgGLLoadProgram(CGprogram) {}
+static void cgGLEnableTextureParameter(CGparameter) {}
+static void cgGLDisableTextureParameter(CGparameter) {}
 
-void cgGLSetParameter3f(CGparameter, float, float, float) {}
-void cgGLSetParameter4f(CGparameter, float, float, float, float) {}
-void cgGLSetStateMatrixParameter(CGparameter, CGenum, CGenum) {}
-void cgGLSetTextureParameter(CGparameter, unsigned int) {}
+static void cgGLSetParameter3f(CGparameter, float, float, float) {}
+static void cgGLSetParameter4f(CGparameter, float, float, float, float) {}
+static void cgGLSetStateMatrixParameter(CGparameter, CGenum, CGenum) {}
+static void cgGLSetTextureParameter(CGparameter, unsigned int) {}
 
-CGerror cgGetError() { return CG_SOURCE; }
-const char *cgGetErrorString(CGerror) { return ""; }
+static CGerror cgGetError() { return CG_SOURCE; }
+static const char *cgGetErrorString(CGerror) { return ""; }
 
-CGcontext cgCreateContext() { return 0; }
-void cgDestroyContext(CGcontext) {}
+static CGcontext cgCreateContext() { return 0; }
+static void cgDestroyContext(CGcontext) {}
 
-CGprogram cgCreateProgramFromFile(CGcontext context,
+static CGprogram cgCreateProgramFromFile(CGcontext context,
 	CGenum programType,
 	const char* program,
 	CGprofile profile,

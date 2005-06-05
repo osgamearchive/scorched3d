@@ -1069,6 +1069,13 @@ scorched3d_SOURCES = \
 	../sound/SoundListener.cpp \
 	../sound/SoundListener.h \
 	../sound/SoundSource.cpp \
-	../sound/SoundSource.h
+	../sound/SoundSource.h \
+	../cgext/CGFog.cpp \
+	../cgext/CGFog.h \
+	../cgext/CGIncludes.h \
+	../cgext/CGLoader.cpp \
+	../cgext/CGLoader.h \
+	../cgext/CGProgram.cpp \
+	../cgext/CGProgram.h
 
 INCLUDES = -I../porting -I.. 
