@@ -58,7 +58,7 @@ void LandscapeObjectsEntryModel::render(float distance)
 		glScalef(size, size, size);
 
 		glColor4f(color, color, color, 1.0f);
-		if (burnt) modelburnt->draw();
-		else model->draw();
+		if (burnt) modelburnt->drawBottomAligned();
+		else model->drawBottomAligned();
 	glPopMatrix();
 }
