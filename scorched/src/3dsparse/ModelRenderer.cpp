@@ -128,6 +128,17 @@ void ModelRenderer::simulate(float frameTime)
 
 void ModelRenderer::drawMesh(unsigned int m, Mesh *mesh, bool dontCache, float LOD)
 {
+	bool useTextures =
+		(!OptionsDisplay::instance()->getNoSkins() &&
+		mesh->getTexture());
+	unsigned state = GLState::TEXTURE_OFF;
+	if (useTextures)
+	{
+		state = GLState::TEXTURE_ON;
+		mesh->getTexture()->draw();
+	}
+	GLState glState(state);
+
 	if (dontCache)
 	{
 		drawVerts(m, mesh, LOD);
@@ -145,23 +156,13 @@ void ModelRenderer::drawMesh(unsigned int m, Mesh *mesh, bool dontCache, float L
 		}
 
 		glCallList(displayList);
+		GLInfo::addNoTriangles((int) mesh->getFaces().size());
 	}
 }
 
 void ModelRenderer::drawVerts(unsigned int m, Mesh *mesh, float LOD)
 {
 	Vector vec;
-	bool useTextures =
-		(!OptionsDisplay::instance()->getNoSkins() &&
-		mesh->getTexture());
-	unsigned state = GLState::TEXTURE_OFF;
-	if (useTextures)
-	{
-		state = GLState::TEXTURE_ON;
-		mesh->getTexture()->draw();
-	}
-	GLState glState(state);
-
 	glBegin(GL_TRIANGLES);
 
 	int maxIndex = int(float(mesh->getVertexes().size()) * LOD);
@@ -204,7 +205,7 @@ void ModelRenderer::drawVerts(unsigned int m, Mesh *mesh, float LOD)
 			{
 				Vertex *vertex = mesh->getVertex(faceVerts[i]);
 
-				if (!useTextures) glColor3f(
+				if (GLState::getState() & GLState::TEXTURE_OFF) glColor3f(
 					mesh->getColor()[0] * vertex->color[0],
 					mesh->getColor()[1] * vertex->color[1],
 					mesh->getColor()[2] * vertex->color[2]);

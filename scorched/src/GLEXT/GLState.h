@@ -50,6 +50,7 @@ public:
 
 	static void setBaseState(unsigned baseState);
 	static char *getStateString();
+	static unsigned int getState() { return currentState_; }
 
 protected:
 	static unsigned currentState_;
