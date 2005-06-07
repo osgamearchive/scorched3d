@@ -23,7 +23,8 @@
 #include <3dsparse/MeshLOD.h>
 #include <GLEXT/GLTexture.h>
 
-Mesh::Mesh(const char *name) : name_(name), texture_(0)
+Mesh::Mesh(const char *name) : name_(name), texture_(0),
+	referencesBones_(false)
 {
 }
 

@@ -57,6 +57,7 @@ public:
 	Vertex *getVertex(int vertexIndex)
 		{ DIALOG_ASSERT(vertexIndex < (int) vertexes_.size()); 
 		return vertexes_[vertexIndex]; }
+	bool &getReferencesBones() { return referencesBones_; }
 
 	// Modification
 	void move(Vector &movement);
@@ -82,6 +83,7 @@ protected:
 	std::vector<Face *> faces_;
 	std::vector<Vertex *> vertexes_;
 	std::vector<int> collapseMap_;
+	bool referencesBones_;
 	Vector baseColor_;
 	Vector min_, max_;
 	GLTexture *texture_;

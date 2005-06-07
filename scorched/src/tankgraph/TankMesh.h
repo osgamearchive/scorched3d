@@ -54,7 +54,7 @@ protected:
 	Vector turretCenter_;
 	std::vector<MeshType> meshTypes_;
 
-	virtual void drawMesh(unsigned int m, Mesh *mesh, float LOD);
+	virtual void drawMesh(unsigned int m, Mesh *mesh, bool dontCache, float LOD);
 	void setupTankMesh();
 };
 

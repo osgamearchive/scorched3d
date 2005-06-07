@@ -39,9 +39,11 @@ protected:
 	Model *model_;
 	float currentFrame_;
 	std::vector<BoneType *> boneTypes_;
+	std::vector<unsigned int> displayLists_;
 	Vector vertexTranslation_;
 
-	virtual void drawMesh(unsigned int m, Mesh *mesh, float LOD);
+	virtual void drawMesh(unsigned int m, Mesh *mesh, bool dontCache, float LOD);
+	virtual void drawVerts(unsigned int m, Mesh *mesh, float LOD);
 	virtual void setup();
 };
 

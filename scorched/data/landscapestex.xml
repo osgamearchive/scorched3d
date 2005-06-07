@@ -34,7 +34,7 @@
 			<texture3>data/textures/landscape/default/texture3.bmp</texture3>
 			<texture4>data/textures/landscape/default/texture4.bmp</texture4>
 		</texture>
-		<placements>pine</placements>
+		<placements><placement>pine</placement></placements>
 		<precipitation type="none"></precipitation>
 		<events></events>
 		<boids>
@@ -80,7 +80,7 @@
 			<texture3>data/textures/landscape/hell/texture3.bmp</texture3>
 			<texture4>data/textures/landscape/hell/texture4.bmp</texture4>
 		</texture>
-		<placements>none</placements>
+		<placements><placement>none</placement></placements>
 		<precipitation type="none"></precipitation>
 		<events>
 			<event>
@@ -129,7 +129,7 @@
 			<texture3>data/textures/landscape/sand/texture3.bmp</texture3>
 			<texture4>data/textures/landscape/sand/texture4.bmp</texture4>
 		</texture>
-		<placements>palm</placements>
+		<placements><placement>palm</placement></placements>
 		<precipitation type="none"></precipitation>
 		<events></events>
 		<boids>
@@ -175,7 +175,7 @@
 			<texture3>data/textures/landscape/snow/texture3.bmp</texture3>
 			<texture4>data/textures/landscape/snow/texture4.bmp</texture4>
 		</texture>
-		<placements>snowpine</placements>
+		<placements><placement>snowpine</placement></placements>
 		<precipitation type="snow">
 			<particles>60</particles>
 		</precipitation>
@@ -216,7 +216,7 @@
 			<texture3>data/textures/landscape/tropical/texture3.bmp</texture3>
 			<texture4>data/textures/landscape/tropical/texture4.bmp</texture4>
 		</texture>
-		<placements>palm</placements>
+		<placements><placement>palm</placement></placements>
 		<precipitation type="none"></precipitation>
 		<events></events>
 		<boids>
@@ -262,7 +262,7 @@
 			<texture3>data/textures/landscape/vulcano/texture3.bmp</texture3>
 			<texture4>data/textures/landscape/vulcano/texture4.bmp</texture4>
 		</texture>
-		<placements>none</placements>
+		<placements><placement>none</placement></placements>
 		<precipitation type="none"></precipitation>
 		<events></events>
 		<boids></boids>
@@ -301,7 +301,7 @@
 			<texture3>data/textures/landscape/storm/texture3.bmp</texture3>
 			<texture4>data/textures/landscape/storm/texture4.bmp</texture4>
 		</texture>
-		<placements>pine</placements>
+		<placements><placement>pine</placement></placements>
 		<precipitation type="rain">
 			<particles>60</particles>
 		</precipitation>
@@ -352,7 +352,7 @@
 			<texture3>data/textures/landscape/storm/texture3.bmp</texture3>
 			<texture4>data/textures/landscape/storm/texture4.bmp</texture4>
 		</texture>
-		<placements>pine</placements>
+		<placements><placement>pine</placement></placements>
 		<precipitation type="none"></precipitation>
 		<events></events>
 		<boids></boids>

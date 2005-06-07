@@ -34,7 +34,7 @@
 			<texture3>data/textures/landscape/default/texture3.bmp</texture3>
 			<texture4>data/textures/landscape/default/texture4.bmp</texture4>
 		</texture>
-		<placements>pine</placements>
+		<placements><placement>pine</placement></placements>
 		<precipitation type="none"></precipitation>
 		<events></events>
 		<boids></boids>
@@ -73,7 +73,7 @@
 			<texture3>data/textures/landscape/hell/texture3.bmp</texture3>
 			<texture4>data/textures/landscape/hell/texture4.bmp</texture4>
 		</texture>
-		<placements>none</placements>
+		<placements><placement>none</placement></placements>
 		<precipitation type="none"></precipitation>
 		<events>
 			<event>
@@ -122,7 +122,7 @@
 			<texture3>data/textures/landscape/sand/texture3.bmp</texture3>
 			<texture4>data/textures/landscape/sand/texture4.bmp</texture4>
 		</texture>
-		<placements>palm</placements>
+		<placements><placement>palm</placement></placements>
 		<precipitation type="none"></precipitation>
 		<events></events>
 		<boids></boids>
@@ -161,7 +161,7 @@
 			<texture3>data/textures/landscape/snow/texture3.bmp</texture3>
 			<texture4>data/textures/landscape/snow/texture4.bmp</texture4>
 		</texture>
-		<placements>snowpine</placements>
+		<placements><placement>snowpine</placement></placements>
 		<precipitation type="snow">
 			<particles>60</particles>
 		</precipitation>
@@ -202,7 +202,7 @@
 			<texture3>data/textures/landscape/tropical/texture3.bmp</texture3>
 			<texture4>data/textures/landscape/tropical/texture4.bmp</texture4>
 		</texture>
-		<placements>palm</placements>
+		<placements><placement>palm</placement></placements>
 		<precipitation type="none"></precipitation>
 		<events></events>
 		<boids></boids>
@@ -241,7 +241,7 @@
 			<texture3>data/textures/landscape/vulcano/texture3.bmp</texture3>
 			<texture4>data/textures/landscape/vulcano/texture4.bmp</texture4>
 		</texture>
-		<placements>none</placements>
+		<placements><placement>none</placement></placements>
 		<precipitation type="none"></precipitation>
 		<events></events>
 		<boids></boids>
@@ -280,7 +280,7 @@
 			<texture3>data/textures/landscape/storm/texture3.bmp</texture3>
 			<texture4>data/textures/landscape/storm/texture4.bmp</texture4>
 		</texture>
-		<placements>pine</placements>
+		<placements><placement>pine</placement></placements>
 		<precipitation type="rain">
 			<particles>60</particles>
 		</precipitation>
@@ -331,7 +331,7 @@
 			<texture3>data/textures/landscape/storm/texture3.bmp</texture3>
 			<texture4>data/textures/landscape/storm/texture4.bmp</texture4>
 		</texture>
-		<placements>pine</placements>
+		<placements><placement>pine</placement></placements>
 		<precipitation type="none"></precipitation>
 		<events></events>
 		<boids></boids>
@@ -370,7 +370,7 @@
 			<texture3>data/textures/landscape/storm/texture1.bmp</texture3>
 			<texture4>data/textures/landscape/storm/texture4.bmp</texture4>
 		</texture>
-		<placements>usa-summer</placements>
+		<placements><placement>usa-summer</placement></placements>
 		<precipitation type="none"></precipitation>
 		<events></events>
 		<boids></boids>
@@ -402,7 +402,7 @@
 			<texture3>data/textures/landscape/moon/texture1.bmp</texture3>
 			<texture4>data/textures/landscape/moon/texture3.bmp</texture4>
 		</texture>
-		<placements>moon</placements>
+		<placements><placement>moon</placement></placements>
 		<precipitation type="none"></precipitation>
 		<events>
 			<event>
@@ -444,7 +444,7 @@
 			<texture3>data/textures/landscape/sand/texture1.bmp</texture3>
 			<texture4>data/textures/landscape/sand/texture1.bmp</texture4>
 		</texture>
-		<placements>desert</placements>
+		<placements><placement>desert</placement></placements>
 		<precipitation type="none"></precipitation>
 		<events></events>
 		<boids></boids>
@@ -483,7 +483,7 @@
 			<texture3>data/textures/landscape/snow/texture3.bmp</texture3>
 			<texture4>data/textures/landscape/snow/texture4.bmp</texture4>
 		</texture>
-		<placements>wintercity1</placements>
+		<placements><placement>wintercity1</placement></placements>
 		<precipitation type="snow">
 			<particles>60</particles>
 		</precipitation>
@@ -524,7 +524,7 @@
 			<texture3>data/textures/landscape/tropical/texture3.bmp</texture3>
 			<texture4>data/textures/landscape/tropical/texture4.bmp</texture4>
 		</texture>
-		<placements>summercity1</placements>
+		<placements><placement>summercity1</placement></placements>
 		<precipitation type="none"></precipitation>
 		<events></events>
 		<boids></boids>
@@ -563,7 +563,7 @@
 			<texture3>data/textures/landscape/snow/texture3.bmp</texture3>
 			<texture4>data/textures/landscape/snow/texture4.bmp</texture4>
 		</texture>
-		<placements>wintercity2</placements>
+		<placements><placement>wintercity2</placement></placements>
 		<precipitation type="snow">
 			<particles>60</particles>
 		</precipitation>
@@ -604,7 +604,7 @@
 			<texture3>data/textures/landscape/tropical/texture3.bmp</texture3>
 			<texture4>data/textures/landscape/tropical/texture4.bmp</texture4>
 		</texture>
-		<placements>summercity2</placements>
+		<placements><placement>summercity2</placement></placements>
 		<precipitation type="none"></precipitation>
 		<events></events>
 		<boids></boids>
@@ -643,7 +643,7 @@
 			<texture3>data/textures/landscape/snow/texture3.bmp</texture3>
 			<texture4>data/textures/landscape/snow/texture4.bmp</texture4>
 		</texture>
-		<placements>wintercity3</placements>
+		<placements><placement>wintercity3</placement></placements>
 		<precipitation type="snow">
 			<particles>60</particles>
 		</precipitation>
@@ -684,7 +684,7 @@
 			<texture3>data/textures/landscape/tropical/texture3.bmp</texture3>
 			<texture4>data/textures/landscape/tropical/texture4.bmp</texture4>
 		</texture>
-		<placements>summercity3</placements>
+		<placements><placement>summercity3</placement></placements>
 		<precipitation type="none"></precipitation>
 		<events></events>
 		<boids></boids>

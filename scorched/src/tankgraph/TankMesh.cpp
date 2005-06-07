@@ -135,7 +135,7 @@ void TankMesh::draw(bool drawS, float angle, Vector &position,
 	glPopMatrix();
 }
 
-void TankMesh::drawMesh(unsigned int m, Mesh *mesh, float LOD)
+void TankMesh::drawMesh(unsigned int m, Mesh *mesh, bool dontCache, float LOD)
 {
 	glPushMatrix();
 		MeshType type = meshTypes_[m];
@@ -146,6 +146,9 @@ void TankMesh::drawMesh(unsigned int m, Mesh *mesh, float LOD)
 			glRotatef(rotXY_, 0.0f, 0.0f, 1.0f);
 			if (type == eGun)
 			{
+				// Don't cache the gun model as we need to translate it
+				dontCache = true;
+
 				glTranslatef(gunOffset_[0], gunOffset_[1], gunOffset_[2]);
 				vertexTranslation_ -= gunOffset_;
 				glRotatef(rotXZ_, 1.0f, 0.0f, 0.0f);
@@ -166,7 +169,7 @@ void TankMesh::drawMesh(unsigned int m, Mesh *mesh, float LOD)
 			}
 		}
 
-		ModelRenderer::drawMesh(m, mesh, LOD);
+		ModelRenderer::drawMesh(m, mesh, dontCache, LOD);
 	glPopMatrix();
 
 	vertexTranslation_.zero();

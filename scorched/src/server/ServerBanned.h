@@ -49,20 +49,20 @@ public:
 		unsigned int mask;
 		std::map<unsigned int, BannedEntry> ips;
 	};	
-	std::list<BannedRange> &getBannedIps() { return bannedIps_; }
 
+	std::list<BannedRange> &getBannedIps();
 	BannedType getBanned(unsigned int ip);
 	void addBanned(unsigned int ip, const char *name, BannedType type = Banned);
 
 	static const char *getBannedTypeStr(BannedType type);
 
-	bool save();
-	bool load();
-
 protected:
 	static ServerBanned *instance_;
 	std::list<BannedRange> bannedIps_;	
+	time_t lastReadTime_;
 
+	bool save();
+	bool load();
 	void addBannedEntry(unsigned int ip, unsigned int mask,
 		const char *name, unsigned int bantime,
 		BannedType type);

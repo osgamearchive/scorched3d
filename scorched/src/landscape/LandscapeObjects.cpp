@@ -83,9 +83,6 @@ void LandscapeObjects::generate(RandomGenerator &generator,
 {
 	if (counter) counter->setNewOp("Populating Landscape");
 
-	// Start with a clean slate
-	removeAllObjects();
-
 	// TODO allow turning of this off during game
 	if (OptionsDisplay::instance()->getNoTrees()) return;
 

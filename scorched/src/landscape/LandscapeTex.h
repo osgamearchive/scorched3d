@@ -141,7 +141,7 @@ public:
 	std::string detail;
 	std::string magmasmall;
 	std::string scorch;
-	std::string placements;
+	std::vector<std::string> placements;
 	Vector fog;
 	float fogdensity;
 	float lowestlandheight;

@@ -63,7 +63,6 @@ Added: Bender tank model (thanks antivert)
 -- Bugs in current development release
 Dvorak keyboard support is broken
 Gun fires at same point for all tanks (ignores turret/gun position in model)
-Shot cam does not get LOD correctly
 
 -- Things I am currently looking at
 Fix crashing when people win (Graphics card drivers??)
@@ -74,7 +73,6 @@ Animated GIFs for avitars
 Ambient sounds
 Shadows for other models
 Teleport (to random position)
-Show buy/choose accessories in groups (rather than one long list)
 Allow same ip addresses to connect but don't collect stats
 Undo should not put duplicate entries in the undo log
 Bobirovs list of stuff (http://apochq.handwired.net/ideas.txt)

@@ -240,8 +240,14 @@ bool LandscapeTex::readXML(LandscapeDefinitions *definitions, XMLNode *node)
 	if (!checkDataFile(skycolormap.c_str())) return false;
 
 	{
-		if (!node->getNamedChild("placements", placements)) return false;
-		if (!definitions->getPlace(placements.c_str())) return false;
+		XMLNode *placementsNode;
+		if (!node->getNamedChild("placements", placementsNode)) return false;
+		std::string placement;
+		while (placementsNode->getNamedChild("placement", placement, false))
+		{
+			if (!definitions->getPlace(placement.c_str())) return false;
+			placements.push_back(placement);
+		}
 	}
 	{
 		XMLNode *borderNode;

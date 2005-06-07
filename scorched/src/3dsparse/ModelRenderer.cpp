@@ -39,6 +39,12 @@ ModelRenderer::~ModelRenderer()
 		boneTypes_.pop_back();
 		delete type;
 	}
+	while (!displayLists_.empty())
+	{
+		unsigned int list = displayLists_.back();
+		displayLists_.pop_back();
+		glDeleteLists(list, 1);
+	}
 }
 
 void ModelRenderer::setup()
@@ -52,6 +58,11 @@ void ModelRenderer::setup()
 		itor++)
 	{
 		boneTypes_.push_back(new BoneType(*(*itor)));
+	}
+
+	for (unsigned int m=0; m<model_->getMeshes().size(); m++)
+	{
+		displayLists_.push_back(0);
 	}
 }
 
@@ -68,7 +79,7 @@ void ModelRenderer::draw(float LOD)
 	for (unsigned int m=0; m<model_->getMeshes().size(); m++)
 	{
 		Mesh *mesh = model_->getMeshes()[m];
-		drawMesh(m, mesh, LOD);
+		drawMesh(m, mesh, mesh->getReferencesBones(), LOD);
 	}
 }
 
@@ -115,7 +126,29 @@ void ModelRenderer::simulate(float frameTime)
 	}
 }
 
-void ModelRenderer::drawMesh(unsigned int m, Mesh *mesh, float LOD)
+void ModelRenderer::drawMesh(unsigned int m, Mesh *mesh, bool dontCache, float LOD)
+{
+	if (dontCache)
+	{
+		drawVerts(m, mesh, LOD);
+	}
+	else
+	{
+		unsigned int displayList = displayLists_[m];
+		if (!displayList)
+		{
+			glNewList(displayList = glGenLists(1), GL_COMPILE);
+				drawVerts(m, mesh, LOD);
+			glEndList();
+
+			displayLists_[m] = displayList;
+		}
+
+		glCallList(displayList);
+	}
+}
+
+void ModelRenderer::drawVerts(unsigned int m, Mesh *mesh, float LOD)
 {
 	Vector vec;
 	bool useTextures =

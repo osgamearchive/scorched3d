@@ -22,9 +22,11 @@
 #include <server/ScorchedServer.h>
 #include <common/OptionsGame.h>
 #include <common/Defines.h>
+#include <common/Logger.h>
 #include <coms/NetInterface.h>
 #include <XML/XMLFile.h>
 #include <limits.h>
+#include <wx/filefn.h>
 
 ServerBanned *ServerBanned::instance_ = 0;
 
@@ -38,7 +40,7 @@ ServerBanned *ServerBanned::instance()
 	return instance_;
 }
 
-ServerBanned::ServerBanned()
+ServerBanned::ServerBanned() : lastReadTime_(0)
 {
 }
 
@@ -48,19 +50,25 @@ ServerBanned::~ServerBanned()
 
 bool ServerBanned::load()
 {
-	bannedIps_.clear();
-	XMLFile file;
 	const char *filename = 
 		getSettingsFile("banned-%i.xml", 
 			ScorchedServer::instance()->getOptionsGame().getPortNo());
+	if (!::wxFileExists(filename)) return true;
+
+	time_t fileTime = ::wxFileModificationTime(filename);
+	if (fileTime == lastReadTime_) return true;
+
+	XMLFile file;
 	if (!file.readFile(filename))
 	{
-		dialogMessage("ServerBanned", 
-					  "Failed to parse \"%s\"\n%s", 
-					  filename,
-					  file.getParserError());
+		Logger::log("Failed to parse banned file \"%s\"\n%s", 
+			filename, file.getParserError());
 		return false;
 	}
+
+	Logger::log("Refreshing banned list %s", filename);
+	lastReadTime_ = fileTime;
+	bannedIps_.clear();
 	if (!file.getRootNode()) return true; // Empty File
 
 	std::list<XMLNode *>::iterator childrenItor;
@@ -138,8 +146,17 @@ bool ServerBanned::load()
 	return true;
 }
 
+std::list<ServerBanned::BannedRange> &ServerBanned::getBannedIps()
+{ 
+	load();
+	
+	return bannedIps_; 
+}
+
 ServerBanned::BannedType ServerBanned::getBanned(unsigned int ip)
 {
+	load();
+
 	std::list<BannedRange>::iterator itor;
 	for (itor = bannedIps_.begin();
 		itor != bannedIps_.end();

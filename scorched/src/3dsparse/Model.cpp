@@ -196,6 +196,7 @@ void Model::setupBones()
 			if (vertex->boneIndex != -1)
 			{
 				BoneType *type = baseBoneTypes_[vertex->boneIndex];
+				mesh->getReferencesBones() = true;
 
 				// Translation
 				vertex->position[0] -= type->absolute_[0][3];

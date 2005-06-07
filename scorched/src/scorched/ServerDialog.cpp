@@ -55,7 +55,6 @@ enum
 	IDC_MENU_EXIT,
 	IDC_MENU_SHOWMODFILES,
 	IDC_MENU_SHOWBANNED,
-	IDC_MENU_RELOADBANNED,
 	IDC_MENU_SHOWOPTIONS,
 	IDC_MENU_EDITOPTIONS,
 	IDC_MENU_SAVEOPTIONS,
@@ -184,7 +183,6 @@ public:
 	void onShowOptions(wxCommandEvent &event);
 	void onShowModFiles(wxCommandEvent &event);
 	void onShowBanned(wxCommandEvent &event);
-	void onReloadBanned(wxCommandEvent &event);
 	void onEditOptions(wxCommandEvent &event);
 	void onLoadOptions(wxCommandEvent &event);
 	void onSaveOptions(wxCommandEvent &event);
@@ -235,7 +233,6 @@ BEGIN_EVENT_TABLE(ServerFrame, wxFrame)
 	EVT_MENU(IDC_MENU_EXIT, ServerFrame::onMenuExit)
 	EVT_MENU(IDC_MENU_SHOWMODFILES, ServerFrame::onShowModFiles)
 	EVT_MENU(IDC_MENU_SHOWBANNED, ServerFrame::onShowBanned)
-	EVT_MENU(IDC_MENU_RELOADBANNED, ServerFrame::onReloadBanned)
 	EVT_MENU(IDC_MENU_SHOWOPTIONS, ServerFrame::onShowOptions)
 	EVT_MENU(IDC_MENU_EDITOPTIONS, ServerFrame::onEditOptions)
 	EVT_MENU(IDC_MENU_LOADOPTIONS, ServerFrame::onLoadOptions)
@@ -361,7 +358,6 @@ ServerFrame::ServerFrame(const char *name) :
 	menuAdmin->Append(IDC_MENU_PLAYERUNMUTE, "Unmute selected players");
 	menuAdmin->AppendSeparator();
 	menuAdmin->Append(IDC_MENU_SHOWBANNED, "Show &Banned Users");
-	menuAdmin->Append(IDC_MENU_RELOADBANNED, "&Reload Banned Users");
 	
 	wxMenu *menuChat = new wxMenu;
 	menuChat->Append(IDC_MENU_TIMEDMSG, "Setup a timed message");
@@ -752,11 +748,6 @@ void ServerFrame::onShowModFiles(wxCommandEvent &event)
 			entry->getCompressedCrc()));
 	}
 	listDialog.ShowModal();
-}
-
-void ServerFrame::onReloadBanned(wxCommandEvent &event)
-{
-	ServerBanned::instance()->load();
 }
 
 void ServerFrame::onShowBanned(wxCommandEvent &event)
