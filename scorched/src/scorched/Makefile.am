@@ -963,6 +963,8 @@ scorched3d_SOURCES = \
 	../server/ServerReadyState.h \
 	../server/ServerRegistration.cpp \
 	../server/ServerRegistration.h \
+	../server/ServerWebServer.cpp \
+	../server/ServerWebServer.h \
 	../server/ServerResetState.cpp \
 	../server/ServerResetState.h \
 	../server/ServerScoreState.cpp \

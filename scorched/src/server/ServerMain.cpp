@@ -58,6 +58,7 @@
 #include <server/ServerConnectHandler.h>
 #include <server/ServerFileServer.h>
 #include <server/ServerRegistration.h>
+#include <server/ServerWebServer.h>
 #include <server/ServerBrowserInfo.h>
 #include <server/ServerState.h>
 #include <server/ServerCommon.h>
@@ -177,6 +178,8 @@ void serverMain()
 		ServerRegistration::instance()->start();
 	}
 
+	ServerWebServer::instance()->start();
+
 	Logger::log( "Server started");
 }
 
@@ -188,6 +191,7 @@ void serverLoop()
 		Logger::processLogEntries();
 		ScorchedServer::instance()->getNetInterface().processMessages();
 		ServerBrowserInfo::instance()->processMessages();
+		ServerWebServer::instance()->processMessages();
 
 		float timeDifference = serverTimer.getTimeDifference();
 		ScorchedServer::instance()->getGameState().simulate(timeDifference);

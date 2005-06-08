@@ -53,11 +53,21 @@ public:
 	virtual NetMessage *readBuffer(TCPsocket socket);
 };
 
-class NetServerHTTPProtocol : public NetServerProtocol
+class NetServerHTTPProtocolSend : public NetServerProtocol
 {
 public:
-	NetServerHTTPProtocol();
-	virtual ~NetServerHTTPProtocol();
+	NetServerHTTPProtocolSend();
+	virtual ~NetServerHTTPProtocolSend();
+
+	virtual bool sendBuffer(NetBuffer &buffer, TCPsocket socket);
+	virtual NetMessage *readBuffer(TCPsocket socket);
+};
+
+class NetServerHTTPProtocolRecv : public NetServerProtocol
+{
+public:
+	NetServerHTTPProtocolRecv();
+	virtual ~NetServerHTTPProtocolRecv();
 
 	virtual bool sendBuffer(NetBuffer &buffer, TCPsocket socket);
 	virtual NetMessage *readBuffer(TCPsocket socket);

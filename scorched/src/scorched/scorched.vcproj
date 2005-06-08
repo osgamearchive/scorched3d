@@ -3088,6 +3088,12 @@
 				RelativePath="..\server\ServerRegistration.h">
 			</File>
 			<File
+				RelativePath="..\server\ServerWebServer.cpp">
+			</File>
+			<File
+				RelativePath="..\server\ServerWebServer.h">
+			</File>
+			<File
 				RelativePath="..\server\ServerResetState.cpp">
 			</File>
 			<File

@@ -29,12 +29,12 @@ class ServerAdminHandler :
 public:
 	static ServerAdminHandler *instance();
 
+	bool login(const char *name, const char *password);
 	virtual bool processMessage(unsigned int id,
 		const char *messageType,
 		NetBufferReader &reader);
 
 protected:
-	bool login(const char *name, const char *password);
 
 private:
 	ServerAdminHandler();

@@ -33,9 +33,12 @@ public:
 		AccessoryStore *store, XMLNode *accessoryNode);
 	virtual ShieldType getShieldType();
 
+	float getDeflectFactor() { return deflectFactor_; }
+
 	REGISTER_ACCESSORY_HEADER(ShieldReflective, AccessoryPart::AccessoryShield);
 
 protected:
+	float deflectFactor_;
 };
 
 #endif

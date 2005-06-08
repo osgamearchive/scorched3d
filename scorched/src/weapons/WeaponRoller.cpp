@@ -30,7 +30,7 @@
 
 REGISTER_ACCESSORY_SOURCE(WeaponRoller);
 
-WeaponRoller::WeaponRoller()
+WeaponRoller::WeaponRoller() : shieldHurtFactor_(0.0f)
 {
 
 }
@@ -45,9 +45,14 @@ bool WeaponRoller::parseXML(OptionsGame &context,
 {
 	if (!Weapon::parseXML(context, store, accessoryNode)) return false;
 
+	// Get number of rollers
 	if (!accessoryNode->getNamedChild("numberrollers", numberRollers_)) return false;
 
+	// Get life time
 	if (!accessoryNode->getNamedChild("time", time_)) return false;
+
+    // Get the hurt factor (if any)
+    accessoryNode->getNamedChild("shieldhurtfactor", shieldHurtFactor_, false);
 
 	XMLNode *subNode = 0;
 	if (!accessoryNode->getNamedChild("collisionaction", subNode)) return false;

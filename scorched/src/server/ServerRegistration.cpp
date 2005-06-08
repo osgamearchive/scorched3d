@@ -36,7 +36,7 @@ ServerRegistration *ServerRegistration::instance()
 }
 
 ServerRegistration::ServerRegistration() : 
-	netServer_(new NetServerHTTPProtocol)
+	netServer_(new NetServerHTTPProtocolSend)
 {
 	static char buffer[1024];
 	sprintf(buffer, 
@@ -127,7 +127,7 @@ void ServerRegistration::processMessage(NetMessage &message)
 	// We have received a reply from the web server
 	if (message.getMessageType() == NetMessage::BufferMessage)
 	{
-		message.getBuffer().getBuffer()[message.getBuffer().getBufferUsed()] = '\0';
+		message.getBuffer().addToBuffer("");
 		success_ = (strstr(message.getBuffer().getBuffer(), "success") != 0);
 	}
 	else if (message.getMessageType() == NetMessage::DisconnectMessage)

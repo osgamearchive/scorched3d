@@ -50,7 +50,7 @@ const char *ServerBrowserEntry::getAttribute(const char *attrName)
 }
 
 ServerBrowserServerList::ServerBrowserServerList() : 
-	netServer_(new NetServerHTTPProtocol), complete_(false), refreshId_(0)
+	netServer_(new NetServerHTTPProtocolSend), complete_(false), refreshId_(0)
 {
 	// Create the message that will be sent to the master server
 	static char buffer[1024];

@@ -260,15 +260,15 @@ NetMessage *NetServerCompressedProtocol::readBuffer(TCPsocket socket)
 	return message;
 }
 
-NetServerHTTPProtocol::NetServerHTTPProtocol()
+NetServerHTTPProtocolSend::NetServerHTTPProtocolSend()
 {
 }
 
-NetServerHTTPProtocol::~NetServerHTTPProtocol()
+NetServerHTTPProtocolSend::~NetServerHTTPProtocolSend()
 {
 }
 
-bool NetServerHTTPProtocol::sendBuffer(NetBuffer &buffer, TCPsocket socket)
+bool NetServerHTTPProtocolSend::sendBuffer(NetBuffer &buffer, TCPsocket socket)
 {
 	Uint32 len = buffer.getBufferUsed();
 	
@@ -286,7 +286,7 @@ bool NetServerHTTPProtocol::sendBuffer(NetBuffer &buffer, TCPsocket socket)
 	return true;
 }
 
-NetMessage *NetServerHTTPProtocol::readBuffer(TCPsocket socket)
+NetMessage *NetServerHTTPProtocolSend::readBuffer(TCPsocket socket)
 {
 	// allocate the buffer memory
 	NetMessage *netBuffer = NetMessagePool::instance()->
@@ -316,6 +316,83 @@ NetMessage *NetServerHTTPProtocol::readBuffer(TCPsocket socket)
 
 		netBuffer->getBuffer().addDataToBuffer(buffer, 1);
 		len += 1;
+	}
+	NetInterface::getBytesIn() += len;
+
+	// return the new buffer
+	return netBuffer;
+}
+
+NetServerHTTPProtocolRecv::NetServerHTTPProtocolRecv()
+{
+}
+
+NetServerHTTPProtocolRecv::~NetServerHTTPProtocolRecv()
+{
+}
+
+bool NetServerHTTPProtocolRecv::sendBuffer(NetBuffer &buffer, TCPsocket socket)
+{
+	Uint32 len = buffer.getBufferUsed();
+	
+	// send the buffer
+	int result = SDLNet_TCP_Send(socket,buffer.getBuffer(),len);
+	if(result<int(len))
+	{
+		Logger::log( "Failed to send HTTP buffer. Sent %i of %i.",
+			result, int(len));
+		return false;
+	}
+	NetInterface::getBytesOut() += len;
+	
+	// return the length sent
+	return true;
+}
+
+NetMessage *NetServerHTTPProtocolRecv::readBuffer(TCPsocket socket)
+{
+	// allocate the buffer memory
+	NetMessage *netBuffer = NetMessagePool::instance()->
+		getFromPool(NetMessage::BufferMessage,
+				(unsigned int) socket,
+				NetServer::getIpAddress(socket));
+	netBuffer->getBuffer().reset();
+
+	// get the string buffer over the socket
+	Uint32 len = 0;
+	char buffer[1];
+	for (;;)
+	{
+		int recv = SDLNet_TCP_Recv(socket, buffer, 1);
+		if (recv <= 0) 
+		{
+			// For HTTP the socket being closed signifies the end
+			// of the transmission and is probably not an error!
+			if (len == 0)
+			{
+				// If the len is zero then we have been disconnected
+				NetMessagePool::instance()->addToPool(netBuffer);
+				return 0;
+			}
+			else break;
+		}
+
+		netBuffer->getBuffer().addDataToBuffer(buffer, 1);
+		len += 1;
+		
+		// Check for the end of the HTTP header
+		unsigned int used = netBuffer->getBuffer().getBufferUsed();
+		if (used > 4)
+		{
+			if (netBuffer->getBuffer().getBuffer()[used - 4] == '\r' &&
+				netBuffer->getBuffer().getBuffer()[used - 3] == '\n' &&
+				netBuffer->getBuffer().getBuffer()[used - 2] == '\r' &&
+				netBuffer->getBuffer().getBuffer()[used - 1] == '\n')
+			{
+				break;
+			}
+			
+		}
 	}
 	NetInterface::getBytesIn() += len;
 

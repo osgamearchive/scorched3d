@@ -28,6 +28,7 @@
 #include <engine/PhysicsParticle.h>
 #include <engine/ActionController.h>
 #include <weapons/ShieldMag.h>
+#include <weapons/ShieldReflective.h>
 #include <weapons/Accessory.h>
 #include <tank/TankContainer.h>
 
@@ -101,7 +102,7 @@ void ScorchedCollisionHandler::bounceCollision(dGeomID o1, dGeomID o2,
 	case CollisionIdGround:
 	case CollisionIdLandscape:
 	case CollisionIdRoof:
-		collisionBounce(o1, o2, contacts, noContacts, 10000.0);
+		collisionBounce(o1, o2, contacts, noContacts, 10000.0, 1.0f);
 		break;
 	case CollisionIdBounce:
 		//collisionBounce(o1, o2, contacts, noContacts);
@@ -127,6 +128,7 @@ void ScorchedCollisionHandler::bounceCollision(dGeomID o1, dGeomID o2,
 				(float) bouncePosition[1],
 				(float) bouncePosition[2]);
 
+			float deflectPower = 1.0f;
 			ParticleAction action = collisionShield(
 				particle->getPlayerId(),
 				id, 
@@ -134,12 +136,13 @@ void ScorchedCollisionHandler::bounceCollision(dGeomID o1, dGeomID o2,
 				((otherInfo->id==CollisionIdShieldLarge)?
 				Shield::ShieldSizeLarge:Shield::ShieldSizeSmall),
 				particle,
-				0.0f);
+				particle->getWeapon()->getShieldHurtFactor(),
+				deflectPower);
 
 			// Unless there is no shield, we bounce off all shields
 			if (action != ParticleActionNone)
 			{
-				collisionBounce(o1, o2, contacts, noContacts);
+				collisionBounce(o1, o2, contacts, noContacts, deflectPower);
 			}
 		}
 		break;
@@ -171,7 +174,7 @@ void ScorchedCollisionHandler::groundCollision(dGeomID o1, dGeomID o2,
 	{
 		// Always bounce off the side walls,
 		// This will stop tanks hanging off the side
-		collisionBounce(o1, o2, contacts, noContacts);
+		collisionBounce(o1, o2, contacts, noContacts, 1.0);
 	}
 	else if (otherInfo->id == CollisionIdGround ||
 		otherInfo->id == CollisionIdLandscape)
@@ -197,6 +200,7 @@ void ScorchedCollisionHandler::groundCollision(dGeomID o1, dGeomID o2,
 void ScorchedCollisionHandler::shotCollision(dGeomID o1, dGeomID o2, 
 		dContactGeom *contacts, int noContacts)
 {
+	float deflectPower = 1.0f;
 	ScorchedCollisionType collisionType = CollisionNone;
 	const dReal *particlePosition = dGeomGetPosition(o1);
 	ScorchedCollisionInfo *particleInfo = 
@@ -240,7 +244,8 @@ void ScorchedCollisionHandler::shotCollision(dGeomID o1, dGeomID o2,
 				((otherInfo->id==CollisionIdShieldLarge)?
 				Shield::ShieldSizeLarge:Shield::ShieldSizeSmall),
 				shot,
-				1.0f);
+				shot->getWeapon()->getShieldHurtFactor(),
+				deflectPower);
 			if (action != ParticleActionNone)
 			{
 				collisionType = CollisionShield;
@@ -366,7 +371,7 @@ void ScorchedCollisionHandler::shotCollision(dGeomID o1, dGeomID o2,
 		shot->collision(particlePositionV);
 		break;
 	case ParticleActionBounce:
-		collisionBounce(o1, o2, contacts, noContacts);
+		collisionBounce(o1, o2, contacts, noContacts, deflectPower);
 		break;
 	default:
 		break;
@@ -379,7 +384,8 @@ ScorchedCollisionHandler::ParticleAction ScorchedCollisionHandler::collisionShie
 	Vector &collisionPos,
 	Shield::ShieldSize size,
 	PhysicsParticleMeta *shot,
-	float hitPercentage)
+	float hitPercentage,
+	float &deflectPower)
 {
 	// Check tank still exists and is alive
 	Tank *hitTank = context_->tankContainer->getTankById(hitId);
@@ -440,6 +446,7 @@ ScorchedCollisionHandler::ParticleAction ScorchedCollisionHandler::collisionShie
 						}
 						return ParticleActionFinished;
 					case Shield::ShieldTypeReflective:
+						deflectPower = ((ShieldReflective *)shield)->getDeflectFactor();
 						if (hitPercentage > 0.0f)
 						{
 							context_->actionController->addAction(
@@ -472,14 +479,14 @@ ScorchedCollisionHandler::ParticleAction ScorchedCollisionHandler::collisionShie
 }
 
 void ScorchedCollisionHandler::collisionBounce(dGeomID o1, dGeomID o2, 
-		dContactGeom *contacts, int noContacts, double bounceVel)
+		dContactGeom *contacts, int noContacts, double bounceVel, double bounceFactor)
 {
 	// TODO allow the physics to be changed by the server settings
 	dContact contact;
 	contact.surface.mode = dContactBounce;// | dContactSoftCFM;
 	contact.surface.mu = dInfinity;
 	contact.surface.mu2 = 0;
-	contact.surface.bounce = 1.0;
+	contact.surface.bounce = bounceFactor;
 	contact.surface.bounce_vel = bounceVel;
 	contact.surface.soft_cfm = 0.01;
 

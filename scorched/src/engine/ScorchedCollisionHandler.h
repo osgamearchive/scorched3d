@@ -57,7 +57,8 @@ protected:
 	void shotCollision(dGeomID o1, dGeomID o2, 
 		dContactGeom *contacts, int noContacts);
 	void collisionBounce(dGeomID o1, dGeomID o2, 
-		dContactGeom *contacts, int noContacts, double bvel = 0.0);
+		dContactGeom *contacts, int noContacts, 
+		double bvel = 0.0, double bfactor = 1.0);
 
 	ScorchedCollisionHandler::ParticleAction collisionShield(
 		unsigned int shotId,
@@ -65,7 +66,8 @@ protected:
 		Vector &collisionPos,
 		Shield::ShieldSize size,
 		PhysicsParticleMeta *shot,
-		float hitPercentage);
+		float hitPercentage,
+		float &deflectPower);
 
 };
 

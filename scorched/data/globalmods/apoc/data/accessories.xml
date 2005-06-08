@@ -133,6 +133,7 @@ they work.</description>
 		<accessoryaction type='ShieldReflective'>
 			<radius>small</radius>
 			<halfshield>false</halfshield>
+			<deflectfactor>1.0</deflectfactor>
 			<color>
 				<r>0.5</r>
 				<g>1.0</g>
@@ -158,6 +159,7 @@ they work.</description>
 		<accessoryaction type='ShieldReflective'>
 			<radius>large</radius>
 			<halfshield>false</halfshield>
+			<deflectfactor>1.0</deflectfactor>
 			<color>
 				<r>0.25</r>
 				<g>1.0</g>

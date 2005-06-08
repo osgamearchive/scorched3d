@@ -18,30 +18,48 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <weapons/ShieldReflective.h>
+#if !defined(__INCLUDE_ServerWebServerh_INCLUDE__)
+#define __INCLUDE_ServerWebServerh_INCLUDE__
 
-REGISTER_ACCESSORY_SOURCE(ShieldReflective);
+#include <coms/NetServer.h>
+#include <common/FileLogger.h>
+#include <string>
+#include <map>
 
-ShieldReflective::ShieldReflective()
+class ServerWebServer : public NetMessageHandlerI
 {
-}
+public:
+	static ServerWebServer *instance();
 
-ShieldReflective::~ShieldReflective()
-{
-}
+	void start();
+	void processMessages();
 
-bool ShieldReflective::parseXML(OptionsGame &context,
-	AccessoryStore *store, XMLNode *accessoryNode)
-{
-	if (!Shield::parseXML(context, store, accessoryNode)) return false;
+protected:
+	static ServerWebServer *instance_;
+	NetServer netServer_;
+	FileLogger *logger_;
 
-	// Get the half size
-	if (!accessoryNode->getNamedChild("deflectfactor", deflectFactor_)) return false;
+	bool processRequest(
+		unsigned int destinationId,
+		const char *url,
+		std::map<std::string, std::string> &fields);
+	bool validateUser(
+		std::map<std::string, std::string> &fields);
+	bool generatePage(
+		const char *url,
+		std::map<std::string, std::string> &fields,
+		std::string &text);
+	bool getTemplate(
+		const char *name,
+		std::map<std::string, std::string> &fields,
+		std::string &result);
 
-	return true;
-}
+	// Inherited from NetMessageHandlerI
+	virtual void processMessage(NetMessage &message);
 
-Shield::ShieldType ShieldReflective::getShieldType()
-{
-	return ShieldTypeReflective;
-}
+private:
+	ServerWebServer();
+	virtual ~ServerWebServer();
+};
+
+#endif
