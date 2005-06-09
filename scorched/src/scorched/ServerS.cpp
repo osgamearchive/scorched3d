@@ -36,12 +36,18 @@ static void createControls(wxWindow *parent,
 						  0, wxALIGN_CENTER_VERTICAL);
 	servernameSizer2->Add(IDC_SERVER_NAME_CTRL);
 	IDC_SERVER_PORT_CTRL = 
-		new wxTextCtrl(parent, IDC_SERVER_PORT,
+		new wxTextCtrl(parent, -1,
 		"",
 		wxDefaultPosition, wxSize((int) 72, -1));
 	servernameSizer2->Add(new wxStaticText(parent, -1, "Port Number :"),
 						  0, wxALIGN_CENTER_VERTICAL);
 	servernameSizer2->Add(IDC_SERVER_PORT_CTRL);		
+	IDC_SERVERMANAGEMENT_PORT_CTRL = new wxTextCtrl(parent, -1,
+		"",
+		wxDefaultPosition, wxSize((int) 72, -1));
+	servernameSizer2->Add(new wxStaticText(parent, -1, "Management Port Number :"),
+						  0, wxALIGN_CENTER_VERTICAL);
+	servernameSizer2->Add(IDC_SERVERMANAGEMENT_PORT_CTRL);		
 	servernameSizer->Add(servernameSizer2);
 	IDC_PUBLISHIP_CTRL_TEXT = new wxStaticText(parent, -1, "Published IP :");
 	servernameSizer2->Add(IDC_PUBLISHIP_CTRL_TEXT,

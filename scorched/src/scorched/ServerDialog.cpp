@@ -40,6 +40,7 @@
 #include <server/ServerMessageHandler.h>
 #include <server/ScorchedServer.h>
 #include <server/ServerCommon.h>
+#include <server/ServerLog.h>
 #include <server/ServerTooFewPlayersStimulus.h>
 #include <wx/wx.h>
 #include <wx/image.h>
@@ -88,16 +89,15 @@ enum
 class ServerPlayerListControl : public wxListCtrl
 {
 public:
-	ServerPlayerListControl(wxWindow* parent, wxWindowID id, 
-		const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize);
+	ServerPlayerListControl(wxWindow* parent, wxWindowID id);
 	virtual ~ServerPlayerListControl();
 
 	virtual wxString OnGetItemText(long WXUNUSED(item), long WXUNUSED(col)) const;
 	virtual int OnGetItemImage(long WXUNUSED(item)) const;
 };
 
-ServerPlayerListControl::ServerPlayerListControl(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size) :
-	wxListCtrl(parent, id, pos, size, 
+ServerPlayerListControl::ServerPlayerListControl(wxWindow* parent, wxWindowID id) :
+	wxListCtrl(parent, id, wxDefaultPosition, wxDefaultSize, 
 		wxLC_REPORT | wxLC_HRULES | wxLC_VRULES | wxLC_VIRTUAL | wxLC_SINGLE_SEL )
 {
 }
@@ -166,6 +166,40 @@ wxString ServerPlayerListControl::OnGetItemText(long item, long column) const
 			return tank->getScore().getStatsRank();
 			break;
 		}
+	}
+	return "";
+}
+
+class ServerLogListControl : public wxListCtrl
+{
+public:
+	ServerLogListControl(wxWindow* parent, wxWindowID id);
+	virtual ~ServerLogListControl();
+
+	virtual wxString OnGetItemText(long WXUNUSED(item), long WXUNUSED(col)) const;
+	virtual int OnGetItemImage(long WXUNUSED(item)) const;
+};
+
+ServerLogListControl::ServerLogListControl(wxWindow* parent, wxWindowID id) :
+	wxListCtrl(parent, id, wxDefaultPosition, wxDefaultSize, 
+		wxLC_REPORT | wxLC_HRULES | wxLC_VRULES | wxLC_VIRTUAL | wxLC_SINGLE_SEL )
+{
+}
+
+ServerLogListControl::~ServerLogListControl()
+{
+}
+
+int ServerLogListControl::OnGetItemImage(long item) const
+{
+	return -1;
+}
+
+wxString ServerLogListControl::OnGetItemText(long item, long column) const
+{
+	if ((item != -1) && (item < (long) ServerLog::instance()->getEntries().size()))
+	{
+		return ServerLog::instance()->getEntries()[item].text.c_str();
 	}
 	return "";
 }
@@ -286,11 +320,9 @@ ServerFrame::ServerFrame(const char *name) :
 
 	// Create all the display controlls
 	playerList_ = 
-		new ServerPlayerListControl(this, IDC_PLAYER_LIST,
-		wxDefaultPosition, wxDefaultSize);
+		new ServerPlayerListControl(this, IDC_PLAYER_LIST);
 	logList_ =
-		new wxListCtrl(this, IDC_LOG_LIST, wxDefaultPosition, wxDefaultSize, 
-		wxLC_REPORT | wxLC_HRULES | wxLC_VRULES | wxLC_SINGLE_SEL );
+		new ServerLogListControl(this, IDC_LOG_LIST);
 
 	// Setup list collumns
 	// Setup the list control
@@ -496,6 +528,15 @@ void ServerFrame::onTimer(wxTimerEvent &event)
 			ScorchedServer::instance()->getTankContainer().getNoOfTanks());
 	}
 	frame->playerList_->Refresh();
+
+	// Update the log list
+	if (frame->logList_->GetItemCount() !=
+		ServerLog::instance()->getEntries().size())
+	{
+		frame->logList_->SetItemCount(
+			ServerLog::instance()->getEntries().size());
+	}
+	frame->logList_->Refresh();
 
 	// Update the status bar
 	char buffer[256];
@@ -800,27 +841,6 @@ void ServerFrame::onShowOptions(wxCommandEvent &event)
 	listDialog.ShowModal();
 }
 
-static class ServerLogger : public LoggerI
-{
-public:
-	virtual void logMessage(LoggerInfo &info)
-	{
-		// Make sure the list does not exceed 500 entries
-		if (frame->logList_->GetItemCount() > 499)
-		{
-			// Remove the top 20 entries
-			for (int j=0; j<20; j++) frame->logList_->DeleteItem(0);
-		}
-
-		// Add a new entry and ensure it is visible
-		static char text[1024];
-		sprintf(text, "%s - %s", info.getTime(), info.getMessage());
-		long index = frame->logList_->InsertItem(
-			frame->logList_->GetItemCount(), text);
-		frame->logList_->EnsureVisible(index);
-	};
-} serverLogger;
-
 void showServerDialog()
 {
 	char serverName[1024];
@@ -832,6 +852,5 @@ void showServerDialog()
 	frame = new ServerFrame(serverName);
 	frame->Show();
 
-	Logger::addLogger(&serverLogger);
 	ServerCommon::startFileLogger();
 }

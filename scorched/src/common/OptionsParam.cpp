@@ -35,6 +35,8 @@ OptionsParam *OptionsParam::instance()
 
 OptionsParam::OptionsParam() :
 	SDLInitVideo_(false),
+	seed_(options_, "seed",
+		"The random seed to use for levels, to force the same level every time", 0, 0),
 	screensaver_(options_, "screensaver",
 		"The program will terminate on any keyboard or mouse events", 0, false),
 	connect_(options_, "connect", 

@@ -59,6 +59,7 @@
 #include <server/ServerFileServer.h>
 #include <server/ServerRegistration.h>
 #include <server/ServerWebServer.h>
+#include <server/ServerLog.h>
 #include <server/ServerBrowserInfo.h>
 #include <server/ServerState.h>
 #include <server/ServerCommon.h>
@@ -178,7 +179,12 @@ void serverMain()
 		ServerRegistration::instance()->start();
 	}
 
-	ServerWebServer::instance()->start();
+	if (ScorchedServer::instance()->getOptionsGame().getManagementPortNo() > 0)
+	{
+		ServerWebServer::instance()->start(
+			ScorchedServer::instance()->getOptionsGame().getManagementPortNo());
+	}
+	ServerLog::instance();
 
 	Logger::log( "Server started");
 }

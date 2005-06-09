@@ -123,6 +123,8 @@ OptionsGame::OptionsGame() :
 		"The type of server events to be logged to file (none, file)", 0, "none"),
 	portNo_(options_, "PortNo", 
 		"The port to start the server on", 0, ScorchedPort),
+	managementPortNo_(options_, "ManagementPortNo", 
+		"The port to start the managament web server on (0 = management off)", 0, 0),
 	serverName_(options_, "ServerName", 
 		"The name of the server to start", 0, "No Name"),
 	mod_(options_, "Mod", 

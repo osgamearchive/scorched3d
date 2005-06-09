@@ -308,6 +308,10 @@ public:
 	void setPortNo(int value) { portNo_.setValue(value); } 
 	const char *getPortNoToolTip() { return portNo_.getDescription(); }
 
+	int getManagementPortNo() { return managementPortNo_.getValue(); }
+	void setManagementPortNo(int value) { managementPortNo_.setValue(value); } 
+	const char *getManagementPortNoToolTip() { return managementPortNo_.getDescription(); }
+
 	const char *getMod() { return mod_.getValue(); }
 	void setMod(const char *value) { mod_.setValue(value); }
 	const char *getModToolTip() { return mod_.getDescription(); }
@@ -435,6 +439,7 @@ protected:
 	OptionEntryString serverPassword_;
 	OptionEntryString depricatedServerAdminPassword_;
 	OptionEntryInt portNo_;
+	OptionEntryInt managementPortNo_;
 	OptionEntryString publishAddress_;
 	OptionEntryBool publishServer_;
 	OptionEntryBool allowSameIP_;

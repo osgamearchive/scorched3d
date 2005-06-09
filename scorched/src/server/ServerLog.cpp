@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,25 +18,36 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-enum
-{
-	IDC_SERVER_NAME = 1,
-	IDC_PUBLISH,
-	IDC_PUBLISHIP,
-	IDC_BUTTON_SETTINGS,
-	IDC_PUBLISHAUTO
-};
+#include <server/ServerLog.h>
+#include <common/Logger.h>
 
-static wxComboBox *IDC_SERVER_MOD_CTRL = 0;
-static wxTextCtrl *IDC_SERVER_NAME_CTRL = 0;
-static wxTextCtrl *IDC_SERVER_PORT_CTRL = 0;
-static wxTextCtrl *IDC_SERVERMANAGEMENT_PORT_CTRL = 0;
-static wxCheckBox *IDC_PUBLISH_CTRL = 0;
-static wxCheckBox *IDC_ALLOWSAME_CTRL = 0;
-static wxCheckBox *IDC_ALLOWSAMEID_CTRL = 0;
-static wxTextCtrl *IDC_PUBLISHIP_CTRL = 0;
-static wxButton *IDOK_PUBLISHAUTO_CTRL = 0;
-static wxButton *IDOK_CTRL = 0;
-static wxButton *IDC_BUTTON_SETTINGS_CTRL = 0;
-static wxButton *IDCANCEL_CTRL = 0;
-static wxStaticText *IDC_PUBLISHIP_CTRL_TEXT = 0;
+ServerLog *ServerLog::instance_ = 0;
+
+ServerLog *ServerLog::instance()
+{
+	if (!instance_) instance_ = new ServerLog;
+	return instance_;
+}
+
+ServerLog::ServerLog()
+{
+	Logger::addLogger(this);
+}
+
+ServerLog::~ServerLog()
+{
+}
+
+void ServerLog::logMessage(LoggerInfo &info)
+{
+	ServerLogEntry entry;
+	entry.text += info.getTime();
+	entry.text += " - ";
+	entry.text += info.getMessage();
+	entries_.push_back(entry);
+
+	if (entries_.size() > 500)
+	{
+		entries_.pop_front();
+	}
+}

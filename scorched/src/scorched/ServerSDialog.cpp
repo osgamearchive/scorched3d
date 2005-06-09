@@ -92,10 +92,10 @@ void ServerSFrame::onSettingsButton(wxCommandEvent &event)
 
 bool ServerSFrame::TransferDataToWindow()
 {
-	char buffer[256];
-	sprintf(buffer, "%i", options_.getPortNo());
-	IDC_SERVER_PORT_CTRL->SetValue(buffer);
+	IDC_SERVER_PORT_CTRL->SetValue(formatString("%i", options_.getPortNo()));
 	IDC_SERVER_PORT_CTRL->SetToolTip(options_.getPortNoToolTip());
+	IDC_SERVERMANAGEMENT_PORT_CTRL->SetValue(formatString("%i", options_.getManagementPortNo()));
+	IDC_SERVERMANAGEMENT_PORT_CTRL->SetToolTip(options_.getManagementPortNoToolTip());
 	IDC_SERVER_NAME_CTRL->SetValue(options_.getServerName());
 	IDC_SERVER_NAME_CTRL->SetToolTip(options_.getServerNameToolTip());
 	IDC_PUBLISH_CTRL->SetValue(options_.getPublishServer());
@@ -129,6 +129,7 @@ bool ServerSFrame::TransferDataToWindow()
 bool ServerSFrame::TransferDataFromWindow()
 {
 	options_.setPortNo(atoi(IDC_SERVER_PORT_CTRL->GetValue()));
+	options_.setManagementPortNo(atoi(IDC_SERVERMANAGEMENT_PORT_CTRL->GetValue()));
 	options_.setServerName(IDC_SERVER_NAME_CTRL->GetValue());
 	options_.setPublishServer(IDC_PUBLISH_CTRL->GetValue());
 	options_.setPublishAddress(IDC_PUBLISHIP_CTRL->GetValue());

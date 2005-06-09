@@ -51,6 +51,9 @@ bool ServerTextHandler::processMessage(unsigned int destinationId,
 	ComsTextMessage message;
 	if (!message.readMessage(reader)) return false;
 
+	// Check that we don't recieve too much text
+	if (strlen(message.getText()) > 1024) return true;
+
 	// If the client does not supply a tank id then
 	// get one from the destination
 	unsigned int tankId = message.getPlayerId();

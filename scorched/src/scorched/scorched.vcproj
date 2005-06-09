@@ -3016,6 +3016,12 @@
 				RelativePath="..\server\ServerKeepAliveHandler.h">
 			</File>
 			<File
+				RelativePath="..\server\ServerLog.cpp">
+			</File>
+			<File
+				RelativePath="..\server\ServerLog.h">
+			</File>
+			<File
 				RelativePath="..\server\ServerMain.cpp">
 			</File>
 			<File
@@ -3088,12 +3094,6 @@
 				RelativePath="..\server\ServerRegistration.h">
 			</File>
 			<File
-				RelativePath="..\server\ServerWebServer.cpp">
-			</File>
-			<File
-				RelativePath="..\server\ServerWebServer.h">
-			</File>
-			<File
 				RelativePath="..\server\ServerResetState.cpp">
 			</File>
 			<File
@@ -3152,6 +3152,12 @@
 			</File>
 			<File
 				RelativePath="..\server\ServerTooFewPlayersStimulus.h">
+			</File>
+			<File
+				RelativePath="..\server\ServerWebServer.cpp">
+			</File>
+			<File
+				RelativePath="..\server\ServerWebServer.h">
 			</File>
 			<File
 				RelativePath="..\server\TurnController.cpp">

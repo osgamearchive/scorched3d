@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,48 +18,32 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_ServerWebServerh_INCLUDE__)
-#define __INCLUDE_ServerWebServerh_INCLUDE__
+#if !defined(__INCLUDE_ServerLogh_INCLUDE__)
+#define __INCLUDE_ServerLogh_INCLUDE__
 
-#include <coms/NetServer.h>
-#include <common/FileLogger.h>
+#include <common/LoggerI.h>
+#include <deque>
 #include <string>
-#include <map>
 
-class ServerWebServer : public NetMessageHandlerI
+class ServerLog : public LoggerI
 {
 public:
-	static ServerWebServer *instance();
+	struct ServerLogEntry
+	{
+		std::string text;
+	};
 
-	void start(int port);
-	void processMessages();
+	static ServerLog *instance();
+	virtual void logMessage(LoggerInfo &info);
+	std::deque<ServerLogEntry> getEntries() { return entries_; }
 
 protected:
-	static ServerWebServer *instance_;
-	NetServer netServer_;
-	FileLogger *logger_;
-
-	bool processRequest(
-		unsigned int destinationId,
-		const char *url,
-		std::map<std::string, std::string> &fields);
-	bool validateUser(
-		std::map<std::string, std::string> &fields);
-	bool generatePage(
-		const char *url,
-		std::map<std::string, std::string> &fields,
-		std::string &text);
-	bool getTemplate(
-		const char *name,
-		std::map<std::string, std::string> &fields,
-		std::string &result);
-
-	// Inherited from NetMessageHandlerI
-	virtual void processMessage(NetMessage &message);
+	static ServerLog *instance_;
+	std::deque<ServerLogEntry> entries_;
 
 private:
-	ServerWebServer();
-	virtual ~ServerWebServer();
+	ServerLog();
+	virtual ~ServerLog();
 };
 
-#endif
+#endif // __INCLUDE_ServerLogh_INCLUDE__

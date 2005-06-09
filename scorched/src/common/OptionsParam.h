@@ -28,7 +28,7 @@ class OptionsParam
 public:
 	static OptionsParam *instance();
 
-
+	int getSeed() { return seed_.getValue(); }
 	const char *getConnect() { return connect_.getValue(); }
 	const char *getServerFile() { return server_.getValue(); }
 	const char *getClientFile() { return client_.getValue(); }
@@ -70,6 +70,7 @@ protected:
 	OptionEntryBool nooptions_;
 	OptionEntryBool console_;
 	OptionEntryBool help_;
+	OptionEntryInt seed_;
 	bool SDLInitVideo_;
 	bool screenSaverMode_;
 

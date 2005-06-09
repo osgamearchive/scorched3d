@@ -22,6 +22,7 @@
 #include <server/ScorchedServer.h>
 #include <server/ServerAdminHandler.h>
 #include <common/OptionsGame.h>
+#include <common/Logger.h>
 #include <common/LoggerI.h>
 #include <string.h>
 #include <time.h>
@@ -47,10 +48,11 @@ ServerWebServer::~ServerWebServer()
 {
 }
 
-void ServerWebServer::start()
+void ServerWebServer::start(int port)
 {
+	Logger::log("Starting management web server on port %i", port);
 	netServer_.setMessageHandler(this);
-	netServer_.start(11111);
+	netServer_.start(port);
 
 	if (0 != strcmp(ScorchedServer::instance()->getOptionsGame().
 		getServerFileLogger(), "none"))
@@ -185,13 +187,82 @@ bool ServerWebServer::getTemplate(
 	std::map<std::string, std::string> &fields,
 	std::string &result)
 {
-	FILE *in = fopen(getDataFile("data/html/server/%s", name), "ra");
-	if (!in) return false;
-
-	char buffer[256];
-	while (fgets(buffer, 256, in))
+	// Perhaps cache this
+	const char *fileName = getDataFile("data/html/server/%s", name);
+	FILE *in = fopen(fileName, "ra");
+	if (!in) 
 	{
-		result += buffer;
+		Logger::log("ERROR: Failed to open web template \"%s\"", fileName);
+		return false;
+	}
+
+	char buffer[1024], include[256];
+	while (fgets(buffer, 1024, in))
+	{
+		// Check for an include line
+		if (sscanf(buffer, "#include %s",
+			include) == 1)
+		{
+			// Add the included file
+			std::string tmp;
+			if (!getTemplate(include, fields, tmp))
+			{
+				return false;
+			}
+
+			result += tmp;
+		}
+		else
+		{
+			// Check for any value replacements
+			char *position = buffer;
+			for (;;)
+			{
+				char *start, *end;
+				if ((start = strstr(position, "[[")) &&
+					(end = strstr(position, "]]")) &&
+					(end > start))
+				{
+					// Replace the text [[name]] with the value
+					*start = '\0';
+					*end = '\0';
+					result += position;
+					position = end + 2;
+
+					char *name = start + 2;
+
+					// First check to see if it is in the supplied fields
+					if (fields.find(name) != fields.end())
+					{
+						result += fields[name];
+					}
+					else
+					{
+						// Then in the scorched3d settings
+						std::list<OptionEntry *>::iterator itor;
+						std::list<OptionEntry *> &options = 
+							ScorchedServer::instance()->getOptionsGame().getOptions();
+						for (itor = options.begin();
+							itor != options.end();
+							itor++)
+						{
+							OptionEntry *entry = (*itor);
+							if ((strcmp(entry->getName(), name) == 0) &&
+								!(entry->getData() & OptionEntry::DataProtected))
+							{
+								result += entry->getValueAsString();
+							}
+						}
+					}
+				}
+				else
+				{
+					// No replacements
+					result += position;
+					break;
+				}
+			}
+		}
 	}
 	fclose(in);
 
