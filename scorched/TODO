@@ -26,6 +26,7 @@ Fixed: Rollers can explode on cavern roof
 Fixed: Can see health bars under water
 Fixed: Only certain file types can be sent during auto mod download
 
+Added: Properly sun drawn and sky colors
 Added: deflectfactor attribute to reflective shields to allow the bounce to be configurable
 Added: shieldhurtfactor attribute to weapons so shield damage is now configurable
 Added: Maximum teams increased to 4 (red, blue, green and yellow)
@@ -116,5 +117,4 @@ communism
 -- Graphics Stuff
 Add action replay type functionality
 Napalm scorches ground (half done)
-Properly sun drawn
 Fog shader effects
