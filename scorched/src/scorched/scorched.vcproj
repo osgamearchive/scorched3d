@@ -3154,6 +3154,12 @@
 				RelativePath="..\server\ServerTooFewPlayersStimulus.h">
 			</File>
 			<File
+				RelativePath="..\server\ServerWebHandler.cpp">
+			</File>
+			<File
+				RelativePath="..\server\ServerWebHandler.h">
+			</File>
+			<File
 				RelativePath="..\server\ServerWebServer.cpp">
 			</File>
 			<File

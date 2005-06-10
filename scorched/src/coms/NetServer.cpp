@@ -28,7 +28,8 @@
 
 NetServer::NetServer(NetServerProtocol *protocol) : 
 	sockSet_(0), firstDestination_(0),
-	server_(0), protocol_(protocol), checkDeleted_(false)
+	server_(0), protocol_(protocol), checkDeleted_(false),
+	sentNotification_(false)
 {
 	sockSet_ = SDLNet_AllocSocketSet(1);
 	setMutex_ = SDL_CreateMutex();
@@ -213,7 +214,7 @@ void NetServer::addClient(TCPsocket client)
 {
 	// Create the thread to read this socket
 	NetServerRead *serverRead = new NetServerRead(
-		client, protocol_, &messageHandler_, &checkDeleted_);
+		client, protocol_, &messageHandler_, &checkDeleted_, sentNotification_);
 
 	// Add this to the collection of sockets (connections)
 	SDL_LockMutex(setMutex_);

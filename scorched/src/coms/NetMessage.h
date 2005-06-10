@@ -35,7 +35,8 @@ public:
 		NoMessage,
 		ConnectMessage,
 		DisconnectMessage,
-		BufferMessage
+		BufferMessage,
+		SentMessage
 	};
 
 	unsigned int &getDestinationId() { return destinationId_; }

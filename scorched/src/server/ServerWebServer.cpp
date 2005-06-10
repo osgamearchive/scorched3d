@@ -19,6 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <server/ServerWebServer.h>
+#include <server/ServerWebHandler.h>
 #include <server/ScorchedServer.h>
 #include <server/ServerAdminHandler.h>
 #include <common/OptionsGame.h>
@@ -42,6 +43,8 @@ ServerWebServer::ServerWebServer() :
 	netServer_(new NetServerHTTPProtocolRecv),
 	logger_(0)
 {
+	addRequestHandler("/", new ServerWebHandler::IndexHandler());
+	addRequestHandler("/logs", new ServerWebHandler::LogHandler());
 }
 
 ServerWebServer::~ServerWebServer()
@@ -53,6 +56,7 @@ void ServerWebServer::start(int port)
 	Logger::log("Starting management web server on port %i", port);
 	netServer_.setMessageHandler(this);
 	netServer_.start(port);
+	netServer_.setSentNotification();
 
 	if (0 != strcmp(ScorchedServer::instance()->getOptionsGame().
 		getServerFileLogger(), "none"))
@@ -132,8 +136,15 @@ void ServerWebServer::processMessage(NetMessage &message)
 			}
 		}
 
-		// Disconnect the client
-		netServer_.disconnectClient(message.getDestinationId(), ok);
+		if (!ok)
+		{
+			// Disconnect the client
+			netServer_.disconnectClient(message.getDestinationId());
+		}
+	}
+	else if (message.getMessageType() == NetMessage::SentMessage)
+	{
+		netServer_.disconnectClient(message.getDestinationId());
 	}
 }
 

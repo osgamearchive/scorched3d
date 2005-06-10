@@ -45,6 +45,7 @@ public:
 	virtual void disconnectClient(unsigned int client, bool delayed = false);
 	virtual void sendMessage(NetBuffer &buffer);
 	virtual void sendMessage(NetBuffer &buffer, unsigned int destination);
+	void setSentNotification() { sentNotification_ = true; }
 
 	static unsigned int getIpAddress(TCPsocket destination);
 
@@ -59,6 +60,7 @@ protected:
 	SDL_mutex *setMutex_;
 	NetMessageHandler messageHandler_;
 	bool checkDeleted_;
+	bool sentNotification_;
 
 	static int threadFunc(void *);
 

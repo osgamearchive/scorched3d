@@ -30,7 +30,8 @@ public:
 	NetServerRead(TCPsocket socket,
 		NetServerProtocol *protocol,
 		NetMessageHandler *messageHandler,
-		bool *checkDeleted);
+		bool *checkDeleted,
+		bool sentNotification);
 	virtual ~NetServerRead();
 
 	void start();
@@ -40,6 +41,7 @@ public:
 protected:
 	bool *checkDeleted_;
 	bool disconnect_, sentDisconnect_;
+	bool sentNotification_;
 	TCPsocket socket_;
 	SDLNet_SocketSet sockSet_;
 	NetServerProtocol *protocol_;
