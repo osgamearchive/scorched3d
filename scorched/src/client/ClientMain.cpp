@@ -312,6 +312,8 @@ bool clientMain()
 			GLConsole::instance()->addLine(false, "Clock clientMain 7");
 	}
 
+	ScorchedClient::instance()->getNetInterface().disconnectAllClients();
+	SDL_Delay(2000);
 	Gamma::instance()->reset();
 	Sound::instance()->destroy();
 	SDL_Quit();
