@@ -223,9 +223,11 @@ bool LandscapeTex::readXML(LandscapeDefinitions *definitions, XMLNode *node)
 	if (!node->getNamedChild("magmasmall", magmasmall)) return false;
 	if (!node->getNamedChild("scorch", scorch)) return false;
 	if (!node->getNamedChild("fog", fog)) return false;
+	if (!node->getNamedChild("suncolor", suncolor)) return false;
 	if (!node->getNamedChild("fogdensity", fogdensity)) return false;
 	if (!node->getNamedChild("lowestlandheight", lowestlandheight)) return false;
 	if (!node->getNamedChild("skytexture", skytexture)) return false;
+	if (!node->getNamedChild("skytexturemask", skytexturemask)) return false;
 	if (!node->getNamedChild("skycolormap", skycolormap)) return false;
 	if (!node->getNamedChild("skytimeofday", skytimeofday)) return false;
 	if (!node->getNamedChild("skysunxy", skysunxy)) return false;
@@ -237,6 +239,7 @@ bool LandscapeTex::readXML(LandscapeDefinitions *definitions, XMLNode *node)
 	if (!checkDataFile(magmasmall.c_str())) return false;
 	if (!checkDataFile(scorch.c_str())) return false;
 	if (!checkDataFile(skytexture.c_str())) return false;
+	if (!checkDataFile(skytexturemask.c_str())) return false;
 	if (!checkDataFile(skycolormap.c_str())) return false;
 
 	{

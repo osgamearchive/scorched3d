@@ -87,6 +87,10 @@ public:
 	void setNoVBO(bool value) { noVBO_.setValue(value); }	
 	const char *getNoVBOToolTip() { return noVBO_.getDescription(); }
 
+	bool getNoFog() { return noFog_.getValue(); }
+	void setNoFog(bool value) { noFog_.setValue(value); }	
+	const char *getNoFogToolTip() { return noFog_.getDescription(); }
+
 	bool getNoCg() { return noCg_.getValue(); }
 	void setNoCg(bool value) { noCg_.setValue(value); }	
 	const char *getNoCgToolTip() { return noCg_.getDescription(); }
@@ -360,6 +364,7 @@ protected:
 	OptionEntryInt bannerRowsDepricated_;
 	OptionEntryInt tankModelSize_;
 	OptionEntryInt toolTipTime_;
+	OptionEntryBool noFog_;
 	OptionEntryBool detailTexture_;
 	OptionEntryBool useHex_;
 	OptionEntryBool doubleBuffer_;

@@ -313,7 +313,7 @@ bool clientMain()
 	}
 
 	ScorchedClient::instance()->getNetInterface().disconnectAllClients();
-	SDL_Delay(2000);
+	SDL_Delay(1000);
 	Gamma::instance()->reset();
 	Sound::instance()->destroy();
 	SDL_Quit();

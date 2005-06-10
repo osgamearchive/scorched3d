@@ -20,6 +20,7 @@
 
 #include <landscape/LandscapeDefinitions.h>
 #include <common/OptionsGame.h>
+#include <common/OptionsParam.h>
 #include <common/Defines.h>
 #include <string.h>
 #include <stdlib.h>
@@ -366,6 +367,11 @@ LandscapeDefinition *LandscapeDefinitions::getRandomLandscapeDefn(
 	std::string tex = result->texs[texPos].c_str();
 	std::string defn = result->defns[defnPos].c_str();
 	unsigned int seed = (unsigned int) rand();
+	if (OptionsParam::instance()->getSeed() != 0)
+	{
+		seed = (unsigned int) OptionsParam::instance()->getSeed();
+	}
+
 	LandscapeDefinition *entry = 
 		new LandscapeDefinition(
 			tex.c_str(), defn.c_str(), seed);

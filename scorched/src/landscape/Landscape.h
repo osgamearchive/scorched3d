@@ -128,6 +128,7 @@ protected:
 	unsigned int changeCount_;
 
 	void savePlan();
+	void drawLand();
 
 private:
 	Landscape();

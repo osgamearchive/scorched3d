@@ -19,6 +19,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <landscape/Sun.h>
+#include <landscape/LandscapeTex.h>
+#include <landscape/LandscapeMaps.h>
+#include <client/ScorchedClient.h>
 #include <common/OptionsGame.h>
 #include <common/OptionsDisplay.h>
 #include <GLEXT/GLBitmap.h>
@@ -27,7 +30,7 @@
 #include <stdlib.h>
 #include <math.h>
 
-Sun::Sun() : drawSun_(false)
+Sun::Sun()
 {
 }
 
@@ -47,10 +50,6 @@ void Sun::setPosition(float sunRotXY, float sunRotYZ)
 
 void Sun::draw()
 {
-	// Dont draw until the sky shading is implemented
-	// Just return for now
-	if (!drawSun_) return;
-
 	if (!texture_.textureValid())
 	{
 		std::string file = getDataFile("data/textures/glow1.bmp");
@@ -60,14 +59,17 @@ void Sun::draw()
 
 	GLState currentStateOne(GLState::TEXTURE_ON | GLState::DEPTH_OFF | GLState::BLEND_ON);
 	texture_.draw();
-	Vector color(1.0f, 1.0f, 1.0f);
+
+	LandscapeTex &tex = ScorchedClient::instance()->getLandscapeMaps().getTex(
+		ScorchedClient::instance()->getContext());
 	GLCameraFrustum::instance()->drawBilboard(
-		position_, color, 
-		1.0f, // alpha
-		50.0f, 50.0f, // width, height
+		position_, tex.suncolor, 
+		0.7f, // alpha
+		60.0f, 50.0f, // width, height
 		true, // additive texture
 		0); // tex coord
 
+	/*
 	GLState currentState(GLState::TEXTURE_OFF | GLState::DEPTH_ON);
 	glColor4f(1.0f, 0.0f, 0.0f, 1.0f);
 	glBegin(GL_LINES);
@@ -79,5 +81,6 @@ void Sun::draw()
 		glVertex3fv(position_);
 	glEnd();
 	glPointSize(1.0f);
+	*/
 }
 

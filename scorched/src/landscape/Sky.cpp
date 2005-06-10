@@ -38,7 +38,6 @@ void Sky::draw()
 	}
 	else
 	{
-		sun_.draw();
 		dome_.draw();
 	}
 }

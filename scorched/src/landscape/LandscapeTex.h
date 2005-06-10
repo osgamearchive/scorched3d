@@ -143,9 +143,11 @@ public:
 	std::string scorch;
 	std::vector<std::string> placements;
 	Vector fog;
+	Vector suncolor;
 	float fogdensity;
 	float lowestlandheight;
 	std::string skytexture;
+	std::string skytexturemask;
 	std::string skycolormap;
 	int skytimeofday;
 	float skysunxy;

@@ -103,6 +103,8 @@ OptionsDisplay::OptionsDisplay() :
 		"Draw the health bars above the tank", RWAccess, true),
 	noGLTexSubImage_(options_, "NoGLTexSubImage",
 		"Do not use texture area replacing.  Required to be able to scorch the ground.", RAccess, false),
+	noFog_(options_, "NoFog", 
+		"Do not use any fog extensions.", RWAccess, false),
 	noGLExt_(options_, "NoGLExt", 
 		"Do not use any OpenGL extensions.  Turn off to disable any extra OpenGL features.", RAccess, false),
 	noGLMultiTex_(options_, "NoGLMultiTex", 

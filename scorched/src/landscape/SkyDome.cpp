@@ -55,6 +55,7 @@ void SkyDome::generate()
 	// Clear so new sky color is picked up
 	layer1_.clear();
 	layer2_.clear();
+	layer3_.clear();
 }
 
 void SkyDome::simulate(float frameTime)
@@ -78,48 +79,66 @@ void SkyDome::simulate(float frameTime)
 
 void SkyDome::draw()
 {
-	Landscape::instance()->getCloudTexture().draw();
-
 	// Cannot use a display list for heimisphere as we change texture
 	// coordinates all the time
-	float slowXY = xy_ / 1.5f;
 	glPushMatrix();
-		// Rotate the scene so clouds blow the correct way
-		glTranslatef(128.0f, 128.0f, -15.0f);
-		glRotatef(cloudDirection_, 0.0f, 0.0f, 1.0f);
-
 		// Layer 1
 		if (layer1_.empty())
 		{
 			Vector sunDir = 
-				-Landscape::instance()->getSky().getSun().getPosition().Normalize();
+				Landscape::instance()->getSky().getSun().getPosition().Normalize();
 
 			LandscapeTex &tex =
 				ScorchedClient::instance()->getLandscapeMaps().getTex(
 				ScorchedClient::instance()->getContext());
 			Hemisphere::createColored(layer1_, 
-				1800, 180, 10, 10,
+				1800, 250, 30, 30,
 				Landscape::instance()->getSkyColorsMap(),
 				sunDir,
 				tex.skytimeofday);
 		}
-		GLState mainState2(GLState::TEXTURE_ON | GLState::BLEND_OFF);
-		drawLayer(layer1_, 1800, 180, slowXY, slowXY + 0.4f, true);
 
-		// Layer 2
-		if (!OptionsDisplay::instance()->getNoSkyLayers())
-		{
+		// Translate scene so it is in the middle of the land
+		glTranslatef(128.0f, 128.0f, -15.0f);
+		GLState mainState2(GLState::TEXTURE_OFF | GLState::BLEND_OFF);
+		drawLayer(layer1_, 1800, 250, 0.0f, 0.0f, true);
+	glPopMatrix();
+
+	// Draw Sun Glow
+	Landscape::instance()->getSky().getSun().draw();
+
+	// Layer 2
+	if (!OptionsDisplay::instance()->getNoSkyLayers())
+	{
+		glPushMatrix();
+			// Translate scene so it is in the middle of the land
+			glTranslatef(128.0f, 128.0f, -15.0f);
+
+			// Rotate the scene so clouds blow the correct way
+			float slowXY = xy_ / 1.5f;
+			glRotatef(cloudDirection_, 0.0f, 0.0f, 1.0f);
+			GLState currentState(GLState::TEXTURE_ON | GLState::BLEND_ON);
+			glColor4f(1.0f, 1.0f, 1.0f, 0.7f);
+
+			// Cloud texture
+			Landscape::instance()->getCloudTexture().draw();
+
+			// Draw the other layers
+			if (layer3_.empty())
+			{
+				Hemisphere::createXY(layer3_,
+					1850, 210, 10, 10, 0, 0);
+			}
+			drawLayer(layer3_, 1850, 210, 0.0f, xy_ + 0.3f, false);
+
 			if (layer2_.empty())
 			{
 				Hemisphere::createXY(layer2_,
-					2100, 120, 10, 20, 0, 0);
+					1900, 170, 10, 10, 0, 0);
 			}
-
-			GLState currentState(GLState::BLEND_ON);
-			glColor4f(1.0f, 1.0f, 1.0f, 0.3f);
-			drawLayer(layer2_, 2100, 120, 0.0f, xy_ + 0.3f, false);
-		}
-	glPopMatrix();
+			drawLayer(layer2_, 1900, 170, slowXY, slowXY + 0.4f, false);
+		glPopMatrix();
+	}
 }
 
 void SkyDome::drawLayer(
@@ -129,50 +148,85 @@ void SkyDome::drawLayer(
 {
 	std::list<Hemisphere::HemispherePoint>::iterator itor;
 	for (itor = layer.begin();
-		itor != layer.end();
-		itor++)
+		itor != layer.end();)
 	{
-		Hemisphere::HemispherePoint &point = (*itor);
+		Hemisphere::HemispherePoint &pointA = *(itor++);
+		Hemisphere::HemispherePoint &pointB = *(itor++);
 
-		point.tx = (point.x + radius) / (2 * radius) + xvalue;
-		point.ty = (point.y + radius) / (2 * radius) + yvalue;
+		pointA.tx = (pointA.x + radius) / (2 * radius) + xvalue;
+		pointA.ty = (pointA.y + radius) / (2 * radius) + yvalue;
+		GLDynamicVertexArray::instance()->addFloat(pointA.x);
+		GLDynamicVertexArray::instance()->addFloat(pointA.y);
+		GLDynamicVertexArray::instance()->addFloat(pointA.z);
+		GLDynamicVertexArray::instance()->addFloat(pointA.tx);
+		GLDynamicVertexArray::instance()->addFloat(pointA.ty);
 
-		GLDynamicVertexArray::instance()->addFloat(point.x);
-		GLDynamicVertexArray::instance()->addFloat(point.y);
-		GLDynamicVertexArray::instance()->addFloat(point.z);
-		GLDynamicVertexArray::instance()->addFloat(point.tx);
-		GLDynamicVertexArray::instance()->addFloat(point.ty);
-
-		float r = point.r;
-		float g = point.g;
-		float b = point.b;
-		if (flashTime_ > 0.0f)
-		{
-			r = MIN(r + flashTime_ * 2.0f, 1.0f);
-			g = MIN(g + flashTime_ * 2.0f, 1.0f);
-			b = MIN(b + flashTime_ * 2.0f, 1.0f);
-		}
-
+		float ra = pointA.r;
+		float ga = pointA.g;
+		float ba = pointA.b;
 		if (useColor)
 		{
-			GLDynamicVertexArray::instance()->addFloat(r);
-			GLDynamicVertexArray::instance()->addFloat(g);
-			GLDynamicVertexArray::instance()->addFloat(b);
+			if (flashTime_ > 0.0f)
+			{
+				ra = MIN(pointA.r + flashTime_ * 2.0f, 1.0f);
+				ga = MIN(pointA.g + flashTime_ * 2.0f, 1.0f);
+				ba = MIN(pointA.b + flashTime_ * 2.0f, 1.0f);
+			}
+			GLDynamicVertexArray::instance()->addFloat(ra);
+			GLDynamicVertexArray::instance()->addFloat(ga);
+			GLDynamicVertexArray::instance()->addFloat(ba);
+		}
+
+		pointB.tx = (pointB.x + radius) / (2 * radius) + xvalue;
+		pointB.ty = (pointB.y + radius) / (2 * radius) + yvalue;
+		GLDynamicVertexArray::instance()->addFloat(pointB.x);
+		GLDynamicVertexArray::instance()->addFloat(pointB.y);
+		GLDynamicVertexArray::instance()->addFloat(pointB.z);
+		GLDynamicVertexArray::instance()->addFloat(pointB.tx);
+		GLDynamicVertexArray::instance()->addFloat(pointB.ty);
+
+		float rb = pointB.r;
+		float gb = pointB.g;
+		float bb = pointB.b;
+		if (useColor)
+		{
+			if (flashTime_ > 0.0f)
+			{
+				rb = MIN(pointB.r + flashTime_ * 2.0f, 1.0f);
+				gb = MIN(pointB.g + flashTime_ * 2.0f, 1.0f);
+				bb = MIN(pointB.b + flashTime_ * 2.0f, 1.0f);
+			}
+			GLDynamicVertexArray::instance()->addFloat(rb);
+			GLDynamicVertexArray::instance()->addFloat(gb);
+			GLDynamicVertexArray::instance()->addFloat(bb);
 		}
 
 		if (GLDynamicVertexArray::instance()->getSpace() < 10)
 		{
 			GLDynamicVertexArray::instance()->drawQuadStrip(useColor);
-			GLDynamicVertexArray::instance()->addFloat(point.x);
-			GLDynamicVertexArray::instance()->addFloat(point.y);
-			GLDynamicVertexArray::instance()->addFloat(point.z);
-			GLDynamicVertexArray::instance()->addFloat(point.tx);
-			GLDynamicVertexArray::instance()->addFloat(point.ty);
+
+			GLDynamicVertexArray::instance()->addFloat(pointA.x);
+			GLDynamicVertexArray::instance()->addFloat(pointA.y);
+			GLDynamicVertexArray::instance()->addFloat(pointA.z);
+			GLDynamicVertexArray::instance()->addFloat(pointA.tx);
+			GLDynamicVertexArray::instance()->addFloat(pointA.ty);
 			if (useColor)
 			{
-				GLDynamicVertexArray::instance()->addFloat(r);
-				GLDynamicVertexArray::instance()->addFloat(g);
-				GLDynamicVertexArray::instance()->addFloat(b);
+				GLDynamicVertexArray::instance()->addFloat(ra);
+				GLDynamicVertexArray::instance()->addFloat(ga);
+				GLDynamicVertexArray::instance()->addFloat(ba);
+			}
+
+			GLDynamicVertexArray::instance()->addFloat(pointB.x);
+			GLDynamicVertexArray::instance()->addFloat(pointB.y);
+			GLDynamicVertexArray::instance()->addFloat(pointB.z);
+			GLDynamicVertexArray::instance()->addFloat(pointB.tx);
+			GLDynamicVertexArray::instance()->addFloat(pointB.ty);
+			if (useColor)
+			{
+				GLDynamicVertexArray::instance()->addFloat(rb);
+				GLDynamicVertexArray::instance()->addFloat(gb);
+				GLDynamicVertexArray::instance()->addFloat(bb);
 			}
 		}
 	}

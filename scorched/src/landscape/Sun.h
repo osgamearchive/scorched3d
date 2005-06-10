@@ -35,10 +35,8 @@ public:
 	void setPosition(float sunRotXY, float sunRotYZ);
 
 	Vector &getPosition() { return position_; }
-	bool &getDrawSun() { return drawSun_; }
 
 protected:
-	bool drawSun_;
 	Vector position_;
 	GLTexture texture_;
 };

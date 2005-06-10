@@ -41,6 +41,7 @@ protected:
 	float flashTime_;
 	std::list<Hemisphere::HemispherePoint> layer1_;
 	std::list<Hemisphere::HemispherePoint> layer2_;
+	std::list<Hemisphere::HemispherePoint> layer3_;
 
 	void drawLayer(
 		std::list<Hemisphere::HemispherePoint> &layer,

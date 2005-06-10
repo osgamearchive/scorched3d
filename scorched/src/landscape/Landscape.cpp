@@ -116,88 +116,15 @@ void Landscape::draw(const unsigned state)
 
 	// NOTE: The following code is drawn with fog on
 	// Be carefull as this we "dull" bilboard textures
-	glEnable(GL_FOG); // NOTE: Fog on
-
-	GLState *textureState = 0;
-	if (OptionsDisplay::instance()->getUseLandscapeTexture())
+	if (!OptionsDisplay::instance()->getNoFog())
 	{
-		if (GLStateExtension::glActiveTextureARB())
-		{
-			if (GLStateExtension::getTextureUnits() > 2 &&
-				OptionsDisplay::instance()->getDetailTexture() &&
-				GLStateExtension::hasEnvCombine())
-			{
-				GLStateExtension::glActiveTextureARB()(GL_TEXTURE2_ARB);
-				glEnable(GL_TEXTURE_2D);
-				glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_COMBINE_ARB);
-				glTexEnvi(GL_TEXTURE_ENV, GL_RGB_SCALE_ARB, 2);
-
-				detailTexture_.draw(true);
-			}
-
-			GLStateExtension::glActiveTextureARB()(GL_TEXTURE1_ARB);
-			glEnable(GL_TEXTURE_2D);
-			shadowMap_.setTexture();
-
-			GLStateExtension::glActiveTextureARB()(GL_TEXTURE0_ARB);
-		}
-
-		texture_.draw(true);
-	}
-	else
-	{
-		textureState = new GLState(GLState::TEXTURE_OFF);
-	}
-	
-	if (OptionsDisplay::instance()->getDrawLandscape())
-	{
-		if (OptionsDisplay::instance()->getNoROAM())
-		{
-			HeightMapRenderer::drawHeightMap(
-				ScorchedClient::instance()->getLandscapeMaps().getHMap());
-		}
-		else
-		{
-			glColor3f(1.0f, 1.0f, 1.0f);
-			patchGrid_.draw(PatchSide::typeTop);
-
-			if (OptionsDisplay::instance()->getDrawNormals())
-			{
-				GLState currentState(GLState::TEXTURE_OFF);
-				patchGrid_.draw(PatchSide::typeNormals);
-			}
-		}
+		glEnable(GL_FOG); // NOTE: Fog on
 	}
 
-	if (OptionsDisplay::instance()->getUseLandscapeTexture())
-	{
-		if (GLStateExtension::glActiveTextureARB())
-		{
-			if (GLStateExtension::getTextureUnits() > 2 &&
-				OptionsDisplay::instance()->getDetailTexture() &&
-				GLStateExtension::hasEnvCombine())
-			{
-				GLStateExtension::glActiveTextureARB()(GL_TEXTURE2_ARB);
-				glDisable(GL_TEXTURE_2D);
-			}
-
-			GLStateExtension::glActiveTextureARB()(GL_TEXTURE1_ARB);
-			glDisable(GL_TEXTURE_2D);
-
-			GLStateExtension::glActiveTextureARB()(GL_TEXTURE0_ARB);
-		}
-	}
-	else
-	{
-		delete textureState;
-	}
-
-	//static CloudSim sim;
-	//sim.simulate();
-
+	sky_->draw();
+	drawLand();
 	points_.draw();
 	surround_->draw();
-	sky_->draw();
 	water_.draw();
 	boids_->draw();
 	objects_.draw();
@@ -369,8 +296,10 @@ void Landscape::generate(ProgressCounter *counter)
 	DIALOG_ASSERT(magTexture_.replace(bitmapMagma));
 
 	// Sky
-	GLBitmap bitmapCloud(getDataFile(tex->skytexture.c_str()));
-	DIALOG_ASSERT(cloudTexture_.replace(bitmapCloud));
+	std::string ctex(getDataFile(tex->skytexture.c_str()));
+	std::string ctexm(getDataFile(tex->skytexturemask.c_str()));
+	GLBitmap bitmapCloud(ctex.c_str(), ctexm.c_str(), false);
+	DIALOG_ASSERT(cloudTexture_.replace(bitmapCloud, GL_RGBA));
 	skyColorsMap_.loadFromFile(getDataFile(tex->skycolormap.c_str()));
 
 	// Detail
@@ -408,6 +337,83 @@ void Landscape::updatePlanTexture()
 			bitmapPlan_, water_.getWaterBitmap(), water_.getWaterHeight());
 	}
 	DIALOG_ASSERT(planTexture_.replace(bitmapPlan_, GL_RGB, false));
+}
+
+void Landscape::drawLand()
+{
+	GLState *textureState = 0;
+	if (OptionsDisplay::instance()->getUseLandscapeTexture())
+	{
+		if (GLStateExtension::glActiveTextureARB())
+		{
+			if (GLStateExtension::getTextureUnits() > 2 &&
+				OptionsDisplay::instance()->getDetailTexture() &&
+				GLStateExtension::hasEnvCombine())
+			{
+				GLStateExtension::glActiveTextureARB()(GL_TEXTURE2_ARB);
+				glEnable(GL_TEXTURE_2D);
+				glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_COMBINE_ARB);
+				glTexEnvi(GL_TEXTURE_ENV, GL_RGB_SCALE_ARB, 2);
+
+				detailTexture_.draw(true);
+			}
+
+			GLStateExtension::glActiveTextureARB()(GL_TEXTURE1_ARB);
+			glEnable(GL_TEXTURE_2D);
+			shadowMap_.setTexture();
+
+			GLStateExtension::glActiveTextureARB()(GL_TEXTURE0_ARB);
+		}
+
+		texture_.draw(true);
+	}
+	else
+	{
+		textureState = new GLState(GLState::TEXTURE_OFF);
+	}
+	
+	if (OptionsDisplay::instance()->getDrawLandscape())
+	{
+		if (OptionsDisplay::instance()->getNoROAM())
+		{
+			HeightMapRenderer::drawHeightMap(
+				ScorchedClient::instance()->getLandscapeMaps().getHMap());
+		}
+		else
+		{
+			glColor3f(1.0f, 1.0f, 1.0f);
+			patchGrid_.draw(PatchSide::typeTop);
+
+			if (OptionsDisplay::instance()->getDrawNormals())
+			{
+				GLState currentState(GLState::TEXTURE_OFF);
+				patchGrid_.draw(PatchSide::typeNormals);
+			}
+		}
+	}
+
+	if (OptionsDisplay::instance()->getUseLandscapeTexture())
+	{
+		if (GLStateExtension::glActiveTextureARB())
+		{
+			if (GLStateExtension::getTextureUnits() > 2 &&
+				OptionsDisplay::instance()->getDetailTexture() &&
+				GLStateExtension::hasEnvCombine())
+			{
+				GLStateExtension::glActiveTextureARB()(GL_TEXTURE2_ARB);
+				glDisable(GL_TEXTURE_2D);
+			}
+
+			GLStateExtension::glActiveTextureARB()(GL_TEXTURE1_ARB);
+			glDisable(GL_TEXTURE_2D);
+
+			GLStateExtension::glActiveTextureARB()(GL_TEXTURE0_ARB);
+		}
+	}
+	else
+	{
+		delete textureState;
+	}
 }
 
 void Landscape::updatePlanATexture()
