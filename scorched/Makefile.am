@@ -1210,3 +1210,9 @@ scorcheddataavatars_DATA = data/avatars/animal.gif \
 	data/avatars/web.gif \
 	data/avatars/yoda.gif \
 	data/avatars/agreement.txt
+scorcheddatahtmldir = ${datadir}/data/html
+scorcheddatahtml_DATA = 
+scorcheddatahtmlserverdir = ${datadir}/data/html/server
+scorcheddatahtmlserver_DATA = data/html/server/login.html \
+	data/html/server/footer.html \
+	data/html/server/header.html

@@ -63,6 +63,12 @@ void ServerWebServer::start(int port)
 	}
 }
 
+void ServerWebServer::addRequestHandler(const char *url,
+	ServerWebServerI *handler)
+{
+	handlers_[url] = handler;
+}
+
 void ServerWebServer::processMessages()
 {
 	netServer_.processMessages();
@@ -177,9 +183,12 @@ bool ServerWebServer::generatePage(
 	std::map<std::string, std::string> &fields,
 	std::string &text)
 {
-	text += "<html><body>Hello World!</body></html>";
+	std::map <std::string, ServerWebServerI *>::iterator itor =
+		handlers_.find(url);
+	if (itor == handlers_.end()) return false;
 
-	return true;
+	ServerWebServerI *handler = (*itor).second;
+	return handler->processRequest(url, fields, text);
 }
 
 bool ServerWebServer::getTemplate(

@@ -939,6 +939,8 @@ scorched3d_SOURCES = \
 	../server/ServerHaveModFilesHandler.h \
 	../server/ServerKeepAliveHandler.cpp \
 	../server/ServerKeepAliveHandler.h \
+	../server/ServerLog.cpp \
+	../server/ServerLog.h \
 	../server/ServerMain.cpp \
 	../server/ServerMain.h \
 	../server/ServerMessageHandler.cpp \
@@ -963,8 +965,6 @@ scorched3d_SOURCES = \
 	../server/ServerReadyState.h \
 	../server/ServerRegistration.cpp \
 	../server/ServerRegistration.h \
-	../server/ServerWebServer.cpp \
-	../server/ServerWebServer.h \
 	../server/ServerResetState.cpp \
 	../server/ServerResetState.h \
 	../server/ServerScoreState.cpp \
@@ -985,6 +985,8 @@ scorched3d_SOURCES = \
 	../server/ServerTimedMessage.h \
 	../server/ServerTooFewPlayersStimulus.cpp \
 	../server/ServerTooFewPlayersStimulus.h \
+	../server/ServerWebServer.cpp \
+	../server/ServerWebServer.h \
 	../server/TurnController.cpp \
 	../server/TurnController.h \
 	../tankai/TankAI.cpp \

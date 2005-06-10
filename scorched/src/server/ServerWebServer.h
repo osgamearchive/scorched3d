@@ -26,6 +26,14 @@
 #include <string>
 #include <map>
 
+class ServerWebServerI
+{
+public:
+	virtual bool processRequest(const char *url,
+		std::map<std::string, std::string> &fields,
+		std::string &text) = 0;
+};
+
 class ServerWebServer : public NetMessageHandlerI
 {
 public:
@@ -33,9 +41,18 @@ public:
 
 	void start(int port);
 	void processMessages();
+	void addRequestHandler(const char *url,
+		ServerWebServerI *handler);
+
+	// Util
+	static bool getTemplate(
+		const char *name,
+		std::map<std::string, std::string> &fields,
+		std::string &result);
 
 protected:
 	static ServerWebServer *instance_;
+	std::map <std::string, ServerWebServerI *> handlers_;
 	NetServer netServer_;
 	FileLogger *logger_;
 
@@ -49,10 +66,6 @@ protected:
 		const char *url,
 		std::map<std::string, std::string> &fields,
 		std::string &text);
-	bool getTemplate(
-		const char *name,
-		std::map<std::string, std::string> &fields,
-		std::string &result);
 
 	// Inherited from NetMessageHandlerI
 	virtual void processMessage(NetMessage &message);
