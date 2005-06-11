@@ -26,6 +26,7 @@ Fixed: Rollers can explode on cavern roof
 Fixed: Can see health bars under water
 Fixed: Only certain file types can be sent during auto mod download
 
+Added: Deathstryker's scorched3d modeling challange winning tank model
 Added: Properly sun drawn and sky colors
 Added: deflectfactor attribute to reflective shields to allow the bounce to be configurable
 Added: shieldhurtfactor attribute to weapons so shield damage is now configurable

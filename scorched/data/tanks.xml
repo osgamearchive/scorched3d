@@ -7,6 +7,11 @@
 		</model>
 	</tank>
 	<tank>
+		<name>Tiger II</name>
+		<catagory>Tank</catagory>
+		<model type="MilkShape">tiger2/tiger2.txt</model>
+	</tank>	
+	<tank>
 		<name>Bender</name>
 		<catagory>Humour</catagory>
 		<model type="MilkShape">bender/bender.txt</model>
