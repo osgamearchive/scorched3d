@@ -34,7 +34,8 @@ WeaponProjectile::WeaponProjectile() :
 	flameLife_(1.0f), smokeLife_(4.0f),
 	flameStartColor1_(0.9f, 0.0f, 0.0f), flameStartColor2_(1.0f, 0.2f, 0.2f),
 	flameEndColor1_(0.95f, 0.9f, 0.2f), flameEndColor2_(1.0f, 1.0f, 0.3f),
-	engineSound_("data/wav/misc/rocket.wav")
+	engineSound_("data/wav/misc/rocket.wav"),
+	scale_(1.0f)
 {
 
 }
@@ -56,6 +57,16 @@ bool WeaponProjectile::parseXML(OptionsGame &context,
 
 	// Get the spin
 	accessoryNode->getNamedChild("spinspeed", spinSpeed_, false);
+
+	// Get the optional weapon model scale
+	accessoryNode->getNamedChild("projectilescale", scale_, false);
+
+	// Get the optional weapon model
+	XMLNode *modelNode = 0;
+	if (accessoryNode->getNamedChild("projectilemodel", modelNode, false))
+	{
+		if (!modelId_.initFromNode("data/accessories", modelNode)) return false;
+	}
 
 	// Get smoke life
 	accessoryNode->getNamedChild("smokelife", smokeLife_, false);

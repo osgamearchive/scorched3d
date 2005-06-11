@@ -70,6 +70,10 @@ bool ServerWebHandler::IndexHandler::processRequest(const char *url,
 				{
 					tank->getState().setMuted(false);
 				}
+				else if (0 == strcmp(action, "Poor"))
+				{
+					ServerCommon::poorPlayer(tank->getPlayerId());
+				}
 				else if (0 == strcmp(action, "PermMute"))
 				{
 					ServerCommon::banPlayer(tank->getPlayerId(), ServerBanned::Muted);

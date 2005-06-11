@@ -41,6 +41,8 @@ public:
 		NodeType = XMLNode::XMLNodeType);
 	XMLNode(const char *name, float content, 
 		NodeType = XMLNode::XMLNodeType);
+	XMLNode(const char *name, bool content, 
+		NodeType = XMLNode::XMLNodeType);
 	XMLNode(const char *name, int content, 
 		NodeType = XMLNode::XMLNodeType);
 	XMLNode(const char *name, Vector &content, 

@@ -40,6 +40,7 @@ public:
 		float power;
 		float rot;
 		float ele;
+		bool current;
 	};
 
 	TankPhysics(ScorchedContext &context, unsigned int playerId);
@@ -52,14 +53,12 @@ public:
 	void madeShot();
 	
 	// Saved settings
-	float getOldPower();
-	float getOldRotationGunXY();
-	float getOldRotationGunYZ();
 	float getRotationXYDiff();
 	float getRotationYZDiff();
 	float getPowerDiff();
 	void revertSettings(unsigned int index = 0);
-	std::vector<ShotEntry> &getOldShots() { return oldShots_; }
+	void undo();
+	std::vector<ShotEntry> &getOldShots();
 
 	// Gun/Turret Rotation
 	float rotateGunXY(float angle, bool diff=true);
@@ -104,6 +103,7 @@ protected:
 	// Turret angles
 	std::vector<ShotEntry> oldShots_;
 	float turretRotXY_, turretRotYZ_, power_;
+	float oldTurretRotXY_, oldTurretRotYZ_, oldPower_;
 	float angle_;
 
 	// Physics engine stuff

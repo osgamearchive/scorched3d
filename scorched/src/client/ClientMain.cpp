@@ -173,6 +173,8 @@ bool startClient(ProgressCounter *progressCounter)
 	progressCounter->setNewPercentage(0.0f);
 	progressCounter->setNewOp("Initializing Windows");
 	if (!GLWWindowSkinManager::instance()->loadWindows()) return false;
+	GLWWindowSkinManager::instance()->loadPositions();
+
 	WindowSetup::setup();
 	std::string errorString;
 	if (!GLConsoleFileReader::loadFileIntoConsole(getDataFile("data/autoexec.xml"), errorString))
@@ -313,7 +315,8 @@ bool clientMain()
 	}
 
 	ScorchedClient::instance()->getNetInterface().disconnectAllClients();
-	SDL_Delay(1000);
+	GLWWindowSkinManager::instance()->savePositions();
+    SDL_Delay(1000);
 	Gamma::instance()->reset();
 	Sound::instance()->destroy();
 	SDL_Quit();

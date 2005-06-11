@@ -89,7 +89,7 @@ void TankFired::simulate(float frameTime, bool &remove)
 				}
 			}
 
-			if (weapon_->getMuzzleFlash())
+			if (weapon_->getParent()->getMuzzleFlash())
 			{
 				Weapon *muzzleFlash = context_->accessoryStore->getMuzzelFlash();
 				if (muzzleFlash) muzzleFlash->fireWeapon(*context_, playerId_, 

@@ -18,30 +18,37 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <weapons/Weapon.h>
-#include <weapons/AccessoryStore.h>
+#if !defined(__INCLUDE_Teleporth_INCLUDE__)
+#define __INCLUDE_Teleporth_INCLUDE__
 
-Weapon::Weapon() : 
-	armsLevel_(-1)
+#include <engine/ActionMeta.h>
+#include <common/Vector.h>
+#include <weapons/WeaponTeleport.h>
+
+class Teleport : public ActionMeta
 {
+public:
+	Teleport();
+	Teleport(
+		Vector position,
+		unsigned int playerId,
+		WeaponTeleport *weapon);
+	virtual ~Teleport();
 
-}
+	virtual void init();
+	virtual void simulate(float frameTime, bool &remove);
+	virtual bool writeAction(NetBuffer &buffer);
+	virtual bool readAction(NetBufferReader &reader);
 
-Weapon::~Weapon()
-{
+	REGISTER_ACTION_HEADER(Teleport);
 
-}
+protected:
+	bool firstTime_;
+	Vector position_;
+	unsigned int playerId_;
+	WeaponTeleport *weapon_;
+	float totalTime_;
 
-bool Weapon::parseXML(OptionsGame &context, AccessoryStore *store, XMLNode *accessoryNode)
-{
-	// Get the optional weapon armslevel
-	accessoryNode->getNamedChild("armslevel", armsLevel_, false);
+};
 
-	return true;
-}
-
-int Weapon::getArmsLevel()
-{
-	if (armsLevel_ == -1) return parent_->getArmsLevel();
-	return armsLevel_;
-}
+#endif

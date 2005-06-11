@@ -123,6 +123,20 @@ void ServerCommon::sendStringAdmin(const char *fmt, ...)
 	}
 }
 
+void ServerCommon::poorPlayer(unsigned int playerId)
+{
+	Tank *tank = ScorchedServer::instance()->
+		getTankContainer().getTankById(playerId);
+	if (tank)
+	{
+		ServerCommon::sendString(0,
+			"admin poor \"%s\"",
+			tank->getName());
+
+		tank->getScore().setMoney(0);
+	}
+}
+
 void ServerCommon::slapPlayer(unsigned int playerId, float slap)
 {
 	Logger::log( "Slapping player \"%i\" %.0f", 

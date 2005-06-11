@@ -40,7 +40,8 @@ Accessory::Accessory() :
 	price_(0), bundle_(1), armsLevel_(0),
 	texture_(0), modelScale_(1.0f),
 	deathAnimationWeight_(0), maximumNumber_(0),
-	startingNumber_(0)
+	startingNumber_(0),
+	muzzleFlash_(true)
 {
 }
 
@@ -56,6 +57,11 @@ bool Accessory::parseXML(OptionsGame &context,
 
 	// Get the accessory armslevel
 	if (!accessoryNode->getNamedChild("armslevel", armsLevel_)) return false;
+
+	// Get the optional muzzleflash
+	XMLNode *muzzleFlashNode = 0;
+	accessoryNode->getNamedChild("nomuzzleflash", muzzleFlashNode, false);
+	if (muzzleFlashNode) muzzleFlash_ = false;
 
 	// Get the accessory description
 	accessoryNode->getNamedChild("description", description_, false);

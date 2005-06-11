@@ -22,7 +22,6 @@
 #define AFX_WEAPON_H__65439E20_84A6_406A_8FD0_045A3E7555D3__INCLUDED_
 
 #include <weapons/AccessoryPart.h>
-#include <3dsparse/ModelID.h>
 #include <coms/NetBuffer.h>
 #include <common/Defines.h>
 #include <common/Vector.h>
@@ -49,15 +48,9 @@ public:
 		unsigned int data = 0) = 0;
 
 	int getArmsLevel();
-	float getScale() { return scale_; }
-	bool getMuzzleFlash() { return muzzleFlash_; }
-	ModelID &getModelID();
 
 protected:
 	int armsLevel_;
-	float scale_;
-	bool muzzleFlash_;
-	ModelID modelId_;
 
 };
 

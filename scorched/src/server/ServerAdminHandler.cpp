@@ -297,10 +297,9 @@ bool ServerAdminHandler::processMessage(unsigned int destinationId,
 					"\"%s\" admin poor \"%s\"",
 					adminTank->getName(),
 					targetTank->getName());
-				ServerCommon::sendString(0,
-					"admin poor \"%s\"",
-					targetTank->getName());
-				targetTank->getScore().setMoney(0);
+
+				ServerCommon::poorPlayer(
+					targetTank->getPlayerId());
 			}
 			else ServerCommon::sendString(destinationId, "Unknown player for poor");
 		}

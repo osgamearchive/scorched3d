@@ -31,11 +31,13 @@ TankPhysics::TankPhysics(ScorchedContext &context, unsigned int playerId) :
 	shieldSmallInfo_(CollisionIdShieldSmall),
 	shieldLargeInfo_(CollisionIdShieldLarge),
 	turretRotXY_(0.0f), turretRotYZ_(0.0f),
-	angle_(0.0f), power_(1000.0f), tank_(0), context_(context)
+	oldTurretRotXY_(0.0f), oldTurretRotYZ_(0.0f),
+	power_(1000.0f), oldPower_(1000.0f),
+	angle_(0.0f), tank_(0), context_(context)
 {
 	// Only make the very first shot random angle
-	turretRotXY_ = RAND * 360;
-	turretRotYZ_ = RAND * 90;
+	oldTurretRotXY_ = turretRotXY_ = RAND * 360;
+	oldTurretRotYZ_ = turretRotYZ_ = RAND * 90;
 
 	// The tank collision object
 	tankGeom_ = 
@@ -83,9 +85,26 @@ void TankPhysics::setTankPosition(Vector &pos)
 	dGeomSetPosition(shieldLargeGeom_, pos[0], pos[1], pos[2]);
 }
 
+std::vector<TankPhysics::ShotEntry> &TankPhysics::getOldShots()
+{
+	std::vector<ShotEntry>::iterator itor;
+	for (itor = oldShots_.begin();
+		itor != oldShots_.end();
+		itor++)
+	{
+		ShotEntry &entry = *itor;
+		entry.current = 
+			(entry.ele == oldTurretRotYZ_ &&
+			entry.rot == oldTurretRotXY_ &&
+			entry.power == oldPower_);
+	}
+
+	return oldShots_; 
+}
+
 void TankPhysics::clientNewGame()
 {
-	power_ = 1000.0f;
+	oldPower_ = power_ = 1000.0f;
 	angle_ = 0.0f;
 	oldShots_.clear();
 	madeShot();
@@ -93,29 +112,22 @@ void TankPhysics::clientNewGame()
 
 void TankPhysics::madeShot()
 {
-	oldShots_.push_back(ShotEntry(power_, turretRotXY_, turretRotYZ_));
+	oldPower_ = power_;
+	oldTurretRotXY_ = turretRotXY_;
+	oldTurretRotYZ_ = turretRotYZ_;
+
+	if (oldShots_.empty() ||
+		oldShots_.back().power != power_ ||
+		oldShots_.back().rot != turretRotXY_ ||
+		oldShots_.back().ele != turretRotYZ_)
+	{
+		oldShots_.push_back(ShotEntry(power_, turretRotXY_, turretRotYZ_));
+	}
+
 	if (oldShots_.size() > 15) 
 	{
 		oldShots_.erase(oldShots_.begin());
 	}
-}
-
-float TankPhysics::getOldPower()
-{
-	if (oldShots_.empty()) return power_;
-	return oldShots_.back().power;
-}
-
-float TankPhysics::getOldRotationGunXY()
-{
-	if (oldShots_.empty()) return turretRotXY_;
-	return oldShots_.back().rot;
-}
-
-float TankPhysics::getOldRotationGunYZ()
-{
-	if (oldShots_.empty()) return turretRotYZ_;
-	return oldShots_.back().ele;
 }
 
 void TankPhysics::revertSettings(unsigned int index)
@@ -127,8 +139,17 @@ void TankPhysics::revertSettings(unsigned int index)
 		rotateGunYZ(oldShots_[newIndex].ele, false);
 		changePower(oldShots_[newIndex].power, false);
 
-		madeShot(); // Store this as the newest chosen settings
+		oldPower_ = power_;
+		oldTurretRotXY_ = turretRotXY_;
+		oldTurretRotYZ_ = turretRotYZ_;
 	}
+}
+
+void TankPhysics::undo()
+{
+	rotateGunXY(oldTurretRotXY_, false);
+	rotateGunYZ(oldTurretRotYZ_, false);
+	changePower(oldPower_, false);
 }
 
 Vector &TankPhysics::getTankGunPosition()
@@ -146,6 +167,7 @@ Vector &TankPhysics::getTankTurretPosition()
 	static Vector tankTurretPosition;
 	tankTurretPosition = position_;
 	tankTurretPosition[2] += 1.0f;//model_->getTurretHeight();
+
 	return tankTurretPosition;
 }
 
@@ -203,7 +225,7 @@ float TankPhysics::changePower(float power, bool diff)
 
 float TankPhysics::getRotationXYDiff()
 {
-	float rotDiff = (360.0f - getRotationGunXY()) - (360.0f - getOldRotationGunXY());
+	float rotDiff = (360.0f - turretRotXY_) - (360.0f - oldTurretRotXY_);
 	if (rotDiff > 180.0f) rotDiff -= 360.0f;
 	else if (rotDiff < -180.0f) rotDiff += 360.0f;
 	return rotDiff;
@@ -211,12 +233,12 @@ float TankPhysics::getRotationXYDiff()
 
 float TankPhysics::getRotationYZDiff()
 {
-	return getRotationGunYZ() - getOldRotationGunYZ();
+	return turretRotYZ_ - oldTurretRotYZ_;
 }
 
 float TankPhysics::getPowerDiff()
 {
-	return getPower() - getOldPower();
+	return power_ - oldPower_;
 }
 
 const char *TankPhysics::getRotationString()

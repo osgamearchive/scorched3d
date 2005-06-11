@@ -50,7 +50,8 @@ void TankUndoMenu::showItems(float x, float y)
 	for (int i=0; i<(int) oldShots.size(); i++)
 	{
 		char buffer[128];
-		sprintf(buffer, "%i: Pwr:%.1f Ele:%.1f Rot:%.1f",
+		sprintf(buffer, "%s%i: Pwr:%.1f Ele:%.1f Rot:%.1f",
+			(oldShots[i].current?"* ":"  "),
 			i, oldShots[i].power, oldShots[i].ele,
 			(360.0f - oldShots[i].rot));
 		entries.push_back(

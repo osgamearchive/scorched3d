@@ -25,7 +25,10 @@ Fixed: Napalm and rollers cannot be fired when underground
 Fixed: Rollers can explode on cavern roof
 Fixed: Can see health bars under water
 Fixed: Only certain file types can be sent during auto mod download
+Fixed: Undo should not put duplicate entries in the undo log (and more undo features added)
 
+Added: Teleport weapons
+Added: Positions for the wind, plan, weapons and player windows are persistent
 Added: Deathstryker's scorched3d modeling challange winning tank model
 Added: Properly sun drawn and sky colors
 Added: deflectfactor attribute to reflective shields to allow the bounce to be configurable
@@ -78,7 +81,6 @@ Ambient sounds
 Shadows for other models
 Teleport (to random position)
 Allow same ip addresses to connect but don't collect stats
-Undo should not put duplicate entries in the undo log
 Bobirovs list of stuff (http://apochq.handwired.net/ideas.txt)
 
 -- Server Stuff

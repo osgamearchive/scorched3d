@@ -137,7 +137,7 @@ void TankAIHuman::playMove(const unsigned state,
 	KEYBOARDKEY("UNDO_MOVE", undoKey);
 	if (undoKey->keyDown(buffer, keyState, false))
 	{
-		currentTank_->getPhysics().revertSettings();
+		currentTank_->getPhysics().undo();
 	}
 
 	KEYBOARDKEY("CHANGE_UP_WEAPON", weaponUpKey);

@@ -59,6 +59,7 @@ public:
 	AccessoryPart *getAction() { return action_; }
 	float getModelScale() { return modelScale_; }
 	ModelID &getModel() { return modelId_; }
+	bool getMuzzleFlash() { return muzzleFlash_; }
 
 	AccessoryPart::AccessoryType getType() { return action_->getType(); }
 	GLTexture *getTexture();
@@ -93,6 +94,7 @@ protected:
 	int maximumNumber_;
 	int startingNumber_;
 	float modelScale_;
+	bool muzzleFlash_;
 };
 
 #endif // !defined(AFX_ACCESSORY_H__21765D5B_DB45_4275_AB63_BAD1E84C1790__INCLUDED_)

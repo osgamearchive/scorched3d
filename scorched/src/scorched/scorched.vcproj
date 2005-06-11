@@ -839,6 +839,9 @@
 				RelativePath="..\3dsparse\Bone.h">
 			</File>
 			<File
+				RelativePath="C:\Documents and Settings\Gavin\Desktop\Counter-Strike Source.lnk">
+			</File>
+			<File
 				RelativePath="..\3dsparse\Face.cpp">
 			</File>
 			<File
@@ -1716,6 +1719,12 @@
 				RelativePath="..\weapons\WeaponSound.h">
 			</File>
 			<File
+				RelativePath="..\weapons\WeaponTeleport.cpp">
+			</File>
+			<File
+				RelativePath="..\weapons\WeaponTeleport.h">
+			</File>
+			<File
 				RelativePath="..\weapons\WeaponTranslate.cpp">
 			</File>
 			<File
@@ -2470,6 +2479,12 @@
 			</File>
 			<File
 				RelativePath="..\actions\TankScored.h">
+			</File>
+			<File
+				RelativePath="..\actions\Teleport.cpp">
+			</File>
+			<File
+				RelativePath="..\actions\Teleport.h">
 			</File>
 			<File
 				RelativePath="..\actions\WallHit.cpp">

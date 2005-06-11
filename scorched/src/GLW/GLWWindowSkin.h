@@ -35,6 +35,7 @@ public:
 	const char *getStates() { return states_.c_str(); }
 	const char *getKey() { return key_.c_str(); }
 	bool getVisible() { return visible_; }
+	void setVisible(bool visible) { visible_ = visible; }
 
 protected:
 	std::string states_;

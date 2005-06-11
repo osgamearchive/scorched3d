@@ -22,6 +22,7 @@
 #define AFX_WEAPONPROJECTILE_H__70119A64_2064_4066_8EE5_FD6A3E24D5FC__INCLUDED_
 
 #include <weapons/Weapon.h>
+#include <3dsparse/ModelID.h>
 
 class WeaponProjectile : public Weapon
 {
@@ -58,6 +59,8 @@ public:
 	Vector &getFlameEndColor1() { return flameEndColor1_; }
 	Vector &getFlameEndColor2() { return flameEndColor2_; }
 	const char *getEngineSound() { return engineSound_.c_str(); }
+	float getScale() { return scale_; }
+	ModelID &getModelID() { return modelId_; }
 
 protected:
 	bool under_;
@@ -72,12 +75,14 @@ protected:
 	float smokeLife_;
 	float timedCollision_;
 	float shieldHurtFactor_;
+	float scale_;
 	Vector flameStartColor1_;
 	Vector flameStartColor2_;
 	Vector flameEndColor1_;
 	Vector flameEndColor2_;
 	std::string engineSound_;
 	Weapon *collisionAction_;
+	ModelID modelId_;
 
 };
 

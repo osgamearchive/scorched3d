@@ -111,6 +111,12 @@ XMLNode::XMLNode(const char *name, unsigned int content, NodeType type) :
 	content_ = buffer;
 }
 
+XMLNode::XMLNode(const char *name, bool content, NodeType type) :
+	name_(name), parent_(0), type_(type)
+{
+	content_ = (content?"true":"false");
+}
+
 XMLNode::XMLNode(const char *name, Vector &content, NodeType type) :
 	name_(name), parent_(0), type_(type)
 {

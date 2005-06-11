@@ -22,6 +22,7 @@
 #define __INCLUDE_WeaponRollerh_INCLUDE__
 
 #include <weapons/Weapon.h>
+#include <3dsparse/ModelID.h>
 
 class WeaponRoller : public Weapon
 {
