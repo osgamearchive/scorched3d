@@ -23,6 +23,7 @@
 #include <client/ClientNewGameHandler.h>
 #include <client/ScorchedClient.h>
 #include <landscape/Landscape.h>
+#include <landscape/LandscapeMaps.h>
 #include <engine/ActionController.h>
 #include <tank/TankContainer.h>
 #include <common/OptionsTransient.h>
@@ -87,7 +88,6 @@ bool ClientStartGameHandler::processMessage(unsigned int id,
 	}
 	else
 	{
-		Landscape::instance()->getObjects().removeAroundTanks();
 		ScorchedClient::instance()->getGameState().stimulate(
 			ClientState::StimPlaying);
 	}

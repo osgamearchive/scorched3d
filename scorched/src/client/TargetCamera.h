@@ -80,6 +80,7 @@ protected:
 	ParticleEmitter rainEmitter_, snowEmitter_;
 	ParticleEngine particleEngine_;
 	float totalTime_;
+	bool useHeightFunc_;
 
 	bool moveCamera(float frameTime, bool playing);
 

@@ -90,7 +90,7 @@ void Teleport::simulate(float frameTime, bool &remove)
 			position_[2] = height;
 
 			tank->getPhysics().setTankPosition(position_);
-			DeformLandscape::flattenArea(*context_, position_);
+			DeformLandscape::flattenArea(*context_, position_, 0);
 		}
 
 		remove = true;

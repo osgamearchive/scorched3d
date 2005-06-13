@@ -24,6 +24,7 @@
 #include <common/ProgressCounter.h>
 #include <common/RandomGenerator.h>
 #include <landscape/LandscapeObjectsEntry.h>
+#include <engine/ScorchedContext.h>
 #include <map>
 
 class LandscapePlace;
@@ -36,11 +37,13 @@ public:
 	void draw();
 	void generate(RandomGenerator &generator, 
 		LandscapePlace &place,
+		ScorchedContext &context,
 		ProgressCounter *counter = 0);
 
-	void removeAroundTanks();
 	void removeAllObjects();
-	void removeObjects(unsigned int x, unsigned int y);
+	void removeObjects(ScorchedContext &context,
+		unsigned int x, unsigned int y, unsigned int r,
+		unsigned int playerId);
 	void burnObjects(unsigned int x, unsigned int y);
 	void addObject(unsigned int x, unsigned int y, 
 		LandscapeObjectsEntry *entry);

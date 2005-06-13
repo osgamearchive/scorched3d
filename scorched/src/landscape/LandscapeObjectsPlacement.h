@@ -23,6 +23,7 @@
 
 #include <common/ProgressCounter.h>
 #include <common/RandomGenerator.h>
+#include <engine/ScorchedContext.h>
 
 class LandscapePlaceObjectsPlacementTree;
 class LandscapeObjectPlacementTrees 
@@ -31,6 +32,7 @@ public:
 	virtual void generateObjects(
 		RandomGenerator &generator, 
 		LandscapePlaceObjectsPlacementTree &placement,
+		ScorchedContext &context,
 		ProgressCounter *counter = 0);
 };
 
@@ -41,6 +43,7 @@ public:
 	virtual void generateObjects(
 		RandomGenerator &generator, 
 		LandscapePlaceObjectsPlacementMask &placement,
+		ScorchedContext &context,
 		ProgressCounter *counter = 0);
 };
 

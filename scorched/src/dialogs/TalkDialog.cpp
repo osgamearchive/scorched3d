@@ -41,7 +41,7 @@ TalkDialog *TalkDialog::instance()
 }
 
 TalkDialog::TalkDialog() : 
-	GLWWindow("Talk", 10.0f, 10.0f, 300.0f, 70.0f, eSmallTitle,
+	GLWWindow("Talk", 10.0f, 10.0f, 300.0f, 70.0f, eSmallTitle | eSavePosition,
 		"Allows the current player to send messages\n"
 		"to other online players.")
 {

@@ -34,10 +34,12 @@ namespace DeformLandscape
 	bool deformLandscape(
 		ScorchedContext &context,
 		Vector &pos, float radius, 
-		bool down, DeformPoints &map);
+		bool down, DeformPoints &map,
+		unsigned int playerId);
 	void flattenArea(
 		ScorchedContext &context, 
-		Vector &tankPos);
+		Vector &tankPos,
+		unsigned int playerId);
 
 };
 

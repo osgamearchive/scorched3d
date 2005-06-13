@@ -247,7 +247,8 @@ void Explosion::simulate(float frameTime, bool &remove)
 			if (DeformLandscape::deformLandscape(
 				*context_,
 				newPosition, explosionSize, 
-				(weapon_->getDeformType() == DeformDown), map))
+				(weapon_->getDeformType() == DeformDown), map,
+				playerId_))
 			{
 				if (!context_->serverMode) 
 				{

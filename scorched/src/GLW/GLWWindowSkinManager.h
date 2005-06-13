@@ -30,8 +30,6 @@ public:
 	static GLWWindowSkinManager *instance();
 
 	bool loadWindows();
-	void loadPositions();
-	void savePositions();
 
 	std::list<GLWWindowSkin *> getAllStateWindows();
 	std::list<GLWWindowSkin *> getPlayerStateWindows();

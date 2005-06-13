@@ -132,6 +132,8 @@ void ServerNewGameState::enterState(const unsigned state)
 	}
 	ScorchedServer::instance()->getContext().landscapeMaps->generateHMap(
 		ScorchedServer::instance()->getContext(), defn);
+	ScorchedServer::instance()->getContext().landscapeMaps->generateObjects(
+		ScorchedServer::instance()->getContext());
 	ServerCommon::serverLog(0, "Finished generating landscape (%s, %s)", 
 		defn->getDefn(), defn->getTex());
 
@@ -428,7 +430,7 @@ void ServerNewGameState::calculateStartPosition(
 			tankPos[0], tankPos[1]);
 	
 		// Set the starting position of the tank
-		DeformLandscape::flattenArea(context, tankPos);
+		DeformLandscape::flattenArea(context, tankPos, 0);
 		tank->getPhysics().setTankPosition(tankPos);
 	}
 }

@@ -23,6 +23,7 @@
 
 #include <landscape/MovementMap.h>
 #include <landscape/NapalmMap.h>
+#include <landscape/LandscapeObjects.h>
 #include <coms/ComsLevelMessage.h>
 #include <common/ProgressCounter.h>
 
@@ -42,6 +43,7 @@ public:
 	HeightMap &getSMap() { return smap_; }
 	MovementMap &getMMap() { return mmap_; }
 	NapalmMap &getNMap() { return nmap_; }
+	LandscapeObjects &getObjects() { return objects_; }
 
 	LandscapeTex &getTex(ScorchedContext &context);
 	LandscapeDefn &getDefn(ScorchedContext &context);
@@ -53,6 +55,8 @@ public:
 	// Generates the next level
 	void generateHMap(ScorchedContext &context,
 		LandscapeDefinition *hdef,
+		ProgressCounter *counter = 0);
+	void generateObjects(ScorchedContext &context,
 		ProgressCounter *counter = 0);
 
 	// Compresses the level into a form that can be
@@ -83,6 +87,9 @@ protected:
 	// The surround of the landscape
 	bool surround_;
 	HeightMap smap_;
+
+	// The objects in the scene
+	LandscapeObjects objects_;
 
 	// The values at the start of the level
 	float *storedMap_;

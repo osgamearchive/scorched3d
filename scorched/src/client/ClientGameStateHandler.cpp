@@ -20,7 +20,9 @@
 
 #include <client/ClientGameStateHandler.h>
 #include <client/ScorchedClient.h>
+#include <tank/TankContainer.h>
 #include <engine/ActionController.h>
+#include <landscape/LandscapeMaps.h>
 #include <coms/ComsGameStateMessage.h>
 #include <common/OptionsTransient.h>
 #include <common/Vector.h>
@@ -64,6 +66,28 @@ bool ClientGameStateHandler::processMessage(unsigned int id,
 		wind *= ScorchedClient::instance()->getOptionsTransient().getWindSpeed() / 2.0f;
 	}
 	ScorchedClient::instance()->getActionController().getPhysics().setWind(wind);
+
+	// Make sure no objects are around the tanks
+	std::map<unsigned int, Tank *> &tanks = 
+		ScorchedClient::instance()->getTankContainer().getPlayingTanks();
+	std::map<unsigned int, Tank *>::iterator itor;
+	for (itor = tanks.begin();
+		itor != tanks.end();
+		itor++)
+	{
+		Tank *tank = (*itor).second;
+		if (tank->getState().getState() == TankState::sNormal &&
+			!tank->getState().getSpectator())
+		{
+			ScorchedClient::instance()->getLandscapeMaps().getObjects().
+				removeObjects(
+				ScorchedClient::instance()->getContext(),
+					(unsigned int ) tank->getPhysics().getTankPosition()[0],
+					(unsigned int ) tank->getPhysics().getTankPosition()[1],
+					3,
+					0);
+		}
+	}
 
 	return true;
 }

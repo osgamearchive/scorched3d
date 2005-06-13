@@ -127,7 +127,7 @@ void Landscape::draw(const unsigned state)
 	surround_->draw();
 	water_.draw();
 	boids_->draw();
-	objects_.draw();
+	ScorchedClient::instance()->getLandscapeMaps().getObjects().draw();
 	wall_.draw();
 
 	glDisable(GL_FOG); // NOTE: Fog off
@@ -247,28 +247,8 @@ void Landscape::generate(ProgressCounter *counter)
 
 	// Add objects to the landscape (if any)
 	// Do this now as it adds shadows to the mainmap
-	objects_.removeAllObjects();
-	{
-		std::vector<std::string>::iterator itor;
-		for (itor = tex->placements.begin();
-			itor != tex->placements.end();
-			itor++)
-		{
-			LandscapePlace *place = 
-				ScorchedClient::instance()->getLandscapes().getPlace(
-					(*itor).c_str());
-			if (!place)
-			{
-				dialogExit("Landscape",
-					"Failed to find placements type %s",
-					(*itor).c_str());
-			}
-			RandomGenerator objectsGenerator;
-			objectsGenerator.seed(
-				ScorchedClient::instance()->getLandscapeMaps().getLandDfn()->getSeed());
-			objects_.generate(objectsGenerator, *place, counter);
-		}
-	}
+	ScorchedClient::instance()->getLandscapeMaps().generateObjects(
+		ScorchedClient::instance()->getContext(), counter);
 
 	// Create the main landscape texture
 	DIALOG_ASSERT(texture_.replace(mainMap_, GL_RGB, false));

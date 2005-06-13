@@ -21,6 +21,8 @@
 #if !defined(__INCLUDE_LandscapeObjectsEntryh_INCLUDE__)
 #define __INCLUDE_LandscapeObjectsEntryh_INCLUDE__
 
+#include <string>
+
 class LandscapeObjectsEntry
 {
 public:
@@ -32,6 +34,7 @@ public:
 	float size;
 	float color;
 	bool burnt;
+	std::string removeaction;
 
 	virtual void render(float distance) = 0;
 };

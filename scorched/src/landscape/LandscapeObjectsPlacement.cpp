@@ -25,7 +25,6 @@
 #include <landscape/LandscapeMaps.h>
 #include <landscape/LandscapePlace.h>
 #include <landscape/Landscape.h>
-#include <client/ScorchedClient.h>
 #include <GLEXT/GLBitmapModifier.h>
 #include <3dsparse/ModelStore.h>
 #include <3dsparse/ModelRenderer.h>
@@ -33,6 +32,7 @@
 void LandscapeObjectPlacementTrees::generateObjects(
 	RandomGenerator &generator, 
 	LandscapePlaceObjectsPlacementTree &placement,
+	ScorchedContext &context,
 	ProgressCounter *counter)
 {
 	// Generate a map of where the trees should go
@@ -48,10 +48,10 @@ void LandscapeObjectPlacementTrees::generateObjects(
 
 		// Check point is in the correct height band
 		float height = 
-			ScorchedClient::instance()->getLandscapeMaps().
+			context.landscapeMaps->
 				getHMap().getHeight(x * 4, y * 4);
 		Vector &normal =
-			ScorchedClient::instance()->getLandscapeMaps().
+			context.landscapeMaps->
 				getHMap().getNormal(x * 4, y * 4);
 		if (height > placement.minheight && 
 			height < placement.maxheight && 
@@ -69,10 +69,10 @@ void LandscapeObjectPlacementTrees::generateObjects(
 					newY >= 0 && newY < 64)
 				{
 					Vector &normal =
-						ScorchedClient::instance()->getLandscapeMaps().
+						context.landscapeMaps->
 						getHMap().getNormal(newX * 4, newY * 4);
 					height = 
-						ScorchedClient::instance()->getLandscapeMaps().
+						context.landscapeMaps->
 						getHMap().getHeight(newX * 4, newY *4);
 					if (height > placement.minheight && 
 						height < placement.maxheight && 
@@ -168,19 +168,19 @@ void LandscapeObjectPlacementTrees::generateObjects(
 		if (i % 1000 == 0) if (counter) 
 			counter->setNewPercentage(float(i)/float(NoIterations)*100.0f);
 
-		int x = int(RAND * 1023.0f);
-		int y = int(RAND * 1023.0f);
+		int x = int(generator.getRandFloat() * 1023.0f);
+		int y = int(generator.getRandFloat() * 1023.0f);
 		int nx = x / 16;
 		int ny = y / 16;
 		int r = objectMap[nx + 64 * ny];
-		int nr = int (RAND * 512.0f);
+		int nr = int (generator.getRandFloat() * 512.0f);
 
 		if (nr < r)
 		{
 			float lx = float(x) / 4.0f;
 			float ly = float(y) / 4.0f;
 			float height = 
-				ScorchedClient::instance()->getLandscapeMaps().
+				context.landscapeMaps->
 					getHMap().getInterpHeight(lx, ly);
 
 			if (height > placement.minheight + 0.5f)
@@ -198,26 +198,28 @@ void LandscapeObjectPlacementTrees::generateObjects(
 					entry->posX = lx;
 					entry->posY = ly;
 					entry->posZ = height;
-					entry->rotation = RAND * 360.0f;
+					entry->rotation = generator.getRandFloat() * 360.0f;
+					entry->removeaction = placement.removeaction;
 				}
 				else
 				{
 					entry = new LandscapeObjectsEntryTree;
 					((LandscapeObjectsEntryTree *) entry)->snow = (pine && 
-						(height > snowHeight + (RAND * 10.0f) - 5.0f));
+						(height > snowHeight + (generator.getRandFloat() * 10.0f) - 5.0f));
 					((LandscapeObjectsEntryTree *) entry)->pine = pine;
-					entry->color = RAND * 0.5f + 0.5f;
-					entry->size =  RAND * 2.0f + 1.0f;
+					entry->color = generator.getRandFloat() * 0.5f + 0.5f;
+					entry->size =  generator.getRandFloat() * 2.0f + 1.0f;
 					entry->posX = lx;
 					entry->posY = ly;
 					entry->posZ = height;
-					entry->rotation = RAND * 360.0f;
+					entry->rotation = generator.getRandFloat() * 360.0f;
+					entry->removeaction = placement.removeaction;
 					
 					GLBitmapModifier::addCircle(Landscape::instance()->getMainMap(),
 						lx * mult, ly * mult, entry->size * mult, 1.0f);
 				}
 
-				Landscape::instance()->getObjects().addObject(
+				context.landscapeMaps->getObjects().addObject(
 					(unsigned int) lx,
 					(unsigned int) ly,
 					entry);
@@ -229,6 +231,7 @@ void LandscapeObjectPlacementTrees::generateObjects(
 void LandscapeObjectPlacementMask::generateObjects(
 	RandomGenerator &generator, 
 	LandscapePlaceObjectsPlacementMask &placement,
+	ScorchedContext &context,
 	ProgressCounter *counter)
 {
 	bool pine = true;
@@ -298,10 +301,10 @@ void LandscapeObjectPlacementMask::generateObjects(
 		ly = MIN(MAX(0.0f, ly), 255.0f);
 
 		float height = 
-			ScorchedClient::instance()->getLandscapeMaps().
+			context.landscapeMaps->
 				getHMap().getInterpHeight(lx, ly);
 		Vector normal;
-		ScorchedClient::instance()->getLandscapeMaps().
+		context.landscapeMaps->
 			getHMap().getInterpNormal(lx, ly, normal);
 		if (height > placement.minheight && 
 			height < placement.maxheight &&
@@ -319,7 +322,7 @@ void LandscapeObjectPlacementMask::generateObjects(
 				{
 					float distsq = placement.mincloseness * placement.mincloseness;
 					std::multimap<unsigned int, LandscapeObjectsEntry*> &entries =
-						Landscape::instance()->getObjects().getEntries();
+						context.landscapeMaps->getObjects().getEntries();
 					std::multimap<unsigned int, LandscapeObjectsEntry*>::iterator itor;
 					for (itor = entries.begin();
 						itor != entries.end();
@@ -352,25 +355,27 @@ void LandscapeObjectPlacementMask::generateObjects(
 						entry->posY = ly;
 						entry->posZ = height;
 						entry->rotation = lr;
+						entry->removeaction = placement.removeaction;
 					}
 					else
 					{
 						entry = new LandscapeObjectsEntryTree;
 						((LandscapeObjectsEntryTree *) entry)->snow = (pine && 
-							(height > snowHeight + (RAND * 10.0f) - 5.0f));
+							(height > snowHeight + (generator.getRandFloat() * 10.0f) - 5.0f));
 						((LandscapeObjectsEntryTree *) entry)->pine = pine;
-						entry->color = RAND * 0.5f + 0.5f;
-						entry->size =  RAND * 2.0f + 1.0f;
+						entry->color = generator.getRandFloat() * 0.5f + 0.5f;
+						entry->size =  generator.getRandFloat() * 2.0f + 1.0f;
 						entry->posX = lx;
 						entry->posY = ly;
 						entry->posZ = height;
 						entry->rotation = lr;
+						entry->removeaction = placement.removeaction;
 						
 						GLBitmapModifier::addCircle(Landscape::instance()->getMainMap(),
 							lx * mult, ly * mult, entry->size * mult, 1.0f);
 					}
 
-					Landscape::instance()->getObjects().addObject(
+					context.landscapeMaps->getObjects().addObject(
 						(unsigned int) lx,
 						(unsigned int) ly,
 						entry);

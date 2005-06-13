@@ -49,6 +49,7 @@
 #include <server/ScorchedServer.h>
 #include <GLEXT/GLConsoleFileReader.h>
 #include <GLEXT/GLConsole.h>
+#include <GLW/GLWWindowManager.h>
 #include <GLW/GLWWindowSkinManager.h>
 #include <landscape/HeightMapCollision.h>
 #include <landscape/SkyRoofCollision.h>
@@ -173,9 +174,9 @@ bool startClient(ProgressCounter *progressCounter)
 	progressCounter->setNewPercentage(0.0f);
 	progressCounter->setNewOp("Initializing Windows");
 	if (!GLWWindowSkinManager::instance()->loadWindows()) return false;
-	GLWWindowSkinManager::instance()->loadPositions();
-
+	
 	WindowSetup::setup();
+	GLWWindowManager::instance()->loadPositions();
 	std::string errorString;
 	if (!GLConsoleFileReader::loadFileIntoConsole(getDataFile("data/autoexec.xml"), errorString))
 	{
@@ -315,7 +316,7 @@ bool clientMain()
 	}
 
 	ScorchedClient::instance()->getNetInterface().disconnectAllClients();
-	GLWWindowSkinManager::instance()->savePositions();
+	GLWWindowManager::instance()->savePositions();
     SDL_Delay(1000);
 	Gamma::instance()->reset();
 	Sound::instance()->destroy();

@@ -88,7 +88,7 @@ void TankFallingEnd::simulate(float frameTime, bool &remove)
 
 		// Move the tank to the final position
 		current->getPhysics().setTankPosition(endPosition_);
-		DeformLandscape::flattenArea(*context_, endPosition_);
+		DeformLandscape::flattenArea(*context_, endPosition_, 0);
 
 		// Add the damage to the tank
 		TankController::damageTank(

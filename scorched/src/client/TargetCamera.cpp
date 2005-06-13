@@ -30,6 +30,8 @@
 #include <tankai/TankAIHuman.h>
 #include <tank/TankContainer.h>
 #include <common/Keyboard.h>
+#include <common/Logger.h>
+#include <common/LoggerI.h>
 #include <common/Defines.h>
 #include <math.h>
 #include <float.h>
@@ -83,7 +85,8 @@ TargetCamera::TargetCamera() :
 	mainCam_(300, 300), 
 	cameraPos_(CamSpectator), 
 	totalTime_(0.0f),
-	particleEngine_(&mainCam_, 6000)
+	particleEngine_(&mainCam_, 6000),
+	useHeightFunc_(true)
 {
 	resetCam();
 	mainCam_.setMinHeightFunc(minHeightFunc, this);
@@ -568,9 +571,12 @@ void TargetCamera::keyboardCheck(float frameTime,
 	}
 
 	KEYBOARDKEY("CAMERA_NOLIMIT", limitKey);
-	if (limitKey->keyDown(buffer, keyState))
+	if (limitKey->keyDown(buffer, keyState, false))
 	{	
-		mainCam_.setUseHeightFunc(false);
+		useHeightFunc_ = !useHeightFunc_;
+		Logger::log(LoggerInfo(LoggerInfo::TypePerformance,
+			formatString("Restricted camera movement : %s", 
+			(useHeightFunc_?"On":"Off"))));
 	}
-	else  mainCam_.setUseHeightFunc(true);
+	mainCam_.setUseHeightFunc(useHeightFunc_);
 }

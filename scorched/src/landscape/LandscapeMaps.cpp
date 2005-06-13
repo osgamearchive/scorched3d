@@ -88,6 +88,36 @@ unsigned int LandscapeMaps::getSeed()
 	return storedHdef_->getSeed();
 }
 
+void LandscapeMaps::generateObjects(
+	ScorchedContext &context,
+	ProgressCounter *counter)
+{
+	LandscapeTex *tex = &getTex(context);
+
+	// Add objects to the landscape (if any)
+	// Do this now as it adds shadows to the mainmap
+	objects_.removeAllObjects();
+	{
+		std::vector<std::string>::iterator itor;
+		for (itor = tex->placements.begin();
+			itor != tex->placements.end();
+			itor++)
+		{
+			LandscapePlace *place = context.landscapes->getPlace(
+					(*itor).c_str());
+			if (!place)
+			{
+				dialogExit("LandscapeMaps",
+					"Failed to find placements type %s",
+					(*itor).c_str());
+			}
+			RandomGenerator objectsGenerator;
+			objectsGenerator.seed(getSeed());
+			objects_.generate(objectsGenerator, *place, context, counter);
+		}
+	}
+}
+
 void LandscapeMaps::generateHMap(
 	ScorchedContext &context, 
 	LandscapeDefinition *hdef,

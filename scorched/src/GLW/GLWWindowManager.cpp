@@ -19,7 +19,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <GLW/GLWWindowManager.h>
+#include <GLEXT/GLViewPort.h>
 #include <dialogs/MainMenuDialog.h>
+#include <XML/XMLFile.h>
 #include <limits.h>
 #include <set>
 
@@ -477,4 +479,100 @@ void GLWWindowManager::menuSelection(const char* menuName, const int position, c
 			}
 		}
 	}
+}
+
+void GLWWindowManager::loadPositions()
+{
+	XMLFile file;
+	const char *fileName = getSettingsFile("windowpositions.xml");
+	if (!file.readFile(fileName))
+	{
+		dialogMessage("GLWWindowSkinManager", 
+					  "Failed to parse \"%s\"\n%s", 
+					  fileName,
+					  file.getParserError());
+		return;
+	}
+	if (!file.getRootNode()) return;
+
+	// Get root nodes
+	XMLNode *display = 0, *positions = 0;
+	if (!file.getRootNode()->getNamedChild("display", display)) return;
+	if (!file.getRootNode()->getNamedChild("positions", positions)) return;
+
+	// Get display size
+	int width, height;
+	if (!display->getNamedChild("width", width)) return;
+	if (!display->getNamedChild("height", height)) return;
+
+	// Check display size is the same as the current size
+	// if not then discard the windows size changes
+	if (width != GLViewPort::getWidth() ||
+		height != GLViewPort::getHeight())
+	{
+		return;
+	}
+
+	// Itterate all of the positions in the file
+    std::list<XMLNode *>::iterator childrenItor;
+	std::list<XMLNode *> &children = positions->getChildren();
+    for (childrenItor = children.begin();
+        childrenItor != children.end();
+        childrenItor++)
+    {
+		XMLNode *node = (*childrenItor);
+
+		// Get the window position
+		std::string window;
+		if (!node->getNamedChild("window", window)) return;
+
+		// Set the new position
+		std::map<unsigned, GLWWindow *>::iterator winitor;
+		for (winitor = idToWindow_.begin();
+			winitor != idToWindow_.end();
+			winitor++)
+		{
+			GLWWindow *w = (*winitor).second;
+			if (0 == strcmp(w->getName(), window.c_str()))
+			{
+				w->loadPosition(node);
+				break;
+			}
+		}
+	}
+}
+
+void GLWWindowManager::savePositions()
+{
+	XMLNode node("positions");
+
+	XMLNode *display = new XMLNode("display");
+	XMLNode *positions = new XMLNode("positions");
+	node.addChild(display);
+	node.addChild(positions);
+
+	// Add display
+	display->addChild(new XMLNode("width", GLViewPort::getWidth()));
+	display->addChild(new XMLNode("height", GLViewPort::getHeight()));
+
+	// Add positions
+	std::map<unsigned, GLWWindow *>::iterator winitor;
+	for (winitor = idToWindow_.begin();
+		winitor != idToWindow_.end();
+		winitor++)
+	{
+		GLWWindow *w = (*winitor).second;
+
+		if ((w->getWindowState() & GLWWindow::eSavePosition) &&
+			w->getX() >= 0 && w->getY() >= 0)
+		{
+			XMLNode *position = new XMLNode("position");
+			positions->addChild(position);
+			position->addChild(new XMLNode("window", w->getName()));
+			w->savePosition(position);
+		}
+	}
+
+	const char *fileName = getSettingsFile("windowpositions.xml");
+	node.writeToFile(fileName);
 }

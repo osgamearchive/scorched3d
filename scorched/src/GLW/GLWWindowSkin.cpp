@@ -29,7 +29,7 @@
 
 GLWWindowSkin::GLWWindowSkin() : 
 	GLWWindow("None", 0.0f, 0.0f,
-		0.0f, 0.0f, eNoDraw, "")
+		0.0f, 0.0f, eNoDraw | eSavePosition, "")
 {
 	setToolTip(&toolTip_);
 }

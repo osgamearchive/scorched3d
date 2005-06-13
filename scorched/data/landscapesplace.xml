@@ -12,6 +12,7 @@
 				<numclusters>25</numclusters>
 				<minheight>8</minheight>
 				<maxheight>30</maxheight>
+				<removeaction></removeaction>
 				<object type="tree">
 					<tree>pine</tree>
 					<snow>25</snow>
@@ -27,6 +28,7 @@
 				<numclusters>25</numclusters>
 				<minheight>8</minheight>
 				<maxheight>30</maxheight>
+				<removeaction></removeaction>
 				<object type="tree">
 					<tree>palm</tree>
 					<snow>100</snow>
@@ -42,6 +44,7 @@
 				<numclusters>25</numclusters>
 				<minheight>8</minheight>
 				<maxheight>30</maxheight>
+				<removeaction></removeaction>
 				<object type="tree">
 					<tree>pine</tree>
 					<snow>10</snow>

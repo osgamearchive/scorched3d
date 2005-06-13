@@ -267,11 +267,11 @@ void Napalm::simulateAddStep()
 
 		if (!weapon_->getNoObjectDamage())
 		{
-			Landscape::instance()->getObjects().burnObjects(
+			context_->landscapeMaps->getObjects().burnObjects(
 				(unsigned int) x_, (unsigned int) y_);
-			Landscape::instance()->getObjects().burnObjects(
+			context_->landscapeMaps->getObjects().burnObjects(
 				(unsigned int) x_ + 1, (unsigned int) y_ + 1);
-			Landscape::instance()->getObjects().burnObjects(
+			context_->landscapeMaps->getObjects().burnObjects(
 				(unsigned int) x_ - 1, (unsigned int) y_ - 1);
 		}
 	}

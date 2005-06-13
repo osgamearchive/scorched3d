@@ -36,7 +36,8 @@ public:
 		eTransparent = 4,
 		eResizeable = 8,
 		eCircle = 16,
-		eNoDraw = 32
+		eNoDraw = 32,
+		eSavePosition = 64
 	};
 
 	GLWWindow(const char *name = "None", 
@@ -61,10 +62,14 @@ public:
 		KeyboardHistory::HistoryElement *history, int hisCount, 
 		bool &skipRest);
 
+	virtual void savePosition(XMLNode *node);
+	virtual void loadPosition(XMLNode *node);
+
 	const char *getName() { return name_.c_str(); }
 	const char *getDescription() { return description_.c_str(); }
 	GLWTip &getToolTip() { return toolTip_; }
 	unsigned int getWindowLevel() { return windowLevel_; }
+	unsigned int getWindowState() { return windowState_; }
 	void needsCentered() { needCentered_ = true; }
 	virtual void drawIconBox(float x, float y);
 

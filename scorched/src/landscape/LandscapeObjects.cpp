@@ -23,11 +23,11 @@
 #include <landscape/LandscapeMaps.h>
 #include <landscape/LandscapePlace.h>
 #include <landscape/LandscapeObjectsPlacement.h>
-#include <client/ScorchedClient.h>
 #include <tank/TankContainer.h>
 #include <GLEXT/GLCamera.h>
 #include <common/Defines.h>
 #include <common/OptionsDisplay.h>
+#include <weapons/AccessoryStore.h>
 #include <stdio.h>
 
 static inline float approx_distance(float  dx, float dy)
@@ -79,6 +79,7 @@ static inline unsigned int pointToUInt(unsigned int x, unsigned int y)
 
 void LandscapeObjects::generate(RandomGenerator &generator, 
 	LandscapePlace &place,
+	ScorchedContext &context,
 	ProgressCounter *counter)
 {
 	if (counter) counter->setNewOp("Populating Landscape");
@@ -98,7 +99,7 @@ void LandscapeObjects::generate(RandomGenerator &generator,
 			LandscapePlaceObjectsPlacementTree *placement =
 				(LandscapePlaceObjectsPlacementTree *)
 					place.objects[i];
-			gen.generateObjects(generator, *placement, counter);
+			gen.generateObjects(generator, *placement, context, counter);
 		}
 		else if (0 == strcmp(placementtype.c_str(), "mask"))
 		{
@@ -107,7 +108,7 @@ void LandscapeObjects::generate(RandomGenerator &generator,
 			LandscapePlaceObjectsPlacementMask *placement =
 				(LandscapePlaceObjectsPlacementMask *)
 					place.objects[i];
-			gen.generateObjects(generator, *placement, counter);
+			gen.generateObjects(generator, *placement, context, counter);
 		}
 		else
 		{
@@ -142,21 +143,45 @@ void LandscapeObjects::removeAllObjects()
 	entries_.clear();
 }
 
-void LandscapeObjects::removeObjects(unsigned int x, unsigned int y)
+void LandscapeObjects::removeObjects(
+	ScorchedContext &context,
+	unsigned int x, unsigned int y, unsigned int r,
+	unsigned int playerId)
 {
-	unsigned int point = pointToUInt((unsigned int)x, (unsigned int)y);
-
-	std::multimap<unsigned int, LandscapeObjectsEntry*>::iterator lower =
-		entries_.lower_bound(point);
-    std::multimap<unsigned int, LandscapeObjectsEntry*>::iterator upper =
-		entries_.upper_bound(point);
-    std::multimap<unsigned int, LandscapeObjectsEntry*>::iterator iter;
-	for (iter = lower; iter != upper; iter++)
+	for (unsigned int a=x-r; a<=x+r; a++)
 	{
-		LandscapeObjectsEntry *entry = (*iter).second;
-		delete entry;
+		for (unsigned int b=y-r; b<=y+r; b++)
+		{
+			unsigned int point = pointToUInt((unsigned int)a, (unsigned int)b);
+
+			std::multimap<unsigned int, LandscapeObjectsEntry*>::iterator lower =
+				entries_.lower_bound(point);
+			std::multimap<unsigned int, LandscapeObjectsEntry*>::iterator upper =
+				entries_.upper_bound(point);
+			std::multimap<unsigned int, LandscapeObjectsEntry*>::iterator iter;
+			for (iter = lower; iter != upper; iter++)
+			{
+				LandscapeObjectsEntry *entry = (*iter).second;
+				if (playerId != 0 &&
+					entry->removeaction.c_str()[0] &&
+					0 != strcmp(entry->removeaction.c_str(), "none"))
+				{
+					Accessory *accessory = context.accessoryStore->findByPrimaryAccessoryName(
+						entry->removeaction.c_str());
+					if (accessory && accessory->getAction()->getType() == 
+						AccessoryPart::AccessoryWeapon)
+					{
+						Weapon *weapon = (Weapon *) accessory->getAction();
+						Vector position(entry->posX, entry->posY, entry->posZ);
+						weapon->fireWeapon(context, playerId, position, Vector::nullVector);
+					}
+				}
+
+				delete entry;
+			}
+			entries_.erase(lower, upper);
+		}
 	}
-	entries_.erase(lower, upper);
 }
 
 void LandscapeObjects::burnObjects(unsigned int x, unsigned int y)
@@ -172,30 +197,5 @@ void LandscapeObjects::burnObjects(unsigned int x, unsigned int y)
 	{
 		LandscapeObjectsEntry *entry = (*iter).second;
 		entry->burnt = true;
-	}
-}
-
-void LandscapeObjects::removeAroundTanks()
-{
-	// Remove trees around tanks
-	std::map<unsigned int, Tank *> &tanks = 
-		ScorchedClient::instance()->getTankContainer().getPlayingTanks();
-	std::map<unsigned int, Tank *>::iterator itor;
-	for (itor = tanks.begin();
-		 itor != tanks.end();
-		 itor++)
-	{
-		Tank *tank = (*itor).second;
-		if (tank->getState().getState() == TankState::sNormal)
-		{
-			Vector &tankPos = tank->getPhysics().getTankPosition();
-			for (int x=int(tankPos[0]) - 3; x<=int(tankPos[0])+3; x++)
-			{
-				for (int y=int(tankPos[1]) - 3; y<=int(tankPos[1])+3; y++)
-				{
-					removeObjects(x, y);
-				}
-			}
-		}
 	}
 }

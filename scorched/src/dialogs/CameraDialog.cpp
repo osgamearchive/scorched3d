@@ -43,7 +43,7 @@ CameraDialog *CameraDialog::instance()
 
 CameraDialog::CameraDialog() : 
 	GLWWindow("Camera", 100, 15, 200, 200, eTransparent | 
-	eResizeable | eSmallTitle,
+	eResizeable | eSmallTitle | eSavePosition,
 	"Shows a view from behind the current tank\n"
 	"or its shots in a different window")
 {
@@ -52,6 +52,30 @@ CameraDialog::CameraDialog() :
 
 CameraDialog::~CameraDialog()
 {
+}
+
+void CameraDialog::savePosition(XMLNode *node)
+{
+	GLWWindow::savePosition(node);
+
+	node->addChild(new XMLNode("w", int(getW())));
+	node->addChild(new XMLNode("h", int(getH())));
+	node->addChild(new XMLNode("type", int(targetCam_.getCameraType())));
+	
+}
+
+void CameraDialog::loadPosition(XMLNode *node)
+{
+	GLWWindow::loadPosition(node);
+
+	int w, h, type;
+	if (!node->getNamedChild("w", w)) return;
+	if (!node->getNamedChild("h", h)) return;
+	if (!node->getNamedChild("type", type)) return;
+
+	setW(float(w));
+	setH(float(h));
+	targetCam_.setCameraType((TargetCamera::CamType) type);
 }
 
 void CameraDialog::draw()

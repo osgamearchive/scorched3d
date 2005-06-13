@@ -67,6 +67,7 @@ public:
 	int numobjects;
 	int numclusters;
 	float minheight, maxheight;
+	std::string removeaction;
 
 	virtual bool readXML(XMLNode *node);
 };
@@ -79,6 +80,7 @@ public:
 	float minheight, maxheight;
 	float mincloseness, minslope;
 	float xsnap, ysnap, angsnap;
+	std::string removeaction;
 
 	virtual bool readXML(XMLNode *node);
 };

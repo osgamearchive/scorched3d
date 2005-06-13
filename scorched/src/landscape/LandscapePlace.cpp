@@ -76,6 +76,7 @@ bool LandscapePlaceObjectsPlacementMask::readXML(XMLNode *node)
 {
 	if (!node->getNamedChild("numobjects", numobjects)) return false;
 	if (!node->getNamedChild("mask", mask)) return false;
+	if (!node->getNamedChild("removeaction", removeaction)) return false;
 	if (!node->getNamedChild("minheight", minheight)) return false;
 	if (!node->getNamedChild("maxheight", maxheight)) return false;
 	if (!node->getNamedChild("mincloseness", mincloseness)) return false;
@@ -93,6 +94,7 @@ bool LandscapePlaceObjectsPlacementTree::readXML(XMLNode *node)
 	if (!node->getNamedChild("numclusters", numclusters)) return false;
 	if (!node->getNamedChild("minheight", minheight)) return false;
 	if (!node->getNamedChild("maxheight", maxheight)) return false;
+	if (!node->getNamedChild("removeaction", removeaction)) return false;
 	return LandscapePlaceObjectsPlacement::readXML(node);
 }
 

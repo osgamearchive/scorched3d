@@ -59,7 +59,7 @@ void TankMovementEnd::simulate(float frameTime, bool &remove)
 		{
 			// Move the tank to the final position
 			current->getPhysics().setTankPosition(position_);
-			DeformLandscape::flattenArea(*context_, position_);
+			DeformLandscape::flattenArea(*context_, position_, 0);
 		}
 	}
 

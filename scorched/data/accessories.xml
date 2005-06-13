@@ -1251,4 +1251,23 @@ trace of the shot path.</description>
 		</accessoryaction>
 	</accessory>
 	
+	<accessory>
+		<name>TreeExplode</name>
+		<armslevel>9</armslevel>
+		<maximumnumber>0</maximumnumber>
+		<description>A test weapon for testing trees exploding!</description>
+		<icon>missile.bmp</icon>
+		<bundlesize>1</bundlesize>
+		<cost>1875</cost>
+		<activationsound>shoot/medium.wav</activationsound>
+		<modelscale>0.75</modelscale>
+		<accessoryaction type='WeaponExplosion'>
+			<hurtamount>0.0</hurtamount>
+			<deform>none</deform>
+			<size>6</size>
+			<explosiontexture>exp00</explosiontexture>
+			<explosionsound>explosions/medium.wav</explosionsound>
+		</accessoryaction>
+	</accessory>
+	
 </accessories>

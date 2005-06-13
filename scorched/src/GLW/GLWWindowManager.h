@@ -45,6 +45,8 @@ public:
 	void sortWindowLevels();
 	unsigned int getFocus(int x, int y);
 
+	void loadPositions();
+	void savePositions();
 	void clear();
 
 	// All inherited from GameStateI

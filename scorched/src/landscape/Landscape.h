@@ -24,7 +24,6 @@
 #include <engine/GameStateI.h>
 #include <landscape/Water.h>
 #include <landscape/PatchGrid.h>
-#include <landscape/LandscapeObjects.h>
 #include <landscape/LandscapePoints.h>
 #include <landscape/Smoke.h>
 #include <landscape/Wall.h>
@@ -56,7 +55,6 @@ public:
 	Wall &getWall() { return wall_; }
 	Sky &getSky() { return *sky_; }
 	Water &getWater() { return water_; }
-	LandscapeObjects &getObjects() { return objects_; }
 	PatchGrid &getPatchGrid() { return patchGrid_; }
 
 	// Textures created during landscape texturing
@@ -100,7 +98,6 @@ protected:
 	ShadowMap shadowMap_;
 	Smoke smoke_;
 	Water water_;
-	LandscapeObjects objects_;
 	LandscapeTextureType textureType_;
 	LandscapePoints points_;
 

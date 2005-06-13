@@ -69,7 +69,12 @@ unsigned int RandomGenerator::getRandUInt()
 {
 	unsigned int pos = position_ % bufferSize_;
 	position_++;
-	return buffer_[pos];
+
+	unsigned int maskpos = (position_ / bufferSize_) % 32;
+	unsigned int value = buffer_[pos];
+	unsigned int lvalue = value << (32 - maskpos);
+	unsigned int rvalue = value >> maskpos;
+	return lvalue | rvalue;
 }
 
 float RandomGenerator::getRandFloat()

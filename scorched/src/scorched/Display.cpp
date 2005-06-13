@@ -335,8 +335,10 @@ static void createIdentControls(wxWindow *parent, wxSizer *sizer)
 		IDC_USERID_CTRL->SetCellValue(pos, 0, entry.published.c_str());
 		IDC_USERID_CTRL->SetCellValue(pos, 1, NetInterface::getIpName(entry.ip));
 		IDC_USERID_CTRL->SetCellValue(pos, 2, entry.id.c_str());
+		IDC_USERID_CTRL->SetReadOnly(pos, 0);
+		IDC_USERID_CTRL->SetReadOnly(pos, 1);
 	}
-	IDC_USERID_CTRL->EnableEditing(false);
+	IDC_USERID_CTRL->EnableEditing(true);
 	IDC_USERID_CTRL->AutoSizeColumns(true);
 	IDC_USERID_CTRL->ForceRefresh();
 

@@ -28,7 +28,8 @@
 
 bool DeformLandscape::deformLandscape(
 	ScorchedContext &context,
-	Vector &pos, float radius, bool down, DeformPoints &map)
+	Vector &pos, float radius, bool down, DeformPoints &map,
+	unsigned int playerId)
 {
 	HeightMap &hmap = context.landscapeMaps->getHMap();
 
@@ -124,12 +125,30 @@ bool DeformLandscape::deformLandscape(
 		hmap.generateNormals(
 			MAX(0, (int) (pos[0] - radius - 3.0f)), MIN(hmap.getWidth(), (int) (pos[0] + radius + 4.0f)),
 			MAX(0, (int) (pos[1] - radius - 3.0f)), MIN(hmap.getWidth(), (int) (pos[1] + radius + 3.0f)));
+
+		// Kill the trees/objects
+		{
+			for (int i=-iradius; i<=iradius; i++)
+			{
+				for (int j=-iradius; j<=iradius; j++)
+				{
+					if (map.map[i+iradius][j+iradius] > 0.0f)
+					{
+						unsigned int x = (unsigned int) (pos[0] + i);
+						unsigned int y = (unsigned int) (pos[1] + j);
+						context.landscapeMaps->getObjects().removeObjects(
+							context, x, y, 1, playerId);
+					}
+				}
+			}
+		}
 	}
 
 	return hits;
 }
 
-void DeformLandscape::flattenArea(ScorchedContext &context, Vector &tankPos)
+void DeformLandscape::flattenArea(
+	ScorchedContext &context, Vector &tankPos, unsigned int playerId)
 {
 	HeightMap &hmap = context.landscapeMaps->getHMap();
 	int posX = (int) tankPos[0];
@@ -155,4 +174,12 @@ void DeformLandscape::flattenArea(ScorchedContext &context, Vector &tankPos)
 	hmap.generateNormals(
 		MAX(0, posX - 3), MIN(hmap.getWidth(), posX + 3),
 		MAX(0, posY - 3), MIN(hmap.getWidth(), posY + 3));
+
+	// Remove objects
+	{
+		unsigned int x = (unsigned int) (posX);
+		unsigned int y = (unsigned int) (posY);
+		context.landscapeMaps->getObjects().removeObjects(
+			context, x, y, 3, playerId);
+	}
 }

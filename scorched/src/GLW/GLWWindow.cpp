@@ -470,3 +470,26 @@ bool GLWWindow::initFromXML(XMLNode *node)
 
 	return true;
 }
+
+void GLWWindow::savePosition(XMLNode *node)
+{
+	bool visible = GLWWindowManager::instance()->windowVisible(getId());
+
+	node->addChild(new XMLNode("x", int(getX())));
+	node->addChild(new XMLNode("y", int(getY())));
+	node->addChild(new XMLNode("visible", visible));
+}
+
+void GLWWindow::loadPosition(XMLNode *node)
+{
+	int x, y;
+	bool visible;
+	if (!node->getNamedChild("x", x)) return;
+	if (!node->getNamedChild("y", y)) return;
+	if (!node->getNamedChild("visible", visible)) return;
+
+	setX(float(x));
+	setY(float(y));
+	if (!visible) GLWWindowManager::instance()->hideWindow(getId());
+	else GLWWindowManager::instance()->showWindow(getId());
+}
