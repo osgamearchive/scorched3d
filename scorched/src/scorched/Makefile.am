@@ -525,6 +525,8 @@ scorched3d_SOURCES = \
 	../weapons/WeaponSkyFlash.h \
 	../weapons/WeaponSound.cpp \
 	../weapons/WeaponSound.h \
+	../weapons/WeaponTeleport.cpp \
+	../weapons/WeaponTeleport.h \
 	../weapons/WeaponTranslate.cpp \
 	../weapons/WeaponTranslate.h \
 	../weapons/WeaponVelocity.cpp \
@@ -763,6 +765,8 @@ scorched3d_SOURCES = \
 	../actions/TankSay.h \
 	../actions/TankScored.cpp \
 	../actions/TankScored.h \
+	../actions/Teleport.cpp \
+	../actions/Teleport.h \
 	../actions/WallHit.cpp \
 	../actions/WallHit.h \
 	../sprites/DebrisActionRenderer.cpp \
@@ -985,6 +989,8 @@ scorched3d_SOURCES = \
 	../server/ServerTimedMessage.h \
 	../server/ServerTooFewPlayersStimulus.cpp \
 	../server/ServerTooFewPlayersStimulus.h \
+	../server/ServerWebHandler.cpp \
+	../server/ServerWebHandler.h \
 	../server/ServerWebServer.cpp \
 	../server/ServerWebServer.h \
 	../server/TurnController.cpp \

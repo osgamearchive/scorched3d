@@ -78,6 +78,22 @@ void ServerWebServer::processMessages()
 	netServer_.processMessages();
 }
 
+static void extractQueryFields(std::map<std::string, std::string> &fields, char *sep)
+{
+	char *token = strtok(sep, "&");
+	while(token)
+	{
+		char *eq = strchr(token, '=');
+		if (eq)
+		{
+			*eq = '\0';
+			fields[token] = (eq + 1);
+			*eq = '=';
+		}				
+		token = strtok(0, "&");
+	}
+}
+
 void ServerWebServer::processMessage(NetMessage &message)
 {
 	if (message.getMessageType() == NetMessage::BufferMessage)
@@ -88,10 +104,25 @@ void ServerWebServer::processMessage(NetMessage &message)
 		
 		// Check it is a GET
 		bool ok = false;
-		if (strstr(buffer, "GET ") == buffer)
+		bool get = (strstr(buffer, "GET ") == buffer);
+		bool post = (strstr(buffer, "POST ") == buffer);
+		if (get || post)
 		{
+			std::map<std::string, std::string> fields;
+		
+			// Get POST query fields if any
+			if (post)
+			{
+				char *sep = strstr(buffer, "\r\n\r\n");
+				if (sep)
+				{
+					sep += 4;
+					extractQueryFields(fields, sep);
+				}
+			}
+		
 			// Check it has a url
-			const char *url = buffer + 4;
+			const char *url = buffer + (get?4:5);
 			char *eol = strchr(url, ' ');
 			if (eol)
 			{
@@ -108,26 +139,12 @@ void ServerWebServer::processMessage(NetMessage &message)
 						logger_->logMessage(info);
 					}
 				
-					// Get query fields if any
-					std::map<std::string, std::string> fields;
+					// Get GET query fields if any
 					char *sep = strchr(url, '?');
 					if (sep)
 					{
 						*sep = '\0'; sep++;
-						
-						char *token = strtok(sep, "&");
-						while(token)
-						{
-							char *eq = strchr(token, '=');
-							if (eq)
-							{
-								*eq = '\0';
-								fields[token] = (eq + 1);
-								*eq = '=';
-							}
-							
-							token = strtok(0, "&");
-						}
+						extractQueryFields(fields, sep);
 					}
 					
 					// Process request

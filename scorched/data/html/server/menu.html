@@ -1,8 +1,20 @@
 <table align=center border=0>
 <tr>
-<td><a href='/?name=[[name]]&password=[[password]]'>Players</a></td>
+<form method="post" action="/">
+<td>
+<input type="hidden" name="name" value="[[name]]">
+<input type="hidden" name="password" value="[[password]]">
+<input type="submit" value="Players"">
+</td>
+</form>
 <td>|</td>
-<td><a href='/logs?name=[[name]]&password=[[password]]'>Logs</a></td>
+<form method="post" action="/logs">
+<td>
+<input type="hidden" name="name" value="[[name]]">
+<input type="hidden" name="password" value="[[password]]">
+<input type="submit" value="Logs"">
+</td>
+</form>
 </tr>
 </table>
 <br>

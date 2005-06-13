@@ -874,6 +874,9 @@ scorcheddatatanksbenderdir = ${datadir}/data/tanks/bender
 scorcheddatatanksbender_DATA = data/tanks/bender/bender-info.txt \
 	data/tanks/bender/bender-tex.bmp \
 	data/tanks/bender/bender.txt
+scorcheddatatankstiger2dir = ${datadir}/data/tanks/tiger2
+scorcheddatatankstiger2_DATA = data/tanks/tiger2/camo.bmp \
+	data/tanks/tiger2/tiger2.txt
 scorcheddatatexturesdir = ${datadir}/data/textures
 scorcheddatatextures_DATA = data/textures/clearsky.bmp \
 	data/textures/glow1.bmp \
@@ -975,7 +978,8 @@ scorcheddatatextureslandscapedefault_DATA = data/textures/landscape/default/clou
 	data/textures/landscape/default/texture2.bmp \
 	data/textures/landscape/default/texture3.bmp \
 	data/textures/landscape/default/texture4.bmp \
-	data/textures/landscape/default/water.bmp
+	data/textures/landscape/default/water.bmp \
+	data/textures/landscape/default/cloud1m.bmp
 scorcheddatatextureslandscapehelldir = ${datadir}/data/textures/landscape/hell
 scorcheddatatextureslandscapehell_DATA = data/textures/landscape/hell/cloud1.bmp \
 	data/textures/landscape/hell/cubemap.bmp \
@@ -1019,7 +1023,8 @@ scorcheddatatextureslandscapestorm_DATA = data/textures/landscape/storm/cloud1.b
 	data/textures/landscape/storm/texture1.bmp \
 	data/textures/landscape/storm/texture2.bmp \
 	data/textures/landscape/storm/texture3.bmp \
-	data/textures/landscape/storm/texture4.bmp
+	data/textures/landscape/storm/texture4.bmp \
+	data/textures/landscape/storm/cloud1m.bmp
 scorcheddatatextureslandscapetropicaldir = ${datadir}/data/textures/landscape/tropical
 scorcheddatatextureslandscapetropical_DATA = data/textures/landscape/tropical/cloud1.bmp \
 	data/textures/landscape/tropical/cubemap.bmp \
@@ -1030,7 +1035,8 @@ scorcheddatatextureslandscapetropical_DATA = data/textures/landscape/tropical/cl
 	data/textures/landscape/tropical/texture1.bmp \
 	data/textures/landscape/tropical/texture2.bmp \
 	data/textures/landscape/tropical/texture3.bmp \
-	data/textures/landscape/tropical/texture4.bmp
+	data/textures/landscape/tropical/texture4.bmp \
+	data/textures/landscape/tropical/cloud1m.bmp
 scorcheddatatextureslandscapevulcanodir = ${datadir}/data/textures/landscape/vulcano
 scorcheddatatextureslandscapevulcano_DATA = data/textures/landscape/vulcano/cloud1.bmp \
 	data/textures/landscape/vulcano/cubemap.bmp \
@@ -1041,7 +1047,8 @@ scorcheddatatextureslandscapevulcano_DATA = data/textures/landscape/vulcano/clou
 	data/textures/landscape/vulcano/texture1.bmp \
 	data/textures/landscape/vulcano/texture2.bmp \
 	data/textures/landscape/vulcano/texture3.bmp \
-	data/textures/landscape/vulcano/texture4.bmp
+	data/textures/landscape/vulcano/texture4.bmp \
+	data/textures/landscape/vulcano/cloud1m.bmp
 scorcheddatatextureslensflaredir = ${datadir}/data/textures/lensflare
 scorcheddatatextureslensflare_DATA = data/textures/lensflare/flare0.bw \
 	data/textures/lensflare/flare1.bw \
@@ -1120,7 +1127,8 @@ scorcheddatawavmisc_DATA = data/wav/misc/camera.wav \
 	data/wav/misc/splash.wav \
 	data/wav/misc/text.wav \
 	data/wav/misc/thunder.wav \
-	data/wav/misc/rocket.wav
+	data/wav/misc/rocket.wav \
+	data/wav/misc/teleport.wav
 scorcheddatawavmovementdir = ${datadir}/data/wav/movement
 scorcheddatawavmovement_DATA = data/wav/movement/elevate.wav \
 	data/wav/movement/movement.wav \
@@ -1215,4 +1223,7 @@ scorcheddatahtml_DATA =
 scorcheddatahtmlserverdir = ${datadir}/data/html/server
 scorcheddatahtmlserver_DATA = data/html/server/login.html \
 	data/html/server/footer.html \
-	data/html/server/header.html
+	data/html/server/header.html \
+	data/html/server/index.html \
+	data/html/server/log.html \
+	data/html/server/menu.html

@@ -359,7 +359,8 @@ NetMessage *NetServerHTTPProtocolRecv::readBuffer(TCPsocket socket)
 	netBuffer->getBuffer().reset();
 
 	// get the string buffer over the socket
-	Uint32 len = 0;
+	unsigned int len = 0;
+	unsigned int dataLen = 0;
 	char buffer[1];
 	for (;;)
 	{
@@ -381,18 +382,34 @@ NetMessage *NetServerHTTPProtocolRecv::readBuffer(TCPsocket socket)
 		len += 1;
 		
 		// Check for the end of the HTTP header
-		unsigned int used = netBuffer->getBuffer().getBufferUsed();
-		if (used > 4)
+		if (len > 4)
 		{
-			if (netBuffer->getBuffer().getBuffer()[used - 4] == '\r' &&
-				netBuffer->getBuffer().getBuffer()[used - 3] == '\n' &&
-				netBuffer->getBuffer().getBuffer()[used - 2] == '\r' &&
-				netBuffer->getBuffer().getBuffer()[used - 1] == '\n')
+			if (netBuffer->getBuffer().getBuffer()[len - 4] == '\r' &&
+				netBuffer->getBuffer().getBuffer()[len - 3] == '\n' &&
+				netBuffer->getBuffer().getBuffer()[len - 2] == '\r' &&
+				netBuffer->getBuffer().getBuffer()[len - 1] == '\n')
 			{
-				break;
+				// We have now found the end of the http header
+				// check if there is any data as well
+				netBuffer->getBuffer().getBuffer()[len - 4] = '\0';
+				char *length = strstr(netBuffer->getBuffer().getBuffer(), "Content-Length: ");
+				if (length)
+				{
+					length += 16;
+					int dl = atoi(length);
+					dataLen = len + dl;
+				}
+				else
+				{
+					// No data, so end at current len
+					dataLen = len;
+				}
+				netBuffer->getBuffer().getBuffer()[len - 4] = '\r';
 			}
 			
 		}
+		
+		if (len == dataLen) break;
 	}
 	NetInterface::getBytesIn() += len;
 

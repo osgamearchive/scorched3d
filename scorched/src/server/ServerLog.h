@@ -35,7 +35,7 @@ public:
 
 	static ServerLog *instance();
 	virtual void logMessage(LoggerInfo &info);
-	std::deque<ServerLogEntry> getEntries() { return entries_; }
+	std::deque<ServerLogEntry> &getEntries() { return entries_; }
 
 protected:
 	static ServerLog *instance_;
