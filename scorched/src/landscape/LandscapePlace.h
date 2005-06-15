@@ -61,6 +61,22 @@ public:
 	virtual bool readXML(XMLNode *node);
 };
 
+class LandscapePlaceObjectsPlacementDirect : public LandscapePlaceObjectsPlacement
+{
+public:
+	struct Position
+	{
+		Vector position;
+		float rotation;
+		float size;
+	};
+
+	std::list<Position> positions;
+	std::string removeaction;
+
+	virtual bool readXML(XMLNode *node);
+};
+
 class LandscapePlaceObjectsPlacementTree : public LandscapePlaceObjectsPlacement
 {
 public:

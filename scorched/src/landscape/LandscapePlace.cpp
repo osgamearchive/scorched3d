@@ -24,6 +24,7 @@ static LandscapePlaceType *fetchPlacementPlaceType(const char *type)
 {
 	if (0 == strcmp(type, "trees")) return new LandscapePlaceObjectsPlacementTree;
 	if (0 == strcmp(type, "mask")) return new LandscapePlaceObjectsPlacementMask;
+	if (0 == strcmp(type, "direct")) return new LandscapePlaceObjectsPlacementDirect;
 	dialogMessage("LandscapePlaceType", "Unknown placement type %s", type);
 	return 0;
 }
@@ -95,6 +96,23 @@ bool LandscapePlaceObjectsPlacementTree::readXML(XMLNode *node)
 	if (!node->getNamedChild("minheight", minheight)) return false;
 	if (!node->getNamedChild("maxheight", maxheight)) return false;
 	if (!node->getNamedChild("removeaction", removeaction)) return false;
+	return LandscapePlaceObjectsPlacement::readXML(node);
+}
+
+// LandscapePlaceObjectsPlacementDirect
+bool LandscapePlaceObjectsPlacementDirect::readXML(XMLNode *node)
+{
+	if (!node->getNamedChild("removeaction", removeaction)) return false;
+
+	XMLNode *positionNode;
+	while (node->getNamedChild("position", positionNode, false))
+	{
+		Position position;
+		if (positionNode->getNamedChild("position", position.position)) return false;
+		if (positionNode->getNamedChild("rotation", position.rotation)) return false;
+		if (positionNode->getNamedChild("size", position.size)) return false;
+		positions.push_back(position);
+	}
 	return LandscapePlaceObjectsPlacement::readXML(node);
 }
 

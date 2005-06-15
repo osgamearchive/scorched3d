@@ -24,6 +24,7 @@
 #include <landscape/LandscapeObjects.h>
 #include <landscape/LandscapeMaps.h>
 #include <landscape/LandscapePlace.h>
+#include <landscape/DeformLandscape.h>
 #include <landscape/Landscape.h>
 #include <GLEXT/GLBitmapModifier.h>
 #include <3dsparse/ModelStore.h>
@@ -129,6 +130,7 @@ void LandscapeObjectPlacementTrees::generateObjects(
 
 	bool pine = true;
 	float snowHeight = 20.0f;
+	float modelSize = 0.0f;
 	Model *model = 0;
 	Model *modelburnt = 0;
 	if (0 == strcmp(placement.objecttype.c_str(), "tree"))
@@ -150,6 +152,10 @@ void LandscapeObjectPlacementTrees::generateObjects(
 			dialogExit("LandscapeObjectPlacementTrees",
 				"Failed to find models");
 		}
+
+		Vector sizev = model->getMax() - model->getMin();
+		sizev[2] = 0.0f;
+		modelSize = sizev.Magnitude();
 	}
 	else
 	{
@@ -200,6 +206,12 @@ void LandscapeObjectPlacementTrees::generateObjects(
 					entry->posZ = height;
 					entry->rotation = generator.getRandFloat() * 360.0f;
 					entry->removeaction = placement.removeaction;
+
+					//Vector position(entry->posX, entry->posY, entry->posZ);
+					//DeformLandscape::flattenArea(context, position, 0);
+
+					GLBitmapModifier::addCircle(Landscape::instance()->getMainMap(),
+						lx * mult, ly * mult, modelSize * entry->size * mult, 1.0f);
 				}
 				else
 				{
@@ -236,6 +248,7 @@ void LandscapeObjectPlacementMask::generateObjects(
 {
 	bool pine = true;
 	float snowHeight = 20.0f;
+	float modelSize = 0.0f;
 	Model *model = 0;
 	Model *modelburnt = 0;
 	if (0 == strcmp(placement.objecttype.c_str(), "tree"))
@@ -257,6 +270,10 @@ void LandscapeObjectPlacementMask::generateObjects(
 			dialogExit("LandscapeObjectPlacementMask",
 				"Failed to find models");
 		}
+
+		Vector sizev = model->getMax() - model->getMin();
+		sizev[2] = 0.0f;
+		modelSize = sizev.Magnitude();
 	}
 	else
 	{
@@ -356,6 +373,12 @@ void LandscapeObjectPlacementMask::generateObjects(
 						entry->posZ = height;
 						entry->rotation = lr;
 						entry->removeaction = placement.removeaction;
+
+						//Vector position(entry->posX, entry->posY, entry->posZ);
+						//DeformLandscape::flattenArea(context, position, 0);
+
+						GLBitmapModifier::addCircle(Landscape::instance()->getMainMap(),
+							lx * mult, ly * mult, modelSize * entry->size * mult, 1.0f);
 					}
 					else
 					{
@@ -385,3 +408,110 @@ void LandscapeObjectPlacementMask::generateObjects(
 	}
 }
 
+void LandscapeObjectPlacementDirect::generateObjects(
+	RandomGenerator &generator, 
+	LandscapePlaceObjectsPlacementDirect &placement,
+	ScorchedContext &context,
+	ProgressCounter *counter)
+{
+	bool pine = true;
+	float snowHeight = 20.0f;
+	float modelSize = 0.0f;
+	Model *model = 0;
+	Model *modelburnt = 0;
+	if (0 == strcmp(placement.objecttype.c_str(), "tree"))
+	{
+		LandscapePlaceObjectsTree *treeObjects = 
+			(LandscapePlaceObjectsTree *) placement.object;
+		pine = (0 == strcmp(treeObjects->tree.c_str(), "pine"));
+		snowHeight = treeObjects->snow;
+	}
+	else if (0 == strcmp(placement.objecttype.c_str(), "model"))
+	{
+		LandscapePlaceObjectsModel *modelObjects = 
+			(LandscapePlaceObjectsModel *) placement.object;
+		
+		model = ModelStore::instance()->loadModel(modelObjects->model);
+		modelburnt = ModelStore::instance()->loadModel(modelObjects->modelburnt);
+		if (!model || !modelburnt)
+		{
+			dialogExit("LandscapeObjectPlacementMask",
+				"Failed to find models");
+		}
+
+		Vector sizev = model->getMax() - model->getMin();
+		sizev[2] = 0.0f;
+		modelSize = sizev.Magnitude();
+	}
+	else
+	{
+		dialogExit("LandscapeObjectPlacementMask",
+			"Error: Unknown model type \"%s\"",
+			placement.objecttype.c_str());
+	}
+
+	float mult = (float) Landscape::instance()->getMainMap().getWidth() / 256.0f;
+
+	std::list<LandscapePlaceObjectsPlacementDirect::Position>::iterator itor;
+	int i = 0;
+	for (itor = placement.positions.begin();
+		itor != placement.positions.end();
+		itor++, i++)
+	{
+		if (i % 1000 == 0) if (counter) 
+			counter->setNewPercentage(float(i)/float(placement.positions.size())*100.0f);
+
+		LandscapePlaceObjectsPlacementDirect::Position position = (*itor);
+		float height = 
+			context.landscapeMaps->
+				getHMap().getInterpHeight(position.position[0], position.position[1]);
+		if (position.position[2] == 0.0f) position.position[2] = height;
+
+		LandscapeObjectsEntry *entry = 0;
+		if (model)
+		{
+			entry = new LandscapeObjectsEntryModel;
+			((LandscapeObjectsEntryModel *) entry)->model = 
+				new ModelRenderer(model);
+			((LandscapeObjectsEntryModel *) entry)->modelburnt = 
+				new ModelRenderer(modelburnt);
+			entry->color = 1.0f;
+			entry->size = position.size;
+			entry->posX = position.position[0];
+			entry->posY = position.position[1];
+			entry->posZ = position.position[2];
+			entry->rotation = position.rotation;
+			entry->removeaction = placement.removeaction;
+
+			//Vector position(entry->posX, entry->posY, entry->posZ);
+			//DeformLandscape::flattenArea(context, position, 0);
+
+			GLBitmapModifier::addCircle(Landscape::instance()->getMainMap(),
+				position.position[0] * mult, position.position[1] * mult, 
+				modelSize * entry->size * mult, 1.0f);
+		}
+		else
+		{
+			entry = new LandscapeObjectsEntryTree;
+			((LandscapeObjectsEntryTree *) entry)->snow = (pine && 
+				(height > snowHeight + (generator.getRandFloat() * 10.0f) - 5.0f));
+			((LandscapeObjectsEntryTree *) entry)->pine = pine;
+			entry->color = generator.getRandFloat() * 0.5f + 0.5f;
+			entry->size =  position.size;
+			entry->posX = position.position[0];
+			entry->posY = position.position[1];
+			entry->posZ = position.position[2];
+			entry->rotation = position.rotation;
+			entry->removeaction = placement.removeaction;
+			
+			GLBitmapModifier::addCircle(Landscape::instance()->getMainMap(),
+				position.position[0] * mult, position.position[1] * mult, 
+				entry->size * mult, 1.0f);
+		}
+
+		context.landscapeMaps->getObjects().addObject(
+			(unsigned int) position.position[0],
+			(unsigned int) position.position[1],
+			entry);
+	}
+}

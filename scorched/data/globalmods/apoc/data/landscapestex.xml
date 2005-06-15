@@ -15,6 +15,8 @@
 		<skysunyz>15</skysunyz>
 		<skyambience><A>0.3</A><B>0.3</B><C>0.3</C></skyambience>
 		<skydiffuse><A>0.7</A><B>0.7</B><C>0.7</C></skydiffuse>
+		<suncolor><A>1.0</A><B>1.0</B><C>1.0</C></suncolor>
+		<skytexturemask>data/textures/landscape/default/cloud1m.bmp</skytexturemask>
 		<border type="water">
 			<reflection>data/textures/landscape/default/cubemap.bmp</reflection>
 			<texture>data/textures/landscape/default/water.bmp</texture>
@@ -54,6 +56,8 @@
 		<skysunyz>15</skysunyz>
 		<skyambience><A>0.5</A><B>0.5</B><C>0.5</C></skyambience>
 		<skydiffuse><A>0.5</A><B>0.5</B><C>0.5</C></skydiffuse>
+		<suncolor><A>1.0</A><B>1.0</B><C>1.0</C></suncolor>
+		<skytexturemask>data/textures/landscape/default/cloud1m.bmp</skytexturemask>
 		<border type="water">
 			<reflection>data/textures/landscape/hell/cubemap.bmp</reflection>
 			<texture>data/textures/landscape/default/water.bmp</texture>
@@ -103,6 +107,8 @@
 		<skysunyz>45</skysunyz>
 		<skyambience><A>0.2</A><B>0.2</B><C>0.2</C></skyambience>
 		<skydiffuse><A>0.8</A><B>0.8</B><C>0.8</C></skydiffuse>
+		<suncolor><A>1.0</A><B>1.0</B><C>1.0</C></suncolor>
+		<skytexturemask>data/textures/landscape/default/cloud1m.bmp</skytexturemask>
 		<border type="water">
 			<reflection>data/textures/landscape/sand/cubemap.bmp</reflection>
 			<texture>data/textures/landscape/default/water.bmp</texture>
@@ -142,6 +148,8 @@
 		<skysunyz>15</skysunyz>
 		<skyambience><A>0.3</A><B>0.3</B><C>0.3</C></skyambience>
 		<skydiffuse><A>0.7</A><B>0.7</B><C>0.7</C></skydiffuse>
+		<suncolor><A>1.0</A><B>1.0</B><C>1.0</C></suncolor>
+		<skytexturemask>data/textures/landscape/default/cloud1m.bmp</skytexturemask>
 		<border type="water">
 			<reflection>data/textures/landscape/snow/cubemap.bmp</reflection>
 			<texture>data/textures/landscape/default/water.bmp</texture>
@@ -183,6 +191,8 @@
 		<skysunyz>15</skysunyz>
 		<skyambience><A>0.2</A><B>0.2</B><C>0.2</C></skyambience>
 		<skydiffuse><A>0.8</A><B>0.8</B><C>0.8</C></skydiffuse>
+		<suncolor><A>1.0</A><B>1.0</B><C>1.0</C></suncolor>
+		<skytexturemask>data/textures/landscape/default/cloud1m.bmp</skytexturemask>
 		<border type="water">
 			<reflection>data/textures/landscape/tropical/cubemap.bmp</reflection>
 			<texture>data/textures/landscape/default/water.bmp</texture>
@@ -222,6 +232,8 @@
 		<skysunyz>15</skysunyz>
 		<skyambience><A>0.3</A><B>0.3</B><C>0.3</C></skyambience>
 		<skydiffuse><A>0.7</A><B>0.7</B><C>0.7</C></skydiffuse>
+		<suncolor><A>1.0</A><B>1.0</B><C>1.0</C></suncolor>
+		<skytexturemask>data/textures/landscape/default/cloud1m.bmp</skytexturemask>
 		<border type="water">
 			<reflection>data/textures/landscape/vulcano/cubemap.bmp</reflection>
 			<texture>data/textures/landscape/default/water.bmp</texture>
@@ -261,6 +273,8 @@
 		<skysunyz>15</skysunyz>
 		<skyambience><A>0.2</A><B>0.2</B><C>0.2</C></skyambience>
 		<skydiffuse><A>0.4</A><B>0.4</B><C>0.4</C></skydiffuse>
+		<suncolor><A>1.0</A><B>1.0</B><C>1.0</C></suncolor>
+		<skytexturemask>data/textures/landscape/default/cloud1m.bmp</skytexturemask>
 		<border type="water">
 			<reflection>data/textures/landscape/storm/cubemap.bmp</reflection>
 			<texture>data/textures/landscape/default/water.bmp</texture>
@@ -312,6 +326,8 @@
 		<skysunyz>15</skysunyz>
 		<skyambience><A>0.5</A><B>0.5</B><C>0.5</C></skyambience>
 		<skydiffuse><A>0.5</A><B>0.5</B><C>0.5</C></skydiffuse>
+		<suncolor><A>1.0</A><B>1.0</B><C>1.0</C></suncolor>
+		<skytexturemask>data/textures/landscape/default/cloud1m.bmp</skytexturemask>
 		<border type="water">
 			<reflection>data/textures/landscape/storm/cubemap.bmp</reflection>
 			<texture>data/textures/landscape/default/water.bmp</texture>
@@ -351,6 +367,8 @@
 		<skysunyz>45</skysunyz>
 		<skyambience><A>0.2</A><B>0.2</B><C>0.2</C></skyambience>
 		<skydiffuse><A>0.8</A><B>0.8</B><C>0.8</C></skydiffuse>
+		<suncolor><A>1.0</A><B>1.0</B><C>1.0</C></suncolor>
+		<skytexturemask>data/textures/landscape/default/cloud1m.bmp</skytexturemask>
 		<border type="water">
 			<reflection>data/textures/landscape/sand/cubemap.bmp</reflection>
 			<texture>data/textures/landscape/default/water.bmp</texture>
@@ -390,6 +408,8 @@
 		<skysunyz>45</skysunyz>
 		<skyambience><A>0.3</A><B>0.3</B><C>0.3</C></skyambience>
 		<skydiffuse><A>0.7</A><B>0.7</B><C>0.7</C></skydiffuse>
+		<suncolor><A>1.0</A><B>1.0</B><C>1.0</C></suncolor>
+		<skytexturemask>data/textures/landscape/storm/cloud1.bmp</skytexturemask>
 		<border type="none"></border>
 		<texture type="generate">
 			<rockside>data/textures/landscape/moon/texture0.bmp</rockside>
@@ -432,6 +452,8 @@
 		<skysunyz>25</skysunyz>
 		<skyambience><A>0.3</A><B>0.3</B><C>0.3</C></skyambience>
 		<skydiffuse><A>0.7</A><B>0.7</B><C>0.7</C></skydiffuse>
+		<suncolor><A>1.0</A><B>1.0</B><C>1.0</C></suncolor>
+		<skytexturemask>data/textures/landscape/default/cloud1m.bmp</skytexturemask>
 		<border type="none"></border>
 		<texture type="generate">
 			<rockside>data/textures/landscape/sand/texture2.bmp</rockside>
@@ -464,6 +486,8 @@
 		<skysunyz>15</skysunyz>
 		<skyambience><A>0.3</A><B>0.3</B><C>0.3</C></skyambience>
 		<skydiffuse><A>0.7</A><B>0.7</B><C>0.7</C></skydiffuse>
+		<suncolor><A>1.0</A><B>1.0</B><C>1.0</C></suncolor>
+		<skytexturemask>data/textures/landscape/default/cloud1m.bmp</skytexturemask>
 		<border type="water">
 			<reflection>data/textures/landscape/snow/cubemap.bmp</reflection>
 			<texture>data/textures/landscape/default/water.bmp</texture>
@@ -505,6 +529,8 @@
 		<skysunyz>15</skysunyz>
 		<skyambience><A>0.3</A><B>0.3</B><C>0.3</C></skyambience>
 		<skydiffuse><A>0.7</A><B>0.7</B><C>0.7</C></skydiffuse>
+		<suncolor><A>1.0</A><B>1.0</B><C>1.0</C></suncolor>
+		<skytexturemask>data/textures/landscape/default/cloud1m.bmp</skytexturemask>
 		<border type="water">
 			<reflection>data/textures/landscape/tropical/cubemap.bmp</reflection>
 			<texture>data/textures/landscape/default/water.bmp</texture>
@@ -544,6 +570,8 @@
 		<skysunyz>15</skysunyz>
 		<skyambience><A>0.3</A><B>0.3</B><C>0.3</C></skyambience>
 		<skydiffuse><A>0.7</A><B>0.7</B><C>0.7</C></skydiffuse>
+		<suncolor><A>1.0</A><B>1.0</B><C>1.0</C></suncolor>
+		<skytexturemask>data/textures/landscape/default/cloud1m.bmp</skytexturemask>
 		<border type="water">
 			<reflection>data/textures/landscape/snow/cubemap.bmp</reflection>
 			<texture>data/textures/landscape/default/water.bmp</texture>
@@ -585,6 +613,8 @@
 		<skysunyz>15</skysunyz>
 		<skyambience><A>0.3</A><B>0.3</B><C>0.3</C></skyambience>
 		<skydiffuse><A>0.7</A><B>0.7</B><C>0.7</C></skydiffuse>
+		<suncolor><A>1.0</A><B>1.0</B><C>1.0</C></suncolor>
+		<skytexturemask>data/textures/landscape/default/cloud1m.bmp</skytexturemask>
 		<border type="water">
 			<reflection>data/textures/landscape/tropical/cubemap.bmp</reflection>
 			<texture>data/textures/landscape/default/water.bmp</texture>
@@ -624,6 +654,8 @@
 		<skysunyz>15</skysunyz>
 		<skyambience><A>0.3</A><B>0.3</B><C>0.3</C></skyambience>
 		<skydiffuse><A>0.7</A><B>0.7</B><C>0.7</C></skydiffuse>
+		<suncolor><A>1.0</A><B>1.0</B><C>1.0</C></suncolor>
+		<skytexturemask>data/textures/landscape/default/cloud1m.bmp</skytexturemask>
 		<border type="water">
 			<reflection>data/textures/landscape/snow/cubemap.bmp</reflection>
 			<texture>data/textures/landscape/default/water.bmp</texture>
@@ -665,6 +697,8 @@
 		<skysunyz>15</skysunyz>
 		<skyambience><A>0.3</A><B>0.3</B><C>0.3</C></skyambience>
 		<skydiffuse><A>0.7</A><B>0.7</B><C>0.7</C></skydiffuse>
+		<suncolor><A>1.0</A><B>1.0</B><C>1.0</C></suncolor>
+		<skytexturemask>data/textures/landscape/default/cloud1m.bmp</skytexturemask>
 		<border type="water">
 			<reflection>data/textures/landscape/tropical/cubemap.bmp</reflection>
 			<texture>data/textures/landscape/default/water.bmp</texture>

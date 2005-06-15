@@ -110,6 +110,15 @@ void LandscapeObjects::generate(RandomGenerator &generator,
 					place.objects[i];
 			gen.generateObjects(generator, *placement, context, counter);
 		}
+		else if (0 == strcmp(placementtype.c_str(), "direct"))
+		{
+			// Direct type placement
+			LandscapeObjectPlacementDirect gen;
+			LandscapePlaceObjectsPlacementDirect *placement =
+				(LandscapePlaceObjectsPlacementDirect *)
+					place.objects[i];
+			gen.generateObjects(generator, *placement, context, counter);
+		}
 		else
 		{
 			dialogExit("LandscapeObjects",

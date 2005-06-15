@@ -47,4 +47,15 @@ public:
 		ProgressCounter *counter = 0);
 };
 
+class LandscapePlaceObjectsPlacementDirect;
+class LandscapeObjectPlacementDirect 
+{
+public:
+	virtual void generateObjects(
+		RandomGenerator &generator, 
+		LandscapePlaceObjectsPlacementDirect &placement,
+		ScorchedContext &context,
+		ProgressCounter *counter = 0);
+};
+
 #endif // __INCLUDE_LandscapeObjectsPlacementh_INCLUDE__
