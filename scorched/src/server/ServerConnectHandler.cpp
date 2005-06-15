@@ -169,12 +169,25 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 			}
 		}
 	}
-
-	// Generate the players unique id (if we need to)
+	
 	const char *uniqueId = message.getUniqueId();
 	if (0 == uniqueId[0]) // No ID
 	{
+		// Generate the players unique id (if we need to)
 		uniqueId = StatsLogger::instance()->allocateId();
+	}
+	else
+	{
+		// Check if this unique id has been banned
+		ServerBanned::BannedType type = 
+			ServerBanned::instance()->getBanned(ipAddress, uniqueId);
+		if (type == ServerBanned::Banned)
+		{
+			Logger::log( "Banned uniqueid connection from destination \"%i\"", 
+				destinationId);
+			ServerCommon::kickDestination(destinationId);
+			return true;
+		}
 	}
 
 	// Check that this unique id has not already connected (if unique ids are in use)
@@ -404,7 +417,7 @@ void ServerConnectHandler::addNextTank(unsigned int destinationId,
 	if (ipAddress != 0)
 	{
 		ServerBanned::BannedType type = 
-			ServerBanned::instance()->getBanned(ipAddress);
+			ServerBanned::instance()->getBanned(ipAddress, tank->getUniqueId());
 		if (type == ServerBanned::Muted)	
 		{
 			tank->getState().setMuted(true);

@@ -53,7 +53,7 @@ ServerMessageHandler::~ServerMessageHandler()
 void ServerMessageHandler::clientConnected(NetMessage &message)
 {
 	if (message.getIpAddress() != 0 &&
-		ServerBanned::instance()->getBanned(message.getIpAddress()) == 
+		ServerBanned::instance()->getBanned(message.getIpAddress(), "") == 
 		ServerBanned::Banned)
 	{
 		Logger::log( "Banned client connected dest=\"%i\" ip=\"%s\"", 

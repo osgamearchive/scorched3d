@@ -26,6 +26,7 @@ Fixed: Rollers can explode on cavern roof
 Fixed: Can see health bars under water
 Fixed: Only certain file types can be sent during auto mod download
 Fixed: Undo should not put duplicate entries in the undo log (and more undo features added)
+Fixed: Banned statsid added to list of banned players
 
 Added: Shadows to landscape placed objects
 Added: Direct placement type to allow direct placement of landscape objects

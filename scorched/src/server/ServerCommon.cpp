@@ -243,7 +243,7 @@ void ServerCommon::banPlayer(unsigned int playerId,
 			}
 		
 			ServerBanned::instance()->
-				addBanned(ipAddress, tank->getName(), type);
+				addBanned(ipAddress, tank->getName(), tank->getUniqueId(), type);
 			if (type == ServerBanned::Banned) kickPlayer(playerId);
 		}
 	}

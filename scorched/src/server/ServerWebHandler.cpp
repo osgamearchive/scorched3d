@@ -157,12 +157,20 @@ bool ServerWebHandler::LogHandler::processRequest(const char *url,
 	std::map<std::string, std::string> &fields,
 	std::string &text)
 {
-	// Log entries
-	std::string log;
 	std::deque<ServerLog::ServerLogEntry> &entries = 
 		ServerLog::instance()->getEntries();
-	int min = MAX(int(entries.size()) - 50, 0);
-	for (int i=min; i<(int) entries.size(); i++)
+
+	const int pagesize = 15;
+	int start = MAX(int(entries.size()) - pagesize, 0);
+	const char *page = getField(fields, "page");
+	if (page) start = atoi(page);
+
+	// Log entries
+	std::string log;
+
+	int min = MAX(start, 0);
+	int max = MIN((int) entries.size(), start + pagesize);
+	for (int i=min; i<max; i++)
 	{
 		log += formatString(
 			"<tr>"
@@ -173,6 +181,16 @@ bool ServerWebHandler::LogHandler::processRequest(const char *url,
 			entries[i].text.c_str());
 	}
 	fields["LOG"] = log;
+
+	// Pages
+	std::string pages;
+	for (int i =0; i<=int(entries.size())/pagesize; i++)
+	{
+		pages +=
+			formatString("<input type=\"submit\" name=\"page\" value=\"%i\">",
+				i * pagesize, i * pagesize + pagesize, i * pagesize);
+	}
+	fields["PAGES"] = pages;
 
 	return ServerWebServer::getTemplate("log.html", fields, text);
 }

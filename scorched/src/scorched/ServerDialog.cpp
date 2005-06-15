@@ -814,8 +814,9 @@ void ServerFrame::onShowBanned(wxCommandEvent &event)
 			ServerBanned::BannedEntry &entry = (*ipitor).second;
 			std::string ipName = NetInterface::getIpName(ip);
 
-			listDialog.addItem(formatString("\"%s\" %s %s (%s) - %s",
+			listDialog.addItem(formatString("\"%s:%s\" %s %s (%s) - %s",
 				entry.name.c_str(),
+				entry.uniqueid.c_str(),
 				ServerBanned::getBannedTypeStr(entry.type),
 				ipName.c_str(), mask.c_str(),
 				entry.bantime?ctime(&entry.bantime):""));
