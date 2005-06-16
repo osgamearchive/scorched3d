@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,30 +18,31 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_ServerTextHandlerh_INCLUDE__)
-#define __INCLUDE_ServerTextHandlerh_INCLUDE__
+#if !defined(__INCLUDE_ServerTextFilterh_INCLUDE__)
+#define __INCLUDE_ServerTextFilterh_INCLUDE__
 
-#include <coms/ComsMessageHandler.h>
-#include <server/ServerTextFilter.h>
+#include <string>
+#include <list>
+#include <time.h>
 
-class ServerTextHandler : 
-	public ComsMessageHandlerI
+class ServerTextFilter
 {
 public:
-	static ServerTextHandler *instance();
+	ServerTextFilter();
+	virtual ~ServerTextFilter();
 
-	virtual bool processMessage(unsigned int id,
-		const char *messageType,
-		NetBufferReader &reader);
+	void filterString(std::string &text);
 
 protected:
-	ServerTextFilter filter_;
+	struct TextPart
+	{
+		std::string part;
+		char *pos;
+	};
 
-private:
-	ServerTextHandler();
-	virtual ~ServerTextHandler();
-
+	std::list<std::string> words_;
+	time_t lastReadTime_;
+	void loadFile();
 };
 
-
-#endif
+#endif // __INCLUDE_ServerTextFilterh_INCLUDE__

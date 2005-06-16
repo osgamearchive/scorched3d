@@ -28,6 +28,7 @@ Fixed: Only certain file types can be sent during auto mod download
 Fixed: Undo should not put duplicate entries in the undo log (and more undo features added)
 Fixed: Banned statsid added to list of banned players
 
+Added: Chat filter (swear words)
 Added: Shadows to landscape placed objects
 Added: Direct placement type to allow direct placement of landscape objects
 Added: removeaction for trees and objects that allows them to explode etc. when removed
@@ -87,7 +88,6 @@ Allow same ip addresses to connect but don't collect stats
 Bobirovs list of stuff (http://apochq.handwired.net/ideas.txt)
 
 -- Server Stuff
-Chat filter (swear words)
 A way to set the maximum and minimum players for a map (half done)
 Web interface for server to change settings
 

@@ -3151,6 +3151,12 @@
 				RelativePath="..\server\ServerStateTooFewPlayersState.h">
 			</File>
 			<File
+				RelativePath="..\server\ServerTextFilter.cpp">
+			</File>
+			<File
+				RelativePath="..\server\ServerTextFilter.h">
+			</File>
+			<File
 				RelativePath="..\server\ServerTextHandler.cpp">
 			</File>
 			<File

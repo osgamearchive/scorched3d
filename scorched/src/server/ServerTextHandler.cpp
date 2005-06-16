@@ -46,13 +46,17 @@ ServerTextHandler::~ServerTextHandler()
 
 bool ServerTextHandler::processMessage(unsigned int destinationId,
 	const char *messageType,
-									NetBufferReader &reader)
+	NetBufferReader &reader)
 {
 	ComsTextMessage message;
 	if (!message.readMessage(reader)) return false;
 
 	// Check that we don't recieve too much text
 	if (strlen(message.getText()) > 1024) return true;
+
+	// Filter the string
+	std::string filteredText(message.getText());
+	filter_.filterString(filteredText);
 
 	// If the client does not supply a tank id then
 	// get one from the destination
@@ -93,7 +97,7 @@ bool ServerTextHandler::processMessage(unsigned int destinationId,
 			newText += " (Team)";
 		}
 		newText += ": ";
-		newText += message.getText();
+		newText += filteredText;
 		
 		// Remove any bad characters
 		for (char *r = (char *) newText.c_str(); *r; r++)
