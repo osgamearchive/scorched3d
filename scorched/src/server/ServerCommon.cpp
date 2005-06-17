@@ -25,6 +25,7 @@
 #include <tank/TankContainer.h>
 #include <common/OptionsParam.h>
 #include <common/OptionsGame.h>
+#include <common/OptionsTransient.h>
 #include <common/Logger.h>
 #include <common/FileLogger.h>
 #include <coms/ComsTextMessage.h>
@@ -251,6 +252,8 @@ void ServerCommon::banPlayer(unsigned int playerId,
 
 void ServerCommon::killAll()
 {
+	Logger::log("Killing all players");
+
 	std::map<unsigned int, Tank *>::iterator itor;
 	std::map<unsigned int, Tank *> &tanks = 
 		ScorchedServer::instance()->getTankContainer().getPlayingTanks();
@@ -261,6 +264,14 @@ void ServerCommon::killAll()
 		Tank *current = (*itor).second;
 		current->getState().setState(TankState::sDead);
 	}
+}
+
+void ServerCommon::startNewGame()
+{
+	killAll();
+
+	Logger::log("Starting a new game");
+	ScorchedServer::instance()->getOptionsTransient().startNewGame();
 }
 
 void ServerCommon::serverLog(unsigned int playerId, const char *fmt, ...)

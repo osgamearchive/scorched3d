@@ -1222,8 +1222,9 @@ scorcheddatahtmldir = ${datadir}/data/html
 scorcheddatahtml_DATA = 
 scorcheddatahtmlserverdir = ${datadir}/data/html/server
 scorcheddatahtmlserver_DATA = data/html/server/login.html \
+	data/html/server/game.html \
 	data/html/server/footer.html \
 	data/html/server/header.html \
-	data/html/server/index.html \
 	data/html/server/log.html \
-	data/html/server/menu.html
+	data/html/server/menu.html \
+	data/html/server/player.html

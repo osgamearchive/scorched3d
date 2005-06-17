@@ -26,7 +26,7 @@
 namespace ServerWebHandler
 {
 
-	class IndexHandler : public ServerWebServerI
+	class PlayerHandler : public ServerWebServerI
 	{
 	public:
 		virtual bool processRequest(const char *url,
@@ -35,6 +35,14 @@ namespace ServerWebHandler
 	};
 
 	class LogHandler : public ServerWebServerI
+	{
+	public:
+		virtual bool processRequest(const char *url,
+			std::map<std::string, std::string> &fields,
+			std::string &text);
+	};
+
+	class GameHandler : public ServerWebServerI
 	{
 	public:
 		virtual bool processRequest(const char *url,

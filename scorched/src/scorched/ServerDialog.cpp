@@ -568,8 +568,7 @@ void ServerFrame::onKillAll(wxCommandEvent &event)
 
 void ServerFrame::onStartNewGame(wxCommandEvent &event)
 {
-	onKillAll(event);
-	ScorchedServer::instance()->getOptionsTransient().startNewGame();
+	ServerCommon::startNewGame();
 }
 
 void ServerFrame::onPlayerTalkAll(wxCommandEvent &event)

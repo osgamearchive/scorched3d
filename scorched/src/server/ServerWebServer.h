@@ -51,7 +51,13 @@ public:
 		std::string &result);
 
 protected:
+	struct SessionParams
+	{
+		unsigned int sessionTime;
+	};
+
 	static ServerWebServer *instance_;
+	std::map <unsigned int, SessionParams> sessions_;
 	std::map <std::string, ServerWebServerI *> handlers_;
 	NetServer netServer_;
 	FileLogger *logger_;

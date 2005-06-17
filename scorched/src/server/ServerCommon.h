@@ -36,6 +36,7 @@ namespace ServerCommon
 	void banPlayer(unsigned int playerId, ServerBanned::BannedType type = ServerBanned::Banned);
 	void slapPlayer(unsigned int playerId, float slap);
 	void killAll();
+	void startNewGame();
 }
 
 #endif

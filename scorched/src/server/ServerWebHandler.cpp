@@ -39,7 +39,7 @@ static const char *getField(std::map<std::string, std::string> &fields, const ch
 	return 0;
 }
 
-bool ServerWebHandler::IndexHandler::processRequest(const char *url,
+bool ServerWebHandler::PlayerHandler::processRequest(const char *url,
 	std::map<std::string, std::string> &fields,
 	std::string &text)
 {
@@ -150,7 +150,7 @@ bool ServerWebHandler::IndexHandler::processRequest(const char *url,
 	}
 	fields["ADD"] = add;
 
-	return ServerWebServer::getTemplate("index.html", fields, text);
+	return ServerWebServer::getTemplate("player.html", fields, text);
 }
 
 bool ServerWebHandler::LogHandler::processRequest(const char *url,
@@ -160,8 +160,8 @@ bool ServerWebHandler::LogHandler::processRequest(const char *url,
 	std::deque<ServerLog::ServerLogEntry> &entries = 
 		ServerLog::instance()->getEntries();
 
-	const int pagesize = 15;
-	int start = MAX(int(entries.size()) - pagesize, 0);
+	const int pagesize = 20;
+	int start = (int(entries.size()) / pagesize) * pagesize;
 	const char *page = getField(fields, "page");
 	if (page) start = atoi(page);
 
@@ -174,8 +174,8 @@ bool ServerWebHandler::LogHandler::processRequest(const char *url,
 	{
 		log += formatString(
 			"<tr>"
-			"<td>%u</td>"
-			"<td>%s</td>"
+			"<td><font size=-2>%u</font></td>"
+			"<td><font size=-2>%s</font></td>"
 			"</tr>\n",
 			i,
 			entries[i].text.c_str());
@@ -187,10 +187,36 @@ bool ServerWebHandler::LogHandler::processRequest(const char *url,
 	for (int i =0; i<=int(entries.size())/pagesize; i++)
 	{
 		pages +=
-			formatString("<input type=\"submit\" name=\"page\" value=\"%i\">",
-				i * pagesize, i * pagesize + pagesize, i * pagesize);
+			formatString("<a href='?sid=%s&page=%i'>%i - %i</a>&nbsp;",
+				fields["sid"].c_str(), 
+				i * pagesize, i * pagesize, i * pagesize + pagesize - 1);
 	}
+	pages +=
+		formatString("<a href='?sid=%s'>Last</a>",
+			fields["sid"].c_str());
 	fields["PAGES"] = pages;
 
 	return ServerWebServer::getTemplate("log.html", fields, text);
 }
+
+bool ServerWebHandler::GameHandler::processRequest(const char *url,
+	std::map<std::string, std::string> &fields,
+	std::string &text)
+{
+	// Check for any action
+	const char *action = getField(fields, "action");
+	if (action)
+	{
+		if (0 == strcmp(action, "NewGame"))
+		{
+			ServerCommon::startNewGame();
+		}
+		else if (0 == strcmp(action, "KillAll"))
+		{
+			ServerCommon::killAll();
+		}
+	}
+
+	return ServerWebServer::getTemplate("game.html", fields, text);
+}
+

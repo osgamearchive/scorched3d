@@ -983,6 +983,8 @@ scorched3d_SOURCES = \
 	../server/ServerState.h \
 	../server/ServerStateTooFewPlayersState.cpp \
 	../server/ServerStateTooFewPlayersState.h \
+	../server/ServerTextFilter.cpp \
+	../server/ServerTextFilter.h \
 	../server/ServerTextHandler.cpp \
 	../server/ServerTextHandler.h \
 	../server/ServerTimedMessage.cpp \

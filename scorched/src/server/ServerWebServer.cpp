@@ -25,6 +25,7 @@
 #include <common/OptionsGame.h>
 #include <common/Logger.h>
 #include <common/LoggerI.h>
+#include <stdlib.h>
 #include <string.h>
 #include <time.h>
 
@@ -43,8 +44,9 @@ ServerWebServer::ServerWebServer() :
 	netServer_(new NetServerHTTPProtocolRecv),
 	logger_(0)
 {
-	addRequestHandler("/", new ServerWebHandler::IndexHandler());
+	addRequestHandler("/", new ServerWebHandler::PlayerHandler());
 	addRequestHandler("/logs", new ServerWebHandler::LogHandler());
+	addRequestHandler("/game", new ServerWebHandler::GameHandler());
 }
 
 ServerWebServer::~ServerWebServer()
@@ -198,12 +200,64 @@ bool ServerWebServer::processRequest(
 bool ServerWebServer::validateUser(
 	std::map<std::string, std::string> &fields)
 {
-	if (fields.find("name") == fields.end() ||
-		fields.find("password") == fields.end()) return false;
+	const unsigned int SessionTimeOut = 60 * 15;
+	unsigned int currentTime = time(0);
 
-	return ServerAdminHandler::instance()->login(
-		fields["name"].c_str(),
-		fields["password"].c_str());
+	// Tidy expired sessions
+	std::map <unsigned int, SessionParams>::iterator sitor;
+	for (sitor = sessions_.begin();
+		sitor != sessions_.end();
+		sitor++)
+	{
+		SessionParams &params = (*sitor).second;
+		if (currentTime > params.sessionTime + SessionTimeOut)
+		{
+			sessions_.erase(sitor);
+			break;
+		}
+	}
+
+	// Check if user has a valid session
+	if (fields.find("sid") != fields.end())
+	{
+		unsigned int sid = (unsigned int) atoi(fields["sid"].c_str());
+		std::map <unsigned int, SessionParams>::iterator findItor =
+			sessions_.find(sid);
+		if (findItor != sessions_.end())
+		{
+			SessionParams &params = (*findItor).second;
+			if (currentTime < params.sessionTime + SessionTimeOut)
+			{
+				params.sessionTime = currentTime;
+				return true;
+			}
+			else
+			{
+				sessions_.erase(findItor);
+			}
+		}
+	}
+
+	// Check if user has a valid username and password
+	if (fields.find("name") != fields.end() ||
+		fields.find("password") != fields.end()) 
+	{
+		if (ServerAdminHandler::instance()->login(
+			fields["name"].c_str(),
+			fields["password"].c_str()))
+		{
+			SessionParams params;
+			params.sessionTime = currentTime;
+
+			unsigned int sid = rand();
+			sessions_[sid] = params;
+			fields["sid"] = formatString("%u", sid);
+
+			return true;
+		}
+	}
+
+	return false;
 }
 
 bool ServerWebServer::generatePage(
