@@ -55,6 +55,38 @@
 	</place>
 	<!-- apoc places -->
 	<place>
+		<name>wintercitypine</name>
+		<placements>
+			<placement type="trees">
+				<numobjects>200000</numobjects>
+				<numclusters>6</numclusters>
+				<minheight>15</minheight>
+				<maxheight>60</maxheight>
+				<removeaction></removeaction>
+				<object type="tree">
+					<tree>pine</tree>
+					<snow>10</snow>
+				</object>
+			</placement>
+		</placements>
+	</place>
+	<place>
+		<name>summercitypine</name>
+		<placements>
+			<placement type="trees">
+				<numobjects>200000</numobjects>
+				<numclusters>6</numclusters>
+				<minheight>15</minheight>
+				<maxheight>60</maxheight>
+				<removeaction></removeaction>
+				<object type="tree">
+					<tree>pine</tree>
+					<snow>75</snow>
+				</object>
+			</placement>
+		</placements>
+	</place>
+	<place>
 		<name>usa-summer</name>
 		<placements>
 			<placement type="mask">
@@ -294,21 +326,10 @@
 		</placements>
 	</place>
 	<place>
-		<name>wintercity1</name>
+		<name>city1</name>
 		<placements>
-			<placement type="trees">
-				<numobjects>200000</numobjects>
-				<numclusters>6</numclusters>
-				<minheight>15</minheight>
-				<maxheight>60</maxheight>
-				<removeaction></removeaction>
-				<object type="tree">
-					<tree>pine</tree>
-					<snow>10</snow>
-				</object>
-			</placement>
 			<placement type="mask">
-				<numobjects>15</numobjects>
+				<numobjects>20</numobjects>
 				<mask>data/landscapes/masks/city1urban.bmp</mask>
 				<minheight>10</minheight>
 				<maxheight>75</maxheight>
@@ -356,7 +377,55 @@
 				</object>
 			</placement>
 			<placement type="mask">
-				<numobjects>75</numobjects>
+				<numobjects>100</numobjects>
+				<mask>data/landscapes/masks/city1urban2.bmp</mask>
+				<minheight>10</minheight>
+				<maxheight>75</maxheight>
+				<mincloseness>5</mincloseness>
+				<minslope>0.75</minslope>
+				<xsnap>0</xsnap>
+				<ysnap>0</ysnap>
+				<angsnap>90</angsnap>
+				<removeaction></removeaction>
+				<object type="model">
+					<model type="MilkShape">data/accessories/office3/office3.txt</model>
+					<modelburnt type="MilkShape">data/accessories/office3/office3.txt</modelburnt>
+				</object>
+			</placement>
+			<placement type="mask">
+				<numobjects>60</numobjects>
+				<mask>data/landscapes/masks/city1suburban2.bmp</mask>
+				<minheight>10</minheight>
+				<maxheight>75</maxheight>
+				<mincloseness>5</mincloseness>
+				<minslope>0.75</minslope>
+				<xsnap>0</xsnap>
+				<ysnap>0</ysnap>
+				<angsnap>90</angsnap>
+				<removeaction></removeaction>
+				<object type="model">
+					<model type="MilkShape">data/accessories/gasstation1/gasstation1.txt</model>
+					<modelburnt type="MilkShape">data/accessories/gasstation1/gasstation1burnt.txt</modelburnt>
+				</object>
+			</placement>
+			<placement type="mask">
+				<numobjects>12</numobjects>
+				<mask>data/landscapes/masks/city1all.bmp</mask>
+				<minheight>10</minheight>
+				<maxheight>75</maxheight>
+				<mincloseness>5</mincloseness>
+				<minslope>0.75</minslope>
+				<xsnap>0</xsnap>
+				<ysnap>0</ysnap>
+				<angsnap>90</angsnap>
+				<removeaction></removeaction>
+				<object type="model">
+					<model type="MilkShape">data/accessories/gasstation1/gasstation1.txt</model>
+					<modelburnt type="MilkShape">data/accessories/gasstation1/gasstation1burnt.txt</modelburnt>
+				</object>
+			</placement>
+			<placement type="mask">
+				<numobjects>60</numobjects>
 				<mask>data/landscapes/masks/city1suburban2.bmp</mask>
 				<minheight>10</minheight>
 				<maxheight>75</maxheight>
@@ -388,7 +457,7 @@
 				</object>
 			</placement>
 			<placement type="mask">
-				<numobjects>10</numobjects>
+				<numobjects>12</numobjects>
 				<mask>data/landscapes/masks/city1all.bmp</mask>
 				<minheight>10</minheight>
 				<maxheight>75</maxheight>
@@ -404,7 +473,7 @@
 				</object>
 			</placement>
 			<placement type="mask">
-				<numobjects>10</numobjects>
+				<numobjects>12</numobjects>
 				<mask>data/landscapes/masks/city1rural.bmp</mask>
 				<minheight>10</minheight>
 				<maxheight>50</maxheight>
@@ -420,10 +489,10 @@
 				</object>
 			</placement>
 			<placement type="trees">
-				<numobjects>20000</numobjects>
-				<numclusters>2</numclusters>
+				<numobjects>15000</numobjects>
+				<numclusters>1</numclusters>
 				<minheight>8</minheight>
-				<maxheight>40</maxheight>
+				<maxheight>30</maxheight>
 				<removeaction></removeaction>
 				<object type="model">
 					<model type="MilkShape">data/accessories/trailorhouse1/trailorhouse1.txt</model>
@@ -431,7 +500,7 @@
 				</object>
 			</placement>
 			<placement type="mask">
-				<numobjects>250</numobjects>
+				<numobjects>125</numobjects>
 				<mask>data/landscapes/masks/city1suburban.bmp</mask>
 				<minheight>10</minheight>
 				<maxheight>75</maxheight>
@@ -447,178 +516,7 @@
 				</object>
 			</placement>
 			<placement type="mask">
-				<numobjects>100</numobjects>
-				<mask>data/landscapes/masks/city1rural2.bmp</mask>
-				<minheight>10</minheight>
-				<maxheight>75</maxheight>
-				<mincloseness>3</mincloseness>
-				<minslope>0.5</minslope>
-				<xsnap>0</xsnap>
-				<ysnap>0</ysnap>
-				<angsnap>90</angsnap>
-				<removeaction></removeaction>
-				<object type="model">
-					<model type="MilkShape">data/accessories/logcabin1/logcabin1.txt</model>
-					<modelburnt type="MilkShape">data/accessories/logcabin1/logcabin1burnt.txt</modelburnt>
-				</object>
-			</placement>
-			<placement type="mask">
-				<numobjects>50</numobjects>
-				<mask>data/landscapes/masks/city1rural.bmp</mask>
-				<minheight>10</minheight>
-				<maxheight>75</maxheight>
-				<mincloseness>5</mincloseness>
-				<minslope>0.5</minslope>
-				<xsnap>0</xsnap>
-				<ysnap>0</ysnap>
-				<angsnap>0</angsnap>
-				<removeaction></removeaction>
-				<object type="model">
-					<model type="MilkShape">data/accessories/house1/house1.txt</model>
-					<modelburnt type="MilkShape">data/accessories/house1/house1burnt.txt</modelburnt>
-				</object>
-			</placement>
-		</placements>
-	</place>
-	<place>
-		<name>summercity1</name>
-		<placements>
-			<placement type="trees">
-				<numobjects>200000</numobjects>
-				<numclusters>6</numclusters>
-				<minheight>15</minheight>
-				<maxheight>60</maxheight>
-				<removeaction></removeaction>
-				<object type="tree">
-					<tree>pine</tree>
-					<snow>75</snow>
-				</object>
-			</placement>
-			<placement type="mask">
-				<numobjects>15</numobjects>
-				<mask>data/landscapes/masks/city1urban.bmp</mask>
-				<minheight>10</minheight>
-				<maxheight>75</maxheight>
-				<mincloseness>5</mincloseness>
-				<minslope>0.66</minslope>
-				<xsnap>0</xsnap>
-				<ysnap>0</ysnap>
-				<angsnap>90</angsnap>
-				<removeaction></removeaction>
-				<object type="model">
-					<model type="MilkShape">data/accessories/skyscraper1/skyscraper1.txt</model>
-					<modelburnt type="MilkShape">data/accessories/skyscraper1/skyscraper1burnt.txt</modelburnt>
-				</object>
-			</placement>
-			<placement type="mask">
-				<numobjects>100</numobjects>
-				<mask>data/landscapes/masks/city1urban2.bmp</mask>
-				<minheight>10</minheight>
-				<maxheight>75</maxheight>
-				<mincloseness>4</mincloseness>
-				<minslope>0.66</minslope>
-				<xsnap>0</xsnap>
-				<ysnap>0</ysnap>
-				<angsnap>90</angsnap>
-				<removeaction></removeaction>
-				<object type="model">
-					<model type="MilkShape">data/accessories/officeplaza1/officeplaza1.txt</model>
-					<modelburnt type="MilkShape">data/accessories/officeplaza1/officeplaza1burnt.txt</modelburnt>
-				</object>
-			</placement>
-			<placement type="mask">
-				<numobjects>100</numobjects>
-				<mask>data/landscapes/masks/city1urban2.bmp</mask>
-				<minheight>10</minheight>
-				<maxheight>75</maxheight>
-				<mincloseness>5</mincloseness>
-				<minslope>0.66</minslope>
-				<xsnap>0</xsnap>
-				<ysnap>0</ysnap>
-				<angsnap>90</angsnap>
-				<removeaction></removeaction>
-				<object type="model">
-					<model type="MilkShape">data/accessories/cityoffice/cityoffice.txt</model>
-					<modelburnt type="MilkShape">data/accessories/cityoffice/cityofficeburnt.txt</modelburnt>
-				</object>
-			</placement>
-			<placement type="mask">
-				<numobjects>75</numobjects>
-				<mask>data/landscapes/masks/city1suburban2.bmp</mask>
-				<minheight>10</minheight>
-				<maxheight>75</maxheight>
-				<mincloseness>4</mincloseness>
-				<minslope>0.66</minslope>
-				<xsnap>0</xsnap>
-				<ysnap>0</ysnap>
-				<angsnap>90</angsnap>
-				<removeaction></removeaction>
-				<object type="model">
-					<model type="MilkShape">data/accessories/store1/store1.txt</model>
-					<modelburnt type="MilkShape">data/accessories/store1/store1burnt.txt</modelburnt>
-				</object>
-			</placement>
-			<placement type="mask">
-				<numobjects>24</numobjects>
-				<mask>data/landscapes/masks/city1suburban2.bmp</mask>
-				<minheight>10</minheight>
-				<maxheight>75</maxheight>
-				<mincloseness>4</mincloseness>
-				<minslope>0.66</minslope>
-				<xsnap>0</xsnap>
-				<ysnap>0</ysnap>
-				<angsnap>90</angsnap>
-				<removeaction></removeaction>
-				<object type="model">
-					<model type="MilkShape">data/accessories/church1/church1.txt</model>
-					<modelburnt type="MilkShape">data/accessories/church1/church1burnt.txt</modelburnt>
-				</object>
-			</placement>
-			<placement type="mask">
-				<numobjects>10</numobjects>
-				<mask>data/landscapes/masks/city1all.bmp</mask>
-				<minheight>10</minheight>
-				<maxheight>75</maxheight>
-				<mincloseness>10</mincloseness>
-				<minslope>0.75</minslope>
-				<xsnap>0</xsnap>
-				<ysnap>0</ysnap>
-				<angsnap>0</angsnap>
-				<removeaction></removeaction>
-				<object type="model">
-					<model type="MilkShape">data/accessories/factory1/factory1.txt</model>
-					<modelburnt type="MilkShape">data/accessories/factory1/factory1burnt.txt</modelburnt>
-				</object>
-			</placement>
-			<placement type="mask">
-				<numobjects>10</numobjects>
-				<mask>data/landscapes/masks/city1rural.bmp</mask>
-				<minheight>10</minheight>
-				<maxheight>50</maxheight>
-				<mincloseness>10</mincloseness>
-				<minslope>0.75</minslope>
-				<xsnap>0</xsnap>
-				<ysnap>0</ysnap>
-				<angsnap>0</angsnap>
-				<removeaction></removeaction>
-				<object type="model">
-					<model type="MilkShape">data/accessories/farm1/farm1.txt</model>
-					<modelburnt type="MilkShape">data/accessories/farm1/farm1burnt.txt</modelburnt>
-				</object>
-			</placement>
-			<placement type="trees">
-				<numobjects>20000</numobjects>
-				<numclusters>1</numclusters>
-				<minheight>8</minheight>
-				<maxheight>40</maxheight>
-				<removeaction></removeaction>
-				<object type="model">
-					<model type="MilkShape">data/accessories/trailorhouse1/trailorhouse1.txt</model>
-					<modelburnt type="MilkShape">data/accessories/trailorhouse1/trailorhouse1burnt.txt</modelburnt>
-				</object>
-			</placement>
-			<placement type="mask">
-				<numobjects>250</numobjects>
+				<numobjects>125</numobjects>
 				<mask>data/landscapes/masks/city1suburban.bmp</mask>
 				<minheight>10</minheight>
 				<maxheight>75</maxheight>
@@ -629,13 +527,29 @@
 				<angsnap>90</angsnap>
 				<removeaction></removeaction>
 				<object type="model">
-					<model type="MilkShape">data/accessories/house1/house1.txt</model>
-					<modelburnt type="MilkShape">data/accessories/house1/house1burnt.txt</modelburnt>
+					<model type="MilkShape">data/accessories/house1/house1-2.txt</model>
+					<modelburnt type="MilkShape">data/accessories/house1/house1-2burnt.txt</modelburnt>
 				</object>
 			</placement>
 			<placement type="mask">
-				<numobjects>100</numobjects>
-				<mask>data/landscapes/masks/city1rural2.bmp</mask>
+				<numobjects>125</numobjects>
+				<mask>data/landscapes/masks/city1suburban.bmp</mask>
+				<minheight>10</minheight>
+				<maxheight>75</maxheight>
+				<mincloseness>3</mincloseness>
+				<minslope>0.5</minslope>
+				<xsnap>0</xsnap>
+				<ysnap>0</ysnap>
+				<angsnap>90</angsnap>
+				<removeaction></removeaction>
+				<object type="model">
+					<model type="MilkShape">data/accessories/house1/house1-3.txt</model>
+					<modelburnt type="MilkShape">data/accessories/house1/house1-3burnt.txt</modelburnt>
+				</object>
+			</placement>
+			<placement type="mask">
+				<numobjects>125</numobjects>
+				<mask>data/landscapes/masks/city1suburban.bmp</mask>
 				<minheight>10</minheight>
 				<maxheight>75</maxheight>
 				<mincloseness>3</mincloseness>
@@ -650,7 +564,7 @@
 				</object>
 			</placement>
 			<placement type="mask">
-				<numobjects>50</numobjects>
+				<numobjects>25</numobjects>
 				<mask>data/landscapes/masks/city1rural.bmp</mask>
 				<minheight>10</minheight>
 				<maxheight>75</maxheight>
@@ -665,211 +579,61 @@
 					<modelburnt type="MilkShape">data/accessories/house1/house1burnt.txt</modelburnt>
 				</object>
 			</placement>
-		</placements>
-	</place>
-	<place>
-		<name>wintercity2</name>
-		<placements>
-			<placement type="trees">
-				<numobjects>200000</numobjects>
-				<numclusters>6</numclusters>
-				<minheight>15</minheight>
-				<maxheight>60</maxheight>
-				<removeaction></removeaction>
-				<object type="tree">
-					<tree>pine</tree>
-					<snow>10</snow>
-				</object>
-			</placement>
 			<placement type="mask">
-				<numobjects>15</numobjects>
-				<mask>data/landscapes/masks/city2urban.bmp</mask>
+				<numobjects>25</numobjects>
+				<mask>data/landscapes/masks/city1rural.bmp</mask>
 				<minheight>10</minheight>
 				<maxheight>75</maxheight>
 				<mincloseness>5</mincloseness>
-				<minslope>0.66</minslope>
-				<xsnap>0</xsnap>
-				<ysnap>0</ysnap>
-				<angsnap>90</angsnap>
-				<removeaction></removeaction>
-				<object type="model">
-					<model type="MilkShape">data/accessories/skyscraper1/skyscraper1.txt</model>
-					<modelburnt type="MilkShape">data/accessories/skyscraper1/skyscraper1burnt.txt</modelburnt>
-				</object>
-			</placement>
-			<placement type="mask">
-				<numobjects>100</numobjects>
-				<mask>data/landscapes/masks/city2urban2.bmp</mask>
-				<minheight>10</minheight>
-				<maxheight>75</maxheight>
-				<mincloseness>4</mincloseness>
-				<minslope>0.66</minslope>
-				<xsnap>0</xsnap>
-				<ysnap>0</ysnap>
-				<angsnap>90</angsnap>
-				<removeaction></removeaction>
-				<object type="model">
-					<model type="MilkShape">data/accessories/officeplaza1/officeplaza1.txt</model>
-					<modelburnt type="MilkShape">data/accessories/officeplaza1/officeplaza1burnt.txt</modelburnt>
-				</object>
-			</placement>
-			<placement type="mask">
-				<numobjects>100</numobjects>
-				<mask>data/landscapes/masks/city2urban2.bmp</mask>
-				<minheight>10</minheight>
-				<maxheight>75</maxheight>
-				<mincloseness>5</mincloseness>
-				<minslope>0.66</minslope>
-				<xsnap>0</xsnap>
-				<ysnap>0</ysnap>
-				<angsnap>90</angsnap>
-				<removeaction></removeaction>
-				<object type="model">
-					<model type="MilkShape">data/accessories/cityoffice/cityoffice.txt</model>
-					<modelburnt type="MilkShape">data/accessories/cityoffice/cityofficeburnt.txt</modelburnt>
-				</object>
-			</placement>
-			<placement type="mask">
-				<numobjects>75</numobjects>
-				<mask>data/landscapes/masks/city2suburban2.bmp</mask>
-				<minheight>10</minheight>
-				<maxheight>75</maxheight>
-				<mincloseness>4</mincloseness>
-				<minslope>0.66</minslope>
-				<xsnap>0</xsnap>
-				<ysnap>0</ysnap>
-				<angsnap>90</angsnap>
-				<removeaction></removeaction>
-				<object type="model">
-					<model type="MilkShape">data/accessories/store1/store1.txt</model>
-					<modelburnt type="MilkShape">data/accessories/store1/store1burnt.txt</modelburnt>
-				</object>
-			</placement>
-			<placement type="mask">
-				<numobjects>24</numobjects>
-				<mask>data/landscapes/masks/city2suburban2.bmp</mask>
-				<minheight>10</minheight>
-				<maxheight>75</maxheight>
-				<mincloseness>4</mincloseness>
-				<minslope>0.66</minslope>
-				<xsnap>0</xsnap>
-				<ysnap>0</ysnap>
-				<angsnap>90</angsnap>
-				<removeaction></removeaction>
-				<object type="model">
-					<model type="MilkShape">data/accessories/church1/church1.txt</model>
-					<modelburnt type="MilkShape">data/accessories/church1/church1burnt.txt</modelburnt>
-				</object>
-			</placement>
-			<placement type="mask">
-				<numobjects>10</numobjects>
-				<mask>data/landscapes/masks/city2all.bmp</mask>
-				<minheight>10</minheight>
-				<maxheight>75</maxheight>
-				<mincloseness>10</mincloseness>
-				<minslope>0.75</minslope>
+				<minslope>0.5</minslope>
 				<xsnap>0</xsnap>
 				<ysnap>0</ysnap>
 				<angsnap>0</angsnap>
 				<removeaction></removeaction>
 				<object type="model">
-					<model type="MilkShape">data/accessories/factory1/factory1.txt</model>
-					<modelburnt type="MilkShape">data/accessories/factory1/factory1burnt.txt</modelburnt>
+					<model type="MilkShape">data/accessories/house1/house1-2.txt</model>
+					<modelburnt type="MilkShape">data/accessories/house1/house1-2burnt.txt</modelburnt>
 				</object>
 			</placement>
 			<placement type="mask">
-				<numobjects>10</numobjects>
-				<mask>data/landscapes/masks/city2rural.bmp</mask>
+				<numobjects>25</numobjects>
+				<mask>data/landscapes/masks/city1rural.bmp</mask>
 				<minheight>10</minheight>
-				<maxheight>50</maxheight>
-				<mincloseness>10</mincloseness>
-				<minslope>0.75</minslope>
+				<maxheight>75</maxheight>
+				<mincloseness>5</mincloseness>
+				<minslope>0.5</minslope>
 				<xsnap>0</xsnap>
 				<ysnap>0</ysnap>
 				<angsnap>0</angsnap>
 				<removeaction></removeaction>
 				<object type="model">
-					<model type="MilkShape">data/accessories/farm1/farm1.txt</model>
-					<modelburnt type="MilkShape">data/accessories/farm1/farm1burnt.txt</modelburnt>
-				</object>
-			</placement>
-			<placement type="trees">
-				<numobjects>20000</numobjects>
-				<numclusters>2</numclusters>
-				<minheight>8</minheight>
-				<maxheight>40</maxheight>
-				<removeaction></removeaction>
-				<object type="model">
-					<model type="MilkShape">data/accessories/trailorhouse1/trailorhouse1.txt</model>
-					<modelburnt type="MilkShape">data/accessories/trailorhouse1/trailorhouse1burnt.txt</modelburnt>
+					<model type="MilkShape">data/accessories/house1/house1-3.txt</model>
+					<modelburnt type="MilkShape">data/accessories/house1/house1-3burnt.txt</modelburnt>
 				</object>
 			</placement>
 			<placement type="mask">
-				<numobjects>250</numobjects>
-				<mask>data/landscapes/masks/city2suburban.bmp</mask>
+				<numobjects>25</numobjects>
+				<mask>data/landscapes/masks/city1rural.bmp</mask>
 				<minheight>10</minheight>
 				<maxheight>75</maxheight>
-				<mincloseness>3</mincloseness>
+				<mincloseness>5</mincloseness>
 				<minslope>0.5</minslope>
 				<xsnap>0</xsnap>
 				<ysnap>0</ysnap>
-				<angsnap>90</angsnap>
-				<removeaction></removeaction>
-				<object type="model">
-					<model type="MilkShape">data/accessories/house1/house1.txt</model>
-					<modelburnt type="MilkShape">data/accessories/house1/house1burnt.txt</modelburnt>
-				</object>
-			</placement>
-			<placement type="mask">
-				<numobjects>100</numobjects>
-				<mask>data/landscapes/masks/city2rural2.bmp</mask>
-				<minheight>10</minheight>
-				<maxheight>75</maxheight>
-				<mincloseness>3</mincloseness>
-				<minslope>0.5</minslope>
-				<xsnap>0</xsnap>
-				<ysnap>0</ysnap>
-				<angsnap>90</angsnap>
+				<angsnap>0</angsnap>
 				<removeaction></removeaction>
 				<object type="model">
 					<model type="MilkShape">data/accessories/logcabin1/logcabin1.txt</model>
 					<modelburnt type="MilkShape">data/accessories/logcabin1/logcabin1burnt.txt</modelburnt>
 				</object>
 			</placement>
-			<placement type="mask">
-				<numobjects>50</numobjects>
-				<mask>data/landscapes/masks/city2rural.bmp</mask>
-				<minheight>10</minheight>
-				<maxheight>75</maxheight>
-				<mincloseness>5</mincloseness>
-				<minslope>0.5</minslope>
-				<xsnap>0</xsnap>
-				<ysnap>0</ysnap>
-				<angsnap>0</angsnap>
-				<removeaction></removeaction>
-				<object type="model">
-					<model type="MilkShape">data/accessories/house1/house1.txt</model>
-					<modelburnt type="MilkShape">data/accessories/house1/house1burnt.txt</modelburnt>
-				</object>
-			</placement>
 		</placements>
 	</place>
 	<place>
-		<name>summercity2</name>
+		<name>city2</name>
 		<placements>
-			<placement type="trees">
-				<numobjects>200000</numobjects>
-				<numclusters>6</numclusters>
-				<minheight>15</minheight>
-				<maxheight>60</maxheight>
-				<removeaction></removeaction>
-				<object type="tree">
-					<tree>pine</tree>
-					<snow>75</snow>
-				</object>
-			</placement>
 			<placement type="mask">
-				<numobjects>15</numobjects>
+				<numobjects>20</numobjects>
 				<mask>data/landscapes/masks/city2urban.bmp</mask>
 				<minheight>10</minheight>
 				<maxheight>75</maxheight>
@@ -885,7 +649,7 @@
 				</object>
 			</placement>
 			<placement type="mask">
-				<numobjects>100</numobjects>
+				<numobjects>120</numobjects>
 				<mask>data/landscapes/masks/city2urban2.bmp</mask>
 				<minheight>10</minheight>
 				<maxheight>75</maxheight>
@@ -901,7 +665,7 @@
 				</object>
 			</placement>
 			<placement type="mask">
-				<numobjects>100</numobjects>
+				<numobjects>120</numobjects>
 				<mask>data/landscapes/masks/city2urban2.bmp</mask>
 				<minheight>10</minheight>
 				<maxheight>75</maxheight>
@@ -917,7 +681,55 @@
 				</object>
 			</placement>
 			<placement type="mask">
-				<numobjects>75</numobjects>
+				<numobjects>120</numobjects>
+				<mask>data/landscapes/masks/city2urban2.bmp</mask>
+				<minheight>10</minheight>
+				<maxheight>75</maxheight>
+				<mincloseness>5</mincloseness>
+				<minslope>0.75</minslope>
+				<xsnap>0</xsnap>
+				<ysnap>0</ysnap>
+				<angsnap>90</angsnap>
+				<removeaction></removeaction>
+				<object type="model">
+					<model type="MilkShape">data/accessories/office3/office3.txt</model>
+					<modelburnt type="MilkShape">data/accessories/office3/office3.txt</modelburnt>
+				</object>
+			</placement>
+			<placement type="mask">
+				<numobjects>60</numobjects>
+				<mask>data/landscapes/masks/city2suburban2.bmp</mask>
+				<minheight>10</minheight>
+				<maxheight>75</maxheight>
+				<mincloseness>5</mincloseness>
+				<minslope>0.75</minslope>
+				<xsnap>0</xsnap>
+				<ysnap>0</ysnap>
+				<angsnap>90</angsnap>
+				<removeaction></removeaction>
+				<object type="model">
+					<model type="MilkShape">data/accessories/gasstation1/gasstation1.txt</model>
+					<modelburnt type="MilkShape">data/accessories/gasstation1/gasstation1burnt.txt</modelburnt>
+				</object>
+			</placement>
+			<placement type="mask">
+				<numobjects>12</numobjects>
+				<mask>data/landscapes/masks/city2all.bmp</mask>
+				<minheight>10</minheight>
+				<maxheight>75</maxheight>
+				<mincloseness>5</mincloseness>
+				<minslope>0.75</minslope>
+				<xsnap>0</xsnap>
+				<ysnap>0</ysnap>
+				<angsnap>90</angsnap>
+				<removeaction></removeaction>
+				<object type="model">
+					<model type="MilkShape">data/accessories/gasstation1/gasstation1.txt</model>
+					<modelburnt type="MilkShape">data/accessories/gasstation1/gasstation1burnt.txt</modelburnt>
+				</object>
+			</placement>
+			<placement type="mask">
+				<numobjects>60</numobjects>
 				<mask>data/landscapes/masks/city2suburban2.bmp</mask>
 				<minheight>10</minheight>
 				<maxheight>75</maxheight>
@@ -949,7 +761,7 @@
 				</object>
 			</placement>
 			<placement type="mask">
-				<numobjects>10</numobjects>
+				<numobjects>12</numobjects>
 				<mask>data/landscapes/masks/city2all.bmp</mask>
 				<minheight>10</minheight>
 				<maxheight>75</maxheight>
@@ -965,7 +777,7 @@
 				</object>
 			</placement>
 			<placement type="mask">
-				<numobjects>10</numobjects>
+				<numobjects>12</numobjects>
 				<mask>data/landscapes/masks/city2rural.bmp</mask>
 				<minheight>10</minheight>
 				<maxheight>50</maxheight>
@@ -981,10 +793,10 @@
 				</object>
 			</placement>
 			<placement type="trees">
-				<numobjects>20000</numobjects>
+				<numobjects>15000</numobjects>
 				<numclusters>1</numclusters>
 				<minheight>8</minheight>
-				<maxheight>40</maxheight>
+				<maxheight>30</maxheight>
 				<removeaction></removeaction>
 				<object type="model">
 					<model type="MilkShape">data/accessories/trailorhouse1/trailorhouse1.txt</model>
@@ -992,7 +804,7 @@
 				</object>
 			</placement>
 			<placement type="mask">
-				<numobjects>250</numobjects>
+				<numobjects>125</numobjects>
 				<mask>data/landscapes/masks/city2suburban.bmp</mask>
 				<minheight>10</minheight>
 				<maxheight>75</maxheight>
@@ -1008,8 +820,40 @@
 				</object>
 			</placement>
 			<placement type="mask">
-				<numobjects>100</numobjects>
-				<mask>data/landscapes/masks/city2rural2.bmp</mask>
+				<numobjects>125</numobjects>
+				<mask>data/landscapes/masks/city2suburban.bmp</mask>
+				<minheight>10</minheight>
+				<maxheight>75</maxheight>
+				<mincloseness>3</mincloseness>
+				<minslope>0.5</minslope>
+				<xsnap>0</xsnap>
+				<ysnap>0</ysnap>
+				<angsnap>90</angsnap>
+				<removeaction></removeaction>
+				<object type="model">
+					<model type="MilkShape">data/accessories/house1/house1-2.txt</model>
+					<modelburnt type="MilkShape">data/accessories/house1/house1-2burnt.txt</modelburnt>
+				</object>
+			</placement>
+			<placement type="mask">
+				<numobjects>125</numobjects>
+				<mask>data/landscapes/masks/city2suburban.bmp</mask>
+				<minheight>10</minheight>
+				<maxheight>75</maxheight>
+				<mincloseness>3</mincloseness>
+				<minslope>0.5</minslope>
+				<xsnap>0</xsnap>
+				<ysnap>0</ysnap>
+				<angsnap>90</angsnap>
+				<removeaction></removeaction>
+				<object type="model">
+					<model type="MilkShape">data/accessories/house1/house1-3.txt</model>
+					<modelburnt type="MilkShape">data/accessories/house1/house1-3burnt.txt</modelburnt>
+				</object>
+			</placement>
+			<placement type="mask">
+				<numobjects>125</numobjects>
+				<mask>data/landscapes/masks/city2suburban.bmp</mask>
 				<minheight>10</minheight>
 				<maxheight>75</maxheight>
 				<mincloseness>3</mincloseness>
@@ -1024,7 +868,7 @@
 				</object>
 			</placement>
 			<placement type="mask">
-				<numobjects>50</numobjects>
+				<numobjects>25</numobjects>
 				<mask>data/landscapes/masks/city2rural.bmp</mask>
 				<minheight>10</minheight>
 				<maxheight>75</maxheight>
@@ -1039,24 +883,61 @@
 					<modelburnt type="MilkShape">data/accessories/house1/house1burnt.txt</modelburnt>
 				</object>
 			</placement>
-		</placements>
-	</place>
-	<place>
-		<name>wintercity3</name>
-		<placements>
-			<placement type="trees">
-				<numobjects>200000</numobjects>
-				<numclusters>6</numclusters>
-				<minheight>15</minheight>
-				<maxheight>60</maxheight>
+			<placement type="mask">
+				<numobjects>25</numobjects>
+				<mask>data/landscapes/masks/city2rural.bmp</mask>
+				<minheight>10</minheight>
+				<maxheight>75</maxheight>
+				<mincloseness>5</mincloseness>
+				<minslope>0.5</minslope>
+				<xsnap>0</xsnap>
+				<ysnap>0</ysnap>
+				<angsnap>0</angsnap>
 				<removeaction></removeaction>
-				<object type="tree">
-					<tree>pine</tree>
-					<snow>10</snow>
+				<object type="model">
+					<model type="MilkShape">data/accessories/house1/house1-2.txt</model>
+					<modelburnt type="MilkShape">data/accessories/house1/house1-2burnt.txt</modelburnt>
 				</object>
 			</placement>
 			<placement type="mask">
-				<numobjects>15</numobjects>
+				<numobjects>25</numobjects>
+				<mask>data/landscapes/masks/city2rural.bmp</mask>
+				<minheight>10</minheight>
+				<maxheight>75</maxheight>
+				<mincloseness>5</mincloseness>
+				<minslope>0.5</minslope>
+				<xsnap>0</xsnap>
+				<ysnap>0</ysnap>
+				<angsnap>0</angsnap>
+				<removeaction></removeaction>
+				<object type="model">
+					<model type="MilkShape">data/accessories/house1/house1-3.txt</model>
+					<modelburnt type="MilkShape">data/accessories/house1/house1-3burnt.txt</modelburnt>
+				</object>
+			</placement>
+			<placement type="mask">
+				<numobjects>25</numobjects>
+				<mask>data/landscapes/masks/city2rural.bmp</mask>
+				<minheight>10</minheight>
+				<maxheight>75</maxheight>
+				<mincloseness>5</mincloseness>
+				<minslope>0.5</minslope>
+				<xsnap>0</xsnap>
+				<ysnap>0</ysnap>
+				<angsnap>0</angsnap>
+				<removeaction></removeaction>
+				<object type="model">
+					<model type="MilkShape">data/accessories/logcabin1/logcabin1.txt</model>
+					<modelburnt type="MilkShape">data/accessories/logcabin1/logcabin1burnt.txt</modelburnt>
+				</object>
+			</placement>
+		</placements>
+	</place>
+	<place>
+		<name>city3</name>
+		<placements>
+			<placement type="mask">
+				<numobjects>20</numobjects>
 				<mask>data/landscapes/masks/city3urban.bmp</mask>
 				<minheight>10</minheight>
 				<maxheight>75</maxheight>
@@ -1104,7 +985,55 @@
 				</object>
 			</placement>
 			<placement type="mask">
+				<numobjects>100</numobjects>
+				<mask>data/landscapes/masks/city3urban2.bmp</mask>
+				<minheight>10</minheight>
+				<maxheight>75</maxheight>
+				<mincloseness>5</mincloseness>
+				<minslope>0.75</minslope>
+				<xsnap>0</xsnap>
+				<ysnap>0</ysnap>
+				<angsnap>90</angsnap>
+				<removeaction></removeaction>
+				<object type="model">
+					<model type="MilkShape">data/accessories/office3/office3.txt</model>
+					<modelburnt type="MilkShape">data/accessories/office3/office3.txt</modelburnt>
+				</object>
+			</placement>
+			<placement type="mask">
 				<numobjects>75</numobjects>
+				<mask>data/landscapes/masks/city3suburban2.bmp</mask>
+				<minheight>10</minheight>
+				<maxheight>75</maxheight>
+				<mincloseness>5</mincloseness>
+				<minslope>0.75</minslope>
+				<xsnap>0</xsnap>
+				<ysnap>0</ysnap>
+				<angsnap>90</angsnap>
+				<removeaction></removeaction>
+				<object type="model">
+					<model type="MilkShape">data/accessories/gasstation1/gasstation1.txt</model>
+					<modelburnt type="MilkShape">data/accessories/gasstation1/gasstation1burnt.txt</modelburnt>
+				</object>
+			</placement>
+			<placement type="mask">
+				<numobjects>15</numobjects>
+				<mask>data/landscapes/masks/city3all.bmp</mask>
+				<minheight>10</minheight>
+				<maxheight>75</maxheight>
+				<mincloseness>5</mincloseness>
+				<minslope>0.75</minslope>
+				<xsnap>0</xsnap>
+				<ysnap>0</ysnap>
+				<angsnap>90</angsnap>
+				<removeaction></removeaction>
+				<object type="model">
+					<model type="MilkShape">data/accessories/gasstation1/gasstation1.txt</model>
+					<modelburnt type="MilkShape">data/accessories/gasstation1/gasstation1burnt.txt</modelburnt>
+				</object>
+			</placement>
+			<placement type="mask">
+				<numobjects>60</numobjects>
 				<mask>data/landscapes/masks/city3suburban2.bmp</mask>
 				<minheight>10</minheight>
 				<maxheight>75</maxheight>
@@ -1136,7 +1065,7 @@
 				</object>
 			</placement>
 			<placement type="mask">
-				<numobjects>10</numobjects>
+				<numobjects>12</numobjects>
 				<mask>data/landscapes/masks/city3all.bmp</mask>
 				<minheight>10</minheight>
 				<maxheight>75</maxheight>
@@ -1152,7 +1081,7 @@
 				</object>
 			</placement>
 			<placement type="mask">
-				<numobjects>10</numobjects>
+				<numobjects>12</numobjects>
 				<mask>data/landscapes/masks/city3rural.bmp</mask>
 				<minheight>10</minheight>
 				<maxheight>50</maxheight>
@@ -1168,10 +1097,10 @@
 				</object>
 			</placement>
 			<placement type="trees">
-				<numobjects>20000</numobjects>
-				<numclusters>2</numclusters>
+				<numobjects>15000</numobjects>
+				<numclusters>1</numclusters>
 				<minheight>8</minheight>
-				<maxheight>40</maxheight>
+				<maxheight>30</maxheight>
 				<removeaction></removeaction>
 				<object type="model">
 					<model type="MilkShape">data/accessories/trailorhouse1/trailorhouse1.txt</model>
@@ -1179,7 +1108,7 @@
 				</object>
 			</placement>
 			<placement type="mask">
-				<numobjects>250</numobjects>
+				<numobjects>125</numobjects>
 				<mask>data/landscapes/masks/city3suburban.bmp</mask>
 				<minheight>10</minheight>
 				<maxheight>75</maxheight>
@@ -1195,8 +1124,40 @@
 				</object>
 			</placement>
 			<placement type="mask">
-				<numobjects>100</numobjects>
-				<mask>data/landscapes/masks/city3rural2.bmp</mask>
+				<numobjects>125</numobjects>
+				<mask>data/landscapes/masks/city3suburban.bmp</mask>
+				<minheight>10</minheight>
+				<maxheight>75</maxheight>
+				<mincloseness>3</mincloseness>
+				<minslope>0.5</minslope>
+				<xsnap>0</xsnap>
+				<ysnap>0</ysnap>
+				<angsnap>90</angsnap>
+				<removeaction></removeaction>
+				<object type="model">
+					<model type="MilkShape">data/accessories/house1/house1-2.txt</model>
+					<modelburnt type="MilkShape">data/accessories/house1/house1-2burnt.txt</modelburnt>
+				</object>
+			</placement>
+			<placement type="mask">
+				<numobjects>125</numobjects>
+				<mask>data/landscapes/masks/city3suburban.bmp</mask>
+				<minheight>10</minheight>
+				<maxheight>75</maxheight>
+				<mincloseness>3</mincloseness>
+				<minslope>0.5</minslope>
+				<xsnap>0</xsnap>
+				<ysnap>0</ysnap>
+				<angsnap>90</angsnap>
+				<removeaction></removeaction>
+				<object type="model">
+					<model type="MilkShape">data/accessories/house1/house1-3.txt</model>
+					<modelburnt type="MilkShape">data/accessories/house1/house1-3burnt.txt</modelburnt>
+				</object>
+			</placement>
+			<placement type="mask">
+				<numobjects>125</numobjects>
+				<mask>data/landscapes/masks/city3suburban.bmp</mask>
 				<minheight>10</minheight>
 				<maxheight>75</maxheight>
 				<mincloseness>3</mincloseness>
@@ -1210,155 +1171,16 @@
 					<modelburnt type="MilkShape">data/accessories/logcabin1/logcabin1burnt.txt</modelburnt>
 				</object>
 			</placement>
-		</placements>
-	</place>
-	<place>
-		<name>summercity3</name>
-		<placements>
-			<placement type="trees">
-				<numobjects>200000</numobjects>
-				<numclusters>6</numclusters>
-				<minheight>15</minheight>
-				<maxheight>60</maxheight>
-				<removeaction></removeaction>
-				<object type="tree">
-					<tree>pine</tree>
-					<snow>75</snow>
-				</object>
-			</placement>
 			<placement type="mask">
-				<numobjects>15</numobjects>
-				<mask>data/landscapes/masks/city3urban.bmp</mask>
-				<minheight>10</minheight>
-				<maxheight>75</maxheight>
-				<mincloseness>5</mincloseness>
-				<minslope>0.66</minslope>
-				<xsnap>0</xsnap>
-				<ysnap>0</ysnap>
-				<angsnap>90</angsnap>
-				<removeaction></removeaction>
-				<object type="model">
-					<model type="MilkShape">data/accessories/skyscraper1/skyscraper1.txt</model>
-					<modelburnt type="MilkShape">data/accessories/skyscraper1/skyscraper1burnt.txt</modelburnt>
-				</object>
-			</placement>
-			<placement type="mask">
-				<numobjects>100</numobjects>
-				<mask>data/landscapes/masks/city3urban2.bmp</mask>
-				<minheight>10</minheight>
-				<maxheight>75</maxheight>
-				<mincloseness>4</mincloseness>
-				<minslope>0.66</minslope>
-				<xsnap>0</xsnap>
-				<ysnap>0</ysnap>
-				<angsnap>90</angsnap>
-				<removeaction></removeaction>
-				<object type="model">
-					<model type="MilkShape">data/accessories/officeplaza1/officeplaza1.txt</model>
-					<modelburnt type="MilkShape">data/accessories/officeplaza1/officeplaza1burnt.txt</modelburnt>
-				</object>
-			</placement>
-			<placement type="mask">
-				<numobjects>100</numobjects>
-				<mask>data/landscapes/masks/city3urban2.bmp</mask>
-				<minheight>10</minheight>
-				<maxheight>75</maxheight>
-				<mincloseness>5</mincloseness>
-				<minslope>0.66</minslope>
-				<xsnap>0</xsnap>
-				<ysnap>0</ysnap>
-				<angsnap>90</angsnap>
-				<removeaction></removeaction>
-				<object type="model">
-					<model type="MilkShape">data/accessories/cityoffice/cityoffice.txt</model>
-					<modelburnt type="MilkShape">data/accessories/cityoffice/cityofficeburnt.txt</modelburnt>
-				</object>
-			</placement>
-			<placement type="mask">
-				<numobjects>75</numobjects>
-				<mask>data/landscapes/masks/city3suburban2.bmp</mask>
-				<minheight>10</minheight>
-				<maxheight>75</maxheight>
-				<mincloseness>4</mincloseness>
-				<minslope>0.66</minslope>
-				<xsnap>0</xsnap>
-				<ysnap>0</ysnap>
-				<angsnap>90</angsnap>
-				<removeaction></removeaction>
-				<object type="model">
-					<model type="MilkShape">data/accessories/store1/store1.txt</model>
-					<modelburnt type="MilkShape">data/accessories/store1/store1burnt.txt</modelburnt>
-				</object>
-			</placement>
-			<placement type="mask">
-				<numobjects>24</numobjects>
-				<mask>data/landscapes/masks/city3suburban2.bmp</mask>
-				<minheight>10</minheight>
-				<maxheight>75</maxheight>
-				<mincloseness>4</mincloseness>
-				<minslope>0.66</minslope>
-				<xsnap>0</xsnap>
-				<ysnap>0</ysnap>
-				<angsnap>90</angsnap>
-				<removeaction></removeaction>
-				<object type="model">
-					<model type="MilkShape">data/accessories/church1/church1.txt</model>
-					<modelburnt type="MilkShape">data/accessories/church1/church1burnt.txt</modelburnt>
-				</object>
-			</placement>
-			<placement type="mask">
-				<numobjects>10</numobjects>
-				<mask>data/landscapes/masks/city3all.bmp</mask>
-				<minheight>10</minheight>
-				<maxheight>75</maxheight>
-				<mincloseness>10</mincloseness>
-				<minslope>0.75</minslope>
-				<xsnap>0</xsnap>
-				<ysnap>0</ysnap>
-				<angsnap>0</angsnap>
-				<removeaction></removeaction>
-				<object type="model">
-					<model type="MilkShape">data/accessories/factory1/factory1.txt</model>
-					<modelburnt type="MilkShape">data/accessories/factory1/factory1burnt.txt</modelburnt>
-				</object>
-			</placement>
-			<placement type="mask">
-				<numobjects>10</numobjects>
+				<numobjects>25</numobjects>
 				<mask>data/landscapes/masks/city3rural.bmp</mask>
 				<minheight>10</minheight>
-				<maxheight>50</maxheight>
-				<mincloseness>10</mincloseness>
-				<minslope>0.75</minslope>
-				<xsnap>0</xsnap>
-				<ysnap>0</ysnap>
-				<angsnap>0</angsnap>
-				<removeaction></removeaction>
-				<object type="model">
-					<model type="MilkShape">data/accessories/farm1/farm1.txt</model>
-					<modelburnt type="MilkShape">data/accessories/farm1/farm1burnt.txt</modelburnt>
-				</object>
-			</placement>
-			<placement type="trees">
-				<numobjects>20000</numobjects>
-				<numclusters>1</numclusters>
-				<minheight>8</minheight>
-				<maxheight>40</maxheight>
-				<removeaction></removeaction>
-				<object type="model">
-					<model type="MilkShape">data/accessories/trailorhouse1/trailorhouse1.txt</model>
-					<modelburnt type="MilkShape">data/accessories/trailorhouse1/trailorhouse1burnt.txt</modelburnt>
-				</object>
-			</placement>
-			<placement type="mask">
-				<numobjects>250</numobjects>
-				<mask>data/landscapes/masks/city3suburban.bmp</mask>
-				<minheight>10</minheight>
 				<maxheight>75</maxheight>
-				<mincloseness>3</mincloseness>
+				<mincloseness>5</mincloseness>
 				<minslope>0.5</minslope>
 				<xsnap>0</xsnap>
 				<ysnap>0</ysnap>
-				<angsnap>90</angsnap>
+				<angsnap>0</angsnap>
 				<removeaction></removeaction>
 				<object type="model">
 					<model type="MilkShape">data/accessories/house1/house1.txt</model>
@@ -1366,15 +1188,47 @@
 				</object>
 			</placement>
 			<placement type="mask">
-				<numobjects>100</numobjects>
-				<mask>data/landscapes/masks/city3rural2.bmp</mask>
+				<numobjects>25</numobjects>
+				<mask>data/landscapes/masks/city3rural.bmp</mask>
 				<minheight>10</minheight>
 				<maxheight>75</maxheight>
-				<mincloseness>3</mincloseness>
+				<mincloseness>5</mincloseness>
 				<minslope>0.5</minslope>
 				<xsnap>0</xsnap>
 				<ysnap>0</ysnap>
-				<angsnap>90</angsnap>
+				<angsnap>0</angsnap>
+				<removeaction></removeaction>
+				<object type="model">
+					<model type="MilkShape">data/accessories/house1/house1-2.txt</model>
+					<modelburnt type="MilkShape">data/accessories/house1/house1-2burnt.txt</modelburnt>
+				</object>
+			</placement>
+			<placement type="mask">
+				<numobjects>25</numobjects>
+				<mask>data/landscapes/masks/city3rural.bmp</mask>
+				<minheight>10</minheight>
+				<maxheight>75</maxheight>
+				<mincloseness>5</mincloseness>
+				<minslope>0.5</minslope>
+				<xsnap>0</xsnap>
+				<ysnap>0</ysnap>
+				<angsnap>0</angsnap>
+				<removeaction></removeaction>
+				<object type="model">
+					<model type="MilkShape">data/accessories/house1/house1-3.txt</model>
+					<modelburnt type="MilkShape">data/accessories/house1/house1-3burnt.txt</modelburnt>
+				</object>
+			</placement>
+			<placement type="mask">
+				<numobjects>25</numobjects>
+				<mask>data/landscapes/masks/city3rural.bmp</mask>
+				<minheight>10</minheight>
+				<maxheight>75</maxheight>
+				<mincloseness>5</mincloseness>
+				<minslope>0.5</minslope>
+				<xsnap>0</xsnap>
+				<ysnap>0</ysnap>
+				<angsnap>0</angsnap>
 				<removeaction></removeaction>
 				<object type="model">
 					<model type="MilkShape">data/accessories/logcabin1/logcabin1.txt</model>
