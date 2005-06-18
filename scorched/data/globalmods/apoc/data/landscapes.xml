@@ -27,7 +27,7 @@
 			<item>lowlands</item>
 		</defn>
 		<tex>
-			<item>default</item>
+			<item>city1-summer</item>
 			<item>sand</item>
 			<item>tropical</item>
 			<item>storm</item>
@@ -42,7 +42,7 @@
 			<item>hilly</item>
 		</defn>
 		<tex>
-			<item>snow</item>
+			<item>city1-winter</item>
 			<item>tropical</item>
 			<item>vulcano</item>
 		</tex>
@@ -56,11 +56,11 @@
 			<item>ridge</item>
 		</defn>
 		<tex>
-			<item>default</item>
+			<item>city1-summer</item>
+			<item>city1-winter</item>
+			<item>city1-storm</item>
 			<item>sand</item>
 			<item>tropical</item>
-			<item>vulcano</item>
-			<item>storm</item>
 		</tex>
 	</landscape>
 	<landscape>
@@ -160,12 +160,10 @@
 			<item>bighill</item>
 		</defn>
 		<tex>
-			<item>default</item>
-			<item>wintercity1</item>
-			<item>summercity1</item>
+			<item>city1-winter</item>
+			<item>city1-summer</item>
+			<item>city1-storm</item>
 			<item>tropical</item>
-			<item>storm</item>
-			<item>vulcano</item>
 			<item>hell</item>
 		</tex>
 	</landscape>
@@ -178,11 +176,11 @@
 			<item>donuthills</item>
 		</defn>
 		<tex>
-			<item>default</item>
+			<item>city2-summer</item>
+			<item>city2-winter</item>
+			<item>city2-storm</item>
 			<item>sand</item>
-			<item>snow</item>
 			<item>tropical</item>
-			<item>storm</item>
 		</tex>
 	</landscape>
 	<landscape>
@@ -194,10 +192,12 @@
 			<item>apoccity</item>
 		</defn>
 		<tex>
-			<item>wintercity1</item>
-			<item>summercity1</item>
-			<item>wintercity2</item>
-			<item>summercity2</item>
+			<item>city1-winter</item>
+			<item>city1-summer</item>
+			<item>city1-storm</item>
+			<item>city2-winter</item>
+			<item>city2-summer</item>
+			<item>city2-storm</item>
 		</tex>
 	</landscape>
 	<landscape>
@@ -314,11 +314,10 @@
 			<item>bullseye</item>
 		</defn>
 		<tex>
-			<item>default</item>
-			<item>sand</item>
-			<item>summercity3</item>
-			<item>wintercity3</item>
-			<item>storm</item>
+			<item>city3-summer</item>
+			<item>city3-winter</item>
+			<item>city3-storm</item>
+			<item>hell</item>
 		</tex>
 	</landscape>
 	<landscape>
@@ -330,10 +329,12 @@
 			<item>plateau</item>
 		</defn>
 		<tex>
-			<item>wintercity1</item>
-			<item>summercity1</item>
-			<item>wintercity2</item>
-			<item>summercity2</item>
+			<item>city1-winter</item>
+			<item>city1-summer</item>
+			<item>city1-storm</item>
+			<item>city2-winter</item>
+			<item>city2-summer</item>
+			<item>city2-storm</item>
 		</tex>
 	</landscape>
 	
@@ -389,13 +390,11 @@
 			<item>weathered</item>
 		</defn>
 		<tex>
-			<item>default</item>
+			<item>city1-summer</item>
+			<item>city1-winter</item>
+			<item>city1-storm</item>
 			<item>hell</item>
-			<item>sand</item>
-			<item>snow</item>
 			<item>tropical</item>
-			<item>vulcano</item>
-			<item>storm</item>
 		</tex>
 	</landscape>
 	<landscape>
@@ -467,13 +466,11 @@
 			<item>desert mesa</item>
 		</defn>
 		<tex>
-			<item>default</item>
+			<item>city1-summer</item>
+			<item>city1-winter</item>
+			<item>city1-storm</item>
 			<item>hell</item>
-			<item>sand</item>
-			<item>snow</item>
 			<item>tropical</item>
-			<item>vulcano</item>
-			<item>storm</item>
 			<item>desert</item>
 		</tex>
 	</landscape>
@@ -522,13 +519,11 @@
 			<item>nexus canyon</item>
 		</defn>
 		<tex>
-			<item>default</item>
-			<item>snow</item>
+			<item>city1-summer</item>
+			<item>city1-winter</item>
+			<item>city1-storm</item>
 			<item>tropical</item>
 			<item>vulcano</item>
-			<item>storm</item>
-			<item>summercity1</item>
-			<item>wintercity1</item>
 		</tex>
 	</landscape>
 	<landscape>
@@ -540,13 +535,12 @@
 			<item>hillcity</item>
 		</defn>
 		<tex>
-			<item>default</item>
-			<item>hell</item>
+			<item>city1-summer</item>
+			<item>city1-winter</item>
+			<item>city1-storm</item>
 			<item>sand</item>
-			<item>snow</item>
 			<item>tropical</item>
 			<item>vulcano</item>
-			<item>storm</item>
 		</tex>
 	</landscape>
 	
