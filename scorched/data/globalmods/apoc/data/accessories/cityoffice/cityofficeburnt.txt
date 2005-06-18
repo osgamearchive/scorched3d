@@ -634,14 +634,18 @@ Meshes: 1
 0 273 267 279 149 149 149 3
 
 Materials: 1
-"grey"
+"stucco-burnt"
 0.200000 0.200000 0.200000 1.000000
 0.800000 0.800000 0.800000 1.000000
 0.000000 0.000000 0.000000 1.000000
 0.000000 0.000000 0.000000 1.000000
 0.000000
 1.000000
-".\grey.bmp"
+".\stucco-yellow-burnt.bmp"
 ""
 
 Bones: 0
+GroupComments: 0
+MaterialComments: 0
+BoneComments: 0
+ModelComment: 0

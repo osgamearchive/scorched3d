@@ -1181,7 +1181,11 @@ Materials: 5
 0.000000 0.000000 0.000000 1.000000
 0.000000
 1.000000
-".\white.bmp"
+"..\common\whitepanel-burnt.bmp"
 ""
 
 Bones: 0
+GroupComments: 0
+MaterialComments: 0
+BoneComments: 0
+ModelComment: 0
