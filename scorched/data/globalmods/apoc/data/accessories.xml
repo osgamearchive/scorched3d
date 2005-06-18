@@ -223,43 +223,6 @@ activated before they work.</description>
 		</accessoryaction>
 	</accessory>
 	<accessory>
-		<name>Tracer</name>
-		<armslevel>10</armslevel>
-		<description>A projectile weapon that 
-causes no damage. Can be used to 
-determine range without wasting 
-other weapons.  Leaves a marker at the 
-final position.</description>
-		<icon>tracer.bmp</icon>
-		<bundlesize>10</bundlesize>
-		<cost>100</cost>
-		<activationsound>shoot/flare.wav</activationsound>
-		<accessoryaction type='WeaponProjectile'>
-			<nocreateflame></nocreateflame>
-			<showendpoint></showendpoint>
-			<collisionaction type='WeaponNull'></collisionaction>
-		</accessoryaction>
-	</accessory>
-	<accessory>
-		<name>Smoke Tracer</name>
-		<armslevel>9</armslevel>
-		<description>A projectile weapon that
-causes no damage.  Can be used to 
-determine range without wasting 
-other weapons.  Leaves a colored 
-trace of the shot path.</description>
-		<icon>stracer.bmp</icon>
-		<bundlesize>10</bundlesize>
-		<cost>500</cost>
-		<activationsound>shoot/flare.wav</activationsound>
-		<accessoryaction type='WeaponProjectile'>
-			<nocreateflame></nocreateflame>
-			<showendpoint></showendpoint>
-			<showshotpath></showshotpath>
-			<collisionaction type='WeaponNull'></collisionaction>
-		</accessoryaction>
-	</accessory>
-	<accessory>
 		<name>ExplosionLaserBeamRenderer</name>
 		<armslevel>0</armslevel>
 		<maximumnumber>0</maximumnumber>
@@ -282,6 +245,116 @@ trace of the shot path.</description>
 			<size>2</size>
 			<explosiontexture>cloud00</explosiontexture>
 			<explosionsound>none</explosionsound>
+		</accessoryaction>
+	</accessory>
+	<accessory>
+		<name>Small Bldg</name>
+		<armslevel>10</armslevel>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponDelay'>
+			<delay>0.33</delay>
+			<delayedweapon type='WeaponMulti'>
+				<subweapon1 type='WeaponExplosion'>
+					<hurtamount>0</hurtamount>
+					<deform>down</deform>
+					<size>3</size>
+					<explosionsound>none</explosionsound>
+					<explosiontexture>none</explosiontexture>
+				</subweapon1>
+				<subweapon2 type='WeaponExplosion'>
+					<nocreatedebris></nocreatedebris>
+					<noluminance></noluminance>
+					<minlife>2</minlife>
+					<maxlife>4</maxlife>
+					<hurtamount>0</hurtamount>
+					<deform>none</deform>
+					<size>4</size>
+					<explosionsound>none</explosionsound>
+					<explosiontexture>cloud00-5</explosiontexture>
+				</subweapon2>
+			</delayedweapon>
+		</accessoryaction>
+	</accessory>
+	<accessory>
+		<name>Large Bldg</name>
+		<armslevel>10</armslevel>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponDelay'>
+			<delay>0.33</delay>
+			<delayedweapon type='WeaponMulti'>
+				<subweapon1 type='WeaponExplosion'>
+					<hurtamount>0</hurtamount>
+					<deform>down</deform>
+					<size>5</size>
+					<explosionsound>none</explosionsound>
+					<explosiontexture>none</explosiontexture>
+				</subweapon1>
+				<subweapon2 type='WeaponExplosion'>
+					<nocreatedebris></nocreatedebris>
+					<noluminance></noluminance>
+					<minlife>2</minlife>
+					<maxlife>4</maxlife>
+					<hurtamount>0</hurtamount>
+					<deform>none</deform>
+					<size>6</size>
+					<explosionsound>none</explosionsound>
+					<explosiontexture>cloud00-5</explosiontexture>
+				</subweapon2>
+			</delayedweapon>
+		</accessoryaction>
+	</accessory>
+	<accessory>
+		<name>Gas Station</name>
+		<armslevel>4</armslevel>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponDelay'>
+			<delay>0.33</delay>
+			<delayedweapon type='WeaponMulti'>
+				<subweapon1 type='WeaponExplosion'>
+					<hurtamount>0.8</hurtamount>
+					<deform>down</deform>
+					<size>7</size>
+					<explosionsound>explosions/large.wav</explosionsound>
+					<explosiontexture>exp00</explosiontexture>
+				</subweapon1>
+				<subweapon2 type='WeaponExplosion'>
+					<nocreatedebris></nocreatedebris>
+					<noluminance></noluminance>
+					<minlife>2</minlife>
+					<maxlife>4</maxlife>
+					<hurtamount>0</hurtamount>
+					<deform>none</deform>
+					<size>8</size>
+					<explosionsound>none</explosionsound>
+					<explosiontexture>cloud00-5</explosiontexture>
+				</subweapon2>
+				<subweapon3 type='WeaponAimedOver'>
+					<nowarheads>5</nowarheads>
+					<percentagemiss>99</percentagemiss>
+					<maxaimdistance>0</maxaimdistance>
+					<inaccuracy>99</inaccuracy>
+					<aimedweapon type='WeaponVelocity'>
+						<velocitychange>0.75</velocitychange>
+						<aimedweapon type='WeaponProjectile'>
+							<nocreatesmoke></nocreatesmoke>
+							<projectilescale>0.33</projectilescale>
+							<projectilemodel type='MilkShape'>bomblet/bomblet.txt</projectilemodel>
+							<collisionaction type='WeaponNapalm'>
+								<allowunderwater>false</allowunderwater>
+								<napalmtime>4.0</napalmtime>
+								<napalmheight>2.0</napalmheight>
+								<steptime>1</steptime>
+								<hurtsteptime>1.0</hurtsteptime>
+								<hurtpersecond>0.2</hurtpersecond>
+								<numberstreams>1</numberstreams>
+								<effectradius>5</effectradius>
+								<napalmtexture>flames</napalmtexture>
+								<napalmsound>none</napalmsound>
+							</collisionaction>
+						</aimedweapon>
+					</aimedweapon>
+				</subweapon3>
+			</delayedweapon>
 		</accessoryaction>
 	</accessory>
 	<accessory>
@@ -604,6 +677,43 @@ trace of the shot path.</description>
 					</aimedweapon>
 				</delayedweapon>
 			</subweapon5>
+		</accessoryaction>
+	</accessory>
+	<accessory>
+		<name>Tracer</name>
+		<armslevel>10</armslevel>
+		<description>A projectile weapon that 
+causes no damage. Can be used to 
+determine range without wasting 
+other weapons.  Leaves a marker at the 
+final position.</description>
+		<icon>tracer.bmp</icon>
+		<bundlesize>10</bundlesize>
+		<cost>100</cost>
+		<activationsound>shoot/flare.wav</activationsound>
+		<accessoryaction type='WeaponProjectile'>
+			<nocreateflame></nocreateflame>
+			<showendpoint></showendpoint>
+			<collisionaction type='WeaponNull'></collisionaction>
+		</accessoryaction>
+	</accessory>
+	<accessory>
+		<name>Smoke Tracer</name>
+		<armslevel>9</armslevel>
+		<description>A projectile weapon that
+causes no damage.  Can be used to 
+determine range without wasting 
+other weapons.  Leaves a colored 
+trace of the shot path.</description>
+		<icon>stracer.bmp</icon>
+		<bundlesize>10</bundlesize>
+		<cost>500</cost>
+		<activationsound>shoot/flare.wav</activationsound>
+		<accessoryaction type='WeaponProjectile'>
+			<nocreateflame></nocreateflame>
+			<showendpoint></showendpoint>
+			<showshotpath></showshotpath>
+			<collisionaction type='WeaponNull'></collisionaction>
 		</accessoryaction>
 	</accessory>
 	<accessory>
@@ -1105,7 +1215,7 @@ opponents.  The cloud does less damage as it spreads out.</description>
 											<hurtpersecond>0.1</hurtpersecond>
 											<numberstreams>1</numberstreams>
 											<effectradius>5</effectradius>
-											<napalmtexture>exp03</napalmtexture>
+											<napalmtexture>flames</napalmtexture>
 											<napalmsound>none</napalmsound>
 										</subweapon4>
 									</collisionaction>
@@ -3107,6 +3217,7 @@ point releases many explosive napalm warheads.</description>
 					<maxaimdistance>40</maxaimdistance>
 					<inaccuracy>10</inaccuracy>
 					<aimedweapon type='WeaponProjectile'>
+						<nocreatesmoke></nocreatesmoke>
 						<apexcollision></apexcollision>
 						<projectilemodel type='ase'>
 							<mesh>clusterbomb.ase</mesh>
@@ -3114,6 +3225,7 @@ point releases many explosive napalm warheads.</description>
 						</projectilemodel>
 						<collisionaction type='WeaponMulti'>
 							<subweapon1 type='WeaponProjectile'>
+								<nocreatesmoke></nocreatesmoke>
 								<projectilescale>0.5</projectilescale>
 								<projectilemodel type='MilkShape'>bomblet/bomblet.txt</projectilemodel>
 								<collisionaction type='WeaponNapalm'>
@@ -3135,6 +3247,7 @@ point releases many explosive napalm warheads.</description>
 								<maxaimdistance>35</maxaimdistance>
 								<inaccuracy>10</inaccuracy>
 								<aimedweapon type='WeaponProjectile'>
+									<nocreatesmoke></nocreatesmoke>
 									<projectilescale>0.5</projectilescale>
 									<projectilemodel type='MilkShape'>bomblet/bomblet.txt</projectilemodel>
 									<collisionaction type='WeaponMulti'>
@@ -3166,6 +3279,7 @@ point releases many explosive napalm warheads.</description>
 								<maxaimdistance>0</maxaimdistance>
 								<inaccuracy>20</inaccuracy>
 								<aimedweapon type='WeaponProjectile'>
+									<nocreatesmoke></nocreatesmoke>
 									<projectilescale>0.2</projectilescale>
 									<projectilemodel type='MilkShape'>bomblet/bomblet.txt</projectilemodel>
 									<collisionaction type='WeaponMulti'>
