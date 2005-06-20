@@ -36,11 +36,14 @@ public:
 
 	void simulate(Particle *particle, float time);
 
+	float getCloudRotation() { return cloudRotation_; }
+	Vector &getRotation() { return rotation_; }
+
 protected:
 	float size_;
 	float totalTime_;
-	float rotation_;
-	float width_;
+	float cloudRotation_;
+	Vector rotation_;
 	Vector startPosition_;
 };
 

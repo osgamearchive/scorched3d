@@ -96,7 +96,7 @@ void TankDead::simulate(float frameTime, bool &remove)
 							weaponKilled(weapon_, (data_ & Weapon::eDataDeathAnimation));
 						
 						LoggerInfo info(LoggerInfo::TypeDeath,
-							formatString("\"%s\" killed self with a \"%s\"",
+							formatString("\"%s\" killed self with a %s",
 								killedTank->getName(),
 								weapon_->getParent()->getName()));
 						info.setPlayerId(firedPlayerId_);
@@ -113,7 +113,7 @@ void TankDead::simulate(float frameTime, bool &remove)
 							weaponKilled(weapon_, (data_ & Weapon::eDataDeathAnimation));
 
 						LoggerInfo info(LoggerInfo::TypeDeath,
-							formatString("\"%s\" team killed \"%s\" with a \"%s\"",
+							formatString("\"%s\" team killed \"%s\" with a %s",
 								firedTank->getName(),
 								killedTank->getName(),
 								weapon_->getParent()->getName()));
@@ -130,7 +130,7 @@ void TankDead::simulate(float frameTime, bool &remove)
 							weaponKilled(weapon_, (data_ & Weapon::eDataDeathAnimation));
 
 						LoggerInfo info(LoggerInfo::TypeDeath,
-							formatString("\"%s\" killed \"%s\" with a \"%s\"",
+							formatString("\"%s\" killed \"%s\" with a %s",
 							firedTank->getName(),
 							killedTank->getName(),
 							weapon_->getParent()->getName()));

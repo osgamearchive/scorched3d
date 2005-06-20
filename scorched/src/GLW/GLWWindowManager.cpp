@@ -21,6 +21,7 @@
 #include <GLW/GLWWindowManager.h>
 #include <GLEXT/GLViewPort.h>
 #include <dialogs/MainMenuDialog.h>
+#include <common/OptionsDisplay.h>
 #include <XML/XMLFile.h>
 #include <limits.h>
 #include <set>
@@ -555,21 +556,24 @@ void GLWWindowManager::savePositions()
 	display->addChild(new XMLNode("width", GLViewPort::getWidth()));
 	display->addChild(new XMLNode("height", GLViewPort::getHeight()));
 
-	// Add positions
-	std::map<unsigned, GLWWindow *>::iterator winitor;
-	for (winitor = idToWindow_.begin();
-		winitor != idToWindow_.end();
-		winitor++)
+	if (OptionsDisplay::instance()->getSaveWindowPositions())
 	{
-		GLWWindow *w = (*winitor).second;
-
-		if ((w->getWindowState() & GLWWindow::eSavePosition) &&
-			w->getX() >= 0 && w->getY() >= 0)
+		// Add positions
+		std::map<unsigned, GLWWindow *>::iterator winitor;
+		for (winitor = idToWindow_.begin();
+			winitor != idToWindow_.end();
+			winitor++)
 		{
-			XMLNode *position = new XMLNode("position");
-			positions->addChild(position);
-			position->addChild(new XMLNode("window", w->getName()));
-			w->savePosition(position);
+			GLWWindow *w = (*winitor).second;
+
+			if ((w->getWindowState() & GLWWindow::eSavePosition) &&
+				w->getX() >= 0 && w->getY() >= 0)
+			{
+				XMLNode *position = new XMLNode("position");
+				positions->addChild(position);
+				position->addChild(new XMLNode("window", w->getName()));
+				w->savePosition(position);
+			}
 		}
 	}
 

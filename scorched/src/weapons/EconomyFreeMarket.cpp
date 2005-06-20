@@ -35,10 +35,12 @@ static const char *getEconomyFileName()
 {
 	if (OptionsParam::instance()->getDedicatedServer())
 	{
-		return getSettingsFile("freemarket-server-%i.xml",
+		return getSettingsFile("freemarket-%s-%i.xml",
+			ScorchedServer::instance()->getOptionsGame().getMod(),
 			ScorchedServer::instance()->getOptionsGame().getPortNo());
 	}
-	return getSettingsFile("freemarket-single.xml");
+	return getSettingsFile("freemarket-%s-single.xml",
+		ScorchedServer::instance()->getOptionsGame().getMod());
 }
 
 EconomyFreeMarket::EconomyFreeMarket()

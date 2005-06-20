@@ -48,13 +48,18 @@ void GLWListView::draw()
 		GLState currentState(GLState::TEXTURE_ON | GLState::BLEND_ON);
 
 		float posY = y_ + h_ - 10.0f;
-		for (int i=scroll_.getMax() - scroll_.getCurrent(); i<(int) lines_.size(); i++)
+
+		int pos = (scroll_.getMax() - scroll_.getSee()) - scroll_.getCurrent();
+		for (int i=pos; i<(int) scroll_.getMax(); i++)
 		{
-			GLWFont::instance()->getSmallPtFont()->drawWidth(
-				(int) w_,
-				GLWFont::widgetFontColor, 10,
-				x_ + 5.0f, posY, 0.0f, "%s", lines_[i].c_str());
-			posY -= 12.0f;
+			if (i >= 0 && i < (int) lines_.size())
+			{
+				GLWFont::instance()->getSmallPtFont()->drawWidth(
+					(int) w_,
+					GLWFont::widgetFontColor, 10,
+					x_ + 5.0f, posY, 0.0f, "%s", lines_[i].c_str());
+				posY -= 12.0f;
+			}
 
 			if (posY < y_) break;
 		}
@@ -112,9 +117,5 @@ void GLWListView::addLine(const char *fmt, ...)
 
 	scroll_.setMax((int) lines_.size());
 	scroll_.setSee(view);
-
-	int pos = scroll_.getMax();
-	if (pos > view) pos = (view * 3) / 4;
-	if (pos > scroll_.getMax()) pos = scroll_.getMax();
-	scroll_.setCurrent(pos);
+	scroll_.setCurrent(0);
 }

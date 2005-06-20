@@ -20,7 +20,6 @@
 
 #include <dialogs/RulesDialog.h>
 #include <dialogs/PlayerDialog.h>
-#include <dialogs/LogDialog.h>
 #include <GLW/GLWTextButton.h>
 #include <GLW/GLWFont.h>
 #include <GLW/GLWWindowManager.h>
@@ -42,16 +41,16 @@ RulesDialog *RulesDialog::instance()
 }
 
 RulesDialog::RulesDialog() : 
-	GLWWindow("Rules", 0.0f, 0.0f, 360.0f, 295.0f, eSmallTitle,
+	GLWWindow("Rules", 0.0f, 0.0f, 460.0f, 395.0f, eSmallTitle,
 		"Shows the game rules for the game\n"
 		"in progress.")
 {
 	needCentered_ = true;
-	okId_ = addWidget(new GLWTextButton("Ok", 295, 10, 55, this, 
+	okId_ = addWidget(new GLWTextButton("Ok", 395, 10, 55, this, 
 		GLWButton::ButtonFlagCancel | GLWButton::ButtonFlagOk | GLWButton::ButtonFlagCenterX))->getId();
-	listView_ = (GLWListView *) addWidget(new GLWListView(10, 150, 340, 90, 100));
-	addWidget(new GLWPanel(45, 245, 270, 40));
-	icon_ = (GLWIcon *) addWidget(new GLWIcon(50, 250, 260, 30));
+	listView_ = (GLWListView *) addWidget(new GLWListView(10, 150, 440, 190, 100));
+	addWidget(new GLWPanel(45, 345, 370, 40));
+	icon_ = (GLWIcon *) addWidget(new GLWIcon(50, 350, 360, 30));
 }
 
 RulesDialog::~RulesDialog()
@@ -77,9 +76,6 @@ void RulesDialog::addMOTD(const char *text)
 		{
 			*found = '\0';
 			listView_->addLine(start);
-
-			LoggerInfo info (LoggerInfo::TypeNormal, start, "");
-			LogDialog::instance()->logMessage(info);
 			start = found;
 			start++;
 
@@ -88,15 +84,11 @@ void RulesDialog::addMOTD(const char *text)
 		if (start[0] != '\0')
 		{
 			listView_->addLine(start);
-			LoggerInfo info (LoggerInfo::TypeNormal, start, "");
-			LogDialog::instance()->logMessage(info);
 		}
 	}
 	else
 	{
 		listView_->addLine(text);
-		LoggerInfo info (LoggerInfo::TypeNormal, start, "");
-		LogDialog::instance()->logMessage(info);
 	}
 }
 
@@ -109,7 +101,7 @@ void RulesDialog::draw()
 
 	GLState newState(GLState::TEXTURE_OFF | GLState::DEPTH_OFF);
 
-	float top = y_ + h_ - 130.0f;
+	float top = y_ + h_ - 230.0f;
 	Vector yellow(0.3f, 0.3f, 0.3f); // Hmm, thats not yellow
 	if (ScorchedClient::instance()->getTankContainer().getNoOfNonSpectatorTanks() <
 		ScorchedClient::instance()->getOptionsGame().getNoMinPlayers())
@@ -191,7 +183,7 @@ void RulesDialog::draw()
 		yellow,
 		12,
 		x_ + 12.0f, top - 105.0f, 0.0f,
-		((options.getTeams() > 1)?"%i Teams":"No teams"),
+		((options.getTeams() > 1)?"Teams : %i":"Teams : None"),
 		options.getTeams());
 	GLWFont::instance()->getSmallPtFont()->draw(
 		yellow,
@@ -203,13 +195,13 @@ void RulesDialog::draw()
 		yellow,
 		12,
 		x_ + 12.0f, top - 135.0f, 0.0f,
-		((options.getShotTime() > 0)?"Shot time : %i (s)":"No shot time limit"),
+		((options.getShotTime() > 0)?"Shot time : %i (s)":"Shot time : Unlimited"),
 		options.getShotTime());
 	GLWFont::instance()->getSmallPtFont()->draw(
 		yellow,
 		12,
 		x_ + 12.0f, top - 150.0f, 0.0f,
-		((options.getBuyingTime() > 0)?"Buying time : %i (s)":"No buying time limit"),
+		((options.getBuyingTime() > 0)?"Buying time : %i (s)":"Buying time : Unlimited"),
 		options.getShotTime());
 }
 

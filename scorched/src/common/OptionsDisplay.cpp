@@ -85,6 +85,8 @@ OptionsDisplay::OptionsDisplay() :
 		"Invert/reverse the tanks up/down elevation directions.", RWAccess, false),
 	invertMouse_(options_, "InvertMouse",
 		"Invert/reverse the mouses y-axis when rotating camera.", RWAccess, false),
+	saveWindowPositions_(options_, "SaveWindowPositions",
+		"Save the positions of all the onscreen windows.", RWAccess, true),
 	swapYAxis_(options_, "SwapYAxis",
 		"Remaps mouse pointer from top of window to the bottom and vice-versa (MAC/OSX)", RWAccess, false),
 	sideScroll_(options_, "SideScroll",

@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,9 +18,32 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_ServerMsgDialogh_INCLUDE__)
-#define __INCLUDE_ServerMsgDialogh_INCLUDE__
+#if !defined(__INCLUDE_ServerUsersh_INCLUDE__)
+#define __INCLUDE_ServerUsersh_INCLUDE__
 
-void showServerMsgDialog();
+#include <string>
+#include <list>
 
-#endif
+class ServerUsers
+{
+public:
+	struct UserEntry
+	{
+		std::string name;
+		std::string uniqueid;
+	};
+
+	ServerUsers();
+	virtual ~ServerUsers();
+
+	UserEntry *getUserByName(const char *name);
+	UserEntry *getUserById(const char *uniqueId);
+
+protected:
+	std::list<UserEntry> entries_;
+	unsigned int lastReadTime_;
+
+	bool load();
+};
+
+#endif // __INCLUDE_ServerUsersh_INCLUDE__

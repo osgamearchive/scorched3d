@@ -53,6 +53,7 @@ public:
 	int getCurrent() { return current_; }
 	int getMin() { return min_; }
 	int getMax() { return max_; }
+	int getSee() { return see_; }
 
 	virtual void setH(float h);
 

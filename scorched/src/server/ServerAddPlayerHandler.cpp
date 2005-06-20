@@ -19,8 +19,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <server/ServerAddPlayerHandler.h>
-#include <server/ScorchedServer.h>
 #include <server/ServerConnectHandler.h>
+#include <server/ScorchedServer.h>
+#include <server/ScorchedServerUtil.h>
 #include <server/ServerState.h>
 #include <server/ServerCommon.h>
 #include <common/OptionsParam.h>
@@ -105,7 +106,7 @@ bool ServerAddPlayerHandler::processMessage(unsigned int destinationId,
 	std::string name(message.getPlayerName());
 	if (name != tank->getName())
 	{
-		getUniqueName(name);
+		getUniqueName(tank, name);
 
 		// Tell this computer that a new tank has connected
 		if (OptionsParam::instance()->getDedicatedServer())
@@ -182,7 +183,8 @@ bool ServerAddPlayerHandler::processMessage(unsigned int destinationId,
 	return true;
 }
 
-void ServerAddPlayerHandler::getUniqueName(std::string &sentname)
+void ServerAddPlayerHandler::getUniqueName(Tank *tank,
+	std::string &sentname)
 {
 	// Form the correct player name
 	// Remove spaces from the front of the name and
@@ -211,9 +213,27 @@ void ServerAddPlayerHandler::getUniqueName(std::string &sentname)
 	else playerName.append(nameBeginning, 22);
 
 	// Make sure no-one has the same name
-	while (ScorchedServer::instance()->getTankContainer().getTankByName(playerName.c_str()))
+	while (ScorchedServer::instance()->getTankContainer().
+		getTankByName(playerName.c_str()))
 	{
 		playerName += "(2)";
+	}
+
+	// Make sure that no-one else has the same registered name
+	// except the prefered user that has this name
+	if (ScorchedServer::instance()->getOptionsGame().getRegisteredUserNames())
+	{
+		ServerUsers::UserEntry *userEntry;
+		while (userEntry = ScorchedServerUtil::instance()->
+			preferedPlayers.getUserByName(playerName.c_str()))
+		{
+			if (0 == strcmp(userEntry->uniqueid.c_str(), tank->getUniqueId()))
+			{
+				break;
+			}
+
+			playerName += "(2)";
+		}
 	}
 	
 	sentname = playerName;

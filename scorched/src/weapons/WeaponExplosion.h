@@ -45,6 +45,7 @@ public:
 	bool getCreateMushroom() { return createMushroom_; }
 	bool getCreateSplash() { return createSplash_; }
 	bool getWindAffected() { return windAffected_; }
+	bool getOnlyHurtShield() { return onlyHurtShield_; }
 	bool getLuminance() { return luminance_; }
 	bool getAnimate() { return animate_; }
 	float getShake() { return shake_; }
@@ -67,6 +68,7 @@ protected:
 	bool createDebris_;
 	bool createMushroom_;
 	bool createSplash_;
+	bool onlyHurtShield_;
 	bool animate_;
 	float hurtAmount_;
 	std::string deformTexture_;

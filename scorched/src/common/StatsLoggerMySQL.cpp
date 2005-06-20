@@ -628,10 +628,26 @@ char *StatsLoggerMySQL::getStatsId(Tank *tank)
 
 char *StatsLoggerMySQL::allocateId() 
 { 
+	const possibleChars [] = {
+		'1', '2', '3', '4', '5', '6', '7', '8', '9',
+		'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I',
+		'J', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S',
+		'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
 	static char buffer[128];
+
 	do
 	{
-		sprintf(buffer, "%i-%i-%i", rand(), rand(), rand());
+		int pos = 0;
+		for (int j=0; j<3; j++)
+		{
+			for (int i=0; i<8; i++)
+			{
+				buffer[pos++] = possibleChars[rand() % 34];
+			}
+			buffer[pos++] = '-';
+		}
+		buffer[pos++] = '\0';
+
 	} while (getPlayerId(buffer) != 0);
 	return buffer;
 }

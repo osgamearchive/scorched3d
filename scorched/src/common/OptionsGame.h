@@ -359,6 +359,14 @@ public:
 	void setResidualPlayers(bool value) { residualPlayers_.setValue(value); }	
 	const char *getResidualPlayersToolTip() { return residualPlayers_.getDescription(); }
 
+	bool getPreferedPlayers() { return preferedPlayers_.getValue(); }
+	void setPreferedPlayers(bool value) { preferedPlayers_.setValue(value); }	
+	const char *getPreferedPlayersToolTip() { return preferedPlayers_.getDescription(); }
+
+	bool getRegisteredUserNames() { return registeredUserNames_.getValue(); }
+	void setRegisteredUserNames(bool value) { registeredUserNames_.setValue(value); }	
+	const char *getRegisteredUserNamesToolTip() { return registeredUserNames_.getDescription(); }
+
 	// Fns used to save or restore the state of the options
 	std::list<OptionEntry *> &getOptions();
 	virtual bool writeOptionsToXML(XMLNode *xmlNode);
@@ -434,6 +442,8 @@ protected:
 	OptionEntryBool residualPlayers_;
 	OptionEntryBool randomizeBotNames_;
 	OptionEntryBool giveAllWeapons_;
+	OptionEntryBool preferedPlayers_;
+	OptionEntryBool registeredUserNames_;
 	OptionEntryString serverName_;
 	OptionEntryString *playerType_[24];
 	OptionEntryString serverPassword_;

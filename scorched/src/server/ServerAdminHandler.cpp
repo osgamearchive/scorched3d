@@ -20,8 +20,8 @@
 
 #include <server/ServerAdminHandler.h>
 #include <server/ScorchedServer.h>
+#include <server/ScorchedServerUtil.h>
 #include <server/ServerCommon.h>
-#include <server/ServerBanned.h>
 #include <common/OptionsGame.h>
 #include <common/OptionsTransient.h>
 #include <common/StatsLogger.h>
@@ -164,7 +164,7 @@ bool ServerAdminHandler::processMessage(unsigned int destinationId,
 				"--Admin Show Banned----------------------------------\n";
 
 			std::list<ServerBanned::BannedRange> &bannedIps = 
-				ServerBanned::instance()->getBannedIps();
+				ScorchedServerUtil::instance()->bannedPlayers.getBannedIps();
 			std::list<ServerBanned::BannedRange>::iterator itor;
 			for (itor = bannedIps.begin();
 				itor != bannedIps.end();
@@ -456,7 +456,7 @@ bool ServerAdminHandler::processMessage(unsigned int destinationId,
 bool ServerAdminHandler::login(const char *name, const char *password)
 {
 	const char *fileName = 
-		getSettingsFile("adminpassword-server-%i.xml",
+		getSettingsFile("adminpassword-%i.xml",
 			ScorchedServer::instance()->getOptionsGame().getPortNo());
 
 	XMLFile file;

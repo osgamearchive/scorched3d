@@ -386,7 +386,7 @@ void BuyAccessoryDialog::buttonDown(unsigned int id)
 void BuyAccessoryDialog::loadFavorites()
 {
 	const char *filename = 
-		getSettingsFile("weapon-favorites-%s.xml", 
+		getSettingsFile("weaponfavorites-%s.xml", 
 			ScorchedClient::instance()->getOptionsGame().getMod());
 
 	favorites_.clear();
@@ -411,7 +411,7 @@ void BuyAccessoryDialog::loadFavorites()
 void BuyAccessoryDialog::saveFavorites()
 {
 	const char *filename = 
-		getSettingsFile("weapon-favorites-%s.xml", 
+		getSettingsFile("weaponfavorites-%s.xml", 
 			ScorchedClient::instance()->getOptionsGame().getMod());
 
 	XMLNode node("accessories");

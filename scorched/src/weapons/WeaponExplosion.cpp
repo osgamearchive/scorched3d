@@ -30,6 +30,7 @@ WeaponExplosion::WeaponExplosion() : size_(0.0f),
 	createDebris_(true), createMushroom_(false),
 	createSplash_(true), windAffected_(true),
 	luminance_(true), animate_(false),
+	onlyHurtShield_(false),
 	minLife_(0.5f), maxLife_(1.0f), shake_(0.0f),
 	explosionTexture_("exp00")
 {
@@ -59,6 +60,9 @@ bool WeaponExplosion::parseXML(OptionsGame &context,
 
 	// Get the weapon model explosion shake
 	accessoryNode->getNamedChild("explosionshake", shake_, false);
+
+	// Get the hurt shield node
+	accessoryNode->getNamedChild("onlyhurtshield", onlyHurtShield_, false);
 
 	// Get the no debris node
 	XMLNode *noCreateDebrisNode = 0;

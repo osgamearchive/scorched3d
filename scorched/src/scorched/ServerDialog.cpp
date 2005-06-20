@@ -21,7 +21,6 @@
 #include <scorched/ServerDialog.h>
 #include <scorched/MainDialog.h>
 #include <scorched/SettingsDialog.h>
-#include <scorched/ServerMsgDialog.h>
 #include <scorched/ListDialog.h>
 #include <tankai/TankAIStore.h>
 #include <tankai/TankAIAdder.h>
@@ -35,10 +34,10 @@
 #include <coms/NetBufferUtil.h>
 #include <coms/NetInterface.h>
 #include <server/ServerState.h>
-#include <server/ServerBanned.h>
 #include <server/ServerMain.h>
 #include <server/ServerMessageHandler.h>
 #include <server/ScorchedServer.h>
+#include <server/ScorchedServerUtil.h>
 #include <server/ServerCommon.h>
 #include <server/ServerLog.h>
 #include <server/ServerTooFewPlayersStimulus.h>
@@ -222,7 +221,6 @@ public:
 	void onSaveOptions(wxCommandEvent &event);
 	void onPlayerTalk(wxCommandEvent &event);
 	void onPlayerTalkAll(wxCommandEvent &event);
-	void onTimedMsg(wxCommandEvent &event);
 	void onPlayerKick(wxCommandEvent &event);
 	void onPlayerSlap25(wxCommandEvent &event);
 	void onKillAll(wxCommandEvent &event);
@@ -271,7 +269,6 @@ BEGIN_EVENT_TABLE(ServerFrame, wxFrame)
 	EVT_MENU(IDC_MENU_EDITOPTIONS, ServerFrame::onEditOptions)
 	EVT_MENU(IDC_MENU_LOADOPTIONS, ServerFrame::onLoadOptions)
 	EVT_MENU(IDC_MENU_SAVEOPTIONS, ServerFrame::onSaveOptions)
-	EVT_MENU(IDC_MENU_TIMEDMSG, ServerFrame::onTimedMsg)
 	EVT_MENU(IDC_MENU_PLAYERBAN, ServerFrame::onPlayerBan)
 	EVT_MENU(IDC_MENU_PLAYERPERMMUTE, ServerFrame::onPlayerPermMute)
 	EVT_MENU(IDC_MENU_PLAYERUNPERMMUTE, ServerFrame::onPlayerUnPermMute)
@@ -392,7 +389,6 @@ ServerFrame::ServerFrame(const char *name) :
 	menuAdmin->Append(IDC_MENU_SHOWBANNED, "Show &Banned Users");
 	
 	wxMenu *menuChat = new wxMenu;
-	menuChat->Append(IDC_MENU_TIMEDMSG, "Setup a timed message");
 	menuChat->Append(IDC_MENU_PLAYERTALK, "Talk to selected players");
 	menuChat->Append(IDC_MENU_PLAYERTALKALL, "Talk to all players");
 
@@ -508,11 +504,6 @@ void ServerFrame::OnSize(wxSizeEvent& event)
 	event.Skip();
 }
 
-void ServerFrame::onTimedMsg(wxCommandEvent &event)
-{
-	showServerMsgDialog();
-}
-
 void ServerFrame::onTimerMain(wxTimerEvent &event)
 {
 	serverLoop();
@@ -535,6 +526,8 @@ void ServerFrame::onTimer(wxTimerEvent &event)
 	{
 		frame->logList_->SetItemCount(
 			ServerLog::instance()->getEntries().size());
+		frame->logList_->EnsureVisible(
+			frame->logList_->GetItemCount() - 1);
 	}
 	frame->logList_->Refresh();
 
@@ -794,7 +787,7 @@ void ServerFrame::onShowBanned(wxCommandEvent &event)
 {
 	ListDialog listDialog(this, "Scorched 3D Server Banned Users");
 	std::list<ServerBanned::BannedRange> &bannedIps = 
-		ServerBanned::instance()->getBannedIps();
+		ScorchedServerUtil::instance()->bannedPlayers.getBannedIps();
 	std::list<ServerBanned::BannedRange>::iterator itor;
 	for (itor = bannedIps.begin();
 		itor != bannedIps.end();

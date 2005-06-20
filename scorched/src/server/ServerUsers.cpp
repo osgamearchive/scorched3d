@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,63 +18,61 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <server/ServerTimedMessage.h>
-#include <server/ServerCommon.h>
+#include <server/ServerUsers.h>
 #include <server/ScorchedServer.h>
 #include <common/OptionsGame.h>
 #include <common/Logger.h>
 #include <XML/XMLFile.h>
 #include <wx/filefn.h>
-#include <time.h>
 
-ServerTimedMessage::ServerTimedMessage() : 
-	lastReadTime_(0), lastCheckTime_(0)
+ServerUsers::ServerUsers() : lastReadTime_(0)
 {
 }
 
-ServerTimedMessage::~ServerTimedMessage()
+ServerUsers::~ServerUsers()
 {
 }
 
-void ServerTimedMessage::simulate()
+ServerUsers::UserEntry *ServerUsers::getUserByName(const char *name)
 {
-	time_t currentTime = time(0);
-	if (currentTime > lastCheckTime_ + 5)
-	{
-		lastCheckTime_ = currentTime;
+	load();
 
-		load();
-		checkEntries(currentTime);
-	}
-}
-
-void ServerTimedMessage::checkEntries(time_t currentTime)
-{
-	std::list<TimedMessageEntry>::iterator itor;
+	std::list<UserEntry>::iterator itor;
 	for (itor = entries_.begin();
 		itor != entries_.end();
 		itor++)
 	{
-		TimedMessageEntry &entry = (*itor);
-		if (entry.lastTime + (time_t) entry.timeInterval < currentTime)
+		UserEntry &entry = *itor;
+		if (0 == strcmp(entry.name.c_str(), name))
 		{
-			entry.lastTime = currentTime;
-			
-			std::string message = entry.messages.front();
-			ServerCommon::sendString(0, message.c_str(), ctime(&currentTime));
-			Logger::log(message.c_str(), ctime(&currentTime));
-			entry.messages.pop_front();
-			entry.messages.push_back(message);
+			return &entry;
 		}
 	}
-
-
+	return 0;
 }
 
-bool ServerTimedMessage::load()
+ServerUsers::UserEntry *ServerUsers::getUserById(const char *uniqueId)
+{
+	load();
+
+	std::list<UserEntry>::iterator itor;
+	for (itor = entries_.begin();
+		itor != entries_.end();
+		itor++)
+	{
+		UserEntry &entry = *itor;
+		if (0 == strcmp(entry.uniqueid.c_str(), uniqueId))
+		{
+			return &entry;
+		}
+	}
+	return 0;
+}
+
+bool ServerUsers::load()
 {
 	const char *filename = 
-		getSettingsFile("messages-%i.xml", 
+		getSettingsFile("preferedplayers-%i.xml", 
 			ScorchedServer::instance()->getOptionsGame().getPortNo());
 	if (!::wxFileExists(filename)) return true;
 
@@ -89,7 +87,7 @@ bool ServerTimedMessage::load()
 		return false;
 	}
 
-	Logger::log("Refreshing message list %s", filename);
+	Logger::log("Refreshing user list %s", filename);
 	lastReadTime_ = fileTime;
 	entries_.clear();
 	if (!file.getRootNode()) return true; // Empty File
@@ -102,13 +100,10 @@ bool ServerTimedMessage::load()
 	{
 		XMLNode *currentNode = (*childrenItor);
 
-		std::string text;
-		TimedMessageEntry entry;
-		if (!currentNode->getNamedChild("repeattime", entry.timeInterval)) return false;
-		while (currentNode->getNamedChild("text", text, false))
-		{
-			entry.messages.push_back(text);
-		}
+		UserEntry entry;
+		if (!currentNode->getNamedChild("name", entry.name)) return false;
+		if (!currentNode->getNamedChild("uniqueid", entry.uniqueid)) return false;
+		if (!currentNode->failChildren()) return false;
 		entries_.push_back(entry);
 	}
 	return true;

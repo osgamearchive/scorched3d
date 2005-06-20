@@ -48,7 +48,7 @@ protected:
 	std::list<LoggerI *> loggers_;
 	std::list<LoggerInfo *> entries_;
 
-	static void addLogPart(char *time, char *text);
+	static void addLog(LoggerInfo &info);
 
 private:
 	Logger();

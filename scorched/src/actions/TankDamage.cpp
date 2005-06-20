@@ -40,11 +40,12 @@ TankDamage::TankDamage() : firstTime_(true)
 TankDamage::TankDamage(Weapon *weapon, 
 		unsigned int damagedPlayerId, unsigned int firedPlayerId,
 		float damage, bool useShieldDamage, bool checkFall,
+		bool shieldOnlyDamage,
 		unsigned int data) :
 	weapon_(weapon), firstTime_(true),
 	damagedPlayerId_(damagedPlayerId), firedPlayerId_(firedPlayerId),
 	damage_(damage), useShieldDamage_(useShieldDamage), checkFall_(checkFall),
-	data_(data)
+	data_(data), shieldOnlyDamage_(shieldOnlyDamage)
 {
 }
 
@@ -98,7 +99,7 @@ void TankDamage::simulate(float frameTime, bool &remove)
 				}
 
 				// Remove the remaining damage from the tank
-				if (damage_ > 0.0f)
+				if (damage_ > 0.0f && !shieldOnlyDamage_)
 				{
 					// Remove the life
 					if (damage_ > damagedTank->getState().getLife()) damage_ = 

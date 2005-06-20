@@ -65,6 +65,7 @@
 #include <server/ServerCommon.h>
 #include <server/ServerBanned.h>
 #include <server/ScorchedServer.h>
+#include <server/ScorchedServerUtil.h>
 #include <SDL/SDL.h>
 
 Clock serverTimer;
@@ -202,7 +203,7 @@ void serverLoop()
 		float timeDifference = serverTimer.getTimeDifference();
 		ScorchedServer::instance()->getGameState().simulate(timeDifference);
 		ServerFileServer::instance()->simulate(timeDifference);
-		ServerTimedMessage::instance()->simulate();
+		ScorchedServerUtil::instance()->timedMessage.simulate();
 		ServerKeepAliveHandler::instance()->checkKeepAlives();
 
 		if (timeDifference > 5.0f &&

@@ -28,18 +28,6 @@
 #include <limits.h>
 #include <wx/filefn.h>
 
-ServerBanned *ServerBanned::instance_ = 0;
-
-ServerBanned *ServerBanned::instance()
-{
-	if (!instance_)
-	{
-		instance_ = new ServerBanned();
-	}
-
-	return instance_;
-}
-
 ServerBanned::ServerBanned() : lastReadTime_(0)
 {
 }

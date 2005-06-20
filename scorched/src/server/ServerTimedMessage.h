@@ -22,28 +22,32 @@
 #define __INCLUDE_ServerTimedMessageh_INCLUDE__
 
 #include <string>
+#include <list>
+#include <time.h>
 
 class ServerTimedMessage
 {
 public:
-	static ServerTimedMessage *instance();
+	ServerTimedMessage();
+	virtual ~ServerTimedMessage();
 
 	void simulate();
 
-	void setMessage(const char *message = "", 
-		unsigned int time = 0);
-	const char *getMessage() { return message_.c_str(); }
-	unsigned int getTime() { return timeStep_; }
-
 protected:
-	static ServerTimedMessage *instance_;
-	std::string message_;
-	unsigned int lastTime_;
-	unsigned int timeStep_;
+	struct TimedMessageEntry
+	{
+		TimedMessageEntry() : lastTime(0) {}
+		unsigned int timeInterval;
+		time_t lastTime;
+		std::list<std::string> messages;
+	};
 
-private:
-	ServerTimedMessage();
-	virtual ~ServerTimedMessage();
+	time_t lastCheckTime_, lastReadTime_;
+	std::list<TimedMessageEntry> entries_;
+
+	bool load();
+	void checkEntries(time_t currentTime);
+
 };
 
 #endif

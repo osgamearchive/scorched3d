@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,37 +18,28 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(AFX_TANKCONTROLLER_H__3B055B6D_C8E7_42C7_9D29_FBBFD88457D1__INCLUDED_)
-#define AFX_TANKCONTROLLER_H__3B055B6D_C8E7_42C7_9D29_FBBFD88457D1__INCLUDED_
+#if !defined(__INCLUDE_ScorchedServerUtilh_INCLUDE__)
+#define __INCLUDE_ScorchedServerUtilh_INCLUDE__
 
-#include <engine/ScorchedContext.h>
-#include <common/Vector.h>
+#include <server/ServerUsers.h>
+#include <server/ServerTimedMessage.h>
+#include <server/ServerBanned.h>
 
-class Tank;
-class Weapon;
-class TankController
+class ScorchedServerUtil
 {
 public:
-	static void explosion(ScorchedContext &context,
-		Weapon *weapon, unsigned int firer, 
-		Vector &position, float radius,
-		float damageAmount,
-		bool checkFall,
-		bool shieldOnlyDamage,
-		unsigned int data);
-	static void damageTank(ScorchedContext &context,
-		Tank *tank, 
-		Weapon *weapon,
-		unsigned int firer,
-		float damage,
-		bool useShieldDamage, bool checkFall,
-		bool shieldOnlyDamage,
-		unsigned int data);
+	static ScorchedServerUtil *instance();
+
+	ServerUsers preferedPlayers;
+	ServerTimedMessage timedMessage;
+	ServerBanned bannedPlayers;
+
+protected:
+	static ScorchedServerUtil *instance_;
 
 private:
-	TankController();
-	virtual ~TankController();
-
+	ScorchedServerUtil();
+	virtual ~ScorchedServerUtil();
 };
 
-#endif // !defined(AFX_TANKCONTROLLER_H__3B055B6D_C8E7_42C7_9D29_FBBFD88457D1__INCLUDED_)
+#endif // __INCLUDE_ScorchedServerUtilh_INCLUDE__

@@ -323,6 +323,10 @@ public:
 	void setDoubleBuffer(bool value) { doubleBuffer_.setValue(value); }
 	const char *getDoubleBufferToolTip() { return doubleBuffer_.getDescription(); }
 
+	bool getSaveWindowPositions() { return saveWindowPositions_.getValue(); }
+	void setSaveWindowPositions(bool value) { saveWindowPositions_.setValue(value); }
+	const char *getSaveWindowPositionsToolTip() { return saveWindowPositions_.getDescription(); }
+
 	const char *getOnlineUserName() { return onlineUserName_.getValue(); }
 	void setOnlineUserName(const char *value) { onlineUserName_.setValue(value); }
 	const char *getOnlineUserNameToolTip() { return onlineUserName_.getDescription(); }
@@ -367,6 +371,7 @@ protected:
 	OptionEntryBool noFog_;
 	OptionEntryBool detailTexture_;
 	OptionEntryBool useHex_;
+	OptionEntryBool saveWindowPositions_;
 	OptionEntryBool doubleBuffer_;
 	OptionEntryBool moreRes_;
 	OptionEntryBool fullScreen_;

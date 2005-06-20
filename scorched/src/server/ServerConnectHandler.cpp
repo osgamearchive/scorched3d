@@ -22,6 +22,7 @@
 #include <server/ServerState.h>
 #include <server/ServerBanned.h>
 #include <server/ScorchedServer.h>
+#include <server/ScorchedServerUtil.h>
 #include <server/TurnController.h>
 #include <server/ServerCommon.h>
 #include <tank/TankColorGenerator.h>
@@ -76,7 +77,10 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 		if (ScorchedServer::instance()->getOptionsGame().getNoMaxPlayers() <=
 			ScorchedServer::instance()->getTankContainer().getNoOfTanks())
 		{
-			ServerCommon::sendString(destinationId, "This server is full, you cannot join!");
+			ServerCommon::sendString(destinationId, 
+				"--------------------------------------------------\n"
+				"This server is full, you cannot join!\n"
+				"--------------------------------------------------");
 			ServerCommon::serverLog(destinationId, "Server full, kicking");
 			ServerCommon::kickDestination(destinationId, true);
 			return true;		
@@ -93,18 +97,20 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 	if (!message.readMessage(reader) ||
 		(0 != strcmp(message.getProtocolVersion(), ScorchedProtocolVersion)))
 	{
-		ServerCommon::sendString(destinationId, 			
+		ServerCommon::sendString(destinationId, 	
+			"--------------------------------------------------\n"
 			"The version of Scorched you are running\n"
 			"does not match the server's version.\n"
 			"This server is running Scorched build %s (%s).\n"
 			"You are running Scorched build %s (%s).\n"
 			"New versions can be downloaded from\n"
 			"http://www.scorched3d.co.uk\n"
-			"Connection failed.", 
+			"Connection failed.\n"
+			"--------------------------------------------------", 
 			ScorchedVersion, ScorchedProtocolVersion,
 			message.getVersion(), message.getProtocolVersion());
 		Logger::log( 
-			"ERROR: Player connected with out of date version \"%s(%s)\"",
+			"Player connected with out of date version \"%s(%s)\"",
 			message.getVersion(),
 			message.getProtocolVersion());
 
@@ -117,7 +123,10 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 		ScorchedServer::instance()->getOptionsGame().getNoMaxPlayers() -
 		ScorchedServer::instance()->getTankContainer().getNoOfTanks())
 	{
-		ServerCommon::sendString(destinationId, "This server is full, you cannot join!");
+		ServerCommon::sendString(destinationId, 
+			"--------------------------------------------------\n"
+			"This server is full, you cannot join!\n"
+			"--------------------------------------------------");
 		ServerCommon::serverLog(destinationId, "Server full, kicking");
 		ServerCommon::kickDestination(destinationId, true);
 		return true;
@@ -129,11 +138,13 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 		if (0 != strcmp(message.getPassword(),
 						ScorchedServer::instance()->getOptionsGame().getServerPassword()))
 		{
-			ServerCommon::sendString(destinationId, 			
-					   "This server is running a password protected game.\n"
-					   "Your supplied password does not match.\n"
-					"Connection failed.");
-			Logger::log( "ERROR: Player connected with an invalid password");
+			ServerCommon::sendString(destinationId, 	
+				"--------------------------------------------------\n"
+				"This server is running a password protected game.\n"
+				"Your supplied password does not match.\n"
+				"Connection failed.\n"
+				"--------------------------------------------------");
+			Logger::log( "Player connected with an invalid password");
 			
 			ServerCommon::kickDestination(destinationId, true);
 			return true;
@@ -151,7 +162,7 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 		Tank *current = (*playingItor).second;
 		if (current->getDestinationId() == destinationId)
 		{
-			Logger::log( "ERROR: Duplicate connection from destination \"%i\"", 
+			Logger::log( "Duplicate connection from destination \"%i\"", 
 				destinationId);
 			ServerCommon::kickDestination(destinationId);
 			return true;
@@ -174,13 +185,18 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 	if (0 == uniqueId[0]) // No ID
 	{
 		// Generate the players unique id (if we need to)
+		//
+		// This will only actualy generate an id when using a persistent
+		// stats logger as this is the only time we can be sure of not
+		// giving out duplicate ids.
+		//
 		uniqueId = StatsLogger::instance()->allocateId();
 	}
 	else
 	{
 		// Check if this unique id has been banned
 		ServerBanned::BannedType type = 
-			ServerBanned::instance()->getBanned(ipAddress, uniqueId);
+			ScorchedServerUtil::instance()->bannedPlayers.getBanned(ipAddress, uniqueId);
 		if (type == ServerBanned::Banned)
 		{
 			Logger::log( "Banned uniqueid connection from destination \"%i\"", 
@@ -222,7 +238,7 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 	if (OptionsParam::instance()->getDedicatedServer())
 	{
 		const char *fileName = 
-			getSettingsFile("icon-server-%i.gif",
+			getSettingsFile("icon-%i.gif",
 				ScorchedServer::instance()->getOptionsGame().getPortNo());
 		FILE *in = fopen(fileName, "rb");
 		if (in)
@@ -239,10 +255,34 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 	if (!ComsMessageSender::sendToSingleClient(acceptMessage, destinationId))
 	{
 		Logger::log(
-			"ERROR: Failed to send accept to client \"%i\"",
+			"Failed to send accept to client \"%i\"",
 			destinationId);
 		ServerCommon::kickDestination(destinationId);
 		return true;
+	}
+
+	// Make sure that only prefered players can connect
+	// *** Do this after the connect accept message, as they
+	// will need a unique id if they don't already have one.  This is
+	// so they can use it to apply for prefered usership ***
+	if (ScorchedServer::instance()->getOptionsGame().getPreferedPlayers())
+	{
+		ServerUsers::UserEntry *userEntry =
+			ScorchedServerUtil::instance()->
+				preferedPlayers.getUserById(uniqueId);
+		if (!userEntry)
+		{
+			ServerCommon::sendString(destinationId,
+				"--------------------------------------------------\n"
+				"This server is running a prefered player only game.\n"
+				"Your supplied id is not in the prefered player list.\n"
+				"Connection failed.\n"
+				"--------------------------------------------------");
+			Logger::log( "Non prefered player \"%s\" connected",
+				uniqueId);
+			ServerCommon::kickDestination(destinationId, true);			
+			return true;
+		}
 	}
 
 	// Send all current tanks to the new client
@@ -417,7 +457,7 @@ void ServerConnectHandler::addNextTank(unsigned int destinationId,
 	if (ipAddress != 0)
 	{
 		ServerBanned::BannedType type = 
-			ServerBanned::instance()->getBanned(ipAddress, tank->getUniqueId());
+			ScorchedServerUtil::instance()->bannedPlayers.getBanned(ipAddress, tank->getUniqueId());
 		if (type == ServerBanned::Muted)	
 		{
 			tank->getState().setMuted(true);

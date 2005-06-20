@@ -32,10 +32,14 @@ static const int AlphaSteps = int(ExplosionNukeRenderer_STEPS * 0.9f);
 ExplosionNukeRendererEntry::ExplosionNukeRendererEntry(
 	Vector &position, float size) :
 	totalTime_(0.0f), size_(size),
-	startPosition_(position)
+	startPosition_(position), cloudRotation_(0.0f)
 {
-	rotation_ = RAND * 360.0f;
-	width_ = RAND * 0.5f + 1.0f;
+	float rot = RAND * 360.0f;
+	float width = RAND * 0.5f + 1.0f;
+    
+	cloudRotation_ = RAND * 360.0f;
+	rotation_[0] = sinf(rot) * width;
+	rotation_[1] = cosf(rot) * width;
 }
 
 ExplosionNukeRendererEntry::~ExplosionNukeRendererEntry()
@@ -45,6 +49,7 @@ ExplosionNukeRendererEntry::~ExplosionNukeRendererEntry()
 void ExplosionNukeRendererEntry::simulate(Particle *particle, float time)
 {
 	totalTime_ += time;
+	cloudRotation_ += time * 5.0f;
 
 	int position = int((totalTime_ / (size_ / 3.0f)) * 
 		float(ExplosionNukeRenderer_STEPS));
@@ -53,19 +58,9 @@ void ExplosionNukeRendererEntry::simulate(Particle *particle, float time)
 
 	float z = ExplosionNukeRenderer::positions_[position][2] * 14.0f / size_;
 	float w = ExplosionNukeRenderer::positions_[position][0] + size_ / 4 + 4.0f;
-	particle->position_[0] = startPosition_[0] + sinf(rotation_) * w * width_;
-	particle->position_[1] = startPosition_[1] + cosf(rotation_) * w * width_;
+	particle->position_[0] = startPosition_[0] + rotation_[0] * w;
+	particle->position_[1] = startPosition_[1] + rotation_[1] * w;
 	particle->position_[2] = startPosition_[2] + z;
-
-	// Add a little offset to the current position
-	// (NOTE: This should really be done in simulate!!)
-	/*if (position_>=(ExplosionNukeRenderer_STEPS *0.3f)){
-		//entry.posZ+=(RAND*2.0f)-1.0f;
-		float delta= ExplosionNukeRenderer_STEPS-(ExplosionNukeRenderer_STEPS*0.3f);
-		float diff = position_-(ExplosionNukeRenderer_STEPS*0.3f);
-		float num = diff/delta;  //num =0..1
-		posZ-=(num*num*num)*size;
-	}*/
 }
 
 Vector *ExplosionNukeRenderer::positions_ = 0;
@@ -110,10 +105,10 @@ ExplosionNukeRenderer::ExplosionNukeRenderer(Vector &position, float size)
 		0.2f, 0.5f, // Mass
 		0.01f, 0.02f, // Friction
 		Vector(0.0f, 0.0f, 0.0f), Vector(0.0f, 0.0f, 0.0f), // Velocity
-		Vector(1.0f, 1.0f, 1.0f), 0.4f, // StartColor1
-		Vector(1.0f, 1.0f, 1.0f), 0.5f, // StartColor2
-		Vector(1.0f, 1.0f, 1.0f), 0.1f, // EndColor1
-		Vector(1.0f, 1.0f, 1.0f), 0.2f, // EndColor2
+		Vector(1.0f, 1.0f, 1.0f), 0.3f, // StartColor1
+		Vector(1.0f, 1.0f, 1.0f), 0.2f, // StartColor2
+		Vector(1.0f, 1.0f, 1.0f), 0.0f, // EndColor1
+		Vector(1.0f, 1.0f, 1.0f), 0.0f, // EndColor2
 		2.0f, 2.0f, 3.0f, 3.0f, // Start Size
 		4.0f, 4.0f, 6.0f, 6.0f, // EndSize
 		Vector(0.0f, 0.0f, 100.0f), // Gravity
@@ -132,14 +127,14 @@ void ExplosionNukeRenderer::draw(Action *action)
 void ExplosionNukeRenderer::simulate(Action *action, float frameTime, bool &remove)
 {
 	float AddSmokeTime = 0.08f;
-	int SmokesPerTime = 20;
+	int SmokesPerTime = 14;
 	if (OptionsDisplay::instance()->getEffectsDetail() == 0) 
 	{
-		SmokesPerTime = 10;
+		SmokesPerTime = 8;
 	}
 	else if (OptionsDisplay::instance()->getEffectsDetail() == 2) 
 	{
-		SmokesPerTime = 30;
+		SmokesPerTime = 18;
 	}
 
 	totalTime_ += frameTime;

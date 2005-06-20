@@ -83,40 +83,17 @@ void Logger::log(const char *fmt, ...)
 	Logger::instance();
 
 	SDL_LockMutex(logMutex_);
+	
 	static char text[2048];
-
-	// Add the time to the beginning of the log message
-	time_t theTime = time(0);
-	char *time = ctime(&theTime); 
-	char *nl = strchr(time, '\n'); 
-	if (nl) *nl = '\0';
-    
-	// Add the actual log message
 	va_list ap;
 	va_start(ap, fmt);
 	vsprintf(text, fmt, ap);
 	va_end(ap);
 
-	// Add single or multiple lines
-	char *found = strchr(text, '\n');
-	char *start = text;
-	if (found)
-	{
-		while (found)
-		{
-			*found = '\0';
-			addLogPart(time, start);
-			start = found;
-			start++;
+	LoggerInfo info;
+	info.setMessage(text);
+	addLog(info);
 
-			found = strchr(start, '\n');
-		}
-		if (start[0] != '\0') addLogPart(time, start);
-	}
-	else
-	{
-		addLogPart(time, text);
-	}
 	SDL_UnlockMutex(logMutex_);
 }
 
@@ -125,26 +102,47 @@ void Logger::log(const LoggerInfo &info)
 	Logger::instance();
 
 	SDL_LockMutex(logMutex_);
+	addLog((LoggerInfo &) info);
+	SDL_UnlockMutex(logMutex_);
+}
 
+void Logger::addLog(LoggerInfo &info)
+{
 	// Add the time to the beginning of the log message
 	time_t theTime = time(0);
 	char *time = ctime(&theTime); 
 	char *nl = strchr(time, '\n'); 
 	if (nl) *nl = '\0';
+	info.setTime(time);
 
-	instance_->entries_.push_back(new LoggerInfo(info));
+	// Add single or multiple lines
+	char *found = strchr(info.getMessage(), '\n');
+	char *start = (char *) info.getMessage();
+	if (found)
+	{
+		while (found)
+		{
+			*found = '\0';
+			LoggerInfo *newInfo = new LoggerInfo(info);
+			newInfo->setMessage(start);
+			instance_->entries_.push_back(newInfo);
+			start = found;
+			start++;
 
-	SDL_UnlockMutex(logMutex_);
-}
-
-void Logger::addLogPart(char *time, char *text)
-{
-	Logger::instance();
-
-	instance_->entries_.push_back(new LoggerInfo);
-	LoggerInfo *lastEntry = instance_->entries_.back();
-	lastEntry->setTime(time);
-	lastEntry->setMessage(text);
+			found = strchr(start, '\n');
+		}
+		if (start[0] != '\0')
+		{
+			LoggerInfo *newInfo = new LoggerInfo(info);
+			newInfo->setMessage(start);
+			instance_->entries_.push_back(newInfo);
+		}
+	}
+	else
+	{
+		instance_->entries_.push_back(
+			new LoggerInfo(info));
+	}
 }
 
 void Logger::processLogEntries()

@@ -30,7 +30,9 @@
 class ServerBanned
 {
 public:
-	static ServerBanned *instance();
+	ServerBanned();
+	virtual ~ServerBanned();
+
 	enum BannedType
 	{
 		NotBanned,
@@ -60,7 +62,6 @@ public:
 	static const char *getBannedTypeStr(BannedType type);
 
 protected:
-	static ServerBanned *instance_;
 	std::list<BannedRange> bannedIps_;	
 	std::map<std::string, BannedEntry> bannedIds_;
 	time_t lastReadTime_;
@@ -71,9 +72,6 @@ protected:
 		const char *name, const char *unqiueId, unsigned int bantime,
 		BannedType type);
 
-private:
-	ServerBanned();
-	virtual ~ServerBanned();
 };
 
 #endif // __INCLUDE_ServerBannedh_INCLUDE__

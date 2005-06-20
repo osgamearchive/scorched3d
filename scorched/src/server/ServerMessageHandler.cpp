@@ -20,6 +20,7 @@
 
 #include <server/ServerMessageHandler.h>
 #include <server/ScorchedServer.h>
+#include <server/ScorchedServerUtil.h>
 #include <server/ServerCommon.h>
 #include <server/ServerBanned.h>
 #include <tank/TankDeadContainer.h>
@@ -53,7 +54,7 @@ ServerMessageHandler::~ServerMessageHandler()
 void ServerMessageHandler::clientConnected(NetMessage &message)
 {
 	if (message.getIpAddress() != 0 &&
-		ServerBanned::instance()->getBanned(message.getIpAddress(), "") == 
+		ScorchedServerUtil::instance()->bannedPlayers.getBanned(message.getIpAddress(), "") == 
 		ServerBanned::Banned)
 	{
 		Logger::log( "Banned client connected dest=\"%i\" ip=\"%s\"", 

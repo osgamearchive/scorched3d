@@ -271,6 +271,7 @@ void Explosion::simulate(float frameTime, bool &remove)
 				weapon_->getSize() , 
 				weapon_->getHurtAmount(),
 				(weapon_->getDeformType() != DeformNone),
+				weapon_->getOnlyHurtShield(),
 				data_);
 		}
 	}

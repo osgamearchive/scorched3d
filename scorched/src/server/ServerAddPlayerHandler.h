@@ -23,6 +23,7 @@
 
 #include <coms/ComsMessageHandler.h>
 
+class Tank;
 class ServerAddPlayerHandler : 
 	public ComsMessageHandlerI
 {
@@ -36,7 +37,7 @@ public:
 protected:
 	static ServerAddPlayerHandler *instance_;
 
-	void getUniqueName(std::string &sentname);
+	void getUniqueName(Tank *tank, std::string &sentname);
 
 private:
 	ServerAddPlayerHandler();

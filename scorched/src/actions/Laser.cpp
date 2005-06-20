@@ -116,7 +116,7 @@ void Laser::simulate(float frameTime, bool &remove)
 				context_->actionController->addAction(
 					new TankDamage(
 						weapon_, damagedTank, playerId_,
-						damage_, false, false, data_));
+						damage_, false, false, false, data_));
 			}
 		}
 	}

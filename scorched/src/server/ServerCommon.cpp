@@ -20,7 +20,7 @@
 
 #include <server/ServerCommon.h>
 #include <server/ScorchedServer.h>
-#include <server/ServerBanned.h>
+#include <server/ScorchedServerUtil.h>
 #include <server/ServerMessageHandler.h>
 #include <tank/TankContainer.h>
 #include <common/OptionsParam.h>
@@ -243,7 +243,7 @@ void ServerCommon::banPlayer(unsigned int playerId,
 				break;				
 			}
 		
-			ServerBanned::instance()->
+			ScorchedServerUtil::instance()->bannedPlayers.
 				addBanned(ipAddress, tank->getName(), tank->getUniqueId(), type);
 			if (type == ServerBanned::Banned) kickPlayer(playerId);
 		}

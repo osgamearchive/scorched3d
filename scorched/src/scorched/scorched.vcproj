@@ -2630,12 +2630,6 @@
 				RelativePath="ServerDialog.h">
 			</File>
 			<File
-				RelativePath="ServerMsgDialog.cpp">
-			</File>
-			<File
-				RelativePath="ServerMsgDialog.h">
-			</File>
-			<File
 				RelativePath="ServerSDialog.cpp">
 			</File>
 			<File
@@ -2953,6 +2947,12 @@
 				RelativePath="..\server\ScorchedServer.h">
 			</File>
 			<File
+				RelativePath="..\server\ScorchedServerUtil.cpp">
+			</File>
+			<File
+				RelativePath="..\server\ScorchedServerUtil.h">
+			</File>
+			<File
 				RelativePath="..\server\ServerAddPlayerHandler.cpp">
 			</File>
 			<File
@@ -3173,6 +3173,12 @@
 			</File>
 			<File
 				RelativePath="..\server\ServerTooFewPlayersStimulus.h">
+			</File>
+			<File
+				RelativePath="..\server\ServerUsers.cpp">
+			</File>
+			<File
+				RelativePath="..\server\ServerUsers.h">
 			</File>
 			<File
 				RelativePath="..\server\ServerWebHandler.cpp">
