@@ -206,6 +206,7 @@ void LandscapeObjectPlacementTrees::generateObjects(
 					entry->posZ = height;
 					entry->rotation = generator.getRandFloat() * 360.0f;
 					entry->removeaction = placement.removeaction;
+					entry->burnaction = placement.burnaction;
 
 					//Vector position(entry->posX, entry->posY, entry->posZ);
 					//DeformLandscape::flattenArea(context, position, 0);
@@ -226,6 +227,7 @@ void LandscapeObjectPlacementTrees::generateObjects(
 					entry->posZ = height;
 					entry->rotation = generator.getRandFloat() * 360.0f;
 					entry->removeaction = placement.removeaction;
+					entry->burnaction = placement.burnaction;
 					
 					GLBitmapModifier::addCircle(Landscape::instance()->getMainMap(),
 						lx * mult, ly * mult, entry->size * mult, 1.0f);
@@ -373,6 +375,7 @@ void LandscapeObjectPlacementMask::generateObjects(
 						entry->posZ = height;
 						entry->rotation = lr;
 						entry->removeaction = placement.removeaction;
+						entry->burnaction = placement.burnaction;
 
 						//Vector position(entry->posX, entry->posY, entry->posZ);
 						//DeformLandscape::flattenArea(context, position, 0);
@@ -393,6 +396,7 @@ void LandscapeObjectPlacementMask::generateObjects(
 						entry->posZ = height;
 						entry->rotation = lr;
 						entry->removeaction = placement.removeaction;
+						entry->burnaction = placement.burnaction;
 						
 						GLBitmapModifier::addCircle(Landscape::instance()->getMainMap(),
 							lx * mult, ly * mult, entry->size * mult, 1.0f);
@@ -482,6 +486,7 @@ void LandscapeObjectPlacementDirect::generateObjects(
 			entry->posZ = position.position[2];
 			entry->rotation = position.rotation;
 			entry->removeaction = placement.removeaction;
+			entry->burnaction = placement.burnaction;
 
 			//Vector position(entry->posX, entry->posY, entry->posZ);
 			//DeformLandscape::flattenArea(context, position, 0);
@@ -503,6 +508,7 @@ void LandscapeObjectPlacementDirect::generateObjects(
 			entry->posZ = position.position[2];
 			entry->rotation = position.rotation;
 			entry->removeaction = placement.removeaction;
+			entry->burnaction = placement.burnaction;
 			
 			GLBitmapModifier::addCircle(Landscape::instance()->getMainMap(),
 				position.position[0] * mult, position.position[1] * mult, 

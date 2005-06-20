@@ -35,7 +35,7 @@ Added: Prefered player only servers (only players with certain ids can connect)
 Added: Chat filter (swear words)
 Added: Shadows to landscape placed objects
 Added: Direct placement type to allow direct placement of landscape objects
-Added: removeaction for trees and objects that allows them to explode etc. when removed
+Added: removeaction, burnaction for trees and objects that allows them to explode etc. when removed
 Added: Trees and objects are always in the same position for all clients
 Added: Restricted camera movement is now toggled on and off with the alt key (no holding required)
 Added: Teleport weapons
@@ -86,7 +86,6 @@ Gun fires at same point for all tanks (ignores turret/gun position in model)
 Fix crashing when people win (Graphics card drivers??)
 
 -- Things for next release
-Being able to register peoples nicknames
 Ambient sounds
 Allow same ip addresses to connect but don't collect stats
 Bobirovs list of stuff (http://apochq.handwired.net/ideas.txt)

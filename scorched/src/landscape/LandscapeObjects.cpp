@@ -193,7 +193,10 @@ void LandscapeObjects::removeObjects(
 	}
 }
 
-void LandscapeObjects::burnObjects(unsigned int x, unsigned int y)
+void LandscapeObjects::burnObjects(
+	ScorchedContext &context,
+	unsigned int x, unsigned int y, 
+	unsigned int playerId)
 {
 	unsigned int point = pointToUInt((unsigned int)x, (unsigned int)y);
 
@@ -206,5 +209,20 @@ void LandscapeObjects::burnObjects(unsigned int x, unsigned int y)
 	{
 		LandscapeObjectsEntry *entry = (*iter).second;
 		entry->burnt = true;
+		
+		if (playerId != 0 &&
+			entry->burnaction.c_str()[0] &&
+			0 != strcmp(entry->burnaction.c_str(), "none"))
+		{
+			Accessory *accessory = context.accessoryStore->findByPrimaryAccessoryName(
+				entry->burnaction.c_str());
+			if (accessory && accessory->getAction()->getType() == 
+				AccessoryPart::AccessoryWeapon)
+			{
+				Weapon *weapon = (Weapon *) accessory->getAction();
+				Vector position(entry->posX, entry->posY, entry->posZ);
+				weapon->fireWeapon(context, playerId, position, Vector::nullVector);
+			}
+		}
 	}
 }

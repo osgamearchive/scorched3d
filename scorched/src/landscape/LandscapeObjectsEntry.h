@@ -35,6 +35,7 @@ public:
 	float color;
 	bool burnt;
 	std::string removeaction;
+	std::string burnaction;
 
 	virtual void render(float distance) = 0;
 };

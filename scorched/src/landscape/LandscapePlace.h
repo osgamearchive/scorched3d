@@ -55,6 +55,8 @@ class LandscapePlaceObjectsPlacement : public LandscapePlaceType
 public:
 	virtual ~LandscapePlaceObjectsPlacement();
 
+	std::string removeaction;
+	std::string burnaction;
 	std::string objecttype;
 	LandscapePlaceType *object;
 
@@ -72,7 +74,6 @@ public:
 	};
 
 	std::list<Position> positions;
-	std::string removeaction;
 
 	virtual bool readXML(XMLNode *node);
 };
@@ -83,7 +84,6 @@ public:
 	int numobjects;
 	int numclusters;
 	float minheight, maxheight;
-	std::string removeaction;
 
 	virtual bool readXML(XMLNode *node);
 };
@@ -96,7 +96,6 @@ public:
 	float minheight, maxheight;
 	float mincloseness, minslope;
 	float xsnap, ysnap, angsnap;
-	std::string removeaction;
 
 	virtual bool readXML(XMLNode *node);
 };

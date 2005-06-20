@@ -268,11 +268,17 @@ void Napalm::simulateAddStep()
 		if (!weapon_->getNoObjectDamage())
 		{
 			context_->landscapeMaps->getObjects().burnObjects(
-				(unsigned int) x_, (unsigned int) y_);
+				*context_,
+				(unsigned int) x_, (unsigned int) y_,
+				playerId_);
 			context_->landscapeMaps->getObjects().burnObjects(
-				(unsigned int) x_ + 1, (unsigned int) y_ + 1);
+				*context_,
+				(unsigned int) x_ + 1, (unsigned int) y_ + 1,
+				playerId_);
 			context_->landscapeMaps->getObjects().burnObjects(
-				(unsigned int) x_ - 1, (unsigned int) y_ - 1);
+				*context_,
+				(unsigned int) x_ - 1, (unsigned int) y_ - 1,
+				playerId_);
 		}
 	}
 

@@ -44,7 +44,9 @@ public:
 	void removeObjects(ScorchedContext &context,
 		unsigned int x, unsigned int y, unsigned int r,
 		unsigned int playerId);
-	void burnObjects(unsigned int x, unsigned int y);
+	void burnObjects(ScorchedContext &context,
+		unsigned int x, unsigned int y, 
+		unsigned int playerId);
 	void addObject(unsigned int x, unsigned int y, 
 		LandscapeObjectsEntry *entry);
 

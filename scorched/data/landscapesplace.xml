@@ -13,6 +13,7 @@
 				<minheight>8</minheight>
 				<maxheight>30</maxheight>
 				<removeaction></removeaction>
+				<burnaction></burnaction>
 				<object type="tree">
 					<tree>pine</tree>
 					<snow>25</snow>
@@ -29,6 +30,7 @@
 				<minheight>8</minheight>
 				<maxheight>30</maxheight>
 				<removeaction></removeaction>
+				<burnaction></burnaction>
 				<object type="tree">
 					<tree>palm</tree>
 					<snow>100</snow>
@@ -45,6 +47,7 @@
 				<minheight>8</minheight>
 				<maxheight>30</maxheight>
 				<removeaction></removeaction>
+				<burnaction></burnaction>
 				<object type="tree">
 					<tree>pine</tree>
 					<snow>10</snow>
