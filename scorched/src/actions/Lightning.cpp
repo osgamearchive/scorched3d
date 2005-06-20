@@ -189,8 +189,10 @@ bool Lightning::readAction(NetBufferReader &reader)
 void Lightning::dispaceDirection(Vector &direction, 
 	Vector &originalDirection, float angle)
 {
+	int breakCount = 0;
+
 	Vector newdir;
-	while (true)
+	while (breakCount++ < 1000)
 	{
 		newdir[0] = (generator_->getRandFloat() - 0.5f) * 2.0f;
 		newdir[1] = (generator_->getRandFloat() - 0.5f) * 2.0f;
@@ -218,6 +220,8 @@ void Lightning::generateLightning(int id, int depth, float size,
 	Vector &start, Vector &direction,
 	std::map<Tank *, float> &hurtMap)
 {
+	if (id > 100) return;
+
 	float length = weapon_->getSegLength() + 
 		weapon_->getSegVar() * generator_->getRandFloat();
 	Vector end = start + direction * length;
