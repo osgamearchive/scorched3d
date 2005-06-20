@@ -151,8 +151,8 @@ bool ServerTextHandler::processMessage(unsigned int destinationId,
 				itor++)
 			{
 				Tank *currentTank = (*itor).second;
-				if (tank->getDestinationId() == destinationId ||
-					tank->getState().getAdmin())
+				if (currentTank->getDestinationId() == destinationId ||
+					currentTank->getState().getAdmin())
 				{
 					ComsMessageSender::sendToSingleClient(newMessage,
 						currentTank->getDestinationId());
