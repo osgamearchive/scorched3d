@@ -117,6 +117,7 @@ void BuyAccessoryDialog::playerRefreshKeepPos()
 	int otherCurrent = buyOtherTab_->getScrollBar().getCurrent();
 	int sellCurrent = sellTab_->getScrollBar().getCurrent();
 	int favCurrent = favouritesTab_->getScrollBar().getCurrent();
+	addPlayerName();
 	addPlayerWeapons();
 	buyWeaponTab_->getScrollBar().setCurrent(buyCurrent);
 	buyOtherTab_->getScrollBar().setCurrent(otherCurrent);
@@ -257,8 +258,9 @@ void BuyAccessoryDialog::addAccessory(
 
 	// Buy Button
 	if (currentNumber + current->getBundle() <= current->getMaximumNumber() && // Not exceeded maximum
-		current->getStartingNumber() != -1 && // Not infinite
-		current->getPrice() <= tank->getScore().getMoney())
+		current->getStartingNumber() != -1) // Not infinite
+	{
+	if (current->getPrice() <= tank->getScore().getMoney())
 	{
 		GLWTextButton *button = (GLWTextButton *)
 			newPanel->addWidget(new GLWTextButton(
@@ -272,6 +274,17 @@ void BuyAccessoryDialog::addAccessory(
 				current->getBundle(), current->getName(), current->getPrice())));
 		button->setH(button->getH() - 2.0f);
 		buyMap_[button->getId()] = current;
+	}
+	else
+	{
+		char *text = (char *) formatString("$%i/%i",
+			current->getPrice(), current->getBundle());
+		GLWLabel *label = (GLWLabel *)
+			newPanel->addWidget(new GLWLabel(
+				260, 0, text, 12.0f));
+		label->setX(label->getX() - label->getW() / 2);
+		label->setColor(Vector(0.4f, 0.4f, 0.4f));
+	}
 	}
 
 	// Sell Button

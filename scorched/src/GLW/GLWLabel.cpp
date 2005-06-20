@@ -36,7 +36,7 @@ GLWLabel::~GLWLabel()
 
 }
 
-void GLWLabel::setColor(Vector &color)
+void GLWLabel::setColor(const Vector &color)
 {
 	color_ = color;
 }

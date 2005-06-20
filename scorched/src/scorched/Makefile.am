@@ -812,8 +812,6 @@ scorched3d_SOURCES = \
 	NetDialog.h \
 	ServerDialog.cpp \
 	ServerDialog.h \
-	ServerMsgDialog.cpp \
-	ServerMsgDialog.h \
 	ServerSDialog.cpp \
 	ServerSDialog.h \
 	SettingsDialog.cpp \
@@ -917,6 +915,8 @@ scorched3d_SOURCES = \
 	../client/WindowSetup.h \
 	../server/ScorchedServer.cpp \
 	../server/ScorchedServer.h \
+	../server/ScorchedServerUtil.cpp \
+	../server/ScorchedServerUtil.h \
 	../server/ServerAddPlayerHandler.cpp \
 	../server/ServerAddPlayerHandler.h \
 	../server/ServerAdminHandler.cpp \
@@ -991,6 +991,8 @@ scorched3d_SOURCES = \
 	../server/ServerTimedMessage.h \
 	../server/ServerTooFewPlayersStimulus.cpp \
 	../server/ServerTooFewPlayersStimulus.h \
+	../server/ServerUsers.cpp \
+	../server/ServerUsers.h \
 	../server/ServerWebHandler.cpp \
 	../server/ServerWebHandler.h \
 	../server/ServerWebServer.cpp \

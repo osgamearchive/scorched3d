@@ -38,7 +38,7 @@ public:
 
 	const char *getText() { return buttonText_.c_str(); }
 	void setText(const char *text);
-	void setColor(Vector &color);
+	void setColor(const Vector &color);
 	void setSize(float size);
 	void calcWidth();
 
