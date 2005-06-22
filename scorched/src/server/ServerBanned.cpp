@@ -36,7 +36,7 @@ ServerBanned::~ServerBanned()
 {
 }
 
-bool ServerBanned::load()
+bool ServerBanned::load(bool force)
 {
 	const char *filename = 
 		getSettingsFile("banned-%i.xml", 
@@ -44,7 +44,7 @@ bool ServerBanned::load()
 	if (!::wxFileExists(filename)) return true;
 
 	time_t fileTime = ::wxFileModificationTime(filename);
-	if (fileTime == lastReadTime_) return true;
+	if (!force && fileTime == lastReadTime_) return true;
 
 	XMLFile file;
 	if (!file.readFile(filename))

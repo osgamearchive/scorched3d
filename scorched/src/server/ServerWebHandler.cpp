@@ -21,9 +21,14 @@
 #include <server/ServerWebHandler.h>
 #include <server/ServerLog.h>
 #include <server/ScorchedServer.h>
+#include <server/ScorchedServerUtil.h>
 #include <server/ServerCommon.h>
+#include <engine/ModFiles.h>
 #include <common/Defines.h>
 #include <common/Logger.h>
+#include <common/OptionsGame.h>
+#include <common/OptionsParam.h>
+#include <coms/NetInterface.h>
 #include <tank/TankContainer.h>
 #include <tankai/TankAIStore.h>
 #include <tankai/TankAIAdder.h>
@@ -218,5 +223,182 @@ bool ServerWebHandler::GameHandler::processRequest(const char *url,
 	}
 
 	return ServerWebServer::getTemplate("game.html", fields, text);
+}
+
+bool ServerWebHandler::SettingsHandler::processRequest(const char *url,
+	std::map<std::string, std::string> &fields,
+	std::string &text)
+{
+	const char *action = getField(fields, "action");
+	if (action && 0 == strcmp(action, "Load"))
+	{
+		ScorchedServer::instance()->getOptionsGame().getChangedOptions().
+			readOptionsFromFile((char *) OptionsParam::instance()->getServerFile());
+	}
+
+	std::list<OptionEntry *>::iterator itor;
+	std::list<OptionEntry *> &options = 
+		ScorchedServer::instance()->getOptionsGame().
+			getChangedOptions().getOptions();
+
+	// Check if any changes have been made
+	for (itor = options.begin();
+		itor != options.end();
+		itor++)
+	{
+		OptionEntry *entry = (*itor);
+		std::map<std::string, std::string>::iterator findItor =
+			fields.find(entry->getName());
+		if (findItor != fields.end())
+		{
+			const char *value = (*findItor).second.c_str();
+			entry->setValueFromString(value);
+		}
+	}
+
+	// Show the current settings
+	std::string settings;
+	for (itor = options.begin();
+		itor != options.end();
+		itor++)
+	{
+		OptionEntry *entry = (*itor);
+		if (!(entry->getData() & OptionEntry::DataDepricated))
+		{
+			std::string value;
+			if (entry->getEntryType() == OptionEntry::OptionEntryTextType)
+			{
+				value = formatString("<textarea name='%s' cols=20 rows=5>%s</textarea>",
+					entry->getName(),
+					entry->getValueAsString());
+			}
+			else
+			{
+				value = formatString("<input type='text' name='%s' value='%s'>",
+					entry->getName(),
+					entry->getValueAsString());
+			}
+
+			settings += formatString("<tr><td>%s</td>"
+				"<td><font size=-1>%s</font></td>"
+				"<td>%s</td></tr>\n",
+				entry->getName(),
+				entry->getDescription(),
+				value.c_str());
+		}
+	}
+
+	fields["SETTINGS"] = settings;
+
+	if (action && 0 == strcmp(action, "Save"))
+	{
+		ScorchedServer::instance()->getOptionsGame().getChangedOptions().
+			writeOptionsToFile((char *) OptionsParam::instance()->getServerFile());
+	}
+
+	return ServerWebServer::getTemplate("settings.html", fields, text);
+}
+
+bool ServerWebHandler::TalkHandler::processRequest(const char *url,
+	std::map<std::string, std::string> &fields,
+	std::string &text)
+{
+	const char *say = getField(fields, "text");
+	if (say)
+	{
+		const char *type = getField(fields, "type");
+		if (!type || 0 == strcmp(type, "all"))
+		{
+			ServerCommon::sendString(0, say);
+			ServerCommon::serverLog(0, "Says : %s", say);
+		}
+		else if (0 == strcmp(type, "message"))
+		{
+			ServerCommon::sendStringMessage(0, say);
+			ServerCommon::serverLog(0, "Messages : %s", say);
+		}
+		else if (0 == strcmp(type, "admin"))
+		{
+			ServerCommon::sendStringAdmin(say);
+			ServerCommon::serverLog(0, "Admins Says : %s", say);
+		}
+	}
+
+	return ServerWebServer::getTemplate("talk.html", fields, text);
+}
+
+bool ServerWebHandler::BannedHandler::processRequest(const char *url,
+	std::map<std::string, std::string> &fields,
+	std::string &text)
+{
+	const char *action = getField(fields, "action");
+	if (action && 0 == strcmp(action, "Load")) 
+		ScorchedServerUtil::instance()->bannedPlayers.load(true);
+
+	const char *selected = getField(fields, "selected");
+	std::string banned;
+	std::list<ServerBanned::BannedRange> &bannedIps = 
+		ScorchedServerUtil::instance()->bannedPlayers.getBannedIps();
+	std::list<ServerBanned::BannedRange>::iterator itor;
+	for (itor = bannedIps.begin();
+		itor != bannedIps.end();
+		itor++)
+	{
+		ServerBanned::BannedRange &range = (*itor);
+		std::string mask = NetInterface::getIpName(range.mask);
+
+		std::map<unsigned int, ServerBanned::BannedEntry>::iterator ipitor;
+		for (ipitor = range.ips.begin();
+			ipitor != range.ips.end();
+			ipitor++)
+		{
+			unsigned int ip = (*ipitor).first;
+			ServerBanned::BannedEntry &entry = (*ipitor).second;
+			std::string ipName = NetInterface::getIpName(ip);
+
+			if (selected && 0 == strcmp(selected, ipName.c_str()))
+				entry.type = ServerBanned::NotBanned;
+
+			banned += formatString("<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td>"
+				"<td><input type=\"checkbox\" name=\"selected\" value=\"%s\"></td>" // Select
+				"</tr>",
+				(entry.bantime?ctime(&entry.bantime):""),
+				entry.name.c_str(),
+				entry.uniqueid.c_str(),
+				ServerBanned::getBannedTypeStr(entry.type),
+				ipName.c_str(), mask.c_str(),
+				ipName.c_str());
+		}
+	}
+	fields["BANNED"] = banned;
+
+	if (action && 0 == strcmp(action, "Save")) 
+		ScorchedServerUtil::instance()->bannedPlayers.save();
+
+	return ServerWebServer::getTemplate("banned.html", fields, text);
+}
+
+bool ServerWebHandler::ModsHandler::processRequest(const char *url,
+	std::map<std::string, std::string> &fields,
+	std::string &text)
+{
+	std::string modfiles;
+	std::map<std::string, ModFileEntry *> &modFiles = 
+		ScorchedServer::instance()->getModFiles().getFiles();
+	std::map<std::string, ModFileEntry *>::iterator itor;
+	for (itor = modFiles.begin();
+		itor != modFiles.end();
+		itor++)
+	{
+		ModFileEntry *entry = (*itor).second;
+		modfiles += formatString("<tr><td>%s</td><td>%u</td><td>%u</td><td>%u</td></tr>",
+			entry->getFileName(), 
+			entry->getCompressedSize(),
+			entry->getCompressedCrc(),
+			entry->getUncompressedSize());
+	}
+	fields["MODFILES"] = modfiles;
+
+	return ServerWebServer::getTemplate("mods.html", fields, text);
 }
 

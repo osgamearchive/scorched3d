@@ -47,6 +47,10 @@ ServerWebServer::ServerWebServer() :
 	addRequestHandler("/", new ServerWebHandler::PlayerHandler());
 	addRequestHandler("/logs", new ServerWebHandler::LogHandler());
 	addRequestHandler("/game", new ServerWebHandler::GameHandler());
+	addRequestHandler("/settings", new ServerWebHandler::SettingsHandler());
+	addRequestHandler("/talk", new ServerWebHandler::TalkHandler());
+	addRequestHandler("/banned", new ServerWebHandler::BannedHandler());
+	addRequestHandler("/mods", new ServerWebHandler::ModsHandler());
 }
 
 ServerWebServer::~ServerWebServer()
@@ -89,7 +93,32 @@ static void extractQueryFields(std::map<std::string, std::string> &fields, char 
 		if (eq)
 		{
 			*eq = '\0';
-			fields[token] = (eq + 1);
+			std::string value;
+			for (const char *valueStr = (eq + 1); *valueStr; valueStr++)
+			{
+				char c = *valueStr;
+				if (c == '+') c = ' ';
+				else if (c == '%')
+				{
+					char buf[3] = { 0, 0, 0 };
+
+					buf[0] = *(valueStr + 1);
+					if (!buf[0]) break;
+					buf[1] = *(valueStr + 2);
+					if (!buf[1]) break;
+
+					c = (char) strtol(buf, 0, 16);
+
+					valueStr += 2;
+				}
+
+				if (c != '\r') value += c;
+			}
+
+			if (fields.find(token) == fields.end())
+			{
+				fields[token] = value;
+			}
 			*eq = '=';
 		}				
 		token = strtok(0, "&");
@@ -131,22 +160,32 @@ void ServerWebServer::processMessage(NetMessage &message)
 				*eol = '\0';
 				if (*url)
 				{
-					// Log info
-					if (logger_)
-					{
-						time_t t = time(0);
-						LoggerInfo info(LoggerInfo::TypeNormal,
-							url,
-							ctime(&t));
-						logger_->logMessage(info);
-					}
-				
 					// Get GET query fields if any
 					char *sep = strchr(url, '?');
 					if (sep)
 					{
 						*sep = '\0'; sep++;
 						extractQueryFields(fields, sep);
+					}
+
+					// Log info
+					if (logger_)
+					{
+						time_t t = time(0);
+						std::string f;
+						std::map<std::string, std::string>::iterator itor;
+						for (itor = fields.begin();
+							itor != fields.end();
+							itor++)
+						{
+							f += formatString("%s=%s ",
+								(*itor).first.c_str(),
+								(*itor).second.c_str());
+						}
+						LoggerInfo info(LoggerInfo::TypeNormal,
+							formatString("%s:%s", url, f.c_str()),
+							ctime(&t));
+						logger_->logMessage(info);
 					}
 					
 					// Process request

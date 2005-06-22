@@ -39,6 +39,7 @@ public:
 	{
 		OptionEntryIntType,
 		OptionEntryStringType,
+		OptionEntryTextType,
 		OptionEntryBoolType,
 		OptionEntryFloatType,
 		OptionEntryVectorType
@@ -168,10 +169,11 @@ public:
 					  const char *name,
 					  const char *description,
 					  unsigned int data,
-					  const char *defaultValue);
+					  const char *defaultValue,
+					  bool multiline = false);
 	virtual ~OptionEntryString();
 
-	virtual EntryType getEntryType() { return OptionEntryStringType; }
+	virtual EntryType getEntryType() { return (multiline_?OptionEntryTextType:OptionEntryStringType); }
 	virtual const char *getValueAsString();
 	virtual const char *getDefaultValueAsString();
 	virtual bool setValueFromString(const char *string);
@@ -185,6 +187,7 @@ public:
 protected:
 	std::string value_;
 	std::string defaultValue_;
+	bool multiline_;
 
 };
 

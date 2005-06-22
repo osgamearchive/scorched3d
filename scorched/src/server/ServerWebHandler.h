@@ -50,6 +50,37 @@ namespace ServerWebHandler
 			std::string &text);
 	};
 
+	class SettingsHandler : public ServerWebServerI
+	{
+	public:
+		virtual bool processRequest(const char *url,
+			std::map<std::string, std::string> &fields,
+			std::string &text);
+	};
+
+	class TalkHandler : public ServerWebServerI
+	{
+	public:
+		virtual bool processRequest(const char *url,
+			std::map<std::string, std::string> &fields,
+			std::string &text);
+	};
+
+	class BannedHandler : public ServerWebServerI
+	{
+	public:
+		virtual bool processRequest(const char *url,
+			std::map<std::string, std::string> &fields,
+			std::string &text);
+	};
+
+	class ModsHandler : public ServerWebServerI
+	{
+	public:
+		virtual bool processRequest(const char *url,
+			std::map<std::string, std::string> &fields,
+			std::string &text);
+	};
 };
 
 #endif // __INCLUDE_ServerWebHandlerh_INCLUDE__

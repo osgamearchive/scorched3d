@@ -69,6 +69,7 @@ GLConsoleRuleFnIOptionsAdapter::GLConsoleRuleFnIOptionsAdapter(
 			type = GLConsoleRuleTypeNumber;
 		break;
 		case OptionEntry::OptionEntryStringType:
+		case OptionEntry::OptionEntryTextType:
 			type = GLConsoleRuleTypeString;
 		break;
 		case OptionEntry::OptionEntryBoolType:

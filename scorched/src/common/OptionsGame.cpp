@@ -133,7 +133,8 @@ OptionsGame::OptionsGame() :
 		"The message of the day", 0, 
 		"Scorched3D : Copyright 2004 Gavin Camp\n"
 		"For updates and news visit:\n"
-		"http://www.scorched3d.co.uk"),
+		"http://www.scorched3d.co.uk",
+		true),
 	modDownloadSpeed_(options_, "ModDownloadSpeed",
 		"Max download speed of mods in bytes per second (0 == no mod download)", 0, 0),
 	maxAvatarSize_(options_, "MaxAvatarSize",

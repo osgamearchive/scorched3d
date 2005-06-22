@@ -58,6 +58,8 @@ public:
 	void addBanned(unsigned int ip, 
 		const char *name, const char *uniqueId,
 		BannedType type = Banned);
+	bool save();
+	bool load(bool force = false);
 
 	static const char *getBannedTypeStr(BannedType type);
 
@@ -66,8 +68,6 @@ protected:
 	std::map<std::string, BannedEntry> bannedIds_;
 	time_t lastReadTime_;
 
-	bool save();
-	bool load();
 	void addBannedEntry(unsigned int ip, unsigned int mask,
 		const char *name, const char *unqiueId, unsigned int bantime,
 		BannedType type);

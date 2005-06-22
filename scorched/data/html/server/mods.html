@@ -4,14 +4,21 @@
 
 <table align="center" border="0">
 	<tr>
-		<td align="center">Game</td>
+		<td align="center">Mod Files</td>
 	</tr>
 	<tr>
 		<td align="center">
 		<form method="post">
 			<input type="hidden" name="sid" value="[[sid]]"> 
-			<input type="submit" name="action" value="NewGame"> 
-			<input type="submit" name="action" value="KillAll">
+			<table border=1>
+				<tr bgcolor="#dddddd">
+					<td>FileName</td>
+					<td>Compressed Size</td>
+					<td>Compressed Crc</td>
+					<td>Uncompresses Size</td>
+				</tr>
+				[[MODFILES]]
+			</table>
 		</form>
 		</td>
 	</tr>

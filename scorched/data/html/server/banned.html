@@ -1,0 +1,33 @@
+#include header.html 
+
+#include menu.html
+
+<table align="center" border="0">
+	<tr>
+		<td align="center">Banned</td>
+	</tr>
+	<tr>
+		<td align="center">
+		<form method="post">
+			<input type="hidden" name="sid" value="[[sid]]"> 
+			<table border=1>
+				<tr bgcolor="#dddddd">
+					<td>Time</td>
+					<td>Name</td>
+					<td>UniqueId</td>
+					<td>Ban Type</td>
+					<td>Ip Address</td>
+					<td>Mask</td>
+					<td>Select</td>
+				</tr>
+				[[BANNED]]
+			</table>
+			<input type="submit" name="action" value="Load">
+			<input type="submit" name="action" value="Save">
+			<input type="submit" value="UnBan Selected">
+		</form>
+		</td>
+	</tr>
+</table>
+
+#include footer.html

@@ -411,9 +411,10 @@ OptionEntryString::OptionEntryString(std::list<OptionEntry *> &group,
 									 const char *name, 
 									 const char *description, 
 									 unsigned int data,
-									 const char *value) :
+									 const char *value,
+									 bool multiline) :
 	OptionEntry(group, name, description, data),
-	value_(value), defaultValue_(value)
+	value_(value), defaultValue_(value), multiline_(multiline)
 {
 	
 }
