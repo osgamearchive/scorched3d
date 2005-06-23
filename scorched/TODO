@@ -27,6 +27,7 @@ Fixed: Can see health bars under water
 Fixed: Only certain file types can be sent during auto mod download
 Fixed: Undo should not put duplicate entries in the undo log (and more undo features added)
 Fixed: Banned statsid added to list of banned players
+Fixed: Adjusted damage from hogs, added lasers
 
 Added: onlyhurtshield attribute to WeaponExplosion for explosions that only hurt shields
 Added: Timed messages on the server, multiple messages, and round robin messages

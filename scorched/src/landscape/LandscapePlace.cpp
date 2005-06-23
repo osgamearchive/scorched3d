@@ -107,9 +107,9 @@ bool LandscapePlaceObjectsPlacementDirect::readXML(XMLNode *node)
 	while (node->getNamedChild("position", positionNode, false))
 	{
 		Position position;
-		if (positionNode->getNamedChild("position", position.position)) return false;
-		if (positionNode->getNamedChild("rotation", position.rotation)) return false;
-		if (positionNode->getNamedChild("size", position.size)) return false;
+		if (!positionNode->getNamedChild("position", position.position)) return false;
+		if (!positionNode->getNamedChild("rotation", position.rotation)) return false;
+		if (!positionNode->getNamedChild("size", position.size)) return false;
 		positions.push_back(position);
 	}
 	return LandscapePlaceObjectsPlacement::readXML(node);

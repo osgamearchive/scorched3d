@@ -834,8 +834,8 @@ missiles target nearby tanks.</description>
 			<projectilescale>0.5</projectilescale>
 			<projectilemodel type='MilkShape'>digger/digger.txt</projectilemodel>
 			<collisionaction type='WeaponAimedUnder'>
-				<nowarheads>2</nowarheads>
-				<inaccuracy>40</inaccuracy>
+				<nowarheads>5</nowarheads>
+				<inaccuracy>20</inaccuracy>
 				<percentagemiss>20</percentagemiss>
 				<maxaimdistance>75</maxaimdistance>
 				<aimedweapon type='WeaponProjectile'>
@@ -867,8 +867,8 @@ missiles target nearby tanks.</description>
 		<accessoryaction type='WeaponProjectile'>
 			<projectilemodel type='MilkShape'>digger/digger.txt</projectilemodel>
 			<collisionaction type='WeaponAimedUnder'>
-				<nowarheads>5</nowarheads>
-				<inaccuracy>40</inaccuracy>
+				<nowarheads>8</nowarheads>
+				<inaccuracy>10</inaccuracy>
 				<percentagemiss>20</percentagemiss>
 				<maxaimdistance>75</maxaimdistance>
 				<aimedweapon type='WeaponProjectile'>
@@ -901,10 +901,10 @@ missiles target nearby tanks.</description>
 			<projectilescale>2</projectilescale>
 			<projectilemodel type='MilkShape'>digger/digger.txt</projectilemodel>
 			<collisionaction type='WeaponAimedUnder'>
-				<nowarheads>10</nowarheads>
-				<inaccuracy>40</inaccuracy>
-				<percentagemiss>20</percentagemiss>
-				<maxaimdistance>75</maxaimdistance>
+				<nowarheads>16</nowarheads>
+				<inaccuracy>10</inaccuracy>
+				<percentagemiss>10</percentagemiss>
+				<maxaimdistance>120</maxaimdistance>
 				<aimedweapon type='WeaponProjectile'>
 					<projectilescale>2</projectilescale>
 					<under></under>
@@ -1216,26 +1216,50 @@ trace of the shot path.</description>
 			</aimedweapon>
 		</accessoryaction>
 	</accessory>
-
-	<!--<accessory>
+	<accessory>
 		<name>Laser</name>
 		<armslevel>10</armslevel>
-		<startingnumber>-1</startingnumber>
+		<bundlesize>3</bundlesize>
+		<description>Fires a laser that cuts through hills 
+and shields damaging the tank directly.</description>
+		<cost>8000</cost>
+		<activationsound>none</activationsound>
+		<nomuzzleflash/>
 		<accessoryaction type='WeaponLaser'>
-			<nomuzzleflash/>
 			<totaltime>1</totaltime>
 			<minimumdistance>10</minimumdistance>
 			<maximumdistance>200</maximumdistance>
-			<minimumhurt>10</minimumhurt>
-			<maximumhurt>100</maximumhurt>
+			<minimumhurt>20</minimumhurt>
+			<maximumhurt>36</maximumhurt>
 			<color>
 				<A>1.0</A>
 				<B>0.0</B>
 				<C>0.0</C>
 			</color>
 		</accessoryaction>
-	</accessory> -->
-	
+	</accessory>
+	<accessory>
+		<name>Powerful Laser</name>
+		<armslevel>6</armslevel>
+		<bundlesize>2</bundlesize>
+		<description>Fires a powerful laser that cuts through hills 
+and shields damaging the tank directly.</description>
+		<cost>15000</cost>
+		<activationsound>none</activationsound>
+		<nomuzzleflash/>
+		<accessoryaction type='WeaponLaser'>
+			<totaltime>1</totaltime>
+			<minimumdistance>10</minimumdistance>
+			<maximumdistance>200</maximumdistance>
+			<minimumhurt>40</minimumhurt>
+			<maximumhurt>55</maximumhurt>
+			<color>
+				<A>0.0</A>
+				<B>0.0</B>
+				<C>1.0</C>
+			</color>
+		</accessoryaction>
+	</accessory>
 	<accessory>
 		<name>Teleport</name>
 		<armslevel>6</armslevel>
@@ -1244,13 +1268,12 @@ trace of the shot path.</description>
 		<activationsound>none</activationsound>
 		<bundlesize>1</bundlesize>
 		<nomuzzleflash/>
-		<cost>20000</cost>
+		<cost>15000</cost>
 		<accessoryaction type='WeaponTeleport'>
 			<sound>data/wav/misc/teleport.wav</sound>
 			<delay>2.0</delay>
 		</accessoryaction>
 	</accessory>
-	
 	<accessory>
 		<name>TreeExplode</name>
 		<armslevel>9</armslevel>
@@ -1269,5 +1292,4 @@ trace of the shot path.</description>
 			<explosionsound>explosions/medium.wav</explosionsound>
 		</accessoryaction>
 	</accessory>
-	
 </accessories>
