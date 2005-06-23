@@ -229,30 +229,32 @@ bool ServerWebHandler::SettingsHandler::processRequest(const char *url,
 	std::map<std::string, std::string> &fields,
 	std::string &text)
 {
+	std::list<OptionEntry *>::iterator itor;
+	std::list<OptionEntry *> &options = 
+		ScorchedServer::instance()->getOptionsGame().
+			getChangedOptions().getOptions();
+
 	const char *action = getField(fields, "action");
 	if (action && 0 == strcmp(action, "Load"))
 	{
 		ScorchedServer::instance()->getOptionsGame().getChangedOptions().
 			readOptionsFromFile((char *) OptionsParam::instance()->getServerFile());
 	}
-
-	std::list<OptionEntry *>::iterator itor;
-	std::list<OptionEntry *> &options = 
-		ScorchedServer::instance()->getOptionsGame().
-			getChangedOptions().getOptions();
-
-	// Check if any changes have been made
-	for (itor = options.begin();
-		itor != options.end();
-		itor++)
+	else
 	{
-		OptionEntry *entry = (*itor);
-		std::map<std::string, std::string>::iterator findItor =
-			fields.find(entry->getName());
-		if (findItor != fields.end())
+		// Check if any changes have been made
+		for (itor = options.begin();
+			itor != options.end();
+			itor++)
 		{
-			const char *value = (*findItor).second.c_str();
-			entry->setValueFromString(value);
+			OptionEntry *entry = (*itor);
+			std::map<std::string, std::string>::iterator findItor =
+				fields.find(entry->getName());
+			if (findItor != fields.end())
+			{
+				const char *value = (*findItor).second.c_str();
+				entry->setValueFromString(value);
+			}
 		}
 	}
 
