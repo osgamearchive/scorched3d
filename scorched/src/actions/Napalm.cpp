@@ -264,22 +264,22 @@ void Napalm::simulateAddStep()
 			position3, 
 			ScorchedClient::instance()->getParticleEngine(),
 			set_);
+	}
 
-		if (!weapon_->getNoObjectDamage())
-		{
-			context_->landscapeMaps->getObjects().burnObjects(
-				*context_,
-				(unsigned int) x_, (unsigned int) y_,
-				playerId_);
-			context_->landscapeMaps->getObjects().burnObjects(
-				*context_,
-				(unsigned int) x_ + 1, (unsigned int) y_ + 1,
-				playerId_);
-			context_->landscapeMaps->getObjects().burnObjects(
-				*context_,
-				(unsigned int) x_ - 1, (unsigned int) y_ - 1,
-				playerId_);
-		}
+	if (!weapon_->getNoObjectDamage())
+	{
+		context_->landscapeMaps->getObjects().burnObjects(
+			*context_,
+			(unsigned int) x_, (unsigned int) y_,
+			playerId_);
+		context_->landscapeMaps->getObjects().burnObjects(
+			*context_,
+			(unsigned int) x_ + 1, (unsigned int) y_ + 1,
+			playerId_);
+		context_->landscapeMaps->getObjects().burnObjects(
+			*context_,
+			(unsigned int) x_ - 1, (unsigned int) y_ - 1,
+			playerId_);
 	}
 
 	context_->landscapeMaps->getNMap().getHeight(x_, y_) += NapalmHeight;
