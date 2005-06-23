@@ -395,7 +395,7 @@ activated before they work.</description>
 					<explosiontexture>cloud00-5</explosiontexture>
 				</subweapon2>
 				<subweapon3 type='WeaponAimedOver'>
-					<nowarheads>5</nowarheads>
+					<nowarheads>6</nowarheads>
 					<percentagemiss>99</percentagemiss>
 					<maxaimdistance>0</maxaimdistance>
 					<inaccuracy>99</inaccuracy>
@@ -956,6 +956,112 @@ trace of the shot path.</description>
 				<explosiontexture>exp00</explosiontexture>
 				<explosionsound>explosions/xlarge.wav</explosionsound>
 			</collisionaction>
+		</accessoryaction>
+	</accessory>
+	<accessory>
+		<name>M2 Round</name>
+		<maximumnumber>0</maximumnumber>
+		<armslevel>6</armslevel>
+		<accessoryaction type='WeaponProjectile'>
+			<projectilemodel type='MilkShape'>bullet/bullet.txt</projectilemodel>
+			<projectilescale>0.25</projectilescale>
+			<nocreateflame/>
+			<nocreatesmoke/>
+			<collisionaction type='WeaponMulti'>
+				<subweapon1 type='WeaponExplosion'>
+					<armslevel>3</armslevel>
+					<nocreatedebris/>
+					<nocreatesplash/>
+					<deform>none</deform>
+					<hurtamount>0.4</hurtamount>
+					<size>5</size>
+					<explosiontexture>none</explosiontexture>
+					<explosionsound>explosions/bhit.wav</explosionsound>
+				</subweapon1>
+				<subweapon2 type='WeaponExplosion'>
+					<armslevel>3</armslevel>
+					<deform>down</deform>
+					<hurtamount>0</hurtamount>
+					<size>2.5</size>
+					<explosiontexture>none</explosiontexture>
+					<explosionsound>none</explosionsound>
+				</subweapon2>
+			</collisionaction>
+		</accessoryaction>
+	</accessory>
+	<accessory>
+		<name>M2 Machinegun</name>
+		<description>Shoots five 50 caliber bullets
+in rapid succession</description>
+		<icon>mgun.bmp</icon>
+		<cost>6000</cost>
+		<bundlesize>4</bundlesize>
+		<armslevel>7</armslevel>
+		<model type='MilkShape'>50cal/50cal.txt</model>
+		<activationsound>shoot/machinegun.wav</activationsound>
+		<accessoryaction type='WeaponMulti'>
+			<subweapon1 type='WeaponRedirect'>
+				<habs>false</habs>
+				<vabs>false</vabs>
+				<hredirect>0.0</hredirect>
+				<vredirect>0.0</vredirect>
+				<nextaction type='WeaponReference'>
+					<weapon>M2 Round</weapon>
+					<armslevel>6</armslevel>
+				</nextaction>
+			</subweapon1>
+			<subweapon2 type='WeaponRedirect'>
+				<habs>false</habs>
+				<vabs>false</vabs>
+				<hredirect>1.0</hredirect>
+				<vredirect>1.0</vredirect>
+				<nextaction type='WeaponDelay'>
+					<delay>0.34</delay>
+					<delayedweapon type='WeaponReference'>
+						<weapon>M2 Round</weapon>
+						<armslevel>6</armslevel>
+					</delayedweapon>
+				</nextaction>
+			</subweapon2>
+			<subweapon3 type='WeaponRedirect'>
+				<habs>false</habs>
+				<vabs>false</vabs>
+				<hredirect>-1.0</hredirect>
+				<vredirect>1.0</vredirect>
+				<nextaction type='WeaponDelay'>
+					<delay>0.68</delay>
+					<delayedweapon type='WeaponReference'>
+						<weapon>M2 Round</weapon>
+						<armslevel>6</armslevel>
+					</delayedweapon>
+				</nextaction>
+			</subweapon3>
+			<subweapon4 type='WeaponRedirect'>
+				<habs>false</habs>
+				<vabs>false</vabs>
+				<hredirect>-1.0</hredirect>
+				<vredirect>-1.0</vredirect>
+				<nextaction type='WeaponDelay'>
+					<delay>1.02</delay>
+					<delayedweapon type='WeaponReference'>
+						<weapon>M2 Round</weapon>
+						<armslevel>6</armslevel>
+					</delayedweapon>
+				</nextaction>
+			</subweapon4>
+			<subweapon5 type='WeaponRedirect'>
+				<habs>false</habs>
+				<vabs>false</vabs>
+				<hredirect>1.0</hredirect>
+				<vredirect>-1.0</vredirect>
+				<nextaction type='WeaponDelay'>
+					<delay>1.36</delay>
+					<delayedweapon type='WeaponReference'>
+						<weapon>M2 Round</weapon>
+						<armslevel>6</armslevel>
+					</delayedweapon>
+				</nextaction>
+			</subweapon5>
 		</accessoryaction>
 	</accessory>
 	<accessory>
