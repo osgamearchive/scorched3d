@@ -276,6 +276,39 @@ activated before they work.</description>
 		</accessoryaction>
 	</accessory>
 	<accessory>
+		<name>SmallBldgBurn</name>
+		<armslevel>10</armslevel>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponDelay'>
+			<delay>0.33</delay>
+			<delayedweapon type='WeaponMulti'>
+				<subweapon1 type='WeaponNapalm'>
+					<allowunderwater>false</allowunderwater>
+					<napalmtime>4.0</napalmtime>
+					<napalmheight>6.0</napalmheight>
+					<steptime>1</steptime>
+					<hurtsteptime>4.0</hurtsteptime>
+					<hurtpersecond>0</hurtpersecond>
+					<numberstreams>1</numberstreams>
+					<effectradius>5</effectradius>
+					<napalmtexture>flames</napalmtexture>
+					<napalmsound>none</napalmsound>
+				</subweapon1>
+				<subweapon2 type='WeaponExplosion'>
+					<nocreatedebris></nocreatedebris>
+					<noluminance></noluminance>
+					<minlife>2</minlife>
+					<maxlife>4</maxlife>
+					<hurtamount>0</hurtamount>
+					<deform>none</deform>
+					<size>4</size>
+					<explosionsound>none</explosionsound>
+					<explosiontexture>cloud00-5</explosiontexture>
+				</subweapon2>
+			</delayedweapon>
+		</accessoryaction>
+	</accessory>
+	<accessory>
 		<name>Large Bldg</name>
 		<armslevel>10</armslevel>
 		<maximumnumber>0</maximumnumber>
@@ -288,6 +321,39 @@ activated before they work.</description>
 					<size>5</size>
 					<explosionsound>none</explosionsound>
 					<explosiontexture>none</explosiontexture>
+				</subweapon1>
+				<subweapon2 type='WeaponExplosion'>
+					<nocreatedebris></nocreatedebris>
+					<noluminance></noluminance>
+					<minlife>2</minlife>
+					<maxlife>4</maxlife>
+					<hurtamount>0</hurtamount>
+					<deform>none</deform>
+					<size>6</size>
+					<explosionsound>none</explosionsound>
+					<explosiontexture>cloud00-5</explosiontexture>
+				</subweapon2>
+			</delayedweapon>
+		</accessoryaction>
+	</accessory>
+	<accessory>
+		<name>LargeBldgBurn</name>
+		<armslevel>10</armslevel>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponDelay'>
+			<delay>0.33</delay>
+			<delayedweapon type='WeaponMulti'>
+				<subweapon1 type='WeaponNapalm'>
+					<allowunderwater>false</allowunderwater>
+					<napalmtime>4.0</napalmtime>
+					<napalmheight>8.0</napalmheight>
+					<steptime>1</steptime>
+					<hurtsteptime>4.0</hurtsteptime>
+					<hurtpersecond>0</hurtpersecond>
+					<numberstreams>1</numberstreams>
+					<effectradius>5</effectradius>
+					<napalmtexture>flames</napalmtexture>
+					<napalmsound>none</napalmsound>
 				</subweapon1>
 				<subweapon2 type='WeaponExplosion'>
 					<nocreatedebris></nocreatedebris>
