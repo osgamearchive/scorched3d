@@ -43,6 +43,7 @@ that prefers to use fire-based weaponry.</description>
 			<weapon><name>Auto Defense</name><level>30</level><type>defense</type></weapon>
 			<weapon><name>Hot Napalm</name><level>30</level><type>explosionlarge</type></weapon>
 			<weapon><name>Meteor</name><level>30</level><type>explosionlarge</type></weapon>
+			<weapon><name>Baby Missile</name><level>1</level><type>explosionsmall</type></weapon>
 		</weaponset>
 	</ai>
 
@@ -66,6 +67,7 @@ use of bio/chemical weaponry.</description>
 			<weapon><name>Auto Defense</name><level>30</level><type>defense</type></weapon>
 			<weapon><name>Acid Splash</name><level>30</level><type>explosionlarge</type></weapon>
 			<weapon><name>Gas Grenade</name><level>30</level><type>explosionlarge</type></weapon>
+			<weapon><name>Baby Missile</name><level>1</level><type>explosionsmall</type></weapon>
 		</weaponset>
 	</ai>
 	
@@ -75,7 +77,7 @@ use of bio/chemical weaponry.</description>
 Shockers are Cyborgs that specialize in
 the use of energy based weaponset.</description>
 		<aimsniper>50</aimsniper>
-		<aimtype>refined</aimtype>
+		<aimtype>newrefined</aimtype>
 		<targettype>agressor</targettype>
 		<nodefenses>false</nodefenses>
 		<availableforrandom>true</availableforrandom>
@@ -88,6 +90,7 @@ the use of energy based weaponset.</description>
 			<weapon><name>Auto Defense</name><level>30</level><type>defense</type></weapon>
 			<weapon><name>Mega EMP</name><level>30</level><type>explosionlarge</type></weapon>
 			<weapon><name>Chain Lightning</name><level>30</level><type>explosionlarge</type></weapon>
+			<weapon><name>Baby Missile</name><level>1</level><type>explosionsmall</type></weapon>
 		</weaponset>
 	</ai>
 	
@@ -110,6 +113,7 @@ shooting at them.</description>
 			<weapon><name>Shield</name><level>20</level><type>defense</type></weapon>
 			<weapon><name>Auto Defense</name><level>30</level><type>defense</type></weapon>
 			<weapon><name>Nuke</name><level>30</level><type>explosionlarge</type></weapon>
+			<weapon><name>Baby Missile</name><level>1</level><type>explosionsmall</type></weapon>
 		</weaponset>
 	</ai>
 
@@ -130,6 +134,7 @@ enough.</description>
 			<weapon><name>Baby Nuke</name><level>20</level><type>explosionsmall</type></weapon>	
 			<weapon><name>MIRV</name><level>20</level><type>explosionsmall</type></weapon>
 			<weapon><name>Nuke</name><level>30</level><type>explosionlarge</type></weapon>
+			<weapon><name>Baby Missile</name><level>1</level><type>explosionsmall</type></weapon>
 		</weaponset>
 	</ai>
 	
@@ -151,7 +156,8 @@ time to kill them.</description>
 			<weapon><name>Missile</name><level>20</level><type>explosionsmall</type></weapon>
 			<weapon><name>Baby Nuke</name><level>20</level><type>explosionsmall</type></weapon>	
 			<weapon><name>MIRV</name><level>20</level><type>explosionsmall</type></weapon>
-			<weapon><name>Nuke</name><level>30</level><type>explosionlarge</type></weapon>		
+			<weapon><name>Nuke</name><level>30</level><type>explosionlarge</type></weapon>
+			<weapon><name>Baby Missile</name><level>1</level><type>explosionsmall</type></weapon>
 		</weaponset>
 	</ai>
 	
@@ -169,7 +175,8 @@ not refining subsiquent shots.</description>
 		<checknearcollision>false</checknearcollision>
 		<weaponset>
 			<weapon><name>Missile</name><level>20</level><type>explosionsmall</type></weapon>
-			<weapon><name>Baby Nuke</name><level>20</level><type>explosionlarge</type></weapon>		
+			<weapon><name>Baby Nuke</name><level>20</level><type>explosionlarge</type></weapon>
+			<weapon><name>Baby Missile</name><level>1</level><type>explosionsmall</type></weapon>
 		</weaponset>
 	</ai>
 	
@@ -188,6 +195,7 @@ only.</description>
 		<availableforrandom>true</availableforrandom>
 		<weaponset>
 			<weapon><name>Missile</name><level>2</level><type>explosionsmall</type></weapon>
+			<weapon><name>Baby Missile</name><level>1</level><type>explosionsmall</type></weapon>
 		</weaponset>
 	</ai>
 	
