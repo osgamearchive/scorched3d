@@ -6045,7 +6045,7 @@ missiles target nearby tanks.</description>
 down from the apex of the projectiles arc</description>
 		<icon>light.bmp</icon>
 		<bundlesize>1</bundlesize>
-		<cost>16000</cost>
+		<cost>20000</cost>
 		<activationsound>shoot/flare.wav</activationsound>
 		<model type='MilkShape'>shockrocket/shockrocket.txt</model>
 		<modelscale>2.5</modelscale>
@@ -6502,7 +6502,7 @@ energy wave that ripples outward horizontally</description>
 arc creating several lightning bolts over a few seconds</description>
 		<icon>flight.bmp</icon>
 		<bundlesize>1</bundlesize>
-		<cost>50000</cost>
+		<cost>75000</cost>
 		<activationsound>explosions/shockwave.wav</activationsound>
 		<model type='MilkShape'>shockrocket/shockrocket.txt</model>
 		<modelscale>5.0</modelscale>

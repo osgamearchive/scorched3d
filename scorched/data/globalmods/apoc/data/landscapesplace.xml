@@ -347,22 +347,18 @@
 	<place>
 		<name>city1</name>
 		<placements>
-			<placement type="mask">
-				<numobjects>20</numobjects>
-				<mask>data/landscapes/masks/city1urban.bmp</mask>
-				<minheight>10</minheight>
-				<maxheight>75</maxheight>
-				<mincloseness>5</mincloseness>
-				<minslope>0.66</minslope>
-				<xsnap>0</xsnap>
-				<ysnap>0</ysnap>
-				<angsnap>90</angsnap>
-				<removeaction>Large Bldg</removeaction>
-				<burnaction></burnaction>
-				<object type="model">
-					<model type="MilkShape">data/accessories/skyscraper1/skyscraper1.txt</model>
-					<modelburnt type="MilkShape">data/accessories/skyscraper1/skyscraper1burnt.txt</modelburnt>
-				</object>
+			<placement type="direct"> 
+			   <removeaction>Large Bldg</removeaction> 
+			   <burnaction></burnaction> 
+			   <object type="model"> 
+			      <model type="MilkShape">data/accessories/skyscraper1/skyscraper1.txt</model> 
+			      <modelburnt type="MilkShape">data/accessories/skyscraper1/skyscraper1burnt.txt</modelburnt> 
+			   </object> 
+			   <position> 
+			      <position><A>128</A><B>128</B><C>0</C></position> 
+			         <rotation>0</rotation> 
+			         <size>0.066</size> 
+			   </position> 
 			</placement>
 			<placement type="mask">
 				<numobjects>100</numobjects>
@@ -670,22 +666,18 @@
 	<place>
 		<name>city2</name>
 		<placements>
-			<placement type="mask">
-				<numobjects>20</numobjects>
-				<mask>data/landscapes/masks/city2urban.bmp</mask>
-				<minheight>10</minheight>
-				<maxheight>75</maxheight>
-				<mincloseness>5</mincloseness>
-				<minslope>0.66</minslope>
-				<xsnap>0</xsnap>
-				<ysnap>0</ysnap>
-				<angsnap>90</angsnap>
-				<removeaction>Large Bldg</removeaction>
-				<burnaction></burnaction>
-				<object type="model">
-					<model type="MilkShape">data/accessories/skyscraper1/skyscraper1.txt</model>
-					<modelburnt type="MilkShape">data/accessories/skyscraper1/skyscraper1burnt.txt</modelburnt>
-				</object>
+			<placement type="direct"> 
+			   <removeaction>Large Bldg</removeaction> 
+			   <burnaction></burnaction> 
+			   <object type="model"> 
+			      <model type="MilkShape">data/accessories/skyscraper1/skyscraper1.txt</model> 
+			      <modelburnt type="MilkShape">data/accessories/skyscraper1/skyscraper1burnt.txt</modelburnt> 
+			   </object> 
+			   <position> 
+			      <position><A>32</A><B>72</B><C>0</C></position> 
+			         <rotation>0</rotation> 
+			         <size>0.066</size> 
+			   </position> 
 			</placement>
 			<placement type="mask">
 				<numobjects>120</numobjects>
@@ -993,22 +985,18 @@
 	<place>
 		<name>city3</name>
 		<placements>
-			<placement type="mask">
-				<numobjects>20</numobjects>
-				<mask>data/landscapes/masks/city3urban.bmp</mask>
-				<minheight>10</minheight>
-				<maxheight>75</maxheight>
-				<mincloseness>5</mincloseness>
-				<minslope>0.66</minslope>
-				<xsnap>0</xsnap>
-				<ysnap>0</ysnap>
-				<angsnap>90</angsnap>
-				<removeaction>Large Bldg</removeaction>
-				<burnaction></burnaction>
-				<object type="model">
-					<model type="MilkShape">data/accessories/skyscraper1/skyscraper1.txt</model>
-					<modelburnt type="MilkShape">data/accessories/skyscraper1/skyscraper1burnt.txt</modelburnt>
-				</object>
+			<placement type="direct"> 
+			   <removeaction>Large Bldg</removeaction> 
+			   <burnaction></burnaction> 
+			   <object type="model"> 
+			      <model type="MilkShape">data/accessories/skyscraper1/skyscraper1.txt</model> 
+			      <modelburnt type="MilkShape">data/accessories/skyscraper1/skyscraper1burnt.txt</modelburnt> 
+			   </object> 
+			   <position> 
+			      <position><A>128</A><B>128</B><C>0</C></position> 
+			         <rotation>0</rotation> 
+			         <size>0.066</size> 
+			   </position> 
 			</placement>
 			<placement type="mask">
 				<numobjects>100</numobjects>
