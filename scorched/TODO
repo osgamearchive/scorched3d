@@ -29,6 +29,7 @@ Fixed: Undo should not put duplicate entries in the undo log (and more undo feat
 Fixed: Banned statsid added to list of banned players
 Fixed: Adjusted damage from hogs, added lasers
 
+Added: Web interface for server to change settings
 Added: onlyhurtshield attribute to WeaponExplosion for explosions that only hurt shields
 Added: Timed messages on the server, multiple messages, and round robin messages
 Added: Registered player names (names can be registered to a stats id)
@@ -93,7 +94,6 @@ Bobirovs list of stuff (http://apochq.handwired.net/ideas.txt)
 
 -- Server Stuff
 A way to set the maximum and minimum players for a map (half done)
-Web interface for server to change settings
 
 -- Client Stuff
 Animated GIFs for avitars
