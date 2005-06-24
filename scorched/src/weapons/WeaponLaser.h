@@ -36,6 +36,7 @@ public:
 	float getMaximumHurt() { return maximumHurt_; }
 	float getMinimumDistance() { return minimumDistance_; }
 	float getMaximumDistance() { return maximumDistance_; }
+	float getHurtRadius() { return hurtRadius_; }
 	float getTotalTime() { return totalTime_; }
 	Vector &getColor() { return color_; }
 
@@ -49,6 +50,7 @@ public:
 protected:
 	float minimumHurt_, maximumHurt_;
 	float minimumDistance_, maximumDistance_;
+	float hurtRadius_;
 	float totalTime_;
 	Vector color_;
 

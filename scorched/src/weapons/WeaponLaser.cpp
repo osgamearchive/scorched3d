@@ -40,6 +40,7 @@ bool WeaponLaser::parseXML(OptionsGame &context,
 
 	if (!accessoryNode->getNamedChild("minimumhurt", minimumHurt_)) return false;
 	if (!accessoryNode->getNamedChild("maximumhurt", maximumHurt_)) return false;
+	if (!accessoryNode->getNamedChild("hurtradius", hurtRadius_)) return false;
 	if (!accessoryNode->getNamedChild("minimumdistance", minimumDistance_)) return false;
 	if (!accessoryNode->getNamedChild("maximumdistance", maximumDistance_)) return false;
 	if (!accessoryNode->getNamedChild("totaltime", totalTime_)) return false;

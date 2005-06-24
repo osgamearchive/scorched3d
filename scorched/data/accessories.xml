@@ -1233,6 +1233,7 @@ and shields damaging the tank directly.</description>
 			<maximumdistance>200</maximumdistance>
 			<minimumhurt>20</minimumhurt>
 			<maximumhurt>36</maximumhurt>
+			<hurtradius>2</hurtradius>
 			<color>
 				<A>1.0</A>
 				<B>0.0</B>
@@ -1257,6 +1258,7 @@ and shields damaging the tank directly.</description>
 			<maximumdistance>200</maximumdistance>
 			<minimumhurt>40</minimumhurt>
 			<maximumhurt>55</maximumhurt>
+			<hurtradius>2</hurtradius>
 			<color>
 				<A>0.0</A>
 				<B>0.0</B>

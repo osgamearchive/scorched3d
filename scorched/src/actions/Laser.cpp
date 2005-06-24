@@ -96,7 +96,7 @@ void Laser::simulate(float frameTime, bool &remove)
 						current->getPlayerId() != playerId_)
 					{
 						if ((current->getPhysics().getTankPosition() -
-							pos).Magnitude() < 2.0f)
+							pos).Magnitude() < weapon_->getHurtRadius())
 						{
 							damagedTanks_.insert(current->getPlayerId());
 						}
@@ -137,6 +137,8 @@ void Laser::draw()
 			obj = gluNewQuadric();
 		}
 		float timePer = (1.0f - totalTime_ / weapon_->getTotalTime()) * 0.5f;
+		float radius1 = 0.05f / 2.0f * weapon_->getHurtRadius();
+		float radius2 = 0.2f / 2.0f * weapon_->getHurtRadius();
 
 		GLState glState(GLState::TEXTURE_OFF | GLState::BLEND_ON);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE);
@@ -145,20 +147,16 @@ void Laser::draw()
 			glTranslatef(position_[0], position_[1], position_[2]);
 			glRotatef(angXY_, 0.0f, 0.0f, 1.0f);
 			glRotatef(angYZ_, 1.0f, 0.0f, 0.0f);
-			
-			gluCylinder(obj, 0.05f, 0.05f, length_, 3, 1);
-		glPopMatrix();
-		glColor4f(
-			weapon_->getColor()[0],
-			weapon_->getColor()[1],
-			weapon_->getColor()[2],
-			timePer);
-		glPushMatrix();
-			glTranslatef(position_[0], position_[1], position_[2]);
-			glRotatef(angXY_, 0.0f, 0.0f, 1.0f);
-			glRotatef(angYZ_, 1.0f, 0.0f, 0.0f);
 
-			gluCylinder(obj, 0.2f, 0.2f, length_, 5, 1);
+			glColor4f(1.0f, 1.0f, 1.0f,	timePer);
+			gluCylinder(obj, radius1, radius1, length_, 3, 1);
+
+			glColor4f(
+				weapon_->getColor()[0],
+				weapon_->getColor()[1],
+				weapon_->getColor()[2],
+				timePer);
+			gluCylinder(obj, radius2, radius2, length_, 5, 1);
 		glPopMatrix();
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	}
