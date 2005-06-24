@@ -1270,7 +1270,7 @@ and shields damaging the tank directly.</description>
 		<name>Teleport</name>
 		<armslevel>6</armslevel>
 		<description>A teleport moves you to a random location on the map.</description>
-		<icon>fshield.bmp</icon>
+		<icon>teleport.bmp</icon>
 		<activationsound>none</activationsound>
 		<bundlesize>1</bundlesize>
 		<nomuzzleflash/>
