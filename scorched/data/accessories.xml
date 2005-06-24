@@ -1220,10 +1220,12 @@ trace of the shot path.</description>
 		<name>Laser</name>
 		<armslevel>10</armslevel>
 		<bundlesize>3</bundlesize>
+		<icon>laser.bmp</icon>
+		<model type="MilkShape">laser/laser.txt</model>
 		<description>Fires a laser that cuts through hills 
 and shields damaging the tank directly.</description>
 		<cost>8000</cost>
-		<activationsound>none</activationsound>
+		<activationsound>shoot/laser1.wav</activationsound>
 		<nomuzzleflash/>
 		<accessoryaction type='WeaponLaser'>
 			<totaltime>1</totaltime>
@@ -1239,13 +1241,15 @@ and shields damaging the tank directly.</description>
 		</accessoryaction>
 	</accessory>
 	<accessory>
-		<name>Powerful Laser</name>
+		<name>Heavy Laser</name>
 		<armslevel>6</armslevel>
 		<bundlesize>2</bundlesize>
+		<icon>hlaser.bmp</icon>
+		<model type="MilkShape">laser/hlaser.txt</model>
 		<description>Fires a powerful laser that cuts through hills 
 and shields damaging the tank directly.</description>
 		<cost>15000</cost>
-		<activationsound>none</activationsound>
+		<activationsound>shoot/laser1.wav</activationsound>
 		<nomuzzleflash/>
 		<accessoryaction type='WeaponLaser'>
 			<totaltime>1</totaltime>
