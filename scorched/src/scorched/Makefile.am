@@ -401,6 +401,10 @@ scorched3d_SOURCES = \
 	../landscape/LandscapePlace.h \
 	../landscape/LandscapePoints.cpp \
 	../landscape/LandscapePoints.h \
+	../landscape/LandscapeSound.cpp \
+	../landscape/LandscapeSound.h \
+	../landscape/LandscapeSoundManager.cpp \
+	../landscape/LandscapeSoundManager.h \
 	../landscape/LandscapeTex.cpp \
 	../landscape/LandscapeTex.h \
 	../landscape/MapPoints.cpp \

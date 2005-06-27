@@ -95,7 +95,7 @@ void WaterWaves::findPoints(float waterHeight, ProgressCounter *counter)
 				{
 					if ((x % 2 == 0) && (y % 2 == 0))
 					{
-						Vector posA(float(x), float(y), 0.0f);
+						Vector posA((float) x, (float) y, 0.0f);
 						for (int b=0; b<64; b++)
 						{
 							for (int a=0; a<64; a++)

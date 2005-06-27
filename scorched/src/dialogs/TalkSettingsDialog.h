@@ -24,21 +24,17 @@
 #include <map>
 #include <GLW/GLWWindow.h>
 #include <GLW/GLWButton.h>
-#include <GLW/GLWCheckBox.h>
+#include <GLW/GLWCheckBoxText.h>
 #include <GLW/GLWTab.h>
 
-class TalkSettingsDialog : public GLWWindow,
-						public GLWButtonI,
-						public GLWCheckBoxI
+class TalkSettingsDialog : 
+	public GLWWindow, public GLWButtonI
 {
 public:
 	static TalkSettingsDialog *instance();
 
 	// Inherited from GLWButtonI
 	virtual void buttonDown(unsigned int id);
-
-	// Inherited from GLWCheckBoxI
-	void stateChange(bool state, unsigned int id);
 
 	// Inherited from GLWWindow
 	virtual void windowDisplay();
@@ -47,8 +43,9 @@ protected:
 	static TalkSettingsDialog *instance_;
 
 	unsigned int okId_;
+	unsigned int muteAllId_, muteNoneId_;
 	GLWTab *muteTab_;
-	std::map<unsigned int, unsigned int> muteMap_;
+	std::map<GLWCheckBoxText *, unsigned int> muteMap_;
 
 	void addPlayers();
 

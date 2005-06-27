@@ -305,6 +305,8 @@ void DisplayFrame::refreshScreen()
 	IDC_NOMIPMAPS_CTRL->SetToolTip(OptionsDisplay::instance()->getNoGLHardwareMipmapsToolTip());
 	IDC_NOSOUND_CTRL->SetValue(OptionsDisplay::instance()->getNoSound());
 	IDC_NOSOUND_CTRL->SetToolTip(OptionsDisplay::instance()->getNoSoundToolTip());
+	IDC_NOAMBIENTSOUND_CTRL->SetValue(OptionsDisplay::instance()->getNoAmbientSound());
+	IDC_NOAMBIENTSOUND_CTRL->SetToolTip(OptionsDisplay::instance()->getNoAmbientSoundToolTip());
 	IDC_NOSKINS_CTRL->SetValue(OptionsDisplay::instance()->getNoSkins());
 	IDC_NOSKINS_CTRL->SetToolTip(OptionsDisplay::instance()->getNoSkinsToolTip());
 	IDC_FULLSCREEN_CTRL->SetValue(OptionsDisplay::instance()->getFullScreen());
@@ -364,12 +366,12 @@ void DisplayFrame::refreshScreen()
 	IDC_LOGGING_CTRL->SetValue(OptionsDisplay::instance()->getClientLogToFile());
 	IDC_LOGGING_CTRL->SetToolTip(OptionsDisplay::instance()->getClientLogToFileToolTip());
 
-	for (int i=2; i<64; i+=2)
+	/*for (int i=2; i<64; i+=2)
 	{
 		IDC_SOUNDCHANNELS_CTRL->Append(formatString("%i", i));
 	}
 	IDC_SOUNDCHANNELS_CTRL->SetValue(
-		formatString("%i", OptionsDisplay::instance()->getSoundChannels()));
+		formatString("%i", OptionsDisplay::instance()->getSoundChannels()));*/
 
 	refreshResolutions();
 
@@ -508,7 +510,8 @@ bool DisplayFrame::TransferDataFromWindow()
 	OptionsDisplay::instance()->setNoVBO(IDC_NOVBO_CTRL->GetValue());
 	OptionsDisplay::instance()->setNoGLHardwareMipmaps(IDC_NOMIPMAPS_CTRL->GetValue());
 	OptionsDisplay::instance()->setNoSound(IDC_NOSOUND_CTRL->GetValue());
-	OptionsDisplay::instance()->setSoundChannels(atoi(IDC_SOUNDCHANNELS_CTRL->GetValue()));
+	OptionsDisplay::instance()->setNoAmbientSound(IDC_NOAMBIENTSOUND_CTRL->GetValue());
+	//OptionsDisplay::instance()->setSoundChannels(atoi(IDC_SOUNDCHANNELS_CTRL->GetValue()));
 	OptionsDisplay::instance()->setNoSkins(IDC_NOSKINS_CTRL->GetValue());
 	OptionsDisplay::instance()->setNoTrees(IDC_NOTREES_CTRL->GetValue());
 	OptionsDisplay::instance()->setNoPrecipitation(IDC_NOPRECIPITATION_CTRL->GetValue());

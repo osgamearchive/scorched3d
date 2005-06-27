@@ -304,6 +304,13 @@ void LandscapeObjectPlacementMask::generateObjects(
 			placement.mask.c_str());
 	}
 
+	LandscapeObjects::LandscapeObjectsGroupEntry *group = 0;
+	if (placement.groupname.c_str()[0])
+	{
+		group = context.landscapeMaps->getObjects().getGroup(
+			placement.groupname.c_str(), true);
+	}
+
 	float mult = (float) Landscape::instance()->getMainMap().getWidth() / 256.0f;
 
 	const int NoIterations = placement.numobjects;
@@ -418,6 +425,11 @@ void LandscapeObjectPlacementMask::generateObjects(
 						(unsigned int) lx,
 						(unsigned int) ly,
 						entry);
+						
+					if (group && (i % 10 == 0))
+					{
+						group->addObject((int) lx, (int) ly);
+					}
 				}
 			}
 		}
@@ -466,6 +478,13 @@ void LandscapeObjectPlacementDirect::generateObjects(
 			placement.objecttype.c_str());
 	}
 
+	LandscapeObjects::LandscapeObjectsGroupEntry *group = 0;
+	if (placement.groupname.c_str()[0])
+	{
+		group = context.landscapeMaps->getObjects().getGroup(
+			placement.groupname.c_str(), true);
+	}
+
 	float mult = (float) Landscape::instance()->getMainMap().getWidth() / 256.0f;
 
 	std::list<LandscapePlaceObjectsPlacementDirect::Position>::iterator itor;
@@ -474,7 +493,7 @@ void LandscapeObjectPlacementDirect::generateObjects(
 		itor != placement.positions.end();
 		itor++, i++)
 	{
-		if (i % 1000 == 0) if (counter) 
+		if (i % 10 == 0) if (counter) 
 			counter->setNewPercentage(float(i)/float(placement.positions.size())*100.0f);
 
 		LandscapePlaceObjectsPlacementDirect::Position position = (*itor);
@@ -531,5 +550,10 @@ void LandscapeObjectPlacementDirect::generateObjects(
 			(unsigned int) position.position[0],
 			(unsigned int) position.position[1],
 			entry);
+			
+		if (group)
+		{
+			group->addObject((int) position.position[0], (int) position.position[1]);
+		}
 	}
 }

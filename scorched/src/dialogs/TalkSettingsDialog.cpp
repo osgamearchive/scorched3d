@@ -20,7 +20,6 @@
 
 #include <dialogs/TalkSettingsDialog.h>
 #include <GLW/GLWTextButton.h>
-#include <GLW/GLWCheckBoxText.h>
 #include <GLW/GLWWindowManager.h>
 #include <client/ScorchedClient.h>
 #include <tank/TankContainer.h>
@@ -41,6 +40,10 @@ TalkSettingsDialog::TalkSettingsDialog() :
 	windowLevel_ = 45000;
 	okId_ = addWidget(new GLWTextButton("Ok", 375, 10, 55, this, 
 		GLWButton::ButtonFlagOk | GLWButton::ButtonFlagCancel | 
+		GLWButton::ButtonFlagCenterX))->getId();
+	muteAllId_ = addWidget(new GLWTextButton("Mute All", 10, 10, 120, this, 
+		GLWButton::ButtonFlagCenterX))->getId();
+	muteNoneId_ = addWidget(new GLWTextButton("Mute None", 140, 10, 120, this, 
 		GLWButton::ButtonFlagCenterX))->getId();
 
 	muteTab_ = (GLWTab *)
@@ -73,8 +76,7 @@ void TalkSettingsDialog::addPlayers()
 		GLWCheckBoxText *box = (GLWCheckBoxText*)
 			newPanel->addWidget(new GLWCheckBoxText(305, 1, "Mute", 
 			tank->getState().getMuted()));
-		muteMap_[box->getCheckBox().getId()] = tank->getPlayerId();
-		box->getCheckBox().setHandler(this);
+		muteMap_[box] = tank->getPlayerId();
 
 		height += 24;
 	}
@@ -90,23 +92,43 @@ void TalkSettingsDialog::buttonDown(unsigned int id)
 {
 	if (id == okId_)
 	{
-		GLWWindowManager::instance()->hideWindow(getId());
-	}
-}
-
-void TalkSettingsDialog::stateChange(bool state, unsigned int id)
-{
-	std::map<unsigned int, unsigned int>::iterator findItor =
-		muteMap_.find(id);
-	if (findItor != muteMap_.end())
-	{
-		unsigned int playerId = (*findItor).second;
-		Tank *tank =
-			ScorchedClient::instance()->getTankContainer().getTankById(playerId);
-		if (tank)
+		std::map<GLWCheckBoxText *, unsigned int>::iterator itor;
+		for (itor = muteMap_.begin();
+			itor != muteMap_.end();
+			itor++)
 		{
-			tank->getState().setMuted(state);
+			GLWCheckBoxText *box = (*itor).first;
+			unsigned int playerId = (*itor).second;
+			Tank *tank =
+				ScorchedClient::instance()->getTankContainer().getTankById(playerId);
+			if (tank)
+			{
+				tank->getState().setMuted(box->getCheckBox().getState());
+			}
+		}
+	
+		GLWWindowManager::instance()->hideWindow(getId());
+	} 
+	else if (id == muteAllId_)
+	{
+		std::map<GLWCheckBoxText *, unsigned int>::iterator itor;
+		for (itor = muteMap_.begin();
+			itor != muteMap_.end();
+			itor++)
+		{
+			GLWCheckBoxText *box = (*itor).first;
+			box->getCheckBox().setState(true);
 		}
 	}
+	else if (id == muteNoneId_)
+	{
+		std::map<GLWCheckBoxText *, unsigned int>::iterator itor;
+		for (itor = muteMap_.begin();
+			itor != muteMap_.end();
+			itor++)
+		{
+			GLWCheckBoxText *box = (*itor).first;
+			box->getCheckBox().setState(false);
+		}		
+	}
 }
-
