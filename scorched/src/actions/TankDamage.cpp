@@ -201,6 +201,7 @@ bool TankDamage::writeAction(NetBuffer &buffer)
 	buffer.addToBuffer(firedPlayerId_);
 	buffer.addToBuffer(damage_);
 	buffer.addToBuffer(useShieldDamage_);
+	buffer.addToBuffer(shieldOnlyDamage_);
 	buffer.addToBuffer(checkFall_);
 	buffer.addToBuffer(data_);
 	context_->accessoryStore->writeWeapon(buffer, weapon_);
@@ -213,6 +214,7 @@ bool TankDamage::readAction(NetBufferReader &reader)
 	if (!reader.getFromBuffer(firedPlayerId_)) return false;
 	if (!reader.getFromBuffer(damage_)) return false;
 	if (!reader.getFromBuffer(useShieldDamage_)) return false;
+	if (!reader.getFromBuffer(shieldOnlyDamage_)) return false;
 	if (!reader.getFromBuffer(checkFall_)) return false;
 	if (!reader.getFromBuffer(data_)) return false;
 	weapon_ = context_->accessoryStore->readWeapon(reader); if (!weapon_) return false;

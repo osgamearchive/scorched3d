@@ -1171,7 +1171,7 @@ trace of the shot path.</description>
 							<size>4</size>
 							<sizevar>-1</sizevar>
 							<minsize>0.1</minsize>
-							<splitprob>0.2</splitprob>
+							<splitprob>0.1</splitprob>
 							<splitvar>0.03</splitvar>
 							<deathprob>0.03</deathprob>
 							<derivangle>0.5</derivangle>

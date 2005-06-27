@@ -36,7 +36,10 @@ MessageDisplay *MessageDisplay::instance()
 	return instance_;
 }
 
-MessageDisplay::MessageDisplay() : showTime_(0.0f)
+MessageDisplay::MessageDisplay() : 
+	showTime_(0.0f), window_("", 10.0f, 10.0f, 447.0f, 310.0f, 
+		GLWWindow::eTransparent | GLWWindow::eNoTitle,
+		"")
 {
 }
 
@@ -79,23 +82,24 @@ void MessageDisplay::draw(const unsigned currentstate)
 	if (showTime_ <= 0.0f) return;
 
 	GLState state(GLState::BLEND_ON | GLState::TEXTURE_OFF | GLState::DEPTH_OFF); 
-	static Vector fontColor(0.7f, 0.7f, 0.2f);
-	static Vector fontColor2(0.0f, 0.0f, 0.0f);
 
 	float wHeight = (float) GLViewPort::getHeight();
 	float wWidth = (float) GLViewPort::getWidth();
+	float textWidth = float(GLWFont::instance()->getLargePtFont()->getWidth(
+		30, currentText_.c_str()));
 
-	float x = (wWidth/2.0f) - float(GLWFont::instance()->getLargePtFont()->getWidth(
-		30, currentText_.c_str()) / 2);
+	float x = (wWidth/2.0f) - (textWidth / 2) - 10.0f;
 	float y = wHeight - 120.0f;
 
-	GLWFont::instance()->getLargePtFont()->draw(
-		fontColor2, 30, 
-		x + 2, y + 2, 0.0f,
-		currentText_.c_str());
+	window_.setW(textWidth + 20.0f);
+	window_.setH(50);
+	window_.setX(x);
+	window_.setY(y);
+	window_.draw();
 
+	Vector white(0.9f, 0.9f, 1.0f);
 	GLWFont::instance()->getLargePtFont()->draw(
-		fontColor, 30, 
-		x, y, 0.0f,
+		white, 30, 
+		x + 10.0f, y + 10.0f, 0.0f,
 		currentText_.c_str());
 }

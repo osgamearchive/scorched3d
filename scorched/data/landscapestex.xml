@@ -441,8 +441,8 @@
 		<events>
 			<event>
 				<condition type="time">
-					<mintime>0.0</mintime>
-					<maxtime>5.0</maxtime>
+					<mintime>3.0</mintime>
+					<maxtime>8.0</maxtime>
 				</condition>
 				<action type="fireweapon">
 					<weapon>Lightning</weapon>

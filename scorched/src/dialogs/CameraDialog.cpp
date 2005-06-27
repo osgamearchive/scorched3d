@@ -93,25 +93,25 @@ void CameraDialog::draw()
 		glTranslatef(0.0f, 0.0f, 4000.0f);	
 			glColor4f(1.0f, 1.0f, 1.0f, 0.0f);
 			glBegin(GL_TRIANGLE_FAN);
-				glVertex2f(x_ + inset, y_ + inset);
+				glVertex2f(x_ + inset - 2.0f, y_ + inset - 2.0f);
 				drawCircle(7, 13, x_ + inset + corner, 
 					y_ + inset + corner, corner);
 			glEnd();
 		
 			glBegin(GL_TRIANGLE_FAN);
-				glVertex2f(x_ + w_ - inset, y_ + inset);
+				glVertex2f(x_ + w_ - inset + 2.0f, y_ + inset - 2.0f);
 				drawCircle(3, 9, x_ + w_ - inset - corner, 
 					y_ + inset + corner, corner);
 			glEnd();
 			
 			glBegin(GL_TRIANGLE_FAN);
-				glVertex2f(x_ + w_ - inset, y_ + h_ - inset);
+				glVertex2f(x_ + w_ - inset + 2.0f, y_ + h_ - inset + 2.0f);
 				drawCircle(-1, 5, x_ + w_ - inset - corner, 
 					y_ + h_ - inset - corner, corner);
 			glEnd();
 			
 			glBegin(GL_TRIANGLE_FAN);
-				glVertex2f(x_ + inset, y_ + h_ - inset);
+				glVertex2f(x_ + inset - 2.0f, y_ + h_ - inset + 2.0f);
 				drawCircle(11, 17, x_ + inset + corner, 
 					y_ + h_ - inset - corner, corner);
 			glEnd();

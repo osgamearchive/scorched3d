@@ -18,11 +18,11 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #if !defined(__INCLUDE_MessageDisplayh_INCLUDE__)
 #define __INCLUDE_MessageDisplayh_INCLUDE__
 
 #include <engine/GameStateI.h>
+#include <GLW/GLWWindow.h>
 #include <string>
 #include <list>
 
@@ -43,6 +43,7 @@ protected:
 	static MessageDisplay *instance_;
 	float showTime_;
 
+	GLWWindow window_;
 	std::string currentText_;
 	std::list<std::string> texts_;
 
