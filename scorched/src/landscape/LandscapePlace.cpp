@@ -71,6 +71,7 @@ bool LandscapePlaceObjectsPlacement::readXML(XMLNode *node)
 	if (!object->readXML(objectNode)) return false;
 	if (!node->getNamedChild("removeaction", removeaction)) return false;
 	if (!node->getNamedChild("burnaction", burnaction)) return false;
+	if (!node->getNamedChild("groupname", groupname)) return false;
 	return node->failChildren();
 }
 

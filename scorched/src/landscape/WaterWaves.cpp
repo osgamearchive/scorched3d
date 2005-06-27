@@ -40,17 +40,25 @@ WaterWaves::~WaterWaves()
 void WaterWaves::generateWaves(float waterHeight, WaterMap &wmap, ProgressCounter *counter)
 {
 	memset(wavePoints_, 0, 256 * 256 * sizeof(bool));
+	for (int a=0; a<64; a++)
+	{
+		for (int b=0; b<64; b++)
+		{
+			waveDistance_[a + b * 64] = 255.0f;
+		}
+	}
 	paths1_.clear();
 	paths2_.clear();
 	pointCount_ = 0;
 	removedCount_ = 0;
 
-	if (OptionsDisplay::instance()->getNoWaves()) return;
-	if (!OptionsDisplay::instance()->getDrawWater()) return;
-
 	// Find all of the points that are equal to a certain height (the water height)
 	if (counter) counter->setNewOp("Creating waves 1");
 	findPoints(waterHeight, counter);
+
+	// Do this after the findPoints so the waveDistance array is always completed
+	if (OptionsDisplay::instance()->getNoWaves()) return;
+	if (!OptionsDisplay::instance()->getDrawWater()) return;
 
 	// Find the list of points that are next to eachother
 	if (counter) counter->setNewOp("Creating waves 2");
@@ -85,6 +93,20 @@ void WaterWaves::findPoints(float waterHeight, ProgressCounter *counter)
 				if (height2 > waterHeight || height3 > waterHeight ||
 					height4 > waterHeight || height5 > waterHeight)
 				{
+					if ((x % 2 == 0) && (y % 2 == 0))
+					{
+						Vector posA(float(x), float(y), 0.0f);
+						for (int b=0; b<64; b++)
+						{
+							for (int a=0; a<64; a++)
+							{
+								Vector posB(float(a * 4.0f), float(b * 4.0f), 0.0f);
+								float distance = (posB - posA).Magnitude();
+								waveDistance_[a + b * 64] = MIN(waveDistance_[a + b * 64], distance);
+							}
+						}
+					}
+
 					wavePoints_[x + y * 256] = true;
 					pointCount_ ++;
 				}

@@ -41,6 +41,7 @@ public:
 	GLTexture &getWavesTexture1() { return wavesTexture1_; }
 	GLTexture &getWavesTexture2() { return wavesTexture2_; }
 	Vector &getWavesColor() { return wavesColor_; }
+	float *getWaveDistance() { return waveDistance_; }
 
 protected:
 	struct WaterWaveEntry 
@@ -55,6 +56,7 @@ protected:
 	};
 
 	bool wavePoints_[256 * 256];
+	float waveDistance_[64 * 64];
 	std::vector<WaterWaveEntry> paths1_;
 	std::vector<WaterWaveEntry> paths2_;
 	float totalTime_;

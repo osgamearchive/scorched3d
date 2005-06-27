@@ -14,6 +14,7 @@
 				<maxheight>30</maxheight>
 				<removeaction></removeaction>
 				<burnaction></burnaction>
+				<groupname>trees</groupname>
 				<object type="tree">
 					<tree>pine</tree>
 					<snow>25</snow>
@@ -31,6 +32,7 @@
 				<maxheight>30</maxheight>
 				<removeaction></removeaction>
 				<burnaction></burnaction>
+				<groupname>trees</groupname>
 				<object type="tree">
 					<tree>palm</tree>
 					<snow>100</snow>
@@ -48,6 +50,7 @@
 				<maxheight>30</maxheight>
 				<removeaction></removeaction>
 				<burnaction></burnaction>
+				<groupname>trees</groupname>
 				<object type="tree">
 					<tree>pine</tree>
 					<snow>10</snow>

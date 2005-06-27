@@ -36,12 +36,78 @@ static inline float approx_distance(float  dx, float dy)
    return approx;
 }
 
+LandscapeObjects::LandscapeObjectsGroupEntry::LandscapeObjectsGroupEntry()
+{
+	for (int a=0; a<64; a++)
+	{
+		for (int b=0; b<64; b++)
+		{
+			distance[a + b * 64] = 255.0f;
+		}
+	}
+}
+
+float LandscapeObjects::LandscapeObjectsGroupEntry::getDistance(int x, int y)
+{
+	x /= 4;
+	y /= 4;
+	return distance[x + y * 64];
+}
+
+void LandscapeObjects::LandscapeObjectsGroupEntry::addObject(int x, int y)
+{
+	x /= 4;
+	y /= 4;
+
+	Vector posA(x, y, 0);
+	for (int a=0; a<64; a++)
+	{
+		for (int b=0; b<64; b++)
+		{
+			Vector posB(a, b, 0);
+			float d = (posB - posA).Magnitude();
+			distance[a + b * 64] = MIN(distance[a + b * 64], d);
+		}
+	}
+}
+
 LandscapeObjects::LandscapeObjects()
 {
 }
 
 LandscapeObjects::~LandscapeObjects()
 {
+}
+
+void LandscapeObjects::clearGroups()
+{
+	std::map<std::string, LandscapeObjectsGroupEntry*>::iterator itor;
+	for (itor = groups_.begin();
+		itor != groups_.end();
+		itor++)
+	{
+		LandscapeObjectsGroupEntry *entry = (*itor).second;
+		delete entry;
+	}
+	groups_.clear();
+}
+
+LandscapeObjects::LandscapeObjectsGroupEntry *LandscapeObjects::getGroup(
+	const char *name, bool create)
+{
+	std::map<std::string, LandscapeObjectsGroupEntry*>::iterator findItor =
+		groups_.find(name);
+	if (findItor != groups_.end())
+	{
+		return (*findItor).second;
+	}
+	if (create)
+	{
+		LandscapeObjectsGroupEntry *entry = new LandscapeObjectsGroupEntry;
+		groups_[name] = entry;
+		return entry;
+	}
+	return 0;
 }
 
 void LandscapeObjects::draw()
@@ -139,6 +205,9 @@ void LandscapeObjects::addObject(unsigned int x, unsigned int y,
 
 void LandscapeObjects::removeAllObjects()
 {
+	// Make sure all groups are cleared
+	clearGroups();
+
 	// Clear any current trees
 	std::multimap<unsigned int, LandscapeObjectsEntry*>::iterator 
 		itor = entries_.begin();

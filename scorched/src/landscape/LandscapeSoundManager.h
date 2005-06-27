@@ -18,44 +18,38 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_Waterh_INCLUDE__)
-#define __INCLUDE_Waterh_INCLUDE__
+#if !defined(__INCLUDE_LandscapeSoundManagerh_INCLUDE__)
+#define __INCLUDE_LandscapeSoundManagerh_INCLUDE__
 
-#include <landscape/WaterMap.h>
-#include <landscape/WaterWaves.h>
-#include <landscape/WaterMapPoints.h>
-#include <common/ProgressCounter.h>
+#include <list>
 
-class Water
+class SoundSource;
+class SoundBuffer;
+class LandscapeSound;
+class LandscapeSoundType;
+class LandscapeSoundManager
 {
 public:
-	Water();
-	virtual ~Water();
+	LandscapeSoundManager();
+	virtual ~LandscapeSoundManager();
 
-	void draw();
-	void reset();
-	void recalculate();
-	void generate(ProgressCounter *counter = 0);
+	void initialize(std::list<LandscapeSound *> sounds);
 	void simulate(float frameTime);
-	bool explosion(Vector position, float size);
-	void addWave(Vector position, float height);
-
-	bool getWaterOn() { return waterOn_; }
-	float getWaterHeight() { return height_; }
-	GLBitmap &getWaterBitmap() { return bitmapWater_; }
-	WaterWaves &getWaves() { return wWaves_; }
+	void cleanUp();
 
 protected:
-	bool waterOn_;
-	bool resetWater_;
-	float resetWaterTimer_;
-	float height_;
-	WaterMap wMap_;
-	WaterMapPoints wMapPoints_;
-	WaterWaves wWaves_;
-	GLTexture landTexWater_;
-	GLBitmap bitmapWater_;
+	struct LandscapeSoundManagerEntry
+	{
+		LandscapeSoundManagerEntry() : soundSource(0) {}
+		SoundSource *soundSource;
+		SoundBuffer *soundBuffer;
+		LandscapeSoundType *soundType;
+		float timeLeft;
+	};
+
+	std::list<LandscapeSoundManagerEntry> entries_;
+	float lastTime_;
 
 };
 
-#endif // __INCLUDE_Waterh_INCLUDE__
+#endif // __INCLUDE_LandscapeSoundManagerh_INCLUDE__

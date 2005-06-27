@@ -25,6 +25,7 @@
 #include <landscape/Water.h>
 #include <landscape/PatchGrid.h>
 #include <landscape/LandscapePoints.h>
+#include <landscape/LandscapeSoundManager.h>
 #include <landscape/Smoke.h>
 #include <landscape/Wall.h>
 #include <landscape/ShadowMap.h>
@@ -100,6 +101,7 @@ protected:
 	Water water_;
 	LandscapeTextureType textureType_;
 	LandscapePoints points_;
+	LandscapeSoundManager soundManager_;
 
 	// Textures used for landscape
 	GLTexture texture_;

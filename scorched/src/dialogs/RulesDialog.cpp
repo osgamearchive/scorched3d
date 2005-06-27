@@ -49,8 +49,7 @@ RulesDialog::RulesDialog() :
 	okId_ = addWidget(new GLWTextButton("Ok", 395, 10, 55, this, 
 		GLWButton::ButtonFlagCancel | GLWButton::ButtonFlagOk | GLWButton::ButtonFlagCenterX))->getId();
 	listView_ = (GLWListView *) addWidget(new GLWListView(10, 150, 440, 190, 100));
-	addWidget(new GLWPanel(45, 345, 370, 40));
-	icon_ = (GLWIcon *) addWidget(new GLWIcon(50, 350, 360, 30));
+	icon_ = (GLWIcon *) addWidget(new GLWIcon(45, 347, 370, 40));
 }
 
 RulesDialog::~RulesDialog()

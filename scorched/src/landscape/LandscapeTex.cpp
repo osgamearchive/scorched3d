@@ -151,6 +151,19 @@ bool LandscapeTexBoids::readXML(XMLNode *node)
 	if (!node->getNamedChild("minz", minz)) return false;
 	if (!node->getNamedChild("maxz", maxz)) return false;
 
+	XMLNode *soundsNode;
+	std::string sound;
+	if (!node->getNamedChild("sounds", soundsNode)) return false;
+	if (!soundsNode->getNamedChild("mintime", soundmintime)) return false;
+	if (!soundsNode->getNamedChild("maxtime", soundmaxtime)) return false;
+	if (!soundsNode->getNamedChild("maxsimul", soundmaxsimul)) return false;
+	if (!soundsNode->getNamedChild("volume", soundvolume)) return false;
+	while (soundsNode->getNamedChild("sound", sound, false))
+	{
+		if (!checkDataFile(sound.c_str())) return false;
+		sounds.push_back(sound);
+	}
+
 	return node->failChildren();
 }
 
@@ -250,6 +263,16 @@ bool LandscapeTex::readXML(LandscapeDefinitions *definitions, XMLNode *node)
 		{
 			if (!definitions->getPlace(placement.c_str())) return false;
 			placements.push_back(placement);
+		}
+	}
+	{
+		XMLNode *soundsNode;
+		if (!node->getNamedChild("ambientsounds", soundsNode)) return false;
+		std::string sound;
+		while (soundsNode->getNamedChild("ambientsound", sound, false))
+		{
+			if (!definitions->getSound(sound.c_str())) return false;
+			sounds.push_back(sound);
 		}
 	}
 	{

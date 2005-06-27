@@ -1343,6 +1343,18 @@
 				RelativePath="..\landscape\LandscapePoints.h">
 			</File>
 			<File
+				RelativePath="..\landscape\LandscapeSound.cpp">
+			</File>
+			<File
+				RelativePath="..\landscape\LandscapeSound.h">
+			</File>
+			<File
+				RelativePath="..\landscape\LandscapeSoundManager.cpp">
+			</File>
+			<File
+				RelativePath="..\landscape\LandscapeSoundManager.h">
+			</File>
+			<File
 				RelativePath="..\landscape\LandscapeTex.cpp">
 			</File>
 			<File
@@ -3307,6 +3319,9 @@
 			</File>
 			<File
 				RelativePath="..\..\data\landscapesplace.xml">
+			</File>
+			<File
+				RelativePath="..\..\data\landscapessound.xml">
 			</File>
 			<File
 				RelativePath="..\..\data\landscapestex.xml">

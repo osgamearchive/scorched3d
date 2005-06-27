@@ -29,6 +29,7 @@ Fixed: Undo should not put duplicate entries in the undo log (and more undo feat
 Fixed: Banned statsid added to list of banned players
 Fixed: Adjusted damage from hogs, added lasers
 
+Added: Ambient sounds
 Added: Web interface for server to change settings
 Added: onlyhurtshield attribute to WeaponExplosion for explosions that only hurt shields
 Added: Timed messages on the server, multiple messages, and round robin messages
@@ -88,7 +89,6 @@ Gun fires at same point for all tanks (ignores turret/gun position in model)
 Fix crashing when people win (Graphics card drivers??)
 
 -- Things for next release
-Ambient sounds
 Allow same ip addresses to connect but don't collect stats
 Bobirovs list of stuff (http://apochq.handwired.net/ideas.txt)
 

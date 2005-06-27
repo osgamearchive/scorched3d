@@ -20,6 +20,8 @@
 
 #include <landscape/LandscapeMaps.h>
 #include <landscape/LandscapeDefn.h>
+#include <landscape/LandscapeTex.h>
+#include <landscape/LandscapePlace.h>
 #include <landscape/LandscapeDefinition.h>
 #include <landscape/LandscapeDefinitions.h>
 #include <landscape/HeightMapModifier.h>

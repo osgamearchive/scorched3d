@@ -166,6 +166,13 @@ void LandscapeObjectPlacementTrees::generateObjects(
 
 	float mult = (float) Landscape::instance()->getMainMap().getWidth() / 256.0f;
 
+	LandscapeObjects::LandscapeObjectsGroupEntry *group = 0;
+	if (placement.groupname.c_str()[0])
+	{
+		group = context.landscapeMaps->getObjects().getGroup(
+			placement.groupname.c_str(), true);
+	}
+
 	// Add lots of trees, more chance of adding a tree where
 	// the map is stongest
 	const int NoIterations = placement.numobjects;
@@ -237,6 +244,11 @@ void LandscapeObjectPlacementTrees::generateObjects(
 					(unsigned int) lx,
 					(unsigned int) ly,
 					entry);
+
+				if (group && (i % 10 == 0))
+				{
+					group->addObject((int) lx, (int) ly);
+				}
 			}
 		}
 	}

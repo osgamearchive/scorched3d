@@ -104,7 +104,7 @@ bool ClientConnectionAcceptHandler::processMessage(unsigned int id,
 			map.loadFromFile(getDataFile("data/windows/scorched.gif"));
 		}
 		GLTexture *texture = new GLTexture;
-		texture->create(map);
+		texture->create(map, GL_RGB, false);
 		RulesDialog::instance()->addIcon(texture);
 	}
 

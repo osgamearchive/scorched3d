@@ -16,6 +16,7 @@
 			<item>tropical</item>
 			<item>vulcano</item>
 			<item>storm</item>
+			<item>night</item>
 		</tex>
 	</landscape>
 	<landscape>
@@ -28,6 +29,7 @@
 		</defn>
 		<tex>
 			<item>default</item>
+			<item>night</item>
 			<item>sand</item>
 			<item>tropical</item>
 			<item>storm</item>
@@ -73,6 +75,7 @@
 		</defn>
 		<tex>
 			<item>default</item>
+			<item>night</item>
 			<item>hell</item>
 			<item>sand</item>
 			<item>snow</item>
@@ -91,6 +94,7 @@
 		</defn>
 		<tex>
 			<item>default</item>
+			<item>night</item>
 			<item>hell</item>
 			<item>sand</item>
 			<item>snow</item>

@@ -58,6 +58,7 @@ public:
 	std::string removeaction;
 	std::string burnaction;
 	std::string objecttype;
+	std::string groupname;
 	LandscapePlaceType *object;
 
 	virtual bool readXML(XMLNode *node);

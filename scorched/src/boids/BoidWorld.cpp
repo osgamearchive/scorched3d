@@ -25,6 +25,8 @@
 #include <client/ScorchedClient.h>
 #include <landscape/LandscapeMaps.h>
 #include <landscape/HeightMap.h>
+#include <common/Defines.h>
+#include <sound/Sound.h>
 #include <boids/BoidWorld.h>
 #include <boids/Boid.h>
 #include <boids/Obstacle.h>
@@ -34,14 +36,20 @@
 BoidWorld::BoidWorld(
 	ModelID &birdModel, 
 	int boidCount, 
-	int maxZ, int minZ) : 
+	int maxZ, int minZ,
+	float soundmintime, float soundmaxtime,
+	int soundmaxsimul, float soundvolume,
+	std::list<std::string> &sounds) : 
 	visibilityMatrix_(0), 
 	elapsedTime_(0.0f), stepTime_(0.0f), stepTime2_(0.0f),
-	halfTime_(false)
+	halfTime_(false),
+	soundCurrentTime_(0.0f), soundNextTime_(0.0f),
+	soundMinTime_(soundmintime), soundMaxTime_(soundmaxtime)
 {
 	// Create boids
 	makeBoids(boidCount, maxZ, minZ);
 	makeObstacles(maxZ, minZ);
+	makeSounds(sounds, soundmaxsimul, soundvolume);
 
 	// Create bird model
 	bird_ = new ModelRenderer(
@@ -70,8 +78,41 @@ BoidWorld::~BoidWorld()
 		obstacles_.pop_back();
 		delete obstacle;
 	}
+	while (!currentSounds_.empty())
+	{
+		SoundEntry entry = currentSounds_.back();
+		currentSounds_.pop_back();
+		delete entry.source;
+	}
 }
 
+void BoidWorld::makeSounds(std::list<std::string> &sounds, 
+	int soundmaxsimul, float soundvolume)
+{
+	// Create the list of sound sources that will be used
+	// to play sounds at the same time
+	for (int i=0; i<soundmaxsimul; i++)
+	{
+		SoundEntry entry;
+		entry.source = Sound::instance()->createSource();
+		entry.source->setGain(soundvolume / 100.0f);
+		currentSounds_.push_back(entry);
+	}
+
+	// Create the list of sound buffers that contains
+	// the list of sounds that can be played
+	std::list<std::string>::iterator itor;
+	for (itor = sounds.begin();
+		itor != sounds.end();
+		itor++)
+	{
+		const char *sound = (*itor).c_str();
+		SoundBuffer *buffer =
+			Sound::instance()->fetchOrCreateBuffer(
+				(char *) getDataFile(sound));
+		sounds_.push_back(buffer);
+	}
+}
 
 void BoidWorld::makeBoids(int boidCount, int maxZ, int minZ)
 {
@@ -147,6 +188,67 @@ void BoidWorld::simulate(float frameTime)
 	{
 		bird_->simulate(StepTime2);
 		stepTime2_ -= StepTime2;
+
+		std::vector<SoundEntry>::iterator itor;
+		for (itor = currentSounds_.begin();
+			itor != currentSounds_.end();
+			itor++)
+		{
+			SoundEntry &entry = (*itor);
+			if (entry.boid)
+			{
+				if (entry.source->getPlaying())
+				{
+					Vector position(
+						(float) entry.boid->getPosition().x,
+						(float) entry.boid->getPosition().y,
+						(float) entry.boid->getPosition().z);
+					Vector velocity(
+						(float) entry.boid->getVelocity().x,
+						(float) entry.boid->getVelocity().y,
+						(float) entry.boid->getVelocity().z);
+					entry.source->setPosition(position);
+					entry.source->setVelocity(velocity);
+				}
+				else
+				{
+					// Finished
+					entry.boid = 0;
+				}
+			}
+		}
+	}
+
+	soundCurrentTime_ += frameTime;
+	if (!sounds_.empty() && soundCurrentTime_ > soundNextTime_)
+	{
+		soundCurrentTime_ = 0.0f;
+		soundNextTime_ = soundMinTime_ + soundMaxTime_ * RAND;
+
+		std::vector<SoundEntry>::iterator itor;
+		for (itor = currentSounds_.begin();
+			itor != currentSounds_.end();
+			itor++)
+		{
+			SoundEntry &entry = (*itor);
+			if (!entry.boid)
+			{
+				entry.boid = boids_[rand() % boids_.size()];
+
+				Vector position(
+					(float) entry.boid->getPosition().x,
+					(float) entry.boid->getPosition().y,
+					(float) entry.boid->getPosition().z);
+				Vector velocity(
+					(float) entry.boid->getVelocity().x,
+					(float) entry.boid->getVelocity().y,
+					(float) entry.boid->getVelocity().z);
+				entry.source->setPosition(position);
+				entry.source->setVelocity(velocity);
+				entry.source->play(sounds_[rand() % sounds_.size()]);
+				break;
+			}
+		}
 	}
 }
 

@@ -97,6 +97,11 @@ public:
 	ModelID model;
 	int count;
 	int minz, maxz;
+	float soundmintime, soundmaxtime;
+	float soundvolume;
+	int soundmaxsimul;
+	std::list<std::string> sounds;
+
 
 	virtual bool readXML(XMLNode *node);
 };
@@ -141,7 +146,6 @@ public:
 	std::string detail;
 	std::string magmasmall;
 	std::string scorch;
-	std::vector<std::string> placements;
 	Vector fog;
 	Vector suncolor;
 	float fogdensity;
@@ -162,6 +166,8 @@ public:
 	std::string precipitationtype;
 	LandscapeTexType *precipitation;
 
+	std::vector<std::string> sounds;
+	std::vector<std::string> placements;
 	std::vector<LandscapeTexEvent *> events;
 	std::vector<LandscapeTexBoids *> boids;
 

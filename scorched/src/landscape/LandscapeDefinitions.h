@@ -22,10 +22,9 @@
 #define __INCLUDE_LandscapeDefinitionsh_INCLUDE__
 
 #include <landscape/LandscapeDefinition.h>
-#include <landscape/LandscapeTex.h>
-#include <landscape/LandscapeDefn.h>
-#include <landscape/LandscapePlace.h>
+#include <XML/XMLFile.h>
 #include <string>
+#include <vector>
 #include <list>
 
 class LandscapeDefinitionsEntry
@@ -41,6 +40,10 @@ public:
 	virtual bool readXML(XMLNode *node);
 };
 
+class LandscapePlace;
+class LandscapeSound;
+class LandscapeDefn;
+class LandscapeTex;
 class OptionsGame;
 class LandscapeDefinitions
 {
@@ -55,6 +58,7 @@ public:
 	LandscapeTex *getTex(const char *name);
 	LandscapeDefn *getDefn(const char *name);
 	LandscapePlace *getPlace(const char *name);
+	LandscapeSound *getSound(const char *sound);
 
 	bool landscapeEnabled(OptionsGame &context, const char *name);
 	std::list<LandscapeDefinitionsEntry> &getAllLandscapes() 
@@ -65,11 +69,13 @@ protected:
 	std::list<LandscapeTex*> texs_;
 	std::list<LandscapeDefn*> defns_;
 	std::list<LandscapePlace*> places_;
+	std::list<LandscapeSound*> sounds_;
 
 	bool readDefinitions();
 	bool readTexs();
 	bool readDefns();
 	bool readPlaces();
+	bool readSounds();
 
 };
 

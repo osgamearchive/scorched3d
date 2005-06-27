@@ -95,6 +95,7 @@ void Landscape::simulate(const unsigned state, float frameTime)
 	sky_->simulate(frameTime * speedMult);
 	wall_.simulate(frameTime * speedMult);
 	boids_->simulate(frameTime * speedMult);
+	soundManager_.simulate(frameTime * speedMult);
 }
 
 void Landscape::recalculate(int posX, int posY, int dist)
@@ -303,6 +304,26 @@ void Landscape::generate(ProgressCounter *counter)
 	// Load the sky
 	sky_->generate();
 	surround_->generate();
+
+	// Add any ambientsounds
+	std::list<LandscapeSound *> sounds;
+	std::vector<std::string>::iterator soundItor;
+	for (soundItor = tex->sounds.begin();
+		soundItor != tex->sounds.end();
+		soundItor++)
+	{
+		const char *soundName = (*soundItor).c_str();
+		LandscapeSound *sound = 
+			ScorchedClient::instance()->getLandscapes().getSound(soundName);
+		if (!sound) 
+		{
+			dialogExit("Landscape",
+				"Failed to find sound type %s",
+				soundName);
+		}
+		sounds.push_back(sound);
+	}
+	soundManager_.initialize(sounds);
 
 	// Ensure that all components use new landscape
 	reset();

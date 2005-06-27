@@ -22,7 +22,10 @@
 #define __INCLUDE_BoidWorldh_INCLUDE__
 
 #include <vector>
+#include <list>
 
+class SoundBuffer;
+class SoundSource;
 class ModelID;
 class ModelRenderer;
 class Boid;
@@ -31,7 +34,10 @@ class BoidWorld
 {
 public:
 	BoidWorld(ModelID &birdModel, 
-		int boidCount, int maxZ, int minZ);
+		int boidCount, int maxZ, int minZ,
+		float soundmintime, float soundmaxtime,
+		int soundmaxsimul, float soundvolume,
+		std::list<std::string> &sounds);
 	virtual ~BoidWorld();
 
 	void simulate(float frameTime);
@@ -60,6 +66,20 @@ public:
 	}
 
 protected:
+	// The currently playing sounds
+	float soundMinTime_, soundMaxTime_;
+	float soundNextTime_, soundCurrentTime_;
+	struct SoundEntry 
+	{
+		SoundEntry() : boid(0), source(0) {}
+		SoundSource *source;
+		Boid *boid;
+	};
+	std::vector<SoundEntry> currentSounds_;
+
+	// All the possible sounds that may be played for these boids
+	std::vector<SoundBuffer *> sounds_;
+
 	std::vector<Boid *> boids_;
 	// All boids
 	// have access to this list, and use it to determine where all the other
@@ -81,6 +101,8 @@ protected:
 
 	void makeBoids(int boidCount, int maxZ, int minZ);
 	void makeObstacles(int maxZ, int minZ);
+	void makeSounds(std::list<std::string> &sounds,
+		int soundmaxsimul, float soundvolume);
 
 };
 

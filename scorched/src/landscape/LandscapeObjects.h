@@ -26,11 +26,23 @@
 #include <landscape/LandscapeObjectsEntry.h>
 #include <engine/ScorchedContext.h>
 #include <map>
+#include <string>
 
 class LandscapePlace;
 class LandscapeObjects
 {
 public:
+	struct LandscapeObjectsGroupEntry
+	{
+		LandscapeObjectsGroupEntry();
+
+		void addObject(int x, int y);
+		float getDistance(int x, int y);
+
+	protected:
+		float distance[64 * 64];
+	};
+	
 	LandscapeObjects();
 	virtual ~LandscapeObjects();
 
@@ -50,10 +62,15 @@ public:
 	void addObject(unsigned int x, unsigned int y, 
 		LandscapeObjectsEntry *entry);
 
+	LandscapeObjectsGroupEntry *getGroup(const char *name, bool create = false);
+	void clearGroups();
+
 	std::multimap<unsigned int, LandscapeObjectsEntry*> &getEntries() { return entries_; }
+	std::map<std::string, LandscapeObjectsGroupEntry*> &getGroups() { return groups_; }
 
 protected:
 	std::multimap<unsigned int, LandscapeObjectsEntry*> entries_;
+	std::map<std::string, LandscapeObjectsGroupEntry*> groups_;
 
 };
 

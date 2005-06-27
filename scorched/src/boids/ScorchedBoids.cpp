@@ -59,7 +59,10 @@ void ScorchedBoids::generate()
 		LandscapeTexBoids *boids = (*itor);
 
 		BoidWorld *world = new BoidWorld(boids->model, boids->count,
-			boids->maxz, boids->minz);
+			boids->maxz, boids->minz,
+			boids->soundmintime, boids->soundmaxtime,
+			boids->soundmaxsimul, boids->soundvolume,
+			boids->sounds);
 		worlds_.push_back(world);
 	}
 }

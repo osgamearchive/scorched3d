@@ -19,6 +19,10 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <landscape/LandscapeDefinitions.h>
+#include <landscape/LandscapeTex.h>
+#include <landscape/LandscapeDefn.h>
+#include <landscape/LandscapePlace.h>
+#include <landscape/LandscapeSound.h>
 #include <common/OptionsGame.h>
 #include <common/OptionsParam.h>
 #include <common/Defines.h>
@@ -76,9 +80,41 @@ void LandscapeDefinitions::clearLandscapeDefinitions()
 bool LandscapeDefinitions::readLandscapeDefinitions()
 {
 	if (!readPlaces()) return false;
+	if (!readSounds()) return false;
 	if (!readTexs()) return false;
 	if (!readDefns()) return false;
 	if (!readDefinitions()) return false;
+	return true;
+}
+
+bool LandscapeDefinitions::readSounds()
+{
+	// Load landscape definition file
+	XMLFile file;
+	if (!file.readFile(getDataFile("data/landscapessound.xml")) ||
+		!file.getRootNode())
+	{
+		dialogMessage("Scorched Landscape",
+			"Failed to parse \"data/landscapessound.xml\"\n%s",
+			file.getParserError());
+		return false;
+	}
+	// Itterate all of the landscapes in the file
+	std::list<XMLNode *>::iterator childrenItor;
+	std::list<XMLNode *> &children = file.getRootNode()->getChildren();
+	for (childrenItor = children.begin();
+		childrenItor != children.end();
+		childrenItor++)
+	{
+		LandscapeSound *newSound = new LandscapeSound;
+		if (!newSound->readXML(*childrenItor))
+		{
+			dialogMessage("Scorched Landscape",
+				"Failed to parse  \"data/landscapessound.xml\"");
+			return false;
+		}
+		sounds_.push_back(newSound);
+	}
 	return true;
 }
 
@@ -197,6 +233,19 @@ LandscapePlace *LandscapeDefinitions::getPlace(const char *name)
 	{
 		LandscapePlace *place = *itor;
 		if (0 == strcmp(place->name.c_str(), name)) return place;
+	}
+	return 0;
+}
+
+LandscapeSound *LandscapeDefinitions::getSound(const char *name)
+{
+	std::list<LandscapeSound *>::iterator itor;
+	for (itor = sounds_.begin();
+		itor != sounds_.end();
+		itor++)
+	{
+		LandscapeSound *sound = *itor;
+		if (0 == strcmp(sound->name.c_str(), name)) return sound;
 	}
 	return 0;
 }
