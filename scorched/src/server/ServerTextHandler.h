@@ -22,7 +22,6 @@
 #define __INCLUDE_ServerTextHandlerh_INCLUDE__
 
 #include <coms/ComsMessageHandler.h>
-#include <server/ServerTextFilter.h>
 
 class ServerTextHandler : 
 	public ComsMessageHandlerI
@@ -33,9 +32,6 @@ public:
 	virtual bool processMessage(unsigned int id,
 		const char *messageType,
 		NetBufferReader &reader);
-
-protected:
-	ServerTextFilter filter_;
 
 private:
 	ServerTextHandler();

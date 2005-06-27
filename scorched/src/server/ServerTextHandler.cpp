@@ -20,6 +20,7 @@
 
 #include <server/ServerTextHandler.h>
 #include <server/ScorchedServer.h>
+#include <server/ScorchedServerUtil.h>
 #include <server/ServerCommon.h>
 #include <tank/TankContainer.h>
 #include <coms/ComsTextMessage.h>
@@ -56,7 +57,7 @@ bool ServerTextHandler::processMessage(unsigned int destinationId,
 
 	// Filter the string
 	std::string filteredText(message.getText());
-	filter_.filterString(filteredText);
+	ScorchedServerUtil::instance()->textFilter.filterString(filteredText);
 
 	// If the client does not supply a tank id then
 	// get one from the destination

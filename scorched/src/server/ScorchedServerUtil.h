@@ -23,6 +23,7 @@
 
 #include <server/ServerUsers.h>
 #include <server/ServerTimedMessage.h>
+#include <server/ServerTextFilter.h>
 #include <server/ServerBanned.h>
 
 class ScorchedServerUtil
@@ -33,6 +34,7 @@ public:
 	ServerUsers preferedPlayers;
 	ServerTimedMessage timedMessage;
 	ServerBanned bannedPlayers;
+	ServerTextFilter textFilter;
 
 protected:
 	static ScorchedServerUtil *instance_;

@@ -20,8 +20,9 @@
 
 #include <server/ServerWebServer.h>
 #include <server/ServerWebHandler.h>
-#include <server/ScorchedServer.h>
+#include <server/ServerCommon.h>
 #include <server/ServerAdminHandler.h>
+#include <server/ScorchedServer.h>
 #include <common/OptionsGame.h>
 #include <common/Logger.h>
 #include <common/LoggerI.h>
@@ -183,7 +184,9 @@ void ServerWebServer::processMessage(NetMessage &message)
 								(*itor).second.c_str());
 						}
 						LoggerInfo info(LoggerInfo::TypeNormal,
-							formatString("%s:%s", url, f.c_str()),
+							formatString("%u:%s:%s", 
+							message.getDestinationId(), 
+							url, f.c_str()),
 							ctime(&t));
 						logger_->logMessage(info);
 					}
@@ -291,6 +294,13 @@ bool ServerWebServer::validateUser(
 			unsigned int sid = rand();
 			sessions_[sid] = params;
 			fields["sid"] = formatString("%u", sid);
+
+			ServerCommon::sendString(0,
+				"server admin \"%s\" logged in",
+				fields["name"].c_str());
+			ServerCommon::serverLog(0,
+				"server admin \"%s\" logged in",
+				fields["name"].c_str());
 
 			return true;
 		}

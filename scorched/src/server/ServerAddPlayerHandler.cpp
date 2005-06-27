@@ -186,6 +186,9 @@ bool ServerAddPlayerHandler::processMessage(unsigned int destinationId,
 void ServerAddPlayerHandler::getUniqueName(Tank *tank,
 	std::string &sentname)
 {
+	// Ensure this name does not have any "bad" words in it
+	ScorchedServerUtil::instance()->textFilter.filterString(sentname);
+
 	// Form the correct player name
 	// Remove spaces from the front of the name and
 	// unwanted characters from middle
