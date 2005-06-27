@@ -23,10 +23,13 @@
 #include <client/SpeedChange.h>
 #include <client/ScorchedClient.h>
 #include <client/ClientState.h>
+#include <client/WindowSetup.h>
 #include <tank/TankContainer.h>
 #include <landscape/Landscape.h>
 #include <tankgraph/TankRenderer.h>
 #include <GLEXT/GLLenseFlare.h>
+#include <GLW/GLWWindowManager.h>
+#include <GLW/GLWWindowSkinManager.h>
 #include <dialogs/ProgressDialog.h>
 #include <sprites/ExplosionTextures.h>
 #include <engine/ActionController.h>
@@ -66,6 +69,14 @@ void ClientNewGameState::enterState(const unsigned state)
 				dialogExit("Scorched3D", "Failed to load explosion textures");
 		GLLenseFlare::instance()->init(
 			ProgressDialog::instance());
+			
+		ProgressDialog::instance()->setNewPercentage(0.0f);
+		ProgressDialog::instance()->setNewOp("Initializing Game Windows");
+		if (!GLWWindowSkinManager::instance()->loadWindows())
+			dialogExit("Scorched3D", "Failed to load windows skins");
+		WindowSetup::setupGameWindows();
+		GLWWindowManager::instance()->loadPositions();		
+			
 		initOnce = true;
 	}
 	TankRenderer::instance()->newGame();

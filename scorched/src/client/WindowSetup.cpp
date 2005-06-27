@@ -131,7 +131,7 @@ void WindowSetup::addCommonComponents(unsigned state)
 		HelpButtonDialog::instance(), 0, true);
 }
 
-void WindowSetup::setup()
+void WindowSetup::setupStartWindows()
 {
 	KEYBOARDKEY("SHOW_QUIT_DIALOG", quitKey);
 	KEYBOARDKEY("SHOW_TALK_DIALOG", talkKey);
@@ -181,7 +181,19 @@ void WindowSetup::setup()
 	// StateLoadPlayers
 	GLWWindowManager::instance()->addWindow(ClientState::StateLoadPlayers,
 		BackdropDialog::instance(), 0, true);
+}
 
+void WindowSetup::setupGameWindows()
+{
+	KEYBOARDKEY("SHOW_QUIT_DIALOG", quitKey);
+	KEYBOARDKEY("SHOW_TALK_DIALOG", talkKey);
+	KEYBOARDKEY("SHOW_TEAM_TALK_DIALOG", teamTalkKey);
+	KEYBOARDKEY("SHOW_PLAYER_DIALOG", playerKey);
+	KEYBOARDKEY("SHOW_AIM_DIALOG", aimKey);
+	KEYBOARDKEY("SHOW_WEAPON_DIALOG", weaponKey);
+	KEYBOARDKEY("SHOW_RESIGN_DIALOG", resignKey);
+	KEYBOARDKEY("SHOW_SKIP_DIALOG", skipKey);
+	
 	// StateWait
 	addCommonComponents(ClientState::StateWait);
 

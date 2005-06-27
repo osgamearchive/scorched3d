@@ -37,6 +37,7 @@
 			<texture4>data/textures/landscape/default/texture4.bmp</texture4>
 		</texture>
 		<placements><placement>pine</placement></placements>
+		<ambientsounds></ambientsounds>
 		<precipitation type="none"></precipitation>
 		<events></events>
 		<boids>
@@ -45,6 +46,16 @@
 				<minz>5</minz>
 				<maxz>25</maxz>
 				<model type="MilkShape">data/meshes/seagull/seagull.txt</model>
+				<sounds>
+					<mintime>0</mintime>
+					<maxtime>4</maxtime>
+					<maxsimul>5</maxsimul>
+					<volume>100</volume>
+					<sound>data/wav/misc/gull1.wav</sound>
+					<sound>data/wav/misc/gull2.wav</sound>
+					<sound>data/wav/misc/gull4.wav</sound>
+					<sound>data/wav/misc/gull5.wav</sound>
+				</sounds>
 			</boid>
 		</boids>
 	</tex>
@@ -85,6 +96,7 @@
 			<texture4>data/textures/landscape/hell/texture4.bmp</texture4>
 		</texture>
 		<placements><placement>none</placement></placements>
+		<ambientsounds></ambientsounds>
 		<precipitation type="none"></precipitation>
 		<events>
 			<event>
@@ -136,6 +148,7 @@
 			<texture4>data/textures/landscape/sand/texture4.bmp</texture4>
 		</texture>
 		<placements><placement>palm</placement></placements>
+		<ambientsounds></ambientsounds>
 		<precipitation type="none"></precipitation>
 		<events></events>
 		<boids>
@@ -144,6 +157,16 @@
 				<minz>5</minz>
 				<maxz>25</maxz>
 				<model type="MilkShape">data/meshes/seagull/seagull.txt</model>
+				<sounds>
+					<mintime>0</mintime>
+					<maxtime>4</maxtime>
+					<maxsimul>5</maxsimul>
+					<volume>100</volume>
+					<sound>data/wav/misc/gull1.wav</sound>
+					<sound>data/wav/misc/gull2.wav</sound>
+					<sound>data/wav/misc/gull4.wav</sound>
+					<sound>data/wav/misc/gull5.wav</sound>
+				</sounds>
 			</boid>
 		</boids>
 	</tex>
@@ -184,6 +207,7 @@
 			<texture4>data/textures/landscape/snow/texture4.bmp</texture4>
 		</texture>
 		<placements><placement>snowpine</placement></placements>
+		<ambientsounds></ambientsounds>
 		<precipitation type="snow">
 			<particles>60</particles>
 		</precipitation>
@@ -227,6 +251,7 @@
 			<texture4>data/textures/landscape/tropical/texture4.bmp</texture4>
 		</texture>
 		<placements><placement>palm</placement></placements>
+		<ambientsounds></ambientsounds>
 		<precipitation type="none"></precipitation>
 		<events></events>
 		<boids>
@@ -235,6 +260,16 @@
 				<minz>5</minz>
 				<maxz>25</maxz>
 				<model type="MilkShape">data/meshes/seagull/seagull.txt</model>
+				<sounds>
+					<mintime>0</mintime>
+					<maxtime>4</maxtime>
+					<maxsimul>5</maxsimul>
+					<volume>100</volume>
+					<sound>data/wav/misc/gull1.wav</sound>
+					<sound>data/wav/misc/gull2.wav</sound>
+					<sound>data/wav/misc/gull4.wav</sound>
+					<sound>data/wav/misc/gull5.wav</sound>
+				</sounds>
 			</boid>
 		</boids>
 	</tex>
@@ -275,6 +310,7 @@
 			<texture4>data/textures/landscape/vulcano/texture4.bmp</texture4>
 		</texture>
 		<placements><placement>none</placement></placements>
+		<ambientsounds></ambientsounds>
 		<precipitation type="none"></precipitation>
 		<events></events>
 		<boids></boids>
@@ -316,6 +352,7 @@
 			<texture4>data/textures/landscape/storm/texture4.bmp</texture4>
 		</texture>
 		<placements><placement>pine</placement></placements>
+		<ambientsounds></ambientsounds>
 		<precipitation type="rain">
 			<particles>60</particles>
 		</precipitation>
@@ -369,6 +406,7 @@
 			<texture4>data/textures/landscape/storm/texture4.bmp</texture4>
 		</texture>
 		<placements><placement>pine</placement></placements>
+		<ambientsounds></ambientsounds>
 		<precipitation type="none"></precipitation>
 		<events></events>
 		<boids></boids>
@@ -410,6 +448,7 @@
 			<texture4>data/textures/landscape/storm/texture4.bmp</texture4>
 		</texture>
 		<placements>usa-summer</placements>
+		<ambientsounds></ambientsounds>
 		<precipitation type="none"></precipitation>
 		<events></events>
 		<boids></boids>
@@ -444,6 +483,7 @@
 			<texture4>data/textures/landscape/moon/texture3.bmp</texture4>
 		</texture>
 		<placements>moon</placements>
+		<ambientsounds></ambientsounds>
 		<precipitation type="none"></precipitation>
 		<events>
 			<event>
@@ -488,6 +528,7 @@
 			<texture4>data/textures/landscape/sand/texture1.bmp</texture4>
 		</texture>
 		<placements>desert</placements>
+		<ambientsounds></ambientsounds>
 		<precipitation type="none"></precipitation>
 		<events></events>
 		<boids></boids>
@@ -532,6 +573,7 @@
 			<placement>city1</placement>
 			<placement>wintercitypine</placement>
 		</placements>
+		<ambientsounds></ambientsounds>
 		<precipitation type="snow">
 			<particles>60</particles>
 		</precipitation>
@@ -578,6 +620,7 @@
 			<placement>city1</placement>
 			<placement>summercitypine</placement>
 		</placements>
+		<ambientsounds></ambientsounds>
 		<precipitation type="none"></precipitation>
 		<events></events>
 		<boids>
@@ -586,6 +629,16 @@
 				<minz>5</minz>
 				<maxz>25</maxz>
 				<model type="MilkShape">data/meshes/seagull/seagull.txt</model>
+				<sounds>
+					<mintime>0</mintime>
+					<maxtime>4</maxtime>
+					<maxsimul>5</maxsimul>
+					<volume>100</volume>
+					<sound>data/wav/misc/gull1.wav</sound>
+					<sound>data/wav/misc/gull2.wav</sound>
+					<sound>data/wav/misc/gull4.wav</sound>
+					<sound>data/wav/misc/gull5.wav</sound>
+				</sounds>
 			</boid>
 		</boids>
 	</tex>
@@ -629,6 +682,7 @@
 			<placement>city1</placement>
 			<placement>summercitypine</placement>
 		</placements>
+		<ambientsounds></ambientsounds>
 		<precipitation type="rain">
 			<particles>60</particles>
 		</precipitation>
@@ -685,6 +739,7 @@
 			<placement>city2</placement>
 			<placement>wintercitypine</placement>
 		</placements>
+		<ambientsounds></ambientsounds>
 		<precipitation type="snow">
 			<particles>60</particles>
 		</precipitation>
@@ -731,6 +786,7 @@
 			<placement>city2</placement>
 			<placement>summercitypine</placement>
 		</placements>
+		<ambientsounds></ambientsounds>
 		<precipitation type="none"></precipitation>
 		<events></events>
 		<boids></boids>
@@ -775,6 +831,7 @@
 			<placement>city2</placement>
 			<placement>summercitypine</placement>
 		</placements>
+		<ambientsounds></ambientsounds>
 		<precipitation type="rain">
 			<particles>60</particles>
 		</precipitation>
@@ -831,6 +888,7 @@
 			<placement>city3</placement>
 			<placement>wintercitypine</placement>
 		</placements>
+		<ambientsounds></ambientsounds>
 		<precipitation type="snow">
 			<particles>60</particles>
 		</precipitation>
@@ -877,6 +935,7 @@
 			<placement>city3</placement>
 			<placement>summercitypine</placement>
 		</placements>
+		<ambientsounds></ambientsounds>
 		<precipitation type="none"></precipitation>
 		<events></events>
 		<boids></boids>
@@ -921,6 +980,7 @@
 			<placement>city3</placement>
 			<placement>summercitypine</placement>
 		</placements>
+		<ambientsounds></ambientsounds>
 		<precipitation type="rain">
 			<particles>60</particles>
 		</precipitation>

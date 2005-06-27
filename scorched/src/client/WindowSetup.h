@@ -25,7 +25,8 @@
 namespace WindowSetup
 {
 	void addCommonComponents(unsigned state);
-	void setup();
+	void setupStartWindows();
+	void setupGameWindows();
 };
 
 

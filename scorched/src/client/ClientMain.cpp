@@ -50,7 +50,6 @@
 #include <GLEXT/GLConsoleFileReader.h>
 #include <GLEXT/GLConsole.h>
 #include <GLW/GLWWindowManager.h>
-#include <GLW/GLWWindowSkinManager.h>
 #include <landscape/HeightMapCollision.h>
 #include <landscape/SkyRoofCollision.h>
 #include <engine/MainLoop.h>
@@ -173,10 +172,8 @@ bool startClient(ProgressCounter *progressCounter)
 
 	progressCounter->setNewPercentage(0.0f);
 	progressCounter->setNewOp("Initializing Windows");
-	if (!GLWWindowSkinManager::instance()->loadWindows()) return false;
+	WindowSetup::setupStartWindows();
 	
-	WindowSetup::setup();
-	GLWWindowManager::instance()->loadPositions();
 	std::string errorString;
 	if (!GLConsoleFileReader::loadFileIntoConsole(getDataFile("data/autoexec.xml"), errorString))
 	{
