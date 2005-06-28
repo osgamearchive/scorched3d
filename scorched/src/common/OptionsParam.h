@@ -34,6 +34,7 @@ public:
 	const char *getClientFile() { return client_.getValue(); }
 	const char *getSaveFile() { return save_.getValue(); }
 	const char *getPassword() { return password_.getValue(); }
+	const char *getSettingsDir() { return settingsdir_.getValue(); }
 	bool getConsole() { return console_.getValue(); }
 	bool getScreenSaverMode() { return screensaver_.getValue(); }
 	bool getLoadModFiles() { return loadmodfiles_.getValue(); }
@@ -65,6 +66,7 @@ protected:
 	OptionEntryString client_;
 	OptionEntryString password_;
 	OptionEntryString save_;
+	OptionEntryString settingsdir_;
 	OptionEntryBool loadmodfiles_;
 	OptionEntryBool screensaver_;
 	OptionEntryBool nooptions_;

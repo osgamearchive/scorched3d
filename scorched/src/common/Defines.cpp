@@ -32,8 +32,14 @@ unsigned int ScorchedPort = 27270;
 char *ScorchedVersion = "39";
 char *ScorchedProtocolVersion = "bd";
 static char *dataModFile = 0;
+static std::string settingsDir = ".scorched3d";
 
 extern bool wxWindowInit;
+
+void setSettingsDir(const char *dir)
+{
+	settingsDir = dir;
+}
 
 bool fileExists(const char *file)
 {
@@ -225,7 +231,8 @@ const char *getSettingsFile(const char *file ...)
 	static wxString homeDir;
 	if (!homeDir.c_str()[0])
 	{
-		const char *homeDirStr = getHomeFile("/.scorched3d");
+		const char *homeDirStr = getHomeFile("/%s", 
+			settingsDir.c_str());
 		if (!dirExists(homeDirStr))
 		{
 			if (!::wxMkdir(homeDirStr, 0755))

@@ -47,6 +47,8 @@ OptionsParam::OptionsParam() :
 		"Starts a scorched 3d client, requires the name of the client settings file e.g. data/singlecustom.xml", 0, ""),
 	save_(options_, "loadsave",
 		"Continues a scorched 3d client game, requires the name of the saved game.", 0, ""),
+	settingsdir_(options_, "settingsdir",
+		"The directory in the users home directory that the scorched3d settings are stored in.", 0, ".scorched3d"),
 	password_(options_, "password",
 		"The password of the NET/LAN server", 0, ""),
 	help_(options_, "starthelp",

@@ -44,6 +44,7 @@ extern void dialogExit(const char *header, const char *fmt, ...);
 extern const char *formatString(const char *format, ...);
 extern const char *formatStringList(const char *format, va_list ap); 
 
+extern void setSettingsDir(const char *dir);
 extern void setDataFileMod(const char *mod);
 extern const char *getDataFileMod();
 extern bool checkDataFile(const char *file, ...);

@@ -57,6 +57,7 @@ bool parseCommandLine(int argc, char *argv[])
 	aParser.addEntry("-allowexceptions", &allowExceptions, 
 					 "Allows any program exceptions to be thrown (core dumps)");
 	if (!aParser.parse(argc, argv)) return false;
+	setSettingsDir(OptionsParam::instance()->getSettingsDir());
 
 	// Read display options from a file
 	// **This NEEDS to be after the arg parser**
@@ -146,6 +147,10 @@ int main(int argc, char *argv[])
 	sprintf(scorched3dAppName, "Scorched3D - Version %s (%s)", 
 		ScorchedVersion, ScorchedProtocolVersion);
 
+	srand((unsigned)time(0));
+	// Parse command line
+	if (!parseCommandLine(argc, argv)) exit(64);
+
 	// Check we are in the correct directory
 	FILE *checkfile = fopen(getDataFile("data/autoexec.xml"), "r");
 	if (!checkfile)
@@ -172,10 +177,6 @@ int main(int argc, char *argv[])
 	signal(SIGPIPE, SIG_IGN);
 	signal(SIGFPE, SIG_IGN);
 #endif
-
-	srand((unsigned)time(0));
-	// Parse command line
-	if (!parseCommandLine(argc, argv)) exit(64);
 
 	// Init SDL
 	unsigned int initFlags = SDL_INIT_VIDEO;
