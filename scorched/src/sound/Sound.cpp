@@ -18,6 +18,7 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+#include <GLEXT/GLConsole.h>
 #include <common/Defines.h>
 #include <sound/Sound.h>
 #include <sound/SoundBuffer.h>
@@ -92,7 +93,12 @@ bool Sound::init(int channels)
 		return false;
 	}
 
-	ALCcontext *soundContext = alcCreateContext(soundDevice, 0);
+	int attrlist[] = 
+	{ 
+		ALC_FREQUENCY, 11025,
+		ALC_INVALID
+	};
+	ALCcontext *soundContext = alcCreateContext(soundDevice, attrlist);
 	if (!soundContext)
 	{
 		dialogExit("Scorched3D", "Failed to create sound context");
@@ -101,6 +107,18 @@ bool Sound::init(int channels)
 
 	alcMakeContextCurrent(soundContext); 
 	alDistanceModel(AL_INVERSE_DISTANCE);
+
+	GLConsole::instance()->addLine(false, "AL_VENDOR:");
+	GLConsole::instance()->addLine(false, (char *) alGetString(AL_VENDOR));
+	GLConsole::instance()->addLine(false, "AL_VERSION:");
+	GLConsole::instance()->addLine(false, (char *) alGetString(AL_VERSION));
+	GLConsole::instance()->addLine(false, "AL_RENDERER:");
+	GLConsole::instance()->addLine(false, (char *) alGetString(AL_RENDERER));
+	GLConsole::instance()->addLine(false, "AL_EXTENSIONS:");
+	GLConsole::instance()->addLine(false, (char *) alGetString(AL_EXTENSIONS));
+	GLConsole::instance()->addLine(false, "ALC_DEVICE_SPECIFIER:");
+	GLConsole::instance()->addLine(false, (char *) 
+		alcGetString(soundDevice, ALC_DEVICE_SPECIFIER));
 
 	init_ = true;
 	return init_;
