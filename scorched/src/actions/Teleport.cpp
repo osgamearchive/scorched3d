@@ -19,6 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <actions/Teleport.h>
+#include <actions/CameraPositionAction.h>
 #include <sprites/WallActionRenderer.h>
 #include <common/OptionsParam.h>
 #include <tank/TankContainer.h>
@@ -33,7 +34,8 @@ REGISTER_ACTION_SOURCE(Teleport);
 
 Teleport::Teleport() : 
 	totalTime_(0.0f),
-	firstTime_(true)
+	firstTime_(true),
+	vPoint_(0)
 {
 }
 
@@ -44,21 +46,26 @@ Teleport::Teleport(Vector position,
 	playerId_(playerId),
 	weapon_(weapon),
 	totalTime_(0.0f),
-	firstTime_(true)
+	firstTime_(true),
+	vPoint_(0)
 {
 
 }
 
 Teleport::~Teleport()
 {
+	if (vPoint_) context_->viewPoints->releaseViewPoint(vPoint_);
 }
 
 void Teleport::init()
 {
+	vPoint_ = context_->viewPoints->getNewViewPoint(playerId_);
 }
 
 void Teleport::simulate(float frameTime, bool &remove)
 {
+	if (vPoint_) vPoint_->setPosition(position_);
+
 	if (firstTime_)
 	{
 		firstTime_ = false;
@@ -112,5 +119,18 @@ bool Teleport::readAction(NetBufferReader &reader)
 	if (!reader.getFromBuffer(position_)) return false;
 	if (!reader.getFromBuffer(playerId_)) return false;
 	weapon_ = (WeaponTeleport *) context_->accessoryStore->readWeapon(reader); if (!weapon_) return false;
+
+	Tank *movedTank = context_->tankContainer->getTankById(playerId_);
+	if (movedTank)
+	{
+		if (movedTank->getState().getState() == TankState::sNormal)
+		{
+			const float ShowTime = 5.0f;
+			ActionMeta *pos = new CameraPositionAction(
+				position_, ShowTime, 5);
+			context_->actionController->getBuffer().clientAdd(-4.0f, pos);
+		}
+	}
+
 	return true;
 }

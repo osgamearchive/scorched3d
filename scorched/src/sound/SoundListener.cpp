@@ -41,7 +41,8 @@ void SoundListener::setVelocity(Vector &velocity)
 {
 	if (!Sound::instance()->getInit()) return;
 
-	alListenerfv(AL_VELOCITY, velocity);
+	// Commented out to prevent linux crackling sounds
+	//alListenerfv(AL_VELOCITY, velocity);
 }
 
 void SoundListener::setOrientation(Vector &o)

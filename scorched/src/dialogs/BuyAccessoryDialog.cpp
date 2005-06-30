@@ -53,6 +53,7 @@ BuyAccessoryDialog::BuyAccessoryDialog() :
 		addWidget(new GLWTab("Favorites", 10, 40, 450, 160));
 	topPanel_ = (GLWPanel *)
 		addWidget(new GLWPanel(10, 265, 450, 50));
+
 	sortBox_ = (GLWCheckBox *) addWidget(new GLWCheckBox(10, 14));
 	sortBox_->setHandler(this);
 	sortBox_->setW(14);
@@ -77,15 +78,23 @@ void BuyAccessoryDialog::draw()
 		if (addition > 200) addition = 200;
 
 		setH(300 + addition);
-		buyWeaponTab_->setH(160 + addition);
-		sellTab_->setH(160 + addition);
-		buyOtherTab_->setH(160 + addition);
-		favouritesTab_->setH(160 + addition);
+		buyWeaponTab_->setH(165 + addition);
+		sellTab_->setH(165 + addition);
+		buyOtherTab_->setH(165 + addition);
+		favouritesTab_->setH(165 + addition);
 		topPanel_->setY(240 + addition);
 
 		needCentered_ = true;
 	}
+
 	GLWWindow::draw();
+
+	Vector red(0.7f, 0.0f, 0.0f);
+	Vector green(0.0f, 0.4f, 0.0f);
+	GLWFont::instance()->getLargePtFont()->draw(
+		green, 12.0f, x_ + 260.0f, y_ + topPanel_->getY() - 50.0f, 0.0f, "Buy");
+	GLWFont::instance()->getLargePtFont()->draw(
+		red, 12.0f, x_ + 360.0f, y_ + topPanel_->getY() - 50.0f, 0.0f, "Sell");
 }
 
 void BuyAccessoryDialog::addPlayerName()
@@ -94,7 +103,6 @@ void BuyAccessoryDialog::addPlayerName()
 
 	Tank *tank = ScorchedClient::instance()->getTankContainer().getCurrentTank();
 	if (!tank) return;
-
 	topPanel_->addWidget(new GLWFlag(tank->getColor(), 5, 15, 60));
 	topPanel_->addWidget(new GLWLabel(75, 10, (char *) tank->getName()));
 	topPanel_->addWidget(new GLWLabel(260, 20, (char *)

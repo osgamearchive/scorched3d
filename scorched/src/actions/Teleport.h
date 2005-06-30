@@ -22,6 +22,7 @@
 #define __INCLUDE_Teleporth_INCLUDE__
 
 #include <engine/ActionMeta.h>
+#include <engine/ViewPoints.h>
 #include <common/Vector.h>
 #include <weapons/WeaponTeleport.h>
 
@@ -43,6 +44,7 @@ public:
 	REGISTER_ACTION_HEADER(Teleport);
 
 protected:
+	ViewPoints::ViewPoint *vPoint_;
 	bool firstTime_;
 	Vector position_;
 	unsigned int playerId_;
