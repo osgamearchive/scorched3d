@@ -93,12 +93,14 @@ bool Sound::init(int channels)
 		return false;
 	}
 
-	int attrlist[] = 
+	// Setting the frequency seems to cause screeching and
+	// loss of stereo under linux!!
+	/*int attrlist[] = 
 	{ 
 		ALC_FREQUENCY, 11025,
 		ALC_INVALID
-	};
-	ALCcontext *soundContext = alcCreateContext(soundDevice, attrlist);
+	};*/
+	ALCcontext *soundContext = alcCreateContext(soundDevice, 0);
 	if (!soundContext)
 	{
 		dialogExit("Scorched3D", "Failed to create sound context");
