@@ -796,7 +796,8 @@
 				<min>1.0</min><max>1.5</max>
 			</landpeakheight>
 			<landsmoothing>0.04</landsmoothing>
-			<levelsurround>true
+			<levelsurround>true</levelsurround>
+		</surround>
 		<roof type="sky"></roof>
     	<tankstart type="height">
     		<startcloseness>20</startcloseness>
@@ -869,7 +870,8 @@
 				<min>1.0</min><max>1.5</max>
 			</landpeakheight>
 			<landsmoothing>0.04</landsmoothing>
-			<levelsurround>t
+			<levelsurround>true</levelsurround>
+		</surround>
 		<roof type="sky"></roof>
     	<tankstart type="height">
     		<startcloseness>20</startcloseness>
@@ -1413,5 +1415,4 @@
 			<levelsurround>true</levelsurround>
 		</heightmap>
     </defn>
-    
 </defns>
