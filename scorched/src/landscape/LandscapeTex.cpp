@@ -163,6 +163,7 @@ bool LandscapeTexBoids::readXML(XMLNode *node)
 		if (!checkDataFile(sound.c_str())) return false;
 		sounds.push_back(sound);
 	}
+	if (!soundsNode->failChildren()) return false;
 
 	return node->failChildren();
 }
@@ -264,6 +265,7 @@ bool LandscapeTex::readXML(LandscapeDefinitions *definitions, XMLNode *node)
 			if (!definitions->getPlace(placement.c_str())) return false;
 			placements.push_back(placement);
 		}
+		if (!placementsNode->failChildren()) return false;
 	}
 	{
 		XMLNode *soundsNode;
@@ -274,6 +276,7 @@ bool LandscapeTex::readXML(LandscapeDefinitions *definitions, XMLNode *node)
 			if (!definitions->getSound(sound.c_str())) return false;
 			sounds.push_back(sound);
 		}
+		if (!soundsNode->failChildren()) return false;
 	}
 	{
 		XMLNode *borderNode;

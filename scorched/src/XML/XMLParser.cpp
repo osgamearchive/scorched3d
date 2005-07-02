@@ -223,6 +223,18 @@ bool XMLNode::failChildren()
 		node->returnError(formatString("Unrecognised node."));
 		return false;
 	}
+	for (const char *c=content_.c_str(); *c; c++)
+	{
+		if (*c != '\n' &&
+			*c != '\r' &&
+			*c != '\t' &&
+			*c != ' ')
+		{
+			returnError(formatString("Unexpected context : %s", 
+					content_.c_str()));
+			return false;
+		}
+	}
 
 	return true;
 }
