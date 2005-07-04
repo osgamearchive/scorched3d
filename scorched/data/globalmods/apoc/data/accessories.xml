@@ -6765,7 +6765,7 @@ into multiple streams that are aimed
 at nearby targets</description>
 		<icon>flight.bmp</icon>
 		<bundlesize>1</bundlesize>
-		<cost>50000</cost>
+		<cost>60000</cost>
 		<activationsound>explosions/thunder.wav</activationsound>
 		<model type='MilkShape'>flare.txt</model>
 		<modelscale>8</modelscale>

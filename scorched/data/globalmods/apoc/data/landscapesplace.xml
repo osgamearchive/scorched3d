@@ -9,7 +9,7 @@
 		<name>pine</name>
 		<placements>
 			<placement type="trees">
-				<numobjects>1000000</numobjects>
+				<numobjects>600000</numobjects>
 				<numclusters>25</numclusters>
 				<minheight>8</minheight>
 				<maxheight>30</maxheight>
@@ -27,7 +27,7 @@
 		<name>palm</name>
 		<placements>
 			<placement type="trees">
-				<numobjects>1000000</numobjects>
+				<numobjects>600000</numobjects>
 				<numclusters>25</numclusters>
 				<minheight>8</minheight>
 				<maxheight>30</maxheight>
@@ -45,7 +45,7 @@
 		<name>snowpine</name>
 		<placements>
 			<placement type="trees">
-				<numobjects>1000000</numobjects>
+				<numobjects>600000</numobjects>
 				<numclusters>25</numclusters>
 				<minheight>8</minheight>
 				<maxheight>30</maxheight>
