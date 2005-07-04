@@ -3,30 +3,37 @@ If there is anything that you think I may have used in the mod that was original
 name does not appear in the list below, please send an e-mail to bobirov@yahoo.com stating your name and
 the content that is in question.  I don't want to leave anyone out, and I am sorry if I have not listed you.
 
-	- Bobirov
+	- Gavin Camp
+		- Made it all possible and has implemented many, many things in the game which were not necessary to recreate Scorched Earth but have made it possible to create so much more.  Without his deligence and attention to his user base, most of this mod would not be possible.  Thank you so much.
+	
+	- Bobirov (Robert Hand)
 		Landscapes:
-			- apoccity, bighill, bullseye, colosseum, maze, mountains, pillars, plateau, ring, ruffles, usa, volcano, world
-		- Sounds:
+			- apoccity, bighill, bullseye, colosseum, maze, mountains, pillars, plateau, ring, ruffles, usa, world
+		Sounds:
 			- Made thud.wav, gas.wav myself
 			- Made tripleshot.wav using the flare sound
 			- Made lightningbolt using two sounds from findsounds.com
 			- obtained the rest from various sources on the net (findsounds.com mostly)
-		- Textures:
+		Textures:
 			- cloud00, gas00 and light00 explosion textures 
 			- all the custom weapon icons
-		- All custom accessory code unless stated otherwise
-		- Wrote all other additional xml for version 38 (updating landscapes, object placement, ai types, etc)
-		- Final scaling, repositioning and poly reduction of the building models
+		Projectile Models:
+			- bullet
+		Object Models:
+			- gasstation1, office3
+		- All custom accessory xml unless stated otherwise
+		- Wrote most of the additional xml (updating landscapes, object placement, ai types, etc)
+		- Final scaling, repositioning, poly reduction and retexturing of the building models
 	
 	- ShoCkwaVe
-		Projectile Models (models and texturing):
+		Projectile Models:
 			- fusionbarrel, m7a3grenade, redhornet, remorcebomblet texture, shockbomblet, shockrocket
-		Object Models (including burnt versions and all texturing):
-			- church1, cityoffice, factory1, farm1, house1, logcabin1, officeplaza1, store1, trailorhouse1, boulders, cactus, smalloak, deer
+		Object Models (including burnt versions and original texturing):
+			- church1, cityoffice, factory1, farm1, house1, logcabin1, officeplaza1, store1, trailorhouse1
+		Weapon Models
+			- 50cal
 		Landscapes:
 			- arizonaislands
-		Textures:
-			- acid00
 	
 	- Nexus6
 		- Landscapes:
@@ -41,4 +48,6 @@ the content that is in question.  I don't want to leave anyone out, and I am sor
 	- R@p7oR
 		Projectile Models:
 			- napalm
+		Sounds
+			- bhit, machinegun (slightly edited by me though to reduce number of shots)
 			

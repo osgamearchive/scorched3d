@@ -9,53 +9,35 @@ All original work contained in the mod is copyright.  Legal information can be f
 Official Apocalypse Site:  http://apochq.handwired.net
 Official Scorched 3D Site:  http://scorched3d.co.uk
 
-Changes Since 1.6
+Changes Since 2.0
 	New Accessories:
-		- Bottomless Pit - Creates a narrow but deep pit at the point of impact
-		- Earthquake - shakes the earth and does damage over a large area
-		- EMP Grenade - Bounces once and explodes causing damage to opponents without deforming the earth
-		- Frag Grenade - Bounces once and does a fairly small explosion which releases some shrapnel
-		- Gas Grenade - Lands, bounces and releases a cloud of harmful gas.  Custom model by ShoCkwaVe
-		- Hornet Swarm - Releases multiple Hornet's Nests
-		- Lightning Strike - Explodes at the apex of the projectiles arc creating a small cloud and lightning bolt
-		- Lightning Storm - Explodes at the apex of the projectile's arc creating several lightning bolts over a few seconds
-		- Mega EMP - Larger version of the EMP grenade
-		- Ring of Dirt - Raises multiple walls of dirt forming a ring around your tank
-		- Riot Drill - 3 heavy riot bombs are shot in rapid succession at the same point
-		- Wall of Dirt - Raises a wall of dirt a short distance from your tank in the direction you aim
-
+		- M2 Machinegun - Shoots five 50cal shells in rapid succession
+			- Sounds by R@p7or (from the RaptorMod)
+			- Weapon model by ShockWave (from the Shock Mod)
+			- Projectile model & code by Bobirov
+		- Teleport
+		- Lasers
+			
 	Other Accessory Changes:
-		- Acidic Napalm - Secondary, random splash when the bomblets impact, new texture
-		- Acid Splash - Bounces once releasing additional random bomblets.  New model/texture by ShoCkwaVe
-		- Chain Lightning - Travels in straight lines from point to point instead of bouncing
-		- Fire Worms - More projectiles/cost, diggers are less accurate and slower
-		- Fork Lightning - Same new effect as chain lightning
-		- Hornet's Nest - Releases all the hornet's over a period of time.  New model by ShoCkwaVe
-		- Mega MIRVs - Larger explosions but less of them
-		- Meteors:
-			- New delayed smolder before the meteor appears
-			- More flaming earth but now flys in random directions
-		- Quicksand - Stays below ground, diggers are slower moving
-		- Shockwave - Now an energy wave that ripples outward instead of bouncing
-		- Shockwave m2 - added multicolor tags and renamed to the Disco Bunny
-		- Suicide Bomb - Short Delay before the explosion goes off
-		
+		- Shield pricing/power tweaked slightly
+		- Lightning:
+			- cloud effect altered slightly
+			- Lightning Storm no longer generates the projectiles while spreading (looks better)
+		- Acid Rain/Hell Storm now a little more rain like
+			
 	Landscapes:
-		- Apoc City - New landscape that comes complete with a sprawling city to destroy
-		- Arizona Islands - New island map by ShoCkwaVe
-		- Volcano - A single island with a volcano in the middle
-		- Maze - raised the entire map up some, lowered wall height and widened the lanes to make the map easier.  Also tweaked the map so napalm works better
-		- Cities added to some other maps
-		- Moon maps have a new texture set and rocks added to the landscape
-		- Desert maps have rocks and cactus
-	
+		- Cities added to even more maps
+		- New stormy city layouts
+		- Buildings now explode and generate debris and smoke when destroyed or napalmed
+		- New buildings: 
+			- office3
+			- gasstation1 - note: explodes and causes damage when destroyed or napalmed, check it out.
+		- Retextured many of the existing buildings
+		- Moon and desert texture layouts applied to more maps than just Pyramids/Moon
+			
 	Other:
-		- New elemental AI types based off of the new Cyborg AI type
-		- New default single player settings for the mod
-		- Mod Updated For Compatibility With Scorched3D version 38
-		- Most of the custom weapons have their own icons
-		- Several weapons commented out or removed for various reasons :P
-			- Acidic Napalm, Baby Funk, Fungal Bloom, Large Missile, Napalm Blast, Napalm Splash, Roller MIRV, Roller S-MIRV, Sandfish, Sandhog Blast, Shotgun, Terraform, X-MIRV
+		- New custom GUI windows by Bobirov
+		- Mod Updated For Compatibility With Scorched3D version 39
 
 ----------------------------------------------------
                      Files
@@ -69,8 +51,9 @@ data/				- Directory containing all data files and other media used by the mod
 accessories.xml		- File containing all the item/weapons for the game
 ainames.txt			- Contains the custom names for the bots (all names of countries for Apocalypse)
 landscapes.xml		- File containing basic landscape data
-landscapesdefn.xml	- Detailed landscape data
-landscapestex.xml	- Defines all the texture (and object) layouts that are used by the landscapes
+landscapesdefn.xml	- Info regarding the shape of the landscapes
+landscapesplace.xml - Info regarding placement of the landscape objects
+landscapestex.xml	- Defines all the texture layouts that are used by the landscapes
 server.xml			- Example Server settings for running an Apocalypse Server
 singletarget.xml	- Default target practice game settings
 singleeasy.xml		- Default easy difficulty single player game settings
@@ -84,6 +67,7 @@ data/accessories/*	- All custom models and their textures used by the mod
 data/landscapes/*	- All the custom heightmap and picture files for Apocalypse landscapes
 data/textures/*		- All custom weapon icons, explosion textures or landscape textures used by the mod
 data/wav/*			- All custom sounds used by the mod
+data/windows/*		- GUI windows
 
 Note: Server settings are not required but are provided as an example
 
@@ -96,16 +80,13 @@ If you would like to add any of these weapons to your server, simply remove the 
 Acid Blast		- Explodes releasing some small, earth eating bomblets
 Acid Rain		- Non damaging, earth eating rain
 Acid Splash		- Explodes on impact and splashes dirt eating bomblets all over the area
-Acidic Napalm	x Explodes on impact releasing dirt eating/burning bomblets 
 Apocalypse		- Warhead that splits a few times in the air realeasing many medium sized nuclear warheads
 Atlantis Bomb	- Explodes in the air and releases many dirt eating bombs that destroy most of the map without doing physical damage to tanks
-Baby Funk		x Small Funky Bomb
 Baby Napalm		- Free, weak version of napalm
 Bottomless Pit  - Creates a narrow but deep pit at the point of impact
 BouncingBetty	- Bomb that bounces and releases multiple explosive warheads
 Bunny Bomb		- MIRV with leaping warheads
 Chain Lightning - Explodes and releases an aimed arc of electricity with courses through the ground aimed at nearby tanks
-Digger Blast	x Explodes on contact and releases many baby diggers
 Disco Bunny		- Releases an initial salvo of aimed warheads which bounce outwards creating more warheads as they bounce
 Dmsday Device	- Larger, more destructive version of Apocalypse
 Earthquake      - shakes the earth and does damage over a large area
@@ -114,7 +95,6 @@ Fatman			- In between a nuke and a MOAB
 Fire Ants		- MIRV that releases multiple rolling, explosive napalm warheads
 Fire Worms		- Creates a series of slow-moving, explosive napalm diggers
 Fork Lightning	- Larger version of chain lightning which splits up into several arcs as it progresses
-Fungal Bloom	x Bomb that explodes and spreads dirt everywhere
 Gas Grenade     - Lands, bounces and releases a cloud of harmful gas.  Custom model by ShoCkwaVe
 Haymaker		- MIRV with Bouncing Betty warheads
 Hellstorm		- Firey/explosive rain
@@ -123,6 +103,7 @@ Hornet Swarm    - Releases multiple Hornet's Nests
 Instamountain	- Creates a mountain of dirt upon impacting the ground
 Lightning Bolt  - Explodes at the apex of the projectile's arc creating a small cloud and lightning bolt
 Lightning Storm - Explodes at the apex of the projectile's arc creating several lightning bolts over a few seconds
+M2 Machinegun   - Shoots five 50 caliber machinegun bullets in rapid succession.
 Mega EMP        - Larger, more powerful version of the EMP grenade
 Mega Meteor		- Larger, more powerful version of meteor
 Mega MIRV		- Larger, more powerful version of the standard MIRV
@@ -130,20 +111,15 @@ Mega S-MIRV		- Larger, more powerful version of the spread MIRV
 Meteor			- Meteor appears at the peak of flight and lands scattering flaming earth
 Meteor Shower	- Creates many meteors that rain down upon everyone
 MOAB			- Super-sized Nuke
-Napalm Blast	x Explodes on impact and releases many small napalm bomblets
+Napalm Blast	- Explodes on impact and releases many small napalm bomblets
 Napalm MIRV		- MIRV with napalm warheads
 Napalm S-MIRV	- Spread MIRV with napalm warheads
 Quicksand		- Explodes on impact releasing a series of slow-moving, poorly aimed diggers
 Ring of Dirt    - Raises multiple dirt walls that form a ring around you
 Riot Drill      - 3 heavy riot bombs are shot in rapid succession at the same point
-Roller MIRV		x MIRV with rolling warheads
-Roller S-MIRV	x Rolling Spread MIRV
-Sandfish		x Explodes on impact releasing several leaping sandhogs
-Sandhog Blast	x Explodes on contact and releases many baby sandhogs
 Shockwave		- Creates a massive energy wave which ripples outwards without destroying the landscape
 Strangelove		- The end game weapon
 Suicide Bomb	- Detonates yourself causing a huge, powerful explosion
-Terraform		x Raises dirt over a huge area when fired high into the air
 The Travolta	- Super-sized Funky Bomb
 Wall of Dirt    - Raises a small wall of dirt a short distance from your tank in the direction you aim
 
