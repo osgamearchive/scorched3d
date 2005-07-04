@@ -104,7 +104,7 @@ work.</description>
 		<icon>hshield.bmp</icon>
 		<activationsound>shield/activate.wav</activationsound>
 		<bundlesize>1</bundlesize>
-		<cost>12000</cost>
+		<cost>15000</cost>
 		<accessoryaction type='Shield'>
 			<radius>large</radius>
 			<halfshield>false</halfshield>
@@ -155,7 +155,7 @@ they work.</description>
 		<icon>fshield.bmp</icon>
 		<activationsound>shield/activateforce.wav</activationsound>
 		<bundlesize>1</bundlesize>
-		<cost>12000</cost>
+		<cost>15000</cost>
 		<accessoryaction type='ShieldReflective'>
 			<deflectfactor>1.0</deflectfactor>
 			<radius>large</radius>
@@ -252,7 +252,7 @@ activated before they work.</description>
 		<armslevel>10</armslevel>
 		<maximumnumber>0</maximumnumber>
 		<accessoryaction type='WeaponDelay'>
-			<delay>0.33</delay>
+			<delay>0.25</delay>
 			<delayedweapon type='WeaponMulti'>
 				<subweapon1 type='WeaponExplosion'>
 					<hurtamount>0</hurtamount>
@@ -280,7 +280,7 @@ activated before they work.</description>
 		<armslevel>10</armslevel>
 		<maximumnumber>0</maximumnumber>
 		<accessoryaction type='WeaponDelay'>
-			<delay>0.33</delay>
+			<delay>0.25</delay>
 			<delayedweapon type='WeaponMulti'>
 				<subweapon1 type='WeaponNapalm'>
 					<allowunderwater>false</allowunderwater>
@@ -313,7 +313,7 @@ activated before they work.</description>
 		<armslevel>10</armslevel>
 		<maximumnumber>0</maximumnumber>
 		<accessoryaction type='WeaponDelay'>
-			<delay>0.33</delay>
+			<delay>0.25</delay>
 			<delayedweapon type='WeaponMulti'>
 				<subweapon1 type='WeaponExplosion'>
 					<hurtamount>0</hurtamount>
@@ -341,7 +341,7 @@ activated before they work.</description>
 		<armslevel>10</armslevel>
 		<maximumnumber>0</maximumnumber>
 		<accessoryaction type='WeaponDelay'>
-			<delay>0.33</delay>
+			<delay>0.25</delay>
 			<delayedweapon type='WeaponMulti'>
 				<subweapon1 type='WeaponNapalm'>
 					<allowunderwater>false</allowunderwater>
@@ -374,7 +374,7 @@ activated before they work.</description>
 		<armslevel>4</armslevel>
 		<maximumnumber>0</maximumnumber>
 		<accessoryaction type='WeaponDelay'>
-			<delay>0.33</delay>
+			<delay>0.25</delay>
 			<delayedweapon type='WeaponMulti'>
 				<subweapon1 type='WeaponExplosion'>
 					<hurtamount>0.8</hurtamount>
@@ -391,6 +391,7 @@ activated before they work.</description>
 					<hurtamount>0</hurtamount>
 					<deform>none</deform>
 					<size>8</size>
+					<explosionshake>2.0</explosionshake>
 					<explosionsound>none</explosionsound>
 					<explosiontexture>cloud00-5</explosiontexture>
 				</subweapon2>
@@ -625,7 +626,7 @@ activated before they work.</description>
 				<nocreatesplash></nocreatesplash>
 				<noluminance></noluminance>
 				<nowindaffected></nowindaffected>
-				<minlife>3</minlife>
+				<minlife>4</minlife>
 				<maxlife>5</maxlife>
 				<hurtamount>0</hurtamount>
 				<deform>none</deform>
@@ -649,7 +650,7 @@ activated before they work.</description>
 							<noluminance></noluminance>
 							<nocreatedebris></nocreatedebris>
 							<nocreatesplash></nocreatesplash>
-							<minlife>2</minlife>
+							<minlife>3</minlife>
 							<maxlife>4</maxlife>
 							<hurtamount>0</hurtamount>
 							<deform>none</deform>
@@ -678,7 +679,7 @@ activated before they work.</description>
 								<noluminance></noluminance>
 								<nocreatedebris></nocreatedebris>
 								<nocreatesplash></nocreatesplash>
-								<minlife>2</minlife>
+								<minlife>3</minlife>
 								<maxlife>4</maxlife>
 								<hurtamount>0</hurtamount>
 								<deform>none</deform>
@@ -708,7 +709,7 @@ activated before they work.</description>
 								<noluminance></noluminance>
 								<nocreatedebris></nocreatedebris>
 								<nocreatesplash></nocreatesplash>
-								<minlife>2</minlife>
+								<minlife>3</minlife>
 								<maxlife>4</maxlife>
 								<hurtamount>0</hurtamount>
 								<deform>none</deform>
@@ -738,7 +739,7 @@ activated before they work.</description>
 								<noluminance></noluminance>
 								<nocreatedebris></nocreatedebris>
 								<nocreatesplash></nocreatesplash>
-								<minlife>2</minlife>
+								<minlife>3</minlife>
 								<maxlife>4</maxlife>
 								<hurtamount>0</hurtamount>
 								<deform>none</deform>
@@ -762,7 +763,7 @@ activated before they work.</description>
 				<nocreatesplash></nocreatesplash>
 				<noluminance></noluminance>
 				<nowindaffected></nowindaffected>
-				<minlife>3</minlife>
+				<minlife>4</minlife>
 				<maxlife>5</maxlife>
 				<hurtamount>0</hurtamount>
 				<deform>none</deform>
@@ -786,8 +787,8 @@ activated before they work.</description>
 							<noluminance></noluminance>
 							<nocreatedebris></nocreatedebris>
 							<nocreatesplash></nocreatesplash>
-							<minlife>2</minlife>
-							<maxlife>4</maxlife>
+							<minlife>3</minlife>
+							<maxlife>5</maxlife>
 							<hurtamount>0</hurtamount>
 							<deform>none</deform>
 							<size>6</size>
@@ -815,8 +816,8 @@ activated before they work.</description>
 								<noluminance></noluminance>
 								<nocreatedebris></nocreatedebris>
 								<nocreatesplash></nocreatesplash>
-								<minlife>2</minlife>
-								<maxlife>4</maxlife>
+								<minlife>3</minlife>
+								<maxlife>5</maxlife>
 								<hurtamount>0</hurtamount>
 								<deform>none</deform>
 								<size>6</size>
@@ -845,8 +846,8 @@ activated before they work.</description>
 								<noluminance></noluminance>
 								<nocreatedebris></nocreatedebris>
 								<nocreatesplash></nocreatesplash>
-								<minlife>2</minlife>
-								<maxlife>4</maxlife>
+								<minlife>3</minlife>
+								<maxlife>5</maxlife>
 								<hurtamount>0</hurtamount>
 								<deform>none</deform>
 								<size>6</size>
@@ -875,8 +876,8 @@ activated before they work.</description>
 								<noluminance></noluminance>
 								<nocreatedebris></nocreatedebris>
 								<nocreatesplash></nocreatesplash>
-								<minlife>2</minlife>
-								<maxlife>4</maxlife>
+								<minlife>3</minlife>
+								<maxlife>5</maxlife>
 								<hurtamount>0</hurtamount>
 								<deform>none</deform>
 								<size>6</size>
@@ -1911,6 +1912,7 @@ arc raining massive destruction upon the field.</description>
 										<collisionaction type='WeaponMulti'>
 											<subweapon1 type='WeaponProjectile'>
 												<nocreateflame></nocreateflame>
+												<nocreatesmoke></nocreatesmoke>
 												<projectilemodel type='MilkShape'>mirvwarhead/mirvwarhead.txt</projectilemodel>
 												<collisionaction type='WeaponExplosion'>
 													<deform>down</deform>
@@ -1981,7 +1983,7 @@ arc raining massive destruction upon the field.</description>
 							<inaccuracy>5</inaccuracy>
 							<nowarheads>4</nowarheads>
 							<aimedweapon type='WeaponProjectile'>
-								<nocreateflame></nocreateflame>
+								<nocreatesmoke></nocreatesmoke>
 								<apexcollision></apexcollision>
 								<projectilescale>3</projectilescale>
 								<projectilemodel type='MilkShape'>mirvwarhead/mirvwarhead.txt</projectilemodel>
@@ -2013,6 +2015,7 @@ arc raining massive destruction upon the field.</description>
 												<projectilemodel type='MilkShape'>mirvwarhead/mirvwarhead.txt</projectilemodel>
 												<collisionaction type='WeaponMulti'>
 													<subweapon1 type='WeaponProjectile'>
+														<nocreatesmoke></nocreatesmoke>
 														<nocreateflame></nocreateflame>
 														<projectilemodel type='MilkShape'>mirvwarhead/mirvwarhead.txt</projectilemodel>
 														<collisionaction type='WeaponExplosion'>
@@ -3507,7 +3510,7 @@ aimed at enemy tanks.</description>
 		<maximumnumber>0</maximumnumber>
 		<accessoryaction type='WeaponMulti'>
 			<subweapon1 type='WeaponAimedOver'>
-				<nowarheads>4</nowarheads>
+				<nowarheads>3</nowarheads>
 				<percentagemiss>20</percentagemiss>
 				<maxaimdistance>50</maxaimdistance>
 				<inaccuracy>10</inaccuracy>
@@ -3515,7 +3518,7 @@ aimed at enemy tanks.</description>
 					<habs>false</habs>
 					<vabs>true</vabs>
 					<hredirect>0</hredirect>
-					<vredirect>120</vredirect>
+					<vredirect>160</vredirect>
 					<nextaction type='WeaponProjectile'>
 						<nocreatesmoke></nocreatesmoke>
 						<projectilescale>0.5</projectilescale>
@@ -3523,7 +3526,7 @@ aimed at enemy tanks.</description>
 						<collisionaction type='WeaponMulti'>
 							<subweapon1 type='WeaponExplosion'>
 								<deform>down</deform>
-								<hurtamount>0.8</hurtamount>
+								<hurtamount>0.6</hurtamount>
 								<size>4</size>
 								<explosionsound>explosions/small.wav</explosionsound>
 								<explosiontexture>exp00</explosiontexture>
@@ -3545,9 +3548,9 @@ aimed at enemy tanks.</description>
 				</aimedweapon>
 			</subweapon1>
 			<subweapon2 type='WeaponDelay'>
-				<delay>0.5</delay>
+				<delay>0.66</delay>
 				<delayedweapon type='WeaponAimedOver'>
-					<nowarheads>2</nowarheads>
+					<nowarheads>3</nowarheads>
 					<percentagemiss>20</percentagemiss>
 					<maxaimdistance>50</maxaimdistance>
 					<inaccuracy>10</inaccuracy>
@@ -3555,7 +3558,7 @@ aimed at enemy tanks.</description>
 						<habs>false</habs>
 						<vabs>true</vabs>
 						<hredirect>0</hredirect>
-						<vredirect>120</vredirect>
+						<vredirect>160</vredirect>
 						<nextaction type='WeaponProjectile'>
 							<nocreatesmoke></nocreatesmoke>
 							<projectilescale>0.33</projectilescale>
@@ -3563,16 +3566,16 @@ aimed at enemy tanks.</description>
 							<collisionaction type='WeaponMulti'>
 								<subweapon1 type='WeaponExplosion'>
 									<deform>down</deform>
-									<hurtamount>0.7</hurtamount>
+									<hurtamount>0.5</hurtamount>
 									<size>4</size>
 									<explosionsound>explosions/small.wav</explosionsound>
 									<explosiontexture>exp00</explosiontexture>
 								</subweapon1>
 								<subweapon2 type='WeaponNapalm'>
 									<allowunderwater>false</allowunderwater>
-									<napalmtime>4.0</napalmtime>
+									<napalmtime>5.0</napalmtime>
 									<napalmheight>1.5</napalmheight>
-									<steptime>0.5</steptime>
+									<steptime>0.33</steptime>
 									<hurtsteptime>2.0</hurtsteptime>
 									<hurtpersecond>1.2</hurtpersecond>
 									<numberstreams>1</numberstreams>
@@ -3586,9 +3589,9 @@ aimed at enemy tanks.</description>
 				</delayedweapon>
 			</subweapon2>
 			<subweapon3 type='WeaponDelay'>
-				<delay>1.0</delay>
+				<delay>1.33</delay>
 				<delayedweapon type='WeaponAimedOver'>
-					<nowarheads>2</nowarheads>
+					<nowarheads>3</nowarheads>
 					<percentagemiss>20</percentagemiss>
 					<maxaimdistance>50</maxaimdistance>
 					<inaccuracy>10</inaccuracy>
@@ -3604,7 +3607,7 @@ aimed at enemy tanks.</description>
 							<collisionaction type='WeaponMulti'>
 								<subweapon1 type='WeaponExplosion'>
 									<deform>down</deform>
-									<hurtamount>0.6</hurtamount>
+									<hurtamount>0.4</hurtamount>
 									<size>4</size>
 									<explosionsound>explosions/small.wav</explosionsound>
 									<explosiontexture>exp00</explosiontexture>
@@ -3613,7 +3616,7 @@ aimed at enemy tanks.</description>
 									<allowunderwater>false</allowunderwater>
 									<napalmtime>4.0</napalmtime>
 									<napalmheight>1.5</napalmheight>
-									<steptime>0.5</steptime>
+									<steptime>0.4</steptime>
 									<hurtsteptime>2.0</hurtsteptime>
 									<hurtpersecond>1.2</hurtpersecond>
 									<numberstreams>1</numberstreams>
@@ -3627,9 +3630,9 @@ aimed at enemy tanks.</description>
 				</delayedweapon>
 			</subweapon3>
 			<subweapon4 type='WeaponDelay'>
-				<delay>1.5</delay>
+				<delay>2.0</delay>
 				<delayedweapon type='WeaponAimedOver'>
-					<nowarheads>2</nowarheads>
+					<nowarheads>3</nowarheads>
 					<percentagemiss>20</percentagemiss>
 					<maxaimdistance>50</maxaimdistance>
 					<inaccuracy>10</inaccuracy>
@@ -3645,7 +3648,7 @@ aimed at enemy tanks.</description>
 							<collisionaction type='WeaponMulti'>
 								<subweapon1 type='WeaponExplosion'>
 									<deform>down</deform>
-									<hurtamount>0.5</hurtamount>
+									<hurtamount>0.4</hurtamount>
 									<size>4</size>
 									<explosionsound>explosions/small.wav</explosionsound>
 									<explosiontexture>exp00</explosiontexture>
@@ -4331,10 +4334,11 @@ physical damage.</description>
 		<name>Acid Splash</name>
 		<armslevel>4</armslevel>
 		<description>Explodes creating other smaller acid warheads 
-that continue bouncing outward.</description>
+that eat dirt and continue bouncing outward.
+It does no physical damage to tanks.</description>
 		<icon>asplash.bmp</icon>
 		<bundlesize>1</bundlesize>
-		<cost>10000</cost>
+		<cost>8000</cost>
 		<activationsound>shoot/flare.wav</activationsound>
 		<model type='MilkShape'>fusionbarrel/fusionbarrel.txt</model>
 		<modelscale>2</modelscale>
@@ -6224,7 +6228,7 @@ missiles target nearby tanks.</description>
 				<delay>2.0</delay>
 				<delayedweapon type='WeaponMulti'>
 					<subweapon1 type='WeaponAimedOver'>
-						<nowarheads>2</nowarheads>
+						<nowarheads>1</nowarheads>
 						<percentagemiss>0</percentagemiss>
 						<maxaimdistance>40</maxaimdistance>
 						<inaccuracy>0</inaccuracy>
@@ -6483,10 +6487,6 @@ missiles target nearby tanks.</description>
 					<subweapon3 type='WeaponSkyFlash'></subweapon3>
 				</delayedweapon>
 			</subweapon1>
-			<!-- Extra Cloud Effects -->
-			<subweapon2 type='WeaponReference'>
-				<weapon>Clouds-Grey</weapon>
-			</subweapon2>
 		</accessoryaction>
 	</accessory>
 	<accessory>
@@ -6494,7 +6494,7 @@ missiles target nearby tanks.</description>
 		<armslevel>3</armslevel>
 		<description>A bolt of lightning that streaks
 down from the apex of the projectiles arc</description>
-		<icon>light.bmp</icon>
+		<icon>lstrike.bmp</icon>
 		<bundlesize>1</bundlesize>
 		<cost>20000</cost>
 		<activationsound>shoot/flare.wav</activationsound>
@@ -6506,9 +6506,21 @@ down from the apex of the projectiles arc</description>
 			<apexcollision></apexcollision>
 			<projectilescale>2.5</projectilescale>
 			<projectilemodel type='MilkShape'>shockrocket/shockrocket.txt</projectilemodel>
-			<collisionaction type='WeaponReference'>
-				<weapon>Lightning Bolt</weapon>
-				<armslevel>1</armslevel>
+			<collisionaction type='WeaponMulti'>
+				<subweapon1 type='WeaponReference'>
+					<weapon>Clouds-Grey</weapon>
+				</subweapon1>
+				<subweapon2 type='WeaponReference'>
+					<weapon>Lightning Bolt</weapon>
+					<armslevel>1</armslevel>
+				</subweapon2>
+				<subweapon3 type='WeaponDelay'>
+					<delay>0.5</delay>
+					<delayedweapon type='WeaponReference'>
+						<weapon>Lightning Bolt</weapon>
+						<armslevel>1</armslevel>
+					</delayedweapon>
+				</subweapon3>
 			</collisionaction>
 		</accessoryaction>
 	</accessory>
@@ -6951,7 +6963,7 @@ energy wave that ripples outward horizontally</description>
 		<armslevel>1</armslevel>
 		<description>Projectile explodes at the height of its
 arc creating several lightning bolts over a few seconds</description>
-		<icon>flight.bmp</icon>
+		<icon>lstorm.bmp</icon>
 		<bundlesize>1</bundlesize>
 		<cost>75000</cost>
 		<activationsound>explosions/shockwave.wav</activationsound>
@@ -6964,9 +6976,21 @@ arc creating several lightning bolts over a few seconds</description>
 			<projectilescale>5.0</projectilescale>
 			<projectilemodel type='MilkShape'>shockrocket/shockrocket.txt</projectilemodel>
 			<collisionaction type='WeaponMulti'>
-				<subweapon1 type='WeaponReference'>
-					<weapon>Lightning Bolt</weapon>
-					<armslevel>0</armslevel>
+				<subweapon1 type='WeaponMulti'>
+					<subweapon1 type='WeaponReference'>
+						<weapon>Clouds-Grey</weapon>
+					</subweapon1>
+					<subweapon2 type='WeaponReference'>
+						<weapon>Lightning Bolt</weapon>
+						<armslevel>1</armslevel>
+					</subweapon2>
+					<subweapon3 type='WeaponDelay'>
+						<delay>0.5</delay>
+						<delayedweapon type='WeaponReference'>
+							<weapon>Lightning Bolt</weapon>
+							<armslevel>1</armslevel>
+						</delayedweapon>
+					</subweapon3>
 				</subweapon1>
 				<subweapon2 type='WeaponDelay'>
 					<delay>0.33</delay>
@@ -6977,9 +7001,21 @@ arc creating several lightning bolts over a few seconds</description>
 						<vredirect>90</vredirect>
 						<nextaction type='WeaponTranslate'>
 							<translatedist>25</translatedist>
-							<nextaction type='WeaponReference'>
-								<armslevel>0</armslevel>
-								<weapon>Lightning Bolt</weapon>
+							<nextaction type='WeaponMulti'>
+								<subweapon1 type='WeaponReference'>
+									<weapon>Clouds-Grey</weapon>
+								</subweapon1>
+								<subweapon2 type='WeaponReference'>
+									<weapon>Lightning Bolt</weapon>
+									<armslevel>1</armslevel>
+								</subweapon2>
+								<subweapon3 type='WeaponDelay'>
+									<delay>0.5</delay>
+									<delayedweapon type='WeaponReference'>
+										<weapon>Lightning Bolt</weapon>
+										<armslevel>1</armslevel>
+									</delayedweapon>
+								</subweapon3>
 							</nextaction>
 						</nextaction>
 					</delayedweapon>
@@ -6993,9 +7029,21 @@ arc creating several lightning bolts over a few seconds</description>
 						<vredirect>90</vredirect>
 						<nextaction type='WeaponTranslate'>
 							<translatedist>25</translatedist>
-							<nextaction type='WeaponReference'>
-								<armslevel>0</armslevel>
-								<weapon>Lightning Bolt</weapon>
+							<nextaction type='WeaponMulti'>
+								<subweapon1 type='WeaponReference'>
+									<weapon>Clouds-Grey</weapon>
+								</subweapon1>
+								<subweapon2 type='WeaponReference'>
+									<weapon>Lightning Bolt</weapon>
+									<armslevel>1</armslevel>
+								</subweapon2>
+								<subweapon3 type='WeaponDelay'>
+									<delay>0.5</delay>
+									<delayedweapon type='WeaponReference'>
+										<weapon>Lightning Bolt</weapon>
+										<armslevel>1</armslevel>
+									</delayedweapon>
+								</subweapon3>
 							</nextaction>
 						</nextaction>
 					</delayedweapon>
@@ -7009,9 +7057,21 @@ arc creating several lightning bolts over a few seconds</description>
 						<vredirect>90</vredirect>
 						<nextaction type='WeaponTranslate'>
 							<translatedist>25</translatedist>
-							<nextaction type='WeaponReference'>
-								<armslevel>0</armslevel>
-								<weapon>Lightning Bolt</weapon>
+							<nextaction type='WeaponMulti'>
+								<subweapon1 type='WeaponReference'>
+									<weapon>Clouds-Grey</weapon>
+								</subweapon1>
+								<subweapon2 type='WeaponReference'>
+									<weapon>Lightning Bolt</weapon>
+									<armslevel>1</armslevel>
+								</subweapon2>
+								<subweapon3 type='WeaponDelay'>
+									<delay>0.5</delay>
+									<delayedweapon type='WeaponReference'>
+										<weapon>Lightning Bolt</weapon>
+										<armslevel>1</armslevel>
+									</delayedweapon>
+								</subweapon3>
 							</nextaction>
 						</nextaction>
 					</delayedweapon>
@@ -7025,9 +7085,21 @@ arc creating several lightning bolts over a few seconds</description>
 						<vredirect>90</vredirect>
 						<nextaction type='WeaponTranslate'>
 							<translatedist>25</translatedist>
-							<nextaction type='WeaponReference'>
-								<armslevel>0</armslevel>
-								<weapon>Lightning Bolt</weapon>
+							<nextaction type='WeaponMulti'>
+								<subweapon1 type='WeaponReference'>
+									<weapon>Clouds-Grey</weapon>
+								</subweapon1>
+								<subweapon2 type='WeaponReference'>
+									<weapon>Lightning Bolt</weapon>
+									<armslevel>1</armslevel>
+								</subweapon2>
+								<subweapon3 type='WeaponDelay'>
+									<delay>0.5</delay>
+									<delayedweapon type='WeaponReference'>
+										<weapon>Lightning Bolt</weapon>
+										<armslevel>1</armslevel>
+									</delayedweapon>
+								</subweapon3>
 							</nextaction>
 						</nextaction>
 					</delayedweapon>

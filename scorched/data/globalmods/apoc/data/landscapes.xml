@@ -468,9 +468,9 @@
 			<item>desert mesa</item>
 		</defn>
 		<tex>
-			<item>city1-summer</item>
-			<item>city1-winter</item>
-			<item>city1-storm</item>
+			<item>default</item>
+			<item>snow</item>
+			<item>storm</item>
 			<item>moon</item>
 			<item>tropical</item>
 			<item>desert</item>
