@@ -23,12 +23,14 @@ Changes Since 2.0
 		- Lightning:
 			- cloud effect altered slightly
 			- Lightning Storm no longer generates the projectiles while spreading (looks better)
+			- Broke the two bolts up with a slight delay so you can tell its two bolts per strike, looks cooler and works better.
 		- Acid Rain/Hell Storm now a little more rain like
 			
 	Landscapes:
 		- Cities added to even more maps
 		- New stormy city layouts
 		- Buildings now explode and generate debris and smoke when destroyed or napalmed
+		- Factorys now release gas when destroyed
 		- New buildings: 
 			- office3
 			- gasstation1 - note: explodes and causes damage when destroyed or napalmed, check it out.

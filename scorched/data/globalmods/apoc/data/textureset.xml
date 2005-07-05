@@ -85,6 +85,15 @@
 		<texture>textures/explode/gas00_7.bmp</texture>
 		<texture>textures/explode/gas00_8.bmp</texture>
 	</textureset>
+	<textureset name="gas00-1">
+		<texture>textures/explode/gas00_1.bmp</texture>
+	</textureset>
+	<textureset name="gas00-3">
+		<texture>textures/explode/gas00_3.bmp</texture>
+	</textureset>
+	<textureset name="gas00-5">
+		<texture>textures/explode/gas00_5.bmp</texture>
+	</textureset>
 	<textureset name="cloud00">
 		<!--<texture>textures/explode/cloud00_1.bmp</texture>-->
 		<texture>textures/explode/cloud00_2.bmp</texture>

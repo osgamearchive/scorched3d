@@ -445,7 +445,7 @@
 				<ysnap>0</ysnap>
 				<angsnap>90</angsnap>
 				<removeaction>Gas Station</removeaction>
-				<burnaction>Gas Station</burnaction>
+				<burnaction>Large Bldg</burnaction>
 				<groupname></groupname>
 				<object type="model">
 					<model type="MilkShape">data/accessories/gasstation1/gasstation1.txt</model>
@@ -463,7 +463,7 @@
 				<ysnap>0</ysnap>
 				<angsnap>90</angsnap>
 				<removeaction>Gas Station</removeaction>
-				<burnaction>Gas Station</burnaction>
+				<burnaction>Large Bldg</burnaction>
 				<groupname></groupname>
 				<object type="model">
 					<model type="MilkShape">data/accessories/gasstation1/gasstation1.txt</model>
@@ -516,8 +516,8 @@
 				<xsnap>0</xsnap>
 				<ysnap>0</ysnap>
 				<angsnap>0</angsnap>
-				<removeaction>Large Bldg</removeaction>
-				<burnaction>LargeBldgBurn</burnaction>
+				<removeaction>Factory</removeaction>
+				<burnaction>Factory Burn</burnaction>
 				<groupname></groupname>
 				<object type="model">
 					<model type="MilkShape">data/accessories/factory1/factory1.txt</model>
@@ -783,7 +783,7 @@
 				<ysnap>0</ysnap>
 				<angsnap>90</angsnap>
 				<removeaction>Gas Station</removeaction>
-				<burnaction>Gas Station</burnaction>
+				<burnaction>Large Bldg</burnaction>
 				<groupname></groupname>
 				<object type="model">
 					<model type="MilkShape">data/accessories/gasstation1/gasstation1.txt</model>
@@ -801,7 +801,7 @@
 				<ysnap>0</ysnap>
 				<angsnap>90</angsnap>
 				<removeaction>Gas Station</removeaction>
-				<burnaction>Gas Station</burnaction>
+				<burnaction>Large Bldg</burnaction>
 				<groupname></groupname>
 				<object type="model">
 					<model type="MilkShape">data/accessories/gasstation1/gasstation1.txt</model>
@@ -854,8 +854,8 @@
 				<xsnap>0</xsnap>
 				<ysnap>0</ysnap>
 				<angsnap>0</angsnap>
-				<removeaction>Large Bldg</removeaction>
-				<burnaction>LargeBldgBurn</burnaction>
+				<removeaction>Factory</removeaction>
+				<burnaction>Factory Burn</burnaction>
 				<groupname></groupname>
 				<object type="model">
 					<model type="MilkShape">data/accessories/factory1/factory1.txt</model>
@@ -1121,7 +1121,7 @@
 				<ysnap>0</ysnap>
 				<angsnap>90</angsnap>
 				<removeaction>Gas Station</removeaction>
-				<burnaction>Gas Station</burnaction>
+				<burnaction>Large Bldg</burnaction>
 				<groupname></groupname>
 				<object type="model">
 					<model type="MilkShape">data/accessories/gasstation1/gasstation1.txt</model>
@@ -1139,7 +1139,7 @@
 				<ysnap>0</ysnap>
 				<angsnap>90</angsnap>
 				<removeaction>Gas Station</removeaction>
-				<burnaction>Gas Station</burnaction>
+				<burnaction>Large Bldg</burnaction>
 				<groupname></groupname>
 				<object type="model">
 					<model type="MilkShape">data/accessories/gasstation1/gasstation1.txt</model>
@@ -1192,8 +1192,8 @@
 				<xsnap>0</xsnap>
 				<ysnap>0</ysnap>
 				<angsnap>0</angsnap>
-				<removeaction>Large Bldg</removeaction>
-				<burnaction>LargeBldgBurn</burnaction>
+				<removeaction>Factory</removeaction>
+				<burnaction>Factory Burn</burnaction>
 				<groupname></groupname>
 				<object type="model">
 					<model type="MilkShape">data/accessories/factory1/factory1.txt</model>
