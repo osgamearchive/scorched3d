@@ -67,6 +67,8 @@ public:
 	int getAdminTries() { return adminTries_; }
 	void setMuted(bool muted) { muted_ = muted; }
 	bool getMuted() { return muted_; }
+	void setSkipShots(bool skip) { skipshots_ = skip; }
+	bool getSkipShots() { return skipshots_; }
 	
 	const char *getStateString();
 	const char *getSmallStateString();
@@ -89,6 +91,7 @@ protected:
 	bool spectator_;
 	bool loading_;
 	bool muted_;
+	bool skipshots_;
 
 };
 

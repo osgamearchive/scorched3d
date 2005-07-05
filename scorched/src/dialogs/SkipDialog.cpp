@@ -40,10 +40,12 @@ SkipDialog *SkipDialog::instance()
 }
 
 SkipDialog::SkipDialog() : 
-	GLWWindow("Skip", 210.0f, 80.0f, 0,
+	GLWWindow("Skip", 210.0f, 115.0f, 0,
 		"Allows the player to skip the current move.")
 {
-	okId_ = addWidget(new GLWTextButton("Skip Move", 10, 45, 190, this, 
+	okId_ = addWidget(new GLWTextButton("Skip Move", 10, 80, 190, this, 
+		GLWButton::ButtonFlagOk | GLWButton::ButtonFlagCenterX))->getId();
+	allId_ = addWidget(new GLWTextButton("Skip All Moves", 10, 45, 190, this, 
 		GLWButton::ButtonFlagOk | GLWButton::ButtonFlagCenterX))->getId();
 	cancelId_ = addWidget(new GLWTextButton("Cancel", 95, 10, 105, this, 
 		GLWButton::ButtonFlagCancel | GLWButton::ButtonFlagCenterX))->getId();
@@ -56,7 +58,8 @@ SkipDialog::~SkipDialog()
 
 void SkipDialog::buttonDown(unsigned int id)
 {
-	if (id == okId_)
+	if (id == okId_ ||
+		id == allId_)
 	{
 		Tank *firstTank = ScorchedClient::instance()->getTankContainer().getCurrentTank();
 		if (firstTank)
@@ -64,6 +67,10 @@ void SkipDialog::buttonDown(unsigned int id)
 			TankAIHuman *tankAI = (TankAIHuman *) firstTank->getTankAI();
 			if (tankAI)
 			{
+				if (id == allId_)
+				{
+					firstTank->getState().setSkipShots(true);
+				}
 				tankAI->skipShot();
 			}
 		}

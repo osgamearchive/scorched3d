@@ -18,26 +18,33 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_SkipDialogh_INCLUDE__)
-#define __INCLUDE_SkipDialogh_INCLUDE__
+#if !defined(__INCLUDE_SkipAllDialogh_INCLUDE__)
+#define __INCLUDE_SkipAllDialogh_INCLUDE__
 
 #include <GLW/GLWWindow.h>
 #include <GLW/GLWButton.h>
+#include <GLW/GLWLabel.h>
 
-class SkipDialog : public GLWWindow,
+class SkipAllDialog : public GLWWindow,
 				public GLWButtonI
 {
 public:
-	static SkipDialog *instance();
+	static SkipAllDialog *instance();
 
 	virtual void buttonDown(unsigned int id);
+	virtual void windowInit(const unsigned state);
+	virtual void simulate(float frameTime);
 protected:
-	unsigned int okId_, allId_, cancelId_;
-	static SkipDialog *instance_;
+	unsigned int cancelId_;
+	GLWLabel *label_;
+	float timeLeft_;
+	bool skipAll_;
+
+	static SkipAllDialog *instance_;
 
 private:
-	SkipDialog();
-	virtual ~SkipDialog();
+	SkipAllDialog();
+	virtual ~SkipAllDialog();
 
 };
 

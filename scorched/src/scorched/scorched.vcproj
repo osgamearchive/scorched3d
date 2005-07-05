@@ -1035,6 +1035,12 @@
 				RelativePath="..\dialogs\ScoreDialog.h">
 			</File>
 			<File
+				RelativePath="..\dialogs\SkipAllDialog.cpp">
+			</File>
+			<File
+				RelativePath="..\dialogs\SkipAllDialog.h">
+			</File>
+			<File
 				RelativePath="..\dialogs\SkipDialog.cpp">
 			</File>
 			<File

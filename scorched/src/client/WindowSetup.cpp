@@ -43,6 +43,7 @@
 #include <dialogs/InventoryDialog.h>
 #include <dialogs/ResignDialog.h>
 #include <dialogs/SkipDialog.h>
+#include <dialogs/SkipAllDialog.h>
 #include <dialogs/HUDDialog.h>
 #include <dialogs/HelpButtonDialog.h>
 
@@ -229,6 +230,8 @@ void WindowSetup::setupGameWindows()
 			ResignDialog::instance(), resignKey, false);
 	GLWWindowManager::instance()->addWindow(ClientState::StatePlaying, 
 			SkipDialog::instance(), skipKey, false);
+	GLWWindowManager::instance()->addWindow(ClientState::StatePlaying, 
+			SkipAllDialog::instance(), 0, false);
 	addCommonComponents(ClientState::StatePlaying);
 
 	// StateShot
