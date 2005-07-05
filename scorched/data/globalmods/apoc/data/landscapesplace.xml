@@ -15,7 +15,7 @@
 				<maxheight>30</maxheight>
 				<removeaction></removeaction>
 				<burnaction></burnaction>
-				<groupname></groupname>
+				<groupname>trees</groupname>
 				<object type="tree">
 					<tree>pine</tree>
 					<snow>25</snow>
@@ -33,7 +33,7 @@
 				<maxheight>30</maxheight>
 				<removeaction></removeaction>
 				<burnaction></burnaction>
-				<groupname></groupname>
+				<groupname>trees</groupname>
 				<object type="tree">
 					<tree>palm</tree>
 					<snow>100</snow>
@@ -51,7 +51,7 @@
 				<maxheight>30</maxheight>
 				<removeaction></removeaction>
 				<burnaction></burnaction>
-				<groupname></groupname>
+				<groupname>trees</groupname>
 				<object type="tree">
 					<tree>pine</tree>
 					<snow>10</snow>
@@ -70,7 +70,7 @@
 				<maxheight>60</maxheight>
 				<removeaction></removeaction>
 				<burnaction></burnaction>
-				<groupname></groupname>
+				<groupname>trees</groupname>
 				<object type="tree">
 					<tree>pine</tree>
 					<snow>10</snow>
@@ -88,7 +88,7 @@
 				<maxheight>60</maxheight>
 				<removeaction></removeaction>
 				<burnaction></burnaction>
-				<groupname></groupname>
+				<groupname>trees</groupname>
 				<object type="tree">
 					<tree>pine</tree>
 					<snow>75</snow>
@@ -111,7 +111,7 @@
 				<angsnap>0</angsnap>
 				<removeaction></removeaction>
 				<burnaction></burnaction>
-				<groupname></groupname>
+				<groupname>trees</groupname>
 				<object type="tree">
 					<tree>pine</tree>
 					<snow>20</snow>
@@ -129,7 +129,7 @@
 				<angsnap>0</angsnap>
 				<removeaction></removeaction>
 				<burnaction></burnaction>
-				<groupname></groupname>
+				<groupname>trees</groupname>
 				<object type="tree">
 					<tree>palm</tree>
 					<snow>100</snow>
@@ -367,18 +367,18 @@
 		<name>city1</name>
 		<placements>
 			<placement type="direct"> 
-			   <removeaction>Large Bldg</removeaction> 
-			   <burnaction>LargeBldgBurn</burnaction> 
-				<groupname></groupname>
-			   <object type="model"> 
-			      <model type="MilkShape">data/accessories/skyscraper1/skyscraper1.txt</model> 
-			      <modelburnt type="MilkShape">data/accessories/skyscraper1/skyscraper1burnt.txt</modelburnt> 
-			   </object> 
-			   <position> 
-			      <position><A>128</A><B>128</B><C>0</C></position> 
-			         <rotation>0</rotation> 
-			         <size>0.066</size> 
-			   </position> 
+				<removeaction>Large Bldg</removeaction> 
+				<burnaction>LargeBldgBurn</burnaction> 
+				<groupname>skyscrapers</groupname>
+				<object type="model"> 
+					<model type="MilkShape">data/accessories/skyscraper1/skyscraper1.txt</model> 
+					<modelburnt type="MilkShape">data/accessories/skyscraper1/skyscraper1burnt.txt</modelburnt> 
+				</object> 
+				<position> 
+					<position><A>128</A><B>128</B><C>0</C></position> 
+					<rotation>0</rotation> 
+					<size>0.066</size> 
+				</position> 
 			</placement>
 			<placement type="mask">
 				<numobjects>100</numobjects>
@@ -392,7 +392,7 @@
 				<angsnap>90</angsnap>
 				<removeaction>Large Bldg</removeaction>
 				<burnaction>LargeBldgBurn</burnaction>
-				<groupname></groupname>
+				<groupname>offices</groupname>
 				<object type="model">
 					<model type="MilkShape">data/accessories/officeplaza1/officeplaza1.txt</model>
 					<modelburnt type="MilkShape">data/accessories/officeplaza1/officeplaza1burnt.txt</modelburnt>
@@ -410,7 +410,7 @@
 				<angsnap>90</angsnap>
 				<removeaction>Large Bldg</removeaction>
 				<burnaction>LargeBldgBurn</burnaction>
-				<groupname></groupname>
+				<groupname>offices</groupname>
 				<object type="model">
 					<model type="MilkShape">data/accessories/cityoffice/cityoffice.txt</model>
 					<modelburnt type="MilkShape">data/accessories/cityoffice/cityofficeburnt.txt</modelburnt>
@@ -428,7 +428,7 @@
 				<angsnap>90</angsnap>
 				<removeaction>Large Bldg</removeaction>
 				<burnaction>LargeBldgBurn</burnaction>
-				<groupname></groupname>
+				<groupname>offices</groupname>
 				<object type="model">
 					<model type="MilkShape">data/accessories/office3/office3.txt</model>
 					<modelburnt type="MilkShape">data/accessories/office3/office3.txt</modelburnt>
@@ -446,7 +446,7 @@
 				<angsnap>90</angsnap>
 				<removeaction>Gas Station</removeaction>
 				<burnaction>Large Bldg</burnaction>
-				<groupname></groupname>
+				<groupname>gasstations</groupname>
 				<object type="model">
 					<model type="MilkShape">data/accessories/gasstation1/gasstation1.txt</model>
 					<modelburnt type="MilkShape">data/accessories/gasstation1/gasstation1burnt.txt</modelburnt>
@@ -464,7 +464,7 @@
 				<angsnap>90</angsnap>
 				<removeaction>Gas Station</removeaction>
 				<burnaction>Large Bldg</burnaction>
-				<groupname></groupname>
+				<groupname>gasstations</groupname>
 				<object type="model">
 					<model type="MilkShape">data/accessories/gasstation1/gasstation1.txt</model>
 					<modelburnt type="MilkShape">data/accessories/gasstation1/gasstation1burnt.txt</modelburnt>
@@ -482,7 +482,7 @@
 				<angsnap>90</angsnap>
 				<removeaction>Small Bldg</removeaction>
 				<burnaction>SmallBldgBurn</burnaction>
-				<groupname></groupname>
+				<groupname>stores</groupname>
 				<object type="model">
 					<model type="MilkShape">data/accessories/store1/store1.txt</model>
 					<modelburnt type="MilkShape">data/accessories/store1/store1burnt.txt</modelburnt>
@@ -500,7 +500,7 @@
 				<angsnap>90</angsnap>
 				<removeaction>Small Bldg</removeaction>
 				<burnaction>SmallBldgBurn</burnaction>
-				<groupname></groupname>
+				<groupname>churches</groupname>
 				<object type="model">
 					<model type="MilkShape">data/accessories/church1/church1.txt</model>
 					<modelburnt type="MilkShape">data/accessories/church1/church1burnt.txt</modelburnt>
@@ -518,7 +518,7 @@
 				<angsnap>0</angsnap>
 				<removeaction>Factory</removeaction>
 				<burnaction>Factory Burn</burnaction>
-				<groupname></groupname>
+				<groupname>factories</groupname>
 				<object type="model">
 					<model type="MilkShape">data/accessories/factory1/factory1.txt</model>
 					<modelburnt type="MilkShape">data/accessories/factory1/factory1burnt.txt</modelburnt>
@@ -536,7 +536,7 @@
 				<angsnap>0</angsnap>
 				<removeaction>Large Bldg</removeaction>
 				<burnaction>LargeBldgBurn</burnaction>
-				<groupname></groupname>
+				<groupname>farms</groupname>
 				<object type="model">
 					<model type="MilkShape">data/accessories/farm1/farm1.txt</model>
 					<modelburnt type="MilkShape">data/accessories/farm1/farm1burnt.txt</modelburnt>
@@ -549,7 +549,7 @@
 				<maxheight>30</maxheight>
 				<removeaction>Small Bldg</removeaction>
 				<burnaction>SmallBldgBurn</burnaction>
-				<groupname></groupname>
+				<groupname>houses</groupname>
 				<object type="model">
 					<model type="MilkShape">data/accessories/trailorhouse1/trailorhouse1.txt</model>
 					<modelburnt type="MilkShape">data/accessories/trailorhouse1/trailorhouse1burnt.txt</modelburnt>
@@ -567,7 +567,7 @@
 				<angsnap>90</angsnap>
 				<removeaction>Small Bldg</removeaction>
 				<burnaction>SmallBldgBurn</burnaction>
-				<groupname></groupname>
+				<groupname>houses</groupname>
 				<object type="model">
 					<model type="MilkShape">data/accessories/house1/house1.txt</model>
 					<modelburnt type="MilkShape">data/accessories/house1/house1burnt.txt</modelburnt>
@@ -585,7 +585,7 @@
 				<angsnap>90</angsnap>
 				<removeaction>Small Bldg</removeaction>
 				<burnaction>SmallBldgBurn</burnaction>
-				<groupname></groupname>
+				<groupname>houses</groupname>
 				<object type="model">
 					<model type="MilkShape">data/accessories/house1/house1-2.txt</model>
 					<modelburnt type="MilkShape">data/accessories/house1/house1-2burnt.txt</modelburnt>
@@ -603,7 +603,7 @@
 				<angsnap>90</angsnap>
 				<removeaction>Small Bldg</removeaction>
 				<burnaction>SmallBldgBurn</burnaction>
-				<groupname></groupname>
+				<groupname>houses</groupname>
 				<object type="model">
 					<model type="MilkShape">data/accessories/house1/house1-3.txt</model>
 					<modelburnt type="MilkShape">data/accessories/house1/house1-3burnt.txt</modelburnt>
@@ -621,7 +621,7 @@
 				<angsnap>90</angsnap>
 				<removeaction>Small Bldg</removeaction>
 				<burnaction>SmallBldgBurn</burnaction>
-				<groupname></groupname>
+				<groupname>houses</groupname>
 				<object type="model">
 					<model type="MilkShape">data/accessories/logcabin1/logcabin1.txt</model>
 					<modelburnt type="MilkShape">data/accessories/logcabin1/logcabin1burnt.txt</modelburnt>
@@ -639,7 +639,7 @@
 				<angsnap>0</angsnap>
 				<removeaction>Small Bldg</removeaction>
 				<burnaction>SmallBldgBurn</burnaction>
-				<groupname></groupname>
+				<groupname>houses</groupname>
 				<object type="model">
 					<model type="MilkShape">data/accessories/house1/house1.txt</model>
 					<modelburnt type="MilkShape">data/accessories/house1/house1burnt.txt</modelburnt>
@@ -657,7 +657,7 @@
 				<angsnap>0</angsnap>
 				<removeaction>Small Bldg</removeaction>
 				<burnaction>SmallBldgBurn</burnaction>
-				<groupname></groupname>
+				<groupname>houses</groupname>
 				<object type="model">
 					<model type="MilkShape">data/accessories/house1/house1-2.txt</model>
 					<modelburnt type="MilkShape">data/accessories/house1/house1-2burnt.txt</modelburnt>
@@ -675,7 +675,7 @@
 				<angsnap>0</angsnap>
 				<removeaction>Small Bldg</removeaction>
 				<burnaction>SmallBldgBurn</burnaction>
-				<groupname></groupname>
+				<groupname>houses</groupname>
 				<object type="model">
 					<model type="MilkShape">data/accessories/house1/house1-3.txt</model>
 					<modelburnt type="MilkShape">data/accessories/house1/house1-3burnt.txt</modelburnt>
@@ -693,7 +693,7 @@
 				<angsnap>0</angsnap>
 				<removeaction>Small Bldg</removeaction>
 				<burnaction>SmallBldgBurn</burnaction>
-				<groupname></groupname>
+				<groupname>houses</groupname>
 				<object type="model">
 					<model type="MilkShape">data/accessories/logcabin1/logcabin1.txt</model>
 					<modelburnt type="MilkShape">data/accessories/logcabin1/logcabin1burnt.txt</modelburnt>
@@ -705,18 +705,18 @@
 		<name>city2</name>
 		<placements>
 			<placement type="direct"> 
-			   <removeaction>Large Bldg</removeaction> 
-			   <burnaction></burnaction> 
-				<groupname></groupname>
-			   <object type="model"> 
-			      <model type="MilkShape">data/accessories/skyscraper1/skyscraper1.txt</model> 
-			      <modelburnt type="MilkShape">data/accessories/skyscraper1/skyscraper1burnt.txt</modelburnt> 
-			   </object> 
-			   <position> 
-			      <position><A>32</A><B>72</B><C>0</C></position> 
-			         <rotation>0</rotation> 
-			         <size>0.066</size> 
-			   </position> 
+				<removeaction>Large Bldg</removeaction> 
+				<burnaction>LargeBldgBurn</burnaction> 
+				<groupname>skyscrapers</groupname>
+				<object type="model"> 
+					<model type="MilkShape">data/accessories/skyscraper1/skyscraper1.txt</model> 
+					<modelburnt type="MilkShape">data/accessories/skyscraper1/skyscraper1burnt.txt</modelburnt> 
+				</object> 
+				<position> 
+					<position><A>32</A><B>72</B><C>0</C></position> 
+					<rotation>0</rotation> 
+					<size>0.066</size> 
+				</position> 
 			</placement>
 			<placement type="mask">
 				<numobjects>120</numobjects>
@@ -730,7 +730,7 @@
 				<angsnap>90</angsnap>
 				<removeaction>Large Bldg</removeaction>
 				<burnaction>LargeBldgBurn</burnaction>
-				<groupname></groupname>
+				<groupname>offices</groupname>
 				<object type="model">
 					<model type="MilkShape">data/accessories/officeplaza1/officeplaza1.txt</model>
 					<modelburnt type="MilkShape">data/accessories/officeplaza1/officeplaza1burnt.txt</modelburnt>
@@ -748,7 +748,7 @@
 				<angsnap>90</angsnap>
 				<removeaction>Large Bldg</removeaction>
 				<burnaction>LargeBldgBurn</burnaction>
-				<groupname></groupname>
+				<groupname>offices</groupname>
 				<object type="model">
 					<model type="MilkShape">data/accessories/cityoffice/cityoffice.txt</model>
 					<modelburnt type="MilkShape">data/accessories/cityoffice/cityofficeburnt.txt</modelburnt>
@@ -766,7 +766,7 @@
 				<angsnap>90</angsnap>
 				<removeaction>Large Bldg</removeaction>
 				<burnaction>LargeBldgBurn</burnaction>
-				<groupname></groupname>
+				<groupname>offices</groupname>
 				<object type="model">
 					<model type="MilkShape">data/accessories/office3/office3.txt</model>
 					<modelburnt type="MilkShape">data/accessories/office3/office3.txt</modelburnt>
@@ -784,7 +784,7 @@
 				<angsnap>90</angsnap>
 				<removeaction>Gas Station</removeaction>
 				<burnaction>Large Bldg</burnaction>
-				<groupname></groupname>
+				<groupname>gasstations</groupname>
 				<object type="model">
 					<model type="MilkShape">data/accessories/gasstation1/gasstation1.txt</model>
 					<modelburnt type="MilkShape">data/accessories/gasstation1/gasstation1burnt.txt</modelburnt>
@@ -802,7 +802,7 @@
 				<angsnap>90</angsnap>
 				<removeaction>Gas Station</removeaction>
 				<burnaction>Large Bldg</burnaction>
-				<groupname></groupname>
+				<groupname>gasstations</groupname>
 				<object type="model">
 					<model type="MilkShape">data/accessories/gasstation1/gasstation1.txt</model>
 					<modelburnt type="MilkShape">data/accessories/gasstation1/gasstation1burnt.txt</modelburnt>
@@ -820,7 +820,7 @@
 				<angsnap>90</angsnap>
 				<removeaction>Small Bldg</removeaction>
 				<burnaction>SmallBldgBurn</burnaction>
-				<groupname></groupname>
+				<groupname>stores</groupname>
 				<object type="model">
 					<model type="MilkShape">data/accessories/store1/store1.txt</model>
 					<modelburnt type="MilkShape">data/accessories/store1/store1burnt.txt</modelburnt>
@@ -838,7 +838,7 @@
 				<angsnap>90</angsnap>
 				<removeaction>Small Bldg</removeaction>
 				<burnaction>SmallBldgBurn</burnaction>
-				<groupname></groupname>
+				<groupname>churches</groupname>
 				<object type="model">
 					<model type="MilkShape">data/accessories/church1/church1.txt</model>
 					<modelburnt type="MilkShape">data/accessories/church1/church1burnt.txt</modelburnt>
@@ -856,7 +856,7 @@
 				<angsnap>0</angsnap>
 				<removeaction>Factory</removeaction>
 				<burnaction>Factory Burn</burnaction>
-				<groupname></groupname>
+				<groupname>factories</groupname>
 				<object type="model">
 					<model type="MilkShape">data/accessories/factory1/factory1.txt</model>
 					<modelburnt type="MilkShape">data/accessories/factory1/factory1burnt.txt</modelburnt>
@@ -874,7 +874,7 @@
 				<angsnap>0</angsnap>
 				<removeaction>Large Bldg</removeaction>
 				<burnaction>LargeBldgBurn</burnaction>
-				<groupname></groupname>
+				<groupname>farms</groupname>
 				<object type="model">
 					<model type="MilkShape">data/accessories/farm1/farm1.txt</model>
 					<modelburnt type="MilkShape">data/accessories/farm1/farm1burnt.txt</modelburnt>
@@ -887,7 +887,7 @@
 				<maxheight>30</maxheight>
 				<removeaction>Small Bldg</removeaction>
 				<burnaction>SmallBldgBurn</burnaction>
-				<groupname></groupname>
+				<groupname>houses</groupname>
 				<object type="model">
 					<model type="MilkShape">data/accessories/trailorhouse1/trailorhouse1.txt</model>
 					<modelburnt type="MilkShape">data/accessories/trailorhouse1/trailorhouse1burnt.txt</modelburnt>
@@ -905,7 +905,7 @@
 				<angsnap>90</angsnap>
 				<removeaction>Small Bldg</removeaction>
 				<burnaction>SmallBldgBurn</burnaction>
-				<groupname></groupname>
+				<groupname>houses</groupname>
 				<object type="model">
 					<model type="MilkShape">data/accessories/house1/house1.txt</model>
 					<modelburnt type="MilkShape">data/accessories/house1/house1burnt.txt</modelburnt>
@@ -923,7 +923,7 @@
 				<angsnap>90</angsnap>
 				<removeaction>Small Bldg</removeaction>
 				<burnaction>SmallBldgBurn</burnaction>
-				<groupname></groupname>
+				<groupname>houses</groupname>
 				<object type="model">
 					<model type="MilkShape">data/accessories/house1/house1-2.txt</model>
 					<modelburnt type="MilkShape">data/accessories/house1/house1-2burnt.txt</modelburnt>
@@ -941,7 +941,7 @@
 				<angsnap>90</angsnap>
 				<removeaction>Small Bldg</removeaction>
 				<burnaction>SmallBldgBurn</burnaction>
-				<groupname></groupname>
+				<groupname>houses</groupname>
 				<object type="model">
 					<model type="MilkShape">data/accessories/house1/house1-3.txt</model>
 					<modelburnt type="MilkShape">data/accessories/house1/house1-3burnt.txt</modelburnt>
@@ -959,7 +959,7 @@
 				<angsnap>90</angsnap>
 				<removeaction>Small Bldg</removeaction>
 				<burnaction>SmallBldgBurn</burnaction>
-				<groupname></groupname>
+				<groupname>houses</groupname>
 				<object type="model">
 					<model type="MilkShape">data/accessories/logcabin1/logcabin1.txt</model>
 					<modelburnt type="MilkShape">data/accessories/logcabin1/logcabin1burnt.txt</modelburnt>
@@ -977,7 +977,7 @@
 				<angsnap>0</angsnap>
 				<removeaction>Small Bldg</removeaction>
 				<burnaction>SmallBldgBurn</burnaction>
-				<groupname></groupname>
+				<groupname>houses</groupname>
 				<object type="model">
 					<model type="MilkShape">data/accessories/house1/house1.txt</model>
 					<modelburnt type="MilkShape">data/accessories/house1/house1burnt.txt</modelburnt>
@@ -995,7 +995,7 @@
 				<angsnap>0</angsnap>
 				<removeaction>Small Bldg</removeaction>
 				<burnaction>SmallBldgBurn</burnaction>
-				<groupname></groupname>
+				<groupname>houses</groupname>
 				<object type="model">
 					<model type="MilkShape">data/accessories/house1/house1-2.txt</model>
 					<modelburnt type="MilkShape">data/accessories/house1/house1-2burnt.txt</modelburnt>
@@ -1013,7 +1013,7 @@
 				<angsnap>0</angsnap>
 				<removeaction>Small Bldg</removeaction>
 				<burnaction>SmallBldgBurn</burnaction>
-				<groupname></groupname>
+				<groupname>houses</groupname>
 				<object type="model">
 					<model type="MilkShape">data/accessories/house1/house1-3.txt</model>
 					<modelburnt type="MilkShape">data/accessories/house1/house1-3burnt.txt</modelburnt>
@@ -1031,7 +1031,7 @@
 				<angsnap>0</angsnap>
 				<removeaction>Small Bldg</removeaction>
 				<burnaction>SmallBldgBurn</burnaction>
-				<groupname></groupname>
+				<groupname>houses</groupname>
 				<object type="model">
 					<model type="MilkShape">data/accessories/logcabin1/logcabin1.txt</model>
 					<modelburnt type="MilkShape">data/accessories/logcabin1/logcabin1burnt.txt</modelburnt>
@@ -1043,18 +1043,18 @@
 		<name>city3</name>
 		<placements>
 			<placement type="direct"> 
-			   <removeaction>Large Bldg</removeaction> 
-			   <burnaction>LargeBldgBurn</burnaction> 
-				<groupname></groupname>
-			   <object type="model"> 
-			      <model type="MilkShape">data/accessories/skyscraper1/skyscraper1.txt</model> 
-			      <modelburnt type="MilkShape">data/accessories/skyscraper1/skyscraper1burnt.txt</modelburnt> 
-			   </object> 
-			   <position> 
-			      <position><A>128</A><B>128</B><C>0</C></position> 
-			         <rotation>0</rotation> 
-			         <size>0.066</size> 
-			   </position> 
+				<removeaction>Large Bldg</removeaction> 
+				<burnaction>LargeBldgBurn</burnaction> 
+				<groupname>skyscrapers</groupname>
+				<object type="model"> 
+					<model type="MilkShape">data/accessories/skyscraper1/skyscraper1.txt</model> 
+					<modelburnt type="MilkShape">data/accessories/skyscraper1/skyscraper1burnt.txt</modelburnt> 
+				</object> 
+				<position> 
+					<position><A>128</A><B>128</B><C>0</C></position> 
+					<rotation>0</rotation> 
+					<size>0.066</size> 
+				</position> 
 			</placement>
 			<placement type="mask">
 				<numobjects>100</numobjects>
@@ -1068,7 +1068,7 @@
 				<angsnap>90</angsnap>
 				<removeaction>Large Bldg</removeaction>
 				<burnaction>LargeBldgBurn</burnaction>
-				<groupname></groupname>
+				<groupname>offices</groupname>
 				<object type="model">
 					<model type="MilkShape">data/accessories/officeplaza1/officeplaza1.txt</model>
 					<modelburnt type="MilkShape">data/accessories/officeplaza1/officeplaza1burnt.txt</modelburnt>
@@ -1086,7 +1086,7 @@
 				<angsnap>90</angsnap>
 				<removeaction>Large Bldg</removeaction>
 				<burnaction>LargeBldgBurn</burnaction>
-				<groupname></groupname>
+				<groupname>offices</groupname>
 				<object type="model">
 					<model type="MilkShape">data/accessories/cityoffice/cityoffice.txt</model>
 					<modelburnt type="MilkShape">data/accessories/cityoffice/cityofficeburnt.txt</modelburnt>
@@ -1104,7 +1104,7 @@
 				<angsnap>90</angsnap>
 				<removeaction>Large Bldg</removeaction>
 				<burnaction>LargeBldgBurn</burnaction>
-				<groupname></groupname>
+				<groupname>offices</groupname>
 				<object type="model">
 					<model type="MilkShape">data/accessories/office3/office3.txt</model>
 					<modelburnt type="MilkShape">data/accessories/office3/office3.txt</modelburnt>
@@ -1122,7 +1122,7 @@
 				<angsnap>90</angsnap>
 				<removeaction>Gas Station</removeaction>
 				<burnaction>Large Bldg</burnaction>
-				<groupname></groupname>
+				<groupname>gasstations</groupname>
 				<object type="model">
 					<model type="MilkShape">data/accessories/gasstation1/gasstation1.txt</model>
 					<modelburnt type="MilkShape">data/accessories/gasstation1/gasstation1burnt.txt</modelburnt>
@@ -1140,7 +1140,7 @@
 				<angsnap>90</angsnap>
 				<removeaction>Gas Station</removeaction>
 				<burnaction>Large Bldg</burnaction>
-				<groupname></groupname>
+				<groupname>gasstations</groupname>
 				<object type="model">
 					<model type="MilkShape">data/accessories/gasstation1/gasstation1.txt</model>
 					<modelburnt type="MilkShape">data/accessories/gasstation1/gasstation1burnt.txt</modelburnt>
@@ -1158,7 +1158,7 @@
 				<angsnap>90</angsnap>
 				<removeaction>Small Bldg</removeaction>
 				<burnaction>SmallBldgBurn</burnaction>
-				<groupname></groupname>
+				<groupname>stores</groupname>
 				<object type="model">
 					<model type="MilkShape">data/accessories/store1/store1.txt</model>
 					<modelburnt type="MilkShape">data/accessories/store1/store1burnt.txt</modelburnt>
@@ -1176,7 +1176,7 @@
 				<angsnap>90</angsnap>
 				<removeaction>Small Bldg</removeaction>
 				<burnaction>SmallBldgBurn</burnaction>
-				<groupname></groupname>
+				<groupname>churches</groupname>
 				<object type="model">
 					<model type="MilkShape">data/accessories/church1/church1.txt</model>
 					<modelburnt type="MilkShape">data/accessories/church1/church1burnt.txt</modelburnt>
@@ -1194,7 +1194,7 @@
 				<angsnap>0</angsnap>
 				<removeaction>Factory</removeaction>
 				<burnaction>Factory Burn</burnaction>
-				<groupname></groupname>
+				<groupname>factories</groupname>
 				<object type="model">
 					<model type="MilkShape">data/accessories/factory1/factory1.txt</model>
 					<modelburnt type="MilkShape">data/accessories/factory1/factory1burnt.txt</modelburnt>
@@ -1212,7 +1212,7 @@
 				<angsnap>0</angsnap>
 				<removeaction>Large Bldg</removeaction>
 				<burnaction>LargeBldgBurn</burnaction>
-				<groupname></groupname>
+				<groupname>farms</groupname>
 				<object type="model">
 					<model type="MilkShape">data/accessories/farm1/farm1.txt</model>
 					<modelburnt type="MilkShape">data/accessories/farm1/farm1burnt.txt</modelburnt>
@@ -1225,7 +1225,7 @@
 				<maxheight>30</maxheight>
 				<removeaction>Small Bldg</removeaction>
 				<burnaction>SmallBldgBurn</burnaction>
-				<groupname></groupname>
+				<groupname>houses</groupname>
 				<object type="model">
 					<model type="MilkShape">data/accessories/trailorhouse1/trailorhouse1.txt</model>
 					<modelburnt type="MilkShape">data/accessories/trailorhouse1/trailorhouse1burnt.txt</modelburnt>
@@ -1243,7 +1243,7 @@
 				<angsnap>90</angsnap>
 				<removeaction>Small Bldg</removeaction>
 				<burnaction>SmallBldgBurn</burnaction>
-				<groupname></groupname>
+				<groupname>houses</groupname>
 				<object type="model">
 					<model type="MilkShape">data/accessories/house1/house1.txt</model>
 					<modelburnt type="MilkShape">data/accessories/house1/house1burnt.txt</modelburnt>
@@ -1261,7 +1261,7 @@
 				<angsnap>90</angsnap>
 				<removeaction>Small Bldg</removeaction>
 				<burnaction>SmallBldgBurn</burnaction>
-				<groupname></groupname>
+				<groupname>houses</groupname>
 				<object type="model">
 					<model type="MilkShape">data/accessories/house1/house1-2.txt</model>
 					<modelburnt type="MilkShape">data/accessories/house1/house1-2burnt.txt</modelburnt>
@@ -1279,7 +1279,7 @@
 				<angsnap>90</angsnap>
 				<removeaction>Small Bldg</removeaction>
 				<burnaction>SmallBldgBurn</burnaction>
-				<groupname></groupname>
+				<groupname>houses</groupname>
 				<object type="model">
 					<model type="MilkShape">data/accessories/house1/house1-3.txt</model>
 					<modelburnt type="MilkShape">data/accessories/house1/house1-3burnt.txt</modelburnt>
@@ -1297,7 +1297,7 @@
 				<angsnap>90</angsnap>
 				<removeaction>Small Bldg</removeaction>
 				<burnaction>SmallBldgBurn</burnaction>
-				<groupname></groupname>
+				<groupname>houses</groupname>
 				<object type="model">
 					<model type="MilkShape">data/accessories/logcabin1/logcabin1.txt</model>
 					<modelburnt type="MilkShape">data/accessories/logcabin1/logcabin1burnt.txt</modelburnt>
@@ -1315,7 +1315,7 @@
 				<angsnap>0</angsnap>
 				<removeaction>Small Bldg</removeaction>
 				<burnaction>SmallBldgBurn</burnaction>
-				<groupname></groupname>
+				<groupname>houses</groupname>
 				<object type="model">
 					<model type="MilkShape">data/accessories/house1/house1.txt</model>
 					<modelburnt type="MilkShape">data/accessories/house1/house1burnt.txt</modelburnt>
@@ -1333,7 +1333,7 @@
 				<angsnap>0</angsnap>
 				<removeaction>Small Bldg</removeaction>
 				<burnaction>SmallBldgBurn</burnaction>
-				<groupname></groupname>
+				<groupname>houses</groupname>
 				<object type="model">
 					<model type="MilkShape">data/accessories/house1/house1-2.txt</model>
 					<modelburnt type="MilkShape">data/accessories/house1/house1-2burnt.txt</modelburnt>
@@ -1351,7 +1351,7 @@
 				<angsnap>0</angsnap>
 				<removeaction>Small Bldg</removeaction>
 				<burnaction>SmallBldgBurn</burnaction>
-				<groupname></groupname>
+				<groupname>houses</groupname>
 				<object type="model">
 					<model type="MilkShape">data/accessories/house1/house1-3.txt</model>
 					<modelburnt type="MilkShape">data/accessories/house1/house1-3burnt.txt</modelburnt>
@@ -1369,7 +1369,7 @@
 				<angsnap>0</angsnap>
 				<removeaction>Small Bldg</removeaction>
 				<burnaction>SmallBldgBurn</burnaction>
-				<groupname></groupname>
+				<groupname>houses</groupname>
 				<object type="model">
 					<model type="MilkShape">data/accessories/logcabin1/logcabin1.txt</model>
 					<modelburnt type="MilkShape">data/accessories/logcabin1/logcabin1burnt.txt</modelburnt>
