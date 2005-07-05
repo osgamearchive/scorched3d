@@ -81,9 +81,11 @@ void WeaponRoller::fireWeapon(ScorchedContext &context,
 {
 	float minHeight = context.landscapeMaps->getHMap().getInterpHeight(
 		oldposition[0], oldposition[1]);
+
+	// Make sure position is not underground
 	if (oldposition[2] < minHeight)
 	{
-		if (minHeight - oldposition[2] > 1.5f)
+		if (minHeight - oldposition[2] > 6.5f) // Give room for shields as well
 		{
 			return;
 		}

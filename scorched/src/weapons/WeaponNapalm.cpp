@@ -72,9 +72,11 @@ void WeaponNapalm::fireWeapon(ScorchedContext &context,
 {
 	float minHeight = context.landscapeMaps->getHMap().getInterpHeight(
 		position[0], position[1]);
+
+	// Make sure position is not underground
 	if (position[2] < minHeight)
 	{
-		if (minHeight - position[2] > 1.5f)
+		if (minHeight - position[2] > 6.5f) // Give room for shields as well
 		{
 			return;
 		}

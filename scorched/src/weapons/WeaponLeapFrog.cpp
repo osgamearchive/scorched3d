@@ -72,9 +72,17 @@ void WeaponLeapFrog::fireWeapon(ScorchedContext &context,
 	Vector newPosition = position;
 	float minHeight = context.landscapeMaps->getHMap().getInterpHeight(
 		position[0], position[1]);
+
 	if (position[2] < minHeight + 0.7f)
 	{
-		newPosition[2] = minHeight + 0.7f;
+		// Make sure position is not fired underground
+		if (minHeight - position[2] > 6.5f) // Give room for shields as well
+		{
+		}
+		else
+		{
+			newPosition[2] = minHeight + 0.7f;
+		}
 	}
 
 	collisionAction_->fireWeapon(context, playerId, newPosition, newVelocity, data);
