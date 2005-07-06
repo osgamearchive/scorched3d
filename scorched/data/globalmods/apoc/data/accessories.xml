@@ -379,6 +379,7 @@ activated before they work.</description>
 				<subweapon1 type='WeaponExplosion'>
 					<hurtamount>0.8</hurtamount>
 					<deform>down</deform>
+					<deformtexture>data/textures/landscape/defaultscorched.bmp</deformtexture>
 					<size>8</size>
 					<explosionsound>explosions/large.wav</explosionsound>
 					<explosiontexture>exp04</explosiontexture>
@@ -546,9 +547,9 @@ activated before they work.</description>
 				<subweapon10 type='WeaponDelay'>
 					<delay>2.0</delay>
 					<delayedweapon type='WeaponExplosion'>
-						<hurtamount>0.8</hurtamount>
+						<hurtamount>0</hurtamount>
 						<deform>down</deform>
-						<size>8</size>
+						<size>4</size>
 						<explosionsound>none</explosionsound>
 						<explosiontexture>exp00</explosiontexture>
 					</delayedweapon>
@@ -568,9 +569,10 @@ activated before they work.</description>
 					<noluminance></noluminance>
 					<minlife>2</minlife>
 					<maxlife>4</maxlife>
-					<hurtamount>0</hurtamount>
-					<deform>none</deform>
-					<size>6</size>
+					<hurtamount>0.8</hurtamount>
+					<deform>down</deform>
+					<deformtexture>data/textures/landscape/defaultscorched.bmp</deformtexture>
+					<size>8</size>
 					<explosionshake>4.0</explosionshake>
 					<explosionsound>explosions/large.wav</explosionsound>
 					<explosiontexture>cloud00-5</explosiontexture>
@@ -3504,7 +3506,7 @@ napalm warheads. </description>
 			<apexcollision></apexcollision>
 			<projectilemodel type='MilkShape'>napalm/napalm.txt</projectilemodel>
 			<collisionaction type='WeaponMirv'>
-				<nowarheads>5</nowarheads>
+				<nowarheads>6</nowarheads>
 				<hspreaddist>0.0</hspreaddist>
 				<vspreaddist>4.0</vspreaddist>
 				<aimedweapon type='WeaponProjectile'>
@@ -3542,7 +3544,7 @@ random direction. </description>
 			<apexcollision></apexcollision>
 			<projectilemodel type='MilkShape'>napalm/napalm.txt</projectilemodel>
 			<collisionaction type='WeaponMirv'>
-				<nowarheads>5</nowarheads>
+				<nowarheads>6</nowarheads>
 				<hspreaddist>0.8</hspreaddist>
 				<vspreaddist>1.0</vspreaddist>
 				<aimedweapon type='WeaponProjectile'>
@@ -4333,6 +4335,7 @@ This weapon does no physical damage</description>
 				<noluminance></noluminance>
 				<hurtamount>0.0</hurtamount>
 				<deform>down</deform>
+				<deformtexture>none</deformtexture>
 				<size>26</size>
 				<explosionshake>2</explosionshake>
 				<explosiontexture>exp03</explosiontexture>

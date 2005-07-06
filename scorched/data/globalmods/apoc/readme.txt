@@ -1,5 +1,5 @@
 ----------------------------------------------------
-             Apocalypse v2.0 Information
+             Apocalypse v3.0 Information
 ----------------------------------------------------
 Apocalypse is a modification for Scorched 3D which adds many new weapons, items, and landscapes
 for use with this awesome game.  The mod is the product of work by several people (named in authors.txt).
@@ -23,7 +23,9 @@ Changes Since 2.0
 		- Lightning:
 			- cloud effect altered slightly
 			- Lightning Storm no longer generates the projectiles while spreading (looks better)
-			- Broke the two bolts up with a slight delay so you can tell its two bolts per strike, looks cooler and works better.
+			- Broke the two bolts in Lightning Strike up with a slight delay so you can tell its two bolts 
+				per strike even when they hit the same person.  It looks cooler and and is more effective.
+			- Slightly reduced the damage done by the individual bolts
 		- Acid Rain/Hell Storm now a little more rain like
 			
 	Landscapes:
@@ -41,6 +43,16 @@ Changes Since 2.0
 		- New custom GUI windows by Bobirov
 		- Mod Updated For Compatibility With Scorched3D version 39
 
+Notes About Installation:
+The Apocalypse Mod comes with Scorched 3D and, as a result, you should not need to install anything.  However, 
+in the event that you are re-installing the mod because it has become corrupt, it should be installed into the
+directory you installed Scorched3D to, under /data/globalmods/.  It wouldn't be a bad idea to delete what is in
+the Apoc directory there and in your ~/.scorched3d/mods/apoc/ folder before re-installing as well.
+
+Updates for the mod can typically be obtained on the official Apocalypse servers at ApocHQ, or by going to 
+http://apochq.handwired.net.  
+
+		
 ----------------------------------------------------
                      Files
 ----------------------------------------------------
@@ -76,9 +88,6 @@ Note: Server settings are not required but are provided as an example
 ----------------------------------------------------
                   Apocalypse Weapons
 ----------------------------------------------------
-Note: Any weapon with an "x" in front is included in the mod but has been commented out in the official release
-If you would like to add any of these weapons to your server, simply remove the <!-- and --> symbols surrounding them
-
 Acid Blast		- Explodes releasing some small, earth eating bomblets
 Acid Rain		- Non damaging, earth eating rain
 Acid Splash		- Explodes on impact and splashes dirt eating bomblets all over the area
