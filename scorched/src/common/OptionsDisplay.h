@@ -39,6 +39,9 @@ public:
 	int getToolTipTime() { return toolTipTime_.getValue(); }
 	void setToolTipTime(int value) { toolTipTime_.setValue(value); }
 
+	int getToolTipSpeed() { return toolTipSpeed_.getValue(); }
+	void setToolTipSpeed(int value) { toolTipSpeed_.setValue(value); }
+
 	int getTankModelSize() { return tankModelSize_.getValue(); }
 	void setTankModelSize(int value) { tankModelSize_.setValue(value); }
 	const char *getTankModelSizeToolTip() { return tankModelSize_.getDescription(); }
@@ -372,6 +375,7 @@ protected:
 	OptionEntryInt bannerRowsDepricated_;
 	OptionEntryInt tankModelSize_;
 	OptionEntryInt toolTipTime_;
+	OptionEntryInt toolTipSpeed_;
 	OptionEntryBool noFog_;
 	OptionEntryBool detailTexture_;
 	OptionEntryBool useHex_;

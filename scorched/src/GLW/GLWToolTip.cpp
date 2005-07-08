@@ -193,9 +193,14 @@ void GLWToolTip::draw(const unsigned state)
 
 	float showTime = 
 		float(OptionsDisplay::instance()->getToolTipTime()) / 1000.0f;
-	if (!lastTip_ || (timeSeen_ < showTime)) return;
+	if (!lastTip_ || (timeSeen_ < showTime))
+	{
+		lastPopulatedTip_ = 0;
+		return;
+	}
 
-	float alpha = MIN(1.0f, (timeSeen_ - showTime) * 4.0f);
+	float alpha = MIN(1.0f, (timeSeen_ - showTime) * 
+		float(OptionsDisplay::instance()->getToolTipSpeed()));
 
 	if (lastPopulatedTip_ != lastTip_)
 	{
