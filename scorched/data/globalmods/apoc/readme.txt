@@ -29,10 +29,16 @@ Changes Since 2.0
 		- Acid Rain/Hell Storm now a little more rain like
 			
 	Landscapes:
-		- Cities added to even more maps
-		- New stormy city layouts
-		- Buildings now explode and generate debris and smoke when destroyed or napalmed
-		- Factorys now release gas when destroyed
+		- Starting locations on some landscapes for team games
+			- USA starting locations are based on 2004 Presidential Election results by county
+			- World map starting locations are based off of Cold War activity
+			- The other team starting locations basically split the map in two with each team having one half the map
+			- There are still plenty of maps which retain the old random team placement as well to mix it up
+		- Changes to cities:
+			- Cities added to even more maps
+			- New stormy city layouts
+			- Buildings now explode and generate debris and smoke when destroyed or napalmed
+			- Factories now release gas when destroyed
 		- New buildings: 
 			- office3
 			- gasstation1 - note: explodes and causes damage when destroyed or napalmed, check it out.
