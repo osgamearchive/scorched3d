@@ -35,6 +35,7 @@
 #include <common/OptionsTransient.h>
 #include <common/Defines.h>
 #include <common/OptionsDisplay.h>
+#include <sound/Sound.h>
 #include <client/ScorchedClient.h>
 #include <client/MainCamera.h>
 #include <dialogs/CameraDialog.h>
@@ -96,6 +97,8 @@ void Landscape::simulate(const unsigned state, float frameTime)
 	wall_.simulate(frameTime * speedMult);
 	boids_->simulate(frameTime * speedMult);
 	soundManager_.simulate(frameTime * speedMult);
+
+	Sound::instance()->simulate(frameTime);
 }
 
 void Landscape::recalculate(int posX, int posY, int dist)

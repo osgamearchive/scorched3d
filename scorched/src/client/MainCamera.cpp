@@ -27,6 +27,7 @@
 #include <GLEXT/GLConsole.h>
 #include <dialogs/MainMenuDialog.h>
 #include <sound/Sound.h>
+#include <sound/SoundUtils.h>
 #include <common/Keyboard.h>
 #include <common/OptionsDisplay.h>
 #include <common/Defines.h>
@@ -293,7 +294,7 @@ void MainCamera::SaveScreen::draw(const unsigned state)
 
 	// snapshot sound
 	CACHE_SOUND(sound,  (char *) getDataFile("data/wav/misc/camera.wav"));
-	Sound::instance()->getDefaultSource()->play(sound);
+	SoundUtils::playRelativeSound(VirtualSoundPriority::eText, sound);
 }
 
 void MainCamera::Precipitation::draw(const unsigned state)

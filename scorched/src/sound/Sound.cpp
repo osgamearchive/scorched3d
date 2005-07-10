@@ -20,6 +20,7 @@
 
 #include <GLEXT/GLConsole.h>
 #include <common/Defines.h>
+#include <common/OptionsDisplay.h>
 #include <sound/Sound.h>
 #include <sound/SoundBuffer.h>
 #include <AL/al.h>
@@ -38,7 +39,7 @@ Sound *Sound::instance()
 }
 
 Sound::Sound() : 
-	init_(false), defaultSource_(0)
+	init_(false), totalTime_(0.0f)
 {
 }
 
@@ -46,7 +47,6 @@ Sound::~Sound()
 {
 	if (init_)
 	{
-		delete defaultSource_;
 		{
 			BufferMap::iterator itor;
 			for (itor = bufferMap_.begin();
@@ -59,8 +59,8 @@ Sound::~Sound()
 		}
 		{
 			SourceList::iterator itor;
-			for (itor = managedSources_.begin();
-				itor != managedSources_.end();
+			for (itor = totalSources_.begin();
+				itor != totalSources_.end();
 				itor++)
 			{
 				SoundSource *source = (*itor);
@@ -122,62 +122,149 @@ bool Sound::init(int channels)
 	GLConsole::instance()->addLine(false, (char *) 
 		alcGetString(soundDevice, ALC_DEVICE_SPECIFIER));
 
+	// Create all sound channels
+	for (int i=1; i<=OptionsDisplay::instance()->getSoundChannels(); i++)
+	{
+		SoundSource *source = new SoundSource;
+		if (!source->create())
+		{
+			dialogExit("Scorched3D", "Failed to create sound channel number %i", i);
+			return false;
+		}
+		totalSources_.push_back(source);
+		availableSources_.push_back(source);
+	}
+
 	init_ = true;
 	return init_;
 }
 
-void Sound::checkManaged()
+void Sound::simulate(float frameTime)
 {
-	if (managedSources_.empty()) return;
+	totalTime_ += frameTime;
+	if (totalTime_ < 0.1f) return;
+	totalTime_ = 0.0f;
 
-	SourceList::iterator itor;
-	bool check = true;
-	while (check)
+	// Check any sources that are looping and should be restarted
+	while (!loopingSources_.empty() &&
+		!availableSources_.empty())
 	{
-		check = false;
-		for (itor = managedSources_.begin();
-			itor != managedSources_.end();
-			itor++)
+		VirtualSoundSource *stopedSource = loopingSources_.front();
+		loopingSources_.pop_front();
+		DIALOG_ASSERT(stopedSource->getBuffer());
+		stopedSource->play(stopedSource->getBuffer());
+	}
+
+	// Tidy any managed sources that have stopped playing
+	bool repeat = true;
+	while (repeat)
+	{
+		repeat = false;
+		VirtualSourceList::iterator manitor;
+		for (manitor = managedSources_.begin();
+			manitor != managedSources_.end();
+			manitor++)
 		{
-			SoundSource *source = (*itor);
+			VirtualSoundSource *source = (*manitor);
 			if (!source->getPlaying())
 			{
+				managedSources_.erase(manitor);
 				delete source;
-				managedSources_.erase(itor);
-				check = true;
+				repeat = true;
 				break;
 			}
 		}
 	}
 }
 
-void Sound::manageSource(SoundSource *source)
+SoundSource *Sound::addPlaying(VirtualSoundSource *virt, unsigned int priority)
+{
+	// If there are no available sources and there are some sounds playing
+	// check if we can re-use a playing sound with a lower priority than us
+	if (!playingSources_.empty() && 
+		availableSources_.empty())
+	{
+		VirtualSourceMap::iterator itor = 
+			playingSources_.begin();
+		VirtualSoundSource *playingSource = 
+			(*itor).second;
+		if (playingSource->getPriority() < priority)
+		{
+			playingSource->stop();
+			if (playingSource->getLooping())
+			{
+				loopingSources_.push_back(playingSource);
+			}
+		}
+	}
+
+	// Now check to see if there is an available channel
+	// (or perhaps we just freed one up)
+	if (!availableSources_.empty())
+	{
+		SoundSource *source = availableSources_.front();
+		availableSources_.pop_front();
+
+		std::pair<unsigned int, VirtualSoundSource *> p(priority, virt);
+		playingSources_.insert(p);
+		return source;
+	}
+
+	return 0;
+}
+
+void Sound::removePlaying(VirtualSoundSource *virt, unsigned int priority)
+{
+	// Remove the virtual source from the list of playing
+	std::pair<VirtualSourceMap::iterator,  VirtualSourceMap::iterator> p =
+		playingSources_.equal_range(priority);
+	VirtualSourceMap::iterator itor;
+	for (itor = p.first; itor != p.second; itor++)
+	{
+		VirtualSoundSource *v = (*itor).second;
+		if (v == virt)
+		{
+			playingSources_.erase(itor);
+			break;
+		}
+	}
+
+	// Remove from looping list
+	if (virt->getLooping())
+	{
+		VirtualSourceList::iterator itor;
+		for (itor = loopingSources_.begin();
+			itor != loopingSources_.end();
+			itor++)
+		{
+			if (*itor == virt)
+			{
+				loopingSources_.erase(itor);
+				break;
+			}
+		}
+	}
+
+	// Return the source to the list of available
+	if (virt->getSource())
+	{
+		availableSources_.push_back(virt->getSource());
+	}
+}
+
+void Sound::addManaged(VirtualSoundSource *source)
 {
 	managedSources_.push_back(source);
 }
 
-SoundSource *Sound::createSource()
+int Sound::getAvailableChannels()
 {
-	checkManaged();
-
-	SoundSource *source = new SoundSource;
-	if (init_) source->create();
-	return source;
+	return availableSources_.size();
 }
 
 SoundListener *Sound::getDefaultListener()
 {
 	return &listener_;
-}
-
-SoundSource *Sound::getDefaultSource()
-{
-	if (!defaultSource_)
-	{
-		defaultSource_ = createSource();
-		defaultSource_->setRelative();
-	}
-	return defaultSource_;
 }
 
 SoundBuffer *Sound::createBuffer(char *fileName)

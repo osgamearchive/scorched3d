@@ -21,7 +21,7 @@
 #include <weapons/WeaponNapalm.h>
 #include <actions/Napalm.h>
 #include <common/Defines.h>
-#include <sound/Sound.h>
+#include <sound/SoundUtils.h>
 #include <engine/ActionController.h>
 #include <landscape/LandscapeMaps.h>
 
@@ -97,10 +97,8 @@ void WeaponNapalm::fireWeapon(ScorchedContext &context,
 			SoundBuffer *expSound = 
 				Sound::instance()->fetchOrCreateBuffer((char *)
 					getDataFile("data/wav/%s", getNapalmSound()));
-			SoundSource *source = Sound::instance()->createSource();
-			source->setPosition(position);
-			source->play(expSound);
-			Sound::instance()->manageSource(source);
+			SoundUtils::playAbsoluteSound(VirtualSoundPriority::eAction,
+				expSound, position);
 		}
 	}
 }

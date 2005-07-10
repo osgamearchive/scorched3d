@@ -32,7 +32,7 @@
 #include <common/OptionsTransient.h>
 #include <common/OptionsParam.h>
 #include <common/StatsLogger.h>
-#include <sound/Sound.h>
+#include <sound/SoundUtils.h>
 #include <landscape/LandscapeMaps.h>
 #include <engine/ActionController.h>
 
@@ -216,10 +216,8 @@ bool TankAILogic::processDefenseMessage(ScorchedContext &context,
 					SoundBuffer *batSound = 
 						Sound::instance()->fetchOrCreateBuffer((char *)
 							getDataFile("data/wav/%s", battery->getActivationSound()));
-					SoundSource *source = Sound::instance()->createSource();
-					source->setPosition(tank->getPhysics().getTankPosition());
-					source->play(batSound);
-					Sound::instance()->manageSource(source);
+					SoundUtils::playAbsoluteSound(VirtualSoundPriority::eAction,
+						batSound, tank->getPhysics().getTankPosition());
 				}
 			}
 
@@ -242,10 +240,8 @@ bool TankAILogic::processDefenseMessage(ScorchedContext &context,
 						SoundBuffer *activateSound = 
 							Sound::instance()->fetchOrCreateBuffer((char *)
 								getDataFile("data/wav/%s", accessory->getActivationSound()));
-						SoundSource *source = Sound::instance()->createSource();
-						source->setPosition(tank->getPhysics().getTankPosition());
-						source->play(activateSound);
-						Sound::instance()->manageSource(source);
+						SoundUtils::playAbsoluteSound(VirtualSoundPriority::eAction,
+							activateSound, tank->getPhysics().getTankPosition());
 					}
 
 					tank->getAccessories().getShields().setCurrentShield(accessory);
@@ -279,10 +275,8 @@ bool TankAILogic::processDefenseMessage(ScorchedContext &context,
 					SoundBuffer *paraSound = 
 						Sound::instance()->fetchOrCreateBuffer((char *)
 							getDataFile("data/wav/%s", parachute->getActivationSound()));
-					SoundSource *source = Sound::instance()->createSource();
-					source->setPosition(tank->getPhysics().getTankPosition());
-					source->play(paraSound);
-					Sound::instance()->manageSource(source);
+					SoundUtils::playAbsoluteSound(VirtualSoundPriority::eAction,
+						paraSound, tank->getPhysics().getTankPosition());
 				}
 			}
 

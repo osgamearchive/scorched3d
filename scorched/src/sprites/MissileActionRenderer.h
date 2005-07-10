@@ -28,7 +28,7 @@
 #include <string>
 #include <map>
 
-class SoundSource;
+class VirtualSoundSource;
 class MissileActionRenderer : public ActionRenderer
 {
 public:
@@ -40,7 +40,7 @@ public:
 
 protected:
 	int flareType_;
-	SoundSource *sound_;
+	VirtualSoundSource *sound_;
 	SmokeCounter counter_;
 	ParticleEmitter *flameemitter_;
 	ParticleEmitter *smokeemitter_;

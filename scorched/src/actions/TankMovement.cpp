@@ -71,9 +71,9 @@ void TankMovement::init()
 		SoundBuffer *moveSound = 
 			Sound::instance()->fetchOrCreateBuffer((char *)
 				getDataFile("data/wav/movement/tankmove.wav"));
-		moveSoundSource_ = Sound::instance()->createSource();
+		moveSoundSource_ = new VirtualSoundSource(VirtualSoundPriority::eAction, true, false);
 		moveSoundSource_->setPosition(tank->getPhysics().getTankPosition());
-		moveSoundSource_->play(moveSound, true);
+		moveSoundSource_->play(moveSound);
 	}
 
 	// As with everything to do with movement

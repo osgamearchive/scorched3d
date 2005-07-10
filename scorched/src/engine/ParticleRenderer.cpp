@@ -187,20 +187,20 @@ void ParticleRendererMushroom::renderParticle(Particle &particle)
 
 	particle.shadow_ = false;
 	particle.position_[0] = oldPosition[0];
-	particle.position_[1] = oldPosition[1] + sinf(renderer->getCloudRotation() + 2.0f) * 2.0f;
-	particle.position_[2] = oldPosition[2] + cosf(renderer->getCloudRotation() + 2.0f) * 2.0f;
+	particle.position_[1] = oldPosition[1] + getFastSin(renderer->getCloudRotation() + 2.0f) * 2.0f;
+	particle.position_[2] = oldPosition[2] + getFastCos(renderer->getCloudRotation() + 2.0f) * 2.0f;
 	ParticleRendererQuads::getInstance()->renderParticle(particle);
 
 	particle.shadow_ = false;
 	particle.position_[0] = oldPosition[0];
-	particle.position_[1] = oldPosition[1] + sinf(renderer->getCloudRotation() + 4.0f) * 2.0f;
-	particle.position_[2] = oldPosition[2] + cosf(renderer->getCloudRotation() + 4.0f) * 2.0f;
+	particle.position_[1] = oldPosition[1] + getFastSin(renderer->getCloudRotation() + 4.0f) * 2.0f;
+	particle.position_[2] = oldPosition[2] + getFastCos(renderer->getCloudRotation() + 4.0f) * 2.0f;
 	ParticleRendererQuads::getInstance()->renderParticle(particle);
 
 	particle.shadow_ = true;
 	particle.position_[0] = oldPosition[0];
-	particle.position_[1] = oldPosition[1] + sinf(renderer->getCloudRotation()) * 2.0f;
-	particle.position_[2] = oldPosition[2] + cosf(renderer->getCloudRotation()) * 2.0f;
+	particle.position_[1] = oldPosition[1] + getFastSin(renderer->getCloudRotation()) * 2.0f;
+	particle.position_[2] = oldPosition[2] + getFastCos(renderer->getCloudRotation()) * 2.0f;
 	ParticleRendererQuads::getInstance()->renderParticle(particle);
 
 	particle.position_ = oldPosition;

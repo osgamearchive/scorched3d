@@ -18,36 +18,43 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_SoundSourceh_INCLUDE__)
-#define __INCLUDE_SoundSourceh_INCLUDE__
+#if !defined(__INCLUDE_VirtualSoundSourceh_INCLUDE__)
+#define __INCLUDE_VirtualSoundSourceh_INCLUDE__
 
-#include <common/Vector.h>
+#include <sound/SoundSource.h>
+#include <sound/VirtualSoundPriority.h>
 
-class Sound;
-class SoundBuffer;
-class SoundSource
+class VirtualSoundSource
 {
 public:
-	virtual ~SoundSource();
+	VirtualSoundSource(
+		unsigned int priority, bool looping, bool managed);
+	virtual ~VirtualSoundSource();
 
-	void play(SoundBuffer *buffer, bool repeat = false);
+	void play(SoundBuffer *buffer);
 	void stop();
 
 	bool getPlaying();
+	bool getManaged();
+	bool getLooping();
+	unsigned int getPriority();
+	SoundBuffer *getBuffer();
+	SoundSource *getSource();
 
-	void setRelative(bool relative);
+	void setRelative();
 	void setPosition(Vector &position);
 	void setVelocity(Vector &velocity);
 	void setGain(float gain);
 
 protected:
-	friend class Sound;
-	unsigned int source_;
-
-	SoundSource();
-
-	bool create();
-	void destroy();
+	unsigned int priority_;
+	SoundSource *actualSource_;
+	SoundBuffer *buffer_;
+	Vector position_, velocity_;
+	float gain_;
+	bool relative_;
+	bool looping_;
+	bool managed_;
 };
 
-#endif // __INCLUDE_SoundSourceh_INCLUDE__
+#endif // __INCLUDE_VirtualSoundSourceh_INCLUDE__

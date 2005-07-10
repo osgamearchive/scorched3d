@@ -25,7 +25,7 @@
 #include <list>
 
 class SoundBuffer;
-class SoundSource;
+class VirtualSoundSource;
 class ModelID;
 class ModelRenderer;
 class Boid;
@@ -72,7 +72,7 @@ protected:
 	struct SoundEntry 
 	{
 		SoundEntry() : boid(0), source(0) {}
-		SoundSource *source;
+		VirtualSoundSource *source;
 		Boid *boid;
 	};
 	std::vector<SoundEntry> currentSounds_;

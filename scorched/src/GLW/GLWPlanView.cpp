@@ -244,7 +244,7 @@ void GLWPlanView::drawCurrentTank()
 		// Draw a line pointing where the current tank is looking
 		glBegin(GL_LINES);
 			glVertex2f(0.0f, 0.0f);
-			glVertex2f(sinf(rot) * 0.07f, cosf(rot) * 0.07f);
+			glVertex2f(getFastSin(rot) * 0.07f, getFastCos(rot) * 0.07f);
 		glEnd();
 	glPopMatrix();
 

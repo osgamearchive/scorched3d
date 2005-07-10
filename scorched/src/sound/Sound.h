@@ -24,8 +24,8 @@
 #include <map>
 #include <list>
 #include <string>
+#include <sound/VirtualSoundSource.h>
 #include <sound/SoundBuffer.h>
-#include <sound/SoundSource.h>
 #include <sound/SoundListener.h>
 
 #define CACHE_SOUND(var, filename) 										\
@@ -37,28 +37,36 @@ public:
 	static Sound *instance();
 
 	bool init(int channels);
+	bool getInit() { return init_; }
 	void destroy();
 
 	SoundBuffer *fetchOrCreateBuffer(char *filename);
-	SoundSource *createSource();
 	SoundListener *getDefaultListener();
-	SoundSource *getDefaultSource();
+	
+	void addManaged(VirtualSoundSource *source);
+	void removePlaying(VirtualSoundSource *source, unsigned int priority);
+	SoundSource *addPlaying(VirtualSoundSource *source, unsigned int priority);
 
-	void manageSource(SoundSource *source);
-	bool getInit() { return init_; }
+	void simulate(float frameTime);
+	int getAvailableChannels();
 
 protected:
 	static Sound *instance_;
 	typedef std::map<std::string, SoundBuffer *> BufferMap;
 	typedef std::list<SoundSource *> SourceList;
+	typedef std::list<VirtualSoundSource *> VirtualSourceList;
+	typedef std::multimap<unsigned int, VirtualSoundSource *> VirtualSourceMap;
+	float totalTime_;
 	BufferMap bufferMap_;
-	SourceList managedSources_;
+	SourceList totalSources_;
+	SourceList availableSources_;
+	SoundListener listener_;
+	VirtualSourceMap playingSources_;
+	VirtualSourceList managedSources_;
+	VirtualSourceList loopingSources_;
 	bool init_;
 
-	SoundListener listener_;
-	SoundSource *defaultSource_;
 	SoundBuffer *createBuffer(char *fileName);
-	void checkManaged();
 
 private:
 	Sound();

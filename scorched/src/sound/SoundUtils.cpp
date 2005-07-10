@@ -18,36 +18,21 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_SoundSourceh_INCLUDE__)
-#define __INCLUDE_SoundSourceh_INCLUDE__
+#include <sound/SoundUtils.h>
+#include <sound/Sound.h>
 
-#include <common/Vector.h>
-
-class Sound;
-class SoundBuffer;
-class SoundSource
+void SoundUtils::playRelativeSound(unsigned int priority, 
+	SoundBuffer *buffer)
 {
-public:
-	virtual ~SoundSource();
+	VirtualSoundSource *source = new VirtualSoundSource(priority, false, true);
+	source->setRelative();
+	source->play(buffer);
+}
 
-	void play(SoundBuffer *buffer, bool repeat = false);
-	void stop();
-
-	bool getPlaying();
-
-	void setRelative(bool relative);
-	void setPosition(Vector &position);
-	void setVelocity(Vector &velocity);
-	void setGain(float gain);
-
-protected:
-	friend class Sound;
-	unsigned int source_;
-
-	SoundSource();
-
-	bool create();
-	void destroy();
-};
-
-#endif // __INCLUDE_SoundSourceh_INCLUDE__
+void SoundUtils::playAbsoluteSound(unsigned int priority, 
+	SoundBuffer *buffer, Vector &position)
+{
+	VirtualSoundSource *source = new VirtualSoundSource(priority, false, true);
+	source->setPosition(position);
+	source->play(buffer);
+}

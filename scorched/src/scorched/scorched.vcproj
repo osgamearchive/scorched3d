@@ -3218,76 +3218,6 @@
 			</File>
 		</Filter>
 		<Filter
-			Name="tankai"
-			Filter="">
-			<File
-				RelativePath="..\tankai\TankAI.cpp">
-			</File>
-			<File
-				RelativePath="..\tankai\TankAI.h">
-			</File>
-			<File
-				RelativePath="..\tankai\TankAIAdder.cpp">
-			</File>
-			<File
-				RelativePath="..\tankai\TankAIAdder.h">
-			</File>
-			<File
-				RelativePath="..\tankai\TankAIComputer.cpp">
-			</File>
-			<File
-				RelativePath="..\tankai\TankAIComputer.h">
-			</File>
-			<File
-				RelativePath="..\tankai\TankAIComputerAim.cpp">
-			</File>
-			<File
-				RelativePath="..\tankai\TankAIComputerAim.h">
-			</File>
-			<File
-				RelativePath="..\tankai\TankAIComputerBuyer.cpp">
-			</File>
-			<File
-				RelativePath="..\tankai\TankAIComputerBuyer.h">
-			</File>
-			<File
-				RelativePath="..\tankai\TankAIComputerTarget.cpp">
-			</File>
-			<File
-				RelativePath="..\tankai\TankAIComputerTarget.h">
-			</File>
-			<File
-				RelativePath="..\tankai\TankAIHuman.cpp">
-			</File>
-			<File
-				RelativePath="..\tankai\TankAIHuman.h">
-			</File>
-			<File
-				RelativePath="..\tankai\TankAIHumanCtrl.cpp">
-			</File>
-			<File
-				RelativePath="..\tankai\TankAIHumanCtrl.h">
-			</File>
-			<File
-				RelativePath="..\tankai\TankAILogic.cpp">
-			</File>
-			<File
-				RelativePath="..\tankai\TankAILogic.h">
-			</File>
-			<File
-				RelativePath="..\tankai\TankAIStore.cpp">
-			</File>
-			<File
-				RelativePath="..\tankai\TankAIStore.h">
-			</File>
-			<File
-				RelativePath="..\tankai\TankAIStrings.cpp">
-			</File>
-			<File
-				RelativePath="..\tankai\TankAIStrings.h">
-			</File>
-		</Filter>
-		<Filter
 			Name="data/docs"
 			Filter="">
 			<File
@@ -3587,6 +3517,21 @@
 			<File
 				RelativePath="..\sound\SoundSource.h">
 			</File>
+			<File
+				RelativePath="..\sound\SoundUtils.cpp">
+			</File>
+			<File
+				RelativePath="..\sound\SoundUtils.h">
+			</File>
+			<File
+				RelativePath="..\sound\VirtualSoundPriority.h">
+			</File>
+			<File
+				RelativePath="..\sound\VirtualSoundSource.cpp">
+			</File>
+			<File
+				RelativePath="..\sound\VirtualSoundSource.h">
+			</File>
 		</Filter>
 		<Filter
 			Name="cgext"
@@ -3611,6 +3556,76 @@
 			</File>
 			<File
 				RelativePath="..\cgext\CGProgram.h">
+			</File>
+		</Filter>
+		<Filter
+			Name="tankai"
+			Filter="">
+			<File
+				RelativePath="..\tankai\TankAI.cpp">
+			</File>
+			<File
+				RelativePath="..\tankai\TankAI.h">
+			</File>
+			<File
+				RelativePath="..\tankai\TankAIAdder.cpp">
+			</File>
+			<File
+				RelativePath="..\tankai\TankAIAdder.h">
+			</File>
+			<File
+				RelativePath="..\tankai\TankAIComputer.cpp">
+			</File>
+			<File
+				RelativePath="..\tankai\TankAIComputer.h">
+			</File>
+			<File
+				RelativePath="..\tankai\TankAIComputerAim.cpp">
+			</File>
+			<File
+				RelativePath="..\tankai\TankAIComputerAim.h">
+			</File>
+			<File
+				RelativePath="..\tankai\TankAIComputerBuyer.cpp">
+			</File>
+			<File
+				RelativePath="..\tankai\TankAIComputerBuyer.h">
+			</File>
+			<File
+				RelativePath="..\tankai\TankAIComputerTarget.cpp">
+			</File>
+			<File
+				RelativePath="..\tankai\TankAIComputerTarget.h">
+			</File>
+			<File
+				RelativePath="..\tankai\TankAIHuman.cpp">
+			</File>
+			<File
+				RelativePath="..\tankai\TankAIHuman.h">
+			</File>
+			<File
+				RelativePath="..\tankai\TankAIHumanCtrl.cpp">
+			</File>
+			<File
+				RelativePath="..\tankai\TankAIHumanCtrl.h">
+			</File>
+			<File
+				RelativePath="..\tankai\TankAILogic.cpp">
+			</File>
+			<File
+				RelativePath="..\tankai\TankAILogic.h">
+			</File>
+			<File
+				RelativePath="..\tankai\TankAIStore.cpp">
+			</File>
+			<File
+				RelativePath="..\tankai\TankAIStore.h">
+			</File>
+			<File
+				RelativePath="..\tankai\TankAIStrings.cpp">
+			</File>
+			<File
+				RelativePath="..\tankai\TankAIStrings.h">
 			</File>
 		</Filter>
 	</Files>

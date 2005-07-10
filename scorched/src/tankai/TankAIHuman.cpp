@@ -82,11 +82,14 @@ void TankAIHuman::playMove(const unsigned state,
 			"say \"Spam... 123123232131231232131321\"");
 	}*/
 
-	if (!elevateSound_) elevateSound_ = Sound::instance()->createSource();
+	if (!elevateSound_) elevateSound_ = 
+		new VirtualSoundSource(VirtualSoundPriority::eRotation, true, false);
 	elevateSound_->setPosition(currentTank_->getPhysics().getTankPosition());
-	if (!rotateSound_) rotateSound_ = Sound::instance()->createSource();
+	if (!rotateSound_) rotateSound_ =
+		new VirtualSoundSource(VirtualSoundPriority::eRotation, true, false);
 	rotateSound_->setPosition(currentTank_->getPhysics().getTankPosition());
-	if (!startSound_) startSound_ = Sound::instance()->createSource();
+	if (!startSound_) startSound_ =
+		new VirtualSoundSource(VirtualSoundPriority::eRotation, false, false);
 	startSound_->setPosition(currentTank_->getPhysics().getTankPosition());
 
 	moveLeftRight(buffer, keyState, frameTime);
@@ -249,7 +252,7 @@ void TankAIHuman::moveLeftRight(char *buffer, unsigned int keyState, float frame
 		if (currentLRMoving)
 		{
 			startSound_->play(sound);
-			rotateSound_->play(turn, true);
+			rotateSound_->play(turn);
 		}
 		else
 		{
@@ -342,7 +345,7 @@ void TankAIHuman::moveUpDown(char *buffer, unsigned int keyState, float frameTim
 		if (currentUDMoving)
 		{
 			startSound_->play(sound);
-			elevateSound_->play(elevate, true);
+			elevateSound_->play(elevate);
 		}
 		else
 		{
@@ -412,7 +415,7 @@ void TankAIHuman::movePower(char *buffer, unsigned int keyState, float frameTime
 		CACHE_SOUND(elevate, (char *) getDataFile("data/wav/movement/elevate.wav"));
 		if (currentPMoving)
 		{
-			elevateSound_->play(elevate, true);
+			elevateSound_->play(elevate);
 		}
 		else
 		{

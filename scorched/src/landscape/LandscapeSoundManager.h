@@ -23,7 +23,7 @@
 
 #include <list>
 
-class SoundSource;
+class VirtualSoundSource;
 class SoundBuffer;
 class LandscapeSound;
 class LandscapeSoundType;
@@ -41,7 +41,7 @@ protected:
 	struct LandscapeSoundManagerEntry
 	{
 		LandscapeSoundManagerEntry() : soundSource(0) {}
-		SoundSource *soundSource;
+		VirtualSoundSource *soundSource;
 		SoundBuffer *soundBuffer;
 		LandscapeSoundType *soundType;
 		float timeLeft;

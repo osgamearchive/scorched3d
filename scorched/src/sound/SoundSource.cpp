@@ -40,10 +40,10 @@ bool SoundSource::getPlaying()
 	return (state == AL_PLAYING);
 }
 
-void SoundSource::setRelative()
+void SoundSource::setRelative(bool relative)
 {
 	if (!source_) return;
-	alSourcei(source_, AL_SOURCE_RELATIVE, AL_TRUE);
+	alSourcei(source_, AL_SOURCE_RELATIVE, (relative?AL_TRUE:AL_FALSE));
 }
 
 void SoundSource::setPosition(Vector &position)
@@ -56,12 +56,6 @@ void SoundSource::setVelocity(Vector &velocity)
 {
 	if (!source_) return;
 	alSourcefv(source_, AL_VELOCITY, velocity);
-}
-
-void SoundSource::setPitch(float pitch)
-{
-	if (!source_) return;
-	alSourcef(source_, AL_PITCH, pitch);
 }
 
 void SoundSource::setGain(float gain)
@@ -92,7 +86,7 @@ void SoundSource::destroy()
 	alDeleteSources(1, &source_);
 }
 
-void SoundSource::create()
+bool SoundSource::create()
 {
 	unsigned int error;
 
@@ -101,8 +95,9 @@ void SoundSource::create()
 	alGenSources(1, &source_);
 	if ((error = alGetError()) != AL_NO_ERROR)
 	{
-		return;
+		return false;
 	}
 
 	alSourcef(source_, AL_REFERENCE_DISTANCE, 75.0f);
+	return true;
 }

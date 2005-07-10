@@ -19,7 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <actions/ShieldHit.h>
-#include <sound/Sound.h>
+#include <sound/SoundUtils.h>
 #include <common/OptionsParam.h>
 #include <engine/ScorchedContext.h>
 #include <weapons/Accessory.h>
@@ -72,10 +72,8 @@ void ShieldHit::simulate(float frameTime, bool &remove)
 					SoundBuffer *shieldSound = 
 						Sound::instance()->fetchOrCreateBuffer( (char *)
 							getDataFile( "data/wav/%s", shield->getCollisionSound()));
-					SoundSource *source = Sound::instance()->createSource();
-					source->setPosition(position_);
-					source->play(shieldSound);
-					Sound::instance()->manageSource(source);
+					SoundUtils::playAbsoluteSound(VirtualSoundPriority::eAction,
+						shieldSound, position_);
 
 					TankModelRenderer *model = (TankModelRenderer *) 
 						tank->getModel().getModelIdRenderer();

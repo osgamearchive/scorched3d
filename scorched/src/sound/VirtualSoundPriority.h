@@ -18,36 +18,20 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_SoundSourceh_INCLUDE__)
-#define __INCLUDE_SoundSourceh_INCLUDE__
+#if !defined(__INCLUDE_VirtualSoundPriorityh_INCLUDE__)
+#define __INCLUDE_VirtualSoundPriorityh_INCLUDE__
 
-#include <common/Vector.h>
-
-class Sound;
-class SoundBuffer;
-class SoundSource
+namespace VirtualSoundPriority
 {
-public:
-	virtual ~SoundSource();
-
-	void play(SoundBuffer *buffer, bool repeat = false);
-	void stop();
-
-	bool getPlaying();
-
-	void setRelative(bool relative);
-	void setPosition(Vector &position);
-	void setVelocity(Vector &velocity);
-	void setGain(float gain);
-
-protected:
-	friend class Sound;
-	unsigned int source_;
-
-	SoundSource();
-
-	bool create();
-	void destroy();
+	enum Priorities
+	{
+		eEnvironment = 100,
+		eMissile = 200,
+		eAction = 10000,
+		eBoids = 100,
+		eText = 100,
+		eRotation = 500
+	};
 };
 
-#endif // __INCLUDE_SoundSourceh_INCLUDE__
+#endif // __INCLUDE_VirtualSoundPriorityh_INCLUDE__

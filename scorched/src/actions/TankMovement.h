@@ -27,7 +27,7 @@
 #include <list>
 #include <map>
 
-class SoundSource;
+class VirtualSoundSource;
 class Tank;
 class TankMovement : public ActionMeta
 {
@@ -65,7 +65,7 @@ protected:
 	std::list<PositionEntry> expandedPositions_;
 	float timePassed_;
 	ViewPoints::ViewPoint *vPoint_;
-	SoundSource *moveSoundSource_;
+	VirtualSoundSource *moveSoundSource_;
 
 	unsigned int playerId_;
 	int positionX_, positionY_;

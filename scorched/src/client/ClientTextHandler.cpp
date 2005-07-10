@@ -27,7 +27,7 @@
 #include <sprites/TalkRenderer.h>
 #include <sprites/ExplosionTextures.h>
 #include <coms/ComsTextMessage.h>
-#include <sound/Sound.h>
+#include <sound/SoundUtils.h>
 #include <common/Logger.h>
 #include <common/LoggerI.h>
 
@@ -82,7 +82,7 @@ bool ClientTextHandler::processMessage(unsigned int id,
 			else
 			{
 				CACHE_SOUND(sound,  (char *) getDataFile("data/wav/misc/text.wav"));
-				Sound::instance()->getDefaultSource()->play(sound);
+				SoundUtils::playRelativeSound(VirtualSoundPriority::eText, sound);				
 
 				if (tank)
 				{

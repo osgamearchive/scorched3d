@@ -304,8 +304,8 @@ bool TargetCamera::moveCamera(float frameTime, bool playing)
 	case CamTank:
 		{
 			Vector newPos(
-				sinf(currentRotation) * 8.0f, 
-				cosf(currentRotation) * 8.0f,
+				getFastSin(currentRotation) * 8.0f, 
+				getFastCos(currentRotation) * 8.0f,
 				0.0f);
 
 			Vector newPos2 = position - newPos;
@@ -329,8 +329,8 @@ bool TargetCamera::moveCamera(float frameTime, bool playing)
 	case CamBehind:
 		{
 			Vector newPos(
-				sinf(currentRotation) * 25.0f, 
-				cosf(currentRotation) * 25.0f,
+				getFastSin(currentRotation) * 25.0f, 
+				getFastCos(currentRotation) * 25.0f,
 				0.0f);
 			Vector newPos2 = position - newPos;
 
@@ -341,8 +341,8 @@ bool TargetCamera::moveCamera(float frameTime, bool playing)
 	case CamLeftFar:
 		{
 			Vector newPos(
-				sinf(currentRotation) * 65.0f, 
-				cosf(currentRotation) * 65.0f,
+				getFastSin(currentRotation) * 65.0f, 
+				getFastCos(currentRotation) * 65.0f,
 				0.0f);
 			Vector newPos2 = position - newPos;
 
@@ -353,8 +353,8 @@ bool TargetCamera::moveCamera(float frameTime, bool playing)
 	case CamRightFar:
 		{
 			Vector newPos(
-				sinf(currentRotation) * 65.0f, 
-				cosf(currentRotation) * 65.0f,
+				getFastSin(currentRotation) * 65.0f, 
+				getFastCos(currentRotation) * 65.0f,
 				0.0f);
 			Vector newPos2 = position - newPos;
 
@@ -365,8 +365,8 @@ bool TargetCamera::moveCamera(float frameTime, bool playing)
 	case CamLeft: 
 		{
 			Vector newPos(
-				sinf(currentRotation) * 10.0f, 
-				cosf(currentRotation) * 10.0f,
+				getFastSin(currentRotation) * 10.0f, 
+				getFastCos(currentRotation) * 10.0f,
 				0.0f);
 			Vector newPos2 = position - newPos;
 
@@ -377,8 +377,8 @@ bool TargetCamera::moveCamera(float frameTime, bool playing)
 	case CamRight:
 		{
 			Vector newPos(
-				sinf(currentRotation) * 10.0f, 
-				cosf(currentRotation) * 10.0f,
+				getFastSin(currentRotation) * 10.0f, 
+				getFastCos(currentRotation) * 10.0f,
 				0.0f);
 			Vector newPos2 = position - newPos;
 

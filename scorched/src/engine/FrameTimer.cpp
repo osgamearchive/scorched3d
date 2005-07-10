@@ -23,6 +23,7 @@
 #include <common/Logger.h>
 #include <common/LoggerI.h>
 #include <common/OptionsDisplay.h>
+#include <sound/Sound.h>
 #include <GLEXT/GLInfo.h>
 #include <client/ScorchedClient.h>
 #include <client/MainCamera.h>
@@ -83,12 +84,15 @@ void FrameTimer::simulate(const unsigned state, float frameTime)
 			}
 
 			Logger::log(LoggerInfo(LoggerInfo::TypePerformance, 
-				formatString("%.2f FPS (%iT %iP %iG %iS)", 
-					float(totalCount_) / totalTime_,
+				formatString("%.2f FPS",
+					float(totalCount_) / totalTime_)));
+			Logger::log(LoggerInfo(LoggerInfo::TypePerformance, 
+				formatString("%iTRI %iPART %iGEOM %iSQR %iSND", 
 					tris,
 					pOnScreen,
 					enabledGeoms,
-					Landscape::instance()->getPatchGrid().getDrawnPatches())));
+					Landscape::instance()->getPatchGrid().getDrawnPatches(),
+					Sound::instance()->getAvailableChannels())));
 		}
 		totalCount_ = 0;
 		totalTime_ = 0.0f;

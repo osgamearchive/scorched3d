@@ -28,7 +28,7 @@
 #include <weapons/AccessoryStore.h>
 #include <landscape/DeformLandscape.h>
 #include <landscape/LandscapeMaps.h>
-#include <sound/Sound.h>
+#include <sound/SoundUtils.h>
 
 REGISTER_ACTION_SOURCE(Teleport);
 
@@ -78,10 +78,8 @@ void Teleport::simulate(float frameTime, bool &remove)
 				SoundBuffer *activateSound = 
 					Sound::instance()->fetchOrCreateBuffer((char *)
 						getDataFile(weapon_->getSound()));
-				SoundSource *source = Sound::instance()->createSource();
-				source->setPosition(tank->getPhysics().getTankPosition());
-				source->play(activateSound);
-				Sound::instance()->manageSource(source);
+				SoundUtils::playAbsoluteSound(VirtualSoundPriority::eAction,
+					activateSound, tank->getPhysics().getTankPosition());
 			}
 		}
 	}

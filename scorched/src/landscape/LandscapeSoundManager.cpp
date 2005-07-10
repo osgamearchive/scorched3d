@@ -68,15 +68,16 @@ void LandscapeSoundManager::initialize(std::list<LandscapeSound *> sounds)
 			entry.soundBuffer = 
 				Sound::instance()->fetchOrCreateBuffer((char *)
 					getDataFile(entry.soundType->sound.c_str()));
-			entry.soundSource = Sound::instance()->createSource();
 			entry.timeLeft = entry.soundType->timing->getNextEventTime();
+			entry.soundSource = new VirtualSoundSource(
+				VirtualSoundPriority::eEnvironment, (entry.timeLeft < 0.0f), false);
 			entries_.push_back(entry);
 
 			// Start any looped sounds
 			if (entry.timeLeft < 0.0f)
 			{
 				entry.soundType->position->setPosition(entry.soundSource);
-				entry.soundSource->play(entry.soundBuffer, true);
+				entry.soundSource->play(entry.soundBuffer);
 			}
 		}
 	}

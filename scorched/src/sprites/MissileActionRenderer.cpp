@@ -93,10 +93,10 @@ void MissileActionRenderer::simulate(Action *action, float timepassed, bool &rem
 		{
 			SoundBuffer *rocket = Sound::instance()->fetchOrCreateBuffer(
 				(char *) getDataFile(engineSound));
-			sound_ = Sound::instance()->createSource();
+			sound_ = new VirtualSoundSource(VirtualSoundPriority::eMissile, true, false);
 			sound_->setPosition(shot->getCurrentPosition());
 			sound_->setGain(0.25f);
-			sound_->play(rocket, true);
+			sound_->play(rocket);
 		}
 	}
 	if (sound_)

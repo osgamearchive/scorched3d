@@ -19,7 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <sprites/TankDeadRenderer.h>
-#include <sound/Sound.h>
+#include <sound/SoundUtils.h>
 #include <tank/TankContainer.h>
 #include <client/ScorchedClient.h>
 #include <engine/ParticleEmitter.h>
@@ -50,10 +50,8 @@ void TankDeadRenderer::simulate(Action *action, float frametime, bool &removeAct
 	{
 		// Play Dead Tank Sound
 		CACHE_SOUND(sound, (char *) getDataFile("data/wav/explosions/tank.wav"));
-		SoundSource *source = Sound::instance()->createSource();
-		source->setPosition(killedTank->getPhysics().getTankPosition());
-		source->play(sound);
-		Sound::instance()->manageSource(source);
+		SoundUtils::playAbsoluteSound(VirtualSoundPriority::eAction,
+			sound, killedTank->getPhysics().getTankPosition());
 
 		// Emmit explosion ring
 		Vector position = 

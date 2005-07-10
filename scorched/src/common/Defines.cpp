@@ -325,3 +325,39 @@ const char *getGlobalModFile(const char *file, ...)
 	::wxDos2UnixFilename(buffer);
 	return buffer;
 }
+
+#include <math.h>
+static float fastSin[628];
+static float fastCos[628];
+static bool calculatedFast = false;
+
+static void calculateFast()
+{
+	calculatedFast = true;
+	for (int i=0; i<628; i++)
+	{
+		float a = float(i) / 100.0f;
+		fastSin[i] = (float) sin(a);
+		fastCos[i] = (float) cos(a);
+	}
+}
+
+float getFastSin(float angle)
+{
+	if (!calculatedFast) calculateFast();
+	if (angle < 0.0f)
+	{
+		return -fastSin[(int(angle * -100)) % 628];
+	}
+	return fastSin[(int(angle * 100)) % 628];
+}
+
+float getFastCos(float angle)
+{
+	if (!calculatedFast) calculateFast();
+	if (angle < 0.0f)
+	{
+		return fastCos[(int(angle * -100)) % 628];
+	}
+	return fastCos[(int(angle * 100)) % 628];
+}

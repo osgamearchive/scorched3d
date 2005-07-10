@@ -34,7 +34,7 @@ bool LandscapeSoundPositionGroup::readXML(XMLNode *node)
 	return node->failChildren();
 }
 
-void LandscapeSoundPositionGroup::setPosition(SoundSource *source)
+void LandscapeSoundPositionGroup::setPosition(VirtualSoundSource *source)
 {
 	Vector &cameraPos = 
 		MainCamera::instance()->getCamera().getCurrentPos();
@@ -66,7 +66,7 @@ bool LandscapeSoundPositionWater::readXML(XMLNode *node)
 	return node->failChildren();
 }
 
-void LandscapeSoundPositionWater::setPosition(SoundSource *source)
+void LandscapeSoundPositionWater::setPosition(VirtualSoundSource *source)
 {
 	Vector &cameraPos = 
 		MainCamera::instance()->getCamera().getCurrentPos();
@@ -92,7 +92,7 @@ bool LandscapeSoundPositionAmbient::readXML(XMLNode *node)
 	return node->failChildren();
 }
 
-void LandscapeSoundPositionAmbient::setPosition(SoundSource *source)
+void LandscapeSoundPositionAmbient::setPosition(VirtualSoundSource *source)
 {
 	source->setRelative();
 	source->setPosition(Vector::nullVector);
@@ -104,7 +104,7 @@ bool LandscapeSoundPositionAbsoulte::readXML(XMLNode *node)
 	return node->failChildren();
 }
 
-void LandscapeSoundPositionAbsoulte::setPosition(SoundSource *source)
+void LandscapeSoundPositionAbsoulte::setPosition(VirtualSoundSource *source)
 {
 	source->setPosition(position);
 }

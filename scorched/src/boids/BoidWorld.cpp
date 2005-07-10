@@ -94,7 +94,7 @@ void BoidWorld::makeSounds(std::list<std::string> &sounds,
 	for (int i=0; i<soundmaxsimul; i++)
 	{
 		SoundEntry entry;
-		entry.source = Sound::instance()->createSource();
+		entry.source = new VirtualSoundSource(VirtualSoundPriority::eBoids, false, false);
 		entry.source->setGain(soundvolume / 100.0f);
 		currentSounds_.push_back(entry);
 	}

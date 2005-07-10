@@ -103,11 +103,11 @@ void MissileMesh::draw(Vector &position, Vector &direction, int flareType, float
 		Vector &fpos = (*flareItor);
 
         float newX = fpos[0];
-		float newY = (fpos[1] * cosf(angYZRad)) - (fpos[2] * sinf(angYZRad));
-		float newZ = (fpos[1] * sinf(angYZRad)) + (fpos[2] * cosf(angYZRad)); 
+		float newY = (fpos[1] * getFastCos(angYZRad)) - (fpos[2] * getFastSin(angYZRad));
+		float newZ = (fpos[1] * getFastSin(angYZRad)) + (fpos[2] * getFastCos(angYZRad)); 
 
-		float newX2 = (newX * cosf(angXYRad)) - (newY * sinf(angXYRad));
-		float newY2 = (newX * sinf(angXYRad)) + (newY * cosf(angXYRad)); 
+		float newX2 = (newX * getFastCos(angXYRad)) - (newY * getFastSin(angXYRad));
+		float newY2 = (newX * getFastSin(angXYRad)) + (newY * getFastCos(angXYRad)); 
 		float newZ2 = newZ;
 
 		Vector newPos;

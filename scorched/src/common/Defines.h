@@ -64,6 +64,9 @@ extern const char *getGlobalModFile(const char *file, ...);
 #define MAX(x,y) ((x)>(y)?(x):(y))
 #define MIN(x,y) ((x)<(y)?(x):(y))
 
+extern float getFastSin(float angle);
+extern float getFastCos(float angle);
+
 #ifdef NO_FLOAT_MATH
 
 #define sinf(x) ((float)sin(x))

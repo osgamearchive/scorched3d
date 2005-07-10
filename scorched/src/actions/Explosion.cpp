@@ -21,7 +21,7 @@
 #include <client/MainCamera.h>
 #include <client/ScorchedClient.h>
 #include <tank/TankController.h>
-#include <sound/Sound.h>
+#include <sound/SoundUtils.h>
 #include <common/OptionsGame.h>
 #include <common/OptionsParam.h>
 #include <common/OptionsDisplay.h>
@@ -217,10 +217,8 @@ void Explosion::simulate(float frameTime, bool &remove)
 				SoundBuffer *expSound = 
 					Sound::instance()->fetchOrCreateBuffer(
 						(char *) getDataFile("data/wav/%s", weapon_->getExplosionSound()));
-				SoundSource *soundSource = Sound::instance()->createSource();
-				soundSource->setPosition(position_);
-				soundSource->play(expSound);
-				Sound::instance()->manageSource(soundSource);
+				SoundUtils::playAbsoluteSound(VirtualSoundPriority::eAction,
+					expSound, position_);
 			}
 		}
 
