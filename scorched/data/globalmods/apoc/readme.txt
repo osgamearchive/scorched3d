@@ -25,8 +25,10 @@ Changes Since 2.0
 			- Lightning Storm no longer generates the projectiles while spreading (looks better)
 			- Broke the two bolts in Lightning Strike up with a slight delay so you can tell its two bolts 
 				per strike even when they hit the same person.  It looks cooler and and is more effective.
-			- Slightly reduced the damage done by the individual bolts
+			- Slightly reduced the damage done by the individual bolts in Lightning Strikes
+			- Lightning strikes (and subsequent storm) now spawn from a random location instead of being launched by projectile
 		- Acid Rain/Hell Storm now a little more rain like
+		- Meteor Shower now spawns from a random location in the air when fired.
 			
 	Landscapes:
 		- Starting locations on some landscapes for team games
