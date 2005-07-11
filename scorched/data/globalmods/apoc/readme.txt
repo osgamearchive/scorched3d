@@ -35,6 +35,7 @@ Changes Since 2.0
 			- The other team starting locations basically split the map in two with each team having one half the map
 			- There are still plenty of maps which retain the old random team placement as well to mix it up
 		- Changes to cities:
+			- Ambient sounds (started at least)
 			- Cities added to even more maps
 			- New stormy city layouts
 			- Buildings now explode and generate debris and smoke when destroyed or napalmed

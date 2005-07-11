@@ -667,8 +667,11 @@
 		</placements>
 		<ambientsounds>
 			<ambientsound>waves</ambientsound>
-			<ambientsound>night</ambientsound>
 			<ambientsound>jet</ambientsound>
+			<ambientsound>trees</ambientsound>
+			<ambientsound>city</ambientsound>
+			<ambientsound>buildings</ambientsound>
+			<ambientsound>cars</ambientsound>
 		</ambientsounds>
 		<precipitation type="snow">
 			<particles>60</particles>
@@ -720,6 +723,9 @@
 			<ambientsound>waves</ambientsound>
 			<ambientsound>jet</ambientsound>
 			<ambientsound>trees</ambientsound>
+			<ambientsound>city</ambientsound>
+			<ambientsound>buildings</ambientsound>
+			<ambientsound>cars</ambientsound>
 		</ambientsounds>
 		<precipitation type="none"></precipitation>
 		<events></events>
@@ -786,6 +792,9 @@
 			<ambientsound>waves</ambientsound>
 			<ambientsound>rain</ambientsound>
 			<ambientsound>jet</ambientsound>
+			<ambientsound>city</ambientsound>
+			<ambientsound>buildings</ambientsound>
+			<ambientsound>cars</ambientsound>
 		</ambientsounds>
 		<precipitation type="rain">
 			<particles>60</particles>
@@ -845,8 +854,11 @@
 		</placements>
 		<ambientsounds>
 			<ambientsound>waves</ambientsound>
-			<ambientsound>night</ambientsound>
 			<ambientsound>jet</ambientsound>
+			<ambientsound>trees</ambientsound>
+			<ambientsound>city</ambientsound>
+			<ambientsound>buildings</ambientsound>
+			<ambientsound>cars</ambientsound>
 		</ambientsounds>
 		<precipitation type="snow">
 			<particles>60</particles>
@@ -898,10 +910,30 @@
 			<ambientsound>waves</ambientsound>
 			<ambientsound>jet</ambientsound>
 			<ambientsound>trees</ambientsound>
+			<ambientsound>city2</ambientsound>
+			<ambientsound>buildings</ambientsound>
+			<ambientsound>cars</ambientsound>
 		</ambientsounds>
 		<precipitation type="none"></precipitation>
 		<events></events>
-		<boids></boids>
+		<boids>
+			<boid>
+				<count>20</count>
+				<minz>5</minz>
+				<maxz>25</maxz>
+				<model type="MilkShape">data/meshes/seagull/seagull.txt</model>
+				<sounds>
+					<mintime>0</mintime>
+					<maxtime>4</maxtime>
+					<maxsimul>5</maxsimul>
+					<volume>100</volume>
+					<sound>data/wav/misc/gull1.wav</sound>
+					<sound>data/wav/misc/gull2.wav</sound>
+					<sound>data/wav/misc/gull4.wav</sound>
+					<sound>data/wav/misc/gull5.wav</sound>
+				</sounds>
+			</boid>
+		</boids>
 	</tex>
 	<tex>
 		<name>city2-storm</name>
@@ -947,6 +979,9 @@
 			<ambientsound>waves</ambientsound>
 			<ambientsound>rain</ambientsound>
 			<ambientsound>jet</ambientsound>
+			<ambientsound>city2</ambientsound>
+			<ambientsound>buildings</ambientsound>
+			<ambientsound>cars</ambientsound>
 		</ambientsounds>
 		<precipitation type="rain">
 			<particles>60</particles>
@@ -1006,8 +1041,11 @@
 		</placements>
 		<ambientsounds>
 			<ambientsound>waves</ambientsound>
-			<ambientsound>night</ambientsound>
 			<ambientsound>jet</ambientsound>
+			<ambientsound>trees</ambientsound>
+			<ambientsound>city</ambientsound>
+			<ambientsound>buildings</ambientsound>
+			<ambientsound>cars</ambientsound>
 		</ambientsounds>
 		<precipitation type="snow">
 			<particles>60</particles>
@@ -1059,10 +1097,30 @@
 			<ambientsound>waves</ambientsound>
 			<ambientsound>jet</ambientsound>
 			<ambientsound>trees</ambientsound>
+			<ambientsound>city</ambientsound>
+			<ambientsound>buildings</ambientsound>
+			<ambientsound>cars</ambientsound>
 		</ambientsounds>
 		<precipitation type="none"></precipitation>
 		<events></events>
-		<boids></boids>
+		<boids>
+			<boid>
+				<count>20</count>
+				<minz>5</minz>
+				<maxz>25</maxz>
+				<model type="MilkShape">data/meshes/seagull/seagull.txt</model>
+				<sounds>
+					<mintime>0</mintime>
+					<maxtime>4</maxtime>
+					<maxsimul>5</maxsimul>
+					<volume>100</volume>
+					<sound>data/wav/misc/gull1.wav</sound>
+					<sound>data/wav/misc/gull2.wav</sound>
+					<sound>data/wav/misc/gull4.wav</sound>
+					<sound>data/wav/misc/gull5.wav</sound>
+				</sounds>
+			</boid>
+		</boids>
 	</tex>
 	<tex>
 		<name>city3-storm</name>
@@ -1108,6 +1166,9 @@
 			<ambientsound>waves</ambientsound>
 			<ambientsound>rain</ambientsound>
 			<ambientsound>jet</ambientsound>
+			<ambientsound>city</ambientsound>
+			<ambientsound>buildings</ambientsound>
+			<ambientsound>cars</ambientsound>
 		</ambientsounds>
 		<precipitation type="rain">
 			<particles>60</particles>

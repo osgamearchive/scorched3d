@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<ambientsounds>
+	<ambientsound>
+		<name>rain</name>
+		<sounds>
+			<sound>
+				<position type="ambient"></position>
+				<timing type="looped"></timing>
+				<sound>data/wav/misc/rain.wav</sound>
+			</sound>
+		</sounds>
+	</ambientsound>
+	<ambientsound>
+		<name>jet</name>
+		<sounds>
+			<sound>
+				<position type="absolute">
+					<position><A>128</A><B>128</B><C>50</C></position>
+				</position>
+				<timing type="repeat">
+					<min>60</min>
+					<max>120</max>
+				</timing>
+				<sound>data/wav/misc/jet.wav</sound>
+			</sound>
+		</sounds>
+	</ambientsound>
+	<ambientsound>
+		<name>lava</name>
+		<sounds>
+			<sound>
+				<position type="absolute">
+					<position><A>128</A><B>128</B><C>50</C></position>
+				</position>
+				<timing type="repeat">
+					<min>60</min>
+					<max>120</max>
+				</timing>
+				<sound>data/wav/misc/lava2.wav</sound>
+			</sound>
+			<sound>
+				<position type="absolute">
+					<position><A>128</A><B>128</B><C>50</C></position>
+				</position>
+				<timing type="repeat">
+					<min>10</min>
+					<max>60</max>
+				</timing>
+				<sound>data/wav/misc/lava1.wav</sound>
+			</sound>
+		</sounds>
+	</ambientsound>
+	<ambientsound>
+		<name>night</name>
+		<sounds>
+			<sound>
+				<position type="absolute">
+					<position><A>128</A><B>128</B><C>50</C></position>
+				</position>
+				<timing type="repeat">
+					<min>120</min>
+					<max>120</max>
+				</timing>
+				<sound>data/wav/misc/wolf.wav</sound>
+			</sound>
+			<sound>
+				<position type="group">
+					<name>trees</name>
+				</position>
+				<timing type="looped"></timing>
+				<sound>data/wav/misc/frogs.wav</sound>
+			</sound>
+			<sound>
+				<position type="group">
+					<name>trees</name>
+				</position>
+				<timing type="repeat">
+					<min>10</min>
+					<max>60</max>
+				</timing>
+				<sound>data/wav/misc/birdchirp6.wav</sound>
+			</sound>
+			<sound>
+				<position type="group">
+					<name>trees</name>
+				</position>
+				<timing type="repeat">
+					<min>10</min>
+					<max>60</max>
+				</timing>
+				<sound>data/wav/misc/birdchirp1.wav</sound>
+			</sound>	
+		</sounds>
+	</ambientsound>
+	<ambientsound>
+		<name>waves</name>
+		<sounds>
+			<sound>
+				<position type="water"></position>
+				<timing type="looped"></timing>
+				<sound>data/wav/misc/oceanwaves.wav</sound>
+			</sound>
+		</sounds>
+	</ambientsound>
+	<ambientsound>
+		<name>trees</name>
+		<sounds>
+			<sound>
+				<position type="group">
+					<name>trees</name>
+				</position>
+				<timing type="looped"></timing>
+				<sound>data/wav/misc/birds1.wav</sound>
+			</sound>
+			<sound>
+				<position type="group">
+					<name>trees</name>
+				</position>
+				<timing type="repeat">
+					<min>10</min>
+					<max>60</max>
+				</timing>
+				<sound>data/wav/misc/birdchirp4.wav</sound>
+			</sound>
+			<sound>
+				<position type="group">
+					<name>trees</name>
+				</position>
+				<timing type="repeat">
+					<min>10</min>
+					<max>60</max>
+				</timing>
+				<sound>data/wav/misc/birdchirp5.wav</sound>
+			</sound>
+		</sounds>
+	</ambientsound>
+	<ambientsound>
+		<name>jungle</name>
+		<sounds>
+			<sound>
+				<position type="group">
+					<name>trees</name>
+				</position>
+				<timing type="looped"></timing>
+				<sound>data/wav/misc/birds2.wav</sound>
+			</sound>
+			<sound>
+				<position type="group">
+					<name>trees</name>
+				</position>
+				<timing type="repeat">
+					<min>10</min>
+					<max>60</max>
+				</timing>
+				<sound>data/wav/misc/birdchirp2.wav</sound>
+			</sound>
+			<sound>
+				<position type="group">
+					<name>trees</name>
+				</position>
+				<timing type="repeat">
+					<min>10</min>
+					<max>60</max>
+				</timing>
+				<sound>data/wav/misc/birdchirp3.wav</sound>
+			</sound>
+		</sounds>
+	</ambientsound>
+	<ambientsound>
+		<name>city</name>
+		<sounds>
+			<sound>
+				<position type="absolute">
+					<position><A>128</A><B>128</B><C>50</C></position>
+				</position>
+				<timing type="looped"></timing>
+				<sound>data/wav/misc/citysounds.wav</sound>
+			</sound>
+		</sounds>
+	</ambientsound>
+	<ambientsound>
+		<name>city2</name>
+		<sounds>
+			<sound>
+				<position type="absolute">
+					<position><A>32</A><B>72</B><C>50</C></position> 
+				</position>
+				<timing type="looped"></timing>
+				<sound>data/wav/misc/citysounds.wav</sound>
+			</sound>
+		</sounds>
+	</ambientsound>
+	<ambientsound>
+		<name>buildings</name>
+		<sounds>
+			<sound>
+				<position type="group">
+					<name>houses</name>
+				</position>
+				<timing type="repeat">
+					<min>10</min>
+					<max>40</max>
+				</timing>
+				<sound>data/wav/misc/dog.wav</sound>
+			</sound>
+			<sound>
+				<position type="group">
+					<name>houses</name>
+				</position>
+				<timing type="repeat">
+					<min>20</min>
+					<max>60</max>
+				</timing>
+				<sound>data/wav/misc/dog2.wav</sound>
+			</sound>
+			<sound>
+				<position type="group">
+					<name>houses</name>
+				</position>
+				<timing type="repeat">
+					<min>20</min>
+					<max>40</max>
+				</timing>
+				<sound>data/wav/misc/dog3.wav</sound>
+			</sound>
+			<sound>
+				<position type="group">
+					<name>farms</name>
+				</position>
+				<timing type="repeat">
+					<min>20</min>
+					<max>50</max>
+				</timing>
+				<sound>data/wav/misc/rooster.wav</sound>
+			</sound>
+			<sound>
+				<position type="group">
+					<name>farms</name>
+				</position>
+				<timing type="repeat">
+					<min>20</min>
+					<max>50</max>
+				</timing>
+				<sound>data/wav/misc/cows.wav</sound>
+			</sound>
+			<sound>
+				<position type="group">
+					<name>farms</name>
+				</position>
+				<timing type="repeat">
+					<min>20</min>
+					<max>50</max>
+				</timing>
+				<sound>data/wav/misc/sheep.wav</sound>
+			</sound>
+		</sounds>
+	</ambientsound>
+	<ambientsound>
+		<name>cars</name>
+		<sounds>
+			<sound>
+				<position type="group">
+					<name>offices</name>
+				</position>
+				<timing type="repeat">
+					<min>10</min>
+					<max>60</max>
+				</timing>
+				<sound>data/wav/misc/carhorn1.wav</sound>
+			</sound>
+			<sound>
+				<position type="group">
+					<name>offices</name>
+				</position>
+				<timing type="repeat">
+					<min>10</min>
+					<max>60</max>
+				</timing>
+				<sound>data/wav/misc/carhorn2.wav</sound>
+			</sound>
+			<sound>
+				<position type="group">
+					<name>offices</name>
+				</position>
+				<timing type="repeat">
+					<min>10</min>
+					<max>60</max>
+				</timing>
+				<sound>data/wav/misc/carhorn3.wav</sound>
+			</sound>
+			<sound>
+				<position type="group">
+					<name>offices</name>
+				</position>
+				<timing type="repeat">
+					<min>20</min>
+					<max>60</max>
+				</timing>
+				<sound>data/wav/misc/carhorn4.wav</sound>
+			</sound>
+			<sound>
+				<position type="group">
+					<name>offices</name>
+				</position>
+				<timing type="repeat">
+					<min>20</min>
+					<max>60</max>
+				</timing>
+				<sound>data/wav/misc/carhorn5.wav</sound>
+			</sound>
+			<sound>
+				<position type="group">
+					<name>offices</name>
+				</position>
+				<timing type="repeat">
+					<min>10</min>
+					<max>60</max>
+				</timing>
+				<sound>data/wav/misc/carhorn6.wav</sound>
+			</sound>
+			<sound>
+				<position type="group">
+					<name>offices</name>
+				</position>
+				<timing type="repeat">
+					<min>30</min>
+					<max>60</max>
+				</timing>
+				<sound>data/wav/misc/firetruck.wav</sound>
+			</sound>
+			<sound>
+				<position type="group">
+					<name>offices</name>
+				</position>
+				<timing type="repeat">
+					<min>30</min>
+					<max>60</max>
+				</timing>
+				<sound>data/wav/misc/policecar.wav</sound>
+			</sound>
+		</sounds>
+	</ambientsound>
+</ambientsounds>
