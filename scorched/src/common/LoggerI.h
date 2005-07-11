@@ -43,6 +43,7 @@ public:
 	void setMessage(const char *message);
 	void setTime(const char *time);
 	void setIcon(GLTexture *icon);
+	void setInfoLen(unsigned int infoLen);
 	void setPlayerId(unsigned int playerId);
 	void setOtherPlayerId(unsigned int playerId);
 
@@ -50,12 +51,14 @@ public:
 	const char *getMessage() { return message_.c_str(); }
 	const char *getTime() { return time_.c_str(); }
 	unsigned int getMessageLen() { return message_.size(); }
+	unsigned int getInfoLen() { return infoLen_; }
     unsigned int getPlayerId() { return playerId_; }
 	unsigned int getOtherPlayerId() { return otherPlayerId_; }
 	GLTexture *getIcon() { return  icon_; }
 
 protected:
 	unsigned int type_;
+	unsigned int infoLen_;
 	unsigned int playerId_;
 	unsigned int otherPlayerId_;
 	GLTexture *icon_;

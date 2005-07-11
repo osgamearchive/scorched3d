@@ -24,9 +24,10 @@
 ComsTextMessage::ComsTextMessage(const char *text,
 								 unsigned int playerId,
 								 bool showAsMessage,
-								 bool teamOnlyMessage) :
+								 bool teamOnlyMessage,
+								 unsigned int infoLen) :
 	ComsMessage("ComsTextMessage"),
-	playerId_(playerId),
+	playerId_(playerId), infoLen_(infoLen),
 	text_(text),
 	showAsMessage_(showAsMessage), 
 	teamOnlyMessage_(teamOnlyMessage)
@@ -41,6 +42,7 @@ bool ComsTextMessage::writeMessage(NetBuffer &buffer)
 {
 	buffer.addToBuffer(text_);
 	buffer.addToBuffer(playerId_);
+	buffer.addToBuffer(infoLen_);
 	buffer.addToBuffer(showAsMessage_);
 	buffer.addToBuffer(teamOnlyMessage_);
 	return true;
@@ -50,6 +52,7 @@ bool ComsTextMessage::readMessage(NetBufferReader &reader)
 {
 	if (!reader.getFromBuffer(text_)) return false;
 	if (!reader.getFromBuffer(playerId_)) return false;
+	if (!reader.getFromBuffer(infoLen_)) return false;
 	if (!reader.getFromBuffer(showAsMessage_)) return false;
 	if (!reader.getFromBuffer(teamOnlyMessage_)) return false;
 	return true;

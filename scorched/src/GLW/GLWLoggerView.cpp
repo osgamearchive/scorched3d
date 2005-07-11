@@ -29,6 +29,7 @@
 #include <tank/TankContainer.h>
 
 static Vector defaultColor(0.7f, 0.7f, 0.7f);
+static Vector otherDefaultColor(0.85f, 0.85f, 0.85f);
 static Vector black(0.0f, 0.0f, 0.0f);
 
 REGISTER_CLASS_SOURCE(GLWLoggerView);
@@ -206,10 +207,34 @@ void GLWLoggerView::draw()
 				// Draw Text
 				Tank *source = ScorchedClient::instance()->
 					getTankContainer().getTankById(entry.info.getPlayerId());
-				GLWFont::instance()->getLargePtFont()->
-					draw(source?source->getColor():defaultColor, fontSize_,
-						x, y, 0.0f, 
-						entry.info.getMessage());
+
+				Vector dColor = defaultColor;
+				if ((entry.info.getType() & LoggerInfo::TypeTalk) ||
+					(entry.info.getType() & LoggerInfo::TypeDeath))
+				{
+					dColor = otherDefaultColor;
+				}
+
+				if (entry.info.getInfoLen() > 0)
+				{
+					GLWFont::instance()->getLargePtFont()->
+						drawSubStr(0, entry.info.getInfoLen(),
+							source?source->getColor():dColor, fontSize_,
+							x, y, 0.0f, 
+							entry.info.getMessage());
+					GLWFont::instance()->getLargePtFont()->
+						drawSubStr(entry.info.getInfoLen(), entry.info.getMessageLen(),
+							dColor, fontSize_,
+							x, y, 0.0f, 
+							entry.info.getMessage());
+				}
+				else
+				{
+					GLWFont::instance()->getLargePtFont()->
+						draw(dColor, fontSize_,
+							x, y, 0.0f, 
+							entry.info.getMessage());
+				}
 			}
 			else
 			{

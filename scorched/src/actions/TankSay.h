@@ -29,7 +29,8 @@ class TankSay : public ActionMeta
 public:
 	TankSay();
 	TankSay(unsigned int playerId,
-		const char *text);
+		const char *text,
+		unsigned int infoLen);
 	virtual ~TankSay();
 
 	virtual void init();
@@ -41,6 +42,7 @@ public:
 
 protected:
 	unsigned int playerId_;
+	unsigned int infoLen_;
 	std::string text_;
 
 };

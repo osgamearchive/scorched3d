@@ -109,6 +109,32 @@ void GLFont2d::drawOutline(Vector &color, float size, float size2,
 	drawString((GLsizei) strlen(text), color, 1.0f, size, x, y, z, text, false, size2);
 }
 
+void GLFont2d::drawSubStr(int start, int len,
+				 Vector &color, float size, 
+				 float x, float y, float z, 
+				 const char *fmt, ...)
+{
+	static char text[2048];
+	va_list ap;
+
+	va_start(ap, fmt);
+	vsprintf(text, fmt, ap);
+	va_end(ap);	
+
+	int s = start;
+	float width = 0.0f;
+	for (char *a=text; *a; a++)
+	{
+		if (--s < 0) break;
+		width += float(characters_[*a].advances) * size / height_;
+	}
+
+	if (len - start > 0)
+	{
+		drawString(len - start, color, 1.0f, size, x + width, y, z, text + start, false);
+	}
+}
+
 void GLFont2d::drawWidth(int len, Vector &color, float size, 
 					   float x, float y, float z, 
 					   const char *fmt, ...)

@@ -55,10 +55,6 @@ bool ServerTextHandler::processMessage(unsigned int destinationId,
 	// Check that we don't recieve too much text
 	if (strlen(message.getText()) > 1024) return true;
 
-	// Filter the string
-	std::string filteredText(message.getText());
-	ScorchedServerUtil::instance()->textFilter.filterString(filteredText);
-
 	// If the client does not supply a tank id then
 	// get one from the destination
 	unsigned int tankId = message.getPlayerId();
@@ -98,6 +94,11 @@ bool ServerTextHandler::processMessage(unsigned int destinationId,
 			newText += " (Team)";
 		}
 		newText += ": ";
+		unsigned int infoLen = newText.length();
+
+		// Filter the string
+		std::string filteredText(message.getText());
+		ScorchedServerUtil::instance()->textFilter.filterString(filteredText);
 		newText += filteredText;
 		
 		// Remove any bad characters
@@ -110,7 +111,7 @@ bool ServerTextHandler::processMessage(unsigned int destinationId,
 		ServerCommon::serverLog(tankId, "Says \"%s\"", newText.c_str());
 
 		ComsTextMessage newMessage(newText.c_str(), 
-			tank->getPlayerId(), false, message.getTeamOnlyMessage());
+			tank->getPlayerId(), false, message.getTeamOnlyMessage(), infoLen);
 
 		// Send to players
 		if (!tank->getState().getMuted())

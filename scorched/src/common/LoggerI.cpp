@@ -28,6 +28,7 @@ LoggerInfo::LoggerInfo(
 	type_(type),
 	playerId_(0),
 	otherPlayerId_(0),
+	infoLen_(0),
 	icon_(0),
 	message_(message),
 	time_(time)
@@ -37,6 +38,11 @@ LoggerInfo::LoggerInfo(
 void LoggerInfo::setMessage(const char *message)
 {
 	message_ = message;
+}
+
+void LoggerInfo::setInfoLen(unsigned int infoLen)
+{
+	infoLen_ = infoLen;
 }
 
 void LoggerInfo::setTime(const char *time)

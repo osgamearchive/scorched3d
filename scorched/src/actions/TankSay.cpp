@@ -36,8 +36,9 @@ TankSay::TankSay()
 }
 
 TankSay::TankSay(unsigned int playerId,
-		const char *text) :
-	playerId_(playerId), text_(text)
+		const char *text,
+		unsigned int infoLen) :
+	playerId_(playerId), text_(text), infoLen_(infoLen)
 {
 
 }
@@ -60,13 +61,11 @@ void TankSay::init()
 				tank->getPhysics().getTankTurretPosition(),
 				white);
 			context_->actionController->addAction(new SpriteAction(talk));
-		}
 
-		if (!context_->serverMode)
-		{
 			LoggerInfo info(LoggerInfo::TypeTalk, text_.c_str());
 			info.setPlayerId(tank->getPlayerId());
 			info.setIcon(tank->getAvatar().getTexture());
+			info.setInfoLen(infoLen_);
 			Logger::log(info);
 		}
 		else if (OptionsParam::instance()->getDedicatedServer())
@@ -86,6 +85,7 @@ bool TankSay::writeAction(NetBuffer &buffer)
 {
 	buffer.addToBuffer(playerId_);
 	buffer.addToBuffer(text_);
+	buffer.addToBuffer(infoLen_);
 	return true;
 }
 
@@ -93,5 +93,6 @@ bool TankSay::readAction(NetBufferReader &reader)
 {
 	if (!reader.getFromBuffer(playerId_)) return false;
 	if (!reader.getFromBuffer(text_)) return false;
+	if (!reader.getFromBuffer(infoLen_)) return false;
 	return true;
 }

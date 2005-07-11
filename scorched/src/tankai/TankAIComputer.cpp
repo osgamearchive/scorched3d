@@ -226,11 +226,12 @@ void TankAIComputer::raiseDefenses()
 void TankAIComputer::say(const char *text)
 {
 	std::string newText(currentTank_->getName());
-	newText += ":";
+	newText += ": ";
+	unsigned int infoLen = newText.length();
 	newText += text;
 
 	ScorchedServer::instance()->getActionController().addAction(
-		new TankSay(currentTank_->getPlayerId(), newText.c_str()));
+		new TankSay(currentTank_->getPlayerId(), newText.c_str(), infoLen));
 }
 
 void TankAIComputer::playMove(const unsigned state, float frameTime, 

@@ -100,6 +100,7 @@ bool ClientTextHandler::processMessage(unsigned int id,
 					LoggerInfo info(LoggerInfo::TypeTalk, message.getText());
 					info.setPlayerId(message.getPlayerId());
 					info.setIcon(tank->getAvatar().getTexture());
+					info.setInfoLen(message.getInfoLen());
 					Logger::log(info);
 				}
 				else
