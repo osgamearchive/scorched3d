@@ -7691,84 +7691,90 @@ at nearby targets</description>
 	<accessory>
 		<name>Earthquake</name>
 		<armslevel>1</armslevel>
-		<description>Shakes the earth and does damage over a large area.</description>
+		<description>Shakes the earth and does damage over a large area.
+Earthquakes occur at a random location on the map</description>
 		<icon>quake.bmp</icon>
 		<bundlesize>1</bundlesize>
-		<cost>50000</cost>
-		<activationsound>shoot/xlarge.wav</activationsound>
-		<modelscale>5</modelscale>
-		<accessoryaction type='WeaponProjectile'>
-			<showendpoint></showendpoint>
-			<projectilescale>5</projectilescale>
-			<collisionaction type='WeaponMulti'>
-				<subweapon1 type='WeaponDelay'>
-					<delay>1</delay>
-					<delayedweapon type='WeaponMulti'>
-						<subweapon1 type='WeaponDelay'>
-							<delay>1</delay>
-							<delayedweapon type='WeaponMulti'>
-								<subweapon1 type='WeaponDelay'>
-									<delay>1</delay>
-									<delayedweapon type='WeaponMulti'>
-										<subweapon1 type='WeaponDelay'>
-											<delay>1</delay>
-											<delayedweapon type='WeaponExplosion'>
+		<cost>30000</cost>
+		<activationsound>shoot/flare.wav</activationsound>
+		<model type='MilkShape'>flare.txt</model>
+		<accessoryaction type="WeaponScatter">
+			<position><A>128</A><B>128</B><C>0</C></position>
+			<positionoffset><A>60</A><B>60</B><C>0</C></positionoffset>
+			<direction><A>0</A><B>0</B><C>0</C></direction>
+			<directionoffset><A>0</A><B>0</B><C>0</C></directionoffset>		
+			<aimedweapon type='WeaponDelay'>
+				<delay>2.0</delay>
+				<delayedweapon type='WeaponMulti'>
+					<subweapon1 type='WeaponDelay'>
+						<delay>1</delay>
+						<delayedweapon type='WeaponMulti'>
+							<subweapon1 type='WeaponDelay'>
+								<delay>1</delay>
+								<delayedweapon type='WeaponMulti'>
+									<subweapon1 type='WeaponDelay'>
+										<delay>1</delay>
+										<delayedweapon type='WeaponMulti'>
+											<subweapon1 type='WeaponDelay'>
+												<delay>1</delay>
+												<delayedweapon type='WeaponExplosion'>
+													<nocreatedebris></nocreatedebris>
+													<nocreatesplash></nocreatesplash>
+													<hurtamount>0.4</hurtamount>
+													<deform>none</deform>
+													<size>150</size>
+													<explosionshake>3.0</explosionshake>
+													<explosiontexture>none</explosiontexture>
+													<explosionsound>none</explosionsound>
+												</delayedweapon>
+											</subweapon1>
+											<subweapon2 type='WeaponExplosion'>
 												<nocreatedebris></nocreatedebris>
 												<nocreatesplash></nocreatesplash>
-												<hurtamount>0.4</hurtamount>
+												<hurtamount>0.5</hurtamount>
 												<deform>none</deform>
 												<size>120</size>
-												<explosionshake>3.0</explosionshake>
+												<explosionshake>6.0</explosionshake>
 												<explosiontexture>none</explosiontexture>
 												<explosionsound>none</explosionsound>
-											</delayedweapon>
-										</subweapon1>
-										<subweapon2 type='WeaponExplosion'>
-											<nocreatedebris></nocreatedebris>
-											<nocreatesplash></nocreatesplash>
-											<hurtamount>0.5</hurtamount>
-											<deform>none</deform>
-											<size>90</size>
-											<explosionshake>6.0</explosionshake>
-											<explosiontexture>none</explosiontexture>
-											<explosionsound>none</explosionsound>
-										</subweapon2>
-									</delayedweapon>
-								</subweapon1>
-								<subweapon2 type='WeaponExplosion'>
-									<nocreatedebris></nocreatedebris>
-									<nocreatesplash></nocreatesplash>
-									<hurtamount>0.4</hurtamount>
-									<deform>none</deform>
-									<size>60</size>
-									<explosionshake>4.0</explosionshake>
-									<explosiontexture>none</explosiontexture>
-									<explosionsound>none</explosionsound>
-								</subweapon2>
-							</delayedweapon>
-						</subweapon1>
-						<subweapon2 type='WeaponExplosion'>
-							<nocreatedebris></nocreatedebris>
-							<nocreatesplash></nocreatesplash>
-							<hurtamount>0.3</hurtamount>
-							<deform>none</deform>
-							<size>30</size>
-							<explosionshake>4.0</explosionshake>
-							<explosiontexture>none</explosiontexture>
-							<explosionsound>none</explosionsound>
-						</subweapon2>
-					</delayedweapon>
-				</subweapon1>
-				<subweapon2 type='WeaponExplosion'>
-					<nocreatedebris></nocreatedebris>
-					<hurtamount>0.2</hurtamount>
-					<deform>none</deform>
-					<size>15</size>
-					<explosionshake>3.0</explosionshake>
-					<explosiontexture>none</explosiontexture>
-					<explosionsound>explosions/quake.wav</explosionsound>
-				</subweapon2>
-			</collisionaction>
+											</subweapon2>
+										</delayedweapon>
+									</subweapon1>
+									<subweapon2 type='WeaponExplosion'>
+										<nocreatedebris></nocreatedebris>
+										<nocreatesplash></nocreatesplash>
+										<hurtamount>0.4</hurtamount>
+										<deform>none</deform>
+										<size>80</size>
+										<explosionshake>4.0</explosionshake>
+										<explosiontexture>none</explosiontexture>
+										<explosionsound>none</explosionsound>
+									</subweapon2>
+								</delayedweapon>
+							</subweapon1>
+							<subweapon2 type='WeaponExplosion'>
+								<nocreatedebris></nocreatedebris>
+								<nocreatesplash></nocreatesplash>
+								<hurtamount>0.3</hurtamount>
+								<deform>none</deform>
+								<size>40</size>
+								<explosionshake>4.0</explosionshake>
+								<explosiontexture>none</explosiontexture>
+								<explosionsound>none</explosionsound>
+							</subweapon2>
+						</delayedweapon>
+					</subweapon1>
+					<subweapon2 type='WeaponExplosion'>
+						<nocreatedebris></nocreatedebris>
+						<hurtamount>0.2</hurtamount>
+						<deform>none</deform>
+						<size>20</size>
+						<explosionshake>3.0</explosionshake>
+						<explosiontexture>none</explosiontexture>
+						<explosionsound>explosions/quake.wav</explosionsound>
+					</subweapon2>
+				</delayedweapon>
+			</aimedweapon>
 		</accessoryaction>
 	</accessory>
 	<accessory>

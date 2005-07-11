@@ -28,7 +28,8 @@ Changes Since 2.0
 			- Slightly reduced the damage done by the individual bolts in Lightning Strikes
 			- Lightning strikes (and subsequent storm) now spawn from a random location instead of being launched by projectile
 		- Acid Rain/Hell Storm now a little more rain like
-		- Meteor Shower now spawns from a random location in the air when fired.
+		- Meteor Shower now spawns from a random location in the air when fired
+		- Earthquake now forms from a random location on the ground when fired
 			
 	Landscapes:
 		- Starting locations on some landscapes for team games
@@ -109,7 +110,7 @@ Bunny Bomb		- MIRV with leaping warheads
 Chain Lightning - Explodes and releases an aimed arc of electricity with courses through the ground aimed at nearby tanks
 Disco Bunny		- Releases an initial salvo of aimed warheads which bounce outwards creating more warheads as they bounce
 Dmsday Device	- Larger, more destructive version of Apocalypse
-Earthquake      - shakes the earth and does damage over a large area
+Earthquake      - Shakes the earth and does damage over a large area from a random location on the map.
 EMP Grenade     - Explodes on impact causing damage to opponents without deforming the earth.
 Fatman			- In between a nuke and a MOAB
 Fire Ants		- MIRV that releases multiple rolling, explosive napalm warheads
@@ -121,15 +122,15 @@ Hellstorm		- Firey/explosive rain
 Hornet's Nest	- Creates an angry cloud of hornets which fly out and attack nearby tanks
 Hornet Swarm    - Releases multiple Hornet's Nests
 Instamountain	- Creates a mountain of dirt upon impacting the ground
-Lightning Bolt  - Explodes at the apex of the projectile's arc creating a small cloud and lightning bolt
-Lightning Storm - Explodes at the apex of the projectile's arc creating several lightning bolts over a few seconds
+Lightning Bolt  - Fires from a random location creating a small cloud and lightning bolt
+Lightning Storm - Fires from a random location creating several lightning bolts over a few seconds
 M2 Machinegun   - Shoots five 50 caliber machinegun bullets in rapid succession.
 Mega EMP        - Larger, more powerful version of the EMP grenade
 Mega Meteor		- Larger, more powerful version of meteor
 Mega MIRV		- Larger, more powerful version of the standard MIRV
 Mega S-MIRV		- Larger, more powerful version of the spread MIRV
 Meteor			- Meteor appears at the peak of flight and lands scattering flaming earth
-Meteor Shower	- Creates many meteors that rain down upon everyone
+Meteor Shower	- Fires from a random location and creates many meteors that rain down upon everyone
 MOAB			- Super-sized Nuke
 Napalm Blast	- Explodes on impact and releases many small napalm bomblets
 Napalm MIRV		- MIRV with napalm warheads
