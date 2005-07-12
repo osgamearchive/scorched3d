@@ -13,6 +13,7 @@ main move.</description>
 	<accessory>
 		<name>Parachute</name>
 		<armslevel>7</armslevel>
+		<startingnumber>2</startingnumber>
 		<description>Deployed when the tank falls.  
 Prevents the tank from taking falling damage.
 Parachutes must be enbabled before they are
@@ -26,6 +27,7 @@ effective.</description>
 	<accessory>
 		<name>Battery</name>
 		<armslevel>7</armslevel>
+		<startingnumber>4</startingnumber>
 		<description>Used to re-charge tank life.
 Giving more health and longer shots.</description>
 		<icon>battery.bmp</icon>
@@ -37,6 +39,7 @@ Giving more health and longer shots.</description>
 	<accessory>
 		<name>Fuel</name>
 		<armslevel>7</armslevel>
+		<startingnumber>20</startingnumber>
 		<description>Allows the tank to move.
 When it is the players turn the tank may choose 
 to move rather than fire.</description>
@@ -288,7 +291,7 @@ activated before they work.</description>
 					<napalmheight>6.0</napalmheight>
 					<steptime>1</steptime>
 					<hurtsteptime>4.0</hurtsteptime>
-					<hurtpersecond>0</hurtpersecond>
+					<hurtpersecond>0.1</hurtpersecond>
 					<numberstreams>1</numberstreams>
 					<effectradius>5</effectradius>
 					<napalmtexture>flames</napalmtexture>
@@ -349,7 +352,7 @@ activated before they work.</description>
 					<napalmheight>8.0</napalmheight>
 					<steptime>1</steptime>
 					<hurtsteptime>4.0</hurtsteptime>
-					<hurtpersecond>0</hurtpersecond>
+					<hurtpersecond>0.1</hurtpersecond>
 					<numberstreams>1</numberstreams>
 					<effectradius>5</effectradius>
 					<napalmtexture>flames</napalmtexture>
@@ -2037,6 +2040,71 @@ out in a random direction.</description>
 		</accessoryaction>
 	</accessory>
 	<accessory>
+		<name>Apoc Segment</name>
+		<maximumnumber>0</maximumnumber>
+		<armslevel>1</armslevel>
+		<accessoryaction type='WeaponProjectile'>
+			<apexcollision></apexcollision>
+			<projectilescale>2</projectilescale>
+			<projectilemodel type='MilkShape'>mirvwarhead/mirvwarhead.txt</projectilemodel>
+			<collisionaction type='WeaponMulti'>
+				<subweapon1 type='WeaponProjectile'>
+					<nocreateflame></nocreateflame>
+					<projectilemodel type='MilkShape'>mirvwarhead/mirvwarhead.txt</projectilemodel>
+					<collisionaction type='WeaponExplosion'>
+						<deform>down</deform>
+						<hurtamount>1.0</hurtamount>
+						<size>18</size>
+						<explosionsound>explosions/large.wav</explosionsound>
+						<explosiontexture>exp04</explosiontexture>
+						<explosionshake>2.0</explosionshake>
+					</collisionaction>
+				</subweapon1>
+				<subweapon2 type='WeaponExplosion'>
+					<nocreatedebris></nocreatedebris>
+					<deform>none</deform>
+					<hurtamount>0</hurtamount>
+					<size>18</size>
+					<explosionsound>none</explosionsound>
+					<explosiontexture>exp04</explosiontexture>
+				</subweapon2>
+				<subweapon3 type='WeaponVelocity'>
+					<velocitychange>0.66</velocitychange>
+					<aimedweapon type='WeaponProjectile'>
+						<nocreateflame></nocreateflame>
+						<projectilemodel type='MilkShape'>mirvwarhead/mirvwarhead.txt</projectilemodel>
+						<collisionaction type='WeaponExplosion'>
+							<deform>down</deform>
+							<hurtamount>1.0</hurtamount>
+							<size>16</size>
+							<explosionsound>none</explosionsound>
+							<explosiontexture>exp04</explosiontexture>
+							<explosionshake>2.0</explosionshake>
+						</collisionaction>
+					</aimedweapon>
+				</subweapon3>
+				<subweapon4 type='WeaponVelocity'>
+					<velocitychange>0.33</velocitychange>
+					<aimedweapon type='WeaponProjectile'>
+						<nocreateflame></nocreateflame>
+						<projectilemodel type='MilkShape'>mirvwarhead/mirvwarhead.txt</projectilemodel>
+						<collisionaction type='WeaponExplosion'>
+							<deform>down</deform>
+							<hurtamount>1.0</hurtamount>
+							<size>14</size>
+							<explosionsound>none</explosionsound>
+							<explosiontexture>exp04</explosiontexture>
+							<explosionshake>2.0</explosionshake>
+						</collisionaction>
+					</aimedweapon>
+				</subweapon4>
+				<subweapon5 type='WeaponSound'>
+					<sound>data/wav/shoot/flare.wav</sound>
+				</subweapon5>
+			</collisionaction>
+		</accessoryaction>
+	</accessory>
+	<accessory>
 		<name>Apocalypse</name>
 		<armslevel>1</armslevel>
 		<description>A projectile weapon that on
@@ -2055,71 +2123,315 @@ in several different directions.
 			<projectilescale>8</projectilescale>
 			<projectilemodel type='MilkShape'>icbm/icbm.txt</projectilemodel>
 			<collisionaction type='WeaponMulti'>
-				<subweapon1 type='WeaponAimedOver'>
-					<nowarheads>9</nowarheads>
-					<percentagemiss>15</percentagemiss>
-					<maxaimdistance>50</maxaimdistance>
-					<inaccuracy>10</inaccuracy>
-					<aimedweapon type='WeaponProjectile'>
-						<apexcollision></apexcollision>
-						<projectilescale>2</projectilescale>
-						<projectilemodel type='MilkShape'>mirvwarhead/mirvwarhead.txt</projectilemodel>
-						<collisionaction type='WeaponMulti'>
-							<subweapon1 type='WeaponProjectile'>
-								<nocreateflame></nocreateflame>
-								<nocreatesmoke></nocreatesmoke>
-								<projectilemodel type='MilkShape'>mirvwarhead/mirvwarhead.txt</projectilemodel>
-								<collisionaction type='WeaponExplosion'>
-									<deform>down</deform>
-									<hurtamount>1.0</hurtamount>
-									<size>18</size>
-									<explosionsound>explosions/xlarge.wav</explosionsound>
-									<explosiontexture>exp04</explosiontexture>
-									<explosionshake>2.0</explosionshake>
-								</collisionaction>
-							</subweapon1>
-							<subweapon2 type='WeaponDelay'>
-								<delay>0.5</delay>
-								<delayedweapon type='WeaponAimedOver'>
-									<nowarheads>2</nowarheads>
-									<percentagemiss>20</percentagemiss>
-									<maxaimdistance>35</maxaimdistance>
-									<inaccuracy>15</inaccuracy>
-									<aimedweapon type='WeaponProjectile'>
-										<nocreateflame></nocreateflame>
-										<nocreatesmoke></nocreatesmoke>
-										<projectilemodel type='MilkShape'>mirvwarhead/mirvwarhead.txt</projectilemodel>
-										<collisionaction type='WeaponExplosion'>
-											<deform>down</deform>
-											<hurtamount>1.0</hurtamount>
-											<size>18</size>
-											<explosionsound>explosions/xlarge.wav</explosionsound>
-											<explosiontexture>exp04</explosiontexture>
-											<explosionshake>2.0</explosionshake>
-										</collisionaction>
-									</aimedweapon>
-								</delayedweapon>
-							</subweapon2>
-							<subweapon3 type='WeaponExplosion'>
-								<nocreatedebris></nocreatedebris>
-								<deform>none</deform>
-								<hurtamount>0</hurtamount>
-								<size>18</size>
-								<explosionsound>explosions/large.wav</explosionsound>
-								<explosiontexture>exp04</explosiontexture>
-							</subweapon3>
-						</collisionaction>
-					</aimedweapon>
-				</subweapon1>
-				<subweapon2 type='WeaponExplosion'>
+				<subweapon1 type='WeaponExplosion'>
 					<nocreatedebris></nocreatedebris>
 					<deform>none</deform>
 					<hurtamount>0</hurtamount>
 					<size>24</size>
 					<explosionsound>explosions/xlarge.wav</explosionsound>
 					<explosiontexture>exp04</explosiontexture>
+				</subweapon1>
+				<subweapon2 type='WeaponVelocity'>
+					<velocitychange>0.5</velocitychange>
+					<aimedweapon type='WeaponMulti'>
+						<subweapon1 type='WeaponDelay'>
+							<delay>0.33</delay>
+							<delayedweapon type='WeaponRedirect'>
+								<habs>false</habs>
+								<vabs>true</vabs>
+								<hredirect>315</hredirect>
+								<vredirect>45</vredirect>
+								<nextaction type='WeaponReference'>
+									<weapon>Apoc Segment</weapon>
+								</nextaction>
+							</delayedweapon>
+						</subweapon1>
+						<subweapon2 type='WeaponDelay'>
+							<delay>0.66</delay>
+							<delayedweapon type='WeaponRedirect'>
+								<habs>false</habs>
+								<vabs>true</vabs>
+								<hredirect>0</hredirect>
+								<vredirect>45</vredirect>
+								<nextaction type='WeaponReference'>
+									<weapon>Apoc Segment</weapon>
+								</nextaction>
+							</delayedweapon>
+						</subweapon2>
+						<subweapon3 type='WeaponDelay'>
+							<delay>1.0</delay>
+							<delayedweapon type='WeaponRedirect'>
+								<habs>false</habs>
+								<vabs>true</vabs>
+								<hredirect>45</hredirect>
+								<vredirect>45</vredirect>
+								<nextaction type='WeaponReference'>
+									<weapon>Apoc Segment</weapon>
+								</nextaction>
+							</delayedweapon>
+						</subweapon3>
+						<subweapon4 type='WeaponDelay'>
+							<delay>1.33</delay>
+							<delayedweapon type='WeaponRedirect'>
+								<habs>false</habs>
+								<vabs>true</vabs>
+								<hredirect>90</hredirect>
+								<vredirect>45</vredirect>
+								<nextaction type='WeaponReference'>
+									<weapon>Apoc Segment</weapon>
+								</nextaction>
+							</delayedweapon>
+						</subweapon4>
+						<subweapon5 type='WeaponDelay'>
+							<delay>1.66</delay>
+							<delayedweapon type='WeaponRedirect'>
+								<habs>false</habs>
+								<vabs>true</vabs>
+								<hredirect>135</hredirect>
+								<vredirect>45</vredirect>
+								<nextaction type='WeaponReference'>
+									<weapon>Apoc Segment</weapon>
+								</nextaction>
+							</delayedweapon>
+						</subweapon5>
+						<subweapon6 type='WeaponDelay'>
+							<delay>2.0</delay>
+							<delayedweapon type='WeaponRedirect'>
+								<habs>false</habs>
+								<vabs>true</vabs>
+								<hredirect>180</hredirect>
+								<vredirect>45</vredirect>
+								<nextaction type='WeaponReference'>
+									<weapon>Apoc Segment</weapon>
+								</nextaction>
+							</delayedweapon>
+						</subweapon6>
+						<subweapon7 type='WeaponDelay'>
+							<delay>2.33</delay>
+							<delayedweapon type='WeaponRedirect'>
+								<habs>false</habs>
+								<vabs>true</vabs>
+								<hredirect>225</hredirect>
+								<vredirect>45</vredirect>
+								<nextaction type='WeaponReference'>
+									<weapon>Apoc Segment</weapon>
+								</nextaction>
+							</delayedweapon>
+						</subweapon7>
+						<subweapon8 type='WeaponDelay'>
+							<delay>2.66</delay>
+							<delayedweapon type='WeaponRedirect'>
+								<habs>false</habs>
+								<vabs>true</vabs>
+								<hredirect>270</hredirect>
+								<vredirect>45</vredirect>
+								<nextaction type='WeaponReference'>
+									<weapon>Apoc Segment</weapon>
+								</nextaction>
+							</delayedweapon>
+						</subweapon8>
+					</aimedweapon>
 				</subweapon2>
+				<subweapon3 type='WeaponVelocity'>
+					<velocitychange>0.0</velocitychange>
+					<aimedweapon type='WeaponProjectile'>
+						<nocreateflame></nocreateflame>
+						<projectilemodel type='MilkShape'>mirvwarhead/mirvwarhead.txt</projectilemodel>
+						<collisionaction type='WeaponExplosion'>
+							<deform>down</deform>
+							<hurtamount>1.0</hurtamount>
+							<size>24</size>
+							<explosionsound>explosions/xlarge.wav</explosionsound>
+							<explosiontexture>exp04</explosiontexture>
+							<explosionshake>2.0</explosionshake>
+						</collisionaction>
+					</aimedweapon>
+				</subweapon3>
 			</collisionaction>
+		</accessoryaction>
+	</accessory>
+	<accessory>
+		<name>Dmsday Segment</name>
+		<maximumnumber>0</maximumnumber>
+		<armslevel>0</armslevel>
+		<accessoryaction type='WeaponProjectile'>
+			<apexcollision></apexcollision>
+			<projectilescale>3</projectilescale>
+			<projectilemodel type='MilkShape'>mirvwarhead/mirvwarhead.txt</projectilemodel>
+			<collisionaction type='WeaponMulti'>
+				<subweapon1 type='WeaponProjectile'>
+					<nocreateflame></nocreateflame>
+					<projectilescale>2</projectilescale>
+					<projectilemodel type='MilkShape'>mirvwarhead/mirvwarhead.txt</projectilemodel>
+					<collisionaction type='WeaponExplosion'>
+						<deform>down</deform>
+						<hurtamount>1.0</hurtamount>
+						<size>28</size>
+						<explosionsound>explosions/large.wav</explosionsound>
+						<explosiontexture>exp04</explosiontexture>
+						<explosionshake>2.0</explosionshake>
+					</collisionaction>
+				</subweapon1>
+				<subweapon2 type='WeaponExplosion'>
+					<nocreatedebris></nocreatedebris>
+					<deform>none</deform>
+					<hurtamount>0</hurtamount>
+					<size>18</size>
+					<explosionsound>none</explosionsound>
+					<explosiontexture>exp04</explosiontexture>
+				</subweapon2>
+				<subweapon3 type='WeaponVelocity'>
+					<velocitychange>0.8</velocitychange>
+					<aimedweapon type='WeaponProjectile'>
+						<nocreateflame></nocreateflame>
+						<projectilemodel type='MilkShape'>mirvwarhead/mirvwarhead.txt</projectilemodel>
+						<collisionaction type='WeaponExplosion'>
+							<deform>down</deform>
+							<hurtamount>1.0</hurtamount>
+							<size>24</size>
+							<explosionsound>none</explosionsound>
+							<explosiontexture>exp04</explosiontexture>
+							<explosionshake>2.0</explosionshake>
+						</collisionaction>
+					</aimedweapon>
+				</subweapon3>
+				<subweapon4 type='WeaponVelocity'>
+					<velocitychange>0.5</velocitychange>
+					<aimedweapon type='WeaponProjectile'>
+						<nocreateflame></nocreateflame>
+						<projectilemodel type='MilkShape'>mirvwarhead/mirvwarhead.txt</projectilemodel>
+						<collisionaction type='WeaponExplosion'>
+							<deform>down</deform>
+							<hurtamount>1.0</hurtamount>
+							<size>20</size>
+							<explosionsound>none</explosionsound>
+							<explosiontexture>exp04</explosiontexture>
+							<explosionshake>2.0</explosionshake>
+						</collisionaction>
+					</aimedweapon>
+				</subweapon4>
+				<subweapon5 type='WeaponVelocity'>
+					<velocitychange>0.2</velocitychange>
+					<aimedweapon type='WeaponProjectile'>
+						<nocreateflame></nocreateflame>
+						<projectilemodel type='MilkShape'>mirvwarhead/mirvwarhead.txt</projectilemodel>
+						<collisionaction type='WeaponExplosion'>
+							<deform>down</deform>
+							<hurtamount>1.0</hurtamount>
+							<size>16</size>
+							<explosionsound>none</explosionsound>
+							<explosiontexture>exp04</explosiontexture>
+							<explosionshake>2.0</explosionshake>
+						</collisionaction>
+					</aimedweapon>
+				</subweapon5>
+				<subweapon6 type='WeaponSound'>
+					<sound>data/wav/shoot/flare.wav</sound>
+				</subweapon6>
+			</collisionaction>
+		</accessoryaction>
+	</accessory>
+	<accessory>
+		<name>Dmsday Flower</name>
+		<maximumnumber>0</maximumnumber>
+		<armslevel>0</armslevel>
+		<accessoryaction type='WeaponMulti'>
+			<subweapon1 type='WeaponDelay'>
+				<delay>0.33</delay>
+				<delayedweapon type='WeaponRedirect'>
+					<habs>false</habs>
+					<vabs>true</vabs>
+					<hredirect>315</hredirect>
+					<vredirect>45</vredirect>
+					<nextaction type='WeaponReference'>
+						<weapon>Dmsday Segment</weapon>
+					</nextaction>
+				</delayedweapon>
+			</subweapon1>
+			<subweapon2 type='WeaponDelay'>
+				<delay>0.66</delay>
+				<delayedweapon type='WeaponRedirect'>
+					<habs>false</habs>
+					<vabs>true</vabs>
+					<hredirect>0</hredirect>
+					<vredirect>45</vredirect>
+					<nextaction type='WeaponReference'>
+						<weapon>Dmsday Segment</weapon>
+					</nextaction>
+				</delayedweapon>
+			</subweapon2>
+			<subweapon3 type='WeaponDelay'>
+				<delay>1.0</delay>
+				<delayedweapon type='WeaponRedirect'>
+					<habs>false</habs>
+					<vabs>true</vabs>
+					<hredirect>45</hredirect>
+					<vredirect>45</vredirect>
+					<nextaction type='WeaponReference'>
+						<weapon>Dmsday Segment</weapon>
+					</nextaction>
+				</delayedweapon>
+			</subweapon3>
+			<subweapon4 type='WeaponDelay'>
+				<delay>1.33</delay>
+				<delayedweapon type='WeaponRedirect'>
+					<habs>false</habs>
+					<vabs>true</vabs>
+					<hredirect>90</hredirect>
+					<vredirect>45</vredirect>
+					<nextaction type='WeaponReference'>
+						<weapon>Dmsday Segment</weapon>
+					</nextaction>
+				</delayedweapon>
+			</subweapon4>
+			<subweapon5 type='WeaponDelay'>
+				<delay>1.66</delay>
+				<delayedweapon type='WeaponRedirect'>
+					<habs>false</habs>
+					<vabs>true</vabs>
+					<hredirect>135</hredirect>
+					<vredirect>45</vredirect>
+					<nextaction type='WeaponReference'>
+						<weapon>Dmsday Segment</weapon>
+					</nextaction>
+				</delayedweapon>
+			</subweapon5>
+			<subweapon6 type='WeaponDelay'>
+				<delay>2.0</delay>
+				<delayedweapon type='WeaponRedirect'>
+					<habs>false</habs>
+					<vabs>true</vabs>
+					<hredirect>180</hredirect>
+					<vredirect>45</vredirect>
+					<nextaction type='WeaponReference'>
+						<weapon>Dmsday Segment</weapon>
+					</nextaction>
+				</delayedweapon>
+			</subweapon6>
+			<subweapon7 type='WeaponDelay'>
+				<delay>2.33</delay>
+				<delayedweapon type='WeaponRedirect'>
+					<habs>false</habs>
+					<vabs>true</vabs>
+					<hredirect>225</hredirect>
+					<vredirect>45</vredirect>
+					<nextaction type='WeaponReference'>
+						<weapon>Dmsday Segment</weapon>
+					</nextaction>
+				</delayedweapon>
+			</subweapon7>
+			<subweapon8 type='WeaponDelay'>
+				<delay>2.66</delay>
+				<delayedweapon type='WeaponRedirect'>
+					<habs>false</habs>
+					<vabs>true</vabs>
+					<hredirect>270</hredirect>
+					<vredirect>45</vredirect>
+					<nextaction type='WeaponReference'>
+						<weapon>Dmsday Segment</weapon>
+					</nextaction>
+				</delayedweapon>
+			</subweapon8>
 		</accessoryaction>
 	</accessory>
 	<accessory>
@@ -2138,212 +2450,34 @@ arc raining massive destruction upon the field.</description>
 			<projectilescale>12</projectilescale>
 			<projectilemodel type='MilkShape'>icbm/icbm.txt</projectilemodel>
 			<collisionaction type='WeaponMulti'>
-				<subweapon1 type='WeaponAimedOver'>
-					<percentagemiss>10</percentagemiss>
-					<maxaimdistance>75</maxaimdistance>
-					<inaccuracy>5</inaccuracy>
-					<nowarheads>4</nowarheads>
-					<aimedweapon type='WeaponProjectile'>
-						<nocreateflame></nocreateflame>
-						<apexcollision></apexcollision>
-						<projectilescale>3</projectilescale>
-						<projectilemodel type='MilkShape'>mirvwarhead/mirvwarhead.txt</projectilemodel>
-						<collisionaction type='WeaponMulti'>
-							<subweapon1 type='WeaponProjectile'>
-								<nocreateflame></nocreateflame>
-								<nocreatesmoke></nocreatesmoke>
-								<projectilemodel type='MilkShape'>mirvwarhead/mirvwarhead.txt</projectilemodel>
-								<collisionaction type='WeaponExplosion'>
-									<deform>down</deform>
-									<hurtamount>1.0</hurtamount>
-									<size>24</size>
-									<explosionsound>explosions/small.wav</explosionsound>
-									<explosiontexture>exp04</explosiontexture>
-								</collisionaction>
-							</subweapon1>
-							<subweapon2 type='WeaponDelay'>
-								<delay>0.5</delay>
-								<delayedweapon type='WeaponAimedOver'>
-									<percentagemiss>20</percentagemiss>
-									<maxaimdistance>50</maxaimdistance>
-									<inaccuracy>10</inaccuracy>
-									<nowarheads>2</nowarheads>
-									<aimedweapon type='WeaponProjectile'>
-										<nocreateflame></nocreateflame>
-										<nocreatesmoke></nocreatesmoke>
-										<apexcollision></apexcollision>
-										<projectilescale>2</projectilescale>
-										<projectilemodel type='MilkShape'>mirvwarhead/mirvwarhead.txt</projectilemodel>
-										<collisionaction type='WeaponMulti'>
-											<subweapon1 type='WeaponProjectile'>
-												<nocreateflame></nocreateflame>
-												<nocreatesmoke></nocreatesmoke>
-												<projectilemodel type='MilkShape'>mirvwarhead/mirvwarhead.txt</projectilemodel>
-												<collisionaction type='WeaponExplosion'>
-													<deform>down</deform>
-													<hurtamount>1.0</hurtamount>
-													<size>16</size>
-													<explosionsound>explosions/small.wav</explosionsound>
-													<explosiontexture>exp04</explosiontexture>
-												</collisionaction>
-											</subweapon1>
-											<subweapon2 type='WeaponDelay'>
-												<delay>0.5</delay>
-												<delayedweapon type='WeaponAimedOver'>
-													<percentagemiss>20</percentagemiss>
-													<maxaimdistance>30</maxaimdistance>
-													<inaccuracy>10</inaccuracy>
-													<nowarheads>2</nowarheads>
-													<aimedweapon type='WeaponProjectile'>
-														<nocreateflame></nocreateflame>
-														<nocreatesmoke></nocreatesmoke>
-														<projectilemodel type='MilkShape'>mirvwarhead/mirvwarhead.txt</projectilemodel>
-														<collisionaction type='WeaponExplosion'>
-															<deform>down</deform>
-															<hurtamount>1.0</hurtamount>
-															<size>32</size>
-															<explosionsound>explosions/xlarge.wav</explosionsound>
-															<explosiontexture>exp04</explosiontexture>
-														</collisionaction>
-													</aimedweapon>
-												</delayedweapon>
-											</subweapon2>
-											<subweapon3 type='WeaponExplosion'>
-												<nocreatedebris></nocreatedebris>
-												<hurtamount>0.0</hurtamount>
-												<deform>none</deform>
-												<size>12</size>
-												<explosionsound>explosions/large.wav</explosionsound>
-												<explosiontexture>exp04</explosiontexture>
-											</subweapon3>
-										</collisionaction>
-									</aimedweapon>
-								</delayedweapon>
-							</subweapon2>
-							<subweapon3 type='WeaponExplosion'>
-								<nocreatedebris></nocreatedebris>
-								<hurtamount>0.0</hurtamount>
-								<deform>none</deform>
-								<size>16</size>
-								<explosionsound>explosions/large.wav</explosionsound>
-								<explosiontexture>exp04</explosiontexture>
-							</subweapon3>
-						</collisionaction>
-					</aimedweapon>
-				</subweapon1>
-				<subweapon2 type='WeaponExplosion'>
+				<subweapon1 type='WeaponExplosion'>
 					<nocreatedebris></nocreatedebris>
-					<hurtamount>0.0</hurtamount>
 					<deform>none</deform>
+					<hurtamount>0</hurtamount>
 					<size>24</size>
 					<explosionsound>explosions/xlarge.wav</explosionsound>
 					<explosiontexture>exp04</explosiontexture>
+				</subweapon1>
+				<subweapon2 type='WeaponVelocity'>
+					<velocitychange>0.6</velocitychange>
+					<aimedweapon type='WeaponReference'>
+						<weapon>Dmsday Flower</weapon>
+					</aimedweapon>
 				</subweapon2>
-				<subweapon3 type='WeaponDelay'>
-					<delay>1.5</delay>
-					<delayedweapon type='WeaponMulti'>
-						<subweapon1 type='WeaponAimedOver'>
-							<percentagemiss>10</percentagemiss>
-							<maxaimdistance>75</maxaimdistance>
-							<inaccuracy>5</inaccuracy>
-							<nowarheads>4</nowarheads>
-							<aimedweapon type='WeaponProjectile'>
-								<nocreatesmoke></nocreatesmoke>
-								<apexcollision></apexcollision>
-								<projectilescale>3</projectilescale>
-								<projectilemodel type='MilkShape'>mirvwarhead/mirvwarhead.txt</projectilemodel>
-								<collisionaction type='WeaponMulti'>
-									<subweapon1 type='WeaponProjectile'>
-										<nocreateflame></nocreateflame>
-										<nocreatesmoke></nocreatesmoke>
-										<projectilemodel type='MilkShape'>mirvwarhead/mirvwarhead.txt</projectilemodel>
-										<collisionaction type='WeaponExplosion'>
-											<deform>down</deform>
-											<hurtamount>1.0</hurtamount>
-											<size>24</size>
-											<explosionsound>explosions/small.wav</explosionsound>
-											<explosiontexture>exp04</explosiontexture>
-										</collisionaction>
-									</subweapon1>
-									<subweapon2 type='WeaponDelay'>
-										<delay>0.5</delay>
-										<delayedweapon type='WeaponAimedOver'>
-											<percentagemiss>20</percentagemiss>
-											<maxaimdistance>50</maxaimdistance>
-											<inaccuracy>10</inaccuracy>
-											<nowarheads>2</nowarheads>
-											<aimedweapon type='WeaponProjectile'>
-												<nocreateflame></nocreateflame>
-												<nocreatesmoke></nocreatesmoke>
-												<apexcollision></apexcollision>
-												<projectilescale>2</projectilescale>
-												<projectilemodel type='MilkShape'>mirvwarhead/mirvwarhead.txt</projectilemodel>
-												<collisionaction type='WeaponMulti'>
-													<subweapon1 type='WeaponProjectile'>
-														<nocreatesmoke></nocreatesmoke>
-														<nocreateflame></nocreateflame>
-														<projectilemodel type='MilkShape'>mirvwarhead/mirvwarhead.txt</projectilemodel>
-														<collisionaction type='WeaponExplosion'>
-															<deform>down</deform>
-															<hurtamount>1.0</hurtamount>
-															<size>16</size>
-															<explosionsound>explosions/small.wav</explosionsound>
-															<explosiontexture>exp04</explosiontexture>
-														</collisionaction>
-													</subweapon1>
-													<subweapon2 type='WeaponDelay'>
-														<delay>0.5</delay>
-														<delayedweapon type='WeaponAimedOver'>
-															<percentagemiss>20</percentagemiss>
-															<maxaimdistance>30</maxaimdistance>
-															<inaccuracy>10</inaccuracy>
-															<nowarheads>2</nowarheads>
-															<aimedweapon type='WeaponProjectile'>
-																<nocreateflame></nocreateflame>
-																<nocreatesmoke></nocreatesmoke>
-																<projectilemodel type='MilkShape'>mirvwarhead/mirvwarhead.txt</projectilemodel>
-																<collisionaction type='WeaponExplosion'>
-																	<deform>down</deform>
-																	<hurtamount>1.0</hurtamount>
-																	<size>32</size>
-																	<explosionsound>explosions/xlarge.wav</explosionsound>
-																	<explosiontexture>exp04</explosiontexture>
-																</collisionaction>
-															</aimedweapon>
-														</delayedweapon>
-													</subweapon2>
-													<subweapon3 type='WeaponExplosion'>
-														<nocreatedebris></nocreatedebris>
-														<hurtamount>0.0</hurtamount>
-														<deform>none</deform>
-														<size>12</size>
-														<explosionsound>explosions/large.wav</explosionsound>
-														<explosiontexture>exp04</explosiontexture>
-													</subweapon3>
-												</collisionaction>
-											</aimedweapon>
-										</delayedweapon>
-									</subweapon2>
-									<subweapon3 type='WeaponExplosion'>
-										<nocreatedebris></nocreatedebris>
-										<hurtamount>0.0</hurtamount>
-										<deform>none</deform>
-										<size>16</size>
-										<explosionsound>explosions/large.wav</explosionsound>
-										<explosiontexture>exp04</explosiontexture>
-									</subweapon3>
-								</collisionaction>
-							</aimedweapon>
-						</subweapon1>
-						<subweapon2 type='WeaponExplosion'>
-							<nocreatedebris></nocreatedebris>
-							<hurtamount>0.0</hurtamount>
-							<deform>none</deform>
-							<size>24</size>
+				<subweapon3 type='WeaponVelocity'>
+					<velocitychange>0.0</velocitychange>
+					<aimedweapon type='WeaponProjectile'>
+						<nocreateflame></nocreateflame>
+						<projectilemodel type='MilkShape'>mirvwarhead/mirvwarhead.txt</projectilemodel>
+						<collisionaction type='WeaponExplosion'>
+							<deform>down</deform>
+							<hurtamount>1.0</hurtamount>
+							<size>32</size>
 							<explosionsound>explosions/xlarge.wav</explosionsound>
 							<explosiontexture>exp04</explosiontexture>
-						</subweapon2>
-					</delayedweapon>
+							<explosionshake>2.0</explosionshake>
+						</collisionaction>
+					</aimedweapon>
 				</subweapon3>
 			</collisionaction>
 		</accessoryaction>
@@ -2370,487 +2504,49 @@ the world as you know it come to and end.</description>
 				<skin>default.bmp</skin>
 			</projectilemodel>
 			<collisionaction type='WeaponMulti'>
-				<subweapon1 type='WeaponAimedOver'>
-					<percentagemiss>10</percentagemiss>
-					<maxaimdistance>75</maxaimdistance>
-					<inaccuracy>5</inaccuracy>
-					<nowarheads>3</nowarheads>
-					<aimedweapon type='WeaponProjectile'>
-						<apexcollision></apexcollision>
-						<projectilescale>3</projectilescale>
-						<projectilemodel type='ase'>
-							<mesh>roller.ase</mesh>
-							<skin>default.bmp</skin>
-						</projectilemodel>
-						<collisionaction type='WeaponMulti'>
-							<subweapon1 type='WeaponProjectile'>
-								<nocreateflame></nocreateflame>
-								<nocreatesmoke></nocreatesmoke>
-								<projectilemodel type='MilkShape'>mirvwarhead/mirvwarhead.txt</projectilemodel>
-								<collisionaction type='WeaponExplosion'>
-									<hurtamount>1.0</hurtamount>
-									<deform>down</deform>
-									<size>24</size>
-									<explosionsound>explosions/medium.wav</explosionsound>
-									<explosiontexture>exp04</explosiontexture>
-								</collisionaction>
-							</subweapon1>
-							<subweapon2 type='WeaponDelay'>
-								<delay>0.5</delay>
-								<delayedweapon type='WeaponAimedOver'>
-									<percentagemiss>20</percentagemiss>
-									<maxaimdistance>50</maxaimdistance>
-									<inaccuracy>10</inaccuracy>
-									<nowarheads>2</nowarheads>
-									<aimedweapon type='WeaponProjectile'>
-										<nocreateflame></nocreateflame>
-										<apexcollision></apexcollision>
-										<projectilescale>2</projectilescale>
-										<projectilemodel type='ase'>
-											<mesh>roller.ase</mesh>
-											<skin>white.bmp</skin>
-										</projectilemodel>
-										<collisionaction type='WeaponMulti'>
-											<subweapon1 type='WeaponProjectile'>
-												<nocreateflame></nocreateflame>
-												<nocreatesmoke></nocreatesmoke>
-												<projectilemodel type='MilkShape'>mirvwarhead/mirvwarhead.txt</projectilemodel>
-												<collisionaction type='WeaponExplosion'>
-													<hurtamount>1.0</hurtamount>
-													<deform>down</deform>
-													<size>16</size>
-													<explosionsound>explosions/small.wav</explosionsound>
-													<explosiontexture>exp04</explosiontexture>
-												</collisionaction>
-											</subweapon1>
-											<subweapon2 type='WeaponDelay'>
-												<delay>0.5</delay>
-												<delayedweapon type='WeaponAimedOver'>
-													<percentagemiss>10</percentagemiss>
-													<maxaimdistance>50</maxaimdistance>
-													<inaccuracy>5</inaccuracy>
-													<nowarheads>1</nowarheads>
-													<aimedweapon type='WeaponProjectile'>
-														<nocreateflame></nocreateflame>
-														<nocreatesmoke></nocreatesmoke>
-														<projectilemodel type='ase'>
-															<mesh>roller.ase</mesh>
-															<skin>white.bmp</skin>
-														</projectilemodel>
-														<collisionaction type='WeaponMulti'>
-															<subweapon1 type='WeaponExplosion'>
-																<deform>down</deform>
-																<hurtamount>1.0</hurtamount>
-																<size>32</size>
-																<explosionsound>explosions/medium.wav</explosionsound>
-																<explosiontexture>exp04</explosiontexture>
-															</subweapon1>
-															<subweapon2 type='WeaponDelay'>
-																<delay>0.5</delay>
-																<delayedweapon type='WeaponAimedOver'>
-																	<percentagemiss>10</percentagemiss>
-																	<maxaimdistance>50</maxaimdistance>
-																	<inaccuracy>5</inaccuracy>
-																	<nowarheads>2</nowarheads>
-																	<aimedweapon type='WeaponProjectile'>
-																		<nocreateflame></nocreateflame>
-																		<nocreatesmoke></nocreatesmoke>
-																		<projectilemodel type='ase'>
-																			<mesh>roller.ase</mesh>
-																			<skin>white.bmp</skin>
-																		</projectilemodel>
-																		<collisionaction type='WeaponMulti'>
-																			<subweapon1 type='WeaponExplosion'>
-																				<deform>down</deform>
-																				<hurtamount>1.0</hurtamount>
-																				<size>16</size>
-																				<explosionsound>explosions/medium.wav</explosionsound>
-																				<explosiontexture>exp04</explosiontexture>
-																			</subweapon1>
-																			<subweapon2 type='WeaponAimedOver'>
-																				<percentagemiss>20</percentagemiss>
-																				<maxaimdistance>50</maxaimdistance>
-																				<inaccuracy>10</inaccuracy>
-																				<nowarheads>1</nowarheads>
-																				<aimedweapon type='WeaponProjectile'>
-																					<nocreateflame></nocreateflame>
-																					<nocreatesmoke></nocreatesmoke>
-																					<projectilemodel type='ase'>
-																						<mesh>roller.ase</mesh>
-																						<skin>white.bmp</skin>
-																					</projectilemodel>
-																					<collisionaction type='WeaponExplosion'>
-																						<deform>down</deform>
-																						<hurtamount>1.0</hurtamount>
-																						<size>12</size>
-																						<explosionsound>explosions/small.wav</explosionsound>
-																						<explosiontexture>exp04</explosiontexture>
-																					</collisionaction>
-																				</aimedweapon>
-																			</subweapon2>
-																		</collisionaction>
-																	</aimedweapon>
-																</delayedweapon>
-															</subweapon2>
-														</collisionaction>
-													</aimedweapon>
-												</delayedweapon>
-											</subweapon2>
-											<subweapon3 type='WeaponExplosion'>
-												<nocreatedebris></nocreatedebris>
-												<hurtamount>0.0</hurtamount>
-												<deform>none</deform>
-												<size>10</size>
-												<explosionsound>explosions/large.wav</explosionsound>
-												<explosiontexture>exp04</explosiontexture>
-											</subweapon3>
-										</collisionaction>
-									</aimedweapon>
-								</delayedweapon>
-							</subweapon2>
-							<subweapon3 type='WeaponExplosion'>
-								<nocreatedebris></nocreatedebris>
-								<hurtamount>0.0</hurtamount>
-								<deform>none</deform>
-								<size>20</size>
-								<explosionsound>explosions/large.wav</explosionsound>
-								<explosiontexture>exp04</explosiontexture>
-							</subweapon3>
-						</collisionaction>
-					</aimedweapon>
-				</subweapon1>
-				<subweapon2 type='WeaponExplosion'>
+				<subweapon1 type='WeaponExplosion'>
 					<nocreatedebris></nocreatedebris>
-					<hurtamount>0.0</hurtamount>
 					<deform>none</deform>
-					<size>20</size>
+					<hurtamount>0</hurtamount>
+					<size>24</size>
 					<explosionsound>explosions/xlarge.wav</explosionsound>
 					<explosiontexture>exp04</explosiontexture>
+				</subweapon1>
+				<subweapon2 type='WeaponVelocity'>
+					<velocitychange>0.0</velocitychange>
+					<aimedweapon type='WeaponProjectile'>
+						<nocreateflame></nocreateflame>
+						<projectilemodel type='MilkShape'>mirvwarhead/mirvwarhead.txt</projectilemodel>
+						<collisionaction type='WeaponExplosion'>
+							<deform>down</deform>
+							<hurtamount>1.0</hurtamount>
+							<size>36</size>
+							<explosionsound>explosions/xlarge.wav</explosionsound>
+							<explosiontexture>exp04</explosiontexture>
+							<explosionshake>2.0</explosionshake>
+						</collisionaction>
+					</aimedweapon>
 				</subweapon2>
-				<subweapon3 type='WeaponDelay'>
-					<delay>1.5</delay>
-					<delayedweapon type='WeaponMulti'>
-						<subweapon1 type='WeaponAimedOver'>
-							<percentagemiss>10</percentagemiss>
-							<maxaimdistance>100</maxaimdistance>
-							<inaccuracy>5</inaccuracy>
-							<nowarheads>3</nowarheads>
-							<aimedweapon type='WeaponProjectile'>
-								<apexcollision></apexcollision>
-								<projectilescale>3</projectilescale>
-								<projectilemodel type='ase'>
-									<mesh>roller.ase</mesh>
-									<skin>default.bmp</skin>
-								</projectilemodel>
-								<collisionaction type='WeaponMulti'>
-									<subweapon1 type='WeaponProjectile'>
-										<nocreateflame></nocreateflame>
-										<nocreatesmoke></nocreatesmoke>
-										<projectilemodel type='MilkShape'>mirvwarhead/mirvwarhead.txt</projectilemodel>
-										<collisionaction type='WeaponExplosion'>
-											<hurtamount>1.0</hurtamount>
-											<deform>down</deform>
-											<size>24</size>
-											<explosionsound>explosions/medium.wav</explosionsound>
-											<explosiontexture>exp04</explosiontexture>
-										</collisionaction>
-									</subweapon1>
-									<subweapon2 type='WeaponDelay'>
-										<delay>0.5</delay>
-										<delayedweapon type='WeaponAimedOver'>
-											<percentagemiss>20</percentagemiss>
-											<maxaimdistance>50</maxaimdistance>
-											<inaccuracy>10</inaccuracy>
-											<nowarheads>2</nowarheads>
-											<aimedweapon type='WeaponProjectile'>
-												<nocreateflame></nocreateflame>
-												<apexcollision></apexcollision>
-												<projectilescale>2</projectilescale>
-												<projectilemodel type='ase'>
-													<mesh>roller.ase</mesh>
-													<skin>white.bmp</skin>
-												</projectilemodel>
-												<collisionaction type='WeaponMulti'>
-													<subweapon1 type='WeaponProjectile'>
-														<nocreateflame></nocreateflame>
-														<nocreatesmoke></nocreatesmoke>
-														<projectilemodel type='MilkShape'>mirvwarhead/mirvwarhead.txt</projectilemodel>
-														<collisionaction type='WeaponExplosion'>
-															<hurtamount>1.0</hurtamount>
-															<deform>down</deform>
-															<size>16</size>
-															<explosionsound>explosions/small.wav</explosionsound>
-															<explosiontexture>exp04</explosiontexture>
-														</collisionaction>
-													</subweapon1>
-													<subweapon2 type='WeaponDelay'>
-														<delay>0.5</delay>
-														<delayedweapon type='WeaponAimedOver'>
-															<percentagemiss>10</percentagemiss>
-															<maxaimdistance>50</maxaimdistance>
-															<inaccuracy>5</inaccuracy>
-															<nowarheads>1</nowarheads>
-															<aimedweapon type='WeaponProjectile'>
-																<nocreateflame></nocreateflame>
-																<nocreatesmoke></nocreatesmoke>
-																<projectilemodel type='ase'>
-																	<mesh>roller.ase</mesh>
-																	<skin>white.bmp</skin>
-																</projectilemodel>
-																<collisionaction type='WeaponMulti'>
-																	<subweapon1 type='WeaponExplosion'>
-																		<deform>down</deform>
-																		<hurtamount>1.0</hurtamount>
-																		<size>32</size>
-																		<explosionsound>explosions/medium.wav</explosionsound>
-																		<explosiontexture>exp04</explosiontexture>
-																	</subweapon1>
-																	<subweapon2 type='WeaponDelay'>
-																		<delay>0.5</delay>
-																		<delayedweapon type='WeaponAimedOver'>
-																			<percentagemiss>10</percentagemiss>
-																			<maxaimdistance>50</maxaimdistance>
-																			<inaccuracy>5</inaccuracy>
-																			<nowarheads>2</nowarheads>
-																			<aimedweapon type='WeaponProjectile'>
-																				<nocreateflame></nocreateflame>
-																				<nocreatesmoke></nocreatesmoke>
-																				<projectilemodel type='ase'>
-																					<mesh>roller.ase</mesh>
-																					<skin>white.bmp</skin>
-																				</projectilemodel>
-																				<collisionaction type='WeaponMulti'>
-																					<subweapon1 type='WeaponExplosion'>
-																						<deform>down</deform>
-																						<hurtamount>1.0</hurtamount>
-																						<size>16</size>
-																						<explosionsound>explosions/medium.wav</explosionsound>
-																						<explosiontexture>exp04</explosiontexture>
-																					</subweapon1>
-																					<subweapon2 type='WeaponAimedOver'>
-																						<percentagemiss>20</percentagemiss>
-																						<maxaimdistance>50</maxaimdistance>
-																						<inaccuracy>10</inaccuracy>
-																						<nowarheads>1</nowarheads>
-																						<aimedweapon type='WeaponProjectile'>
-																							<nocreateflame></nocreateflame>
-																							<nocreatesmoke></nocreatesmoke>
-																							<projectilemodel type='ase'>
-																								<mesh>roller.ase</mesh>
-																								<skin>white.bmp</skin>
-																							</projectilemodel>
-																							<collisionaction type='WeaponExplosion'>
-																								<deform>down</deform>
-																								<hurtamount>1.0</hurtamount>
-																								<size>12</size>
-																								<explosionsound>explosions/small.wav</explosionsound>
-																								<explosiontexture>exp04</explosiontexture>
-																							</collisionaction>
-																						</aimedweapon>
-																					</subweapon2>
-																				</collisionaction>
-																			</aimedweapon>
-																		</delayedweapon>
-																	</subweapon2>
-																</collisionaction>
-															</aimedweapon>
-														</delayedweapon>
-													</subweapon2>
-													<subweapon3 type='WeaponExplosion'>
-														<nocreatedebris></nocreatedebris>
-														<hurtamount>0.0</hurtamount>
-														<deform>none</deform>
-														<size>10</size>
-														<explosionsound>explosions/large.wav</explosionsound>
-														<explosiontexture>exp04</explosiontexture>
-													</subweapon3>
-												</collisionaction>
-											</aimedweapon>
-										</delayedweapon>
-									</subweapon2>
-									<subweapon3 type='WeaponExplosion'>
-										<nocreatedebris></nocreatedebris>
-										<hurtamount>0.0</hurtamount>
-										<deform>none</deform>
-										<size>20</size>
-										<explosionsound>explosions/large.wav</explosionsound>
-										<explosiontexture>exp04</explosiontexture>
-									</subweapon3>
-								</collisionaction>
-							</aimedweapon>
+				<subweapon3 type='WeaponVelocity'>
+					<velocitychange>0.65</velocitychange>
+					<aimedweapon type='WeaponMulti'>
+						<subweapon1 type='WeaponReference'>
+							<weapon>Dmsday Flower</weapon>
 						</subweapon1>
-						<subweapon2 type='WeaponExplosion'>
-							<nocreatedebris></nocreatedebris>
-							<hurtamount>0.0</hurtamount>
-							<deform>none</deform>
-							<size>30</size>
-							<explosionsound>explosions/xlarge.wav</explosionsound>
-							<explosiontexture>exp04</explosiontexture>
+						<subweapon2 type='WeaponDelay'>
+							<delay>2.66</delay>
+							<delayedweapon type='WeaponRedirect'>
+								<habs>false</habs>
+								<vabs>false</vabs>
+								<hredirect>22.5</hredirect>
+								<vredirect>0</vredirect>
+								<nextaction type='WeaponReference'>
+									<weapon>Dmsday Flower</weapon>
+								</nextaction>
+							</delayedweapon>
 						</subweapon2>
-					</delayedweapon>
+					</aimedweapon>
 				</subweapon3>
-				<subweapon4 type='WeaponDelay'>
-					<delay>3.0</delay>
-					<delayedweapon type='WeaponMulti'>
-						<subweapon1 type='WeaponAimedOver'>
-							<percentagemiss>10</percentagemiss>
-							<maxaimdistance>125</maxaimdistance>
-							<inaccuracy>5</inaccuracy>
-							<nowarheads>3</nowarheads>
-							<aimedweapon type='WeaponProjectile'>
-								<apexcollision></apexcollision>
-								<projectilescale>3</projectilescale>
-								<projectilemodel type='ase'>
-									<mesh>roller.ase</mesh>
-									<skin>default.bmp</skin>
-								</projectilemodel>
-								<collisionaction type='WeaponMulti'>
-									<subweapon1 type='WeaponProjectile'>
-										<nocreateflame></nocreateflame>
-										<nocreatesmoke></nocreatesmoke>
-										<projectilemodel type='MilkShape'>mirvwarhead/mirvwarhead.txt</projectilemodel>
-										<collisionaction type='WeaponExplosion'>
-											<hurtamount>1.0</hurtamount>
-											<deform>down</deform>
-											<size>24</size>
-											<explosionsound>explosions/medium.wav</explosionsound>
-											<explosiontexture>exp04</explosiontexture>
-										</collisionaction>
-									</subweapon1>
-									<subweapon2 type='WeaponDelay'>
-										<delay>0.5</delay>
-										<delayedweapon type='WeaponAimedOver'>
-											<percentagemiss>20</percentagemiss>
-											<maxaimdistance>50</maxaimdistance>
-											<inaccuracy>10</inaccuracy>
-											<nowarheads>2</nowarheads>
-											<aimedweapon type='WeaponProjectile'>
-												<nocreateflame></nocreateflame>
-												<apexcollision></apexcollision>
-												<projectilescale>2</projectilescale>
-												<projectilemodel type='ase'>
-													<mesh>roller.ase</mesh>
-													<skin>white.bmp</skin>
-												</projectilemodel>
-												<collisionaction type='WeaponMulti'>
-													<subweapon1 type='WeaponProjectile'>
-														<nocreateflame></nocreateflame>
-														<nocreatesmoke></nocreatesmoke>
-														<projectilemodel type='MilkShape'>mirvwarhead/mirvwarhead.txt</projectilemodel>
-														<collisionaction type='WeaponExplosion'>
-															<hurtamount>1.0</hurtamount>
-															<deform>down</deform>
-															<size>16</size>
-															<explosionsound>explosions/small.wav</explosionsound>
-															<explosiontexture>exp04</explosiontexture>
-														</collisionaction>
-													</subweapon1>
-													<subweapon2 type='WeaponDelay'>
-														<delay>0.5</delay>
-														<delayedweapon type='WeaponAimedOver'>
-															<percentagemiss>10</percentagemiss>
-															<maxaimdistance>50</maxaimdistance>
-															<inaccuracy>5</inaccuracy>
-															<nowarheads>1</nowarheads>
-															<aimedweapon type='WeaponProjectile'>
-																<nocreateflame></nocreateflame>
-																<nocreatesmoke></nocreatesmoke>
-																<projectilemodel type='ase'>
-																	<mesh>roller.ase</mesh>
-																	<skin>white.bmp</skin>
-																</projectilemodel>
-																<collisionaction type='WeaponMulti'>
-																	<subweapon1 type='WeaponExplosion'>
-																		<deform>down</deform>
-																		<hurtamount>1.0</hurtamount>
-																		<size>32</size>
-																		<explosionsound>explosions/medium.wav</explosionsound>
-																		<explosiontexture>exp04</explosiontexture>
-																	</subweapon1>
-																	<subweapon2 type='WeaponDelay'>
-																		<delay>0.5</delay>
-																		<delayedweapon type='WeaponAimedOver'>
-																			<percentagemiss>10</percentagemiss>
-																			<maxaimdistance>50</maxaimdistance>
-																			<inaccuracy>5</inaccuracy>
-																			<nowarheads>2</nowarheads>
-																			<aimedweapon type='WeaponProjectile'>
-																				<nocreateflame></nocreateflame>
-																				<nocreatesmoke></nocreatesmoke>
-																				<projectilemodel type='ase'>
-																					<mesh>roller.ase</mesh>
-																					<skin>white.bmp</skin>
-																				</projectilemodel>
-																				<collisionaction type='WeaponMulti'>
-																					<subweapon1 type='WeaponExplosion'>
-																						<deform>down</deform>
-																						<hurtamount>1.0</hurtamount>
-																						<size>16</size>
-																						<explosionsound>explosions/medium.wav</explosionsound>
-																						<explosiontexture>exp04</explosiontexture>
-																					</subweapon1>
-																					<subweapon2 type='WeaponAimedOver'>
-																						<percentagemiss>20</percentagemiss>
-																						<maxaimdistance>50</maxaimdistance>
-																						<inaccuracy>10</inaccuracy>
-																						<nowarheads>1</nowarheads>
-																						<aimedweapon type='WeaponProjectile'>
-																							<nocreateflame></nocreateflame>
-																							<nocreatesmoke></nocreatesmoke>
-																							<projectilemodel type='ase'>
-																								<mesh>roller.ase</mesh>
-																								<skin>white.bmp</skin>
-																							</projectilemodel>
-																							<collisionaction type='WeaponExplosion'>
-																								<deform>down</deform>
-																								<hurtamount>1.0</hurtamount>
-																								<size>12</size>
-																								<explosionsound>explosions/small.wav</explosionsound>
-																								<explosiontexture>exp04</explosiontexture>
-																							</collisionaction>
-																						</aimedweapon>
-																					</subweapon2>
-																				</collisionaction>
-																			</aimedweapon>
-																		</delayedweapon>
-																	</subweapon2>
-																</collisionaction>
-															</aimedweapon>
-														</delayedweapon>
-													</subweapon2>
-													<subweapon3 type='WeaponExplosion'>
-														<nocreatedebris></nocreatedebris>
-														<hurtamount>0.0</hurtamount>
-														<deform>none</deform>
-														<size>10</size>
-														<explosionsound>explosions/large.wav</explosionsound>
-														<explosiontexture>exp04</explosiontexture>
-													</subweapon3>
-												</collisionaction>
-											</aimedweapon>
-										</delayedweapon>
-									</subweapon2>
-									<subweapon3 type='WeaponExplosion'>
-										<nocreatedebris></nocreatedebris>
-										<hurtamount>0.0</hurtamount>
-										<deform>none</deform>
-										<size>20</size>
-										<explosionsound>explosions/large.wav</explosionsound>
-										<explosiontexture>exp04</explosiontexture>
-									</subweapon3>
-								</collisionaction>
-							</aimedweapon>
-						</subweapon1>
-						<subweapon2 type='WeaponExplosion'>
-							<nocreatedebris></nocreatedebris>
-							<hurtamount>0.0</hurtamount>
-							<deform>none</deform>
-							<size>30</size>
-							<explosionsound>explosions/xlarge.wav</explosionsound>
-							<explosiontexture>exp04</explosiontexture>
-						</subweapon2>
-					</delayedweapon>
-				</subweapon4>
 			</collisionaction>
 		</accessoryaction>
 	</accessory>
@@ -5646,7 +5342,7 @@ explode and scatter flaming earth on impact.</description>
 		</model>
 		<accessoryaction type="WeaponScatter">
 			<position><A>128</A><B>128</B><C>200</C></position>
-			<positionoffset><A>60</A><B>60</B><C>0</C></positionoffset>
+			<positionoffset><A>30</A><B>30</B><C>0</C></positionoffset>
 			<direction><A>0</A><B>0</B><C>-1</C></direction>
 			<directionoffset><A>0</A><B>0</B><C>0</C></directionoffset>		
 			<aimedweapon type='WeaponMulti'>
@@ -6510,244 +6206,250 @@ missiles target nearby tanks.</description>
 							<vredirect>90</vredirect>
 							<nextaction type='WeaponTranslate'>
 								<translatedist>25</translatedist>
-								<nextaction type='WeaponRedirect'>
-									<habs>false</habs>
-									<vabs>true</vabs>
-									<hredirect>0</hredirect>
-									<vredirect>135</vredirect>
-									<nextaction type='WeaponMulti'>
-										<subweapon1 type='WeaponTranslate'>
-											<translatedist>10</translatedist>
-											<nextaction type='WeaponMulti'>
-												<subweapon1 type='WeaponTranslate'>
-													<translatedist>10</translatedist>
-													<nextaction type='WeaponMulti'>
-														<subweapon1 type='WeaponAimedOver'>
-															<nowarheads>1</nowarheads>
-															<percentagemiss>0</percentagemiss>
-															<maxaimdistance>30</maxaimdistance>
-															<inaccuracy>0</inaccuracy>
-															<aimedweapon type='WeaponRedirect'>
-																<habs>false</habs>
-																<vabs>true</vabs>
-																<hredirect>0</hredirect>
-																<vredirect>150</vredirect>
-																<nextaction type='WeaponMulti'>
-																	<subweapon1 type='WeaponTranslate'>
-																		<translatedist>10</translatedist>
-																		<nextaction type='WeaponMulti'>
-																			<subweapon1 type='WeaponTranslate'>
-																				<translatedist>10</translatedist>
-																				<nextaction type='WeaponMulti'>
-																					<subweapon1 type='WeaponAimedOver'>
-																						<nowarheads>1</nowarheads>
-																						<percentagemiss>0</percentagemiss>
-																						<maxaimdistance>20</maxaimdistance>
-																						<inaccuracy>0</inaccuracy>
-																						<aimedweapon type='WeaponRedirect'>
-																							<habs>false</habs>
-																							<vabs>true</vabs>
-																							<hredirect>0</hredirect>
-																							<vredirect>165</vredirect>
-																							<nextaction type='WeaponMulti'>
-																								<subweapon1 type='WeaponTranslate'>
-																									<translatedist>10</translatedist>
-																									<nextaction type='WeaponMulti'>
-																										<subweapon1 type='WeaponTranslate'>
-																											<translatedist>10</translatedist>
-																											<nextaction type='WeaponMulti'>
-																												<subweapon1 type='WeaponAimedOver'>
-																													<nowarheads>1</nowarheads>
-																													<percentagemiss>0</percentagemiss>
-																													<maxaimdistance>10</maxaimdistance>
-																													<inaccuracy>0</inaccuracy>
-																													<aimedweapon type='WeaponRedirect'>
-																														<habs>false</habs>
-																														<vabs>true</vabs>
-																														<hredirect>0</hredirect>
-																														<vredirect>180</vredirect>
-																														<nextaction type='WeaponMulti'>
-																															<subweapon1 type='WeaponTranslate'>
-																																<translatedist>10</translatedist>
-																																<nextaction type='WeaponMulti'>
-																																	<subweapon1 type='WeaponTranslate'>
-																																		<translatedist>10</translatedist>
-																																		<nextaction type='WeaponMulti'>
-																																			<subweapon1 type='WeaponTranslate'>
-																																				<translatedist>10</translatedist>
-																																				<nextaction type='WeaponMulti'>
-																																					<subweapon1 type='WeaponTranslate'>
-																																						<translatedist>10</translatedist>
-																																						<nextaction type='WeaponMulti'>
-																																							<subweapon1 type='WeaponTranslate'>
-																																								<translatedist>10</translatedist>
-																																								<nextaction type='WeaponMulti'>
-																																									<subweapon1 type='WeaponNull'></subweapon1>
-																																									<subweapon2 type='WeaponExplosion'>
-																																										<nocreatedebris></nocreatedebris>
-																																										<nocreatesplash></nocreatesplash>
-																																										<minlife>0.25</minlife>
-																																										<maxlife>0.5</maxlife>
-																																										<hurtamount>1.0</hurtamount>
-																																										<deform>none</deform>
-																																										<size>10</size>
-																																										<explosionsound>none</explosionsound>
-																																										<explosiontexture>none</explosiontexture>
-																																									</subweapon2>
-																																								</nextaction>
-																																							</subweapon1>
-																																							<subweapon2 type='WeaponExplosion'>
-																																								<nocreatedebris></nocreatedebris>
-																																								<nocreatesplash></nocreatesplash>
-																																								<minlife>0.25</minlife>
-																																								<maxlife>0.5</maxlife>
-																																								<hurtamount>1.0</hurtamount>
-																																								<deform>none</deform>
-																																								<size>10</size>
-																																								<explosionsound>none</explosionsound>
-																																								<explosiontexture>none</explosiontexture>
-																																							</subweapon2>
-																																						</nextaction>
-																																					</subweapon1>
-																																					<subweapon2 type='WeaponExplosion'>
-																																						<nocreatedebris></nocreatedebris>
-																																						<nocreatesplash></nocreatesplash>
-																																						<minlife>0.25</minlife>
-																																						<maxlife>0.5</maxlife>
-																																						<hurtamount>1.0</hurtamount>
-																																						<deform>none</deform>
-																																						<size>10</size>
-																																						<explosionsound>none</explosionsound>
-																																						<explosiontexture>none</explosiontexture>
-																																					</subweapon2>
-																																				</nextaction>
-																																			</subweapon1>
-																																			<subweapon2 type='WeaponExplosion'>
-																																				<nocreatedebris></nocreatedebris>
-																																				<nocreatesplash></nocreatesplash>
-																																				<minlife>0.25</minlife>
-																																				<maxlife>0.5</maxlife>
-																																				<hurtamount>1.0</hurtamount>
-																																				<deform>none</deform>
-																																				<size>10</size>
-																																				<explosionsound>none</explosionsound>
-																																				<explosiontexture>none</explosiontexture>
-																																			</subweapon2>
-																																		</nextaction>
-																																	</subweapon1>
-																																	<subweapon2 type='WeaponExplosion'>
-																																		<nocreatedebris></nocreatedebris>
-																																		<nocreatesplash></nocreatesplash>
-																																		<minlife>0.25</minlife>
-																																		<maxlife>0.5</maxlife>
-																																		<hurtamount>1.0</hurtamount>
-																																		<deform>none</deform>
-																																		<size>10</size>
-																																		<explosionsound>none</explosionsound>
-																																		<explosiontexture>none</explosiontexture>
-																																	</subweapon2>
-																																</nextaction>
-																															</subweapon1>
-																															<subweapon2 type='WeaponReference'>
-																																<weapon>Strike Bolt</weapon>
-																															</subweapon2>
-																														</nextaction>
-																													</aimedweapon>
-																												</subweapon1>
-																												<subweapon2 type='WeaponExplosion'>
-																													<nocreatedebris></nocreatedebris>
-																													<nocreatesplash></nocreatesplash>
-																													<minlife>0.25</minlife>
-																													<maxlife>0.5</maxlife>
-																													<hurtamount>1.0</hurtamount>
-																													<deform>none</deform>
-																													<size>10</size>
-																													<explosionsound>none</explosionsound>
-																													<explosiontexture>none</explosiontexture>
-																												</subweapon2>
-																											</nextaction>
-																										</subweapon1>
-																										<subweapon2 type='WeaponExplosion'>
-																											<nocreatedebris></nocreatedebris>
-																											<nocreatesplash></nocreatesplash>
-																											<minlife>0.25</minlife>
-																											<maxlife>0.5</maxlife>
-																											<hurtamount>1.0</hurtamount>
-																											<deform>none</deform>
-																											<size>10</size>
-																											<explosionsound>none</explosionsound>
-																											<explosiontexture>none</explosiontexture>
-																										</subweapon2>
-																									</nextaction>
-																								</subweapon1>
-																								<subweapon2 type='WeaponReference'>
-																									<weapon>Strike Bolt</weapon>
-																								</subweapon2>
-																							</nextaction>
-																						</aimedweapon>
-																					</subweapon1>
-																					<subweapon2 type='WeaponExplosion'>
-																						<nocreatedebris></nocreatedebris>
-																						<nocreatesplash></nocreatesplash>
-																						<minlife>0.25</minlife>
-																						<maxlife>0.5</maxlife>
-																						<hurtamount>1.0</hurtamount>
-																						<deform>none</deform>
-																						<size>10</size>
-																						<explosionsound>none</explosionsound>
-																						<explosiontexture>none</explosiontexture>
-																					</subweapon2>
-																				</nextaction>
-																			</subweapon1>
-																			<subweapon2 type='WeaponExplosion'>
-																				<nocreatedebris></nocreatedebris>
-																				<nocreatesplash></nocreatesplash>
-																				<minlife>0.25</minlife>
-																				<maxlife>0.5</maxlife>
-																				<hurtamount>1.0</hurtamount>
-																				<deform>none</deform>
-																				<size>10</size>
-																				<explosionsound>none</explosionsound>
-																				<explosiontexture>none</explosiontexture>
-																			</subweapon2>
-																		</nextaction>
-																	</subweapon1>
-																	<subweapon2 type='WeaponReference'>
-																		<weapon>Strike Bolt</weapon>
-																	</subweapon2>
-																</nextaction>
-															</aimedweapon>
-														</subweapon1>
-														<subweapon2 type='WeaponExplosion'>
-															<nocreatedebris></nocreatedebris>
-															<nocreatesplash></nocreatesplash>
-															<minlife>0.25</minlife>
-															<maxlife>0.5</maxlife>
-															<hurtamount>1.0</hurtamount>
-															<deform>none</deform>
-															<size>10</size>
-															<explosionsound>none</explosionsound>
-															<explosiontexture>none</explosiontexture>
-														</subweapon2>
-													</nextaction>
-												</subweapon1>
-												<subweapon2 type='WeaponExplosion'>
-													<nocreatedebris></nocreatedebris>
-													<nocreatesplash></nocreatesplash>
-													<minlife>0.25</minlife>
-													<maxlife>0.5</maxlife>
-													<hurtamount>1.0</hurtamount>
-													<deform>none</deform>
-													<size>10</size>
-													<explosionsound>none</explosionsound>
-													<explosiontexture>none</explosiontexture>
-												</subweapon2>
-											</nextaction>
-										</subweapon1>
-										<subweapon2 type='WeaponReference'>
-											<weapon>Strike Bolt</weapon>
-										</subweapon2>
-									</nextaction>
+								<nextaction type='WeaponAimedOver'>
+									<nowarheads>1</nowarheads>
+									<percentagemiss>0</percentagemiss>
+									<maxaimdistance>30</maxaimdistance>
+									<inaccuracy>0</inaccuracy>
+									<aimedweapon type='WeaponRedirect'>
+										<habs>false</habs>
+										<vabs>true</vabs>
+										<hredirect>0</hredirect>
+										<vredirect>135</vredirect>
+										<nextaction type='WeaponMulti'>
+											<subweapon1 type='WeaponTranslate'>
+												<translatedist>10</translatedist>
+												<nextaction type='WeaponMulti'>
+													<subweapon1 type='WeaponTranslate'>
+														<translatedist>10</translatedist>
+														<nextaction type='WeaponMulti'>
+															<subweapon1 type='WeaponAimedOver'>
+																<nowarheads>1</nowarheads>
+																<percentagemiss>0</percentagemiss>
+																<maxaimdistance>30</maxaimdistance>
+																<inaccuracy>0</inaccuracy>
+																<aimedweapon type='WeaponRedirect'>
+																	<habs>false</habs>
+																	<vabs>true</vabs>
+																	<hredirect>0</hredirect>
+																	<vredirect>150</vredirect>
+																	<nextaction type='WeaponMulti'>
+																		<subweapon1 type='WeaponTranslate'>
+																			<translatedist>10</translatedist>
+																			<nextaction type='WeaponMulti'>
+																				<subweapon1 type='WeaponTranslate'>
+																					<translatedist>10</translatedist>
+																					<nextaction type='WeaponMulti'>
+																						<subweapon1 type='WeaponAimedOver'>
+																							<nowarheads>1</nowarheads>
+																							<percentagemiss>0</percentagemiss>
+																							<maxaimdistance>20</maxaimdistance>
+																							<inaccuracy>0</inaccuracy>
+																							<aimedweapon type='WeaponRedirect'>
+																								<habs>false</habs>
+																								<vabs>true</vabs>
+																								<hredirect>0</hredirect>
+																								<vredirect>165</vredirect>
+																								<nextaction type='WeaponMulti'>
+																									<subweapon1 type='WeaponTranslate'>
+																										<translatedist>10</translatedist>
+																										<nextaction type='WeaponMulti'>
+																											<subweapon1 type='WeaponTranslate'>
+																												<translatedist>10</translatedist>
+																												<nextaction type='WeaponMulti'>
+																													<subweapon1 type='WeaponAimedOver'>
+																														<nowarheads>1</nowarheads>
+																														<percentagemiss>0</percentagemiss>
+																														<maxaimdistance>10</maxaimdistance>
+																														<inaccuracy>0</inaccuracy>
+																														<aimedweapon type='WeaponRedirect'>
+																															<habs>false</habs>
+																															<vabs>true</vabs>
+																															<hredirect>0</hredirect>
+																															<vredirect>180</vredirect>
+																															<nextaction type='WeaponMulti'>
+																																<subweapon1 type='WeaponTranslate'>
+																																	<translatedist>10</translatedist>
+																																	<nextaction type='WeaponMulti'>
+																																		<subweapon1 type='WeaponTranslate'>
+																																			<translatedist>10</translatedist>
+																																			<nextaction type='WeaponMulti'>
+																																				<subweapon1 type='WeaponTranslate'>
+																																					<translatedist>10</translatedist>
+																																					<nextaction type='WeaponMulti'>
+																																						<subweapon1 type='WeaponTranslate'>
+																																							<translatedist>10</translatedist>
+																																							<nextaction type='WeaponMulti'>
+																																								<subweapon1 type='WeaponTranslate'>
+																																									<translatedist>10</translatedist>
+																																									<nextaction type='WeaponMulti'>
+																																										<subweapon1 type='WeaponNull'></subweapon1>
+																																										<subweapon2 type='WeaponExplosion'>
+																																											<nocreatedebris></nocreatedebris>
+																																											<nocreatesplash></nocreatesplash>
+																																											<minlife>0.25</minlife>
+																																											<maxlife>0.5</maxlife>
+																																											<hurtamount>1.0</hurtamount>
+																																											<deform>none</deform>
+																																											<size>10</size>
+																																											<explosionsound>none</explosionsound>
+																																											<explosiontexture>none</explosiontexture>
+																																										</subweapon2>
+																																									</nextaction>
+																																								</subweapon1>
+																																								<subweapon2 type='WeaponExplosion'>
+																																									<nocreatedebris></nocreatedebris>
+																																									<nocreatesplash></nocreatesplash>
+																																									<minlife>0.25</minlife>
+																																									<maxlife>0.5</maxlife>
+																																									<hurtamount>1.0</hurtamount>
+																																									<deform>none</deform>
+																																									<size>10</size>
+																																									<explosionsound>none</explosionsound>
+																																									<explosiontexture>none</explosiontexture>
+																																								</subweapon2>
+																																							</nextaction>
+																																						</subweapon1>
+																																						<subweapon2 type='WeaponExplosion'>
+																																							<nocreatedebris></nocreatedebris>
+																																							<nocreatesplash></nocreatesplash>
+																																							<minlife>0.25</minlife>
+																																							<maxlife>0.5</maxlife>
+																																							<hurtamount>1.0</hurtamount>
+																																							<deform>none</deform>
+																																							<size>10</size>
+																																							<explosionsound>none</explosionsound>
+																																							<explosiontexture>none</explosiontexture>
+																																						</subweapon2>
+																																					</nextaction>
+																																				</subweapon1>
+																																				<subweapon2 type='WeaponExplosion'>
+																																					<nocreatedebris></nocreatedebris>
+																																					<nocreatesplash></nocreatesplash>
+																																					<minlife>0.25</minlife>
+																																					<maxlife>0.5</maxlife>
+																																					<hurtamount>1.0</hurtamount>
+																																					<deform>none</deform>
+																																					<size>10</size>
+																																					<explosionsound>none</explosionsound>
+																																					<explosiontexture>none</explosiontexture>
+																																				</subweapon2>
+																																			</nextaction>
+																																		</subweapon1>
+																																		<subweapon2 type='WeaponExplosion'>
+																																			<nocreatedebris></nocreatedebris>
+																																			<nocreatesplash></nocreatesplash>
+																																			<minlife>0.25</minlife>
+																																			<maxlife>0.5</maxlife>
+																																			<hurtamount>1.0</hurtamount>
+																																			<deform>none</deform>
+																																			<size>10</size>
+																																			<explosionsound>none</explosionsound>
+																																			<explosiontexture>none</explosiontexture>
+																																		</subweapon2>
+																																	</nextaction>
+																																</subweapon1>
+																																<subweapon2 type='WeaponReference'>
+																																	<weapon>Strike Bolt</weapon>
+																																</subweapon2>
+																															</nextaction>
+																														</aimedweapon>
+																													</subweapon1>
+																													<subweapon2 type='WeaponExplosion'>
+																														<nocreatedebris></nocreatedebris>
+																														<nocreatesplash></nocreatesplash>
+																														<minlife>0.25</minlife>
+																														<maxlife>0.5</maxlife>
+																														<hurtamount>1.0</hurtamount>
+																														<deform>none</deform>
+																														<size>10</size>
+																														<explosionsound>none</explosionsound>
+																														<explosiontexture>none</explosiontexture>
+																													</subweapon2>
+																												</nextaction>
+																											</subweapon1>
+																											<subweapon2 type='WeaponExplosion'>
+																												<nocreatedebris></nocreatedebris>
+																												<nocreatesplash></nocreatesplash>
+																												<minlife>0.25</minlife>
+																												<maxlife>0.5</maxlife>
+																												<hurtamount>1.0</hurtamount>
+																												<deform>none</deform>
+																												<size>10</size>
+																												<explosionsound>none</explosionsound>
+																												<explosiontexture>none</explosiontexture>
+																											</subweapon2>
+																										</nextaction>
+																									</subweapon1>
+																									<subweapon2 type='WeaponReference'>
+																										<weapon>Strike Bolt</weapon>
+																									</subweapon2>
+																								</nextaction>
+																							</aimedweapon>
+																						</subweapon1>
+																						<subweapon2 type='WeaponExplosion'>
+																							<nocreatedebris></nocreatedebris>
+																							<nocreatesplash></nocreatesplash>
+																							<minlife>0.25</minlife>
+																							<maxlife>0.5</maxlife>
+																							<hurtamount>1.0</hurtamount>
+																							<deform>none</deform>
+																							<size>10</size>
+																							<explosionsound>none</explosionsound>
+																							<explosiontexture>none</explosiontexture>
+																						</subweapon2>
+																					</nextaction>
+																				</subweapon1>
+																				<subweapon2 type='WeaponExplosion'>
+																					<nocreatedebris></nocreatedebris>
+																					<nocreatesplash></nocreatesplash>
+																					<minlife>0.25</minlife>
+																					<maxlife>0.5</maxlife>
+																					<hurtamount>1.0</hurtamount>
+																					<deform>none</deform>
+																					<size>10</size>
+																					<explosionsound>none</explosionsound>
+																					<explosiontexture>none</explosiontexture>
+																				</subweapon2>
+																			</nextaction>
+																		</subweapon1>
+																		<subweapon2 type='WeaponReference'>
+																			<weapon>Strike Bolt</weapon>
+																		</subweapon2>
+																	</nextaction>
+																</aimedweapon>
+															</subweapon1>
+															<subweapon2 type='WeaponExplosion'>
+																<nocreatedebris></nocreatedebris>
+																<nocreatesplash></nocreatesplash>
+																<minlife>0.25</minlife>
+																<maxlife>0.5</maxlife>
+																<hurtamount>1.0</hurtamount>
+																<deform>none</deform>
+																<size>10</size>
+																<explosionsound>none</explosionsound>
+																<explosiontexture>none</explosiontexture>
+															</subweapon2>
+														</nextaction>
+													</subweapon1>
+													<subweapon2 type='WeaponExplosion'>
+														<nocreatedebris></nocreatedebris>
+														<nocreatesplash></nocreatesplash>
+														<minlife>0.25</minlife>
+														<maxlife>0.5</maxlife>
+														<hurtamount>1.0</hurtamount>
+														<deform>none</deform>
+														<size>10</size>
+														<explosionsound>none</explosionsound>
+														<explosiontexture>none</explosiontexture>
+													</subweapon2>
+												</nextaction>
+											</subweapon1>
+											<subweapon2 type='WeaponReference'>
+												<weapon>Strike Bolt</weapon>
+											</subweapon2>
+										</nextaction>
+									</aimedweapon>
 								</nextaction>
 							</nextaction>
 						</aimedweapon>
@@ -6774,16 +6476,17 @@ missiles target nearby tanks.</description>
 		<armslevel>3</armslevel>
 		<description>Two bolts of lightning streak down from the
 the sky.  Unfortunately, mother nature is unpredictable
-in where she chooses to strike.</description>
+in where she chooses to strike.
+YOU CANNOT AIM THIS WEAPON</description>
 		<icon>lstrike.bmp</icon>
 		<bundlesize>1</bundlesize>
-		<cost>5000</cost>
+		<cost>10000</cost>
 		<activationsound>shoot/flare.wav</activationsound>
 		<model type='MilkShape'>shockrocket/shockrocket.txt</model>
 		<modelscale>2.5</modelscale>
 		<accessoryaction type="WeaponScatter">
 			<position><A>128</A><B>128</B><C>80</C></position>
-			<positionoffset><A>60</A><B>60</B><C>0</C></positionoffset>
+			<positionoffset><A>72</A><B>72</B><C>0</C></positionoffset>
 			<direction><A>0</A><B>0</B><C>-1</C></direction>
 			<directionoffset><A>0</A><B>0</B><C>0</C></directionoffset>		
 			<aimedweapon type='WeaponMulti'>
@@ -7243,19 +6946,20 @@ energy wave that ripples outward horizontally</description>
 	</accessory>
 	<accessory>
 		<name>Lightning Storm</name>
-		<armslevel>1</armslevel>
+		<armslevel>2</armslevel>
 		<description>Multiple bolts of lightning streak down 
 out of the sky.Unfortunately, mother nature is unpredictable
-in where she chooses to strike.</description>
+in where she chooses to strike.
+YOU CANNOT AIM THIS WEAPON</description>
 		<icon>lstorm.bmp</icon>
 		<bundlesize>1</bundlesize>
-		<cost>25000</cost>
+		<cost>30000</cost>
 		<activationsound>explosions/shockwave.wav</activationsound>
 		<model type='MilkShape'>shockrocket/shockrocket.txt</model>
 		<modelscale>5.0</modelscale>
 		<accessoryaction type="WeaponScatter">
 			<position><A>128</A><B>128</B><C>80</C></position>
-			<positionoffset><A>60</A><B>60</B><C>0</C></positionoffset>
+			<positionoffset><A>72</A><B>72</B><C>0</C></positionoffset>
 			<direction><A>0</A><B>0</B><C>-1</C></direction>
 			<directionoffset><A>0</A><B>0</B><C>0</C></directionoffset>		
 			<aimedweapon type='WeaponMulti'>
@@ -7690,17 +7394,18 @@ at nearby targets</description>
 	</accessory>
 	<accessory>
 		<name>Earthquake</name>
-		<armslevel>1</armslevel>
+		<armslevel>2</armslevel>
 		<description>Shakes the earth and does damage over a large area.
-Earthquakes occur at a random location on the map</description>
+Earthquakes occur at a random location on the map
+YOU CANNOT AIM THIS WEAPON</description>
 		<icon>quake.bmp</icon>
 		<bundlesize>1</bundlesize>
-		<cost>30000</cost>
+		<cost>50000</cost>
 		<activationsound>shoot/flare.wav</activationsound>
 		<model type='MilkShape'>flare.txt</model>
 		<accessoryaction type="WeaponScatter">
 			<position><A>128</A><B>128</B><C>0</C></position>
-			<positionoffset><A>60</A><B>60</B><C>0</C></positionoffset>
+			<positionoffset><A>64</A><B>64</B><C>10</C></positionoffset>
 			<direction><A>0</A><B>0</B><C>0</C></direction>
 			<directionoffset><A>0</A><B>0</B><C>0</C></directionoffset>		
 			<aimedweapon type='WeaponDelay'>
@@ -7718,22 +7423,24 @@ Earthquakes occur at a random location on the map</description>
 											<subweapon1 type='WeaponDelay'>
 												<delay>1</delay>
 												<delayedweapon type='WeaponExplosion'>
+													<armslevel>1</armslevel>
 													<nocreatedebris></nocreatedebris>
 													<nocreatesplash></nocreatesplash>
-													<hurtamount>0.4</hurtamount>
+													<hurtamount>0.3</hurtamount>
 													<deform>none</deform>
-													<size>150</size>
+													<size>128</size>
 													<explosionshake>3.0</explosionshake>
 													<explosiontexture>none</explosiontexture>
 													<explosionsound>none</explosionsound>
 												</delayedweapon>
 											</subweapon1>
 											<subweapon2 type='WeaponExplosion'>
+												<armslevel>1</armslevel>
 												<nocreatedebris></nocreatedebris>
 												<nocreatesplash></nocreatesplash>
-												<hurtamount>0.5</hurtamount>
+												<hurtamount>0.4</hurtamount>
 												<deform>none</deform>
-												<size>120</size>
+												<size>128</size>
 												<explosionshake>6.0</explosionshake>
 												<explosiontexture>none</explosiontexture>
 												<explosionsound>none</explosionsound>
@@ -7741,11 +7448,12 @@ Earthquakes occur at a random location on the map</description>
 										</delayedweapon>
 									</subweapon1>
 									<subweapon2 type='WeaponExplosion'>
+										<armslevel>1</armslevel>
 										<nocreatedebris></nocreatedebris>
 										<nocreatesplash></nocreatesplash>
-										<hurtamount>0.4</hurtamount>
+										<hurtamount>0.3</hurtamount>
 										<deform>none</deform>
-										<size>80</size>
+										<size>128</size>
 										<explosionshake>4.0</explosionshake>
 										<explosiontexture>none</explosiontexture>
 										<explosionsound>none</explosionsound>
@@ -7753,11 +7461,12 @@ Earthquakes occur at a random location on the map</description>
 								</delayedweapon>
 							</subweapon1>
 							<subweapon2 type='WeaponExplosion'>
+								<armslevel>1</armslevel>
 								<nocreatedebris></nocreatedebris>
 								<nocreatesplash></nocreatesplash>
-								<hurtamount>0.3</hurtamount>
+								<hurtamount>0.25</hurtamount>
 								<deform>none</deform>
-								<size>40</size>
+								<size>128</size>
 								<explosionshake>4.0</explosionshake>
 								<explosiontexture>none</explosiontexture>
 								<explosionsound>none</explosionsound>
@@ -7765,10 +7474,11 @@ Earthquakes occur at a random location on the map</description>
 						</delayedweapon>
 					</subweapon1>
 					<subweapon2 type='WeaponExplosion'>
+						<armslevel>1</armslevel>
 						<nocreatedebris></nocreatedebris>
 						<hurtamount>0.2</hurtamount>
 						<deform>none</deform>
-						<size>20</size>
+						<size>128</size>
 						<explosionshake>3.0</explosionshake>
 						<explosiontexture>none</explosiontexture>
 						<explosionsound>explosions/quake.wav</explosionsound>
@@ -7786,20 +7496,67 @@ Earthquakes occur at a random location on the map</description>
 		<description>Fires a laser that cuts through hills 
 and shields damaging the tank directly.</description>
 		<cost>5000</cost>
-		<activationsound>shoot/laser1.wav</activationsound>
 		<nomuzzleflash/>
-		<accessoryaction type='WeaponLaser'>
-			<totaltime>1</totaltime>
-			<minimumdistance>10</minimumdistance>
-			<maximumdistance>200</maximumdistance>
-			<minimumhurt>20</minimumhurt>
-			<maximumhurt>36</maximumhurt>
-			<hurtradius>2</hurtradius>
-			<color>
-				<A>1.0</A>
-				<B>0.0</B>
-				<C>0.0</C>
-			</color>
+		<accessoryaction type='WeaponMulti'>
+			<subweapon1 type='WeaponLaser'>
+				<totaltime>1</totaltime>
+				<minimumdistance>10</minimumdistance>
+				<maximumdistance>200</maximumdistance>
+				<minimumhurt>20</minimumhurt>
+				<maximumhurt>36</maximumhurt>
+				<hurtradius>2</hurtradius>
+				<color>
+					<A>1.0</A>
+					<B>0.0</B>
+					<C>0.0</C>
+				</color>
+			</subweapon1>
+			<subweapon2 type='WeaponSound'>
+				<sound>data/wav/shoot/laser1.wav</sound>
+			</subweapon2>
+		</accessoryaction>
+	</accessory>
+	<accessory>
+		<name>Laser Cannon</name>
+		<armslevel>6</armslevel>
+		<bundlesize>2</bundlesize>
+		<icon>laser.bmp</icon>
+		<model type="MilkShape">laser/laser.txt</model>
+		<description>Fires three laser blasts that cut through
+hills and shields damaging tanks directly.</description>
+		<cost>10000</cost>
+		<nomuzzleflash/>
+		<accessoryaction type='WeaponMulti'>
+			<subweapon1 type='WeaponReference'>
+				<weapon>Laser</weapon>
+				<armslevel>6</armslevel>
+			</subweapon1>
+			<subweapon2 type='WeaponDelay'>
+				<delay>0.5</delay>
+				<delayedweapon type='WeaponRedirect'>
+					<habs>false</habs>
+					<vabs>false</vabs>
+					<hredirect>0</hredirect>
+					<vredirect>0.5</vredirect>
+					<nextaction type='WeaponReference'>
+						<weapon>Laser</weapon>
+						<armslevel>6</armslevel>
+					</nextaction>
+				</delayedweapon>
+			</subweapon2>
+			<subweapon3 type='WeaponDelay'>
+				<delay>1.0</delay>
+				<delayedweapon type='WeaponRedirect'>
+					<habs>false</habs>
+					<vabs>false</vabs>
+					<hredirect>0</hredirect>
+					<vredirect>0.5</vredirect>
+					<nextaction type='WeaponReference'>
+						<weapon>Laser</weapon>
+						<armslevel>6</armslevel>
+					</nextaction>
+				</delayedweapon>
+			</subweapon3>
 		</accessoryaction>
 	</accessory>
 	<accessory>
@@ -7811,20 +7568,67 @@ and shields damaging the tank directly.</description>
 		<description>Fires a powerful laser that cuts through hills 
 and shields damaging the tank directly.</description>
 		<cost>10000</cost>
-		<activationsound>shoot/laser1.wav</activationsound>
 		<nomuzzleflash/>
-		<accessoryaction type='WeaponLaser'>
-			<totaltime>1</totaltime>
-			<minimumdistance>10</minimumdistance>
-			<maximumdistance>200</maximumdistance>
-			<minimumhurt>40</minimumhurt>
-			<maximumhurt>55</maximumhurt>
-			<hurtradius>2</hurtradius>
-			<color>
-				<A>0.0</A>
-				<B>0.0</B>
-				<C>1.0</C>
-			</color>
+		<accessoryaction type='WeaponMulti'>
+			<subweapon1 type='WeaponLaser'>
+				<totaltime>1</totaltime>
+				<minimumdistance>10</minimumdistance>
+				<maximumdistance>200</maximumdistance>
+				<minimumhurt>40</minimumhurt>
+				<maximumhurt>55</maximumhurt>
+				<hurtradius>2</hurtradius>
+				<color>
+					<A>0.0</A>
+					<B>0.0</B>
+					<C>1.0</C>
+				</color>
+			</subweapon1>
+			<subweapon2 type='WeaponSound'>
+				<sound>data/wav/shoot/laser1.wav</sound>
+			</subweapon2>
+		</accessoryaction>
+	</accessory>
+	<accessory>
+		<name>Hv Laser Cannon</name>
+		<armslevel>4</armslevel>
+		<bundlesize>2</bundlesize>
+		<icon>hlaser.bmp</icon>
+		<model type="MilkShape">laser/laser.txt</model>
+		<description>Fires three heavy laser blasts that cut through
+hills and shields damaging tanks directly.</description>
+		<cost>20000</cost>
+		<nomuzzleflash/>
+		<accessoryaction type='WeaponMulti'>
+			<subweapon1 type='WeaponReference'>
+				<weapon>Heavy Laser</weapon>
+				<armslevel>4</armslevel>
+			</subweapon1>
+			<subweapon2 type='WeaponDelay'>
+				<delay>0.5</delay>
+				<delayedweapon type='WeaponRedirect'>
+					<habs>false</habs>
+					<vabs>false</vabs>
+					<hredirect>0</hredirect>
+					<vredirect>0.5</vredirect>
+					<nextaction type='WeaponReference'>
+						<weapon>Heavy Laser</weapon>
+						<armslevel>4</armslevel>
+					</nextaction>
+				</delayedweapon>
+			</subweapon2>
+			<subweapon3 type='WeaponDelay'>
+				<delay>1.0</delay>
+				<delayedweapon type='WeaponRedirect'>
+					<habs>false</habs>
+					<vabs>false</vabs>
+					<hredirect>0</hredirect>
+					<vredirect>0.5</vredirect>
+					<nextaction type='WeaponReference'>
+						<weapon>Heavy Laser</weapon>
+						<armslevel>4</armslevel>
+					</nextaction>
+				</delayedweapon>
+			</subweapon3>
 		</accessoryaction>
 	</accessory>
 	<accessory>

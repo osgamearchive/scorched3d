@@ -30,6 +30,7 @@ Changes Since 2.0
 		- Acid Rain/Hell Storm now a little more rain like
 		- Meteor Shower now spawns from a random location in the air when fired
 		- Earthquake now forms from a random location on the ground when fired
+		- New, more controlled behaviour for Apocalypse, Dmsday Device and Strangelove
 			
 	Landscapes:
 		- Starting locations on some landscapes for team games
