@@ -24,7 +24,8 @@ scorcheddocumentationhtml_DATA = documentation/html/accessories.html \
 	documentation/html/players.html \
 	documentation/html/ports.html \
 	documentation/html/quickstart.html \
-	documentation/html/screen.html
+	documentation/html/screen.html \
+	documentation/html/serverfiles.html
 scorcheddocumentationhtmlbuttonsdir = ${docdir}/documentation/html/buttons
 scorcheddocumentationhtmlbuttons_DATA = documentation/html/buttons/donate.gif \
 	documentation/html/buttons/dummies.gif \
@@ -247,7 +248,8 @@ scorcheddataglobalmodsapocdata_DATA = data/globalmods/apoc/data/accessories.xml 
 	data/globalmods/apoc/data/singletarget.xml \
 	data/globalmods/apoc/data/tankais.xml \
 	data/globalmods/apoc/data/textureset.xml \
-	data/globalmods/apoc/data/landscapesplace.xml
+	data/globalmods/apoc/data/landscapesplace.xml \
+	data/globalmods/apoc/data/landscapessound.xml
 scorcheddataglobalmodsapocdataaccessoriesdir = ${datadir}/data/globalmods/apoc/data/accessories
 scorcheddataglobalmodsapocdataaccessories_DATA = data/globalmods/apoc/data/accessories/black.bmp \
 	data/globalmods/apoc/data/accessories/green.bmp \
@@ -524,7 +526,13 @@ scorcheddataglobalmodsapocdatalandscapesmasks_DATA = data/globalmods/apoc/data/l
 	data/globalmods/apoc/data/landscapes/masks/city3urban2.bmp \
 	data/globalmods/apoc/data/landscapes/masks/usa-cactus.bmp \
 	data/globalmods/apoc/data/landscapes/masks/usa-palms.bmp \
-	data/globalmods/apoc/data/landscapes/masks/usa-pines.bmp
+	data/globalmods/apoc/data/landscapes/masks/usa-pines.bmp \
+	data/globalmods/apoc/data/landscapes/masks/start-half-angle1.bmp \
+	data/globalmods/apoc/data/landscapes/masks/start-half-angle2.bmp \
+	data/globalmods/apoc/data/landscapes/masks/start-half-horizontal.bmp \
+	data/globalmods/apoc/data/landscapes/masks/start-half-vertical.bmp \
+	data/globalmods/apoc/data/landscapes/masks/start-usa-redvblue.bmp \
+	data/globalmods/apoc/data/landscapes/masks/start-world-coldwar.bmp
 scorcheddataglobalmodsapocdatatexturesdir = ${datadir}/data/globalmods/apoc/data/textures
 scorcheddataglobalmodsapocdatatextures_DATA = 
 scorcheddataglobalmodsapocdatatexturesexplodedir = ${datadir}/data/globalmods/apoc/data/textures/explode
@@ -558,7 +566,7 @@ scorcheddataglobalmodsapocdatatexturesexplode_DATA = data/globalmods/apoc/data/t
 	data/globalmods/apoc/data/textures/explode/light00_3.bmp \
 	data/globalmods/apoc/data/textures/explode/light00_4.bmp
 scorcheddataglobalmodsapocdatatextureslandscapedir = ${datadir}/data/globalmods/apoc/data/textures/landscape
-scorcheddataglobalmodsapocdatatextureslandscape_DATA = 
+scorcheddataglobalmodsapocdatatextureslandscape_DATA = data/globalmods/apoc/data/textures/landscape/defaultscorched.bmp
 scorcheddataglobalmodsapocdatatextureslandscapegrassdir = ${datadir}/data/globalmods/apoc/data/textures/landscape/grass
 scorcheddataglobalmodsapocdatatextureslandscapegrass_DATA = data/globalmods/apoc/data/textures/landscape/grass/scorch.bmp \
 	data/globalmods/apoc/data/textures/landscape/grass/texture1.bmp \
@@ -604,7 +612,9 @@ scorcheddataglobalmodsapocdatatextureswicons_DATA = data/globalmods/apoc/data/te
 	data/globalmods/apoc/data/textures/wicons/up.bmp \
 	data/globalmods/apoc/data/textures/wicons/x.bmp \
 	data/globalmods/apoc/data/textures/wicons/xmirv.bmp \
-	data/globalmods/apoc/data/textures/wicons/mgun.bmp
+	data/globalmods/apoc/data/textures/wicons/mgun.bmp \
+	data/globalmods/apoc/data/textures/wicons/lstorm.bmp \
+	data/globalmods/apoc/data/textures/wicons/lstrike.bmp
 scorcheddataglobalmodsapocdatawavdir = ${datadir}/data/globalmods/apoc/data/wav
 scorcheddataglobalmodsapocdatawav_DATA = 
 scorcheddataglobalmodsapocdatawavexplosionsdir = ${datadir}/data/globalmods/apoc/data/wav/explosions
@@ -624,6 +634,22 @@ scorcheddataglobalmodsapocdatawavexplosions_DATA = data/globalmods/apoc/data/wav
 scorcheddataglobalmodsapocdatawavshootdir = ${datadir}/data/globalmods/apoc/data/wav/shoot
 scorcheddataglobalmodsapocdatawavshoot_DATA = data/globalmods/apoc/data/wav/shoot/tripleshot.wav \
 	data/globalmods/apoc/data/wav/shoot/machinegun.wav
+scorcheddataglobalmodsapocdatawavmiscdir = ${datadir}/data/globalmods/apoc/data/wav/misc
+scorcheddataglobalmodsapocdatawavmisc_DATA = data/globalmods/apoc/data/wav/misc/carhorn1.wav \
+	data/globalmods/apoc/data/wav/misc/carhorn2.wav \
+	data/globalmods/apoc/data/wav/misc/carhorn3.wav \
+	data/globalmods/apoc/data/wav/misc/carhorn4.wav \
+	data/globalmods/apoc/data/wav/misc/carhorn5.wav \
+	data/globalmods/apoc/data/wav/misc/carhorn6.wav \
+	data/globalmods/apoc/data/wav/misc/citysounds.wav \
+	data/globalmods/apoc/data/wav/misc/cows.wav \
+	data/globalmods/apoc/data/wav/misc/dog.wav \
+	data/globalmods/apoc/data/wav/misc/dog2.wav \
+	data/globalmods/apoc/data/wav/misc/dog3.wav \
+	data/globalmods/apoc/data/wav/misc/firetruck.wav \
+	data/globalmods/apoc/data/wav/misc/policecar.wav \
+	data/globalmods/apoc/data/wav/misc/rooster.wav \
+	data/globalmods/apoc/data/wav/misc/sheep.wav
 scorcheddataglobalmodsapocdatawindowsdir = ${datadir}/data/globalmods/apoc/data/windows
 scorcheddataglobalmodsapocdatawindows_DATA = data/globalmods/apoc/data/windows/nuke-easy.bmp \
 	data/globalmods/apoc/data/windows/nuke-hard.bmp \
@@ -642,7 +668,10 @@ scorcheddataglobalmodsapocdatawindows_DATA = data/globalmods/apoc/data/windows/n
 	data/globalmods/apoc/data/windows/playera2.bmp \
 	data/globalmods/apoc/data/windows/wind.bmp \
 	data/globalmods/apoc/data/windows/winda.bmp \
-	data/globalmods/apoc/data/windows/winda2.bmp
+	data/globalmods/apoc/data/windows/winda2.bmp \
+	data/globalmods/apoc/data/windows/weapon.bmp \
+	data/globalmods/apoc/data/windows/weapona.bmp \
+	data/globalmods/apoc/data/windows/weapona2.bmp
 scorcheddatalandscapesdir = ${datadir}/data/landscapes
 scorcheddatalandscapes_DATA = data/landscapes/half-mask-start.bmp \
 	data/landscapes/half-mask.bmp \
@@ -659,7 +688,10 @@ scorcheddatalandscapes_DATA = data/landscapes/half-mask-start.bmp \
 	data/landscapes/ridge.bmp \
 	data/landscapes/surround-mask.bmp \
 	data/landscapes/valley-mask.bmp \
-	data/landscapes/valley.bmp
+	data/landscapes/valley.bmp \
+	data/landscapes/test-mask.bmp \
+	data/landscapes/test-mask2.bmp \
+	data/landscapes/test.bmp
 scorcheddatameshesdir = ${datadir}/data/meshes
 scorcheddatameshes_DATA = data/meshes/autoaim.ase \
 	data/meshes/bounce.ase \

@@ -52,21 +52,21 @@ class LandscapeSoundPosition
 {
 public:
 	virtual bool readXML(XMLNode *node) = 0;
-	virtual void setPosition(VirtualSoundSource *source) = 0;
+	virtual bool setPosition(VirtualSoundSource *source) = 0;
 };
 
 class LandscapeSoundPositionAmbient : public LandscapeSoundPosition
 {
 public:
 	virtual bool readXML(XMLNode *node);
-	virtual void setPosition(VirtualSoundSource *source);
+	virtual bool setPosition(VirtualSoundSource *source);
 };
 
 class LandscapeSoundPositionAbsoulte : public LandscapeSoundPosition
 {
 public:
 	virtual bool readXML(XMLNode *node);
-	virtual void setPosition(VirtualSoundSource *source);
+	virtual bool setPosition(VirtualSoundSource *source);
 	Vector position;
 };
 
@@ -74,14 +74,14 @@ class LandscapeSoundPositionWater : public LandscapeSoundPosition
 {
 public:
 	virtual bool readXML(XMLNode *node);
-	virtual void setPosition(VirtualSoundSource *source);
+	virtual bool setPosition(VirtualSoundSource *source);
 };
 
 class LandscapeSoundPositionGroup : public LandscapeSoundPosition
 {
 public:
 	virtual bool readXML(XMLNode *node);
-	virtual void setPosition(VirtualSoundSource *source);
+	virtual bool setPosition(VirtualSoundSource *source);
 
 	std::string name;
 	void *groupEntry;

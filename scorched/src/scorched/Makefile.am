@@ -301,6 +301,8 @@ scorched3d_SOURCES = \
 	../dialogs/SaveDialog.h \
 	../dialogs/ScoreDialog.cpp \
 	../dialogs/ScoreDialog.h \
+	../dialogs/SkipAllDialog.cpp \
+	../dialogs/SkipAllDialog.h \
 	../dialogs/SkipDialog.cpp \
 	../dialogs/SkipDialog.h \
 	../dialogs/TalkDialog.cpp \
@@ -1003,28 +1005,6 @@ scorched3d_SOURCES = \
 	../server/ServerWebServer.h \
 	../server/TurnController.cpp \
 	../server/TurnController.h \
-	../tankai/TankAI.cpp \
-	../tankai/TankAI.h \
-	../tankai/TankAIAdder.cpp \
-	../tankai/TankAIAdder.h \
-	../tankai/TankAIComputer.cpp \
-	../tankai/TankAIComputer.h \
-	../tankai/TankAIComputerAim.cpp \
-	../tankai/TankAIComputerAim.h \
-	../tankai/TankAIComputerBuyer.cpp \
-	../tankai/TankAIComputerBuyer.h \
-	../tankai/TankAIComputerTarget.cpp \
-	../tankai/TankAIComputerTarget.h \
-	../tankai/TankAIHuman.cpp \
-	../tankai/TankAIHuman.h \
-	../tankai/TankAIHumanCtrl.cpp \
-	../tankai/TankAIHumanCtrl.h \
-	../tankai/TankAILogic.cpp \
-	../tankai/TankAILogic.h \
-	../tankai/TankAIStore.cpp \
-	../tankai/TankAIStore.h \
-	../tankai/TankAIStrings.cpp \
-	../tankai/TankAIStrings.h \
 	../boids/Boid.cpp \
 	../boids/Boid.h \
 	../boids/BoidVector.cpp \
@@ -1088,12 +1068,39 @@ scorched3d_SOURCES = \
 	../sound/SoundListener.h \
 	../sound/SoundSource.cpp \
 	../sound/SoundSource.h \
+	../sound/SoundUtils.cpp \
+	../sound/SoundUtils.h \
+	../sound/VirtualSoundPriority.h \
+	../sound/VirtualSoundSource.cpp \
+	../sound/VirtualSoundSource.h \
 	../cgext/CGFog.cpp \
 	../cgext/CGFog.h \
 	../cgext/CGIncludes.h \
 	../cgext/CGLoader.cpp \
 	../cgext/CGLoader.h \
 	../cgext/CGProgram.cpp \
-	../cgext/CGProgram.h
+	../cgext/CGProgram.h \
+	../tankai/TankAI.cpp \
+	../tankai/TankAI.h \
+	../tankai/TankAIAdder.cpp \
+	../tankai/TankAIAdder.h \
+	../tankai/TankAIComputer.cpp \
+	../tankai/TankAIComputer.h \
+	../tankai/TankAIComputerAim.cpp \
+	../tankai/TankAIComputerAim.h \
+	../tankai/TankAIComputerBuyer.cpp \
+	../tankai/TankAIComputerBuyer.h \
+	../tankai/TankAIComputerTarget.cpp \
+	../tankai/TankAIComputerTarget.h \
+	../tankai/TankAIHuman.cpp \
+	../tankai/TankAIHuman.h \
+	../tankai/TankAIHumanCtrl.cpp \
+	../tankai/TankAIHumanCtrl.h \
+	../tankai/TankAILogic.cpp \
+	../tankai/TankAILogic.h \
+	../tankai/TankAIStore.cpp \
+	../tankai/TankAIStore.h \
+	../tankai/TankAIStrings.cpp \
+	../tankai/TankAIStrings.h
 
 INCLUDES = -I../porting -I.. 

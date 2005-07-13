@@ -76,8 +76,10 @@ void LandscapeSoundManager::initialize(std::list<LandscapeSound *> sounds)
 			// Start any looped sounds
 			if (entry.timeLeft < 0.0f)
 			{
-				entry.soundType->position->setPosition(entry.soundSource);
-				entry.soundSource->play(entry.soundBuffer);
+				if (entry.soundType->position->setPosition(entry.soundSource))
+				{
+					entry.soundSource->play(entry.soundBuffer);
+				}
 			}
 		}
 	}
@@ -98,16 +100,24 @@ void LandscapeSoundManager::simulate(float frameTime)
 		{
 			entry.timeLeft -= lastTime_;
 
-			entry.soundType->position->setPosition(entry.soundSource);
-			if (entry.timeLeft < 0.0f)
+			if (entry.soundType->position->setPosition(entry.soundSource))
 			{
-				entry.timeLeft = entry.soundType->timing->getNextEventTime();
-				entry.soundSource->play(entry.soundBuffer);
+				if (entry.timeLeft < 0.0f)
+				{
+					entry.timeLeft = entry.soundType->timing->getNextEventTime();
+					entry.soundSource->play(entry.soundBuffer);
+				}
 			}
 		}
 		else
 		{
-			entry.soundType->position->setPosition(entry.soundSource);
+			if (!entry.soundType->position->setPosition(entry.soundSource))
+			{
+				if (entry.soundSource->getPlaying())
+				{
+					entry.soundSource->stop();
+				}
+			}
 		}
 	}
 
