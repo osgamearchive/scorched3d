@@ -19,6 +19,7 @@ the content that is in question.  I don't want to leave anyone out, and I am sor
 			- all the custom weapon icons
 		Projectile Models:
 			- bullet
+			- shotgunshell
 		Object Models:
 			- gasstation1, office3
 		- All custom accessory xml unless stated otherwise

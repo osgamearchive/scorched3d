@@ -15,14 +15,17 @@ Changes Since 2.0
 			- Sounds by R@p7or (from the RaptorMod)
 			- Weapon model by ShockWave (from the Shock Mod)
 			- Projectile model & code by Bobirov
-		- Teleport
-		- Lasers
+		- Shotgun - Shoots 5 small pellets in a spread pattern, can only make short-ranged shots
+			- Thats right its back, and better than ever I think.. :)
+			- Its still a bit odd, as the pellets are on a 1.5 second timer to keep it from being a range weapon.
+				The timer also makes it predominantly a line of sight weapon as you can't do slow, arced shots.
+		- Teleport - Same as official Scorched teleport, teleports you to a random spot on the landscape.
+		- Lasers - Same as the official ones however, there are also cannon versions (heavy is currently disabled).
 			
 	Other Accessory Changes:
 		- Shield pricing/power tweaked slightly
 		- Lightning:
 			- cloud effect altered slightly
-			- Lightning Storm no longer generates the projectiles while spreading (looks better)
 			- Broke the two bolts in Lightning Strike up with a slight delay so you can tell its two bolts 
 				per strike even when they hit the same person.  It looks cooler and and is more effective.
 			- Slightly reduced the damage done by the individual bolts in Lightning Strikes
@@ -31,6 +34,7 @@ Changes Since 2.0
 		- Meteor Shower now spawns from a random location in the air when fired
 		- Earthquake now forms from a random location on the ground when fired
 		- New, more controlled behaviour for Apocalypse, Dmsday Device and Strangelove
+		- Removed Atlantis Bomb, Riot Charge
 			
 	Landscapes:
 		- Starting locations on some landscapes for team games
