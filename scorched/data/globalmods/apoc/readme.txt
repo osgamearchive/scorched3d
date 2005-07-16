@@ -20,7 +20,7 @@ Changes Since 2.0
 			- Its still a bit odd, as the pellets are on a 1.5 second timer to keep it from being a range weapon.
 				The timer also makes it predominantly a line of sight weapon as you can't do slow, arced shots.
 		- Teleport - Same as official Scorched teleport, teleports you to a random spot on the landscape.
-		- Lasers - Same as the official ones however, there are also cannon versions (heavy is currently disabled).
+		- Lasers - Same as the official ones however, there a laser cannon which fires 3 laser shots.
 			
 	Other Accessory Changes:
 		- Shield pricing/power tweaked slightly
@@ -34,6 +34,7 @@ Changes Since 2.0
 		- Meteor Shower now spawns from a random location in the air when fired
 		- Earthquake now forms from a random location on the ground when fired
 		- New, more controlled behaviour for Apocalypse, Dmsday Device and Strangelove
+		- EMPs now do a little less physical damage but more damage to shields
 		- Removed Atlantis Bomb, Riot Charge
 			
 	Landscapes:
@@ -127,6 +128,7 @@ Hellstorm		- Firey/explosive rain
 Hornet's Nest	- Creates an angry cloud of hornets which fly out and attack nearby tanks
 Hornet Swarm    - Releases multiple Hornet's Nests
 Instamountain	- Creates a mountain of dirt upon impacting the ground
+Laser Cannon    - Fires 3 regular laser shots at slightly different angles
 Lightning Bolt  - Fires from a random location creating a small cloud and lightning bolt
 Lightning Storm - Fires from a random location creating several lightning bolts over a few seconds
 M2 Machinegun   - Shoots five 50 caliber machinegun bullets in rapid succession.
