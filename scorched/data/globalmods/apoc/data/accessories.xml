@@ -2159,7 +2159,7 @@ reaching its highest point releases
 many medium sized nuclear warheads 
 in several different directions.
 </description>
-		<icon>dhead.bmp</icon>
+		<icon>apoc.bmp</icon>
 		<bundlesize>1</bundlesize>
 		<cost>50000</cost>
 		<activationsound>shoot/launch.wav</activationsound>
@@ -2495,7 +2495,7 @@ in several different directions.
 		<armslevel>0</armslevel>
 		<description>Detonates at the peak of the projectile's
 arc raining massive destruction upon the field.</description>
-		<icon>dhead.bmp</icon>
+		<icon>apoc.bmp</icon>
 		<bundlesize>1</bundlesize>
 		<cost>100000</cost>
 		<activationsound>shoot/launch.wav</activationsound>
@@ -2544,7 +2544,7 @@ arc raining massive destruction upon the field.</description>
 		<armslevel>0</armslevel>
 		<description>Fire it into the air and watch 
 the world as you know it come to and end.</description>
-		<icon>dhead.bmp</icon>
+		<icon>apoc.bmp</icon>
 		<bundlesize>1</bundlesize>
 		<cost>150000</cost>
 		<activationsound>shoot/launch.wav</activationsound>
@@ -4259,7 +4259,7 @@ physical damage.</description>
 					<deform>none</deform>
 					<hurtamount>0</hurtamount>
 					<size>10</size>
-					<explosiontexture>cloud00</explosiontexture>
+					<explosiontexture>cloud00-5</explosiontexture>
 					<explosionsound>none</explosionsound>
 				</subweapon1>
 				<subweapon2 type='WeaponReference'>
