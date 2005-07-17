@@ -446,7 +446,7 @@ TankAIComputerAim::AimResult TankAIComputerAim::refinedAim(
 			int allowedIntersectDist = int(distance / 2.0f);
 			while (TankLib::intersection(
 				ScorchedServer::instance()->getContext(), 
-				currentTank_->getPhysics().getTankGunPosition(), 
+				currentTank_->getPhysics().getTankGunPosition() - Vector(0.0f, 0.0f, 0.5f), 
 				angleXYDegs, angleYZDegs, power, allowedIntersectDist))
 			{
 				angleYZDegs += 5.0f;

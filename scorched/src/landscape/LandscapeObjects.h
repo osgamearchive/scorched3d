@@ -24,6 +24,7 @@
 #include <common/ProgressCounter.h>
 #include <common/RandomGenerator.h>
 #include <landscape/LandscapeObjectsEntry.h>
+#include <landscape/LandscapeObjectsGroupEntry.h>
 #include <engine/ScorchedContext.h>
 #include <map>
 #include <string>
@@ -32,17 +33,6 @@ class LandscapePlace;
 class LandscapeObjects
 {
 public:
-	struct LandscapeObjectsGroupEntry
-	{
-		LandscapeObjectsGroupEntry();
-
-		void addObject(int x, int y);
-		float getDistance(int x, int y);
-
-	protected:
-		float distance[64 * 64];
-	};
-	
 	LandscapeObjects();
 	virtual ~LandscapeObjects();
 

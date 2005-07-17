@@ -18,28 +18,24 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_LandscapeObjectsEntryh_INCLUDE__)
-#define __INCLUDE_LandscapeObjectsEntryh_INCLUDE__
+#if !defined(__INCLUDE_LandscapeObjectsGroupEntryh_INCLUDE__)
+#define __INCLUDE_LandscapeObjectsGroupEntryh_INCLUDE__
 
-#include <string>
-
-class LandscapeObjectsGroupEntry;
-class LandscapeObjectsEntry
+class LandscapeObjectsGroupEntry
 {
 public:
-	LandscapeObjectsEntry();
-	virtual ~LandscapeObjectsEntry();
+	LandscapeObjectsGroupEntry();
+	virtual ~LandscapeObjectsGroupEntry();
 
-	float posX, posY, posZ;
-	float rotation;
-	float size;
-	float color;
-	bool burnt;
-	std::string removeaction;
-	std::string burnaction;
-	LandscapeObjectsGroupEntry *group;
+	void addObject(int x, int y);
+	void removeObject(int x, int y);
 
-	virtual void render(float distance) = 0;
+	float getDistance(int x, int y);
+	int getObjectCount();
+
+protected:
+	float distance[64 * 64];
+	int count_;
 };
 
-#endif // __INCLUDE_LandscapeObjectsEntryh_INCLUDE__
+#endif // __INCLUDE_LandscapeObjectsGroupEntryh_INCLUDE__

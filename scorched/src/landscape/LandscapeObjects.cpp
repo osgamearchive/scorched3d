@@ -36,41 +36,6 @@ static inline float approx_distance(float  dx, float dy)
    return approx;
 }
 
-LandscapeObjects::LandscapeObjectsGroupEntry::LandscapeObjectsGroupEntry()
-{
-	for (int a=0; a<64; a++)
-	{
-		for (int b=0; b<64; b++)
-		{
-			distance[a + b * 64] = 255.0f;
-		}
-	}
-}
-
-float LandscapeObjects::LandscapeObjectsGroupEntry::getDistance(int x, int y)
-{
-	x /= 4;
-	y /= 4;
-	return distance[x + y * 64];
-}
-
-void LandscapeObjects::LandscapeObjectsGroupEntry::addObject(int x, int y)
-{
-	x /= 4;
-	y /= 4;
-
-	Vector posA(x, y, 0);
-	for (int a=0; a<64; a++)
-	{
-		for (int b=0; b<64; b++)
-		{
-			Vector posB(a, b, 0);
-			float d = (posB - posA).Magnitude();
-			distance[a + b * 64] = MIN(distance[a + b * 64], d);
-		}
-	}
-}
-
 LandscapeObjects::LandscapeObjects()
 {
 }
@@ -92,7 +57,7 @@ void LandscapeObjects::clearGroups()
 	groups_.clear();
 }
 
-LandscapeObjects::LandscapeObjectsGroupEntry *LandscapeObjects::getGroup(
+LandscapeObjectsGroupEntry *LandscapeObjects::getGroup(
 	const char *name, bool create)
 {
 	std::map<std::string, LandscapeObjectsGroupEntry*>::iterator findItor =
@@ -205,10 +170,7 @@ void LandscapeObjects::addObject(unsigned int x, unsigned int y,
 
 void LandscapeObjects::removeAllObjects()
 {
-	// Make sure all groups are cleared
-	clearGroups();
-
-	// Clear any current trees
+	// Clear any current objects
 	std::multimap<unsigned int, LandscapeObjectsEntry*>::iterator 
 		itor = entries_.begin();
 	std::multimap<unsigned int, LandscapeObjectsEntry*>::iterator 
@@ -219,6 +181,9 @@ void LandscapeObjects::removeAllObjects()
 		delete entry;
 	}	
 	entries_.clear();
+
+	// Make sure all groups are cleared
+	clearGroups();
 }
 
 void LandscapeObjects::removeObjects(
@@ -230,7 +195,7 @@ void LandscapeObjects::removeObjects(
 	{
 		for (unsigned int b=y-r; b<=y+r; b++)
 		{
-			unsigned int point = pointToUInt((unsigned int)a, (unsigned int)b);
+			unsigned int point = pointToUInt(a, b);
 
 			std::multimap<unsigned int, LandscapeObjectsEntry*>::iterator lower =
 				entries_.lower_bound(point);
@@ -255,6 +220,7 @@ void LandscapeObjects::removeObjects(
 					}
 				}
 
+				if (entry->group) entry->group->removeObject(a, b);
 				delete entry;
 			}
 			entries_.erase(lower, upper);

@@ -126,7 +126,7 @@ bool TankLib::getSniperShotTowardsPosition(ScorchedContext &context,
 		// Ensure that the sniper shot wont collide with the ground
 		// nearer than 80% dist to target away
 		int allowedIntersectDist = int(distance2D * 0.8f);
-		if (intersection(context, position + Vector(0.0f, 0.0f, 0.5f), 
+		if (intersection(context, position - Vector(0.0f, 0.0f, 1.0f), 
 			angleXYDegs, angleYZDegs, power, allowedIntersectDist))
 		{
 			return false;

@@ -50,6 +50,7 @@ public:
 	// State Modifiers
 	void newGame();
 	void reset();
+	void clientNewGame();
 	
 	// State
 	void setReady() { readyState_ = sReady; }

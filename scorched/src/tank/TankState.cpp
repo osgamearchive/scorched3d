@@ -52,6 +52,11 @@ void TankState::newGame()
 	life_ = 100.0f;
 }
 
+void TankState::clientNewGame()
+{
+	skipshots_ = false;
+}
+
 void TankState::setState(State s)
 {
 	if (loading_) return;

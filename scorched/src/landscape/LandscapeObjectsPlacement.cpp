@@ -166,7 +166,7 @@ void LandscapeObjectPlacementTrees::generateObjects(
 
 	float mult = (float) Landscape::instance()->getMainMap().getWidth() / 256.0f;
 
-	LandscapeObjects::LandscapeObjectsGroupEntry *group = 0;
+	LandscapeObjectsGroupEntry *group = 0;
 	if (placement.groupname.c_str()[0])
 	{
 		group = context.landscapeMaps->getObjects().getGroup(
@@ -234,7 +234,7 @@ void LandscapeObjectPlacementTrees::generateObjects(
 					entry->posZ = height;
 					entry->rotation = generator.getRandFloat() * 360.0f;
 					entry->removeaction = placement.removeaction;
-					entry->burnaction = placement.burnaction;
+					entry->burnaction = placement.burnaction;				
 					
 					GLBitmapModifier::addCircle(Landscape::instance()->getMainMap(),
 						lx * mult, ly * mult, entry->size * mult, 1.0f);
@@ -248,6 +248,7 @@ void LandscapeObjectPlacementTrees::generateObjects(
 				if (group && (i % 10 == 0))
 				{
 					group->addObject((int) lx, (int) ly);
+					entry->group = group;
 				}
 			}
 		}
@@ -304,7 +305,7 @@ void LandscapeObjectPlacementMask::generateObjects(
 			placement.mask.c_str());
 	}
 
-	LandscapeObjects::LandscapeObjectsGroupEntry *group = 0;
+	LandscapeObjectsGroupEntry *group = 0;
 	if (placement.groupname.c_str()[0])
 	{
 		group = context.landscapeMaps->getObjects().getGroup(
@@ -429,6 +430,7 @@ void LandscapeObjectPlacementMask::generateObjects(
 					if (group && (i % 10 == 0))
 					{
 						group->addObject((int) lx, (int) ly);
+						entry->group = group;
 					}
 				}
 			}
@@ -478,7 +480,7 @@ void LandscapeObjectPlacementDirect::generateObjects(
 			placement.objecttype.c_str());
 	}
 
-	LandscapeObjects::LandscapeObjectsGroupEntry *group = 0;
+	LandscapeObjectsGroupEntry *group = 0;
 	if (placement.groupname.c_str()[0])
 	{
 		group = context.landscapeMaps->getObjects().getGroup(
@@ -553,6 +555,7 @@ void LandscapeObjectPlacementDirect::generateObjects(
 			
 		if (group)
 		{
+			entry->group = group;
 			group->addObject((int) position.position[0], (int) position.position[1]);
 		}
 	}

@@ -29,6 +29,7 @@ Fixed: Undo should not put duplicate entries in the undo log (and more undo feat
 Fixed: Banned statsid added to list of banned players
 Fixed: Adjusted damage from hogs, added lasers
 
+Added: Auto skip feature (skips all moves until the end of the current round)
 Added: Ambient sounds
 Added: Web interface for server to change settings
 Added: onlyhurtshield attribute to WeaponExplosion for explosions that only hurt shields

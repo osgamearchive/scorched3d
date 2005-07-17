@@ -30,6 +30,7 @@
 
 bool LandscapeSoundPositionGroup::readXML(XMLNode *node)
 {
+	if (!node->getNamedChild("falloff", falloff)) return false;
 	if (!node->getNamedChild("name", name)) return false;
 	return node->failChildren();
 }
@@ -45,15 +46,17 @@ bool LandscapeSoundPositionGroup::setPosition(VirtualSoundSource *source)
 	int y = MAX(0, MIN(b, 255));
 
 	float distance = 255.0f;
-	LandscapeObjects::LandscapeObjectsGroupEntry *groupEntry =
+	LandscapeObjectsGroupEntry *groupEntry =
 		ScorchedClient::instance()->getLandscapeMaps().getObjects().getGroup(
 			name.c_str());
 	if (groupEntry)
 	{
+		if (groupEntry->getObjectCount() <= 0) return false;
+
 		distance = groupEntry->getDistance(x, y);
 	}
 	distance += fabsf(float(a - x)) + fabsf(float(b - y));
-	distance *= 4.0f;
+	distance *= 4.0f * falloff;
 
 	Vector position(0.0f, 0.0f, distance + cameraPos[2]);
 
@@ -65,6 +68,7 @@ bool LandscapeSoundPositionGroup::setPosition(VirtualSoundSource *source)
 
 bool LandscapeSoundPositionWater::readXML(XMLNode *node)
 {
+	if (!node->getNamedChild("falloff", falloff)) return false;
 	return node->failChildren();
 }
 
@@ -81,7 +85,7 @@ bool LandscapeSoundPositionWater::setPosition(VirtualSoundSource *source)
 	float distance = Landscape::instance()->getWater().
 		getWaves().getWaveDistance()[x + y * 64];
 	distance += fabsf(float(a - x)) + fabsf(float(b - y));
-	distance *= 4.0f;
+	distance *= 4.0f * falloff;
 
 	Vector position(0.0f, 0.0f, distance + cameraPos[2]);
 

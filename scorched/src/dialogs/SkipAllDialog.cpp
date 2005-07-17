@@ -40,11 +40,11 @@ SkipAllDialog *SkipAllDialog::instance()
 }
 
 SkipAllDialog::SkipAllDialog() : 
-	GLWWindow("", 210.0f, 80.0f, 0, ""),
+	GLWWindow("", 250.0f, 80.0f, 0, ""),
 	skipAll_(false)
 {
 	label_ = (GLWLabel *) addWidget(new GLWLabel(10, 45));
-	cancelId_ = addWidget(new GLWTextButton("Cancel", 95, 10, 105, this, 
+	cancelId_ = addWidget(new GLWTextButton("Cancel", 135, 10, 105, this, 
 		GLWButton::ButtonFlagCancel | GLWButton::ButtonFlagCenterX))->getId();
 }
 
@@ -57,7 +57,7 @@ void SkipAllDialog::simulate(float frameTime)
 {
 	if (skipAll_)
 	{
-		label_->setText(formatString("Skipping in %i...", (int) timeLeft_));
+		label_->setText(formatString("Skipping move in %i...", (int) timeLeft_));
 		timeLeft_ -= ScorchedClient::instance()->getMainLoop().getDrawTime();
 		if (timeLeft_ < 0.0f)
 		{

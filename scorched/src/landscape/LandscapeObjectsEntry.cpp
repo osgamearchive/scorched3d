@@ -19,9 +19,10 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <landscape/LandscapeObjectsEntry.h>
+#include <landscape/LandscapeObjectsGroupEntry.h>
 
 LandscapeObjectsEntry::LandscapeObjectsEntry() :
-	burnt(false)
+	burnt(false), group(0)
 {
 }
 

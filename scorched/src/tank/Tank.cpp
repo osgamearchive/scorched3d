@@ -70,6 +70,7 @@ void Tank::newGame()
 void Tank::clientNewGame()
 {
 	physics_.clientNewGame();
+	state_.clientNewGame();
 }
 
 Vector &Tank::getColor()

@@ -75,6 +75,7 @@ class LandscapeSoundPositionWater : public LandscapeSoundPosition
 public:
 	virtual bool readXML(XMLNode *node);
 	virtual bool setPosition(VirtualSoundSource *source);
+	float falloff;
 };
 
 class LandscapeSoundPositionGroup : public LandscapeSoundPosition
@@ -84,7 +85,7 @@ public:
 	virtual bool setPosition(VirtualSoundSource *source);
 
 	std::string name;
-	void *groupEntry;
+	float falloff;
 };
 
 class LandscapeSoundType

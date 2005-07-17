@@ -1331,6 +1331,12 @@
 				RelativePath="..\landscape\LandscapeObjectsEntryTree.h">
 			</File>
 			<File
+				RelativePath="..\landscape\LandscapeObjectsGroupEntry.cpp">
+			</File>
+			<File
+				RelativePath="..\landscape\LandscapeObjectsGroupEntry.h">
+			</File>
+			<File
 				RelativePath="..\landscape\LandscapeObjectsPlacement.cpp">
 			</File>
 			<File
