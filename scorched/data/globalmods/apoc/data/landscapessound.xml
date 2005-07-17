@@ -176,36 +176,20 @@
 		</sounds>
 	</ambientsound>
 	<ambientsound>
-		<name>city</name>
-		<sounds>
-			<sound>
-				<position type="absolute">
-					<position><A>128</A><B>128</B><C>50</C></position>
-				</position>
-				<timing type="looped"></timing>
-				<sound>data/wav/misc/citysounds.wav</sound>
-			</sound>
-		</sounds>
-	</ambientsound>
-	<ambientsound>
-		<name>city2</name>
-		<sounds>
-			<sound>
-				<position type="absolute">
-					<position><A>32</A><B>72</B><C>50</C></position> 
-				</position>
-				<timing type="looped"></timing>
-				<sound>data/wav/misc/citysounds.wav</sound>
-			</sound>
-		</sounds>
-	</ambientsound>
-	<ambientsound>
 		<name>buildings</name>
 		<sounds>
 			<sound>
 				<position type="group">
+					<name>skyscrapers</name>
+					<falloff>0.8</falloff>
+				</position>
+				<timing type="looped"></timing>
+				<sound>data/wav/misc/citysounds.wav</sound>
+			</sound>
+			<sound>
+				<position type="group">
 					<name>houses</name>
-					<falloff>1.0</falloff>
+					<falloff>1.2</falloff>
 				</position>
 				<timing type="repeat">
 					<min>10</min>
@@ -216,7 +200,7 @@
 			<sound>
 				<position type="group">
 					<name>houses</name>
-					<falloff>1.0</falloff>
+					<falloff>1.2</falloff>
 				</position>
 				<timing type="repeat">
 					<min>20</min>
@@ -227,7 +211,7 @@
 			<sound>
 				<position type="group">
 					<name>houses</name>
-					<falloff>1.0</falloff>
+					<falloff>1.2</falloff>
 				</position>
 				<timing type="repeat">
 					<min>20</min>
@@ -276,7 +260,7 @@
 			<sound>
 				<position type="group">
 					<name>offices</name>
-					<falloff>1.0</falloff>
+					<falloff>1.2</falloff>
 				</position>
 				<timing type="repeat">
 					<min>10</min>
@@ -287,7 +271,7 @@
 			<sound>
 				<position type="group">
 					<name>offices</name>
-					<falloff>1.0</falloff>
+					<falloff>1.2</falloff>
 				</position>
 				<timing type="repeat">
 					<min>10</min>
@@ -298,7 +282,7 @@
 			<sound>
 				<position type="group">
 					<name>offices</name>
-					<falloff>1.0</falloff>
+					<falloff>1.2</falloff>
 				</position>
 				<timing type="repeat">
 					<min>10</min>
@@ -309,7 +293,7 @@
 			<sound>
 				<position type="group">
 					<name>offices</name>
-					<falloff>1.0</falloff>
+					<falloff>1.2</falloff>
 				</position>
 				<timing type="repeat">
 					<min>20</min>
@@ -320,7 +304,7 @@
 			<sound>
 				<position type="group">
 					<name>offices</name>
-					<falloff>1.0</falloff>
+					<falloff>1.2</falloff>
 				</position>
 				<timing type="repeat">
 					<min>20</min>
@@ -331,7 +315,7 @@
 			<sound>
 				<position type="group">
 					<name>offices</name>
-					<falloff>1.0</falloff>
+					<falloff>1.2</falloff>
 				</position>
 				<timing type="repeat">
 					<min>10</min>
@@ -360,6 +344,21 @@
 					<max>60</max>
 				</timing>
 				<sound>data/wav/misc/policecar.wav</sound>
+			</sound>
+		</sounds>
+	</ambientsound>
+	<ambientsound>
+		<name>helicopter</name>
+		<sounds>
+			<sound>
+				<position type="absolute">
+					<position><A>128</A><B>128</B><C>50</C></position>
+				</position>
+				<timing type="repeat">
+					<min>60</min>
+					<max>120</max>
+				</timing>
+				<sound>data/wav/misc/helicopter.wav</sound>
 			</sound>
 		</sounds>
 	</ambientsound>

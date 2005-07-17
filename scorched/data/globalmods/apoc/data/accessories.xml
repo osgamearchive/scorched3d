@@ -3982,7 +3982,7 @@ many riot bomblets on impact.</description>
 point of impact, from which no opponent can escape</description>
 		<icon>pit.bmp</icon>
 		<bundlesize>1</bundlesize>
-		<cost>1000</cost>
+		<cost>1500</cost>
 		<activationsound>shoot/large.wav</activationsound>
 		<accessoryaction type='WeaponProjectile'>
 			<enginesound>none</enginesound>
@@ -3994,51 +3994,92 @@ point of impact, from which no opponent can escape</description>
 				<nextaction type='WeaponTranslate'>
 					<translatedist>15</translatedist>
 					<nextaction type='WeaponMulti'>
-						<subweapon1 type='WeaponTranslate'>
-							<translatedist>15</translatedist>
-							<nextaction type='WeaponMulti'>
-								<subweapon1 type='WeaponTranslate'>
-									<translatedist>15</translatedist>
-									<nextaction type='WeaponMulti'>
-										<subweapon1 type='WeaponTranslate'>
+						<subweapon1 type='WeaponDelay'>
+							<delay>0.25</delay>
+							<delayedweapon type='WeaponTranslate'>
+								<translatedist>15</translatedist>
+								<nextaction type='WeaponMulti'>
+									<subweapon1 type='WeaponDelay'>
+										<delay>0.25</delay>
+										<delayedweapon type='WeaponTranslate'>
 											<translatedist>15</translatedist>
 											<nextaction type='WeaponMulti'>
-												<subweapon1 type='WeaponNull'></subweapon1>
+												<subweapon1 type='WeaponDelay'>
+													<delay>0.25</delay>
+													<delayedweapon type='WeaponTranslate'>
+														<translatedist>15</translatedist>
+														<nextaction type='WeaponMulti'>
+															<subweapon1 type='WeaponDelay'>
+																<delay>0.25</delay>
+																<delayedweapon type='WeaponTranslate'>
+																	<translatedist>15</translatedist>
+																	<nextaction type='WeaponMulti'>
+																		<subweapon1 type='WeaponDelay'>
+																			<delay>0.25</delay>
+																			<delayedweapon type='WeaponTranslate'>
+																				<translatedist>15</translatedist>
+																				<nextaction type='WeaponMulti'>
+																					<subweapon1 type='WeaponNull'></subweapon1>
+																					<subweapon2 type='WeaponExplosion'>
+																						<nocreatedebris></nocreatedebris>
+																						<deform>down</deform>
+																						<hurtamount>0</hurtamount>
+																						<size>8</size>
+																						<explosiontexture>exp03</explosiontexture>
+																						<explosionsound>none</explosionsound>
+																					</subweapon2>
+																				</nextaction>
+																			</delayedweapon>
+																		</subweapon1>
+																		<subweapon2 type='WeaponExplosion'>
+																			<nocreatedebris></nocreatedebris>
+																			<deform>down</deform>
+																			<hurtamount>0</hurtamount>
+																			<size>8</size>
+																			<explosiontexture>exp03</explosiontexture>
+																			<explosionsound>none</explosionsound>
+																		</subweapon2>
+																	</nextaction>
+																</delayedweapon>
+															</subweapon1>
+															<subweapon2 type='WeaponExplosion'>
+																<nocreatedebris></nocreatedebris>
+																<deform>down</deform>
+																<hurtamount>0</hurtamount>
+																<size>8</size>
+																<explosiontexture>exp03</explosiontexture>
+																<explosionsound>none</explosionsound>
+															</subweapon2>
+														</nextaction>
+													</delayedweapon>
+												</subweapon1>
 												<subweapon2 type='WeaponExplosion'>
 													<nocreatedebris></nocreatedebris>
 													<deform>down</deform>
 													<hurtamount>0</hurtamount>
-													<size>6</size>
+													<size>8</size>
 													<explosiontexture>exp03</explosiontexture>
 													<explosionsound>none</explosionsound>
 												</subweapon2>
 											</nextaction>
-										</subweapon1>
-										<subweapon2 type='WeaponExplosion'>
-											<nocreatedebris></nocreatedebris>
-											<deform>down</deform>
-											<hurtamount>0</hurtamount>
-											<size>6</size>
-											<explosiontexture>exp03</explosiontexture>
-											<explosionsound>none</explosionsound>
-										</subweapon2>
-									</nextaction>
-								</subweapon1>
-								<subweapon2 type='WeaponExplosion'>
-									<nocreatedebris></nocreatedebris>
-									<deform>down</deform>
-									<hurtamount>0</hurtamount>
-									<size>6</size>
-									<explosiontexture>exp03</explosiontexture>
-									<explosionsound>none</explosionsound>
-								</subweapon2>
-							</nextaction>
+										</delayedweapon>
+									</subweapon1>
+									<subweapon2 type='WeaponExplosion'>
+										<nocreatedebris></nocreatedebris>
+										<deform>down</deform>
+										<hurtamount>0</hurtamount>
+										<size>8</size>
+										<explosiontexture>exp03</explosiontexture>
+										<explosionsound>none</explosionsound>
+									</subweapon2>
+								</nextaction>
+							</delayedweapon>
 						</subweapon1>
 						<subweapon2 type='WeaponExplosion'>
 							<nocreatedebris></nocreatedebris>
 							<deform>down</deform>
 							<hurtamount>0</hurtamount>
-							<size>6</size>
+							<size>8</size>
 							<explosiontexture>exp03</explosiontexture>
 							<explosionsound>explosions/crunch.wav</explosionsound>
 						</subweapon2>
@@ -4079,7 +4120,7 @@ This weapon does no physical damage</description>
 		<description>Shoots 3 heavy riot bombs in rapid succession</description>
 		<icon>drill.bmp</icon>
 		<bundlesize>1</bundlesize>
-		<cost>5000</cost>
+		<cost>4000</cost>
 		<activationsound>shoot/tripleshot.wav</activationsound>
 		<accessoryaction type='WeaponMulti'>
 			<subweapon1 type='WeaponProjectile'>

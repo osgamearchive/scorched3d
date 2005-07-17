@@ -669,7 +669,6 @@
 			<ambientsound>waves</ambientsound>
 			<ambientsound>jet</ambientsound>
 			<ambientsound>trees</ambientsound>
-			<ambientsound>city</ambientsound>
 			<ambientsound>buildings</ambientsound>
 			<ambientsound>cars</ambientsound>
 		</ambientsounds>
@@ -722,8 +721,8 @@
 		<ambientsounds>
 			<ambientsound>waves</ambientsound>
 			<ambientsound>jet</ambientsound>
+			<ambientsound>helicopter</ambientsound>
 			<ambientsound>trees</ambientsound>
-			<ambientsound>city</ambientsound>
 			<ambientsound>buildings</ambientsound>
 			<ambientsound>cars</ambientsound>
 		</ambientsounds>
@@ -792,7 +791,7 @@
 			<ambientsound>waves</ambientsound>
 			<ambientsound>rain</ambientsound>
 			<ambientsound>jet</ambientsound>
-			<ambientsound>city</ambientsound>
+			<ambientsound>helicopter</ambientsound>
 			<ambientsound>buildings</ambientsound>
 			<ambientsound>cars</ambientsound>
 		</ambientsounds>
@@ -855,8 +854,8 @@
 		<ambientsounds>
 			<ambientsound>waves</ambientsound>
 			<ambientsound>jet</ambientsound>
+			<ambientsound>helicopter</ambientsound>
 			<ambientsound>trees</ambientsound>
-			<ambientsound>city2</ambientsound>
 			<ambientsound>buildings</ambientsound>
 			<ambientsound>cars</ambientsound>
 		</ambientsounds>
@@ -909,8 +908,8 @@
 		<ambientsounds>
 			<ambientsound>waves</ambientsound>
 			<ambientsound>jet</ambientsound>
+			<ambientsound>helicopter</ambientsound>
 			<ambientsound>trees</ambientsound>
-			<ambientsound>city2</ambientsound>
 			<ambientsound>buildings</ambientsound>
 			<ambientsound>cars</ambientsound>
 		</ambientsounds>
@@ -979,7 +978,7 @@
 			<ambientsound>waves</ambientsound>
 			<ambientsound>rain</ambientsound>
 			<ambientsound>jet</ambientsound>
-			<ambientsound>city2</ambientsound>
+			<ambientsound>helicopter</ambientsound>
 			<ambientsound>buildings</ambientsound>
 			<ambientsound>cars</ambientsound>
 		</ambientsounds>
@@ -1042,8 +1041,8 @@
 		<ambientsounds>
 			<ambientsound>waves</ambientsound>
 			<ambientsound>jet</ambientsound>
+			<ambientsound>helicopter</ambientsound>
 			<ambientsound>trees</ambientsound>
-			<ambientsound>city</ambientsound>
 			<ambientsound>buildings</ambientsound>
 			<ambientsound>cars</ambientsound>
 		</ambientsounds>
@@ -1096,8 +1095,8 @@
 		<ambientsounds>
 			<ambientsound>waves</ambientsound>
 			<ambientsound>jet</ambientsound>
+			<ambientsound>helicopter</ambientsound>
 			<ambientsound>trees</ambientsound>
-			<ambientsound>city</ambientsound>
 			<ambientsound>buildings</ambientsound>
 			<ambientsound>cars</ambientsound>
 		</ambientsounds>
@@ -1166,7 +1165,7 @@
 			<ambientsound>waves</ambientsound>
 			<ambientsound>rain</ambientsound>
 			<ambientsound>jet</ambientsound>
-			<ambientsound>city</ambientsound>
+			<ambientsound>helicopter</ambientsound>
 			<ambientsound>buildings</ambientsound>
 			<ambientsound>cars</ambientsound>
 		</ambientsounds>

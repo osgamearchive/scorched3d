@@ -20,7 +20,7 @@ Changes Since 2.0
 			- Its still a bit odd, as the pellets are on a 1.5 second timer to keep it from being a range weapon.
 				The timer also makes it predominantly a line of sight weapon as you can't do slow, arced shots.
 		- Teleport - Same as official Scorched teleport, teleports you to a random spot on the landscape.
-		- Lasers - Same as the official ones however, there a laser cannon which fires 3 laser shots.
+		- Lasers - Same as the official ones however, there is also a laser cannon which fires 3 laser shots.
 			
 	Other Accessory Changes:
 		- Shield pricing/power tweaked slightly
@@ -35,6 +35,7 @@ Changes Since 2.0
 		- Earthquake now forms from a random location on the ground when fired
 		- New, more controlled behaviour for Apocalypse, Dmsday Device and Strangelove
 		- EMPs now do a little less physical damage but more damage to shields
+		- Bottomless Pit is a little wider and deeper, fires on delays.
 		- Removed Atlantis Bomb, Riot Charge
 			
 	Landscapes:
@@ -44,6 +45,7 @@ Changes Since 2.0
 			- The other team starting locations basically split the map in two with each team having one half the map
 			- There are still plenty of maps which retain the old random team placement as well to mix it up
 		- Changes to cities:
+			- Skyscraper now uses direct placement and appears 100% of the time
 			- Ambient sounds (started at least)
 			- Cities added to even more maps
 			- New stormy city layouts
@@ -108,8 +110,7 @@ Acid Blast		- Explodes releasing some small, earth eating bomblets
 Acid Rain		- Non damaging, earth eating rain
 Acid Splash		- Explodes on impact and splashes dirt eating bomblets all over the area
 Apocalypse		- Warhead that splits a few times in the air realeasing many medium sized nuclear warheads
-Atlantis Bomb	- Explodes in the air and releases many dirt eating bombs that destroy most of the map without doing physical damage to tanks
-Baby Napalm		- Free, weak version of napalm
+Baby Napalm		- Weak version of napalm
 Bottomless Pit  - Creates a narrow but deep pit at the point of impact
 BouncingBetty	- Bomb that bounces and releases multiple explosive warheads
 Bunny Bomb		- MIRV with leaping warheads
