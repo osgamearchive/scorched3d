@@ -19,8 +19,10 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <GLEXT/GLConsole.h>
+#include <GLEXT/GLConsoleRuleMethodIAdapter.h>
 #include <common/Defines.h>
 #include <common/OptionsDisplay.h>
+#include <common/Logger.h>
 #include <sound/Sound.h>
 #include <sound/SoundBuffer.h>
 #include <AL/al.h>
@@ -41,6 +43,8 @@ Sound *Sound::instance()
 Sound::Sound() : 
 	init_(false), totalTime_(0.0f)
 {
+	new GLConsoleRuleMethodIAdapter<Sound>(
+		this, &Sound::showSoundBuffers, "SoundBuffers");
 }
 
 Sound::~Sound()
@@ -139,20 +143,65 @@ bool Sound::init(int channels)
 	return init_;
 }
 
+void Sound::showSoundBuffers()
+{
+	int i = 1;
+	Logger::log("%i sounds playing, %i sources free",
+		getPlayingChannels(),
+		getAvailableChannels());
+	VirtualSourceMap::iterator itor;
+	for (itor = playingSources_.begin();
+		itor != playingSources_.end();
+		itor++, i++)
+	{
+		unsigned int p = (*itor).first;
+		VirtualSoundSource *source = (*itor).second;
+		Logger::log("%i,%u - %s:%s",
+			i, p, 
+			(source->getPlaying()?"Playing":"Stopped"),
+			source->getBuffer()->getFileName());
+	}
+}
+
 void Sound::simulate(float frameTime)
 {
 	totalTime_ += frameTime;
-	if (totalTime_ < 0.1f) return;
+	if (totalTime_ < 0.2f) return;
 	totalTime_ = 0.0f;
 
+	tidyBuffers();
+}
+
+void Sound::tidyBuffers()
+{
 	// Check any sources that are looping and should be restarted
 	while (!loopingSources_.empty() &&
 		!availableSources_.empty())
 	{
-		VirtualSoundSource *stopedSource = loopingSources_.front();
-		loopingSources_.pop_front();
+		VirtualSoundSource *stopedSource = loopingSources_.back();
+		loopingSources_.pop_back();
 		DIALOG_ASSERT(stopedSource->getBuffer());
 		stopedSource->play(stopedSource->getBuffer());
+	}
+
+	// Tidy any playing sources that have stopped playing
+	static VirtualSourceList finishedList;
+	VirtualSourceMap::iterator playingitor;
+	for (playingitor = playingSources_.begin();
+		playingitor != playingSources_.end();
+		playingitor++)
+	{
+		VirtualSoundSource *source = (*playingitor).second;
+		if (!source->getPlaying())
+		{
+			finishedList.push_back(source);
+		}
+	}
+	while (!finishedList.empty())
+	{
+		VirtualSoundSource *source = finishedList.back();
+		finishedList.pop_back();
+		source->stop();
 	}
 
 	// Tidy any managed sources that have stopped playing
@@ -202,8 +251,8 @@ SoundSource *Sound::addPlaying(VirtualSoundSource *virt, unsigned int priority)
 	// (or perhaps we just freed one up)
 	if (!availableSources_.empty())
 	{
-		SoundSource *source = availableSources_.front();
-		availableSources_.pop_front();
+		SoundSource *source = availableSources_.back();
+		availableSources_.pop_back();
 
 		std::pair<unsigned int, VirtualSoundSource *> p(priority, virt);
 		playingSources_.insert(p);
@@ -260,6 +309,11 @@ void Sound::addManaged(VirtualSoundSource *source)
 int Sound::getAvailableChannels()
 {
 	return availableSources_.size();
+}
+
+int Sound::getPlayingChannels()
+{
+	return playingSources_.size();
 }
 
 SoundListener *Sound::getDefaultListener()

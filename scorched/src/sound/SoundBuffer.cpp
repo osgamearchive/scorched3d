@@ -75,5 +75,6 @@ bool SoundBuffer::createBuffer(char *wavFileName)
 		return false;
 	}
 
+	fileName_ = wavFileName;
 	return true;
 }

@@ -21,6 +21,8 @@
 #ifndef _SOUNDBUFFER_H_
 #define _SOUNDBUFFER_H_
 
+#include <string>
+
 class Sound;
 class SoundBuffer  
 {
@@ -28,6 +30,7 @@ public:
 	virtual ~SoundBuffer();
 
 	unsigned int getBuffer() { return buffer_; }
+	const char *getFileName() { return fileName_.c_str(); }
 
 protected:
 	friend class Sound;
@@ -40,6 +43,7 @@ protected:
 	
 	unsigned int error_;
 	unsigned int buffer_;
+	std::string fileName_;
 };
 
 #endif /* _SOUNDBUFFER_H_ */

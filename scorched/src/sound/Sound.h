@@ -22,7 +22,7 @@
 #define _SOUND_H_
 
 #include <map>
-#include <list>
+#include <vector>
 #include <string>
 #include <sound/VirtualSoundSource.h>
 #include <sound/SoundBuffer.h>
@@ -31,7 +31,7 @@
 #define CACHE_SOUND(var, filename) 										\
 		static SoundBuffer* var = Sound::instance()->fetchOrCreateBuffer(filename);
 
-class Sound  
+class Sound
 {
 public:
 	static Sound *instance();
@@ -39,6 +39,8 @@ public:
 	bool init(int channels);
 	bool getInit() { return init_; }
 	void destroy();
+
+	void showSoundBuffers();
 
 	SoundBuffer *fetchOrCreateBuffer(char *filename);
 	SoundListener *getDefaultListener();
@@ -49,12 +51,13 @@ public:
 
 	void simulate(float frameTime);
 	int getAvailableChannels();
+	int getPlayingChannels();
 
 protected:
 	static Sound *instance_;
 	typedef std::map<std::string, SoundBuffer *> BufferMap;
-	typedef std::list<SoundSource *> SourceList;
-	typedef std::list<VirtualSoundSource *> VirtualSourceList;
+	typedef std::vector<SoundSource *> SourceList;
+	typedef std::vector<VirtualSoundSource *> VirtualSourceList;
 	typedef std::multimap<unsigned int, VirtualSoundSource *> VirtualSourceMap;
 	float totalTime_;
 	BufferMap bufferMap_;
@@ -66,6 +69,7 @@ protected:
 	VirtualSourceList loopingSources_;
 	bool init_;
 
+	void tidyBuffers();
 	SoundBuffer *createBuffer(char *fileName);
 
 private:

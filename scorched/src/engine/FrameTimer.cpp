@@ -92,7 +92,7 @@ void FrameTimer::simulate(const unsigned state, float frameTime)
 					pOnScreen,
 					enabledGeoms,
 					Landscape::instance()->getPatchGrid().getDrawnPatches(),
-					Sound::instance()->getAvailableChannels())));
+					Sound::instance()->getPlayingChannels())));
 		}
 		totalCount_ = 0;
 		totalTime_ = 0.0f;

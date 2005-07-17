@@ -175,6 +175,7 @@ void LandscapeObjectPlacementTrees::generateObjects(
 
 	// Add lots of trees, more chance of adding a tree where
 	// the map is stongest
+	int objectCount = 0;
 	const int NoIterations = placement.numobjects;
 	for (int i=0; i<NoIterations; i++)
 	{
@@ -245,7 +246,7 @@ void LandscapeObjectPlacementTrees::generateObjects(
 					(unsigned int) ly,
 					entry);
 
-				if (group && (i % 10 == 0))
+				if (group && (objectCount++ % 3 == 0))
 				{
 					group->addObject((int) lx, (int) ly);
 					entry->group = group;
@@ -315,6 +316,7 @@ void LandscapeObjectPlacementMask::generateObjects(
 	float mult = (float) Landscape::instance()->getMainMap().getWidth() / 256.0f;
 
 	const int NoIterations = placement.numobjects;
+	int objectCount = 0;
 	for (int i=0; i<NoIterations; i++)
 	{
 		if (i % 1000 == 0) if (counter) 
@@ -427,7 +429,7 @@ void LandscapeObjectPlacementMask::generateObjects(
 						(unsigned int) ly,
 						entry);
 						
-					if (group && (i % 10 == 0))
+					if (group && (objectCount++ % 3 == 0))
 					{
 						group->addObject((int) lx, (int) ly);
 						entry->group = group;
