@@ -165,7 +165,5 @@ bool ServerBuyAccessoryHandler::processMessage(unsigned int destinationId,
 		tank->getScore().setMoney(
 			tank->getScore().getMoney() + accessory->getSellPrice());
 	}
-
-	ComsMessageSender::sendToAllPlayingClients(message);
 	return true;
 }

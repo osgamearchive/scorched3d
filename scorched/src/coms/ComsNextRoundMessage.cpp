@@ -29,7 +29,7 @@ ComsNextRoundMessage::~ComsNextRoundMessage()
 {
 }
 
-bool ComsNextRoundMessage::writeMessage(NetBuffer &buffer)
+bool ComsNextRoundMessage::writeMessage(NetBuffer &buffer, unsigned int destinationId)
 {
 	return true;
 }

@@ -71,7 +71,7 @@ bool ClientSave::storeClient()
 		{
 			// Add all other tanks
 			buffer.addToBuffer(tank->getPlayerId());
-			if (!tank->writeMessage(buffer)) return false;
+			if (!tank->writeMessage(buffer, true)) return false;
 			if (!tank->getAvatar().writeMessage(buffer)) return false;
 
 			TankAI *tankAI = tank->getTankAI();

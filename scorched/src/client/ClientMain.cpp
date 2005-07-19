@@ -31,7 +31,6 @@
 #include <client/ClientScoreHandler.h>
 #include <client/ClientAddPlayerHandler.h>
 #include <client/ClientNewGameHandler.h>
-#include <client/ClientBuyAccessoryHandler.h>
 #include <client/ClientConnectionAcceptHandler.h>
 #include <client/ClientRmPlayerHandler.h>
 #include <client/ClientGameStateHandler.h>
@@ -159,7 +158,6 @@ bool startClient(ProgressCounter *progressCounter)
 	ClientGameStateHandler::instance();
 	ClientDefenseHandler::instance();
 	ClientActionsHandler::instance();
-	ClientBuyAccessoryHandler::instance();
 	ClientPlayerStatusHandler::instance();
 	ClientScoreHandler::instance();
 

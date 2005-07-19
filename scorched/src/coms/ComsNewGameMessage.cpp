@@ -41,7 +41,7 @@ void ComsNewGameMessage::addGameState()
 	gameStateEnclosed_ = true;
 }
 
-bool ComsNewGameMessage::writeMessage(NetBuffer &buffer)
+bool ComsNewGameMessage::writeMessage(NetBuffer &buffer, unsigned int destinationId)
 {
 	buffer.addToBuffer(gameStateEnclosed_);
 	if (gameStateEnclosed_)
@@ -49,7 +49,7 @@ bool ComsNewGameMessage::writeMessage(NetBuffer &buffer)
 		if (!ScorchedServer::instance()->
 			getOptionsGame().writeToBuffer(buffer, false)) return false;
 	}
-	if (!levelMessage_.writeMessage(buffer)) return false;
+	if (!levelMessage_.writeMessage(buffer, destinationId)) return false;
 	if (!ScorchedServer::instance()->getAccessoryStore().
 		writeEconomyToBuffer(buffer)) return false;
 

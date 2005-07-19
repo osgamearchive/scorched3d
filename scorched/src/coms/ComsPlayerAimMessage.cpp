@@ -35,7 +35,7 @@ ComsPlayerAimMessage::~ComsPlayerAimMessage()
 {
 }
 
-bool ComsPlayerAimMessage::writeMessage(NetBuffer &buffer)
+bool ComsPlayerAimMessage::writeMessage(NetBuffer &buffer, unsigned int destinationId)
 {
 	buffer.addToBuffer(playerId_);
 	buffer.addToBuffer(rotXY_);

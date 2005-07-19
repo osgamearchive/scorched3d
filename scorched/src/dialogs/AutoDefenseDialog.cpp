@@ -78,17 +78,6 @@ AutoDefenseDialog::~AutoDefenseDialog()
 
 }
 
-void AutoDefenseDialog::draw()
-{
-	// Check if the items need updating
-	if (messageCount_ != ClientDefenseHandler::instance()->getLocalTankMessageCount())
-	{
-		displayCurrent();
-	}
-
-	GLWWindow::draw();
-}
-
 void AutoDefenseDialog::windowInit(const unsigned state)
 {
 	Tank *current = ScorchedClient::instance()->getTankContainer().getCurrentTank();
@@ -259,8 +248,6 @@ void AutoDefenseDialog::displayCurrent()
 	{
 		ddpara_->setText("Parachutes Off");
 	}
-
-	messageCount_ = ClientDefenseHandler::instance()->getLocalTankMessageCount();
 }
 
 void AutoDefenseDialog::select(unsigned int id, 

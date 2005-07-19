@@ -26,14 +26,12 @@
 #include <stdio.h>
 
 TankFuel::TankFuel(ScorchedContext &context) :
-	context_(context), infinite_(false)
+	context_(context), infinite_(false), fuelCount_(0)
 {
-	reset();
 }
 
 TankFuel::~TankFuel()
 {
-
 }
 
 void TankFuel::reset()
@@ -83,9 +81,10 @@ void TankFuel::addFuel(int no)
 	fuelCount_+=no;
 }
 
-bool TankFuel::writeMessage(NetBuffer &buffer)
+bool TankFuel::writeMessage(NetBuffer &buffer, bool writeAccessories)
 {
-	buffer.addToBuffer(fuelCount_);
+	if (writeAccessories) buffer.addToBuffer(fuelCount_);
+	else buffer.addToBuffer((int) 0);
 	buffer.addToBuffer(infinite_);
 	return true;
 }

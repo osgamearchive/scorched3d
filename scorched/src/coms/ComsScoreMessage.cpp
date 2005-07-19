@@ -31,7 +31,7 @@ ComsScoreMessage::~ComsScoreMessage()
 
 }
 
-bool ComsScoreMessage::writeMessage(NetBuffer &buffer)
+bool ComsScoreMessage::writeMessage(NetBuffer &buffer, unsigned int destinationId)
 {
 	return true;
 }

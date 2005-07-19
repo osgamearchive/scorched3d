@@ -34,7 +34,7 @@ public:
 	bool playerWaiting(unsigned int playerId);
 
 	// Inherited from ComsMessage
-	virtual bool writeMessage(NetBuffer &buffer);
+	virtual bool writeMessage(NetBuffer &buffer, unsigned int destinationId);
 	virtual bool readMessage(NetBufferReader &reader);
 
 protected:

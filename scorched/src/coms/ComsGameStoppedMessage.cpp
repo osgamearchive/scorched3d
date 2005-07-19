@@ -29,9 +29,9 @@ ComsGameStoppedMessage::~ComsGameStoppedMessage()
 {
 }
 
-bool ComsGameStoppedMessage::writeMessage(NetBuffer &buffer)
+bool ComsGameStoppedMessage::writeMessage(NetBuffer &buffer, unsigned int destinationId)
 {
-	return stateMessage_.writeMessage(buffer);
+	return stateMessage_.writeMessage(buffer, destinationId);
 }
 
 bool ComsGameStoppedMessage::readMessage(NetBufferReader &reader)

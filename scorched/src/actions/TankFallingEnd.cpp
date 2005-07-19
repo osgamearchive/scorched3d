@@ -95,7 +95,7 @@ void TankFallingEnd::simulate(float frameTime, bool &remove)
 			*context_,
 			current, weapon_, 
 			firedPlayerId_, damage, 
-			false, false, false,data_);
+			false, false, false, data_);
 	}
 
 	std::map<unsigned int, TankFalling *>::iterator findItor =

@@ -43,12 +43,13 @@ public:
 	virtual ~ComsDefenseMessage();
 
 	void setPlayerId(unsigned int id) { playerId_ = id; }
+	void setInfoId(unsigned int infoId) { infoId_ = infoId; }
 	unsigned int getPlayerId() { return playerId_; }
 	DefenseChange getChange() { return change_; }
 	unsigned int getInfoId() { return infoId_; }
 
 	// Inherited from ComsMessage
-    virtual bool writeMessage(NetBuffer &buffer);
+    virtual bool writeMessage(NetBuffer &buffer, unsigned int destinationId);
     virtual bool readMessage(NetBufferReader &reader);
 
 protected:

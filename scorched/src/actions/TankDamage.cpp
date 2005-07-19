@@ -183,7 +183,9 @@ void TankDamage::simulate(float frameTime, bool &remove)
 						{
 							// Tank falling
 							context_->actionController->addAction(
-								new TankFalling(weapon_, damagedPlayerId_, firedPlayerId_, data_));
+								new TankFalling(weapon_, damagedPlayerId_, firedPlayerId_,
+									damagedTank->getAccessories().getParachutes().parachutesEnabled(),
+									data_));
 						}
 					}
 				}

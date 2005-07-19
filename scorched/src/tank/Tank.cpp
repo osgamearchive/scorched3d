@@ -86,7 +86,7 @@ Vector &Tank::getColor()
 	return color_;
 }
 
-bool Tank::writeMessage(NetBuffer &buffer)
+bool Tank::writeMessage(NetBuffer &buffer, bool writeAccessories)
 {
 	buffer.addToBuffer(name_);
 	buffer.addToBuffer(destinationId_);
@@ -97,7 +97,7 @@ bool Tank::writeMessage(NetBuffer &buffer)
 	if (!model_.writeMessage(buffer)) return false;
 	if (!physics_.writeMessage(buffer)) return false;
 	if (!state_.writeMessage(buffer)) return false;
-	if (!accessories_.writeMessage(buffer)) return false;
+	if (!accessories_.writeMessage(buffer, writeAccessories)) return false;
 	if (!score_.writeMessage(buffer)) return false;
 	return true;
 }

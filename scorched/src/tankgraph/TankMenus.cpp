@@ -75,7 +75,9 @@ TankMenus::TankMenus() : logger_("ClientLog")
 	new GLConsoleRuleFnIBooleanAdapter(
 		"ActionLogging",
 		ScorchedClient::instance()->getActionController().getActionLogging());
-
+	new GLConsoleRuleMethodIAdapter<TankMenus>(
+		this, &TankMenus::showInventory, "TankInventory");
+	
 	if (OptionsDisplay::instance()->getClientLogToFile())
 	{
 		logToFile();
@@ -122,6 +124,40 @@ void TankMenus::showTextureDetails()
 {
 	GLConsole::instance()->addLine(false,
 		formatString("%i bytes", GLTexture::getTextureSpace()));
+}
+
+void TankMenus::showInventory()
+{
+	std::map<unsigned int, Tank *> &tanks = 
+		ScorchedClient::instance()->getTankContainer().getPlayingTanks();
+	std::map<unsigned int, Tank *>::iterator itor;
+	for (itor = tanks.begin();
+		itor != tanks.end();
+		itor++)
+	{
+		Tank *tank = (*itor).second;
+		GLConsole::instance()->addLine(false,
+			"--%s------------------------------------",
+			tank->getName());
+
+		
+		std::list<Accessory *> accessories =
+			tank->getAccessories().getAllAccessories(true);
+		std::list<Accessory *>::iterator aitor;
+		for (aitor = accessories.begin();
+			aitor != accessories.end();
+			aitor++)
+		{
+			Accessory *accessory = (*aitor);
+
+			GLConsole::instance()->addLine(false,
+				"%s - %i", accessory->getName(), 
+				tank->getAccessories().getAccessoryCount(accessory));
+		}
+
+		GLConsole::instance()->addLine(false,
+			"----------------------------------------------------");
+	}
 }
 
 void TankMenus::showTankDetails()

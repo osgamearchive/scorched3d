@@ -40,7 +40,7 @@ public:
 	unsigned int getLevelLen() { return levelLen_; }
 
 	// Inherited from ComsMessage
-    virtual bool writeMessage(NetBuffer &buffer);
+    virtual bool writeMessage(NetBuffer &buffer, unsigned int destinationId);
     virtual bool readMessage(NetBufferReader &reader);
 
 protected:

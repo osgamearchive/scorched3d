@@ -28,12 +28,11 @@
 TankShields::TankShields(ScorchedContext &context) :
 	context_(context)
 {
-	reset();
+	setCurrentShield(0);
 }
 
 TankShields::~TankShields()
 {
-
 }
 
 void TankShields::reset()
@@ -154,19 +153,26 @@ std::list<Accessory *> TankShields::getAllShields(bool sort)
 	return result;
 }
 
-bool TankShields::writeMessage(NetBuffer &buffer)
+bool TankShields::writeMessage(NetBuffer &buffer, bool writeAccessories)
 {
 	buffer.addToBuffer(power_);
 	buffer.addToBuffer((unsigned int)(currentShield_?currentShield_->getAccessoryId():0));
 
-	std::map<Accessory *, int>::iterator itor;
-	buffer.addToBuffer((int) shields_.size());
-	for (itor = shields_.begin();
-		itor != shields_.end();
-		itor++)
+	if (writeAccessories)
 	{
-		buffer.addToBuffer((*itor).first->getAccessoryId());
-		buffer.addToBuffer((*itor).second);
+		std::map<Accessory *, int>::iterator itor;
+		buffer.addToBuffer((int) shields_.size());
+		for (itor = shields_.begin();
+			itor != shields_.end();
+			itor++)
+		{
+			buffer.addToBuffer((*itor).first->getAccessoryId());
+			buffer.addToBuffer((*itor).second);
+		}
+	}
+	else
+	{
+		buffer.addToBuffer((int) 0);
 	}
 
 	return true;

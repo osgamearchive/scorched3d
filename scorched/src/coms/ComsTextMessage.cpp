@@ -38,7 +38,7 @@ ComsTextMessage::~ComsTextMessage()
 {
 }
 
-bool ComsTextMessage::writeMessage(NetBuffer &buffer)
+bool ComsTextMessage::writeMessage(NetBuffer &buffer, unsigned int destinationId)
 {
 	buffer.addToBuffer(text_);
 	buffer.addToBuffer(playerId_);

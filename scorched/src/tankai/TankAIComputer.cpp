@@ -20,9 +20,9 @@
 
 #include <tankai/TankAIComputer.h>
 #include <tankai/TankAIStrings.h>
-#include <tankai/TankAILogic.h>
 #include <server/ServerShotHolder.h>
 #include <server/ScorchedServer.h>
+#include <server/ServerDefenseHandler.h>
 #include <common/OptionsGame.h>
 #include <common/OptionsTransient.h>
 #include <actions/TankSay.h>
@@ -357,11 +357,7 @@ void TankAIComputer::parachutesUpDown(bool on)
 		currentTank_->getPlayerId(),
 		on?ComsDefenseMessage::eParachutesUp:ComsDefenseMessage::eParachutesDown);
 
-	if (TankAILogic::processDefenseMessage(
-		ScorchedServer::instance()->getContext(), defenseMessage, currentTank_))
-	{
-		ComsMessageSender::sendToAllPlayingClients(defenseMessage);
-	}
+	ServerDefenseHandler::instance()->processDefenseMessage(defenseMessage, currentTank_);
 }
 
 void TankAIComputer::shieldsUpDown(unsigned int shieldId)
@@ -371,11 +367,7 @@ void TankAIComputer::shieldsUpDown(unsigned int shieldId)
 		(shieldId!=0)?ComsDefenseMessage::eShieldUp:ComsDefenseMessage::eShieldDown,
 		shieldId);
 
-	if (TankAILogic::processDefenseMessage(
-		ScorchedServer::instance()->getContext(), defenseMessage, currentTank_))
-	{
-		ComsMessageSender::sendToAllPlayingClients(defenseMessage);
-	}
+	ServerDefenseHandler::instance()->processDefenseMessage(defenseMessage, currentTank_);
 }
 
 void TankAIComputer::useBattery()
@@ -384,9 +376,5 @@ void TankAIComputer::useBattery()
 		currentTank_->getPlayerId(),
 		ComsDefenseMessage::eBatteryUse);
 
-	if (TankAILogic::processDefenseMessage(
-		ScorchedServer::instance()->getContext(), defenseMessage, currentTank_))
-	{
-		ComsMessageSender::sendToAllPlayingClients(defenseMessage);
-	}
+	ServerDefenseHandler::instance()->processDefenseMessage(defenseMessage, currentTank_);
 }

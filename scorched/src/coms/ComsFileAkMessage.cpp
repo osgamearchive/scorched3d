@@ -31,7 +31,7 @@ ComsFileAkMessage::~ComsFileAkMessage()
 
 }
 
-bool ComsFileAkMessage::writeMessage(NetBuffer &buffer)
+bool ComsFileAkMessage::writeMessage(NetBuffer &buffer, unsigned int destinationId)
 {
 	return true;
 }

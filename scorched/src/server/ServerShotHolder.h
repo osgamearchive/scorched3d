@@ -18,11 +18,12 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #if !defined(__INCLUDE_ServerShotHolderh_INCLUDE__)
 #define __INCLUDE_ServerShotHolderh_INCLUDE__
 
 #include <coms/ComsPlayedMoveMessage.h>
+#include <engine/ScorchedContext.h>
+#include <tank/TankContainer.h>
 #include <map>
 
 class ServerShotHolder
@@ -43,10 +44,19 @@ protected:
 	std::map<unsigned int, ComsPlayedMoveMessage *> 
 		messages_;
 
+	void processPlayedMoveMessage(
+		ScorchedContext &context, ComsPlayedMoveMessage &message, Tank *tank,
+		bool roundStart);
+	void processMoveMessage(
+		ScorchedContext &context, ComsPlayedMoveMessage &message, Tank *tank);
+	void processResignMessage(
+		ScorchedContext &context, ComsPlayedMoveMessage &message, Tank *tank);
+	void processFiredMessage(
+		ScorchedContext &context, ComsPlayedMoveMessage &message, Tank *tank);
+
 private:
 	ServerShotHolder();
 	virtual ~ServerShotHolder();
 };
-
 
 #endif

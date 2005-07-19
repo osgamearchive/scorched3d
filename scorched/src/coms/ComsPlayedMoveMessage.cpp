@@ -50,7 +50,7 @@ void ComsPlayedMoveMessage::setShot(unsigned int weaponId,
 	power_ = power;
 }
 
-bool ComsPlayedMoveMessage::writeMessage(NetBuffer &buffer)
+bool ComsPlayedMoveMessage::writeMessage(NetBuffer &buffer, unsigned int destinationId)
 {
 	buffer.addToBuffer(playerId_);
 	buffer.addToBuffer((int) moveType_);

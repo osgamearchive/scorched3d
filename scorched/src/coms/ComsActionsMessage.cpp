@@ -33,7 +33,7 @@ ComsActionsMessage::~ComsActionsMessage()
 {
 }
 
-bool ComsActionsMessage::writeMessage(NetBuffer &buffer)
+bool ComsActionsMessage::writeMessage(NetBuffer &buffer, unsigned int destinationId)
 {
 	buffer.addToBuffer(totalTime_);
 	if (!ScorchedServer::instance()->getActionController().getBuffer().

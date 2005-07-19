@@ -62,7 +62,7 @@ public:
 	const char *getParam2() { return param2_.c_str(); }
 
 	// Inherited from ComsMessage
-	virtual bool writeMessage(NetBuffer &buffer);
+	virtual bool writeMessage(NetBuffer &buffer, unsigned int destinationId);
 	virtual bool readMessage(NetBufferReader &reader);
 
 protected:

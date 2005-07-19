@@ -2715,12 +2715,6 @@
 				RelativePath="..\client\ClientAdmin.h">
 			</File>
 			<File
-				RelativePath="..\client\ClientBuyAccessoryHandler.cpp">
-			</File>
-			<File
-				RelativePath="..\client\ClientBuyAccessoryHandler.h">
-			</File>
-			<File
 				RelativePath="..\client\ClientConnectionAcceptHandler.cpp">
 			</File>
 			<File

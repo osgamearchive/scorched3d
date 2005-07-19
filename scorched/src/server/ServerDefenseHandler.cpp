@@ -18,7 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <server/ServerDefenseHandler.h>
 #include <server/ServerState.h>
 #include <server/ServerShotHolder.h>
@@ -96,13 +95,69 @@ bool ServerDefenseHandler::processMessage(unsigned int destinationId,
 
 	// Check tank can perform this defense 
 	// And if so actually perform the defense
-	if (!TankAILogic::processDefenseMessage(
-		ScorchedServer::instance()->getContext(), message, tank))
-	{
-		return true;
-	}
+	processDefenseMessage(message, tank);
 
-	// Send this action to all clients
-	ComsMessageSender::sendToAllPlayingClients(message);
 	return true;
+}
+
+void ServerDefenseHandler::processDefenseMessage(
+	ComsDefenseMessage &message, Tank *tank)
+{
+	// Actually perform the required action
+	switch (message.getChange())
+	{
+	case ComsDefenseMessage::eBatteryUse:
+		if (tank->getAccessories().getBatteries().getNoBatteries() > 0)
+		{
+			tank->getAccessories().getBatteries().rmBatteries(1);
+			tank->getState().setLife(tank->getState().getLife() + 10.0f);
+
+			ComsMessageSender::sendToAllPlayingClients(message);
+		}
+		break;
+	case ComsDefenseMessage::eShieldUp:
+		{
+			Accessory *accessory = 
+				ScorchedServer::instance()->getContext().accessoryStore->
+					findByAccessoryId(message.getInfoId());
+			if (accessory->getType() == AccessoryPart::AccessoryShield)
+			{
+				if (tank->getAccessories().getShields().getShieldCount(accessory) != 0)
+				{
+					tank->getAccessories().getShields().setCurrentShield(accessory);
+
+					ComsMessageSender::sendToAllPlayingClients(message);
+				}
+			}
+		}
+		break;
+	case ComsDefenseMessage::eShieldDown:
+		{
+			Accessory *shield =
+				tank->getAccessories().getShields().getCurrentShield();
+			if (shield)
+			{
+				tank->getAccessories().getShields().setCurrentShield(0);
+
+				ComsMessageSender::sendToAllPlayingClients(message);
+			}
+		}	
+		break;
+	case ComsDefenseMessage::eParachutesUp:
+		if (tank->getAccessories().getParachutes().getNoParachutes() != 0)
+		{
+			tank->getAccessories().getParachutes().setParachutesEnabled(true);
+
+			ComsMessageSender::sendToAllPlayingClients(message);
+		}
+		break;
+	case ComsDefenseMessage::eParachutesDown:
+		if (tank->getAccessories().getParachutes().parachutesEnabled())
+		{
+			tank->getAccessories().getParachutes().setParachutesEnabled(false);
+
+			ComsMessageSender::sendToAllPlayingClients(message);
+		}
+		break;
+	}
 }

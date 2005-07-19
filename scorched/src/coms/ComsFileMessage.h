@@ -32,7 +32,7 @@ public:
 	NetBuffer fileBuffer;
 
 	// Inherited from ComsMessage
-	virtual bool writeMessage(NetBuffer &buffer);
+	virtual bool writeMessage(NetBuffer &buffer, unsigned int destinationId);
 	virtual bool readMessage(NetBufferReader &reader);
 
 private:

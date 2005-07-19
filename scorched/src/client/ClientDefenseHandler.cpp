@@ -23,6 +23,8 @@
 #include <tankai/TankAILogic.h>
 #include <tank/TankContainer.h>
 #include <coms/ComsDefenseMessage.h>
+#include <sound/SoundUtils.h>
+#include <weapons/AccessoryStore.h>
 
 ClientDefenseHandler *ClientDefenseHandler::instance_ = 0;
 
@@ -35,7 +37,7 @@ ClientDefenseHandler *ClientDefenseHandler::instance()
 	return instance_;
 }
 
-ClientDefenseHandler::ClientDefenseHandler() : messageCount_(1)
+ClientDefenseHandler::ClientDefenseHandler()
 {
 	ScorchedClient::instance()->getComsMessageHandler().addHandler(
 		"ComsDefenseMessage",
@@ -61,12 +63,84 @@ bool ClientDefenseHandler::processMessage(unsigned int id,
 		return true;
 	}
 
-	// Actually perform the action in the message
-	TankAILogic::processDefenseMessage(
-		ScorchedClient::instance()->getContext(), 
-		message, tank);
+	// Actually perform the required action
+	switch (message.getChange())
+	{
+	case ComsDefenseMessage::eBatteryUse:
+		{
+			Accessory *battery = 
+				ScorchedClient::instance()->getAccessoryStore().
+					findByAccessoryType(AccessoryPart::AccessoryBattery);
+			if (battery)
+			{
+				SoundBuffer *batSound = 
+					Sound::instance()->fetchOrCreateBuffer((char *)
+						getDataFile("data/wav/%s", battery->getActivationSound()));
+				SoundUtils::playAbsoluteSound(VirtualSoundPriority::eAction,
+					batSound, tank->getPhysics().getTankPosition());
+			}
 
-	// Only count local tanks
-	if (tank->getTankAI()) messageCount_++;
+			if (tank->getDestinationId() != 
+				ScorchedClient::instance()->getTankContainer().getCurrentDestinationId())
+			{
+				tank->getAccessories().getBatteries().addBatteries(1);
+			}
+
+			tank->getState().setLife(tank->getState().getLife() + 10.0f);
+			tank->getAccessories().getBatteries().rmBatteries(1);
+		}
+		break;
+	case ComsDefenseMessage::eShieldUp:
+		{
+			Accessory *accessory = 
+				ScorchedClient::instance()->getAccessoryStore().
+					findByAccessoryId(message.getInfoId());
+			if (accessory->getType() == AccessoryPart::AccessoryShield)
+			{
+				SoundBuffer *activateSound = 
+					Sound::instance()->fetchOrCreateBuffer((char *)
+						getDataFile("data/wav/%s", accessory->getActivationSound()));
+				SoundUtils::playAbsoluteSound(VirtualSoundPriority::eAction,
+					activateSound, tank->getPhysics().getTankPosition());
+
+				if (tank->getDestinationId() != 
+					ScorchedClient::instance()->getTankContainer().getCurrentDestinationId())
+				{
+					// Make sure tank has this shield
+					tank->getAccessories().getShields().addShield(accessory, 1);
+				}
+				tank->getAccessories().getShields().setCurrentShield(accessory);
+			}
+		}
+		break;
+	case ComsDefenseMessage::eShieldDown:
+		{
+			tank->getAccessories().getShields().setCurrentShield(0);
+		}	
+		break;
+	case ComsDefenseMessage::eParachutesUp:
+		{
+			Accessory *parachute = 
+				ScorchedClient::instance()->getAccessoryStore().
+					findByAccessoryType(AccessoryPart::AccessoryParachute);
+			if (parachute)
+			{
+				SoundBuffer *paraSound = 
+					Sound::instance()->fetchOrCreateBuffer((char *)
+						getDataFile("data/wav/%s", parachute->getActivationSound()));
+				SoundUtils::playAbsoluteSound(VirtualSoundPriority::eAction,
+					paraSound, tank->getPhysics().getTankPosition());
+			}
+
+			tank->getAccessories().getParachutes().setParachutesEnabled(true);
+		}
+		break;
+	case ComsDefenseMessage::eParachutesDown:
+		{
+			tank->getAccessories().getParachutes().setParachutesEnabled(false);
+		}
+		break;
+	}
+
 	return true;
 }

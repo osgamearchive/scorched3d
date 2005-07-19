@@ -31,7 +31,7 @@ ComsConnectMessage::~ComsConnectMessage()
 
 }
 
-bool ComsConnectMessage::writeMessage(NetBuffer &buffer)
+bool ComsConnectMessage::writeMessage(NetBuffer &buffer, unsigned int destinationId)
 {
 	buffer.addToBuffer((unsigned int) values_.size());
 	std::map<std::string, std::string>::iterator itor;

@@ -52,7 +52,7 @@ LandscapeDefinition *ComsLevelMessage::getHmapDefn()
 	return result; 
 }
 
-bool ComsLevelMessage::writeMessage(NetBuffer &buffer)
+bool ComsLevelMessage::writeMessage(NetBuffer &buffer, unsigned int destinationId)
 {
 	DIALOG_ASSERT(levelData_ && levelLen_ && hdef_);
 

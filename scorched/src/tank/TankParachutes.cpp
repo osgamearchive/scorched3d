@@ -24,14 +24,13 @@
 #include <stdio.h>
 
 TankParachutes::TankParachutes(ScorchedContext &context) :
-	context_(context)
+	context_(context), parachutesEnabled_(0), 
+	parachuteCount_(0), parachuteThreshold_(0.0f)
 {
-	reset();
 }
 
 TankParachutes::~TankParachutes()
 {
-
 }
 
 void TankParachutes::setParachutesEnabled(bool enabled)
@@ -50,7 +49,6 @@ void TankParachutes::reset()
 {
 	parachutesEnabled_ = false;
 	parachuteCount_ = 0;
-	parachuteThreshold_ = 0.0f;
 	setParachutesEnabled(false);	
 
 	std::list<Accessory *> accessories = 
@@ -107,10 +105,18 @@ void TankParachutes::addParachutes(int no)
 	setParachutesEnabled(parachutesEnabled_);
 }
 
-bool TankParachutes::writeMessage(NetBuffer &buffer)
+bool TankParachutes::writeMessage(NetBuffer &buffer, bool writeAccessories)
 {
-	buffer.addToBuffer(parachuteCount_);
-	buffer.addToBuffer(parachutesEnabled_);
+	if (writeAccessories)
+	{
+		buffer.addToBuffer(parachuteCount_);
+		buffer.addToBuffer(parachutesEnabled_);
+	}
+	else
+	{
+		buffer.addToBuffer((int) 0);
+		buffer.addToBuffer(false);
+	}
 	buffer.addToBuffer(parachuteThreshold_);
 	return true;
 }

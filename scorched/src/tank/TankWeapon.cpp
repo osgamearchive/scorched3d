@@ -30,12 +30,10 @@
 TankWeapon::TankWeapon(ScorchedContext &context) : 
 	currentWeapon_(0), context_(context)
 {
-	reset();
 }
 
 TankWeapon::~TankWeapon()
 {
-
 }
 
 void TankWeapon::reset()
@@ -213,18 +211,25 @@ const char *TankWeapon::getWeaponString()
 	return buffer;
 }
 
-bool TankWeapon::writeMessage(NetBuffer &buffer)
+bool TankWeapon::writeMessage(NetBuffer &buffer, bool writeAccessories)
 {
-	std::map<Accessory *, int>::iterator itor;
-	buffer.addToBuffer((int) weapons_.size());
-	for (itor = weapons_.begin();
-		itor != weapons_.end();
-		itor++)
+	if (writeAccessories)
 	{
-		Accessory *weapon = (*itor).first;
-		int count = (*itor).second;
-		buffer.addToBuffer(weapon->getAccessoryId());
-		buffer.addToBuffer(count);
+		std::map<Accessory *, int>::iterator itor;
+		buffer.addToBuffer((int) weapons_.size());
+		for (itor = weapons_.begin();
+			itor != weapons_.end();
+			itor++)
+		{
+			Accessory *weapon = (*itor).first;
+			int count = (*itor).second;
+			buffer.addToBuffer(weapon->getAccessoryId());
+			buffer.addToBuffer(count);
+		}
+	}
+	else
+	{
+		buffer.addToBuffer((int) 0);
 	}
 
 	return true;

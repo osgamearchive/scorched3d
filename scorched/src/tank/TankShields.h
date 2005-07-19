@@ -49,7 +49,7 @@ public:
 	std::list<Accessory *> getAllShields(bool sort=false);
 
 	// Serialize the tank
-    bool writeMessage(NetBuffer &buffer);
+    bool writeMessage(NetBuffer &buffer, bool writeAccessories);
     bool readMessage(NetBufferReader &reader);
 
 protected:

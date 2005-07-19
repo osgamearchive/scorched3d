@@ -29,7 +29,7 @@ ComsKeepAliveMessage::~ComsKeepAliveMessage()
 {
 }
 
-bool ComsKeepAliveMessage::writeMessage(NetBuffer &buffer)
+bool ComsKeepAliveMessage::writeMessage(NetBuffer &buffer, unsigned int destinationId)
 {
 	return true;
 }

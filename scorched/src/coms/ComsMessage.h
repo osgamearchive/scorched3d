@@ -31,7 +31,7 @@ public:
 	ComsMessage(const char *type);
 	virtual ~ComsMessage();
 
-	virtual bool writeMessage(NetBuffer &buffer) = 0;
+	virtual bool writeMessage(NetBuffer &buffer, unsigned int destinationId) = 0;
 	virtual bool readMessage(NetBufferReader &reader) = 0;
 
 	// The string that defines the type of coms message

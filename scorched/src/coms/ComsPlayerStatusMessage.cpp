@@ -31,7 +31,7 @@ ComsPlayerStatusMessage::~ComsPlayerStatusMessage()
 
 }
 
-bool ComsPlayerStatusMessage::writeMessage(NetBuffer &buffer)
+bool ComsPlayerStatusMessage::writeMessage(NetBuffer &buffer, unsigned int destinationId)
 {
 	buffer.addToBuffer((unsigned int) waitingPlayers_.size());
 	std::list<unsigned int>::iterator itor;

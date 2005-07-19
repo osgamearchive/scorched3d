@@ -196,14 +196,14 @@ void TankAccessories::rm(Accessory *accessory)
 	}
 }
 
-bool TankAccessories::writeMessage(NetBuffer &buffer)
+bool TankAccessories::writeMessage(NetBuffer &buffer, bool writeAccessories)
 {
-	if (!tankWeapon_.writeMessage(buffer)) return false;
-	if (!tankPara_.writeMessage(buffer)) return false;
-	if (!tankShield_.writeMessage(buffer)) return false;
-	if (!tankAuto_.writeMessage(buffer)) return false;
-	if (!tankBatteries_.writeMessage(buffer)) return false;
-	if (!tankFuel_.writeMessage(buffer)) return false;
+	if (!tankWeapon_.writeMessage(buffer, writeAccessories)) return false;
+	if (!tankPara_.writeMessage(buffer, writeAccessories)) return false;
+	if (!tankShield_.writeMessage(buffer, writeAccessories)) return false;
+	if (!tankAuto_.writeMessage(buffer, writeAccessories)) return false;
+	if (!tankBatteries_.writeMessage(buffer, writeAccessories)) return false;
+	if (!tankFuel_.writeMessage(buffer, writeAccessories)) return false;
 	return true;
 }
 
@@ -217,3 +217,4 @@ bool TankAccessories::readMessage(NetBufferReader &reader)
 	if (!tankFuel_.readMessage(reader)) return false;
 	return true;
 }
+

@@ -30,7 +30,7 @@ ComsPlayerReadyMessage::~ComsPlayerReadyMessage()
 {
 }
 
-bool ComsPlayerReadyMessage::writeMessage(NetBuffer &buffer)
+bool ComsPlayerReadyMessage::writeMessage(NetBuffer &buffer, unsigned int destinationId)
 {
 	buffer.addToBuffer(playerId_);
 	return true;

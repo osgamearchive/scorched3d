@@ -404,7 +404,7 @@ void ServerConnectHandler::addNextTank(unsigned int destinationId,
 			Logger::log( "Found residual player info");
 			NetBufferDefault::defaultBuffer.reset();
 			if (savedTank->getAccessories().writeMessage(
-					NetBufferDefault::defaultBuffer) &&
+					NetBufferDefault::defaultBuffer, true) &&
 				savedTank->getScore().writeMessage(
 					NetBufferDefault::defaultBuffer))
 			{

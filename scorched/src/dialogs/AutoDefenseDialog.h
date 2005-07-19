@@ -18,7 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #if !defined(__INCLUDE_AutoDefenseDialogh_INCLUDE__)
 #define __INCLUDE_AutoDefenseDialogh_INCLUDE__
 
@@ -42,13 +41,11 @@ public:
 	virtual void select(unsigned int id, const int pos, GLWSelectorEntry value);
 
 	// Inherited from GLWWindow
-	virtual void draw();
 	virtual void windowInit(const unsigned state);
 
 protected:
 	unsigned int okId_;
 	unsigned int cancelId_;
-	unsigned int messageCount_;
 	GLWPanel *topPanel_;
 	GLWDropDown *ddshields_;
 	GLWDropDown *ddpara_;

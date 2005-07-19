@@ -27,10 +27,11 @@
 #include <client/ScorchedClient.h>
 #include <client/ClientState.h>
 #include <tankai/TankAIHuman.h>
-#include <tankai/TankAILogic.h>
 #include <tankgraph/TankModelRenderer.h>
 #include <landscape/LandscapeMaps.h>
 #include <coms/ComsMessageSender.h>
+#include <coms/ComsDefenseMessage.h>
+#include <coms/ComsPlayedMoveMessage.h>
 #include <tank/Tank.h>
 #include <stdio.h>
 

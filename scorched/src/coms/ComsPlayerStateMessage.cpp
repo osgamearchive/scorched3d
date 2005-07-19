@@ -34,7 +34,7 @@ ComsPlayerStateMessage::~ComsPlayerStateMessage()
 
 }
 
-bool ComsPlayerStateMessage::writeMessage(NetBuffer &buffer)
+bool ComsPlayerStateMessage::writeMessage(NetBuffer &buffer, unsigned int destinationId)
 {
 	std::map<unsigned int, Tank *> &tanks = 
 		ScorchedServer::instance()->getTankContainer().getPlayingTanks();
@@ -51,7 +51,7 @@ bool ComsPlayerStateMessage::writeMessage(NetBuffer &buffer)
 		// Add each tank
 		Tank *tank = (*itor).second;
 		buffer.addToBuffer(tank->getPlayerId());
-		if (!tank->writeMessage(buffer)) return false;
+		if (!tank->writeMessage(buffer, (destinationId == tank->getDestinationId()))) return false;
 	}
 	return true;
 }

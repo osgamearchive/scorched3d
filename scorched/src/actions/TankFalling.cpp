@@ -58,10 +58,11 @@ TankFalling::TankFalling() : remove_(false)
 
 TankFalling::TankFalling(Weapon *weapon, unsigned int fallingPlayerId,
 				   unsigned int firedPlayerId,
+				   bool parachutes,
 				   unsigned int data) :
 	weapon_(weapon), remove_(false),
 	fallingPlayerId_(fallingPlayerId), firedPlayerId_(firedPlayerId),
-	data_(data)
+	data_(data), parachutes_(parachutes)
 {
 }
 
@@ -161,6 +162,7 @@ bool TankFalling::writeAction(NetBuffer &buffer)
 	buffer.addToBuffer(fallingPlayerId_);
 	buffer.addToBuffer(firedPlayerId_);
 	buffer.addToBuffer(data_);
+	buffer.addToBuffer(parachutes_);
 	context_->accessoryStore->writeWeapon(buffer, weapon_);
 	return true;
 }
@@ -170,6 +172,7 @@ bool TankFalling::readAction(NetBufferReader &reader)
 	if (!reader.getFromBuffer(fallingPlayerId_)) return false;
 	if (!reader.getFromBuffer(firedPlayerId_)) return false;
 	if (!reader.getFromBuffer(data_)) return false;
+	if (!reader.getFromBuffer(parachutes_)) return false;
 	weapon_ = context_->accessoryStore->readWeapon(reader); if (!weapon_) return false;
 	return true;
 }

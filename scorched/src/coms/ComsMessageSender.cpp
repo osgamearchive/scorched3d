@@ -47,7 +47,7 @@ bool ComsMessageSender::sendToServer(ComsMessage &message)
 			NetBufferDefault::defaultBuffer.getBufferUsed());
 	}	
 
-	if (!message.writeMessage(NetBufferDefault::defaultBuffer))
+	if (!message.writeMessage(NetBufferDefault::defaultBuffer, 0))
 	{
 		Logger::log( "ERROR: ComsMessageSender::sendToServer - Failed to write message");
 		return false;
@@ -68,7 +68,7 @@ bool ComsMessageSender::sendToSingleClient(ComsMessage &message,
 		Logger::log( "ERROR: ComsMessageSender::sendToSingleClient - Failed to write message type");
 		return false;
 	}
-	if (!message.writeMessage(NetBufferDefault::defaultBuffer))
+	if (!message.writeMessage(NetBufferDefault::defaultBuffer, destination))
 	{
 		Logger::log( "ERROR: ComsMessageSender::sendToSingleClient - Failed to write message");
 		return false;

@@ -139,6 +139,17 @@ void TankModelRenderer::drawSecond()
 	// Draw the arrow
 	drawArrow();
 
+	// Draw the parachutes (if any)
+	std::map<unsigned int, TankFalling *>::iterator findItor = 
+		TankFalling::fallingTanks.find(tank_->getPlayerId());
+	if (findItor != TankFalling::fallingTanks.end())
+	{
+		if ((*findItor).second->getParachutes())
+		{
+			drawParachute();
+		}
+	}
+
 	// Draw the current shield (if any)
 	if (tank_->getAccessories().getShields().getCurrentShield())
 	{
@@ -193,17 +204,6 @@ void TankModelRenderer::drawSecond()
 		static Vector white(1.0f, 1.0f, 1.0f);
 		GLCameraFrustum::instance()->drawBilboard(
 			position, white, 0.8f, 0.6f, 0.5f, false, 0);
-	}
-
-	// Draw the parachutes (if any)
-	if (tank_->getAccessories().getParachutes().parachutesEnabled())
-	{
-		std::map<unsigned int, TankFalling *>::iterator findItor = 
-			TankFalling::fallingTanks.find(tank_->getPlayerId());
-		if (findItor != TankFalling::fallingTanks.end())
-		{
-			drawParachute();
-		}
 	}
 }
 

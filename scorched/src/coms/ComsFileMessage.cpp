@@ -31,7 +31,7 @@ ComsFileMessage::~ComsFileMessage()
 
 }
 
-bool ComsFileMessage::writeMessage(NetBuffer &buffer)
+bool ComsFileMessage::writeMessage(NetBuffer &buffer, unsigned int destinationId)
 {
 	buffer.addDataToBuffer(fileBuffer.getBuffer(), fileBuffer.getBufferUsed());
 	return true;

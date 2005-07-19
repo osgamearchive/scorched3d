@@ -31,7 +31,7 @@ ComsRmPlayerMessage::~ComsRmPlayerMessage()
 {
 }
 
-bool ComsRmPlayerMessage::writeMessage(NetBuffer &buffer)
+bool ComsRmPlayerMessage::writeMessage(NetBuffer &buffer, unsigned int destinationId)
 {
 	buffer.addToBuffer(playerId_);
 	return true;

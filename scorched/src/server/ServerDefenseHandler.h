@@ -23,7 +23,9 @@
 #define __INCLUDE_ServerDefenseHandlerh_INCLUDE__
 
 #include <coms/ComsMessageHandler.h>
+#include <coms/ComsDefenseMessage.h>
 
+class Tank;
 class ServerDefenseHandler : 
 	public ComsMessageHandlerI
 {
@@ -33,6 +35,9 @@ public:
 	virtual bool processMessage(unsigned int id,
 		const char *messageType,
 		NetBufferReader &reader);
+
+	void processDefenseMessage(
+		ComsDefenseMessage &message, Tank *tank);
 
 protected:
 	static ServerDefenseHandler *instance_;

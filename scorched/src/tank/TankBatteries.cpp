@@ -25,14 +25,12 @@
 #include <stdio.h>
 
 TankBatteries::TankBatteries(ScorchedContext &context) :
-	context_(context), infinite_(false)
+	context_(context), infinite_(false), batteryCount_(0)
 {
-	reset();
 }
 
 TankBatteries::~TankBatteries()
 {
-
 }
 
 void TankBatteries::reset()
@@ -82,9 +80,10 @@ void TankBatteries::addBatteries(int no)
 	batteryCount_+=no;
 }
 
-bool TankBatteries::writeMessage(NetBuffer &buffer)
+bool TankBatteries::writeMessage(NetBuffer &buffer, bool writeAccessories)
 {
-	buffer.addToBuffer(batteryCount_);
+	if (writeAccessories) buffer.addToBuffer(batteryCount_);
+	else buffer.addToBuffer((int) 0);
 	buffer.addToBuffer(infinite_);
 	return true;
 }

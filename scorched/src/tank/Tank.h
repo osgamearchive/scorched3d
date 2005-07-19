@@ -48,7 +48,7 @@ public:
 	void clientNewGame();
 
 	// Serialize the tank
-	bool writeMessage(NetBuffer &buffer);
+	bool writeMessage(NetBuffer &buffer, bool writeAccessories);
 	bool readMessage(NetBufferReader &reader);
 
 	// The base attributes of the tank

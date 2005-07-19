@@ -29,7 +29,7 @@ ComsLastChanceMessage::~ComsLastChanceMessage()
 {
 }
 
-bool ComsLastChanceMessage::writeMessage(NetBuffer &buffer)
+bool ComsLastChanceMessage::writeMessage(NetBuffer &buffer, unsigned int destinationId)
 {
 	return true;
 }

@@ -23,9 +23,8 @@
 #include <common/OptionsGame.h>
 
 TankAutoDefense::TankAutoDefense(ScorchedContext &context) :
-	context_(context)
+	context_(context), haveDefense_(false)
 {
-	reset();
 }
 
 TankAutoDefense::~TankAutoDefense()
@@ -73,9 +72,10 @@ bool TankAutoDefense::haveDefense()
 	return haveDefense_;
 }
 
-bool TankAutoDefense::writeMessage(NetBuffer &buffer)
+bool TankAutoDefense::writeMessage(NetBuffer &buffer, bool writeAccessories)
 {
-	buffer.addToBuffer(haveDefense_);
+	if (writeAccessories) buffer.addToBuffer(haveDefense_);
+	else buffer.addToBuffer(false);
 	return true;
 }
 

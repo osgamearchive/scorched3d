@@ -43,7 +43,7 @@ ComsAddPlayerMessage::~ComsAddPlayerMessage()
 {
 }
 
-bool ComsAddPlayerMessage::writeMessage(NetBuffer &buffer)
+bool ComsAddPlayerMessage::writeMessage(NetBuffer &buffer, unsigned int destinationId)
 {
 	buffer.addToBuffer(playerName_.c_str());
 	buffer.addToBuffer(playerType_.c_str());

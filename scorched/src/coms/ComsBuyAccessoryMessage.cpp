@@ -35,7 +35,7 @@ ComsBuyAccessoryMessage::~ComsBuyAccessoryMessage()
 {
 }
 
-bool ComsBuyAccessoryMessage::writeMessage(NetBuffer &buffer)
+bool ComsBuyAccessoryMessage::writeMessage(NetBuffer &buffer, unsigned int destinationId)
 {
 	buffer.addToBuffer(playerId_);
 	buffer.addToBuffer(accessoryId_);

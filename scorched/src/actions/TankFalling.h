@@ -50,7 +50,7 @@ public:
 
 	TankFalling();
 	TankFalling(Weapon *weapon, unsigned int fallingPlayerId,
-			unsigned int firedPlayerId,
+			unsigned int firedPlayerId, bool parachutes,
 			unsigned int data);
 	virtual ~TankFalling();
 
@@ -62,6 +62,8 @@ public:
 	void collision();
 	void remove();
 
+	bool getParachutes() { return parachutes_; }
+
 	REGISTER_ACTION_HEADER(TankFalling);
 
 protected:
@@ -72,6 +74,7 @@ protected:
 	unsigned int data_;
 	Vector tankStartPosition_;
 	bool remove_;
+	bool parachutes_;
 
 	void getAllPositions(Vector &spherePositions);
 
