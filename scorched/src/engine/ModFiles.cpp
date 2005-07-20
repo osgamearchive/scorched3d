@@ -61,6 +61,7 @@ bool ModFiles::excludeFile(const char *file)
 {
 	if (strstr(file, "Thumbs.db")) return true;
 	if (strstr(file, "CVS")) return true;
+	if (strstr(file, "..")) return true;
 
 	if (!fileEnding(file, ".xml") &&
 		!fileEnding(file, ".bmp") &&
