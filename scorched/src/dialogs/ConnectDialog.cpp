@@ -165,6 +165,7 @@ bool ConnectDialog::tryConnection()
 	ComsConnectMessage connectMessage;
 	connectMessage.setVersion(ScorchedVersion);
 	connectMessage.setProtocolVersion(ScorchedProtocolVersion);
+	connectMessage.setUserName(OptionsParam::instance()->getUserName());
 	connectMessage.setPassword(OptionsParam::instance()->getPassword());
 	connectMessage.setUniqueId(uniqueId);
 	connectMessage.setHostDesc(OptionsDisplay::instance()->getHostDescription());

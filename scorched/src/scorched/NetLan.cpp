@@ -57,23 +57,37 @@ static void createControlsPre(wxWindow *parent, wxSizer *sizer)
 	wxGridSizer *nameSizer = new wxFlexGridSizer(3, 3, 5, 5);
 	wxStaticText *nameText = 
 		new wxStaticText(parent, -1, "Connect To Name/IP : ");
+	wxStaticText *userNameText = 
+		new wxStaticText(parent, -1, "User Name (Optional) : ");
 	wxStaticText *passText = 
-		new wxStaticText(parent, -1, "Password : ");
+		new wxStaticText(parent, -1, "Password (Optional) : ");
 	IDC_EDIT_SERVER_CTRL = 
 		new wxTextCtrl(parent, IDC_EDIT_SERVER,
 		"", wxDefaultPosition, wxSize(285, -1));
+	IDC_EDIT_NAME_CTRL = 
+		new wxTextCtrl(parent, IDC_EDIT_NAME,
+		"", wxDefaultPosition, wxSize(285, -1), 0);
 	IDC_EDIT_PASSWORD_CTRL = 
 		new wxTextCtrl(parent, IDC_EDIT_PASSWORD,
 		"", wxDefaultPosition, wxSize(285, -1), wxTE_PASSWORD);
 	IDC_CLEAR_CTRL = 
 		new wxButton(parent, IDC_CLEAR,
-		"Clear");
+		"Clear",
+		wxDefaultPosition, wxSize(-1, 20));
+	IDC_CLEAR_NAME_CTRL = 
+		new wxButton(parent, IDC_CLEAR_NAME,
+		"Clear",
+		wxDefaultPosition, wxSize(-1, 20));
 	IDC_CLEAR_PASSWORD_CTRL = 
 		new wxButton(parent, IDC_CLEAR_PASSWORD,
-		"Clear");
+		"Clear",
+		wxDefaultPosition, wxSize(-1, 20));
 	nameSizer->Add(nameText, 0, wxALIGN_CENTER_VERTICAL);
 	nameSizer->Add(IDC_EDIT_SERVER_CTRL, 0, 0);
 	nameSizer->Add(IDC_CLEAR_CTRL, 0, 0);
+	nameSizer->Add(userNameText, 0, wxALIGN_CENTER_VERTICAL);
+	nameSizer->Add(IDC_EDIT_NAME_CTRL, 0, 0);
+	nameSizer->Add(IDC_CLEAR_NAME_CTRL, 0, 0);
 	nameSizer->Add(passText, 0, wxALIGN_CENTER_VERTICAL);
 	nameSizer->Add(IDC_EDIT_PASSWORD_CTRL, 0, 0);
 	nameSizer->Add(IDC_CLEAR_PASSWORD_CTRL, 0, 0);

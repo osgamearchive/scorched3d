@@ -42,6 +42,7 @@ public:
 
 	void setVersion(const char *version) { setValue("version", version); }
 	void setProtocolVersion(const char *pversion) { setValue("pversion", pversion); }
+	void setUserName(const char *username) { setValue("username", username); }
 	void setPassword(const char *password) { setValue("password", password); }
 	void setUniqueId(const char *uid) { setValue("uid", uid); }
 	void setHostDesc(const char *host) { setValue("host", host); }
@@ -50,6 +51,7 @@ public:
 
 	const char *getVersion() { return getValue("version"); }
 	const char *getProtocolVersion() { return getValue("pversion"); }
+	const char *getUserName() { return getValue("username"); }
 	const char *getPassword() { return getValue("password"); }
 	const char *getHostDesc() { return getValue("host"); }
 	const char *getUniqueId() { return getValue("uid"); }

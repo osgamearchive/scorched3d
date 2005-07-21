@@ -33,6 +33,7 @@ public:
 	const char *getServerFile() { return server_.getValue(); }
 	const char *getClientFile() { return client_.getValue(); }
 	const char *getSaveFile() { return save_.getValue(); }
+	const char *getUserName() { return username_.getValue(); }
 	const char *getPassword() { return password_.getValue(); }
 	const char *getSettingsDir() { return settingsdir_.getValue(); }
 	bool getConsole() { return console_.getValue(); }
@@ -65,6 +66,7 @@ protected:
 	OptionEntryString server_;
 	OptionEntryString client_;
 	OptionEntryString password_;
+	OptionEntryString username_;
 	OptionEntryString save_;
 	OptionEntryString settingsdir_;
 	OptionEntryBool loadmodfiles_;

@@ -365,6 +365,8 @@ bool NetLanFrame::TransferDataToWindow()
 	// Set the ok button to disabled
 	IDC_EDIT_SERVER_CTRL->SetValue(
 		OptionsParam::instance()->getConnect());
+	IDC_EDIT_NAME_CTRL->SetValue(
+		OptionsParam::instance()->getUserName());
 	IDC_EDIT_PASSWORD_CTRL->SetValue(
 		OptionsParam::instance()->getPassword());
 
@@ -437,17 +439,21 @@ bool showNetLanDialog()
 	NetLanFrame frame;
 	if (frame.ShowModal() == wxID_OK)
 	{
+		char buffer[1024];
+		sprintf(buffer, "-connect \"%s\"",
+			IDC_EDIT_SERVER_CTRL->GetValue().c_str());
+
 		if (IDC_EDIT_PASSWORD_CTRL->GetValue().c_str()[0])
 		{
-			runScorched3D("-connect \"%s\" -password \"%s\"", 
-				IDC_EDIT_SERVER_CTRL->GetValue().c_str(),
-				IDC_EDIT_PASSWORD_CTRL->GetValue().c_str());
+			strcat(buffer, " -password ");
+			strcat(buffer, IDC_EDIT_PASSWORD_CTRL->GetValue().c_str());
 		}
-		else
+		if (IDC_EDIT_NAME_CTRL->GetValue().c_str()[0])
 		{
-			runScorched3D("-connect \"%s\"", 
-				IDC_EDIT_SERVER_CTRL->GetValue().c_str());
+			strcat(buffer, " -username ");
+			strcat(buffer, IDC_EDIT_NAME_CTRL->GetValue().c_str());
 		}
+		runScorched3D(buffer);
 	}
 	return false;
 }

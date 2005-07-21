@@ -132,6 +132,9 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 		return true;
 	}
 
+	// Get username
+	message.getUserName();
+
 	// Check for a password (if any)
 	if (ScorchedServer::instance()->getOptionsGame().getServerPassword()[0])
 	{

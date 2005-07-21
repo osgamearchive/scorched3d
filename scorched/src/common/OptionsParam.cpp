@@ -49,6 +49,8 @@ OptionsParam::OptionsParam() :
 		"Continues a scorched 3d client game, requires the name of the saved game.", 0, ""),
 	settingsdir_(options_, "settingsdir",
 		"The directory in the users home directory that the scorched3d settings are stored in.", 0, ".scorched3d"),
+	username_(options_, "username",
+		"The username of the NET/LAN server", 0, ""),
 	password_(options_, "password",
 		"The password of the NET/LAN server", 0, ""),
 	help_(options_, "starthelp",

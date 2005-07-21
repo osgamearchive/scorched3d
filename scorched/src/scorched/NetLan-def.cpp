@@ -25,18 +25,22 @@ enum
 	IDC_PLAYER_LIST,
 	IDC_BUTTON_LAN,
 	IDC_BUTTON_NET,
+	IDC_EDIT_NAME,
 	IDC_EDIT_SERVER,
 	IDC_EDIT_PASSWORD,
 	IDC_CLEAR,
+	IDC_CLEAR_NAME,
 	IDC_CLEAR_PASSWORD
 };
 
 static wxImageList *netLanImageList = 0;
 static wxTextCtrl *IDC_EDIT_SERVER_CTRL = 0;
+static wxTextCtrl *IDC_EDIT_NAME_CTRL = 0;
 static wxTextCtrl *IDC_EDIT_PASSWORD_CTRL = 0;
 static wxButton *IDC_BUTTON_LAN_CTRL = 0;
 static wxButton *IDC_BUTTON_NET_CTRL = 0;
 static wxButton *IDC_CLEAR_CTRL = 0;
+static wxButton *IDC_CLEAR_NAME_CTRL = 0;
 static wxButton *IDC_CLEAR_PASSWORD_CTRL = 0;
 static wxButton *IDOK_CTRL = 0;
 static wxButton *IDCANCEL_CTRL = 0;
