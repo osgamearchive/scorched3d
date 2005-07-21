@@ -181,7 +181,7 @@
 			<sound>
 				<position type="group">
 					<name>skyscrapers</name>
-					<falloff>0.8</falloff>
+					<falloff>2.5</falloff>
 				</position>
 				<timing type="looped"></timing>
 				<sound>data/wav/misc/citysounds.wav</sound>
@@ -189,7 +189,7 @@
 			<sound>
 				<position type="group">
 					<name>houses</name>
-					<falloff>1.2</falloff>
+					<falloff>5.0</falloff>
 				</position>
 				<timing type="repeat">
 					<min>10</min>
@@ -200,7 +200,7 @@
 			<sound>
 				<position type="group">
 					<name>houses</name>
-					<falloff>1.2</falloff>
+					<falloff>5.0</falloff>
 				</position>
 				<timing type="repeat">
 					<min>20</min>
@@ -211,7 +211,7 @@
 			<sound>
 				<position type="group">
 					<name>houses</name>
-					<falloff>1.2</falloff>
+					<falloff>5.0</falloff>
 				</position>
 				<timing type="repeat">
 					<min>20</min>
@@ -222,29 +222,29 @@
 			<sound>
 				<position type="group">
 					<name>farms</name>
-					<falloff>1.0</falloff>
+					<falloff>5.0</falloff>
 				</position>
 				<timing type="repeat">
-					<min>20</min>
-					<max>50</max>
+					<min>10</min>
+					<max>40</max>
 				</timing>
 				<sound>data/wav/misc/rooster.wav</sound>
 			</sound>
 			<sound>
 				<position type="group">
 					<name>farms</name>
-					<falloff>1.0</falloff>
+					<falloff>5.0</falloff>
 				</position>
 				<timing type="repeat">
-					<min>20</min>
-					<max>50</max>
+					<min>10</min>
+					<max>40</max>
 				</timing>
 				<sound>data/wav/misc/cows.wav</sound>
 			</sound>
 			<sound>
 				<position type="group">
 					<name>farms</name>
-					<falloff>1.0</falloff>
+					<falloff>5.0</falloff>
 				</position>
 				<timing type="repeat">
 					<min>20</min>
@@ -260,7 +260,7 @@
 			<sound>
 				<position type="group">
 					<name>offices</name>
-					<falloff>1.2</falloff>
+					<falloff>5.0</falloff>
 				</position>
 				<timing type="repeat">
 					<min>10</min>
@@ -271,7 +271,7 @@
 			<sound>
 				<position type="group">
 					<name>offices</name>
-					<falloff>1.2</falloff>
+					<falloff>5.0</falloff>
 				</position>
 				<timing type="repeat">
 					<min>10</min>
@@ -282,7 +282,7 @@
 			<sound>
 				<position type="group">
 					<name>offices</name>
-					<falloff>1.2</falloff>
+					<falloff>5.0</falloff>
 				</position>
 				<timing type="repeat">
 					<min>10</min>
@@ -293,7 +293,7 @@
 			<sound>
 				<position type="group">
 					<name>offices</name>
-					<falloff>1.2</falloff>
+					<falloff>5.0</falloff>
 				</position>
 				<timing type="repeat">
 					<min>20</min>
@@ -304,7 +304,7 @@
 			<sound>
 				<position type="group">
 					<name>offices</name>
-					<falloff>1.2</falloff>
+					<falloff>5.0</falloff>
 				</position>
 				<timing type="repeat">
 					<min>20</min>
@@ -315,7 +315,7 @@
 			<sound>
 				<position type="group">
 					<name>offices</name>
-					<falloff>1.2</falloff>
+					<falloff>5.0</falloff>
 				</position>
 				<timing type="repeat">
 					<min>10</min>
@@ -325,8 +325,8 @@
 			</sound>
 			<sound>
 				<position type="group">
-					<name>offices</name>
-					<falloff>1.0</falloff>
+					<name>houses</name>
+					<falloff>5.0</falloff>
 				</position>
 				<timing type="repeat">
 					<min>20</min>
@@ -336,8 +336,8 @@
 			</sound>
 			<sound>
 				<position type="group">
-					<name>offices</name>
-					<falloff>1.0</falloff>
+					<name>houses</name>
+					<falloff>5.0</falloff>
 				</position>
 				<timing type="repeat">
 					<min>20</min>
@@ -355,8 +355,8 @@
 					<position><A>128</A><B>128</B><C>50</C></position>
 				</position>
 				<timing type="repeat">
-					<min>60</min>
-					<max>120</max>
+					<min>45</min>
+					<max>90</max>
 				</timing>
 				<sound>data/wav/misc/helicopter.wav</sound>
 			</sound>

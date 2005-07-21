@@ -6917,7 +6917,7 @@ YOU CANNOT AIM THIS WEAPON</description>
 		<modelscale>5.0</modelscale>
 		<accessoryaction type="WeaponScatter">
 			<position><A>128</A><B>128</B><C>80</C></position>
-			<positionoffset><A>72</A><B>72</B><C>0</C></positionoffset>
+			<positionoffset><A>96</A><B>96</B><C>0</C></positionoffset>
 			<direction><A>0</A><B>0</B><C>-1</C></direction>
 			<directionoffset><A>0</A><B>0</B><C>0</C></directionoffset>		
 			<aimedweapon type='WeaponMulti'>
@@ -7049,9 +7049,28 @@ YOU CANNOT AIM THIS WEAPON</description>
 						</nextaction>
 					</delayedweapon>
 				</subweapon5>
-				<subweapon6 type='WeaponSound'>
-					<sound>data/wav/explosions/thunder.wav</sound>
+				<subweapon6 type='WeaponDelay'>
+					<delay>1.6</delay>
+					<delayedweapon type='WeaponMulti'>
+						<subweapon1 type='WeaponReference'>
+							<weapon>Clouds-Grey</weapon>
+						</subweapon1>
+						<subweapon2 type='WeaponReference'>
+							<weapon>Lightning Bolt</weapon>
+							<armslevel>1</armslevel>
+						</subweapon2>
+						<subweapon3 type='WeaponDelay'>
+							<delay>0.5</delay>
+							<delayedweapon type='WeaponReference'>
+								<weapon>Lightning Bolt</weapon>
+								<armslevel>1</armslevel>
+							</delayedweapon>
+						</subweapon3>
+					</delayedweapon>
 				</subweapon6>
+				<subweapon7 type='WeaponSound'>
+					<sound>data/wav/explosions/thunder.wav</sound>
+				</subweapon7>
 			</aimedweapon>
 		</accessoryaction>
 	</accessory>
