@@ -228,7 +228,7 @@ void ServerBanned::addBannedEntry(unsigned int ip, unsigned int mask,
 	{
 		std::map<std::string, BannedEntry>::iterator findItor =
 			bannedIds_.find(uniqueId);
-		if (findItor != bannedIds_.end())
+		if (findItor == bannedIds_.end())
 		{
 			bannedIds_[uniqueId] = newEntry;
 		}

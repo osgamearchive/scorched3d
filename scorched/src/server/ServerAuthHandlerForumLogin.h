@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,31 +18,37 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+#if !defined(__INCLUDE_ServerAuthHandlerForumLoginh_INCLUDE__)
+#define __INCLUDE_ServerAuthHandlerForumLoginh_INCLUDE__
 
-enum
+#ifdef HAVE_MYSQL
+
+#if defined(_WIN32)
+#include <Winsock2.h>
+#endif
+#include <server/ServerAuthHandler.h>
+#include <mysql/mysql.h>
+
+class ServerAuthHandlerForumLogin : public ServerAuthHandler
 {
-	IDC_SERVER_LIST = 1,
-	IDC_PLAYER_LIST,
-	IDC_BUTTON_LAN,
-	IDC_BUTTON_NET,
-	IDC_BUTTON_JOIN,
-	IDC_EDIT_NAME,
-	IDC_EDIT_SERVER,
-	IDC_EDIT_PASSWORD,
-	IDC_CLEAR,
-	IDC_CLEAR_NAME,
-	IDC_CLEAR_PASSWORD
+public:
+	ServerAuthHandlerForumLogin();
+	virtual ~ServerAuthHandlerForumLogin();
+
+	virtual bool authenticateUser(std::string &uniqueId, 
+		const char *username, const char *password, std::string &message);
+	virtual bool authenticateUserName(const char *uniqueId, 
+		const char *playername);
+	virtual void banUser(const char *uniqueId);
+
+protected:
+	MYSQL *mysql_;
+	std::string name_;
+	bool success_;
+
+	bool connect();
 };
 
-static wxImageList *netLanImageList = 0;
-static wxTextCtrl *IDC_EDIT_SERVER_CTRL = 0;
-static wxTextCtrl *IDC_EDIT_NAME_CTRL = 0;
-static wxTextCtrl *IDC_EDIT_PASSWORD_CTRL = 0;
-static wxButton *IDC_BUTTON_LAN_CTRL = 0;
-static wxButton *IDC_BUTTON_NET_CTRL = 0;
-static wxButton *IDC_CLEAR_CTRL = 0;
-static wxButton *IDC_CLEAR_NAME_CTRL = 0;
-static wxButton *IDC_CLEAR_PASSWORD_CTRL = 0;
-static wxButton *IDOK_CTRL = 0;
-static wxButton *IDCANCEL_CTRL = 0;
+#endif // HAVE_MYSQL
 
+#endif // __INCLUDE_ServerAuthHandlerForumLoginh_INCLUDE__

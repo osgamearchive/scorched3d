@@ -359,9 +359,9 @@ public:
 	void setResidualPlayers(bool value) { residualPlayers_.setValue(value); }	
 	const char *getResidualPlayersToolTip() { return residualPlayers_.getDescription(); }
 
-	bool getPreferedPlayers() { return preferedPlayers_.getValue(); }
-	void setPreferedPlayers(bool value) { preferedPlayers_.setValue(value); }	
-	const char *getPreferedPlayersToolTip() { return preferedPlayers_.getDescription(); }
+	const char *getAuthHandler() { return authHandler_.getValue(); }
+	void setAuthHandler(const char *value) { authHandler_.setValue(value); }	
+	const char *getAuthHandlerToolTip() { return authHandler_.getDescription(); }
 
 	bool getRegisteredUserNames() { return registeredUserNames_.getValue(); }
 	void setRegisteredUserNames(bool value) { registeredUserNames_.setValue(value); }	
@@ -442,8 +442,8 @@ protected:
 	OptionEntryBool residualPlayers_;
 	OptionEntryBool randomizeBotNames_;
 	OptionEntryBool giveAllWeapons_;
-	OptionEntryBool preferedPlayers_;
 	OptionEntryBool registeredUserNames_;
+	OptionEntryString authHandler_;
 	OptionEntryString serverName_;
 	OptionEntryString *playerType_[24];
 	OptionEntryString serverPassword_;

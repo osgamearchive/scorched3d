@@ -226,16 +226,15 @@ void ServerAddPlayerHandler::getUniqueName(Tank *tank,
 	// except the prefered user that has this name
 	if (ScorchedServer::instance()->getOptionsGame().getRegisteredUserNames())
 	{
-		ServerUsers::UserEntry *userEntry;
-		while (userEntry = ScorchedServerUtil::instance()->
-			preferedPlayers.getUserByName(playerName.c_str()))
+		ServerAuthHandler *authHandler =
+			ScorchedServerUtil::instance()->getAuthHandler();
+		if (authHandler)
 		{
-			if (0 == strcmp(userEntry->uniqueid.c_str(), tank->getUniqueId()))
+			while (!authHandler->authenticateUserName(tank->getUniqueId(),
+				playerName.c_str()))
 			{
-				break;
+				playerName += "(2)";
 			}
-
-			playerName += "(2)";
 		}
 	}
 	

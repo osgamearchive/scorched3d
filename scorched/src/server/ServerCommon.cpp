@@ -245,7 +245,17 @@ void ServerCommon::banPlayer(unsigned int playerId,
 		
 			ScorchedServerUtil::instance()->bannedPlayers.
 				addBanned(ipAddress, tank->getName(), tank->getUniqueId(), type);
-			if (type == ServerBanned::Banned) kickPlayer(playerId);
+			if (type == ServerBanned::Banned)
+			{
+				kickPlayer(playerId);
+
+				ServerAuthHandler *authHandler =
+					ScorchedServerUtil::instance()->getAuthHandler();
+				if (authHandler)
+				{
+					authHandler->banUser(tank->getUniqueId());
+				}
+			}
 		}
 	}
 }

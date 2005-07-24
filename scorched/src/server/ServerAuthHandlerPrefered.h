@@ -18,13 +18,13 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_ServerUsersh_INCLUDE__)
-#define __INCLUDE_ServerUsersh_INCLUDE__
+#if !defined(__INCLUDE_ServerAuthHandlerPreferedh_INCLUDE__)
+#define __INCLUDE_ServerAuthHandlerPreferedh_INCLUDE__
 
-#include <string>
+#include <server/ServerAuthHandler.h>
 #include <list>
 
-class ServerUsers
+class ServerAuthHandlerPrefered : public ServerAuthHandler
 {
 public:
 	struct UserEntry
@@ -33,17 +33,22 @@ public:
 		std::string uniqueid;
 	};
 
-	ServerUsers();
-	virtual ~ServerUsers();
+	ServerAuthHandlerPrefered();
+	virtual ~ServerAuthHandlerPrefered();
 
-	UserEntry *getUserByName(const char *name);
-	UserEntry *getUserById(const char *uniqueId);
+	virtual bool authenticateUser(std::string &uniqueId, 
+		const char *username, const char *password, std::string &message);
+	virtual bool authenticateUserName(const char *uniqueId, 
+		const char *playername);
+	virtual void banUser(const char *uniqueId);
 
 protected:
 	std::list<UserEntry> entries_;
 	unsigned int lastReadTime_;
 
+	UserEntry *getUserByName(const char *name);
+	UserEntry *getUserById(const char *uniqueId);
 	bool load();
 };
 
-#endif // __INCLUDE_ServerUsersh_INCLUDE__
+#endif // __INCLUDE_ServerAuthHandlerPreferedh_INCLUDE__

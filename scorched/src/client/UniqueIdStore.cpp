@@ -147,6 +147,7 @@ bool UniqueIdStore::saveUniqueId(unsigned int ip, const char *id,
 	}
 
 	// If it does, store this id against the published name
+	bool found = false;
 	std::list<Entry>::iterator itor;
 	for (itor = ids_.begin();
 		itor != ids_.end();
@@ -157,21 +158,32 @@ bool UniqueIdStore::saveUniqueId(unsigned int ip, const char *id,
 		{
 			if (0 != strcmp(entry.id.c_str(), id))
 			{
-				Logger::log( "Warning: Using different uniqueid from stored.");
-			}
+				Logger::log( "Warning: Updating to new uniqueid.");
 
-			return true;
+				// Update an old id
+				found = true;
+				entry.id = id;
+				break;
+			}
+			else
+			{
+				// Id already here and the same
+				return true;
+			}
 		}
 	}
 
-	// A new id
-	Entry entry;
-	entry.id = id;
-	entry.ip = ip;
-	entry.published = published;
-	ids_.push_back(entry);
+	if (!found)
+	{
+		// A new id
+		Entry entry;
+		entry.id = id;
+		entry.ip = ip;
+		entry.published = published;
+		ids_.push_back(entry);
+	}
 
-	// Save this new id
+	// Save this id
 	saveStore();
 	return true;
 }

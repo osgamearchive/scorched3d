@@ -213,7 +213,7 @@ bool ARGParser::parseArg(ARGParser::Entry &newEntry, std::list<std::string> &cmd
 		}
 		else
 		{
-			showArgs("ERROR: Expected <int> parameter\n\n");
+			showArgs("ERROR: Expected <string> parameter\n\n");
 			return false;
 		}
 	}

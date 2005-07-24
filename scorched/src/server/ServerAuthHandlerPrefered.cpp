@@ -18,22 +18,49 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <server/ServerUsers.h>
+#include <server/ServerAuthHandlerPrefered.h>
 #include <server/ScorchedServer.h>
 #include <common/OptionsGame.h>
 #include <common/Logger.h>
 #include <XML/XMLFile.h>
 #include <wx/filefn.h>
 
-ServerUsers::ServerUsers() : lastReadTime_(0)
+ServerAuthHandlerPrefered::ServerAuthHandlerPrefered() : lastReadTime_(0)
 {
 }
 
-ServerUsers::~ServerUsers()
+ServerAuthHandlerPrefered::~ServerAuthHandlerPrefered()
 {
 }
 
-ServerUsers::UserEntry *ServerUsers::getUserByName(const char *name)
+bool ServerAuthHandlerPrefered::authenticateUser(std::string &uniqueId, 
+	const char *username, const char *password, std::string &message)
+{
+	if (!getUserById(uniqueId.c_str()))
+	{
+		message = 
+			"This server is running a prefered player only game.\n"
+			"Your supplied unique id is not in the prefered player list.\n";
+		return false;
+	}
+
+	return true;
+}
+
+bool ServerAuthHandlerPrefered::authenticateUserName(const char *uniqueId, 
+	const char *playername)
+{
+	UserEntry *userEntry = getUserByName(playername);
+	if (!userEntry) return true;
+	if (0 == strcmp(userEntry->uniqueid.c_str(), uniqueId)) return true;
+	return false;
+}
+
+void ServerAuthHandlerPrefered::banUser(const char *uniqueId)
+{
+}
+
+ServerAuthHandlerPrefered::UserEntry *ServerAuthHandlerPrefered::getUserByName(const char *name)
 {
 	load();
 
@@ -51,7 +78,7 @@ ServerUsers::UserEntry *ServerUsers::getUserByName(const char *name)
 	return 0;
 }
 
-ServerUsers::UserEntry *ServerUsers::getUserById(const char *uniqueId)
+ServerAuthHandlerPrefered::UserEntry *ServerAuthHandlerPrefered::getUserById(const char *uniqueId)
 {
 	load();
 
@@ -69,7 +96,7 @@ ServerUsers::UserEntry *ServerUsers::getUserById(const char *uniqueId)
 	return 0;
 }
 
-bool ServerUsers::load()
+bool ServerAuthHandlerPrefered::load()
 {
 	const char *filename = 
 		getSettingsFile("preferedplayers-%i.xml", 

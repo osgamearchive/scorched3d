@@ -132,9 +132,6 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 		return true;
 	}
 
-	// Get username
-	message.getUserName();
-
 	// Check for a password (if any)
 	if (ScorchedServer::instance()->getOptionsGame().getServerPassword()[0])
 	{
@@ -184,8 +181,8 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 		}
 	}
 	
-	const char *uniqueId = message.getUniqueId();
-	if (0 == uniqueId[0]) // No ID
+	std::string uniqueId = message.getUniqueId();
+	if (!uniqueId.c_str()[0]) // No ID
 	{
 		// Generate the players unique id (if we need to)
 		//
@@ -195,11 +192,35 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 		//
 		uniqueId = StatsLogger::instance()->allocateId();
 	}
-	else
+
+	// Auth handler, make sure that only prefered players can connect
+	ServerAuthHandler *authHandler =
+		ScorchedServerUtil::instance()->getAuthHandler();
+	if (authHandler)
 	{
-		// Check if this unique id has been banned
+		std::string resultMessage;
+		if (!authHandler->authenticateUser(uniqueId, 
+			message.getUserName(), message.getPassword(), resultMessage))
+		{
+			ServerCommon::sendString(destinationId,
+				"--------------------------------------------------\n"
+				"%s"
+				"Connection failed.\n"
+				"--------------------------------------------------",
+				resultMessage.c_str());
+			Logger::log( "User failed authentication \"%s\" [%s]",
+				message.getUserName(), uniqueId.c_str());
+
+			ServerCommon::kickDestination(destinationId, true);			
+			return true;
+		}
+	}
+
+	// Check if this unique id has been banned
+	if (uniqueId.c_str()[0])
+	{
 		ServerBanned::BannedType type = 
-			ScorchedServerUtil::instance()->bannedPlayers.getBanned(ipAddress, uniqueId);
+			ScorchedServerUtil::instance()->bannedPlayers.getBanned(ipAddress, uniqueId.c_str());
 		if (type == ServerBanned::Banned)
 		{
 			Logger::log( "Banned uniqueid connection from destination \"%i\"", 
@@ -210,7 +231,7 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 	}
 
 	// Check that this unique id has not already connected (if unique ids are in use)
-	if (0 != uniqueId[0] &&
+	if (uniqueId.c_str()[0] &&
 		!ScorchedServer::instance()->getOptionsGame().getAllowSameUniqueId())
 	{
 		std::map<unsigned int, Tank *> &playingTanks = 
@@ -221,7 +242,7 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 			playingItor++)
 		{
 			Tank *current = (*playingItor).second;
-			if (0 == strcmp(current->getUniqueId(), uniqueId))
+			if (0 == strcmp(current->getUniqueId(), uniqueId.c_str()))
 			{
 				Logger::log( "Duplicate uniqueid connection from destination \"%i\"", 
 					destinationId);
@@ -236,7 +257,7 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 		destinationId,
 		ScorchedServer::instance()->getOptionsGame().getServerName(),
 		ScorchedServer::instance()->getOptionsGame().getPublishAddress(),
-		uniqueId);
+		uniqueId.c_str());
 	// Add the connection gif
 	if (OptionsParam::instance()->getDedicatedServer())
 	{
@@ -262,30 +283,6 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 			destinationId);
 		ServerCommon::kickDestination(destinationId);
 		return true;
-	}
-
-	// Make sure that only prefered players can connect
-	// *** Do this after the connect accept message, as they
-	// will need a unique id if they don't already have one.  This is
-	// so they can use it to apply for prefered usership ***
-	if (ScorchedServer::instance()->getOptionsGame().getPreferedPlayers())
-	{
-		ServerUsers::UserEntry *userEntry =
-			ScorchedServerUtil::instance()->
-				preferedPlayers.getUserById(uniqueId);
-		if (!userEntry)
-		{
-			ServerCommon::sendString(destinationId,
-				"--------------------------------------------------\n"
-				"This server is running a prefered player only game.\n"
-				"Your supplied id is not in the prefered player list.\n"
-				"Connection failed.\n"
-				"--------------------------------------------------");
-			Logger::log( "Non prefered player \"%s\" connected",
-				uniqueId);
-			ServerCommon::kickDestination(destinationId, true);			
-			return true;
-		}
 	}
 
 	// Send all current tanks to the new client
@@ -317,7 +314,7 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 	{
 		addNextTank(destinationId,
 			ipAddress,	
-			uniqueId,
+			uniqueId.c_str(),
 			message.getHostDesc(),
 			false);
 	}
@@ -330,7 +327,7 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 	{
 		addNextTank(destinationId,
 			ipAddress,
-			uniqueId,
+			uniqueId.c_str(),
 			message.getHostDesc(),
 			true);
 	}

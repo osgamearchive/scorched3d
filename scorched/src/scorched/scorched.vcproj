@@ -2983,6 +2983,24 @@
 				RelativePath="..\server\ServerAdminHandler.h">
 			</File>
 			<File
+				RelativePath="..\server\ServerAuthHandler.cpp">
+			</File>
+			<File
+				RelativePath="..\server\ServerAuthHandler.h">
+			</File>
+			<File
+				RelativePath="..\server\ServerAuthHandlerForumLogin.cpp">
+			</File>
+			<File
+				RelativePath="..\server\ServerAuthHandlerForumLogin.h">
+			</File>
+			<File
+				RelativePath="..\server\ServerAuthHandlerPrefered.cpp">
+			</File>
+			<File
+				RelativePath="..\server\ServerAuthHandlerPrefered.h">
+			</File>
+			<File
 				RelativePath="..\server\ServerBanned.cpp">
 			</File>
 			<File
@@ -3191,12 +3209,6 @@
 			</File>
 			<File
 				RelativePath="..\server\ServerTooFewPlayersStimulus.h">
-			</File>
-			<File
-				RelativePath="..\server\ServerUsers.cpp">
-			</File>
-			<File
-				RelativePath="..\server\ServerUsers.h">
 			</File>
 			<File
 				RelativePath="..\server\ServerWebHandler.cpp">

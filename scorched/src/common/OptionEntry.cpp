@@ -211,17 +211,18 @@ bool OptionEntryHelper::readFromXML(std::list<OptionEntry *> &options,
 			dialogMessage("Scorched3D Options",
 				"ERROR: Failed to parse file \"%s\". Cannot find option \"%s\"",
 				currentNode->getSource(), name.c_str());
-			return false;					
 		}
-
-		if (!(*finditor).second->setValueFromString(value.c_str()))
+		else
 		{
-			dialogMessage("Scorched3D Options",
-				"ERROR: Failed to parse file \"%s\"\n"
-				"Failed to set option \"%s\" with \"%s\"",
-				currentNode->getSource(), name.c_str(), value.c_str());
-			return false;		
-		}	
+			if (!(*finditor).second->setValueFromString(value.c_str()))
+			{
+				dialogMessage("Scorched3D Options",
+					"ERROR: Failed to parse file \"%s\"\n"
+					"Failed to set option \"%s\" with \"%s\"",
+					currentNode->getSource(), name.c_str(), value.c_str());
+				return false;		
+			}	
+		}
 	}
 	return true;
 }								 

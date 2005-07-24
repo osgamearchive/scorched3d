@@ -26,6 +26,7 @@
 #include <wx/listctrl.h>
 #include <wx/image.h>
 #include <wx/imaglist.h>
+#include <wx/utils.h>
 #include <client/ServerBrowser.h>
 #include <common/OptionsParam.h>
 #include <common/Defines.h>
@@ -170,6 +171,7 @@ public:
 	virtual bool TransferDataToWindow();
 	virtual bool TransferDataFromWindow();
 
+	void onJoinButton(wxCommandEvent &event);
 	void onRefreshLanButton(wxCommandEvent &event);
 	void onRefreshNETButton(wxCommandEvent &event);
 	void onClearButton(wxCommandEvent &event);
@@ -186,6 +188,7 @@ private:
 BEGIN_EVENT_TABLE(NetLanFrame, wxDialog)
 	EVT_BUTTON(IDC_BUTTON_LAN,  NetLanFrame::onRefreshLanButton)
 	EVT_BUTTON(IDC_BUTTON_NET,  NetLanFrame::onRefreshNETButton)
+	EVT_BUTTON(IDC_BUTTON_JOIN,  NetLanFrame::onJoinButton)
 	EVT_BUTTON(IDC_CLEAR,  NetLanFrame::onClearButton)
 	EVT_BUTTON(IDC_CLEAR_PASSWORD,  NetLanFrame::onClearPasswordButton)
 	EVT_TIMER(1001, NetLanFrame::onTimer)
@@ -235,6 +238,57 @@ NetLanFrame::NetLanFrame() :
 	timer_.Start(3000, false);
 	wxTimerEvent timerEvent;
 	onTimer(timerEvent);
+}
+
+static void onJoinButtonExec(NetLanFrame *frame)
+{
+	wxString value = IDC_EDIT_SERVER_CTRL->GetValue();
+	wxString password = IDC_EDIT_PASSWORD_CTRL->GetValue();
+	wxString username = IDC_EDIT_NAME_CTRL->GetValue();
+
+	std::string hostPart;
+	const char *host = value.c_str();
+	char *colon = strchr(host, ':');
+	if (colon) 
+	{
+		*colon = '\0';
+		hostPart = host;
+		*colon = ':';
+	}
+	else
+	{
+		hostPart = host;
+	}
+	
+	if (password.c_str()[0] && username.c_str()[0])
+	{
+		IPaddress officialaddress;
+		IPaddress thisaddress;
+		if (SDLNet_ResolveHost(&officialaddress, "scorched3d.game-host.org", 0) == 0 &&
+			SDLNet_ResolveHost(&thisaddress, (char *) hostPart.c_str(), 0) == 0)
+		{
+			if (officialaddress.host != thisaddress.host)
+			{
+				wxString wxText("Warning: You are about to send username and password\n"
+					"information to a non-official server.\n"
+					"\n"
+					"Do you wish to continue?");
+				wxString wxHeader("Scorched3D");
+				int answer = ::wxMessageBox(wxText, wxHeader, wxYES_NO | wxCENTRE);
+				if (answer != wxYES) return;
+			}
+		}
+	}
+
+	if (hostPart.c_str()[0])
+	{
+		frame->EndModal(wxID_OK);
+	}
+}
+
+void NetLanFrame::onJoinButton(wxCommandEvent &event)
+{
+	onJoinButtonExec(this);
 }
 
 void NetLanFrame::onClearButton(wxCommandEvent &event)
@@ -333,7 +387,8 @@ void NetLanFrame::onRefreshNETButton(wxCommandEvent &event)
 
 void NetLanFrame::onServerChanged(wxCommandEvent &event)
 {
-	bool enabled = IDC_EDIT_SERVER_CTRL->GetValue().c_str()[0] != '\0';
+	wxString value = IDC_EDIT_SERVER_CTRL->GetValue();
+	bool enabled = (value.c_str()[0] != '\0');
 	IDOK_CTRL->Enable(enabled);
 	IDOK_CTRL->SetDefault();
 }
@@ -426,11 +481,12 @@ bool NetLanFrame::TransferDataFromWindow()
 
 void NetListControl::onDClickServer(wxMouseEvent& event)
 {
-	bool enabled = IDC_EDIT_SERVER_CTRL->GetValue().c_str()[0] != '\0';
+	wxString value = IDC_EDIT_SERVER_CTRL->GetValue();
+	bool enabled = (value.c_str()[0] != '\0');
 	if (enabled)
 	{
 		NetLanFrame *parent = (NetLanFrame *) GetParent();
-		parent->EndModal(wxID_OK);
+		onJoinButtonExec(parent);
 	}
 }
 
@@ -439,19 +495,22 @@ bool showNetLanDialog()
 	NetLanFrame frame;
 	if (frame.ShowModal() == wxID_OK)
 	{
-		char buffer[1024];
-		sprintf(buffer, "-connect \"%s\"",
-			IDC_EDIT_SERVER_CTRL->GetValue().c_str());
+		wxString value = IDC_EDIT_SERVER_CTRL->GetValue();
+		wxString password = IDC_EDIT_PASSWORD_CTRL->GetValue();
+		wxString username = IDC_EDIT_NAME_CTRL->GetValue();
 
-		if (IDC_EDIT_PASSWORD_CTRL->GetValue().c_str()[0])
+		char buffer[1024];
+		sprintf(buffer, "-connect \"%s\"", value.c_str());
+
+		if (password.c_str()[0])
 		{
 			strcat(buffer, " -password ");
-			strcat(buffer, IDC_EDIT_PASSWORD_CTRL->GetValue().c_str());
+			strcat(buffer, password.c_str());
 		}
-		if (IDC_EDIT_NAME_CTRL->GetValue().c_str()[0])
+		if (username.c_str()[0])
 		{
 			strcat(buffer, " -username ");
-			strcat(buffer, IDC_EDIT_NAME_CTRL->GetValue().c_str());
+			strcat(buffer, username.c_str());
 		}
 		runScorched3D(buffer);
 	}

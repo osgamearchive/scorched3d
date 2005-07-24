@@ -21,23 +21,24 @@
 #if !defined(__INCLUDE_ScorchedServerUtilh_INCLUDE__)
 #define __INCLUDE_ScorchedServerUtilh_INCLUDE__
 
-#include <server/ServerUsers.h>
 #include <server/ServerTimedMessage.h>
 #include <server/ServerTextFilter.h>
 #include <server/ServerBanned.h>
+#include <server/ServerAuthHandler.h>
 
 class ScorchedServerUtil
 {
 public:
 	static ScorchedServerUtil *instance();
 
-	ServerUsers preferedPlayers;
+	ServerAuthHandler *getAuthHandler();
 	ServerTimedMessage timedMessage;
 	ServerBanned bannedPlayers;
 	ServerTextFilter textFilter;
 
 protected:
 	static ScorchedServerUtil *instance_;
+	ServerAuthHandler *authHandler_;
 
 private:
 	ScorchedServerUtil();

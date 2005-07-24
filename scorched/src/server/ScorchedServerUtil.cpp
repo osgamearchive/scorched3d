@@ -19,6 +19,11 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <server/ScorchedServerUtil.h>
+#include <server/ScorchedServer.h>
+#include <server/ServerAuthHandlerForumLogin.h>
+#include <server/ServerAuthHandlerPrefered.h>
+#include <common/OptionsGame.h>
+#include <common/Logger.h>
 
 ScorchedServerUtil *ScorchedServerUtil::instance_ = 0;
 
@@ -28,10 +33,38 @@ ScorchedServerUtil *ScorchedServerUtil::instance()
 	return instance_;
 }
 
-ScorchedServerUtil::ScorchedServerUtil()
+ScorchedServerUtil::ScorchedServerUtil() : authHandler_(0)
 {
 }
 
 ScorchedServerUtil::~ScorchedServerUtil()
 {
+}
+
+ServerAuthHandler *ScorchedServerUtil::getAuthHandler()
+{
+	if (authHandler_) return authHandler_;
+
+	const char *handler = ScorchedServer::instance()->getOptionsGame().getAuthHandler();
+	if (0 == strcmp("none", handler))
+	{
+		return 0;
+	} 
+	else if (0 == strcmp("prefered", handler))
+	{
+		authHandler_ = new ServerAuthHandlerPrefered;
+	}
+#ifdef HAVE_MYSQL
+	else if (0 == strcmp("forumlogin", handler))
+	{
+		authHandler_ = new ServerAuthHandlerForumLogin;
+	}
+#endif
+	else 
+	{
+		dialogExit("ServerAuthHandler", "Unknown auth handler \"%s\"", handler);
+	}
+	
+	Logger::log("Using \"%s\" authentication handler.", handler);
+	return authHandler_;
 }
