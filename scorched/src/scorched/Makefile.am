@@ -397,6 +397,8 @@ scorched3d_SOURCES = \
 	../landscape/LandscapeObjectsEntryModel.h \
 	../landscape/LandscapeObjectsEntryTree.cpp \
 	../landscape/LandscapeObjectsEntryTree.h \
+	../landscape/LandscapeObjectsGroupEntry.cpp \
+	../landscape/LandscapeObjectsGroupEntry.h \
 	../landscape/LandscapeObjectsPlacement.cpp \
 	../landscape/LandscapeObjectsPlacement.h \
 	../landscape/LandscapePlace.cpp \
@@ -837,8 +839,6 @@ scorched3d_SOURCES = \
 	../client/ClientAddPlayerHandler.h \
 	../client/ClientAdmin.cpp \
 	../client/ClientAdmin.h \
-	../client/ClientBuyAccessoryHandler.cpp \
-	../client/ClientBuyAccessoryHandler.h \
 	../client/ClientConnectionAcceptHandler.cpp \
 	../client/ClientConnectionAcceptHandler.h \
 	../client/ClientDefenseHandler.cpp \
@@ -927,6 +927,12 @@ scorched3d_SOURCES = \
 	../server/ServerAddPlayerHandler.h \
 	../server/ServerAdminHandler.cpp \
 	../server/ServerAdminHandler.h \
+	../server/ServerAuthHandler.cpp \
+	../server/ServerAuthHandler.h \
+	../server/ServerAuthHandlerForumLogin.cpp \
+	../server/ServerAuthHandlerForumLogin.h \
+	../server/ServerAuthHandlerPrefered.cpp \
+	../server/ServerAuthHandlerPrefered.h \
 	../server/ServerBanned.cpp \
 	../server/ServerBanned.h \
 	../server/ServerBrowserInfo.cpp \
@@ -997,8 +1003,6 @@ scorched3d_SOURCES = \
 	../server/ServerTimedMessage.h \
 	../server/ServerTooFewPlayersStimulus.cpp \
 	../server/ServerTooFewPlayersStimulus.h \
-	../server/ServerUsers.cpp \
-	../server/ServerUsers.h \
 	../server/ServerWebHandler.cpp \
 	../server/ServerWebHandler.h \
 	../server/ServerWebServer.cpp \

@@ -1,5 +1,5 @@
 Name: scorched3d
-Version: 38.1
+Version: 39
 Release: 1
 License: GPL
 Group: Amusements/Games
@@ -22,7 +22,8 @@ Earth "The Mother Of All Games".
 %build
 # sh ./autogen.sh
 %configure --datadir=%{_datadir}/scorched3d \
-	--program-prefix=%{?_program_prefix:%{_program_prefix}} --with-wx-static
+	--program-prefix=%{?_program_prefix:%{_program_prefix}} \
+	--with-wx-static --with-openal-static
 make -j2 %{?_smp_mflags}
 
 %install

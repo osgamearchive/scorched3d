@@ -4,7 +4,7 @@ AC_INIT(README)
 AC_CANONICAL_TARGET([]) 
 
 dnl Setup for automake
-AM_INIT_AUTOMAKE(scorched3d, 38)
+AM_INIT_AUTOMAKE(scorched3d, 39)
 
 dnl Check for tools
 AC_PROG_MAKE_SET
@@ -94,6 +94,10 @@ fi
 LIBS="$LIBS $OPENGL_LIBS"
 
 dnl Checking for OpenAL
+AC_ARG_WITH([openal-static],
+            AC_HELP_STRING([--with-openal-static],
+                           [enable static linking for openal (default no)]),
+            [use_static_openal=${withval}],,)
 AC_ARG_ENABLE(openaltest, 
 	[  --disable-openaltest    Do not try to compile and run a test OpenAL program],
 		    , enable_openaltest=yes)
@@ -106,7 +110,13 @@ if test x$OPENAL_CONFIG = xno; then
 	echo "*** environment variable to the full path to openal-config."
 	have_openal=no
 else
-	LIBS="$LIBS `$OPENAL_CONFIG --libs`"
+
+	if test x"$use_static_openal" = x"yes"; then
+		LIBS="$LIBS /usr/local/lib/libopenal.a"
+	else
+		LIBS="$LIBS `$OPENAL_CONFIG --libs`"
+	fi
+	
 	CFLAGS="$CFLAGS `$OPENAL_CONFIG --cflags`"
 	CXXFLAGS="$CXXFLAGS `$OPENAL_CONFIG --cflags`"
 fi

@@ -446,6 +446,10 @@ scorcheddataglobalmodsapocdataaccessories50cal_DATA = data/globalmods/apoc/data/
 scorcheddataglobalmodsapocdataaccessoriesbulletdir = ${datadir}/data/globalmods/apoc/data/accessories/bullet
 scorcheddataglobalmodsapocdataaccessoriesbullet_DATA = data/globalmods/apoc/data/accessories/bullet/bullet.bmp \
 	data/globalmods/apoc/data/accessories/bullet/bullet.txt
+scorcheddataglobalmodsapocdataaccessoriesshotgundir = ${datadir}/data/globalmods/apoc/data/accessories/shotgun
+scorcheddataglobalmodsapocdataaccessoriesshotgun_DATA = data/globalmods/apoc/data/accessories/shotgun/shell-bottom.bmp \
+	data/globalmods/apoc/data/accessories/shotgun/shell.bmp \
+	data/globalmods/apoc/data/accessories/shotgun/shotgunshell.txt
 scorcheddataglobalmodsapocdatalandscapesdir = ${datadir}/data/globalmods/apoc/data/landscapes
 scorcheddataglobalmodsapocdatalandscapes_DATA = data/globalmods/apoc/data/landscapes/apoccity-pic.bmp \
 	data/globalmods/apoc/data/landscapes/apoccity.bmp \
@@ -614,7 +618,9 @@ scorcheddataglobalmodsapocdatatextureswicons_DATA = data/globalmods/apoc/data/te
 	data/globalmods/apoc/data/textures/wicons/xmirv.bmp \
 	data/globalmods/apoc/data/textures/wicons/mgun.bmp \
 	data/globalmods/apoc/data/textures/wicons/lstorm.bmp \
-	data/globalmods/apoc/data/textures/wicons/lstrike.bmp
+	data/globalmods/apoc/data/textures/wicons/lstrike.bmp \
+	data/globalmods/apoc/data/textures/wicons/apoc.bmp \
+	data/globalmods/apoc/data/textures/wicons/shotgun.bmp
 scorcheddataglobalmodsapocdatawavdir = ${datadir}/data/globalmods/apoc/data/wav
 scorcheddataglobalmodsapocdatawav_DATA = 
 scorcheddataglobalmodsapocdatawavexplosionsdir = ${datadir}/data/globalmods/apoc/data/wav/explosions
@@ -633,7 +639,8 @@ scorcheddataglobalmodsapocdatawavexplosions_DATA = data/globalmods/apoc/data/wav
 	data/globalmods/apoc/data/wav/explosions/bhit.wav
 scorcheddataglobalmodsapocdatawavshootdir = ${datadir}/data/globalmods/apoc/data/wav/shoot
 scorcheddataglobalmodsapocdatawavshoot_DATA = data/globalmods/apoc/data/wav/shoot/tripleshot.wav \
-	data/globalmods/apoc/data/wav/shoot/machinegun.wav
+	data/globalmods/apoc/data/wav/shoot/machinegun.wav \
+	data/globalmods/apoc/data/wav/shoot/shotgun.wav
 scorcheddataglobalmodsapocdatawavmiscdir = ${datadir}/data/globalmods/apoc/data/wav/misc
 scorcheddataglobalmodsapocdatawavmisc_DATA = data/globalmods/apoc/data/wav/misc/carhorn1.wav \
 	data/globalmods/apoc/data/wav/misc/carhorn2.wav \
@@ -649,7 +656,8 @@ scorcheddataglobalmodsapocdatawavmisc_DATA = data/globalmods/apoc/data/wav/misc/
 	data/globalmods/apoc/data/wav/misc/firetruck.wav \
 	data/globalmods/apoc/data/wav/misc/policecar.wav \
 	data/globalmods/apoc/data/wav/misc/rooster.wav \
-	data/globalmods/apoc/data/wav/misc/sheep.wav
+	data/globalmods/apoc/data/wav/misc/sheep.wav \
+	data/globalmods/apoc/data/wav/misc/helicopter.wav
 scorcheddataglobalmodsapocdatawindowsdir = ${datadir}/data/globalmods/apoc/data/windows
 scorcheddataglobalmodsapocdatawindows_DATA = data/globalmods/apoc/data/windows/nuke-easy.bmp \
 	data/globalmods/apoc/data/windows/nuke-hard.bmp \
@@ -964,6 +972,12 @@ scorcheddatatanksbender_DATA = data/tanks/bender/bender-info.txt \
 scorcheddatatankstiger2dir = ${datadir}/data/tanks/tiger2
 scorcheddatatankstiger2_DATA = data/tanks/tiger2/camo.bmp \
 	data/tanks/tiger2/tiger2.txt
+scorcheddatatankssonicdir = ${datadir}/data/tanks/sonic
+scorcheddatatankssonic_DATA = data/tanks/sonic/sonic.bmp \
+	data/tanks/sonic/sonic.txt
+scorcheddatatankssonicringdir = ${datadir}/data/tanks/sonicring
+scorcheddatatankssonicring_DATA = data/tanks/sonicring/sonicring.bmp \
+	data/tanks/sonicring/sonicring.txt
 scorcheddatatexturesdir = ${datadir}/data/textures
 scorcheddatatextures_DATA = data/textures/clearsky.bmp \
 	data/textures/glow1.bmp \

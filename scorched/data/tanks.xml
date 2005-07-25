@@ -12,6 +12,12 @@
 		<model type="MilkShape">tiger2/tiger2.txt</model>
 	</tank>	
 	<tank>
+		<name>Sonic Hedgehog</name>
+		<catagory>Humour</catagory>
+		<model type="MilkShape">sonic/sonic.txt</model>
+		<projectilemodel type="MilkShape">sonicring/sonicring.txt</projectilemodel>
+	</tank>
+	<tank>
 		<name>Bender</name>
 		<catagory>Humour</catagory>
 		<model type="MilkShape">bender/bender.txt</model>
