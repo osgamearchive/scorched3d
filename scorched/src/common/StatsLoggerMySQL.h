@@ -39,6 +39,7 @@ public:
 	StatsLoggerMySQL();
 	virtual ~StatsLoggerMySQL();
 
+	virtual int getKillCount(const char *uniqueId);
 	virtual void gameStart(std::list<Tank *> &tanks);
 	virtual void roundStart(std::list<Tank *> &tanks);
 

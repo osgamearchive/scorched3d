@@ -33,6 +33,7 @@ public:
 	StatsLogger();
 	virtual ~StatsLogger();
 
+	virtual int getKillCount(const char *uniqueId) = 0;
 	virtual void gameStart(std::list<Tank *> &tanks) = 0;
 	virtual void roundStart(std::list<Tank *> &tanks) = 0;
 
@@ -71,6 +72,7 @@ public:
 	StatsLoggerNone() {}
 	virtual ~StatsLoggerNone() {}
 
+	virtual int getKillCount(const char *uniqueId) { return 0; }
 	virtual void gameStart(std::list<Tank *> &tanks) {}
 	virtual void roundStart(std::list<Tank *> &tanks) {}
 

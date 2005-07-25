@@ -36,6 +36,11 @@ StatsLoggerFile::~StatsLoggerFile()
 {
 }
 
+int StatsLoggerFile::getKillCount(const char *uniqueId)
+{
+	return 0;
+}
+
 void StatsLoggerFile::createLogger()
 {
 	if (!statsLogger_)

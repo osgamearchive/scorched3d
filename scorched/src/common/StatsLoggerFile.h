@@ -33,6 +33,7 @@ public:
 	virtual void gameStart(std::list<Tank *> &tanks);
 	virtual void roundStart(std::list<Tank *> &tanks);
 
+	virtual int getKillCount(const char *uniqueId);
 	virtual std::list<std::string> getAliases(Tank *tank);
 	virtual std::list<std::string> getIpAliases(Tank *tank);
 	virtual char *tankRank(Tank *tank);

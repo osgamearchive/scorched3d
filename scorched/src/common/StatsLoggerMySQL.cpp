@@ -630,7 +630,7 @@ char *StatsLoggerMySQL::allocateId()
 { 
 	const possibleChars [] = {
 		'1', '2', '3', '4', '5', '6', '7', '8', '9',
-		'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I',
+		'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',
 		'J', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S',
 		'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
 	static char buffer[128];
@@ -642,11 +642,11 @@ char *StatsLoggerMySQL::allocateId()
 		{
 			for (int i=0; i<8; i++)
 			{
-				buffer[pos++] = possibleChars[rand() % 34];
+				buffer[pos++] = possibleChars[rand() % 33];
 			}
 			buffer[pos++] = '-';
 		}
-		buffer[pos++] = '\0';
+		buffer[pos - 1] = '\0';
 
 	} while (getPlayerId(buffer) != 0);
 	return buffer;
@@ -820,6 +820,33 @@ void StatsLoggerMySQL::tankJoined(Tank *tank)
 			binaryid,
 			playerId_[tank->getUniqueId()]);
 	}
+}
+
+int StatsLoggerMySQL::getKillCount(const char *uniqueId)
+{
+	int kills = 0;
+	int playerId = getPlayerId(uniqueId);
+	if (playerId != 0) 
+	{
+		if (runQuery("SELECT kills FROM scorched3d_stats "
+			"WHERE playerid = %i;",
+			playerId))
+		{
+			MYSQL_RES *result = mysql_store_result(mysql_);
+			if (result)
+			{
+				int rows = (int) mysql_num_rows(result);
+				for (int r=0; r<rows; r++)
+				{
+					MYSQL_ROW row = mysql_fetch_row(result);
+					kills += atoi(row[0]);
+				}
+				mysql_free_result(result);
+			}
+		}
+	}
+
+	return kills;
 }
 
 void StatsLoggerMySQL::tankDisconnected(Tank *tank)

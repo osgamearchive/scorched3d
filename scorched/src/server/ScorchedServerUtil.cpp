@@ -22,6 +22,7 @@
 #include <server/ScorchedServer.h>
 #include <server/ServerAuthHandlerForumLogin.h>
 #include <server/ServerAuthHandlerPrefered.h>
+#include <server/ServerAuthHandlerMinKills.h>
 #include <common/OptionsGame.h>
 #include <common/Logger.h>
 
@@ -60,6 +61,10 @@ ServerAuthHandler *ScorchedServerUtil::getAuthHandler()
 		authHandler_ = new ServerAuthHandlerForumLogin;
 	}
 #endif
+	else if (0 == strcmp("minkills", handler))
+	{
+		authHandler_ = new ServerAuthHandlerMinKills;
+	}
 	else 
 	{
 		dialogExit("ServerAuthHandler", "Unknown auth handler \"%s\"", handler);

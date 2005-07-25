@@ -2995,6 +2995,12 @@
 				RelativePath="..\server\ServerAuthHandlerForumLogin.h">
 			</File>
 			<File
+				RelativePath="..\server\ServerAuthHandlerMinKills.cpp">
+			</File>
+			<File
+				RelativePath="..\server\ServerAuthHandlerMinKills.h">
+			</File>
+			<File
 				RelativePath="..\server\ServerAuthHandlerPrefered.cpp">
 			</File>
 			<File
