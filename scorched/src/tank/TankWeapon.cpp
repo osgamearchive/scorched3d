@@ -275,8 +275,14 @@ bool TankWeapon::readMessage(NetBufferReader &reader)
 			weapons_.erase(weapon);
 			if (weapon == currentWeapon_)
 			{
-				DIALOG_ASSERT(!weapons_.empty());
-				setCurrentWeapon(weapons_.begin()->first);
+				if (!weapons_.empty())
+				{
+					setCurrentWeapon(weapons_.begin()->first);
+				}
+				else
+				{
+					setCurrentWeapon(0);
+				}
 			}
 		}
 	}

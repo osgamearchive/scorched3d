@@ -28,6 +28,7 @@ Fixed: Only certain file types can be sent during auto mod download
 Fixed: Undo should not put duplicate entries in the undo log (and more undo features added)
 Fixed: Banned statsid added to list of banned players
 Fixed: Adjusted damage from hogs, added lasers
+Fixed: Computer played tanks don't resign so much
 
 Added: Sonic tank (Thanks Shockwave)
 Added: Auto skip feature (skips all moves until the end of the current round)

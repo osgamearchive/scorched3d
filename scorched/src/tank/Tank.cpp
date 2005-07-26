@@ -39,6 +39,8 @@ Tank::Tank(ScorchedContext &context,
 	physics_.setTank(this);
 	state_.setTank(this);
 	state_.setState(TankState::sPending);
+
+	if (context.serverMode) accessories_.reset();
 }
 
 Tank::~Tank()
