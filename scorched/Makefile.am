@@ -221,6 +221,9 @@ scorcheddataaccessorieslaser_DATA = data/accessories/laser/about.txt \
 	data/accessories/laser/hlaser.txt \
 	data/accessories/laser/laser.txt \
 	data/accessories/laser/red128.bmp
+scorcheddataaccessoriessonicringdir = ${datadir}/data/accessories/sonicring
+scorcheddataaccessoriessonicring_DATA = data/accessories/sonicring/sonicring.bmp \
+	data/accessories/sonicring/sonicring.txt
 scorcheddataacessoriesdir = ${datadir}/data/acessories
 scorcheddataacessories_DATA = 
 scorcheddatafontsdir = ${datadir}/data/fonts
@@ -976,8 +979,7 @@ scorcheddatatankssonicdir = ${datadir}/data/tanks/sonic
 scorcheddatatankssonic_DATA = data/tanks/sonic/sonic.bmp \
 	data/tanks/sonic/sonic.txt
 scorcheddatatankssonicringdir = ${datadir}/data/tanks/sonicring
-scorcheddatatankssonicring_DATA = data/tanks/sonicring/sonicring.bmp \
-	data/tanks/sonicring/sonicring.txt
+scorcheddatatankssonicring_DATA = 
 scorcheddatatexturesdir = ${datadir}/data/textures
 scorcheddatatextures_DATA = data/textures/clearsky.bmp \
 	data/textures/glow1.bmp \

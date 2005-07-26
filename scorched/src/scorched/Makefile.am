@@ -931,6 +931,8 @@ scorched3d_SOURCES = \
 	../server/ServerAuthHandler.h \
 	../server/ServerAuthHandlerForumLogin.cpp \
 	../server/ServerAuthHandlerForumLogin.h \
+	../server/ServerAuthHandlerMinKills.cpp \
+	../server/ServerAuthHandlerMinKills.h \
 	../server/ServerAuthHandlerPrefered.cpp \
 	../server/ServerAuthHandlerPrefered.h \
 	../server/ServerBanned.cpp \

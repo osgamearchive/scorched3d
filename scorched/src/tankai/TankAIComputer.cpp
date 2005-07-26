@@ -37,6 +37,7 @@ TankAIComputer::TankAIComputer() :
 	useShields_(true),
 	useParachutes_(true),
 	useBatteries_(true),
+	useResign_(true),
 	tankBuyer_(0)
 {
 }
@@ -94,6 +95,11 @@ bool TankAIComputer::parseConfig(AccessoryStore &store, XMLNode *node)
 		useParachutes_ = false;
 		useBatteries_ = false;
 	}
+
+	// No resign
+	bool noResign;
+	if (!node->getNamedChild("noresign", noResign)) return false;
+	useResign_ = !noResign;
 
 	// Available when random is chosen
 	if (!node->getNamedChild("availableforrandom", 
@@ -252,7 +258,8 @@ void TankAIComputer::playMove(const unsigned state, float frameTime,
 
 	// Is there any point in making a move
 	// Done after select weapons to allow batteries to be used
-	if (currentTank_->getState().getLife() < 10) 
+	if (useResign_ &&
+		currentTank_->getState().getLife() < 10) 
 	{
 		resign();
 		return;
@@ -283,14 +290,10 @@ void TankAIComputer::playMove(const unsigned state, float frameTime,
 				int pos = rand() % weapons.size();
 				Accessory *accessory = weapons[pos];
 				currentTank_->getAccessories().getWeapons().setWeapon(accessory);
-				fireShot();
-				return;
 			}
-			else
-			{
-				resign(); // No weapons
-				return;
-			}
+
+			fireShot();
+			return;
 		}
 		else if (aimResult == TankAIComputerAim::AimBurried)
 		{

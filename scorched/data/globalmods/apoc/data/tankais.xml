@@ -8,6 +8,7 @@ use batteries.</description>
 		<aimtype>newrefined</aimtype>
 		<targettype>agressor</targettype>
 		<nodefenses>false</nodefenses>
+		<noresign>false</noresign>
 		<availableforrandom>true</availableforrandom>
 		<checknearcollision>true</checknearcollision>
 		<weaponset>
@@ -32,6 +33,7 @@ that prefers to use fire-based weaponry.</description>
 		<aimtype>newrefined</aimtype>
 		<targettype>agressor</targettype>
 		<nodefenses>false</nodefenses>
+		<noresign>false</noresign>
 		<availableforrandom>true</availableforrandom>
 		<checknearcollision>true</checknearcollision>
 		<weaponset>
@@ -56,6 +58,7 @@ use of bio/chemical weaponry.</description>
 		<aimtype>refined</aimtype>
 		<targettype>agressor</targettype>
 		<nodefenses>false</nodefenses>
+		<noresign>false</noresign>
 		<availableforrandom>true</availableforrandom>
 		<checknearcollision>true</checknearcollision>
 		<weaponset>
@@ -80,6 +83,7 @@ the use of energy based weaponset.</description>
 		<aimtype>newrefined</aimtype>
 		<targettype>agressor</targettype>
 		<nodefenses>false</nodefenses>
+		<noresign>false</noresign>
 		<availableforrandom>true</availableforrandom>
 		<checknearcollision>true</checknearcollision>
 		<weaponset>
@@ -104,6 +108,7 @@ shooting at them.</description>
 		<aimtype>refined</aimtype>
 		<targettype>agressor</targettype>
 		<nodefenses>false</nodefenses>
+		<noresign>false</noresign>
 		<availableforrandom>true</availableforrandom>
 		<checknearcollision>true</checknearcollision>
 		<weaponset>
@@ -127,6 +132,7 @@ enough.</description>
 		<aimtype>refined</aimtype>
 		<targettype>nearest</targettype>
 		<nodefenses>false</nodefenses>
+		<noresign>false</noresign>
 		<availableforrandom>true</availableforrandom>
 		<checknearcollision>true</checknearcollision>
 		<weaponset>
@@ -150,6 +156,7 @@ time to kill them.</description>
 		<aimtype>refined</aimtype>
 		<targettype>nearest</targettype>
 		<nodefenses>false</nodefenses>
+		<noresign>true</noresign>
 		<availableforrandom>true</availableforrandom>
 		<checknearcollision>false</checknearcollision>
 		<weaponset>
@@ -171,6 +178,7 @@ not refining subsiquent shots.</description>
 		<aimtype>guess</aimtype>
 		<targettype>nearest</targettype>
 		<nodefenses>false</nodefenses>
+		<noresign>true</noresign>
 		<availableforrandom>true</availableforrandom>
 		<checknearcollision>false</checknearcollision>
 		<weaponset>
@@ -190,6 +198,7 @@ only.</description>
 		<aimsniper>0</aimsniper>
 		<aimtype>random</aimtype>
 		<targettype>nearest</targettype>
+		<noresign>true</noresign>
 		<nodefenses>false</nodefenses>
 		<checknearcollision>false</checknearcollision>
 		<availableforrandom>true</availableforrandom>
@@ -207,6 +216,7 @@ will NEVER fire back.</description>
 		<aimsniper>0</aimsniper>
 		<aimtype>random</aimtype>
 		<targettype>none</targettype>
+		<noresign>true</noresign>
 		<nodefenses>true</nodefenses>
 		<checknearcollision>false</checknearcollision>
 		<availableforrandom>false</availableforrandom>

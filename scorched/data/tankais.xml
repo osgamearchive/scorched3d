@@ -8,6 +8,7 @@ use batteries.</description>
 		<aimtype>newrefined</aimtype>
 		<targettype>agressor</targettype>
 		<nodefenses>false</nodefenses>
+		<noresign>false</noresign>
 		<availableforrandom>true</availableforrandom>
 		<checknearcollision>true</checknearcollision>
 		<weaponset>
@@ -43,6 +44,7 @@ shooting at them.</description>
 		<aimtype>refined</aimtype>
 		<targettype>agressor</targettype>
 		<nodefenses>false</nodefenses>
+		<noresign>false</noresign>
 		<availableforrandom>true</availableforrandom>
 		<checknearcollision>true</checknearcollision>
 		<weaponset>
@@ -66,6 +68,7 @@ enough.</description>
 		<aimtype>refined</aimtype>
 		<targettype>nearest</targettype>
 		<nodefenses>false</nodefenses>
+		<noresign>false</noresign>
 		<availableforrandom>true</availableforrandom>
 		<checknearcollision>true</checknearcollision>
 		<weaponset>
@@ -89,6 +92,7 @@ time to kill them.</description>
 		<aimtype>refined</aimtype>
 		<targettype>nearest</targettype>
 		<nodefenses>false</nodefenses>
+		<noresign>true</noresign>
 		<availableforrandom>true</availableforrandom>
 		<checknearcollision>false</checknearcollision>
 		<weaponset>
@@ -109,6 +113,7 @@ not refining subsiquent shots.</description>
 		<aimsniper>0</aimsniper>
 		<aimtype>guess</aimtype>
 		<targettype>nearest</targettype>
+		<noresign>true</noresign>
 		<nodefenses>false</nodefenses>
 		<availableforrandom>true</availableforrandom>
 		<checknearcollision>false</checknearcollision>
@@ -130,6 +135,7 @@ only.</description>
 		<aimtype>random</aimtype>
 		<targettype>nearest</targettype>
 		<nodefenses>false</nodefenses>
+		<noresign>true</noresign>
 		<checknearcollision>false</checknearcollision>
 		<availableforrandom>true</availableforrandom>
 		<weaponset>
@@ -147,6 +153,7 @@ will NEVER fire back.</description>
 		<aimtype>random</aimtype>
 		<targettype>none</targettype>
 		<nodefenses>true</nodefenses>
+		<noresign>true</noresign>
 		<checknearcollision>false</checknearcollision>
 		<availableforrandom>false</availableforrandom>
 		<weaponset>

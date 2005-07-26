@@ -85,6 +85,7 @@ protected:
 	bool useParachutes_;
 	bool useShields_;
 	bool useBatteries_;
+	bool useResign_;
 
 	TankAIComputerBuyer *getTankBuyer();
 	void selectFirstShield();
