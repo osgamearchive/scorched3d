@@ -42,9 +42,9 @@ bool ComsTextMessage::writeMessage(NetBuffer &buffer, unsigned int destinationId
 {
 	buffer.addToBuffer(text_);
 	buffer.addToBuffer(playerId_);
-	buffer.addToBuffer(infoLen_);
 	buffer.addToBuffer(showAsMessage_);
 	buffer.addToBuffer(teamOnlyMessage_);
+	buffer.addToBuffer(infoLen_);
 	return true;
 }
 
@@ -52,8 +52,8 @@ bool ComsTextMessage::readMessage(NetBufferReader &reader)
 {
 	if (!reader.getFromBuffer(text_)) return false;
 	if (!reader.getFromBuffer(playerId_)) return false;
-	if (!reader.getFromBuffer(infoLen_)) return false;
 	if (!reader.getFromBuffer(showAsMessage_)) return false;
 	if (!reader.getFromBuffer(teamOnlyMessage_)) return false;
+	reader.getFromBuffer(infoLen_); // Dont check so it is more backward compatable
 	return true;
 }
