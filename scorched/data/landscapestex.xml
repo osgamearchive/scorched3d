@@ -494,6 +494,22 @@
 		</ambientsounds>
 		<precipitation type="none"></precipitation>
 		<events></events>
-		<boids></boids>
+		<boids>
+			<boid>
+				<count>200</count>
+				<minz>5</minz>
+				<maxz>60</maxz>
+				<model type="MilkShape">data/meshes/bat/bat.txt</model>
+				<sounds>
+					<mintime>0</mintime>
+					<maxtime>4</maxtime>
+					<maxsimul>5</maxsimul>
+					<volume>100</volume>
+					<sound>data/wav/misc/bats1.wav</sound>
+					<sound>data/wav/misc/bats2.wav</sound>
+					<sound>data/wav/misc/bats3.wav</sound>
+				</sounds>
+			</boid>
+		</boids>
 	</tex>
 </texs>
