@@ -33,7 +33,7 @@ class Obstacle;
 class BoidWorld
 {
 public:
-	BoidWorld(ModelID &birdModel, 
+	BoidWorld(ModelID &birdModel, float modelSize,
 		int boidCount, int maxZ, int minZ,
 		float soundmintime, float soundmaxtime,
 		int soundmaxsimul, float soundvolume,
@@ -94,6 +94,7 @@ protected:
 	// visMatrix macro for more info.
 
 	ModelRenderer *bird_;
+	float modelSize_;
 	float elapsedTime_;
 	float stepTime_;
 	float stepTime2_;

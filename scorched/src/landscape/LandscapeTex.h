@@ -99,6 +99,7 @@ public:
 	int minz, maxz;
 	float soundmintime, soundmaxtime;
 	float soundvolume;
+	float modelsize;
 	int soundmaxsimul;
 	std::list<std::string> sounds;
 

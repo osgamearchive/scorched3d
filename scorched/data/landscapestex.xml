@@ -496,15 +496,16 @@
 		<events></events>
 		<boids>
 			<boid>
-				<count>200</count>
+				<count>20</count>
 				<minz>5</minz>
-				<maxz>60</maxz>
+				<maxz>40</maxz>
 				<model type="MilkShape">data/meshes/bat/bat.txt</model>
+				<modelsize>3.0</modelsize>
 				<sounds>
-					<mintime>0</mintime>
-					<maxtime>4</maxtime>
+					<mintime>4</mintime>
+					<maxtime>20</maxtime>
 					<maxsimul>5</maxsimul>
-					<volume>100</volume>
+					<volume>60</volume>
 					<sound>data/wav/misc/bats1.wav</sound>
 					<sound>data/wav/misc/bats2.wav</sound>
 					<sound>data/wav/misc/bats3.wav</sound>

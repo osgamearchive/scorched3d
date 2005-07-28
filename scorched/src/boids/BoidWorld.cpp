@@ -34,7 +34,7 @@
 #include <stdlib.h>
 
 BoidWorld::BoidWorld(
-	ModelID &birdModel, 
+	ModelID &birdModel, float modelSize,
 	int boidCount, 
 	int maxZ, int minZ,
 	float soundmintime, float soundmaxtime,
@@ -42,7 +42,7 @@ BoidWorld::BoidWorld(
 	std::list<std::string> &sounds) : 
 	visibilityMatrix_(0), 
 	elapsedTime_(0.0f), stepTime_(0.0f), stepTime2_(0.0f),
-	halfTime_(false),
+	halfTime_(false), modelSize_(modelSize * 0.005f),
 	soundCurrentTime_(0.0f), soundNextTime_(0.0f),
 	soundMinTime_(soundmintime), soundMaxTime_(soundmaxtime)
 {
@@ -272,7 +272,7 @@ void BoidWorld::draw()
 			glRotated(-boid->yaw / 3.14f * 180.0f, 0.0f, 0.0f, 1.0f);
 			glRotated(boid->pitch / 3.14f * 180.0f, 1.0f, 0.0f, 0.0f);
 			glRotated(boid->dampedroll / 3.14f * 180.0f, 0.0f, 1.0f, 0.0f);
-			glScalef(0.005f, 0.005f, 0.005f);
+			glScalef(modelSize_, modelSize_, modelSize_);
 		
 			bird_->draw();
 		glPopMatrix();

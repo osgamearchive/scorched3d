@@ -150,6 +150,7 @@ bool LandscapeTexBoids::readXML(XMLNode *node)
 	if (!node->getNamedChild("count", count)) return false;
 	if (!node->getNamedChild("minz", minz)) return false;
 	if (!node->getNamedChild("maxz", maxz)) return false;
+	modelsize = 1.0f; node->getNamedChild("modelsize", modelsize, false);
 
 	XMLNode *soundsNode;
 	std::string sound;

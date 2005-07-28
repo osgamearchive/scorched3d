@@ -58,7 +58,8 @@ void ScorchedBoids::generate()
 	{
 		LandscapeTexBoids *boids = (*itor);
 
-		BoidWorld *world = new BoidWorld(boids->model, boids->count,
+		BoidWorld *world = new BoidWorld(boids->model, boids->modelsize,
+			boids->count,
 			boids->maxz, boids->minz,
 			boids->soundmintime, boids->soundmaxtime,
 			boids->soundmaxsimul, boids->soundvolume,
