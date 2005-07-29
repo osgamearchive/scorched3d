@@ -1273,6 +1273,7 @@ and shields damaging the tank directly.</description>
 		<icon>teleport.bmp</icon>
 		<activationsound>none</activationsound>
 		<bundlesize>1</bundlesize>
+		<model type="MilkShape">teleport/teleport.txt</model>
 		<nomuzzleflash/>
 		<cost>15000</cost>
 		<accessoryaction type='WeaponTeleport'>
