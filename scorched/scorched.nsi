@@ -65,7 +65,7 @@ Section "MainSection" SEC01
   File "COPYING"
   File "README"
   File "TODO"
-  File "src\scorched\Release - MySql\scorched.exe"
+  File "src\scorched\Release\scorched.exe"
 SectionEnd
 
 Section -AdditionalIcons
