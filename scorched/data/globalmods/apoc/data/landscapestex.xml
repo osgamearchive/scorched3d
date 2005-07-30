@@ -495,7 +495,24 @@
 		</ambientsounds>
 		<precipitation type="none"></precipitation>
 		<events></events>
-		<boids></boids>
+		<boids>
+			<boid>
+				<count>20</count>
+				<minz>5</minz>
+				<maxz>40</maxz>
+				<model type="MilkShape">data/meshes/bat/bat.txt</model>
+				<modelsize>3.0</modelsize>
+				<sounds>
+					<mintime>4</mintime>
+					<maxtime>20</maxtime>
+					<maxsimul>5</maxsimul>
+					<volume>60</volume>
+					<sound>data/wav/misc/bats1.wav</sound>
+					<sound>data/wav/misc/bats2.wav</sound>
+					<sound>data/wav/misc/bats3.wav</sound>
+				</sounds>
+			</boid>
+		</boids>
 	</tex>
 	<tex>
 		<name>usa-summer</name>

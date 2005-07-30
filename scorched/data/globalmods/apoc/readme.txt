@@ -27,7 +27,7 @@ Changes Since 2.0
 		- Lightning:
 			- cloud effect altered slightly
 			- Broke the two bolts in Lightning Strike up with a slight delay so you can tell its two bolts 
-				per strike even when they hit the same person.  It looks cooler and and is more effective.
+				per strike even when they hit the same person.  It looks cooler and is more effective.
 			- Slightly reduced the damage done by the individual bolts in Lightning Strikes
 			- Lightning strikes (and subsequent storm) now spawn from a random location instead of being launched by projectile
 		- Acid Rain/Hell Storm now a little more rain like
@@ -52,7 +52,7 @@ Changes Since 2.0
 			- Buildings now explode and generate debris and smoke when destroyed or napalmed
 			- Factories now release gas when destroyed
 		- New buildings: 
-			- office3
+			- office3 (doesn't have a destroyed version yet though)
 			- gasstation1 - note: explodes and causes damage when destroyed or napalmed, check it out.
 		- Retextured many of the existing buildings
 		- Moon and desert texture layouts applied to more maps than just Pyramids/Moon

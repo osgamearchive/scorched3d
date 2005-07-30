@@ -392,7 +392,7 @@
 		<surround type="none"></surround>
 		<tankstart type="height">
 			<startcloseness>20</startcloseness>
-			<height><min>5.5</min><max>20</max></height>
+			<height><min>5.5</min><max>60</max></height>
 			<startmask></startmask>
 		</tankstart>
 		<roof type="cavern">
@@ -443,10 +443,6 @@
 			<landsmoothing>0.04</landsmoothing>
 			<levelsurround>true</levelsurround>
 		</heightmap>
-		<!--<heightmap type="file">
-			<file>data/landscapes/valley-mask.bmp</file>
-			<levelsurround>true</levelsurround>
-		</heightmap>-->
 	</defn>
 	<!-- 
 	Maps designed by Bobirov (a.k.a. Robert Hand)

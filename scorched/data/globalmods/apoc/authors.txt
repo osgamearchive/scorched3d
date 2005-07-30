@@ -8,12 +8,13 @@ the content that is in question.  I don't want to leave anyone out, and I am sor
 	
 	- Bobirov (Robert Hand)
 		Landscapes:
-			- apoccity, bighill, bullseye, colosseum, maze, mountains, pillars, plateau, ring, ruffles, usa, world
+			- apoccity, bighill, bullseye, colosseum, donuthills, maze, mountains, pillars, plateau, ring, ruffles, usa, world
 		Sounds:
 			- Made thud.wav, gas.wav myself
 			- Made tripleshot.wav using the flare sound
 			- Made lightningbolt using two sounds from findsounds.com
-			- obtained the rest from various sources on the net (findsounds.com mostly)
+			- Obtained and adjusted ambient sounds for the city layouts
+			- Obtained the rest from various sources on the net (findsounds.com mostly)
 		Textures:
 			- cloud00, gas00 and light00 explosion textures 
 			- all the custom weapon icons
@@ -38,7 +39,7 @@ the content that is in question.  I don't want to leave anyone out, and I am sor
 	
 	- Nexus6
 		- Landscapes:
-			- castle, craters, desertmesa, hexIsle, hillcity, moon, nexuscanyon, pyramids, pyramids-v2, steppes, terraces, twotowers, weathered
+			- castle, craters, desertmesa, hexisle, hillcity, moon, nexuscanyon, pyramids, pyramids-v2, steppes, terraces, twotowers, weathered
 			
 	- Black-Rose
 		- Some landscape textures from the Black-Rose Mod
