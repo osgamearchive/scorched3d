@@ -295,7 +295,7 @@ activated before they work.</description>
 					<numberstreams>1</numberstreams>
 					<effectradius>5</effectradius>
 					<napalmtexture>flames</napalmtexture>
-					<napalmsound>none</napalmsound>
+					<napalmsound>explosions/napalm.wav</napalmsound>
 				</subweapon1>
 				<subweapon2 type='WeaponExplosion'>
 					<nocreatedebris></nocreatedebris>
@@ -353,10 +353,10 @@ activated before they work.</description>
 					<steptime>1</steptime>
 					<hurtsteptime>4.0</hurtsteptime>
 					<hurtpersecond>0.1</hurtpersecond>
-					<numberstreams>1</numberstreams>
+					<numberstreams>2</numberstreams>
 					<effectradius>5</effectradius>
 					<napalmtexture>flames</napalmtexture>
-					<napalmsound>none</napalmsound>
+					<napalmsound>explosions/napalm.wav</napalmsound>
 				</subweapon1>
 				<subweapon2 type='WeaponExplosion'>
 					<nocreatedebris></nocreatedebris>
@@ -5437,7 +5437,8 @@ distance from your tank in the direction you aim</description>
 		<armslevel>1</armslevel>
 		<description>Weapon creates a mass of flaming meteors
 at a random location in the sky.  The meteors 
-explode and scatter flaming earth on impact.</description>
+explode and scatter flaming earth on impact.
+YOU CANNOT AIM THIS WEAPON!</description>
 		<icon>mshower.bmp</icon>
 		<bundlesize>1</bundlesize>
 		<cost>40000</cost>
@@ -5448,7 +5449,7 @@ explode and scatter flaming earth on impact.</description>
 		</model>
 		<accessoryaction type="WeaponScatter">
 			<position><A>128</A><B>128</B><C>200</C></position>
-			<positionoffset><A>30</A><B>30</B><C>0</C></positionoffset>
+			<positionoffset><A>32</A><B>32</B><C>0</C></positionoffset>
 			<direction><A>0</A><B>0</B><C>-1</C></direction>
 			<directionoffset><A>0</A><B>0</B><C>0</C></directionoffset>		
 			<aimedweapon type='WeaponMulti'>
@@ -6908,7 +6909,7 @@ energy wave that ripples outward horizontally</description>
 		<description>Multiple bolts of lightning streak down 
 out of the sky.Unfortunately, mother nature is unpredictable
 in where she chooses to strike.
-YOU CANNOT AIM THIS WEAPON</description>
+YOU CANNOT AIM THIS WEAPON!</description>
 		<icon>lstorm.bmp</icon>
 		<bundlesize>1</bundlesize>
 		<cost>30000</cost>
@@ -7610,6 +7611,7 @@ and shields damaging the tank directly.</description>
 		<armslevel>9</armslevel>
 		<maximumnumber>0</maximumnumber>
 		<accessoryaction type='WeaponProjectile'>
+			<shieldhurtfactor>0.5</shieldhurtfactor>
 			<nocreatesmoke></nocreatesmoke>
 			<nocreateflame></nocreateflame>
 			<enginesound>none</enginesound>
