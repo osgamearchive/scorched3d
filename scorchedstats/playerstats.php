@@ -62,6 +62,28 @@ View all aliases
 </table>
 <br>
 
+<?
+// Player Stats Series
+$query = "select scorched3d_series.seriesid, scorched3d_series.name, scorched3d_prefixs.prefixid, scorched3d_prefixs.prefix from scorched3d_stats left join scorched3d_series on scorched3d_series.seriesid left join scorched3d_prefixs on scorched3d_prefixs.prefixid where playerid = 45 and scorched3d_series.seriesid = scorched3d_stats.seriesid and scorched3d_prefixs.prefixid = scorched3d_stats.prefixid";
+$result = mysql_query($query) or die("Query failed : " . mysql_error());
+?>
+<table width="600" border="0" align="center">
+<tr><td align=center><b>Stats Series</b></td></tr>
+</table>
+<table width="600" bordercolor=#333333 cellspacing="0" cellpadding="0" border="1" align="center">
+<tr>
+<td bgcolor=#111111><b>Series Name</b></td>
+<td bgcolor=#111111><b>Server Name</b></td>
+</tr>
+<?
+	while ($row = mysql_fetch_row($result))
+	{
+		$url = "playerstats.php?Prefix=$row[2]&Series=$row[0]&PlayerID=$playerid";
+		echo "<tr><td><a href='$url'>$row[1]</a></td><td>$row[3]</td></tr>\n";
+	}
+?>
+</table>
+<br>
 
 <?
 // Main Stats
