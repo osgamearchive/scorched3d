@@ -71,7 +71,7 @@ public:
   };
 							 
   Boid(BoidWorld *world, int boidNumber, 
-	  BoidVector bPosition, BoidVector bVelocity, BoidVector bDimensions); 
+	  BoidVector bPosition, BoidVector bVelocity); 
   // Constructor. Creates a bird of type NORMAL with the given dimensions,
   // initial position, and velocity.
   // bDimensions.{x,y,z} = {length, width, height}
@@ -82,17 +82,6 @@ public:
 
   void updateslow();
     
-  double maxVelocity;
-  // [m/sec] Maximum magnitude of velocity. Default value is 10
-
-  double maxAcceleration;
-  // [m/(sec^2)] Maximum magnitude of acceleration as a fraction of
-  // maxVelocity. Default value is 0.5 
-  
-  double cruiseDistance;
-  // [m] Desired distance from closest neighbor when flying. Default value
-  // is twice the bodylength.
-
   double dampedroll;
 
   double roll;
@@ -191,10 +180,6 @@ protected:
   virtual int getBoidType(void) const;
   // Returns the type of this boid. 
   
-  double bodyLength;
-  // [m] Length of the boid. By default this value is equal to the z
-  // component of the bDimensions passed to the constructor.
-
   double time;
   // [sec] current time				
 
@@ -265,16 +250,16 @@ Boid::getProbeLength(void)
   // When we're at maxVelocity, scalefactor = maxScale.
   // When our velocity is 0, scalefactor = 1.
   // Linearly scale in between.
-  float scaleFactor = float(((maxScale-1)/maxVelocity) * Magnitude(velocity) + 1);
+  float scaleFactor = float(((maxScale-1)/world->getMaxVelocity()) * Magnitude(velocity) + 1);
 
-  return float(10.0f*bodyLength*scaleFactor);
+  return float(10.0f*scaleFactor);
 
 }
 
 inline double
 Boid::desiredCruisingSpeed(void) {
 
-  return 0.2*maxVelocity;
+  return 0.2*world->getMaxVelocity();
 }
 
 inline BoidVector 

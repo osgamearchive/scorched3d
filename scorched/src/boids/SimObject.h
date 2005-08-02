@@ -71,9 +71,6 @@ public:
   virtual const BoidVector &getPosition(void) const;      // Returns the current position of this object's center of mass
 						      // (in world coordinates) in m.
 
-  virtual const BoidVector &getDimensions(void) const;    // Returns the dimensions [x,y,z] = [length, width, height] of
-						      // this object's minimal bounding box. See the description of the
-						      // 'dimensions' BoidVector below for more detail.
   
   // -- Modification Methods
 
@@ -83,8 +80,6 @@ public:
 						      // A return value of FALSE indicates that some sort of error has
 						      // occured during the update.
   
-  virtual void setDimensions(const BoidVector newDimensions);   // Set the dimensions of this system
-
   SimObject(void);				      // Default constructor
   
   virtual ~SimObject(void);			      // Destructor
@@ -96,14 +91,6 @@ protected:
 
   BoidVector position;				      // Current position of this object's center of mass (in 3-space)
 						      // in m/s. 
-
-  BoidVector dimensions;				      // BoidVector defining the minimal bounding box for this
-						      // object. Length is defined as being parallel to the body axis
-						      // which is aligned with the normal direction of movement. Height
-						      // in the vertical direction and perpendicular to the Length-Width
-						      // plane. Width is perpendicular to the Length and Height. 
-						      // 
-						      // dimensions.{x,y,z} = {length, width, height}
 
   double mass;				              // Mass of this object in kilograms.
 
@@ -129,13 +116,6 @@ SimObject::getPosition(void) const {
 
 }
 
-inline const BoidVector &
-SimObject::getDimensions(void) const {
-  
-  return dimensions;
-
-}
-
 inline double
 SimObject::getMass(void) const {
 
@@ -153,18 +133,10 @@ SimObject::update(const double &elapsedSeconds) {
   
 }
 
-inline void
-SimObject::setDimensions(const BoidVector newDimensions) {
-
-  dimensions = newDimensions;
-  
-}
-
-
 inline
 SimObject::SimObject(void) {
   
-  position = velocity = dimensions = BoidVector(0, 0, 0);
+  position = velocity = BoidVector(0, 0, 0);
   lastUpdate = 0;
   
 }
@@ -175,12 +147,5 @@ SimObject::~SimObject(void) {
 }
 
 #endif /* __SIMOBJECT_H */
-
-
-
-
-
-
-
 
 

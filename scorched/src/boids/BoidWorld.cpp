@@ -44,7 +44,9 @@ BoidWorld::BoidWorld(
 	elapsedTime_(0.0f), stepTime_(0.0f), stepTime2_(0.0f),
 	halfTime_(false), modelSize_(modelSize * 0.005f),
 	soundCurrentTime_(0.0f), soundNextTime_(0.0f),
-	soundMinTime_(soundmintime), soundMaxTime_(soundmaxtime)
+	soundMinTime_(soundmintime), soundMaxTime_(soundmaxtime),
+	cruiseDistance_(0.75f), maxVelocity_(15.0f), 
+	maxAcceleration_(0.65f)
 {
 	// Create boids
 	makeBoids(boidCount, maxZ, minZ);
@@ -119,8 +121,6 @@ void BoidWorld::makeBoids(int boidCount, int maxZ, int minZ)
 	BoidVector p;
 	BoidVector attitude;      // roll, pitch, yaw
 	BoidVector v;             // velocity vector
-	BoidVector d(1, .2, .75); // dimensions of boid (RAD, height, length)
-	double mv = 15;
 
 	for (int i=0; i<boidCount; i++)
 	{
@@ -138,16 +138,10 @@ void BoidWorld::makeBoids(int boidCount, int maxZ, int minZ)
 			rand() % 200 + 25, 
 			(maxZ + minZ) / 2,
 			rand() % 200 + 25);
-		v  = Direction(attitude) * (mv) / 4.0;
-
-		Boid *boid = new Boid(this, i + 1, p, v, d);
-
-		// Set mac acceleration, cruising distance, and max velocity.
-		boid->maxAcceleration = 0.65;
-		boid->cruiseDistance = 0.75;
-		boid->maxVelocity = mv;
+		v  = Direction(attitude) * (maxVelocity_) / 4.0;
 
 		// Add to world
+		Boid *boid = new Boid(this, i + 1, p, v);
 		getBoids().push_back(boid);
 	}
 }

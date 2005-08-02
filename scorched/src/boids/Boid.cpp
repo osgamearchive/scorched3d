@@ -127,7 +127,7 @@ MAXACCEL_ATTAINED:  /* label */
   // module. 
   // Remember, maxAcceleration is in terms of a fraction (0.0 to 1.0) of maxVelocity
 
-  vacc *= maxAcceleration * maxVelocity; 
+  vacc *= world->getMaxAcceleration() * world->getMaxVelocity(); 
   return(vacc);
 }
 
@@ -180,7 +180,7 @@ BoidVector
 Boid::wander(void) {
 
   double distanceFromCruiseSpeed =
-    (Magnitude(velocity) - desiredCruisingSpeed()) / maxVelocity;
+    (Magnitude(velocity) - desiredCruisingSpeed()) / world->getMaxVelocity();
 
   double urgency = fabs(distanceFromCruiseSpeed);
   if (urgency > 0.25)
@@ -293,6 +293,7 @@ Boid::maintainingCruisingDistance(void) {
      float separateFactor = 0.09f;
      float approachFactor = 0.05f;
 
+	float cruiseDistance = world->getCruiseDistance();
     if (separationBoidVector.y < cruiseDistance) {
       speedAdjustmentBoidVector.y -= separateFactor;
     }
@@ -422,8 +423,8 @@ Boid::update(const double &elapsedSeconds) {
     velocity += (acceleration*dt);
     
     // Cap off velocity at maximum allowed value
-    if (Magnitude(velocity) > maxVelocity) {
-      velocity.SetMagnitude(maxVelocity);
+    if (Magnitude(velocity) > world->getMaxVelocity()) {
+      velocity.SetMagnitude(world->getMaxVelocity());
     }
     
     // Step 2: Calculate new roll, pitch, and yaw of the boid
@@ -447,24 +448,19 @@ Boid::update(const double &elapsedSeconds) {
 }
 
 
-Boid::Boid(BoidWorld *w, int boidNum, BoidVector bPosition, BoidVector bVelocity, BoidVector bDimensions) {
+Boid::Boid(BoidWorld *w, int boidNum, 
+	BoidVector bPosition, BoidVector bVelocity) {
   
   flightflag = false;	      // haven't flown yet
   world = w;
 
   position = bPosition;
   velocity = bVelocity;
-  dimensions = bDimensions; // width, height, length
   mass = 9.07; // 9.07 kg is approx 20 lbs.
 
-  maxVelocity = 10.0;
-  maxAcceleration = 0.5;
   roll = pitch = yaw = dampedroll = 0;
   boidType = NORMAL;
-  cruiseDistance = 2*dimensions.z; // Try to stay at least one bodywidth apart
   flockSelectively = false; 
-
-  bodyLength = bDimensions.z;
 
   boidNumber = boidNum;
 }		

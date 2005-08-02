@@ -43,6 +43,10 @@ public:
 	void simulate(float frameTime);
 	void draw();
 
+	float getCruiseDistance() { return cruiseDistance_; }
+	float getMaxVelocity() { return maxVelocity_; }
+	float getMaxAcceleration() { return maxAcceleration_; }
+
 	std::vector<Boid *> &getBoids() { return boids_; }
 	std::vector<Obstacle *> &getObstacles() { return obstacles_; }
 	int getBoidCount() { return (int) boids_.size(); } 
@@ -99,6 +103,10 @@ protected:
 	float stepTime_;
 	float stepTime2_;
 	bool halfTime_;
+
+	float cruiseDistance_;
+	float maxVelocity_;
+	float maxAcceleration_;
 
 	void makeBoids(int boidCount, int maxZ, int minZ);
 	void makeObstacles(int maxZ, int minZ);
