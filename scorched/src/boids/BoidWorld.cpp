@@ -24,6 +24,7 @@
 #include <3dsparse/ModelRenderer.h>
 #include <client/ScorchedClient.h>
 #include <landscape/LandscapeMaps.h>
+#include <landscape/LandscapeTex.h>
 #include <landscape/HeightMap.h>
 #include <common/Defines.h>
 #include <sound/Sound.h>
@@ -33,29 +34,24 @@
 #include <boids/ScorchedBoidsObstacle.h>
 #include <stdlib.h>
 
-BoidWorld::BoidWorld(
-	ModelID &birdModel, float modelSize,
-	int boidCount, 
-	int maxZ, int minZ,
-	float soundmintime, float soundmaxtime,
-	int soundmaxsimul, float soundvolume,
-	std::list<std::string> &sounds) : 
-	visibilityMatrix_(0), 
+BoidWorld::BoidWorld(LandscapeTexBoids *boids) : 
+	visibilityMatrix_(0), boidSoundIndex_(0),
 	elapsedTime_(0.0f), stepTime_(0.0f), stepTime2_(0.0f),
-	halfTime_(false), modelSize_(modelSize * 0.005f),
+	halfTime_(false), modelSize_(boids->modelsize * 0.005f),
 	soundCurrentTime_(0.0f), soundNextTime_(0.0f),
-	soundMinTime_(soundmintime), soundMaxTime_(soundmaxtime),
-	cruiseDistance_(0.75f), maxVelocity_(15.0f), 
-	maxAcceleration_(0.65f)
+	soundMinTime_(boids->soundmintime), soundMaxTime_(boids->soundmaxtime),
+	cruiseDistance_(0.75f * boids->cruisedistance), 
+	maxVelocity_(15.0f * boids->maxvelocity), 
+	maxAcceleration_(0.65f * boids->maxacceleration)
 {
 	// Create boids
-	makeBoids(boidCount, maxZ, minZ);
-	makeObstacles(maxZ, minZ);
-	makeSounds(sounds, soundmaxsimul, soundvolume);
+	makeBoids(boids->count, boids->maxz, boids->minz);
+	makeObstacles(boids->maxz, boids->minz);
+	makeSounds(boids->sounds, boids->soundmaxsimul, boids->soundvolume);
 
 	// Create bird model
 	bird_ = new ModelRenderer(
-			ModelStore::instance()->loadModel(birdModel));
+			ModelStore::instance()->loadModel(boids->model));
 }
 
 BoidWorld::~BoidWorld()
@@ -227,7 +223,7 @@ void BoidWorld::simulate(float frameTime)
 			SoundEntry &entry = (*itor);
 			if (!entry.boid)
 			{
-				entry.boid = boids_[rand() % boids_.size()];
+				entry.boid = boids_[boidSoundIndex_++ % boids_.size()];
 
 				Vector position(
 					(float) entry.boid->getPosition().x,

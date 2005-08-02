@@ -49,6 +49,9 @@
 				<count>20</count>
 				<minz>5</minz>
 				<maxz>25</maxz>
+				<maxvelocity>1.0</maxvelocity>
+				<maxacceleration>1.0</maxacceleration>
+				<cruisedistance>1.0</cruisedistance>
 				<model type="MilkShape">data/meshes/seagull/seagull.txt</model>
 				<sounds>
 					<mintime>0</mintime>
@@ -59,6 +62,23 @@
 					<sound>data/wav/misc/gull2.wav</sound>
 					<sound>data/wav/misc/gull4.wav</sound>
 					<sound>data/wav/misc/gull5.wav</sound>
+				</sounds>
+			</boid>
+			<boid>
+				<count>3</count>
+				<minz>30</minz>
+				<maxz>65</maxz>
+				<maxvelocity>20.0</maxvelocity>
+				<maxacceleration>5.0</maxacceleration>
+				<cruisedistance>10.0</cruisedistance>
+				<model type="MilkShape">data/meshes/f18/f18.txt</model>
+				<sounds>
+					<mintime>15</mintime>
+					<maxtime>15</maxtime>
+					<maxsimul>3</maxsimul>
+					<volume>25</volume>
+					<sound>data/wav/misc/f18_1.wav</sound>
+					<sound>data/wav/misc/f18_2.wav</sound>
 				</sounds>
 			</boid>
 		</boids>
@@ -79,7 +99,7 @@
 		<skydiffuse><A>0.4</A><B>0.4</B><C>0.4</C></skydiffuse>
 		<fog><A>0.2</A><B>0.2</B><C>0.2</C></fog>
 		<suncolor><A>0.4</A><B>0.4</B><C>0.4</C></suncolor>
-		<fogdensity>0.001</fogdensity>
+		<fogdensity>0.0011</fogdensity>
 		<border type="water">
 			<reflection>data/textures/landscape/default/cubemap.bmp</reflection>
 			<texture>data/textures/landscape/default/water.bmp</texture>
@@ -111,6 +131,9 @@
 				<count>20</count>
 				<minz>5</minz>
 				<maxz>25</maxz>
+				<maxvelocity>1.0</maxvelocity>
+				<maxacceleration>1.0</maxacceleration>
+				<cruisedistance>1.0</cruisedistance>
 				<model type="MilkShape">data/meshes/seagull/seagull.txt</model>
 				<sounds>
 					<mintime>0</mintime>
@@ -121,6 +144,22 @@
 					<sound>data/wav/misc/gull2.wav</sound>
 					<sound>data/wav/misc/gull4.wav</sound>
 					<sound>data/wav/misc/gull5.wav</sound>
+				</sounds>
+			</boid>
+			<boid>
+				<count>4</count>
+				<minz>10</minz>
+				<maxz>50</maxz>
+				<maxvelocity>2.0</maxvelocity>
+				<maxacceleration>2.0</maxacceleration>
+				<cruisedistance>4.0</cruisedistance>
+				<model type="MilkShape">data/meshes/ah64d/ah64d.txt</model>
+				<sounds>
+					<mintime>0</mintime>
+					<maxtime>2</maxtime>
+					<maxsimul>4</maxsimul>
+					<volume>25</volume>
+					<sound>data/wav/misc/apache_1.wav</sound>
 				</sounds>
 			</boid>
 		</boids>
@@ -225,6 +264,9 @@
 				<count>20</count>
 				<minz>5</minz>
 				<maxz>25</maxz>
+				<maxvelocity>1.0</maxvelocity>
+				<maxacceleration>1.0</maxacceleration>
+				<cruisedistance>1.0</cruisedistance>
 				<model type="MilkShape">data/meshes/seagull/seagull.txt</model>
 				<sounds>
 					<mintime>0</mintime>
@@ -334,6 +376,9 @@
 				<count>20</count>
 				<minz>5</minz>
 				<maxz>25</maxz>
+				<maxvelocity>1.0</maxvelocity>
+				<maxacceleration>1.0</maxacceleration>
+				<cruisedistance>1.0</cruisedistance>
 				<model type="MilkShape">data/meshes/seagull/seagull.txt</model>
 				<sounds>
 					<mintime>0</mintime>
@@ -499,13 +544,16 @@
 				<count>20</count>
 				<minz>5</minz>
 				<maxz>40</maxz>
+				<maxvelocity>1.0</maxvelocity>
+				<maxacceleration>1.0</maxacceleration>
+				<cruisedistance>1.0</cruisedistance>
 				<model type="MilkShape">data/meshes/bat/bat.txt</model>
 				<modelsize>3.0</modelsize>
 				<sounds>
 					<mintime>4</mintime>
 					<maxtime>20</maxtime>
 					<maxsimul>5</maxsimul>
-					<volume>60</volume>
+					<volume>25</volume>
 					<sound>data/wav/misc/bats1.wav</sound>
 					<sound>data/wav/misc/bats2.wav</sound>
 					<sound>data/wav/misc/bats3.wav</sound>

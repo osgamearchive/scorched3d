@@ -49,6 +49,9 @@
 				<count>20</count>
 				<minz>5</minz>
 				<maxz>25</maxz>
+				<maxvelocity>1.0</maxvelocity>
+				<maxacceleration>1.0</maxacceleration>
+				<cruisedistance>1.0</cruisedistance>
 				<model type="MilkShape">data/meshes/seagull/seagull.txt</model>
 				<sounds>
 					<mintime>0</mintime>
@@ -111,6 +114,9 @@
 				<count>20</count>
 				<minz>5</minz>
 				<maxz>25</maxz>
+				<maxvelocity>1.0</maxvelocity>
+				<maxacceleration>1.0</maxacceleration>
+				<cruisedistance>1.0</cruisedistance>
 				<model type="MilkShape">data/meshes/seagull/seagull.txt</model>
 				<sounds>
 					<mintime>0</mintime>
@@ -225,6 +231,9 @@
 				<count>20</count>
 				<minz>5</minz>
 				<maxz>25</maxz>
+				<maxvelocity>1.0</maxvelocity>
+				<maxacceleration>1.0</maxacceleration>
+				<cruisedistance>1.0</cruisedistance>
 				<model type="MilkShape">data/meshes/seagull/seagull.txt</model>
 				<sounds>
 					<mintime>0</mintime>
@@ -335,6 +344,9 @@
 				<count>20</count>
 				<minz>5</minz>
 				<maxz>25</maxz>
+				<maxvelocity>1.0</maxvelocity>
+				<maxacceleration>1.0</maxacceleration>
+				<cruisedistance>1.0</cruisedistance>
 				<model type="MilkShape">data/meshes/seagull/seagull.txt</model>
 				<sounds>
 					<mintime>0</mintime>
@@ -500,6 +512,9 @@
 				<count>20</count>
 				<minz>5</minz>
 				<maxz>40</maxz>
+				<maxvelocity>1.0</maxvelocity>
+				<maxacceleration>1.0</maxacceleration>
+				<cruisedistance>1.0</cruisedistance>
 				<model type="MilkShape">data/meshes/bat/bat.txt</model>
 				<modelsize>3.0</modelsize>
 				<sounds>
@@ -750,6 +765,9 @@
 				<count>20</count>
 				<minz>5</minz>
 				<maxz>25</maxz>
+				<maxvelocity>1.0</maxvelocity>
+				<maxacceleration>1.0</maxacceleration>
+				<cruisedistance>1.0</cruisedistance>
 				<model type="MilkShape">data/meshes/seagull/seagull.txt</model>
 				<sounds>
 					<mintime>0</mintime>
@@ -937,6 +955,9 @@
 				<count>20</count>
 				<minz>5</minz>
 				<maxz>25</maxz>
+				<maxvelocity>1.0</maxvelocity>
+				<maxacceleration>1.0</maxacceleration>
+				<cruisedistance>1.0</cruisedistance>
 				<model type="MilkShape">data/meshes/seagull/seagull.txt</model>
 				<sounds>
 					<mintime>0</mintime>
@@ -1124,6 +1145,9 @@
 				<count>20</count>
 				<minz>5</minz>
 				<maxz>25</maxz>
+				<maxvelocity>1.0</maxvelocity>
+				<maxacceleration>1.0</maxacceleration>
+				<cruisedistance>1.0</cruisedistance>
 				<model type="MilkShape">data/meshes/seagull/seagull.txt</model>
 				<sounds>
 					<mintime>0</mintime>
@@ -1203,3 +1227,4 @@
 		<boids></boids>
 	</tex>
 </texs>
+

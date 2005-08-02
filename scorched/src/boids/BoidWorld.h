@@ -30,14 +30,11 @@ class ModelID;
 class ModelRenderer;
 class Boid;
 class Obstacle;
+class LandscapeTexBoids;
 class BoidWorld
 {
 public:
-	BoidWorld(ModelID &birdModel, float modelSize,
-		int boidCount, int maxZ, int minZ,
-		float soundmintime, float soundmaxtime,
-		int soundmaxsimul, float soundvolume,
-		std::list<std::string> &sounds);
+	BoidWorld(LandscapeTexBoids *boids);
 	virtual ~BoidWorld();
 
 	void simulate(float frameTime);
@@ -73,6 +70,7 @@ protected:
 	// The currently playing sounds
 	float soundMinTime_, soundMaxTime_;
 	float soundNextTime_, soundCurrentTime_;
+	int boidSoundIndex_;
 	struct SoundEntry 
 	{
 		SoundEntry() : boid(0), source(0) {}

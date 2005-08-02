@@ -100,6 +100,9 @@ public:
 	float soundmintime, soundmaxtime;
 	float soundvolume;
 	float modelsize;
+	float maxvelocity;
+	float cruisedistance;
+	float maxacceleration;
 	int soundmaxsimul;
 	std::list<std::string> sounds;
 
