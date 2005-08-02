@@ -307,6 +307,8 @@ void DisplayFrame::refreshScreen()
 	IDC_NOSOUND_CTRL->SetToolTip(OptionsDisplay::instance()->getNoSoundToolTip());
 	IDC_NOAMBIENTSOUND_CTRL->SetValue(OptionsDisplay::instance()->getNoAmbientSound());
 	IDC_NOAMBIENTSOUND_CTRL->SetToolTip(OptionsDisplay::instance()->getNoAmbientSoundToolTip());
+	IDC_NOBOIDSOUND_CTRL->SetValue(OptionsDisplay::instance()->getNoBoidSound());
+	IDC_NOBOIDSOUND_CTRL->SetToolTip(OptionsDisplay::instance()->getNoBoidSoundToolTip());
 	IDC_NOSKINS_CTRL->SetValue(OptionsDisplay::instance()->getNoSkins());
 	IDC_NOSKINS_CTRL->SetToolTip(OptionsDisplay::instance()->getNoSkinsToolTip());
 	IDC_FULLSCREEN_CTRL->SetValue(OptionsDisplay::instance()->getFullScreen());
@@ -511,6 +513,7 @@ bool DisplayFrame::TransferDataFromWindow()
 	OptionsDisplay::instance()->setNoGLHardwareMipmaps(IDC_NOMIPMAPS_CTRL->GetValue());
 	OptionsDisplay::instance()->setNoSound(IDC_NOSOUND_CTRL->GetValue());
 	OptionsDisplay::instance()->setNoAmbientSound(IDC_NOAMBIENTSOUND_CTRL->GetValue());
+	OptionsDisplay::instance()->setNoBoidSound(IDC_NOBOIDSOUND_CTRL->GetValue());
 	OptionsDisplay::instance()->setSoundChannels(atoi(IDC_SOUNDCHANNELS_CTRL->GetValue()));
 	OptionsDisplay::instance()->setNoSkins(IDC_NOSKINS_CTRL->GetValue());
 	OptionsDisplay::instance()->setNoTrees(IDC_NOTREES_CTRL->GetValue());

@@ -27,6 +27,7 @@
 #include <landscape/LandscapeTex.h>
 #include <landscape/HeightMap.h>
 #include <common/Defines.h>
+#include <common/OptionsDisplay.h>
 #include <sound/Sound.h>
 #include <boids/BoidWorld.h>
 #include <boids/Boid.h>
@@ -47,7 +48,11 @@ BoidWorld::BoidWorld(LandscapeTexBoids *boids) :
 	// Create boids
 	makeBoids(boids->count, boids->maxz, boids->minz);
 	makeObstacles(boids->maxz, boids->minz);
-	makeSounds(boids->sounds, boids->soundmaxsimul, boids->soundvolume);
+
+	if (!OptionsDisplay::instance()->getNoBoidSound())
+	{
+		makeSounds(boids->sounds, boids->soundmaxsimul, boids->soundvolume);
+	}
 
 	// Create bird model
 	bird_ = new ModelRenderer(

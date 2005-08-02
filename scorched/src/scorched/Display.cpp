@@ -77,6 +77,8 @@ static void createMainControls(wxWindow *parent, wxSizer *sizer)
 	wxStaticText *volumeText = new wxStaticText(parent, -1, "Volume :");
 	IDC_NOAMBIENTSOUND_CTRL = 
 		new wxCheckBox(parent, -1, "No Ambient Sound");
+	IDC_NOBOIDSOUND_CTRL = 
+		new wxCheckBox(parent, -1, "No Bird Sound");
 	IDC_NOSOUND_CTRL = 
 		new wxCheckBox(parent, -1, "No Sound");
 	IDC_VOLUME_CTRL = 
@@ -95,6 +97,7 @@ static void createMainControls(wxWindow *parent, wxSizer *sizer)
 	soundSizer1->Add(new wxStaticText(parent, -1, "Channels"), 0, wxALIGN_CENTRE_VERTICAL);
 	soundSizer2->Add(IDC_NOSOUND_CTRL, 0, wxRIGHT, 10);
 	soundSizer2->Add(IDC_NOAMBIENTSOUND_CTRL, 0, wxRIGHT, 5);
+	soundSizer2->Add(IDC_NOBOIDSOUND_CTRL, 0, wxRIGHT, 5);
 	soundSizerMain->Add(soundSizer1, 0, wxGROW | wxTOP, 5);
 	soundSizerMain->Add(soundSizer2, 0, wxGROW | wxTOP, 5);
 	sizer->Add(soundSizerMain, 0, wxGROW | wxLEFT | wxRIGHT | wxTOP, 5);

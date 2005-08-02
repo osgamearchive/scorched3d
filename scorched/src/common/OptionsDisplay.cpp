@@ -129,6 +129,8 @@ OptionsDisplay::OptionsDisplay() :
 		"Do not play any sound.", RWAccess, false),
 	noAmbientSound_(options_, "NoAmbientSound", 
 		"Do not play any ambient sounds.", RWAccess, false),
+	noBoidSound_(options_, "NoBoidSound", 
+		"Do not play any sounds from boids.", RWAccess, false), 
 	noTrees_(options_, "NoTrees",
 		"Do not draw any trees", RWAccess, false),
 	lowTreeDetail_(options_, "LowTreeDetail",

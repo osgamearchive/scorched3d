@@ -178,6 +178,10 @@ public:
 	void setNoAmbientSound(bool value) { noAmbientSound_.setValue(value); }
 	const char *getNoAmbientSoundToolTip() { return noAmbientSound_.getDescription(); }
 
+	bool getNoBoidSound() { return noBoidSound_.getValue(); }
+	void setNoBoidSound(bool value) { noBoidSound_.setValue(value); }
+	const char *getNoBoidSoundToolTip() { return noBoidSound_.getDescription(); }
+
 	bool getNoSkins() { return noSkins_.getValue(); }
 	void setNoSkins(bool value) { noSkins_.setValue(value); }
 	const char *getNoSkinsToolTip() { return noSkins_.getDescription(); }
@@ -396,6 +400,7 @@ protected:
 	OptionEntryBool invertMouse_;
 	OptionEntryBool noSound_;
 	OptionEntryBool noAmbientSound_;
+	OptionEntryBool noBoidSound_;
 	OptionEntryBool drawNormals_;
 	OptionEntryBool drawLines_;
 	OptionEntryBool drawBoundingSpheres_;
