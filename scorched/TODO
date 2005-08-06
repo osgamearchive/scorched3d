@@ -30,7 +30,8 @@ Fixed: Banned statsid added to list of banned players
 Fixed: Adjusted damage from hogs, added lasers
 Fixed: Computer played tanks don't resign so much
 
-Added: Bat model for caverns (Thanks Shockwave)
+Added: Cannon model (Thanks cbx550f)
+Added: Bat, Helicopter and Jet animations for boids (Thanks Shockwave)
 Added: Sonic tank (Thanks Shockwave)
 Added: Auto skip feature (skips all moves until the end of the current round)
 Added: Ambient sounds

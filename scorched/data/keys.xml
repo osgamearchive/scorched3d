@@ -540,6 +540,7 @@
 		<name>SHOW_KIBITZ_DIALOG</name>
 		<title>Show no kibitzing dialog</title>
 		<description>Shows or hides the no kibitz dialog</description>
+		<key>k</key>
 		<group>5</group>
 	</keyentry>
 	<keyentry>
@@ -560,7 +561,7 @@
 		<title>Show skip move dialog</title>
 		<description>Shows or hides the skip move dialog</description>
 		<group>5</group>
-		<key>k</key>
+		<key>o</key>
 	</keyentry>
 	<keyentry>
 		<name>SHOW_INVENTORY_DIALOG</name>
