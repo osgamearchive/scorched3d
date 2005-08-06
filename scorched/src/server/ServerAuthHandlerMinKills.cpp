@@ -25,7 +25,7 @@
 #include <common/OptionsGame.h>
 
 ServerAuthHandlerMinKills::ServerAuthHandlerMinKills() : 
-	minKills_(-1)
+	minKills_(-1), maxKills_(-1)
 {
 }
 
@@ -39,7 +39,7 @@ bool ServerAuthHandlerMinKills::authenticateUser(std::string &uniqueId,
 	setup();
 
 	int killCount = StatsLogger::instance()->getKillCount(uniqueId.c_str());
-	if (killCount < minKills_)
+	if (minKills_ > 0 && killCount < minKills_)
 	{
 		message = formatString(
 			"You need to have at least %i kills to play on this server.\n"
@@ -47,6 +47,15 @@ bool ServerAuthHandlerMinKills::authenticateUser(std::string &uniqueId,
 			minKills_, killCount);
 		return false;
 	}
+	if (maxKills_ > 0 && killCount > maxKills_)
+	{
+		message = formatString(
+			"You have too many kills to play on this server.\n"
+			"You have %i kills and the server allows %i kills.\n",
+			killCount, maxKills_);
+		return false;
+	}	
+	
 	return true;
 }
 
@@ -77,7 +86,8 @@ void ServerAuthHandlerMinKills::setup()
 		return;
 	}
 
-	if (!file.getRootNode()->getNamedChild("minkills", minKills_)) 
+	if (!file.getRootNode()->getNamedChild("minkills", minKills_) ||
+		!file.getRootNode()->getNamedChild("maxkills", maxKills_)) 
 	{
 		Logger::log( "Failed to parse %s settings file.", fileName);
 		return;

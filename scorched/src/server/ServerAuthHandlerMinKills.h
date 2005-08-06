@@ -37,6 +37,7 @@ public:
 
 protected:
 	int minKills_;
+	int maxKills_;
 
 	void setup();
 };
