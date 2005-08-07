@@ -5522,11 +5522,11 @@ YOU CANNOT AIM THIS WEAPON!</description>
 											<size>24</size>
 											<explosionshake>4.0</explosionshake>
 											<explosionsound>explosions/quake.wav</explosionsound>
-											<explosiontexture>cloud00-red</explosiontexture>
+											<explosiontexture>exp04</explosiontexture>
 										</subweapon3>
-										<!--<subweapon3 type='WeaponReference'>
-											<weapon>Clouds-Red
-										</subweapon3>-->
+										<subweapon3 type='WeaponReference'>
+											<weapon>Clouds-Red</weapon>
+										</subweapon3>
 									</nextaction>
 								</nextaction>
 							</aimedweapon>
