@@ -64,7 +64,7 @@ View all aliases
 
 <?
 // Player Stats Series
-$query = "select scorched3d_series.seriesid, scorched3d_series.name, scorched3d_prefixs.prefixid, scorched3d_prefixs.prefix from scorched3d_stats left join scorched3d_series on scorched3d_series.seriesid left join scorched3d_prefixs on scorched3d_prefixs.prefixid where playerid = 45 and scorched3d_series.seriesid = scorched3d_stats.seriesid and scorched3d_prefixs.prefixid = scorched3d_stats.prefixid";
+$query = "select scorched3d_series.seriesid, scorched3d_series.name, scorched3d_prefixs.prefixid, scorched3d_prefixs.prefix from scorched3d_stats left join scorched3d_series on scorched3d_series.seriesid left join scorched3d_prefixs on scorched3d_prefixs.prefixid where playerid = $playerid and scorched3d_series.seriesid = scorched3d_stats.seriesid and scorched3d_prefixs.prefixid = scorched3d_stats.prefixid";
 $result = mysql_query($query) or die("Query failed : " . mysql_error());
 ?>
 <table width="600" border="0" align="center">
