@@ -5524,9 +5524,9 @@ YOU CANNOT AIM THIS WEAPON!</description>
 											<explosionsound>explosions/quake.wav</explosionsound>
 											<explosiontexture>exp04</explosiontexture>
 										</subweapon3>
-										<subweapon3 type='WeaponReference'>
+										<subweapon4 type='WeaponReference'>
 											<weapon>Clouds-Red</weapon>
-										</subweapon3>
+										</subweapon4>
 									</nextaction>
 								</nextaction>
 							</aimedweapon>
