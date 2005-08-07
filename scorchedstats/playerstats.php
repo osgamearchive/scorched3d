@@ -64,8 +64,8 @@ View all aliases
 
 <?
 // Player Stats Series
-$query = "select scorched3d_series.seriesid, scorched3d_series.name, scorched3d_prefixs.prefixid, scorched3d_prefixs.prefix from scorched3d_stats left join scorched3d_series on scorched3d_series.seriesid left join scorched3d_prefixs on scorched3d_prefixs.prefixid where playerid = $playerid and scorched3d_series.seriesid = scorched3d_stats.seriesid and scorched3d_prefixs.prefixid = scorched3d_stats.prefixid";
-$result = mysql_query($query) or die("Query failed : " . mysql_error());
+$seriesquery = "select scorched3d_series.seriesid, scorched3d_series.name, scorched3d_prefixs.prefixid, scorched3d_prefixs.prefix, scorched3d_series.type from scorched3d_stats left join scorched3d_series on scorched3d_series.seriesid left join scorched3d_prefixs on scorched3d_prefixs.prefixid where playerid = $playerid and scorched3d_series.seriesid = scorched3d_stats.seriesid and scorched3d_prefixs.prefixid = scorched3d_stats.prefixid order by scorched3d_series.type";
+$seriesresult = mysql_query($seriesquery) or die("Query failed : " . mysql_error());
 ?>
 <table width="600" border="0" align="center">
 <tr><td align=center><b>Stats Series</b></td></tr>
@@ -74,12 +74,57 @@ $result = mysql_query($query) or die("Query failed : " . mysql_error());
 <tr>
 <td bgcolor=#111111><b>Series Name</b></td>
 <td bgcolor=#111111><b>Server Name</b></td>
+<td bgcolor=#111111><b>Ranked</b></td>
 </tr>
 <?
-	while ($row = mysql_fetch_row($result))
+	while ($seriesrow = mysql_fetch_row($seriesresult))
 	{
-		$url = "playerstats.php?Prefix=$row[2]&Series=$row[0]&PlayerID=$playerid";
-		echo "<tr><td><a href='$url'>$row[1]</a></td><td>$row[3]</td></tr>\n";
+		$query = "SELECT kills FROM scorched3d_stats WHERE playerid=$playerid AND prefixid=".$seriesrow[2]." AND seriesid=".$seriesrow[0];
+		$result = mysql_query($query) or die("Query failed : " . mysql_error());
+		$row = mysql_fetch_object($result);
+
+		$query = "SELECT count(*) FROM scorched3d_stats WHERE kills > ".$row->kills." AND prefixid = ".$seriesrow[2]." AND seriesid = ".$seriesrow[0]; 
+		$rankresult = mysql_query($query) or die("Query failed : " . mysql_error());
+		$rankrow = mysql_fetch_array($rankresult);
+		$rank = ($rankrow[0]+1);
+		$ranktext = "Currently Ranked " . $rank;
+		
+		if ($seriesrow[4]==1)
+		{
+			if ($rank == 1) 
+			{
+				$ranktext = "<img border=0 src='rank1.jpg'>";
+   			}
+			else if ($rank == 2) 
+			{
+				$ranktext = "<img border=0 src='rank2.jpg'>";
+   			}
+			else if ($rank == 3) 
+			{
+				$ranktext = "<img border=0 src='rank3.jpg'>";
+   			}
+			else if ($rank <= 10) 
+			{
+				$ranktext = "<img border=0 src='gold-blk.jpg'>";
+   			}
+			else if ($rank <= 25) 
+			{
+				$ranktext = "<img border=0 src='silver-blk.jpg'>";
+   			}
+			else if ($rank <= 50) 
+			{
+				$ranktext = "<img border=0 src='bronze-blk.jpg'>";
+   			}
+			else
+			{
+				$ranktext = "<img border=0 src='star-blk.gif'>";
+			}
+			$ranktext .= " Ranked " . $rank;
+		}
+
+
+		$url = "playerstats.php?Prefix=$seriesrow[2]&Series=$seriesrow[0]&PlayerID=$playerid";
+		echo "<tr><td><a href='$url'>$seriesrow[1]</a></td><td>$seriesrow[3]</td><td>".$ranktext."</td></tr>\n";
 	}
 ?>
 </table>
