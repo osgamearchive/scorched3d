@@ -106,7 +106,7 @@ void ServerBrowserInfo::processMessages()
 			{
 				std::string next = reply.front();
 				reply.pop_front();
-				if (strlen(next.c_str()) <= 50)
+				if (strlen(next.c_str()) <= 75)
 				{
 					buffer += next;
 				}
