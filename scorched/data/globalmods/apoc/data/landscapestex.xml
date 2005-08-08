@@ -46,9 +46,9 @@
 		<events></events>
 		<boids>
 			<boid>
-				<count>20</count>
-				<minz>5</minz>
-				<maxz>25</maxz>
+				<count>15</count>
+				<minz>10</minz>
+				<maxz>30</maxz>
 				<maxvelocity>1.0</maxvelocity>
 				<maxacceleration>1.0</maxacceleration>
 				<cruisedistance>1.0</cruisedistance>
@@ -111,9 +111,9 @@
 		<events></events>
 		<boids>
 			<boid>
-				<count>20</count>
-				<minz>5</minz>
-				<maxz>25</maxz>
+				<count>15</count>
+				<minz>10</minz>
+				<maxz>30</maxz>
 				<maxvelocity>1.0</maxvelocity>
 				<maxacceleration>1.0</maxacceleration>
 				<cruisedistance>1.0</cruisedistance>
@@ -228,9 +228,9 @@
 		<events></events>
 		<boids>
 			<boid>
-				<count>20</count>
-				<minz>5</minz>
-				<maxz>25</maxz>
+				<count>15</count>
+				<minz>10</minz>
+				<maxz>30</maxz>
 				<maxvelocity>1.0</maxvelocity>
 				<maxacceleration>1.0</maxacceleration>
 				<cruisedistance>1.0</cruisedistance>
@@ -341,9 +341,9 @@
 		<events></events>
 		<boids>
 			<boid>
-				<count>20</count>
-				<minz>5</minz>
-				<maxz>25</maxz>
+				<count>15</count>
+				<minz>10</minz>
+				<maxz>30</maxz>
 				<maxvelocity>1.0</maxvelocity>
 				<maxacceleration>1.0</maxacceleration>
 				<cruisedistance>1.0</cruisedistance>
@@ -573,7 +573,41 @@
 		</ambientsounds>
 		<precipitation type="none"></precipitation>
 		<events></events>
-		<boids></boids>
+		<boids>
+			<boid>
+				<count>3</count>
+				<minz>30</minz>
+				<maxz>65</maxz>
+				<maxvelocity>7.5</maxvelocity>
+				<maxacceleration>5.0</maxacceleration>
+				<cruisedistance>10.0</cruisedistance>
+				<model type="MilkShape">data/meshes/f18/f18.txt</model>
+				<sounds>
+					<mintime>15</mintime>
+					<maxtime>15</maxtime>
+					<maxsimul>3</maxsimul>
+					<volume>25</volume>
+					<sound>data/wav/misc/f18_1.wav</sound>
+					<sound>data/wav/misc/f18_2.wav</sound>
+				</sounds>
+			</boid>
+			<boid>
+				<count>3</count>
+				<minz>10</minz>
+				<maxz>50</maxz>
+				<maxvelocity>2.5</maxvelocity>
+				<maxacceleration>2.0</maxacceleration>
+				<cruisedistance>4.0</cruisedistance>
+				<model type="MilkShape">data/meshes/ah64d/ah64d.txt</model>
+				<sounds>
+					<mintime>0</mintime>
+					<maxtime>2</maxtime>
+					<maxsimul>4</maxsimul>
+					<volume>25</volume>
+					<sound>data/wav/misc/apache_1.wav</sound>
+				</sounds>
+			</boid>
+		</boids>
 	</tex>
 	<tex>
 		<name>moon</name>
@@ -652,10 +686,45 @@
 		<placements><placement>desert</placement></placements>
 		<ambientsounds>
 			<ambientsound>jet</ambientsound>
+			<ambientsound>helicopter</ambientsound>
 		</ambientsounds>
 		<precipitation type="none"></precipitation>
 		<events></events>
-		<boids></boids>
+		<boids>
+			<boid>
+				<count>3</count>
+				<minz>30</minz>
+				<maxz>65</maxz>
+				<maxvelocity>7.5</maxvelocity>
+				<maxacceleration>5.0</maxacceleration>
+				<cruisedistance>10.0</cruisedistance>
+				<model type="MilkShape">data/meshes/f18/f18.txt</model>
+				<sounds>
+					<mintime>15</mintime>
+					<maxtime>15</maxtime>
+					<maxsimul>3</maxsimul>
+					<volume>25</volume>
+					<sound>data/wav/misc/f18_1.wav</sound>
+					<sound>data/wav/misc/f18_2.wav</sound>
+				</sounds>
+			</boid>
+			<boid>
+				<count>1</count>
+				<minz>10</minz>
+				<maxz>50</maxz>
+				<maxvelocity>2.5</maxvelocity>
+				<maxacceleration>2.0</maxacceleration>
+				<cruisedistance>4.0</cruisedistance>
+				<model type="MilkShape">data/meshes/ah64d/ah64d.txt</model>
+				<sounds>
+					<mintime>0</mintime>
+					<maxtime>2</maxtime>
+					<maxsimul>4</maxsimul>
+					<volume>25</volume>
+					<sound>data/wav/misc/apache_1.wav</sound>
+				</sounds>
+			</boid>
+		</boids>
 	</tex>
 	<tex>
 		<name>city1-winter</name>
@@ -708,7 +777,41 @@
 			<particles>60</particles>
 		</precipitation>
 		<events></events>
-		<boids></boids>
+		<boids>
+			<boid>
+				<count>2</count>
+				<minz>30</minz>
+				<maxz>65</maxz>
+				<maxvelocity>7.5</maxvelocity>
+				<maxacceleration>5.0</maxacceleration>
+				<cruisedistance>10.0</cruisedistance>
+				<model type="MilkShape">data/meshes/f18/f18.txt</model>
+				<sounds>
+					<mintime>15</mintime>
+					<maxtime>15</maxtime>
+					<maxsimul>3</maxsimul>
+					<volume>25</volume>
+					<sound>data/wav/misc/f18_1.wav</sound>
+					<sound>data/wav/misc/f18_2.wav</sound>
+				</sounds>
+			</boid>
+			<boid>
+				<count>1</count>
+				<minz>10</minz>
+				<maxz>50</maxz>
+				<maxvelocity>2.5</maxvelocity>
+				<maxacceleration>2.0</maxacceleration>
+				<cruisedistance>4.0</cruisedistance>
+				<model type="MilkShape">data/meshes/ah64d/ah64d.txt</model>
+				<sounds>
+					<mintime>0</mintime>
+					<maxtime>2</maxtime>
+					<maxsimul>4</maxsimul>
+					<volume>25</volume>
+					<sound>data/wav/misc/apache_1.wav</sound>
+				</sounds>
+			</boid>
+		</boids>
 	</tex>
 	<tex>
 		<name>city1-summer</name>
@@ -762,9 +865,9 @@
 		<events></events>
 		<boids>
 			<boid>
-				<count>20</count>
-				<minz>5</minz>
-				<maxz>25</maxz>
+				<count>15</count>
+				<minz>10</minz>
+				<maxz>30</maxz>
 				<maxvelocity>1.0</maxvelocity>
 				<maxacceleration>1.0</maxacceleration>
 				<cruisedistance>1.0</cruisedistance>
@@ -778,6 +881,39 @@
 					<sound>data/wav/misc/gull2.wav</sound>
 					<sound>data/wav/misc/gull4.wav</sound>
 					<sound>data/wav/misc/gull5.wav</sound>
+				</sounds>
+			</boid>
+			<boid>
+				<count>2</count>
+				<minz>30</minz>
+				<maxz>65</maxz>
+				<maxvelocity>7.5</maxvelocity>
+				<maxacceleration>5.0</maxacceleration>
+				<cruisedistance>10.0</cruisedistance>
+				<model type="MilkShape">data/meshes/f18/f18.txt</model>
+				<sounds>
+					<mintime>15</mintime>
+					<maxtime>15</maxtime>
+					<maxsimul>3</maxsimul>
+					<volume>25</volume>
+					<sound>data/wav/misc/f18_1.wav</sound>
+					<sound>data/wav/misc/f18_2.wav</sound>
+				</sounds>
+			</boid>
+			<boid>
+				<count>1</count>
+				<minz>10</minz>
+				<maxz>50</maxz>
+				<maxvelocity>2.5</maxvelocity>
+				<maxacceleration>2.0</maxacceleration>
+				<cruisedistance>4.0</cruisedistance>
+				<model type="MilkShape">data/meshes/ah64d/ah64d.txt</model>
+				<sounds>
+					<mintime>0</mintime>
+					<maxtime>2</maxtime>
+					<maxsimul>4</maxsimul>
+					<volume>25</volume>
+					<sound>data/wav/misc/apache_1.wav</sound>
 				</sounds>
 			</boid>
 		</boids>
@@ -844,7 +980,41 @@
 				</action>
 			</event>
 		</events>
-		<boids></boids>
+		<boids>
+			<boid>
+				<count>2</count>
+				<minz>30</minz>
+				<maxz>65</maxz>
+				<maxvelocity>7.5</maxvelocity>
+				<maxacceleration>5.0</maxacceleration>
+				<cruisedistance>10.0</cruisedistance>
+				<model type="MilkShape">data/meshes/f18/f18.txt</model>
+				<sounds>
+					<mintime>15</mintime>
+					<maxtime>15</maxtime>
+					<maxsimul>3</maxsimul>
+					<volume>25</volume>
+					<sound>data/wav/misc/f18_1.wav</sound>
+					<sound>data/wav/misc/f18_2.wav</sound>
+				</sounds>
+			</boid>
+			<boid>
+				<count>1</count>
+				<minz>10</minz>
+				<maxz>50</maxz>
+				<maxvelocity>2.5</maxvelocity>
+				<maxacceleration>2.0</maxacceleration>
+				<cruisedistance>4.0</cruisedistance>
+				<model type="MilkShape">data/meshes/ah64d/ah64d.txt</model>
+				<sounds>
+					<mintime>0</mintime>
+					<maxtime>2</maxtime>
+					<maxsimul>4</maxsimul>
+					<volume>25</volume>
+					<sound>data/wav/misc/apache_1.wav</sound>
+				</sounds>
+			</boid>
+		</boids>
 	</tex>
 	<tex>
 		<name>city2-winter</name>
@@ -898,7 +1068,41 @@
 			<particles>60</particles>
 		</precipitation>
 		<events></events>
-		<boids></boids>
+		<boids>
+			<boid>
+				<count>2</count>
+				<minz>30</minz>
+				<maxz>65</maxz>
+				<maxvelocity>7.5</maxvelocity>
+				<maxacceleration>5.0</maxacceleration>
+				<cruisedistance>10.0</cruisedistance>
+				<model type="MilkShape">data/meshes/f18/f18.txt</model>
+				<sounds>
+					<mintime>15</mintime>
+					<maxtime>15</maxtime>
+					<maxsimul>3</maxsimul>
+					<volume>25</volume>
+					<sound>data/wav/misc/f18_1.wav</sound>
+					<sound>data/wav/misc/f18_2.wav</sound>
+				</sounds>
+			</boid>
+			<boid>
+				<count>1</count>
+				<minz>10</minz>
+				<maxz>50</maxz>
+				<maxvelocity>2.5</maxvelocity>
+				<maxacceleration>2.0</maxacceleration>
+				<cruisedistance>4.0</cruisedistance>
+				<model type="MilkShape">data/meshes/ah64d/ah64d.txt</model>
+				<sounds>
+					<mintime>0</mintime>
+					<maxtime>2</maxtime>
+					<maxsimul>4</maxsimul>
+					<volume>25</volume>
+					<sound>data/wav/misc/apache_1.wav</sound>
+				</sounds>
+			</boid>
+		</boids>
 	</tex>
 	<tex>
 		<name>city2-summer</name>
@@ -952,9 +1156,9 @@
 		<events></events>
 		<boids>
 			<boid>
-				<count>20</count>
-				<minz>5</minz>
-				<maxz>25</maxz>
+				<count>15</count>
+				<minz>10</minz>
+				<maxz>30</maxz>
 				<maxvelocity>1.0</maxvelocity>
 				<maxacceleration>1.0</maxacceleration>
 				<cruisedistance>1.0</cruisedistance>
@@ -968,6 +1172,39 @@
 					<sound>data/wav/misc/gull2.wav</sound>
 					<sound>data/wav/misc/gull4.wav</sound>
 					<sound>data/wav/misc/gull5.wav</sound>
+				</sounds>
+			</boid>
+			<boid>
+				<count>2</count>
+				<minz>30</minz>
+				<maxz>65</maxz>
+				<maxvelocity>7.5</maxvelocity>
+				<maxacceleration>5.0</maxacceleration>
+				<cruisedistance>10.0</cruisedistance>
+				<model type="MilkShape">data/meshes/f18/f18.txt</model>
+				<sounds>
+					<mintime>15</mintime>
+					<maxtime>15</maxtime>
+					<maxsimul>3</maxsimul>
+					<volume>25</volume>
+					<sound>data/wav/misc/f18_1.wav</sound>
+					<sound>data/wav/misc/f18_2.wav</sound>
+				</sounds>
+			</boid>
+			<boid>
+				<count>1</count>
+				<minz>10</minz>
+				<maxz>50</maxz>
+				<maxvelocity>2.5</maxvelocity>
+				<maxacceleration>2.0</maxacceleration>
+				<cruisedistance>4.0</cruisedistance>
+				<model type="MilkShape">data/meshes/ah64d/ah64d.txt</model>
+				<sounds>
+					<mintime>0</mintime>
+					<maxtime>2</maxtime>
+					<maxsimul>4</maxsimul>
+					<volume>25</volume>
+					<sound>data/wav/misc/apache_1.wav</sound>
 				</sounds>
 			</boid>
 		</boids>
@@ -1034,7 +1271,41 @@
 				</action>
 			</event>
 		</events>
-		<boids></boids>
+		<boids>
+			<boid>
+				<count>2</count>
+				<minz>30</minz>
+				<maxz>65</maxz>
+				<maxvelocity>7.5</maxvelocity>
+				<maxacceleration>5.0</maxacceleration>
+				<cruisedistance>10.0</cruisedistance>
+				<model type="MilkShape">data/meshes/f18/f18.txt</model>
+				<sounds>
+					<mintime>15</mintime>
+					<maxtime>15</maxtime>
+					<maxsimul>3</maxsimul>
+					<volume>25</volume>
+					<sound>data/wav/misc/f18_1.wav</sound>
+					<sound>data/wav/misc/f18_2.wav</sound>
+				</sounds>
+			</boid>
+			<boid>
+				<count>1</count>
+				<minz>10</minz>
+				<maxz>50</maxz>
+				<maxvelocity>2.5</maxvelocity>
+				<maxacceleration>2.0</maxacceleration>
+				<cruisedistance>4.0</cruisedistance>
+				<model type="MilkShape">data/meshes/ah64d/ah64d.txt</model>
+				<sounds>
+					<mintime>0</mintime>
+					<maxtime>2</maxtime>
+					<maxsimul>4</maxsimul>
+					<volume>25</volume>
+					<sound>data/wav/misc/apache_1.wav</sound>
+				</sounds>
+			</boid>
+		</boids>
 	</tex>
 	<tex>
 		<name>city3-winter</name>
@@ -1088,7 +1359,41 @@
 			<particles>60</particles>
 		</precipitation>
 		<events></events>
-		<boids></boids>
+		<boids>
+			<boid>
+				<count>2</count>
+				<minz>30</minz>
+				<maxz>65</maxz>
+				<maxvelocity>7.5</maxvelocity>
+				<maxacceleration>5.0</maxacceleration>
+				<cruisedistance>10.0</cruisedistance>
+				<model type="MilkShape">data/meshes/f18/f18.txt</model>
+				<sounds>
+					<mintime>15</mintime>
+					<maxtime>15</maxtime>
+					<maxsimul>3</maxsimul>
+					<volume>25</volume>
+					<sound>data/wav/misc/f18_1.wav</sound>
+					<sound>data/wav/misc/f18_2.wav</sound>
+				</sounds>
+			</boid>
+			<boid>
+				<count>1</count>
+				<minz>10</minz>
+				<maxz>50</maxz>
+				<maxvelocity>2.5</maxvelocity>
+				<maxacceleration>2.0</maxacceleration>
+				<cruisedistance>4.0</cruisedistance>
+				<model type="MilkShape">data/meshes/ah64d/ah64d.txt</model>
+				<sounds>
+					<mintime>0</mintime>
+					<maxtime>2</maxtime>
+					<maxsimul>4</maxsimul>
+					<volume>25</volume>
+					<sound>data/wav/misc/apache_1.wav</sound>
+				</sounds>
+			</boid>
+		</boids>
 	</tex>
 	<tex>
 		<name>city3-summer</name>
@@ -1142,9 +1447,9 @@
 		<events></events>
 		<boids>
 			<boid>
-				<count>20</count>
-				<minz>5</minz>
-				<maxz>25</maxz>
+				<count>15</count>
+				<minz>10</minz>
+				<maxz>30</maxz>
 				<maxvelocity>1.0</maxvelocity>
 				<maxacceleration>1.0</maxacceleration>
 				<cruisedistance>1.0</cruisedistance>
@@ -1158,6 +1463,39 @@
 					<sound>data/wav/misc/gull2.wav</sound>
 					<sound>data/wav/misc/gull4.wav</sound>
 					<sound>data/wav/misc/gull5.wav</sound>
+				</sounds>
+			</boid>
+			<boid>
+				<count>2</count>
+				<minz>30</minz>
+				<maxz>65</maxz>
+				<maxvelocity>7.5</maxvelocity>
+				<maxacceleration>5.0</maxacceleration>
+				<cruisedistance>10.0</cruisedistance>
+				<model type="MilkShape">data/meshes/f18/f18.txt</model>
+				<sounds>
+					<mintime>15</mintime>
+					<maxtime>15</maxtime>
+					<maxsimul>3</maxsimul>
+					<volume>25</volume>
+					<sound>data/wav/misc/f18_1.wav</sound>
+					<sound>data/wav/misc/f18_2.wav</sound>
+				</sounds>
+			</boid>
+			<boid>
+				<count>1</count>
+				<minz>10</minz>
+				<maxz>50</maxz>
+				<maxvelocity>2.5</maxvelocity>
+				<maxacceleration>2.0</maxacceleration>
+				<cruisedistance>4.0</cruisedistance>
+				<model type="MilkShape">data/meshes/ah64d/ah64d.txt</model>
+				<sounds>
+					<mintime>0</mintime>
+					<maxtime>2</maxtime>
+					<maxsimul>4</maxsimul>
+					<volume>25</volume>
+					<sound>data/wav/misc/apache_1.wav</sound>
 				</sounds>
 			</boid>
 		</boids>
@@ -1224,7 +1562,41 @@
 				</action>
 			</event>
 		</events>
-		<boids></boids>
+		<boids>
+			<boid>
+				<count>2</count>
+				<minz>30</minz>
+				<maxz>65</maxz>
+				<maxvelocity>7.5</maxvelocity>
+				<maxacceleration>5.0</maxacceleration>
+				<cruisedistance>10.0</cruisedistance>
+				<model type="MilkShape">data/meshes/f18/f18.txt</model>
+				<sounds>
+					<mintime>15</mintime>
+					<maxtime>15</maxtime>
+					<maxsimul>3</maxsimul>
+					<volume>25</volume>
+					<sound>data/wav/misc/f18_1.wav</sound>
+					<sound>data/wav/misc/f18_2.wav</sound>
+				</sounds>
+			</boid>
+			<boid>
+				<count>1</count>
+				<minz>10</minz>
+				<maxz>50</maxz>
+				<maxvelocity>2.5</maxvelocity>
+				<maxacceleration>2.0</maxacceleration>
+				<cruisedistance>4.0</cruisedistance>
+				<model type="MilkShape">data/meshes/ah64d/ah64d.txt</model>
+				<sounds>
+					<mintime>0</mintime>
+					<maxtime>2</maxtime>
+					<maxsimul>4</maxsimul>
+					<volume>25</volume>
+					<sound>data/wav/misc/apache_1.wav</sound>
+				</sounds>
+			</boid>
+		</boids>
 	</tex>
 </texs>
 

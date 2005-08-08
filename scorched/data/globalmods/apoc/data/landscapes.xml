@@ -193,7 +193,7 @@
 		<name>Apoc City</name>
 		<description>A city on an island</description>
 		<picture>apoccity-pic.bmp</picture>
-		<weight>100</weight>
+		<weight>200</weight>
 		<defn>
 			<item>apoccity</item>
 		</defn>
