@@ -54,6 +54,17 @@ BoidWorld::BoidWorld(LandscapeTexBoids *boids) :
 		makeSounds(boids->sounds, boids->soundmaxsimul, boids->soundvolume);
 	}
 
+	// Allocate a new visibility matrix
+	visibilityMatrix_ = new int*[boids_.size()];
+	for (unsigned int i=0; i<boids_.size(); i++)
+	{
+		visibilityMatrix_[i] = new int[boids_.size()];
+		for (unsigned int j=0; j<boids_.size(); j++)
+		{
+			visibilityMatrix_[i][j] = -1;
+		}
+	}
+
 	// Create bird model
 	bird_ = new ModelRenderer(
 			ModelStore::instance()->loadModel(boids->model));

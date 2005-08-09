@@ -1,94 +1,10 @@
 -- Bugs Fixed and Ready For Release 
-Fixed: Free market economy getting confused when accessories.xml file edited
-Fixed: Display message when scorched3d data directory not present
-Fixed: Missed move message fixed for buying
-Fixed: Clicking on menu titles doesn't move viewport
-Fixed: Action camera not working correctly
-Fixed: Avatars with more than 32 characters not being stored correctly
-Fixed: Player colors are allocated so no duplicates occur
-Fixed: Fonts changed to be totaly open source
-Fixed: Wind indicator missing one face (thanks Funkinator)
-Fixed: Window ordering in window menu does not change due to z order
-Fixed: Invisible window removed from connect dialog
-Fixed: Shields and player names showing through smoke
-Fixed: Scorched3D client does not go un-responsive when creating levels
-Fixed: Shot cam follows rollers
-Fixed: Multi-line console messages are handled correctly
-Fixed: Tanks can fire out from other tanks shields
-Fixed: Shield strength to make less over powering (copied from shield test mod)
-Fixed: Team talk messages now have the team text before the colon
-Fixed: Player should always reconnect with last used player name
-Fixed: Server status messages getting too big too send
-Fixed: Winner award given when all players leave (1/2 total rounds must be played)
-Fixed: Bug where rollers kill shields and heavy shields with direct hits
-Fixed: Napalm and rollers cannot be fired when underground
-Fixed: Rollers can explode on cavern roof
-Fixed: Can see health bars under water and parachutes behind shields
-Fixed: Only certain file types can be sent during auto mod download
-Fixed: Undo should not put duplicate entries in the undo log (and more undo features added)
-Fixed: Banned statsid added to list of banned players
-Fixed: Adjusted damage from hogs, added lasers
-Fixed: Computer played tanks don't resign so much
-
-Added: Cannon model (Thanks cbx550f)
-Added: Bat, Helicopter and Jet animations for boids (Thanks Shockwave)
-Added: Sonic tank (Thanks Shockwave)
-Added: Auto skip feature (skips all moves until the end of the current round)
-Added: Ambient sounds
-Added: Web interface for server to change settings
-Added: onlyhurtshield attribute to WeaponExplosion for explosions that only hurt shields
-Added: Timed messages on the server, multiple messages, and round robin messages
-Added: Registered player names (names can be registered to a stats id)
-Added: Prefered player only servers (only players with certain ids can connect)
-Added: Chat filter (swear words)
-Added: Shadows to landscape placed objects
-Added: Direct placement type to allow direct placement of landscape objects
-Added: removeaction, burnaction for trees and objects that allows them to explode etc. when removed
-Added: Trees and objects are always in the same position for all clients
-Added: Restricted camera movement is now toggled on and off with the alt key (no holding required)
-Added: Teleport weapons
-Added: Positions for the camera, wind, plan, weapons and player windows are persistent
-Added: Deathstryker's scorched3d modeling challange winning tank model
-Added: Properly sun drawn and sky colors
-Added: deflectfactor attribute to reflective shields to allow the bounce to be configurable
-Added: shieldhurtfactor attribute to weapons so shield damage is now configurable
-Added: Maximum teams increased to 4 (red, blue, green and yellow)
-Added: Even slower/finer angle/power changes by using SHIFT+CTRL
-Added: Favorites tag to buy and sell dialog
-Added: 3D sound support using OpenAL (removed SDL_mixer sound support)
-Added: enginesound attribute to weapon projectile
-Added: WeaponScatter so that weapons can emit from the sky (like meteors)
-Added: Delay before tooltips are seen is configurable
-Added: timedcollision attribute to shot projectile (for timed explosions)
-Added: Landscape placements moved to a different file (landscapeplace.xml)
-Added: Movement sound when tanks move using fuel
-Added: Option for each server to have different banner displayed in rules dialog
-Added: New team auto ballance mode that auto ballances using player score
-Added: LOD for models (disabled, not very good though)
-Added: Saved game filename to save game file dialog
-Added: Support for animated meshes (via bones)
-Added: apexnodud option to WeaponProjectile to stop apex collisions from duding
-Added: Trial of new on screen message format (death messages seperated out)
-Added: Keep alive messages to further shorten lag
-Added: Boids (birds) to levels
-Added: Fog density attribute to levels (distance fogging)
-Added: Admin alerts for players (ip addresses) that have been flagged
-Added: WeaponNapalm option to allow napalm type weapons underwater
-Added: Admin newgame command
-Added: Error message for single player team game with incorrect teams
-Added: BotsVs team ballance mode, for player vs bots action
-Added: Server can set maximum avatar size
-Added: Postgresql stats logger (thanks Funkinator)
-Added: New resign option to make tanks resign at end of round depending on how much health they have
-Added: Movement restriction option to stop tanks from moving under water
-Added: Better mysql stats format that allows stats history
-Added: Error reporting to MS file loading
-Added: Rounds left shown in the game browsing dialog
-Added: Bender tank model (thanks antivert)
+Fixed: Client crashing due to boids turned off
+Fixed: Server not sending long server names on status request
+Fixed: Mysql stats handler build issues under unix
 
 -- Bugs in current development release
 Dvorak keyboard support is broken
-Gun fires at same point for all tanks (ignores turret/gun position in model)
 
 -- Things I am currently looking at
 Fix crashing when people win (Graphics card drivers??)
@@ -101,6 +17,7 @@ Bobirovs list of stuff (http://apochq.handwired.net/ideas.txt)
 A way to set the maximum and minimum players for a map (half done)
 
 -- Client Stuff
+Gun fires at same point for all tanks (ignores turret/gun position in model)
 Animated GIFs for avitars
 Option to reconnect when disconected from server.
 In local mode when it's the next person's turn, re-center the view to where they last had it.

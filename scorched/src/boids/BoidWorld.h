@@ -47,24 +47,7 @@ public:
 	std::vector<Boid *> &getBoids() { return boids_; }
 	std::vector<Obstacle *> &getObstacles() { return obstacles_; }
 	int getBoidCount() { return (int) boids_.size(); } 
-	int **getVisibilityMatrix()
-	{
-		if (!visibilityMatrix_)
-		{
-			// Allocate a new visibility matrix
-			visibilityMatrix_ = new int*[boids_.size()];
-			for (unsigned int i=0; i<boids_.size(); i++) 
-			{
-				visibilityMatrix_[i] = new int[boids_.size()];
-				for (unsigned int j=0; j<boids_.size(); j++) 
-				{
-					visibilityMatrix_[i][j] = -1;
-				}
-			}
-		}
-
-		return visibilityMatrix_; 
-	}
+	int **getVisibilityMatrix() { return visibilityMatrix_; }
 
 protected:
 	// The currently playing sounds
