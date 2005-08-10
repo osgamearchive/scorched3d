@@ -2,6 +2,8 @@
 Fixed: Client crashing due to boids turned off
 Fixed: Server not sending long server names on status request
 Fixed: Mysql stats handler build issues under unix
+Fixed: Tanks not moving during multiplayer games
+Fixed: Sound compilation failing due to OpenAL api changes
 
 -- Bugs in current development release
 Dvorak keyboard support is broken

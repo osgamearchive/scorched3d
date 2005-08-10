@@ -88,12 +88,10 @@ void Sound::destroy()
 
 bool Sound::init(int channels)
 {
-	const char *deviceName = 0;
-	ALCdevice *soundDevice = alcOpenDevice((const ALubyte *) deviceName);
+	ALCdevice *soundDevice = alcOpenDevice(0);
 	if (!soundDevice)
 	{
-		dialogExit("Failed to find sound device %s",
-			(deviceName?deviceName:"Null"));
+		dialogExit("Scorched3D", "Failed to open sound device");
 		return false;
 	}
 

@@ -208,6 +208,9 @@ void LandscapeMaps::generateHMap(
 	getHMap().resetMinHeight();
 	memcpy(storedMap_, map_.getData(), 
 		   (256 + 1) * (256 + 1) * sizeof(float));
+	
+	Logger::log("Finished generating landscape (%u, %s, %s)", 
+		getSeed(), hdef->getDefn(), hdef->getTex());
 }
 
 bool LandscapeMaps::generateHMapDiff(

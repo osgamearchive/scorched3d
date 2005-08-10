@@ -82,7 +82,7 @@ void TankMovement::init()
 	// Lower 32 bits = y position
 	// Upper 32 bits = x positions
 	std::list<unsigned int> positions;
-	context_->landscapeMaps->getMMap().calculateForTank(tank, *context_);
+	context_->landscapeMaps->getMMap().calculateForTank(tank, *context_, true);
 	
 	MovementMap::MovementMapEntry entry =
 		context_->landscapeMaps->getMMap().getEntry(positionX_, positionY_);

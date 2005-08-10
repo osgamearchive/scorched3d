@@ -134,8 +134,6 @@ void ServerNewGameState::enterState(const unsigned state)
 		ScorchedServer::instance()->getContext(), defn);
 	ScorchedServer::instance()->getContext().landscapeMaps->generateObjects(
 		ScorchedServer::instance()->getContext());
-	ServerCommon::serverLog(0, "Finished generating landscape (%s, %s)", 
-		defn->getDefn(), defn->getTex());
 
 	// Set the start positions for the tanks
 	// Must be generated after the level as it alters the

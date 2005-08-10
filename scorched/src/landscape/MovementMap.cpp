@@ -105,7 +105,7 @@ void MovementMap::addPoint(unsigned int x, unsigned int y,
 	}
 }
 
-void MovementMap::calculateForTank(Tank *tank, ScorchedContext &context)
+void MovementMap::calculateForTank(Tank *tank, ScorchedContext &context, bool maxFuel)
 {
 	clear();
 
@@ -154,6 +154,7 @@ void MovementMap::calculateForTank(Tank *tank, ScorchedContext &context)
 	unsigned int posY = (unsigned int) 
 		tank->getPhysics().getTankPosition()[1];
 	float fuel = (float) tank->getAccessories().getFuel().getNoFuel();
+	if (maxFuel) fuel = 90.0f;
 
 	std::map<unsigned int, MovementMapEntry> edgeMap;
 	std::map<unsigned int, MovementMapEntry> pointsMap;
