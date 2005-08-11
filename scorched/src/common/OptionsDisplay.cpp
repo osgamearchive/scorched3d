@@ -124,7 +124,7 @@ OptionsDisplay::OptionsDisplay() :
 	noGLHardwareMipmaps_(options_, "NoGLHardwareMipmaps",
 		"Generate texture LOD in software only.", RAccess, false),
 	soundChannels_(options_, "SoundChannels", 
-		"Number of sound channels to mix.", RAccess, 16),
+		"Number of sound channels to mix.", RAccess, 8),
 	noSound_(options_, "NoSound", 
 		"Do not play any sound.", RWAccess, false),
 	noAmbientSound_(options_, "NoAmbientSound", 
