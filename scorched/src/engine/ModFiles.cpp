@@ -111,6 +111,8 @@ bool ModFiles::loadModFiles(const char *mod, bool createDir)
 		loadModFile(getDataFile("data/landscapes.xml"), modDir.c_str(), mod);
 		loadModFile(getDataFile("data/landscapesdefn.xml"), modDir.c_str(), mod);
 		loadModFile(getDataFile("data/landscapestex.xml"), modDir.c_str(), mod);
+		loadModFile(getDataFile("data/landscapesplace.xml"), modDir.c_str(), mod);
+		loadModFile(getDataFile("data/landscapessound.xml"), modDir.c_str(), mod);
 	}
 	
 	{

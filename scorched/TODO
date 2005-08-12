@@ -5,6 +5,8 @@ Fixed: Mysql stats handler build issues under unix
 Fixed: Tanks not moving during multiplayer games
 Fixed: Sound compilation failing due to OpenAL api changes
 Fixed: Changed the default number of sound channels to 8
+Fixed: Tooltips now refresh information when cursor over them
+Fixed: All landscape files are checked with client for the "none" mod
 
 -- Bugs in current development release
 Dvorak keyboard support is broken

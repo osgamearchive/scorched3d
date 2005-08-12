@@ -93,8 +93,8 @@ protected:
 	static GLWToolTip *instance_;
 	GLWTip *currentTip_;
 	GLWTip *lastTip_;
-	GLWTip *lastPopulatedTip_;
 	float timeDrawn_, timeSeen_;
+	float refreshTime_;
 
 private:
 	GLWToolTip();

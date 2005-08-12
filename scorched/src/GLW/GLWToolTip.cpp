@@ -127,7 +127,7 @@ GLWToolTip *GLWToolTip::instance()
 GLWToolTip::GLWToolTip() : 
 	lastTip_(0), currentTip_(0),
 	timeDrawn_(0.0f), timeSeen_(0.0),
-	lastPopulatedTip_(0)
+	refreshTime_(100.0f)
 {
 }
 
@@ -184,10 +184,12 @@ void GLWToolTip::draw(const unsigned state)
 	if (sameTip && lastTip_)
 	{
 		timeSeen_ += timeDrawn_;
+		refreshTime_ += timeDrawn_;
 	}
 	else
 	{
 		timeSeen_ = 0.0f;
+		refreshTime_ = 100.0f;
 	}
 	timeDrawn_ = 0.0f;
 
@@ -195,17 +197,16 @@ void GLWToolTip::draw(const unsigned state)
 		float(OptionsDisplay::instance()->getToolTipTime()) / 1000.0f;
 	if (!lastTip_ || (timeSeen_ < showTime))
 	{
-		lastPopulatedTip_ = 0;
 		return;
 	}
 
 	float alpha = MIN(1.0f, (timeSeen_ - showTime) * 
 		float(OptionsDisplay::instance()->getToolTipSpeed()));
 
-	if (lastPopulatedTip_ != lastTip_)
+	if (refreshTime_ > 1.0f)
 	{
 		lastTip_->populate();
-		lastPopulatedTip_ = lastTip_;
+		refreshTime_ = 0.0f;
 	}
 
 	GLState currentState(GLState::TEXTURE_OFF | GLState::DEPTH_OFF);
