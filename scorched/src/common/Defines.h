@@ -66,6 +66,7 @@ extern const char *getGlobalModFile(const char *file, ...);
 
 extern float getFastSin(float angle);
 extern float getFastCos(float angle);
+extern char *my_stristr(const char *x, const char *y);
 
 #ifdef NO_FLOAT_MATH
 

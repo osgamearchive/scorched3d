@@ -44,7 +44,7 @@ bool ClientSave::storeClient()
 	buffer.addToBuffer(ScorchedProtocolVersion);
 	
 	// GameState
-	ScorchedServer::instance()->getOptionsGame().writeToBuffer(buffer, true);
+	ScorchedServer::instance()->getOptionsGame().writeToBuffer(buffer, true, false);
 	
 	// Transient State
 	if (!ScorchedServer::instance()->getOptionsTransient().writeToBuffer(
@@ -122,12 +122,12 @@ bool ClientSave::restoreClient(bool loadGameState, bool loadPlayers)
 	if (loadGameState)
 	{
 		if (!ScorchedServer::instance()->getOptionsGame().readFromBuffer(
-			reader, true)) return false;
+			reader, true, false)) return false;
 	}
 	else
 	{
 		OptionsGame optionsGame;
-		optionsGame.readFromBuffer(reader, true);
+		optionsGame.readFromBuffer(reader, true, false);
 	}
 	
 	// Transient State

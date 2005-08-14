@@ -361,3 +361,16 @@ float getFastCos(float angle)
 	}
 	return fastCos[(int(angle * 100)) % 628];
 }
+
+char *my_stristr(const char *x, const char *y)
+{
+	std::string newX(x);
+	std::string newY(y);
+	_strlwr((char *) newX.c_str());
+	_strlwr((char *) newY.c_str());
+
+	char *result = strstr(newX.c_str(), newY.c_str());
+	if (!result) return 0;
+
+	return (char *)(x + (result - newX.c_str()));
+}

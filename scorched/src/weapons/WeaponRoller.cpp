@@ -85,7 +85,7 @@ void WeaponRoller::fireWeapon(ScorchedContext &context,
 	// Make sure position is not underground
 	if (oldposition[2] < minHeight)
 	{
-		if (minHeight - oldposition[2] > 6.5f) // Give room for shields as well
+		if (minHeight - oldposition[2] > 10.0f) // Give room for shields as well
 		{
 			return;
 		}

@@ -22,6 +22,7 @@
 #include <server/ScorchedServer.h>
 #include <server/ScorchedServerUtil.h>
 #include <server/ServerMessageHandler.h>
+#include <server/ServerTextHandler.h>
 #include <tank/TankContainer.h>
 #include <common/OptionsParam.h>
 #include <common/OptionsGame.h>
@@ -86,6 +87,7 @@ void ServerCommon::sendString(unsigned int dest, const char *fmt, ...)
 	va_end(ap);	
 
 	ComsTextMessage message(text);
+	ServerTextHandler::instance()->addMessage(text);
 	if (dest == 0)
 	{
 		ComsMessageSender::sendToAllConnectedClients(message);

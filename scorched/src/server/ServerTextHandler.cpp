@@ -113,6 +113,9 @@ bool ServerTextHandler::processMessage(unsigned int destinationId,
 		ComsTextMessage newMessage(newText.c_str(), 
 			tank->getPlayerId(), false, message.getTeamOnlyMessage(), infoLen);
 
+		// Store message
+		addMessage(newMessage.getText());
+
 		// Send to players
 		if (!tank->getState().getMuted())
 		{
@@ -166,3 +169,8 @@ bool ServerTextHandler::processMessage(unsigned int destinationId,
 	return true;
 }
 
+void ServerTextHandler::addMessage(const char *text)
+{
+	lastMessages_.push_back(text);
+	if (lastMessages_.size() > 25) lastMessages_.pop_front();
+}

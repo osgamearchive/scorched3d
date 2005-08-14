@@ -76,7 +76,7 @@ void WeaponNapalm::fireWeapon(ScorchedContext &context,
 	// Make sure position is not underground
 	if (position[2] < minHeight)
 	{
-		if (minHeight - position[2] > 6.5f) // Give room for shields as well
+		if (minHeight - position[2] > 10.0f) // Give room for shields as well
 		{
 			return;
 		}

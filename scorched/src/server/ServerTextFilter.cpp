@@ -26,19 +26,6 @@
 
 #define IS_SPACE(c) ((c < '0' || (c > '9' && c < 'A') || (c > 'Z' && c < 'a') || c > 'z'))
 
-static char *my_stristr(const char *x, const char *y)
-{
-	std::string newX(x);
-	std::string newY(y);
-	_strlwr((char *) newX.c_str());
-	_strlwr((char *) newY.c_str());
-
-	char *result = strstr(newX.c_str(), newY.c_str());
-	if (!result) return 0;
-
-	return (char *)(x + (result - newX.c_str()));
-}
-
 ServerTextFilter::ServerTextFilter() : lastReadTime_(0)
 {
 }
@@ -172,6 +159,7 @@ void ServerTextFilter::loadFile()
 
 	lastReadTime_ = fileTime;
 
+	words_.clear();
 	std::vector<std::string>::iterator itor;
 	for (itor = lines.getLines().begin();
 		itor != lines.getLines().end();

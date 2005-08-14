@@ -23,6 +23,7 @@
 #include <server/ScorchedServer.h>
 #include <server/ScorchedServerUtil.h>
 #include <server/ServerCommon.h>
+#include <server/ServerTextHandler.h>
 #include <engine/ModFiles.h>
 #include <common/Defines.h>
 #include <common/Logger.h>
@@ -325,6 +326,19 @@ bool ServerWebHandler::TalkHandler::processRequest(const char *url,
 			ServerCommon::serverLog(0, "Admins Says : %s", say);
 		}
 	}
+
+	std::string texts;
+	std::list<std::string> &textsList = 
+		ServerTextHandler::instance()->getLastMessages();
+	std::list<std::string>::iterator textsListItor;
+	for (textsListItor = textsList.begin();
+		textsListItor != textsList.end();
+		textsListItor++)
+	{
+		texts += (*textsListItor);
+		texts += "<br>\n";
+	}
+	fields["TEXTS"] = texts;
 
 	return ServerWebServer::getTemplate("talk.html", fields, text);
 }

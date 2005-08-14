@@ -189,6 +189,18 @@ void ServerAddPlayerHandler::getUniqueName(Tank *tank,
 	// Ensure this name does not have any "bad" words in it
 	ScorchedServerUtil::instance()->textFilter.filterString(sentname);
 
+	// Ensure this name does not have the bot name in it
+	const char *botPrefix = 
+		ScorchedServer::instance()->getOptionsGame().getBotNamePrefix();
+	char *botPrefixPos = my_stristr(sentname.c_str(), botPrefix);
+	if (botPrefixPos)
+	{
+		for (int i=0; i<(int) strlen(botPrefix); i++, botPrefixPos++)
+		{
+			(*botPrefixPos) = ' ';
+		}
+	}		
+
 	// Form the correct player name
 	// Remove spaces from the front of the name and
 	// unwanted characters from middle

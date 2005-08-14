@@ -33,6 +33,12 @@ public:
 		const char *messageType,
 		NetBufferReader &reader);
 
+	void addMessage(const char *text);
+	std::list<std::string> &getLastMessages() { return lastMessages_; }
+
+protected:
+	std::list<std::string> lastMessages_;
+
 private:
 	ServerTextHandler();
 	virtual ~ServerTextHandler();

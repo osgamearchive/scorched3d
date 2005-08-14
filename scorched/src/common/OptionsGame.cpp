@@ -189,9 +189,11 @@ OptionsGame::~OptionsGame()
 }
 
 bool OptionsGame::writeToBuffer(NetBuffer &buffer,
-	bool useProtected)
+	bool useProtected,
+	bool usePlayerTypes)
 {
 	std::list<OptionEntry *> saveOptions;
+	if (usePlayerTypes) saveOptions = playerTypeOptions_;
 	std::list<OptionEntry *>::iterator itor;
 	for (itor = options_.begin();
 		itor != options_.end();
@@ -207,9 +209,11 @@ bool OptionsGame::writeToBuffer(NetBuffer &buffer,
 }
 
 bool OptionsGame::readFromBuffer(NetBufferReader &reader,
-	bool useProtected)
+	bool useProtected,
+	bool usePlayerTypes)
 {
 	std::list<OptionEntry *> saveOptions;
+	if (usePlayerTypes) saveOptions = playerTypeOptions_;
 	std::list<OptionEntry *>::iterator itor;
 	for (itor = options_.begin();
 		itor != options_.end();
@@ -270,6 +274,11 @@ bool OptionsGame::readOptionsFromFile(char *filePath)
 	return true;
 }
 
+std::list<OptionEntry *> &OptionsGame::getPlayerTypeOptions()
+{
+	return playerTypeOptions_;
+}
+
 std::list<OptionEntry *> &OptionsGame::getOptions()
 {
 	return options_;
@@ -286,9 +295,9 @@ OptionsGameWrapper::~OptionsGameWrapper()
 void OptionsGameWrapper::updateChangeSet()
 {
 	NetBufferDefault::defaultBuffer.reset();
-	writeToBuffer(NetBufferDefault::defaultBuffer, true);
+	writeToBuffer(NetBufferDefault::defaultBuffer, true, true);
 	NetBufferReader reader(NetBufferDefault::defaultBuffer);
-	changedOptions_.readFromBuffer(reader, true);
+	changedOptions_.readFromBuffer(reader, true, true);
 }
 
 bool OptionsGameWrapper::commitChanges()
@@ -299,8 +308,8 @@ bool OptionsGameWrapper::commitChanges()
 	NetBufferDefault::defaultBuffer.reset();
 
 	// Write to buffers
-	writeToBuffer(NetBufferDefault::defaultBuffer, true);
-	changedOptions_.writeToBuffer(testBuffer, true);
+	writeToBuffer(NetBufferDefault::defaultBuffer, true, true);
+	changedOptions_.writeToBuffer(testBuffer, true, true);
 
 	// Compare buffers
 	if (memcmp(testBuffer.getBuffer(), 
@@ -336,7 +345,7 @@ bool OptionsGameWrapper::commitChanges()
 		}
 
 		NetBufferReader reader(testBuffer);
-		readFromBuffer(reader, true);
+		readFromBuffer(reader, true, true);
 		return true;
 	}
 
