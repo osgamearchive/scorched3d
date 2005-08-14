@@ -5,7 +5,7 @@ $seriesid = ( isset($HTTP_GET_VARS['Series']) ) ? intval($HTTP_GET_VARS['Series'
 $playerid = ( isset($HTTP_GET_VARS['PlayerID']) ) ? intval($HTTP_GET_VARS['PlayerID']) : 0;
 
 $days = ( isset($HTTP_GET_VARS['Days']) ) ? intval($HTTP_GET_VARS['Days']) : 6;
-$num_rows = ( isset($HTTP_GET_VARS['Players']) ) ? intval($HTTP_GET_VARS['Players']) : 10;
+$num_rows = ( isset($HTTP_GET_VARS['Players']) ) ? intval($HTTP_GET_VARS['Players']) : 0;
 
 $orderby = ( isset($HTTP_GET_VARS['OrderBy']) ) ? htmlspecialchars($HTTP_GET_VARS['OrderBy']) : 'kills';
 
@@ -60,9 +60,9 @@ Search Days
 </table>
 
 <?
-$query = "SELECT (scorched3d_events.playerid) as playerid, (scorched3d_players.name) as name, SUM(IF(scorched3d_events.eventtype='1',1,0)) AS kills, SUM(IF(scorched3d_events.eventtype='2',1,0)) AS teamkills, SUM(IF(scorched3d_events.eventtype='3',1,0)) AS selfkills, SUM(IF(scorched3d_events.eventtype='4',1,0)) AS resigns, SUM(IF(scorched3d_events.eventtype='5',1,0)) AS roundwins, SUM(IF(scorched3d_events.eventtype='6',1,0)) AS gamewins FROM scorched3d_events LEFT JOIN scorched3d_players ON (scorched3d_events.playerid=scorched3d_players.playerid) WHERE TO_DAYS(NOW()) - TO_DAYS(scorched3d_events.eventtime) AND prefixid=$prefixid AND seriesid=$seriesid $compare $days GROUP BY playerid ORDER BY $orderby $dir LIMIT $playerid, 25";
+$query = "SELECT (scorched3d_events.playerid) as playerid, (scorched3d_players.name) as name, SUM(IF(scorched3d_events.eventtype='1',1,0)) AS kills, SUM(IF(scorched3d_events.eventtype='2',1,0)) AS teamkills, SUM(IF(scorched3d_events.eventtype='3',1,0)) AS selfkills, SUM(IF(scorched3d_events.eventtype='4',1,0)) AS resigns, SUM(IF(scorched3d_events.eventtype='5',1,0)) AS roundwins, SUM(IF(scorched3d_events.eventtype='6',1,0)) AS gamewins FROM scorched3d_events LEFT JOIN scorched3d_players ON (scorched3d_events.playerid=scorched3d_players.playerid) WHERE TO_DAYS(NOW()) - TO_DAYS(scorched3d_events.eventtime) $compare $days AND prefixid=$prefixid AND seriesid=$seriesid GROUP BY playerid ORDER BY $orderby $dir LIMIT $playerid, 25";
 $result = mysql_query($query) or die("Query failed : " . mysql_error());
-if ($num_rows==Null){
+if ($num_rows==Null or $num_rows==0){
 	$query = "SELECT playerid FROM scorched3d_events WHERE TO_DAYS(NOW()) - TO_DAYS(scorched3d_events.eventtime) and prefixid=$prefixid and seriesid=$seriesid $compare $days GROUP BY playerid";
 	$result_info = mysql_query($query);
 	$num_rows = mysql_num_rows($result_info);
