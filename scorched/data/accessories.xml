@@ -834,8 +834,8 @@ missiles target nearby tanks.</description>
 			<projectilescale>0.5</projectilescale>
 			<projectilemodel type='MilkShape'>digger/digger.txt</projectilemodel>
 			<collisionaction type='WeaponAimedUnder'>
-				<nowarheads>5</nowarheads>
-				<inaccuracy>20</inaccuracy>
+				<nowarheads>2</nowarheads>
+				<inaccuracy>30</inaccuracy>
 				<percentagemiss>20</percentagemiss>
 				<maxaimdistance>75</maxaimdistance>
 				<aimedweapon type='WeaponProjectile'>
@@ -867,8 +867,8 @@ missiles target nearby tanks.</description>
 		<accessoryaction type='WeaponProjectile'>
 			<projectilemodel type='MilkShape'>digger/digger.txt</projectilemodel>
 			<collisionaction type='WeaponAimedUnder'>
-				<nowarheads>8</nowarheads>
-				<inaccuracy>10</inaccuracy>
+				<nowarheads>5</nowarheads>
+				<inaccuracy>20</inaccuracy>
 				<percentagemiss>20</percentagemiss>
 				<maxaimdistance>75</maxaimdistance>
 				<aimedweapon type='WeaponProjectile'>
@@ -902,7 +902,7 @@ missiles target nearby tanks.</description>
 			<projectilemodel type='MilkShape'>digger/digger.txt</projectilemodel>
 			<collisionaction type='WeaponAimedUnder'>
 				<nowarheads>16</nowarheads>
-				<inaccuracy>10</inaccuracy>
+				<inaccuracy>20</inaccuracy>
 				<percentagemiss>10</percentagemiss>
 				<maxaimdistance>120</maxaimdistance>
 				<aimedweapon type='WeaponProjectile'>
@@ -1231,8 +1231,8 @@ and shields damaging the tank directly.</description>
 			<totaltime>1</totaltime>
 			<minimumdistance>10</minimumdistance>
 			<maximumdistance>200</maximumdistance>
-			<minimumhurt>20</minimumhurt>
-			<maximumhurt>36</maximumhurt>
+			<minimumhurt>30</minimumhurt>
+			<maximumhurt>40</maximumhurt>
 			<hurtradius>2</hurtradius>
 			<color>
 				<A>1.0</A>
@@ -1256,8 +1256,8 @@ and shields damaging the tank directly.</description>
 			<totaltime>1</totaltime>
 			<minimumdistance>10</minimumdistance>
 			<maximumdistance>200</maximumdistance>
-			<minimumhurt>40</minimumhurt>
-			<maximumhurt>55</maximumhurt>
+			<minimumhurt>60</minimumhurt>
+			<maximumhurt>70</maximumhurt>
 			<hurtradius>2</hurtradius>
 			<color>
 				<A>0.0</A>
