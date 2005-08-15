@@ -1588,21 +1588,24 @@ EMPs do more damage to shields than to tanks.</description>
 							<collisionaction type='WeaponMulti'>
 								<subweapon1 type='WeaponExplosion'>
 									<nocreatedebris></nocreatedebris>
-									<hurtamount>0.75</hurtamount>
+									<hurtamount>0.5</hurtamount>
 									<deform>none</deform>
 									<size>13</size>
 									<explosiontexture>exp05</explosiontexture>
 									<explosionsound>explosions/empsmall.wav</explosionsound>
 								</subweapon1>
-								<subweapon2 type='WeaponExplosion'>
-									<nocreatedebris></nocreatedebris>
-									<nocreatesplash></nocreatesplash>
-									<onlyhurtshield></onlyhurtshield>
-									<hurtamount>0.5</hurtamount>
-									<deform>none</deform>
-									<size>13</size>
-									<explosiontexture>none</explosiontexture>
-									<explosionsound>none</explosionsound>
+								<subweapon2 type='WeaponDelay'>
+									<delay>0.1</delay>
+									<delayedweapon type='WeaponExplosion'>
+										<nocreatedebris></nocreatedebris>
+										<nocreatesplash></nocreatesplash>
+										<onlyhurtshield>true</onlyhurtshield>
+										<hurtamount>0.75</hurtamount>
+										<deform>none</deform>
+										<size>13</size>
+										<explosiontexture>none</explosiontexture>
+										<explosionsound>none</explosionsound>
+									</delayedweapon>
 								</subweapon2>
 							</collisionaction>
 						</aimedweapon>
@@ -1611,7 +1614,7 @@ EMPs do more damage to shields than to tanks.</description>
 				<subweapon2 type='WeaponExplosion'>
 					<noluminance></noluminance>
 					<nocreatedebris></nocreatedebris>
-					<hurtamount>0.2</hurtamount>
+					<hurtamount>0</hurtamount>
 					<deform>down</deform>
 					<size>4</size>
 					<explosiontexture>cloud00</explosiontexture>
@@ -1652,7 +1655,7 @@ EMPs do more damage to shields than to tanks.</description>
 							<collisionaction type='WeaponMulti'> 
 								<subweapon1 type='WeaponExplosion'>
 									<nocreatedebris></nocreatedebris>
-									<hurtamount>0.75</hurtamount>
+									<hurtamount>0.5</hurtamount>
 									<deform>none</deform>
 									<size>24</size>
 									<minlife>0.5</minlife>
@@ -1660,15 +1663,18 @@ EMPs do more damage to shields than to tanks.</description>
 									<explosiontexture>exp05</explosiontexture>
 									<explosionsound>explosions/empsmall.wav</explosionsound>
 								</subweapon1>
-								<subweapon2 type='WeaponExplosion'>
-									<nocreatedebris></nocreatedebris>
-									<nocreatesplash></nocreatesplash>
-									<onlyhurtshield></onlyhurtshield>
-									<hurtamount>0.5</hurtamount>
-									<deform>none</deform>
-									<size>24</size>
-									<explosiontexture>none</explosiontexture>
-									<explosionsound>none</explosionsound>
+								<subweapon2 type='WeaponDelay'>
+									<delay>0.1</delay>
+									<delayedweapon type='WeaponExplosion'>
+										<nocreatedebris></nocreatedebris>
+										<nocreatesplash></nocreatesplash>
+										<onlyhurtshield>true</onlyhurtshield>
+										<hurtamount>0.75</hurtamount>
+										<deform>none</deform>
+										<size>24</size>
+										<explosiontexture>none</explosiontexture>
+										<explosionsound>none</explosionsound>
+									</delayedweapon>
 								</subweapon2>
 							</collisionaction>
 						</aimedweapon>
@@ -1677,7 +1683,7 @@ EMPs do more damage to shields than to tanks.</description>
 				<subweapon2 type='WeaponExplosion'>
 					<noluminance></noluminance>
 					<nocreatedebris></nocreatedebris>
-					<hurtamount>0.2</hurtamount>
+					<hurtamount>0</hurtamount>
 					<deform>down</deform>
 					<size>4</size>
 					<explosiontexture>cloud00</explosiontexture>
@@ -1697,11 +1703,11 @@ opponents.  The cloud does less damage as it spreads out.</description>
 		<activationsound>shoot/large.wav</activationsound>
 		<deathanimationweight>2</deathanimationweight>
 		<model type='MilkShape'>m7a3grenade/m7a3grenade.txt</model>
-		<modelscale>2.0</modelscale>
+		<modelscale>1.0</modelscale>
 		<accessoryaction type='WeaponProjectile'>
 			<enginesound>none</enginesound>
 			<nocreateflame></nocreateflame>
-			<projectilescale>2.0</projectilescale>
+			<projectilescale>1.0</projectilescale>
 			<projectilemodel type='MilkShape'>m7a3grenade/m7a3grenade.txt</projectilemodel>
 			<collisionaction type='WeaponMulti'>
 				<subweapon1 type='WeaponLeapFrog'>
@@ -1712,13 +1718,14 @@ opponents.  The cloud does less damage as it spreads out.</description>
 							<enginesound>none</enginesound>
 							<nocreateflame></nocreateflame>
 							<apexcollision></apexcollision>
-							<projectilescale>2.0</projectilescale>
+							<apexnodud/>
+							<projectilescale>1.0</projectilescale>
 							<projectilemodel type='MilkShape'>m7a3grenade/m7a3grenade.txt</projectilemodel>
 							<collisionaction type='WeaponMulti'>
 								<subweapon1 type='WeaponProjectile'>
 									<enginesound>none</enginesound>
 									<nocreateflame></nocreateflame>
-									<projectilescale>2.0</projectilescale>
+									<projectilescale>1.0</projectilescale>
 									<projectilemodel type='MilkShape'>m7a3grenade/m7a3grenade.txt</projectilemodel>
 									<collisionaction type='WeaponMulti'>
 										<subweapon1 type='WeaponDelay'>
@@ -1776,6 +1783,18 @@ opponents.  The cloud does less damage as it spreads out.</description>
 															<explosiontexture>gas00</explosiontexture>
 															<explosionsound>none</explosionsound>
 														</subweapon3>
+														<subweapon4 type='WeaponNapalm'>
+															<allowunderwater>false</allowunderwater>
+															<napalmtime>2.1</napalmtime>
+															<napalmheight>2.0</napalmheight>
+															<steptime>1.0</steptime>
+															<hurtsteptime>2.0</hurtsteptime>
+															<hurtpersecond>0.1</hurtpersecond>
+															<numberstreams>1</numberstreams>
+															<effectradius>5</effectradius>
+															<napalmtexture>gas00-3</napalmtexture>
+															<napalmsound>none</napalmsound>
+														</subweapon4>
 													</delayedweapon>
 												</subweapon1>
 												<subweapon2 type='WeaponExplosion'>
@@ -1801,6 +1820,18 @@ opponents.  The cloud does less damage as it spreads out.</description>
 													<explosiontexture>gas00</explosiontexture>
 													<explosionsound>none</explosionsound>
 												</subweapon3>
+												<subweapon4 type='WeaponNapalm'>
+													<allowunderwater>false</allowunderwater>
+													<napalmtime>2.1</napalmtime>
+													<napalmheight>2.0</napalmheight>
+													<steptime>1.0</steptime>
+													<hurtsteptime>2.0</hurtsteptime>
+													<hurtpersecond>0.1</hurtpersecond>
+													<numberstreams>1</numberstreams>
+													<effectradius>5</effectradius>
+													<napalmtexture>gas00-3</napalmtexture>
+													<napalmsound>none</napalmsound>
+												</subweapon4>
 											</delayedweapon>
 										</subweapon1>
 										<subweapon2 type='WeaponExplosion'>
@@ -1830,14 +1861,14 @@ opponents.  The cloud does less damage as it spreads out.</description>
 										</subweapon3>
 										<subweapon4 type='WeaponNapalm'>
 											<allowunderwater>false</allowunderwater>
-											<napalmtime>4.0</napalmtime>
+											<napalmtime>2.1</napalmtime>
 											<napalmheight>2.0</napalmheight>
-											<steptime>2</steptime>
+											<steptime>1.0</steptime>
 											<hurtsteptime>2.0</hurtsteptime>
 											<hurtpersecond>0.1</hurtpersecond>
 											<numberstreams>1</numberstreams>
 											<effectradius>5</effectradius>
-											<napalmtexture>flames</napalmtexture>
+											<napalmtexture>gas00-3</napalmtexture>
 											<napalmsound>none</napalmsound>
 										</subweapon4>
 									</collisionaction>
@@ -3213,8 +3244,8 @@ near the flames will lose life.</description>
 into a river of flame. Any tanks
 near the flames will lose life.</description>
 		<icon>napalm.bmp</icon>
-		<bundlesize>1</bundlesize>
-		<cost>1000</cost>
+		<bundlesize>2</bundlesize>
+		<cost>3000</cost>
 		<activationsound>shoot/small.wav</activationsound>
 		<model type='MilkShape'>napalm/napalm.txt</model>
 		<accessoryaction type='WeaponProjectile'>
@@ -3222,8 +3253,8 @@ near the flames will lose life.</description>
 			<collisionaction type='WeaponNapalm'>
 				<allowunderwater>false</allowunderwater>
 				<napalmtime>8.0</napalmtime>
-				<napalmheight>1.75</napalmheight>
-				<steptime>0.15</steptime>
+				<napalmheight>2.0</napalmheight>
+				<steptime>0.1</steptime>
 				<hurtsteptime>2.0</hurtsteptime>
 				<hurtpersecond>1.0</hurtpersecond>
 				<numberstreams>2</numberstreams>
@@ -4116,11 +4147,11 @@ This weapon does no physical damage</description>
 	</accessory>
 	<accessory>
 		<name>Riot Drill</name>
-		<armslevel>4</armslevel>
+		<armslevel>5</armslevel>
 		<description>Shoots 3 heavy riot bombs in rapid succession</description>
 		<icon>drill.bmp</icon>
 		<bundlesize>1</bundlesize>
-		<cost>4000</cost>
+		<cost>3000</cost>
 		<activationsound>shoot/tripleshot.wav</activationsound>
 		<accessoryaction type='WeaponMulti'>
 			<subweapon1 type='WeaponProjectile'>
@@ -5071,13 +5102,61 @@ burning chunks of earth about the area.</description>
 		</accessoryaction>
 	</accessory>
 	<accessory>
+		<name>DirtColumn</name>
+		<armslevel>10</armslevel>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponMulti'>
+			<subweapon1 type='WeaponExplosion'>
+				<deform>up</deform>
+				<hurtamount>0.0</hurtamount>
+				<nocreatedebris></nocreatedebris>
+				<size>10</size>
+				<explosiontexture>exp03</explosiontexture>
+				<explosionsound>explosions/gloop.wav</explosionsound>
+			</subweapon1>
+			<subweapon2 type='WeaponDelay'>
+				<delay>0.5</delay>
+				<delayedweapon type='WeaponExplosion'>
+					<deform>up</deform>
+					<hurtamount>0.0</hurtamount>
+					<nocreatedebris></nocreatedebris>
+					<size>10</size>
+					<explosiontexture>exp03</explosiontexture>
+					<explosionsound>explosions/gloop.wav</explosionsound>
+				</delayedweapon>
+			</subweapon2>
+			<subweapon3 type='WeaponDelay'>
+				<delay>1.0</delay>
+				<delayedweapon type='WeaponExplosion'>
+					<deform>up</deform>
+					<hurtamount>0.0</hurtamount>
+					<nocreatedebris></nocreatedebris>
+					<size>10</size>
+					<explosiontexture>exp03</explosiontexture>
+					<explosionsound>explosions/gloop.wav</explosionsound>
+				</delayedweapon>
+			</subweapon3>
+			<subweapon4 type='WeaponDelay'>
+				<delay>1.5</delay>
+				<delayedweapon type='WeaponExplosion'>
+					<deform>up</deform>
+					<hurtamount>0.0</hurtamount>
+					<nocreatedebris></nocreatedebris>
+					<size>10</size>
+					<explosiontexture>exp03</explosiontexture>
+					<explosionsound>explosions/gloop.wav</explosionsound>
+				</delayedweapon>
+			</subweapon4>
+		</accessoryaction>
+	</accessory>
+	<accessory>
 		<name>Wall Of Dirt</name>
-		<armslevel>4</armslevel>
+		<armslevel>5</armslevel>
 		<description>Raises a small wall Of Dirt a short 
 distance from your tank in the direction you aim</description>
 		<icon>dshield.bmp</icon>
 		<bundlesize>1</bundlesize>
-		<cost>4000</cost>
+		<cost>3000</cost>
 		<activationsound>shoot/large.wav</activationsound>
 		<accessoryaction type='WeaponDelay'>
 			<delay>0.5</delay>
@@ -5089,37 +5168,8 @@ distance from your tank in the direction you aim</description>
 					<vredirect>90</vredirect>
 					<nextaction type='WeaponTranslate'>
 						<translatedist>30</translatedist>
-						<nextaction type='WeaponMulti'>
-							<subweapon1 type='WeaponExplosion'>
-								<deform>up</deform>
-								<hurtamount>0.0</hurtamount>
-								<nocreatedebris></nocreatedebris>
-								<size>10</size>
-								<explosiontexture>exp03</explosiontexture>
-								<explosionsound>explosions/gloop.wav</explosionsound>
-							</subweapon1>
-							<subweapon2 type='WeaponDelay'>
-								<delay>0.5</delay>
-								<delayedweapon type='WeaponExplosion'>
-									<deform>up</deform>
-									<hurtamount>0.0</hurtamount>
-									<nocreatedebris></nocreatedebris>
-									<size>10</size>
-									<explosiontexture>exp03</explosiontexture>
-									<explosionsound>explosions/gloop.wav</explosionsound>
-								</delayedweapon>
-							</subweapon2>
-							<subweapon3 type='WeaponDelay'>
-								<delay>1.0</delay>
-								<delayedweapon type='WeaponExplosion'>
-									<deform>up</deform>
-									<hurtamount>0.0</hurtamount>
-									<nocreatedebris></nocreatedebris>
-									<size>10</size>
-									<explosiontexture>exp03</explosiontexture>
-									<explosionsound>explosions/gloop.wav</explosionsound>
-								</delayedweapon>
-							</subweapon3>
+						<nextaction type='WeaponReference'>
+							<weapon>DirtColumn</weapon>
 						</nextaction>
 					</nextaction>
 				</subweapon1>
@@ -5130,37 +5180,8 @@ distance from your tank in the direction you aim</description>
 					<vredirect>90</vredirect>
 					<nextaction type='WeaponTranslate'>
 						<translatedist>30</translatedist>
-						<nextaction type='WeaponMulti'>
-							<subweapon1 type='WeaponExplosion'>
-								<deform>up</deform>
-								<hurtamount>0.0</hurtamount>
-								<nocreatedebris></nocreatedebris>
-								<size>10</size>
-								<explosiontexture>exp03</explosiontexture>
-								<explosionsound>none</explosionsound>
-							</subweapon1>
-							<subweapon2 type='WeaponDelay'>
-								<delay>0.5</delay>
-								<delayedweapon type='WeaponExplosion'>
-									<deform>up</deform>
-									<hurtamount>0.0</hurtamount>
-									<nocreatedebris></nocreatedebris>
-									<size>10</size>
-									<explosiontexture>exp03</explosiontexture>
-									<explosionsound>none</explosionsound>
-								</delayedweapon>
-							</subweapon2>
-							<subweapon3 type='WeaponDelay'>
-								<delay>1.0</delay>
-								<delayedweapon type='WeaponExplosion'>
-									<deform>up</deform>
-									<hurtamount>0.0</hurtamount>
-									<nocreatedebris></nocreatedebris>
-									<size>10</size>
-									<explosiontexture>exp03</explosiontexture>
-									<explosionsound>none</explosionsound>
-								</delayedweapon>
-							</subweapon3>
+						<nextaction type='WeaponReference'>
+							<weapon>DirtColumn</weapon>
 						</nextaction>
 					</nextaction>
 				</subweapon2>
@@ -5171,37 +5192,8 @@ distance from your tank in the direction you aim</description>
 					<vredirect>90</vredirect>
 					<nextaction type='WeaponTranslate'>
 						<translatedist>30</translatedist>
-						<nextaction type='WeaponMulti'>
-							<subweapon1 type='WeaponExplosion'>
-								<deform>up</deform>
-								<hurtamount>0.0</hurtamount>
-								<nocreatedebris></nocreatedebris>
-								<size>10</size>
-								<explosiontexture>exp03</explosiontexture>
-								<explosionsound>none</explosionsound>
-							</subweapon1>
-							<subweapon2 type='WeaponDelay'>
-								<delay>0.5</delay>
-								<delayedweapon type='WeaponExplosion'>
-									<deform>up</deform>
-									<hurtamount>0.0</hurtamount>
-									<nocreatedebris></nocreatedebris>
-									<size>10</size>
-									<explosiontexture>exp03</explosiontexture>
-									<explosionsound>none</explosionsound>
-								</delayedweapon>
-							</subweapon2>
-							<subweapon3 type='WeaponDelay'>
-								<delay>1.0</delay>
-								<delayedweapon type='WeaponExplosion'>
-									<deform>up</deform>
-									<hurtamount>0.0</hurtamount>
-									<nocreatedebris></nocreatedebris>
-									<size>10</size>
-									<explosiontexture>exp03</explosiontexture>
-									<explosionsound>none</explosionsound>
-								</delayedweapon>
-							</subweapon3>
+						<nextaction type='WeaponReference'>
+							<weapon>DirtColumn</weapon>
 						</nextaction>
 					</nextaction>
 				</subweapon3>
@@ -5214,7 +5206,7 @@ distance from your tank in the direction you aim</description>
 		<description>Raises a ring of dirt around your tank</description>
 		<icon>dring.bmp</icon>
 		<bundlesize>1</bundlesize>
-		<cost>12000</cost>
+		<cost>10000</cost>
 		<activationsound>shoot/large.wav</activationsound>
 		<accessoryaction type='WeaponMulti'>
 			<subweapon1 type='WeaponReference'>
@@ -5272,13 +5264,13 @@ distance from your tank in the direction you aim</description>
 				<subweapon1 type='WeaponExplosion'>
 					<hurtamount>1.1</hurtamount>
 					<deform>down</deform>
-					<size>10</size>
+					<size>12</size>
 					<explosionsound>explosions/large.wav</explosionsound>
 					<explosiontexture>exp00</explosiontexture>
 					<explosionshake>2.0</explosionshake>
 				</subweapon1>
 				<subweapon2 type='WeaponAimedOver'>
-					<nowarheads>3</nowarheads>
+					<nowarheads>4</nowarheads>
 					<percentagemiss>20</percentagemiss>
 					<maxaimdistance>0</maxaimdistance>
 					<inaccuracy>10</inaccuracy>
@@ -5330,13 +5322,13 @@ distance from your tank in the direction you aim</description>
 				<subweapon1 type='WeaponExplosion'>
 					<hurtamount>1.15</hurtamount>
 					<deform>down</deform>
-					<size>14</size>
+					<size>16</size>
 					<explosionsound>explosions/meteor.wav</explosionsound>
 					<explosiontexture>exp00</explosiontexture>
 					<explosionshake>1.0</explosionshake>
 				</subweapon1>
 				<subweapon2 type='WeaponAimedOver'>
-					<nowarheads>5</nowarheads>
+					<nowarheads>4</nowarheads>
 					<percentagemiss>20</percentagemiss>
 					<maxaimdistance>0</maxaimdistance>
 					<inaccuracy>10</inaccuracy>
@@ -5388,13 +5380,13 @@ distance from your tank in the direction you aim</description>
 				<subweapon1 type='WeaponExplosion'>
 					<hurtamount>1.2</hurtamount>
 					<deform>down</deform>
-					<size>18</size>
+					<size>20</size>
 					<explosionsound>explosions/meteor.wav</explosionsound>
 					<explosiontexture>exp00</explosiontexture>
 					<explosionshake>2.0</explosionshake>
 				</subweapon1>
 				<subweapon2 type='WeaponAimedOver'>
-					<nowarheads>8</nowarheads>
+					<nowarheads>6</nowarheads>
 					<percentagemiss>20</percentagemiss>
 					<maxaimdistance>0</maxaimdistance>
 					<inaccuracy>10</inaccuracy>
@@ -5433,6 +5425,34 @@ distance from your tank in the direction you aim</description>
 		</accessoryaction>
 	</accessory>
 	<accessory>
+		<name>MeteorCluster</name>
+		<armslevel>1</armslevel>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponMulti'>
+			<subweapon1 type='WeaponReference'>
+				<weapon>Meteor3</weapon>
+			</subweapon1>
+			<subweapon2 type='WeaponDelay'>
+				<delay>0.2</delay>
+				<delayedweapon type='WeaponVelocity'>
+					<velocitychange>0.75</velocitychange>
+					<aimedweapon type='WeaponReference'>
+						<weapon>Meteor2</weapon>
+					</aimedweapon>
+				</delayedweapon>
+			</subweapon2>
+			<subweapon3 type='WeaponDelay'>
+				<delay>0.4</delay>
+				<delayedweapon type='WeaponVelocity'>
+					<velocitychange>0.5</velocitychange>
+					<aimedweapon type='WeaponReference'>
+						<weapon>Meteor1</weapon>
+					</aimedweapon>
+				</delayedweapon>
+			</subweapon3>
+		</accessoryaction>
+	</accessory>
+	<accessory>
 		<name>Meteor Shower</name>
 		<armslevel>1</armslevel>
 		<description>Weapon creates a mass of flaming meteors
@@ -5457,10 +5477,10 @@ YOU CANNOT AIM THIS WEAPON!</description>
 					<delay>2.0</delay>
 					<delayedweapon type='WeaponMulti'>
 						<subweapon1 type='WeaponAimedOver'>
-							<nowarheads>6</nowarheads>
-							<percentagemiss>5</percentagemiss>
-							<maxaimdistance>75</maxaimdistance>
-							<inaccuracy>5</inaccuracy>
+							<nowarheads>8</nowarheads>
+							<percentagemiss>100</percentagemiss>
+							<maxaimdistance>0</maxaimdistance>
+							<inaccuracy>100</inaccuracy>
 							<aimedweapon type='WeaponRedirect'>
 								<habs>false</habs>
 								<vabs>true</vabs>
@@ -5511,7 +5531,7 @@ YOU CANNOT AIM THIS WEAPON!</description>
 											</delayedweapon>
 										</subweapon1>
 										<subweapon2 type='WeaponReference'>
-											<weapon>Meteor3</weapon>
+											<weapon>MeteorCluster</weapon>
 										</subweapon2>
 										<subweapon3 type='WeaponExplosion'>
 											<hurtamount>0</hurtamount>
@@ -6912,7 +6932,7 @@ in where she chooses to strike.
 YOU CANNOT AIM THIS WEAPON!</description>
 		<icon>lstorm.bmp</icon>
 		<bundlesize>1</bundlesize>
-		<cost>30000</cost>
+		<cost>25000</cost>
 		<activationsound>explosions/shockwave.wav</activationsound>
 		<model type='MilkShape'>shockrocket/shockrocket.txt</model>
 		<modelscale>5.0</modelscale>
@@ -7383,7 +7403,7 @@ YOU CANNOT AIM THIS WEAPON</description>
 		<model type='MilkShape'>flare.txt</model>
 		<accessoryaction type="WeaponScatter">
 			<position><A>128</A><B>128</B><C>0</C></position>
-			<positionoffset><A>64</A><B>64</B><C>10</C></positionoffset>
+			<positionoffset><A>48</A><B>48</B><C>0</C></positionoffset>
 			<direction><A>0</A><B>0</B><C>0</C></direction>
 			<directionoffset><A>0</A><B>0</B><C>0</C></directionoffset>		
 			<aimedweapon type='WeaponDelay'>
@@ -7407,7 +7427,7 @@ YOU CANNOT AIM THIS WEAPON</description>
 													<hurtamount>0.3</hurtamount>
 													<deform>none</deform>
 													<size>128</size>
-													<explosionshake>3.0</explosionshake>
+													<explosionshake>4.0</explosionshake>
 													<explosiontexture>none</explosiontexture>
 													<explosionsound>none</explosionsound>
 												</delayedweapon>
@@ -7416,7 +7436,7 @@ YOU CANNOT AIM THIS WEAPON</description>
 												<armslevel>1</armslevel>
 												<nocreatedebris></nocreatedebris>
 												<nocreatesplash></nocreatesplash>
-												<hurtamount>0.4</hurtamount>
+												<hurtamount>0.3</hurtamount>
 												<deform>none</deform>
 												<size>128</size>
 												<explosionshake>6.0</explosionshake>
@@ -7442,7 +7462,7 @@ YOU CANNOT AIM THIS WEAPON</description>
 								<armslevel>1</armslevel>
 								<nocreatedebris></nocreatedebris>
 								<nocreatesplash></nocreatesplash>
-								<hurtamount>0.25</hurtamount>
+								<hurtamount>0.3</hurtamount>
 								<deform>none</deform>
 								<size>128</size>
 								<explosionshake>4.0</explosionshake>
@@ -7454,7 +7474,7 @@ YOU CANNOT AIM THIS WEAPON</description>
 					<subweapon2 type='WeaponExplosion'>
 						<armslevel>1</armslevel>
 						<nocreatedebris></nocreatedebris>
-						<hurtamount>0.2</hurtamount>
+						<hurtamount>0.3</hurtamount>
 						<deform>none</deform>
 						<size>128</size>
 						<explosionshake>3.0</explosionshake>
@@ -7468,7 +7488,7 @@ YOU CANNOT AIM THIS WEAPON</description>
 	<accessory>
 		<name>Pen Laser</name>
 		<armslevel>10</armslevel>
-		<bundlesize>-1</bundlesize>
+		<startingnumber>-1</startingnumber>
 		<icon>laser.bmp</icon>
 		<activationsound>shoot/flare.wav</activationsound>
 		<model type="MilkShape">laser/laser.txt</model>

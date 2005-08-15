@@ -603,7 +603,7 @@
 					<mintime>0</mintime>
 					<maxtime>2</maxtime>
 					<maxsimul>4</maxsimul>
-					<volume>25</volume>
+					<volume>10</volume>
 					<sound>data/wav/misc/apache_1.wav</sound>
 				</sounds>
 			</boid>
@@ -720,7 +720,7 @@
 					<mintime>0</mintime>
 					<maxtime>2</maxtime>
 					<maxsimul>4</maxsimul>
-					<volume>25</volume>
+					<volume>10</volume>
 					<sound>data/wav/misc/apache_1.wav</sound>
 				</sounds>
 			</boid>
@@ -807,7 +807,7 @@
 					<mintime>0</mintime>
 					<maxtime>2</maxtime>
 					<maxsimul>4</maxsimul>
-					<volume>25</volume>
+					<volume>10</volume>
 					<sound>data/wav/misc/apache_1.wav</sound>
 				</sounds>
 			</boid>
@@ -912,7 +912,7 @@
 					<mintime>0</mintime>
 					<maxtime>2</maxtime>
 					<maxsimul>4</maxsimul>
-					<volume>25</volume>
+					<volume>10</volume>
 					<sound>data/wav/misc/apache_1.wav</sound>
 				</sounds>
 			</boid>
@@ -1010,7 +1010,7 @@
 					<mintime>0</mintime>
 					<maxtime>2</maxtime>
 					<maxsimul>4</maxsimul>
-					<volume>25</volume>
+					<volume>10</volume>
 					<sound>data/wav/misc/apache_1.wav</sound>
 				</sounds>
 			</boid>
@@ -1098,7 +1098,7 @@
 					<mintime>0</mintime>
 					<maxtime>2</maxtime>
 					<maxsimul>4</maxsimul>
-					<volume>25</volume>
+					<volume>10</volume>
 					<sound>data/wav/misc/apache_1.wav</sound>
 				</sounds>
 			</boid>
@@ -1203,7 +1203,7 @@
 					<mintime>0</mintime>
 					<maxtime>2</maxtime>
 					<maxsimul>4</maxsimul>
-					<volume>25</volume>
+					<volume>10</volume>
 					<sound>data/wav/misc/apache_1.wav</sound>
 				</sounds>
 			</boid>
@@ -1301,7 +1301,7 @@
 					<mintime>0</mintime>
 					<maxtime>2</maxtime>
 					<maxsimul>4</maxsimul>
-					<volume>25</volume>
+					<volume>10</volume>
 					<sound>data/wav/misc/apache_1.wav</sound>
 				</sounds>
 			</boid>
@@ -1389,7 +1389,7 @@
 					<mintime>0</mintime>
 					<maxtime>2</maxtime>
 					<maxsimul>4</maxsimul>
-					<volume>25</volume>
+					<volume>10</volume>
 					<sound>data/wav/misc/apache_1.wav</sound>
 				</sounds>
 			</boid>
@@ -1494,7 +1494,7 @@
 					<mintime>0</mintime>
 					<maxtime>2</maxtime>
 					<maxsimul>4</maxsimul>
-					<volume>25</volume>
+					<volume>10</volume>
 					<sound>data/wav/misc/apache_1.wav</sound>
 				</sounds>
 			</boid>
@@ -1592,7 +1592,7 @@
 					<mintime>0</mintime>
 					<maxtime>2</maxtime>
 					<maxsimul>4</maxsimul>
-					<volume>25</volume>
+					<volume>10</volume>
 					<sound>data/wav/misc/apache_1.wav</sound>
 				</sounds>
 			</boid>
