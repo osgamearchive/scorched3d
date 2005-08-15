@@ -241,10 +241,14 @@ void HeightMapModifier::generateTerrain(HeightMap &hmap,
 		{
 			int bx = int(sx * maskMultX);
 			int by = maskMap.getWidth() - int(sy * maskMultY);
+			if (bx >= 0 && bx < maskMap.getWidth() && 
+				by >= 0 && by < maskMap.getWidth())
+			{
 			GLubyte maskPt = maskMap.getBits()[(bx * 3) + (by * maskMap.getWidth() * 3)];
 
 			//printf("%i %i %i %s\n", maskPt, bx, by, defn.mask.c_str());
 			ok = ((generator.getRandFloat() * 255.0f) < float(maskPt));
+			}
 		}
 
 		if (ok)
