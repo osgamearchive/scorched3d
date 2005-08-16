@@ -29,12 +29,13 @@
 #include <GLW/GLWButton.h>
 #include <GLW/GLWPanel.h>
 #include <GLW/GLWTab.h>
-#include <GLW/GLWCheckBox.h>
+#include <GLW/GLWCheckBoxText.h>
 
 class Tank;
 class BuyAccessoryDialog : public GLWWindow,
 						public GLWButtonI,
-						public GLWCheckBoxI
+						public GLWCheckBoxI,
+						public GLWTabI
 {
 public:
 	BuyAccessoryDialog();
@@ -48,6 +49,9 @@ public:
 	// Inherited from GLWCheckBoxI
 	virtual void stateChange(bool state, unsigned int id);
 
+	// Inherited from GLWTabI
+	virtual void tabDown(unsigned int id);
+
 protected:
 	unsigned int okId_;
 	bool firstDrawTime_;
@@ -57,6 +61,7 @@ protected:
 	GLWTab *favouritesTab_;
 	GLWPanel *topPanel_;
 	GLWCheckBox *sortBox_;
+	GLWCheckBoxText *defaultTab_;
 	std::map<unsigned int, Accessory *> sellMap_;
 	std::map<unsigned int, Accessory *> buyMap_;
 	std::map<unsigned int, Accessory *> favMap_;

@@ -54,12 +54,24 @@ BuyAccessoryDialog::BuyAccessoryDialog() :
 	topPanel_ = (GLWPanel *)
 		addWidget(new GLWPanel(10, 265, 450, 50));
 
+	buyWeaponTab_->setHandler(this);
+	buyOtherTab_->setHandler(this);
+	sellTab_->setHandler(this);
+	favouritesTab_->setHandler(this);
+
+	defaultTab_ = (GLWCheckBoxText *) 
+		addWidget(new GLWCheckBoxText(18.0f, 230.0f, "Default Tab", false, 3.0f));
+	defaultTab_->getCheckBox().setW(12);
+	defaultTab_->getCheckBox().setH(12);
+	defaultTab_->getLabel().setSize(10);
+	defaultTab_->getCheckBox().setHandler(this);
+
 	sortBox_ = (GLWCheckBox *) addWidget(new GLWCheckBox(10, 14));
 	sortBox_->setHandler(this);
 	sortBox_->setW(14);
 	sortBox_->setH(14);
 	GLWLabel *label = (GLWLabel *)
-		addWidget(new GLWLabel(30, 9, "Sort accessories by name"));
+		addWidget(new GLWLabel(30, 9, "Sort by name"));
 	label->setSize(12);
 }
 
@@ -83,6 +95,7 @@ void BuyAccessoryDialog::draw()
 		buyOtherTab_->setH(165 + addition);
 		favouritesTab_->setH(165 + addition);
 		topPanel_->setY(240 + addition);
+		defaultTab_->setY(190 + addition);
 
 		needCentered_ = true;
 	}
@@ -166,10 +179,15 @@ void BuyAccessoryDialog::addPlayerFavorites()
 		itor++)
 	{
 		Accessory *current = *itor;
-		if (favorites_.find(current->getName()) != favorites_.end())
+		if (current->getMaximumNumber() > 0 &&
+			10-current->getArmsLevel() <= 
+			ScorchedClient::instance()->getOptionsTransient().getArmsLevel())
 		{
-			addAccessory(tank, favouritesTab_, height, current);
-			height += 24.0f;
+			if (favorites_.find(current->getName()) != favorites_.end())
+			{
+				addAccessory(tank, favouritesTab_, height, current);
+				height += 24.0f;
+			}
 		}
 	}
 }
@@ -323,7 +341,54 @@ void BuyAccessoryDialog::windowInit(const unsigned state)
 	if (tank)
 	{
 		buyWeaponTab_->setDepressed();
+		const char *buyTab = OptionsDisplay::instance()->getBuyTab();
+		std::list<GLWPanel::GLWPanelEntry>::iterator itor;
+		for (itor = getWidgets().begin();
+			itor != getWidgets().end();
+			itor++)
+		{
+			GLWPanel::GLWPanelEntry &entry = (*itor);
+			if (entry.widget->getMetaClassId() == buyWeaponTab_->getMetaClassId())
+			{
+				GLWTab *tab = (GLWTab *) entry.widget;
+				if (0 == strcmp(buyTab, tab->getName()))
+				{
+					tab->setDepressed();
+					break;
+				}
+			}
+		}
+		tabDown(0);
+	
 		playerRefresh();
+	}
+}
+
+void BuyAccessoryDialog::tabDown(unsigned int id)
+{
+	const char *buyTab = OptionsDisplay::instance()->getBuyTab();
+	std::list<GLWPanel::GLWPanelEntry>::iterator itor;
+	for (itor = getWidgets().begin();
+		itor != getWidgets().end();
+		itor++)
+	{
+		GLWPanel::GLWPanelEntry &entry = (*itor);
+		if (entry.widget->getMetaClassId() == buyWeaponTab_->getMetaClassId())
+		{
+			GLWTab *tab = (GLWTab *) entry.widget;
+			if (tab->getDepressed())
+			{
+				if (0 == strcmp(buyTab, tab->getName()))
+				{
+					defaultTab_->getCheckBox().setState(true);
+				}
+				else
+				{
+					defaultTab_->getCheckBox().setState(false);
+				}
+				break;
+			}
+		}
 	}
 }
 
@@ -334,6 +399,32 @@ void BuyAccessoryDialog::stateChange(bool state, unsigned int id)
 		// The sort accessories check box has been clicked
 		OptionsDisplay::instance()->setSortAccessories(state);
 		playerRefreshKeepPos();
+	}
+	else if (id == defaultTab_->getCheckBox().getId())
+	{
+		if (defaultTab_->getCheckBox().getState())
+		{
+			std::list<GLWPanel::GLWPanelEntry>::iterator itor;
+			for (itor = getWidgets().begin();
+				itor != getWidgets().end();
+				itor++)
+			{
+				GLWPanel::GLWPanelEntry &entry = (*itor);
+				if (entry.widget->getMetaClassId() == buyWeaponTab_->getMetaClassId())
+				{
+					GLWTab *tab = (GLWTab *) entry.widget;
+					if (tab->getDepressed())
+					{
+						OptionsDisplay::instance()->setBuyTab(tab->getName());
+						break;
+					}
+				}
+			}
+		}
+		else
+		{
+			OptionsDisplay::instance()->setBuyTab("");
+		}
 	}
 	else
 	{

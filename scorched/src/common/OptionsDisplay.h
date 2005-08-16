@@ -354,6 +354,10 @@ public:
 	void setHostDescription(const char *value) { hostDescription_.setValue(value); }
 	const char *getHostDescriptionToolTip() { return hostDescription_.getDescription(); }
 
+	const char *getBuyTab() { return buyTab_.getValue(); }
+	void setBuyTab(const char *value) { buyTab_.setValue(value); }
+	const char *getBuyTabToolTip() { return buyTab_.getDescription(); }
+
 	void loadSafeValues();
 	void loadDefaultValues();
 	bool writeOptionsToFile();
@@ -450,6 +454,7 @@ protected:
 	OptionEntryString onlineUserName_;
 	OptionEntryString onlineTankModel_;
 	OptionEntryString onlineUserIcon_;
+	OptionEntryString buyTab_;
 
 private:
 	OptionsDisplay();

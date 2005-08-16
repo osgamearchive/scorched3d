@@ -10,10 +10,12 @@ Fixed: All landscape files are checked with client for the "none" mod
 Fixed: Napalm and rollers duding when being fired into cliffs
 Fixed: Cannot have player names beginning with the bot prefix
 Fixed: Server bots are saved in server.xml file when changes commited
+Fixed: Weapons for the wrong arms level being displayed in favorites
 Fixed: Crash in landscape generation code
 Fixed: Laser and sandhog damage
 
 Added: Server web admin talk page shows the last few conversations
+Added: Default tab can be set in the buy dialog
 
 -- Bugs in current development release
 Dvorak keyboard support is broken

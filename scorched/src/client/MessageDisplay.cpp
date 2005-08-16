@@ -89,10 +89,10 @@ void MessageDisplay::draw(const unsigned currentstate)
 		30, currentText_.c_str()));
 
 	float x = (wWidth/2.0f) - (textWidth / 2) - 10.0f;
-	float y = wHeight - 120.0f;
+	float y = wHeight - 60.0f;
 
 	window_.setW(textWidth + 20.0f);
-	window_.setH(50);
+	window_.setH(40);
 	window_.setX(x);
 	window_.setY(y);
 	window_.draw();
@@ -100,6 +100,6 @@ void MessageDisplay::draw(const unsigned currentstate)
 	Vector white(0.9f, 0.9f, 1.0f);
 	GLWFont::instance()->getLargePtFont()->draw(
 		white, 30, 
-		x + 10.0f, y + 10.0f, 0.0f,
+		x + 10.0f, y + 7.0f, 0.0f,
 		currentText_.c_str());
 }

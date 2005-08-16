@@ -47,8 +47,10 @@ public:
 	virtual void setH(float h);
 
 	float getTw();
+	const char *getName() { return label_.getText(); }
 	
 	void setDepressed();
+	bool getDepressed() { return depressed_; }
 	void setHandler(GLWTabI *handler) { handler_ = handler; }
 
 	REGISTER_CLASS_HEADER(GLWTab);

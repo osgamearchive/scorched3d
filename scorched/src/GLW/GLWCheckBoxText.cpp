@@ -24,10 +24,12 @@ REGISTER_CLASS_SOURCE(GLWCheckBoxText);
 
 GLWCheckBoxText::GLWCheckBoxText(float x, float y, 
 		const char *text,
-		bool startState) :
+		bool startState,
+		float offset) :
 	GLWidget(x, y, 0.0f, 20.0f),
+	offset_(offset),
 	box_(x, y, startState),
-	label_(x + box_.getW() + 5.0f, y - 2.0f, (char *)  text)
+	label_(x + box_.getW() + 5.0f - offset_, y - 2.0f - offset_, (char *)  text)
 {
 }
 
@@ -72,12 +74,12 @@ void GLWCheckBoxText::setX(float x)
 {
 	GLWidget::setX(x);
 	box_.setX(x);
-	label_.setX(x + box_.getW() + 5.0f);
+	label_.setX(x + box_.getW() + 5.0f - offset_);
 }
 
 void GLWCheckBoxText::setY(float y)
 {
 	GLWidget::setY(y);
 	box_.setY(y);
-	label_.setY(y - 2.0f);
+	label_.setY(y - 2.0f - offset_);
 }

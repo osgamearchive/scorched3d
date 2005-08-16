@@ -49,6 +49,8 @@ OptionsDisplay::OptionsDisplay() :
 		"The description of this host given to any servers for stats.", RAccess | NoRestore, ""),
 	onlineUserIcon_(options_, "OnlineUserIcon",
 		"The players icon, must be GIF 32x32.", RAccess, ""),
+	buyTab_(options_, "BuyTab",
+		"The default buy tab", RWAccess, ""),
 	onlineUserName_(options_, "OnlineUserName",
 		"The player name that will be used for all online games.", RAccess | NoRestore, "Player"),
 	onlineTankModel_(options_, "OnlineTankModel",

@@ -65,7 +65,6 @@ void GLWTab::mouseDown(float x, float y, bool &skipRest)
 		y > y_ + h_)
 	{
 		setDepressed();
-		if (handler_) handler_->tabDown(getId());
 		skipRest = true;
 	}
 
@@ -91,6 +90,7 @@ void GLWTab::setDepressed()
 	}
 
 	depressed_ = true;
+	if (handler_) handler_->tabDown(getId());
 }
 
 void GLWTab::setParent(GLWPanel *parent)

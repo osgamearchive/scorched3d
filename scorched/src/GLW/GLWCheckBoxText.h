@@ -29,7 +29,8 @@ class GLWCheckBoxText : public GLWidget
 public:
 	GLWCheckBoxText(float x = 0.0f, float y = 0.0f, 
 		const char *text = "",
-		bool startState = true);
+		bool startState = true,
+		float offset = 0.0f);
 	virtual ~GLWCheckBoxText();
 
 	virtual void draw();
@@ -47,6 +48,7 @@ public:
 	REGISTER_CLASS_HEADER(GLWCheckBoxText);
 
 protected:
+	float offset_;
 	GLWCheckBox box_;
 	GLWLabel label_;
 };

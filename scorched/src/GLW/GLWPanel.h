@@ -100,7 +100,6 @@ public:
 	REGISTER_CLASS_HEADER(GLWPanel);
 
 	// Accessors
-	bool &getDepressed() { return depressed_; }
 	bool &getDrawPanel() { return drawPanel_; }
 
 protected:
