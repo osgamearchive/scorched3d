@@ -26,6 +26,7 @@
 #include <client/ScorchedClient.h>
 #include <client/ClientSave.h>
 #include <common/Logger.h>
+#include <common/LoggerI.h>
 #include <common/Defines.h>
 #include <time.h>
 
@@ -88,9 +89,8 @@ void SaveDialog::buttonDown(unsigned int id)
 			std::string saveFile = formatString("%s.s3d", textBox_->getText().c_str());
 			if (ClientSave::saveClient(getSaveFile(saveFile.c_str())))
 			{
-				MessageDisplay::instance()->addMessage(
-					formatString("Saved as \"%s\"", saveFile.c_str()));
-				Logger::log("Saved as \"%s\"", saveFile.c_str());
+				Logger::log(LoggerInfo(LoggerInfo::TypePerformance,
+					formatString("Saved as \"%s\"", saveFile.c_str())));
 			}
 			else
 			{
