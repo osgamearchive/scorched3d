@@ -63,7 +63,7 @@ Search Days
 $query = "SELECT (scorched3d_events.playerid) as playerid, (scorched3d_players.name) as name, SUM(IF(scorched3d_events.eventtype='1',1,0)) AS kills, SUM(IF(scorched3d_events.eventtype='2',1,0)) AS teamkills, SUM(IF(scorched3d_events.eventtype='3',1,0)) AS selfkills, SUM(IF(scorched3d_events.eventtype='4',1,0)) AS resigns, SUM(IF(scorched3d_events.eventtype='5',1,0)) AS roundwins, SUM(IF(scorched3d_events.eventtype='6',1,0)) AS gamewins FROM scorched3d_events LEFT JOIN scorched3d_players ON (scorched3d_events.playerid=scorched3d_players.playerid) WHERE TO_DAYS(NOW()) - TO_DAYS(scorched3d_events.eventtime) $compare $days AND prefixid=$prefixid AND seriesid=$seriesid GROUP BY playerid ORDER BY $orderby $dir LIMIT $playerid, 25";
 $result = mysql_query($query) or die("Query failed : " . mysql_error());
 if ($num_rows==Null or $num_rows==0){
-	$query = "SELECT playerid FROM scorched3d_events WHERE TO_DAYS(NOW()) - TO_DAYS(scorched3d_events.eventtime) and prefixid=$prefixid and seriesid=$seriesid $compare $days GROUP BY playerid";
+	$query = "SELECT playerid FROM scorched3d_events WHERE TO_DAYS(NOW()) - TO_DAYS(scorched3d_events.eventtime) $compare $days and prefixid=$prefixid and seriesid=$seriesid GROUP BY playerid";
 	$result_info = mysql_query($query);
 	$num_rows = mysql_num_rows($result_info);
 }
