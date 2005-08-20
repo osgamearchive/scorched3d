@@ -26,6 +26,7 @@
 #include <common/OptionsParam.h>
 #include <common/OptionsDisplay.h>
 #include <common/Defines.h>
+#include <common/Logger.h>
 #include <weapons/AccessoryStore.h>
 #include <weapons/WeaponExplosion.h>
 #include <actions/Explosion.h>
@@ -193,9 +194,15 @@ void Explosion::init()
 		if (weapon_->getCreateMushroom() &&
 			aboveGround < 2.0f)
 		{
-			context_->actionController->addAction(
-				new SpriteAction(
-				new ExplosionNukeRenderer(position_, weapon_->getSize() - 2.0f)));
+			if (0 != strcmp(weapon_->getParent()->getName(), "Death's Head") || // Ooo nasty
+				RAND < 0.2f)
+			{
+				Logger::log("Death...");
+
+				context_->actionController->addAction(
+					new SpriteAction(
+					new ExplosionNukeRenderer(position_, weapon_->getSize() - 2.0f)));	
+			}
 		}
 
 		// Make the camera shake

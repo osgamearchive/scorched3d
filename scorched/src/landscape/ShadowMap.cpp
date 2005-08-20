@@ -23,8 +23,9 @@
 #include <GLEXT/GLStateExtension.h>
 #include <landscape/ShadowMap.h>
 #include <common/Defines.h>
+#include <common/OptionsDisplay.h>
 
-ShadowMap::ShadowMap() : size_(256), sizeSq_(256 *256)
+ShadowMap::ShadowMap() : size_(256), sizeSq_(256 *256), shadowCount_(0)
 {
 	shadowBytes_ = new GLubyte[sizeSq_];
 	memset(shadowBytes_, 255, sizeSq_);
@@ -38,6 +39,8 @@ ShadowMap::~ShadowMap()
 
 void ShadowMap::setTexture()
 {
+	shadowCount_ = 0;
+
 	// Set the shadow map texture
 	shadowTexture_.draw(true);
 
@@ -61,8 +64,10 @@ void ShadowMap::setTexture()
 void ShadowMap::addSquare(float sx, float sy, float sw, float opacity)
 {
 	if (!GLStateExtension::glActiveTextureARB() ||
-		GLStateExtension::getNoTexSubImage()) return;
+		GLStateExtension::getNoTexSubImage() ||
+		OptionsDisplay::instance()->getNoShadows()) return;
 
+	shadowCount_++;
 	const GLubyte minNum = 64;
 	int decrement = int(opacity * 125.0f);
 	float halfW = sw / 2.0f;
@@ -103,8 +108,10 @@ void ShadowMap::addSquare(float sx, float sy, float sw, float opacity)
 void ShadowMap::addCircle(float sx, float sy, float sw, float opacity)
 {
 	if (!GLStateExtension::glActiveTextureARB() || 
-		GLStateExtension::getNoTexSubImage()) return;
+		GLStateExtension::getNoTexSubImage() ||
+		OptionsDisplay::instance()->getNoShadows()) return;
 
+	shadowCount_++;
 	const GLubyte minNum = 64;
 
 	int decrement = int(opacity * 125.0f);

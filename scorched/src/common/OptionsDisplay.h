@@ -78,6 +78,18 @@ public:
 	void setNoBOIDS(bool value) { noBOIDS_.setValue(value); }	
 	const char *getNoBOIDSToolTip() { return noBOIDS_.getDescription(); }
 
+	bool getNoShadows() { return noShadows_.getValue(); }
+	void setNoShadows(bool value) { noShadows_.setValue(value); }	
+	const char *getNoShadowsToolTip() { return noShadows_.getDescription(); }
+
+	bool getNoDrawParticles() { return noDrawParticles_.getValue(); }
+	void setNoDrawParticles(bool value) { noDrawParticles_.setValue(value); }	
+	const char *getNoDrawParticlesToolTip() { return noDrawParticles_.getDescription(); }
+
+	bool getNoSimulateParticles() { return noSimulateParticles_.getValue(); }
+	void setNoSimulateParticles(bool value) { noSimulateParticles_.setValue(value); }	
+	const char *getNoSimulateParticlesToolTip() { return noSimulateParticles_.getDescription(); }
+
 	bool getNoTessalation() { return noTessalation_.getValue(); }
 	void setNoTessalation(bool value) { noTessalation_.setValue(value); }	
 	const char *getNoTessalationToolTip() { return noTessalation_.getDescription(); }
@@ -405,6 +417,9 @@ protected:
 	OptionEntryBool noSound_;
 	OptionEntryBool noAmbientSound_;
 	OptionEntryBool noBoidSound_;
+	OptionEntryBool noShadows_;
+	OptionEntryBool noDrawParticles_;
+	OptionEntryBool noSimulateParticles_;
 	OptionEntryBool drawNormals_;
 	OptionEntryBool drawLines_;
 	OptionEntryBool drawBoundingSpheres_;

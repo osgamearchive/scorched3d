@@ -87,12 +87,13 @@ void FrameTimer::simulate(const unsigned state, float frameTime)
 				formatString("%.2f FPS",
 					float(totalCount_) / totalTime_)));
 			Logger::log(LoggerInfo(LoggerInfo::TypePerformance, 
-				formatString("%iTRI %iPART %iGEOM %iSQR %iSND", 
+				formatString("%iTRI %iPART %iGEOM %iSQR %iSND %uSHD", 
 					tris,
 					pOnScreen,
 					enabledGeoms,
 					Landscape::instance()->getPatchGrid().getDrawnPatches(),
-					Sound::instance()->getPlayingChannels())));
+					Sound::instance()->getPlayingChannels(),
+					Landscape::instance()->getShadowMap().getShadowCount())));
 		}
 		totalCount_ = 0;
 		totalTime_ = 0.0f;

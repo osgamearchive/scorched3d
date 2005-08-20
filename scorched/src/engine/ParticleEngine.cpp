@@ -95,6 +95,8 @@ void ParticleEngine::killAll()
 
 void ParticleEngine::draw(const unsigned state)
 {
+	if (OptionsDisplay::instance()->getNoDrawParticles()) return;
+
 	GLState glstate(GLState::TEXTURE_ON | GLState::BLEND_ON | GLState::DEPTH_ON);
 	glDepthMask(GL_FALSE);
 	
@@ -173,7 +175,8 @@ void ParticleEngine::normalizedSimulate(float time)
 			}
 
 			// Simulate the particle
-			if (particle->renderer_)
+			if (particle->renderer_ && 
+				!OptionsDisplay::instance()->getNoSimulateParticles())
 			{
 				particle->renderer_->simulateParticle(*particle, time);
 			}

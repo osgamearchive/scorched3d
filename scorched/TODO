@@ -13,6 +13,9 @@ Fixed: Server bots are saved in server.xml file when changes commited
 Fixed: Weapons for the wrong arms level being displayed in favorites
 Fixed: Crash in landscape generation code
 Fixed: Laser and sandhog damage
+Fixed: Saved games not restoring players with correct weapons and money
+Fixed: Number of shadows being drawn for deaths heads
+Fixed: Reduced number of mushroom clouds drawn for deaths heads
 
 Added: Server web admin talk page shows the last few conversations
 Added: Default tab can be set in the buy dialog

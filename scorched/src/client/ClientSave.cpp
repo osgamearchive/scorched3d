@@ -154,6 +154,7 @@ bool ClientSave::restoreClient(bool loadGameState, bool loadPlayers)
 			if (tank)
 			{
 				if (!tank->readMessage(reader)) return false;
+				if (!tank->getAvatar().readMessage(reader)) return false;
 				std::string tankAIStr;
 				if (!reader.getFromBuffer(tankAIStr)) return false;
 			}

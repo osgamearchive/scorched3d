@@ -184,6 +184,7 @@ void ParticleRendererMushroom::renderParticle(Particle &particle)
 		particle.userData_;
 
 	Vector oldPosition = particle.position_;
+	bool shadow = particle.shadow_;
 
 	particle.shadow_ = false;
 	particle.position_[0] = oldPosition[0];
@@ -197,13 +198,14 @@ void ParticleRendererMushroom::renderParticle(Particle &particle)
 	particle.position_[2] = oldPosition[2] + getFastCos(renderer->getCloudRotation() + 4.0f) * 2.0f;
 	ParticleRendererQuads::getInstance()->renderParticle(particle);
 
-	particle.shadow_ = true;
+	particle.shadow_ = shadow;
 	particle.position_[0] = oldPosition[0];
 	particle.position_[1] = oldPosition[1] + getFastSin(renderer->getCloudRotation()) * 2.0f;
 	particle.position_[2] = oldPosition[2] + getFastCos(renderer->getCloudRotation()) * 2.0f;
 	ParticleRendererQuads::getInstance()->renderParticle(particle);
 
 	particle.position_ = oldPosition;
+	particle.shadow_ = shadow;
 }
 
 void ParticleRendererMushroom::simulateParticle(Particle &particle, float time)

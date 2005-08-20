@@ -29,7 +29,7 @@
 #include <string>
 
 unsigned int ScorchedPort = 27270;
-char *ScorchedVersion = "39";
+char *ScorchedVersion = "39.1";
 char *ScorchedProtocolVersion = "bf";
 static char *dataModFile = 0;
 static std::string settingsDir = ".scorched3d";

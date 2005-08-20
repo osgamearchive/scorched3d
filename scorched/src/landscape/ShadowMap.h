@@ -38,8 +38,10 @@ public:
 	void addSquare(float x, float y, float w, float opacity = 1.0f);
 	void addCircle(float sx, float sy, float sw, float opacity = 1.0f);
 
+	unsigned int getShadowCount() { return shadowCount_; }
+
 protected:
-	static ShadowMap *instance_;
+	unsigned int shadowCount_;
 	GLTexture shadowTexture_;
 	GLubyte *shadowBytes_;
 	GLint size_, sizeSq_;
