@@ -62,7 +62,7 @@ function expandfieldname($fieldname){
 		case 'tk': return 'teamkills'; break;
 		case 'tp': return 'timeplayed'; break;
 		case 'tpc': return 'timeperconnect'; break;
-		case 'c': return 'connections'; break;
+		case 'c': return 'connects'; break;
 		case 'lc': return 'lastconnected'; break;
 		case 'pid': return 'playerid'; break;
 		default: return $fieldname;
