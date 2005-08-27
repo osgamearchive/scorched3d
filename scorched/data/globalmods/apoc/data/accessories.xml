@@ -112,9 +112,9 @@ work.</description>
 			<radius>large</radius>
 			<halfshield>false</halfshield>
 			<color>
-				<r>1.0</r>
-				<g>0.25</g>
-				<b>1.0</b>
+				<r>0.0</r>
+				<g>1.0</g>
+				<b>0.0</b>
 			</color>
 			<collisionsound>shield/hit.wav</collisionsound>
 			<removepower>5</removepower>
@@ -3325,6 +3325,28 @@ near the flames will lose life.</description>
 		</accessoryaction>
 	</accessory>
 	<accessory>
+		<name>NapMirvBomblet</name>
+		<armslevel>3</armslevel>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponProjectile'>
+			<enginesound>none</enginesound>
+			<projectilescale>0.2</projectilescale>
+			<projectilemodel type='MilkShape'>bomblet/bomblet.txt</projectilemodel>
+			<collisionaction type='WeaponNapalm'>
+				<allowunderwater>false</allowunderwater>
+				<napalmtime>8.0</napalmtime>
+				<napalmheight>1.75</napalmheight>
+				<steptime>0.2</steptime>
+				<hurtsteptime>2.0</hurtsteptime>
+				<hurtpersecond>1.0</hurtpersecond>
+				<numberstreams>1</numberstreams>
+				<effectradius>5</effectradius>
+				<napalmtexture>flames</napalmtexture>
+				<napalmsound>explosions/napalm.wav</napalmsound>
+			</collisionaction>
+		</accessoryaction>
+	</accessory>
+	<accessory>
 		<name>Napalm MIRV</name>
 		<armslevel>3</armslevel>
 		<description> A projectile weapon that on reaching
@@ -3377,27 +3399,46 @@ random direction. </description>
 		<accessoryaction type='WeaponProjectile'>
 			<apexcollision></apexcollision>
 			<projectilemodel type='MilkShape'>napalm/napalm.txt</projectilemodel>
-			<collisionaction type='WeaponMirv'>
-				<nowarheads>6</nowarheads>
-				<hspreaddist>0.8</hspreaddist>
-				<vspreaddist>1.0</vspreaddist>
-				<aimedweapon type='WeaponProjectile'>
-					<enginesound>none</enginesound>
-					<projectilescale>0.2</projectilescale>
-					<projectilemodel type='MilkShape'>bomblet/bomblet.txt</projectilemodel>
-					<collisionaction type='WeaponNapalm'>
-						<allowunderwater>false</allowunderwater>
-						<napalmtime>8.0</napalmtime>
-						<napalmheight>1.75</napalmheight>
-						<steptime>0.2</steptime>
-						<hurtsteptime>2.0</hurtsteptime>
-						<hurtpersecond>1.0</hurtpersecond>
-						<numberstreams>1</numberstreams>
-						<effectradius>5</effectradius>
-						<napalmtexture>flames</napalmtexture>
-						<napalmsound>explosions/napalm.wav</napalmsound>
-					</collisionaction>
-				</aimedweapon>
+			<collisionaction type='WeaponMulti'>
+				<subweapon1 type='WeaponReference'>
+					<weapon>NapMirvBomblet</weapon>
+				</subweapon1>
+				<subweapon2 type='WeaponRedirect'>
+					<habs>false</habs>
+					<vabs>false</vabs>
+					<hredirect>5</hredirect>
+					<vredirect>0</vredirect>
+					<nextaction type='WeaponReference'>
+						<weapon>NapMirvBomblet</weapon>
+					</nextaction>
+				</subweapon2>
+				<subweapon3 type='WeaponRedirect'>
+					<habs>false</habs>
+					<vabs>false</vabs>
+					<hredirect>10</hredirect>
+					<vredirect>0</vredirect>
+					<nextaction type='WeaponReference'>
+						<weapon>NapMirvBomblet</weapon>
+					</nextaction>
+				</subweapon3>
+				<subweapon4 type='WeaponRedirect'>
+					<habs>false</habs>
+					<vabs>false</vabs>
+					<hredirect>-5</hredirect>
+					<vredirect>0</vredirect>
+					<nextaction type='WeaponReference'>
+						<weapon>NapMirvBomblet</weapon>
+					</nextaction>
+				</subweapon4>
+				<subweapon5 type='WeaponRedirect'>
+					<habs>false</habs>
+					<vabs>false</vabs>
+					<hredirect>-10</hredirect>
+					<vredirect>0</vredirect>
+					<nextaction type='WeaponReference'>
+						<weapon>NapMirvBomblet</weapon>
+					</nextaction>
+				</subweapon5>
 			</collisionaction>
 		</accessoryaction>
 	</accessory>
@@ -3607,6 +3648,159 @@ aimed at enemy tanks.</description>
 		</accessoryaction>
 	</accessory>
 	<accessory>
+		<name>Flame Stream</name>
+		<armslevel>4</armslevel>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponProjectile'>
+			<projectilemodel type='ase'>
+				<mesh>roller.ase</mesh>
+				<skin>molten.bmp</skin>
+			</projectilemodel>
+			<projectilescale>0.1</projectilescale>				
+			<smokelife>2.5</smokelife>				
+			<flamelife>1.5</flamelife>
+			<enginesound>none</enginesound>
+			<collisionaction type='WeaponMulti'>
+				<subweapon1 type='WeaponNapalm'>
+					<allowunderwater>false</allowunderwater>
+					<napalmtime>4.0</napalmtime>
+					<napalmheight>1.5</napalmheight>
+					<steptime>0.5</steptime>
+					<hurtsteptime>2.0</hurtsteptime>
+					<hurtpersecond>0.7</hurtpersecond>
+					<numberstreams>4</numberstreams>
+					<effectradius>5</effectradius>
+					<napalmtexture>flames</napalmtexture>
+					<napalmsound>explosions/napalm.wav</napalmsound>
+				</subweapon1>
+				<!--<subweapon2 type='WeaponExplosion'>
+					<nocreatedebris/>
+					<noluminance></noluminance>
+					<minlife>2</minlife>
+					<maxlife>4</maxlife>
+					<hurtamount>0</hurtamount>
+					<deform>none</deform>
+					<size>4</size>
+					<explosionsound>none</explosionsound>
+					<explosiontexture>cloud00-5</explosiontexture>
+				</subweapon2>-->
+			</collisionaction>
+		</accessoryaction>
+	</accessory>
+	<accessory>
+		<name>Flame Thrower</name>
+		<armslevel>4</armslevel>
+		<description>Steady flowing napalm streams of flame. 
+any tanks near the flames will lose life.</description>
+		<icon>fthrower.bmp</icon>
+		<bundlesize>1</bundlesize>
+		<cost>10000</cost>
+		<activationsound>explosions/napalm.wav</activationsound>
+		<model type='MilkShape'>weapons/fthrower.txt</model>
+		<modelscale>4.0</modelscale>
+		<accessoryaction type='WeaponMulti'>
+			<subweapon1 type='WeaponReference'>
+				<weapon>Flame Stream</weapon>
+			</subweapon1>
+			<subweapon2 type='WeaponRedirect'>
+				<habs>false</habs>
+				<vabs>false</vabs>
+				<hredirect>0</hredirect>
+				<vredirect>1</vredirect>
+				<nextaction type='WeaponDelay'>
+					<delay>0.50</delay>
+					<delayedweapon type='WeaponReference'>
+						<weapon>Flame Stream</weapon>
+					</delayedweapon>
+				</nextaction>
+			</subweapon2>
+			<subweapon3 type='WeaponRedirect'>
+				<habs>false</habs>
+				<vabs>false</vabs>
+				<hredirect>1</hredirect>
+				<vredirect>0</vredirect>
+				<nextaction type='WeaponDelay'>
+					<delay>1.0</delay>
+					<delayedweapon type='WeaponReference'>
+						<weapon>Flame Stream</weapon>
+					</delayedweapon>
+				</nextaction>
+			</subweapon3>
+			<subweapon4 type='WeaponRedirect'>
+				<habs>false</habs>
+				<vabs>false</vabs>
+				<hredirect>2</hredirect>
+				<vredirect>0</vredirect>
+				<nextaction type='WeaponDelay'>
+					<delay>1.50</delay>
+					<delayedweapon type='WeaponReference'>
+						<weapon>Flame Stream</weapon>
+					</delayedweapon>
+				</nextaction>
+			</subweapon4>
+			<subweapon5 type='WeaponRedirect'>
+				<habs>false</habs>
+				<vabs>false</vabs>
+				<hredirect>0</hredirect>
+				<vredirect>2</vredirect>
+				<nextaction type='WeaponDelay'>
+					<delay>2.0</delay>
+					<delayedweapon type='WeaponReference'>
+						<weapon>Flame Stream</weapon>
+					</delayedweapon>
+				</nextaction>
+			</subweapon5>
+			<subweapon6 type='WeaponRedirect'>
+				<habs>false</habs>
+				<vabs>false</vabs>
+				<hredirect>-1</hredirect>
+				<vredirect>0</vredirect>
+				<nextaction type='WeaponDelay'>
+					<delay>2.50</delay>
+					<delayedweapon type='WeaponReference'>
+						<weapon>Flame Stream</weapon>
+					</delayedweapon>
+				</nextaction>
+			</subweapon6>
+			<subweapon7 type='WeaponRedirect'>
+				<habs>false</habs>
+				<vabs>false</vabs>
+				<hredirect>-2</hredirect>
+				<vredirect>-1</vredirect>
+				<nextaction type='WeaponDelay'>
+					<delay>3.0</delay>
+					<delayedweapon type='WeaponReference'>
+						<weapon>Flame Stream</weapon>
+					</delayedweapon>
+				</nextaction>
+			</subweapon7>
+			<subweapon8 type='WeaponRedirect'>
+				<habs>false</habs>
+				<vabs>false</vabs>
+				<hredirect>-1</hredirect>
+				<vredirect>0</vredirect>
+				<nextaction type='WeaponDelay'>
+					<delay>3.50</delay>
+					<delayedweapon type='WeaponReference'>
+						<weapon>Flame Stream</weapon>
+					</delayedweapon>
+				</nextaction>
+			</subweapon8>
+			<subweapon9 type='WeaponRedirect'>
+				<habs>false</habs>
+				<vabs>false</vabs>
+				<hredirect>2</hredirect>
+				<vredirect>-1</vredirect>
+				<nextaction type='WeaponDelay'>
+					<delay>4.0</delay>
+					<delayedweapon type='WeaponReference'>
+						<weapon>Flame Stream</weapon>
+					</delayedweapon>
+				</nextaction>
+			</subweapon9>
+		</accessoryaction>
+	</accessory>
+	<accessory>
 		<name>Hell Segment</name>
 		<armslevel>3</armslevel>
 		<maximumnumber>0</maximumnumber>
@@ -3776,146 +3970,6 @@ aimed at enemy tanks.</description>
 					</aimedweapon>
 				</delayedweapon>
 			</subweapon4>
-		</accessoryaction>
-	</accessory>
-	<accessory>
-		<name>Flame Stream</name>
-		<armslevel>4</armslevel>
-		<maximumnumber>0</maximumnumber>
-		<accessoryaction type='WeaponProjectile'>
-			<projectilemodel type='ase'>
-				<mesh>roller.ase</mesh>
-				<skin>molten.bmp</skin>
-			</projectilemodel>
-			<projectilescale>00.1</projectilescale>				
-			<smokelife>8.0</smokelife>				
-			<flamelife>8.0</flamelife>
-			<enginesound>none</enginesound>
-			<collisionaction type='WeaponNapalm'>
-				<napalmtime>5.0</napalmtime>
-				<napalmheight>2.6</napalmheight>
-				<steptime>0.2</steptime>
-				<hurtsteptime>2.0</hurtsteptime>
-				<hurtpersecond>0.7</hurtpersecond>
-				<numberstreams>4</numberstreams>
-				<effectradius>6</effectradius>
-				<napalmtexture>flames</napalmtexture>
-				<napalmsound>explosions/napalm.wav</napalmsound>
-				<allowunderwater>off</allowunderwater>
-			</collisionaction>
-		</accessoryaction>
-	</accessory>
-	<accessory>
-		<name>Flame Thrower</name>
-		<armslevel>4</armslevel>
-		<description>Steady flowing napalm streams of flame. 
-any tanks near the flames will lose life.</description>
-		<icon>fthrower.bmp</icon>
-		<bundlesize>1</bundlesize>
-		<cost>10000</cost>
-		<activationsound>explosions/napalm.wav</activationsound>
-		<model type='MilkShape'>weapons/fthrower.txt</model>
-		<modelscale>4.0</modelscale>
-		<accessoryaction type='WeaponMulti'>
-			<subweapon1 type='WeaponReference'>
-				<weapon>Flame Stream</weapon>
-			</subweapon1>
-			<subweapon2 type='WeaponRedirect'>
-				<habs>false</habs>
-				<vabs>false</vabs>
-				<hredirect>0</hredirect>
-				<vredirect>1</vredirect>
-				<nextaction type='WeaponDelay'>
-					<delay>0.50</delay>
-					<delayedweapon type='WeaponReference'>
-						<weapon>Flame Stream</weapon>
-					</delayedweapon>
-				</nextaction>
-			</subweapon2>
-			<subweapon3 type='WeaponRedirect'>
-				<habs>false</habs>
-				<vabs>false</vabs>
-				<hredirect>1</hredirect>
-				<vredirect>0</vredirect>
-				<nextaction type='WeaponDelay'>
-					<delay>1.0</delay>
-					<delayedweapon type='WeaponReference'>
-						<weapon>Flame Stream</weapon>
-					</delayedweapon>
-				</nextaction>
-			</subweapon3>
-			<subweapon4 type='WeaponRedirect'>
-				<habs>false</habs>
-				<vabs>false</vabs>
-				<hredirect>2</hredirect>
-				<vredirect>0</vredirect>
-				<nextaction type='WeaponDelay'>
-					<delay>1.50</delay>
-					<delayedweapon type='WeaponReference'>
-						<weapon>Flame Stream</weapon>
-					</delayedweapon>
-				</nextaction>
-			</subweapon4>
-			<subweapon5 type='WeaponRedirect'>
-				<habs>false</habs>
-				<vabs>false</vabs>
-				<hredirect>0</hredirect>
-				<vredirect>2</vredirect>
-				<nextaction type='WeaponDelay'>
-					<delay>2.0</delay>
-					<delayedweapon type='WeaponReference'>
-						<weapon>Flame Stream</weapon>
-					</delayedweapon>
-				</nextaction>
-			</subweapon5>
-			<subweapon6 type='WeaponRedirect'>
-				<habs>false</habs>
-				<vabs>false</vabs>
-				<hredirect>-1</hredirect>
-				<vredirect>0</vredirect>
-				<nextaction type='WeaponDelay'>
-					<delay>2.50</delay>
-					<delayedweapon type='WeaponReference'>
-						<weapon>Flame Stream</weapon>
-					</delayedweapon>
-				</nextaction>
-			</subweapon6>
-			<subweapon7 type='WeaponRedirect'>
-				<habs>false</habs>
-				<vabs>false</vabs>
-				<hredirect>-2</hredirect>
-				<vredirect>-1</vredirect>
-				<nextaction type='WeaponDelay'>
-					<delay>3.0</delay>
-					<delayedweapon type='WeaponReference'>
-						<weapon>Flame Stream</weapon>
-					</delayedweapon>
-				</nextaction>
-			</subweapon7>
-			<subweapon8 type='WeaponRedirect'>
-				<habs>false</habs>
-				<vabs>false</vabs>
-				<hredirect>-1</hredirect>
-				<vredirect>0</vredirect>
-				<nextaction type='WeaponDelay'>
-					<delay>3.50</delay>
-					<delayedweapon type='WeaponReference'>
-						<weapon>Flame Stream</weapon>
-					</delayedweapon>
-				</nextaction>
-			</subweapon8>
-			<subweapon9 type='WeaponRedirect'>
-				<habs>false</habs>
-				<vabs>false</vabs>
-				<hredirect>2</hredirect>
-				<vredirect>-1</vredirect>
-				<nextaction type='WeaponDelay'>
-					<delay>4.0</delay>
-					<delayedweapon type='WeaponReference'>
-						<weapon>Flame Stream</weapon>
-					</delayedweapon>
-				</nextaction>
-			</subweapon9>
 		</accessoryaction>
 	</accessory>
 	<accessory>
