@@ -1157,6 +1157,51 @@ activated before they work.</description>
 		</accessoryaction>
 	</accessory>
 	<accessory>
+		<name>Tank Explosion</name>
+		<armslevel>10</armslevel>
+		<maximumnumber>0</maximumnumber>
+		<activationsound>explosions/tank.wav</activationsound>
+		<deathanimationweight>30</deathanimationweight>
+		<accessoryaction type='WeaponMulti'>
+			<subweapon1 type='WeaponExplosion'>
+				<nowindaffected></nowindaffected>
+				<noluminance></noluminance>
+				<hurtamount>0.0</hurtamount>
+				<deform>down</deform>
+				<size>5.0</size>
+				<explosiontexture>exp06</explosiontexture>
+				<explosionsound>explosions/exp.wav</explosionsound>
+			</subweapon1>
+			<subweapon2 type='WeaponAimedOver'>
+				<percentagemiss>0.0</percentagemiss>
+				<maxaimdistance>0.2</maxaimdistance>
+				<inaccuracy>0.0</inaccuracy>
+				<nowarheads>9</nowarheads>
+				<aimedweapon type='WeaponProjectile'>
+					<nocreateflame></nocreateflame>
+					<enginesound>none</enginesound>
+					<projectilescale>0.4</projectilescale>
+					<projectilemodel type='ase'>
+						<mesh>roller.ase</mesh>
+						<skin>molten.bmp</skin>
+					</projectilemodel>
+					<collisionaction type='WeaponNapalm'>
+						<napalmtime>3.0</napalmtime>
+						<napalmheight>0.6</napalmheight>
+						<steptime>0.2</steptime>
+						<hurtsteptime>2.0</hurtsteptime>
+						<hurtpersecond>0.9</hurtpersecond>
+						<numberstreams>2.0</numberstreams>
+						<effectradius>3.0</effectradius>
+						<napalmtexture>flames</napalmtexture>
+						<napalmsound>explosions/napalm.wav</napalmsound>
+						<allowunderwater>off</allowunderwater>
+					</collisionaction>
+				</aimedweapon>
+			</subweapon2>
+		</accessoryaction>
+	</accessory>
+	<accessory>
 		<name>Tracer</name>
 		<armslevel>10</armslevel>
 		<description>A projectile weapon that 
@@ -1365,7 +1410,7 @@ trace of the shot path.</description>
 		<armslevel>6</armslevel>
 		<accessoryaction type='WeaponProjectile'>
 			<enginesound>none</enginesound>
-			<projectilemodel type='MilkShape'>bullet/bullet.txt</projectilemodel>
+			<projectilemodel type='MilkShape'>weapons/bullet.txt</projectilemodel>
 			<projectilescale>0.25</projectilescale>
 			<nocreateflame/>
 			<nocreatesmoke/>
@@ -1399,7 +1444,7 @@ in rapid succession</description>
 		<cost>6000</cost>
 		<bundlesize>4</bundlesize>
 		<armslevel>7</armslevel>
-		<model type='MilkShape'>50cal/50cal.txt</model>
+		<model type='MilkShape'>weapons/50cal.txt</model>
 		<activationsound>shoot/machinegun.wav</activationsound>
 		<accessoryaction type='WeaponMulti'>
 			<subweapon1 type='WeaponRedirect'>
@@ -1475,14 +1520,14 @@ and explodes creating some shrapnel</description>
 		<bundlesize>1</bundlesize>
 		<cost>3000</cost>
 		<activationsound>shoot/large.wav</activationsound>
-		<model type='MilkShape'>grenade/grenade.txt</model>
+		<model type='MilkShape'>weapons/grenade.txt</model>
 		<modelscale>0.8</modelscale>
 		<accessoryaction type='WeaponProjectile'>
 			<enginesound>none</enginesound>
 			<nocreateflame></nocreateflame>
 			<nocreatesmoke></nocreatesmoke>
 			<projectilescale>0.8</projectilescale>
-			<projectilemodel type='MilkShape'>grenade/grenade.txt</projectilemodel>
+			<projectilemodel type='MilkShape'>weapons/grenade.txt</projectilemodel>
 			<collisionaction type='WeaponMulti'>
 				<subweapon1 type='WeaponLeapFrog'>
 					<bounce>0.5</bounce>
@@ -1492,7 +1537,7 @@ and explodes creating some shrapnel</description>
 							<enginesound>none</enginesound>
 							<nocreateflame></nocreateflame>
 							<nocreatesmoke></nocreatesmoke>
-							<projectilemodel type='MilkShape'>grenade/grenade.txt</projectilemodel>
+							<projectilemodel type='MilkShape'>weapons/grenade.txt</projectilemodel>
 							<collisionaction type='WeaponMulti'>
 								<subweapon1 type='WeaponDelay'>
 									<delay>0.25</delay>
@@ -1570,11 +1615,11 @@ EMPs do more damage to shields than to tanks.</description>
 		<cost>1500</cost>
 		<activationsound>shoot/large.wav</activationsound>
 		<deathanimationweight>24</deathanimationweight>
-		<model type='MilkShape'>shockbomblet/shockbomblet.txt</model>
+		<model type='MilkShape'>weapons/shockbomblet.txt</model>
 		<accessoryaction type='WeaponProjectile'>
 			<enginesound>none</enginesound>
 			<nocreateflame></nocreateflame>
-			<projectilemodel type='MilkShape'>shockbomblet/shockbomblet.txt</projectilemodel>
+			<projectilemodel type='MilkShape'>weapons/shockbomblet.txt</projectilemodel>
 			<collisionaction type='WeaponMulti'>
 				<subweapon1 type='WeaponLeapFrog'>
 					<bounce>0.5</bounce>
@@ -1584,7 +1629,7 @@ EMPs do more damage to shields than to tanks.</description>
 							<enginesound>none</enginesound>
 							<nocreateflame></nocreateflame>
 							<nocreatesmoke></nocreatesmoke>
-							<projectilemodel type='MilkShape'>shockbomblet/shockbomblet.txt</projectilemodel>
+							<projectilemodel type='MilkShape'>weapons/shockbomblet.txt</projectilemodel>
 							<collisionaction type='WeaponMulti'>
 								<subweapon1 type='WeaponExplosion'>
 									<nocreatedebris></nocreatedebris>
@@ -1634,13 +1679,13 @@ EMPs do more damage to shields than to tanks.</description>
 		<cost>5000</cost>
 		<activationsound>shoot/xlarge.wav</activationsound>
 		<deathanimationweight>4</deathanimationweight>
-		<model type='MilkShape'>shockbomblet/shockbomblet.txt</model>
+		<model type='MilkShape'>weapons/shockbomblet.txt</model>
 		<modelscale>3.0</modelscale>
 		<accessoryaction type='WeaponProjectile'>
 			<enginesound>none</enginesound>
 			<nocreateflame></nocreateflame>
 			<projectilescale>3.0</projectilescale>
-			<projectilemodel type='MilkShape'>shockbomblet/shockbomblet.txt</projectilemodel>
+			<projectilemodel type='MilkShape'>weapons/shockbomblet.txt</projectilemodel>
 			<collisionaction type='WeaponMulti'>
 				<subweapon1 type='WeaponLeapFrog'>
 					<bounce>0.5</bounce>
@@ -1651,7 +1696,7 @@ EMPs do more damage to shields than to tanks.</description>
 							<nocreateflame></nocreateflame>
 							<nocreatesmoke></nocreatesmoke>
 							<projectilescale>3.0</projectilescale>
-							<projectilemodel type='MilkShape'>shockbomblet/shockbomblet.txt</projectilemodel>
+							<projectilemodel type='MilkShape'>weapons/shockbomblet.txt</projectilemodel>
 							<collisionaction type='WeaponMulti'> 
 								<subweapon1 type='WeaponExplosion'>
 									<nocreatedebris></nocreatedebris>
@@ -1702,13 +1747,13 @@ opponents.  The cloud does less damage as it spreads out.</description>
 		<cost>10000</cost>
 		<activationsound>shoot/large.wav</activationsound>
 		<deathanimationweight>2</deathanimationweight>
-		<model type='MilkShape'>m7a3grenade/m7a3grenade.txt</model>
-		<modelscale>1.0</modelscale>
+		<model type='MilkShape'>weapons/m7a3.txt</model>
+		<modelscale>2.0</modelscale>
 		<accessoryaction type='WeaponProjectile'>
 			<enginesound>none</enginesound>
 			<nocreateflame></nocreateflame>
-			<projectilescale>1.0</projectilescale>
-			<projectilemodel type='MilkShape'>m7a3grenade/m7a3grenade.txt</projectilemodel>
+			<projectilescale>2.0</projectilescale>
+			<projectilemodel type='MilkShape'>weapons/m7a3.txt</projectilemodel>
 			<collisionaction type='WeaponMulti'>
 				<subweapon1 type='WeaponLeapFrog'>
 					<bounce>0.5</bounce>
@@ -1719,14 +1764,14 @@ opponents.  The cloud does less damage as it spreads out.</description>
 							<nocreateflame></nocreateflame>
 							<apexcollision></apexcollision>
 							<apexnodud/>
-							<projectilescale>1.0</projectilescale>
-							<projectilemodel type='MilkShape'>m7a3grenade/m7a3grenade.txt</projectilemodel>
+							<projectilescale>2.0</projectilescale>
+							<projectilemodel type='MilkShape'>weapons/m7a3.txt</projectilemodel>
 							<collisionaction type='WeaponMulti'>
 								<subweapon1 type='WeaponProjectile'>
 									<enginesound>none</enginesound>
 									<nocreateflame></nocreateflame>
-									<projectilescale>1.0</projectilescale>
-									<projectilemodel type='MilkShape'>m7a3grenade/m7a3grenade.txt</projectilemodel>
+									<projectilescale>2.0</projectilescale>
+									<projectilemodel type='MilkShape'>weapons/m7a3.txt</projectilemodel>
 									<collisionaction type='WeaponMulti'>
 										<subweapon1 type='WeaponDelay'>
 											<delay>1.25</delay>
@@ -1999,18 +2044,12 @@ many small warheads in a line.</description>
 		<bundlesize>1</bundlesize>
 		<cost>6000</cost>
 		<activationsound>shoot/launch.wav</activationsound>
-		<model type='ase'>
-			<mesh>clusterbomb.ase</mesh>
-			<skin>remorcebomblet/remorce.bmp</skin>
-		</model>
+		<model type='MilkShape'>weapons/megamirv.txt</model>
 		<modelscale>3.0</modelscale>
 		<accessoryaction type='WeaponProjectile'>
 			<apexcollision></apexcollision>
 			<projectilescale>3.0</projectilescale>
-			<projectilemodel type='ase'>
-				<mesh>clusterbomb.ase</mesh>
-				<skin>remorcebomblet/remorce.bmp</skin>
-			</projectilemodel>
+			<projectilemodel type='MilkShape'>weapons/megamirv.txt</projectilemodel>
 			<collisionaction type='WeaponMirv'>
 				<nowarheads>5</nowarheads>
 				<hspreaddist>0.0</hspreaddist>
@@ -2019,7 +2058,7 @@ many small warheads in a line.</description>
 					<enginesound>none</enginesound>
 					<nocreateflame></nocreateflame>
 					<nocreatesmoke></nocreatesmoke>
-					<projectilemodel type='MilkShape'>remorcebomblet/remorcebomblet.txt</projectilemodel>
+					<projectilemodel type='MilkShape'>weapons/wobblebomb.txt</projectilemodel>
 					<collisionaction type='WeaponExplosion'>
 						<deform>down</deform>
 						<hurtamount>1.0</hurtamount>
@@ -2042,18 +2081,12 @@ out in a random direction.</description>
 		<bundlesize>1</bundlesize>
 		<cost>8000</cost>
 		<activationsound>shoot/launch.wav</activationsound>
-		<model type='ase'>
-			<mesh>clusterbomb.ase</mesh>
-			<skin>remorcebomblet/remorce.bmp</skin>
-		</model>
+		<model type='MilkShape'>weapons/megamirv.txt</model>
 		<modelscale>3.0</modelscale>
 		<accessoryaction type='WeaponProjectile'>
 			<apexcollision></apexcollision>
 			<projectilescale>3.0</projectilescale>
-			<projectilemodel type='ase'>
-				<mesh>clusterbomb.ase</mesh>
-				<skin>remorcebomblet/remorce.bmp</skin>
-			</projectilemodel>
+			<projectilemodel type='MilkShape'>weapons/megamirv.txt</projectilemodel>
 			<collisionaction type='WeaponMirv'>
 				<nowarheads>8</nowarheads>
 				<hspreaddist>0.8</hspreaddist>
@@ -2062,7 +2095,7 @@ out in a random direction.</description>
 					<enginesound>none</enginesound>
 					<nocreateflame></nocreateflame>
 					<nocreatesmoke></nocreatesmoke>
-					<projectilemodel type='MilkShape'>remorcebomblet/remorcebomblet.txt</projectilemodel>
+					<projectilemodel type='MilkShape'>weapons/wobblebomb.txt</projectilemodel>
 					<collisionaction type='WeaponExplosion'>
 						<deform>down</deform>
 						<hurtamount>1.0</hurtamount>
@@ -2697,13 +2730,13 @@ around attack nearby opponents twice</description>
 		<bundlesize>1</bundlesize>
 		<cost>30000</cost>
 		<activationsound>shoot/flare.wav</activationsound>
-		<model type='MilkShape'>redhornet/redhornet.txt</model>
+		<model type='MilkShape'>weapons/redhornet.txt</model>
 		<modelscale>3</modelscale>
 		<accessoryaction type='WeaponProjectile'>
 			<nocreateflame></nocreateflame>
 			<spinspeed>0</spinspeed>
 			<projectilescale>3</projectilescale>
-			<projectilemodel type='MilkShape'>redhornet/redhornet.txt</projectilemodel>
+			<projectilemodel type='MilkShape'>weapons/redhornet.txt</projectilemodel>
 			<collisionaction type='WeaponMulti'>
 				<subweapon1 type='WeaponDelay'>
 					<delay>5.0</delay>
@@ -2718,7 +2751,7 @@ around attack nearby opponents twice</description>
 								<nocreateflame></nocreateflame>
 								<spinspeed>0</spinspeed>
 								<projectilescale>2.0</projectilescale>
-								<projectilemodel type='MilkShape'>redhornet/redhornet.txt</projectilemodel>
+								<projectilemodel type='MilkShape'>weapons/redhornet.txt</projectilemodel>
 								<collisionaction type='WeaponMulti'>
 									<subweapon1 type='WeaponAimedOver'>
 										<nowarheads>1</nowarheads>
@@ -2730,7 +2763,7 @@ around attack nearby opponents twice</description>
 											<nocreateflame></nocreateflame>
 											<spinspeed>0</spinspeed>
 											<projectilescale>2.0</projectilescale>
-											<projectilemodel type='MilkShape'>redhornet/redhornet.txt</projectilemodel>
+											<projectilemodel type='MilkShape'>weapons/redhornet.txt</projectilemodel>
 											<collisionaction type='WeaponExplosion'>
 												<armslevel>1</armslevel>
 												<nocreatedebris></nocreatedebris>
@@ -2785,7 +2818,7 @@ around attack nearby opponents twice</description>
 								<nocreateflame></nocreateflame>
 								<spinspeed>0</spinspeed>
 								<projectilescale>2.0</projectilescale>
-								<projectilemodel type='MilkShape'>redhornet/redhornet.txt</projectilemodel>
+								<projectilemodel type='MilkShape'>weapons/redhornet.txt</projectilemodel>
 								<collisionaction type='WeaponMulti'>
 									<subweapon1 type='WeaponAimedOver'>
 										<nowarheads>1</nowarheads>
@@ -2797,7 +2830,7 @@ around attack nearby opponents twice</description>
 											<nocreateflame></nocreateflame>
 											<spinspeed>0</spinspeed>
 											<projectilescale>2.0</projectilescale>
-											<projectilemodel type='MilkShape'>redhornet/redhornet.txt</projectilemodel>
+											<projectilemodel type='MilkShape'>weapons/redhornet.txt</projectilemodel>
 											<collisionaction type='WeaponExplosion'>
 												<armslevel>1</armslevel>
 												<nocreatedebris></nocreatedebris>
@@ -2852,7 +2885,7 @@ around attack nearby opponents twice</description>
 								<nocreateflame></nocreateflame>
 								<spinspeed>0</spinspeed>
 								<projectilescale>2.0</projectilescale>
-								<projectilemodel type='MilkShape'>redhornet/redhornet.txt</projectilemodel>
+								<projectilemodel type='MilkShape'>weapons/redhornet.txt</projectilemodel>
 								<collisionaction type='WeaponMulti'>
 									<subweapon1 type='WeaponAimedOver'>
 										<nowarheads>1</nowarheads>
@@ -2864,7 +2897,7 @@ around attack nearby opponents twice</description>
 											<nocreateflame></nocreateflame>
 											<spinspeed>0</spinspeed>
 											<projectilescale>2.0</projectilescale>
-											<projectilemodel type='MilkShape'>redhornet/redhornet.txt</projectilemodel>
+											<projectilemodel type='MilkShape'>weapons/redhornet.txt</projectilemodel>
 											<collisionaction type='WeaponExplosion'>
 												<armslevel>1</armslevel>
 												<nocreatedebris></nocreatedebris>
@@ -2942,13 +2975,13 @@ around attack nearby opponents twice</description>
 		<bundlesize>1</bundlesize>
 		<cost>75000</cost>
 		<activationsound>shoot/flare.wav</activationsound>
-		<model type='MilkShape'>redhornet/redhornet.txt</model>
+		<model type='MilkShape'>weapons/redhornet.txt</model>
 		<modelscale>6</modelscale>
 		<accessoryaction type='WeaponProjectile'>
 			<nocreateflame></nocreateflame>
 			<spinspeed>0</spinspeed>
 			<projectilescale>6</projectilescale>
-			<projectilemodel type='MilkShape'>redhornet/redhornet.txt</projectilemodel>
+			<projectilemodel type='MilkShape'>weapons/redhornet.txt</projectilemodel>
 			<collisionaction type='WeaponMulti'>
 				<subweapon1 type='WeaponReference'>
 					<weapon>Hornet Nest</weapon>
@@ -2965,7 +2998,7 @@ around attack nearby opponents twice</description>
 							<nocreateflame></nocreateflame>
 							<spinspeed>0</spinspeed>
 							<projectilescale>4</projectilescale>
-							<projectilemodel type='MilkShape'>redhornet/redhornet.txt</projectilemodel>
+							<projectilemodel type='MilkShape'>weapons/redhornet.txt</projectilemodel>
 							<collisionaction type='WeaponMulti'>
 								<subweapon1 type='WeaponReference'>
 									<weapon>Hornet Nest</weapon>
@@ -2982,7 +3015,7 @@ around attack nearby opponents twice</description>
 											<nocreateflame></nocreateflame>
 											<spinspeed>0</spinspeed>
 											<projectilescale>3</projectilescale>
-											<projectilemodel type='MilkShape'>redhornet/redhornet.txt</projectilemodel>
+											<projectilemodel type='MilkShape'>weapons/redhornet.txt</projectilemodel>
 											<collisionaction type='WeaponReference'>
 												<weapon>Hornet Nest</weapon>
 											</collisionaction>
@@ -3072,11 +3105,11 @@ continue bouncing outward and releasing more warheads</description>
 		<bundlesize>1</bundlesize>
 		<cost>50000</cost>
 		<activationsound>shoot/medium.wav</activationsound>
-		<model type='MilkShape'>shockrocket/shockrocket.txt</model>
+		<model type='MilkShape'>weapons/shockrocket.txt</model>
 		<modelscale>5</modelscale>
 		<accessoryaction type='WeaponProjectile'>
 			<projectilescale>5</projectilescale>
-			<projectilemodel type='MilkShape'>shockrocket/shockrocket.txt</projectilemodel>
+			<projectilemodel type='MilkShape'>weapons/shockrocket.txt</projectilemodel>
 			<collisionaction type='WeaponMulti'>
 				<subweapon1 type='WeaponExplosion'>
 					<multicolor></multicolor>
@@ -3095,7 +3128,7 @@ continue bouncing outward and releasing more warheads</description>
 					<aimedweapon type='WeaponProjectile'>
 						<enginesound>none</enginesound>
 						<projectilescale>2.0</projectilescale>
-						<projectilemodel type='MilkShape'>shockbomblet/shockbomblet.txt</projectilemodel>
+						<projectilemodel type='MilkShape'>weapons/shockbomblet.txt</projectilemodel>
 						<collisionaction type='WeaponMulti'>
 							<subweapon1 type='WeaponExplosion'>
 								<multicolor></multicolor>
@@ -3113,7 +3146,7 @@ continue bouncing outward and releasing more warheads</description>
 								<inaccuracy>10</inaccuracy>
 								<aimedweapon type='WeaponProjectile'>
 									<enginesound>none</enginesound>
-									<projectilemodel type='MilkShape'>shockbomblet/shockbomblet.txt</projectilemodel>
+									<projectilemodel type='MilkShape'>weapons/shockbomblet.txt</projectilemodel>
 									<collisionaction type='WeaponExplosion'>
 										<multicolor></multicolor>
 										<hurtamount>1.0</hurtamount>
@@ -3130,7 +3163,7 @@ continue bouncing outward and releasing more warheads</description>
 									<enginesound>none</enginesound>
 									<nocreateflame></nocreateflame>
 									<projectilescale>2.0</projectilescale>
-									<projectilemodel type='MilkShape'>shockbomblet/shockbomblet.txt</projectilemodel>
+									<projectilemodel type='MilkShape'>weapons/shockbomblet.txt</projectilemodel>
 									<collisionaction type='WeaponMulti'>
 										<subweapon1 type='WeaponExplosion'>
 											<multicolor></multicolor>
@@ -3149,7 +3182,7 @@ continue bouncing outward and releasing more warheads</description>
 											<aimedweapon type='WeaponProjectile'>
 												<enginesound>none</enginesound>
 												<nocreateflame></nocreateflame>
-												<projectilemodel type='MilkShape'>shockbomblet/shockbomblet.txt</projectilemodel>
+												<projectilemodel type='MilkShape'>weapons/shockbomblet.txt</projectilemodel>
 												<collisionaction type='WeaponExplosion'>
 													<multicolor></multicolor>
 													<hurtamount>1.0</hurtamount>
@@ -3166,7 +3199,7 @@ continue bouncing outward and releasing more warheads</description>
 												<enginesound>none</enginesound>
 												<nocreateflame></nocreateflame>
 												<projectilescale>2.0</projectilescale>
-												<projectilemodel type='MilkShape'>shockbomblet/shockbomblet.txt</projectilemodel>
+												<projectilemodel type='MilkShape'>weapons/shockbomblet.txt</projectilemodel>
 												<collisionaction type='WeaponMulti'>
 													<subweapon1 type='WeaponExplosion'>
 														<multicolor></multicolor>
@@ -3185,7 +3218,7 @@ continue bouncing outward and releasing more warheads</description>
 														<aimedweapon type='WeaponProjectile'>
 															<enginesound>none</enginesound>
 															<nocreateflame></nocreateflame>
-															<projectilemodel type='MilkShape'>shockbomblet/shockbomblet.txt</projectilemodel>
+															<projectilemodel type='MilkShape'>weapons/shockbomblet.txt</projectilemodel>
 															<collisionaction type='WeaponExplosion'>
 																<multicolor></multicolor>
 																<hurtamount>1.0</hurtamount>
@@ -3746,6 +3779,146 @@ aimed at enemy tanks.</description>
 		</accessoryaction>
 	</accessory>
 	<accessory>
+		<name>Flame Stream</name>
+		<armslevel>4</armslevel>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponProjectile'>
+			<projectilemodel type='ase'>
+				<mesh>roller.ase</mesh>
+				<skin>molten.bmp</skin>
+			</projectilemodel>
+			<projectilescale>00.1</projectilescale>				
+			<smokelife>8.0</smokelife>				
+			<flamelife>8.0</flamelife>
+			<enginesound>none</enginesound>
+			<collisionaction type='WeaponNapalm'>
+				<napalmtime>5.0</napalmtime>
+				<napalmheight>2.6</napalmheight>
+				<steptime>0.2</steptime>
+				<hurtsteptime>2.0</hurtsteptime>
+				<hurtpersecond>0.7</hurtpersecond>
+				<numberstreams>4</numberstreams>
+				<effectradius>6</effectradius>
+				<napalmtexture>flames</napalmtexture>
+				<napalmsound>explosions/napalm.wav</napalmsound>
+				<allowunderwater>off</allowunderwater>
+			</collisionaction>
+		</accessoryaction>
+	</accessory>
+	<accessory>
+		<name>Flame Thrower</name>
+		<armslevel>4</armslevel>
+		<description>Steady flowing napalm streams of flame. 
+any tanks near the flames will lose life.</description>
+		<icon>fthrower.bmp</icon>
+		<bundlesize>1</bundlesize>
+		<cost>10000</cost>
+		<activationsound>explosions/napalm.wav</activationsound>
+		<model type='MilkShape'>weapons/fthrower.txt</model>
+		<modelscale>4.0</modelscale>
+		<accessoryaction type='WeaponMulti'>
+			<subweapon1 type='WeaponReference'>
+				<weapon>Flame Stream</weapon>
+			</subweapon1>
+			<subweapon2 type='WeaponRedirect'>
+				<habs>false</habs>
+				<vabs>false</vabs>
+				<hredirect>0</hredirect>
+				<vredirect>1</vredirect>
+				<nextaction type='WeaponDelay'>
+					<delay>0.50</delay>
+					<delayedweapon type='WeaponReference'>
+						<weapon>Flame Stream</weapon>
+					</delayedweapon>
+				</nextaction>
+			</subweapon2>
+			<subweapon3 type='WeaponRedirect'>
+				<habs>false</habs>
+				<vabs>false</vabs>
+				<hredirect>1</hredirect>
+				<vredirect>0</vredirect>
+				<nextaction type='WeaponDelay'>
+					<delay>1.0</delay>
+					<delayedweapon type='WeaponReference'>
+						<weapon>Flame Stream</weapon>
+					</delayedweapon>
+				</nextaction>
+			</subweapon3>
+			<subweapon4 type='WeaponRedirect'>
+				<habs>false</habs>
+				<vabs>false</vabs>
+				<hredirect>2</hredirect>
+				<vredirect>0</vredirect>
+				<nextaction type='WeaponDelay'>
+					<delay>1.50</delay>
+					<delayedweapon type='WeaponReference'>
+						<weapon>Flame Stream</weapon>
+					</delayedweapon>
+				</nextaction>
+			</subweapon4>
+			<subweapon5 type='WeaponRedirect'>
+				<habs>false</habs>
+				<vabs>false</vabs>
+				<hredirect>0</hredirect>
+				<vredirect>2</vredirect>
+				<nextaction type='WeaponDelay'>
+					<delay>2.0</delay>
+					<delayedweapon type='WeaponReference'>
+						<weapon>Flame Stream</weapon>
+					</delayedweapon>
+				</nextaction>
+			</subweapon5>
+			<subweapon6 type='WeaponRedirect'>
+				<habs>false</habs>
+				<vabs>false</vabs>
+				<hredirect>-1</hredirect>
+				<vredirect>0</vredirect>
+				<nextaction type='WeaponDelay'>
+					<delay>2.50</delay>
+					<delayedweapon type='WeaponReference'>
+						<weapon>Flame Stream</weapon>
+					</delayedweapon>
+				</nextaction>
+			</subweapon6>
+			<subweapon7 type='WeaponRedirect'>
+				<habs>false</habs>
+				<vabs>false</vabs>
+				<hredirect>-2</hredirect>
+				<vredirect>-1</vredirect>
+				<nextaction type='WeaponDelay'>
+					<delay>3.0</delay>
+					<delayedweapon type='WeaponReference'>
+						<weapon>Flame Stream</weapon>
+					</delayedweapon>
+				</nextaction>
+			</subweapon7>
+			<subweapon8 type='WeaponRedirect'>
+				<habs>false</habs>
+				<vabs>false</vabs>
+				<hredirect>-1</hredirect>
+				<vredirect>0</vredirect>
+				<nextaction type='WeaponDelay'>
+					<delay>3.50</delay>
+					<delayedweapon type='WeaponReference'>
+						<weapon>Flame Stream</weapon>
+					</delayedweapon>
+				</nextaction>
+			</subweapon8>
+			<subweapon9 type='WeaponRedirect'>
+				<habs>false</habs>
+				<vabs>false</vabs>
+				<hredirect>2</hredirect>
+				<vredirect>-1</vredirect>
+				<nextaction type='WeaponDelay'>
+					<delay>4.0</delay>
+					<delayedweapon type='WeaponReference'>
+						<weapon>Flame Stream</weapon>
+					</delayedweapon>
+				</nextaction>
+			</subweapon9>
+		</accessoryaction>
+	</accessory>
+	<accessory>
 		<name>Hell Storm</name>
 		<armslevel>3</armslevel>
 		<description>A projectile weapon that on reaching its highest
@@ -3871,7 +4044,11 @@ remove earth from under them.</description>
 		<icon>rbomb.bmp</icon>
 		<startingnumber>-1</startingnumber>
 		<activationsound>shoot/small.wav</activationsound>
+		<model type='MilkShape'>weapons/m7a3.txt</model>
+		<modelscale>1.0</modelscale>
 		<accessoryaction type='WeaponProjectile'>
+			<projectilemodel type='MilkShape'>weapons/m7a3.txt</projectilemodel>
+			<projectilescale>1.5</projectilescale>
 			<collisionaction type='WeaponExplosion'>
 				<nocreatedebris></nocreatedebris>
 				<deform>down</deform>
@@ -3893,8 +4070,12 @@ remove earth from under them.</description>
 		<bundlesize>1</bundlesize>
 		<cost>1000</cost>
 		<activationsound>shoot/small.wav</activationsound>
+		<model type='MilkShape'>weapons/m7a3.txt</model>
+		<modelscale>1.5</modelscale>
 		<deathanimationweight>10</deathanimationweight>
 		<accessoryaction type='WeaponProjectile'>
+			<projectilemodel type='MilkShape'>weapons/m7a3.txt</projectilemodel>
+			<projectilescale>2.5</projectilescale>
 			<collisionaction type='WeaponExplosion'>
 				<nocreatedebris></nocreatedebris>
 				<deform>down</deform>
@@ -4273,12 +4454,12 @@ physical damage.</description>
 		<bundlesize>1</bundlesize>
 		<cost>8000</cost>
 		<activationsound>shoot/launch.wav</activationsound>
-		<model type='MilkShape'>fusionbarrel/fusionbarrel.txt</model>
+		<model type='MilkShape'>weapons/fusionbarrel.txt</model>
 		<modelscale>2.0</modelscale>
 		<accessoryaction type='WeaponProjectile'>
 			<apexcollision></apexcollision>
 			<projectilescale>2.0</projectilescale>
-			<projectilemodel type='MilkShape'>fusionbarrel/fusionbarrel.txt</projectilemodel>
+			<projectilemodel type='MilkShape'>weapons/fusionbarrel.txt</projectilemodel>
 			<collisionaction type='WeaponMulti'>
 				<subweapon1 type='WeaponExplosion'>
 					<nocreatedebris></nocreatedebris>
@@ -4413,12 +4594,12 @@ It does no physical damage to tanks.</description>
 		<bundlesize>1</bundlesize>
 		<cost>8000</cost>
 		<activationsound>shoot/flare.wav</activationsound>
-		<model type='MilkShape'>fusionbarrel/fusionbarrel.txt</model>
+		<model type='MilkShape'>weapons/fusionbarrel.txt</model>
 		<modelscale>2</modelscale>
 		<accessoryaction type='WeaponProjectile'>
 			<nocreateflame></nocreateflame>
 			<projectilescale>2</projectilescale>
-			<projectilemodel type='MilkShape'>fusionbarrel/fusionbarrel.txt</projectilemodel>
+			<projectilemodel type='MilkShape'>weapons/fusionbarrel.txt</projectilemodel>
 			<collisionaction type='WeaponMulti'>
 				<subweapon1 type='WeaponAimedOver'>
 					<nowarheads>8</nowarheads>
@@ -5264,13 +5445,13 @@ distance from your tank in the direction you aim</description>
 				<subweapon1 type='WeaponExplosion'>
 					<hurtamount>1.1</hurtamount>
 					<deform>down</deform>
-					<size>12</size>
+					<size>10</size>
 					<explosionsound>explosions/large.wav</explosionsound>
 					<explosiontexture>exp00</explosiontexture>
 					<explosionshake>2.0</explosionshake>
 				</subweapon1>
 				<subweapon2 type='WeaponAimedOver'>
-					<nowarheads>4</nowarheads>
+					<nowarheads>3</nowarheads>
 					<percentagemiss>20</percentagemiss>
 					<maxaimdistance>0</maxaimdistance>
 					<inaccuracy>10</inaccuracy>
@@ -5322,13 +5503,13 @@ distance from your tank in the direction you aim</description>
 				<subweapon1 type='WeaponExplosion'>
 					<hurtamount>1.15</hurtamount>
 					<deform>down</deform>
-					<size>16</size>
+					<size>14</size>
 					<explosionsound>explosions/meteor.wav</explosionsound>
 					<explosiontexture>exp00</explosiontexture>
 					<explosionshake>1.0</explosionshake>
 				</subweapon1>
 				<subweapon2 type='WeaponAimedOver'>
-					<nowarheads>4</nowarheads>
+					<nowarheads>5</nowarheads>
 					<percentagemiss>20</percentagemiss>
 					<maxaimdistance>0</maxaimdistance>
 					<inaccuracy>10</inaccuracy>
@@ -5380,13 +5561,13 @@ distance from your tank in the direction you aim</description>
 				<subweapon1 type='WeaponExplosion'>
 					<hurtamount>1.2</hurtamount>
 					<deform>down</deform>
-					<size>20</size>
+					<size>18</size>
 					<explosionsound>explosions/meteor.wav</explosionsound>
 					<explosiontexture>exp00</explosiontexture>
 					<explosionshake>2.0</explosionshake>
 				</subweapon1>
 				<subweapon2 type='WeaponAimedOver'>
-					<nowarheads>6</nowarheads>
+					<nowarheads>8</nowarheads>
 					<percentagemiss>20</percentagemiss>
 					<maxaimdistance>0</maxaimdistance>
 					<inaccuracy>10</inaccuracy>
@@ -6461,7 +6642,7 @@ YOU CANNOT AIM THIS WEAPON</description>
 		<bundlesize>1</bundlesize>
 		<cost>10000</cost>
 		<activationsound>shoot/flare.wav</activationsound>
-		<model type='MilkShape'>shockrocket/shockrocket.txt</model>
+		<model type='MilkShape'>weapons/shockrocket.txt</model>
 		<modelscale>2.5</modelscale>
 		<accessoryaction type="WeaponScatter">
 			<position><A>128</A><B>128</B><C>80</C></position>
@@ -6726,11 +6907,11 @@ energy wave that ripples outward horizontally</description>
 		<bundlesize>1</bundlesize>
 		<cost>20000</cost>
 		<activationsound>shoot/medium.wav</activationsound>
-		<model type='MilkShape'>shockrocket/shockrocket.txt</model>
+		<model type='MilkShape'>weapons/shockrocket.txt</model>
 		<modelscale>4</modelscale>
 		<accessoryaction type='WeaponProjectile'>
 			<projectilescale>4</projectilescale>
-			<projectilemodel type='MilkShape'>shockrocket/shockrocket.txt</projectilemodel>
+			<projectilemodel type='MilkShape'>weapons/shockrocket.txt</projectilemodel>
 			<collisionaction type='WeaponMulti'>
 				<subweapon1 type='WeaponAimedOver'>
 					<nowarheads>16</nowarheads>
@@ -6934,7 +7115,7 @@ YOU CANNOT AIM THIS WEAPON!</description>
 		<bundlesize>1</bundlesize>
 		<cost>25000</cost>
 		<activationsound>explosions/shockwave.wav</activationsound>
-		<model type='MilkShape'>shockrocket/shockrocket.txt</model>
+		<model type='MilkShape'>weapons/shockrocket.txt</model>
 		<modelscale>5.0</modelscale>
 		<accessoryaction type="WeaponScatter">
 			<position><A>128</A><B>128</B><C>80</C></position>
@@ -7660,7 +7841,7 @@ This weapon has a limited range and line of site.</description>
 		<bundlesize>5</bundlesize>
 		<cost>1000</cost>
 		<modelscale>0.75</modelscale>
-		<model type="MilkShape">shotgun/shotgunshell.txt</model>
+		<model type="MilkShape">weapons/shotgunshell.txt</model>
 		<activationsound>shoot/shotgun.wav</activationsound>
 		<accessoryaction type='WeaponMulti'>
 			<subweapon1 type='WeaponReference'>
@@ -7715,7 +7896,7 @@ This weapon has a limited range and line of site.</description>
 							<nocreateflame></nocreateflame>
 							<enginesound>none</enginesound>
 							<projectilescale>0.25</projectilescale>
-							<projectilemodel type='MilkShape'>shotgun/shotgunshell.txt</projectilemodel>
+							<projectilemodel type='MilkShape'>weapons/shotgunshell.txt</projectilemodel>
 							<collisionaction type='WeaponNull'></collisionaction>
 						</aimedweapon>
 					</nextaction>
