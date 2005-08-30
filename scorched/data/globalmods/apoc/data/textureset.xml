@@ -74,7 +74,37 @@
 		<texture>textures/flame/flame31.bmp</texture>
 		<texture>textures/flame/flame32.bmp</texture>
 		<texture>textures/flame/flame33.bmp</texture>
-	</textureset>	
+	</textureset>
+	
+	<!-- Apoc Textures -->
+	
+	<textureset name="acid00">
+		<texture>textures/explode/acid00_1.bmp</texture>
+		<texture>textures/explode/acid00_2.bmp</texture>
+		<texture>textures/explode/acid00_3.bmp</texture>
+		<texture>textures/explode/acid00_4.bmp</texture>
+		<texture>textures/explode/acid00_5.bmp</texture>
+		<texture>textures/explode/acid00_6.bmp</texture>
+		<texture>textures/explode/acid00_7.bmp</texture>
+		<texture>textures/explode/acid00_8.bmp</texture>
+		<texture>textures/explode/acid00_9.bmp</texture>
+		<texture>textures/explode/acid00_10.bmp</texture>
+		<texture>textures/explode/acid00_11.bmp</texture>
+		<texture>textures/explode/acid00_12.bmp</texture>
+	</textureset>
+	<textureset name="cloud00">
+		<!--<texture>textures/explode/cloud00_1.bmp</texture>-->
+		<texture>textures/explode/cloud00_2.bmp</texture>
+		<texture>textures/explode/cloud00_3.bmp</texture>
+		<texture>textures/explode/cloud00_4.bmp</texture>
+		<texture>textures/explode/cloud00_5.bmp</texture>
+	</textureset>
+	<textureset name="cloud00-3">
+		<texture>textures/explode/cloud00_3.bmp</texture>
+	</textureset>
+	<textureset name="cloud00-5">
+		<texture>textures/explode/cloud00_5.bmp</texture>
+	</textureset>
 	<textureset name="gas00">
 		<texture>textures/explode/gas00_1.bmp</texture>
 		<texture>textures/explode/gas00_2.bmp</texture>
@@ -94,19 +124,6 @@
 	<textureset name="gas00-5">
 		<texture>textures/explode/gas00_5.bmp</texture>
 	</textureset>
-	<textureset name="cloud00">
-		<!--<texture>textures/explode/cloud00_1.bmp</texture>-->
-		<texture>textures/explode/cloud00_2.bmp</texture>
-		<texture>textures/explode/cloud00_3.bmp</texture>
-		<texture>textures/explode/cloud00_4.bmp</texture>
-		<texture>textures/explode/cloud00_5.bmp</texture>
-	</textureset>
-	<textureset name="cloud00-3">
-		<texture>textures/explode/cloud00_3.bmp</texture>
-	</textureset>
-	<textureset name="cloud00-5">
-		<texture>textures/explode/cloud00_5.bmp</texture>
-	</textureset>
 	<textureset name="light00">
 		<texture>textures/explode/light00_1.bmp</texture>
 		<texture>textures/explode/light00_2.bmp</texture>
@@ -116,18 +133,7 @@
 	<textureset name="light00-3">
 		<texture>textures/explode/light00_3.bmp</texture>
 	</textureset>
-	<textureset name="acid00">
-		<texture>textures/explode/acid00_1.bmp</texture>
-		<texture>textures/explode/acid00_2.bmp</texture>
-		<texture>textures/explode/acid00_3.bmp</texture>
-		<texture>textures/explode/acid00_4.bmp</texture>
-		<texture>textures/explode/acid00_5.bmp</texture>
-		<texture>textures/explode/acid00_6.bmp</texture>
-		<texture>textures/explode/acid00_7.bmp</texture>
-		<texture>textures/explode/acid00_8.bmp</texture>
-		<texture>textures/explode/acid00_9.bmp</texture>
-		<texture>textures/explode/acid00_10.bmp</texture>
-		<texture>textures/explode/acid00_11.bmp</texture>
-		<texture>textures/explode/acid00_12.bmp</texture>
+	<textureset name="smoke-orange">
+		<texture>textures/explode/smoke-orange.bmp</texture>
 	</textureset>
 </texturesets>

@@ -600,9 +600,9 @@
 				<cruisedistance>4.0</cruisedistance>
 				<model type="MilkShape">data/meshes/ah64d/ah64d.txt</model>
 				<sounds>
-					<mintime>0</mintime>
-					<maxtime>2</maxtime>
-					<maxsimul>4</maxsimul>
+					<mintime>3</mintime>
+					<maxtime>4</maxtime>
+					<maxsimul>2</maxsimul>
 					<volume>10</volume>
 					<sound>data/wav/misc/apache_1.wav</sound>
 				</sounds>
@@ -717,8 +717,8 @@
 				<cruisedistance>4.0</cruisedistance>
 				<model type="MilkShape">data/meshes/ah64d/ah64d.txt</model>
 				<sounds>
-					<mintime>0</mintime>
-					<maxtime>2</maxtime>
+					<mintime>3</mintime>
+					<maxtime>4</maxtime>
 					<maxsimul>4</maxsimul>
 					<volume>10</volume>
 					<sound>data/wav/misc/apache_1.wav</sound>
@@ -804,9 +804,9 @@
 				<cruisedistance>4.0</cruisedistance>
 				<model type="MilkShape">data/meshes/ah64d/ah64d.txt</model>
 				<sounds>
-					<mintime>0</mintime>
-					<maxtime>2</maxtime>
-					<maxsimul>4</maxsimul>
+					<mintime>3</mintime>
+					<maxtime>4</maxtime>
+					<maxsimul>2</maxsimul>
 					<volume>10</volume>
 					<sound>data/wav/misc/apache_1.wav</sound>
 				</sounds>
@@ -909,9 +909,9 @@
 				<cruisedistance>4.0</cruisedistance>
 				<model type="MilkShape">data/meshes/ah64d/ah64d.txt</model>
 				<sounds>
-					<mintime>0</mintime>
-					<maxtime>2</maxtime>
-					<maxsimul>4</maxsimul>
+					<mintime>3</mintime>
+					<maxtime>4</maxtime>
+					<maxsimul>2</maxsimul>
 					<volume>10</volume>
 					<sound>data/wav/misc/apache_1.wav</sound>
 				</sounds>
@@ -1007,9 +1007,9 @@
 				<cruisedistance>4.0</cruisedistance>
 				<model type="MilkShape">data/meshes/ah64d/ah64d.txt</model>
 				<sounds>
-					<mintime>0</mintime>
-					<maxtime>2</maxtime>
-					<maxsimul>4</maxsimul>
+					<mintime>3</mintime>
+					<maxtime>4</maxtime>
+					<maxsimul>2</maxsimul>
 					<volume>10</volume>
 					<sound>data/wav/misc/apache_1.wav</sound>
 				</sounds>
@@ -1095,9 +1095,9 @@
 				<cruisedistance>4.0</cruisedistance>
 				<model type="MilkShape">data/meshes/ah64d/ah64d.txt</model>
 				<sounds>
-					<mintime>0</mintime>
-					<maxtime>2</maxtime>
-					<maxsimul>4</maxsimul>
+					<mintime>3</mintime>
+					<maxtime>4</maxtime>
+					<maxsimul>2</maxsimul>
 					<volume>10</volume>
 					<sound>data/wav/misc/apache_1.wav</sound>
 				</sounds>
@@ -1200,9 +1200,9 @@
 				<cruisedistance>4.0</cruisedistance>
 				<model type="MilkShape">data/meshes/ah64d/ah64d.txt</model>
 				<sounds>
-					<mintime>0</mintime>
-					<maxtime>2</maxtime>
-					<maxsimul>4</maxsimul>
+					<mintime>3</mintime>
+					<maxtime>4</maxtime>
+					<maxsimul>2</maxsimul>
 					<volume>10</volume>
 					<sound>data/wav/misc/apache_1.wav</sound>
 				</sounds>
@@ -1298,9 +1298,9 @@
 				<cruisedistance>4.0</cruisedistance>
 				<model type="MilkShape">data/meshes/ah64d/ah64d.txt</model>
 				<sounds>
-					<mintime>0</mintime>
-					<maxtime>2</maxtime>
-					<maxsimul>4</maxsimul>
+					<mintime>3</mintime>
+					<maxtime>4</maxtime>
+					<maxsimul>2</maxsimul>
 					<volume>10</volume>
 					<sound>data/wav/misc/apache_1.wav</sound>
 				</sounds>
@@ -1386,9 +1386,9 @@
 				<cruisedistance>4.0</cruisedistance>
 				<model type="MilkShape">data/meshes/ah64d/ah64d.txt</model>
 				<sounds>
-					<mintime>0</mintime>
-					<maxtime>2</maxtime>
-					<maxsimul>4</maxsimul>
+					<mintime>3</mintime>
+					<maxtime>4</maxtime>
+					<maxsimul>2</maxsimul>
 					<volume>10</volume>
 					<sound>data/wav/misc/apache_1.wav</sound>
 				</sounds>
@@ -1491,9 +1491,9 @@
 				<cruisedistance>4.0</cruisedistance>
 				<model type="MilkShape">data/meshes/ah64d/ah64d.txt</model>
 				<sounds>
-					<mintime>0</mintime>
-					<maxtime>2</maxtime>
-					<maxsimul>4</maxsimul>
+					<mintime>3</mintime>
+					<maxtime>4</maxtime>
+					<maxsimul>2</maxsimul>
 					<volume>10</volume>
 					<sound>data/wav/misc/apache_1.wav</sound>
 				</sounds>
@@ -1589,9 +1589,9 @@
 				<cruisedistance>4.0</cruisedistance>
 				<model type="MilkShape">data/meshes/ah64d/ah64d.txt</model>
 				<sounds>
-					<mintime>0</mintime>
-					<maxtime>2</maxtime>
-					<maxsimul>4</maxsimul>
+					<mintime>2</mintime>
+					<maxtime>3</maxtime>
+					<maxsimul>2</maxsimul>
 					<volume>10</volume>
 					<sound>data/wav/misc/apache_1.wav</sound>
 				</sounds>
