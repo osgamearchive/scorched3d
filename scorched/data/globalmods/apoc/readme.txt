@@ -16,10 +16,13 @@ Changes Since 3.0
 			
 	Other Accessory Changes:
 		- New Projectile Model for Mega Mirv/S-Mirv by Shockwave
+		- New missile launch sound that replaces default
 		- Increased EMP effectiveness against shields slightly and reduced damage to tank
+		- Turned Mega EMP into a missile weapon instead of grenade, renamed to EMP Missile.
 		- Decreased cost of Riot Drill, Wall of Dirt and Ring of Dirt slightly
-		- Removed Disco Bunny
 		- Other updates to projectile models/texturing
+		- Changed roller model to the newer roller model (finally)
+		- Removed Disco Bunny
 			
 	Landscapes:
 		- Changes to cities:

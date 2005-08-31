@@ -14,10 +14,10 @@ the content that is in question.  I don't want to leave anyone out, and I am sor
 			- Made tripleshot.wav using the flare sound
 			- Made lightningbolt using two sounds from findsounds.com
 			- Obtained and adjusted ambient sounds for the city layouts
-			- Obtained the rest from various sources on the net (findsounds.com mostly)
+			- Obtained the rest from various sources on the net
 		Textures:
-			- cloud00, gas00 and light00 explosion textures 
-			- all the custom weapon icons
+			- cloud00, gas00, light00, smoke-orange explosion textures 
+			- all the custom weapon icons (with the exception of flamethrower)
 		Projectile Models:
 			- bullet
 			- shotgunshell
@@ -25,17 +25,19 @@ the content that is in question.  I don't want to leave anyone out, and I am sor
 			- gasstation1, office3
 		- All custom accessory xml unless stated otherwise
 		- Wrote most of the additional xml (updating landscapes, object placement, ai types, etc)
-		- Final scaling, repositioning, poly reduction and retexturing of the building models
+		- Scaling, repositioning, poly reduction and retexturing of the building models
 	
 	- ShoCkwaVe
 		Projectile Models:
-			- fusionbarrel, m7a3grenade, redhornet, remorcebomblet texture, shockbomblet, shockrocket
+			- megamirv, wobblebomb, fusionbarrel, m7a3, grenade, redhornet, remorcebomblet texture, shockbomblet, shockrocket
 		Object Models (including burnt versions and original texturing):
-			- church1, cityoffice, factory1, farm1, house1, logcabin1, officeplaza1, store1, trailorhouse1
+			- bar1, church1, factory1, farm1, house1, logcabin1, office1, office2, store1, trailorhouse1
 		Weapon Models
-			- 50cal
+			- 50cal, flamethrower
 		Landscapes:
 			- arizonaislands
+		Weapons:
+			- flame thrower
 	
 	- Nexus6
 		- Landscapes:
@@ -50,6 +52,6 @@ the content that is in question.  I don't want to leave anyone out, and I am sor
 	- R@p7oR
 		Projectile Models:
 			- napalm
-		Sounds
+		Sounds:
 			- bhit, machinegun (slightly edited by me though to reduce number of shots)
 			

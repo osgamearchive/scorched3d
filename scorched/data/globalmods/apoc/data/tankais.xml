@@ -92,7 +92,7 @@ the use of energy based weaponset.</description>
 			<weapon><name>Battery</name><level>20</level><type>defense</type></weapon>
 			<weapon><name>Shield</name><level>20</level><type>defense</type></weapon>
 			<weapon><name>Auto Defense</name><level>30</level><type>defense</type></weapon>
-			<weapon><name>Mega EMP</name><level>30</level><type>explosionlarge</type></weapon>
+			<weapon><name>EMP Missile</name><level>30</level><type>explosionlarge</type></weapon>
 			<weapon><name>Chain Lightning</name><level>30</level><type>explosionlarge</type></weapon>
 			<weapon><name>Baby Missile</name><level>1</level><type>explosionsmall</type></weapon>
 		</weaponset>

@@ -1508,6 +1508,48 @@ trace of the shot path.</description>
 		</accessoryaction>
 	</accessory>
 	<accessory>
+		<name>EMP Missile</name>
+		<armslevel>4</armslevel>
+		<description>A standard missile with a special EMP warhead. 
+EMPs do more damage to shields than to tanks.</description>
+		<icon>emp.bmp</icon>
+		<bundlesize>1</bundlesize>
+		<cost>5000</cost>
+		<activationsound>shoot/launch.wav</activationsound>
+		<deathanimationweight>4</deathanimationweight>
+		<model type='MilkShape'>weapons/shockrocket.txt</model>
+		<modelscale>3.0</modelscale>
+		<accessoryaction type='WeaponProjectile'>
+			<projectilescale>3.0</projectilescale>
+			<projectilemodel type='MilkShape'>weapons/shockrocket.txt</projectilemodel>
+			<collisionaction type='WeaponMulti'>
+				<subweapon1 type='WeaponExplosion'>
+					<nocreatedebris></nocreatedebris>
+					<hurtamount>0.5</hurtamount>
+					<deform>none</deform>
+					<size>24</size>
+					<minlife>0.5</minlife>
+					<maxlife>1.5</maxlife>
+					<explosiontexture>exp05</explosiontexture>
+					<explosionsound>explosions/empsmall.wav</explosionsound>
+				</subweapon1>
+				<subweapon2 type='WeaponDelay'>
+					<delay>0.1</delay>
+					<delayedweapon type='WeaponExplosion'>
+						<nocreatedebris></nocreatedebris>
+						<nocreatesplash></nocreatesplash>
+						<onlyhurtshield>true</onlyhurtshield>
+						<hurtamount>0.75</hurtamount>
+						<deform>none</deform>
+						<size>24</size>
+						<explosiontexture>none</explosiontexture>
+						<explosionsound>none</explosionsound>
+					</delayedweapon>
+				</subweapon2>
+			</collisionaction>
+		</accessoryaction>
+	</accessory>
+	<accessory>
 		<name>M2 Round</name>
 		<maximumnumber>0</maximumnumber>
 		<armslevel>6</armslevel>
@@ -1751,75 +1793,6 @@ EMPs do more damage to shields than to tanks.</description>
 										<hurtamount>0.75</hurtamount>
 										<deform>none</deform>
 										<size>13</size>
-										<explosiontexture>none</explosiontexture>
-										<explosionsound>none</explosionsound>
-									</delayedweapon>
-								</subweapon2>
-							</collisionaction>
-						</aimedweapon>
-					</collisionaction>
-				</subweapon1>
-				<subweapon2 type='WeaponExplosion'>
-					<noluminance></noluminance>
-					<nocreatedebris></nocreatedebris>
-					<hurtamount>0</hurtamount>
-					<deform>down</deform>
-					<size>4</size>
-					<explosiontexture>cloud00</explosiontexture>
-					<explosionsound>explosions/thud.wav</explosionsound>
-				</subweapon2>
-			</collisionaction>
-		</accessoryaction>
-	</accessory>
-	<accessory>
-		<name>Mega EMP</name>
-		<armslevel>4</armslevel>
-		<description>A large grenade that bounces once then explodes and
-damages opponents without destroying the landscape.
-EMPs do more damage to shields than to tanks.</description>
-		<icon>emp.bmp</icon>
-		<bundlesize>1</bundlesize>
-		<cost>5000</cost>
-		<activationsound>shoot/xlarge.wav</activationsound>
-		<deathanimationweight>4</deathanimationweight>
-		<model type='MilkShape'>weapons/shockbomblet.txt</model>
-		<modelscale>3.0</modelscale>
-		<accessoryaction type='WeaponProjectile'>
-			<enginesound>none</enginesound>
-			<nocreateflame></nocreateflame>
-			<projectilescale>3.0</projectilescale>
-			<projectilemodel type='MilkShape'>weapons/shockbomblet.txt</projectilemodel>
-			<collisionaction type='WeaponMulti'>
-				<subweapon1 type='WeaponLeapFrog'>
-					<bounce>0.5</bounce>
-					<collisionaction type='WeaponVelocity'>
-						<velocitychange>0.8</velocitychange>
-						<aimedweapon type='WeaponProjectile'>
-							<enginesound>none</enginesound>
-							<nocreateflame></nocreateflame>
-							<nocreatesmoke></nocreatesmoke>
-							<projectilescale>3.0</projectilescale>
-							<projectilemodel type='MilkShape'>weapons/shockbomblet.txt</projectilemodel>
-							<collisionaction type='WeaponMulti'> 
-								<subweapon1 type='WeaponExplosion'>
-									<nocreatedebris></nocreatedebris>
-									<hurtamount>0.5</hurtamount>
-									<deform>none</deform>
-									<size>24</size>
-									<minlife>0.5</minlife>
-									<maxlife>1.5</maxlife>
-									<explosiontexture>exp05</explosiontexture>
-									<explosionsound>explosions/empsmall.wav</explosionsound>
-								</subweapon1>
-								<subweapon2 type='WeaponDelay'>
-									<delay>0.1</delay>
-									<delayedweapon type='WeaponExplosion'>
-										<nocreatedebris></nocreatedebris>
-										<nocreatesplash></nocreatesplash>
-										<onlyhurtshield>true</onlyhurtshield>
-										<hurtamount>0.75</hurtamount>
-										<deform>none</deform>
-										<size>24</size>
 										<explosiontexture>none</explosiontexture>
 										<explosionsound>none</explosionsound>
 									</delayedweapon>
@@ -3563,10 +3536,7 @@ releases rolling napalm warheads.</description>
 					<collisionaction type='WeaponRoller'>
 						<numberrollers>2</numberrollers>
 						<time>8</time>
-						<rollermodel type='ase'>
-							<mesh>roller.ase</mesh>
-							<skin>none</skin>
-						</rollermodel>
+						<rollermodel type='MilkShape'>roller/roller.txt</rollermodel>
 						<collisionaction type='WeaponMulti'>
 							<subweapon1 type='WeaponExplosion'>
 								<nocreatedebris></nocreatedebris>
@@ -6197,10 +6167,7 @@ contact with any tank.</description>
 			<collisionaction type='WeaponRoller'>
 				<numberrollers>8</numberrollers>
 				<time>8</time>
-				<rollermodel type='ase'>
-					<mesh>roller.ase</mesh>
-					<skin>none</skin>
-				</rollermodel>
+				<rollermodel type='MilkShape'>roller/roller.txt</rollermodel>
 				<collisionaction type='WeaponExplosion'>
 					<hurtamount>1.0</hurtamount>
 					<deform>down</deform>
@@ -6226,10 +6193,7 @@ with any tank.</description>
 			<collisionaction type='WeaponRoller'>
 				<numberrollers>8</numberrollers>
 				<time>8</time>
-				<rollermodel type='ase'>
-					<mesh>roller.ase</mesh>
-					<skin>none</skin>
-				</rollermodel>
+				<rollermodel type='MilkShape'>roller/roller.txt</rollermodel>
 				<collisionaction type='WeaponExplosion'>
 					<hurtamount>1.0</hurtamount>
 					<deform>down</deform>
@@ -6255,10 +6219,7 @@ with any tank.</description>
 			<collisionaction type='WeaponRoller'>
 				<numberrollers>8</numberrollers>
 				<time>8</time>
-				<rollermodel type='ase'>
-					<mesh>roller.ase</mesh>
-					<skin>none</skin>
-				</rollermodel>
+				<rollermodel type='MilkShape'>roller/roller.txt</rollermodel>
 				<collisionaction type='WeaponExplosion'>
 					<hurtamount>1.0</hurtamount>
 					<deform>down</deform>
@@ -6959,7 +6920,7 @@ energy wave that ripples outward horizontally</description>
 		<icon>swave.bmp</icon>
 		<bundlesize>1</bundlesize>
 		<cost>20000</cost>
-		<activationsound>shoot/medium.wav</activationsound>
+		<activationsound>shoot/launch.wav</activationsound>
 		<model type='MilkShape'>weapons/shockrocket.txt</model>
 		<modelscale>4</modelscale>
 		<accessoryaction type='WeaponProjectile'>
