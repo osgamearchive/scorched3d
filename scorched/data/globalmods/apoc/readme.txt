@@ -20,6 +20,7 @@ Changes Since 3.0
 		- Increased EMP effectiveness against shields slightly and reduced damage to tank
 		- Turned Mega EMP into a missile weapon instead of grenade, renamed to EMP Missile.
 		- Decreased cost of Riot Drill, Wall of Dirt and Ring of Dirt slightly
+		- Adjusted sparking effect in Shockwave
 		- Other updates to projectile models/texturing
 		- Changed roller model to the newer roller model (finally)
 		- Removed Disco Bunny

@@ -760,6 +760,72 @@ activated before they work.</description>
 		</accessoryaction>
 	</accessory>
 	<accessory>
+		<name>BurstBolt</name>
+		<armslevel>10</armslevel>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponLightning'>
+			<conelength>12</conelength>
+			<seglength>1</seglength>
+			<segvar>12</segvar>
+			<size>4</size>
+			<sizevar>-1</sizevar>
+			<minsize>0.1</minsize>
+			<splitprob>0.2</splitprob>
+			<splitvar>0.03</splitvar>
+			<deathprob>0.03</deathprob>
+			<derivangle>0.5</derivangle>
+			<anglevar>0.94</anglevar>
+			<totaltime>0.75</totaltime>
+			<seghurt>0</seghurt>
+			<seghurtradius>0</seghurtradius>
+			<sound>none</sound>
+		</accessoryaction>
+	</accessory>
+	<accessory>
+		<name>BurstBolt2</name>
+		<armslevel>10</armslevel>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponLightning'>
+			<conelength>18</conelength>
+			<seglength>1</seglength>
+			<segvar>12</segvar>
+			<size>4</size>
+			<sizevar>-1</sizevar>
+			<minsize>0.1</minsize>
+			<splitprob>0.2</splitprob>
+			<splitvar>0.03</splitvar>
+			<deathprob>0.03</deathprob>
+			<derivangle>0.5</derivangle>
+			<anglevar>0.94</anglevar>
+			<totaltime>0.75</totaltime>
+			<seghurt>0</seghurt>
+			<seghurtradius>0</seghurtradius>
+			<sound>none</sound>
+		</accessoryaction>
+	</accessory>
+	<accessory>
+		<name>BurstBolt3</name>
+		<armslevel>10</armslevel>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponLightning'>
+			<conelength>24</conelength>
+			<seglength>1</seglength>
+			<segvar>12</segvar>
+			<size>4</size>
+			<sizevar>-1</sizevar>
+			<minsize>0.1</minsize>
+			<splitprob>0.2</splitprob>
+			<splitvar>0.03</splitvar>
+			<deathprob>0.03</deathprob>
+			<derivangle>0.5</derivangle>
+			<anglevar>0.94</anglevar>
+			<totaltime>0.75</totaltime>
+			<seghurt>0</seghurt>
+			<seghurtradius>0</seghurtradius>
+			<sound>none</sound>
+		</accessoryaction>
+	</accessory>
+	<accessory>
 		<name>Spark Burst</name>
 		<armslevel>10</armslevel>
 		<maximumnumber>0</maximumnumber>
@@ -774,22 +840,8 @@ activated before they work.</description>
 					<vabs>false</vabs>
 					<hredirect>0</hredirect>
 					<vredirect>45</vredirect>
-					<nextaction type='WeaponLightning'>
-						<conelength>15</conelength>
-						<seglength>1</seglength>
-						<segvar>12</segvar>
-						<size>4</size>
-						<sizevar>-1</sizevar>
-						<minsize>0.1</minsize>
-						<splitprob>0.2</splitprob>
-						<splitvar>0.03</splitvar>
-						<deathprob>0.03</deathprob>
-						<derivangle>0.5</derivangle>
-						<anglevar>0.94</anglevar>
-						<totaltime>1</totaltime>
-						<seghurt>0</seghurt>
-						<seghurtradius>0</seghurtradius>
-						<sound>none</sound>
+					<nextaction type='WeaponReference'>
+						<weapon>BurstBolt</weapon>
 					</nextaction>
 				</aimedweapon>
 			</subweapon1>
@@ -803,22 +855,8 @@ activated before they work.</description>
 					<vabs>false</vabs>
 					<hredirect>0</hredirect>
 					<vredirect>75</vredirect>
-					<nextaction type='WeaponLightning'>
-						<conelength>15</conelength>
-						<seglength>1</seglength>
-						<segvar>12</segvar>
-						<size>4</size>
-						<sizevar>-1</sizevar>
-						<minsize>0.1</minsize>
-						<splitprob>0.2</splitprob>
-						<splitvar>0.03</splitvar>
-						<deathprob>0.03</deathprob>
-						<derivangle>0.5</derivangle>
-						<anglevar>0.94</anglevar>
-						<totaltime>1</totaltime>
-						<seghurt>0</seghurt>
-						<seghurtradius>0</seghurtradius>
-						<sound>none</sound>
+					<nextaction type='WeaponReference'>
+						<weapon>BurstBolt</weapon>
 					</nextaction>
 				</aimedweapon>
 			</subweapon2>
@@ -832,22 +870,8 @@ activated before they work.</description>
 					<vabs>false</vabs>
 					<hredirect>0</hredirect>
 					<vredirect>120</vredirect>
-					<nextaction type='WeaponLightning'>
-						<conelength>15</conelength>
-						<seglength>1</seglength>
-						<segvar>12</segvar>
-						<size>4</size>
-						<sizevar>-1</sizevar>
-						<minsize>0.1</minsize>
-						<splitprob>0.2</splitprob>
-						<splitvar>0.03</splitvar>
-						<deathprob>0.03</deathprob>
-						<derivangle>0.5</derivangle>
-						<anglevar>0.94</anglevar>
-						<totaltime>1</totaltime>
-						<seghurt>0</seghurt>
-						<seghurtradius>0</seghurtradius>
-						<sound>none</sound>
+					<nextaction type='WeaponReference'>
+						<weapon>BurstBolt</weapon>
 					</nextaction>
 				</aimedweapon>
 			</subweapon3>
@@ -861,22 +885,142 @@ activated before they work.</description>
 					<vabs>false</vabs>
 					<hredirect>0</hredirect>
 					<vredirect>0</vredirect>
-					<nextaction type='WeaponLightning'>
-						<conelength>15</conelength>
-						<seglength>1</seglength>
-						<segvar>12</segvar>
-						<size>4</size>
-						<sizevar>-1</sizevar>
-						<minsize>0.1</minsize>
-						<splitprob>0.2</splitprob>
-						<splitvar>0.03</splitvar>
-						<deathprob>0.03</deathprob>
-						<derivangle>0.5</derivangle>
-						<anglevar>0.94</anglevar>
-						<totaltime>1</totaltime>
-						<seghurt>0</seghurt>
-						<seghurtradius>0</seghurtradius>
-						<sound>none</sound>
+					<nextaction type='WeaponReference'>
+						<weapon>BurstBolt</weapon>
+					</nextaction>
+				</aimedweapon>
+			</subweapon4>
+		</accessoryaction>
+	</accessory>
+	<accessory>
+		<name>Spark Burst2</name>
+		<armslevel>10</armslevel>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponMulti'>
+			<subweapon1 type='WeaponAimedOver'>
+				<nowarheads>8</nowarheads>
+				<percentagemiss>20</percentagemiss>
+				<maxaimdistance>0</maxaimdistance>
+				<inaccuracy>10</inaccuracy>
+				<aimedweapon type='WeaponRedirect'>
+					<habs>false</habs>
+					<vabs>false</vabs>
+					<hredirect>0</hredirect>
+					<vredirect>45</vredirect>
+					<nextaction type='WeaponReference'>
+						<weapon>BurstBolt2</weapon>
+					</nextaction>
+				</aimedweapon>
+			</subweapon1>
+			<subweapon2 type='WeaponAimedOver'>
+				<nowarheads>8</nowarheads>
+				<percentagemiss>20</percentagemiss>
+				<maxaimdistance>0</maxaimdistance>
+				<inaccuracy>10</inaccuracy>
+				<aimedweapon type='WeaponRedirect'>
+					<habs>false</habs>
+					<vabs>false</vabs>
+					<hredirect>0</hredirect>
+					<vredirect>75</vredirect>
+					<nextaction type='WeaponReference'>
+						<weapon>BurstBolt2</weapon>
+					</nextaction>
+				</aimedweapon>
+			</subweapon2>
+			<subweapon3 type='WeaponAimedOver'>
+				<nowarheads>4</nowarheads>
+				<percentagemiss>20</percentagemiss>
+				<maxaimdistance>0</maxaimdistance>
+				<inaccuracy>10</inaccuracy>
+				<aimedweapon type='WeaponRedirect'>
+					<habs>false</habs>
+					<vabs>false</vabs>
+					<hredirect>0</hredirect>
+					<vredirect>120</vredirect>
+					<nextaction type='WeaponReference'>
+						<weapon>BurstBolt2</weapon>
+					</nextaction>
+				</aimedweapon>
+			</subweapon3>
+			<subweapon4 type='WeaponAimedOver'>
+				<nowarheads>4</nowarheads>
+				<percentagemiss>20</percentagemiss>
+				<maxaimdistance>0</maxaimdistance>
+				<inaccuracy>10</inaccuracy>
+				<aimedweapon type='WeaponRedirect'>
+					<habs>false</habs>
+					<vabs>false</vabs>
+					<hredirect>0</hredirect>
+					<vredirect>0</vredirect>
+					<nextaction type='WeaponReference'>
+						<weapon>BurstBolt2</weapon>
+					</nextaction>
+				</aimedweapon>
+			</subweapon4>
+		</accessoryaction>
+	</accessory>
+	<accessory>
+		<name>Spark Burst3</name>
+		<armslevel>10</armslevel>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponMulti'>
+			<subweapon1 type='WeaponAimedOver'>
+				<nowarheads>8</nowarheads>
+				<percentagemiss>20</percentagemiss>
+				<maxaimdistance>0</maxaimdistance>
+				<inaccuracy>10</inaccuracy>
+				<aimedweapon type='WeaponRedirect'>
+					<habs>false</habs>
+					<vabs>false</vabs>
+					<hredirect>0</hredirect>
+					<vredirect>45</vredirect>
+					<nextaction type='WeaponReference'>
+						<weapon>BurstBolt3</weapon>
+					</nextaction>
+				</aimedweapon>
+			</subweapon1>
+			<subweapon2 type='WeaponAimedOver'>
+				<nowarheads>8</nowarheads>
+				<percentagemiss>20</percentagemiss>
+				<maxaimdistance>0</maxaimdistance>
+				<inaccuracy>10</inaccuracy>
+				<aimedweapon type='WeaponRedirect'>
+					<habs>false</habs>
+					<vabs>false</vabs>
+					<hredirect>0</hredirect>
+					<vredirect>75</vredirect>
+					<nextaction type='WeaponReference'>
+						<weapon>BurstBolt3</weapon>
+					</nextaction>
+				</aimedweapon>
+			</subweapon2>
+			<subweapon3 type='WeaponAimedOver'>
+				<nowarheads>4</nowarheads>
+				<percentagemiss>20</percentagemiss>
+				<maxaimdistance>0</maxaimdistance>
+				<inaccuracy>10</inaccuracy>
+				<aimedweapon type='WeaponRedirect'>
+					<habs>false</habs>
+					<vabs>false</vabs>
+					<hredirect>0</hredirect>
+					<vredirect>120</vredirect>
+					<nextaction type='WeaponReference'>
+						<weapon>BurstBolt3</weapon>
+					</nextaction>
+				</aimedweapon>
+			</subweapon3>
+			<subweapon4 type='WeaponAimedOver'>
+				<nowarheads>4</nowarheads>
+				<percentagemiss>20</percentagemiss>
+				<maxaimdistance>0</maxaimdistance>
+				<inaccuracy>10</inaccuracy>
+				<aimedweapon type='WeaponRedirect'>
+					<habs>false</habs>
+					<vabs>false</vabs>
+					<hredirect>0</hredirect>
+					<vredirect>0</vredirect>
+					<nextaction type='WeaponReference'>
+						<weapon>BurstBolt3</weapon>
 					</nextaction>
 				</aimedweapon>
 			</subweapon4>
@@ -1525,11 +1669,11 @@ EMPs do more damage to shields than to tanks.</description>
 			<collisionaction type='WeaponMulti'>
 				<subweapon1 type='WeaponExplosion'>
 					<nocreatedebris></nocreatedebris>
-					<hurtamount>0.5</hurtamount>
+					<nocreatesplash></nocreatesplash>
+					<onlyhurtshield>true</onlyhurtshield>
+					<hurtamount>0.75</hurtamount>
 					<deform>none</deform>
 					<size>24</size>
-					<minlife>0.5</minlife>
-					<maxlife>1.5</maxlife>
 					<explosiontexture>exp05</explosiontexture>
 					<explosionsound>explosions/empsmall.wav</explosionsound>
 				</subweapon1>
@@ -1537,11 +1681,11 @@ EMPs do more damage to shields than to tanks.</description>
 					<delay>0.1</delay>
 					<delayedweapon type='WeaponExplosion'>
 						<nocreatedebris></nocreatedebris>
-						<nocreatesplash></nocreatesplash>
-						<onlyhurtshield>true</onlyhurtshield>
-						<hurtamount>0.75</hurtamount>
+						<hurtamount>0.5</hurtamount>
 						<deform>none</deform>
 						<size>24</size>
+						<minlife>0.5</minlife>
+						<maxlife>1.5</maxlife>
 						<explosiontexture>none</explosiontexture>
 						<explosionsound>none</explosionsound>
 					</delayedweapon>
@@ -1778,7 +1922,9 @@ EMPs do more damage to shields than to tanks.</description>
 							<collisionaction type='WeaponMulti'>
 								<subweapon1 type='WeaponExplosion'>
 									<nocreatedebris></nocreatedebris>
-									<hurtamount>0.5</hurtamount>
+									<nocreatesplash></nocreatesplash>
+									<onlyhurtshield>true</onlyhurtshield>
+									<hurtamount>0.75</hurtamount>
 									<deform>none</deform>
 									<size>13</size>
 									<explosiontexture>exp05</explosiontexture>
@@ -1788,13 +1934,11 @@ EMPs do more damage to shields than to tanks.</description>
 									<delay>0.1</delay>
 									<delayedweapon type='WeaponExplosion'>
 										<nocreatedebris></nocreatedebris>
-										<nocreatesplash></nocreatesplash>
-										<onlyhurtshield>true</onlyhurtshield>
-										<hurtamount>0.75</hurtamount>
+										<hurtamount>0.5</hurtamount>
 										<deform>none</deform>
 										<size>13</size>
 										<explosiontexture>none</explosiontexture>
-										<explosionsound>none</explosionsound>
+										<explosionsound>none</explosionsound>									
 									</delayedweapon>
 								</subweapon2>
 							</collisionaction>
@@ -7098,23 +7242,41 @@ energy wave that ripples outward horizontally</description>
 					<weapon>Spark Burst</weapon>
 				</subweapon3>
 				<subweapon4 type='WeaponDelay'>
-					<delay>1.0</delay>
+					<delay>0.5</delay>
 					<delayedweapon type='WeaponReference'>
 						<weapon>Spark Burst</weapon>
 					</delayedweapon>
 				</subweapon4>
 				<subweapon5 type='WeaponDelay'>
-					<delay>2.0</delay>
+					<delay>1.0</delay>
 					<delayedweapon type='WeaponReference'>
-						<weapon>Spark Burst</weapon>
+						<weapon>Spark Burst2</weapon>
 					</delayedweapon>
 				</subweapon5>
 				<subweapon6 type='WeaponDelay'>
-					<delay>3.0</delay>
+					<delay>1.5</delay>
 					<delayedweapon type='WeaponReference'>
-						<weapon>Spark Burst</weapon>
+						<weapon>Spark Burst2</weapon>
 					</delayedweapon>
 				</subweapon6>
+				<subweapon7 type='WeaponDelay'>
+					<delay>2.0</delay>
+					<delayedweapon type='WeaponReference'>
+						<weapon>Spark Burst2</weapon>
+					</delayedweapon>
+				</subweapon7>
+				<subweapon8 type='WeaponDelay'>
+					<delay>2.5</delay>
+					<delayedweapon type='WeaponReference'>
+						<weapon>Spark Burst3</weapon>
+					</delayedweapon>
+				</subweapon8>
+				<subweapon9 type='WeaponDelay'>
+					<delay>3.0</delay>
+					<delayedweapon type='WeaponReference'>
+						<weapon>Spark Burst3</weapon>
+					</delayedweapon>
+				</subweapon9>
 			</collisionaction>
 		</accessoryaction>
 	</accessory>
@@ -7811,64 +7973,62 @@ and shields damaging the tank directly.</description>
 		<name>SatLaser</name>
 		<armslevel>10</armslevel>
 		<maximumnumber>0</maximumnumber>
-		<accessoryaction type='WeaponMulti'>
-			<subweapon1 type='WeaponRedirect'>
-				<habs>false</habs>
-				<vabs>true</vabs>
-				<hredirect>0</hredirect>
-				<vredirect>0</vredirect>
-				<nextaction type='WeaponTranslate'>
-					<translatedist>200</translatedist>
-					<nextaction type='WeaponRedirect'>
-						<habs>false</habs>
-						<vabs>true</vabs>
-						<hredirect>0</hredirect>
-						<vredirect>180</vredirect>
-						<nextaction type='WeaponVelocity'>
-							<velocitychange>1.25</velocitychange>
-							<aimedweapon type='WeaponMulti'>
-								<subweapon1 type='WeaponLaser'>
-									<totaltime>2</totaltime>
-									<minimumdistance>200</minimumdistance>
-									<maximumdistance>200</maximumdistance>
-									<minimumhurt>40</minimumhurt>
-									<maximumhurt>40</maximumhurt>
-									<hurtradius>5</hurtradius>
-									<color>
-										<A>1.0</A>
-										<B>0.0</B>
-										<C>0.0</C>
-									</color>
-								</subweapon1>
-								<subweapon2 type='WeaponSound'>
-									<sound>data/wav/shoot/laser1.wav</sound>
-								</subweapon2>
-							</aimedweapon>
-						</nextaction>
+		<accessoryaction type='WeaponRedirect'>
+			<habs>false</habs>
+			<vabs>true</vabs>
+			<hredirect>0</hredirect>
+			<vredirect>180</vredirect>
+			<nextaction type='WeaponTranslate'>
+				<translatedist>50</translatedist>
+				<nextaction type='WeaponRedirect'>
+					<habs>false</habs>
+					<vabs>true</vabs>
+					<hredirect>0</hredirect>
+					<vredirect>0</vredirect>
+					<nextaction type='WeaponVelocity'>
+						<velocitychange>1.25</velocitychange>
+						<aimedweapon type='WeaponMulti'>
+							<subweapon1 type='WeaponLaser'>
+								<totaltime>2</totaltime>
+								<minimumdistance>200</minimumdistance>
+								<maximumdistance>200</maximumdistance>
+								<minimumhurt>40</minimumhurt>
+								<maximumhurt>40</maximumhurt>
+								<hurtradius>5</hurtradius>
+								<color>
+									<A>1.0</A>
+									<B>0.0</B>
+									<C>0.0</C>
+								</color>
+							</subweapon1>
+							<subweapon2 type='WeaponSound'>
+								<sound>data/wav/shoot/laser1.wav</sound>
+							</subweapon2>
+							<subweapon3 type='WeaponExplosion'>
+								<hurtamount>0</hurtamount>
+								<deform>down</deform>
+								<size>3</size>
+								<deformtexture>data/textures/landscape/defaultscorched.bmp</deformtexture>
+								<explosionshake>1.0</explosionshake>
+								<explosiontexture>cloud00</explosiontexture>
+								<explosionsound>none</explosionsound>
+							</subweapon3>
+							<subweapon4 type='WeaponNapalm'>
+								<allowunderwater>false</allowunderwater>
+								<napalmtime>4.0</napalmtime>
+								<napalmheight>5.0</napalmheight>
+								<steptime>1</steptime>
+								<hurtsteptime>1.0</hurtsteptime>
+								<hurtpersecond>0.25</hurtpersecond>
+								<numberstreams>1</numberstreams>
+								<effectradius>5</effectradius>
+								<napalmtexture>flames</napalmtexture>
+								<napalmsound>none</napalmsound>
+							</subweapon4>
+						</aimedweapon>
 					</nextaction>
 				</nextaction>
-			</subweapon1>
-			<subweapon2 type='WeaponExplosion'>
-				<hurtamount>0</hurtamount>
-				<deform>down</deform>
-				<size>3</size>
-				<deformtexture>data/textures/landscape/defaultscorched.bmp</deformtexture>
-				<explosionshake>1.0</explosionshake>
-				<explosiontexture>cloud00</explosiontexture>
-				<explosionsound>none</explosionsound>
-			</subweapon2>
-			<subweapon3 type='WeaponNapalm'>
-				<allowunderwater>false</allowunderwater>
-				<napalmtime>4.0</napalmtime>
-				<napalmheight>5.0</napalmheight>
-				<steptime>1</steptime>
-				<hurtsteptime>1.0</hurtsteptime>
-				<hurtpersecond>0.25</hurtpersecond>
-				<numberstreams>1</numberstreams>
-				<effectradius>5</effectradius>
-				<napalmtexture>flames</napalmtexture>
-				<napalmsound>none</napalmsound>
-			</subweapon3>
+			</nextaction>
 		</accessoryaction>
 	</accessory>
 	<accessory>
@@ -7952,7 +8112,7 @@ and shields damaging the tank directly.</description>
 				<weapon>SatDigLaser</weapon>
 			</subweapon1>
 			<subweapon2 type='WeaponReference'>
-				<weapon>SatFunkLaser</weapon>
+				<weapon>SatTransLaser</weapon>
 			</subweapon2>
 			<subweapon3 type='WeaponDelay'>
 				<delay>0.33</delay>
@@ -7969,7 +8129,7 @@ and shields damaging the tank directly.</description>
 			<subweapon5 type='WeaponDelay'>
 				<delay>0.66</delay>
 				<delayedweapon type='WeaponReference'>
-					<weapon>SatDigLaser</weapon>
+					<weapon>SatTransLaser</weapon>
 				</delayedweapon>
 			</subweapon5>
 			<subweapon6 type='WeaponDelay'>
