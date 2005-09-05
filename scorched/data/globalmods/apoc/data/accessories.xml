@@ -8146,7 +8146,7 @@ and shields damaging the tank directly.</description>
 		<description>Fires a projectile which hits the ground, marking
 the target area.  Space based laser cannons then assault
 all targets in the area.</description>
-		<icon>hlaser.bmp</icon>
+		<icon>satellite.bmp</icon>
 		<activationsound>shoot/flare.wav</activationsound>
 		<bundlesize>1</bundlesize>
 		<cost>20000</cost>
