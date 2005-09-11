@@ -19,8 +19,7 @@ the content that is in question.  I don't want to leave anyone out, and I am sor
 			- cloud00, gas00, light00, smoke-orange explosion textures 
 			- all the custom weapon icons (with the exception of flamethrower)
 		Projectile Models:
-			- bullet
-			- shotgunshell
+			- bullet, shotgunshell, moab
 		Object Models:
 			- gasstation1, office3
 		- All custom accessory xml unless stated otherwise

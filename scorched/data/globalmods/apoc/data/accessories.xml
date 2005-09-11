@@ -418,7 +418,7 @@ activated before they work.</description>
 									<allowunderwater>false</allowunderwater>
 									<napalmtime>4.0</napalmtime>
 									<napalmheight>2.0</napalmheight>
-									<steptime>0.75</steptime>
+									<steptime>0.5</steptime>
 									<hurtsteptime>1.0</hurtsteptime>
 									<hurtpersecond>0.5</hurtpersecond>
 									<numberstreams>1</numberstreams>
@@ -1616,7 +1616,7 @@ trace of the shot path.</description>
 					<explosionsound>explosions/xlarge.wav</explosionsound>
 				</subweapon1>
 				<subweapon2 type='WeaponExplosion'>
-					<hurtamount>10.0</hurtamount>
+					<hurtamount>50</hurtamount>
 					<deform>down</deform>
 					<size>4</size>
 					<explosiontexture>none</explosiontexture>
@@ -1628,26 +1628,44 @@ trace of the shot path.</description>
 	<accessory>
 		<name>MOAB</name>
 		<armslevel>2</armslevel>
-		<description>The largest conventional nuke</description>
+		<description>A massive conventional explosive bomb.</description>
 		<icon>nuke.bmp</icon>
 		<bundlesize>1</bundlesize>
 		<cost>20000</cost>
 		<activationsound>shoot/xlarge.wav</activationsound>
-		<model type='MilkShape'>fatman/fatman.txt</model>
-		<modelscale>4</modelscale>
+		<model type='MilkShape'>weapons/moab.txt</model>
+		<modelscale>2</modelscale>
 		<accessoryaction type='WeaponProjectile'>
-			<projectilescale>4</projectilescale>
-			<projectilemodel type='MilkShape'>fatman/fatman.txt</projectilemodel>
-			<collisionaction type='WeaponExplosion'>
-				<createmushroom></createmushroom>
-				<minlife>0.5</minlife>
-				<maxlife>1.5</maxlife>
-				<hurtamount>1.2</hurtamount>
-				<deform>down</deform>
-				<size>36</size>
-				<explosionshake>4</explosionshake>
-				<explosiontexture>exp00</explosiontexture>
-				<explosionsound>explosions/xlarge.wav</explosionsound>
+			<nocreateflame/>
+			<spinspeed>0</spinspeed>
+			<projectilescale>1.5</projectilescale>
+			<projectilemodel type='MilkShape'>weapons/moab.txt</projectilemodel>
+			<collisionaction type='WeaponMulti'>
+				<subweapon1 type='WeaponExplosion'>
+					<hurtamount>1.5</hurtamount>
+					<deform>none</deform>
+					<size>48</size>
+					<explosionshake>4</explosionshake>
+					<explosiontexture>none</explosiontexture>
+					<explosionsound>explosions/xlarge.wav</explosionsound>
+				</subweapon1>
+				<subweapon2 type='WeaponExplosion'>
+					<hurtamount>0</hurtamount>
+					<deform>down</deform>
+					<size>10</size>
+					<explosiontexture>exp00</explosiontexture>
+					<explosionsound>none</explosionsound>
+				</subweapon2>
+				<subweapon3 type='WeaponExplosion'>
+					<minlife>1.5</minlife>
+					<maxlife>3.0</maxlife>
+					<createmushroom/>
+					<hurtamount>0</hurtamount>
+					<deform>none</deform>
+					<size>24</size>
+					<explosiontexture>exp00</explosiontexture>
+					<explosionsound>none</explosionsound>
+				</subweapon3>
 			</collisionaction>
 		</accessoryaction>
 	</accessory>
@@ -6485,7 +6503,7 @@ missiles target nearby tanks.</description>
 	<accessory>
 		<name>Strike Bolt</name>
 		<maximumnumber>0</maximumnumber>
-		<armslevel>10</armslevel>
+		<armslevel>1</armslevel>
 		<accessoryaction type='WeaponLightning'>
 			<conelength>30</conelength>
 			<seglength>1</seglength>
@@ -7875,7 +7893,9 @@ can be used to help aim lasers and other weapons.</description>
 		<icon>laser.bmp</icon>
 		<model type="MilkShape">laser/laser.txt</model>
 		<description>Fires a laser that cuts through hills 
-and shields damaging the tank directly.</description>
+and shields damaging the tank directly.
+Note: More power = greater range but less damage
+Less power = less range but more damage</description>
 		<cost>5000</cost>
 		<nomuzzleflash/>
 		<accessoryaction type='WeaponMulti'>
@@ -7904,7 +7924,9 @@ and shields damaging the tank directly.</description>
 		<icon>laser.bmp</icon>
 		<model type="MilkShape">laser/laser.txt</model>
 		<description>Fires three laser blasts that cut through
-hills and shields damaging tanks directly.</description>
+hills and shields damaging tanks directly.
+Note: More power = greater range but less damage
+Less power = less range but more damage</description>
 		<cost>12000</cost>
 		<nomuzzleflash/>
 		<accessoryaction type='WeaponMulti'>
@@ -7947,7 +7969,9 @@ hills and shields damaging tanks directly.</description>
 		<icon>hlaser.bmp</icon>
 		<model type="MilkShape">laser/hlaser.txt</model>
 		<description>Fires a powerful laser that cuts through hills 
-and shields damaging the tank directly.</description>
+and shields damaging the tank directly.
+Note: More power = greater range but less damage
+Less power = less range but more damage</description>
 		<cost>8000</cost>
 		<nomuzzleflash/>
 		<accessoryaction type='WeaponMulti'>
@@ -7971,7 +7995,7 @@ and shields damaging the tank directly.</description>
 	</accessory>
 	<accessory>
 		<name>SatLaser</name>
-		<armslevel>10</armslevel>
+		<armslevel>2</armslevel>
 		<maximumnumber>0</maximumnumber>
 		<accessoryaction type='WeaponRedirect'>
 			<habs>false</habs>
@@ -8033,7 +8057,7 @@ and shields damaging the tank directly.</description>
 	</accessory>
 	<accessory>
 		<name>SatDigLaser</name>
-		<armslevel>10</armslevel>
+		<armslevel>2</armslevel>
 		<maximumnumber>0</maximumnumber>
 		<accessoryaction type='WeaponAimedUnder'>
 			<nowarheads>1</nowarheads>
@@ -8057,7 +8081,7 @@ and shields damaging the tank directly.</description>
 	</accessory>
 	<accessory>
 		<name>SatFunkLaser</name>
-		<armslevel>10</armslevel>
+		<armslevel>2</armslevel>
 		<maximumnumber>0</maximumnumber>
 		<accessoryaction type='WeaponAimedOver'>
 			<nowarheads>1</nowarheads>
@@ -8082,7 +8106,7 @@ and shields damaging the tank directly.</description>
 	</accessory>
 	<accessory>
 		<name>SatTransLaser</name>
-		<armslevel>10</armslevel>
+		<armslevel>2</armslevel>
 		<maximumnumber>0</maximumnumber>
 		<accessoryaction type='WeaponAimedOver'>
 			<nowarheads>1</nowarheads>
@@ -8105,7 +8129,7 @@ and shields damaging the tank directly.</description>
 	</accessory>
 	<accessory>
 		<name>SatSegment</name>
-		<armslevel>10</armslevel>
+		<armslevel>2</armslevel>
 		<maximumnumber>0</maximumnumber>
 		<accessoryaction type='WeaponMulti'>
 			<subweapon1 type='WeaponReference'>

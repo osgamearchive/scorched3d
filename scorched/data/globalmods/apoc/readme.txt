@@ -1,5 +1,5 @@
 ----------------------------------------------------
-             Apocalypse v3.1 Information
+             Apocalypse v3.2 Information
 ----------------------------------------------------
 Apocalypse is a modification for Scorched 3D which adds many new weapons, items, and landscapes
 for use with this awesome game.  The mod is the product of work by several people (named in authors.txt).
@@ -15,7 +15,8 @@ Changes Since 3.0
 		- Satellite Strike - projectile marks target, then satellite based lasers assault the area
 			
 	Other Accessory Changes:
-		- New Projectile Model for Mega Mirv/S-Mirv by Shockwave
+		- New projectile model for Mega Mirv/S-Mirv by Shockwave
+		- New projectile model for MOAB by Bobirov
 		- New missile launch sound that replaces default
 		- Increased EMP effectiveness against shields slightly and reduced damage to tank
 		- Turned Mega EMP into a missile weapon instead of grenade, renamed to EMP Missile.
@@ -119,7 +120,7 @@ Ring of Dirt    - Raises multiple dirt walls that form a ring around you
 Riot Drill      - 3 heavy riot bombs are shot in rapid succession at the same point
 Sat. Strike     - Shoots a projectile which paints the target area.  Space based lasers then assault the target.
 Shockwave       - Creates a massive energy wave which ripples outwards without destroying the landscape
-Strangelove     - The end game weapon
+Strangelove     - The end game weapon, scaled up dmsday device
 Suicide Bomb    - Detonates yourself causing a huge, powerful explosion
 The Travolta    - Super-sized Funky Bomb
 Wall of Dirt    - Raises a small wall of dirt a short distance from your tank in the direction you aim
