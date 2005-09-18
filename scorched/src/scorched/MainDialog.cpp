@@ -128,9 +128,13 @@ void showURL(const char *url)
 #ifdef _WIN32
 	WinExec(formatString("explorer %s", url) ,SW_SHOWDEFAULT);
 #else
+#ifdef __DARWIN__
+	system(formatString("open %s", url));
+#else
 	system(formatString("mozilla %s", url));
 	dialogMessage("Web site location", "%s", url);
-#endif
+#endif // __DARWIN__
+#endif // _WIN32
 }
 
 void runScorched3D(const char *fmt, ...)

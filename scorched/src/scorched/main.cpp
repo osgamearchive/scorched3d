@@ -155,14 +155,32 @@ int main(int argc, char *argv[])
 	FILE *checkfile = fopen(getDataFile("data/autoexec.xml"), "r");
 	if (!checkfile)
 	{
-		dialogExit(
-			scorched3dAppName,
-			"Error: This game requires the Scorched3D data directory to run.\n"
-			"Your machine does not appear to have the Scorched3D data directory in\n"
-			"the required location.\n"
-			"The data directory is set to \"%s\" which does not exist.\n\n"
-			"If Scorched3D does not run please re-install Scorched3D.",
-			getDataFile("data"));
+		// Perhaps we can get the directory from the executables path name
+		char path[1024];
+		strcpy(path, argv[0]);
+		char *sep = strrchr(path, '/');
+		if (sep)
+		{
+			// Change into this new direcotry
+			*sep = '\0';
+			chdir(path);
+		}
+
+		// Now try again for the correct directory
+		checkfile = fopen(getDataFile("data/autoexec.xml"), "r");
+		if (!checkfile)
+		{	
+			getcwd(path, sizeof(path));
+			dialogExit(
+				scorched3dAppName,
+				"Error: This game requires the Scorched3D data directory to run.\n"
+				"Your machine does not appear to have the Scorched3D data directory in\n"
+				"the required location.\n"
+				"The data directory is set to \"%s\" which does not exist.\n"
+				"(Current working directory %s)\n\n"
+				"If Scorched3D does not run please re-install Scorched3D.",
+				getDataFile("data"), path);
+		}
 	}
 	else fclose(checkfile);
 

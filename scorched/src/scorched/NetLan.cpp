@@ -21,8 +21,38 @@
 #include "NetLan-def.cpp"
 #include <common/Defines.h>
 
+static void createImageMap()
+{
+	wxBitmap questionBitmap;
+	questionBitmap.LoadFile(
+		getDataFile("data/windows/question.gif"),
+		wxBITMAP_TYPE_GIF);
+	wxBitmap okBitmap;
+	okBitmap.LoadFile(
+		getDataFile("data/windows/ok.gif"),
+		wxBITMAP_TYPE_GIF);
+	wxBitmap warnBitmap;
+	warnBitmap.LoadFile(
+		getDataFile("data/windows/warn.gif"),
+		wxBITMAP_TYPE_GIF);
+	wxBitmap exlaimBitmap;
+	exlaimBitmap.LoadFile(
+		getDataFile("data/windows/exclaim.gif"),
+		wxBITMAP_TYPE_GIF);
+	if (!netLanImageList)
+	{
+		netLanImageList = new wxImageList(16, 16, TRUE);
+		netLanImageList->Add(questionBitmap);
+		netLanImageList->Add(okBitmap);
+		netLanImageList->Add(warnBitmap);
+		netLanImageList->Add(exlaimBitmap);
+	}
+}
+
 static void createControlsPre(wxWindow *parent, wxSizer *sizer)
 {
+	createImageMap();
+
 	wxBitmap maskBitmap;
 	maskBitmap.LoadFile(
 		getDataFile("data/windows/mask.bmp"),
@@ -44,14 +74,6 @@ static void createControlsPre(wxWindow *parent, wxSizer *sizer)
 	exlaimBitmap.LoadFile(
 		getDataFile("data/windows/exclaim.gif"),
 		wxBITMAP_TYPE_GIF);
-	if (!netLanImageList)
-	{
-		netLanImageList = new wxImageList(16, 16, TRUE);
-		netLanImageList->Add(questionBitmap, maskBitmap);
-		netLanImageList->Add(okBitmap, maskBitmap);
-		netLanImageList->Add(warnBitmap, maskBitmap);
-		netLanImageList->Add(exlaimBitmap, maskBitmap);
-	}
 
 	// Name/password
 	wxGridSizer *nameSizer = new wxFlexGridSizer(3, 3, 5, 5);

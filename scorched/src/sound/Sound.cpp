@@ -86,6 +86,11 @@ void Sound::destroy()
 	instance_ = 0;
 }
 
+static char *checkString(char *x) 
+{
+	return (char *)(x?x:"null");
+}
+
 bool Sound::init(int channels)
 {
 	ALCdevice *soundDevice = alcOpenDevice(0);
@@ -113,16 +118,20 @@ bool Sound::init(int channels)
 	alDistanceModel(AL_INVERSE_DISTANCE);
 
 	GLConsole::instance()->addLine(false, "AL_VENDOR:");
-	GLConsole::instance()->addLine(false, (char *) alGetString(AL_VENDOR));
+	GLConsole::instance()->addLine(false, 
+		checkString((char *) alGetString(AL_VENDOR)));
 	GLConsole::instance()->addLine(false, "AL_VERSION:");
-	GLConsole::instance()->addLine(false, (char *) alGetString(AL_VERSION));
+	GLConsole::instance()->addLine(false,
+		checkString((char *) alGetString(AL_VERSION)));
 	GLConsole::instance()->addLine(false, "AL_RENDERER:");
-	GLConsole::instance()->addLine(false, (char *) alGetString(AL_RENDERER));
+	GLConsole::instance()->addLine(false, 
+		checkString((char *) alGetString(AL_RENDERER)));
 	GLConsole::instance()->addLine(false, "AL_EXTENSIONS:");
-	GLConsole::instance()->addLine(false, (char *) alGetString(AL_EXTENSIONS));
+	GLConsole::instance()->addLine(false,
+		checkString((char *) alGetString(AL_EXTENSIONS)));
 	GLConsole::instance()->addLine(false, "ALC_DEVICE_SPECIFIER:");
-	GLConsole::instance()->addLine(false, (char *) 
-		alcGetString(soundDevice, ALC_DEVICE_SPECIFIER));
+	GLConsole::instance()->addLine(false,
+		checkString((char *) alcGetString(soundDevice, ALC_DEVICE_SPECIFIER)));
 
 	// Create all sound channels
 	for (int i=1; i<=OptionsDisplay::instance()->getSoundChannels(); i++)

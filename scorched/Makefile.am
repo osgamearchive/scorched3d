@@ -3,12 +3,12 @@ SUBDIRS = src
 docdir = @docdir@
 
 scorcheddocumentationdir = ${docdir}/documentation
-scorcheddocumentation_DATA = documentation/README-EXPAT.txt \
+scorcheddocumentation_DATA = documentation/README-apoc.txt \
+	documentation/README-EXPAT.txt \
 	documentation/README-ODE.txt \
 	documentation/README-SDL.txt \
 	documentation/README-SDLMIXER.txt \
 	documentation/README-SDLNET.txt \
-	documentation/README-apoc.txt \
 	documentation/README-wxwindows.txt \
 	documentation/README-zlib.txt
 scorcheddocumentationhtmldir = ${docdir}/documentation/html
@@ -41,8 +41,8 @@ scorcheddocumentationhtmlnumbers_DATA = documentation/html/numbers/number-1.gif 
 	documentation/html/numbers/number-8.gif \
 	documentation/html/numbers/number-9.gif
 scorcheddocumentationhtmlscreenshotsdir = ${docdir}/documentation/html/screenshots
-scorcheddocumentationhtmlscreenshots_DATA = documentation/html/screenshots/aiming.gif \
-	documentation/html/screenshots/3ds.gif \
+scorcheddocumentationhtmlscreenshots_DATA = documentation/html/screenshots/3ds.gif \
+	documentation/html/screenshots/aiming.gif \
 	documentation/html/screenshots/indicators.gif \
 	documentation/html/screenshots/milkshape1.gif \
 	documentation/html/screenshots/milkshape2.gif \
@@ -282,202 +282,128 @@ scorcheddataglobalmodsapocdataaccessories_DATA = data/globalmods/apoc/data/acces
 	data/globalmods/apoc/data/accessories/green.bmp \
 	data/globalmods/apoc/data/accessories/molten.bmp
 scorcheddataglobalmodsapocdataaccessories50caldir = ${datadir}/data/globalmods/apoc/data/accessories/50cal
-scorcheddataglobalmodsapocdataaccessories50cal_DATA = data/globalmods/apoc/data/accessories/50cal/50cal.txt \
-	data/globalmods/apoc/data/accessories/50cal/black.bmp \
-	data/globalmods/apoc/data/accessories/50cal/case.bmp \
-	data/globalmods/apoc/data/accessories/50cal/clip.bmp \
-	data/globalmods/apoc/data/accessories/50cal/gradient.bmp \
-	data/globalmods/apoc/data/accessories/50cal/olive.bmp
+scorcheddataglobalmodsapocdataaccessories50cal_DATA = 
 scorcheddataglobalmodsapocdataaccessoriesbouldersdir = ${datadir}/data/globalmods/apoc/data/accessories/boulders
-scorcheddataglobalmodsapocdataaccessoriesboulders_DATA = data/globalmods/apoc/data/accessories/boulders/boulder1.txt \
-	data/globalmods/apoc/data/accessories/boulders/boulder2.txt \
-	data/globalmods/apoc/data/accessories/boulders/boulder3.txt \
-	data/globalmods/apoc/data/accessories/boulders/boulder4.txt \
-	data/globalmods/apoc/data/accessories/boulders/rock1.bmp \
-	data/globalmods/apoc/data/accessories/boulders/rock5.bmp \
-	data/globalmods/apoc/data/accessories/boulders/rock6.bmp
+scorcheddataglobalmodsapocdataaccessoriesboulders_DATA = 
 scorcheddataglobalmodsapocdataaccessoriesbrownbouldersdir = ${datadir}/data/globalmods/apoc/data/accessories/brownboulders
-scorcheddataglobalmodsapocdataaccessoriesbrownboulders_DATA = data/globalmods/apoc/data/accessories/brownboulders/boulder1.txt \
-	data/globalmods/apoc/data/accessories/brownboulders/boulder2.txt \
-	data/globalmods/apoc/data/accessories/brownboulders/boulder3.txt \
-	data/globalmods/apoc/data/accessories/brownboulders/boulder4.txt \
-	data/globalmods/apoc/data/accessories/brownboulders/rock1.bmp \
-	data/globalmods/apoc/data/accessories/brownboulders/rock2.bmp \
-	data/globalmods/apoc/data/accessories/brownboulders/rock5.bmp \
-	data/globalmods/apoc/data/accessories/brownboulders/rock6.bmp
+scorcheddataglobalmodsapocdataaccessoriesbrownboulders_DATA = 
+scorcheddataglobalmodsapocdataaccessoriesbuildingsdir = ${datadir}/data/globalmods/apoc/data/accessories/buildings
+scorcheddataglobalmodsapocdataaccessoriesbuildings_DATA = data/globalmods/apoc/data/accessories/buildings/bar1.txt \
+	data/globalmods/apoc/data/accessories/buildings/builds1.bmp \
+	data/globalmods/apoc/data/accessories/buildings/builds2.bmp \
+	data/globalmods/apoc/data/accessories/buildings/church1.txt \
+	data/globalmods/apoc/data/accessories/buildings/church1burnt.txt \
+	data/globalmods/apoc/data/accessories/buildings/factory1.txt \
+	data/globalmods/apoc/data/accessories/buildings/factory1burnt.txt \
+	data/globalmods/apoc/data/accessories/buildings/farm1.txt \
+	data/globalmods/apoc/data/accessories/buildings/farm1burnt.txt \
+	data/globalmods/apoc/data/accessories/buildings/gasstation1.txt \
+	data/globalmods/apoc/data/accessories/buildings/gasstation1burnt.txt \
+	data/globalmods/apoc/data/accessories/buildings/house1-2.txt \
+	data/globalmods/apoc/data/accessories/buildings/house1-2burnt.txt \
+	data/globalmods/apoc/data/accessories/buildings/house1-3.txt \
+	data/globalmods/apoc/data/accessories/buildings/house1-3burnt.txt \
+	data/globalmods/apoc/data/accessories/buildings/house1.txt \
+	data/globalmods/apoc/data/accessories/buildings/house1burnt.txt \
+	data/globalmods/apoc/data/accessories/buildings/logcabin1.txt \
+	data/globalmods/apoc/data/accessories/buildings/logcabin1burnt.txt \
+	data/globalmods/apoc/data/accessories/buildings/office1.txt \
+	data/globalmods/apoc/data/accessories/buildings/office1burnt.txt \
+	data/globalmods/apoc/data/accessories/buildings/office2.txt \
+	data/globalmods/apoc/data/accessories/buildings/office2burnt.txt \
+	data/globalmods/apoc/data/accessories/buildings/office3.txt \
+	data/globalmods/apoc/data/accessories/buildings/skyscraper1.txt \
+	data/globalmods/apoc/data/accessories/buildings/skyscraper1burnt.txt \
+	data/globalmods/apoc/data/accessories/buildings/store1.txt \
+	data/globalmods/apoc/data/accessories/buildings/store1burnt.txt \
+	data/globalmods/apoc/data/accessories/buildings/trailorhouse1.txt \
+	data/globalmods/apoc/data/accessories/buildings/trailorhouse1burnt.txt
 scorcheddataglobalmodsapocdataaccessoriesbulletdir = ${datadir}/data/globalmods/apoc/data/accessories/bullet
-scorcheddataglobalmodsapocdataaccessoriesbullet_DATA = data/globalmods/apoc/data/accessories/bullet/bullet.bmp \
-	data/globalmods/apoc/data/accessories/bullet/bullet.txt
+scorcheddataglobalmodsapocdataaccessoriesbullet_DATA = 
 scorcheddataglobalmodsapocdataaccessoriescactusdir = ${datadir}/data/globalmods/apoc/data/accessories/cactus
-scorcheddataglobalmodsapocdataaccessoriescactus_DATA = data/globalmods/apoc/data/accessories/cactus/burnt.bmp \
-	data/globalmods/apoc/data/accessories/cactus/cactus.txt \
-	data/globalmods/apoc/data/accessories/cactus/cactusburnt.txt \
-	data/globalmods/apoc/data/accessories/cactus/cactussmall.txt \
-	data/globalmods/apoc/data/accessories/cactus/cactussmallburnt.txt \
-	data/globalmods/apoc/data/accessories/cactus/green.bmp
+scorcheddataglobalmodsapocdataaccessoriescactus_DATA = 
 scorcheddataglobalmodsapocdataaccessorieschurch1dir = ${datadir}/data/globalmods/apoc/data/accessories/church1
-scorcheddataglobalmodsapocdataaccessorieschurch1_DATA = data/globalmods/apoc/data/accessories/church1/black.bmp \
-	data/globalmods/apoc/data/accessories/church1/church1.txt \
-	data/globalmods/apoc/data/accessories/church1/church1burnt.txt \
-	data/globalmods/apoc/data/accessories/church1/door.bmp \
-	data/globalmods/apoc/data/accessories/church1/gold.bmp \
-	data/globalmods/apoc/data/accessories/church1/stainglass.bmp
+scorcheddataglobalmodsapocdataaccessorieschurch1_DATA = 
 scorcheddataglobalmodsapocdataaccessoriescityofficedir = ${datadir}/data/globalmods/apoc/data/accessories/cityoffice
-scorcheddataglobalmodsapocdataaccessoriescityoffice_DATA = data/globalmods/apoc/data/accessories/cityoffice/cityoffice.txt \
-	data/globalmods/apoc/data/accessories/cityoffice/cityofficeburnt.txt \
-	data/globalmods/apoc/data/accessories/cityoffice/stucco-yellow-burnt.bmp \
-	data/globalmods/apoc/data/accessories/cityoffice/stucco-yellow.bmp \
-	data/globalmods/apoc/data/accessories/cityoffice/window.bmp
+scorcheddataglobalmodsapocdataaccessoriescityoffice_DATA = 
 scorcheddataglobalmodsapocdataaccessoriescommondir = ${datadir}/data/globalmods/apoc/data/accessories/common
-scorcheddataglobalmodsapocdataaccessoriescommon_DATA = data/globalmods/apoc/data/accessories/common/black-shingles.bmp \
-	data/globalmods/apoc/data/accessories/common/concrete-cracked.bmp \
-	data/globalmods/apoc/data/accessories/common/concrete.bmp \
-	data/globalmods/apoc/data/accessories/common/tar.bmp \
-	data/globalmods/apoc/data/accessories/common/whitepanel-burnt.bmp \
-	data/globalmods/apoc/data/accessories/common/whitepanel.bmp \
-	data/globalmods/apoc/data/accessories/common/window-tan.bmp \
-	data/globalmods/apoc/data/accessories/common/window-white.bmp
+scorcheddataglobalmodsapocdataaccessoriescommon_DATA = 
 scorcheddataglobalmodsapocdataaccessoriesdeerdir = ${datadir}/data/globalmods/apoc/data/accessories/deer
-scorcheddataglobalmodsapocdataaccessoriesdeer_DATA = data/globalmods/apoc/data/accessories/deer/black.bmp \
-	data/globalmods/apoc/data/accessories/deer/body.bmp \
-	data/globalmods/apoc/data/accessories/deer/deer1.txt \
-	data/globalmods/apoc/data/accessories/deer/deer2.txt \
-	data/globalmods/apoc/data/accessories/deer/deerburnt.txt \
-	data/globalmods/apoc/data/accessories/deer/white.bmp
+scorcheddataglobalmodsapocdataaccessoriesdeer_DATA = 
 scorcheddataglobalmodsapocdataaccessoriesfactory1dir = ${datadir}/data/globalmods/apoc/data/accessories/factory1
-scorcheddataglobalmodsapocdataaccessoriesfactory1_DATA = data/globalmods/apoc/data/accessories/factory1/burntwalls.bmp \
-	data/globalmods/apoc/data/accessories/factory1/burntwindow.bmp \
-	data/globalmods/apoc/data/accessories/factory1/factory1.txt \
-	data/globalmods/apoc/data/accessories/factory1/factory1burnt.txt \
-	data/globalmods/apoc/data/accessories/factory1/stacksmoke.bmp \
-	data/globalmods/apoc/data/accessories/factory1/window.bmp \
-	data/globalmods/apoc/data/accessories/factory1/woodbeam.bmp
+scorcheddataglobalmodsapocdataaccessoriesfactory1_DATA = 
 scorcheddataglobalmodsapocdataaccessoriesfarm1dir = ${datadir}/data/globalmods/apoc/data/accessories/farm1
-scorcheddataglobalmodsapocdataaccessoriesfarm1_DATA = data/globalmods/apoc/data/accessories/farm1/black.bmp \
-	data/globalmods/apoc/data/accessories/farm1/door.bmp \
-	data/globalmods/apoc/data/accessories/farm1/farm1.txt \
-	data/globalmods/apoc/data/accessories/farm1/farm1burnt.txt \
-	data/globalmods/apoc/data/accessories/farm1/red.bmp \
-	data/globalmods/apoc/data/accessories/farm1/redsiding.bmp \
-	data/globalmods/apoc/data/accessories/farm1/white.bmp \
-	data/globalmods/apoc/data/accessories/farm1/yellow.bmp
+scorcheddataglobalmodsapocdataaccessoriesfarm1_DATA = 
 scorcheddataglobalmodsapocdataaccessoriesfusionbarreldir = ${datadir}/data/globalmods/apoc/data/accessories/fusionbarrel
-scorcheddataglobalmodsapocdataaccessoriesfusionbarrel_DATA = data/globalmods/apoc/data/accessories/fusionbarrel/fusionbarrel.txt \
-	data/globalmods/apoc/data/accessories/fusionbarrel/main.bmp \
-	data/globalmods/apoc/data/accessories/fusionbarrel/rings.bmp \
-	data/globalmods/apoc/data/accessories/fusionbarrel/tops.bmp
+scorcheddataglobalmodsapocdataaccessoriesfusionbarrel_DATA = 
 scorcheddataglobalmodsapocdataaccessoriesgasstation1dir = ${datadir}/data/globalmods/apoc/data/accessories/gasstation1
-scorcheddataglobalmodsapocdataaccessoriesgasstation1_DATA = data/globalmods/apoc/data/accessories/gasstation1/gasstation1.txt \
-	data/globalmods/apoc/data/accessories/gasstation1/gasstation1burnt.txt \
-	data/globalmods/apoc/data/accessories/gasstation1/pumpfront.bmp \
-	data/globalmods/apoc/data/accessories/gasstation1/rooffront.bmp \
-	data/globalmods/apoc/data/accessories/gasstation1/rooftop.bmp \
-	data/globalmods/apoc/data/accessories/gasstation1/sidewall.bmp \
-	data/globalmods/apoc/data/accessories/gasstation1/storefront.bmp
+scorcheddataglobalmodsapocdataaccessoriesgasstation1_DATA = 
 scorcheddataglobalmodsapocdataaccessoriesgrenadedir = ${datadir}/data/globalmods/apoc/data/accessories/grenade
-scorcheddataglobalmodsapocdataaccessoriesgrenade_DATA = data/globalmods/apoc/data/accessories/grenade/gradient.bmp \
-	data/globalmods/apoc/data/accessories/grenade/grenade.txt \
-	data/globalmods/apoc/data/accessories/grenade/olive.bmp \
-	data/globalmods/apoc/data/accessories/grenade/pin.bmp \
-	data/globalmods/apoc/data/accessories/grenade/pineapple.bmp
+scorcheddataglobalmodsapocdataaccessoriesgrenade_DATA = 
 scorcheddataglobalmodsapocdataaccessorieshouse1dir = ${datadir}/data/globalmods/apoc/data/accessories/house1
-scorcheddataglobalmodsapocdataaccessorieshouse1_DATA = data/globalmods/apoc/data/accessories/house1/brick.bmp \
-	data/globalmods/apoc/data/accessories/house1/door.bmp \
-	data/globalmods/apoc/data/accessories/house1/flamebrick1.bmp \
-	data/globalmods/apoc/data/accessories/house1/greenpanel-burnt.bmp \
-	data/globalmods/apoc/data/accessories/house1/greenpanel.bmp \
-	data/globalmods/apoc/data/accessories/house1/house1-2.txt \
-	data/globalmods/apoc/data/accessories/house1/house1-2burnt.txt \
-	data/globalmods/apoc/data/accessories/house1/house1-3.txt \
-	data/globalmods/apoc/data/accessories/house1/house1-3burnt.txt \
-	data/globalmods/apoc/data/accessories/house1/house1.txt \
-	data/globalmods/apoc/data/accessories/house1/house1burnt.txt \
-	data/globalmods/apoc/data/accessories/house1/woodbeam.bmp
+scorcheddataglobalmodsapocdataaccessorieshouse1_DATA = 
 scorcheddataglobalmodsapocdataaccessorieslogcabin1dir = ${datadir}/data/globalmods/apoc/data/accessories/logcabin1
-scorcheddataglobalmodsapocdataaccessorieslogcabin1_DATA = data/globalmods/apoc/data/accessories/logcabin1/door.bmp \
-	data/globalmods/apoc/data/accessories/logcabin1/logcabin1.txt \
-	data/globalmods/apoc/data/accessories/logcabin1/logcabin1burnt.txt \
-	data/globalmods/apoc/data/accessories/logcabin1/roof.bmp \
-	data/globalmods/apoc/data/accessories/logcabin1/wood-burnt.bmp \
-	data/globalmods/apoc/data/accessories/logcabin1/wood.bmp
+scorcheddataglobalmodsapocdataaccessorieslogcabin1_DATA = 
 scorcheddataglobalmodsapocdataaccessoriesm7a3grenadedir = ${datadir}/data/globalmods/apoc/data/accessories/m7a3grenade
-scorcheddataglobalmodsapocdataaccessoriesm7a3grenade_DATA = data/globalmods/apoc/data/accessories/m7a3grenade/black.bmp \
-	data/globalmods/apoc/data/accessories/m7a3grenade/gradient.bmp \
-	data/globalmods/apoc/data/accessories/m7a3grenade/green.bmp \
-	data/globalmods/apoc/data/accessories/m7a3grenade/m7a3grenade.txt \
-	data/globalmods/apoc/data/accessories/m7a3grenade/olive.bmp
+scorcheddataglobalmodsapocdataaccessoriesm7a3grenade_DATA = 
 scorcheddataglobalmodsapocdataaccessoriesnapalmdir = ${datadir}/data/globalmods/apoc/data/accessories/napalm
-scorcheddataglobalmodsapocdataaccessoriesnapalm_DATA = data/globalmods/apoc/data/accessories/napalm/body.bmp \
-	data/globalmods/apoc/data/accessories/napalm/napalm.txt
+scorcheddataglobalmodsapocdataaccessoriesnapalm_DATA = 
+scorcheddataglobalmodsapocdataaccessoriesobjectsdir = ${datadir}/data/globalmods/apoc/data/accessories/objects
+scorcheddataglobalmodsapocdataaccessoriesobjects_DATA = data/globalmods/apoc/data/accessories/objects/brownrock1.txt \
+	data/globalmods/apoc/data/accessories/objects/brownrock2.txt \
+	data/globalmods/apoc/data/accessories/objects/brownrock3.txt \
+	data/globalmods/apoc/data/accessories/objects/brownrock4.txt \
+	data/globalmods/apoc/data/accessories/objects/cactus.txt \
+	data/globalmods/apoc/data/accessories/objects/cactusburnt.txt \
+	data/globalmods/apoc/data/accessories/objects/cactussmall.txt \
+	data/globalmods/apoc/data/accessories/objects/cactussmallburnt.txt \
+	data/globalmods/apoc/data/accessories/objects/deer1.txt \
+	data/globalmods/apoc/data/accessories/objects/deer2.txt \
+	data/globalmods/apoc/data/accessories/objects/deerburnt.txt \
+	data/globalmods/apoc/data/accessories/objects/objs1.bmp \
+	data/globalmods/apoc/data/accessories/objects/rock1.txt \
+	data/globalmods/apoc/data/accessories/objects/rock2.txt \
+	data/globalmods/apoc/data/accessories/objects/rock3.txt \
+	data/globalmods/apoc/data/accessories/objects/rock4.txt \
+	data/globalmods/apoc/data/accessories/objects/smalloakburnt.txt \
+	data/globalmods/apoc/data/accessories/objects/smalloakfall.txt
 scorcheddataglobalmodsapocdataaccessoriesoffice3dir = ${datadir}/data/globalmods/apoc/data/accessories/office3
-scorcheddataglobalmodsapocdataaccessoriesoffice3_DATA = data/globalmods/apoc/data/accessories/office3/AC-sides.bmp \
-	data/globalmods/apoc/data/accessories/office3/AC-top.bmp \
-	data/globalmods/apoc/data/accessories/office3/frontwall1.bmp \
-	data/globalmods/apoc/data/accessories/office3/frontwall2.bmp \
-	data/globalmods/apoc/data/accessories/office3/office3.txt \
-	data/globalmods/apoc/data/accessories/office3/rearwall.bmp
+scorcheddataglobalmodsapocdataaccessoriesoffice3_DATA = 
 scorcheddataglobalmodsapocdataaccessoriesofficeplaza1dir = ${datadir}/data/globalmods/apoc/data/accessories/officeplaza1
-scorcheddataglobalmodsapocdataaccessoriesofficeplaza1_DATA = data/globalmods/apoc/data/accessories/officeplaza1/antenna.bmp \
-	data/globalmods/apoc/data/accessories/officeplaza1/arches.bmp \
-	data/globalmods/apoc/data/accessories/officeplaza1/glassoffices-burnt.bmp \
-	data/globalmods/apoc/data/accessories/officeplaza1/glassoffices.bmp \
-	data/globalmods/apoc/data/accessories/officeplaza1/glasstop.bmp \
-	data/globalmods/apoc/data/accessories/officeplaza1/officeplaza1.txt \
-	data/globalmods/apoc/data/accessories/officeplaza1/officeplaza1burnt.txt
+scorcheddataglobalmodsapocdataaccessoriesofficeplaza1_DATA = 
 scorcheddataglobalmodsapocdataaccessoriesredhornetdir = ${datadir}/data/globalmods/apoc/data/accessories/redhornet
-scorcheddataglobalmodsapocdataaccessoriesredhornet_DATA = data/globalmods/apoc/data/accessories/redhornet/black.bmp \
-	data/globalmods/apoc/data/accessories/redhornet/red.bmp \
-	data/globalmods/apoc/data/accessories/redhornet/redhornet.txt
+scorcheddataglobalmodsapocdataaccessoriesredhornet_DATA = 
 scorcheddataglobalmodsapocdataaccessoriesremorcebombletdir = ${datadir}/data/globalmods/apoc/data/accessories/remorcebomblet
-scorcheddataglobalmodsapocdataaccessoriesremorcebomblet_DATA = data/globalmods/apoc/data/accessories/remorcebomblet/remorce.bmp \
-	data/globalmods/apoc/data/accessories/remorcebomblet/remorcebomblet.txt \
-	data/globalmods/apoc/data/accessories/remorcebomblet/yellow.bmp
+scorcheddataglobalmodsapocdataaccessoriesremorcebomblet_DATA = 
 scorcheddataglobalmodsapocdataaccessoriesshockbombletdir = ${datadir}/data/globalmods/apoc/data/accessories/shockbomblet
-scorcheddataglobalmodsapocdataaccessoriesshockbomblet_DATA = data/globalmods/apoc/data/accessories/shockbomblet/gradient.bmp \
-	data/globalmods/apoc/data/accessories/shockbomblet/liquid.bmp \
-	data/globalmods/apoc/data/accessories/shockbomblet/shockbomblet.txt
+scorcheddataglobalmodsapocdataaccessoriesshockbomblet_DATA = 
 scorcheddataglobalmodsapocdataaccessoriesshockrocketdir = ${datadir}/data/globalmods/apoc/data/accessories/shockrocket
-scorcheddataglobalmodsapocdataaccessoriesshockrocket_DATA = data/globalmods/apoc/data/accessories/shockrocket/black.bmp \
-	data/globalmods/apoc/data/accessories/shockrocket/gradient.bmp \
-	data/globalmods/apoc/data/accessories/shockrocket/liquid.bmp \
-	data/globalmods/apoc/data/accessories/shockrocket/red.bmp \
-	data/globalmods/apoc/data/accessories/shockrocket/shockrocket.txt \
-	data/globalmods/apoc/data/accessories/shockrocket/white.bmp \
-	data/globalmods/apoc/data/accessories/shockrocket/yellow.bmp
+scorcheddataglobalmodsapocdataaccessoriesshockrocket_DATA = 
 scorcheddataglobalmodsapocdataaccessoriesshotgundir = ${datadir}/data/globalmods/apoc/data/accessories/shotgun
-scorcheddataglobalmodsapocdataaccessoriesshotgun_DATA = data/globalmods/apoc/data/accessories/shotgun/shell-bottom.bmp \
-	data/globalmods/apoc/data/accessories/shotgun/shell.bmp \
-	data/globalmods/apoc/data/accessories/shotgun/shotgunshell.txt
+scorcheddataglobalmodsapocdataaccessoriesshotgun_DATA = 
 scorcheddataglobalmodsapocdataaccessoriesskyscraper1dir = ${datadir}/data/globalmods/apoc/data/accessories/skyscraper1
-scorcheddataglobalmodsapocdataaccessoriesskyscraper1_DATA = data/globalmods/apoc/data/accessories/skyscraper1/antenna.bmp \
-	data/globalmods/apoc/data/accessories/skyscraper1/red.bmp \
-	data/globalmods/apoc/data/accessories/skyscraper1/skyscraper1.txt \
-	data/globalmods/apoc/data/accessories/skyscraper1/skyscraper1burnt.txt \
-	data/globalmods/apoc/data/accessories/skyscraper1/window-burnt.bmp \
-	data/globalmods/apoc/data/accessories/skyscraper1/window.bmp
+scorcheddataglobalmodsapocdataaccessoriesskyscraper1_DATA = 
 scorcheddataglobalmodsapocdataaccessoriessmalloakdir = ${datadir}/data/globalmods/apoc/data/accessories/smalloak
-scorcheddataglobalmodsapocdataaccessoriessmalloak_DATA = data/globalmods/apoc/data/accessories/smalloak/brown.bmp \
-	data/globalmods/apoc/data/accessories/smalloak/brownburnt.bmp \
-	data/globalmods/apoc/data/accessories/smalloak/green.bmp \
-	data/globalmods/apoc/data/accessories/smalloak/smalloak.txt \
-	data/globalmods/apoc/data/accessories/smalloak/smalloakburnt.txt \
-	data/globalmods/apoc/data/accessories/smalloak/smalloakfall.txt
+scorcheddataglobalmodsapocdataaccessoriessmalloak_DATA = 
 scorcheddataglobalmodsapocdataaccessoriesstore1dir = ${datadir}/data/globalmods/apoc/data/accessories/store1
-scorcheddataglobalmodsapocdataaccessoriesstore1_DATA = data/globalmods/apoc/data/accessories/store1/brick.bmp \
-	data/globalmods/apoc/data/accessories/store1/door.bmp \
-	data/globalmods/apoc/data/accessories/store1/greybrick-burnt.bmp \
-	data/globalmods/apoc/data/accessories/store1/greybrick.bmp \
-	data/globalmods/apoc/data/accessories/store1/red.bmp \
-	data/globalmods/apoc/data/accessories/store1/store1.txt \
-	data/globalmods/apoc/data/accessories/store1/store1burnt.txt \
-	data/globalmods/apoc/data/accessories/store1/window.bmp \
-	data/globalmods/apoc/data/accessories/store1/yellow.bmp
+scorcheddataglobalmodsapocdataaccessoriesstore1_DATA = 
 scorcheddataglobalmodsapocdataaccessoriestrailorhouse1dir = ${datadir}/data/globalmods/apoc/data/accessories/trailorhouse1
-scorcheddataglobalmodsapocdataaccessoriestrailorhouse1_DATA = data/globalmods/apoc/data/accessories/trailorhouse1/black.bmp \
-	data/globalmods/apoc/data/accessories/trailorhouse1/chrome.bmp \
-	data/globalmods/apoc/data/accessories/trailorhouse1/red.bmp \
-	data/globalmods/apoc/data/accessories/trailorhouse1/trailorhouse1.txt \
-	data/globalmods/apoc/data/accessories/trailorhouse1/trailorhouse1burnt.txt
+scorcheddataglobalmodsapocdataaccessoriestrailorhouse1_DATA = 
+scorcheddataglobalmodsapocdataaccessoriesweaponsdir = ${datadir}/data/globalmods/apoc/data/accessories/weapons
+scorcheddataglobalmodsapocdataaccessoriesweapons_DATA = data/globalmods/apoc/data/accessories/weapons/50cal.txt \
+	data/globalmods/apoc/data/accessories/weapons/bullet.txt \
+	data/globalmods/apoc/data/accessories/weapons/fthrower.txt \
+	data/globalmods/apoc/data/accessories/weapons/fusionbarrel.txt \
+	data/globalmods/apoc/data/accessories/weapons/grenade.txt \
+	data/globalmods/apoc/data/accessories/weapons/m7a3.txt \
+	data/globalmods/apoc/data/accessories/weapons/megamirv.txt \
+	data/globalmods/apoc/data/accessories/weapons/moab.txt \
+	data/globalmods/apoc/data/accessories/weapons/redhornet.txt \
+	data/globalmods/apoc/data/accessories/weapons/shockbomblet.txt \
+	data/globalmods/apoc/data/accessories/weapons/shockrocket.txt \
+	data/globalmods/apoc/data/accessories/weapons/shotgunshell.txt \
+	data/globalmods/apoc/data/accessories/weapons/weapons1.bmp \
+	data/globalmods/apoc/data/accessories/weapons/wobblebomb.txt
 scorcheddataglobalmodsapocdatalandscapesdir = ${datadir}/data/globalmods/apoc/data/landscapes
 scorcheddataglobalmodsapocdatalandscapes_DATA = data/globalmods/apoc/data/landscapes/apoccity-pic.bmp \
 	data/globalmods/apoc/data/landscapes/apoccity.bmp \
@@ -596,7 +522,8 @@ scorcheddataglobalmodsapocdatatexturesexplode_DATA = data/globalmods/apoc/data/t
 	data/globalmods/apoc/data/textures/explode/light00_1.bmp \
 	data/globalmods/apoc/data/textures/explode/light00_2.bmp \
 	data/globalmods/apoc/data/textures/explode/light00_3.bmp \
-	data/globalmods/apoc/data/textures/explode/light00_4.bmp
+	data/globalmods/apoc/data/textures/explode/light00_4.bmp \
+	data/globalmods/apoc/data/textures/explode/smoke-orange.bmp
 scorcheddataglobalmodsapocdatatextureslandscapedir = ${datadir}/data/globalmods/apoc/data/textures/landscape
 scorcheddataglobalmodsapocdatatextureslandscape_DATA = data/globalmods/apoc/data/textures/landscape/defaultscorched.bmp
 scorcheddataglobalmodsapocdatatextureslandscapegrassdir = ${datadir}/data/globalmods/apoc/data/textures/landscape/grass
@@ -624,6 +551,7 @@ scorcheddataglobalmodsapocdatatextureswicons_DATA = data/globalmods/apoc/data/te
 	data/globalmods/apoc/data/textures/wicons/emp.bmp \
 	data/globalmods/apoc/data/textures/wicons/fant.bmp \
 	data/globalmods/apoc/data/textures/wicons/flight.bmp \
+	data/globalmods/apoc/data/textures/wicons/fthrower.bmp \
 	data/globalmods/apoc/data/textures/wicons/fungus.bmp \
 	data/globalmods/apoc/data/textures/wicons/fworm.bmp \
 	data/globalmods/apoc/data/textures/wicons/gas.bmp \
@@ -643,6 +571,7 @@ scorcheddataglobalmodsapocdatatextureswicons_DATA = data/globalmods/apoc/data/te
 	data/globalmods/apoc/data/textures/wicons/pit.bmp \
 	data/globalmods/apoc/data/textures/wicons/qsand.bmp \
 	data/globalmods/apoc/data/textures/wicons/quake.bmp \
+	data/globalmods/apoc/data/textures/wicons/satellite.bmp \
 	data/globalmods/apoc/data/textures/wicons/shotgun.bmp \
 	data/globalmods/apoc/data/textures/wicons/skull.bmp \
 	data/globalmods/apoc/data/textures/wicons/swave.bmp \
@@ -657,12 +586,14 @@ scorcheddataglobalmodsapocdatawavexplosions_DATA = data/globalmods/apoc/data/wav
 	data/globalmods/apoc/data/wav/explosions/bhit.wav \
 	data/globalmods/apoc/data/wav/explosions/dirt.wav \
 	data/globalmods/apoc/data/wav/explosions/empsmall.wav \
+	data/globalmods/apoc/data/wav/explosions/exp.wav \
 	data/globalmods/apoc/data/wav/explosions/gas.wav \
 	data/globalmods/apoc/data/wav/explosions/lightning.wav \
 	data/globalmods/apoc/data/wav/explosions/lightningbolt.wav \
 	data/globalmods/apoc/data/wav/explosions/meteor.wav \
 	data/globalmods/apoc/data/wav/explosions/quake.wav \
 	data/globalmods/apoc/data/wav/explosions/shockwave.wav \
+	data/globalmods/apoc/data/wav/explosions/tank.wav \
 	data/globalmods/apoc/data/wav/explosions/thud.wav \
 	data/globalmods/apoc/data/wav/explosions/thunder.wav
 scorcheddataglobalmodsapocdatawavmiscdir = ${datadir}/data/globalmods/apoc/data/wav/misc
@@ -679,11 +610,13 @@ scorcheddataglobalmodsapocdatawavmisc_DATA = data/globalmods/apoc/data/wav/misc/
 	data/globalmods/apoc/data/wav/misc/dog3.wav \
 	data/globalmods/apoc/data/wav/misc/firetruck.wav \
 	data/globalmods/apoc/data/wav/misc/helicopter.wav \
+	data/globalmods/apoc/data/wav/misc/lockon.wav \
 	data/globalmods/apoc/data/wav/misc/policecar.wav \
 	data/globalmods/apoc/data/wav/misc/rooster.wav \
 	data/globalmods/apoc/data/wav/misc/sheep.wav
 scorcheddataglobalmodsapocdatawavshootdir = ${datadir}/data/globalmods/apoc/data/wav/shoot
-scorcheddataglobalmodsapocdatawavshoot_DATA = data/globalmods/apoc/data/wav/shoot/machinegun.wav \
+scorcheddataglobalmodsapocdatawavshoot_DATA = data/globalmods/apoc/data/wav/shoot/launch.wav \
+	data/globalmods/apoc/data/wav/shoot/machinegun.wav \
 	data/globalmods/apoc/data/wav/shoot/shotgun.wav \
 	data/globalmods/apoc/data/wav/shoot/tripleshot.wav
 scorcheddataglobalmodsapocdatawindowsdir = ${datadir}/data/globalmods/apoc/data/windows
@@ -774,13 +707,13 @@ scorcheddatatalkpolishdir = ${datadir}/data/talk/polish
 scorcheddatatalkpolish_DATA = data/talk/polish/talk1.txt \
 	data/talk/polish/talk2.txt
 scorcheddatatanksdir = ${datadir}/data/tanks
-scorcheddatatanks_DATA = data/tanks/apache.ase \
-	data/tanks/a7v.ase \
+scorcheddatatanks_DATA = data/tanks/a7v.ase \
 	data/tanks/a7v.bmp \
 	data/tanks/aat.ase \
 	data/tanks/aat.bmp \
 	data/tanks/apache-long.ase \
 	data/tanks/apache-long.bmp \
+	data/tanks/apache.ase \
 	data/tanks/apache.bmp \
 	data/tanks/atst.ase \
 	data/tanks/atst.bmp \
@@ -882,15 +815,6 @@ scorcheddatatanks_DATA = data/tanks/apache.ase \
 	data/tanks/wespe.bmp \
 	data/tanks/zsu-24-1.ase \
 	data/tanks/zsu-24-1.bmp
-scorcheddatatanksCF104dir = ${datadir}/data/tanks/CF-104
-scorcheddatatanksCF104_DATA = data/tanks/CF-104/black.bmp \
-	data/tanks/CF-104/104.txt \
-	data/tanks/CF-104/cockpit.bmp \
-	data/tanks/CF-104/engine.bmp \
-	data/tanks/CF-104/gunFuselage.bmp \
-	data/tanks/CF-104/wheel.bmp
-scorcheddatatanksCannonTowerdir = ${datadir}/data/tanks/CannonTower
-scorcheddatatanksCannonTower_DATA = 
 scorcheddatatanksbattleshipdir = ${datadir}/data/tanks/battleship
 scorcheddatatanksbattleship_DATA = data/tanks/battleship/battleship.txt \
 	data/tanks/battleship/grey.bmp
@@ -914,13 +838,20 @@ scorcheddatatankscannon_DATA = data/tanks/cannon/black.bmp \
 	data/tanks/cannon/turretBase.bmp \
 	data/tanks/cannon/uprights.bmp \
 	data/tanks/cannon/wheelouter.bmp
-scorcheddatatankscannontowerdir = ${datadir}/data/tanks/cannontower
-scorcheddatatankscannontower_DATA = data/tanks/cannontower/base.bmp \
-	data/tanks/cannontower/cannontower.txt \
-	data/tanks/cannontower/gun.bmp \
-	data/tanks/cannontower/side.bmp \
-	data/tanks/cannontower/side2.bmp \
-	data/tanks/cannontower/top.bmp
+scorcheddatatanksCannonTowerdir = ${datadir}/data/tanks/CannonTower
+scorcheddatatanksCannonTower_DATA = data/tanks/CannonTower/base.bmp \
+	data/tanks/CannonTower/cannontower.txt \
+	data/tanks/CannonTower/gun.bmp \
+	data/tanks/CannonTower/side.bmp \
+	data/tanks/CannonTower/side2.bmp \
+	data/tanks/CannonTower/top.bmp
+scorcheddatatanksCF104dir = ${datadir}/data/tanks/CF-104
+scorcheddatatanksCF104_DATA = data/tanks/CF-104/104.txt \
+	data/tanks/CF-104/black.bmp \
+	data/tanks/CF-104/cockpit.bmp \
+	data/tanks/CF-104/engine.bmp \
+	data/tanks/CF-104/gunFuselage.bmp \
+	data/tanks/CF-104/wheel.bmp
 scorcheddatatanksdeathdir = ${datadir}/data/tanks/death
 scorcheddatatanksdeath_DATA = data/tanks/death/black.bmp \
 	data/tanks/death/chrome.bmp \
@@ -1335,8 +1266,8 @@ scorcheddatawavshoot_DATA = data/wav/shoot/flare.wav \
 	data/wav/shoot/tracer.wav \
 	data/wav/shoot/xlarge.wav
 scorcheddatawindowsdir = ${datadir}/data/windows
-scorcheddatawindows_DATA = data/windows/aima.bmp \
-	data/windows/aim.bmp \
+scorcheddatawindows_DATA = data/windows/aim.bmp \
+	data/windows/aima.bmp \
 	data/windows/arrow.bmp \
 	data/windows/arrowi.bmp \
 	data/windows/client.bmp \

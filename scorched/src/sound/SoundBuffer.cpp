@@ -55,7 +55,13 @@ bool SoundBuffer::createBuffer(char *wavFileName)
 	ALsizei size;
 	ALsizei freq;
 	ALboolean loop;
+
+#ifdef __DARWIN__
+	alutLoadWAVFile((ALbyte*) wavFileName,&format,&data,&size,&freq);
+#else
 	alutLoadWAVFile((ALbyte*) wavFileName,&format,&data,&size,&freq,&loop);
+#endif
+
 	if ((error_ = alGetError()) != AL_NO_ERROR)
 	{
 		return false;

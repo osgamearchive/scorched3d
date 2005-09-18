@@ -142,6 +142,9 @@ void HelpFrame::onHome(wxCommandEvent &event)
 
 void showHtmlHelpDialog()
 {
-	HelpFrame *frame = new HelpFrame();
-	frame->Show();
+	// For the moment just show the documentation in the default web browser
+	showURL(getDocFile("documentation/html/index.html"));
+
+	//HelpFrame *frame = new HelpFrame();
+	//frame->Show();
 }

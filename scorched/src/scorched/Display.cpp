@@ -89,7 +89,7 @@ static void createMainControls(wxWindow *parent, wxSizer *sizer)
 	IDC_SOUNDCHANNELS_CTRL = 
 		new wxComboBox(parent, -1,
 			"",
-			wxDefaultPosition, wxSize(40, -1),
+			wxDefaultPosition, wxSize(55, -1),
 			0, 0, wxCB_READONLY);
 	soundSizer1->Add(volumeText, 0, wxRIGHT, 10);
 	soundSizer1->Add(IDC_VOLUME_CTRL, 0, wxRIGHT, 10);
@@ -110,40 +110,31 @@ static void createMainControls(wxWindow *parent, wxSizer *sizer)
 	wxStaticBoxSizer *miscSizer = new wxStaticBoxSizer(miscBox, wxHORIZONTAL);
 	wxGridSizer *miscSizer2 = new wxGridSizer(3, 3, 10, 10);
 	IDC_INVERT_CTRL = 
-		new wxCheckBox(parent, -1, "Invert key elevation",
-		wxDefaultPosition, wxSize((int) 150, (int) -1));
+		new wxCheckBox(parent, -1, "Invert key elevation");
 	miscSizer2->Add(IDC_INVERT_CTRL, 0);
 	IDC_INVERTMOUSE_CTRL = 
-		new wxCheckBox(parent, -1, "Invert mouse elevation",
-		wxDefaultPosition, wxSize((int) 150, (int) -1));
+		new wxCheckBox(parent, -1, "Invert mouse elevation");
 	miscSizer2->Add(IDC_INVERTMOUSE_CTRL, 0);
 	IDC_SWAPYAXIS_CTRL = 
-		new wxCheckBox(parent, -1, "Invert mouse y axis (OS X)",
-		wxDefaultPosition, wxSize((int) 150, (int) -1));
+		new wxCheckBox(parent, -1, "Invert mouse y axis (OS X)");
 	miscSizer2->Add(IDC_SWAPYAXIS_CTRL, 0);
 	IDC_TIMER_CTRL = 
-		new wxCheckBox(parent, -1, "Show frames per second",
-		wxDefaultPosition, wxSize((int) 150, (int) -1));
+		new wxCheckBox(parent, -1, "Show frames per second");
 	miscSizer2->Add(IDC_TIMER_CTRL, 0);
 	IDC_TOOLTIP_CTRL = 
-		new wxCheckBox(parent, -1, "Show ToolTips",
-		wxDefaultPosition, wxSize((int) 150, (int) -1));
+		new wxCheckBox(parent, -1, "Show ToolTips");
 	miscSizer2->Add(IDC_TOOLTIP_CTRL, 0);
 	IDC_SMOUSE_CTRL = 
-		new wxCheckBox(parent, -1, "Software Mouse",
-		wxDefaultPosition, wxSize((int) 150, (int) -1));
+		new wxCheckBox(parent, -1, "Software Mouse");
 	miscSizer2->Add(IDC_SMOUSE_CTRL, 0);
 	IDC_VALIDATESERVER_CTRL = 
-		new wxCheckBox(parent, -1, "Validate Server Ip",
-		wxDefaultPosition, wxSize((int) 150, (int) -1));
+		new wxCheckBox(parent, -1, "Validate Server Ip");
 	miscSizer2->Add(IDC_VALIDATESERVER_CTRL, 0);
 	IDC_SIDESCROLL_CTRL = 
-		new wxCheckBox(parent, -1, "Side Scrolling",
-		wxDefaultPosition, wxSize((int) 150, (int) -1));
+		new wxCheckBox(parent, -1, "Side Scrolling");
 	miscSizer2->Add(IDC_SIDESCROLL_CTRL, 0);
 	IDC_LOGGING_CTRL = 
-		new wxCheckBox(parent, -1, "Client Logging",
-		wxDefaultPosition, wxSize((int) 150, (int) -1));
+		new wxCheckBox(parent, -1, "Client Logging");
 	miscSizer2->Add(IDC_LOGGING_CTRL, 0);
 	miscSizer->Add(miscSizer2, 0, wxGROW);
 	sizer->Add(miscSizer, 0, wxGROW | wxLEFT | wxRIGHT | wxTOP, 5);
@@ -199,52 +190,40 @@ static void createTroubleControls(wxWindow *parent, wxSizer *sizer)
 	wxStaticBoxSizer *detailSizer = new wxStaticBoxSizer(detailBox, wxHORIZONTAL);
 	wxGridSizer *detailSizer2 = new wxGridSizer(3, 3, 10, 10);
 	IDC_SINGLESKYLAYER_CTRL = 
-		new wxCheckBox(parent, -1, "Single sky layer",
-		wxDefaultPosition, wxSize((int) 150, (int) -1));
+		new wxCheckBox(parent, -1, "Single sky layer");
 	detailSizer2->Add(IDC_SINGLESKYLAYER_CTRL, 0);
 	IDC_NOSKYANI_CTRL = 
-		new wxCheckBox(parent, -1, "Don't animate sky",
-		wxDefaultPosition, wxSize((int) 150, (int) -1));
+		new wxCheckBox(parent, -1, "Don't animate sky");
 	detailSizer2->Add(IDC_NOSKYANI_CTRL, 0);
 	IDC_NOWATERANI_CTRL = 
-		new wxCheckBox(parent, -1, "Draw simplistic water",
-		wxDefaultPosition, wxSize((int) 150, (int) -1));
+		new wxCheckBox(parent, -1, "Draw simplistic water");
 	detailSizer2->Add(IDC_NOWATERANI_CTRL, 0);
 	IDC_NOWATER_CTRL = 
-		new wxCheckBox(parent, -1, "Don't draw water",
-		wxDefaultPosition, wxSize((int) 150, (int) -1));
+		new wxCheckBox(parent, -1, "Don't draw water");
 	detailSizer2->Add(IDC_NOWATER_CTRL, 0);
 	IDC_NOSURROUND_CTRL = 
-		new wxCheckBox(parent, -1, "Don't draw surround",
-		wxDefaultPosition, wxSize((int) 150, (int) -1));
+		new wxCheckBox(parent, -1, "Don't draw surround");
 	detailSizer2->Add(IDC_NOSURROUND_CTRL, 0);
 	IDC_NODETAILTEX_CTRL = 
-		new wxCheckBox(parent, -1, "Don't use detail textures",
-		wxDefaultPosition, wxSize((int) 150, (int) -1));
+		new wxCheckBox(parent, -1, "Don't use detail textures");
 	detailSizer2->Add(IDC_NODETAILTEX_CTRL, 0);
 	IDC_NOSKINS_CTRL = 
-		new wxCheckBox(parent, -1, "No tank skins",
-		wxDefaultPosition, wxSize((int) 150, (int) -1));
+		new wxCheckBox(parent, -1, "No tank skins");
 	detailSizer2->Add(IDC_NOSKINS_CTRL, 0);
 	IDC_NOBOIDS_CTRL = 
-		new wxCheckBox(parent, -1, "No birds",
-		wxDefaultPosition, wxSize((int) 150, (int) -1));
+		new wxCheckBox(parent, -1, "No birds");
 	detailSizer2->Add(IDC_NOBOIDS_CTRL, 0);
 	IDC_NOTREES_CTRL = 
-		new wxCheckBox(parent, -1, "No trees",
-		wxDefaultPosition, wxSize((int) 150, (int) -1));
+		new wxCheckBox(parent, -1, "No trees");
 	detailSizer2->Add(IDC_NOTREES_CTRL, 0);
 	IDC_NOPRECIPITATION_CTRL = 
-		new wxCheckBox(parent, -1, "No precipitation",
-		wxDefaultPosition, wxSize((int) 150, (int) -1));
+		new wxCheckBox(parent, -1, "No precipitation");
 	detailSizer2->Add(IDC_NOPRECIPITATION_CTRL, 0);
 	IDC_NODEPTHSORT_CTRL = 
-		new wxCheckBox(parent, -1, "No sprite depth sorting",
-		wxDefaultPosition, wxSize((int) 150, (int) -1));
+		new wxCheckBox(parent, -1, "No sprite depth sorting");
 	detailSizer2->Add(IDC_NODEPTHSORT_CTRL, 0);
 	IDC_NOWAVES_CTRL = 
-		new wxCheckBox(parent, -1, "No waves at shore",
-		wxDefaultPosition, wxSize((int) 150, (int) -1));
+		new wxCheckBox(parent, -1, "No waves at shore");
 	detailSizer2->Add(IDC_NOWAVES_CTRL, 0);
 	detailSizer->Add(detailSizer2, 0, wxGROW);
 	sizer->Add(detailSizer, 0, wxGROW | wxLEFT | wxRIGHT | wxTOP, 5);
@@ -255,44 +234,34 @@ static void createTroubleControls(wxWindow *parent, wxSizer *sizer)
 	wxStaticBoxSizer *troubleSizer = new wxStaticBoxSizer(troubleBox, wxHORIZONTAL);
 	wxGridSizer *troubleSizer2 = new wxGridSizer(3, 3, 10, 10);
 	IDC_NOEXT_CTRL = 
-		new wxCheckBox(parent, -1, "No GL Extensions",
-		wxDefaultPosition, wxSize((int) 150, (int) -1));
+		new wxCheckBox(parent, -1, "No GL Extensions");
 	troubleSizer2->Add(IDC_NOEXT_CTRL, 0);
 	IDC_NOMULTITEX_CTRL = 
-		new wxCheckBox(parent, -1, "No multi texture",
-		wxDefaultPosition, wxSize((int) 150, (int) -1));
+		new wxCheckBox(parent, -1, "No multi texture");
 	troubleSizer2->Add(IDC_NOMULTITEX_CTRL, 0);
 	IDC_NOLANDSCAPESCORCH_CTRL = 
-		new wxCheckBox(parent, -1, "No TexSubImaging",
-		wxDefaultPosition, wxSize((int) 150, (int) -1));
+		new wxCheckBox(parent, -1, "No TexSubImaging");
 	troubleSizer2->Add(IDC_NOLANDSCAPESCORCH_CTRL, 0);
 	IDC_NOCOMPILEDARRAYS_CTRL = 
-		new wxCheckBox(parent, -1, "No compiled arrays",
-		wxDefaultPosition, wxSize((int) 150, (int) -1));
+		new wxCheckBox(parent, -1, "No compiled arrays");
 	troubleSizer2->Add(IDC_NOCOMPILEDARRAYS_CTRL, 0);
 	IDC_NOENVCOMBINE_CTRL = 
-		new wxCheckBox(parent, -1, "No combined textures",
-		wxDefaultPosition, wxSize((int) 150, (int) -1));
+		new wxCheckBox(parent, -1, "No combined textures");
 	troubleSizer2->Add(IDC_NOENVCOMBINE_CTRL, 0);
 	IDC_NOCUBEMAP_CTRL = 
-		new wxCheckBox(parent, -1, "No cube map textures",
-		wxDefaultPosition, wxSize((int) 150, (int) -1));
+		new wxCheckBox(parent, -1, "No cube map textures");
 	troubleSizer2->Add(IDC_NOCUBEMAP_CTRL, 0);
 	IDC_NOMIPMAPS_CTRL = 
-		new wxCheckBox(parent, -1, "No HW mip maps",
-		wxDefaultPosition, wxSize((int) 150, (int) -1));
+		new wxCheckBox(parent, -1, "No HW mip maps");
 	troubleSizer2->Add(IDC_NOMIPMAPS_CTRL, 0);
 	IDC_FULLCLEAR_CTRL = 
-		new wxCheckBox(parent, -1, "Full Clear",
-		wxDefaultPosition, wxSize((int) 150, (int) -1));
+		new wxCheckBox(parent, -1, "Full Clear");
 	troubleSizer2->Add(IDC_FULLCLEAR_CTRL, 0);
 	IDC_NOSPHEREMAP_CTRL = 
-		new wxCheckBox(parent, -1, "No sphere map textures",
-		wxDefaultPosition, wxSize((int) 150, (int) -1));
+		new wxCheckBox(parent, -1, "No sphere map textures");
 	troubleSizer2->Add(IDC_NOSPHEREMAP_CTRL, 0);
 	IDC_NOVBO_CTRL = 
-		new wxCheckBox(parent, -1, "No VBO",
-		wxDefaultPosition, wxSize((int) 150, (int) -1));
+		new wxCheckBox(parent, -1, "No VBO");
 	troubleSizer2->Add(IDC_NOVBO_CTRL, 0);
 
 	troubleSizer->Add(troubleSizer2, 0, wxGROW);

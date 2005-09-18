@@ -19,6 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <scorched/MainDialog.h>
+#include <scorched/HtmlHelpDialog.h>
 #include <dialogs/HelpButtonDialog.h>
 #include <sound/Sound.h>
 #include <common/OptionsDisplay.h>
@@ -107,7 +108,8 @@ void HelpButtonDialog::mouseDown(float x, float y, bool &skipRest)
 		skipRest = true;
 		if (x > x_ + 32)
 		{
-			runScorched3D("-starthelp");
+			showHtmlHelpDialog();
+			//runScorched3D("-starthelp");
 		}
 		else
 		{

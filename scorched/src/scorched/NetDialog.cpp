@@ -40,8 +40,6 @@ static bool serverCompatable(std::string pversion, std::string version)
 		return false;
 	}
 
-	if (0 == strcmp(version.c_str(), "37")) return false;
-
 	return true;
 }
 
