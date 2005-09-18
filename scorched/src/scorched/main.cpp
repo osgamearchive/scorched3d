@@ -163,14 +163,22 @@ int main(int argc, char *argv[])
 		{
 			// Change into this new direcotry
 			*sep = '\0';
+#ifdef _WIN32
+			SetCurrentDirectory(path);
+#else
 			chdir(path);
+#endif // _WIN32
 		}
 
 		// Now try again for the correct directory
 		checkfile = fopen(getDataFile("data/autoexec.xml"), "r");
 		if (!checkfile)
 		{	
+#ifdef _WIN32
+			GetCurrentDirectory(sizeof(path), path);
+#else
 			getcwd(path, sizeof(path));
+#endif // _WIN32
 			dialogExit(
 				scorched3dAppName,
 				"Error: This game requires the Scorched3D data directory to run.\n"
@@ -187,7 +195,7 @@ int main(int argc, char *argv[])
 #ifdef _WIN32
 	// For borland compilers disable floating point exceptions. 
 	_control87(MCW_EM,MCW_EM);
-#endif
+#endif // _WIN32
 
 #ifndef _WIN32
 	// Tells Linux not to issue a sig pipe when writting to a closed socket

@@ -56,7 +56,7 @@ void ClientKeepAliveSender::sendKeepAlive()
 		ScorchedClient::instance()->getOptionsGame().getKeepAliveTime();
 	unsigned int theTime = (unsigned int) time(0);
 
-	if (theTime - lastSendTime_ > sendTime)
+	if (theTime - lastSendTime_ >= sendTime)
 	{
 		ComsKeepAliveMessage message;
 		ComsMessageSender::sendToServer(message);

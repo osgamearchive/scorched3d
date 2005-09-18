@@ -61,12 +61,6 @@ bool ClientRmPlayerHandler::processMessage(unsigned int id,
 	{
 		Logger::log( "Failed to find player to remove");
 	}
-	else
-	{
-		// Print out info about removed tank
-		Logger::log( "Player disconnected \"%s\"",
-					tank->getName());	
-	}
 
     delete tank;
 	return true;

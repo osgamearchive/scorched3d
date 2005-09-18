@@ -114,8 +114,12 @@ bool ServerAddPlayerHandler::processMessage(unsigned int destinationId,
 			Logger::log( "Player playing dest=\"%i\" id=\"%i\" \"%s\"->\"%s\"",
 				tank->getDestinationId(), tank->getPlayerId(),
 				tank->getName(), name.c_str());
-			ServerCommon::sendString(0, "Player playing \"%s\"->\"%s\"",
-				tank->getName(), name.c_str());
+
+			if (name != tank->getName())
+			{
+				ServerCommon::sendString(0, "Player changed name \"%s\"->\"%s\"",
+					tank->getName(), name.c_str());
+			}
 		}
 	}
 
@@ -154,7 +158,14 @@ bool ServerAddPlayerHandler::processMessage(unsigned int destinationId,
 			ServerCommon::sendString(0, "Welcome back %s, you are ranked %s",
 				tank->getName(), rank);
 		}
+
+		if (tank->getState().getSpectator())
+		{
+			ServerCommon::sendString(0, "Player playing \"%s\"",
+				tank->getName());
+		}
 	}
+
 	tank->getState().setSpectator(false);
 
 	// Choose a team (if applicable)

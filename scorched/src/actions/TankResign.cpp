@@ -23,6 +23,7 @@
 #include <tank/TankContainer.h>
 #include <common/Defines.h>
 #include <common/Logger.h>
+#include <common/LoggerI.h>
 #include <common/OptionsParam.h>
 
 REGISTER_ACTION_SOURCE(TankResign);
@@ -60,8 +61,10 @@ void TankResign::simulate(float frameTime, bool &remove)
 			if (!context_->serverMode ||
 				OptionsParam::instance()->getDedicatedServer())
 			{
-				Logger::log( 
-					"\"%s\" resigned from round", tank->getName());
+				LoggerInfo info(LoggerInfo::TypeDeath,
+					formatString("\"%s\" resigned from round", tank->getName()));
+				info.setPlayerId(playerId_);
+				Logger::log(info);
 			}
 		}
 	}

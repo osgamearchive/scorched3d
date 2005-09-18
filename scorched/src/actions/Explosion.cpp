@@ -197,8 +197,6 @@ void Explosion::init()
 			if (0 != strcmp(weapon_->getParent()->getName(), "Death's Head") || // Ooo nasty
 				RAND < 0.2f)
 			{
-				Logger::log("Death...");
-
 				context_->actionController->addAction(
 					new SpriteAction(
 					new ExplosionNukeRenderer(position_, weapon_->getSize() - 2.0f)));	

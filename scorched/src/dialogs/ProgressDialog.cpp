@@ -168,6 +168,8 @@ void ProgressDialog::progressChange(const char *op, const float percentage)
 	progressLabel_->setText(op);
 	progress_->setCurrent(percentage);
 
+	//for (int i=0; i<100000000; i++);
+
 	if ((timeDelay > 0.25f) || 
 		(percentage > 99.0f))
 	{

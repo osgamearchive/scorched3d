@@ -115,6 +115,8 @@ void ServerMessageHandler::destroyPlayer(unsigned int tankId)
 			"Player disconnected dest=\"%i\" id=\"%i\" name=\"%s\"", 
 			tank->getDestinationId(),
 			tankId, tank->getName());
+		ServerCommon::sendString(0, "Player disconnected \"%s\"",
+			tank->getName());
 
 		StatsLogger::instance()->tankDisconnected(tank);
 

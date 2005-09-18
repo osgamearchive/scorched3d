@@ -1,37 +1,22 @@
 -- Bugs Fixed and Ready For Release 
-Fixed: Client crashing due to boids turned off
-Fixed: Server not sending long server names on status request
-Fixed: Mysql stats handler build issues under unix
-Fixed: Tanks not moving during multiplayer games
-Fixed: Sound compilation failing due to OpenAL API changes
-Fixed: Changed the default number of sound channels to 8
-Fixed: Tooltips now refresh information when cursor over them
-Fixed: All landscape files are checked with client for the "none" mod
-Fixed: Napalm and rollers duding when being fired into cliffs
-Fixed: Cannot have player names beginning with the bot prefix
-Fixed: Server bots are saved in server.xml file when changes commited
-Fixed: Weapons for the wrong arms level being displayed in favorites
-Fixed: Crash in landscape generation code
-Fixed: Laser and sandhog damage
-Fixed: Saved games not restoring players with correct weapons and money
-Fixed: Number of shadows being drawn for deaths heads
-Fixed: Reduced number of mushroom clouds drawn for deaths heads
-
-Added: Server web admin talk page shows the last few conversations
-Added: Default tab can be set in the buy dialog
+Fixed: Resign and disconnect messages are now shown correctly
 
 -- Bugs in current development release
 Dvorak keyboard support is broken
 
 -- Things I am currently looking at
 Fix crashing when people win (Graphics card drivers??)
-
--- Things for next release
-Allow same ip addresses to connect but don't collect stats
-Bobirovs list of stuff (http://apochq.handwired.net/ideas.txt)
+Ships
+Tutorial mode
+Changing menus to be icons
+New game modes
+Check keepalives are being sent during high load times
+Stackwalker for debug traces? wx2.6
 
 -- Server Stuff
 A way to set the maximum and minimum players for a map (half done)
+Allow same ip addresses to connect but don't collect stats
+Bobirovs list of stuff (http://apochq.handwired.net/ideas.txt)
 
 -- Client Stuff
 Gun fires at same point for all tanks (ignores turret/gun position in model)
@@ -44,7 +29,6 @@ Add option for human players to say stuff when firing/killed
 
 -- Other Stuff
 Add the ability to customize the languages (for dialogs etc..) (localisation)
-Whales
 Towers can't move
 More weapons, always more weapons
 Smoke bombs
