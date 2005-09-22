@@ -121,7 +121,7 @@ bool startServer(bool local)
 	ServerDefenseHandler::instance();
 
 	// Set the mod
-	setDataFileMod(
+	DefinesUtil::setDataFileMod(
 		ScorchedServer::instance()->getOptionsGame().getMod());
 
 	// Load mod

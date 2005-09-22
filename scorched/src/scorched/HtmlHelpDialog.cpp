@@ -62,7 +62,7 @@ BEGIN_EVENT_TABLE(HelpFrame, wxFrame)
 END_EVENT_TABLE()
 
 HelpFrame::HelpFrame() :
-	wxFrame(getMainDialog(), -1, wxString(scorched3dAppName),
+	wxFrame(getMainDialog(), -1, wxString(scorched3dAppName, wxConvUTF8),
 		wxDefaultPosition, wxDefaultSize, 
 		wxSTAY_ON_TOP | wxCAPTION | wxSYSTEM_MENU | wxMINIMIZE_BOX | wxMAXIMIZE_BOX | wxTHICK_FRAME)
 {
@@ -82,13 +82,13 @@ HelpFrame::HelpFrame() :
 
 	// Ok Button
 	wxBoxSizer *buttonSizer2 = new wxBoxSizer(wxHORIZONTAL);
-	wxButton *IDBACK_CTRL = new wxButton(this, ID_BUTTON_BACK, "<< Back",
+	wxButton *IDBACK_CTRL = new wxButton(this, ID_BUTTON_BACK, wxT("<< Back"),
 		wxDefaultPosition, wxSize(-1, 18));
 	buttonSizer2->Add(IDBACK_CTRL, 0, wxALL, 3);
-	wxButton *IDHOME_CTRL = new wxButton(this, ID_BUTTON_HOME, "Home",
+	wxButton *IDHOME_CTRL = new wxButton(this, ID_BUTTON_HOME, wxT("Home"),
 		wxDefaultPosition, wxSize(-1, 18));
 	buttonSizer2->Add(IDHOME_CTRL, 0, wxALL, 3);
-	wxButton *IDFORWARD_CTRL = new wxButton(this, ID_BUTTON_FORWARD, "Forward >>",
+	wxButton *IDFORWARD_CTRL = new wxButton(this, ID_BUTTON_FORWARD, wxT("Forward >>"),
 		wxDefaultPosition, wxSize(-1, 18));
 	buttonSizer2->Add(IDFORWARD_CTRL, 0, wxALL, 3);
 	topsizer->Add(buttonSizer2, 0, wxALIGN_CENTER);
@@ -102,7 +102,7 @@ HelpFrame::HelpFrame() :
 
 	// Ok Button
 	wxBoxSizer *buttonSizer = new wxBoxSizer(wxHORIZONTAL);
-	wxButton *IDOK_CTRL = new wxButton(this, ID_BUTTON_OK, "Close",
+	wxButton *IDOK_CTRL = new wxButton(this, ID_BUTTON_OK, wxT("Close"),
 		wxDefaultPosition, wxSize(-1, 18));
 	IDOK_CTRL->SetDefault();
 	buttonSizer->Add(IDOK_CTRL, 0, wxALL, 3);
@@ -137,7 +137,7 @@ void HelpFrame::onBack(wxCommandEvent &event)
 void HelpFrame::onHome(wxCommandEvent &event)
 {
 	html_->HistoryClear();
-	html_->LoadPage(getDocFile("documentation/html/index.html"));
+	html_->LoadPage(wxString(getDocFile("documentation/html/index.html"), wxConvUTF8));
 }
 
 void showHtmlHelpDialog()

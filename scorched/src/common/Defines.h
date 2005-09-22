@@ -44,13 +44,21 @@ extern void dialogExit(const char *header, const char *fmt, ...);
 extern const char *formatString(const char *format, ...);
 extern const char *formatStringList(const char *format, va_list ap); 
 
+namespace DefinesUtil
+{
+extern float getFastSin(float angle);
+extern float getFastCos(float angle);
+extern char *my_stristr(const char *x, const char *y);
 extern void setSettingsDir(const char *dir);
 extern void setDataFileMod(const char *mod);
 extern const char *getDataFileMod();
-extern bool checkDataFile(const char *file, ...);
+extern void fileDos2Unix(char *file);
 extern bool fileExists(const char *file);
 extern bool dirExists(const char *file);
+extern bool dirMake(const char *file);
+};
 
+extern bool checkDataFile(const char *file, ...);
 extern const char *getDataFile(const char *file, ...);
 extern const char *getDocFile(const char *file, ...);
 extern const char *getLogFile(const char *file, ...);
@@ -63,10 +71,6 @@ extern const char *getGlobalModFile(const char *file, ...);
 #define RAND ((float) rand() / (float) RAND_MAX)
 #define MAX(x,y) ((x)>(y)?(x):(y))
 #define MIN(x,y) ((x)<(y)?(x):(y))
-
-extern float getFastSin(float angle);
-extern float getFastCos(float angle);
-extern char *my_stristr(const char *x, const char *y);
 
 #ifdef NO_FLOAT_MATH
 
@@ -81,7 +85,7 @@ extern char *my_stristr(const char *x, const char *y);
 #define powf(x,y) ((float)pow(x,y))
 #define floorf(x) ((float)floor(x))
 
-#endif
+#endif // NO_FLOAT_MATH
 
 extern unsigned int ScorchedPort;
 extern char *ScorchedVersion;

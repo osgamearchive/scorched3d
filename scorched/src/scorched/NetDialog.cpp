@@ -126,10 +126,10 @@ wxString NetListControl::OnGetItemText(long item, long column) const
 			std::string maxclients = 
 				ServerBrowser::instance()->getServerList().
 					getEntryValue(item, "maxplayers");
-			static char text[256];
+			char text[256];
 			sprintf(text, "%s/%s", clients.c_str(), maxclients.c_str());
 
-			return text;
+			return wxString(text, wxConvUTF8);
 		}
 		case 3: name = "round"; break;
 		case 4: name = "mod"; break;
@@ -138,9 +138,9 @@ wxString NetListControl::OnGetItemText(long item, long column) const
 		case 7: name = "os"; break;
 		case 8: name = "address"; break;
 		}
-		return ServerBrowser::instance()->getServerList().getEntryValue(item, name);
+		return wxString(ServerBrowser::instance()->getServerList().getEntryValue(item, name), wxConvUTF8);
 	}
-	return "";
+	return wxT("");
 }
 
 BEGIN_EVENT_TABLE(NetListControl, wxListCtrl)
@@ -195,7 +195,7 @@ BEGIN_EVENT_TABLE(NetLanFrame, wxDialog)
 END_EVENT_TABLE()
 
 NetLanFrame::NetLanFrame() :
-	wxDialog(getMainDialog(), -1, scorched3dAppName, 
+	wxDialog(getMainDialog(), -1, wxString(scorched3dAppName, wxConvUTF8),
 		wxDefaultPosition, wxDefaultSize,
 		wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER | wxMAXIMIZE_BOX)
 {
@@ -245,7 +245,7 @@ static void onJoinButtonExec(NetLanFrame *frame)
 	wxString username = IDC_EDIT_NAME_CTRL->GetValue();
 
 	std::string hostPart;
-	const char *host = value.c_str();
+	const char *host = value.mb_str(wxConvUTF8);
 	char *colon = strchr(host, ':');
 	if (colon) 
 	{
@@ -258,7 +258,7 @@ static void onJoinButtonExec(NetLanFrame *frame)
 		hostPart = host;
 	}
 	
-	if (password.c_str()[0] && username.c_str()[0])
+	if (!password.empty() && !username.empty())
 	{
 		IPaddress officialaddress;
 		IPaddress thisaddress;
@@ -267,11 +267,11 @@ static void onJoinButtonExec(NetLanFrame *frame)
 		{
 			if (officialaddress.host != thisaddress.host)
 			{
-				wxString wxText("Warning: You are about to send username and password\n"
-					"information to a non-official server.\n"
-					"\n"
-					"Do you wish to continue?");
-				wxString wxHeader("Scorched3D");
+				wxString wxText(wxT("Warning: You are about to send username and password\n")
+					wxT("information to a non-official server.\n")
+					wxT("\n")
+					wxT("Do you wish to continue?"));
+				wxString wxHeader(wxT("Scorched3D"));
 				int answer = ::wxMessageBox(wxText, wxHeader, wxYES_NO | wxCENTRE);
 				if (answer != wxYES) return;
 			}
@@ -291,13 +291,13 @@ void NetLanFrame::onJoinButton(wxCommandEvent &event)
 
 void NetLanFrame::onClearButton(wxCommandEvent &event)
 {
-	IDC_EDIT_SERVER_CTRL->SetValue("");
+	IDC_EDIT_SERVER_CTRL->SetValue(wxT(""));
 	onServerChanged(event);
 }
 
 void NetLanFrame::onClearPasswordButton(wxCommandEvent &event)
 {
-	IDC_EDIT_PASSWORD_CTRL->SetValue("");
+	IDC_EDIT_PASSWORD_CTRL->SetValue(wxT(""));
 }
 
 void NetLanFrame::onSelectServer(wxListEvent &event)
@@ -333,7 +333,7 @@ void NetLanFrame::onSelectServer(wxListEvent &event)
 					version.c_str(), protocolVersion.c_str(),
 					ScorchedVersion, ScorchedProtocolVersion);
 			}
-			IDC_EDIT_SERVER_CTRL->SetValue(text.c_str());
+			IDC_EDIT_SERVER_CTRL->SetValue(wxString(text.c_str(), wxConvUTF8));
 
 			int noplayers =
 				atoi(ServerBrowser::instance()->getServerList().getEntryValue(item, "noplayers"));
@@ -342,27 +342,27 @@ void NetLanFrame::onSelectServer(wxListEvent &event)
 				static char tmp[128];
 				sprintf(tmp, "pn%i", i);
 				long index = IDC_PLAYER_LIST_CTRL->InsertItem(0, 
-					ServerBrowser::instance()->getServerList().getEntryValue(item, tmp));
+					wxString(ServerBrowser::instance()->getServerList().getEntryValue(item, tmp), wxConvUTF8));
 
 				sprintf(tmp, "ps%i", i);
 				IDC_PLAYER_LIST_CTRL->
 					SetItem(index, 1, 
-					ServerBrowser::instance()->getServerList().getEntryValue(item, tmp));
+					wxString(ServerBrowser::instance()->getServerList().getEntryValue(item, tmp), wxConvUTF8));
 
 				sprintf(tmp, "pt%i", i);
 				IDC_PLAYER_LIST_CTRL->
 					SetItem(index, 2, 
-					ServerBrowser::instance()->getServerList().getEntryValue(item, tmp));
+					wxString(ServerBrowser::instance()->getServerList().getEntryValue(item, tmp), wxConvUTF8));
 
 				sprintf(tmp, "pm%i", i);
 				IDC_PLAYER_LIST_CTRL->
 					SetItem(index, 3, 
-					ServerBrowser::instance()->getServerList().getEntryValue(item, tmp));
+					wxString(ServerBrowser::instance()->getServerList().getEntryValue(item, tmp), wxConvUTF8));
 
 				sprintf(tmp, "pr%i", i);
 				IDC_PLAYER_LIST_CTRL->
 					SetItem(index, 4, 
-					ServerBrowser::instance()->getServerList().getEntryValue(item, tmp));
+					wxString(ServerBrowser::instance()->getServerList().getEntryValue(item, tmp), wxConvUTF8));
 			}
 		
 			wxCommandEvent event;	
@@ -386,7 +386,7 @@ void NetLanFrame::onRefreshNETButton(wxCommandEvent &event)
 void NetLanFrame::onServerChanged(wxCommandEvent &event)
 {
 	wxString value = IDC_EDIT_SERVER_CTRL->GetValue();
-	bool enabled = (value.c_str()[0] != '\0');
+	bool enabled = !value.empty();
 	IDOK_CTRL->Enable(enabled);
 	IDOK_CTRL->SetDefault();
 }
@@ -417,11 +417,11 @@ bool NetLanFrame::TransferDataToWindow()
 {
 	// Set the ok button to disabled
 	IDC_EDIT_SERVER_CTRL->SetValue(
-		OptionsParam::instance()->getConnect());
+		wxString(OptionsParam::instance()->getConnect(), wxConvUTF8));
 	IDC_EDIT_NAME_CTRL->SetValue(
-		OptionsParam::instance()->getUserName());
+		wxString(OptionsParam::instance()->getUserName(), wxConvUTF8));
 	IDC_EDIT_PASSWORD_CTRL->SetValue(
-		OptionsParam::instance()->getPassword());
+		wxString(OptionsParam::instance()->getPassword(), wxConvUTF8));
 
 	// Setup the server list control
 	struct ListItem
@@ -444,7 +444,7 @@ bool NetLanFrame::TransferDataToWindow()
 	{
 		IDC_SERVER_LIST_CTRL->InsertColumn(
 			i,
-			mainListItems[i].name,
+			wxString(mainListItems[i].name, wxConvUTF8),
 			wxLIST_FORMAT_LEFT,
 			mainListItems[i].size);
 	}
@@ -462,7 +462,7 @@ bool NetLanFrame::TransferDataToWindow()
 	{
 		IDC_PLAYER_LIST_CTRL->InsertColumn(
 			i,
-			playerListItems[i].name,
+			wxString(playerListItems[i].name, wxConvUTF8),
 			wxLIST_FORMAT_LEFT,
 			playerListItems[i].size);
 	}
@@ -480,7 +480,7 @@ bool NetLanFrame::TransferDataFromWindow()
 void NetListControl::onDClickServer(wxMouseEvent& event)
 {
 	wxString value = IDC_EDIT_SERVER_CTRL->GetValue();
-	bool enabled = (value.c_str()[0] != '\0');
+	bool enabled = !value.empty();
 	if (enabled)
 	{
 		NetLanFrame *parent = (NetLanFrame *) GetParent();
@@ -498,17 +498,17 @@ bool showNetLanDialog()
 		wxString username = IDC_EDIT_NAME_CTRL->GetValue();
 
 		char buffer[1024];
-		sprintf(buffer, "-connect \"%s\"", value.c_str());
+		sprintf(buffer, "-connect \"%s\"", (const char *) value.mb_str(wxConvUTF8));
 
-		if (password.c_str()[0])
+		if (!password.empty())
 		{
 			strcat(buffer, " -password ");
-			strcat(buffer, password.c_str());
+			strcat(buffer, password.mb_str(wxConvUTF8));
 		}
-		if (username.c_str()[0])
+		if (!username.empty())
 		{
 			strcat(buffer, " -username ");
-			strcat(buffer, username.c_str());
+			strcat(buffer, username.mb_str(wxConvUTF8));
 		}
 		runScorched3D(buffer);
 	}

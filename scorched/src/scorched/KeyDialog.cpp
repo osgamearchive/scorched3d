@@ -41,7 +41,8 @@ public:
     {
 		wxBoxSizer *topsizer = new wxBoxSizer(wxVERTICAL);
 
-		wxStaticText *text = new wxStaticText(this, -1, "Press a key to bind to this function");
+		wxStaticText *text = 
+			new wxStaticText(this, -1, wxT("Press a key to bind to this function"));
 		topsizer->Add(text, 0, wxALIGN_CENTER | wxALL, 5);
 
 		SetSizer(topsizer); // use the sizer for layout
@@ -114,7 +115,7 @@ BEGIN_EVENT_TABLE(KeyFrame, wxDialog)
 END_EVENT_TABLE()
 
 KeyFrame::KeyFrame(wxDialog *dialog) :
-	wxDialog(dialog, -1, wxString(scorched3dAppName), 
+	wxDialog(dialog, -1, wxString(scorched3dAppName, wxConvUTF8), 
 		wxDefaultPosition, wxSize(190, 50), wxSIMPLE_BORDER )
 {
 #ifdef _WIN32

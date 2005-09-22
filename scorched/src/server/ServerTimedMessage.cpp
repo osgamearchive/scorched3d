@@ -76,9 +76,9 @@ bool ServerTimedMessage::load()
 	const char *filename = 
 		getSettingsFile("messages-%i.xml", 
 			ScorchedServer::instance()->getOptionsGame().getPortNo());
-	if (!::wxFileExists(filename)) return true;
+	if (!DefinesUtil::fileExists(filename)) return true;
 
-	time_t fileTime = ::wxFileModificationTime(filename);
+	time_t fileTime = ::wxFileModificationTime(wxString(filename, wxConvUTF8));
 	if (fileTime == lastReadTime_) return true;
 
 	XMLFile file;

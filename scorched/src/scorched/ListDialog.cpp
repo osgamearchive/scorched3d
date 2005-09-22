@@ -22,7 +22,7 @@
 #include <common/Defines.h>
 
 ListDialog::ListDialog(wxWindow *parent, const char *title) :
-	wxDialog(parent, -1, wxString(title), 
+	wxDialog(parent, -1, wxString(title, wxConvUTF8), 
 		wxDefaultPosition, wxDefaultSize)
 {
 #ifdef _WIN32
@@ -36,7 +36,7 @@ ListDialog::ListDialog(wxWindow *parent, const char *title) :
 	topsizer->Add(list_, 0, wxALL, 10);
 
 	wxBoxSizer *buttonSizer = new wxBoxSizer(wxHORIZONTAL);
-	buttonSizer->Add(new wxButton(this, wxID_OK, "Ok"), 0, wxALL, 10);
+	buttonSizer->Add(new wxButton(this, wxID_OK, wxT("Ok")), 0, wxALL, 10);
 	topsizer->Add(buttonSizer, 0, wxALIGN_RIGHT);
 
 	SetSizer(topsizer); 
@@ -47,6 +47,6 @@ ListDialog::ListDialog(wxWindow *parent, const char *title) :
 
 void ListDialog::addItem(const char *item)
 {
-	list_->Append(item);
+	list_->Append(wxString(item, wxConvUTF8));
 }
 

@@ -83,20 +83,20 @@ bool ModFiles::loadModFiles(const char *mod, bool createDir)
 	{
 		// Get and check the user mod directory exists
 		const char *modDir = getModFile(mod);
-		if (::wxDirExists(modDir))
+		if (DefinesUtil::dirExists(modDir))
 		{
 			if (!loadModDir(modDir, mod)) return false;
 		}
 		else
 		{
-			if (createDir) ::wxMkdir(modDir);
+			if (createDir) DefinesUtil::dirMake(modDir);
 		}
 	}
 
 	{
 		// Get and check global mod directory
 		const char *modDir = getGlobalModFile(mod);
-		if (::wxDirExists(modDir))
+		if (DefinesUtil::dirExists(modDir))
 		{
 			if (!loadModDir(modDir, mod)) return false;
 		}
@@ -148,16 +148,15 @@ bool ModFiles::loadModDir(const char *modDir, const char *mod)
 {
 	// Load all files contained in this directory
 	wxArrayString files;
-	wxDir::GetAllFiles(modDir, &files);
+	wxDir::GetAllFiles(wxString(modDir, wxConvUTF8), &files);
 	wxString *strings = files.GetStringArray();
 	for (int i=0; i<(int) files.Count(); i++)
 	{
 		// Get the name of the current file
 		wxString &current = strings[i];
-		const char *fullFileName = current.c_str();
 
 		// Load the file
-		if (!loadModFile(fullFileName, modDir, mod))
+		if (!loadModFile(current.mb_str(wxConvUTF8), modDir, mod))
 		{
 			return false;
 		}
@@ -179,7 +178,7 @@ bool ModFiles::loadModFile(const char *fullFileName,
 	// name of the directory that contains it
 	int modDirLen = strlen(modDir);
 	shortFileName += modDirLen;
-	::wxDos2UnixFilename((char *) shortFileName);
+	DefinesUtil::fileDos2Unix((char *) shortFileName);
 	while (shortFileName[0] == '/') shortFileName++;
 
 	// Check that all files are lower case
@@ -219,9 +218,9 @@ bool ModFiles::loadModFile(const char *fullFileName,
 bool ModFiles::writeModFiles(const char *mod)
 {
 	const char *modDir = getModFile(mod);
-	if (!::wxDirExists(modDir))
+	if (!DefinesUtil::dirExists(modDir))
 	{
-		::wxMkdir(modDir);
+		DefinesUtil::dirMake(modDir);
 	}
 
 	std::map<std::string, ModFileEntry *>::iterator itor;
@@ -379,14 +378,14 @@ bool ModDirs::loadModDirs()
 	
 bool ModDirs::loadModDir(const char *dirName)
 {
-	wxDir dir(dirName);
+	wxDir dir(wxString(dirName, wxConvUTF8));
 	if (dir.IsOpened())
 	{
 		wxString filename;
-		bool cont = dir.GetFirst(&filename, "", wxDIR_DIRS);
+		bool cont = dir.GetFirst(&filename, wxT(""), wxDIR_DIRS);
 		while (cont)
 		{
-			if (!loadModFile(filename.c_str())) return false;
+			if (!loadModFile(filename.mb_str(wxConvUTF8))) return false;
 			cont = dir.GetNext(&filename);
 		}
 	}

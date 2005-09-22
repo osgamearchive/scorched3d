@@ -57,7 +57,7 @@ bool parseCommandLine(int argc, char *argv[])
 	aParser.addEntry("-allowexceptions", &allowExceptions, 
 					 "Allows any program exceptions to be thrown (core dumps)");
 	if (!aParser.parse(argc, argv)) return false;
-	setSettingsDir(OptionsParam::instance()->getSettingsDir());
+	DefinesUtil::setSettingsDir(OptionsParam::instance()->getSettingsDir());
 
 	// Read display options from a file
 	// **This NEEDS to be after the arg parser**
@@ -70,12 +70,12 @@ bool parseCommandLine(int argc, char *argv[])
 	if (!OptionsDisplay::instance()->getHostDescription()[0])
 	{
 		wxString osDesc = ::wxGetOsDescription();
-		OptionsDisplay::instance()->setHostDescription(osDesc.c_str());
+		OptionsDisplay::instance()->setHostDescription(osDesc.mb_str(wxConvUTF8));
 
 		wxString userName = ::wxGetUserName();
-		if (userName.c_str()[0])
+		if (!userName.empty())
 		{
-			OptionsDisplay::instance()->setOnlineUserName(userName.c_str());
+			OptionsDisplay::instance()->setOnlineUserName(userName.mb_str(wxConvUTF8));
 		}
 	}
 
@@ -88,9 +88,9 @@ bool parseCommandLine(int argc, char *argv[])
 		ScorchedProtocolVersion))
 	{
 		// The version has changed move the current mod directories
-		if (!dirExists(getSettingsFile("/oldmods")))
+		if (!DefinesUtil::dirExists(getSettingsFile("/oldmods")))
 		{
-			::wxMkdir(getSettingsFile("/oldmods"), 0755);
+			DefinesUtil::dirMake(getSettingsFile("/oldmods"));
 		}
 		ModDirs dirs;
 		dirs.loadModDirs();
@@ -102,9 +102,10 @@ bool parseCommandLine(int argc, char *argv[])
 			const char *modDir = (*itor).c_str();
 			std::string src = getModFile(modDir);
 			std::string dest = getSettingsFile("/oldmods/%s-%u", modDir, time(0));
-			if (dirExists(src.c_str()))
+			if (DefinesUtil::dirExists(src.c_str()))
 			{
-				if (::wxRenameFile(src.c_str(), dest.c_str()))
+				if (::wxRenameFile(wxString(src.c_str(), wxConvUTF8), 
+					wxString(dest.c_str(), wxConvUTF8)))
 				{
 					dialogMessage("Scorched3D",
 						"Mod directory\n"
@@ -225,7 +226,7 @@ int main(int argc, char *argv[])
 	case OptionsParam::ActionRunServer:
 	
 		// Load the server settings file
-		if (!::wxFileExists(OptionsParam::instance()->getServerFile()))
+		if (!DefinesUtil::fileExists(OptionsParam::instance()->getServerFile()))
 		{
 			dialogExit(scorched3dAppName,
 				"Server file \"%s\" does not exist.",
@@ -289,7 +290,7 @@ int main(int argc, char *argv[])
 				if (OptionsParam::instance()->getClientFile()[0])
 				{
 					// If not load the client settings file
-					if (!::wxFileExists(OptionsParam::instance()->getClientFile()))
+					if (!DefinesUtil::fileExists(OptionsParam::instance()->getClientFile()))
 					{
 						dialogExit(scorched3dAppName,
 							"Client file \"%s\" does not exist.",
@@ -301,7 +302,7 @@ int main(int argc, char *argv[])
 				else
 				{
 					// Or the client saved game
-					if (!::wxFileExists(OptionsParam::instance()->getSaveFile()))
+					if (!DefinesUtil::fileExists(OptionsParam::instance()->getSaveFile()))
 					{
 						dialogExit(scorched3dAppName,
 							"Client save file \"%s\" does not exist.",

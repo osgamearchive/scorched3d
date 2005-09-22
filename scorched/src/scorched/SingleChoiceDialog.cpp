@@ -75,7 +75,7 @@ BEGIN_EVENT_TABLE(SingleChoiceFrame, wxDialog)
 END_EVENT_TABLE()
 
 SingleChoiceFrame::SingleChoiceFrame(const char *mod) :
-	wxDialog(getMainDialog(), -1, scorched3dAppName, 
+	wxDialog(getMainDialog(), -1, wxString(scorched3dAppName, wxConvUTF8), 
 	wxDefaultPosition, wxDefaultSize)
 {
 	// Create the positioning sizer
@@ -86,7 +86,7 @@ SingleChoiceFrame::SingleChoiceFrame(const char *mod) :
 	wxIcon icon(getDataFile("data/windows/tank2.ico"), wxBITMAP_TYPE_ICO);
 	SetIcon(icon);
 #endif
-	setDataFileMod(mod);
+	DefinesUtil::setDataFileMod(mod);
 
 	addTitleToWindow(this, topsizer, 
 		getDataFile("data/windows/scorched.bmp"),
@@ -111,13 +111,14 @@ SingleChoiceFrame::SingleChoiceFrame(const char *mod) :
 			desc, icon, 
 			this, gridsizer, refData);
 	}
-	setDataFileMod("none");
+	DefinesUtil::setDataFileMod("none");
 
 	topsizer->Add(gridsizer, 0, wxALIGN_CENTER | wxALL, 5);
 
 	// Quit button
 	wxBoxSizer *buttonSizer = new wxBoxSizer(wxHORIZONTAL);
-	buttonSizer->Add(new wxButton(this, wxID_CANCEL, "Close"), 0, wxALL, 5);
+	buttonSizer->Add(new wxButton(this, wxID_CANCEL, 
+		wxT("Close")), 0, wxALL, 5);
 	topsizer->Add(buttonSizer, 0, wxALIGN_RIGHT);
 
 	// use the sizer for layout

@@ -63,7 +63,7 @@ void addTitleToWindow(
 	int buttonId)
 {
 	wxBitmap scorchedBitmap;
-	if (scorchedBitmap.LoadFile(fileName, 
+	if (scorchedBitmap.LoadFile(wxString(fileName, wxConvUTF8), 
 		wxBITMAP_TYPE_BMP) &&
 		scorchedBitmap.Ok())
 	{
@@ -85,7 +85,7 @@ void setExeName(const char *name, bool allowExceptions)
 }
 
 static SDL_mutex *messageMutex_ = 0;
-static wxString messageString_;
+static std::string messageString_;
 static int exitCode_ = 0;
 
 class ScorchedProcess : public wxProcess
@@ -113,7 +113,7 @@ public:
 			{
 				wxTextInputStream tis(*GetInputStream());
 				wxString line = tis.ReadLine();
-				messageString_.append(line);
+				messageString_.append((const char *) line.mb_str(wxConvUTF8));
 				messageString_.append("\n");
 			}
 			SDL_UnlockMutex(messageMutex_);
@@ -150,7 +150,7 @@ void runScorched3D(const char *fmt, ...)
 	sprintf(path, "%s %s", exeName, text);
 
 	ScorchedProcess *process = new ScorchedProcess();
-	long result = ::wxExecute(path, wxEXEC_ASYNC, process);
+	long result = ::wxExecute(wxString(path, wxConvUTF8), wxEXEC_ASYNC, process);
 	if (result == 0)
 	{
 		delete process;
@@ -172,20 +172,20 @@ wxButton *addButtonToWindow(
 	wxButton *button = 0;
 	wxBitmap bitmap;
 	const char *bitmapFile = getDataFile(bitmapName);
-	if (bitmap.LoadFile(bitmapFile, wxBITMAP_TYPE_BMP) &&
+	if (bitmap.LoadFile(wxString(bitmapFile, wxConvUTF8), wxBITMAP_TYPE_BMP) &&
 		bitmap.Ok())
 	{
 		button = new wxBitmapButton(parent, id, bitmap);
 	}
 	else
 	{
-		button = new wxButton(parent, id, "Select");
+		button = new wxButton(parent, id, wxT("Select"));
 	}
 	if (data) button->SetRefData(data);
 
 	wxStaticText *staticText = new wxStaticText(
 		parent, -1, 
-		text);
+		wxString(text, wxConvUTF8));
 
 	sizer->Add(button, 0, wxRIGHT, 5);
 	sizer->Add(staticText, 0, wxALIGN_CENTER_VERTICAL | wxLEFT, 5);
@@ -226,13 +226,15 @@ BEGIN_EVENT_TABLE(MainFrame, wxFrame)
 END_EVENT_TABLE()
 
 MainFrame::MainFrame() :
-	wxFrame((wxFrame *)NULL, -1, scorched3dAppName, wxDefaultPosition, wxDefaultSize, 
+	wxFrame((wxFrame *)NULL, -1, wxString(scorched3dAppName, wxConvUTF8), 
+		wxDefaultPosition, wxDefaultSize, 
 		wxMINIMIZE_BOX | wxCAPTION)
 {
 	if (!messageMutex_) messageMutex_ = SDL_CreateMutex();
 
 	// Set the frame's icon
-	wxIcon icon(getDataFile("data/windows/tank2.ico"), wxBITMAP_TYPE_ICO);
+	wxString iconName(getDataFile("data/windows/tank2.ico"), wxConvUTF8);
+	wxIcon icon(iconName, wxBITMAP_TYPE_ICO);
 	SetIcon(icon);
 
 	// Set the backbround color to be that of the default
@@ -312,7 +314,7 @@ MainFrame::MainFrame() :
 	wxBoxSizer *buttonSizer = new wxBoxSizer(wxHORIZONTAL);
 	{
 		wxBitmap scorchedBitmap;
-		if (scorchedBitmap.LoadFile(getDataFile("data/windows/donate.bmp"), 
+		if (scorchedBitmap.LoadFile(wxString(getDataFile("data/windows/donate.bmp"), wxConvUTF8), 
 			wxBITMAP_TYPE_BMP) &&
 			scorchedBitmap.Ok())
 		{
@@ -322,7 +324,7 @@ MainFrame::MainFrame() :
 		}
 	}
 	buttonSizer->Add(new wxBoxSizer(wxHORIZONTAL), 1, wxGROW);
-	buttonSizer->Add(new wxButton(this, wxID_CANCEL, "Quit"), 0, 
+	buttonSizer->Add(new wxButton(this, wxID_CANCEL, wxT("Quit")), 0, 
 		wxALIGN_RIGHT | wxALIGN_BOTTOM | wxALL, 10);
 	topsizer->Add(buttonSizer, 1, wxGROW);
 
@@ -339,7 +341,7 @@ MainFrame::MainFrame() :
 
 void MainFrame::onTimer(wxTimerEvent &event)
 {
-	wxString newString;
+	std::string newString;
 	SDL_LockMutex(messageMutex_);
 	if (!messageString_.empty())
 	{
@@ -363,8 +365,8 @@ void MainFrame::onTimer(wxTimerEvent &event)
 				"the very latest drivers\n"
 				"for your graphics card.");
 			int answer = ::wxMessageBox(
-				newString,
-				"Scorched3D Abnormal Termination",
+				wxString(newString.c_str(), wxConvUTF8),
+				wxT("Scorched3D Abnormal Termination"),
 				wxYES_NO | wxICON_ERROR);
 			if (answer == wxYES)
 			{
@@ -375,8 +377,8 @@ void MainFrame::onTimer(wxTimerEvent &event)
 		else
 		{
 			::wxMessageBox(
-				newString,
-				"Scorched3D Termination",
+				wxString(newString.c_str(), wxConvUTF8),
+				wxT("Scorched3D Termination"),
 				wxICON_ERROR);
 		}
 	}

@@ -170,7 +170,7 @@ bool Keyboard::loadKeyFile(bool loadDefaults)
 	std::map<std::string, KeyboardKey *> usedKeyMap_;
 
 	const char *fileName = getSettingsFile("keys.xml");
-	if (::wxFileExists(fileName) && !loadDefaults)
+	if (DefinesUtil::fileExists(fileName) && !loadDefaults)
 	{
 		if (!loadKeyFile(fileName, usedKeyMap_)) return false;
 	}

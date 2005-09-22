@@ -47,7 +47,7 @@ GLGif::~GLGif()
 
 bool GLGif::loadFromFile(const char * filename)
 {
-	wxString file(filename);
+	wxString file(filename, wxConvUTF8);
 	wxFileInputStream ifStream(file);
 	if (!ifStream.Ok()) return false;
 	return loadFromStream(&ifStream);

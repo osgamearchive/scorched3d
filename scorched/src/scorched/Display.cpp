@@ -24,23 +24,23 @@ static void createMainControls(wxWindow *parent, wxSizer *sizer)
 {
 	{
 	// Display settings
-	wxStaticBox *displayBox = new wxStaticBox(parent, -1, "Display");
+	wxStaticBox *displayBox = new wxStaticBox(parent, -1, wxT("Display"));
 	wxStaticBoxSizer *displaySizer = new wxStaticBoxSizer(displayBox, wxVERTICAL);
 	wxFlexGridSizer *displaySizer2 = new wxFlexGridSizer(2, 3, 5, 5);
-	wxStaticText *resText = new wxStaticText(parent, -1, "Resolution :");
+	wxStaticText *resText = new wxStaticText(parent, -1, wxT("Resolution :"));
 	IDC_DISPLAY_CTRL = 
 		new wxComboBox(parent, -1,
-		"",
+		wxT(""),
 		wxDefaultPosition, wxSize(315, -1),
 		0, 0, wxCB_READONLY);
 	IDC_FULLSCREEN_CTRL = 
-		new wxCheckBox(parent, -1, "Full Screen");
+		new wxCheckBox(parent, -1, wxT("Full Screen"));
 	IDC_MORERES_CTRL =
-		new wxCheckBox(parent, ID_MORERES, "More Resolutions");
+		new wxCheckBox(parent, ID_MORERES, wxT("More Resolutions"));
 	displaySizer2->Add(resText, 0, wxALIGN_CENTER_VERTICAL);
 	displaySizer2->Add(IDC_DISPLAY_CTRL, 0);
 	displaySizer2->Add(IDC_FULLSCREEN_CTRL, 0, wxALIGN_CENTRE_VERTICAL);
-	wxStaticText *brightText = new wxStaticText(parent, -1, "Brightness :");
+	wxStaticText *brightText = new wxStaticText(parent, -1, wxT("Brightness :"));
 	IDC_SLIDER1_CTRL = 
 		new wxSlider(parent, -1,
 		0,0,0,
@@ -52,13 +52,13 @@ static void createMainControls(wxWindow *parent, wxSizer *sizer)
 	displaySizer->Add(displaySizer2, 0);
 
 	wxFlexGridSizer *displaySizer3 = new wxFlexGridSizer(1, 6, 5, 5);
-	IDC_TINYDIALOGS_CTRL = new wxRadioButton(parent, -1, "Tiny", 
+	IDC_TINYDIALOGS_CTRL = new wxRadioButton(parent, -1, wxT("Tiny"), 
 		wxDefaultPosition, wxDefaultSize, wxRB_GROUP);
-	IDC_SMALLDIALOGS_CTRL = new wxRadioButton(parent, -1, "Small");
-	IDC_MEDIUMDIALOGS_CTRL = new wxRadioButton(parent, -1, "Medium");
-	IDC_LARGEDIALOGS_CTRL = new wxRadioButton(parent, -1, "Large");
-	IDC_HUGEDIALOGS_CTRL = new wxRadioButton(parent, -1, "Huge");
-	displaySizer3->Add(new wxStaticText(parent, -1, "Dialog/Font Sizes :"));
+	IDC_SMALLDIALOGS_CTRL = new wxRadioButton(parent, -1, wxT("Small"));
+	IDC_MEDIUMDIALOGS_CTRL = new wxRadioButton(parent, -1, wxT("Medium"));
+	IDC_LARGEDIALOGS_CTRL = new wxRadioButton(parent, -1, wxT("Large"));
+	IDC_HUGEDIALOGS_CTRL = new wxRadioButton(parent, -1, wxT("Huge"));
+	displaySizer3->Add(new wxStaticText(parent, -1, wxT("Dialog/Font Sizes :")));
 	displaySizer3->Add(IDC_TINYDIALOGS_CTRL);
 	displaySizer3->Add(IDC_SMALLDIALOGS_CTRL);
 	displaySizer3->Add(IDC_MEDIUMDIALOGS_CTRL);
@@ -70,17 +70,17 @@ static void createMainControls(wxWindow *parent, wxSizer *sizer)
 
 	{
 	// Sound settings
-	wxStaticBox *soundBox = new wxStaticBox(parent, -1, "Sound");
+	wxStaticBox *soundBox = new wxStaticBox(parent, -1, wxT("Sound"));
 	wxStaticBoxSizer *soundSizerMain = new wxStaticBoxSizer(soundBox, wxVERTICAL);
 	wxBoxSizer *soundSizer1 = new wxBoxSizer(wxHORIZONTAL);
 	wxGridSizer *soundSizer2 = new wxGridSizer(3, 3, 10, 10);
-	wxStaticText *volumeText = new wxStaticText(parent, -1, "Volume :");
+	wxStaticText *volumeText = new wxStaticText(parent, -1, wxT("Volume :"));
 	IDC_NOAMBIENTSOUND_CTRL = 
-		new wxCheckBox(parent, -1, "No Ambient Sound");
+		new wxCheckBox(parent, -1, wxT("No Ambient Sound"));
 	IDC_NOBOIDSOUND_CTRL = 
-		new wxCheckBox(parent, -1, "No Bird Sound");
+		new wxCheckBox(parent, -1, wxT("No Bird Sound"));
 	IDC_NOSOUND_CTRL = 
-		new wxCheckBox(parent, -1, "No Sound");
+		new wxCheckBox(parent, -1, wxT("No Sound"));
 	IDC_VOLUME_CTRL = 
 		new wxSlider(parent, -1,
 		0,0,0,
@@ -88,13 +88,13 @@ static void createMainControls(wxWindow *parent, wxSizer *sizer)
 		wxSL_HORIZONTAL | wxSL_AUTOTICKS);
 	IDC_SOUNDCHANNELS_CTRL = 
 		new wxComboBox(parent, -1,
-			"",
+			wxT(""),
 			wxDefaultPosition, wxSize(55, -1),
 			0, 0, wxCB_READONLY);
 	soundSizer1->Add(volumeText, 0, wxRIGHT, 10);
 	soundSizer1->Add(IDC_VOLUME_CTRL, 0, wxRIGHT, 10);
 	soundSizer1->Add(IDC_SOUNDCHANNELS_CTRL, 0, wxRIGHT, 5);
-	soundSizer1->Add(new wxStaticText(parent, -1, "Channels"), 0, wxALIGN_CENTRE_VERTICAL);
+	soundSizer1->Add(new wxStaticText(parent, -1, wxT("Channels")), 0, wxALIGN_CENTRE_VERTICAL);
 	soundSizer2->Add(IDC_NOSOUND_CTRL, 0, wxRIGHT, 10);
 	soundSizer2->Add(IDC_NOAMBIENTSOUND_CTRL, 0, wxRIGHT, 5);
 	soundSizer2->Add(IDC_NOBOIDSOUND_CTRL, 0, wxRIGHT, 5);
@@ -106,35 +106,35 @@ static void createMainControls(wxWindow *parent, wxSizer *sizer)
 	{
 	// Misc switches 
 	wxStaticBox *miscBox = new wxStaticBox(parent, -1, 
-		"Misc. Options");
+		wxT("Misc. Options"));
 	wxStaticBoxSizer *miscSizer = new wxStaticBoxSizer(miscBox, wxHORIZONTAL);
 	wxGridSizer *miscSizer2 = new wxGridSizer(3, 3, 10, 10);
 	IDC_INVERT_CTRL = 
-		new wxCheckBox(parent, -1, "Invert key elevation");
+		new wxCheckBox(parent, -1, wxT("Invert key elevation"));
 	miscSizer2->Add(IDC_INVERT_CTRL, 0);
 	IDC_INVERTMOUSE_CTRL = 
-		new wxCheckBox(parent, -1, "Invert mouse elevation");
+		new wxCheckBox(parent, -1, wxT("Invert mouse elevation"));
 	miscSizer2->Add(IDC_INVERTMOUSE_CTRL, 0);
 	IDC_SWAPYAXIS_CTRL = 
-		new wxCheckBox(parent, -1, "Invert mouse y axis (OS X)");
+		new wxCheckBox(parent, -1, wxT("Invert mouse y axis (OS X)"));
 	miscSizer2->Add(IDC_SWAPYAXIS_CTRL, 0);
 	IDC_TIMER_CTRL = 
-		new wxCheckBox(parent, -1, "Show frames per second");
+		new wxCheckBox(parent, -1, wxT("Show frames per second"));
 	miscSizer2->Add(IDC_TIMER_CTRL, 0);
 	IDC_TOOLTIP_CTRL = 
-		new wxCheckBox(parent, -1, "Show ToolTips");
+		new wxCheckBox(parent, -1, wxT("Show ToolTips"));
 	miscSizer2->Add(IDC_TOOLTIP_CTRL, 0);
 	IDC_SMOUSE_CTRL = 
-		new wxCheckBox(parent, -1, "Software Mouse");
+		new wxCheckBox(parent, -1, wxT("Software Mouse"));
 	miscSizer2->Add(IDC_SMOUSE_CTRL, 0);
 	IDC_VALIDATESERVER_CTRL = 
-		new wxCheckBox(parent, -1, "Validate Server Ip");
+		new wxCheckBox(parent, -1, wxT("Validate Server Ip"));
 	miscSizer2->Add(IDC_VALIDATESERVER_CTRL, 0);
 	IDC_SIDESCROLL_CTRL = 
-		new wxCheckBox(parent, -1, "Side Scrolling");
+		new wxCheckBox(parent, -1, wxT("Side Scrolling"));
 	miscSizer2->Add(IDC_SIDESCROLL_CTRL, 0);
 	IDC_LOGGING_CTRL = 
-		new wxCheckBox(parent, -1, "Client Logging");
+		new wxCheckBox(parent, -1, wxT("Client Logging"));
 	miscSizer2->Add(IDC_LOGGING_CTRL, 0);
 	miscSizer->Add(miscSizer2, 0, wxGROW);
 	sizer->Add(miscSizer, 0, wxGROW | wxLEFT | wxRIGHT | wxTOP, 5);
@@ -143,8 +143,8 @@ static void createMainControls(wxWindow *parent, wxSizer *sizer)
 	{
 	// Load settings
 	wxBoxSizer *loadSizer = new wxBoxSizer(wxHORIZONTAL);
-	IDC_LOADDEFAULTS_CTRL = new wxButton(parent, ID_LOADDEFAULTS, "Restore Defaults");
-	IDC_LOADSAFE_CTRL = new wxButton(parent, ID_LOADSAFE, "Safe Options");
+	IDC_LOADDEFAULTS_CTRL = new wxButton(parent, ID_LOADDEFAULTS, wxT("Restore Defaults"));
+	IDC_LOADSAFE_CTRL = new wxButton(parent, ID_LOADSAFE, wxT("Safe Options"));
 	loadSizer->Add(IDC_LOADDEFAULTS_CTRL, 0, wxALL, 10);
 	loadSizer->Add(IDC_LOADSAFE_CTRL, 0, wxALL, 10);
 	sizer->Add(loadSizer, 0, wxALIGN_CENTER);
@@ -154,114 +154,114 @@ static void createMainControls(wxWindow *parent, wxSizer *sizer)
 static void createTroubleControls(wxWindow *parent, wxSizer *sizer)
 {
 	// Texture sizes (small med large)
-	wxStaticBox *textureBox = new wxStaticBox(parent, -1, "Level of Detail settings");
+	wxStaticBox *textureBox = new wxStaticBox(parent, -1, wxT("Level of Detail settings"));
 	wxStaticBoxSizer *textureSizer = new wxStaticBoxSizer(textureBox, wxHORIZONTAL);
 	wxGridSizer *textureSizer2 = new wxGridSizer(3, 4, 10, 10);
-	wxStaticText *texSizeText = new wxStaticText(parent, -1, "Texture Sizes :");
+	wxStaticText *texSizeText = new wxStaticText(parent, -1, wxT("Texture Sizes :"));
 	textureSizer2->Add(texSizeText, 0, wxALIGN_CENTER_VERTICAL);
-	IDC_SMALLTEX_CTRL = new wxRadioButton(parent, -1, "Small (3dfx/faster)", wxDefaultPosition, wxDefaultSize, wxRB_GROUP);
+	IDC_SMALLTEX_CTRL = new wxRadioButton(parent, -1, wxT("Small (3dfx/faster)"), wxDefaultPosition, wxDefaultSize, wxRB_GROUP);
 	textureSizer2->Add(IDC_SMALLTEX_CTRL, 0);
-	IDC_MEDIUMTEX_CTRL = new wxRadioButton(parent, -1, "Medium");
+	IDC_MEDIUMTEX_CTRL = new wxRadioButton(parent, -1, wxT("Medium"));
 	textureSizer2->Add(IDC_MEDIUMTEX_CTRL, 0);
-	IDC_LARGETEX_CTRL = new wxRadioButton(parent, -1, "Large (slower)");
+	IDC_LARGETEX_CTRL = new wxRadioButton(parent, -1, wxT("Large (slower)"));
 	textureSizer2->Add(IDC_LARGETEX_CTRL, 0);
-	wxStaticText *tankSizeText = new wxStaticText(parent, -1, "Tank Detail :");
+	wxStaticText *tankSizeText = new wxStaticText(parent, -1, wxT("Tank Detail :"));
 	textureSizer2->Add(tankSizeText, 0, wxALIGN_CENTER_VERTICAL);
-	IDC_LOWTANK_CTRL = new wxRadioButton(parent, -1, "Low (faster)", wxDefaultPosition, wxDefaultSize, wxRB_GROUP);
+	IDC_LOWTANK_CTRL = new wxRadioButton(parent, -1, wxT("Low (faster)"), wxDefaultPosition, wxDefaultSize, wxRB_GROUP);
 	textureSizer2->Add(IDC_LOWTANK_CTRL, 0);
-	IDC_MEDIUMTANK_CTRL = new wxRadioButton(parent, -1, "Medium");
+	IDC_MEDIUMTANK_CTRL = new wxRadioButton(parent, -1, wxT("Medium"));
 	textureSizer2->Add(IDC_MEDIUMTANK_CTRL, 0);
-	IDC_HIGHTANK_CTRL = new wxRadioButton(parent, -1, "Max (slower)");
+	IDC_HIGHTANK_CTRL = new wxRadioButton(parent, -1, wxT("Max (slower)"));
 	textureSizer2->Add(IDC_HIGHTANK_CTRL, 0);
-	wxStaticText *effectSizeText = new wxStaticText(parent, -1, "Effects Detail :");
+	wxStaticText *effectSizeText = new wxStaticText(parent, -1, wxT("Effects Detail :"));
 	textureSizer2->Add(effectSizeText, 0, wxALIGN_CENTER_VERTICAL);
-	IDC_LOWEFFECTS_CTRL = new wxRadioButton(parent, -1, "Low (faster)", wxDefaultPosition, wxDefaultSize, wxRB_GROUP);
+	IDC_LOWEFFECTS_CTRL = new wxRadioButton(parent, -1, wxT("Low (faster)"), wxDefaultPosition, wxDefaultSize, wxRB_GROUP);
 	textureSizer2->Add(IDC_LOWEFFECTS_CTRL, 0);
-	IDC_MEDIUMEFFECTS_CTRL = new wxRadioButton(parent, -1, "Medium");
+	IDC_MEDIUMEFFECTS_CTRL = new wxRadioButton(parent, -1, wxT("Medium"));
 	textureSizer2->Add(IDC_MEDIUMEFFECTS_CTRL, 0);
-	IDC_HIGHEFFECTS_CTRL = new wxRadioButton(parent, -1, "High (slower)");
+	IDC_HIGHEFFECTS_CTRL = new wxRadioButton(parent, -1, wxT("High (slower)"));
 	textureSizer2->Add(IDC_HIGHEFFECTS_CTRL, 0);
 	textureSizer->Add(textureSizer2, 0, wxGROW);
 	sizer->Add(textureSizer, 0, wxGROW | wxLEFT | wxRIGHT | wxTOP, 5);
 
 	// Detail switches 
 	wxStaticBox *detailBox = new wxStaticBox(parent, -1, 
-		"Detail (Turn off to speed up the game)");
+		wxT("Detail (Turn off to speed up the game)"));
 	wxStaticBoxSizer *detailSizer = new wxStaticBoxSizer(detailBox, wxHORIZONTAL);
 	wxGridSizer *detailSizer2 = new wxGridSizer(3, 3, 10, 10);
 	IDC_SINGLESKYLAYER_CTRL = 
-		new wxCheckBox(parent, -1, "Single sky layer");
+		new wxCheckBox(parent, -1, wxT("Single sky layer"));
 	detailSizer2->Add(IDC_SINGLESKYLAYER_CTRL, 0);
 	IDC_NOSKYANI_CTRL = 
-		new wxCheckBox(parent, -1, "Don't animate sky");
+		new wxCheckBox(parent, -1, wxT("Don't animate sky"));
 	detailSizer2->Add(IDC_NOSKYANI_CTRL, 0);
 	IDC_NOWATERANI_CTRL = 
-		new wxCheckBox(parent, -1, "Draw simplistic water");
+		new wxCheckBox(parent, -1, wxT("Draw simplistic water"));
 	detailSizer2->Add(IDC_NOWATERANI_CTRL, 0);
 	IDC_NOWATER_CTRL = 
-		new wxCheckBox(parent, -1, "Don't draw water");
+		new wxCheckBox(parent, -1, wxT("Don't draw water"));
 	detailSizer2->Add(IDC_NOWATER_CTRL, 0);
 	IDC_NOSURROUND_CTRL = 
-		new wxCheckBox(parent, -1, "Don't draw surround");
+		new wxCheckBox(parent, -1, wxT("Don't draw surround"));
 	detailSizer2->Add(IDC_NOSURROUND_CTRL, 0);
 	IDC_NODETAILTEX_CTRL = 
-		new wxCheckBox(parent, -1, "Don't use detail textures");
+		new wxCheckBox(parent, -1, wxT("Don't use detail textures"));
 	detailSizer2->Add(IDC_NODETAILTEX_CTRL, 0);
 	IDC_NOSKINS_CTRL = 
-		new wxCheckBox(parent, -1, "No tank skins");
+		new wxCheckBox(parent, -1, wxT("No tank skins"));
 	detailSizer2->Add(IDC_NOSKINS_CTRL, 0);
 	IDC_NOBOIDS_CTRL = 
-		new wxCheckBox(parent, -1, "No birds");
+		new wxCheckBox(parent, -1, wxT("No birds"));
 	detailSizer2->Add(IDC_NOBOIDS_CTRL, 0);
 	IDC_NOTREES_CTRL = 
-		new wxCheckBox(parent, -1, "No trees");
+		new wxCheckBox(parent, -1, wxT("No trees"));
 	detailSizer2->Add(IDC_NOTREES_CTRL, 0);
 	IDC_NOPRECIPITATION_CTRL = 
-		new wxCheckBox(parent, -1, "No precipitation");
+		new wxCheckBox(parent, -1, wxT("No precipitation"));
 	detailSizer2->Add(IDC_NOPRECIPITATION_CTRL, 0);
 	IDC_NODEPTHSORT_CTRL = 
-		new wxCheckBox(parent, -1, "No sprite depth sorting");
+		new wxCheckBox(parent, -1, wxT("No sprite depth sorting"));
 	detailSizer2->Add(IDC_NODEPTHSORT_CTRL, 0);
 	IDC_NOWAVES_CTRL = 
-		new wxCheckBox(parent, -1, "No waves at shore");
+		new wxCheckBox(parent, -1, wxT("No waves at shore"));
 	detailSizer2->Add(IDC_NOWAVES_CTRL, 0);
 	detailSizer->Add(detailSizer2, 0, wxGROW);
 	sizer->Add(detailSizer, 0, wxGROW | wxLEFT | wxRIGHT | wxTOP, 5);
 
 	// Troubleshooting switches 
 	wxStaticBox *troubleBox = new wxStaticBox(parent, -1,
-		"Trouble shooting (Turn off if Scorched crashes)");
+		wxT("Trouble shooting (Turn off if Scorched crashes)"));
 	wxStaticBoxSizer *troubleSizer = new wxStaticBoxSizer(troubleBox, wxHORIZONTAL);
 	wxGridSizer *troubleSizer2 = new wxGridSizer(3, 3, 10, 10);
 	IDC_NOEXT_CTRL = 
-		new wxCheckBox(parent, -1, "No GL Extensions");
+		new wxCheckBox(parent, -1, wxT("No GL Extensions"));
 	troubleSizer2->Add(IDC_NOEXT_CTRL, 0);
 	IDC_NOMULTITEX_CTRL = 
-		new wxCheckBox(parent, -1, "No multi texture");
+		new wxCheckBox(parent, -1, wxT("No multi texture"));
 	troubleSizer2->Add(IDC_NOMULTITEX_CTRL, 0);
 	IDC_NOLANDSCAPESCORCH_CTRL = 
-		new wxCheckBox(parent, -1, "No TexSubImaging");
+		new wxCheckBox(parent, -1, wxT("No TexSubImaging"));
 	troubleSizer2->Add(IDC_NOLANDSCAPESCORCH_CTRL, 0);
 	IDC_NOCOMPILEDARRAYS_CTRL = 
-		new wxCheckBox(parent, -1, "No compiled arrays");
+		new wxCheckBox(parent, -1, wxT("No compiled arrays"));
 	troubleSizer2->Add(IDC_NOCOMPILEDARRAYS_CTRL, 0);
 	IDC_NOENVCOMBINE_CTRL = 
-		new wxCheckBox(parent, -1, "No combined textures");
+		new wxCheckBox(parent, -1, wxT("No combined textures"));
 	troubleSizer2->Add(IDC_NOENVCOMBINE_CTRL, 0);
 	IDC_NOCUBEMAP_CTRL = 
-		new wxCheckBox(parent, -1, "No cube map textures");
+		new wxCheckBox(parent, -1, wxT("No cube map textures"));
 	troubleSizer2->Add(IDC_NOCUBEMAP_CTRL, 0);
 	IDC_NOMIPMAPS_CTRL = 
-		new wxCheckBox(parent, -1, "No HW mip maps");
+		new wxCheckBox(parent, -1, wxT("No HW mip maps"));
 	troubleSizer2->Add(IDC_NOMIPMAPS_CTRL, 0);
 	IDC_FULLCLEAR_CTRL = 
-		new wxCheckBox(parent, -1, "Full Clear");
+		new wxCheckBox(parent, -1, wxT("Full Clear"));
 	troubleSizer2->Add(IDC_FULLCLEAR_CTRL, 0);
 	IDC_NOSPHEREMAP_CTRL = 
-		new wxCheckBox(parent, -1, "No sphere map textures");
+		new wxCheckBox(parent, -1, wxT("No sphere map textures"));
 	troubleSizer2->Add(IDC_NOSPHEREMAP_CTRL, 0);
 	IDC_NOVBO_CTRL = 
-		new wxCheckBox(parent, -1, "No VBO");
+		new wxCheckBox(parent, -1, wxT("No VBO"));
 	troubleSizer2->Add(IDC_NOVBO_CTRL, 0);
 
 	troubleSizer->Add(troubleSizer2, 0, wxGROW);
@@ -273,7 +273,7 @@ static void createIdentControls(wxWindow *parent, wxSizer *sizer)
 	{
 	// User name edit box
 	wxStaticBox *userNameBox = new wxStaticBox(parent, -1, 
-		"Online User Name");
+		wxT("Online User Name"));
 	wxStaticBoxSizer *userNameSizer = new wxStaticBoxSizer(userNameBox, wxVERTICAL);
 	IDC_USERNAME_CTRL = new wxTextCtrl(parent, -1, wxString(), wxDefaultPosition, wxSize(300, -1));
 	userNameSizer->Add(IDC_USERNAME_CTRL, 0, wxALIGN_CENTER);
@@ -283,7 +283,7 @@ static void createIdentControls(wxWindow *parent, wxSizer *sizer)
 	{
 	// TankModel edit box
 	wxStaticBox *tankModelBox = new wxStaticBox(parent, -1, 
-		"Online Tank Model");
+		wxT("Online Tank Model"));
 	wxStaticBoxSizer *tankModelSizer = new wxStaticBoxSizer(tankModelBox, wxVERTICAL);
 	IDC_TANKMODEL_CTRL = new wxTextCtrl(parent, -1, wxString(), wxDefaultPosition, wxSize(300, -1));
 	tankModelSizer->Add(IDC_TANKMODEL_CTRL, 0, wxALIGN_CENTER);
@@ -295,13 +295,13 @@ static void createIdentControls(wxWindow *parent, wxSizer *sizer)
 
 	// User id edit box
 	wxStaticBox *userBox = new wxStaticBox(parent, -1, 
-		"User ID (Uniquely identifies this player for stats, not generated from any user information.)");
+		wxT("User ID (Uniquely identifies this player for stats, not generated from any user information.)"));
 	wxStaticBoxSizer *userSizer = new wxStaticBoxSizer(userBox, wxVERTICAL);
 	IDC_USERID_CTRL = new wxGrid(parent, -1, wxDefaultPosition, wxDefaultSize);
 	IDC_USERID_CTRL->CreateGrid(idStore.getIds().size(), 3);
-	IDC_USERID_CTRL->SetColLabelValue(0,"Published Ip");
-	IDC_USERID_CTRL->SetColLabelValue(1, "Current Ip");
-	IDC_USERID_CTRL->SetColLabelValue(2, "Unique Id");
+	IDC_USERID_CTRL->SetColLabelValue(0, wxT("Published Ip"));
+	IDC_USERID_CTRL->SetColLabelValue(1, wxT("Current Ip"));
+	IDC_USERID_CTRL->SetColLabelValue(2, wxT("Unique Id"));
 	IDC_USERID_CTRL->SetColLabelSize(20);
 	IDC_USERID_CTRL->SetRowLabelSize(0);
 	int pos = 0;
@@ -311,9 +311,9 @@ static void createIdentControls(wxWindow *parent, wxSizer *sizer)
 		itor++, pos++)
 	{
 		UniqueIdStore::Entry &entry = *itor;
-		IDC_USERID_CTRL->SetCellValue(pos, 0, entry.published.c_str());
-		IDC_USERID_CTRL->SetCellValue(pos, 1, NetInterface::getIpName(entry.ip));
-		IDC_USERID_CTRL->SetCellValue(pos, 2, entry.id.c_str());
+		IDC_USERID_CTRL->SetCellValue(pos, 0, wxString(entry.published.c_str(), wxConvUTF8));
+		IDC_USERID_CTRL->SetCellValue(pos, 1, wxString(NetInterface::getIpName(entry.ip), wxConvUTF8));
+		IDC_USERID_CTRL->SetCellValue(pos, 2, wxString(entry.id.c_str(), wxConvUTF8));
 		IDC_USERID_CTRL->SetReadOnly(pos, 0);
 		IDC_USERID_CTRL->SetReadOnly(pos, 1);
 	}
@@ -377,22 +377,24 @@ static void createKeysControls(wxWindow *parent, wxSizer *topsizer)
 			lastGroup = key->getGroup();
 			for (unsigned int i=0; i<5; i++)
 			{
-				sizer->Add(new wxStaticText(scrolledWindow, -1, ""), 0, wxALIGN_LEFT);
+				sizer->Add(new wxStaticText(
+					scrolledWindow, -1, wxString("", wxConvUTF8)), 0, wxALIGN_LEFT);
 			}
 		}
 
 		// Add the key name
-		wxStaticText *text = new wxStaticText(scrolledWindow, -1, key->getTitle());
-		text->SetToolTip(key->getDescription());
+		wxStaticText *text = new wxStaticText(
+			scrolledWindow, -1, wxString(key->getTitle(), wxConvUTF8));
+		text->SetToolTip(wxString(key->getDescription(), wxConvUTF8));
 		sizer->Add(text, 0, wxALIGN_LEFT);
 
 		// Add the keys
 		for (unsigned int i=0; i<4; i++)
 		{
-			wxButton *button = new wxButton(scrolledWindow, ID_KEY, "", 
+			wxButton *button = new wxButton(scrolledWindow, ID_KEY, wxT(""), 
 				wxDefaultPosition, wxSize(120, -1));
 			button->SetRefData(new KeyButtonData(key->getName(), i));
-			button->SetToolTip(key->getDescription());
+			button->SetToolTip(wxString(key->getDescription(), wxConvUTF8));
 			sizer->Add(button, 0, wxLEFT | wxALIGN_CENTER, 5);
 			keyboardKeyList.push_back(button);
 		}
@@ -407,7 +409,7 @@ static void createKeysControls(wxWindow *parent, wxSizer *topsizer)
 	topsizer->Add(scrolledWindow, 1, wxGROW | wxALL | wxALIGN_CENTER, 2);
 
 	// Add the load default keys button
-	IDC_LOADKEYDEFAULTS_CTRL = new wxButton(parent, ID_KEYDEFAULTS, "Load Default Keys");
+	IDC_LOADKEYDEFAULTS_CTRL = new wxButton(parent, ID_KEYDEFAULTS, wxT("Load Default Keys"));
 	topsizer->Add(IDC_LOADKEYDEFAULTS_CTRL, 0, wxCENTER | wxALL, 2);
 }
 
@@ -423,14 +425,14 @@ static void updateModList()
 			itor != dirs.getDirs().end();
 			itor++)
 		{
-			modbox->Append(wxString((*itor).c_str()));
+			modbox->Append(wxString((*itor).c_str(), wxConvUTF8));
 		}
 	}
 }
 
 static void createModsControls(wxWindow *parent, wxSizer *topsizer)
 {
-	wxStaticBox *modsBox = new wxStaticBox(parent, -1, "Mods");
+	wxStaticBox *modsBox = new wxStaticBox(parent, -1, wxT("Mods"));
 	wxStaticBoxSizer *modsSizer = new wxStaticBoxSizer(modsBox, wxVERTICAL);
 
 	modbox = new wxListBox(parent, -1, 
@@ -439,8 +441,8 @@ static void createModsControls(wxWindow *parent, wxSizer *topsizer)
 	modsSizer->Add(modbox, 0, wxALIGN_CENTER | wxALL, 5);
 
 	wxBoxSizer *buttonSizer = new wxBoxSizer(wxHORIZONTAL);
-	wxButton *exportBut = new wxButton(parent, ID_EXPORT, "Export");
-	wxButton *importBut = new wxButton(parent, ID_IMPORT, "Import");
+	wxButton *exportBut = new wxButton(parent, ID_EXPORT, wxT("Export"));
+	wxButton *importBut = new wxButton(parent, ID_IMPORT, wxT("Import"));
 	buttonSizer->Add(exportBut, 0, wxRIGHT, 5);
 	buttonSizer->Add(importBut, 0, wxLEFT, 5);
 	modsSizer->Add(buttonSizer, 0, wxALIGN_CENTER);

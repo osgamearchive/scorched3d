@@ -317,7 +317,7 @@ void StatsLoggerFile::weaponKilled(Weapon *weapon, bool deathAni)
 	if (nl) *nl = '\0';
 
 	char message[1024];
-	sprintf(message, "weaponkilled \"%s\" [%s]", weapon->getParent()->getName());
+	sprintf(message, "weaponkilled \"%s\"", weapon->getParent()->getName());
 	LoggerInfo info(LoggerInfo::TypeNormal, message, time);
 	statsLogger_->logMessage(info);
 }

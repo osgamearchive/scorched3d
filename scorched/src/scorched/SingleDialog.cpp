@@ -87,7 +87,7 @@ BEGIN_EVENT_TABLE(SingleFrame, wxDialog)
 END_EVENT_TABLE()
 
 SingleFrame::SingleFrame() :
-	wxDialog(getMainDialog(), -1, scorched3dAppName, 
+	wxDialog(getMainDialog(), -1, wxString(scorched3dAppName, wxConvUTF8),
 		wxDefaultPosition, wxDefaultSize)
 {
 	// Create the positioning sizer
@@ -117,9 +117,9 @@ SingleFrame::SingleFrame() :
 	{
 		const char *modName = (*itor).c_str();
 			
-		setDataFileMod(modName);
+		DefinesUtil::setDataFileMod(modName);
 		std::string modGamesFile = getDataFile("data/singlegames.xml");
-		setDataFileMod("none");
+		DefinesUtil::setDataFileMod("none");
 		if (noModGamesFile == modGamesFile &&
 			0 != strcmp(modName, "none")) continue;
 		
@@ -143,7 +143,8 @@ SingleFrame::SingleFrame() :
 
 	// Quit button
 	wxBoxSizer *buttonSizer = new wxBoxSizer(wxHORIZONTAL);
-	buttonSizer->Add(new wxButton(this, wxID_CANCEL, "Close"), 0, wxALL, 5);
+	buttonSizer->Add(
+		new wxButton(this, wxID_CANCEL, wxT("Close")), 0, wxALL, 5);
 	topsizer->Add(buttonSizer, 0, wxALIGN_RIGHT);
 
 	// use the sizer for layout
@@ -158,7 +159,7 @@ void SingleFrame::addModButton(
 	const char *mod,
 	wxSizer *sizer)
 {
-	setDataFileMod(mod);
+	DefinesUtil::setDataFileMod(mod);
 	
 	SingleGames games;
 	if (!games.parse(getDataFile("data/singlegames.xml"))) 
@@ -169,21 +170,21 @@ void SingleFrame::addModButton(
 		(char *) games.icon.c_str(), 
 		this, sizer, refData);
 
-	setDataFileMod("none");
+	DefinesUtil::setDataFileMod("none");
 }
 
 void SingleFrame::onLoadButton(wxCommandEvent &event)
 {
-	wxString file = ::wxFileSelector("Please choose the saved game to load",
-									 getSaveFile(""), // default path
-									 "", // default filename
-									 "", // default extension
-									 "*.s3d",
-									 wxOPEN | wxFILE_MUST_EXIST);
+	wxString file = ::wxFileSelector(wxT("Please choose the saved game to load"),
+		wxString(getSaveFile(""), wxConvUTF8), // default path
+		wxT(""), // default filename
+		wxT(""), // default extension
+		wxT("*.s3d"),
+		wxOPEN | wxFILE_MUST_EXIST);
 	if (!file.empty())
 	{
 		EndModal(wxID_OK);
-		runScorched3D("-loadsave \"%s\"", file.c_str());
+		runScorched3D("-loadsave \"%s\"", (const char *) file.mb_str(wxConvUTF8));
 	}
 }
 

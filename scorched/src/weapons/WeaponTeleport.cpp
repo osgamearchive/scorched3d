@@ -65,8 +65,8 @@ void WeaponTeleport::fireWeapon(ScorchedContext &context,
 	bool found = false;
 	while (!found)
 	{
-		position[0] = RAND * 255.0f;
-		position[1] = RAND * 255.0f;
+		position[0] = RAND * 235.0f + 10.0f;
+		position[1] = RAND * 235.0f + 10.0f;
 		float height = context.landscapeMaps->getHMap().getInterpHeight(
 			position[0], position[1]);
 		if (height > allowedHeight) break;

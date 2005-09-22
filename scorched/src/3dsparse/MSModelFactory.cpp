@@ -304,7 +304,7 @@ void MSModelFactory::loadFile(FILE *in, const char *fileName, Model *model)
 				if (textureName[1]) // as the string starts with a "
 				{
 					mesh->setTextureName(fullTextureName);
-					if (!fileExists(fullTextureName))
+					if (!DefinesUtil::fileExists(fullTextureName))
 					{
 						returnError(fileName, 
 							formatString("Failed to find texture \"%s\"",
@@ -314,7 +314,7 @@ void MSModelFactory::loadFile(FILE *in, const char *fileName, Model *model)
 				if (textureNameAlpha[1])
 				{
 					mesh->setATextureName(fullTextureAlphaName);
-					if (!fileExists(fullTextureAlphaName))
+					if (!DefinesUtil::fileExists(fullTextureAlphaName))
 					{
 						returnError(fileName,
 							formatString("Failed to find alpha texture \"%s\"",

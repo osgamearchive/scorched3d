@@ -26,79 +26,79 @@ static void createControls(wxWindow *parent, wxSizer *topsizer)
 	topsizer->Add(sizer, 0, wxALL | wxALIGN_CENTER, 10);
 
 	sizer->Add(new wxStaticText(parent, -1,
-		"Start Money :"), 0, wxALIGN_CENTER);
+		wxT("Start Money :")), 0, wxALIGN_CENTER);
 	sizer->Add(IDC_STARTMONEY_CTRL = 
 		new wxComboBox(parent, IDC_STARTMONEY,
-		"",
+		wxT(""),
 		wxDefaultPosition, wxDefaultSize,
 		0, 0, wxCB_READONLY), 0, wxALIGN_CENTER);
 		
 	sizer->Add(new wxStaticText(parent, -1,
-		"Percentage Interest :"), 0, wxALIGN_CENTER);
+		wxT("Percentage Interest :")), 0, wxALIGN_CENTER);
 	sizer->Add(IDC_INTEREST_CTRL = 
 		new wxComboBox(parent, IDC_INTEREST,
-		"",
+		wxT(""),
 		wxDefaultPosition, wxDefaultSize,
 		0, 0, wxCB_READONLY), 0, wxALIGN_CENTER);
 		
 	sizer->Add(new wxStaticText(parent, -1,
-		"Buy On Round :"), 0, wxALIGN_CENTER);
+		wxT("Buy On Round :")), 0, wxALIGN_CENTER);
 	sizer->Add(IDC_BUYONROUND_CTRL = 
 		new wxComboBox(parent, IDC_BUYONROUND,
-		"",
+		wxT(""),
 		wxDefaultPosition, wxDefaultSize,
 		0, 0, wxCB_READONLY), 0, wxALIGN_CENTER);
 		
 	sizer->Add(new wxStaticText(parent, -1,
-		"Money Per hit Point :"), 0, wxALIGN_CENTER);
+		wxT("Money Per hit Point :")), 0, wxALIGN_CENTER);
 	sizer->Add(IDC_MONEYPERHIT_CTRL = 
 		new wxComboBox(parent, IDC_MONEYPERHIT,
-		"",
+		wxT(""),
 		wxDefaultPosition, wxDefaultSize,
 		0, 0, wxCB_READONLY), 0, wxALIGN_CENTER);
 		
 	sizer->Add(new wxStaticText(parent, -1,
-		"Money Per kill Point :"), 0, wxALIGN_CENTER);
+		wxT("Money Per kill Point :")), 0, wxALIGN_CENTER);
 	sizer->Add(IDC_MONEYPERKILL_CTRL = 
 		new wxComboBox(parent, IDC_MONEYPERKILL,
-		"",
+		wxT(""),
 		wxDefaultPosition, wxDefaultSize,
 		0, 0, wxCB_READONLY), 0, wxALIGN_CENTER);
 		
 	sizer->Add(new wxStaticText(parent, -1,
-		"Money Per Round Won :"), 0, wxALIGN_CENTER);
+		wxT("Money Per Round Won :")), 0, wxALIGN_CENTER);
 	sizer->Add(IDC_MONEYPERROUND_CTRL = 
 		new wxComboBox(parent, -1,
-		"",
+		wxT(""),
 		wxDefaultPosition, wxDefaultSize,
 		0, 0, wxCB_READONLY), 0, wxALIGN_CENTER);
 
 	sizer->Add(new wxStaticText(parent, -1,
-		"Money Per Round :"), 0, wxALIGN_CENTER);
+		wxT("Money Per Round :")), 0, wxALIGN_CENTER);
 	sizer->Add(IDC_MONEYROUND_CTRL = 
 		new wxComboBox(parent, -1,
-		"",
+		wxT(""),
 		wxDefaultPosition, wxDefaultSize,
 		0, 0, wxCB_READONLY), 0, wxALIGN_CENTER);
 		
 	sizer->Add(new wxStaticText(parent, -1,
-		"Scoring Mode :"), 0, wxALIGN_CENTER);
+		wxT("Scoring Mode :")), 0, wxALIGN_CENTER);
 	sizer->Add(IDC_SCOREMODE_CTRL = 
 		new wxComboBox(parent, IDC_SCOREMODE,
-		"",
+		wxT(""),
 		wxDefaultPosition, wxDefaultSize,
 		0, 0, wxCB_READONLY), 0, wxALIGN_CENTER);
 
         sizer->Add(new wxStaticText(parent, -1,
-                "Economy :"), 0, wxALIGN_CENTER);
+                wxT("Economy :")), 0, wxALIGN_CENTER);
         sizer->Add(IDC_ECONOMY_CTRL = 
                 new wxComboBox(parent, IDC_ECONOMY,
-                "", 
+                wxT(""), 
                 wxDefaultPosition, wxDefaultSize,
                 0, 0, wxCB_READONLY), 0, wxALIGN_CENTER); 
 		
 	topsizer->Add(IDC_MONEYPERHEALTH_CTRL = 
 		new wxCheckBox(parent, IDC_MONEYPERHEALTH,
-		"Money Awarded by Health Taken"), 0, wxALIGN_CENTER);
+		wxT("Money Awarded by Health Taken")), 0, wxALIGN_CENTER);
 }
 

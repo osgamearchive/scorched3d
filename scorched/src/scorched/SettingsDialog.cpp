@@ -95,13 +95,13 @@ BEGIN_EVENT_TABLE(SettingsFrame, wxDialog)
 END_EVENT_TABLE()
 
 SettingsFrame::SettingsFrame(bool server, OptionsGame &context) :
-	wxDialog(getMainDialog(), -1, scorched3dAppName,
+	wxDialog(getMainDialog(), -1, wxString(scorched3dAppName,wxConvUTF8),
 		wxDefaultPosition, wxDefaultSize),
 	context_(context)
 {
 #ifdef _WIN32
 	// Set the frame's icon
-	wxIcon icon(getDataFile("data/windows/tank2.ico"), wxBITMAP_TYPE_ICO);
+	wxIcon icon(wxString(getDataFile("data/windows/tank2.ico"), wxConvUTF8), wxBITMAP_TYPE_ICO);
 	SetIcon(icon);
 #endif
 
@@ -113,7 +113,7 @@ SettingsFrame::SettingsFrame(bool server, OptionsGame &context) :
 	wxNotebookSizer *nbs = new wxNotebookSizer(book_);
 
 	mainPanel_ = new wxPanel(book_, -1);
-	book_->AddPage(mainPanel_, "Main");
+	book_->AddPage(mainPanel_, wxT("Main"));
 	wxSizer *mainPanelSizer = new wxBoxSizer(wxVERTICAL);
 	SettingsMain::createControls(mainPanel_, mainPanelSizer);
 	mainPanel_->SetAutoLayout(TRUE);
@@ -122,14 +122,14 @@ SettingsFrame::SettingsFrame(bool server, OptionsGame &context) :
 	ecoPanel_ = new wxPanel(book_, -1);
 	wxSizer *ecoPanelSizer = new wxBoxSizer(wxVERTICAL);
 	SettingsEco::createControls(ecoPanel_, ecoPanelSizer);
-	book_->AddPage(ecoPanel_, "Eco");
+	book_->AddPage(ecoPanel_, wxT("Eco"));
 	ecoPanel_->SetAutoLayout(TRUE);
 	ecoPanel_->SetSizer(ecoPanelSizer);
 
 	envPanel_ = new wxPanel(book_, -1);
 	wxSizer *envPanelSizer = new wxBoxSizer(wxVERTICAL);
 	SettingsEnv::createControls(envPanel_, envPanelSizer);
-	book_->AddPage(envPanel_, "Env");
+	book_->AddPage(envPanel_, wxT("Env"));
 	envPanel_->SetAutoLayout(TRUE);
 	envPanel_->SetSizer(envPanelSizer);
 
@@ -142,7 +142,7 @@ SettingsFrame::SettingsFrame(bool server, OptionsGame &context) :
 		playersPanel_ = new wxPanel(book_, -1);
 		wxSizer *playersPanelSizer = new wxBoxSizer(wxVERTICAL);
 		SettingsPlayers::createControls(playersPanel_, playersPanelSizer);
-		book_->AddPage(playersPanel_, "Players");
+		book_->AddPage(playersPanel_, wxT("Players"));
 		playersPanel_->SetAutoLayout(TRUE);
 		playersPanel_->SetSizer(playersPanelSizer);
 	}
@@ -151,14 +151,14 @@ SettingsFrame::SettingsFrame(bool server, OptionsGame &context) :
 	motdPanel_ = new wxPanel(book_, -1);
 	wxSizer *motdPanelSizer = new wxBoxSizer(wxVERTICAL);
 	SettingsMOTD::createControls(motdPanel_, motdPanelSizer);
-	book_->AddPage(motdPanel_, "MOTD");
+	book_->AddPage(motdPanel_, wxT("MOTD"));
 	motdPanel_->SetAutoLayout(TRUE);
 	motdPanel_->SetSizer(motdPanelSizer);
 
 	landPanel_ = new wxPanel(book_, -1);
 	wxSizer *landPanelSizer = new wxBoxSizer(wxVERTICAL);
 	SettingsLand::createControls(landPanel_, landPanelSizer);
-	book_->AddPage(landPanel_, "Land");
+	book_->AddPage(landPanel_, wxT("Land"));
 	landPanel_->SetAutoLayout(TRUE);
 #if wxCHECK_VERSION(2,6,0)
 	landPanel_->SetSizer(landPanelSizer);
@@ -173,8 +173,8 @@ SettingsFrame::SettingsFrame(bool server, OptionsGame &context) :
 
 	// Ok and cancel boxes
 	wxBoxSizer *buttonSizer = new wxBoxSizer(wxHORIZONTAL);
-	wxButton *okButton = new wxButton(this, wxID_OK, "Ok");
-	wxButton *cancelButton = new wxButton(this, wxID_CANCEL, "Cancel");
+	wxButton *okButton = new wxButton(this, wxID_OK, wxT("Ok"));
+	wxButton *cancelButton = new wxButton(this, wxID_CANCEL, wxT("Cancel"));
 	buttonSizer->Add(cancelButton, 0, wxALL, 10);
 	buttonSizer->Add(okButton, 0, wxALL, 10);
 	topsizer->Add(buttonSizer, 0, wxALIGN_RIGHT);
@@ -219,7 +219,7 @@ void SettingsFrame::onMaxPlayerChange(wxCommandEvent &event)
 void SettingsFrame::setupPlayers()
 {
 	int maxPlayers = 10;
-	sscanf(SettingsPlayers::IDC_SERVER_MAX_PLAYERS_CTRL->GetValue(), "%i", &maxPlayers);
+	sscanf(SettingsPlayers::IDC_SERVER_MAX_PLAYERS_CTRL->GetValue().mb_str(wxConvUTF8), "%i", &maxPlayers);
 	context_.setNoMaxPlayers(maxPlayers);
 
 	for (int i=0; i<24; i++)
@@ -235,9 +235,9 @@ bool SettingsFrame::TransferDataToWindow()
 	if (playersPanel_)
 	{
 		SettingsPlayers::IDC_EDIT3_CTRL->
-			SetValue(context_.getBotNamePrefix());
+			SetValue(wxString(context_.getBotNamePrefix(), wxConvUTF8));
 		SettingsPlayers::IDC_EDIT3_CTRL->SetToolTip(
-			wxString("The text prefixed onto any player that is a bot."));
+			wxString("The text prefixed onto any player that is a bot.", wxConvUTF8));
 
 		// Min max players are rounds combos
 		char buffer[25];
@@ -249,32 +249,32 @@ bool SettingsFrame::TransferDataToWindow()
 
 			if (i > 1)
 			{
-				SettingsPlayers::IDC_SERVER_MIN_PLAYERS_CTRL->Append(string);
-				SettingsPlayers::IDC_SERVER_REMOVEBOT_PLAYERS_CTRL->Append(string);
+				SettingsPlayers::IDC_SERVER_MIN_PLAYERS_CTRL->Append(wxString(string, wxConvUTF8));
+				SettingsPlayers::IDC_SERVER_REMOVEBOT_PLAYERS_CTRL->Append(wxString(string, wxConvUTF8));
 			}
-			SettingsPlayers::IDC_SERVER_MAX_PLAYERS_CTRL->Append(string);
+			SettingsPlayers::IDC_SERVER_MAX_PLAYERS_CTRL->Append(wxString(string, wxConvUTF8));
 		}
-		SettingsPlayers::IDC_SERVER_REMOVEBOT_PLAYERS_CTRL->Append("0");
+		SettingsPlayers::IDC_SERVER_REMOVEBOT_PLAYERS_CTRL->Append(wxT("0"));
 
 		sprintf(buffer, "%i", context_.getNoMinPlayers());
-		SettingsPlayers::IDC_SERVER_MIN_PLAYERS_CTRL->SetValue(buffer);
+		SettingsPlayers::IDC_SERVER_MIN_PLAYERS_CTRL->SetValue(wxString(buffer, wxConvUTF8));
 		SettingsPlayers::IDC_SERVER_MIN_PLAYERS_CTRL->SetToolTip(
-			wxString("The number of players that must be on the server before a game starts."));
+			wxString("The number of players that must be on the server before a game starts.", wxConvUTF8));
 
 		sprintf(buffer, "%i", context_.getNoMaxPlayers());
-		SettingsPlayers::IDC_SERVER_MAX_PLAYERS_CTRL->SetValue(buffer);
+		SettingsPlayers::IDC_SERVER_MAX_PLAYERS_CTRL->SetValue(wxString(buffer, wxConvUTF8));
 		SettingsPlayers::IDC_SERVER_MAX_PLAYERS_CTRL->SetToolTip(
-			wxString("The maximum number of players that can be on the server."));
+			wxString("The maximum number of players that can be on the server.", wxConvUTF8));
 
 		sprintf(buffer, "%i", context_.getRemoveBotsAtPlayers());
-		SettingsPlayers::IDC_SERVER_REMOVEBOT_PLAYERS_CTRL->SetValue(buffer);
+		SettingsPlayers::IDC_SERVER_REMOVEBOT_PLAYERS_CTRL->SetValue(wxString(buffer, wxConvUTF8));
 		SettingsPlayers::IDC_SERVER_REMOVEBOT_PLAYERS_CTRL->SetToolTip(
-			wxString("The number of players to allow before remvoing bots."));
+			wxString("The number of players to allow before remvoing bots.", wxConvUTF8));
 
 		SettingsPlayers::IDC_SERVER_RESIDUAL_CTRL->SetValue(
 				context_.getResidualPlayers());
 		SettingsPlayers::IDC_SERVER_RESIDUAL_CTRL->SetToolTip(
-			wxString("Players re-connect with the same money and weapons."));
+			wxString("Players re-connect with the same money and weapons.", wxConvUTF8));
 
 		// Reload the AIs in case a new mod has been loaded
 		SettingsPlayers::tankAIStore.clearAIs();
@@ -292,11 +292,12 @@ bool SettingsFrame::TransferDataToWindow()
 				itor++)
 			{
 				TankAI *ai = *itor;
-				SettingsPlayers::IDC_COMBO_PTYPE_CTRL[i]->Append(ai->getName());
+				SettingsPlayers::IDC_COMBO_PTYPE_CTRL[i]->Append(
+					wxString(ai->getName(), wxConvUTF8));
 			}
-			SettingsPlayers::IDC_COMBO_PTYPE_CTRL[i]->Append("Human");
+			SettingsPlayers::IDC_COMBO_PTYPE_CTRL[i]->Append(wxT("Human"));
 			SettingsPlayers::IDC_COMBO_PTYPE_CTRL[i]->SetValue(
-				context_.getPlayerType(i));
+				wxString(context_.getPlayerType(i), wxConvUTF8));
 		}
 		setupPlayers();
 	}
@@ -317,7 +318,7 @@ bool SettingsFrame::TransferDataToWindow()
 		SettingsLand::IDC_CYCLEMAPS_CTRL->SetValue(
 			context_.getCycleMaps());
 		SettingsLand::IDC_CYCLEMAPS_CTRL->SetToolTip(
-			wxString(context_.getCycleMapsToolTip()));
+			wxString(context_.getCycleMapsToolTip(), wxConvUTF8));
 	}
 
 	// Eco
@@ -328,143 +329,143 @@ bool SettingsFrame::TransferDataToWindow()
 		for (i=50; i>=1; i-=1)
 		{	
 			sprintf(buffer, "%i", i);
-			SettingsEco::IDC_BUYONROUND_CTRL->Append(buffer);
+			SettingsEco::IDC_BUYONROUND_CTRL->Append(wxString(buffer, wxConvUTF8));
 		}
 		sprintf(buffer, "%i", context_.getBuyOnRound());
-		SettingsEco::IDC_BUYONROUND_CTRL->SetValue(buffer);
+		SettingsEco::IDC_BUYONROUND_CTRL->SetValue(wxString(buffer, wxConvUTF8));
 		SettingsEco::IDC_BUYONROUND_CTRL->SetToolTip(
-			wxString("Players will be allowed to buy more weapons on this round."));
+			wxString("Players will be allowed to buy more weapons on this round.", wxConvUTF8));
 
 		// Economy
-		SettingsEco::IDC_ECONOMY_CTRL->Append("EconomyFreeMarket");
-		SettingsEco::IDC_ECONOMY_CTRL->Append("EconomyNone");
-		SettingsEco::IDC_ECONOMY_CTRL->SetValue(context_.getEconomy());
+		SettingsEco::IDC_ECONOMY_CTRL->Append(wxT("EconomyFreeMarket"));
+		SettingsEco::IDC_ECONOMY_CTRL->Append(wxT("EconomyNone"));
+		SettingsEco::IDC_ECONOMY_CTRL->SetValue(wxString(context_.getEconomy(), wxConvUTF8));
 		SettingsEco::IDC_ECONOMY_CTRL->SetToolTip(
-			wxString("Economic factors for weapon prices"));
+			wxString("Economic factors for weapon prices", wxConvUTF8));
 
 		// Money per hit
 		for (i=2000; i>=0; i-=50)
 		{	
 			sprintf(buffer, "%i", i);
-			SettingsEco::IDC_MONEYPERHIT_CTRL->Append(buffer);
-			SettingsEco::IDC_MONEYPERKILL_CTRL->Append(buffer);
+			SettingsEco::IDC_MONEYPERHIT_CTRL->Append(wxString(buffer, wxConvUTF8));
+			SettingsEco::IDC_MONEYPERKILL_CTRL->Append(wxString(buffer, wxConvUTF8));
 		}
 		sprintf(buffer, "%i", context_.getMoneyWonPerHitPoint());
-		SettingsEco::IDC_MONEYPERHIT_CTRL->SetValue(buffer);
+		SettingsEco::IDC_MONEYPERHIT_CTRL->SetValue(wxString(buffer, wxConvUTF8));
 		SettingsEco::IDC_MONEYPERHIT_CTRL->SetToolTip(
 			wxString("The money awarded for HITTING another tank.\n"
 				"This is multiplied by the weapons arms level\n"
-					 "and health points removed (if switched on)."));
+					 "and health points removed (if switched on).", wxConvUTF8));
 		sprintf(buffer, "%i", context_.getMoneyWonPerKillPoint());
-		SettingsEco::IDC_MONEYPERKILL_CTRL->SetValue(buffer);
+		SettingsEco::IDC_MONEYPERKILL_CTRL->SetValue(wxString(buffer, wxConvUTF8));
 		SettingsEco::IDC_MONEYPERKILL_CTRL->SetToolTip(
 			wxString("The money awarded for KILLING another tank.\n"
 				"This is multiplied by the weapons arms level\n"
-				"and health points removed (if switched on)."));
+				"and health points removed (if switched on).", wxConvUTF8));
 
 		SettingsEco::IDC_MONEYPERHEALTH_CTRL->SetValue(
 			context_.getMoneyPerHealthPoint());
 		SettingsEco::IDC_MONEYPERHEALTH_CTRL->SetToolTip(
-			wxString("Switchs on money being awarded by health points removed"));
+			wxString("Switchs on money being awarded by health points removed", wxConvUTF8));
 
 		// Start Money
 		for (i=250000; i>=0; i-=5000)
 		{	
 			sprintf(buffer, "%i", i);
-			SettingsEco::IDC_STARTMONEY_CTRL->Append(buffer);
-			SettingsEco::IDC_MONEYPERROUND_CTRL->Append(buffer);
-			SettingsEco::IDC_MONEYROUND_CTRL->Append(buffer);
+			SettingsEco::IDC_STARTMONEY_CTRL->Append(wxString(buffer, wxConvUTF8));
+			SettingsEco::IDC_MONEYPERROUND_CTRL->Append(wxString(buffer, wxConvUTF8));
+			SettingsEco::IDC_MONEYROUND_CTRL->Append(wxString(buffer, wxConvUTF8));
 		}
 		sprintf(buffer, "%i", context_.getStartMoney());
-		SettingsEco::IDC_STARTMONEY_CTRL->SetValue(buffer);
+		SettingsEco::IDC_STARTMONEY_CTRL->SetValue(wxString(buffer, wxConvUTF8));
 		SettingsEco::IDC_STARTMONEY_CTRL->SetToolTip(
-			wxString("The money each tank will start the game with."));
+			wxString("The money each tank will start the game with.", wxConvUTF8));
 		sprintf(buffer, "%i", context_.getMoneyWonForRound());
-		SettingsEco::IDC_MONEYPERROUND_CTRL->SetValue(buffer);
+		SettingsEco::IDC_MONEYPERROUND_CTRL->SetValue(wxString(buffer, wxConvUTF8));
 		SettingsEco::IDC_MONEYPERROUND_CTRL->SetToolTip(
-			wxString("The money awarded to the last tank surviving a round."));
+			wxString("The money awarded to the last tank surviving a round.", wxConvUTF8));
 		sprintf(buffer, "%i", context_.getMoneyPerRound());
-		SettingsEco::IDC_MONEYROUND_CTRL->SetValue(buffer);
+		SettingsEco::IDC_MONEYROUND_CTRL->SetValue(wxString(buffer, wxConvUTF8));
 		SettingsEco::IDC_MONEYROUND_CTRL->SetToolTip(
-			wxString("The money given to every tank at the end of each round."));
+			wxString("The money given to every tank at the end of each round.", wxConvUTF8));
 
 		// Interest
 		for (i=100; i>=0; i-=5)
 		{	
 			sprintf(buffer, "%i", i);
-			SettingsEco::IDC_INTEREST_CTRL->Append(buffer);
+			SettingsEco::IDC_INTEREST_CTRL->Append(wxString(buffer, wxConvUTF8));
 		}
 		sprintf(buffer, "%i", context_.getInterest());
-		SettingsEco::IDC_INTEREST_CTRL->SetValue(buffer);
+		SettingsEco::IDC_INTEREST_CTRL->SetValue(wxString(buffer, wxConvUTF8));
 		SettingsEco::IDC_INTEREST_CTRL->SetToolTip(
-			wxString("The amount of monetary interest gained at the end of each round."));
+			wxString("The amount of monetary interest gained at the end of each round.", wxConvUTF8));
 
 		// Interest
-		SettingsEco::IDC_SCOREMODE_CTRL->Append("Most Wins");
-		SettingsEco::IDC_SCOREMODE_CTRL->Append("Most Kills");
-		SettingsEco::IDC_SCOREMODE_CTRL->Append("Most Money");
+		SettingsEco::IDC_SCOREMODE_CTRL->Append(wxT("Most Wins"));
+		SettingsEco::IDC_SCOREMODE_CTRL->Append(wxT("Most Kills"));
+		SettingsEco::IDC_SCOREMODE_CTRL->Append(wxT("Most Money"));
 		SettingsEco::IDC_SCOREMODE_CTRL->SetSelection(
 			(int) context_.getScoreType());
 		SettingsEco::IDC_SCOREMODE_CTRL->SetToolTip(
-			wxString("The ranking that determines the winner."));
+			wxString("The ranking that determines the winner.", wxConvUTF8));
 	}
 
 	// Env
 	{
 		// Wind force
-		SettingsEnv::IDC_COMBO_FORCE_CTRL->Append("Random", 
+		SettingsEnv::IDC_COMBO_FORCE_CTRL->Append(wxT("Random"), 
 			(void *) (OptionsGame::WindRandom));
 		for (int i=0; i<=5; i++)
 		{
 			char buffer[25];
 			sprintf(buffer, "Force %i%s", i, ((i==0)?" (No Wind)":""));
 			SettingsEnv::IDC_COMBO_FORCE_CTRL->Append(
-				buffer, (void *) (i+1));
+				wxString(buffer, wxConvUTF8), (void *) (i+1));
 		}
-		SettingsEnv::IDC_COMBO_FORCE_CTRL->Append("Breezy (Force 0->2)", 
+		SettingsEnv::IDC_COMBO_FORCE_CTRL->Append(wxT("Breezy (Force 0->2)"), 
 			(void *) (OptionsGame::WindBreezy));
-		SettingsEnv::IDC_COMBO_FORCE_CTRL->Append("Gale (Force 3->5)", 
+		SettingsEnv::IDC_COMBO_FORCE_CTRL->Append(wxT("Gale (Force 3->5)"), 
 			(void *) (OptionsGame::WindGale));
 		SettingsEnv::IDC_COMBO_FORCE_CTRL->SetSelection(
 			context_.getWindForce());
 		SettingsEnv::IDC_COMBO_FORCE_CTRL->SetToolTip(
-			wxString("The force of the wind."));
+			wxString("The force of the wind.", wxConvUTF8));
 
 		// Wind changes
-		SettingsEnv::IDC_COMBO_WINDCHANGES_CTRL->Append("On Round", 
+		SettingsEnv::IDC_COMBO_WINDCHANGES_CTRL->Append(wxT("On Round"), 
 			(void *) OptionsGame::WindOnRound);
-		SettingsEnv::IDC_COMBO_WINDCHANGES_CTRL->Append("On Move", 
+		SettingsEnv::IDC_COMBO_WINDCHANGES_CTRL->Append(wxT("On Move"), 
 			(void *) OptionsGame::WindOnMove);
 		SettingsEnv::IDC_COMBO_WINDCHANGES_CTRL->SetSelection(
 			context_.getWindType());
 		SettingsEnv::IDC_COMBO_WINDCHANGES_CTRL->SetToolTip(
-			wxString("Specifies when the wind is allowed to change direction."));
+			wxString("Specifies when the wind is allowed to change direction.", wxConvUTF8));
 
 		// Wall type
-		SettingsEnv::IDC_COMBO_WALLTYPE_CTRL->Append("Random", 
+		SettingsEnv::IDC_COMBO_WALLTYPE_CTRL->Append(wxT("Random"), 
 			(void *) OptionsGame::WallRandom);
-		SettingsEnv::IDC_COMBO_WALLTYPE_CTRL->Append("Concrete", 
+		SettingsEnv::IDC_COMBO_WALLTYPE_CTRL->Append(wxT("Concrete"), 
 			(void *) OptionsGame::WallConcrete);
-		SettingsEnv::IDC_COMBO_WALLTYPE_CTRL->Append("Bouncy", 
+		SettingsEnv::IDC_COMBO_WALLTYPE_CTRL->Append(wxT("Bouncy"), 
 			(void *) OptionsGame::WallBouncy);
-		SettingsEnv::IDC_COMBO_WALLTYPE_CTRL->Append("Wrap", 
+		SettingsEnv::IDC_COMBO_WALLTYPE_CTRL->Append(wxT("Wrap"), 
 			(void *) OptionsGame::WallWrapAround);
 		SettingsEnv::IDC_COMBO_WALLTYPE_CTRL->SetSelection(
 			context_.getWallType());
 		SettingsEnv::IDC_COMBO_WALLTYPE_CTRL->SetToolTip(
-			wxString("Specifies the behaviour of the walls that surround the island."));
+			wxString("Specifies the behaviour of the walls that surround the island.", wxConvUTF8));
 
 		// Weapon Scale
-		SettingsEnv::IDC_COMBO_WEAPONSCALE_CTRL->Append("Small", 
+		SettingsEnv::IDC_COMBO_WEAPONSCALE_CTRL->Append(wxT("Small"), 
 			(void *) OptionsGame::ScaleSmall);
-		SettingsEnv::IDC_COMBO_WEAPONSCALE_CTRL->Append("Medium", 
+		SettingsEnv::IDC_COMBO_WEAPONSCALE_CTRL->Append(wxT("Medium"), 
 			(void *) OptionsGame::ScaleMedium);
-		SettingsEnv::IDC_COMBO_WEAPONSCALE_CTRL->Append("Large", 
+		SettingsEnv::IDC_COMBO_WEAPONSCALE_CTRL->Append(wxT("Large"), 
 			(void *) OptionsGame::ScaleLarge);
 		SettingsEnv::IDC_COMBO_WEAPONSCALE_CTRL->SetSelection(
 			context_.getWeapScale());
 		SettingsEnv::IDC_COMBO_WEAPONSCALE_CTRL->SetToolTip(
-			wxString("Specifies the size of the blast radius for explosive weapons."));
+			wxString("Specifies the size of the blast radius for explosive weapons.", wxConvUTF8));
 
 		// Weapon Scale
 		for (int i=0; i<=20; i++)
@@ -473,185 +474,185 @@ bool SettingsFrame::TransferDataToWindow()
 			sprintf(buffer, "%i", i, i);
 			if (i<=10)
 			{
-				SettingsEnv::IDC_COMBO_STARTARMSLEVEL_CTRL->Append(buffer, (void *) i);
-				SettingsEnv::IDC_COMBO_ENDARMSLEVEL_CTRL->Append(buffer, (void *) i);
+				SettingsEnv::IDC_COMBO_STARTARMSLEVEL_CTRL->Append(wxString(buffer, wxConvUTF8), (void *) i);
+				SettingsEnv::IDC_COMBO_ENDARMSLEVEL_CTRL->Append(wxString(buffer, wxConvUTF8), (void *) i);
 			}
-			SettingsEnv::IDC_COMBO_CLIMBINGDISTANCE_CTRL->Append(buffer, (void *) i);
-			SettingsEnv::IDC_COMBO_FALLINGDISTANCE_CTRL->Append(buffer, (void *) i);
+			SettingsEnv::IDC_COMBO_CLIMBINGDISTANCE_CTRL->Append(wxString(buffer, wxConvUTF8), (void *) i);
+			SettingsEnv::IDC_COMBO_FALLINGDISTANCE_CTRL->Append(wxString(buffer, wxConvUTF8), (void *) i);
 		}
 		SettingsEnv::IDC_COMBO_STARTARMSLEVEL_CTRL->SetSelection(
 			context_.getStartArmsLevel());
 		SettingsEnv::IDC_COMBO_STARTARMSLEVEL_CTRL->SetToolTip(
-			wxString("Specifies the most powerful weapon that will be available to buy from round 0."));
+			wxString("Specifies the most powerful weapon that will be available to buy from round 0.", wxConvUTF8));
 		SettingsEnv::IDC_COMBO_ENDARMSLEVEL_CTRL->SetSelection(
 			context_.getEndArmsLevel());
 		SettingsEnv::IDC_COMBO_ENDARMSLEVEL_CTRL->SetToolTip(
-			wxString("Specifies the most powerful weapon that will be available to buy in the final round."));
+			wxString("Specifies the most powerful weapon that will be available to buy in the final round.", wxConvUTF8));
 		SettingsEnv::IDC_COMBO_FALLINGDISTANCE_CTRL->SetSelection(
 			context_.getMinFallingDistance());
 		SettingsEnv::IDC_COMBO_FALLINGDISTANCE_CTRL->SetToolTip(
-			wxString("Specifies the largest fall without taking damage."));
+			wxString("Specifies the largest fall without taking damage.", wxConvUTF8));
 		SettingsEnv::IDC_COMBO_CLIMBINGDISTANCE_CTRL->SetSelection(
 			context_.getMaxClimbingDistance());
 		SettingsEnv::IDC_COMBO_CLIMBINGDISTANCE_CTRL->SetToolTip(
-			wxString("Specifies the largest distance the tank can climb in one step."));
+			wxString("Specifies the largest distance the tank can climb in one step.", wxConvUTF8));
 
 		SettingsEnv::IDC_GIVEALLWEAPONS_CTRL->SetValue(
 			context_.getGiveAllWeapons());
 		SettingsEnv::IDC_GIVEALLWEAPONS_CTRL->SetToolTip(
-			wxString("Gives everyone an infinite number of all the weapons."));
+			wxString("Gives everyone an infinite number of all the weapons.", wxConvUTF8));
 
 		// Resign Mode
-		SettingsEnv::IDC_RESIGNENDROUND_CTRL->Append("Round Start", 
+		SettingsEnv::IDC_RESIGNENDROUND_CTRL->Append(wxT("Round Start"), 
 			(void *) OptionsGame::ResignStart);
-		SettingsEnv::IDC_RESIGNENDROUND_CTRL->Append("Round End", 
+		SettingsEnv::IDC_RESIGNENDROUND_CTRL->Append(wxT("Round End"), 
 			(void *) OptionsGame::ResignEnd);
-		SettingsEnv::IDC_RESIGNENDROUND_CTRL->Append("Round Start or End (Due to Health)", 
+		SettingsEnv::IDC_RESIGNENDROUND_CTRL->Append(wxT("Round Start or End (Due to Health)"), 
 			(void *) OptionsGame::ResignDueToHealth);
 		SettingsEnv::IDC_RESIGNENDROUND_CTRL->SetSelection(
 			context_.getResignMode());
 		SettingsEnv::IDC_RESIGNENDROUND_CTRL->SetToolTip(
-			wxString("During which part of the round players resign."));	
+			wxString("During which part of the round players resign.", wxConvUTF8));	
 
 		// Movement restriction Mode
-		SettingsEnv::IDC_MOVEMENTRESTRICTION_CTRL->Append("None", 
+		SettingsEnv::IDC_MOVEMENTRESTRICTION_CTRL->Append(wxT("None"), 
 			(void *) OptionsGame::MovementRestrictionNone);
-		SettingsEnv::IDC_MOVEMENTRESTRICTION_CTRL->Append("Land Only", 
+		SettingsEnv::IDC_MOVEMENTRESTRICTION_CTRL->Append(wxT("Land Only"), 
 			(void *) OptionsGame::MovementRestrictionLand);
-		SettingsEnv::IDC_MOVEMENTRESTRICTION_CTRL->Append("Land Or Above Only", 
+		SettingsEnv::IDC_MOVEMENTRESTRICTION_CTRL->Append(wxT("Land Or Above Only"), 
 			(void *) OptionsGame::MovementRestrictionLandOrAbove);
 		SettingsEnv::IDC_MOVEMENTRESTRICTION_CTRL->SetSelection(
 			context_.getMovementRestriction());
 		SettingsEnv::IDC_MOVEMENTRESTRICTION_CTRL->SetToolTip(
-			wxString("Any restrictions to tank movement"));	
+			wxString("Any restrictions to tank movement", wxConvUTF8));	
 	}
 
 	// MOTD
 	{
 		SettingsMOTD::IDC_MOTD_CTRL->SetValue(
-			context_.getMOTD());
+			wxString(context_.getMOTD(), wxConvUTF8));
 		SettingsMOTD::IDC_MOTD_CTRL->SetToolTip(
-			wxString("The Message Of The Day."));
+			wxString("The Message Of The Day.", wxConvUTF8));
 	}
 
 	// Main
 	{
 		// Teams ballance
-		SettingsMain::IDC_TEAMBALLANCE_CTRL->Append("None",
+		SettingsMain::IDC_TEAMBALLANCE_CTRL->Append(wxT("None"),
 			(void *) OptionsGame::TeamBallanceNone);
-		SettingsMain::IDC_TEAMBALLANCE_CTRL->Append("Auto",
+		SettingsMain::IDC_TEAMBALLANCE_CTRL->Append(wxT("Auto"),
 			(void *) OptionsGame::TeamBallanceAuto);
-		SettingsMain::IDC_TEAMBALLANCE_CTRL->Append("BotsVs",
+		SettingsMain::IDC_TEAMBALLANCE_CTRL->Append(wxT("BotsVs"),
 			(void *) OptionsGame::TeamBallanceBotsVs);
-		SettingsMain::IDC_TEAMBALLANCE_CTRL->Append("AutoByScore",
+		SettingsMain::IDC_TEAMBALLANCE_CTRL->Append(wxT("AutoByScore"),
 			(void *) OptionsGame::TeamBallanceAutoByScore);
 		SettingsMain::IDC_TEAMBALLANCE_CTRL->SetSelection(
 			context_.getTeamBallance());
 		SettingsMain::IDC_TEAMBALLANCE_CTRL->SetToolTip(
-			wxString("The mode that players are moved between teams to ballance them."));
+			wxString("The mode that players are moved between teams to ballance them.", wxConvUTF8));
 
 		// Teams combo
-		SettingsMain::IDC_TEAMS_CTRL->Append("None");
+		SettingsMain::IDC_TEAMS_CTRL->Append(wxT("None"));
 		int i;
 		char string[256];
 		for (i=2; i<=4; i++)
 		{
 			sprintf(string, "%i", i);	
-			SettingsMain::IDC_TEAMS_CTRL->Append(string);
+			SettingsMain::IDC_TEAMS_CTRL->Append(wxString(string, wxConvUTF8));
 		}
 		SettingsMain::IDC_TEAMS_CTRL->SetSelection(
 			context_.getTeams() - 1);
 		SettingsMain::IDC_TEAMS_CTRL->SetToolTip(
-			wxString("The number of teams that will play in this game."));
+			wxString("The number of teams that will play in this game.", wxConvUTF8));
 
 		// Rounds combo
 		for (i=1; i<50; i++)
 		{
 			sprintf(string, "%i", i);	
-			SettingsMain::IDC_SERVER_ROUNDS_CTRL->Append(string);
+			SettingsMain::IDC_SERVER_ROUNDS_CTRL->Append(wxString(string, wxConvUTF8));
 		}
 		SettingsMain::IDC_SERVER_ROUNDS_CTRL->SetSelection(
 			context_.getNoRounds() - 1);
 		SettingsMain::IDC_SERVER_ROUNDS_CTRL->SetToolTip(
-			wxString("The number of rounds that will be played in this game."));
+			wxString("The number of rounds that will be played in this game.", wxConvUTF8));
 
 		// Shots combo
 		for (i=0; i<50; i++)
 		{
 			sprintf(string, "%i", i);	
-			SettingsMain::IDC_NOSHOTS_CTRL->Append(string);
+			SettingsMain::IDC_NOSHOTS_CTRL->Append(wxString(string, wxConvUTF8));
 		}
 		SettingsMain::IDC_NOSHOTS_CTRL->SetSelection(
 			context_.getNoMaxRoundTurns());
 		SettingsMain::IDC_NOSHOTS_CTRL->SetToolTip(
-			wxString("The maximum number of turns that will be played in each round (0 = infinite)."));
+			wxString("The maximum number of turns that will be played in each round (0 = infinite).", wxConvUTF8));
 
 		// Type combo
-		SettingsMain::IDC_TYPE_CTRL->Append("Simultaneous", 
+		SettingsMain::IDC_TYPE_CTRL->Append(wxT("Simultaneous"), 
 			(void *) OptionsGame::TurnSimultaneous);
-		SettingsMain::IDC_TYPE_CTRL->Append("Sequential (Loser First)", 
+		SettingsMain::IDC_TYPE_CTRL->Append(wxT("Sequential (Loser First)"), 
 			(void *) OptionsGame::TurnSequentialLooserFirst);
-		SettingsMain::IDC_TYPE_CTRL->Append("Sequential (Random Order)", 
+		SettingsMain::IDC_TYPE_CTRL->Append(wxT("Sequential (Random Order)"), 
 			(void *) OptionsGame::TurnSequentialRandom);
 		SettingsMain::IDC_TYPE_CTRL->SetSelection(
 			context_.getTurnType());
 		SettingsMain::IDC_TYPE_CTRL->SetToolTip(
-			wxString("Specifies the order of play."));	
+			wxString("Specifies the order of play.", wxConvUTF8));	
 
 		// The waiting time
 		for (i=0; i<=90; i+=5)
 		{
 			sprintf(string, "%i Seconds", i);
 			if (i==0) sprintf(string, "%i (Infinite)", i);	
-			SettingsMain::IDC_SHOT_TIME_CTRL->Append(string);
-			SettingsMain::IDC_BUYING_TIME_CTRL->Append(string);
-			SettingsMain::IDC_START_TIME_CTRL->Append(string);
-			SettingsMain::IDC_IDLE_SHOTTIME_CTRL->Append(string);
-			SettingsMain::IDC_IDLE_TIME_CTRL->Append(string);
-			SettingsMain::IDC_KEEPALIVE_TIME_CTRL->Append(string);
+			SettingsMain::IDC_SHOT_TIME_CTRL->Append(wxString(string, wxConvUTF8));
+			SettingsMain::IDC_BUYING_TIME_CTRL->Append(wxString(string, wxConvUTF8));
+			SettingsMain::IDC_START_TIME_CTRL->Append(wxString(string, wxConvUTF8));
+			SettingsMain::IDC_IDLE_SHOTTIME_CTRL->Append(wxString(string, wxConvUTF8));
+			SettingsMain::IDC_IDLE_TIME_CTRL->Append(wxString(string, wxConvUTF8));
+			SettingsMain::IDC_KEEPALIVE_TIME_CTRL->Append(wxString(string, wxConvUTF8));
 		}
 		SettingsMain::IDC_KEEPALIVE_TIME_CTRL->SetSelection(
 			context_.getKeepAliveTimeoutTime()/5);
 		SettingsMain::IDC_KEEPALIVE_TIME_CTRL->SetToolTip(
-			wxString(context_.getKeepAliveTimeoutTimeToolTip()));
+			wxString(context_.getKeepAliveTimeoutTimeToolTip(), wxConvUTF8));
 		SettingsMain::IDC_START_TIME_CTRL->SetSelection(
 			context_.getStartTime()/5);
 		SettingsMain::IDC_START_TIME_CTRL->SetToolTip(
-			wxString("The time to wait before starting a new game."));
+			wxString("The time to wait before starting a new game.", wxConvUTF8));
 		SettingsMain::IDC_SHOT_TIME_CTRL->SetSelection(
 			context_.getShotTime()/5);
 		SettingsMain::IDC_SHOT_TIME_CTRL->SetToolTip(
-			wxString("The maximum amount of time allowed for each player to make a move."));
+			wxString("The maximum amount of time allowed for each player to make a move.", wxConvUTF8));
 		SettingsMain::IDC_BUYING_TIME_CTRL->SetSelection(
 			context_.getBuyingTime()/5);
 		SettingsMain::IDC_BUYING_TIME_CTRL->SetToolTip(
-			wxString("The maximum amount of time allowed for each player to buy accessories."));
+			wxString("The maximum amount of time allowed for each player to buy accessories.", wxConvUTF8));
 		SettingsMain::IDC_IDLE_TIME_CTRL->SetSelection(
 			context_.getIdleKickTime()/5);
 		SettingsMain::IDC_IDLE_TIME_CTRL->SetToolTip(
-			wxString("The amount of time to wait for a client to respond after level loading before kicking it."));
+			wxString("The amount of time to wait for a client to respond after level loading before kicking it.", wxConvUTF8));
 		SettingsMain::IDC_IDLE_SHOTTIME_CTRL->SetSelection(
 			context_.getIdleShotKickTime()/5);
 		SettingsMain::IDC_IDLE_SHOTTIME_CTRL->SetToolTip(
-			wxString("The amount of time to wait for a client to respond after shots before kicking it."));
+			wxString("The amount of time to wait for a client to respond after shots before kicking it.", wxConvUTF8));
 
 		// Download speed
 		for (i=0; i<=250000; i+=5000)
 		{
 			sprintf(string, "%i bytes/sec", i);
 			if (i==0) sprintf(string, "%i (No download)", i);	
-			SettingsMain::IDC_DOWNLOAD_SPEED_CTRL->Append(string);
+			SettingsMain::IDC_DOWNLOAD_SPEED_CTRL->Append(wxString(string, wxConvUTF8));
 		}
 		SettingsMain::IDC_DOWNLOAD_SPEED_CTRL->SetSelection(
 			context_.getModDownloadSpeed()/5000);
 		SettingsMain::IDC_DOWNLOAD_SPEED_CTRL->SetToolTip(
-			wxString(context_.getModDownloadSpeedToolTip()));
+			wxString(context_.getModDownloadSpeedToolTip(), wxConvUTF8));
 
 		// Password
 		SettingsMain::IDC_SERVER_PASSWORD_CTRL->SetValue(
-			context_.getServerPassword());
+			wxString(context_.getServerPassword(), wxConvUTF8));
 		SettingsMain::IDC_SERVER_PASSWORD_CTRL->SetToolTip(
-			context_.getServerPasswordToolTip());
+			wxString(context_.getServerPasswordToolTip(), wxConvUTF8));
 
 		// Turn on/off settings if server or client
 		SettingsMain::IDC_SERVER_PASSWORD_CTRL->Show(playersPanel_ != 0);
@@ -667,17 +668,17 @@ bool SettingsFrame::TransferDataFromWindow()
 	if (playersPanel_)
 	{
 		context_.setBotNamePrefix(
-			SettingsPlayers::IDC_EDIT3_CTRL->GetValue());
+			SettingsPlayers::IDC_EDIT3_CTRL->GetValue().mb_str(wxConvUTF8));
 
 		// Read min + max players
 		int minPlayers = 2;
-		sscanf(SettingsPlayers::IDC_SERVER_MIN_PLAYERS_CTRL->GetValue(), 
+		sscanf(SettingsPlayers::IDC_SERVER_MIN_PLAYERS_CTRL->GetValue().mb_str(wxConvUTF8), 
 			"%i", &minPlayers);
 		int maxPlayers = 10;
-		sscanf(SettingsPlayers::IDC_SERVER_MAX_PLAYERS_CTRL->GetValue(), 
+		sscanf(SettingsPlayers::IDC_SERVER_MAX_PLAYERS_CTRL->GetValue().mb_str(wxConvUTF8), 
 			"%i", &maxPlayers);
 		int maxBotPlayers = 10;
-		sscanf(SettingsPlayers::IDC_SERVER_REMOVEBOT_PLAYERS_CTRL->GetValue(), 
+		sscanf(SettingsPlayers::IDC_SERVER_REMOVEBOT_PLAYERS_CTRL->GetValue().mb_str(wxConvUTF8), 
 			"%i", &maxBotPlayers);
 
 		context_.setRemoveBotsAtPlayers(maxBotPlayers);
@@ -690,7 +691,7 @@ bool SettingsFrame::TransferDataFromWindow()
 		for (int i=0; i<24; i++)
 		{
 			context_.setPlayerType(i, 
-				SettingsPlayers::IDC_COMBO_PTYPE_CTRL[i]->GetValue());
+				SettingsPlayers::IDC_COMBO_PTYPE_CTRL[i]->GetValue().mb_str(wxConvUTF8));
 		}
 	}
 
@@ -724,13 +725,13 @@ bool SettingsFrame::TransferDataFromWindow()
 		int startMoney = 2;
 		int interest = 2;
 
-		sscanf(SettingsEco::IDC_BUYONROUND_CTRL->GetValue(), "%i", &buyonround);
-		sscanf(SettingsEco::IDC_MONEYPERHIT_CTRL->GetValue(), "%i", &moneyperhit);
-		sscanf(SettingsEco::IDC_MONEYPERKILL_CTRL->GetValue(), "%i", &moneyperkill);
-		sscanf(SettingsEco::IDC_MONEYPERROUND_CTRL->GetValue(), "%i", &moneyperround);
-		sscanf(SettingsEco::IDC_MONEYROUND_CTRL->GetValue(), "%i", &moneyround);
-		sscanf(SettingsEco::IDC_STARTMONEY_CTRL->GetValue(), "%i", &startMoney);
-		sscanf(SettingsEco::IDC_INTEREST_CTRL->GetValue(), "%i", &interest);
+		sscanf(SettingsEco::IDC_BUYONROUND_CTRL->GetValue().mb_str(wxConvUTF8), "%i", &buyonround);
+		sscanf(SettingsEco::IDC_MONEYPERHIT_CTRL->GetValue().mb_str(wxConvUTF8), "%i", &moneyperhit);
+		sscanf(SettingsEco::IDC_MONEYPERKILL_CTRL->GetValue().mb_str(wxConvUTF8), "%i", &moneyperkill);
+		sscanf(SettingsEco::IDC_MONEYPERROUND_CTRL->GetValue().mb_str(wxConvUTF8), "%i", &moneyperround);
+		sscanf(SettingsEco::IDC_MONEYROUND_CTRL->GetValue().mb_str(wxConvUTF8), "%i", &moneyround);
+		sscanf(SettingsEco::IDC_STARTMONEY_CTRL->GetValue().mb_str(wxConvUTF8), "%i", &startMoney);
+		sscanf(SettingsEco::IDC_INTEREST_CTRL->GetValue().mb_str(wxConvUTF8), "%i", &interest);
 
 		context_.setScoreType(
 			(OptionsGame::ScoreType) SettingsEco::IDC_SCOREMODE_CTRL->GetSelection());
@@ -742,7 +743,7 @@ bool SettingsFrame::TransferDataFromWindow()
 		context_.setMoneyWonPerHitPoint(moneyperhit);
 		context_.setMoneyWonPerKillPoint(moneyperkill);
 		context_.setMoneyPerHealthPoint(SettingsEco::IDC_MONEYPERHEALTH_CTRL->GetValue());
-		context_.setEconomy(SettingsEco::IDC_ECONOMY_CTRL->GetValue());
+		context_.setEconomy(SettingsEco::IDC_ECONOMY_CTRL->GetValue().mb_str(wxConvUTF8));
 	}
 
 	// Env
@@ -792,7 +793,7 @@ bool SettingsFrame::TransferDataFromWindow()
 	// MOTD
 	{
 		context_.setMOTD(
-			SettingsMOTD::IDC_MOTD_CTRL->GetValue());
+			SettingsMOTD::IDC_MOTD_CTRL->GetValue().mb_str(wxConvUTF8));
 	}
 
 	// Main
@@ -816,15 +817,15 @@ bool SettingsFrame::TransferDataFromWindow()
 				SettingsMain::IDC_TEAMBALLANCE_CTRL->GetSelection()));			
 		context_.setTeams((int) SettingsMain::IDC_TEAMS_CTRL->GetSelection() + 1);
 
-		sscanf(SettingsMain::IDC_NOSHOTS_CTRL->GetValue(), "%i", &maxRoundTurns);
-		sscanf(SettingsMain::IDC_SERVER_ROUNDS_CTRL->GetValue(), "%i", &noRounds);
-		sscanf(SettingsMain::IDC_SHOT_TIME_CTRL->GetValue(), "%i", &shotTime);
-		sscanf(SettingsMain::IDC_BUYING_TIME_CTRL->GetValue(), "%i", &buyingTime);
-		sscanf(SettingsMain::IDC_START_TIME_CTRL->GetValue(), "%i", &startTime);
-		sscanf(SettingsMain::IDC_IDLE_TIME_CTRL->GetValue(), "%i", &idleTime);
-		sscanf(SettingsMain::IDC_IDLE_SHOTTIME_CTRL->GetValue(), "%i", &idleShotTime);
-		sscanf(SettingsMain::IDC_DOWNLOAD_SPEED_CTRL->GetValue(), "%i", &downloadSpeed);
-		sscanf(SettingsMain::IDC_KEEPALIVE_TIME_CTRL->GetValue(), "%i", &keepAliveTime);
+		sscanf(SettingsMain::IDC_NOSHOTS_CTRL->GetValue().mb_str(wxConvUTF8), "%i", &maxRoundTurns);
+		sscanf(SettingsMain::IDC_SERVER_ROUNDS_CTRL->GetValue().mb_str(wxConvUTF8), "%i", &noRounds);
+		sscanf(SettingsMain::IDC_SHOT_TIME_CTRL->GetValue().mb_str(wxConvUTF8), "%i", &shotTime);
+		sscanf(SettingsMain::IDC_BUYING_TIME_CTRL->GetValue().mb_str(wxConvUTF8), "%i", &buyingTime);
+		sscanf(SettingsMain::IDC_START_TIME_CTRL->GetValue().mb_str(wxConvUTF8), "%i", &startTime);
+		sscanf(SettingsMain::IDC_IDLE_TIME_CTRL->GetValue().mb_str(wxConvUTF8), "%i", &idleTime);
+		sscanf(SettingsMain::IDC_IDLE_SHOTTIME_CTRL->GetValue().mb_str(wxConvUTF8), "%i", &idleShotTime);
+		sscanf(SettingsMain::IDC_DOWNLOAD_SPEED_CTRL->GetValue().mb_str(wxConvUTF8), "%i", &downloadSpeed);
+		sscanf(SettingsMain::IDC_KEEPALIVE_TIME_CTRL->GetValue().mb_str(wxConvUTF8), "%i", &keepAliveTime);
 
 		context_.setNoRounds(noRounds);
 		context_.setShotTime(shotTime);
@@ -837,7 +838,7 @@ bool SettingsFrame::TransferDataFromWindow()
 		context_.setModDownloadSpeed(downloadSpeed);
 		
 		context_.setServerPassword(
-			SettingsMain::IDC_SERVER_PASSWORD_CTRL->GetValue());
+			SettingsMain::IDC_SERVER_PASSWORD_CTRL->GetValue().mb_str(wxConvUTF8));
 	}
 
 	return true;
@@ -846,15 +847,15 @@ bool SettingsFrame::TransferDataFromWindow()
 bool showSettingsDialog(bool server, OptionsGame &context)
 {
 	// Set the current mod
-	std::string modValue = getDataFileMod();
-	setDataFileMod(context.getMod());
+	std::string modValue = DefinesUtil::getDataFileMod();
+	DefinesUtil::setDataFileMod(context.getMod());
 
 	// Show the settings
 	SettingsFrame frame(server, context);
 	bool result = (frame.ShowModal() == wxID_OK);
 
 	// Reset the mod
-	setDataFileMod(modValue.c_str());
+	DefinesUtil::setDataFileMod(modValue.c_str());
 
 	return result;
 }

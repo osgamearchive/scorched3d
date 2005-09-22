@@ -109,7 +109,7 @@ bool ClientConnectionAcceptHandler::processMessage(unsigned int id,
 	}
 
 	// Set the mod
-	setDataFileMod(
+	DefinesUtil::setDataFileMod(
 		ScorchedClient::instance()->getOptionsGame().getMod());
 
 	// Load any mod files we currently have for the mod

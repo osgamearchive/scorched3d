@@ -86,7 +86,7 @@ void ServerTextFilter::filterString(std::string &inputText)
 		for (witor = words_.begin(); witor != words_.end(); witor++)
 		{
 			const char *word = (*witor).c_str();
-			char *pos = my_stristr(text, word);
+			char *pos = DefinesUtil::my_stristr(text, word);
 			if (pos)
 			{
 				// If they do then * out the word
@@ -149,9 +149,9 @@ void ServerTextFilter::loadFile()
 	const char *filename = 
 		getSettingsFile("filter-%i.txt", 
 			ScorchedServer::instance()->getOptionsGame().getPortNo());
-	if (!::wxFileExists(filename)) return;
+	if (!::DefinesUtil::fileExists(filename)) return;
 
-	time_t fileTime = ::wxFileModificationTime(filename);
+	time_t fileTime = ::wxFileModificationTime(wxString(filename, wxConvUTF8));
 	if (fileTime == lastReadTime_) return;
 
     FileLines lines;

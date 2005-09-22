@@ -26,82 +26,82 @@ static void createControls(wxWindow *parent, wxSizer *topsizer)
 	topsizer->Add(sizer, 0, wxALL | wxALIGN_CENTER, 10);
 
 	sizer->Add(new wxStaticText(parent, -1,
-		"Wind Force :"), 0, wxALIGN_CENTER);
+		wxT("Wind Force :")), 0, wxALIGN_CENTER);
 	sizer->Add(IDC_COMBO_FORCE_CTRL = 
 		new wxComboBox(parent, IDC_COMBO_FORCE,
-		"",
+		wxT(""),
 		wxDefaultPosition, wxDefaultSize,
 		0, 0, wxCB_READONLY), 0, wxALIGN_CENTER);
 		
 	sizer->Add(new wxStaticText(parent, -1,
-		"Wind Changes :"), 0, wxALIGN_CENTER);
+		wxT("Wind Changes :")), 0, wxALIGN_CENTER);
 	sizer->Add(IDC_COMBO_WINDCHANGES_CTRL = 
 		new wxComboBox(parent, IDC_COMBO_WINDCHANGES,
-		"",
+		wxT(""),
 		wxDefaultPosition, wxDefaultSize,
 		0, 0, wxCB_READONLY), 0, wxALIGN_CENTER);
 		
 	sizer->Add(new wxStaticText(parent, -1,
-		"Wall Type :"), 0, wxALIGN_CENTER);
+		wxT("Wall Type :")), 0, wxALIGN_CENTER);
 	sizer->Add(IDC_COMBO_WALLTYPE_CTRL = 
 		new wxComboBox(parent, IDC_COMBO_WALLTYPE,
-		"",
+		wxT(""),
 		wxDefaultPosition, wxDefaultSize,
 		0, 0, wxCB_READONLY), 0, wxALIGN_CENTER);
 		
 	sizer->Add(new wxStaticText(parent, -1,
-		"Weapon Scale :"), 0, wxALIGN_CENTER);
+		wxT("Weapon Scale :")), 0, wxALIGN_CENTER);
 	sizer->Add(IDC_COMBO_WEAPONSCALE_CTRL = 
 		new wxComboBox(parent, IDC_COMBO_WEAPONSCALE,
-		"",
+		wxT(""),
 		wxDefaultPosition, wxDefaultSize,
 		0, 0, wxCB_READONLY), 0, wxALIGN_CENTER);
 
 	sizer->Add(new wxStaticText(parent, -1,
-		"Arms Level (Start Round):"), 0, wxALIGN_CENTER);
+		wxT("Arms Level (Start Round):")), 0, wxALIGN_CENTER);
 	sizer->Add(IDC_COMBO_STARTARMSLEVEL_CTRL = 
 		new wxComboBox(parent, IDC_COMBO_STARTARMSLEVEL,
-		"",
+		wxT(""),
 		wxDefaultPosition, wxDefaultSize,
 		0, 0, wxCB_READONLY), 0, wxALIGN_CENTER);
 	sizer->Add(new wxStaticText(parent, -1,
-		"Arms Level (End Round):"), 0, wxALIGN_CENTER);
+		wxT("Arms Level (End Round):")), 0, wxALIGN_CENTER);
 	sizer->Add(IDC_COMBO_ENDARMSLEVEL_CTRL = 
 		new wxComboBox(parent, IDC_COMBO_ENDARMSLEVEL,
-		"",
+		wxT(""),
 		wxDefaultPosition, wxDefaultSize,
 		0, 0, wxCB_READONLY), 0, wxALIGN_CENTER);
 	sizer->Add(new wxStaticText(parent, -1,
-		"Falling Distance"), 0, wxALIGN_CENTER);
+		wxT("Falling Distance")), 0, wxALIGN_CENTER);
 	sizer->Add(IDC_COMBO_FALLINGDISTANCE_CTRL = 
 		new wxComboBox(parent, -1,
-		"",
+		wxT(""),
 		wxDefaultPosition, wxDefaultSize,
 		0, 0, wxCB_READONLY), 0, wxALIGN_CENTER);
 	sizer->Add(new wxStaticText(parent, -1,
-		"Climbing Distance"), 0, wxALIGN_CENTER);
+		wxT("Climbing Distance")), 0, wxALIGN_CENTER);
 	sizer->Add(IDC_COMBO_CLIMBINGDISTANCE_CTRL = 
 		new wxComboBox(parent, -1,
-		"",
+		wxT(""),
 		wxDefaultPosition, wxDefaultSize,
 		0, 0, wxCB_READONLY), 0, wxALIGN_CENTER);
 	sizer->Add(new wxStaticText(parent, -1,
-		"Resign Mode"), 0, wxALIGN_CENTER);
+		wxT("Resign Mode")), 0, wxALIGN_CENTER);
 	sizer->Add(IDC_RESIGNENDROUND_CTRL = 
 		new wxComboBox(parent, -1,
-		"",
+		wxT(""),
 		wxDefaultPosition, wxDefaultSize,
 		0, 0, wxCB_READONLY), 0, wxALIGN_CENTER);
 	sizer->Add(new wxStaticText(parent, -1,
-		"Movement Restrictions"), 0, wxALIGN_CENTER);
+		wxT("Movement Restrictions")), 0, wxALIGN_CENTER);
 	sizer->Add(IDC_MOVEMENTRESTRICTION_CTRL = 
 		new wxComboBox(parent, -1,
-		"",
+		wxT(""),
 		wxDefaultPosition, wxDefaultSize,
 		0, 0, wxCB_READONLY), 0, wxALIGN_CENTER);
 	topsizer->Add(IDC_GIVEALLWEAPONS_CTRL = 
 		new wxCheckBox(parent, -1,
-			"Give all weapons",
+			wxT("Give all weapons"),
 			wxDefaultPosition, wxDefaultSize),
 			0, wxALIGN_CENTER);
 }

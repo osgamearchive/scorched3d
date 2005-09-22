@@ -194,7 +194,7 @@ GLBitmap &ExplosionTextures::getScorchBitmap(const char *name)
 		}
 
 		const char *fileName = getDataFile(name);
-		if (fileExists(fileName))
+		if (DefinesUtil::fileExists(fileName))
 		{
 			GLBitmap *map = new GLBitmap;
 			if (map->loadFromFile(fileName, false))

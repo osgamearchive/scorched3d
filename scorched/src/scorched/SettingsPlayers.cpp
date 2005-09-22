@@ -26,32 +26,32 @@ static void createControls(wxWindow *parent, wxSizer *topsizer)
 	topsizer->Add(buttonSizer, 0, wxALIGN_CENTER | wxTOP, 10);
 
 	buttonSizer->Add(new wxStaticText(parent, -1,
-		"Min Players :"), 0, wxALIGN_CENTER | wxRIGHT | wxLEFT, 5);
+		wxT("Min Players :")), 0, wxALIGN_CENTER | wxRIGHT | wxLEFT, 5);
 	buttonSizer->Add(IDC_SERVER_MIN_PLAYERS_CTRL = 
 		new wxComboBox(parent, -1,
-		"",
+		wxT(""),
 		wxDefaultPosition, wxDefaultSize,
 		0, 0, wxCB_READONLY), 0, wxALIGN_CENTER);
 	buttonSizer->Add(new wxStaticText(parent, -1,
-		"Max Players :"), 0, wxALIGN_CENTER | wxRIGHT | wxLEFT, 5);
+		wxT("Max Players :")), 0, wxALIGN_CENTER | wxRIGHT | wxLEFT, 5);
 	buttonSizer->Add(IDC_SERVER_MAX_PLAYERS_CTRL = 
 		new wxComboBox(parent, IDC_SERVER_MAX_PLAYERS,
-		"",
+		wxT(""),
 		wxDefaultPosition, wxDefaultSize,
 		0, 0, wxCB_READONLY), 0, wxALIGN_CENTER);	
 
 	wxBoxSizer *buttonSizer2 = new wxBoxSizer(wxHORIZONTAL);
 	topsizer->Add(buttonSizer2, 0, wxALIGN_CENTER | wxTOP, 10);
 	buttonSizer2->Add(new wxStaticText(parent, -1,
-		"Remove bots after players :"), 0, wxALIGN_CENTER | wxRIGHT | wxLEFT, 5);
+		wxT("Remove bots after players :")), 0, wxALIGN_CENTER | wxRIGHT | wxLEFT, 5);
 	buttonSizer2->Add(IDC_SERVER_REMOVEBOT_PLAYERS_CTRL = 
 		new wxComboBox(parent, -1,
-		"",
+		wxT(""),
 		wxDefaultPosition, wxDefaultSize,
 		0, 0, wxCB_READONLY), 0, wxALIGN_CENTER);
 
 	IDC_SERVER_RESIDUAL_CTRL = new wxCheckBox(parent, -1, 
-		"Players are persistent for game");
+		wxT("Players are persistent for game"));
 	topsizer->Add(IDC_SERVER_RESIDUAL_CTRL, 0, wxALIGN_CENTER | wxTOP, 10);
 		
 	wxSizer *sizer = new wxGridSizer(3, 3);
@@ -63,10 +63,10 @@ static void createControls(wxWindow *parent, wxSizer *topsizer)
 		sprintf(buffer, "%i", (i+1));
 	
 		wxBoxSizer *playerSizer = new wxBoxSizer(wxHORIZONTAL);
-		playerSizer->Add(new wxStaticText(parent, -1, buffer));
+		playerSizer->Add(new wxStaticText(parent, -1, wxString(buffer, wxConvUTF8)));
 		playerSizer->Add(IDC_COMBO_PTYPE_CTRL[i] = 
 			new wxComboBox(parent, -1,
-			"",
+			wxT(""),
 			wxDefaultPosition, wxDefaultSize,
 			0, 0, wxCB_READONLY));
 		sizer->Add(playerSizer, 0, wxALIGN_RIGHT | wxALL, 2);
@@ -75,10 +75,10 @@ static void createControls(wxWindow *parent, wxSizer *topsizer)
 	wxBoxSizer *botSizer = new wxBoxSizer(wxHORIZONTAL);
 	topsizer->Add(botSizer, 0, wxALIGN_CENTER | wxALL, 10);
 	botSizer->Add(new wxStaticText(parent, -1,
-		"Bot Name Prefix :"), 0, wxALIGN_CENTER | wxRIGHT | wxLEFT, 5);
+		wxT("Bot Name Prefix :")), 0, wxALIGN_CENTER | wxRIGHT | wxLEFT, 5);
 	botSizer->Add(IDC_EDIT3_CTRL = 
 		new wxTextCtrl(parent, -1,
-		"",
+		wxT(""),
 		wxDefaultPosition, wxSize((int) 214.5, (int) 21)), 
 		0, wxALIGN_CENTER);
 }

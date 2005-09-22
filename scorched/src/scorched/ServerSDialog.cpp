@@ -54,7 +54,7 @@ BEGIN_EVENT_TABLE(ServerSFrame, wxDialog)
 END_EVENT_TABLE()
 
 ServerSFrame::ServerSFrame(OptionsGame &options) :
-	wxDialog(getMainDialog(), -1, scorched3dAppName,
+	wxDialog(getMainDialog(), -1, wxString(scorched3dAppName, wxConvUTF8),
 			 wxDefaultPosition, wxDefaultSize),
 	 options_(options)
 {
@@ -80,7 +80,7 @@ ServerSFrame::ServerSFrame(OptionsGame &options) :
 
 void ServerSFrame::onPublishAutoButton(wxCommandEvent &event)
 {
-	IDC_PUBLISHIP_CTRL->SetValue("AutoDetect");
+	IDC_PUBLISHIP_CTRL->SetValue(wxT("AutoDetect"));
 }
 
 void ServerSFrame::onSettingsButton(wxCommandEvent &event)
@@ -92,20 +92,31 @@ void ServerSFrame::onSettingsButton(wxCommandEvent &event)
 
 bool ServerSFrame::TransferDataToWindow()
 {
-	IDC_SERVER_PORT_CTRL->SetValue(formatString("%i", options_.getPortNo()));
-	IDC_SERVER_PORT_CTRL->SetToolTip(options_.getPortNoToolTip());
-	IDC_SERVERMANAGEMENT_PORT_CTRL->SetValue(formatString("%i", options_.getManagementPortNo()));
-	IDC_SERVERMANAGEMENT_PORT_CTRL->SetToolTip(options_.getManagementPortNoToolTip());
-	IDC_SERVER_NAME_CTRL->SetValue(options_.getServerName());
-	IDC_SERVER_NAME_CTRL->SetToolTip(options_.getServerNameToolTip());
+	IDC_SERVER_PORT_CTRL->SetValue(
+		wxString(formatString("%i", options_.getPortNo()), wxConvUTF8));
+	IDC_SERVER_PORT_CTRL->SetToolTip(
+		wxString(options_.getPortNoToolTip(), wxConvUTF8));
+	IDC_SERVERMANAGEMENT_PORT_CTRL->SetValue(
+		wxString(formatString("%i", options_.getManagementPortNo()), wxConvUTF8));
+	IDC_SERVERMANAGEMENT_PORT_CTRL->SetToolTip(
+		wxString(options_.getManagementPortNoToolTip(), wxConvUTF8));
+	IDC_SERVER_NAME_CTRL->SetValue(
+		wxString(options_.getServerName(), wxConvUTF8));
+	IDC_SERVER_NAME_CTRL->SetToolTip(
+		wxString(options_.getServerNameToolTip(), wxConvUTF8));
 	IDC_PUBLISH_CTRL->SetValue(options_.getPublishServer());
-	IDC_PUBLISH_CTRL->SetToolTip(options_.getPublishServerToolTip());
-	IDC_PUBLISHIP_CTRL->SetValue(options_.getPublishAddress());
-	IDC_PUBLISHIP_CTRL->SetToolTip(options_.getPublishAddressToolTip());
+	IDC_PUBLISH_CTRL->SetToolTip(
+		wxString(options_.getPublishServerToolTip(), wxConvUTF8));
+	IDC_PUBLISHIP_CTRL->SetValue(
+		wxString(options_.getPublishAddress(), wxConvUTF8));
+	IDC_PUBLISHIP_CTRL->SetToolTip(
+		wxString(options_.getPublishAddressToolTip(), wxConvUTF8));
 	IDC_ALLOWSAME_CTRL->SetValue(options_.getAllowSameIP());
-	IDC_ALLOWSAME_CTRL->SetToolTip(options_.getAllowSameIPToolTip());
+	IDC_ALLOWSAME_CTRL->SetToolTip(
+		wxString(options_.getAllowSameIPToolTip(), wxConvUTF8));
 	IDC_ALLOWSAMEID_CTRL->SetValue(options_.getAllowSameUniqueId());
-	IDC_ALLOWSAMEID_CTRL->SetToolTip(options_.getAllowSameUniqueIdToolTip());
+	IDC_ALLOWSAMEID_CTRL->SetToolTip(
+		wxString(options_.getAllowSameUniqueIdToolTip(), wxConvUTF8));
 
 	ModDirs modDirs;
 	if (!modDirs.loadModDirs()) dialogExit("ModFiles", "Failed to load mod files");
@@ -114,37 +125,37 @@ bool ServerSFrame::TransferDataToWindow()
 		itor != modDirs.getDirs().end();
 		itor++)
 	{
-		IDC_SERVER_MOD_CTRL->Append((*itor).c_str());
+		IDC_SERVER_MOD_CTRL->Append(wxString((*itor).c_str(), wxConvUTF8));
 	}
-	if (IDC_SERVER_MOD_CTRL->FindString(options_.getMod()) != -1)
-		IDC_SERVER_MOD_CTRL->SetValue(options_.getMod());
+	if (IDC_SERVER_MOD_CTRL->FindString(wxString(options_.getMod(), wxConvUTF8)) != -1)
+		IDC_SERVER_MOD_CTRL->SetValue(wxString(options_.getMod(), wxConvUTF8));
 	else 
-		IDC_SERVER_MOD_CTRL->SetValue("none");
+		IDC_SERVER_MOD_CTRL->SetValue(wxT("none"));
 	IDC_SERVER_MOD_CTRL->SetToolTip(
-		wxString("The Scorched3D mod to use for this game."));
+		wxString("The Scorched3D mod to use for this game.", wxConvUTF8));
 
 	return true;
 }
 
 bool ServerSFrame::TransferDataFromWindow()
 {
-	options_.setPortNo(atoi(IDC_SERVER_PORT_CTRL->GetValue()));
-	options_.setManagementPortNo(atoi(IDC_SERVERMANAGEMENT_PORT_CTRL->GetValue()));
-	options_.setServerName(IDC_SERVER_NAME_CTRL->GetValue());
+	options_.setPortNo(atoi(IDC_SERVER_PORT_CTRL->GetValue().mb_str(wxConvUTF8)));
+	options_.setManagementPortNo(atoi(IDC_SERVERMANAGEMENT_PORT_CTRL->GetValue().mb_str(wxConvUTF8)));
+	options_.setServerName(IDC_SERVER_NAME_CTRL->GetValue().mb_str(wxConvUTF8));
 	options_.setPublishServer(IDC_PUBLISH_CTRL->GetValue());
-	options_.setPublishAddress(IDC_PUBLISHIP_CTRL->GetValue());
+	options_.setPublishAddress(IDC_PUBLISHIP_CTRL->GetValue().mb_str(wxConvUTF8));
 	options_.setAllowSameIP(IDC_ALLOWSAME_CTRL->GetValue());
 	options_.setAllowSameUniqueId(IDC_ALLOWSAMEID_CTRL->GetValue());
-	options_.setMod(IDC_SERVER_MOD_CTRL->GetValue());
+	options_.setMod(IDC_SERVER_MOD_CTRL->GetValue().mb_str(wxConvUTF8));
 	return true;
 }
 
 bool showServerSDialog()
 {
 	OptionsGame tmpOptions;
-	wxString serverFileSrc = getDataFile("data/server.xml");
-	wxString serverFileDest = getSettingsFile("server.xml");
-	if (::wxFileExists(serverFileDest))
+	std::string serverFileSrc = getDataFile("data/server.xml");
+	std::string serverFileDest = getSettingsFile("server.xml");
+	if (DefinesUtil::fileExists(serverFileDest.c_str()))
 	{
 		tmpOptions.readOptionsFromFile((char *) serverFileDest.c_str());
 	}

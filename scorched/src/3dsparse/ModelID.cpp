@@ -76,7 +76,7 @@ bool ModelID::initFromNode(const char *directory, XMLNode *modelNode)
 		const char *meshNameContent = meshNode->getContent();
 		static char meshName[1024];
 		sprintf(meshName, "%s/%s", directory, meshNameContent);
-		if (!::wxFileExists(getDataFile(meshName)))
+		if (!DefinesUtil::fileExists(getDataFile(meshName)))
 		{
 			dialogMessage("Scorched Models",
 						"Mesh file \"%s\"does not exist",
@@ -90,7 +90,7 @@ bool ModelID::initFromNode(const char *directory, XMLNode *modelNode)
 		if (strcmp(skinNameContent, "none") != 0)
 		{
 			sprintf(skinName, "%s/%s", directory, skinNameContent);
-			if (!::wxFileExists(getDataFile(skinName)))
+			if (!DefinesUtil::fileExists(getDataFile(skinName)))
 			{
 				dialogMessage("Scorched Models",
 							"Skin file \"%s\" does not exist",
@@ -112,7 +112,7 @@ bool ModelID::initFromNode(const char *directory, XMLNode *modelNode)
 		static char meshName[1024];
 		sprintf(meshName, "%s/%s", directory, meshNameContent);
 
-		if (!::wxFileExists(getDataFile(meshName)))
+		if (!DefinesUtil::fileExists(getDataFile(meshName)))
 		{
 			dialogMessage("Scorched Models",
 						"Mesh file \"%s\"does not exist",

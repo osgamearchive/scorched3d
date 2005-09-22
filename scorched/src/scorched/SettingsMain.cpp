@@ -27,132 +27,132 @@ static void createControls(wxWindow *parent, wxSizer *topsizer)
 
 	IDC_TEAMS_CTRL_TEXT = 
 		new wxStaticText(parent, -1,
-		"Number Teams :");
+		wxT("Number Teams :"));
 	sizer->Add(IDC_TEAMS_CTRL_TEXT, 0, wxALIGN_CENTER);
 	IDC_TEAMS_CTRL = 
 		new wxComboBox(parent, IDC_TEAMS,
-		"",
+		wxT(""),
 		wxDefaultPosition, wxDefaultSize,
 		0, 0, wxCB_READONLY);
 	sizer->Add(IDC_TEAMS_CTRL, 0, wxALIGN_CENTER);
 
 	sizer->Add(new wxStaticText(parent, -1, 
-		"Team Ballance"), 0, wxALIGN_CENTER);
+		wxT("Team Ballance")), 0, wxALIGN_CENTER);
 	sizer->Add(IDC_TEAMBALLANCE_CTRL = 
 		new wxComboBox(parent, -1,
-		"",
+		wxT(""),
 		wxDefaultPosition, wxDefaultSize,
 		0, 0, wxCB_READONLY), 0, wxALIGN_CENTER);
 		
 	IDC_TYPE_CTRL_TEXT = 
 		new wxStaticText(parent, -1,
-		"Game Type :");
+		wxT("Game Type :"));
 	sizer->Add(IDC_TYPE_CTRL_TEXT, 0, wxALIGN_CENTER);
 	IDC_TYPE_CTRL = 
 		new wxComboBox(parent, IDC_GAME_TYPE,
-		"",
+		wxT(""),
 		wxDefaultPosition, wxDefaultSize,
 		0, 0, wxCB_READONLY);
 	sizer->Add(IDC_TYPE_CTRL, 0, wxALIGN_CENTER);
 		
 	IDC_SERVER_ROUNDS_CTRL_TEXT = 
 		new wxStaticText(parent, -1,
-		"Number Rounds :");
+		wxT("Number Rounds :"));
 	sizer->Add(IDC_SERVER_ROUNDS_CTRL_TEXT, 0, wxALIGN_CENTER);
 	IDC_SERVER_ROUNDS_CTRL = 
 		new wxComboBox(parent, IDC_SERVER_ROUNDS,
-		"",
+		wxT(""),
 		wxDefaultPosition, wxDefaultSize,
 		0, 0, wxCB_READONLY);
 	sizer->Add(IDC_SERVER_ROUNDS_CTRL, 0, wxALIGN_CENTER);
 		
 	IDC_NOSHOTS_CTRL_TEXT = 
 		new wxStaticText(parent, -1,
-		"Number Turns :");
+		wxT("Number Turns :"));
 	sizer->Add(IDC_NOSHOTS_CTRL_TEXT, 0, wxALIGN_CENTER);
 	IDC_NOSHOTS_CTRL = 
 		new wxComboBox(parent, IDC_NOSHOTS,
-		"",
+		wxT(""),
 		wxDefaultPosition, wxDefaultSize,
 		0, 0, wxCB_READONLY);
 	sizer->Add(IDC_NOSHOTS_CTRL, 0, wxALIGN_CENTER);	
 
 	sizer->Add(new wxStaticText(parent, -1,
-		"Keep Alive Time :"), 0, wxALIGN_CENTER);
+		wxT("Keep Alive Time :")), 0, wxALIGN_CENTER);
 	IDC_KEEPALIVE_TIME_CTRL = 
 		new wxComboBox(parent, -1,
-		"",
+		wxT(""),
 		wxDefaultPosition, wxDefaultSize,
 		0, 0, wxCB_READONLY);
 	sizer->Add(IDC_KEEPALIVE_TIME_CTRL, 0, wxALIGN_CENTER);
 
 	IDC_START_TIME_CTRL_TEXT = 
 		new wxStaticText(parent, -1,
-		"Start Time :");
+		wxT("Start Time :"));
 	sizer->Add(IDC_START_TIME_CTRL_TEXT, 0, wxALIGN_CENTER);
 	IDC_START_TIME_CTRL = 
 		new wxComboBox(parent, IDC_START_TIME,
-		"",
+		wxT(""),
 		wxDefaultPosition, wxDefaultSize,
 		0, 0, wxCB_READONLY);
 	sizer->Add(IDC_START_TIME_CTRL, 0, wxALIGN_CENTER);
 		
 	IDC_SHOT_TIME_CTRL_TEXT = 
 		new wxStaticText(parent, -1,
-		"Shot Time :");
+		wxT("Shot Time :"));
 	sizer->Add(IDC_SHOT_TIME_CTRL_TEXT, 0, wxALIGN_CENTER);
 	IDC_SHOT_TIME_CTRL = 
 		new wxComboBox(parent, IDC_SHOT_TIME,
-		"",
+		wxT(""),
 		wxDefaultPosition, wxDefaultSize,
 		0, 0, wxCB_READONLY);
 	sizer->Add(IDC_SHOT_TIME_CTRL, 0, wxALIGN_CENTER);
 		
 	IDC_BUYING_TIME_CTRL_TEXT = 
 		new wxStaticText(parent, -1,
-		"Buying Time :");
+		wxT("Buying Time :"));
 	sizer->Add(IDC_BUYING_TIME_CTRL_TEXT, 0, wxALIGN_CENTER);
 	IDC_BUYING_TIME_CTRL = 
 		new wxComboBox(parent, IDC_SHOT_TIME,
-		"",
+		wxT(""),
 		wxDefaultPosition, wxDefaultSize,
 		0, 0, wxCB_READONLY);
 	sizer->Add(IDC_BUYING_TIME_CTRL, 0, wxALIGN_CENTER);
 
 	IDC_IDLE_TIME_CTRL_TEXT =
 		new wxStaticText(parent, -1,
-		"Level Idle Time :");
+		wxT("Level Idle Time :"));
 	sizer->Add(IDC_IDLE_TIME_CTRL_TEXT, 0, wxALIGN_CENTER);
 	IDC_IDLE_TIME_CTRL = 
 		new wxComboBox(parent, IDC_IDLE_TIME,
-		"",
+		wxT(""),
 		wxDefaultPosition, wxDefaultSize,
 		0, 0, wxCB_READONLY);
 	sizer->Add(IDC_IDLE_TIME_CTRL, 0, wxALIGN_CENTER);
 	IDC_IDLE_SHOTTIME_CTRL_TEXT =
 		new wxStaticText(parent, -1,
-		"Shot Idle Time :");
+		wxT("Shot Idle Time :"));
 	sizer->Add(IDC_IDLE_SHOTTIME_CTRL_TEXT, 0, wxALIGN_CENTER);
 	IDC_IDLE_SHOTTIME_CTRL = 
 		new wxComboBox(parent, IDC_IDLE_SHOTTIME,
-		"",
+		wxT(""),
 		wxDefaultPosition, wxDefaultSize,
 		0, 0, wxCB_READONLY);
 	sizer->Add(IDC_IDLE_SHOTTIME_CTRL, 0, wxALIGN_CENTER);
 	sizer->Add(new wxStaticText(parent, -1,
-		"Mod Download Speed :"), 0, wxALIGN_CENTER);
+		wxT("Mod Download Speed :")), 0, wxALIGN_CENTER);
 	IDC_DOWNLOAD_SPEED_CTRL = 
 		new wxComboBox(parent, -1,
-		"",
+		wxT(""),
 		wxDefaultPosition, wxDefaultSize,
 		0, 0, wxCB_READONLY);
 	sizer->Add(IDC_DOWNLOAD_SPEED_CTRL, 0, wxALIGN_CENTER);
 	IDC_SERVER_PASSWORD_CTRL_TEXT = 
-		new wxStaticText(parent, -1, "Password :");
+		new wxStaticText(parent, -1, wxT("Password :"));
 	sizer->Add(IDC_SERVER_PASSWORD_CTRL_TEXT, 0, wxALIGN_CENTER);
 	IDC_SERVER_PASSWORD_CTRL = 
 		new wxTextCtrl(parent, -1,
-		"",
+		wxT(""),
 		wxDefaultPosition, wxSize((int) 132, -1), wxTE_PASSWORD);
 	sizer->Add(IDC_SERVER_PASSWORD_CTRL, 0, wxALIGN_CENTER);
 }

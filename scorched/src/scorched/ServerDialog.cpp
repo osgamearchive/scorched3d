@@ -119,7 +119,7 @@ wxString ServerPlayerListControl::OnGetItemText(long item, long column) const
 		switch (column)
 		{
 		case 0:
-			return (char *) tank->getName();
+			return wxString((char *) tank->getName(), wxConvUTF8);
 			break;
 		case 1:
 			{
@@ -129,44 +129,44 @@ wxString ServerPlayerListControl::OnGetItemText(long item, long column) const
 					result = tank->getTankAI()->getName();
 				}
 
-				return result;
+				return wxString(result, wxConvUTF8);
 			}
 			break;
 		case 2:
 			{
-				static char buffer[256];
+				char buffer[256];
 				sprintf(buffer, "dest=%i ip=%s id=%i", 
 					tank->getDestinationId(), 
 					NetInterface::getIpName(tank->getIpAddress()), 
 					tank->getPlayerId());
-				return buffer;
+				return wxString(buffer, wxConvUTF8);
 			}
 			break;
 		case 3:
-			return (char *) tank->getScore().getTimePlayedString();
+			return wxString((char *) tank->getScore().getTimePlayedString(), wxConvUTF8);
 			break;
 		case 4:
-			return (char *) tank->getScore().getScoreString();
+			return wxString((char *) tank->getScore().getScoreString(), wxConvUTF8);
 			break;
 		case 5:
-			return (char *) tank->getState().getStateString();
+			return wxString((char *) tank->getState().getStateString(), wxConvUTF8);
 			break;
 		case 6:
-			if (tank->getTeam() == 0) return "None";
-			else if (tank->getTeam() == 1) return "Red";
-			else if (tank->getTeam() == 2) return "Blue";
-			else if (tank->getTeam() == 3) return "Green";
-			else if (tank->getTeam() == 4) return "Yellow";
+			if (tank->getTeam() == 0) return wxT("None");
+			else if (tank->getTeam() == 1) return wxT("Red");
+			else if (tank->getTeam() == 2) return wxT("Blue");
+			else if (tank->getTeam() == 3) return wxT("Green");
+			else if (tank->getTeam() == 4) return wxT("Yellow");
 			break;
 		case 7:
-			return tank->getHostDesc();
+			return wxString(tank->getHostDesc(), wxConvUTF8);
 			break;
 		case 8:
-			return tank->getScore().getStatsRank();
+			return wxString(tank->getScore().getStatsRank(), wxConvUTF8);
 			break;
 		}
 	}
-	return "";
+	return wxT("");
 }
 
 class ServerLogListControl : public wxListCtrl
@@ -198,9 +198,9 @@ wxString ServerLogListControl::OnGetItemText(long item, long column) const
 {
 	if ((item != -1) && (item < (long) ServerLog::instance()->getEntries().size()))
 	{
-		return ServerLog::instance()->getEntries()[item].text.c_str();
+		return wxString(ServerLog::instance()->getEntries()[item].text.c_str(), wxConvUTF8);
 	}
-	return "";
+	return wxT("");
 }
 
 class ServerFrame: public wxFrame
@@ -294,7 +294,7 @@ BEGIN_EVENT_TABLE(ServerFrame, wxFrame)
 END_EVENT_TABLE()
 
 ServerFrame::ServerFrame(const char *name) :
-	wxFrame(NULL, -1, name, wxPoint(0,0), wxSize(630, 470))
+	wxFrame(NULL, -1, wxString(name, wxConvUTF8), wxPoint(0,0), wxSize(630, 470))
 {
 	CentreOnScreen();
 
@@ -345,7 +345,7 @@ ServerFrame::ServerFrame(const char *name) :
 	{
 		playerList_->InsertColumn(
 			i,
-			playerListItems[i].name,
+			wxString(playerListItems[i].name, wxConvUTF8),
 			wxLIST_FORMAT_LEFT,
 			playerListItems[i].size);
 	}
@@ -357,40 +357,40 @@ ServerFrame::ServerFrame(const char *name) :
 	{
 		logList_->InsertColumn(
 			i,
-			mainListItems[i].name,
+			wxString(mainListItems[i].name, wxConvUTF8),
 			wxLIST_FORMAT_LEFT,
 			mainListItems[i].size);
 	}
 
 	// Add menu items
 	wxMenu *menuFile = new wxMenu;
-	menuFile->Append(IDC_MENU_COMSMESSAGELOGGING, "Toggle Coms Messa&ge logging");
-	menuFile->Append(IDC_MENU_STATELOGGING, "Toggle S&tate Logging");
+	menuFile->Append(IDC_MENU_COMSMESSAGELOGGING, wxT("Toggle Coms Messa&ge logging"));
+	menuFile->Append(IDC_MENU_STATELOGGING, wxT("Toggle S&tate Logging"));
  	menuFile->AppendSeparator();
- 	menuFile->Append(IDC_MENU_EXIT, "E&xit");
+ 	menuFile->Append(IDC_MENU_EXIT, wxT("E&xit"));
 
 	wxMenu *menuOptions = new wxMenu;
-	menuOptions->Append(IDC_MENU_SHOWOPTIONS, "&Display Options");
-	menuOptions->Append(IDC_MENU_EDITOPTIONS, "&Edit Options");
-	menuOptions->Append(IDC_MENU_LOADOPTIONS, "&Load Options");
-	menuOptions->Append(IDC_MENU_SAVEOPTIONS, "&Save Options");
+	menuOptions->Append(IDC_MENU_SHOWOPTIONS, wxT("&Display Options"));
+	menuOptions->Append(IDC_MENU_EDITOPTIONS, wxT("&Edit Options"));
+	menuOptions->Append(IDC_MENU_LOADOPTIONS, wxT("&Load Options"));
+	menuOptions->Append(IDC_MENU_SAVEOPTIONS, wxT("&Save Options"));
 	menuOptions->AppendSeparator();
-	menuOptions->Append(IDC_MENU_SHOWMODFILES, "Show &Mod Files");
+	menuOptions->Append(IDC_MENU_SHOWMODFILES, wxT("Show &Mod Files"));
 
 	wxMenu *menuAdmin = new wxMenu;
-	menuAdmin->Append(IDC_MENU_PLAYERKICK, "Kick selected players");
-	menuAdmin->Append(IDC_MENU_PLAYERBAN, "Ban selected players");
-	menuAdmin->Append(IDC_MENU_PLAYERPERMMUTE, "Perminantly mutes selected players");
-	menuAdmin->Append(IDC_MENU_PLAYERUNPERMMUTE, "Un-perminantly mutes selected players");
-	menuAdmin->Append(IDC_MENU_PLAYERSLAP25, "Slap selected players (25 pts)");
-	menuAdmin->Append(IDC_MENU_PLAYERMUTE, "Mute selected players");
-	menuAdmin->Append(IDC_MENU_PLAYERUNMUTE, "Unmute selected players");
+	menuAdmin->Append(IDC_MENU_PLAYERKICK, wxT("Kick selected players"));
+	menuAdmin->Append(IDC_MENU_PLAYERBAN, wxT("Ban selected players"));
+	menuAdmin->Append(IDC_MENU_PLAYERPERMMUTE, wxT("Perminantly mutes selected players"));
+	menuAdmin->Append(IDC_MENU_PLAYERUNPERMMUTE, wxT("Un-perminantly mutes selected players"));
+	menuAdmin->Append(IDC_MENU_PLAYERSLAP25, wxT("Slap selected players (25 pts)"));
+	menuAdmin->Append(IDC_MENU_PLAYERMUTE, wxT("Mute selected players"));
+	menuAdmin->Append(IDC_MENU_PLAYERUNMUTE, wxT("Unmute selected players"));
 	menuAdmin->AppendSeparator();
-	menuAdmin->Append(IDC_MENU_SHOWBANNED, "Show &Banned Users");
+	menuAdmin->Append(IDC_MENU_SHOWBANNED, wxT("Show &Banned Users"));
 	
 	wxMenu *menuChat = new wxMenu;
-	menuChat->Append(IDC_MENU_PLAYERTALK, "Talk to selected players");
-	menuChat->Append(IDC_MENU_PLAYERTALKALL, "Talk to all players");
+	menuChat->Append(IDC_MENU_PLAYERTALK, wxT("Talk to selected players"));
+	menuChat->Append(IDC_MENU_PLAYERTALKALL, wxT("Talk to all players"));
 
 	wxMenu *menuAddPlayer = new wxMenu;
 	int aicount = 0;
@@ -403,20 +403,20 @@ ServerFrame::ServerFrame(const char *name) :
 		TankAI *ai = (*aiitor);
 		char buffer[256];
 		sprintf(buffer, "Add %s", ai->getName());
-		menuAddPlayer->Append(IDC_MENU_PLAYERADD_1 + aicount, buffer);
+		menuAddPlayer->Append(IDC_MENU_PLAYERADD_1 + aicount, wxString(buffer, wxConvUTF8));
 	}
 
 	wxMenu *menuPlayer = new wxMenu;
-	menuPlayer->Append(IDC_MENU_STARTNEWGAME, "Start a new game");
-	menuPlayer->Append(IDC_MENU_PLAYERKILLALL, "Kill all players");
-	menuPlayer->Append(IDC_MENU_PLAYERADD, "Add a new player", menuAddPlayer);
+	menuPlayer->Append(IDC_MENU_STARTNEWGAME, wxT("Start a new game"));
+	menuPlayer->Append(IDC_MENU_PLAYERKILLALL, wxT("Kill all players"));
+	menuPlayer->Append(IDC_MENU_PLAYERADD, wxT("Add a new player"), menuAddPlayer);
 
     wxMenuBar *menuBar = new wxMenuBar;
-    menuBar->Append(menuFile, "&File");
-	menuBar->Append(menuOptions, "&Options");
-	menuBar->Append(menuAdmin, "&Admin");
-	menuBar->Append(menuChat, "&Chat");
-	menuBar->Append(menuPlayer, "&Players");
+    menuBar->Append(menuFile, wxT("&File"));
+	menuBar->Append(menuOptions, wxT("&Options"));
+	menuBar->Append(menuAdmin, wxT("&Admin"));
+	menuBar->Append(menuChat, wxT("&Chat"));
+	menuBar->Append(menuPlayer, wxT("&Players"));
     SetMenuBar( menuBar );
 
 #ifdef __WXMSW__
@@ -537,21 +537,22 @@ void ServerFrame::onTimer(wxTimerEvent &event)
 		ScorchedServer::instance()->getTankContainer().getPlayingTanks();
 	sprintf(buffer, "%i/%i Players", tanks.size(), 
 		ScorchedServer::instance()->getOptionsGame().getNoMaxPlayers());
-	frame->statusBar_->SetStatusText(buffer, 0);
+	frame->statusBar_->SetStatusText(wxString(buffer, wxConvUTF8), 0);
 	frame->statusBar_->SetStatusText(
-		(ServerTooFewPlayersStimulus::instance()->acceptStateChange(0, 0, 0.0f)?"Not Playing":"Playing"), 1);
+		(ServerTooFewPlayersStimulus::instance()->acceptStateChange(0, 0, 0.0f)?
+			wxT("Not Playing"):wxT("Playing")), 1);
 	sprintf(buffer, "Round %i/%i, %i/%i Moves",
 		ScorchedServer::instance()->getOptionsTransient().getCurrentRoundNo(),
 		ScorchedServer::instance()->getOptionsGame().getNoRounds(),
 		ScorchedServer::instance()->getOptionsTransient().getCurrentGameNo(),
 		ScorchedServer::instance()->getOptionsGame().getNoMaxRoundTurns());
-	frame->statusBar_->SetStatusText(buffer, 2);
+	frame->statusBar_->SetStatusText(wxString(buffer, wxConvUTF8), 2);
 	sprintf(buffer, "BI:%i BO:%i P:%i C:%i",
 		NetInterface::getBytesIn(),
 		NetInterface::getBytesOut(),
 		NetInterface::getPings(),
 		NetInterface::getConnects());
-	frame->statusBar_->SetStatusText(buffer, 3);
+	frame->statusBar_->SetStatusText(wxString(buffer, wxConvUTF8), 3);
 }
 
 void ServerFrame::onKillAll(wxCommandEvent &event)
@@ -567,19 +568,19 @@ void ServerFrame::onStartNewGame(wxCommandEvent &event)
 void ServerFrame::onPlayerTalkAll(wxCommandEvent &event)
 {
 	wxTextEntryDialog entryDialog(
-		frame, "Message to players");
+		frame, wxT("Message to players"));
 	if (entryDialog.ShowModal() == wxID_OK)
 	{
 		Logger::log( "Says \"%s\"", 
 			entryDialog.GetValue().GetData());
-		ServerCommon::sendString(0, entryDialog.GetValue());
+		ServerCommon::sendString(0, entryDialog.GetValue().mb_str(wxConvUTF8));
 	}
 }
 
 void ServerFrame::onPlayerTalk(wxCommandEvent &event)
 {
 	wxTextEntryDialog entryDialog(
-		frame, "Message to players");
+		frame, wxT("Message to players"));
 	if (entryDialog.ShowModal() == wxID_OK)
 	{
 		Logger::log( "Says \"%s\"", 
@@ -598,7 +599,8 @@ void ServerFrame::onPlayerTalk(wxCommandEvent &event)
 					ScorchedServer::instance()->getTankContainer().getTankByPos((unsigned int) item);
 				if (!tank->getTankAI())
 				{
-					ServerCommon::sendString(tank->getDestinationId(), entryDialog.GetValue());
+					ServerCommon::sendString(tank->getDestinationId(), 
+						entryDialog.GetValue().mb_str(wxConvUTF8));
 				}
 			}
 		}
@@ -730,16 +732,17 @@ void ServerFrame::onEditOptions(wxCommandEvent &event)
 
 void ServerFrame::onLoadOptions(wxCommandEvent &event)
 {
-	wxString file = ::wxFileSelector("Please choose the options file to open",
-									 getSettingsFile(""), // default path
-									 "server.xml", // default filename
-									 "", // default extension
-									 "*.xml",
+	wxString file = ::wxFileSelector(wxT("Please choose the options file to open"),
+									 wxString(getSettingsFile(""), wxConvUTF8), // default path
+									 wxT("server.xml"), // default filename
+									 wxT(""), // default extension
+									 wxT("*.xml"),
 									 wxOPEN | wxFILE_MUST_EXIST);
 	if (!file.empty())
 	{
+		const char *fileName = file.mb_str(wxConvUTF8);
 		if(ScorchedServer::instance()->getOptionsGame().getChangedOptions().
-		   readOptionsFromFile((char *) file.c_str()))
+		   readOptionsFromFile((char *) fileName))
 		{
 			dialogMessage("Server",
 						  "These changes will only take place at the start of the next round (map).\n"
@@ -750,16 +753,17 @@ void ServerFrame::onLoadOptions(wxCommandEvent &event)
 
 void ServerFrame::onSaveOptions(wxCommandEvent &event)
 {
-	wxString file = ::wxFileSelector("Please choose the options file to save",
-									 getSettingsFile(""), // default path
-									 "server.xml", // default filename
-									 "", // default extension
-									 "*.xml",
+	wxString file = ::wxFileSelector(wxT("Please choose the options file to save"),
+									 wxString(getSettingsFile(""), wxConvUTF8), // default path
+									 wxT("server.xml"), // default filename
+									 wxT(""), // default extension
+									 wxT("*.xml"),
 									 wxSAVE);
 	if (!file.empty())
 	{
+		const char *fileName = file.mb_str(wxConvUTF8);
 		ScorchedServer::instance()->getOptionsGame().getChangedOptions().
-			writeOptionsToFile((char *) file.c_str());
+			writeOptionsToFile((char *) fileName);
 	}
 }
 

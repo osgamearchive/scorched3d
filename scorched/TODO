@@ -1,11 +1,15 @@
 -- Bugs Fixed and Ready For Release 
 Fixed: Resign and disconnect messages are now shown correctly
+Fixed: Teleport moving tank too close to arena edges
+Fixed: Crash in dedicated server when using file logger
+Fixed: Compiling failing when using the unicode version of the wxWindows library
 
 -- Bugs in current development release
 Dvorak keyboard support is broken
 
 -- Things I am currently looking at
 Fix crashing when people win (Graphics card drivers??)
+Bots using lasers
 Ships
 Tutorial mode
 Changing menus to be icons

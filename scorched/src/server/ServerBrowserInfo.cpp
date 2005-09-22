@@ -166,7 +166,7 @@ void ServerBrowserInfo::processStatusMessage(std::list<std::string> &reply)
 	reply.push_back(addTag("round", formatString("%i/%i",
 		ScorchedServer::instance()->getOptionsTransient().getCurrentRoundNo(),
 		ScorchedServer::instance()->getOptionsGame().getNoRounds())));
-	reply.push_back(addTag("os", osDesc.c_str()));
+	reply.push_back(addTag("os", osDesc.mb_str(wxConvUTF8)));
 }
 
 void ServerBrowserInfo::processInfoMessage(std::list<std::string> &reply)

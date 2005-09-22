@@ -51,13 +51,13 @@ BEGIN_EVENT_TABLE(SingleSFrame, wxDialog)
 END_EVENT_TABLE()
 
 SingleSFrame::SingleSFrame(OptionsGame &options) :
-	wxDialog(getMainDialog(), -1, scorched3dAppName,
+	wxDialog(getMainDialog(), -1, wxString(scorched3dAppName, wxConvUTF8),
 			 wxDefaultPosition, wxDefaultSize),
 	 options_(options)
 {
 #ifdef _WIN32
 	// Set the frame's icon
-	wxIcon icon(getDataFile("data/windows/tank2.ico"), wxBITMAP_TYPE_ICO);
+	wxIcon icon(wxString(getDataFile("data/windows/tank2.ico"), wxConvUTF8), wxBITMAP_TYPE_ICO);
 	SetIcon(icon);
 #endif
 
@@ -90,13 +90,13 @@ bool SingleSFrame::TransferDataToWindow()
 	{
 		char string[20];
 		sprintf(string, "%i", i);
-		IDC_CLIENT_PLAYERS_CTRL->Append(string);
+		IDC_CLIENT_PLAYERS_CTRL->Append(wxString(string, wxConvUTF8));
 	}
 	sprintf(string, "%i", options_.getNoMaxPlayers());
-	IDC_CLIENT_PLAYERS_CTRL->SetValue(string);
+	IDC_CLIENT_PLAYERS_CTRL->SetValue(wxString(string, wxConvUTF8));
 	IDC_CLIENT_PLAYERS_CTRL->SetToolTip(
-		wxString("The number of players that will play in this game.\n"
-			"This number should include computer players"));
+		wxString(wxT("The number of players that will play in this game.\n")
+			wxT("This number should include computer players")));
 
 	ModDirs modDirs;
 	if (!modDirs.loadModDirs()) dialogExit("ModFiles", "Failed to load mod files");
@@ -105,15 +105,15 @@ bool SingleSFrame::TransferDataToWindow()
 		itor != modDirs.getDirs().end();
 		itor++)
 	{
-		IDC_CLIENT_MOD_CTRL->Append((*itor).c_str());
+		IDC_CLIENT_MOD_CTRL->Append(wxString((*itor).c_str(), wxConvUTF8));
 	}
 
-	if (IDC_CLIENT_MOD_CTRL->FindString(options_.getMod()) != -1)
-		IDC_CLIENT_MOD_CTRL->SetValue(options_.getMod());
+	if (IDC_CLIENT_MOD_CTRL->FindString(wxString(options_.getMod(), wxConvUTF8)) != -1)
+		IDC_CLIENT_MOD_CTRL->SetValue(wxString(options_.getMod(), wxConvUTF8));
 	else 
-		IDC_CLIENT_MOD_CTRL->SetValue("none");
+		IDC_CLIENT_MOD_CTRL->SetValue(wxT("none"));
 	IDC_CLIENT_MOD_CTRL->SetToolTip(
-		wxString("The Scorched3D mod to use for this game."));
+		wxString("The Scorched3D mod to use for this game.", wxConvUTF8));
 
 	return true;
 }
@@ -121,10 +121,10 @@ bool SingleSFrame::TransferDataToWindow()
 bool SingleSFrame::TransferDataFromWindow()
 {
 	int noPlayers = 2;
-	sscanf(IDC_CLIENT_PLAYERS_CTRL->GetValue(), "%i", &noPlayers);
+	sscanf(IDC_CLIENT_PLAYERS_CTRL->GetValue().mb_str(wxConvUTF8), "%i", &noPlayers);
 	options_.setNoMaxPlayers(noPlayers);
 	options_.setNoMinPlayers(noPlayers);
-	options_.setMod(IDC_CLIENT_MOD_CTRL->GetValue());
+	options_.setMod(IDC_CLIENT_MOD_CTRL->GetValue().mb_str(wxConvUTF8));
 
 	return true;
 }
@@ -132,9 +132,9 @@ bool SingleSFrame::TransferDataFromWindow()
 bool showSingleSDialog()
 {
 	OptionsGame tmpOptions;
-	wxString customFilePathSrc = getDataFile("data/singlecustom.xml");
-	wxString customFilePathDest = getSettingsFile("singlecustom.xml");
-	if (::wxFileExists(customFilePathDest))
+	std::string customFilePathSrc = getDataFile("data/singlecustom.xml");
+	std::string customFilePathDest = getSettingsFile("singlecustom.xml");
+	if (DefinesUtil::fileExists(customFilePathDest.c_str()))
 	{
 		tmpOptions.readOptionsFromFile((char *) customFilePathDest.c_str());
 	}

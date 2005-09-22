@@ -32,7 +32,7 @@ static void createControls(wxWindow *parent, wxSizer *topsizer)
 	wxScrolledWindow *scrolledWindow = new wxScrolledWindow(parent, -1, 
 		wxDefaultPosition, wxSize(225, 200));
 
-	wxSizer *sizer = new wxFlexGridSizer(2, 2);
+	wxSizer *sizer = new wxFlexGridSizer(3, 3);
 	int i = 0;
 	std::list<LandscapeDefinitionsEntry> &defns =
 		landscapeDefinitions.getAllLandscapes();
@@ -45,21 +45,21 @@ static void createControls(wxWindow *parent, wxSizer *topsizer)
 		wxBoxSizer *boxSizer = new wxBoxSizer(wxVERTICAL);
 
 		const char *fileName = getDataFile("data/landscapes/%s", dfn.picture.c_str());
-		if (!::wxFileExists(fileName))
+		if (!::wxFileExists(wxString(fileName, wxConvUTF8)))
 		{
 			fileName = getDataFile("data/landscapes/picture-none.bmp");
 		}
 
 		wxImage image;
-		if (image.LoadFile(fileName, wxBITMAP_TYPE_BMP))
+		if (image.LoadFile(wxString(fileName, wxConvUTF8), wxBITMAP_TYPE_BMP))
 		{
 			wxBitmap bitmap(image);
 			wxStaticBitmap *staticBmp = new wxStaticBitmap(scrolledWindow, -1, bitmap);
-			staticBmp->SetToolTip(wxString(dfn.description.c_str()));
+			staticBmp->SetToolTip(wxString(dfn.description.c_str(), wxConvUTF8));
 			boxSizer->Add(staticBmp, 0, wxALL, 2);
 		}
 
-		landscapes[i] = new wxCheckBox(scrolledWindow, -1, dfn.name.c_str());
+		landscapes[i] = new wxCheckBox(scrolledWindow, -1, wxString(dfn.name.c_str(), wxConvUTF8));
 		boxSizer->Add(landscapes[i]);
 
 		sizer->Add(boxSizer, 0, wxALL, 5);
@@ -72,12 +72,12 @@ static void createControls(wxWindow *parent, wxSizer *topsizer)
 		(minSize.GetWidth() + 10) / 10, (minSize.GetHeight() + 10) / 10);
 	topsizer->Add(scrolledWindow, 1, wxGROW | wxALL, 10);
 
-	IDC_CYCLEMAPS_CTRL = new wxCheckBox(parent, IDC_CYCLEMAPS, "Linearly cycle maps");
+	IDC_CYCLEMAPS_CTRL = new wxCheckBox(parent, IDC_CYCLEMAPS, wxT("Linearly cycle maps"));
 	topsizer->Add(IDC_CYCLEMAPS_CTRL, 0, wxALIGN_CENTER);
 
 	wxBoxSizer *buttonSizer = new wxBoxSizer(wxHORIZONTAL);
-	IDC_SELECTALL_CTRL = new wxButton(parent, IDC_SELECTALL, "Select All");
-	IDC_DESELECTALL_CTRL = new wxButton(parent, IDC_DESELECTALL, "Deselect All");
+	IDC_SELECTALL_CTRL = new wxButton(parent, IDC_SELECTALL, wxT("Select All"));
+	IDC_DESELECTALL_CTRL = new wxButton(parent, IDC_DESELECTALL, wxT("Deselect All"));
 	buttonSizer->Add(IDC_SELECTALL_CTRL, 0, wxALL, 10);
 	buttonSizer->Add(IDC_DESELECTALL_CTRL, 0, wxALL, 10);
 	topsizer->Add(buttonSizer, 0, wxALIGN_CENTER);

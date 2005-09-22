@@ -112,7 +112,9 @@ bool ClientSave::restoreClient(bool loadGameState, bool loadPlayers)
 	if (0 != strcmp(version.c_str(), ScorchedProtocolVersion))
 	{
 		dialogMessage("LoadGame", 
-			"ERROR: Saved file version %s does not match game version %s",
+			"ERROR: Saved file version does not match game version.\n"
+			"Saved version : %s\n"
+			"Current version : %s\n",
 			version.c_str(),
 			ScorchedProtocolVersion);
 		return false;

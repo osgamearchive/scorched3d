@@ -83,7 +83,7 @@ bool ModFileEntry::writeModFile(const char *fileName, const char *modName)
 		*dir = '\0';
 		const char *needdir = getModFile("%s/%s", 
 			modName, fileName);
-		if (!::wxDirExists(needdir)) ::wxMkdir(needdir);
+		if (!DefinesUtil::dirExists(needdir)) DefinesUtil::dirMake(needdir);
 		*dir = '/';
 		dir++;
 	}
