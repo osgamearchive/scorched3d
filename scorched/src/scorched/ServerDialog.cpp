@@ -740,9 +740,9 @@ void ServerFrame::onLoadOptions(wxCommandEvent &event)
 									 wxOPEN | wxFILE_MUST_EXIST);
 	if (!file.empty())
 	{
-		const char *fileName = file.mb_str(wxConvUTF8);
+		std::string fileName = (const char *) file.mb_str(wxConvUTF8);
 		if(ScorchedServer::instance()->getOptionsGame().getChangedOptions().
-		   readOptionsFromFile((char *) fileName))
+		   readOptionsFromFile((char *) fileName.c_str()))
 		{
 			dialogMessage("Server",
 						  "These changes will only take place at the start of the next round (map).\n"
@@ -761,9 +761,9 @@ void ServerFrame::onSaveOptions(wxCommandEvent &event)
 									 wxSAVE);
 	if (!file.empty())
 	{
-		const char *fileName = file.mb_str(wxConvUTF8);
+		std::string fileName = (const char *) file.mb_str(wxConvUTF8);
 		ScorchedServer::instance()->getOptionsGame().getChangedOptions().
-			writeOptionsToFile((char *) fileName);
+		   readOptionsFromFile((char *) fileName.c_str());
 	}
 }
 

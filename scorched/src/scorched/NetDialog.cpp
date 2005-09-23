@@ -244,9 +244,9 @@ static void onJoinButtonExec(NetLanFrame *frame)
 	wxString password = IDC_EDIT_PASSWORD_CTRL->GetValue();
 	wxString username = IDC_EDIT_NAME_CTRL->GetValue();
 
+	std::string host = (const char *) value.mb_str(wxConvUTF8);
 	std::string hostPart;
-	const char *host = value.mb_str(wxConvUTF8);
-	char *colon = strchr(host, ':');
+	char *colon = strchr(host.c_str(), ':');
 	if (colon) 
 	{
 		*colon = '\0';
