@@ -51,7 +51,8 @@ void DefinesUtil::fileDos2Unix(char *file)
 
 bool DefinesUtil::dirMake(const char *file)
 {
-    ::wxMkDir(file, 0755);
+    ::wxMkdir(wxString(file, wxConvUTF8), 0755);
+	return true;
 }
 
 bool DefinesUtil::fileExists(const char *file)

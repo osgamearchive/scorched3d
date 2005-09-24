@@ -9,8 +9,8 @@ Source0: http://unc.dl.sourceforge.net/sourceforge/scorched3d/Scorched3D-%{versi
 BuildRoot: %{_tmppath}/%{name}-buildroot
 
 BuildRequires:  perl, automake, autoconf, SDL-devel 
-BuildRequires:  SDL_mixer-devel, SDL_net-devel, freetype-devel
-Requires: SDL, freetype, SDL_mixer, SDL_net
+BuildRequires:  SDL_net-devel, freetype-devel
+Requires: SDL, freetype, SDL_net
 
 %description
 Scorched 3D is a game based loosely on the classic DOS game Scorched
