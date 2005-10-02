@@ -1,14 +1,15 @@
 <?
-$prefixid = ( isset($HTTP_GET_VARS['Prefix']) ) ? intval($HTTP_GET_VARS['Prefix']) : 0;
-$seriesid = ( isset($HTTP_GET_VARS['Series']) ) ? intval($HTTP_GET_VARS['Series']) : 0;
-$playerid = ( isset($HTTP_GET_VARS['PlayerID']) ) ? intval($HTTP_GET_VARS['PlayerID']) : 0;
-
 include('statsheader.php');
 include('conversionfunctions.php');
 
+$prefixid = getIntParameter('Prefix');
+$seriesid = getIntParameter('Series');
+$playerid = getIntParameter('PlayerID');
+
+
 // General Player Stats
 $playerquery = "SELECT * FROM scorched3d_players WHERE playerid=$playerid";
-$playerresult = mysql_query($playerquery) or die("Query failed : " . mysql_error());
+$playerresult = mysqlQuery($playerquery) or die("Query failed : " . mysql_error());
 $playerrow = mysql_fetch_object($playerresult);
 $playername=$playerrow->name;
 ?>
@@ -37,7 +38,7 @@ $playername=$playerrow->name;
 <?
 // Player Aliases
 $query = "SELECT * FROM scorched3d_names where playerid=$playerid order by count DESC";
-$result = mysql_query($query) or die("Query failed : " . mysql_error());
+$result = mysqlQuery($query) or die("Query failed : " . mysql_error());
 ?>
 <table width="600" border="0" align="center">
 <tr><td align=center><b>Aliases</b></td></tr>

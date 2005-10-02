@@ -18,7 +18,7 @@ while (!feof ($fp))
 		if (strpos($sql, ";") != FALSE)
 		{
 			//print ">>>".$sql."<br>";
-			$result = mysql_query($sql) or die("Query failed : ".$sql.":" . mysql_error());
+			$result = mysqlQuery($sql) or die("Query failed : ".$sql.":" . mysql_error());
 			$affected += mysql_affected_rows();
 			$sql = "";
 			$count ++;

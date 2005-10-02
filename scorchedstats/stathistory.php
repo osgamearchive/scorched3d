@@ -1,24 +1,16 @@
 <?//Gather any sort info or set defaults
-
-$prefixid = ( isset($HTTP_GET_VARS['Prefix']) ) ? intval($HTTP_GET_VARS['Prefix']) : 0;
-$seriesid = ( isset($HTTP_GET_VARS['Series']) ) ? intval($HTTP_GET_VARS['Series']) : 0;
-$playerid = ( isset($HTTP_GET_VARS['PlayerID']) ) ? intval($HTTP_GET_VARS['PlayerID']) : 0;
-
-$days = ( isset($HTTP_GET_VARS['Days']) ) ? intval($HTTP_GET_VARS['Days']) : 6;
-$num_rows = ( isset($HTTP_GET_VARS['Players']) ) ? intval($HTTP_GET_VARS['Players']) : 0;
-
-$orderby = ( isset($HTTP_GET_VARS['OrderBy']) ) ? htmlspecialchars($HTTP_GET_VARS['OrderBy']) : 'kills';
-
-$dir = ( isset($HTTP_GET_VARS['Dir']) ) ? htmlspecialchars($HTTP_GET_VARS['Dir']) : 'desc';
-if ($dir != "desc" && $dir != "asc") $dir = "desc";
-
-$compare = ( isset($HTTP_GET_VARS['Compare']) ) ? htmlspecialchars($HTTP_GET_VARS['Compare']) : '<=';
-if ($compare != '<=' && $compare != '<' && $compare != '=' && 
-	$compare != '>' && $compare != '>=') $compare = '<=';
-if ($compare=='<' and $days=='0') $compare='=';
-
 include('statsheader.php');
 include('sortfunction.php');  //function used to determine sort order
+
+$prefixid = getIntParameter('Prefix');
+$seriesid = getIntParameter('Series');
+$playerid = getIntParameter('PlayerID');
+$days = getIntParameter('Days');
+$num_rows = getIntParameter('Players');
+$orderby = getColumnParameter('OrderBy', 'kills');
+$dir = getDirectionParameter('Dir');
+$compare = getCompareParameter('Compare');
+if ($days == 0) $days = 6;
 ?>
 
 <? include('util.php'); ?>
@@ -61,10 +53,10 @@ Search Days
 
 <?
 $query = "SELECT (scorched3d_events.playerid) as playerid, (scorched3d_players.name) as name, SUM(IF(scorched3d_events.eventtype='1',1,0)) AS kills, SUM(IF(scorched3d_events.eventtype='2',1,0)) AS teamkills, SUM(IF(scorched3d_events.eventtype='3',1,0)) AS selfkills, SUM(IF(scorched3d_events.eventtype='4',1,0)) AS resigns, SUM(IF(scorched3d_events.eventtype='5',1,0)) AS roundwins, SUM(IF(scorched3d_events.eventtype='6',1,0)) AS gamewins FROM scorched3d_events LEFT JOIN scorched3d_players ON (scorched3d_events.playerid=scorched3d_players.playerid) WHERE TO_DAYS(NOW()) - TO_DAYS(scorched3d_events.eventtime) $compare $days AND prefixid=$prefixid AND seriesid=$seriesid GROUP BY playerid ORDER BY $orderby $dir LIMIT $playerid, 25";
-$result = mysql_query($query) or die("Query failed : " . mysql_error());
+$result = mysqlQuery($query) or die("Query failed : " . mysql_error());
 if ($num_rows==Null or $num_rows==0){
 	$query = "SELECT playerid FROM scorched3d_events WHERE TO_DAYS(NOW()) - TO_DAYS(scorched3d_events.eventtime) $compare $days and prefixid=$prefixid and seriesid=$seriesid GROUP BY playerid";
-	$result_info = mysql_query($query);
+	$result_info = mysqlQuery($query);
 	$num_rows = mysql_num_rows($result_info);
 }
 if ($days!='0'){

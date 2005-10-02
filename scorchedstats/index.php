@@ -4,25 +4,25 @@ include('conversionfunctions.php')
 ?>
 
 <?
-$seriesid = ( isset($HTTP_GET_VARS['Series']) ) ? intval($HTTP_GET_VARS['Series']) : 0;
+$seriesid = getIntParameter('Series');
 if ($seriesid==0)
 {
 	// Series
 	$query=" select seriesid, rounds, games, started, ended, name from scorched3d_series where type = 0;";
-	$result = mysql_query($query) or die("Query 1 failed : " . mysql_error());
+	$result = mysqlQuery($query) or die("Query 1 failed : " . mysql_error());
 	$seriesrow = mysql_fetch_object($result);
 	$seriesid = $seriesrow->seriesid;
 }
 else
 {
 	$query=" select seriesid, rounds, games, started, ended, name  from scorched3d_series where seriesid = ".$seriesid;
-	$result = mysql_query($query) or die("Query 1 failed : " . mysql_error());
+	$result = mysqlQuery($query) or die("Query 1 failed : " . mysql_error());
 	$seriesrow = mysql_fetch_object($result);
 }
 
-$totalplayersresult = mysql_query("select count(playerid) from scorched3d_players") or die("Query failed : " . mysql_error());
-$totalplayersrow = mysql_fetch_array($totalplayersresult);
-$totalplayers = $totalplayersrow[0];
+$totalplayersresult = mysqlQuery("select count(playerid) as playercount from scorched3d_players") or die("Query failed : " . mysql_error());
+$totalplayersrow = mysql_fetch_object($totalplayersresult);
+$totalplayers = $totalplayersrow->playercount;
 ?>
 
 <table width="790" border="0" align="center">
@@ -41,7 +41,7 @@ Players : <?=$totalplayers?>, Games: <?=$seriesrow->games?>, Rounds : <?=$series
 <?
 // Prefixs
 $query =" select prefixid, serverid from scorched3d_statssource where seriesid = ".$seriesid.";";
-$outerresult = mysql_query($query) or die("Query 2 failed : " . mysql_error());
+$outerresult = mysqlQuery($query) or die("Query 2 failed : " . mysql_error());
 ?>
 
 <?
@@ -53,13 +53,13 @@ $serverid = $outerrow->serverid;
 ?>
 
 <?
-$countresult = mysql_query("select count(playerid) from scorched3d_stats where prefixid = ".$prefixid." and seriesid = ".$seriesid) or die("Query failed : " . mysql_error());
-$countrow = mysql_fetch_array($countresult);
-$count = $countrow[0];
+$countresult = mysqlQuery("select count(playerid) as playercount from scorched3d_stats where prefixid = ".$prefixid." and seriesid = ".$seriesid) or die("Query failed : " . mysql_error());
+$countrow = mysql_fetch_object($countresult);
+$count = $countrow->playercount;
 
-$serverresult = mysql_query("select name from scorched3d_servers where serverid = ".$serverid) or die("Query failed : " . mysql_error());
-$serverrow = mysql_fetch_array($serverresult);
-$server = $serverrow[0];
+$serverresult = mysqlQuery("select name from scorched3d_servers where serverid = ".$serverid) or die("Query failed : " . mysql_error());
+$serverrow = mysql_fetch_object($serverresult);
+$server = $serverrow->name;
 ?>
 
 <br><br>
@@ -95,7 +95,7 @@ $server = $serverrow[0];
 <?
 // Top Players Query
 $query = "select *, name, avatarid, round((skill + (overallwinner*5) + (COALESCE(round((wins/gamesplayed)*(skill-1000), 3), 0)) + ((skill-1000) * COALESCE(round(((kills-(teamkills+selfkills))/shots), 3), 0))),0) as skill from scorched3d_stats LEFT JOIN scorched3d_players playernames ON scorched3d_stats.playerid=playernames.playerid where prefixid = ".$prefixid." and seriesid = ".$seriesid." order by kills desc limit 10";
-$result = mysql_query($query) or die("Query failed : " . mysql_error());
+$result = mysqlQuery($query) or die("Query failed : " . mysql_error());
 ?>
 
 <table width="650" bordercolor="#333333" cellspacing="0" cellpadding="0" border="1" align="center">

@@ -4,7 +4,7 @@ include('statsheader.php');
 
 <?
 $query = " select ipaddress from scorched3d_players group by ipaddress having count(*) > 1;";
-$result = mysql_query($query) or die("Query failed : " . mysql_error());
+$result = mysqlQuery($query) or die("Query failed : " . mysql_error());
 ?>
 
 <table width=600 border="0" align="center">
@@ -22,7 +22,7 @@ while ($row = mysql_fetch_object($result))
 </tr>
 <?
 	$query2 = " select name, playerid from scorched3d_players where ipaddress=\"".$row->ipaddress."\"";
-	$result2 = mysql_query($query2) or die("Query failed : " . mysql_error());
+	$result2 = mysqlQuery($query2) or die("Query failed : " . mysql_error());
 
 	while ($row2 = mysql_fetch_object($result2))
 	{

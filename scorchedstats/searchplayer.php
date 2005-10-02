@@ -15,7 +15,7 @@ $playername = ( isset($HTTP_GET_VARS['playername']) ) ? htmlspecialchars($HTTP_G
 $playername = str_replace("\'", "''", $playername);
 
 $query = " select name, playerid from scorched3d_names where name rlike '$playername'";
-$result = mysql_query($query) or die("Query failed : " . mysql_error());
+$result = mysqlQuery($query) or die("Query failed : " . mysql_error());
 ?>
 <table width=600 border="0" align="center">
 <tr><td align=center><b>Players containing <? echo $playername;?></b></td></tr>
@@ -31,12 +31,12 @@ $result = mysql_query($query) or die("Query failed : " . mysql_error());
 while ($row = mysql_fetch_object($result))
 {
 	$query2 = " select name from scorched3d_players where playerid=\"".$row->playerid."\"";
-	$result2 = mysql_query($query2) or die("Query failed : " . mysql_error());
+	$result2 = mysqlQuery($query2) or die("Query failed : " . mysql_error());
 	$row2 = mysql_fetch_object($result2);
 
 	$games = "";
 	$query3 = " select seriesid, prefixid from scorched3d_stats where playerid=\"".$row->playerid."\"";
-	$result3 = mysql_query($query3) or die("Query failed : " . mysql_error());
+	$result3 = mysqlQuery($query3) or die("Query failed : " . mysql_error());
 	while ($row3 = mysql_fetch_object($result3))
 	{
 		$games .= "<a href='playerstats.php?Prefix=".$row3->prefixid."&Series=".$row3->seriesid."&PlayerID=".$row->playerid."'>View</a> ";

@@ -1,11 +1,10 @@
 <?
-
-$prefixid = ( isset($HTTP_GET_VARS['Prefix']) ) ? intval($HTTP_GET_VARS['Prefix']) : 0;
-$seriesid = ( isset($HTTP_GET_VARS['Series']) ) ? intval($HTTP_GET_VARS['Series']) : 0;
-$weaponid = ( isset($HTTP_GET_VARS['WeaponID']) ) ? intval($HTTP_GET_VARS['WeaponID']) : 0;
-
 include('statsheader.php');
 include('conversionfunctions.php');
+
+$prefixid = getIntParameter('Prefix');
+$seriesid = getIntParameter('Series');
+$weaponid = getIntParameter('WeaponID');
 ?>
 
 <? include('util.php'); ?>
@@ -13,8 +12,8 @@ include('conversionfunctions.php');
 
 <?
 // General Weapon Stats
-$query = "SELECT *, COALESCE(round(kills/shots, 2), 0.0) as killratio FROM scorched3d_weapons where weaponid=$weaponid and prefixid=$prefixid and seriesid=$seriesid";
-$result = mysql_query($query) or die("Query failed : " . mysql_error());
+$query = "SELECT name, description, weaponid, armslevel, cost, bundlesize, shots, kills, COALESCE(round(kills/shots, 2), 0.0) as killratio FROM scorched3d_weapons where weaponid=$weaponid and prefixid=$prefixid and seriesid=$seriesid";
+$result = mysqlQuery($query) or die("Query failed : " . mysql_error());
 $row = mysql_fetch_object($result);
 $weaponname=$row->name;
 ?>
@@ -37,7 +36,7 @@ $weaponname=$row->name;
 <?
 // Weapon users
 $query="select (scorched3d_players.name) as name, (scorched3d_events.playerid) as killer, SUM(IF(scorched3d_events.eventtype='1',1,0)) AS kills, SUM(IF(scorched3d_events.eventtype='2',1,0)) AS teamkills , SUM(IF(scorched3d_events.eventtype='3',1,0)) AS selfkills from scorched3d_events LEFT JOIN scorched3d_players ON (scorched3d_events.playerid=scorched3d_players.playerid) WHERE weaponid=$weaponid and scorched3d_events.prefixid=$prefixid and scorched3d_events.seriesid=$seriesid group by killer order by kills desc limit 25";
-$result = mysql_query($query) or die("Query failed : " . mysql_error());
+$result = mysqlQuery($query) or die("Query failed : " . mysql_error());
 ?>
 <table width="600" border="0" align="center">
 <tr><td align=center><font size="+1"><b><?=$weaponname?> Users</b></font></td></tr>
@@ -69,7 +68,7 @@ while ($row = mysql_fetch_object($result))
 <?
 // Query last 25 weapon events
 $query ="SELECT scorched3d_events.playerid, scorched3d_events.weaponid, scorched3d_events.eventtime, scorched3d_events.eventtype, scorched3d_events.otherplayerid, (playernames.name) as playername, (otherplayernames.name) as otherplayername FROM scorched3d_events LEFT JOIN scorched3d_players playernames ON scorched3d_events.playerid=playernames.playerid LEFT JOIN scorched3d_players otherplayernames ON scorched3d_events.otherplayerid=otherplayernames.playerid WHERE scorched3d_events.weaponid=$weaponid and scorched3d_events.prefixid=$prefixid and scorched3d_events.seriesid=$seriesid ORDER BY eventtime desc limit 25";
-$result = mysql_query($query) or die("Query failed : " . mysql_error());
+$result = mysqlQuery($query) or die("Query failed : " . mysql_error());
 $row = mysql_fetch_object($result);
 ?>
 <table width=550 border="0" align="center">

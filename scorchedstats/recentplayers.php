@@ -1,8 +1,8 @@
 <?
-$prefixid = ( isset($HTTP_GET_VARS['Prefix']) ) ? intval($HTTP_GET_VARS['Prefix']) : 0;
-$seriesid = ( isset($HTTP_GET_VARS['Series']) ) ? intval($HTTP_GET_VARS['Series']) : 0;
-
 include('statsheader.php');
+
+$prefixid = getIntParameter('Prefix');
+$seriesid = getIntParameter('Series');
 ?>
 
 <? include('util.php'); ?>
@@ -11,7 +11,7 @@ include('statsheader.php');
 <?
 // Top Players Query
 $query = " select name, osdesc, scorched3d_stats.playerid, lastconnected, connects FROM scorched3d_stats LEFT JOIN scorched3d_players playernames ON scorched3d_stats.playerid=playernames.playerid where prefixid=$prefixid and seriesid=$seriesid GROUP BY playerid ORDER BY lastconnected desc limit 25";
-$result = mysql_query($query) or die("Query failed : " . mysql_error());
+$result = mysqlQuery($query) or die("Query failed : " . mysql_error());
 ?>
 <table width="640" border="0" align="center">
 <tr><td align=center><font size="+1"><b>Recent Players</b></font></td></tr>

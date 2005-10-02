@@ -1,10 +1,9 @@
 <?
-
-$prefixid = ( isset($HTTP_GET_VARS['Prefix']) ) ? intval($HTTP_GET_VARS['Prefix']) : 0;
-$seriesid = ( isset($HTTP_GET_VARS['Series']) ) ? intval($HTTP_GET_VARS['Series']) : 0;
-$playerid = ( isset($HTTP_GET_VARS['PlayerID']) ) ? intval($HTTP_GET_VARS['PlayerID']) : 0;
-
 include('statsheader.php');
+
+$prefixid = getIntParameter('Prefix');
+$seriesid = getIntParameter('Series');
+$playerid = getIntParameter('PlayerID');
 ?>
 
 <? include('util.php'); ?>
@@ -13,7 +12,7 @@ include('statsheader.php');
 <?
 // Query player events and player/weapon names
 $query = "SELECT scorched3d_events.playerid, scorched3d_events.weaponid, scorched3d_events.eventtime, scorched3d_events.eventtype, scorched3d_events.otherplayerid, (scorched3d_players.name) as playername, (scorched3d_weapons.name) as weaponname FROM scorched3d_events LEFT JOIN scorched3d_players ON scorched3d_events.otherplayerid=scorched3d_players.playerid LEFT JOIN scorched3d_weapons ON scorched3d_events.weaponid=scorched3d_weapons.weaponid WHERE (scorched3d_events.playerid=$playerid AND scorched3d_events.prefixid=$prefixid AND scorched3d_events.seriesid=$seriesid) ORDER BY eventtime DESC";
-$result = mysql_query($query) or die("Query failed : " . mysql_error());
+$result = mysqlQuery($query) or die("Query failed : " . mysql_error());
 $row = mysql_fetch_object($result);
 ?>
 <table width=640 border="0" align="center">

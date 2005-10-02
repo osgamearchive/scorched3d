@@ -1,21 +1,18 @@
 <?
-
 include('conversionfunctions.php');
 include('statsheader.php');
 include('sortfunction.php');
 
-$prefixid = ( isset($HTTP_GET_VARS['Prefix']) ) ? intval($HTTP_GET_VARS['Prefix']) : 0;
-$seriesid = ( isset($HTTP_GET_VARS['Series']) ) ? intval($HTTP_GET_VARS['Series']) : 0;
-$playerid = ( isset($HTTP_GET_VARS['PlayerID']) ) ? intval($HTTP_GET_VARS['PlayerID']) : 0;
-
-$num_rows = ( isset($HTTP_GET_VARS['Players']) ) ? intval($HTTP_GET_VARS['Players']) : 0;
-$limit = ( isset($HTTP_GET_VARS['Limit']) ) ? intval($HTTP_GET_VARS['Limit']) : 0;
-
-$dir = ( isset($HTTP_GET_VARS['Dir']) ) ? htmlspecialchars($HTTP_GET_VARS['Dir']) : 'desc';
-if ($dir != 'desc' && $dir != 'asc') $dir = 'desc';
-$orderby = ( isset($HTTP_GET_VARS['OrderBy']) ) ? htmlspecialchars($HTTP_GET_VARS['OrderBy']) : 'kills';
-$filterby = ( isset($HTTP_GET_VARS['FBy']) ) ? htmlspecialchars($HTTP_GET_VARS['FBy']) : 'none';
-
+$prefixid = getIntParameter('Prefix');
+$seriesid = getIntParameter('Series');
+$playerid = getIntParameter('PlayerID');
+$num_rows = getIntParameter('Players');
+$limit = getIntParameter('Limit');
+$dir = getDirectionParameter('Dir');
+$orderby = getColumnParameter('OrderBy', 'kills');
+$filterby = getColumnParameter('FBy', 'none');
+$filtercompare = getCompareParameter('FComp');
+$filtervalue=getIntParameter('FVal');
 $fielddata = $HTTP_GET_VARS['Fields'];
 
 // Looks to see if $valuetocheck exists in the array of currently displayed fields
@@ -189,8 +186,6 @@ for ($i=0; $i<count($fieldarray); $i++) {	//Expand field names in the field name
 
 // Gather filtering options from the url
 if ($filterby != Null and $filterby != 'none') {
-	$filtercompare=$_GET['FComp'];
-	$filtervalue=$_GET['FVal'];
 	if ($filtercompare != Null and $filtervalue != Null) {
 		$filterurl=$filterby."&FComp=".urlencode($filtercompare)."&FVal=".$filtervalue;
 	}
@@ -324,7 +319,7 @@ else {
 
 //Query requested info from the database and setup table for displaying it
 $query = "SELECT scorched3d_stats.playerid, name, avatarid, $columnquery FROM scorched3d_stats LEFT JOIN scorched3d_players playernames ON scorched3d_stats.playerid=playernames.playerid $wherequery ORDER BY $orderby $dir LIMIT $playerid, $limit";
-$result = mysql_query($query) or die("Query failed : " . mysql_error());
+$result = mysqlQuery($query) or die("Query failed : " . mysql_error());
 ?>
 <table width=760 border="0" align="center">
 <tr><td align=center><font size="+1"><b><? echo "Players ".($playerid+1)." to ".($playerid+$limit)." (sorted by ".columnformat($orderby).$filter.")";?></b></font></td></tr>
@@ -376,10 +371,10 @@ while ($row = mysql_fetch_array($result, MYSQL_ASSOC))
 <?
 //Count users and create links to all results
 if ($num_rows==Null){
-	$query = "select count(playerid) from scorched3d_stats $wherequery";
-	$result = mysql_query($query) or die("Query failed : " . mysql_error());
-	$row = mysql_fetch_array($result);
-	$num_rows=$row[0];
+	$query = "select count(playerid) as playercount from scorched3d_stats $wherequery";
+	$result = mysqlQuery($query) or die("Query failed : " . mysql_error());
+	$row = mysql_fetch_object($result);
+	$num_rows=$row->playercount;
 }
 $pages = $num_rows / $limit;
 $rows = 0;
