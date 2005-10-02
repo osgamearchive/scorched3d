@@ -1048,7 +1048,7 @@ activated before they work.</description>
 				<hurtamount>0</hurtamount>
 				<deform>none</deform>
 				<size>8</size>
-				<explosionsound>shoot/flare.wav</explosionsound>
+				<explosionsound>none</explosionsound>
 				<explosiontexture>cloud00-5</explosiontexture>
 			</subweapon1>
 			<subweapon2 type='WeaponAimedOver'>
@@ -1185,7 +1185,7 @@ activated before they work.</description>
 				<hurtamount>0</hurtamount>
 				<deform>none</deform>
 				<size>8</size>
-				<explosionsound>shoot/flare.wav</explosionsound>
+				<explosionsound>none</explosionsound>
 				<explosiontexture>exp04</explosiontexture>
 			</subweapon1>
 			<subweapon2 type='WeaponAimedOver'>
@@ -1725,7 +1725,7 @@ EMPs do more damage to shields than to tanks.</description>
 		<accessoryaction type='WeaponProjectile'>
 			<enginesound>none</enginesound>
 			<projectilemodel type='MilkShape'>weapons/bullet.txt</projectilemodel>
-			<projectilescale>0.25</projectilescale>
+			<projectilescale>0.5</projectilescale>
 			<nocreateflame/>
 			<nocreatesmoke/>
 			<collisionaction type='WeaponMulti'>
@@ -2618,10 +2618,10 @@ out in a random direction.</description>
 	<accessory>
 		<name>Apocalypse</name>
 		<armslevel>1</armslevel>
-		<description>A projectile weapon that on
-reaching its highest point releases 
-many medium sized nuclear warheads 
-in several different directions.
+		<description>A projectile weapon that on reaching
+its highest point releases many medium
+sized nuclear warheads in different directions.
+For best spread, shoot @ 1000 power below 60 degrees
 </description>
 		<icon>apoc.bmp</icon>
 		<bundlesize>1</bundlesize>
@@ -2678,6 +2678,18 @@ in several different directions.
 						</collisionaction>
 					</aimedweapon>
 				</subweapon3>
+				<!-- Clouds -->
+				<subweapon4 type='WeaponMulti'>
+					<subweapon1 type='WeaponReference'>
+						<weapon>Clouds-Red</weapon>
+					</subweapon1>
+					<subweapon2 type='WeaponDelay'>
+						<delay>3.0</delay>
+						<delayedweapon type='WeaponReference'>
+							<weapon>Clouds-Red</weapon>
+						</delayedweapon>
+					</subweapon2>
+				</subweapon4>
 			</collisionaction>
 		</accessoryaction>
 	</accessory>
@@ -2791,7 +2803,7 @@ in several different directions.
 		<armslevel>0</armslevel>
 		<accessoryaction type='WeaponMulti'>
 			<subweapon1 type='WeaponDelay'>
-				<delay>0.4</delay>
+				<delay>0.5</delay>
 				<delayedweapon type='WeaponRedirect'>
 					<habs>false</habs>
 					<vabs>true</vabs>
@@ -2803,7 +2815,7 @@ in several different directions.
 				</delayedweapon>
 			</subweapon1>
 			<subweapon2 type='WeaponDelay'>
-				<delay>0.8</delay>
+				<delay>1.0</delay>
 				<delayedweapon type='WeaponRedirect'>
 					<habs>false</habs>
 					<vabs>true</vabs>
@@ -2815,7 +2827,7 @@ in several different directions.
 				</delayedweapon>
 			</subweapon2>
 			<subweapon3 type='WeaponDelay'>
-				<delay>1.2</delay>
+				<delay>1.5</delay>
 				<delayedweapon type='WeaponRedirect'>
 					<habs>false</habs>
 					<vabs>true</vabs>
@@ -2827,7 +2839,7 @@ in several different directions.
 				</delayedweapon>
 			</subweapon3>
 			<subweapon4 type='WeaponDelay'>
-				<delay>1.6</delay>
+				<delay>2.0</delay>
 				<delayedweapon type='WeaponRedirect'>
 					<habs>false</habs>
 					<vabs>true</vabs>
@@ -2839,7 +2851,7 @@ in several different directions.
 				</delayedweapon>
 			</subweapon4>
 			<subweapon5 type='WeaponDelay'>
-				<delay>2.0</delay>
+				<delay>2.5</delay>
 				<delayedweapon type='WeaponRedirect'>
 					<habs>false</habs>
 					<vabs>true</vabs>
@@ -2851,7 +2863,7 @@ in several different directions.
 				</delayedweapon>
 			</subweapon5>
 			<subweapon6 type='WeaponDelay'>
-				<delay>2.4</delay>
+				<delay>3.0</delay>
 				<delayedweapon type='WeaponRedirect'>
 					<habs>false</habs>
 					<vabs>true</vabs>
@@ -2863,7 +2875,7 @@ in several different directions.
 				</delayedweapon>
 			</subweapon6>
 			<subweapon7 type='WeaponDelay'>
-				<delay>2.8</delay>
+				<delay>3.5</delay>
 				<delayedweapon type='WeaponRedirect'>
 					<habs>false</habs>
 					<vabs>true</vabs>
@@ -2875,7 +2887,7 @@ in several different directions.
 				</delayedweapon>
 			</subweapon7>
 			<subweapon8 type='WeaponDelay'>
-				<delay>3.2</delay>
+				<delay>4.0</delay>
 				<delayedweapon type='WeaponRedirect'>
 					<habs>false</habs>
 					<vabs>true</vabs>
@@ -2892,7 +2904,8 @@ in several different directions.
 		<name>Dmsday Device</name>
 		<armslevel>0</armslevel>
 		<description>Detonates at the peak of the projectile's
-arc raining massive destruction upon the field.</description>
+arc raining massive destruction upon the field.
+For best spread, shoot @ 1000 power below 60 degrees</description>
 		<icon>apoc.bmp</icon>
 		<bundlesize>1</bundlesize>
 		<cost>100000</cost>
@@ -2909,6 +2922,7 @@ arc raining massive destruction upon the field.</description>
 					<deform>none</deform>
 					<hurtamount>0</hurtamount>
 					<size>24</size>
+					<explosionshake>4.0</explosionshake>
 					<explosionsound>explosions/xlarge.wav</explosionsound>
 					<explosiontexture>exp04</explosiontexture>
 				</subweapon1>
@@ -2919,7 +2933,7 @@ arc raining massive destruction upon the field.</description>
 							<weapon>Dmsday Flower</weapon>
 						</subweapon1>
 						<subweapon2 type='WeaponDelay'>
-							<delay>3.2</delay>
+							<delay>4.0</delay>
 							<delayedweapon type='WeaponRedirect'>
 								<habs>false</habs>
 								<vabs>false</vabs>
@@ -2932,23 +2946,113 @@ arc raining massive destruction upon the field.</description>
 						</subweapon2>
 					</aimedweapon>
 				</subweapon2>
-				<subweapon3 type='WeaponVelocity'>
-					<velocitychange>0.0</velocitychange>
-					<aimedweapon type='WeaponProjectile'>
-						<enginesound>none</enginesound>
-						<nocreateflame></nocreateflame>
-						<projectilescale>2</projectilescale>
-						<projectilemodel type='MilkShape'>mirvwarhead/mirvwarhead.txt</projectilemodel>
-						<collisionaction type='WeaponExplosion'>
-							<deform>down</deform>
-							<hurtamount>1.2</hurtamount>
-							<size>32</size>
-							<explosionsound>explosions/xlarge.wav</explosionsound>
-							<explosiontexture>exp04</explosiontexture>
-							<explosionshake>2.0</explosionshake>
-						</collisionaction>
-					</aimedweapon>
+				<subweapon3 type='WeaponDelay'>
+					<delay>4.0</delay>
+					<delayedweapon type='WeaponVelocity'>
+						<velocitychange>0.0</velocitychange>
+						<aimedweapon type='WeaponProjectile'>
+							<enginesound>none</enginesound>
+							<nocreateflame></nocreateflame>
+							<projectilescale>2</projectilescale>
+							<projectilemodel type='MilkShape'>mirvwarhead/mirvwarhead.txt</projectilemodel>
+							<collisionaction type='WeaponExplosion'>
+								<deform>down</deform>
+								<hurtamount>1.2</hurtamount>
+								<size>32</size>
+								<explosionsound>explosions/xlarge.wav</explosionsound>
+								<explosiontexture>exp04</explosiontexture>
+								<explosionshake>2.0</explosionshake>
+							</collisionaction>
+						</aimedweapon>
+					</delayedweapon>
 				</subweapon3>
+				<!-- Clouds -->
+				<subweapon4 type='WeaponMulti'>
+					<subweapon1 type='WeaponReference'>
+						<weapon>Clouds-Red</weapon>
+					</subweapon1>
+					<subweapon2 type='WeaponDelay'>
+						<delay>3.0</delay>
+						<delayedweapon type='WeaponReference'>
+							<weapon>Clouds-Red</weapon>
+						</delayedweapon>
+					</subweapon2>
+					<subweapon3 type='WeaponDelay'>
+						<delay>6.0</delay>
+						<delayedweapon type='WeaponReference'>
+							<weapon>Clouds-Red</weapon>
+						</delayedweapon>
+					</subweapon3>
+					<subweapon4 type='WeaponDelay'>
+						<delay>9.0</delay>
+						<delayedweapon type='WeaponReference'>
+							<weapon>Clouds-Red</weapon>
+						</delayedweapon>
+					</subweapon4>
+					<subweapon5 type='WeaponDelay'>
+						<delay>1.5</delay>
+						<delayedweapon type='WeaponAimedOver'>
+							<nowarheads>2</nowarheads>
+							<percentagemiss>99</percentagemiss>
+							<maxaimdistance>0</maxaimdistance>
+							<inaccuracy>99</inaccuracy>
+							<aimedweapon type='WeaponRedirect'>
+								<habs>false</habs>
+								<vabs>true</vabs>
+								<hredirect>0</hredirect>
+								<vredirect>90</vredirect>
+								<nextaction type='WeaponTranslate'>
+									<translatedist>25</translatedist>
+									<nextaction type='WeaponReference'>
+										<weapon>Clouds-Red</weapon>
+									</nextaction>
+								</nextaction>
+							</aimedweapon>
+						</delayedweapon>
+					</subweapon5>
+					<subweapon6 type='WeaponDelay'>
+						<delay>4.5</delay>
+						<delayedweapon type='WeaponAimedOver'>
+							<nowarheads>2</nowarheads>
+							<percentagemiss>99</percentagemiss>
+							<maxaimdistance>0</maxaimdistance>
+							<inaccuracy>99</inaccuracy>
+							<aimedweapon type='WeaponRedirect'>
+								<habs>false</habs>
+								<vabs>true</vabs>
+								<hredirect>0</hredirect>
+								<vredirect>90</vredirect>
+								<nextaction type='WeaponTranslate'>
+									<translatedist>25</translatedist>
+									<nextaction type='WeaponReference'>
+										<weapon>Clouds-Red</weapon>
+									</nextaction>
+								</nextaction>
+							</aimedweapon>
+						</delayedweapon>
+					</subweapon6>
+					<subweapon7 type='WeaponDelay'>
+						<delay>7.5</delay>
+						<delayedweapon type='WeaponAimedOver'>
+							<nowarheads>2</nowarheads>
+							<percentagemiss>99</percentagemiss>
+							<maxaimdistance>0</maxaimdistance>
+							<inaccuracy>99</inaccuracy>
+							<aimedweapon type='WeaponRedirect'>
+								<habs>false</habs>
+								<vabs>true</vabs>
+								<hredirect>0</hredirect>
+								<vredirect>90</vredirect>
+								<nextaction type='WeaponTranslate'>
+									<translatedist>25</translatedist>
+									<nextaction type='WeaponReference'>
+										<weapon>Clouds-Red</weapon>
+									</nextaction>
+								</nextaction>
+							</aimedweapon>
+						</delayedweapon>
+					</subweapon7>
+				</subweapon4>
 			</collisionaction>
 		</accessoryaction>
 	</accessory>
@@ -3077,6 +3181,7 @@ arc raining massive destruction upon the field.</description>
 								<aimedweapon type='WeaponProjectile'>
 									<enginesound>none</enginesound>
 									<nocreateflame></nocreateflame>
+									<nocreatesmoke></nocreatesmoke>
 									<projectilemodel type='MilkShape'>fatman/fatman.txt</projectilemodel>
 									<collisionaction type='WeaponExplosion'>
 										<deform>down</deform>
@@ -3102,7 +3207,7 @@ arc raining massive destruction upon the field.</description>
 		<armslevel>0</armslevel>
 		<accessoryaction type='WeaponMulti'>
 			<subweapon1 type='WeaponDelay'>
-				<delay>0.4</delay>
+				<delay>0.5</delay>
 				<delayedweapon type='WeaponRedirect'>
 					<habs>false</habs>
 					<vabs>true</vabs>
@@ -3114,7 +3219,7 @@ arc raining massive destruction upon the field.</description>
 				</delayedweapon>
 			</subweapon1>
 			<subweapon2 type='WeaponDelay'>
-				<delay>0.8</delay>
+				<delay>1.0</delay>
 				<delayedweapon type='WeaponRedirect'>
 					<habs>false</habs>
 					<vabs>true</vabs>
@@ -3126,7 +3231,7 @@ arc raining massive destruction upon the field.</description>
 				</delayedweapon>
 			</subweapon2>
 			<subweapon3 type='WeaponDelay'>
-				<delay>1.2</delay>
+				<delay>1.5</delay>
 				<delayedweapon type='WeaponRedirect'>
 					<habs>false</habs>
 					<vabs>true</vabs>
@@ -3138,7 +3243,7 @@ arc raining massive destruction upon the field.</description>
 				</delayedweapon>
 			</subweapon3>
 			<subweapon4 type='WeaponDelay'>
-				<delay>1.6</delay>
+				<delay>2.0</delay>
 				<delayedweapon type='WeaponRedirect'>
 					<habs>false</habs>
 					<vabs>true</vabs>
@@ -3150,7 +3255,7 @@ arc raining massive destruction upon the field.</description>
 				</delayedweapon>
 			</subweapon4>
 			<subweapon5 type='WeaponDelay'>
-				<delay>2.0</delay>
+				<delay>2.5</delay>
 				<delayedweapon type='WeaponRedirect'>
 					<habs>false</habs>
 					<vabs>true</vabs>
@@ -3162,7 +3267,7 @@ arc raining massive destruction upon the field.</description>
 				</delayedweapon>
 			</subweapon5>
 			<subweapon6 type='WeaponDelay'>
-				<delay>2.4</delay>
+				<delay>3.0</delay>
 				<delayedweapon type='WeaponRedirect'>
 					<habs>false</habs>
 					<vabs>true</vabs>
@@ -3174,7 +3279,7 @@ arc raining massive destruction upon the field.</description>
 				</delayedweapon>
 			</subweapon6>
 			<subweapon7 type='WeaponDelay'>
-				<delay>2.8</delay>
+				<delay>3.5</delay>
 				<delayedweapon type='WeaponRedirect'>
 					<habs>false</habs>
 					<vabs>true</vabs>
@@ -3186,7 +3291,7 @@ arc raining massive destruction upon the field.</description>
 				</delayedweapon>
 			</subweapon7>
 			<subweapon8 type='WeaponDelay'>
-				<delay>3.2</delay>
+				<delay>4.0</delay>
 				<delayedweapon type='WeaponRedirect'>
 					<habs>false</habs>
 					<vabs>true</vabs>
@@ -3200,10 +3305,105 @@ arc raining massive destruction upon the field.</description>
 		</accessoryaction>
 	</accessory>
 	<accessory>
+		<name>StrangeBolt</name>
+		<armslevel>0</armslevel>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponLightning'>
+			<conelength>40</conelength>
+			<seglength>5</seglength>
+			<segvar>3</segvar>
+			<size>6</size>
+			<sizevar>-1</sizevar>
+			<minsize>0.1</minsize>
+			<splitprob>0.15</splitprob>
+			<splitvar>0.02</splitvar>
+			<deathprob>0.03</deathprob>
+			<derivangle>0.5</derivangle>
+			<anglevar>0.94</anglevar>
+			<totaltime>3</totaltime>
+			<seghurt>0</seghurt>
+			<seghurtradius>2</seghurtradius>
+			<sound>none</sound>
+		</accessoryaction>
+	</accessory>
+	<accessory>
+		<name>Lightning Clouds</name>
+		<armslevel>0</armslevel>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponAimedOver'>
+			<nowarheads>2</nowarheads>
+			<percentagemiss>99</percentagemiss>
+			<maxaimdistance>0</maxaimdistance>
+			<inaccuracy>99</inaccuracy>
+			<aimedweapon type='WeaponRedirect'>
+				<habs>false</habs>
+				<vabs>true</vabs>
+				<hredirect>0</hredirect>
+				<vredirect>90</vredirect>
+				<nextaction type='WeaponTranslate'>
+					<translatedist>25</translatedist>
+					<nextaction type='WeaponMulti'>
+						<subweapon1 type='WeaponReference'>
+							<weapon>Clouds-Red</weapon>
+						</subweapon1>
+						<subweapon2 type='WeaponDelay'>
+							<delay>1.5</delay>
+							<delayedweapon type='WeaponMulti'>
+								<subweapon1 type='WeaponDelay'>
+									<delay>0</delay>
+									<delayedweapon type='WeaponMulti'>
+										<subweapon1 type='WeaponSkyFlash'></subweapon1>
+										<subweapon2 type='WeaponReference'>
+											<weapon>StrangeBolt</weapon>
+										</subweapon2>
+										<subweapon3 type='WeaponRedirect'>
+											<habs>false</habs>
+											<vabs>true</vabs>
+											<hredirect>180</hredirect>
+											<vredirect>90</vredirect>
+											<nextaction type='WeaponReference'>
+												<weapon>StrangeBolt</weapon>
+											</nextaction>
+										</subweapon3>
+										<subweapon4 type='WeaponAimedOver'>
+											<nowarheads>1</nowarheads>
+											<percentagemiss>99</percentagemiss>
+											<maxaimdistance>0</maxaimdistance>
+											<inaccuracy>99</inaccuracy>
+											<aimedweapon type='WeaponRedirect'>
+												<habs>false</habs>
+												<vabs>true</vabs>
+												<hredirect>0</hredirect>
+												<vredirect>135</vredirect>
+												<nextaction type='WeaponReference'>
+													<weapon>StrangeBolt</weapon>
+												</nextaction>
+											</aimedweapon>
+										</subweapon4>
+										<subweapon5 type='WeaponSound'>
+											<sound>data/wav/explosions/thunder.wav</sound>
+										</subweapon5>
+									</delayedweapon>
+								</subweapon1>
+								<subweapon2 type='WeaponTranslate'>
+									<translatedist>25</translatedist>
+									<nextaction type='WeaponReference'>
+										<weapon>Clouds-Red</weapon>
+									</nextaction>
+								</subweapon2>
+							</delayedweapon>
+						</subweapon2>
+					</nextaction>
+				</nextaction>
+			</aimedweapon>
+		</accessoryaction>
+	</accessory>
+	<accessory>
 		<name>Strangelove</name>
 		<armslevel>0</armslevel>
 		<description>Fire it into the air and watch 
-the world as you know it come to and end.</description>
+the world as you know it come to and end.
+For best spread, shoot @ 1000 power below 60 degrees</description>
 		<icon>apoc.bmp</icon>
 		<bundlesize>1</bundlesize>
 		<cost>150000</cost>
@@ -3226,34 +3426,38 @@ the world as you know it come to and end.</description>
 					<deform>none</deform>
 					<hurtamount>0</hurtamount>
 					<size>24</size>
+					<explosionshake>6.0</explosionshake>
 					<explosionsound>explosions/xlarge.wav</explosionsound>
 					<explosiontexture>exp04</explosiontexture>
 				</subweapon1>
-				<subweapon2 type='WeaponVelocity'>
-					<velocitychange>0.0</velocitychange>
-					<aimedweapon type='WeaponProjectile'>
-						<enginesound>none</enginesound>
-						<nocreateflame></nocreateflame>
-						<projectilescale>2</projectilescale>
-						<projectilemodel type='MilkShape'>mirvwarhead/mirvwarhead.txt</projectilemodel>
-						<collisionaction type='WeaponExplosion'>
-							<deform>down</deform>
-							<hurtamount>1.2</hurtamount>
-							<size>36</size>
-							<explosionsound>explosions/xlarge.wav</explosionsound>
-							<explosiontexture>exp04</explosiontexture>
-							<explosionshake>2.0</explosionshake>
-						</collisionaction>
-					</aimedweapon>
+				<subweapon2 type='WeaponDelay'>
+					<delay>4.0</delay>
+					<delayedweapon type='WeaponVelocity'>
+						<velocitychange>0.0</velocitychange>
+						<aimedweapon type='WeaponProjectile'>
+							<enginesound>none</enginesound>
+							<nocreateflame></nocreateflame>
+							<projectilescale>2.5</projectilescale>
+							<projectilemodel type='MilkShape'>mirvwarhead/mirvwarhead.txt</projectilemodel>
+							<collisionaction type='WeaponExplosion'>
+								<deform>down</deform>
+								<hurtamount>1.2</hurtamount>
+								<size>36</size>
+								<explosionsound>explosions/xlarge.wav</explosionsound>
+								<explosiontexture>exp04</explosiontexture>
+								<explosionshake>2.0</explosionshake>
+							</collisionaction>
+						</aimedweapon>
+					</delayedweapon>
 				</subweapon2>
 				<subweapon3 type='WeaponVelocity'>
 					<velocitychange>0.7</velocitychange>
 					<aimedweapon type='WeaponMulti'>
 						<subweapon1 type='WeaponReference'>
-							<weapon>Strange Flower</weapon>
+							<weapon>Dmsday Flower</weapon>
 						</subweapon1>
 						<subweapon2 type='WeaponDelay'>
-							<delay>2.66</delay>
+							<delay>4.0</delay>
 							<delayedweapon type='WeaponRedirect'>
 								<habs>false</habs>
 								<vabs>false</vabs>
@@ -3266,6 +3470,48 @@ the world as you know it come to and end.</description>
 						</subweapon2>
 					</aimedweapon>
 				</subweapon3>
+				<!-- Clouds -->
+				<subweapon4 type='WeaponMulti'>
+					<subweapon1 type='WeaponReference'>
+						<weapon>Clouds-Red</weapon>
+					</subweapon1>
+					<subweapon2 type='WeaponDelay'>
+						<delay>3.0</delay>
+						<delayedweapon type='WeaponReference'>
+							<weapon>Clouds-Red</weapon>
+						</delayedweapon>
+					</subweapon2>
+					<subweapon3 type='WeaponDelay'>
+						<delay>6.0</delay>
+						<delayedweapon type='WeaponReference'>
+							<weapon>Clouds-Red</weapon>
+						</delayedweapon>
+					</subweapon3>
+					<subweapon4 type='WeaponDelay'>
+						<delay>9.0</delay>
+						<delayedweapon type='WeaponReference'>
+							<weapon>Clouds-Red</weapon>
+						</delayedweapon>
+					</subweapon4>
+					<subweapon5 type='WeaponDelay'>
+						<delay>1.5</delay>
+						<delayedweapon type='WeaponReference'>
+							<weapon>Lightning Clouds</weapon>
+						</delayedweapon>
+					</subweapon5>
+					<subweapon6 type='WeaponDelay'>
+						<delay>4.5</delay>
+						<delayedweapon type='WeaponReference'>
+							<weapon>Lightning Clouds</weapon>
+						</delayedweapon>
+					</subweapon6>
+					<subweapon7 type='WeaponDelay'>
+						<delay>7.5</delay>
+						<delayedweapon type='WeaponReference'>
+							<weapon>Lightning Clouds</weapon>
+						</delayedweapon>
+					</subweapon7>
+				</subweapon4>
 			</collisionaction>
 		</accessoryaction>
 	</accessory>
