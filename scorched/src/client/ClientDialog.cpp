@@ -58,21 +58,18 @@ bool createScorchedWindow()
 	{
 	case 0:
 		windowWidth = 1600;
-		windowHeight = 1200;
 		break;
 	case 1:
 		windowWidth = 1152;
-		windowHeight = 864;
 		break;
 	case 3:
 		windowWidth = 800;
-		windowHeight = 600;
 		break;
 	case 4:
 		windowWidth = 640;
-		windowHeight = 480;
 		break;
 	}
+	windowHeight = (height * windowWidth) / width;
 
 	MainCamera::instance()->getCamera().setWindowSize(width, height);
 	Main2DCamera::instance()->getViewPort().setWindowSize(windowWidth, windowHeight, 

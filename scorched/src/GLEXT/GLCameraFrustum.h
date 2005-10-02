@@ -52,6 +52,8 @@ protected:
 		float fProj[16];
 		float fView[16];
 		float fClip[16];
+		float viewport[4];
+		float aspect;
 	} s, b;
 
 	void normalize(float vector[4]);

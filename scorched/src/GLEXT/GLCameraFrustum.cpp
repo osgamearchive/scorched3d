@@ -49,7 +49,8 @@ void GLCameraFrustum::normalize(float vector[4])
    float fT = (float) sqrt(
 	   vector[0] * vector[0] + 
 	   vector[1] * vector[1] + 
-	   vector[2] * vector[2]);
+	   vector[2] * vector[2] +
+	   vector[3] * vector[3]);
 
    vector[0] /= fT;
    vector[1] /= fT;
@@ -83,6 +84,8 @@ void GLCameraFrustum::draw(const unsigned state)
 	// Get the current modelview matrix from OpenGL
 	glGetFloatv(GL_PROJECTION_MATRIX, s.fProj);
 	glGetFloatv(GL_MODELVIEW_MATRIX, s.fView);
+	glGetFloatv(GL_VIEWPORT, s.viewport);
+	s.aspect = s.viewport[2] / s.viewport[3];
 
 	// Concenate the two matrices
 	s.fClip[ 0] = s.fView[ 0] * s.fProj[ 0] + s.fView[ 1] * s.fProj[ 4] + s.fView[ 2] * s.fProj[ 8] + s.fView[ 3] * s.fProj[12];
