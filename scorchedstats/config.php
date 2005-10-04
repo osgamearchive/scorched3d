@@ -87,6 +87,7 @@ function getCompareParameter($paramname)
 function getColumnParameter($paramname, $defaultvalue)
 {
 	global $HTTP_GET_VARS;
+	global $columnindex;
 	$filterby = ( isset($HTTP_GET_VARS[$paramname]) ) ? htmlspecialchars($HTTP_GET_VARS[$paramname]) : $defaultvalue;
 	for ($i=0; $i<count($columnindex); $i++) 
 	{
