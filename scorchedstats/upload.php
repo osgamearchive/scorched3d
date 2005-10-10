@@ -17,9 +17,16 @@ while (!feof ($fp))
 
 		if (strpos($sql, ";") != FALSE)
 		{
-			//print ">>>".$sql."<br>";
-			$result = mysqlQuery($sql) or die("Query failed : ".$sql.":" . mysql_error());
-			$affected += mysql_affected_rows();
+			//print $count . ">>>".$sql."<br>";
+
+			if ($count % 50 == 0) print "<br>";
+			print ".";
+
+			{
+				mysql_unbuffered_query($sql) or die("Query failed : ".$sql.":" . mysql_error());
+				$affected += mysql_affected_rows();
+			}
+
 			$sql = "";
 			$count ++;
 			//if ($count > 20) break;
