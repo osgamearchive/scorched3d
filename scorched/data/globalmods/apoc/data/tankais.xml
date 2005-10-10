@@ -209,6 +209,26 @@ only.</description>
 	</ai>
 	
 	<ai>
+		<name>Hard Target</name>
+		<description>A computer controlled player.
+These tanks act as static targets.  They
+will NEVER fire back but can use defense.</description>
+		<aimsniper>0</aimsniper>
+		<aimtype>random</aimtype>
+		<targettype>none</targettype>
+		<noresign>true</noresign>
+		<nodefenses>false</nodefenses>
+		<checknearcollision>false</checknearcollision>
+		<availableforrandom>false</availableforrandom>
+		<weaponset>
+			<weapon><name>Parachute</name><level>10</level><type>defense</type></weapon>
+			<weapon><name>Battery</name><level>20</level><type>defense</type></weapon>
+			<weapon><name>Hv Frc Shield</name><level>20</level><type>defense</type></weapon>
+			<weapon><name>Auto Defense</name><level>30</level><type>defense</type></weapon>
+		</weaponset>
+	</ai>
+	
+	<ai>
 		<name>Target</name>
 		<description>A computer controlled player.
 These tanks act as static targets.  They

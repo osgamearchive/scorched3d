@@ -9,30 +9,50 @@ All original work contained in the mod is copyright.  Legal information can be f
 Official Apocalypse Site:  http://apochq.handwired.net
 Official Scorched 3D Site:  http://scorched3d.co.uk
 
-Changes Since 3.0
-	New Accessories:
-		- Flamethrower from Shockmod reduced flame trail lengths though
-		- Satellite Strike - projectile marks target, then satellite based lasers assault the area
-			
-	Other Accessory Changes:
-		- New projectile model for Mega Mirv/S-Mirv by Shockwave
-		- New projectile model for MOAB by Bobirov
-		- New missile launch sound that replaces default
-		- Increased EMP effectiveness against shields slightly and reduced damage to tank
-		- Turned Mega EMP into a missile weapon instead of grenade, renamed to EMP Missile.
-		- Decreased cost of Riot Drill, Wall of Dirt and Ring of Dirt slightly
-		- Adjusted sparking effect in Shockwave
-		- Other updates to projectile models/texturing
-		- Changed roller model to the newer roller model (finally)
-		- Removed Disco Bunny
-			
-	Landscapes:
-		- Changes to cities:
-			- Retextured many of the existing building, again (thanks Shockwave)
-
-		- New buildings: 
-			- bar1
-
+Changes Since 3.1
+    New Accessories:
+        - Tsar Bomba, the largest nuclear bomb ever made courtesy of the Soviets.
+            - Basically takes place of the old style MOAB behaviour, a big explosion & crater
+            - Slightly smaller explosion than before, and costs a bit less at $16,000
+            
+    Other Accessory Changes:
+        - Sat. Strike:
+            - Tweaked aiming methods some more, works better against shields
+            - Slowed the overall pace of it down a bit and reduced amount of invisible aimed projectiles
+            - Increased price from $20,000 to $40,000
+        - M2 Machinegun:
+            - Increased size of the bullets by 50%, they're still small but more visible
+            - Reduced damage the bullets do during shield collisions by 33%
+        - Suicide Bomb:
+            - Reduced the size of the crater (but not damage range) considerably
+            - Added flaming debris
+            - Reduced cost from $16,000 to $12,000
+            - Added some more small explosions to hopefully make sure it kills the user even when shielded
+        - MOAB:
+            - Reduced crater size to between missile and baby nuke
+            - Air blast does some additional damage outside the crater
+            - Reduced cost to $2,000 for 2
+            - This brings the weapon a little more in line with the real thing
+        - Added clouds to Apoc/Dday/Strangelove for visual effect
+        - Added some lightning bolts in the clouds in Strangelove
+        - Added another projectile to Apoc/Dday/Strangelove waves
+        - Added second wave of projectiles to Apocalypse & Dmsday Device
+        - Added some extra aimed projectiles to Strangelove after ground collision like it used to be pre v3.0
+        - Added a small sound for hornets when they sting to replace the flare sound.
+        - Added puff of smoke to Instamountain
+        - New projectile model for MOAB by Bobirov
+        - Made Gas Stations a little bit more damaging all around
+        - Slightly increased power of Small Meteor explosion (5 percent)
+        - Reduced shield collision damage on all diggers by 33%
+        - Increased accuracy of Sandhogs slightly
+        - Increased base projectile damage done to Heavy Force Shield from 10 to 15 (made it somewhat weaker overall)
+        - Increased cost of Lightning Storm from $25,000 to $30,000
+        
+    Landscapes:
+        - Tweaked surround texture for desert maps some so its a little less repetitive looking
+        
+    Other:
+        - Added a "Hard Target" AI type that does not shoot but will use defenses, good for testing
 Notes About Installation:
 The Apocalypse Mod comes with Scorched 3D and, as a result, you should not need to install anything.  However, 
 in the event that you are re-installing the mod because it has become corrupt, it should be installed into the
@@ -42,7 +62,7 @@ the Apoc directory there and in your ~/.scorched3d/mods/apoc/ folder before re-i
 Updates for the mod can typically be obtained on the official Apocalypse servers at ApocHQ, or by going to 
 http://apochq.handwired.net.  
 
-		
+        
 ----------------------------------------------------
                      Files
 ----------------------------------------------------
@@ -111,7 +131,7 @@ Mega MIRV       - Larger, more powerful version of the standard MIRV
 Mega S-MIRV     - Larger, more powerful version of the spread MIRV
 Meteor          - Meteor appears at the peak of flight and lands scattering flaming earth
 Meteor Shower   - Fires from a random location and creates many meteors that rain down upon everyone
-MOAB            - Super-sized Nuke
+MOAB            - Large conventional explosive bomb
 Napalm Blast    - Explodes on impact and releases many small napalm bomblets
 Napalm MIRV     - MIRV with napalm warheads
 Napalm S-MIRV   - Spread MIRV with napalm warheads
@@ -123,6 +143,7 @@ Shockwave       - Creates a massive energy wave which ripples outwards without d
 Strangelove     - The end game weapon, scaled up dmsday device
 Suicide Bomb    - Detonates yourself causing a huge, powerful explosion
 The Travolta    - Super-sized Funky Bomb
+Tsar Bomba      - Largest single nuclear explosive bomb ever made
 Wall of Dirt    - Raises a small wall of dirt a short distance from your tank in the direction you aim
 
 ----------------------------------------------------
@@ -135,37 +156,37 @@ Ultra Shield    - Most powerful standard defensive shield
                   Apocalypse Maps
 ----------------------------------------------------
 Maps By Bobirov:
-	BigHill     - Random:  Generally a single very large hill
-	Mountains   - Random:  Very mountainous map
-	Ring        - Random:  Small valley or pond always in the middle
-	Apoc City   - Static:  Island map that comes complete with a sprawling city to destroy
-	World Map   - Static:  Map of the entire planet
-	USA         - Static:  Map of the continental U.S.
-	Bullseye    - Static:  Round medium-height map with a few elevation levels, city-enabled
-	Mesa City   - Static:  Square map with a high, flat surface, city-enabled
-	Pillars     - Static:  Series of steep outcroppings of various heights
-	Colloseum   - Static:  Round "arena-like" map
-	Ruffles     - Static:  Map that looks pretty much like a ruffles potato chip
-	Maze        - Static:  A nice maze with players spawning only inside on the ground level
-	Volcano     - Static:  An volcanic tropical island.
+    BigHill     - Random:  Generally a single very large hill
+    Mountains   - Random:  Very mountainous map
+    Ring        - Random:  Small valley or pond always in the middle
+    Apoc City   - Static:  Island map that comes complete with a sprawling city to destroy
+    World Map   - Static:  Map of the entire planet
+    USA         - Static:  Map of the continental U.S.
+    Bullseye    - Static:  Round medium-height map with a few elevation levels, city-enabled
+    Mesa City   - Static:  Square map with a high, flat surface, city-enabled
+    Pillars     - Static:  Series of steep outcroppings of various heights
+    Colloseum   - Static:  Round "arena-like" map
+    Ruffles     - Static:  Map that looks pretty much like a ruffles potato chip
+    Maze        - Static:  A nice maze with players spawning only inside on the ground level
+    Volcano     - Static:  An volcanic tropical island.
 
 Maps By Nexus6:
-	Castle      - Static:  Sand castle looking map
-	Moon        - Static:  Nice hilly, moon like map
-	Pyramids    - Static:  Moderate height map with some nice pyramids to blow up
-	Weathered   - Static:  Another nice hilly map
-	Hex World   - Static:  Cool map made up of hexagonal shapes of varying heights
-	Two Towers  - Static:  Nice map with two large round towers
-	Craters     - Static:  Craterous map with a nice moonlike feel
-	Pyramids 2  - Static:  Hand remake of the original Pyramids map
-	Desert Mesa - Static:  Southwestern US style map
-	Terraces    - Static:  Landscape made up of various height levels
-	Steppes     - Static:  Similar to terraces but with a different shape
-	Canyon      - Static:  Deep canyon to annihilate eachother in
-	City Blocks - Static:  Map with some building like structures
-	
+    Castle      - Static:  Sand castle looking map
+    Moon        - Static:  Nice hilly, moon like map
+    Pyramids    - Static:  Moderate height map with some nice pyramids to blow up
+    Weathered   - Static:  Another nice hilly map
+    Hex World   - Static:  Cool map made up of hexagonal shapes of varying heights
+    Two Towers  - Static:  Nice map with two large round towers
+    Craters     - Static:  Craterous map with a nice moonlike feel
+    Pyramids 2  - Static:  Hand remake of the original Pyramids map
+    Desert Mesa - Static:  Southwestern US style map
+    Terraces    - Static:  Landscape made up of various height levels
+    Steppes     - Static:  Similar to terraces but with a different shape
+    Canyon      - Static:  Deep canyon to annihilate eachother in
+    City Blocks - Static:  Map with some building like structures
+    
 Maps By ShoCkwaVe:
-	ArizonaIslands  - Static:  Series of islands that resemble rock formations in the western U.S.
+    ArizonaIslands  - Static:  Series of islands that resemble rock formations in the western U.S.
 
 ----------------------------------------------------
                      Legal Stuff
@@ -183,9 +204,9 @@ You are free:
     * to make commercial use of the work
 
 Under the following conditions:
-	
+    
 Attribution. You must give the original author credit.
-	
+    
 Share Alike. If you alter, transform, or build upon this work, you may
 distribute the resulting work only under a license identical to this one. 
 
