@@ -3,7 +3,7 @@ Scorched 3D - http://www.scorched3d.co.uk
 Overview
 --------
 
-Scorched3D supports multiple platforms : Win32, Linux and Solaris.
+Scorched3D supports multiple platforms : Win32, Linux, OSX and Solaris.
 Each platform requires different libraries and compilers.  The
 following sections outline a brief guide to compiling.
 
@@ -38,12 +38,17 @@ Compiling requirements  :
 
  * Simple Directmedia Layer (http://www.libsdl.org/)
     SDL 1.2.4
-    SDL_mixer 1.2.4 			[sdl-config --version]     
-    SDL_net 1.2.5
 
  * FreeType2 (http://www.freetype.org)
     freetype 7.0.1                      [freetype-config --version]
-	
+
+ * OpenAL (http://www.openal.org)
+    openal 0.0.8  [openal-config --version]
+
+  cvs -d:pserver:guest@opensource.creative.com:/usr/local/cvs-repository login
+  (use password "guest")
+  cvs -d:pserver:guest@opensource.creative.com:/usr/local/cvs-repository co openal 
+
  * WX-windows (http://www.wxwindows.org)
     wx-windows 2.4.2			[wx-config --version]
 
@@ -77,47 +82,8 @@ in the bin directory off this directory.
 
 MacOSX
 ------
-To compile under MacOSX, you must have the latest version of fink
-(http://fink.sourceforge.net) installed - by which I mean the 'unstable'
-tree, since some of the libraries necessary for compiling Scorched3D are
-not available in the 'stable' source tree.
-
-Make sure you're set up fink properly, and that means having a line in your
-~/.bashrc which says ". /sw/bin/init.sh" - if you don't have your fink
-environment set up correctly in your xterm, the configure script won't find
-your libraries.
-
-The following fink packages must be compiled from source:
-'fink install XXX'   sdl, sdl-mixer, sdl-net
+The Mac version has now been updated to be compiled in the same
+way as the linux version.  See above.
+Use wxmac instead of wxgtk to allow the user to run without X11.
 
 
-Next, the wxgtk fink package must be built with a special patch.  Do the
-following:
-
-
-0)
- fink fetch wxgtk
-
-1)
- cp scorched/osx/wxgtk.info /sw/fink/dists/unstable/main/finkinfo/x11
- cp scorched/osx/wxgtk.patch /sw/fink/dists/unstable/main/finkinfo/x11
-
-2)
- fink rebuild wxgtk
-
-Fink should be set up with the correct libraries now.
-
-Now follow the same compilation instructions as for the linux platform (see
-above).
-
-The resulting binary must be run from an xterm within apple's X11 server.
-Good luck!
-
-Generic
--------
-
-A generic makefile generator is available in the generic directory.  cd into the 
-generic directory and run createMakefile.pl to generate the makefile.
-
-This makefile is a "generic" simple makefile that can be edited to allow scorched
-to be compiled on most systems.

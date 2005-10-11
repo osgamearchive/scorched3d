@@ -76,13 +76,13 @@ bool ServerDefenseHandler::processMessage(unsigned int destinationId,
 	Tank *tank = ScorchedServer::instance()->getTankContainer().getTankById(playerId);
 	if (!tank || tank->getState().getState() != TankState::sNormal)
 	{
-		Logger::log("ERROR: Player buying does not exist");
+		Logger::log("ERROR: Player using defense does not exist");
 		return true;
 	}
 
 	if (tank->getDestinationId() != destinationId)
 	{
-		Logger::log("ERROR: Player buying does not exist at this destination");
+		Logger::log("ERROR: Player using defense does not exist at this destination");
 		return true;
 	}
 

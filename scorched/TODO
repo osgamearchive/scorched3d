@@ -3,6 +3,7 @@ Fixed: Resign and disconnect messages are now shown correctly
 Fixed: Teleport moving tank too close to arena edges
 Fixed: Crash in dedicated server when using file logger
 Fixed: Compiling failing when using the unicode version of the wxWindows library
+Fixed: GUI so it matches the aspect ratio of the main screen
 
 -- Bugs in current development release
 Dvorak keyboard support is broken
@@ -16,6 +17,8 @@ Changing menus to be icons
 New game modes
 Check keepalives are being sent during high load times
 Stackwalker for debug traces? wx2.6
+Better/different shield graphics
+Scripting language
 
 -- Server Stuff
 A way to set the maximum and minimum players for a map (half done)
