@@ -33,6 +33,10 @@ Changes Since 3.1
             - Air blast does some additional damage outside the crater
             - Reduced cost to $2,000 for 2
             - This brings the weapon a little more in line with the real thing
+        - Shockwave:
+            - Removed reliance on WeaponAimedOver, now spreads at 22.5 degree angles
+            - Added a few more sparks after the main shockwave begins for visual effect
+        - Added Blink Device, an instant teleporter.
         - Added clouds to Apoc/Dday/Strangelove for visual effect
         - Added some lightning bolts in the clouds in Strangelove
         - Added another projectile to Apoc/Dday/Strangelove waves
@@ -43,8 +47,9 @@ Changes Since 3.1
         - New projectile model for MOAB by Bobirov
         - Made Gas Stations a little bit more damaging all around
         - Slightly increased power of Small Meteor explosion (5 percent)
+        - Reduced interval between drops and reduced strength a tad in Hell Storm
         - Reduced shield collision damage on all diggers by 33%
-        - Increased accuracy of Sandhogs slightly
+        - Increased accuracy of Sandhogs slightly (they are still less powerful than official ones tho)
         - Increased base projectile damage done to Heavy Force Shield from 10 to 15 (made it somewhat weaker overall)
         - Increased cost of Lightning Storm from $25,000 to $30,000
         
@@ -53,6 +58,7 @@ Changes Since 3.1
         
     Other:
         - Added a "Hard Target" AI type that does not shoot but will use defenses, good for testing
+        
 Notes About Installation:
 The Apocalypse Mod comes with Scorched 3D and, as a result, you should not need to install anything.  However, 
 in the event that you are re-installing the mod because it has become corrupt, it should be installed into the
