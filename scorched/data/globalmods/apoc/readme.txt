@@ -49,6 +49,8 @@ Changes Since 3.1
         - Slightly increased power of Small Meteor explosion (5 percent)
         - Reduced interval between drops and reduced strength a tad in Hell Storm
         - Reduced shield collision damage on all diggers by 33%
+        - MIRV and Mega MIRV now use more reliable redirect code
+        - Increased damage from lasers some
         - Increased accuracy of Sandhogs slightly (they are still less powerful than official ones tho)
         - Increased base projectile damage done to Heavy Force Shield from 10 to 15 (made it somewhat weaker overall)
         - Increased cost of Lightning Storm from $25,000 to $30,000

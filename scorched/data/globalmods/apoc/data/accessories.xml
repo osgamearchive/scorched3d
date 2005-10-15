@@ -1582,7 +1582,6 @@ damage over a large area.</description>
 					<nowindaffected/>
 					<minlife>2</minlife>
 					<maxlife>3</maxlife>
-					<nowindaffected/>
 					<hurtamount>0</hurtamount>
 					<deform>none</deform>
 					<size>12</size>
@@ -2358,28 +2357,67 @@ direction of the firer.</description>
 			<mesh>clusterbomb.ase</mesh>
 			<skin>white.bmp</skin>
 		</model>
+		<accessoryaction type='WeaponProjectile'> 
+        <apexcollision></apexcollision> 
+		<projectilemodel type='ase'> 
+			<mesh>clusterbomb.ase</mesh> 
+			<skin>white.bmp</skin> 
+		</projectilemodel> 
+		<collisionaction type='WeaponMulti'> 
+			<subweapon1 type='WeaponReference'> 
+			   <weapon>MirvBomblet</weapon> 
+			</subweapon1> 
+			<subweapon2 type='WeaponRedirect'> 
+			   <habs>false</habs> 
+			   <vabs>false</vabs> 
+			   <hredirect>0</hredirect> 
+			   <vredirect>4</vredirect> 
+			   <nextaction type='WeaponReference'> 
+			      <weapon>MirvBomblet</weapon> 
+			   </nextaction> 
+			</subweapon2> 
+			<subweapon3 type='WeaponRedirect'> 
+			   <habs>false</habs> 
+			   <vabs>false</vabs> 
+			   <hredirect>0</hredirect> 
+			   <vredirect>8</vredirect> 
+			   <nextaction type='WeaponReference'> 
+			      <weapon>MirvBomblet</weapon> 
+			   </nextaction> 
+			</subweapon3> 
+			<subweapon4 type='WeaponRedirect'> 
+			   <habs>false</habs> 
+			   <vabs>false</vabs> 
+			   <hredirect>0</hredirect> 
+			   <vredirect>-4</vredirect> 
+			   <nextaction type='WeaponReference'> 
+			      <weapon>MirvBomblet</weapon> 
+			   </nextaction> 
+			</subweapon4> 
+			<subweapon5 type='WeaponRedirect'> 
+			   <habs>false</habs> 
+			   <vabs>false</vabs> 
+			   <hredirect>0</hredirect> 
+			   <vredirect>-8</vredirect> 
+			   <nextaction type='WeaponReference'> 
+			      <weapon>MirvBomblet</weapon> 
+			   </nextaction> 
+			</subweapon5> 
+		</collisionaction> 
+      </accessoryaction> 
+	</accessory>
+	<accessory>
+		<name>MegaBomblet</name>
+		<armslevel>3</armslevel>
+		<maximumnumber>0</maximumnumber>
 		<accessoryaction type='WeaponProjectile'>
-			<apexcollision></apexcollision>
-			<projectilemodel type='ase'>
-				<mesh>clusterbomb.ase</mesh>
-				<skin>white.bmp</skin>
-			</projectilemodel>
-			<collisionaction type='WeaponMirv'>
-				<nowarheads>5</nowarheads>
-				<hspreaddist>0.0</hspreaddist>
-				<vspreaddist>5.0</vspreaddist>
-				<aimedweapon type='WeaponProjectile'>
-					<enginesound>none</enginesound>
-					<projectilescale>0.2</projectilescale>
-					<projectilemodel type='MilkShape'>bomblet/bomblet.txt</projectilemodel>
-					<collisionaction type='WeaponExplosion'>
-						<deform>down</deform>
-						<hurtamount>1.0</hurtamount>
-						<size>6</size>
-						<explosionsound>explosions/large.wav</explosionsound>
-						<explosiontexture>exp04</explosiontexture>
-					</collisionaction>
-				</aimedweapon>
+			<projectilemodel type='MilkShape'>weapons/wobblebomb.txt</projectilemodel>
+			<collisionaction type='WeaponExplosion'>
+				<deform>down</deform>
+				<hurtamount>1.0</hurtamount>
+				<size>12</size>
+				<explosionsound>explosions/large.wav</explosionsound>
+				<explosiontexture>exp04</explosiontexture>
 			</collisionaction>
 		</accessoryaction>
 	</accessory>
@@ -2399,24 +2437,47 @@ many small warheads in a line.</description>
 			<apexcollision></apexcollision>
 			<projectilescale>3.0</projectilescale>
 			<projectilemodel type='MilkShape'>weapons/megamirv.txt</projectilemodel>
-			<collisionaction type='WeaponMirv'>
-				<nowarheads>5</nowarheads>
-				<hspreaddist>0.0</hspreaddist>
-				<vspreaddist>6.25</vspreaddist>
-				<aimedweapon type='WeaponProjectile'>
-					<enginesound>none</enginesound>
-					<nocreateflame/>
-					<nocreatesmoke/>
-					<projectilemodel type='MilkShape'>weapons/wobblebomb.txt</projectilemodel>
-					<collisionaction type='WeaponExplosion'>
-						<deform>down</deform>
-						<hurtamount>1.0</hurtamount>
-						<size>12</size>
-						<explosionsound>explosions/large.wav</explosionsound>
-						<explosiontexture>exp04</explosiontexture>
-					</collisionaction>
-				</aimedweapon>
-			</collisionaction>
+			<collisionaction type='WeaponMulti'> 
+				<subweapon1 type='WeaponReference'> 
+				   <weapon>MegaBomblet</weapon> 
+				</subweapon1> 
+				<subweapon2 type='WeaponRedirect'> 
+				   <habs>false</habs> 
+				   <vabs>false</vabs> 
+				   <hredirect>0</hredirect> 
+				   <vredirect>4</vredirect> 
+				   <nextaction type='WeaponReference'> 
+				      <weapon>MegaBomblet</weapon> 
+				   </nextaction> 
+				</subweapon2> 
+				<subweapon3 type='WeaponRedirect'> 
+				   <habs>false</habs> 
+				   <vabs>false</vabs> 
+				   <hredirect>0</hredirect> 
+				   <vredirect>8</vredirect> 
+				   <nextaction type='WeaponReference'> 
+				      <weapon>MegaBomblet</weapon> 
+				   </nextaction> 
+				</subweapon3> 
+				<subweapon4 type='WeaponRedirect'> 
+				   <habs>false</habs> 
+				   <vabs>false</vabs> 
+				   <hredirect>0</hredirect> 
+				   <vredirect>-4</vredirect> 
+				   <nextaction type='WeaponReference'> 
+				      <weapon>MegaBomblet</weapon> 
+				   </nextaction> 
+				</subweapon4> 
+				<subweapon5 type='WeaponRedirect'> 
+				   <habs>false</habs> 
+				   <vabs>false</vabs> 
+				   <hredirect>0</hredirect> 
+				   <vredirect>-8</vredirect> 
+				   <nextaction type='WeaponReference'> 
+				      <weapon>MegaBomblet</weapon> 
+				   </nextaction> 
+				</subweapon5> 
+			</collisionaction> 
 		</accessoryaction>
 	</accessory>
 	<accessory>
@@ -2425,7 +2486,7 @@ many small warheads in a line.</description>
 		<description>A projectile weapon that on 
 reaching its highest point releases 
 many small warheads. These warheads fan 
-out in a random direction.</description>
+out in random directions.</description>
 		<icon>mirv.bmp</icon>
 		<bundlesize>1</bundlesize>
 		<cost>8000</cost>
@@ -2440,18 +2501,8 @@ out in a random direction.</description>
 				<nowarheads>8</nowarheads>
 				<hspreaddist>0.8</hspreaddist>
 				<vspreaddist>2.5</vspreaddist>
-				<aimedweapon type='WeaponProjectile'>
-					<enginesound>none</enginesound>
-					<nocreateflame/>
-					<nocreatesmoke/>
-					<projectilemodel type='MilkShape'>weapons/wobblebomb.txt</projectilemodel>
-					<collisionaction type='WeaponExplosion'>
-						<deform>down</deform>
-						<hurtamount>1.0</hurtamount>
-						<size>11</size>
-						<explosionsound>explosions/large.wav</explosionsound>
-						<explosiontexture>exp04</explosiontexture>
-					</collisionaction>
+				<aimedweapon type='WeaponReference'>
+					<weapon>MegaBomblet</weapon>
 				</aimedweapon>
 			</collisionaction>
 		</accessoryaction>
@@ -8754,8 +8805,8 @@ YOU CANNOT AIM THIS WEAPON</description>
 		<icon>laser.bmp</icon>
 		<activationsound>shoot/flare.wav</activationsound>
 		<model type="MilkShape">laser/laser.txt</model>
-		<description>A tiny laser that does no damage, but
-can be used to help aim lasers and other weapons.</description>
+		<description>A tiny laser that does no damage, but can be
+used to help aim lasers without wasting money.</description>
 		<nomuzzleflash/>
 		<accessoryaction type='WeaponMulti'>
 			<subweapon1 type='WeaponLaser'>
@@ -8790,8 +8841,8 @@ Less power = less range but more damage</description>
 				<totaltime>1</totaltime>
 				<minimumdistance>10</minimumdistance>
 				<maximumdistance>200</maximumdistance>
-				<minimumhurt>20</minimumhurt>
-				<maximumhurt>40</maximumhurt>
+				<minimumhurt>25</minimumhurt>
+				<maximumhurt>50</maximumhurt>
 				<hurtradius>2</hurtradius>
 				<color>
 					<A>1.0</A>
@@ -8806,7 +8857,7 @@ Less power = less range but more damage</description>
 	</accessory>
 	<accessory>
 		<name>Laser Cannon</name>
-		<armslevel>6</armslevel>
+		<armslevel>4</armslevel>
 		<bundlesize>2</bundlesize>
 		<icon>laser.bmp</icon>
 		<model type="MilkShape">laser/laser.txt</model>
@@ -8819,7 +8870,7 @@ Less power = less range but more damage</description>
 		<accessoryaction type='WeaponMulti'>
 			<subweapon1 type='WeaponReference'>
 				<weapon>Laser</weapon>
-				<armslevel>6</armslevel>
+				<armslevel>4</armslevel>
 			</subweapon1>
 			<subweapon2 type='WeaponDelay'>
 				<delay>0.5</delay>
@@ -8830,7 +8881,7 @@ Less power = less range but more damage</description>
 					<vredirect>0.5</vredirect>
 					<nextaction type='WeaponReference'>
 						<weapon>Laser</weapon>
-						<armslevel>6</armslevel>
+						<armslevel>4</armslevel>
 					</nextaction>
 				</delayedweapon>
 			</subweapon2>
@@ -8843,7 +8894,7 @@ Less power = less range but more damage</description>
 					<vredirect>0.5</vredirect>
 					<nextaction type='WeaponReference'>
 						<weapon>Laser</weapon>
-						<armslevel>6</armslevel>
+						<armslevel>4</armslevel>
 					</nextaction>
 				</delayedweapon>
 			</subweapon3>
@@ -8866,8 +8917,8 @@ Less power = less range but more damage</description>
 				<totaltime>2</totaltime>
 				<minimumdistance>10</minimumdistance>
 				<maximumdistance>200</maximumdistance>
-				<minimumhurt>40</minimumhurt>
-				<maximumhurt>60</maximumhurt>
+				<minimumhurt>50</minimumhurt>
+				<maximumhurt>75</maximumhurt>
 				<hurtradius>2</hurtradius>
 				<color>
 					<A>0.0</A>
