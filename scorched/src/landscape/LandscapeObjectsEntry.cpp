@@ -22,7 +22,7 @@
 #include <landscape/LandscapeObjectsGroupEntry.h>
 
 LandscapeObjectsEntry::LandscapeObjectsEntry() :
-	burnt(false), group(0)
+	burnt(false), group(0), modelsize(1.0f)
 {
 }
 

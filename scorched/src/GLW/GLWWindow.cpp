@@ -370,8 +370,13 @@ void GLWWindow::mouseDrag(float mx, float my, float x, float y, bool &skipRest)
 	switch(dragging_)
 	{
 	case TitleDrag:
-		x_ += x;
-		y_ -= y;
+		if (x_ + x > 0.0f && y_ - y + h_ - 20.0f > 0 && 
+			x_ + x + 50.0f < GLViewPort::getWidth() &&
+			y_ - y + h_ + 20.0f < GLViewPort::getHeight())
+		{
+			x_ += x;
+			y_ -= y;
+		}
 		skipRest = true;
 		break;
 	case SizeDrag:

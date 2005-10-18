@@ -4,6 +4,9 @@ Fixed: Teleport moving tank too close to arena edges
 Fixed: Crash in dedicated server when using file logger
 Fixed: Compiling failing when using the unicode version of the wxWindows library
 Fixed: GUI so it matches the aspect ratio of the main screen
+Fixed: Mac OS server crashes (due to opengl usage)
+Fixed: Windows cannot be dragged off screen
+Fixed: Windows are above the help and sound icons
 
 -- Bugs in current development release
 Dvorak keyboard support is broken

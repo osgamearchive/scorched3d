@@ -33,6 +33,7 @@ public:
 	float posX, posY, posZ;
 	float rotation;
 	float size;
+	float modelsize;
 	float color;
 	bool burnt;
 	std::string removeaction;

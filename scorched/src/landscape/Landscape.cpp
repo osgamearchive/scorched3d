@@ -250,9 +250,10 @@ void Landscape::generate(ProgressCounter *counter)
 		tex->skyambience, tex->skydiffuse, counter);
 
 	// Add objects to the landscape (if any)
-	// Do this now as it adds shadows to the mainmap
 	ScorchedClient::instance()->getLandscapeMaps().generateObjects(
 		ScorchedClient::instance()->getContext(), counter);
+
+	// Add shadows to the mainmap
 
 	// Create the main landscape texture
 	DIALOG_ASSERT(texture_.replace(mainMap_, GL_RGB, false));
