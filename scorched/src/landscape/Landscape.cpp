@@ -254,6 +254,22 @@ void Landscape::generate(ProgressCounter *counter)
 		ScorchedClient::instance()->getContext(), counter);
 
 	// Add shadows to the mainmap
+	{
+		float shadowMult = (float) getMainMap().getWidth() / 256.0f;
+		std::multimap<unsigned int, LandscapeObjectsEntry*> &objects =
+			ScorchedClient::instance()->getLandscapeMaps().getObjects().getEntries();
+		std::multimap<unsigned int, LandscapeObjectsEntry*>::iterator itor;
+		for (itor = objects.begin();
+			itor != objects.end();
+			itor++)
+		{
+			LandscapeObjectsEntry *entry = (*itor).second;
+			GLBitmapModifier::addCircle(getMainMap(),
+				entry->posX * shadowMult, 
+				entry->posY * shadowMult, 
+				entry->modelsize * entry->size * shadowMult, 1.0f);
+		}
+	}
 
 	// Create the main landscape texture
 	DIALOG_ASSERT(texture_.replace(mainMap_, GL_RGB, false));
