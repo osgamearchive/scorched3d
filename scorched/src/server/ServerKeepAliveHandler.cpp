@@ -52,10 +52,11 @@ ServerKeepAliveHandler::~ServerKeepAliveHandler()
 bool ServerKeepAliveHandler::processMessage(unsigned int destinationId,
 	const char *messageType, NetBufferReader &reader)
 {
-	// Decode the connect message
-	ComsKeepAliveMessage message;
-	if (!message.readMessage(reader)) return false;
+	return true;
+}
 
+void ServerKeepAliveHandler::keepAlive(unsigned int destinationId)
+{
 	unsigned int theTime = (unsigned int) time(0);
 
 	std::map<unsigned int, Tank *> &tanks =
@@ -71,8 +72,6 @@ bool ServerKeepAliveHandler::processMessage(unsigned int destinationId,
 			current->setKeepAlive(theTime);
 		}
 	}
-
-	return true;
 }
 
 void ServerKeepAliveHandler::checkKeepAlives()

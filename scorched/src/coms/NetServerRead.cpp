@@ -28,14 +28,12 @@
 NetServerRead::NetServerRead(TCPsocket socket,
 							 NetServerProtocol *protocol,
 							 NetMessageHandler *messageHandler,
-							 bool *checkDeleted,
-							 bool sentNotification) : 
+							 bool *checkDeleted) : 
 	socket_(socket), sockSet_(0), protocol_(protocol), 
 	outgoingMessagesMutex_(0), checkDeleted_(checkDeleted),
 	disconnect_(false), messageHandler_(messageHandler),
 	sentDisconnect_(false), startCount_(0),
-	ctrlThread_(0), recvThread_(0), sendThread_(0),
-	sentNotification_(sentNotification)
+	ctrlThread_(0), recvThread_(0), sendThread_(0)
 {
 	sockSet_ = SDLNet_AllocSocketSet(1);
 	SDLNet_TCP_AddSocket(sockSet_, socket);
@@ -269,17 +267,8 @@ bool NetServerRead::pollOutgoing()
 				result = false;
 			}
 		}
-
-		NetMessagePool::instance()->addToPool(message);
-
-		if (sentNotification_)
-		{
-			NetMessage *notification = NetMessagePool::instance()->
-				getFromPool(NetMessage::SentMessage,
-					(unsigned int) socket_,
-					NetServer::getIpAddress(socket_));
-			messageHandler_->addMessage(notification);
-		}
+		message->setType(NetMessage::SentMessage);
+		messageHandler_->addMessage(message);
 	}
 	else SDL_Delay(100);
 

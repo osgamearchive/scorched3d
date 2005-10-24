@@ -21,16 +21,26 @@
 #if !defined(__INCLUDE_ClientKeepAliveSenderh_INCLUDE__)
 #define __INCLUDE_ClientKeepAliveSenderh_INCLUDE__
 
-class ClientKeepAliveSender
+#include <coms/ComsMessageHandler.h>
+
+class ClientKeepAliveSender : public ComsMessageHandlerSentI
 {
 public:
 	static ClientKeepAliveSender *instance();
 
 	void sendKeepAlive();
 
+	// Inherited from ComsMessageHandlerSentI
+	virtual bool processSentMessage(
+		unsigned int id,
+		const char *message,
+		NetBufferReader &reader);
+
 protected:
 	static ClientKeepAliveSender *instance_;
 	unsigned int lastSendTime_;
+	unsigned int lastWarnTime_;
+	bool recvMessage_;
 
 private:
 	ClientKeepAliveSender();

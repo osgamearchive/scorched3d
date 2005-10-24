@@ -160,6 +160,15 @@ void TankRenderer::draw(DrawType dt, const unsigned state)
 					getNextAliveParticle();
 			if (particle)
 			{
+				particle->setParticle(
+					1000.0f,  1.0f, 1.0f, //float life, float mass, float friction,
+					Vector::nullVector, Vector::nullVector, //Vector &velocity, Vector &gravity,
+					Vector::nullVector, Vector::nullVector, //Vector &color, Vector &colorCounter,
+					Vector::nullVector, Vector::nullVector, //Vector &size, Vector &sizeCounter,
+					1.0f, 0.0f, // float alpha, float alphaCounter,
+					false, //bool additiveTexture,
+					false); //bool windAffect);
+
 				model->setMadeParticle(true);
 				particle->life_ = 1000.0f;
 				particle->renderer_ = TankParticleRenderer::getInstance();

@@ -33,6 +33,7 @@ public:
 		const char *messageType,
 		NetBufferReader &reader);
 
+	void keepAlive(unsigned int destinationId);
 	void checkKeepAlives();
 
 protected:

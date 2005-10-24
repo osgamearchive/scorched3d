@@ -43,6 +43,7 @@ public:
 	unsigned int &getIpAddress() { return ipAddress_; }
 	MessageType getMessageType() { return type_; }
 	NetBuffer &getBuffer() { return messageBuffer_; }
+	void setType(MessageType type) { type_ = type; }
 
 protected:
 	NetBuffer messageBuffer_;
@@ -52,7 +53,6 @@ protected:
 
 	void setDestinationId(unsigned int destinationId) { destinationId_ = destinationId; }
 	void setIpAddress(unsigned int ipAddress) { ipAddress_ = ipAddress; }
-	void setType(MessageType type) { type_ = type; }
 
 	NetMessage(MessageType type = NetMessage::NoMessage,
 			   unsigned int destinationId = 0,

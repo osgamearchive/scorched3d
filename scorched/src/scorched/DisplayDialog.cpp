@@ -482,8 +482,8 @@ void DisplayFrame::refreshResolutions()
 	if (IDC_MORERES_CTRL->GetValue())
 	{
 		const char *extraModes[] = 
-			{ "1024 x 384", "320 x 200", "320 x 240", "512 x 384", 
-			"640 x 480", "800 x 600", "1024 x 768" };
+			{ "320 x 200", "320 x 240", "512 x 384", 
+			"640 x 480", "800 x 600", "1024 x 768", "1024 x 384" };
 		for (int i=0; i<sizeof(extraModes)/sizeof(const char *); i++)
 		{
 			std::string newDisplay(extraModes[i]);

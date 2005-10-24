@@ -24,6 +24,7 @@
 #include <coms/ComsMessageSender.h>
 #include <tank/TankContainer.h>
 #include <common/OptionsGame.h>
+#include <common/Logger.h>
 #include <time.h>
 
 ClientKeepAliveSender *ClientKeepAliveSender::instance_ = 0;
@@ -37,8 +38,12 @@ ClientKeepAliveSender *ClientKeepAliveSender::instance()
 	return instance_;
 }
 
-ClientKeepAliveSender::ClientKeepAliveSender() : lastSendTime_(0)
+ClientKeepAliveSender::ClientKeepAliveSender() : 
+	lastSendTime_(0), recvMessage_(true)
 {
+	ScorchedClient::instance()->getComsMessageHandler().addSentHandler(
+		"ComsKeepAliveMessage",
+		this);
 }
 
 ClientKeepAliveSender::~ClientKeepAliveSender()
@@ -56,11 +61,37 @@ void ClientKeepAliveSender::sendKeepAlive()
 		ScorchedClient::instance()->getOptionsGame().getKeepAliveTime();
 	unsigned int theTime = (unsigned int) time(0);
 
-	if (theTime - lastSendTime_ >= sendTime)
+	if (recvMessage_)
 	{
-		ComsKeepAliveMessage message;
-		ComsMessageSender::sendToServer(message);
+		if (theTime - lastSendTime_ >= sendTime)
+		{
+			ComsKeepAliveMessage message;
+			ComsMessageSender::sendToServer(message);
 
-		lastSendTime_ = theTime;
+			recvMessage_ = false;
+			lastSendTime_ = theTime;
+			lastWarnTime_ = theTime;
+		}
 	}
+	else
+	{
+		if (theTime - lastSendTime_ >= sendTime)
+		{
+			if (theTime - lastWarnTime_  >= sendTime)
+			{
+				Logger::log("Warning: Keepalive has not been sent in %u seconds",
+					theTime - lastSendTime_);
+				lastWarnTime_ = theTime;
+			}
+		}
+	}
+}
+
+bool ClientKeepAliveSender::processSentMessage(
+	unsigned int id,
+	const char *message,
+	NetBufferReader &reader)
+{
+	recvMessage_ = true;
+	return true;
 }

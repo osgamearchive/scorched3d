@@ -7,6 +7,8 @@ Fixed: GUI so it matches the aspect ratio of the main screen
 Fixed: Mac OS server crashes (due to opengl usage)
 Fixed: Windows cannot be dragged off screen
 Fixed: Windows are above the help and sound icons
+Fixed: Keepalive messages are now closed loop
+Fixed: Client warns when keepalive messages are falling behind (for debug)
 
 -- Bugs in current development release
 Dvorak keyboard support is broken
@@ -19,9 +21,9 @@ Tutorial mode
 Changing menus to be icons
 New game modes
 Check keepalives are being sent during high load times
-Stackwalker for debug traces? wx2.6
 Better/different shield graphics
 Scripting language
+Better/less intrusive talk dialog
 
 -- Server Stuff
 A way to set the maximum and minimum players for a map (half done)

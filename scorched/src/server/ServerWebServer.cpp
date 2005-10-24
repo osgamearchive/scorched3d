@@ -63,7 +63,6 @@ void ServerWebServer::start(int port)
 	Logger::log("Starting management web server on port %i", port);
 	netServer_.setMessageHandler(this);
 	netServer_.start(port);
-	netServer_.setSentNotification();
 
 	if (0 != strcmp(ScorchedServer::instance()->getOptionsGame().
 		getServerFileLogger(), "none"))

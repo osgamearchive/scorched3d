@@ -23,6 +23,7 @@
 #include <server/ScorchedServerUtil.h>
 #include <server/ServerCommon.h>
 #include <server/ServerBanned.h>
+#include <server/ServerKeepAliveHandler.h>
 #include <tank/TankDeadContainer.h>
 #include <tank/TankContainer.h>
 #include <coms/ComsRmPlayerMessage.h>
@@ -48,6 +49,15 @@ ServerMessageHandler::ServerMessageHandler()
 }
 
 ServerMessageHandler::~ServerMessageHandler()
+{
+}
+
+void ServerMessageHandler::messageRecv(NetMessage &message)
+{
+	ServerKeepAliveHandler::instance()->keepAlive(message.getDestinationId());
+}
+
+void ServerMessageHandler::messageSent(NetMessage &message)
 {
 }
 

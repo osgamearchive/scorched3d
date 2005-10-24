@@ -44,6 +44,14 @@ ClientMessageHandler::~ClientMessageHandler()
 {
 }
 
+void ClientMessageHandler::messageRecv(NetMessage &message)
+{
+}
+
+void ClientMessageHandler::messageSent(NetMessage &message)
+{
+}
+
 void ClientMessageHandler::clientConnected(NetMessage &message)
 {
 	Logger::log( "Connected");

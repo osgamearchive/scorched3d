@@ -30,6 +30,10 @@ ComsMessageHandlerI::~ComsMessageHandlerI()
 {
 }
 
+ComsMessageHandlerSentI::~ComsMessageHandlerSentI()
+{
+}
+
 ComsMessageHandler::ComsMessageHandler() : 
 	connectionHandler_(0), comsMessageLogging_(false)
 {
@@ -49,10 +53,20 @@ void ComsMessageHandler::addHandler(const char *messageType,
 		ComsMessageHandlerI *handler)
 {
 	std::map<std::string, ComsMessageHandlerI *>::iterator itor =
-		handlerMap_.find(messageType);
-	DIALOG_ASSERT(itor == handlerMap_.end());
+		recvHandlerMap_.find(messageType);
+	DIALOG_ASSERT(itor == recvHandlerMap_.end());
 
-	handlerMap_[messageType] = handler;
+	recvHandlerMap_[messageType] = handler;
+}
+
+void ComsMessageHandler::addSentHandler(const char *messageType,
+		ComsMessageHandlerSentI *handler)
+{
+	std::map<std::string, ComsMessageHandlerSentI *>::iterator itor =
+		sentHandlerMap_.find(messageType);
+	DIALOG_ASSERT(itor == sentHandlerMap_.end());
+
+	sentHandlerMap_[messageType] = handler;
 }
 
 void ComsMessageHandler::processMessage(NetMessage &message)
@@ -60,7 +74,14 @@ void ComsMessageHandler::processMessage(NetMessage &message)
 	switch(message.getMessageType())
 	{
 		case NetMessage::BufferMessage:
+			if (connectionHandler_) 
+				connectionHandler_->messageRecv(message);
 			processReceiveMessage(message);
+			break;
+		case NetMessage::SentMessage:
+			if (connectionHandler_) 
+				connectionHandler_->messageSent(message);
+			processSentMessage(message);
 			break;
 		case NetMessage::DisconnectMessage:
 			if (comsMessageLogging_)
@@ -99,7 +120,7 @@ void ComsMessageHandler::processReceiveMessage(NetMessage &message)
 	{
 		if (connectionHandler_)
 			connectionHandler_->clientError(message,
-				"Failed to decode message type");
+				"Failed to decode RECV message type");
 		return;
 	}
 
@@ -110,11 +131,11 @@ void ComsMessageHandler::processReceiveMessage(NetMessage &message)
 	}
 
 	std::map<std::string, ComsMessageHandlerI *>::iterator itor =
-		handlerMap_.find(messageType);
-	if (itor == handlerMap_.end())
+		recvHandlerMap_.find(messageType);
+	if (itor == recvHandlerMap_.end())
 	{
 		char buffer[1024];
-		sprintf(buffer, "Failed to find message type handler \"%s\"",
+		sprintf(buffer, "Failed to find RECV message type handler \"%s\"",
 			messageType.c_str());
 
 		if (connectionHandler_)
@@ -129,7 +150,46 @@ void ComsMessageHandler::processReceiveMessage(NetMessage &message)
 		messageTypeStr, reader))
 	{
 		char buffer[1024];
-		sprintf(buffer, "Failed to handle message type \"%s\"",
+		sprintf(buffer, "Failed to handle RECV message type \"%s\"",
+			messageType.c_str());
+
+		if (connectionHandler_)
+			connectionHandler_->clientError(message,
+				buffer);
+		return;
+	}
+}
+
+void ComsMessageHandler::processSentMessage(NetMessage &message)
+{
+	NetBufferReader reader(message.getBuffer());
+
+	std::string messageType;
+	if (!reader.getFromBuffer(messageType))
+	{
+		if (connectionHandler_)
+			connectionHandler_->clientError(message,
+				"Failed to decode SENT message type");
+		return;
+	}
+
+	if (comsMessageLogging_)
+	{
+		Logger::log( "ComsMessageHandler::processSentMessage(%s, %i)",
+					messageType.c_str(), message.getDestinationId());
+	}
+
+	std::map<std::string, ComsMessageHandlerSentI *>::iterator itor =
+		sentHandlerMap_.find(messageType);
+	if (itor == sentHandlerMap_.end()) return;
+
+	ComsMessageHandlerSentI *handler = (*itor).second;
+	const char *messageTypeStr = messageType.c_str();
+	if (!handler->processSentMessage(message.getDestinationId(), 
+		messageTypeStr, reader))
+	{
+		char buffer[1024];
+		sprintf(buffer, "Failed to handle SENT message type \"%s\"",
 			messageType.c_str());
 
 		if (connectionHandler_)

@@ -33,6 +33,9 @@ public:
 	virtual void clientDisconnected(NetMessage &message) = 0;
 	virtual void clientError(NetMessage &message,
 		const char *errorString) = 0;
+
+	virtual void messageRecv(NetMessage &message) = 0;
+	virtual void messageSent(NetMessage &message) = 0;
 };
 
 class ComsMessageHandlerI
@@ -41,6 +44,17 @@ public:
 	virtual ~ComsMessageHandlerI();
 
 	virtual bool processMessage(
+		unsigned int id,
+		const char *message,
+		NetBufferReader &reader) = 0;
+};
+
+class ComsMessageHandlerSentI
+{
+public:
+	virtual ~ComsMessageHandlerSentI();
+
+	virtual bool processSentMessage(
 		unsigned int id,
 		const char *message,
 		NetBufferReader &reader) = 0;
@@ -57,6 +71,8 @@ public:
 		ComsMessageConnectionHandlerI *handler);
 	void addHandler(const char *messageType,
 		ComsMessageHandlerI *handler);
+	void addSentHandler(const char *messageType,
+		ComsMessageHandlerSentI *handler);
 
 	// Inherited from NetMessageHandlerI
 	virtual void processMessage(NetMessage &message);
@@ -64,13 +80,14 @@ public:
 	bool &getMessageLogging() { return comsMessageLogging_; }
 
 protected:
-	std::map<std::string, ComsMessageHandlerI *> handlerMap_;
+	std::map<std::string, ComsMessageHandlerI *> recvHandlerMap_;
+	std::map<std::string, ComsMessageHandlerSentI *> sentHandlerMap_;
 	ComsMessageConnectionHandlerI *connectionHandler_;
 
 	bool comsMessageLogging_;
 	void processReceiveMessage(NetMessage &message);
+	void processSentMessage(NetMessage &message);
 
 };
-
 
 #endif
