@@ -23,6 +23,7 @@
 #include <actions/TankFalling.h>
 #include <actions/TankScored.h>
 #include <actions/CameraPositionAction.h>
+#include <sprites/TextActionRenderer.h>
 #include <common/OptionsGame.h>
 #include <weapons/AccessoryStore.h>
 #include <weapons/Shield.h>
@@ -101,6 +102,22 @@ void TankDamage::simulate(float frameTime, bool &remove)
 				// Remove the remaining damage from the tank
 				if (damage_ > 0.0f && !shieldOnlyDamage_)
 				{
+					if (!context_->serverMode)
+					{
+						Vector position = damagedTank->getPhysics().getTankPosition();
+						position[0] += RAND * 5.0f - 2.5f;
+						position[1] += RAND * 5.0f - 2.5f;
+						position[2] += RAND * 5.0f - 2.5f;
+
+						Vector redColor(0.75f, 0.0f, 0.0f);
+						context_->actionController->addAction(
+							new SpriteAction(
+								new TextActionRenderer(
+									position,
+									redColor,
+									formatString("%.0f", damage_))));
+					}
+
 					// Remove the life
 					if (damage_ > damagedTank->getState().getLife()) damage_ = 
 						damagedTank->getState().getLife();

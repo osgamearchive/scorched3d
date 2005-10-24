@@ -157,7 +157,7 @@ void GLFont2d::drawWidth(int len, Vector &color, float size,
 	drawString(l, color, 1.0f, size, x, y, z, text, false);
 }
 
-void GLFont2d::drawBilboard(Vector &color, float size, 
+void GLFont2d::drawBilboard(Vector &color, float alpha, float size, 
 			  float x, float y, float z, 
 			  const char *fmt, ...)
 {
@@ -168,7 +168,7 @@ void GLFont2d::drawBilboard(Vector &color, float size,
 	vsprintf(text, fmt, ap);
 	va_end(ap);	
 
-	drawString((GLsizei) strlen(text), color, 1.0f, size, x, y, z, text, true);
+	drawString((GLsizei) strlen(text), color, alpha, size, x, y, z, text, true);
 }
 
 static void drawLetter(char ch, GLuint list_base, GLuint *tex_base, 
@@ -189,7 +189,7 @@ static void drawLetter(char ch, GLuint list_base, GLuint *tex_base,
 		glVertex3fv(bilY * (characters+ch)->height);
 
 		glTexCoord2f(0.0f, (characters+ch)->y); 
-		glVertex2f(0.0f,0.0f);
+		glVertex3f(0.0f,0.0f,0.0f);
 
 		glTexCoord2f((characters+ch)->x,(characters+ch)->y); 
 		glVertex3fv(bilX * (characters+ch)->width);

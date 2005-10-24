@@ -58,7 +58,7 @@ public:
 	void drawOutline(Vector &color, float size, float size2,
 			float x, float y, float z,
 			const char *fmt, ...);
-	void drawBilboard(Vector &color, float size, 
+	void drawBilboard(Vector &color, float alpha, float size, 
 			  float x, float y, float z, 
 			  const char *fmt, ...);
 	int getWidth(float size, const char *fmt, ...);

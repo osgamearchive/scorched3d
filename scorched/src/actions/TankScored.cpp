@@ -61,19 +61,13 @@ void TankScored::init()
 			position[1] += RAND * 5.0f - 2.5f;
 			position[2] += RAND * 5.0f - 2.5f;
 
-			Vector greenColor(0.0f, 0.75f, 0.0f);
-			Vector redColor(0.75f, 0.0f, 0.0f);
 			Vector yellowColor(0.75f, 0.75f, 0.0f);
-
-			char buffer[256];
-			sprintf(buffer, "$ %+i", moneyDiff_);
-
 			context_->actionController->addAction(
 				new SpriteAction(
 					new TextActionRenderer(
 						position,
-						(moneyDiff_>0.0f)?greenColor:((moneyDiff_<0.0f)?redColor:yellowColor),
-						buffer)));
+						yellowColor,
+						formatString("$ %+i", moneyDiff_))));
 		}
 	}
 }

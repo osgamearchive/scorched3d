@@ -158,27 +158,39 @@ void ServerShotState::scoreWinners()
 		if (tank->getState().getSpectator()) continue;
 
 		// Calculate how much money each tank should get
-		int addMoney = int(float(tank->getScore().getMoney()) * interest);
-		addMoney += ScorchedServer::instance()->getOptionsGame().getMoneyPerRound();
-		int addRounds = 0;
-		if (tank->getState().getState() == TankState::sNormal)
+		// Due to rounds
 		{
-			tank->getState().setState(TankState::sDead);
+			int roundMoney = ScorchedServer::instance()->getOptionsGame().getMoneyPerRound();
+			int addRounds = 0;
+			if (tank->getState().getState() == TankState::sNormal)
+			{
+				tank->getState().setState(TankState::sDead);
 
-			addMoney += ScorchedServer::instance()->
-				getOptionsGame().getMoneyWonForRound();
-			addRounds = 1;
-			StatsLogger::instance()->tankWon(tank);
+				roundMoney += ScorchedServer::instance()->
+					getOptionsGame().getMoneyWonForRound();
+				addRounds = 1;
+				StatsLogger::instance()->tankWon(tank);
+			}
+			if (addRounds != 0 || roundMoney != 0)
+			{
+				TankScored *scored = new TankScored(tank->getPlayerId(), 
+					roundMoney,
+					0,
+					addRounds);
+				ScorchedServer::instance()->getActionController().addAction(scored);
+			}
 		}
-
-		// Add the money to the tanks
-		if (addRounds != 0 || addMoney != 0)
+        // Due to interest
 		{
-			TankScored *scored = new TankScored(tank->getPlayerId(), 
-				addMoney,
-				0,
-				addRounds);
-			ScorchedServer::instance()->getActionController().addAction(scored);
+			int addMoney = int(float(tank->getScore().getMoney()) * interest);
+			if (addMoney != 0)
+			{
+				TankScored *scored = new TankScored(tank->getPlayerId(), 
+					addMoney,
+					0,
+					0);
+				ScorchedServer::instance()->getActionController().addAction(scored);
+			}
 		}
 	}
 

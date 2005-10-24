@@ -174,7 +174,7 @@ void TankModelRenderer::drawSecond()
 
 		glDepthMask(GL_FALSE);
 		GLWFont::instance()->getSmallPtFont()->drawBilboard(
-			tank_->getColor(), 1,
+			tank_->getColor(), 1.0f, 1,
 			(float) tank_->getPhysics().getTankPosition()[0] - bilX[0], 
 			(float) tank_->getPhysics().getTankPosition()[1] - bilX[1], 
 			(float) height + 8.0f,

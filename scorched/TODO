@@ -9,6 +9,10 @@ Fixed: Windows cannot be dragged off screen
 Fixed: Windows are above the help and sound icons
 Fixed: Keepalive messages are now closed loop
 Fixed: Client warns when keepalive messages are falling behind (for debug)
+Fixed: Damage + money text above tanks now fades out
+Fixed: Tank name first character sometimes flickered
+
+Added: Damage amount text floats out of tanks
 
 -- Bugs in current development release
 Dvorak keyboard support is broken
