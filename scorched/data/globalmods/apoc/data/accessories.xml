@@ -3680,6 +3680,147 @@ target nearby tanks.</description>
 		</accessoryaction>
 	</accessory>
 	<accessory>
+		<name>Hornet1</name>
+		<armslevel>1</armslevel>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponProjectile'>
+			<enginesound>none</enginesound>
+			<nocreateflame/>
+			<spinspeed>0</spinspeed>
+			<projectilescale>2.0</projectilescale>
+			<projectilemodel type='MilkShape'>weapons/redhornet.txt</projectilemodel>
+			<collisionaction type='WeaponMulti'>
+				<subweapon1 type='WeaponAimedOver'>
+					<nowarheads>1</nowarheads>
+					<percentagemiss>10</percentagemiss>
+					<maxaimdistance>35</maxaimdistance>
+					<inaccuracy>0</inaccuracy>
+					<aimedweapon type='WeaponProjectile'>
+						<enginesound>none</enginesound>
+						<nocreateflame/>
+						<spinspeed>0</spinspeed>
+						<projectilescale>2.0</projectilescale>
+						<projectilemodel type='MilkShape'>weapons/redhornet.txt</projectilemodel>
+						<collisionaction type='WeaponExplosion'>
+							<armslevel>1</armslevel>
+							<nocreatedebris/>
+							<noluminance/>
+							<hurtamount>1.0</hurtamount>
+							<deform>down</deform>
+							<size>6</size>
+							<explosiontexture>exp04</explosiontexture>
+							<explosionsound>explosions/beesting.wav</explosionsound>
+						</collisionaction>
+					</aimedweapon>
+				</subweapon1>
+				<subweapon2 type='WeaponExplosion'>
+					<armslevel>1</armslevel>
+					<nocreatedebris/>
+					<noluminance/>
+					<hurtamount>1.0</hurtamount>
+					<deform>down</deform>
+					<size>6</size>
+					<explosiontexture>exp04</explosiontexture>
+					<explosionsound>explosions/beesting.wav</explosionsound>
+				</subweapon2>
+			</collisionaction>
+		</accessoryaction>
+	</accessory>
+	<accessory>
+		<name>Hornet2</name>
+		<armslevel>1</armslevel>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponProjectile'>
+			<enginesound>none</enginesound>
+			<nocreateflame/>
+			<spinspeed>0</spinspeed>
+			<projectilescale>2.0</projectilescale>
+			<projectilemodel type='MilkShape'>weapons/redhornet.txt</projectilemodel>
+			<collisionaction type='WeaponMulti'>
+				<subweapon1 type='WeaponAimedOver'>
+					<nowarheads>1</nowarheads>
+					<percentagemiss>20</percentagemiss>
+					<maxaimdistance>40</maxaimdistance>
+					<inaccuracy>10</inaccuracy>
+					<aimedweapon type='WeaponProjectile'>
+						<enginesound>none</enginesound>
+						<nocreateflame/>
+						<spinspeed>0</spinspeed>
+						<projectilescale>2.0</projectilescale>
+						<projectilemodel type='MilkShape'>weapons/redhornet.txt</projectilemodel>
+						<collisionaction type='WeaponExplosion'>
+							<armslevel>1</armslevel>
+							<nocreatedebris/>
+							<noluminance/>
+							<hurtamount>1.0</hurtamount>
+							<deform>down</deform>
+							<size>6</size>
+							<explosiontexture>exp04</explosiontexture>
+							<explosionsound>explosions/beesting.wav</explosionsound>
+						</collisionaction>
+					</aimedweapon>
+				</subweapon1>
+				<subweapon2 type='WeaponExplosion'>
+					<armslevel>1</armslevel>
+					<nocreatedebris/>
+					<noluminance/>
+					<hurtamount>1.0</hurtamount>
+					<deform>down</deform>
+					<size>6</size>
+					<explosiontexture>exp04</explosiontexture>
+					<explosionsound>explosions/beesting.wav</explosionsound>
+				</subweapon2>
+			</collisionaction>
+		</accessoryaction>
+	</accessory>
+	<accessory>
+		<name>Hornet3</name>
+		<armslevel>1</armslevel>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponProjectile'>
+			<enginesound>none</enginesound>
+			<nocreateflame/>
+			<spinspeed>0</spinspeed>
+			<projectilescale>2.0</projectilescale>
+			<projectilemodel type='MilkShape'>weapons/redhornet.txt</projectilemodel>
+			<collisionaction type='WeaponMulti'>
+				<subweapon1 type='WeaponAimedOver'>
+					<nowarheads>1</nowarheads>
+					<percentagemiss>20</percentagemiss>
+					<maxaimdistance>40</maxaimdistance>
+					<inaccuracy>10</inaccuracy>
+					<aimedweapon type='WeaponProjectile'>
+						<enginesound>none</enginesound>
+						<nocreateflame/>
+						<spinspeed>0</spinspeed>
+						<projectilescale>2.0</projectilescale>
+						<projectilemodel type='MilkShape'>weapons/redhornet.txt</projectilemodel>
+						<collisionaction type='WeaponExplosion'>
+							<armslevel>1</armslevel>
+							<nocreatedebris/>
+							<noluminance/>
+							<hurtamount>1.0</hurtamount>
+							<deform>down</deform>
+							<size>6</size>
+							<explosiontexture>exp04</explosiontexture>
+							<explosionsound>explosions/beesting.wav</explosionsound>
+						</collisionaction>
+					</aimedweapon>
+				</subweapon1>
+				<subweapon2 type='WeaponExplosion'>
+					<armslevel>1</armslevel>
+					<nocreatedebris/>
+					<noluminance/>
+					<hurtamount>1.0</hurtamount>
+					<deform>down</deform>
+					<size>6</size>
+					<explosiontexture>exp04</explosiontexture>
+					<explosionsound>explosions/beesting.wav</explosionsound>
+				</subweapon2>
+			</collisionaction>
+		</accessoryaction>
+	</accessory>
+	<accessory>
 		<name>Hornet Nest</name>
 		<armslevel>2</armslevel>
 		<description>Creates an angry cloud of hornets which fly
@@ -3696,55 +3837,168 @@ around attack nearby opponents twice</description>
 			<projectilescale>3</projectilescale>
 			<projectilemodel type='MilkShape'>weapons/redhornet.txt</projectilemodel>
 			<collisionaction type='WeaponMulti'>
-				<subweapon1 type='WeaponDelay'>
+				<subweapon1 type='WeaponExplosion'>
+					<armslevel>1</armslevel>
+					<nocreatedebris/>
+					<noluminance/>
+					<nocreatesplash/>
+					<nowindaffected/>
+					<minlife>4</minlife>
+					<maxlife>5</maxlife>
+					<hurtamount>0.5</hurtamount>
+					<deform>none</deform>
+					<size>10</size>
+					<explosiontexture>cloud00-5</explosiontexture>
+					<explosionsound>explosions/bees.wav</explosionsound>
+				</subweapon1>
+				<subweapon2 type='WeaponExplosion'>
+					<armslevel>1</armslevel>
+					<nocreatedebris/>
+					<nocreatesplash/>
+					<hurtamount>0</hurtamount>
+					<deform>down</deform>
+					<size>4</size>
+					<explosiontexture>none</explosiontexture>
+					<explosionsound>none</explosionsound>
+				</subweapon2>
+				<subweapon3 type='WeaponDelay'>
+					<delay>1.0</delay>
+					<delayedweapon type='WeaponMulti'>
+						<subweapon1 type='WeaponAimedOver'>
+							<nowarheads>1</nowarheads>
+							<percentagemiss>10</percentagemiss>
+							<maxaimdistance>30</maxaimdistance>
+							<inaccuracy>0</inaccuracy>
+							<aimedweapon type='WeaponReference'>
+								<weapon>Hornet1</weapon>
+							</aimedweapon>
+						</subweapon1>
+						<subweapon2 type='WeaponExplosion'>
+							<armslevel>1</armslevel>
+							<nocreatedebris/>
+							<noluminance/>
+							<nocreatesplash/>
+							<nowindaffected/>
+							<minlife>3</minlife>
+							<maxlife>4</maxlife>
+							<hurtamount>0.5</hurtamount>
+							<deform>none</deform>
+							<size>8</size>
+							<explosiontexture>cloud00-5</explosiontexture>
+							<explosionsound>none</explosionsound>
+						</subweapon2>
+					</delayedweapon>
+				</subweapon3>
+				<subweapon4 type='WeaponDelay'>
+					<delay>1.5</delay>
+					<delayedweapon type='WeaponAimedOver'>
+						<nowarheads>1</nowarheads>
+						<percentagemiss>10</percentagemiss>
+						<maxaimdistance>35</maxaimdistance>
+						<inaccuracy>0</inaccuracy>
+						<aimedweapon type='WeaponReference'>
+							<weapon>Hornet1</weapon>
+						</aimedweapon>
+					</delayedweapon>
+				</subweapon4>
+				<subweapon5 type='WeaponDelay'>
+					<delay>2.0</delay>
+					<delayedweapon type='WeaponAimedOver'>
+						<nowarheads>1</nowarheads>
+						<percentagemiss>10</percentagemiss>
+						<maxaimdistance>40</maxaimdistance>
+						<inaccuracy>0</inaccuracy>
+						<aimedweapon type='WeaponReference'>
+							<weapon>Hornet1</weapon>
+						</aimedweapon>
+					</delayedweapon>
+				</subweapon5>
+				<subweapon6 type='WeaponDelay'>
+					<delay>2.5</delay>
+					<delayedweapon type='WeaponAimedOver'>
+						<nowarheads>1</nowarheads>
+						<percentagemiss>10</percentagemiss>
+						<maxaimdistance>45</maxaimdistance>
+						<inaccuracy>0</inaccuracy>
+						<aimedweapon type='WeaponReference'>
+							<weapon>Hornet1</weapon>
+						</aimedweapon>
+					</delayedweapon>
+				</subweapon6>
+				<subweapon7 type='WeaponDelay'>
+					<delay>3.0</delay>
+					<delayedweapon type='WeaponMulti'>
+						<subweapon1 type='WeaponAimedOver'>
+							<nowarheads>1</nowarheads>
+							<percentagemiss>15</percentagemiss>
+							<maxaimdistance>50</maxaimdistance>
+							<inaccuracy>5</inaccuracy>
+							<aimedweapon type='WeaponReference'>
+								<weapon>Hornet2</weapon>
+							</aimedweapon>
+						</subweapon1>
+						<subweapon2 type='WeaponExplosion'>
+							<armslevel>1</armslevel>
+							<nocreatedebris/>
+							<noluminance/>
+							<nocreatesplash/>
+							<nowindaffected/>
+							<minlife>2</minlife>
+							<maxlife>4</maxlife>
+							<hurtamount>0.5</hurtamount>
+							<deform>none</deform>
+							<size>7</size>
+							<explosiontexture>cloud00-5</explosiontexture>
+							<explosionsound>none</explosionsound>
+						</subweapon2>
+					</delayedweapon>
+				</subweapon7>
+				<subweapon8 type='WeaponDelay'>
+					<delay>3.5</delay>
+					<delayedweapon type='WeaponAimedOver'>
+						<nowarheads>1</nowarheads>
+						<percentagemiss>15</percentagemiss>
+						<maxaimdistance>50</maxaimdistance>
+						<inaccuracy>5</inaccuracy>
+						<aimedweapon type='WeaponReference'>
+							<weapon>Hornet2</weapon>
+						</aimedweapon>
+					</delayedweapon>
+				</subweapon8>
+				<subweapon9 type='WeaponDelay'>
+					<delay>4.0</delay>
+					<delayedweapon type='WeaponAimedOver'>
+						<nowarheads>1</nowarheads>
+						<percentagemiss>15</percentagemiss>
+						<maxaimdistance>55</maxaimdistance>
+						<inaccuracy>5</inaccuracy>
+						<aimedweapon type='WeaponReference'>
+							<weapon>Hornet2</weapon>
+						</aimedweapon>
+					</delayedweapon>
+				</subweapon9>
+				<subweapon10 type='WeaponDelay'>
+					<delay>4.5</delay>
+					<delayedweapon type='WeaponAimedOver'>
+						<nowarheads>2</nowarheads>
+						<percentagemiss>15</percentagemiss>
+						<maxaimdistance>55</maxaimdistance>
+						<inaccuracy>5</inaccuracy>
+						<aimedweapon type='WeaponReference'>
+							<weapon>Hornet2</weapon>
+						</aimedweapon>
+					</delayedweapon>
+				</subweapon10>
+				<subweapon11 type='WeaponDelay'>
 					<delay>5.0</delay>
 					<delayedweapon type='WeaponMulti'>
 						<subweapon1 type='WeaponAimedOver'>
-							<nowarheads>6</nowarheads>
+							<nowarheads>2</nowarheads>
 							<percentagemiss>20</percentagemiss>
-							<maxaimdistance>50</maxaimdistance>
+							<maxaimdistance>60</maxaimdistance>
 							<inaccuracy>10</inaccuracy>
-							<aimedweapon type='WeaponProjectile'>
-								<enginesound>none</enginesound>
-								<nocreateflame/>
-								<spinspeed>0</spinspeed>
-								<projectilescale>2.0</projectilescale>
-								<projectilemodel type='MilkShape'>weapons/redhornet.txt</projectilemodel>
-								<collisionaction type='WeaponMulti'>
-									<subweapon1 type='WeaponAimedOver'>
-										<nowarheads>1</nowarheads>
-										<percentagemiss>20</percentagemiss>
-										<maxaimdistance>40</maxaimdistance>
-										<inaccuracy>10</inaccuracy>
-										<aimedweapon type='WeaponProjectile'>
-											<enginesound>none</enginesound>
-											<nocreateflame/>
-											<spinspeed>0</spinspeed>
-											<projectilescale>2.0</projectilescale>
-											<projectilemodel type='MilkShape'>weapons/redhornet.txt</projectilemodel>
-											<collisionaction type='WeaponExplosion'>
-												<armslevel>1</armslevel>
-												<nocreatedebris/>
-												<noluminance/>
-												<hurtamount>1.0</hurtamount>
-												<deform>down</deform>
-												<size>6</size>
-												<explosiontexture>exp04</explosiontexture>
-												<explosionsound>explosions/beesting.wav</explosionsound>
-											</collisionaction>
-										</aimedweapon>
-									</subweapon1>
-									<subweapon2 type='WeaponExplosion'>
-										<armslevel>1</armslevel>
-										<nocreatedebris/>
-										<noluminance/>
-										<hurtamount>1.0</hurtamount>
-										<deform>down</deform>
-										<size>6</size>
-										<explosiontexture>exp04</explosiontexture>
-										<explosionsound>explosions/beesting.wav</explosionsound>
-									</subweapon2>
-								</collisionaction>
+							<aimedweapon type='WeaponReference'>
+								<weapon>Hornet3</weapon>
 							</aimedweapon>
 						</subweapon1>
 						<subweapon2 type='WeaponExplosion'>
@@ -3762,165 +4016,43 @@ around attack nearby opponents twice</description>
 							<explosionsound>none</explosionsound>
 						</subweapon2>
 					</delayedweapon>
-				</subweapon1>
-				<subweapon2 type='WeaponDelay'>
-					<delay>3.0</delay>
-					<delayedweapon type='WeaponMulti'>
-						<subweapon1 type='WeaponAimedOver'>
-							<nowarheads>5</nowarheads>
-							<percentagemiss>20</percentagemiss>
-							<maxaimdistance>50</maxaimdistance>
-							<inaccuracy>10</inaccuracy>
-							<aimedweapon type='WeaponProjectile'>
-								<enginesound>none</enginesound>
-								<nocreateflame/>
-								<spinspeed>0</spinspeed>
-								<projectilescale>2.0</projectilescale>
-								<projectilemodel type='MilkShape'>weapons/redhornet.txt</projectilemodel>
-								<collisionaction type='WeaponMulti'>
-									<subweapon1 type='WeaponAimedOver'>
-										<nowarheads>1</nowarheads>
-										<percentagemiss>20</percentagemiss>
-										<maxaimdistance>40</maxaimdistance>
-										<inaccuracy>10</inaccuracy>
-										<aimedweapon type='WeaponProjectile'>
-											<enginesound>none</enginesound>
-											<nocreateflame/>
-											<spinspeed>0</spinspeed>
-											<projectilescale>2.0</projectilescale>
-											<projectilemodel type='MilkShape'>weapons/redhornet.txt</projectilemodel>
-											<collisionaction type='WeaponExplosion'>
-												<armslevel>1</armslevel>
-												<nocreatedebris/>
-												<noluminance/>
-												<hurtamount>1.0</hurtamount>
-												<deform>down</deform>
-												<size>6</size>
-												<explosiontexture>exp04</explosiontexture>
-												<explosionsound>explosions/beesting.wav</explosionsound>
-											</collisionaction>
-										</aimedweapon>
-									</subweapon1>
-									<subweapon2 type='WeaponExplosion'>
-										<armslevel>1</armslevel>
-										<nocreatedebris/>
-										<noluminance/>
-										<hurtamount>1.0</hurtamount>
-										<deform>down</deform>
-										<size>6</size>
-										<explosiontexture>exp04</explosiontexture>
-										<explosionsound>explosions/beesting.wav</explosionsound>
-									</subweapon2>
-								</collisionaction>
-							</aimedweapon>
-						</subweapon1>
-						<subweapon2 type='WeaponExplosion'>
-							<armslevel>1</armslevel>
-							<nocreatedebris/>
-							<noluminance/>
-							<nocreatesplash/>
-							<nowindaffected/>
-							<minlife>2</minlife>
-							<maxlife>4</maxlife>
-							<hurtamount>0.6</hurtamount>
-							<deform>none</deform>
-							<size>7</size>
-							<explosiontexture>cloud00-5</explosiontexture>
-							<explosionsound>none</explosionsound>
-						</subweapon2>
+				</subweapon11>
+				<subweapon12 type='WeaponDelay'>
+					<delay>5.5</delay>
+					<delayedweapon type='WeaponAimedOver'>
+						<nowarheads>2</nowarheads>
+						<percentagemiss>20</percentagemiss>
+						<maxaimdistance>60</maxaimdistance>
+						<inaccuracy>10</inaccuracy>
+						<aimedweapon type='WeaponReference'>
+							<weapon>Hornet3</weapon>
+						</aimedweapon>
 					</delayedweapon>
-				</subweapon2>
-				<subweapon3 type='WeaponDelay'>
-					<delay>1.0</delay>
-					<delayedweapon type='WeaponMulti'>
-						<subweapon1 type='WeaponAimedOver'>
-							<nowarheads>4</nowarheads>
-							<percentagemiss>10</percentagemiss>
-							<maxaimdistance>40</maxaimdistance>
-							<inaccuracy>0</inaccuracy>
-							<aimedweapon type='WeaponProjectile'>
-								<enginesound>none</enginesound>
-								<nocreateflame/>
-								<spinspeed>0</spinspeed>
-								<projectilescale>2.0</projectilescale>
-								<projectilemodel type='MilkShape'>weapons/redhornet.txt</projectilemodel>
-								<collisionaction type='WeaponMulti'>
-									<subweapon1 type='WeaponAimedOver'>
-										<nowarheads>1</nowarheads>
-										<percentagemiss>10</percentagemiss>
-										<maxaimdistance>35</maxaimdistance>
-										<inaccuracy>0</inaccuracy>
-										<aimedweapon type='WeaponProjectile'>
-											<enginesound>none</enginesound>
-											<nocreateflame/>
-											<spinspeed>0</spinspeed>
-											<projectilescale>2.0</projectilescale>
-											<projectilemodel type='MilkShape'>weapons/redhornet.txt</projectilemodel>
-											<collisionaction type='WeaponExplosion'>
-												<armslevel>1</armslevel>
-												<nocreatedebris/>
-												<noluminance/>
-												<hurtamount>1.0</hurtamount>
-												<deform>down</deform>
-												<size>6</size>
-												<explosiontexture>exp04</explosiontexture>
-												<explosionsound>explosions/beesting.wav</explosionsound>
-											</collisionaction>
-										</aimedweapon>
-									</subweapon1>
-									<subweapon2 type='WeaponExplosion'>
-										<armslevel>1</armslevel>
-										<nocreatedebris/>
-										<noluminance/>
-										<hurtamount>1.0</hurtamount>
-										<deform>down</deform>
-										<size>6</size>
-										<explosiontexture>exp04</explosiontexture>
-										<explosionsound>explosions/beesting.wav</explosionsound>
-									</subweapon2>
-								</collisionaction>
-							</aimedweapon>
-						</subweapon1>
-						<subweapon2 type='WeaponExplosion'>
-							<armslevel>1</armslevel>
-							<nocreatedebris/>
-							<noluminance/>
-							<nocreatesplash/>
-							<nowindaffected/>
-							<minlife>3</minlife>
-							<maxlife>4</maxlife>
-							<hurtamount>1.0</hurtamount>
-							<deform>none</deform>
-							<size>8</size>
-							<explosiontexture>cloud00-5</explosiontexture>
-							<explosionsound>none</explosionsound>
-						</subweapon2>
+				</subweapon12>
+				<subweapon13 type='WeaponDelay'>
+					<delay>6.0</delay>
+					<delayedweapon type='WeaponAimedOver'>
+						<nowarheads>1</nowarheads>
+						<percentagemiss>20</percentagemiss>
+						<maxaimdistance>60</maxaimdistance>
+						<inaccuracy>10</inaccuracy>
+						<aimedweapon type='WeaponReference'>
+							<weapon>Hornet3</weapon>
+						</aimedweapon>
 					</delayedweapon>
-				</subweapon3>
-				<subweapon4 type='WeaponExplosion'>
-					<armslevel>1</armslevel>
-					<nocreatedebris/>
-					<noluminance/>
-					<nocreatesplash/>
-					<nowindaffected/>
-					<minlife>4</minlife>
-					<maxlife>5</maxlife>
-					<hurtamount>1.0</hurtamount>
-					<deform>none</deform>
-					<size>10</size>
-					<explosiontexture>cloud00-5</explosiontexture>
-					<explosionsound>explosions/bees.wav</explosionsound>
-				</subweapon4>
-				<subweapon5 type='WeaponExplosion'>
-					<armslevel>1</armslevel>
-					<nocreatedebris/>
-					<nocreatesplash/>
-					<hurtamount>0</hurtamount>
-					<deform>down</deform>
-					<size>4</size>
-					<explosiontexture>none</explosiontexture>
-					<explosionsound>none</explosionsound>
-				</subweapon5>
+				</subweapon13>
+				<subweapon14 type='WeaponDelay'>
+					<delay>6.5</delay>
+					<delayedweapon type='WeaponAimedOver'>
+						<nowarheads>1</nowarheads>
+						<percentagemiss>20</percentagemiss>
+						<maxaimdistance>60</maxaimdistance>
+						<inaccuracy>10</inaccuracy>
+						<aimedweapon type='WeaponReference'>
+							<weapon>Hornet3</weapon>
+						</aimedweapon>
+					</delayedweapon>
+				</subweapon14>
 			</collisionaction>
 		</accessoryaction>
 	</accessory>
@@ -5892,7 +6024,7 @@ to cover them.</description>
 				<nocreatedebris/>
 				<hurtamount>0.0</hurtamount>
 				<deform>up</deform>
-				<size>6</size>
+				<size>4</size>
 				<explosiontexture>exp03</explosiontexture>
 				<explosionsound>explosions/gloop.wav</explosionsound>
 			</collisionaction>
@@ -7624,6 +7756,12 @@ YOU CANNOT AIM THIS WEAPON</description>
 				<subweapon4 type='WeaponSound'>
 					<sound>data/wav/explosions/thunder.wav</sound>
 				</subweapon4>
+				<subweapon5 type='WeaponDelay'>
+					<delay>2.0</delay>
+					<delayedweapon type='WeaponSound'>
+						<sound>data/wav/explosions/lightningbolt.wav</sound>
+					</delayedweapon>
+				</subweapon5>
 			</aimedweapon>
 		</accessoryaction>
 	</accessory>
@@ -8237,10 +8375,37 @@ energy wave that ripples outward horizontally</description>
 		</accessoryaction>
 	</accessory>
 	<accessory>
+		<name>Storm Segment</name>
+		<armslevel>1</armslevel>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponMulti'>
+			<subweapon1 type='WeaponReference'>
+				<weapon>Clouds-Grey</weapon>
+			</subweapon1>
+			<subweapon2 type='WeaponReference'>
+				<weapon>Lightning Bolt</weapon>
+				<armslevel>1</armslevel>
+			</subweapon2>
+			<subweapon3 type='WeaponDelay'>
+				<delay>0.5</delay>
+				<delayedweapon type='WeaponReference'>
+					<weapon>Lightning Bolt</weapon>
+					<armslevel>1</armslevel>
+				</delayedweapon>
+			</subweapon3>
+			<subweapon4 type='WeaponDelay'>
+				<delay>2.0</delay>
+				<delayedweapon type='WeaponSound'>
+					<sound>data/wav/explosions/lightningbolt.wav</sound>
+				</delayedweapon>
+			</subweapon4>
+		</accessoryaction>
+	</accessory>
+	<accessory>
 		<name>Lightning Storm</name>
 		<armslevel>2</armslevel>
 		<description>Multiple bolts of lightning streak down 
-out of the sky.Unfortunately, mother nature is unpredictable
+out of the sky.  Unfortunately, mother nature is unpredictable
 in where she chooses to strike.
 YOU CANNOT AIM THIS WEAPON!</description>
 		<icon>lstorm.bmp</icon>
@@ -8255,24 +8420,11 @@ YOU CANNOT AIM THIS WEAPON!</description>
 			<direction><A>0</A><B>0</B><C>-1</C></direction>
 			<directionoffset><A>0</A><B>0</B><C>0</C></directionoffset>		
 			<aimedweapon type='WeaponMulti'>
-				<subweapon1 type='WeaponMulti'>
-					<subweapon1 type='WeaponReference'>
-						<weapon>Clouds-Grey</weapon>
-					</subweapon1>
-					<subweapon2 type='WeaponReference'>
-						<weapon>Lightning Bolt</weapon>
-						<armslevel>1</armslevel>
-					</subweapon2>
-					<subweapon3 type='WeaponDelay'>
-						<delay>0.5</delay>
-						<delayedweapon type='WeaponReference'>
-							<weapon>Lightning Bolt</weapon>
-							<armslevel>1</armslevel>
-						</delayedweapon>
-					</subweapon3>
+				<subweapon1 type='WeaponReference'>
+					<weapon>Storm Segment</weapon>
 				</subweapon1>
 				<subweapon2 type='WeaponDelay'>
-					<delay>0.33</delay>
+					<delay>1.0</delay>
 					<delayedweapon type='WeaponRedirect'>
 						<habs>false</habs>
 						<vabs>true</vabs>
@@ -8280,27 +8432,14 @@ YOU CANNOT AIM THIS WEAPON!</description>
 						<vredirect>90</vredirect>
 						<nextaction type='WeaponTranslate'>
 							<translatedist>25</translatedist>
-							<nextaction type='WeaponMulti'>
-								<subweapon1 type='WeaponReference'>
-									<weapon>Clouds-Grey</weapon>
-								</subweapon1>
-								<subweapon2 type='WeaponReference'>
-									<weapon>Lightning Bolt</weapon>
-									<armslevel>1</armslevel>
-								</subweapon2>
-								<subweapon3 type='WeaponDelay'>
-									<delay>0.5</delay>
-									<delayedweapon type='WeaponReference'>
-										<weapon>Lightning Bolt</weapon>
-										<armslevel>1</armslevel>
-									</delayedweapon>
-								</subweapon3>
+							<nextaction type='WeaponReference'>
+								<weapon>Storm Segment</weapon>
 							</nextaction>
 						</nextaction>
 					</delayedweapon>
 				</subweapon2>
 				<subweapon3 type='WeaponDelay'>
-					<delay>1.33</delay>
+					<delay>2.0</delay>
 					<delayedweapon type='WeaponRedirect'>
 						<habs>false</habs>
 						<vabs>true</vabs>
@@ -8308,27 +8447,14 @@ YOU CANNOT AIM THIS WEAPON!</description>
 						<vredirect>90</vredirect>
 						<nextaction type='WeaponTranslate'>
 							<translatedist>25</translatedist>
-							<nextaction type='WeaponMulti'>
-								<subweapon1 type='WeaponReference'>
-									<weapon>Clouds-Grey</weapon>
-								</subweapon1>
-								<subweapon2 type='WeaponReference'>
-									<weapon>Lightning Bolt</weapon>
-									<armslevel>1</armslevel>
-								</subweapon2>
-								<subweapon3 type='WeaponDelay'>
-									<delay>0.5</delay>
-									<delayedweapon type='WeaponReference'>
-										<weapon>Lightning Bolt</weapon>
-										<armslevel>1</armslevel>
-									</delayedweapon>
-								</subweapon3>
+							<nextaction type='WeaponReference'>
+								<weapon>Storm Segment</weapon>
 							</nextaction>
 						</nextaction>
 					</delayedweapon>
 				</subweapon3>
 				<subweapon4 type='WeaponDelay'>
-					<delay>2.0</delay>
+					<delay>3.0</delay>
 					<delayedweapon type='WeaponRedirect'>
 						<habs>false</habs>
 						<vabs>true</vabs>
@@ -8336,27 +8462,14 @@ YOU CANNOT AIM THIS WEAPON!</description>
 						<vredirect>90</vredirect>
 						<nextaction type='WeaponTranslate'>
 							<translatedist>25</translatedist>
-							<nextaction type='WeaponMulti'>
-								<subweapon1 type='WeaponReference'>
-									<weapon>Clouds-Grey</weapon>
-								</subweapon1>
-								<subweapon2 type='WeaponReference'>
-									<weapon>Lightning Bolt</weapon>
-									<armslevel>1</armslevel>
-								</subweapon2>
-								<subweapon3 type='WeaponDelay'>
-									<delay>0.5</delay>
-									<delayedweapon type='WeaponReference'>
-										<weapon>Lightning Bolt</weapon>
-										<armslevel>1</armslevel>
-									</delayedweapon>
-								</subweapon3>
+							<nextaction type='WeaponReference'>
+								<weapon>Storm Segment</weapon>
 							</nextaction>
 						</nextaction>
 					</delayedweapon>
 				</subweapon4>
 				<subweapon5 type='WeaponDelay'>
-					<delay>2.33</delay>
+					<delay>4.0</delay>
 					<delayedweapon type='WeaponRedirect'>
 						<habs>false</habs>
 						<vabs>true</vabs>
@@ -8364,47 +8477,27 @@ YOU CANNOT AIM THIS WEAPON!</description>
 						<vredirect>90</vredirect>
 						<nextaction type='WeaponTranslate'>
 							<translatedist>25</translatedist>
-							<nextaction type='WeaponMulti'>
-								<subweapon1 type='WeaponReference'>
-									<weapon>Clouds-Grey</weapon>
-								</subweapon1>
-								<subweapon2 type='WeaponReference'>
-									<weapon>Lightning Bolt</weapon>
-									<armslevel>1</armslevel>
-								</subweapon2>
-								<subweapon3 type='WeaponDelay'>
-									<delay>0.5</delay>
-									<delayedweapon type='WeaponReference'>
-										<weapon>Lightning Bolt</weapon>
-										<armslevel>1</armslevel>
-									</delayedweapon>
-								</subweapon3>
+							<nextaction type='WeaponReference'>
+								<weapon>Storm Segment</weapon>
 							</nextaction>
 						</nextaction>
 					</delayedweapon>
 				</subweapon5>
 				<subweapon6 type='WeaponDelay'>
-					<delay>1.6</delay>
-					<delayedweapon type='WeaponMulti'>
-						<subweapon1 type='WeaponReference'>
-							<weapon>Clouds-Grey</weapon>
-						</subweapon1>
-						<subweapon2 type='WeaponReference'>
-							<weapon>Lightning Bolt</weapon>
-							<armslevel>1</armslevel>
-						</subweapon2>
-						<subweapon3 type='WeaponDelay'>
-							<delay>0.5</delay>
-							<delayedweapon type='WeaponReference'>
-								<weapon>Lightning Bolt</weapon>
-								<armslevel>1</armslevel>
-							</delayedweapon>
-						</subweapon3>
+					<delay>2.0</delay>
+					<delayedweapon type='WeaponReference'>
+						<weapon>Storm Segment</weapon>
 					</delayedweapon>
 				</subweapon6>
-				<subweapon7 type='WeaponSound'>
-					<sound>data/wav/explosions/thunder.wav</sound>
+				<subweapon7 type='WeaponDelay'>
+					<delay>4.0</delay>
+					<delayedweapon type='WeaponReference'>
+						<weapon>Clouds-Grey</weapon>
+					</delayedweapon>
 				</subweapon7>
+				<subweapon8 type='WeaponSound'>
+					<sound>data/wav/explosions/thunder.wav</sound>
+				</subweapon8>
 			</aimedweapon>
 		</accessoryaction>
 	</accessory>
@@ -9169,19 +9262,19 @@ all targets in the area.</description>
 					</delayedweapon>
 				</subweapon2>
 				<subweapon3 type='WeaponDelay'>
-					<delay>3.0</delay>
+					<delay>3.5</delay>
 					<delayedweapon type='WeaponReference'>
 						<weapon>SatSegment</weapon>
 					</delayedweapon>
 				</subweapon3>
 				<subweapon4 type='WeaponDelay'>
-					<delay>4.5</delay>
+					<delay>5.5</delay>
 					<delayedweapon type='WeaponReference'>
 						<weapon>SatSegment</weapon>
 					</delayedweapon>
 				</subweapon4>
 				<subweapon5 type='WeaponDelay'>
-					<delay>6.0</delay>
+					<delay>7.5</delay>
 					<delayedweapon type='WeaponReference'>
 						<weapon>SatSegment</weapon>
 					</delayedweapon>

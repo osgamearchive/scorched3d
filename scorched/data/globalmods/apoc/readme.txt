@@ -36,6 +36,10 @@ Changes Since 3.1
         - Shockwave:
             - Removed reliance on WeaponAimedOver, now spreads at 22.5 degree angles
             - Added a few more sparks after the main shockwave begins for visual effect
+        - Lightning Storm:
+            - Added lightningbolt.wav sounds back in
+            - Increased cost from $25,000 to $30,000
+            - Slowed down the pace by a few seconds to make it easier to watch
         - Added Blink Device, an instant teleporter.
         - Added clouds to Apoc/Dday/Strangelove for visual effect
         - Added some lightning bolts in the clouds in Strangelove
@@ -44,16 +48,17 @@ Changes Since 3.1
         - Added some extra aimed projectiles to Strangelove after ground collision like it used to be pre v3.0
         - Added a small sound for hornets when they sting to replace the flare sound.
         - Added puff of smoke to Instamountain
+        - Increased damage from lasers some
+        - Increased accuracy of Sandhogs slightly (they are still less powerful than official ones tho)
+        - Increased base projectile damage done to Heavy Force Shield from 10 to 15 (made it somewhat weaker overall)
+        - Decreased size of Dirt Clod a bit to reduce its use as a bunker builder
         - New projectile model for MOAB by Bobirov
         - Made Gas Stations a little bit more damaging all around
         - Slightly increased power of Small Meteor explosion (5 percent)
         - Reduced interval between drops and reduced strength a tad in Hell Storm
         - Reduced shield collision damage on all diggers by 33%
         - MIRV and Mega MIRV now use more reliable redirect code
-        - Increased damage from lasers some
-        - Increased accuracy of Sandhogs slightly (they are still less powerful than official ones tho)
-        - Increased base projectile damage done to Heavy Force Shield from 10 to 15 (made it somewhat weaker overall)
-        - Increased cost of Lightning Storm from $25,000 to $30,000
+        - Hornets come out 1 and 2 at a time instead of in big groups in Hornets Nest/Swarm
         
     Landscapes:
         - Tweaked surround texture for desert maps some so its a little less repetitive looking
