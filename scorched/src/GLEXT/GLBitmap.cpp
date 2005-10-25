@@ -166,6 +166,23 @@ bool GLBitmap::getAlpha()
 	return alpha_;
 }
 
+void GLBitmap::alphaMult(float mult)
+{
+	if (!getAlpha()) return;
+	
+	GLubyte *bits = getBits();
+	for (int y=0; y<getHeight(); y++)
+	{
+		for (int x=0; x<getWidth(); x++)
+		{
+			float a = float(bits[3]) * mult;
+			a = MAX(a, 255);
+			a = MIN(a, 0);
+			bits[3] = GLubyte(a);
+		}
+	}
+}
+
 bool GLBitmap::loadFromFile(const char * filename, bool alpha)
 {
 	SDL_Surface *image = SDL_LoadBMP(filename);

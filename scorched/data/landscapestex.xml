@@ -47,8 +47,8 @@
 		<boids>
 			<boid>
 				<count>20</count>
-				<minz>5</minz>
-				<maxz>25</maxz>
+				<minbounds><A>0</A><B>0</B><C>5</C></minbounds>
+				<maxbounds><A>255</A><B>255</B><C>25</C></maxbounds>
 				<maxvelocity>1.0</maxvelocity>
 				<maxacceleration>1.0</maxacceleration>
 				<cruisedistance>1.0</cruisedistance>
@@ -66,8 +66,8 @@
 			</boid>
 			<boid>
 				<count>3</count>
-				<minz>30</minz>
-				<maxz>65</maxz>
+				<minbounds><A>-100</A><B>-100</B><C>30</C></minbounds>
+				<maxbounds><A>355</A><B>355</B><C>65</C></maxbounds>
 				<maxvelocity>20.0</maxvelocity>
 				<maxacceleration>5.0</maxacceleration>
 				<cruisedistance>10.0</cruisedistance>
@@ -129,8 +129,8 @@
 		<boids>
 			<boid>
 				<count>20</count>
-				<minz>5</minz>
-				<maxz>25</maxz>
+				<minbounds><A>0</A><B>0</B><C>5</C></minbounds>
+				<maxbounds><A>255</A><B>255</B><C>25</C></maxbounds>
 				<maxvelocity>1.0</maxvelocity>
 				<maxacceleration>1.0</maxacceleration>
 				<cruisedistance>1.0</cruisedistance>
@@ -148,8 +148,8 @@
 			</boid>
 			<boid>
 				<count>4</count>
-				<minz>10</minz>
-				<maxz>50</maxz>
+				<minbounds><A>-50</A><B>-50</B><C>10</C></minbounds>
+				<maxbounds><A>300</A><B>300</B><C>50</C></maxbounds>
 				<maxvelocity>2.0</maxvelocity>
 				<maxacceleration>2.0</maxacceleration>
 				<cruisedistance>4.0</cruisedistance>
@@ -262,8 +262,8 @@
 		<boids>
 			<boid>
 				<count>20</count>
-				<minz>5</minz>
-				<maxz>25</maxz>
+				<minbounds><A>0</A><B>0</B><C>5</C></minbounds>
+				<maxbounds><A>255</A><B>255</B><C>25</C></maxbounds>
 				<maxvelocity>1.0</maxvelocity>
 				<maxacceleration>1.0</maxacceleration>
 				<cruisedistance>1.0</cruisedistance>
@@ -374,8 +374,8 @@
 		<boids>
 			<boid>
 				<count>20</count>
-				<minz>5</minz>
-				<maxz>25</maxz>
+				<minbounds><A>0</A><B>0</B><C>5</C></minbounds>
+				<maxbounds><A>255</A><B>255</B><C>25</C></maxbounds>
 				<maxvelocity>1.0</maxvelocity>
 				<maxacceleration>1.0</maxacceleration>
 				<cruisedistance>1.0</cruisedistance>
@@ -542,8 +542,8 @@
 		<boids>
 			<boid>
 				<count>20</count>
-				<minz>5</minz>
-				<maxz>40</maxz>
+				<minbounds><A>0</A><B>0</B><C>5</C></minbounds>
+				<maxbounds><A>255</A><B>255</B><C>40</C></maxbounds>
 				<maxvelocity>1.0</maxvelocity>
 				<maxacceleration>1.0</maxacceleration>
 				<cruisedistance>1.0</cruisedistance>

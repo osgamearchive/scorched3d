@@ -517,6 +517,8 @@ scorcheddataglobalmodsapocdatatextureslandscapemoon_DATA = data/globalmods/apoc/
 	data/globalmods/apoc/data/textures/landscape/moon/texture1.bmp \
 	data/globalmods/apoc/data/textures/landscape/moon/texture2.bmp \
 	data/globalmods/apoc/data/textures/landscape/moon/texture3.bmp
+scorcheddataglobalmodsapocdatatextureslandscapedesertdir = ${datadir}/data/globalmods/apoc/data/textures/landscape/desert
+scorcheddataglobalmodsapocdatatextureslandscapedesert_DATA = data/globalmods/apoc/data/textures/landscape/desert/surround.bmp
 scorcheddataglobalmodsapocdatatextureswiconsdir = ${datadir}/data/globalmods/apoc/data/textures/wicons
 scorcheddataglobalmodsapocdatatextureswicons_DATA = data/globalmods/apoc/data/textures/wicons/ablast.bmp \
 	data/globalmods/apoc/data/textures/wicons/anapalm.bmp \
@@ -575,7 +577,8 @@ scorcheddataglobalmodsapocdatawavexplosions_DATA = data/globalmods/apoc/data/wav
 	data/globalmods/apoc/data/wav/explosions/thunder.wav \
 	data/globalmods/apoc/data/wav/explosions/bhit.wav \
 	data/globalmods/apoc/data/wav/explosions/exp.wav \
-	data/globalmods/apoc/data/wav/explosions/tank.wav
+	data/globalmods/apoc/data/wav/explosions/tank.wav \
+	data/globalmods/apoc/data/wav/explosions/beesting.wav
 scorcheddataglobalmodsapocdatawavshootdir = ${datadir}/data/globalmods/apoc/data/wav/shoot
 scorcheddataglobalmodsapocdatawavshoot_DATA = data/globalmods/apoc/data/wav/shoot/tripleshot.wav \
 	data/globalmods/apoc/data/wav/shoot/machinegun.wav \

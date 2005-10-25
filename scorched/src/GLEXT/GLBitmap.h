@@ -113,6 +113,11 @@ public:
 	*/
 	virtual bool getAlpha();
 
+	/** 
+	Multiplies the alpha channel my the given multiplier
+	*/
+	virtual void alphaMult(float mult);
+
 	/**
 	Overwrite the bitmap with the contents of the given file.
 	If alpha is true then any black areas in the bitmap have full

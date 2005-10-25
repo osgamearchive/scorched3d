@@ -148,8 +148,8 @@ bool LandscapeTexBoids::readXML(XMLNode *node)
 	if (!node->getNamedChild("model", modelnode)) return false;
 	if (!model.initFromNode(".", modelnode)) return false;
 	if (!node->getNamedChild("count", count)) return false;
-	if (!node->getNamedChild("minz", minz)) return false;
-	if (!node->getNamedChild("maxz", maxz)) return false;
+	if (!node->getNamedChild("minbounds", minbounds)) return false;
+	if (!node->getNamedChild("maxbounds", maxbounds)) return false;
 	if (!node->getNamedChild("maxvelocity", maxvelocity)) return false;
 	if (!node->getNamedChild("cruisedistance", cruisedistance)) return false;
 	if (!node->getNamedChild("maxacceleration", maxacceleration)) return false;

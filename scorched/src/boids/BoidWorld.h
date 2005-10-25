@@ -23,6 +23,7 @@
 
 #include <vector>
 #include <list>
+#include <common/Vector.h>
 
 class SoundBuffer;
 class VirtualSoundSource;
@@ -89,8 +90,8 @@ protected:
 	float maxVelocity_;
 	float maxAcceleration_;
 
-	void makeBoids(int boidCount, int maxZ, int minZ);
-	void makeObstacles(int maxZ, int minZ);
+	void makeBoids(int boidCount, Vector &maxBounds, Vector &minBounds);
+	void makeObstacles(Vector &maxBounds, Vector &minBounds);
 	void makeSounds(std::list<std::string> &sounds,
 		int soundmaxsimul, float soundvolume);
 

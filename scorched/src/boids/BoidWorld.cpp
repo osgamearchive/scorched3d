@@ -46,8 +46,8 @@ BoidWorld::BoidWorld(LandscapeTexBoids *boids) :
 	maxAcceleration_(0.65f * boids->maxacceleration)
 {
 	// Create boids
-	makeBoids(boids->count, boids->maxz, boids->minz);
-	makeObstacles(boids->maxz, boids->minz);
+	makeBoids(boids->count, boids->maxbounds, boids->minbounds);
+	makeObstacles(boids->maxbounds, boids->minbounds);
 
 	if (!OptionsDisplay::instance()->getNoBoidSound())
 	{
@@ -128,7 +128,7 @@ void BoidWorld::makeSounds(std::list<std::string> &sounds,
 	}
 }
 
-void BoidWorld::makeBoids(int boidCount, int maxZ, int minZ)
+void BoidWorld::makeBoids(int boidCount, Vector &maxBounds, Vector &minBounds)
 {
 	BoidVector p;
 	BoidVector attitude;      // roll, pitch, yaw
@@ -141,14 +141,14 @@ void BoidWorld::makeBoids(int boidCount, int maxZ, int minZ)
 		{
 			p = BoidVector(
 			rand() % 200 + 25, 
-			rand() % (maxZ - minZ - 2) + minZ + 1,
+			rand() % ((int)maxBounds[2] - (int)minBounds[2] - 2) + (int) minBounds[2] + 1,
 			rand() % 200 + 25);
 		} while (ScorchedClient::instance()->getLandscapeMaps().
 			getHMap().getInterpHeight((float) p.x, (float) p.z) > p.y);
 
 		attitude = BoidVector(
 			rand() % 200 + 25, 
-			(maxZ + minZ) / 2,
+			(maxBounds[2] + minBounds[2]) / 2,
 			rand() % 200 + 25);
 		v  = Direction(attitude) * (maxVelocity_) / 4.0;
 
@@ -158,7 +158,7 @@ void BoidWorld::makeBoids(int boidCount, int maxZ, int minZ)
 	}
 }
 
-void BoidWorld::makeObstacles(int maxZ, int minZ) 
+void BoidWorld::makeObstacles(Vector &maxBounds, Vector &minBounds) 
 {
 	/*BoidVector ba(256, maxZ, 256);
 	BoidVector bb(0, minZ, 0);
@@ -166,7 +166,7 @@ void BoidWorld::makeObstacles(int maxZ, int minZ)
 	getObstacles().push_back(b);*/
 
 	ScorchedBoidsObstacle *o = 
-		new ScorchedBoidsObstacle(maxZ, minZ);
+		new ScorchedBoidsObstacle(maxBounds, minBounds);
 	getObstacles().push_back(o);
 }
 

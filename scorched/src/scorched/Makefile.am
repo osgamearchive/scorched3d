@@ -252,6 +252,8 @@ scorched3d_SOURCES = \
 	../3dsparse/MeshLODVector.h \
 	../3dsparse/Model.cpp \
 	../3dsparse/Model.h \
+	../3dsparse/ModelDefn.cpp \
+	../3dsparse/ModelDefn.h \
 	../3dsparse/ModelID.cpp \
 	../3dsparse/ModelID.h \
 	../3dsparse/ModelMaths.cpp \

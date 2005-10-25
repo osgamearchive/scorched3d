@@ -228,6 +228,7 @@ void TankModelRenderer::drawSight()
 void TankModelRenderer::drawShield()
 {
 	// Create the shield textures
+	static GLTexture *shieldtexture = 0;
 	static GLTexture *texture = 0;
 	static GLTexture *texture2 = 0;
 	static GLTexture *magtexture = 0;
@@ -248,6 +249,13 @@ void TankModelRenderer::drawShield()
 		GLBitmap map3(file3.c_str(), file3.c_str(), false);
 		magtexture = new GLTexture;
 		magtexture->create(map3, GL_RGBA, true);
+
+		std::string file4 = getDataFile("data/textures/shield.bmp");
+		std::string file5 = getDataFile("data/textures/shielda.bmp");
+		GLBitmap map4(file4.c_str(), file5.c_str(), false);
+		map4.alphaMult(4.0f);
+		shieldtexture = new GLTexture;
+		shieldtexture->create(map4, GL_RGBA, true);
 
 		obj = gluNewQuadric();
 		gluQuadricTexture(obj, GL_TRUE);
@@ -355,6 +363,16 @@ void TankModelRenderer::drawShield()
 			if (shield->getRadius() == Shield::ShieldSizeSmall) glCallList(smallListNo);
 			else glCallList(largeListNo);
 		glPopMatrix();
+
+		/*shieldtexture->draw();
+		GLCameraFrustum::instance()->drawBilboard(
+			position,
+			color,
+			1.0f - shieldHit_,
+			shield->getActualRadius(), 
+			shield->getActualRadius(),
+			false, // Additive
+			0); // texcoord*/
 	}
 }
 

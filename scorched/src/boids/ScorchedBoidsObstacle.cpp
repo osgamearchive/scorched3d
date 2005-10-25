@@ -24,8 +24,8 @@
 #include <landscape/LandscapeMaps.h>
 #include <landscape/HeightMap.h>
 
-ScorchedBoidsObstacle::ScorchedBoidsObstacle(int maxZ, int minZ) :
-	minZ_(minZ), maxZ_(maxZ)
+ScorchedBoidsObstacle::ScorchedBoidsObstacle(Vector &maxBounds, Vector &minBounds) :
+	minBounds_(minBounds), maxBounds_(maxBounds)
 {
 }
 
@@ -56,7 +56,7 @@ ISectData ScorchedBoidsObstacle::IntersectionWithRay(const BoidVector & raydirec
 	for (int i = 0; i < 12; i++)
 	{
 		position += direction;
-		if (position[0] < 0.0f)
+		if (position[0] < minBounds_[0])
 		{
 			result.intersectionflag = 1;
 			result.point.x = position[0];
@@ -64,7 +64,7 @@ ISectData ScorchedBoidsObstacle::IntersectionWithRay(const BoidVector & raydirec
 			result.point.z = position[1];
 			result.normal.x = 1.0f;
 		}
-		else if (position[0] > 256.0)
+		else if (position[0] > maxBounds_[0])
 		{
 			result.intersectionflag = 1;
 			result.point.x = position[0];
@@ -72,7 +72,7 @@ ISectData ScorchedBoidsObstacle::IntersectionWithRay(const BoidVector & raydirec
 			result.point.z = position[1];
 			result.normal.x = -1.0f;
 		}
-		if (position[1] < 0.0f)
+		if (position[1] < minBounds_[1])
 		{
 			result.intersectionflag = 1;
 			result.point.x = position[0];
@@ -80,7 +80,7 @@ ISectData ScorchedBoidsObstacle::IntersectionWithRay(const BoidVector & raydirec
 			result.point.z = position[1];
 			result.normal.z = 1.0f;
 		}
-		else if (position[1] > 256.0)
+		else if (position[1] > maxBounds_[1])
 		{
 			result.intersectionflag = 1;
 			result.point.x = position[0];
@@ -88,7 +88,7 @@ ISectData ScorchedBoidsObstacle::IntersectionWithRay(const BoidVector & raydirec
 			result.point.z = position[1];
 			result.normal.z = -1.0f;
 		}
-		if (position[2] < double(minZ_))
+		if (position[2] < double(minBounds_[2]))
 		{
 			result.intersectionflag = 1;
 			result.point.x = position[0];
@@ -96,7 +96,7 @@ ISectData ScorchedBoidsObstacle::IntersectionWithRay(const BoidVector & raydirec
 			result.point.z = position[1];
 			result.normal.y = 1.0f;
 		}
-		else if (position[2] > double(maxZ_))
+		else if (position[2] > double(maxBounds_[2]))
 		{
 			result.intersectionflag = 1;
 			result.point.x = position[0];
@@ -112,15 +112,21 @@ ISectData ScorchedBoidsObstacle::IntersectionWithRay(const BoidVector & raydirec
 			}
 			break;
 		}
-	
-		if (ScorchedClient::instance()->getLandscapeMaps().getHMap().
-			getHeight((int) position[0], (int) position[1]) >
-			position[2] - 3.0f)
+
+		int posX = (int) position[0];
+		int posY = (int) position[1];
+		float posZ = 0.0f;
+		Vector normal(0.0f, 0.0f, 1.0f);
+		if (posX >= 0 && posX < 255 && posY >= 0 && posY < 255)
+		{
+			posZ = ScorchedClient::instance()->getLandscapeMaps().getHMap().
+				getHeight(posX, posY);
+			normal = ScorchedClient::instance()->getLandscapeMaps().getHMap().
+				getNormal(posX, posY);
+		}
+		if (posZ > position[2] - 3.0f)
 		{
 			position -= direction;
-			Vector &normal = ScorchedClient::instance()->getLandscapeMaps().getHMap().
-				getNormal((int) position[0], (int) position[1]);
-
 			result.intersectionflag = 1;
 			result.point.x = position[0];
 			result.point.y = position[2];

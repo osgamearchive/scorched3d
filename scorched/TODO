@@ -12,6 +12,7 @@ Fixed: Client warns when keepalive messages are falling behind (for debug)
 Fixed: Damage + money text above tanks now fades out
 Fixed: Tank name first character sometimes flickered
 
+Added: Boids can be configured to move outside of the island
 Added: Damage amount text floats out of tanks
 
 -- Bugs in current development release

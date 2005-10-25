@@ -96,7 +96,7 @@ class LandscapeTexBoids : public LandscapeTexType
 public:
 	ModelID model;
 	int count;
-	int minz, maxz;
+	Vector minbounds, maxbounds;
 	float soundmintime, soundmaxtime;
 	float soundvolume;
 	float modelsize;

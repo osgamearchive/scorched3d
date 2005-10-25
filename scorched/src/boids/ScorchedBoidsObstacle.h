@@ -22,11 +22,12 @@
 #define __INCLUDE_ScorchedBoidsObstacleh_INCLUDE__
 
 #include <boids/Obstacle.h>
+#include <common/Vector.h>
 
 class ScorchedBoidsObstacle : public Obstacle
 {
 public:
-	ScorchedBoidsObstacle(int maxZ, int minZ);
+	ScorchedBoidsObstacle(Vector &maxBounds, Vector &minBounds);
 	virtual ~ScorchedBoidsObstacle();
 
 	virtual Obstacle *Clone(void) const 
@@ -36,7 +37,7 @@ protected:
 	virtual ISectData IntersectionWithRay(const BoidVector & raydirection,
 		const BoidVector &rayorigin) const;
 
-	int maxZ_, minZ_;
+	Vector maxBounds_, minBounds_;
 };
 
 #endif // __INCLUDE_ScorchedBoidsObstacleh_INCLUDE__
