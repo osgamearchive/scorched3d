@@ -884,6 +884,12 @@
 				RelativePath="..\3dsparse\Model.h">
 			</File>
 			<File
+				RelativePath="..\3dsparse\ModelDefn.cpp">
+			</File>
+			<File
+				RelativePath="..\3dsparse\ModelDefn.h">
+			</File>
+			<File
 				RelativePath="..\3dsparse\ModelID.cpp">
 			</File>
 			<File
