@@ -13,7 +13,8 @@ Changes Since 3.1
     New Accessories:
         - Tsar Bomba, the largest nuclear bomb ever made courtesy of the Soviets.
             - Basically takes place of the old style MOAB behaviour, a big explosion & crater
-            - Slightly smaller explosion than before, and costs a bit less at $16,000
+            - Slightly smaller explosion crater than old MOAB
+            - Invisible radioactive fallout does additional damage to surrounding tanks
             
     Other Accessory Changes:
         - Sat. Strike:

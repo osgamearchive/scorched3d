@@ -1712,30 +1712,139 @@ damage over a large area.</description>
 		</accessoryaction>
 	</accessory>
 	<accessory>
+		<name>FalloutExplosion</name>
+		<armslevel>2</armslevel>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponExplosion'>
+			<nocreatesplash/>
+			<nocreatedebris/>
+			<noluminance/>
+			<hurtamount>0.1</hurtamount>
+			<deform>none</deform>
+			<size>48</size>
+			<explosiontexture>none</explosiontexture>
+			<explosionsound>none</explosionsound>
+		</accessoryaction>
+	</accessory>
+	<accessory>
+		<name>TsarFallout</name>
+		<armslevel>2</armslevel>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponMulti'>
+			<subweapon1 type='WeaponReference'>
+				<weapon>FalloutExplosion</weapon>
+			</subweapon1>
+			<subweapon2 type='WeaponDelay'>
+				<delay>1.0</delay>
+				<delayedweapon type='WeaponReference'>
+					<weapon>FalloutExplosion</weapon>
+				</delayedweapon>
+			</subweapon2>
+			<subweapon3 type='WeaponDelay'>
+				<delay>2.0</delay>
+				<delayedweapon type='WeaponReference'>
+					<weapon>FalloutExplosion</weapon>
+				</delayedweapon>
+			</subweapon3>
+			<subweapon4 type='WeaponDelay'>
+				<delay>3.0</delay>
+				<delayedweapon type='WeaponReference'>
+					<weapon>FalloutExplosion</weapon>
+				</delayedweapon>
+			</subweapon4>
+		</accessoryaction>
+	</accessory>
+	<accessory>
 		<name>Tsar Bomba</name>
 		<armslevel>2</armslevel>
 		<description>The largest single nuclear explosion
-bomb ever constructed.</description>
+bomb ever constructed.  Fallout does
+further damage to surrounding area.</description>
 		<icon>nuke.bmp</icon>
 		<bundlesize>1</bundlesize>
-		<cost>16000</cost>
+		<cost>20000</cost>
 		<activationsound>shoot/xlarge.wav</activationsound>
-		<model type='MilkShape'>fatman/fatman.txt</model>
+		<model type='MilkShape'>weapons/tsarbomba.txt</model>
 		<modelscale>2</modelscale>
 		<accessoryaction type='WeaponProjectile'>
-			<projectilescale>3</projectilescale>
-			<projectilemodel type='MilkShape'>fatman/fatman.txt</projectilemodel>
-			<collisionaction type='WeaponExplosion'>
-				<minlife>2</minlife>
-				<maxlife>3</maxlife>
-				<createmushroom/>
-				<nowindaffected/>
-				<hurtamount>1.2</hurtamount>
-				<deform>down</deform>
-				<size>36</size>
-				<explosionshake>4.0</explosionshake>
-				<explosiontexture>exp00</explosiontexture>
-				<explosionsound>explosions/xlarge.wav</explosionsound>
+			<spinspeed>0</spinspeed>
+			<projectilescale>2</projectilescale>
+			<projectilemodel type='MilkShape'>weapons/tsarbomba.txt</projectilemodel>
+			<collisionaction type='WeaponMulti'>
+				<subweapon1 type='WeaponExplosion'>
+					<nowindaffected/>
+					<createmushroom/>
+					<minlife>2</minlife>
+					<maxlife>3</maxlife>
+					<hurtamount>1.2</hurtamount>
+					<deform>down</deform>
+					<size>32</size>
+					<explosionshake>4.0</explosionshake>
+					<explosiontexture>exp00</explosiontexture>
+					<explosionsound>explosions/xlarge.wav</explosionsound>
+				</subweapon1>
+				<subweapon2 type='WeaponDelay'>
+					<delay>2.0</delay>
+					<delayedweapon type='WeaponMulti'>
+						<subweapon1 type='WeaponReference'>
+							<weapon>TsarFallout</weapon>
+						</subweapon1>
+						<subweapon2 type='WeaponRedirect'>
+							<habs>false</habs>
+							<vabs>true</vabs>
+							<hredirect>0</hredirect>
+							<vredirect>90</vredirect>
+							<nextaction type='WeaponTranslate'>
+								<translatedist>24</translatedist>
+								<nextaction type='WeaponReference'>
+									<weapon>TsarFallout</weapon>
+								</nextaction>
+							</nextaction>
+						</subweapon2>
+						<subweapon3 type='WeaponRedirect'>
+							<habs>false</habs>
+							<vabs>true</vabs>
+							<hredirect>90</hredirect>
+							<vredirect>90</vredirect>
+							<nextaction type='WeaponTranslate'>
+								<translatedist>24</translatedist>
+								<nextaction type='WeaponReference'>
+									<weapon>TsarFallout</weapon>
+								</nextaction>
+							</nextaction>
+						</subweapon3>
+						<subweapon4 type='WeaponRedirect'>
+							<habs>false</habs>
+							<vabs>true</vabs>
+							<hredirect>180</hredirect>
+							<vredirect>90</vredirect>
+							<nextaction type='WeaponTranslate'>
+								<translatedist>24</translatedist>
+								<nextaction type='WeaponReference'>
+									<weapon>TsarFallout</weapon>
+								</nextaction>
+							</nextaction>
+						</subweapon4>
+						<subweapon5 type='WeaponRedirect'>
+							<habs>false</habs>
+							<vabs>true</vabs>
+							<hredirect>270</hredirect>
+							<vredirect>90</vredirect>
+							<nextaction type='WeaponTranslate'>
+								<translatedist>24</translatedist>
+								<nextaction type='WeaponReference'>
+									<weapon>TsarFallout</weapon>
+								</nextaction>
+							</nextaction>
+						</subweapon5>
+					</delayedweapon>
+				</subweapon2>
+				<subweapon3 type='WeaponDelay'>
+					<delay>2.0</delay>
+					<delayedweapon type='WeaponSound'>
+						<sound>data/wav/explosions/radiation.wav</sound>
+					</delayedweapon>
+				</subweapon3>
 			</collisionaction>
 		</accessoryaction>
 	</accessory>
