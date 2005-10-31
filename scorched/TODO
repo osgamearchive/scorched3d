@@ -29,6 +29,7 @@ Check keepalives are being sent during high load times
 Better/different shield graphics
 Scripting language
 Better/less intrusive talk dialog
+Dirt cannot be raised when underground
 
 -- Server Stuff
 A way to set the maximum and minimum players for a map (half done)
