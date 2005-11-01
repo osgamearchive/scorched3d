@@ -90,7 +90,7 @@ void GLBitmapModifier::addLightMapToBitmap(GLBitmap &destBitmap,
 {
 	const float softShadow = 3.0f;
 	const int sideFade = 16;
-	const int mapWidth = 256;
+	const int mapWidth = 256; // Resolution of the light map
 
 	if (counter) counter->setNewOp("Light Map");
 

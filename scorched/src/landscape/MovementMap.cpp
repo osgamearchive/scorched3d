@@ -214,21 +214,27 @@ void MovementMap::calculateForTank(Tank *tank, ScorchedContext &context, bool ma
 }
 
 #include <landscape/Landscape.h>
+#include <client/ScorchedClient.h>
 
 void MovementMap::movementTexture()
 {
-	static GLBitmap newMap(
+	GLBitmap newMap(
 		Landscape::instance()->getMainMap().getWidth(),
 		Landscape::instance()->getMainMap().getHeight());
+
+	float width = 
+		ScorchedClient::instance()->getLandscapeMaps().getHMap().getWidth();
+	float height = 
+		ScorchedClient::instance()->getLandscapeMaps().getHMap().getWidth();
 
 	GLubyte *src = Landscape::instance()->getMainMap().getBits();
 	GLubyte *dest = newMap.getBits();
 	for (int y=0; y<newMap.getHeight(); y++)
 	{
-		int posY = int(float(y) / float(newMap.getHeight()) * 256.0f);
+		int posY = int(float(y) / float(newMap.getHeight()) * height);
 		for (int x=0; x<newMap.getWidth(); x++)
 		{
-			int posX = int(float(x) / float(newMap.getWidth()) * 256.0f);
+			int posX = int(float(x) / float(newMap.getWidth()) * width);
 
 			if (getEntry(posX, posY).type == eMovement)
 			{

@@ -219,17 +219,18 @@ void PatchGrid::draw(PatchSide::DrawType sides)
 	{
 		Vector point, point2;
 		drawnPatches_ = 0;
-		int divide = 256 / hMap_->getMinWidth();
+		int divideWidth = hMap_->getWidth() / hMap_->getMinWidth();
+		int divideHeight = hMap_->getWidth() / hMap_->getMinWidth();
 		Patch **patch = patches_;
 		for (int p=0; p<width_ * width_; p++)
 		{			
 			point2[0] = point[0] = float((*patch)->getX() + ((*patch)->getWidth() / 2));
 			point2[1] = point[1] = float((*patch)->getY() + ((*patch)->getWidth() / 2));
 			point[2] = MAX(
-				hMap_->getMaxHeight(((*patch)->getX() + 2) / divide, 
-					((*patch)->getY() + 2)  / divide),
-				hMap_->getMaxHeight(((*patch)->getX() + (*patch)->getWidth() - 2) / divide, 
-					((*patch)->getY() + (*patch)->getWidth() - 2) / divide )) / 2.0f;
+				hMap_->getMaxHeight(((*patch)->getX() + 2) / divideWidth, 
+					((*patch)->getY() + 2)  / divideHeight),
+				hMap_->getMaxHeight(((*patch)->getX() + (*patch)->getWidth() - 2) / divideWidth, 
+					((*patch)->getY() + (*patch)->getWidth() - 2) / divideHeight )) / 2.0f;
 			float width = MAX(point[2], (*patch)->getWidth() + 5.0f);
 
 			if (OptionsDisplay::instance()->getDrawBoundingSpheres())

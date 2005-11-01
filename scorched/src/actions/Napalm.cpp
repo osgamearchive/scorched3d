@@ -173,24 +173,12 @@ void Napalm::simulateRmStep()
 	// Remove the first napalm point from the list
 	// and remove the height from the landscape
 	NapalmEntry *entry = napalmPoints_.front();
+	napalmPoints_.pop_front();
 	int x = entry->posX;
 	int y = entry->posY;
-	if (!context_->serverMode)
-	{
-		// Add the ground scorch
-		/*if (!GLStateExtension::getNoTexSubImage())
-		{
-			int landscapeWidth = Landscape::instance()->getMainMap().getWidth();
-			float mult = float(landscapeWidth) / 256.0f;
-			float w = 2.5f * mult;
-			GLBitmapModifier::addCircle(Landscape::instance()->getMainMap(),
-				x * mult, y * mult, w, 1.0f);
-		}*/
-	}
 	delete entry;
 
 	context_->landscapeMaps->getNMap().getHeight(x, y) -= NapalmHeight;
-	napalmPoints_.pop_front();
 }
 
 void Napalm::simulateAddStep()

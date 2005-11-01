@@ -30,6 +30,9 @@ void HeightMapRenderer::drawHeightMap(HeightMap &map)
 	{
 		glNewList(displayList_ = glGenLists(1), GL_COMPILE_AND_EXECUTE);*/
 
+		float width = map.getWidth();
+		float height = map.getWidth();
+
 		// Draw the triangles
 		glColor3f(1.0f, 1.0f, 1.0f);
 		glBegin(GL_TRIANGLES);
@@ -38,23 +41,23 @@ void HeightMapRenderer::drawHeightMap(HeightMap &map)
 		{
 			for (int y=0; y<map.getWidth()-1; y++)
 			{
-				glTexCoord2f(float(x) / 256.0f, float(y) / 256.0f);
+				glTexCoord2f(float(x) / width, float(y) / height);
 				glNormal3fv(map.getNormal(x, y));
 				glVertex3f((float)x, (float)y, map.getHeight(x, y));
-				glTexCoord2f(float(x+1) / 256.0f, float(y) / 256.0f);
+				glTexCoord2f(float(x+1) / width, float(y) / height);
 				glNormal3fv(map.getNormal(x + 1, y));
 				glVertex3f((float)x + 1.0f, (float)y, map.getHeight(x + 1, y));
-				glTexCoord2f(float(x+1) / 256.0f, float(y+1) / 256.0f);
+				glTexCoord2f(float(x+1) / width, float(y+1) / height);
 				glNormal3fv(map.getNormal(x + 1, y + 1));
 				glVertex3f((float)x + 1.0f, (float)y + 1.0f, map.getHeight(x + 1, y + 1));
 
-				glTexCoord2f(float(x+1) / 256.0f, float(y+1) / 256.0f);
+				glTexCoord2f(float(x+1) / width, float(y+1) / height);
 				glNormal3fv(map.getNormal(x+1, y+1));
 				glVertex3f((float)x + 1.0f, (float)y + 1.0f, map.getHeight(x + 1, y + 1));
-				glTexCoord2f(float(x) / 256.0f, float(y+1) / 256.0f);
+				glTexCoord2f(float(x) / width, float(y+1) / height);
 				glNormal3fv(map.getNormal(x, y+1));
 				glVertex3f((float)x, (float)y + 1.0f, map.getHeight(x, y + 1));
-				glTexCoord2f(float(x) / 256.0f, float(y) / 256.0f);
+				glTexCoord2f(float(x) / width, float(y) / height);
 				glNormal3fv(map.getNormal(x, y));
 				glVertex3f((float)x, (float)y, map.getHeight(x, y));
 			}

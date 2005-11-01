@@ -163,8 +163,6 @@ void LandscapeObjectPlacementTrees::generateObjects(
 			placement.objecttype.c_str());
 	}
 
-	//float mult = (float) Landscape::instance()->getMainMap().getWidth() / 256.0f;
-
 	LandscapeObjectsGroupEntry *group = 0;
 	if (placement.groupname.c_str()[0])
 	{
@@ -218,9 +216,6 @@ void LandscapeObjectPlacementTrees::generateObjects(
 
 					//Vector position(entry->posX, entry->posY, entry->posZ);
 					//DeformLandscape::flattenArea(context, position, 0);
-
-					/*GLBitmapModifier::addCircle(Landscape::instance()->getMainMap(),
-						lx * mult, ly * mult, modelSize * entry->size * mult, 1.0f);*/
 				}
 				else
 				{
@@ -237,9 +232,6 @@ void LandscapeObjectPlacementTrees::generateObjects(
 					entry->removeaction = placement.removeaction;
 					entry->burnaction = placement.burnaction;
 					entry->modelsize = modelSize;
-					
-					/*GLBitmapModifier::addCircle(Landscape::instance()->getMainMap(),
-						lx * mult, ly * mult, entry->size * mult, 1.0f);*/
 				}
 
 				context.landscapeMaps->getObjects().addObject(
@@ -401,9 +393,6 @@ void LandscapeObjectPlacementMask::generateObjects(
 
 						//Vector position(entry->posX, entry->posY, entry->posZ);
 						//DeformLandscape::flattenArea(context, position, 0);
-
-						/*GLBitmapModifier::addCircle(Landscape::instance()->getMainMap(),
-							lx * mult, ly * mult, modelSize * entry->size * mult, 1.0f);*/
 					}
 					else
 					{
@@ -420,9 +409,6 @@ void LandscapeObjectPlacementMask::generateObjects(
 						entry->removeaction = placement.removeaction;
 						entry->burnaction = placement.burnaction;
 						entry->modelsize = modelSize;
-						
-						/*GLBitmapModifier::addCircle(Landscape::instance()->getMainMap(),
-							lx * mult, ly * mult, entry->size * mult, 1.0f);*/
 					}
 
 					context.landscapeMaps->getObjects().addObject(
@@ -490,8 +476,6 @@ void LandscapeObjectPlacementDirect::generateObjects(
 			placement.groupname.c_str(), true);
 	}
 
-	//float mult = (float) Landscape::instance()->getMainMap().getWidth() / 256.0f;
-
 	std::list<LandscapePlaceObjectsPlacementDirect::Position>::iterator itor;
 	int i = 0;
 	for (itor = placement.positions.begin();
@@ -527,10 +511,6 @@ void LandscapeObjectPlacementDirect::generateObjects(
 
 			//Vector position(entry->posX, entry->posY, entry->posZ);
 			//DeformLandscape::flattenArea(context, position, 0);
-
-			/*GLBitmapModifier::addCircle(Landscape::instance()->getMainMap(),
-				position.position[0] * mult, position.position[1] * mult, 
-				modelSize * entry->size * mult, 1.0f);*/
 		}
 		else
 		{
@@ -547,10 +527,6 @@ void LandscapeObjectPlacementDirect::generateObjects(
 			entry->removeaction = placement.removeaction;
 			entry->burnaction = placement.burnaction;
 			entry->modelsize = modelSize;
-			
-			/*GLBitmapModifier::addCircle(Landscape::instance()->getMainMap(),
-				position.position[0] * mult, position.position[1] * mult, 
-				entry->size * mult, 1.0f);*/
 		}
 
 		context.landscapeMaps->getObjects().addObject(

@@ -160,11 +160,6 @@ void BoidWorld::makeBoids(int boidCount, Vector &maxBounds, Vector &minBounds)
 
 void BoidWorld::makeObstacles(Vector &maxBounds, Vector &minBounds) 
 {
-	/*BoidVector ba(256, maxZ, 256);
-	BoidVector bb(0, minZ, 0);
-	Box *b = new Box(ba, bb);
-	getObstacles().push_back(b);*/
-
 	ScorchedBoidsObstacle *o = 
 		new ScorchedBoidsObstacle(maxBounds, minBounds);
 	getObstacles().push_back(o);

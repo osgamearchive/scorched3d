@@ -194,7 +194,7 @@ void PatchSide::recursRender( TriNode *tri,
 	{
 		for (int i=0; i<257; i++)
 		{
-			texArray[i].txa = GLfloat(i) / 256.0f;
+			texArray[i].txa = GLfloat(i) / 256.0f; // TODO need better way!!
 			texArray[i].txb = (GLfloat(i) / 256.0f) * 64.0f;
 		}
 		initArray = true;

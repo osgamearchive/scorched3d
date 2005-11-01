@@ -160,7 +160,7 @@ public:
 		eScrollUp,
 		eScrollDown
 	};
-	void scroll(ScrollDir direction);
+	void scroll(ScrollDir direction, float maxWidth, float maxHeight);
 
 	static GLCamera *getCurrentCamera() { return currentCamera_; }
 
