@@ -735,6 +735,24 @@
 					<modelburnt type="MilkShape">data/accessories/buildings/logcabin1burnt.txt</modelburnt>
 				</object>
 			</placement>
+			<placement type="mask">
+				<numobjects>4</numobjects>
+				<mask>data/landscapes/masks/city1rural.bmp</mask>
+				<minheight>10</minheight>
+				<maxheight>75</maxheight>
+				<mincloseness>15</mincloseness>
+				<minslope>0.9</minslope>
+				<xsnap>0</xsnap>
+				<ysnap>0</ysnap>
+				<angsnap>0</angsnap>
+				<removeaction>Nuclear Plant</removeaction>
+				<burnaction>Nuclear Plant</burnaction>
+				<groupname>factories</groupname>
+				<object type="model">
+					<model type="MilkShape">data/accessories/buildings/nuclearplant.txt</model>
+					<modelburnt type="MilkShape">data/accessories/buildings/nuclearplant.txt</modelburnt>
+				</object>
+			</placement>
 		</placements>
 	</place>
 	<place>
@@ -1109,6 +1127,24 @@
 					<modelburnt type="MilkShape">data/accessories/buildings/logcabin1burnt.txt</modelburnt>
 				</object>
 			</placement>
+			<placement type="mask">
+				<numobjects>4</numobjects>
+				<mask>data/landscapes/masks/city1rural.bmp</mask>
+				<minheight>10</minheight>
+				<maxheight>75</maxheight>
+				<mincloseness>15</mincloseness>
+				<minslope>0.9</minslope>
+				<xsnap>0</xsnap>
+				<ysnap>0</ysnap>
+				<angsnap>0</angsnap>
+				<removeaction>Nuclear Plant</removeaction>
+				<burnaction>Nuclear Plant</burnaction>
+				<groupname>factories</groupname>
+				<object type="model">
+					<model type="MilkShape">data/accessories/buildings/nuclearplant.txt</model>
+					<modelburnt type="MilkShape">data/accessories/buildings/nuclearplant.txt</modelburnt>
+				</object>
+			</placement>
 		</placements>
 	</place>
 	<place>
@@ -1481,6 +1517,24 @@
 				<object type="model">
 					<model type="MilkShape">data/accessories/buildings/logcabin1.txt</model>
 					<modelburnt type="MilkShape">data/accessories/buildings/logcabin1burnt.txt</modelburnt>
+				</object>
+			</placement>
+			<placement type="mask">
+				<numobjects>4</numobjects>
+				<mask>data/landscapes/masks/city1rural.bmp</mask>
+				<minheight>10</minheight>
+				<maxheight>75</maxheight>
+				<mincloseness>15</mincloseness>
+				<minslope>0.9</minslope>
+				<xsnap>0</xsnap>
+				<ysnap>0</ysnap>
+				<angsnap>0</angsnap>
+				<removeaction>Nuclear Plant</removeaction>
+				<burnaction>Nuclear Plant</burnaction>
+				<groupname>factories</groupname>
+				<object type="model">
+					<model type="MilkShape">data/accessories/buildings/nuclearplant.txt</model>
+					<modelburnt type="MilkShape">data/accessories/buildings/nuclearplant.txt</modelburnt>
 				</object>
 			</placement>
 		</placements>

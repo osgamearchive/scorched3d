@@ -62,6 +62,8 @@ Changes Since 3.1
         - Hornets come out 1 and 2 at a time instead of in big groups in Hornets Nest/Swarm
         
     Landscapes:
+    	- New Nuclear Power Plant Building
+    		- Explodes and releases massive amounts of fallout that travels down wind
         - Tweaked surround texture for desert maps some so its a little less repetitive looking
         
     Other:
