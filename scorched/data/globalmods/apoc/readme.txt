@@ -15,6 +15,7 @@ Changes Since 3.1
             - Basically takes place of the old style MOAB behaviour, a big explosion & crater
             - Slightly smaller explosion crater than old MOAB
             - Invisible radioactive fallout does additional damage to surrounding tanks
+        - Blink Device, an instant teleporter (no delay)
             
     Other Accessory Changes:
         - Sat. Strike:
@@ -23,7 +24,8 @@ Changes Since 3.1
             - Increased price from $20,000 to $40,000
         - M2 Machinegun:
             - Increased size of the bullets by 50%, they're still small but more visible
-            - Reduced damage the bullets do during shield collisions by 33%
+            - Reduced damage the bullets do during shield collisions to 33%
+            - Reduced damage of the shells from 0.4 to 0.2 (total damage from 200 to 100)
         - Suicide Bomb:
             - Reduced the size of the crater (but not damage range) considerably
             - Added flaming debris
@@ -41,7 +43,17 @@ Changes Since 3.1
             - Added lightningbolt.wav sounds back in
             - Increased cost from $25,000 to $30,000
             - Slowed down the pace by a few seconds to make it easier to watch
-        - Added Blink Device, an instant teleporter.
+        - Shields:
+            - Increased base projectile damage done to Heavy Force Shield from 10 to 15
+            - Increased Mag Deflect's <deflectpower> from 50% to 75%
+            - Reworked shield <penetration> values.
+                - Regular shields offer most raw damage resistance, then mags, then force shields.
+            - Flattened out base projectile collision damage for all regular shields at 10%
+            - Flattened out base projectile collision damage for all force shields at 15%
+            - Updated descriptions to include some info about the total amdount of damage they can absorb
+                and how much damage they take when being hit by projectiles by default
+        - Nuke, Fatman and Tsar Bomba do additional collision damage to shields due to large mass (133-200%)
+        - Reduced shield collision damage on diggers by 33% to 60% to decrease their use as shield busters
         - Added clouds to Apoc/Dday/Strangelove for visual effect
         - Added some lightning bolts in the clouds in Strangelove
         - Added another projectile to Apoc/Dday/Strangelove waves
@@ -51,15 +63,16 @@ Changes Since 3.1
         - Added puff of smoke to Instamountain
         - Increased damage from lasers some
         - Increased accuracy of Sandhogs slightly (they are still less powerful than official ones tho)
-        - Increased base projectile damage done to Heavy Force Shield from 10 to 15 (made it somewhat weaker overall)
-        - Decreased size of Dirt Clod a bit to reduce its use as a bunker builder
         - New projectile model for MOAB by Bobirov
         - Made Gas Stations a little bit more damaging all around
         - Slightly increased power of Small Meteor explosion (5 percent)
         - Reduced interval between drops and reduced strength a tad in Hell Storm
-        - Reduced shield collision damage on all diggers by 33%
+        - Reduced max physical damage of EMP's from 50 to 25 (shield damage went up from 75 to 100)
+        - Decreased size of Dirt Clod a bit to reduce its use as a bunker builder
         - MIRV and Mega MIRV now use more reliable redirect code
         - Hornets come out 1 and 2 at a time instead of in big groups in Hornets Nest/Swarm
+        - Set Wall Of Dirt maximum to 3 per round
+        - Set Ring Of Dirt maximum to 1 per round
         
     Landscapes:
     	- New Nuclear Power Plant Building
