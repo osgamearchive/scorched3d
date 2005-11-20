@@ -53,9 +53,8 @@ to move rather than fire.</description>
 		<name>Shield</name>
 		<armslevel>8</armslevel>
 		<description>A small defensive shield that protects 
-the tank from small amounts of damage. 
-Shields must be activated before they 
-work.</description>
+the tank from moderate amounts of damage. 
+Capacity: 150 dmg pts | Collision Damage: 10%</description>
 		<icon>shield.bmp</icon>
 		<activationsound>shield/activate.wav</activationsound>
 		<bundlesize>2</bundlesize>
@@ -69,8 +68,8 @@ work.</description>
 				<b>1.0</b>
 			</color>
 			<collisionsound>shield/hit.wav</collisionsound>
-			<removepower>20</removepower>
-			<penetration>1.0</penetration>
+			<removepower>10</removepower>
+			<penetration>0.6666</penetration>
 		</accessoryaction>
 	</accessory>
 	<accessory>
@@ -78,8 +77,7 @@ work.</description>
 		<armslevel>6</armslevel>
 		<description>A large defensive shield that protects
 the tank from moderate amounts of damage.
-Shields must be activated before they 
-work.</description>
+Capacity: 200 dmg pts | Collision Damage: 10%</description>
 		<icon>hshield.bmp</icon>
 		<activationsound>shield/activate.wav</activationsound>
 		<bundlesize>2</bundlesize>
@@ -94,7 +92,7 @@ work.</description>
 			</color>
 			<collisionsound>shield/hit.wav</collisionsound>
 			<removepower>10</removepower>
-			<penetration>0.8</penetration>
+			<penetration>0.5</penetration>
 		</accessoryaction>
 	</accessory>
 	<accessory>
@@ -102,12 +100,11 @@ work.</description>
 		<armslevel>4</armslevel>
 		<description>The best defensive shield that protects
 the tank from large amounts of physical damage.
-Shields must be activated before they 
-work.</description>
+Capacity: 250 dmg pts | Collision Damage: 10%</description>
 		<icon>hshield.bmp</icon>
 		<activationsound>shield/activate.wav</activationsound>
 		<bundlesize>1</bundlesize>
-		<cost>15000</cost>
+		<cost>12000</cost>
 		<accessoryaction type='Shield'>
 			<radius>large</radius>
 			<halfshield>false</halfshield>
@@ -117,8 +114,8 @@ work.</description>
 				<b>0.0</b>
 			</color>
 			<collisionsound>shield/hit.wav</collisionsound>
-			<removepower>5</removepower>
-			<penetration>0.6</penetration>
+			<removepower>10</removepower>
+			<penetration>0.4</penetration>
 		</accessoryaction>
 	</accessory>
 	<accessory>
@@ -127,11 +124,11 @@ work.</description>
 		<description>A small reflective shield that protects 
 the tank from small amounts of physical damage. 
 Force shields reflect any shots that hit them.
-Shields must be activated before they work.</description>
+Capacity: 100 dmg pts | Collision Damage: 15%</description>
 		<icon>fshield.bmp</icon>
 		<activationsound>shield/activateforce.wav</activationsound>
 		<bundlesize>2</bundlesize>
-		<cost>12000</cost>
+		<cost>8000</cost>
 		<accessoryaction type='ShieldReflective'>
 			<deflectfactor>0.75</deflectfactor>
 			<radius>small</radius>
@@ -142,8 +139,8 @@ Shields must be activated before they work.</description>
 				<b>1.0</b>
 			</color>
 			<collisionsound>shield/hit2.wav</collisionsound>
-			<removepower>20</removepower>
-			<penetration>0.6</penetration>
+			<removepower>15</removepower>
+			<penetration>1.0</penetration>
 		</accessoryaction>
 	</accessory>
 	<accessory>
@@ -152,11 +149,11 @@ Shields must be activated before they work.</description>
 		<description>A large reflective shield that protects 
 the tank from moderate amounts of physical damage. 
 Force shields reflect any shots that hit them.
-Shields must be activated before they work.</description>
+Capacity: 150 dmg pts | Collision Damage: 15%</description>
 		<icon>fshield.bmp</icon>
 		<activationsound>shield/activateforce.wav</activationsound>
 		<bundlesize>1</bundlesize>
-		<cost>15000</cost>
+		<cost>12000</cost>
 		<accessoryaction type='ShieldReflective'>
 			<deflectfactor>1.0</deflectfactor>
 			<radius>large</radius>
@@ -168,7 +165,7 @@ Shields must be activated before they work.</description>
 			</color>
 			<collisionsound>shield/hit2.wav</collisionsound>
 			<removepower>15</removepower>
-			<penetration>0.4</penetration>
+			<penetration>0.6666</penetration>
 		</accessoryaction>
 	</accessory>
 	<accessory>
@@ -177,8 +174,8 @@ Shields must be activated before they work.</description>
 		<description>A small reflective shield that protects
 the tank from small amounts of damage. 
 Mag shields reflect any shots that hit
-them but only from above. Shields must 
-be activated before they work.</description>
+them but only from above. 
+Capacity: 125 dmg pts | Collision Damage: Timed</description>
 		<icon>mag.bmp</icon>
 		<activationsound>shield/activate.wav</activationsound>
 		<bundlesize>2</bundlesize>
@@ -186,7 +183,7 @@ be activated before they work.</description>
 		<accessoryaction type='ShieldMag'>
 			<radius>large</radius>
 			<halfshield>true</halfshield>
-			<deflectpower>50</deflectpower>
+			<deflectpower>75</deflectpower>
 			<color>
 				<r>1.0</r>
 				<g>1.0</g>
@@ -194,21 +191,21 @@ be activated before they work.</description>
 			</color>
 			<collisionsound>shield/hit2.wav</collisionsound>
 			<removepower>4</removepower>
-			<penetration>1.0</penetration>
+			<penetration>0.8</penetration>
 		</accessoryaction>
 	</accessory>
 	<accessory>
 		<name>Heavy Mag</name>
 		<armslevel>6</armslevel>
 		<description>A large reflective shield that protects
-the tank from small amounts of damage.
+the tank from large amounts of damage.
 Mag shields reflect any shots that hit
-them but only from above. Shields must be 
-activated before they work.</description>
+them but only from above. 
+Capacity: 200 dmg pts | Collision Damage: Timed</description>
 		<icon>smag.bmp</icon>
 		<activationsound>shield/activate.wav</activationsound>
 		<bundlesize>1</bundlesize>
-		<cost>10000</cost>
+		<cost>12000</cost>
 		<accessoryaction type='ShieldMag'>
 			<radius>large</radius>
 			<halfshield>true</halfshield>
@@ -220,7 +217,7 @@ activated before they work.</description>
 			</color>
 			<collisionsound>shield/hit2.wav</collisionsound>
 			<removepower>4</removepower>
-			<penetration>0.8</penetration>
+			<penetration>0.5</penetration>
 		</accessoryaction>
 	</accessory>
 	<accessory>
@@ -714,7 +711,177 @@ activated before they work.</description>
 					<explosiontexture>exp00</explosiontexture>
 					<explosionsound>explosions/xlarge.wav</explosionsound>
 				</subweapon1>
-				<subweapon2 type='WeaponAimedOver'>
+				<subweapon2 type='WeaponDelay'>
+					<delay>1.0</delay>
+					<delayedweapon type='WeaponMulti'>
+						<!-- Primary Visible Explosions -->
+						<subweapon1 type='WeaponMulti'>
+							<subweapon1 type='WeaponExplosion'>
+								<nocreatedebris/>
+								<nocreatesplash/>
+								<noluminance/>
+								<nowindaffected/>
+								<minlife>8</minlife>
+								<maxlife>10</maxlife>
+								<animate/>
+								<hurtamount>0</hurtamount>
+								<deform>none</deform>
+								<size>8</size>
+								<explosiontexture>gas00</explosiontexture>
+								<explosionsound>none</explosionsound>
+							</subweapon1>
+							<subweapon2 type='WeaponDelay'>
+								<delay>4.0</delay>
+								<delayedweapon type='WeaponExplosion'>
+									<nocreatedebris/>
+									<nocreatesplash/>
+									<noluminance/>
+									<nowindaffected/>
+									<minlife>6</minlife>
+									<maxlife>8</maxlife>
+									<animate/>
+									<hurtamount>0</hurtamount>
+									<deform>none</deform>
+									<size>10</size>
+									<explosiontexture>gas00</explosiontexture>
+									<explosionsound>none</explosionsound>
+								</delayedweapon>
+							</subweapon2>
+							<subweapon3 type='WeaponDelay'>
+								<delay>8.0</delay>
+								<delayedweapon type='WeaponExplosion'>
+									<nocreatedebris/>
+									<nocreatesplash/>
+									<noluminance/>
+									<nowindaffected/>
+									<minlife>6</minlife>
+									<maxlife>8</maxlife>
+									<animate/>
+									<hurtamount>0</hurtamount>
+									<deform>none</deform>
+									<size>10</size>
+									<explosiontexture>gas00</explosiontexture>
+									<explosionsound>none</explosionsound>
+								</delayedweapon>
+							</subweapon3>
+							<subweapon4 type='WeaponDelay'>
+								<delay>12.0</delay>
+								<delayedweapon type='WeaponExplosion'>
+									<nocreatedebris/>
+									<nocreatesplash/>
+									<noluminance/>
+									<nowindaffected/>
+									<minlife>6</minlife>
+									<maxlife>8</maxlife>
+									<animate/>
+									<hurtamount>0</hurtamount>
+									<deform>none</deform>
+									<size>10</size>
+									<explosiontexture>gas00</explosiontexture>
+									<explosionsound>none</explosionsound>
+								</delayedweapon>
+							</subweapon4>
+						</subweapon1>
+						<!-- Primary Damaging Explosions -->
+						<subweapon2 type='WeaponMulti'>
+							<subweapon1 type='WeaponExplosion'>
+								<nocreatedebris/>
+								<nocreatesplash/>
+								<hurtamount>0.05</hurtamount>
+								<deform>none</deform>
+								<size>35</size>
+								<explosiontexture>none</explosiontexture>
+								<explosionsound>none</explosionsound>
+							</subweapon1>
+							<subweapon2 type='WeaponDelay'>
+								<delay>1.0</delay>
+								<delayedweapon type='WeaponExplosion'>
+									<nocreatedebris/>
+									<nocreatesplash/>
+									<hurtamount>0.05</hurtamount>
+									<deform>none</deform>
+									<size>40</size>
+									<explosiontexture>none</explosiontexture>
+									<explosionsound>none</explosionsound>
+								</delayedweapon>
+							</subweapon2>
+							<subweapon3 type='WeaponDelay'>
+								<delay>2.0</delay>
+								<delayedweapon type='WeaponExplosion'>
+									<nocreatedebris/>
+									<nocreatesplash/>
+									<hurtamount>0.05</hurtamount>
+									<deform>none</deform>
+									<size>45</size>
+									<explosiontexture>none</explosiontexture>
+									<explosionsound>none</explosionsound>
+								</delayedweapon>
+							</subweapon3>
+							<subweapon4 type='WeaponDelay'>
+								<delay>3.0</delay>
+								<delayedweapon type='WeaponExplosion'>
+									<nocreatedebris/>
+									<nocreatesplash/>
+									<hurtamount>0.05</hurtamount>
+									<deform>none</deform>
+									<size>50</size>
+									<explosiontexture>none</explosiontexture>
+									<explosionsound>none</explosionsound>
+								</delayedweapon>
+							</subweapon4>
+							<subweapon5 type='WeaponDelay'>
+								<delay>4.0</delay>
+								<delayedweapon type='WeaponExplosion'>
+									<nocreatedebris/>
+									<nocreatesplash/>
+									<hurtamount>0.05</hurtamount>
+									<deform>none</deform>
+									<size>50</size>
+									<explosiontexture>none</explosiontexture>
+									<explosionsound>none</explosionsound>
+								</delayedweapon>
+							</subweapon5>
+							<subweapon6 type='WeaponDelay'>
+								<delay>5.0</delay>
+								<delayedweapon type='WeaponExplosion'>
+									<nocreatedebris/>
+									<nocreatesplash/>
+									<hurtamount>0.05</hurtamount>
+									<deform>none</deform>
+									<size>50</size>
+									<explosiontexture>none</explosiontexture>
+									<explosionsound>none</explosionsound>
+								</delayedweapon>
+							</subweapon6>
+							<subweapon7 type='WeaponDelay'>
+								<delay>6.0</delay>
+								<delayedweapon type='WeaponExplosion'>
+									<nocreatedebris/>
+									<nocreatesplash/>
+									<hurtamount>0.05</hurtamount>
+									<deform>none</deform>
+									<size>50</size>
+									<explosiontexture>none</explosiontexture>
+									<explosionsound>none</explosionsound>
+								</delayedweapon>
+							</subweapon7>
+							<subweapon8 type='WeaponDelay'>
+								<delay>7.0</delay>
+								<delayedweapon type='WeaponExplosion'>
+									<nocreatedebris/>
+									<nocreatesplash/>
+									<hurtamount>0.05</hurtamount>
+									<deform>none</deform>
+									<size>50</size>
+									<explosiontexture>none</explosiontexture>
+									<explosionsound>none</explosionsound>
+								</delayedweapon>
+							</subweapon8>
+						</subweapon2>
+					</delayedweapon>
+				</subweapon2>
+				<!-- Secondary Visible Explosions (wind affected) -->
+				<subweapon3 type='WeaponAimedOver'>
 					<percentagemiss>0</percentagemiss>
 					<maxaimdistance>0</maxaimdistance>
 					<inaccuracy>0</inaccuracy>
@@ -874,121 +1041,6 @@ activated before they work.</description>
 							</aimedweapon>
 						</nextaction>
 					</aimedweapon>
-				</subweapon2>
-				<subweapon3 type='WeaponDelay'>
-					<delay>1.0</delay>
-					<delayedweapon type='WeaponMulti'>
-						<subweapon1 type='WeaponExplosion'>
-							<nocreatedebris/>
-							<nocreatesplash/>
-							<noluminance/>
-							<nowindaffected/>
-							<minlife>8</minlife>
-							<maxlife>10</maxlife>
-							<animate/>
-							<hurtamount>0</hurtamount>
-							<deform>none</deform>
-							<size>8</size>
-							<explosiontexture>gas00</explosiontexture>
-							<explosionsound>none</explosionsound>
-						</subweapon1>
-						<subweapon2 type='WeaponExplosion'>
-							<nocreatedebris/>
-							<nocreatesplash/>
-							<hurtamount>0.1</hurtamount>
-							<deform>none</deform>
-							<size>40</size>
-							<explosiontexture>none</explosiontexture>
-							<explosionsound>none</explosionsound>
-						</subweapon2>
-						<subweapon3 type='WeaponDelay'>
-							<delay>1.0</delay>
-							<delayedweapon type='WeaponExplosion'>
-								<nocreatedebris/>
-								<nocreatesplash/>
-								<hurtamount>0.1</hurtamount>
-								<deform>none</deform>
-								<size>40</size>
-								<explosiontexture>none</explosiontexture>
-								<explosionsound>none</explosionsound>
-							</delayedweapon>
-						</subweapon3>
-						<subweapon4 type='WeaponDelay'>
-							<delay>2.0</delay>
-							<delayedweapon type='WeaponExplosion'>
-								<nocreatedebris/>
-								<nocreatesplash/>
-								<hurtamount>0.1</hurtamount>
-								<deform>none</deform>
-								<size>40</size>
-								<explosiontexture>none</explosiontexture>
-								<explosionsound>none</explosionsound>
-							</delayedweapon>
-						</subweapon4>
-						<subweapon5 type='WeaponDelay'>
-							<delay>3.0</delay>
-							<delayedweapon type='WeaponExplosion'>
-								<nocreatedebris/>
-								<nocreatesplash/>
-								<hurtamount>0.1</hurtamount>
-								<deform>none</deform>
-								<size>40</size>
-								<explosiontexture>none</explosiontexture>
-								<explosionsound>none</explosionsound>
-							</delayedweapon>
-						</subweapon5>
-						<subweapon6 type='WeaponDelay'>
-							<delay>4.0</delay>
-							<delayedweapon type='WeaponExplosion'>
-								<nocreatedebris/>
-								<nocreatesplash/>
-								<noluminance/>
-								<nowindaffected/>
-								<minlife>6</minlife>
-								<maxlife>8</maxlife>
-								<animate/>
-								<hurtamount>0</hurtamount>
-								<deform>none</deform>
-								<size>10</size>
-								<explosiontexture>gas00</explosiontexture>
-								<explosionsound>none</explosionsound>
-							</delayedweapon>
-						</subweapon6>
-						<subweapon7 type='WeaponDelay'>
-							<delay>8.0</delay>
-							<delayedweapon type='WeaponExplosion'>
-								<nocreatedebris/>
-								<nocreatesplash/>
-								<noluminance/>
-								<nowindaffected/>
-								<minlife>6</minlife>
-								<maxlife>8</maxlife>
-								<animate/>
-								<hurtamount>0</hurtamount>
-								<deform>none</deform>
-								<size>10</size>
-								<explosiontexture>gas00</explosiontexture>
-								<explosionsound>none</explosionsound>
-							</delayedweapon>
-						</subweapon7>
-						<subweapon8 type='WeaponDelay'>
-							<delay>12.0</delay>
-							<delayedweapon type='WeaponExplosion'>
-								<nocreatedebris/>
-								<nocreatesplash/>
-								<noluminance/>
-								<nowindaffected/>
-								<minlife>6</minlife>
-								<maxlife>8</maxlife>
-								<animate/>
-								<hurtamount>0</hurtamount>
-								<deform>none</deform>
-								<size>10</size>
-								<explosiontexture>gas00</explosiontexture>
-								<explosionsound>none</explosionsound>
-							</delayedweapon>
-						</subweapon8>
-					</delayedweapon>
 				</subweapon3>
 				<subweapon4 type='WeaponDelay'>
 					<delay>4.0</delay>
@@ -1920,7 +1972,8 @@ damage over a large area.</description>
 	<accessory>
 		<name>Nuke</name>
 		<armslevel>4</armslevel>
-		<description>A large nuclear explosive projectile</description>
+		<description>A large nuclear explosive projectile
+Does 133% collision damage to shields.</description>
 		<icon>nuke.bmp</icon>
 		<bundlesize>1</bundlesize>
 		<cost>5000</cost>
@@ -1928,6 +1981,7 @@ damage over a large area.</description>
 		<deathanimationweight>24</deathanimationweight>
 		<model type='MilkShape'>fatman/fatman.txt</model>
 		<accessoryaction type='WeaponProjectile'>
+			<shieldhurtfactor>1.33</shieldhurtfactor>
 			<projectilemodel type='MilkShape'>fatman/fatman.txt</projectilemodel>
 			<collisionaction type='WeaponExplosion'>
 				<hurtamount>1.0</hurtamount>
@@ -1945,7 +1999,8 @@ damage over a large area.</description>
 	<accessory>
 		<name>Fatman</name>
 		<armslevel>3</armslevel>
-		<description>A very large nuclear explosive projectile</description>
+		<description>A very large nuclear explosive projectile.
+Does 166% collision damage to shields.</description>
 		<icon>nuke.bmp</icon>
 		<bundlesize>1</bundlesize>
 		<cost>8000</cost>
@@ -1954,6 +2009,7 @@ damage over a large area.</description>
 		<model type='MilkShape'>fatman/fatman.txt</model>
 		<modelscale>2</modelscale>
 		<accessoryaction type='WeaponProjectile'>
+			<shieldhurtfactor>1.66</shieldhurtfactor>
 			<projectilescale>2</projectilescale>
 			<projectilemodel type='MilkShape'>fatman/fatman.txt</projectilemodel>
 			<collisionaction type='WeaponExplosion'>
@@ -2063,7 +2119,8 @@ damage over a large area.</description>
 		<armslevel>2</armslevel>
 		<description>The largest single nuclear explosion
 bomb ever constructed.  Fallout does
-further damage to surrounding area.</description>
+further damage to surrounding area.
+Does 200% collision damage to shields.</description>
 		<icon>nuke.bmp</icon>
 		<bundlesize>1</bundlesize>
 		<cost>20000</cost>
@@ -2071,6 +2128,7 @@ further damage to surrounding area.</description>
 		<model type='MilkShape'>weapons/tsarbomba.txt</model>
 		<modelscale>2</modelscale>
 		<accessoryaction type='WeaponProjectile'>
+			<shieldhurtfactor>2.0</shieldhurtfactor>
 			<spinspeed>0</spinspeed>
 			<projectilescale>2</projectilescale>
 			<projectilemodel type='MilkShape'>weapons/tsarbomba.txt</projectilemodel>
@@ -2172,7 +2230,7 @@ EMPs do more damage to shields than to tanks.</description>
 					<nocreatedebris/>
 					<nocreatesplash/>
 					<onlyhurtshield>true</onlyhurtshield>
-					<hurtamount>0.75</hurtamount>
+					<hurtamount>1.0</hurtamount>
 					<deform>none</deform>
 					<size>24</size>
 					<explosiontexture>exp05</explosiontexture>
@@ -2182,7 +2240,7 @@ EMPs do more damage to shields than to tanks.</description>
 					<delay>0.1</delay>
 					<delayedweapon type='WeaponExplosion'>
 						<nocreatedebris/>
-						<hurtamount>0.5</hurtamount>
+						<hurtamount>0.25</hurtamount>
 						<deform>none</deform>
 						<size>24</size>
 						<minlife>0.5</minlife>
@@ -2201,7 +2259,7 @@ EMPs do more damage to shields than to tanks.</description>
 		<accessoryaction type='WeaponProjectile'>
 			<nocreateflame/>
 			<nocreatesmoke/>
-			<shieldhurtfactor>0.66</shieldhurtfactor>
+			<shieldhurtfactor>0.33</shieldhurtfactor>
 			<enginesound>none</enginesound>
 			<projectilemodel type='MilkShape'>weapons/bullet.txt</projectilemodel>
 			<collisionaction type='WeaponMulti'>
@@ -2210,7 +2268,7 @@ EMPs do more damage to shields than to tanks.</description>
 					<nocreatedebris/>
 					<nocreatesplash/>
 					<deform>none</deform>
-					<hurtamount>0.4</hurtamount>
+					<hurtamount>0.2</hurtamount>
 					<size>5</size>
 					<explosiontexture>none</explosiontexture>
 					<explosionsound>explosions/bhit.wav</explosionsound>
@@ -2425,7 +2483,7 @@ EMPs do more damage to shields than to tanks.</description>
 									<nocreatedebris/>
 									<nocreatesplash/>
 									<onlyhurtshield>true</onlyhurtshield>
-									<hurtamount>0.75</hurtamount>
+									<hurtamount>1.0</hurtamount>
 									<deform>none</deform>
 									<size>13</size>
 									<explosiontexture>exp05</explosiontexture>
@@ -2435,7 +2493,7 @@ EMPs do more damage to shields than to tanks.</description>
 									<delay>0.1</delay>
 									<delayedweapon type='WeaponExplosion'>
 										<nocreatedebris/>
-										<hurtamount>0.5</hurtamount>
+										<hurtamount>0.25</hurtamount>
 										<deform>none</deform>
 										<size>13</size>
 										<explosiontexture>none</explosiontexture>
@@ -4647,7 +4705,7 @@ near the flames will lose life.</description>
 				<napalmheight>2.0</napalmheight>
 				<steptime>0.1</steptime>
 				<hurtsteptime>2.0</hurtsteptime>
-				<hurtpersecond>1.0</hurtpersecond>
+				<hurtpersecond>0.9</hurtpersecond>
 				<numberstreams>2</numberstreams>
 				<effectradius>5</effectradius>
 				<napalmtexture>flames</napalmtexture>
@@ -4674,7 +4732,7 @@ near the flames will lose life.</description>
 				<napalmheight>2.0</napalmheight>
 				<steptime>0.1</steptime>
 				<hurtsteptime>2.0</hurtsteptime>
-				<hurtpersecond>2.0</hurtpersecond>
+				<hurtpersecond>1.8</hurtpersecond>
 				<numberstreams>4</numberstreams>
 				<effectradius>6</effectradius>
 				<napalmtexture>flames</napalmtexture>
@@ -6292,7 +6350,7 @@ creating some riot bombs.</description>
 				<aimedweapon type='WeaponProjectile'>
 					<under/>
 					<nocreateflame/>
-					<shieldhurtfactor>0.66</shieldhurtfactor>
+					<shieldhurtfactor>0.6</shieldhurtfactor>
 					<projectilemodel type='MilkShape'>digger/digger.txt</projectilemodel>
 					<collisionaction type='WeaponExplosion'>
 						<armslevel>6</armslevel>
@@ -6329,7 +6387,7 @@ creating many large riot bombs.</description>
 				<aimedweapon type='WeaponProjectile'>
 					<nocreateflame/>
 					<under/>
-					<shieldhurtfactor>0.66</shieldhurtfactor>
+					<shieldhurtfactor>0.4</shieldhurtfactor>
 					<projectilescale>2</projectilescale>
 					<projectilemodel type='MilkShape'>digger/digger.txt</projectilemodel>
 					<collisionaction type='WeaponExplosion'>
@@ -6844,6 +6902,7 @@ burning chunks of earth about the area.</description>
 	<accessory>
 		<name>Wall Of Dirt</name>
 		<armslevel>5</armslevel>
+		<maximumnumber>3</maximumnumber>
 		<description>Raises a small wall Of Dirt a short 
 distance from your tank in the direction you aim</description>
 		<icon>dshield.bmp</icon>
@@ -6895,6 +6954,7 @@ distance from your tank in the direction you aim</description>
 	<accessory>
 		<name>Ring Of Dirt</name>
 		<armslevel>4</armslevel>
+		<maximumnumber>1</maximumnumber>
 		<description>Raises a ring of dirt around your tank</description>
 		<icon>dring.bmp</icon>
 		<bundlesize>1</bundlesize>
