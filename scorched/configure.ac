@@ -275,8 +275,10 @@ CFLAGS="$CFLAGS $FT2_CFLAGS"
 CXXFLAGS="$CXXFLAGS $FT2_CFLAGS"
 LIBS="$LIBS $FT2_LIBS"
 
-# Directory setup stuff
+# Checl for extra functions
+AC_CHECK_FUNCS(vsnprintf snprintf)
 
+# Directory setup stuff
 dnl --with-docdir
 AC_ARG_WITH(docdir,
 	AC_HELP_STRING([--with-docdir=DIR],

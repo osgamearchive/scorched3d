@@ -7,11 +7,23 @@ Fixed: GUI so it matches the aspect ratio of the main screen
 Fixed: Mac OS server crashes (due to opengl usage)
 Fixed: Windows cannot be dragged off screen
 Fixed: Windows are above the help and sound icons
-Fixed: Keepalive messages are now closed loop
+Fixed: Client keepalive messages are now closed loop
 Fixed: Client warns when keepalive messages are falling behind (for debug)
 Fixed: Damage + money text above tanks now fades out
 Fixed: Tank name first character sometimes flickered
+Fixed: ROAM variance bug (how did I miss this so long!)
+Fixed: ROAM variances for different distances
+Fixed: Waves are now drawn more explicitly
+Fixed: More acurate and faster landscape clicking code
+Fixed: Faster landscape generation code
+Fixed: A few DoS attack/exploits
 
+Added: Tabs to the rules dialog and better scorched logo
+Added: Scorched3D settings that are enums take text values
+Added: Landscapes don't need to be square
+Added: Landscapes can now be any size (not fixed)
+Added: None wall type for no walls (no boundries)
+Added: Mechanism to specify how many mushroom cloads are created
 Added: Boids can be configured to move outside of the island
 Added: Damage amount text floats out of tanks
 
@@ -25,11 +37,14 @@ Ships
 Tutorial mode
 Changing menus to be icons
 New game modes
-Check keepalives are being sent during high load times
-Better/different shield graphics
+Better/different shield graphics (1/2 done)
 Scripting language
 Better/less intrusive talk dialog
-Dirt cannot be raised when underground
+Dirt cannot be raised when underground (or other dirting stopping)
+Stars
+Objects on surround
+Allow access to tank explosion animation
+Change shields and parachutes so they don't active until the round starts
 
 -- Server Stuff
 A way to set the maximum and minimum players for a map (half done)
