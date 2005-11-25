@@ -232,6 +232,10 @@ scorched3d_SOURCES = \
 	../common/ProgressCounter.h \
 	../common/RandomGenerator.cpp \
 	../common/RandomGenerator.h \
+	../common/SplineCurve.cpp \
+	../common/SplineCurve.h \
+	../common/SplinePath.cpp \
+	../common/SplinePath.h \
 	../common/StatsLogger.cpp \
 	../common/StatsLogger.h \
 	../common/StatsLoggerFile.cpp \
@@ -1128,6 +1132,10 @@ scorched3d_SOURCES = \
 	../tankai/TankAIStore.cpp \
 	../tankai/TankAIStore.h \
 	../tankai/TankAIStrings.cpp \
-	../tankai/TankAIStrings.h
+	../tankai/TankAIStrings.h \
+	../ships/ScorchedShips.cpp \
+	../ships/ScorchedShips.h \
+	../ships/ShipGroup.cpp \
+	../ships/ShipGroup.h
 
 INCLUDES = -I../porting -I.. 
