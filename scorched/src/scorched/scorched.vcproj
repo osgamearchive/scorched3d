@@ -817,6 +817,18 @@
 				RelativePath="..\common\RandomGenerator.h">
 			</File>
 			<File
+				RelativePath="..\common\SplineCurve.cpp">
+			</File>
+			<File
+				RelativePath="..\common\SplineCurve.h">
+			</File>
+			<File
+				RelativePath="..\common\SplinePath.cpp">
+			</File>
+			<File
+				RelativePath="..\common\SplinePath.h">
+			</File>
+			<File
 				RelativePath="..\common\StatsLogger.cpp">
 			</File>
 			<File
@@ -3707,6 +3719,22 @@
 			</File>
 			<File
 				RelativePath="..\tankai\TankAIStrings.h">
+			</File>
+		</Filter>
+		<Filter
+			Name="ships"
+			Filter="">
+			<File
+				RelativePath="..\ships\ScorchedShips.cpp">
+			</File>
+			<File
+				RelativePath="..\ships\ScorchedShips.h">
+			</File>
+			<File
+				RelativePath="..\ships\ShipGroup.cpp">
+			</File>
+			<File
+				RelativePath="..\ships\ShipGroup.h">
 			</File>
 		</Filter>
 	</Files>

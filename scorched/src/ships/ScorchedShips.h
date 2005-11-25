@@ -18,32 +18,23 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_ScorchedPhysicsEngineh_INCLUDE__)
-#define __INCLUDE_ScorchedPhysicsEngineh_INCLUDE__
+#if !defined(__INCLUDE_ScorchedShipsh_INCLUDE__)
+#define __INCLUDE_ScorchedShipsh_INCLUDE__
 
-#include <engine/PhysicsEngine.h>
-#include <engine/ScorchedContext.h>
+#include <ships/ShipGroup.h>
 
-class HeightMapCollision;
-class SkyRoofCollision;
-class ScorchedCollisionHandler;
-class ScorchedPhysicsEngine : public PhysicsEngine
+class ScorchedShips
 {
 public:
-	ScorchedPhysicsEngine();
-	virtual ~ScorchedPhysicsEngine();
+	ScorchedShips();
+	virtual ~ScorchedShips();
 
-	void setScorchedContext(ScorchedContext *context);
-	void resetContext();
 	void generate();
+	void simulate(float frameTime);
+	void draw();
 
 protected:
-	ScorchedContext *context_;
-	HeightMapCollision *hmcol_;
-	SkyRoofCollision *srcol_;
-	ScorchedCollisionHandler *sccol_;
-
-	void setWind(Vector &wind);
+	std::vector<ShipGroup *> groups_;
 };
 
-#endif // __INCLUDE_ScorchedPhysicsEngineh_INCLUDE__
+#endif // __INCLUDE_ScorchedShipsh_INCLUDE__

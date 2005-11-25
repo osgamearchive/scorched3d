@@ -18,32 +18,47 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_ScorchedPhysicsEngineh_INCLUDE__)
-#define __INCLUDE_ScorchedPhysicsEngineh_INCLUDE__
+#include <ships/ShipGroup.h>
+#include <common/Defines.h>
+#include <client/ScorchedClient.h>
+#include <landscape/LandscapeMaps.h>
 
-#include <engine/PhysicsEngine.h>
-#include <engine/ScorchedContext.h>
-
-class HeightMapCollision;
-class SkyRoofCollision;
-class ScorchedCollisionHandler;
-class ScorchedPhysicsEngine : public PhysicsEngine
+ShipGroup::ShipGroup()
 {
-public:
-	ScorchedPhysicsEngine();
-	virtual ~ScorchedPhysicsEngine();
+}
 
-	void setScorchedContext(ScorchedContext *context);
-	void resetContext();
-	void generate();
+ShipGroup::~ShipGroup()
+{
+}
 
-protected:
-	ScorchedContext *context_;
-	HeightMapCollision *hmcol_;
-	SkyRoofCollision *srcol_;
-	ScorchedCollisionHandler *sccol_;
+void ShipGroup::generate()
+{
+	int mapWidth = 
+		ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getMapWidth();
+	int mapHeight =
+		ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getMapHeight();
 
-	void setWind(Vector &wind);
-};
+	std::vector<Vector> controlPoints;
+	for (float i=0.0f; i<360.0f; i+=45.0f)
+	{
+		float dist = RAND * 400 + 250.0f;
+		float x = getFastSin(i / 180.0f * PI) * dist + float(mapWidth) / 2.0f;
+		float y = getFastCos(i / 180.0f * PI) * dist + float(mapHeight) / 2.0f;
 
-#endif // __INCLUDE_ScorchedPhysicsEngineh_INCLUDE__
+		Vector pt(x,y,10.0f);
+		controlPoints.push_back(pt);
+	}
+	controlPoints.push_back(controlPoints[0]);
+
+	path_.generate(controlPoints, 200, 3, 5.0f);
+}
+
+void ShipGroup::simulate(float frameTime)
+{
+	path_.simulate(frameTime);
+}
+
+void ShipGroup::draw()
+{
+	path_.draw();
+}

@@ -39,6 +39,7 @@
 #include <GLEXT/GLStateExtension.h>
 #include <GLEXT/GLConsoleRuleMethodIAdapter.h>
 #include <boids/ScorchedBoids.h>
+#include <ships/ScorchedShips.h>
 #include <common/OptionsTransient.h>
 #include <common/Defines.h>
 #include <common/OptionsDisplay.h>
@@ -74,6 +75,7 @@ Landscape::Landscape() :
 		ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getHeightMap());
 	sky_ = new Sky();
 	boids_ = new ScorchedBoids();
+	ships_ = new ScorchedShips();
 	smoke_ = new Smoke();
 	wall_ = new Wall();
 	shadowMap_ = new ShadowMap();
@@ -110,6 +112,7 @@ void Landscape::simulate(const unsigned state, float frameTime)
 	sky_->simulate(frameTime * speedMult);
 	wall_->simulate(frameTime * speedMult);
 	boids_->simulate(frameTime * speedMult);
+	ships_->simulate(frameTime * speedMult);
 	soundManager_->simulate(frameTime * speedMult);
 
 	Sound::instance()->simulate(frameTime);
@@ -160,6 +163,7 @@ void Landscape::draw(const unsigned state)
 	surround_->draw();
 	water_->draw();
 	boids_->draw();
+	ships_->draw();
 	ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getObjects().draw();
 	wall_->draw();
 
@@ -271,6 +275,9 @@ void Landscape::generate(ProgressCounter *counter)
 
 	// Add any boids
 	boids_->generate();
+
+	// Add any ships
+	ships_->generate();
 
 	// Add lighting to the landscape texture
 	sky_->getSun().setPosition(tex->skysunxy, tex->skysunyz);

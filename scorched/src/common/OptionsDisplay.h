@@ -90,6 +90,10 @@ public:
 	void setNoBOIDS(bool value) { noBOIDS_.setValue(value); }	
 	const char *getNoBOIDSToolTip() { return noBOIDS_.getDescription(); }
 
+	bool getNoShips() { return noShips_.getValue(); }
+	void setNoShip(bool value) { noShips_.setValue(value); }	
+	const char *getNoShipsToolTip() { return noShips_.getDescription(); }
+
 	bool getNoShadows() { return noShadows_.getValue(); }
 	void setNoShadows(bool value) { noShadows_.setValue(value); }	
 	const char *getNoShadowsToolTip() { return noShadows_.getDescription(); }
@@ -429,6 +433,7 @@ protected:
 	OptionEntryBool noSound_;
 	OptionEntryBool noAmbientSound_;
 	OptionEntryBool noBoidSound_;
+	OptionEntryBool noShips_;
 	OptionEntryBool noShadows_;
 	OptionEntryBool noDrawParticles_;
 	OptionEntryBool noSimulateParticles_;

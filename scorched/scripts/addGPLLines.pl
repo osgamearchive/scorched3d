@@ -14,6 +14,7 @@ my @dirs =
 	"GLW",
 	"landscape",
 	"scorched",
+	"ships",
 	"server",
 	"sprites",
 	"tank",

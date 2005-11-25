@@ -18,32 +18,23 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_ScorchedPhysicsEngineh_INCLUDE__)
-#define __INCLUDE_ScorchedPhysicsEngineh_INCLUDE__
+#if !defined(__INCLUDE_ShipGrouph_INCLUDE__)
+#define __INCLUDE_ShipGrouph_INCLUDE__
 
-#include <engine/PhysicsEngine.h>
-#include <engine/ScorchedContext.h>
+#include <common/SplinePath.h>
 
-class HeightMapCollision;
-class SkyRoofCollision;
-class ScorchedCollisionHandler;
-class ScorchedPhysicsEngine : public PhysicsEngine
+class ShipGroup
 {
 public:
-	ScorchedPhysicsEngine();
-	virtual ~ScorchedPhysicsEngine();
+	ShipGroup();
+	virtual ~ShipGroup();
 
-	void setScorchedContext(ScorchedContext *context);
-	void resetContext();
 	void generate();
+	void draw();
+	void simulate(float frameTime);
 
 protected:
-	ScorchedContext *context_;
-	HeightMapCollision *hmcol_;
-	SkyRoofCollision *srcol_;
-	ScorchedCollisionHandler *sccol_;
-
-	void setWind(Vector &wind);
+	SplinePath path_;
 };
 
-#endif // __INCLUDE_ScorchedPhysicsEngineh_INCLUDE__
+#endif // __INCLUDE_ShipGrouph_INCLUDE__

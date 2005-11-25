@@ -184,6 +184,8 @@ OptionsDisplay::OptionsDisplay() :
 		"Do not use ROAM algorithm", RWAccess, false),
 	noBOIDS_(options_,"NoBOIDS", 
 		"Do not use BOIDS", RWAccess, false),
+	noShips_(options_,"NoShips", 
+		"Do not use ships", RWAccess, false),
 	noPrecipitation_(options_, "NoPrecipitation",
 		"Do not draw precipitation", RWAccess, false),
 	noTessalation_(options_,"NoTessalation", 

@@ -18,6 +18,7 @@ my @dirs =
 	"sprites",
 	"tankai",
 	"XML",
+	"ships",
 	"tankgraph",
 	"tank",
 	"boids",

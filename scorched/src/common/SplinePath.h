@@ -18,32 +18,37 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_ScorchedPhysicsEngineh_INCLUDE__)
-#define __INCLUDE_ScorchedPhysicsEngineh_INCLUDE__
+#if !defined(__INCLUDE_SplinePathh_INCLUDE__)
+#define __INCLUDE_SplinePathh_INCLUDE__
 
-#include <engine/PhysicsEngine.h>
-#include <engine/ScorchedContext.h>
+#include <common/Vector.h>
+#include <vector>
 
-class HeightMapCollision;
-class SkyRoofCollision;
-class ScorchedCollisionHandler;
-class ScorchedPhysicsEngine : public PhysicsEngine
+class SplinePath
 {
 public:
-	ScorchedPhysicsEngine();
-	virtual ~ScorchedPhysicsEngine();
+	SplinePath();
+	virtual ~SplinePath();
 
-	void setScorchedContext(ScorchedContext *context);
-	void resetContext();
-	void generate();
+	void generate(
+		std::vector<Vector> &inPoints, 
+		int resolution = 200,
+		int polynomials = 3,
+		float pointsPerSecond = 5.0f);
+
+	void draw();
+	void simulate(float frameTime);
+	Vector &getPathPosition();
+	Vector &getPathDirection();
+
+	std::vector<Vector> &getControlPoints() { return controlPoints_; }
+	std::vector<Vector> &getPathPoints() { return pathPoints_; }
 
 protected:
-	ScorchedContext *context_;
-	HeightMapCollision *hmcol_;
-	SkyRoofCollision *srcol_;
-	ScorchedCollisionHandler *sccol_;
-
-	void setWind(Vector &wind);
+	std::vector<Vector> controlPoints_;
+	std::vector<Vector> pathPoints_;
+	float pathTime_;
+	float pointsPerSecond_;
 };
 
-#endif // __INCLUDE_ScorchedPhysicsEngineh_INCLUDE__
+#endif // __INCLUDE_SplinePathh_INCLUDE__

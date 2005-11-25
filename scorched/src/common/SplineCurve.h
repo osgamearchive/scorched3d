@@ -18,32 +18,23 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_ScorchedPhysicsEngineh_INCLUDE__)
-#define __INCLUDE_ScorchedPhysicsEngineh_INCLUDE__
+#if !defined(__INCLUDE_SplineCurveh_INCLUDE__)
+#define __INCLUDE_SplineCurveh_INCLUDE__
 
-#include <engine/PhysicsEngine.h>
-#include <engine/ScorchedContext.h>
+#include <common/Vector.h>
+#include <vector>
 
-class HeightMapCollision;
-class SkyRoofCollision;
-class ScorchedCollisionHandler;
-class ScorchedPhysicsEngine : public PhysicsEngine
+class SplineCurve
 {
 public:
-	ScorchedPhysicsEngine();
-	virtual ~ScorchedPhysicsEngine();
+	static void generate(
+		std::vector<Vector> &inPoints, 
+		std::vector<Vector> &outPoints,
+		int resolution,
+		int polynomials = 3);
 
-	void setScorchedContext(ScorchedContext *context);
-	void resetContext();
-	void generate();
-
-protected:
-	ScorchedContext *context_;
-	HeightMapCollision *hmcol_;
-	SkyRoofCollision *srcol_;
-	ScorchedCollisionHandler *sccol_;
-
-	void setWind(Vector &wind);
+private:
+	SplineCurve();
 };
 
-#endif // __INCLUDE_ScorchedPhysicsEngineh_INCLUDE__
+#endif // __INCLUDE_SplineCurveh_INCLUDE__

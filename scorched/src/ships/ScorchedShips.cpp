@@ -18,32 +18,58 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_ScorchedPhysicsEngineh_INCLUDE__)
-#define __INCLUDE_ScorchedPhysicsEngineh_INCLUDE__
+#include <ships/ScorchedShips.h>
+#include <common/OptionsDisplay.h>
 
-#include <engine/PhysicsEngine.h>
-#include <engine/ScorchedContext.h>
-
-class HeightMapCollision;
-class SkyRoofCollision;
-class ScorchedCollisionHandler;
-class ScorchedPhysicsEngine : public PhysicsEngine
+ScorchedShips::ScorchedShips()
 {
-public:
-	ScorchedPhysicsEngine();
-	virtual ~ScorchedPhysicsEngine();
+}
 
-	void setScorchedContext(ScorchedContext *context);
-	void resetContext();
-	void generate();
+ScorchedShips::~ScorchedShips()
+{
+}
 
-protected:
-	ScorchedContext *context_;
-	HeightMapCollision *hmcol_;
-	SkyRoofCollision *srcol_;
-	ScorchedCollisionHandler *sccol_;
+void ScorchedShips::generate()
+{
+	while (!groups_.empty())
+	{
+		ShipGroup *group = groups_.back();
+		groups_.pop_back();
+		delete group;
+	}
 
-	void setWind(Vector &wind);
-};
+	/*
+	ShipGroup *group = new ShipGroup;
+	group->generate();
+	groups_.push_back(group);*/
+}
 
-#endif // __INCLUDE_ScorchedPhysicsEngineh_INCLUDE__
+void ScorchedShips::simulate(float frameTime)
+{
+	if (!OptionsDisplay::instance()->getNoShips())
+	{
+		std::vector<ShipGroup *>::iterator itor;
+		for (itor = groups_.begin();
+			itor != groups_.end();
+			itor++)
+		{
+			ShipGroup *group = *itor;
+			group->simulate(frameTime);
+		}
+	}
+}
+
+void ScorchedShips::draw()
+{
+	if (!OptionsDisplay::instance()->getNoShips())
+	{
+		std::vector<ShipGroup *>::iterator itor;
+		for (itor = groups_.begin();
+			itor != groups_.end();
+			itor++)
+		{
+			ShipGroup *group = *itor;
+			group->draw();
+		}
+	}
+}
