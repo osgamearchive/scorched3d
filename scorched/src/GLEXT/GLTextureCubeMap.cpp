@@ -18,6 +18,7 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+#include <common/Defines.h>
 #include <GLEXT/GLState.h>
 #include <GLEXT/GLTextureCubeMap.h>
 

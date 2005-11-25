@@ -67,7 +67,7 @@ void GLWTextBox::keyDown(char *buffer, unsigned int keyState,
 	for (int i=0; i<hisCount; i++)
 	{
 		char c = history[i].representedKey;
-		DWORD dik = history[i].sdlKey;
+		unsigned int dik = history[i].sdlKey;
 		if (dik == SDLK_BACKSPACE || dik == SDLK_DELETE)
 		{
 			if (!text_.empty())

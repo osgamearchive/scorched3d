@@ -181,6 +181,16 @@ scorched3d_SOURCES = \
 	../common/Clock.h \
 	../common/Defines.cpp \
 	../common/Defines.h \
+	../common/DefinesAssert.cpp \
+	../common/DefinesAssert.h \
+	../common/DefinesFile.cpp \
+	../common/DefinesFile.h \
+	../common/DefinesMath.cpp \
+	../common/DefinesMath.h \
+	../common/DefinesScorched.cpp \
+	../common/DefinesScorched.h \
+	../common/DefinesString.cpp \
+	../common/DefinesString.h \
 	../common/Display.cpp \
 	../common/Display.h \
 	../common/FileLines.cpp \
@@ -234,6 +244,7 @@ scorched3d_SOURCES = \
 	../common/Vector.h \
 	../common/VectorLib.cpp \
 	../common/VectorLib.h \
+	../common/snprintf.c \
 	../3dsparse/ASEModelFactory.cpp \
 	../3dsparse/ASEModelFactory.h \
 	../3dsparse/Bone.cpp \
@@ -359,6 +370,8 @@ scorched3d_SOURCES = \
 	../engine/ScorchedCollisionIds.h \
 	../engine/ScorchedContext.cpp \
 	../engine/ScorchedContext.h \
+	../engine/ScorchedPhysicsEngine.cpp \
+	../engine/ScorchedPhysicsEngine.h \
 	../engine/ViewPoints.cpp \
 	../engine/ViewPoints.h \
 	../landscape/CloudSim.cpp \
@@ -429,6 +442,8 @@ scorched3d_SOURCES = \
 	../landscape/PatchGrid.h \
 	../landscape/PatchSide.cpp \
 	../landscape/PatchSide.h \
+	../landscape/PatchTexCoord.cpp \
+	../landscape/PatchTexCoord.h \
 	../landscape/RoofMaps.cpp \
 	../landscape/RoofMaps.h \
 	../landscape/ShadowMap.cpp \
@@ -587,8 +602,6 @@ scorched3d_SOURCES = \
 	../coms/ComsMessageSender.h \
 	../coms/ComsNewGameMessage.cpp \
 	../coms/ComsNewGameMessage.h \
-	../coms/ComsNextRoundMessage.cpp \
-	../coms/ComsNextRoundMessage.h \
 	../coms/ComsPlayedMoveMessage.cpp \
 	../coms/ComsPlayedMoveMessage.h \
 	../coms/ComsPlayerAimMessage.cpp \
@@ -745,10 +758,10 @@ scorched3d_SOURCES = \
 	../actions/Laser.h \
 	../actions/Lightning.cpp \
 	../actions/Lightning.h \
-	../actions/NapalmMap.cpp \
-	../actions/NapalmMap.h \
 	../actions/Napalm.cpp \
 	../actions/Napalm.h \
+	../actions/NapalmMap.cpp \
+	../actions/NapalmMap.h \
 	../actions/ShieldHit.cpp \
 	../actions/ShieldHit.h \
 	../actions/ShotBounce.cpp \
@@ -877,14 +890,10 @@ scorched3d_SOURCES = \
 	../client/ClientNewGameHandler.h \
 	../client/ClientNewGameState.cpp \
 	../client/ClientNewGameState.h \
-	../client/ClientNextRoundHandler.cpp \
-	../client/ClientNextRoundHandler.h \
 	../client/ClientPlayerAimHandler.cpp \
 	../client/ClientPlayerAimHandler.h \
 	../client/ClientPlayerStatusHandler.cpp \
 	../client/ClientPlayerStatusHandler.h \
-	../client/ClientReadyState.cpp \
-	../client/ClientReadyState.h \
 	../client/ClientRmPlayerHandler.cpp \
 	../client/ClientRmPlayerHandler.h \
 	../client/ClientSave.cpp \

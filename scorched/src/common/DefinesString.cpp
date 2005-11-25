@@ -20,8 +20,8 @@
 
 #include <string>
 #include <stdlib.h>
-#include <common/DefinesAssert.h>
-#include <common/DefinesString.h>
+#include <stdarg.h>
+#include <common/Defines.h>
 
 char *s3d_stristr(const char *x, const char *y)
 {

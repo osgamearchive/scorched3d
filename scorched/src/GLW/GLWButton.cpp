@@ -141,7 +141,7 @@ void GLWButton::keyDown(char *buffer, unsigned int keyState,
 	{
 		for (int i=0; i<hisCount; i++)
 		{
-			DWORD dik = history[i].sdlKey;
+			unsigned int dik = history[i].sdlKey;
 			switch (dik)
 			{
 				case SDLK_KP_ENTER:

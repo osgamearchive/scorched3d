@@ -43,6 +43,14 @@ PatchGrid::~PatchGrid()
 
 void PatchGrid::generate()
 {
+	if (hMap_->getMapWidth() % patchSize_ != 0 ||
+		hMap_->getMapHeight() % patchSize_ != 0)
+	{
+		dialogMessage("Scorched3D",
+			"ERROR: Landscape size must be a multiple of %i",
+			patchSize_);
+	}
+
 	delete [] patches_;
 	
 	width_ = (hMap_->getMapWidth()+1) / patchSize_;

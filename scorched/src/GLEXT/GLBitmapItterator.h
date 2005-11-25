@@ -87,7 +87,7 @@ public:
 protected:
 	GLBitmap &bitmap_;
 	GLfloat dx_, dy_;
-	INT width_;
+	int width_;
 	Type type_;
 
 	GLubyte *pos_;
